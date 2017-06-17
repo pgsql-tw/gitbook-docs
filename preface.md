@@ -6,11 +6,11 @@
 
 * 第一部份：給新的使用者一份簡易的介紹。
 * 第二部份：介紹SQL查詢語言，包含資料型態及函數功能，應用層級的效能調教也在此有所說明。每一個PostgreSQL使用者都推薦閱讀此部份。
-* 第三部份：描述了資料庫伺服器的安裝及管理資訊。如果你需要管理一個PostgreSQL伺服器，那你必須閱讀此部份的內容。
-* 第四部份：describes the programming interfaces for PostgreSQLclient programs．
-* 第五部份：contains information for advanced users about the extensibility capabilities of the server. Topics include user-defined data types and functions．
-* 第六部份：contains reference information about SQL commands, client and server programs. This part supports the other parts with structured information sorted by command or program．
-* 第七部份：contains assorted information that might be of use to PostgreSQL developers．
+* 第三部份：說明資料庫伺服器的安裝及管理資訊。如果你需要管理一個PostgreSQL伺服器，那你必須閱讀此部份的內容。
+* 第四部份：說明PostgreSQL用戶端的程式操作介面。
+* 第五部份：資料庫伺服務的進階說明及延伸的使用方式，亦包含了使用者自訂的資料型別及函式。
+* 第六部份：SQL查詢指令、用戶端指令及伺服器端指令在此部份詳細說明。
+* 第七部份：提供PostgreSQL開發者可能需要的其他相關資訊。
 
 # 參考來源：
 
