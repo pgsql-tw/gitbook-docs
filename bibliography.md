@@ -33,21 +33,21 @@
 
 \[ong90\]“A Unified Framework for Version Modeling Using Production Rules in a Database System”.L.OngandJ.Goh._ERL Technical Memorandum M90/33_.University of California.Berkeley, California.April, 1990.
 
-\[rowe87\]“[ThePOSTGRESdata model](http://db.cs.berkeley.edu/papers/ERL-M87-13.pdf)”.L.RoweandM.Stonebraker.VLDB Conference, Sept. 1987.
+\[rowe87\]“[The POSTGRES data model](http://db.cs.berkeley.edu/papers/ERL-M87-13.pdf)”.L.RoweandM.Stonebraker.VLDB Conference, Sept. 1987.
 
 \[seshadri95\]“[Generalized Partial Indexes](http://citeseer.ist.psu.edu/seshadri95generalized.html)”.P.SeshadriandA.Swami.Eleventh International Conference on Data Engineering, 6-10 March 1995.Cat. No.95CH35724.IEEE Computer Society Press.Los Alamitos, California.1995.420-7.
 
-\[ston86\]“[The design ofPOSTGRES](http://db.cs.berkeley.edu/papers/ERL-M85-95.pdf)”.M.StonebrakerandL.Rowe.ACM-SIGMOD Conference on Management of Data, May 1986.
+\[ston86\]“[The design of POSTGRES](http://db.cs.berkeley.edu/papers/ERL-M85-95.pdf)”.M.StonebrakerandL.Rowe.ACM-SIGMOD Conference on Management of Data, May 1986.
 
 \[ston87a\]“The design of thePOSTGRESrules system”.M.Stonebraker,E.Hanson, andC. H.Hong.IEEE Conference on Data Engineering, Feb. 1987.
 
-\[ston87b\]“[The design of thePOSTGRESstorage system](http://db.cs.berkeley.edu/papers/ERL-M87-06.pdf)”.M.Stonebraker.VLDB Conference, Sept. 1987.
+\[ston87b\]“[The design of the POSTGRES storage system](http://db.cs.berkeley.edu/papers/ERL-M87-06.pdf)”.M.Stonebraker.VLDB Conference, Sept. 1987.
 
-\[ston89\]“[A commentary on thePOSTGRESrules system](http://db.cs.berkeley.edu/papers/ERL-M89-82.pdf)”.M.Stonebraker,M.Hearst, andS.Potamianos._SIGMOD Record 18\(3\)_.Sept. 1989.
+\[ston89\]“[A commentary on the POSTGRES rules system](http://db.cs.berkeley.edu/papers/ERL-M89-82.pdf)”.M.Stonebraker,M.Hearst, andS.Potamianos._SIGMOD Record 18\(3\)_.Sept. 1989.
 
 \[ston89b\]“[The case for partial indexes](http://db.cs.berkeley.edu/papers/ERL-M89-17.pdf)”.M.Stonebraker._SIGMOD Record 18\(4\)_.Dec. 1989.4-11.
 
-\[ston90a\]“[The implementation ofPOSTGRES](http://db.cs.berkeley.edu/papers/ERL-M90-34.pdf)”.M.Stonebraker,L. A.Rowe, andM.Hirohama._Transactions on Knowledge and Data Engineering 2\(1\)_.IEEE.March 1990.
+\[ston90a\]“[The implementation of POSTGRES](http://db.cs.berkeley.edu/papers/ERL-M90-34.pdf)”.M.Stonebraker,L. A.Rowe, andM.Hirohama._Transactions on Knowledge and Data Engineering 2\(1\)_.IEEE.March 1990.
 
 \[ston90b\]“[On Rules, Procedures, Caching and Views in Database Systems](http://db.cs.berkeley.edu/papers/ERL-M90-36.pdf)”.M.Stonebraker,A.Jhingran,J.Goh, andS.Potamianos.ACM-SIGMOD Conference on Management of Data, June 1990.
 
