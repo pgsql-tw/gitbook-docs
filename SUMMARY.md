@@ -95,7 +95,7 @@
   * Additional Supplied Programs
   * External Projects
   * The Source Code Repository
-  * [J. 文件製作](viii-appendixes/documentation.md)
+  * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
 

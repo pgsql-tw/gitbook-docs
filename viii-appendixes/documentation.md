@@ -1,6 +1,6 @@
-# J. 文件製作
+# J. 文件取得
 
-本頁說明PostgreSQL官方文件如何安裝及製作。  
+本頁說明PostgreSQL官方文件如何取得及製作。  
 由於本翻譯文件以GitBook製作，以下文件謹附上官方連結，暫不進行翻譯。
 
 * [J.1. DocBook](https://www.postgresql.org/docs/10/static/docguide-docbook.html)
