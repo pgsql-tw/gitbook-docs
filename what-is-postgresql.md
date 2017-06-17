@@ -1,4 +1,4 @@
-# 什麼是PostgreSQL？
+# 1. 什麼是PostgreSQL？
 
 PostgreSQLis an object-relational database management system \(ORDBMS\) based on[POSTGRES, Version 4.2](http://db.cs.berkeley.edu/postgres.html), developed at the University of California at Berkeley Computer Science Department. POSTGRES pioneered many concepts that only became available in some commercial database systems much later.
 
