@@ -96,8 +96,6 @@
   * External Projects
   * The Source Code Repository
   * Documentation
-  * Acronyms
+  * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 
