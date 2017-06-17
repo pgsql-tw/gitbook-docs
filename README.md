@@ -8,6 +8,8 @@
 如須堪誤指教，請依下方網址提報：  
 [https://github.com/pgsql-tw/twpug-doc/issues](https://github.com/pgsql-tw/twpug-doc/issues)
 
+![](/assets/29271289.png)
+
 ---
 
 * [https://www.postgresql.org/docs/10/static/index.html](https://www.postgresql.org/docs/10/static/index.html)
