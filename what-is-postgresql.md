@@ -22,7 +22,7 @@ Also,PostgreSQLcan be extended by the user in many ways, for example by adding n
 
 And because of the liberal license,PostgreSQLcan be used, modified, and distributed by anyone free of charge for any purpose, be it private, commercial, or academic.
 
-# 參考來源
+---
 
 * [https://www.postgresql.org/docs/10/static/intro-whatis.html](https://www.postgresql.org/docs/10/static/intro-whatis.html)
 
