@@ -1,54 +1,63 @@
-# 2. PostgreSQL沿革
+# 2. PostgreSQL沿革[^1]
 
-The object-relational database management system now known asPostgreSQLis derived from thePOSTGRESpackage written at the University of California at Berkeley. With over two decades of development behind it,PostgreSQLis now the most advanced open-source database available anywhere.
+PostgreSQL目前為眾所皆知的物件導向的關連式資料庫管理系統，其由美國加州伯克萊大學所研發的POSTGRES衍生而成。經過超過二十年以上的演進，PostgreSQL現在是世界上最先進的開源資料庫系統。
 
-### 2.1. The BerkeleyPOSTGRESProject
+### 2.1. 伯克萊大學POSTGRES專案
 
+POSTGRES專案是由Michael Stonebraker教授領導的團隊進行研發，其受到Defense Advanced Research Projects Agency \(DARPA\)，the Army Research Office \(ARO\)，the National Science Foundation \(NSF\),及ESL, Inc的贊助。POSTGRES專案始於1986年，最原始的設計，＂The design of POSTGRES＂[^2]，作為開端，其最初的資料結構模型則揭露於＂The POSTGRES data model＂[^3]。規則系統設計發表於＂The design of the POSTGRES rules system＂[^4]，而當時的關連式資料儲存的架構則刊載於＂The design of the POSTGRES storage system＂[^5]。
 
+POSTGRES接下進行了幾次重大的變革。第一代的＂demoware＂在1987年真的實作成為可用的系統，並在1988年的ACM-SIGMOD研討會中進行展示，並在1989年6月，釋出了第1版可供外部使用者使用的資料庫系統[^6]。為了回應當時使用者對於第一代規則系統的批評[^7]，其規則系統重新進行設計[^8]，並在隔年1990年的6月份，隨即推出第2版系統，搭載新的規則系統設計。第3版系統則於1991年發表，新增支援多重儲存管理機制，改善查詢處理器，並又改寫了規則系統。如此直到Postgres 95誕生之前，主要都專注於移植性及可信賴度的發展。
 
-ThePOSTGRESproject, led by Professor Michael Stonebraker, was sponsored by the Defense Advanced Research Projects Agency \(DARPA\), the Army Research Office \(ARO\), the National Science Foundation \(NSF\), and ESL, Inc. The implementation ofPOSTGRESbegan in 1986. The initial concepts for the system were presented in[\[ston86\]](https://www.postgresql.org/docs/10/static/biblio.html#ston86), and the definition of the initial data model appeared in[\[rowe87\]](https://www.postgresql.org/docs/10/static/biblio.html#rowe87). The design of the rule system at that time was described in[\[ston87a\]](https://www.postgresql.org/docs/10/static/biblio.html#ston87a). The rationale and architecture of the storage manager were detailed in[\[ston87b\]](https://www.postgresql.org/docs/10/static/biblio.html#ston87b).
+POSTGRES接下來開始被運用在許多不同的研究和產品上，財務資料分析系統、噴氣引擎效能監控系統、小行星追蹤資料庫、醫療資訊系統、以及數個地理資訊系統。POSTGRES也被好幾所大學用於其教學工具。最後，由Illustra Information Technologies（後來併入[Informix](http://www.informix.com/)，而Informix目前為[IBM](http://www.ibm.com/)所擁有）技術移轉，並將其商業化。於1992年末，POSTGRES成為[Sequoia 2000 scientific computing project](http://meteora.ucsd.edu/s2k/s2k_home.html)主要的資料管理系統。
 
-POSTGREShas undergone several major releases since then. The first“demoware”system became operational in 1987 and was shown at the 1988ACM-SIGMODConference. Version 1, described in[\[ston90a\]](https://www.postgresql.org/docs/10/static/biblio.html#ston90a), was released to a few external users in June 1989. In response to a critique of the first rule system \([\[ston89\]](https://www.postgresql.org/docs/10/static/biblio.html#ston89)\), the rule system was redesigned \([\[ston90b\]](https://www.postgresql.org/docs/10/static/biblio.html#ston90b)\), and Version 2 was released in June 1990 with the new rule system. Version 3 appeared in 1991 and added support for multiple storage managers, an improved query executor, and a rewritten rule system. For the most part, subsequent releases untilPostgres95\(see below\) focused on portability and reliability.
+在1993年間，用戶數量呈現倍數成長，伴隨而來的是大量的程式碼維護與服務支援，占去絕大部份原來應該進行研究的時間。為了減少維運的負擔，伯克萊的POSTGRES專案正式終止於4.2版。
 
-POSTGREShas been used to implement many different research and production applications. These include: a financial data analysis system, a jet engine performance monitoring package, an asteroid tracking database, a medical information database, and several geographic information systems.POSTGREShas also been used as an educational tool at several universities. Finally, Illustra Information Technologies \(later merged into[Informix](http://www.informix.com/), which is now owned by[IBM](http://www.ibm.com/)\) picked up the code and commercialized it. In late 1992,POSTGRESbecame the primary data manager for the[Sequoia 2000 scientific computing project](http://meteora.ucsd.edu/s2k/s2k_home.html).
+### 2.2. Postgres 95
 
-The size of the external user community nearly doubled during 1993. It became increasingly obvious that maintenance of the prototype code and support was taking up large amounts of time that should have been devoted to database research. In an effort to reduce this support burden, the BerkeleyPOSTGRESproject officially ended with Version 4.2.
+1994年，Andrew Yu和Jolly Chen在POSTGRES增加了SQL語法的直譯器，並且以新的Postgres 95為名，在網路上開放讓全世界的人使用。他們成為伯克萊POSTGRES原始碼最初的繼承者。
 
-### 2.2. Postgres95
+Postgres 95的程式碼是完全以ANSI C開發，並且輕量化了25%。許多內部的改良增進了效率及可維護性。當時Wisconsin Benchmark進行測試，Postgres 95在1.0.x時的效能比原始的POSTGRES 4.2快了約30%至50%。除了一些錯誤修正之外，還有下面這些主要的改良：
 
+* 原有的PostQUEL以SQL（實作於伺服器端）所取代。（連接介面在PostQUEL之後便採libpq函式庫）
+  子查詢一直到PostgreSQL出現之前都還未支援，但在Postgres 95便已能使用自訂的SQL函數，聚合函數Aggregate function則被重新實作。GROUP BY查詢語句也在此時被加入。
 
+* 新的工具psql可進行互動式的SQL操作，其採用的是GNU Readline的技術。psql開始大量取代老舊的管理工具。
 
-In 1994, Andrew Yu and Jolly Chen added an SQL language interpreter toPOSTGRES. Under a new name,Postgres95was subsequently released to the web to find its own way in the world as an open-source descendant of the originalPOSTGRESBerkeley code.
+* 新的前端函式庫，libpgtcl，支援Tcl-based用戶端程式。還有一個簡易的命令列介面工具pgtclsh，使用新的Tcl命令和Postgres 95伺服器進行操作。
 
-Postgres95code was completely ANSI C and trimmed in size by 25%. Many internal changes improved performance and maintainability.Postgres95release 1.0.x ran about 30-50% faster on the Wisconsin Benchmark compared toPOSTGRES, Version 4.2. Apart from bug fixes, the following were the major enhancements:
+* 重新改寫了large-object處理的交換介面，僅使inversion作為儲存大型物件的唯一機制。（inversion檔案系統就此移除）
 
-* The query language PostQUEL was replaced withSQL\(implemented in the server\). \(Interface library[libpq](https://www.postgresql.org/docs/10/static/libpq.html)was named after PostQUEL.\) Subqueries were not supported untilPostgreSQL\(see below\), but they could be imitated inPostgres95with user-definedSQLfunctions. Aggregate functions were re-implemented. Support for the`GROUP BY`query clause was also added.
+* Instance-level的規則系統被淘汰了，但其規則仍用於重構規則所使用。
 
-* A new program \(psql\) was provided for interactive SQL queries, which usedGNUReadline. This largely superseded the oldmonitorprogram.
+* 製作了一個簡短的說明，介紹標準的SQL功能，並隨Postgres 95原始碼發佈。
 
-* A new front-end library,`libpgtcl`, supportedTcl-based clients. A sample shell,`pgtclsh`, provided new Tcl commands to interfaceTclprograms with thePostgres95server.
+* 使用GNU make（取代BSD make）編譯程式碼，Postgres 95也支援使用未修正的GCC編譯器（修正高精度資料對齊問題）。
 
-* The large-object interface was overhauled. The inversion large objects were the only mechanism for storing large objects. \(The inversion file system was removed.\)
+### 2.3. PostgreSQL
 
-* The instance-level rule system was removed. Rules were still available as rewrite rules.
+1996年，＂Postgres 95＂這個名稱很明顯不再適合。我們選擇了新的名稱，PostgreSQL，其呈現出與原始POSTGRES之間的源由，也彰顯了結合SQL力量的意義。同時，我們設定其版本由6.0開始，重回伯克萊POSTGRES專案的版號序列。
 
-* A short tutorial introducing regularSQLfeatures as well as those ofPostgres95was distributed with the source code
+許多人持續使用＂Postgres＂（現在已經很少使用全大寫字母表現）來代表PostgreSQL，是因為傳統，也可能是因為比較好發音。這樣的用法也廣為用於暱稱或別名。
 
-* GNUmake \(instead ofBSDmake\) was used for the build. Also,Postgres95could be compiled with an unpatchedGCC\(data alignment of doubles was fixed\).
+Postgres 95的發展主要在於瞭解及定義伺服器程式既有的問題，而PostgreSQL則更重視系統的能力與爭議性的功能上，不過所有的工作是全面性的。
 
-### 2.3. PostgreSQL
-
-By 1996, it became clear that the name“Postgres95”would not stand the test of time. We chose a new name,PostgreSQL, to reflect the relationship between the originalPOSTGRESand the more recent versions withSQLcapability. At the same time, we set the version numbering to start at 6.0, putting the numbers back into the sequence originally begun by the BerkeleyPOSTGRESproject.
-
-Many people continue to refer toPostgreSQLas“Postgres”\(now rarely in all capital letters\) because of tradition or because it is easier to pronounce. This usage is widely accepted as a nickname or alias.
-
-The emphasis during development ofPostgres95was on identifying and understanding existing problems in the server code. WithPostgreSQL, the emphasis has shifted to augmenting features and capabilities, although work continues in all areas.
-
-Details about what has happened inPostgreSQLsince then can be found in[Appendix E](https://www.postgresql.org/docs/10/static/release.html).
-
----
-
-* [https://www.postgresql.org/docs/10/static/history.html](https://www.postgresql.org/docs/10/static/history.html)
+更多有關於PostgreSQL的發展，請參閱附錄E。
 
 
+
+[^1]: [PostgreSQL: Documentation: 10: 2. A Brief History of PostgreSQL](https://www.postgresql.org/docs/10/static/history.html)
+
+[^2]: “[The design of POSTGRES](http://db.cs.berkeley.edu/papers/ERL-M85-95.pdf)”. M. Stonebraker and L. Rowe. ACM-SIGMOD Conference on Management of Data, May 1986.
+
+[^3]: “[The POSTGRES data model](http://db.cs.berkeley.edu/papers/ERL-M87-13.pdf)”. L. Rowe and M. Stonebraker. VLDB Conference, Sept. 1987.
+
+[^4]: “The design of the POSTGRES rules system”. M. Stonebraker, E. Hanson, and C. H. Hong. IEEE Conference on Data Engineering, Feb. 1987.
+
+[^5]: “[The design of the POSTGRES storage system](http://db.cs.berkeley.edu/papers/ERL-M87-06.pdf)”. M. Stonebraker. VLDB Conference, Sept. 1987.
+
+[^6]: “[The implementation of POSTGRES](http://db.cs.berkeley.edu/papers/ERL-M90-34.pdf)”. M. Stonebraker, L. A. Rowe, and M. Hirohama. Transactions on Knowledge and Data Engineering 2\(1\). IEEE. March 1990.
+
+[^7]: “[A commentary on the POSTGRES rules system](http://db.cs.berkeley.edu/papers/ERL-M89-82.pdf)”. M. Stonebraker, M. Hearst, and S. Potamianos. SIGMOD Record 18\(3\). Sept. 1989.
+
+[^8]: “[On Rules, Procedures, Caching and Views in Database Systems](http://db.cs.berkeley.edu/papers/ERL-M90-36.pdf)”. M. Stonebraker, A. Jhingran, J. Goh, and S. Potamianos. ACM-SIGMOD Conference on Management of Data, June 1990.
 
