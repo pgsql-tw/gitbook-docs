@@ -87,7 +87,7 @@
   * How the Planner Uses Statistics
 * [VIII. 附錄](viii-appendixes.md)
   * [A. PostgreSQL錯誤代碼](viii-appendixes/postgresql-error-codes.md)
-  * Date/Time Support
+  * [B. 日期／時間格式支援](viii-appendixes/datetime-support.md)
   * SQL Key Words
   * SQL Conformance
   * Release Notes

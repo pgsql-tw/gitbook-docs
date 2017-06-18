@@ -10,7 +10,7 @@
 
 有一些錯誤訊息，其回傳內容是發生錯誤的資料庫物件名稱（表格Table、表格欄位Table column、資料型別data type、限制條件constraint）。舉例來說，如果產生了unique\_violation錯誤，則會回傳某個限制條件名稱。這些訊息將會分別額外的欄位回傳，所以應用程式不需要特別解譯描述性的訊息內容。在PostgreSQL 9.3之前，這種回傳方式僅限於SQLSTATE類別23（違反限制條件的一致性integrity constraint violation），日後將儘可能延伸支援到所有類別。
 
-**Table A.1. PostgreSQL Error Codes**
+**Table A.1. PostgreSQL Error Codes**
 
 | Error Code | Condition Name |
 | :--- | :--- |
