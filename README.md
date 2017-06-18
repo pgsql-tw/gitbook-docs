@@ -1,4 +1,4 @@
-# PostgreSQL 10 使用手冊
+# PostgreSQL 10 使用手冊[^1]
 
 本使用手冊由台灣PostgreSQL社群提供，翻譯自PostgreSQL官方使用手冊，以推廣PostgreSQL於台灣的應用。
 
@@ -10,9 +10,9 @@
 
 ![](/assets/29271289.png)
 
----
-
-* [https://www.postgresql.org/docs/10/static/index.html](https://www.postgresql.org/docs/10/static/index.html)
 
 
+
+
+[^1]: [PostgreSQL: Documentation: 10: PostgreSQL 10 beta1 Documentation](https://www.postgresql.org/docs/10/static/index.html)
 
