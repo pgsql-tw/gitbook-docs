@@ -1,4 +1,4 @@
-# 前言
+# 前言[^1]
 
 本手冊為PostgreSQL官方手冊翻譯版，由PostgreSQL台灣社群愛好者所提供，描述本版本PostgreSQL的功能與支援情形。
 
@@ -12,9 +12,9 @@
 * 第六部份：SQL查詢指令、用戶端指令及伺服器端指令在此部份詳細說明。
 * 第七部份：提供PostgreSQL開發者可能需要的其他相關資訊。
 
----
-
-* [https://www.postgresql.org/docs/10/static/preface.html](https://www.postgresql.org/docs/10/static/preface.html)
 
 
+
+
+[^1]: [PostgreSQL: Documentation: 10: Preface](https://www.postgresql.org/docs/10/static/preface.html)
 
