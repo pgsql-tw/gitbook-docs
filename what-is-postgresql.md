@@ -1,8 +1,8 @@
 # 1. 什麼是PostgreSQL？
 
-PostgreSQLis an object-relational database management system \(ORDBMS\) based on[POSTGRES, Version 4.2](http://db.cs.berkeley.edu/postgres.html), developed at the University of California at Berkeley Computer Science Department. POSTGRES pioneered many concepts that only became available in some commercial database systems much later.
+PostgreSQL是基於POSTGRES 4.2的物件關連式資料庫管理系統，其由美國加州伯克萊大學資訊科學系所研發。POSTGRES所開發的許多重要概念成為許多日後商用資料庫系統重要的一部份。
 
-PostgreSQLis an open-source descendant of this original Berkeley code. It supports a large part of the SQL standard and offers many modern features:
+PostgreSQL由伯克萊大學公開其原始碼所誕生，它支援了大多數的標準SQL語法，並提供許多先進的功能：
 
 * complex queries
 * foreign keys
@@ -11,7 +11,7 @@ PostgreSQLis an open-source descendant of this original Berkeley code. It suppor
 * transactional integrity
 * multiversion concurrency control
 
-Also,PostgreSQLcan be extended by the user in many ways, for example by adding new
+同時，PostgreSQL也支援讓使用者能以自己的方式善用資料庫系統：
 
 * data types
 * functions
@@ -20,7 +20,7 @@ Also,PostgreSQLcan be extended by the user in many ways, for example by adding n
 * index methods
 * procedural languages
 
-And because of the liberal license,PostgreSQLcan be used, modified, and distributed by anyone free of charge for any purpose, be it private, commercial, or academic.
+在使用權利方面，不論任何人以任何目的，使用、修改、散布PostgreSQL，都是被允許的，包含私人使用、商業用途、或學術研究。
 
 ---
 
