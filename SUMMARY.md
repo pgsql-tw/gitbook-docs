@@ -91,7 +91,7 @@
     * [B.1. 日期時間解譯流程](viii-appendixes/datetime-support/b1-datetime-input-interpretation.md)
     * [B.2. 日期時間慣用字](viii-appendixes/datetime-support/b2-datetime-key-words.md)
     * [B.3. 日期時間設定檔](viii-appendixes/datetime-support/b3-datetime-configuration-files.md)
-    * B.4. History of Units
+    * [B.4. 日期時間的沿革](viii-appendixes/datetime-support/b4-history-of-units.md)
   * SQL Key Words
   * SQL Conformance
   * Release Notes
