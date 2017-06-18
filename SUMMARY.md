@@ -89,7 +89,7 @@
   * [A. PostgreSQL錯誤代碼](viii-appendixes/postgresql-error-codes.md)
   * [B. 日期時間格式支援](viii-appendixes/datetime-support.md)
     * [B.1. 日期時間解譯流程](viii-appendixes/datetime-support/b1-datetime-input-interpretation.md)
-    * B.2. Date/Time Key Words
+    * [B.2. 日期時間慣用字](viii-appendixes/datetime-support/b2-datetime-key-words.md)
     * B.3. Date/Time Configuration Files
     * B.4. History of Units
   * SQL Key Words
