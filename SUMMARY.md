@@ -88,6 +88,10 @@
 * [VIII. 附錄](viii-appendixes.md)
   * [A. PostgreSQL錯誤代碼](viii-appendixes/postgresql-error-codes.md)
   * [B. 日期／時間格式支援](viii-appendixes/datetime-support.md)
+    * B.1. Date/Time Input Interpretation
+    * B.2. Date/Time Key Words
+    * B.3. Date/Time Configuration Files
+    * B.4. History of Units
   * SQL Key Words
   * SQL Conformance
   * Release Notes
@@ -98,4 +102,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
