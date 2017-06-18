@@ -85,8 +85,8 @@
   * Database Physical Storage
   * BKI Backend Interface
   * How the Planner Uses Statistics
-* [VIII. Appendixes](viii-appendixes.md)
-  * PostgreSQL Error Codes
+* [VIII. 附錄](viii-appendixes.md)
+  * [A. PostgreSQL錯誤代碼](viii-appendixes/postgresql-error-codes.md)
   * Date/Time Support
   * SQL Key Words
   * SQL Conformance
