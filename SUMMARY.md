@@ -90,7 +90,7 @@
   * [B. 日期時間格式支援](viii-appendixes/datetime-support.md)
     * [B.1. 日期時間解譯流程](viii-appendixes/datetime-support/b1-datetime-input-interpretation.md)
     * [B.2. 日期時間慣用字](viii-appendixes/datetime-support/b2-datetime-key-words.md)
-    * B.3. Date/Time Configuration Files
+    * [B.3. 日期時間設定檔](viii-appendixes/datetime-support/b3-datetime-configuration-files.md)
     * B.4. History of Units
   * SQL Key Words
   * SQL Conformance
