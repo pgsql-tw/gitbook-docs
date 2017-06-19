@@ -7,7 +7,7 @@
   * [3. 慣例](conventions.md)
   * [4. 其他參考資訊](further-information.md)
   * [5. 問題回報指南](bug-reporting-guidelines.md)
-* [I. Tutorial](i-tutorial.md)
+* [I. 入門指南](i-tutorial.md)
   * [1. Getting Started](getting-started.md)
   * [2. The SQL Language](the-sql-language.md)
   * [3. Advanced Features](advanced-features.md)
