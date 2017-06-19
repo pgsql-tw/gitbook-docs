@@ -22,9 +22,7 @@ PostgreSQL由伯克萊大學公開其原始碼所誕生，它支援了大多數�
 
 在使用權利方面，不論任何人以任何目的，使用、修改、散布PostgreSQL，都是被允許的，包含私人使用、商業用途、或學術研究。
 
-
-
-
+---
 
 [^1]: [PostgreSQL: Documentation: 10: 1.  What is PostgreSQL?](https://www.postgresql.org/docs/10/static/intro-whatis.html)
 

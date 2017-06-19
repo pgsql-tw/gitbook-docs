@@ -18,7 +18,7 @@ POSTGRES接下來開始被運用在許多不同的研究和產品上，財務資
 
 Postgres 95的程式碼是完全以ANSI C開發，並且輕量化了25%。許多內部的改良增進了效率及可維護性。當時Wisconsin Benchmark進行測試，Postgres 95在1.0.x時的效能比原始的POSTGRES 4.2快了約30%至50%。除了一些錯誤修正之外，還有下面這些主要的改良：
 
-* 原有的PostQUEL以SQL（實作於伺服器端）所取代。（連接介面在PostQUEL之後便採libpq函式庫）
+* 原有的PostQUEL以SQL（實作於伺服器端）所取代。（連接介面在PostQUEL之後便採libpq函式庫）  
   子查詢一直到PostgreSQL出現之前都還未支援，但在Postgres 95便已能使用自訂的SQL函數，聚合函數Aggregate function則被重新實作。GROUP BY查詢語句也在此時被加入。
 
 * 新的工具psql可進行互動式的SQL操作，其採用的是GNU Readline的技術。psql開始大量取代老舊的管理工具。
@@ -43,7 +43,7 @@ Postgres 95的發展主要在於瞭解及定義伺服器程式既有的問題，
 
 更多有關於PostgreSQL的發展，請參閱附錄E。
 
-
+---
 
 [^1]: [PostgreSQL: Documentation: 10: 2. A Brief History of PostgreSQL](https://www.postgresql.org/docs/10/static/history.html)
 

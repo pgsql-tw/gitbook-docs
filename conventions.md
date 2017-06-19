@@ -9,5 +9,7 @@
 
 Administrator一般的定義是負責安裝及運行資料庫系統的人；User指的是任何正在使用資料庫的人，或者正要使用任何PostgreSQL相關系統的人。這些定義不應該被解釋得太過嚴格，在本文件中，對於系統管理的工作，並沒有固定的假設。
 
+---
+
 [^1]: [PostgreSQL: Documentation: 10: 3. Conventions](https://www.postgresql.org/docs/10/static/notation.html)
 

@@ -19,5 +19,7 @@ PostgreSQL的[官方網站](http://www.postgresql.org/)，有最新軟體的釋�
 
 PostgreSQL是一個開源的專案，也就是說，它仰賴社群的每一個人給予支持。當你開始使用PostgreSQL，你會需要其他人的幫助，可能是透過文件或是郵件列表的功能。請考慮也可以回饋您的知識。在閱讀郵件列表和回答疑問的同時，如果你學到了未被文件記載的知識時，請寫下來，並且供獻出來。如果你撰寫了一些程式碼增加了特別的功能，也希望能夠回饋到社群之中。
 
+---
+
 [^1]: [PostgreSQL: Documentation: 10: 4. Further Information](https://www.postgresql.org/docs/10/static/resources.html)
 

@@ -12,9 +12,7 @@
 * 第六部份：SQL查詢指令、用戶端指令及伺服器端指令在此部份詳細說明。
 * 第七部份：提供PostgreSQL開發者可能需要的其他相關資訊。
 
-
-
-
+---
 
 [^1]: [PostgreSQL: Documentation: 10: Preface](https://www.postgresql.org/docs/10/static/preface.html)
 

@@ -10,9 +10,7 @@
 
 ![](/assets/29271289.png)
 
-
-
-
+---
 
 [^1]: [PostgreSQL: Documentation: 10: PostgreSQL 10 beta1 Documentation](https://www.postgresql.org/docs/10/static/index.html)
 

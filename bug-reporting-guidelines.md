@@ -6,7 +6,7 @@ The following suggestions are intended to assist you in forming bug reports that
 
 We cannot promise to fix every bug right away. If the bug is obvious, critical, or affects a lot of users, chances are good that someone will look into it. It could also happen that we tell you to update to a newer version to see if the bug happens there. Or we might decide that the bug cannot be fixed before some major rewrite we might be planning is done. Or perhaps it is simply too hard and there are more important things on the agenda. If you need help immediately, consider obtaining a commercial support contract.
 
-### 5.1. Identifying Bugs
+### 5.1. Identifying Bugs
 
 Before you report a bug, please read and re-read the documentation to verify that you can really do whatever it is you are trying. If it is not clear from the documentation whether you can do something or not, please report that too; it is a bug in the documentation. If it turns out that a program does something different from what the documentation says, that is a bug. That might include, but is not limited to, the following circumstances:
 
@@ -26,13 +26,13 @@ Being slow or resource-hogging is not necessarily a bug. Read the documentation 
 
 Before you continue, check on the TODO list and in the FAQ to see if your bug is already known. If you cannot decode the information on the TODO list, report your problem. The least we can do is make the TODO list clearer.
 
-### 5.2. What to Report
+### 5.2. What to Report
 
 The most important thing to remember about bug reporting is to state all the facts and only facts. Do not speculate what you think went wrong, what“it seemed to do”, or which part of the program has a fault. If you are not familiar with the implementation you would probably guess wrong and not help us a bit. And even if you are, educated explanations are a great supplement to but no substitute for facts. If we are going to fix the bug we still have to see it happen for ourselves first. Reporting the bare facts is relatively straightforward \(you can probably copy and paste them from the screen\) but all too often important details are left out because someone thought it does not matter or the report would be understood anyway.
 
 The following items should be contained in every bug report:
 
-* The exact sequence of steps_from program start-up_necessary to reproduce the problem. This should be self-contained; it is not enough to send in a bare`SELECT`statement without the preceding`CREATE TABLE`and`INSERT`statements, if the output should depend on the data in the tables. We do not have the time to reverse-engineer your database schema, and if we are supposed to make up our own data we would probably miss the problem.
+* The exact sequence of steps\_from program start-up\_necessary to reproduce the problem. This should be self-contained; it is not enough to send in a bare`SELECT`statement without the preceding`CREATE TABLE`and`INSERT`statements, if the output should depend on the data in the tables. We do not have the time to reverse-engineer your database schema, and if we are supposed to make up our own data we would probably miss the problem.
 
   The best format for a test case for SQL-related problems is a file that can be run through thepsqlfrontend that shows the problem. \(Be sure to not have anything in your`~/.psqlrc`start-up file.\) An easy way to create this file is to usepg\_dumpto dump out the table declarations and data needed to set the scene, then add the problem query. You are encouraged to minimize the size of your example, but this is not absolutely necessary. If the bug is reproducible, we will find it either way.
 
@@ -66,7 +66,7 @@ Do not spend all your time to figure out which changes in the input make the pro
 
 When writing a bug report, please avoid confusing terminology. The software package in total is called“PostgreSQL”, sometimes“Postgres”for short. If you are specifically talking about the backend process, mention that, do not just say“PostgreSQL crashes”. A crash of a single backend process is quite different from crash of the parent“postgres”process; please don't say“the server crashed”when you mean a single backend process went down, nor vice versa. Also, client programs such as the interactive frontend“psql”are completely separate from the backend. Please try to be specific about whether the problem is on the client or server side.
 
-### 5.3. Where to Report Bugs
+### 5.3. Where to Report Bugs
 
 In general, send bug reports to the bug report mailing list at`<`[`pgsql-bugs@postgresql.org`](mailto:pgsql-bugs@postgresql.org)`>`. You are requested to use a descriptive subject for your email message, perhaps parts of the error message.
 
@@ -76,7 +76,7 @@ If your bug report has security implications and you'd prefer that it not become
 
 Do not send bug reports to any of the user mailing lists, such as`<`[`pgsql-sql@postgresql.org`](mailto:pgsql-sql@postgresql.org)`>`or`<`[`pgsql-general@postgresql.org`](mailto:pgsql-general@postgresql.org)`>`. These mailing lists are for answering user questions, and their subscribers normally do not wish to receive bug reports. More importantly, they are unlikely to fix them.
 
-Also, please do_not_send reports to the developers' mailing list`<`[`pgsql-hackers@postgresql.org`](mailto:pgsql-hackers@postgresql.org)`>`. This list is for discussing the development ofPostgreSQL, and it would be nice if we could keep the bug reports separate. We might choose to take up a discussion about your bug report on`pgsql-hackers`, if the problem needs more review.
+Also, please do\_not\_send reports to the developers' mailing list`<`[`pgsql-hackers@postgresql.org`](mailto:pgsql-hackers@postgresql.org)`>`. This list is for discussing the development ofPostgreSQL, and it would be nice if we could keep the bug reports separate. We might choose to take up a discussion about your bug report on`pgsql-hackers`, if the problem needs more review.
 
 If you have a problem with the documentation, the best place to report it is the documentation mailing list`<`[`pgsql-docs@postgresql.org`](mailto:pgsql-docs@postgresql.org)`>`. Please be specific about what part of the documentation you are unhappy with.
 
@@ -86,10 +86,7 @@ If your bug is a portability problem on a non-supported platform, send mail to`<
 
 Due to the unfortunate amount of spam going around, all of the above email addresses are closed mailing lists. That is, you need to be subscribed to a list to be allowed to post on it. \(You need not be subscribed to use the bug-report web form, however.\) If you would like to send mail but do not want to receive list traffic, you can subscribe and set your subscription option to`nomail`. For more information send mail to`<`[`majordomo@postgresql.org`](mailto:majordomo@postgresql.org)`>`with the single word`help`in the body of the message.
 
-  
-
-
-
+---
 
 [^1]: [PostgreSQL: Documentation: 10: 5. Bug Reporting Guidelines](https://www.postgresql.org/docs/10/static/bug-reporting.html)
 
