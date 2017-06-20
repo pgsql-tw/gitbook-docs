@@ -10,9 +10,9 @@
 * [I. 新手教學](i-tutorial.md)
   * [1. 入門指南](getting-started.md)
     * [1.1. 安裝](getting-started/11-installation.md)
-    * 1.2. Architectural Fundamentals
-    * 1.3. Creating a Database
-    * 1.4. Accessing a Database
+    * [1.2. 基礎架構](getting-started/12-architectural-fundamentals.md)
+    * [1.3. 建立一個資料庫](getting-started/13-creating-a-database.md)
+    * [1.4. 存取一個資料庫](getting-started/14-accessing-a-database.md)
   * [2. The SQL Language](the-sql-language.md)
   * [3. Advanced Features](advanced-features.md)
 * [II. The SQL Language](ii-the-sql-language.md)
@@ -106,6 +106,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 
