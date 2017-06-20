@@ -23,7 +23,7 @@
     * 2.7. Aggregate Functions
     * 2.8. Updates
     * 2.9. Deletions
-  * [3. Advanced Features](advanced-features.md)
+  * [3. 先進功能](advanced-features.md)
     * 3.1. Introduction
     * 3.2. Views
     * 3.3. Foreign Keys
@@ -122,6 +122,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 
