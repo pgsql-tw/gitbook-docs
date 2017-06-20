@@ -14,15 +14,15 @@
     * [1.3. 建立一個資料庫](getting-started/13-creating-a-database.md)
     * [1.4. 存取一個資料庫](getting-started/14-accessing-a-database.md)
   * [2. SQL查詢語言](the-sql-language.md)
-    * 2.1. Introduction
-    * 2.2. Concepts
-    * 2.3. Creating a New Table
-    * 2.4. Populating a Table With Rows
-    * 2.5. Querying a Table
-    * 2.6. Joins Between Tables
-    * 2.7. Aggregate Functions
-    * 2.8. Updates
-    * 2.9. Deletions
+    * [2.1. 簡介](the-sql-language/21-introduction.md)
+    * [2.2. 概念](the-sql-language/22-concepts.md)
+    * [2.3. 創建一個新的表格](the-sql-language/23-creating-a-new-table.md)
+    * [2.4. 列是表格的組成單位](the-sql-language/24-populating-a-table-with-rows.md)
+    * [2.5. 表格的查詢](the-sql-language/25-querying-a-table.md)
+    * [2.6. 交叉查詢](the-sql-language/26-joins-between-tables.md)
+    * [2.7. 彙總查詢](the-sql-language/27-aggregate-functions.md)
+    * [2.8. 更新資料](the-sql-language/28-updates.md)
+    * [2.9. 刪除資料](the-sql-language/29-deletions.md)
   * [3. 先進功能](advanced-features.md)
     * [3.1. 簡介](advanced-features/31-introduction.md)
     * [3.2. Views](advanced-features/32-views.md)
