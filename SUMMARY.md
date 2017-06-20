@@ -8,7 +8,11 @@
   * [4. 其他參考資訊](further-information.md)
   * [5. 問題回報指南](bug-reporting-guidelines.md)
 * [I. 入門指南](i-tutorial.md)
-  * [1. Getting Started](getting-started.md)
+  * [1. 開始使用](getting-started.md)
+    * [1.1. 安裝](getting-started/11-installation.md)
+    * 1.2. Architectural Fundamentals
+    * 1.3. Creating a Database
+    * 1.4. Accessing a Database
   * [2. The SQL Language](the-sql-language.md)
   * [3. Advanced Features](advanced-features.md)
 * [II. The SQL Language](ii-the-sql-language.md)
