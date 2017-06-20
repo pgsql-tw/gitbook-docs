@@ -1,6 +1,9 @@
 # 1. 入門指南[^1]
 
-> 請由左方目錄的「[1.1. 安裝](https://pgsql-tw.gitbooks.io/postgresql-10/content/getting-started/11-installation.html)」繼續閱讀。
+* [1  .1. 安裝](/getting-started/11-installation.md)
+* 1.2. Architectural Fundamentals
+* 1.3. Creating a Database
+* 1.4. Accessing a Database
 
 ---
 
