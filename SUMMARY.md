@@ -7,8 +7,8 @@
   * [3. 慣例](conventions.md)
   * [4. 其他參考資訊](further-information.md)
   * [5. 問題回報指南](bug-reporting-guidelines.md)
-* [I. 入門指南](i-tutorial.md)
-  * [1. 開始使用](getting-started.md)
+* [I. 新手教學](i-tutorial.md)
+  * [1. 入門指南](getting-started.md)
     * [1.1. 安裝](getting-started/11-installation.md)
     * 1.2. Architectural Fundamentals
     * 1.3. Creating a Database

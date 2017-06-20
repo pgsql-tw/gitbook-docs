@@ -1,4 +1,4 @@
-# 1. 開始使用[^1]
+# 1. 入門指南[^1]
 
 > 請由左方目錄的「[1.1. 安裝](https://pgsql-tw.gitbooks.io/postgresql-10/content/getting-started/11-installation.html)」繼續閱讀。
 
