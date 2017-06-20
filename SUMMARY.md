@@ -13,8 +13,24 @@
     * [1.2. 基礎架構](getting-started/12-architectural-fundamentals.md)
     * [1.3. 建立一個資料庫](getting-started/13-creating-a-database.md)
     * [1.4. 存取一個資料庫](getting-started/14-accessing-a-database.md)
-  * [2. The SQL Language](the-sql-language.md)
+  * [2. SQL查詢語言](the-sql-language.md)
+    * 2.1. Introduction
+    * 2.2. Concepts
+    * 2.3. Creating a New Table
+    * 2.4. Populating a Table With Rows
+    * 2.5. Querying a Table
+    * 2.6. Joins Between Tables
+    * 2.7. Aggregate Functions
+    * 2.8. Updates
+    * 2.9. Deletions
   * [3. Advanced Features](advanced-features.md)
+    * 3.1. Introduction
+    * 3.2. Views
+    * 3.3. Foreign Keys
+    * 3.4. Transactions
+    * 3.5. Window Functions
+    * 3.6. Inheritance
+    * 3.7. Conclusion
 * [II. The SQL Language](ii-the-sql-language.md)
   * [4. SQL Syntax](ii-the-sql-language/sql-syntax.md)
   * [5. Data Definition](ii-the-sql-language/data-definition.md)
@@ -106,4 +122,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
