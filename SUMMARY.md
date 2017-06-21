@@ -31,80 +31,200 @@
     * [3.5. Window Functions](advanced-features/35-window-functions.md)
     * [3.6. 繼承](advanced-features/36-inheritance.md)
     * [3.7. 結論](advanced-features/37-conclusion.md)
-* [II. The SQL Language](ii-the-sql-language.md)
+* [II. SQL查詢語言](ii-the-sql-language.md)
   * [4. SQL Syntax](ii-the-sql-language/sql-syntax.md)
+    * 4.1. Lexical Structure
+    * 4.2. Value Expressions
+    * 4.3. Calling Functions
   * [5. Data Definition](ii-the-sql-language/data-definition.md)
+    * 5.1. Table Basics
+    * 5.2. Default Values
+    * 5.3. Constraints
+    * 5.4. System Columns
+    * 5.5. Modifying Tables
+    * 5.6. Privileges
+    * 5.7. Row Security Policies
+    * 5.8. Schemas
+    * 5.9. Inheritance
+    * 5.10. Table Partitioning
+    * 5.11. Foreign Data
+    * 5.12. Other Database Objects
+    * 5.13. Dependency Tracking
   * [6. Data Manipulation](ii-the-sql-language/data-manipulation.md)
+    * 6.1. Inserting Data
+    * 6.2. Updating Data
+    * 6.3. Deleting Data
+    * 6.4. Returning Data From Modified Rows
   * [7. Queries](ii-the-sql-language/queries.md)
-  * Data Types
-  * Functions and Operators
-  * Type Conversion
-  * Indexes
-  * Full Text Search
-  * Concurrency Control
-  * Performance Tips
-  * Parallel Query
+    * 7.1. Overview
+    * 7.2. Table Expressions
+    * 7.3. Select Lists
+    * 7.4. Combining Queries
+    * 7.5. Sorting Rows
+    * 7.6. LIMIT and OFFSET
+    * 7.7. VALUES Lists
+    * 7.8. WITH Queries \(Common Table Expressions\)
+  * 8. Data Types
+    * 8.1. Numeric Types
+    * 8.2. Monetary Types
+    * 8.3. Character Types
+    * 8.4. Binary Data Types
+    * 8.5. Date/Time Types
+    * 8.6. Boolean Type
+    * 8.7. Enumerated Types
+    * 8.8. Geometric Types
+    * 8.9. Network Address Types
+    * 8.10. Bit String Types
+    * 8.11. Text Search Types
+    * 8.12. UUID Type
+    * 8.13. XML Type
+    * 8.14. JSON Types
+    * 8.15. Arrays
+    * 8.16. Composite Types
+    * 8.17. Range Types
+    * 8.18. Object Identifier Types
+    * 8.19. pg\_lsn Type
+    * 8.20. Pseudo-Types
+  * 9. Functions and Operators
+    * 9.1. Logical Operators
+    * 9.2. Comparison Functions and Operators
+    * 9.3. Mathematical Functions and Operators
+    * 9.4. String Functions and Operators
+    * 9.5. Binary String Functions and Operators
+    * 9.6. Bit String Functions and Operators
+    * 9.7. Pattern Matching
+    * 9.8. Data Type Formatting Functions
+    * 9.9. Date/Time Functions and Operators
+    * 9.10. Enum Support Functions
+    * 9.11. Geometric Functions and Operators
+    * 9.12. Network Address Functions and Operators
+    * 9.13. Text Search Functions and Operators
+    * 9.14. XML Functions
+    * 9.15. JSON Functions and Operators
+    * 9.16. Sequence Manipulation Functions
+    * 9.17. Conditional Expressions
+    * 9.18. Array Functions and Operators
+    * 9.19. Range Functions and Operators
+    * 9.20. Aggregate Functions
+    * 9.21. Window Functions
+    * 9.22. Subquery Expressions
+    * 9.23. Row and Array Comparisons
+    * 9.24. Set Returning Functions
+    * 9.25. System Information Functions
+    * 9.26. System Administration Functions
+    * 9.27. Trigger Functions
+    * 9.28. Event Trigger Functions
+  * 10. Type Conversion
+    * 10.1. Overview
+    * 10.2. Operators
+    * 10.3. Functions
+    * 10.4. Value Storage
+    * 10.5. UNION, CASE, and Related Constructs
+    * 10.6. SELECT Output Columns
+  * 11. Indexes
+    * 11.1. Introduction
+    * 11.2. Index Types
+    * 11.3. Multicolumn Indexes
+    * 11.4. Indexes and ORDER BY
+    * 11.5. Combining Multiple Indexes
+    * 11.6. Unique Indexes
+    * 11.7. Indexes on Expressions
+    * 11.8. Partial Indexes
+    * 11.9. Operator Classes and Operator Families
+    * 11.10. Indexes and Collations
+    * 11.11. Index-Only Scans
+    * 11.12. Examining Index Usage
+  * 12. Full Text Search
+    * 12.1. Introduction
+    * 12.2. Tables and Indexes
+    * 12.3. Controlling Text Search
+    * 12.4. Additional Features
+    * 12.5. Parsers
+    * 12.6. Dictionaries
+    * 12.7. Configuration Example
+    * 12.8. Testing and Debugging Text Search
+    * 12.9. GIN and GiST Index Types
+    * 12.10. psql Support
+    * 12.11. Limitations
+  * 13. Concurrency Control
+    * 13.1. Introduction
+    * 13.2. Transaction Isolation
+    * 13.3. Explicit Locking
+    * 13.4. Data Consistency Checks at the Application Level
+    * 13.5. Caveats
+    * 13.6. Locking and Indexes
+  * 14. Performance Tips
+    * 14.1. Using EXPLAIN
+    * 14.2. Statistics Used by the Planner
+    * 14.3. Controlling the Planner with Explicit JOIN Clauses
+    * 14.4. Populating a Database
+    * 14.5. Non-Durable Settings
+  * 15. Parallel Query
+    * 15.1. How Parallel Query Works
+    * 15.2. When Can Parallel Query Be Used?
+    * 15.3. Parallel Plans
+    * 15.4. Parallel Safety
 * [III. Server Administration](iii-server-administration.md)
-  * Installation from Source Code
-  * Installation from Source Code on Windows
-  * Server Setup and Operation
-  * Server Configuration
-  * Client Authentication
-  * Database Roles
-  * Managing Databases
-  * Localization
-  * Routine Database Maintenance Tasks
-  * Backup and Restore
-  * High Availability, Load Balancing, and Replication
-  * Recovery Configuration
-  * Monitoring Database Activity
-  * Monitoring Disk Usage
-  * Reliability and the Write-Ahead Log
-  * Logical Replication
-  * Regression Tests
+  * 16. Installation from Source Code
+  * 17. Installation from Source Code on Windows
+  * 18. Server Setup and Operation
+  * 19. Server Configuration
+  * 20. Client Authentication
+  * 21. Database Roles
+  * 22. Managing Databases
+  * 23. Localization
+  * 24. Routine Database Maintenance Tasks
+  * 25. Backup and Restore
+  * 26. High Availability, Load Balancing, and Replication
+  * 27. Recovery Configuration
+  * 28. Monitoring Database Activity
+  * 29. Monitoring Disk Usage
+  * 30. Reliability and the Write-Ahead Log
+  * 31. Logical Replication
+  * 32. Regression Tests
 * [IV. Client Interfaces](iv-client-interfaces.md)
-  * libpq - C Library
-  * Large Objects
-  * ECPG - Embedded SQL in C
-  * The Information Schema
+  * 33. libpq - C Library
+  * 34. Large Objects
+  * 35. ECPG - Embedded SQL in C
+  * 36. The Information Schema
 * [V. Server Programming](v-server-programming.md)
-  * Extending SQL
-  * Triggers
-  * Event Triggers
-  * The Rule System
-  * Procedural Languages
-  * PL/pgSQL - SQL Procedural Language
-  * PL/Tcl - Tcl Procedural Language
-  * PL/Perl - Perl Procedural Language
-  * PL/Python - Python Procedural Language
-  * Server Programming Interface
-  * Background Worker Processes
-  * Logical Decoding
-  * Replication Progress Tracking
+  * 37. Extending SQL
+  * 38. Triggers
+  * 39. Event Triggers
+  * 40. The Rule System
+  * 41. Procedural Languages
+  * 42. PL/pgSQL - SQL Procedural Language
+  * 43. PL/Tcl - Tcl Procedural Language
+  * 44. PL/Perl - Perl Procedural Language
+  * 45. PL/Python - Python Procedural Language
+  * 46. Server Programming Interface
+  * 47. Background Worker Processes
+  * 48. Logical Decoding
+  * 49. Replication Progress Tracking
 * [VI. Reference](vi-reference.md)
-  * SQL Commands
-  * PostgreSQL Client Applications
-  * PostgreSQL Server Applications
+  * I. SQL Commands
+  * II. PostgreSQL Client Applications
+  * III. PostgreSQL Server Applications
 * [VII. Internals](vii-internals.md)
-  * Overview of PostgreSQL Internals
-  * System Catalogs
-  * Frontend/Backend Protocol
-  * PostgreSQL Coding Conventions
-  * Native Language Support
-  * Writing A Procedural Language Handler
-  * Writing A Foreign Data Wrapper
-  * Writing A Table Sampling Method
-  * Writing A Custom Scan Provider
-  * Genetic Query Optimizer
-  * Index Access Method Interface Definition
-  * Generic WAL Records
-  * GiST Indexes
-  * SP-GiST Indexes
-  * GIN Indexes
-  * BRIN Indexes
-  * Database Physical Storage
-  * BKI Backend Interface
-  * How the Planner Uses Statistics
+  * 50. Overview of PostgreSQL Internals
+  * 51. System Catalogs
+  * 52. Frontend/Backend Protocol
+  * 53. PostgreSQL Coding Conventions
+  * 54. Native Language Support
+  * 55. Writing A Procedural Language Handler
+  * 56. Writing A Foreign Data Wrapper
+  * 57. Writing A Table Sampling Method
+  * 58. Writing A Custom Scan Provider
+  * 59. Genetic Query Optimizer
+  * 60. Index Access Method Interface Definition
+  * 61. Generic WAL Records
+  * 62. GiST Indexes
+  * 63. SP-GiST Indexes
+  * 64. GIN Indexes
+  * 65. BRIN Indexes
+  * 66. Database Physical Storage
+  * 67. BKI Backend Interface
+  * 68. How the Planner Uses Statistics
 * [VIII. 附錄](viii-appendixes.md)
   * [A. PostgreSQL錯誤代碼](viii-appendixes/postgresql-error-codes.md)
   * [B. 日期時間格式支援](viii-appendixes/datetime-support.md)
@@ -122,4 +242,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
