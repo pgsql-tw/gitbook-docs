@@ -32,11 +32,33 @@
     * [3.6. 繼承](advanced-features/36-inheritance.md)
     * [3.7. 結論](advanced-features/37-conclusion.md)
 * [II. SQL查詢語言](ii-the-sql-language.md)
-
-  * [4. SQL Syntax](ii-the-sql-language/sql-syntax.md)
+  * [4. SQL語法](ii-the-sql-language/sql-syntax.md)
     * 4.1. Lexical Structure
+      * 4.1.1. Identifiers and Key Words
+      * 4.1.2. Constants
+      * 4.1.3. Operators
+      * 4.1.4. Special Characters
+      * 4.1.5. Comments
+      * 4.1.6. Operator Precedence
     * 4.2. Value Expressions
+      * 4.2.1. Column References
+      * 4.2.2. Positional Parameters
+      * 4.2.3. Subscripts
+      * 4.2.4. Field Selection
+      * 4.2.5. Operator Invocations
+      * 4.2.6. Function Calls
+      * 4.2.7. Aggregate Expressions
+      * 4.2.8. Window Function Calls
+      * 4.2.9. Type Casts
+      * 4.2.10. Collation Expressions
+      * 4.2.11. Scalar Subqueries
+      * 4.2.12. Array Constructors
+      * 4.2.13. Row Constructors
+      * 4.2.14. Expression Evaluation Rules
     * 4.3. Calling Functions
+      * 4.3.1. Using Positional Notation
+      * 4.3.2. Using Named Notation
+      * 4.3.3. Using Mixed Notation
   * [5. Data Definition](ii-the-sql-language/data-definition.md)
     * 5.1. Table Basics
     * 5.2. Default Values
@@ -87,7 +109,6 @@
     * 8.19. pg\_lsn Type
     * 8.20. Pseudo-Types
   * Functions and Operators
-
     * 9.1. Logical Operators
     * 9.2. Comparison Functions and Operators
     * 9.3. Mathematical Functions and Operators
@@ -116,7 +137,6 @@
     * 9.26. System Administration Functions
     * 9.27. Trigger Functions
     * 9.28. Event Trigger Functions
-
   * Type Conversion
     * 10.1. Overview
     * 10.2. Operators
@@ -163,77 +183,18 @@
     * 14.4. Populating a Database
     * 14.5. Non-Durable Settings
   * Parallel Query
-
     * 15.1. How Parallel Query Works
     * 15.2. When Can Parallel Query Be Used?
     * 15.3. Parallel Plans
     * 15.4. Parallel Safety
-
 * [III. Server Administration](iii-server-administration.md)
-
-  * 1. Installation from Source Code
-  * 1. Installation from Source Code on Windows
-  * 1. Server Setup and Operation
-  * 1. Server Configuration
-  * 1. Client Authentication
-  * 1. Database Roles
-  * 1. Managing Databases
-  * 1. Localization
-  * 1. Routine Database Maintenance Tasks
-  * 1. Backup and Restore
-  * 1. High Availability, Load Balancing, and Replication
-  * 1. Recovery Configuration
-  * 1. Monitoring Database Activity
-  * 1. Monitoring Disk Usage
-  * 1. Reliability and the Write-Ahead Log
-  * 1. Logical Replication
-  * 1. Regression Tests
-
 * [IV. Client Interfaces](iv-client-interfaces.md)
-
-  * 1. libpq - C Library
-  * 1. Large Objects
-  * 1. ECPG - Embedded SQL in C
-  * 1. The Information Schema
-
 * [V. Server Programming](v-server-programming.md)
-  * 1. Extending SQL
-  * 1. Triggers
-  * 1. Event Triggers
-  * 1. The Rule System
-  * 1. Procedural Languages
-  * 1. PL/pgSQL - SQL Procedural Language
-  * 1. PL/Tcl - Tcl Procedural Language
-  * 1. PL/Perl - Perl Procedural Language
-  * 1. PL/Python - Python Procedural Language
-  * 1. Server Programming Interface
-  * 1. Background Worker Processes
-  * 1. Logical Decoding
-  * 1. Replication Progress Tracking
 * [VI. Reference](vi-reference.md)
   * I. SQL Commands
   * II. PostgreSQL Client Applications
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii-internals.md)
-  * 1. Overview of PostgreSQL Internals
-  * 1. System Catalogs
-  * 1. Frontend/Backend Protocol
-  * 1. PostgreSQL Coding Conventions
-  * 1. Native Language Support
-  * 1. Writing A Procedural Language Handler
-  * 1. Writing A Foreign Data Wrapper
-  * 1. Writing A Table Sampling Method
-  * 1. Writing A Custom Scan Provider
-  * 1. Genetic Query Optimizer
-  * 1. Index Access Method Interface Definition
-  * 1. Generic WAL Records
-  * 1. GiST Indexes
-  * 1. SP-GiST Indexes
-  * 1. GIN Indexes
-  * 1. BRIN Indexes
-  * 1. Database Physical Storage
-  * 1. BKI Backend Interface
-  * 1. How the Planner Uses Statistics
 * [VIII. 附錄](viii-appendixes.md)
   * [A. PostgreSQL錯誤代碼](viii-appendixes/postgresql-error-codes.md)
   * [B. 日期時間格式支援](viii-appendixes/datetime-support.md)
