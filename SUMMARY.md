@@ -33,9 +33,9 @@
     * [3.7. 結論](advanced-features/37-conclusion.md)
 * [II. SQL查詢語言](ii-the-sql-language.md)
   * [4. SQL語法](ii-the-sql-language/sql-syntax.md)
-    * 4.1. Lexical Structure
-    * 4.2. Value Expressions
-    * 4.3. Calling Functions
+    * [4.1. 語法結構](ii-the-sql-language/sql-syntax/41-lexical-structure.md)
+    * [4.2. 參數表示式](ii-the-sql-language/sql-syntax/42-value-expressions.md)
+    * [4.3. 函式呼叫](ii-the-sql-language/sql-syntax/43-calling-functions.md)
   * [5. Data Definition](ii-the-sql-language/data-definition.md)
     * 5.1. Table Basics
     * 5.2. Default Values
@@ -189,6 +189,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 
