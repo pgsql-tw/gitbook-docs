@@ -37,10 +37,10 @@
     * [4.2. 參數表示式](ii-the-sql-language/sql-syntax/42-value-expressions.md)
     * [4.3. 函式呼叫](ii-the-sql-language/sql-syntax/43-calling-functions.md)
   * [5. 定義資料結構](ii-the-sql-language/data-definition.md)
-    * 5.1. Table Basics
-    * 5.2. Default Values
-    * 5.3. Constraints
-    * 5.4. System Columns
+    * [5.1. 認識表格](ii-the-sql-language/data-definition/51-table-basics.md)
+    * [5.2. 預設值](ii-the-sql-language/data-definition/52-default-values.md)
+    * [5.3. 限制條件](ii-the-sql-language/data-definition/53-constraints.md)
+    * [5.4. System Columns](ii-the-sql-language/data-definition/54-system-columns.md)
     * 5.5. Modifying Tables
     * 5.6. Privileges
     * 5.7. Row Security Policies
