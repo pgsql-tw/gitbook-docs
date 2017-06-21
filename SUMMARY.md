@@ -85,7 +85,7 @@
     * 8.18. Object Identifier Types
     * 8.19. pg\_lsn Type
     * 8.20. Pseudo-Types
-  * Functions and Operators
+  * [Functions and Operators](ii-the-sql-language/functions-and-operators.md)
     * 9.1. Logical Operators
     * 9.2. Comparison Functions and Operators
     * 9.3. Mathematical Functions and Operators
