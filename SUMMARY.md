@@ -36,7 +36,7 @@
     * [4.1. 語法結構](ii-the-sql-language/sql-syntax/41-lexical-structure.md)
     * [4.2. 參數表示式](ii-the-sql-language/sql-syntax/42-value-expressions.md)
     * [4.3. 函式呼叫](ii-the-sql-language/sql-syntax/43-calling-functions.md)
-  * [5. Data Definition](ii-the-sql-language/data-definition.md)
+  * [5. 定義資料結構](ii-the-sql-language/data-definition.md)
     * 5.1. Table Basics
     * 5.2. Default Values
     * 5.3. Constraints
