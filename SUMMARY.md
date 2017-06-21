@@ -34,31 +34,8 @@
 * [II. SQL查詢語言](ii-the-sql-language.md)
   * [4. SQL語法](ii-the-sql-language/sql-syntax.md)
     * 4.1. Lexical Structure
-      * 4.1.1. Identifiers and Key Words
-      * 4.1.2. Constants
-      * 4.1.3. Operators
-      * 4.1.4. Special Characters
-      * 4.1.5. Comments
-      * 4.1.6. Operator Precedence
     * 4.2. Value Expressions
-      * 4.2.1. Column References
-      * 4.2.2. Positional Parameters
-      * 4.2.3. Subscripts
-      * 4.2.4. Field Selection
-      * 4.2.5. Operator Invocations
-      * 4.2.6. Function Calls
-      * 4.2.7. Aggregate Expressions
-      * 4.2.8. Window Function Calls
-      * 4.2.9. Type Casts
-      * 4.2.10. Collation Expressions
-      * 4.2.11. Scalar Subqueries
-      * 4.2.12. Array Constructors
-      * 4.2.13. Row Constructors
-      * 4.2.14. Expression Evaluation Rules
     * 4.3. Calling Functions
-      * 4.3.1. Using Positional Notation
-      * 4.3.2. Using Named Notation
-      * 4.3.3. Using Mixed Notation
   * [5. Data Definition](ii-the-sql-language/data-definition.md)
     * 5.1. Table Basics
     * 5.2. Default Values
