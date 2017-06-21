@@ -40,16 +40,16 @@
     * [5.1. 認識表格](ii-the-sql-language/data-definition/51-table-basics.md)
     * [5.2. 預設值](ii-the-sql-language/data-definition/52-default-values.md)
     * [5.3. 限制條件](ii-the-sql-language/data-definition/53-constraints.md)
-    * [5.4. System Columns](ii-the-sql-language/data-definition/54-system-columns.md)
-    * 5.5. Modifying Tables
-    * 5.6. Privileges
-    * 5.7. Row Security Policies
-    * 5.8. Schemas
-    * 5.9. Inheritance
-    * 5.10. Table Partitioning
-    * 5.11. Foreign Data
-    * 5.12. Other Database Objects
-    * 5.13. Dependency Tracking
+    * [5.4. 系統欄位](ii-the-sql-language/data-definition/54-system-columns.md)
+    * [5.5. 表格變更](ii-the-sql-language/data-definition/55-modifying-tables.md)
+    * [5.6. 權限](ii-the-sql-language/data-definition/56-privileges.md)
+    * [5.7. 安全原則](ii-the-sql-language/data-definition/57-row-security-policies.md)
+    * [5.8. Schemas](ii-the-sql-language/data-definition/58-schemas.md)
+    * [5.9. 繼承](ii-the-sql-language/data-definition/59-inheritance.md)
+    * [5.10. 分割表格](ii-the-sql-language/data-definition/510-table-partitioning.md)
+    * [5.11. 外部資料](ii-the-sql-language/data-definition/511-foreign-data.md)
+    * [5.12. 其他資料庫物件](ii-the-sql-language/data-definition/512-other-database-objects.md)
+    * [5.13. 相依性追蹤](ii-the-sql-language/data-definition/513-dependency-tracking.md)
   * [6. Data Manipulation](ii-the-sql-language/data-manipulation.md)
     * 6.1. Inserting Data
     * 6.2. Updating Data
