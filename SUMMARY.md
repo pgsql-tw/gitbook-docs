@@ -64,7 +64,7 @@
     * [7.6. 指定資料範圍](ii-the-sql-language/queries/76-limit-and-offset.md)
     * [7.7. 列舉資料](ii-the-sql-language/queries/77-values-lists.md)
     * [7.8. 遞迴查詢](ii-the-sql-language/queries/78-with-queries-common-table-expressions.md)
-  * Data Types
+  * [8. 資料型別](ii-the-sql-language/data-types.md)
     * 8.1. Numeric Types
     * 8.2. Monetary Types
     * 8.3. Character Types
