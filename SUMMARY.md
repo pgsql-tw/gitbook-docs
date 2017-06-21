@@ -31,62 +31,61 @@
     * [3.5. Window Functions](advanced-features/35-window-functions.md)
     * [3.6. 繼承](advanced-features/36-inheritance.md)
     * [3.7. 結論](advanced-features/37-conclusion.md)
+* [II. SQL查詢語言](ii-the-sql-language.md)
+  * [4. SQL Syntax](ii-the-sql-language/sql-syntax.md)
+    * 4.1. Lexical Structure
+    * 4.2. Value Expressions
+    * 4.3. Calling Functions
+  * [5. Data Definition](ii-the-sql-language/data-definition.md)
+    * 5.1. Table Basics
+    * 5.2. Default Values
+    * 5.3. Constraints
+    * 5.4. System Columns
+    * 5.5. Modifying Tables
+    * 5.6. Privileges
+    * 5.7. Row Security Policies
+    * 5.8. Schemas
+    * 5.9. Inheritance
+    * 5.10. Table Partitioning
+    * 5.11. Foreign Data
+    * 5.12. Other Database Objects
+    * 5.13. Dependency Tracking
+  * [6. Data Manipulation](ii-the-sql-language/data-manipulation.md)
+    * 6.1. Inserting Data
+    * 6.2. Updating Data
+    * 6.3. Deleting Data
+    * 6.4. Returning Data From Modified Rows
+  * [7. Queries](ii-the-sql-language/queries.md)
+    * 7.1. Overview
+    * 7.2. Table Expressions
+    * 7.3. Select Lists
+    * 7.4. Combining Queries
+    * 7.5. Sorting Rows
+    * 7.6. LIMIT and OFFSET
+    * 7.7. VALUES Lists
+    * 7.8. WITH Queries \(Common Table Expressions\)
+  * Data Types
+    * 8.1. Numeric Types
+    * 8.2. Monetary Types
+    * 8.3. Character Types
+    * 8.4. Binary Data Types
+    * 8.5. Date/Time Types
+    * 8.6. Boolean Type
+    * 8.7. Enumerated Types
+    * 8.8. Geometric Types
+    * 8.9. Network Address Types
+    * 8.10. Bit String Types
+    * 8.11. Text Search Types
+    * 8.12. UUID Type
+    * 8.13. XML Type
+    * 8.14. JSON Types
+    * 8.15. Arrays
+    * 8.16. Composite Types
+    * 8.17. Range Types
+    * 8.18. Object Identifier Types
+    * 8.19. pg\_lsn Type
+    * 8.20. Pseudo-Types
 
-[II. SQL查詢語言](ii-the-sql-language.md)
-
-* [4. SQL Syntax](ii-the-sql-language/sql-syntax.md)
-  * 4.1. Lexical Structure
-  * 4.2. Value Expressions
-  * 4.3. Calling Functions
-* [5. Data Definition](ii-the-sql-language/data-definition.md)
-  * 5.1. Table Basics
-  * 5.2. Default Values
-  * 5.3. Constraints
-  * 5.4. System Columns
-  * 5.5. Modifying Tables
-  * 5.6. Privileges
-  * 5.7. Row Security Policies
-  * 5.8. Schemas
-  * 5.9. Inheritance
-  * 5.10. Table Partitioning
-  * 5.11. Foreign Data
-  * 5.12. Other Database Objects
-  * 5.13. Dependency Tracking
-* [6. Data Manipulation](ii-the-sql-language/data-manipulation.md)
-  * 6.1. Inserting Data
-  * 6.2. Updating Data
-  * 6.3. Deleting Data
-  * 6.4. Returning Data From Modified Rows
-* [7. Queries](ii-the-sql-language/queries.md)
-  * 7.1. Overview
-  * 7.2. Table Expressions
-  * 7.3. Select Lists
-  * 7.4. Combining Queries
-  * 7.5. Sorting Rows
-  * 7.6. LIMIT and OFFSET
-  * 7.7. VALUES Lists
-  * 7.8. WITH Queries \(Common Table Expressions\)
-* Data Types
-  * 8.1. Numeric Types
-  * 8.2. Monetary Types
-  * 8.3. Character Types
-  * 8.4. Binary Data Types
-  * 8.5. Date/Time Types
-  * 8.6. Boolean Type
-  * 8.7. Enumerated Types
-  * 8.8. Geometric Types
-  * 8.9. Network Address Types
-  * 8.10. Bit String Types
-  * 8.11. Text Search Types
-  * 8.12. UUID Type
-  * 8.13. XML Type
-  * 8.14. JSON Types
-  * 8.15. Arrays
-  * 8.16. Composite Types
-  * 8.17. Range Types
-  * 8.18. Object Identifier Types
-  * 8.19. pg\_lsn Type
-  * 8.20. Pseudo-Types
 * Functions and Operators
   * 9.1. Logical Operators
   * 9.2. Comparison Functions and Operators
@@ -162,12 +161,14 @@
   * 14.4. Populating a Database
   * 14.5. Non-Durable Settings
 * Parallel Query
+
   * 15.1. How Parallel Query Works
   * 15.2. When Can Parallel Query Be Used?
   * 15.3. Parallel Plans
   * 15.4. Parallel Safety
 
 * [III. Server Administration](iii-server-administration.md)
+
   * 1. Installation from Source Code
   * 1. Installation from Source Code on Windows
   * 1. Server Setup and Operation
@@ -185,6 +186,7 @@
   * 1. Reliability and the Write-Ahead Log
   * 1. Logical Replication
   * 1. Regression Tests
+
 * [IV. Client Interfaces](iv-client-interfaces.md)
   * 1. libpq - C Library
   * 1. Large Objects
