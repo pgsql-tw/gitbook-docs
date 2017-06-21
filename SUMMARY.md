@@ -50,11 +50,11 @@
     * [5.11. 外部資料](ii-the-sql-language/data-definition/511-foreign-data.md)
     * [5.12. 其他資料庫物件](ii-the-sql-language/data-definition/512-other-database-objects.md)
     * [5.13. 相依性追蹤](ii-the-sql-language/data-definition/513-dependency-tracking.md)
-  * [6. Data Manipulation](ii-the-sql-language/data-manipulation.md)
-    * 6.1. Inserting Data
-    * 6.2. Updating Data
-    * 6.3. Deleting Data
-    * 6.4. Returning Data From Modified Rows
+  * [6. 資料處理](ii-the-sql-language/data-manipulation.md)
+    * [6.1. 新增資料](ii-the-sql-language/data-manipulation/61-inserting-data.md)
+    * [6.2. 更新資料](ii-the-sql-language/data-manipulation/62-updating-data.md)
+    * [6.3. 刪除資料](ii-the-sql-language/data-manipulation/63-deleting-data.md)
+    * [6.4. 修改並回傳資料](ii-the-sql-language/data-manipulation/64-returning-data-from-modified-rows.md)
   * [7. Queries](ii-the-sql-language/queries.md)
     * 7.1. Overview
     * 7.2. Table Expressions
