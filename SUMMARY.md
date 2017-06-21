@@ -32,6 +32,7 @@
     * [3.6. 繼承](advanced-features/36-inheritance.md)
     * [3.7. 結論](advanced-features/37-conclusion.md)
 * [II. SQL查詢語言](ii-the-sql-language.md)
+
   * [4. SQL Syntax](ii-the-sql-language/sql-syntax.md)
     * 4.1. Lexical Structure
     * 4.2. Value Expressions
@@ -85,87 +86,88 @@
     * 8.18. Object Identifier Types
     * 8.19. pg\_lsn Type
     * 8.20. Pseudo-Types
+  * Functions and Operators
 
-* Functions and Operators
-  * 9.1. Logical Operators
-  * 9.2. Comparison Functions and Operators
-  * 9.3. Mathematical Functions and Operators
-  * 9.4. String Functions and Operators
-  * 9.5. Binary String Functions and Operators
-  * 9.6. Bit String Functions and Operators
-  * 9.7. Pattern Matching
-  * 9.8. Data Type Formatting Functions
-  * 9.9. Date/Time Functions and Operators
-  * 9.10. Enum Support Functions
-  * 9.11. Geometric Functions and Operators
-  * 9.12. Network Address Functions and Operators
-  * 9.13. Text Search Functions and Operators
-  * 9.14. XML Functions
-  * 9.15. JSON Functions and Operators
-  * 9.16. Sequence Manipulation Functions
-  * 9.17. Conditional Expressions
-  * 9.18. Array Functions and Operators
-  * 9.19. Range Functions and Operators
-  * 9.20. Aggregate Functions
-  * 9.21. Window Functions
-  * 9.22. Subquery Expressions
-  * 9.23. Row and Array Comparisons
-  * 9.24. Set Returning Functions
-  * 9.25. System Information Functions
-  * 9.26. System Administration Functions
-  * 9.27. Trigger Functions
-  * 9.28. Event Trigger Functions
-* Type Conversion
-  * 10.1. Overview
-  * 10.2. Operators
-  * 10.3. Functions
-  * 10.4. Value Storage
-  * 10.5. UNION, CASE, and Related Constructs
-  * 10.6. SELECT Output Columns
-* Indexes
-  * 11.1. Introduction
-  * 11.2. Index Types
-  * 11.3. Multicolumn Indexes
-  * 11.4. Indexes and ORDER BY
-  * 11.5. Combining Multiple Indexes
-  * 11.6. Unique Indexes
-  * 11.7. Indexes on Expressions
-  * 11.8. Partial Indexes
-  * 11.9. Operator Classes and Operator Families
-  * 11.10. Indexes and Collations
-  * 11.11. Index-Only Scans
-  * 11.12. Examining Index Usage
-* Full Text Search
-  * 12.1. Introduction
-  * 12.2. Tables and Indexes
-  * 12.3. Controlling Text Search
-  * 12.4. Additional Features
-  * 12.5. Parsers
-  * 12.6. Dictionaries
-  * 12.7. Configuration Example
-  * 12.8. Testing and Debugging Text Search
-  * 12.9. GIN and GiST Index Types
-  * 12.10. psql Support
-  * 12.11. Limitations
-* Concurrency Control
-  * 13.1. Introduction
-  * 13.2. Transaction Isolation
-  * 13.3. Explicit Locking
-  * 13.4. Data Consistency Checks at the Application Level
-  * 13.5. Caveats
-  * 13.6. Locking and Indexes
-* Performance Tips
-  * 14.1. Using EXPLAIN
-  * 14.2. Statistics Used by the Planner
-  * 14.3. Controlling the Planner with Explicit JOIN Clauses
-  * 14.4. Populating a Database
-  * 14.5. Non-Durable Settings
-* Parallel Query
+    * 9.1. Logical Operators
+    * 9.2. Comparison Functions and Operators
+    * 9.3. Mathematical Functions and Operators
+    * 9.4. String Functions and Operators
+    * 9.5. Binary String Functions and Operators
+    * 9.6. Bit String Functions and Operators
+    * 9.7. Pattern Matching
+    * 9.8. Data Type Formatting Functions
+    * 9.9. Date/Time Functions and Operators
+    * 9.10. Enum Support Functions
+    * 9.11. Geometric Functions and Operators
+    * 9.12. Network Address Functions and Operators
+    * 9.13. Text Search Functions and Operators
+    * 9.14. XML Functions
+    * 9.15. JSON Functions and Operators
+    * 9.16. Sequence Manipulation Functions
+    * 9.17. Conditional Expressions
+    * 9.18. Array Functions and Operators
+    * 9.19. Range Functions and Operators
+    * 9.20. Aggregate Functions
+    * 9.21. Window Functions
+    * 9.22. Subquery Expressions
+    * 9.23. Row and Array Comparisons
+    * 9.24. Set Returning Functions
+    * 9.25. System Information Functions
+    * 9.26. System Administration Functions
+    * 9.27. Trigger Functions
+    * 9.28. Event Trigger Functions
 
-  * 15.1. How Parallel Query Works
-  * 15.2. When Can Parallel Query Be Used?
-  * 15.3. Parallel Plans
-  * 15.4. Parallel Safety
+  * Type Conversion
+    * 10.1. Overview
+    * 10.2. Operators
+    * 10.3. Functions
+    * 10.4. Value Storage
+    * 10.5. UNION, CASE, and Related Constructs
+    * 10.6. SELECT Output Columns
+  * Indexes
+    * 11.1. Introduction
+    * 11.2. Index Types
+    * 11.3. Multicolumn Indexes
+    * 11.4. Indexes and ORDER BY
+    * 11.5. Combining Multiple Indexes
+    * 11.6. Unique Indexes
+    * 11.7. Indexes on Expressions
+    * 11.8. Partial Indexes
+    * 11.9. Operator Classes and Operator Families
+    * 11.10. Indexes and Collations
+    * 11.11. Index-Only Scans
+    * 11.12. Examining Index Usage
+  * Full Text Search
+    * 12.1. Introduction
+    * 12.2. Tables and Indexes
+    * 12.3. Controlling Text Search
+    * 12.4. Additional Features
+    * 12.5. Parsers
+    * 12.6. Dictionaries
+    * 12.7. Configuration Example
+    * 12.8. Testing and Debugging Text Search
+    * 12.9. GIN and GiST Index Types
+    * 12.10. psql Support
+    * 12.11. Limitations
+  * Concurrency Control
+    * 13.1. Introduction
+    * 13.2. Transaction Isolation
+    * 13.3. Explicit Locking
+    * 13.4. Data Consistency Checks at the Application Level
+    * 13.5. Caveats
+    * 13.6. Locking and Indexes
+  * Performance Tips
+    * 14.1. Using EXPLAIN
+    * 14.2. Statistics Used by the Planner
+    * 14.3. Controlling the Planner with Explicit JOIN Clauses
+    * 14.4. Populating a Database
+    * 14.5. Non-Durable Settings
+  * Parallel Query
+
+    * 15.1. How Parallel Query Works
+    * 15.2. When Can Parallel Query Be Used?
+    * 15.3. Parallel Plans
+    * 15.4. Parallel Safety
 
 * [III. Server Administration](iii-server-administration.md)
 
@@ -188,10 +190,12 @@
   * 1. Regression Tests
 
 * [IV. Client Interfaces](iv-client-interfaces.md)
+
   * 1. libpq - C Library
   * 1. Large Objects
   * 1. ECPG - Embedded SQL in C
   * 1. The Information Schema
+
 * [V. Server Programming](v-server-programming.md)
   * 1. Extending SQL
   * 1. Triggers
