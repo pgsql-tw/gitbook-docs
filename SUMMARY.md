@@ -65,11 +65,11 @@
     * [7.7. 列舉資料](ii-the-sql-language/queries/77-values-lists.md)
     * [7.8. 遞迴查詢](ii-the-sql-language/queries/78-with-queries-common-table-expressions.md)
   * [8. 資料型別](ii-the-sql-language/data-types.md)
-    * 8.1. Numeric Types
-    * 8.2. Monetary Types
-    * 8.3. Character Types
-    * 8.4. Binary Data Types
-    * 8.5. Date/Time Types
+    * [8.1. 數字型別](ii-the-sql-language/data-types/81-numeric-types.md)
+    * [8.2. 貨幣型別](ii-the-sql-language/data-types/82-monetary-types.md)
+    * [8.3. 文字型別](ii-the-sql-language/data-types/83-character-types.md)
+    * [8.4. 位元組型別](ii-the-sql-language/data-types/84-binary-data-types.md)
+    * [8.5. 日期時間型別](ii-the-sql-language/data-types/85-datetime-types.md)
     * 8.6. Boolean Type
     * 8.7. Enumerated Types
     * 8.8. Geometric Types
