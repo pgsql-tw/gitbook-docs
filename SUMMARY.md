@@ -64,7 +64,7 @@
     * 7.6. LIMIT and OFFSET
     * 7.7. VALUES Lists
     * 7.8. WITH Queries \(Common Table Expressions\)
-  * 8. Data Types
+  * Data Types
     * 8.1. Numeric Types
     * 8.2. Monetary Types
     * 8.3. Character Types
@@ -85,7 +85,7 @@
     * 8.18. Object Identifier Types
     * 8.19. pg\_lsn Type
     * 8.20. Pseudo-Types
-  * 9. Functions and Operators
+  * Functions and Operators
     * 9.1. Logical Operators
     * 9.2. Comparison Functions and Operators
     * 9.3. Mathematical Functions and Operators
@@ -114,14 +114,14 @@
     * 9.26. System Administration Functions
     * 9.27. Trigger Functions
     * 9.28. Event Trigger Functions
-  * 10. Type Conversion
+  * Type Conversion
     * 10.1. Overview
     * 10.2. Operators
     * 10.3. Functions
     * 10.4. Value Storage
     * 10.5. UNION, CASE, and Related Constructs
     * 10.6. SELECT Output Columns
-  * 11. Indexes
+  * Indexes
     * 11.1. Introduction
     * 11.2. Index Types
     * 11.3. Multicolumn Indexes
@@ -134,7 +134,7 @@
     * 11.10. Indexes and Collations
     * 11.11. Index-Only Scans
     * 11.12. Examining Index Usage
-  * 12. Full Text Search
+  * Full Text Search
     * 12.1. Introduction
     * 12.2. Tables and Indexes
     * 12.3. Controlling Text Search
@@ -146,85 +146,87 @@
     * 12.9. GIN and GiST Index Types
     * 12.10. psql Support
     * 12.11. Limitations
-  * 13. Concurrency Control
+  * Concurrency Control
     * 13.1. Introduction
     * 13.2. Transaction Isolation
     * 13.3. Explicit Locking
     * 13.4. Data Consistency Checks at the Application Level
     * 13.5. Caveats
     * 13.6. Locking and Indexes
-  * 14. Performance Tips
-    * 14.1. Using EXPLAIN
-    * 14.2. Statistics Used by the Planner
-    * 14.3. Controlling the Planner with Explicit JOIN Clauses
-    * 14.4. Populating a Database
-    * 14.5. Non-Durable Settings
-  * 15. Parallel Query
-    * 15.1. How Parallel Query Works
-    * 15.2. When Can Parallel Query Be Used?
-    * 15.3. Parallel Plans
-    * 15.4. Parallel Safety
+
+  Performance Tips
+  1. 14.1. Using EXPLAIN
+  2. 14.2. Statistics Used by the Planner
+  3. 14.3. Controlling the Planner with Explicit JOIN Clauses
+  4. 14.4. Populating a Database
+  5. 14.5. Non-Durable Settings
+
+  1. Parallel Query
+  2. 15.1. How Parallel Query Works
+  3. 15.2. When Can Parallel Query Be Used?
+  4. 15.3. Parallel Plans
+  5. 15.4. Parallel Safety
 * [III. Server Administration](iii-server-administration.md)
-  * 16. Installation from Source Code
-  * 17. Installation from Source Code on Windows
-  * 18. Server Setup and Operation
-  * 19. Server Configuration
-  * 20. Client Authentication
-  * 21. Database Roles
-  * 22. Managing Databases
-  * 23. Localization
-  * 24. Routine Database Maintenance Tasks
-  * 25. Backup and Restore
-  * 26. High Availability, Load Balancing, and Replication
-  * 27. Recovery Configuration
-  * 28. Monitoring Database Activity
-  * 29. Monitoring Disk Usage
-  * 30. Reliability and the Write-Ahead Log
-  * 31. Logical Replication
-  * 32. Regression Tests
+  * 1. Installation from Source Code
+  * 1. Installation from Source Code on Windows
+  * 1. Server Setup and Operation
+  * 1. Server Configuration
+  * 1. Client Authentication
+  * 1. Database Roles
+  * 1. Managing Databases
+  * 1. Localization
+  * 1. Routine Database Maintenance Tasks
+  * 1. Backup and Restore
+  * 1. High Availability, Load Balancing, and Replication
+  * 1. Recovery Configuration
+  * 1. Monitoring Database Activity
+  * 1. Monitoring Disk Usage
+  * 1. Reliability and the Write-Ahead Log
+  * 1. Logical Replication
+  * 1. Regression Tests
 * [IV. Client Interfaces](iv-client-interfaces.md)
-  * 33. libpq - C Library
-  * 34. Large Objects
-  * 35. ECPG - Embedded SQL in C
-  * 36. The Information Schema
+  * 1. libpq - C Library
+  * 1. Large Objects
+  * 1. ECPG - Embedded SQL in C
+  * 1. The Information Schema
 * [V. Server Programming](v-server-programming.md)
-  * 37. Extending SQL
-  * 38. Triggers
-  * 39. Event Triggers
-  * 40. The Rule System
-  * 41. Procedural Languages
-  * 42. PL/pgSQL - SQL Procedural Language
-  * 43. PL/Tcl - Tcl Procedural Language
-  * 44. PL/Perl - Perl Procedural Language
-  * 45. PL/Python - Python Procedural Language
-  * 46. Server Programming Interface
-  * 47. Background Worker Processes
-  * 48. Logical Decoding
-  * 49. Replication Progress Tracking
+  * 1. Extending SQL
+  * 1. Triggers
+  * 1. Event Triggers
+  * 1. The Rule System
+  * 1. Procedural Languages
+  * 1. PL/pgSQL - SQL Procedural Language
+  * 1. PL/Tcl - Tcl Procedural Language
+  * 1. PL/Perl - Perl Procedural Language
+  * 1. PL/Python - Python Procedural Language
+  * 1. Server Programming Interface
+  * 1. Background Worker Processes
+  * 1. Logical Decoding
+  * 1. Replication Progress Tracking
 * [VI. Reference](vi-reference.md)
   * I. SQL Commands
   * II. PostgreSQL Client Applications
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii-internals.md)
-  * 50. Overview of PostgreSQL Internals
-  * 51. System Catalogs
-  * 52. Frontend/Backend Protocol
-  * 53. PostgreSQL Coding Conventions
-  * 54. Native Language Support
-  * 55. Writing A Procedural Language Handler
-  * 56. Writing A Foreign Data Wrapper
-  * 57. Writing A Table Sampling Method
-  * 58. Writing A Custom Scan Provider
-  * 59. Genetic Query Optimizer
-  * 60. Index Access Method Interface Definition
-  * 61. Generic WAL Records
-  * 62. GiST Indexes
-  * 63. SP-GiST Indexes
-  * 64. GIN Indexes
-  * 65. BRIN Indexes
-  * 66. Database Physical Storage
-  * 67. BKI Backend Interface
-  * 68. How the Planner Uses Statistics
+  * 1. Overview of PostgreSQL Internals
+  * 1. System Catalogs
+  * 1. Frontend/Backend Protocol
+  * 1. PostgreSQL Coding Conventions
+  * 1. Native Language Support
+  * 1. Writing A Procedural Language Handler
+  * 1. Writing A Foreign Data Wrapper
+  * 1. Writing A Table Sampling Method
+  * 1. Writing A Custom Scan Provider
+  * 1. Genetic Query Optimizer
+  * 1. Index Access Method Interface Definition
+  * 1. Generic WAL Records
+  * 1. GiST Indexes
+  * 1. SP-GiST Indexes
+  * 1. GIN Indexes
+  * 1. BRIN Indexes
+  * 1. Database Physical Storage
+  * 1. BKI Backend Interface
+  * 1. How the Planner Uses Statistics
 * [VIII. 附錄](viii-appendixes.md)
   * [A. PostgreSQL錯誤代碼](viii-appendixes/postgresql-error-codes.md)
   * [B. 日期時間格式支援](viii-appendixes/datetime-support.md)
