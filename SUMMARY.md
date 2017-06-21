@@ -55,15 +55,15 @@
     * [6.2. 更新資料](ii-the-sql-language/data-manipulation/62-updating-data.md)
     * [6.3. 刪除資料](ii-the-sql-language/data-manipulation/63-deleting-data.md)
     * [6.4. 修改並回傳資料](ii-the-sql-language/data-manipulation/64-returning-data-from-modified-rows.md)
-  * [7. Queries](ii-the-sql-language/queries.md)
-    * 7.1. Overview
-    * 7.2. Table Expressions
-    * 7.3. Select Lists
-    * 7.4. Combining Queries
-    * 7.5. Sorting Rows
-    * 7.6. LIMIT and OFFSET
-    * 7.7. VALUES Lists
-    * 7.8. WITH Queries \(Common Table Expressions\)
+  * [7. 資料查詢](ii-the-sql-language/queries.md)
+    * [7.1. 概觀](ii-the-sql-language/queries/71-overview.md)
+    * [7.2. 表格表示式](ii-the-sql-language/queries/72-table-expressions.md)
+    * [7.3. 取得資料列表](ii-the-sql-language/queries/73-select-lists.md)
+    * [7.4. 合併查詢結果](ii-the-sql-language/queries/74-combining-queries.md)
+    * [7.5. 資料排序](ii-the-sql-language/queries/75-sorting-rows.md)
+    * [7.6. 指定資料範圍](ii-the-sql-language/queries/76-limit-and-offset.md)
+    * [7.7. 列舉資料](ii-the-sql-language/queries/77-values-lists.md)
+    * [7.8. 遞迴查詢](ii-the-sql-language/queries/78-with-queries-common-table-expressions.md)
   * Data Types
     * 8.1. Numeric Types
     * 8.2. Monetary Types
@@ -189,6 +189,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 
