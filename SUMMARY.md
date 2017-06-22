@@ -80,11 +80,11 @@
     * [8.13. XML型別](ii-the-sql-language/data-types/813-xml-type.md)
     * [8.14. JSON型別](ii-the-sql-language/data-types/814-json-types.md)
     * [8.15. 陣列](ii-the-sql-language/data-types/815-arrays.md)
-    * 8.16. Composite Types
-    * 8.17. Range Types
-    * 8.18. Object Identifier Types
-    * 8.19. pg\_lsn Type
-    * 8.20. Pseudo-Types
+    * [8.16. 複合型別](ii-the-sql-language/data-types/816-composite-types.md)
+    * [8.17. 範圍型別](ii-the-sql-language/data-types/817-range-types.md)
+    * [8.18. 指標型別](ii-the-sql-language/data-types/818-object-identifier-types.md)
+    * [8.19. pg\_lsn型別](ii-the-sql-language/data-types/819-pglsn-type.md)
+    * [8.20. 概念型別](ii-the-sql-language/data-types/820-pseudo-types.md)
   * [Functions and Operators](ii-the-sql-language/functions-and-operators.md)
     * 9.1. Logical Operators
     * 9.2. Comparison Functions and Operators
