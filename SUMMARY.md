@@ -70,11 +70,11 @@
     * [8.3. 文字型別](ii-the-sql-language/data-types/83-character-types.md)
     * [8.4. 位元組型別](ii-the-sql-language/data-types/84-binary-data-types.md)
     * [8.5. 日期時間型別](ii-the-sql-language/data-types/85-datetime-types.md)
-    * 8.6. Boolean Type
-    * 8.7. Enumerated Types
-    * 8.8. Geometric Types
-    * 8.9. Network Address Types
-    * 8.10. Bit String Types
+    * [8.6. 布林型別](ii-the-sql-language/data-types/86-boolean-type.md)
+    * [8.7. 列舉型別](ii-the-sql-language/data-types/87-enumerated-types.md)
+    * [8.8. 地理資訊型別](ii-the-sql-language/data-types/88-geometric-types.md)
+    * [8.9. 網路資訊型別](ii-the-sql-language/data-types/89-network-address-types.md)
+    * [8.10. 位元字串型別](ii-the-sql-language/data-types/810-bit-string-types.md)
     * 8.11. Text Search Types
     * 8.12. UUID Type
     * 8.13. XML Type
