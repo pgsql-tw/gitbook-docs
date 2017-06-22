@@ -75,11 +75,11 @@
     * [8.8. 地理資訊型別](ii-the-sql-language/data-types/88-geometric-types.md)
     * [8.9. 網路資訊型別](ii-the-sql-language/data-types/89-network-address-types.md)
     * [8.10. 位元字串型別](ii-the-sql-language/data-types/810-bit-string-types.md)
-    * 8.11. Text Search Types
-    * 8.12. UUID Type
-    * 8.13. XML Type
-    * 8.14. JSON Types
-    * 8.15. Arrays
+    * [8.11. 全文檢索型別](ii-the-sql-language/data-types/811-text-search-types.md)
+    * [8.12. UUID型別](ii-the-sql-language/data-types/812-uuid-type.md)
+    * [8.13. XML型別](ii-the-sql-language/data-types/813-xml-type.md)
+    * [8.14. JSON型別](ii-the-sql-language/data-types/814-json-types.md)
+    * [8.15. 陣列](ii-the-sql-language/data-types/815-arrays.md)
     * 8.16. Composite Types
     * 8.17. Range Types
     * 8.18. Object Identifier Types
