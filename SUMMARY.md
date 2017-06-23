@@ -91,9 +91,9 @@
     * [9.3. 數學函式及運算子](ii-the-sql-language/functions-and-operators/93-mathematical-functions-and-operators.md)
     * [9.4. 字串函式及運算子](ii-the-sql-language/functions-and-operators/94-string-functions-and-operators.md)
     * [9.5. 位元字串函式及運算子](ii-the-sql-language/functions-and-operators/95-binary-string-functions-and-operators.md)
-    * 9.6. Bit String Functions and Operators
-    * 9.7. Pattern Matching
-    * 9.8. Data Type Formatting Functions
+    * [9.6. 二元字串函式及運算子](ii-the-sql-language/functions-and-operators/96-bit-string-functions-and-operators.md)
+    * [9.7. 樣式比對](ii-the-sql-language/functions-and-operators/97-pattern-matching.md)
+    * [9.8. 型別轉換函式](ii-the-sql-language/functions-and-operators/98-data-type-formatting-functions.md)
     * 9.9. Date/Time Functions and Operators
     * 9.10. Enum Support Functions
     * 9.11. Geometric Functions and Operators
