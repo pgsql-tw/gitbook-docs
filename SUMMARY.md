@@ -85,7 +85,7 @@
     * [8.18. 指標型別](ii-the-sql-language/data-types/818-object-identifier-types.md)
     * [8.19. pg\_lsn型別](ii-the-sql-language/data-types/819-pglsn-type.md)
     * [8.20. 概念型別](ii-the-sql-language/data-types/820-pseudo-types.md)
-  * [Functions and Operators](ii-the-sql-language/functions-and-operators.md)
+  * [9. 函式及運算子](ii-the-sql-language/functions-and-operators.md)
     * 9.1. Logical Operators
     * 9.2. Comparison Functions and Operators
     * 9.3. Mathematical Functions and Operators
