@@ -86,11 +86,11 @@
     * [8.19. pg\_lsn型別](ii-the-sql-language/data-types/819-pglsn-type.md)
     * [8.20. 概念型別](ii-the-sql-language/data-types/820-pseudo-types.md)
   * [9. 函式及運算子](ii-the-sql-language/functions-and-operators.md)
-    * 9.1. Logical Operators
-    * 9.2. Comparison Functions and Operators
-    * 9.3. Mathematical Functions and Operators
-    * 9.4. String Functions and Operators
-    * 9.5. Binary String Functions and Operators
+    * [9.1. 邏輯運算子](ii-the-sql-language/functions-and-operators/91-logical-operators.md)
+    * [9.2. 比較函式及運算子](ii-the-sql-language/functions-and-operators/92-comparison-functions-and-operators.md)
+    * [9.3. 數學函式及運算子](ii-the-sql-language/functions-and-operators/93-mathematical-functions-and-operators.md)
+    * [9.4. 字串函式及運算子](ii-the-sql-language/functions-and-operators/94-string-functions-and-operators.md)
+    * [9.5. 位元字串函式及運算子](ii-the-sql-language/functions-and-operators/95-binary-string-functions-and-operators.md)
     * 9.6. Bit String Functions and Operators
     * 9.7. Pattern Matching
     * 9.8. Data Type Formatting Functions
