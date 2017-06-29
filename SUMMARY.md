@@ -97,7 +97,7 @@
     * [9.9 日期時間函式及運算子](ii-the-sql-language/functions-and-operators/99-datetime-functions-and-operators.md)
     * [9.10. 列舉型別函式](ii-the-sql-language/functions-and-operators/910-enum-support-functions.md)
     * [9.11. 地理資訊函式及運算子](ii-the-sql-language/functions-and-operators/911-geometric-functions-and-operators.md)
-    * 9.12. Network Address Functions and Operators
+    * [9.12. 網路位址函式及運算子](ii-the-sql-language/functions-and-operators/912-network-address-functions-and-operators.md)
     * 9.13. Text Search Functions and Operators
     * 9.14. XML Functions
     * 9.15. JSON Functions and Operators
