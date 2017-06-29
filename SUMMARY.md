@@ -108,7 +108,7 @@
     * [9.20. 彙總函式](ii-the-sql-language/functions-and-operators/920-aggregate-functions.md)
     * [9.21. Window函式](ii-the-sql-language/functions-and-operators/921-window-functions.md)
     * [9.22. 子查詢](ii-the-sql-language/functions-and-operators/922-subquery-expressions.md)
-    * 9.23. Row and Array Comparisons
+    * [9.23. Row and Array Comparisons](ii-the-sql-language/functions-and-operators/923-row-and-array-comparisons.md)
     * 9.24. Set Returning Functions
     * 9.25. System Information Functions
     * 9.26. System Administration Functions
