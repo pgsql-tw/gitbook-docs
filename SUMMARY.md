@@ -101,9 +101,9 @@
     * [9.13. 文字檢索函式及運算子](ii-the-sql-language/functions-and-operators/913-text-search-functions-and-operators.md)
     * [9.14. XML函式](ii-the-sql-language/functions-and-operators/914-xml-functions.md)
     * [9.15. JSON函式及運算子](ii-the-sql-language/functions-and-operators/915-json-functions-and-operators.md)
-    * 9.16. Sequence Manipulation Functions
-    * 9.17. Conditional Expressions
-    * 9.18. Array Functions and Operators
+    * [9.16. 序列函式](ii-the-sql-language/functions-and-operators/916-sequence-manipulation-functions.md)
+    * [9.17. 條件表示式](ii-the-sql-language/functions-and-operators/917-conditional-expressions.md)
+    * [9.18. 陣列函式及運算子](ii-the-sql-language/functions-and-operators/918-array-functions-and-operators.md)
     * 9.19. Range Functions and Operators
     * 9.20. Aggregate Functions
     * 9.21. Window Functions
