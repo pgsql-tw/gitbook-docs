@@ -104,8 +104,8 @@
     * [9.16. 序列函式](ii-the-sql-language/functions-and-operators/916-sequence-manipulation-functions.md)
     * [9.17. 條件表示式](ii-the-sql-language/functions-and-operators/917-conditional-expressions.md)
     * [9.18. 陣列函式及運算子](ii-the-sql-language/functions-and-operators/918-array-functions-and-operators.md)
-    * 9.19. Range Functions and Operators
-    * 9.20. Aggregate Functions
+    * [9.19. 範圍函式及運算子](ii-the-sql-language/functions-and-operators/919-range-functions-and-operators.md)
+    * [9.20. 彙總函式](ii-the-sql-language/functions-and-operators/920-aggregate-functions.md)
     * 9.21. Window Functions
     * 9.22. Subquery Expressions
     * 9.23. Row and Array Comparisons
