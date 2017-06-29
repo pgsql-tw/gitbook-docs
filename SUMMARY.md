@@ -106,8 +106,8 @@
     * [9.18. 陣列函式及運算子](ii-the-sql-language/functions-and-operators/918-array-functions-and-operators.md)
     * [9.19. 範圍函式及運算子](ii-the-sql-language/functions-and-operators/919-range-functions-and-operators.md)
     * [9.20. 彙總函式](ii-the-sql-language/functions-and-operators/920-aggregate-functions.md)
-    * 9.21. Window Functions
-    * 9.22. Subquery Expressions
+    * [9.21. Window函式](ii-the-sql-language/functions-and-operators/921-window-functions.md)
+    * [9.22. 子查詢](ii-the-sql-language/functions-and-operators/922-subquery-expressions.md)
     * 9.23. Row and Array Comparisons
     * 9.24. Set Returning Functions
     * 9.25. System Information Functions
