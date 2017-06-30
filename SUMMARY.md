@@ -108,12 +108,12 @@
     * [9.20. 彙總函式](ii-the-sql-language/functions-and-operators/920-aggregate-functions.md)
     * [9.21. Window函式](ii-the-sql-language/functions-and-operators/921-window-functions.md)
     * [9.22. 子查詢](ii-the-sql-language/functions-and-operators/922-subquery-expressions.md)
-    * [9.23. Row and Array Comparisons](ii-the-sql-language/functions-and-operators/923-row-and-array-comparisons.md)
-    * 9.24. Set Returning Functions
-    * 9.25. System Information Functions
-    * 9.26. System Administration Functions
-    * 9.27. Trigger Functions
-    * 9.28. Event Trigger Functions
+    * [9.23. 列與陣列的差異](ii-the-sql-language/functions-and-operators/923-row-and-array-comparisons.md)
+    * [9.24. 集合回傳函式](ii-the-sql-language/functions-and-operators/924-set-returning-functions.md)
+    * [9.25. 系統資訊函式](ii-the-sql-language/functions-and-operators/925-system-information-functions.md)
+    * [9.26. 系統管理函式](ii-the-sql-language/functions-and-operators/926-system-administration-functions.md)
+    * [9.27. 觸發函式](ii-the-sql-language/functions-and-operators/927-trigger-functions.md)
+    * [9.28. 事件觸發函式](ii-the-sql-language/functions-and-operators/928-event-trigger-function.md)
   * Type Conversion
     * 10.1. Overview
     * 10.2. Operators
