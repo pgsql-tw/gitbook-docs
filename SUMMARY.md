@@ -114,13 +114,13 @@
     * [9.26. 系統管理函式](ii-the-sql-language/functions-and-operators/926-system-administration-functions.md)
     * [9.27. 觸發函式](ii-the-sql-language/functions-and-operators/927-trigger-functions.md)
     * [9.28. 事件觸發函式](ii-the-sql-language/functions-and-operators/928-event-trigger-function.md)
-  * Type Conversion
-    * 10.1. Overview
-    * 10.2. Operators
-    * 10.3. Functions
-    * 10.4. Value Storage
-    * 10.5. UNION, CASE, and Related Constructs
-    * 10.6. SELECT Output Columns
+  * [10. 型別轉換](ii-the-sql-language/type-conversion.md)
+    * [10.1. 概觀](ii-the-sql-language/type-conversion/101-overview.md)
+    * [10.2. 運算子](ii-the-sql-language/type-conversion/102-operators.md)
+    * [10.3. 函式](ii-the-sql-language/type-conversion/103-functions.md)
+    * [10.4. 儲存轉換規則](ii-the-sql-language/type-conversion/104-value-storage.md)
+    * [10.5. UNION、CASE等相關操作](ii-the-sql-language/type-conversion/105-union-case-and-related-constructs.md)
+    * [10.6. SELECT輸出規則](ii-the-sql-language/type-conversion/106-select-output-columns.md)
   * Indexes
     * 11.1. Introduction
     * 11.2. Index Types
