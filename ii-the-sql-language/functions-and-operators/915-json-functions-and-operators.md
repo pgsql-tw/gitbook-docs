@@ -2,7 +2,7 @@
 
 [Table 9.43](https://www.postgresql.org/docs/10/static/functions-json.html#functions-json-op-table)shows the operators that are available for use with the two JSON data types \(see[Section 8.14](https://www.postgresql.org/docs/10/static/datatype-json.html)\).
 
-**Table 9.43. `json`and`jsonb`Operators**
+**Table 9.43. **`json`**and**`jsonb`**Operators**
 
 | Operator | Right Operand Type | Description | Example | Example Result |
 | :--- | :--- | :--- | :--- | :--- |
@@ -13,8 +13,6 @@
 | `#>` | `text[]` | Get JSON object at specified path | `'{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}'` | `{"c": "foo"}` |
 | `#>>` | `text[]` | Get JSON object at specified path as`text` | `'{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}'` | `3` |
 
-
-
 ### Note
 
 There are parallel variants of these operators for both the`json`and`jsonb`types. The field/element/path extraction operators return the same type as their left-hand input \(either`json`or`jsonb`\), except for those specified as returning`text`, which coerce the value to text. The field/element/path extraction operators return NULL, rather than failing, if the JSON input does not have the right structure to match the request; for example if no such element exists. The field/element/path extraction operators that accept integer JSON array subscripts all support negative subscripting from the end of arrays.
@@ -23,7 +21,20 @@ The standard comparison operators shown in[Table 9.1](https://www.postgresql.org
 
 Some further operators also exist only for`jsonb`, as shown in[Table 9.44](https://www.postgresql.org/docs/10/static/functions-json.html#functions-jsonb-op-table). Many of these operators can be indexed by`jsonb`operator classes. For a full description of`jsonb`containment and existence semantics, see[Section 8.14.3](https://www.postgresql.org/docs/10/static/datatype-json.html#json-containment).[Section 8.14.4](https://www.postgresql.org/docs/10/static/datatype-json.html#json-indexing)describes how these operators can be used to effectively index`jsonb`data.
 
-**Table 9.44. Additional**`jsonb`**Operators**
+**Table 9.44. Additional`jsonb`Operators**
+
+| Operator | Right Operand Type | Description | Example |
+| :--- | :--- | :--- | :--- |
+| `@>` | `jsonb` | Does the left JSON value contain the right JSON path/value entries at the top level? | `'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb` |
+| `<@` | `jsonb` | Are the left JSON path/value entries contained at the top level within the right JSON value? | `'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb` |
+| `?` | `text` | Does the_string_exist as a top-level key within the JSON value? | `'{"a":1, "b":2}'::jsonb ? 'b'` |
+| `?|` | `text[]` | Do any of these array_strings_exist as top-level keys? | `'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']` |
+| `?&` | `text[]` | Do all of these array_strings_exist as top-level keys? | `'["a", "b"]'::jsonb ?& array['a', 'b']` |
+| `||` | `jsonb` | Concatenate two`jsonb`values into a new`jsonb`value | `'["a", "b"]'::jsonb || '["c", "d"]'::jsonb` |
+| `-` | `text` | Delete key/value pair or_string_element from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b"}'::jsonb - 'a'` |
+| `-` | `text[]` | Delete multiple key/value pairs or_string_elements from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]` |
+| `-` | `integer` | Delete the array element with specified index \(Negative integers count from the end\). Throws an error if top level container is not an array. | `'["a", "b"]'::jsonb - 1` |
+| `#-` | `text[]` | Delete the field or element with specified path \(for JSON arrays, negative integers count from the end\) | `'["a", {"b":1}]'::jsonb #- '{1,b}'` |
 
 ### Note
 
