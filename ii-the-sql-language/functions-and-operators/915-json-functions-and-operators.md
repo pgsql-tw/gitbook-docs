@@ -44,7 +44,6 @@ The`||`operator concatenates the elements at the top level of each of its operan
 
 **Table 9.45. JSON Creation Functions**
 
-
 ### Note
 
 `array_to_json`and`row_to_json`have the same behavior as`to_json`except for offering a pretty-printing option. The behavior described for`to_json`likewise applies to each individual value converted by the other JSON creation functions.
@@ -56,26 +55,6 @@ The[hstore](https://www.postgresql.org/docs/10/static/hstore.html)extension has 
 [Table 9.46](https://www.postgresql.org/docs/10/static/functions-json.html#functions-json-processing-table)shows the functions that are available for processing`json`and`jsonb`values.
 
 **Table 9.46. JSON Processing Functions**
-
-| Function | Return Type | Description | Example | Example Result |
-| :--- | :--- | :--- | :--- | :--- |
-| `json_array_length(json)jsonb_array_length(jsonb)` | `int` | Returns the number of elements in the outermost JSON array. | `json_array_length('[1,2,3,{"f1":1,"f2":[5,6]},4]')` | `5` |
-| `json_each(json)jsonb_each(jsonb)` | `setof key text, value jsonsetof key text, value jsonb` | Expands the outermost JSON object into a set of key/value pairs. | `select * from json_each('{"a":"foo", "b":"bar"}')` | key \| value-----+------- a   \| "foo" b   \| "bar" |
-| `json_each_text(json)jsonb_each_text(jsonb)` | `setof key text, value text` | Expands the outermost JSON object into a set of key/value pairs. The returned values will be of type`text`. | `select * from json_each_text('{"a":"foo", "b":"bar"}')` | key \| value-----+------- a   \| foo b   \| bar |
-| `json_extract_path(from_json json, VARIADIC path_elems text[])jsonb_extract_path(from_json jsonb, VARIADIC path_elems text[])` | `jsonjsonb` | Returns JSON value pointed to by`path_elems`\(equivalent to`#>`operator\). | `json_extract_path('{"f2":{"f3":1},"f4":{"f5":99,"f6":"foo"}}','f4')` | `{"f5":99,"f6":"foo"}` |
-| `json_extract_path_text(from_json json, VARIADIC path_elems text[])jsonb_extract_path_text(from_json jsonb, VARIADIC path_elems text[])` | `text` | Returns JSON value pointed to by\_`path_elems`\_as`text`\(equivalent to`#>>`operator\). | `json_extract_path_text('{"f2":{"f3":1},"f4":{"f5":99,"f6":"foo"}}','f4', 'f6')` | `foo` |
-| `json_object_keys(json)jsonb_object_keys(jsonb)` | `setof text` | Returns set of keys in the outermost JSON object. | `json_object_keys('{"f1":"abc","f2":{"f3":"a", "f4":"b"}}')` | json\_object\_keys------------------ f1 f2 |
-| `json_populate_record(base anyelement, from_json json)jsonb_populate_record(base anyelement, from_json jsonb)` | `anyelement` | Expands the object in`from_json`_\_to a row whose columns match the record type defined by_`base`\_\(see note below\). | `select * from json_populate_record(null::myrowtype, '{"a": 1, "b": ["2", "a b"], "c": {"d": 4, "e": "a b c"}}')` | a \|   b       \|      c---+-----------+------------- 1 \| {2,"a b"} \| \(4,"a b c"\) |
-| `json_populate_recordset(base anyelement, from_json json)jsonb_populate_recordset(base anyelement, from_json jsonb)` | `setof anyelement` | Expands the outermost array of objects in`from_json`_\_to a set of rows whose columns match the record type defined by_`base`\_\(see note below\). | `select * from json_populate_recordset(null::myrowtype, '[{"a":1,"b":2},{"a":3,"b":4}]')` | a \| b---+--- 1 \| 2 3 \| 4 |
-| `json_array_elements(json)jsonb_array_elements(jsonb)` | `setof jsonsetof jsonb` | Expands a JSON array to a set of JSON values. | `select * from json_array_elements('[1,true, [2,false]]')` | value----------- 1 true \[2,false\] |
-| `json_array_elements_text(json)jsonb_array_elements_text(jsonb)` | `setof text` | Expands a JSON array to a set of`text`values. | `select * from json_array_elements_text('["foo", "bar"]')` | value----------- foo bar |
-| `json_typeof(json)jsonb_typeof(jsonb)` | `text` | Returns the type of the outermost JSON value as a text string. Possible types are`object`,`array`,`string`,`number`,`boolean`, and`null`. | `json_typeof('-123.4')` | `number` |
-| `json_to_record(json)jsonb_to_record(jsonb)` | `record` | Builds an arbitrary record from a JSON object \(see note below\). As with all functions returning`record`, the caller must explicitly define the structure of the record with an`AS`clause. | `select * from json_to_record('{"a":1,"b":[1,2,3],"c":[1,2,3],"e":"bar","r": {"a": 123, "b": "a b c"}}') as x(a int, b text, c int[], d text, r myrowtype)` | a \|    b    \|    c    \| d \|       r---+---------+---------+---+--------------- 1 \| \[1,2,3\] \| {1,2,3} \|   \| \(123,"a b c"\) |
-| `json_to_recordset(json)jsonb_to_recordset(jsonb)` | `setof record` | Builds an arbitrary set of records from a JSON array of objects \(see note below\). As with all functions returning`record`, the caller must explicitly define the structure of the record with an`AS`clause. | `select * from json_to_recordset('[{"a":1,"b":"foo"},{"a":"2","c":"bar"}]') as x(a int, b text);` | a \|  b---+----- 1 \| foo 2 \| |
-| `json_strip_nulls(from_json json)jsonb_strip_nulls(from_json jsonb)` | `jsonjsonb` | Returns\_`from_json`\_with all object fields that have null values omitted. Other null values are untouched. | `json_strip_nulls('[{"f1":1,"f2":null},2,null,3]')` | `[{"f1":1},2,null,3]` |
-| `jsonb_set(target jsonb, path text[], new_value jsonb[,create_missingboolean`\]\) | `jsonb` | Returns`target`_\_with the section designated by_`path`_replaced by_`new_value`_, or with_`new_value`_added if_`create_missing`_is true \( default is_`true`_\) and the item designated by_`path`_does not exist. As with the path orientated operators, negative integers that appear in_`path`\_count from the end of JSON arrays. | `jsonb_set('[{"f1":1,"f2":null},2,null,3]', '{0,f1}','[2,3,4]', false)jsonb_set('[{"f1":1,"f2":null},2]', '{0,f3}','[2,3,4]')` | `[{"f1":[2,3,4],"f2":null},2,null,3][{"f1": 1, "f2": null, "f3": [2, 3, 4]}, 2]` |
-| `jsonb_insert(target jsonb, path text[], new_value jsonb, [insert_afterboolean`\]\) | `jsonb` | Returns`target`_\_with_`new_value`_inserted. If_`target`_section designated by_`path`_is in a JSONB array,_`new_value`_will be inserted before target or after if_`insert_after`_is true \(default is_`false`_\). If_`target`_section designated by_`path`_is in JSONB object,_`new_value`_will be inserted only if_`target`_does not exist. As with the path orientated operators, negative integers that appear in_`path`\_count from the end of JSON arrays. | `jsonb_insert('{"a": [0,1,2]}', '{a, 1}', '"new_value"')jsonb_insert('{"a": [0,1,2]}', '{a, 1}', '"new_value"', true)` | `{"a": [0, "new_value", 1, 2]}{"a": [0, 1, "new_value", 2]}` |
-| `jsonb_pretty(from_json jsonb)` | `text` | Returns\_`from_json`\_as indented JSON text. | `jsonb_pretty('[{"f1":1,"f2":null},2,null,3]')` | \[    {        "f1": 1,        "f2": null    },    2,    null,    3\] |
 
 ### Note
 
