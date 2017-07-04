@@ -134,18 +134,18 @@
     * [11.10. Indexes and Collations](ii-the-sql-language/indexes/1110-indexes-and-collations.md)
     * [11.11. 限用索引查詢](ii-the-sql-language/indexes/1111-index-only-scans.md)
     * [11.12. 檢查索引運用](ii-the-sql-language/indexes/1112-examining-index-usage.md)
-  * Full Text Search
-    * 12.1. Introduction
-    * 12.2. Tables and Indexes
-    * 12.3. Controlling Text Search
-    * 12.4. Additional Features
-    * 12.5. Parsers
-    * 12.6. Dictionaries
-    * 12.7. Configuration Example
-    * 12.8. Testing and Debugging Text Search
-    * 12.9. GIN and GiST Index Types
-    * 12.10. psql Support
-    * 12.11. Limitations
+  * [12. 全文檢索](ii-the-sql-language/full-text-search.md)
+    * [12.1. 簡介](ii-the-sql-language/full-text-search/121-introduction.md)
+    * [12.2. 查詢與索引](ii-the-sql-language/full-text-search/122-tables-and-indexes.md)
+    * [12.3. 細部控制](ii-the-sql-language/full-text-search/123-controlling-text-search.md)
+    * [12.4. 延伸功能](ii-the-sql-language/full-text-search/124-additional-features.md)
+    * [12.5. 斷詞](ii-the-sql-language/full-text-search/125-parsers.md)
+    * [12.6. 字典](ii-the-sql-language/full-text-search/126-dictionaries.md)
+    * [12.7. 組態範例](ii-the-sql-language/full-text-search/127-configuration-example.md)
+    * [12.8. 測試與除錯](ii-the-sql-language/full-text-search/128-testing-and-debugging-text-search.md)
+    * [12.9. GIN及GiST索引型別](ii-the-sql-language/full-text-search/129-gin-and-gist-index-types.md)
+    * [12.10. psql支援](ii-the-sql-language/full-text-search/1210-psql-support.md)
+    * [12.11. 功能限制](ii-the-sql-language/full-text-search/1211-limitations.md)
   * Concurrency Control
     * 13.1. Introduction
     * 13.2. Transaction Isolation
