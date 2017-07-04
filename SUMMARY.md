@@ -165,6 +165,118 @@
     * [15.3. 平行查詢計畫](ii-the-sql-language/parallel-query/153-parallel-plans.md)
     * [15.4. 平行查詢的安全性](ii-the-sql-language/parallel-query/154-parallel-safety.md)
 * [III. 系統管理](iii-server-administration.md)
+  * 16. Installation from Source Code
+    * 16.1. Short Version
+    * 16.2. Requirements
+    * 16.3. Getting The Source
+    * 16.4. Installation Procedure
+    * 16.5. Post-Installation Setup
+    * 16.6. Supported Platforms
+    * 16.7. Platform-specific Notes
+  * 17. Installation from Source Code on Windows
+    * 17.1. Building with Visual C++ or the Microsoft Windows SDK
+  * 18. Server Setup and Operation
+    * 18.1. The PostgreSQL User Account
+    * 18.2. Creating a Database Cluster
+    * 18.3. Starting the Database Server
+    * 18.4. Managing Kernel Resources
+    * 18.5. Shutting Down the Server
+    * 18.6. Upgrading a PostgreSQL Cluster
+    * 18.7. Preventing Server Spoofing
+    * 18.8. Encryption Options
+    * 18.9. Secure TCP/IP Connections with SSL
+    * 18.10. Secure TCP/IP Connections with SSH Tunnels
+    * 18.11. Registering Event Log on Windows
+  * 19. Server Configuration
+    * 19.1. Setting Parameters
+    * 19.2. File Locations
+    * 19.3. Connections and Authentication
+    * 19.4. Resource Consumption
+    * 19.5. Write Ahead Log
+    * 19.6. Replication
+    * 19.7. Query Planning
+    * 19.8. Error Reporting and Logging
+    * 19.9. Run-time Statistics
+    * 19.10. Automatic Vacuuming
+    * 19.11. Client Connection Defaults
+    * 19.12. Lock Management
+    * 19.13. Version and Platform Compatibility
+    * 19.14. Error Handling
+    * 19.15. Preset Options
+    * 19.16. Customized Options
+    * 19.17. Developer Options
+    * 19.18. Short Options
+  * 20. Client Authentication
+    * 20.1. The pg\_hba.conf File
+    * 20.2. User Name Maps
+    * 20.3. Authentication Methods
+    * 20.4. Authentication Problems
+  * 21. Database Roles
+    * 21.1. Database Roles
+    * 21.2. Role Attributes
+    * 21.3. Role Membership
+    * 21.4. Dropping Roles
+    * 21.5. Default Roles
+    * 21.6. Function and Trigger Security
+  * 22. Managing Databases
+    * 22.1. Overview
+    * 22.2. Creating a Database
+    * 22.3. Template Databases
+    * 22.4. Database Configuration
+    * 22.5. Destroying a Database
+    * 22.6. Tablespaces
+  * 23. Localization
+    * 23.1. Locale Support
+    * 23.2. Collation Support
+    * 23.3. Character Set Support
+  * 24. Routine Database Maintenance Tasks
+    * 24.1. Routine Vacuuming
+    * 24.2. Routine Reindexing
+    * 24.3. Log File Maintenance
+  * 25. Backup and Restore
+    * 25.1. SQL Dump
+    * 25.2. File System Level Backup
+    * 25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)
+  * 26. High Availability, Load Balancing, and Replication
+    * 26.1. Comparison of Different Solutions
+    * 26.2. Log-Shipping Standby Servers
+    * 26.3. Failover
+    * 26.4. Alternative Method for Log Shipping
+    * 26.5. Hot Standby
+  * 27. Recovery Configuration
+    * 27.1. Archive Recovery Settings
+    * 27.2. Recovery Target Settings
+    * 27.3. Standby Server Settings
+  * 28. Monitoring Database Activity
+    * 28.1. Standard Unix Tools
+    * 28.2. The Statistics Collector
+    * 28.3. Viewing Locks
+    * 28.4. Progress Reporting
+    * 28.5. Dynamic Tracing
+  * 29. Monitoring Disk Usage
+    * 29.1. Determining Disk Usage
+    * 29.2. Disk Full Failure
+  * 30. Reliability and the Write-Ahead Log
+    * 30.1. Reliability
+    * 30.2. Write-Ahead Logging \(WAL\)
+    * 30.3. Asynchronous Commit
+    * 30.4. WAL Configuration
+    * 30.5. WAL Internals
+  * 31. Logical Replication
+    * 31.1. Publication
+    * 31.2. Subscription
+    * 31.3. Conflicts
+    * 31.4. Architecture
+    * 31.5. Monitoring
+    * 31.6. Security
+    * 31.7. Configuration Settings
+    * 31.8. Quick Setup
+  * 32. Regression Tests
+    * 32.1. Running the Tests
+    * 32.2. Test Evaluation
+    * 32.3. Variant Comparison Files
+    * 32.4. TAP Tests
+    * 32.5. Test Coverage Examination
 * [IV. Client Interfaces](iv-client-interfaces.md)
 * [V. Server Programming](v-server-programming.md)
 * [VI. Reference](vi-reference.md)
@@ -189,4 +301,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
