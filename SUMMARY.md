@@ -159,11 +159,11 @@
     * [14.3. 使用確切的JOIN方式](ii-the-sql-language/performance-tips/143-controlling-the-planner-with-explicit-join-clauses.md)
     * [14.4. 快速建立資料庫內容](ii-the-sql-language/performance-tips/144-populating-a-database.md)
     * [14.5. 彈性設定](ii-the-sql-language/performance-tips/145-non-durable-settings.md)
-  * Parallel Query
-    * 15.1. How Parallel Query Works
-    * 15.2. When Can Parallel Query Be Used?
-    * 15.3. Parallel Plans
-    * 15.4. Parallel Safety
+  * [15. 平行查詢](ii-the-sql-language/parallel-query.md)
+    * [15.1. 如何運作？](ii-the-sql-language/parallel-query/151-how-parallel-query-works.md)
+    * [15.2. 啓用時機？](ii-the-sql-language/parallel-query/152-when-can-parallel-query-be-used.md)
+    * [15.3. 平行查詢計畫](ii-the-sql-language/parallel-query/153-parallel-plans.md)
+    * [15.4. 平行查詢的安全性](ii-the-sql-language/parallel-query/154-parallel-safety.md)
 * [III. Server Administration](iii-server-administration.md)
 * [IV. Client Interfaces](iv-client-interfaces.md)
 * [V. Server Programming](v-server-programming.md)
