@@ -21,20 +21,20 @@ The standard comparison operators shown in[Table 9.1](https://www.postgresql.org
 
 Some further operators also exist only for`jsonb`, as shown in[Table 9.44](https://www.postgresql.org/docs/10/static/functions-json.html#functions-jsonb-op-table). Many of these operators can be indexed by`jsonb`operator classes. For a full description of`jsonb`containment and existence semantics, see[Section 8.14.3](https://www.postgresql.org/docs/10/static/datatype-json.html#json-containment).[Section 8.14.4](https://www.postgresql.org/docs/10/static/datatype-json.html#json-indexing)describes how these operators can be used to effectively index`jsonb`data.
 
-**Table 9.44. Additional`jsonb`Operators**
+**Table 9.44. Additional**`jsonb`**Operators**
 
-| Operator | Right Operand Type | Description | Example |
-| :--- | :--- | :--- | :--- |
-| `@>` | `jsonb` | Does the left JSON value contain the right JSON path/value entries at the top level? | `'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb` |
-| `<@` | `jsonb` | Are the left JSON path/value entries contained at the top level within the right JSON value? | `'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb` |
-| `?` | `text` | Does the_string_exist as a top-level key within the JSON value? | `'{"a":1, "b":2}'::jsonb ? 'b'` |
-| `?|` | `text[]` | Do any of these array_strings_exist as top-level keys? | `'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']` |
-| `?&` | `text[]` | Do all of these array_strings_exist as top-level keys? | `'["a", "b"]'::jsonb ?& array['a', 'b']` |
-| `||` | `jsonb` | Concatenate two`jsonb`values into a new`jsonb`value | `'["a", "b"]'::jsonb || '["c", "d"]'::jsonb` |
-| `-` | `text` | Delete key/value pair or_string_element from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b"}'::jsonb - 'a'` |
-| `-` | `text[]` | Delete multiple key/value pairs or_string_elements from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]` |
-| `-` | `integer` | Delete the array element with specified index \(Negative integers count from the end\). Throws an error if top level container is not an array. | `'["a", "b"]'::jsonb - 1` |
-| `#-` | `text[]` | Delete the field or element with specified path \(for JSON arrays, negative integers count from the end\) | `'["a", {"b":1}]'::jsonb #- '{1,b}'` |
+|  |  |  |  | Operator | Right Operand Type | Description | Example |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+|  |  |  |  | `@>` | `jsonb` | Does the left JSON value contain the right JSON path/value entries at the top level? | `'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb` |
+|  |  |  |  | `<@` | `jsonb` | Are the left JSON path/value entries contained at the top level within the right JSON value? | `'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb` |
+|  |  |  |  | `?` | `text` | Does the\_string\_exist as a top-level key within the JSON value? | `'{"a":1, "b":2}'::jsonb ? 'b'` |
+|  |  | \`? | \` | `text[]` | Do any of these array\_strings\_exist as top-level keys? | \`'{"a":1, "b":2, "c":3}'::jsonb ? | array\['b', 'c'\]\` |
+|  |  |  |  | `?&` | `text[]` | Do all of these array\_strings\_exist as top-level keys? | `'["a", "b"]'::jsonb ?& array['a', 'b']` |
+| \` |  | \` | `jsonb` | Concatenate two`jsonb`values into a new`jsonb`value | \`'\["a", "b"\]'::jsonb |  | '\["c", "d"\]'::jsonb\` |
+|  |  |  |  | `-` | `text` | Delete key/value pair or\_string\_element from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b"}'::jsonb - 'a'` |
+|  |  |  |  | `-` | `text[]` | Delete multiple key/value pairs or\_string\_elements from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]` |
+|  |  |  |  | `-` | `integer` | Delete the array element with specified index \(Negative integers count from the end\). Throws an error if top level container is not an array. | `'["a", "b"]'::jsonb - 1` |
+|  |  |  |  | `#-` | `text[]` | Delete the field or element with specified path \(for JSON arrays, negative integers count from the end\) | `'["a", {"b":1}]'::jsonb #- '{1,b}'` |
 
 ### Note
 
@@ -42,7 +42,17 @@ The`||`operator concatenates the elements at the top level of each of its operan
 
 [Table 9.45](https://www.postgresql.org/docs/10/static/functions-json.html#functions-json-creation-table)shows the functions that are available for creating`json`and`jsonb`values. \(There are no equivalent functions for`jsonb`, of the`row_to_json`and`array_to_json`functions. However, the`to_jsonb`function supplies much the same functionality as these functions would.\)
 
-**Table 9.45. JSON Creation Functions**
+**Table 9.45. JSON Creation Functions**
+
+| Function | Description | Example | Example Result |
+| :--- | :--- | :--- | :--- |
+| `to_json(anyelement)to_jsonb(anyelement)` | Returns the value as`json`or`jsonb`. Arrays and composites are converted \(recursively\) to arrays and objects; otherwise, if there is a cast from the type to`json`, the cast function will be used to perform the conversion; otherwise, a scalar value is produced. For any scalar type other than a number, a Boolean, or a null value, the text representation will be used, in such a fashion that it is a valid`json`or`jsonb`value. | `to_json('Fred said "Hi."'::text)` | `"Fred said \"Hi.\""` |
+| `array_to_json(anyarray [, pretty_bool])` | Returns the array as a JSON array. A PostgreSQL multidimensional array becomes a JSON array of arrays. Line feeds will be added between dimension-1 elements if_`pretty_bool`_is true. | `array_to_json('{{1,5},{99,100}}'::int[])` | `[[1,5],[99,100]]` |
+| `row_to_json(record [, pretty_bool])` | Returns the row as a JSON object. Line feeds will be added between level-1 elements if_`pretty_bool`_is true. | `row_to_json(row(1,'foo'))` | `{"f1":1,"f2":"foo"}` |
+| `json_build_array(VARIADIC "any")jsonb_build_array(VARIADIC "any")` | Builds a possibly-heterogeneously-typed JSON array out of a variadic argument list. | `json_build_array(1,2,'3',4,5)` | `[1, 2, "3", 4, 5]` |
+| `json_build_object(VARIADIC "any")jsonb_build_object(VARIADIC "any")` | Builds a JSON object out of a variadic argument list. By convention, the argument list consists of alternating keys and values. | `json_build_object('foo',1,'bar',2)` | `{"foo": 1, "bar": 2}` |
+| `json_object(text[])jsonb_object(text[])` | Builds a JSON object out of a text array. The array must have either exactly one dimension with an even number of members, in which case they are taken as alternating key/value pairs, or two dimensions such that each inner array has exactly two elements, which are taken as a key/value pair. | `json_object('{a, 1, b, "def", c, 3.5}')json_object('{{a, 1},{b, "def"},{c, 3.5}}')` | `{"a": "1", "b": "def", "c": "3.5"}` |
+| `json_object(keys text[], values text[])jsonb_object(keys text[], values text[])` | This form of`json_object`takes keys and values pairwise from two separate arrays. In all other respects it is identical to the one-argument form. | `json_object('{a, b}', '{1,2}')` | `{"a": "1", "b": "2"}` |
 
 ### Note
 
