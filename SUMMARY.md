@@ -164,7 +164,7 @@
     * [15.2. 啓用時機？](ii-the-sql-language/parallel-query/152-when-can-parallel-query-be-used.md)
     * [15.3. 平行查詢計畫](ii-the-sql-language/parallel-query/153-parallel-plans.md)
     * [15.4. 平行查詢的安全性](ii-the-sql-language/parallel-query/154-parallel-safety.md)
-* [III. Server Administration](iii-server-administration.md)
+* [III. 系統管理](iii-server-administration.md)
 * [IV. Client Interfaces](iv-client-interfaces.md)
 * [V. Server Programming](v-server-programming.md)
 * [VI. Reference](vi-reference.md)
