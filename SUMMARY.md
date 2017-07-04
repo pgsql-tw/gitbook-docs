@@ -146,13 +146,13 @@
     * [12.9. GIN及GiST索引型別](ii-the-sql-language/full-text-search/129-gin-and-gist-index-types.md)
     * [12.10. psql支援](ii-the-sql-language/full-text-search/1210-psql-support.md)
     * [12.11. 功能限制](ii-the-sql-language/full-text-search/1211-limitations.md)
-  * Concurrency Control
-    * 13.1. Introduction
-    * 13.2. Transaction Isolation
-    * 13.3. Explicit Locking
-    * 13.4. Data Consistency Checks at the Application Level
-    * 13.5. Caveats
-    * 13.6. Locking and Indexes
+  * [13. 一致性管理](ii-the-sql-language/concurrency-control.md)
+    * [13.1. 簡介](ii-the-sql-language/concurrency-control/131-introduction.md)
+    * [13.2. 交易隔離](ii-the-sql-language/concurrency-control/132-transaction-isolation.md)
+    * [13.3. 鎖定模式](ii-the-sql-language/concurrency-control/133-explicit-locking.md)
+    * [13.4. 在應用端檢視資料一致性](ii-the-sql-language/concurrency-control/134-data-consistency-checks-at-the-application-level.md)
+    * [13.5. 特別注意](ii-the-sql-language/concurrency-control/135-caveats.md)
+    * [13.6. 鎖定與索引](ii-the-sql-language/concurrency-control/136-locking-and-indexes.md)
   * Performance Tips
     * 14.1. Using EXPLAIN
     * 14.2. Statistics Used by the Planner
