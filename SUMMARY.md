@@ -121,19 +121,19 @@
     * [10.4. 儲存轉換規則](ii-the-sql-language/type-conversion/104-value-storage.md)
     * [10.5. UNION、CASE等相關操作](ii-the-sql-language/type-conversion/105-union-case-and-related-constructs.md)
     * [10.6. SELECT輸出規則](ii-the-sql-language/type-conversion/106-select-output-columns.md)
-  * Indexes
-    * 11.1. Introduction
-    * 11.2. Index Types
-    * 11.3. Multicolumn Indexes
-    * 11.4. Indexes and ORDER BY
-    * 11.5. Combining Multiple Indexes
-    * 11.6. Unique Indexes
-    * 11.7. Indexes on Expressions
-    * 11.8. Partial Indexes
-    * 11.9. Operator Classes and Operator Families
-    * 11.10. Indexes and Collations
-    * 11.11. Index-Only Scans
-    * 11.12. Examining Index Usage
+  * [11. 索引](ii-the-sql-language/indexes.md)
+    * [11.1. 簡介](ii-the-sql-language/indexes/111-introduction.md)
+    * [11.2. 索引型別](ii-the-sql-language/indexes/112-index-types.md)
+    * [11.3. 多欄位索引](ii-the-sql-language/indexes/113-multicolumn-indexes.md)
+    * [11.4. 索引與ORDER BY](ii-the-sql-language/indexes/114-indexes-and-order-by.md)
+    * [11.5. 善用多個索引](ii-the-sql-language/indexes/115-combining-multiple-indexes.md)
+    * [11.6. 唯一值索引](ii-the-sql-language/indexes/116-unique-indexes.md)
+    * [11.7. 表示式索引](ii-the-sql-language/indexes/117-indexes-on-expressions.md)
+    * [11.8. 部份索引](ii-the-sql-language/indexes/118-partial-indexes.md)
+    * [11.9. 運算子物件及家族](ii-the-sql-language/indexes/119-operator-classes-and-operator-families.md)
+    * [11.10. Indexes and Collations](ii-the-sql-language/indexes/1110-indexes-and-collations.md)
+    * [11.11. 限用索引查詢](ii-the-sql-language/indexes/1111-index-only-scans.md)
+    * [11.12. 檢查索引運用](ii-the-sql-language/indexes/1112-examining-index-usage.md)
   * Full Text Search
     * 12.1. Introduction
     * 12.2. Tables and Indexes
