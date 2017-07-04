@@ -153,12 +153,12 @@
     * [13.4. 在應用端檢視資料一致性](ii-the-sql-language/concurrency-control/134-data-consistency-checks-at-the-application-level.md)
     * [13.5. 特別注意](ii-the-sql-language/concurrency-control/135-caveats.md)
     * [13.6. 鎖定與索引](ii-the-sql-language/concurrency-control/136-locking-and-indexes.md)
-  * Performance Tips
-    * 14.1. Using EXPLAIN
-    * 14.2. Statistics Used by the Planner
-    * 14.3. Controlling the Planner with Explicit JOIN Clauses
-    * 14.4. Populating a Database
-    * 14.5. Non-Durable Settings
+  * [14. 效率技巧](ii-the-sql-language/performance-tips.md)
+    * [14.1. 善用EXPLAIN](ii-the-sql-language/performance-tips/141-using-explain.md)
+    * [14.2. 統計資訊](ii-the-sql-language/performance-tips/142-statistics-used-by-the-planner.md)
+    * [14.3. 使用確切的JOIN方式](ii-the-sql-language/performance-tips/143-controlling-the-planner-with-explicit-join-clauses.md)
+    * [14.4. 快速建立資料庫內容](ii-the-sql-language/performance-tips/144-populating-a-database.md)
+    * [14.5. 彈性設定](ii-the-sql-language/performance-tips/145-non-durable-settings.md)
   * Parallel Query
     * 15.1. How Parallel Query Works
     * 15.2. When Can Parallel Query Be Used?
