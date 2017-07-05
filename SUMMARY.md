@@ -278,6 +278,116 @@
     * 32.4. TAP Tests
     * 32.5. Test Coverage Examination
 * [IV. Client Interfaces](iv-client-interfaces.md)
+  * libpq - C Library
+    * 33.1. Database Connection Control Functions
+    * 33.2. Connection Status Functions
+    * 33.3. Command Execution Functions
+    * 33.4. Asynchronous Command Processing
+    * 33.5. Retrieving Query Results Row-By-Row
+    * 33.6. Canceling Queries in Progress
+    * 33.7. The Fast-Path Interface
+    * 33.8. Asynchronous Notification
+    * 33.9. Functions Associated with the COPY Command
+    * 33.10. Control Functions
+    * 33.11. Miscellaneous Functions
+    * 33.12. Notice Processing
+    * 33.13. Event System
+    * 33.14. Environment Variables
+    * 33.15. The Password File
+    * 33.16. The Connection Service File
+    * 33.17. LDAP Lookup of Connection Parameters
+    * 33.18. SSL Support
+    * 33.19. Behavior in Threaded Programs
+    * 33.20. Building libpq Programs
+    * 33.21. Example Programs
+  * Large Objects
+    * 34.1. Introduction
+    * 34.2. Implementation Features
+    * 34.3. Client Interfaces
+    * 34.4. Server-side Functions
+    * 34.5. Example Program
+  * ECPG - Embedded SQL in C
+    * 35.1. The Concept
+    * 35.2. Managing Database Connections
+    * 35.3. Running SQL Commands
+    * 35.4. Using Host Variables
+    * 35.5. Dynamic SQL
+    * 35.6. pgtypes Library
+    * 35.7. Using Descriptor Areas
+    * 35.8. Error Handling
+    * 35.9. Preprocessor Directives
+    * 35.10. Processing Embedded SQL Programs
+    * 35.11. Library Functions
+    * 35.12. Large Objects
+    * 35.13. C++ Applications
+    * 35.14. Embedded SQL Commands
+    * 35.15. Informix Compatibility Mode
+    * 35.16. Internals
+  * The Information Schema
+    * 36.1. The Schema
+    * 36.2. Data Types
+    * 36.3. information\_schema\_catalog\_name
+    * 36.4. administrable\_role\_authorizations
+    * 36.5. applicable\_roles
+    * 36.6. attributes
+    * 36.7. character\_sets
+    * 36.8. check\_constraint\_routine\_usage
+    * 36.9. check\_constraints
+    * 36.10. collations
+    * 36.11. collation\_character\_set\_applicability
+    * 36.12. column\_domain\_usage
+    * 36.13. column\_options
+    * 36.14. column\_privileges
+    * 36.15. column\_udt\_usage
+    * 36.16. columns
+    * 36.17. constraint\_column\_usage
+    * 36.18. constraint\_table\_usage
+    * 36.19. data\_type\_privileges
+    * 36.20. domain\_constraints
+    * 36.21. domain\_udt\_usage
+    * 36.22. domains
+    * 36.23. element\_types
+    * 36.24. enabled\_roles
+    * 36.25. foreign\_data\_wrapper\_options
+    * 36.26. foreign\_data\_wrappers
+    * 36.27. foreign\_server\_options
+    * 36.28. foreign\_servers
+    * 36.29. foreign\_table\_options
+    * 36.30. foreign\_tables
+    * 36.31. key\_column\_usage
+    * 36.32. parameters
+    * 36.33. referential\_constraints
+    * 36.34. role\_column\_grants
+    * 36.35. role\_routine\_grants
+    * 36.36. role\_table\_grants
+    * 36.37. role\_udt\_grants
+    * 36.38. role\_usage\_grants
+    * 36.39. routine\_privileges
+    * 36.40. routines
+    * 36.41. schemata
+    * 36.42. sequences
+    * 36.43. sql\_features
+    * 36.44. sql\_implementation\_info
+    * 36.45. sql\_languages
+    * 36.46. sql\_packages
+    * 36.47. sql\_parts
+    * 36.48. sql\_sizing
+    * 36.49. sql\_sizing\_profiles
+    * 36.50. table\_constraints
+    * 36.51. table\_privileges
+    * 36.52. tables
+    * 36.53. transforms
+    * 36.54. triggered\_update\_columns
+    * 36.55. triggers
+    * 36.56. udt\_privileges
+    * 36.57. usage\_privileges
+    * 36.58. user\_defined\_types
+    * 36.59. user\_mapping\_options
+    * 36.60. user\_mappings
+    * 36.61. view\_column\_usage
+    * 36.62. view\_routine\_usage
+    * 36.63. view\_table\_usage
+    * 36.64. views
 * [V. Server Programming](v-server-programming.md)
 * [VI. Reference](vi-reference.md)
   * I. SQL Commands
