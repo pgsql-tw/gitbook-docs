@@ -1,12 +1,12 @@
 # 1.1. 安裝[^1]
 
-Before you can usePostgreSQLyou need to install it, of course. It is possible thatPostgreSQLis already installed at your site, either because it was included in your operating system distribution or because the system administrator already installed it. If that is the case, you should obtain information from the operating system documentation or your system administrator about how to accessPostgreSQL.
+你需要先進行安裝，才能開始使用PostgreSQL。當然，PostgreSQL也可能已經被安裝在你的系統之中，因為你的作業系統預設套件包含了PostgreSQL，或其他系統管理者已先行安裝。如果是這樣的話，那麼你應該先瞭解作業系統的資訊，或向你的系統管理員取能存取的資訊。
 
-If you are not sure whetherPostgreSQLis already available or whether you can use it for your experimentation then you can install it yourself. Doing so is not hard and it can be a good exercise.PostgreSQLcan be installed by any unprivileged user; no superuser \(root\) access is required.
+如果你並不確定PostgreSQL是否已經可以使用，或者你也可以自行安裝試試。這樣做並不是很困難，而且是很好的操作練習。PostgreSQL可以以一般使用者進行安裝，它並不需要系統管理者（root）的權限才能安裝。
 
-If you are installingPostgreSQLyourself, then refer to[Chapter 16](https://www.postgresql.org/docs/10/static/installation.html)for instructions on installation, and return to this guide when the installation is complete. Be sure to follow closely the section about setting up the appropriate environment variables.
+如果你打算自行安裝PostgreSQL，你可以參考第16章的指令進行，完成之後再回到這裡，以瞭解接下來關於設定環境變數的內容。
 
-If your site administrator has not set things up in the default way, you might have some more work to do. For example, if the database server machine is a remote machine, you will need to set the`PGHOST`environment variable to the name of the database server machine. The environment variable`PGPORT`might also have to be set. The bottom line is this: if you try to start an application program and it complains that it cannot connect to the database, you should consult your site administrator or, if that is you, the documentation to make sure that your environment is properly set up. If you did not understand the preceding paragraph then read the next section.
+如果你的系統管理者並非以預設的方式安裝，你可能還有一些額外的工作要做。例如，如果資料庫主機其實是遠端的伺服器，你會需要設定PGHOST的環境變數，將其指向資料庫主機的網路名稱。而PGPORT變數也是必須要設定的。最基本的情境是，如果你嘗試啓動一個應用程式，而它回報它無法取得資料庫連線時，你就必須洽詢你的系統管理者。而如果系統管理者就是你自己，那麼你應該依文件再確認你的環境設定是正確的。如果你仍然並不清楚前面所描述的事項，請詳細閱讀[下一節](/getting-started/12-architectural-fundamentals.md)的內容。
 
 ---
 
