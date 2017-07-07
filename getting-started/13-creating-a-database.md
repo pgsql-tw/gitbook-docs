@@ -1,91 +1,77 @@
 # 1.3. 建立一個資料庫[^1]
 
-The first test to see whether you can access the database server is to try to create a database. A runningPostgreSQLserver can manage many databases. Typically, a separate database is used for each project or for each user.
+第一個測試確認你是否能夠存取一個資料庫服務，就是嘗試去建立一個資料庫。一個執行中的PostgreSQL服務可以管理許多個資料庫。一般來說，每一個專案或使用者會分開使用不同的資料庫。
 
-Possibly, your site administrator has already created a database for your use. In that case you can omit this step and skip ahead to the next section.
+你的系統管理員也可能已經為你建立了一個資料庫，如果是這樣的話，那你可以略過本節說明，直接進入到下一節的內容。
 
-To create a new database, in this example named`mydb`, you use the following command:
+要建立一個新的資料庫，在本例中取名叫「mydb」，你可以使用以下的命令：
 
 ```
-$
-createdb mydb
+$ createdb mydb
 ```
 
-If this produces no response then this step was successful and you can skip over the remainder of this section.
+如果在這個步驟沒有產生任何回應，那就是成功了。你可以跳過本節剩餘的部份。
 
-If you see a message similar to:
+但你如果看到如下的訊息：
 
 ```
 createdb: command not found
-
 ```
 
-thenPostgreSQLwas not installed properly. Either it was not installed at all or your shell's search path was not set to include it. Try calling the command with an absolute path instead:
+這個訊息代表PostgreSQL並沒有被正確的安裝。不是它沒有被安裝好，那就是你的命令路徑設定並未包含這個指令。  
+嘗試使用下列這個包含絕對路徑的指令看看：
 
 ```
-$
-/usr/local/pgsql/bin/createdb mydb
+$ /usr/local/pgsql/bin/createdb mydb
 ```
 
-The path at your site might be different. Contact your site administrator or check the installation instructions to correct the situation.
+命令路徑在你的系統可能會有些不同。洽詢你的系統管理員，或著檢查安裝步驟以修正這個情況。
 
-Another response could be this:
+另一種回應可能是如此：
 
 ```
 createdb: could not connect to database postgres: could not connect to server: No such file or directory
         Is the server running locally and accepting
         connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
-
 ```
 
-This means that the server was not started, or it was not started where`createdb`expected it. Again, check the installation instructions or consult the administrator.
+這代表了資料庫服務尚未啓動，或者它並不存在於createdb預設連線的位置。同樣地，檢查安裝的步驟或洽詢系統管理者。
 
-Another response could be this:
+而另一種回應也可能是：
 
 ```
 createdb: could not connect to database postgres: FATAL:  role "joe" does not exist
-
 ```
 
-where your own login name is mentioned. This will happen if the administrator has not created aPostgreSQLuser account for you. \(PostgreSQLuser accounts are distinct from operating system user accounts.\) If you are the administrator, see[Chapter 21](https://www.postgresql.org/docs/10/static/user-manag.html)for help creating accounts. You will need to become the operating system user under whichPostgreSQLwas installed \(usually`postgres`\) to create the first user account. It could also be that you were assigned aPostgreSQLuser name that is different from your operating system user name; in that case you need to use the`-U`switch or set the`PGUSER`environment variable to specify yourPostgreSQLuser name.
+這裡指出你用來連線的使用者名稱。這種情況可能會發生在你的資料庫管理員並未建立屬於你的資料庫。（PostgreSQL的使用者帳戶是獨立於作業系統的使用者帳戶的）如果你是資車管理員，請參閱[第 21 章](/iii-server-administration/database-roles.md)，進行建立資料庫帳戶。你必須是 PostgreSQL 初始安裝的管理者（通常是 postgres），以建立第一個一般資料庫使用者的帳戶。這個情況也可能發生在，你被發配的PostgreSQL使用者名稱有別於你的作業系統使用者名稱，如果是這樣的話，那你需要在指令上使用 -U 選項，或者設定 PGUSER 環境變數，以指定你的PostgreSQL 使用者名稱。
 
-If you have a user account but it does not have the privileges required to create a database, you will see the following:
+如果你有一個資料庫帳戶，但你並沒有建立資料庫的權限，你將會看到下列訊息：
 
 ```
 createdb: database creation failed: ERROR:  permission denied to create database
-
 ```
 
-Not every user has authorization to create new databases. IfPostgreSQLrefuses to create databases for you then the site administrator needs to grant you permission to create databases. Consult your site administrator if this occurs. If you installedPostgreSQLyourself then you should log in for the purposes of this tutorial under the user account that you started the server as.[\[1\]](https://www.postgresql.org/docs/10/static/tutorial-createdb.html#ftn.idm46249860450640)
+並非每一個使用者都被授權可以建立一個新的資料庫。如果 PostgreSQL 拒絕你建立資料庫，那麼系統管理者就需要賦予你建立資料庫的權限。洽詢你的系統管理者，如果是這種情況的話。如果你是自行安裝 PostgreSQL，那麼你應該以你啓動資料庫服務的使用者登入作業系統，再嘗試這個操作。[^2]
 
-You can also create databases with other names.PostgreSQLallows you to create any number of databases at a given site. Database names must have an alphabetic first character and are limited to 63 bytes in length. A convenient choice is to create a database with the same name as your current user name. Many tools assume that database name as the default, so it can save you some typing. To create that database, simply type:
-
-```
-$
-createdb
-```
-
-If you do not want to use your database anymore you can remove it. For example, if you are the owner \(creator\) of the database`mydb`, you can destroy it using the following command:
+你也可以建立資料庫，但使用其他的名稱。PostgreSQL 允許在資料庫系統中建立無限制數量的資料庫。資料庫名稱必須是以英文字母為開頭，總長度限制為 63 位元組。一個簡便的方式是，建立一個與你使用者名稱同名的資料庫。許多工具會預設假定資料庫名稱和你同名，所以這可以省略一些文字的輸入。要建立這樣的資料庫，只要簡單地輸入：
 
 ```
-$
-dropdb mydb
+$ createdb
 ```
 
-\(For this command, the database name does not default to the user account name. You always need to specify it.\) This action physically removes all files associated with the database and cannot be undone, so this should only be done with a great deal of forethought.
+如果你不再使用你的資料庫，你可以移除它。舉例來說，你是 mydb 這個資料庫的擁有者（建立者），你可以使用下列指令來消毁它：
 
-More about`createdb`and`dropdb`can be found in[createdb](https://www.postgresql.org/docs/10/static/app-createdb.html)and[dropdb](https://www.postgresql.org/docs/10/static/app-dropdb.html)respectively.
+```
+$ dropdb mydb
+```
 
-  
+（對這個指令來說，資料庫名稱並不會預設使用你的使用者同名資料庫。你必須明確地指定名稱）這個動作會完全地移除所有和這個資料庫相關的檔案，並且沒有回復的可能，所以要進行這個動作的話，請一定要考慮清楚。
 
+更多有關於 createdb 和 dropdb 的說明，請參閱 createdb 和 dropdb 的相關章節。
 
 ---
-
-[\[1\]](https://www.postgresql.org/docs/10/static/tutorial-createdb.html#idm46249860450640)As an explanation for why this works:PostgreSQLuser names are separate from operating system user accounts. When you connect to a database, you can choose whatPostgreSQLuser name to connect as; if you don't, it will default to the same name as your current operating system account. As it happens, there will always be aPostgreSQLuser account that has the same name as the operating system user that started the server, and it also happens that that user always has permission to create databases. Instead of logging in as that user you can also specify the`-U`option everywhere to select aPostgreSQLuser name to connect as.
-
----
-
-
 
 [^1]: [PostgreSQL: Documentation: 10: 1.3. Creating a Database](https://www.postgresql.org/docs/10/static/tutorial-createdb.html)
+
+[^2]: 延伸說明：PostgreSQL使用者名稱是獨立於作業系統的使用名帳戶的。當你打算連線到一個資料庫，你可以選擇你想要用哪一個 PostgreSQL 使用者帳戶進行連線；如果你沒有指定，它將會預設以你目前作業系統使用者的同名帳戶連線。一定會有一個和啓動 PostgreSQL 服務同名的 PostgreSQL 帳戶，而它一定具有建立資料庫的權限。你可以在任何地方使用 -U 選項來選擇你要連線的 PostgreSQL 使用者名稱。
 
