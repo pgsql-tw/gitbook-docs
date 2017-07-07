@@ -1,49 +1,43 @@
 # 1.4. 存取一個資料庫[^1]
 
-Once you have created a database, you can access it by:
+一旦你已經建立一個資料庫，你就可以開始以下列方式進行存取：
 
-* Running thePostgreSQLinteractive terminal program, called_psql_, which allows you to interactively enter, edit, and executeSQLcommands.
+* 執行 PostgreSQL 互動式的終端程式，稱作 _psql_，它可以讓你輸入、編輯、執行 SQL 指令。
+* 使用既有的圖型化介面工具，例如 pgAdmin 或是支援 ODBC 或 JDBC 的辦公室軟體，以建立並輸入資料到資料庫裡。不過這部份並未包含在這份手冊之中。
+* 自行撰寫一個程式，可以使用許多種程式語言來完成。這個部份將會在第 IV 章中進行介紹。
 
-* Using an existing graphical frontend tool likepgAdminor an office suite withODBCorJDBCsupport to create and manipulate a database. These possibilities are not covered in this tutorial.
-
-* Writing a custom application, using one of the several available language bindings. These possibilities are discussed further in[Part IV](https://www.postgresql.org/docs/10/static/client-interfaces.html).
-
-You probably want to start up`psql`to try the examples in this tutorial. It can be activated for the`mydb`database by typing the command:
+在這份指南中，你可能會先使用 psql 來進行一些嘗試。你可以藉由下列指令開始操作 mydb 這個資料庫：
 
 ```
-$
-psql mydb
+$ psql mydb
 ```
 
-If you do not supply the database name then it will default to your user account name. You already discovered this scheme in the previous section using`createdb`.
+如果你並未指明資料庫名稱，那麼它預設會以你的使用者名稱作為資料庫名稱。在先前的章節使用 createdb 時，你已經知道這個隱含的規則了。
 
-In`psql`, you will be greeted with the following message:
+在 psql 中，你會以下列訊息開始：
 
 ```
 psql (10beta1)
 Type "help" for help.
 
-mydb=
->
+mydb=>
 ```
 
-The last line could also be:
+最後一行也可能是：
 
 ```
 mydb=#
-
 ```
 
-That would mean you are a database superuser, which is most likely the case if you installed thePostgreSQLinstance yourself. Being a superuser means that you are not subject to access controls. For the purposes of this tutorial that is not important.
+這表示你是資料庫的超級使用者（superuser），如果你是自行安裝 PostgreSQL 的話，大概就會是這個情況。  
+作為一個超級使用者，表示你不會受限於任何存取控制。不過在這份指南中，這並不是重要的事。
 
-If you encounter problems starting`psql`then go back to the previous section. The diagnostics of`createdb`and`psql`are similar, and if the former worked the latter should work as well.
+如果你在啓動 psql 時遭遇了一些問題，那麼請回到前一節。createdb 和 psql 的行為很類似，如果前者正常，後者也應該如期運行。
 
-The last line printed out by`psql`is the prompt, and it indicates that`psql`is listening to you and that you can typeSQLqueries into a work space maintained by`psql`. Try out these commands:
+最後一行會輸出的是 psql 的提示字串，它表示 psql 正在等待你輸入 SQL 查詢語句。試試下面的指令吧：
 
 ```
-mydb=
->
-SELECT version();
+mydb=> SELECT version();
 
                                          version
 ------------------------------------------------------------------------------------------
@@ -51,9 +45,7 @@ SELECT version();
 (1 row)
 
 
-mydb=
->
-SELECT current_date;
+mydb=> SELECT current_date;
 
     date
 ------------
@@ -61,38 +53,29 @@ SELECT current_date;
 (1 row)
 
 
-mydb=
->
-SELECT 2 + 2;
+mydb=> SELECT 2 + 2;
 
  ?column?
 ----------
         4
 (1 row)
-
 ```
 
-The`psql`program has a number of internal commands that are not SQL commands. They begin with the backslash character,“`\`”. For example, you can get help on the syntax of variousPostgreSQLSQLcommands by typing:
+psql 程式中也內建了一些非 SQL 的命令。他們會以倒斜線（  ）起頭。舉例來說，你可以輸入下列指令以取得一些有關 PostgreSQL 所支援的 SQL 語法資訊：
 
 ```
-mydb=
->
-\h
+mydb=> \h
 ```
 
-To get out of`psql`, type:
+要離開 psql 的話，請輸入：
 
 ```
-mydb=
->
-\q
+mydb=> \q
 ```
 
-and`psql`will quit and return you to your command shell. \(For more internal commands, type`\?`at the`psql`prompt.\) The full capabilities of`psql`are documented in[psql](https://www.postgresql.org/docs/10/static/app-psql.html). In this tutorial we will not use these features explicitly, but you can use them yourself when it is helpful.
+如此的話，psql 將會結束，並回到你的命令列介面之中。（想瞭解更多內建指令，在 psql 提示字串後輸入 \? 。）完整的 psql 說明，都記載在 [psql 頁面](/vi-reference/ii-postgresql-client-applications/psql.md)之中。在這份指南中，我們並未使用這些功能，但你可以在需要的時候使用他們。
 
 ---
-
-
 
 [^1]: [PostgreSQL: Documentation: 10: 1.4. Accessing a Database](https://www.postgresql.org/docs/10/static/tutorial-accessdb.html)
 

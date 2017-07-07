@@ -394,6 +394,7 @@
   * [II. PostgreSQL 用戶端工具](vi-reference/ii-postgresql-client-applications.md)
     * [createdb](vi-reference/ii-postgresql-client-applications/createdb.md)
     * [dropdb](vi-reference/ii-postgresql-client-applications/dropdb.md)
+    * [psql](vi-reference/ii-postgresql-client-applications/psql.md)
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii-internals.md)
 * [VIII. 附錄](viii-appendixes.md)
