@@ -391,7 +391,9 @@
 * [V. Server Programming](v-server-programming.md)
 * [VI. Reference](vi-reference.md)
   * I. SQL Commands
-  * II. PostgreSQL Client Applications
+  * [II. PostgreSQL 用戶端工具](vi-reference/ii-postgresql-client-applications.md)
+    * createdb
+    * dropdb
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii-internals.md)
 * [VIII. 附錄](viii-appendixes.md)
@@ -411,4 +413,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
