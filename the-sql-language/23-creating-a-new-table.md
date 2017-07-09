@@ -1,6 +1,6 @@
 # 2.3. 創建一個新的表格[^1]
 
-You can create a new table by specifying the table name, along with all column names and their types:
+你可以創建一個新的表格，為它取一個名字，並且宣告所有的欄位名稱與其資料型別：
 
 ```
 CREATE TABLE weather (
@@ -10,40 +10,34 @@ CREATE TABLE weather (
     prcp            real,          -- precipitation
     date            date
 );
-
 ```
 
-You can enter this into`psql`with the line breaks.`psql`will recognize that the command is not terminated until the semicolon.
+你可以把上述內容在 psql 中輸入，包含換行字元不會影響判讀。psql 是以分號作為指令結束的判定。
 
-White space \(i.e., spaces, tabs, and newlines\) can be used freely in SQL commands. That means you can type the command aligned differently than above, or even all on one line. Two dashes \(“`--`”\) introduce comments. Whatever follows them is ignored up to the end of the line. SQL is case insensitive about key words and identifiers, except when identifiers are double-quoted to preserve the case \(not done above\).
+空白（包含「空白」、「定位符號」和「換行符號」）都可以自由使用在 SQL 指令當中。這表示你可以將指令以不同的形式排版，甚至全部寫都在一行也沒問題。使用破折號，連續2個（＂--＂），表示緊接的內容只是註解，直到該行結束為止。SQL 是不分大小寫字母的，包括各類關鍵字和描述語，除非是使用雙引號括起來的文字。
 
-`varchar(80)`specifies a data type that can store arbitrary character strings up to 80 characters in length.`int`is the normal integer type.`real`is a type for storing single precision floating-point numbers.`date`should be self-explanatory. \(Yes, the column of type`date`is also named`date`. This might be convenient or confusing — you choose.\)
+varchar\(80\) 表示指定一個資料型別，它可以儲放任意 80 個字元以內的字串。int 是一般認知的整數型別。real 表示資料是單精確度的浮點數。date 顧名思義，就是日期時間型別。（本例中欄位名稱和型別都使用 date，這可能是方便，也可能是困擾，端看你如何使用。）
 
-PostgreSQLsupports the standardSQLtypes`int`,`smallint`,`real`,`double precision`,`char(`_`N`_\),`varchar(`_`N`_\),`date`,`time`,`timestamp`, and`interval`, as well as other types of general utility and a rich set of geometric types.PostgreSQLcan be customized with an arbitrary number of user-defined data types. Consequently, type names are not key words in the syntax, except where required to support special cases in theSQLstandard.
+PostgreSQL 支援標準的資料型別 int, smallint, real, double precision, char\(N\), varchar\(N\), date, time, timestamp, interval，也支援了複合型的地理資料型別。PostgreSQL 可以自訂組合任意數量的資料型別。語法上，資料型別名稱並不是保留關鍵字的範圍，除非特定的標準 SQL 支援需求之外。
 
-The second example will store cities and their associated geographical location:
+第二個例子用來儲存城市及其所在的地理位置：
 
 ```
 CREATE TABLE cities (
     name            varchar(80),
     location        point
 );
-
 ```
 
-The`point`type is an example of aPostgreSQL-specific data type.
+point 型別是一個 PostgreSQL專屬資料型別的範例。
 
-Finally, it should be mentioned that if you don't need a table any longer or want to recreate it differently you can remove it using the following command:
+最後，應該被點出來的是，如果你不再需要一個表格，或者想要重新以別的方式創建它，那麼你可以以下列的指令來移除它：
 
 ```
-DROP TABLE 
-tablename
-;
+DROP TABLE tablename;
 ```
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 2.3. Creating a New Table](https://www.postgresql.org/docs/10/static/tutorial-table.html)
+[^1]: [PostgreSQL: Documentation: 10: 2.3. Creating a New Table](https://www.postgresql.org/docs/10/static/tutorial-table.html)
 
