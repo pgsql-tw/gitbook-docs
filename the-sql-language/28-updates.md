@@ -1,17 +1,14 @@
 # 2.8. 更新資料[^1]
 
-You can update existing rows using the`UPDATE`command. Suppose you discover the temperature readings are all off by 2 degrees after November 28. You can correct the data as follows:
+你可以使用 UPDATE 指令以列為單位來更新資料。假設你發現氣溫的數值測量在 11 月 28 日之後都多了 2 度。你可以以下列語法來修正這些資料：
 
 ```
 UPDATE weather
     SET temp_hi = temp_hi - 2,  temp_lo = temp_lo - 2
-    WHERE date 
->
- '1994-11-28';
-
+    WHERE date > '1994-11-28';
 ```
 
-Look at the new state of the data:
+查看一下這些更新後的資料：
 
 ```
 SELECT * FROM weather;
@@ -26,7 +23,5 @@ SELECT * FROM weather;
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 2.8. Updates](https://www.postgresql.org/docs/10/static/tutorial-update.html)
+[^1]: [PostgreSQL: Documentation: 10: 2.8. Updates](https://www.postgresql.org/docs/10/static/tutorial-update.html)
 

@@ -1,17 +1,15 @@
 # 2.9. 刪除資料[^1]
 
-Rows can be removed from a table using the`DELETE`command. Suppose you are no longer interested in the weather of Hayward. Then you can do the following to delete those rows from the table:
+把整列資料從表格中移除，就使用 DELETE 這個指令。假設你對於 Hayward 這個城市的天氣不再感興趣了，那麼你可以執行下列指令，來刪除表格中的這些資料：
 
 ```
 DELETE FROM weather WHERE city = 'Hayward';
-
 ```
 
-All weather records belonging to Hayward are removed.
+所有關於 Hayward 的資料都被刪除了。
 
 ```
 SELECT * FROM weather;
-
 ```
 
 ```
@@ -20,23 +18,17 @@ SELECT * FROM weather;
  San Francisco |      46 |      50 | 0.25 | 1994-11-27
  San Francisco |      41 |      55 |    0 | 1994-11-29
 (2 rows)
-
 ```
 
-One should be wary of statements of the form
+這個指令有一個應該要特別注意的情況：
 
 ```
-DELETE FROM 
-tablename
-;
-
+DELETE FROM tablename;
 ```
 
-Without a qualification,`DELETE`will remove_all_rows from the given table, leaving it empty. The system will not request confirmation before doing this!
+沒有任何限制的條件，DELETE 將會**刪去所有該表格中的資料**，使成為空的表格。資料庫系統並不會在這個動作執行前和你確認！
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 2.9. Deletions](https://www.postgresql.org/docs/10/static/tutorial-delete.html)
+[^1]: [PostgreSQL: Documentation: 10: 2.9. Deletions](https://www.postgresql.org/docs/10/static/tutorial-delete.html)
 
