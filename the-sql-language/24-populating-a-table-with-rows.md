@@ -38,7 +38,7 @@ INSERT INTO weather (date, city, temp_hi, temp_lo)
 COPY weather FROM '/home/user/weather.txt';
 ```
 
-資料來源的檔案必須存在於後端的伺服器之中，並且可被 PostgreSQL 使用者（postgres）所存取，注意不是用戶端的主機，因為後端伺服器的服務需要直接讀取該檔案。你可以取得更多詳細說明，在 COPY 指令的說明頁面。
+資料來源的檔案必須存在於後端的伺服器之中，並且可被 PostgreSQL 使用者（postgres）所存取，注意不是用戶端的主機，因為後端伺服器的服務需要直接讀取該檔案。你可以取得更多詳細說明，在[ COPY 指令](/vi-reference/i-sql-commands/copy.md)的說明頁面。
 
 ---
 
