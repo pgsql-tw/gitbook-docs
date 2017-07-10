@@ -1,18 +1,19 @@
 # 2.6. 交叉查詢[^1]
 
-Thus far, our queries have only accessed one table at a time. Queries can access multiple tables at once, or access the same table in such a way that multiple rows of the table are being processed at the same time. A query that accesses multiple rows of the same or different tables at one time is called a_join_query. As an example, say you wish to list all the weather records together with the location of the associated city. To do that, we need to compare the`city`column of each row of the`weather`table with the`name`column of all rows in the`cities`table, and select the pairs of rows where these values match.
+到目前為止，我們的一個查詢都只涉及到一個表格。其實可以在同一個查詢中，同時查詢多個表格，或者在同一個表格之中同時處理多個列的資料。在一個查詢之中，涉及到同一個或多個不同的表格中的資料，稱作為交叉查詢（join）。舉個例子來說，你希望同時列出天氣和城市位置的資料。要完成這項工作，我們需要關連表格 weather 中的 city 欄位與表格 cities 中的 name 欄位，然後回傳符合條件的資料。
 
-### Note
+### 注意
 
-This is only a conceptual model. The join is usually performed in a more efficient manner than actually comparing each possible pair of rows, but this is invisible to the user.
+> 這只是一個概念式的模形，交叉查詢（join）會以更有效率的方式運行，並非真正需要比較每一種組合是否符合條件，不過這些過程對於使用者而言並不會產生操作或結果上的差異。
 
-This would be accomplished by the following query:
+
+
+下列查詢會產生交叉查詢的結果：
 
 ```
 SELECT *
     FROM weather, cities
     WHERE city = name;
-
 ```
 
 ```
@@ -21,47 +22,42 @@ SELECT *
  San Francisco |      46 |      50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)
  San Francisco |      43 |      57 |    0 | 1994-11-29 | San Francisco | (-194,53)
 (2 rows)
-
 ```
 
-Observe two things about the result set:
+在這個結果中可以觀察到兩件事情：
 
-* There is no result row for the city of Hayward. This is because there is no matching entry in the`cities`table for Hayward, so the join ignores the unmatched rows in the`weather`table. We will see shortly how this can be fixed.
+* 不會有關於 Hayward 的結果出現。這是因為在表格 cities 中未有 Hayward 的資料，所以交叉查詢會忽略表格 weather 中未能關連的資料。關於這點，我們很快就會有解決辦法。
+* 有兩個欄位顯示了城市的名稱。這樣是正確的，因為來自於表格 weather 和 cities 的欄位被串連起來了。實務上，這樣的結果並不令人滿意，所以也許你可以明確地指出輸出的欄位，取代「 \* 」的使用：
 
-* There are two columns containing the city name. This is correct because the lists of columns from the`weather`and`cities`tables are concatenated. In practice this is undesirable, though, so you will probably want to list the output columns explicitly rather than using`*`:
+```
+SELECT city, temp_lo, temp_hi, prcp, date, location
+    FROM weather, cities
+    WHERE city = name;
+```
 
-  ```
-  SELECT city, temp_lo, temp_hi, prcp, date, location
-      FROM weather, cities
-      WHERE city = name;
+**練習：**試試看，當 WHERE 表示式被省略的話，查詢語句的意義會怎麼樣？
 
-  ```
-
-**Exercise: **Attempt to determine the semantics of this query when the`WHERE`clause is omitted.
-
-Since the columns all had different names, the parser automatically found which table they belong to. If there were duplicate column names in the two tables you'd need to_qualify_the column names to show which one you meant, as in:
+因為所有的欄位都使用不同的名稱，所以解譯器會自動發現他們所屬的表格為何。如果在兩個表格之中，存在有相同名稱的欄位時，你最好明確指出確定的欄位，如下所示：
 
 ```
 SELECT weather.city, weather.temp_lo, weather.temp_hi,
        weather.prcp, weather.date, cities.location
     FROM weather, cities
     WHERE cities.name = weather.city;
-
 ```
 
-It is widely considered good style to qualify all column names in a join query, so that the query won't fail if a duplicate column name is later added to one of the tables.
+多數開發者認為，在交叉查詢中，明確指出確定的欄位名稱，是良好的撰寫習慣。這樣查詢就不會因為有相同的欄位名稱而產生錯誤。而相同名稱的欄位可能是開發後續才加入的，未指明的話，就可能造成意外的結果。
 
-Join queries of the kind seen thus far can also be written in this alternative form:
+交叉查詢也可以寫成如下的另一種形式：
 
 ```
 SELECT *
     FROM weather INNER JOIN cities ON (weather.city = cities.name);
-
 ```
 
-This syntax is not as commonly used as the one above, but we show it here to help you understand the following topics.
+這種語法並不如上述的常見，但我們會在這裡說明，以幫助你在後續章節的學習。
 
-Now we will figure out how we can get the Hayward records back in. What we want the query to do is to scan the`weather`table and for each row to find the matching`cities`row\(s\). If no matching row is found we want some“empty values”to be substituted for the`cities`table's columns. This kind of query is called an_outer join_. \(The joins we have seen so far are inner joins.\) The command looks like this:
+現在我們要回到前面的問題，把 Hayward 的資料放在輸出的結果之中。我們要在查詢中做的是，掃描表格 weather，找到有所關連的每一列資料；沒有關連的列，我們要填上「空值」（null）在表格 cities 相對的欄位之中。這樣的查詢我們稱作「外部交叉查詢」（outer join）。（先前的交叉查詢為「內部交叉查詢」（inner join））。這樣的查詢指令如下所示：
 
 ```
 SELECT *
@@ -73,46 +69,39 @@ SELECT *
  San Francisco |      46 |      50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)
  San Francisco |      43 |      57 |    0 | 1994-11-29 | San Francisco | (-194,53)
 (3 rows)
-
 ```
 
-This query is called a_left outer join_because the table mentioned on the left of the join operator will have each of its rows in the output at least once, whereas the table on the right will only have those rows output that match some row of the left table. When outputting a left-table row for which there is no right-table match, empty \(null\) values are substituted for the right-table columns.
+這種查詢稱作為「左側外部查詢」（left outer join），因為這個交叉查詢，放在左側的表格中的列，一定會在結果中至少出現一次，而右側的表格中，則只有輸出有關連到左側表格的列。當左側表格的列，並沒有在右側表格中被關連到時，屬於右側表格的欄位就會被填上空值輸出。
 
-**Exercise: **There are also right outer joins and full outer joins. Try to find out what those do.
+**練習：**也有「右側外部交叉查詢」（right outer join）和「完全外部交叉查詢」（full outer join），試著找出他們都做了些什麼。
 
-We can also join a table against itself. This is called a_self join_. As an example, suppose we wish to find all the weather records that are in the temperature range of other weather records. So we need to compare the`temp_lo`and`temp_hi`columns of each`weather`row to the`temp_lo`and`temp_hi`columns of all other`weather`rows. We can do this with the following query:
+我們也可以對同一個表格做交叉查詢，稱作為「自我交叉查詢」（self join）。接下來的範例，假設我們希望找到所有氣溫範圍的天氣資料。所以我們需要讓 temp\_lo 及  temp\_hi 兩個欄位，和其他的 temp\_lo 及 temp\_high 相比較。我們可以用下列的查詢來符合需求：
 
 ```
 SELECT W1.city, W1.temp_lo AS low, W1.temp_hi AS high,
     W2.city, W2.temp_lo AS low, W2.temp_hi AS high
     FROM weather W1, weather W2
-    WHERE W1.temp_lo 
-<
- W2.temp_lo
-    AND W1.temp_hi 
->
- W2.temp_hi;
+    WHERE W1.temp_lo < W2.temp_lo
+    AND W1.temp_hi > W2.temp_hi;
 
      city      | low | high |     city      | low | high
 ---------------+-----+------+---------------+-----+------
  San Francisco |  43 |   57 | San Francisco |  46 |   50
  Hayward       |  37 |   54 | San Francisco |  46 |   50
 (2 rows)
-
 ```
 
-Here we have relabeled the weather table as`W1`and`W2`to be able to distinguish the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:
+這裡我們重新命名了表格 weather 為 W1 及 W2，以在交叉查詢中區分左側及右側。你也可以在其他查詢中使用這個技巧，以節省輸入的複雜度，例如：
 
 ```
 SELECT *
     FROM weather w, cities c
     WHERE w.city = c.name;
-
 ```
 
-You will encounter this style of abbreviating quite frequently.
+你將會在後續內容中，不斷練習到這樣的使用方式。
 
 ---
 
-[^1]: [PostgreSQL: Documentation: 10: 2.6. Joins Between Tables](https://www.postgresql.org/docs/10/static/tutorial-join.html)
+[^1]: [PostgreSQL: Documentation: 10: 2.6. Joins Between Tables](https://www.postgresql.org/docs/10/static/tutorial-join.html)
 
