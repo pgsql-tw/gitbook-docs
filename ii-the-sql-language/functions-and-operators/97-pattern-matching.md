@@ -1,4 +1,4 @@
-# 9.7. 樣式比對[^1]
+# 9.7. 特徵比對[^1]
 
 There are three separate approaches to pattern matching provided byPostgreSQL: the traditionalSQL`LIKE`operator, the more recent`SIMILAR TO`operator \(added in SQL:1999\), andPOSIX-style regular expressions. Aside from the basic“does this string match this pattern?”operators, functions are available to extract or replace matching substrings and to split a string at matching locations.
 
@@ -14,9 +14,7 @@ Searches using`SIMILAR TO`patterns have the same security hazards, since`SIMILAR
 
 `LIKE`searches, being much simpler than the other two options, are safer to use with possibly-hostile pattern sources.
 
-### 9.7.1. `LIKE`
-
-
+### 9.7.1. `LIKE`
 
 ```
 string
@@ -34,12 +32,11 @@ pattern
 ESCAPE 
 escape-character
 ]
-
 ```
 
-The`LIKE`expression returns true if the_`string`_matches the supplied_`pattern`_. \(As expected, the`NOT LIKE`expression returns false if`LIKE`returns true, and vice versa. An equivalent expression is`NOT (`_`string`_LIKE_`pattern`_\).\)
+The`LIKE`expression returns true if the`string`_\_matches the supplied_`pattern`_. \(As expected, the_`NOT LIKE`_expression returns false if_`LIKE`_returns true, and vice versa. An equivalent expression is_`NOT (string`_LIKE_`pattern`\_\).\)
 
-If_`pattern`_does not contain percent signs or underscores, then the pattern only represents the string itself; in that case`LIKE`acts like the equals operator. An underscore \(`_`\) in_`pattern`_stands for \(matches\) any single character; a percent sign \(`%`\) matches any sequence of zero or more characters.
+If`pattern`_\_does not contain percent signs or underscores, then the pattern only represents the string itself; in that case_`LIKE`_acts like the equals operator. An underscore \(\`_`\) in_`pattern`_stands for \(matches\) any single character; a percent sign \(`%\`\) matches any sequence of zero or more characters.
 
 Some examples:
 
@@ -59,11 +56,11 @@ false
 
 `LIKE`pattern matching always covers the entire string. Therefore, if it's desired to match a sequence anywhere within a string, the pattern must start and end with a percent sign.
 
-To match a literal underscore or percent sign without matching other characters, the respective character in_`pattern`_must be preceded by the escape character. The default escape character is the backslash but a different one can be selected by using the`ESCAPE`clause. To match the escape character itself, write two escape characters.
+To match a literal underscore or percent sign without matching other characters, the respective character in\_`pattern`\_must be preceded by the escape character. The default escape character is the backslash but a different one can be selected by using the`ESCAPE`clause. To match the escape character itself, write two escape characters.
 
 ### Note
 
-If you have[standard\_conforming\_strings](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#guc-standard-conforming-strings)turned off, any backslashes you write in literal string constants will need to be doubled. See[Section 4.1.2.1](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-strings)for more information.
+If you have[standard\_conforming\_strings](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#guc-standard-conforming-strings)turned off, any backslashes you write in literal string constants will need to be doubled. See[Section 4.1.2.1](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-strings)for more information.
 
 It's also possible to select no escape character by writing`ESCAPE ''`. This effectively disables the escape mechanism, which makes it impossible to turn off the special meaning of underscore and percent signs in the pattern.
 
@@ -71,13 +68,7 @@ The key word`ILIKE`can be used instead of`LIKE`to make the match case-insensitiv
 
 The operator`~~`is equivalent to`LIKE`, and`~~*`corresponds to`ILIKE`. There are also`!~~`and`!~~*`operators that represent`NOT LIKE`and`NOT ILIKE`, respectively. All of these operators arePostgreSQL-specific.
 
-### 9.7.2. `SIMILAR TO`Regular Expressions
-
-
-
-
-
-
+### 9.7.2. `SIMILAR TO`Regular Expressions
 
 ```
 string
@@ -95,7 +86,6 @@ pattern
 ESCAPE 
 escape-character
 ]
-
 ```
 
 The`SIMILAR TO`operator returns true or false depending on whether its pattern matches the given string. It is similar to`LIKE`, except that it interprets the pattern using the SQL standard's definition of a regular expression. SQL regular expressions are a curious cross between`LIKE`notation and common regular expression notation.
@@ -112,11 +102,11 @@ In addition to these facilities borrowed from`LIKE`,`SIMILAR TO`supports these p
 
 * `?`denotes repetition of the previous item zero or one time.
 
-* `{`_`m`_`}`denotes repetition of the previous item exactly_`m`_times.
+* `{m}`denotes repetition of the previous item exactly\_`m`\_times.
 
-* `{`_`m`_`,}`denotes repetition of the previous item_`m`_or more times.
+* `{m,}`denotes repetition of the previous item\_`m`\_or more times.
 
-* `{`_`m`_`,`_`n`_`}`denotes repetition of the previous item at least_`m`_and not more than_`n`_times.
+* `{m,n}`denotes repetition of the previous item at least`m`_\_and not more than_`n`\_times.
 
 * Parentheses`()`can be used to group items into a single logical item.
 
@@ -142,7 +132,7 @@ true
 false
 ```
 
-The`substring`function with three parameters,`substring(`_`string`_from_`pattern`_for_`escape-character`_\), provides extraction of a substring that matches an SQL regular expression pattern. As with`SIMILAR TO`, the specified pattern must match the entire data string, or else the function fails and returns null. To indicate the part of the pattern that should be returned on success, the pattern must contain two occurrences of the escape character followed by a double quote \(`"`\). The text matching the portion of the pattern between these markers is returned.
+The`substring`function with three parameters,`substring(string`_\_from_`pattern`_for_`escape-character`\_\), provides extraction of a substring that matches an SQL regular expression pattern. As with`SIMILAR TO`, the specified pattern must match the entire data string, or else the function fails and returns null. To indicate the part of the pattern that should be returned on success, the pattern must contain two occurrences of the escape character followed by a double quote \(`"`\). The text matching the portion of the pattern between these markers is returned.
 
 Some examples, with`#"`delimiting the return string:
 
@@ -154,25 +144,11 @@ substring('foobar' from '#"o_b#"%' for '#')
 NULL
 ```
 
-### 9.7.3. POSIXRegular Expressions
+### 9.7.3. POSIXRegular Expressions
 
+[Table 9.14](https://www.postgresql.org/docs/10/static/functions-matching.html#functions-posix-table)lists the available operators for pattern matching using POSIX regular expressions.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-[Table 9.14](https://www.postgresql.org/docs/10/static/functions-matching.html#functions-posix-table)lists the available operators for pattern matching using POSIX regular expressions.
-
-**Table 9.14. Regular Expression Match Operators**
+**Table 9.14. Regular Expression Match Operators**
 
 | Operator | Description | Example |
 | :--- | :--- | :--- |
@@ -180,9 +156,6 @@ NULL
 | `~*` | Matches regular expression, case insensitive | `'thomas' ~* '.*Thomas.*'` |
 | `!~` | Does not match regular expression, case sensitive | `'thomas' !~ '.*Thomas.*'` |
 | `!~*` | Does not match regular expression, case insensitive | `'thomas' !~* '.*vadim.*'` |
-
-  
-
 
 POSIXregular expressions provide a more powerful means for pattern matching than the`LIKE`and`SIMILAR TO`operators. Many Unix tools such as`egrep`,`sed`, or`awk`use a pattern matching language that is similar to the one described here.
 
@@ -206,7 +179,7 @@ false
 
 ThePOSIXpattern language is described in much greater detail below.
 
-The`substring`function with two parameters,`substring(`_`string`_from_`pattern`_\), provides extraction of a substring that matches a POSIX regular expression pattern. It returns null if there is no match, otherwise the portion of the text that matched the pattern. But if the pattern contains any parentheses, the portion of the text that matched the first parenthesized subexpression \(the one whose left parenthesis comes first\) is returned. You can put parentheses around the whole expression if you want to use parentheses within it without triggering this exception. If you need parentheses in the pattern before the subexpression you want to extract, see the non-capturing parentheses described below.
+The`substring`function with two parameters,`substring(string`_\_from_`pattern`\_\), provides extraction of a substring that matches a POSIX regular expression pattern. It returns null if there is no match, otherwise the portion of the text that matched the pattern. But if the pattern contains any parentheses, the portion of the text that matched the first parenthesized subexpression \(the one whose left parenthesis comes first\) is returned. You can put parentheses around the whole expression if you want to use parentheses within it without triggering this exception. If you need parentheses in the pattern before the subexpression you want to extract, see the non-capturing parentheses described below.
 
 Some examples:
 
@@ -218,25 +191,25 @@ substring('foobar' from 'o(.)b')
 o
 ```
 
-The`regexp_replace`function provides substitution of new text for substrings that match POSIX regular expression patterns. It has the syntax`regexp_replace`\(_`source`_,_`pattern`_,_`replacement`_\[,_`flags`_\]\). The_`source`_string is returned unchanged if there is no match to the_`pattern`_. If there is a match, the_`source`_string is returned with the_`replacement`_string substituted for the matching substring. The_`replacement`_string can contain`\`_`n`_, where_`n`_is 1 through 9, to indicate that the source substring matching the_`n`_'th parenthesized subexpression of the pattern should be inserted, and it can contain`\&`to indicate that the substring matching the entire pattern should be inserted. Write`\\`if you need to put a literal backslash in the replacement text. The_`flags`_parameter is an optional text string containing zero or more single-letter flags that change the function's behavior. Flag`i`specifies case-insensitive matching, while flag`g`specifies replacement of each matching substring rather than only the first one. Supported flags \(though not`g`\) are described in[Table 9.22](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table).
+The`regexp_replace`function provides substitution of new text for substrings that match POSIX regular expression patterns. It has the syntax`regexp_replace`\(`source`,`pattern`,`replacement`\[,`flags`\]\). The`source`_\_string is returned unchanged if there is no match to the_`pattern`_. If there is a match, the_`source`_string is returned with the_`replacement`_string substituted for the matching substring. The_`replacement`_string can contain_`\n`_, where_`n`_is 1 through 9, to indicate that the source substring matching the_`n`_'th parenthesized subexpression of the pattern should be inserted, and it can contain_`\&`_to indicate that the substring matching the entire pattern should be inserted. Write_`\\`_if you need to put a literal backslash in the replacement text. The_`flags`\_parameter is an optional text string containing zero or more single-letter flags that change the function's behavior. Flag`i`specifies case-insensitive matching, while flag`g`specifies replacement of each matching substring rather than only the first one. Supported flags \(though not`g`\) are described in[Table 9.22](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table).
 
 Some examples:
 
 ```
 regexp_replace('foobarbaz', 'b..', 'X')
-                                   
+
 fooXbaz
 
 regexp_replace('foobarbaz', 'b..', 'X', 'g')
-                                   
+
 fooXX
 
 regexp_replace('foobarbaz', 'b(..)', E'X\\1Y', 'g')
-                                   
+
 fooXarYXazY
 ```
 
-The`regexp_match`function returns a text array of captured substring\(s\) resulting from the first match of a POSIX regular expression pattern to a string. It has the syntax`regexp_match`\(_`string`_,_`pattern`_\[,_`flags`_\]\). If there is no match, the result is`NULL`. If a match is found, and the_`pattern`_contains no parenthesized subexpressions, then the result is a single-element text array containing the substring matching the whole pattern. If a match is found, and the_`pattern`_contains parenthesized subexpressions, then the result is a text array whose_`n`_'th element is the substring matching the_`n`_'th parenthesized subexpression of the_`pattern`_\(not counting“non-capturing”parentheses; see below for details\). The_`flags`_parameter is an optional text string containing zero or more single-letter flags that change the function's behavior. Supported flags are described in[Table 9.22](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table).
+The`regexp_match`function returns a text array of captured substring\(s\) resulting from the first match of a POSIX regular expression pattern to a string. It has the syntax`regexp_match`\(`string`,`pattern`\[,`flags`\]\). If there is no match, the result is`NULL`. If a match is found, and the`pattern`_\_contains no parenthesized subexpressions, then the result is a single-element text array containing the substring matching the whole pattern. If a match is found, and the_`pattern`_contains parenthesized subexpressions, then the result is a text array whose_`n`_'th element is the substring matching the_`n`_'th parenthesized subexpression of the_`pattern`_\(not counting“non-capturing”parentheses; see below for details\). The_`flags`\_parameter is an optional text string containing zero or more single-letter flags that change the function's behavior. Supported flags are described in[Table 9.22](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table).
 
 Some examples:
 
@@ -252,7 +225,6 @@ SELECT regexp_match('foobarbequebaz', '(bar)(beque)');
 --------------
  {bar,beque}
 (1 row)
-
 ```
 
 In the common case where you just want the whole matching substring or`NULL`for no match, write something like
@@ -263,10 +235,9 @@ SELECT (regexp_match('foobarbequebaz', 'bar.*que'))[1];
 --------------
  barbeque
 (1 row)
-
 ```
 
-The`regexp_matches`function returns a set of text arrays of captured substring\(s\) resulting from matching a POSIX regular expression pattern to a string. It has the same syntax as`regexp_match`. This function returns no rows if there is no match, one row if there is a match and the`g`flag is not given, or_`N`_rows if there are_`N`_matches and the`g`flag is given. Each returned row is a text array containing the whole matched substring or the substrings matching parenthesized subexpressions of the_`pattern`_, just as described above for`regexp_match`.`regexp_matches`accepts all the flags shown in[Table 9.22](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table), plus the`g`flag which commands it to return all matches, not just the first one.
+The`regexp_matches`function returns a set of text arrays of captured substring\(s\) resulting from matching a POSIX regular expression pattern to a string. It has the same syntax as`regexp_match`. This function returns no rows if there is no match, one row if there is a match and the`g`flag is not given, or`N`_\_rows if there are_`N`_matches and the_`g`_flag is given. Each returned row is a text array containing the whole matched substring or the substrings matching parenthesized subexpressions of the_`pattern`\_, just as described above for`regexp_match`.`regexp_matches`accepts all the flags shown in[Table 9.22](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table), plus the`g`flag which commands it to return all matches, not just the first one.
 
 Some examples:
 
@@ -282,7 +253,6 @@ SELECT regexp_matches('foobarbequebazilbarfbonk', '(b[^b]+)(b[^b]+)', 'g');
  {bar,beque}
  {bazil,barf}
 (2 rows)
-
 ```
 
 ### Tip
@@ -291,14 +261,13 @@ In most cases`regexp_matches()`should be used with the`g`flag, since if you only
 
 ```
 SELECT col1, (SELECT regexp_matches(col2, '(bar)(beque)')) FROM tab;
-
 ```
 
 This produces a text array if there's a match, or`NULL`if not, the same as`regexp_match()`would do. Without the sub-select, this query would produce no output at all for table rows without a match, which is typically not the desired behavior.
 
-The`regexp_split_to_table`function splits a string using a POSIX regular expression pattern as a delimiter. It has the syntax`regexp_split_to_table`\(_`string`_,_`pattern`_\[,_`flags`_\]\). If there is no match to the_`pattern`_, the function returns the_`string`_. If there is at least one match, for each match it returns the text from the end of the last match \(or the beginning of the string\) to the beginning of the match. When there are no more matches, it returns the text from the end of the last match to the end of the string. The_`flags`_parameter is an optional text string containing zero or more single-letter flags that change the function's behavior.`regexp_split_to_table`supports the flags described in[Table 9.22](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table).
+The`regexp_split_to_table`function splits a string using a POSIX regular expression pattern as a delimiter. It has the syntax`regexp_split_to_table`\(`string`,`pattern`\[,`flags`\]\). If there is no match to the`pattern`, the function returns the`string`. If there is at least one match, for each match it returns the text from the end of the last match \(or the beginning of the string\) to the beginning of the match. When there are no more matches, it returns the text from the end of the last match to the end of the string. The\_`flags`\_parameter is an optional text string containing zero or more single-letter flags that change the function's behavior.`regexp_split_to_table`supports the flags described in[Table 9.22](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table).
 
-The`regexp_split_to_array`function behaves the same as`regexp_split_to_table`, except that`regexp_split_to_array`returns its result as an array of`text`. It has the syntax`regexp_split_to_array`\(_`string`_,_`pattern`_\[,_`flags`_\]\). The parameters are the same as for`regexp_split_to_table`.
+The`regexp_split_to_array`function behaves the same as`regexp_split_to_table`, except that`regexp_split_to_array`returns its result as an array of`text`. It has the syntax`regexp_split_to_array`\(`string`,`pattern`\[,`flags`\]\). The parameters are the same as for`regexp_split_to_table`.
 
 Some examples:
 
@@ -343,98 +312,88 @@ SELECT foo FROM regexp_split_to_table('the quick brown fox', E'\\s*') AS foo;
  o         
  x         
 (16 rows)
-
 ```
 
 As the last example demonstrates, the regexp split functions ignore zero-length matches that occur at the start or end of the string or immediately after a previous match. This is contrary to the strict definition of regexp matching that is implemented by`regexp_match`and`regexp_matches`, but is usually the most convenient behavior in practice. Other software systems such as Perl use similar definitions.
 
-#### 9.7.3.1. Regular Expression Details
+#### 9.7.3.1. Regular Expression Details
 
 PostgreSQL's regular expressions are implemented using a software package written by Henry Spencer. Much of the description of regular expressions below is copied verbatim from his manual.
 
-Regular expressions \(REs\), as defined inPOSIX1003.2, come in two forms:_extended_REs orEREs \(roughly those of`egrep`\), and_basic_REs orBREs \(roughly those of`ed`\).PostgreSQLsupports both forms, and also implements some extensions that are not in the POSIX standard, but have become widely used due to their availability in programming languages such as Perl and Tcl.REs using these non-POSIX extensions are called_advanced_REs orAREs in this documentation. AREs are almost an exact superset of EREs, but BREs have several notational incompatibilities \(as well as being much more limited\). We first describe the ARE and ERE forms, noting features that apply only to AREs, and then describe how BREs differ.
+Regular expressions \(REs\), as defined inPOSIX1003.2, come in two forms:\_extended\_REs orEREs \(roughly those of`egrep`\), and\_basic\_REs orBREs \(roughly those of`ed`\).PostgreSQLsupports both forms, and also implements some extensions that are not in the POSIX standard, but have become widely used due to their availability in programming languages such as Perl and Tcl.REs using these non-POSIX extensions are called\_advanced\_REs orAREs in this documentation. AREs are almost an exact superset of EREs, but BREs have several notational incompatibilities \(as well as being much more limited\). We first describe the ARE and ERE forms, noting features that apply only to AREs, and then describe how BREs differ.
 
 ### Note
 
-PostgreSQLalways initially presumes that a regular expression follows the ARE rules. However, the more limited ERE or BRE rules can be chosen by prepending an_embedded option_to the RE pattern, as described in[Section 9.7.3.4](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-metasyntax). This can be useful for compatibility with applications that expect exactly thePOSIX1003.2 rules.
+PostgreSQLalways initially presumes that a regular expression follows the ARE rules. However, the more limited ERE or BRE rules can be chosen by prepending an\_embedded option\_to the RE pattern, as described in[Section 9.7.3.4](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-metasyntax). This can be useful for compatibility with applications that expect exactly thePOSIX1003.2 rules.
 
 A regular expression is defined as one or more_branches_, separated by`|`. It matches anything that matches one of the branches.
 
-A branch is zero or more_quantified atoms_or_constraints_, concatenated. It matches a match for the first, followed by a match for the second, etc; an empty branch matches the empty string.
+A branch is zero or more_quantified atoms\_or\_constraints_, concatenated. It matches a match for the first, followed by a match for the second, etc; an empty branch matches the empty string.
 
-A quantified atom is an_atom_possibly followed by a single_quantifier_. Without a quantifier, it matches a match for the atom. With a quantifier, it can match some number of matches of the atom. An_atom_can be any of the possibilities shown in[Table 9.15](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-atoms-table). The possible quantifiers and their meanings are shown in[Table 9.16](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-quantifiers-table).
+A quantified atom is an_atom\_possibly followed by a single\_quantifier_. Without a quantifier, it matches a match for the atom. With a quantifier, it can match some number of matches of the atom. An\_atom\_can be any of the possibilities shown in[Table 9.15](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-atoms-table). The possible quantifiers and their meanings are shown in[Table 9.16](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-quantifiers-table).
 
-A_constraint_matches an empty string, but matches only when specific conditions are met. A constraint can be used where an atom could be used, except it cannot be followed by a quantifier. The simple constraints are shown in[Table 9.17](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-constraints-table); some more constraints are described later.
+A\_constraint\_matches an empty string, but matches only when specific conditions are met. A constraint can be used where an atom could be used, except it cannot be followed by a quantifier. The simple constraints are shown in[Table 9.17](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-constraints-table); some more constraints are described later.
 
-**Table 9.15. Regular Expression Atoms**
+**Table 9.15. Regular Expression Atoms**
 
 | Atom | Description |
 | :--- | :--- |
-| `(`_`re`_`)` | \(where_`re`_is any regular expression\) matches a match for_`re`_, with the match noted for possible reporting |
-| `(?:`_`re`_`)` | as above, but the match is not noted for reporting \(a“non-capturing”set of parentheses\) \(AREs only\) |
+| `(re)` | \(where`re`_\_is any regular expression\) matches a match for_`re`\_, with the match noted for possible reporting |
+| `(?:re)` | as above, but the match is not noted for reporting \(a“non-capturing”set of parentheses\) \(AREs only\) |
 | `.` | matches any single character |
-| `[`_`chars`_`]` | a_bracket expression_, matching any one of the_`chars`_\(see[Section 9.7.3.2](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-bracket-expressions)for more detail\) |
-| `\`_`k`_ | \(where_`k`_is a non-alphanumeric character\) matches that character taken as an ordinary character, e.g.,`\\`matches a backslash character |
-| `\`_`c`_ | where_`c`_is alphanumeric \(possibly followed by other characters\) is an_escape_, see[Section 9.7.3.3](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-escape-sequences)\(AREs only; in EREs and BREs, this matches_`c`_\) |
-| `{` | when followed by a character other than a digit, matches the left-brace character`{`; when followed by a digit, it is the beginning of a_`bound`_\(see below\) |
-| _`x`_ | where_`x`_is a single character with no other significance, matches that character |
-
-  
-
+| `[chars]` | a_bracket expression_, matching any one of the`chars`\(see[Section 9.7.3.2](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-bracket-expressions)for more detail\) |
+| `\k` | \(where\_`k`\_is a non-alphanumeric character\) matches that character taken as an ordinary character, e.g.,`\\`matches a backslash character |
+| `\c` | where`c`_\_is alphanumeric \(possibly followed by other characters\) is an\_escape_, see[Section 9.7.3.3](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-escape-sequences)\(AREs only; in EREs and BREs, this matches`c`\) |
+| `{` | when followed by a character other than a digit, matches the left-brace character`{`; when followed by a digit, it is the beginning of a`bound`\(see below\) |
+| `x` | where\_`x`\_is a single character with no other significance, matches that character |
 
 An RE cannot end with a backslash \(`\`\).
 
 ### Note
 
-If you have[standard\_conforming\_strings](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#guc-standard-conforming-strings)turned off, any backslashes you write in literal string constants will need to be doubled. See[Section 4.1.2.1](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-strings)for more information.
+If you have[standard\_conforming\_strings](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#guc-standard-conforming-strings)turned off, any backslashes you write in literal string constants will need to be doubled. See[Section 4.1.2.1](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-strings)for more information.
 
-**Table 9.16. Regular Expression Quantifiers**
+**Table 9.16. Regular Expression Quantifiers**
 
 | Quantifier | Matches |
 | :--- | :--- |
 | `*` | a sequence of 0 or more matches of the atom |
 | `+` | a sequence of 1 or more matches of the atom |
 | `?` | a sequence of 0 or 1 matches of the atom |
-| `{`_`m`_`}` | a sequence of exactly_`m`_matches of the atom |
-| `{`_`m`_`,}` | a sequence of_`m`_or more matches of the atom |
-| `{`_`m`_`,`_`n`_`}` | a sequence of_`m`_through_`n`_\(inclusive\) matches of the atom;_`m`_cannot exceed_`n`_ |
+| `{m}` | a sequence of exactly\_`m`\_matches of the atom |
+| `{m,}` | a sequence of\_`m`\_or more matches of the atom |
+| `{m,n}` | a sequence of`m`_\_through_`n`_\(inclusive\) matches of the atom;_`m`_cannot exceed_`n`\_ |
 | `*?` | non-greedy version of`*` |
 | `+?` | non-greedy version of`+` |
 | `??` | non-greedy version of`?` |
-| `{`_`m`_`}?` | non-greedy version of`{`_`m`_`}` |
-| `{`_`m`_`,}?` | non-greedy version of`{`_`m`_`,}` |
-| `{`_`m`_`,`_`n`_`}?` | non-greedy version of`{`_`m`_`,`_`n`_`}` |
+| `{m}?` | non-greedy version of`{m}` |
+| `{m,}?` | non-greedy version of`{m,}` |
+| `{m,n}?` | non-greedy version of`{m,n}` |
 
-  
+The forms using`{...}`are known as_bounds_. The numbers`m`_\_and_`n`\_within a bound are unsigned decimal integers with permissible values from 0 to 255 inclusive.
 
-
-The forms using`{`_`...`_`}`are known as_bounds_. The numbers_`m`_and_`n`_within a bound are unsigned decimal integers with permissible values from 0 to 255 inclusive.
-
-_Non-greedy_quantifiers \(available in AREs only\) match the same possibilities as their corresponding normal \(_greedy_\) counterparts, but prefer the smallest number rather than the largest number of matches. See[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)for more detail.
+_Non-greedy\_quantifiers \(available in AREs only\) match the same possibilities as their corresponding normal \(\_greedy_\) counterparts, but prefer the smallest number rather than the largest number of matches. See[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)for more detail.
 
 ### Note
 
 A quantifier cannot immediately follow another quantifier, e.g.,`**`is invalid. A quantifier cannot begin an expression or subexpression or follow`^`or`|`.
 
-**Table 9.17. Regular Expression Constraints**
+**Table 9.17. Regular Expression Constraints**
 
 | Constraint | Description |
 | :--- | :--- |
 | `^` | matches at the beginning of the string |
 | `$` | matches at the end of the string |
-| `(?=`_`re`_`)` | _positive lookahead_matches at any point where a substring matching_`re`_begins \(AREs only\) |
-| `(?!`_`re`_`)` | _negative lookahead_matches at any point where no substring matching_`re`_begins \(AREs only\) |
-| `(?<=`_`re`_`)` | _positive lookbehind_matches at any point where a substring matching_`re`_ends \(AREs only\) |
-| `(?<!`_`re`_`)` | _negative lookbehind_matches at any point where no substring matching_`re`_ends \(AREs only\) |
+| `(?=re)` | _positive lookahead\_matches at any point where a substring matching_`re`\_begins \(AREs only\) |
+| `(?!re)` | _negative lookahead\_matches at any point where no substring matching_`re`\_begins \(AREs only\) |
+| `(?<=re)` | _positive lookbehind\_matches at any point where a substring matching_`re`\_ends \(AREs only\) |
+| `(?<!re)` | _negative lookbehind\_matches at any point where no substring matching_`re`\_ends \(AREs only\) |
 
-  
+Lookahead and lookbehind constraints cannot contain_back references_\(see[Section 9.7.3.3](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-escape-sequences)\), and all parentheses within them are considered non-capturing.
 
+#### 9.7.3.2. Bracket Expressions
 
-Lookahead and lookbehind constraints cannot contain_back references_\(see[Section 9.7.3.3](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-escape-sequences)\), and all parentheses within them are considered non-capturing.
-
-#### 9.7.3.2. Bracket Expressions
-
-A_bracket expression_is a list of characters enclosed in`[]`. It normally matches any single character from the list \(but see below\). If the list begins with`^`, it matches any single character_not_from the rest of the list. If two characters in the list are separated by`-`, this is shorthand for the full range of characters between those two \(inclusive\) in the collating sequence, e.g.,`[0-9]`inASCIImatches any decimal digit. It is illegal for two ranges to share an endpoint, e.g.,`a-c-e`. Ranges are very collating-sequence-dependent, so portable programs should avoid relying on them.
+A\_bracket expression\_is a list of characters enclosed in`[]`. It normally matches any single character from the list \(but see below\). If the list begins with`^`, it matches any single character\_not\_from the rest of the list. If two characters in the list are separated by`-`, this is shorthand for the full range of characters between those two \(inclusive\) in the collating sequence, e.g.,`[0-9]`inASCIImatches any decimal digit. It is illegal for two ranges to share an endpoint, e.g.,`a-c-e`. Ranges are very collating-sequence-dependent, so portable programs should avoid relying on them.
 
 To include a literal`]`in the list, make it the first character \(after`^`, if that is used\). To include a literal`-`, make it the first or last character, or the second endpoint of a range. To use a literal`-`as the first endpoint of a range, enclose it in`[.`and`.]`to make it a collating element \(see below\). With the exception of these characters, some combinations using`[`\(see next paragraphs\), and escapes \(AREs only\), all other special characters lose their special significance within a bracket expression. In particular,`\`is not special when following ERE or BRE rules, though it is special \(as introducing an escape\) in AREs.
 
@@ -450,41 +409,38 @@ Within a bracket expression, the name of a character class enclosed in`[:`and`:]
 
 There are two special cases of bracket expressions: the bracket expressions`[[:<:]]`and`[[:>:]]`are constraints, matching empty strings at the beginning and end of a word respectively. A word is defined as a sequence of word characters that is neither preceded nor followed by word characters. A word character is an`alnum`character \(as defined byctype\) or an underscore. This is an extension, compatible with but not specified byPOSIX1003.2, and should be used with caution in software intended to be portable to other systems. The constraint escapes described below are usually preferable; they are no more standard, but are easier to type.
 
-#### 9.7.3.3. Regular Expression Escapes
+#### 9.7.3.3. Regular Expression Escapes
 
-_Escapes_are special sequences beginning with`\`followed by an alphanumeric character. Escapes come in several varieties: character entry, class shorthands, constraint escapes, and back references. A`\`followed by an alphanumeric character but not constituting a valid escape is illegal in AREs. In EREs, there are no escapes: outside a bracket expression, a`\`followed by an alphanumeric character merely stands for that character as an ordinary character, and inside a bracket expression,`\`is an ordinary character. \(The latter is the one actual incompatibility between EREs and AREs.\)
+\_Escapes\_are special sequences beginning with`\`followed by an alphanumeric character. Escapes come in several varieties: character entry, class shorthands, constraint escapes, and back references. A`\`followed by an alphanumeric character but not constituting a valid escape is illegal in AREs. In EREs, there are no escapes: outside a bracket expression, a`\`followed by an alphanumeric character merely stands for that character as an ordinary character, and inside a bracket expression,`\`is an ordinary character. \(The latter is the one actual incompatibility between EREs and AREs.\)
 
-_Character-entry escapes_exist to make it easier to specify non-printing and other inconvenient characters in REs. They are shown in[Table 9.18](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-character-entry-escapes-table).
+\_Character-entry escapes\_exist to make it easier to specify non-printing and other inconvenient characters in REs. They are shown in[Table 9.18](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-character-entry-escapes-table).
 
-_Class-shorthand escapes_provide shorthands for certain commonly-used character classes. They are shown in[Table 9.19](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-class-shorthand-escapes-table).
+\_Class-shorthand escapes\_provide shorthands for certain commonly-used character classes. They are shown in[Table 9.19](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-class-shorthand-escapes-table).
 
-A_constraint escape_is a constraint, matching the empty string if specific conditions are met, written as an escape. They are shown in[Table 9.20](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-constraint-escapes-table).
+A\_constraint escape\_is a constraint, matching the empty string if specific conditions are met, written as an escape. They are shown in[Table 9.20](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-constraint-escapes-table).
 
-A_back reference_\(`\`_`n`_\) matches the same string matched by the previous parenthesized subexpression specified by the number_`n`_\(see[Table 9.21](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-constraint-backref-table)\). For example,`([bc])\1`matches`bb`or`cc`but not`bc`or`cb`. The subexpression must entirely precede the back reference in the RE. Subexpressions are numbered in the order of their leading parentheses. Non-capturing parentheses do not define subexpressions.
+A_back reference_\(`\n`\) matches the same string matched by the previous parenthesized subexpression specified by the number`n`\(see[Table 9.21](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-constraint-backref-table)\). For example,`([bc])\1`matches`bb`or`cc`but not`bc`or`cb`. The subexpression must entirely precede the back reference in the RE. Subexpressions are numbered in the order of their leading parentheses. Non-capturing parentheses do not define subexpressions.
 
-**Table 9.18. Regular Expression Character-entry Escapes**
+**Table 9.18. Regular Expression Character-entry Escapes**
 
 | Escape | Description |
 | :--- | :--- |
 | `\a` | alert \(bell\) character, as in C |
 | `\b` | backspace, as in C |
 | `\B` | synonym for backslash \(`\`\) to help reduce the need for backslash doubling |
-| `\c`_`X`_ | \(where_`X`_is any character\) the character whose low-order 5 bits are the same as those of_`X`_, and whose other bits are all zero |
+| `\cX` | \(where`X`_\_is any character\) the character whose low-order 5 bits are the same as those of_`X`\_, and whose other bits are all zero |
 | `\e` | the character whose collating-sequence name is`ESC`, or failing that, the character with octal value`033` |
 | `\f` | form feed, as in C |
 | `\n` | newline, as in C |
 | `\r` | carriage return, as in C |
 | `\t` | horizontal tab, as in C |
-| `\u`_`wxyz`_ | \(where_`wxyz`_is exactly four hexadecimal digits\) the character whose hexadecimal value is`0x`_`wxyz`_ |
-| `\U`_`stuvwxyz`_ | \(where_`stuvwxyz`_is exactly eight hexadecimal digits\) the character whose hexadecimal value is`0x`_`stuvwxyz`_ |
+| `\uwxyz` | \(where`wxyz`_\_is exactly four hexadecimal digits\) the character whose hexadecimal value is_`0xwxyz`\_ |
+| `\Ustuvwxyz` | \(where`stuvwxyz`_\_is exactly eight hexadecimal digits\) the character whose hexadecimal value is_`0xstuvwxyz`\_ |
 | `\v` | vertical tab, as in C |
-| `\x`_`hhh`_ | \(where_`hhh`_is any sequence of hexadecimal digits\) the character whose hexadecimal value is`0x`_`hhh`_\(a single character no matter how many hexadecimal digits are used\) |
+| `\xhhh` | \(where`hhh`_\_is any sequence of hexadecimal digits\) the character whose hexadecimal value is_`0xhhh`\_\(a single character no matter how many hexadecimal digits are used\) |
 | `\0` | the character whose value is`0`\(the null byte\) |
-| `\`_`xy`_ | \(where_`xy`_is exactly two octal digits, and is not a_back reference_\) the character whose octal value is`0`_`xy`_ |
-| `\`_`xyz`_ | \(where_`xyz`_is exactly three octal digits, and is not a_back reference_\) the character whose octal value is`0`_`xyz`_ |
-
-  
-
+| `\xy` | \(where`xy`_\_is exactly two octal digits, and is not a\_back reference_\) the character whose octal value is`0xy` |
+| `\xyz` | \(where`xyz`_\_is exactly three octal digits, and is not a\_back reference_\) the character whose octal value is`0xyz` |
 
 Hexadecimal digits are`0`-`9`,`a`-`f`, and`A`-`F`. Octal digits are`0`-`7`.
 
@@ -492,7 +448,7 @@ Numeric character-entry escapes specifying values outside the ASCII range \(0-12
 
 The character-entry escapes are always taken as ordinary characters. For example,`\135`is`]`in ASCII, but`\135`does not terminate a bracket expression.
 
-**Table 9.19. Regular Expression Class-shorthand Escapes**
+**Table 9.19. Regular Expression Class-shorthand Escapes**
 
 | Escape | Description |
 | :--- | :--- |
@@ -503,72 +459,60 @@ The character-entry escapes are always taken as ordinary characters. For example
 | `\S` | `[^[:space:]]` |
 | `\W` | `[^[:alnum:]_]`\(note underscore is included\) |
 
-  
-
-
 Within bracket expressions,`\d`,`\s`, and`\w`lose their outer brackets, and`\D`,`\S`, and`\W`are illegal. \(So, for example,`[a-c\d]`is equivalent to`[a-c[:digit:]]`. Also,`[a-c\D]`, which is equivalent to`[a-c^[:digit:]]`, is illegal.\)
 
-**Table 9.20. Regular Expression Constraint Escapes**
+**Table 9.20. Regular Expression Constraint Escapes**
 
 | Escape | Description |
 | :--- | :--- |
-| `\A` | matches only at the beginning of the string \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)for how this differs from`^`\) |
+| `\A` | matches only at the beginning of the string \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)for how this differs from`^`\) |
 | `\m` | matches only at the beginning of a word |
 | `\M` | matches only at the end of a word |
 | `\y` | matches only at the beginning or end of a word |
 | `\Y` | matches only at a point that is not the beginning or end of a word |
-| `\Z` | matches only at the end of the string \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)for how this differs from`$`\) |
-
-  
-
+| `\Z` | matches only at the end of the string \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)for how this differs from`$`\) |
 
 A word is defined as in the specification of`[[:<:]]`and`[[:>:]]`above. Constraint escapes are illegal within bracket expressions.
 
-**Table 9.21. Regular Expression Back References**
+**Table 9.21. Regular Expression Back References**
 
 | Escape | Description |
 | :--- | :--- |
-| `\`_`m`_ | \(where_`m`_is a nonzero digit\) a back reference to the_`m`_'th subexpression |
-| `\`_`mnn`_ | \(where_`m`_is a nonzero digit, and_`nn`_is some more digits, and the decimal value_`mnn`_is not greater than the number of closing capturing parentheses seen so far\) a back reference to the_`mnn`_'th subexpression |
-
-  
-
+| `\m` | \(where`m`_\_is a nonzero digit\) a back reference to the_`m`\_'th subexpression |
+| `\mnn` | \(where`m`_\_is a nonzero digit, and_`nn`_is some more digits, and the decimal value_`mnn`_is not greater than the number of closing capturing parentheses seen so far\) a back reference to the_`mnn`\_'th subexpression |
 
 ### Note
 
 There is an inherent ambiguity between octal character-entry escapes and back references, which is resolved by the following heuristics, as hinted at above. A leading zero always indicates an octal escape. A single non-zero digit, not followed by another digit, is always taken as a back reference. A multi-digit sequence not starting with a zero is taken as a back reference if it comes after a suitable subexpression \(i.e., the number is in the legal range for a back reference\), and otherwise is taken as octal.
 
-#### 9.7.3.4. Regular Expression Metasyntax
+#### 9.7.3.4. Regular Expression Metasyntax
 
 In addition to the main syntax described above, there are some special forms and miscellaneous syntactic facilities available.
 
-An RE can begin with one of two special_director_prefixes. If an RE begins with`***:`, the rest of the RE is taken as an ARE. \(This normally has no effect inPostgreSQL, since REs are assumed to be AREs; but it does have an effect if ERE or BRE mode had been specified by the_`flags`_parameter to a regex function.\) If an RE begins with`***=`, the rest of the RE is taken to be a literal string, with all characters considered ordinary characters.
+An RE can begin with one of two special_director\_prefixes. If an RE begins with_`***:`_, the rest of the RE is taken as an ARE. \(This normally has no effect inPostgreSQL, since REs are assumed to be AREs; but it does have an effect if ERE or BRE mode had been specified by the_`flags`\_parameter to a regex function.\) If an RE begins with`***=`, the rest of the RE is taken to be a literal string, with all characters considered ordinary characters.
 
-An ARE can begin with_embedded options_: a sequence`(?`_`xyz`_`)`\(where_`xyz`_is one or more alphabetic characters\) specifies options affecting the rest of the RE. These options override any previously determined options — in particular, they can override the case-sensitivity behavior implied by a regex operator, or the_`flags`_parameter to a regex function. The available option letters are shown in[Table 9.22](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table). Note that these same option letters are used in the_`flags`_parameters of regex functions.
+An ARE can begin with_embedded options_: a sequence`(?xyz)`\(where`xyz`_\_is one or more alphabetic characters\) specifies options affecting the rest of the RE. These options override any previously determined options — in particular, they can override the case-sensitivity behavior implied by a regex operator, or the_`flags`_parameter to a regex function. The available option letters are shown in_[_Table 9.22_](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-embedded-options-table)_. Note that these same option letters are used in the_`flags`\_parameters of regex functions.
 
-**Table 9.22. ARE Embedded-option Letters**
+**Table 9.22. ARE Embedded-option Letters**
 
 | Option | Description |
 | :--- | :--- |
 | `b` | rest of RE is a BRE |
 | `c` | case-sensitive matching \(overrides operator type\) |
 | `e` | rest of RE is an ERE |
-| `i` | case-insensitive matching \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)\) \(overrides operator type\) |
+| `i` | case-insensitive matching \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)\) \(overrides operator type\) |
 | `m` | historical synonym for`n` |
-| `n` | newline-sensitive matching \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)\) |
-| `p` | partial newline-sensitive matching \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)\) |
+| `n` | newline-sensitive matching \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)\) |
+| `p` | partial newline-sensitive matching \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)\) |
 | `q` | rest of RE is a literal \(“quoted”\) string, all ordinary characters |
 | `s` | non-newline-sensitive matching \(default\) |
 | `t` | tight syntax \(default; see below\) |
-| `w` | inverse partial newline-sensitive \(“weird”\) matching \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)\) |
+| `w` | inverse partial newline-sensitive \(“weird”\) matching \(see[Section 9.7.3.5](https://www.postgresql.org/docs/10/static/functions-matching.html#posix-matching-rules)\) |
 | `x` | expanded syntax \(see below\) |
-
-  
-
 
 Embedded options take effect at the`)`terminating the sequence. They can appear only at the start of an ARE \(after the`***:`director if any\).
 
-In addition to the usual \(_tight_\) RE syntax, in which all characters are significant, there is an_expanded_syntax, available by specifying the embedded`x`option. In the expanded syntax, white-space characters in the RE are ignored, as are all characters between a`#`and the following newline \(or the end of the RE\). This permits paragraphing and commenting a complex RE. There are three exceptions to that basic rule:
+In addition to the usual \(_tight_\) RE syntax, in which all characters are significant, there is an\_expanded\_syntax, available by specifying the embedded`x`option. In the expanded syntax, white-space characters in the RE are ignored, as are all characters between a`#`and the following newline \(or the end of the RE\). This permits paragraphing and commenting a complex RE. There are three exceptions to that basic rule:
 
 * a white-space character or`#`preceded by`\`is retained
 
@@ -576,15 +520,15 @@ In addition to the usual \(_tight_\) RE syntax, in which all characters are sign
 
 * white space and comments cannot appear within multi-character symbols, such as`(?:`
 
-For this purpose, white-space characters are blank, tab, newline, and any character that belongs to the_`space`_character class.
+For this purpose, white-space characters are blank, tab, newline, and any character that belongs to the\_`space`\_character class.
 
-Finally, in an ARE, outside bracket expressions, the sequence`(?#`_`ttt`_`)`\(where_`ttt`_is any text not containing a`)`\) is a comment, completely ignored. Again, this is not allowed between the characters of multi-character symbols, like`(?:`. Such comments are more a historical artifact than a useful facility, and their use is deprecated; use the expanded syntax instead.
+Finally, in an ARE, outside bracket expressions, the sequence`(?#ttt)`\(where\_`ttt`\_is any text not containing a`)`\) is a comment, completely ignored. Again, this is not allowed between the characters of multi-character symbols, like`(?:`. Such comments are more a historical artifact than a useful facility, and their use is deprecated; use the expanded syntax instead.
 
-_None_of these metasyntax extensions is available if an initial`***=`director has specified that the user's input be treated as a literal string rather than as an RE.
+\_None\_of these metasyntax extensions is available if an initial`***=`director has specified that the user's input be treated as a literal string rather than as an RE.
 
-#### 9.7.3.5. Regular Expression Matching Rules
+#### 9.7.3.5. Regular Expression Matching Rules
 
-In the event that an RE could match more than one substring of a given string, the RE matches the one starting earliest in the string. If the RE could match more than one substring starting at that point, either the longest possible match or the shortest possible match will be taken, depending on whether the RE is_greedy_or_non-greedy_.
+In the event that an RE could match more than one substring of a given string, the RE matches the one starting earliest in the string. If the RE could match more than one substring starting at that point, either the longest possible match or the shortest possible match will be taken, depending on whether the RE is_greedy\_or\_non-greedy_.
 
 Whether an RE is greedy or not is determined by the following rules:
 
@@ -592,11 +536,11 @@ Whether an RE is greedy or not is determined by the following rules:
 
 * Adding parentheses around an RE does not change its greediness.
 
-* A quantified atom with a fixed-repetition quantifier \(`{`_`m`_`}`or`{`_`m`_`}?`\) has the same greediness \(possibly none\) as the atom itself.
+* A quantified atom with a fixed-repetition quantifier \(`{m}`or`{m}?`\) has the same greediness \(possibly none\) as the atom itself.
 
-* A quantified atom with other normal quantifiers \(including`{`_`m`_`,`_`n`_`}`with_`m`_equal to_`n`_\) is greedy \(prefers longest match\).
+* A quantified atom with other normal quantifiers \(including`{m,n}`with`m`_\_equal to_`n`\_\) is greedy \(prefers longest match\).
 
-* A quantified atom with a non-greedy quantifier \(including`{`_`m`_`,`_`n`_`}?`with_`m`_equal to_`n`_\) is non-greedy \(prefers shortest match\).
+* A quantified atom with a non-greedy quantifier \(including`{m,n}?`with`m`_\_equal to_`n`\_\) is non-greedy \(prefers shortest match\).
 
 * A branch — that is, an RE that has no top-level`|`operator — has the same greediness as the first quantified atom in it that has a greediness attribute.
 
@@ -661,7 +605,7 @@ If partial newline-sensitive matching is specified, this affects`.`and bracket e
 
 If inverse partial newline-sensitive matching is specified, this affects`^`and`$`as with newline-sensitive matching, but not`.`and bracket expressions. This isn't very useful but is provided for symmetry.
 
-#### 9.7.3.6. Limits and Compatibility
+#### 9.7.3.6. Limits and Compatibility
 
 No particular limit is imposed on the length of REs in this implementation. However, programs intended to be highly portable should not employ REs longer than 256 bytes, as a POSIX-compliant implementation can refuse to accept such REs.
 
@@ -675,13 +619,11 @@ Two significant incompatibilities exist between AREs and the ERE syntax recogniz
 
 * In AREs,`\`remains a special character within`[]`, so a literal`\`within a bracket expression must be written`\\`.
 
-#### 9.7.3.7. Basic Regular Expressions
+#### 9.7.3.7. Basic Regular Expressions
 
 BREs differ from EREs in several respects. In BREs,`|`,`+`, and`?`are ordinary characters and there is no equivalent for their functionality. The delimiters for bounds are`\{`and`\}`, with`{`and`}`by themselves ordinary characters. The parentheses for nested subexpressions are`\(`and`\)`, with`(`and`)`by themselves ordinary characters.`^`is an ordinary character except at the beginning of the RE or the beginning of a parenthesized subexpression,`$`is an ordinary character except at the end of the RE or the end of a parenthesized subexpression, and`*`is an ordinary character if it appears at the beginning of the RE or the beginning of a parenthesized subexpression \(after a possible leading`^`\). Finally, single-digit back references are available, and`\<`and`\>`are synonyms for`[[:<:]]`and`[[:>:]]`respectively; no other escapes are available in BREs.
 
 ---
 
-
-
-[^1]:  [PostgreSQL: Documentation: 10: 9.7. Pattern Matching](https://www.postgresql.org/docs/10/static/functions-matching.html)
+[^1]:  [PostgreSQL: Documentation: 10: 9.7. Pattern Matching](https://www.postgresql.org/docs/10/static/functions-matching.html)
 
