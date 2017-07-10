@@ -390,7 +390,8 @@
     * 36.64. views
 * [V. Server Programming](v-server-programming.md)
 * [VI. Reference](vi-reference.md)
-  * I. SQL Commands
+  * [I. SQL 指令](vi-reference/i-sql-commands.md)
+    * COPY
   * [II. PostgreSQL 用戶端工具](vi-reference/ii-postgresql-client-applications.md)
     * [createdb](vi-reference/ii-postgresql-client-applications/createdb.md)
     * [dropdb](vi-reference/ii-postgresql-client-applications/dropdb.md)
@@ -414,4 +415,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
