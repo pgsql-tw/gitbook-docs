@@ -1,8 +1,8 @@
 # 3.4. 交易安全[^1]
 
-_Transactions_are a fundamental concept of all database systems. The essential point of a transaction is that it bundles multiple steps into a single, all-or-nothing operation. The intermediate states between the steps are not visible to other concurrent transactions, and if some failure occurs that prevents the transaction from completing, then none of the steps affect the database at all.
+交易（Transaction），是所有資料庫的基礎概念。基本上來說，一個交易指的是，一系列的執行步驟包裹在一起，其結果只有全部成功或全部失敗兩種情況的操作行為。而其即時的執行狀態，對於其他同時在進行的交易而言，相互之間都是不可見的。如果在執行過程中產生了錯誤而造成整個交易無法完成，那麼所有的指令都不會對資料庫原來的內容產生影響。
 
-For example, consider a bank database that contains balances for various customer accounts, as well as total deposit balances for branches. Suppose that we want to record a payment of $100.00 from Alice's account to Bob's account. Simplifying outrageously, the SQL commands for this might look like:
+舉例來說，某個銀行資料庫存放著各個客戶的存款資訊，也存放著分行的存款總額資訊。假設我們想要轉帳 $100.00，從 Alice 的帳號轉到 Bob 的帳戶。可以很直觀地依敘述，直接以下列指令執行：
 
 ```
 UPDATE accounts SET balance = balance - 100.00
@@ -13,16 +13,16 @@ UPDATE accounts SET balance = balance + 100.00
     WHERE name = 'Bob';
 UPDATE branches SET balance = balance + 100.00
     WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');
-
 ```
 
-The details of these commands are not important here; the important point is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen. It would certainly not do for a system failure to result in Bob receiving $100.00 that was not debited from Alice. Nor would Alice long remain a happy customer if she was debited without Bob being credited. We need a guarantee that if something goes wrong partway through the operation, none of the steps executed so far will take effect. Grouping the updates into a_transaction_gives us this guarantee. A transaction is said to be_atomic_: from the point of view of other transactions, it either happens completely or not at all.
+這些指令的細節在這裡並不重要，重要的是，有好幾個更新資料的動作要被執行。我們銀行的營業員需要保證所有的更新資料都要完成，或是保持原樣。如果因為系統錯誤，而造成 Bob 收到 $100.00，但 Alice 卻沒有轉出金額，就不是應該發生的事。又或是 Alice 轉出了現金，而 Bob 卻沒有轉入金額，她也不會是開心的客戶。我們需要具有保證交易安全的方法，也就是如果在執行過程中，有部份出了錯，那麼即使是已經執行的部份，也不會對資料庫產生影響。把這些更新資料的指令，包裝在一個交易之中，就是這個保證交易安全的方法。這樣的交易稱作為 atomic：從其他的交易的角度來看，整個行為只有完全執行，亦或是什麼都沒有做，兩種結果而已。
 
-We also want a guarantee that once a transaction is completed and acknowledged by the database system, it has indeed been permanently recorded and won't be lost even if a crash ensues shortly thereafter. For example, if we are recording a cash withdrawal by Bob, we do not want any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional database guarantees that all the updates made by a transaction are logged in permanent storage \(i.e., on disk\) before the transaction is reported complete.
+我們也希望有某個保證是，一旦某個交易被完成了，那麼會由資料庫系統發出通知，使它確實是永久性的資料，即使發生短暫的當機之後，資料也不會遺失。舉例來說，如果我們正在進行 Bob 的提款系統操作行為，在他走出銀行大門之後，我們不要有任何可能性使他的提款記錄消失。一個具備交易安全的資料庫，會將這裡交易裡的更新行為，在它們被回報完成之前，都記錄在長效型儲存裝置上（也就是磁碟機）。
 
-Another important property of transactional databases is closely related to the notion of atomic updates: when multiple transactions are running concurrently, each one should not be able to see the incomplete changes made by others. For example, if one transaction is busy totalling all the branch balances, it would not do for it to include the debit from Alice's branch but not the credit to Bob's branch, nor vice versa. So transactions must be all-or-nothing not only in terms of their permanent effect on the database, but also in terms of their visibility as they happen. The updates made so far by an open transaction are invisible to other transactions until the transaction completes, whereupon all the updates become visible simultaneously.
+交易安全資料庫的另一個重要性質是， atomic update 的概念：當多個交易同時在進行時，每一個交易都不能夠看到其他交易未完成交易的資料狀態。舉個例子，如果某個交易正在進行總計所有分行的餘額，它不會只包含 Alice 的分行的提款，或不計算 Bob 的分行的存款，反之亦然。所以交易必須是全有全無的結果，而不只是資料庫資料的永久性，還包含了交易執行過程的可視性。一個未完成的交易直到完全完成之前，其間資料的改變，對其他的交易而言都看不見；而當交易完成的同時，資料的改變也同時全部呈現出來。
 
-InPostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with`BEGIN`and`COMMIT`commands. So our banking transaction would actually look like:
+在 PostgreSQL 中，所謂的交易，是以 SQL 的 BEGIN 及 COMMIT 兩個指令相夾的過程。  
+所以我們前述的銀行交易實際上會像這樣：
 
 ```
 BEGIN;
@@ -30,24 +30,23 @@ UPDATE accounts SET balance = balance - 100.00
     WHERE name = 'Alice';
 -- etc etc
 COMMIT;
-
 ```
 
-If, partway through the transaction, we decide we do not want to commit \(perhaps we just noticed that Alice's balance went negative\), we can issue the command`ROLLBACK`instead of`COMMIT`, and all our updates so far will be canceled.
+如果在交易的過程之中，我們決定不要完成交易（也許我們發現 Alice 的帳戶餘額不足），我們可以使用 ROLLBACK 指令來取代 COMMIT，那麼所有資料的變更都會取消。
 
-PostgreSQLactually treats every SQL statement as being executed within a transaction. If you do not issue a`BEGIN`command, then each individual statement has an implicit`BEGIN`and \(if successful\)`COMMIT`wrapped around it. A group of statements surrounded by`BEGIN`and`COMMIT`is sometimes called a_transaction block_.
+PostgreSQL 一般將每一個 SQL 指令都視為一個交易來執行。如果你並沒有使用 BEGIN 指令，那麼每一個個別的指令就會隱含 BEGIN 先行，然後如果成功的話，COMMIT 也自動執行。一系列被 BEGIN 和 COMMIT 包夾的區域，有時候就稱為交易區塊。
 
-### Note
+### 注意
 
-Some client libraries issue`BEGIN`and`COMMIT`commands automatically, so that you might get the effect of transaction blocks without asking. Check the documentation for the interface you are using.
+有一些用戶端程式會自動加入執行 BEGIN 及 COMMIT 指令，使得你不需要要求就獲得交易區塊的效果。請詳閱你所所用的工具文件。 
 
-It's possible to control the statements in a transaction in a more granular fashion through the use of_savepoints_. Savepoints allow you to selectively discard parts of the transaction, while committing the rest. After defining a savepoint with`SAVEPOINT`, you can if needed roll back to the savepoint with`ROLLBACK TO`. All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept.
+還有一種交易的控制更為細緻，就是使用交易儲存點（savepoint）。交易儲存點允許你可以選擇性地取消部份交易，而只成交剩下的部份。使用 SAVEPOINT 指令定義一個交易儲存點之後，你可以使用 ROLLBACK，回復該交易狀態到交易儲存點。所有在交易儲存點之後所造成的資料庫變更，都會被回復，但交易儲存點之前的變更會暫時留存。
 
-After rolling back to a savepoint, it continues to be defined, so you can roll back to it several times. Conversely, if you are sure you won't need to roll back to a particular savepoint again, it can be released, so the system can free some resources. Keep in mind that either releasing or rolling back to a savepoint will automatically release all savepoints that were defined after it.
+在回復到交易儲存點之後，它仍然可以繼續進行，而你可以多次回到該儲存點。相反地，如果你確定你不要再回復到某個特定的交易儲存點時，它也可以被釋放出來，系統資源也可以獲得舒解。記得，釋放或回復到一個交易儲存點時，將會自動釋放所有在那之後的交易儲存點。
 
-All this is happening within the transaction block, so none of it is visible to other database sessions. When and if you commit the transaction block, the committed actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all.
+所有這些過程都發生在交易區塊之中，所有沒有任何改變會讓其他資料庫連線所發現。當你確認完成了交易區塊的時候，完成交易的動作就會讓其他的連線知道，也能發現資料的改變；同時，回復的動作也會再也無法執行了。
 
-Remembering the bank database, suppose we debit $100.00 from Alice's account, and credit Bob's account, only to find later that we should have credited Wally's account. We could do it using savepoints like this:
+記得這個銀行的資料庫，假設我們從 Alice 的帳號提出了 $100.00，然後存入了 Bob 的帳戶之中，隨後又發現應該要存到 Wally 的帳戶。我們可以使用交易儲存點來完成這個過程：
 
 ```
 BEGIN;
@@ -61,14 +60,11 @@ ROLLBACK TO my_savepoint;
 UPDATE accounts SET balance = balance + 100.00
     WHERE name = 'Wally';
 COMMIT;
-
 ```
 
-This example is, of course, oversimplified, but there's a lot of control possible in a transaction block through the use of savepoints. Moreover,`ROLLBACK TO`is the only way to regain control of a transaction block that was put in aborted state by the system due to an error, short of rolling it back completely and starting again.
+當然，這個例子是過度於簡化了，但這呈現出在交易區塊中使用交易儲存點，有著更多的可能性。進一步來說，ROLLBACK TO 是唯一能夠控制交易區塊執行流程的方式，當系統產生錯誤時，可以縮小回復的範圍，而不是只能全部回復再執行。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 3.4. Transactions](https://www.postgresql.org/docs/10/static/tutorial-transactions.html)
+[^1]: [PostgreSQL: Documentation: 10: 3.4. Transactions](https://www.postgresql.org/docs/10/static/tutorial-transactions.html)
 
