@@ -26,7 +26,7 @@
   * [3. 先進功能](advanced-features.md)
     * [3.1. 簡介](advanced-features/31-introduction.md)
     * [3.2. Views](advanced-features/32-views.md)
-    * [3.3. Foreign Keys](advanced-features/33-foreign-keys.md)
+    * [3.3. 外部索引鍵](advanced-features/33-foreign-keys.md)
     * [3.4. 交易安全](advanced-features/34-transactions.md)
     * [3.5. Window Functions](advanced-features/35-window-functions.md)
     * [3.6. 繼承](advanced-features/36-inheritance.md)

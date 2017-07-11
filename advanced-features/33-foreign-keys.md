@@ -1,8 +1,9 @@
-# 3.3. Foreign Keys[^1]
+# 3.3. 外部索引鍵[^1]
 
-Recall the`weather`and`cities`tables from[Chapter 2](https://www.postgresql.org/docs/10/static/tutorial-sql.html). Consider the following problem: You want to make sure that no one can insert rows in the`weather`table that do not have a matching entry in the`cities`table. This is called maintaining the_referential integrity_of your data. In simplistic database systems this would be implemented \(if at all\) by first looking at the`cities`table to check if a matching record exists, and then inserting or rejecting the new`weather`records. This approach has a number of problems and is very inconvenient, soPostgreSQLcan do this for you.
+回想一下在[第 2 章](/the-sql-language.md)中的表格 weather 及 cities，思考下列問題：  
+你想要保證沒有另一個人可以新增在 cities 中沒有的城市資料到 weather 中。這就是所謂資料關連性的管理。在簡單的資料庫系統當中，可能會這樣實作：先檢查 cities 中是否已有對應的資料，然後再決定表格 weather 中新增或拒絕新的天氣資料。這個辦法還有很多問題，而且很不方便，所以 PostgreSQL 可以幫助你解決這個需求。
 
-The new declaration of the tables would look like this:
+新的表格宣告如下所示：
 
 ```
 CREATE TABLE cities (
@@ -17,27 +18,22 @@ CREATE TABLE weather (
         prcp      real,
         date      date
 );
-
 ```
 
-Now try inserting an invalid record:
+現在嘗試新增一筆不合理的資料：
 
 ```
 INSERT INTO weather VALUES ('Berkeley', 45, 53, 0.0, '1994-11-28');
-
 ```
 
 ```
 ERROR:  insert or update on table "weather" violates foreign key constraint "weather_city_fkey"
 DETAIL:  Key (city)=(Berkeley) is not present in table "cities".
-
 ```
 
-The behavior of foreign keys can be finely tuned to your application. We will not go beyond this simple example in this tutorial, but just refer you to[Chapter 5](https://www.postgresql.org/docs/10/static/ddl.html)for more information. Making correct use of foreign keys will definitely improve the quality of your database applications, so you are strongly encouraged to learn about them.
+外部索引鍵（foreign key）的行為可以讓你的應用程式變得容易調整。我們在這個導覽中不會在深入這個簡單的例子了，但你可以在[第 5 章](/ii-the-sql-language/data-definition.md)取得進一步的資訊。正確地使用外部索引鍵，可以改善資料庫應用程式的品質，所以強烈建議一定要好好學習它。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 3.3. Foreign Keys](/PostgreSQL: Documentation: 10: 3.3. Foreign Keys)
+[^1]: [PostgreSQL: Documentation: 10: 3.3. Foreign Keys](/PostgreSQL: Documentation: 10: 3.3. Foreign Keys)
 
