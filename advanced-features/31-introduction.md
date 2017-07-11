@@ -1,12 +1,10 @@
 # 3.1. 簡介[^1]
 
-In the previous chapter we have covered the basics of usingSQLto store and access your data inPostgreSQL. We will now discuss some more advanced features ofSQLthat simplify management and prevent loss or corruption of your data. Finally, we will look at somePostgreSQLextensions.
+在前面的章節，我們介紹了如何使用 SQL 來存取 PostgreSQL 的基本方式。接下來，我們將會討論更多先進的功能，SQL 的管理功能以及防止資料遺失或損毁。最後，我們也會介紹一些 PostgreSQL 的延伸功能。
 
-This chapter will on occasion refer to examples found in[Chapter 2](https://www.postgresql.org/docs/10/static/tutorial-sql.html)to change or improve them, so it will be useful to have read that chapter. Some examples from this chapter can also be found in`advanced.sql`in the tutorial directory. This file also contains some sample data to load, which is not repeated here. \(Refer to[Section 2.1](https://www.postgresql.org/docs/10/static/tutorial-sql-intro.html)for how to use the file.\)
+這個章節偶爾會引用[第 2 章](/the-sql-language.md)的範例，試著去改寫或是優化他們，所以閱讀過上一章也是很有用的。在這一章中有一些範例是來自於 tutorial 目錄中的 advanced.sql，這個檔案有一些範例資料可以載入，但載入方式在此就不再贅述。（請參閱 [2.1 節](/the-sql-language/21-introduction.md)的內容）
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 3.1. Introduction](https://www.postgresql.org/docs/10/static/tutorial-advanced-intro.html)
+[^1]: [PostgreSQL: Documentation: 10: 3.1. Introduction](https://www.postgresql.org/docs/10/static/tutorial-advanced-intro.html)
 
