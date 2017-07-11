@@ -1,8 +1,8 @@
 # 3.6. 繼承[^1]
 
-Inheritance is a concept from object-oriented databases. It opens up interesting new possibilities of database design.
+繼承是一個物件導向資料庫的概念，它開啓了資料庫設計的更多可能性。
 
-Let's create two tables: A table`cities`and a table`capitals`. Naturally, capitals are also cities, so you want some way to show the capitals implicitly when you list all cities. If you're really clever you might invent some scheme like this:
+讓我們創建兩個表格：cities 和 capitals。很自然地，首都（capitals）也是城市（cities），所以你希望有個方式，可以在列出所有城市時，同時也包含首都。如果你真的很清楚的話，你可以建立如下的結構：
 
 ```
 CREATE TABLE capitals (
@@ -22,12 +22,11 @@ CREATE VIEW cities AS
   SELECT name, population, altitude FROM capitals
     UNION
   SELECT name, population, altitude FROM non_capitals;
-
 ```
 
-This works OK as far as querying goes, but it gets ugly when you need to update several rows, for one thing.
+這樣的查詢結果會是正確的，不過它有點不是很漂亮，當你需要更新一些資料的時候。
 
-A better solution is this:
+有一個更好的方法是這樣：
 
 ```
 CREATE TABLE cities (
@@ -39,23 +38,19 @@ CREATE TABLE cities (
 CREATE TABLE capitals (
   state      char(2)
 ) INHERITS (cities);
-
 ```
 
-In this case, a row of`capitals`_inherits_all columns \(`name`,`population`, and`altitude`\) from its_parent_,`cities`. The type of the column`name`is`text`, a nativePostgreSQLtype for variable length character strings. State capitals have an extra column,`state`, that shows their state. InPostgreSQL, a table can inherit from zero or more other tables.
+在這個例子中，captitals 繼承了 cities 的所有欄位（name, population, altitude）。欄位 name 的資料型別是文字型別（text），是一個 PostgreSQL 內建的資料型別，它允許字串長度是動態的。然後宣告 capitals 另外多一個欄位，state，以呈現它是屬於哪一個州。在 PostgreSQL，一個表格可以繼承多個其他的格。
 
-For example, the following query finds the names of all cities, including state capitals, that are located at an altitude over 500 feet:
+舉個例子，下面的查詢可以找出所有的城市名稱，包含各州的首都，而其海拔高過於 500 英呎以上：
 
 ```
 SELECT name, altitude
   FROM cities
-  WHERE altitude 
->
- 500;
-
+  WHERE altitude > 500;
 ```
 
-which returns:
+回傳結果：
 
 ```
    name    | altitude
@@ -64,10 +59,9 @@ which returns:
  Mariposa  |     1953
  Madison   |      845
 (3 rows)
-
 ```
 
-On the other hand, the following query finds all the cities that are not state capitals and are situated at an altitude over 500 feet:
+另一方面，下面的查詢可以列出非首都的城市，且其海拔在 500 英呎以上：
 
 ```
 SELECT name, altitude
@@ -75,7 +69,6 @@ SELECT name, altitude
     WHERE altitude 
 >
  500;
-
 ```
 
 ```
@@ -84,18 +77,15 @@ SELECT name, altitude
  Las Vegas |     2174
  Mariposa  |     1953
 (2 rows)
-
 ```
 
-Here the`ONLY`before`cities`indicates that the query should be run over only the`cities`table, and not tables below`cities`in the inheritance hierarchy. Many of the commands that we have already discussed —`SELECT`,`UPDATE`, and`DELETE`— support this`ONLY`notation.
+這裡的「ONLY」（cities之前），指的是這個查詢只要在表格 cities 上就好，不包含繼承 cities 其他表格。這裡許多我們都已經討論的指令 — SELECT、UPDATE、DELETE — 都支援 ONLY 這個修飾字。
 
-### Note
+### 注意
 
-Although inheritance is frequently useful, it has not been integrated with unique constraints or foreign keys, which limits its usefulness. See[Section 5.9](https://www.postgresql.org/docs/10/static/ddl-inherit.html)for more detail.
+雖然繼承經常被使用，但尚未整合唯一性限制或外部索引鍵的功能，這樣就限制了它的可用性。詳情請參考 [5.9 節](/ii-the-sql-language/data-definition/59-inheritance.md)的說明。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 3.6. Inheritance](https://www.postgresql.org/docs/10/static/tutorial-inheritance.html)
+[^1]: [PostgreSQL: Documentation: 10: 3.6. Inheritance](https://www.postgresql.org/docs/10/static/tutorial-inheritance.html)
 
