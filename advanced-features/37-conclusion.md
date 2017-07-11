@@ -1,12 +1,11 @@
 # 3.7. 結論[^1]
 
-PostgreSQLhas many features not touched upon in this tutorial introduction, which has been oriented toward newer users ofSQL. These features are discussed in more detail in the remainder of this book.
+PostgreSQL 還有許多這份導覽中未能介紹到的功能，這裡主要是針對新鮮的 SQL 使用者所準備的內容。  
+這些功能將會在後續的章節進行更詳細的討論。
 
-If you feel you need more introductory material, please visit the PostgreSQL[web site](http://www.postgresql.org/)for links to more resources.
+如果你覺得你需要更多介紹的資訊，可以到 [PostgreSQL 的官方網站](http://www.postgresql.org/)取得更多訊息。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 3.7. Conclusion](https://www.postgresql.org/docs/10/static/tutorial-conclusion.html)
+[^1]: [PostgreSQL: Documentation: 10: 3.7. Conclusion](https://www.postgresql.org/docs/10/static/tutorial-conclusion.html)
 
