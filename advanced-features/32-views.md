@@ -1,6 +1,6 @@
 # 3.2. Views[^1]
 
-Refer back to the queries in[Section 2.6](https://www.postgresql.org/docs/10/static/tutorial-join.html). Suppose the combined listing of weather records and city location is of particular interest to your application, but you do not want to type the query each time you need it. You can create a\_view\_over the query, which gives a name to the query that you can refer to like an ordinary table:
+讓我們回到 2.6 節的查詢範例。假設關連天氣資訊和城市位置的結果，是你的應用中特別常用的，但你並不想要每次都要輸入一長串的查詢語句。那麼，你可以為這個查詢語句建立一個「View」，你可以取一個名字，當你需要使用的時候，你可以把它當作一個表格來使用：
 
 ```
 CREATE VIEW myview AS
@@ -11,13 +11,11 @@ CREATE VIEW myview AS
 SELECT * FROM myview;
 ```
 
-Making liberal use of views is a key aspect of good SQL database design. Views allow you to encapsulate the details of the structure of your tables, which might change as your application evolves, behind consistent interfaces.
+把 View 作妥善的使用，對於良好的 SQL 資料庫設定而言，是很關鍵的部份。View 允許你可封裝你的表格結構與細節，當你的應用系統在逐步發展成熟的過程中，扮演一致性的資料介面。
 
-Views can be used in almost any place a real table can be used. Building views upon other views is not uncommon.
+View 可以用在大多數表格可以使用的地方。用 view 來封裝其他 view 的情況，也不少見。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 3.2. Views](https://www.postgresql.org/docs/10/static/tutorial-views.html)
+[^1]: [PostgreSQL: Documentation: 10: 3.2. Views](https://www.postgresql.org/docs/10/static/tutorial-views.html)
 
