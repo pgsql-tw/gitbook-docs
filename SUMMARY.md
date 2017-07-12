@@ -28,7 +28,7 @@
     * [3.2. Views](advanced-features/32-views.md)
     * [3.3. 外部索引鍵](advanced-features/33-foreign-keys.md)
     * [3.4. 交易安全](advanced-features/34-transactions.md)
-    * [3.5. Window Functions](advanced-features/35-window-functions.md)
+    * [3.5. 窗函數](advanced-features/35-window-functions.md)
     * [3.6. 繼承](advanced-features/36-inheritance.md)
     * [3.7. 結論](advanced-features/37-conclusion.md)
 * [II. SQL查詢語言](ii-the-sql-language.md)
