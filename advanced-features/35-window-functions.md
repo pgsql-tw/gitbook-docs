@@ -128,7 +128,7 @@ SELECT sum(salary) OVER w, avg(salary) OVER w
   WINDOW w AS (PARTITION BY depname ORDER BY salary DESC);
 ```
 
-更多窗函數的細節可以參閱 [4.2.8 節](/ii-the-sql-language/sql-syntax/42-value-expressions.md)、[9.21 節](/ii-the-sql-language/functions-and-operators/921-window-functions.md)、[7.2.5 節](/ii-the-sql-language/queries/72-table-expressions.md)、及 SELECT 指令的說明頁。
+更多窗函數的細節可以參閱 [4.2.8 節](/ii-the-sql-language/sql-syntax/42-value-expressions.md)、[9.21 節](/ii-the-sql-language/functions-and-operators/921-window-functions.md)、[7.2.5 節](/ii-the-sql-language/queries/72-table-expressions.md)、及 [SELECT 指令](/vi-reference/i-sql-commands/select.md)的說明頁。
 
 ---
 
