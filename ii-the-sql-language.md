@@ -1,12 +1,12 @@
 # II. SQL查詢語言[^1]
 
-This part describes the use of theSQLlanguage inPostgreSQL. We start with describing the general syntax ofSQL, then explain how to create the structures to hold data, how to populate the database, and how to query it. The middle part lists the available data types and functions for use inSQLcommands. The rest treats several aspects that are important for tuning a database for optimal performance.
+在這個部份介紹如何在 PostgreSQL 中使用 SQL 語言。首先，我們從一般性的 SQL 語法開始說明，然後解釋如何建立結構來保存資料，如何充實資料庫，以及如何查詢資料的方法。中段的部份列出 SQL 指令中的資料型別與函數。最後剩餘的部份，將會針對一些調教資料庫的重要議題進行說明。
 
-The information in this part is arranged so that a novice user can follow it start to end to gain a full understanding of the topics without having to refer forward too many times. The chapters are intended to be self-contained, so that advanced users can read the chapters individually as they choose. The information in this part is presented in a narrative fashion in topical units. Readers looking for a complete description of a particular command should see[Part VI](https://www.postgresql.org/docs/10/static/reference.html).
+這個部份的內容設計讓初學者可以循序漸進地完整瞭解該主題，而不需要反覆前後查閱。各章的內容設計上都是獨立的，所以進階的使用者可以分別閱讀他們需要的部份。在這個部份的內容，針對於主題式的單元描述。需要瞭解詳情的讀者，請參閱[第 6 部份](/vi-reference.md)中，個別指令的說明頁面。
 
-Readers of this part should know how to connect to aPostgreSQLdatabase and issueSQLcommands. Readers that are unfamiliar with these issues are encouraged to read[Part I](https://www.postgresql.org/docs/10/static/tutorial.html)first.SQLcommands are typically entered using thePostgreSQLinteractive terminalpsql, but other programs that have similar functionality can be used as well.
+在這個部份裡的讀者，應該要知道如何連線到一個 PostgreSQL 資料庫，並且執行 SQL 指令。如果不熟悉這些操作的讀者，建議先閱讀[第 1 部份](/i-tutorial.md)的內容。SQL 指令一般是使用終端工具 psql，但其他具有類似功能的程式也可以使用。
 
 ---
 
-[^1]: [PostgreSQL: Documentation: 10: Part II. The SQL Language](https://www.postgresql.org/docs/10/static/sql.html)
+[^1]: [PostgreSQL: Documentation: 10: Part II. The SQL Language](https://www.postgresql.org/docs/10/static/sql.html)
 
