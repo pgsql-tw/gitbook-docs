@@ -117,20 +117,20 @@ PostgreSQL 也支援跳脫字串常數，這些是 SQL 標準的延伸。跳脫�
 
 | **倒斜線跳腳字串** | 字元意義 |
 | :--- | :--- |
-| `\b` | backspace |
-| `\f` | form feed |
-| `\n` | newline |
-| `\r` | carriage return |
-| `\t` | tab |
-| `\o`,`\oo`,`\ooo`\(`o`= 0 - 7\) | octal byte value |
-| `\xh`,`\xhh`\(`h`= 0 - 9, A - F\) | hexadecimal byte value |
-| `\uxxxx`,`\Uxxxxxxxx`\(`x`= 0 - 9, A - F\) | 16 or 32-bit hexadecimal Unicode character value |
+| `\b` | backspace（倒退） |
+| `\f` | form feed（換頁） |
+| `\n` | newline（換行） |
+| `\r` | carriage return（回到行首） |
+| `\t` | tab（定位符號） |
+| `\o`,`\oo`,`\ooo`\(`o`= 0 - 7\) | octal byte value（8 進位值） |
+| `\xh`,`\xhh`\(`h`= 0 - 9, A - F\) | hexadecimal byte value（16 進位值） |
+| `\uxxxx`,`\Uxxxxxxxx`\(`x`= 0 - 9, A - F\) | 16 or 32-bit hexadecimal Unicode character value（16 位元或 32 位元的 16 進位萬國碼字元值） |
 
-Any other character following a backslash is taken literally. Thus, to include a backslash character, write two backslashes \(`\\`\). Also, a single quote can be included in an escape string by writing`\'`, in addition to the normal way of`''`.
+任何其他接在倒斜線後面的字元都僅以原樣呈現。而如果要包含一個倒斜線的話，就使用連續兩個倒斜線輸入。同樣地，要包含一個單引號的話，可以使用跳脫字串 \' 輸入，也可以用一般連續兩個單引號的方式輸入。
 
-It is your responsibility that the byte sequences you create, especially when using the octal or hexadecimal escapes, compose valid characters in the server character set encoding. When the server encoding is UTF-8, then the Unicode escapes or the alternative Unicode escape syntax, explained in[Section 4.1.2.3](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-strings-uescape), should be used instead. \(The alternative would be doing the UTF-8 encoding by hand and writing out the bytes, which would be very cumbersome.\)
+你需要確保你所使用的 8 進位或 16 進位創建的位元組序列，都是屬於資料庫中合法的字元集。當資料庫編輯是 UTF-8 時，就應該使用萬國碼跳脫寫法，或其他萬國碼的輸入方式，如前 4.1.2.3 中所述。（所謂其他的方式可能是自行組合每一個位元組，但這樣會是相當麻煩的事。）
 
-The Unicode escape syntax works fully only when the server encoding is`UTF8`. When other server encodings are used, only code points in the ASCII range \(up to`\u007F`\) can be specified. Both the 4-digit and the 8-digit form can be used to specify UTF-16 surrogate pairs to compose characters with code points larger than U+FFFF, although the availability of the 8-digit form technically makes this unnecessary. \(When surrogate pairs are used when the server encoding is`UTF8`, they are first combined into a single code point that is then encoded in UTF-8.\)
+萬國碼跳脫語法只有在 UTF8 的編碼下才完整支援。當有其他的字元編碼被使用時，就只能使用 ASCII 的範圍（最大值為 \u007F）中的值。4 位數及 8 位數的型式可以用來配對指定 UTF-16 超過 U+FFFF 的字元，即使 8 位數的型式就足以解決這個問題。（當使用配對語法，且字元編碼為 UTF8 時，他們會先被合併成單一字元，然後再編碼成 UTF-8。） 
 
 ### Caution
 
