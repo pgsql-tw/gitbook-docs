@@ -130,15 +130,15 @@ PostgreSQL 也支援跳脫字串常數，這些是 SQL 標準的延伸。跳脫�
 
 你需要確保你所使用的 8 進位或 16 進位創建的位元組序列，都是屬於資料庫中合法的字元集。當資料庫編輯是 UTF-8 時，就應該使用萬國碼跳脫寫法，或其他萬國碼的輸入方式，如前 4.1.2.3 中所述。（所謂其他的方式可能是自行組合每一個位元組，但這樣會是相當麻煩的事。）
 
-萬國碼跳脫語法只有在 UTF8 的編碼下才完整支援。當有其他的字元編碼被使用時，就只能使用 ASCII 的範圍（最大值為 \u007F）中的值。4 位數及 8 位數的型式可以用來配對指定 UTF-16 超過 U+FFFF 的字元，即使 8 位數的型式就足以解決這個問題。（當使用配對語法，且字元編碼為 UTF8 時，他們會先被合併成單一字元，然後再編碼成 UTF-8。） 
+萬國碼跳脫語法只有在 UTF8 的編碼下才完整支援。當有其他的字元編碼被使用時，就只能使用 ASCII 的範圍（最大值為 \u007F）中的值。4 位數及 8 位數的型式可以用來配對指定 UTF-16 超過 U+FFFF 的字元，即使 8 位數的型式就足以解決這個問題。（當使用配對語法，且字元編碼為 UTF8 時，他們會先被合併成單一字元，然後再編碼成 UTF-8。）
 
-### Caution
+### 注意
 
-If the configuration parameter[standard\_conforming\_strings](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#guc-standard-conforming-strings)is`off`, thenPostgreSQLrecognizes backslash escapes in both regular and escape string constants. However, as ofPostgreSQL9.1, the default is`on`, meaning that backslash escapes are recognized only in escape string constants. This behavior is more standards-compliant, but might break applications which rely on the historical behavior, where backslash escapes were always recognized. As a workaround, you can set this parameter to`off`, but it is better to migrate away from using backslash escapes. If you need to use a backslash escape to represent a special character, write the string constant with an`E`.
+如果設定檔參數 standard\_conforming\_string 設定為 off，PostgreSQL 不論在一般字串還是跳脫字串常數，都會把倒斜線識別為跳脫符號。然而，在 PostgreSQL 9.1 之前，這個參數的預設值為 on，表示只在跳脫字串常數裡，才把倒斜線視為跳脫符號。這樣的模式是更與標準相容的，但可能會破壞默認舊有設定的應用程式，也就是總是把倒斜線視為跳脫符號。在這樣的背景之下，你可以把這個參數設為 off，但更好的是，修改程式不再使用倒斜線跳脫符號。如果你需要使用倒斜線跳脫符號來表示一個特殊字元，請使用 E 開頭的字串常數。
 
-In addition to`standard_conforming_strings`, the configuration parameters[escape\_string\_warning](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#guc-escape-string-warning)and[backslash\_quote](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#guc-backslash-quote)govern treatment of backslashes in string constants.
+有關 standard\_conforming\_string，順帶一提的是，還有 escape\_string\_warning 和 backslash\_quote 兩個參數，也提供調整倒斜線在字串常數中的使用。
 
-The character with the code zero cannot be in a string constant.
+字元代碼 0 的字元不能使用在字串常數當中。
 
 #### 4.1.2.3. String Constants with Unicode Escapes
 
