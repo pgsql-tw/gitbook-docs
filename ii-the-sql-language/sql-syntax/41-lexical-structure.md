@@ -76,46 +76,46 @@ U&"d!0061t!+000061" UESCAPE '!'
 
 內容要使用到跳脫字元的話，就重覆輸入 2 次。
 
-萬國碼的跳脫語法，只能使用 UTF8 的編碼。如果有用到其他的編碼的話，只有在 ASCII 範圍（最大為 \007F）可以使用。4 位數及 6 位數的形式，可以組合配對用來指定 UTF-16 中，大於 U+FFFF 的字元，雖然 6 位數的形式單獨就可以解決這個問題（組合配對並不會直接被儲存起來，他們會被編碼成 UTF-8 再儲存。） 
+萬國碼的跳脫語法，只能使用 UTF8 的編碼。如果有用到其他的編碼的話，只有在 ASCII 範圍（最大為 \007F）可以使用。4 位數及 6 位數的形式，可以組合配對用來指定 UTF-16 中，大於 U+FFFF 的字元，雖然 6 位數的形式單獨就可以解決這個問題（組合配對並不會直接被儲存起來，他們會被編碼成 UTF-8 再儲存。）
 
 把識別項用引號括起來也可以用來保持它的大小寫狀態，沒有括起來的話，都會被轉成小寫字母。舉例來說，對 PostgreSQL 而言，FOO、foo、"foo"，三者都是一樣的，但 "Foo" 和 "FOO" 就彼此及前面三者都視為不同。（在 PostgreSQL 中，把未引號括起的名稱轉成小寫，並不是 SQL 的標準。SQL 標準反而是都轉成大寫。所以在 SQL 標準中，foo 應該是等同於 "FOO" 而不同於 "foo"。如果你要增加語法的可攜性的話，建議最好都使用引號括起特別的名稱，或者都不要使用引號。）
 
-### 4.1.2. Constants
+### 4.1.2. 常數
 
-There are three kinds of\_implicitly-typed constants\_inPostgreSQL: strings, bit strings, and numbers. Constants can also be specified with explicit types, which can enable more accurate representation and more efficient handling by the system. These alternatives are discussed in the following subsections.
+PostgreSQL 中有三種隱含型別的常數：字串、位元字串、和數值。常數也可以強制型別，有助於更精確的表達，也可以讓系統處理更有效率。接下來就開始進行相關的說明。
 
-#### 4.1.2.1. String Constants
+#### 4.1.2.1. 字串常數
 
-A string constant in SQL is an arbitrary sequence of characters bounded by single quotes \(`'`\), for example`'This is a string'`. To include a single-quote character within a string constant, write two adjacent single quotes, e.g.,`'Dianne''s horse'`. Note that this is\_not\_the same as a double-quote character \(`"`\).
+在 SQL 中，所謂的字串常數，指的是用單引號括住的任意字元串列，例如：'This is a string'。如果在字串常數內需要有單引號的話就使用連續兩個單引號，例如：'Dianne''s horse'。注意這不是雙引號，是兩個單引號。
 
-Two string constants that are only separated by whitespace\_with at least one newline\_are concatenated and effectively treated as if the string had been written as one constant. For example:
+兩個字串常數如果只用空白及至少一個換行符號所分隔的話，那個它們會被連在一起，和寫成一個字串是一樣的。舉例來說：
 
 ```
 SELECT 'foo'
 'bar';
 ```
 
-is equivalent to:
+等同於：
 
 ```
 SELECT 'foobar';
 ```
 
-but:
+但如果是這樣：
 
 ```
 SELECT 'foo'      'bar';
 ```
 
-is not valid syntax. \(This slightly bizarre behavior is specified bySQL;PostgreSQLis following the standard.\)
+語法上就不正確了。（這是來自於 SQL 奇怪的常規，PostgreSQL 單純只是遵循。）
 
-#### 4.1.2.2. String Constants with C-style Escapes
+#### 4.1.2.2. C 語言樣式的跳脫字串常數
 
-PostgreSQLalso accepts“escape”string constants, which are an extension to the SQL standard. An escape string constant is specified by writing the letter`E`\(upper or lower case\) just before the opening single quote, e.g.,`E'foo'`. \(When continuing an escape string constant across lines, write`E`only before the first opening quote.\) Within an escape string, a backslash character \(`\`\) begins a C-like\_backslash escape\_sequence, in which the combination of backslash and following character\(s\) represent a special byte value, as shown in[Table 4.1](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-backslash-table).
+PostgreSQL 也支援跳脫字串常數，這些是 SQL 標準的延伸。跳脫字串常數使用的是字母 E （大小寫皆可），緊接著單引號所組成，例如：E'foo'。（如果字串有超過一行的話，也只要在第一個單引號前有 E 就可以了。）在跳脫字串當中，使用倒斜線開頭，就可以使用 C 語言式的倒斜線跳脫字串，通常是一個倒斜線再接一個字元，對應到一個特殊位元組的值，如 Table 4.1 所示。
 
-**Table 4.1. Backslash Escape Sequences**
+**Table 4.1. 倒斜線跳腳字串（Backslash Escape Sequence）**
 
-| Backslash Escape Sequence | Interpretation |
+| **倒斜線跳腳字串** | 字元意義 |
 | :--- | :--- |
 | `\b` | backspace |
 | `\f` | form feed |
