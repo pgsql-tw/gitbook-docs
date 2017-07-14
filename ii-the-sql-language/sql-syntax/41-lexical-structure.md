@@ -166,18 +166,18 @@ U&'d!0061t!+000061' UESCAPE '!'
 
 內容要使用到跳脫字元的話，就重覆輸入 2 次。
 
-#### 4.1.2.4. Dollar-quoted String Constants
+#### 4.1.2.4. 錢字引號字串常數
 
-While the standard syntax for specifying string constants is usually convenient, it can be difficult to understand when the desired string contains many single quotes or backslashes, since each of those must be doubled. To allow more readable queries in such situations,PostgreSQLprovides another way, called“dollar quoting”, to write string constants. A dollar-quoted string constant consists of a dollar sign \(`$`\), an optional“tag”of zero or more characters, another dollar sign, an arbitrary sequence of characters that makes up the string content, a dollar sign, the same tag that began this dollar quote, and a dollar sign. For example, here are two different ways to specify the string“Dianne's horse”using dollar quoting:
+標準的語法用於字串常數的設定很方便的，但如果字串裡有很多單引號或倒斜線，可讀性就很低了，因為它們都必須再連續多一個符號輸入。像這樣的例子，要改善可讀性的話，PostgreSQL 提供了另一個方式，稱作「錢字引號」（dollar quoting），來描述字串常數。錢字引號字串常數包含一個錢字號（$），可省略或多個字元所組成的「標籤」，另一個錢字號，組成字川的任何序列文字，再一個錢字號，與起始的錢字引號同樣的標籤，再一個錢字號。舉例來說，這裡有兩個不同使用錢字引號的方式，但都是「Dianne's horse」
 
 ```
 $$Dianne's horse$$
 $SomeTag$Dianne's horse$SomeTag$
 ```
 
-Notice that inside the dollar-quoted string, single quotes can be used without needing to be escaped. Indeed, no characters inside a dollar-quoted string are ever escaped: the string content is always written literally. Backslashes are not special, and neither are dollar signs, unless they are part of a sequence matching the opening tag.
+注意在錢字引號字串中，單引號的使用就不需要跳脫處理了。實際上，在錢字引號字串中，沒有字元需要跳脫處理：字串內容就原樣輸出。倒斜錢並不特別，就算是錢字號也是，除非它們是引號標籤配對的一部份。
 
-It is possible to nest dollar-quoted string constants by choosing different tags at each nesting level. This is most commonly used in writing function definitions. For example:
+巢狀錢字字串常數是可以的，只要在不同層選擇不同的標籤就好。最常見的用途就是撰寫函數定義。舉例如下：
 
 ```
 $function$
@@ -187,7 +187,7 @@ END;
 $function$
 ```
 
-Here, the sequence`$q$[\t\r\n\v\\]$q$`represents a dollar-quoted literal string`[\t\r\n\v\\]`, which will be recognized when the function body is executed byPostgreSQL. But since the sequence does not match the outer dollar quoting delimiter`$function$`, it is just some more characters within the constant so far as the outer string is concerned.
+這裡，「$q$\[\t\r\n\v\\\]$q$」以錢字引號字串輸出就是「\[\t\r\n\v\\\]」，作為 PostgreSQL 的函數內容。但這個字串並不會和外層的 $function$ 配對。對外層的字串而言，它只是被包裏的一部份字元而已。
 
 The tag, if any, of a dollar-quoted string follows the same rules as an unquoted identifier, except that it cannot contain a dollar sign. Tags are case sensitive, so`$tag$String content$tag$`is correct, but`$TAG$String content$tag$`is not.
 
