@@ -60,8 +60,6 @@ U&"d\0061t\+000061"
 
 下面是稍微不簡明的例子是，俄文的＂slon＂（大象），以希伯萊文字母表現：
 
-The following less trivial example writes the Russian word“slon”\(elephant\) in Cyrillic letters:
-
 ```
 U&"\0441\043B\043E\043D"
 ```
@@ -130,7 +128,7 @@ PostgreSQL 也支援跳脫字串常數，這些是 SQL 標準的延伸。跳脫�
 
 你需要確保你所使用的 8 進位或 16 進位創建的位元組序列，都是屬於資料庫中合法的字元集。當資料庫編輯是 UTF-8 時，就應該使用萬國碼跳脫寫法，或其他萬國碼的輸入方式，如前 4.1.2.3 中所述。（所謂其他的方式可能是自行組合每一個位元組，但這樣會是相當麻煩的事。）
 
-萬國碼跳脫語法只有在 UTF8 的編碼下才完整支援。當有其他的字元編碼被使用時，就只能使用 ASCII 的範圍（最大值為 \u007F）中的值。4 位數及 8 位數的型式可以用來配對指定 UTF-16 超過 U+FFFF 的字元，即使 8 位數的型式就足以解決這個問題。（當使用配對語法，且字元編碼為 UTF8 時，他們會先被合併成單一字元，然後再編碼成 UTF-8。）
+萬國碼跳脫語法只有在 UTF8 的編碼下才完整支援。當有其他的字元編碼被使用時，就只能使用 ASCII 的範圍（最大值為 \u007F）中的值。4 位數及 6 位數的型式可以用來配對指定 UTF-16 超過 U+FFFF 的字元，即使 6 位數的型式就足以解決這個問題。（當使用配對語法，且字元編碼為 UTF8 時，他們會先被合併成單一字元，然後再編碼成 UTF-8。）
 
 ### 注意
 
@@ -142,37 +140,31 @@ PostgreSQL 也支援跳脫字串常數，這些是 SQL 標準的延伸。跳脫�
 
 #### 4.1.2.3. String Constants with Unicode Escapes
 
-PostgreSQLalso supports another type of escape syntax for strings that allows specifying arbitrary Unicode characters by code point. A Unicode escape string constant starts with`U&`\(upper or lower case letter U followed by ampersand\) immediately before the opening quote, without any spaces in between, for example`U&'foo'`. \(Note that this creates an ambiguity with the operator`&`. Use spaces around the operator to avoid this problem.\) Inside the quotes, Unicode characters can be specified in escaped form by writing a backslash followed by the four-digit hexadecimal code point number or alternatively a backslash followed by a plus sign followed by a six-digit hexadecimal code point number. For example, the string`'data'`could be written as
+PostgreSQL 也支援其他跳脫字串的語法，可以用來直接輸入任意的萬國碼字元。萬國碼跳脫字串常數是以 U& （U& 或 u& 皆可）開頭，然後緊接著單引號括住的字串，記得中間不能有任何空白，例如：U&'foo'。（注意這可能會混淆到 & 的使用，最好在其他使用 & 作為運算子的指令中，在 & 前後 加上空白字元，以避免這個問題。）在括住的內容裡，萬國碼字元可以使用跳脫字元來指定，也就是使用倒斜線再接一組 4 位數的 16 進位值，或者以倒斜線加上加號再接一組 6 位數的 16 進位值。舉個例子，字串 'data' 也可以寫成：
 
 ```
-U
-&
-'d\0061t\+000061'
+U&'d\0061t\+000061'
 ```
 
-The following less trivial example writes the Russian word“slon”\(elephant\) in Cyrillic letters:
+下面是稍微不簡明的例子是，俄文的＂slon＂（大象），以希伯萊文字母表現：
 
 ```
-U
-&
-'\0441\043B\043E\043D'
+U&'\0441\043B\043E\043D'
 ```
 
-If a different escape character than backslash is desired, it can be specified using the`UESCAPE`clause after the string, for example:
+如果希望以不同的跳脫字元來代替倒斜線的話，那麼可以雙引號結束後使用 UESCAPE 子句來指定，舉例來說：
 
 ```
-U
-&
-'d!0061t!+000061' UESCAPE '!'
+U&'d!0061t!+000061' UESCAPE '!'
 ```
 
-The escape character can be any single character other than a hexadecimal digit, the plus sign, a single quote, a double quote, or a whitespace character.
+跳脫字元可以是任何的單一字元，除了 16 進位數字的字元、單引號、雙引號、或空白以外。
 
-The Unicode escape syntax works only when the server encoding is`UTF8`. When other server encodings are used, only code points in the ASCII range \(up to`\007F`\) can be specified. Both the 4-digit and the 6-digit form can be used to specify UTF-16 surrogate pairs to compose characters with code points larger than U+FFFF, although the availability of the 6-digit form technically makes this unnecessary. \(When surrogate pairs are used when the server encoding is`UTF8`, they are first combined into a single code point that is then encoded in UTF-8.\)
+萬國碼跳脫語法只有在 UTF8 的編碼下才完整支援。當有其他的字元編碼被使用時，就只能使用 ASCII 的範圍（最大值為 \u007F）中的值。4 位數及 6 位數的型式可以用來配對指定 UTF-16 超過 U+FFFF 的字元，即使 6 位數的型式就足以解決這個問題。（當使用配對語法，且字元編碼為 UTF8 時，他們會先被合併成單一字元，然後再編碼成 UTF-8。）
 
-Also, the Unicode escape syntax for string constants only works when the configuration parameter[standard\_conforming\_strings](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#guc-standard-conforming-strings)is turned on. This is because otherwise this syntax could confuse clients that parse the SQL statements to the point that it could lead to SQL injections and similar security issues. If the parameter is set to off, this syntax will be rejected with an error message.
+然而，萬國碼的跳脫字串語法，只有在參數 standard\_conforming\_strings 設定為 on 時有效。這是因為這個語法可能會造成 SQL 指令在編譯時的困擾，造成 SQL 隱碼攻擊（SQL injection） 或其他安全性的問題。如果這個參數設定為 off，那麼這個語法就會被禁止，並且產生錯誤訊息。
 
-To include the escape character in the string literally, write it twice.
+內容要使用到跳脫字元的話，就重覆輸入 2 次。
 
 #### 4.1.2.4. Dollar-quoted String Constants
 
