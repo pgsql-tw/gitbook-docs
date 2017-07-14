@@ -187,13 +187,13 @@ END;
 $function$
 ```
 
-這裡，「$q$\[\t\r\n\v\\\]$q$」以錢字引號字串輸出就是「\[\t\r\n\v\\\]」，作為 PostgreSQL 的函數內容。但這個字串並不會和外層的 $function$ 配對。對外層的字串而言，它只是被包裏的一部份字元而已。
+這裡，「$q$\[\t\r\n\v\\]$q$」以錢字引號字串輸出就是「\[\t\r\n\v\\]」，作為 PostgreSQL 的函數內容。但這個字串並不會和外層的 $function$ 配對。對外層的字串而言，它只是被包裏的一部份字元而已。
 
-The tag, if any, of a dollar-quoted string follows the same rules as an unquoted identifier, except that it cannot contain a dollar sign. Tags are case sensitive, so`$tag$String content$tag$`is correct, but`$TAG$String content$tag$`is not.
+以錢字符作為標籤（如果有的話）的引號字串和無引號的識別項，遵循相同的規則，除了它無法包含錢字符號以外。標籤是區分大小寫的，所以 $tag$String content$tag$ 是正確的，而 $TAG$String content$tag$ 是不合法的。
 
-A dollar-quoted string that follows a keyword or identifier must be separated from it by whitespace; otherwise the dollar quoting delimiter would be taken as part of the preceding identifier.
+錢字引號字串緊接著關鍵字或識別項的話，就必須以空白分隔；否則錢字號的終止符可能會被當作前面識別項的一部份。
 
-Dollar quoting is not part of the SQL standard, but it is often a more convenient way to write complicated string literals than the standard-compliant single quote syntax. It is particularly useful when representing string constants inside other constants, as is often needed in procedural function definitions. With single-quote syntax, each backslash in the above example would have to be written as four backslashes, which would be reduced to two backslashes in parsing the original string constant, and then to one when the inner string constant is re-parsed during function execution.
+錢字引號並不是標準 SQL 的用法，但當撰寫一些複雜字串的時候，會比標準語法更為便利。當字串常數內嵌於另一個常數時，也是很好用的情境，像自訂函數時就時常用到。使用單引號的語法時，前面例子中的每一個倒斜線，需要使用 4 個倒斜線才能表示（原來字串常數時需要雙倒斜線，然後在執行階段時也需要雙倒斜線，一共就是 4 倍）。 
 
 #### 4.1.2.5. Bit-string Constants
 
