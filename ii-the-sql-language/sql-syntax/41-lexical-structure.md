@@ -203,42 +203,20 @@ $function$
 
 這兩種位元字串常數的表達方式，都可以在字串中換行，如同一般的字串常數。錢字引號表示方式不能使用在位元字串常數上。
 
-#### 4.1.2.6. Numeric Constants
+#### 4.1.2.6. 數值常數（Numeric Constants）
 
-Numeric constants are accepted in these general forms:
+數值常數可以以下列語法輸入：
 
 ```
 digits
-digits
-.[
-digits
-][
-e[
-+-
-]
-digits
-]
-[
-digits
-].
-digits
-[
-e[
-+-
-]
-digits
-]
-
-digits
-e[
-+-
-]
-digits
+digits.[digits][e[+-]digits]
+[digits].digits[e[+-]digits]
+[digits]e[+-]digits
 ```
 
-where\_`digits`\_is one or more decimal digits \(0 through 9\). At least one digit must be before or after the decimal point, if one is used. At least one digit must follow the exponent marker \(`e`\), if one is present. There cannot be any spaces or other characters embedded in the constant. Note that any leading plus or minus sign is not actually considered part of the constant; it is an operator applied to the constant.
+這裡的 digits 指的是 0 到 9 的多位數十進位數字。如果有小數點的話，在小數點之前或之後要有數字。在指數標記 e 之前，也必須要有數字。字串中間不能再有其他字元或空白出現。注意，最前面正負號並不是數值常數的一部份，它是屬於運算子的概念。
 
-These are some examples of valid numeric constants:
+下面是一些合法數值常數的例子：
 
 42  
 3.5  
@@ -247,16 +225,16 @@ These are some examples of valid numeric constants:
 5e2  
 1.925e-3
 
-A numeric constant that contains neither a decimal point nor an exponent is initially presumed to be type`integer`if its value fits in type`integer`\(32 bits\); otherwise it is presumed to be type`bigint`if its value fits in type`bigint`\(64 bits\); otherwise it is taken to be type`numeric`. Constants that contain decimal points and/or exponents are always initially presumed to be type`numeric`.
+數值常數如果沒有小數點或指數標記的話，預設就會被假定為整數，32 位元以內的為整數型別（interger），否則就會以 64 位元的大整數型別（bigint）來處理。其次就會宣告為數值型別（numeric）。只要包含小數點或指數標記的數值，都會預設使用數值型別。
 
-The initially assigned data type of a numeric constant is just a starting point for the type resolution algorithms. In most cases the constant will be automatically coerced to the most appropriate type depending on context. When necessary, you can force a numeric value to be interpreted as a specific data type by casting it.For example, you can force a numeric value to be treated as type`real`\(`float4`\) by writing:
+預設數值常數的資料型別只是整個型別解析演算法的開端而已。在多數的情況下，各種常數會自動被轉換為最貼近內容的適當型別。不過，如果需要的話，你可以強制指定一個資料型別給該常數。舉例來說，你可以強制以實數型別（real 或 float4）來處理該數值：
 
 ```
 REAL '1.23'  -- string style
 1.23::REAL   -- PostgreSQL (historical) style
 ```
 
-These are actually just special cases of the general casting notations discussed next.
+實際上，在型別轉換上還有一些特殊的情況，留待後續探討。
 
 #### 4.1.2.7. Constants of Other Types
 
