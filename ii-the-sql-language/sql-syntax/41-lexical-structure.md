@@ -193,15 +193,15 @@ $function$
 
 錢字引號字串緊接著關鍵字或識別項的話，就必須以空白分隔；否則錢字號的終止符可能會被當作前面識別項的一部份。
 
-錢字引號並不是標準 SQL 的用法，但當撰寫一些複雜字串的時候，會比標準語法更為便利。當字串常數內嵌於另一個常數時，也是很好用的情境，像自訂函數時就時常用到。使用單引號的語法時，前面例子中的每一個倒斜線，需要使用 4 個倒斜線才能表示（原來字串常數時需要雙倒斜線，然後在執行階段時也需要雙倒斜線，一共就是 4 倍）。 
+錢字引號並不是標準 SQL 的用法，但當撰寫一些複雜字串的時候，會比標準語法更為便利。當字串常數內嵌於另一個常數時，也是很好用的情境，像自訂函數時就時常用到。使用單引號的語法時，前面例子中的每一個倒斜線，需要使用 4 個倒斜線才能表示（原來字串常數時需要雙倒斜線，然後在執行階段時也需要雙倒斜線，一共就是 4 倍）。
 
-#### 4.1.2.5. Bit-string Constants
+#### 4.1.2.5. 位元字串常數（Bit-string Constants）
 
-Bit-string constants look like regular string constants with a`B`\(upper or lower case\) immediately before the opening quote \(no intervening whitespace\), e.g.,`B'1001'`. The only characters allowed within bit-string constants are`0`and`1`.
+位元字串常數看起來就像是一般的字串常數，只是將 B（大小寫皆可）放在引號的前面（不能有空白），例如：B'1001'。而在位元字串當中，只能有 0 或 1 的存在。
 
-Alternatively, bit-string constants can be specified in hexadecimal notation, using a leading`X`\(upper or lower case\), e.g.,`X'1FF'`. This notation is equivalent to a bit-string constant with four binary digits for each hexadecimal digit.
+另一方面，位元字串常數也可以表示一個 16 進位的值，使用的先導字為 X（大小寫皆可），例如：X'1FF'。這個撰寫方式與使用前段方式，以 4 位數 2 進位表示每一個 16 進位位數，是相同的結果。
 
-Both forms of bit-string constant can be continued across lines in the same way as regular string constants. Dollar quoting cannot be used in a bit-string constant.
+這兩種位元字串常數的表達方式，都可以在字串中換行，如同一般的字串常數。錢字引號表示方式不能使用在位元字串常數上。
 
 #### 4.1.2.6. Numeric Constants
 
