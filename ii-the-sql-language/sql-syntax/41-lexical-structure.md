@@ -260,23 +260,21 @@ typename ( 'string' )
 
 「::」、CAST\(\)、及函數式語法，也可以用來指定任何表示式在執行中的型別轉換，如同 4.2.9 節中所描述的。要避免語法上的混淆，「type 'string'」這個語法，只能用在指定簡單的文字常數，另一個限制是，不能用於陣列型別。陣列常數的型別指定，請使用 :: 或 CAST\(\) 的語法。
 
-### 4.1.3. Operators
+### 4.1.3. 運算子（Operators）
 
-An operator name is a sequence of up to`NAMEDATALEN`-1 \(63 by default\) characters from the following list:
+一個運算子最長可以是 NAMEDATALEN - 1（預設為 63 個字元），除了以下的字元之外：
 
 * * \* / &lt;&gt; = ~ ! @ \# % ^ & \| \` ?
 
-There are a few restrictions on operator names, however:
+還有一些運算子的限制：
 
-* `--`and`/*`cannot appear anywhere in an operator name, since they will be taken as the start of a comment.
-
-* A multiple-character operator name cannot end in`+`or`-`, unless the name also contains at least one of these characters:
-
+* 「--」和「/\*」都不能出現在運算子裡，因為它們表示註解的開始。
+* 多字元的運算子不能以 + 或 - 結尾，除非名稱裡也包含了下列字元：
   ~ ! @ \# % ^ & \| \` ?
 
-  For example,`@-`is an allowed operator name, but`*-`is not. This restriction allowsPostgreSQLto parse SQL-compliant queries without requiring spaces between tokens.
+舉個例子，@- 可以是合法的運算子，但 \*- 就不合法。這個限制是讓 PostgreSQL 解譯 SQL 語法時，可以不需要在不同的標記間使用空白分隔。
 
-When working with non-SQL-standard operator names, you will usually need to separate adjacent operators with spaces to avoid ambiguity. For example, if you have defined a left unary operator named`@`, you cannot write`X*@Y`; you must write`X* @Y`to ensure thatPostgreSQLreads it as two operator names not one.
+當使用非 SQL 標準的運算子時，你通常需要在相隣的運算子間使用空白以免混淆。舉例來說，如果你已經定義了一個左側單元運算子 @，你就不能使用 X\*@Y，必須寫成 X\* @Y，以確保 PostgreSQL 可以識別為兩個運算子，而不是一個。
 
 ### 4.1.4. Special Characters
 
