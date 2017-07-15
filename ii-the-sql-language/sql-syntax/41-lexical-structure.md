@@ -236,45 +236,29 @@ REAL '1.23'  -- string style
 
 實際上，在型別轉換上還有一些特殊的情況，留待後續探討。
 
-#### 4.1.2.7. Constants of Other Types
+#### 4.1.2.7. 其他型別常數
 
-A constant of an\_arbitrary\_type can be entered using any one of the following notations:
-
-```
-type
- '
-string
-'
-'
-string
-'::
-type
-
-CAST ( '
-string
-' AS 
-type
- )
-```
-
-The string constant's text is passed to the input conversion routine for the type called`type`. The result is a constant of the indicated type. The explicit type cast can be omitted if there is no ambiguity as to the type the constant must be \(for example, when it is assigned directly to a table column\), in which case it is automatically coerced.
-
-The string constant can be written using either regular SQL notation or dollar-quoting.
-
-It is also possible to specify a type coercion using a function-like syntax:
+任意型別的常數，可以使用下列的語法來表示：
 
 ```
-typename
- ( '
-string
-' )
+type 'string'
+'string'::type
+CAST ( 'string' AS type )
 ```
 
-but not all type names can be used in this way; see[Section 4.2.9](https://www.postgresql.org/docs/10/static/sql-expressions.html#sql-syntax-type-casts)for details.
+字串常數的內容會由型別轉換的程序 type 來處理，其結果就會得到該常數的專屬型別。明定型別轉換可以被省略，如果不會混淆的話（舉例來說，要輸入給特定的表格欄位的話，因為已有型別宣告，就不會混淆），那麼就會自動給定型別。
 
-The`::`,`CAST()`, and function-call syntaxes can also be used to specify run-time type conversions of arbitrary expressions, as discussed in[Section 4.2.9](https://www.postgresql.org/docs/10/static/sql-expressions.html#sql-syntax-type-casts). To avoid syntactic ambiguity, the`type`'`string`'syntax can only be used to specify the type of a simple literal constant. Another restriction on the`type`'`string`'syntax is that it does not work for array types; use`::`or`CAST()`to specify the type of an array constant.
+字串常數可以使用一般 SQL 標準寫法，或是錢字引號寫法。
 
-The`CAST()`syntax conforms to SQL. The`type`'`string`'syntax is a generalization of the standard: SQL specifies this syntax only for a few data types, butPostgreSQLallows it for all types. The syntax with`::`is historicalPostgreSQLusage, as is the function-call syntax.
+還可以使用函數式的語法來撰寫：
+
+```
+typename ( 'string' )
+```
+
+但並非所有的型別都可以使用這個方式，請參閱 4.2.9 取得詳細說明。
+
+「::」、CAST\(\)、及函數式語法，也可以用來指定任何表示式在執行中的型別轉換，如同 4.2.9 節中所描述的。要避免語法上的混淆，「type 'string'」這個語法，只能用在指定簡單的文字常數，另一個限制是，不能用於陣列型別。陣列常數的型別指定，請使用 :: 或 CAST\(\) 的語法。
 
 ### 4.1.3. Operators
 
