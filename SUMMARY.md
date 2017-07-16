@@ -175,7 +175,7 @@
     * 16.7. Platform-specific Notes
   * Installation from Source Code on Windows
     * 17.1. Building with Visual C++ or the Microsoft Windows SDK
-  * Server Setup and Operation
+  * [18. 服務配置與維運](iii-server-administration/server-setup-and-operation.md)
     * 18.1. The PostgreSQL User Account
     * 18.2. Creating a Database Cluster
     * 18.3. Starting the Database Server
@@ -187,7 +187,7 @@
     * 18.9. Secure TCP/IP Connections with SSL
     * 18.10. Secure TCP/IP Connections with SSH Tunnels
     * 18.11. Registering Event Log on Windows
-  * Server Configuration
+  * [19. 服務組態設定](iii-server-administration/server-configuration.md)
     * 19.1. Setting Parameters
     * 19.2. File Locations
     * 19.3. Connections and Authentication
@@ -200,7 +200,7 @@
     * 19.10. Automatic Vacuuming
     * 19.11. Client Connection Defaults
     * 19.12. Lock Management
-    * 19.13. Version and Platform Compatibility
+    * [19.13. 版本與平台的相容性](iii-server-administration/server-configuration/1913-version-and-platform-compatibility.md)
     * 19.14. Error Handling
     * 19.15. Preset Options
     * 19.16. Customized Options

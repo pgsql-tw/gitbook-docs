@@ -132,9 +132,9 @@ PostgreSQL 也支援跳脫字串常數，這些是 SQL 標準的延伸。跳脫�
 
 ### 注意
 
-如果設定檔參數 standard\_conforming\_string 設定為 off，PostgreSQL 不論在一般字串還是跳脫字串常數，都會把倒斜線識別為跳脫符號。然而，在 PostgreSQL 9.1 之前，這個參數的預設值為 on，表示只在跳脫字串常數裡，才把倒斜線視為跳脫符號。這樣的模式是更與標準相容的，但可能會破壞默認舊有設定的應用程式，也就是總是把倒斜線視為跳脫符號。在這樣的背景之下，你可以把這個參數設為 off，但更好的是，修改程式不再使用倒斜線跳脫符號。如果你需要使用倒斜線跳脫符號來表示一個特殊字元，請使用 E 開頭的字串常數。
+如果設定檔參數 [standard\_conforming\_string](/iii-server-administration/server-configuration/1913-version-and-platform-compatibility.md) 設定為 off，PostgreSQL 不論在一般字串還是跳脫字串常數，都會把倒斜線識別為跳脫符號。然而，在 PostgreSQL 9.1 之前，這個參數的預設值為 on，表示只在跳脫字串常數裡，才把倒斜線視為跳脫符號。這樣的模式是更與標準相容的，但可能會破壞默認舊有設定的應用程式，也就是總是把倒斜線視為跳脫符號。在這樣的背景之下，你可以把這個參數設為 off，但更好的是，修改程式不再使用倒斜線跳脫符號。如果你需要使用倒斜線跳脫符號來表示一個特殊字元，請使用 E 開頭的字串常數。
 
-有關 standard\_conforming\_string，順帶一提的是，還有 escape\_string\_warning 和 backslash\_quote 兩個參數，也提供調整倒斜線在字串常數中的使用。
+有關 [standard\_conforming\_string](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html)，順帶一提的是，還有 [escape\_string\_warning](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html) 和 [backslash\_quote](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html) 兩個參數，也提供調整倒斜線在字串常數中的使用。
 
 字元代碼 0 的字元不能使用在字串常數當中。
 
