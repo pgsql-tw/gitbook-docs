@@ -296,7 +296,7 @@ typename ( 'string' )
 
 * 頓號（.）用在數值常數之中，也用於區分結構、表格、及欄位名稱。
 
-### 4.1.5. Comments
+### 4.1.5. 註解（Comments）
 
 註解是以連續兩個破折號開頭，一直到行結尾的字串。例如：
 
@@ -316,29 +316,29 @@ typename ( 'string' )
 
 註解會在進一步的語法分析前被消去，也可以方便地以空白字元替代。
 
-### 4.1.6. Operator Precedence
+### 4.1.6. 運算優先權（Operator Precedence）
 
-[Table 4.2](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-precedence-table)shows the precedence and associativity of the operators inPostgreSQL. Most operators have the same precedence and are left-associative. The precedence and associativity of the operators is hard-wired into the parser.
+Table 4.2 列出在 PostgreSQL 中，運算子的運算優先權及運算次序。大多數的運算子都是相同的運算優先權，並且是左側運算。這些優先權與次序是撰寫在解譯器的程式當中的。
 
-You will sometimes need to add parentheses when using combinations of binary and unary operators. For instance:
+你有時候需要加上括號，當遇到二元運算子與一元運算子一起出現時。舉個例子：
 
 ```
 SELECT 5 ! - 6;
 ```
 
-will be parsed as:
+會被解譯為：
 
 ```
 SELECT 5 ! (- 6);
 ```
 
-because the parser has no idea — until it is too late — that`!`is defined as a postfix operator, not an infix one. To get the desired behavior in this case, you must write:
+因為解譯器並不知道實際的情況，所以它可能會搞錯。「!」是一個後置運算子，並非中置運算子。在這個例子中，要以想要的方式進行運算的話，你必須要改寫為：
 
 ```
 SELECT (5 !) - 6;
 ```
 
-This is the price one pays for extensibility.
+這是為了延展性而需要付出的代價。
 
 **Table 4.2. Operator Precedence \(highest to lowest\)**
 
@@ -352,26 +352,26 @@ This is the price one pays for extensibility.
 | `*/%` | left | multiplication, division, modulo |
 | `+-` | left | addition, subtraction |
 | \(any other operator\) | left | all other native and user-defined operators |
-| `BETWEENINLIKEILIKESIMILAR` |  | range containment, set membership, string matching |
+| `BETWEEN / IN / LIKE / ILIKE / SIMILAR` |  | range containment, set membership, string matching |
 | `<>=<=>=<>` |  | comparison operators |
-| `ISISNULLNOTNULL` |  | `IS TRUE`,`IS FALSE`,`IS NULL`,`IS DISTINCT FROM`, etc |
+| `IS / ISNULL/ NOTNULL` |  | `IS TRUE`,`IS FALSE`,`IS NULL`,`IS DISTINCT FROM`, etc |
 | `NOT` | right | logical negation |
 | `AND` | left | logical conjunction |
 | `OR` | left | logical disjunction |
 
-Note that the operator precedence rules also apply to user-defined operators that have the same names as the built-in operators mentioned above. For example, if you define a“+”operator for some custom data type it will have the same precedence as the built-in“+”operator, no matter what yours does.
+注意，使用與內建運算子同名的自訂運算子，運算優先權的規則也會以原規則適用，如同上面的樣子。舉例來說，如果你定義了一個「+」的運算子，用於自訂的資料型態，那麼它就會和內建的「+」擁有相同的運算優先權，而與你的運算內容無關。
 
-When a schema-qualified operator name is used in the`OPERATOR`syntax, as for example in:
+當某個結構操作的運算子用於 OPERATOR 語法之中時，如下所示：
 
 ```
 SELECT 3 OPERATOR(pg_catalog.+) 4;
 ```
 
-the`OPERATOR`construct is taken to have the default precedence shown in[Table 4.2](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-precedence-table)for“any other operator”. This is true no matter which specific operator appears inside`OPERATOR()`.
+OPERATOR 建構式被用來為任何運算子，取得如 Table 4.2 中所示的預設運算優先權。不論在 OPERATOR\(\) 中指定什麼運算子，都會回傳 true 的結果。
 
-### Note
+### 注意
 
-PostgreSQLversions before 9.5 used slightly different operator precedence rules. In particular,`<=>=`and`<>`used to be treated as generic operators;`IS`tests used to have higher priority; and`NOT BETWEEN`and related constructs acted inconsistently, being taken in some cases as having the precedence of`NOT`rather than`BETWEEN`. These rules were changed for better compliance with the SQL standard and to reduce confusion from inconsistent treatment of logically equivalent constructs. In most cases, these changes will result in no behavioral change, or perhaps in“no such operator”failures which can be resolved by adding parentheses. However there are corner cases in which a query might change behavior without any parsing error being reported. If you are concerned about whether these changes have silently broken something, you can test your application with the configuration parameter[operator\_precedence\_warning](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#guc-operator-precedence-warning)turned on to see if any warnings are logged.
+PostgreSQL 在 9.5 之前的運算優先權有一些不同。比較特別的是，比較運算子「&lt;= &gt;= &lt;&gt;」是和一般其他運算子是相同等級的；「IS」先前的優先權較高；而「NOT BETWEEN」和相關的建構式行為不一致，使得在某些情況下，「NOT」和「BETWEEN」的優先權不同。這些規則的改變是為了與 SQL 標準有更好的相容性，減少因為等價轉換的不一致處理所造成的困擾。大多數的情況，這些改變並不需要使用習慣的改變，也不會產生沒有運算子的錯誤，而且都可以透過增加括號來解決。然而，有一些極端的情況可能會在沒有錯誤的情況改變其運算行為。如果你很關心這些變化，很擔心這些無聲的錯誤，你可以打開參數 operator\_precedence\_warning 來測試你的程式，然後檢查是否有警告被記錄下來。
 
 ---
 
