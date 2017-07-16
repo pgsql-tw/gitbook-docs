@@ -280,8 +280,6 @@ typename ( 'string' )
 
 有一些字元並不是字母型態，而具有特殊意義，但並非運算子。詳細的說明請參閱相對應的語法說明。本節僅簡要描述這些特殊字元的使用情境。
 
-
-
 * 錢字號（$）其後接著數字的話，用來表示函數宣告或預備指令的參數編號。其他的用法還有識別項的一部份，或是錢字引號常數。
 
 * 小括號（\( \)）一般用來強調表示式並且優先運算。還有某些情況用於表示某些 SQL 指令的部份的必要性。
@@ -300,13 +298,13 @@ typename ( 'string' )
 
 ### 4.1.5. Comments
 
-A comment is a sequence of characters beginning with double dashes and extending to the end of the line, e.g.:
+註解是以連續兩個破折號開頭，一直到行結尾的字串。例如：
 
 ```
 -- This is a standard SQL comment
 ```
 
-Alternatively, C-style block comments can be used:
+另外，C 語言的註解語法也可以使用：
 
 ```
 /* multiline comment
@@ -314,9 +312,9 @@ Alternatively, C-style block comments can be used:
  */
 ```
 
-where the comment begins with`/*`and extends to the matching occurrence of`*/`. These block comments nest, as specified in the SQL standard but unlike C, so that one can comment out larger blocks of code that might contain existing block comments.
+這樣的註解，以「/\*」開頭，一直持續到對應的「\*/」出現才結束。這樣區塊式的註解可以巢狀使用，所以你可以一次註解掉一堆包含註解的指令。這點是 SQL 的標準，和 C 語言的使用不太一樣的地方。
 
-A comment is removed from the input stream before further syntax analysis and is effectively replaced by whitespace.
+註解會在進一步的語法分析前被消去，也可以方便地以空白字元替代。
 
 ### 4.1.6. Operator Precedence
 
