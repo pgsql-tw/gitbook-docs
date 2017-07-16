@@ -276,25 +276,27 @@ typename ( 'string' )
 
 當使用非 SQL 標準的運算子時，你通常需要在相隣的運算子間使用空白以免混淆。舉例來說，如果你已經定義了一個左側單元運算子 @，你就不能使用 X\*@Y，必須寫成 X\* @Y，以確保 PostgreSQL 可以識別為兩個運算子，而不是一個。
 
-### 4.1.4. Special Characters
+### 4.1.4. 特殊字元
 
-Some characters that are not alphanumeric have a special meaning that is different from being an operator. Details on the usage can be found at the location where the respective syntax element is described. This section only exists to advise the existence and summarize the purposes of these characters.
+有一些字元並不是字母型態，而具有特殊意義，但並非運算子。詳細的說明請參閱相對應的語法說明。本節僅簡要描述這些特殊字元的使用情境。
 
-* A dollar sign \(`$`\) followed by digits is used to represent a positional parameter in the body of a function definition or a prepared statement. In other contexts the dollar sign can be part of an identifier or a dollar-quoted string constant.
 
-* Parentheses \(`()`\) have their usual meaning to group expressions and enforce precedence. In some cases parentheses are required as part of the fixed syntax of a particular SQL command.
 
-* Brackets \(`[]`\) are used to select the elements of an array. See[Section 8.15](https://www.postgresql.org/docs/10/static/arrays.html)for more information on arrays.
+* 錢字號（$）其後接著數字的話，用來表示函數宣告或預備指令的參數編號。其他的用法還有識別項的一部份，或是錢字引號常數。
 
-* Commas \(`,`\) are used in some syntactical constructs to separate the elements of a list.
+* 小括號（\( \)）一般用來強調表示式並且優先運算。還有某些情況用於表示某些 SQL 指令的部份的必要性。
 
-* The semicolon \(`;`\) terminates an SQL command. It cannot appear anywhere within a command, except within a string constant or quoted identifier.
+* 中括號（\[ \]）用於組成陣列的各個元素。詳情請參閱 8.15 節有關於陣列的內容。
 
-* The colon \(`:`\) is used to select“slices”from arrays. \(See[Section 8.15](https://www.postgresql.org/docs/10/static/arrays.html).\) In certain SQL dialects \(such as Embedded SQL\), the colon is used to prefix variable names.
+* 逗號（,）用於一般語法上的結構需要，來分隔列表中的單元。
 
-* The asterisk \(`*`\) is used in some contexts to denote all the fields of a table row or composite value. It also has a special meaning when used as the argument of an aggregate function, namely that the aggregate does not require any explicit parameter.
+* 分號（;）表示 SQL 指令的結束。它不能出現在指令中的其他位置，除非是在字串常數當中，或是引號識別項。
 
-* The period \(`.`\) is used in numeric constants, and to separate schema, table, and column names.
+* 冒號（:）用在取得陣列的小項。（參閱 8.15 節）在某些 SQL 分支（篏入式 SQL 之類的）中，冒號用來前置變數名稱。
+
+* 米字號（\*）用來表示表格中所有的欄位，或複合性的內容。它也可以用於函數宣告時，不限制固定數量的參數。
+
+* 頓號（.）用在數值常數之中，也用於區分結構、表格、及欄位名稱。
 
 ### 4.1.5. Comments
 
