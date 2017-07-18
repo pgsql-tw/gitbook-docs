@@ -131,35 +131,29 @@ OPERATOR(schema.operatorname)
 
 哪些特定的運算子的使用與運算方式，端看系統與使用者如何定義。在[第 9 章](/ii-the-sql-language/functions-and-operators.md)中會說明內建的運算子詳情。
 
-### 4.2.6. Function Calls
+### 4.2.6. 函數呼叫
 
-The syntax for a function call is the name of a function \(possibly qualified with a schema name\), followed by its argument list enclosed in parentheses:
+函數呼叫的語法是，函數的名稱（可能還會加上結構名）接著一連串用括號括起來的參數列表：
+
+
 
 ```
-function_name
- ([
-expression
- [
-, 
-expression
- ... 
-]
-] )
+function_name ([expression [, expression ... ]] )
 ```
 
-For example, the following computes the square root of 2:
+舉個例子，下面的函數呼叫可以計算 2 的平方根：
 
 ```
 sqrt(2)
 ```
 
-The list of built-in functions is in[Chapter 9](https://www.postgresql.org/docs/10/static/functions.html). Other functions can be added by the user.
+內建函數在[第 9 章](/ii-the-sql-language/functions-and-operators.md)說明，其他的函數可由使用者自訂。
 
-The arguments can optionally have names attached. See[Section 4.3](https://www.postgresql.org/docs/10/static/sql-syntax-calling-funcs.html)for details.
+參數可以是選擇性的附加名稱，請參閱 [4.3 節](/ii-the-sql-language/sql-syntax/43-calling-functions.md)的內容。
 
-### Note
+### 注意
 
-A function that takes a single argument of composite type can optionally be called using field-selection syntax, and conversely field selection can be written in functional style. That is, the notations`col(table)`and`table.col`are interchangeable. This behavior is not SQL-standard but is provided inPostgreSQLbecause it allows use of functions to emulate“computed fields”. For more information see[Section 8.16.5](https://www.postgresql.org/docs/10/static/rowtypes.html#rowtypes-usage).
+函數如果只有一個參數，而又是複合型別的話，就稱作使用了欄位選擇語法；反過來說，欄位選擇語法也可以寫成函數的形式。這是因為 col\(table\) 和 table.col 是可以互換的。這並非標準 SQL，但 PostgreSQL 支援了，因為這使得函數的使用可以模擬「計算欄位」（computed fields）。更多資訊請參閱 [8.16.5 節](/ii-the-sql-language/data-types/816-composite-types.md)。
 
 ### 4.2.7. Aggregate Expressions
 
