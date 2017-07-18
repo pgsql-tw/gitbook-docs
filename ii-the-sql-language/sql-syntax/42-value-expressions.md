@@ -24,7 +24,7 @@
 
 我們已經在 [4.1.2 節](/ii-the-sql-language/sql-syntax/41-lexical-structure.md)中討論過常數了，所以接下來就從常數以下的項目繼續說明。
 
-### 4.2.1. Column References
+### 4.2.1. 欄位引用
 
 要引要一個欄位的話，請使用下列的形式：
 
@@ -33,8 +33,6 @@ correlation.columnname
 ```
 
 「correlation」（所屬名稱）是其所屬表格的名稱（也可能需要包含結構名），或是表格的別名（在 FROM 子句中所定義的）。所屬名稱和分隔用的句點是可以省略的，如果欄位名稱在目前查詢中的所有表格中是唯一的話。（[參閱第 7 章](/ii-the-sql-language/queries.md)）
-
-\_`correlation`\_is the name of a table \(possibly qualified with a schema name\), or an alias for a table defined by means of a`FROM`clause. The correlation name and separating dot can be omitted if the column name is unique across all the tables being used in the current query. \(See also[Chapter 7](https://www.postgresql.org/docs/10/static/queries.html).\)
 
 ### 4.2.2. Positional Parameters
 
