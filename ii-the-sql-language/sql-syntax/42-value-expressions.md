@@ -52,31 +52,23 @@ CREATE FUNCTION dept(text) RETURNS dept
 
 這裡的 $1 指的是函數被呼叫時的第 1 個輸入參數：
 
-### 4.2.3. Subscripts
+### 4.2.3. 子參數表示式（Subscripts）
 
-If an expression yields a value of an array type, then a specific element of the array value can be extracted by writing
-
-```
-expression
-[
-subscript
-]
-```
-
-or multiple adjacent elements \(an“array slice”\) can be extracted by writing
+如果表示式要產生陣列的結果的話，指定陣列中某個元素，請使用：
 
 ```
-expression
-[
-lower_subscript
-:
-upper_subscript
-]
+expression[subscript]
 ```
 
-\(Here, the brackets`[ ]`are meant to appear literally.\) Each\_`subscript`\_is itself an expression, which must yield an integer value.
+或是要取得陣列中多個相隣的元素，請使用：
 
-In general the array\_`expression`\_must be parenthesized, but the parentheses can be omitted when the expression to be subscripted is just a column reference or positional parameter. Also, multiple subscripts can be concatenated when the original array is multidimensional. For example:
+```
+expression[lower_subscript:upper_subscript]
+```
+
+每一個「subscript」本身都是一個表示式，必須要產生一個整數值。
+
+一般來說，陣列表示式必須被括號起來，但如果該表示式只是一個欄位或參數的引用的話，那麼括號可以省略。然後，多個子參數表示式可以連在一起使用，當你需要陣列表達多維度的概念時。舉例如下：
 
 ```
 mytable.arraycolumn[4]
@@ -85,7 +77,7 @@ $1[10:42]
 (arrayfunction(a,b))[42]
 ```
 
-The parentheses in the last example are required. See[Section 8.15](https://www.postgresql.org/docs/10/static/arrays.html)for more about arrays.
+在最後一個例子中，括號是必須的。關於陣列，在 [8.15 節](/ii-the-sql-language/data-types/815-arrays.md)有更多說明。
 
 ### 4.2.4. Field Selection
 
