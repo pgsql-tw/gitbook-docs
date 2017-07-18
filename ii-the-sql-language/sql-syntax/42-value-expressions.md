@@ -114,26 +114,22 @@ $1.somecolumn
 
 這個記號在不同的地方有不同的用法，請參閱 [8.16.5 節](/ii-the-sql-language/data-types/816-composite-types.md)的說明。
 
-### 4.2.5. Operator Invocations
+### 4.2.5. 運算子宣告（Operator Invocations）
 
-There are three possible syntaxes for an operator invocation:
+有三種用來進行運算子宣告的語法：
 
-| `expressionoperatorexpression`\(binary infix operator\) |
+| `expression operator expression`\(雙元中置運算子\) |
 | :--- |
-| `operatorexpression`\(unary prefix operator\) |
-| `expressionoperator`\(unary postfix operator\) |
+| `operator expression`\(單元前置運算子\) |
+| `expression operator`\(單元後置運算子\) |
 
-where the\_`operator`\_token follows the syntax rules of[Section 4.1.3](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-operators), or is one of the key words`AND`,`OR`, and`NOT`, or is a qualified operator name in the form:
+運算子記號的語法規則依 [4.1.3 節](/ii-the-sql-language/sql-syntax/41-lexical-structure.md)的說明，或是關鍵字 AND、OR、和 NOT，又或是如下形式的限定運算子名稱：
 
 ```
-OPERATOR(
-schema
-.
-operatorname
-)
+OPERATOR(schema.operatorname)
 ```
 
-Which particular operators exist and whether they are unary or binary depends on what operators have been defined by the system or the user.[Chapter 9](https://www.postgresql.org/docs/10/static/functions.html)describes the built-in operators.
+哪些特定的運算子的使用與運算方式，端看系統與使用者如何定義。在[第 9 章](/ii-the-sql-language/functions-and-operators.md)中會說明內建的運算子詳情。
 
 ### 4.2.6. Function Calls
 
