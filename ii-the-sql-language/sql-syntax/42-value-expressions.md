@@ -79,15 +79,15 @@ $1[10:42]
 
 在最後一個例子中，括號是必須的。關於陣列，在 [8.15 節](/ii-the-sql-language/data-types/815-arrays.md)有更多說明。
 
-### 4.2.4. Field Selection
+### 4.2.4. 欄位選擇
 
-If an expression yields a value of a composite type \(row type\), then a specific field of the row can be extracted by writing
+如果一個表示式產生了複合性的型別（列型別），那麼要指定其中的某個欄位時，請使用：
 
 ```
-expression
-.
-fieldname
+expression.fieldname
 ```
+
+一般來說，列的表示式必須被括號起來，但如果該表示式只是一個欄位或參數的引用的話，那麼括號可以省略。舉例如下：
 
 In general the row\_`expression`\_must be parenthesized, but the parentheses can be omitted when the expression to be selected from is just a table reference or positional parameter. For example:
 
@@ -97,22 +97,22 @@ $1.somecolumn
 (rowfunction(a,b)).col3
 ```
 
-\(Thus, a qualified column reference is actually just a special case of the field selection syntax.\) An important special case is extracting a field from a table column that is of a composite type:
+（然而，有限制的欄位引用，實際上就是一種欄位選擇語法的特列。）有一種重要的特例是從某個複合型別的表格欄位中取其子欄位的值：
 
 ```
 (compositecol).somefield
 (mytable.compositecol).somefield
 ```
 
-The parentheses are required here to show that`compositecol`is a column name not a table name, or that`mytable`is a table name not a schema name in the second case.
+在這裡，括號是必要的，以表示 compositecol 是一個欄位名稱，但不是表格名稱。而在第二個例子中，mytable 是表格名稱，而非結構名稱。
 
-You can ask for all fields of a composite value by writing`.*`:
+你可以取得複合資料的所有欄位值，使用「.\*」：
 
 ```
 (compositecol).*
 ```
 
-This notation behaves differently depending on context; see[Section 8.16.5](https://www.postgresql.org/docs/10/static/rowtypes.html#rowtypes-usage)for details.
+這個記號在不同的地方有不同的用法，請參閱 [8.16.5 節](/ii-the-sql-language/data-types/816-composite-types.md)的說明。
 
 ### 4.2.5. Operator Invocations
 
