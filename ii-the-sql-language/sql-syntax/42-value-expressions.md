@@ -34,16 +34,15 @@ correlation.columnname
 
 「correlation」（所屬名稱）是其所屬表格的名稱（也可能需要包含結構名），或是表格的別名（在 FROM 子句中所定義的）。所屬名稱和分隔用的句點是可以省略的，如果欄位名稱在目前查詢中的所有表格中是唯一的話。（[參閱第 7 章](/ii-the-sql-language/queries.md)）
 
-### 4.2.2. Positional Parameters
+### 4.2.2. 函數參數引用
 
-A positional parameter reference is used to indicate a value that is supplied externally to an SQL statement. Parameters are used in SQL function definitions and in prepared queries. Some client libraries also support specifying data values separately from the SQL command string, in which case parameters are used to refer to the out-of-line data values. The form of a parameter reference is:
+函數參數的引用，用來指定一個不在該 SQL 指令中的值。參數是使用在 SQL 函數定義或預備查詢之中。有一些用戶端函式庫也支援將資料數值與 SQL 指令分離，在這種情境下，參數就會用來指向外部的資料數值。參數引用的形式如下：
 
 ```
-$
-number
+$number
 ```
 
-For example, consider the definition of a function,`dept`, as:
+舉個例子，有一個函數 dept 的宣告如下：
 
 ```
 CREATE FUNCTION dept(text) RETURNS dept
@@ -51,7 +50,7 @@ CREATE FUNCTION dept(text) RETURNS dept
     LANGUAGE SQL;
 ```
 
-Here the`$1`references the value of the first function argument whenever the function is invoked.
+這裡的 $1 指的是函數被呼叫時的第 1 個輸入參數：
 
 ### 4.2.3. Subscripts
 
