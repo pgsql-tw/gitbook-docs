@@ -201,41 +201,41 @@ SELECT string_agg(a ORDER BY a, ',') FROM table;  -- incorrect
 
 ### 注意
 
-The ability to specify both`DISTINCT`and`ORDER BY`in an aggregate function is aPostgreSQLextension.
+在彙總函數中使用 DISTINCT 和 ORDER BY，都是 PostgreSQL 的延伸。
 
-Placing`ORDER BY`within the aggregate's regular argument list, as described so far, is used when ordering the input rows for general-purpose and statistical aggregates, for which ordering is optional. There is a subclass of aggregate functions called_ordered-set aggregates\_for which an_`order_by_clause`_is\_required_, usually because the aggregate's computation is only sensible in terms of a specific ordering of its input rows. Typical examples of ordered-set aggregates include rank and percentile calculations. For an ordered-set aggregate, the`order_by_clause`_\_is written inside_`WITHIN GROUP (...)`_, as shown in the final syntax alternative above. The expressions in the_`order_by_clause`_are evaluated once per input row just like regular aggregate arguments, sorted as per the_`order_by_clause`_'s requirements, and fed to the aggregate function as input arguments. \(This is unlike the case for a non-_`WITHIN GROUPorder_by_clause`_, which is not treated as argument\(s\) to the aggregate function.\) The argument expressions preceding_`WITHIN GROUP`_, if any, are called\_direct arguments\_to distinguish them from the\_aggregated arguments\_listed in the_`order_by_clause`\_. Unlike regular aggregate arguments, direct arguments are evaluated only once per aggregate call, not once per input row. This means that they can contain variables only if those variables are grouped by`GROUP BY`; this restriction is the same as if the direct arguments were not inside an aggregate expression at all. Direct arguments are typically used for things like percentile fractions, which only make sense as a single value per aggregation calculation. The direct argument list can be empty; in this case, write just`()`not`(*)`. \(PostgreSQLwill actually accept either spelling, but only the first way conforms to the SQL standard.\)
+把 ORDER BY 放進彙總函數的參數列表中，就如同到目前為止的描述，用於排序輸入值，進行一般性的處理或統計彙總，而排序是選擇性的。有另一種類型的彙總函數稱作有次序彙總，它們就必須要有 ORDER BY 子句，通常就是因為這些函數的計算結果，只會對某些特定次序的資料產生效果。典型的有次序彙總例子，包含排名和累計百分比計算。對於有次序彙總計算，將 ORDER BY 字句寫進 WITHIN GROUP \(...\) 中，如同上述最後一個語法例子。在 ORDER BY 子句中的表示式會處理每一筆輸入資料，如同一般的彚總函數，然後將其依子句中的表示式計算並排序，最後再依序轉送給彙總函數處理。（這和非處理 WITHIN GROUP 中的 ORDER BY 不同，它們不會再轉送給彙總函數。）如果有在 WITHIN GROUP 之前的表示式的話，稱作直接參數，會和有 ORDER BY 的參數有區分。不像一般的彙總參數，直接參數只會被處理一次，而不是每一筆都一次。這意思是只有在 GROUP BY 中，這些變數才會被彙總處理。這樣的限制就如同直接參數不在彙總表示式之中一樣。直接參數一般用於累計分配，只有在每一次彙整完的值才有意義。直接參數可以是空值，在這個例子中，使用的是 \(\)，而非 \(\*\)。（PostgreSQL 兩種寫法都可以接受，但標準 SQL 只接受前者。）
 
-An example of an ordered-set aggregate call is:
+有次序彙總查詢如下：
 
 ```
 SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY income) FROM households;
+
  percentile_cont
 -----------------
            50489
 ```
 
-which obtains the 50th percentile, or median, value of the`income`column from table`households`. Here,`0.5`is a direct argument; it would make no sense for the percentile fraction to be a value varying across rows.
+這裡包含了 50% 的累計，或是中間數累計，來源是表格 households 的 income 欄位。其中，0.5 是直接參數，它不影響百分累計彙整計算過程。
 
-If`FILTER`is specified, then only the input rows for which the\_`filter_clause`\_evaluates to true are fed to the aggregate function; other rows are discarded. For example:
+如果使用了 FILTER，那就只有符合 FILTER 子句條件的資料會被彙總處理，其他的資料都會被忽略掉。舉例來說：
 
 ```
 SELECT
     count(*) AS unfiltered,
-    count(*) FILTER (WHERE i 
-<
- 5) AS filtered
+    count(*) FILTER (WHERE i < 5) AS filtered
 FROM generate_series(1,10) AS s(i);
+
  unfiltered | filtered
 ------------+----------
          10 |        4
 (1 row)
 ```
 
-The predefined aggregate functions are described in[Section 9.20](https://www.postgresql.org/docs/10/static/functions-aggregate.html). Other aggregate functions can be added by the user.
+預先內建的彙總函數將在 [9.20 節](/ii-the-sql-language/functions-and-operators/920-aggregate-functions.md)中介紹，其他彙總函數可以由使用者自行設計。
 
-An aggregate expression can only appear in the result list or`HAVING`clause of a`SELECT`command. It is forbidden in other clauses, such as`WHERE`, because those clauses are logically evaluated before the results of aggregates are formed.
+彙總表示式只可以用於結果列表或 SELECT 中的 HAVING 子句。在其他子句中是被禁止的，像是 WHERE，因為這些子句邏輯上都是在彙總處理前就得處理資料。
 
-When an aggregate expression appears in a subquery \(see[Section 4.2.11](https://www.postgresql.org/docs/10/static/sql-expressions.html#sql-syntax-scalar-subqueries)and[Section 9.22](https://www.postgresql.org/docs/10/static/functions-subquery.html)\), the aggregate is normally evaluated over the rows of the subquery. But an exception occurs if the aggregate's arguments \(and\_`filter_clause`\_if any\) contain only outer-level variables: the aggregate then belongs to the nearest such outer level, and is evaluated over the rows of that query. The aggregate expression as a whole is then an outer reference for the subquery it appears in, and acts as a constant over any one evaluation of that subquery. The restriction about appearing only in the result list or`HAVING`clause applies with respect to the query level that the aggregate belongs to.
+當彙總表示式使用在子查詢（參閱 [4.2.11 節](/ii-the-sql-language/sql-syntax/42-value-expressions.md)及 [9.22 節](/ii-the-sql-language/functions-and-operators/922-subquery-expressions.md)）中時，彙總計算就會一般性地處理子查詢中的資料。但如果該彙總計算的參數用到了外層的變數時，就會產生例外情況：彙整計算是屬於最接近的外層查詢，並且只處理該層的查詢資料。這個彙總表示式對整體而言，只是一個子查詢的引用，它會被視為一個常數的結果，限制它只會出現在 HAVING 子句的運算層次而已。
 
 ### 4.2.8. Window Function Calls
 
