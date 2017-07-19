@@ -89,8 +89,6 @@ expression.fieldname
 
 一般來說，列的表示式必須被括號起來，但如果該表示式只是一個欄位或參數的引用的話，那麼括號可以省略。舉例如下：
 
-In general the row\_`expression`\_must be parenthesized, but the parentheses can be omitted when the expression to be selected from is just a table reference or positional parameter. For example:
-
 ```
 mytable.mycolumn
 $1.somecolumn
@@ -250,43 +248,32 @@ function_name ( * ) [ FILTER ( WHERE filter_clause ) ] OVER ( indow_definition )
 
 定義「窗」，請使用下列語法：
 
-where\_`window_definition`\_has the syntax
-
 ```
 [ existing_window_name ][ PARTITION BY expression [, ...] ]
 [ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
 [ frame_clause ]
 ```
 
-and the optional\_`frame_clause`\_can be one of
+選擇性的 frame\_clause 語法如下：
 
 ```
-{ RANGE | ROWS } 
-frame_start
-
-{ RANGE | ROWS } BETWEEN 
-frame_start
- AND 
-frame_end
+{ RANGE | ROWS } frame_start
+{ RANGE | ROWS } BETWEEN frame_start AND frame_end
 ```
 
-where`frame_start`_\_and_`frame_end`\_can be one of
+frame\_start 及 frame\_end 的語法如下：
 
 ```
 UNBOUNDED PRECEDING
-
-value
- PRECEDING
+value PRECEDING 
 CURRENT ROW
-
-value
- FOLLOWING
+value FOLLOWING 
 UNBOUNDED FOLLOWING
 ```
 
-Here,\_`expression`\_represents any value expression that does not itself contain window function calls.
+在這裡的表示式（expression），除了不能再包含窗函數之外，無其他特別限制。
 
-`window_name`_\_is a reference to a named window specification defined in the query's_`WINDOW`_clause. Alternatively, a full_`window_definition`\_can be given within parentheses, using the same syntax as for defining a named window in the`WINDOW`clause; see the[SELECT](https://www.postgresql.org/docs/10/static/sql-select.html)reference page for details. It's worth pointing out that`OVER wname`is not exactly equivalent to`OVER (wname ...)`; the latter implies copying and modifying the window definition, and will be rejected if the referenced window specification includes a frame clause.
+window\_name 是一個定義在 WINDOW 子句中的命名。另一方面，一個完整的窗也可以是被括號括起來，使用和 WINDOW 子句相同語法的定義。詳見 [SELECT 語法](/vi-reference/i-sql-commands/select.md)頁面。值得探討的是，OVER wname 並不完全等同於 OVER \(wname ...\)；後者隱含著複製及修改窗的定義，而如果包含 frame 子句的話，就會被拒絕執行。
 
 The`PARTITION BY`clause groups the rows of the query into_partitions_, which are processed separately by the window function.`PARTITION BY`works similarly to a query-level`GROUP BY`clause, except that its expressions are always just expressions and cannot be output-column names or numbers. Without`PARTITION BY`, all rows produced by the query are treated as a single partition. The`ORDER BY`clause determines the order in which the rows of a partition are processed by the window function. It works similarly to a query-level`ORDER BY`clause, but likewise cannot use output-column names or numbers. Without`ORDER BY`, rows are processed in an unspecified order.
 
