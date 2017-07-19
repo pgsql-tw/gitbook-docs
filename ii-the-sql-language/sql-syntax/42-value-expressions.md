@@ -89,8 +89,6 @@ expression.fieldname
 
 一般來說，列的表示式必須被括號起來，但如果該表示式只是一個欄位或參數的引用的話，那麼括號可以省略。舉例如下：
 
-In general the row\_`expression`\_must be parenthesized, but the parentheses can be omitted when the expression to be selected from is just a table reference or positional parameter. For example:
-
 ```
 mytable.mycolumn
 $1.somecolumn
@@ -237,122 +235,69 @@ FROM generate_series(1,10) AS s(i);
 
 當彙總表示式使用在子查詢（參閱 [4.2.11 節](/ii-the-sql-language/sql-syntax/42-value-expressions.md)及 [9.22 節](/ii-the-sql-language/functions-and-operators/922-subquery-expressions.md)）中時，彙總計算就會一般性地處理子查詢中的資料。但如果該彙總計算的參數用到了外層的變數時，就會產生例外情況：彙整計算是屬於最接近的外層查詢，並且只處理該層的查詢資料。這個彙總表示式對整體而言，只是一個子查詢的引用，它會被視為一個常數的結果，限制它只會出現在 HAVING 子句的運算層次而已。
 
-### 4.2.8. Window Function Calls
+### 4.2.8. 窗函數呼叫
 
-A\_window function call\_represents the application of an aggregate-like function over some portion of the rows selected by a query. Unlike non-window aggregate calls, this is not tied to grouping of the selected rows into a single output row — each row remains separate in the query output. However the window function has access to all the rows that would be part of the current row's group according to the grouping specification \(`PARTITION BY`list\) of the window function call. The syntax of a window function call is one of the following:
-
-```
-function_name
- ([
-expression
- [
-, 
-expression
- ... 
-]
-]) [ FILTER ( WHERE 
-filter_clause
- ) ] OVER 
-window_name
-function_name
- ([
-expression
- [
-, 
-expression
- ... 
-]
-]) [ FILTER ( WHERE 
-filter_clause
- ) ] OVER ( 
-window_definition
- )
-
-function_name
- ( * ) [ FILTER ( WHERE 
-filter_clause
- ) ] OVER 
-window_name
-function_name
- ( * ) [ FILTER ( WHERE 
-filter_clause
- ) ] OVER ( 
-window_definition
- )
-```
-
-where\_`window_definition`\_has the syntax
+窗函數呼叫指的是使用類似彙總函數的使用方式，只是僅用於查詢中部份列的選擇上。和非窗函數不同的是，這並不會只輸出為單一列—每一列都仍然分開輸出。然而，窗函數也是處理了所有該列所屬群組的其他列（PARTITION BY），依其窗函數所定義的範圍。窗函數呼叫的方式可以是下列其中之一：
 
 ```
-[ 
-existing_window_name
- ]
-[ PARTITION BY 
-expression
- [, ...] ]
-[ ORDER BY 
-expression
- [ ASC | DESC | USING 
-operator
- ] [ NULLS { FIRST | LAST } ] [, ...] ]
-[ 
-frame_clause
- ]
+function_name ([expression [, expression ... ]]) [ FILTER ( WHERE filter_clause ) ] OVER window_name
+function_name ([expression [, expression ... ]]) [ FILTER ( WHERE filter_clause ) ] OVER ( indow_definition )
+function_name ( * ) [ FILTER ( WHERE filter_clause ) ] OVER window_name
+function_name ( * ) [ FILTER ( WHERE filter_clause ) ] OVER ( indow_definition )
 ```
 
-and the optional\_`frame_clause`\_can be one of
+定義「窗」，請使用下列語法：
 
 ```
-{ RANGE | ROWS } 
-frame_start
-
-{ RANGE | ROWS } BETWEEN 
-frame_start
- AND 
-frame_end
+[ existing_window_name ][ PARTITION BY expression [, ...] ]
+[ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
+[ frame_clause ]
 ```
 
-where`frame_start`_\_and_`frame_end`\_can be one of
+選擇性的 frame\_clause 語法如下：
+
+```
+{ RANGE | ROWS } frame_start
+{ RANGE | ROWS } BETWEEN frame_start AND frame_end
+```
+
+frame\_start 及 frame\_end 的語法如下：
 
 ```
 UNBOUNDED PRECEDING
-
-value
- PRECEDING
+value PRECEDING 
 CURRENT ROW
-
-value
- FOLLOWING
+value FOLLOWING 
 UNBOUNDED FOLLOWING
 ```
 
-Here,\_`expression`\_represents any value expression that does not itself contain window function calls.
+在這裡的表示式（expression），除了不能再包含窗函數之外，無其他特別限制。
 
-`window_name`_\_is a reference to a named window specification defined in the query's_`WINDOW`_clause. Alternatively, a full_`window_definition`\_can be given within parentheses, using the same syntax as for defining a named window in the`WINDOW`clause; see the[SELECT](https://www.postgresql.org/docs/10/static/sql-select.html)reference page for details. It's worth pointing out that`OVER wname`is not exactly equivalent to`OVER (wname ...)`; the latter implies copying and modifying the window definition, and will be rejected if the referenced window specification includes a frame clause.
+window\_name 是一個定義在 WINDOW 子句中的命名。另一方面，一個完整的窗也可以是被括號括起來，使用和 WINDOW 子句相同語法的定義。詳見 [SELECT 語法](/vi-reference/i-sql-commands/select.md)頁面。值得探討的是，OVER wname 並不完全等同於 OVER \(wname ...\)；後者隱含著複製及修改窗的定義，而如果包含 frame 子句的話，就會被拒絕執行。
 
-The`PARTITION BY`clause groups the rows of the query into_partitions_, which are processed separately by the window function.`PARTITION BY`works similarly to a query-level`GROUP BY`clause, except that its expressions are always just expressions and cannot be output-column names or numbers. Without`PARTITION BY`, all rows produced by the query are treated as a single partition. The`ORDER BY`clause determines the order in which the rows of a partition are processed by the window function. It works similarly to a query-level`ORDER BY`clause, but likewise cannot use output-column names or numbers. Without`ORDER BY`, rows are processed in an unspecified order.
+PARTITION BY 子句將查詢分組成為不同的分區，它們將會分別地被窗函數所處理。PARTITION BY 的行為和查詢語句中的 GROUP BY 很類似，除了它的表示式就只是表示式，而且不能產出欄位名稱或編號。沒有 PARTITION BY 的話，所有的列都會被當作一個分組進行彙總。ORDER BY 子句決定窗函數的處理次序，它也和查詢語句中的 ORDER BY 很類似，但它不能使用輸出的欄位或編號。如果沒有 ORDER BY 的話，就無法保證彙總處理的次序了。
 
-The`frame_clause`_\_specifies the set of rows constituting the\_window frame_, which is a subset of the current partition, for those window functions that act on the frame instead of the whole partition. The frame can be specified in either`RANGE`or`ROWS`mode; in either case, it runs from the`frame_start`_\_to the_`frame_end`_. If_`frame_end`\_is omitted, it defaults to`CURRENT ROW`.
+frame\_clause 指的是構成該窗的列，再進一步以「窗框」拆分，是目前分區的子集合。對窗函數而言，運算會以窗框的範圍取代整合分區。窗框的指定可以是 RANGE 或 ROW 兩種模式。不論哪種模式，都 frame\_start 執行到 frame\_end，但如果 frame\_end 省略了，預設就是到目前的列（CURRENT ROW）。
 
-A`frame_start`_\_of_`UNBOUNDED PRECEDING`_means that the frame starts with the first row of the partition, and similarly a_`frame_end`\_of`UNBOUNDED FOLLOWING`means that the frame ends with the last row of the partition.
+UNBOUNDED PRECEDING 的窗框始於該分區的第一列，同樣地，UNBOUNDED FOLLOWING 意指窗框結束於分區的最後一列。
 
-In`RANGE`mode, a`frame_start`_\_of_`CURRENT ROW`_means the frame starts with the current row's first\_peer\_row \(a row that_`ORDER BY`_considers equivalent to the current row\), while a_`frame_end`\_of`CURRENT ROW`means the frame ends with the last equivalent`ORDER BY`peer. In`ROWS`mode,`CURRENT ROW`simply means the current row.
+在 RANGE 模式裡，如果 frame\_start 設定為 CURRENT ROW 的話，表示窗框始於目前列同序的那一列（使用 ORDER BY 時，排序相同的那一列），同理，frame\_end 設定為 CURRENT ROW 時，表示窗框止於排序相同的列。而在 ROWS 模式時，CURRENT ROW 指的就是自己。
 
-The`valuePRECEDING`and`valueFOLLOWING`cases are currently only allowed in`ROWS`mode. They indicate that the frame starts or ends the specified number of rows before or after the current row.\_`value`\_must be an integer expression not containing any variables, aggregate functions, or window functions. The value must not be null or negative; but it can be zero, which just selects the current row.
+PRECEDING 和 FOLLOWING 兩個設定值，目前只能用在 ROWS 模式。它們指的是窗框的起迄於指定的一個值，表示目前列之前後多少列。而所謂的值，必須是整數表示式而不包含任何變數、彙總函數、或窗函數。其值也不能是空值或負值，但可以為零，表示只處理目前列。
 
-The default framing option is`RANGE UNBOUNDED PRECEDING`, which is the same as`RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`. With`ORDER BY`, this sets the frame to be all rows from the partition start up through the current row's last`ORDER BY`peer. Without`ORDER BY`, all rows of the partition are included in the window frame, since all rows become peers of the current row.
+預設的窗框設定是 RANGE UNBOUNDED PRECEDING，和 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW 是一樣的。加上 ORDER BY 的話，這可以讓窗框起於和目前列並列的列；沒有 ORDER BY 的話，所有的列都會在分區裡，因為如此就無法判定次序，表示大家都一樣。
 
-Restrictions are that`frame_start`_\_cannot be_`UNBOUNDED FOLLOWING`_,_`frame_end`_cannot be_`UNBOUNDED PRECEDING`_, and the_`frame_end`_choice cannot appear earlier in the above list than the_`frame_start`_choice — for example_`RANGE BETWEEN CURRENT ROW ANDvalue`\_PRECEDINGis not allowed.
+frame\_start 的限制是不能使用 UNBOUNDED FOLLOWING，而 frame\_end 不能使用 UNBOUNDED PRECEDING。frame\_end 的設定也不能先於 frame\_start—舉例來說，RANGE BETWEEN CURRENT ROW，使用 PRECEDING 就不可以。
 
-If`FILTER`is specified, then only the input rows for which the\_`filter_clause`\_evaluates to true are fed to the window function; other rows are discarded. Only window functions that are aggregates accept a`FILTER`clause.
+如果有使用到 FILTER 的話，就只有符合 FILTER 條件式的列會被窗函數處理，其餘的列都會被忽略。只有彙總式的窗函數可以使用 FILTER 子句。
 
-The built-in window functions are described in[Table 9.57](https://www.postgresql.org/docs/10/static/functions-window.html#functions-window-table). Other window functions can be added by the user. Also, any built-in or user-defined general-purpose or statistical aggregate can be used as a window function. \(Ordered-set and hypothetical-set aggregates cannot presently be used as window functions.\)
+內建的窗函數會在 [9.57 節](/ii-the-sql-language/functions-and-operators/95-binary-string-functions-and-operators.md)中說明，使用者也可以自行設計窗函數。任何內建或自訂的一般函數或統計函數，都可以當作窗函數來使用。（有序集合和假定集合的彙總數，目前不能當作窗函數來使用。）
 
-The syntaxes using`*`are used for calling parameter-less aggregate functions as window functions, for example`count(*) OVER (PARTITION BY x ORDER BY y)`. The asterisk \(`*`\) is customarily not used for window-specific functions. Window-specific functions do not allow`DISTINCT`or`ORDER BY`to be used within the function argument list.
+「\*」語法的使用，用來把無參數的彙總函數當作窗函數來使用，例如：count\(\*\) OVER \(PARTITION BY x ORDER BY y\)。「\*」通常不會用於專門的窗函數上，專門的窗函數不允許參數裡有用到 DISTINCT 或 ORDER BY 的語法。
 
-Window function calls are permitted only in the`SELECT`list and the`ORDER BY`clause of the query.
+窗函數呼叫只限於 SELECT 回傳列表，及 ORDER BY 子句中。
 
-More information about window functions can be found in[Section 3.5](https://www.postgresql.org/docs/10/static/tutorial-window.html),[Section 9.21](https://www.postgresql.org/docs/10/static/functions-window.html), and[Section 7.2.5](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#queries-window).
+更多窗函數的說明請參閱 [3.5 節](/advanced-features/35-window-functions.md)、[9.21 節](/ii-the-sql-language/functions-and-operators/921-window-functions.md)、及 [7.2.5 節](/ii-the-sql-language/queries/72-table-expressions.md)。
 
 ### 4.2.9. Type Casts
 
