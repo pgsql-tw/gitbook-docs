@@ -237,67 +237,25 @@ FROM generate_series(1,10) AS s(i);
 
 當彙總表示式使用在子查詢（參閱 [4.2.11 節](/ii-the-sql-language/sql-syntax/42-value-expressions.md)及 [9.22 節](/ii-the-sql-language/functions-and-operators/922-subquery-expressions.md)）中時，彙總計算就會一般性地處理子查詢中的資料。但如果該彙總計算的參數用到了外層的變數時，就會產生例外情況：彙整計算是屬於最接近的外層查詢，並且只處理該層的查詢資料。這個彙總表示式對整體而言，只是一個子查詢的引用，它會被視為一個常數的結果，限制它只會出現在 HAVING 子句的運算層次而已。
 
-### 4.2.8. Window Function Calls
+### 4.2.8. 窗函數呼叫
 
-A\_window function call\_represents the application of an aggregate-like function over some portion of the rows selected by a query. Unlike non-window aggregate calls, this is not tied to grouping of the selected rows into a single output row — each row remains separate in the query output. However the window function has access to all the rows that would be part of the current row's group according to the grouping specification \(`PARTITION BY`list\) of the window function call. The syntax of a window function call is one of the following:
+窗函數呼叫指的是使用類似彙總函數的使用方式，只是僅用於查詢中部份列的選擇上。和非窗函數不同的是，這並不會只輸出為單一列—每一列都仍然分開輸出。然而，窗函數也是處理了所有該列所屬群組的其他列（PARTITION BY），依其窗函數所定義的範圍。窗函數呼叫的方式可以是下列其中之一：
 
 ```
-function_name
- ([
-expression
- [
-, 
-expression
- ... 
-]
-]) [ FILTER ( WHERE 
-filter_clause
- ) ] OVER 
-window_name
-function_name
- ([
-expression
- [
-, 
-expression
- ... 
-]
-]) [ FILTER ( WHERE 
-filter_clause
- ) ] OVER ( 
-window_definition
- )
-
-function_name
- ( * ) [ FILTER ( WHERE 
-filter_clause
- ) ] OVER 
-window_name
-function_name
- ( * ) [ FILTER ( WHERE 
-filter_clause
- ) ] OVER ( 
-window_definition
- )
+function_name ([expression [, expression ... ]]) [ FILTER ( WHERE filter_clause ) ] OVER window_name
+function_name ([expression [, expression ... ]]) [ FILTER ( WHERE filter_clause ) ] OVER ( indow_definition )
+function_name ( * ) [ FILTER ( WHERE filter_clause ) ] OVER window_name
+function_name ( * ) [ FILTER ( WHERE filter_clause ) ] OVER ( indow_definition )
 ```
+
+定義「窗」，請使用下列語法：
 
 where\_`window_definition`\_has the syntax
 
 ```
-[ 
-existing_window_name
- ]
-[ PARTITION BY 
-expression
- [, ...] ]
-[ ORDER BY 
-expression
- [ ASC | DESC | USING 
-operator
- ] [ NULLS { FIRST | LAST } ] [, ...] ]
-[ 
-frame_clause
- ]
+[ existing_window_name ][ PARTITION BY expression [, ...] ]
+[ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
+[ frame_clause ]
 ```
 
 and the optional\_`frame_clause`\_can be one of
