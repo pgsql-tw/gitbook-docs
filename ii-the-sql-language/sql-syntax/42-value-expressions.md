@@ -135,8 +135,6 @@ OPERATOR(schema.operatorname)
 
 函數呼叫的語法是，函數的名稱（可能還會加上結構名）接著一連串用括號括起來的參數列表：
 
-
-
 ```
 function_name ([expression [, expression ... ]] )
 ```
@@ -155,84 +153,53 @@ sqrt(2)
 
 函數如果只有一個參數，而又是複合型別的話，就稱作使用了欄位選擇語法；反過來說，欄位選擇語法也可以寫成函數的形式。這是因為 col\(table\) 和 table.col 是可以互換的。這並非標準 SQL，但 PostgreSQL 支援了，因為這使得函數的使用可以模擬「計算欄位」（computed fields）。更多資訊請參閱 [8.16.5 節](/ii-the-sql-language/data-types/816-composite-types.md)。
 
-### 4.2.7. Aggregate Expressions
+### 4.2.7. 彙總表示式
 
-An\_aggregate expression\_represents the application of an aggregate function across the rows selected by a query. An aggregate function reduces multiple inputs to a single output value, such as the sum or average of the inputs. The syntax of an aggregate expression is one of the following:
+彙總表示式用在查詢時，過濾資料進行彙總函數計算的應用。彙總函數壓縮了大量資料輸入成為一個單一的輸出值，例如加總或平均數。彙總表示式的語法可以是下列其中之一：
 
 ```
-aggregate_name
- (
-expression
- [ , ... ] [ 
-order_by_clause
- ] ) [ FILTER ( WHERE 
-filter_clause
- ) ]
+aggregate_name (expression [ , ... ] [ order_by_clause ] ) [ FILTER ( WHERE filter_clause ) ]
 
-aggregate_name
- (ALL 
-expression
- [ , ... ] [ 
-order_by_clause
- ] ) [ FILTER ( WHERE 
-filter_clause
- ) ]
+aggregate_name (ALL expression [ , ... ] [ order_by_clause ] ) [ FILTER ( WHERE filter_clause ) ]
 
-aggregate_name
- (DISTINCT 
-expression
- [ , ... ] [ 
-order_by_clause
- ] ) [ FILTER ( WHERE 
-filter_clause
- ) ]
+aggregate_name (DISTINCT expression [ , ... ] [ order_by_clause ] ) [ FILTER ( WHERE filter_clause ) ]
 
-aggregate_name
- ( * ) [ FILTER ( WHERE 
-filter_clause
- ) ]
+aggregate_name ( * ) [ FILTER ( WHERE filter_clause ) ]
 
-aggregate_name
- ( [ 
-expression
- [ , ... ] ] ) WITHIN GROUP ( 
-order_by_clause
- ) [ FILTER ( WHERE 
-filter_clause
- ) ]
+aggregate_name ( [ expression [ , ... ] ] ) WITHIN GROUP ( order_by_clause ) [ FILTER ( WHERE filter_clause ) ]
 ```
 
-where`aggregate_name`_\_is a previously defined aggregate \(possibly qualified with a schema name\) and_`expression`_is any value expression that does not itself contain an aggregate expression or a window function call. The optional_`order_by_clause`_and_`filter_clause`\_are described below.
+這裡的 agregate\_name 是預先就定義好的（可能還需要加上結構名稱），表示式可以是任何的函數形態，但不能包含彙總函數或窗函數。而 order\_by\_clause 和 filter\_clause 後續進行說明。
 
-The first form of aggregate expression invokes the aggregate once for each input row. The second form is the same as the first, since`ALL`is the default. The third form invokes the aggregate once for each distinct value of the expression \(or distinct set of values, for multiple expressions\) found in the input rows. The fourth form invokes the aggregate once for each input row; since no particular input value is specified, it is generally only useful for the`count(*)`aggregate function. The last form is used with\_ordered-set\_aggregate functions, which are described below.
+第一種形式的彙總表示式用於每次輸入一列的情況；第二種形式和第一種相同，當 ALL 是預設的時候；第三種形式彙總不重覆的資料（或在多種表示式的時候，取不重覆的集合）；第四種形式也是每次輸入一列，但沒有限定輸入條件，通常是用於 count\(\*\)；最後一種形式用於有次序的彙總函數，稍後說明。
 
-Most aggregate functions ignore null inputs, so that rows in which one or more of the expression\(s\) yield null are discarded. This can be assumed to be true, unless otherwise specified, for all built-in aggregates.
+大多數的彙總函數會忽略空值，所以如果表示式計算的結果是空值的話，就會忽略不計。這樣的假設除非有特別設定，對所有內建的函數都是如此。
 
-For example,`count(*)`yields the total number of input rows;`count(f1)`yields the number of input rows in which`f1`is non-null, since`count`ignores nulls; and`count(distinct f1)`yields the number of distinct non-null values of`f1`.
+舉例來說，count\(\*\) 計算輸入列的個數，而 count\(f1\) 是計算輸入列中 f1 欄位非空值的個數，因為 count 會忽略空值；然而，count\(distinct f1\) 則是計算 f1 欄位不重覆又非空值的個數。
 
-Ordinarily, the input rows are fed to the aggregate function in an unspecified order. In many cases this does not matter; for example,`min`produces the same result no matter what order it receives the inputs in. However, some aggregate functions \(such as`array_agg`and`string_agg`\) produce results that depend on the ordering of the input rows. When using such an aggregate, the optional`order_by_clause`_\_can be used to specify the desired ordering. The_`order_by_clause`\_has the same syntax as for a query-level`ORDER BY`clause, as described in[Section 7.5](https://www.postgresql.org/docs/10/static/queries-order.html), except that its expressions are always just expressions and cannot be output-column names or numbers. For example:
+通常彙總函數在處理輸入資料時，都是未排序過的。在大多數的情況沒有關係，例如：min 最小值的計算，與其輸入的次序沒有關係。然而，還是有些彙總函數的結果，與其處理次序是有關連的，例如：array\_agg 和 string\_agg。ORDER BY 字句就可以達到此效果，其與一般查詢語法 ORDER BY 的用法相同，詳細說明在 7.5 節，除非該表示式無法輸出成欄位名稱或數字。舉例如下：
 
 ```
 SELECT array_agg(a ORDER BY b DESC) FROM table;
 ```
 
-When dealing with multiple-argument aggregate functions, note that the`ORDER BY`clause goes after all the aggregate arguments. For example, write this:
+操作到多參數的彙總函數時，注意 ORDER BY 會處理過所有的彙總參數，例如：
 
 ```
 SELECT string_agg(a, ',' ORDER BY a) FROM table;
 ```
 
-not this:
+但不能這樣寫：
 
 ```
 SELECT string_agg(a ORDER BY a, ',') FROM table;  -- incorrect
 ```
 
-The latter is syntactically valid, but it represents a call of a single-argument aggregate function with two`ORDER BY`keys \(the second one being rather useless since it's a constant\).
+這在語法上沒有不合法，但這表示一個單參數的彙總函數，使用了兩個排序的關鍵值（第二個完全沒用，因為它是常數）。
 
-If`DISTINCT`is specified in addition to an`order_by_clause`, then all the`ORDER BY`expressions must match regular arguments of the aggregate; that is, you cannot sort on an expression that is not included in the`DISTINCT`list.
+如果 DISTINCT 被加到 ORDER BY 子句裡的話，那麼所有的 ORDER BY 表示式都必須符合彙總函數的參數，也就是說，你不能使用不在 DISTINCT 列表中的表示式來排序。
 
-### Note
+### 注意
 
 The ability to specify both`DISTINCT`and`ORDER BY`in an aggregate function is aPostgreSQLextension.
 
