@@ -275,7 +275,7 @@ UNBOUNDED FOLLOWING
 
 window\_name 是一個定義在 WINDOW 子句中的命名。另一方面，一個完整的窗也可以是被括號括起來，使用和 WINDOW 子句相同語法的定義。詳見 [SELECT 語法](/vi-reference/i-sql-commands/select.md)頁面。值得探討的是，OVER wname 並不完全等同於 OVER \(wname ...\)；後者隱含著複製及修改窗的定義，而如果包含 frame 子句的話，就會被拒絕執行。
 
-The`PARTITION BY`clause groups the rows of the query into_partitions_, which are processed separately by the window function.`PARTITION BY`works similarly to a query-level`GROUP BY`clause, except that its expressions are always just expressions and cannot be output-column names or numbers. Without`PARTITION BY`, all rows produced by the query are treated as a single partition. The`ORDER BY`clause determines the order in which the rows of a partition are processed by the window function. It works similarly to a query-level`ORDER BY`clause, but likewise cannot use output-column names or numbers. Without`ORDER BY`, rows are processed in an unspecified order.
+PARTITION BY 子句將查詢分組成為不同的分區，它們將會分別地被窗函數所處理。PARTITION BY 的行為和查詢語句中的 GROUP BY 很類似，除了它的表示式就只是表示式，而且不能產出欄位名稱或編號。沒有 PARTITION BY 的話，所有的列都會被當作一個分組進行彙總。ORDER BY 子句決定窗函數的處理次序，它也和查詢語句中的 ORDER BY 很類似，但它不能使用輸出的欄位或編號。如果沒有 ORDER BY 的話，就無法保證彙總處理的次序了。
 
 The`frame_clause`_\_specifies the set of rows constituting the\_window frame_, which is a subset of the current partition, for those window functions that act on the frame instead of the whole partition. The frame can be specified in either`RANGE`or`ROWS`mode; in either case, it runs from the`frame_start`_\_to the_`frame_end`_. If_`frame_end`\_is omitted, it defaults to`CURRENT ROW`.
 
