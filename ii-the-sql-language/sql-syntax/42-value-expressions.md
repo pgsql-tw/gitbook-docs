@@ -285,7 +285,7 @@ UNBOUNDED PRECEDING 的窗框始於該分區的第一列，同樣地，UNBOUNDED
 
 PRECEDING 和 FOLLOWING 兩個設定值，目前只能用在 ROWS 模式。它們指的是窗框的起迄於指定的一個值，表示目前列之前後多少列。而所謂的值，必須是整數表示式而不包含任何變數、彙總函數、或窗函數。其值也不能是空值或負值，但可以為零，表示只處理目前列。
 
-The default framing option is`RANGE UNBOUNDED PRECEDING`, which is the same as`RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`. With`ORDER BY`, this sets the frame to be all rows from the partition start up through the current row's last`ORDER BY`peer. Without`ORDER BY`, all rows of the partition are included in the window frame, since all rows become peers of the current row.
+預設的窗框設定是 RANGE UNBOUNDED PRECEDING，和 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW 是一樣的。加上 ORDER BY 的話，這可以讓窗框起於和目前列並列的列；沒有 ORDER BY 的話，所有的列都會在分區裡，因為如此就無法判定次序，表示大家都一樣。
 
 Restrictions are that`frame_start`_\_cannot be_`UNBOUNDED FOLLOWING`_,_`frame_end`_cannot be_`UNBOUNDED PRECEDING`_, and the_`frame_end`_choice cannot appear earlier in the above list than the_`frame_start`_choice — for example_`RANGE BETWEEN CURRENT ROW ANDvalue`\_PRECEDINGis not allowed.
 
