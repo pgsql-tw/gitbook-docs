@@ -293,11 +293,11 @@ frame\_start 的限制是不能使用 UNBOUNDED FOLLOWING，而 frame\_end 不�
 
 內建的窗函數會在 [9.57 節](/ii-the-sql-language/functions-and-operators/95-binary-string-functions-and-operators.md)中說明，使用者也可以自行設計窗函數。任何內建或自訂的一般函數或統計函數，都可以當作窗函數來使用。（有序集合和假定集合的彙總數，目前不能當作窗函數來使用。）
 
-The syntaxes using`*`are used for calling parameter-less aggregate functions as window functions, for example`count(*) OVER (PARTITION BY x ORDER BY y)`. The asterisk \(`*`\) is customarily not used for window-specific functions. Window-specific functions do not allow`DISTINCT`or`ORDER BY`to be used within the function argument list.
+「\*」語法的使用，用來把無參數的彙總函數當作窗函數來使用，例如：count\(\*\) OVER \(PARTITION BY x ORDER BY y\)。「\*」通常不會用於專門的窗函數上，專門的窗函數不允許參數裡有用到 DISTINCT 或 ORDER BY 的語法。
 
-Window function calls are permitted only in the`SELECT`list and the`ORDER BY`clause of the query.
+窗函數呼叫只限於 SELECT 回傳列表，及 ORDER BY 子句中。
 
-More information about window functions can be found in[Section 3.5](https://www.postgresql.org/docs/10/static/tutorial-window.html),[Section 9.21](https://www.postgresql.org/docs/10/static/functions-window.html), and[Section 7.2.5](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#queries-window).
+更多窗函數的說明請參閱 [3.5 節](/advanced-features/35-window-functions.md)、[9.21 節](/ii-the-sql-language/functions-and-operators/921-window-functions.md)、及 [7.2.5 節](/ii-the-sql-language/queries/72-table-expressions.md)。
 
 ### 4.2.9. Type Casts
 
