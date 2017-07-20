@@ -277,7 +277,7 @@ window\_name 是一個定義在 WINDOW 子句中的命名。另一方面，一�
 
 PARTITION BY 子句將查詢分組成為不同的分區，它們將會分別地被窗函數所處理。PARTITION BY 的行為和查詢語句中的 GROUP BY 很類似，除了它的表示式就只是表示式，而且不能產出欄位名稱或編號。沒有 PARTITION BY 的話，所有的列都會被當作一個分組進行彙總。ORDER BY 子句決定窗函數的處理次序，它也和查詢語句中的 ORDER BY 很類似，但它不能使用輸出的欄位或編號。如果沒有 ORDER BY 的話，就無法保證彙總處理的次序了。
 
-The`frame_clause`_\_specifies the set of rows constituting the\_window frame_, which is a subset of the current partition, for those window functions that act on the frame instead of the whole partition. The frame can be specified in either`RANGE`or`ROWS`mode; in either case, it runs from the`frame_start`_\_to the_`frame_end`_. If_`frame_end`\_is omitted, it defaults to`CURRENT ROW`.
+frame\_clause 指的是構成該窗的列，再進一步以「窗框」拆分，是目前分區的子集合。對窗函數而言，運算會以窗框的範圍取代整合分區。窗框的指定可以是 RANGE 或 ROW 兩種模式。不論哪種模式，都 frame\_start 執行到 frame\_end，但如果 frame\_end 省略了，預設就是到目前的列（CURRENT ROW）。
 
 A`frame_start`_\_of_`UNBOUNDED PRECEDING`_means that the frame starts with the first row of the partition, and similarly a_`frame_end`\_of`UNBOUNDED FOLLOWING`means that the frame ends with the last row of the partition.
 
