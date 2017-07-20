@@ -279,9 +279,11 @@ PARTITION BY 子句將查詢分組成為不同的分區，它們將會分別地�
 
 frame\_clause 指的是構成該窗的列，再進一步以「窗框」拆分，是目前分區的子集合。對窗函數而言，運算會以窗框的範圍取代整合分區。窗框的指定可以是 RANGE 或 ROW 兩種模式。不論哪種模式，都 frame\_start 執行到 frame\_end，但如果 frame\_end 省略了，預設就是到目前的列（CURRENT ROW）。
 
-A`frame_start`_\_of_`UNBOUNDED PRECEDING`_means that the frame starts with the first row of the partition, and similarly a_`frame_end`\_of`UNBOUNDED FOLLOWING`means that the frame ends with the last row of the partition.
+UNBOUNDED PRECEDING 的窗框始於該分區的第一列，同樣地，UNBOUNDED FOLLOWING 意指窗框結束於分區的最後一列。
 
-In`RANGE`mode, a`frame_start`_\_of_`CURRENT ROW`_means the frame starts with the current row's first\_peer\_row \(a row that_`ORDER BY`_considers equivalent to the current row\), while a_`frame_end`\_of`CURRENT ROW`means the frame ends with the last equivalent`ORDER BY`peer. In`ROWS`mode,`CURRENT ROW`simply means the current row.
+在 RANGE 模式裡，如果 frame\_start 設定為 CURRENT ROW 的話，表示窗框始於目前列同序的那一列（使用 ORDER BY 時，排序相同的那一列），同理，frame\_end 設定為 CURRENT ROW 時，表示窗框止於排序相同的列。而在 ROWS 模式時，CURRENT ROW 指的就是自己。
+
+
 
 The`valuePRECEDING`and`valueFOLLOWING`cases are currently only allowed in`ROWS`mode. They indicate that the frame starts or ends the specified number of rows before or after the current row.\_`value`\_must be an integer expression not containing any variables, aggregate functions, or window functions. The value must not be null or negative; but it can be zero, which just selects the current row.
 
