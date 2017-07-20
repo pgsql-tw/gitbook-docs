@@ -289,9 +289,9 @@ PRECEDING 和 FOLLOWING 兩個設定值，目前只能用在 ROWS 模式。它�
 
 frame\_start 的限制是不能使用 UNBOUNDED FOLLOWING，而 frame\_end 不能使用 UNBOUNDED PRECEDING。frame\_end 的設定也不能先於 frame\_start—舉例來說，RANGE BETWEEN CURRENT ROW，使用 PRECEDING 就不可以。
 
-If`FILTER`is specified, then only the input rows for which the\_`filter_clause`\_evaluates to true are fed to the window function; other rows are discarded. Only window functions that are aggregates accept a`FILTER`clause.
+如果有使用到 FILTER 的話，就只有符合 FILTER 條件式的列會被窗函數處理，其餘的列都會被忽略。只有彙總式的窗函數可以使用 FILTER 子句。
 
-The built-in window functions are described in[Table 9.57](https://www.postgresql.org/docs/10/static/functions-window.html#functions-window-table). Other window functions can be added by the user. Also, any built-in or user-defined general-purpose or statistical aggregate can be used as a window function. \(Ordered-set and hypothetical-set aggregates cannot presently be used as window functions.\)
+內建的窗函數會在 [9.57 節](/ii-the-sql-language/functions-and-operators/95-binary-string-functions-and-operators.md)中說明，使用者也可以自行設計窗函數。任何內建或自訂的一般函數或統計函數，都可以當作窗函數來使用。（有序集合和假定集合的彙總數，目前不能當作窗函數來使用。）
 
 The syntaxes using`*`are used for calling parameter-less aggregate functions as window functions, for example`count(*) OVER (PARTITION BY x ORDER BY y)`. The asterisk \(`*`\) is customarily not used for window-specific functions. Window-specific functions do not allow`DISTINCT`or`ORDER BY`to be used within the function argument list.
 
