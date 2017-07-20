@@ -287,7 +287,7 @@ PRECEDING 和 FOLLOWING 兩個設定值，目前只能用在 ROWS 模式。它�
 
 預設的窗框設定是 RANGE UNBOUNDED PRECEDING，和 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW 是一樣的。加上 ORDER BY 的話，這可以讓窗框起於和目前列並列的列；沒有 ORDER BY 的話，所有的列都會在分區裡，因為如此就無法判定次序，表示大家都一樣。
 
-Restrictions are that`frame_start`_\_cannot be_`UNBOUNDED FOLLOWING`_,_`frame_end`_cannot be_`UNBOUNDED PRECEDING`_, and the_`frame_end`_choice cannot appear earlier in the above list than the_`frame_start`_choice — for example_`RANGE BETWEEN CURRENT ROW ANDvalue`\_PRECEDINGis not allowed.
+frame\_start 的限制是不能使用 UNBOUNDED FOLLOWING，而 frame\_end 不能使用 UNBOUNDED PRECEDING。frame\_end 的設定也不能先於 frame\_start—舉例來說，RANGE BETWEEN CURRENT ROW，使用 PRECEDING 就不可以。
 
 If`FILTER`is specified, then only the input rows for which the\_`filter_clause`\_evaluates to true are fed to the window function; other rows are discarded. Only window functions that are aggregates accept a`FILTER`clause.
 
