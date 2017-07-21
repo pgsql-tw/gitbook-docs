@@ -47,51 +47,37 @@ SELECT concat_lower_or_upper('Hello', 'World');
 
 這裡的 uppercase 省略了，所以會使用預設值 false，結果就以小寫字母輸出。在編號的記號方式時，參數的省略是由右至左，只有具有預設值的部份才能省略。
 
-### 4.3.2. Using Named Notation
+### 4.3.2. 使用名稱記號（Named Notation）
+
+使用名稱作為參數記號方式的話，每一個參數名使用「=&gt;」來指定其所代表的表示式，如下所示：
 
 In named notation, each argument's name is specified using`=>`to separate it from the argument expression. For example:
 
 ```
-SELECT concat_lower_or_upper(a =
->
- 'Hello', b =
->
- 'World');
+SELECT concat_lower_or_upper(a => 'Hello', b => 'World');
  concat_lower_or_upper 
 -----------------------
  hello world
 (1 row)
 ```
 
-Again, the argument`uppercase`was omitted so it is set to`false`implicitly. One advantage of using named notation is that the arguments may be specified in any order, for example:
+再一次省略 uppercase，所以它自動設為 false。使用名稱記號的一項好處就是參數不用固定次數，如下例所示：
 
 ```
-SELECT concat_lower_or_upper(a =
->
- 'Hello', b =
->
- 'World', uppercase =
->
- true);
+SELECT concat_lower_or_upper(a => 'Hello', b => 'World', uppercase => true);
  concat_lower_or_upper 
 -----------------------
  HELLO WORLD
 (1 row)
 
-SELECT concat_lower_or_upper(a =
->
- 'Hello', uppercase =
->
- true, b =
->
- 'World');
+SELECT concat_lower_or_upper(a => 'Hello', uppercase => true, b => 'World');
  concat_lower_or_upper 
 -----------------------
  HELLO WORLD
 (1 row)
 ```
 
-An older syntax based on ":=" is supported for backward compatibility:
+有一種比較舊的語法是使用「:=」，因為相容性而保留下來：
 
 ```
 SELECT concat_lower_or_upper(a := 'Hello', uppercase := true, b := 'World');
