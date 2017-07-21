@@ -23,9 +23,9 @@ LANGUAGE SQL IMMUTABLE STRICT;
 
 函數 concat\_lower\_or\_upper 有兩個必要的參數，a 與 b。然後有一個參數是選擇性的，uppercase 的預設值是 false。參數 a 和 b 的文字會被連結起來，然後依 uppercase 的設定，強制轉換為大寫或小寫字母。這個函數定義的其他部份在這裡並不重要（詳情請參閱[第 37 章](/v-server-programming/extending-sql.md)）。
 
-### 4.3.1. Using Positional Notation
+### 4.3.1. 使用編號記號（Positional Notation）
 
-Positional notation is the traditional mechanism for passing arguments to functions inPostgreSQL. An example is:
+編號記號是 PostgreSQL 傳統的參數呼叫方式，如下所示：
 
 ```
 SELECT concat_lower_or_upper('Hello', 'World', true);
@@ -35,7 +35,7 @@ SELECT concat_lower_or_upper('Hello', 'World', true);
 (1 row)
 ```
 
-All arguments are specified in order. The result is upper case since`uppercase`is specified as`true`. Another example is:
+所有的參數會依序指定。結果是全大寫，因為 uppercase 設定為 true。另一個例子如下：
 
 ```
 SELECT concat_lower_or_upper('Hello', 'World');
@@ -45,7 +45,7 @@ SELECT concat_lower_or_upper('Hello', 'World');
 (1 row)
 ```
 
-Here, the`uppercase`parameter is omitted, so it receives its default value of`false`, resulting in lower case output. In positional notation, arguments can be omitted from right to left so long as they have defaults.
+這裡的 uppercase 省略了，所以會使用預設值 false，結果就以小寫字母輸出。在編號的記號方式時，參數的省略是由右至左，只有具有預設值的部份才能省略。
 
 ### 4.3.2. Using Named Notation
 
