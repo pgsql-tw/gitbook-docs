@@ -21,7 +21,7 @@ $$
 LANGUAGE SQL IMMUTABLE STRICT;
 ```
 
-函數 concat\_lower\_or\_upper 有兩個必要的參數，a 與 b。然後有一個參數是選擇性的，uppercase 的預設值是 false。參數 a 和 b 的文字會被連結起來，然後依 uppercase 的設定，強制轉換為大寫或小寫字母。這個函數定義的其他部份在這裡並不重要（詳情請參閱第 37 章）。
+函數 concat\_lower\_or\_upper 有兩個必要的參數，a 與 b。然後有一個參數是選擇性的，uppercase 的預設值是 false。參數 a 和 b 的文字會被連結起來，然後依 uppercase 的設定，強制轉換為大寫或小寫字母。這個函數定義的其他部份在這裡並不重要（詳情請參閱[第 37 章](/v-server-programming/extending-sql.md)）。
 
 ### 4.3.1. Using Positional Notation
 
