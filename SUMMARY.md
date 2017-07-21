@@ -389,6 +389,7 @@
     * 36.63. view\_table\_usage
     * 36.64. views
 * [V. Server Programming](v-server-programming.md)
+  * Extending SQL
 * [VI. Reference](vi-reference.md)
   * [I. SQL 指令](vi-reference/i-sql-commands.md)
     * [COPY](vi-reference/i-sql-commands/copy.md)
@@ -416,4 +417,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
