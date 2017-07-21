@@ -87,25 +87,23 @@ SELECT concat_lower_or_upper(a := 'Hello', uppercase := true, b := 'World');
 (1 row)
 ```
 
-### 4.3.3. Using Mixed Notation
+### 4.3.3. 混用記號
 
-The mixed notation combines positional and named notation. However, as already mentioned, named arguments cannot precede positional arguments. For example:
+混用記號指的就是混合使用編號及名稱來設定參數。然而，如前所述，名稱參數不能先於編號參數。例如：
 
 ```
-SELECT concat_lower_or_upper('Hello', 'World', uppercase =
->
- true);
+SELECT concat_lower_or_upper('Hello', 'World', uppercase => true);
  concat_lower_or_upper 
 -----------------------
  HELLO WORLD
 (1 row)
 ```
 
-In the above query, the arguments`a`and`b`are specified positionally, while`uppercase`is specified by name. In this example, that adds little except documentation. With a more complex function having numerous parameters that have default values, named or mixed notation can save a great deal of writing and reduce chances for error.
+在上面的查詢中，a 和 b 兩個參數以編號指定，而 uppercase 就以名稱指定。在本例子，只有增加一點點內容而已。使用比較複雜的函數時，會有許多參數設定了預設值，以名稱或混合的方式來設定參數，可以節省許多撰寫的程式碼，也可以減少出錯的可能性。
 
-### Note
+### 注意
 
-Named and mixed call notations currently cannot be used when calling an aggregate function \(but they do work when an aggregate function is used as a window function\).
+名稱記號和混用記號目前不能用於彙總函數的呼叫（但如果是用於窗函數是就可以）。
 
 ---
 
