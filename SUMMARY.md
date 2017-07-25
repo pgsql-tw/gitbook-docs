@@ -393,6 +393,8 @@
 * [VI. Reference](vi-reference.md)
   * [I. SQL 指令](vi-reference/i-sql-commands.md)
     * [COPY](vi-reference/i-sql-commands/copy.md)
+    * [CREATE TABLE](vi-reference/i-sql-commands/create-table.md)
+    * [DROP TABLE](vi-reference/i-sql-commands/drop-table.md)
     * [SELECT](vi-reference/i-sql-commands/select.md)
   * [II. PostgreSQL 用戶端工具](vi-reference/ii-postgresql-client-applications.md)
     * [createdb](vi-reference/ii-postgresql-client-applications/createdb.md)

@@ -1,26 +1,23 @@
 # 5.1. 認識表格[^1]
 
-A table in a relational database is much like a table on paper: It consists of rows and columns. The number and order of the columns is fixed, and each column has a name. The number of rows is variable — it reflects how much data is stored at a given moment. SQL does not make any guarantees about the order of the rows in a table. When a table is read, the rows will appear in an unspecified order, unless sorting is explicitly requested. This is covered in[Chapter 7](https://www.postgresql.org/docs/10/static/queries.html). Furthermore, SQL does not assign unique identifiers to rows, so it is possible to have several completely identical rows in a table. This is a consequence of the mathematical model that underlies SQL but is usually not desirable. Later in this chapter we will see how to deal with this issue.
+「表格」（table）在關連式資料庫中的角色很接近在紙上畫一個「表格」：包含了列與欄。欄的數量與次序是固定的，而每個欄位都有一個名稱。列的數量是變動的—它表示在當下有多少資料被存在資料庫中。SQL 並不保證列在表格中的次序。當讀取表格的時候，除非明確要求要排序，不然列與列之間是不存在固定的次序。這些將在[第 7 章](/ii-the-sql-language/queries.md)中進一步說明。進一步來說，SQL 並沒有給每一列一個唯一性的識別，所以在表格中是有可能存在有完全相同內容的列。這是 SQL 架構下的數學模型結果，通常不是理想的結果。在這章之後，我們會說明如何處理這個問題。
 
-Each column has a data type. The data type constrains the set of possible values that can be assigned to a column and assigns semantics to the data stored in the column so that it can be used for computations. For instance, a column declared to be of a numerical type will not accept arbitrary text strings, and the data stored in such a column can be used for mathematical computations. By contrast, a column declared to be of a character string type will accept almost any kind of data but it does not lend itself to mathematical calculations, although other operations such as string concatenation are available.
+每一個欄位都有一個資料型別。資料型別限制了儲存於該欄位的資料內容，同時也設定了資料儲存的型態，使得該資料可以直接用於計算。舉個例子，一個被宣告為數字型別的欄位，就不能放進任何文字字串，而儲存於此欄位中的資料，可用於數學計算。相反地，一個被宣告為字元字串的欄位，可以儲存任何型能的資料，但就無法用於數學計算了，雖然也有其他操作可以進行字串串接。
 
-PostgreSQLincludes a sizable set of built-in data types that fit many applications. Users can also define their own data types. Most built-in data types have obvious names and semantics, so we defer a detailed explanation to[Chapter 8](https://www.postgresql.org/docs/10/static/datatype.html). Some of the frequently used data types are`integer`for whole numbers,`numeric`for possibly fractional numbers,`text`for character strings,`date`for dates,`time`for time-of-day values, and`timestamp`for values containing both date and time.
+PostgreSQL 擁有許多內建的資料型別，可以適應許多應用系統。使用者也可以自訂他們所需的資料型別。大多數內建的資料型別都有顯而易見的名稱與用法，所以我們打算在[第 8 章](/ii-the-sql-language/data-types.md)再做詳細的說明。有一些常用的資料型別，像是 interger 用於整數，numeric 用於浮點數，text 用於字串，date 則是日期，time 是時間，而 timestamp 則同時包含日期和時間。
 
-
-
-To create a table, you use the aptly named[CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html)command. In this command you specify at least a name for the new table, the names of the columns and the data type of each column. For example:
+要建立一個表格，你可以使用 [CREATE TABLE](/vi-reference/i-sql-commands/create-table.md) 指令。這個指令你至少要指定一個名稱給新的表格，還有每一個欄位的名稱與資料型別。例如：
 
 ```
 CREATE TABLE my_first_table (
     first_column text,
     second_column integer
 );
-
 ```
 
-This creates a table named`my_first_table`with two columns. The first column is named`first_column`and has a data type of`text`; the second column has the name`second_column`and the type`integer`. The table and column names follow the identifier syntax explained in[Section 4.1.1](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-identifiers). The type names are usually also identifiers, but there are some exceptions. Note that the column list is comma-separated and surrounded by parentheses.
+這個建立一個叫作 my\_first\_table 的表格，它包含了兩個欄位。第一個欄位叫作 first\_column，其資料型別為 text；第二個欄位名稱為 second\_column，資料型別為 integer。表格與欄位名稱的規則依 [4.1.1 節](/ii-the-sql-language/sql-syntax/41-lexical-structure.md)中所介紹的識別字語法，但也有一些例外。注意欄位列表是用逗號分隔，並且包含於括號之中。
 
-Of course, the previous example was heavily contrived. Normally, you would give names to your tables and columns that convey what kind of data they store. So let's look at a more realistic example:
+當然，前面的例子明顯只是做做樣子而已。一般來說，你會將你的表格欄位以實際用途來命名，所以我們來看一下更實際的例子：
 
 ```
 CREATE TABLE products (
@@ -28,34 +25,34 @@ CREATE TABLE products (
     name text,
     price numeric
 );
-
 ```
 
-\(The`numeric`type can store fractional components, as would be typical of monetary amounts.\)
+（numeric 資料型別可以儲存浮點數，用於典型的貨幣計量。）
 
-### Tip
+---
 
-When you create many interrelated tables it is wise to choose a consistent naming pattern for the tables and columns. For instance, there is a choice of using singular or plural nouns for table names, both of which are favored by some theorist or other.
+### 小技巧
 
-There is a limit on how many columns a table can contain. Depending on the column types, it is between 250 and 1600. However, defining a table with anywhere near this many columns is highly unusual and often a questionable design.
+當你建立了許多相關的表格時，建立最好選擇一個用於命名表格及欄位的規則。舉例來說，有一個規則是使用單數或複數名詞來取名表格，兩者都有些人喜歡使用。
 
+一個表格中有多少欄位是有限制的，依欄位型別而定，上限通常是 250 個到 1600 個之間。不過，宣告到這麼多的欄位是非常罕見，而且應該是有問題的設定。
 
+---
 
-If you no longer need a table, you can remove it using the[DROP TABLE](https://www.postgresql.org/docs/10/static/sql-droptable.html)command. For example:
+如果你不再需要某個表格，你可以移除它。請使用 [DROP TABLE](/vi-reference/i-sql-commands/drop-table.md) 指令，如下所示：
 
 ```
 DROP TABLE my_first_table;
 DROP TABLE products;
-
 ```
 
-Attempting to drop a table that does not exist is an error. Nevertheless, it is common in SQL script files to unconditionally try to drop each table before creating it, ignoring any error messages, so that the script works whether or not the table exists. \(If you like, you can use the`DROP TABLE IF EXISTS`variant to avoid the error messages, but this is not standard SQL.\)
+企圖要移除一個不存在的表格，會產生錯誤。不過，在 SQL 腳本中，在建立表格前嘗試移除是很常見的，通常會忽略錯誤訊息，所以不論表格是否已經存在，腳本都能如預期執行。（如果你需要的話，你也可以使用 DROP TABLE IF EXISTS 來避免產生錯誤訊息，但這並不是標準 SQL 語法。）
 
-If you need to modify a table that already exists, see[Section 5.5](https://www.postgresql.org/docs/10/static/ddl-alter.html)later in this chapter.
+如果你需要變更表格的結構的話，請參閱本章的 [5.5 節](/ii-the-sql-language/data-definition/55-modifying-tables.md)。
 
-With the tools discussed so far you can create fully functional tables. The remainder of this chapter is concerned with adding features to the table definition to ensure data integrity, security, or convenience. If you are eager to fill your tables with data now you can skip ahead to[Chapter 6](https://www.postgresql.org/docs/10/static/dml.html)and read the rest of this chapter later.
+到目前為止，你已經可以利用工具建立完整功能的表格。本章接下來的部份會針對附加的功能介紹，像是確保資料完整性、安全性、或方便性。如果你現在急著要將資料存入你的表格的話，你可以暫時跳過本章，到[第 6 章](/ii-the-sql-language/data-manipulation.md)繼續操作。
 
 ---
 
-[^1]: [PostgreSQL: Documentation: 10: 5.1. Table Basics](https://www.postgresql.org/docs/10/static/ddl-basics.html)
+[^1]: [PostgreSQL: Documentation: 10: 5.1. Table Basics](https://www.postgresql.org/docs/10/static/ddl-basics.html)
 
