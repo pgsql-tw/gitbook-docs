@@ -20,7 +20,7 @@
 
 ---
 
-## 官方手冊７大部份
+### 官方手冊７大部份
 * [第一部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/i-tutorial.html)：給新的使用者一份簡易的介紹。
 * [第二部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/ii-the-sql-language.html)：介紹SQL查詢語言，包含資料型態及函數功能，應用層級的效能調教也在此有所說明。每一個PostgreSQL使用者都推薦閱讀此部份。
 * [第三部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/iii-server-administration.html)：說明資料庫伺服器的安裝及管理資訊。如果你需要管理一個PostgreSQL伺服器，那你必須閱讀此部份的內容。
