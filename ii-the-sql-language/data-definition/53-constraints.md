@@ -4,125 +4,91 @@
 
 所以，SQL 允許你在表格和欄位上定義額外的限制條件，它幫助你對資料有更多的控制能力。當某個使用者輸入資料時，違反了限制條件，錯誤訊息就會產生。這些限制條件也會限制預設值的設定。
 
-### 5.3.1. Check Constraints
+### 5.3.1. 檢查
 
-A check constraint is the most generic constraint type. It allows you to specify that the value in a certain column must satisfy a Boolean \(truth-value\) expression. For instance, to require positive product prices, you could use:
+使用 CHECK 是最普遍的限制條件製定方式，它可以允許你指定某個欄位必須符合某個布林條件式的判斷。舉個例子，要滿足產品價格是正數的話，你可以使用這樣的語法：
+
+```
+CREATE TABLE products (
+    product_no integer,
+    name text,
+    price numeric CHECK (price > 0)
+);
+```
+
+如同你所看到的，限制條件會接在資料型別之後，就像是預設值的設定一樣。預設值和限制條件的設定，在語法撰寫上沒有先後次序。檢查限制條件使用關鍵字 CHECK，然後接著是一組以括號括起來的條件式。其條件式應該要包含被限制的欄位，不然就沒有任何意義。
+
+你也可以讓該限制條件擁有另一個名稱，這樣的好處是，當錯誤訊息發生時，你可以明確得到是哪一個限制被違反了：
 
 ```
 CREATE TABLE products (
     product_no integer,
     name text,
     price numeric 
-CHECK (price 
->
- 0)
-
+CONSTRAINT positive_price CHECK (price > 0)
 );
 ```
 
-As you see, the constraint definition comes after the data type, just like default value definitions. Default values and constraints can be listed in any order. A check constraint consists of the key word`CHECK`followed by an expression in parentheses. The check constraint expression should involve the column thus constrained, otherwise the constraint would not make too much sense.
+如上，給予這個限制條件一個名稱，使用關鍵字 CONSTRAINT，緊接著一個限制條件的定義。（如果你沒有自行命名，系統也會自動取一個名字）
 
-You can also give the constraint a separate name. This clarifies error messages and allows you to refer to the constraint when you need to change it. The syntax is:
+一個限制條件可以參考多個欄位。例如你設定了標準價格和優惠價格，而你需要確保優惠價格一定是比標準價格要便宜的話：
 
 ```
 CREATE TABLE products (
     product_no integer,
     name text,
-    price numeric 
-CONSTRAINT positive_price
- CHECK (price 
->
- 0)
+    price numeric CHECK (price > 0),
+    discounted_price numeric CHECK (discounted_price > 0),
+    CHECK (price > discounted_price)
 );
 ```
 
-So, to specify a named constraint, use the key word`CONSTRAINT`followed by an identifier followed by the constraint definition. \(If you don't specify a constraint name in this way, the system chooses a name for you.\)
+前兩個限制條件和前述很類似，而第三個是新的語法。它並不是只參考某個特定的欄位，而是以逗號分隔列出所有需要遵守的條件。欄位的定義和限制條件的定義，撰寫上沒有規定次序。
 
-A check constraint can also refer to several columns. Say you store a regular price and a discounted price, and you want to ensure that the discounted price is lower than the regular price:
-
-```
-CREATE TABLE products (
-    product_no integer,
-    name text,
-    price numeric CHECK (price 
->
- 0),
-    discounted_price numeric CHECK (discounted_price 
->
- 0),
-
-CHECK (price 
->
- discounted_price)
-
-);
-```
-
-The first two constraints should look familiar. The third one uses a new syntax. It is not attached to a particular column, instead it appears as a separate item in the comma-separated column list. Column definitions and these constraint definitions can be listed in mixed order.
-
-We say that the first two constraints are column constraints, whereas the third one is a table constraint because it is written separately from any one column definition. Column constraints can also be written as table constraints, while the reverse is not necessarily possible, since a column constraint is supposed to refer to only the column it is attached to. \(PostgreSQLdoesn't enforce that rule, but you should follow it if you want your table definitions to work with other database systems.\) The above example could also be written as:
+我們會說前兩個是欄位的限制，而第三個是表格的限制，因為它是獨立於其他的欄位定義的。欄位限制也可以寫成表格的限制方式，不過反過來通常就不行，因為一個欄位的限制，指的就是只參考到語法上它所接續的欄位而已。（PostgreSQL 並沒有強制這樣做，但如果你的語法與其他資料庫共用的話，最好還是依這樣的語法避免混用。）上面的例子也可以改寫成如此：
 
 ```
 CREATE TABLE products (
     product_no integer,
     name text,
     price numeric,
-    CHECK (price 
->
- 0),
+    CHECK (price > 0),
     discounted_price numeric,
-    CHECK (discounted_price 
->
- 0),
-    CHECK (price 
->
- discounted_price)
+    CHECK (discounted_price > 0),
+    CHECK (price > discounted_price)
 );
 ```
 
-or even:
+或等同於：
 
 ```
 CREATE TABLE products (
     product_no integer,
     name text,
-    price numeric CHECK (price 
->
- 0),
+    price numeric CHECK (price > 0),
     discounted_price numeric,
-    CHECK (discounted_price 
->
- 0 AND price 
->
- discounted_price)
+    CHECK (discounted_price > 0 AND price > discounted_price)
 );
 ```
 
-It's a matter of taste.
+都可以照你所喜愛的語法撰寫。
 
-Names can be assigned to table constraints in the same way as column constraints:
+命名表格的限制條件和欄位限制條件的命名是一樣的：
 
 ```
 CREATE TABLE products (
     product_no integer,
     name text,
     price numeric,
-    CHECK (price 
->
- 0),
+    CHECK (price > 0),
     discounted_price numeric,
-    CHECK (discounted_price 
->
- 0),
+    CHECK (discounted_price > 0),
 
-CONSTRAINT valid_discount
- CHECK (price 
->
- discounted_price)
+    CONSTRAINT valid_discount CHECK (price > discounted_price)
 );
 ```
 
-It should be noted that a check constraint is satisfied if the check expression evaluates to true or the null value. Since most expressions will evaluate to the null value if any operand is null, they will not prevent null values in the constrained columns. To ensure that a column does not contain null values, the not-null constraint described in the next section can be used.
+應該要注意的是，檢查限制條件是否成立，端看條件表示式在運算後是真值（true）還是空值（null）。因為當有運算元是空值時，多數的運算結果都是空值，所以可能會有空值產生在想要限制條件的欄位之中。要確保欄位中不會出現空值的話，請參閱下一段的說明。
 
 ### 5.3.2. Not-Null Constraints
 
