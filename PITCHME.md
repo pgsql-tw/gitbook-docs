@@ -47,5 +47,10 @@
 
 ---
 
+# Case Study
+## 敬請期待
+
+---
+
 ## 開始閱讀
 ## [PostgreSQL 正體中文使用手冊](https://www.gitbook.com/book/pgsql-tw/postgresql-10/details)
