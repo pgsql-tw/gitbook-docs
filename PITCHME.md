@@ -12,6 +12,14 @@
 
 ---
 
+## 關於正體中文版手冊
+* 主要針對台灣的 PostgreSQL 使用者用語及使用需求進行編譯。
+* 目前規劃只發佈最新版，因為 PostgreSQL 相容性很高，多數語法變化不大。
+* 歡迎回饋資料庫名詞的正體中文譯名。
+* 關於各段落的建議，也可使用 GitBook 的註解功能提供，方便其他閱讀者討論。
+
+---
+
 ## 官方手冊７大部份
 * [第一部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/i-tutorial.html)：給新的使用者一份簡易的介紹。
 * [第二部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/ii-the-sql-language.html)：介紹SQL查詢語言，包含資料型態及函數功能，應用層級的效能調教也在此有所說明。每一個PostgreSQL使用者都推薦閱讀此部份。
