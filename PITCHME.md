@@ -47,5 +47,5 @@
 
 ---
 
+## 開始閱讀
 ## [PostgreSQL 正體中文使用手冊](https://www.gitbook.com/book/pgsql-tw/postgresql-10/details)
-## [PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/)
