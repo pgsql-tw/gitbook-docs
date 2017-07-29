@@ -44,3 +44,8 @@
 +++
 ### [第七部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/v-server-programming.html)：Internals
 * 提供PostgreSQL開發者可能需要的其他相關資訊。
+
+---
+
+## [PostgreSQL 正體中文使用手冊](https://www.gitbook.com/book/pgsql-tw/postgresql-10/details)
+## [PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/)
