@@ -90,39 +90,33 @@ CREATE TABLE products (
 
 應該要注意的是，檢查限制條件是否成立，端看條件表示式在運算後是真值（true）還是空值（null）。因為當有運算元是空值時，多數的運算結果都是空值，所以可能會有空值產生在想要限制條件的欄位之中。要確保欄位中不會出現空值的話，請參閱下一段的說明。
 
-### 5.3.2. Not-Null Constraints
+### 5.3.2. 限制無空值
 
-A not-null constraint simply specifies that a column must not assume the null value. A syntax example:
-
-```
-CREATE TABLE products (
-    product_no integer 
-NOT NULL
-,
-    name text 
-NOT NULL
-,
-    price numeric
-);
-```
-
-A not-null constraint is always written as a column constraint. A not-null constraint is functionally equivalent to creating a check constraint`CHECK (`\_`column_name`\_IS NOT NULL\), but inPostgreSQLcreating an explicit not-null constraint is more efficient. The drawback is that you cannot give explicit names to not-null constraints created this way.
-
-Of course, a column can have more than one constraint. Just write the constraints one after another:
+限制無空值只要以下方的語法設定，就可以限制欄位不得存在空值的輸入：
 
 ```
 CREATE TABLE products (
     product_no integer NOT NULL,
     name text NOT NULL,
-    price numeric NOT NULL CHECK (price 
->
- 0)
+    price numeric
 );
 ```
 
-The order doesn't matter. It does not necessarily determine in which order the constraints are checked.
+限制無空值的語法，只能使用在欄位限制上。而限制無空值等效於以 CHECK 建立一個限制條件式為（IS NOT NULL），但在 PostgreSQL 明確使用 NOT NULL 語法的話，處理會更快速。只是它的缺點是你無法給予這樣的限制一個自訂的名稱。
 
-The`NOT NULL`constraint has an inverse: the`NULL`constraint. This does not mean that the column must be null, which would surely be useless. Instead, this simply selects the default behavior that the column might be null. The`NULL`constraint is not present in the SQL standard and should not be used in portable applications. \(It was only added toPostgreSQLto be compatible with some other database systems.\) Some users, however, like it because it makes it easy to toggle the constraint in a script file. For example, you could start with:
+當然，一個欄位可以有一個以上的限制條件。只要一個接著一個即可：
+
+```
+CREATE TABLE products (
+    product_no integer NOT NULL,
+    name text NOT NULL,
+    price numeric NOT NULL CHECK (price > 0)
+);
+```
+
+撰寫的次序沒有關係，也不需要去計較限制被檢查的次序。
+
+NOT NULL 有一個相反的語法：NULL。這並非表示欄位裡只能是空值，如果這樣的話就完全沒用處了。其實這是一種簡化，將預設值設定為空值。NULL 語法並不是 SQL 標準的一部份，所以請不要用在可移植式的應用程式裡。（這僅是 PostgreSQL 為了相容其他資料庫而增加的功能）然而，有一些使用者喜歡使用它，因為在程序檔的撰寫上，很容易利用這個語法來切換限制條件。舉個例子，你可以先寫下：
 
 ```
 CREATE TABLE products (
@@ -132,11 +126,11 @@ CREATE TABLE products (
 );
 ```
 
-and then insert the`NOT`key word where desired.
+然後在需要的時候再適時加入 NOT 關鍵字即可。
 
-### Tip
+### 小技巧
 
-In most database designs the majority of columns should be marked not null.
+> 在多數資料庫設計原則上，主要欄位都應該被標示為 NOT NULL。
 
 ### 5.3.3. Unique Constraints
 
