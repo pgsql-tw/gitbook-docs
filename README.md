@@ -5,7 +5,10 @@
 每一個頁面均附上官方手冊對應連結，翻譯未詳盡之處，可對照閱讀。  
 未翻譯完成之段落，將暫以原文替代。
 
-如須堪誤指教，請依下方網址提報：   
+閱讀前，也可以參閱摘要簡報：  
+[https://gitpitch.com/pgsql-tw/twpug-doc](https://gitpitch.com/pgsql-tw/twpug-doc)
+
+如須堪誤指教，請依下方網址提報：  
 [https://github.com/pgsql-tw/twpug-doc/issues](https://github.com/pgsql-tw/twpug-doc/issues)
 
 ![](/assets/29271289.png)
