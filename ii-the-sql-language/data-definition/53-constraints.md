@@ -132,65 +132,57 @@ CREATE TABLE products (
 
 > 在多數資料庫設計原則上，主要欄位都應該被標示為 NOT NULL。
 
-### 5.3.3. Unique Constraints
+### 5.3.3. 限制唯一性
 
-Unique constraints ensure that the data contained in a column, or a group of columns, is unique among all the rows in the table. The syntax is:
+限制唯一性，確保在某個欄位或某一群欄位的資料，是在該表格中獨一無二的。語法如下：
 
 ```
 CREATE TABLE products (
-    product_no integer 
-UNIQUE
-,
+    product_no integer UNIQUE,
     name text,
     price numeric
 );
 ```
 
-when written as a column constraint, and:
+這是欄位限制的語法。而：
 
 ```
 CREATE TABLE products (
     product_no integer,
     name text,
     price numeric,
-
 UNIQUE (product_no)
-
 );
 ```
 
-when written as a table constraint.
+則是表格限制的寫法。
 
-To define a unique constraint for a group of columns, write it as a table constraint with the column names separated by commas:
+如果想要限制一群欄位的唯一性的話，請使用表格限制的語法，欄位名稱以逗號分隔：
 
 ```
 CREATE TABLE example (
     a integer,
     b integer,
     c integer,
-
 UNIQUE (a, c)
-
 );
 ```
 
-This specifies that the combination of values in the indicated columns is unique across the whole table, though any one of the columns need not be \(and ordinarily isn't\) unique.
+這表示這些欄位所包含的內容組合，在整個表格中是具有唯一性的，但任何一個欄位本身並不一定具備唯一性。
 
-You can assign your own name for a unique constraint, in the usual way:
+你可以命名唯一性的限制條件，語法如下：
 
 ```
 CREATE TABLE products (
-    product_no integer 
-CONSTRAINT must_be_different
- UNIQUE,
+    product_no integer CONSTRAINT must_be_different UNIQUE,
     name text,
     price numeric
 );
 ```
 
-Adding a unique constraint will automatically create a unique B-tree index on the column or group of columns listed in the constraint. A uniqueness restriction covering only some rows cannot be written as a unique constraint, but it is possible to enforce such a restriction by creating a unique[partial index](https://www.postgresql.org/docs/10/static/indexes-partial.html).
+加入唯一性的限制條件，將會自動建立一個具唯一性的 B-tree 索引，其包含的欄位就如限制條件中所條列的欄位。這樣唯一性限制的語法並不能只限制某部份列的唯一性，但如果使用「[部份索引 （partial index）](/ii-the-sql-language/indexes/118-partial-indexes.md) 」的話就可以做到。
 
-In general, a unique constraint is violated if there is more than one row in the table where the values of all of the columns included in the constraint are equal. However, two null values are never considered equal in this comparison. That means even in the presence of a unique constraint it is possible to store duplicate rows that contain a null value in at least one of the constrained columns. This behavior conforms to the SQL standard, but we have heard that other SQL databases might not follow this rule. So be careful when developing applications that are intended to be portable.
+一般來說，唯一性被違反的情況是，所限制的欄位在表格中，有超過一列的資料是相等的。不過，空值並不會被計算在內。這表示說，即使設定了唯一性的限制，在被限制的欄位中，還是有可能會有多個列的資料是空值。這個設計源自 SQL 標準，但聽說有其他的 SQL 資料庫並不是這樣的規則。所以，如果要移植這個語法到其他資料庫的話，要注意這項設計有無差異。
 
 ### 5.3.4. Primary Keys
 
