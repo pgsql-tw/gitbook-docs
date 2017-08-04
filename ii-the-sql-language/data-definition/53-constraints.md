@@ -222,11 +222,11 @@ PRIMARY KEY (a, c)
 
 主鍵在用戶端文件式的資料處理上是很有用的。舉個例子，一個圖型化介面讓使用者可以修改資料，那麼可能就需要主鍵來確認每一列的唯一性，而不致於產生混淆。也有一些用途是在資料庫系統的管理上，例如，主鍵會用於外部鍵（Foreign Keys）的處理，使其可以處理表格與表格間的資料對應問題。
 
-### 5.3.5. Foreign Keys
+### 5.3.5. 外部鍵（Foreign Keys）
 
-A foreign key constraint specifies that the values in a column \(or a group of columns\) must match the values appearing in some row of another table. We say this maintains the\_referential integrity\_between two related tables.
+外部鍵指的是某個欄位或某一群欄位的內容，必須在另一個表格相對欄位之中，存在相同內容的資料。我們會說這樣的行為是在維護兩個表格之間的關連性。
 
-Say you have the product table that we have used several times already:
+就使用我們已經使用多次的產品表格吧：
 
 ```
 CREATE TABLE products (
@@ -236,37 +236,33 @@ CREATE TABLE products (
 );
 ```
 
-Let's also assume you have a table storing orders of those products. We want to ensure that the orders table only contains orders of products that actually exist. So we define a foreign key constraint in the orders table that references the products table:
+讓我們假設你有一個表格用來儲存這些產品的訂單，我們要確保這些訂單內的產品確實存在。所以我們定義一個外部鍵來關連訂單的表格和產品的表格：
 
 ```
 CREATE TABLE orders (
     order_id integer PRIMARY KEY,
-    product_no integer 
-REFERENCES products (product_no)
-,
+    product_no integer REFERENCES products (product_no),
     quantity integer
 );
 ```
 
-Now it is impossible to create orders with non-NULL`product_no`entries that do not appear in the products table.
+這樣的話，如果 product\_no 沒有出現在產品表格的話，就無法建立資料了。
 
-We say that in this situation the orders table is the\_referencing\_table and the products table is the\_referenced\_table. Similarly, there are referencing and referenced columns.
+我們會說像這樣的情況是，訂單表格是引用表格（referencing table），而產品表格是參考表格（referenced table）。相對地，欄位也稱為引用欄位（referencing columns）及參考欄位（referenced columns）。
 
-You can also shorten the above command to:
+你可以將這個語法簡化為：
 
 ```
 CREATE TABLE orders (
     order_id integer PRIMARY KEY,
-    product_no integer 
-REFERENCES products
-,
+    product_no integer REFERENCES products,
     quantity integer
 );
 ```
 
-because in absence of a column list the primary key of the referenced table is used as the referenced column\(s\).
+因為在參考表格中，不在主鍵欄位組合中的欄位，就是參考欄位。
 
-A foreign key can also constrain and reference a group of columns. As usual, it then needs to be written in table constraint form. Here is a contrived syntax example:
+外部鍵也可以參考一組欄位。一般來說，這樣要寫成表格限制條件形式，如下：
 
 ```
 CREATE TABLE t1 (
@@ -275,15 +271,14 @@ CREATE TABLE t1 (
   c integer,
 
 FOREIGN KEY (b, c) REFERENCES other_table (c1, c2)
-
 );
 ```
 
-Of course, the number and type of the constrained columns need to match the number and type of the referenced columns.
+當然，組合外部鍵的欄位數量，彼此之間必須要相等。
 
-You can assign your own name for a foreign key constraint, in the usual way.
+你可以給外部鍵一個名稱，使用語法與限制條件相同。
 
-A table can have more than one foreign key constraint. This is used to implement many-to-many relationships between tables. Say you have tables about products and orders, but now you want to allow one order to contain possibly many products \(which the structure above did not allow\). You could use this table structure:
+一個表格可以有許多個外部鍵，這用於表格之間多對多的關係。例如你有一些表格記錄了很多產品和訂單，但現在你要讓每一筆訂單也可以訂購多項產品（這在先前的語法並不允許）。你也許可以試試這個表格宣告：
 
 ```
 CREATE TABLE products (
@@ -306,17 +301,15 @@ CREATE TABLE order_items (
 );
 ```
 
-Notice that the primary key overlaps with the foreign keys in the last table.
+注意到這裡的主鍵和外部鍵是重覆的。
 
-We know that the foreign keys disallow creation of orders that do not relate to any products. But what if a product is removed after an order is created that references it? SQL allows you to handle that as well. Intuitively, we have a few options:
+我們知道外部鍵不允許沒有關連到產品的訂單，但如果企圖移除一個有訂單的產品會如何呢？SQL 有幾個選項讓你直覺進行這項操作：
 
-* Disallow deleting a referenced product
+* 不允許移除被參考到的產品
+* 同時也刪去訂單
+* 其他？
 
-* Delete the orders as well
-
-* Something else?
-
-To illustrate this, let's implement the following policy on the many-to-many relationship example above: when someone wants to remove a product that is still referenced by an order \(via`order_items`\), we disallow it. If someone removes an order, the order items are removed as well:
+要描繪這些情況，讓我們建立如上需求的多對多關連的結構：當某人要移除一個有訂單的產品（以 order\_items 關連）時，我們不允許執行。而如果某人移除了一筆訂單，訂單內的項目也會同步被移除：
 
 ```
 CREATE TABLE products (
@@ -332,26 +325,22 @@ CREATE TABLE orders (
 );
 
 CREATE TABLE order_items (
-    product_no integer REFERENCES products 
-ON DELETE RESTRICT
-,
-    order_id integer REFERENCES orders 
-ON DELETE CASCADE
-,
+    product_no integer REFERENCES products ON DELETE RESTRICT,
+    order_id integer REFERENCES orders ON DELETE CASCADE,
     quantity integer,
     PRIMARY KEY (product_no, order_id)
 );
 ```
 
-Restricting and cascading deletes are the two most common options.`RESTRICT`prevents deletion of a referenced row.`NO ACTION`means that if any referencing rows still exist when the constraint is checked, an error is raised; this is the default behavior if you do not specify anything. \(The essential difference between these two choices is that`NO ACTION`allows the check to be deferred until later in the transaction, whereas`RESTRICT`does not.\)`CASCADE`specifies that when a referenced row is deleted, row\(s\) referencing it should be automatically deleted as well. There are two other options:`SET NULL`and`SET DEFAULT`. These cause the referencing column\(s\) in the referencing row\(s\) to be set to nulls or their default values, respectively, when the referenced row is deleted. Note that these do not excuse you from observing any constraints. For example, if an action specifies`SET DEFAULT`but the default value would not satisfy the foreign key constraint, the operation will fail.
+引用和同步刪除有兩個常見的作法。用「RESTRICT」防止參考的資料被刪除；「NO ACTION」表示當限制條件被違反時，引用欄位的資料仍會留存，然後回傳錯誤訊息，如果未指定處理方式的話，這會是預設的行為（這兩個語法根本上的不同是「NO ACTION」允許延遲檢查到交易事務的最後，而「RESTRICT」則不會。）；「CASCADE」指的是當參考的資料列被刪除時，引用的資料列也會同步被刪除。刪除時還有兩個其他的選項：SET NULL 和 SET DEFAULT，表示引用的資料會被更新為空值或其預設值。注意到，這並不是說你就可以違反限制條件。舉個例來說，如果使用了 SET DEFAULT，但預設值卻違反了外部鍵的限制，這個操作將會失敗。
 
-Analogous to`ON DELETE`there is also`ON UPDATE`which is invoked when a referenced column is changed \(updated\). The possible actions are the same. In this case,`CASCADE`means that the updated values of the referenced column\(s\) should be copied into the referencing row\(s\).
+類似的於 ON DELETE 的情況是 ON UPDATE，也就是在參考欄位的資料內容被更新時的情況。可以設定的動作關鍵字是相同的。在這個情況的 CASCADE 指的就是更新參考欄位的資料內容時，引用欄位的內容也會同步被更新為相同的內容。
 
-Normally, a referencing row need not satisfy the foreign key constraint if any of its referencing columns are null. If`MATCH FULL`is added to the foreign key declaration, a referencing row escapes satisfying the constraint only if all its referencing columns are null \(so a mix of null and non-null values is guaranteed to fail a`MATCH FULL`constraint\). If you don't want referencing rows to be able to avoid satisfying the foreign key constraint, declare the referencing column\(s\) as`NOT NULL`.
+一般來說，引用的資料列不需要滿足外部鍵的定義，如果其任一欄位內容為空值的話。而如果「MATCH FULL」加到宣告的語法之中的話，引用的資料列就必須要全部都是空值才不受外部鍵的限制（也就是部份空值的資料列就不受限制）。如果要避免空值使得外部鍵失效的話，就應該宣告相關欄位為 NOT NULL。
 
-A foreign key must reference columns that either are a primary key or form a unique constraint. This means that the referenced columns always have an index \(the one underlying the primary key or unique constraint\); so checks on whether a referencing row has a match will be efficient. Since a`DELETE`of a row from the referenced table or an`UPDATE`of a referenced column will require a scan of the referencing table for rows matching the old value, it is often a good idea to index the referencing columns too. Because this is not always needed, and there are many choices available on how to index, declaration of a foreign key constraint does not automatically create an index on the referencing columns.
+外部鍵所參考的欄位必須要是主鍵或是宣告其唯一性限制，這表示參考欄位會有索引存在，這使得檢查關連的過程會是很有效率的。因為在刪除或更新參考資料表時，需要檢查引用資料表的情況，所以在引用表格的欄位建立索引，也是常見的作法。因為這並不是一定需要，而還有許多的選擇在於如何索引，所以宣告外部鍵時並不會自行以引用欄位組合建立索引。
 
-More information about updating and deleting data is in[Chapter 6](https://www.postgresql.org/docs/10/static/dml.html). Also see the description of foreign key constraint syntax in the reference documentation for[CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html).
+關於更新資料與刪除資料的細節在[第 6 章](/ii-the-sql-language/data-manipulation.md)。也可以在 [CREATE TABLE](/vi-reference/i-sql-commands/create-table.md) 語法說明中，找到更多外部鍵的說明。
 
 ### 5.3.6. Exclusion Constraints
 
