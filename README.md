@@ -1,9 +1,14 @@
-# PostgreSQL 10 使用手冊[^1]
+# PostgreSQL 正體中文使用手冊[^1]
 
-本使用手冊由台灣PostgreSQL社群提供，翻譯自PostgreSQL官方使用手冊，以推廣PostgreSQL於台灣的應用。
+本使用手冊由台灣 PostgreSQL 社群提供，翻譯自 PostgreSQL 官方使用手冊，以推廣 PostgreSQL 於台灣的應用。
+
+目前編譯版本為 PostgreSQL 10。
 
 每一個頁面均附上官方手冊對應連結，翻譯未詳盡之處，可對照閱讀。  
 未翻譯完成之段落，將暫以原文替代。
+
+* 官方手冊：[https://www.postgresql.org/docs/current/static/](https://www.postgresql.org/docs/current/static/)
+* 日文版手冊： [http://www.postgresql.jp/document/current/index.html](http://www.postgresql.jp/document/current/index.html)
 
 閱讀前，也可以參閱摘要簡報：  
 [https://gitpitch.com/pgsql-tw/twpug-doc](https://gitpitch.com/pgsql-tw/twpug-doc)
