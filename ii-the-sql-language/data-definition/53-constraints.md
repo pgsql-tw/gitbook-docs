@@ -342,9 +342,9 @@ CREATE TABLE order_items (
 
 關於更新資料與刪除資料的細節在[第 6 章](/ii-the-sql-language/data-manipulation.md)。也可以在 [CREATE TABLE](/vi-reference/i-sql-commands/create-table.md) 語法說明中，找到更多外部鍵的說明。
 
-### 5.3.6. Exclusion Constraints
+### 5.3.6. 除外宣告（Exclusion Constraints）
 
-Exclusion constraints ensure that if any two rows are compared on the specified columns or expressions using the specified operators, at least one of these operator comparisons will return false or null. The syntax is:
+除外宣告要確保的是，如果任意兩個資料列在指定的欄位或表示式被比較時，用於特定的運算子，至少有一個比較會回傳假（false）或空值（null）。語法如下：
 
 ```
 CREATE TABLE circles (
@@ -353,9 +353,9 @@ CREATE TABLE circles (
 );
 ```
 
-See also[`CREATE TABLE ... CONSTRAINT ... EXCLUDE`](https://www.postgresql.org/docs/10/static/sql-createtable.html#sql-createtable-exclude)for details.
+詳情請參考 [CREATE TABLE](/vi-reference/i-sql-commands/create-table.md) 中，CONSTRAINT 到 EXCLUDE 的段落。
 
-Adding an exclusion constraint will automatically create an index of the type specified in the constraint declaration.
+加入除外宣告時，將會自動建立相對應的索引。
 
 ---
 
