@@ -184,9 +184,9 @@ CREATE TABLE products (
 
 一般來說，唯一性被違反的情況是，所限制的欄位在表格中，有超過一列的資料是相等的。不過，空值並不會被計算在內。這表示說，即使設定了唯一性的限制，在被限制的欄位中，還是有可能會有多個列的資料是空值。這個設計源自 SQL 標準，但聽說有其他的 SQL 資料庫並不是這樣的規則。所以，如果要移植這個語法到其他資料庫的話，要注意這項設計有無差異。
 
-### 5.3.4. Primary Keys
+### 5.3.4. 主鍵（Primary Keys）
 
-A primary key constraint indicates that a column, or group of columns, can be used as a unique identifier for rows in the table. This requires that the values be both unique and not null. So, the following two table definitions accept the same data:
+主鍵的意思是，某一個欄位或某一群欄位，在整個表格中，其每一列的組合都是唯一的，且有宣告唯一性的限制條件，並且也包含了非空值的條件（UNIQUE 及 NOT NULL）。所以，下面的兩種語法對資料的意義相同：
 
 ```
 CREATE TABLE products (
@@ -198,15 +198,13 @@ CREATE TABLE products (
 
 ```
 CREATE TABLE products (
-    product_no integer 
-PRIMARY KEY
-,
+    product_no integer PRIMARY KEY,
     name text,
     price numeric
 );
 ```
 
-Primary keys can span more than one column; the syntax is similar to unique constraints:
+主鍵也可以包含多個欄位，語法和宣告唯一限制條件類似：
 
 ```
 CREATE TABLE example (
@@ -215,15 +213,14 @@ CREATE TABLE example (
     c integer,
 
 PRIMARY KEY (a, c)
-
 );
 ```
 
-Adding a primary key will automatically create a unique B-tree index on the column or group of columns listed in the primary key, and will force the column\(s\) to be marked`NOT NULL`.
+加入主鍵時，會自動建立一個具唯一性的 B-tree 索引，範圍為 PRIMARY KEY 語法所定義的欄位，並且會強制將這些欄位設定為非空值（NOT NULL）。
 
-A table can have at most one primary key. \(There can be any number of unique and not-null constraints, which are functionally almost the same thing, but only one can be identified as the primary key.\) Relational database theory dictates that every table must have a primary key. This rule is not enforced byPostgreSQL, but it is usually best to follow it.
+一個表格只能有一個主鍵。（你可以使用 UNIQUE 及 NOT NULL 設定多個同樣的限制條件，在功能上幾乎是相同的，但只能有一組條件是由 PRIMARY KEY 所定義。）關連式資料庫的理論指出，每一個表格都必須要有一個主鍵。這個規則在 PostgreSQL 中並不是強制的，但通常建議最好遵循這個理論。
 
-Primary keys are useful both for documentation purposes and for client applications. For example, a GUI application that allows modifying row values probably needs to know the primary key of a table to be able to identify rows uniquely. There are also various ways in which the database system makes use of a primary key if one has been declared; for example, the primary key defines the default target column\(s\) for foreign keys referencing its table.
+主鍵在用戶端文件式的資料處理上是很有用的。舉個例子，一個圖型化介面讓使用者可以修改資料，那麼可能就需要主鍵來確認每一列的唯一性，而不致於產生混淆。也有一些用途是在資料庫系統的管理上，例如，主鍵會用於外部鍵（Foreign Keys）的處理，使其可以處理表格與表格間的資料對應問題。
 
 ### 5.3.5. Foreign Keys
 
