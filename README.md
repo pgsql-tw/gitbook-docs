@@ -8,7 +8,7 @@
 未翻譯完成之段落，將暫以原文替代。
 
 * 官方手冊：[https://www.postgresql.org/docs/current/static/](https://www.postgresql.org/docs/current/static/)
-* 日文版手冊： [http://www.postgresql.jp/document/current/index.html](http://www.postgresql.jp/document/current/index.html)
+* 日本語ドキュメント： [http://www.postgresql.jp/document/current/index.html](http://www.postgresql.jp/document/current/index.html)
 
 閱讀前，也可以參閱摘要簡報：  
 [https://gitpitch.com/pgsql-tw/twpug-doc](https://gitpitch.com/pgsql-tw/twpug-doc)
