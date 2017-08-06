@@ -176,7 +176,7 @@
   * Installation from Source Code on Windows
     * 17.1. Building with Visual C++ or the Microsoft Windows SDK
   * [18. 服務配置與維運](iii-server-administration/server-setup-and-operation.md)
-    * 18.1. The PostgreSQL User Account
+    * [18.1. The PostgreSQL User Account](iii-server-administration/server-setup-and-operation/181-the-postgresql-user-account.md)
     * 18.2. Creating a Database Cluster
     * 18.3. Starting the Database Server
     * 18.4. Managing Kernel Resources
