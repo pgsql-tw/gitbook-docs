@@ -37,21 +37,21 @@ ALTER TABLE products ADD COLUMN description text CHECK (description <> '');
 
 > 加入一個欄位，並且設定預設值，會更新表格的裡的每一個資料列（為了存入新的欄位內容）。然而，無預設值的話，PostgreSQL 就不會在實體上真正進行更新的動行。所以如果你的新欄位大多數的內容都不是預設值的話，那麼就建議不要在加入欄位時設定預設值。之後再使用 UPDATE 來分別更新其內容，然後再以隨後的介紹來更新預設值的設定。
 
-### 5.5.2. Removing a Column
+### 5.5.2. 移除欄位
 
-To remove a column, use a command like:
+要移除一個欄位，請使用下列指令：
 
 ```
 ALTER TABLE products DROP COLUMN description;
 ```
 
-Whatever data was in the column disappears. Table constraints involving the column are dropped, too. However, if the column is referenced by a foreign key constraint of another table,PostgreSQLwill not silently drop that constraint. You can authorize dropping everything that depends on the column by adding`CASCADE`:
+不論資料在該欄位是否消滅，表格的限制條件都會同步再次啓動檢查。所以，如果欄位是被外部鍵所參考的話，PostgreSQL 不會就這樣移除它。你可以宣告同步刪去與此欄位相關的物件，加上 CASCADE：
 
 ```
 ALTER TABLE products DROP COLUMN description CASCADE;
 ```
 
-See[Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)for a description of the general mechanism behind this.
+請參閱 [5.13 節](/ii-the-sql-language/data-definition/513-dependency-tracking.md)，瞭解詳細的處理機制。
 
 ### 5.5.3. Adding a Constraint
 
