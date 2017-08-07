@@ -124,17 +124,17 @@ This will succeed only if each existing entry in the column can be converted to 
 
 PostgreSQLwill attempt to convert the column's default value \(if any\) to the new type, as well as any constraints that involve the column. But these conversions might fail, or might produce surprising results. It's often best to drop any constraints on the column before altering its type, and then add back suitably modified constraints afterwards.
 
-### 5.5.7. Renaming a Column
+### 5.5.7. 變更欄位名稱
 
-To rename a column:
+要變更某個欄位的名稱：
 
 ```
 ALTER TABLE products RENAME COLUMN product_no TO product_number;
 ```
 
-### 5.5.8. Renaming a Table
+### 5.5.8. 變更表格名稱
 
-To rename a table:
+要變更表格的名稱：
 
 ```
 ALTER TABLE products RENAME TO items;
