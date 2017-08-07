@@ -1,20 +1,15 @@
 # 5.12. 其他資料庫物件[^1]
 
-Tables are the central objects in a relational database structure, because they hold your data. But they are not the only objects that exist in a database. Many other kinds of objects can be created to make the use and management of the data more efficient or convenient. They are not discussed in this chapter, but we give you a list here so that you are aware of what is possible:
+表格是關連式資料庫結構裡的主要物件，因為它負責存放資料，但並不是資料庫中唯一的物件。還有許多其他種的物件存在，讓使用上更方便或管理更有效率。這些其他的物件並不在本章中討論，但我們先在這裡列出讓你知道：
 
-* Views
+* 視觀
+* 函數與運算子
+* 資料型別和領域
+* 觸發事件和規則覆寫
 
-* Functions and operators
-
-* Data types and domains
-
-* Triggers and rewrite rules
-
-Detailed information on these topics appears in[Part V](https://www.postgresql.org/docs/10/static/server-programming.html).
+關於這些物件的詳細說明安排在[第 IV 部份](/iv-client-interfaces.md)。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 5.12. Other Database Objects](https://www.postgresql.org/docs/10/static/ddl-others.html)
+[^1]: [PostgreSQL: Documentation: 10: 5.12. Other Database Objects](https://www.postgresql.org/docs/10/static/ddl-others.html)
 
