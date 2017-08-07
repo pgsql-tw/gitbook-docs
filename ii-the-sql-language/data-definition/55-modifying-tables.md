@@ -15,30 +15,27 @@
 
 所有這些動作都透過 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md) 指令來進行，你可以參考該頁面取得詳細資訊。
 
-### 5.5.1. Adding a Column
+### 5.5.1. 加入欄位
 
-To add a column, use a command like:
+要加入一個新欄位，請使用下面的指令：
 
 ```
 ALTER TABLE products ADD COLUMN description text;
 ```
 
-The new column is initially filled with whatever default value is given \(null if you don't specify a`DEFAULT`clause\).
+這個新的欄位預設會以預設值填入（如果你沒有使用 DEFAULT 子句來宣告的話，那會使用 NULL）。
 
-You can also define constraints on the column at the same time, using the usual syntax:
+你也可以在新增同時建立限制條件：
 
 ```
-ALTER TABLE products ADD COLUMN description text CHECK (description 
-<
->
- '');
+ALTER TABLE products ADD COLUMN description text CHECK (description <> '');
 ```
 
-In fact all the options that can be applied to a column description in`CREATE TABLE`can be used here. Keep in mind however that the default value must satisfy the given constraints, or the`ADD`will fail. Alternatively, you can add constraints later \(see below\) after you've filled in the new column correctly.
+事實上，所有在 CREATE TABLE 的選項都可以在這裡使用。要記得的是，預設值必須要符合限制條件的設定，否則這個欄位會無法加入。順帶一提的是，你也可以隨後再加入限制條件（隨後說明），在你更新好新的欄位資料內容後。
 
-### Tip
+### 小技巧
 
-Adding a column with a default requires updating each row of the table \(to store the new column value\). However, if no default is specified,PostgreSQLis able to avoid the physical update. So if you intend to fill the column with mostly nondefault values, it's best to add the column with no default, insert the correct values using`UPDATE`, and then add any desired default as described below.
+> 加入一個欄位，並且設定預設值，會更新表格的裡的每一個資料列（為了存入新的欄位內容）。然而，無預設值的話，PostgreSQL 就不會在實體上真正進行更新的動行。所以如果你的新欄位大多數的內容都不是預設值的話，那麼就建議不要在加入欄位時設定預設值。之後再使用 UPDATE 來分別更新其內容，然後再以隨後的介紹來更新預設值的設定。
 
 ### 5.5.2. Removing a Column
 
