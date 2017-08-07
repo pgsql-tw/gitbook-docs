@@ -91,35 +91,35 @@ ALTER TABLE products ALTER COLUMN product_no DROP NOT NULL;
 
 \(記得 NOT NULL 是沒有名稱的。\)
 
-### 5.5.5. Changing a Column's Default Value
+### 5.5.5. 變更欄位預設值
 
-To set a new default for a column, use a command like:
+要設定新的欄位預設值，請使用下面指令：
 
 ```
 ALTER TABLE products ALTER COLUMN price SET DEFAULT 7.77;
 ```
 
-Note that this doesn't affect any existing rows in the table, it just changes the default for future`INSERT`commands.
+注意這並不會影響到已經存在的資料，只有隨後新增的資料才會使用。
 
-To remove any default value, use:
+要移除任何預設值，請使用：
 
 ```
 ALTER TABLE products ALTER COLUMN price DROP DEFAULT;
 ```
 
-This is effectively the same as setting the default to null. As a consequence, it is not an error to drop a default where one hadn't been defined, because the default is implicitly the null value.
+這個指令會把預設值設為空值。因為預設值本來就設為空值，所以即使刪去一個未設定預設值欄位的預設值，也不會是一種錯誤。
 
-### 5.5.6. Changing a Column's Data Type
+### 5.5.6. 變更欄位資料型別
 
-To convert a column to a different data type, use a command like:
+要變更欄位成為另一個資料型別，請使用下列指令：
 
 ```
 ALTER TABLE products ALTER COLUMN price TYPE numeric(10,2);
 ```
 
-This will succeed only if each existing entry in the column can be converted to the new type by an implicit cast. If a more complex conversion is needed, you can add a`USING`clause that specifies how to compute the new values from the old.
+這只有在欄位內容可以被自動轉換型別時才會成功。如果存在比較複雜的轉換時，你需要加上 USING 子句來指示如何轉換資料內容。
 
-PostgreSQLwill attempt to convert the column's default value \(if any\) to the new type, as well as any constraints that involve the column. But these conversions might fail, or might produce surprising results. It's often best to drop any constraints on the column before altering its type, and then add back suitably modified constraints afterwards.
+PostgreSQL 會企圖轉換欄位預設值到任何新的型別，而所有的限制條件也會啓動檢查機制。但這些轉換可能會失敗，也可以產生意外的結果。比較好的作法是，先移除限制條件，再變更資料型別，最後再重新加入適當調整後的限制條件。
 
 ### 5.5.7. 變更欄位名稱
 
