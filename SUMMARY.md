@@ -396,6 +396,8 @@
     * [COPY](vi-reference/i-sql-commands/copy.md)
     * [CREATE TABLE](vi-reference/i-sql-commands/create-table.md)
     * [DROP TABLE](vi-reference/i-sql-commands/drop-table.md)
+    * [GRANT](vi-reference/i-sql-commands/grant.md)
+    * [REVOKE](vi-reference/i-sql-commands/revoke.md)
     * [SELECT](vi-reference/i-sql-commands/select.md)
   * [II. PostgreSQL 用戶端工具](vi-reference/ii-postgresql-client-applications.md)
     * [createdb](vi-reference/ii-postgresql-client-applications/createdb.md)
