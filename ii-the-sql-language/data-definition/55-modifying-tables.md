@@ -53,46 +53,43 @@ ALTER TABLE products DROP COLUMN description CASCADE;
 
 請參閱 [5.13 節](/ii-the-sql-language/data-definition/513-dependency-tracking.md)，瞭解詳細的處理機制。
 
-### 5.5.3. Adding a Constraint
+### 5.5.3. 加入限制條件
 
-To add a constraint, the table constraint syntax is used. For example:
+要加入限制條件，請使用表格限制條件的語法，例如：
 
 ```
-ALTER TABLE products ADD CHECK (name 
-<
->
- '');
+ALTER TABLE products ADD CHECK (name <> '');
 ALTER TABLE products ADD CONSTRAINT some_name UNIQUE (product_no);
 ALTER TABLE products ADD FOREIGN KEY (product_group_id) REFERENCES product_groups;
 ```
 
-To add a not-null constraint, which cannot be written as a table constraint, use this syntax:
+要加入 NOT NULL 限制條件的話，就不能寫成表格的限制條件，請使用這樣的語法：
 
 ```
 ALTER TABLE products ALTER COLUMN product_no SET NOT NULL;
 ```
 
-The constraint will be checked immediately, so the table data must satisfy the constraint before it can be added.
+加入的限制條件會立即開始檢查，所以當下的資料內容必須要能符合條件才能加入成功。
 
-### 5.5.4. Removing a Constraint
+### 5.5.4. 移除限制條件
 
-To remove a constraint you need to know its name. If you gave it a name then that's easy. Otherwise the system assigned a generated name, which you need to find out. Thepsqlcommand`\d`\_`tablename`\_can be helpful here; other interfaces might also provide a way to inspect table details. Then the command is:
+要移除限制條件，你需要先知道它的名稱。如果你在宣告時有命名的話，那就使用那個名稱，否則你得找出系統自動命名的名稱。其所使用的指令為「\d tablename」，會列出表格相關的資訊。或使用其他的資料庫工具應該也可以找到它。找到之後請使用下列指令來移除限制條件：
 
 ```
 ALTER TABLE products DROP CONSTRAINT some_name;
 ```
 
-\(If you are dealing with a generated constraint name like`$2`, don't forget that you'll need to double-quote it to make it a valid identifier.\)
+（如果你的限制條件名稱像是「$2」這樣的，不要忘記使用雙引號括住，使其可以正確地被識別為是名稱。）
 
-As with dropping a column, you need to add`CASCADE`if you want to drop a constraint that something else depends on. An example is that a foreign key constraint depends on a unique or primary key constraint on the referenced column\(s\).
+在移除欄位時，你需要加入 CASCADE，如果你需要同步移除相關的限制條件的話。像是外部鍵就會依賴另一個唯一性限制或主鍵的限制條件。
 
-This works the same for all constraint types except not-null constraints. To drop a not null constraint use:
+下面這可以用在移除 NOT NULL 限制的欄位：
 
 ```
 ALTER TABLE products ALTER COLUMN product_no DROP NOT NULL;
 ```
 
-\(Recall that not-null constraints do not have names.\)
+\(記得 NOT NULL 是沒有名稱的。\)
 
 ### 5.5.5. Changing a Column's Default Value
 
