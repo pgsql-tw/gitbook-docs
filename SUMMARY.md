@@ -392,6 +392,7 @@
   * [37. Extending SQL](v-server-programming/extending-sql.md)
 * [VI. Reference](vi-reference.md)
   * [I. SQL 指令](vi-reference/i-sql-commands.md)
+    * [ALTER TABLE](vi-reference/i-sql-commands/alter-table.md)
     * [COPY](vi-reference/i-sql-commands/copy.md)
     * [CREATE TABLE](vi-reference/i-sql-commands/create-table.md)
     * [DROP TABLE](vi-reference/i-sql-commands/drop-table.md)
