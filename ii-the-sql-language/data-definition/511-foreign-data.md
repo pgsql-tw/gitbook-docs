@@ -8,7 +8,7 @@ PostgreSQL 實作了 SQL/MED 的部份標準，讓你可以存取不在 PostgreS
 
 存取外部資料可能需要對外部資料源進行認證。這可以利用使用者映對（user mapping）的方法，讓每個 PostgreSQL 使用者在使用部資料表時，可以傳送自己的認證資訊。
 
-進一步的資訊，請參閱 [CREATE FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/10/static/sql-createforeigndatawrapper.html),[CREATE SERVER](https://www.postgresql.org/docs/10/static/sql-createserver.html),[CREATE USER MAPPING](https://www.postgresql.org/docs/10/static/sql-createusermapping.html),[CREATE FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-createforeigntable.html), and[IMPORT FOREIGN SCHEMA](https://www.postgresql.org/docs/10/static/sql-importforeignschema.html).
+進一步的資訊，請參閱 [CREATE FOREIGN DATA WRAPPER](/vi-reference/i-sql-commands/create-foreign-data-wrapper.md)、[CREATE SERVER](/vi-reference/i-sql-commands/create-server.md)、[CREATE USER MAPPING](/vi-reference/i-sql-commands/create-user-mapping.md)、[CREATE FOREIGN TABLE](/vi-reference/i-sql-commands/create-foreign-table.md)、[IMPORT FOREIGN SCHEMA ](/vi-reference/i-sql-commands/import-foreign-schema.md)等內容。
 
 ---
 
