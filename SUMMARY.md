@@ -390,6 +390,22 @@
     * 36.64. views
 * [V. Server Programming](v-server-programming.md)
   * [37. Extending SQL](v-server-programming/extending-sql.md)
+    * 37.1. How Extensibility Works
+    * 37.2. The PostgreSQL Type System
+    * 37.3. User-defined Functions
+    * 37.4. Query Language \(SQL\) Functions
+    * 37.5. Function Overloading
+    * 37.6. Function Volatility Categories
+    * 37.7. Procedural Language Functions
+    * 37.8. Internal Functions
+    * 37.9. C-Language Functions
+    * 37.10. User-defined Aggregates
+    * 37.11. User-defined Types
+    * 37.12. User-defined Operators
+    * 37.13. Operator Optimization Information
+    * 37.14. Interfacing Extensions To Indexes
+    * 37.15. Packaging Related Objects into an Extension
+    * 37.16. Extension Building Infrastructure
 * [VI. Reference](vi-reference.md)
   * [I. SQL 指令](vi-reference/i-sql-commands.md)
     * [ALTER TABLE](vi-reference/i-sql-commands/alter-table.md)
@@ -427,4 +443,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 

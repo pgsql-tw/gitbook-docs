@@ -1,8 +1,8 @@
 # 5.13. 相依性追蹤[^1]
 
-When you create complex database structures involving many tables with foreign key constraints, views, triggers, functions, etc. you implicitly create a net of dependencies between the objects. For instance, a table with a foreign key constraint depends on the table it references.
+當你建立了一個複雜的資料庫結構，包含了許多表格，也設計了許多外部鍵、視觀、觸發事件、函數.....等等。也就是說，其實你建立了一堆物件之間的關連性。舉例來說，表格的外部鍵就與另一個表格有著參考的關連性。
 
-To ensure the integrity of the entire database structure,PostgreSQLmakes sure that you cannot drop objects that other objects still depend on. For example, attempting to drop the products table we considered in[Section 5.3.5](https://www.postgresql.org/docs/10/static/ddl-constraints.html#ddl-constraints-fk), with the orders table depending on it, would result in an error message like this:
+要維護整個資料庫結構的完整性，PostgreSQL 得確保你不能在有關連性的情況下，隨意刪去物件。舉例來說，企圖刪去在 5.3.5 節中，我們所使用過的產品表格，而訂單表格與其有相依的關連性，那就會產生如下的錯誤訊息：
 
 ```
 DROP TABLE products;
@@ -10,27 +10,25 @@ DROP TABLE products;
 ERROR:  cannot drop table products because other objects depend on it
 DETAIL:  constraint orders_product_no_fkey on table orders depends on table products
 HINT:  Use DROP ... CASCADE to drop the dependent objects too.
-
 ```
 
-The error message contains a useful hint: if you do not want to bother deleting all the dependent objects individually, you can run:
+這個錯誤訊息包含了很有用的指引：如果你不想要一個個處理其相依關連性，那可以一次刪去他們：
 
 ```
 DROP TABLE products CASCADE;
-
 ```
 
-and all the dependent objects will be removed, as will any objects that depend on them, recursively. In this case, it doesn't remove the orders table, it only removes the foreign key constraint. It stops there because nothing depends on the foreign key constraint. \(If you want to check what`DROP ... CASCADE`will do, run`DROP`without`CASCADE`and read the`DETAIL`output.\)
+如此所有相依的物件就會被刪除了，所有相互依存的物件都會，是遞迴式的處理流程。在這個例子中，它不會移除訂單表格，只會移除外部鍵的限制條件，因為沒有其他物件與該外部鍵相依。（如果你要確認 DROP ... CASCADE 會處理哪些物件，你可以用 DETAIL 取代 CASCADE，就會輸出其相依的物件。）
 
-Almost all`DROP`commands inPostgreSQLsupport specifying`CASCADE`. Of course, the nature of the possible dependencies varies with the type of the object. You can also write`RESTRICT`instead of`CASCADE`to get the default behavior, which is to prevent dropping objects that any other objects depend on.
+幾乎所有 PostgreSQL 的 DROP 指令都支援 CASCADE 的用法。當然，有些自然的關連性是和物件型別有關。你也可以使用 RESTRICT 來取代 CASCADE 的位置，以強制以預設的行為來處理，也就是絕對不會刪去其他相關的物件。
 
-### Note
+### 注意
 
-According to the SQL standard, specifying either`RESTRICT`or`CASCADE`is required in a`DROP`command. No database system actually enforces that rule, but whether the default behavior is`RESTRICT`or`CASCADE`varies across systems.
+根據 SQL 標準，不論是 RESTRICT 或 CASCADE，都必須要在 DROP 指令中明確表示，但沒有任何一套資料庫系統真的這樣設計。不過，都會內定預設行為是 RESTRICT 或 CASCADE，每個資料庫不同。
 
-If a`DROP`command lists multiple objects,`CASCADE`is only required when there are dependencies outside the specified group. For example, when saying`DROP TABLE tab1, tab2`the existence of a foreign key referencing`tab1`from`tab2`would not mean that`CASCADE`is needed to succeed.
+如果 DROP 指令列出了多個物件，CASCADE 只有在這些物件之外還有相依性時才會需要。舉個例子，當執行「DROP TABLE tab1, tab2」時，即使 tab1 與 tab2 之間有外部鍵的相依關係，而沒有指定 CASCADE，這個操作也會完成。
 
-For user-defined functions,PostgreSQLtracks dependencies associated with a function's externally-visible properties, such as its argument and result types, but_not_dependencies that could only be known by examining the function body. As an example, consider this situation:
+對於使用者自訂的函數來說，PostgreSQL 會引用函數的外顯屬性來判斷其相依性，例如函數的參數或輸出型態，但函數內部執行的相依關係就無法追蹤了。舉個列子：
 
 ```
 CREATE TYPE rainbow AS ENUM ('red', 'orange', 'yellow',
@@ -41,17 +39,11 @@ CREATE TABLE my_colors (color rainbow, note text);
 CREATE FUNCTION get_color_note (rainbow) RETURNS text AS
   'SELECT note FROM my_colors WHERE color = $1'
   LANGUAGE SQL;
-
 ```
 
-\(See[Section 37.4](https://www.postgresql.org/docs/10/static/xfunc-sql.html)for an explanation of SQL-language functions.\)PostgreSQLwill be aware that the`get_color_note`function depends on the`rainbow`type: dropping the type would force dropping the function, because its argument type would no longer be defined. ButPostgreSQLwill not consider`get_color_note`to depend on the`my_colors`table, and so will not drop the function if the table is dropped. While there are disadvantages to this approach, there are also benefits. The function is still valid in some sense if the table is missing, though executing it would cause an error; creating a new table of the same name would allow the function to work again.
-
-  
-
+（參閱 37.4 節，瞭解 SQL 語言的函數。）PostgreSQL 會知道 get\_color\_note 函數相依於 rainbow 資料型別：也就是刪去該資料型別時，也會強制要刪去該函數，因為它的參數將不再合法。但 PostgreSQL 就無法發現 get\_color\_note 和 my\_colors 之間的關連性，當該表格被移除時，此函數並不會跟著被移除。這種情況有好有壞，函數基本上還是合法的，即使內含的表格不存在的話，頂多就是執行會出錯就是了，只要再建立該名稱的表格就可以讓這個函數重新正常運作。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 5.13. Dependency Tracking](https://www.postgresql.org/docs/10/static/ddl-depend.html)
+[^1]: [PostgreSQL: Documentation: 10: 5.13. Dependency Tracking](https://www.postgresql.org/docs/10/static/ddl-depend.html)
 
