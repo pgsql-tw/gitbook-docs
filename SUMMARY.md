@@ -393,7 +393,7 @@
     * 37.1. How Extensibility Works
     * 37.2. The PostgreSQL Type System
     * 37.3. User-defined Functions
-    * 37.4. Query Language \(SQL\) Functions
+    * [37.4. SQL 語言函數](v-server-programming/extending-sql/374-query-language-sql-functions.md)
     * 37.5. Function Overloading
     * 37.6. Function Volatility Categories
     * 37.7. Procedural Language Functions
@@ -443,6 +443,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 

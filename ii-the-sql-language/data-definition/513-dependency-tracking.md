@@ -41,7 +41,7 @@ CREATE FUNCTION get_color_note (rainbow) RETURNS text AS
   LANGUAGE SQL;
 ```
 
-（參閱 37.4 節，瞭解 SQL 語言的函數。）PostgreSQL 會知道 get\_color\_note 函數相依於 rainbow 資料型別：也就是刪去該資料型別時，也會強制要刪去該函數，因為它的參數將不再合法。但 PostgreSQL 就無法發現 get\_color\_note 和 my\_colors 之間的關連性，當該表格被移除時，此函數並不會跟著被移除。這種情況有好有壞，函數基本上還是合法的，即使內含的表格不存在的話，頂多就是執行會出錯就是了，只要再建立該名稱的表格就可以讓這個函數重新正常運作。
+（參閱 [37.4 節](/v-server-programming/extending-sql/374-query-language-sql-functions.md)，瞭解 SQL 語言的函數。）PostgreSQL 會知道 get\_color\_note 函數相依於 rainbow 資料型別：也就是刪去該資料型別時，也會強制要刪去該函數，因為它的參數將不再合法。但 PostgreSQL 就無法發現 get\_color\_note 和 my\_colors 之間的關連性，當該表格被移除時，此函數並不會跟著被移除。這種情況有好有壞，函數基本上還是合法的，即使內含的表格不存在的話，頂多就是執行會出錯就是了，只要再建立該名稱的表格就可以讓這個函數重新正常運作。
 
 ---
 
