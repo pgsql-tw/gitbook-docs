@@ -194,37 +194,29 @@ pgbench 執行緒的數量，能夠有效利用多 CPU 的運算能力。模擬�
 
 `--no-vacuum`
 
-Perform no vacuuming before running the test. This option is\_necessary\_if you are running a custom test scenario that does not include the standard tables`pgbench_accounts`,`pgbench_branches`,`pgbench_history`, and`pgbench_tellers`.
+在執行測試評估前不要清理資料庫。如果你使用的是自訂的腳本，而且不包含前述四個內建表格的話，那這個選項是必要的。
 
 `-N`
 
 `--skip-some-updates`
 
-Run built-in simple-update script. Shorthand for`-b simple-update`.
+使用內建的 simple-update 腳本，和 -b simple-update 是一樣的。
 
-`-P`
+`-P sec`
 
-`sec`
+`--progress=sec`
 
-`--progress=`
-
-`sec`
-
-Show progress report every\_`sec`\_seconds. The report includes the time since the beginning of the run, the tps since the last report, and the transaction latency average and standard deviation since the last report. Under throttling \(`-R`\), the latency is computed with respect to the transaction scheduled start time, not the actual transaction beginning time, thus it also includes the average schedule lag time.
+設定每 sec 秒回報一次進度。這個進度回報包含了執行累計時間，目前的 TPS 情況，還有每個進度階段的交易延遲時間平均值與標準差。如果使用 -R 的話，那麼延遲時間是相對於排定的啓動時間，而不是實際開始執行的時間，也就是說，它包含了平均的延遲時間。
 
 `-r`
 
 `--report-latencies`
 
-Report the average per-statement latency \(execution time from the perspective of the client\) of each command after the benchmark finishes. See below for details.
+回報每一個指令中每個語的平均回應時間。詳情後述。
 
-`-R`
+`-R rate`
 
-`rate`
-
-`--rate=`
-
-`rate`
+`--rate=rate`
 
 Execute transactions targeting the specified rate instead of running as fast as possible \(the default\). The rate is given in transactions per second. If the targeted rate is above the maximum possible rate, the rate limit won't impact the results.
 
