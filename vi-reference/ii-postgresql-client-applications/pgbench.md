@@ -54,7 +54,7 @@ pgbench_history         0
 
 通常會使用 -s 參數來增加測試資料的數量。選項 -F 也可能在這時候使用。
 
-一旦你完成了這個初始化的動作之後，後續的測試就不需要加上 -i 了： 
+一旦你完成了這個初始化的動作之後，後續的測試就不需要加上 -i 了：
 
 ```
 pgbench [options] dbname
@@ -64,7 +64,7 @@ pgbench [options] dbname
 
 ## 選項
 
-下面的部份分成三個小節：資料庫初始化專用選項、評估階段專用選項、一些兩用的選項。
+下面的部份分成三個小節：資料庫初始化專用選項、評估階段專用選項、一些通用的選項。
 
 ### 資料庫初始化專用選項
 
@@ -114,23 +114,17 @@ pgbench 在資料庫初始化時可以使用下列選項：
 
 `--unlogged-tables`
 
-把所有表格都建立成非永久性表格，而不是永久性表格。
+把所有表格都建立成無日誌表格，而不是永久性表格。
 
 ### 評估階段專用選項
 
-pgbenchaccepts the following command-line benchmarking arguments:
+pgbench 在評估階段可使用下列選項：
 
-`-b`
+`-b scriptname[@weight]`
 
-`scriptname[@weight]`
+`--builtin`=`scriptname[@weight]`
 
-`--builtin`
-
-=
-
-`scriptname[@weight]`
-
-Add the specified built-in script to the list of executed scripts. An optional integer weight after`@`allows to adjust the probability of drawing the script. If not specified, it is set to 1. Available built-in scripts are:`tpcb-like`,`simple-update`and`select-only`. Unambiguous prefixes of built-in names are accepted. With special name`list`, show the list of built-in scripts and exit immediately.
+這個選項用於指定要使用哪一個內建的評估情境。而在 @ 後面可以給一個整數，調整產生腳本的機率參數。如果未指定的話，就會設定為 1。目前內建的情境是：tpcb-like、simple-update、select-only。只要是明確內建名稱的前置縮寫（如：tpc、simple、select）都是可以接受的。而有一個特別的名稱是 list，使用這個名稱的話，就只是列出有哪些內建的情境。
 
 `-c`
 
