@@ -427,7 +427,7 @@
     * [psql](vi-reference/ii-postgresql-client-applications/psql.md)
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii-internals.md)
-  * Frontend/Backend Protocol
+  * [52. Frontend/Backend Protocol](vii-internals/frontendbackend-protocol.md)
     * 52.1. Overview
     * 52.2. Message Flow
     * 52.3. SASL Authentication
@@ -455,6 +455,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 

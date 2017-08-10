@@ -188,7 +188,7 @@ pgbench 執行緒的數量，能夠有效利用多 CPU 的運算能力。模擬�
 
 * `prepared`: 延伸查詢協定，並使用預備宣告（prepared statement）方式。
 
-預設是使用簡單查詢協定。（請詳閱第 52 章）
+預設是使用簡單查詢協定。（有關查詢協定，請參閱[第 52 章](/vii-internals/frontendbackend-protocol.md)）
 
 `-n`
 
