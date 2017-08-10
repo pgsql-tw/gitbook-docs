@@ -126,101 +126,69 @@ pgbench 在評估階段可使用下列選項：
 
 這個選項用於指定要使用哪一個內建的評估情境。而在 @ 後面可以給一個整數，調整產生腳本的機率參數。如果未指定的話，就會設定為 1。目前內建的情境是：tpcb-like、simple-update、select-only。只要是明確內建名稱的前置縮寫（如：tpc、simple、select）都是可以接受的。而有一個特別的名稱是 list，使用這個名稱的話，就只是列出有哪些內建的情境。
 
-`-c`
+`-c clients`
 
-`clients`
+`--client=clients`
 
-`--client=`
-
-`clients`
-
-Number of clients simulated, that is, number of concurrent database sessions. Default is 1.
+模擬用戶的數量，指的是同一時間連入資料庫的連線數。預設為 1。
 
 `-C`
 
 `--connect`
 
-Establish a new connection for each transaction, rather than doing it just once per client session. This is useful to measure the connection overhead.
+在每一個交易執行前都重新建立連線，而不是都在同一個用戶連線中完成全部交易。這在測試連線成本時特別有用。
 
 `-d`
 
 `--debug`
 
-Print debugging output.
+輸出程式除錯用的訊息。
 
-`-D`
+`-D varname=value`
 
-`varname`
+`--define=varname=value`
 
-`=`
+定義給自訂腳本使用的變數。你可以使用多個 -D 來定義多個變數。
 
-`value`
+`-f filename[@weight]`
 
-`--define=`
+`--file=filename[@weight]`
 
-`varname`
+從 filename 所指的檔案取得腳本，組成一個資料交易區段。選擇性的參數 @，後面接的整數，用來調整使用此腳本的機率。詳情後述。
 
-`=`
+`-j threads`
 
-`value`
+`--jobs=threads`
 
-Define a variable for use by a custom script \(see below\). Multiple`-D`options are allowed.
-
-`-f`
-
-`filename[@weight]`
-
-`--file=`
-
-`filename[@weight]`
-
-Add a transaction script read from\_`filename`\_to the list of executed scripts. An optional integer weight after`@`allows to adjust the probability of drawing the test. See below for details.
-
-`-j`
-
-`threads`
-
-`--jobs=`
-
-`threads`
-
-Number of worker threads withinpgbench. Using more than one thread can be helpful on multi-CPU machines. Clients are distributed as evenly as possible among available threads. Default is 1.
+pgbench 執行緒的數量，能夠有效利用多 CPU 的運算能力。模擬用戶會盡可能平均分配在不同執行緒中執行。預設值為 1。
 
 `-l`
 
 `--log`
 
-Write information about each transaction to a log file. See below for details.
+把執行的記錄存到檔案之中，後續詳述。
 
-`-L`
+`-L limit`
 
-`limit`
+`--latency-limit=limit`
 
-`--latency-limit=`
+交易執行時間超過 limit 以上時，將會被特別計算回報。其單位是 millisecond（千分之一秒）。
 
-`limit`
+而如果也使用了「--rate=...」限流時，被評估一定會超時的交易，就會被跳過不執行，而它們也會被特別回報。
 
-Transaction which last more than`limit`_\_milliseconds are counted and reported separately, as\_late_.
+`-M querymode`
 
-When throttling is used \(`--rate=...`\), transactions that lag behind schedule by more than`limit`_\_ms, and thus have no hope of meeting the latency limit, are not sent to the server at all. They are counted and reported separately as\_skipped_.
+`--protocol=querymode`
 
-`-M`
+選擇傳送指令的通訊協定：
 
-`querymode`
+* `simple`: 簡單查詢協定。
 
-`--protocol=`
+* `extended`: 延伸查詢協定。
 
-`querymode`
+* `prepared`: 延伸查詢協定，並使用預備宣告（prepared statement）方式。
 
-Protocol to use for submitting queries to the server:
-
-* `simple`: use simple query protocol.
-
-* `extended`: use extended query protocol.
-
-* `prepared`: use extended query protocol with prepared statements.
-
-The default is simple query protocol. \(See[Chapter 52](https://www.postgresql.org/docs/devel/static/protocol.html)for more information.\)
+預設是使用簡單查詢協定。（請詳閱第 52 章）
 
 `-n`
 

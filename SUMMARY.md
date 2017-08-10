@@ -427,6 +427,17 @@
     * [psql](vi-reference/ii-postgresql-client-applications/psql.md)
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii-internals.md)
+  * Frontend/Backend Protocol
+    * 52.1. Overview
+    * 52.2. Message Flow
+    * 52.3. SASL Authentication
+    * 52.4. Streaming Replication Protocol
+    * 52.5. Logical Streaming Replication Protocol
+    * 52.6. Message Data Types
+    * 52.7. Message Formats
+    * 52.8. Error and Notice Message Fields
+    * 52.9. Logical Replication Message Formats
+    * 52.10. Summary of Changes since Protocol 2.0
 * [VIII. 附錄](viii-appendixes.md)
   * [A. PostgreSQL錯誤代碼](viii-appendixes/postgresql-error-codes.md)
   * [B. 日期時間格式支援](viii-appendixes/datetime-support.md)
@@ -444,4 +455,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
