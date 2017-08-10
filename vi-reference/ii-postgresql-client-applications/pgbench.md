@@ -218,23 +218,19 @@ pgbench 執行緒的數量，能夠有效利用多 CPU 的運算能力。模擬�
 
 `--rate=rate`
 
-Execute transactions targeting the specified rate instead of running as fast as possible \(the default\). The rate is given in transactions per second. If the targeted rate is above the maximum possible rate, the rate limit won't impact the results.
+執行的方式改為頻率而不是盡可能快速執行（預設）。執行頻率以 TPS 來指定。如果目標執行頻率高於最大可能的執行頻率的話，那就沒有意義。
 
-The rate is targeted by starting transactions along a Poisson-distributed schedule time line. The expected start time schedule moves forward based on when the client first started, not when the previous transaction ended. That approach means that when transactions go past their original scheduled end time, it is possible for later ones to catch up again.
+目標執行頻率是以帕松分配（Poisson-distributed）來安排啓動時間的。預期的啓動時間表會隨用戶第一次開始的時間移動，而不是前一次交易結束的時間。這個方法表示，如果有交易誤點了，它仍有機會隨後趕上。
 
-When throttling is active, the transaction latency reported at the end of the run is calculated from the scheduled start times, so it includes the time each transaction had to wait for the previous transaction to finish. The wait time is called the schedule lag time, and its average and maximum are also reported separately. The transaction latency with respect to the actual transaction start time, i.e. the time spent executing the transaction in the database, can be computed by subtracting the schedule lag time from the reported latency.
+當限流機制啓動時，最後就會得到交易延遲的報告，其相對的是預排的啓動時間，所以它包含了每個交易必須要等待執行前的時間。等待時間稱作排程延遲時間，而其平均延遲與最大延遲都會被回報。交易延遲是相對於真正的開始執行間時，也就是說，交易在資料庫內被執行的時間，可視為是回報的延遲時間減去排程延遲時間。
 
-If`--latency-limit`is used together with`--rate`, a transaction can lag behind so much that it is already over the latency limit when the previous transaction ends, because the latency is calculated from the scheduled start time. Such transactions are not sent to the server, but are skipped altogether and counted separately.
+如果 --latency-limit 和 --rate 兩個選項一起使用的話，交易可能會落後很多，當前一個交易結束時就已經超時了，因為超時是以排程的開始時間計算的。像這樣的交易就不會被執行了，它會被跳過，然後被統計出來。
 
-A high schedule lag time is an indication that the system cannot process transactions at the specified rate, with the chosen number of clients and threads. When the average transaction execution time is longer than the scheduled interval between each transaction, each successive transaction will fall further behind, and the schedule lag time will keep increasing the longer the test run is. When that happens, you will have to reduce the specified transaction rate.
+如果一個系統有很長的排程延遲時間，那表示這個系統無法負擔超過某個執行頻率，當然需要搭配某個數量的用戶數及執行緒數。當平均的交易執行時間長於兩個交易排定的區間時，每一個接續的交易就會接著失敗，而排程延遲就會更長。當這種情況發生時，你就需要降低執行的頻率。
 
-`-s`
+`-s scale_factor`
 
-`scale_factor`
-
-`--scale=`
-
-`scale_factor`
+`--scale=scale_factor`
 
 Report the specified scale factor inpgbench's output. With the built-in tests, this is not necessary; the correct scale factor will be detected by counting the number of rows in the`pgbench_branches`table. However, when testing only custom benchmarks \(`-f`option\), the scale factor will be reported as 1 unless this option is used.
 
