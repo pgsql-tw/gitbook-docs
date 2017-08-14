@@ -423,7 +423,7 @@ Table 241 是 pgbench 內建，可以在 \set 的函數。
 
 random 函數使用的是均勻分配亂數，也就是在指定範圍內的數值，都有相等的產生機率。random\_exponential 和 random\_gaussian 則需要額外的參數，來指定精確的分配情況。
 
-* 指數分配，參數控制其分配情況是透過分段一個快速下降的指數分配，投影在指定範圍間的整數而得。精確來說，以下面的式子計算而得：
+* 指數分配，參數控制其分配情況是透過分段一個快速下降的指數分配，投影在指定範圍間的整數而得。精確來說，以下面的式子計算而得：  
   f\(x\) = exp\(-parameter \* \(x - min\) / \(max - min + 1\)\) / \(1 - exp\(-parameter\)\)  
   區間中某個 i 值的機率為 f\(i\) - f\(i + 1\)。  
   直覺上，越大的輸入參數，就會越多較小的數值被輸出，而較少的大數值產生。如果參數接近 0 的話，就會很接近均勻分配。一個粗略的概念是，機率最高的 1%，落於靠近最小值的一端，機率大概是百分之（parameter）。此參數必須要是正整數。
@@ -450,11 +450,11 @@ END;
 
 這個腳本讓每一個交易都引用不同且隨機的資料列。（這個例子也表示出每一個用戶擁有自己的變數的重要性—否則他們不會獨立地操作不同的資料列。）
 
-### Per-Transaction Logging
+### 記錄每筆交易
 
-With the`-l`option \(but without the`--aggregate-interval`option\),pgbenchwrites information about each transaction to a log file. The log file will be named`prefix`.`nnn`, where`prefix`_\_defaults to_`pgbench_log`_, and_`nnn`_is the PID of thepgbenchprocess. The prefix can be changed by using the_`--log-prefix`_option. If the_`-j`_option is 2 or higher, so that there are multiple worker threads, each will have its own log file. The first worker will use the same name for its log file as in the standard single worker case. The additional log files for the other workers will be named_`prefix`_._`nnn`_._`mmm`_, where_`mmm`\_is a sequential number for each worker starting with 1.
+使用選項 -l（但沒有選項 --aggregate-interval）時，pgbench 將會把每一筆交易都寫入記錄檔。記錄檔的檔名會是 prefix.nnn 的形式，其中的 prefix 預設是 pgbench\_log，而 nnn 則是該 pgbench 程序的 PID。prefix 可以由選項 --log-prefix 來指定。如果選項 -j 是 2 以上時，也就是同時有多個執行緒在進行交易，那麼他們會被分別寫入不同的檔案，第一個執行緒會使用前述標準單一執行緒的檔名，而其他的執行緒將會命名為 prefix.nnn.mmm，其中 mmm 則由各執行緒依序編號而得，編號從 1 開始。
 
-The format of the log is:
+記錄檔內容格式如下：
 
 ```
 client_id
@@ -462,15 +462,12 @@ transaction_no
 time
 script_no
 time_epoch
-time_us
- [
-schedule_lag
-]
+time_us [schedule_lag]
 ```
 
-where`client_id`_\_indicates which client session ran the transaction,_`transaction_no`_counts how many transactions have been run by that session,_`time`_is the total elapsed transaction time in microseconds,_`script_no`_identifies which script file was used \(useful when multiple scripts were specified with_`-f`_or_`-b`_\), and_`time_epoch`_/_`time_us`_are a Unix-epoch time stamp and an offset in microseconds \(suitable for creating an ISO 8601 time stamp with fractional seconds\) showing when the transaction completed. The_`schedule_lag`_field is the difference between the transaction's scheduled start time, and the time it actually started, in microseconds. It is only present when the_`--rate`_option is used. When both_`--rate`_and_`--latency-limit`_are used, the_`time`\_for a skipped transaction will be reported as`skipped`.
+其中 client\_id 指的是哪一個用戶的連線代號，transaction\_no 計算有多交易在該連線中被執行了，time 是整個交易的持續時間，單位是亳秒，script\_no 指出是使用哪一個腳本（當透過 -f 或 -b 使用多個腳本時會很有用），而 time\_epoch／timeus 是 Unix-epoch 格式的時間戳記，記錄該交易的完成時間，單位是亳秒（適當地建立一個 ISO 8601 時間戳記再加上小數）。schedule\_lag 欄位是交易排程時間的差值，以及實際開始的時間，單位是亳秒，只有在 --rate 使用時才會出現。當 --rate 和 --latecy-limit 一起使用時，time 欄位在被跳過的交易上，會註明 skipped。
 
-Here is a snippet of a log file generated in a single-client run:
+這裡是一小段記錄檔案，單一執行緒的結果：
 
 ```
 0 199 2241 0 1175850568 995598
@@ -479,7 +476,7 @@ Here is a snippet of a log file generated in a single-client run:
 0 202 2038 0 1175850569 2663
 ```
 
-Another example with`--rate=100`and`--latency-limit=5`\(note the additional\_`schedule_lag`\_column\):
+另一個例子，使用 --rate=100 及 --latency-limit=5（注意額外的 schedule\_lag 欄位）：
 
 ```
 0 81 4621 0 1412881037 912698 3005
@@ -491,9 +488,9 @@ Another example with`--rate=100`and`--latency-limit=5`\(note the additional\_`sc
 0 85 2465 0 1412881037 919759 740
 ```
 
-In this example, transaction 82 was late, because its latency \(6.173 ms\) was over the 5 ms limit. The next two transactions were skipped, because they were already late before they were even started.
+在這個例子中，82 號交易誤點了，因為它延遲了 6.173 ms，超過限時的 5 ms。接下來的兩個交易就被跳過了，因為他們在開始前就已經超時了。
 
-When running a long test on hardware that can handle a lot of transactions, the log files can become very large. The`--sampling-rate`option can be used to log only a random sample of transactions.
+當某個主機執行長時間的交易時，記錄檔案可能會變得非常大。選項 --sampling-rate 就可以派上用場，只存下部份的交易樣本。
 
 ### Aggregated Logging
 
