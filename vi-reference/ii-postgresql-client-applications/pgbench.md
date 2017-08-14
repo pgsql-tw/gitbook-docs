@@ -334,38 +334,34 @@ pgbench 會隨機選取在某個列表中的腳本來執行，包含了使用 -b
 
 如果你選擇了 simple-update（也是 -N），那麼就不包含步驟 4 和 5。它會避免在這些資料表更新資料的競爭行為，但會接近 TPC-B 一些。
 
-如果你使用了 select-only（也是 -S），就會只有 SELECT 的部份被執行。 
+如果你使用了 select-only（也是 -S），就會只有 SELECT 的部份被執行。
 
 ### 自訂腳本
 
 pgbench 支援使用自訂的情境腳步取代內建的測試腳本（如上所述），透過選項 -f 從檔案取得。這種情況的話，一個交易指的就是一個腳本檔案執行一次。
 
-腳本檔案包含一個或多個 SQL 指令，以分號分隔結尾。空白行和以 -- 開頭的行都會被忽略。腳本檔案也可以包含「meta commands」，用於 pgbench 執行測試時的參考指令，詳述於後。
+腳本檔案包含一個或多個 SQL 指令，以分號分隔結尾。空白行和以 -- 開頭的行都會被忽略。腳本檔案也可以包含「中繼指令（meta commands）」，用於 pgbench 執行測試時的參考指令，詳述於後。
 
 ### 注意
 
-BeforePostgreSQL9.6, SQL commands in script files were terminated by newlines, and so they could not be continued across lines. Now a semicolon is\_required\_to separate consecutive SQL commands \(though a SQL command does not need one if it is followed by a meta command\). If you need to create a script file that works with both old and new versions ofpgbench, be sure to write each SQL command on a single line ending with a semicolon.
+在 PostgreSQL 9.6 之前，腳本檔案裡的 SQL 指令是以換行結尾的，也就是不能跨行。現在使用分號是必要的了，在分隔連續的 SQL 指令時，你得加上分號（但如果這個 SQL 指令是由中繼指令所執行的話，就不需要分號）。如果你需要建立一份相容性的腳本檔案的話，請確認你的每一條 SQL 指令都是單行，並且以分號結尾。
 
-There is a simple variable-substitution facility for script files. Variables can be set by the command-line`-D`option, explained above, or by the meta commands explained below. In addition to any variables preset by`-D`command-line options, there are a few variables that are preset automatically, listed in[Table 240](https://www.postgresql.org/docs/devel/static/pgbench.html#pgbench-automatic-variables). A value specified for these variables using`-D`takes precedence over the automatic presets. Once set, a variable's value can be inserted into a SQL command by writing`:variablename`. When running more than one client session, each session has its own set of variables.
+腳本檔案可以進行簡易的變數代換動作。變數可以由命令列的 -D 來設定，或使用下面所介紹的中繼指令。進一步來說，任何變數都可以使用 -D 選項來預先設定，而在 Table 240 的變數則會自動產生。一旦設定好之後，變數內容就可以使用 :variablename 的形式放入 SQL 指令之中。而每一個模擬用戶的連線中，他們都擁有他們自己的變數內容。
 
 **Table 240. Automatic Variables**
 
 | Variable | Description |
 | :--- | :--- |
-| `scale` | current scale factor |
-| `client_id` | unique number identifying the client session \(starts from zero\) |
+| `scale` | 目前的 scale factor |
+| `client_id` | 每一個用戶連線的唯一識別資訊（起始為零） |
 
-Script file meta commands begin with a backslash \(`\`\) and normally extend to the end of the line, although they can be continued to additional lines by writing backslash-return. Arguments to a meta command are separated by white space. These meta commands are supported:
+中繼指令是以倒斜線（\）開頭的指令，一般就到行末結尾，而如果要多行的話，就在行末再加倒斜線。中繼指令的參數是以空白分隔。支援的中繼指令有：
 
-`\set`
+`\set varname expression`
 
-`varname`
+以 expression 表示式來計算 varname 數變的內容。表示式也可能包含整數常數，像 5432；或雙精確度浮點數 3.14159；或引用其他變數計算而得的表示式，可以使用的函數如後所述。
 
-`expression`
-
-Sets variable`varname`_\_to a value calculated from_`expression`_. The expression may contain integer constants such as_`5432`_, double constants such as_`3.14159`_, references to variables_`:variablename`\_, unary operators \(`+`,`-`\) and binary operators \(`+`,`-`,`*`,`/`,`%`\) with their usual precedence and associativity,[function calls](https://www.postgresql.org/docs/devel/static/pgbench.html#pgbench-builtin-functions), and parentheses.
-
-Examples:
+例如：
 
 ```
 \set ntellers 10 * :scale
@@ -373,63 +369,41 @@ Examples:
            (100000 * :scale) + 1
 ```
 
-`\sleep`
+`\sleep number`\[ us \| ms \| s \]
 
-`number`
+使腳本執行暫停一段指定的時間，百萬分之一秒（us）、千分之一秒（ms）、或秒\(s）。如果省略單位的話，預設是秒。nubmer 可以是整數常數，或引用其他整數變數的內容。
 
-\[ us \| ms \| s \]
-
-Causes script execution to sleep for the specified duration in microseconds \(`us`\), milliseconds \(`ms`\) or seconds \(`s`\). If the unit is omitted then seconds are the default.`number`_\_can be either an integer constant or a_`:variablename`\_reference to a variable having an integer value.
-
-Example:
+例如：
 
 ```
 \sleep 10 ms
 ```
 
-`\setshell`
+`\setshell varname command`\[`argument`... \]
 
-`varname`
+設定 varname 的內容是執行另一個命令列指令的結果。該命令列指令必須透過標準輸出回傳整數。
 
-`command`
+command 和每一個 argument 都可以是文字常數或使用 :variablename 引用其他變數內容。如果你要使用 argument 的話，以冒號開始，而第一個 argument 要再多一個冒號。
 
-\[
-
-`argument`
-
-... \]
-
-Sets variable`varname`_\_to the result of the shell command_`command`_with the given_`argument`\_\(s\). The command must return an integer value through its standard output.
-
-`command`_\_and each_`argument`_can be either a text constant or a_`:variablename`_reference to a variable. If you want to use an_`argument`_starting with a colon, write an additional colon at the beginning of_`argument`\_.
-
-Example:
+例如：
 
 ```
 \setshell variable_to_be_assigned command literal_argument :variable ::literal_starting_with_colon
 ```
 
-`\shell`
+`\shell command`\[`argument`... \]
 
-`command`
+和 \setshell 一樣，只是不處理回傳值。
 
-\[
-
-`argument`
-
-... \]
-
-Same as`\setshell`, but the result of the command is discarded.
-
-Example:
+例如：
 
 ```
 \shell command literal_argument :variable ::literal_starting_with_colon
 ```
 
-### Built-In Functions
+### 內建函數
 
-The functions listed in[Table 241](https://www.postgresql.org/docs/devel/static/pgbench.html#pgbench-functions)are built intopgbenchand may be used in expressions appearing in[`\set`](https://www.postgresql.org/docs/devel/static/pgbench.html#pgbench-metacommand-set).
+Table 241 是 pgbench 內建，可以在 \set 的函數。
 
 **Table 241. pgbench Functions**
 
