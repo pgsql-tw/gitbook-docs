@@ -421,24 +421,18 @@ Table 241 是 pgbench 內建，可以在 \set 的函數。
 | `random_gaussian(lb`,`ub`,`parameter`\) | integer | Gaussian-distributed random integer in`[lb, ub]`, see below | `random_gaussian(1, 10, 2.5)` | an integer between`1`and`10` |
 | `sqrt(x`\) | double | square root | `sqrt(2.0)` | `1.414213562` |
 
-The`random`function generates values using a uniform distribution, that is all the values are drawn within the specified range with equal probability. The`random_exponential`and`random_gaussian`functions require an additional double parameter which determines the precise shape of the distribution.
+random 函數使用的是均勻分配亂數，也就是在指定範圍內的數值，都有相等的產生機率。random\_exponential 和 random\_gaussian 則需要額外的參數，來指定精確的分配情況。
 
-* For an exponential distribution,`parameter`_\_controls the distribution by truncating a quickly-decreasing exponential distribution at_`parameter`\_, and then projecting onto integers between the bounds. To be precise, with
+* 指數分配，參數控制其分配情況是透過分段一個快速下降的指數分配，投影在指定範圍間的整數而得。精確來說，以下面的式子計算而得：
+  f\(x\) = exp\(-parameter \* \(x - min\) / \(max - min + 1\)\) / \(1 - exp\(-parameter\)\)  
+  區間中某個 i 值的機率為 f\(i\) - f\(i + 1\)。  
+  直覺上，越大的輸入參數，就會越多較小的數值被輸出，而較少的大數值產生。如果參數接近 0 的話，就會很接近均勻分配。一個粗略的概念是，機率最高的 1%，落於靠近最小值的一端，機率大概是百分之（parameter）。此參數必須要是正整數。
 
-  f\(x\) = exp\(-parameter \* \(x - min\) / \(max - min + 1\)\) / \(1 - exp\(-parameter\)\)
+* 高斯分配，指定區間會映射到一個標準常態分配的空間（典型的錐型高斯曲線），分佈於 -parameter 及 +parameter 之間。靠中間的值有更高的選取機率。精確來說，如果 PHI\(x\) 是該常態分配的累計分配函數的話，那麼平均數 mu 就是 \(max + min\) / 2.0，則：  
+  f\(x\) = PHI\(2.0 \* parameter \* \(x - mu\) / \(max - min + 1\)\) / \(2.0 \* PHI\(parameter\) - 1\)  
+  在區間中，數值 i 被選取的機率就是：f\(i + 0.5\) - f\(i - 0.5\)。直覺上，parameter 越大，就會有越多中間值被選值，而越小的話，兩側數側被選擇的機率就會增加。約有 67% 的結果會在靠近 1.0 / parameter 中間的值，相對於 0.5 / parameter 近乎在平均值的附近；2.0 / parameter 則是 95% 是靠近中間的值，相對於 1.0 / parameter 近乎在平均值的附近。舉例來說，如果 parameter = 4.0，大概有 67% 的值會來自於中間的四分之一（即 3.0 / 8.0 到 5.0 / 8.0），而 95% 來自於中間的一半（2.0 / 4.0），第二和第三的四分位數之間。以 Box-Muller 轉換的效率來說，parameter 最小值為 2.0。
 
-  Then value`i`_\_between_`min`_and_`max`\_inclusive is drawn with probability:`f(i) - f(i + 1)`.
-
-  Intuitively, the larger the`parameter`, the more frequently values close to`min`_\_are accessed, and the less frequently values close to_`max`_are accessed. The closer to 0_`parameter`_is, the flatter \(more uniform\) the access distribution. A crude approximation of the distribution is that the most frequent 1% values in the range, close to_`min`_, are drawn_`parameter`_% of the time. The_`parameter`\_value must be strictly positive.
-
-* For a Gaussian distribution, the interval is mapped onto a standard normal distribution \(the classical bell-shaped Gaussian curve\) truncated at`-parameter`on the left and`+parameter`on the right. Values in the middle of the interval are more likely to be drawn. To be precise, if`PHI(x)`is the cumulative distribution function of the standard normal distribution, with mean`mu`defined as`(max + min) / 2.0`, with
-
-  f\(x\) = PHI\(2.0 \* parameter \* \(x - mu\) / \(max - min + 1\)\) /  
-         \(2.0 \* PHI\(parameter\) - 1\)
-
-  then value`i`_\_between_`min`_and_`max`_inclusive is drawn with probability:_`f(i + 0.5) - f(i - 0.5)`_. Intuitively, the larger the_`parameter`_, the more frequently values close to the middle of the interval are drawn, and the less frequently values close to the_`min`_and_`max`_bounds. About 67% of values are drawn from the middle_`1.0 / parameter`_, that is a relative_`0.5 / parameter`_around the mean, and 95% in the middle_`2.0 / parameter`_, that is a relative_`1.0 / parameter`_around the mean; for instance, if_`parameter`_is 4.0, 67% of values are drawn from the middle quarter \(1.0 / 4.0\) of the interval \(i.e. from_`3.0 / 8.0`_to_`5.0 / 8.0`_\) and 95% from the middle half \(_`2.0 / 4.0`_\) of the interval \(second and third quartiles\). The minimum_`parameter`\_is 2.0 for performance of the Box-Muller transform.
-
-As an example, the full definition of the built-in TPC-B-like transaction is:
+下面是內建的 TPC-B like 交易的例子：
 
 ```
 \set aid random(1, 100000 * :scale)
@@ -454,7 +448,7 @@ INSERT INTO pgbench_history (tid, bid, aid, delta, mtime) VALUES (:tid, :bid, :a
 END;
 ```
 
-This script allows each iteration of the transaction to reference different, randomly-chosen rows. \(This example also shows why it's important for each client session to have its own variables — otherwise they'd not be independently touching different rows.\)
+這個腳本讓每一個交易都引用不同且隨機的資料列。（這個例子也表示出每一個用戶擁有自己的變數的重要性—否則他們不會獨立地操作不同的資料列。）
 
 ### Per-Transaction Logging
 
