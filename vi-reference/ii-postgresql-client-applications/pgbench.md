@@ -509,11 +509,11 @@ interval_start num_transactions sum_latency sum_latency_2 min_latency max_latenc
 
 注意，一般的記錄檔（非彙總式）會記錄交易由哪一個腳本產生，但彙總式記錄則不會。所以如果你需要分別不同的腳本彙總，你需要自行處理。
 
-### Per-Statement Latencies
+### 每個指令耗時
 
-With the`-r`option,pgbenchcollects the elapsed transaction time of each statement executed by every client. It then reports an average of those values, referred to as the latency for each statement, after the benchmark has finished.
+使用選項 -r 時，pgbench 就會收集每一個模擬用戶的每一個交易中的每一個指令的耗時，它會以平均值回報，放在最後報告中的每一個指令前。
 
-For the default script, the output will look similar to this:
+以預設的腳本，輸出可能會是像這樣：
 
 ```
 starting vacuum...end.
@@ -544,21 +544,21 @@ script statistics:
         1.212  END;
 ```
 
-If multiple script files are specified, the averages are reported separately for each script file.
+如果有多個腳本被使用時，結果則會依不同的腳本檔分別回報。
 
-Note that collecting the additional timing information needed for per-statement latency computation adds some overhead. This will slow average execution speed and lower the computed TPS. The amount of slowdown varies significantly depending on platform and hardware. Comparing average TPS values with and without latency reporting enabled is a good way to measure if the timing overhead is significant.
+注意收集每一個指令的執行時間也需要計算，會增加些許的負載。這個選項會降低一些平均執行速度和 TPS。具體上會有多少影響則視平台及硬體而定。可以比較切換此選項的 TPS 來瞭解額外負載的情況。
 
-### Good Practices
+### 好的作法
 
-It is very easy to usepgbenchto produce completely meaningless numbers. Here are some guidelines to help you get useful results.
+使用 pgbench 產生許多無用數字是很簡單的事。這裡提供一些作法，幫助你得到一些有用的結果。
 
-In the first place,\_never\_believe any test that runs for only a few seconds. Use the`-t`or`-T`option to make the run last at least a few minutes, so as to average out noise. In some cases you could need hours to get numbers that are reproducible. It's a good idea to try the test run a few times, to find out if your numbers are reproducible or not.
+首先，不要相信任何在數秒內就能得到的結果。善用 -t 或 -T 使測試至少能執行好幾分鐘，用平均的方式降低誤差。在某個情境你可能需要幾個小時使得結果數字是可重現的。至少嘗試執行時間數分鐘以上是好主意，可以瞭解你的結果是否具重見性。
 
-For the default TPC-B-like test scenario, the initialization scale factor \(`-s`\) should be at least as large as the largest number of clients you intend to test \(`-c`\); else you'll mostly be measuring update contention. There are only`-s`rows in the`pgbench_branches`table, and every transaction wants to update one of them, so`-c`values in excess of`-s`will undoubtedly result in lots of transactions blocked waiting for other transactions.
+對於預設的 TPC-B like 測試情境，scale factor （-s）應該要是一個足夠大的數，超過最大的用戶數（-c），否則你會遭遇更新競爭的情況。因為每個交易都需要更新 pgbench\_branches，所以如果 -c 大於 -s 時，將無可避免有些交易會被其他交易暫時阻擋。
 
-The default test scenario is also quite sensitive to how long it's been since the tables were initialized: accumulation of dead rows and dead space in the tables changes the results. To understand the results you must keep track of the total number of updates and when vacuuming happens. If autovacuum is enabled it can result in unpredictable changes in measured performance.
+預設的測試情境對於資料表被使用多久也很敏感：因為資料表變更會產生廢棄的資料列、資料空間。要瞭解這些情況，你必須追蹤更新資料的總數和整理資料表的時間。如果自動整理的功能開啓了，那麼就會在測試時產生無可預知的變化。
 
-A limitation ofpgbenchis that it can itself become the bottleneck when trying to test a large number of client sessions. This can be alleviated by runningpgbenchon a different machine from the database server, although low network latency will be essential. It might even be useful to run severalpgbenchinstances concurrently, on several client machines, against the same database server.
+pgbench 的其中一項限制就是它自己也可能是瓶頸，在產生大量模擬用戶時。可以採用在多台主機使用多個 pgbench 來解決這個問題，雖然這樣也會帶來一些網路延遲。不過這樣就可以同時執行許多的 pgbench，在多個主機上，對同一個資料庫進行測試。
 
 ---
 
