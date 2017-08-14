@@ -457,12 +457,7 @@ END;
 記錄檔內容格式如下：
 
 ```
-client_id
-transaction_no
-time
-script_no
-time_epoch
-time_us [schedule_lag]
+client_id transaction_no time script_no time_epoch time_us [schedule_lag]
 ```
 
 其中 client\_id 指的是哪一個用戶的連線代號，transaction\_no 計算有多交易在該連線中被執行了，time 是整個交易的持續時間，單位是亳秒，script\_no 指出是使用哪一個腳本（當透過 -f 或 -b 使用多個腳本時會很有用），而 time\_epoch／timeus 是 Unix-epoch 格式的時間戳記，記錄該交易的完成時間，單位是亳秒（適當地建立一個 ISO 8601 時間戳記再加上小數）。schedule\_lag 欄位是交易排程時間的差值，以及實際開始的時間，單位是亳秒，只有在 --rate 使用時才會出現。當 --rate 和 --latecy-limit 一起使用時，time 欄位在被跳過的交易上，會註明 skipped。
@@ -492,31 +487,17 @@ time_us [schedule_lag]
 
 當某個主機執行長時間的交易時，記錄檔案可能會變得非常大。選項 --sampling-rate 就可以派上用場，只存下部份的交易樣本。
 
-### Aggregated Logging
+### 彙總記錄
 
-With the`--aggregate-interval`option, a different format is used for the log files:
+使用 --aggregate-interval 選項時，會是另一種記錄檔格式：
 
 ```
-interval_start
-num_transactions
-sum_latency
-sum_latency_2
-min_latency
-max_latency
- [
-sum_lag
-sum_lag_2
-min_lag
-max_lag
- [
-skipped
-] 
-]
+interval_start num_transactions sum_latency sum_latency_2 min_latency max_latency [sum_lag sum_lag_2 min_lag max_lag [ skipped ] ]
 ```
 
-where`interval_start`_\_is the start of the interval \(as a Unix epoch time stamp\),_`num_transactions`_is the number of transactions within the interval,_`sum_latency`_is the sum of the transaction latencies within the interval,_`sum_latency_2`_is the sum of squares of the transaction latencies within the interval,_`min_latency`_is the minimum latency within the interval, and_`max_latency`_is the maximum latency within the interval. The next fields,_`sum_lag`_,_`sum_lag_2`_,_`min_lag`_, and_`max_lag`_, are only present if the_`--rate`_option is used. They provide statistics about the time each transaction had to wait for the previous one to finish, i.e. the difference between each transaction's scheduled start time and the time it actually started. The very last field,_`skipped`\_, is only present if the`--latency-limit`option is used, too. It counts the number of transactions skipped because they would have started too late. Each transaction is counted in the interval when it was committed.
+其中 interval\_start 是區間的起始時間（Unix epoch 時間戳記），num\_transactions 是區間裡交易的總數，sum\_latency 是區間裡交易的延遲量，sum\_latency\_2 則是交易延遲的平方和，min\_latency 是區間中最短延遲，而 max\_latency 則是區間中的最長延遲。接下來的欄位，sum\_lag、sum\_lag\_2、min\_lag、max\_lag，只有在指定 --rate 選項時才會出現。它們提供了每一個交易等待前一個交易結束時間的統計，也就是每一個交易的排程時間和實際執行時間的差異。而最後一個欄位 skipped，只會出現在也用了 --latency-limit 選項時，它計算交易被跳過的數目，因為他們太晚啓動了。每一個交易在區間中的都會被計算，當該交易被提交時。
 
-Here is some example output:
+這裡是一些輸出範例：
 
 ```
 1345828501 5601 1542744 483552416 61 2573
@@ -526,7 +507,7 @@ Here is some example output:
 1345828509 7073 1979779 573489941 236 1411
 ```
 
-Notice that while the plain \(unaggregated\) log file shows which script was used for each transaction, the aggregated log does not. Therefore if you need per-script data, you need to aggregate the data on your own.
+注意，一般的記錄檔（非彙總式）會記錄交易由哪一個腳本產生，但彙總式記錄則不會。所以如果你需要分別不同的腳本彙總，你需要自行處理。
 
 ### Per-Statement Latencies
 
@@ -536,10 +517,7 @@ For the default script, the output will look similar to this:
 
 ```
 starting vacuum...end.
-transaction type: 
-<
-builtin: TPC-B (sort of)
->
+transaction type:<builtin: TPC-B (sort of)>
 
 scaling factor: 1
 query mode: simple
