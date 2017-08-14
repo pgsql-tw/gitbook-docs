@@ -232,7 +232,7 @@ pgbench 執行緒的數量，能夠有效利用多 CPU 的運算能力。模擬�
 
 `--scale=scale_factor`
 
-回報資料庫初始化的 scale factor。對於內建的測試而言，這個選項並不需要；其正確的 scale factor 將會自動以資料表 pgbench\_branches 的資料筆數計算而得。而如果測試使用的是自訂的情境腳步的話（選項 -f），那會回報 1。 
+回報資料庫初始化的 scale factor。對於內建的測試而言，這個選項並不需要；其正確的 scale factor 將會自動以資料表 pgbench\_branches 的資料筆數計算而得。而如果測試使用的是自訂的情境腳步的話（選項 -f），那會回報 1。
 
 `-S`
 
@@ -276,51 +276,39 @@ pgbench 執行緒的數量，能夠有效利用多 CPU 的運算能力。模擬�
 
 記得取樣率指的是輸出到記錄檔的比率，舉例來說，當計算 TPS 數值時，你會需要多個樣本數來彙整（使用 0.01 的取樣率時，你就只會得到原來百分之一個 TPS 數值輸出）。
 
-### Common Options
+### 通用選項
 
-pgbenchaccepts the following command-line common arguments:
+以下是 pgbench 所支援的通用選項：
 
-`-h`
+`-h hostname`
 
-`hostname`
+`--host=hostname`
 
-`--host=`
+資料庫伺服器的主機名稱。
 
-`hostname`
+`-p port`
 
-The database server's host name
+`--port=port`
 
-`-p`
+資料庫伺服器的連接埠號碼。
 
-`port`
+`-U login`
 
-`--port=`
+`--username=login`
 
-`port`
-
-The database server's port number
-
-`-U`
-
-`login`
-
-`--username=`
-
-`login`
-
-The user name to connect as
+連線時要使用的使用者名稱。
 
 `-V`
 
 `--version`
 
-Print thepgbenchversion and exit.
+輸出 pgbench 的版本資訊，然後就結束程式。
 
 `-?`
 
 `--help`
 
-Show help aboutpgbenchcommand line arguments, and exit.
+顯示 pgbench 的命令列操作資訊，然後結束程式。
 
 ## Notes
 
