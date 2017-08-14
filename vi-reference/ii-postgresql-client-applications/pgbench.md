@@ -310,13 +310,13 @@ pgbench 執行緒的數量，能夠有效利用多 CPU 的運算能力。模擬�
 
 顯示 pgbench 的命令列操作資訊，然後結束程式。
 
-## Notes
+## 進階說明
 
-### What is the“Transaction”Actually Performed inpgbench?
+### 實際上是什麼樣的交易在 pgbench 中執行呢？
 
-pgbenchexecutes test scripts chosen randomly from a specified list. They include built-in scripts with`-b`and user-provided custom scripts with`-f`. Each script may be given a relative weight specified after a`@`so as to change its drawing probability. The default weight is`1`. Scripts with a weight of`0`are ignored.
+pgbench 會隨機選取在某個列表中的腳本來執行，包含了使用 -b 的內建腳本及 -f 的自訂腳本。每一個腳本都可以使用 @ 來指定其被選取的機率。預設為 1，而設為 0 的話就會被忽略。
 
-The default built-in transaction script \(also invoked with`-b tpcb-like`\) issues seven commands per transaction over randomly chosen`aid`,`tid`,`bid`and`balance`. The scenario is inspired by the TPC-B benchmark, but is not actually TPC-B, hence the name.
+預設內建的交易腳本（也就是 -b tpcb-like），使用了七個指令，並且自動隨機代入不同變數：aid、tid、bid、和 balance。這個情境來自於 TPC-B 標準，但不完全符合 TPC-B，所以取名為 tpcb-like。
 
 1. `BEGIN;`
 
@@ -332,17 +332,17 @@ The default built-in transaction script \(also invoked with`-b tpcb-like`\) issu
 
 7. `END;`
 
-If you select the`simple-update`built-in \(also`-N`\), steps 4 and 5 aren't included in the transaction. This will avoid update contention on these tables, but it makes the test case even less like TPC-B.
+如果你選擇了 simple-update（也是 -N），那麼就不包含步驟 4 和 5。它會避免在這些資料表更新資料的競爭行為，但會接近 TPC-B 一些。
 
-If you select the`select-only`built-in \(also`-S`\), only the`SELECT`is issued.
+如果你使用了 select-only（也是 -S），就會只有 SELECT 的部份被執行。 
 
-### Custom Scripts
+### 自訂腳本
 
-pgbenchhas support for running custom benchmark scenarios by replacing the default transaction script \(described above\) with a transaction script read from a file \(`-f`option\). In this case a“transaction”counts as one execution of a script file.
+pgbench 支援使用自訂的情境腳步取代內建的測試腳本（如上所述），透過選項 -f 從檔案取得。這種情況的話，一個交易指的就是一個腳本檔案執行一次。
 
-A script file contains one or more SQL commands terminated by semicolons. Empty lines and lines beginning with`--`are ignored. Script files can also contain“meta commands”, which are interpreted bypgbenchitself, as described below.
+腳本檔案包含一個或多個 SQL 指令，以分號分隔結尾。空白行和以 -- 開頭的行都會被忽略。腳本檔案也可以包含「meta commands」，用於 pgbench 執行測試時的參考指令，詳述於後。
 
-### Note
+### 注意
 
 BeforePostgreSQL9.6, SQL commands in script files were terminated by newlines, and so they could not be continued across lines. Now a semicolon is\_required\_to separate consecutive SQL commands \(though a SQL command does not need one if it is followed by a meta command\). If you need to create a script file that works with both old and new versions ofpgbench, be sure to write each SQL command on a single line ending with a semicolon.
 
