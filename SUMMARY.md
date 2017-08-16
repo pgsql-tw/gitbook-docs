@@ -43,7 +43,7 @@
     * [5.4. 系統欄位](ii-the-sql-language/data-definition/54-system-columns.md)
     * [5.5. 表格變更](ii-the-sql-language/data-definition/55-modifying-tables.md)
     * [5.6. 權限](ii-the-sql-language/data-definition/56-privileges.md)
-    * [5.7. 安全原則](ii-the-sql-language/data-definition/57-row-security-policies.md)
+    * [5.7. 資料列安全原則](ii-the-sql-language/data-definition/57-row-security-policies.md)
     * [5.8. Schemas](ii-the-sql-language/data-definition/58-schemas.md)
     * [5.9. 繼承](ii-the-sql-language/data-definition/59-inheritance.md)
     * [5.10. 分割表格](ii-the-sql-language/data-definition/510-table-partitioning.md)
@@ -408,13 +408,16 @@
     * 37.16. Extension Building Infrastructure
 * [VI. Reference](vi-reference.md)
   * [I. SQL 指令](vi-reference/i-sql-commands.md)
+    * ALTER POLICY
     * [ALTER TABLE](vi-reference/i-sql-commands/alter-table.md)
     * [COPY](vi-reference/i-sql-commands/copy.md)
     * [CREATE FOREIGN TABLE](vi-reference/i-sql-commands/create-foreign-table.md)
     * [CREATE FOREIGN DATA WRAPPER](vi-reference/i-sql-commands/create-foreign-data-wrapper.md)
+    * CREATE POLICY
     * [CREATE SERVER](vi-reference/i-sql-commands/create-server.md)
     * [CREATE TABLE](vi-reference/i-sql-commands/create-table.md)
     * [CREATE USER MAPPING](vi-reference/i-sql-commands/create-user-mapping.md)
+    * DROP POLICY
     * [DROP TABLE](vi-reference/i-sql-commands/drop-table.md)
     * [GRANT](vi-reference/i-sql-commands/grant.md)
     * [IMPORT FOREIGN SCHEMA](vi-reference/i-sql-commands/import-foreign-schema.md)
@@ -455,4 +458,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
