@@ -408,16 +408,16 @@
     * 37.16. Extension Building Infrastructure
 * [VI. Reference](vi-reference.md)
   * [I. SQL 指令](vi-reference/i-sql-commands.md)
-    * ALTER POLICY
+    * [ALTER POLICY](vi-reference/i-sql-commands/alter-policy.md)
     * [ALTER TABLE](vi-reference/i-sql-commands/alter-table.md)
     * [COPY](vi-reference/i-sql-commands/copy.md)
     * [CREATE FOREIGN TABLE](vi-reference/i-sql-commands/create-foreign-table.md)
     * [CREATE FOREIGN DATA WRAPPER](vi-reference/i-sql-commands/create-foreign-data-wrapper.md)
-    * CREATE POLICY
+    * [CREATE POLICY](vi-reference/i-sql-commands/create-policy.md)
     * [CREATE SERVER](vi-reference/i-sql-commands/create-server.md)
     * [CREATE TABLE](vi-reference/i-sql-commands/create-table.md)
     * [CREATE USER MAPPING](vi-reference/i-sql-commands/create-user-mapping.md)
-    * DROP POLICY
+    * [DROP POLICY](vi-reference/i-sql-commands/drop-policy.md)
     * [DROP TABLE](vi-reference/i-sql-commands/drop-table.md)
     * [GRANT](vi-reference/i-sql-commands/grant.md)
     * [IMPORT FOREIGN SCHEMA](vi-reference/i-sql-commands/import-foreign-schema.md)
@@ -458,6 +458,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 

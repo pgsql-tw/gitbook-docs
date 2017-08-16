@@ -12,7 +12,7 @@
 
 開啓或關閉資料列安全原則的權限，只屬於資料表擁有者。
 
-使用 CREATE POLICY 指令來建立安全原則；使用 ALTER POLICY 指令來修改；使用 DROP POLICY 指令來移除原則。要開啓或關閉安全原則的功能，請使用 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md) 指令。
+使用 [CREATE POLICY](/vi-reference/i-sql-commands/create-policy.md) 指令來建立安全原則；使用 [ALTER POLICY](/vi-reference/i-sql-commands/alter-policy.md) 指令來修改；使用 [DROP POLICY](/vi-reference/i-sql-commands/drop-policy.md) 指令來移除原則。要開啓或關閉安全原則的功能，請使用 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md) 指令。
 
 Each policy has a name and multiple policies can be defined for a table. As policies are table-specific, each policy for a table must have a unique name. Different tables may have policies with the same name.
 
