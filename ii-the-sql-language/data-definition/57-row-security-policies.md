@@ -185,11 +185,11 @@ CREATE POLICY admin_local_only ON passwd AS RESTRICTIVE TO admin
 UPDATE 0
 ```
 
-Referential integrity checks, such as unique or primary key constraints and foreign key references, always bypass row security to ensure that data integrity is maintained. Care must be taken when developing schemas and row level policies to avoid“covert channel”leaks of information through such referential integrity checks.
+資料一致性的檢查，像是唯一性、主鍵、以及外部鍵參考，都會略過資料列安全原則，以維持資料的一致性。在發展資料庫結構時應該要特別小心，以資料列安全原則避免透過一致性檢查而產生隱藏通道洩露資訊。
 
-In some contexts it is important to be sure that row security is not being applied. For example, when taking a backup, it could be disastrous if row security silently caused some rows to be omitted from the backup. In such a situation, you can set the[row\_security](https://www.postgresql.org/docs/10/static/runtime-config-client.html#guc-row-security)configuration parameter to`off`. This does not in itself bypass row security; what it does is throw an error if any query's results would get filtered by a policy. The reason for the error can then be investigated and fixed.
+在某些情況，很重要的是要確認安全原則是否被觸發。舉例來說，當進行資料備份流程時，如果安全原則造成某些資料被備份程式忽略了，那可能就會很糟糕。在這種情況下，你可以把 [row\_security](/iii-server-administration/server-setup-and-operation.md) 這個參數設為 off。這並不是避開安全原則，而是在觸發安全原則時，會出現錯誤訊息，使得我們可以發現進而修正原則。
 
-In the examples above, the policy expressions consider only the current values in the row to be accessed or updated. This is the simplest and best-performing case; when possible, it's best to design row security applications to work this way. If it is necessary to consult other rows or other tables to make a policy decision, that can be accomplished using sub-`SELECT`s, or functions that contain`SELECT`s, in the policy expressions. Be aware however that such accesses can create race conditions that could allow information leakage if care is not taken. As an example, consider the following table design:
+在上面的例子裡，安全原則表示式只引用了目前資料列中的資料。這是最簡單也是最常見的形式，可以的話，最好以這樣的方式來設計安全原則。如果需要參考其他資料列或資料表來做決定的話，那麼可以使用子查詢或函數的方式達成，也就是包含一個 SELECT 的查詢語句在表示式中。要注意到的是，這種方法可能會造成資料庫內交易競爭（race condition）的狀態，不注意的話也可能產生資訊的洩漏。像這樣的例子，試試下面的資料表設計：
 
 ```
 -- definition of privilege groups
@@ -230,19 +230,15 @@ ALTER TABLE information ENABLE ROW LEVEL SECURITY;
 -- a row should be visible to/updatable by users whose security group_id is
 -- greater than or equal to the row's group_id
 CREATE POLICY fp_s ON information FOR SELECT
-  USING (group_id 
-<
-= (SELECT group_id FROM users WHERE user_name = current_user));
+  USING (group_id <= (SELECT group_id FROM users WHERE user_name = current_user));
 CREATE POLICY fp_u ON information FOR UPDATE
-  USING (group_id 
-<
-= (SELECT group_id FROM users WHERE user_name = current_user));
+  USING (group_id <= (SELECT group_id FROM users WHERE user_name = current_user));
 
 -- we rely only on RLS to protect the information table
 GRANT ALL ON information TO public;
 ```
 
-Now suppose that`alice`wishes to change the“slightly secret”information, but decides that`mallory`should not be trusted with the new content of that row, so she does:
+現在假設 alice 想要變更＂slightly secret＂的資訊，但決定不讓 mallory 看到新的內容，所以她這麼做：
 
 ```
 BEGIN;
@@ -251,17 +247,17 @@ UPDATE information SET info = 'secret from mallory' WHERE group_id = 2;
 COMMIT;
 ```
 
-That looks safe; there is no window wherein`mallory`should be able to see the“secret from mallory”string. However, there is a race condition here. If`mallory`is concurrently doing, say,
+看起來很安全，因為沒有窗口讓 mallory 可以看到＂secret from mallory＂，然而，這裡就存在了交易競爭的情況。如果 mallory 也在同時做了：
 
 ```
 SELECT * FROM information WHERE group_id = 2 FOR UPDATE;
 ```
 
-and her transaction is in`READ COMMITTED`mode, it is possible for her to see“secret from mallory”. That happens if her transaction reaches the`information`row just after`alice`'s does. It blocks waiting for`alice`'s transaction to commit, then fetches the updated row contents thanks to the`FOR UPDATE`clause. However, it does\_not\_fetch an updated row for the implicit`SELECT`from`users`, because that sub-`SELECT`did not have`FOR UPDATE`; instead the`users`row is read with the snapshot taken at the start of the query. Therefore, the policy expression tests the old value of`mallory`'s privilege level and allows her to see the updated row.
+因為她的交易是屬於 READ COMMITTED 模式，所以她有可能會看到＂secret from mallory＂。這會剛好發生在，她在 alice 的交易完成前一刻。mallory 的指令會暫時擋下 alice 的提交完成，而因為 FOR UPDATE，她會取得更新後的資訊。所以她並沒有從隱含的使用者執行 SELECT 取得資訊，因為子查詢沒有 FOR UPDATE，使得其他使用者可以從快照裡取得資訊。因為安全原則是以舊的 mallory 權限允許她看見該筆資料。
 
-There are several ways around this problem. One simple answer is to use`SELECT ... FOR SHARE`in sub-`SELECT`s in row security policies. However, that requires granting`UPDATE`privilege on the referenced table \(here`users`\) to the affected users, which might be undesirable. \(But another row security policy could be applied to prevent them from actually exercising that privilege; or the sub-`SELECT`could be embedded into a security definer function.\) Also, heavy concurrent use of row share locks on the referenced table could pose a performance problem, especially if updates of it are frequent. Another solution, practical if updates of the referenced table are infrequent, is to take an exclusive lock on the referenced table when updating it, so that no concurrent transactions could be examining old row values. Or one could just wait for all concurrent transactions to end after committing an update of the referenced table and before making changes that rely on the new security situation.
+這個問題有好幾個面向的解決方式。一個簡單的方式就是使用 SELECT ... FOR SHARE 在安全原則的子查詢裡。但這樣就必須要讓使用者擁有 UPDATE 的權限，可能不太合適。（但也可以用另一個安全原則來做更多的限制，又或是把子查詢封裝進另一個安全的函數裡）同時，大量的引用查詢也可能造成效能的問題，特別是更新資料的時候。另一個解決辦法，如果參考的資料表並不是很常更新的話，那麼可以在資料表更新時強制鎖定該資料表，確保沒有其他交易能在同時進行查詢，也就不會洩漏任何資訊。或是等待其他所有交易都完成後，才提交更新變更新的安全方案。
 
-For additional details see[CREATE POLICY](https://www.postgresql.org/docs/10/static/sql-createpolicy.html)and[ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html).
+更多詳細，請參閱 [CREATE POLICY](/vi-reference/i-sql-commands/create-policy.md) 和 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md)。
 
 ---
 
