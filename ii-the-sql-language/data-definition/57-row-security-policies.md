@@ -14,11 +14,11 @@
 
 使用 [CREATE POLICY](/vi-reference/i-sql-commands/create-policy.md) 指令來建立安全原則；使用 [ALTER POLICY](/vi-reference/i-sql-commands/alter-policy.md) 指令來修改；使用 [DROP POLICY](/vi-reference/i-sql-commands/drop-policy.md) 指令來移除原則。要開啓或關閉安全原則的功能，請使用 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md) 指令。
 
-Each policy has a name and multiple policies can be defined for a table. As policies are table-specific, each policy for a table must have a unique name. Different tables may have policies with the same name.
+每一個安全原則都有一個名稱，而一個資料表可以定義多個安全原則。安全原則是資料表專屬的，而每一個安全原則在所屬資料表內必須有一個唯一的名稱。不同的資料表下的安全原則可以取相同的名稱。
 
-When multiple policies apply to a given query, they are combined using either`OR`\(for permissive policies, which are the default\) or using`AND`\(for restrictive policies\). This is similar to the rule that a given role has the privileges of all roles that they are a member of. Permissive vs. restrictive policies are discussed further below.
+當多個安全原則使用者某個查詢上時，可能會使用 OR 串接（開放安全原則 permissive policies，這是預設的狀態），也可能以 AND 串接（嚴格安全原則 restrictive policies）。這類似角色授權的情況。有關於開放安全原則與嚴格安全原則的細節，稍後再進行說明。
 
-As a simple example, here is how to create a policy on the`account`relation to allow only members of the`managers`role to access rows, and only rows of their accounts:
+先進行一個簡單的範例，我們建立一個安全原則在資料表 account 上，它只允許 managers 的使用者可以存取資料列，並且只能存取他自己帳號的資料列：
 
 ```
 CREATE TABLE accounts (manager text, company text, contact_email text);
@@ -29,14 +29,14 @@ CREATE POLICY account_managers ON accounts TO managers
     USING (manager = current_user);
 ```
 
-If no role is specified, or the special user name`PUBLIC`is used, then the policy applies to all users on the system. To allow all users to access their own row in a`users`table, a simple policy can be used:
+如果沒有指定角色或使用者時，就會以 PUBLIC 替代，也就是所有使用者都適用。要允許所有使用者存取他們自己的資料列的話，就可以簡化指令為：
 
 ```
 CREATE POLICY user_policy ON users
     USING (user_name = current_user);
 ```
 
-To use a different policy for rows that are being added to the table compared to those rows that are visible, the`WITH CHECK`clause can be used. This policy would allow all users to view all rows in the`users`table, but only modify their own:
+想要定義一個安全原則是有別於可見性權限的話，請使用 WITH CHECK 字句。例如希望讓所有人都可以看到所有資料列，但只能修改自己的資料的話：
 
 ```
 CREATE POLICY user_policy ON users
@@ -44,9 +44,9 @@ CREATE POLICY user_policy ON users
     WITH CHECK (user_name = current_user);
 ```
 
-Row security can also be disabled with the`ALTER TABLE`command. Disabling row security does not remove any policies that are defined on the table; they are simply ignored. Then all rows in the table are visible and modifiable, subject to the standard SQL privileges system.
+資料列安全原則也可以透過 ALTER TABLE 指令關閉。不過關閉資料列安全原則，並不會移除任何已定義的原則，只是單純被忽略而已。然後資料表的所有資料列，就只依標準 SQL 的權限系統，決定查詢及修改的權力。
 
-Below is a larger example of how this feature can be used in production environments. The table`passwd`emulates a Unix password file:
+下面是一個較複雜的例子，展示這個功能如何被應用於產品等級的環境裡。資料表 passwd 模擬 Unix 的密碼檔：
 
 ```
 -- Simple passwd-file based example
@@ -103,17 +103,13 @@ GRANT UPDATE
   ON passwd TO public;
 ```
 
-As with any security settings, it's important to test and ensure that the system is behaving as expected. Using the example above, this demonstrates that the permission system is working properly.
+對於任何的安全設定，很重要的是，你必須實際測試來確認系統的行為和你預期的相同。使用上面的例子，下面的測試表現出權限設如預期地運作。
 
 ```
 -- admin can view all rows and fields
-postgres=
->
- set role admin;
+postgres=> set role admin;
 SET
-postgres=
->
- table passwd;
+postgres=> table passwd;
  user_name | pwhash | uid | gid | real_name |  home_phone  | extra_info | home_dir    |   shell
 -----------+--------+-----+-----+-----------+--------------+------------+-------------+-----------
  admin     | xxx    |   0 |   0 | Admin     | 111-222-3333 |            | /root       | /bin/dash
@@ -122,17 +118,11 @@ postgres=
 (3 rows)
 
 -- Test what Alice is able to do
-postgres=
->
- set role alice;
+postgres=> set role alice;
 SET
-postgres=
->
- table passwd;
+postgres=> table passwd;
 ERROR:  permission denied for relation passwd
-postgres=
->
- select user_name,real_name,home_phone,extra_info,home_dir,shell from passwd;
+postgres=> select user_name,real_name,home_phone,extra_info,home_dir,shell from passwd;
  user_name | real_name |  home_phone  | extra_info | home_dir    |   shell
 -----------+-----------+--------------+------------+-------------+-----------
  admin     | Admin     | 111-222-3333 |            | /root       | /bin/dash
@@ -140,37 +130,25 @@ postgres=
  alice     | Alice     | 098-765-4321 |            | /home/alice | /bin/zsh
 (3 rows)
 
-postgres=
->
- update passwd set user_name = 'joe';
+postgres=> update passwd set user_name = 'joe';
 ERROR:  permission denied for relation passwd
 -- Alice is allowed to change her own real_name, but no others
-postgres=
->
- update passwd set real_name = 'Alice Doe';
+postgres=> update passwd set real_name = 'Alice Doe';
 UPDATE 1
-postgres=
->
- update passwd set real_name = 'John Doe' where user_name = 'admin';
+postgres=> update passwd set real_name = 'John Doe' where user_name = 'admin';
 UPDATE 0
-postgres=
->
- update passwd set shell = '/bin/xx';
+postgres=> update passwd set shell = '/bin/xx';
 ERROR:  new row violates WITH CHECK OPTION for "passwd"
-postgres=
->
- delete from passwd;
+postgres=> delete from passwd;
 ERROR:  permission denied for relation passwd
-postgres=
->
- insert into passwd (user_name) values ('xxx');
+postgres=> insert into passwd (user_name) values ('xxx');
 ERROR:  permission denied for relation passwd
 -- Alice can change her own password; RLS silently prevents updating other rows
-postgres=
->
- update passwd set pwhash = 'abc';
+postgres=> update passwd set pwhash = 'abc';
 UPDATE 1
 ```
+
+所有的安全原則，目前來說都是開放安全原則，意思是當有多個安全原則被引用時，它們會以 OR 運算串連其結果。
 
 All of the policies constructed thus far have been permissive policies, meaning that when multiple policies are applied they are combined using the "OR" boolean operator. While permissive policies can be constructed to only allow access to rows in the intended cases, it can be simpler to combine permissive policies with restrictive policies \(which the records must pass and which are combined using the "AND" boolean operator\). Building on the example above, we add a restrictive policy to require the administrator to be connected over a local unix socket to access the records of the passwd table:
 
@@ -182,40 +160,30 @@ CREATE POLICY admin_local_only ON passwd AS RESTRICTIVE TO admin
 We can then see that an administrator connecting over a network will not see any records, due to the restrictive policy:
 
 ```
-=
->
- SELECT current_user;
+=> SELECT current_user;
  current_user 
 --------------
  admin
 (1 row)
 
-=
->
- select inet_client_addr();
+=> select inet_client_addr();
  inet_client_addr 
 ------------------
  127.0.0.1
 (1 row)
 
-=
->
- SELECT current_user;
+=> SELECT current_user;
  current_user 
 --------------
  admin
 (1 row)
 
-=
->
- TABLE passwd;
+=> TABLE passwd;
  user_name | pwhash | uid | gid | real_name | home_phone | extra_info | home_dir | shell
 -----------+--------+-----+-----+-----------+------------+------------+----------+-------
 (0 rows)
 
-=
->
- UPDATE passwd set pwhash = NULL;
+=> UPDATE passwd set pwhash = NULL;
 UPDATE 0
 ```
 
