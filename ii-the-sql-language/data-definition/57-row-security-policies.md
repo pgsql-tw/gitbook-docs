@@ -148,16 +148,14 @@ postgres=> update passwd set pwhash = 'abc';
 UPDATE 1
 ```
 
-所有的安全原則，目前來說都是開放安全原則，意思是當有多個安全原則被引用時，它們會以 OR 運算串連其結果。
-
-All of the policies constructed thus far have been permissive policies, meaning that when multiple policies are applied they are combined using the "OR" boolean operator. While permissive policies can be constructed to only allow access to rows in the intended cases, it can be simpler to combine permissive policies with restrictive policies \(which the records must pass and which are combined using the "AND" boolean operator\). Building on the example above, we add a restrictive policy to require the administrator to be connected over a local unix socket to access the records of the passwd table:
+所有的安全原則，目前來說都是開放安全原則，意思是當有多個安全原則被引用時，它們會以 OR 運算串連其結果。開放安全原則用於只允許在計畫內的環境使用的話，它會比和嚴格安全原則（把安全原則用 AND 串連起來判斷）一起使用來得簡單。基於上面的列子，我們建立一個嚴格安全原則，它限制管理者只能透過 unix socket 連線才能存取 passwd 資料表：
 
 ```
 CREATE POLICY admin_local_only ON passwd AS RESTRICTIVE TO admin
     USING (pg_catalog.inet_client_addr() IS NULL);
 ```
 
-We can then see that an administrator connecting over a network will not see any records, due to the restrictive policy:
+我們接下來就可以看到，管理者透過一般網路連線，是看不到任何資料的，因為嚴格安全原則：
 
 ```
 => SELECT current_user;
