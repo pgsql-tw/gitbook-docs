@@ -1,5 +1,3 @@
 # Languages
 
-* [English](en/)
-* [French](fr/)
-* [Español](es/)
+* [10](10/)
