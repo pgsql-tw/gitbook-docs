@@ -13,8 +13,8 @@
 閱讀前，也可以參閱摘要簡報：  
 [https://gitpitch.com/pgsql-tw/twpug-doc](https://gitpitch.com/pgsql-tw/twpug-doc)
 
-如須堪誤指教，請依下方網址提報：  
-[https://github.com/pgsql-tw/twpug-doc/issues](https://github.com/pgsql-tw/twpug-doc/issues)
+如須堪誤指教，請依下方網址提報討論：  
+[https://www.gitbook.com/book/pgsql-tw/postgresql-10/discussions](https://www.gitbook.com/book/pgsql-tw/postgresql-10/discussions)
 
 ![](/assets/29271289.png)
 
