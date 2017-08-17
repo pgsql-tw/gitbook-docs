@@ -1,3 +1,3 @@
 # Languages
 
-* [•x∆W§§§Â.PostgreSQL 10](tw.10/)
+* [Âè∞ÁÅ£‰∏≠Êñá.PostgreSQL 10](tw.10/)
