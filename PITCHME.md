@@ -24,25 +24,25 @@
 # ↓
 
 +++
-### [第一部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/i-tutorial.html)：新手教學
+### [第一部份](https://pgsql-tw.gitbooks.io/documents/content/tw.10/i-tutorial.html)：新手教學
 * 給新的使用者一份簡易的介紹。
 +++
-### [第二部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/ii-the-sql-language.html)：SQL 查詢語言
+### [第二部份](https://pgsql-tw.gitbooks.io/documents/content/tw.10/ii-the-sql-language.html)：SQL 查詢語言
 * 介紹SQL查詢語言，包含資料型態及函數功能，應用層級的效能調教也在此有所說明。每一個PostgreSQL使用者都推薦閱讀此部份。
 +++
-### [第三部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/iii-server-administration.html)：系統管理
+### [第三部份](https://pgsql-tw.gitbooks.io/documents/content/tw.10/iii-server-administration.html)：系統管理
 * 說明資料庫伺服器的安裝及管理資訊。如果你需要 管理一個PostgreSQL伺服器，那你必須閱讀此部份的內容。
 +++
-### [第四部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/iv-client-interfaces.html)：Client Interface
+### [第四部份](https://pgsql-tw.gitbooks.io/documents/content/tw.10/iv-client-interfaces.html)：Client Interface
 * 說明PostgreSQL用戶端的程式操作介面。
 +++
-### [第五部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/v-server-programming.html)：Server Programming
+### [第五部份](https://pgsql-tw.gitbooks.io/documents/content/tw.10/v-server-programming.html)：Server Programming
 * 資料庫伺服務的進階說明及延伸的使用方式，亦包含了使用者自訂的資料型別及函式。
 +++
-### [第六部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/v-server-programming.html)：Reference
+### [第六部份](https://pgsql-tw.gitbooks.io/documents/content/tw.10/v-server-programming.html)：Reference
 * SQL查詢指令、用戶端指令及伺服器端指令在此部份詳細說明。
 +++
-### [第七部份](https://pgsql-tw.gitbooks.io/postgresql-10/content/v-server-programming.html)：Internals
+### [第七部份](https://pgsql-tw.gitbooks.io/documents/content/tw.10/v-server-programming.html)：Internals
 * 提供PostgreSQL開發者可能需要的其他相關資訊。
 
 ---
@@ -53,4 +53,4 @@
 ---
 
 ## 開始閱讀
-## [PostgreSQL 正體中文使用手冊](https://www.gitbook.com/book/pgsql-tw/postgresql-10/details)
+## [PostgreSQL 正體中文使用手冊](https://www.gitbook.com/book/pgsql-tw/documents/)
