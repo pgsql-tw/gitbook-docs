@@ -8,7 +8,7 @@
 * 給對於 PostgreSQL 手冊不熟悉的朋友入門
 * 說明正體中文手冊的訴求
 * 搭配使用手冊，製作實用章節的簡報說明
-* 手冊和簡報都沒有完成的時候，隨時持續更新，建議及協作請透過 [Issues](https://github.com/pgsql-tw/twpug-doc/issues) 與我們聯絡
+* 手冊和簡報都沒有完成的時候，隨時持續更新，建議及協作請透過 [Dicussions](https://www.gitbook.com/book/pgsql-tw/postgresql-10/discussions) 與我們聯絡
 
 ---
 
