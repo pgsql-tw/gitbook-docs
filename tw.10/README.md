@@ -13,6 +13,9 @@
 閱讀前，也可以參閱摘要簡報：  
 [https://gitpitch.com/pgsql-tw/twpug-doc](https://gitpitch.com/pgsql-tw/twpug-doc)
 
+看看 PostgreSQL 10 有什麼新功能嗎：
+<iframe src="//www.slideshare.net/slideshow/embed_code/key/mfCiIpRVzIUzc1" width="510" height="420" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/tsunghsilin/postgresql-10-new-features" title="PostgreSQL 10 New Features" target="_blank">PostgreSQL 10 New Features</a> </strong> from <strong><a href="//www.slideshare.net/tsunghsilin" target="_blank">José Lin</a></strong> </div>
+
 如須堪誤指教，請依下方網址提報討論：  
 [https://www.gitbook.com/book/pgsql-tw/documents/discussions](https://www.gitbook.com/book/pgsql-tw/documents/discussions)
 
