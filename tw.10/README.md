@@ -13,9 +13,8 @@
 閱讀前，也可以參閱摘要簡報：  
 [https://gitpitch.com/pgsql-tw/twpug-doc](https://gitpitch.com/pgsql-tw/twpug-doc)
 
-看看 PostgreSQL 10 有什麼新功能吧：
+看看 PostgreSQL 10 有什麼新功能吧：  
 [https://www.slideshare.net/tsunghsilin/postgresql-10-new-features](https://www.slideshare.net/tsunghsilin/postgresql-10-new-features)
-
 
 如須堪誤指教，請依下方網址提報討論：  
 [https://www.gitbook.com/book/pgsql-tw/documents/discussions](https://www.gitbook.com/book/pgsql-tw/documents/discussions)
