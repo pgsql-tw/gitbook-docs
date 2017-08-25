@@ -1,6 +1,6 @@
 {
 	"language": "tw.10",
-	"plugins": [ "notocjk" ]
+	"plugins": [ "notocjk" ],
 	"pluginsConfig": {
         	"fontsettings": { "size": 3 }
     	}
