@@ -1,3 +1,4 @@
 {
-	"language": "tw.10"
+	"language": "tw.10",
+	"plugins": [ "notocjk" ]
 }
