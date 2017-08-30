@@ -72,17 +72,17 @@ CREATE SCHEMA schema_name AUTHORIZATION user_name;
 
 你甚至可以省略 schema 名稱，省略的話，schema 名稱會與使用者名稱相同。請參閱後續的 5.8.6 節來瞭解如何使用。
 
-Schema 名稱以「pg\_」開頭的，是系統的保留名稱，使用者不能使用這樣的名稱建立 schema。 
+Schema 名稱以「pg\_」開頭的，是系統的保留名稱，使用者不能使用這樣的名稱建立 schema。
 
-### 5.8.2. The Public Schema
+### 5.8.2. 公開的 Schema
 
-In the previous sections we created tables without specifying any schema names. By default such tables \(and other objects\) are automatically put into a schema named“public”. Every new database contains such a schema. Thus, the following are equivalent:
+在前面我們所建立的資料表都沒有指定 schema 名稱。預設使用的 schema 是「public」，每一個資料庫都會有這個 schema。所以，下面兩種寫法是一樣的：
 
 ```
 CREATE TABLE products ( ... );
 ```
 
-and:
+以及：
 
 ```
 CREATE TABLE public.products ( ... );
