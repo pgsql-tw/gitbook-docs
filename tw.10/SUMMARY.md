@@ -414,6 +414,7 @@
     * [CREATE FOREIGN TABLE](vi-reference/i-sql-commands/create-foreign-table.md)
     * [CREATE FOREIGN DATA WRAPPER](vi-reference/i-sql-commands/create-foreign-data-wrapper.md)
     * [CREATE POLICY](vi-reference/i-sql-commands/create-policy.md)
+    * [CREATE SCHEMA](vi-reference/i-sql-commands/create-schema.md)
     * [CREATE SERVER](vi-reference/i-sql-commands/create-server.md)
     * [CREATE TABLE](vi-reference/i-sql-commands/create-table.md)
     * [CREATE USER MAPPING](vi-reference/i-sql-commands/create-user-mapping.md)

@@ -18,37 +18,31 @@ PostgreSQL 資料庫叢集（cluster）可以包含一個或多個資料庫。�
 
 Schema 和作業系統裡的資料夾是類似的，只是它不能使用巢狀結構。
 
-### 5.8.1. Creating a Schema
+### 5.8.1. 建立 Schema
 
-To create a schema, use the[CREATE SCHEMA](https://www.postgresql.org/docs/10/static/sql-createschema.html)command. Give the schema a name of your choice. For example:
+要建立 schema，請使用 [CREATE SCHEMA](/vi-reference/i-sql-commands/create-schema.md) 指令。給予一個自訂的名稱。例如：
 
 ```
 CREATE SCHEMA myschema;
 ```
 
-To create or access objects in a schema, write a\_qualified name\_consisting of the schema name and table name separated by a dot:
+要在 schema 中建立或存取某個物件，請使用句點（.）將兩者名稱串連起來：
 
 ```
-schema
-.
-table
+schema.table
 ```
 
-This works anywhere a table name is expected, including the table modification commands and the data access commands discussed in the following chapters. \(For brevity we will speak of tables only, but the same ideas apply to other kinds of named objects, such as types and functions.\)
+這個形式在任何可以使用資料表的地方都是可以的，包含資料表結構更新指令，以及在接下來章節會討論到的資料處理指令。（我們只提到資料表的部份，但相同的概念用於其他資料庫物件都是一樣的，像是資料型別和函數。）
 
-Actually, the even more general syntax
+實際上，更一般化的語法是：
 
 ```
-database
-.
-schema
-.
-table
+database.schema.table
 ```
 
-can be used too, but at present this is just for\_pro forma\_compliance with the SQL standard. If you write a database name, it must be the same as the database you are connected to.
+也可以這樣使用，但目前這只是為了符合 SQL 標準而已。如果你填上了資料庫的名稱，也必須填上你所連線的資料庫而已。
 
-So to create a table in the new schema, use:
+所以，要在新的 schema 中建立一個資料表，請使用：
 
 ```
 CREATE TABLE myschema.mytable (
@@ -56,33 +50,29 @@ CREATE TABLE myschema.mytable (
 );
 ```
 
-To drop a schema if it's empty \(all objects in it have been dropped\), use:
+要移除一個 schema，它必須要是空的，也就是所有所屬物件都已經被移除了，請使用：
 
 ```
 DROP SCHEMA myschema;
 ```
 
-To drop a schema including all contained objects, use:
+但你也可以同步移除 schema 及其所屬物件，請使用：
 
 ```
 DROP SCHEMA myschema CASCADE;
 ```
 
-See[Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)for a description of the general mechanism behind this.
+這個部份的機制請參閱 [5.13 節](/ii-the-sql-language/data-definition/513-dependency-tracking.md)，會深入介紹移除時的問題。
 
-Often you will want to create a schema owned by someone else \(since this is one of the ways to restrict the activities of your users to well-defined namespaces\). The syntax for that is:
+通常你會想要建立一個 schema 給某個使用者使用（這是一種藉由命名空間規畫來限制使用者權限的方法）。可以使用下列語法：
 
 ```
-CREATE SCHEMA 
-schema_name
- AUTHORIZATION 
-user_name
-;
+CREATE SCHEMA schema_name AUTHORIZATION user_name;
 ```
 
-You can even omit the schema name, in which case the schema name will be the same as the user name. See[Section 5.8.6](https://www.postgresql.org/docs/10/static/ddl-schemas.html#ddl-schemas-patterns)for how this can be useful.
+你甚至可以省略 schema 名稱，省略的話，schema 名稱會與使用者名稱相同。請參閱後續的 5.8.6 節來瞭解如何使用。
 
-Schema names beginning with`pg_`are reserved for system purposes and cannot be created by users.
+Schema 名稱以「pg\_」開頭的，是系統的保留名稱，使用者不能使用這樣的名稱建立 schema。 
 
 ### 5.8.2. The Public Schema
 
