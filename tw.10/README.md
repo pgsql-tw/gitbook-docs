@@ -19,6 +19,7 @@
 如須堪誤指教，請依下方網址提報討論：  
 [https://www.gitbook.com/book/pgsql-tw/documents/discussions](https://www.gitbook.com/book/pgsql-tw/documents/discussions)
 
+[![中文就要用中文字型](https://img.shields.io/badge/Noto%20CJK-GitBook%20Plugin-brightgreen.svg)](https://plugins.gitbook.com/plugin/notocjk)
 [![PostgreSQL小島故事](https://img.shields.io/badge/小島故事-PostgreSQL-blue.svg)](https://pgsql-tw.github.io/island/)
 [![PostgreSQL台灣使用者社群](https://img.shields.io/badge/台灣使用者社群-PostgreSQL-blue.svg)](https://pgsql-tw.github.io/)
 
