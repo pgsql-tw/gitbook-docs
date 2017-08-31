@@ -130,25 +130,23 @@ DROP TABLE mytable;
 SET search_path TO myschema;
 ```
 
-這樣的話，不指定的話就不再能夠再使用公開的 schema 了。
+這樣的話，不指定的話就不再能夠再使用公開的 schema 了。「public」schema 並沒有比較特別，除了它一開始就會存在之外，它也可以被移除。
 
-Then we no longer have access to the public schema without explicit qualification. There is nothing special about the public schema except that it exists by default. It can be dropped, too.
+請參閱 9.25 節，將會介紹其他設定 schema 搜尋路徑的方式。
 
-See also[Section 9.25](https://www.postgresql.org/docs/10/static/functions-info.html)for other ways to manipulate the schema search path.
-
-The search path works in the same way for data type names, function names, and operator names as it does for table names. Data type and function names can be qualified in exactly the same way as table names. If you need to write a qualified operator name in an expression, there is a special provision: you must write
+搜尋路徑也用於資料型別、函數、及運算子的搜尋，就如同在資料表上的行為一樣。資料型別和函數名稱完整的寫法也和資料表相同。如果你需要特別指出運算子的完整路徑的話，它比較特別，你必須這樣寫：
 
 ```
 OPERATOR(schema.operator)
 ```
 
-This is needed to avoid syntactic ambiguity. An example is:
+這是為了避免語法上的混淆。如下所示：
 
 ```
 SELECT 3 OPERATOR(pg_catalog.+) 4;
 ```
 
-In practice one usually relies on the search path for operators, so as not to have to write anything so ugly as that.
+實務上我們都還是依賴路徑搜尋來使用運算子，這樣可以避免使用冗長且低可讀性的程式碼。
 
 ### 5.8.4. Schemas and Privileges
 
