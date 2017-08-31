@@ -88,19 +88,19 @@ CREATE TABLE products ( ... );
 CREATE TABLE public.products ( ... );
 ```
 
-### 5.8.3. The Schema Search Path
+### 5.8.3. Schema 搜尋路徑
 
-Qualified names are tedious to write, and it's often best not to wire a particular schema name into applications anyway. Therefore tables are often referred to by_unqualified names_, which consist of just the table name. The system determines which table is meant by following a_search path_, which is a list of schemas to look in. The first matching table in the search path is taken to be the one wanted. If there is no match in the search path, an error is reported, even if matching table names exist in other schemas in the database.
+完整的名稱寫法是冗長而不容易使用的，通常最好不要把一些特別的 schema 名稱寫到應用程式裡。而資料表時常是以簡要的寫法引用，也就是只寫資料表本身的名稱。資料庫系統依據搜尋路徑的規則找到該資料表。在搜尋路徑上所遇到的第一個資料表就會被使用。如果整個搜尋路徑走完都沒有符合的資料表，那麼才會回報錯誤，即使該資料表名稱有出現在資料庫裡的其他 schema 中。
 
-The first schema named in the search path is called the current schema. Aside from being the first schema searched, it is also the schema in which new tables will be created if the`CREATE TABLE`command does not specify a schema name.
+第一個會被搜尋的 schema，就是目前的 schema。除此之外也用於新的資料表建立，當 CREATE TABLE 未指定 schema 名稱的話，也會依搜尋路徑的 schema 建立。
 
-To show the current search path, use the following command:
+要顯示目前的搜尋路徑，請使用下面的指令：
 
 ```
 SHOW search_path;
 ```
 
-In the default setup this returns:
+預設的情況是：
 
 ```
  search_path
@@ -108,25 +108,23 @@ In the default setup this returns:
  "$user", public
 ```
 
-The first element specifies that a schema with the same name as the current user is to be searched. If no such schema exists, the entry is ignored. The second element refers to the public schema that we have seen already.
+第一個項目指的就是和目前使用者同名的 schema 會被使用，而如果沒有同名的，它就會被忽略。第二個項目則是先前介紹過的公開 schema。第一個被找到的 schema，就會是新建物件時預設的位置，這就是為什麼預設都會被建立在公開的 schema。當某個物件在使用（資料表結構調整、資料更新、或查詢指令）時沒有註明 schema 的話，那也會使用搜尋路徑來找到符合的物件。不過，預設上只會搜尋公開的 schema。
 
-The first schema in the search path that exists is the default location for creating new objects. That is the reason that by default objects are created in the public schema. When objects are referenced in any other context without schema qualification \(table modification, data modification, or query commands\) the search path is traversed until a matching object is found. Therefore, in the default configuration, any unqualified access again can only refer to the public schema.
-
-To put our new schema in the path, we use:
+要設定新的搜尋路徑，請使用：
 
 ```
 SET search_path TO myschema,public;
 ```
 
-\(We omit the`$user`here because we have no immediate need for it.\) And then we can access the table without schema qualification:
+（我們在這邊暫時忽略掉 $user，因為還沒有立即性的需要。）然後我們就可以試著存取資料表而不用加上 schema：
 
 ```
 DROP TABLE mytable;
 ```
 
-Also, since`myschema`is the first element in the path, new objects would by default be created in it.
+因為 myschema 在搜尋路徑裡是第一個項目，所以新的物件就會被建立在該處。
 
-We could also have written:
+我們也可以這樣寫：
 
 ```
 SET search_path TO myschema;
@@ -139,11 +137,7 @@ See also[Section 9.25](https://www.postgresql.org/docs/10/static/functions-info.
 The search path works in the same way for data type names, function names, and operator names as it does for table names. Data type and function names can be qualified in exactly the same way as table names. If you need to write a qualified operator name in an expression, there is a special provision: you must write
 
 ```
-OPERATOR(
-schema
-.
-operator
-)
+OPERATOR(schema.operator)
 ```
 
 This is needed to avoid syntactic ambiguity. An example is:
