@@ -130,6 +130,8 @@ DROP TABLE mytable;
 SET search_path TO myschema;
 ```
 
+這樣的話，不指定的話就不再能夠再使用公開的 schema 了。
+
 Then we no longer have access to the public schema without explicit qualification. There is nothing special about the public schema except that it exists by default. It can be dropped, too.
 
 See also[Section 9.25](https://www.postgresql.org/docs/10/static/functions-info.html)for other ways to manipulate the schema search path.
