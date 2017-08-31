@@ -8,7 +8,7 @@
 
 * 台灣正體中文, PostgreSQL 10
 
-[![中文就要用中文字型](https://img.shields.io/badge/Noto%20CJK-GitBook%20Plugin-brightgreen.svg)](https://plugins.gitbook.com/plugin/notocjk)
+[![中文就要用中文字型](https://img.shields.io/badge/Noto_CJK-GitBook_Plugin-brightgreen.svg)](https://plugins.gitbook.com/plugin/notocjk)
 [![PostgreSQL小島故事](https://img.shields.io/badge/小島故事-PostgreSQL-blue.svg)](https://pgsql-tw.github.io/island/)
 [![PostgreSQL台灣使用者社群](https://img.shields.io/badge/台灣使用者社群-PostgreSQL-blue.svg)](https://pgsql-tw.github.io/)
 
