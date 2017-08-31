@@ -148,17 +148,17 @@ SELECT 3 OPERATOR(pg_catalog.+) 4;
 
 實務上我們都還是依賴路徑搜尋來使用運算子，這樣可以避免使用冗長且低可讀性的程式碼。
 
-### 5.8.4. Schemas and Privileges
+### 5.8.4. Schemas 與權限
 
-By default, users cannot access any objects in schemas they do not own. To allow that, the owner of the schema must grant the`USAGE`privilege on the schema. To allow users to make use of the objects in the schema, additional privileges might need to be granted, as appropriate for the object.
+預設的情況，使用者無法存取任何不屬於他們的 schema 中的物件。要允許存取的話，該 schema 的擁有者必須要授予 USAGE 權限給其他使用者。要允許其他使用者使用某個 schema 中的物件，通常需要額外給予適當的權限。
 
-A user can also be allowed to create objects in someone else's schema. To allow that, the`CREATE`privilege on the schema needs to be granted. Note that by default, everyone has`CREATE`and`USAGE`privileges on the schema`public`. This allows all users that are able to connect to a given database to create objects in its`public`schema. If you do not want to allow that, you can revoke that privilege:
+使用者想要在其他使用者的 schema 中建立新物件的話，就必須要授予 CREATE 的權限。注意，預設上，所有的使用者在 public schema 中，都具備 CREATE 和 USAGE 權限。這使得所有的使用者在連線到某個資料庫之後，就可以在 public schema 上新增物件。如果你不希望這樣，你可以移除這些權限：
 
 ```
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 ```
 
-\(The first“public”is the schema, the second“public”means“every user”. In the first sense it is an identifier, in the second sense it is a key word, hence the different capitalization; recall the guidelines from[Section 4.1.1](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-identifiers).\)
+前面的「public」指的是 schema，是一個物件識別器；而後面的「PUBLIC」指的是所有使用者，是一個關鍵字。所以使用不同的大小寫，可以再複習 [4.1.1 節](/ii-the-sql-language/sql-syntax/41-lexical-structure.md)的內容。
 
 ### 5.8.5. The System Catalog Schema
 
