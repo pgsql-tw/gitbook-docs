@@ -160,11 +160,11 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 前面的「public」指的是 schema，是一個物件識別器；而後面的「PUBLIC」指的是所有使用者，是一個關鍵字。所以使用不同的大小寫，可以再複習 [4.1.1 節](/ii-the-sql-language/sql-syntax/41-lexical-structure.md)的內容。
 
-### 5.8.5. The System Catalog Schema
+### 5.8.5. 系統資訊 Schema
 
-In addition to`public`and user-created schemas, each database contains a`pg_catalog`schema, which contains the system tables and all the built-in data types, functions, and operators.`pg_catalog`is always effectively part of the search path. If it is not named explicitly in the path then it is implicitly searched\_before\_searching the path's schemas. This ensures that built-in names will always be findable. However, you can explicitly place`pg_catalog`at the end of your search path if you prefer to have user-defined names override built-in names.
+除了 public 以及使用者自行建立的 schema 之外，每一個資料庫還有一個稱作 pg\_catalog 的 schema，它包含了系統資訊的資料表和內建的資料型別、函數、及運算子。 pg\_catlog 永遠都都是搜尋路徑裡的有效項目。它沒有明確地顯示在搜尋路徑裡，但卻是隱含優先搜尋，在那些明定的搜尋項目之前。這是為了確保內建的物件的名稱都能被找到。然而，你可以把 pg\_catlog 放在搜尋路徑的最後面，如果你希望自訂的同名物件能優先被使用的話。
 
-Since system table names begin with`pg_`, it is best to avoid such names to ensure that you won't suffer a conflict if some future version defines a system table named the same as your table. \(With the default search path, an unqualified reference to your table name would then be resolved as the system table instead.\) System tables will continue to follow the convention of having names beginning with`pg_`, so that they will not conflict with unqualified user-table names so long as users avoid the`pg_`prefix.
+系統用的資料表都以「pg\_」開頭，為的就是確保不會有衝突的情況出現，以免將來新的系統資料表和你現在所定義的資料表同名。（以預設的搜尋路徑來說，一個簡單的資料表使用，會直接被同名的系統資料表取代。）系統資料表會一直遵循這個命名規則，就不會產生衝突，只要使用者不使用「 pg\_」開頭的命名方式就好了。
 
 ### 5.8.6. Usage Patterns
 
