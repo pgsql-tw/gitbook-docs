@@ -171,18 +171,18 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 Schema 可以在許多方面協助你組織你的資料。有一些巧妙的樣版值得推薦，也很方便以預設的方式支援：
 
 * 如果你沒有建立任何 schema 的話，那麼所有使用者就是隱含著都使用 public schema。這種情況指的是都沒有設定任何 schema，而主要推薦給在一個資料庫中，只有一個使用者的情況。這樣的樣版設定也適合之後轉換到無 schema 設計的資料庫環境。
-* 你可以為每一個使用者建立一個同名的 schema。回想一下先前介紹的預設搜尋路徑，第一個項目就是 $user，表示該使用者的名稱。所以，每一個使用者有一個專屬的 schema，預設上，他們就只存取他們所擁有的 schema。
+* 你可以為每一個使用者建立一個同名的 schema。回想一下先前介紹的預設搜尋路徑，第一個項目就是 $user，表示該使用者的名稱。所以，每一個使用者有一個專屬的 schema，預設上，他們就只存取他們所擁有的 schema。  
   如果你使用這個情境樣版，你也許會需要移除 public schema 的權限，甚至直接移除它，讓使用者真正被隔離在他們自己的 schema 中。
 
 * 要安裝共享的應用程式（每個人共享資料表，有一些第三方提供的延伸套件，或其他的東西。），把他們放到不同的 schema 裡，然後記得要設定好適當的存取權限。使用者可以使用完整的名稱來存取這些共享的應用程式，或把他們加入到搜尋路徑中，由使用者自己來決定。
 
-### 5.8.7. Portability
+### 5.8.7. 可攜性
 
-In the SQL standard, the notion of objects in the same schema being owned by different users does not exist. Moreover, some implementations do not allow you to create schemas that have a different name than their owner. In fact, the concepts of schema and user are nearly equivalent in a database system that implements only the basic schema support specified in the standard. Therefore, many users consider qualified names to really consist of`user_name`.`table_name`. This is howPostgreSQLwill effectively behave if you create a per-user schema for every user.
+在標準 SQL 中，在同一個 schema 中的物件，分別被不同使用者擁有，是不被允許的。然而，有一些實作系統甚至不允許使用者建立和自己不同名的 schema。事實上，schema 和使用者的概念，對於只支援基本 schema 的資料庫系統本身而言，幾乎是相同的。所以，許多使用者會認為完整名稱指的是 user\_name.table\_name。這也就是為什麼 PostgreSQL 建議你這樣為每一個使用者建立他們同名的 schema。
 
-Also, there is no concept of a`public`schema in the SQL standard. For maximum conformance to the standard, you should not use \(perhaps even remove\) the`public`schema.
+再者，在標準 SQL 裡，也沒有所謂 public schema 的概念。極致相容標準的話，你就不應該使用，或移除 public schema。
 
-Of course, some SQL database systems might not implement schemas at all, or provide namespace support by allowing \(possibly limited\) cross-database access. If you need to work with those systems, then maximum portability would be achieved by not using schemas at all.
+當然，也有些 SQL 資料庫並沒有實作 schema，或提供其他跨資料庫存取的命名方式。如果你需要和這些系統共同運作，要提高可攜性的方式就是不要使用任何 schema。
 
 ---
 
