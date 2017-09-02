@@ -166,17 +166,15 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 系統用的資料表都以「pg\_」開頭，為的就是確保不會有衝突的情況出現，以免將來新的系統資料表和你現在所定義的資料表同名。（以預設的搜尋路徑來說，一個簡單的資料表使用，會直接被同名的系統資料表取代。）系統資料表會一直遵循這個命名規則，就不會產生衝突，只要使用者不使用「 pg\_」開頭的命名方式就好了。
 
-### 5.8.6. Usage Patterns
+### 5.8.6. 使用樣版
 
-Schemas can be used to organize your data in many ways. There are a few usage patterns that are recommended and are easily supported by the default configuration:
+Schema 可以在許多方面協助你組織你的資料。有一些巧妙的樣版值得推薦，也很方便以預設的方式支援：
 
-* If you do not create any schemas then all users access the public schema implicitly. This simulates the situation where schemas are not available at all. This setup is mainly recommended when there is only a single user or a few cooperating users in a database. This setup also allows smooth transition from the non-schema-aware world.
+* 如果你沒有建立任何 schema 的話，那麼所有使用者就是隱含著都使用 public schema。這種情況指的是都沒有設定任何 schema，而主要推薦給在一個資料庫中，只有一個使用者的情況。這樣的樣版設定也適合之後轉換到無 schema 設計的資料庫環境。
+* 你可以為每一個使用者建立一個同名的 schema。回想一下先前介紹的預設搜尋路徑，第一個項目就是 $user，表示該使用者的名稱。所以，每一個使用者有一個專屬的 schema，預設上，他們就只存取他們所擁有的 schema。
+  如果你使用這個情境樣版，你也許會需要移除 public schema 的權限，甚至直接移除它，讓使用者真正被隔離在他們自己的 schema 中。
 
-* You can create a schema for each user with the same name as that user. Recall that the default search path starts with`$user`, which resolves to the user name. Therefore, if each user has a separate schema, they access their own schemas by default.
-
-  If you use this setup then you might also want to revoke access to the public schema \(or drop it altogether\), so users are truly constrained to their own schemas.
-
-* To install shared applications \(tables to be used by everyone, additional functions provided by third parties, etc.\), put them into separate schemas. Remember to grant appropriate privileges to allow the other users to access them. Users can then refer to these additional objects by qualifying the names with a schema name, or they can put the additional schemas into their search path, as they choose.
+* 要安裝共享的應用程式（每個人共享資料表，有一些第三方提供的延伸套件，或其他的東西。），把他們放到不同的 schema 裡，然後記得要設定好適當的存取權限。使用者可以使用完整的名稱來存取這些共享的應用程式，或把他們加入到搜尋路徑中，由使用者自己來決定。
 
 ### 5.8.7. Portability
 
