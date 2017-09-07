@@ -49,33 +49,27 @@ SELECT name, altitude
  Mariposa  |     1953
 ```
 
-這裡「ONLY」關鍵字指的是查詢只需要包含資料表 cities 就好，而不是任何繼承 cities 的資料表都包含在內。我們先前介紹過的指令：SELECT
+這裡「ONLY」關鍵字指的是查詢只需要包含資料表 cities 就好，而不是任何繼承 cities 的資料表都包含在內。我們先前介紹過的指令：SELECT、UPDATE、和 DELETE，都可以使用 ONLY 關鍵字。
 
-Here the`ONLY`keyword indicates that the query should apply only to`cities`, and not any tables below`cities`in the inheritance hierarchy. Many of the commands that we have already discussed —`SELECT`,`UPDATE`and`DELETE`— support the`ONLY`keyword.
-
-You can also write the table name with a trailing`*`to explicitly specify that descendant tables are included:
+你也可以在資料表名稱後面加上「\*」，明確指出繼承的資料表都需要包含在內：
 
 ```
 SELECT name, altitude
     FROM cities*
-    WHERE altitude 
->
- 500;
+    WHERE altitude > 500;
 ```
 
-Writing`*`is not necessary, since this behavior is always the default. However, this syntax is still supported for compatibility with older releases where the default could be changed.
+注意這個「\*」並不是必要的，因為這個行為本來就是預設的。這個語法用於相容舊的版本，有些版本的預設行為可能不太一樣。
 
-In some cases you might wish to know which table a particular row originated from. There is a system column called`tableoid`in each table which can tell you the originating table:
+在某些例子裡，也許你會希望知道哪些資料列來自於哪個資料表。有一個系統欄位稱作 tableoid，每一個資料表都會有，而它可告訴你資料列的來源：
 
 ```
 SELECT c.tableoid, c.name, c.altitude
 FROM cities c
-WHERE c.altitude 
->
- 500;
+WHERE c.altitude > 500;
 ```
 
-which returns:
+這將會回傳：
 
 ```
  tableoid |   name    | altitude
@@ -85,17 +79,17 @@ which returns:
    139798 | Madison   |      845
 ```
 
+（如果你嘗試重覆執行這個例子，你可能會得到不同的 OID 值。）藉由和資料表 pg\_class 交叉查詢，你可以看到實際的資料表名稱：
+
 \(If you try to reproduce this example, you will probably get different numeric OIDs.\) By doing a join with`pg_class`you can see the actual table names:
 
 ```
 SELECT p.relname, c.name, c.altitude
 FROM cities c, pg_class p
-WHERE c.altitude 
->
- 500 AND c.tableoid = p.oid;
+WHERE c.altitude > 500 AND c.tableoid = p.oid;
 ```
 
-which returns:
+將會回傳：
 
 ```
  relname  |   name    | altitude
@@ -105,17 +99,15 @@ which returns:
  capitals | Madison   |      845
 ```
 
-Another way to get the same effect is to use the`regclass`alias type, which will print the table OID symbolically:
+另一個可以得到相同結果的方式是，使用 regclass 別名型別，這個型別會將 OID 轉換成名稱輸出：
 
 ```
 SELECT c.tableoid::regclass, c.name, c.altitude
 FROM cities c
-WHERE c.altitude 
->
- 500;
+WHERE c.altitude > 500;
 ```
 
-Inheritance does not automatically propagate data from`INSERT`or`COPY`commands to other tables in the inheritance hierarchy. In our example, the following`INSERT`statement will fail:
+在使用 INSERT 或 COPY 指令時，繼承並不會自動轉存資料。在我們的例子中，下面的 INSERT 指令將會失敗：
 
 ```
 INSERT INTO cities (name, population, altitude, state)
