@@ -16,4 +16,5 @@ _book
 *.pdf
 
 # pitch file
-PITCHME.*
+PITCHME.md
+PITCHME.yaml
