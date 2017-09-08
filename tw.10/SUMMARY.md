@@ -406,6 +406,7 @@
     * 37.14. Interfacing Extensions To Indexes
     * 37.15. Packaging Related Objects into an Extension
     * 37.16. Extension Building Infrastructure
+  * [40. The Rule System](v-server-programming/the-rule-system.md)
 * [VI. Reference](vi-reference.md)
   * [I. SQL 指令](vi-reference/i-sql-commands.md)
     * [ALTER POLICY](vi-reference/i-sql-commands/alter-policy.md)

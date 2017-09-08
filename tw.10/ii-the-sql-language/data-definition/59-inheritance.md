@@ -81,8 +81,6 @@ WHERE c.altitude > 500;
 
 （如果你嘗試重覆執行這個例子，你可能會得到不同的 OID 值。）藉由和資料表 pg\_class 交叉查詢，你可以看到實際的資料表名稱：
 
-\(If you try to reproduce this example, you will probably get different numeric OIDs.\) By doing a join with`pg_class`you can see the actual table names:
-
 ```
 SELECT p.relname, c.name, c.altitude
 FROM cities c, pg_class p
@@ -114,9 +112,9 @@ INSERT INTO cities (name, population, altitude, state)
 VALUES ('Albany', NULL, NULL, 'NY');
 ```
 
-We might hope that the data would somehow be routed to the`capitals`table, but this does not happen:`INSERT`always inserts into exactly the table specified. In some cases it is possible to redirect the insertion using a rule \(see[Chapter 40](https://www.postgresql.org/docs/10/static/rules.html)\). However that does not help for the above case because the`cities`table does not contain the column`state`, and so the command will be rejected before the rule can be applied.
+我們可能會希望資料以某種方式轉送到資料表 capitals 中，但這不會發生：INSERT 指令永遠只會將資料插入到指定的資料表中。在某些情況下，如果設定了存取規則（[第 40 章](/v-server-programming/the-rule-system.md)）的話，那有可能做到類似的效果。然而，在這個例子下是沒有辦法執行的，因為資料表 cities 中並沒有一個欄位稱作 state，所以這個指令將會被拒絕執行，如果沒有其他規則被設定的話。
 
-All check constraints and not-null constraints on a parent table are automatically inherited by its children, unless explicitly specified otherwise with`NO INHERIT`clauses. Other types of constraints \(unique, primary key, and foreign key constraints\) are not inherited.
+所有限制條件的檢查，還有非空值的限制，都會自動從父資料表繼承下來，除非特別使用 NO INHERIT 子句來設定拋棄繼承。而其他型態的限制條件（唯一性、主鍵、外部鍵）都不會自動繼承。
 
 A table can inherit from more than one parent table, in which case it has the union of the columns defined by the parent tables. Any columns declared in the child table's definition are added to these. If the same column name appears in multiple parent tables, or in both a parent table and the child's definition, then these columns are“merged”so that there is only one such column in the child table. To be merged, columns must have the same data types, else an error is raised. Inheritable check constraints and not-null constraints are merged in a similar fashion. Thus, for example, a merged column will be marked not-null if any one of the column definitions it came from is marked not-null. Check constraints are merged if they have the same name, and the merge will fail if their conditions are different.
 
