@@ -1,2 +1,3 @@
 logo: https://raw.githubusercontent.com/pgsql-tw/promotional-materials/master/TWPUG-LOGO/twpug-log-64x64.png
-footnote: PostgreSQL台灣使用者社群 - https://pgsql-tw.github.io/
+footnote: "<a href='https://pgsql-tw.github.io/island/'><img src='https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg'/></a>&nbsp;<a href='https://pgsql-tw.github.io'><img src='https://pgsql-tw.github.io/island/assets/pgsql-tw.svg'/></a>"
+
