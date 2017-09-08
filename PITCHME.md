@@ -1,5 +1,6 @@
 ## [PostgreSQL 正體中文使用手冊](https://www.gitbook.com/book/pgsql-tw/documents/)
 ### 目前編譯版本為 [PostgreSQL 10](https://www.postgresql.org/docs/10/static/index.html)
+
 [![中文就要用中文字型](https://ycku.github.io/assets/gitbook-plugin-notocjk.svg)](https://plugins.gitbook.com/plugin/notocjk)
 [![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](https://pgsql-tw.github.io/island/)
 [![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)](https://pgsql-tw.github.io)
