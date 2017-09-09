@@ -118,9 +118,7 @@ VALUES ('Albany', NULL, NULL, 'NY');
 
 一個資料表也可以繼承超過一個資料表，也就是說，它會擁有這些資料表全部的欄位，然後再加上自己所宣告的欄位。如果父資料表有相同名稱的欄位的話，或是父資料表和子資料表有同名的欄位，那麼這些欄位會被合併，它們會被合併為一個欄位。合併的時候，他們的資料型別必須要一致，否則會產生錯誤。被繼承的限制條件和無空值的限制也會用類似的方式合併。舉個例子來說，如果要合併的欄位中，任何一個欄位有 not-null 的設定的話，那麼合併後的欄位就會被設定為 not-null。如果有同名的限制條件要被合併，但他們的內容不相同的話，那麼合併也會失敗。
 
-
-
-Table inheritance is typically established when the child table is created, using the`INHERITS`clause of the[CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html)statement. Alternatively, a table which is already defined in a compatible way can have a new parent relationship added, using the`INHERIT`variant of[ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html). To do this the new child table must already include columns with the same names and types as the columns of the parent. It must also include check constraints with the same names and check expressions as those of the parent. Similarly an inheritance link can be removed from a child using the`NO INHERIT`variant of`ALTER TABLE`. Dynamically adding and removing inheritance links like this can be useful when the inheritance relationship is being used for table partitioning \(see[Section 5.10](https://www.postgresql.org/docs/10/static/ddl-partitioning.html)\).
+資料表的繼承一般來說是在子資料表建立時進行的，也就是在 [CREATE TABLE](/vi-reference/i-sql-commands/create-table.md) 中使用 INHERITES 子句。然而，資料表也可以在 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md) 中使用 INHERIT 子句來新增新的父資料表。要進行這個動作，新的子資料表必須已經包含所有父資料表的欄位—相同的欄位名稱及資料型別。還有在 ALTER TABLE 時加入 INHERIT 子句來移除某個欄位的繼承。動態地新增或移除繼承欄位通常是在應用分割表格（table partitioning）時特別好用（請參閱 [5.10 節](/ii-the-sql-language/data-definition/510-table-partitioning.md)）。
 
 One convenient way to create a compatible table that will later be made a new child is to use the`LIKE`clause in`CREATE TABLE`. This creates a new table with the same columns as the source table. If there are any`CHECK`constraints defined on the source table, the`INCLUDING CONSTRAINTS`option to`LIKE`should be specified, as the new child must have constraints matching the parent to be considered compatible.
 
