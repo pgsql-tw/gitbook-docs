@@ -120,9 +120,11 @@ VALUES ('Albany', NULL, NULL, 'NY');
 
 資料表的繼承一般來說是在子資料表建立時進行的，也就是在 [CREATE TABLE](/vi-reference/i-sql-commands/create-table.md) 中使用 INHERITES 子句。然而，資料表也可以在 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md) 中使用 INHERIT 子句來新增新的父資料表。要進行這個動作，新的子資料表必須已經包含所有父資料表的欄位—相同的欄位名稱及資料型別。還有在 ALTER TABLE 時加入 INHERIT 子句來移除某個欄位的繼承。動態地新增或移除繼承欄位通常是在應用分割表格（table partitioning）時特別好用（請參閱 [5.10 節](/ii-the-sql-language/data-definition/510-table-partitioning.md)）。
 
-One convenient way to create a compatible table that will later be made a new child is to use the`LIKE`clause in`CREATE TABLE`. This creates a new table with the same columns as the source table. If there are any`CHECK`constraints defined on the source table, the`INCLUDING CONSTRAINTS`option to`LIKE`should be specified, as the new child must have constraints matching the parent to be considered compatible.
+還有一個方便的方式去建立一個相容於之後繼承的資料表，就是在 CREATE TABLE 中使用 LIKE 子句。這個方式會建立一個新的資料表，其欄位和另一個資料表完全相同。如果有任何 CHECK 子句的限制條件的話，就應該在 LIKE 子句中加入 INCLUDING CONSTRAINTS 選項，這樣就會和父資料表完全相容了。
 
-A parent table cannot be dropped while any of its children remain. Neither can columns or check constraints of child tables be dropped or altered if they are inherited from any parent tables. If you wish to remove a table and all of its descendants, one easy way is to drop the parent table with the`CASCADE`option \(see[Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
+父資料表無法在子資料表仍然存在時被移除。子資料表的欄位和限制條件也不能被移除，如果它們是由其他資料表繼承而來的話。如果你想要移除某個資料表，包含其相關的物件的話，一個簡單的方式就是在移除時加上 CASCADE 選項（請參閱 [5.13 節](/ii-the-sql-language/data-definition/513-dependency-tracking.md)）。
+
+
 
 [ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html)will propagate any changes in column data definitions and check constraints down the inheritance hierarchy. Again, dropping columns that are depended on by other tables is only possible when using the`CASCADE`option.`ALTER TABLE`follows the same rules for duplicate column merging and rejection that apply during`CREATE TABLE`.
 
