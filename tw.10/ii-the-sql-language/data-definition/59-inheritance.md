@@ -130,19 +130,17 @@ VALUES ('Albany', NULL, NULL, 'NY');
 
 外部資料表（[5.11 節](/ii-the-sql-language/data-definition/511-foreign-data.md)）也可以是繼承的一部份，父資料表或子資料表，就如同一般的資料表一樣。只是，如果整個繼承結構中，有任何外部資料不支援的操作的話，那麼整個繼承結構就都不支援。
 
-### 5.9.1. Caveats
+### 5.9.1. 警告
 
-Note that not all SQL commands are able to work on inheritance hierarchies. Commands that are used for data querying, data modification, or schema modification \(e.g.,`SELECT`,`UPDATE`,`DELETE`, most variants of`ALTER TABLE`, but not`INSERT`or`ALTER TABLE ... RENAME`\) typically default to including child tables and support the`ONLY`notation to exclude them. Commands that do database maintenance and tuning \(e.g.,`REINDEX`,`VACUUM`\) typically only work on individual, physical tables and do not support recursing over inheritance hierarchies. The respective behavior of each individual command is documented in its reference page \([SQL Commands](https://www.postgresql.org/docs/10/static/sql-commands.html)\).
+注意，並非所有的 SQL 指令都可以在繼承結構中執行。一般常用的資料查詢，資料更新，或結構調整（像是 SELECT、UPDATE、DELETE，還有多數 ALTER TABLE 的功能，但不包括 INSERT 或 ALTER TABLE ...... RENAME），基本上預設都是包含子資料表，也支援使用 ONLY 指示字來排除子資料表。如果是資料庫維護或調教的指令，如 REINDEX、VACUUM，一般就只支援特定且實體的資料表，就不會在繼承結構中衍生其他的動作。這些個別指令相關的行為，請參閱 [SQL Commands](/vi-reference/i-sql-commands.md) 內的說明。
 
-A serious limitation of the inheritance feature is that indexes \(including unique constraints\) and foreign key constraints only apply to single tables, not to their inheritance children. This is true on both the referencing and referenced sides of a foreign key constraint. Thus, in the terms of the above example:
+繼承功能比較嚴格的限制是索引（包含唯一性索引），還有外部鍵的限制條件，都只能用在單一資料表，而不會衍生至他們的子資料表中。對外部鍵來說，無論引用資料表或是參考資料表的情況都一樣。下面是一些例子說明：
 
-* If we declared`cities`.`name`to be`UNIQUE`or a`PRIMARY KEY`, this would not stop the`capitals`table from having rows with names duplicating rows in`cities`. And those duplicate rows would by default show up in queries from`cities`. In fact, by default`capitals`would have no unique constraint at all, and so could contain multiple rows with the same name. You could add a unique constraint to`capitals`, but this would not prevent duplication compared to`cities`.
+* 如果我們宣告 cities.name 具備唯一性或是主鍵，這不會限制到 capitals 中有重覆的項目。而這些重覆的資料列就會出現在 cities 的查詢結果中。事實上，預設的 capitals 就沒有唯一性的限制，所以就可能有多個資料列記載相同的名稱。你可以在 capitals 中也加入唯一性索引，但這也無法避免 capitals 和 cities 中有重覆的項目。
+* 同樣地，如果我們指定 cities.name 以外部鍵的方式，參考另一個資料表，而這個外部鍵也不會衍生到 capitals 中。這種情況你就必須在 capitals 中也以 REFERENCES 設定同樣外部鍵的引用。
+* 如果有另一個資料表的欄位設定了 REFERENCES cities\(name\) 就會允許其他的資料表包含城市名稱，但就沒有首都名稱。在這個情況下，沒有好的解決辦法。
 
-* Similarly, if we were to specify that`cities`.`nameREFERENCES`some other table, this constraint would not automatically propagate to`capitals`. In this case you could work around it by manually adding the same`REFERENCES`constraint to`capitals`.
-
-* Specifying that another table's column`REFERENCES cities(name)`would allow the other table to contain city names, but not capital names. There is no good workaround for this case.
-
-These deficiencies will probably be fixed in some future release, but in the meantime considerable care is needed in deciding whether inheritance is useful for your application.
+這些缺點可能會在後續的版本中被修正，但在此時此刻，當你需要使用繼承功能讓你的應用設計更好用時，你就必須要同時考慮這些限制。
 
 ---
 
