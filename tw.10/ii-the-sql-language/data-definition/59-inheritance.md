@@ -124,13 +124,11 @@ VALUES ('Albany', NULL, NULL, 'NY');
 
 父資料表無法在子資料表仍然存在時被移除。子資料表的欄位和限制條件也不能被移除，如果它們是由其他資料表繼承而來的話。如果你想要移除某個資料表，包含其相關的物件的話，一個簡單的方式就是在移除時加上 CASCADE 選項（請參閱 [5.13 節](/ii-the-sql-language/data-definition/513-dependency-tracking.md)）。
 
+[ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md) 將會讓欄位型態和限制條件的改變，衍生至繼承它的資料表之中。一樣地，移除某個欄位，如果它有被其他資料表繼承的話，那麼就必須要加上 CASCADE 選項才行。ALTER TABLE 會遵循和 CREATE TABLE 一樣的規則，決定重覆的欄位要合併還是拒絕。
 
+指令的繼承權限是依父資料表的權限。舉個例子，當你存取資料表 cities 時，在 cities 上給予 UPDATE 的權限，同時也隱含了賦予 capitals 更新資料的權限。這考量到這些資料也會出現在父資料表，但如果你沒有特別給予 capitals 權限的話，你還是無法直接存取 capitals。類似的情況也會發生在資料列的安全原則（[5.7 節](/ii-the-sql-language/data-definition/57-row-security-policies.md)），在繼承查詢時，同樣是參考父資料表的安全原則。而子資料表額外的安全原則，只在直接查詢該資料表時有效，同時任何父資料表的安全原則會失效。
 
-[ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html)will propagate any changes in column data definitions and check constraints down the inheritance hierarchy. Again, dropping columns that are depended on by other tables is only possible when using the`CASCADE`option.`ALTER TABLE`follows the same rules for duplicate column merging and rejection that apply during`CREATE TABLE`.
-
-Inherited queries perform access permission checks on the parent table only. Thus, for example, granting`UPDATE`permission on the`cities`table implies permission to update rows in the`capitals`table as well, when they are accessed through`cities`. This preserves the appearance that the data is \(also\) in the parent table. But the`capitals`table could not be updated directly without an additional grant. In a similar way, the parent table's row security policies \(see[Section 5.7](https://www.postgresql.org/docs/10/static/ddl-rowsecurity.html)\) are applied to rows coming from child tables during an inherited query. A child table's policies, if any, are applied only when it is the table explicitly named in the query; and in that case, any policies attached to its parent\(s\) are ignored.
-
-Foreign tables \(see[Section 5.11](https://www.postgresql.org/docs/10/static/ddl-foreign-data.html)\) can also be part of inheritance hierarchies, either as parent or child tables, just as regular tables can be. If a foreign table is part of an inheritance hierarchy then any operations not supported by the foreign table are not supported on the whole hierarchy either.
+外部資料表（[5.11 節](/ii-the-sql-language/data-definition/511-foreign-data.md)）也可以是繼承的一部份，父資料表或子資料表，就如同一般的資料表一樣。只是，如果整個繼承結構中，有任何外部資料不支援的操作的話，那麼整個繼承結構就都不支援。
 
 ### 5.9.1. Caveats
 
