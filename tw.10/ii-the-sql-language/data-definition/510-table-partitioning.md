@@ -1,8 +1,10 @@
 # 5.10. 分割表格[^1]
 
+PostgreSQL 支援基礎的分散式資料表。
+
 PostgreSQLsupports basic table partitioning. This section describes why and how to implement partitioning as part of your database design.
 
-### 5.10.1. Overview
+### 5.10.1. Overview
 
 Partitioning refers to splitting what is logically one large table into smaller physical pieces. Partitioning can provide several benefits:
 
@@ -28,17 +30,17 @@ The table is partitioned by explicitly listing which key values appear in each p
 
 If your application needs to use other forms of partitioning not listed above, alternative methods such as inheritance and`UNION ALL`views can be used instead. Such methods offer flexibility but do not have some of the performance benefits of built-in declarative partitioning.
 
-### 5.10.2. Declarative Partitioning
+### 5.10.2. Declarative Partitioning
 
-PostgreSQLoffers a way to specify how to divide a table into pieces called partitions. The table that is divided is referred to as a_partitioned table_. The specification consists of the_partitioning method_and a list of columns or expressions to be used as the_partition key_.
+PostgreSQLoffers a way to specify how to divide a table into pieces called partitions. The table that is divided is referred to as a_partitioned table_. The specification consists of the_partitioning method\_and a list of columns or expressions to be used as the\_partition key_.
 
-All rows inserted into a partitioned table will be routed to one of the_partitions_based on the value of the partition key. Each partition has a subset of the data defined by its_partition bounds_. Currently supported partitioning methods include range and list, where each partition is assigned a range of keys and a list of keys, respectively.
+All rows inserted into a partitioned table will be routed to one of the_partitions\_based on the value of the partition key. Each partition has a subset of the data defined by its\_partition bounds_. Currently supported partitioning methods include range and list, where each partition is assigned a range of keys and a list of keys, respectively.
 
 Partitions may themselves be defined as partitioned tables, using what is called_sub-partitioning_. Partitions may have their own indexes, constraints and default values, distinct from those of other partitions. Indexes must be created separately for each partition. See[CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html)for more details on creating partitioned tables and partitions.
 
 It is not possible to turn a regular table into a partitioned table or vice versa. However, it is possible to add a regular or partitioned table containing data as a partition of a partitioned table, or remove a partition from a partitioned table turning it into a standalone table; see[ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html)to learn more about the`ATTACH PARTITION`and`DETACH PARTITION`sub-commands.
 
-Individual partitions are linked to the partitioned table with inheritance behind-the-scenes; however, it is not possible to use some of the inheritance features discussed in the previous section with partitioned tables and partitions. For example, a partition cannot have any parents other than the partitioned table it is a partition of, nor can a regular table inherit from a partitioned table making the latter its parent. That means partitioned tables and partitions do not participate in inheritance with regular tables. Since a partition hierarchy consisting of the partitioned table and its partitions is still an inheritance hierarchy, all the normal rules of inheritance apply as described in[Section 5.9](https://www.postgresql.org/docs/10/static/ddl-inherit.html)with some exceptions, most notably:
+Individual partitions are linked to the partitioned table with inheritance behind-the-scenes; however, it is not possible to use some of the inheritance features discussed in the previous section with partitioned tables and partitions. For example, a partition cannot have any parents other than the partitioned table it is a partition of, nor can a regular table inherit from a partitioned table making the latter its parent. That means partitioned tables and partitions do not participate in inheritance with regular tables. Since a partition hierarchy consisting of the partitioned table and its partitions is still an inheritance hierarchy, all the normal rules of inheritance apply as described in[Section 5.9](https://www.postgresql.org/docs/10/static/ddl-inherit.html)with some exceptions, most notably:
 
 * Both`CHECK`and`NOT NULL`constraints of a partitioned table are always inherited by all its partitions.`CHECK`constraints that are marked`NO INHERIT`are not allowed to be created on partitioned tables.
 
@@ -50,7 +52,7 @@ Individual partitions are linked to the partitioned table with inheritance behin
 
 Partitions can also be foreign tables \(see[CREATE FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-createforeigntable.html)\), although these have some limitations that normal tables do not. For example, data inserted into the partitioned table is not routed to foreign table partitions.
 
-#### 5.10.2.1. Example
+#### 5.10.2.1. Example
 
 Suppose we are constructing a database for a large ice cream company. The company measures peak temperatures every day as well as ice cream sales in each region. Conceptually, we want a table like:
 
@@ -61,7 +63,6 @@ CREATE TABLE measurement (
     peaktemp        int,
     unitsales       int
 );
-
 ```
 
 We know that most queries will access just the last week's, month's or quarter's data, since the main use of this table will be to prepare online reports for management. To reduce the amount of old data that needs to be stored, we decide to only keep the most recent 3 years worth of data. At the beginning of each month we will remove the oldest month's data. In this situation we can use partitioning to help us meet all of our different requirements for the measurements table.
@@ -77,7 +78,6 @@ To use declarative partitioning in this case, use the following steps:
        peaktemp        int,
        unitsales       int
    ) PARTITION BY RANGE (logdate);
-
    ```
 
    You may decide to use multiple columns in the partition key for range partitioning, if desired. Of course, this will often result in a larger number of partitions, each of which is individually smaller. On the other hand, using fewer columns may lead to a coarser-grained partitioning criteria with smaller number of partitions. A query accessing the partitioned table will have to scan fewer partitions if the conditions involve some or all of these columns. For example, consider a table range partitioned using columns`lastname`and`firstname`\(in that order\) as the partition key.
@@ -107,7 +107,6 @@ To use declarative partitioning in this case, use the following steps:
        FOR VALUES FROM ('2008-01-01') TO ('2008-02-01')
        TABLESPACE fasttablespace
        WITH (parallel_workers = 4);
-
    ```
 
    To implement sub-partitioning, specify the`PARTITION BY`clause in the commands used to create individual partitions, for example:
@@ -116,7 +115,6 @@ To use declarative partitioning in this case, use the following steps:
    CREATE TABLE measurement_y2006m02 PARTITION OF measurement
        FOR VALUES FROM ('2006-02-01') TO ('2006-03-01')
        PARTITION BY RANGE (peaktemp);
-
    ```
 
    After creating partitions of`measurement_y2006m02`, any data inserted into`measurement`that is mapped to`measurement_y2006m02`\(or data that is directly inserted into`measurement_y2006m02`, provided it satisfies its partition constraint\) will be further redirected to one of its partitions based on the`peaktemp`column. The partition key specified may overlap with the parent's partition key, although care should be taken when specifying the bounds of a sub-partition such that the set of data it accepts constitutes a subset of what the partition's own bounds allows; the system does not try to check whether that's really the case.
@@ -130,14 +128,13 @@ To use declarative partitioning in this case, use the following steps:
    CREATE INDEX ON measurement_y2007m11 (logdate);
    CREATE INDEX ON measurement_y2007m12 (logdate);
    CREATE INDEX ON measurement_y2008m01 (logdate);
-
    ```
 
 4. Ensure that the[constraint\_exclusion](https://www.postgresql.org/docs/10/static/runtime-config-query.html#guc-constraint-exclusion)configuration parameter is not disabled in`postgresql.conf`. If it is, queries will not be optimized as desired.
 
 In the above example we would be creating a new partition each month, so it might be wise to write a script that generates the required DDL automatically.
 
-#### 5.10.2.2. Partition Maintenance
+#### 5.10.2.2. Partition Maintenance
 
 Normally the set of partitions established when initially defining the the table are not intended to remain static. It is common to want to remove old partitions of data and periodically add new partitions for new data. One of the most important advantages of partitioning is precisely that it allows this otherwise painful task to be executed nearly instantaneously by manipulating the partition structure, rather than physically moving large amounts of data around.
 
@@ -145,7 +142,6 @@ The simplest option for removing old data is to drop the partition that is no lo
 
 ```
 DROP TABLE measurement_y2006m02;
-
 ```
 
 This can very quickly delete millions of records because it doesn't have to individually delete every record. Note however that the above command requires taking an`ACCESS EXCLUSIVE`lock on the parent table.
@@ -154,7 +150,6 @@ Another option that is often preferable is to remove the partition from the part
 
 ```
 ALTER TABLE measurement DETACH PARTITION measurement_y2006m02;
-
 ```
 
 This allows further operations to be performed on the data before it is dropped. For example, this is often a useful time to back up the data using`COPY`,pg\_dump, or similar tools. It might also be a useful time to aggregate data into smaller formats, perform other data manipulations, or run reports.
@@ -165,7 +160,6 @@ Similarly we can add a new partition to handle new data. We can create an empty 
 CREATE TABLE measurement_y2008m02 PARTITION OF measurement
     FOR VALUES FROM ('2008-02-01') TO ('2008-03-01')
     TABLESPACE fasttablespace;
-
 ```
 
 As an alternative, it is sometimes more convenient to create the new table outside the partition structure, and make it a proper partition later. This allows the data to be loaded, checked, and transformed prior to it appearing in the partitioned table:
@@ -187,12 +181,11 @@ ALTER TABLE measurement_y2008m02 ADD CONSTRAINT y2008m02
 
 ALTER TABLE measurement ATTACH PARTITION measurement_y2008m02
     FOR VALUES FROM ('2008-02-01') TO ('2008-03-01' );
-
 ```
 
 Before running the`ATTACH PARTITION`command, it is recommended to create a`CHECK`constraint on the table to be attached describing the desired partition constraint. That way, the system will be able to skip the scan to validate the implicit partition constraint. Without such a constraint, the table will be scanned to validate the partition constraint while holding an`ACCESS EXCLUSIVE`lock on the parent table. One may then drop the constraint after`ATTACH PARTITION`is finished, because it is no longer necessary.
 
-#### 5.10.2.3. Limitations
+#### 5.10.2.3. Limitations
 
 The following limitations apply to partitioned tables:
 
@@ -206,7 +199,7 @@ The following limitations apply to partitioned tables:
 
 * Row triggers, if necessary, must be defined on individual partitions, not the partitioned table.
 
-### 5.10.3. Implementation Using Inheritance
+### 5.10.3. Implementation Using Inheritance
 
 While the built-in declarative partitioning is suitable for most common use cases, there are some circumstances where a more flexible approach may be useful. Partitioning can be implemented using table inheritance, which allows for several features which are not supported by declarative partitioning, such as:
 
@@ -218,7 +211,7 @@ While the built-in declarative partitioning is suitable for most common use case
 
 * Some operations require a stronger lock when using declarative partitioning than when using table inheritance. For example, adding or removing a partition to or from a partitioned table requires taking an`ACCESS EXCLUSIVE`lock on the parent table, whereas a`SHARE UPDATE EXCLUSIVE`lock is enough in the case of regular inheritance.
 
-#### 5.10.3.1. Example
+#### 5.10.3.1. Example
 
 We use the same`measurement`table we used above. To implement it as a partitioned table using inheritance, use the following steps:
 
@@ -233,7 +226,6 @@ We use the same`measurement`table we used above. To implement it as a partitione
    CREATE TABLE measurement_y2007m11 () INHERITS (measurement);
    CREATE TABLE measurement_y2007m12 () INHERITS (measurement);
    CREATE TABLE measurement_y2008m01 () INHERITS (measurement);
-
    ```
 
 3. Add non-overlapping table constraints to the partition tables to define the allowed key values in each partition.
@@ -248,7 +240,6 @@ We use the same`measurement`table we used above. To implement it as a partitione
    = 100 AND outletID 
    <
     200 )
-
    ```
 
    Ensure that the constraints guarantee that there is no overlap between the key values permitted in different partitions. A common mistake is to set up range constraints like:
@@ -256,7 +247,6 @@ We use the same`measurement`table we used above. To implement it as a partitione
    ```
    CHECK ( outletID BETWEEN 100 AND 200 )
    CHECK ( outletID BETWEEN 200 AND 300 )
-
    ```
 
    This is wrong since it is not clear which partition the key value 200 belongs in.
@@ -304,7 +294,6 @@ We use the same`measurement`table we used above. To implement it as a partitione
    <
     DATE '2008-02-01' )
    ) INHERITS (measurement);
-
    ```
 
 4. For each partition, create an index on the key column\(s\), as well as any other indexes you might want.
@@ -315,7 +304,6 @@ We use the same`measurement`table we used above. To implement it as a partitione
    CREATE INDEX measurement_y2007m11_logdate ON measurement_y2007m11 (logdate);
    CREATE INDEX measurement_y2007m12_logdate ON measurement_y2007m12 (logdate);
    CREATE INDEX measurement_y2008m01_logdate ON measurement_y2008m01 (logdate);
-
    ```
 
 5. We want our application to be able to say`INSERT INTO measurement ...`and have the data be redirected into the appropriate partition table. We can arrange that by attaching a suitable trigger function to the master table. If data will be added only to the latest partition, we can use a very simple trigger function:
@@ -329,7 +317,6 @@ We use the same`measurement`table we used above. To implement it as a partitione
    END;
    $$
    LANGUAGE plpgsql;
-
    ```
 
    After creating the function, we create a trigger which calls the trigger function:
@@ -338,7 +325,6 @@ We use the same`measurement`table we used above. To implement it as a partitione
    CREATE TRIGGER insert_measurement_trigger
        BEFORE INSERT ON measurement
        FOR EACH ROW EXECUTE PROCEDURE measurement_insert_trigger();
-
    ```
 
    We must redefine the trigger function each month so that it always points to the current partition. The trigger definition does not need to be updated, however.
@@ -378,7 +364,6 @@ We use the same`measurement`table we used above. To implement it as a partitione
    END;
    $$
    LANGUAGE plpgsql;
-
    ```
 
    The trigger definition is the same as before. Note that each`IF`test must exactly match the`CHECK`constraint for its partition.
@@ -411,7 +396,6 @@ We use the same`measurement`table we used above. To implement it as a partitione
     DATE '2008-02-01' )
    DO INSTEAD
        INSERT INTO measurement_y2008m01 VALUES (NEW.*);
-
    ```
 
    A rule has significantly more overhead than a trigger, but the overhead is paid once per query rather than once per row, so this method might be advantageous for bulk-insert situations. In most cases, however, the trigger method will offer better performance.
@@ -424,20 +408,18 @@ We use the same`measurement`table we used above. To implement it as a partitione
 
 As we can see, a complex partitioning scheme could require a substantial amount of DDL. In the above example we would be creating a new partition each month, so it might be wise to write a script that generates the required DDL automatically.
 
-#### 5.10.3.2. Partition Maintenance
+#### 5.10.3.2. Partition Maintenance
 
 To remove old data quickly, simply drop the partition that is no longer necessary:
 
 ```
 DROP TABLE measurement_y2006m02;
-
 ```
 
 To remove the partition from the partitioned table but retain access to it as a table in its own right:
 
 ```
 ALTER TABLE measurement_y2006m02 NO INHERIT measurement;
-
 ```
 
 To add a new partition to handle new data, create an empty partition just as the original partitions were created above:
@@ -450,7 +432,6 @@ CREATE TABLE measurement_y2008m02 (
 <
  DATE '2008-03-01' )
 ) INHERITS (measurement);
-
 ```
 
 Alternatively, one may want to create the new table outside the partition structure, and make it a partition after the data is loaded, checked, and transformed.
@@ -467,10 +448,9 @@ ALTER TABLE measurement_y2008m02 ADD CONSTRAINT y2008m02
 \copy measurement_y2008m02 from 'measurement_y2008m02'
 -- possibly some other data preparation work
 ALTER TABLE measurement_y2008m02 INHERIT measurement;
-
 ```
 
-#### 5.10.3.3. Caveats
+#### 5.10.3.3. Caveats
 
 The following caveats apply to partitioned tables implemented using inheritance:
 
@@ -482,7 +462,6 @@ The following caveats apply to partitioned tables implemented using inheritance:
 
   ```
   ANALYZE measurement;
-
   ```
 
   will only process the master table.
@@ -491,18 +470,15 @@ The following caveats apply to partitioned tables implemented using inheritance:
 
 * Triggers or rules will be needed to route rows to the desired partition, unless the application is explicitly aware of the partitioning scheme. Triggers may be complicated to write, and will be much slower than the tuple routing performed internally by declarative partitioning.
 
-### 5.10.4. Partitioning and Constraint Exclusion
+### 5.10.4. Partitioning and Constraint Exclusion
 
-
-
-_Constraint exclusion_is a query optimization technique that improves performance for partitioned tables defined in the fashion described above \(both declaratively partitioned tables and those implemented using inheritance\). As an example:
+\_Constraint exclusion\_is a query optimization technique that improves performance for partitioned tables defined in the fashion described above \(both declaratively partitioned tables and those implemented using inheritance\). As an example:
 
 ```
 SET constraint_exclusion = on;
 SELECT count(*) FROM measurement WHERE logdate 
 >
 = DATE '2008-01-01';
-
 ```
 
 Without constraint exclusion, the above query would scan each of the partitions of the`measurement`table. With constraint exclusion enabled, the planner will examine the constraints of each partition and try to prove that the partition need not be scanned because it could not contain any rows meeting the query's`WHERE`clause. When the planner can prove this, it excludes the partition from the query plan.
@@ -552,7 +528,6 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate
                Filter: (logdate 
 >
 = '2008-01-01'::date)
-
 ```
 
 Some or all of the partitions might use index scans instead of full-table sequential scans, but the point here is that there is no need to scan the older partitions at all to answer this query. When we enable constraint exclusion, we get a significantly cheaper plan that will deliver the same answer:
@@ -580,7 +555,6 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate
                Filter: (logdate 
 >
 = '2008-01-01'::date)
-
 ```
 
 Note that constraint exclusion is driven only by`CHECK`constraints, not by the presence of indexes. Therefore it isn't necessary to define indexes on the key columns. Whether an index needs to be created for a given partition depends on whether you expect that queries that scan the partition will generally scan a large part of the partition or just a small part. An index will be helpful in the latter case but not the former.
@@ -597,7 +571,5 @@ The following caveats apply to constraint exclusion, which is used by both inher
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 5.10. Table Partitioning](https://www.postgresql.org/docs/10/static/ddl-partitioning.html)
+[^1]: [PostgreSQL: Documentation: 10: 5.10. Table Partitioning](https://www.postgresql.org/docs/10/static/ddl-partitioning.html)
 
