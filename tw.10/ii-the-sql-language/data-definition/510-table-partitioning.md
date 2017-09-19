@@ -1,10 +1,8 @@
 # 5.10. 分割表格[^1]
 
-PostgreSQL 支援基礎的分散式資料表。
+PostgreSQL 支援基礎的分散式資料表。本節描述如何讓分散式資料表成為資料庫設計的一部份。
 
-PostgreSQLsupports basic table partitioning. This section describes why and how to implement partitioning as part of your database design.
-
-### 5.10.1. Overview
+### 5.10.1. 概論
 
 Partitioning refers to splitting what is logically one large table into smaller physical pieces. Partitioning can provide several benefits:
 
