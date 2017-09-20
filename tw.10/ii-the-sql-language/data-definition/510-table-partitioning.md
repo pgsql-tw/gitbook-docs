@@ -1,18 +1,17 @@
-# 5.10. 分割表格[^1]
+# 5.10. 分割資料表[^1]
 
-PostgreSQL 支援基礎的分散式資料表。本節描述如何讓分散式資料表成為資料庫設計的一部份。
+PostgreSQL 支援基礎的分割資料表。本節描述如何讓分割資料表成為資料庫設計的一部份。
 
 ### 5.10.1. 概論
 
-Partitioning refers to splitting what is logically one large table into smaller physical pieces. Partitioning can provide several benefits:
+資料表的分割，指的是把一個邏輯上很大的資料表，分割為數個實體的小資料表。分割資料表可以獲得幾點好處：
 
-* Query performance can be improved dramatically in certain situations, particularly when most of the heavily accessed rows of the table are in a single partition or a small number of partitions. The partitioning substitutes for leading columns of indexes, reducing index size and making it more likely that the heavily-used parts of the indexes fit in memory.
+* 資料查詢的效能在某些情況下會大幅改善，特別是資料表中有一些資料列是時常被存取的，而它們只存在於某一個單一的分割區，或某一小群分割區。分割資料表的優勢在於大幅降低欄位索引的大小，而當其大小縮小到可以完全在記憶體中執行時，那就會獲得相當大的效能改善。
+* 當資料查詢或更新時，它可能牽連到某一分割區大部份的資料列，效能同樣會獲得改善，它可以直接掃描存取整個「小」區域，而不是在「大」資料表中，以索引逐筆搜尋分散的資料列。
+* 大量載入或移除資料的話，可以直接對整個分割區操作，當然這些資料要能符合分割資料表的設計。使用 ALTER TABLE DETACH PARTITION 或是 DROP TABLE 移除特定的分割資料表，都比進行大量的 DELETE 要快非常多。因為這些指令不會進行資料表的整理，而大量的 DELETE 會引發 VACUUM 的啓動。 
+* 少用的資料可以搬到較便宜或比較慢的儲存媒體。
 
-* When queries or updates access a large percentage of a single partition, performance can be improved by taking advantage of sequential scan of that partition instead of using an index and random access reads scattered across the whole table.
 
-* Bulk loads and deletes can be accomplished by adding or removing partitions, if that requirement is planned into the partitioning design. Doing`ALTER TABLE DETACH PARTITION`or dropping an individual partition using`DROP TABLE`is far faster than a bulk operation. These commands also entirely avoid the`VACUUM`overhead caused by a bulk`DELETE`.
-
-* Seldom-used data can be migrated to cheaper and slower storage media.
 
 The benefits will normally be worthwhile only when a table would otherwise be very large. The exact point at which a table will benefit from partitioning depends on the application, although a rule of thumb is that the size of the table should exceed the physical memory of the database server.
 

@@ -46,7 +46,7 @@
     * [5.7. 資料列安全原則](ii-the-sql-language/data-definition/57-row-security-policies.md)
     * [5.8. Schemas](ii-the-sql-language/data-definition/58-schemas.md)
     * [5.9. 繼承](ii-the-sql-language/data-definition/59-inheritance.md)
-    * [5.10. 分割表格](ii-the-sql-language/data-definition/510-table-partitioning.md)
+    * [5.10. 分割資料表](ii-the-sql-language/data-definition/510-table-partitioning.md)
     * [5.11. 外部資料](ii-the-sql-language/data-definition/511-foreign-data.md)
     * [5.12. 其他資料庫物件](ii-the-sql-language/data-definition/512-other-database-objects.md)
     * [5.13. 相依性追蹤](ii-the-sql-language/data-definition/513-dependency-tracking.md)
