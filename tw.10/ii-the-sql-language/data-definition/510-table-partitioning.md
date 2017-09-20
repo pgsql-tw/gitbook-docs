@@ -11,21 +11,19 @@ PostgreSQL 支援基礎的分割資料表。本節描述如何讓分割資料表
 * 大量載入或移除資料的話，可以直接對整個分割區操作，當然這些資料要能符合分割資料表的設計。使用 ALTER TABLE DETACH PARTITION 或是 DROP TABLE 移除特定的分割資料表，都比進行大量的 DELETE 要快非常多。因為這些指令不會進行資料表的整理，而大量的 DELETE 會引發 VACUUM 的啓動。 
 * 少用的資料可以搬到較便宜或比較慢的儲存媒體。
 
+這些優勢通常是在原來資料表特別大是會很明顯，不過實際上會獲得什麼樣的改善，還是要視應用程式而定。一個基本的概念是資料表的大小，如果超過了資料庫主機的記憶體上限，那就最好進行資料表的分割。
 
+PostgreSQL 內建提供的資料表分割方式：
 
-The benefits will normally be worthwhile only when a table would otherwise be very large. The exact point at which a table will benefit from partitioning depends on the application, although a rule of thumb is that the size of the table should exceed the physical memory of the database server.
+**Range Partitioning**
 
-PostgreSQLoffers built-in support for the following forms of partitioning:
+資料表是以某個欄位或某些欄位的資料內容範圍來分割，所謂的範圍，就表示彼此之間沒有重疊的部份。舉例來說，你可以以資料的範圍做分割，或是以指定的公司資料 ID 的範圍來分割。
 
-Range Partitioning
+**List Partitioning**
 
-The table is partitioned into“ranges”defined by a key column or set of columns, with no overlap between the ranges of values assigned to different partitions. For example, one might partition by date ranges, or by ranges of identifiers for particular business objects.
+明確列出有哪些資料的值要被分配在哪些資料表。
 
-List Partitioning
-
-The table is partitioned by explicitly listing which key values appear in each partition.
-
-If your application needs to use other forms of partitioning not listed above, alternative methods such as inheritance and`UNION ALL`views can be used instead. Such methods offer flexibility but do not have some of the performance benefits of built-in declarative partitioning.
+如果你的應用需要使用上述兩種以外的分割方式，還有其他方式，像是繼承，UNION ALL views，也可以使用。這些方式提供更多的彈性，但都不如內建分割方式所提升的效能。
 
 ### 5.10.2. Declarative Partitioning
 
