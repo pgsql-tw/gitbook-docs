@@ -25,27 +25,24 @@ PostgreSQL 內建提供的資料表分割方式：
 
 如果你的應用需要使用上述兩種以外的分割方式，還有其他方式，像是繼承，UNION ALL views，也可以使用。這些方式提供更多的彈性，但都不如內建分割方式所提升的效能。
 
-### 5.10.2. Declarative Partitioning
+### 5.10.2. **分割資料表宣告**
 
-PostgreSQLoffers a way to specify how to divide a table into pieces called partitions. The table that is divided is referred to as a_partitioned table_. The specification consists of the_partitioning method\_and a list of columns or expressions to be used as the\_partition key_.
+PostgreSQL 提供一個方式，可以指定如何將資料表分割為較小的資料表，這些小資料表稱作為分割區（partitions）。被分割的資料表，稱作分割資料表。分割主鍵包含了分割方法與一些欄位內容或是表示式。
 
-All rows inserted into a partitioned table will be routed to one of the_partitions\_based on the value of the partition key. Each partition has a subset of the data defined by its\_partition bounds_. Currently supported partitioning methods include range and list, where each partition is assigned a range of keys and a list of keys, respectively.
+所有新插入的資料列將會依分割主鍵的規則，轉送至分割區中。每一個分割區都是所有資料列的子集合，範圍由其定義的資料邊界而定。目前支援的分割方法有 Range 及 List 分割法，也就是每一個分割區都需要指定一個區段或是一個列表。
 
-Partitions may themselves be defined as partitioned tables, using what is called_sub-partitioning_. Partitions may have their own indexes, constraints and default values, distinct from those of other partitions. Indexes must be created separately for each partition. See[CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html)for more details on creating partitioned tables and partitions.
+分割區本身也可以是分割資料表，這稱作為次分割（sub-partitioning）。分割區會擁有它們自己的索引，限制條件，以及預設值，是獨立於其他分割區的。索引必須要分別為每個分割區建立。請參閱 [CREATE TABLE](/vi-reference/i-sql-commands/create-table.md) 進一步瞭解建立分割資料表及分割區的指令。
 
-It is not possible to turn a regular table into a partitioned table or vice versa. However, it is possible to add a regular or partitioned table containing data as a partition of a partitioned table, or remove a partition from a partitioned table turning it into a standalone table; see[ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html)to learn more about the`ATTACH PARTITION`and`DETACH PARTITION`sub-commands.
+一般資料表和分割資料表是無法互相轉換的，但你可以使一個已存放資料的一般資料表或分割資料表成為某個分割資料表的新分割區；或是從某個分割資料表移出某個分割區，使其成為獨立的一般資料表。請參閱 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md) 瞭解 ATTACH PARTITION 及 DETACH PARTITION 的使用方式。
 
-Individual partitions are linked to the partitioned table with inheritance behind-the-scenes; however, it is not possible to use some of the inheritance features discussed in the previous section with partitioned tables and partitions. For example, a partition cannot have any parents other than the partitioned table it is a partition of, nor can a regular table inherit from a partitioned table making the latter its parent. That means partitioned tables and partitions do not participate in inheritance with regular tables. Since a partition hierarchy consisting of the partitioned table and its partitions is still an inheritance hierarchy, all the normal rules of inheritance apply as described in[Section 5.9](https://www.postgresql.org/docs/10/static/ddl-inherit.html)with some exceptions, most notably:
+分割資料表和個別的分割區之間，隱含著繼承的關係；不過它們並無法使用先前章節所介紹過的繼承功能。舉例來說，分割區不能同時是其他分割資料表的子資料表，一般資料表也不能繼承分割資料表。簡單來說，分割資料表及其分割區，都不能和一般資料表有任何繼承的關係。分割區與分割資料表是階層關係，而其分割區也是繼承的階層，所以所有一般的繼承規則，在 [5.9 節](/ii-the-sql-language/data-definition/59-inheritance.md)中介紹的，都會成立，除了有一些例外，比較重要的如下：
 
-* Both`CHECK`and`NOT NULL`constraints of a partitioned table are always inherited by all its partitions.`CHECK`constraints that are marked`NO INHERIT`are not allowed to be created on partitioned tables.
+* 分割資料表的 CHECK 及 NOT NULL 限制條件，會被其分割區所繼承。 在分割資料區中，把 CHECK 標示為 NO INHERIT 是不被允許的。
+* 在分割資料表新增或移除限制條件時使用 ONLY 的話，只有在其還沒有分割區時是允許的。一旦其下有分割區存在，使用 ONLY 就會產生錯誤。換句話說，當有分割區時，這個執行方式是不被允許的。但是你可以新增或移除分割區裡的限制條件，只要它們並沒有在分割資料表中存在就好。在分割資料表嘗試執行 TRUNCATE ONLY 指令，也會產生錯誤，因為分割資料表並未實際存放資料。
+* 分割區不能有分割資料表裡沒有的欄位。不能在 CREATE TABLE 時建立，也不能使用 ALTER TABLE 增加。資料表能成為一個分割區，它的欄位必須和分割資料表完全吻全，包含 OIDs。
+* 你無法移除分割區中的 NOT NULL 限制條件，如果它是定義在分割資料表中的話。
 
-* Using`ONLY`to add or drop a constraint on only the partitioned table is supported when there are no partitions. Once partitions exist, using`ONLY`will result in an error as adding or dropping constraints on only the partitioned table, when partitions exist, is not supported. Instead, constraints can be added or dropped, when they are not present in the parent table, directly on the partitions. As a partitioned table does not have any data directly, attempts to use`TRUNCATEONLY`on a partitioned table will always return an error.
-
-* Partitions cannot have columns that are not present in the parent. It is neither possible to specify columns when creating partitions with`CREATE TABLE`nor is it possible to add columns to partitions after-the-fact using`ALTER TABLE`. Tables may be added as a partition with`ALTER TABLE ... ATTACH PARTITION`only if their columns exactly match the parent, including oids.
-
-* You cannot drop the`NOT NULL`constraint on a partition's column if the constraint is present in the parent table.
-
-Partitions can also be foreign tables \(see[CREATE FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-createforeigntable.html)\), although these have some limitations that normal tables do not. For example, data inserted into the partitioned table is not routed to foreign table partitions.
+分割區可以是外部資料表（參閱 [CREATE FOREIGN TABLE](/vi-reference/i-sql-commands/create-foreign-table.md)），雖然它會有一些使用上的限制。舉例來說，插入資料到分割資料表，資料並不會轉送到外部資料表的分割區處理。
 
 #### 5.10.2.1. Example
 
