@@ -44,9 +44,9 @@ PostgreSQL 提供一個方式，可以指定如何將資料表分割為較小的
 
 分割區可以是外部資料表（參閱 [CREATE FOREIGN TABLE](/vi-reference/i-sql-commands/create-foreign-table.md)），雖然它會有一些使用上的限制。舉例來說，插入資料到分割資料表，資料並不會轉送到外部資料表的分割區處理。
 
-#### 5.10.2.1. Example
+#### 5.10.2.1. 範例
 
-Suppose we are constructing a database for a large ice cream company. The company measures peak temperatures every day as well as ice cream sales in each region. Conceptually, we want a table like:
+假設我們為一家大型冰淇淋公司建構一個資料庫。這家公司每天測量最高溫度，同時也統計各區域的銷售情況。概念上，我們需要像這樣的資料表：
 
 ```
 CREATE TABLE measurement (
@@ -57,11 +57,11 @@ CREATE TABLE measurement (
 );
 ```
 
-We know that most queries will access just the last week's, month's or quarter's data, since the main use of this table will be to prepare online reports for management. To reduce the amount of old data that needs to be stored, we decide to only keep the most recent 3 years worth of data. At the beginning of each month we will remove the oldest month's data. In this situation we can use partitioning to help us meet all of our different requirements for the measurements table.
+我們知道大多數都是在進行近期的資料查詢，如最近一週、最近一個月、或最近一季的資料，這個資料表用於產生管理用的線上報表之用。為了降低需要儲存的資料量，我們決定只保存 3 年內有價值的資料。每一個月開始時，我們就會移除最舊那個月的資料。在這種情況下，我們可以使用分割資料表來幫助我們滿足所有需求。
 
-To use declarative partitioning in this case, use the following steps:
+在這個例子中，使用下列步驟來宣告分割資料表：
 
-1. Create`measurement`table as a partitioned table by specifying the`PARTITION BY`clause, which includes the partitioning method \(`RANGE`in this case\) and the list of column\(s\) to use as the partition key.
+1. 建立 measurement 資料表時，使用 PARTITION BY 子句，在本例子使用 RANGE 的分割方法，然後以 logdate 作為分割主鍵。
 
    ```
    CREATE TABLE measurement (
@@ -72,7 +72,7 @@ To use declarative partitioning in this case, use the following steps:
    ) PARTITION BY RANGE (logdate);
    ```
 
-   You may decide to use multiple columns in the partition key for range partitioning, if desired. Of course, this will often result in a larger number of partitions, each of which is individually smaller. On the other hand, using fewer columns may lead to a coarser-grained partitioning criteria with smaller number of partitions. A query accessing the partitioned table will have to scan fewer partitions if the conditions involve some or all of these columns. For example, consider a table range partitioned using columns`lastname`and`firstname`\(in that order\) as the partition key.
+   你也可以使用多個欄位作為分割主鍵來依範圍分割，當然，這會產生相當多的分割區，它可以分割得更小一些。也就是說，使用較少的分割主鍵欄位，是較為粗略的分割。當分割資料表被查詢時，就可以減少分割區存取的數量，如果條件是遍及數個欄位時。舉例來說，可以想像一下一個以範圍分割的資料表，同時以 lastname 及 firstname 兩個欄位作為分割主鍵的情況。
 
 2. Create partitions. Each partition's definition must specify the bounds that correspond to the partitioning method and partition key of the parent. Note that specifying bounds such that the new partition's values will overlap with those in one or more existing partitions will cause an error. Inserting data into the parent table that does not map to one of the existing partitions will cause an error; appropriate partition must be added manually.
 
