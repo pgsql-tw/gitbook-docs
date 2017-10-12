@@ -74,44 +74,44 @@ CREATE TABLE measurement (
 
    你也可以使用多個欄位作為分割主鍵來依範圍分割，當然，這會產生相當多的分割區，它可以分割得更小一些。也就是說，使用較少的分割主鍵欄位，是較為粗略的分割。當分割資料表被查詢時，就可以減少分割區存取的數量，如果條件是遍及數個欄位時。舉例來說，可以想像一下一個以範圍分割的資料表，同時以 lastname 及 firstname 兩個欄位作為分割主鍵的情況。
 
-2. Create partitions. Each partition's definition must specify the bounds that correspond to the partitioning method and partition key of the parent. Note that specifying bounds such that the new partition's values will overlap with those in one or more existing partitions will cause an error. Inserting data into the parent table that does not map to one of the existing partitions will cause an error; appropriate partition must be added manually.
+2. 建立分割區時，每一個分割區的定義都必須指定其分割方式的規則與分割主鍵。需要注意的是，如果指定的規則，造成某些分割主鍵的值會落在多個分割區中的話，將會產生錯誤。從分割資料表插入資料時，如果沒有對應到任何一個分割區的話，也會產生錯誤；適當擺放資料的分割區必須要手動加入。
 
-   Partitions thus created are in every way normalPostgreSQLtables \(or, possibly, foreign tables\). It is possible to specify a tablespace and storage parameters for each partition separately.
+分割區的建立就如同一般的 PostgreSQL 資料表一樣（也可以是外部資料表），也可以指定各自的 tablespace 和儲存參數。
 
-   It is not necessary to create table constraints describing partition boundary condition for partitions. Instead, partition constraints are generated implicitly from the partition bound specification whenever there is need to refer to them.
+不需要為分割規則設定分割區的限制條件，而是在設定分割方式及規則時，其限制條件就已經隱含在內了。
 
-   ```
-   CREATE TABLE measurement_y2006m02 PARTITION OF measurement
-       FOR VALUES FROM ('2006-02-01') TO ('2006-03-01')
+```
+CREATE TABLE measurement_y2006m02 PARTITION OF measurement
+    FOR VALUES FROM ('2006-02-01') TO ('2006-03-01')
 
-   CREATE TABLE measurement_y2006m03 PARTITION OF measurement
-       FOR VALUES FROM ('2006-03-01') TO ('2006-04-01')
+CREATE TABLE measurement_y2006m03 PARTITION OF measurement
+    FOR VALUES FROM ('2006-03-01') TO ('2006-04-01')
 
-   ...
-   CREATE TABLE measurement_y2007m11 PARTITION OF measurement
-       FOR VALUES FROM ('2007-11-01') TO ('2007-12-01')
+...
+CREATE TABLE measurement_y2007m11 PARTITION OF measurement
+    FOR VALUES FROM ('2007-11-01') TO ('2007-12-01')
 
-   CREATE TABLE measurement_y2007m12 PARTITION OF measurement
-       FOR VALUES FROM ('2007-12-01') TO ('2008-01-01')
-       TABLESPACE fasttablespace;
+CREATE TABLE measurement_y2007m12 PARTITION OF measurement
+    FOR VALUES FROM ('2007-12-01') TO ('2008-01-01')
+    TABLESPACE fasttablespace;
 
-   CREATE TABLE measurement_y2008m01 PARTITION OF measurement
-       FOR VALUES FROM ('2008-01-01') TO ('2008-02-01')
-       TABLESPACE fasttablespace
-       WITH (parallel_workers = 4);
-   ```
+CREATE TABLE measurement_y2008m01 PARTITION OF measurement
+    FOR VALUES FROM ('2008-01-01') TO ('2008-02-01')
+    TABLESPACE fasttablespace
+    WITH (parallel_workers = 4);
+```
 
-   To implement sub-partitioning, specify the`PARTITION BY`clause in the commands used to create individual partitions, for example:
+要實現子分割時，使用 PARTITION BY 子句來建立個別的分割區。舉例來說：
 
-   ```
-   CREATE TABLE measurement_y2006m02 PARTITION OF measurement
-       FOR VALUES FROM ('2006-02-01') TO ('2006-03-01')
-       PARTITION BY RANGE (peaktemp);
-   ```
+```
+CREATE TABLE measurement_y2006m02 PARTITION OF measurement
+    FOR VALUES FROM ('2006-02-01') TO ('2006-03-01')
+    PARTITION BY RANGE (peaktemp);
+```
 
-   After creating partitions of`measurement_y2006m02`, any data inserted into`measurement`that is mapped to`measurement_y2006m02`\(or data that is directly inserted into`measurement_y2006m02`, provided it satisfies its partition constraint\) will be further redirected to one of its partitions based on the`peaktemp`column. The partition key specified may overlap with the parent's partition key, although care should be taken when specifying the bounds of a sub-partition such that the set of data it accepts constitutes a subset of what the partition's own bounds allows; the system does not try to check whether that's really the case.
+After creating partitions of`measurement_y2006m02`, any data inserted into`measurement`that is mapped to`measurement_y2006m02`\(or data that is directly inserted into`measurement_y2006m02`, provided it satisfies its partition constraint\) will be further redirected to one of its partitions based on the`peaktemp`column. The partition key specified may overlap with the parent's partition key, although care should be taken when specifying the bounds of a sub-partition such that the set of data it accepts constitutes a subset of what the partition's own bounds allows; the system does not try to check whether that's really the case.
 
-3. Create an index on the key column\(s\), as well as any other indexes you might want for every partition. \(The key index is not strictly necessary, but in most scenarios it is helpful. If you intend the key values to be unique then you should always create a unique or primary-key constraint for each partition.\)
+1. Create an index on the key column\(s\), as well as any other indexes you might want for every partition. \(The key index is not strictly necessary, but in most scenarios it is helpful. If you intend the key values to be unique then you should always create a unique or primary-key constraint for each partition.\)
 
    ```
    CREATE INDEX ON measurement_y2006m02 (logdate);
@@ -122,7 +122,7 @@ CREATE TABLE measurement (
    CREATE INDEX ON measurement_y2008m01 (logdate);
    ```
 
-4. Ensure that the[constraint\_exclusion](https://www.postgresql.org/docs/10/static/runtime-config-query.html#guc-constraint-exclusion)configuration parameter is not disabled in`postgresql.conf`. If it is, queries will not be optimized as desired.
+2. Ensure that the[constraint\_exclusion](https://www.postgresql.org/docs/10/static/runtime-config-query.html#guc-constraint-exclusion)configuration parameter is not disabled in`postgresql.conf`. If it is, queries will not be optimized as desired.
 
 In the above example we would be creating a new partition each month, so it might be wise to write a script that generates the required DDL automatically.
 
