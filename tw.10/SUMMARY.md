@@ -194,7 +194,7 @@
     * 19.4. Resource Consumption
     * 19.5. Write Ahead Log
     * 19.6. Replication
-    * 19.7. Query Planning
+    * [19.7. 查詢規畫](iii-server-administration/server-configuration/197-query-planning.md)
     * 19.8. Error Reporting and Logging
     * 19.9. Run-time Statistics
     * 19.10. Automatic Vacuuming

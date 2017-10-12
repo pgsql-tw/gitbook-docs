@@ -109,9 +109,9 @@ CREATE TABLE measurement_y2006m02 PARTITION OF measurement
     PARTITION BY RANGE (peaktemp);
 ```
 
-After creating partitions of`measurement_y2006m02`, any data inserted into`measurement`that is mapped to`measurement_y2006m02`\(or data that is directly inserted into`measurement_y2006m02`, provided it satisfies its partition constraint\) will be further redirected to one of its partitions based on the`peaktemp`column. The partition key specified may overlap with the parent's partition key, although care should be taken when specifying the bounds of a sub-partition such that the set of data it accepts constitutes a subset of what the partition's own bounds allows; the system does not try to check whether that's really the case.
+在建立了 measurement\_y\_\_2006m02 資料表之後，所有新增到 measurement 資料表中符合分割規則而被派送到 measurementy\_2006m02 的資料（或是符合條件的資料直接新增到 measurement\_y2006m02），都會再進一步依據 peaktemp 欄位的內容轉存到它的子分割區。這個分割主鍵是可以和其父資料表分割主鍵有重疊的，不過要注意的是，指定子分割區的規則時，資料真的會分配到該子分割區，資料庫系統不會去檢查該分配是不是真的會發生。
 
-1. Create an index on the key column\(s\), as well as any other indexes you might want for every partition. \(The key index is not strictly necessary, but in most scenarios it is helpful. If you intend the key values to be unique then you should always create a unique or primary-key constraint for each partition.\)
+1. 為每一個分割區資料表的分割主鍵建立索引。（這並不是一定要做的事，不過對大多數的情況是好的。如果你需要這些值俱備唯一性，那你應該建立唯一索引或是主鍵。）
 
    ```
    CREATE INDEX ON measurement_y2006m02 (logdate);
@@ -122,9 +122,9 @@ After creating partitions of`measurement_y2006m02`, any data inserted into`measu
    CREATE INDEX ON measurement_y2008m01 (logdate);
    ```
 
-2. Ensure that the[constraint\_exclusion](https://www.postgresql.org/docs/10/static/runtime-config-query.html#guc-constraint-exclusion)configuration parameter is not disabled in`postgresql.conf`. If it is, queries will not be optimized as desired.
+2. 確定 postgresql.conf 中的 [constrain\_exclusion](/iii-server-administration/server-configuration/197-query-planning.md) 設定並未被關閉。如果是關閉狀態的話，查詢最佳化就不會進行。
 
-In the above example we would be creating a new partition each month, so it might be wise to write a script that generates the required DDL automatically.
+在上面的例子中，我們需要每個月建立一個分割區，所以如果能再有程序自動建立這些資料表就更好了。
 
 #### 5.10.2.2. Partition Maintenance
 
