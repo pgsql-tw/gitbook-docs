@@ -126,27 +126,27 @@ CREATE TABLE measurement_y2006m02 PARTITION OF measurement
 
 在上面的例子中，我們需要每個月建立一個分割區，所以如果能再有程序自動建立這些資料表就更好了。
 
-#### 5.10.2.2. Partition Maintenance
+#### 5.10.2.2. 分割區管理
 
-Normally the set of partitions established when initially defining the the table are not intended to remain static. It is common to want to remove old partitions of data and periodically add new partitions for new data. One of the most important advantages of partitioning is precisely that it allows this otherwise painful task to be executed nearly instantaneously by manipulating the partition structure, rather than physically moving large amounts of data around.
+一般來說，分割區在初始建立時，會假設其會不斷地變動。通常會需要定期移除舊的分割區，然後為新的資料加入新的分割區。使用分割資料表時，其中一件很重要的事，就是要能夠很明確地做到這個管理動作，否則大量地實體資料變更，會嚴重拖累資料庫系統的效率。
 
-The simplest option for removing old data is to drop the partition that is no longer necessary:
+最簡易移除資料的方式，就是移除分割區：
 
 ```
 DROP TABLE measurement_y2006m02;
 ```
 
-This can very quickly delete millions of records because it doesn't have to individually delete every record. Note however that the above command requires taking an`ACCESS EXCLUSIVE`lock on the parent table.
+這可以非常快地移除數百萬筆資料，因為它並不是單獨去移除每一筆資料。注意到的是，這個動作需要父資料表取得 ACCESS EXCLUSIVE 的鎖定。
 
-Another option that is often preferable is to remove the partition from the partitioned table but retain access to it as a table in its own right:
+另一個方式也很常使用，就是把某個分割區從分割資料表中卸載，但仍然保存該分割區的資料表：
 
 ```
 ALTER TABLE measurement DETACH PARTITION measurement_y2006m02;
 ```
 
-This allows further operations to be performed on the data before it is dropped. For example, this is often a useful time to back up the data using`COPY`,pg\_dump, or similar tools. It might also be a useful time to aggregate data into smaller formats, perform other data manipulations, or run reports.
+這樣可以在資料被移除之前再進行一些其他的操作。舉例來說，很常見的使用情況是備份資料，利用 COPY 指令、pg\_dump、或相關的工具；把資料以小單位進行彙總計算產生報表，也是很常用的方式。
 
-Similarly we can add a new partition to handle new data. We can create an empty partition in the partitioned table just as the original partitions were created above:
+接下來，要處理新的資料也是類似的動作，我們可以建立新的資料表，並宣告為分割區來使用，就如同先前我們介紹的設定方式一樣：
 
 ```
 CREATE TABLE measurement_y2008m02 PARTITION OF measurement
@@ -154,7 +154,7 @@ CREATE TABLE measurement_y2008m02 PARTITION OF measurement
     TABLESPACE fasttablespace;
 ```
 
-As an alternative, it is sometimes more convenient to create the new table outside the partition structure, and make it a proper partition later. This allows the data to be loaded, checked, and transformed prior to it appearing in the partitioned table:
+另一種更方便的方式是先建立新的資料表，然後再將它掛載為分割區。好處是這樣可以在掛載前先進行資料的載入、檢查和轉換：
 
 ```
 CREATE TABLE measurement_y2008m02
@@ -162,11 +162,7 @@ CREATE TABLE measurement_y2008m02
   TABLESPACE fasttablespace;
 
 ALTER TABLE measurement_y2008m02 ADD CONSTRAINT y2008m02
-   CHECK ( logdate 
->
-= DATE '2008-02-01' AND logdate 
-<
- DATE '2008-03-01' );
+   CHECK ( logdate >= DATE '2008-02-01' AND logdate < DATE '2008-03-01' );
 
 \copy measurement_y2008m02 from 'measurement_y2008m02'
 -- possibly some other data preparation work
@@ -175,7 +171,7 @@ ALTER TABLE measurement ATTACH PARTITION measurement_y2008m02
     FOR VALUES FROM ('2008-02-01') TO ('2008-03-01' );
 ```
 
-Before running the`ATTACH PARTITION`command, it is recommended to create a`CHECK`constraint on the table to be attached describing the desired partition constraint. That way, the system will be able to skip the scan to validate the implicit partition constraint. Without such a constraint, the table will be scanned to validate the partition constraint while holding an`ACCESS EXCLUSIVE`lock on the parent table. One may then drop the constraint after`ATTACH PARTITION`is finished, because it is no longer necessary.
+在進行 ATTACH PARTITION 指令前，建議最好先設定 CHECK 限制條件，同分割資料表的條件，這樣的話，系統就會跳過隱含的資料檢查過程。如果沒有先設定限制條件的話，資料表會被 ACCESS EXCLUSIVE 鎖定，然後進行全資料掃描以檢查其合法性。最後我們在掛載分割區之後再移除該 CHECK 設定，因為它已經不再需要了。
 
 #### 5.10.2.3. Limitations
 
