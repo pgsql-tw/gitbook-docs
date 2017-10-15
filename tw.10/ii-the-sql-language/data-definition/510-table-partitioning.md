@@ -219,11 +219,7 @@ We use the same`measurement`table we used above. To implement it as a partitione
    ```
    CHECK ( x = 1 )
    CHECK ( county IN ( 'Oxfordshire', 'Buckinghamshire', 'Warwickshire' ))
-   CHECK ( outletID 
-   >
-   = 100 AND outletID 
-   <
-    200 )
+   CHECK ( outletID >= 100 AND outletID < 200 )
    ```
 
    Ensure that the constraints guarantee that there is no overlap between the key values permitted in different partitions. A common mistake is to set up range constraints like:
@@ -239,44 +235,24 @@ We use the same`measurement`table we used above. To implement it as a partitione
 
    ```
    CREATE TABLE measurement_y2006m02 (
-       CHECK ( logdate 
-   >
-   = DATE '2006-02-01' AND logdate 
-   <
-    DATE '2006-03-01' )
+       CHECK ( logdate >= DATE '2006-02-01' AND logdate < DATE '2006-03-01' )
    ) INHERITS (measurement);
 
    CREATE TABLE measurement_y2006m03 (
-       CHECK ( logdate 
-   >
-   = DATE '2006-03-01' AND logdate 
-   <
-    DATE '2006-04-01' )
+       CHECK ( logdate >= DATE '2006-03-01' AND logdate < DATE '2006-04-01' )
    ) INHERITS (measurement);
 
    ...
    CREATE TABLE measurement_y2007m11 (
-       CHECK ( logdate 
-   >
-   = DATE '2007-11-01' AND logdate 
-   <
-    DATE '2007-12-01' )
+       CHECK ( logdate >= DATE '2007-11-01' AND logdate < DATE '2007-12-01' )
    ) INHERITS (measurement);
 
    CREATE TABLE measurement_y2007m12 (
-       CHECK ( logdate 
-   >
-   = DATE '2007-12-01' AND logdate 
-   <
-    DATE '2008-01-01' )
+       CHECK ( logdate >= DATE '2007-12-01' AND logdate < DATE '2008-01-01' )
    ) INHERITS (measurement);
 
    CREATE TABLE measurement_y2008m01 (
-       CHECK ( logdate 
-   >
-   = DATE '2008-01-01' AND logdate 
-   <
-    DATE '2008-02-01' )
+       CHECK ( logdate >= DATE '2008-01-01' AND logdate < DATE '2008-02-01' )
    ) INHERITS (measurement);
    ```
 
@@ -319,27 +295,15 @@ We use the same`measurement`table we used above. To implement it as a partitione
    CREATE OR REPLACE FUNCTION measurement_insert_trigger()
    RETURNS TRIGGER AS $$
    BEGIN
-       IF ( NEW.logdate 
-   >
-   = DATE '2006-02-01' AND
-            NEW.logdate 
-   <
-    DATE '2006-03-01' ) THEN
+       IF ( NEW.logdate >= DATE '2006-02-01' AND
+            NEW.logdate < DATE '2006-03-01' ) THEN
            INSERT INTO measurement_y2006m02 VALUES (NEW.*);
-       ELSIF ( NEW.logdate 
-   >
-   = DATE '2006-03-01' AND
-               NEW.logdate 
-   <
-    DATE '2006-04-01' ) THEN
+       ELSIF ( NEW.logdate >= DATE '2006-03-01' AND
+               NEW.logdate < DATE '2006-04-01' ) THEN
            INSERT INTO measurement_y2006m03 VALUES (NEW.*);
        ...
-       ELSIF ( NEW.logdate 
-   >
-   = DATE '2008-01-01' AND
-               NEW.logdate 
-   <
-    DATE '2008-02-01' ) THEN
+       ELSIF ( NEW.logdate >= DATE '2008-01-01' AND
+               NEW.logdate < DATE '2008-02-01' ) THEN
            INSERT INTO measurement_y2008m01 VALUES (NEW.*);
        ELSE
            RAISE EXCEPTION 'Date out of range.  Fix the measurement_insert_trigger() function!';
@@ -363,21 +327,13 @@ We use the same`measurement`table we used above. To implement it as a partitione
    ```
    CREATE RULE measurement_insert_y2006m02 AS
    ON INSERT TO measurement WHERE
-       ( logdate 
-   >
-   = DATE '2006-02-01' AND logdate 
-   <
-    DATE '2006-03-01' )
+       ( logdate >= DATE '2006-02-01' AND logdate < DATE '2006-03-01' )
    DO INSTEAD
        INSERT INTO measurement_y2006m02 VALUES (NEW.*);
    ...
    CREATE RULE measurement_insert_y2008m01 AS
    ON INSERT TO measurement WHERE
-       ( logdate 
-   >
-   = DATE '2008-01-01' AND logdate 
-   <
-    DATE '2008-02-01' )
+       ( logdate >= DATE '2008-01-01' AND logdate < DATE '2008-02-01' )
    DO INSTEAD
        INSERT INTO measurement_y2008m01 VALUES (NEW.*);
    ```
@@ -410,11 +366,7 @@ To add a new partition to handle new data, create an empty partition just as the
 
 ```
 CREATE TABLE measurement_y2008m02 (
-    CHECK ( logdate 
->
-= DATE '2008-02-01' AND logdate 
-<
- DATE '2008-03-01' )
+    CHECK ( logdate >= DATE '2008-02-01' AND logdate < DATE '2008-03-01' )
 ) INHERITS (measurement);
 ```
 
@@ -424,11 +376,7 @@ Alternatively, one may want to create the new table outside the partition struct
 CREATE TABLE measurement_y2008m02
   (LIKE measurement INCLUDING DEFAULTS INCLUDING CONSTRAINTS);
 ALTER TABLE measurement_y2008m02 ADD CONSTRAINT y2008m02
-   CHECK ( logdate 
->
-= DATE '2008-02-01' AND logdate 
-<
- DATE '2008-03-01' );
+   CHECK ( logdate >= DATE '2008-02-01' AND logdate < DATE '2008-03-01' );
 \copy measurement_y2008m02 from 'measurement_y2008m02'
 -- possibly some other data preparation work
 ALTER TABLE measurement_y2008m02 INHERIT measurement;
@@ -460,9 +408,7 @@ The following caveats apply to partitioned tables implemented using inheritance:
 
 ```
 SET constraint_exclusion = on;
-SELECT count(*) FROM measurement WHERE logdate 
->
-= DATE '2008-01-01';
+SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
 ```
 
 Without constraint exclusion, the above query would scan each of the partitions of the`measurement`table. With constraint exclusion enabled, the planner will examine the constraints of each partition and try to prove that the partition need not be scanned because it could not contain any rows meeting the query's`WHERE`clause. When the planner can prove this, it excludes the partition from the query plan.
@@ -471,74 +417,38 @@ You can use the`EXPLAIN`command to show the difference between a plan with`const
 
 ```
 SET constraint_exclusion = off;
-EXPLAIN SELECT count(*) FROM measurement WHERE logdate 
->
-= DATE '2008-01-01';
+EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
 
                                           QUERY PLAN
 -----------------------------------------------------------------------------------------------
  Aggregate  (cost=158.66..158.68 rows=1 width=0)
-   -
->
-  Append  (cost=0.00..151.88 rows=2715 width=0)
-         -
->
-  Seq Scan on measurement  (cost=0.00..30.38 rows=543 width=0)
-               Filter: (logdate 
->
-= '2008-01-01'::date)
-         -
->
-  Seq Scan on measurement_y2006m02 measurement  (cost=0.00..30.38 rows=543 width=0)
-               Filter: (logdate 
->
-= '2008-01-01'::date)
-         -
->
-  Seq Scan on measurement_y2006m03 measurement  (cost=0.00..30.38 rows=543 width=0)
-               Filter: (logdate 
->
-= '2008-01-01'::date)
+   ->  Append  (cost=0.00..151.88 rows=2715 width=0)
+         ->  Seq Scan on measurement  (cost=0.00..30.38 rows=543 width=0)
+               Filter: (logdate >= '2008-01-01'::date)
+         ->  Seq Scan on measurement_y2006m02 measurement  (cost=0.00..30.38 rows=543 width=0)
+               Filter: (logdate >= '2008-01-01'::date)
+         ->  Seq Scan on measurement_y2006m03 measurement  (cost=0.00..30.38 rows=543 width=0)
+               Filter: (logdate >= '2008-01-01'::date)
 ...
-         -
->
-  Seq Scan on measurement_y2007m12 measurement  (cost=0.00..30.38 rows=543 width=0)
-               Filter: (logdate 
->
-= '2008-01-01'::date)
-         -
->
-  Seq Scan on measurement_y2008m01 measurement  (cost=0.00..30.38 rows=543 width=0)
-               Filter: (logdate 
->
-= '2008-01-01'::date)
+         ->  Seq Scan on measurement_y2007m12 measurement  (cost=0.00..30.38 rows=543 width=0)
+               Filter: (logdate >= '2008-01-01'::date)
+         ->  Seq Scan on measurement_y2008m01 measurement  (cost=0.00..30.38 rows=543 width=0)
+               Filter: (logdate >= '2008-01-01'::date)
 ```
 
 Some or all of the partitions might use index scans instead of full-table sequential scans, but the point here is that there is no need to scan the older partitions at all to answer this query. When we enable constraint exclusion, we get a significantly cheaper plan that will deliver the same answer:
 
 ```
 SET constraint_exclusion = on;
-EXPLAIN SELECT count(*) FROM measurement WHERE logdate 
->
-= DATE '2008-01-01';
+EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
                                           QUERY PLAN
 -----------------------------------------------------------------------------------------------
  Aggregate  (cost=63.47..63.48 rows=1 width=0)
-   -
->
-  Append  (cost=0.00..60.75 rows=1086 width=0)
-         -
->
-  Seq Scan on measurement  (cost=0.00..30.38 rows=543 width=0)
-               Filter: (logdate 
->
-= '2008-01-01'::date)
-         -
->
-  Seq Scan on measurement_y2008m01 measurement  (cost=0.00..30.38 rows=543 width=0)
-               Filter: (logdate 
->
-= '2008-01-01'::date)
+   ->  Append  (cost=0.00..60.75 rows=1086 width=0)
+         ->  Seq Scan on measurement  (cost=0.00..30.38 rows=543 width=0)
+               Filter: (logdate >= '2008-01-01'::date)
+         ->  Seq Scan on measurement_y2008m01 measurement  (cost=0.00..30.38 rows=543 width=0)
+               Filter: (logdate >= '2008-01-01'::date)
 ```
 
 Note that constraint exclusion is driven only by`CHECK`constraints, not by the presence of indexes. Therefore it isn't necessary to define indexes on the key columns. Whether an index needs to be created for a given partition depends on whether you expect that queries that scan the partition will generally scan a large part of the partition or just a small part. An index will be helpful in the latter case but not the former.
