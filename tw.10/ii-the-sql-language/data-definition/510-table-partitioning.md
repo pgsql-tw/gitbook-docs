@@ -175,17 +175,13 @@ ALTER TABLE measurement ATTACH PARTITION measurement_y2008m02
 
 #### 5.10.2.3. Limitations
 
-The following limitations apply to partitioned tables:
+使用分割資料表是會有下面的受限制的使用情況：
 
-* There is no facility available to create the matching indexes on all partitions automatically. Indexes must be added to each partition with separate commands. This also means that there is no way to create a primary key, unique constraint, or exclusion constraint spanning all partitions; it is only possible to constrain each leaf partition individually.
-
-* Since primary keys are not supported on partitioned tables, foreign keys referencing partitioned tables are not supported, nor are foreign key references from a partitioned table to some other table.
-
-* Using the`ON CONFLICT`clause with partitioned tables will cause an error, because unique or exclusion constraints can only be created on individual partitions. There is no support for enforcing uniqueness \(or an exclusion constraint\) across an entire partitioning hierarchy.
-
-* An`UPDATE`that causes a row to move from one partition to another fails, because the new value of the row fails to satisfy the implicit partition constraint of the original partition.
-
-* Row triggers, if necessary, must be defined on individual partitions, not the partitioned table.
+* 沒有方法可以自動在所有分割區建立需要的索引。每個分割區的索引都需要個別建立。這也代表了，沒有任何方式可以建立主鍵、唯一性限制條件、或其他跨分割區的限制條件需求；只能個別分割區自行維護。
+* 因為分割資料表無法建立主鍵，所以外部鍵就無法支援了，無論是參考其他資料表或被參考，都不支援。
+* 在分割資料表使用 ON CONFLICT 子句的話，會產生錯誤訊息，因為沒有唯一性及除外限制可以使用。目前不支援跨所有分割區的唯一性限制，也包含其他除外限制。
+* 想要利用 UPDATE 改變欄位值，使資料移動到另一個分割區是行不通的。因為隱含的資料限制條件會造成其更新失敗。
+* 資料列的事件觸發函數，必須定義在個別分割區的資料表中，而非分割資料表。
 
 ### 5.10.3. Implementation Using Inheritance
 
