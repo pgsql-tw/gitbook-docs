@@ -347,19 +347,19 @@ As we can see, a complex partitioning scheme could require a substantial amount 
 
 #### 5.10.3.2. Partition Maintenance
 
-To remove old data quickly, simply drop the partition that is no longer necessary:
+要快速刪除舊資料，可以簡單地移除不再使用的分割區資料表即可：
 
 ```
 DROP TABLE measurement_y2006m02;
 ```
 
-To remove the partition from the partitioned table but retain access to it as a table in its own right:
+將一個分割區從分割資料表中卸載，仍然留存該資料表：
 
 ```
 ALTER TABLE measurement_y2006m02 NO INHERIT measurement;
 ```
 
-To add a new partition to handle new data, create an empty partition just as the original partitions were created above:
+要新增一個分割區來處理新的資料，建立一個空的分割區，就如同先前介紹的方式：
 
 ```
 CREATE TABLE measurement_y2008m02 (
@@ -367,7 +367,7 @@ CREATE TABLE measurement_y2008m02 (
 ) INHERITS (measurement);
 ```
 
-Alternatively, one may want to create the new table outside the partition structure, and make it a partition after the data is loaded, checked, and transformed.
+另一種更方便的方式是先建立新的資料表，然後再將它掛載為分割區。好處是這樣可以在掛載前先進行資料的載入、檢查和轉換：
 
 ```
 CREATE TABLE measurement_y2008m02
