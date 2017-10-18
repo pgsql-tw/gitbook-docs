@@ -379,25 +379,18 @@ ALTER TABLE measurement_y2008m02 ADD CONSTRAINT y2008m02
 ALTER TABLE measurement_y2008m02 INHERIT measurement;
 ```
 
-#### 5.10.3.3. Caveats
+#### 5.10.3.3. 提醒
 
-The following caveats apply to partitioned tables implemented using inheritance:
+如果你使用繼承在實現分割資料表的話，請注意下列項目：
 
-* There is no automatic way to verify that all of the`CHECK`constraints are mutually exclusive. It is safer to create code that generates partitions and creates and/or modifies associated objects than to write each by hand.
+* 沒有任何自動的方式可以檢驗 CHECK 子句之間是否矛盾。比較建議的作法是程式化控制分割區的建立和維護，而非手動處理。
+* 在這裡所展示的方法都是假設分割主鍵欄位不會改變，也不會需要把某個資料列在分割區間移動。如果你企圖使用 UPDATE 指令，而期待資料列自動移到另一個分割區的話，那將會得到失敗的結果，因為會先被 CHECK 限制條件擋下來。如果你需要做到這樣的效果，那麼你可以建立 UPDATE 事件的觸發函數，但這可能會造成你的資料庫管理更加複雜。
+* 如果你手動執行 VACUUM 或 ANALYZE 指令，不要忘了你需要在每個分割區資料表分別執行。
+  例如：`ANALYZE measurement;`將只會在父資料表執行。
 
-* The schemes shown here assume that the partition key column\(s\) of a row never change, or at least do not change enough to require it to move to another partition. An`UPDATE`that attempts to do that will fail because of the`CHECK`constraints. If you need to handle such cases, you can put suitable update triggers on the partition tables, but it makes management of the structure much more complicated.
+* INSERT 指令裡的 ON CONFLICT 子句將無法運作，因為它只能在父資料表產生作用，而不會到子資料表中執行。
 
-* If you are using manual`VACUUM`or`ANALYZE`commands, don't forget that you need to run them on each partition individually. A command like:
-
-  ```
-  ANALYZE measurement;
-  ```
-
-  will only process the master table.
-
-* `INSERT`statements with`ON CONFLICT`clauses are unlikely to work as expected, as the`ON CONFLICT`action is only taken in case of unique violations on the specified target relation, not its child relations.
-
-* Triggers or rules will be needed to route rows to the desired partition, unless the application is explicitly aware of the partitioning scheme. Triggers may be complicated to write, and will be much slower than the tuple routing performed internally by declarative partitioning.
+* 事件觸發函數（Trigger）需要建立，負責把資料放在設計好的資料表中，除非應用程式很清楚分割區的結構。事件觸發函數可能會不太好寫，而且也會比使用內建的分割資料表時慢很多。
 
 ### 5.10.4. Partitioning and Constraint Exclusion
 
