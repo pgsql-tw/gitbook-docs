@@ -185,15 +185,12 @@ ALTER TABLE measurement ATTACH PARTITION measurement_y2008m02
 
 ### 5.10.3. Implementation Using Inheritance
 
-While the built-in declarative partitioning is suitable for most common use cases, there are some circumstances where a more flexible approach may be useful. Partitioning can be implemented using table inheritance, which allows for several features which are not supported by declarative partitioning, such as:
+使用內建的分割資料表，基本上適用於大多數的應用情境，也可以使用一些彈性的技巧會更有幫助。分割資料庫也可以用資料表繼承的方式來達成，好處是可以支援一些本來有限制的使用情況，例如：
 
-* Partitioning enforces a rule that all partitions must have exactly the same set of columns as the parent, but table inheritance allows children to have extra columns not present in the parent.
-
-* Table inheritance allows for multiple inheritance.
-
-* Declarative partitioning only supports list and range partitioning, whereas table inheritance allows data to be divided in a manner of the user's choosing. \(Note, however, that if constraint exclusion is unable to prune partitions effectively, query performance will be very poor.\)
-
-* Some operations require a stronger lock when using declarative partitioning than when using table inheritance. For example, adding or removing a partition to or from a partitioned table requires taking an`ACCESS EXCLUSIVE`lock on the parent table, whereas a`SHARE UPDATE EXCLUSIVE`lock is enough in the case of regular inheritance.
+* 分割資料表會強制使所有分割區都必須要與父資料表完全一樣的資料結構，但使用繼承的話，就可以允許分割區各自擁有額外的資料欄位。
+* 資料表的繼承可以是多重繼承。
+* 內建的分割資料表只支援列表（list）和範圍（range）兩種資料對應方式，而繼承則可以用自訂的方式來對應資料分區。（注意，如果你的資料對應方式無法適當地利用每個分割區的話，那麼查詢將會很沒有效率。）
+* 內建的分割資料表相對於資料表繼承時，有一些操作需要較嚴格的資料鎖定（lock）。舉例來說，分割資料表在新增或移除分割區時，會使用 ACCESS EXCLUSIVE 等級的資料鎖定，但實際上在資料表繼承維護時，只需要 SHARE UPDATE EXCLUSIVE 等級即可。
 
 #### 5.10.3.1. Example
 
