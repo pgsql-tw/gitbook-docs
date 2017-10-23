@@ -313,37 +313,37 @@ We use the same`measurement`table we used above. To implement it as a partitione
 
    The trigger definition is the same as before. Note that each`IF`test must exactly match the`CHECK`constraint for its partition.
 
-   While this function is more complex than the single-month case, it doesn't need to be updated as often, since branches can be added in advance of being needed.
+   While this function is more complex than the single-month case, it doesn't need to be updated as often, since branches can be added in advance of being needed
 
-   ### Note
+### 注意
 
-   In practice it might be best to check the newest partition first, if most inserts go into that partition. For simplicity we have shown the trigger's tests in the same order as in other parts of this example.
+實務上，最好是可以先檢查新建立的分割區，在它要掛載之前。簡化來看，我們在這個例子中使用事件觸發函數（Trigger）來處理這個動作。
 
-   A different approach to redirecting inserts into the appropriate partition table is to set up rules, instead of a trigger, on the master table. For example:
+另一個作法是在主要的資料表上設定規則，來取代事件觸發函數。例如：
 
-   ```
-   CREATE RULE measurement_insert_y2006m02 AS
-   ON INSERT TO measurement WHERE
-       ( logdate >= DATE '2006-02-01' AND logdate < DATE '2006-03-01' )
-   DO INSTEAD
-       INSERT INTO measurement_y2006m02 VALUES (NEW.*);
-   ...
-   CREATE RULE measurement_insert_y2008m01 AS
-   ON INSERT TO measurement WHERE
-       ( logdate >= DATE '2008-01-01' AND logdate < DATE '2008-02-01' )
-   DO INSTEAD
-       INSERT INTO measurement_y2008m01 VALUES (NEW.*);
-   ```
+```
+CREATE RULE measurement_insert_y2006m02 AS
+ON INSERT TO measurement WHERE
+    ( logdate >= DATE '2006-02-01' AND logdate < DATE '2006-03-01' )j水
+DO INSTEAD
+    INSERT INTO measurement_y2006m02 VALUES (NEW.*);
+...
+CREATE RULE measurement_insert_y2008m01 AS
+ON INSERT TO measurement WHERE
+    ( logdate >= DATE '2008-01-01' AND logdate < DATE '2008-02-01' )
+DO INSTEAD
+    INSERT INTO measurement_y2008m01 VALUES (NEW.*);
+```
 
-   A rule has significantly more overhead than a trigger, but the overhead is paid once per query rather than once per row, so this method might be advantageous for bulk-insert situations. In most cases, however, the trigger method will offer better performance.
+基本上，設定規則對資料庫的負擔是比事件觸發函數更重一點，但其負擔是在於每一次查詢，而非每一個資料列，所以這個方式比較適合一次大量插入資料的情況。不過，在大多數的情況，事件觸發函數會有比較好的效能。
 
-   Be aware that`COPY`ignores rules. If you want to use`COPY`to insert data, you'll need to copy into the correct partition table rather than into the master.`COPY`does fire triggers, so you can use it normally if you use the trigger approach.
+但要注意的是 COPY 指令會忽略規則。如果你要使用 COPY 來插入資料，你應該要從父資料表插入。而 COPY 會觸發事件觸發函數，所以你如果使用 Trigger 的話，那就像一般使用的方式使用就好了。
 
-   Another disadvantage of the rule approach is that there is no simple way to force an error if the set of rules doesn't cover the insertion date; the data will silently go into the master table instead.
+另一個使用 rule 的缺點是，沒有比較簡單的方法可以強制產生錯誤，如果設定的規則錯誤的話；那些出錯的資料，只會靜靜地留在父資料表中而已。
 
-6. Ensure that the[constraint\_exclusion](https://www.postgresql.org/docs/10/static/runtime-config-query.html#guc-constraint-exclusion)configuration parameter is not disabled in`postgresql.conf`. If it is, queries will not be optimized as desired.
+確認一下 postgresql.conf 中的 [constraint\_exclusion](/iii-server-administration/server-configuration/197-query-planning.md) 並沒有被關閉。如果被關閉的話，查詢就不會最佳化處理。
 
-As we can see, a complex partitioning scheme could require a substantial amount of DDL. In the above example we would be creating a new partition each month, so it might be wise to write a script that generates the required DDL automatically.
+就如同我們看到的，複雜的分割區結構，可能會需要相當數量的 DDL 宣告。在先前的例子，我們每個月建立一個新的分割區，所以比較聰明的作法是寫一小段程式來自動產生那些指令。
 
 #### 5.10.3.2. Partition Maintenance
 
@@ -385,7 +385,7 @@ ALTER TABLE measurement_y2008m02 INHERIT measurement;
 
 * 沒有任何自動的方式可以檢驗 CHECK 子句之間是否矛盾。比較建議的作法是程式化控制分割區的建立和維護，而非手動處理。
 * 在這裡所展示的方法都是假設分割主鍵欄位不會改變，也不會需要把某個資料列在分割區間移動。如果你企圖使用 UPDATE 指令，而期待資料列自動移到另一個分割區的話，那將會得到失敗的結果，因為會先被 CHECK 限制條件擋下來。如果你需要做到這樣的效果，那麼你可以建立 UPDATE 事件的觸發函數，但這可能會造成你的資料庫管理更加複雜。
-* 如果你手動執行 VACUUM 或 ANALYZE 指令，不要忘了你需要在每個分割區資料表分別執行。
+* 如果你手動執行 VACUUM 或 ANALYZE 指令，不要忘了你需要在每個分割區資料表分別執行。  
   例如：`ANALYZE measurement;`將只會在父資料表執行。
 
 * INSERT 指令裡的 ON CONFLICT 子句將無法運作，因為它只能在父資料表產生作用，而不會到子資料表中執行。
