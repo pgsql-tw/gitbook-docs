@@ -263,7 +263,7 @@ ALTER TABLE measurement ATTACH PARTITION measurement_y2008m02
    CREATE INDEX measurement_y2008m01_logdate ON measurement_y2008m01 (logdate);
    ```
 
-5. 我們希望應用程式可以使用 `INSERT INTO measurement ... `的語法，資料則自動轉送到適當的資料表。我們可以在主資料表建立適當的 Trigger 來完成此事。如果資料都會被新增到最新的子資料表中，我們可以建立很簡單的事件觸發函數： 
+5. 我們希望應用程式可以使用 `INSERT INTO measurement ...`的語法，資料則自動轉送到適當的資料表。我們可以在主資料表建立適當的 Trigger 來完成此事。如果資料都會被新增到最新的子資料表中，我們可以建立很簡單的事件觸發函數：
 
    ```
    CREATE OR REPLACE FUNCTION measurement_insert_trigger()
@@ -345,7 +345,7 @@ DO INSTEAD
 
 就如同我們看到的，複雜的分割區結構，可能會需要相當數量的 DDL 宣告。在先前的例子，我們每個月建立一個新的分割區，所以比較聰明的作法是寫一小段程式來自動產生那些指令。
 
-#### 5.10.3.2. Partition Maintenance
+#### 5.10.3.2. 分割區管理
 
 要快速刪除舊資料，可以簡單地移除不再使用的分割區資料表即可：
 
@@ -392,18 +392,18 @@ ALTER TABLE measurement_y2008m02 INHERIT measurement;
 
 * 事件觸發函數（Trigger）需要建立，負責把資料放在設計好的資料表中，除非應用程式很清楚分割區的結構。事件觸發函數可能會不太好寫，而且也會比使用內建的分割資料表時慢很多。
 
-### 5.10.4. Partitioning and Constraint Exclusion
+### 5.10.4. 分割資料表與除外限制（Constraint Exclusion）
 
-\_Constraint exclusion\_is a query optimization technique that improves performance for partitioned tables defined in the fashion described above \(both declaratively partitioned tables and those implemented using inheritance\). As an example:
+除外限制（Constraint exclusion）是一種查詢最佳化的技術，用來改善分割資料表的效能。（包含內建分割資料表的方式，以及繼承式的分割資料表）舉個例子如下：
 
 ```
 SET constraint_exclusion = on;
 SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
 ```
 
-Without constraint exclusion, the above query would scan each of the partitions of the`measurement`table. With constraint exclusion enabled, the planner will examine the constraints of each partition and try to prove that the partition need not be scanned because it could not contain any rows meeting the query's`WHERE`clause. When the planner can prove this, it excludes the partition from the query plan.
+如果沒有除外限制的話，上面的查詢語句將會掃描每一個 measurement 資料表的分割區。而開啓了除外限制的話，查詢前就會先測試限制條件，確認該分割區是否需要掃描，因為有些分割區可能完全沒有資料符合該條件。如果確實有不需要掃描的分割區，那麼它就會在實際查詢時排除在外。
 
-You can use the`EXPLAIN`command to show the difference between a plan with`constraint_exclusion`on and a plan with it off. A typical unoptimized plan for this type of table setup is:
+你可以使用 EXPLAIN 指令來比較除外查詢開啓與否的差異。下面是未最佳化的例子：
 
 ```
 SET constraint_exclusion = off;
@@ -426,7 +426,7 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
                Filter: (logdate >= '2008-01-01'::date)
 ```
 
-Some or all of the partitions might use index scans instead of full-table sequential scans, but the point here is that there is no need to scan the older partitions at all to answer this query. When we enable constraint exclusion, we get a significantly cheaper plan that will deliver the same answer:
+可以看到有些分割區可能會使用索引掃描來取代全資料表掃描，但這裡的重點是，有些分割區是完全不需要掃描的。當我們開啓除外限制時，很明顯可以得到一個更簡潔的查詢計畫：
 
 ```
 SET constraint_exclusion = on;
@@ -441,17 +441,13 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
                Filter: (logdate >= '2008-01-01'::date)
 ```
 
-Note that constraint exclusion is driven only by`CHECK`constraints, not by the presence of indexes. Therefore it isn't necessary to define indexes on the key columns. Whether an index needs to be created for a given partition depends on whether you expect that queries that scan the partition will generally scan a large part of the partition or just a small part. An index will be helpful in the latter case but not the former.
+要注意的是，除外限制只檢查 CHECK 子句，而不是索引，所以不一定要對主鍵欄位定義索引。索引是否需要在分割區建立，是依據你希望查詢在該分割區大範圍或小範圍被查詢。索引的用處在後者會比較明顯，而不是前者。預設也是建議的選項不是 on 也不是 off，而是使用 partition 子句，讓查詢只在需要執行的分割區執行。設定除外限制為「on」的話，對於大範圍的查詢很有用，但簡單查詢就不見得有好處了。
 
-The default \(and recommended\) setting of[constraint\_exclusion](https://www.postgresql.org/docs/10/static/runtime-config-query.html#guc-constraint-exclusion)is actually neither`on`nor`off`, but an intermediate setting called`partition`, which causes the technique to be applied only to queries that are likely to be working on partitioned tables. The`on`setting causes the planner to examine`CHECK`constraints in all queries, even simple ones that are unlikely to benefit.
+下面還有幾點注意事項，繼承和分割資料表都適用：
 
-The following caveats apply to constraint exclusion, which is used by both inheritance and partitioned tables:
-
-* Constraint exclusion only works when the query's`WHERE`clause contains constants \(or externally supplied parameters\). For example, a comparison against a non-immutable function such as`CURRENT_TIMESTAMP`cannot be optimized, since the planner cannot know which partition the function value might fall into at run time.
-
-* Keep the partitioning constraints simple, else the planner may not be able to prove that partitions don't need to be visited. Use simple equality conditions for list partitioning, or simple range tests for range partitioning, as illustrated in the preceding examples. A good rule of thumb is that partitioning constraints should contain only comparisons of the partitioning column\(s\) to constants using B-tree-indexable operators, which applies even to partitioned tables, because only B-tree-indexable column\(s\) are allowed in the partition key. \(This is not a problem when using declarative partitioning, since the automatically generated constraints are simple enough to be understood by the planner.\)
-
-* All constraints on all partitions of the master table are examined during constraint exclusion, so large numbers of partitions are likely to increase query planning time considerably. Partitioning using these techniques will work well with up to perhaps a hundred partitions; don't try to use many thousands of partitions.
+* 除外限制只適用於 WHERE 子句是常數的條件（或外部引用的參數）。舉例來說，和一個不確定結果的函數比較的話，如 CURRENT\_TIMESTAMP，那就無法最佳化，因為查詢計畫無法事先得知執行時的值。
+* 保持分割區限制條件簡潔一些，否則查詢計畫無從查驗該分割區是否需要處理。請在列舉分割時，使用簡單的等式；或在範圍分割時使用簡單的比較式，就如同先前的例子一樣。一個好的規則是只包含分割主鍵的欄位，並且使用 B-tree 可以索引的運算子，也同時宣告在主資料表中，只允許適用於 B-tree 的欄位宣告為分割主鍵。（如果使用內建分割語法的話，這不會有什麼問題，因為系統會自動宣告適合查詢計畫的限制條件。）
+* 由於除外限制會在查詢前檢查所有分割區的限制條件，所以大量的分割區可能會增加查詢計畫的時間。所謂的「大量」，通常幾百個分割區還是可以接受的範圍，但最好不要用於上千個分割區的情境中。
 
 ---
 
