@@ -6,6 +6,8 @@
 
 PostgreSQL的[wiki](http://wiki.postgresql.org/)記錄了[常見的問題](http://wiki.postgresql.org/wiki/Frequently_Asked_Questions)，[正準備進行的工作](http://wiki.postgresql.org/wiki/Todo)，以及其他更多不同主題的資訊。
 
+> PostgreSQL wiki 也有[台灣中文](https://wiki.postgresql.org/wiki/Taiwan)的頁面喔。
+
 ### Web Site
 
 PostgreSQL的[官方網站](http://www.postgresql.org/)，有最新軟體的釋出訊息，讓你能夠和PostgreSQL相處得更棒！

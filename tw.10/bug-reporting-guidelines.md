@@ -8,25 +8,25 @@
 
 我們無法保證可以立即修正所有的錯誤。但如果那個問題是明顯的、關鍵的、或是有重大影響的，那就會有人進行瞭解。也可能會回覆你更新你的資料庫版本，如果是因為版本問題的話。我們也可能會判定該錯誤不會被修正，在我們進行重大修改之前；又也許它不容易簡單處理，而且有其他更重要的需求排程已經在進行中。如果你需要立即性的支援，請接洽當地的商業服務。
 
-### 5.1. Identifying Bugs
+### 5.1. 確認錯誤
 
-Before you report a bug, please read and re-read the documentation to verify that you can really do whatever it is you are trying. If it is not clear from the documentation whether you can do something or not, please report that too; it is a bug in the documentation. If it turns out that a program does something different from what the documentation says, that is a bug. That might include, but is not limited to, the following circumstances:
+在報告錯誤之前，請再三閱讀文件，以確認你真的在進行你正在嘗試的事情。 如果從文件中不清楚是否可以做某事，請回報；這是屬於文件的一個錯誤。如果確實證明一個程式與文件所描述地不同，那就是一個錯誤。這可能包括但不限於以下情況：
 
-* A program terminates with a fatal signal or an operating system error message that would point to a problem in the program. \(A counterexample might be a“disk full”message, since you have to fix that yourself.\)
+* 程式以致命信號（fatal signal）或程式中某個問題造成作業系統錯誤訊息而終止。（反例可能是“磁盤已滿”的訊息，因為您必須自己修復。）
 
-* A program produces the wrong output for any given input.
+* 程式對於任何輸入都產生錯誤輸出結果。
 
-* A program refuses to accept valid input \(as defined in the documentation\).
+* 程式拒絕接受有效的輸入 （如文件中所定義的）。
 
-* A program accepts invalid input without a notice or error message. But keep in mind that your idea of invalid input might be our idea of an extension or compatibility with traditional practice.
+* 程式接受了無效的輸入，卻沒有警告或錯誤消息。但請記住，您對於無效輸入的認知可能來自於我們對傳統做法的延伸或相容性。
 
-* PostgreSQLfails to compile, build, or install according to the instructions on supported platforms.
+* PostgreSQL 在支援的平台上，按照指示進行編譯，構建或安裝卻失敗了。
 
-Here“program”refers to any executable, not only the backend process.
+這裡的「程式」是指任何可執行文件，不僅僅是後端執行的程序。
 
-Being slow or resource-hogging is not necessarily a bug. Read the documentation or ask on one of the mailing lists for help in tuning your applications. Failing to comply to theSQLstandard is not necessarily a bug either, unless compliance for the specific feature is explicitly claimed.
+緩慢或資源匱乏不一定是一個錯誤。閱讀文件或在某個郵件列表中提問，可以幫助你調整應用程式。不符合 SQL 標準不代表是錯誤，除非明確聲明相容某個特定的功能。
 
-Before you continue, check on the TODO list and in the FAQ to see if your bug is already known. If you cannot decode the information on the TODO list, report your problem. The least we can do is make the TODO list clearer.
+在繼續之前，請檢查 TODO 列表和常見問題解答，看看您的錯誤是否已知。 如果您無法瞭解 TODO 列表中的資訊，請報告你的問題。 我們至少可以做的是使 TODO 列表更清楚。
 
 ### 5.2. What to Report
 
