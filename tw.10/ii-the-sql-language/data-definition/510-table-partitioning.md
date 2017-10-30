@@ -173,7 +173,7 @@ ALTER TABLE measurement ATTACH PARTITION measurement_y2008m02
 
 在進行 ATTACH PARTITION 指令前，建議最好先設定 CHECK 限制條件，同分割資料表的條件，這樣的話，系統就會跳過隱含的資料檢查過程。如果沒有先設定限制條件的話，資料表會被 ACCESS EXCLUSIVE 鎖定，然後進行全資料掃描以檢查其合法性。最後我們在掛載分割區之後再移除該 CHECK 設定，因為它已經不再需要了。
 
-#### 5.10.2.3. Limitations
+#### 5.10.2.3. 使用限制
 
 使用分割資料表是會有下面的受限制的使用情況：
 
@@ -183,7 +183,7 @@ ALTER TABLE measurement ATTACH PARTITION measurement_y2008m02
 * 想要利用 UPDATE 改變欄位值，使資料移動到另一個分割區是行不通的。因為隱含的資料限制條件會造成其更新失敗。
 * 資料列的事件觸發函數，必須定義在個別分割區的資料表中，而非分割資料表。
 
-### 5.10.3. Implementation Using Inheritance
+### 5.10.3. 使用繼承來分割資料表
 
 使用內建的分割資料表，基本上適用於大多數的應用情境，也可以使用一些彈性的技巧會更有幫助。分割資料庫也可以用資料表繼承的方式來達成，好處是可以支援一些本來有限制的使用情況，例如：
 
@@ -192,13 +192,13 @@ ALTER TABLE measurement ATTACH PARTITION measurement_y2008m02
 * 內建的分割資料表只支援列表（list）和範圍（range）兩種資料對應方式，而繼承則可以用自訂的方式來對應資料分區。（注意，如果你的資料對應方式無法適當地利用每個分割區的話，那麼查詢將會很沒有效率。）
 * 內建的分割資料表相對於資料表繼承時，有一些操作需要較嚴格的資料鎖定（lock）。舉例來說，分割資料表在新增或移除分割區時，會使用 ACCESS EXCLUSIVE 等級的資料鎖定，但實際上在資料表繼承維護時，只需要 SHARE UPDATE EXCLUSIVE 等級即可。
 
-#### 5.10.3.1. Example
+#### 5.10.3.1. 範例
 
-We use the same`measurement`table we used above. To implement it as a partitioned table using inheritance, use the following steps:
+以先前使用過的 measurement 資料表作為範例說明，我們要使用繼承功能來完成分割資料表。請參考下列步驟：
 
-1. Create the“master”table, from which all of the partitions will inherit. This table will contain no data. Do not define any check constraints on this table, unless you intend them to be applied equally to all partitions. There is no point in defining any indexes or unique constraints on it, either. For our example, master table is the`measurement`table as originally defined.
+1. 建立主資料表（master），所有的分割區將會繼承它，而這個資料表不會儲存任何資料。請不要在這個資料表上定義任何限制條件，除非你希望每一個分割區都要有相等的限制條件。同樣地，也不要定義任何索引或唯一性限制。在這個例子裡，資料表　measurement 就如同先前一開始宣告的一樣。
 
-2. Create several“child”tables that each inherit from the master table. Normally, these tables will not add any columns to the set inherited from the master. Just as with declarative partitioning, these partitions are in every way normalPostgreSQLtables \(or foreign tables\).
+2. 建立幾個子資料表（child），由主資料表繼承而得。一般來說，這些資料表並不增加額多的欄位。就如同內建的分割資料表一樣，這些子資料表就是一般的 PostgreSQL 資料表（或是外部資料表）。
 
    ```
    CREATE TABLE measurement_y2006m02 () INHERITS (measurement);
@@ -209,9 +209,9 @@ We use the same`measurement`table we used above. To implement it as a partitione
    CREATE TABLE measurement_y2008m01 () INHERITS (measurement);
    ```
 
-3. Add non-overlapping table constraints to the partition tables to define the allowed key values in each partition.
+3. 在每個子資料表（分割區）中，加入明確分隔的欄位值限制條件。
 
-   Typical examples would be:
+   典型的範例如下：
 
    ```
    CHECK ( x = 1 )
@@ -219,16 +219,16 @@ We use the same`measurement`table we used above. To implement it as a partitione
    CHECK ( outletID >= 100 AND outletID < 200 )
    ```
 
-   Ensure that the constraints guarantee that there is no overlap between the key values permitted in different partitions. A common mistake is to set up range constraints like:
+   請確認這些限制條件是明確的且彼此不會重疊的。下面是使用範圍分割時常見的錯誤：
 
    ```
    CHECK ( outletID BETWEEN 100 AND 200 )
    CHECK ( outletID BETWEEN 200 AND 300 )
    ```
 
-   This is wrong since it is not clear which partition the key value 200 belongs in.
+   這裡的錯誤來自於「200」同時符合兩個分割區的條件。
 
-   It would be better to instead create partitions as follows:
+   下面是比較好的寫法：
 
    ```
    CREATE TABLE measurement_y2006m02 (
@@ -253,7 +253,7 @@ We use the same`measurement`table we used above. To implement it as a partitione
    ) INHERITS (measurement);
    ```
 
-4. For each partition, create an index on the key column\(s\), as well as any other indexes you might want.
+4. 對每一個分割區，對分割主鍵欄位建立索引，就如同一般的索引建立一樣。
 
    ```
    CREATE INDEX measurement_y2006m02_logdate ON measurement_y2006m02 (logdate);
@@ -263,7 +263,7 @@ We use the same`measurement`table we used above. To implement it as a partitione
    CREATE INDEX measurement_y2008m01_logdate ON measurement_y2008m01 (logdate);
    ```
 
-5. We want our application to be able to say`INSERT INTO measurement ...`and have the data be redirected into the appropriate partition table. We can arrange that by attaching a suitable trigger function to the master table. If data will be added only to the latest partition, we can use a very simple trigger function:
+5. 我們希望應用程式可以使用 `INSERT INTO measurement ... `的語法，資料則自動轉送到適當的資料表。我們可以在主資料表建立適當的 Trigger 來完成此事。如果資料都會被新增到最新的子資料表中，我們可以建立很簡單的事件觸發函數： 
 
    ```
    CREATE OR REPLACE FUNCTION measurement_insert_trigger()
@@ -276,7 +276,7 @@ We use the same`measurement`table we used above. To implement it as a partitione
    LANGUAGE plpgsql;
    ```
 
-   After creating the function, we create a trigger which calls the trigger function:
+   建立這個函數之後，再建立 Trigger：
 
    ```
    CREATE TRIGGER insert_measurement_trigger
@@ -284,9 +284,9 @@ We use the same`measurement`table we used above. To implement it as a partitione
        FOR EACH ROW EXECUTE PROCEDURE measurement_insert_trigger();
    ```
 
-   We must redefine the trigger function each month so that it always points to the current partition. The trigger definition does not need to be updated, however.
+   我們必須每個月都重新定義這個函數，使其都指向最新的分割區，但 Trigger 宣告並不需要更新。
 
-   We might want to insert data and have the server automatically locate the partition into which the row should be added. We could do this with a more complex trigger function, for example:
+   我們也可以在新增資料時，讓它們自動找到適當的分割區，那就需要宣告一個比較複雜的函數，如下：
 
    ```
    CREATE OR REPLACE FUNCTION measurement_insert_trigger()
@@ -311,9 +311,9 @@ We use the same`measurement`table we used above. To implement it as a partitione
    LANGUAGE plpgsql;
    ```
 
-   The trigger definition is the same as before. Note that each`IF`test must exactly match the`CHECK`constraint for its partition.
+   Trigger 本身的定義仍然是一樣的。要注意的是，每一個 IF 判斷式，都必須要完全符合 CHECK 限制條件的宣告。
 
-   While this function is more complex than the single-month case, it doesn't need to be updated as often, since branches can be added in advance of being needed
+   這個函數比前一個函數要複雜許多，但它就不需要時常更新了，只要分割區在需要前就被建立就好。
 
 ### 注意
 
