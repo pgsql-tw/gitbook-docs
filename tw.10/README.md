@@ -5,10 +5,11 @@
 本編譯版本為 PostgreSQL 10。
 
 每一個頁面均附上官方手冊對應連結，翻譯未詳盡之處，可對照閱讀。  
-未翻譯完成之段落，將暫以原文替代。
+未翻譯完成之段落，將暫以原文（英文）替代。  
+在頁面最下方附上 Google 翻譯工具，可進行快速翻譯參考。
 
-* 官方手冊：[https://www.postgresql.org/docs/current/static/](https://www.postgresql.org/docs/current/static/)
-* 日本語ドキュメント： [http://www.postgresql.jp/document/current/index.html](http://www.postgresql.jp/document/current/index.html)
+* 官方手冊：[https://www.postgresql.org/docs/10/static/index.html](https://www.postgresql.org/docs/10/static/index.html)
+* 日本語ドキュメント： [http://pgsql-jp.github.io/jpug-doc/10.0/html/](http://pgsql-jp.github.io/jpug-doc/10.0/html/)
 
 閱讀前，也可以參閱摘要簡報：  
 [https://gitpitch.com/pgsql-tw/twpug-doc](https://gitpitch.com/pgsql-tw/twpug-doc)
@@ -19,8 +20,8 @@
 如須堪誤指教，請依下方網址提報討論：  
 [https://www.gitbook.com/book/pgsql-tw/documents/discussions](https://www.gitbook.com/book/pgsql-tw/documents/discussions)
 
-[![中文就要用中文字型](https://ycku.github.io/assets/gitbook-plugin-notocjk.svg)](https://plugins.gitbook.com/plugin/notocjk)
-[![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](https://pgsql-tw.github.io/island/)
+[![中文就要用中文字型](https://ycku.github.io/assets/gitbook-plugin-notocjk.svg)](https://plugins.gitbook.com/plugin/notocjk)  
+[![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](https://pgsql-tw.github.io/island/)  
 [![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)](https://pgsql-tw.github.io)
 
 ---
