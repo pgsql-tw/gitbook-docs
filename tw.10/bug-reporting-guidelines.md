@@ -1,10 +1,12 @@
 # 5. 問題回報指南[^1]
 
-When you find a bug inPostgreSQLwe want to hear about it. Your bug reports play an important part in makingPostgreSQLmore reliable because even the utmost care cannot guarantee that every part ofPostgreSQLwill work on every platform under every circumstance.
+> 本篇談的是如何回報問題到 PostgreSQL 官方組織，而本手冊並非由官方手冊提供，所以如果你希望指出的問題是本手冊的相關問題，請透過[討論區](https://www.gitbook.com/book/pgsql-tw/documents/discussions)，或[台灣 PostgreSQL 使用者社群](https://pgsql-tw.github.io/)所提供的聯絡資訊回報。
 
-The following suggestions are intended to assist you in forming bug reports that can be handled in an effective fashion. No one is required to follow them but doing so tends to be to everyone's advantage.
+如果你在 PostgreSQL 中發現了問題，我們會很希望可以得到通知。你的問題回報可以讓 PostgreSQL 變得更值得信任，因為百密仍有一疏，PostgreSQL 無法保證在任何平台或任何情況下，都一定是完美無缺的。
 
-We cannot promise to fix every bug right away. If the bug is obvious, critical, or affects a lot of users, chances are good that someone will look into it. It could also happen that we tell you to update to a newer version to see if the bug happens there. Or we might decide that the bug cannot be fixed before some major rewrite we might be planning is done. Or perhaps it is simply too hard and there are more important things on the agenda. If you need help immediately, consider obtaining a commercial support contract.
+下面的建議提供你在回報問題時能夠更有效率。你不一定要完全遵照下面的方式，但如果你試著遵循的話，對大家都有幫助。
+
+我們無法保證可以立即修正所有的錯誤。但如果那個問題是明顯的、關鍵的、或是有重大影響的，那就會有人進行瞭解。也可能會回覆你更新你的資料庫版本，如果是因為版本問題的話。我們也可能會判定該錯誤不會被修正，在我們進行重大修改之前；又也許它不容易簡單處理，而且有其他更重要的需求排程已經在進行中。如果你需要立即性的支援，請接洽當地的商業服務。
 
 ### 5.1. Identifying Bugs
 
