@@ -48,11 +48,11 @@
   >
   > 如果是嚴重錯誤的情況下，客戶端報告的錯誤訊息可能不包含所有可用的信息，還請查看資料庫伺服器的系統記錄輸出。如果你沒有保留伺服器的系統記錄，那麼這是開始這樣做的好時機。
 
-* The output you expected is very important to state. If you just write“This command gives me that output.”or“This is not what I expected.”, we might run it ourselves, scan the output, and think it looks OK and is exactly what we expected. We should not have to spend the time to decode the exact semantics behind your commands. Especially refrain from merely saying that“This is not what SQL says/Oracle does.”Digging out the correct behavior fromSQLis not a fun undertaking, nor do we all know how all the other relational databases out there behave. \(If your problem is a program crash, you can obviously omit this item.\)
+* 你所期待的輸出情況對於情境說明非常重要。如果你只是寫「這個命令給我這樣的輸出」或「這結果不是我的預期」，我們可以自己運行它，檢視該輸出結果，並認為它看起來正常，正是我們的預期。我們不應該把時間花在解讀你的命令背後確切的語意。特別是不要僅僅說「這不是 SQL 或 Oracle 所做的那樣」。從 SQL 挖掘所謂正確的行為並不是一件有趣的事情，我們更不會知道所有其他關連式資料庫的做法。（如果你的問題是當機，很明顯地你可以省略此項。）
 
-* Any command line options and other start-up options, including any relevant environment variables or configuration files that you changed from the default. Again, please provide exact information. If you are using a prepackaged distribution that starts the database server at boot time, you should try to find out how that is done.
+* 任何命令列選項和其他啟動選項，包括您從預設值修改的任何相關的環境變數或設定檔案。再次提醒，請提供確切的訊息。如果您正在使用預先封裝好的套件，在開機時啟動資料庫伺服器，您應該嘗試瞭解它如何進行。
 
-* Anything you did at all differently from the installation instructions.
+* 所有你所做的與安裝說明不同之處。
 
 * ThePostgreSQLversion. You can run the command`SELECT version();`to find out the version of the server you are connected to. Most executable programs also support a`--version`option; at least`postgres --version`and`psql --version`should work. If the function or the options do not exist then your version is more than old enough to warrant an upgrade. If you run a prepackaged version, such as RPMs, say so, including any subversion the package might have. If you are talking about a Git snapshot, mention that, including the commit hash.
 
