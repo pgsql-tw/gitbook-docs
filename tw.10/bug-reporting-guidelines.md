@@ -62,9 +62,9 @@
 
 不要擔心你的錯誤報告會因此而變得冗長。這是一個事實過程的呈現。第一次報告所有事情，對我們比較好的做法是，儘量把事實從你身上擠出來。 另一方面，如果你輸入的檔案很大，持平來說，首先要問是否有人有興趣去研究它。這裡有一篇[文章](http://www.chiark.greenend.org.uk/~sgtatham/bugs.html)，概述了有關報告錯誤的更多建議。
 
-Do not spend all your time to figure out which changes in the input make the problem go away. This will probably not help solving it. If it turns out that the bug cannot be fixed right away, you will still have time to find and share your work-around. Also, once again, do not waste your time guessing why the bug exists. We will find that out soon enough.
+不要花所有的時間來指出輸入中的哪些變化會使問題消失。這可能對解決問題沒有幫助。如果事實證明該錯誤不能立即解決，您仍然有時間找到並分享您的解決方案。此外，再一次，不要浪費你的時間猜測為什麼這個問題會存在。我們會很快找到。
 
-When writing a bug report, please avoid confusing terminology. The software package in total is called“PostgreSQL”, sometimes“Postgres”for short. If you are specifically talking about the backend process, mention that, do not just say“PostgreSQL crashes”. A crash of a single backend process is quite different from crash of the parent“postgres”process; please don't say“the server crashed”when you mean a single backend process went down, nor vice versa. Also, client programs such as the interactive frontend“psql”are completely separate from the backend. Please try to be specific about whether the problem is on the client or server side.
+在撰寫錯誤報告時，請避免混淆術語。這個軟體整體來說被稱為「PostgreSQL」，有時候會簡稱為「Postgres」。如果你特別在談論後端的程序，請明確指出，而不要只是說「PostgreSQL 當掉了」。其中一個後端程序的當掉與主要的「postgres」程序當掉有很大的不同；當你的意思是某個後端程序終止時，請不要說「伺服器當掉了」，反之亦然。此外，例如交互式前端的「psql」用戶端程序與後端完全分離的。請嘗試具體說明問題是在用戶端還是伺服器端。
 
 ### 5.3. Where to Report Bugs
 
