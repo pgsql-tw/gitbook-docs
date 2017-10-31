@@ -42,13 +42,11 @@
 
 * 你所得到的輸出。請不要說「不能用」或「壞掉了」。如果出現錯誤訊息，請列出來，即使您並不瞭解它。如果程式終止是因為作業系統錯誤，請說明哪個系統錯誤。如果沒有發生任何事情，也如實說明。即使您的測試案例的結果是當機或其他明顯的情況，也不一定會在我們的平台上發生。如果可以的話，最簡單的方法是從終端視窗中複製輸出內容。
 
-  ### Note
-
-  If you are reporting an error message, please obtain the most verbose form of the message. Inpsql, say`\set VERBOSITY verbose`beforehand. If you are extracting the message from the server log, set the run-time parameter[log\_error\_verbosity](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#guc-log-error-verbosity)to`verbose`so that all details are logged.
-
-  ### Note
-
-  In case of fatal errors, the error message reported by the client might not contain all the information available. Please also look at the log output of the database server. If you do not keep your server's log output, this would be a good time to start doing so.
+  > ### 注意
+  >
+  > 如果您要報告錯誤訊息，請取得該訊息最詳細的形式。在 psql，事先輸入`\set VERBOSITY verbose`。 如果從伺服器記錄取得訊息，請在執行時將參數 log\_error\_verbosity 設定為 verbose，以便記錄所有詳細訊息。
+  >
+  > 如果是嚴重錯誤的情況下，客戶端報告的錯誤訊息可能不包含所有可用的信息，還請查看資料庫伺服器的系統記錄輸出。如果你沒有保留伺服器的系統記錄，那麼這是開始這樣做的好時機。
 
 * The output you expected is very important to state. If you just write“This command gives me that output.”or“This is not what I expected.”, we might run it ourselves, scan the output, and think it looks OK and is exactly what we expected. We should not have to spend the time to decode the exact semantics behind your commands. Especially refrain from merely saying that“This is not what SQL says/Oracle does.”Digging out the correct behavior fromSQLis not a fun undertaking, nor do we all know how all the other relational databases out there behave. \(If your problem is a program crash, you can obviously omit this item.\)
 
