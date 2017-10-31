@@ -66,25 +66,25 @@
 
 在撰寫錯誤報告時，請避免混淆術語。這個軟體整體來說被稱為「PostgreSQL」，有時候會簡稱為「Postgres」。如果你特別在談論後端的程序，請明確指出，而不要只是說「PostgreSQL 當掉了」。其中一個後端程序的當掉與主要的「postgres」程序當掉有很大的不同；當你的意思是某個後端程序終止時，請不要說「伺服器當掉了」，反之亦然。此外，例如交互式前端的「psql」用戶端程序與後端完全分離的。請嘗試具體說明問題是在用戶端還是伺服器端。
 
-### 5.3. Where to Report Bugs
+### 5.3. 回報錯誤到哪裡？
 
-In general, send bug reports to the bug report mailing list at`<`[`pgsql-bugs@postgresql.org`](mailto:pgsql-bugs@postgresql.org)`>`. You are requested to use a descriptive subject for your email message, perhaps parts of the error message.
+一般來說，將錯誤報告發送到錯誤報告的郵件列表：`<`[`pgsql-bugs@postgresql.org`](mailto:pgsql-bugs@postgresql.org)`>`。你需要為你的電子郵件使用描述性主題，可能是錯誤消息的一部分。
 
-Another method is to fill in the bug report web-form available at the project's[web site](http://www.postgresql.org/). Entering a bug report this way causes it to be mailed to the`<`[`pgsql-bugs@postgresql.org`](mailto:pgsql-bugs@postgresql.org)`>`mailing list.
+另一種方法是填寫[官方網站](http://www.postgresql.org)上提供的錯誤報告網頁式表單。用這個方式的話，它也會把內容轉寄到`<`[`pgsql-bugs@postgresql.org`](mailto:pgsql-bugs@postgresql.org)`>`郵件列表之中。
 
-If your bug report has security implications and you'd prefer that it not become immediately visible in public archives, don't send it to`pgsql-bugs`. Security issues can be reported privately to`<`[`security@postgresql.org`](mailto:security@postgresql.org)`>`.
+如果您的錯誤報告隱含有安全疑慮，並且您希望它不會在公共討論區中立即顯示，請不要將其發送到pgsql-bugs。安全問題可以非公開地回報至`<`[`security@postgresql.org`](mailto:security@postgresql.org)`>`。
 
-Do not send bug reports to any of the user mailing lists, such as`<`[`pgsql-sql@postgresql.org`](mailto:pgsql-sql@postgresql.org)`>`or`<`[`pgsql-general@postgresql.org`](mailto:pgsql-general@postgresql.org)`>`. These mailing lists are for answering user questions, and their subscribers normally do not wish to receive bug reports. More importantly, they are unlikely to fix them.
+不要向任何用戶的郵件列表發送錯誤報告，像是`<`[`pgsql-sql@postgresql.org`](mailto:pgsql-sql@postgresql.org)`>`或`<`[`pgsql-general@postgresql.org`](mailto:pgsql-general@postgresql.org)`>`。這些郵件列表用於回答用戶的問題，用戶通常不希望收到錯誤報告。 更重要的是，他們不太可能修復它們。
 
-Also, please do\_not\_send reports to the developers' mailing list`<`[`pgsql-hackers@postgresql.org`](mailto:pgsql-hackers@postgresql.org)`>`. This list is for discussing the development ofPostgreSQL, and it would be nice if we could keep the bug reports separate. We might choose to take up a discussion about your bug report on`pgsql-hackers`, if the problem needs more review.
+另外，請不要向開發者的郵件列表發送報告`<`[`pgsql-hackers@postgresql.org`](mailto:pgsql-hackers@postgresql.org)`>`。這個列表用於討論 PostgreSQL 的開發，如果我們可以將問題報告分開來，那將是很棒的。 不過，我們可能會選擇討論你的錯誤報告`pgsql-hackers`，如果那個問題需要更多討論的話。
 
-If you have a problem with the documentation, the best place to report it is the documentation mailing list`<`[`pgsql-docs@postgresql.org`](mailto:pgsql-docs@postgresql.org)`>`. Please be specific about what part of the documentation you are unhappy with.
+如果你的問題是使用手冊，回報問題的最佳位置是使用手冊的郵件列表`<`[`pgsql-docs@postgresql.org`](mailto:pgsql-docs@postgresql.org)`>`。請具體說明文件的哪一部分讓你不滿意。
 
-If your bug is a portability problem on a non-supported platform, send mail to`<`[`pgsql-hackers@postgresql.org`](mailto:pgsql-hackers@postgresql.org)`>`, so we \(and you\) can work on portingPostgreSQLto your platform.
+如果您的錯誤是非支持平台上的可移植性問題，請寄送郵件到`<`[`pgsql-hackers@postgresql.org`](mailto:pgsql-hackers@postgresql.org)`>`，讓我們（和你）可以將　PostgreSQL移植到你的平台上。
 
-### Note
-
-Due to the unfortunate amount of spam going around, all of the above email addresses are closed mailing lists. That is, you need to be subscribed to a list to be allowed to post on it. \(You need not be subscribed to use the bug-report web form, however.\) If you would like to send mail but do not want to receive list traffic, you can subscribe and set your subscription option to`nomail`. For more information send mail to`<`[`majordomo@postgresql.org`](mailto:majordomo@postgresql.org)`>`with the single word`help`in the body of the message.
+> ### 注意
+>
+> 不幸由於垃圾郵件數量，所有上述電子郵件地址都是封閉的郵件列表。也就是說，您需要訂閱列表才能發布。（然而，您不需要訂閱使用錯誤報告Web表單。）如果你想發送郵件但不想接收郵件列表，您可以訂閱並設置您的訂閱選項為「nomail」。想得到更多訊息的話，請寄一封郵件到 `<`[`majordomo@postgresql.org`](mailto:majordomo@postgresql.org)`>，內文請輸入「help」一個單字，就會自動回覆你進一步的訊息。`
 
 ---
 
