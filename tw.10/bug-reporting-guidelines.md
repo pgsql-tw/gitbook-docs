@@ -1,6 +1,6 @@
 # 5. 問題回報指南[^1]
 
-> 本篇談的是如何回報問題到 PostgreSQL 官方組織，而本手冊並非由官方手冊提供，所以如果你希望指出的問題是本手冊的相關問題，請透過[討論區](https://www.gitbook.com/book/pgsql-tw/documents/discussions)，或[台灣 PostgreSQL 使用者社群](https://pgsql-tw.github.io/)所提供的聯絡資訊回報。
+> 本篇談的是如何回報問題到 PostgreSQL 官方組織，而本正體中文手冊並非由官方提供，所以如果你希望指出的問題是本手冊的相關問題，請透過[討論區](https://www.gitbook.com/book/pgsql-tw/documents/discussions)，或[台灣 PostgreSQL 使用者社群](https://pgsql-tw.github.io/)所提供的聯絡資訊回報。
 
 如果你在 PostgreSQL 中發現了問題，我們會很希望可以得到通知。你的問題回報可以讓 PostgreSQL 變得更值得信任，因為百密仍有一疏，PostgreSQL 無法保證在任何平台或任何情況下，都一定是完美無缺的。
 
@@ -28,19 +28,19 @@
 
 在繼續之前，請檢查 TODO 列表和常見問題解答，看看您的錯誤是否已知。 如果您無法瞭解 TODO 列表中的資訊，請報告你的問題。 我們至少可以做的是使 TODO 列表更清楚。
 
-### 5.2. What to Report
+### 5.2. 回報內容
 
-The most important thing to remember about bug reporting is to state all the facts and only facts. Do not speculate what you think went wrong, what“it seemed to do”, or which part of the program has a fault. If you are not familiar with the implementation you would probably guess wrong and not help us a bit. And even if you are, educated explanations are a great supplement to but no substitute for facts. If we are going to fix the bug we still have to see it happen for ourselves first. Reporting the bare facts is relatively straightforward \(you can probably copy and paste them from the screen\) but all too often important details are left out because someone thought it does not matter or the report would be understood anyway.
+關於錯誤報告最重要的是陳述所有事實並且只有事實。不要揣測你的想法是錯的，什麼「似乎」，或程式的哪個部分有故障。如果你不熟悉實作的方法，你可能會猜測錯誤，而無法幫助我們。即使你有知識性的解釋，也應該是對事實的補充而不是替代它們。如果我們要修復這個錯誤，我們還是首先要看到它發生。報告裸露的事實是相對簡單的（你可以從屏幕上複製貼上它們），但是經常重要的細節被忽略，因為有人認為這並不重要，或者認為報告被理解是應當的。
 
-The following items should be contained in every bug report:
+每個錯誤報告中都應包含以下內容：
 
-* The exact sequence of steps\_from program start-up\_necessary to reproduce the problem. This should be self-contained; it is not enough to send in a bare`SELECT`statement without the preceding`CREATE TABLE`and`INSERT`statements, if the output should depend on the data in the tables. We do not have the time to reverse-engineer your database schema, and if we are supposed to make up our own data we would probably miss the problem.
+* 程式執行步驟的確切順序是重現問題所必需的。這應該是獨立的；如果輸出應該依賴於資料表中的資料，那麼沒有包含前面的 CREATE TABLE 和 INSERT 語句的 SELECT 語句是不夠的。我們沒有時間來對你的資料庫進行逆向工程，如果我們需要建立自己的資料庫的話，我們很可能會錯過這個問題。
 
-  The best format for a test case for SQL-related problems is a file that can be run through thepsqlfrontend that shows the problem. \(Be sure to not have anything in your`~/.psqlrc`start-up file.\) An easy way to create this file is to usepg\_dumpto dump out the table declarations and data needed to set the scene, then add the problem query. You are encouraged to minimize the size of your example, but this is not absolutely necessary. If the bug is reproducible, we will find it either way.
+  SQL相關問題的測試最佳格式是可以透過 psql 執行並重現問題。 （請確認您的 ~/ .psqlrc 啟動設定中沒有任何內容。）建立這個檔案的一個簡單方式是使用 pg\_dump 來轉出設定該情境的資料表宣告及資料，然後加入產生問題的查詢語句。我們希望您盡量減少您的問題規模，但這並不是絕對必要的。如果錯誤是可重現的，我們會以任何一種方式找到它。
 
-  If your application uses some other client interface, such asPHP, then please try to isolate the offending queries. We will probably not set up a web server to reproduce your problem. In any case remember to provide the exact input files; do not guess that the problem happens for“large files”or“midsize databases”, etc. since this information is too inexact to be of use.
+  如果您的應用程式使用某些其他客戶端界面（如PHP），請嘗試突顯那些問題查詢語句。我們應該不會設置一個 Web 伺服器來重現您的問題。無論如何，請記得提供確切的輸入檔案；不要猜測「大文件」或「中型數據庫」等問題的可能性。因為這些訊息不夠精確，沒有參考價值。
 
-* The output you got. Please do not say that it“didn't work”or“crashed”. If there is an error message, show it, even if you do not understand it. If the program terminates with an operating system error, say which. If nothing at all happens, say so. Even if the result of your test case is a program crash or otherwise obvious it might not happen on our platform. The easiest thing is to copy the output from the terminal, if possible.
+* 你所得到的輸出。請不要說「不能用」或「壞掉了」。如果出現錯誤訊息，請列出來，即使您並不瞭解它。如果程式終止是因為作業系統錯誤，請說明哪個系統錯誤。如果沒有發生任何事情，也如實說明。即使您的測試案例的結果是當機或其他明顯的情況，也不一定會在我們的平台上發生。如果可以的話，最簡單的方法是從終端視窗中複製輸出內容。
 
   ### Note
 
