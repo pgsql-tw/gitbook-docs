@@ -54,13 +54,13 @@
 
 * 所有你所做的與安裝說明不同之處。
 
-* ThePostgreSQLversion. You can run the command`SELECT version();`to find out the version of the server you are connected to. Most executable programs also support a`--version`option; at least`postgres --version`and`psql --version`should work. If the function or the options do not exist then your version is more than old enough to warrant an upgrade. If you run a prepackaged version, such as RPMs, say so, including any subversion the package might have. If you are talking about a Git snapshot, mention that, including the commit hash.
+* PostgreSQL 的版本。你可以執行`SELECT version();` 來找到你正在連線的資料庫系統版本。大多數的程式工具也會支援`--version`選項；至少`postgres --version`和`psql --version`都可以使用。如果功能或選項不存在，那麼您的版本已經太舊而無法進行升級。如果您運行預先編譯的套件（如 RPM），請說明，包括該套件可能具有的子版本。如果您正在使用 Git 某個快照，請說明快照版本，包括提交碼（commit hash）。
 
-  If your version is older than 10beta1 we will almost certainly tell you to upgrade. There are many bug fixes and improvements in each new release, so it is quite possible that a bug you have encountered in an older release ofPostgreSQLhas already been fixed. We can only provide limited support for sites using older releases ofPostgreSQL; if you require more than we can provide, consider acquiring a commercial support contract.
+  如果您的版本比10還舊，我們幾乎肯定會告訴您進行升級。每個新版本都有很多錯誤修復和改進，所以很可能在PostgreSQL的舊版本中遇到的錯誤已經被修復了。我們只能對使用較早版本的PostgreSQL伺服器提供有限的支援；如果你的需求多於我們所能提供的，請考慮取得商業支援合約。
 
-* Platform information. This includes the kernel name and version, C library, processor, memory information, and so on. In most cases it is sufficient to report the vendor and version, but do not assume everyone knows what exactly“Debian”contains or that everyone runs on i386s. If you have installation problems then information about the toolchain on your machine \(compiler,make, and so on\) is also necessary.
+* 執行平台資訊。這包括作業系統核心名稱和版本，C語言函式庫，中央處理器、記憶體資訊等等。在大多數情況下，報告系統供應商和版本是足夠的，但不要假設每個人都知道「Debian」究竟是什麼，或是每個人都運行在 i386 上。如果您有安裝問題，則還需要你的機器上有關系統工具組的訊息（編譯器、make 工具等等）。
 
-Do not be afraid if your bug report becomes rather lengthy. That is a fact of life. It is better to report everything the first time than us having to squeeze the facts out of you. On the other hand, if your input files are huge, it is fair to ask first whether somebody is interested in looking into it. Here is an[article](http://www.chiark.greenend.org.uk/~sgtatham/bugs.html)that outlines some more tips on reporting bugs.
+不要擔心你的錯誤報告會因此而變得冗長。這是一個事實過程的呈現。第一次報告所有事情，對我們比較好的做法是，儘量把事實從你身上擠出來。 另一方面，如果你輸入的檔案很大，持平來說，首先要問是否有人有興趣去研究它。這裡有一篇[文章](http://www.chiark.greenend.org.uk/~sgtatham/bugs.html)，概述了有關報告錯誤的更多建議。
 
 Do not spend all your time to figure out which changes in the input make the problem go away. This will probably not help solving it. If it turns out that the bug cannot be fixed right away, you will still have time to find and share your work-around. Also, once again, do not waste your time guessing why the bug exists. We will find that out soon enough.
 
