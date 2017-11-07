@@ -1,6 +1,6 @@
 # 6. 資料處理[^1]
 
-The previous chapter discussed how to create tables and other structures to hold your data. Now it is time to fill the tables with data. This chapter covers how to insert, update, and delete table data. The chapter after this will finally explain how to extract your long-lost data from the database.
+前一章討論了如何建立資料表和其他結構來保存資料。現在是把資料表填滿的時候了。本章介紹如何新增、更新和刪除資料表的資料。 下一章將會完整說明如何從資料庫中取回你遺落在裡面的資料。
 
 ---
 
