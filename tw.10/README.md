@@ -24,5 +24,5 @@
 
 ---
 
-[![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](http://postgresql.tw/island)[![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)](http://postgresql.tw)
+[![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](http://postgresql.tw/island) [![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)](http://postgresql.tw)
 
