@@ -1,4 +1,4 @@
-# PostgreSQL 10 正體中文使用手冊[^1]
+# PostgreSQL 10 正體中文使用手冊
 
 本使用手冊由台灣 PostgreSQL 社群提供，翻譯自 PostgreSQL 官方使用手冊，以推廣 PostgreSQL 於台灣的應用。
 
@@ -17,14 +17,12 @@
 看看 PostgreSQL 10 有什麼新功能吧：  
 [https://www.slideshare.net/tsunghsilin/postgresql-10-new-features](https://www.slideshare.net/tsunghsilin/postgresql-10-new-features)
 
-如須堪誤指教，請依下方網址提報討論：  
+如須堪誤指教，你可以使用Gitbook討論區功能提報討論：  
 [https://www.gitbook.com/book/pgsql-tw/documents/discussions](https://www.gitbook.com/book/pgsql-tw/documents/discussions)
 
-[![中文就要用中文字型](https://ycku.github.io/assets/gitbook-plugin-notocjk.svg)](https://plugins.gitbook.com/plugin/notocjk)  
-[![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](https://pgsql-tw.github.io/island/)  
-[![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)](https://pgsql-tw.github.io)
+也可以 Email 給我們的文件小組唷：[docs@postgresql.tw](mailto:docs@postgresql.tw)
 
 ---
 
-[^1]: [PostgreSQL: Documentation: 10: PostgreSQL 10 beta1 Documentation](https://www.postgresql.org/docs/10/static/index.html)
+[![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](http://postgresql.tw/island)[![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)](http://postgresql.tw)
 
