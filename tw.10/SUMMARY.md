@@ -423,6 +423,7 @@
     * [DROP TABLE](vi-reference/i-sql-commands/drop-table.md)
     * [GRANT](vi-reference/i-sql-commands/grant.md)
     * [IMPORT FOREIGN SCHEMA](vi-reference/i-sql-commands/import-foreign-schema.md)
+    * [INSERT](vi-reference/i-sql-commands/insert.md)
     * [REVOKE](vi-reference/i-sql-commands/revoke.md)
     * [SELECT](vi-reference/i-sql-commands/select.md)
   * [II. PostgreSQL 用戶端工具](vi-reference/ii-postgresql-client-applications.md)

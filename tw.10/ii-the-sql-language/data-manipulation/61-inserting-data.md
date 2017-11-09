@@ -1,8 +1,8 @@
 # 6.1. 新增資料[^1]
 
-When a table is created, it contains no data. The first thing to do before a database can be of much use is to insert data. Data is conceptually inserted one row at a time. Of course you can also insert more than one row, but there is no way to insert less than one row. Even if you know only some column values, a complete row must be created.
+資料表在建立的時候，並不包含任何資料。以各種方式使用資料庫之前，要做的第一件事就是新增資料。概念上，資料是一次新增一列。當然你也可以新增多列，但就沒有辦法新增少於一列。 即使只知道某些欄位的值，也必須建立一個完整的資料列。
 
-To create a new row, use the[INSERT](https://www.postgresql.org/docs/10/static/sql-insert.html)command. The command requires the table name and column values. For example, consider the products table from[Chapter 5](https://www.postgresql.org/docs/10/static/ddl.html):
+要建立新的資料列，請使用 [INSERT](/vi-reference/i-sql-commands/insert.md) 指令。該命令需要資料表的名稱和各欄位的資料內容。例如，來看看[第 5 章](/ii-the-sql-language/data-definition.md)中的產品資料表：
 
 ```
 CREATE TABLE products (
@@ -10,74 +10,65 @@ CREATE TABLE products (
     name text,
     price numeric
 );
-
 ```
 
-An example command to insert a row would be:
+新增資料列的指令可能如下所示：
 
 ```
 INSERT INTO products VALUES (1, 'Cheese', 9.99);
-
 ```
 
-The data values are listed in the order in which the columns appear in the table, separated by commas. Usually, the data values will be literals \(constants\), but scalar expressions are also allowed.
+資料內容按資料表表中欄位的順序列出，以逗號分隔。通常，資料內容會是文字（常數），但運算表示式也是允許的。
 
-The above syntax has the drawback that you need to know the order of the columns in the table. To avoid this you can also list the columns explicitly. For example, both of the following commands have the same effect as the one above:
+上面的語法有缺點，就是你需要知道資料表中欄位的順序。為了避免這種情況，您可以明確地列出欄位。例如，以下兩個命令與上面的命令具有相同的效果：
 
 ```
 INSERT INTO products (product_no, name, price) VALUES (1, 'Cheese', 9.99);
 INSERT INTO products (name, price, product_no) VALUES ('Cheese', 9.99, 1);
-
 ```
 
-Many users consider it good practice to always list the column names.
+許多用戶認為總是列出欄位名稱是一個很好的習慣。
 
-If you don't have values for all the columns, you can omit some of them. In that case, the columns will be filled with their default values. For example:
+如果你並沒有所有欄位的內容，則可以省略其中一些欄位。在這種情況下，那些欄位將會以預設值代入。如下所示：
 
 ```
 INSERT INTO products (product_no, name) VALUES (1, 'Cheese');
 INSERT INTO products VALUES (1, 'Cheese');
-
 ```
 
-The second form is aPostgreSQLextension. It fills the columns from the left with as many values as are given, and the rest will be defaulted.
+第二種形式是屬於 PostgreSQL 延伸寫法。 從左邊開始的欄位填入所給定的內容，其餘的欄位則使用預設值。
 
-For clarity, you can also request default values explicitly, for individual columns or for the entire row:
+為了清楚起見，你也可以明確地指定個別欄位或整個資料列都使用預設值：
 
 ```
 INSERT INTO products (product_no, name, price) VALUES (1, 'Cheese', DEFAULT);
 INSERT INTO products DEFAULT VALUES;
-
 ```
 
-You can insert multiple rows in a single command:
+您可以在一個命令中新增多個資料列：
 
 ```
 INSERT INTO products (product_no, name, price) VALUES
     (1, 'Cheese', 9.99),
     (2, 'Bread', 1.99),
     (3, 'Milk', 2.99);
-
 ```
 
-It is also possible to insert the result of a query \(which might be no rows, one row, or many rows\):
+也可以以查詢的結果新增（可能沒有資料，一個資料列或多個資料列）：
 
 ```
 INSERT INTO products (product_no, name, price)
   SELECT product_no, name, price FROM new_products
     WHERE release_date = 'today';
-
 ```
 
-This provides the full power of the SQL query mechanism \([Chapter 7](https://www.postgresql.org/docs/10/static/queries.html)\) for computing the rows to be inserted.
+這包含完整 SQL 查詢機制（[第 7 章](/ii-the-sql-language/queries.md)）用於計算需要新增的資料列。
 
-### Tip
+### 小技巧
 
-When inserting a lot of data at the same time, considering using the[COPY](https://www.postgresql.org/docs/10/static/sql-copy.html)command. It is not as flexible as the[INSERT](https://www.postgresql.org/docs/10/static/sql-insert.html)command, but is more efficient. Refer to[Section 14.4](https://www.postgresql.org/docs/10/static/populate.html)for more information on improving bulk loading performance.
+同時要新增大量資料時，請考慮使用 [COPY](/vi-reference/i-sql-commands/copy.md) 指令。它不像 INSERT 指令那麼靈活，但是效率更高。有關提高批次新增資料效率的更多資訊，請參閱[第 14.4 節](/ii-the-sql-language/performance-tips/144-populating-a-database.md)。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 6.1. Inserting Data](https://www.postgresql.org/docs/10/static/dml-insert.html)
+[^1]: [PostgreSQL: Documentation: 10: 6.1. Inserting Data](https://www.postgresql.org/docs/10/static/dml-insert.html)
 
