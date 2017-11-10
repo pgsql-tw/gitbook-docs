@@ -1,46 +1,40 @@
 # 6.2. 更新資料[^1]
 
-The modification of data that is already in the database is referred to as updating. You can update individual rows, all the rows in a table, or a subset of all rows. Each column can be updated separately; the other columns are not affected.
+將已經在資料庫中的資料做修改被稱為更新。您可以單獨更新某個資料列，或資料表中的所有資料列，或是部份資料列。每個欄位可以單獨更新，而不影響其他欄位。
 
-To update existing rows, use the[UPDATE](https://www.postgresql.org/docs/10/static/sql-update.html)command. This requires three pieces of information:
+要更新現有的資料列，請使用 [UPDATE](/vi-reference/i-sql-commands/update.md) 指令。這需要三種資訊：
 
-1. The name of the table and column to update
+1. 要更新的資料表和欄位的名稱
 
-2. The new value of the column
+2. 資料欄位新的內容
 
-3. Which row\(s\) to update
+3. 哪些資料列要更新
 
-Recall from[Chapter 5](https://www.postgresql.org/docs/10/static/ddl.html)that SQL does not, in general, provide a unique identifier for rows. Therefore it is not always possible to directly specify which row to update. Instead, you specify which conditions a row must meet in order to be updated. Only if you have a primary key in the table \(independent of whether you declared it or not\) can you reliably address individual rows by choosing a condition that matches the primary key. Graphical database access tools rely on this fact to allow you to update rows individually.
+回想一下[第 5 章](/ii-the-sql-language/data-definition.md)，SQL 通常不提供資料列的唯一識別資訊。因此，直接指定要更新哪一行通常是不行的，而是指定該資料列必須符合哪些條件才能更新。只有你在資料表中有一個主鍵（決定於是否你有宣告過）之後，才能通過選擇與主鍵相匹配的條件來可靠地解決單個資料列的問題。圖形化的資料庫管理工具依賴這個方式才能允許你單獨更新指定的資料列。
 
-For example, this command updates all products that have a price of 5 to have a price of 10:
+例如，這個指令會將價格為 5 的所有產品更新為 10：
 
 ```
 UPDATE products SET price = 10 WHERE price = 5;
-
 ```
 
-This might cause zero, one, or many rows to be updated. It is not an error to attempt an update that does not match any rows.
+這結果可能是零個，一個或多個資料列被更新。嘗試更新卻沒有匹配到任何資料列，並不是一種錯誤。
 
-Let's look at that command in detail. First is the key word`UPDATE`followed by the table name. As usual, the table name can be schema-qualified, otherwise it is looked up in the path. Next is the key word`SET`followed by the column name, an equal sign, and the new column value. The new column value can be any scalar expression, not just a constant. For example, if you want to raise the price of all products by 10% you could use:
+我們來詳細看看這個命令。首先是關鍵字 UPDATE，然後是資料表的名稱。像往常一樣，資料表的名稱可以使用加上 schema 的完整路徑名稱，否則就會在搜尋路徑中尋找。接下來的關鍵字是 SET，後面接著欄位名稱，等號和新的欄位內容。新的欄位內容可以是任何的運算表示式，而不僅僅是一個常數。例如，如果要將所有產品的價格提高10％，則可以使用：
 
 ```
 UPDATE products SET price = price * 1.10;
-
 ```
 
-As you see, the expression for the new value can refer to the existing value\(s\) in the row. We also left out the`WHERE`clause. If it is omitted, it means that all rows in the table are updated. If it is present, only those rows that match the`WHERE`condition are updated. Note that the equals sign in the`SET`clause is an assignment while the one in the`WHERE`clause is a comparison, but this does not create any ambiguity. Of course, the`WHERE`condition does not have to be an equality test. Many other operators are available \(see[Chapter 9](https://www.postgresql.org/docs/10/static/functions.html)\). But the expression needs to evaluate to a Boolean result.
+如你所見，欄位的表示式可以引用資料列中現有的內容。我們還遺漏了 WHERE 子句。如果省略的話，則意味著資料表中的所有資料列都會被更新。如果存在的話，則只有更新符合 WHERE 條件的那些資料列。請注意，SET 子句中的等號是一個賦值運算，而 WHERE 子句中的等號是比較運算，但這不會造成任何誤解。當然，WHERE 條件不一定是等號運算。 還有許多其他的運算子可以使用（詳見第 9 章）。但是表示式需要能產生為布林運算的結果。
 
-You can update more than one column in an`UPDATE`command by listing more than one assignment in the`SET`clause. For example:
+您可以在使用 UPDATE 指令時，以 SET 子句中列出多個欄位賦值來更新多個欄位內容。例如：
 
 ```
-UPDATE mytable SET a = 5, b = 3, c = 1 WHERE a 
->
- 0;
+UPDATE mytable SET a = 5, b = 3, c = 1 WHERE a > 0;
 ```
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 6.2. Updating Data](https://www.postgresql.org/docs/10/static/dml-update.html)
+[^1]: [PostgreSQL: Documentation: 10: 6.2. Updating Data](https://www.postgresql.org/docs/10/static/dml-update.html)
 
