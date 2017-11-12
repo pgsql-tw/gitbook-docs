@@ -1,26 +1,22 @@
 # 6.3. 刪除資料[^1]
 
-So far we have explained how to add data to tables and how to change data. What remains is to discuss how to remove data that is no longer needed. Just as adding data is only possible in whole rows, you can only remove entire rows from a table. In the previous section we explained that SQL does not provide a way to directly address individual rows. Therefore, removing rows can only be done by specifying conditions that the rows to be removed have to match. If you have a primary key in the table then you can specify the exact row. But you can also remove groups of rows matching a condition, or you can remove all rows in the table at once.
+到目前為止，我們已經解釋瞭如何將資料新增到資料表以及如何更新資料了。剩下的就是討論如何刪除不再需要的資料。 正如新增資料時只能新增整個資料列一樣，你只能從資料表中以資料列為單位刪除資料。在前面的章節中，我們解釋了SQL沒有提供直接處理某個資料列的方法。因此，只能透過指定要刪除的行必須符合的條件來刪除指定的資料列。如果資料列中有主鍵，則可以指定確切的資料列。但是，你也可以刪除全部符合條件的資料列，更可以一次刪除資料表中的所有資料列。
 
-You use the[DELETE](https://www.postgresql.org/docs/10/static/sql-delete.html)command to remove rows; the syntax is very similar to the`UPDATE`command. For instance, to remove all rows from the products table that have a price of 10, use:
+您使用 [DELETE](/vi-reference/i-sql-commands/delete.md) 指令刪除資料列；該語法與 UPDATE 指令十分類似。例如，要從產品表中刪除價格為 10 的所有資料列，請使用：
 
 ```
 DELETE FROM products WHERE price = 10;
-
 ```
 
-If you simply write:
+如果你只是寫：
 
 ```
 DELETE FROM products;
-
 ```
 
-then all rows in the table will be deleted! Caveat programmer.
+那麼資料表中的所有資料列都將被刪除！ 請程式設計師一定要小心使用。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 6.3. Deleting Data](https://www.postgresql.org/docs/10/static/dml-delete.html)
+[^1]: [PostgreSQL: Documentation: 10: 6.3. Deleting Data](https://www.postgresql.org/docs/10/static/dml-delete.html)
 

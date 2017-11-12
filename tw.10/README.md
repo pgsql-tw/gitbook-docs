@@ -20,7 +20,7 @@
 如須堪誤指教，你可以使用Gitbook討論區功能提報討論：  
 [https://www.gitbook.com/book/pgsql-tw/documents/discussions](https://www.gitbook.com/book/pgsql-tw/documents/discussions)
 
-也可以 Email 給我們的文件小組唷：[docs@postgresql.tw](mailto:docs@postgresql.tw)
+想要加入我們或給予建議，也可以 Email 給我們的文件小組唷：[docs@postgresql.tw](mailto:docs@postgresql.tw)
 
 ---
 
