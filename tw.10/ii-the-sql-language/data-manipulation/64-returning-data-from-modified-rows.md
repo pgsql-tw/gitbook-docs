@@ -1,45 +1,38 @@
 # 6.4. 修改並回傳資料[^1]
 
-Sometimes it is useful to obtain data from modified rows while they are being manipulated. The`INSERT`,`UPDATE`, and`DELETE`commands all have an optional`RETURNING`clause that supports this. Use of`RETURNING`avoids performing an extra database query to collect the data, and is especially valuable when it would otherwise be difficult to identify the modified rows reliably.
+有時在修改資料列的操作過程中取得資料是很方便的。INSERT、UPDATE 和 DELETE 指令都有一個選擇性的RETURNING 子句來支持這個功能。使用 RETURNING 可以避免執行額外的資料庫查詢來收集資料，特別是在難以可靠地識別修改的資料列時尤其有用。
 
-The allowed contents of a`RETURNING`clause are the same as a`SELECT`command's output list \(see[Section 7.3](https://www.postgresql.org/docs/10/static/queries-select-lists.html)\). It can contain column names of the command's target table, or value expressions using those columns. A common shorthand is`RETURNING *`, which selects all columns of the target table in order.
+RETURNING 子句允許的語法與 SELECT 指令的輸出列表相同（詳見[第 7.3 節](/ii-the-sql-language/queries/73-select-lists.md)）。它可以包含命令目標資料表的欄位名稱，或者包含使用這些欄位的表示式。常用的簡寫形式是 RETURNING \*，預設是資料表的所有欄位，且相同次序。
 
-In an`INSERT`, the data available to`RETURNING`is the row as it was inserted. This is not so useful in trivial inserts, since it would just repeat the data provided by the client. But it can be very handy when relying on computed default values. For example, when using a[`serial`](https://www.postgresql.org/docs/10/static/datatype-numeric.html#datatype-serial)column to provide unique identifiers,`RETURNING`can return the ID assigned to a new row:
+在 INSERT 中，可用於 RETURNING 的資料是新增的資料列。這在一般的資料新增中並不是很有用，因為它只會重複用戶端所提供的資料。但如果是計算過的預設值就會非常方便。 例如，當使用串列欄位（[serial](/ii-the-sql-language/data-types/81-numeric-types.md)）提供唯一識別時，RETURNING 可以回傳分配給新資料列的 ID：
 
 ```
 CREATE TABLE users (firstname text, lastname text, id serial primary key);
 
 INSERT INTO users (firstname, lastname) VALUES ('Joe', 'Cool') RETURNING id;
-
 ```
 
-The`RETURNING`clause is also very useful with`INSERT ... SELECT`.
+對於 INSERT ... SELECT，RETURNING 子句也非常有用。
 
-In an`UPDATE`, the data available to`RETURNING`is the new content of the modified row. For example:
+在 UPDATE 中，可用於 RETURNING 的資料是被修改的資料列新內容。例如：
 
 ```
 UPDATE products SET price = price * 1.10
-  WHERE price 
-<
-= 99.99
+  WHERE price <= 99.99
   RETURNING name, price AS new_price;
-
 ```
 
-In a`DELETE`, the data available to`RETURNING`is the content of the deleted row. For example:
+在 DELETE 中，可用於 RETURNING 的資料是已刪除資料列的內容。例如：
 
 ```
 DELETE FROM products
   WHERE obsoletion_date = 'today'
   RETURNING *;
-
 ```
 
-If there are triggers \([Chapter 38](https://www.postgresql.org/docs/10/static/triggers.html)\) on the target table, the data available to`RETURNING`is the row as modified by the triggers. Thus, inspecting columns computed by triggers is another common use-case for`RETURNING`.
+如果目標資料表上有觸發函數的話（第 38 章），則可用於 RETURNING 的資料是由該觸發函數所修改的資料列。因此，由觸發函數計算檢查欄位是 RETURNING 的另一個常見用法。
 
 ---
 
----
-
-[^1]: [PostgreSQL: Documentation: 10: 6.4. Returning Data From Modified Rows](https://www.postgresql.org/docs/10/static/dml-returning.html)
+[^1]: [PostgreSQL: Documentation: 10: 6.4. Returning Data From Modified Rows](https://www.postgresql.org/docs/10/static/dml-returning.html)
 
