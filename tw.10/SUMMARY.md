@@ -57,7 +57,7 @@
     * [6.4. 修改並回傳資料](ii-the-sql-language/data-manipulation/64-returning-data-from-modified-rows.md)
   * [7. 資料查詢](ii-the-sql-language/queries.md)
     * [7.1. 概觀](ii-the-sql-language/queries/71-overview.md)
-    * [7.2. 表格表示式](ii-the-sql-language/queries/72-table-expressions.md)
+    * [7.2. 資料表表示式](ii-the-sql-language/queries/72-table-expressions.md)
     * [7.3. 取得資料列表](ii-the-sql-language/queries/73-select-lists.md)
     * [7.4. 合併查詢結果](ii-the-sql-language/queries/74-combining-queries.md)
     * [7.5. 資料排序](ii-the-sql-language/queries/75-sorting-rows.md)
