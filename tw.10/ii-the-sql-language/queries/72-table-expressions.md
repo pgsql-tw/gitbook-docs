@@ -20,32 +20,25 @@ FROM table_reference [,table_reference [, ...]]
 
 #### 7.2.1.1. Joined Tables
 
-A joined table is a table derived from two other \(real or derived\) tables according to the rules of the particular join type. Inner, outer, and cross-joins are available. The general syntax of a joined table is
+交叉查詢（JOIN）的資料表是根據特定連接類型的規則從其他兩個（實際或衍生）資料表共同衍生而來的資料表。有 inner、outer、 及 cross-joins 可以使用。 交叉查詢資料表的一般語法是：
 
 ```
-T1
-join_type
-T2
- [
-join_condition
-]
+T1 join_type T2 [join_condition]
 ```
 
-Joins of all types can be chained together, or nested: either or both`T1`_\_and_`T2`\_can be joined tables. Parentheses can be used around`JOIN`clauses to control the join order. In the absence of parentheses,`JOIN`clauses nest left-to-right.
+所有類型的交叉查詢可以連接在一起，也可以是巢狀結構： T1 或 T2 都可以是交叉查詢後的資料表。在 JOIN 子句使用可以小括號來控制交叉查詢的次序。在沒有括號的情況下，JOIN 子句就從左到右巢狀運算。
 
 **Join Types**
 
-Cross join
+* Cross join
 
 ```
-T1
- CROSS JOIN 
-T2
+T1 CROSS JOIN T2
 ```
 
-For every possible combination of rows from`T1`_\_and_`T2`_\(i.e., a Cartesian product\), the joined table will contain a row consisting of all columns in_`T1`_followed by all columns in_`T2`\_. If the tables have N and M rows respectively, the joined table will have N \* M rows.
+對於來自 T1 和 T2（即笛卡爾乘積）資料列的每個可能的組合，交叉查詢的資料表將包含由 T1 中的所有欄位組成的資料列，隨後是 T2 中的所有的欄位。如果這些資料表分別具有 N 個資料列和 M 資料列，則交叉查詢後的資料表將具有 N \* M 個資料列。
 
-`FROMT1`_\_CROSS JOIN_`T2`_is equivalent to_`FROMT1`_INNER JOIN_`T2`_ON TRUE\(see below\). It is also equivalent to_`FROMT1`_,_`T2`\_.
+`FROM T1 CROSS JOIN T2` 相當於 `FROM T1 INNER JOIN T2 ON TRUE`（詳見下文）。 它也相當於 `FROM T1, T2`。
 
 ### Note
 
