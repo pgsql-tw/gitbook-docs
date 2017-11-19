@@ -40,40 +40,17 @@ T1 CROSS JOIN T2
 
 `FROM T1 CROSS JOIN T2` 相當於 `FROM T1 INNER JOIN T2 ON TRUE`（詳見下文）。 它也相當於 `FROM T1, T2`。
 
-### Note
+> ### 注意
+>
+> 當超過兩個資料表出現時，最後描述的等價關係並不完全適用，因為 JOIN 的綁定比只有逗號的意義更緊密。例如「FROM T1 CROSS JOIN T2 INNER JOIN T3 ON condition」與「FROM T1，T2 INNER JOIN T3 ON condition」不一樣，因為條件 condition 會在第一種情況下引用 T1，而不會在第二種情況下引用 T1。
 
-This latter equivalence does not hold exactly when more than two tables appear, because`JOIN`binds more tightly than comma. For example`FROMT1`_\_CROSS JOIN_`T2`_INNER JOIN_`T3`_ON_`condition`_is not the same as_`FROMT1`_,_`T2`_INNER JOIN_`T3`_ON_`condition`_because the_`condition`_can reference_`T1`\_in the first case but not the second.
-
-Qualified joins
+* Qualified joins
 
 ```
-T1
- { [
-INNER
-] | { LEFT | RIGHT | FULL } [
-OUTER
-] } JOIN 
-T2
- ON 
-boolean_expression
-T1
- { [
-INNER
-] | { LEFT | RIGHT | FULL } [
-OUTER
-] } JOIN 
-T2
- USING ( 
-join column list
- )
+T1 { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2 ON boolean_expression
+T1 { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2 USING (join column list )
 
-T1
- NATURAL { [
-INNER
-] | { LEFT | RIGHT | FULL } [
-OUTER
-] } JOIN 
-T2
+T1 NATURAL { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2
 ```
 
 The words`INNER`and`OUTER`are optional in all forms.`INNER`is the default;`LEFT`,`RIGHT`, and`FULL`imply an outer join.
