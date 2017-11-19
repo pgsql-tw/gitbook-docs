@@ -53,15 +53,15 @@ T1 { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2 USING (join column list
 T1 NATURAL { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2
 ```
 
-The words`INNER`and`OUTER`are optional in all forms.`INNER`is the default;`LEFT`,`RIGHT`, and`FULL`imply an outer join.
+INNER 和 OUTER 是所有語法上都是可以使用的選項。INNER 是預設的；LEFT、RIGHT 和 FULL 隱含著外部交叉查詢（outer join）的意義。
 
-The\_join condition\_is specified in the`ON`or`USING`clause, or implicitly by the word`NATURAL`. The join condition determines which rows from the two source tables are considered to“match”, as explained in detail below.
+交叉查詢的條件在 ON 或 USING 子句中指定，或者由NATURAL 隱含指定。交叉查詢條件確定兩個資料表中的哪些欄位被「配對」，詳細說明如下。
 
-The possible types of qualified join are:
+支援指定的交叉查詢的類型是：
 
 `INNER JOIN`
 
-For each row R1 of T1, the joined table has a row for each row in T2 that satisfies the join condition with R1.
+對於 T1 的每一資料列 R1，連結在資料表 T2 中每一資料列都有一個滿足與 R1 的交叉查詢條件。
 
 `LEFT OUTER JOIN`
 
