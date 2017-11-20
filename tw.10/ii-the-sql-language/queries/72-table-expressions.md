@@ -73,15 +73,15 @@ INNER 和 OUTER 是所有語法上都是可以使用的選項。INNER 是預設�
 
 `FULL OUTER JOIN`
 
-First, an inner join is performed. Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2. Also, for each row of T2 that does not satisfy the join condition with any row in T1, a joined row with null values in the columns of T1 is added.
+首先，會先執行內部交叉查詢（inner join）。 然後，對於 T1 中不滿足與 T2 中的任何資料列的交叉查詢條件的每一資料列，在 T2 加上空值欄位。 同樣地，對於 T2 中不滿足與 T1 中的任何資料列的交叉查詢條件的每一資料列，在 T1 加上空值欄位。
 
-The`ON`clause is the most general kind of join condition: it takes a Boolean value expression of the same kind as is used in a`WHERE`clause. A pair of rows from`T1`_\_and_`T2`\_match if the`ON`expression evaluates to true.
+ON 子句是最一般形式的交叉查詢條件：採用與 WHERE 子句中使用的相同形式的布林表示式。 如果 ON 表示式的計算結果為 true，則 T1 和 T2 中的一對資料列形成匹配。
 
-The`USING`clause is a shorthand that allows you to take advantage of the specific situation where both sides of the join use the same name for the joining column\(s\). It takes a comma-separated list of the shared column names and forms a join condition that includes an equality comparison for each one. For example, joining`T1`_\_and_`T2`_with_`USING (a, b)`_produces the join condition_`ONT1`_.a =_`T2`_.a AND_`T1`_.b =_`T2`\_.b.
+USING 子句是一種簡寫，它允許你利用交叉查詢的兩端對接欄位使用相同名稱的特定情況。它使用逗號分隔的共享欄位名稱列表，並形成包含每個欄位的相等比較的交叉查詢條件。例如，使用USING \(a，b\) 連結 T1 和 T2 產生交叉查詢條件「ON T1.a = T2.a AND T1.b = T2.b」。
 
-Furthermore, the output of`JOIN USING`suppresses redundant columns: there is no need to print both of the matched columns, since they must have equal values. While`JOIN ON`produces all columns from`T1`_\_followed by all columns from_`T2`_,_`JOIN USING`_produces one output column for each of the listed column pairs \(in the listed order\), followed by any remaining columns from_`T1`_, followed by any remaining columns from_`T2`\_.
+此外，JOIN USING 的輸出減少重覆的欄位：不需要輸出兩個連結好的欄位，因為它們一定具有相同的值。雖然 JOIN ON 由 T1 的所有欄位，再接著 T2 的所有欄位，但 JOIN USING 為每個列出的欄位配對（按列出的順序）產生一個輸出欄位，其後是來自 T1 的剩餘欄，隨後是來自 T2 的剩餘欄位。
 
-Finally,`NATURAL`is a shorthand form of`USING`: it forms a`USING`list consisting of all column names that appear in both input tables. As with`USING`, these columns appear only once in the output table. If there are no common column names,`NATURAL`behaves like`CROSS JOIN`.
+最後，NATURAL 是 USING 的簡寫形式：它會形成一個 USING 列表，其中包含出現在兩個輸入資料表中的所有的欄位名。和 USING 一樣，這些欄位在輸出資料表中就只會出現一次。如果沒有相同的欄位名稱，NATURAL 可能就像 CROSS JOIN。
 
 ### Note
 
