@@ -65,11 +65,11 @@ INNER 和 OUTER 是所有語法上都是可以使用的選項。INNER 是預設�
 
 `LEFT OUTER JOIN`
 
-First, an inner join is performed. Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2. Thus, the joined table always has at least one row for each row in T1.
+首先，會先執行內部交叉查詢（inner join）。 然後，對於 T1 中不滿足與 T2 中的任何資料列的交叉查詢條件的每一資料列，在 T2 加上空值欄位。因此，交叉查詢最後的資料表中 T1 的每個資料列都至少會出現一次。
 
 `RIGHT OUTER JOIN`
 
-First, an inner join is performed. Then, for each row in T2 that does not satisfy the join condition with any row in T1, a joined row is added with null values in columns of T1. This is the converse of a left join: the result table will always have a row for each row in T2.
+首先，會先執行內部交叉查詢（inner join）。 然後，對於 T2 中不滿足與 T1 中的任何資料列的交叉查詢條件的每一資料列，在 T1 加上空值欄位。也就是左向交叉查詢的反向： 交叉查詢最後的資料表中 T2 的每個資料列都至少會出現一次。
 
 `FULL OUTER JOIN`
 
