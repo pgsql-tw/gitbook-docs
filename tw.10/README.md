@@ -2,7 +2,7 @@
 
 本使用手冊由台灣 PostgreSQL 社群提供，翻譯自 PostgreSQL 官方使用手冊，以推廣 PostgreSQL 於台灣的應用。
 
-本編譯版本為 PostgreSQL 10。
+本編譯版本為 PostgreSQL 10，另外還有 [FAQ](https://faq.postgresql.tw) 可以參考。
 
 每一個頁面均附上官方手冊對應連結，翻譯未詳盡之處，可對照閱讀。  
 未翻譯完成之段落，將暫以原文（英文）替代。  
@@ -20,7 +20,7 @@
 如須堪誤指教，你可以使用Gitbook討論區功能提報討論：  
 [https://www.gitbook.com/book/pgsql-tw/documents/discussions](https://www.gitbook.com/book/pgsql-tw/documents/discussions)
 
-想要加入我們或給予建議，也可以 Email 給我們的文件小組唷：[docs@postgresql.tw](mailto:docs@postgresql.tw)
+想要加入我們或給予建議，也可以 Email 給我們的文件小組：[docs@postgresql.tw](mailto:docs@postgresql.tw)
 
 ---
 
