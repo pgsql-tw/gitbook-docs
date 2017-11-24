@@ -85,9 +85,9 @@ USING 子句是一種簡寫，它允許你利用交叉查詢的兩端對接欄�
 
 ### Note
 
-`USING`is reasonably safe from column changes in the joined relations since only the listed columns are combined.`NATURAL`is considerably more risky since any schema changes to either relation that cause a new matching column name to be present will cause the join to combine that new column as well.
+因為只有列出的欄位會被組合，所以 USING 對於交叉查詢關係中的欄位更改是相當安全的。NATURAL 的風險是較大，因為任何資料結構更新都導致新的配對欄位名稱出現，也造成交叉查詢組合新欄位。
 
-To put this together, assume we have tables`t1`:
+把這些東西放在一起來看，假設我們有資料表 t1：
 
 ```
  num | name
@@ -97,7 +97,7 @@ To put this together, assume we have tables`t1`:
    3 | c
 ```
 
-and`t2`:
+資料表`t2`:
 
 ```
  num | value
@@ -107,12 +107,10 @@ and`t2`:
    5 | zzz
 ```
 
-then we get the following results for the various joins:
+那麼我們可以得到以下結果為各種交叉查詢：
 
 ```
-=
->
-SELECT * FROM t1 CROSS JOIN t2;
+=> SELECT * FROM t1 CROSS JOIN t2;
 
  num | name | num | value
 -----+------+-----+-------
@@ -128,9 +126,7 @@ SELECT * FROM t1 CROSS JOIN t2;
 (9 rows)
 
 
-=
->
-SELECT * FROM t1 INNER JOIN t2 ON t1.num = t2.num;
+=> SELECT * FROM t1 INNER JOIN t2 ON t1.num = t2.num;
 
  num | name | num | value
 -----+------+-----+-------
@@ -139,9 +135,7 @@ SELECT * FROM t1 INNER JOIN t2 ON t1.num = t2.num;
 (2 rows)
 
 
-=
->
-SELECT * FROM t1 INNER JOIN t2 USING (num);
+=> SELECT * FROM t1 INNER JOIN t2 USING (num);
 
  num | name | value
 -----+------+-------
@@ -150,9 +144,7 @@ SELECT * FROM t1 INNER JOIN t2 USING (num);
 (2 rows)
 
 
-=
->
-SELECT * FROM t1 NATURAL INNER JOIN t2;
+=> SELECT * FROM t1 NATURAL INNER JOIN t2;
 
  num | name | value
 -----+------+-------
@@ -161,9 +153,7 @@ SELECT * FROM t1 NATURAL INNER JOIN t2;
 (2 rows)
 
 
-=
->
-SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num;
+=> SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num;
 
  num | name | num | value
 -----+------+-----+-------
@@ -173,9 +163,7 @@ SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num;
 (3 rows)
 
 
-=
->
-SELECT * FROM t1 LEFT JOIN t2 USING (num);
+=> SELECT * FROM t1 LEFT JOIN t2 USING (num);
 
  num | name | value
 -----+------+-------
@@ -185,9 +173,7 @@ SELECT * FROM t1 LEFT JOIN t2 USING (num);
 (3 rows)
 
 
-=
->
-SELECT * FROM t1 RIGHT JOIN t2 ON t1.num = t2.num;
+=> SELECT * FROM t1 RIGHT JOIN t2 ON t1.num = t2.num;
 
  num | name | num | value
 -----+------+-----+-------
@@ -197,9 +183,7 @@ SELECT * FROM t1 RIGHT JOIN t2 ON t1.num = t2.num;
 (3 rows)
 
 
-=
->
-SELECT * FROM t1 FULL JOIN t2 ON t1.num = t2.num;
+=> SELECT * FROM t1 FULL JOIN t2 ON t1.num = t2.num;
 
  num | name | num | value
 -----+------+-----+-------
@@ -210,12 +194,10 @@ SELECT * FROM t1 FULL JOIN t2 ON t1.num = t2.num;
 (4 rows)
 ```
 
-The join condition specified with`ON`can also contain conditions that do not relate directly to the join. This can prove useful for some queries but needs to be thought out carefully. For example:
+ON 指定的交叉查詢條件也可以包含與交叉查詢無關的條件。 這可以證明對某些查詢有用，但需要仔細考慮。例如：
 
 ```
-=
->
-SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num AND t2.value = 'xxx';
+=> SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num AND t2.value = 'xxx';
 
  num | name | num | value
 -----+------+-----+-------
@@ -225,12 +207,10 @@ SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num AND t2.value = 'xxx';
 (3 rows)
 ```
 
-Notice that placing the restriction in the`WHERE`clause produces a different result:
+請注意，將限制條件放在 WHERE 子句中會產生不同的結果：
 
 ```
-=
->
-SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num WHERE t2.value = 'xxx';
+=> SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num WHERE t2.value = 'xxx';
 
  num | name | num | value
 -----+------+-----+-------
@@ -238,7 +218,7 @@ SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num WHERE t2.value = 'xxx';
 (1 row)
 ```
 
-This is because a restriction placed in the`ON`clause is processed\_before\_the join, while a restriction placed in the`WHERE`clause is processed\_after\_the join. That does not matter with inner joins, but it matters a lot with outer joins.
+這是因為在 ON 子句中放置的條件會在交叉查詢之前處理，而在交叉查詢之後才會處理在 WHERE 子句中的條件。這在 INNER JOIN 時沒有關係，但 OUTER JOIN 時就很重要。
 
 #### 7.2.1.2. Table and Column Aliases
 
