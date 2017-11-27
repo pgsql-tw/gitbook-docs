@@ -287,24 +287,24 @@ SELECT a.* FROM (my_table AS a JOIN your_table AS b ON ...) AS c
 
 是不合法的；資料表別名 a 在別名 c 以外是不可見的。
 
-#### 7.2.1.3. Subqueries
+#### 7.2.1.3. 子查詢（Subqueries）
 
-Subqueries specifying a derived table must be enclosed in parentheses and\_must\_be assigned a table alias name \(as in[Section 7.2.1.2](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#queries-table-aliases)\). For example:
+指定衍生資料表的子查詢必須用圓括號括起來，並且必須分配一個資料表表別名（如[第 7.2.1.2 節](#7212-table-and-column-aliases)所述）。 例如：
 
 ```
 FROM (SELECT * FROM table1) AS alias_name
 ```
 
-This example is equivalent to`FROM table1 AS alias_name`. More interesting cases, which cannot be reduced to a plain join, arise when the subquery involves grouping or aggregation.
+這例子等同於`FROM table1 AS alias_name`。當子查詢涉及分組或彙總時，會出現更多有趣的情況，這些情況不能簡化為普通的交叉查詢。
 
-A subquery can also be a`VALUES`list:
+子查詢也可以是一個 VALUES 列表：
 
 ```
 FROM (VALUES ('anne', 'smith'), ('bob', 'jones'), ('joe', 'blow'))
      AS names(first, last)
 ```
 
-Again, a table alias is required. Assigning alias names to the columns of the`VALUES`list is optional, but is good practice. For more information see[Section 7.7](https://www.postgresql.org/docs/10/static/queries-values.html).
+再一次，這時候一個資料表別名是必須的。 將別名指定給 VALUES 列表的欄位是可選的，但這會是很好的做法。更多資訊請參閱[第 7.7 節](/ii-the-sql-language/queries/77-values-lists.md)。
 
 #### 7.2.1.4. Table Functions
 
