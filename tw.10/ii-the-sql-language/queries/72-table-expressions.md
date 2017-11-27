@@ -222,91 +222,70 @@ ON 指定的交叉查詢條件也可以包含與交叉查詢無關的條件。 �
 
 #### 7.2.1.2. Table and Column Aliases
 
-A temporary name can be given to tables and complex table references to be used for references to the derived table in the rest of the query. This is called a_table alias_.
+可以為資料表和複雜的資料表引用指定一個臨時名稱，以便在查詢的其餘部分中用於對該衍生資料表引用。這稱作為資料表別名。
 
-To create a table alias, write
-
-```
-FROM 
-table_reference
- AS 
-alias
-```
-
-or
+要建立一個資料表別名，請使用：
 
 ```
-FROM 
-table_reference
-alias
+FROM table_reference AS alias
 ```
 
-The`AS`key word is optional noise.\_`alias`\_can be any identifier.
+或
 
-A typical application of table aliases is to assign short identifiers to long table names to keep the join clauses readable. For example:
+```
+FROM table_reference alias
+```
+
+AS 關鍵字是選用的。別名可以是任何識別名稱。
+
+資料表別名的一個典型應用是將短識別名稱分配給長資料表名稱，以保持交叉查詢子句的可讀性。例如：
 
 ```
 SELECT * FROM some_very_long_table_name s JOIN another_fairly_long_name a ON s.id = a.num;
 ```
 
-The alias becomes the new name of the table reference so far as the current query is concerned — it is not allowed to refer to the table by the original name elsewhere in the query. Thus, this is not valid:
+就當下的查詢而言，別名將成為資料表引用的新名稱 — 但不允許在查詢中其他地方使用原始名稱來引用資料表。 因此，像這樣是無效的：
 
 ```
-SELECT * FROM my_table AS m WHERE my_table.a 
->
- 5;    -- wrong
+SELECT * FROM my_table AS m WHERE my_table.a > 5;    -- wrong
 ```
 
-Table aliases are mainly for notational convenience, but it is necessary to use them when joining a table to itself, e.g.:
+資料表別名主要是為了符號方便，但是在將資料表和自己交叉查詢時更有必要使用它們，例如：
 
 ```
 SELECT * FROM people AS mother JOIN people AS child ON mother.id = child.mother_id;
 ```
 
-Additionally, an alias is required if the table reference is a subquery \(see[Section 7.2.1.3](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#queries-subqueries)\).
+此外，如果資料表引用是子查詢，則別名必要的（請向下參閱[第 7.2.1.3 節](#7213-subqueries)）。
 
-Parentheses are used to resolve ambiguities. In the following example, the first statement assigns the alias`b`to the second instance of`my_table`, but the second statement assigns the alias to the result of the join:
+括號可以用來解決歧義。在以下範例中，第一個查詢語句將別名 b 分配給 my\_table 的第二個實例，但第二個語句將別名分配給交叉查詢的結果：
 
 ```
 SELECT * FROM my_table AS a CROSS JOIN my_table AS b ...
 SELECT * FROM (my_table AS a CROSS JOIN my_table) AS b ...
 ```
 
-Another form of table aliasing gives temporary names to the columns of the table, as well as the table itself:
+另一種形式的資料表別名為資料表的欄位所提供的臨時名稱，就如同資料表本身的別名一樣：
 
 ```
-FROM 
-table_reference
- [
-AS
-] 
-alias
- ( 
-column1
- [
-, 
-column2
- [
-, ...
-]
-] )
+FROM table_reference [AS] alias ( column1 [, column2 [, ...］] )
 ```
 
-If fewer column aliases are specified than the actual table has columns, the remaining columns are not renamed. This syntax is especially useful for self-joins or subqueries.
+如果指定的欄位別名少於實際資料表中的欄位，則其餘列就不會重新命名。此語法對於自我交叉查詢或子查詢時特別有用。
 
-When an alias is applied to the output of a`JOIN`clause, the alias hides the original name\(s\) within the`JOIN`. For example:
+將別名應用於 JOIN 子句的輸出時，別名隱藏了 JOIN 中的原始名稱。 例如：
 
 ```
 SELECT a.* FROM my_table AS a JOIN your_table AS b ON ...
 ```
 
-is valid SQL, but:
+是合法的 SQL，但：
 
 ```
 SELECT a.* FROM (my_table AS a JOIN your_table AS b ON ...) AS c
 ```
 
-is not valid; the table alias`a`is not visible outside the alias`c`.
+是不合法的；資料表別名 a 在別名 c 以外是不可見的。
 
 #### 7.2.1.3. Subqueries
 
