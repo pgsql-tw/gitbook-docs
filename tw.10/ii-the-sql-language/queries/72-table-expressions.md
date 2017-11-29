@@ -308,46 +308,13 @@ FROM (VALUES ('anne', 'smith'), ('bob', 'jones'), ('joe', 'blow'))
 
 #### 7.2.1.4. Table Functions
 
-Table functions are functions that produce a set of rows, made up of either base data types \(scalar types\) or composite data types \(table rows\). They are used like a table, view, or subquery in the`FROM`clause of a query. Columns returned by table functions can be included in`SELECT`,`JOIN`, or`WHERE`clauses in the same manner as columns of a table, view, or subquery.
+資料表函數是由基本資料類型（scalar types）或複合資料類型（資料表的資料列）所組成的函數。它們在查詢的 FROM 子句中用作資料表、View 或子查詢。資料表函數回傳的資料列可以與資料表、View 或子查詢的資料列相同的方式包含在 SELECT、JOIN 或 WHERE子句中。
 
-Table functions may also be combined using the`ROWS FROM`syntax, with the results returned in parallel columns; the number of result rows in this case is that of the largest function result, with smaller results padded with null values to match.
+資料表函數也可以使用 ROWS FROM 語法進行組合，結果在平行的欄位中回傳；在這種情況下結果資料列的數量是函數結果的最大數量，較小的結果填充空值來搭配。
 
 ```
-function_call
- [
-WITH ORDINALITY
-] [
-[
-AS
-] 
-table_alias
- [
-(
-column_alias
- [
-, ... 
-])
-]
-]
-ROWS FROM( 
-function_call
- [
-, ... 
-] ) [
-WITH ORDINALITY
-] [
-[
-AS
-] 
-table_alias
- [
-(
-column_alias
- [
-, ... 
-])
-]
-]
+function_call [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ...])]]
+ROWS FROM( function_call [, ...] ) [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ...])]]
 ```
 
 If the`WITH ORDINALITY`clause is specified, an additional column of type`bigint`will be added to the function result columns. This column numbers the rows of the function result set, starting from 1. \(This is a generalization of the SQL-standard syntax for`UNNEST ... WITH ORDINALITY`.\) By default, the ordinal column is called`ordinality`, but a different column name can be assigned to it using an`AS`clause.
@@ -355,25 +322,7 @@ If the`WITH ORDINALITY`clause is specified, an additional column of type`bigint`
 The special table function`UNNEST`may be called with any number of array parameters, and it returns a corresponding number of columns, as if`UNNEST`\([Section 9.18](https://www.postgresql.org/docs/10/static/functions-array.html)\) had been called on each parameter separately and combined using the`ROWS FROM`construct.
 
 ```
-UNNEST( 
-array_expression
- [
-, ... 
-] ) [
-WITH ORDINALITY
-] [
-[
-AS
-] 
-table_alias
- [
-(
-column_alias
- [
-, ... 
-])
-]
-]
+UNNEST( array_expression [, ...] ) [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ...])]]
 ```
 
 If no\_`table_alias`\_is specified, the function name is used as the table name; in the case of a`ROWS FROM()`construct, the first function's name is used.
@@ -406,34 +355,10 @@ SELECT * FROM vw_getfoo;
 In some cases it is useful to define table functions that can return different column sets depending on how they are invoked. To support this, the table function can be declared as returning the pseudo-type`record`. When such a function is used in a query, the expected row structure must be specified in the query itself, so that the system can know how to parse and plan the query. This syntax looks like:
 
 ```
-function_call
- [
-AS
-] 
-alias
- (
-column_definition
- [
-, ... 
-])
+function_call [AS] alias (column_definition [, ...])
 
-function_call
- AS [
-alias
-] (
-column_definition
- [
-, ... 
-])
-ROWS FROM( ... 
-function_call
- AS (
-column_definition
- [
-, ... 
-]) [
-, ... 
-] )
+function_call AS [alias] (column_definition [, ...])
+ROWS FROM( ... function_call AS (column_definition [, ...]) [, ...] )
 ```
 
 When not using the`ROWS FROM()`syntax, the`column_definition`_\_list replaces the column alias list that could otherwise be attached to the_`FROM`_item; the names in the column definitions serve as column aliases. When using the_`ROWS FROM()`_syntax, a_`column_definition`_list can be attached to each member function separately; or if there is only one member function and no_`WITH ORDINALITY`_clause, a_`column_definition`\_list can be written in place of a column alias list following`ROWS FROM()`.
