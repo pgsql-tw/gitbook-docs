@@ -317,9 +317,9 @@ function_call [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ...])]]
 ROWS FROM( function_call [, ...] ) [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ...])]]
 ```
 
-If the`WITH ORDINALITY`clause is specified, an additional column of type`bigint`will be added to the function result columns. This column numbers the rows of the function result set, starting from 1. \(This is a generalization of the SQL-standard syntax for`UNNEST ... WITH ORDINALITY`.\) By default, the ordinal column is called`ordinality`, but a different column name can be assigned to it using an`AS`clause.
+如果使用了 WITH ORDINALITY 子句，則會將另一個型別為 bigint 的欄位增加到函數結果欄位中。此欄位是編號從 1 開始的函數結果資料列數量。（這是 UNNEST ... WITH ORDINALITY 的SQL標準語法的一般寫法。）預設情況下，序號欄位被稱為 ordinality，但是可以使用 AS 子句將不同的欄位名稱指定給它。
 
-The special table function`UNNEST`may be called with any number of array parameters, and it returns a corresponding number of columns, as if`UNNEST`\([Section 9.18](https://www.postgresql.org/docs/10/static/functions-array.html)\) had been called on each parameter separately and combined using the`ROWS FROM`construct.
+可以使用任意數量的陣列參數用於特殊資料表函數 UNNEST，並回傳相應數量的欄位，就像 UNNEST（[第 9.18 節](/ii-the-sql-language/functions-and-operators/918-array-functions-and-operators.md)）分別在每個參數上被呼叫並使用 ROWS FROM 同樣的結構組合起來。
 
 ```
 UNNEST( array_expression [, ...] ) [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ...])]]
