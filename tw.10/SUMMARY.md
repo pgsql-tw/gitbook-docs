@@ -457,7 +457,8 @@
   * SQL Conformance
   * Release Notes
   * [F. 延伸支援模組](viii-appendixes/additional-supplied-modules.md)
-    * F.11. dblink
+    * [F.11. dblink](viii-appendixes/additional-supplied-modules/f11-dblink.md)
+      * dblink
   * Additional Supplied Programs
   * External Projects
   * The Source Code Repository
