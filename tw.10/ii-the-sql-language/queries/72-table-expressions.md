@@ -325,11 +325,11 @@ ROWS FROM( function_call [, ...] ) [WITH ORDINALITY] [[AS] table_alias [(column_
 UNNEST( array_expression [, ...] ) [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ...])]]
 ```
 
-If no\_`table_alias`\_is specified, the function name is used as the table name; in the case of a`ROWS FROM()`construct, the first function's name is used.
+如果沒有指定 table\_alias 的話，就會使用函數名稱作為表名；在 ROWS FROM\(\) 的結構中，將使用第一個函數的名字。
 
-If column aliases are not supplied, then for a function returning a base data type, the column name is also the same as the function name. For a function returning a composite type, the result columns get the names of the individual attributes of the type.
+如果未提供欄位的別名，則對於回傳基本資料型別的函數，欄位名稱也與函數名稱相同。對於回傳複合型別的函數，結果的欄位將獲取類型的各個屬性的名稱。
 
-Some examples:
+這裡有一些例子：
 
 ```
 CREATE TABLE foo (fooid int, foosubid int, fooname text);
@@ -352,7 +352,7 @@ CREATE VIEW vw_getfoo AS SELECT * FROM getfoo(1);
 SELECT * FROM vw_getfoo;
 ```
 
-In some cases it is useful to define table functions that can return different column sets depending on how they are invoked. To support this, the table function can be declared as returning the pseudo-type`record`. When such a function is used in a query, the expected row structure must be specified in the query itself, so that the system can know how to parse and plan the query. This syntax looks like:
+在某些情況下，定義可以回傳不同欄位集合的資料表函數是很有用的，這取決於它們是如何被引用的。為了支援這個功能，資料表函數可以宣告為回傳抽象型別 record。在查詢中使用這樣的函數時，必須在查詢本身中指定期望的資料列結構，以便系統知道如何解析和規劃查詢。 這個語法如下所示：
 
 ```
 function_call [AS] alias (column_definition [, ...])
@@ -361,9 +361,9 @@ function_call AS [alias] (column_definition [, ...])
 ROWS FROM( ... function_call AS (column_definition [, ...]) [, ...] )
 ```
 
-When not using the`ROWS FROM()`syntax, the`column_definition`_\_list replaces the column alias list that could otherwise be attached to the_`FROM`_item; the names in the column definitions serve as column aliases. When using the_`ROWS FROM()`_syntax, a_`column_definition`_list can be attached to each member function separately; or if there is only one member function and no_`WITH ORDINALITY`_clause, a_`column_definition`\_list can be written in place of a column alias list following`ROWS FROM()`.
+當不使用 ROWS FROM\(\) 語法時，column\_definition 列表將替換可能附加到 FROM 項目的欄位別名列表；欄位定義中的名稱用作欄位別名。使用 ROWS FROM\(\) 語法時，可以將 column\_definition 列表分別附加到每個成員函數；或者如果只有一個成員函數並且沒有 WITH ORDINALITY 子句的話，則可以在 ROWS FROM\(\) 之後寫入 column\_definition 列表來代替欄位別名列表。
 
-Consider this example:
+可以參考這個例子：
 
 ```
 SELECT *
@@ -372,7 +372,7 @@ SELECT *
     WHERE proname LIKE 'bytea%';
 ```
 
-The[dblink](https://www.postgresql.org/docs/10/static/contrib-dblink-function.html)function \(part of the[dblink](https://www.postgresql.org/docs/10/static/dblink.html)module\) executes a remote query. It is declared to return`record`since it might be used for any kind of query. The actual column set must be specified in the calling query so that the parser knows, for example, what`*`should expand to.
+dblink 函數（dblink 模組的一部分）用於執行遠端查詢。 它宣告為回傳 record，因為它可能被用於任何類型的查詢。必須在呼叫查詢時指定實際的欄位集合，以便語法解析器能夠知道如何解析，例如，「\*」應該展開為什麼樣的東西。
 
 #### 7.2.1.5. `LATERAL`Subqueries
 
