@@ -372,7 +372,7 @@ SELECT *
     WHERE proname LIKE 'bytea%';
 ```
 
-dblink 函數（dblink 模組的一部分）用於執行遠端查詢。 它宣告為回傳 record，因為它可能被用於任何類型的查詢。必須在呼叫查詢時指定實際的欄位集合，以便語法解析器能夠知道如何解析，例如，「\*」應該展開為什麼樣的東西。
+[dblink 函數](/viii-appendixes/additional-supplied-modules/f11-dblink/dblink.md)（[dblink 模組](/viii-appendixes/additional-supplied-modules/f11-dblink.md)的一部分）用於執行遠端查詢。 它宣告為回傳 record，因為它可能被用於任何類型的查詢。必須在呼叫查詢時指定實際的欄位集合，以便語法解析器能夠知道如何解析，例如，「\*」應該展開為什麼樣的東西。
 
 #### 7.2.1.5. `LATERAL`Subqueries
 
