@@ -374,62 +374,50 @@ SELECT *
 
 [dblink 函數](/viii-appendixes/additional-supplied-modules/f11-dblink/dblink.md)（[dblink 模組](/viii-appendixes/additional-supplied-modules/f11-dblink.md)的一部分）用於執行遠端查詢。 它宣告為回傳 record，因為它可能被用於任何類型的查詢。必須在呼叫查詢時指定實際的欄位集合，以便語法解析器能夠知道如何解析，例如，「\*」應該展開為什麼樣的東西。
 
-#### 7.2.1.5. `LATERAL`Subqueries
+#### 7.2.1.5. `LATERAL`子查詢
 
-Subqueries appearing in`FROM`can be preceded by the key word`LATERAL`. This allows them to reference columns provided by preceding`FROM`items. \(Without`LATERAL`, each subquery is evaluated independently and so cannot cross-reference any other`FROM`item.\)
+在 FROM 中的子查詢可以使用關鍵字 LATERAL 進行前置處理。這使他們能夠引用在 FROM 前面所提供的欄位。（沒有 LATERAL 的話，每個子查詢都是獨立處理的，因此不能交叉引用任何其他 FROM 的項目。）
 
-Table functions appearing in`FROM`can also be preceded by the key word`LATERAL`, but for functions the key word is optional; the function's arguments can contain references to columns provided by preceding`FROM`items in any case.
+在 FROM 中出現的資料表函數也可以在關鍵字 LATERAL 之前，但是對於函數來說關鍵字是選擇性的；在任何情況下，函數的參數都可以包含對前面 FROM 項目提供的欄位的引用。
 
-A`LATERAL`item can appear at top level in the`FROM`list, or within a`JOIN`tree. In the latter case it can also refer to any items that are on the left-hand side of a`JOIN`that it is on the right-hand side of.
+一個 LATERAL 項目可以出現在 FROM 列表的最上層，或在一個 JOIN 樹狀圖中。在後者情況下，它也可以是在 JOIN 右側的任何項目。
 
-When a`FROM`item contains`LATERAL`cross-references, evaluation proceeds as follows: for each row of the`FROM`item providing the cross-referenced column\(s\), or set of rows of multiple`FROM`items providing the columns, the`LATERAL`item is evaluated using that row or row set's values of the columns. The resulting row\(s\) are joined as usual with the rows they were computed from. This is repeated for each row or set of rows from the column source table\(s\).
+當 FROM 項目包含 LATERAL 交叉引用時，處理過程如下：對於提供交叉引用欄位的 FROM 項目的每一行，或者提供欄位的多個 FROM 項目的集合，LATERAL 項目將使用該行或行集合的欄位值進行處理。衍生的資料列如同往常一樣連接到它們從中計算的資料列。 這對於資料列原始資料表中的每一資料列或一組資料列是重複進行的。
 
-A trivial example of`LATERAL`is
+LATERAL 的一個簡易的例子：
 
 ```
 SELECT * FROM foo, LATERAL (SELECT * FROM bar WHERE bar.id = foo.bar_id) ss;
 ```
 
-This is not especially useful since it has exactly the same result as the more conventional
+這不是特別有用，因為它與一般的結果完全相同
 
 ```
 SELECT * FROM foo, bar WHERE bar.id = foo.bar_id;
 ```
 
-`LATERAL`is primarily useful when the cross-referenced column is necessary for computing the row\(s\) to be joined. A common application is providing an argument value for a set-returning function. For example, supposing that`vertices(polygon)`returns the set of vertices of a polygon, we could identify close-together vertices of polygons stored in a table with:
+當交叉引用列用於計算要連接的欄位時，LATERAL 才會是有用的。一個常見的應用是為回傳函數提供一個參數值。 例如，假設頂點（多邊形）回傳一個多邊形的頂點集合，我們可以識別儲存在資料表中的多邊形相鄰頂點：
 
 ```
 SELECT p1.id, p2.id, v1, v2
 FROM polygons p1, polygons p2,
      LATERAL vertices(p1.poly) v1,
      LATERAL vertices(p2.poly) v2
-WHERE (v1 
-<
--
->
- v2) 
-<
- 10 AND p1.id != p2.id;
+WHERE (v1 <-> v2)< 10 AND p1.id != p2.id;
 ```
 
-This query could also be written
+這個查詢也可以寫成：
 
 ```
 SELECT p1.id, p2.id, v1, v2
 FROM polygons p1 CROSS JOIN LATERAL vertices(p1.poly) v1,
      polygons p2 CROSS JOIN LATERAL vertices(p2.poly) v2
-WHERE (v1 
-<
--
->
- v2) 
-<
- 10 AND p1.id != p2.id;
+WHERE (v1 <-> v2) < 10 AND p1.id != p2.id;
 ```
 
-or in several other equivalent formulations. \(As already mentioned, the`LATERAL`key word is unnecessary in this example, but we use it for clarity.\)
+或者以幾種其他等同的寫法。（正如已經提到的，在這個例子中，LATERAL關鍵字是不必要的，但我們使用它來讓用法更清楚。）
 
-It is often particularly handy to`LEFT JOIN`to a`LATERAL`subquery, so that source rows will appear in the result even if the`LATERAL`subquery produces no rows for them. For example, if`get_product_names()`returns the names of products made by a manufacturer, but some manufacturers in our table currently produce no products, we could find out which ones those are like this:
+將 LEFT JOIN 加到 LATERAL 子查詢中通常是很方便的，所以即使 LATERAL 子查詢不為它們產生資料列，來源的資料列也會出現在結果中。例如，如果 get\_product\_names\(\) 回傳製造商生產產品的名稱，但是我們資料表中的一些製造商目前不生產產品，我們可以找出哪些製造商是這樣的情況：
 
 ```
 SELECT m.name
