@@ -425,68 +425,57 @@ FROM manufacturers m LEFT JOIN LATERAL get_product_names(m.id) pname ON true
 WHERE pname IS NULL;
 ```
 
-### 7.2.2. The`WHERE`Clause
+### 7.2.2. `WHERE`子句
 
-The syntax of the[`WHERE`Clause](https://www.postgresql.org/docs/10/static/sql-select.html#sql-where)is
-
-```
-WHERE 
-search_condition
-```
-
-where\_`search_condition`\_is any value expression \(see[Section 4.2](https://www.postgresql.org/docs/10/static/sql-expressions.html)\) that returns a value of type`boolean`.
-
-After the processing of the`FROM`clause is done, each row of the derived virtual table is checked against the search condition. If the result of the condition is true, the row is kept in the output table, otherwise \(i.e., if the result is false or null\) it is discarded. The search condition typically references at least one column of the table generated in the`FROM`clause; this is not required, but otherwise the`WHERE`clause will be fairly useless.
-
-### Note
-
-The join condition of an inner join can be written either in the`WHERE`clause or in the`JOIN`clause. For example, these table expressions are equivalent:
+WHERE 子句的語法是：
 
 ```
-FROM a, b WHERE a.id = b.id AND b.val 
+WHERE search_condition
+```
+
+其中的 search\_condition 指的是回傳一個布林型別的表示式（詳見 [4.2 節](/ii-the-sql-language/sql-syntax/42-value-expressions.md)）。
+
+在完成 FROM 子句的處理後，將根據過濾條件檢查衍生虛擬資料表的每一個資料列。如果條件結果為真，則該資料列保留在輸出資料表中，否則（即其結果為假或空）則將其丟棄。過濾條件通常會引用至少一個在 FROM 子句中生成資料表的欄位；但這不是必須的，只是 WHERE 子句將會變得沒有用處。
+
+> ### 注意
 >
- 5
-```
-
-and:
-
-```
-FROM a INNER JOIN b ON (a.id = b.id) WHERE b.val 
+> 內部交叉查詢的連結條件可以寫入 WHERE 子句或 JOIN 子句中。例如，這些資料表表示式是等價的：
 >
- 5
-```
-
-or perhaps even:
-
-```
-FROM a NATURAL JOIN b WHERE b.val 
+> ```
+> FROM a, b WHERE a.id = b.id AND b.val > 5
+> ```
 >
- 5
-```
-
-Which one of these you use is mainly a matter of style. The`JOIN`syntax in the`FROM`clause is probably not as portable to other SQL database management systems, even though it is in the SQL standard. For outer joins there is no choice: they must be done in the`FROM`clause. The`ON`or`USING`clause of an outer join is\_not\_equivalent to a`WHERE`condition, because it results in the addition of rows \(for unmatched input rows\) as well as the removal of rows in the final result.
-
-Here are some examples of`WHERE`clauses:
-
-```
-SELECT ... FROM fdt WHERE c1 
+> 和：
 >
- 5
-
-SELECT ... FROM fdt WHERE c1 IN (1, 2, 3)
-
-SELECT ... FROM fdt WHERE c1 IN (SELECT c1 FROM t2)
-
-SELECT ... FROM fdt WHERE c1 IN (SELECT c3 FROM t2 WHERE c2 = fdt.c1 + 10)
-
-SELECT ... FROM fdt WHERE c1 BETWEEN (SELECT c3 FROM t2 WHERE c2 = fdt.c1 + 10) AND 100
-
-SELECT ... FROM fdt WHERE EXISTS (SELECT c1 FROM t2 WHERE c2 
+> ```
+> FROM a INNER JOIN b ON (a.id = b.id) WHERE b.val > 5
+> ```
 >
- fdt.c1)
-```
-
-`fdt`is the table derived in the`FROM`clause. Rows that do not meet the search condition of the`WHERE`clause are eliminated from`fdt`. Notice the use of scalar subqueries as value expressions. Just like any other query, the subqueries can employ complex table expressions. Notice also how`fdt`is referenced in the subqueries. Qualifying`c1`as`fdt.c1`is only necessary if`c1`is also the name of a column in the derived input table of the subquery. But qualifying the column name adds clarity even when it is not needed. This example shows how the column naming scope of an outer query extends into its inner queries.
+> 又或可能是：
+>
+> ```
+> FROM a NATURAL JOIN b WHERE b.val > 5
+> ```
+>
+> 你想使用哪一個端看你的風格。FROM 子句中的 JOIN 語法可能不像其他 SQL 資料庫管理系統那樣具有可移植性，即使它在 SQL 標準中。對於外部交叉查詢，沒有其他選擇：它們必須在 FROM 子句中完成。 外部交叉查詢的 ON 或 USING 子句不等於 WHERE 條件，因為它會導致增加資料列（對於無法匹配的輸入資料列）以及刪除最終結果中的資料列。
+>
+> 這裡有一些 WHERE 子句的例子：
+>
+> ```
+> SELECT ... FROM fdt WHERE c1 > 5
+>
+> SELECT ... FROM fdt WHERE c1 IN (1, 2, 3)
+>
+> SELECT ... FROM fdt WHERE c1 IN (SELECT c1 FROM t2)
+>
+> SELECT ... FROM fdt WHERE c1 IN (SELECT c3 FROM t2 WHERE c2 = fdt.c1 + 10)
+>
+> SELECT ... FROM fdt WHERE c1 BETWEEN (SELECT c3 FROM t2 WHERE c2 = fdt.c1 + 10) AND 100
+>
+> SELECT ... FROM fdt WHERE EXISTS (SELECT c1 FROM t2 WHERE c2 > fdt.c1)
+> ```
+>
+> fdt 是 FROM 子句中衍生的資料表。不符合 WHERE 子句條件的資料列，將會從 fdt 中消除。注意使用常數子查詢作為值的表示式的用法。就像任何其他查詢一樣，子查詢也可以使用複雜的表示式。也請注意如何在子查詢中引用 fdt。如果 c1 也是子查詢的衍生輸入資料表中欄位的名稱，則只需要將 c1 限定為 fdt.c1 即可。但是，即使在不需要的情況下，對欄位名稱進行限定寫法也能增加可讀性。這個例子表現了外層查詢的欄位命名範圍如何擴展到內層查詢中。
 
 ### 7.2.3. The`GROUP BY`and`HAVING`Clauses
 
