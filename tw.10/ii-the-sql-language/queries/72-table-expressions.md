@@ -477,32 +477,20 @@ WHERE search_condition
 >
 > fdt 是 FROM 子句中衍生的資料表。不符合 WHERE 子句條件的資料列，將會從 fdt 中消除。注意使用常數子查詢作為值的表示式的用法。就像任何其他查詢一樣，子查詢也可以使用複雜的表示式。也請注意如何在子查詢中引用 fdt。如果 c1 也是子查詢的衍生輸入資料表中欄位的名稱，則只需要將 c1 限定為 fdt.c1 即可。但是，即使在不需要的情況下，對欄位名稱進行限定寫法也能增加可讀性。這個例子表現了外層查詢的欄位命名範圍如何擴展到內層查詢中。
 
-### 7.2.3. The`GROUP BY`and`HAVING`Clauses
+### 7.2.3. `GROUP BY`和`HAVING`子句
 
-After passing the`WHERE`filter, the derived input table might be subject to grouping, using the`GROUP BY`clause, and elimination of group rows using the`HAVING`clause.
-
-```
-SELECT 
-select_list
-
-    FROM ...
-    [
-WHERE ...
-]
-    GROUP BY 
-grouping_column_reference
- [
-, 
-grouping_column_reference
-]...
-```
-
-The[`GROUP BY`Clause](https://www.postgresql.org/docs/10/static/sql-select.html#sql-groupby)is used to group together those rows in a table that have the same values in all the columns listed. The order in which the columns are listed does not matter. The effect is to combine each set of rows having common values into one group row that represents all rows in the group. This is done to eliminate redundancy in the output and/or compute aggregates that apply to these groups. For instance:
+在處理完 WHERE 的過濾之後，可以使用 GROUP BY 子句對衍生的輸入資料表進行分組，再使用 HAVING 子句再一次過濾。
 
 ```
-=
->
-SELECT * FROM test1;
+SELECT select_list
+    FROM ...    [WHERE ...]
+    GROUP BY grouping_column_reference [, grouping_column_reference]...
+```
+
+[GROUP BY 子句](/vi-reference/i-sql-commands/select.md)用於將資料表中所有欄位中具有相同值的資料列組合在一起。 欄位的次序並不重要。其效果是將具有相同內容的每一組資料列組合成一個代表組中所有資料列的資料列。這樣做是為了消除輸出中的多餘和/或計算適用於這些群組的集合。 例如：
+
+```
+=> SELECT * FROM test1;
 
  x | y
 ---+---
@@ -513,9 +501,7 @@ SELECT * FROM test1;
 (4 rows)
 
 
-=
->
-SELECT x FROM test1 GROUP BY x;
+=> SELECT x FROM test1 GROUP BY x;
 
  x
 ---
@@ -525,14 +511,12 @@ SELECT x FROM test1 GROUP BY x;
 (3 rows)
 ```
 
-In the second query, we could not have written`SELECT * FROM test1 GROUP BY x`, because there is no single value for the column`y`that could be associated with each group. The grouped-by columns can be referenced in the select list since they have a single value in each group.
+在第二個查詢中，我們不能寫 SELECT \* FROM test1 GROUP BY x，因為沒有任何內容能使欄位 y 與每個群組構成關聯。可以在選擇列表中引用分組的欄位，因為它們在每個組中都有一個值。
 
-In general, if a table is grouped, columns that are not listed in`GROUP BY`cannot be referenced except in aggregate expressions. An example with aggregate expressions is:
+一般來說，如果一個資料表被分組時，那麼除非在彙總表示式中引用，否則不能引用沒有在 GROUP BY 中列出的欄位。彙總表示式如下所示：
 
 ```
-=
->
-SELECT x, sum(y) FROM test1 GROUP BY x;
+=> SELECT x, sum(y) FROM test1 GROUP BY x;
 
  x | sum
 ---+-----
@@ -542,7 +526,7 @@ SELECT x, sum(y) FROM test1 GROUP BY x;
 (3 rows)
 ```
 
-Here`sum`is an aggregate function that computes a single value over the entire group. More information about the available aggregate functions can be found in[Section 9.20](https://www.postgresql.org/docs/10/static/functions-aggregate.html).
+這裡 sum 是一個計算整個群組成為一個值的彙總函數。可用的彙總函數更多信息可以參閱[第 9.20 節](/ii-the-sql-language/functions-and-operators/920-aggregate-functions.md)。
 
 ### Tip
 
