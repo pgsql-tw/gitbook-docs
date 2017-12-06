@@ -220,7 +220,7 @@ ON 指定的交叉查詢條件也可以包含與交叉查詢無關的條件。 �
 
 這是因為在 ON 子句中放置的條件會在交叉查詢之前處理，而在交叉查詢之後才會處理在 WHERE 子句中的條件。這在 INNER JOIN 時沒有關係，但 OUTER JOIN 時就很重要。
 
-#### 7.2.1.2. Table and Column Aliases
+#### 7.2.1.2. 資料表和欄位的別名
 
 可以為資料表和複雜的資料表引用指定一個臨時名稱，以便在查詢的其餘部分中用於對該衍生資料表引用。這稱作為資料表別名。
 
@@ -458,24 +458,24 @@ WHERE search_condition
 > ```
 >
 > 你想使用哪一個端看你的風格。FROM 子句中的 JOIN 語法可能不像其他 SQL 資料庫管理系統那樣具有可移植性，即使它在 SQL 標準中。對於外部交叉查詢，沒有其他選擇：它們必須在 FROM 子句中完成。 外部交叉查詢的 ON 或 USING 子句不等於 WHERE 條件，因為它會導致增加資料列（對於無法匹配的輸入資料列）以及刪除最終結果中的資料列。
->
-> 這裡有一些 WHERE 子句的例子：
->
-> ```
-> SELECT ... FROM fdt WHERE c1 > 5
->
-> SELECT ... FROM fdt WHERE c1 IN (1, 2, 3)
->
-> SELECT ... FROM fdt WHERE c1 IN (SELECT c1 FROM t2)
->
-> SELECT ... FROM fdt WHERE c1 IN (SELECT c3 FROM t2 WHERE c2 = fdt.c1 + 10)
->
-> SELECT ... FROM fdt WHERE c1 BETWEEN (SELECT c3 FROM t2 WHERE c2 = fdt.c1 + 10) AND 100
->
-> SELECT ... FROM fdt WHERE EXISTS (SELECT c1 FROM t2 WHERE c2 > fdt.c1)
-> ```
->
-> fdt 是 FROM 子句中衍生的資料表。不符合 WHERE 子句條件的資料列，將會從 fdt 中消除。注意使用常數子查詢作為值的表示式的用法。就像任何其他查詢一樣，子查詢也可以使用複雜的表示式。也請注意如何在子查詢中引用 fdt。如果 c1 也是子查詢的衍生輸入資料表中欄位的名稱，則只需要將 c1 限定為 fdt.c1 即可。但是，即使在不需要的情況下，對欄位名稱進行限定寫法也能增加可讀性。這個例子表現了外層查詢的欄位命名範圍如何擴展到內層查詢中。
+
+這裡還有一些 WHERE 子句的例子：
+
+```
+SELECT ... FROM fdt WHERE c1 > 5
+
+SELECT ... FROM fdt WHERE c1 IN (1, 2, 3)
+
+SELECT ... FROM fdt WHERE c1 IN (SELECT c1 FROM t2)
+
+SELECT ... FROM fdt WHERE c1 IN (SELECT c3 FROM t2 WHERE c2 = fdt.c1 + 10)
+
+SELECT ... FROM fdt WHERE c1 BETWEEN (SELECT c3 FROM t2 WHERE c2 = fdt.c1 + 10) AND 100
+
+SELECT ... FROM fdt WHERE EXISTS (SELECT c1 FROM t2 WHERE c2 > fdt.c1)
+```
+
+fdt 是 FROM 子句中衍生的資料表。不符合 WHERE 子句條件的資料列，將會從 fdt 中消除。注意使用常數子查詢作為值的表示式的用法。就像任何其他查詢一樣，子查詢也可以使用複雜的表示式。也請注意如何在子查詢中引用 fdt。如果 c1 也是子查詢的衍生輸入資料表中欄位的名稱，則只需要將 c1 限定為 fdt.c1 即可。但是，即使在不需要的情況下，對欄位名稱進行限定寫法也能增加可讀性。這個例子表現了外層查詢的欄位命名範圍如何擴展到內層查詢中。
 
 ### 7.2.3. `GROUP BY`和`HAVING`子句
 
