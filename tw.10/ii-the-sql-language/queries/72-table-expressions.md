@@ -528,11 +528,11 @@ SELECT select_list
 
 這裡 sum 是一個計算整個群組成為一個值的彙總函數。可用的彙總函數更多信息可以參閱[第 9.20 節](/ii-the-sql-language/functions-and-operators/920-aggregate-functions.md)。
 
-### Tip
+> ### 小技巧
+>
+> 不包含彙總表示式的群組（grouping）計算能有效地計算欄位間相異值的集合。 這也可以使用 DISTINCT 子句來達成（詳見 [7.3.3 節](/ii-the-sql-language/queries/73-select-lists.md)）。
 
-Grouping without aggregate expressions effectively calculates the set of distinct values in a column. This can also be achieved using the`DISTINCT`clause \(see[Section 7.3.3](https://www.postgresql.org/docs/10/static/queries-select-lists.html#queries-distinct)\).
-
-Here is another example: it calculates the total sales for each product \(rather than the total sales of all products\):
+下面是另一個例子：它計算每個產品的總銷售額（而不是所有產品的總銷售額）：
 
 ```
 SELECT product_id, p.name, (sum(s.units) * p.price) AS sales
@@ -540,33 +540,26 @@ SELECT product_id, p.name, (sum(s.units) * p.price) AS sales
     GROUP BY product_id, p.name, p.price;
 ```
 
-In this example, the columns`product_id`,`p.name`, and`p.price`must be in the`GROUP BY`clause since they are referenced in the query select list \(but see below\). The column`s.units`does not have to be in the`GROUP BY`list since it is only used in an aggregate expression \(`sum(...)`\), which represents the sales of a product. For each product, the query returns a summary row about all sales of the product.
+在這個例子中，product\_id、p.name 和 p.price這三個欄位必須在 GROUP BY 子句中，因為它們在查詢資料列表中被引用（見下文）。 欄位 s.units 不必存在於 GROUP BY 列表中，因為它只用於表示產品銷售的彙總表示式（sum\(...\)）。 對於每個產品，查詢回傳關於產品所有銷售的彙總資料列。
 
-If the products table is set up so that, say,`product_id`is the primary key, then it would be enough to group by`product_id`in the above example, since name and price would be\_functionally dependent\_on the product ID, and so there would be no ambiguity about which name and price value to return for each product ID group.
+如果產品資料表設定 product\_id 為主鍵，則在上面的例子中，按照 product\_id 進行分組就足夠了，因為名稱和價格在功能上依賴於產品 ID，因此將會有 對於每個產品 ID 組回傳哪個名稱和價格值沒有歧義。
 
-In strict SQL,`GROUP BY`can only group by columns of the source table butPostgreSQLextends this to also allow`GROUP BY`to group by columns in the select list. Grouping by value expressions instead of simple column names is also allowed.
+在嚴格的 SQL 中，GROUP BY 只能按來源資料表的欄位進行分組，但 PostgreSQL 對此進行擴展以允許 GROUP BY 按資料列表中的欄位進行分組。也可以使用數值表示式而不是簡單的欄位名稱進行分組。
 
-If a table has been grouped using`GROUP BY`, but only certain groups are of interest, the`HAVING`clause can be used, much like a`WHERE`clause, to eliminate groups from the result. The syntax is:
+如果一個表已經使用 GROUP BY 分組，但只對某些組感興趣，則可以使用 HAVING 子句，就像 WHERE 子句一樣，從結果中消除某些分組。其語法是：
 
 ```
 SELECT 
 select_list
- FROM ... [
-WHERE ...
-] GROUP BY ... HAVING 
-boolean_expression
+ FROM ... [WHERE ...] GROUP BY ... HAVING boolean_expression
 ```
 
-Expressions in the`HAVING`clause can refer both to grouped expressions and to ungrouped expressions \(which necessarily involve an aggregate function\).
+HAVING 子句中的表示式既可以引用分組表示式也可以引用未分組的表示式（這些表示式必然涉及彙總函數）。
 
-Example:
+範例如下：
 
 ```
-=
->
-SELECT x, sum(y) FROM test1 GROUP BY x HAVING sum(y) 
->
- 3;
+=> SELECT x, sum(y) FROM test1 GROUP BY x HAVING sum(y) > 3;
 
  x | sum
 ---+-----
@@ -575,11 +568,7 @@ SELECT x, sum(y) FROM test1 GROUP BY x HAVING sum(y)
 (2 rows)
 
 
-=
->
-SELECT x, sum(y) FROM test1 GROUP BY x HAVING x 
-<
- 'c';
+=> SELECT x, sum(y) FROM test1 GROUP BY x HAVING x < 'c';
 
  x | sum
 ---+-----
@@ -588,23 +577,19 @@ SELECT x, sum(y) FROM test1 GROUP BY x HAVING x
 (2 rows)
 ```
 
-Again, a more realistic example:
+繼續來看，一個更真實的例子：
 
 ```
 SELECT product_id, p.name, (sum(s.units) * (p.price - p.cost)) AS profit
     FROM products p LEFT JOIN sales s USING (product_id)
-    WHERE s.date 
->
- CURRENT_DATE - INTERVAL '4 weeks'
+    WHERE s.date > CURRENT_DATE - INTERVAL '4 weeks'
     GROUP BY product_id, p.name, p.price, p.cost
-    HAVING sum(p.price * s.units) 
->
- 5000;
+    HAVING sum(p.price * s.units) > 5000;
 ```
 
-In the example above, the`WHERE`clause is selecting rows by a column that is not grouped \(the expression is only true for sales during the last four weeks\), while the`HAVING`clause restricts the output to groups with total gross sales over 5000. Note that the aggregate expressions do not necessarily need to be the same in all parts of the query.
+在上面的示例中，WHERE 子句按未分組的欄位進行過濾（表示式意思是，只有最近四周內的資料列為真），而 HAVING 子句將輸出限制為總銷售額超過 5000 的分組。請注意，彙總表示式不一定需要在查詢的所有部分都是相同的。
 
-If a query contains aggregate function calls, but no`GROUP BY`clause, grouping still occurs: the result is a single group row \(or perhaps no rows at all, if the single row is then eliminated by`HAVING`\). The same is true if it contains a`HAVING`clause, even without any aggregate function calls or`GROUP BY`clause.
+如果查詢包含了彙總函數的使用，但沒有 GROUP BY 子句，則仍然會發生分組：結果會是單個組的資料列（如果單個行被 HAVING 消除了，那可能根本沒有資料列輸出）。如果包含了 HAVING 子句，即使沒有任何彙總函數或GROUP BY 子句，也是如此。
 
 ### 7.2.4. `GROUPING SETS`,`CUBE`, and`ROLLUP`
 
