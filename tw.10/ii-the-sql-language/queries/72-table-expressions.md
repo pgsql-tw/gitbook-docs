@@ -591,14 +591,12 @@ SELECT product_id, p.name, (sum(s.units) * (p.price - p.cost)) AS profit
 
 如果查詢包含了彙總函數的使用，但沒有 GROUP BY 子句，則仍然會發生分組：結果會是單個組的資料列（如果單個行被 HAVING 消除了，那可能根本沒有資料列輸出）。如果包含了 HAVING 子句，即使沒有任何彙總函數或GROUP BY 子句，也是如此。
 
-### 7.2.4. `GROUPING SETS`,`CUBE`, and`ROLLUP`
+### 7.2.4. `GROUPING SETS`,`CUBE`, 和`ROLLUP`
 
-More complex grouping operations than those described above are possible using the concept of_grouping sets_. The data selected by the`FROM`and`WHERE`clauses is grouped separately by each specified grouping set, aggregates computed for each group just as for simple`GROUP BY`clauses, and then the results returned. For example:
+使用分組集合的概念，可以進行比上述更複雜的分組查詢。 由FROM和WHERE子句選擇的資料由每個指定的分組集合分別分組，為每個分組計算的彙總就像簡單的GROUP BY子句一樣，然後回傳結果。 例如：
 
 ```
-=
->
-SELECT * FROM items_sold;
+=> SELECT * FROM items_sold;
 
  brand | size | sales
 -------+------+-------
@@ -609,9 +607,7 @@ SELECT * FROM items_sold;
 (4 rows)
 
 
-=
->
-SELECT brand, size, sum(sales) FROM items_sold GROUP BY GROUPING SETS ((brand), (size), ());
+=> SELECT brand, size, sum(sales) FROM items_sold GROUP BY GROUPING SETS ((brand), (size), ());
 
  brand | size | sum
 -------+------+-----
@@ -623,65 +619,43 @@ SELECT brand, size, sum(sales) FROM items_sold GROUP BY GROUPING SETS ((brand), 
 (5 rows)
 ```
 
-Each sublist of`GROUPING SETS`may specify zero or more columns or expressions and is interpreted the same way as though it were directly in the`GROUP BY`clause. An empty grouping set means that all rows are aggregated down to a single group \(which is output even if no input rows were present\), as described above for the case of aggregate functions with no`GROUP BY`clause.
+GROUPING SETS 的每個子列表可以指定零個或多個欄位或表示式，與其在GROUP BY 子句中的解釋方式相同。一個空的分組集合意味著所有的行都被彙總到一個單獨的組中（即使沒有輸入資料列存在，也是輸出），就如上面沒有 GROUP BY 子句的集合函數所描述的那樣。
 
-References to the grouping columns or expressions are replaced by null values in result rows for grouping sets in which those columns do not appear. To distinguish which grouping a particular output row resulted from, see[Table 9.56](https://www.postgresql.org/docs/10/static/functions-aggregate.html#functions-grouping-table).
+對分組欄位或表示式的引用被替換為結果資料列中的空值，用於對其中不顯示這些欄位的分組進行分組。要區分特定輸出資料列的分組，請參見[表 9.56](/ii-the-sql-language/functions-and-operators/920-aggregate-functions.md)。
 
-A shorthand notation is provided for specifying two common types of grouping set. A clause of the form
+提供簡寫符號來指定兩種常見的分組類型。一種形式的子句內容：
 
 ```
-ROLLUP ( 
-e1
-, 
-e2
-, 
-e3
-, ... )
+ROLLUP ( e1, e2, e3, ... )
 ```
 
-represents the given list of expressions and all prefixes of the list including the empty list; thus it is equivalent to
+表示給定的表示式列表和列表的所有前置式，包括空列表；因此它相當於
 
 ```
 GROUPING SETS (
-    ( 
-e1
-, 
-e2
-, 
-e3
-, ... ),
+    ( e1, e2, e3, ... ),
     ...
-    ( 
-e1
-, 
-e2
- ),
-    ( 
-e1
- ),
+    ( e1, e2 ),
+    ( e1 ),
     ( )
 )
 ```
 
-This is commonly used for analysis over hierarchical data; e.g. total salary by department, division, and company-wide total.
+這通常用於對分層數據進行分析; 例如：按部門、小組和全公司總薪資總額。
 
-A clause of the form
+一個子句的形式：
 
 ```
-CUBE ( 
-e1
-, 
-e2
-, ... )
+CUBE ( e1, e2, ... )
 ```
 
-represents the given list and all of its possible subsets \(i.e. the power set\). Thus
+代表給定的列表及其所有可能的子集（即功率集合）。也就是
 
 ```
 CUBE ( a, b, c )
 ```
 
-is equivalent to
+等同於
 
 ```
 GROUPING SETS (
@@ -696,13 +670,13 @@ GROUPING SETS (
 )
 ```
 
-The individual elements of a`CUBE`or`ROLLUP`clause may be either individual expressions, or sublists of elements in parentheses. In the latter case, the sublists are treated as single units for the purposes of generating the individual grouping sets. For example:
+CUBE 或 ROLLUP 子句的各個元素可以是單獨的表示式，也可以是括號中元素的子列表。在後面的例子中，為了生成單獨的分組集合，子列表被視為單個單元。 例如：
 
 ```
 CUBE ( (a, b), (c, d) )
 ```
 
-is equivalent to
+等同於
 
 ```
 GROUPING SETS (
@@ -713,13 +687,13 @@ GROUPING SETS (
 )
 ```
 
-and
+還有
 
 ```
 ROLLUP ( a, (b, c), d )
 ```
 
-is equivalent to
+等同於
 
 ```
 GROUPING SETS (
@@ -730,15 +704,15 @@ GROUPING SETS (
 )
 ```
 
-The`CUBE`and`ROLLUP`constructs can be used either directly in the`GROUP BY`clause, or nested inside a`GROUPING SETS`clause. If one`GROUPING SETS`clause is nested inside another, the effect is the same as if all the elements of the inner clause had been written directly in the outer clause.
+CUBE 和 ROLLUP 結構可以直接在 GROUP BY 子句中使用，也可以嵌入在 GROUPING SETS 子句中。如果一個 GROUPING SETS 子句嵌入在另一個子句中，則效果與內部子句的所有元素都直接寫入外部子句的效果相同。
 
-If multiple grouping items are specified in a single`GROUP BY`clause, then the final list of grouping sets is the cross product of the individual items. For example:
+如果在單個 GROUP BY 子句中指定了多個分組項目，則分組集合的最終列表是各個項目的乘積。例如：
 
 ```
 GROUP BY a, CUBE (b, c), GROUPING SETS ((d), (e))
 ```
 
-is equivalent to
+等同於
 
 ```
 GROUP BY GROUPING SETS (
@@ -749,9 +723,9 @@ GROUP BY GROUPING SETS (
 )
 ```
 
-### Note
-
-The construct`(a, b)`is normally recognized in expressions as a[row constructor](https://www.postgresql.org/docs/10/static/sql-expressions.html#sql-syntax-row-constructors). Within the`GROUP BY`clause, this does not apply at the top levels of expressions, and`(a, b)`is parsed as a list of expressions as described above. If for some reason you\_need\_a row constructor in a grouping expression, use`ROW(a, b)`.
+> ### 注意
+>
+> construct\(a, b\) 通常在表示式中被識別為資料列的初始化函數（[row constructor](/ii-the-sql-language/sql-syntax/42-value-expressions.md)）。 在 GROUP BY 子句中，不會應用於最上層的表示式，並且 \(a, b\) 會被解析為如上所述的表示式列表。如果由於某種原因需要在分組表示式中使用行初始化函數，請使用 ROW\(a, b\)。
 
 ### 7.2.5. Window Function Processing
 
