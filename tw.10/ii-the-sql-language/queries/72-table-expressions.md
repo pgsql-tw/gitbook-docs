@@ -727,13 +727,13 @@ GROUP BY GROUPING SETS (
 >
 > construct\(a, b\) 通常在表示式中被識別為資料列的初始化函數（[row constructor](/ii-the-sql-language/sql-syntax/42-value-expressions.md)）。 在 GROUP BY 子句中，不會應用於最上層的表示式，並且 \(a, b\) 會被解析為如上所述的表示式列表。如果由於某種原因需要在分組表示式中使用行初始化函數，請使用 ROW\(a, b\)。
 
-### 7.2.5. Window Function Processing
+### 7.2.5. 窗函數的處理
 
-If the query contains any window functions \(see[Section 3.5](https://www.postgresql.org/docs/10/static/tutorial-window.html),[Section 9.21](https://www.postgresql.org/docs/10/static/functions-window.html)and[Section 4.2.8](https://www.postgresql.org/docs/10/static/sql-expressions.html#syntax-window-functions)\), these functions are evaluated after any grouping, aggregation, and`HAVING`filtering is performed. That is, if the query uses any aggregates,`GROUP BY`, or`HAVING`, then the rows seen by the window functions are the group rows instead of the original table rows from`FROM`/`WHERE`.
+如果查詢包含任何窗函數（參見[第 3.5 節](/advanced-features/35-window-functions.md)、[第 9.21 節](/ii-the-sql-language/functions-and-operators/921-window-functions.md)和[第 4.2.8 節](/ii-the-sql-language/sql-syntax/42-value-expressions.md)），則在執行任何分組，彙總和 HAVING 過濾之後，再對窗函數進行處理。 也就是說，如果查詢使用任何彙總，GROUP BY或HAVING，那麼窗口函數看到的行是分組後的資料列，而不是 FROM / WHERE 中的原始資料列。
 
-When multiple window functions are used, all the window functions having syntactically equivalent`PARTITION BY`and`ORDER BY`clauses in their window definitions are guaranteed to be evaluated in a single pass over the data. Therefore they will see the same sort ordering, even if the`ORDER BY`does not uniquely determine an ordering. However, no guarantees are made about the evaluation of functions having different`PARTITION BY`or`ORDER BY`specifications. \(In such cases a sort step is typically required between the passes of window function evaluations, and the sort is not guaranteed to preserve ordering of rows that its`ORDER BY`sees as equivalent.\)
+當使用多個窗函數時，所有在其窗定義中具有語法等價的 PARTITION BY 和 ORDER BY 子句的窗函數都可以保證在資料上有一次性所有資料的處理。 因此，即使 ORDER BY 沒有唯一確定排序，它們也會看到相同的排序順序。但是，對於具有不同 PARTITION BY 或 ORDER BY 規範的函數的評估就沒有任何保證了。（在這種情況下，通常需要在窗函數處理過程中進行排序，而排序不能保證 ORDER BY 會做成同等的排序。）
 
-Currently, window functions always require presorted data, and so the query output will be ordered according to one or another of the window functions'`PARTITION BY`/`ORDER BY`clauses. It is not recommended to rely on this, however. Use an explicit top-level`ORDER BY`clause if you want to be sure the results are sorted in a particular way.
+目前，窗函數總是需要預先分類數據，所以查詢輸出將根據窗函數 PARTITION BY / ORDER BY 子句中的某一個參數進行排序。但是，不建議依賴這個機制排序。 如果要確保結果按特定方式排序，請使用明確使用最上層的 ORDER BY 子句。
 
 ---
 
