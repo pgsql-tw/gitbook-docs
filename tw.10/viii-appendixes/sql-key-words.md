@@ -169,13 +169,7 @@ It is important to understand before studying[Table C.1](https://www.postgresql
 | `CURSOR_NAME` |  | non-reserved | non-reserved | non-reserved |
 | `CYCLE` | non-reserved | reserved | reserved |  |
 | `DATA` | non-reserved | non-reserved | non-reserved | non-reserved |
-
-| `DATABASE` |
-| :--- |
-
-
-|  | non-reserved |  |  |  |
-| :--- | :--- | :--- | :--- | :--- |
+| `DATABASE` | non-reserved |  |  |  |
 | `DATALINK` |  | reserved | reserved |  |
 | `DATE` |  | reserved | reserved | reserved |
 | `DATETIME_INTERVAL_CODE` |  | non-reserved | non-reserved | non-reserved |
