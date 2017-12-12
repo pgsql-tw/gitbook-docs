@@ -28,29 +28,29 @@ SELECT tbl1.*, tbl2.a FROM ...
 
 如果在資料列表中使用任意值表示式，則概念上是它將新的虛擬欄位加到回傳的資料表中。參數表示式對每個結果資料列計算一次，將該資料列的值替換為任何欄位引用。但是資料列表中的表示式不必引用 FROM 子句的資料表表示式中的任何欄位；例如，它們可以是常數算術表示式。
 
-### 7.3.2. Column Labels
+### 7.3.2. 欄位命名標籤
 
-The entries in the select list can be assigned names for subsequent processing, such as for use in an`ORDER BY`clause or for display by the client application. For example:
+資料列表中的項目可以被分配用於後續處理的名稱，例如在 ORDER BY 子句中使用或由用戶端應用程序顯示。 例如：
 
 ```
 SELECT a AS value, b + c AS sum FROM ...
 ```
 
-If no output column name is specified using`AS`, the system assigns a default column name. For simple column references, this is the name of the referenced column. For function calls, this is the name of the function. For complex expressions, the system will generate a generic name.
+如果沒有使用 AS 指定輸出欄位的名稱，系統將分配一個預設的欄位名稱。對於簡單欄位的引用，就是引用欄位的名稱。對於函數呼叫，就是函數的名稱。對於複雜的表示式，系統將會產成一個通用的名稱。
 
-The`AS`keyword is optional, but only if the new column name does not match anyPostgreSQLkeyword \(see[Appendix C](https://www.postgresql.org/docs/10/static/sql-keywords-appendix.html)\). To avoid an accidental match to a keyword, you can double-quote the column name. For example,`VALUE`is a keyword, so this does not work:
+AS 關鍵字是選用的，但前提是新的欄位名稱不為任何PostgreSQL 關鍵字（請參閱附錄C）。為避免與關鍵字意外撞名，你可以對欄位名稱使用雙引號。例如，VALUE 是一個關鍵字，所以就不能這樣使用：
 
 ```
 SELECT a value, b + c AS sum FROM ...
 ```
 
-but this does:
+但這樣就可以了：
 
 ```
 SELECT a "value", b + c AS sum FROM ...
 ```
 
-For protection against possible future keyword additions, it is recommended that you always either write`AS`or double-quote the output column name.
+為了防止未來可能增加的關鍵字，建議你習慣使用 AS 或總是在欄位名稱使用雙引號。
 
 ### Note
 
