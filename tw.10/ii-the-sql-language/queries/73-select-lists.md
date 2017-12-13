@@ -38,7 +38,7 @@ SELECT a AS value, b + c AS sum FROM ...
 
 如果沒有使用 AS 指定輸出欄位的名稱，系統將分配一個預設的欄位名稱。對於簡單欄位的引用，就是引用欄位的名稱。對於函數呼叫，就是函數的名稱。對於複雜的表示式，系統將會產成一個通用的名稱。
 
-AS 關鍵字是選用的，但前提是新的欄位名稱不為任何PostgreSQL 關鍵字（請參閱附錄C）。為避免與關鍵字意外撞名，你可以對欄位名稱使用雙引號。例如，VALUE 是一個關鍵字，所以就不能這樣使用：
+AS 關鍵字是選用的，但前提是新的欄位名稱不為任何PostgreSQL 關鍵字（請參閱[附錄C](/viii-appendixes/sql-key-words.md)）。為避免與關鍵字意外撞名，你可以對欄位名稱使用雙引號。例如，VALUE 是一個關鍵字，所以就不能這樣使用：
 
 ```
 SELECT a value, b + c AS sum FROM ...
@@ -52,41 +52,31 @@ SELECT a "value", b + c AS sum FROM ...
 
 為了防止未來可能增加的關鍵字，建議你習慣使用 AS 或總是在欄位名稱使用雙引號。
 
-### Note
-
-The naming of output columns here is different from that done in the`FROM`clause \(see[Section 7.2.1.2](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#queries-table-aliases)\). It is possible to rename the same column twice, but the name assigned in the select list is the one that will be passed on.
+> ### 注意
+>
+> 這裡輸出欄位的命名與 FROM 子句中的命名不同（參閱第 7.2.1.2 節）。可以重新命名相同的欄位兩次，但在資料列表中分配的名稱是將要回傳的名稱。
 
 ### 7.3.3. `DISTINCT`
 
-After the select list has been processed, the result table can optionally be subject to the elimination of duplicate rows. The`DISTINCT`key word is written directly after`SELECT`to specify this:
+在處理了資料列表之後，結果資料表可以選擇性地消除重複的資料列。 DISTINCT 關鍵字在 SELECT 之後直接寫入以指定這個動作：
 
 ```
-SELECT DISTINCT 
-select_list
- ...
+SELECT DISTINCT select_list ...
 ```
 
-\(Instead of`DISTINCT`the key word`ALL`can be used to specify the default behavior of retaining all rows.\)
+（如果不是 DISTINCT，而是關鍵字 ALL，可用於指定保留所有資料列的預設行為。）
 
-Obviously, two rows are considered distinct if they differ in at least one column value. Null values are considered equal in this comparison.
+顯然，如果至少有一個欄位值不同，則兩個資料列就會被認為是不同的。 在這個比較中，空值（null）被認為是相等的。
 
-Alternatively, an arbitrary expression can determine what rows are to be considered distinct:
+或者，使用表示式可以指定資料列如何被認為是不同的：
 
 ```
-SELECT DISTINCT ON (
-expression
- [
-, 
-expression
- ...
-]) 
-select_list
- ...
+SELECT DISTINCT ON (expression [, expression ...]) select_list ...
 ```
 
-Here\_`expression`\_is an arbitrary value expression that is evaluated for all rows. A set of rows for which all the expressions are equal are considered duplicates, and only the first row of the set is kept in the output. Note that the“first row”of a set is unpredictable unless the query is sorted on enough columns to guarantee a unique ordering of the rows arriving at the`DISTINCT`filter. \(`DISTINCT ON`processing occurs after`ORDER BY`sorting.\)
+這裡表示式是一個任意的運算表示式，對所有資料列進行求值運算。所有表示式相等的一組資料列被認為是重複的，並且只有該組的第一個資料列會被保留在輸出中。請注意，集合中的「第一行」是不可預知的，除非查詢按足夠的欄位進行排序，以保證進到 DISTINCT 過濾器的資料列是唯一排序。（在 ORDER BY 排序後才進行 DISTINCT ON 處理。）
 
-The`DISTINCT ON`clause is not part of the SQL standard and is sometimes considered bad style because of the potentially indeterminate nature of its results. With judicious use of`GROUP BY`and subqueries in`FROM`, this construct can be avoided, but it is often the most convenient alternative.
+DISTINCT ON 子句不是SQL標準的一部分，有時被認為是不好的樣式，因為其結果有潛在的不確定性。透過在 FROM 中智慧地使用 GROUP BY 和子查詢，可以避免這種結構，但這卻往往是最方便的選擇。
 
 ---
 
