@@ -1,57 +1,34 @@
 # 7.4. 合併查詢結果[^1]
 
-The results of two queries can be combined using the set operations union, intersection, and difference. The syntax is
+兩個查詢的結果可以使用集合操作聯、交集和差集來組合。其語法為：
 
 ```
-query1
- UNION [
-ALL
-] 
-query2
-query1
- INTERSECT [
-ALL
-] 
-query2
-query1
- EXCEPT [
-ALL
-] 
-query2
+query1 UNION [ALL] query2
+query1 INTERSECT [ALL] query2
+query1 EXCEPT [ALL]query2
 ```
 
-_`query1`_and_`query2`_are queries that can use any of the features discussed up to this point. Set operations can also be nested and chained, for example
+query1 和 query2 是到目前為止討論過的任何查詢功能。集合操作也可以巢狀也可以連接，例如：
 
 ```
-query1
- UNION 
-query2
- UNION 
-query3
+query1 UNION query2 UNION query3
 ```
 
-which is executed as:
+會如下方式執行：
 
 ```
-(
-query1
- UNION 
-query2
-) UNION 
-query3
+(query1 UNION query2) UNION query3
 ```
 
-`UNION`effectively appends the result of_`query2`_to the result of_`query1`_\(although there is no guarantee that this is the order in which the rows are actually returned\). Furthermore, it eliminates duplicate rows from its result, in the same way as`DISTINCT`, unless`UNION ALL`is used.
+UNION 將 query2 的結果有效率地附加到 query1 的結果中（但不能保證這是實際回傳資料列的次序）。此外，除非使用了UNION ALL，否則它將以與 DISTINCT相同的方式從結果中消除重複的資料列。
 
-`INTERSECT`returns all rows that are both in the result of_`query1`_and in the result of_`query2`_. Duplicate rows are eliminated unless`INTERSECT ALL`is used.
+INTERSECT 返回 query1 的結果和 query2 的結果中所有共同的資料列。除非使用 INTERSECT ALL，否則會刪除重複的資料列。
 
-`EXCEPT`returns all rows that are in the result of_`query1`_but not in the result of_`query2`_. \(This is sometimes called the_difference_between two queries.\) Again, duplicates are eliminated unless`EXCEPT ALL`is used.
+EXCEPT 回傳 query1 的結果中但不包含在 query2 的結果中的所有資料列。（這有時被稱為兩個查詢之間的差集。）同樣地，除非使用 EXCEPT ALL，否則重複資料列將被刪除。
 
-In order to calculate the union, intersection, or difference of two queries, the two queries must be“union compatible”, which means that they return the same number of columns and the corresponding columns have compatible data types, as described in[Section 10.5](https://www.postgresql.org/docs/10/static/typeconv-union-case.html).
+為了計算兩個查詢的聯集、交集或差集，兩個查詢必須是「union compatible」，這意味著它們回傳相同數量的欄位，相應的欄位具有相容的資料型別，如 [10.5 節](/ii-the-sql-language/type-conversion/105-union-case-and-related-constructs.md)所述。
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 7.4. Combining Queries](https://www.postgresql.org/docs/10/static/queries-union.html)
+[^1]: [PostgreSQL: Documentation: 10: 7.4. Combining Queries](https://www.postgresql.org/docs/10/static/queries-union.html)
 
