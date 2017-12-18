@@ -1,77 +1,48 @@
 # 7.5. 資料排序[^1]
 
-After a query has produced an output table \(after the select list has been processed\) it can optionally be sorted. If sorting is not chosen, the rows will be returned in an unspecified order. The actual order in that case will depend on the scan and join plan types and the order on disk, but it must not be relied on. A particular output ordering can only be guaranteed if the sort step is explicitly chosen.
+在查詢產生了一個輸出資料表（處理了資料列表之後）之後，可以對其資料列進行排序。如果未選擇排序，則資料列將以未指定的順序回傳。在這種情況下的實際順序將取決於資料掃描和交叉查詢類型以及磁碟上的順序，但不能依賴它。只有明確選擇了排序方式，才能保證特定的輸出排序。
 
-The`ORDER BY`clause specifies the sort order:
-
-```
-SELECT 
-select_list
-
-    FROM 
-table_expression
-
-    ORDER BY 
-sort_expression1
- [
-ASC | DESC
-] [
-NULLS { FIRST | LAST }
-]
-             [
-, 
-sort_expression2
- [
-ASC | DESC
-] [
-NULLS { FIRST | LAST }
-] ...
-]
+以 ORDER BY 子句指定排序順序：
 
 ```
+SELECT select_list
+    FROM table_expression
+    ORDER BY sort_expression1 [ASC | DESC] [NULLS { FIRST | LAST }]
+             [, sort_expression2 [ASC | DESC] [NULLS { FIRST | LAST }] ...]
+```
 
-The sort expression\(s\) can be any expression that would be valid in the query's select list. An example is:
+排序表示式可以在查詢的資料列表中有效的任何表示式。 一個例子是：
 
 ```
 SELECT a, b FROM table1 ORDER BY a + b, c;
-
 ```
 
-When more than one expression is specified, the later values are used to sort rows that are equal according to the earlier values. Each expression can be followed by an optional`ASC`or`DESC`keyword to set the sort direction to ascending or descending.`ASC`order is the default. Ascending order puts smaller values first, where“smaller”is defined in terms of the`<`operator. Similarly, descending order is determined with the`>`operator.[\[5\]](https://www.postgresql.org/docs/10/static/queries-order.html#ftn.idm46249858218224)
+當指定多個表示式時，後面的表示式用於前面表示式都相同的資料進行排序。每個表示式可以跟隨一個選擇性的 ASC 或 DESC 關鍵字來設定排序方向為升冪或降冪。 ASC 排序是預設的選項。升冪首先放置較小的值，其中「較小」是根據「&lt;」運算元定義的。 同樣，降冪也是由「&gt;」運算元決定的。[^2]
 
-The`NULLS FIRST`and`NULLS LAST`options can be used to determine whether nulls appear before or after non-null values in the sort ordering. By default, null values sort as if larger than any non-null value; that is,`NULLS FIRST`is the default for`DESC`order, and`NULLS LAST`otherwise.
+NULLS FIRST 和 NULLS LAST 選項可用於確定在排序順序中是否出現空值出現在非空值之前或之後。預設情況下，空值排序大於任何非空值；也就是 NULLS FIRST 是 DESC 選項的預設值，否則就是 NULLS LAST。
 
-Note that the ordering options are considered independently for each sort column. For example`ORDER BY x, y DESC`means`ORDER BY x ASC, y DESC`, which is not the same as`ORDER BY x DESC, y DESC`.
+請注意，排序選項是針對每個排序欄位獨立考慮的。例如 ORDER BY x, y DESC 是指 ORDER BY x ASC, y DESC，它與 ORDER BY x DESC, y DESC 不同。
 
-A_`sort_expression`_can also be the column label or number of an output column, as in:
+排序表示式也可以是輸出欄位的欄位標籤或編號，如下所示：
 
 ```
 SELECT a + b AS sum, c FROM table1 ORDER BY sum;
 SELECT a, max(b) FROM table1 GROUP BY a ORDER BY 1;
-
 ```
 
-both of which sort by the first output column. Note that an output column name has to stand alone, that is, it cannot be used in an expression — for example, this is_not_correct:
+兩者都按第一個輸出欄位排序。請注意，輸出欄位名稱必須獨立，也就是說，不能在表示式中使用 - 例如，這樣是不正確的：
 
 ```
-SELECT a + b AS sum, c FROM table1 ORDER BY sum + c;          -- wrong
-
+SELECT a + b AS sum, c FROM table1 ORDER BY sum + c;          -- 錯誤
 ```
 
-This restriction is made to reduce ambiguity. There is still ambiguity if an`ORDER BY`item is a simple name that could match either an output column name or a column from the table expression. The output column is used in such cases. This would only cause confusion if you use`AS`to rename an output column to match some other table column's name.
+這種限制是為了減少歧義。 即使 ORDER BY 項目是一個簡單的名字，可以匹配輸出欄位名稱或者資料表表示式中的一項，這仍然是會混淆的。在這種情況下請使用輸出欄位。如果您使用 AS 來重新命名輸出欄位以匹配其他資料表欄位的名稱，只會導致混淆。
 
-`ORDER BY`can be applied to the result of a`UNION`,`INTERSECT`, or`EXCEPT`combination, but in this case it is only permitted to sort by output column names or numbers, not by expressions.
-
-  
-
+可以將 ORDER BY 應用於 UNION、INTERSECT 或 EXCEPT 組合的結果，但在這種情況下，只允許按輸出欄位名稱或數字進行排序，而不能使用表示式進行排序。
 
 ---
 
-[\[5\]](https://www.postgresql.org/docs/10/static/queries-order.html#idm46249858218224)Actually,PostgreSQLuses the_default B-tree operator class_for the expression's data type to determine the sort ordering for`ASC`and`DESC`. Conventionally, data types will be set up so that the`<`and`>`operators correspond to this sort ordering, but a user-defined data type's designer could choose to do something different.
+[^1]: [PostgreSQL: Documentation: 10: 7.5. Sorting Rows](https://www.postgresql.org/docs/10/static/queries-order.html)
 
----
-
-
-
-[^1]: [PostgreSQL: Documentation: 10: 7.5. Sorting Rows](https://www.postgresql.org/docs/10/static/queries-order.html)
+[^2]: 實際上，PostgreSQL 為表示式的資料型別使用預設的 B-tree 運算來確定 ASC 和 DESC 的排序順序。 通常，資料型別將被設定使得 &lt; 和 &gt; 運算元對應於這種排序，但是用戶定義的資料型別的設計者可以選擇做不同的對應。
 
