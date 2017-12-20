@@ -429,6 +429,7 @@
     * [REVOKE](vi-reference/i-sql-commands/revoke.md)
     * [SELECT](vi-reference/i-sql-commands/select.md)
     * [UPDATE](vi-reference/i-sql-commands/update.md)
+    * [VALUES](vi-reference/i-sql-commands/values.md)
   * [II. PostgreSQL 用戶端工具](vi-reference/ii-postgresql-client-applications.md)
     * [createdb](vi-reference/ii-postgresql-client-applications/createdb.md)
     * [dropdb](vi-reference/ii-postgresql-client-applications/dropdb.md)
