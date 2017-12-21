@@ -1,8 +1,8 @@
 # 7.8. 遞迴查詢[^1]
 
-`WITH`provides a way to write auxiliary statements for use in a larger query. These statements, which are often referred to as Common Table Expressions orCTEs, can be thought of as defining temporary tables that exist just for one query. Each auxiliary statement in a`WITH`clause can be a`SELECT`,`INSERT`,`UPDATE`, or`DELETE`; and the`WITH`clause itself is attached to a primary statement that can also be a`SELECT`,`INSERT`,`UPDATE`, or`DELETE`.
+WITH 提供了一種撰寫用於更複雜查詢輔助語句的方法。這些通常被稱為公用資料表表示式或 CTE 的宣告可以被想成是定義僅存在於一個查詢中的臨時資料表。WITH子句中的每個輔助語句都可以是SELECT，INSERT，UPDATE或DELETE; 並且WITH子句本身附加到也可以是SELECT，INSERT，UPDATE或DELETE的主語句。
 
-### 7.8.1. `SELECT`in`WITH`
+### 7.8.1. `SELECT`in`WITH`
 
 The basic value of`SELECT`in`WITH`is to break down complicated queries into simpler parts. An example is:
 
@@ -14,9 +14,7 @@ WITH regional_sales AS (
      ), top_regions AS (
         SELECT region
         FROM regional_sales
-        WHERE total_sales 
->
- (SELECT SUM(total_sales)/10 FROM regional_sales)
+        WHERE total_sales > (SELECT SUM(total_sales)/10 FROM regional_sales)
      )
 SELECT region,
        product,
@@ -25,7 +23,6 @@ SELECT region,
 FROM orders
 WHERE region IN (SELECT region FROM top_regions)
 GROUP BY region, product;
-
 ```
 
 which displays per-product sales totals in only the top sales regions. The`WITH`clause defines two auxiliary statements named`regional_sales`and`top_regions`, where the output of`regional_sales`is used in`top_regions`and the output of`top_regions`is used in the primary`SELECT`query. This example could have been written without`WITH`, but we'd have needed two levels of nested sub-`SELECT`s. It's a bit easier to follow this way.
@@ -36,12 +33,9 @@ The optional`RECURSIVE`modifier changes`WITH`from a mere syntactic convenience i
 WITH RECURSIVE t(n) AS (
     VALUES (1)
   UNION ALL
-    SELECT n+1 FROM t WHERE n 
-<
- 100
+    SELECT n+1 FROM t WHERE n < 100
 )
 SELECT sum(n) FROM t;
-
 ```
 
 The general form of a recursive`WITH`query is always a_non-recursive term_, then`UNION`\(or`UNION ALL`\), then a_recursive term_, where only the recursive term can contain a reference to the query's own output. Such a query is executed as follows:
@@ -75,7 +69,6 @@ WITH RECURSIVE included_parts(sub_part, part, quantity) AS (
 SELECT sub_part, SUM(quantity) as total_quantity
 FROM included_parts
 GROUP BY sub_part
-
 ```
 
 When working with recursive queries it is important to be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. Sometimes, using`UNION`instead of`UNION ALL`can accomplish this by discarding rows that duplicate previous output rows. However, often a cycle does not involve output rows that are completely duplicate: it may be necessary to check just one or a few fields to see if the same point has been reached before. The standard method for handling such situations is to compute an array of the already-visited values. For example, consider the following query that searches a table`graph`using a`link`field:
@@ -90,7 +83,6 @@ WITH RECURSIVE search_graph(id, link, data, depth) AS (
         WHERE g.id = sg.link
 )
 SELECT * FROM search_graph;
-
 ```
 
 This query will loop if the`link`relationships contain cycles. Because we require a“depth”output, just changing`UNION ALL`to`UNION`would not eliminate the looping. Instead we need to recognize whether we have reached the same row again while following a particular path of links. We add two columns`path`and`cycle`to the loop-prone query:
@@ -109,7 +101,6 @@ WITH RECURSIVE search_graph(id, link, data, depth, path, cycle) AS (
         WHERE g.id = sg.link AND NOT cycle
 )
 SELECT * FROM search_graph;
-
 ```
 
 Aside from preventing cycles, the array value is often useful in its own right as representing the“path”taken to reach any particular row.
@@ -130,7 +121,6 @@ WITH RECURSIVE search_graph(id, link, data, depth, path, cycle) AS (
         WHERE g.id = sg.link AND NOT cycle
 )
 SELECT * FROM search_graph;
-
 ```
 
 ### Tip
@@ -150,7 +140,6 @@ WITH RECURSIVE t(n) AS (
     SELECT n+1 FROM t
 )
 SELECT n FROM t LIMIT 100;
-
 ```
 
 This works becausePostgreSQL's implementation evaluates only as many rows of a`WITH`query as are actually fetched by the parent query. Using this trick in production is not recommended, because other systems might work differently. Also, it usually won't work if you make the outer query sort the recursive query's results or join them to some other table, because in such cases the outer query will usually try to fetch all of the`WITH`query's output anyway.
@@ -159,7 +148,7 @@ A useful property of`WITH`queries is that they are evaluated only once per execu
 
 The examples above only show`WITH`being used with`SELECT`, but it can be attached in the same way to`INSERT`,`UPDATE`, or`DELETE`. In each case it effectively provides temporary table\(s\) that can be referred to in the main command.
 
-### 7.8.2. Data-Modifying Statements in`WITH`
+### 7.8.2. Data-Modifying Statements in`WITH`
 
 You can use data-modifying statements \(`INSERT`,`UPDATE`, or`DELETE`\) in`WITH`. This allows you to perform several different operations in the same query. An example is:
 
@@ -177,21 +166,19 @@ WITH moved_rows AS (
 )
 INSERT INTO products_log
 SELECT * FROM moved_rows;
-
 ```
 
 This query effectively moves rows from`products`to`products_log`. The`DELETE`in`WITH`deletes the specified rows from`products`, returning their contents by means of its`RETURNING`clause; and then the primary query reads that output and inserts it into`products_log`.
 
 A fine point of the above example is that the`WITH`clause is attached to the`INSERT`, not the sub-`SELECT`within the`INSERT`. This is necessary because data-modifying statements are only allowed in`WITH`clauses that are attached to the top-level statement. However, normal`WITH`visibility rules apply, so it is possible to refer to the`WITH`statement's output from the sub-`SELECT`.
 
-Data-modifying statements in`WITH`usually have`RETURNING`clauses \(see[Section 6.4](https://www.postgresql.org/docs/10/static/dml-returning.html)\), as shown in the example above. It is the output of the`RETURNING`clause,_not_the target table of the data-modifying statement, that forms the temporary table that can be referred to by the rest of the query. If a data-modifying statement in`WITH`lacks a`RETURNING`clause, then it forms no temporary table and cannot be referred to in the rest of the query. Such a statement will be executed nonetheless. A not-particularly-useful example is:
+Data-modifying statements in`WITH`usually have`RETURNING`clauses \(see[Section 6.4](https://www.postgresql.org/docs/10/static/dml-returning.html)\), as shown in the example above. It is the output of the`RETURNING`clause,\_not\_the target table of the data-modifying statement, that forms the temporary table that can be referred to by the rest of the query. If a data-modifying statement in`WITH`lacks a`RETURNING`clause, then it forms no temporary table and cannot be referred to in the rest of the query. Such a statement will be executed nonetheless. A not-particularly-useful example is:
 
 ```
 WITH t AS (
     DELETE FROM foo
 )
 DELETE FROM bar;
-
 ```
 
 This example would remove all rows from tables`foo`and`bar`. The number of affected rows reported to the client would only include rows removed from`bar`.
@@ -208,14 +195,13 @@ WITH RECURSIVE included_parts(sub_part, part) AS (
   )
 DELETE FROM parts
   WHERE part IN (SELECT part FROM included_parts);
-
 ```
 
 This query would remove all direct and indirect subparts of a product.
 
 Data-modifying statements in`WITH`are executed exactly once, and always to completion, independently of whether the primary query reads all \(or indeed any\) of their output. Notice that this is different from the rule for`SELECT`in`WITH`: as stated in the previous section, execution of a`SELECT`is carried only as far as the primary query demands its output.
 
-The sub-statements in`WITH`are executed concurrently with each other and with the main query. Therefore, when using data-modifying statements in`WITH`, the order in which the specified updates actually happen is unpredictable. All the statements are executed with the same_snapshot_\(see[Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)\), so they cannot“see”one another's effects on the target tables. This alleviates the effects of the unpredictability of the actual order of row updates, and means that`RETURNING`data is the only way to communicate changes between different`WITH`sub-statements and the main query. An example of this is that in
+The sub-statements in`WITH`are executed concurrently with each other and with the main query. Therefore, when using data-modifying statements in`WITH`, the order in which the specified updates actually happen is unpredictable. All the statements are executed with the same_snapshot_\(see[Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)\), so they cannot“see”one another's effects on the target tables. This alleviates the effects of the unpredictability of the actual order of row updates, and means that`RETURNING`data is the only way to communicate changes between different`WITH`sub-statements and the main query. An example of this is that in
 
 ```
 WITH t AS (
@@ -223,7 +209,6 @@ WITH t AS (
     RETURNING *
 )
 SELECT * FROM products;
-
 ```
 
 the outer`SELECT`would return the original prices before the action of the`UPDATE`, while in
@@ -234,7 +219,6 @@ WITH t AS (
     RETURNING *
 )
 SELECT * FROM t;
-
 ```
 
 the outer`SELECT`would return the updated data.
@@ -245,7 +229,5 @@ At present, any table used as the target of a data-modifying statement in`WITH`m
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 7.8. WITH Queries \(Common Table Expressions\)](https://www.postgresql.org/docs/10/static/queries-with.html)
+[^1]: [PostgreSQL: Documentation: 10: 7.8. WITH Queries \(Common Table Expressions\)](https://www.postgresql.org/docs/10/static/queries-with.html)
 
