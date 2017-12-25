@@ -4,7 +4,7 @@ WITH 提供了一種撰寫用於更複雜查詢輔助語句的方法。這些通
 
 ### 7.8.1. `SELECT`in`WITH`
 
-The basic value of`SELECT`in`WITH`is to break down complicated queries into simpler parts. An example is:
+SELECT 中 WITH 的基本價值是將複雜的查詢分解為較為簡單的部分。一個例子是：
 
 ```
 WITH regional_sales AS (
