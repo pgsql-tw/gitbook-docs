@@ -25,9 +25,9 @@ WHERE region IN (SELECT region FROM top_regions)
 GROUP BY region, product;
 ```
 
-which displays per-product sales totals in only the top sales regions. The`WITH`clause defines two auxiliary statements named`regional_sales`and`top_regions`, where the output of`regional_sales`is used in`top_regions`and the output of`top_regions`is used in the primary`SELECT`query. This example could have been written without`WITH`, but we'd have needed two levels of nested sub-`SELECT`s. It's a bit easier to follow this way.
+其中僅顯示最上層銷售區域中的每個產品的銷售總計。WITH子句定義了兩個名為 regional\_sales 和 top\_regions 的輔助語句，其中  top\_size 使用 region\_sales 的輸出，top\_regions 的輸出在主 SELECT 語句中使用。這個例子本來可以不用 WITH 編寫，但是我們需要兩層的SELECT 子查詢。按照這種方式更容易一些。
 
-The optional`RECURSIVE`modifier changes`WITH`from a mere syntactic convenience into a feature that accomplishes things not otherwise possible in standard SQL. Using`RECURSIVE`, a`WITH`query can refer to its own output. A very simple example is this query to sum the integers from 1 through 100:
+選擇性的 RECURSIVE 修飾字將 WITH 從單純的語法便利性增加了標準SQL所無法實現的功能。使用 RECURSIVE，WITH 查詢可以引用它自己的輸出。一個非常簡單的例子是這個查詢來從1到100的整數求和：
 
 ```
 WITH RECURSIVE t(n) AS (
@@ -38,21 +38,23 @@ WITH RECURSIVE t(n) AS (
 SELECT sum(n) FROM t;
 ```
 
-The general form of a recursive`WITH`query is always a_non-recursive term_, then`UNION`\(or`UNION ALL`\), then a_recursive term_, where only the recursive term can contain a reference to the query's own output. Such a query is executed as follows:
+遞迴 WITH 查詢的一般形式始終是非遞迴子句，然後是 UNION（或 UNION ALL），然後是遞迴子句，其中只有遞迴子句可以包含對查詢自己的輸出引用。這樣的查詢執行如下：
 
-**Recursive Query Evaluation**
+執行**遞迴查詢**
 
-1. Evaluate the non-recursive term. For`UNION`\(but not`UNION ALL`\), discard duplicate rows. Include all remaining rows in the result of the recursive query, and also place them in a temporary_working table_.
+1. 執行非遞迴子句。 對於 UNION（但不是 UNION ALL），丟棄重複的資料列。在遞迴查詢的結果中包含所有剩餘的資料列，並將它們放在臨時的工作資料表中。
 
-2. So long as the working table is not empty, repeat these steps:
+2. 只要工作資料表不是空的，就重複這些步驟：
 
-   1. Evaluate the recursive term, substituting the current contents of the working table for the recursive self-reference. For`UNION`\(but not`UNION ALL`\), discard duplicate rows and rows that duplicate any previous result row. Include all remaining rows in the result of the recursive query, and also place them in a temporary_intermediate table_.
+   1. 執行遞迴子句，將工作資料表的當下的內容替換為遞迴自我引用。對於 UNION（但不是 UNION ALL），將重複的資料列及和之前結果重覆的資料列都丟棄。在遞迴查詢的結果中包含所有剩餘的資料列，並將其放置在臨時中介資料表中。
 
-   2. Replace the contents of the working table with the contents of the intermediate table, then empty the intermediate table.
+   2. 將工作資料表的內容替換為中介資料表的內容，然後清空中介資料表。
 
-### Note
 
-Strictly speaking, this process is iteration not recursion, but`RECURSIVE`is the terminology chosen by the SQL standards committee.
+
+> ### 注意
+>
+> 嚴格地說，這個過程仍然是疊代的而不是遞迴的，但是 RECURSIVE 是 SQL 標準委員會所選擇的用字。
 
 In the example above, the working table has just a single row in each step, and it takes on the values from 1 through 100 in successive steps. In the 100th step, there is no output because of the`WHERE`clause, and so the query terminates.
 
