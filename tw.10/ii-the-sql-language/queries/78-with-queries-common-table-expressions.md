@@ -50,15 +50,13 @@ SELECT sum(n) FROM t;
 
    2. 將工作資料表的內容替換為中介資料表的內容，然後清空中介資料表。
 
-
-
 > ### 注意
 >
 > 嚴格地說，這個過程仍然是疊代的而不是遞迴的，但是 RECURSIVE 是 SQL 標準委員會所選擇的用字。
 
-In the example above, the working table has just a single row in each step, and it takes on the values from 1 through 100 in successive steps. In the 100th step, there is no output because of the`WHERE`clause, and so the query terminates.
+在上面的例子中，工作資料表在每一步驟中只有一個資料列，並且在連續的步驟中從 1 取值到 100。在第 100 步時，由於 WHERE 子句而沒有輸出，因此結束查詢。
 
-Recursive queries are typically used to deal with hierarchical or tree-structured data. A useful example is this query to find all the direct and indirect sub-parts of a product, given only a table that shows immediate inclusions:
+遞迴查詢通常用於處理分層或樹狀結構的資料。一個實用的例子是，這個查詢用來找到產品的所有直接和間接子部分，只產出一個顯示即時包含這些資訊的資料表：
 
 ```
 WITH RECURSIVE included_parts(sub_part, part, quantity) AS (
@@ -73,7 +71,7 @@ FROM included_parts
 GROUP BY sub_part
 ```
 
-When working with recursive queries it is important to be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. Sometimes, using`UNION`instead of`UNION ALL`can accomplish this by discarding rows that duplicate previous output rows. However, often a cycle does not involve output rows that are completely duplicate: it may be necessary to check just one or a few fields to see if the same point has been reached before. The standard method for handling such situations is to compute an array of the already-visited values. For example, consider the following query that searches a table`graph`using a`link`field:
+使用遞迴查詢時，務必確保查詢的遞迴部分最終不回傳資料列，否則查詢將會無限循環。有時，使用 UNION 而不是 UNION ALL 可以透過丟棄與先前輸出行重覆的資料列來達成此目的。但是，循環查詢通常不涉及完全重複的輸出資料列：可能需要檢查一個或幾個欄位，以查看是否在之前就已經達到相同的點。處理這種情況的標準方法是從已經訪問過的陣列中，計算其值。例如，以下查詢是，使用連接欄位搜尋資料表網路圖：
 
 ```
 WITH RECURSIVE search_graph(id, link, data, depth) AS (
@@ -87,7 +85,7 @@ WITH RECURSIVE search_graph(id, link, data, depth) AS (
 SELECT * FROM search_graph;
 ```
 
-This query will loop if the`link`relationships contain cycles. Because we require a“depth”output, just changing`UNION ALL`to`UNION`would not eliminate the looping. Instead we need to recognize whether we have reached the same row again while following a particular path of links. We add two columns`path`and`cycle`to the loop-prone query:
+如果連接關係包含循環，則此查詢將持續循環。因為我們需要一個「depth」輸出，只要將 UNION ALL 更改為 UNION 就不會停止循環。相反地，我們需要瞭解到，在遵循特定的連接路徑的情況下，我們是否再一次到達同樣的資料列。我們增加兩個欄位 path 和 cycle 到有循環傾向的查詢之中：
 
 ```
 WITH RECURSIVE search_graph(id, link, data, depth, path, cycle) AS (
@@ -105,9 +103,9 @@ WITH RECURSIVE search_graph(id, link, data, depth, path, cycle) AS (
 SELECT * FROM search_graph;
 ```
 
-Aside from preventing cycles, the array value is often useful in its own right as representing the“path”taken to reach any particular row.
+除了防止循環之外，陣列內容本身通常也是有用的，表示為達到任何特定資料列所採取的「path」。
 
-In the general case where more than one field needs to be checked to recognize a cycle, use an array of rows. For example, if we needed to compare fields`f1`and`f2`:
+在一般情況下，需要檢查多個欄位來識別是一個循環，請使用資料列陣列來處理。例如，如果我們需要比較欄位 f1 和 f2：
 
 ```
 WITH RECURSIVE search_graph(id, link, data, depth, path, cycle) AS (
@@ -125,9 +123,9 @@ WITH RECURSIVE search_graph(id, link, data, depth, path, cycle) AS (
 SELECT * FROM search_graph;
 ```
 
-### Tip
-
-Omit the`ROW()`syntax in the common case where only one field needs to be checked to recognize a cycle. This allows a simple array rather than a composite-type array to be used, gaining efficiency.
+> ### 小技巧
+>
+> 在通常情況下，只需要檢查一個欄位來識別週期，就會省略 ROW\(\) 語法。這可以使用簡單的陣列而不用複合型別的陣列，從而獲得效率。
 
 ### Tip
 
