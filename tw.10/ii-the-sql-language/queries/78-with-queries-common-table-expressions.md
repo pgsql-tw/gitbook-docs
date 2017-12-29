@@ -127,11 +127,11 @@ SELECT * FROM search_graph;
 >
 > 在通常情況下，只需要檢查一個欄位來識別週期，就會省略 ROW\(\) 語法。這可以使用簡單的陣列而不用複合型別的陣列，從而獲得效率。
 
-### Tip
+> ### Tip
+>
+> 遞迴查詢評估演算法以廣度優先搜尋次序產生其輸出。你也可以按照深度優先的搜尋順序顯示結果，方法是以外部查詢 ORDER BY 「path」欄位。
 
-The recursive query evaluation algorithm produces its output in breadth-first search order. You can display the results in depth-first search order by making the outer query`ORDER BY`a“path”column constructed in this way.
-
-A helpful trick for testing queries when you are not certain if they might loop is to place a`LIMIT`in the parent query. For example, this query would loop forever without the`LIMIT`:
+當你不確定是否可能會形成循環時，測試查詢的一個有用的技巧是在父查詢中放置一個 LIMIT。例如，這個查詢沒有 LIMIT，將會無限循環：
 
 ```
 WITH RECURSIVE t(n) AS (
@@ -142,11 +142,11 @@ WITH RECURSIVE t(n) AS (
 SELECT n FROM t LIMIT 100;
 ```
 
-This works becausePostgreSQL's implementation evaluates only as many rows of a`WITH`query as are actually fetched by the parent query. Using this trick in production is not recommended, because other systems might work differently. Also, it usually won't work if you make the outer query sort the recursive query's results or join them to some other table, because in such cases the outer query will usually try to fetch all of the`WITH`query's output anyway.
+這是有效的，因為 PostgreSQL 的實作的關係，看起來像是執行一個 WITH 查詢的許多行，但實際上是由父查詢獲取的。不建議在產品階段中使用這個技巧，因為其他系統的工作方式可能不同。此外，如果你以外部查詢對遞迴查詢的結果進行排序或將它們與某個其他資料表交叉查詢，則通常不可行，因為在這種情況下，外部的查詢通常會嘗試獲取所有 WITH 查詢的輸出。
 
-A useful property of`WITH`queries is that they are evaluated only once per execution of the parent query, even if they are referred to more than once by the parent query or sibling`WITH`queries. Thus, expensive calculations that are needed in multiple places can be placed within a`WITH`query to avoid redundant work. Another possible application is to prevent unwanted multiple evaluations of functions with side-effects. However, the other side of this coin is that the optimizer is less able to push restrictions from the parent query down into a`WITH`query than an ordinary subquery. The`WITH`query will generally be evaluated as written, without suppression of rows that the parent query might discard afterwards. \(But, as mentioned above, evaluation might stop early if the reference\(s\) to the query demand only a limited number of rows.\)
+WITH 查詢的一個有用的屬性是，每次執行父查詢時，它們只被評估一次，即使它們被父查詢或兄弟的 WITH 查詢引用多次。因此，在多個地方需要昂貴的計算可以放在 WITH 查詢中以避免重複的工作。另一個可能的應用是防止不必要多重評估的副作用。然而，如同硬幣有反面一樣，查詢優化器不太可能限制從父查詢向下推入的是 WITH 查詢而不是普通的子查詢。WITH 查詢通常會按其撰寫方式進行評估，而不會抑制父查詢之後可能丟棄的資料列。（但是，如上所述，如果查詢的引用只需要有限的資料列數量，評估可能會提前結束。）
 
-The examples above only show`WITH`being used with`SELECT`, but it can be attached in the same way to`INSERT`,`UPDATE`, or`DELETE`. In each case it effectively provides temporary table\(s\) that can be referred to in the main command.
+上面的例子只說明 WITH 與 SELECT 一起使用，但是它也可以以同樣的方式附加到INSERT、UPDATE 或 DELETE。在每種情況下，它都有效地提供了可以在主查詢中可引用的臨時資料表。
 
 ### 7.8.2. Data-Modifying Statements in`WITH`
 
