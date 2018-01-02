@@ -126,7 +126,7 @@ SELECT * FROM search_graph;
 > ### 小技巧
 >
 > 在通常情況下，只需要檢查一個欄位來識別週期，就會省略 ROW\(\) 語法。這可以使用簡單的陣列而不用複合型別的陣列，從而獲得效率。
-
+>
 > ### Tip
 >
 > 遞迴查詢評估演算法以廣度優先搜尋次序產生其輸出。你也可以按照深度優先的搜尋順序顯示結果，方法是以外部查詢 ORDER BY 「path」欄位。
@@ -148,37 +148,29 @@ WITH 查詢的一個有用的屬性是，每次執行父查詢時，它們只被
 
 上面的例子只說明 WITH 與 SELECT 一起使用，但是它也可以以同樣的方式附加到INSERT、UPDATE 或 DELETE。在每種情況下，它都有效地提供了可以在主查詢中可引用的臨時資料表。
 
-### 7.8.2. Data-Modifying Statements in`WITH`
+### 7.8.2. WITH 中的資料修改語法
 
-You can use data-modifying statements \(`INSERT`,`UPDATE`, or`DELETE`\) in`WITH`. This allows you to perform several different operations in the same query. An example is:
+你可以在 WITH 中使用資料修改語法（INSERT、UPDATE 或 DELETE）。 這使你可以在同一個查詢中執行多個不同的操作。範例如下：
 
 ```
 WITH moved_rows AS (
     DELETE FROM products
-    WHERE
-        "date" 
->
-= '2010-10-01' AND
-        "date" 
-<
- '2010-11-01'
+    WHERE "date" >= '2010-10-01' AND
+          "date" < '2010-11-01'
     RETURNING *
-)
-INSERT INTO products_log
-SELECT * FROM moved_rows;
+) INSERT INTO products_log SELECT * FROM moved_rows;
 ```
 
-This query effectively moves rows from`products`to`products_log`. The`DELETE`in`WITH`deletes the specified rows from`products`, returning their contents by means of its`RETURNING`clause; and then the primary query reads that output and inserts it into`products_log`.
+這個查詢有效地將資料列從 products 搬移到products\_log。WITH 中的 DELETE 從 products 中刪除指定的資料列，透過 RETURNING 子句回傳其內容；然後主查詢讀取該輸出並將其插入到 products\_log 中。
 
-A fine point of the above example is that the`WITH`clause is attached to the`INSERT`, not the sub-`SELECT`within the`INSERT`. This is necessary because data-modifying statements are only allowed in`WITH`clauses that are attached to the top-level statement. However, normal`WITH`visibility rules apply, so it is possible to refer to the`WITH`statement's output from the sub-`SELECT`.
+上面例子的很好的一點是，WITH 子句被附加到 INSERT，而不是使用 INSERT 中的子查詢。這是必要的，因為資料修改語句只能在最上層語句的 WITH 子句中使用。但是，以一般的 WITH 變數可見性規則，可以從子查詢中引用 WITH 語句的輸出。
 
-Data-modifying statements in`WITH`usually have`RETURNING`clauses \(see[Section 6.4](https://www.postgresql.org/docs/10/static/dml-returning.html)\), as shown in the example above. It is the output of the`RETURNING`clause,\_not\_the target table of the data-modifying statement, that forms the temporary table that can be referred to by the rest of the query. If a data-modifying statement in`WITH`lacks a`RETURNING`clause, then it forms no temporary table and cannot be referred to in the rest of the query. Such a statement will be executed nonetheless. A not-particularly-useful example is:
+WITH 中的資料修改語句通常具有 RETURNING 子句（詳見[第 6.4 節](/ii-the-sql-language/data-manipulation/64-returning-data-from-modified-rows.md)），如上例所示。它是 RETURNING 子句的輸出，而不是資料修改語句的目標資料表，它構成了查詢的其餘部分可以引用的臨時資料表。如果 WITH 中的資料修改語句沒有 RETURNING 子句，則它就不構成臨時資料表，並且不能在查詢的其餘部分引用。這樣的陳述將被執行。一個不是特別有用的例子是：
 
 ```
 WITH t AS (
     DELETE FROM foo
-)
-DELETE FROM bar;
+) DELETE FROM bar;
 ```
 
 This example would remove all rows from tables`foo`and`bar`. The number of affected rows reported to the client would only include rows removed from`bar`.
