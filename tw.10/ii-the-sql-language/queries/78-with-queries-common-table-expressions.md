@@ -173,9 +173,9 @@ WITH t AS (
 ) DELETE FROM bar;
 ```
 
-This example would remove all rows from tables`foo`and`bar`. The number of affected rows reported to the client would only include rows removed from`bar`.
+這個例子將刪除 foo 和 bar 資料表中的所有資料列。報告給客戶端的受影響資料列的數量將只包括從 bar 中刪除的資料列。
 
-Recursive self-references in data-modifying statements are not allowed. In some cases it is possible to work around this limitation by referring to the output of a recursive`WITH`, for example:
+資料修改語句中的遞迴的自我引用是不被允許的。在某些情況下，可以通過引用遞迴 WITH 的輸出來解決這個限制，例如：
 
 ```
 WITH RECURSIVE included_parts(sub_part, part) AS (
@@ -189,11 +189,11 @@ DELETE FROM parts
   WHERE part IN (SELECT part FROM included_parts);
 ```
 
-This query would remove all direct and indirect subparts of a product.
+該查詢將刪除產品的所有直接和間接子部分。
 
-Data-modifying statements in`WITH`are executed exactly once, and always to completion, independently of whether the primary query reads all \(or indeed any\) of their output. Notice that this is different from the rule for`SELECT`in`WITH`: as stated in the previous section, execution of a`SELECT`is carried only as far as the primary query demands its output.
+WITH 中的資料修改語句只執行一次，並且一定會完成，與主查詢是否讀取其所有（或者甚至是任何）輸出無關。請注意，這與 SELECT 在 WITH 之中的規則不同：如前一節所述，僅在主要查詢要求其輸出的情況下執行 SELECT。
 
-The sub-statements in`WITH`are executed concurrently with each other and with the main query. Therefore, when using data-modifying statements in`WITH`, the order in which the specified updates actually happen is unpredictable. All the statements are executed with the same_snapshot_\(see[Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)\), so they cannot“see”one another's effects on the target tables. This alleviates the effects of the unpredictability of the actual order of row updates, and means that`RETURNING`data is the only way to communicate changes between different`WITH`sub-statements and the main query. An example of this is that in
+WITH 中的子語句會與主查詢平行執行。因此，在 WITH 中使用資料修改語句時，指定更新的實際發生順序是不可預知的。所有的語句都使用相同的快照執行（見[第 13 章](/ii-the-sql-language/concurrency-control.md)），所以它們不能在目標資料表上「看到」對方所產生的變更。 這減輕了資料列更新的實際順序時不可預測性的影響，並且意味著回傳資料是在不同 WITH 子語句和主查詢之間傳遞變化的唯一方式。 範例如下所示：
 
 ```
 WITH t AS (
@@ -203,7 +203,7 @@ WITH t AS (
 SELECT * FROM products;
 ```
 
-the outer`SELECT`would return the original prices before the action of the`UPDATE`, while in
+外面的 SELECT 將會在 UPDATE 的執行之前就回傳原始價格
 
 ```
 WITH t AS (
@@ -213,11 +213,11 @@ WITH t AS (
 SELECT * FROM t;
 ```
 
-the outer`SELECT`would return the updated data.
+外面的 SELECT 將會回傳更新後的資料。
 
-Trying to update the same row twice in a single statement is not supported. Only one of the modifications takes place, but it is not easy \(and sometimes not possible\) to reliably predict which one. This also applies to deleting a row that was already updated in the same statement: only the update is performed. Therefore you should generally avoid trying to modify a single row twice in a single statement. In particular avoid writing`WITH`sub-statements that could affect the same rows changed by the main statement or a sibling sub-statement. The effects of such a statement will not be predictable.
+企圖在單個語句中更新同一資料列兩次是不被允許的。只有一個修改會發生，但是要可靠地預測哪一個是不容易的（有時不可能）。 這也適用於刪除已在同一語句中更新的資料列：僅更新會被執行。因此，通常你應該避免企圖在單個語句中修改單個資料列兩次。特別注意避免在 WITH 子語句中使用可能會被主語句或其子查詢所影響的資料列。這種查詢語句的效果是不可預測的。
 
-At present, any table used as the target of a data-modifying statement in`WITH`must not have a conditional rule, nor an`ALSO`rule, nor an`INSTEAD`rule that expands to multiple statements.
+目前來說，在 WITH 中使用資料修改語句的目標資料表都不能有條件規則，也不能有 ALSO 規則，也不能有擴展為多個語句的 INSTEAD 規則。
 
 ---
 
