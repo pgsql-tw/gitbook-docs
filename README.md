@@ -10,5 +10,5 @@
 
 ---
 
-[![中文就要用中文字型](https://ycku.github.io/assets/gitbook-plugin-notocjk.svg)](https://plugins.gitbook.com/plugin/notocjk) [![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](http://postgresql.tw/island/) [![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)](http://postgresql.tw)
+[![中文就要用中文字型](https://ycku.github.io/assets/gitbook-plugin-notocjk.svg)](https://plugins.gitbook.com/plugin/notocjk) [![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](https://island.postgresql.tw) [![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)](http://postgresql.tw)
 

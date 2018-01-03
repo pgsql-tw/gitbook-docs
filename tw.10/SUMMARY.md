@@ -419,6 +419,7 @@
     * [CREATE SCHEMA](vi-reference/i-sql-commands/create-schema.md)
     * [CREATE SERVER](vi-reference/i-sql-commands/create-server.md)
     * [CREATE TABLE](vi-reference/i-sql-commands/create-table.md)
+    * [CREATE TYPE](vi-reference/i-sql-commands/create-type.md)
     * [CREATE USER MAPPING](vi-reference/i-sql-commands/create-user-mapping.md)
     * [DELETE](vi-reference/i-sql-commands/delete.md)
     * [DROP POLICY](vi-reference/i-sql-commands/drop-policy.md)
