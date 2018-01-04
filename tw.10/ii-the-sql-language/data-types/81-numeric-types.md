@@ -1,8 +1,8 @@
 # 8.1. 數字型別[^1]
 
-Numeric types consist of two-, four-, and eight-byte integers, four- and eight-byte floating-point numbers, and selectable-precision decimals.[Table 8.2](https://www.postgresql.org/docs/10/static/datatype-numeric.html#datatype-numeric-table)lists the available types.
+數字型別由兩位數，四位數和八位數整數，四位元組和八位元組的浮點數以及可調式精確度的小數組成。表格 8.2 列出了可用的類型。
 
-**Table 8.2. Numeric Types**
+**Table 8.2. Numeric Types**
 
 | Name | Storage Size | Description | Range |
 | :--- | :--- | :--- | :--- |
@@ -17,42 +17,21 @@ Numeric types consist of two-, four-, and eight-byte integers, four- and eight-b
 | `serial` | 4 bytes | autoincrementing integer | 1 to 2147483647 |
 | `bigserial` | 8 bytes | large autoincrementing integer | 1 to 9223372036854775807 |
 
-  
+[4.1.2 節](/ii-the-sql-language/sql-syntax/41-lexical-structure.md)描述了數字型別常數的語法。 數字型別有一整套相應的算術運算元和函數。有關更多訊息，請參閱第 9 章。 以下各節將詳細介紹這些型別。
 
+### 8.1.1. Integer Types（整數型別）
 
-The syntax of constants for the numeric types is described in[Section 4.1.2](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-constants). The numeric types have a full set of corresponding arithmetic operators and functions. Refer to[Chapter 9](https://www.postgresql.org/docs/10/static/functions.html)for more information. The following sections describe the types in detail.
+smallint、integer 和 bigint 型別儲存整數，即不包含小數部分的各種範圍的數字。嘗試儲存在允許的範圍之外的數值將會導致錯誤。
 
-### 8.1.1. Integer Types
+「integer」型別是常見的選擇，因為它提供了數值範圍、儲存空間及效能之間的最佳平衡。「smallint」 列別通常只在磁碟空間不足的情況下使用。「bigint」 型別被設計用於整數型別的範圍不足時。
 
+SQL僅指定整數型別 integer（或 int）、smallint 和 bigint。 型別名稱 int2、int4 和 int8 則是延伸型別，也有一些其他 SQL 資料庫系統使用。
 
-
-
-
-
-
-
-
-
-
-
-
-The types`smallint`,`integer`, and`bigint`store whole numbers, that is, numbers without fractional components, of various ranges. Attempts to store values outside of the allowed range will result in an error.
-
-The type`integer`is the common choice, as it offers the best balance between range, storage size, and performance. The`smallint`type is generally only used if disk space is at a premium. The`bigint`type is designed to be used when the range of the`integer`type is insufficient.
-
-SQLonly specifies the integer types`integer`\(or`int`\),`smallint`, and`bigint`. The type names`int2`,`int4`, and`int8`are extensions, which are also used by some otherSQLdatabase systems.
-
-### 8.1.2. Arbitrary Precision Numbers
-
-
-
-
-
-
+### 8.1.2. Arbitrary Precision Numbers
 
 The type`numeric`can store numbers with a very large number of digits. It is especially recommended for storing monetary amounts and other quantities where exactness is required. Calculations with`numeric`values yield exact results where possible, e.g. addition, subtraction, multiplication. However, calculations on`numeric`values are very slow compared to the integer types, or to the floating-point types described in the next section.
 
-We use the following terms below: The_scale_of a`numeric`is the count of decimal digits in the fractional part, to the right of the decimal point. The_precision_of a`numeric`is the total count of significant digits in the whole number, that is, the number of digits to both sides of the decimal point. So the number 23.5141 has a precision of 6 and a scale of 4. Integers can be considered to have a scale of zero.
+We use the following terms below: The\_scale\_of a`numeric`is the count of decimal digits in the fractional part, to the right of the decimal point. The\_precision\_of a`numeric`is the total count of significant digits in the whole number, that is, the number of digits to both sides of the decimal point. So the number 23.5141 has a precision of 6 and a scale of 4. Integers can be considered to have a scale of zero.
 
 Both the maximum precision and the maximum scale of a`numeric`column can be configured. To declare a column of type`numeric`use the syntax:
 
@@ -62,7 +41,6 @@ precision
 , 
 scale
 )
-
 ```
 
 The precision must be positive, the scale zero or positive. Alternatively:
@@ -71,29 +49,23 @@ The precision must be positive, the scale zero or positive. Alternatively:
 NUMERIC(
 precision
 )
-
 ```
 
 selects a scale of 0. Specifying:
 
 ```
 NUMERIC
-
 ```
 
 without any precision or scale creates a column in which numeric values of any precision and scale can be stored, up to the implementation limit on precision. A column of this kind will not coerce input values to any particular scale, whereas`numeric`columns with a declared scale will coerce input values to that scale. \(TheSQLstandard requires a default scale of 0, i.e., coercion to integer precision. We find this a bit useless. If you're concerned about portability, always specify the precision and scale explicitly.\)
 
 ### Note
 
-The maximum allowed precision when explicitly specified in the type declaration is 1000;`NUMERIC`without a specified precision is subject to the limits described in[Table 8.2](https://www.postgresql.org/docs/10/static/datatype-numeric.html#datatype-numeric-table).
+The maximum allowed precision when explicitly specified in the type declaration is 1000;`NUMERIC`without a specified precision is subject to the limits described in[Table 8.2](https://www.postgresql.org/docs/10/static/datatype-numeric.html#datatype-numeric-table).
 
 If the scale of a value to be stored is greater than the declared scale of the column, the system will round the value to the specified number of fractional digits. Then, if the number of digits to the left of the decimal point exceeds the declared precision minus the declared scale, an error is raised.
 
-Numeric values are physically stored without any extra leading or trailing zeroes. Thus, the declared precision and scale of a column are maximums, not fixed allocations. \(In this sense the`numeric`type is more akin to`varchar(`_`n`_\)than to`char(`_`n`_\).\) The actual storage requirement is two bytes for each group of four decimal digits, plus three to eight bytes overhead.
-
-
-
-
+Numeric values are physically stored without any extra leading or trailing zeroes. Thus, the declared precision and scale of a column are maximums, not fixed allocations. \(In this sense the`numeric`type is more akin to`varchar(n`\)than to`char(n`\).\) The actual storage requirement is two bytes for each group of four decimal digits, plus three to eight bytes overhead.
 
 In addition to ordinary numeric values, the`numeric`type allows the special value`NaN`, meaning“not-a-number”. Any operation on`NaN`yields another`NaN`. When writing this value as a constant in an SQL command, you must put quotes around it, for example`UPDATE table SET x = 'NaN'`. On input, the string`NaN`is recognized in a case-insensitive manner.
 
@@ -121,20 +93,9 @@ FROM generate_series(-3.5, 3.5, 1) as x;
   2.5 |         3 |         2
   3.5 |         4 |         4
 (8 rows)
-
 ```
 
-### 8.1.3. Floating-Point Types
-
-
-
-
-
-
-
-
-
-
+### 8.1.3. Floating-Point Types
 
 The data types`real`and`double precision`are inexact, variable-precision numeric types. In practice, these types are usually implementations ofIEEEStandard 754 for Binary Floating-Point Arithmetic \(single and double precision, respectively\), to the extent that the underlying processor, operating system, and compiler support it.
 
@@ -152,8 +113,6 @@ On most platforms, the`real`type has a range of at least 1E-37 to 1E+37 with a p
 
 The[extra\_float\_digits](https://www.postgresql.org/docs/10/static/runtime-config-client.html#guc-extra-float-digits)setting controls the number of extra significant digits included when a floating point value is converted to text for output. With the default value of`0`, the output is the same on every platform supported by PostgreSQL. Increasing it will produce output that more accurately represents the stored value, but may be unportable.
 
-
-
 In addition to ordinary numeric values, the floating-point types have several special values:
 
 `Infinity`  
@@ -166,29 +125,13 @@ These represent the IEEE 754 special values“infinity”,“negative infinity�
 
 IEEE754 specifies that`NaN`should not compare equal to any other floating-point value \(including`NaN`\). In order to allow floating-point values to be sorted and used in tree-based indexes,PostgreSQLtreats`NaN`values as equal, and greater than all non-`NaN`values.
 
-PostgreSQLalso supports the SQL-standard notations`float`and`float(`_`p`_\)for specifying inexact numeric types. Here,_`p`_specifies the minimum acceptable precision in_binary_digits.PostgreSQLaccepts`float(1)`to`float(24)`as selecting the`real`type, while`float(25)`to`float(53)`select`double precision`. Values of_`p`_outside the allowed range draw an error.`float`with no precision specified is taken to mean`double precision`.
+PostgreSQLalso supports the SQL-standard notations`float`and`float(p`\)for specifying inexact numeric types. Here,`p`_\_specifies the minimum acceptable precision in\_binary\_digits.PostgreSQLaccepts_`float(1)`_to_`float(24)`_as selecting the_`real`_type, while_`float(25)`_to_`float(53)`_select_`double precision`_. Values of_`p`\_outside the allowed range draw an error.`float`with no precision specified is taken to mean`double precision`.
 
 ### Note
 
-The assumption that`real`and`double precision`have exactly 24 and 53 bits in the mantissa respectively is correct for IEEE-standard floating point implementations. On non-IEEE platforms it might be off a little, but for simplicity the same ranges of_`p`_are used on all platforms.
+The assumption that`real`and`double precision`have exactly 24 and 53 bits in the mantissa respectively is correct for IEEE-standard floating point implementations. On non-IEEE platforms it might be off a little, but for simplicity the same ranges of\_`p`\_are used on all platforms.
 
-### 8.1.4. Serial Types
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### 8.1.4. Serial Types
 
 The data types`smallserial`,`serial`and`bigserial`are not true types, but merely a notational convenience for creating unique identifier columns \(similar to the`AUTO_INCREMENT`property supported by some other databases\). In the current implementation, specifying:
 
@@ -196,11 +139,10 @@ The data types`smallserial`,`serial`and`bigserial`are not true types, but merely
 CREATE TABLE 
 tablename
  (
-    
+
 colname
  SERIAL
 );
-
 ```
 
 is equivalent to specifying:
@@ -214,7 +156,7 @@ _seq;
 CREATE TABLE 
 tablename
  (
-    
+
 colname
  integer NOT NULL DEFAULT nextval('
 tablename
@@ -231,14 +173,13 @@ tablename
 .
 colname
 ;
-
 ```
 
 Thus, we have created an integer column and arranged for its default values to be assigned from a sequence generator. A`NOT NULL`constraint is applied to ensure that a null value cannot be inserted. \(In most cases you would also want to attach a`UNIQUE`or`PRIMARY KEY`constraint to prevent duplicate values from being inserted by accident, but this is not automatic.\) Lastly, the sequence is marked as“owned by”the column, so that it will be dropped if the column or table is dropped.
 
 ### Note
 
-Because`smallserial`,`serial`and`bigserial`are implemented using sequences, there may be "holes" or gaps in the sequence of values which appears in the column, even if no rows are ever deleted. A value allocated from the sequence is still "used up" even if a row containing that value is never successfully inserted into the table column. This may happen, for example, if the inserting transaction rolls back. See`nextval()`in[Section 9.16](https://www.postgresql.org/docs/10/static/functions-sequence.html)for details.
+Because`smallserial`,`serial`and`bigserial`are implemented using sequences, there may be "holes" or gaps in the sequence of values which appears in the column, even if no rows are ever deleted. A value allocated from the sequence is still "used up" even if a row containing that value is never successfully inserted into the table column. This may happen, for example, if the inserting transaction rolls back. See`nextval()`in[Section 9.16](https://www.postgresql.org/docs/10/static/functions-sequence.html)for details.
 
 To insert the next value of the sequence into the`serial`column, specify that the`serial`column should be assigned its default value. This can be done either by excluding the column from the list of columns in the`INSERT`statement, or through the use of the`DEFAULT`key word.
 
@@ -248,7 +189,5 @@ The sequence created for a`serial`column is automatically dropped when the ownin
 
 ---
 
-
-
-[^1]: [PostgreSQL: Documentation: 10: 8.1. Numeric Types](https://www.postgresql.org/docs/10/static/datatype-numeric.html)
+[^1]: [PostgreSQL: Documentation: 10: 8.1. Numeric Types](https://www.postgresql.org/docs/10/static/datatype-numeric.html)
 
