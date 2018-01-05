@@ -29,39 +29,33 @@ SQL僅指定整數型別 integer（或 int）、smallint 和 bigint。 型別名
 
 ### 8.1.2. Arbitrary Precision Numbers
 
-The type`numeric`can store numbers with a very large number of digits. It is especially recommended for storing monetary amounts and other quantities where exactness is required. Calculations with`numeric`values yield exact results where possible, e.g. addition, subtraction, multiplication. However, calculations on`numeric`values are very slow compared to the integer types, or to the floating-point types described in the next section.
+數字型別可以儲存很多位數的數字。特別建議使用在要求正確性的地方，像是儲存貨幣金額或其他數量。使用數值的計算在可能需要的情況下得到確切的結果，例如 加法、減法、乘法。但是，與整數型別或下一節中介紹的浮點型別相比，對數值的計算速度非常緩慢。
 
-We use the following terms below: The\_scale\_of a`numeric`is the count of decimal digits in the fractional part, to the right of the decimal point. The\_precision\_of a`numeric`is the total count of significant digits in the whole number, that is, the number of digits to both sides of the decimal point. So the number 23.5141 has a precision of 6 and a scale of 4. Integers can be considered to have a scale of zero.
+我們使用下面的術語：數字的「scale」是小數點右邊的小數部分，也就是小數的位數。數字的「precision」是整數中有效位數的總數，即小數點兩邊的位數總合。所以 23.5141 的 precision 是 6，scale 是 4。整數可以被認為是 scale 為 0。
 
-Both the maximum precision and the maximum scale of a`numeric`column can be configured. To declare a column of type`numeric`use the syntax:
-
-```
-NUMERIC(
-precision
-, 
-scale
-)
-```
-
-The precision must be positive, the scale zero or positive. Alternatively:
+可以配置數字欄位的最大 precision 和最大 scale。要宣告數字型別的欄位，請使用以下語法：
 
 ```
-NUMERIC(
-precision
-)
+NUMERIC(precision, scale)
 ```
 
-selects a scale of 0. Specifying:
+precision 必須是正值，scale 為零或正值。或是：
+
+```
+NUMERIC(precision)
+```
+
+選擇 0 為 scale。這樣使用：
 
 ```
 NUMERIC
 ```
 
-without any precision or scale creates a column in which numeric values of any precision and scale can be stored, up to the implementation limit on precision. A column of this kind will not coerce input values to any particular scale, whereas`numeric`columns with a declared scale will coerce input values to that scale. \(TheSQLstandard requires a default scale of 0, i.e., coercion to integer precision. We find this a bit useless. If you're concerned about portability, always specify the precision and scale explicitly.\)
+沒有任何 precision 或 scale 的話，就會建立一個欄位，其欄位中可以儲存任何 precision 和 scale 的數字值，直到達到 precision 的極限。這種型別的欄位不會將輸入值強制轉為任何特定的 scale，其中具有聲明比例的數字欄位會將輸入值強制為該 scale。 （SQL 標準需要預設 scale 為 0，即強制為整數精度，我們發現這樣做有點無用。如果你擔心可移植性，請務必明確指定 precision 和 scale。
 
-### Note
-
-The maximum allowed precision when explicitly specified in the type declaration is 1000;`NUMERIC`without a specified precision is subject to the limits described in[Table 8.2](https://www.postgresql.org/docs/10/static/datatype-numeric.html#datatype-numeric-table).
+> ### 注意
+>
+> 在型別宣告中明確指定時允許的最大 precision 為 1000；沒有指定 precision 的NUMERIC 為 Table 8.2 中所述的限制。
 
 If the scale of a value to be stored is greater than the declared scale of the column, the system will round the value to the specified number of fractional digits. Then, if the number of digits to the left of the decimal point exceeds the declared precision minus the declared scale, an error is raised.
 
