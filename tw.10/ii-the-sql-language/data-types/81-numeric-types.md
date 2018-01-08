@@ -57,19 +57,19 @@ NUMERIC
 >
 > 在型別宣告中明確指定時允許的最大 precision 為 1000；沒有指定 precision 的NUMERIC 為 Table 8.2 中所述的限制。
 
-If the scale of a value to be stored is greater than the declared scale of the column, the system will round the value to the specified number of fractional digits. Then, if the number of digits to the left of the decimal point exceeds the declared precision minus the declared scale, an error is raised.
+如果要儲存的小數位數大於欄位所宣告的 scale，則係統會將值四捨五入到宣告所指定的小數位數。然後，如果小數點左邊的位數超過宣告的 precise 減去聲明的 scale 的話，則會產生錯誤。
 
-Numeric values are physically stored without any extra leading or trailing zeroes. Thus, the declared precision and scale of a column are maximums, not fixed allocations. \(In this sense the`numeric`type is more akin to`varchar(n`\)than to`char(n`\).\) The actual storage requirement is two bytes for each group of four decimal digits, plus three to eight bytes overhead.
+數字內容的實體儲存不會有任何額外的前導位數或補零。因此，欄位宣告的 precise 和 scale 是最大值，而不是固定的分配。（在這個意義上，數字型別更像是 varchar\(n\) 而不是 char\(n\)。） 實際儲存的要求是每四個十進制數字組加兩個位元組，再加上三到八個位元組的額外配置。
 
-In addition to ordinary numeric values, the`numeric`type allows the special value`NaN`, meaning“not-a-number”. Any operation on`NaN`yields another`NaN`. When writing this value as a constant in an SQL command, you must put quotes around it, for example`UPDATE table SET x = 'NaN'`. On input, the string`NaN`is recognized in a case-insensitive manner.
+除了普通的數值之外，數字型別還允許特殊值 NaN，意思是「不是一個數字」。 NaN 的任何操作都會產生另一個 NaN。在 SQL 指令中將此值作為常數寫入時，必須在其中使用單引號，例如 UPDATE table SET x = 'NaN'。 在輸入時，字串 NaN 識別是不區分大小寫的。
 
-### Note
+> ### 注意
+>
+> 「非數字」的概念在大多數實作中，NaN 不被視為等於任何其他數值（包括 NaN）。為了允許數值在樹狀索引中排序和使用，PostgreSQL 將 NaN 值視為相等或大於所有的非 NaN 值。
 
-In most implementations of the“not-a-number”concept,`NaN`is not considered equal to any other numeric value \(including`NaN`\). In order to allow`numeric`values to be sorted and used in tree-based indexes,PostgreSQLtreats`NaN`values as equal, and greater than all non-`NaN`values.
+decimal 和 numeric 的型別是相同的。 這兩種型別都是 SQL 標準的一部分。
 
-The types`decimal`and`numeric`are equivalent. Both types are part of theSQLstandard.
-
-When rounding values, the`numeric`type rounds ties away from zero, while \(on most machines\) the`real`and`double precision`types round ties to the nearest even number. For example:
+當需要四捨五入時，數字型別會往離零較遠的值調整，而（在大多數機器上）實數和雙精度型別會調整到最接近的偶數。 例如：
 
 ```
 SELECT x,
