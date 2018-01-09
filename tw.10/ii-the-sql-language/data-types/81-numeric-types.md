@@ -127,59 +127,39 @@ PostgreSQL 也支援 SQL 標準的 float 和 float\(p\) 來表示非精確的數
 
 ### 8.1.4. Serial Types
 
-The data types`smallserial`,`serial`and`bigserial`are not true types, but merely a notational convenience for creating unique identifier columns \(similar to the`AUTO_INCREMENT`property supported by some other databases\). In the current implementation, specifying:
+> ### 注意
+>
+> 本節介紹的是 PostgreSQL 專屬建立自動增量（auto-incrementing）欄位的方式。另一種方式是使用 [CREATE TABLE](/vi-reference/i-sql-commands/create-table.md) 中描述的 SQL 標準識別欄位功能。
+
+資料型別 smallserial、serial 和 bigserial 都不是真正的型別，而僅僅是建立唯一識別欄位（類似於某些其他資料庫所支援的 AUTO\_INCREMENT 屬性）的方便型別語法。以目前的實作方式，請使用：
 
 ```
-CREATE TABLE 
-tablename
- (
-
-colname
- SERIAL
+CREATE TABLE tablename (
+   colname SERIAL
 );
 ```
 
-is equivalent to specifying:
+相當於以下的指令：
 
 ```
-CREATE SEQUENCE 
-tablename
-_
-colname
-_seq;
-CREATE TABLE 
-tablename
- (
-
-colname
- integer NOT NULL DEFAULT nextval('
-tablename
-_
-colname
-_seq')
+CREATE SEQUENCE tablename_colname_seq;
+CREATE TABLE tablename (
+   colname integer NOT NULL DEFAULT nextval('tablename_colname_seq')
 );
-ALTER SEQUENCE 
-tablename
-_
-colname
-_seq OWNED BY 
-tablename
-.
-colname
-;
+ALTER SEQUENCE tablename_colname_seq OWNED BY tablename.colname;
 ```
 
-Thus, we have created an integer column and arranged for its default values to be assigned from a sequence generator. A`NOT NULL`constraint is applied to ensure that a null value cannot be inserted. \(In most cases you would also want to attach a`UNIQUE`or`PRIMARY KEY`constraint to prevent duplicate values from being inserted by accident, but this is not automatic.\) Lastly, the sequence is marked as“owned by”the column, so that it will be dropped if the column or table is dropped.
+因此，我們建立了一個整數欄位，並將其預設值設定為序列數字產生器。使用 NOT NULL 限制條件來確保無法插入空值。（在大多數情況下，你還需要附加一個 UNIQUE 或 PRIMARY KEY 限制條件來防止偶然插入重複值，但這不是自動的。） 最後，這個序列被標記為「owned by」欄位，以便在欄位或資料表被刪除時一併被刪除。
 
-### Note
+> ### 注意
+>
+> smallserial、serial 和 bigserial，被實作來實現序列數字，即使沒有資料列被刪除，在欄位中出現的值在序列中仍可能會有「漏洞」或缺口。即使包含該值的資料列從未成功插入資料表中，從序列中分配的值仍然會用完。例如，如果資料插入的交易回溯了，則可能發生這種情況。有關詳細訊息，請參閱第 9.16 節中的 nextval\(\)。
 
-Because`smallserial`,`serial`and`bigserial`are implemented using sequences, there may be "holes" or gaps in the sequence of values which appears in the column, even if no rows are ever deleted. A value allocated from the sequence is still "used up" even if a row containing that value is never successfully inserted into the table column. This may happen, for example, if the inserting transaction rolls back. See`nextval()`in[Section 9.16](https://www.postgresql.org/docs/10/static/functions-sequence.html)for details.
+要將序列的下一個值插入到序列欄位中，請指定序列欄位應被分配其預設值。這可以透過從 INSERT 語句中欄位列表中排除欄位或使用DEFAULT關鍵字來完成。
 
-To insert the next value of the sequence into the`serial`column, specify that the`serial`column should be assigned its default value. This can be done either by excluding the column from the list of columns in the`INSERT`statement, or through the use of the`DEFAULT`key word.
+型別名稱 serial 和 serial4 是等價的：都是建立整數（integer）欄位。型別名稱 bigserial 和 serial8 也以相同的方式作用，差別是他們建立一個 bigint 的欄位。如果你預期在資料表的整個生命週期中使用超過 2^31 個標識符，則應使用 bigserial。型別名稱 smallserial 和 serial2 也是以相同的，而除了它們是建立一個 smallint 欄位。
 
-The type names`serial`and`serial4`are equivalent: both create`integer`columns. The type names`bigserial`and`serial8`work the same way, except that they create a`bigint`column.`bigserial`should be used if you anticipate the use of more than 231identifiers over the lifetime of the table. The type names`smallserial`and`serial2`also work the same way, except that they create a`smallint`column.
-
-The sequence created for a`serial`column is automatically dropped when the owning column is dropped. You can drop the sequence without dropping the column, but this will force removal of the column default expression.
+當擁有的欄位被刪除時，為序列欄位創建的序列也將自動刪除。但你可以刪除序列而不刪除欄位，這會強制刪除欄位的預設表示式。
 
 ---
 
