@@ -153,7 +153,7 @@ ALTER SEQUENCE tablename_colname_seq OWNED BY tablename.colname;
 
 > ### 注意
 >
-> smallserial、serial 和 bigserial，被實作來實現序列數字，即使沒有資料列被刪除，在欄位中出現的值在序列中仍可能會有「漏洞」或缺口。即使包含該值的資料列從未成功插入資料表中，從序列中分配的值仍然會用完。例如，如果資料插入的交易回溯了，則可能發生這種情況。有關詳細訊息，請參閱第 9.16 節中的 nextval\(\)。
+> smallserial、serial 和 bigserial，被實作來實現序列數字，即使沒有資料列被刪除，在欄位中出現的值在序列中仍可能會有「漏洞」或缺口。即使包含該值的資料列從未成功插入資料表中，從序列中分配的值仍然會用完。例如，如果資料插入的交易回溯了，則可能發生這種情況。有關詳細訊息，請參閱[第 9.16 節](/ii-the-sql-language/functions-and-operators/916-sequence-manipulation-functions.md)中的 nextval\(\)。
 
 要將序列的下一個值插入到序列欄位中，請指定序列欄位應被分配其預設值。這可以透過從 INSERT 語句中欄位列表中排除欄位或使用DEFAULT關鍵字來完成。
 
