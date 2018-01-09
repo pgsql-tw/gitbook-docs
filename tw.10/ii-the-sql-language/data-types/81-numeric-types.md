@@ -27,7 +27,7 @@ smallint、integer 和 bigint 型別儲存整數，即不包含小數部分的�
 
 SQL僅指定整數型別 integer（或 int）、smallint 和 bigint。 型別名稱 int2、int4 和 int8 則是延伸型別，也有一些其他 SQL 資料庫系統使用。
 
-### 8.1.2. Arbitrary Precision Numbers
+### 8.1.2. 可調式精確度數值型別（NUMERIC Type）
 
 數字型別可以儲存很多位數的數字。特別建議使用在要求正確性的地方，像是儲存貨幣金額或其他數量。使用數值的計算在可能需要的情況下得到確切的結果，例如 加法、減法、乘法。但是，與整數型別或下一節中介紹的浮點型別相比，對數值的計算速度非常緩慢。
 
@@ -89,41 +89,41 @@ FROM generate_series(-3.5, 3.5, 1) as x;
 (8 rows)
 ```
 
-### 8.1.3. Floating-Point Types
+### 8.1.3. 浮點數型別（Floating-Point Types）
 
-The data types`real`and`double precision`are inexact, variable-precision numeric types. In practice, these types are usually implementations ofIEEEStandard 754 for Binary Floating-Point Arithmetic \(single and double precision, respectively\), to the extent that the underlying processor, operating system, and compiler support it.
+資料型別中 real 和 double 是非精確的、可變精確度的數字型別。在實務上，這些型別通常是針對二進制浮點數運算（分別為單精度和雙精度）的IEEE 754標準的實作，需要底層的中央處理器、作業系統和編譯器支持。
 
-Inexact means that some values cannot be converted exactly to the internal format and are stored as approximations, so that storing and retrieving a value might show slight discrepancies. Managing these errors and how they propagate through calculations is the subject of an entire branch of mathematics and computer science and will not be discussed here, except for the following points:
+非精確意味著某些值不能完全轉換為內部格式，並以近似值儲存，因此儲存和檢索值可能會表現出輕微的差異。管理這些誤差以及它們如何計算傳遞是數學和計算機科學分支的主題，除了以下幾點之外，這裡不再討論：
 
-* If you require exact storage and calculations \(such as for monetary amounts\), use the`numeric`type instead.
+* 如果你需要精確的儲存和計算（例如貨幣金額），請改為使用 numeric 型別。
 
-* If you want to do complicated calculations with these types for anything important, especially if you rely on certain behavior in boundary cases \(infinity, underflow\), you should evaluate the implementation carefully.
+* 如果你想對這些型別做任何重要的複雜計算，特別是如果你依賴邊界情況下的某些行為（極大極小值或超過上下限），你應該仔細評估實作方式。
 
-* Comparing two floating-point values for equality might not always work as expected.
+* 比較兩個相等的浮點數值可能並不總是按預期中直覺的方式運作。
 
-On most platforms, the`real`type has a range of at least 1E-37 to 1E+37 with a precision of at least 6 decimal digits. The`double precision`type typically has a range of around 1E-307 to 1E+308 with a precision of at least 15 digits. Values that are too large or too small will cause an error. Rounding might take place if the precision of an input number is too high. Numbers too close to zero that are not representable as distinct from zero will cause an underflow error.
+在大多數平台上，real 型別的範圍至少為 1E-37 至 1E + 37，精確度至少為 6 位數十進制數字。double 型別的範圍通常在 1E-307 至 1E + 308 之間，精確度至少為 15 位數。數值太大或太小都會導致錯誤。如果輸入數字的精確度太高，四捨五入的情況則可能會發生。數字太接近於零，卻不能表示為零的話，將導致 underflow 超過下限的錯誤。
 
-### Note
+> ### 注意
+>
+> [extra\_float\_digits](/iii-server-administration/server-configuration/1911-client-connection-defaults.md) 參數設定控制浮點數轉換為文字輸出時所包含的額外有效位數。使用預設值 0 時，PostgreSQL 支援的每個平台上的輸出都是相同的。增加它的話，能更精確地輸出儲存值，但可能在不同平台間是不同的結果。
 
-The[extra\_float\_digits](https://www.postgresql.org/docs/10/static/runtime-config-client.html#guc-extra-float-digits)setting controls the number of extra significant digits included when a floating point value is converted to text for output. With the default value of`0`, the output is the same on every platform supported by PostgreSQL. Increasing it will produce output that more accurately represents the stored value, but may be unportable.
-
-In addition to ordinary numeric values, the floating-point types have several special values:
+除了普通的數值之外，浮點型別還有幾個特殊的值：
 
 `Infinity`  
 `-Infinity`  
 `NaN`
 
-These represent the IEEE 754 special values“infinity”,“negative infinity”, and“not-a-number”, respectively. \(On a machine whose floating-point arithmetic does not follow IEEE 754, these values will probably not work as expected.\) When writing these values as constants in an SQL command, you must put quotes around them, for example`UPDATE table SET x = '-Infinity'`. On input, these strings are recognized in a case-insensitive manner.
+這些分別代表 IEEE 754 特殊值「無限大」、「負無限大」和「非數字」。（在浮點數計算不符合 IEEE 754 標準的機器上，這些值可能無法如期運作。）在 SQL 指令中將這些值作為常數寫入時，必須在其放入單引號中，例如 UPDATE table SET x = '-Infinity'。 在輸入時，這些字串識別是不區分大小寫的。
 
-### Note
+> ### 注意
+>
+> IEEE 754 規定 NaN 不應與任何其他浮點數值（包括NaN）相等。為了允許浮點值在樹狀索引中排序和使用，PostgreSQL 將 NaN 視為相等或大於所有非 NaN 的數值。
 
-IEEE754 specifies that`NaN`should not compare equal to any other floating-point value \(including`NaN`\). In order to allow floating-point values to be sorted and used in tree-based indexes,PostgreSQLtreats`NaN`values as equal, and greater than all non-`NaN`values.
+PostgreSQL 也支援 SQL 標準的 float 和 float\(p\) 來表示非精確的數字型別。這裡，p 指的是二進位數字的最小可接受的精確度。PostgreSQL 接受 float\(1\) 到 float\(24\) 選擇視為 real 型別，而 float\(25\) 到 float\(53\) 則視為 double。p 超出允許範圍的話會產生錯誤。沒有指定精確度的浮點數意味著 double。
 
-PostgreSQLalso supports the SQL-standard notations`float`and`float(p`\)for specifying inexact numeric types. Here,`p`_\_specifies the minimum acceptable precision in\_binary\_digits.PostgreSQLaccepts_`float(1)`_to_`float(24)`_as selecting the_`real`_type, while_`float(25)`_to_`float(53)`_select_`double precision`_. Values of_`p`\_outside the allowed range draw an error.`float`with no precision specified is taken to mean`double precision`.
-
-### Note
-
-The assumption that`real`and`double precision`have exactly 24 and 53 bits in the mantissa respectively is correct for IEEE-standard floating point implementations. On non-IEEE platforms it might be off a little, but for simplicity the same ranges of\_`p`\_are used on all platforms.
+> ### 注意
+>
+> 假設 real 和 double 的尾數分別為 24 位和 53 位，以 IEEE 標準浮點數實作而言是正確的。在非 IEEE 平台上，它可能會有一些小問題，但為了簡單起見，最好在所有平台上都使用相同的 p 範圍。
 
 ### 8.1.4. Serial Types
 
