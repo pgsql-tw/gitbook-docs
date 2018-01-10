@@ -1,84 +1,61 @@
 # ALTER POLICY[^1]
 
-ALTER POLICY — change the definition of a row level security policy
+ALTER POLICY — 變更資料列等級的安全原則定義
 
-## Synopsis
-
-```
-ALTER POLICY 
-name
- ON 
-table_name
- RENAME TO 
-new_name
-
-
-ALTER POLICY 
-name
- ON 
-table_name
-
-    [ TO { 
-role_name
- | PUBLIC | CURRENT_USER | SESSION_USER } [, ...] ]
-    [ USING ( 
-using_expression
- ) ]
-    [ WITH CHECK ( 
-check_expression
- ) ]
+## 語法
 
 ```
+ALTER POLICY name ON table_name RENAME TO new_name
 
-## Description
+ALTER POLICY name ON table_name
+    [ TO { role_name | PUBLIC | CURRENT_USER | SESSION_USER } [, ...] ]
+    [ USING ( using_expression ) ]
+    [ WITH CHECK ( check_expression ) ]
+```
 
-`ALTER POLICY`changes the definition of an existing row-level security policy. Note that`ALTER POLICY`only allows the set of roles to which the policy applies and the`USING`and`WITH CHECK`expressions to be modified. To change other properties of a policy, such as the command to which it applies or whether it is permissive or restrictive, the policy must be dropped and recreated.
+## 描述
 
-To use`ALTER POLICY`, you must own the table that the policy applies to.
+ALTER POLICY 用於變更現有資料列層級安全原則的定義。請注意，ALTER POLICY 只允許修改安全原則所適用的使用者們以及調整 USING 和 WITH CHECK 表示式。要更改安全原則的其他屬性，例如原則適用的指令，或者允許及限制原則，則必須刪除並重新建立安全原則。
 
-In the second form of`ALTER POLICY`, the role list,_`using_expression`_, and_`check_expression`_are replaced independently if specified. When one of those clauses is omitted, the corresponding part of the policy is unchanged.
+要使用 ALTER POLICY 的話，你必須擁有該安全原則適用的資料表。
 
-## Parameters
+在 ALTER POLICY 的第二種形式中，指定的使用者角色列表、表示式和檢查表示式，將會被獨立替換。當其中一個子句被省略時，其原則相對應部分就不會改變。
 
-_`name`_
+## 參數
 
-The name of an existing policy to alter.
+`name`
 
-_`table_name`_
+變更現有原則的名稱。
 
-The name \(optionally schema-qualified\) of the table that the policy is on.
+`table_name`
 
-_`new_name`_
+該原則所在的資料表名稱（可以加上 schema ）。
 
-The new name for the policy.
+`new_name`
 
-_`role_name`_
+原則的新名稱。
 
-The role\(s\) to which the policy applies. Multiple roles can be specified at one time. To apply the policy to all roles, use`PUBLIC`.
+`role_name`
 
-_`using_expression`_
+原則所適用的使用者角色。可以同時指定多個角色。要將原則應用於所有角色，請使用 PUBLIC。
 
-The`USING`expression for the policy. See[CREATE POLICY](https://www.postgresql.org/docs/devel/static/sql-createpolicy.html)for details.
+`using_expression`
 
-_`check_expression`_
+原則的 USING 表示式。 有關詳細訊息，請參閱 [CREATE POLICY](/vi-reference/i-sql-commands/create-policy.md)。
 
-The`WITH CHECK`expression for the policy. See[CREATE POLICY](https://www.postgresql.org/docs/devel/static/sql-createpolicy.html)for details.
+`check_expression`
 
-## Compatibility
+原則的 WITH CHECK 表示式。有關詳細訊息，請參閱 [CREATE POLICY](/vi-reference/i-sql-commands/create-policy.md)。
 
-`ALTER POLICY`is aPostgreSQLextension.
+## 相容性
 
-## See Also
+ALTER POLICY 是 PostgreSQL 所延伸支援的指令。
 
-[CREATE POLICY](https://www.postgresql.org/docs/devel/static/sql-createpolicy.html)
+## 相關資訊
 
-,
-
-[DROP POLICY](https://www.postgresql.org/docs/devel/static/sql-droppolicy.html)
+[CREATE POLICY](/vi-reference/i-sql-commands/create-policy.md), [DROP POLICY](/vi-reference/i-sql-commands/drop-policy.md)
 
 ---
 
-
-
-[^1]:  [PostgreSQL: Documentation: devel: ALTER POLICY](https://www.postgresql.org/docs/devel/static/sql-alterpolicy.html)
+[^1]:  [PostgreSQL: Documentation: 10: ALTER POLICY](https://www.postgresql.org/docs/10/static/sql-alterpolicy.html)
 
