@@ -22,17 +22,11 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 有關 schema 處理的更多訊息，請參見第 [5.8 節](/ii-the-sql-language/data-definition/58-schemas.md)。
 
-`row_security`
+`row_security`\(`boolean`\)
 
-\(
+此參數控制在資料列安全原則檢查時是否進行錯誤中斷。設定為 on 時，安全原則以正常方式運作。當設定為 off 時，除非查詢失敗，否則會至少符合一個原則。 預設值為 on。變更為 off 時，將會限制資料列的可視性，而可能造成不正確的結果；例如，pg\_dump 就會變更其預設值。此參數對於可以繞過每個安全原則的角色，也就是對具有 BYPASSRLS 屬性的超級使用者和角色都不會產生影響。
 
-`boolean`
-
-\)
-
-This variable controls whether to raise an error in lieu of applying a row security policy. When set to`on`, policies apply normally. When set to`off`, queries fail which would otherwise apply at least one policy. The default is`on`. Change to`off`where limited row visibility could cause incorrect results; for example,pg\_dumpmakes that change by default. This variable has no effect on roles which bypass every row security policy, to wit, superusers and roles with the`BYPASSRLS`attribute.
-
-For more information on row security policies, see[CREATE POLICY](https://www.postgresql.org/docs/10/static/sql-createpolicy.html).
+有關於資料列安全原則的更多訊息，請參閱 [CREATE POLICY](/vi-reference/i-sql-commands/create-policy.md)。
 
 `default_tablespace`
 
