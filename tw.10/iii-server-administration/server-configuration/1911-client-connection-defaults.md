@@ -28,23 +28,17 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 有關於資料列安全原則的更多訊息，請參閱 [CREATE POLICY](/vi-reference/i-sql-commands/create-policy.md)。
 
-`default_tablespace`
+`default_tablespace`\(`string`\)
 
-\(
+此參數指的是在 CREATE 指令未明確指定資料表空間（tablespace）時用於建立的資料庫物件（資料表和索引）的預設資料表空間。
 
-`string`
+該值可以是資料表空間的名稱，也可以是使用空字串表示為目前資料庫的預設資料表空間。如果該值與不符合任何現有的資料表空間名稱時，PostgreSQL 將自動使用目前資料庫的預設資料表空間。如果指定了非預設的資料表空間，則使用者必須具有 CREATE 權限，否則建立的操作將會失敗。
 
-\)
+這個參數不用於臨時資料表；對於臨時資料表來說，會參考 temp\_tablespaces 參數。
 
-This variable specifies the default tablespace in which to create objects \(tables and indexes\) when a`CREATE`command does not explicitly specify a tablespace.
+建立資料庫時也不會使用這個參數。預設情況下，新的資料庫將複製的樣板資料庫，並繼承其資料表空間的設定。
 
-The value is either the name of a tablespace, or an empty string to specify using the default tablespace of the current database. If the value does not match the name of any existing tablespace,PostgreSQLwill automatically use the default tablespace of the current database. If a nondefault tablespace is specified, the user must have`CREATE`privilege for it, or creation attempts will fail.
-
-This variable is not used for temporary tables; for them,[temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES)is consulted instead.
-
-This variable is also not used when creating databases. By default, a new database inherits its tablespace setting from the template database it is copied from.
-
-For more information on tablespaces, see[Section 22.6](https://www.postgresql.org/docs/10/static/manage-ag-tablespaces.html).
+有關於資料表空間的更多資訊，請參閱[第 22.6 節](/iii-server-administration/226-tablespaces.md)。
 
 `temp_tablespaces`
 

@@ -225,7 +225,7 @@
     * 22.3. Template Databases
     * 22.4. Database Configuration
     * 22.5. Destroying a Database
-    * 22.6. Tablespaces
+    * [22.6. Tablespaces](iii-server-administration/226-tablespaces.md)
   * Localization
     * 23.1. Locale Support
     * 23.2. Collation Support
