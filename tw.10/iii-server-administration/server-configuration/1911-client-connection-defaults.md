@@ -40,23 +40,17 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 有關於資料表空間的更多資訊，請參閱[第 22.6 節](/iii-server-administration/226-tablespaces.md)。
 
-`temp_tablespaces`
+`temp_tablespaces`\(`string`\)
 
-\(
+此參數指定在 CREATE 指令未指定資料表空間時創立臨時物件（臨時資料表和臨時資料表的索引）的資料表空間。用於排序大量資料集的臨時檔案也在這些資料表空間中創立。
 
-`string`
+該內容是資料表空間名稱的列表。當列表中有多個名稱時，PostgreSQL 在每次建立臨時物件時都會隨機選擇一個列表成員；除非是在一個交易中，連續建立的臨時物件將會被放置在列表的後續資料表空間中。 如果列表的元素是空字串，PostgreSQL 將自動使用目前資料庫的預設資料表空間。
 
-\)
+設定 temp\_tablespaces 時，指定一個不存在的資料表空間會造成錯誤，因為指定一個使用者沒有 CREATE 權限的資料表空間。但是，使用先前設定的內容時，不存在的資料表空間將被忽略，使用者缺少 CREATE 權限的資料表空間也將被忽略。特別是，在使用 postgresql.conf 中設定的內容時，此規則適用。
 
-This variable specifies tablespaces in which to create temporary objects \(temp tables and indexes on temp tables\) when a`CREATE`command does not explicitly specify a tablespace. Temporary files for purposes such as sorting large data sets are also created in these tablespaces.
+預設值是一個空字串，這將會使用目前資料庫的預設資料空間中建立所有臨時物件。
 
-The value is a list of names of tablespaces. When there is more than one name in the list,PostgreSQLchooses a random member of the list each time a temporary object is to be created; except that within a transaction, successively created temporary objects are placed in successive tablespaces from the list. If the selected element of the list is an empty string,PostgreSQLwill automatically use the default tablespace of the current database instead.
-
-When`temp_tablespaces`is set interactively, specifying a nonexistent tablespace is an error, as is specifying a tablespace for which the user does not have`CREATE`privilege. However, when using a previously set value, nonexistent tablespaces are ignored, as are tablespaces for which the user lacks`CREATE`privilege. In particular, this rule applies when using a value set in`postgresql.conf`.
-
-The default value is an empty string, which results in all temporary objects being created in the default tablespace of the current database.
-
-See also[default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE).
+另請參閱本頁的 default\_tablespace。
 
 `check_function_bodies`
 
