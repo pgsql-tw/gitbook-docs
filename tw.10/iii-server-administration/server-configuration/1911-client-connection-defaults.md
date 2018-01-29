@@ -52,15 +52,9 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 另請參閱本頁的 default\_tablespace。
 
-`check_function_bodies`
+`check_function_bodies`\(`boolean`\)
 
-\(
-
-`boolean`
-
-\)
-
-This parameter is normally on. When set to`off`, it disables validation of the function body string during[CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html). Disabling validation avoids side effects of the validation process and avoids false positives due to problems such as forward references. Set this parameter to`off`before loading functions on behalf of other users;pg\_dumpdoes so automatically.
+這個參數通常是啓用（on）的。如果把它關閉（off）的話，將在 [CREATE FUNCTION](/vi-reference/i-sql-commands/create-function.md) 時關閉函數內容檢驗的措施。停用檢驗可避免檢驗過程的副作用，避免由於物件引用等問題所導致的誤報。例如以其他使用者載入函數之前，將此參數設置為 off；pg\_dump 將會自動執行此操作。
 
 `default_transaction_isolation`
 
