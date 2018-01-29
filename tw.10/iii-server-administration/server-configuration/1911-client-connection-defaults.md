@@ -62,31 +62,19 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 請參閱[第 13 章](/ii-the-sql-language/concurrency-control.md)和 [SET TRANSACTION](/vi-reference/i-sql-commands/set-transaction.md) 以取得更多訊息。
 
-`default_transaction_read_only`
+`default_transaction_read_only`\(`boolean`\)
 
-\(
+一個唯讀的 SQL 交易不能更新非臨時的資料表。此參數控制每個新的交易的預設為唯讀狀態。預設是關閉（off）的（可讀／可寫）。
 
-`boolean`
+請參閱 [SET TRANSACTION](/vi-reference/i-sql-commands/set-transaction.md) 以取得更多訊息。
 
-\)
+`default_transaction_deferrable`\(`boolean`\)
 
-A read-only SQL transaction cannot alter non-temporary tables. This parameter controls the default read-only status of each new transaction. The default is`off`\(read/write\).
+以 serializable 的隔離等級執行時，可延遲的唯讀 SQL 交易可能會被延遲，稍後才允許繼續。但是，一旦開始執行，就不會產生確保可序列化所需的任何成本；所以序列化代碼將不會因為同步更新而強制中止，使得這個選項適合用於長時間運行的唯讀交易。
 
-Consult[SET TRANSACTION](https://www.postgresql.org/docs/10/static/sql-set-transaction.html)for more information.
+此參數控制每個新交易查詢的預設可延期狀態。它目前對讀寫交易或者低於 serializable 隔離等級的操作沒有影響。預設是關閉（off）的。
 
-`default_transaction_deferrable`
-
-\(
-
-`boolean`
-
-\)
-
-When running at the`serializable`isolation level, a deferrable read-only SQL transaction may be delayed before it is allowed to proceed. However, once it begins executing it does not incur any of the overhead required to ensure serializability; so serialization code will have no reason to force it to abort because of concurrent updates, making this option suitable for long-running read-only transactions.
-
-This parameter controls the default deferrable status of each new transaction. It currently has no effect on read-write transactions or those operating at isolation levels lower than`serializable`. The default is`off`.
-
-Consult[SET TRANSACTION](https://www.postgresql.org/docs/10/static/sql-set-transaction.html)for more information.
+請參閱 [SET TRANSACTION](/vi-reference/i-sql-commands/set-transaction.md) 以取得更多訊息。
 
 `session_replication_role`
 
