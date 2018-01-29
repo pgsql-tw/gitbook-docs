@@ -56,17 +56,11 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 這個參數通常是啓用（on）的。如果把它關閉（off）的話，將在 [CREATE FUNCTION](/vi-reference/i-sql-commands/create-function.md) 時關閉函數內容檢驗的措施。停用檢驗可避免檢驗過程的副作用，避免由於物件引用等問題所導致的誤報。例如以其他使用者載入函數之前，將此參數設置為 off；pg\_dump 將會自動執行此操作。
 
-`default_transaction_isolation`
+`default_transaction_isolation`\(`enum`\)
 
-\(
+每組 SQL 交易查詢都有一個隔離的等級，可以是「read uncommitted」、「read committed」、「repeatable read」或「serializable」。此參數控制每個新的交易產生時的預設隔離等級。預設是「read committed」。
 
-`enum`
-
-\)
-
-Each SQL transaction has an isolation level, which can be either“read uncommitted”,“read committed”,“repeatable read”, or“serializable”. This parameter controls the default isolation level of each new transaction. The default is“read committed”.
-
-Consult[Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)and[SET TRANSACTION](https://www.postgresql.org/docs/10/static/sql-set-transaction.html)for more information.
+請參閱[第 13 章](/ii-the-sql-language/concurrency-control.md)和 [SET TRANSACTION](/vi-reference/i-sql-commands/set-transaction.md) 以取得更多訊息。
 
 `default_transaction_read_only`
 

@@ -430,6 +430,7 @@
     * [INSERT](vi-reference/i-sql-commands/insert.md)
     * [REVOKE](vi-reference/i-sql-commands/revoke.md)
     * [SELECT](vi-reference/i-sql-commands/select.md)
+    * [SET TRANSACTION](vi-reference/i-sql-commands/set-transaction.md)
     * [UPDATE](vi-reference/i-sql-commands/update.md)
     * [VALUES](vi-reference/i-sql-commands/values.md)
   * [II. PostgreSQL 用戶端工具](vi-reference/ii-postgresql-client-applications.md)
