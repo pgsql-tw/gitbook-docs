@@ -76,15 +76,9 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 請參閱 [SET TRANSACTION](/vi-reference/i-sql-commands/set-transaction.md) 以取得更多訊息。
 
-`session_replication_role`
+`session_replication_role`\(`enum`\)
 
-\(
-
-`enum`
-
-\)
-
-Controls firing of replication-related triggers and rules for the current session. Setting this variable requires superuser privilege and results in discarding any previously cached query plans. Possible values are`origin`\(the default\),`replica`and`local`. See[ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html)for more information.
+控制目前連線與複寫相關觸發器與規則。設定此參數需要超級使用者權限，會導致放棄任何先前快取的查詢計劃。可能的值是 origin（預設）、replica 和 local。 有關更多訊息，請參閱 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md)。
 
 `statement_timeout`
 
