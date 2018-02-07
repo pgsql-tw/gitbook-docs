@@ -86,39 +86,21 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 不建議在 postgresql.conf 中設定 statement\_timeout，因為它會影響所有的連線。
 
-`lock_timeout`
+`lock_timeout`\(`integer`\)
 
-\(
+當你企圖鎖定資料表、索引、資料列或其他資料庫物件上時，任何等待超過指定的毫秒數的語句都會被強制中止。時間限制會分別適用於每次鎖定取得的嘗試。此限制適用於明確的鎖定請求（例如 LOCK TABLE 或 SELECT FOR UPDATE without NOWAIT）以及隱含的鎖定請求。如果將 log\_min\_error\_statement 設定為 ERROR 或更低的等級時，則會記錄超時的語查詢句。設定值為零（預設值），將其關閉功能。
 
-`integer`
+與 statement\_timeout 不同，這個超時設定只會在等待鎖定的時候有作用。請注意，如果 statement\_timeout 不為零，則將 lock\_timeout 設定為相同或更大的值是毫無意義的，因為查詢語句超時總是會首先觸發。
 
-\)
+不建議在 postgresql.conf 中設定 lock\_timeout，因為這會影響所有的連線。
 
-Abort any statement that waits longer than the specified number of milliseconds while attempting to acquire a lock on a table, index, row, or other database object. The time limit applies separately to each lock acquisition attempt. The limit applies both to explicit locking requests \(such as`LOCK TABLE`, or`SELECT FOR UPDATE`without`NOWAIT`\) and to implicitly-acquired locks. If`log_min_error_statement`is set to`ERROR`or lower, the statement that timed out will be logged. A value of zero \(the default\) turns this off.
+`idle_in_transaction_session_timeout`\(`integer`\)
 
-Unlike`statement_timeout`, this timeout can only occur while waiting for locks. Note that if`statement_timeout`is nonzero, it is rather pointless to set`lock_timeout`to the same or larger value, since the statement timeout would always trigger first.
+如果空閒時間超過指定的持續時間時（以毫秒為單位）未完成的交易將會被終止。這會釋放該連線所持有的任何鎖定，並使連線可以重新使用；也只有 tuple 才能看到這個交易被清除。有關這方面的更多細節，請參閱第 24.1 節。
 
-Setting`lock_timeout`in`postgresql.conf`is not recommended because it would affect all sessions.
+預設值 0 表停用此功能。
 
-`idle_in_transaction_session_timeout`
-
-\(
-
-`integer`
-
-\)
-
-Terminate any session with an open transaction that has been idle for longer than the specified duration in milliseconds. This allows any locks held by that session to be released and the connection slot to be reused; it also allows tuples visible only to this transaction to be vacuumed. See[Section 24.1](https://www.postgresql.org/docs/10/static/routine-vacuuming.html)for more details about this.
-
-The default value of 0 disables this feature.
-
-`vacuum_freeze_table_age`
-
-\(
-
-`integer`
-
-\)
+`vacuum_freeze_table_age`\(`integer`\)
 
 `VACUUM`performs an aggressive scan if the table's`pg_class`.`relfrozenxid`field has reached the age specified by this setting. An aggressive scan differs from a regular`VACUUM`in that it visits every page that might contain unfrozen XIDs or MXIDs, not just those that might contain dead tuples. The default is 150 million transactions. Although users can set this value anywhere from zero to two billions,`VACUUM`will silently limit the effective value to 95% of[autovacuum\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-FREEZE-MAX-AGE), so that a periodical manual`VACUUM`has a chance to run before an anti-wraparound autovacuum is launched for the table. For more information see[Section 24.1.5](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND).
 
