@@ -80,17 +80,11 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 控制目前連線與複寫相關觸發器與規則。設定此參數需要超級使用者權限，會導致放棄任何先前快取的查詢計劃。可能的值是 origin（預設）、replica 和 local。 有關更多訊息，請參閱 [ALTER TABLE](/vi-reference/i-sql-commands/alter-table.md)。
 
-`statement_timeout`
+`statement_timeout`\(`integer`\)
 
-\(
+任何指令執行超過指定的時間時，就會中止其執行。時間單位為 millisecond（毫秒）。以伺服器接受到的時間起算。 如果 log\_min\_error\_statement 設定為 ERROR 或更低的等級時，則超時的查詢語句將被記錄下來。設定值為零（預設值），將其關閉功能。
 
-`integer`
-
-\)
-
-Abort any statement that takes more than the specified number of milliseconds, starting from the time the command arrives at the server from the client. If`log_min_error_statement`is set to`ERROR`or lower, the statement that timed out will also be logged. A value of zero \(the default\) turns this off.
-
-Setting`statement_timeout`in`postgresql.conf`is not recommended because it would affect all sessions.
+不建議在 postgresql.conf 中設定 statement\_timeout，因為它會影響所有的連線。
 
 `lock_timeout`
 
