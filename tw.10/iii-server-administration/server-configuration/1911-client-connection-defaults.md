@@ -96,7 +96,7 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 `idle_in_transaction_session_timeout`\(`integer`\)
 
-如果空閒時間超過指定的持續時間時（以毫秒為單位）未完成的交易將會被終止。這會釋放該連線所持有的任何鎖定，並使連線可以重新使用；也只有 tuple 才能看到這個交易被清除。有關這方面的更多細節，請參閱第 24.1 節。
+如果空閒時間超過指定的持續時間時（以毫秒為單位）未完成的交易將會被終止。這會釋放該連線所持有的任何鎖定，並使連線可以重新使用；也只有 tuple 才能看到這個交易被清除。有關這方面的更多細節，請參閱[第 24.1 節](/iii-server-administration/routine-database-maintenance-tasks/241-routine-vacuuming.md)。
 
 預設值 0 表停用此功能。
 
