@@ -116,35 +116,17 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 指定 VACUUM 在掃描資料表時是使用較新的 transaction ID 或是 multixact ID，來替換多個 multixact ID 的截斷年限（以 multixact 表示）。預設是500萬個 multixact。儘管使用者可以設定此值為 0 到 10 億之間的任何值，但 VACUUM 將自動地將有效值限制為 [autovacuum\_freeze\_max\_age](https://www.gitbook.com/book/pgsql-tw/documents/edit#) 值的一半，以便在強制自動清理之間沒有過短的不合理時間間隔。欲了解更多訊息，請參閱 [第 24.1.5.1 節](https://www.gitbook.com/book/pgsql-tw/documents/edit#)。
 
-`bytea_output`
+`bytea_output`\(`enum`\)
 
-\(
+設定預設的輸出格式型別為`bytea。合法的設定值為 hex（預設）和 escape（傳統的 PostgreSQL 格式）。請參閱`[`第 8.4 節`](/ii-the-sql-language/data-types/84-binary-data-types.md)`取得更多資訊。無論這個設定如何，bytea 型別在輸入時，兩種格式都能接受。`
 
-`enum`
+`xmlbinary`\(`enum`\)
 
-\)
+設定如何在 XML 中編碼二進位數值。例如，當 bytea 值被函數 xmlelement 或 xmlforest 轉換為XML時，就適用這個設定。可以使用的值是 base64 和 hex，都是在 XML Schema 標準中定義的。 預設值是 base64。有關 XML 相關函數的更多訊息，請參閱[第 9.14 節](/ii-the-sql-language/functions-and-operators/914-xml-functions.md)。
 
-Sets the output format for values of type`bytea`. Valid values are`hex`\(the default\) and`escape`\(the traditional PostgreSQL format\). See[Section 8.4](https://www.postgresql.org/docs/10/static/datatype-binary.html)for more information. The`bytea`type always accepts both formats on input, regardless of this setting.
+實際上的選擇主要是習慣問題，僅受限於客戶端應用程式中的可能限制。這兩種方法都支援所有可能的值，儘管 hex 編碼會比 base64 編碼稍大。
 
-`xmlbinary`
-
-\(
-
-`enum`
-
-\)
-
-Sets how binary values are to be encoded in XML. This applies for example when`bytea`values are converted to XML by the functions`xmlelement`or`xmlforest`. Possible values are`base64`and`hex`, which are both defined in the XML Schema standard. The default is`base64`. For further information about XML-related functions, see[Section 9.14](https://www.postgresql.org/docs/10/static/functions-xml.html).
-
-The actual choice here is mostly a matter of taste, constrained only by possible restrictions in client applications. Both methods support all possible values, although the hex encoding will be somewhat larger than the base64 encoding.
-
-`xmloption`
-
-\(
-
-`enum`
-
-\)
+`xmloption`\(`enum`\)
 
 Sets whether`DOCUMENT`or`CONTENT`is implicit when converting between XML and character string values. See[Section 8.13](https://www.postgresql.org/docs/10/static/datatype-xml.html)for a description of this. Valid values are`DOCUMENT`and`CONTENT`. The default is`CONTENT`.
 
@@ -156,13 +138,7 @@ SET XML OPTION { DOCUMENT | CONTENT };
 
 This syntax is also available in PostgreSQL.
 
-`gin_pending_list_limit`
-
-\(
-
-`integer`
-
-\)
+`gin_pending_list_limit`\(`integer`\)
 
 Sets the maximum size of the GIN pending list which is used when`fastupdate`is enabled. If the list grows larger than this maximum size, it is cleaned up by moving the entries in it to the main GIN data structure in bulk. The default is four megabytes \(`4MB`\). This setting can be overridden for individual GIN indexes by changing index storage parameters. See[Section 64.4.1](https://www.postgresql.org/docs/10/static/gin-implementation.html#GIN-FAST-UPDATE)and[Section 64.5](https://www.postgresql.org/docs/10/static/gin-tips.html)for more information.
 
