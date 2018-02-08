@@ -198,7 +198,7 @@
     * [19.7. 查詢規畫](iii-server-administration/server-configuration/197-query-planning.md)
     * 19.8. Error Reporting and Logging
     * 19.9. Run-time Statistics
-    * 19.10. Automatic Vacuuming
+    * [19.10. 自動系統清理](iii-server-administration/server-configuration/1910-automatic-vacuuming.md)
     * [19.11. 用戶端連線預設參數](iii-server-administration/server-configuration/1911-client-connection-defaults.md)
     * 19.12. Lock Management
     * [19.13. 版本與平台的相容性](iii-server-administration/server-configuration/1913-version-and-platform-compatibility.md)

@@ -23,6 +23,9 @@
 GitHub 的 [Issues區](https://github.com/pgsql-tw/twpug-doc/issues)有開立目前及近期預計編譯章節的項目，  
 歡迎參與協作，或提供建言。
 
+可透過 GitBook 的功能訂閱本手冊：  
+[https://www.gitbook.com/book/pgsql-tw/documents/details](https://www.gitbook.com/book/pgsql-tw/documents/details)
+
 任何問題或建議可以 Email 給我們的文件小組：[docs@postgresql.tw](mailto:docs@postgresql.tw)
 
 ---

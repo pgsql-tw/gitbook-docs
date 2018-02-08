@@ -102,37 +102,19 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 `vacuum_freeze_table_age`\(`integer`\)
 
-`VACUUM`performs an aggressive scan if the table's`pg_class`.`relfrozenxid`field has reached the age specified by this setting. An aggressive scan differs from a regular`VACUUM`in that it visits every page that might contain unfrozen XIDs or MXIDs, not just those that might contain dead tuples. The default is 150 million transactions. Although users can set this value anywhere from zero to two billions,`VACUUM`will silently limit the effective value to 95% of[autovacuum\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-FREEZE-MAX-AGE), so that a periodical manual`VACUUM`has a chance to run before an anti-wraparound autovacuum is launched for the table. For more information see[Section 24.1.5](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND).
+如果資料表的 pg\_class.relfrozenxid 欄位值已達到此設定的指定時間，VACUUM 將主動執行掃描。主動的掃描不同於一般的 VACUUM，因為它會訪問每個可能包含解開的 XID 或 MXID的頁面，而不僅僅是那些可能包含廢棄 tuple 的頁面。預設是 1.5 億筆交易。 儘管使用者可以設定的範圍為 0 到 20 億，但 VACUUM 將自動地將有效值限制為 [autovacuum\_freeze\_max\_age](/iii-server-administration/server-configuration/1910-automatic-vacuuming.md) 的 95%，以便在啟動資料表的 anti-wraparound 自動清理之前，定期的手動 VACUUM 有機會運行。欲了解更多訊息，請參閱[第 24.1.5 節](/iii-server-administration/routine-database-maintenance-tasks/241-routine-vacuuming.md)。
 
-`vacuum_freeze_min_age`
+`vacuum_freeze_min_age`\(`integer`\)
 
-\(
+指定 VACUUM 是否決定在掃描資料表時凍結資料列版本的截止期限（交易中）。預設是5000萬交易。 儘管使用者可以設定此值為 0 到 10 億之間的任何值，但 VACUUM 將自動地將有效值限制為 [autovacuum\_freeze\_max\_age](/iii-server-administration/server-configuration/1910-automatic-vacuuming.md) 值的一半，以便在強制自動清理之間沒有過短的不合理時間間隔。欲了解更多訊息，請參閱[第 24.1.5 節](/iii-server-administration/routine-database-maintenance-tasks/241-routine-vacuuming.md)。
 
-`integer`
+`vacuum_multixact_freeze_table_age`\(`integer`\)
 
-\)
+如果資料表的 pg\_class.relminmxid 欄位值已達到此設定指定的時間，VACUUM 將主動執行掃描。主動的掃描不同於一般的 VACUUM，因為它會訪問每個可能包含解開的 XID 或 MXID 的頁面，而不僅僅是那些可能包含廢棄 tuple 的頁面。預設值是 1.5 億個交易。儘管使用者可以設定的範圍為 0 到 20 億，但 VACUUM 將自動地將有效值限制為 [autovacuum\_freeze\_max\_age](https://www.gitbook.com/book/pgsql-tw/documents/edit#)的 95%，以便在啟動資料表的 anti-wraparound 自動清理之前，定期的手動 VACUUM 有機會運行。欲了解更多訊息，請參閱[第 24.1.5 節](https://www.gitbook.com/book/pgsql-tw/documents/edit#)。
 
-Specifies the cutoff age \(in transactions\) that`VACUUM`should use to decide whether to freeze row versions while scanning a table. The default is 50 million transactions. Although users can set this value anywhere from zero to one billion,`VACUUM`will silently limit the effective value to half the value of[autovacuum\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-FREEZE-MAX-AGE), so that there is not an unreasonably short time between forced autovacuums. For more information see[Section 24.1.5](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND).
+`vacuum_multixact_freeze_min_age`\(`integer`\)
 
-`vacuum_multixact_freeze_table_age`
-
-\(
-
-`integer`
-
-\)
-
-`VACUUM`performs an aggressive scan if the table's`pg_class`.`relminmxid`field has reached the age specified by this setting. An aggressive scan differs from a regular`VACUUM`in that it visits every page that might contain unfrozen XIDs or MXIDs, not just those that might contain dead tuples. The default is 150 million multixacts. Although users can set this value anywhere from zero to two billions,`VACUUM`will silently limit the effective value to 95% of[autovacuum\_multixact\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE), so that a periodical manual`VACUUM`has a chance to run before an anti-wraparound is launched for the table. For more information see[Section 24.1.5.1](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-MULTIXACT-WRAPAROUND).
-
-`vacuum_multixact_freeze_min_age`
-
-\(
-
-`integer`
-
-\)
-
-Specifies the cutoff age \(in multixacts\) that`VACUUM`should use to decide whether to replace multixact IDs with a newer transaction ID or multixact ID while scanning a table. The default is 5 million multixacts. Although users can set this value anywhere from zero to one billion,`VACUUM`will silently limit the effective value to half the value of[autovacuum\_multixact\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE), so that there is not an unreasonably short time between forced autovacuums. For more information see[Section 24.1.5.1](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-MULTIXACT-WRAPAROUND).
+指定 VACUUM 在掃描資料表時是使用較新的 transaction ID 或是 multixact ID，來替換多個 multixact ID 的截斷年限（以 multixact 表示）。預設是500萬個 multixact。儘管使用者可以設定此值為 0 到 10 億之間的任何值，但 VACUUM 將自動地將有效值限制為 [autovacuum\_freeze\_max\_age](https://www.gitbook.com/book/pgsql-tw/documents/edit#) 值的一半，以便在強制自動清理之間沒有過短的不合理時間間隔。欲了解更多訊息，請參閱 [第 24.1.5.1 節](https://www.gitbook.com/book/pgsql-tw/documents/edit#)。
 
 `bytea_output`
 
