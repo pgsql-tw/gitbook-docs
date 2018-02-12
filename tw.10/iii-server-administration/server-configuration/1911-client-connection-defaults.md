@@ -128,19 +128,19 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 `xmloption`\(`enum`\)
 
-Sets whether`DOCUMENT`or`CONTENT`is implicit when converting between XML and character string values. See[Section 8.13](https://www.postgresql.org/docs/10/static/datatype-xml.html)for a description of this. Valid values are`DOCUMENT`and`CONTENT`. The default is`CONTENT`.
+在 XML 和字串之間轉換時，設定是否隱含 DOCUMENT 或 CONTENT。請參閱 [8.13 節](/ii-the-sql-language/data-types/813-xml-type.md)的描述。有效值是 DOCUMENT 和 CONTENT。預設值是 CONTENT。
 
-According to the SQL standard, the command to set this option is
+根據 SQL 標準，設定此選項的命令是
 
 ```
 SET XML OPTION { DOCUMENT | CONTENT };
 ```
 
-This syntax is also available in PostgreSQL.
+這個語法在 PostgreSQL 中也是可以使用的。
 
 `gin_pending_list_limit`\(`integer`\)
 
-Sets the maximum size of the GIN pending list which is used when`fastupdate`is enabled. If the list grows larger than this maximum size, it is cleaned up by moving the entries in it to the main GIN data structure in bulk. The default is four megabytes \(`4MB`\). This setting can be overridden for individual GIN indexes by changing index storage parameters. See[Section 64.4.1](https://www.postgresql.org/docs/10/static/gin-implementation.html#GIN-FAST-UPDATE)and[Section 64.5](https://www.postgresql.org/docs/10/static/gin-tips.html)for more information.
+設定啟用 fastupdate 時使用的 GIN 排程列表的最大空間。如果列表大於這個最大空間，則透過將其中的項目整批移動到主 GIN 資料結構來清除它。預設值是 4MB。透過更改索引的儲存參數，可以為單個 GIN 索引覆寫此設定。有關更多訊息，請參閱第 64.4.1 節和第 64.5 節。
 
 ### 19.11.2. Locale and Formatting
 

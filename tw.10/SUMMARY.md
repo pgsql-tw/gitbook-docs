@@ -451,6 +451,14 @@
     * 52.8. Error and Notice Message Fields
     * 52.9. Logical Replication Message Formats
     * 52.10. Summary of Changes since Protocol 2.0
+  * GIN Indexes
+    * 64.1. Introduction
+    * 64.2. Built-in Operator Classes
+    * 64.3. Extensibility
+    * 64.4. Implementation
+    * 64.5. GIN Tips and Tricks
+    * 64.6. Limitations
+    * 64.7. Examples
 * [VIII. 附錄](viii-appendixes.md)
   * [A. PostgreSQL錯誤代碼](viii-appendixes/postgresql-error-codes.md)
   * [B. 日期時間格式支援](viii-appendixes/datetime-support.md)
@@ -470,4 +478,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
