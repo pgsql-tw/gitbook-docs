@@ -451,12 +451,12 @@
     * 52.8. Error and Notice Message Fields
     * 52.9. Logical Replication Message Formats
     * 52.10. Summary of Changes since Protocol 2.0
-  * GIN Indexes
-    * 64.1. Introduction
+  * [64. GIN Indexes](vii-internals/gin-indexes.md)
+    * [64.1. Introduction](vii-internals/gin-indexes/641-introduction.md)
     * 64.2. Built-in Operator Classes
     * 64.3. Extensibility
-    * 64.4. Implementation
-    * 64.5. GIN Tips and Tricks
+    * [64.4. Implementation](vii-internals/gin-indexes/644-implementation.md)
+    * [64.5. GIN Tips and Tricks](vii-internals/gin-indexes/645-gin-tips-and-tricks.md)
     * 64.6. Limitations
     * 64.7. Examples
 * [VIII. 附錄](viii-appendixes.md)
@@ -478,6 +478,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 
