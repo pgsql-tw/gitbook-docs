@@ -142,77 +142,35 @@ SET XML OPTION { DOCUMENT | CONTENT };
 
 設定啟用 fastupdate 時使用的 GIN 排程列表的最大空間。如果列表大於這個最大空間，則透過將其中的項目整批移動到主 GIN 資料結構來清除它。預設值是 4MB。透過更改索引的儲存參數，可以為單個 GIN 索引覆寫此設定。有關更多訊息，請參閱[第 64.4.1 節](/vii-internals/gin-indexes/644-implementation.md)和[第 64.5 節](/vii-internals/gin-indexes/645-gin-tips-and-tricks.md)。
 
-### 19.11.2. Locale and Formatting
+### 19.11.2. 語系格式（Locale and Formatting）
 
-`DateStyle`
+`DateStyle`\(`string`\)
 
-\(
+設定日期和時間內容的顯示格式，以及解釋模糊日期輸入的規則。由於歷史的因素，此參數包含兩個獨立的參數：輸出格式規範（ISO、Postgres、SQL 或 German）以及年/月/日次序（DMY、MDY 或 YMD）的輸入/輸出規範。它們可以單獨或一起設定。 關鍵字 Euro 和 European 是 DMY 的同義詞；關鍵字 US、NonEuro 和 NonEuropean 是 MDY 的同義詞。有關更多訊息，請參閱[第 8.5 節](/ii-the-sql-language/data-types/85-datetime-types.md)。 內建的預設值是 ISO、MDY，但是 initdb 會以使用所選的 lc\_time 語言環境相對應的設定來初始化設定內容。
 
-`string`
-
-\)
-
-Sets the display format for date and time values, as well as the rules for interpreting ambiguous date input values. For historical reasons, this variable contains two independent components: the output format specification \(`ISO`,`Postgres`,`SQL`, or`German`\) and the input/output specification for year/month/day ordering \(`DMY`,`MDY`, or`YMD`\). These can be set separately or together. The keywords`Euro`and`European`are synonyms for`DMY`; the keywords`US`,`NonEuro`, and`NonEuropean`are synonyms for`MDY`. See[Section 8.5](https://www.postgresql.org/docs/10/static/datatype-datetime.html)for more information. The built-in default is`ISO, MDY`, butinitdbwill initialize the configuration file with a setting that corresponds to the behavior of the chosen`lc_time`locale.
-
-`IntervalStyle`
-
-\(
-
-`enum`
-
-\)
+`IntervalStyle`\(`enum`\)
 
 Sets the display format for interval values. The value`sql_standard`will produce output matchingSQLstandard interval literals. The value`postgres`\(which is the default\) will produce output matchingPostgreSQLreleases prior to 8.4 when the[DateStyle](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DATESTYLE)parameter was set to`ISO`. The value`postgres_verbose`will produce output matchingPostgreSQLreleases prior to 8.4 when the`DateStyle`parameter was set to non-`ISO`output. The value`iso_8601`will produce output matching the time interval“format with designators”defined in section 4.4.3.2 of ISO 8601.
 
 The`IntervalStyle`parameter also affects the interpretation of ambiguous interval input. See[Section 8.5.4](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-INTERVAL-INPUT)for more information.
 
-`TimeZone`
-
-\(
-
-`string`
-
-\)
+`TimeZone`\(`string`\)
 
 Sets the time zone for displaying and interpreting time stamps. The built-in default is`GMT`, but that is typically overridden in`postgresql.conf`;initdbwill install a setting there corresponding to its system environment. See[Section 8.5.3](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONES)for more information.
 
-`timezone_abbreviations`
-
-\(
-
-`string`
-
-\)
+`timezone_abbreviations`\(`string`\)
 
 Sets the collection of time zone abbreviations that will be accepted by the server for datetime input. The default is`'Default'`, which is a collection that works in most of the world; there are also`'Australia'`and`'India'`, and other collections can be defined for a particular installation. See[Section B.3](https://www.postgresql.org/docs/10/static/datetime-config-files.html)for more information.
 
-`extra_float_digits`
-
-\(
-
-`integer`
-
-\)
+`extra_float_digits`\(`integer`\)
 
 This parameter adjusts the number of digits displayed for floating-point values, including`float4`,`float8`, and geometric data types. The parameter value is added to the standard number of digits \(`FLT_DIG`or`DBL_DIG`as appropriate\). The value can be set as high as 3, to include partially-significant digits; this is especially useful for dumping float data that needs to be restored exactly. Or it can be set negative to suppress unwanted digits. See also[Section 8.1.3](https://www.postgresql.org/docs/10/static/datatype-numeric.html#DATATYPE-FLOAT).
 
-`client_encoding`
-
-\(
-
-`string`
-
-\)
+`client_encoding`\(`string`\)
 
 Sets the client-side encoding \(character set\). The default is to use the database encoding. The character sets supported by thePostgreSQLserver are described in[Section 23.3.1](https://www.postgresql.org/docs/10/static/multibyte.html#MULTIBYTE-CHARSET-SUPPORTED).
 
-`lc_messages`
-
-\(
-
-`string`
-
-\)
+`lc_messages`\(`string`\)
 
 Sets the language in which messages are displayed. Acceptable values are system-dependent; see[Section 23.1](https://www.postgresql.org/docs/10/static/locale.html)for more information. If this variable is set to the empty string \(which is the default\) then the value is inherited from the execution environment of the server in a system-dependent way.
 
@@ -220,43 +178,19 @@ On some systems, this locale category does not exist. Setting this variable will
 
 Only superusers can change this setting, because it affects the messages sent to the server log as well as to the client, and an improper value might obscure the readability of the server logs.
 
-`lc_monetary`
-
-\(
-
-`string`
-
-\)
+`lc_monetary`\(`string`\)
 
 Sets the locale to use for formatting monetary amounts, for example with the`to_char`family of functions. Acceptable values are system-dependent; see[Section 23.1](https://www.postgresql.org/docs/10/static/locale.html)for more information. If this variable is set to the empty string \(which is the default\) then the value is inherited from the execution environment of the server in a system-dependent way.
 
-`lc_numeric`
-
-\(
-
-`string`
-
-\)
+`lc_numeric`\(`string`\)
 
 Sets the locale to use for formatting numbers, for example with the`to_char`family of functions. Acceptable values are system-dependent; see[Section 23.1](https://www.postgresql.org/docs/10/static/locale.html)for more information. If this variable is set to the empty string \(which is the default\) then the value is inherited from the execution environment of the server in a system-dependent way.
 
-`lc_time`
-
-\(
-
-`string`
-
-\)
+`lc_time`\(`string`\)
 
 Sets the locale to use for formatting dates and times, for example with the`to_char`family of functions. Acceptable values are system-dependent; see[Section 23.1](https://www.postgresql.org/docs/10/static/locale.html)for more information. If this variable is set to the empty string \(which is the default\) then the value is inherited from the execution environment of the server in a system-dependent way.
 
-`default_text_search_config`
-
-\(
-
-`string`
-
-\)
+`default_text_search_config`\(`string`\)
 
 Selects the text search configuration that is used by those variants of the text search functions that do not have an explicit argument specifying the configuration. See[Chapter 12](https://www.postgresql.org/docs/10/static/textsearch.html)for further information. The built-in default is`pg_catalog.simple`, butinitdbwill initialize the configuration file with a setting that corresponds to the chosen`lc_ctype`locale, if a configuration matching that locale can be identified.
 
@@ -270,13 +204,7 @@ Only shared libraries specifically intended to be used with PostgreSQL can be lo
 
 In general, refer to the documentation of a specific module for the recommended way to load that module.
 
-`local_preload_libraries`
-
-\(
-
-`string`
-
-\)
+`local_preload_libraries`\(`string`\)
 
 This variable specifies one or more shared libraries that are to be preloaded at connection start. It contains a comma-separated list of library names, where each name is interpreted as for the[LOAD](https://www.postgresql.org/docs/10/static/sql-load.html)command. Whitespace between entries is ignored; surround a library name with double quotes if you need to include whitespace or commas in the name. The parameter value only takes effect at the start of the connection. Subsequent changes have no effect. If a specified library is not found, the connection attempt will fail.
 
@@ -286,13 +214,7 @@ The intent of this feature is to allow unprivileged users to load debugging or p
 
 However, unless a module is specifically designed to be used in this way by non-superusers, this is usually not the right setting to use. Look at[session\_preload\_libraries](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-SESSION-PRELOAD-LIBRARIES)instead.
 
-`session_preload_libraries`
-
-\(
-
-`string`
-
-\)
+`session_preload_libraries`\(`string`\)
 
 This variable specifies one or more shared libraries that are to be preloaded at connection start. It contains a comma-separated list of library names, where each name is interpreted as for the[LOAD](https://www.postgresql.org/docs/10/static/sql-load.html)command. Whitespace between entries is ignored; surround a library name with double quotes if you need to include whitespace or commas in the name. The parameter value only takes effect at the start of the connection. Subsequent changes have no effect. If a specified library is not found, the connection attempt will fail. Only superusers can change this setting.
 
@@ -300,13 +222,7 @@ The intent of this feature is to allow debugging or performance-measurement libr
 
 Unlike[shared\_preload\_libraries](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-SHARED-PRELOAD-LIBRARIES), there is no large performance advantage to loading a library at session start rather than when it is first used. There is some advantage, however, when connection pooling is used.
 
-`shared_preload_libraries`
-
-\(
-
-`string`
-
-\)
+`shared_preload_libraries`\(`string`\)
 
 This variable specifies one or more shared libraries to be preloaded at server start. It contains a comma-separated list of library names, where each name is interpreted as for the[LOAD](https://www.postgresql.org/docs/10/static/sql-load.html)command. Whitespace between entries is ignored; surround a library name with double quotes if you need to include whitespace or commas in the name. This parameter can only be set at server start. If a specified library is not found, the server will fail to start.
 
@@ -320,13 +236,7 @@ On Windows hosts, preloading a library at server start will not reduce the time 
 
 ### 19.11.4. Other Defaults
 
-`dynamic_library_path`
-
-\(
-
-`string`
-
-\)
+`dynamic_library_path`\(`string`\)
 
 If a dynamically loadable module needs to be opened and the file name specified in the`CREATE FUNCTION`or`LOAD`command does not have a directory component \(i.e., the name does not contain a slash\), the system will search this path for the required file.
 
@@ -346,13 +256,7 @@ The default value for this parameter is`'$libdir'`. If the value is set to an em
 
 This parameter can be changed at run time by superusers, but a setting done that way will only persist until the end of the client connection, so this method should be reserved for development purposes. The recommended way to set this parameter is in the`postgresql.conf`configuration file.
 
-`gin_fuzzy_search_limit`
-
-\(
-
-`integer`
-
-\)
+`gin_fuzzy_search_limit`\(`integer`\)
 
 Soft upper limit of the size of the set returned by GIN index scans. For more information see[Section 64.5](https://www.postgresql.org/docs/10/static/gin-tips.html).
 
