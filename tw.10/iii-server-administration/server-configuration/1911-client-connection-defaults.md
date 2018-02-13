@@ -150,9 +150,9 @@ SET XML OPTION { DOCUMENT | CONTENT };
 
 `IntervalStyle`\(`enum`\)
 
-Sets the display format for interval values. The value`sql_standard`will produce output matchingSQLstandard interval literals. The value`postgres`\(which is the default\) will produce output matchingPostgreSQLreleases prior to 8.4 when the[DateStyle](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DATESTYLE)parameter was set to`ISO`. The value`postgres_verbose`will produce output matchingPostgreSQLreleases prior to 8.4 when the`DateStyle`parameter was set to non-`ISO`output. The value`iso_8601`will produce output matching the time interval“format with designators”defined in section 4.4.3.2 of ISO 8601.
+設定間隔時間內容的顯示格式。設定為 sql\_standard 時，將產生合於 SQL 標準的間隔時間的輸出。當 DateStyle 參數設定為 ISO 時，設定為 postgres（預設值）將會產生與 8.4 之前的 PostgreSQL 版本相容輸出。當 DateStyle 參數設定為 non-ISO 時，設定為 postgres\_verbose 將生成與 8.4之前的 PostgreSQL 版本相容輸出。 設定為 iso\_8601 時，將產生 ISO 8601 中 4.4.3.2 節裡所定義的時間間隔「格式與標誌符」相容的輸出。
 
-The`IntervalStyle`parameter also affects the interpretation of ambiguous interval input. See[Section 8.5.4](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-INTERVAL-INPUT)for more information.
+Interval Style 參數也會影響模糊區間輸入的解釋。有關更多訊息，請參閱[第 8.5.4 節](/ii-the-sql-language/data-types/85-datetime-types.md)。
 
 `TimeZone`\(`string`\)
 
