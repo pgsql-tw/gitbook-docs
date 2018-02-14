@@ -1,4 +1,4 @@
-## [PostgreSQL 正體中文使用手冊](https://www.gitbook.com/book/pgsql-tw/documents/)
+## [PostgreSQL 正體中文使用手冊](https://docs.postgresql.tw)
 ### 目前編譯版本為 [PostgreSQL 10](https://www.postgresql.org/docs/10/static/index.html)
 
 ---
@@ -13,7 +13,7 @@
 
 ## 關於正體中文版手冊
 * 主要針對台灣的 PostgreSQL 使用者用語及使用需求進行編譯。
-* 目前規劃只發佈最新版，因為 PostgreSQL 相容性很高，多數語法變化不大。
+* 目前規劃只發佈最新版，因為 PostgreSQL 相容性很高。
 * 歡迎回饋資料庫名詞的正體中文譯名。
 * 關於各段落的建議，也可使用 GitBook 的註解功能提供，方便其他閱讀者討論。
 
@@ -52,10 +52,10 @@
 
 ---
 
-# Case Study
-## 敬請期待
+# 還有....
+## [FAQ 常見問題](https://faq.postgresql.tw)
 
 ---
 
 ## 開始閱讀
-## [PostgreSQL 正體中文使用手冊](https://www.gitbook.com/book/pgsql-tw/documents/)
+## [PostgreSQL 正體中文使用手冊](https://docs.postgresql.tw)
