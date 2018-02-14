@@ -207,8 +207,8 @@
     * 19.16. Customized Options
     * 19.17. Developer Options
     * 19.18. Short Options
-  * Client Authentication
-    * 20.1. The pg\_hba.conf File
+  * [20. 使用者認證](iii-server-administration/client-authentication.md)
+    * [20.1. 設定檔：pg\_hba.conf](iii-server-administration/client-authentication/201-the-pghba-conf-file.md)
     * 20.2. User Name Maps
     * 20.3. Authentication Methods
     * 20.4. Authentication Problems
