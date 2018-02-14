@@ -156,11 +156,11 @@ Interval Style 參數也會影響模糊區間輸入的解釋。有關更多訊�
 
 `TimeZone`\(`string`\)
 
-Sets the time zone for displaying and interpreting time stamps. The built-in default is`GMT`, but that is typically overridden in`postgresql.conf`;initdbwill install a setting there corresponding to its system environment. See[Section 8.5.3](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONES)for more information.
+設定顯示和解釋時間戳記的時區。內建的預設值是 GMT，但通常會在 postgresql.conf 中被覆寫；initdb 將在安裝時取得其系統環境相對應的設定。 有關更多訊息，請參閱[第 8.5.3 節](/ii-the-sql-language/data-types/85-datetime-types.md)。
 
 `timezone_abbreviations`\(`string`\)
 
-Sets the collection of time zone abbreviations that will be accepted by the server for datetime input. The default is`'Default'`, which is a collection that works in most of the world; there are also`'Australia'`and`'India'`, and other collections can be defined for a particular installation. See[Section B.3](https://www.postgresql.org/docs/10/static/datetime-config-files.html)for more information.
+設定日期時間輸入能被伺服器接受的時區縮寫集合。預設是「Default」，這是一個在世界大部分地區都可以使用的集合；還有「Australia」和「India」，並且可以為特定定義安裝其他集合。 更多訊息詳見 [B.3 節](/viii-appendixes/datetime-support/b3-datetime-configuration-files.md)。
 
 `extra_float_digits`\(`integer`\)
 
