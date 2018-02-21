@@ -164,7 +164,7 @@ Interval Style 參數也會影響模糊區間輸入的解釋。有關更多訊�
 
 `extra_float_digits`\(`integer`\)
 
-This parameter adjusts the number of digits displayed for floating-point values, including`float4`,`float8`, and geometric data types. The parameter value is added to the standard number of digits \(`FLT_DIG`or`DBL_DIG`as appropriate\). The value can be set as high as 3, to include partially-significant digits; this is especially useful for dumping float data that needs to be restored exactly. Or it can be set negative to suppress unwanted digits. See also[Section 8.1.3](https://www.postgresql.org/docs/10/static/datatype-numeric.html#DATATYPE-FLOAT).
+此參數調整顯示浮點數的位數，包括 float4、float8 和地理資料型別。參數值會被加到標準位數之中（FLT\_DIG 或 DBL\_DIG）。此值可以設定為 3，以包含部分有效數字；這對於需要精確回存浮點數資料特別有用。或者可以將其設定為負數來減少不需要的數字。請另參閱[第 8.1.3 節](/ii-the-sql-language/data-types/81-numeric-types.md)。
 
 `client_encoding`\(`string`\)
 
