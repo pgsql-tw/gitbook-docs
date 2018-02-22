@@ -226,18 +226,15 @@
     * 22.4. Database Configuration
     * 22.5. Destroying a Database
     * [22.6. Tablespaces](iii-server-administration/226-tablespaces.md)
-  * Localization
-    * 23.1. Locale Support
+  * [23. 語系](iii-server-administration/localization.md)
+    * [23.1. 語系支援](iii-server-administration/localization/231-locale-support.md)
     * 23.2. Collation Support
     * 23.3. Character Set Support
   * [24. 例行性資料庫維護工作](iii-server-administration/routine-database-maintenance-tasks.md)
     * [24.1. 例行性資料清理](iii-server-administration/routine-database-maintenance-tasks/241-routine-vacuuming.md)
     * 24.2. Routine Reindexing
     * 24.3. Log File Maintenance
-  * Backup and Restore
-    * 25.1. SQL Dump
-    * 25.2. File System Level Backup
-    * 25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)
+
   * High Availability, Load Balancing, and Replication
     * 26.1. Comparison of Different Solutions
     * 26.2. Log-Shipping Standby Servers
@@ -478,4 +475,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 

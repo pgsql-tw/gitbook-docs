@@ -168,7 +168,7 @@ Interval Style 參數也會影響模糊區間輸入的解釋。有關更多訊�
 
 `client_encoding`\(`string`\)
 
-Sets the client-side encoding \(character set\). The default is to use the database encoding. The character sets supported by thePostgreSQLserver are described in[Section 23.3.1](https://www.postgresql.org/docs/10/static/multibyte.html#MULTIBYTE-CHARSET-SUPPORTED).
+設定用戶端編碼（字元集）。預設是使用資料庫的編碼方式。在 [23.3.1 節](https://www.postgresql.org/docs/10/static/locale.html)描述了 PostgreSQL 資料庫支援的字元集。
 
 `lc_messages`\(`string`\)
 
