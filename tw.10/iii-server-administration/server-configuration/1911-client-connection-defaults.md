@@ -172,27 +172,27 @@ Interval Style 參數也會影響模糊區間輸入的解釋。有關更多訊�
 
 `lc_messages`\(`string`\)
 
-Sets the language in which messages are displayed. Acceptable values are system-dependent; see[Section 23.1](https://www.postgresql.org/docs/10/static/locale.html)for more information. If this variable is set to the empty string \(which is the default\) then the value is inherited from the execution environment of the server in a system-dependent way.
+設定訊息顯示的語言。可接受的值取決於系統；關於更多訊息，請參閱[第 23.1 節](/iii-server-administration/localization/231-locale-support.md)。如果此參數設定為空字串（預設值），則該值將以系統相關的方式從伺服器的執行環境中繼承。
 
-On some systems, this locale category does not exist. Setting this variable will still work, but there will be no effect. Also, there is a chance that no translated messages for the desired language exist. In that case you will continue to see the English messages.
+在某些系統上，此語言環境類別並不存在。設定這個參數仍然可以運作，但不會有任何影響。此外，也可能還沒有用於所需語言翻譯的訊息。在這種情況下，你會繼續看到英文訊息。
 
-Only superusers can change this setting, because it affects the messages sent to the server log as well as to the client, and an improper value might obscure the readability of the server logs.
+只有系統管理者可以更改此設定，因為它會影響發送到伺服器日誌以及用戶端的訊息，而不正確的值可能會影響伺服器日誌的可讀性。
 
 `lc_monetary`\(`string`\)
 
-Sets the locale to use for formatting monetary amounts, for example with the`to_char`family of functions. Acceptable values are system-dependent; see[Section 23.1](https://www.postgresql.org/docs/10/static/locale.html)for more information. If this variable is set to the empty string \(which is the default\) then the value is inherited from the execution environment of the server in a system-dependent way.
+設定用於格式化貨幣金額的區域配置，例如 to\_char 系列函數。可接受的值取決於系統；關於更多訊息，請參閱[第 23.1 節](/iii-server-administration/localization/231-locale-support.md)。如果此參數設定為空字串（預設值），則該值將以系統相關的方式從伺服器的執行環境中繼承。
 
 `lc_numeric`\(`string`\)
 
-Sets the locale to use for formatting numbers, for example with the`to_char`family of functions. Acceptable values are system-dependent; see[Section 23.1](https://www.postgresql.org/docs/10/static/locale.html)for more information. If this variable is set to the empty string \(which is the default\) then the value is inherited from the execution environment of the server in a system-dependent way.
+設定用於格式化數字的區域配置，例如 to\_char 系列函數。可接受的值取決於系統；關於更多訊息，請參閱[第 23.1 節](/iii-server-administration/localization/231-locale-support.md)。如果此參數設定為空字串（預設值），則該值將以系統相關的方式從伺服器的執行環境中繼承。
 
 `lc_time`\(`string`\)
 
-Sets the locale to use for formatting dates and times, for example with the`to_char`family of functions. Acceptable values are system-dependent; see[Section 23.1](https://www.postgresql.org/docs/10/static/locale.html)for more information. If this variable is set to the empty string \(which is the default\) then the value is inherited from the execution environment of the server in a system-dependent way.
+設定用於格式化時間的區域配置，例如 to\_char 系列函數。可接受的值取決於系統；關於更多訊息，請參閱[第 23.1 節](/iii-server-administration/localization/231-locale-support.md)。如果此參數設定為空字串（預設值），則該值將以系統相關的方式從伺服器的執行環境中繼承。
 
 `default_text_search_config`\(`string`\)
 
-Selects the text search configuration that is used by those variants of the text search functions that do not have an explicit argument specifying the configuration. See[Chapter 12](https://www.postgresql.org/docs/10/static/textsearch.html)for further information. The built-in default is`pg_catalog.simple`, butinitdbwill initialize the configuration file with a setting that corresponds to the chosen`lc_ctype`locale, if a configuration matching that locale can be identified.
+選擇全文檢索的設定，用於那些無法指定語系的全文檢索函數。 更多說明詳見[第12章](/ii-the-sql-language/full-text-search.md)。內建的預設值為 pg\_catalog.simple，但如果可以識別與該語言環境匹配的配置，則 initdb 將使用與所選 lc\_ctype 語言環境相對應的設置來初始化配置設定。
 
 ### 19.11.3. Shared Library Preloading
 
