@@ -234,7 +234,6 @@
     * [24.1. 例行性資料清理](iii-server-administration/routine-database-maintenance-tasks/241-routine-vacuuming.md)
     * 24.2. Routine Reindexing
     * 24.3. Log File Maintenance
-
   * High Availability, Load Balancing, and Replication
     * 26.1. Comparison of Different Solutions
     * 26.2. Log-Shipping Standby Servers
@@ -425,6 +424,7 @@
     * [GRANT](vi-reference/i-sql-commands/grant.md)
     * [IMPORT FOREIGN SCHEMA](vi-reference/i-sql-commands/import-foreign-schema.md)
     * [INSERT](vi-reference/i-sql-commands/insert.md)
+    * [LOAD](vi-reference/i-sql-commands/load.md)
     * [REVOKE](vi-reference/i-sql-commands/revoke.md)
     * [SELECT](vi-reference/i-sql-commands/select.md)
     * [SET TRANSACTION](vi-reference/i-sql-commands/set-transaction.md)
@@ -475,6 +475,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 

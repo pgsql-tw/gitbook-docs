@@ -194,25 +194,25 @@ Interval Style 參數也會影響模糊區間輸入的解釋。有關更多訊�
 
 選擇全文檢索的設定，用於那些無法指定語系的全文檢索函數。 更多說明詳見[第12章](/ii-the-sql-language/full-text-search.md)。內建的預設值為 pg\_catalog.simple，但如果可以識別與該語言環境匹配的配置，則 initdb 將使用與所選 lc\_ctype 語言環境相對應的設置來初始化配置設定。
 
-### 19.11.3. Shared Library Preloading
+### 19.11.3. 預載共享函式庫
 
-Several settings are available for preloading shared libraries into the server, in order to load additional functionality or achieve performance benefits. For example, a setting of`'$libdir/mylib'`would cause`mylib.so`\(or on some platforms,`mylib.sl`\) to be preloaded from the installation's standard library directory. The differences between the settings are when they take effect and what privileges are required to change them.
+有幾個設定可用於將共享函式庫預載到伺服器中，以便載入延伸功能並展現性能優勢。例如，設定 '$libdir / mylib' 能將 mylib.so（在某些平台上是 mylib.sl）從安裝的標準函式庫目錄中預載。這些設定之間的差異主要是控制在何時生效，以及需要哪些權限才能更改它們。
 
-PostgreSQLprocedural language libraries can be preloaded in this way, typically by using the syntax`'$libdir/plXXX'`where`XXX`is`pgsql`,`perl`,`tcl`, or`python`.
+PostgreSQL 的程序語言庫可以用這種方式預載，通常語法是 '$libdir/plXXX'，其中 XXX 是 pgsql、perl、tcl 或 python。
 
-Only shared libraries specifically intended to be used with PostgreSQL can be loaded this way. Every PostgreSQL-supported library has a“magic block”that is checked to guarantee compatibility. For this reason, non-PostgreSQL libraries cannot be loaded in this way. You might be able to use operating-system facilities such as`LD_PRELOAD`for that.
+只有專門用於 PostgreSQL 的共享函式庫才能以這種方式載入。每個支援 PostgreSQL 的函式庫都有一個「magic block」，它會被檢查以確保相容性。由於這個原因的關係，非 PostgreSQL 函式庫不能以這種方式載入。你可能可以使用作業系統的功能，例如 LD\_PRELOAD。
 
-In general, refer to the documentation of a specific module for the recommended way to load that module.
+一般來說，都需要詳閱該函式庫的文件，以獲得推薦的載入該函式庫的方法.
 
 `local_preload_libraries`\(`string`\)
 
-This variable specifies one or more shared libraries that are to be preloaded at connection start. It contains a comma-separated list of library names, where each name is interpreted as for the[LOAD](https://www.postgresql.org/docs/10/static/sql-load.html)command. Whitespace between entries is ignored; surround a library name with double quotes if you need to include whitespace or commas in the name. The parameter value only takes effect at the start of the connection. Subsequent changes have no effect. If a specified library is not found, the connection attempt will fail.
+此參數指定一個或多個要在連線啟動時預載的共享函式庫。它是逗號分隔的函式庫名稱列表，其中每個名稱都被以 LOAD 命令處理。 項目之間的空白都會被忽略；如果需要在名稱中包含空格或逗號，請用雙引號括住函式庫名稱。 參數值僅在連線開始時生效。 後續更改都不起作用。如果未找到指定的函式庫，則連線嘗試將會失敗。
 
-This option can be set by any user. Because of that, the libraries that can be loaded are restricted to those appearing in the`plugins`subdirectory of the installation's standard library directory. \(It is the database administrator's responsibility to ensure that only“safe”libraries are installed there.\) Entries in`local_preload_libraries`can specify this directory explicitly, for example`$libdir/plugins/mylib`, or just specify the library name —`mylib`would have the same effect as`$libdir/plugins/mylib`.
+這個選項可以由任何使用者設定。因此，可以載入的函式庫僅限於出現在標準函式庫目錄的外掛目錄中的函式庫。 （資料庫管理員有責任確保在那裡只安裝了「安全的」函式庫。）local\_preload\_libraries 中的項目可以明確指定此目錄，例如 $libdir/plugins/mylib，或者只指定函式庫名稱 mylib 與 $libdir/plugins/mylib 具有相同的效果。
 
-The intent of this feature is to allow unprivileged users to load debugging or performance-measurement libraries into specific sessions without requiring an explicit`LOAD`command. To that end, it would be typical to set this parameter using the`PGOPTIONS`environment variable on the client or by using`ALTER ROLE SET`.
+此功能的目的是允許非特權用戶將調教或性能測試函式庫加載到特定的連線中，而不需要明確的 [LOAD](/vi-reference/i-sql-commands/load.md) 命令。為此，通常使用用戶端上的 PGOPTIONS 環境變數或透過使用 ALTER ROLE SET 來設定此參數。
 
-However, unless a module is specifically designed to be used in this way by non-superusers, this is usually not the right setting to use. Look at[session\_preload\_libraries](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-SESSION-PRELOAD-LIBRARIES)instead.
+但是，除非一個模組是專門設計用於非超級用戶的方式，否則這通常不適合使用。請參考使用 session\_preload\_libraries 參數。
 
 `session_preload_libraries`\(`string`\)
 
