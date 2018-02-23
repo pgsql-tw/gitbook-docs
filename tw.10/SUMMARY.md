@@ -467,6 +467,7 @@
   * SQL Conformance
   * Release Notes
   * [F. 延伸支援模組](viii-appendixes/additional-supplied-modules.md)
+    * F.4. auto\_explain
     * [F.11. dblink](viii-appendixes/additional-supplied-modules/f11-dblink.md)
       * [dblink](viii-appendixes/additional-supplied-modules/f11-dblink/dblink.md)
   * Additional Supplied Programs
@@ -475,4 +476,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 

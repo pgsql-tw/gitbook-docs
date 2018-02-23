@@ -206,7 +206,7 @@ PostgreSQL 的程序語言庫可以用這種方式預載，通常語法是 '$lib
 
 `local_preload_libraries`\(`string`\)
 
-此參數指定一個或多個要在連線啟動時預載的共享函式庫。它是逗號分隔的函式庫名稱列表，其中每個名稱都被以 LOAD 命令處理。 項目之間的空白都會被忽略；如果需要在名稱中包含空格或逗號，請用雙引號括住函式庫名稱。 參數值僅在連線開始時生效。 後續更改都不起作用。如果未找到指定的函式庫，則連線嘗試將會失敗。
+此參數指定一個或多個要在連線啟動時預載的共享函式庫。它是逗號分隔的函式庫名稱列表，其中每個名稱都被以 LOAD 命令處理。 項目之間的空白都會被忽略；如果需要在名稱中包含空格或逗號，請用雙引號括住函式庫名稱。參數值僅在連線開始時生效。 後續更改都不起作用。如果未找到指定的函式庫，則連線嘗試將會失敗。
 
 這個選項可以由任何使用者設定。因此，可以載入的函式庫僅限於出現在標準函式庫目錄的外掛目錄中的函式庫。 （資料庫管理員有責任確保在那裡只安裝了「安全的」函式庫。）local\_preload\_libraries 中的項目可以明確指定此目錄，例如 $libdir/plugins/mylib，或者只指定函式庫名稱 mylib 與 $libdir/plugins/mylib 具有相同的效果。
 
@@ -216,11 +216,11 @@ PostgreSQL 的程序語言庫可以用這種方式預載，通常語法是 '$lib
 
 `session_preload_libraries`\(`string`\)
 
-This variable specifies one or more shared libraries that are to be preloaded at connection start. It contains a comma-separated list of library names, where each name is interpreted as for the[LOAD](https://www.postgresql.org/docs/10/static/sql-load.html)command. Whitespace between entries is ignored; surround a library name with double quotes if you need to include whitespace or commas in the name. The parameter value only takes effect at the start of the connection. Subsequent changes have no effect. If a specified library is not found, the connection attempt will fail. Only superusers can change this setting.
+此參數指定一個或多個要在連線啟動時預載的共享函式庫。它是逗號分隔的函式庫名稱列表，其中每個名稱都被以 LOAD 命令處理。. 項目之間的空白都會被忽略；如果需要在名稱中包含空格或逗號，請用雙引號括住函式庫名稱。參數值僅在連線開始時生效。 後續更改都不起作用。如果未找到指定的函式庫，則連線嘗試將會失敗。 只有超級使用者可以調整此參數。
 
-The intent of this feature is to allow debugging or performance-measurement libraries to be loaded into specific sessions without an explicit`LOAD`command being given. For example,[auto\_explain](https://www.postgresql.org/docs/10/static/auto-explain.html)could be enabled for all sessions under a given user name by setting this parameter with`ALTER ROLE SET`. Also, this parameter can be changed without restarting the server \(but changes only take effect when a new session is started\), so it is easier to add new modules this way, even if they should apply to all sessions.
+此功能的目的是允許除錯或性能測試的函式庫載入到特定的連線中，而不需要指示明確的 LOAD 指令。例如，透過使用 ALTER ROLE SET 設定此參數，可以為指定用戶的所有連線啟用 auto\_explain。此外，可以在不重新啟動服務的情況下更改此參數（但更改僅在啟動新的連線時生效），因此即使應用於所有連線，以這種方式增加新的模組也很容易。
 
-Unlike[shared\_preload\_libraries](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-SHARED-PRELOAD-LIBRARIES), there is no large performance advantage to loading a library at session start rather than when it is first used. There is some advantage, however, when connection pooling is used.
+與 shared\_preload\_libraries 不同，在連線啟動時載入函式庫時並沒有很大的效能優勢，相對於第一次使用時。 但是，使用連接池時會有一些優勢。
 
 `shared_preload_libraries`\(`string`\)
 
