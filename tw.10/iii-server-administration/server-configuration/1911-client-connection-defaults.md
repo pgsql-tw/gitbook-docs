@@ -216,23 +216,23 @@ PostgreSQL 的程序語言庫可以用這種方式預載，通常語法是 '$lib
 
 `session_preload_libraries`\(`string`\)
 
-此參數指定一個或多個要在連線啟動時預載的共享函式庫。它是逗號分隔的函式庫名稱列表，其中每個名稱都被以 LOAD 命令處理。. 項目之間的空白都會被忽略；如果需要在名稱中包含空格或逗號，請用雙引號括住函式庫名稱。參數值僅在連線開始時生效。 後續更改都不起作用。如果未找到指定的函式庫，則連線嘗試將會失敗。 只有超級使用者可以調整此參數。
+此參數指定一個或多個要在連線啟動時預載的共享函式庫。它是逗號分隔的函式庫名稱列表，其中每個名稱都被以 [LOAD](/vi-reference/i-sql-commands/load.md) 命令處理。. 項目之間的空白都會被忽略；如果需要在名稱中包含空格或逗號，請用雙引號括住函式庫名稱。參數值僅在連線開始時生效。 後續更改都不起作用。如果未找到指定的函式庫，則連線嘗試將會失敗。 只有超級使用者可以調整此參數。
 
-此功能的目的是允許除錯或性能測試的函式庫載入到特定的連線中，而不需要指示明確的 LOAD 指令。例如，透過使用 ALTER ROLE SET 設定此參數，可以為指定用戶的所有連線啟用 auto\_explain。此外，可以在不重新啟動服務的情況下更改此參數（但更改僅在啟動新的連線時生效），因此即使應用於所有連線，以這種方式增加新的模組也很容易。
+此功能的目的是允許除錯或性能測試的函式庫載入到特定的連線中，而不需要指示明確的 LOAD 指令。例如，透過使用 ALTER ROLE SET 設定此參數，可以為指定用戶的所有連線啟用 [auto\_explain](/viii-appendixes/additional-supplied-modules/f4-autoexplain.md)。此外，可以在不重新啟動服務的情況下更改此參數（但更改僅在啟動新的連線時生效），因此即使應用於所有連線，以這種方式增加新的模組也很容易。
 
 與 shared\_preload\_libraries 不同，在連線啟動時載入函式庫時並沒有很大的效能優勢，相對於第一次使用時。 但是，使用連接池時會有一些優勢。
 
 `shared_preload_libraries`\(`string`\)
 
-This variable specifies one or more shared libraries to be preloaded at server start. It contains a comma-separated list of library names, where each name is interpreted as for the[LOAD](https://www.postgresql.org/docs/10/static/sql-load.html)command. Whitespace between entries is ignored; surround a library name with double quotes if you need to include whitespace or commas in the name. This parameter can only be set at server start. If a specified library is not found, the server will fail to start.
+此參數指定一個或多個要在伺服器啟動時預載的共享函式庫。它是逗號分隔的函式庫名稱列表，其中每個名稱都被以 [LOAD](/vi-reference/i-sql-commands/load.md) 命令處理。. 項目之間的空白都會被忽略；如果需要在名稱中包含空格或逗號，請用雙引號括住函式庫名稱。參數值僅在伺服器啓動時生效。 後續更改都不起作用。如果未找到指定的函式庫，則連線嘗試將會失敗。
 
-Some libraries need to perform certain operations that can only take place at postmaster start, such as allocating shared memory, reserving light-weight locks, or starting background workers. Those libraries must be loaded at server start through this parameter. See the documentation of each library for details.
+有些函式庫需要執行某些只能在 postmaster 啟動時才能執行的操作，例如分配共享記憶體，保留輕量級鎖定或啟動背景執行程序。 這些函式庫必須在伺服器啟動時通過此參數載入。有關詳細信息，請參閱各別函式庫的文件。
 
-Other libraries can also be preloaded. By preloading a shared library, the library startup time is avoided when the library is first used. However, the time to start each new server process might increase slightly, even if that process never uses the library. So this parameter is recommended only for libraries that will be used in most sessions. Also, changing this parameter requires a server restart, so this is not the right setting to use for short-term debugging tasks, say. Use[session\_preload\_libraries](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-SESSION-PRELOAD-LIBRARIES)for that instead.
+其他的函式庫也可以預先載入。通過預先載入共享函式庫，首次使用函式庫時可以減少啟動時間的成本。但是，啟動每個新伺服器服務的時間可能會略有增加，即使該服務從不使用該函式庫。因此，此參數僅適用於大多數連線中將使用的函式庫。另外，更改此參數需要重新啟動伺服器，因此這不適用於短期除錯事務的需求，請改為使用 session\_preload\_libraries。
 
-### Note
-
-On Windows hosts, preloading a library at server start will not reduce the time required to start each new server process; each server process will re-load all preload libraries. However,`shared_preload_libraries`is still useful on Windows hosts for libraries that need to perform operations at postmaster start time.
+> ### 注意
+>
+> 在Windows主機上，在伺服器啟動時預載函式庫不會減少啟動每個新伺服器服務所需的時間；每個伺服器服務程將重新加載所有預載函式庫。但是，shared\_preload\_libraries 仍然是有用的，在你的 Windows 主機的 postmaster 啓動時操作所需的函式庫。
 
 ### 19.11.4. Other Defaults
 
