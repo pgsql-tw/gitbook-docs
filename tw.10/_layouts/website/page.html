@@ -1,10 +1,5 @@
 {% extends template.self %}
 
-{% block page %}
-{{ super() }}
-本頁最近編輯：{{ file.mtime|date('MMMM Do, YYYY') }}
-{% endblock %}
-
 {% block book_summary %}
 <ul class="summary">
   <li>
@@ -12,6 +7,10 @@
   <img src="https://github.com/pgsql-tw/promotional-materials/blob/master/TWPUG-sticker/pgsql-tw-sticker-3.png?raw=true" height="48"/>
   </a>
   </li>
+  <li class="divider"></li>
 </ul>
 {{ super() }}
+<ul class="summary">
+  <li>更新日期：{{ file.mtime|date('MMMM Do, YYYY') }}</li>
+</ul>
 {% endblock %}
