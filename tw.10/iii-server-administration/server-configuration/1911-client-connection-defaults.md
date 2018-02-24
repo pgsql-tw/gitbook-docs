@@ -1,6 +1,6 @@
 # 19.11. 用戶端連線預設參數[^1]
 
-### 19.11.1. Statement Behavior
+### 19.11.1. 查詢語句的行為
 
 `search_path`\(`string`\)
 
@@ -142,7 +142,7 @@ SET XML OPTION { DOCUMENT | CONTENT };
 
 設定啟用 fastupdate 時使用的 GIN 排程列表的最大空間。如果列表大於這個最大空間，則透過將其中的項目整批移動到主 GIN 資料結構來清除它。預設值是 4MB。透過更改索引的儲存參數，可以為單個 GIN 索引覆寫此設定。有關更多訊息，請參閱[第 64.4.1 節](/vii-internals/gin-indexes/644-implementation.md)和[第 64.5 節](/vii-internals/gin-indexes/645-gin-tips-and-tricks.md)。
 
-### 19.11.2. 語系格式（Locale and Formatting）
+### 19.11.2. 語系格式
 
 `DateStyle`\(`string`\)
 
