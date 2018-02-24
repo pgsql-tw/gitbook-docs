@@ -234,31 +234,31 @@ PostgreSQL 的程序語言庫可以用這種方式預載，通常語法是 '$lib
 >
 > 在Windows主機上，在伺服器啟動時預載函式庫不會減少啟動每個新伺服器服務所需的時間；每個伺服器服務程將重新加載所有預載函式庫。但是，shared\_preload\_libraries 仍然是有用的，在你的 Windows 主機的 postmaster 啓動時操作所需的函式庫。
 
-### 19.11.4. Other Defaults
+### 19.11.4. 其他設定及其預設值
 
 `dynamic_library_path`\(`string`\)
 
-If a dynamically loadable module needs to be opened and the file name specified in the`CREATE FUNCTION`or`LOAD`command does not have a directory component \(i.e., the name does not contain a slash\), the system will search this path for the required file.
+如果需要開啓一個可動態載入的模組，並且在 CREATE FUNCTION 或 LOAD 指令中使用沒有目錄名稱的模組檔案（即該名稱不包含斜線），系統將在此路徑中搜尋所需的檔案。
 
-The value for`dynamic_library_path`must be a list of absolute directory paths separated by colons \(or semi-colons on Windows\). If a list element starts with the special string`$libdir`, the compiled-inPostgreSQLpackage library directory is substituted for`$libdir`; this is where the modules provided by the standardPostgreSQLdistribution are installed. \(Use`pg_config --pkglibdir`to find out the name of this directory.\) For example:
+dynamic\_library\_path 的內容必須是由冒號（或在 Windows 上是分號）分隔的絕對路徑的列表。如果該列表項目以特殊字符串 $libdir 開頭，那麼編譯後的 PostgreSQL 函式庫目錄會被替換為 $libdir；這是安裝標準 PostgreSQL 發行版所提供的模組的路徑。（可以使用 pg\_config --pkglibdir 查詢此目錄的路徑。）例如：
 
 ```
 dynamic_library_path = '/usr/local/lib/postgresql:/home/my_project/lib:$libdir'
 ```
 
-or, in a Windows environment:
+或者，在 Windows 環境中：
 
 ```
 dynamic_library_path = 'C:\tools\postgresql;H:\my_project\lib;$libdir'
 ```
 
-The default value for this parameter is`'$libdir'`. If the value is set to an empty string, the automatic path search is turned off.
+此參數的預設值是「$libdir」。如果此值設定為空字串，則將關閉自動路徑搜尋。
 
-This parameter can be changed at run time by superusers, but a setting done that way will only persist until the end of the client connection, so this method should be reserved for development purposes. The recommended way to set this parameter is in the`postgresql.conf`configuration file.
+超級使用者可以在服務執行時更改此參數，但以這種方式完成的設定只會持續到用戶端連線結束，因此應將此方法保留用於開發階段使用。建議使用此參數的方式是在 postgresql.conf 設定檔中。
 
 `gin_fuzzy_search_limit`\(`integer`\)
 
-Soft upper limit of the size of the set returned by GIN index scans. For more information see[Section 64.5](https://www.postgresql.org/docs/10/static/gin-tips.html).
+由 GIN 索引掃描回傳集合大小的軟上限。詳情請參閱[第 64.5 節](/vii-internals/gin-indexes/645-gin-tips-and-tricks.md)。
 
 ---
 
