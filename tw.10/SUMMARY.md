@@ -37,7 +37,7 @@
     * [4.2. 參數表示式](ii-the-sql-language/sql-syntax/42-value-expressions.md)
     * [4.3. 函數呼叫](ii-the-sql-language/sql-syntax/43-calling-functions.md)
   * [5. 定義資料結構](ii-the-sql-language/data-definition.md)
-    * [5.1. 認識表格](ii-the-sql-language/data-definition/51-table-basics.md)
+    * [5.1. 認識資料表](ii-the-sql-language/data-definition/51-table-basics.md)
     * [5.2. 預設值](ii-the-sql-language/data-definition/52-default-values.md)
     * [5.3. 限制條件](ii-the-sql-language/data-definition/53-constraints.md)
     * [5.4. 系統欄位](ii-the-sql-language/data-definition/54-system-columns.md)
@@ -475,6 +475,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 
