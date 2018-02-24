@@ -1,6 +1,11 @@
 {% extends template.self %}
 
-{% block book_body %}
+{% block book_inner %}
 {{ super() }}
 最近編輯：{{ file.mtime }}
+{% endblock %}
+
+{% block search_input %}
+{{ super() }}
+<div><img src="https://github.com/pgsql-tw/promotional-materials/blob/master/TWPUG-sticker/pgsql-tw-sticker-3.png?raw=true" height="48"/></div>
 {% endblock %}
