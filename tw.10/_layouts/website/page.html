@@ -1,11 +1,15 @@
 {% extends template.self %}
 
-{% block book_inner %}
+{% block page %}
 {{ super() }}
-最近編輯：{{ file.mtime }}
+本頁最近編輯：{{ file.mtime }}
 {% endblock %}
 
 {% block search_input %}
 {{ super() }}
-<div><img src="https://github.com/pgsql-tw/promotional-materials/blob/master/TWPUG-sticker/pgsql-tw-sticker-3.png?raw=true" height="48"/></div>
+<div>
+  <a href="https://postgresql.tw" title="PostgreSQL台灣使用者社群">
+  &nbsp;<img src="https://github.com/pgsql-tw/promotional-materials/blob/master/TWPUG-sticker/pgsql-tw-sticker-3.png?raw=true" height="48"/>
+  </a>
+</div>
 {% endblock %}
