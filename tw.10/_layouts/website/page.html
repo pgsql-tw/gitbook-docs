@@ -2,14 +2,16 @@
 
 {% block page %}
 {{ super() }}
-本頁最近編輯：{{ file.mtime }}
+本頁最近編輯：{{ file.mtime|date('MMMM Do, YYYY') }}
 {% endblock %}
 
 {% block book_summary %}
-<div>
+<ul class="summary">
+  <li>
   <a href="https://postgresql.tw" title="PostgreSQL台灣使用者社群">
-  &nbsp;<img src="https://github.com/pgsql-tw/promotional-materials/blob/master/TWPUG-sticker/pgsql-tw-sticker-3.png?raw=true" height="48"/>
+  <img src="https://github.com/pgsql-tw/promotional-materials/blob/master/TWPUG-sticker/pgsql-tw-sticker-3.png?raw=true" height="48"/>
   </a>
-</div>
+  </li>
+</ul>
 {{ super() }}
 {% endblock %}
