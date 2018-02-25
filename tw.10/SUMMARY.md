@@ -250,6 +250,7 @@
   * [28. 監控資料庫活動](iii-server-administration/monitoring-database-activity.md)
     * 28.1. Standard Unix Tools
     * [28.2. 統計資訊收集器](iii-server-administration/monitoring-database-activity/282-the-statistics-collector.md)
+      * 28.2.3. Statistics Functions
     * 28.3. Viewing Locks
     * 28.4. Progress Reporting
     * 28.5. Dynamic Tracing
@@ -479,4 +480,6 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
+
+
 
