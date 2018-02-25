@@ -26,9 +26,9 @@ Normally these parameters are set in`postgresql.conf`so that they apply to all s
 
 The statistics collector transmits the collected information to otherPostgreSQLprocesses through temporary files. These files are stored in the directory named by the[stats\_temp\_directory](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-STATS-TEMP-DIRECTORY)parameter,`pg_stat_tmp`by default. For better performance,`stats_temp_directory`can be pointed at a RAM-based file system, decreasing physical I/O requirements. When the server shuts down cleanly, a permanent copy of the statistics data is stored in the`pg_stat`subdirectory, so that statistics can be retained across server restarts. When recovery is performed at server start \(e.g. after immediate shutdown, server crash, and point-in-time recovery\), all statistics counters are reset.
 
-### 28.2.2. Viewing Statistics
+### 28.2.2. Viewing Statistics
 
-Several predefined views, listed in[Table 28.1](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-DYNAMIC-VIEWS-TABLE), are available to show the current state of the system. There are also several other views, listed in[Table 28.2](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-VIEWS-TABLE), available to show the results of statistics collection. Alternatively, one can build custom views using the underlying statistics functions, as discussed in[Section 28.2.3](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-FUNCTIONS).
+Several predefined views, listed in[Table 28.1](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-DYNAMIC-VIEWS-TABLE), are available to show the current state of the system. There are also several other views, listed in[Table 28.2](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-VIEWS-TABLE), available to show the results of statistics collection. Alternatively, one can build custom views using the underlying statistics functions, as discussed in[Section 28.2.3](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-FUNCTIONS).
 
 When using the statistics to monitor collected data, it is important to realize that the information does not update instantaneously. Each individual server process transmits new statistical counts to the collector just before going idle; so a query or transaction still in progress does not affect the displayed totals. Also, the collector itself emits a new report at most once per`PGSTAT_STAT_INTERVAL`milliseconds \(500 ms unless altered while building the server\). So the displayed information lags behind actual activity. However, current-query information collected by`track_activities`is always up-to-date.
 
@@ -36,7 +36,7 @@ Another important point is that when a server process is asked to display any of
 
 A transaction can also see its own statistics \(as yet untransmitted to the collector\) in the views`pg_stat_xact_all_tables`,`pg_stat_xact_sys_tables`,`pg_stat_xact_user_tables`, and`pg_stat_xact_user_functions`. These numbers do not act as stated above; instead they update continuously throughout the transaction.
 
-**Table 28.1. Dynamic Statistics Views**
+**Table 28.1. Dynamic Statistics Views**
 
 | View Name | Description |
 | :--- | :--- |
@@ -45,12 +45,9 @@ A transaction can also see its own statistics \(as yet untransmitted to the coll
 | `pg_stat_wal_receiver` | Only one row, showing statistics about the WAL receiver from that receiver's connected server. See[pg\_stat\_wal\_receiver](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-WAL-RECEIVER-VIEW)for details. |
 | `pg_stat_subscription` | At least one row per subscription, showing information about the subscription workers. See[pg\_stat\_subscription](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-SUBSCRIPTION)for details. |
 | `pg_stat_ssl` | One row per connection \(regular and replication\), showing information about SSL used on this connection. See[pg\_stat\_ssl](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-SSL-VIEW)for details. |
-| `pg_stat_progress_vacuum` | One row for each backend \(including autovacuum worker processes\) running`VACUUM`, showing current progress. See[Section 28.4.1](https://www.postgresql.org/docs/10/static/progress-reporting.html#VACUUM-PROGRESS-REPORTING). |
+| `pg_stat_progress_vacuum` | One row for each backend \(including autovacuum worker processes\) running`VACUUM`, showing current progress. See[Section 28.4.1](https://www.postgresql.org/docs/10/static/progress-reporting.html#VACUUM-PROGRESS-REPORTING). |
 
-  
-
-
-**Table 28.2. Collected Statistics Views**
+**Table 28.2. Collected Statistics Views**
 
 | View Name | Description |
 | :--- | :--- |
@@ -61,7 +58,7 @@ A transaction can also see its own statistics \(as yet untransmitted to the coll
 | `pg_stat_all_tables` | One row for each table in the current database, showing statistics about accesses to that specific table. See[pg\_stat\_all\_tables](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-ALL-TABLES-VIEW)for details. |
 | `pg_stat_sys_tables` | Same as`pg_stat_all_tables`, except that only system tables are shown. |
 | `pg_stat_user_tables` | Same as`pg_stat_all_tables`, except that only user tables are shown. |
-| `pg_stat_xact_all_tables` | Similar to`pg_stat_all_tables`, but counts actions taken so far within the current transaction \(which are_not_yet included in`pg_stat_all_tables`and related views\). The columns for numbers of live and dead rows and vacuum and analyze actions are not present in this view. |
+| `pg_stat_xact_all_tables` | Similar to`pg_stat_all_tables`, but counts actions taken so far within the current transaction \(which are\_not\_yet included in`pg_stat_all_tables`and related views\). The columns for numbers of live and dead rows and vacuum and analyze actions are not present in this view. |
 | `pg_stat_xact_sys_tables` | Same as`pg_stat_xact_all_tables`, except that only system tables are shown. |
 | `pg_stat_xact_user_tables` | Same as`pg_stat_xact_all_tables`, except that only user tables are shown. |
 | `pg_stat_all_indexes` | One row for each index in the current database, showing statistics about accesses to that specific index. See[pg\_stat\_all\_indexes](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-ALL-INDEXES-VIEW)for details. |
@@ -77,16 +74,13 @@ A transaction can also see its own statistics \(as yet untransmitted to the coll
 | `pg_statio_sys_sequences` | Same as`pg_statio_all_sequences`, except that only system sequences are shown. \(Presently, no system sequences are defined, so this view is always empty.\) |
 | `pg_statio_user_sequences` | Same as`pg_statio_all_sequences`, except that only user sequences are shown. |
 | `pg_stat_user_functions` | One row for each tracked function, showing statistics about executions of that function. See[pg\_stat\_user\_functions](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-USER-FUNCTIONS-VIEW)for details. |
-| `pg_stat_xact_user_functions` | Similar to`pg_stat_user_functions`, but counts only calls during the current transaction \(which are_not_yet included in`pg_stat_user_functions`\). |
-
-  
-
+| `pg_stat_xact_user_functions` | Similar to`pg_stat_user_functions`, but counts only calls during the current transaction \(which are\_not\_yet included in`pg_stat_user_functions`\). |
 
 The per-index statistics are particularly useful to determine which indexes are being used and how effective they are.
 
 The`pg_statio_`views are primarily useful to determine the effectiveness of the buffer cache. When the number of actual disk reads is much smaller than the number of buffer hits, then the cache is satisfying most read requests without invoking a kernel call. However, these statistics do not give the entire story: due to the way in whichPostgreSQLhandles disk I/O, data that is not in thePostgreSQLbuffer cache might still reside in the kernel's I/O cache, and might therefore still be fetched without requiring a physical read. Users interested in obtaining more detailed information onPostgreSQLI/O behavior are advised to use thePostgreSQLstatistics collector in combination with operating system utilities that allow insight into the kernel's handling of I/O.
 
-**Table 28.3. `pg_stat_activity`View**
+**Table 28.3. **`pg_stat_activity`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -104,19 +98,259 @@ The`pg_statio_`views are primarily useful to determine the effectiveness of the 
 | `query_start` | `timestamp with time zone` | Time when the currently active query was started, or if`state`is not`active`, when the last query was started |
 | `state_change` | `timestamp with time zone` | Time when the`state`was last changed |
 | `wait_event_type` | `text` | The type of event for which the backend is waiting, if any; otherwise NULL. Possible values are:`LWLock`: The backend is waiting for a lightweight lock. Each such lock protects a particular data structure in shared memory.`wait_event`will contain a name identifying the purpose of the lightweight lock. \(Some locks have specific names; others are part of a group of locks each with a similar purpose.\)`Lock`: The backend is waiting for a heavyweight lock. Heavyweight locks, also known as lock manager locks or simply locks, primarily protect SQL-visible objects such as tables. However, they are also used to ensure mutual exclusion for certain internal operations such as relation extension.`wait_event`will identify the type of lock awaited.`BufferPin`: The server process is waiting to access to a data buffer during a period when no other process can be examining that buffer. Buffer pin waits can be protracted if another process holds an open cursor which last read data from the buffer in question.`Activity`: The server process is idle. This is used by system processes waiting for activity in their main processing loop.`wait_event`will identify the specific wait point.`Extension`: The server process is waiting for activity in an extension module. This category is useful for modules to track custom waiting points.`Client`: The server process is waiting for some activity on a socket from user applications, and that the server expects something to happen that is independent from its internal processes.`wait_event`will identify the specific wait point.`IPC`: The server process is waiting for some activity from another process in the server.`wait_event`will identify the specific wait point.`Timeout`: The server process is waiting for a timeout to expire.`wait_event`will identify the specific wait point.`IO`: The server process is waiting for a IO to complete.`wait_event`will identify the specific wait point. |
-| `wait_event` | `text` | Wait event name if backend is currently waiting, otherwise NULL. See[Table 28.4](https://www.postgresql.org/docs/10/static/monitoring-stats.html#WAIT-EVENT-TABLE)for details. |
+| `wait_event` | `text` | Wait event name if backend is currently waiting, otherwise NULL. See[Table 28.4](https://www.postgresql.org/docs/10/static/monitoring-stats.html#WAIT-EVENT-TABLE)for details. |
 | `state` | `text` | Current overall state of this backend. Possible values are:`active`: The backend is executing a query.`idle`: The backend is waiting for a new client command.`idle in transaction`: The backend is in a transaction, but is not currently executing a query.`idle in transaction (aborted)`: This state is similar to`idle in transaction`, except one of the statements in the transaction caused an error.`fastpath function call`: The backend is executing a fast-path function.`disabled`: This state is reported if[track\_activities](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-ACTIVITIES)is disabled in this backend. |
 | `backend_xid` | `xid` | Top-level transaction identifier of this backend, if any. |
 | `backend_xmin` | `xid` | The current backend's`xmin`horizon. |
 | `query` | `text` | Text of this backend's most recent query. If`state`is`active`this field shows the currently executing query. In all other states, it shows the last query that was executed. By default the query text is truncated at 1024 characters; this value can be changed via the parameter[track\_activity\_query\_size](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-ACTIVITY-QUERY-SIZE). |
 | `backend_type` | `text` | Type of current backend. Possible types are`autovacuum launcher`,`autovacuum worker`,`background worker`,`background writer`,`client backend`,`checkpointer`,`startup`,`walreceiver`,`walsender`and`walwriter`. |
 
-  
-
-
 The`pg_stat_activity`view will have one row per server process, showing information related to the current activity of that process.
 
 ### Note
 
 The`wait_event`and`state`columns are independent. If a backend is in the`active`state, it may or may not be`waiting`on some event. If the state is`active`and`wait_event`is non-null, it means that a query is being executed, but is being blocked somewhere in the system.
+
+**Table 28.4. `wait_event`Description**
+
+| Wait Event Type | Wait Event Name | Description |
+| :--- | :--- | :--- |
+| `LWLock` | `ShmemIndexLock` | Waiting to find or allocate space in shared memory. |
+|  | `OidGenLock` | Waiting to allocate or assign an OID. |
+|  | `XidGenLock` | Waiting to allocate or assign a transaction id. |
+|  | `ProcArrayLock` | Waiting to get a snapshot or clearing a transaction id at transaction end. |
+|  | `SInvalReadLock` | Waiting to retrieve or remove messages from shared invalidation queue. |
+|  | `SInvalWriteLock` | Waiting to add a message in shared invalidation queue. |
+|  | `WALBufMappingLock` | Waiting to replace a page in WAL buffers. |
+|  | `WALWriteLock` | Waiting for WAL buffers to be written to disk. |
+|  | `ControlFileLock` | Waiting to read or update the control file or creation of a new WAL file. |
+|  | `CheckpointLock` | Waiting to perform checkpoint. |
+|  | `CLogControlLock` | Waiting to read or update transaction status. |
+|  | `SubtransControlLock` | Waiting to read or update sub-transaction information. |
+|  | `MultiXactGenLock` | Waiting to read or update shared multixact state. |
+|  | `MultiXactOffsetControlLock` | Waiting to read or update multixact offset mappings. |
+|  | `MultiXactMemberControlLock` | Waiting to read or update multixact member mappings. |
+|  | `RelCacheInitLock` | Waiting to read or write relation cache initialization file. |
+|  | `CheckpointerCommLock` | Waiting to manage fsync requests. |
+|  | `TwoPhaseStateLock` | Waiting to read or update the state of prepared transactions. |
+|  | `TablespaceCreateLock` | Waiting to create or drop the tablespace. |
+|  | `BtreeVacuumLock` | Waiting to read or update vacuum-related information for a B-tree index. |
+|  | `AddinShmemInitLock` | Waiting to manage space allocation in shared memory. |
+|  | `AutovacuumLock` | Autovacuum worker or launcher waiting to update or read the current state of autovacuum workers. |
+|  | `AutovacuumScheduleLock` | Waiting to ensure that the table it has selected for a vacuum still needs vacuuming. |
+|  | `SyncScanLock` | Waiting to get the start location of a scan on a table for synchronized scans. |
+|  | `RelationMappingLock` | Waiting to update the relation map file used to store catalog to filenode mapping. |
+|  | `AsyncCtlLock` | Waiting to read or update shared notification state. |
+|  | `AsyncQueueLock` | Waiting to read or update notification messages. |
+|  | `SerializableXactHashLock` | Waiting to retrieve or store information about serializable transactions. |
+|  | `SerializableFinishedListLock` | Waiting to access the list of finished serializable transactions. |
+|  | `SerializablePredicateLockListLock` | Waiting to perform an operation on a list of locks held by serializable transactions. |
+|  | `OldSerXidLock` | Waiting to read or record conflicting serializable transactions. |
+|  | `SyncRepLock` | Waiting to read or update information about synchronous replicas. |
+|  | `BackgroundWorkerLock` | Waiting to read or update background worker state. |
+|  | `DynamicSharedMemoryControlLock` | Waiting to read or update dynamic shared memory state. |
+|  | `AutoFileLock` | Waiting to update the`postgresql.auto.conf`file. |
+|  | `ReplicationSlotAllocationLock` | Waiting to allocate or free a replication slot. |
+|  | `ReplicationSlotControlLock` | Waiting to read or update replication slot state. |
+|  | `CommitTsControlLock` | Waiting to read or update transaction commit timestamps. |
+|  | `CommitTsLock` | Waiting to read or update the last value set for the transaction timestamp. |
+|  | `ReplicationOriginLock` | Waiting to setup, drop or use replication origin. |
+|  | `MultiXactTruncationLock` | Waiting to read or truncate multixact information. |
+|  | `OldSnapshotTimeMapLock` | Waiting to read or update old snapshot control information. |
+|  | `BackendRandomLock` | Waiting to generate a random number. |
+|  | `LogicalRepWorkerLock` | Waiting for action on logical replication worker to finish. |
+|  | `CLogTruncationLock` | Waiting to truncate the write-ahead log or waiting for write-ahead log truncation to finish. |
+|  | `clog` | Waiting for I/O on a clog \(transaction status\) buffer. |
+|  | `commit_timestamp` | Waiting for I/O on commit timestamp buffer. |
+|  | `subtrans` | Waiting for I/O a subtransaction buffer. |
+|  | `multixact_offset` | Waiting for I/O on a multixact offset buffer. |
+|  | `multixact_member` | Waiting for I/O on a multixact\_member buffer. |
+|  | `async` | Waiting for I/O on an async \(notify\) buffer. |
+|  | `oldserxid` | Waiting to I/O on an oldserxid buffer. |
+|  | `wal_insert` | Waiting to insert WAL into a memory buffer. |
+|  | `buffer_content` | Waiting to read or write a data page in memory. |
+|  | `buffer_io` | Waiting for I/O on a data page. |
+|  | `replication_origin` | Waiting to read or update the replication progress. |
+|  | `replication_slot_io` | Waiting for I/O on a replication slot. |
+|  | `proc` | Waiting to read or update the fast-path lock information. |
+|  | `buffer_mapping` | Waiting to associate a data block with a buffer in the buffer pool. |
+|  | `lock_manager` | Waiting to add or examine locks for backends, or waiting to join or exit a locking group \(used by parallel query\). |
+|  | `predicate_lock_manager` | Waiting to add or examine predicate lock information. |
+|  | `parallel_query_dsa` | Waiting for parallel query dynamic shared memory allocation lock. |
+|  | `tbm` | Waiting for TBM shared iterator lock. |
+| `Lock` | `relation` | Waiting to acquire a lock on a relation. |
+|  | `extend` | Waiting to extend a relation. |
+|  | `page` | Waiting to acquire a lock on page of a relation. |
+|  | `tuple` | Waiting to acquire a lock on a tuple. |
+|  | `transactionid` | Waiting for a transaction to finish. |
+|  | `virtualxid` | Waiting to acquire a virtual xid lock. |
+|  | `speculative token` | Waiting to acquire a speculative insertion lock. |
+|  | `object` | Waiting to acquire a lock on a non-relation database object. |
+|  | `userlock` | Waiting to acquire a user lock. |
+|  | `advisory` | Waiting to acquire an advisory user lock. |
+| `BufferPin` | `BufferPin` | Waiting to acquire a pin on a buffer. |
+| `Activity` | `ArchiverMain` | Waiting in main loop of the archiver process. |
+|  | `AutoVacuumMain` | Waiting in main loop of autovacuum launcher process. |
+|  | `BgWriterHibernate` | Waiting in background writer process, hibernating. |
+|  | `BgWriterMain` | Waiting in main loop of background writer process background worker. |
+|  | `CheckpointerMain` | Waiting in main loop of checkpointer process. |
+|  | `LogicalLauncherMain` | Waiting in main loop of logical launcher process. |
+|  | `LogicalApplyMain` | Waiting in main loop of logical apply process. |
+|  | `PgStatMain` | Waiting in main loop of the statistics collector process. |
+|  | `RecoveryWalAll` | Waiting for WAL from any kind of source \(local, archive or stream\) at recovery. |
+|  | `RecoveryWalStream` | Waiting for WAL from a stream at recovery. |
+|  | `SysLoggerMain` | Waiting in main loop of syslogger process. |
+|  | `WalReceiverMain` | Waiting in main loop of WAL receiver process. |
+|  | `WalSenderMain` | Waiting in main loop of WAL sender process. |
+|  | `WalWriterMain` | Waiting in main loop of WAL writer process. |
+| `Client` | `ClientRead` | Waiting to read data from the client. |
+|  | `ClientWrite` | Waiting to write data from the client. |
+|  | `LibPQWalReceiverConnect` | Waiting in WAL receiver to establish connection to remote server. |
+|  | `LibPQWalReceiverReceive` | Waiting in WAL receiver to receive data from remote server. |
+|  | `SSLOpenServer` | Waiting for SSL while attempting connection. |
+|  | `WalReceiverWaitStart` | Waiting for startup process to send initial data for streaming replication. |
+|  | `WalSenderWaitForWAL` | Waiting for WAL to be flushed in WAL sender process. |
+|  | `WalSenderWriteData` | Waiting for any activity when processing replies from WAL receiver in WAL sender process. |
+| `Extension` | `Extension` | Waiting in an extension. |
+| `IPC` | `BgWorkerShutdown` | Waiting for background worker to shut down. |
+|  | `BgWorkerStartup` | Waiting for background worker to start up. |
+|  | `BtreePage` | Waiting for the page number needed to continue a parallel B-tree scan to become available. |
+|  | `ExecuteGather` | Waiting for activity from child process when executing`Gather`node. |
+|  | `LogicalSyncData` | Waiting for logical replication remote server to send data for initial table synchronization. |
+|  | `LogicalSyncStateChange` | Waiting for logical replication remote server to change state. |
+|  | `MessageQueueInternal` | Waiting for other process to be attached in shared message queue. |
+|  | `MessageQueuePutMessage` | Waiting to write a protocol message to a shared message queue. |
+|  | `MessageQueueReceive` | Waiting to receive bytes from a shared message queue. |
+|  | `MessageQueueSend` | Waiting to send bytes to a shared message queue. |
+|  | `ParallelFinish` | Waiting for parallel workers to finish computing. |
+|  | `ParallelBitmapScan` | Waiting for parallel bitmap scan to become initialized. |
+|  | `ProcArrayGroupUpdate` | Waiting for group leader to clear transaction id at transaction end. |
+|  | `ReplicationOriginDrop` | Waiting for a replication origin to become inactive to be dropped. |
+|  | `ReplicationSlotDrop` | Waiting for a replication slot to become inactive to be dropped. |
+|  | `SafeSnapshot` | Waiting for a snapshot for a`READ ONLY DEFERRABLE`transaction. |
+|  | `SyncRep` | Waiting for confirmation from remote server during synchronous replication. |
+| `Timeout` | `BaseBackupThrottle` | Waiting during base backup when throttling activity. |
+|  | `PgSleep` | Waiting in process that called`pg_sleep`. |
+|  | `RecoveryApplyDelay` | Waiting to apply WAL at recovery because it is delayed. |
+| `IO` | `BufFileRead` | Waiting for a read from a buffered file. |
+|  | `BufFileWrite` | Waiting for a write to a buffered file. |
+|  | `ControlFileRead` | Waiting for a read from the control file. |
+|  | `ControlFileSync` | Waiting for the control file to reach stable storage. |
+|  | `ControlFileSyncUpdate` | Waiting for an update to the control file to reach stable storage. |
+|  | `ControlFileWrite` | Waiting for a write to the control file. |
+|  | `ControlFileWriteUpdate` | Waiting for a write to update the control file. |
+|  | `CopyFileRead` | Waiting for a read during a file copy operation. |
+|  | `CopyFileWrite` | Waiting for a write during a file copy operation. |
+|  | `DataFileExtend` | Waiting for a relation data file to be extended. |
+|  | `DataFileFlush` | Waiting for a relation data file to reach stable storage. |
+|  | `DataFileImmediateSync` | Waiting for an immediate synchronization of a relation data file to stable storage. |
+|  | `DataFilePrefetch` | Waiting for an asynchronous prefetch from a relation data file. |
+|  | `DataFileRead` | Waiting for a read from a relation data file. |
+|  | `DataFileSync` | Waiting for changes to a relation data file to reach stable storage. |
+|  | `DataFileTruncate` | Waiting for a relation data file to be truncated. |
+|  | `DataFileWrite` | Waiting for a write to a relation data file. |
+|  | `DSMFillZeroWrite` | Waiting to write zero bytes to a dynamic shared memory backing file. |
+|  | `LockFileAddToDataDirRead` | Waiting for a read while adding a line to the data directory lock file. |
+|  | `LockFileAddToDataDirSync` | Waiting for data to reach stable storage while adding a line to the data directory lock file. |
+|  | `LockFileAddToDataDirWrite` | Waiting for a write while adding a line to the data directory lock file. |
+|  | `LockFileCreateRead` | Waiting to read while creating the data directory lock file. |
+|  | `LockFileCreateSync` | Waiting for data to reach stable storage while creating the data directory lock file. |
+|  | `LockFileCreateWrite` | Waiting for a write while creating the data directory lock file. |
+|  | `LockFileReCheckDataDirRead` | Waiting for a read during recheck of the data directory lock file. |
+|  | `LogicalRewriteCheckpointSync` | Waiting for logical rewrite mappings to reach stable storage during a checkpoint. |
+|  | `LogicalRewriteMappingSync` | Waiting for mapping data to reach stable storage during a logical rewrite. |
+|  | `LogicalRewriteMappingWrite` | Waiting for a write of mapping data during a logical rewrite. |
+|  | `LogicalRewriteSync` | Waiting for logical rewrite mappings to reach stable storage. |
+|  | `LogicalRewriteWrite` | Waiting for a write of logical rewrite mappings. |
+|  | `RelationMapRead` | Waiting for a read of the relation map file. |
+|  | `RelationMapSync` | Waiting for the relation map file to reach stable storage. |
+|  | `RelationMapWrite` | Waiting for a write to the relation map file. |
+|  | `ReorderBufferRead` | Waiting for a read during reorder buffer management. |
+|  | `ReorderBufferWrite` | Waiting for a write during reorder buffer management. |
+|  | `ReorderLogicalMappingRead` | Waiting for a read of a logical mapping during reorder buffer management. |
+|  | `ReplicationSlotRead` | Waiting for a read from a replication slot control file. |
+|  | `ReplicationSlotRestoreSync` | Waiting for a replication slot control file to reach stable storage while restoring it to memory. |
+|  | `ReplicationSlotSync` | Waiting for a replication slot control file to reach stable storage. |
+|  | `ReplicationSlotWrite` | Waiting for a write to a replication slot control file. |
+|  | `SLRUFlushSync` | Waiting for SLRU data to reach stable storage during a checkpoint or database shutdown. |
+|  | `SLRURead` | Waiting for a read of an SLRU page. |
+|  | `SLRUSync` | Waiting for SLRU data to reach stable storage following a page write. |
+|  | `SLRUWrite` | Waiting for a write of an SLRU page. |
+|  | `SnapbuildRead` | Waiting for a read of a serialized historical catalog snapshot. |
+|  | `SnapbuildSync` | Waiting for a serialized historical catalog snapshot to reach stable storage. |
+|  | `SnapbuildWrite` | Waiting for a write of a serialized historical catalog snapshot. |
+|  | `TimelineHistoryFileSync` | Waiting for a timeline history file received via streaming replication to reach stable storage. |
+|  | `TimelineHistoryFileWrite` | Waiting for a write of a timeline history file received via streaming replication. |
+|  | `TimelineHistoryRead` | Waiting for a read of a timeline history file. |
+|  | `TimelineHistorySync` | Waiting for a newly created timeline history file to reach stable storage. |
+|  | `TimelineHistoryWrite` | Waiting for a write of a newly created timeline history file. |
+|  | `TwophaseFileRead` | Waiting for a read of a two phase state file. |
+|  | `TwophaseFileSync` | Waiting for a two phase state file to reach stable storage. |
+|  | `TwophaseFileWrite` | Waiting for a write of a two phase state file. |
+|  | `WALBootstrapSync` | Waiting for WAL to reach stable storage during bootstrapping. |
+|  | `WALBootstrapWrite` | Waiting for a write of a WAL page during bootstrapping. |
+|  | `WALCopyRead` | Waiting for a read when creating a new WAL segment by copying an existing one. |
+|  | `WALCopySync` | Waiting a new WAL segment created by copying an existing one to reach stable storage. |
+|  | `WALCopyWrite` | Waiting for a write when creating a new WAL segment by copying an existing one. |
+|  | `WALInitSync` | Waiting for a newly initialized WAL file to reach stable storage. |
+|  | `WALInitWrite` | Waiting for a write while initializing a new WAL file. |
+|  | `WALRead` | Waiting for a read from a WAL file. |
+|  | `WALSenderTimelineHistoryRead` | Waiting for a read from a timeline history file during walsender timeline command. |
+|  | `WALSyncMethodAssign` | Waiting for data to reach stable storage while assigning WAL sync method. |
+|  | `WALWrite` | Waiting for a write to a WAL file. |
+
+  
+
+
+### Note
+
+For tranches registered by extensions, the name is specified by extension and this will be displayed as`wait_event`. It is quite possible that user has registered the tranche in one of the backends \(by having allocation in dynamic shared memory\) in which case other backends won't have that information, so we display`extension`for such cases.
+
+Here is an example of how wait events can be viewed
+
+```
+    SELECT pid, wait_event_type, wait_event FROM pg_stat_activity WHERE wait_event is NOT NULL;
+ pid  | wait_event_type |  wait_event
+------+-----------------+---------------
+ 2540 | Lock            | relation
+ 6644 | LWLock          | ProcArrayLock
+(2 rows)
+```
+
+**Table 28.5. `pg_stat_replication`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `pid` | `integer` | Process ID of a WAL sender process |
+| `usesysid` | `oid` | OID of the user logged into this WAL sender process |
+| `usename` | `name` | Name of the user logged into this WAL sender process |
+| `application_name` | `text` | Name of the application that is connected to this WAL sender |
+| `client_addr` | `inet` | IP address of the client connected to this WAL sender. If this field is null, it indicates that the client is connected via a Unix socket on the server machine. |
+| `client_hostname` | `text` | Host name of the connected client, as reported by a reverse DNS lookup of`client_addr`. This field will only be non-null for IP connections, and only when[log\_hostname](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-HOSTNAME)is enabled. |
+| `client_port` | `integer` | TCP port number that the client is using for communication with this WAL sender, or`-1`if a Unix socket is used |
+| `backend_start` | `timestamp with time zone` | Time when this process was started, i.e., when the client connected to this WAL sender |
+| `backend_xmin` | `xid` | This standby's`xmin`horizon reported by[hot\_standby\_feedback](https://www.postgresql.org/docs/10/static/runtime-config-replication.html#GUC-HOT-STANDBY-FEEDBACK). |
+| `state` | `text` | Current WAL sender state. Possible values are:`startup`: This WAL sender is starting up.`catchup`: This WAL sender's connected standby is catching up with the primary.`streaming`: This WAL sender is streaming changes after its connected standby server has caught up with the primary.`backup`: This WAL sender is sending a backup.`stopping`: This WAL sender is stopping. |
+| `sent_lsn` | `pg_lsn` | Last write-ahead log location sent on this connection |
+| `write_lsn` | `pg_lsn` | Last write-ahead log location written to disk by this standby server |
+| `flush_lsn` | `pg_lsn` | Last write-ahead log location flushed to disk by this standby server |
+| `replay_lsn` | `pg_lsn` | Last write-ahead log location replayed into the database on this standby server |
+| `write_lag` | `interval` | Time elapsed between flushing recent WAL locally and receiving notification that this standby server has written it \(but not yet flushed it or applied it\). This can be used to gauge the delay that`synchronous_commit`level`remote_write`incurred while committing if this server was configured as a synchronous standby. |
+| `flush_lag` | `interval` | Time elapsed between flushing recent WAL locally and receiving notification that this standby server has written and flushed it \(but not yet applied it\). This can be used to gauge the delay that`synchronous_commit`level`remote_flush`incurred while committing if this server was configured as a synchronous standby. |
+| `replay_lag` | `interval` | Time elapsed between flushing recent WAL locally and receiving notification that this standby server has written, flushed and applied it. This can be used to gauge the delay that`synchronous_commit`level`remote_apply`incurred while committing if this server was configured as a synchronous standby. |
+| `sync_priority` | `integer` | Priority of this standby server for being chosen as the synchronous standby in a priority-based synchronous replication. This has no effect in a quorum-based synchronous replication. |
+| `sync_state` | `text` | Synchronous state of this standby server. Possible values are:`async`: This standby server is asynchronous.`potential`: This standby server is now asynchronous, but can potentially become synchronous if one of current synchronous ones fails.`sync`: This standby server is synchronous.`quorum`: This standby server is considered as a candidate for quorum standbys. |
+
+  
+
+
+The`pg_stat_replication`view will contain one row per WAL sender process, showing statistics about replication to that sender's connected standby server. Only directly connected standbys are listed; no information is available about downstream standby servers.
+
+The lag times reported in the`pg_stat_replication`view are measurements of the time taken for recent WAL to be written, flushed and replayed and for the sender to know about it. These times represent the commit delay that was \(or would have been\) introduced by each synchronous commit level, if the remote server was configured as a synchronous standby. For an asynchronous standby, the`replay_lag`column approximates the delay before recent transactions became visible to queries. If the standby server has entirely caught up with the sending server and there is no more WAL activity, the most recently measured lag times will continue to be displayed for a short time and then show NULL.
+
+Lag times work automatically for physical replication. Logical decoding plugins may optionally emit tracking messages; if they do not, the tracking mechanism will simply display NULL lag.
+
+### Note
+
+The reported lag times are not predictions of how long it will take for the standby to catch up with the sending server assuming the current rate of replay. Such a system would show similar times while new WAL is being generated, but would differ when the sender becomes idle. In particular, when the standby has caught up completely,`pg_stat_replication`shows the time taken to write, flush and replay the most recent reported WAL location rather than zero as some users might expect. This is consistent with the goal of measuring synchronous commit and transaction visibility delays for recent write transactions. To reduce confusion for users expecting a different model of lag, the lag columns revert to NULL after a short time on a fully replayed idle system. Monitoring systems should choose whether to represent this as missing data, zero or continue to display the last known value.
 
