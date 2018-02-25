@@ -348,7 +348,7 @@ Lag times work automatically for physical replication. Logical decoding plugins 
 
 The reported lag times are not predictions of how long it will take for the standby to catch up with the sending server assuming the current rate of replay. Such a system would show similar times while new WAL is being generated, but would differ when the sender becomes idle. In particular, when the standby has caught up completely,`pg_stat_replication`shows the time taken to write, flush and replay the most recent reported WAL location rather than zero as some users might expect. This is consistent with the goal of measuring synchronous commit and transaction visibility delays for recent write transactions. To reduce confusion for users expecting a different model of lag, the lag columns revert to NULL after a short time on a fully replayed idle system. Monitoring systems should choose whether to represent this as missing data, zero or continue to display the last known value.
 
-**Table 28.6. `pg_stat_wal_receiver`View**
+**Table 28.6. **`pg_stat_wal_receiver`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -365,12 +365,9 @@ The reported lag times are not predictions of how long it will take for the stan
 | `slot_name` | `text` | Replication slot name used by this WAL receiver |
 | `conninfo` | `text` | Connection string used by this WAL receiver, with security-sensitive fields obfuscated. |
 
-  
-
-
 The`pg_stat_wal_receiver`view will contain only one row, showing statistics about the WAL receiver from that receiver's connected server.
 
-**Table 28.7. `pg_stat_subscription`View**
+**Table 28.7. **`pg_stat_subscription`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -384,12 +381,9 @@ The`pg_stat_wal_receiver`view will contain only one row, showing statistics abou
 | `latest_end_lsn` | `pg_lsn` | Last write-ahead log location reported to origin WAL sender |
 | `latest_end_time` | `timestamp with time zone` | Time of last write-ahead log location reported to origin WAL sender |
 
-  
-
-
 The`pg_stat_subscription`view will contain one row per subscription for main worker \(with null PID if the worker is not running\), and additional rows for workers handling the initial data copy of the subscribed tables.
 
-**Table 28.8. `pg_stat_ssl`View**
+**Table 28.8. **`pg_stat_ssl`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -401,8 +395,121 @@ The`pg_stat_subscription`view will contain one row per subscription for main wor
 | `compression` | `boolean` | True if SSL compression is in use, false if not, or NULL if SSL is not in use on this connection |
 | `clientdn` | `text` | Distinguished Name \(DN\) field from the client certificate used, or NULL if no client certificate was supplied or if SSL is not in use on this connection. This field is truncated if the DN field is longer than`NAMEDATALEN`\(64 characters in a standard build\) |
 
+The`pg_stat_ssl`view will contain one row per backend or WAL sender process, showing statistics about SSL usage on this connection. It can be joined to`pg_stat_activity`or`pg_stat_replication`on the`pid`column to get more details about the connection.
+
+**Table 28.9. `pg_stat_archiver`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `archived_count` | `bigint` | Number of WAL files that have been successfully archived |
+| `last_archived_wal` | `text` | Name of the last WAL file successfully archived |
+| `last_archived_time` | `timestamp with time zone` | Time of the last successful archive operation |
+| `failed_count` | `bigint` | Number of failed attempts for archiving WAL files |
+| `last_failed_wal` | `text` | Name of the WAL file of the last failed archival operation |
+| `last_failed_time` | `timestamp with time zone` | Time of the last failed archival operation |
+| `stats_reset` | `timestamp with time zone` | Time at which these statistics were last reset |
+
   
 
 
-The`pg_stat_ssl`view will contain one row per backend or WAL sender process, showing statistics about SSL usage on this connection. It can be joined to`pg_stat_activity`or`pg_stat_replication`on the`pid`column to get more details about the connection.
+The`pg_stat_archiver`view will always have a single row, containing data about the archiver process of the cluster.
+
+**Table 28.10. `pg_stat_bgwriter`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `checkpoints_timed` | `bigint` | Number of scheduled checkpoints that have been performed |
+| `checkpoints_req` | `bigint` | Number of requested checkpoints that have been performed |
+| `checkpoint_write_time` | `double precision` | Total amount of time that has been spent in the portion of checkpoint processing where files are written to disk, in milliseconds |
+| `checkpoint_sync_time` | `double precision` | Total amount of time that has been spent in the portion of checkpoint processing where files are synchronized to disk, in milliseconds |
+| `buffers_checkpoint` | `bigint` | Number of buffers written during checkpoints |
+| `buffers_clean` | `bigint` | Number of buffers written by the background writer |
+| `maxwritten_clean` | `bigint` | Number of times the background writer stopped a cleaning scan because it had written too many buffers |
+| `buffers_backend` | `bigint` | Number of buffers written directly by a backend |
+| `buffers_backend_fsync` | `bigint` | Number of times a backend had to execute its own`fsync`call \(normally the background writer handles those even when the backend does its own write\) |
+| `buffers_alloc` | `bigint` | Number of buffers allocated |
+| `stats_reset` | `timestamp with time zone` | Time at which these statistics were last reset |
+
+  
+
+
+The`pg_stat_bgwriter`view will always have a single row, containing global data for the cluster.
+
+**Table 28.11. `pg_stat_database`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `datid` | `oid` | OID of a database |
+| `datname` | `name` | Name of this database |
+| `numbackends` | `integer` | Number of backends currently connected to this database. This is the only column in this view that returns a value reflecting current state; all other columns return the accumulated values since the last reset. |
+| `xact_commit` | `bigint` | Number of transactions in this database that have been committed |
+| `xact_rollback` | `bigint` | Number of transactions in this database that have been rolled back |
+| `blks_read` | `bigint` | Number of disk blocks read in this database |
+| `blks_hit` | `bigint` | Number of times disk blocks were found already in the buffer cache, so that a read was not necessary \(this only includes hits in the PostgreSQL buffer cache, not the operating system's file system cache\) |
+| `tup_returned` | `bigint` | Number of rows returned by queries in this database |
+| `tup_fetched` | `bigint` | Number of rows fetched by queries in this database |
+| `tup_inserted` | `bigint` | Number of rows inserted by queries in this database |
+| `tup_updated` | `bigint` | Number of rows updated by queries in this database |
+| `tup_deleted` | `bigint` | Number of rows deleted by queries in this database |
+| `conflicts` | `bigint` | Number of queries canceled due to conflicts with recovery in this database. \(Conflicts occur only on standby servers; see[pg\_stat\_database\_conflicts](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-DATABASE-CONFLICTS-VIEW)for details.\) |
+| `temp_files` | `bigint` | Number of temporary files created by queries in this database. All temporary files are counted, regardless of why the temporary file was created \(e.g., sorting or hashing\), and regardless of the[log\_temp\_files](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-TEMP-FILES)setting. |
+| `temp_bytes` | `bigint` | Total amount of data written to temporary files by queries in this database. All temporary files are counted, regardless of why the temporary file was created, and regardless of the[log\_temp\_files](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-TEMP-FILES)setting. |
+| `deadlocks` | `bigint` | Number of deadlocks detected in this database |
+| `blk_read_time` | `double precision` | Time spent reading data file blocks by backends in this database, in milliseconds |
+| `blk_write_time` | `double precision` | Time spent writing data file blocks by backends in this database, in milliseconds |
+| `stats_reset` | `timestamp with time zone` | Time at which these statistics were last reset |
+
+  
+
+
+The`pg_stat_database`view will contain one row for each database in the cluster, showing database-wide statistics.
+
+**Table 28.12. `pg_stat_database_conflicts`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `datid` | `oid` | OID of a database |
+| `datname` | `name` | Name of this database |
+| `confl_tablespace` | `bigint` | Number of queries in this database that have been canceled due to dropped tablespaces |
+| `confl_lock` | `bigint` | Number of queries in this database that have been canceled due to lock timeouts |
+| `confl_snapshot` | `bigint` | Number of queries in this database that have been canceled due to old snapshots |
+| `confl_bufferpin` | `bigint` | Number of queries in this database that have been canceled due to pinned buffers |
+| `confl_deadlock` | `bigint` | Number of queries in this database that have been canceled due to deadlocks |
+
+  
+
+
+The`pg_stat_database_conflicts`view will contain one row per database, showing database-wide statistics about query cancels occurring due to conflicts with recovery on standby servers. This view will only contain information on standby servers, since conflicts do not occur on master servers.
+
+**Table 28.13. `pg_stat_all_tables`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `relid` | `oid` | OID of a table |
+| `schemaname` | `name` | Name of the schema that this table is in |
+| `relname` | `name` | Name of this table |
+| `seq_scan` | `bigint` | Number of sequential scans initiated on this table |
+| `seq_tup_read` | `bigint` | Number of live rows fetched by sequential scans |
+| `idx_scan` | `bigint` | Number of index scans initiated on this table |
+| `idx_tup_fetch` | `bigint` | Number of live rows fetched by index scans |
+| `n_tup_ins` | `bigint` | Number of rows inserted |
+| `n_tup_upd` | `bigint` | Number of rows updated \(includes HOT updated rows\) |
+| `n_tup_del` | `bigint` | Number of rows deleted |
+| `n_tup_hot_upd` | `bigint` | Number of rows HOT updated \(i.e., with no separate index update required\) |
+| `n_live_tup` | `bigint` | Estimated number of live rows |
+| `n_dead_tup` | `bigint` | Estimated number of dead rows |
+| `n_mod_since_analyze` | `bigint` | Estimated number of rows modified since this table was last analyzed |
+| `last_vacuum` | `timestamp with time zone` | Last time at which this table was manually vacuumed \(not counting`VACUUM FULL`\) |
+| `last_autovacuum` | `timestamp with time zone` | Last time at which this table was vacuumed by the autovacuum daemon |
+| `last_analyze` | `timestamp with time zone` | Last time at which this table was manually analyzed |
+| `last_autoanalyze` | `timestamp with time zone` | Last time at which this table was analyzed by the autovacuum daemon |
+| `vacuum_count` | `bigint` | Number of times this table has been manually vacuumed \(not counting`VACUUM FULL`\) |
+| `autovacuum_count` | `bigint` | Number of times this table has been vacuumed by the autovacuum daemon |
+| `analyze_count` | `bigint` | Number of times this table has been manually analyzed |
+| `autoanalyze_count` | `bigint` | Number of times this table has been analyzed by the autovacuum daemon |
+
+  
+
+
+The`pg_stat_all_tables`view will contain one row for each table in the current database \(including TOAST tables\), showing statistics about accesses to that specific table. The`pg_stat_user_tables`and`pg_stat_sys_tables`views contain the same information, but filtered to only show user and system tables respectively.
 
