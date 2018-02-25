@@ -1,4 +1,4 @@
-# 28.2. 統計資訊收集器
+# 28.2. 統計資訊收集器[^1]
 
 [28.2.1. Statistics Collection Configuration](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-SETUP)
 
@@ -498,7 +498,7 @@ The`pg_stat_database_conflicts`view will contain one row per database, showing d
 
 The`pg_stat_all_tables`view will contain one row for each table in the current database \(including TOAST tables\), showing statistics about accesses to that specific table. The`pg_stat_user_tables`and`pg_stat_sys_tables`views contain the same information, but filtered to only show user and system tables respectively.
 
-**Table 28.14. `pg_stat_all_indexes`View**
+**Table 28.14. **`pg_stat_all_indexes`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -511,9 +511,6 @@ The`pg_stat_all_tables`view will contain one row for each table in the current d
 | `idx_tup_read` | `bigint` | Number of index entries returned by scans on this index |
 | `idx_tup_fetch` | `bigint` | Number of live table rows fetched by simple index scans using this index |
 
-  
-
-
 The`pg_stat_all_indexes`view will contain one row for each index in the current database, showing statistics about accesses to that specific index. The`pg_stat_user_indexes`and`pg_stat_sys_indexes`views contain the same information, but filtered to only show user and system indexes respectively.
 
 Indexes can be used by simple index scans,“bitmap”index scans, and the optimizer. In a bitmap scan the output of several indexes can be combined via AND or OR rules, so it is difficult to associate individual heap row fetches with specific indexes when a bitmap scan is used. Therefore, a bitmap scan increments the`pg_stat_all_indexes`.`idx_tup_read`count\(s\) for the index\(es\) it uses, and it increments the`pg_stat_all_tables`.`idx_tup_fetch`count for the table, but it does not affect`pg_stat_all_indexes`.`idx_tup_fetch`. The optimizer also accesses indexes to check for supplied constants whose values are outside the recorded range of the optimizer statistics because the optimizer statistics might be stale.
@@ -522,7 +519,7 @@ Indexes can be used by simple index scans,“bitmap”index scans, and the optim
 
 The`idx_tup_read`and`idx_tup_fetch`counts can be different even without any use of bitmap scans, because`idx_tup_read`counts index entries retrieved from the index while`idx_tup_fetch`counts live rows fetched from the table. The latter will be less if any dead or not-yet-committed rows are fetched using the index, or if any heap fetches are avoided by means of an index-only scan.
 
-**Table 28.15. `pg_statio_all_tables`View**
+**Table 28.15. **`pg_statio_all_tables`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -538,12 +535,9 @@ The`idx_tup_read`and`idx_tup_fetch`counts can be different even without any use 
 | `tidx_blks_read` | `bigint` | Number of disk blocks read from this table's TOAST table indexes \(if any\) |
 | `tidx_blks_hit` | `bigint` | Number of buffer hits in this table's TOAST table indexes \(if any\) |
 
-  
-
-
 The`pg_statio_all_tables`view will contain one row for each table in the current database \(including TOAST tables\), showing statistics about I/O on that specific table. The`pg_statio_user_tables`and`pg_statio_sys_tables`views contain the same information, but filtered to only show user and system tables respectively.
 
-**Table 28.16. `pg_statio_all_indexes`View**
+**Table 28.16. **`pg_statio_all_indexes`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -555,12 +549,9 @@ The`pg_statio_all_tables`view will contain one row for each table in the current
 | `idx_blks_read` | `bigint` | Number of disk blocks read from this index |
 | `idx_blks_hit` | `bigint` | Number of buffer hits in this index |
 
-  
-
-
 The`pg_statio_all_indexes`view will contain one row for each index in the current database, showing statistics about I/O on that specific index. The`pg_statio_user_indexes`and`pg_statio_sys_indexes`views contain the same information, but filtered to only show user and system indexes respectively.
 
-**Table 28.17. `pg_statio_all_sequences`View**
+**Table 28.17. **`pg_statio_all_sequences`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -570,12 +561,9 @@ The`pg_statio_all_indexes`view will contain one row for each index in the curren
 | `blks_read` | `bigint` | Number of disk blocks read from this sequence |
 | `blks_hit` | `bigint` | Number of buffer hits in this sequence |
 
-  
-
-
 The`pg_statio_all_sequences`view will contain one row for each sequence in the current database, showing statistics about I/O on that specific sequence.
 
-**Table 28.18. `pg_stat_user_functions`View**
+**Table 28.18. **`pg_stat_user_functions`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -586,8 +574,11 @@ The`pg_statio_all_sequences`view will contain one row for each sequence in the c
 | `total_time` | `double precision` | Total time spent in this function and all other functions called by it, in milliseconds |
 | `self_time` | `double precision` | Total time spent in this function itself, not including other functions called by it, in milliseconds |
 
-  
-
-
 The`pg_stat_user_functions`view will contain one row for each tracked function, showing statistics about executions of that function. The[track\_functions](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-FUNCTIONS)parameter controls exactly which functions are tracked.
+
+---
+
+
+
+[^1]:  [PostgreSQL: Documentation: 10: 28.2. The Statistics Collector](https://www.postgresql.org/docs/10/static/monitoring-stats.html)
 
