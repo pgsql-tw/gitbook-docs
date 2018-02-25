@@ -111,7 +111,7 @@ The`pg_stat_activity`view will have one row per server process, showing informat
 
 The`wait_event`and`state`columns are independent. If a backend is in the`active`state, it may or may not be`waiting`on some event. If the state is`active`and`wait_event`is non-null, it means that a query is being executed, but is being blocked somewhere in the system.
 
-**Table 28.4. `wait_event`Description**
+**Table 28.4. **`wait_event`**Description**
 
 | Wait Event Type | Wait Event Name | Description |
 | :--- | :--- | :--- |
@@ -299,9 +299,6 @@ The`wait_event`and`state`columns are independent. If a backend is in the`active`
 |  | `WALSyncMethodAssign` | Waiting for data to reach stable storage while assigning WAL sync method. |
 |  | `WALWrite` | Waiting for a write to a WAL file. |
 
-  
-
-
 ### Note
 
 For tranches registered by extensions, the name is specified by extension and this will be displayed as`wait_event`. It is quite possible that user has registered the tranche in one of the backends \(by having allocation in dynamic shared memory\) in which case other backends won't have that information, so we display`extension`for such cases.
@@ -317,7 +314,7 @@ Here is an example of how wait events can be viewed
 (2 rows)
 ```
 
-**Table 28.5. `pg_stat_replication`View**
+**Table 28.5. **`pg_stat_replication`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -341,9 +338,6 @@ Here is an example of how wait events can be viewed
 | `sync_priority` | `integer` | Priority of this standby server for being chosen as the synchronous standby in a priority-based synchronous replication. This has no effect in a quorum-based synchronous replication. |
 | `sync_state` | `text` | Synchronous state of this standby server. Possible values are:`async`: This standby server is asynchronous.`potential`: This standby server is now asynchronous, but can potentially become synchronous if one of current synchronous ones fails.`sync`: This standby server is synchronous.`quorum`: This standby server is considered as a candidate for quorum standbys. |
 
-  
-
-
 The`pg_stat_replication`view will contain one row per WAL sender process, showing statistics about replication to that sender's connected standby server. Only directly connected standbys are listed; no information is available about downstream standby servers.
 
 The lag times reported in the`pg_stat_replication`view are measurements of the time taken for recent WAL to be written, flushed and replayed and for the sender to know about it. These times represent the commit delay that was \(or would have been\) introduced by each synchronous commit level, if the remote server was configured as a synchronous standby. For an asynchronous standby, the`replay_lag`column approximates the delay before recent transactions became visible to queries. If the standby server has entirely caught up with the sending server and there is no more WAL activity, the most recently measured lag times will continue to be displayed for a short time and then show NULL.
@@ -353,4 +347,62 @@ Lag times work automatically for physical replication. Logical decoding plugins 
 ### Note
 
 The reported lag times are not predictions of how long it will take for the standby to catch up with the sending server assuming the current rate of replay. Such a system would show similar times while new WAL is being generated, but would differ when the sender becomes idle. In particular, when the standby has caught up completely,`pg_stat_replication`shows the time taken to write, flush and replay the most recent reported WAL location rather than zero as some users might expect. This is consistent with the goal of measuring synchronous commit and transaction visibility delays for recent write transactions. To reduce confusion for users expecting a different model of lag, the lag columns revert to NULL after a short time on a fully replayed idle system. Monitoring systems should choose whether to represent this as missing data, zero or continue to display the last known value.
+
+**Table 28.6. `pg_stat_wal_receiver`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `pid` | `integer` | Process ID of the WAL receiver process |
+| `status` | `text` | Activity status of the WAL receiver process |
+| `receive_start_lsn` | `pg_lsn` | First write-ahead log location used when WAL receiver is started |
+| `receive_start_tli` | `integer` | First timeline number used when WAL receiver is started |
+| `received_lsn` | `pg_lsn` | Last write-ahead log location already received and flushed to disk, the initial value of this field being the first log location used when WAL receiver is started |
+| `received_tli` | `integer` | Timeline number of last write-ahead log location received and flushed to disk, the initial value of this field being the timeline number of the first log location used when WAL receiver is started |
+| `last_msg_send_time` | `timestamp with time zone` | Send time of last message received from origin WAL sender |
+| `last_msg_receipt_time` | `timestamp with time zone` | Receipt time of last message received from origin WAL sender |
+| `latest_end_lsn` | `pg_lsn` | Last write-ahead log location reported to origin WAL sender |
+| `latest_end_time` | `timestamp with time zone` | Time of last write-ahead log location reported to origin WAL sender |
+| `slot_name` | `text` | Replication slot name used by this WAL receiver |
+| `conninfo` | `text` | Connection string used by this WAL receiver, with security-sensitive fields obfuscated. |
+
+  
+
+
+The`pg_stat_wal_receiver`view will contain only one row, showing statistics about the WAL receiver from that receiver's connected server.
+
+**Table 28.7. `pg_stat_subscription`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `subid` | `oid` | OID of the subscription |
+| `subname` | `text` | Name of the subscription |
+| `pid` | `integer` | Process ID of the subscription worker process |
+| `relid` | `Oid` | OID of the relation that the worker is synchronizing; null for the main apply worker |
+| `received_lsn` | `pg_lsn` | Last write-ahead log location received, the initial value of this field being 0 |
+| `last_msg_send_time` | `timestamp with time zone` | Send time of last message received from origin WAL sender |
+| `last_msg_receipt_time` | `timestamp with time zone` | Receipt time of last message received from origin WAL sender |
+| `latest_end_lsn` | `pg_lsn` | Last write-ahead log location reported to origin WAL sender |
+| `latest_end_time` | `timestamp with time zone` | Time of last write-ahead log location reported to origin WAL sender |
+
+  
+
+
+The`pg_stat_subscription`view will contain one row per subscription for main worker \(with null PID if the worker is not running\), and additional rows for workers handling the initial data copy of the subscribed tables.
+
+**Table 28.8. `pg_stat_ssl`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `pid` | `integer` | Process ID of a backend or WAL sender process |
+| `ssl` | `boolean` | True if SSL is used on this connection |
+| `version` | `text` | Version of SSL in use, or NULL if SSL is not in use on this connection |
+| `cipher` | `text` | Name of SSL cipher in use, or NULL if SSL is not in use on this connection |
+| `bits` | `integer` | Number of bits in the encryption algorithm used, or NULL if SSL is not used on this connection |
+| `compression` | `boolean` | True if SSL compression is in use, false if not, or NULL if SSL is not in use on this connection |
+| `clientdn` | `text` | Distinguished Name \(DN\) field from the client certificate used, or NULL if no client certificate was supplied or if SSL is not in use on this connection. This field is truncated if the DN field is longer than`NAMEDATALEN`\(64 characters in a standard build\) |
+
+  
+
+
+The`pg_stat_ssl`view will contain one row per backend or WAL sender process, showing statistics about SSL usage on this connection. It can be joined to`pg_stat_activity`or`pg_stat_replication`on the`pid`column to get more details about the connection.
 
