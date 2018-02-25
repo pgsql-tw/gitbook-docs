@@ -233,10 +233,6 @@
     * [24.1. 例行性資料清理](iii-server-administration/routine-database-maintenance-tasks/241-routine-vacuuming.md)
     * 24.2. Routine Reindexing
     * 24.3. Log File Maintenance
-  * Backup and Restore
-    * 25.1. SQL Dump
-    * 25.2. File System Level Backup
-    * 25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)
   * High Availability, Load Balancing, and Replication
     * 26.1. Comparison of Different Solutions
     * 26.2. Log-Shipping Standby Servers
@@ -247,7 +243,7 @@
     * 27.1. Archive Recovery Settings
     * 27.2. Recovery Target Settings
     * 27.3. Standby Server Settings
-  * Monitoring Database Activity
+  * [Monitoring Database Activity](iii-server-administration/monitoring-database-activity.md)
     * 28.1. Standard Unix Tools
     * 28.2. The Statistics Collector
     * 28.3. Viewing Locks
