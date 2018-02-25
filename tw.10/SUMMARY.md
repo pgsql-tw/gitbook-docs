@@ -247,7 +247,7 @@
     * 27.1. Archive Recovery Settings
     * 27.2. Recovery Target Settings
     * 27.3. Standby Server Settings
-  * Monitoring Database Activity
+  * [28. 監控資料庫活動](iii-server-administration/monitoring-database-activity.md)
     * 28.1. Standard Unix Tools
     * 28.2. The Statistics Collector
     * 28.3. Viewing Locks
@@ -479,6 +479,4 @@
   * [J. 文件取得](viii-appendixes/documentation.md)
   * [K. 縮寫字](viii-appendixes/acronyms.md)
 * [參考書目](bibliography.md)
-
-
 
