@@ -2,37 +2,37 @@
 
 [Table 9.60](#table-960-session-information-functions) 列出了一些取得連線和系統資訊的函數。
 
-除了本節中列出的功能之外，還有一些與統計系統相關的功能也提供系統訊息。有關更多訊息，請參閱第 28.2.2 節。
+除了本節中列出的功能之外，還有一些與統計系統相關的功能也提供系統訊息。有關更多訊息，請參閱[第 28.2.2 節](/iii-server-administration/monitoring-database-activity/282-the-statistics-collector.md)。
 
 ##### **Table 9.60. 連線資訊函數**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `current_catalog` | `name` | name of current database \(called“catalog”in the SQL standard\) |
-| `current_database()` | `name` | name of current database |
-| `current_query()` | `text` | text of the currently executing query, as submitted by the client \(might contain more than one statement\) |
-| `current_role` | `name` | equivalent to`current_user` |
-| `current_schema`\[\(\)\] | `name` | name of current schema |
-| `current_schemas(boolean`\) | `name[]` | names of schemas in search path, optionally including implicit schemas |
-| `current_user` | `name` | user name of current execution context |
-| `inet_client_addr()` | `inet` | address of the remote connection |
-| `inet_client_port()` | `int` | port of the remote connection |
-| `inet_server_addr()` | `inet` | address of the local connection |
-| `inet_server_port()` | `int` | port of the local connection |
-| `pg_backend_pid()` | `int` | Process ID of the server process attached to the current session |
-| `pg_blocking_pids(int`\) | `int[]` | Process ID\(s\) that are blocking specified server process ID from acquiring a lock |
-| `pg_conf_load_time()` | `timestamp with time zone` | configuration load time |
-| `pg_current_logfile([text`\]\) | `text` | Primary log file name, or log in the requested format, currently in use by the logging collector |
-| `pg_my_temp_schema()` | `oid` | OID of session's temporary schema, or 0 if none |
-| `pg_is_other_temp_schema(oid`\) | `boolean` | is schema another session's temporary schema? |
-| `pg_listening_channels()` | `setof text` | channel names that the session is currently listening on |
-| `pg_notification_queue_usage()` | `double` | fraction of the asynchronous notification queue currently occupied \(0-1\) |
-| `pg_postmaster_start_time()` | `timestamp with time zone` | server start time |
-| `pg_safe_snapshot_blocking_pids(int`\) | `int[]` | Process ID\(s\) that are blocking specified server process ID from acquiring a safe snapshot |
-| `pg_trigger_depth()` | `int` | current nesting level ofPostgreSQLtriggers \(0 if not called, directly or indirectly, from inside a trigger\) |
-| `session_user` | `name` | session user name |
-| `user` | `name` | equivalent to`current_user` |
-| `version()` | `text` | PostgreSQLversion information. See also[server\_version\_num](https://www.postgresql.org/docs/10/static/runtime-config-preset.html#guc-server-version-num)for a machine-readable version. |
+| `current_catalog` | `name` | 目前資料庫的名稱（在 SQL 標準中稱為「catalog」） |
+| `current_database()` | `name` | 目前資料庫的名稱 |
+| `current_query()` | `text` | 正在執行的查詢的文字內容（由用戶端送出的）（可能包含多個語句） |
+| `current_role` | `name` | 等同於 current\_user |
+| `current_schema`\[\(\)\] | `name` | 目前 schema 的名稱 |
+| `current_schemas(boolean`\) | `name[]` | 搜尋路徑中的 schema 名稱，選擇性包含隱含的 schema |
+| `current_user` | `name` | 目前執行查詢的使用者名稱 |
+| `inet_client_addr()` | `inet` | 遠端連線的位址 |
+| `inet_client_port()` | `int` | 遠端連線的連接埠 |
+| `inet_server_addr()` | `inet` | 本機連線的位址 |
+| `inet_server_port()` | `int` | 本機連線的連接埠 |
+| `pg_backend_pid()` | `int` | 目前伺服連線服務的 Process ID |
+| `pg_blocking_pids(int`\) | `int[]` | 正在防止指定的伺服器 Process ID 取得鎖定權限的 Process ID |
+| `pg_conf_load_time()` | `timestamp with time zone` | 載入時間的設定 |
+| `pg_current_logfile([text`\]\) | `text` | 主要日誌的檔案名稱，或者登記的日誌收集器目前正在使用的請求格式 |
+| `pg_my_temp_schema()` | `oid` | 目前連線的暫時 schema 的 OID，如果沒有則為 0 |
+| `pg_is_other_temp_schema(oid`\) | `boolean` | 這個 schema 是另一個連線的暫時 schema 嗎？ |
+| `pg_listening_channels()` | `setof text` | 連線目前正在監聽的頻道（channel）名稱 |
+| `pg_notification_queue_usage()` | `double` | 目前佔用的非同步通知佇列的使用率（0-1） |
+| `pg_postmaster_start_time()` | `timestamp with time zone` | 伺服器的啟動時間 |
+| `pg_safe_snapshot_blocking_pids(int`\) | `int[]` | 阻擋指定的伺服器 Process ID 取得安全快照的 Process ID |
+|  | `pg_trigger_depth()` | `intPostgreSQL 觸發器的目前巢狀等級（如果未從觸發器內部直接或間接呼叫，則為 0）` |
+| `session_user` | `name` | 連線中的使用者名稱 |
+| `user` | `name` | 等同於 current\_user |
+| `version()` | `text` | PostgreSQL 版本訊息。另請參閱 [server\_version\_num](/iii-server-administration/server-configuration/1915-preset-options.md) 以獲得機器可讀版本內容。 |
 
 ### Note
 

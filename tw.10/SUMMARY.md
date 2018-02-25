@@ -202,7 +202,7 @@
     * 19.12. Lock Management
     * [19.13. 版本與平台的相容性](iii-server-administration/server-configuration/1913-version-and-platform-compatibility.md)
     * 19.14. Error Handling
-    * 19.15. Preset Options
+    * [19.15. 預先配置的參數](iii-server-administration/server-configuration/1915-preset-options.md)
     * 19.16. Customized Options
     * 19.17. Developer Options
     * 19.18. Short Options
