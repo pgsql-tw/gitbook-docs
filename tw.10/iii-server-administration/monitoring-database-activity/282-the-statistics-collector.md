@@ -397,7 +397,7 @@ The`pg_stat_subscription`view will contain one row per subscription for main wor
 
 The`pg_stat_ssl`view will contain one row per backend or WAL sender process, showing statistics about SSL usage on this connection. It can be joined to`pg_stat_activity`or`pg_stat_replication`on the`pid`column to get more details about the connection.
 
-**Table 28.9. `pg_stat_archiver`View**
+**Table 28.9. **`pg_stat_archiver`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -409,12 +409,9 @@ The`pg_stat_ssl`view will contain one row per backend or WAL sender process, sho
 | `last_failed_time` | `timestamp with time zone` | Time of the last failed archival operation |
 | `stats_reset` | `timestamp with time zone` | Time at which these statistics were last reset |
 
-  
-
-
 The`pg_stat_archiver`view will always have a single row, containing data about the archiver process of the cluster.
 
-**Table 28.10. `pg_stat_bgwriter`View**
+**Table 28.10. **`pg_stat_bgwriter`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -430,12 +427,9 @@ The`pg_stat_archiver`view will always have a single row, containing data about t
 | `buffers_alloc` | `bigint` | Number of buffers allocated |
 | `stats_reset` | `timestamp with time zone` | Time at which these statistics were last reset |
 
-  
-
-
 The`pg_stat_bgwriter`view will always have a single row, containing global data for the cluster.
 
-**Table 28.11. `pg_stat_database`View**
+**Table 28.11. **`pg_stat_database`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -459,12 +453,9 @@ The`pg_stat_bgwriter`view will always have a single row, containing global data 
 | `blk_write_time` | `double precision` | Time spent writing data file blocks by backends in this database, in milliseconds |
 | `stats_reset` | `timestamp with time zone` | Time at which these statistics were last reset |
 
-  
-
-
 The`pg_stat_database`view will contain one row for each database in the cluster, showing database-wide statistics.
 
-**Table 28.12. `pg_stat_database_conflicts`View**
+**Table 28.12. **`pg_stat_database_conflicts`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -476,12 +467,9 @@ The`pg_stat_database`view will contain one row for each database in the cluster,
 | `confl_bufferpin` | `bigint` | Number of queries in this database that have been canceled due to pinned buffers |
 | `confl_deadlock` | `bigint` | Number of queries in this database that have been canceled due to deadlocks |
 
-  
-
-
 The`pg_stat_database_conflicts`view will contain one row per database, showing database-wide statistics about query cancels occurring due to conflicts with recovery on standby servers. This view will only contain information on standby servers, since conflicts do not occur on master servers.
 
-**Table 28.13. `pg_stat_all_tables`View**
+**Table 28.13. **`pg_stat_all_tables`**View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -508,8 +496,98 @@ The`pg_stat_database_conflicts`view will contain one row per database, showing d
 | `analyze_count` | `bigint` | Number of times this table has been manually analyzed |
 | `autoanalyze_count` | `bigint` | Number of times this table has been analyzed by the autovacuum daemon |
 
+The`pg_stat_all_tables`view will contain one row for each table in the current database \(including TOAST tables\), showing statistics about accesses to that specific table. The`pg_stat_user_tables`and`pg_stat_sys_tables`views contain the same information, but filtered to only show user and system tables respectively.
+
+**Table 28.14. `pg_stat_all_indexes`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `relid` | `oid` | OID of the table for this index |
+| `indexrelid` | `oid` | OID of this index |
+| `schemaname` | `name` | Name of the schema this index is in |
+| `relname` | `name` | Name of the table for this index |
+| `indexrelname` | `name` | Name of this index |
+| `idx_scan` | `bigint` | Number of index scans initiated on this index |
+| `idx_tup_read` | `bigint` | Number of index entries returned by scans on this index |
+| `idx_tup_fetch` | `bigint` | Number of live table rows fetched by simple index scans using this index |
+
   
 
 
-The`pg_stat_all_tables`view will contain one row for each table in the current database \(including TOAST tables\), showing statistics about accesses to that specific table. The`pg_stat_user_tables`and`pg_stat_sys_tables`views contain the same information, but filtered to only show user and system tables respectively.
+The`pg_stat_all_indexes`view will contain one row for each index in the current database, showing statistics about accesses to that specific index. The`pg_stat_user_indexes`and`pg_stat_sys_indexes`views contain the same information, but filtered to only show user and system indexes respectively.
+
+Indexes can be used by simple index scans,“bitmap”index scans, and the optimizer. In a bitmap scan the output of several indexes can be combined via AND or OR rules, so it is difficult to associate individual heap row fetches with specific indexes when a bitmap scan is used. Therefore, a bitmap scan increments the`pg_stat_all_indexes`.`idx_tup_read`count\(s\) for the index\(es\) it uses, and it increments the`pg_stat_all_tables`.`idx_tup_fetch`count for the table, but it does not affect`pg_stat_all_indexes`.`idx_tup_fetch`. The optimizer also accesses indexes to check for supplied constants whose values are outside the recorded range of the optimizer statistics because the optimizer statistics might be stale.
+
+### Note
+
+The`idx_tup_read`and`idx_tup_fetch`counts can be different even without any use of bitmap scans, because`idx_tup_read`counts index entries retrieved from the index while`idx_tup_fetch`counts live rows fetched from the table. The latter will be less if any dead or not-yet-committed rows are fetched using the index, or if any heap fetches are avoided by means of an index-only scan.
+
+**Table 28.15. `pg_statio_all_tables`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `relid` | `oid` | OID of a table |
+| `schemaname` | `name` | Name of the schema that this table is in |
+| `relname` | `name` | Name of this table |
+| `heap_blks_read` | `bigint` | Number of disk blocks read from this table |
+| `heap_blks_hit` | `bigint` | Number of buffer hits in this table |
+| `idx_blks_read` | `bigint` | Number of disk blocks read from all indexes on this table |
+| `idx_blks_hit` | `bigint` | Number of buffer hits in all indexes on this table |
+| `toast_blks_read` | `bigint` | Number of disk blocks read from this table's TOAST table \(if any\) |
+| `toast_blks_hit` | `bigint` | Number of buffer hits in this table's TOAST table \(if any\) |
+| `tidx_blks_read` | `bigint` | Number of disk blocks read from this table's TOAST table indexes \(if any\) |
+| `tidx_blks_hit` | `bigint` | Number of buffer hits in this table's TOAST table indexes \(if any\) |
+
+  
+
+
+The`pg_statio_all_tables`view will contain one row for each table in the current database \(including TOAST tables\), showing statistics about I/O on that specific table. The`pg_statio_user_tables`and`pg_statio_sys_tables`views contain the same information, but filtered to only show user and system tables respectively.
+
+**Table 28.16. `pg_statio_all_indexes`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `relid` | `oid` | OID of the table for this index |
+| `indexrelid` | `oid` | OID of this index |
+| `schemaname` | `name` | Name of the schema this index is in |
+| `relname` | `name` | Name of the table for this index |
+| `indexrelname` | `name` | Name of this index |
+| `idx_blks_read` | `bigint` | Number of disk blocks read from this index |
+| `idx_blks_hit` | `bigint` | Number of buffer hits in this index |
+
+  
+
+
+The`pg_statio_all_indexes`view will contain one row for each index in the current database, showing statistics about I/O on that specific index. The`pg_statio_user_indexes`and`pg_statio_sys_indexes`views contain the same information, but filtered to only show user and system indexes respectively.
+
+**Table 28.17. `pg_statio_all_sequences`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `relid` | `oid` | OID of a sequence |
+| `schemaname` | `name` | Name of the schema this sequence is in |
+| `relname` | `name` | Name of this sequence |
+| `blks_read` | `bigint` | Number of disk blocks read from this sequence |
+| `blks_hit` | `bigint` | Number of buffer hits in this sequence |
+
+  
+
+
+The`pg_statio_all_sequences`view will contain one row for each sequence in the current database, showing statistics about I/O on that specific sequence.
+
+**Table 28.18. `pg_stat_user_functions`View**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `funcid` | `oid` | OID of a function |
+| `schemaname` | `name` | Name of the schema this function is in |
+| `funcname` | `name` | Name of this function |
+| `calls` | `bigint` | Number of times this function has been called |
+| `total_time` | `double precision` | Total time spent in this function and all other functions called by it, in milliseconds |
+| `self_time` | `double precision` | Total time spent in this function itself, not including other functions called by it, in milliseconds |
+
+  
+
+
+The`pg_stat_user_functions`view will contain one row for each tracked function, showing statistics about executions of that function. The[track\_functions](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-FUNCTIONS)parameter controls exactly which functions are tracked.
 
