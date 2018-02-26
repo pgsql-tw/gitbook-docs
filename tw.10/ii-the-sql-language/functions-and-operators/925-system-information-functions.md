@@ -34,27 +34,21 @@
 | `user` | `name` | 等同於 current\_user |
 | `version()` | `text` | PostgreSQL 版本訊息。另請參閱 [server\_version\_num](/iii-server-administration/server-configuration/1915-preset-options.md) 以獲得機器可讀版本內容。 |
 
-### Note
+> ### 注意
+>
+> `current_catalog`,`current_role`,`current_schema`,`current_user`,`session_user`, 和`user 在 SQL 中有特殊的語法狀態：他們必須以沒有括號的方式呼叫。（在PostgreSQL中，括號可以選擇性地與 current_schema 一起使用，但不能與其他的函數一起使用。）`
 
-`current_catalog`,`current_role`,`current_schema`,`current_user`,`session_user`, and`user`have special syntactic status inSQL: they must be called without trailing parentheses. \(In PostgreSQL, parentheses can optionally be used with`current_schema`, but not with the others.\)
+session\_user 通常是發起目前資料庫連線的使用者；但超級使用者可以利用 [SET SESSION AUTHORIZATION](/vi-reference/i-sql-commands/set-session-authorization.md) 更改此設定。current\_user 是適用於權限檢查的使用者識別方式。通常它與連線中的使用者相同，但也可以使用 [SET ROLE](/vi-reference/i-sql-commands/set-role.md) 進行更改。在使用 SECURITY DEFINER 屬性執行功能期間，它也會發生變化。用 Unix 的說法，連線使用者是「real user」，而目前使用者是「effective user」。current\_role 和 user 是 current\_user 的同義詞。 （標準 SQL 區分了 current\_role 和 current\_user，但 PostgreSQL 並沒有，因為它將使用者和角色統合為一種實體。）
 
-The`session_user`is normally the user who initiated the current database connection; but superusers can change this setting with[SET SESSION AUTHORIZATION](https://www.postgresql.org/docs/10/static/sql-set-session-authorization.html). The`current_user`is the user identifier that is applicable for permission checking. Normally it is equal to the session user, but it can be changed with[SET ROLE](https://www.postgresql.org/docs/10/static/sql-set-role.html). It also changes during the execution of functions with the attribute`SECURITY DEFINER`. In Unix parlance, the session user is the“real user”and the current user is the“effective user”.`current_role`and`user`are synonyms for`current_user`. \(The SQL standard draws a distinction between`current_role`and`current_user`, butPostgreSQLdoes not, since it unifies users and roles into a single kind of entity.\)
+current\_schema 回傳搜尋路徑中的第一個 schema 名稱（如果搜尋路徑為空值，則回傳空值）。這將會用於在沒有指定 schema 的情況下建立的任何資料表或其他物件的 schema。current\_schemas（boolean）回傳目前搜尋路徑中所有 schema 名稱的陣列。 布林選項表示隱含的系統 schema（如pg\_catalog）是否包含在回傳的搜尋路徑中。
 
-`current_schema`returns the name of the schema that is first in the search path \(or a null value if the search path is empty\). This is the schema that will be used for any tables or other named objects that are created without specifying a target schema.`current_schemas(boolean)`returns an array of the names of all schemas presently in the search path. The Boolean option determines whether or not implicitly included system schemas such as`pg_catalog`are included in the returned search path.
-
-### Note
-
-The search path can be altered at run time. The command is:
-
-```
-SET search_path TO 
-schema
- [
-, 
-schema
-, ...
-]
-```
+> ### 注意
+>
+> 搜尋路徑可以在執行中時更改。該指令是：
+>
+> ```
+> SET search_path TO schema [, schema, ...]
+> ```
 
 `inet_client_addr`returns the IP address of the current client, and`inet_client_port`returns the port number.`inet_server_addr`returns the IP address on which the server accepted the current connection, and`inet_server_port`returns the port number. All these functions return NULL if the current connection is via a Unix-domain socket.
 

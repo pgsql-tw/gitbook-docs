@@ -430,6 +430,8 @@
     * [LOAD](vi-reference/i-sql-commands/load.md)
     * [REVOKE](vi-reference/i-sql-commands/revoke.md)
     * [SELECT](vi-reference/i-sql-commands/select.md)
+    * [SET ROLE](vi-reference/i-sql-commands/set-role.md)
+    * [SET SESSION AUTHORIZATION](vi-reference/i-sql-commands/set-session-authorization.md)
     * [SET TRANSACTION](vi-reference/i-sql-commands/set-transaction.md)
     * [UPDATE](vi-reference/i-sql-commands/update.md)
     * [VALUES](vi-reference/i-sql-commands/values.md)
