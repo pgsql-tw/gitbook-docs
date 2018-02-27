@@ -13,22 +13,22 @@
 | `current_query()` | `text` | 正在執行的查詢的文字內容（由用戶端送出的）（可能包含多個語句） |
 | `current_role` | `name` | 等同於 current\_user |
 | `current_schema`\[\(\)\] | `name` | 目前 schema 的名稱 |
-| `current_schemas(boolean`\) | `name[]` | 搜尋路徑中的 schema 名稱，選擇性包含隱含的 schema |
+| `current_schemas(boolean)` | `name[]` | 搜尋路徑中的 schema 名稱，選擇性包含隱含的 schema |
 | `current_user` | `name` | 目前執行查詢的使用者名稱 |
 | `inet_client_addr()` | `inet` | 遠端連線的位址 |
 | `inet_client_port()` | `int` | 遠端連線的連接埠 |
 | `inet_server_addr()` | `inet` | 本機連線的位址 |
 | `inet_server_port()` | `int` | 本機連線的連接埠 |
 | `pg_backend_pid()` | `int` | 目前伺服連線服務的 Process ID |
-| `pg_blocking_pids(int`\) | `int[]` | 正在防止指定的伺服器 Process ID 取得鎖定權限的 Process ID |
+| `pg_blocking_pids(int)` | `int[]` | 正在防止指定的伺服器 Process ID 取得鎖定權限的 Process ID |
 | `pg_conf_load_time()` | `timestamp with time zone` | 載入時間的設定 |
-| `pg_current_logfile([text`\]\) | `text` | 主要日誌的檔案名稱，或者登記的日誌收集器目前正在使用的請求格式 |
+| `pg_current_logfile([text])` | `text` | 主要日誌的檔案名稱，或者登記的日誌收集器目前正在使用的請求格式 |
 | `pg_my_temp_schema()` | `oid` | 目前連線的暫時 schema 的 OID，如果沒有則為 0 |
-| `pg_is_other_temp_schema(oid`\) | `boolean` | 這個 schema 是另一個連線的暫時 schema 嗎？ |
+| `pg_is_other_temp_schema(oid)` | `boolean` | 這個 schema 是另一個連線的暫時 schema 嗎？ |
 | `pg_listening_channels()` | `setof text` | 連線目前正在監聽的頻道（channel）名稱 |
 | `pg_notification_queue_usage()` | `double` | 目前佔用的非同步通知佇列的使用率（0-1） |
 | `pg_postmaster_start_time()` | `timestamp with time zone` | 伺服器的啟動時間 |
-| `pg_safe_snapshot_blocking_pids(int`\) | `int[]` | 阻擋指定的伺服器 Process ID 取得安全快照的 Process ID |
+| `pg_safe_snapshot_blocking_pids(int)` | `int[]` | 阻擋指定的伺服器 Process ID 取得安全快照的 Process ID |
 |  | `pg_trigger_depth()` | `intPostgreSQL 觸發器的目前巢狀等級（如果未從觸發器內部直接或間接呼叫，則為 0）` |
 | `session_user` | `name` | 連線中的使用者名稱 |
 | `user` | `name` | 等同於 current\_user |
@@ -50,7 +50,7 @@ current\_schema 回傳搜尋路徑中的第一個 schema 名稱（如果搜尋�
 > SET search_path TO schema [, schema, ...]
 > ```
 
-`inet_client_addr`returns the IP address of the current client, and`inet_client_port`returns the port number.`inet_server_addr`returns the IP address on which the server accepted the current connection, and`inet_server_port`returns the port number. All these functions return NULL if the current connection is via a Unix-domain socket.
+inet\_client\_addr 回傳目前用戶端的 IP 位址、inet\_client\_port 回傳連接埠、inet\_server\_addr 回傳伺服器接受目前連線的 IP 位址、inet\_server\_port 回傳連接埠。 如果目前連線是透過 Unix-domain socker，那這些函數都會回傳 NULL。
 
 `pg_blocking_pids`returns an array of the process IDs of the sessions that are blocking the server process with the specified process ID, or an empty array if there is no such server process or it is not blocked. One server process blocks another if it either holds a lock that conflicts with the blocked process's lock request \(hard block\), or is waiting for a lock that would conflict with the blocked process's lock request and is ahead of it in the wait queue \(soft block\). When using parallel queries the result always lists client-visible process IDs \(that is,`pg_backend_pid`results\) even if the actual lock is held or awaited by a child worker process. As a result of that, there may be duplicated PIDs in the result. Also note that when a prepared transaction holds a conflicting lock, it will be represented by a zero process ID in the result of this function. Frequent calls to this function could have some impact on database performance, because it needs exclusive access to the lock manager's shared state for a short time.
 
