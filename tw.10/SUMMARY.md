@@ -195,7 +195,7 @@
     * 19.5. Write Ahead Log
     * 19.6. Replication
     * [19.7. 查詢規畫](iii-server-administration/server-configuration/197-query-planning.md)
-    * 19.8. Error Reporting and Logging
+    * [19.8. 錯誤回報與記錄](iii-server-administration/server-configuration/198-error-reporting-and-logging.md)
     * 19.9. Run-time Statistics
     * [19.10. 自動系統清理](iii-server-administration/server-configuration/1910-automatic-vacuuming.md)
     * [19.11. 用戶端連線預設參數](iii-server-administration/server-configuration/1911-client-connection-defaults.md)
