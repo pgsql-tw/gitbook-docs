@@ -64,13 +64,13 @@ pg\_listening\_channels 回傳目前連線正在監聽的一組非同步監聽�
 
 pg\_postmaster\_start\_time 回傳伺服器啟動時帶有時區的時間戳記。
 
-`pg_safe_snapshot_blocking_pids`returns an array of the process IDs of the sessions that are blocking the server process with the specified process ID from acquiring a safe snapshot, or an empty array if there is no such server process or it is not blocked. A session running a`SERIALIZABLE`transaction blocks a`SERIALIZABLE READ ONLY DEFERRABLE`transaction from acquiring a snapshot until the latter determines that it is safe to avoid taking any predicate locks. See[Section 13.2.3](https://www.postgresql.org/docs/10/static/transaction-iso.html#xact-serializable)for more information about serializable and deferrable transactions. Frequent calls to this function could have some impact on database performance, because it needs access to the predicate lock manager's shared state for a short time.
+pg\_safe\_snapshot\_blocking\_pids 回傳阻擋具有指定 Process ID的取得安全快照的連線 Process ID 陣列，如果沒有這樣的 Process 或未有阻擋的情況，則回傳一個空陣列。執行 SERIALIZABLE 交易事務的連線會阻止另一個 SERIALIZABLE READ ONLY DEFERRABLE 交易事務取得快照，直到後者確定避免使用任何謂 predicate lock 是安全的。有關可序列化 SERIALIZABLE 和可延期 DEFERRABLE 交易的更多訊息，請參閱[第 13.2.3 節](/ii-the-sql-language/concurrency-control/132-transaction-isolation.md)。頻繁呼叫此函數可能會對資料庫效能產生一些影響，因為它需要短時間詢問 predicate lock 管理器的共享狀態。
 
-`version`returns a string describing thePostgreSQLserver's version. You can also get this information from[server\_version](https://www.postgresql.org/docs/10/static/runtime-config-preset.html#guc-server-version)or for a machine-readable version,[server\_version\_num](https://www.postgresql.org/docs/10/static/runtime-config-preset.html#guc-server-version-num). Software developers should use`server_version_num`\(available since 8.2\) or[`PQserverVersion`](https://www.postgresql.org/docs/10/static/libpq-status.html#libpq-pqserverversion)instead of parsing the text version.
+version 回傳一個說明 PostgreSQL 伺服器版本的字串。你也可以從 [server\_version](/iii-server-administration/server-configuration/1915-preset-options.md) 或適於機器讀取的 [server\_version\_num](/iii-server-administration/server-configuration/1915-preset-options.md) 取得此信息。軟體研發人員應該使用 server\_version\_num（自8.2起可用）或 [PQserverVersion](/iv-client-interfaces/332-connection-status-functions.md)，而不用需要解析文字的版本。
 
-[Table 9.61](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-access-table)lists functions that allow the user to query object access privileges programmatically. See[Section 5.6](https://www.postgresql.org/docs/10/static/ddl-priv.html)for more information about privileges.
+[Table 9.61](#table-961-access-privilege-inquiry-functions) 列出了允許使用者以程式控制的方式查詢資料庫物件存取權限的函數。有關權限的更多訊息，請參閱[第 5.6 節](/ii-the-sql-language/data-definition/56-privileges.md)。
 
-**Table 9.61. Access Privilege Inquiry Functions**
+##### **Table 9.61. Access Privilege Inquiry Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |

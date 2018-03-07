@@ -278,9 +278,9 @@
     * 32.4. TAP Tests
     * 32.5. Test Coverage Examination
 * [IV. Client Interfaces](iv-client-interfaces.md)
-  * libpq - C Library
+  * [33. libpq - C Library](iv-client-interfaces/libpq-c-library.md)
     * 33.1. Database Connection Control Functions
-    * 33.2. Connection Status Functions
+    * [33.2. 連線狀態函數](iv-client-interfaces/332-connection-status-functions.md)
     * 33.3. Command Execution Functions
     * 33.4. Asynchronous Command Processing
     * 33.5. Retrieving Query Results Row-By-Row
