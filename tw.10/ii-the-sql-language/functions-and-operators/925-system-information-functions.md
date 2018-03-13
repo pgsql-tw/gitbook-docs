@@ -70,37 +70,37 @@ version 回傳一個說明 PostgreSQL 伺服器版本的字串。你也可以從
 
 [Table 9.61](#table-961-access-privilege-inquiry-functions) 列出了允許使用者以程式控制的方式查詢資料庫物件存取權限的函數。有關權限的更多訊息，請參閱[第 5.6 節](/ii-the-sql-language/data-definition/56-privileges.md)。
 
-##### **Table 9.61. Access Privilege Inquiry Functions**
+##### **Table 9.61. 存取權限查詢功能**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `has_any_column_privilege`\(`user`,`table`,`privilege`\) | `boolean` | does user have privilege for any column of table |
-| `has_any_column_privilege`\(`table`,`privilege`\) | `boolean` | does current user have privilege for any column of table |
-| `has_column_privilege`\(`user`,`table`,`column`,`privilege`\) | `boolean` | does user have privilege for column |
-| `has_column_privilege`\(`table`,`column`,`privilege`\) | `boolean` | does current user have privilege for column |
-| `has_database_privilege`\(`user`,`database`,`privilege`\) | `boolean` | does user have privilege for database |
-| `has_database_privilege`\(`database`,`privilege`\) | `boolean` | does current user have privilege for database |
-| `has_foreign_data_wrapper_privilege`\(`user`,`fdw`,`privilege`\) | `boolean` | does user have privilege for foreign-data wrapper |
-| `has_foreign_data_wrapper_privilege`\(`fdw`,`privilege`\) | `boolean` | does current user have privilege for foreign-data wrapper |
-| `has_function_privilege`\(`user`,`function`,`privilege`\) | `boolean` | does user have privilege for function |
-| `has_function_privilege`\(`function`,`privilege`\) | `boolean` | does current user have privilege for function |
-| `has_language_privilege`\(`user`,`language`,`privilege`\) | `boolean` | does user have privilege for language |
-| `has_language_privilege`\(`language`,`privilege`\) | `boolean` | does current user have privilege for language |
-| `has_schema_privilege`\(`user`,`schema`,`privilege`\) | `boolean` | does user have privilege for schema |
-| `has_schema_privilege`\(`schema`,`privilege`\) | `boolean` | does current user have privilege for schema |
-| `has_sequence_privilege`\(`user`,`sequence`,`privilege`\) | `boolean` | does user have privilege for sequence |
-| `has_sequence_privilege`\(`sequence`,`privilege`\) | `boolean` | does current user have privilege for sequence |
-| `has_server_privilege`\(`user`,`server`,`privilege`\) | `boolean` | does user have privilege for foreign server |
-| `has_server_privilege`\(`server`,`privilege`\) | `boolean` | does current user have privilege for foreign server |
-| `has_table_privilege`\(`user`,`table`,`privilege`\) | `boolean` | does user have privilege for table |
-| `has_table_privilege`\(`table`,`privilege`\) | `boolean` | does current user have privilege for table |
-| `has_tablespace_privilege`\(`user`,`tablespace`,`privilege`\) | `boolean` | does user have privilege for tablespace |
-| `has_tablespace_privilege`\(`tablespace`,`privilege`\) | `boolean` | does current user have privilege for tablespace |
-| `has_type_privilege`\(`user`,`type`,`privilege`\) | `boolean` | does user have privilege for type |
-| `has_type_privilege`\(`type`,`privilege`\) | `boolean` | does current user have privilege for type |
-| `pg_has_role`\(`user`,`role`,`privilege`\) | `boolean` | does user have privilege for role |
-| `pg_has_role`\(`role`,`privilege`\) | `boolean` | does current user have privilege for role |
-| `row_security_active`\(`table`\) | `boolean` | does current user have row level security active for table |
+| `has_any_column_privilege`\(`user`,`table`,`privilege`\) | `boolean` | 使用者是否有任何資料表欄位的權限？ |
+| `has_any_column_privilege`\(`table`,`privilege`\) | `boolean` | 目前使用者是否有任何資料表欄位的權限？ |
+| `has_column_privilege`\(`user`,`table`,`column`,`privilege`\) | `boolean` | 使用者是否有該欄位的權限？ |
+| `has_column_privilege`\(`table`,`column`,`privilege`\) | `boolean` | 目前用戶是否具有該欄位的權限？ |
+| `has_database_privilege`\(`user`,`database`,`privilege`\) | `boolean` | 使用者對該資料庫是否有權限？ |
+| `has_database_privilege`\(`database`,`privilege`\) | `boolean` | 目前用戶是否具有該資料庫的權限？ |
+| `has_foreign_data_wrapper_privilege`\(`user`,`fdw`,`privilege`\) | `boolean` | 使用者是否擁有該 FDW 權限？ |
+| `has_foreign_data_wrapper_privilege`\(`fdw`,`privilege`\) | `boolean` | 目前使用者是否具有該 FDW 的權限？ |
+| `has_function_privilege`\(`user`,`function`,`privilege`\) | `boolean` | 使用者是否具有該函數的權限？ |
+| `has_function_privilege`\(`function`,`privilege`\) | `boolean` | 目前用戶是否具有該函數的權限？ |
+| `has_language_privilege`\(`user`,`language`,`privilege`\) | `boolean` | 使用者是否有該程式語言的權限？ |
+| `has_language_privilege`\(`language`,`privilege`\) | `boolean` | 目前使用者是否具有該程式語言的權限？ |
+| `has_schema_privilege`\(`user`,`schema`,`privilege`\) | `boolean` | 使用者是否具有該 schema 的權限？ |
+| `has_schema_privilege`\(`schema`,`privilege`\) | `boolean` | 目前使用者是否具有該 schema 的權限？ |
+| `has_sequence_privilege`\(`user`,`sequence`,`privilege`\) | `boolean` | 使用者是否具有該序列資料的權限？ |
+| `has_sequence_privilege`\(`sequence`,`privilege`\) | `boolean` | 目前使用者是否具有該序列資料的權限？ |
+| `has_server_privilege`\(`user`,`server`,`privilege`\) | `boolean` | 使用者是否擁有該 foreign server 的權限？ |
+| `has_server_privilege`\(`server`,`privilege`\) | `boolean` | 目前使用者是否具有該 foreign server 的權限？ |
+| `has_table_privilege`\(`user`,`table`,`privilege`\) | `boolean` | 使用者是否擁有該資料表的權限？ |
+| `has_table_privilege`\(`table`,`privilege`\) | `boolean` | 目前使用者是否擁有該資料表的權限？ |
+| `has_tablespace_privilege`\(`user`,`tablespace`,`privilege`\) | `boolean` | 使用者是否擁有資料表空間的權限？ |
+| `has_tablespace_privilege`\(`tablespace`,`privilege`\) | `boolean` | 目前用戶是否擁有資料表空間的權限？ |
+| `has_type_privilege`\(`user`,`type`,`privilege`\) | `boolean` | 使用者是否有該資料型別的權限？ |
+| `has_type_privilege`\(`type`,`privilege`\) | `boolean` | 目前使用者是否擁有該資料型別的權限？ |
+| `pg_has_role`\(`user`,`role`,`privilege`\) | `boolean` | 使用者是否具有該角色的權限？ |
+| `pg_has_role`\(`role`,`privilege`\) | `boolean` | 目前使用者是否擁有該角色的權限？ |
+| `row_security_active`\(`table`\) | `boolean` | 目前使用者對於資料表的資料列級安全設定是否有效？ |
 
 `has_table_privilege`checks whether a user can access a table in a particular way. The user can be specified by name, by OID \(`pg_authid.oid`\),`public`to indicate the PUBLIC pseudo-role, or if the argument is omitted`current_user`is assumed. The table can be specified by name or by OID. \(Thus, there are actually six variants of`has_table_privilege`, which can be distinguished by the number and types of their arguments.\) When specifying by name, the name can be schema-qualified if necessary. The desired access privilege type is specified by a text string, which must evaluate to one of the values`SELECT`,`INSERT`,`UPDATE`,`DELETE`,`TRUNCATE`,`REFERENCES`, or`TRIGGER`. Optionally,`WITH GRANT OPTION`can be added to a privilege type to test whether the privilege is held with grant option. Also, multiple privilege types can be listed separated by commas, in which case the result will be`true`if any of the listed privileges is held. \(Case of the privilege string is not significant, and extra whitespace is allowed between but not within privilege names.\) Some examples:
 
