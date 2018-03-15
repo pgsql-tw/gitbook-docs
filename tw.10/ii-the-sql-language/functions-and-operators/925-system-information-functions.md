@@ -109,9 +109,9 @@ SELECT has_table_privilege('myschema.mytable', 'select');
 SELECT has_table_privilege('joe', 'mytable', 'INSERT, SELECT WITH GRANT OPTION');
 ```
 
-`has_sequence_privilege`checks whether a user can access a sequence in a particular way. The possibilities for its arguments are analogous to`has_table_privilege`. The desired access privilege type must evaluate to one of`USAGE`,`SELECT`, or`UPDATE`.
+has\_sequence\_privilege 用於檢查使用者是否能以特定方式存取序列物件。其參數類似於 has\_table\_privilege。所需的存取權限類型必須為 USAGE、SELECT 或 UPDATE 之一。
 
-`has_any_column_privilege`checks whether a user can access any column of a table in a particular way. Its argument possibilities are analogous to`has_table_privilege`, except that the desired access privilege type must evaluate to some combination of`SELECT`,`INSERT`,`UPDATE`, or`REFERENCES`. Note that having any of these privileges at the table level implicitly grants it for each column of the table, so`has_any_column_privilege`will always return`true`if`has_table_privilege`does for the same arguments. But`has_any_column_privilege`also succeeds if there is a column-level grant of the privilege for at least one column.
+has\_any\_column\_privilege 用於檢查使用者是否能以特定方式存取資料表中的任何欄位。它的參數類似於 has\_table\_privilege，只是所需的存取權限類型必須為 SELECT、INSERT、UPDATE 或 REFERENCES 的組合。請注意，在資料表等級具有這些權限中的任何一項，都自然地授予該資料表的每一欄位。因此如果 has\_table\_privilege 對相同參數執行操作，has\_table\_privilege 始終都會回傳 true。但是，如果至少有一欄位有欄位級的欄限授予，則 has\_any\_column\_privilege 也會為 true。
 
 `has_column_privilege`checks whether a user can access a column in a particular way. Its argument possibilities are analogous to`has_table_privilege`, with the addition that the column can be specified either by name or attribute number. The desired access privilege type must evaluate to some combination of`SELECT`,`INSERT`,`UPDATE`, or`REFERENCES`. Note that having any of these privileges at the table level implicitly grants it for each column of the table.
 
