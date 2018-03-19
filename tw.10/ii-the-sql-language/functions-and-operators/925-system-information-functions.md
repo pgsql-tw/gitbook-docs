@@ -117,15 +117,15 @@ has\_column\_privilege 用於檢查使用者是否能以特定方式存取欄位
 
 has\_database\_privilege 用於檢查使用者是否能以特定方式存取資料庫。它的參數與 has\_table\_privilege 類似。所需的存取權限類型必須為 CREATE、CONNECT、TEMPORARY 或 TEMP（相當於 TEMPORARY）的某種組合。
 
-`has_function_privilege`checks whether a user can access a function in a particular way. Its argument possibilities are analogous to`has_table_privilege`. When specifying a function by a text string rather than by OID, the allowed input is the same as for the`regprocedure`data type \(see[Section 8.18](https://www.postgresql.org/docs/10/static/datatype-oid.html)\). The desired access privilege type must evaluate to`EXECUTE`. An example is:
+has\_function\_privilege 用於檢查使用者是否可以以特定方式存取函數。它的參數類似於 has\_table\_privilege。 當透過文字字串而不是 OID 指定函數時，允許的輸入與regprocedure 資料型別相同（請參閱[第 8.18 節](/ii-the-sql-language/data-types/818-object-identifier-types.md)）。所需的存取權限類型必須為 EXECUTE。例如：
 
 ```
 SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
 ```
 
-`has_foreign_data_wrapper_privilege`checks whether a user can access a foreign-data wrapper in a particular way. Its argument possibilities are analogous to`has_table_privilege`. The desired access privilege type must evaluate to`USAGE`.
+has\_foreign\_data\_wrapper\_privilege 用於檢查使用者是否能以特定方式存取 FDW。 它的參數類似於 has\_table\_privilege。所需的存取權限類型必須為 USAGE。
 
-`has_language_privilege`checks whether a user can access a procedural language in a particular way. Its argument possibilities are analogous to`has_table_privilege`. The desired access privilege type must evaluate to`USAGE`.
+has\_language\_privilege 用於檢查使用者是否能以特定方式存 procedure 的程式語言。 它的參數類似於 has\_table\_privilege。所需的存取權限類型必須為 USAGE。
 
 `has_schema_privilege`checks whether a user can access a schema in a particular way. Its argument possibilities are analogous to`has_table_privilege`. The desired access privilege type must evaluate to some combination of`CREATE`or`USAGE`.
 
