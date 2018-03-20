@@ -127,17 +127,17 @@ has\_foreign\_data\_wrapper\_privilege 用於檢查使用者是否能以特定�
 
 has\_language\_privilege 用於檢查使用者是否能以特定方式存 procedure 的程式語言。 它的參數類似於 has\_table\_privilege。所需的存取權限類型必須為 USAGE。
 
-`has_schema_privilege`checks whether a user can access a schema in a particular way. Its argument possibilities are analogous to`has_table_privilege`. The desired access privilege type must evaluate to some combination of`CREATE`or`USAGE`.
+has\_schema\_privilege 用於檢查使用者是否能以特定方式存取 schema。它的參數類似於 has\_table\_privilege。所需的存取權限類型必須為 CREATE 或 USAGE 的組合。
 
-`has_server_privilege`checks whether a user can access a foreign server in a particular way. Its argument possibilities are analogous to`has_table_privilege`. The desired access privilege type must evaluate to`USAGE`.
+has\_server\_privilege 用於檢查使用者是否能以特定方式存取 foreign server。它的參數類似於 has\_table\_privilege。所需的存取權限類型必須為 USAGE。
 
-`has_tablespace_privilege`checks whether a user can access a tablespace in a particular way. Its argument possibilities are analogous to`has_table_privilege`. The desired access privilege type must evaluate to`CREATE`.
+has\_tablespace\_privilege 用於檢查使用者是否能以特定方式存取資料表空間。它的參數類似於 has\_table\_privilege。所需的存取權限類型必須為 CREATE。
 
-`has_type_privilege`checks whether a user can access a type in a particular way. Its argument possibilities are analogous to`has_table_privilege`. When specifying a type by a text string rather than by OID, the allowed input is the same as for the`regtype`data type \(see[Section 8.18](https://www.postgresql.org/docs/10/static/datatype-oid.html)\). The desired access privilege type must evaluate to`USAGE`.
+has\_type\_privilege 用於檢查使用者是否能以特定方式存取資料型別。它的參數類似於 has\_table\_privilege。當使用文字字串而不是 OID 指定資料型別時，允許的輸入與 regtypedata 型別相同（參閱[第 8.18 節](/ii-the-sql-language/data-types/818-object-identifier-types.md)）。所需的存取權限類型必須為 USAGE。
 
-`pg_has_role`checks whether a user can access a role in a particular way. Its argument possibilities are analogous to`has_table_privilege`, except that`public`is not allowed as a user name. The desired access privilege type must evaluate to some combination of`MEMBER`or`USAGE`.`MEMBER`denotes direct or indirect membership in the role \(that is, the right to do`SET ROLE`\), while`USAGE`denotes whether the privileges of the role are immediately available without doing`SET ROLE`.
+pg\_has\_role 用於檢查使用者是否能以特定方式存取角色。它的參數類似於 has\_table\_privilege，而 public 不允許作為使用者名稱。所需的存取權限類型必須為 MEMBER 或 USAGE 的組合。MEMBER 表示角色中的直接或間接成員資格（即俱備 SET ROLE 的權力），而 USAGE 表示角色的權限是否立即可用而不需要執行 SET ROLE。
 
-`row_security_active`checks whether row level security is active for the specified table in the context of the`current_user`and environment. The table can be specified by name or by OID.
+row\_security\_active 用於檢查 current\_user 和 environment 的上下文中的資料列級的安全性是否對指定的資料表是有效的。該資料表可以使用名稱或 OID 來指定。
 
 [Table 9.62](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-schema-table)shows functions that determine whether a certain object is\_visible\_in the current schema search path. For example, a table is said to be visible if its containing schema is in the search path and no table of the same name appears earlier in the search path. This is equivalent to the statement that the table can be referenced by name without explicit schema qualification. To list the names of all visible tables:
 
