@@ -139,39 +139,39 @@ pg\_has\_role 用於檢查使用者是否能以特定方式存取角色。它的
 
 row\_security\_active 用於檢查 current\_user 和 environment 的上下文中的資料列級的安全性是否對指定的資料表是有效的。該資料表可以使用名稱或 OID 來指定。
 
-[Table 9.62](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-schema-table)shows functions that determine whether a certain object is\_visible\_in the current schema search path. For example, a table is said to be visible if its containing schema is in the search path and no table of the same name appears earlier in the search path. This is equivalent to the statement that the table can be referenced by name without explicit schema qualification. To list the names of all visible tables:
+[Table 9.62](#table-962-schema-可見性的查詢函數) 列出想要確定某個物件在目前 schema 搜尋路徑中是否可見的函數。例如，如果一個資料表所包含的 schema 位於搜尋路徑中，並且在搜尋路徑的前面沒有出現同名的資料表，則稱該資料表是可見的。這相當於可以透過名稱引用資料表而不需要明確指定 schema 限定的語法。要列出所有可見資料表的名稱：
 
 ```
 SELECT relname FROM pg_class WHERE pg_table_is_visible(oid);
 ```
 
-**Table 9.62. Schema Visibility Inquiry Functions**
+##### **Table 9.62. Schema 可見性的查詢函數**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `pg_collation_is_visible(collation_oid`\) | `boolean` | is collation visible in search path |
-| `pg_conversion_is_visible(conversion_oid`\) | `boolean` | is conversion visible in search path |
-| `pg_function_is_visible(function_oid`\) | `boolean` | is function visible in search path |
-| `pg_opclass_is_visible(opclass_oid`\) | `boolean` | is operator class visible in search path |
-| `pg_operator_is_visible(operator_oid`\) | `boolean` | is operator visible in search path |
-| `pg_opfamily_is_visible(opclass_oid`\) | `boolean` | is operator family visible in search path |
-| `pg_statistics_obj_is_visible(stat_oid`\) | `boolean` | is statistics object visible in search path |
-| `pg_table_is_visible(table_oid`\) | `boolean` | is table visible in search path |
-| `pg_ts_config_is_visible(config_oid`\) | `boolean` | is text search configuration visible in search path |
-| `pg_ts_dict_is_visible(dict_oid`\) | `boolean` | is text search dictionary visible in search path |
-| `pg_ts_parser_is_visible(parser_oid`\) | `boolean` | is text search parser visible in search path |
-| `pg_ts_template_is_visible(template_oid`\) | `boolean` | is text search template visible in search path |
-| `pg_type_is_visible(type_oid`\) | `boolean` | is type \(or domain\) visible in search path |
+| `pg_collation_is_visible(collation_oid`\) | `boolean` | collation 在搜尋路徑中可見嗎？ |
+| `pg_conversion_is_visible(conversion_oid`\) | `boolean` | 型別轉換在搜尋路徑中可見嗎？ |
+| `pg_function_is_visible(function_oid`\) | `boolean` | 函數在搜尋路徑中可見嗎？ |
+| `pg_opclass_is_visible(opclass_oid`\) | `boolean` | 運算子集合在搜尋路徑中可見嗎？ |
+| `pg_operator_is_visible(operator_oid`\) | `boolean` | 運算子在搜尋路徑中可見嗎？ |
+| `pg_opfamily_is_visible(opclass_oid`\) | `boolean` | 運算子家族在搜尋路徑中可見嗎？ |
+| `pg_statistics_obj_is_visible(stat_oid`\) | `boolean` | 統計物件在搜尋路徑中可見嗎？ |
+| `pg_table_is_visible(table_oid`\) | `boolean` | 資料表在搜尋路徑中可見嗎？ |
+| `pg_ts_config_is_visible(config_oid`\) | `boolean` | 全文檢索組態在搜索路徑中可見嗎？ |
+| `pg_ts_dict_is_visible(dict_oid`\) | `boolean` | 全文檢索字典在搜索路徑中可見嗎？ |
+| `pg_ts_parser_is_visible(parser_oid`\) | `boolean` | 全文檢索解析器在搜索路徑中可見嗎？ |
+| `pg_ts_template_is_visible(template_oid`\) | `boolean` | 全文檢索樣版在搜索路徑中可見嗎？ |
+| `pg_type_is_visible(type_oid`\) | `boolean` | 資料型別（或 domain）在搜尋路徑中可見嗎？ |
 
-Each function performs the visibility check for one type of database object. Note that`pg_table_is_visible`can also be used with views, materialized views, indexes, sequences and foreign tables;`pg_type_is_visible`can also be used with domains. For functions and operators, an object in the search path is visible if there is no object of the same name\_and argument data type\(s\)\_earlier in the path. For operator classes, both name and associated index access method are considered.
+每個函數都對一種類型的資料庫物件執行可見性檢查。請注意，pg\_table\_is\_visible 也可以用於 view、materialized view、索引、序列和外部資料表；pg\_type\_is\_visible 也可以用於 domain。對於函數和運算子，如果在路徑的前面沒有名稱和參數資料型別相同的物件，則搜尋路徑中的物件是可見的。對於運算子，名稱和相關的索引存取方法都應該考慮在內。
 
-All these functions require object OIDs to identify the object to be checked. If you want to test an object by name, it is convenient to use the OID alias types \(`regclass`,`regtype`,`regprocedure`,`regoperator`,`regconfig`, or`regdictionary`\), for example:
+所有這些功能都需要物件的 OID 來識別要檢查的物件。如果要按名稱測試物件，則使用 OID 別名型別（regclass、regtype、regprocedure、regoperator、regconfig 或 regdictionary）會比較方便，例如：
 
 ```
 SELECT pg_type_is_visible('myschema.widget'::regtype);
 ```
 
-Note that it would not make much sense to test a non-schema-qualified type name in this way — if the name can be recognized at all, it must be visible.
+請注意，以這種方式測試非 schema 限定的型別名稱沒有什麼意義 - 因為如果名稱可以被識別，則它必然是可見的。
 
 [Table 9.63](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-catalog-table)lists functions that extract information from the system catalogs.
 
