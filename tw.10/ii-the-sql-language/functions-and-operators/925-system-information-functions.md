@@ -173,52 +173,52 @@ SELECT pg_type_is_visible('myschema.widget'::regtype);
 
 請注意，以這種方式測試非 schema 限定的型別名稱沒有什麼意義 - 因為如果名稱可以被識別，則它必然是可見的。
 
-[Table 9.63](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-catalog-table)lists functions that extract information from the system catalogs.
+[Table 9.63](#table-963-system-catalog-information-functions) 列出了從系統目錄中取得資訊的功能。
 
-**Table 9.63. System Catalog Information Functions**
+##### **Table 9.63. System Catalog Information Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `format_type(type_oid`,`typemod`\) | `text` | get SQL name of a data type |
-| `pg_get_constraintdef(constraint_oid`\) | `text` | get definition of a constraint |
-| `pg_get_constraintdef(constraint_oid`,`pretty_bool`\) | `text` | get definition of a constraint |
-| `pg_get_expr(pg_node_tree`,`relation_oid`\) | `text` | decompile internal form of an expression, assuming that any Vars in it refer to the relation indicated by the second parameter |
-| `pg_get_expr(pg_node_tree`,`relation_oid`,`pretty_bool`\) | `text` | decompile internal form of an expression, assuming that any Vars in it refer to the relation indicated by the second parameter |
-| `pg_get_functiondef(func_oid`\) | `text` | get definition of a function |
-| `pg_get_function_arguments(func_oid`\) | `text` | get argument list of function's definition \(with default values\) |
-| `pg_get_function_identity_arguments(func_oid`\) | `text` | get argument list to identify a function \(without default values\) |
-| `pg_get_function_result(func_oid`\) | `text` | get`RETURNS`clause for function |
-| `pg_get_indexdef(index_oid`\) | `text` | get`CREATE INDEX`command for index |
-| `pg_get_indexdef(index_oid`,`column_no`,`pretty_bool`\) | `text` | get`CREATE INDEX`command for index, or definition of just one index column when\_`column_no`\_is not zero |
-| `pg_get_keywords()` | `setof record` | get list of SQL keywords and their categories |
-| `pg_get_ruledef(rule_oid`\) | `text` | get`CREATE RULE`command for rule |
-| `pg_get_ruledef(rule_oid`,`pretty_bool`\) | `text` | get`CREATE RULE`command for rule |
-| `pg_get_serial_sequence(table_name`,`column_name`\) | `text` | get name of the sequence that a`serial`,`smallserial`or`bigserial`column uses |
-| `pg_get_statisticsobjdef(statobj_oid`\) | `text` | get`CREATE STATISTICS`command for extended statistics object |
-| `pg_get_triggerdef`\(`trigger_oid`\) | `text` | get`CREATE [ CONSTRAINT ] TRIGGER`command for trigger |
-| `pg_get_triggerdef`\(`trigger_oid`,`pretty_bool`\) | `text` | get`CREATE [ CONSTRAINT ] TRIGGER`command for trigger |
-| `pg_get_userbyid(role_oid`\) | `name` | get role name with given OID |
-| `pg_get_viewdef(view_name`\) | `text` | get underlying`SELECT`command for view or materialized view \(_deprecated_\) |
-| `pg_get_viewdef(view_name`,`pretty_bool`\) | `text` | get underlying`SELECT`command for view or materialized view \(_deprecated_\) |
-| `pg_get_viewdef(view_oid`\) | `text` | get underlying`SELECT`command for view or materialized view |
-| `pg_get_viewdef(view_oid`,`pretty_bool`\) | `text` | get underlying`SELECT`command for view or materialized view |
-| `pg_get_viewdef(view_oid`,`wrap_column_int`\) | `text` | get underlying`SELECT`command for view or materialized view; lines with fields are wrapped to specified number of columns, pretty-printing is implied |
-| `pg_index_column_has_property(index_oid`,`column_no`,`prop_name`\) | `boolean` | test whether an index column has a specified property |
-| `pg_index_has_property(index_oid`,`prop_name`\) | `boolean` | test whether an index has a specified property |
-| `pg_indexam_has_property(am_oid`,`prop_name`\) | `boolean` | test whether an index access method has a specified property |
-| `pg_options_to_table(reloptions`\) | `setof record` | get the set of storage option name/value pairs |
-| `pg_tablespace_databases(tablespace_oid`\) | `setof oid` | get the set of database OIDs that have objects in the tablespace |
-| `pg_tablespace_location(tablespace_oid`\) | `text` | get the path in the file system that this tablespace is located in |
-| `pg_typeof(any`\) | `regtype` | get the data type of any value |
-| `collation for (any`\) | `text` | get the collation of the argument |
-| `to_regclass(rel_name`\) | `regclass` | get the OID of the named relation |
-| `to_regproc(func_name`\) | `regproc` | get the OID of the named function |
-| `to_regprocedure(func_name`\) | `regprocedure` | get the OID of the named function |
-| `to_regoper(operator_name`\) | `regoper` | get the OID of the named operator |
-| `to_regoperator(operator_name`\) | `regoperator` | get the OID of the named operator |
-| `to_regtype(type_name`\) | `regtype` | get the OID of the named type |
-| `to_regnamespace(schema_name`\) | `regnamespace` | get the OID of the named schema |
-| `to_regrole(role_name`\) | `regrole` | get the OID of the named role |
+| `format_type(type_oid`,`typemod`\) | `text` | 取得資料型別的 SQL 名稱 |
+| `pg_get_constraintdef(constraint_oid`\) | `text` | 取得限制條件的定義 |
+| `pg_get_constraintdef(constraint_oid`,`pretty_bool`\) | `text` | 取得限制條件的定義 |
+| `pg_get_expr(pg_node_tree`,`relation_oid`\) | `text` | 反組譯表示式的內部形式，假設其中的任何 Vars 引用由第二個參數所指示的關連 |
+| `pg_get_expr(pg_node_tree`,`relation_oid`,`pretty_bool`\) | `text` | 反組譯表示式的內部形式，假設其中的任何 Vars 引用由第二個參數所指示的關連 |
+| `pg_get_functiondef(func_oid`\) | `text` | 取得函數的定義 |
+| `pg_get_function_arguments(func_oid`\) | `text` | 取得函數定義的參數列表（包含預設值） |
+| `pg_get_function_identity_arguments(func_oid`\) | `text` | 取得函數的參數列表（不包含默認值） |
+| `pg_get_function_result(func_oid`\) | `text` | 取得函數的 RETURNS 子句 |
+| `pg_get_indexdef(index_oid`\) | `text` | 取得用於索引的 CREATE INDEX 命令 |
+| `pg_get_indexdef(index_oid`,`column_no`,`pretty_bool`\) | `text` | 取得用於索引的 CREATE INDEX 指令，或者只有一個索引欄位的定義，當 column\_no 不為零時 |
+| `pg_get_keywords()` | `setof record` | 取得 SQL 關鍵字列表及其類別 |
+| `pg_get_ruledef(rule_oid`\) | `text` | 取出規則的 CREATE RULE 指令 |
+| `pg_get_ruledef(rule_oid`,`pretty_bool`\) | `text` | 取出規則的 CREATE RULE 指令 |
+| `pg_get_serial_sequence(table_name`,`column_name`\) | `text` | 取得 serial、smallserial 或 bigserial 欄位使用的序列名稱 |
+| `pg_get_statisticsobjdef(statobj_oid`\) | `text` | 取得延伸的統計資訊物件的 CREATE STATISTICS 指令 |
+| `pg_get_triggerdef`\(`trigger_oid`\) | `text` | 取得觸發器的 CREATE \[CONSTRAINT\] TRIGGER 指令 |
+| `pg_get_triggerdef`\(`trigger_oid`,`pretty_bool`\) | `text` | 取得觸發器的 CREATE \[CONSTRAINT\] TRIGGER 指令 |
+| `pg_get_userbyid(role_oid`\) | `name` | 取得指定 OID 的角色名稱 |
+| `pg_get_viewdef(view_name`\) | `text` | 為 view 或 materialized view 取得實際的 SELECT 命令（已淘汰） |
+| `pg_get_viewdef(view_name`,`pretty_bool`\) | `text` | 為 view 或 materialized view 取得實際的 SELECT 命令（已淘汰） |
+| `pg_get_viewdef(view_oid`\) | `text` | 為 view 或 materialized view 取得實際的 SELECT 命令 |
+| `pg_get_viewdef(view_oid`,`pretty_bool`\) | `text` | 為 view 或 materialized view 取得實際的 SELECT 命令（淘汰了） |
+| `pg_get_viewdef(view_oid`,`wrap_column_int`\) | `text` | 為 view 或 materialized view 取得實際的 SELECT 指令；內容將被包裝為指定數量的列，隱含著 pretty-prtinting 的輸出 |
+| `pg_index_column_has_property(index_oid`,`column_no`,`prop_name`\) | `boolean` | 測試索引欄位是否具有指定的屬性 |
+| `pg_index_has_property(index_oid`,`prop_name`\) | `boolean` | 測試索引欄位是否具有指定的屬性 |
+| `pg_indexam_has_property(am_oid`,`prop_name`\) | `boolean` | 測試索引存取方法是否具有指定的屬性 |
+| `pg_options_to_table(reloptions`\) | `setof record` | 取得一組儲存的選項 name/value |
+| `pg_tablespace_databases(tablespace_oid`\) | `setof oid` | 取得資料表空間中具有物件的資料庫 OID 集合 |
+| `pg_tablespace_location(tablespace_oid`\) | `text` | 取得該資料表空間所在的檔案系統路徑 |
+| `pg_typeof(any`\) | `regtype` | 取得任何內容的資料型別 |
+| `collation for (any`\) | `text` | 取得參數的校對方式 |
+| `to_regclass(rel_name`\) | `regclass` | 取得指定關連的 OID |
+| `to_regproc(func_name`\) | `regproc` | 取得指定函數的 OID |
+| `to_regprocedure(func_name`\) | `regprocedure` | 取得指定函數的 OID |
+| `to_regoper(operator_name`\) | `regoper` | 取得指定運算子的 OID |
+| `to_regoperator(operator_name`\) | `regoperator` | 取得指定運算子的 OID |
+| `to_regtype(type_name`\) | `regtype` | 取得指定型別的 OID |
+| `to_regnamespace(schema_name`\) | `regnamespace` | 取得指定 schema 的 OID |
+| `to_regrole(role_name`\) | `regrole` | 取得指定角色的 OID |
 
 `format_type`returns the SQL name of a data type that is identified by its type OID and possibly a type modifier. Pass NULL for the type modifier if no specific modifier is known.
 
