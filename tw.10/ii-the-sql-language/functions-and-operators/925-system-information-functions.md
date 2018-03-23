@@ -220,9 +220,9 @@ SELECT pg_type_is_visible('myschema.widget'::regtype);
 | `to_regnamespace(schema_name`\) | `regnamespace` | 取得指定 schema 的 OID |
 | `to_regrole(role_name`\) | `regrole` | 取得指定角色的 OID |
 
-`format_type`returns the SQL name of a data type that is identified by its type OID and possibly a type modifier. Pass NULL for the type modifier if no specific modifier is known.
+format\_type 回傳由其 OID 查得的可能資料型別 SQL 名稱。如果沒有特定的型別名稱修飾字的話，則設定為 NULL。
 
-`pg_get_keywords`returns a set of records describing the SQL keywords recognized by the server. The`word`column contains the keyword. The`catcode`column contains a category code:`U`for unreserved,`C`for column name,`T`for type or function name, or`R`for reserved. The`catdesc`column contains a possibly-localized string describing the category.
+pg\_get\_keywords 回傳一組描述伺服器識別的 SQL 關鍵字記錄。單詞欄位包含關鍵字。catcode 欄位包含一個類別代碼：U 表示未保留，C 表示欄位名，T 表示型別或函數名，或 R 表示保留字。catdesc列包含描述類別的可能本地化的字串。
 
 `pg_get_constraintdef`,`pg_get_indexdef`,`pg_get_ruledef`,`pg_get_statisticsobjdef`, and`pg_get_triggerdef`, respectively reconstruct the creating command for a constraint, index, rule, extended statistics object, or trigger. \(Note that this is a decompiled reconstruction, not the original text of the command.\)`pg_get_expr`decompiles the internal form of an individual expression, such as the default value for a column. It can be useful when examining the contents of system catalogs. If the expression might contain Vars, specify the OID of the relation they refer to as the second parameter; if no Vars are expected, zero is sufficient.`pg_get_viewdef`reconstructs the`SELECT`query that defines a view. Most of these functions come in two variants, one of which can optionally“pretty-print”the result. The pretty-printed format is more readable, but the default format is more likely to be interpreted the same way by future versions ofPostgreSQL; avoid using pretty-printed output for dump purposes. Passing`false`for the pretty-print parameter yields the same result as the variant that does not have the parameter at all.
 
