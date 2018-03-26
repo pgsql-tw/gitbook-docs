@@ -224,17 +224,19 @@ format\_type 回傳由其 OID 查得的可能資料型別 SQL 名稱。如果沒
 
 pg\_get\_keywords 回傳一組描述伺服器識別的 SQL 關鍵字記錄。單詞欄位包含關鍵字。catcode 欄位包含一個類別代碼：U 表示未保留，C 表示欄位名，T 表示型別或函數名，或 R 表示保留字。catdesc列包含描述類別的可能本地化的字串。
 
-`pg_get_constraintdef`,`pg_get_indexdef`,`pg_get_ruledef`,`pg_get_statisticsobjdef`, and`pg_get_triggerdef`, respectively reconstruct the creating command for a constraint, index, rule, extended statistics object, or trigger. \(Note that this is a decompiled reconstruction, not the original text of the command.\)`pg_get_expr`decompiles the internal form of an individual expression, such as the default value for a column. It can be useful when examining the contents of system catalogs. If the expression might contain Vars, specify the OID of the relation they refer to as the second parameter; if no Vars are expected, zero is sufficient.`pg_get_viewdef`reconstructs the`SELECT`query that defines a view. Most of these functions come in two variants, one of which can optionally“pretty-print”the result. The pretty-printed format is more readable, but the default format is more likely to be interpreted the same way by future versions ofPostgreSQL; avoid using pretty-printed output for dump purposes. Passing`false`for the pretty-print parameter yields the same result as the variant that does not have the parameter at all.
+pg\_get\_constraintdef、pg\_get\_indexdef、pg\_get\_ruledef、pg\_get\_statisticsobjdef 和
 
-`pg_get_functiondef`returns a complete`CREATE OR REPLACE FUNCTION`statement for a function.`pg_get_function_arguments`returns the argument list of a function, in the form it would need to appear in within`CREATE FUNCTION`.`pg_get_function_result`similarly returns the appropriate`RETURNS`clause for the function.`pg_get_function_identity_arguments`returns the argument list necessary to identify a function, in the form it would need to appear in within`ALTER FUNCTION`, for instance. This form omits default values.
+pg\_get\_triggerdef 分別重建限制條件、索引、規則、延伸統計物件或觸發器的建立指令。（請注意，這是一個反組譯的的功能，並不是原本初始建立的指令內容。）pg\_get\_expr 反組譯單一個表示式的內部形式，例如欄位的預設值。在檢查系統目錄的內容時會很有用。如果表示式可能包含 Vars，則指定它們引用關係的 OID 作為第二個參數；如果沒有 Vars，那就填上零。pg\_get\_viewdef 重建定義視圖的 SELECT 查詢。這些功能中的大多數都有兩種變形，其中一種可以選擇性地輸出結果。使用「pretty-print」則能使輸出的格式更具可讀性，不過預設格式更可能被未來版本的 PostgreSQL 以相同方式解釋；避免以轉存目的 pretty-print 輸出。為 pretty-print 給予 false 就會得到與根本沒有參數的變形相同結果。
 
-`pg_get_serial_sequence`returns the name of the sequence associated with a column, or NULL if no sequence is associated with the column. The first input parameter is a table name with optional schema, and the second parameter is a column name. Because the first parameter is potentially a schema and table, it is not treated as a double-quoted identifier, meaning it is lower cased by default, while the second parameter, being just a column name, is treated as double-quoted and has its case preserved. The function returns a value suitably formatted for passing to sequence functions \(see[Section 9.16](https://www.postgresql.org/docs/10/static/functions-sequence.html)\). This association can be modified or removed with`ALTER SEQUENCE OWNED BY`. \(The function probably should have been called`pg_get_owned_sequence`; its current name reflects the fact that it's typically used with`serial`or`bigserial`columns.\)
+pg\_get\_functiondef 為某個函數回傳一個完整的 CREATE OR REPLACE FUNCTION 語句。pg\_get\_function\_arguments 回傳函數的參數列表，格式為需要在 CREATE FUNCTION 中出現的格式。pg\_get\_function\_result 同樣回傳該函數的相對應的 RETURNS 子句。例如，pg\_get\_function\_identity\_arguments 回傳識別函數所需的參數列表，例如，它需要在 ALTER FUNCTION 中出現的形式，該形式會省略預設值。
 
-`pg_get_userbyid`extracts a role's name given its OID.
+pg\_get\_serial\_sequence 回傳與欄位關聯的序列的名稱，如果沒有序列與欄位關聯，則回傳 NULL。第一個輸入參數是資料表名稱，你可以視情況使用 schema，第二個參數是欄位名稱。由於第一個參數可能是 schema 和資料表，因此不會將其視為雙引號識別符號，這意味著它預設就是小寫字母，而第二個參數（僅作為欄位名稱）被視為雙引號識別符號，並且會保留其大小寫模樣。該函數回傳一個適當格式的內容以傳遞給序列函數（參閱[第 9.16 節](/ii-the-sql-language/functions-and-operators/916-sequence-manipulation-functions.md)）。該關聯可以用於 ALTER SEQUENCE OWNED BY 進行修改或刪除。（函數可能應該被稱為 pg\_get\_owned\_sequence；它的目前名稱反映了它通常用於 serial 或 bigserial 欄位的現況。）
 
-`pg_index_column_has_property`,`pg_index_has_property`, and`pg_indexam_has_property`return whether the specified index column, index, or index access method possesses the named property.`NULL`is returned if the property name is not known or does not apply to the particular object, or if the OID or column number does not identify a valid object. Refer to[Table 9.64](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-index-column-props)for column properties,[Table 9.65](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-index-props)for index properties, and[Table 9.66](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-indexam-props)for access method properties. \(Note that extension access methods can define additional property names for their indexes.\)
+pg\_get\_userbyid 根據其 OID 取得角色的名稱。
 
-**Table 9.64. Index Column Properties**
+pg\_index\_column\_has\_property、pg\_index\_has\_property 和 pg\_indexam\_has\_property 回傳指定的索引欄位、索引或索引存取方法是否擁有指定的屬性。如果屬性名稱未知或不適用於特定的物件，或者 OID 或欄位編號未標識有效物件，則回傳 NULL。 請參閱 [Table 9.64 欄位屬性](#table-964-index-column-properties)，[Table 9.65 索引屬性](#table-965-index-properties)以及 [Table 9.66 存取方法屬性](#table-966-index-access-method-properties)。 （請注意，延伸套件的存取方法可以為其索引定義其他屬性名稱。）
+
+##### **Table 9.64. Index Column Properties**
 
 | Name | Description |
 | :--- | :--- |
@@ -248,7 +250,7 @@ pg\_get\_keywords 回傳一組描述伺服器識別的 SQL 關鍵字記錄。單
 | `search_array` | Does the column natively support`col = ANY(array)`searches? |
 | `search_nulls` | Does the column support`IS NULL`and`IS NOT NULL`searches? |
 
-**Table 9.65. Index Properties**
+##### **Table 9.65. Index Properties**
 
 | Name | Description |
 | :--- | :--- |
@@ -257,7 +259,7 @@ pg\_get\_keywords 回傳一組描述伺服器識別的 SQL 關鍵字記錄。單
 | `bitmap_scan` | Does the index support bitmap scans? |
 | `backward_scan` | Can the index be scanned backwards? |
 
-**Table 9.66. Index Access Method Properties**
+##### **Table 9.66. Index Access Method Properties**
 
 | Name | Description |
 | :--- | :--- |
