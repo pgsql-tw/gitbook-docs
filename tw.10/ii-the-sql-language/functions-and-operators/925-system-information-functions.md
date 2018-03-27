@@ -224,9 +224,11 @@ format\_type 回傳由其 OID 查得的可能資料型別 SQL 名稱。如果沒
 
 pg\_get\_keywords 回傳一組描述伺服器識別的 SQL 關鍵字記錄。單詞欄位包含關鍵字。catcode 欄位包含一個類別代碼：U 表示未保留，C 表示欄位名，T 表示型別或函數名，或 R 表示保留字。catdesc列包含描述類別的可能本地化的字串。
 
-pg\_get\_constraintdef、pg\_get\_indexdef、pg\_get\_ruledef、pg\_get\_statisticsobjdef 和
+pg\_get\_constraintdef、pg\_get\_indexdef、pg\_get\_ruledef、pg\_get\_statisticsobjdef 和
 
-pg\_get\_triggerdef 分別重建限制條件、索引、規則、延伸統計物件或觸發器的建立指令。（請注意，這是一個反組譯的的功能，並不是原本初始建立的指令內容。）pg\_get\_expr 反組譯單一個表示式的內部形式，例如欄位的預設值。在檢查系統目錄的內容時會很有用。如果表示式可能包含 Vars，則指定它們引用關係的 OID 作為第二個參數；如果沒有 Vars，那就填上零。pg\_get\_viewdef 重建定義視圖的 SELECT 查詢。這些功能中的大多數都有兩種變形，其中一種可以選擇性地輸出結果。使用「pretty-print」則能使輸出的格式更具可讀性，不過預設格式更可能被未來版本的 PostgreSQL 以相同方式解釋；避免以轉存目的 pretty-print 輸出。為 pretty-print 給予 false 就會得到與根本沒有參數的變形相同結果。
+pg\_get\_triggerdef 分別重建限制條件、索引、規則、延伸統計物件或觸發器的建立指令。（請注意，這是一個反組譯的的功能，並不是原本初始建立的指令內容。）pg\_get\_expr 反組譯單一個表示式的內部形式，例如欄位的預設值。在檢查系統目錄的內容時會很有用。如果表示式可能包含 Vars，則指定它們引用關係的 OID 作為第二個參數；如果沒有 Vars，那就填上零。pg\_get\_viewdef 重建定義視圖的 SELECT 查詢。這些功能中的大多數都有兩種變形，其中一種可以選擇性地輸出結果。使用「pretty-print」則能使輸出的格式更具可讀性，不過預設格式更可能被未來版本的  
+ PostgreSQL 以相同方式解釋；避免以轉存目的 pretty-print 輸出。為 pretty-print 給予  
+ false 就會得到與根本沒有參數的變形相同結果。
 
 pg\_get\_functiondef 為某個函數回傳一個完整的 CREATE OR REPLACE FUNCTION 語句。pg\_get\_function\_arguments 回傳函數的參數列表，格式為需要在 CREATE FUNCTION 中出現的格式。pg\_get\_function\_result 同樣回傳該函數的相對應的 RETURNS 子句。例如，pg\_get\_function\_identity\_arguments 回傳識別函數所需的參數列表，例如，它需要在 ALTER FUNCTION 中出現的形式，該形式會省略預設值。
 
@@ -236,37 +238,37 @@ pg\_get\_userbyid 根據其 OID 取得角色的名稱。
 
 pg\_index\_column\_has\_property、pg\_index\_has\_property 和 pg\_indexam\_has\_property 回傳指定的索引欄位、索引或索引存取方法是否擁有指定的屬性。如果屬性名稱未知或不適用於特定的物件，或者 OID 或欄位編號未標識有效物件，則回傳 NULL。 請參閱 [Table 9.64 欄位屬性](#table-964-index-column-properties)，[Table 9.65 索引屬性](#table-965-index-properties)以及 [Table 9.66 存取方法屬性](#table-966-index-access-method-properties)。 （請注意，延伸套件的存取方法可以為其索引定義其他屬性名稱。）
 
-##### **Table 9.64. Index Column Properties**
+##### **Table 9.64. 索引欄位屬性**
 
 | Name | Description |
 | :--- | :--- |
-| `asc` | Does the column sort in ascending order on a forward scan? |
-| `desc` | Does the column sort in descending order on a forward scan? |
-| `nulls_first` | Does the column sort with nulls first on a forward scan? |
-| `nulls_last` | Does the column sort with nulls last on a forward scan? |
-| `orderable` | Does the column possess any defined sort ordering? |
-| `distance_orderable` | Can the column be scanned in order by a“distance”operator, for example`ORDER BY col <-> constant`? |
-| `returnable` | Can the column value be returned by an index-only scan? |
-| `search_array` | Does the column natively support`col = ANY(array)`searches? |
-| `search_nulls` | Does the column support`IS NULL`and`IS NOT NULL`searches? |
+| `asc` | 該欄位在順向掃描中是以升幂排序嗎？ |
+| `desc` | 該欄位在順向掃描中是否以降冪排序？ |
+| `nulls_first` | 在順向掃描中，欄位是否先排序 NULL？ |
+| `nulls_last` | 在順向掃描中，欄位是否將 NULL 排序在最後？ |
+| `orderable` | 欄位是否具有任何已定義的排序順序？ |
+| `distance_orderable` | 是否可以透過「距離」運算子按順序掃描列，例如 ORDER BY COL &lt;-&gt; 常數？ |
+| `returnable` | 欄位值是否可以進行 index-only 掃描？ |
+| `search_array` | 欄位本身是否支援 col = ANY\(array\) 搜尋？ |
+| `search_nulls` | 該欄位是否支援 IS NULL 和 IS NOT NULL 搜尋？ |
 
-##### **Table 9.65. Index Properties**
-
-| Name | Description |
-| :--- | :--- |
-| `clusterable` | Can the index be used in a`CLUSTER`command? |
-| `index_scan` | Does the index support plain \(non-bitmap\) scans? |
-| `bitmap_scan` | Does the index support bitmap scans? |
-| `backward_scan` | Can the index be scanned backwards? |
-
-##### **Table 9.66. Index Access Method Properties**
+##### **Table 9.65. 索引屬性**
 
 | Name | Description |
 | :--- | :--- |
-| `can_order` | Does the access method support`ASC`,`DESC`and related keywords in`CREATE INDEX`? |
-| `can_unique` | Does the access method support unique indexes? |
-| `can_multi_col` | Does the access method support indexes with multiple columns? |
-| `can_exclude` | Does the access method support exclusion constraints? |
+| `clusterable` | 索引是否可以在 CLUSTER 指令中使用？ |
+| `index_scan` | 索引是否支持 plain（非 bitmap）掃描？ |
+| `bitmap_scan` | 索引是否支持 bitmap 掃描？ |
+| `backward_scan` | 索引是否支持逆向掃描？ |
+
+##### **Table 9.66. 索引存取方式屬性**
+
+| Name | Description |
+| :--- | :--- |
+| `can_order` | 存取方法是否支援 CREATE INDEX 中的 ASC、DESC 及相關的關鍵字？ |
+| `can_unique` | 存取方法是否支援唯一索引？ |
+| `can_multi_col` | 存取方法是否支援具有多欄位的索引？ |
+| `can_exclude` | 存取方法是否支援排除性的限制條件？ |
 
 `pg_options_to_table`returns the set of storage option name/value pairs \(`option_name`/`option_value`\) when passed`pg_class`.`reloptions`or`pg_attribute`.`attoptions`.
 
