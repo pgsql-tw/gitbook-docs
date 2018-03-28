@@ -270,11 +270,11 @@ pg\_index\_column\_has\_property、pg\_index\_has\_property 和 pg\_indexam\_has
 | `can_multi_col` | 存取方法是否支援具有多欄位的索引？ |
 | `can_exclude` | 存取方法是否支援排除性的限制條件？ |
 
-`pg_options_to_table`returns the set of storage option name/value pairs \(`option_name`/`option_value`\) when passed`pg_class`.`reloptions`or`pg_attribute`.`attoptions`.
+pg\_options\_to\_table 會回傳一組儲存選項 name/value 的組合（option\_name / option\_value），當參數傳送 pg\_class.reloptions 或 pg\_attribute.attoptions 時。
 
-`pg_tablespace_databases`allows a tablespace to be examined. It returns the set of OIDs of databases that have objects stored in the tablespace. If this function returns any rows, the tablespace is not empty and cannot be dropped. To display the specific objects populating the tablespace, you will need to connect to the databases identified by`pg_tablespace_databases`and query their`pg_class`catalogs.
+pg\_tablespace\_databases 用於檢查資料表空間。它回傳儲在在資料表空間中的資料庫 OID 集合。如果此函數有回傳任何資料，則表示資料表空間不是空的，並且不能被刪除。要顯示使用資料表空間的特定對象，你需要連線到 pg\_tablespace\_databases 所登記的資料庫並查詢其系統目錄中的 pg\_class 資料表。
 
-`pg_typeof`returns the OID of the data type of the value that is passed to it. This can be helpful for troubleshooting or dynamically constructing SQL queries. The function is declared as returning`regtype`, which is an OID alias type \(see[Section 8.18](https://www.postgresql.org/docs/10/static/datatype-oid.html)\); this means that it is the same as an OID for comparison purposes but displays as a type name. For example:
+pg\_typeof 回傳其所接受參數的資料型別 OID。這對於問題除錯或動態構建 SQL 查詢很有幫助。該函數宣告的為回傳型別為 regtype，這是一個 OID 別名型別（詳見[第 8.18 節](/ii-the-sql-language/data-types/818-object-identifier-types.md)）；這意味著它與用於比較 OID 相同，但顯示為型別名稱。 例如：
 
 ```
 SELECT pg_typeof(33);
@@ -291,7 +291,7 @@ SELECT typlen FROM pg_type WHERE oid = pg_typeof(33);
 (1 row)
 ```
 
-The expression`collation for`returns the collation of the value that is passed to it. Example:
+表示式 collation for 用於回傳其參數的 collation。例如：
 
 ```
 SELECT collation for (description) FROM pg_description LIMIT 1;
@@ -307,7 +307,7 @@ SELECT collation for ('foo' COLLATE "de_DE");
 (1 row)
 ```
 
-The value might be quoted and schema-qualified. If no collation is derived for the argument expression, then a null value is returned. If the argument is not of a collatable data type, then an error is raised.
+該值可能會有括號和 schema-qulaified。如果沒有能對應的 collation，則回傳 NULL。 如果參數不是能有 collation 的資料內容，則會產生錯誤。
 
 The`to_regclass`,`to_regproc`,`to_regprocedure`,`to_regoper`,`to_regoperator`,`to_regtype`,`to_regnamespace`, and`to_regrole`functions translate relation, function, operator, type, schema, and role names \(given as`text`\) to objects of type`regclass`,`regproc`,`regprocedure`,`regoper`,`regoperator`,`regtype`,`regnamespace`, and`regrole`respectively. These functions differ from a cast from text in that they don't accept a numeric OID, and that they return null rather than throwing an error if the name is not found \(or, for`to_regproc`and`to_regoper`, if the given name matches multiple objects\).
 
