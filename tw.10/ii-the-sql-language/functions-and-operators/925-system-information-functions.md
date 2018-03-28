@@ -307,7 +307,7 @@ SELECT collation for ('foo' COLLATE "de_DE");
 (1 row)
 ```
 
-該值可能會有括號和 schema-qulaified。如果沒有能對應的 collation，則回傳 NULL。 如果參數不是能有 collation 的資料內容，則會產生錯誤。
+該值可能會有括號和 schema-qualified。如果沒有能對應的 collation，則回傳 NULL。 如果參數不是能有 collation 的資料內容，則會產生錯誤。
 
 The`to_regclass`,`to_regproc`,`to_regprocedure`,`to_regoper`,`to_regoperator`,`to_regtype`,`to_regnamespace`, and`to_regrole`functions translate relation, function, operator, type, schema, and role names \(given as`text`\) to objects of type`regclass`,`regproc`,`regprocedure`,`regoper`,`regoperator`,`regtype`,`regnamespace`, and`regrole`respectively. These functions differ from a cast from text in that they don't accept a numeric OID, and that they return null rather than throwing an error if the name is not found \(or, for`to_regproc`and`to_regoper`, if the given name matches multiple objects\).
 
