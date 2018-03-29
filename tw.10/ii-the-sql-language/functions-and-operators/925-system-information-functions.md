@@ -309,18 +309,18 @@ SELECT collation for ('foo' COLLATE "de_DE");
 
 該值可能會有括號和 schema-qualified。如果沒有能對應的 collation，則回傳 NULL。 如果參數不是能有 collation 的資料內容，則會產生錯誤。
 
-The`to_regclass`,`to_regproc`,`to_regprocedure`,`to_regoper`,`to_regoperator`,`to_regtype`,`to_regnamespace`, and`to_regrole`functions translate relation, function, operator, type, schema, and role names \(given as`text`\) to objects of type`regclass`,`regproc`,`regprocedure`,`regoper`,`regoperator`,`regtype`,`regnamespace`, and`regrole`respectively. These functions differ from a cast from text in that they don't accept a numeric OID, and that they return null rather than throwing an error if the name is not found \(or, for`to_regproc`and`to_regoper`, if the given name matches multiple objects\).
+to\_regclass、to\_regproc、to\_regprocedure、to\_regoper、to\_regoperator、to\_regtype、to\_regnamespace 和 to\_regrole 函數將關連、函數、運算子、資料型別、schema 和角色名稱（文字型別輸入）分別轉換為 regclass、regproc、regprocedure、regoper、regoperator、regtype、regnamespace 和 regrole。這些函數不同於型別轉換，因為它們不接受 OID，那將會回傳 null，而不是在找不到名稱時拋出錯誤（或者會回傳 forto\_regproc 和 to\_regoper，如果輸入的名稱與多個物件吻合時）。
 
-[Table 9.67](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-object-table)lists functions related to database object identification and addressing.
+[Table 9.67](#table-967-object-information-and-addressing-functions) 列出與資料庫物件識別和定址的相關函數。
 
-**Table 9.67. Object Information and Addressing Functions**
+##### **Table 9.67. 物件資訊與定址函數**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `pg_describe_object(catalog_id`,`object_id`,`object_sub_id`\) | `text` | get description of a database object |
-| `pg_identify_object(catalog_idoid`,`object_idoid`,`object_sub_idinteger`\) | `typetext`,`schematext`,`nametext`,`identitytext` | get identity of a database object |
-| `pg_identify_object_as_address(catalog_idoid`,`object_idoid`,`object_sub_idinteger`\) | `typetext`,`nametext[]`,`argstext[]` | get external representation of a database object's address |
-| `pg_get_object_address(typetext`,`nametext[]`,`argstext[]`\) | `catalog_idoid`,`object_idoid`,`object_sub_idint32` | get address of a database object, from its external representation |
+| `pg_describe_object(catalog_id`,`object_id`,`object_sub_id`\) | `text` | 取得資料庫物件的描述 |
+| `pg_identify_object(catalog_idoid`,`object_idoid`,`object_sub_idinteger`\) | `typetext`,`schematext`,`nametext`,`identitytext` | 取得資料庫物件的識別 |
+| `pg_identify_object_as_address(catalog_idoid`,`object_idoid`,`object_sub_idinteger`\) | `typetext`,`nametext[]`,`argstext[]` | 取得資料庫物件位址的外部表示 |
+| `pg_get_object_address(typetext`,`nametext[]`,`argstext[]`\) | `catalog_idoid`,`object_idoid`,`object_sub_idint32` | 從外部識別取得資料庫物件的位址 |
 
 `pg_describe_object`returns a textual description of a database object specified by catalog OID, object OID and a \(possibly zero\) sub-object ID. This description is intended to be human-readable, and might be translated, depending on server configuration. This is useful to determine the identity of an object as stored in the`pg_depend`catalog.
 
