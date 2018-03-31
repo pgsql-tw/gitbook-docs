@@ -318,17 +318,17 @@ to\_regclass、to\_regproc、to\_regprocedure、to\_regoper、to\_regoperator、
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
 | `pg_describe_object(catalog_id`,`object_id`,`object_sub_id`\) | `text` | 取得資料庫物件的描述 |
-| `pg_identify_object(catalog_idoid`,`object_idoid`,`object_sub_idinteger`\) | `typetext`,`schematext`,`nametext`,`identitytext` | 取得資料庫物件的識別 |
-| `pg_identify_object_as_address(catalog_idoid`,`object_idoid`,`object_sub_idinteger`\) | `typetext`,`nametext[]`,`argstext[]` | 取得資料庫物件位址的外部表示 |
-| `pg_get_object_address(typetext`,`nametext[]`,`argstext[]`\) | `catalog_idoid`,`object_idoid`,`object_sub_idint32` | 從外部識別取得資料庫物件的位址 |
+| `pg_identify_object(catalog_idoid`,`object_idoid`,`object_sub_idinteger`\) | `type text`,`schema text`,`name text`,`identity text` | 取得資料庫物件的識別 |
+| `pg_identify_object_as_address(catalog_idoid`,`object_idoid`,`object_sub_idinteger`\) | `type text`,`name text[]`,`args text[]` | 取得資料庫物件位址的外部表示 |
+| `pg_get_object_address(typetext`,`nametext[]`,`argstext[]`\) | `catalog_id oid`,`object_id oid`,`object_sub_id int32` | 從外部識別取得資料庫物件的位址 |
 
 pg\_describe\_object 回傳由系統目錄 OID、物件 OID和子物件 ID（可能為零） 指定的資料庫物件的文字描述訊息。根據伺服器配置，此描述旨在提供操作人員的可讀性，並且可能會進行翻譯。這對確定儲存在 pg\_depend 系統目錄中的物件識別非常有用。
 
 pg\_identify\_object 回傳一個包含足夠訊息的資料列，以唯一識別由目錄 OID、物件 OID和（可能為零）子物件 ID 指定的資料庫物件。此函數旨在於機器可讀，所以不會進行翻譯。type 為識別資料庫物件的類型；schema 是物件所屬的 schema 名稱，而對於不屬於 schema 的物件類型為NULL；name 是物件的名稱，在必要時引用，只有在可以使用時才存在（ 與 schema 名稱一樣，如果需要才使用）作為物件的唯一識別符，否則為 NULL；識別是完整的物件識別，其精確格式取決於物件類型，格式中的每個部分都根據需要進行 schema-qualified 和使用括號。
 
-`pg_identify_object_as_address`returns a row containing enough information to uniquely identify the database object specified by catalog OID, object OID and a \(possibly zero\) sub-object ID. The returned information is independent of the current server, that is, it could be used to identify an identically named object in another server.`type`_\_identifies the type of database object;_`name`_and_`args`\_are text arrays that together form a reference to the object. These three columns can be passed to`pg_get_object_address`to obtain the internal address of the object. This function is the inverse of`pg_get_object_address`.
+pg\_identify\_object\_as\_address 回傳一個包含足夠訊息的資料列，以唯一識別由系統目錄 OID、物件 OID 和（可能為零）子物件 ID 指定的資料庫物件。回傳的訊息獨立於目前的伺服器。也就是說，它可以用來識別另一台伺服器中同名的物件。type 識別資料庫物件的型別；name 和 args 是文字陣列，它們一起組成對該物件的引用。這三個欄位傳遞給 pg\_get\_object\_address 以取得物件的內部位址。這個函數是pg\_get\_object\_address 的反函數。
 
-`pg_get_object_address`returns a row containing enough information to uniquely identify the database object specified by its type and object name and argument arrays. The returned values are the ones that would be used in system catalogs such as`pg_depend`and can be passed to other system functions such as`pg_identify_object`or`pg_describe_object`.`catalog_id`_\_is the OID of the system catalog containing the object;_`object_id`_is the OID of the object itself, and_`object_sub_id`\_is the object sub-ID, or zero if none. This function is the inverse of`pg_identify_object_as_address`.
+pg\_get\_object\_address 回傳一個包含足夠訊息的資料列，以唯一識別由其型別和物件名稱及其參數陣列所指定的資料庫物件。回傳的內容和系統目錄中使用的相同。例如pg\_depend，可用於傳遞給其他系統函數，如 pg\_identify\_object 或pg\_describe\_object。catalog\_id是包含物件的系統目錄 OID；object\_id 是物件本身的OID，object\_sub\_id 是物件子 ID，如果沒有則為零。 這個函數是 pg\_identify\_object\_as\_address 的反函數。
 
 The functions shown in[Table 9.68](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-comment-table)extract comments previously stored with the[COMMENT](https://www.postgresql.org/docs/10/static/sql-comment.html)command. A null value is returned if no comment could be found for the specified parameters.
 
