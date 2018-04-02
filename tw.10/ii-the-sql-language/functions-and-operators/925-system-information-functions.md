@@ -336,16 +336,16 @@ The functions shown in[Table 9.68](https://www.postgresql.org/docs/10/static/fun
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `col_description(table_oid`,`column_number`\) | `text` | get comment for a table column |
-| `obj_description(object_oid`,`catalog_name`\) | `text` | get comment for a database object |
-| `obj_description(object_oid`\) | `text` | get comment for a database object \(_deprecated_\) |
-| `shobj_description(object_oid`,`catalog_name`\) | `text` | get comment for a shared database object |
+| `col_description(table_oid`,`column_number`\) | `text` | 取得資料表欄位的註解 |
+| `obj_description(object_oid`,`catalog_name`\) | `text` | 取得資料庫物件的註解 |
+| `obj_description(object_oid`\) | `text` | 取得資料庫物件的註解（已廢棄） |
+| `shobj_description(object_oid`,`catalog_name`\) | `text` | 取得共享資料庫物件的註解 |
 
-`col_description`returns the comment for a table column, which is specified by the OID of its table and its column number. \(`obj_description`cannot be used for table columns since columns do not have OIDs of their own.\)
+col\_description 回傳資料表欄位的註解，由其資料庫的 OID 及欄位編號指定。 （obj\_description 不能用於資料表欄位，因為欄位沒有自己的 OID。）
 
-The two-parameter form of`obj_description`returns the comment for a database object specified by its OID and the name of the containing system catalog. For example,`obj_description(123456,'pg_class')`would retrieve the comment for the table with OID 123456. The one-parameter form of`obj_description`requires only the object OID. It is deprecated since there is no guarantee that OIDs are unique across different system catalogs; therefore, the wrong comment might be returned.
+obj\_description 以雙參數的形式回傳由其 OID 指定的資料庫物件註釋以及所包含的系統目錄名稱。 例如，obj\_description\(123456, 'pg\_class'\) 將檢索 OID 為 123456 的資料表註釋。obj\_description 的單參數形式僅需要物件的 OID。由於不能保證 OID 在不同的系統目錄中是唯一的，因此不推薦再使用它；否則可能會回傳錯誤的註解。
 
-`shobj_description`is used just like`obj_description`except it is used for retrieving comments on shared objects. Some system catalogs are global to all databases within each cluster, and the descriptions for objects in them are stored globally as well.
+shobj\_description 和 obj\_description 用法相同，只是它用於檢索共享物件上的註解。 某些系統目錄對每個叢取中的所有資料庫都是全域的，並且其中的物件註解也全域存放的。
 
 The functions shown in[Table 9.69](https://www.postgresql.org/docs/10/static/functions-info.html#functions-txid-snapshot)provide server transaction information in an exportable form. The main use of these functions is to determine which transactions were committed between two snapshots.
 
