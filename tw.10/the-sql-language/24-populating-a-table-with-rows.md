@@ -1,6 +1,6 @@
 # 2.4. 列是表格的組成單位[^1]
 
-INSERT 指令被用來將資料以列（row）的形式，新增至表格（table）之中：
+INSERT 指令被用來將資料以資料列（row）的形式，新增至資料表（table）之中：
 
 ```
 INSERT INTO weather VALUES ('San Francisco', 46, 50, 0.25, '1994-11-27');
@@ -28,7 +28,7 @@ INSERT INTO weather (date, city, temp_hi, temp_lo)
     VALUES ('1994-11-29', 'Hayward', 54, 37);
 ```
 
-許多開發者會認為在撰寫習慣上，明確指定欄位是比較好的方式。
+許多開發者會認為，在撰寫習慣上，明確指定欄位是比較好的方式。
 
 請執行下列的指令，你將會擁有後續章節所需要的範例資料。
 
