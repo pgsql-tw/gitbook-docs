@@ -1,6 +1,6 @@
 # CREATE POLICY[^1]
 
-CREATE POLICY — 為資料表定義新的資料列級的安全策略
+CREATE POLICY — 為資料表定義新的資料列級的安全原則
 
 ## Synopsis
 
@@ -23,7 +23,7 @@ For`INSERT`and`UPDATE`statements,`WITH CHECK`expressions are enforced after`BEFO
 
 Policy names are per-table. Therefore, one policy name can be used for many different tables and have a definition for each table which is appropriate to that table.
 
-Policies can be applied for specific commands or for specific roles. The default for newly created policies is that they apply for all commands and roles, unless otherwise specified. Multiple policies may apply to a single command; see below for more details.[Table 240](https://www.postgresql.org/docs/10/static/sql-createpolicy.html#SQL-CREATEPOLICY-SUMMARY)summarizes how the different types of policy apply to specific commands.
+Policies can be applied for specific commands or for specific roles. The default for newly created policies is that they apply for all commands and roles, unless otherwise specified. Multiple policies may apply to a single command; see below for more details.[Table 240](https://www.postgresql.org/docs/10/static/sql-createpolicy.html#SQL-CREATEPOLICY-SUMMARY)summarizes how the different types of policy apply to specific commands.
 
 For policies that can have both`USING`and`WITH CHECK`expressions \(`ALL`and`UPDATE`\), if no`WITH CHECK`expression is defined, then the`USING`expression will be used both to determine which rows are visible \(normal`USING`case\) and which new rows will be allowed to be added \(`WITH CHECK`case\).
 
@@ -31,11 +31,11 @@ If row-level security is enabled for a table, but no applicable policies exist, 
 
 ## Parameters
 
-_`name`_
+`name`
 
 The name of the policy to be created. This must be distinct from the name of any other policy for the table.
 
-_`table_name`_
+`table_name`
 
 The name \(optionally schema-qualified\) of the table the policy applies to.
 
@@ -49,21 +49,21 @@ Specify that the policy is to be created as a restrictive policy. All restrictiv
 
 Note that there needs to be at least one permissive policy to grant access to records before restrictive policies can be usefully used to reduce that access. If only restrictive policies exist, then no records will be accessible. When a mix of permissive and restrictive policies are present, a record is only accessible if at least one of the permissive policies passes, in addition to all the restrictive policies.
 
-_`command`_
+`command`
 
 The command to which the policy applies. Valid options are`ALL`,`SELECT`,`INSERT`,`UPDATE`, and`DELETE`.`ALL`is the default. See below for specifics regarding how these are applied.
 
-_`role_name`_
+`role_name`
 
 The role\(s\) to which the policy is to be applied. The default is`PUBLIC`, which will apply the policy to all roles.
 
-_`using_expression`_
+`using_expression`
 
 AnySQLconditional expression \(returning`boolean`\). The conditional expression cannot contain any aggregate or window functions. This expression will be added to queries that refer to the table if row level security is enabled. Rows for which the expression returns true will be visible. Any rows for which the expression returns false or null will not be visible to the user \(in a`SELECT`\), and will not be available for modification \(in an`UPDATE`or`DELETE`\). Such rows are silently suppressed; no error is reported.
 
-_`check_expression`_
+`check_expression`
 
-AnySQLconditional expression \(returning`boolean`\). The conditional expression cannot contain any aggregate or window functions. This expression will be used in`INSERT`and`UPDATE`queries against the table if row level security is enabled. Only rows for which the expression evaluates to true will be allowed. An error will be thrown if the expression evaluates to false or null for any of the records inserted or any of the records that result from the update. Note that the_`check_expression`_is evaluated against the proposed new contents of the row, not the original contents.
+AnySQLconditional expression \(returning`boolean`\). The conditional expression cannot contain any aggregate or window functions. This expression will be used in`INSERT`and`UPDATE`queries against the table if row level security is enabled. Only rows for which the expression evaluates to true will be allowed. An error will be thrown if the expression evaluates to false or null for any of the records inserted or any of the records that result from the update. Note that the\_`check_expression`\_is evaluated against the proposed new contents of the row, not the original contents.
 
 ### Per-Command Policies
 
@@ -91,7 +91,7 @@ Any rows whose updated values do not pass the`WITH CHECK`expression will cause a
 
 Typically an`UPDATE`command also needs to read data from columns in the relation being updated \(e.g., in a`WHERE`clause or a`RETURNING`clause, or in an expression on the right hand side of the`SET`clause\). In this case,`SELECT`rights are also required on the relation being updated, and the appropriate`SELECT`or`ALL`policies will be applied in addition to the`UPDATE`policies. Thus the user must have access to the row\(s\) being updated through a`SELECT`or`ALL`policy in addition to being granted permission to update the row\(s\) via an`UPDATE`or`ALL`policy.
 
-When an`INSERT`command has an auxiliary`ON CONFLICT DO UPDATE`clause, if the`UPDATE`path is taken, the row to be updated is first checked against the`USING`expressions of any`UPDATE`policies, and then the new updated row is checked against the`WITH CHECK`expressions. Note, however, that unlike a standalone`UPDATE`command, if the existing row does not pass the`USING`expressions, an error will be thrown \(the`UPDATE`path will_never_be silently avoided\).
+When an`INSERT`command has an auxiliary`ON CONFLICT DO UPDATE`clause, if the`UPDATE`path is taken, the row to be updated is first checked against the`USING`expressions of any`UPDATE`policies, and then the new updated row is checked against the`WITH CHECK`expressions. Note, however, that unlike a standalone`UPDATE`command, if the existing row does not pass the`USING`expressions, an error will be thrown \(the`UPDATE`path will\_never\_be silently avoided\).
 
 `DELETE`
 
@@ -101,7 +101,7 @@ In most cases a`DELETE`command also needs to read data from columns in the relat
 
 A`DELETE`policy cannot have a`WITH CHECK`expression, as it only applies in cases where records are being deleted from the relation, so that there is no new row to check.
 
-**Table 240. Policies Applied by Command Type**
+**Table 240. Policies Applied by Command Type**
 
 |  | Command | `SELECT/ALL policy` | `INSERT/ALL policy` | `UPDATE/ALL policy` | `DELETE/ALL policy` |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -114,9 +114,6 @@ A`DELETE`policy cannot have a`WITH CHECK`expression, as it only applies in cases
 | `DELETE` | Existing row[\[a\]](https://www.postgresql.org/docs/10/static/sql-createpolicy.html#ftn.RLS-SELECT-PRIV) | — | — | — | Existing row |
 | `ON CONFLICT DO UPDATE` | Existing & new rows | — | Existing row | New row | — |
 |  |  |  |  |  | [\[a\]](https://www.postgresql.org/docs/10/static/sql-createpolicy.html#RLS-SELECT-PRIV)If read access is required to the existing or new row \(for example, a`WHERE`or`RETURNING`clause that refers to columns from the relation\). |
-
-  
-
 
 ### Application of Multiple Policies
 
@@ -166,7 +163,7 @@ Generally, the system will enforce filter conditions imposed using security poli
 
 Since policy expressions are added to the user's query directly, they will be run with the rights of the user running the overall query. Therefore, users who are using a given policy must be able to access any tables or functions referenced in the expression or they will simply receive a permission denied error when attempting to query the table that has row-level security enabled. This does not change how views work, however. As with normal queries and views, permission checks and policies for the tables which are referenced by a view will use the view owner's rights and any policies which apply to the view owner.
 
-Additional discussion and practical examples can be found in [Section 5.7](https://www.postgresql.org/docs/10/static/ddl-rowsecurity.html).
+Additional discussion and practical examples can be found in [Section 5.7](/ii-the-sql-language/data-definition/57-row-security-policies.md).
 
 ## Compatibility
 
