@@ -193,7 +193,7 @@
     * 19.3. Connections and Authentication
     * 19.4. Resource Consumption
     * 19.5. Write Ahead Log
-    * 19.6. Replication
+    * [19.6. Replication](iii-server-administration/server-configuration/196-replication.md)
     * [19.7. 查詢規畫](iii-server-administration/server-configuration/197-query-planning.md)
     * [19.8. 錯誤回報與記錄](iii-server-administration/server-configuration/198-error-reporting-and-logging.md)
     * 19.9. Run-time Statistics

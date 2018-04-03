@@ -353,32 +353,32 @@ shobj\_description 和 obj\_description 用法相同，只是它用於檢索共�
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `txid_current()` | `bigint` | get current transaction ID, assigning a new one if the current transaction does not have one |
-| `txid_current_if_assigned()` | `bigint` | same as`txid_current()`but returns null instead of assigning an xid if none is already assigned |
-| `txid_current_snapshot()` | `txid_snapshot` | get current snapshot |
-| `txid_snapshot_xip(txid_snapshot`\) | `setof bigint` | get in-progress transaction IDs in snapshot |
-| `txid_snapshot_xmax(txid_snapshot`\) | `bigint` | get`xmax`of snapshot |
-| `txid_snapshot_xmin(txid_snapshot`\) | `bigint` | get`xmin`of snapshot |
-| `txid_visible_in_snapshot(bigint`,`txid_snapshot`\) | `boolean` | is transaction ID visible in snapshot? \(do not use with subtransaction ids\) |
-| `txid_status(bigint`\) | `txid_status` | report the status of the given xact -`committed`,`aborted`,`in progress`, or NULL if the txid is too old |
+| `txid_current()` | `bigint` | 取得目前的事務 ID，如果目前事務還沒有 ID，則會分配一個新的事務 ID |
+| `txid_current_if_assigned()` | `bigint` | 與 txid\_current\(\) 相同，只是如果沒有 ID 的話，就回傳 NULL 而不是分配一個新的 xid |
+| `txid_current_snapshot()` | `txid_snapshot` | 取得目前的快照 |
+| `txid_snapshot_xip(txid_snapshot`\) | `setof bigint` | 在快照中取得正在進行的事務 ID |
+| `txid_snapshot_xmax(txid_snapshot`\) | `bigint` | 取得快照的 xmax |
+| `txid_snapshot_xmin(txid_snapshot`\) | `bigint` | 取得快照的 xmin |
+| `txid_visible_in_snapshot(bigint`,`txid_snapshot`\) | `boolean` | 事務 ID 在快照中是否是可見的？ （不要使用子事務的 ID） |
+| `txid_status(bigint`\) | `txid_status` | 回報給定的 xact 已提交、已中止、或進行中的狀態，如果 txid 太舊，則報告為 NULL |
 
-The internal transaction ID type \(`xid`\) is 32 bits wide and wraps around every 4 billion transactions. However, these functions export a 64-bit format that is extended with an“epoch”counter so it will not wrap around during the life of an installation. The data type used by these functions,`txid_snapshot`, stores information about transaction ID visibility at a particular moment in time. Its components are described in[Table 9.70](https://www.postgresql.org/docs/10/static/functions-info.html#functions-txid-snapshot-parts).
+內部事務 ID 型別（xid）為 32位元大小，大約每 40 億次事務輪迴一次。但是，這些函數會導出 64 位元格式，該格式通過「epoch」計數器進行擴展，因此在安裝過程中不會輪迴。這些函數使用的資料型別 txid\_snapshot 在特定時刻儲存有關事務 ID 可見性的訊息。Table 9.70 描述了它的相關功能。
 
-**Table 9.70. Snapshot Components**
+##### **Table 9.70. Snapshot Components**
 
 | Name | Description |
 | :--- | :--- |
-| `xmin` | Earliest transaction ID \(txid\) that is still active. All earlier transactions will either be committed and visible, or rolled back and dead. |
-| `xmax` | First as-yet-unassigned txid. All txids greater than or equal to this are not yet started as of the time of the snapshot, and thus invisible. |
-| `xip_list` | Active txids at the time of the snapshot. The list includes only those active txids between`xmin`and`xmax`; there might be active txids higher than`xmax`. A txid that is`xmin <= txid < xmax`and not in this list was already completed at the time of the snapshot, and thus either visible or dead according to its commit status. The list does not include txids of subtransactions. |
+| `xmin` | 仍然有效的最早交易 ID（txid）仍然有效。所有較早的交易將被承諾並且為可見的，或者回溯然後結束。 |
+| `xmax` | 第一個尚未分配的 txid。所有大於或等於此的 txid 在快照時間之前尚未開始，因此為不可見。 |
+| `xip_list` | 快照時有效的 txid。該列表僅包含介於 xmin 和 xmax 之間有效的 txid；有可能存在比xmax 更高的有效 txid。 xmin &lt;= txid &lt; xmax 並且不在此列表中的 txid 在快照時已經完成，因此根據其提交狀態區分為可見或不可見。該列表並不包含子事務的 txid。 |
 
-`txid_snapshot`'s textual representation is`xmin`:`xmax`:`xip_list`. For example`10:20:10,14,15`means`xmin=10, xmax=20, xip_list=10, 14, 15`.
+txid\_snapshot的文字字串表示是 xmin:xmax:xip\_list。例如 10:20:10,14,15 意味著xmin = 10，xmax = 20，xip\_list = 10,14,15。
 
-`txid_status(bigint)`reports the commit status of a recent transaction. Applications may use it to determine whether a transaction committed or aborted when the application and database server become disconnected while a`COMMIT`is in progress. The status of a transaction will be reported as either`in progress`,`committed`, or`aborted`, provided that the transaction is recent enough that the system retains the commit status of that transaction. If is old enough that no references to that transaction survive in the system and the commit status information has been discarded, this function will return NULL. Note that prepared transactions are reported as`in progress`; applications must check[`pg_prepared_xacts`](https://www.postgresql.org/docs/10/static/view-pg-prepared-xacts.html)if they need to determine whether the txid is a prepared transaction.
+txid\_status\(bigint\) 回報最近事務的提交狀態。應用程式可以使用它來確定在 COMMIT正在進行時，應用程式和資料庫伺服器連線中斷時是否提交或中止事務。如果交易時間足夠短以至於系統能保留該交易的提交狀態，則交易狀態將被回報為正在進行、已提交或已中止。如果太長以至於在系統中不存在對該交易事務的引用，而提交狀態訊息已被丟棄，則該函數將回傳 NULL。請注意，prepared transaction 會回報為正在進行中；如果需要確定 txid 是否為 prepared transaction，則應用程式必須使用checkpg\_prepared\_xacts。
 
-The functions shown in[Table 9.71](https://www.postgresql.org/docs/10/static/functions-info.html#functions-commit-timestamp)provide information about transactions that have been already committed. These functions mainly provide information about when the transactions were committed. They only provide useful data when[track\_commit\_timestamp](https://www.postgresql.org/docs/10/static/runtime-config-replication.html#guc-track-commit-timestamp)configuration option is enabled and only for transactions that were committed after it was enabled.
+[Table 9.71](#table-971-committed-transaction-information) 中列出的函數用於取得關於已經提交的事務訊息。這些功能主要提供有關交易何時發生的訊息。當啟用 [track\_commit\_timestamp](/iii-server-administration/server-configuration/196-replication.md) 配置選項時，它們可以提供一些有用的資料，只是僅用於啟用後所提交的事務。
 
-**Table 9.71. Committed transaction information**
+##### **Table 9.71. Committed transaction information**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -387,7 +387,7 @@ The functions shown in[Table 9.71](https://www.postgresql.org/docs/10/static/fun
 
 The functions shown in[Table 9.72](https://www.postgresql.org/docs/10/static/functions-info.html#functions-controldata)print information initialized during`initdb`, such as the catalog version. They also show information about write-ahead logging and checkpoint processing. This information is cluster-wide, and not specific to any one database. They provide most of the same information, from the same source, as[pg\_controldata](https://www.postgresql.org/docs/10/static/app-pgcontroldata.html), although in a form better suited toSQLfunctions.
 
-**Table 9.72. Control Data Functions**
+##### **Table 9.72. Control Data Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -396,9 +396,9 @@ The functions shown in[Table 9.72](https://www.postgresql.org/docs/10/static/fun
 | `pg_control_init()` | `record` | Returns information about cluster initialization state. |
 | `pg_control_recovery()` | `record` | Returns information about recovery state. |
 
-`pg_control_checkpoint`returns a record, shown in[Table 9.73](https://www.postgresql.org/docs/10/static/functions-info.html#functions-pg-control-checkpoint)
+pg\_control\_checkpoint 回傳一筆記錄，如 [Table 9.73](#table-973-pgcontrolcheckpointcolumns) 所示
 
-**Table 9.73. **`pg_control_checkpoint`**Columns**
+##### **Table 9.73. **`pg_control_checkpoint`**Columns**
 
 | Column Name | Data Type |
 | :--- | :--- |
@@ -422,9 +422,9 @@ The functions shown in[Table 9.72](https://www.postgresql.org/docs/10/static/fun
 | `newest_commit_ts_xid` | `xid` |
 | `checkpoint_time` | `timestamp with time zone` |
 
-`pg_control_system`returns a record, shown in[Table 9.74](https://www.postgresql.org/docs/10/static/functions-info.html#functions-pg-control-system)
+pg\_control\_system 回傳一筆記錄，如 [Table 9.74](#table-974-pgcontrolsystemcolumns) 所示
 
-**Table 9.74. **`pg_control_system`**Columns**
+##### **Table 9.74. **`pg_control_system`**Columns**
 
 | Column Name | Data Type |
 | :--- | :--- |
@@ -433,9 +433,9 @@ The functions shown in[Table 9.72](https://www.postgresql.org/docs/10/static/fun
 | `system_identifier` | `bigint` |
 | `pg_control_last_modified` | `timestamp with time zone` |
 
-`pg_control_init`returns a record, shown in[Table 9.75](https://www.postgresql.org/docs/10/static/functions-info.html#functions-pg-control-init)
+pg\_control\_init 回傳一筆記錄，如 [Table 9.75](#table-975-pgcontrolinitcolumns) 所示
 
-**Table 9.75. **`pg_control_init`**Columns**
+##### **Table 9.75. **`pg_control_init`**Columns**
 
 | Column Name | Data Type |
 | :--- | :--- |
@@ -452,9 +452,9 @@ The functions shown in[Table 9.72](https://www.postgresql.org/docs/10/static/fun
 | `float8_pass_by_value` | `boolean` |
 | `data_page_checksum_version` | `integer` |
 
-`pg_control_recovery`returns a record, shown in[Table 9.76](https://www.postgresql.org/docs/10/static/functions-info.html#functions-pg-control-recovery)
+pg\_control\_recovery 回傳一筆記錄，如 [Table 9.76](#table-976-pgcontrolrecoverycolumns) 所示
 
-**Table 9.76. **`pg_control_recovery`**Columns**
+##### **Table 9.76. **`pg_control_recovery`**Columns**
 
 | Column Name | Data Type |
 | :--- | :--- |
