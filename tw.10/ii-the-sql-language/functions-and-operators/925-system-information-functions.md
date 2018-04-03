@@ -382,10 +382,10 @@ txid\_status\(bigint\) 回報最近事務的提交狀態。應用程式可以使
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `pg_xact_commit_timestamp(xid`\) | `timestamp with time zone` | get commit timestamp of a transaction |
-| `pg_last_committed_xact()` | `xidxid`,`timestamptimestamp with time zone` | get transaction ID and commit timestamp of latest committed transaction |
+| `pg_xact_commit_timestamp(xid`\) | `timestamp with time zone` | 取得交易事務的提交時間戳記 |
+| `pg_last_committed_xact()` | `xidxid`,`timestamptimestamp with time zone` | 取得最新提交事務的事務 ID 和提交時間戳記 |
 
-The functions shown in[Table 9.72](https://www.postgresql.org/docs/10/static/functions-info.html#functions-controldata)print information initialized during`initdb`, such as the catalog version. They also show information about write-ahead logging and checkpoint processing. This information is cluster-wide, and not specific to any one database. They provide most of the same information, from the same source, as[pg\_controldata](https://www.postgresql.org/docs/10/static/app-pgcontroldata.html), although in a form better suited toSQLfunctions.
+[Table 9.72](#table-972-control-data-functions) 中列出的函數為在 initdb 期間輸出的初始化訊息，例如系統目錄版本。它們還顯示關於 WAL 和查核點的處理訊息。這些訊息都是 cluster 範圍內的，並非特定於任何一個資料庫。它們提供了與 pg\_control 資料相同的大部分訊息，儘管它們的形式更適合用於 SQL 函數。
 
 ##### **Table 9.72. Control Data Functions**
 
