@@ -330,9 +330,9 @@ pg\_identify\_object\_as\_address 回傳一個包含足夠訊息的資料列，�
 
 pg\_get\_object\_address 回傳一個包含足夠訊息的資料列，以唯一識別由其型別和物件名稱及其參數陣列所指定的資料庫物件。回傳的內容和系統目錄中使用的相同。例如pg\_depend，可用於傳遞給其他系統函數，如 pg\_identify\_object 或pg\_describe\_object。catalog\_id是包含物件的系統目錄 OID；object\_id 是物件本身的OID，object\_sub\_id 是物件子 ID，如果沒有則為零。 這個函數是 pg\_identify\_object\_as\_address 的反函數。
 
-The functions shown in[Table 9.68](https://www.postgresql.org/docs/10/static/functions-info.html#functions-info-comment-table)extract comments previously stored with the[COMMENT](https://www.postgresql.org/docs/10/static/sql-comment.html)command. A null value is returned if no comment could be found for the specified parameters.
+Table 9.68 中列出的功能用於取得先前與 [COMMENT](/vi-reference/i-sql-commands/comment.md) 指令一起儲存的註解。如果未找到指定參數的註解，則回傳 NULL。
 
-**Table 9.68. Comment Information Functions**
+##### [**Table 9.68. Comment Information Functions**](#table-968-comment-information-functions)
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -347,9 +347,9 @@ obj\_description 以雙參數的形式回傳由其 OID 指定的資料庫物件�
 
 shobj\_description 和 obj\_description 用法相同，只是它用於檢索共享物件上的註解。 某些系統目錄對每個叢取中的所有資料庫都是全域的，並且其中的物件註解也全域存放的。
 
-The functions shown in[Table 9.69](https://www.postgresql.org/docs/10/static/functions-info.html#functions-txid-snapshot)provide server transaction information in an exportable form. The main use of these functions is to determine which transactions were committed between two snapshots.
+[Table 9.69 ](#table-969-transaction-ids-and-snapshots)中列出可匯出形式的函數以提供伺服器交易事務的訊息。這些函數的主要用途在於確定兩個快照之間提交了哪些交易事務。
 
-**Table 9.69. Transaction IDs and Snapshots**
+##### **Table 9.69. Transaction IDs and Snapshots**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |

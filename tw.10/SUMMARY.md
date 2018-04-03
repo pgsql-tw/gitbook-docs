@@ -411,6 +411,7 @@
   * [I. SQL 指令](vi-reference/i-sql-commands.md)
     * [ALTER POLICY](vi-reference/i-sql-commands/alter-policy.md)
     * [ALTER TABLE](vi-reference/i-sql-commands/alter-table.md)
+    * [COMMENT](vi-reference/i-sql-commands/comment.md)
     * [COPY](vi-reference/i-sql-commands/copy.md)
     * [CREATE FOREIGN TABLE](vi-reference/i-sql-commands/create-foreign-table.md)
     * [CREATE FOREIGN DATA WRAPPER](vi-reference/i-sql-commands/create-foreign-data-wrapper.md)
