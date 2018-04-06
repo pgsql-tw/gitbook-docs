@@ -2,7 +2,7 @@
 
 CREATE POLICY — 為資料表定義新的資料列級的安全原則
 
-## Synopsis
+## 語法
 
 ```
 CREATE POLICY name ON table_name
@@ -13,23 +13,23 @@ CREATE POLICY name ON table_name
     [ WITH CHECK ( check_expression ) ]
 ```
 
-## Description
+## 說明
 
-The`CREATE POLICY`command defines a new row-level security policy for a table. Note that row-level security must be enabled on the table \(using`ALTER TABLE ... ENABLE ROW LEVEL SECURITY`\) in order for created policies to be applied.
+CREATE POLICY 指令用於為資料表定義新的資料列級安全原則。請注意，你必須在資料表上啟用資料列級安全性（使用 ALTER TABLE ... ENABLE ROW LEVEL SECURITY）以便套用所建立的原則。
 
-A policy grants the permission to select, insert, update, or delete rows that match the relevant policy expression. Existing table rows are checked against the expression specified in`USING`, while new rows that would be created via`INSERT`or`UPDATE`are checked against the expression specified in`WITH CHECK`. When a`USING`expression returns true for a given row then that row is visible to the user, while if false or null is returned then the row is not visible. When a`WITH CHECK`expression returns true for a row then that row is inserted or updated, while if false or null is returned then an error occurs.
+安全原則會授予 SELECT、INSERT、UPDATE 或 DELETE 與相關安全原則表示式所匹配的資料列的權限。根據 USING 中指定的表示式檢查現有的資料列，同時根據 WITH CHECK 中指定的表示式檢查透過 INSERT 或 UPDATE 建立的新資料列。當 USING 表示式對給定的資料列回傳 true 時，那麼該資料對使用者是可見的，而如果回傳 false 或 null，那麼該資料列為不可見。當 WITH CHECK 表示式對一筆資料列回傳 true 時，則插入或更新該資料列，而如果回傳 false 或 null，則會產生錯誤。
 
-For`INSERT`and`UPDATE`statements,`WITH CHECK`expressions are enforced after`BEFORE`triggers are fired, and before any actual data modifications are made. Thus a`BEFORE ROW`trigger may modify the data to be inserted, affecting the result of the security policy check.`WITH CHECK`expressions are enforced before any other constraints.
+對於 INSERT 和 UPDATE 語句而言，在觸發 BEFORE 觸發器之後，以及在進行任何實際的資料修改之前，WITH CHECK 表示式都會強制執行。因此，BEFORE ROW 觸發器可能會修改要插入的資料，從而影響安全原則檢查的結果。WITH CHECK 表示式會在任何其他限制條件之前執行。
 
-Policy names are per-table. Therefore, one policy name can be used for many different tables and have a definition for each table which is appropriate to that table.
+安全原則的名稱是對應每個資料表的。因此，一個原則名稱可用於許多不同的資料表，並為每個資料表定義適合該表格的定義。
 
-Policies can be applied for specific commands or for specific roles. The default for newly created policies is that they apply for all commands and roles, unless otherwise specified. Multiple policies may apply to a single command; see below for more details.[Table 240](https://www.postgresql.org/docs/10/static/sql-createpolicy.html#SQL-CREATEPOLICY-SUMMARY)summarizes how the different types of policy apply to specific commands.
+安全原則可以應用於特定的指令或特定角色。新建立的安全原則預設適用於所有的指令和角色，除非另有設定。多個原則可能適用於單個命令；請參閱下面的詳細訊息。[Table 240](#table-240-policies-applied-by-command-type) 總結了不同類型的原則如何應用於特定指令。
 
-For policies that can have both`USING`and`WITH CHECK`expressions \(`ALL`and`UPDATE`\), if no`WITH CHECK`expression is defined, then the`USING`expression will be used both to determine which rows are visible \(normal`USING`case\) and which new rows will be allowed to be added \(`WITH CHECK`case\).
+對於同時具有 USING 和 WITH CHECK 表達式（ALL 和 UPDATE）的安全原則，如果沒有定義 WITH CHECK 表示式，那麼 USING 表示式將用於確定哪些資料列為可見（一般的 USING 情況）以及哪些新資料列將會允許新增（WITH CHECK 情況下）。
 
-If row-level security is enabled for a table, but no applicable policies exist, a“default deny”policy is assumed, so that no rows will be visible or updatable.
+如果對資料表啟用資料列級安全性，但卻沒有適用的原則，則會假定「預設拒絕」的原則，不會顯示或更新任何資料列。
 
-## Parameters
+## 參數
 
 `name`
 
@@ -101,7 +101,7 @@ In most cases a`DELETE`command also needs to read data from columns in the relat
 
 A`DELETE`policy cannot have a`WITH CHECK`expression, as it only applies in cases where records are being deleted from the relation, so that there is no new row to check.
 
-**Table 240. Policies Applied by Command Type**
+##### **Table 240. Policies Applied by Command Type**
 
 |  | Command | `SELECT/ALL policy` | `INSERT/ALL policy` | `UPDATE/ALL policy` | `DELETE/ALL policy` |
 | :--- | :--- | :--- | :--- | :--- | :--- |
