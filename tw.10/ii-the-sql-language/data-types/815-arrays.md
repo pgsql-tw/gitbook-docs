@@ -67,7 +67,7 @@ delim
 where_`delim`_is the delimiter character for the type, as recorded in its`pg_type`entry. Among the standard data types provided in thePostgreSQLdistribution, all use a comma \(`,`\), except for type`box`which uses a semicolon \(`;`\). Each_`val`_is either a constant of the array element type, or a subarray. An example of an array constant is:
 
 ```
-'{{1,2,3},{4,5,6},{7,8,9}}'
+'&#123;{1,2,3},{4,5,6},{7,8,9}&#125;'
 
 ```
 
