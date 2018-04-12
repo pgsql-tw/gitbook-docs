@@ -1,3 +1,3 @@
-theme: pgsql-tw/docs-theme
+remote_theme: pgsql-tw/docs-theme
 title: PostgreSQL 正體中文使用手冊
 description: docs.postgresql.tw
