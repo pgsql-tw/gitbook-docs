@@ -423,13 +423,13 @@ Multidimensional array values can be built by nesting array constructors. In the
 SELECT ARRAY[ARRAY[1,2], ARRAY[3,4]];
      array
 ---------------
- {{1,2},{3,4}}
+ &#123;{1,2},{3,4}&#125;
 (1 row)
 
 SELECT ARRAY[[1,2],[3,4]];
      array
 ---------------
- {{1,2},{3,4}}
+ &#123;{1,2},{3,4}&#125;
 (1 row)
 ```
 
@@ -442,10 +442,10 @@ CREATE TABLE arr(f1 int[], f2 int[]);
 
 INSERT INTO arr VALUES (ARRAY[[1,2],[3,4]], ARRAY[[5,6],[7,8]]);
 
-SELECT ARRAY[f1, f2, '{{9,10},{11,12}}'::int[]] FROM arr;
+SELECT ARRAY[f1, f2, '&#123;{9,10},{11,12}&#125;'::int[]] FROM arr;
                      array
 ------------------------------------------------
- {{{1,2},{3,4}},{{5,6},{7,8}},{{9,10},{11,12}}}
+ {&#123;{1,2},{3,4}},&#123;{5,6},{7,8}},&#123;{9,10},{11,12}&#125;}
 (1 row)
 ```
 
@@ -471,7 +471,7 @@ SELECT ARRAY(SELECT oid FROM pg_proc WHERE proname LIKE 'bytea%');
 SELECT ARRAY(SELECT ARRAY[i, i*2] FROM generate_series(1,5) AS a(i));
               array
 ----------------------------------
- {{1,2},{2,4},{3,6},{4,8},{5,10}}
+ &#123;{1,2},{2,4},{3,6},{4,8},{5,10}&#125;
 (1 row)
 ```
 
