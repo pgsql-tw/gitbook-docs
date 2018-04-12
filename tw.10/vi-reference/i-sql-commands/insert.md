@@ -291,10 +291,10 @@ This example inserts into array columns:
 ```
 -- Create an empty 3x3 gameboard for noughts-and-crosses
 INSERT INTO tictactoe (game, board[1:3][1:3])
-    VALUES (1, '{{" "," "," "},{" "," "," "},{" "," "," "}}');
+    VALUES (1, '&#123;{" "," "," "},{" "," "," "},{" "," "," "}&#125;');
 -- The subscripts in the above example aren't really needed
 INSERT INTO tictactoe (game, board)
-    VALUES (2, '{{X," "," "},{" ",O," "},{" ",X," "}}');
+    VALUES (2, '&#123;{X," "," "},{" ",O," "},{" ",X," "}&#125;');
 
 ```
 
