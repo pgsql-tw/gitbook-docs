@@ -1,4 +1,4 @@
-# PostgreSQL 10 正體中文使用手冊
+# 簡介
 
 本使用手冊由台灣 PostgreSQL 社群提供，翻譯自 PostgreSQL 官方使用手冊，以推廣 PostgreSQL 於台灣的應用。
 
@@ -28,7 +28,7 @@ GitHub 的 [Issues區](https://github.com/pgsql-tw/twpug-doc/issues)有開立目
 
 任何問題或建議可以 Email 給我們的文件小組：[docs@postgresql.tw](mailto:docs@postgresql.tw)
 
----
+![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)
 
-[![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)](https://island.postgresql.tw) [![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)](http://postgresql.tw)
+![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)
 
