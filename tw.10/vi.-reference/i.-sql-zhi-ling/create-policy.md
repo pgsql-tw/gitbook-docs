@@ -175,7 +175,6 @@ Additional discussion and practical examples can be found in [Section 5.7](https
 
 ## 參考文件
 
-{% hint style="info" %}
- [PostgreSQL: Documentation: devel: CREATE POLICY](https://www.postgresql.org/docs/devel/static/sql-createpolicy.html)
-{% endhint %}
+- [PostgreSQL: Documentation: devel: CREATE POLICY](https://www.postgresql.org/docs/devel/static/sql-createpolicy.html)
+
 
