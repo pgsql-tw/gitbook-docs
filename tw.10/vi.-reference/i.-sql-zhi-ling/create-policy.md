@@ -41,17 +41,17 @@ CREATE POLICY 指令用於為資料表定義新的資料列級安全原則。請
 
 `PERMISSIVE`
 
-Specify that the policy is to be created as a permissive policy. All permissive policies which are applicable to a given query will be combined together using the Boolean“OR”operator. By creating permissive policies, administrators can add to the set of records which can be accessed. Policies are permissive by default.
+指定將原則建立為寬鬆的原則。所有適用查詢的寬鬆原則將使用布林運算的「OR」運算組合在一起。通過建立寬鬆的原則，管理者可以增加可以存取的資料。安全原則預設就是寬容的。
 
 `RESTRICTIVE`
 
-Specify that the policy is to be created as a restrictive policy. All restrictive policies which are applicable to a given query will be combined together using the Boolean“AND”operator. By creating restrictive policies, administrators can reduce the set of records which can be accessed as all restrictive policies must be passed for each record.
+指定將該原則建立為限制性原則。所有適用查詢的限制性原則將使用布林運算「AND」運算組合在一起。透過建立限制性原則，管理者可以減少可以存取的資料集合大小，因為必須為每條資料都會檢核所有限制性策略。
 
-Note that there needs to be at least one permissive policy to grant access to records before restrictive policies can be usefully used to reduce that access. If only restrictive policies exist, then no records will be accessible. When a mix of permissive and restrictive policies are present, a record is only accessible if at least one of the permissive policies passes, in addition to all the restrictive policies.
+請注意，在限制性原則可用於減少存取權限之前，需要至少有一項允許原則來授予對於資料列的存取權限。如果只有限制性原則存在，則不能存取任何資料列。 如果存在一系列的寬鬆原則和限制性原則，那麼除了所有限制性原則之外，只有在至少有一項寬鬆原則通過的情況下才能得得資料。
 
 `command`
 
-The command to which the policy applies. Valid options are`ALL`,`SELECT`,`INSERT`,`UPDATE`, and`DELETE`.`ALL`is the default. See below for specifics regarding how these are applied.
+該原則適用的指令。有效的選項是 ALL、SELECT、INSERT、UPDATE 和 DELETE。ALL 是預設值。請參閱下面有關如何應用這些選項的細節。
 
 `role_name`
 
@@ -175,6 +175,5 @@ Additional discussion and practical examples can be found in [Section 5.7](https
 
 ## 參考文件
 
-- [PostgreSQL: Documentation: devel: CREATE POLICY](https://www.postgresql.org/docs/devel/static/sql-createpolicy.html)
-
+* [PostgreSQL: Documentation: devel: CREATE POLICY](https://www.postgresql.org/docs/devel/static/sql-createpolicy.html)
 

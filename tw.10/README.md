@@ -20,7 +20,7 @@ GitHub 的 [Issues區](https://github.com/pgsql-tw/twpug-doc/issues)有開立目
 
 任何問題或建議可以 Email 給我們的文件小組：[docs@postgresql.tw](mailto:docs@postgresql.tw)
 
-![PostgreSQL小島故事](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)
+![PostgreSQL&#x5C0F;&#x5CF6;&#x6545;&#x4E8B;](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)
 
-![PostgreSQL台灣使用者社群](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)
+![PostgreSQL&#x53F0;&#x7063;&#x4F7F;&#x7528;&#x8005;&#x793E;&#x7FA4;](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)
 
