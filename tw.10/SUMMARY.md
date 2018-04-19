@@ -420,6 +420,7 @@
     * [CREATE SCHEMA](vi.-reference/i.-sql-zhi-ling/create-schema.md)
     * [CREATE SERVER](vi.-reference/i.-sql-zhi-ling/create-server.md)
     * CREATE TABLE
+    * [CREATE TABLESPACE](vi.-reference/i.-sql-zhi-ling/create-tablespace.md)
     * [CREATE TYPE](vi.-reference/i.-sql-zhi-ling/create-type.md)
     * [CREATE USER MAPPING](vi.-reference/i.-sql-zhi-ling/create-user-mapping.md)
     * [DELETE](vi.-reference/i.-sql-zhi-ling/delete.md)
