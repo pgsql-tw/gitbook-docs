@@ -55,15 +55,15 @@ CREATE POLICY 指令用於為資料表定義新的資料列級安全原則。請
 
 `role_name`
 
-The role\(s\) to which the policy is to be applied. The default is`PUBLIC`, which will apply the policy to all roles.
+要適用該原則的角色。預設值是 PUBLIC，它將會把原則適用於所有角色。
 
 `using_expression`
 
-AnySQLconditional expression \(returning`boolean`\). The conditional expression cannot contain any aggregate or window functions. This expression will be added to queries that refer to the table if row level security is enabled. Rows for which the expression returns true will be visible. Any rows for which the expression returns false or null will not be visible to the user \(in a`SELECT`\), and will not be available for modification \(in an`UPDATE`or`DELETE`\). Such rows are silently suppressed; no error is reported.
+可以是任何的 SQL 條件表示式（回傳布林值）。 條件表示式不能包含任何彙總函數或窗函數。如果啟用了資料列的安全原則，則將此表示式加入到引用該資料表的查詢中。表示式回傳 true 的資料列將會是可見的。表示式回傳 false 或 null 的任何資料列對使用者來說都是不可見的（在 SELECT 中），並且不可用於資料更新（在 UPDATE 或 DELETE 中）。這樣的資料列被無聲地壓制；不會有錯誤的回報。
 
 `check_expression`
 
-AnySQLconditional expression \(returning`boolean`\). The conditional expression cannot contain any aggregate or window functions. This expression will be used in`INSERT`and`UPDATE`queries against the table if row level security is enabled. Only rows for which the expression evaluates to true will be allowed. An error will be thrown if the expression evaluates to false or null for any of the records inserted or any of the records that result from the update. Note that the\_`check_expression`\_is evaluated against the proposed new contents of the row, not the original contents.
+為一 SQL 條件表示式（回傳布林值）。 條件表示式不能包含任何彙總函數或窗函數。如果啟用了資料列的安全原則，則將在針對該資料表的 INSERT 和 UPDATE 查詢中使用此表示式。只有表示式認定為 true 的資料列才會被允許操作。如果對於插入的任何資料或由更新產生的任何資料，表示式的計算結果為 false 或 null，則會引發錯誤。請注意，check\_expression 將根據資料列的建議新內容進行評估，而不是原始內容。
 
 ### Per-Command Policies
 
