@@ -1,0 +1,188 @@
+---
+description: >-
+  This part contains reference information for the SQL commands supported by
+  PostgreSQL. By “SQL” the language in general is meant; information about the
+  standards conformance and compatibility of each
+---
+
+# I. SQL 指令
+
+**Table of Contents**
+
+[ABORT](https://www.postgresql.org/docs/10/static/sql-abort.html) — abort the current transaction  
+[ALTER AGGREGATE](https://www.postgresql.org/docs/10/static/sql-alteraggregate.html) — change the definition of an aggregate function  
+[ALTER COLLATION](https://www.postgresql.org/docs/10/static/sql-altercollation.html) — change the definition of a collation  
+[ALTER CONVERSION](https://www.postgresql.org/docs/10/static/sql-alterconversion.html) — change the definition of a conversion  
+[ALTER DATABASE](https://www.postgresql.org/docs/10/static/sql-alterdatabase.html) — change a database  
+[ALTER DEFAULT PRIVILEGES](https://www.postgresql.org/docs/10/static/sql-alterdefaultprivileges.html) — define default access privileges  
+[ALTER DOMAIN](https://www.postgresql.org/docs/10/static/sql-alterdomain.html) — change the definition of a domain  
+[ALTER EVENT TRIGGER](https://www.postgresql.org/docs/10/static/sql-altereventtrigger.html) — change the definition of an event trigger  
+[ALTER EXTENSION](https://www.postgresql.org/docs/10/static/sql-alterextension.html) — change the definition of an extension  
+[ALTER FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/10/static/sql-alterforeigndatawrapper.html) — change the definition of a foreign-data wrapper  
+[ALTER FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-alterforeigntable.html) — change the definition of a foreign table  
+[ALTER FUNCTION](https://www.postgresql.org/docs/10/static/sql-alterfunction.html) — change the definition of a function  
+[ALTER GROUP](https://www.postgresql.org/docs/10/static/sql-altergroup.html) — change role name or membership  
+[ALTER INDEX](https://www.postgresql.org/docs/10/static/sql-alterindex.html) — change the definition of an index  
+[ALTER LANGUAGE](https://www.postgresql.org/docs/10/static/sql-alterlanguage.html) — change the definition of a procedural language  
+[ALTER LARGE OBJECT](https://www.postgresql.org/docs/10/static/sql-alterlargeobject.html) — change the definition of a large object  
+[ALTER MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-altermaterializedview.html) — change the definition of a materialized view  
+[ALTER OPERATOR](https://www.postgresql.org/docs/10/static/sql-alteroperator.html) — change the definition of an operator  
+[ALTER OPERATOR CLASS](https://www.postgresql.org/docs/10/static/sql-alteropclass.html) — change the definition of an operator class  
+[ALTER OPERATOR FAMILY](https://www.postgresql.org/docs/10/static/sql-alteropfamily.html) — change the definition of an operator family  
+[ALTER POLICY](https://www.postgresql.org/docs/10/static/sql-alterpolicy.html) — change the definition of a row level security policy  
+[ALTER PUBLICATION](https://www.postgresql.org/docs/10/static/sql-alterpublication.html) — change the definition of a publication  
+[ALTER ROLE](https://www.postgresql.org/docs/10/static/sql-alterrole.html) — change a database role  
+[ALTER RULE](https://www.postgresql.org/docs/10/static/sql-alterrule.html) — change the definition of a rule  
+[ALTER SCHEMA](https://www.postgresql.org/docs/10/static/sql-alterschema.html) — change the definition of a schema  
+[ALTER SEQUENCE](https://www.postgresql.org/docs/10/static/sql-altersequence.html) — change the definition of a sequence generator  
+[ALTER SERVER](https://www.postgresql.org/docs/10/static/sql-alterserver.html) — change the definition of a foreign server  
+[ALTER STATISTICS](https://www.postgresql.org/docs/10/static/sql-alterstatistics.html) — change the definition of an extended statistics object  
+[ALTER SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-altersubscription.html) — change the definition of a subscription  
+[ALTER SYSTEM](https://www.postgresql.org/docs/10/static/sql-altersystem.html) — change a server configuration parameter  
+[ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html) — change the definition of a table  
+[ALTER TABLESPACE](https://www.postgresql.org/docs/10/static/sql-altertablespace.html) — change the definition of a tablespace  
+[ALTER TEXT SEARCH CONFIGURATION](https://www.postgresql.org/docs/10/static/sql-altertsconfig.html) — change the definition of a text search configuration  
+[ALTER TEXT SEARCH DICTIONARY](https://www.postgresql.org/docs/10/static/sql-altertsdictionary.html) — change the definition of a text search dictionary  
+[ALTER TEXT SEARCH PARSER](https://www.postgresql.org/docs/10/static/sql-altertsparser.html) — change the definition of a text search parser  
+[ALTER TEXT SEARCH TEMPLATE](https://www.postgresql.org/docs/10/static/sql-altertstemplate.html) — change the definition of a text search template  
+[ALTER TRIGGER](https://www.postgresql.org/docs/10/static/sql-altertrigger.html) — change the definition of a trigger  
+[ALTER TYPE](https://www.postgresql.org/docs/10/static/sql-altertype.html) — change the definition of a type  
+[ALTER USER](https://www.postgresql.org/docs/10/static/sql-alteruser.html) — change a database role  
+[ALTER USER MAPPING](https://www.postgresql.org/docs/10/static/sql-alterusermapping.html) — change the definition of a user mapping  
+[ALTER VIEW](https://www.postgresql.org/docs/10/static/sql-alterview.html) — change the definition of a view  
+[ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) — collect statistics about a database  
+[BEGIN](https://www.postgresql.org/docs/10/static/sql-begin.html) — start a transaction block  
+[CHECKPOINT](https://www.postgresql.org/docs/10/static/sql-checkpoint.html) — force a write-ahead log checkpoint  
+[CLOSE](https://www.postgresql.org/docs/10/static/sql-close.html) — close a cursor  
+[CLUSTER](https://www.postgresql.org/docs/10/static/sql-cluster.html) — cluster a table according to an index  
+[COMMENT](https://www.postgresql.org/docs/10/static/sql-comment.html) — define or change the comment of an object  
+[COMMIT](https://www.postgresql.org/docs/10/static/sql-commit.html) — commit the current transaction  
+[COMMIT PREPARED](https://www.postgresql.org/docs/10/static/sql-commit-prepared.html) — commit a transaction that was earlier prepared for two-phase commit  
+[COPY](https://www.postgresql.org/docs/10/static/sql-copy.html) — copy data between a file and a table  
+[CREATE ACCESS METHOD](https://www.postgresql.org/docs/10/static/sql-create-access-method.html) — define a new access method  
+[CREATE AGGREGATE](https://www.postgresql.org/docs/10/static/sql-createaggregate.html) — define a new aggregate function  
+[CREATE CAST](https://www.postgresql.org/docs/10/static/sql-createcast.html) — define a new cast  
+[CREATE COLLATION](https://www.postgresql.org/docs/10/static/sql-createcollation.html) — define a new collation  
+[CREATE CONVERSION](https://www.postgresql.org/docs/10/static/sql-createconversion.html) — define a new encoding conversion  
+[CREATE DATABASE](https://www.postgresql.org/docs/10/static/sql-createdatabase.html) — create a new database  
+[CREATE DOMAIN](https://www.postgresql.org/docs/10/static/sql-createdomain.html) — define a new domain  
+[CREATE EVENT TRIGGER](https://www.postgresql.org/docs/10/static/sql-createeventtrigger.html) — define a new event trigger  
+[CREATE EXTENSION](https://www.postgresql.org/docs/10/static/sql-createextension.html) — install an extension  
+[CREATE FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/10/static/sql-createforeigndatawrapper.html) — define a new foreign-data wrapper  
+[CREATE FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-createforeigntable.html) — define a new foreign table  
+[CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) — define a new function  
+[CREATE GROUP](https://www.postgresql.org/docs/10/static/sql-creategroup.html) — define a new database role  
+[CREATE INDEX](https://www.postgresql.org/docs/10/static/sql-createindex.html) — define a new index  
+[CREATE LANGUAGE](https://www.postgresql.org/docs/10/static/sql-createlanguage.html) — define a new procedural language  
+[CREATE MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-creatematerializedview.html) — define a new materialized view  
+[CREATE OPERATOR](https://www.postgresql.org/docs/10/static/sql-createoperator.html) — define a new operator  
+[CREATE OPERATOR CLASS](https://www.postgresql.org/docs/10/static/sql-createopclass.html) — define a new operator class  
+[CREATE OPERATOR FAMILY](https://www.postgresql.org/docs/10/static/sql-createopfamily.html) — define a new operator family  
+[CREATE POLICY](create-policy.md) — define a new row level security policy for a table  
+[CREATE PUBLICATION](https://www.postgresql.org/docs/10/static/sql-createpublication.html) — define a new publication  
+[CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html) — define a new database role  
+[CREATE RULE](https://www.postgresql.org/docs/10/static/sql-createrule.html) — define a new rewrite rule  
+[CREATE SCHEMA](https://www.postgresql.org/docs/10/static/sql-createschema.html) — define a new schema  
+[CREATE SEQUENCE](https://www.postgresql.org/docs/10/static/sql-createsequence.html) — define a new sequence generator  
+[CREATE SERVER](https://www.postgresql.org/docs/10/static/sql-createserver.html) — define a new foreign server  
+[CREATE STATISTICS](https://www.postgresql.org/docs/10/static/sql-createstatistics.html) — define extended statistics  
+[CREATE SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-createsubscription.html) — define a new subscription  
+[CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) — define a new table  
+[CREATE TABLE AS](https://www.postgresql.org/docs/10/static/sql-createtableas.html) — define a new table from the results of a query  
+[CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html) — define a new tablespace  
+[CREATE TEXT SEARCH CONFIGURATION](https://www.postgresql.org/docs/10/static/sql-createtsconfig.html) — define a new text search configuration  
+[CREATE TEXT SEARCH DICTIONARY](https://www.postgresql.org/docs/10/static/sql-createtsdictionary.html) — define a new text search dictionary  
+[CREATE TEXT SEARCH PARSER](https://www.postgresql.org/docs/10/static/sql-createtsparser.html) — define a new text search parser  
+[CREATE TEXT SEARCH TEMPLATE](https://www.postgresql.org/docs/10/static/sql-createtstemplate.html) — define a new text search template  
+[CREATE TRANSFORM](https://www.postgresql.org/docs/10/static/sql-createtransform.html) — define a new transform  
+[CREATE TRIGGER](https://www.postgresql.org/docs/10/static/sql-createtrigger.html) — define a new trigger  
+[CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html) — define a new data type  
+[CREATE USER](https://www.postgresql.org/docs/10/static/sql-createuser.html) — define a new database role  
+[CREATE USER MAPPING](https://www.postgresql.org/docs/10/static/sql-createusermapping.html) — define a new mapping of a user to a foreign server  
+[CREATE VIEW](https://www.postgresql.org/docs/10/static/sql-createview.html) — define a new view  
+[DEALLOCATE](https://www.postgresql.org/docs/10/static/sql-deallocate.html) — deallocate a prepared statement  
+[DECLARE](https://www.postgresql.org/docs/10/static/sql-declare.html) — define a cursor  
+[DELETE](https://www.postgresql.org/docs/10/static/sql-delete.html) — delete rows of a table  
+[DISCARD](https://www.postgresql.org/docs/10/static/sql-discard.html) — discard session state  
+[DO](https://www.postgresql.org/docs/10/static/sql-do.html) — execute an anonymous code block  
+[DROP ACCESS METHOD](https://www.postgresql.org/docs/10/static/sql-drop-access-method.html) — remove an access method  
+[DROP AGGREGATE](https://www.postgresql.org/docs/10/static/sql-dropaggregate.html) — remove an aggregate function  
+[DROP CAST](https://www.postgresql.org/docs/10/static/sql-dropcast.html) — remove a cast  
+[DROP COLLATION](https://www.postgresql.org/docs/10/static/sql-dropcollation.html) — remove a collation  
+[DROP CONVERSION](https://www.postgresql.org/docs/10/static/sql-dropconversion.html) — remove a conversion  
+[DROP DATABASE](https://www.postgresql.org/docs/10/static/sql-dropdatabase.html) — remove a database  
+[DROP DOMAIN](https://www.postgresql.org/docs/10/static/sql-dropdomain.html) — remove a domain  
+[DROP EVENT TRIGGER](https://www.postgresql.org/docs/10/static/sql-dropeventtrigger.html) — remove an event trigger  
+[DROP EXTENSION](https://www.postgresql.org/docs/10/static/sql-dropextension.html) — remove an extension  
+[DROP FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/10/static/sql-dropforeigndatawrapper.html) — remove a foreign-data wrapper  
+[DROP FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-dropforeigntable.html) — remove a foreign table  
+[DROP FUNCTION](https://www.postgresql.org/docs/10/static/sql-dropfunction.html) — remove a function  
+[DROP GROUP](https://www.postgresql.org/docs/10/static/sql-dropgroup.html) — remove a database role  
+[DROP INDEX](https://www.postgresql.org/docs/10/static/sql-dropindex.html) — remove an index  
+[DROP LANGUAGE](https://www.postgresql.org/docs/10/static/sql-droplanguage.html) — remove a procedural language  
+[DROP MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-dropmaterializedview.html) — remove a materialized view  
+[DROP OPERATOR](https://www.postgresql.org/docs/10/static/sql-dropoperator.html) — remove an operator  
+[DROP OPERATOR CLASS](https://www.postgresql.org/docs/10/static/sql-dropopclass.html) — remove an operator class  
+[DROP OPERATOR FAMILY](https://www.postgresql.org/docs/10/static/sql-dropopfamily.html) — remove an operator family  
+[DROP OWNED](https://www.postgresql.org/docs/10/static/sql-drop-owned.html) — remove database objects owned by a database role  
+[DROP POLICY](https://www.postgresql.org/docs/10/static/sql-droppolicy.html) — remove a row level security policy from a table  
+[DROP PUBLICATION](https://www.postgresql.org/docs/10/static/sql-droppublication.html) — remove a publication  
+[DROP ROLE](https://www.postgresql.org/docs/10/static/sql-droprole.html) — remove a database role  
+[DROP RULE](https://www.postgresql.org/docs/10/static/sql-droprule.html) — remove a rewrite rule  
+[DROP SCHEMA](https://www.postgresql.org/docs/10/static/sql-dropschema.html) — remove a schema  
+[DROP SEQUENCE](https://www.postgresql.org/docs/10/static/sql-dropsequence.html) — remove a sequence  
+[DROP SERVER](https://www.postgresql.org/docs/10/static/sql-dropserver.html) — remove a foreign server descriptor  
+[DROP STATISTICS](https://www.postgresql.org/docs/10/static/sql-dropstatistics.html) — remove extended statistics  
+[DROP SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-dropsubscription.html) — remove a subscription  
+[DROP TABLE](https://www.postgresql.org/docs/10/static/sql-droptable.html) — remove a table  
+[DROP TABLESPACE](https://www.postgresql.org/docs/10/static/sql-droptablespace.html) — remove a tablespace  
+[DROP TEXT SEARCH CONFIGURATION](https://www.postgresql.org/docs/10/static/sql-droptsconfig.html) — remove a text search configuration  
+[DROP TEXT SEARCH DICTIONARY](https://www.postgresql.org/docs/10/static/sql-droptsdictionary.html) — remove a text search dictionary  
+[DROP TEXT SEARCH PARSER](https://www.postgresql.org/docs/10/static/sql-droptsparser.html) — remove a text search parser  
+[DROP TEXT SEARCH TEMPLATE](https://www.postgresql.org/docs/10/static/sql-droptstemplate.html) — remove a text search template  
+[DROP TRANSFORM](https://www.postgresql.org/docs/10/static/sql-droptransform.html) — remove a transform  
+[DROP TRIGGER](https://www.postgresql.org/docs/10/static/sql-droptrigger.html) — remove a trigger  
+[DROP TYPE](https://www.postgresql.org/docs/10/static/sql-droptype.html) — remove a data type  
+[DROP USER](https://www.postgresql.org/docs/10/static/sql-dropuser.html) — remove a database role  
+[DROP USER MAPPING](https://www.postgresql.org/docs/10/static/sql-dropusermapping.html) — remove a user mapping for a foreign server  
+[DROP VIEW](https://www.postgresql.org/docs/10/static/sql-dropview.html) — remove a view  
+[END](https://www.postgresql.org/docs/10/static/sql-end.html) — commit the current transaction  
+[EXECUTE](https://www.postgresql.org/docs/10/static/sql-execute.html) — execute a prepared statement  
+[EXPLAIN](https://www.postgresql.org/docs/10/static/sql-explain.html) — show the execution plan of a statement  
+[FETCH](https://www.postgresql.org/docs/10/static/sql-fetch.html) — retrieve rows from a query using a cursor  
+[GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html) — define access privileges  
+[IMPORT FOREIGN SCHEMA](https://www.postgresql.org/docs/10/static/sql-importforeignschema.html) — import table definitions from a foreign server  
+[INSERT](https://www.postgresql.org/docs/10/static/sql-insert.html) — create new rows in a table  
+[LISTEN](https://www.postgresql.org/docs/10/static/sql-listen.html) — listen for a notification  
+[LOAD](https://www.postgresql.org/docs/10/static/sql-load.html) — load a shared library file  
+[LOCK](https://www.postgresql.org/docs/10/static/sql-lock.html) — lock a table  
+[MOVE](https://www.postgresql.org/docs/10/static/sql-move.html) — position a cursor  
+[NOTIFY](https://www.postgresql.org/docs/10/static/sql-notify.html) — generate a notification  
+[PREPARE](https://www.postgresql.org/docs/10/static/sql-prepare.html) — prepare a statement for execution  
+[PREPARE TRANSACTION](https://www.postgresql.org/docs/10/static/sql-prepare-transaction.html) — prepare the current transaction for two-phase commit  
+[REASSIGN OWNED](https://www.postgresql.org/docs/10/static/sql-reassign-owned.html) — change the ownership of database objects owned by a database role  
+[REFRESH MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-refreshmaterializedview.html) — replace the contents of a materialized view  
+[REINDEX](https://www.postgresql.org/docs/10/static/sql-reindex.html) — rebuild indexes  
+[RELEASE SAVEPOINT](https://www.postgresql.org/docs/10/static/sql-release-savepoint.html) — destroy a previously defined savepoint  
+[RESET](https://www.postgresql.org/docs/10/static/sql-reset.html) — restore the value of a run-time parameter to the default value  
+[REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html) — remove access privileges  
+[ROLLBACK](https://www.postgresql.org/docs/10/static/sql-rollback.html) — abort the current transaction  
+[ROLLBACK PREPARED](https://www.postgresql.org/docs/10/static/sql-rollback-prepared.html) — cancel a transaction that was earlier prepared for two-phase commit  
+[ROLLBACK TO SAVEPOINT](https://www.postgresql.org/docs/10/static/sql-rollback-to.html) — roll back to a savepoint  
+[SAVEPOINT](https://www.postgresql.org/docs/10/static/sql-savepoint.html) — define a new savepoint within the current transaction  
+[SECURITY LABEL](https://www.postgresql.org/docs/10/static/sql-security-label.html) — define or change a security label applied to an object  
+[SELECT](https://www.postgresql.org/docs/10/static/sql-select.html) — retrieve rows from a table or view  
+[SELECT INTO](https://www.postgresql.org/docs/10/static/sql-selectinto.html) — define a new table from the results of a query  
+[SET](https://www.postgresql.org/docs/10/static/sql-set.html) — change a run-time parameter  
+[SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html) — set constraint check timing for the current transaction  
+[SET ROLE](https://www.postgresql.org/docs/10/static/sql-set-role.html) — set the current user identifier of the current session  
+[SET SESSION AUTHORIZATION](https://www.postgresql.org/docs/10/static/sql-set-session-authorization.html) — set the session user identifier and the current user identifier of the current session  
+[SET TRANSACTION](https://www.postgresql.org/docs/10/static/sql-set-transaction.html) — set the characteristics of the current transaction  
+[SHOW](https://www.postgresql.org/docs/10/static/sql-show.html) — show the value of a run-time parameter  
+[START TRANSACTION](https://www.postgresql.org/docs/10/static/sql-start-transaction.html) — start a transaction block  
+[TRUNCATE](https://www.postgresql.org/docs/10/static/sql-truncate.html) — empty a table or set of tables  
+[UNLISTEN](https://www.postgresql.org/docs/10/static/sql-unlisten.html) — stop listening for a notification  
+[UPDATE](https://www.postgresql.org/docs/10/static/sql-update.html) — update rows of a table  
+[VACUUM](https://www.postgresql.org/docs/10/static/sql-vacuum.html) — garbage-collect and optionally analyze a database  
+[VALUES](https://www.postgresql.org/docs/10/static/sql-values.html) — compute a set of rows
+
