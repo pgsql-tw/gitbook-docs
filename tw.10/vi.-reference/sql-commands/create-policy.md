@@ -155,23 +155,23 @@ AND
 
 ## Notes
 
-You must be the owner of a table to create or change policies for it.
+您必須是資料表的擁有者才能為其建立或變更安全原則。
 
-While policies will be applied for explicit queries against tables in the database, they are not applied when the system is performing internal referential integrity checks or validating constraints. This means there are indirect ways to determine that a given value exists. An example of this is attempting to insert a duplicate value into a column that is a primary key or has a unique constraint. If the insert fails then the user can infer that the value already exists. \(This example assumes that the user is permitted by policy to insert records which they are not allowed to see.\) Another example is where a user is allowed to insert into a table which references another, otherwise hidden table. Existence can be determined by the user inserting values into the referencing table, where success would indicate that the value exists in the referenced table. These issues can be addressed by carefully crafting policies to prevent users from being able to insert, delete, or update records at all which might possibly indicate a value they are not otherwise able to see, or by using generated values \(e.g., surrogate keys\) instead of keys with external meanings.
+雖然安全原則是應用於對資料庫中資料表的查詢，但系統在內部執行參考完整性檢查或驗證限制條件時並不會套用安全原則。這意味著有間接的方法來確認給定的值是否存在。其中的一個例子是嘗試將重複值插入到主鍵或具有唯一值限制的欄位中。如果插入失敗，則使用者可以推斷該值已經存在。（這個例子假定使用者在安全原則下允許插入他們不允許看到的資料。）另一個例子是允許使用者插入資料表，而該表引用了另一個資料表，即使資料表被隱藏了。存在值可以由使用者在引用資料表中插入值來確定，如果成功表示該值存在於引用表中。這些問題可以透過仔細制定安全原則來解決，以防止用戶能夠以插入、刪除或更新所有可能表明他們無法看到的值的資料，或者使用衍生的值（例如代理鍵）而不是具有外在意義的鍵。
 
-Generally, the system will enforce filter conditions imposed using security policies prior to qualifications that appear in user queries, in order to prevent inadvertent exposure of the protected data to user-defined functions which might not be trustworthy. However, functions and operators marked by the system \(or the system administrator\) as`LEAKPROOF`may be evaluated before policy expressions, as they are assumed to be trustworthy.
+通常，為了防止受保護數據無意中暴露給可能不可信的使用者自訂函數，系統將在出現在使用者查詢的資格之前執行使用安全原則施加的過濾條件。但是，系統（或系統管理員）標記為 LEAKPROOF 功能的操作員可以在原則表示式之前進行執行函式，因為它們被認為是可信的。
 
-Since policy expressions are added to the user's query directly, they will be run with the rights of the user running the overall query. Therefore, users who are using a given policy must be able to access any tables or functions referenced in the expression or they will simply receive a permission denied error when attempting to query the table that has row-level security enabled. This does not change how views work, however. As with normal queries and views, permission checks and policies for the tables which are referenced by a view will use the view owner's rights and any policies which apply to the view owner.
+由於原則表示式是直接加到使用者的查詢中，它們將以執行整個查詢的使用者的權限執行。因此，使用給定原則的使用者必須能夠存取表示式中所引用的任何資料表或函數，否則當嘗試查詢啟用了資料列級安全性的資料表時，它們將會收到拒絕權限的錯誤。然而，這並不會改變 View 的工作方式。與普通查詢和 View 一樣，View 所引用的資料表權限檢查和原則將使用 View 擁有者的權限並套用於視圖擁有者的任何原則。
 
-Additional discussion and practical examples can be found in [Section 5.7](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-definition/57-row-security-policies.md).
+更多討論和實際案例可以在 [5.7 節](../../ii.-sql-cha-xun-yu-yan/5.-ding-yi-zi-liao-jie-gou/5.7.-zi-liao-lie-an-quan-yuan-ze.md)中瞭解。
 
 ## Compatibility
 
-`CREATE POLICY`is a PostgreSQL extension.
+`CREATE POLICY 屬於 PostgreSQL 延伸指令。`
 
 ## See Also
 
-[ALTER POLICY](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/alter-policy.md), [DROP POLICY](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/drop-policy.md), [ALTER TABLE](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/alter-table.md)
+[ALTER POLICY](alter-policy.md), [DROP POLICY](drop-policy.md), [ALTER TABLE](alter-table.md)
 
 ## 參考文件
 
