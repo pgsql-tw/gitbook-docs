@@ -85,21 +85,21 @@ CREATE POLICY 指令用於為資料表定義新的資料列級安全原則。請
 
 `UPDATE`
 
-Using`UPDATE`for a policy means that it will apply to`UPDATE`,`SELECT FOR UPDATE`and`SELECT FOR SHARE`commands, as well as auxiliary`ON CONFLICT DO UPDATE`clauses of`INSERT`commands. Since`UPDATE`involves pulling an existing record and replacing it with a new modified record,`UPDATE`policies accept both a`USING`expression and a`WITH CHECK`expression. The`USING`expression determines which records the`UPDATE`command will see to operate against, while the`WITH CHECK`expression defines which modified rows are allowed to be stored back into the relation.
+在安全原則中使用 UPDATE 意味著它將適用於 UPDATE、SELECT FOR UPDATE 和 SELECT FOR SHARE 指令，以及 INSERT 指令的輔助 ON CONFLICT DO UPDATE 子句。由於 UPDATE 涉及取得現有資料並用新的更新資料替換它，所以 UPDATE 原則同時接受 USING 表示式和 WITH CHECK 表示式。USING 表示式定義 UPDATE 命令將查看哪些資料進行操作，而 WITH CHECK 表示式則定義允許哪些修改後的資料儲回關連之中。
 
-Any rows whose updated values do not pass the`WITH CHECK`expression will cause an error, and the entire command will be aborted. If only a`USING`clause is specified, then that clause will be used for both`USING`and`WITH CHECK`cases.
+任何未通過 WITH CHECK 表示式的資料列都會導致錯誤，並且使得整個命令被中止。如果僅指定 USING 子句，則該子句將同時用於 USING 和 WITH CHECK 兩種情況。
 
-Typically an`UPDATE`command also needs to read data from columns in the relation being updated \(e.g., in a`WHERE`clause or a`RETURNING`clause, or in an expression on the right hand side of the`SET`clause\). In this case,`SELECT`rights are also required on the relation being updated, and the appropriate`SELECT`or`ALL`policies will be applied in addition to the`UPDATE`policies. Thus the user must have access to the row\(s\) being updated through a`SELECT`or`ALL`policy in addition to being granted permission to update the row\(s\) via an`UPDATE`or`ALL`policy.
+通常，UPDATE 指令還需要從正在更新中的欄位（例如，在 WHERE 子句或 RETURNING 子句中，又或者在 SET 子句的右側的表示式中）讀取資料。在這種情況下，正在更新的關連也需要 SELECT 權限，除 UPDATE 原則外，還將適用適當的 SELECT 或 ALL 原則。因此，除了被授予通過 UPDATE 或 ALL 原則更新資料列的權限之外，用戶還必須能夠存取通過 SELECT 或 ALL 原則更新的資料列。
 
-When an`INSERT`command has an auxiliary`ON CONFLICT DO UPDATE`clause, if the`UPDATE`path is taken, the row to be updated is first checked against the`USING`expressions of any`UPDATE`policies, and then the new updated row is checked against the`WITH CHECK`expressions. Note, however, that unlike a standalone`UPDATE`command, if the existing row does not pass the`USING`expressions, an error will be thrown \(the`UPDATE`path will\_never\_be silently avoided\).
+當 INSERT 指令具有輔助的 ON CONFLICT DO UPDATE 子句時，如果採用 UPDATE 執行路徑，則首先針對任何 UPDATE 原則的 USING 表示式檢查要更新的資料列，然後根據 WITH CHECK 表示式檢查即將更新的資料列。 但是請注意，與獨立的 UPDATE 指令不同，如果現有的資料列未通過 USING 表示式，則會引發錯誤（UPDATE 執行路徑永遠不會被默默地忽視）。
 
 `DELETE`
 
-Using`DELETE`for a policy means that it will apply to`DELETE`commands. Only rows that pass this policy will be seen by a`DELETE`command. There can be rows that are visible through a`SELECT`that are not available for deletion, if they do not pass the`USING`expression for the`DELETE`policy.
+將 DELETE 用於原則意味著它將適用於 DELETE 命令。只有通過此原則的資料列才會被 DELETE 指令看到。如果不能通過 DELETE 原則的 USING 表達式，但可以透過 SELECT 顯示不能刪除的資料列。
 
-In most cases a`DELETE`command also needs to read data from columns in the relation that it is deleting from \(e.g., in a`WHERE`clause or a`RETURNING`clause\). In this case,`SELECT`rights are also required on the relation, and the appropriate`SELECT`or`ALL`policies will be applied in addition to the`DELETE`policies. Thus the user must have access to the row\(s\) being deleted through a`SELECT`or`ALL`policy in addition to being granted permission to delete the row\(s\) via a`DELETE`or`ALL`policy.
+在大多數情況下，DELETE 指令還需要從正在刪除中的關連（例如，在 WHERE 子句或 RETURNING 子句中）的欄位讀取資料。在這種情況下，就還需要 SELECT 權限，所以除了 DELETE 原則外，還將適用適當的 SELECT 或 ALL 策略。因此，除了被授予通過 DELETE 或 ALL 原則刪除資料列的權限外，使用者還必須能夠存取通過 SELECT 或 ALL 原則刪除的資料列。
 
-A`DELETE`policy cannot have a`WITH CHECK`expression, as it only applies in cases where records are being deleted from the relation, so that there is no new row to check.
+DELETE 原則不能有 WITH CHECK 表示式，因為它只適用於從關連中刪除資料的情況，所以沒有新的資料需要檢查。
 
 #### **Table 240. Policies Applied by Command Type**
 
