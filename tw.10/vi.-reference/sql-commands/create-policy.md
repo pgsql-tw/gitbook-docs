@@ -75,13 +75,13 @@ CREATE POLICY 指令用於為資料表定義新的資料列級安全原則。請
 
 `SELECT`
 
-Using`SELECT`for a policy means that it will apply to`SELECT`queries and whenever`SELECT`permissions are required on the relation the policy is defined for. The result is that only those records from the relation that pass the`SELECT`policy will be returned during a`SELECT`query, and that queries that require`SELECT`permissions, such as`UPDATE`, will also only see those records that are allowed by the`SELECT`policy. A`SELECT`policy cannot have a`WITH CHECK`expression, as it only applies in cases where records are being retrieved from the relation.
+將 SELECT 用於原則意味著它將適用於 SELECT 查詢，所有當定義原則的關連需要 SELECT 權限的時候。結果是只有通過 SELECT 原則的那些資料才會在 SELECT 查詢中回傳，而那些需要 SELECT 權限的查詢（如 UPDATE）也只能看到 SELECT 原則允許的那些資料。SELECT 原則不能有 WITH CHECK 表示式，因為它只適用於從關連中檢索資料的情況。
 
 `INSERT`
 
-Using`INSERT`for a policy means that it will apply to`INSERT`commands. Rows being inserted that do not pass this policy will result in a policy violation error, and the entire`INSERT`command will be aborted. An`INSERT`policy cannot have a`USING`expression, as it only applies in cases where records are being added to the relation.
+在原則中使用 INSERT 意味著它將適用於 INSERT 指令。插入的資料列不通過此原則將導致原則違規錯誤，並且整個 INSERT 指令將被中止。INSERT 原則不能有 USING 表示式，因為它只適用於資料被增加到關連中的情況。
 
-Note that`INSERT`with`ON CONFLICT DO UPDATE`checks`INSERT`policies'`WITH CHECK`expressions only for rows appended to the relation by the`INSERT`path.
+請注意，帶有 ON CONFLICT DO UPDATE 的 INSERT 只對於隨 INSERT 路徑追加到關連的資料列檢查 INSERT 原則的 WITH CHECK 表示式。
 
 `UPDATE`
 
