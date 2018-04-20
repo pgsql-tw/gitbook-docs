@@ -61,3 +61,7 @@ PostgreSQLmakes use of symbolic links to simplify the implementation of tablespa
 
 The directory`$PGDATA/pg_tblspc`contains symbolic links that point to each of the non-built-in tablespaces defined in the cluster. Although not recommended, it is possible to adjust the tablespace layout by hand by redefining these links. Under no circumstances perform this operation while the server is running. Note that in PostgreSQL 9.1 and earlier you will also need to update the`pg_tablespace`catalog with the new locations. \(If you do not,`pg_dump`will continue to output the old tablespace locations.\)
 
+## 參考資料
+
+1.  [PostgreSQL: Documentation: 10: 22.6. Tablespaces](https://www.postgresql.org/docs/10/static/manage-ag-tablespaces.html)
+
