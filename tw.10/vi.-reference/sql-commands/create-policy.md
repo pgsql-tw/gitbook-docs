@@ -69,9 +69,9 @@ CREATE POLICY 指令用於為資料表定義新的資料列級安全原則。請
 
 `ALL`
 
-Using`ALL`for a policy means that it will apply to all commands, regardless of the type of command. If an`ALL`policy exists and more specific policies exist, then both the`ALL`policy and the more specific policy \(or policies\) will be applied. Additionally,`ALL`policies will be applied to both the selection side of a query and the modification side, using the`USING`expression for both cases if only a`USING`expression has been defined.
+將 ALL 用於安全原則中意味著它將適用於所有指令，而不管指令的類型如何。如果同時存在 ALL 原則及更具體的原則，則兩個原則都會適用。 此外，如果僅定義了 USING 表示式，則所有原則都將適用於查詢類操作的和更新類操作，對兩種情況均使用 USING 表示式。
 
-As an example, if an`UPDATE`is issued, then the`ALL`policy will be applicable both to what the`UPDATE`will be able to select as rows to be updated \(applying the`USING`expression\), and to the resulting updated rows, to check if they are permitted to be added to the table \(applying the`WITH CHECK`expression, if defined, and the`USING`expression otherwise\). If an`INSERT`or`UPDATE`command attempts to add rows to the table that do not pass the`ALL`policy's`WITH CHECK`expression, the entire command will be aborted.
+舉例來說，當執行 UPDATE 時，ALL 原則將適用於 UPDATE 將能夠選擇作為要更新的資料列（適用 USING 表示式）和更新後的資料列，以檢查它們是否它們允許增加到資料表中（如果定義了 WITH CHECK 表示式，則使用 WITH CHECK 表示式，否則使用 USING 表示式）。如果 INSERT 或 UPDATE 指令嘗試將資料列加入到未通過 ALL 原則的 WITH CHECK 表示式的資料表中，則整個指令將被中止。
 
 `SELECT`
 
