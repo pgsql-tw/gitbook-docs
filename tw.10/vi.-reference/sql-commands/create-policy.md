@@ -65,7 +65,7 @@ CREATE POLICY 指令用於為資料表定義新的資料列級安全原則。請
 
 為一 SQL 條件表示式（回傳布林值）。 條件表示式不能包含任何彙總函數或窗函數。如果啟用了資料列的安全原則，則將在針對該資料表的 INSERT 和 UPDATE 查詢中使用此表示式。只有表示式認定為 true 的資料列才會被允許操作。如果對於插入的任何資料或由更新產生的任何資料，表示式的計算結果為 false 或 null，則會引發錯誤。請注意，check\_expression 將根據資料列的建議新內容進行評估，而不是原始內容。
 
-### Per-Command Policies
+### 個別指令安全原則
 
 `ALL`
 
@@ -115,15 +115,15 @@ DELETE 原則不能有 WITH CHECK 表示式，因為它只適用於從關連中�
 | `ON CONFLICT DO UPDATE` | Existing & new rows | — | Existing row | New row | — |
 |  |  |  |  |  | [\[a\]](https://www.postgresql.org/docs/10/static/sql-createpolicy.html#RLS-SELECT-PRIV)If read access is required to the existing or new row \(for example, a`WHERE`or`RETURNING`clause that refers to columns from the relation\). |
 
-### Application of Multiple Policies
+### 多安全原則的套用方式
 
-When multiple policies of different command types apply to the same command \(for example,`SELECT`and`UPDATE`policies applied to an`UPDATE`command\), then the user must have both types of permissions \(for example, permission to select rows from the relation as well as permission to update them\). Thus the expressions for one type of policy are combined with the expressions for the other type of policy using the`AND`operator.
+當不同命令類型的多個原則適用於同一指令（例如，適用於 UPDATE 指令的 SELECT 和 UPDATE 原則）時，使用者必須同時具有這兩種類型指令的權限（例如，從關連中查詢資料列的權限以及允許可以更新它們）。因此將會使用 AND 運算將一種原則類型的表示式與其他類型原則的表示式組合在一起。
 
-When multiple policies of the same command type apply to the same command, then there must be at least one`PERMISSIVE`policy granting access to the relation, and all of the`RESTRICTIVE`policies must pass. Thus all the`PERMISSIVE`policy expressions are combined using`OR`, all the`RESTRICTIVE`policy expressions are combined using`AND`, and the results are combined using`AND`. If there are no`PERMISSIVE`policies, then access is denied.
+當相同指令類型的多個原則套用於同一個指令時，必須至少有一個 PERMISSIVE 原則授予的存取權限，而所有 RESTRICTIVE 原則都必須通過。也就是，所有的 PERMISSIVE 原則表示式均使用 OR 組合，而所有 RESTRICTIVE 原則表示式都使用 AND 進行組合，並使用 AND 組合其結果。 如果沒有 PERMISSIVE 原則，則存取將會被拒絕。
 
-Note that, for the purposes of combining multiple policies,`ALL`policies are treated as having the same type as whichever other type of policy is being applied.
+請注意，出於合併多個原則的目的，所有原則都被視為與正在套用的其他任何類型的原則具有相同的類型。
 
-For example, in an`UPDATE`command requiring both`SELECT`and`UPDATE`permissions, if there are multiple applicable policies of each type, they will be combined as follows:
+例如，在需要 SELECT 和 UPDATE 權限的 UPDATE 指令中，如果每種類型都有多個適用的原則，則它們將按如下方式組合：
 
 ```text
 expression from RESTRICTIVE SELECT/ALL policy 1
