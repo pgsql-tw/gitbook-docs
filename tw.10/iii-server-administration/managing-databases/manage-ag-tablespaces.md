@@ -1,10 +1,10 @@
 # 22.6. Tablespaces
 
-Tablespaces inPostgreSQLallow database administrators to define locations in the file system where the files representing database objects can be stored. Once created, a tablespace can be referred to by name when creating database objects.
+PostgreSQL 中的資料表空間允許資料庫管理者定義檔案系統中可以儲存資料庫物件的檔案的路徑。建立完成後，在建立資料庫物件時可以透過名稱來引用資料表空間。
 
-By using tablespaces, an administrator can control the disk layout of aPostgreSQLinstallation. This is useful in at least two ways. First, if the partition or volume on which the cluster was initialized runs out of space and cannot be extended, a tablespace can be created on a different partition and used until the system can be reconfigured.
+通過使用資料表空間，管理者可以控制 PostgreSQL 安裝的磁碟規畫。至少在兩個方面是很有用的。首先，如果初始化叢集的分割區\(partition\)或磁碟區\(volume\)的空間不足並且無法擴展時，則可以在不同的分割區上建立資料表空間，資料庫系統重新配置即可使用。
 
-Second, tablespaces allow an administrator to use knowledge of the usage pattern of database objects to optimize performance. For example, an index which is very heavily used can be placed on a very fast, highly available disk, such as an expensive solid state device. At the same time a table storing archived data which is rarely used or not performance critical could be stored on a less expensive, slower disk system.
+其次，資料表空間允許管理者依資料庫物件特性的知識來優化效能。例如，使用率很高的索引可以放置在非常快速、高可用的磁碟上，例如昂貴的固態磁碟。另一方面，對於很少使用或不關鍵的歸檔資料的資料表可以儲存在較便宜、速度較慢的磁碟系統上。
 
 ## Warning
 
