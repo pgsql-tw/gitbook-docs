@@ -10,7 +10,7 @@ PostgreSQL 中的資料表空間允許資料庫管理者定義檔案系統中可
 
 即使位於主 PostgreSQL 資料目錄之外，資料表空間也是資料庫叢集組成的一部分，並且它將作為資料檔案的自治集合來處理。它們會依賴於主資料目錄中包含的中繼資料，因此無法附加到不同的資料庫叢集或單獨備份。同樣，如果您失去了一個資料表空間（檔案被刪除、磁碟故障等），資料庫叢集可能變得不可讀取或無法啟動。所以將資料表空間放置在臨時檔案系統（如 RAM Disk）上會影響整個叢集的可靠性。
 
-要定義資料表空間，請使用 CREATE TABLESPACE 指令，例如：
+要定義資料表空間，請使用 [CREATE TABLESPACE ](../../vi.-reference/sql-commands/create-tablespace.md)指令，例如：
 
 ```text
 CREATE TABLESPACE fastspace LOCATION '/ssd1/postgresql/data';
@@ -18,48 +18,48 @@ CREATE TABLESPACE fastspace LOCATION '/ssd1/postgresql/data';
 
 該路徑必須是 PostgreSQL 作業系統使用者所擁有的空白目錄。隨後在資料表空間內建立的所有物件都將儲存在此目錄下的檔案中。該位置不得位於可移除或瞬時儲存上，因為如果資料表空間失去了，叢集可能會無法運行。
 
-## Note
+## 注意
 
-There is usually not much point in making more than one tablespace per logical file system, since you cannot control the location of individual files within a logical file system. However,PostgreSQLdoes not enforce any such limitation, and indeed it is not directly aware of the file system boundaries on your system. It just stores files in the directories you tell it to use.
+在每個邏輯檔案系統中建立多個資料表空間通常沒有什麼意義，因為你無法控制邏輯檔案系統內單個檔案的位置。但是，PostgreSQL 不會強制實施任何此類限制，事實上它並不直接發現系統上的檔案系統界線。 它只是將檔案儲存在你告訴它所使用的目錄中而已。
 
-Creation of the tablespace itself must be done as a database superuser, but after that you can allow ordinary database users to use it. To do that, grant them the`CREATE`privilege on it.
+建立資料表空間本身必須以資料庫超級使用者的身份完成，但在此之後，你可以允許普通的資料庫使用者來使用它。為此，請為它們授予 CREATE 的權限。
 
-Tables, indexes, and entire databases can be assigned to particular tablespaces. To do so, a user with the`CREATE`privilege on a given tablespace must pass the tablespace name as a parameter to the relevant command. For example, the following creates a table in the tablespace`space1`:
+資料表、索引和整個資料庫可以分配給特定的資料表空間。為此，具有給定資料表空間上的 CREATE 權限的使用者必須將資料表空間名稱作為參數傳遞給相關的指令。例如，下面會在資料表空間 space1 中建立一個資料表：
 
 ```text
 CREATE TABLE foo(i int) TABLESPACE space1;
 ```
 
-Alternatively, use the[default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE)parameter:
+或者，使用 [default\_tablespace](../19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#default_tablespace-string) 參數：
 
 ```text
 SET default_tablespace = space1;
 CREATE TABLE foo(i int);
 ```
 
-When`default_tablespace`is set to anything but an empty string, it supplies an implicit`TABLESPACE`clause for`CREATE TABLE`and`CREATE INDEX`commands that do not have an explicit one.
+當 default\_tablespace 設定為空字符之外的任何內容時，它將為 CREATE TABLE 和 CREATE INDEX 指令提供一個隱含的 TABLESPACE 子句，當它們沒有明確的 TABLESPACE 子句的時候。
 
-There is also a[temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES)parameter, which determines the placement of temporary tables and indexes, as well as temporary files that are used for purposes such as sorting large data sets. This can be a list of tablespace names, rather than only one, so that the load associated with temporary objects can be spread over multiple tablespaces. A random member of the list is picked each time a temporary object is to be created.
+還有一個 [temp\_tablespaces](../19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#temp_tablespaces-string) 參數，用於指定臨時資料表和索引的位置，以及用於排序大型資料之類目的的臨時檔案。這可以是資料表空間名稱的列表，而不是只有一個，以便與臨時物件關聯的負載可以分佈在多個資料表空間中。每次建立臨時物件時都會挑選該列表的隨機成員。
 
-The tablespace associated with a database is used to store the system catalogs of that database. Furthermore, it is the default tablespace used for tables, indexes, and temporary files created within the database, if no`TABLESPACE`clause is given and no other selection is specified by`default_tablespace`or`temp_tablespaces`\(as appropriate\). If a database is created without specifying a tablespace for it, it uses the same tablespace as the template database it is copied from.
+與資料庫關聯的資料表空間用於儲存該資料庫的系統目錄。此外，如果沒有給予 TABLESPACE 子句也沒有其他由 default\_tablespace 或 temp\_tablespaces（根據需要）的選擇指定的話，那麼它是用於在資料庫內建立的資料表、索引和臨時檔案的預設資料表空間。如果建立的資料庫沒有為其指定資料表空間，則它使用與從其複製的模板資料庫相同的資料表空間。
 
-Two tablespaces are automatically created when the database cluster is initialized. The`pg_global`tablespace is used for shared system catalogs. The`pg_default`tablespace is the default tablespace of the`template1`and`template0`databases \(and, therefore, will be the default tablespace for other databases as well, unless overridden by a`TABLESPACE`clause in`CREATE DATABASE`\).
+當資料庫叢集初始化時，會自動建立兩個資料表空間。pg\_global 資料表空間用於共享的系統目錄。pg\_default 資料表空間是 template1 和 template0 資料庫的預設資料表空間（因此，除非它被 CREATE DATABASE 中的 TABLESPACE 子句所取代，否則它將成為其他資料庫的預設資料表空間）。
 
-Once created, a tablespace can be used from any database, provided the requesting user has sufficient privilege. This means that a tablespace cannot be dropped until all objects in all databases using the tablespace have been removed.
+一旦建立之後，可以從任何資料庫使用資料表空間，只要請求的使用者具有足夠的權限即可。這意味著，除非所有使用資料表空間的資料庫中所有物件都被刪除，否則不能刪除資料表空間。
 
-To remove an empty tablespace, use the[DROP TABLESPACE](https://www.postgresql.org/docs/10/static/sql-droptablespace.html)command.
+要刪除空的資料表空間，請使用 DROP TABLESPACE 指令。
 
-To determine the set of existing tablespaces, examine the[`pg_tablespace`](https://www.postgresql.org/docs/10/static/catalog-pg-tablespace.html)system catalog, for example
+例如，要確認一組現有的資料表空間，請檢查 pg\_tablespace 系統目錄
 
 ```text
 SELECT spcname FROM pg_tablespace;
 ```
 
-The[psql](https://www.postgresql.org/docs/10/static/app-psql.html)program's`\db`meta-command is also useful for listing the existing tablespaces.
+psql 工具中的 \db 指令對於列出現有的資料表空間也很有用。
 
-PostgreSQLmakes use of symbolic links to simplify the implementation of tablespaces. This means that tablespaces can be used\_only\_on systems that support symbolic links.
+PostgreSQL 利用 symbolic link 來簡化資料表空間的管理。但這也意味著資料表空間只能用於支援 symbolic link 的系統。
 
-The directory`$PGDATA/pg_tblspc`contains symbolic links that point to each of the non-built-in tablespaces defined in the cluster. Although not recommended, it is possible to adjust the tablespace layout by hand by redefining these links. Under no circumstances perform this operation while the server is running. Note that in PostgreSQL 9.1 and earlier you will also need to update the`pg_tablespace`catalog with the new locations. \(If you do not,`pg_dump`will continue to output the old tablespace locations.\)
+目錄 $PGDATA/pg\_tblspc 包含指向叢集中定義的每個非內建資料表空間的 symbolic link。儘管並不推薦，但可以透過重新定義這些連接來手動調整資料表空間的佈局。在伺服器運行期間，任何情況下都不會執行此操作。請注意，在 PostgreSQL 9.1 及更早版本中，你還需要使用新位置更新 pg\_tablespace 目錄。（如果你不這樣做，pg\_dump 將繼續輸出到舊的資料表空間路徑。）
 
 ## 參考資料
 
