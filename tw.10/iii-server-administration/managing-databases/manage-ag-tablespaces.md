@@ -47,9 +47,9 @@ CREATE TABLE foo(i int);
 
 一旦建立之後，可以從任何資料庫使用資料表空間，只要請求的使用者具有足夠的權限即可。這意味著，除非所有使用資料表空間的資料庫中所有物件都被刪除，否則不能刪除資料表空間。
 
-要刪除空的資料表空間，請使用 DROP TABLESPACE 指令。
+要刪除空的資料表空間，請使用 [DROP TABLESPACE](../../vi.-reference/sql-commands/drop-tablespace.md) 指令。
 
-例如，要確認一組現有的資料表空間，請檢查 pg\_tablespace 系統目錄
+例如，要確認一組現有的資料表空間，請檢查 [pg\_tablespace](../../vii.-internals/system-catalogs/pg_tablespace.md) 系統目錄
 
 ```text
 SELECT spcname FROM pg_tablespace;

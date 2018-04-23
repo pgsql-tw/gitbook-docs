@@ -411,6 +411,7 @@
   * [I. SQL 指令](vi.-reference/sql-commands/README.md)
     * [ALTER POLICY](vi.-reference/sql-commands/alter-policy.md)
     * ALTER TABLE
+    * [ALTER TABLESPACE](vi.-reference/sql-commands/alter-tablespace.md)
     * [COMMENT](vi.-reference/sql-commands/comment.md)
     * [COPY](vi.-reference/sql-commands/copy.md)
     * [CREATE FOREIGN TABLE](vi.-reference/sql-commands/create-foreign-table.md)
@@ -426,6 +427,7 @@
     * [DELETE](vi.-reference/sql-commands/delete.md)
     * [DROP POLICY](vi.-reference/sql-commands/drop-policy.md)
     * [DROP TABLE](vi.-reference/sql-commands/drop-table.md)
+    * [DROP TABLESPACE](vi.-reference/sql-commands/drop-tablespace.md)
     * [GRANT](vi.-reference/sql-commands/grant.md)
     * [IMPORT FOREIGN SCHEMA](vi.-reference/sql-commands/import-foreign-schema.md)
     * [INSERT](vi.-reference/sql-commands/insert.md)
@@ -446,6 +448,8 @@
     * psql
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii.-internals/README.md)
+  * [51. System Catalogs](vii.-internals/system-catalogs/README.md)
+    * [51.54. pg\_tablespace](vii.-internals/system-catalogs/pg_tablespace.md)
   * [52. Frontend/Backend Protocol](vii.-internals/52.-frontend-backend-protocol/README.md)
     * 52.1. Overview
     * 52.2. Message Flow
