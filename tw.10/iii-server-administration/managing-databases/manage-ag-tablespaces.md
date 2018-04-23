@@ -6,17 +6,17 @@ PostgreSQL 中的資料表空間允許資料庫管理者定義檔案系統中可
 
 其次，資料表空間允許管理者依資料庫物件特性的知識來優化效能。例如，使用率很高的索引可以放置在非常快速、高可用的磁碟上，例如昂貴的固態磁碟。另一方面，對於很少使用或不關鍵的歸檔資料的資料表可以儲存在較便宜、速度較慢的磁碟系統上。
 
-## Warning
+## 警告
 
-Even though located outside the main PostgreSQL data directory, tablespaces are an integral part of the database cluster and\_cannot\_be treated as an autonomous collection of data files. They are dependent on metadata contained in the main data directory, and therefore cannot be attached to a different database cluster or backed up individually. Similarly, if you lose a tablespace \(file deletion, disk failure, etc\), the database cluster might become unreadable or unable to start. Placing a tablespace on a temporary file system like a RAM disk risks the reliability of the entire cluster.
+即使位於主 PostgreSQL 資料目錄之外，資料表空間也是資料庫叢集組成的一部分，並且它將作為資料檔案的自治集合來處理。它們會依賴於主資料目錄中包含的中繼資料，因此無法附加到不同的資料庫叢集或單獨備份。同樣，如果您失去了一個資料表空間（檔案被刪除、磁碟故障等），資料庫叢集可能變得不可讀取或無法啟動。所以將資料表空間放置在臨時檔案系統（如 RAM Disk）上會影響整個叢集的可靠性。
 
-To define a tablespace, use the[CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html)command, for example::
+要定義資料表空間，請使用 CREATE TABLESPACE 指令，例如：
 
 ```text
 CREATE TABLESPACE fastspace LOCATION '/ssd1/postgresql/data';
 ```
 
-The location must be an existing, empty directory that is owned by thePostgreSQLoperating system user. All objects subsequently created within the tablespace will be stored in files underneath this directory. The location must not be on removable or transient storage, as the cluster might fail to function if the tablespace is missing or lost.
+該路徑必須是 PostgreSQL 作業系統使用者所擁有的空白目錄。隨後在資料表空間內建立的所有物件都將儲存在此目錄下的檔案中。該位置不得位於可移除或瞬時儲存上，因為如果資料表空間失去了，叢集可能會無法運行。
 
 ## Note
 
