@@ -6,60 +6,23 @@ CREATE FUNCTION — define a new function
 
 ```text
 CREATE [ OR REPLACE ] FUNCTION
-
-name
- ( [ [ 
-argmode
- ] [ 
-argname
- ] 
-argtype
- [ { DEFAULT | = } 
-default_expr
- ] [, ...] ] )
-    [ RETURNS 
-rettype
-
-      | RETURNS TABLE ( 
-column_name
-column_type
- [, ...] ) ]
-  { LANGUAGE 
-lang_name
-
-    | TRANSFORM { FOR TYPE 
-type_name
- } [, ... ]
+  name ( [ [ argmode ] [ argname ] argtype [ { DEFAULT | = } default_expr ] [, ...] ] )
+    [ RETURNS rettype
+      | RETURNS TABLE ( column_namecolumn_type [, ...] ) ]
+  { LANGUAGE lang_name
+    | TRANSFORM { FOR TYPE type_name } [, ... ]
     | WINDOW
     | IMMUTABLE | STABLE | VOLATILE | [ NOT ] LEAKPROOF
     | CALLED ON NULL INPUT | RETURNS NULL ON NULL INPUT | STRICT
     | [ EXTERNAL ] SECURITY INVOKER | [ EXTERNAL ] SECURITY DEFINER
     | PARALLEL { UNSAFE | RESTRICTED | SAFE }
-    | COST 
-execution_cost
-
-    | ROWS 
-result_rows
-
-    | SET 
-configuration_parameter
- { TO 
-value
- | = 
-value
- | FROM CURRENT }
-    | AS '
-definition
-'
-    | AS '
-obj_file
-', '
-link_symbol
-'
+    | COST execution_cost
+    | ROWS result_rows
+    | SET configuration_parameter { TO value | = value | FROM CURRENT }
+    | AS 'definition'
+    | AS 'obj_file', 'link_symbol'
   } ...
-    [ WITH ( 
-attribute
- [, ...] ) ]
+    [ WITH ( attribute [, ...] ) ]
 ```
 
 ## Description
@@ -126,11 +89,7 @@ The data type of an output column in the`RETURNS TABLE`syntax.
 
 The name of the language that the function is implemented in. It can be`sql`,`c`,`internal`, or the name of a user-defined procedural language, e.g.`plpgsql`. Enclosing the name in single quotes is deprecated and requires matching case.
 
-`TRANSFORM { FOR TYPE`
-
-`type_name`
-
-} \[, ... \] }
+`TRANSFORM { FOR TYPEtype_name`} \[, ... \] }
 
 Lists which transforms a call to the function should apply. Transforms convert between SQL types and language-specific data types; see[CREATE TRANSFORM](https://www.postgresql.org/docs/10/static/sql-createtransform.html). Procedural language implementations usually have hardcoded knowledge of the built-in types, so those don't need to be listed here. If a procedural language implementation does not know how to handle a type and no transform is supplied, it will fall back to a default behavior for converting data types, but this depends on the implementation.
 
@@ -168,17 +127,8 @@ For additional details see[Section 37.6](https://www.postgresql.org/docs/10/stat
 
 `RETURNS NULL ON NULL INPUT`or`STRICT`indicates that the function always returns null whenever any of its arguments are null. If this parameter is specified, the function is not executed when there are null arguments; instead a null result is assumed automatically.
 
-`[`
-
-`EXTERNAL`
-
-`] SECURITY INVOKER`
-
-`[`
-
-`EXTERNAL`
-
-`] SECURITY DEFINER`
+`[EXTERNAL] SECURITY INVOKER  
+[EXTERNAL] SECURITY DEFINER`
 
 `SECURITY INVOKER`indicates that the function is to be executed with the privileges of the user that calls it. That is the default.`SECURITY DEFINER`specifies that the function is to be executed with the privileges of the user that owns it.
 
@@ -214,11 +164,7 @@ A string constant defining the function; the meaning depends on the language. It
 
 It is often helpful to use dollar quoting \(see[Section 4.1.2.4](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#SQL-SYNTAX-DOLLAR-QUOTING)\) to write the function definition string, rather than the normal single quote syntax. Without dollar quoting, any single quotes or backslashes in the function definition must be escaped by doubling them.
 
-`obj_file`
-
-,
-
-`link_symbol`
+`obj_file`,`link_symbol`
 
 This form of the`AS`clause is used for dynamically loadable C language functions when the function name in the C language source code is not the same as the name of the SQL function. The string`obj_file`_\_is the name of the shared library file containing the compiled C function, and is interpreted as for the_[_LOAD_](https://www.postgresql.org/docs/10/static/sql-load.html)_command. The string_`link_symbol`\_is the function's link symbol, that is, the name of the function in the C language source code. If the link symbol is omitted, it is assumed to be the same as the name of the SQL function being defined.
 
@@ -369,21 +315,5 @@ For parameter defaults, the SQL standard specifies only the syntax with the`DEFA
 
 ## See Also
 
-[ALTER FUNCTION](https://www.postgresql.org/docs/10/static/sql-alterfunction.html)
-
-,
-
-[DROP FUNCTION](https://www.postgresql.org/docs/10/static/sql-dropfunction.html)
-
-,
-
-[GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html)
-
-,
-
-[LOAD](https://www.postgresql.org/docs/10/static/sql-load.html)
-
-,
-
-[REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html)
+[ALTER FUNCTION](https://www.postgresql.org/docs/10/static/sql-alterfunction.html), [DROP FUNCTION](https://www.postgresql.org/docs/10/static/sql-dropfunction.html), [GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html), [LOAD](https://www.postgresql.org/docs/10/static/sql-load.html), [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html)
 
