@@ -218,7 +218,7 @@
     * 21.4. Dropping Roles
     * 21.5. Default Roles
     * 21.6. Function and Trigger Security
-  * Managing Databases
+  * [22. Managing Databases](iii-server-administration/managing-databases/README.md)
     * 22.1. Overview
     * 22.2. Creating a Database
     * 22.3. Template Databases
