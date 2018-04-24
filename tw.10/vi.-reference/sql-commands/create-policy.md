@@ -163,7 +163,7 @@ AND
 
 由於原則表示式是直接加到使用者的查詢中，它們將以執行整個查詢的使用者的權限執行。因此，使用給定原則的使用者必須能夠存取表示式中所引用的任何資料表或函數，否則當嘗試查詢啟用了資料列級安全性的資料表時，它們將會收到拒絕權限的錯誤。然而，這並不會改變 View 的工作方式。與普通查詢和 View 一樣，View 所引用的資料表權限檢查和原則將使用 View 擁有者的權限並套用於視圖擁有者的任何原則。
 
-更多討論和實際案例可以在 [5.7 節](../../ii.-sql-cha-xun-yu-yan/5.-ding-yi-zi-liao-jie-gou/5.7.-zi-liao-lie-an-quan-yuan-ze.md)中瞭解。
+更多討論和實際案例可以在 [5.7 節](../../sql-syntax/5.-ding-yi-zi-liao-jie-gou/5.7.-zi-liao-lie-an-quan-yuan-ze.md)中瞭解。
 
 ## Compatibility
 

@@ -45,15 +45,15 @@ CREATE [ OR REPLACE ] FUNCTION
 
 `name`
 
-The name \(optionally schema-qualified\) of the function to create.
+要建立的函數名稱（可以加上 schema）。
 
 `argmode`
 
-The mode of an argument:`IN`,`OUT`,`INOUT`, or`VARIADIC`. If omitted, the default is`IN`. Only`OUT`arguments can follow a`VARIADIC`one. Also,`OUT`and`INOUT`arguments cannot be used together with the`RETURNS TABLE`notation.
+參數的模式：IN、OUT、INOUT 或 VARIADIC。如果省略的話，則預設為 IN。只有 OUT 參數可以接著 VARIADIC 之後。此外，OUT 和 INOUT 參數不能與 RETURNS TABLE 表示法一起使用。
 
 `argname`
 
-The name of an argument. Some languages \(including SQL and PL/pgSQL\) let you use the name in the function body. For other languages the name of an input argument is just extra documentation, so far as the function itself is concerned; but you can use input argument names when calling a function to improve readability \(see[Section 4.3](https://www.postgresql.org/docs/10/static/sql-syntax-calling-funcs.html)\). In any case, the name of an output argument is significant, because it defines the column name in the result row type. \(If you omit the name for an output argument, the system will choose a default column name.\)
+參數的名稱。在某些語言（包括 SQL 和 PL/pgSQL）可讓你在函數中使用該名稱。對於其他語言而言，就函數本身而言，輸入參數的名稱只是額外的文件；但可以在呼叫函數時使用輸入參數名稱，以提高可讀性（請參閱[第 4.3 節](../../sql-syntax/4.-sql-yu-fa/calling-funcs.md)）。在任何情況下，輸出參數的名稱都很重要，因為它會在結果的欄位型別中定義了欄位名稱。 （如果你省略輸出參數的名稱，系統將自行選擇一個預設的欄位名稱。）
 
 `argtype`
 
