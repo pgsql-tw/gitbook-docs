@@ -409,6 +409,7 @@
   * [40. The Rule System](v.-server-programming/40.-the-rule-system.md)
 * [VI. Reference](reference/README.md)
   * [I. SQL 指令](reference/sql-commands/README.md)
+    * [ALTER FUNCTION](reference/sql-commands/alter-function.md)
     * [ALTER POLICY](reference/sql-commands/alter-policy.md)
     * ALTER TABLE
     * [ALTER TABLESPACE](reference/sql-commands/alter-tablespace.md)
@@ -441,6 +442,7 @@
     * [SET TRANSACTION](reference/sql-commands/set-transaction.md)
     * [UPDATE](reference/sql-commands/update.md)
     * [VALUES](reference/sql-commands/values.md)
+    * [DROP FUNCTION](reference/sql-commands/drop-function.md)
   * [II. PostgreSQL 用戶端工具](reference/ii.-postgresql-yong-hu-duan-gong-ju/README.md)
     * [createdb](reference/ii.-postgresql-yong-hu-duan-gong-ju/createdb.md)
     * [dropdb](reference/ii.-postgresql-yong-hu-duan-gong-ju/dropdb.md)

@@ -315,5 +315,5 @@ For parameter defaults, the SQL standard specifies only the syntax with the`DEFA
 
 ## See Also
 
-[ALTER FUNCTION](https://www.postgresql.org/docs/10/static/sql-alterfunction.html), [DROP FUNCTION](https://www.postgresql.org/docs/10/static/sql-dropfunction.html), [GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html), [LOAD](https://www.postgresql.org/docs/10/static/sql-load.html), [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html)
+[ALTER FUNCTION](alter-function.md), [DROP FUNCTION](drop-function.md), [GRANT](grant.md), [LOAD](load.md), [REVOKE](revoke.md)
 
