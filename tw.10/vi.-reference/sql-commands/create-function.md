@@ -1,6 +1,6 @@
 # CREATE FUNCTION
 
-CREATE FUNCTION — define a new function
+CREATE FUNCTION — 定義一個新函數
 
 ## Synopsis
 
@@ -25,23 +25,23 @@ CREATE [ OR REPLACE ] FUNCTION
     [ WITH ( attribute [, ...] ) ]
 ```
 
-## Description
+## 說明
 
-`CREATE FUNCTION`defines a new function.`CREATE OR REPLACE FUNCTION`will either create a new function, or replace an existing definition. To be able to define a function, the user must have the`USAGE`privilege on the language.
+`CREATE FUNCTION 用來定義一個新函數。CREATE OR REPLACE FUNCTION 將建立一個新的函數，或是更換現有的函數定義。為了能夠定義一個函數，使用者必須具有該程式語言的 USAGE 權限。`
 
-If a schema name is included, then the function is created in the specified schema. Otherwise it is created in the current schema. The name of the new function must not match any existing function with the same input argument types in the same schema. However, functions of different argument types can share a name \(this is called_overloading_\).
+如果包含 schema，則該函數將在指定的 schema 中建立。否則它會在目前的 schema中建立。新函數的名稱不得與相同 schema 中具有相同輸入參數型別的任何現有函數相同。但是，不同參數型別的函數可以共享一個名稱（稱為多載 overloading）。
 
-To replace the current definition of an existing function, use`CREATE OR REPLACE FUNCTION`. It is not possible to change the name or argument types of a function this way \(if you tried, you would actually be creating a new, distinct function\). Also,`CREATE OR REPLACE FUNCTION`will not let you change the return type of an existing function. To do that, you must drop and recreate the function. \(When using`OUT`parameters, that means you cannot change the types of any`OUT`parameters except by dropping the function.\)
+要更換現有函數的目前定義，請使用 CREATE OR REPLACE FUNCTION。以這種方式改變函數的名稱或參數型別是不可行的（如果你嘗試做了，實際上你會建立一個新的、不同的函數）。另外，CREATE OR REPLACE FUNCTION 不會讓你改變現有函數的回傳型別。為此，你必須刪除並重新建立該函數。（使用 OUT 參數時，這意味著你不能更改任何 OUT 參數的型別，除非移除該函數。）
 
-When`CREATE OR REPLACE FUNCTION`is used to replace an existing function, the ownership and permissions of the function do not change. All other function properties are assigned the values specified or implied in the command. You must own the function to replace it \(this includes being a member of the owning role\).
+當使用 CREATE OR REPLACE FUNCTION 替換現有函數時，該函數的所有權和權限都不會改變。所有其他的函數屬性都被分配了指令中指定或隱含的值。你必須擁有取代它的功能（這包括成為自己角色群組的成員）。
 
-If you drop and then recreate a function, the new function is not the same entity as the old; you will have to drop existing rules, views, triggers, etc. that refer to the old function. Use`CREATE OR REPLACE FUNCTION`to change a function definition without breaking objects that refer to the function. Also,`ALTER FUNCTION`can be used to change most of the auxiliary properties of an existing function.
+如果你刪除然後重新建立一個函數，那麼新函數與舊的函數不是同一個實體；你必須刪除引用舊功能的現有規則、view、觸發器等。使用 CREATE OR REPLACE FUNCTION 來更改函數定義而不會破壞引用該函數的物件。此外，ALTER FUNCTION 可用於更改現有函數的大部分輔助屬性。
 
-The user that creates the function becomes the owner of the function.
+建立函數的使用者會成為該函數的所有者。
 
-To be able to create a function, you must have`USAGE`privilege on the argument types and the return type.
+為了能夠建立一個函數，你必須對參數型別和回傳型別具有 USAGE 權限。
 
-## Parameters
+## 參數
 
 `name`
 
