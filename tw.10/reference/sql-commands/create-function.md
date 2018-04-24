@@ -57,15 +57,15 @@ CREATE [ OR REPLACE ] FUNCTION
 
 `argtype`
 
-The data type\(s\) of the function's arguments \(optionally schema-qualified\), if any. The argument types can be base, composite, or domain types, or can reference the type of a table column.
+如果有的話，函數參數的資料型別（可加上 schema）。參數型別可以是基本型別、複合型別或 domain 型別，也可以引用資料表欄位的型別。
 
-Depending on the implementation language it might also be allowed to specify“pseudo-types”such as`cstring`. Pseudo-types indicate that the actual argument type is either incompletely specified, or outside the set of ordinary SQL data types.
+根據實作語言的不同，它也可能被指定為「偽型別」，例如 cstring。偽型別表示實際參數型別或者是不完整指定的，或者是在普通 SQL 資料型別集合之外的型別。
 
-The type of a column is referenced by writing`table_name`.`column_name`%TYPE. Using this feature can sometimes help make a function independent of changes to the definition of a table.
+透過寫成 table\_name.column\_name %TYPE來引用欄位的型別。使用此功能有時可以幫助建立獨立於資料表定義的修改功能。
 
 `default_expr`
 
-An expression to be used as default value if the parameter is not specified. The expression has to be coercible to the argument type of the parameter. Only input \(including`INOUT`\) parameters can have a default value. All input parameters following a parameter with a default value must have default values as well.
+如果未指定參數，則將用作預設值的表示式。該表示式必須是參數的參數型別的強制性。 只有輸入（包括 INOUT）參數可以有一個預設值。具有預設值的參數之後的所有輸入參數也必須具有預設值。
 
 `rettype`
 
