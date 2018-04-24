@@ -443,11 +443,11 @@
     * [UPDATE](reference/sql-commands/update.md)
     * [VALUES](reference/sql-commands/values.md)
     * [DROP FUNCTION](reference/sql-commands/drop-function.md)
-  * [II. PostgreSQL 用戶端工具](reference/ii.-postgresql-yong-hu-duan-gong-ju/README.md)
-    * [createdb](reference/ii.-postgresql-yong-hu-duan-gong-ju/createdb.md)
-    * [dropdb](reference/ii.-postgresql-yong-hu-duan-gong-ju/dropdb.md)
-    * [pgbench](reference/ii.-postgresql-yong-hu-duan-gong-ju/pgbench.md)
-    * psql
+  * [II. PostgreSQL 用戶端工具](reference/client/README.md)
+    * [createdb](reference/client/createdb.md)
+    * [dropdb](reference/client/dropdb.md)
+    * [pgbench](reference/client/pgbench.md)
+    * [psql](reference/client/psql.md)
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii.-internals/README.md)
   * [51. System Catalogs](vii.-internals/system-catalogs/README.md)
