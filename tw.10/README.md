@@ -15,12 +15,7 @@ description: 本使用手冊由台灣 PostgreSQL 社群提供，翻譯自 Postgr
 看看 PostgreSQL 10 有什麼新功能吧：  
 [https://www.slideshare.net/tsunghsilin/postgresql-10-new-features](https://www.slideshare.net/tsunghsilin/postgresql-10-new-features)
 
-GitHub 的 [Issues區](https://github.com/pgsql-tw/twpug-doc/issues)有開立目前及近期預計編譯章節的項目，  
-歡迎參與協作，或提供建言。
+參與協作請在任何頁面，點選右上角的「Edit on Github」，修改後直接送 PR 給我們即可。
 
 任何問題或建議可以 Email 給我們的文件小組：[docs@postgresql.tw](mailto:docs@postgresql.tw)
-
-![PostgreSQL&#x5C0F;&#x5CF6;&#x6545;&#x4E8B;](https://pgsql-tw.github.io/island/assets/pgsql-tw-island.svg)
-
-![PostgreSQL&#x53F0;&#x7063;&#x4F7F;&#x7528;&#x8005;&#x793E;&#x7FA4;](https://pgsql-tw.github.io/island/assets/pgsql-tw.svg)
 
