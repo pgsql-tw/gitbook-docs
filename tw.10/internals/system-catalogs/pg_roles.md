@@ -18,7 +18,7 @@ pg\_roles 這個 view 提供對資料庫角色的資訊。 這只是 [pg\_authid
 | `rolconnlimit` | `int4` |   | 對於可以登入的角色，這個設定此角色可以建立的最大同時連線數。 -1 意味著沒有限制。 |
 | `rolpassword` | `text` |   | 不是密碼（讀出來都是\*\*\*\*\*\*\*\*） |
 | `rolvaliduntil` | `timestamptz` |   | 密碼到期時間（僅用於密碼驗證）; 如果沒有到期時間，則顯示 null |
-| `rolbypassrls` | `bool` |   | 角色繞過每一個資料列層級的安全原則，參閱[第 5.7 節](../../sql/5.-ding-yi-zi-liao-jie-gou/5.7.-zi-liao-lie-an-quan-yuan-ze.md)了解更多訊息。 |
+| `rolbypassrls` | `bool` |   | 角色繞過每一個資料列層級的安全原則，參閱[第 5.7 節](../../sql/ddl/rowsecurity.md)了解更多訊息。 |
 | `rolconfig` | `text[]` |   | 執行環境時用於角色的組態預設值 |
 | `oid` | `oid` | [`pg_authid`](pg_authid.md).oid | 角色的 ID |
 

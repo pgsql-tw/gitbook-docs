@@ -36,20 +36,20 @@
     * [4.1. 語法結構](sql/syntax/4.1.-yu-fa-jie-gou.md)
     * [4.2. 參數表示式](sql/syntax/4.2.-can-shu-biao-shi-shi.md)
     * [4.3. 函數呼叫](sql/syntax/calling-funcs.md)
-  * [5. 定義資料結構](sql/5.-ding-yi-zi-liao-jie-gou/README.md)
-    * [5.1. 認識資料表](sql/5.-ding-yi-zi-liao-jie-gou/5.1.-ren-shi-zi-liao-biao.md)
-    * [5.2. 預設值](sql/5.-ding-yi-zi-liao-jie-gou/5.2.-yu-she-zhi.md)
-    * [5.3. 限制條件](sql/5.-ding-yi-zi-liao-jie-gou/5.3.-xian-zhi-tiao-jian.md)
-    * [5.4. 系統欄位](sql/5.-ding-yi-zi-liao-jie-gou/5.4.-xi-tong-lan-wei.md)
-    * [5.5. 表格變更](sql/5.-ding-yi-zi-liao-jie-gou/5.5.-biao-ge-bian-geng.md)
-    * [5.6. 權限](sql/5.-ding-yi-zi-liao-jie-gou/5.6.-quan-xian.md)
-    * [5.7. 資料列安全原則](sql/5.-ding-yi-zi-liao-jie-gou/5.7.-zi-liao-lie-an-quan-yuan-ze.md)
-    * [5.8. Schemas](sql/5.-ding-yi-zi-liao-jie-gou/5.8.-schemas.md)
-    * [5.9. 繼承](sql/5.-ding-yi-zi-liao-jie-gou/5.9.-ji-cheng.md)
-    * [5.10. 分割資料表](sql/5.-ding-yi-zi-liao-jie-gou/5.10.-fen-ge-zi-liao-biao.md)
-    * [5.11. 外部資料](sql/5.-ding-yi-zi-liao-jie-gou/5.11.-wai-bu-zi-liao.md)
-    * [5.12. 其他資料庫物件](sql/5.-ding-yi-zi-liao-jie-gou/5.12.-qi-ta-zi-liao-ku-wu-jian.md)
-    * [5.13. 相依性追蹤](sql/5.-ding-yi-zi-liao-jie-gou/5.13.-xiang-yi-xing-zhui-zong.md)
+  * [5. 定義資料結構](sql/ddl/README.md)
+    * [5.1. 認識資料表](sql/ddl/5.1.-ren-shi-zi-liao-biao.md)
+    * [5.2. 預設值](sql/ddl/5.2.-yu-she-zhi.md)
+    * [5.3. 限制條件](sql/ddl/5.3.-xian-zhi-tiao-jian.md)
+    * [5.4. 系統欄位](sql/ddl/5.4.-xi-tong-lan-wei.md)
+    * [5.5. 表格變更](sql/ddl/5.5.-biao-ge-bian-geng.md)
+    * [5.6. 權限](sql/ddl/priv.md)
+    * [5.7. 資料列安全原則](sql/ddl/rowsecurity.md)
+    * [5.8. Schemas](sql/ddl/5.8.-schemas.md)
+    * [5.9. 繼承](sql/ddl/5.9.-ji-cheng.md)
+    * [5.10. 分割資料表](sql/ddl/5.10.-fen-ge-zi-liao-biao.md)
+    * [5.11. 外部資料](sql/ddl/5.11.-wai-bu-zi-liao.md)
+    * [5.12. 其他資料庫物件](sql/ddl/5.12.-qi-ta-zi-liao-ku-wu-jian.md)
+    * [5.13. 相依性追蹤](sql/ddl/5.13.-xiang-yi-xing-zhui-zong.md)
   * [6. 資料處理](sql/6.-zi-liao-chu-li/README.md)
     * [6.1. 新增資料](sql/6.-zi-liao-chu-li/6.1.-xin-zeng-zi-liao.md)
     * [6.2. 更新資料](sql/6.-zi-liao-chu-li/6.2.-geng-xin-zi-liao.md)
@@ -164,7 +164,7 @@
     * [15.2. 啓用時機？](sql/15.-ping-hang-cha-xun/15.2.-qi-yong-shi-ji.md)
     * [15.3. 平行查詢計畫](sql/15.-ping-hang-cha-xun/15.3.-ping-hang-cha-xun-ji-hua.md)
     * [15.4. 平行查詢的安全性](sql/15.-ping-hang-cha-xun/15.4.-ping-hang-cha-xun-de-an-quan-xing.md)
-* [III. 系統管理](iii-server-administration/README.md)
+* [III. 系統管理](server-administration/README.md)
   * Installation from Source Code
     * 16.1. Short Version
     * 16.2. Requirements
@@ -175,8 +175,8 @@
     * 16.7. Platform-specific Notes
   * Installation from Source Code on Windows
     * 17.1. Building with Visual C++ or the Microsoft Windows SDK
-  * [18. 服務配置與維運](iii-server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/README.md)
-    * [18.1. The PostgreSQL User Account](iii-server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.1.-the-postgresql-user-account.md)
+  * [18. 服務配置與維運](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/README.md)
+    * [18.1. The PostgreSQL User Account](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.1.-the-postgresql-user-account.md)
     * 18.2. Creating a Database Cluster
     * 18.3. Starting the Database Server
     * 18.4. Managing Kernel Resources
@@ -187,50 +187,50 @@
     * 18.9. Secure TCP/IP Connections with SSL
     * 18.10. Secure TCP/IP Connections with SSH Tunnels
     * 18.11. Registering Event Log on Windows
-  * [19. 服務組態設定](iii-server-administration/19.-fu-wu-zu-tai-she-ding/README.md)
+  * [19. 服務組態設定](server-administration/19.-fu-wu-zu-tai-she-ding/README.md)
     * 19.1. Setting Parameters
     * 19.2. File Locations
     * 19.3. Connections and Authentication
     * 19.4. Resource Consumption
     * 19.5. Write Ahead Log
-    * [19.6. Replication](iii-server-administration/19.-fu-wu-zu-tai-she-ding/19.6.-replication.md)
-    * [19.7. 查詢規畫](iii-server-administration/19.-fu-wu-zu-tai-she-ding/19.7.-cha-xun-gui-hua.md)
-    * [19.8. 錯誤回報與記錄](iii-server-administration/19.-fu-wu-zu-tai-she-ding/19.8.-cuo-wu-hui-bao-yu-ji-lu.md)
+    * [19.6. Replication](server-administration/19.-fu-wu-zu-tai-she-ding/19.6.-replication.md)
+    * [19.7. 查詢規畫](server-administration/19.-fu-wu-zu-tai-she-ding/19.7.-cha-xun-gui-hua.md)
+    * [19.8. 錯誤回報與記錄](server-administration/19.-fu-wu-zu-tai-she-ding/19.8.-cuo-wu-hui-bao-yu-ji-lu.md)
     * 19.9. Run-time Statistics
-    * [19.10. 自動系統清理](iii-server-administration/19.-fu-wu-zu-tai-she-ding/19.10.-zi-dong-xi-tong-qing-li.md)
-    * [19.11. 用戶端連線預設參數](iii-server-administration/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md)
+    * [19.10. 自動系統清理](server-administration/19.-fu-wu-zu-tai-she-ding/19.10.-zi-dong-xi-tong-qing-li.md)
+    * [19.11. 用戶端連線預設參數](server-administration/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md)
     * 19.12. Lock Management
-    * [19.13. 版本與平台的相容性](iii-server-administration/19.-fu-wu-zu-tai-she-ding/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md)
+    * [19.13. 版本與平台的相容性](server-administration/19.-fu-wu-zu-tai-she-ding/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md)
     * 19.14. Error Handling
-    * [19.15. 預先配置的參數](iii-server-administration/19.-fu-wu-zu-tai-she-ding/19.15.-yu-xian-pei-zhi-de-can-shu.md)
+    * [19.15. 預先配置的參數](server-administration/19.-fu-wu-zu-tai-she-ding/19.15.-yu-xian-pei-zhi-de-can-shu.md)
     * 19.16. Customized Options
     * 19.17. Developer Options
     * 19.18. Short Options
-  * [20. 使用者認證](iii-server-administration/20.-shi-yong-zhe-ren-zheng/README.md)
-    * [20.1. 設定檔：pg\_hba.conf](iii-server-administration/20.-shi-yong-zhe-ren-zheng/20.1.-she-ding-dang-pghba.conf.md)
+  * [20. 使用者認證](server-administration/20.-shi-yong-zhe-ren-zheng/README.md)
+    * [20.1. 設定檔：pg\_hba.conf](server-administration/20.-shi-yong-zhe-ren-zheng/20.1.-she-ding-dang-pghba.conf.md)
     * 20.2. User Name Maps
     * 20.3. Authentication Methods
     * 20.4. Authentication Problems
-  * [21. 資料庫角色](iii-server-administration/21.-zi-liao-ku-jiao-se/README.md)
+  * [21. 資料庫角色](server-administration/user-manag/README.md)
     * 21.1. Database Roles
     * 21.2. Role Attributes
     * 21.3. Role Membership
     * 21.4. Dropping Roles
     * 21.5. Default Roles
     * 21.6. Function and Trigger Security
-  * [22. Managing Databases](iii-server-administration/managing-databases/README.md)
+  * [22. Managing Databases](server-administration/managing-databases/README.md)
     * 22.1. Overview
     * 22.2. Creating a Database
     * 22.3. Template Databases
     * 22.4. Database Configuration
     * 22.5. Destroying a Database
-    * [22.6. Tablespaces](iii-server-administration/managing-databases/manage-ag-tablespaces.md)
-  * [23. 語系](iii-server-administration/23.-yu-xi/README.md)
-    * [23.1. 語系支援](iii-server-administration/23.-yu-xi/23.1.-yu-xi-zhi-yuan.md)
+    * [22.6. Tablespaces](server-administration/managing-databases/manage-ag-tablespaces.md)
+  * [23. 語系](server-administration/23.-yu-xi/README.md)
+    * [23.1. 語系支援](server-administration/23.-yu-xi/23.1.-yu-xi-zhi-yuan.md)
     * 23.2. Collation Support
     * 23.3. Character Set Support
-  * [24. 例行性資料庫維護工作](iii-server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/README.md)
-    * [24.1. 例行性資料清理](iii-server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/24.1.-li-hang-xing-zi-liao-qing-li.md)
+  * [24. 例行性資料庫維護工作](server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/README.md)
+    * [24.1. 例行性資料清理](server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/24.1.-li-hang-xing-zi-liao-qing-li.md)
     * 24.2. Routine Reindexing
     * 24.3. Log File Maintenance
   * Backup and Restore
@@ -247,7 +247,7 @@
     * 27.1. Archive Recovery Settings
     * 27.2. Recovery Target Settings
     * 27.3. Standby Server Settings
-  * [28. 監控資料庫活動](iii-server-administration/28.-jian-kong-zi-liao-ku-huo-dong/README.md)
+  * [28. 監控資料庫活動](server-administration/28.-jian-kong-zi-liao-ku-huo-dong/README.md)
     * 28.1. Standard Unix Tools
     * 28.2. 統計資訊收集器
     * 28.3. Viewing Locks
