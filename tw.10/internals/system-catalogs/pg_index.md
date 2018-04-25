@@ -1,4 +1,4 @@
-# 51.39 pg\_index
+# 51.26 pg\_index
 
 The catalog `pg_index` contains part of the information about indexes. The rest is mostly in `pg_class`.
 

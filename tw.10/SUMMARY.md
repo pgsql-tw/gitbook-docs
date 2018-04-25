@@ -449,11 +449,11 @@
     * [pgbench](reference/client/pgbench.md)
     * [psql](reference/client/psql.md)
   * III. PostgreSQL Server Applications
-* [VII. Internals](vii.-internals/README.md)
-  * [51. System Catalogs](vii.-internals/system-catalogs/README.md)
-    * [51.26 pg\_index](vii.-internals/system-catalogs/pg_index.md)
-    * [51.54. pg\_tablespace](vii.-internals/system-catalogs/pg_tablespace.md)
-  * [52. Frontend/Backend Protocol](vii.-internals/52.-frontend-backend-protocol/README.md)
+* [VII. Internals](internals/README.md)
+  * [51. System Catalogs](internals/system-catalogs/README.md)
+    * [51.26 pg\_index](internals/system-catalogs/pg_index.md)
+    * [51.54. pg\_tablespace](internals/system-catalogs/pg_tablespace.md)
+  * [52. Frontend/Backend Protocol](internals/52.-frontend-backend-protocol/README.md)
     * 52.1. Overview
     * 52.2. Message Flow
     * 52.3. SASL Authentication
@@ -464,12 +464,12 @@
     * 52.8. Error and Notice Message Fields
     * 52.9. Logical Replication Message Formats
     * 52.10. Summary of Changes since Protocol 2.0
-  * [64. GIN Indexes](vii.-internals/64.-gin-indexes/README.md)
-    * [64.1. Introduction](vii.-internals/64.-gin-indexes/64.1.-introduction.md)
+  * [64. GIN Indexes](internals/64.-gin-indexes/README.md)
+    * [64.1. Introduction](internals/64.-gin-indexes/64.1.-introduction.md)
     * 64.2. Built-in Operator Classes
     * 64.3. Extensibility
-    * [64.4. Implementation](vii.-internals/64.-gin-indexes/64.4.-implementation.md)
-    * [64.5. GIN Tips and Tricks](vii.-internals/64.-gin-indexes/64.5.-gin-tips-and-tricks.md)
+    * [64.4. Implementation](internals/64.-gin-indexes/64.4.-implementation.md)
+    * [64.5. GIN Tips and Tricks](internals/64.-gin-indexes/64.5.-gin-tips-and-tricks.md)
     * 64.6. Limitations
     * 64.7. Examples
 * [VIII. 附錄](viii.-fu-lu/README.md)

@@ -49,7 +49,7 @@ CREATE TABLE foo(i int);
 
 要刪除空的資料表空間，請使用 [DROP TABLESPACE](../../reference/sql-commands/drop-tablespace.md) 指令。
 
-例如，要確認一組現有的資料表空間，請檢查 [pg\_tablespace](../../vii.-internals/system-catalogs/pg_tablespace.md) 系統目錄
+例如，要確認一組現有的資料表空間，請檢查 [pg\_tablespace](../../internals/system-catalogs/pg_tablespace.md) 系統目錄
 
 ```text
 SELECT spcname FROM pg_tablespace;
