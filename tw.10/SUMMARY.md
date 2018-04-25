@@ -411,6 +411,7 @@
   * [I. SQL 指令](reference/sql-commands/README.md)
     * [ALTER FUNCTION](reference/sql-commands/alter-function.md)
     * [ALTER POLICY](reference/sql-commands/alter-policy.md)
+    * [ALTER ROLE](reference/sql-commands/alter-role.md)
     * ALTER TABLE
     * [ALTER TABLESPACE](reference/sql-commands/alter-tablespace.md)
     * [COMMENT](reference/sql-commands/comment.md)
