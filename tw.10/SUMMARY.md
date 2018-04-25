@@ -453,6 +453,7 @@
   * [51. System Catalogs](internals/system-catalogs/README.md)
     * [51.26 pg\_index](internals/system-catalogs/pg_index.md)
     * [51.54. pg\_tablespace](internals/system-catalogs/pg_tablespace.md)
+    * [51.81 pg\_roles](internals/system-catalogs/pg_roles.md)
   * [52. Frontend/Backend Protocol](internals/52.-frontend-backend-protocol/README.md)
     * 52.1. Overview
     * 52.2. Message Flow
