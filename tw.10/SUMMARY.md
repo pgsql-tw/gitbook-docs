@@ -451,6 +451,7 @@
   * III. PostgreSQL Server Applications
 * [VII. Internals](internals/README.md)
   * [51. System Catalogs](internals/system-catalogs/README.md)
+    * [51.8. pg\_authid](internals/system-catalogs/pg_authid.md)
     * [51.26 pg\_index](internals/system-catalogs/pg_index.md)
     * [51.54. pg\_tablespace](internals/system-catalogs/pg_tablespace.md)
     * [51.81 pg\_roles](internals/system-catalogs/pg_roles.md)
