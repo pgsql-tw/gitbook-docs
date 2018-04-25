@@ -426,6 +426,7 @@
     * [CREATE TYPE](reference/sql-commands/create-type.md)
     * [CREATE USER MAPPING](reference/sql-commands/create-user-mapping.md)
     * [DELETE](reference/sql-commands/delete.md)
+    * [DROP FUNCTION](reference/sql-commands/drop-function.md)
     * [DROP POLICY](reference/sql-commands/drop-policy.md)
     * [DROP TABLE](reference/sql-commands/drop-table.md)
     * [DROP TABLESPACE](reference/sql-commands/drop-tablespace.md)
@@ -442,7 +443,6 @@
     * [SET TRANSACTION](reference/sql-commands/set-transaction.md)
     * [UPDATE](reference/sql-commands/update.md)
     * [VALUES](reference/sql-commands/values.md)
-    * [DROP FUNCTION](reference/sql-commands/drop-function.md)
   * [II. PostgreSQL 用戶端工具](reference/client/README.md)
     * [createdb](reference/client/createdb.md)
     * [dropdb](reference/client/dropdb.md)
@@ -451,6 +451,7 @@
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii.-internals/README.md)
   * [51. System Catalogs](vii.-internals/system-catalogs/README.md)
+    * [51.39 pg\_index](vii.-internals/system-catalogs/pg_index.md)
     * [51.54. pg\_tablespace](vii.-internals/system-catalogs/pg_tablespace.md)
   * [52. Frontend/Backend Protocol](vii.-internals/52.-frontend-backend-protocol/README.md)
     * 52.1. Overview
