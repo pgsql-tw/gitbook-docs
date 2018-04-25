@@ -443,6 +443,7 @@
     * [SET TRANSACTION](reference/sql-commands/set-transaction.md)
     * [UPDATE](reference/sql-commands/update.md)
     * [VALUES](reference/sql-commands/values.md)
+    * [CREATE ROLE](reference/sql-commands/create-role.md)
   * [II. PostgreSQL 用戶端工具](reference/client/README.md)
     * [createdb](reference/client/createdb.md)
     * [dropdb](reference/client/dropdb.md)
