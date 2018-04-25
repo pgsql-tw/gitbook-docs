@@ -1,8 +1,8 @@
 # 21. 資料庫角色
 
-PostgreSQL manages database access permissions using the concept of _roles_. A role can be thought of as either a database user, or a group of database users, depending on how the role is set up. Roles can own database objects \(for example, tables and functions\) and can assign privileges on those objects to other roles to control who has access to which objects. Furthermore, it is possible to grant _membership_ in a role to another role, thus allowing the member role to use privileges assigned to another role.
+PostgreSQL 使用角色的概念來管理資料庫的存取權限。角色可以被視為資料庫使用者或一個資料庫使用者群組，具體取決於角色的設定方式。角色可以擁有資料庫物件（例如資料表和函數），並可以將這些物件的權限分配給其他角色，以控制誰可以存取哪些物件。此外，也可以將角色中的成員身份授予另一個角色，使得成員角色能夠使用分配給其他角色的權限。
 
-The concept of roles subsumes the concepts of “users” and “groups”. In PostgreSQL versions before 8.1, users and groups were distinct kinds of entities, but now there are only roles. Any role can act as a user, a group, or both.
+角色的概念包含「使用者」和「群組」的概念。在 8.1 版之前的 PostgreSQL中，使用者和群組是不同種類的實體，但現在只有角色。任何角色都可以充當使用者、群組或兩者兼具。
 
-This chapter describes how to create and manage roles. More information about the effects of role privileges on various database objects can be found in [Section 5.6](../../sql/ddl/priv.md).
+本章介紹如何建立和管理角色。有關角色權限對各種資料庫物件的影響和更多訊息可以在[ 5.6 節](../../sql/ddl/priv.md)中找到。
 
