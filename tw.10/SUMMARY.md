@@ -451,7 +451,7 @@
   * III. PostgreSQL Server Applications
 * [VII. Internals](vii.-internals/README.md)
   * [51. System Catalogs](vii.-internals/system-catalogs/README.md)
-    * [51.39 pg\_index](vii.-internals/system-catalogs/pg_index.md)
+    * [51.26 pg\_index](vii.-internals/system-catalogs/pg_index.md)
     * [51.54. pg\_tablespace](vii.-internals/system-catalogs/pg_tablespace.md)
   * [52. Frontend/Backend Protocol](vii.-internals/52.-frontend-backend-protocol/README.md)
     * 52.1. Overview
