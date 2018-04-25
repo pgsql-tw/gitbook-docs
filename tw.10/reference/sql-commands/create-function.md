@@ -69,25 +69,25 @@ CREATE [ OR REPLACE ] FUNCTION
 
 `rettype`
 
-The return data type \(optionally schema-qualified\). The return type can be a base, composite, or domain type, or can reference the type of a table column. Depending on the implementation language it might also be allowed to specify“pseudo-types”such as`cstring`. If the function is not supposed to return a value, specify`void`as the return type.
+回傳的資料型別（可加上 schema）。回傳型別可以是基本型別、複合型別或 domain 型別，也可以引用資料表欄位的型別。根據實作語言的不同，它也可能被指定為「偽型別」，例如 cstring。如果該函數不應該回傳一個值，則應指定 void 作為回傳型別。
 
-When there are`OUT`or`INOUT`parameters, the`RETURNS`clause can be omitted. If present, it must agree with the result type implied by the output parameters:`RECORD`if there are multiple output parameters, or the same type as the single output parameter.
+當有 OUT 或 INOUT 參數時，可以省略 RETURNS 子句。如果存在的話，它就必須與輸出參數所暗示的結果型別一致：如果存在多個輸出參數，則為 RECORD，或者與單個輸出參數的型別相同。
 
-The`SETOF`modifier indicates that the function will return a set of items, rather than a single item.
+SETOF 修飾字表示該函數將回傳一組值，而不是單個值。
 
-The type of a column is referenced by writing`table_name`.`column_name`%TYPE.
+以寫作 table\_name.column\_name %TYPE 的形式來引用欄位的型別。
 
 `column_name`
 
-The name of an output column in the`RETURNS TABLE`syntax. This is effectively another way of declaring a named`OUT`parameter, except that`RETURNS TABLE`also implies`RETURNS SETOF`.
+RETURNS TABLE 語法中輸出欄位的名稱。這實際上是另一種宣告 OUT 參數的方式，除了 RETURNS TABLE 也意味著 RETURNS SETOF。
 
 `column_type`
 
-The data type of an output column in the`RETURNS TABLE`syntax.
+RETURNS TABLE 語法中輸出欄位的資料型別。
 
 `lang_name`
 
-The name of the language that the function is implemented in. It can be`sql`,`c`,`internal`, or the name of a user-defined procedural language, e.g.`plpgsql`. Enclosing the name in single quotes is deprecated and requires matching case.
+該函數實作的程式語言名稱。它可以是 sql、c、internal 或使用者定義的程式語言的名稱，例如，PLPGSQL。將這個名字用單引號括起來，並且需要完全符合大小寫。
 
 `TRANSFORM { FOR TYPEtype_name`} \[, ... \] }
 
