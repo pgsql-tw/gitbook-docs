@@ -419,6 +419,7 @@
     * [CREATE FOREIGN DATA WRAPPER](reference/sql-commands/create-foreign-data-wrapper.md)
     * [CREATE FUNCTION](reference/sql-commands/create-function.md)
     * [CREATE POLICY](reference/sql-commands/create-policy.md)
+    * [CREATE ROLE](reference/sql-commands/create-role.md)
     * [CREATE SCHEMA](reference/sql-commands/create-schema.md)
     * [CREATE SERVER](reference/sql-commands/create-server.md)
     * CREATE TABLE
@@ -428,6 +429,7 @@
     * [DELETE](reference/sql-commands/delete.md)
     * [DROP FUNCTION](reference/sql-commands/drop-function.md)
     * [DROP POLICY](reference/sql-commands/drop-policy.md)
+    * [DROP ROLE](reference/sql-commands/drop-role.md)
     * [DROP TABLE](reference/sql-commands/drop-table.md)
     * [DROP TABLESPACE](reference/sql-commands/drop-tablespace.md)
     * [GRANT](reference/sql-commands/grant.md)
@@ -443,7 +445,6 @@
     * [SET TRANSACTION](reference/sql-commands/set-transaction.md)
     * [UPDATE](reference/sql-commands/update.md)
     * [VALUES](reference/sql-commands/values.md)
-    * [CREATE ROLE](reference/sql-commands/create-role.md)
   * [II. PostgreSQL 用戶端工具](reference/client/README.md)
     * [createdb](reference/client/createdb.md)
     * [dropdb](reference/client/dropdb.md)
