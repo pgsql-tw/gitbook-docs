@@ -15,7 +15,7 @@ description: 本使用手冊由台灣 PostgreSQL 社群提供，翻譯自 Postgr
 看看 PostgreSQL 10 有什麼新功能吧：  
 [https://www.slideshare.net/tsunghsilin/postgresql-10-new-features](https://www.slideshare.net/tsunghsilin/postgresql-10-new-features)
 
-參與協作請在任何頁面，點選右上角的「Edit on Github」，修改後直接送 PR 給我們即可。
+參與協作請在任何頁面，點選右上角的「**Edit on GitHub**」，修改後直接送 PR 給我們即可。
 
 任何問題或建議可以 Email 給我們的文件小組：[docs@postgresql.tw](mailto:docs@postgresql.tw)
 
