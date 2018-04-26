@@ -91,11 +91,11 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 `TRANSFORM { FOR TYPEtype_name`} \[, ... \] }
 
-Lists which transforms a call to the function should apply. Transforms convert between SQL types and language-specific data types; see[CREATE TRANSFORM](https://www.postgresql.org/docs/10/static/sql-createtransform.html). Procedural language implementations usually have hardcoded knowledge of the built-in types, so those don't need to be listed here. If a procedural language implementation does not know how to handle a type and no transform is supplied, it will fall back to a default behavior for converting data types, but this depends on the implementation.
+對該函數如何套用型別轉換的呼叫列表。在 SQL 型別和特定於語言的資料型別之間進行轉換；請參閱 [CREATE TRANSFORM](create-transform.md)。程序語言實作通常具有內建型別的編碼知識，這些不需要在這裡列出。只是如果程序語言實作不知道如何處理這些資料型別並且沒有提供轉換方式，它將回退到轉換資料型別的預設行為，但這仍然取決於實作的情況而定。
 
 `WINDOW`
 
-`WINDOW`indicates that the function is a\_window function\_rather than a plain function. This is currently only useful for functions written in C. The`WINDOW`attribute cannot be changed when replacing an existing function definition.
+`WINDOW 表示該函數是一個窗函數，而不是一個普通函數。目前這僅對用 C 寫成的函數有用。在替換現有函數定義時，不能更改 WINDOW 屬性。`
 
 `IMMUTABLE`
 
