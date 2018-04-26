@@ -270,9 +270,9 @@ SELECT * FROM dup(42);
 
 However, a`TABLE`function is different from the preceding examples, because it actually returns a\_set\_of records, not just one record.
 
-## Writing`SECURITY DEFINER`Functions Safely
+## 安全地撰寫 SECURITY DEFINER 函數
 
-Because a`SECURITY DEFINER`function is executed with the privileges of the user that owns it, care is needed to ensure that the function cannot be misused. For security,[search\_path](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-SEARCH-PATH)should be set to exclude any schemas writable by untrusted users. This prevents malicious users from creating objects \(e.g., tables, functions, and operators\) that mask objects intended to be used by the function. Particularly important in this regard is the temporary-table schema, which is searched first by default, and is normally writable by anyone. A secure arrangement can be obtained by forcing the temporary schema to be searched last. To do this, write`pg_temp`as the last entry in`search_path`. This function illustrates safe usage:
+由於SECURITY DEFINER函數是以擁有它的用戶的權限執行的，因此需要注意確保該函數不會被濫用。為了安全起見，應設定 search\_path 以排除任何不受信任的使用者可以寫入的 schema。這可以防止惡意使用者建立掩蓋物件的物件（例如資料表、函數和運算元），使得該物件被函數使用。在這方面特別重要的是臨時資料表的 schema，它預設是首先被搜尋的，並且通常允許由任何人寫入。透過強制最後才搜尋臨時 schema 可以得到較為安全的處理。 為此，請將 pg\_temp 作為 search\_path 中的最後一個項目。此函數說明安全的使用情況：
 
 ```text
 CREATE FUNCTION check_password(uname TEXT, pass TEXT)
@@ -291,11 +291,11 @@ $$  LANGUAGE plpgsql
     SET search_path = admin, pg_temp;
 ```
 
-This function's intention is to access a table`admin.pwds`. But without the`SET`clause, or with a`SET`clause mentioning only`admin`, the function could be subverted by creating a temporary table named`pwds`.
+這個函數的意圖是存取一個資料表 admin.pwds。但是，如果沒有 SET 子句，或者只提及 admin 的 SET 子句，則可以透過建立名為 pwds 的臨時資料表來破壞該函數。
 
-BeforePostgreSQLversion 8.3, the`SET`clause was not available, and so older functions may contain rather complicated logic to save, set, and restore`search_path`. The`SET`clause is far easier to use for this purpose.
+在 PostgreSQL 8.3 之前，SET 子句還不能使用，所以舊的函數可能需要相當複雜的邏輯來儲存、設定和恢復 search\_path。有了 SET 子句便更容易用於此目的。
 
-Another point to keep in mind is that by default, execute privilege is granted to`PUBLIC`for newly created functions \(see[GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html)for more information\). Frequently you will wish to restrict use of a security definer function to only some users. To do that, you must revoke the default`PUBLIC`privileges and then grant execute privilege selectively. To avoid having a window where the new function is accessible to all, create it and set the privileges within a single transaction. For example:
+還有一點需要注意的是，預設情況下，對於新建立的函數，將會把權限授予 PUBLIC（請參閱 GRANT 以獲取更多訊息）。通常情況下，你只希望將安全定義函數的使用僅限於某些使用者。為此，你必須撤銷預設的 PUBLIC 權限，然後選擇性地授予執行權限。為了避免出現一個破口，使得所有人都可以訪問新功能，可以在一個交易事務中建立它並設定權限。例如：
 
 ```text
 BEGIN;
