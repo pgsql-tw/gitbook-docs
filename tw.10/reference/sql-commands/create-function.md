@@ -305,15 +305,15 @@ GRANT EXECUTE ON FUNCTION check_password(uname TEXT, pass TEXT) TO admins;
 COMMIT;
 ```
 
-## Compatibility
+## 相容性
 
-A`CREATE FUNCTION`command is defined in SQL:1999 and later. ThePostgreSQLversion is similar but not fully compatible. The attributes are not portable, neither are the different available languages.
+SQL:1999 及其更新的版本中定義了一個 CREATE FUNCTION 指令。與 PostgreSQL 版本的指令類似但不完全相容。這些屬性並不是可移植的，不同的程序語言之間也無法移植。
 
-For compatibility with some other database systems,`argmode`_\_can be written either before or after_`argname`\_. But only the first way is standard-compliant.
+為了與其他資料庫系統相容，可以在 argname 之前或之後編寫 argmode。但只有第一種方法符合標準。
 
-For parameter defaults, the SQL standard specifies only the syntax with the`DEFAULT`key word. The syntax with`=`is used in T-SQL and Firebird.
+對於參數預設值，SQL標準僅使用 DEFAULT 關鍵字指定語法。帶有 = 的語法在 T-SQL 和 Firebird 中使用。
 
-## See Also
+## 延伸閱讀
 
 [ALTER FUNCTION](alter-function.md), [DROP FUNCTION](drop-function.md), [GRANT](grant.md), [LOAD](load.md), [REVOKE](revoke.md)
 
