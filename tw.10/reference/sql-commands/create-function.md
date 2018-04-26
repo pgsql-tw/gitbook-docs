@@ -186,25 +186,25 @@ Attribute names are not case-sensitive.
 
 Refer to[Section 37.3](https://www.postgresql.org/docs/10/static/xfunc.html)for further information on writing functions.
 
-## Overloading
+## 多載 Overloading
 
-PostgreSQLallows function_overloading_; that is, the same name can be used for several different functions so long as they have distinct input argument types. However, the C names of all functions must be different, so you must give overloaded C functions different C names \(for example, use the argument types as part of the C names\).
+PostgreSQL 允許函數多載；也就是說，只要具有不同的輸入參數類型，相同的名稱可以用於多個不同的函數。但是，所有 C 的函數名稱必須不同，因此你必須為 C 函數重載不同C 的名稱（例如，使用參數型別作為 C 名稱的一部分）。
 
-Two functions are considered the same if they have the same names and\_input\_argument types, ignoring any`OUT`parameters. Thus for example these declarations conflict:
+如果兩個函數具有相同的名稱和輸入參數型別，則忽略任何 OUT 參數將被視為相同。 因此，像這些聲明就會有衝突：
 
 ```text
 CREATE FUNCTION foo(int) ...
 CREATE FUNCTION foo(int, out text) ...
 ```
 
-Functions that have different argument type lists will not be considered to conflict at creation time, but if defaults are provided they might conflict in use. For example, consider
+具有不同參數型別列表的函數在建立時不會被視為衝突，但如果提供了預設值，則它們可能會在使用中發生衝突。 例如下面的例子：
 
 ```text
 CREATE FUNCTION foo(int) ...
 CREATE FUNCTION foo(int, int default 42) ...
 ```
 
-A call`foo(10)`will fail due to the ambiguity about which function should be called.
+呼叫 foo\(10\) 的話會因為不知道應該呼叫哪個函數而失敗。
 
 ## Notes
 
