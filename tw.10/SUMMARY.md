@@ -388,11 +388,11 @@
     * 36.62. view\_routine\_usage
     * 36.63. view\_table\_usage
     * 36.64. views
-* [V. Server Programming](v.-server-programming/README.md)
-  * [37. Extending SQL](v.-server-programming/37.-extending-sql/README.md)
+* [V. Server Programming](server-programming/README.md)
+  * [37. Extending SQL](server-programming/extending-sql/README.md)
     * 37.1. How Extensibility Works
     * 37.2. The PostgreSQL Type System
-    * 37.3. User-defined Functions
+    * [37.3. User-defined Functions](server-programming/extending-sql/user-defined-functions.md)
     * 37.4. SQL 語言函數
     * 37.5. Function Overloading
     * 37.6. Function Volatility Categories
@@ -406,7 +406,7 @@
     * 37.14. Interfacing Extensions To Indexes
     * 37.15. Packaging Related Objects into an Extension
     * 37.16. Extension Building Infrastructure
-  * [40. The Rule System](v.-server-programming/40.-the-rule-system.md)
+  * [40. The Rule System](server-programming/40.-the-rule-system.md)
 * [VI. Reference](reference/README.md)
   * [I. SQL 指令](reference/sql-commands/README.md)
     * [ALTER FUNCTION](reference/sql-commands/alter-function.md)

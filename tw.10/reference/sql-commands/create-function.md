@@ -214,9 +214,9 @@ When replacing an existing function with`CREATE OR REPLACE FUNCTION`, there are 
 
 If a function is declared`STRICT`with a`VARIADIC`argument, the strictness check tests that the variadic array\_as a whole\_is non-null. The function will still be called if the array has null elements.
 
-## Examples
+## 範例
 
-Here are some trivial examples to help you get started. For more information and examples, see[Section 37.3](https://www.postgresql.org/docs/10/static/xfunc.html).
+這裡有一些簡單的例子可以幫助你開始。有關更多訊息和範例，請參閱[第 37.3 節](../../server-programming/extending-sql/user-defined-functions.md)。
 
 ```text
 CREATE FUNCTION add(integer, integer) RETURNS integer
@@ -226,7 +226,7 @@ CREATE FUNCTION add(integer, integer) RETURNS integer
     RETURNS NULL ON NULL INPUT;
 ```
 
-Increment an integer, making use of an argument name, inPL/pgSQL:
+將一個整數遞增，在 PL/pgSQL 中使用參數名稱：
 
 ```text
 CREATE OR REPLACE FUNCTION increment(i integer) RETURNS integer AS $$
@@ -236,7 +236,7 @@ CREATE OR REPLACE FUNCTION increment(i integer) RETURNS integer AS $$
 $$ LANGUAGE plpgsql;
 ```
 
-Return a record containing multiple output parameters:
+回傳包含多個輸出參數的結果：
 
 ```text
 CREATE FUNCTION dup(in int, out f1 int, out f2 text)
@@ -246,7 +246,7 @@ CREATE FUNCTION dup(in int, out f1 int, out f2 text)
 SELECT * FROM dup(42);
 ```
 
-You can do the same thing more verbosely with an explicitly named composite type:
+你可以使用明確命名的複合型別更加詳細地完成同樣的事情：
 
 ```text
 CREATE TYPE dup_result AS (f1 int, f2 text);
@@ -258,7 +258,7 @@ CREATE FUNCTION dup(int) RETURNS dup_result
 SELECT * FROM dup(42);
 ```
 
-Another way to return multiple columns is to use a`TABLE`function:
+回傳多個欄位的另一種方法是使用 TABLE 函數：
 
 ```text
 CREATE FUNCTION dup(int) RETURNS TABLE(f1 int, f2 text)
@@ -268,7 +268,7 @@ CREATE FUNCTION dup(int) RETURNS TABLE(f1 int, f2 text)
 SELECT * FROM dup(42);
 ```
 
-However, a`TABLE`function is different from the preceding examples, because it actually returns a\_set\_of records, not just one record.
+但是，TABLE 函數與前面的例子不同，因為它實際上回傳一堆記錄，而不僅僅是一條記錄。
 
 ## 安全地撰寫 SECURITY DEFINER 函數
 
@@ -295,7 +295,7 @@ $$  LANGUAGE plpgsql
 
 在 PostgreSQL 8.3 之前，SET 子句還不能使用，所以舊的函數可能需要相當複雜的邏輯來儲存、設定和恢復 search\_path。有了 SET 子句便更容易用於此目的。
 
-還有一點需要注意的是，預設情況下，對於新建立的函數，將會把權限授予 PUBLIC（請參閱 GRANT 以獲取更多訊息）。通常情況下，你只希望將安全定義函數的使用僅限於某些使用者。為此，你必須撤銷預設的 PUBLIC 權限，然後選擇性地授予執行權限。為了避免出現一個破口，使得所有人都可以訪問新功能，可以在一個交易事務中建立它並設定權限。例如：
+還有一點需要注意的是，預設情況下，對於新建立的函數，將會把權限授予 PUBLIC（請參閱 [GRANT](grant.md) 以獲取更多訊息）。通常情況下，你只希望將安全定義函數的使用僅限於某些使用者。為此，你必須撤銷預設的 PUBLIC 權限，然後選擇性地授予執行權限。為了避免出現一個破口，使得所有人都可以訪問新功能，可以在一個交易事務中建立它並設定權限。例如：
 
 ```text
 BEGIN;
