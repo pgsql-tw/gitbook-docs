@@ -105,13 +105,13 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 這些屬性告知查詢優化器關於函數的行為。至多只能指定一個選項。如果沒有這些選項出現，VOLATILE 是基本的假設。
 
-`IMMUTABLE`indicates that the function cannot modify the database and always returns the same result when given the same argument values; that is, it does not do database lookups or otherwise use information not directly present in its argument list. If this option is given, any call of the function with all-constant arguments can be immediately replaced with the function value.
+`IMMUTABLE 表示該函數不能修改資料庫，並且在給定相同的參數值時總是回傳相同的結果；也就是說，它不會執行資料庫查詢或以其他方式使用不直接存在於其參數列表中的訊息。如果給出這個選項，任何具有所有常量參數的函數呼叫都可以立即替換為函數值。`
 
-`STABLE`indicates that the function cannot modify the database, and that within a single table scan it will consistently return the same result for the same argument values, but that its result could change across SQL statements. This is the appropriate selection for functions whose results depend on database lookups, parameter variables \(such as the current time zone\), etc. \(It is inappropriate for`AFTER`triggers that wish to query rows modified by the current command.\) Also note that the`current_timestamp`family of functions qualify as stable, since their values do not change within a transaction.
+`STABLE 表示該函數無法修改資料庫，並且在單個資料表掃描時，它將始終為相同的參數值回傳相同的結果，但其結果可能會跨 SQL 語句更改。對於結果取決於資料庫查詢，參數變數（如目前時區）等的函數，這是合適的選擇（對於希望查詢由目前命令修改資料列的 AFTER 觸發器並不合適）。另請注意，current_timestamp 類的函數符合穩定性，因為它們的值在事務中不會改變。`
 
-`VOLATILE`indicates that the function value can change even within a single table scan, so no optimizations can be made. Relatively few database functions are volatile in this sense; some examples are`random()`,`currval()`,`timeofday()`. But note that any function that has side-effects must be classified volatile, even if its result is quite predictable, to prevent calls from being optimized away; an example is`setval()`.
+`VOLATILE 表示即使在單個資料表掃描中函數值也會改變，因此不能進行優化。 在這個意義上，相對較少的資料庫功能是不穩定的，有一些例子是random ()、currval()、timeofday()。 但請注意，任何具有副作用的函數都必須分類為 VOLATILE，即使其結果具有相當的可預測性，以防止結果被優化掉，這樣例子是setval()。`
 
-For additional details see[Section 37.6](https://www.postgresql.org/docs/10/static/xfunc-volatility.html).
+更多詳細訊息請參閱[第 37.6 節](../../server-programming/extending-sql/37.6.-function-volatility-categories.md)。
 
 `LEAKPROOF`
 
