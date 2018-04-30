@@ -103,7 +103,7 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 `VOLATILE`
 
-These attributes inform the query optimizer about the behavior of the function. At most one choice can be specified. If none of these appear,`VOLATILE`is the default assumption.
+這些屬性告知查詢優化器關於函數的行為。至多只能指定一個選項。如果沒有這些選項出現，VOLATILE 是基本的假設。
 
 `IMMUTABLE`indicates that the function cannot modify the database and always returns the same result when given the same argument values; that is, it does not do database lookups or otherwise use information not directly present in its argument list. If this option is given, any call of the function with all-constant arguments can be immediately replaced with the function value.
 
