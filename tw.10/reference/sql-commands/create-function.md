@@ -212,8 +212,6 @@ CREATE FUNCTION foo(int, int default 42) ...
 
 使用 CREATE OR REPLACE FUNCTION 替換現有函數時，對於更改參數名稱是有限制的。你不能更改已分配給任何輸入參數的名稱（儘管你可以將名稱增加先前沒有的參數）。如果有多個輸出參數，則不能更改輸出參數的名稱，因為這會更改描述函數結果的匿名組合類型的欄位名稱。 這些限制是為了確保函數的現有的呼叫在更換時不會停止工作。
 
-When replacing an existing function with`CREATE OR REPLACE FUNCTION`, there are restrictions on changing parameter names. You cannot change the name already assigned to any input parameter \(although you can add names to parameters that had none before\). If there is more than one output parameter, you cannot change the names of the output parameters, because that would change the column names of the anonymous composite type that describes the function's result. These restrictions are made to ensure that existing calls of the function do not stop working when it is replaced.
-
 如果使用 VARIADIC 參數將函數聲明為 STRICT，則嚴格性檢查會測試整個動態陣列是否為 non-null。如果陣列有 null，該函數仍然可以被呼叫。
 
 ## 範例
