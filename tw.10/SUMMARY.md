@@ -407,7 +407,7 @@
     * 37.15. Packaging Related Objects into an Extension
     * 37.16. Extension Building Infrastructure
   * [40. The Rule System](server-programming/40.-the-rule-system.md)
-* [VI. Reference](reference/README.md)
+* [VI. 參考資訊](reference/README.md)
   * [I. SQL 指令](reference/sql-commands/README.md)
     * [ALTER FUNCTION](reference/sql-commands/alter-function.md)
     * [ALTER POLICY](reference/sql-commands/alter-policy.md)

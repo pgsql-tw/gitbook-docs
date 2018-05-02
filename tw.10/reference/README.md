@@ -1,4 +1,6 @@
-# VI. Reference
+# VI. 參考資訊
 
-[VI. Reference](https://www.postgresql.org/docs/10/static/reference.html)
+本參考資訊中的內容旨在提供適當長度的摘要，俱備一定的權威性、完整性和正式的性。本書的其他部分可以找到關於 PostgreSQL 使用的更多訊息，包括應用描述、教學或範例表單。 請參閱每個參考頁面上列出的參考資訊。
+
+這些參考訊息也可以在傳統的「man」功能中取得。
 
