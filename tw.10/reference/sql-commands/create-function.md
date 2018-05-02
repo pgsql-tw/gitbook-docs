@@ -2,7 +2,7 @@
 
 CREATE FUNCTION — 定義一個新函數
 
-## Synopsis
+## 語法
 
 ```text
 CREATE [ OR REPLACE ] FUNCTION
@@ -123,16 +123,16 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 `STRICT`
 
-`CALLED ON NULL INPUT`\(the default\) indicates that the function will be called normally when some of its arguments are null. It is then the function author's responsibility to check for null values if necessary and respond appropriately.
+`CALLED ON NULL INPUT`（預設值）表示當其某些參數為 null 時，該函數仍將被正常呼叫。那麼函數作者有責任在必要時檢查 null，並作出適當的處理。
 
-`RETURNS NULL ON NULL INPUT`or`STRICT`indicates that the function always returns null whenever any of its arguments are null. If this parameter is specified, the function is not executed when there are null arguments; instead a null result is assumed automatically.
+`RETURNS NULL ON NULL INPUT` 或 `STRICT` 表示函數每當其任何參數為 null 時就回傳 null。如果指定了該參數，那麼當有 null 參數時，該函數就不會被執行；也就是，會自動假定結果為 null。
 
 `[EXTERNAL] SECURITY INVOKER  
 [EXTERNAL] SECURITY DEFINER`
 
-`SECURITY INVOKER`indicates that the function is to be executed with the privileges of the user that calls it. That is the default.`SECURITY DEFINER`specifies that the function is to be executed with the privileges of the user that owns it.
+`SECURITY INVOKER` 表示該函數將以呼叫它的使用者權限執行。這是預設的設定。 `SECURITY DEFINER` 指定該功能將以擁有它的使用者權限執行。
 
-The key word`EXTERNAL`is allowed for SQL conformance, but it is optional since, unlike in SQL, this feature applies to all functions not only external ones.
+關鍵字 `EXTERNAL` 允許 SQL 一致性，但它是選擇性的。與 SQL 標準不同的是，此功能適用於所有函數。
 
 `PARALLEL`
 
