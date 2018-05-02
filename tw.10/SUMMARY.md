@@ -406,7 +406,8 @@
     * 37.14. Interfacing Extensions To Indexes
     * 37.15. Packaging Related Objects into an Extension
     * 37.16. Extension Building Infrastructure
-  * [40. The Rule System](server-programming/40.-the-rule-system.md)
+  * [40. The Rule System](server-programming/the-rule-system/README.md)
+    * [40.5. Rules and Privileges](server-programming/the-rule-system/rules-and-privileges.md)
 * [VI. 參考資訊](reference/README.md)
   * [I. SQL 指令](reference/sql-commands/README.md)
     * [ALTER FUNCTION](reference/sql-commands/alter-function.md)
@@ -428,6 +429,7 @@
     * [CREATE TRANSFORM](reference/sql-commands/create-transform.md)
     * [CREATE TYPE](reference/sql-commands/create-type.md)
     * [CREATE USER MAPPING](reference/sql-commands/create-user-mapping.md)
+    * [CREATE VIEW](reference/sql-commands/create-view.md)
     * [DELETE](reference/sql-commands/delete.md)
     * [DROP FUNCTION](reference/sql-commands/drop-function.md)
     * [DROP POLICY](reference/sql-commands/drop-policy.md)
