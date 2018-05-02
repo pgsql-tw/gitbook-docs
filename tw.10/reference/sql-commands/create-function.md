@@ -136,17 +136,17 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 `PARALLEL`
 
-`PARALLEL UNSAFE`indicates that the function can't be executed in parallel mode and the presence of such a function in an SQL statement forces a serial execution plan. This is the default.`PARALLEL RESTRICTED`indicates that the function can be executed in parallel mode, but the execution is restricted to parallel group leader.`PARALLEL SAFE`indicates that the function is safe to run in parallel mode without restriction.
+PARALLEL UNSAFE 表示該函數不能在平行模式下執行，並且在 SQL 語句中存在此類函數會強制執行串列的執行計劃。這是預設的設定。PARALLEL RESTRICTED 表示該功能可以以平行模式執行，但執行僅限於平行群組領導。PARALLEL SAFE 表示該功能可以安全無限制地在平行模式下執行。
 
-Functions should be labeled parallel unsafe if they modify any database state, or if they make changes to the transaction such as using sub-transactions, or if they access sequences or attempt to make persistent changes to settings \(e.g.`setval`\). They should be labeled as parallel restricted if they access temporary tables, client connection state, cursors, prepared statements, or miscellaneous backend-local state which the system cannot synchronize in parallel mode \(e.g.`setseed`cannot be executed other than by the group leader because a change made by another process would not be reflected in the leader\). In general, if a function is labeled as being safe when it is restricted or unsafe, or if it is labeled as being restricted when it is in fact unsafe, it may throw errors or produce wrong answers when used in a parallel query. C-language functions could in theory exhibit totally undefined behavior if mislabeled, since there is no way for the system to protect itself against arbitrary C code, but in most likely cases the result will be no worse than for any other function. If in doubt, functions should be labeled as`UNSAFE`, which is the default.
+如果函數修改任何資料庫狀態，或者如果他們對交易事務進行了更新（如使用子事務，或者他們存取序列資料或試圖對設定進行永久性更改（例如 setval）），那麼函數就應該標記為 PARALLEL UNSAFE。如果它們存取臨時資料表、客戶端連線狀態、游標、prepared statement 或系統無法以平行模式同步的繁雜的後端狀態，它們應該被標記為 PARALLEL RESTRICTED（例如，設定種子不能由初始者執行，另一個流程所做的更改不會反映在初始者身上）。一般來說，如果一個函數在 RESTRICTED 或 UNSAFE 時被標記為 SAFE，或者當它實際上是 UNSAFE 的時候被標記為 RESTRICTED，那麼它在使用平行查詢時可能會引發錯誤或產生錯誤的結果。如果錯誤標記，C 語言函數在理論上可能表現出完全未定義的行為，因為系統無法保護自己免受任意 C 程式的影響，但在大多數情況下，結果不會比其他函數更差。只要有疑問，函數就應該標記為UNSAFE，這是預設值。
 
 `execution_cost`
 
-A positive number giving the estimated execution cost for the function, in units of[cpu\_operator\_cost](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-CPU-OPERATOR-COST). If the function returns a set, this is the cost per returned row. If the cost is not specified, 1 unit is assumed for C-language and internal functions, and 100 units for functions in all other languages. Larger values cause the planner to try to avoid evaluating the function more often than necessary.
+一個正數，以 cpu 執行成本為單位給予該函數的估計執行成本。如果函數回傳一個集合，則這是每個回傳資料列的成本。如果未指定成本，則假定 C 語言和內部函數為 1 個單元，其他語言為 100 個單元。較大的值會導致規劃單元嘗試避免比必要時更頻繁地評估該函數。
 
 `result_rows`
 
-A positive number giving the estimated number of rows that the planner should expect the function to return. This is only allowed when the function is declared to return a set. The default assumption is 1000 rows.
+一個正數，它給予規劃單元應該期望函數回傳的估計資料列數。只有在函數宣告回傳一個集合時才允許這樣做。預設是 1000 個資料列。
 
 `configuration_parameter`
 
