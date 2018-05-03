@@ -166,25 +166,25 @@ SET 子句在輸入函數時將指定的配置參數設定為指定的值，然�
 
 `obj_file`,`link_symbol`
 
-This form of the`AS`clause is used for dynamically loadable C language functions when the function name in the C language source code is not the same as the name of the SQL function. The string`obj_file`_\_is the name of the shared library file containing the compiled C function, and is interpreted as for the_[_LOAD_](https://www.postgresql.org/docs/10/static/sql-load.html)_command. The string_`link_symbol`\_is the function's link symbol, that is, the name of the function in the C language source code. If the link symbol is omitted, it is assumed to be the same as the name of the SQL function being defined.
+當 C 語言原始碼中的函數名稱與 SQL 函數的名稱不同時，AS 子句的這種形式用於可動態載入的 C 語言函數。字串 obj\_file 是包含已編譯 C 函數的共享函式庫檔案的名稱，會被解釋為 [LOAD](load.md) 指令。字串 link\_symbol 是函數的連結，即 C 語言原始碼中函數的名稱。如果省略連結，則假設它與定義的 SQL 函數的名稱相同。
 
-When repeated`CREATE FUNCTION`calls refer to the same object file, the file is only loaded once per session. To unload and reload the file \(perhaps during development\), start a new session.
+當重複 CREATE FUNCTION 呼叫引用同一個目標檔案時，該檔案僅會在每個連線中載入一次。要卸載並重新載入文件（可能在開發過程中），請重新啟動一個新的連線。
 
 `attribute`
 
-The historical way to specify optional pieces of information about the function. The following attributes can appear here:
+指定有關該功能的可選訊息的歷史方法。有以下屬性可以在這裡顯示：
 
 `isStrict`
 
-Equivalent to`STRICT`or`RETURNS NULL ON NULL INPUT`.
+等同於 STRICT 或 RETURNS NULL ON NULL INPUT。
 
 `isCachable`
 
-`isCachable`is an obsolete equivalent of`IMMUTABLE`; it's still accepted for backwards-compatibility reasons.
+`isCachable 等同於 IMMUTABLE，但過時了；但它仍然被接受使用，因為相容性的理由。`
 
-Attribute names are not case-sensitive.
+屬性名稱都不區分大小寫。
 
-Refer to[Section 37.3](https://www.postgresql.org/docs/10/static/xfunc.html)for further information on writing functions.
+有關撰寫函數的更多訊息，請參閱[第 37.3 節](../../server-programming/extending-sql/user-defined-functions.md)。
 
 ## 函數多載（Overloading）
 
