@@ -160,9 +160,9 @@ SET 子句在輸入函數時將指定的配置參數設定為指定的值，然�
 
 `definition`
 
-A string constant defining the function; the meaning depends on the language. It can be an internal function name, the path to an object file, an SQL command, or text in a procedural language.
+定義函數的字串常數；其意義取決於程式語言。它可以是內部函數名稱、目標檔案的路徑、SQL 指令或程序語言中的內容。
 
-It is often helpful to use dollar quoting \(see[Section 4.1.2.4](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#SQL-SYNTAX-DOLLAR-QUOTING)\) to write the function definition string, rather than the normal single quote syntax. Without dollar quoting, any single quotes or backslashes in the function definition must be escaped by doubling them.
+使用錢字號括弧（請參閱[第 4.1.2.4 節](../../sql/syntax/lexical.md#4-1-2-3-string-constants-with-unicode-escapes)）撰寫函數定義內容，而不是普通的單引號語法的話，通常很有幫助。如果沒有錢字號括弧，函數定義中的任何單引號或反斜線都必須通過加倍來避免編譯錯誤。
 
 `obj_file`,`link_symbol`
 
