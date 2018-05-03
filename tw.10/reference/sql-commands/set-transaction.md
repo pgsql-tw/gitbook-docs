@@ -1,38 +1,28 @@
 # SET TRANSACTION
 
-SET TRANSACTION — set the characteristics of the current transaction
+SET TRANSACTION — 設定目前交易事務的模式
 
-## Synopsis
+## 語法
 
 ```text
-SET TRANSACTION 
-transaction_mode
- [, ...]
-SET TRANSACTION SNAPSHOT 
-snapshot_id
+SET TRANSACTION transaction_mode [, ...]
+SET TRANSACTION SNAPSHOT snapshot_id
+SET SESSION CHARACTERISTICS AS TRANSACTION transaction_mode [, ...]
 
-SET SESSION CHARACTERISTICS AS TRANSACTION 
-transaction_mode
- [, ...]
-
-
-where 
-transaction_mode
- is one of:
-
+where transaction_mode is one of:
 
     ISOLATION LEVEL { SERIALIZABLE | REPEATABLE READ | READ COMMITTED | READ UNCOMMITTED }
     READ WRITE | READ ONLY
     [ NOT ] DEFERRABLE
 ```
 
-## Description
+## 說明
 
-The`SET TRANSACTION`command sets the characteristics of the current transaction. It has no effect on any subsequent transactions.`SET SESSION CHARACTERISTICS`sets the default transaction characteristics for subsequent transactions of a session. These defaults can be overridden by`SET TRANSACTION`for an individual transaction.
+SET TRANSACTION 指令設定目前交易事務的模式。它對任何後續的交易都沒有影響。SET SESSION CHARACTERISTICS 設定連線後續交易事務的預設的交易模式。 對於單個交易，這些預設值可以由 SET TRANSACTION 所覆寫。
 
-The available transaction characteristics are the transaction isolation level, the transaction access mode \(read/write or read-only\), and the deferrable mode. In addition, a snapshot can be selected, though only for the current transaction, not as a session default.
+可用的事務模式是事務隔離級別、事務存取模式（讀/寫或唯讀）以及可延遲模式。另外，可以選擇一個快照，但僅限於目前事務，而不是連線預設值。
 
-The isolation level of a transaction determines what data the transaction can see when other transactions are running concurrently:
+事務的隔離級別確定了其他事務同時運行時事務可以看到的資料：
 
 `READ COMMITTED`
 
