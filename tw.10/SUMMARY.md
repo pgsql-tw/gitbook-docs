@@ -187,22 +187,22 @@
     * 18.9. Secure TCP/IP Connections with SSL
     * 18.10. Secure TCP/IP Connections with SSH Tunnels
     * 18.11. Registering Event Log on Windows
-  * [19. 服務組態設定](server-administration/19.-fu-wu-zu-tai-she-ding/README.md)
+  * [19. 服務組態設定](server-administration/runtime-config/README.md)
     * 19.1. Setting Parameters
     * 19.2. File Locations
     * 19.3. Connections and Authentication
     * 19.4. Resource Consumption
     * 19.5. Write Ahead Log
-    * [19.6. Replication](server-administration/19.-fu-wu-zu-tai-she-ding/19.6.-replication.md)
-    * [19.7. 查詢規畫](server-administration/19.-fu-wu-zu-tai-she-ding/19.7.-cha-xun-gui-hua.md)
-    * [19.8. 錯誤回報與記錄](server-administration/19.-fu-wu-zu-tai-she-ding/19.8.-cuo-wu-hui-bao-yu-ji-lu.md)
+    * [19.6. Replication](server-administration/runtime-config/19.6.-replication.md)
+    * [19.7. 查詢規畫](server-administration/runtime-config/19.7.-cha-xun-gui-hua.md)
+    * [19.8. 錯誤回報與記錄](server-administration/runtime-config/19.8.-cuo-wu-hui-bao-yu-ji-lu.md)
     * 19.9. Run-time Statistics
-    * [19.10. 自動系統清理](server-administration/19.-fu-wu-zu-tai-she-ding/19.10.-zi-dong-xi-tong-qing-li.md)
-    * [19.11. 用戶端連線預設參數](server-administration/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md)
+    * [19.10. 自動系統清理](server-administration/runtime-config/19.10.-zi-dong-xi-tong-qing-li.md)
+    * [19.11. 用戶端連線預設參數](server-administration/runtime-config/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md)
     * 19.12. Lock Management
-    * [19.13. 版本與平台的相容性](server-administration/19.-fu-wu-zu-tai-she-ding/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md)
+    * [19.13. 版本與平台的相容性](server-administration/runtime-config/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md)
     * 19.14. Error Handling
-    * [19.15. 預先配置的參數](server-administration/19.-fu-wu-zu-tai-she-ding/19.15.-yu-xian-pei-zhi-de-can-shu.md)
+    * [19.15. 預先配置的參數](server-administration/runtime-config/19.15.-yu-xian-pei-zhi-de-can-shu.md)
     * 19.16. Customized Options
     * 19.17. Developer Options
     * 19.18. Short Options
@@ -446,6 +446,7 @@
     * SELECT
     * [SET ROLE](reference/sql-commands/set-role.md)
     * [SET SESSION AUTHORIZATION](reference/sql-commands/set-session-authorization.md)
+    * [SET](reference/sql-commands/set.md)
     * [SET TRANSACTION](reference/sql-commands/set-transaction.md)
     * [UPDATE](reference/sql-commands/update.md)
     * [VALUES](reference/sql-commands/values.md)

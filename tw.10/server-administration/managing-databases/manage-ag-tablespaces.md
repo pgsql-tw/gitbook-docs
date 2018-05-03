@@ -30,7 +30,7 @@ CREATE TABLESPACE fastspace LOCATION '/ssd1/postgresql/data';
 CREATE TABLE foo(i int) TABLESPACE space1;
 ```
 
-或者，使用 [default\_tablespace](../19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#default_tablespace-string) 參數：
+或者，使用 [default\_tablespace](../runtime-config/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#default_tablespace-string) 參數：
 
 ```text
 SET default_tablespace = space1;
@@ -39,7 +39,7 @@ CREATE TABLE foo(i int);
 
 當 default\_tablespace 設定為空字符之外的任何內容時，它將為 CREATE TABLE 和 CREATE INDEX 指令提供一個隱含的 TABLESPACE 子句，當它們沒有明確的 TABLESPACE 子句的時候。
 
-還有一個 [temp\_tablespaces](../19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#temp_tablespaces-string) 參數，用於指定臨時資料表和索引的位置，以及用於排序大型資料之類目的的臨時檔案。這可以是資料表空間名稱的列表，而不是只有一個，以便與臨時物件關聯的負載可以分佈在多個資料表空間中。每次建立臨時物件時都會挑選該列表的隨機成員。
+還有一個 [temp\_tablespaces](../runtime-config/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#temp_tablespaces-string) 參數，用於指定臨時資料表和索引的位置，以及用於排序大型資料之類目的的臨時檔案。這可以是資料表空間名稱的列表，而不是只有一個，以便與臨時物件關聯的負載可以分佈在多個資料表空間中。每次建立臨時物件時都會挑選該列表的隨機成員。
 
 與資料庫關聯的資料表空間用於儲存該資料庫的系統目錄。此外，如果沒有給予 TABLESPACE 子句也沒有其他由 default\_tablespace 或 temp\_tablespaces（根據需要）的選擇指定的話，那麼它是用於在資料庫內建立的資料表、索引和臨時檔案的預設資料表空間。如果建立的資料庫沒有為其指定資料表空間，則它使用與從其複製的模板資料庫相同的資料表空間。
 

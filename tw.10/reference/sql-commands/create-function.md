@@ -152,11 +152,11 @@ PARALLEL UNSAFE 表示該函數不能在平行模式下執行，並且在 SQL �
 
 `value`
 
-The`SET`clause causes the specified configuration parameter to be set to the specified value when the function is entered, and then restored to its prior value when the function exits.`SET FROM CURRENT`saves the value of the parameter that is current when`CREATE FUNCTION`is executed as the value to be applied when the function is entered.
+SET 子句在輸入函數時將指定的配置參數設定為指定的值，然後在函數退出時恢復為其先前的值。 SET FROM CURRENT 將執行 CREATE FUNCTION 時當時參數的值保存為輸入函數時要應用的值。
 
-If a`SET`clause is attached to a function, then the effects of a`SET LOCAL`command executed inside the function for the same variable are restricted to the function: the configuration parameter's prior value is still restored at function exit. However, an ordinary`SET`command \(without`LOCAL`\) overrides the`SET`clause, much as it would do for a previous`SET LOCAL`command: the effects of such a command will persist after function exit, unless the current transaction is rolled back.
+如果將一個 SET 子句附加到一個函數，那麼在該函數內對同一個變數執行的 SET LOCAL 命令的作用將僅限於該函數：配置參數的先前的值仍然會在函數離開時恢復。 然而，一個普通的 SET 命令（沒有 LOCAL）會覆蓋 SET 子句，就像它對於先前的 SET LOCAL 指令所做的那樣：除非當下的事務被回復，否則這種指令的效果將在函數退出後持續存在。
 
-See[SET](https://www.postgresql.org/docs/10/static/sql-set.html)and[Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html)for more information about allowed parameter names and values.
+有關允許的參數名稱和值的更多訊息，請參閱 [SET](set.md) 和[第 19 章](../../server-administration/runtime-config/)。
 
 `definition`
 
@@ -186,7 +186,7 @@ Attribute names are not case-sensitive.
 
 Refer to[Section 37.3](https://www.postgresql.org/docs/10/static/xfunc.html)for further information on writing functions.
 
-## 多載 Overloading
+## 函數多載（Overloading）
 
 PostgreSQL 允許函數多載；也就是說，只要具有不同的輸入參數類型，相同的名稱可以用於多個不同的函數。但是，所有 C 的函數名稱必須不同，因此你必須為 C 函數重載不同C 的名稱（例如，使用參數型別作為 C 名稱的一部分）。
 
