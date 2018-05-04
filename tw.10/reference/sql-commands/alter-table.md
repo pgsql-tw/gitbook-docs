@@ -82,7 +82,7 @@ and table_constraint_using_index is:
 
 `ADD COLUMN [ IF NOT EXISTS ]`
 
-This form adds a new column to the table, using the same syntax as [CREATE TABLE](create-table.md). If `IF NOT EXISTS` is specified and a column already exists with this name, no error is thrown.
+該資料表使用與 [CREATE TABLE](create-table.md) 相同的語法在資料表中增加一個新的欄位。如果 IF NOT EXISTS 被指定，並且欄位已經存在這個名稱，則可以避免引發錯誤。
 
 `DROP COLUMN [ IF EXISTS ]`
 
