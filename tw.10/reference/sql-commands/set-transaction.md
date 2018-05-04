@@ -44,15 +44,15 @@ SQL 標準定義了另一個等級 READ UNCOMMITTED。在 PostgreSQL 中，READ 
 
 除非事務是 SERIALIZABLE 和 READ ONLY，否則 DEFERRABLE 事務屬性不會起作用。當為事務選擇這三個屬性時，事務可能會在第一次取得其快照時阻隔，之後它就可以在沒有 SERIALIZABLE 事務的正常開銷的情況下執行，並且沒有任何串接化作用或被取消的失敗風險。此模式非常適合長時間執行的報告或備份。
 
-SET TRANSACTION SNAPSHOT 指令允許使用與現有事務相同的快照執行新的事務。預先存在的事務必須使用 pg\_export\_snapshot 函數匯出其快照（請參閱[第 9.26.5節](../../sql/9.-han-shi-ji-yun-suan-zi/9.26.-xi-tong-guan-li-han-shi.md)）。該函數回傳一個快照識別，該識別必須賦予 SET TRANSACTION SNAPSHOT 以指定要導入哪個快照。該命令中的識別必須寫為字串文字，例如 '000003A1-1'。 SET TRANSACTION SNAPSHOT 只能在事務開始時，在事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）之前執行。此外，事務必須已設定為 SERIALIZABLE 或 REPEATABLE READ 的隔離等級（否則，由於 READ COMMITTED 模式會為每個指令建立一個新快照，因此快照會立即丟棄）。如果導入事務使用 SERIALIZABLE 隔離等級，則導出快照的事務也必須使用該隔離等級。此外，非唯讀序列化事務不能從唯讀事務導入快照。
+SET TRANSACTION SNAPSHOT 指令允許使用與現有事務相同的快照執行新的事務。預先存在的事務必須使用 pg\_export\_snapshot 函數匯出其快照（請參閱[第 9.26.5節](../../sql/functions/functions-admin.md)）。該函數回傳一個快照識別，該識別必須賦予 SET TRANSACTION SNAPSHOT 以指定要導入哪個快照。該命令中的識別必須寫為字串文字，例如 '000003A1-1'。 SET TRANSACTION SNAPSHOT 只能在事務開始時，在事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）之前執行。此外，事務必須已設定為 SERIALIZABLE 或 REPEATABLE READ 的隔離等級（否則，由於 READ COMMITTED 模式會為每個指令建立一個新快照，因此快照會立即丟棄）。如果導入事務使用 SERIALIZABLE 隔離等級，則導出快照的事務也必須使用該隔離等級。此外，非唯讀序列化事務不能從唯讀事務導入快照。
 
-## Notes
+## 注意
 
-If`SET TRANSACTION`is executed without a prior`START TRANSACTION`or`BEGIN`, it emits a warning and otherwise has no effect.
+如果在沒有 START TRANSACTION 或 BEGIN 指令的情況下執行 SET TRANSACTION，它會發出警告，並且沒有效果。
 
-It is possible to dispense with`SET TRANSACTION`by instead specifying the desired\_`transaction_modes`\_in`BEGIN`or`START TRANSACTION`. But that option is not available for`SET TRANSACTION SNAPSHOT`.
+透過在 BEGIN 或 START TRANSACTION 指令中指定所需的交易模式，就可以不用 SET TRANSACTION。但該選項並不適用於 SET TRANSACTION SNAPSHOT。
 
-The session default transaction modes can also be set by setting the configuration parameters[default\_transaction\_isolation](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TRANSACTION-ISOLATION),[default\_transaction\_read\_only](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TRANSACTION-READ-ONLY), and[default\_transaction\_deferrable](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TRANSACTION-DEFERRABLE). \(In fact`SET SESSION CHARACTERISTICS`is just a verbose equivalent for setting these variables with`SET`.\) This means the defaults can be set in the configuration file, via`ALTER DATABASE`, etc. Consult[Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html)for more information.
+連線預設的交易事務模式也可以透過設定配置參數 [default\_transaction\_isolation](../../server-administration/runtime-config/runtime-config-client.md#default_transaction_isolation-enum)、[default\_transaction\_read\_only](../../server-administration/runtime-config/runtime-config-client.md#default_transaction_read_only-boolean) 和 [default\_transaction\_deferrable](../../server-administration/runtime-config/runtime-config-client.md#default_transaction_deferrable-boolean) 來設置。（事實上，SET SESSION CHARACTERISTICS 也是利用 SET 設定這些變數。）這意味著可以透過 ALTER DATABASE 等在配置檔案中設定預設值。有關更多訊息，請參閱[第 19 章](../../server-administration/runtime-config/)。
 
 ## Examples
 
