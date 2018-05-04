@@ -108,7 +108,7 @@
     * [9.20. 彙總函式](sql/functions/9.20.-hui-zong-han-shi.md)
     * [9.21. Window函式](sql/functions/9.21.-window-han-shi.md)
     * [9.22. 子查詢](sql/functions/9.22.-zi-cha-xun.md)
-    * [9.23. 列與陣列的差異](sql/functions/9.23.-lie-yu-zhen-lie-de-cha-yi.md)
+    * [9.23. 資料列與陣列的比較運算](sql/functions/functions-comparisons.md)
     * [9.24. 集合回傳函式](sql/functions/9.24.-ji-he-hui-chuan-han-shi.md)
     * [9.25. 系統資訊函數](sql/functions/9.25.-xi-tong-zi-xun-han-shu.md)
     * [9.26. 系統管理函式](sql/functions/functions-admin.md)
