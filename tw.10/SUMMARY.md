@@ -229,8 +229,8 @@
     * [23.1. 語系支援](server-administration/23.-yu-xi/23.1.-yu-xi-zhi-yuan.md)
     * 23.2. Collation Support
     * 23.3. Character Set Support
-  * [24. 例行性資料庫維護工作](server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/README.md)
-    * [24.1. 例行性資料清理](server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/24.1.-li-hang-xing-zi-liao-qing-li.md)
+  * [24. 例行性資料庫維護工作](server-administration/maintenance/README.md)
+    * [24.1. 例行性資料清理](server-administration/maintenance/24.1.-li-hang-xing-zi-liao-qing-li.md)
     * 24.2. Routine Reindexing
     * 24.3. Log File Maintenance
   * Backup and Restore

@@ -1,8 +1,8 @@
 # ALTER TABLE
 
-ALTER TABLE — change the definition of a table
+ALTER TABLE — 變更資料表的定義
 
-### Synopsis
+### 語法
 
 ```text
 ALTER TABLE [ IF EXISTS ] [ ONLY ] name [ * ]
@@ -76,30 +76,46 @@ and table_constraint_using_index is:
     [ DEFERRABLE | NOT DEFERRABLE ] [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
 ```
 
-### Description
+### 說明
 
-`ALTER TABLE` changes the definition of an existing table. There are several subforms described below. Note that the lock level required may differ for each subform. An `ACCESS EXCLUSIVE` lock is held unless explicitly noted. When multiple subcommands are listed, the lock held will be the strictest one required from any subcommand.`ADD COLUMN [ IF NOT EXISTS ]`
+`ALTER TABLE` 變更現有資料表的定義。有幾個子命令描述如下。請注意，每個子命令所需的鎖定等級可能不同。除非明確指出，否則都是 ACCESS EXCLUSIVE 鎖定。當列出多個子命令時，所有子命令所需的鎖以最嚴格的為準。
 
-This form adds a new column to the table, using the same syntax as [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html). If `IF NOT EXISTS` is specified and a column already exists with this name, no error is thrown.`DROP COLUMN [ IF EXISTS ]`
+`ADD COLUMN [ IF NOT EXISTS ]`
 
-This form drops a column from a table. Indexes and table constraints involving the column will be automatically dropped as well. Multivariate statistics referencing the dropped column will also be removed if the removal of the column would cause the statistics to contain data for only a single column. You will need to say `CASCADE` if anything outside the table depends on the column, for example, foreign key references or views. If `IF EXISTS` is specified and the column does not exist, no error is thrown. In this case a notice is issued instead.`SET DATA TYPE`
+This form adds a new column to the table, using the same syntax as [CREATE TABLE](create-table.md). If `IF NOT EXISTS` is specified and a column already exists with this name, no error is thrown.
 
-This form changes the type of a column of a table. Indexes and simple table constraints involving the column will be automatically converted to use the new column type by reparsing the originally supplied expression. The optional `COLLATE` clause specifies a collation for the new column; if omitted, the collation is the default for the new column type. The optional `USING` clause specifies how to compute the new column value from the old; if omitted, the default conversion is the same as an assignment cast from old data type to new. A `USING` clause must be provided if there is no implicit or assignment cast from old to new type.`SET`/`DROP DEFAULT`
+`DROP COLUMN [ IF EXISTS ]`
 
-These forms set or remove the default value for a column. Default values only apply in subsequent `INSERT` or `UPDATE` commands; they do not cause rows already in the table to change.`SET`/`DROP NOT NULL`
+This form drops a column from a table. Indexes and table constraints involving the column will be automatically dropped as well. Multivariate statistics referencing the dropped column will also be removed if the removal of the column would cause the statistics to contain data for only a single column. You will need to say `CASCADE` if anything outside the table depends on the column, for example, foreign key references or views. If `IF EXISTS` is specified and the column does not exist, no error is thrown. In this case a notice is issued instead.
+
+`SET DATA TYPE`
+
+This form changes the type of a column of a table. Indexes and simple table constraints involving the column will be automatically converted to use the new column type by reparsing the originally supplied expression. The optional `COLLATE` clause specifies a collation for the new column; if omitted, the collation is the default for the new column type. The optional `USING` clause specifies how to compute the new column value from the old; if omitted, the default conversion is the same as an assignment cast from old data type to new. A `USING` clause must be provided if there is no implicit or assignment cast from old to new type.
+
+`SET`/`DROP DEFAULT`
+
+These forms set or remove the default value for a column. Default values only apply in subsequent `INSERT` or `UPDATE` commands; they do not cause rows already in the table to change.
+
+`SET`/`DROP NOT NULL`
 
 These forms change whether a column is marked to allow null values or to reject null values. You can only use `SET NOT NULL` when the column contains no null values.
 
-If this table is a partition, one cannot perform `DROP NOT NULL` on a column if it is marked `NOT NULL` in the parent table. To drop the `NOT NULL` constraint from all the partitions, perform `DROP NOT NULL` on the parent table. Even if there is no `NOT NULL` constraint on the parent, such a constraint can still be added to individual partitions, if desired; that is, the children can disallow nulls even if the parent allows them, but not the other way around.`ADD GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY`  
+If this table is a partition, one cannot perform `DROP NOT NULL` on a column if it is marked `NOT NULL` in the parent table. To drop the `NOT NULL` constraint from all the partitions, perform `DROP NOT NULL` on the parent table. Even if there is no `NOT NULL` constraint on the parent, such a constraint can still be added to individual partitions, if desired; that is, the children can disallow nulls even if the parent allows them, but not the other way around.
+
+`ADD GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY`  
 `SET GENERATED { ALWAYS | BY DEFAULT }`  
 `DROP IDENTITY [ IF EXISTS ]`
 
 These forms change whether a column is an identity column or change the generation attribute of an existing identity column. See [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for details.
 
-If `DROP IDENTITY IF EXISTS` is specified and the column is not an identity column, no error is thrown. In this case a notice is issued instead.`SET `_`sequence_option`_  
+If `DROP IDENTITY IF EXISTS` is specified and the column is not an identity column, no error is thrown. In this case a notice is issued instead.
+
+`SET `_`sequence_option`_  
 `RESTART`
 
-These forms alter the sequence that underlies an existing identity column. _`sequence_option`_ is an option supported by [ALTER SEQUENCE](https://www.postgresql.org/docs/10/static/sql-altersequence.html) such as `INCREMENT BY`.`SET STATISTICS`
+These forms alter the sequence that underlies an existing identity column. _`sequence_option`_ is an option supported by [ALTER SEQUENCE](https://www.postgresql.org/docs/10/static/sql-altersequence.html) such as `INCREMENT BY`.
+
+`SET STATISTICS`
 
 This form sets the per-column statistics-gathering target for subsequent [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) operations. The target can be set in the range 0 to 10000; alternatively, set it to -1 to revert to using the system default statistics target \([default\_statistics\_target](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-DEFAULT-STATISTICS-TARGET)\). For more information on the use of statistics by the PostgreSQL query planner, refer to [Section 14.2](https://www.postgresql.org/docs/10/static/planner-stats.html).
 
@@ -108,9 +124,13 @@ This form sets the per-column statistics-gathering target for subsequent [ANALYZ
 
 This form sets or resets per-attribute options. Currently, the only defined per-attribute options are `n_distinct` and `n_distinct_inherited`, which override the number-of-distinct-values estimates made by subsequent [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) operations. `n_distinct` affects the statistics for the table itself, while `n_distinct_inherited` affects the statistics gathered for the table plus its inheritance children. When set to a positive value, `ANALYZE` will assume that the column contains exactly the specified number of distinct nonnull values. When set to a negative value, which must be greater than or equal to -1, `ANALYZE` will assume that the number of distinct nonnull values in the column is linear in the size of the table; the exact count is to be computed by multiplying the estimated table size by the absolute value of the given number. For example, a value of -1 implies that all values in the column are distinct, while a value of -0.5 implies that each value appears twice on the average. This can be useful when the size of the table changes over time, since the multiplication by the number of rows in the table is not performed until query planning time. Specify a value of 0 to revert to estimating the number of distinct values normally. For more information on the use of statistics by the PostgreSQL query planner, refer to [Section 14.2](https://www.postgresql.org/docs/10/static/planner-stats.html).
 
-Changing per-attribute options acquires a `SHARE UPDATE EXCLUSIVE` lock.`SET STORAGE`
+Changing per-attribute options acquires a `SHARE UPDATE EXCLUSIVE` lock.
 
-This form sets the storage mode for a column. This controls whether this column is held inline or in a secondary TOAST table, and whether the data should be compressed or not. `PLAIN` must be used for fixed-length values such as `integer` and is inline, uncompressed.`MAIN` is for inline, compressible data. `EXTERNAL` is for external, uncompressed data, and `EXTENDED` is for external, compressed data. `EXTENDED` is the default for most data types that support non-`PLAIN` storage. Use of `EXTERNAL` will make substring operations on very large `text` and `bytea` values run faster, at the penalty of increased storage space. Note that `SET STORAGE` doesn't itself change anything in the table, it just sets the strategy to be pursued during future table updates. See [Section 66.2](https://www.postgresql.org/docs/10/static/storage-toast.html) for more information.`ADD `_`table_constraint`_ \[ NOT VALID \]
+`SET STORAGE`
+
+This form sets the storage mode for a column. This controls whether this column is held inline or in a secondary TOAST table, and whether the data should be compressed or not. `PLAIN` must be used for fixed-length values such as `integer` and is inline, uncompressed.`MAIN` is for inline, compressible data. `EXTERNAL` is for external, uncompressed data, and `EXTENDED` is for external, compressed data. `EXTENDED` is the default for most data types that support non-`PLAIN` storage. Use of `EXTERNAL` will make substring operations on very large `text` and `bytea` values run faster, at the penalty of increased storage space. Note that `SET STORAGE` doesn't itself change anything in the table, it just sets the strategy to be pursued during future table updates. See [Section 66.2](https://www.postgresql.org/docs/10/static/storage-toast.html) for more information.
+
+`ADD `_`table_constraint`_ \[ NOT VALID \]
 
 This form adds a new constraint to a table using the same syntax as [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html), plus the option `NOT VALID`, which is currently only allowed for foreign key and CHECK constraints. If the constraint is marked `NOT VALID`, the potentially-lengthy initial check to verify that all rows in the table satisfy the constraint is skipped. The constraint will still be enforced against subsequent inserts or updates \(that is, they'll fail unless there is a matching row in the referenced table, in the case of foreign keys; and they'll fail unless the new row matches the specified check constraints\). But the database will not assume that the constraint holds for all rows in the table, until it is validated by using the `VALIDATE CONSTRAINT` option.`ADD `_`table_constraint_using_index`_
 
