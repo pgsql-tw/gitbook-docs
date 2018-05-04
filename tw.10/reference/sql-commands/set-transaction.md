@@ -26,25 +26,25 @@ SET TRANSACTION 指令設定目前交易事務的模式。它對任何後續的�
 
 `READ COMMITTED`
 
-A statement can only see rows committed before it began. This is the default.
+一個查詢語句只能看到在它開始之前已確認提交的資料。這是預設的模式。
 
 `REPEATABLE READ`
 
-All statements of the current transaction can only see rows committed before the first query or data-modification statement was executed in this transaction.
+目前事務中的所有語句只能看到在此事務中執行第一個查詢或資料修改語句之前已提交的資料。
 
 `SERIALIZABLE`
 
-All statements of the current transaction can only see rows committed before the first query or data-modification statement was executed in this transaction. If a pattern of reads and writes among concurrent serializable transactions would create a situation which could not have occurred for any serial \(one-at-a-time\) execution of those transactions, one of them will be rolled back with a`serialization_failure`error.
+目前事務中的所有語句只能看到在此事務中執行第一個查詢或資料修改語句之前已提交的資料。如果在平行可序列化事務之間的讀寫模式會產生對於這些事務的任何串接（一次一個）執行都不可能發生的情況，則其中一個將被退回並帶有 serialization\_failure 錯誤。
 
-The SQL standard defines one additional level,`READ UNCOMMITTED`. InPostgreSQL`READ UNCOMMITTED`is treated as`READ COMMITTED`.
+SQL 標準定義了另一個等級 READ UNCOMMITTED。在 PostgreSQL 中，READ UNCOMMITTED 被視為 READ COMMITTED。
 
-The transaction isolation level cannot be changed after the first query or data-modification statement \(`SELECT`,`INSERT`,`DELETE`,`UPDATE`,`FETCH`, or`COPY`\) of a transaction has been executed. See[Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)for more information about transaction isolation and concurrency control.
+事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）已執行後，事務隔離等級就不能再更改。有關事務隔離和同時一致性控制的更多訊息，請參閱[第 13 章](../../sql/mvcc/)。
 
-The transaction access mode determines whether the transaction is read/write or read-only. Read/write is the default. When a transaction is read-only, the following SQL commands are disallowed:`INSERT`,`UPDATE`,`DELETE`, and`COPY FROM`if the table they would write to is not a temporary table; all`CREATE`,`ALTER`, and`DROP`commands;`COMMENT`,`GRANT`,`REVOKE`,`TRUNCATE`; and`EXPLAIN ANALYZE`and`EXECUTE`if the command they would execute is among those listed. This is a high-level notion of read-only that does not prevent all writes to disk.
+事務存取模式會決定該事務是讀/寫還是唯讀。讀/寫是預設值。如果事務處於唯讀狀態，則不允許執行以下的 SQL 命令：INSERT、UPDATE、DELETE 和 COPY FROM，除非它們要寫入的資料表是臨時資料表；還有所有的 CREATE、ALTER 和 DROP命令；COMMENT、GRANT、REVOKE、TRUNCATE；以及 EXPLAIN ANALYZE 和 EXECUTE，如果它們執行的命令在以上列出的命令之中的。這是一個高等級的唯讀概念，它不會阻止所有寫入磁碟的行為。
 
-The`DEFERRABLE`transaction property has no effect unless the transaction is also`SERIALIZABLE`and`READ ONLY`. When all three of these properties are selected for a transaction, the transaction may block when first acquiring its snapshot, after which it is able to run without the normal overhead of a`SERIALIZABLE`transaction and without any risk of contributing to or being canceled by a serialization failure. This mode is well suited for long-running reports or backups.
+除非事務是 SERIALIZABLE 和 READ ONLY，否則 DEFERRABLE 事務屬性不會起作用。當為事務選擇這三個屬性時，事務可能會在第一次取得其快照時阻隔，之後它就可以在沒有 SERIALIZABLE 事務的正常開銷的情況下執行，並且沒有任何串接化作用或被取消的失敗風險。此模式非常適合長時間執行的報告或備份。
 
-The`SET TRANSACTION SNAPSHOT`command allows a new transaction to run with the same\_snapshot\_as an existing transaction. The pre-existing transaction must have exported its snapshot with the`pg_export_snapshot`function \(see[Section 9.26.5](https://www.postgresql.org/docs/10/static/functions-admin.html#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION)\). That function returns a snapshot identifier, which must be given to`SET TRANSACTION SNAPSHOT`to specify which snapshot is to be imported. The identifier must be written as a string literal in this command, for example`'000003A1-1'`.`SET TRANSACTION SNAPSHOT`can only be executed at the start of a transaction, before the first query or data-modification statement \(`SELECT`,`INSERT`,`DELETE`,`UPDATE`,`FETCH`, or`COPY`\) of the transaction. Furthermore, the transaction must already be set to`SERIALIZABLE`or`REPEATABLE READ`isolation level \(otherwise, the snapshot would be discarded immediately, since`READ COMMITTED`mode takes a new snapshot for each command\). If the importing transaction uses`SERIALIZABLE`isolation level, then the transaction that exported the snapshot must also use that isolation level. Also, a non-read-only serializable transaction cannot import a snapshot from a read-only transaction.
+SET TRANSACTION SNAPSHOT 指令允許使用與現有事務相同的快照執行新的事務。預先存在的事務必須使用 pg\_export\_snapshot 函數匯出其快照（請參閱[第 9.26.5節](../../sql/9.-han-shi-ji-yun-suan-zi/9.26.-xi-tong-guan-li-han-shi.md)）。該函數回傳一個快照識別，該識別必須賦予 SET TRANSACTION SNAPSHOT 以指定要導入哪個快照。該命令中的識別必須寫為字串文字，例如 '000003A1-1'。 SET TRANSACTION SNAPSHOT 只能在事務開始時，在事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）之前執行。此外，事務必須已設定為 SERIALIZABLE 或 REPEATABLE READ 的隔離等級（否則，由於 READ COMMITTED 模式會為每個指令建立一個新快照，因此快照會立即丟棄）。如果導入事務使用 SERIALIZABLE 隔離等級，則導出快照的事務也必須使用該隔離等級。此外，非唯讀序列化事務不能從唯讀事務導入快照。
 
 ## Notes
 
