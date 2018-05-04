@@ -44,7 +44,7 @@ SQL 標準定義了另一個等級 READ UNCOMMITTED。在 PostgreSQL 中，READ 
 
 除非事務是 SERIALIZABLE 和 READ ONLY，否則 DEFERRABLE 事務屬性不會起作用。當為事務選擇這三個屬性時，事務可能會在第一次取得其快照時阻隔，之後它就可以在沒有 SERIALIZABLE 事務的正常開銷的情況下執行，並且沒有任何串接化作用或被取消的失敗風險。此模式非常適合長時間執行的報告或備份。
 
-SET TRANSACTION SNAPSHOT 指令允許使用與現有事務相同的快照執行新的事務。預先存在的事務必須使用 pg\_export\_snapshot 函數匯出其快照（請參閱[第 9.26.5節](../../sql/functions/functions-admin.md)）。該函數回傳一個快照識別，該識別必須賦予 SET TRANSACTION SNAPSHOT 以指定要導入哪個快照。該命令中的識別必須寫為字串文字，例如 '000003A1-1'。 SET TRANSACTION SNAPSHOT 只能在事務開始時，在事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）之前執行。此外，事務必須已設定為 SERIALIZABLE 或 REPEATABLE READ 的隔離等級（否則，由於 READ COMMITTED 模式會為每個指令建立一個新快照，因此快照會立即丟棄）。如果導入事務使用 SERIALIZABLE 隔離等級，則導出快照的事務也必須使用該隔離等級。此外，非唯讀序列化事務不能從唯讀事務導入快照。
+SET TRANSACTION SNAPSHOT 指令允許使用與現有事務相同的快照執行新的事務。預先存在的事務必須使用 pg\_export\_snapshot 函數匯出其快照（請參閱[第 9.26.5節](../../sql/functions/functions-admin.md)）。該函數回傳一個快照識別指標，該識別指標必須賦予 SET TRANSACTION SNAPSHOT 以指定要導入哪個快照。該命令中的識別指標必須寫為字串文字，例如 '000003A1-1'。 SET TRANSACTION SNAPSHOT 只能在事務開始時，在事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）之前執行。此外，事務必須已設定為 SERIALIZABLE 或 REPEATABLE READ 的隔離等級（否則，由於 READ COMMITTED 模式會為每個指令建立一個新快照，因此快照會立即丟棄）。如果導入事務使用 SERIALIZABLE 隔離等級，則導出快照的事務也必須使用該隔離等級。此外，非唯讀序列化事務不能從唯讀事務導入快照。
 
 ## 注意
 
@@ -54,9 +54,9 @@ SET TRANSACTION SNAPSHOT 指令允許使用與現有事務相同的快照執行�
 
 連線預設的交易事務模式也可以透過設定配置參數 [default\_transaction\_isolation](../../server-administration/runtime-config/runtime-config-client.md#default_transaction_isolation-enum)、[default\_transaction\_read\_only](../../server-administration/runtime-config/runtime-config-client.md#default_transaction_read_only-boolean) 和 [default\_transaction\_deferrable](../../server-administration/runtime-config/runtime-config-client.md#default_transaction_deferrable-boolean) 來設置。（事實上，SET SESSION CHARACTERISTICS 也是利用 SET 設定這些變數。）這意味著可以透過 ALTER DATABASE 等在配置檔案中設定預設值。有關更多訊息，請參閱[第 19 章](../../server-administration/runtime-config/)。
 
-## Examples
+## 範例
 
-To begin a new transaction with the same snapshot as an already existing transaction, first export the snapshot from the existing transaction. That will return the snapshot identifier, for example:
+要使用與現有事務相同的快照開始新的事務，請首先從現有事務中匯出快照。 這將回匯快照識別指標，例如：
 
 ```text
 BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
@@ -67,20 +67,20 @@ SELECT pg_export_snapshot();
 (1 row)
 ```
 
-Then give the snapshot identifier in a`SET TRANSACTION SNAPSHOT`command at the beginning of the newly opened transaction:
+然後在新的事務開始時於 SET TRANSACTION SNAPSHOT 指令中給予快照識別指標：
 
 ```text
 BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 SET TRANSACTION SNAPSHOT '00000003-0000001B-1';
 ```
 
-## Compatibility
+## 相容性
 
-These commands are defined in theSQLstandard, except for the`DEFERRABLE`transaction mode and the`SET TRANSACTION SNAPSHOT`form, which arePostgreSQLextensions.
+這些指令是在 SQL 標準中定義的，除了 DEFERRABLE 事務模式和 SET TRANSACTION SNAPSHOT 形式（它們是 PostgreSQL 延伸指令）之外。
 
-`SERIALIZABLE`is the default transaction isolation level in the standard. InPostgreSQLthe default is ordinarily`READ COMMITTED`, but you can change it as mentioned above.
+SERIALIZABLE 是標準中的預設的事務隔離等級。在 PostgreSQL 中，預設情況下通常是 READ COMMITTED，但你可以像上面提到的那樣更改它。
 
-In the SQL standard, there is one other transaction characteristic that can be set with these commands: the size of the diagnostics area. This concept is specific to embedded SQL, and therefore is not implemented in thePostgreSQLserver.
+在 SQL 標準中，還有一個事務模式可以使用這些指令設定：診斷區域大小（the size of the diagnostics area）。這個概念特別用於嵌入式 SQL，因此 PostgreSQL 並沒有實作。
 
-The SQL standard requires commas between successive`transaction_modes`, but for historical reasonsPostgreSQLallows the commas to be omitted.
+SQL 標準要求在連續的 transaction\_modes 之間使用逗號，但由於歷史原因，PostgreSQL 允許省略逗號。
 
