@@ -413,7 +413,7 @@
     * [ALTER FUNCTION](reference/sql-commands/alter-function.md)
     * [ALTER POLICY](reference/sql-commands/alter-policy.md)
     * [ALTER ROLE](reference/sql-commands/alter-role.md)
-    * ALTER TABLE
+    * [ALTER TABLE](reference/sql-commands/alter-table.md)
     * [ALTER TABLESPACE](reference/sql-commands/alter-tablespace.md)
     * [COMMENT](reference/sql-commands/comment.md)
     * [COPY](reference/sql-commands/copy.md)
@@ -424,7 +424,7 @@
     * [CREATE ROLE](reference/sql-commands/create-role.md)
     * [CREATE SCHEMA](reference/sql-commands/create-schema.md)
     * [CREATE SERVER](reference/sql-commands/create-server.md)
-    * CREATE TABLE
+    * [CREATE TABLE](reference/sql-commands/create-table.md)
     * [CREATE TABLESPACE](reference/sql-commands/create-tablespace.md)
     * [CREATE TRANSFORM](reference/sql-commands/create-transform.md)
     * [CREATE TYPE](reference/sql-commands/create-type.md)
