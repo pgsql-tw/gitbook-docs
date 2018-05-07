@@ -86,11 +86,11 @@ and table_constraint_using_index is:
 
 `DROP COLUMN [ IF EXISTS ]`
 
-This form drops a column from a table. Indexes and table constraints involving the column will be automatically dropped as well. Multivariate statistics referencing the dropped column will also be removed if the removal of the column would cause the statistics to contain data for only a single column. You will need to say `CASCADE` if anything outside the table depends on the column, for example, foreign key references or views. If `IF EXISTS` is specified and the column does not exist, no error is thrown. In this case a notice is issued instead.
+從該資料表中刪除一個欄位。涉及該欄位的索引和資料表限制條件也將自動刪除。如果刪除的欄位會導致統計信息僅包含單個欄位的資料的話，那麼引用刪除欄位的多變量統計數據也將被刪除。如果資料表外的任何內容取決於該欄位，例如外部鍵引用或 view，則需要使用 CASCADE。 如果指定 IF EXISTS 但該欄位卻不存在，則不會引發錯誤。通常在這種情況下，會發出提示訊息。
 
 `SET DATA TYPE`
 
-This form changes the type of a column of a table. Indexes and simple table constraints involving the column will be automatically converted to use the new column type by reparsing the originally supplied expression. The optional `COLLATE` clause specifies a collation for the new column; if omitted, the collation is the default for the new column type. The optional `USING` clause specifies how to compute the new column value from the old; if omitted, the default conversion is the same as an assignment cast from old data type to new. A `USING` clause must be provided if there is no implicit or assignment cast from old to new type.
+這種語法用於變更一個資料表中欄位的資料型別。涉及該欄位的索引和簡單的資料表限制條件將透過重新分析原始提供的表示式自動轉換為使用新的欄位型別。可選用的 COLLATE 子句指定新欄位的排序規則；如果省略的話，則排序規則是新欄位型別的預設值。可選用的 USING 子句指定如何從舊值計算為新的欄位值；如果省略，則預設轉換與從舊資料類型到新欄位轉換的賦值相同。 如果沒有隱含或賦值從舊型別轉換為新型別，則必須提供 USING 子句。
 
 `SET`/`DROP DEFAULT`
 
