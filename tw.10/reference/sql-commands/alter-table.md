@@ -472,13 +472,13 @@ ALTER TABLE measurement
     DETACH PARTITION measurement_y2015m12;
 ```
 
-### Compatibility
+### 相容性
 
-The forms `ADD` \(without `USING INDEX`\), `DROP [COLUMN]`, `DROP IDENTITY`, `RESTART`, `SET DEFAULT`, `SET DATA TYPE` \(without `USING`\), `SET GENERATED`, and `SET `_`sequence_option`_ conform with the SQL standard. The other forms are PostgreSQL extensions of the SQL standard. Also, the ability to specify more than one manipulation in a single `ALTER TABLE` command is an extension.
+ADD（沒有 USING INDEX）、DROP \[COLUMN\]、DROP IDENTITY、RESTART、SET DEFAULT、SET DATA TYPE（沒有 USING）、SET GENERATED 和 SET sequence\_option 的語法是符合 SQL 標準的。其他語法則是 SQL 標準的 PostgreSQL 延伸語法。此外，在單個 ALTER TABLE 指令中進行多個操作的功能也是延伸語法。
 
-`ALTER TABLE DROP COLUMN` can be used to drop the only column of a table, leaving a zero-column table. This is an extension of SQL, which disallows zero-column tables.
+ALTER TABLE DROP COLUMN 可用於刪除資料表的單一欄位，而留下一個沒有欄位的資料表。這是 SQL 的延伸，SQL 標準禁止使用無欄位的資料表。
 
-### See Also
+### 參閱
 
 [CREATE TABLE](create-table.md)
 
