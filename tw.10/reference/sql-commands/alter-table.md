@@ -306,21 +306,21 @@ Changing any part of a system catalog table is not permitted.
 
 Refer to [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for a further description of valid parameters. [Chapter 5](https://www.postgresql.org/docs/10/static/ddl.html) has further information on inheritance.
 
-### Examples
+### 範例
 
-To add a column of type `varchar` to a table:
+要將一個 varchar 型別的欄位加到資料表中，請執行以下操作指令：
 
 ```text
 ALTER TABLE distributors ADD COLUMN address varchar(30);
 ```
 
-To drop a column from a table:
+從資料表中刪除一個欄位：
 
 ```text
 ALTER TABLE distributors DROP COLUMN address RESTRICT;
 ```
 
-To change the types of two existing columns in one operation:
+在一個操作指令中變更兩個現有欄位的型別：
 
 ```text
 ALTER TABLE distributors
@@ -328,7 +328,7 @@ ALTER TABLE distributors
     ALTER COLUMN name TYPE varchar(100);
 ```
 
-To change an integer column containing Unix timestamps to `timestamp with time zone` via a `USING` clause:
+透過 USING 子句將包含 Unix 時間戳記的整數欄位變更為帶有時區的時間戳記：
 
 ```text
 ALTER TABLE foo
@@ -337,7 +337,7 @@ ALTER TABLE foo
         timestamp with time zone 'epoch' + foo_timestamp * interval '1 second';
 ```
 
-The same, when the column has a default expression that won't automatically cast to the new data type:
+同樣，當有一個欄位沒有自動轉換為新資料型別的預設表示式時：
 
 ```text
 ALTER TABLE foo
@@ -348,102 +348,102 @@ ALTER TABLE foo
     ALTER COLUMN foo_timestamp SET DEFAULT now();
 ```
 
-To rename an existing column:
+重新命名現有的欄位：
 
 ```text
 ALTER TABLE distributors RENAME COLUMN address TO city;
 ```
 
-To rename an existing table:
+重新命名現有的資料表：
 
 ```text
 ALTER TABLE distributors RENAME TO suppliers;
 ```
 
-To rename an existing constraint:
+重新命名現有的限制條件：
 
 ```text
 ALTER TABLE distributors RENAME CONSTRAINT zipchk TO zip_check;
 ```
 
-To add a not-null constraint to a column:
+要將欄位加上 not null 的限制條件：
 
 ```text
 ALTER TABLE distributors ALTER COLUMN street SET NOT NULL;
 ```
 
-To remove a not-null constraint from a column:
+從欄位中刪除 not null 的限制條件：
 
 ```text
 ALTER TABLE distributors ALTER COLUMN street DROP NOT NULL;
 ```
 
-To add a check constraint to a table and all its children:
+為資料表及其所有子資料表加上檢查的限制條件：
 
 ```text
 ALTER TABLE distributors ADD CONSTRAINT zipchk CHECK (char_length(zipcode) = 5);
 ```
 
-To add a check constraint only to a table and not to its children:
+要僅將要檢查的限制條件加到資料表而不加到其子資料表：
 
 ```text
 ALTER TABLE distributors ADD CONSTRAINT zipchk CHECK (char_length(zipcode) = 5) NO INHERIT;
 ```
 
-\(The check constraint will not be inherited by future children, either.\)
+（檢查用的限制條件並不會被未來的子資料表繼承。）
 
-To remove a check constraint from a table and all its children:
+從資料表及其所有子資料表中移除限制條件：
 
 ```text
 ALTER TABLE distributors DROP CONSTRAINT zipchk;
 ```
 
-To remove a check constraint from one table only:
+僅從一個資料表中刪除限制條件：
 
 ```text
 ALTER TABLE ONLY distributors DROP CONSTRAINT zipchk;
 ```
 
-\(The check constraint remains in place for any child tables.\)
+（限制條件會保留在所有的子資料表中。）
 
-To add a foreign key constraint to a table:
+將外部鍵的限制條件加到到資料表中：
 
 ```text
 ALTER TABLE distributors ADD CONSTRAINT distfk FOREIGN KEY (address) REFERENCES addresses (address);
 ```
 
-To add a foreign key constraint to a table with the least impact on other work:
+將外部鍵限制條件以其他工作影響最小的方式加到資料表中：
 
 ```text
 ALTER TABLE distributors ADD CONSTRAINT distfk FOREIGN KEY (address) REFERENCES addresses (address) NOT VALID;
 ALTER TABLE distributors VALIDATE CONSTRAINT distfk;
 ```
 
-To add a \(multicolumn\) unique constraint to a table:
+在資料表中加上（多個欄位）唯一性的限制條件：
 
 ```text
 ALTER TABLE distributors ADD CONSTRAINT dist_id_zipcode_key UNIQUE (dist_id, zipcode);
 ```
 
-To add an automatically named primary key constraint to a table, noting that a table can only ever have one primary key:
+要在資料表中加上一個自動命名的主鍵限制條件，注意的是，一個資料表只能有一個主鍵：
 
 ```text
 ALTER TABLE distributors ADD PRIMARY KEY (dist_id);
 ```
 
-To move a table to a different tablespace:
+將資料表移動到不同的資料表空間：
 
 ```text
 ALTER TABLE distributors SET TABLESPACE fasttablespace;
 ```
 
-To move a table to a different schema:
+將資料表移動到不同的 schema：
 
 ```text
 ALTER TABLE myschema.distributors SET SCHEMA yourschema;
 ```
 
-To recreate a primary key constraint, without blocking updates while the index is rebuilt:
+在重建索引時重新建立主鍵的限制條件，而不阻擋資料更新：
 
 ```text
 CREATE UNIQUE INDEX CONCURRENTLY dist_id_temp_idx ON distributors (dist_id);
@@ -451,21 +451,21 @@ ALTER TABLE distributors DROP CONSTRAINT distributors_pkey,
     ADD CONSTRAINT distributors_pkey PRIMARY KEY USING INDEX dist_id_temp_idx;
 ```
 
-Attach a partition to range partitioned table:
+將資料表分割區附加到範圍型的分割資料表中：
 
 ```text
 ALTER TABLE measurement
     ATTACH PARTITION measurement_y2016m07 FOR VALUES FROM ('2016-07-01') TO ('2016-08-01');
 ```
 
-Attach a partition to list partitioned table:
+將資料表分割區附加到列表型的分割資料表中：
 
 ```text
 ALTER TABLE cities
     ATTACH PARTITION cities_ab FOR VALUES IN ('a', 'b');
 ```
 
-Detach a partition from partitioned table:
+從分割資料表中分離資料表分割區：
 
 ```text
 ALTER TABLE measurement
