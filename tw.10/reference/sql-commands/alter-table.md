@@ -134,17 +134,19 @@ and table_constraint_using_index is:
 
 `ADD `_`table_constraint`_ \[ NOT VALID \]
 
-This form adds a new constraint to a table using the same syntax as [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html), plus the option `NOT VALID`, which is currently only allowed for foreign key and CHECK constraints. If the constraint is marked `NOT VALID`, the potentially-lengthy initial check to verify that all rows in the table satisfy the constraint is skipped. The constraint will still be enforced against subsequent inserts or updates \(that is, they'll fail unless there is a matching row in the referenced table, in the case of foreign keys; and they'll fail unless the new row matches the specified check constraints\). But the database will not assume that the constraint holds for all rows in the table, until it is validated by using the `VALIDATE CONSTRAINT` option.`ADD `_`table_constraint_using_index`_
+此語法用於與 [CREATE TABLE](create-table.md) 相同的語法為資料表加上一個新的限制條件，並可以加上選項 NOT VALID，該選項目前只允許用於外部鍵和 CHECK 限制條件。如果限制條件被標記為 NOT VALID，則跳過用於驗證資料表中的所有資料列滿足限制條件的冗長初始檢查。對於後續的插入或更新，這個檢查仍然會被執行（也就是說，除非在被引用的資料表中存在有匹配的資料，否則在外部鍵的情況下它們將會失敗；並且除非新的資料列匹配指定的檢查，否則它們將會失敗）。但是，資料庫不會假定該限制條件適用於資料表中的所有的資料，直到透過使用 VALIDATE CONSTRAINT 選項進行驗證。
 
-This form adds a new `PRIMARY KEY` or `UNIQUE` constraint to a table based on an existing unique index. All the columns of the index will be included in the constraint.
+`ADD `_`table_constraint_using_index`_
 
-The index cannot have expression columns nor be a partial index. Also, it must be a b-tree index with default sort ordering. These restrictions ensure that the index is equivalent to one that would be built by a regular `ADD PRIMARY KEY` or `ADD UNIQUE` command.
+此語法根據現有的唯一索引向資料表中增加新的 PRIMARY KEY 或 UNIQUE 限制條件。索引中的所有欄位都將包含在限制條件裡。
 
-If `PRIMARY KEY` is specified, and the index's columns are not already marked `NOT NULL`, then this command will attempt to do `ALTER COLUMN SET NOT NULL` against each such column. That requires a full table scan to verify the column\(s\) contain no nulls. In all other cases, this is a fast operation.
+索引不能有表示式欄位，也不能是部分索引。此外，它必須是具有隱含排序順序的 b-tree 索引。這些限制可確保索引等同於由常態的 ADD PRIMARY KEY 或 ADD UNIQUE 指令建立的索引。
 
-If a constraint name is provided then the index will be renamed to match the constraint name. Otherwise the constraint will be named the same as the index.
+如果指定了 PRIMARY KEY，並且索引的欄位尚未標記為 NOT NULL，那麼此命令將嘗試對每個此類的欄位執行 ALTER COLUMN SET NOT NULL。這需要全資料表掃描來驗證列不包含空值。在所有其他情況下，這是一項快速的操作。
 
-After this command is executed, the index is “owned” by the constraint, in the same way as if the index had been built by a regular `ADD PRIMARY KEY` or `ADD UNIQUE` command. In particular, dropping the constraint will make the index disappear too.
+如果提供限制條件名稱，那麼索引將被重新命名以匹配限制條件名稱。否則，限制條件將被命名為與索引相同。
+
+執行此命令後，索引由該限制條件「擁有」，就像索引由一般的 ADD PRIMARY KEY 或 ADD UNIQUE 命令建立的一樣。特別要注意是，刪除限制條件會使索引消失。
 
 #### Note
 
