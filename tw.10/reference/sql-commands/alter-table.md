@@ -224,33 +224,53 @@ This form changes one or more storage parameters for the table. See [Storage Par
 
 #### Note
 
-While `CREATE TABLE` allows `OIDS` to be specified in the `WITH (`_`storage_parameter`_\) syntax, `ALTER TABLE` does not treat `OIDS` as a storage parameter. Instead use the `SET WITH OIDS` and `SET WITHOUT OIDS` forms to change OID status.`RESET ( `_`storage_parameter`_ \[, ... \] \)
+While `CREATE TABLE` allows `OIDS` to be specified in the `WITH (`_`storage_parameter`_\) syntax, `ALTER TABLE` does not treat `OIDS` as a storage parameter. Instead use the `SET WITH OIDS` and `SET WITHOUT OIDS` forms to change OID status.
 
-This form resets one or more storage parameters to their defaults. As with `SET`, a table rewrite might be needed to update the table entirely.`INHERIT `_`parent_table`_
+`RESET ( `_`storage_parameter`_ \[, ... \] \)
+
+This form resets one or more storage parameters to their defaults. As with `SET`, a table rewrite might be needed to update the table entirely.
+
+`INHERIT `_`parent_table`_
 
 This form adds the target table as a new child of the specified parent table. Subsequently, queries against the parent will include records of the target table. To be added as a child, the target table must already contain all the same columns as the parent \(it could have additional columns, too\). The columns must have matching data types, and if they have `NOT NULL` constraints in the parent then they must also have `NOT NULL` constraints in the child.
 
-There must also be matching child-table constraints for all `CHECK` constraints of the parent, except those marked non-inheritable \(that is, created with `ALTER TABLE ... ADD CONSTRAINT ... NO INHERIT`\) in the parent, which are ignored; all child-table constraints matched must not be marked non-inheritable. Currently `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` constraints are not considered, but this might change in the future.`NO INHERIT `_`parent_table`_
+There must also be matching child-table constraints for all `CHECK` constraints of the parent, except those marked non-inheritable \(that is, created with `ALTER TABLE ... ADD CONSTRAINT ... NO INHERIT`\) in the parent, which are ignored; all child-table constraints matched must not be marked non-inheritable. Currently `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` constraints are not considered, but this might change in the future.
 
-This form removes the target table from the list of children of the specified parent table. Queries against the parent table will no longer include records drawn from the target table.`OF `_`type_name`_
+`NO INHERIT `_`parent_table`_
 
-This form links the table to a composite type as though `CREATE TABLE OF` had formed it. The table's list of column names and types must precisely match that of the composite type; the presence of an `oid` system column is permitted to differ. The table must not inherit from any other table. These restrictions ensure that `CREATE TABLE OF` would permit an equivalent table definition.`NOT OF`
+This form removes the target table from the list of children of the specified parent table. Queries against the parent table will no longer include records drawn from the target table.
+
+`OF `_`type_name`_
+
+This form links the table to a composite type as though `CREATE TABLE OF` had formed it. The table's list of column names and types must precisely match that of the composite type; the presence of an `oid` system column is permitted to differ. The table must not inherit from any other table. These restrictions ensure that `CREATE TABLE OF` would permit an equivalent table definition.
+
+`NOT OF`
 
 This form dissociates a typed table from its type.`OWNER`
 
-This form changes the owner of the table, sequence, view, materialized view, or foreign table to the specified user.`REPLICA IDENTITY`
+This form changes the owner of the table, sequence, view, materialized view, or foreign table to the specified user.
 
-This form changes the information which is written to the write-ahead log to identify rows which are updated or deleted. This option has no effect except when logical replication is in use. `DEFAULT` \(the default for non-system tables\) records the old values of the columns of the primary key, if any. `USING INDEX` records the old values of the columns covered by the named index, which must be unique, not partial, not deferrable, and include only columns marked `NOT NULL`. `FULL` records the old values of all columns in the row. `NOTHING`records no information about the old row. \(This is the default for system tables.\) In all cases, no old values are logged unless at least one of the columns that would be logged differs between the old and new versions of the row.`RENAME`
+`REPLICA IDENTITY`
 
-The `RENAME` forms change the name of a table \(or an index, sequence, view, materialized view, or foreign table\), the name of an individual column in a table, or the name of a constraint of the table. There is no effect on the stored data.`SET SCHEMA`
+This form changes the information which is written to the write-ahead log to identify rows which are updated or deleted. This option has no effect except when logical replication is in use. `DEFAULT` \(the default for non-system tables\) records the old values of the columns of the primary key, if any. `USING INDEX` records the old values of the columns covered by the named index, which must be unique, not partial, not deferrable, and include only columns marked `NOT NULL`. `FULL` records the old values of all columns in the row. `NOTHING`records no information about the old row. \(This is the default for system tables.\) In all cases, no old values are logged unless at least one of the columns that would be logged differs between the old and new versions of the row.
 
-This form moves the table into another schema. Associated indexes, constraints, and sequences owned by table columns are moved as well.`ATTACH PARTITION `_`partition_name`_ FOR VALUES _`partition_bound_spec`_
+`RENAME`
+
+The `RENAME` forms change the name of a table \(or an index, sequence, view, materialized view, or foreign table\), the name of an individual column in a table, or the name of a constraint of the table. There is no effect on the stored data.
+
+`SET SCHEMA`
+
+This form moves the table into another schema. Associated indexes, constraints, and sequences owned by table columns are moved as well.
+
+`ATTACH PARTITION `_`partition_name`_ FOR VALUES _`partition_bound_spec`_
 
 This form attaches an existing table \(which might itself be partitioned\) as a partition of the target table using the same syntax for _`partition_bound_spec`_ as [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html). The partition bound specification must correspond to the partitioning strategy and partition key of the target table. The table to be attached must have all the same columns as the target table and no more; moreover, the column types must also match. Also, it must have all the `NOT NULL` and `CHECK` constraints of the target table. Currently `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` constraints are not considered. If any of the `CHECK` constraints of the table being attached is marked `NO INHERIT`, the command will fail; such a constraint must be recreated without the `NO INHERIT` clause.
 
 If the new partition is a regular table, a full table scan is performed to check that no existing row in the table violates the partition constraint. It is possible to avoid this scan by adding a valid `CHECK` constraint to the table that would allow only the rows satisfying the desired partition constraint before running this command. It will be determined using such a constraint that the table need not be scanned to validate the partition constraint. This does not work, however, if any of the partition keys is an expression and the partition does not accept `NULL` values. If attaching a list partition that will not accept `NULL` values, also add `NOT NULL` constraint to the partition key column, unless it's an expression.
 
-If the new partition is a foreign table, nothing is done to verify that all the rows in the foreign table obey the partition constraint. \(See the discussion in [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-createforeigntable.html) about constraints on the foreign table.\)`DETACH PARTITION` _`partition_name`_
+If the new partition is a foreign table, nothing is done to verify that all the rows in the foreign table obey the partition constraint. \(See the discussion in [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-createforeigntable.html) about constraints on the foreign table.\)
+
+`DETACH PARTITION` _`partition_name`_
 
 This form detaches specified partition of the target table. The detached partition continues to exist as a standalone table, but no longer has any ties to the table from which it was detached.
 
@@ -262,47 +282,89 @@ You must own the table to use `ALTER TABLE`. To change the schema or tablespace 
 
 `IF EXISTS`
 
-Do not throw an error if the table does not exist. A notice is issued in this case._`name`_
+Do not throw an error if the table does not exist. A notice is issued in this case.
 
-The name \(optionally schema-qualified\) of an existing table to alter. If `ONLY` is specified before the table name, only that table is altered. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are altered. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included._`column_name`_
+_`name`_
 
-Name of a new or existing column._`new_column_name`_
+The name \(optionally schema-qualified\) of an existing table to alter. If `ONLY` is specified before the table name, only that table is altered. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are altered. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included.
 
-New name for an existing column._`new_name`_
+_`column_name`_
 
-New name for the table._`data_type`_
+Name of a new or existing column.
 
-Data type of the new column, or new data type for an existing column._`table_constraint`_
+_`new_column_name`_
 
-New table constraint for the table._`constraint_name`_
+New name for an existing column.
 
-Name of a new or existing constraint.`CASCADE`
+_`new_name`_
 
-Automatically drop objects that depend on the dropped column or constraint \(for example, views referencing the column\), and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).`RESTRICT`
+New name for the table.
 
-Refuse to drop the column or constraint if there are any dependent objects. This is the default behavior._`trigger_name`_
+_`data_type`_
 
-Name of a single trigger to disable or enable.`ALL`
+Data type of the new column, or new data type for an existing column.
 
-Disable or enable all triggers belonging to the table. \(This requires superuser privilege if any of the triggers are internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints.\)`USER`
+_`table_constraint`_
 
-Disable or enable all triggers belonging to the table except for internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints._`index_name`_
+New table constraint for the table.
 
-The name of an existing index._`storage_parameter`_
+_`constraint_name`_
 
-The name of a table storage parameter._`value`_
+Name of a new or existing constraint.
 
-The new value for a table storage parameter. This might be a number or a word depending on the parameter._`parent_table`_
+`CASCADE`
 
-A parent table to associate or de-associate with this table._`new_owner`_
+Automatically drop objects that depend on the dropped column or constraint \(for example, views referencing the column\), and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
 
-The user name of the new owner of the table._`new_tablespace`_
+`RESTRICT`
 
-The name of the tablespace to which the table will be moved._`new_schema`_
+Refuse to drop the column or constraint if there are any dependent objects. This is the default behavior.
 
-The name of the schema to which the table will be moved._`partition_name`_
+_`trigger_name`_
 
-The name of the table to attach as a new partition or to detach from this table._`partition_bound_spec`_
+Name of a single trigger to disable or enable.
+
+`ALL`
+
+Disable or enable all triggers belonging to the table. \(This requires superuser privilege if any of the triggers are internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints.\)
+
+`USER`
+
+Disable or enable all triggers belonging to the table except for internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints.
+
+_`index_name`_
+
+The name of an existing index.
+
+_`storage_parameter`_
+
+The name of a table storage parameter.
+
+_`value`_
+
+The new value for a table storage parameter. This might be a number or a word depending on the parameter.
+
+_`parent_table`_
+
+A parent table to associate or de-associate with this table.
+
+_`new_owner`_
+
+The user name of the new owner of the table.
+
+_`new_tablespace`_
+
+The name of the tablespace to which the table will be moved.
+
+_`new_schema`_
+
+The name of the schema to which the table will be moved.
+
+_`partition_name`_
+
+The name of the table to attach as a new partition or to detach from this table.
+
+_`partition_bound_spec`_
 
 The partition bound specification for a new partition. Refer to [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for more details on the syntax of the same.
 
