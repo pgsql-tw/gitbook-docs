@@ -148,47 +148,75 @@ and table_constraint_using_index is:
 
 執行此命令後，索引由該限制條件「擁有」，就像索引由一般的 ADD PRIMARY KEY 或 ADD UNIQUE 命令建立的一樣。特別要注意是，刪除限制條件會使索引消失。
 
-#### Note
+#### 注意
 
-Adding a constraint using an existing index can be helpful in situations where a new constraint needs to be added without blocking table updates for a long time. To do that, create the index using `CREATE INDEX CONCURRENTLY`, and then install it as an official constraint using this syntax. See the example below.`ALTER CONSTRAINT`
+在需要增加新的限制條件情況下，使用現有索引加上約束可能會很有幫助。這種情況下需要加上新限制條件需要很長一段時間但不會阻斷資料表更新。為此，請使用 CREATE INDEX CONCURRENTLY 建立索引，然後使用此語法將其作為官方限制條件進行安裝。請參閱後續的例子。
 
-This form alters the attributes of a constraint that was previously created. Currently only foreign key constraints may be altered.`VALIDATE CONSTRAINT`
+`ALTER CONSTRAINT`
+
+在資料表變更先前建立限制條件屬性。目前只有外部鍵限制條件可以變更。
+
+`VALIDATE CONSTRAINT`
 
 This form validates a foreign key or check constraint that was previously created as `NOT VALID`, by scanning the table to ensure there are no rows for which the constraint is not satisfied. Nothing happens if the constraint is already marked valid.
 
 Validation can be a long process on larger tables. The value of separating validation from initial creation is that you can defer validation to less busy times, or can be used to give additional time to correct pre-existing errors while preventing new errors. Note also that validation on its own does not prevent normal write commands against the table while it runs.
 
-Validation acquires only a `SHARE UPDATE EXCLUSIVE` lock on the table being altered. If the constraint is a foreign key then a `ROW SHARE` lock is also required on the table referenced by the constraint.`DROP CONSTRAINT [ IF EXISTS ]`
+Validation acquires only a `SHARE UPDATE EXCLUSIVE` lock on the table being altered. If the constraint is a foreign key then a `ROW SHARE` lock is also required on the table referenced by the constraint.
 
-This form drops the specified constraint on a table. If `IF EXISTS` is specified and the constraint does not exist, no error is thrown. In this case a notice is issued instead.`DISABLE`/`ENABLE [ REPLICA | ALWAYS ] TRIGGER`
+`DROP CONSTRAINT [ IF EXISTS ]`
+
+This form drops the specified constraint on a table. If `IF EXISTS` is specified and the constraint does not exist, no error is thrown. In this case a notice is issued instead.
+
+`DISABLE`/`ENABLE [ REPLICA | ALWAYS ] TRIGGER`
 
 These forms configure the firing of trigger\(s\) belonging to the table. A disabled trigger is still known to the system, but is not executed when its triggering event occurs. For a deferred trigger, the enable status is checked when the event occurs, not when the trigger function is actually executed. One can disable or enable a single trigger specified by name, or all triggers on the table, or only user triggers \(this option excludes internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints\). Disabling or enabling internally generated constraint triggers requires superuser privileges; it should be done with caution since of course the integrity of the constraint cannot be guaranteed if the triggers are not executed. The trigger firing mechanism is also affected by the configuration variable [session\_replication\_role](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-SESSION-REPLICATION-ROLE). Simply enabled triggers will fire when the replication role is “origin” \(the default\) or “local”. Triggers configured as `ENABLE REPLICA` will only fire if the session is in “replica” mode, and triggers configured as `ENABLE ALWAYS` will fire regardless of the current replication mode.
 
-This command acquires a `SHARE ROW EXCLUSIVE` lock.`DISABLE`/`ENABLE [ REPLICA | ALWAYS ] RULE`
+This command acquires a `SHARE ROW EXCLUSIVE` lock.
 
-These forms configure the firing of rewrite rules belonging to the table. A disabled rule is still known to the system, but is not applied during query rewriting. The semantics are as for disabled/enabled triggers. This configuration is ignored for `ON SELECT` rules, which are always applied in order to keep views working even if the current session is in a non-default replication role.`DISABLE`/`ENABLE ROW LEVEL SECURITY`
+`DISABLE`/`ENABLE [ REPLICA | ALWAYS ] RULE`
 
-These forms control the application of row security policies belonging to the table. If enabled and no policies exist for the table, then a default-deny policy is applied. Note that policies can exist for a table even if row level security is disabled - in this case, the policies will NOT be applied and the policies will be ignored. See also [CREATE POLICY](https://www.postgresql.org/docs/10/static/sql-createpolicy.html).`NO FORCE`/`FORCE ROW LEVEL SECURITY`
+These forms configure the firing of rewrite rules belonging to the table. A disabled rule is still known to the system, but is not applied during query rewriting. The semantics are as for disabled/enabled triggers. This configuration is ignored for `ON SELECT` rules, which are always applied in order to keep views working even if the current session is in a non-default replication role.
 
-These forms control the application of row security policies belonging to the table when the user is the table owner. If enabled, row level security policies will be applied when the user is the table owner. If disabled \(the default\) then row level security will not be applied when the user is the table owner. See also [CREATE POLICY](https://www.postgresql.org/docs/10/static/sql-createpolicy.html).`CLUSTER ON`
+`DISABLE`/`ENABLE ROW LEVEL SECURITY`
+
+These forms control the application of row security policies belonging to the table. If enabled and no policies exist for the table, then a default-deny policy is applied. Note that policies can exist for a table even if row level security is disabled - in this case, the policies will NOT be applied and the policies will be ignored. See also [CREATE POLICY](https://www.postgresql.org/docs/10/static/sql-createpolicy.html).
+
+`NO FORCE`/`FORCE ROW LEVEL SECURITY`
+
+These forms control the application of row security policies belonging to the table when the user is the table owner. If enabled, row level security policies will be applied when the user is the table owner. If disabled \(the default\) then row level security will not be applied when the user is the table owner. See also [CREATE POLICY](https://www.postgresql.org/docs/10/static/sql-createpolicy.html).
+
+`CLUSTER ON`
 
 This form selects the default index for future [CLUSTER](https://www.postgresql.org/docs/10/static/sql-cluster.html) operations. It does not actually re-cluster the table.
 
-Changing cluster options acquires a `SHARE UPDATE EXCLUSIVE` lock.`SET WITHOUT CLUSTER`
+Changing cluster options acquires a `SHARE UPDATE EXCLUSIVE` lock.
+
+`SET WITHOUT CLUSTER`
 
 This form removes the most recently used [CLUSTER](https://www.postgresql.org/docs/10/static/sql-cluster.html) index specification from the table. This affects future cluster operations that don't specify an index.
 
-Changing cluster options acquires a `SHARE UPDATE EXCLUSIVE` lock.`SET WITH OIDS`
+Changing cluster options acquires a `SHARE UPDATE EXCLUSIVE` lock.
+
+`SET WITH OIDS`
 
 This form adds an `oid` system column to the table \(see [Section 5.4](https://www.postgresql.org/docs/10/static/ddl-system-columns.html)\). It does nothing if the table already has OIDs.
 
-Note that this is not equivalent to `ADD COLUMN oid oid`; that would add a normal column that happened to be named `oid`, not a system column.`SET WITHOUT OIDS`
+Note that this is not equivalent to `ADD COLUMN oid oid`; that would add a normal column that happened to be named `oid`, not a system column.
 
-This form removes the `oid` system column from the table. This is exactly equivalent to `DROP COLUMN oid RESTRICT`, except that it will not complain if there is already no `oid` column.`SET TABLESPACE`
+`SET WITHOUT OIDS`
 
-This form changes the table's tablespace to the specified tablespace and moves the data file\(s\) associated with the table to the new tablespace. Indexes on the table, if any, are not moved; but they can be moved separately with additional `SET TABLESPACE` commands. All tables in the current database in a tablespace can be moved by using the `ALL IN TABLESPACE` form, which will lock all tables to be moved first and then move each one. This form also supports `OWNED BY`, which will only move tables owned by the roles specified. If the `NOWAIT` option is specified then the command will fail if it is unable to acquire all of the locks required immediately. Note that system catalogs are not moved by this command, use `ALTER DATABASE` or explicit `ALTER TABLE` invocations instead if desired. The `information_schema` relations are not considered part of the system catalogs and will be moved. See also [CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html).`SET { LOGGED | UNLOGGED }`
+This form removes the `oid` system column from the table. This is exactly equivalent to `DROP COLUMN oid RESTRICT`, except that it will not complain if there is already no `oid` column.
 
-This form changes the table from unlogged to logged or vice-versa \(see [`UNLOGGED`](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-UNLOGGED)\). It cannot be applied to a temporary table.`SET ( `_`storage_parameter`_ = _`value`_ \[, ... \] \)
+`SET TABLESPACE`
+
+This form changes the table's tablespace to the specified tablespace and moves the data file\(s\) associated with the table to the new tablespace. Indexes on the table, if any, are not moved; but they can be moved separately with additional `SET TABLESPACE` commands. All tables in the current database in a tablespace can be moved by using the `ALL IN TABLESPACE` form, which will lock all tables to be moved first and then move each one. This form also supports `OWNED BY`, which will only move tables owned by the roles specified. If the `NOWAIT` option is specified then the command will fail if it is unable to acquire all of the locks required immediately. Note that system catalogs are not moved by this command, use `ALTER DATABASE` or explicit `ALTER TABLE` invocations instead if desired. The `information_schema` relations are not considered part of the system catalogs and will be moved. See also [CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html).
+
+`SET { LOGGED | UNLOGGED }`
+
+This form changes the table from unlogged to logged or vice-versa \(see [`UNLOGGED`](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-UNLOGGED)\). It cannot be applied to a temporary table.
+
+`SET ( `_`storage_parameter`_ = _`value`_ \[, ... \] \)
 
 This form changes one or more storage parameters for the table. See [Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-STORAGE-PARAMETERS) for details on the available parameters. Note that the table contents will not be modified immediately by this command; depending on the parameter you might need to rewrite the table to get the desired effects. That can be done with [VACUUM FULL](https://www.postgresql.org/docs/10/static/sql-vacuum.html), [CLUSTER](https://www.postgresql.org/docs/10/static/sql-cluster.html) or one of the forms of `ALTER TABLE` that forces a table rewrite. For planner related parameters, changes will take effect from the next time the table is locked so currently executing queries will not be affected.
 
