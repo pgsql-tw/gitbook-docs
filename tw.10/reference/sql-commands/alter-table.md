@@ -117,7 +117,7 @@ and table_constraint_using_index is:
 
 `SET STATISTICS`
 
-This form sets the per-column statistics-gathering target for subsequent [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) operations. The target can be set in the range 0 to 10000; alternatively, set it to -1 to revert to using the system default statistics target \([default\_statistics\_target](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-DEFAULT-STATISTICS-TARGET)\). For more information on the use of statistics by the PostgreSQL query planner, refer to [Section 14.2](https://www.postgresql.org/docs/10/static/planner-stats.html).
+此語法為隨後的 [ANALYZE](analyze.md) 操作設定每個欄位的統計目標。目標可以設定在 0 到 10000 範圍內；或者，將其設定為 -1 以恢復為使用系統預設的統計訊息目標（[default\_statistics\_target](../../server-administration/runtime-config/query-planning.md#19-7-4-other-planner-options)）。有關 PostgreSQL 查詢規劃器使用統計訊息的更多資訊，請參閱[第 14.2 節](../../sql/performance-tips/planner-stats.md)。
 
 `SET STATISTICS` acquires a `SHARE UPDATE EXCLUSIVE` lock.`SET ( `_`attribute_option`_ = _`value`_ \[, ... \] \)  
 `RESET ( `_`attribute_option`_ \[, ... \] \)
