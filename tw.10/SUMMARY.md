@@ -483,6 +483,8 @@
     * [64.5. GIN Tips and Tricks](internals/64.-gin-indexes/64.5.-gin-tips-and-tricks.md)
     * 64.6. Limitations
     * 64.7. Examples
+  * [66. 資料庫實體儲存格式](internals/database-physical-storage/README.md)
+    * [66.2. TOAST](internals/database-physical-storage/toast.md)
 * [VIII. 附錄](viii.-fu-lu/README.md)
   * [A. PostgreSQL錯誤代碼](viii.-fu-lu/a.-postgresql-cuo-wu-dai-ma.md)
   * [B. 日期時間格式支援](viii.-fu-lu/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/README.md)
