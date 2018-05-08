@@ -94,26 +94,26 @@ and table_constraint_using_index is:
 
 `SET`/`DROP DEFAULT`
 
-These forms set or remove the default value for a column. Default values only apply in subsequent `INSERT` or `UPDATE` commands; they do not cause rows already in the table to change.
+這個語法設定或刪除欄位的預設值。預設值僅適用於其後續的 INSERT 或 UPDATE 指令；它不會變更資料表中已有的資料列。
 
 `SET`/`DROP NOT NULL`
 
-These forms change whether a column is marked to allow null values or to reject null values. You can only use `SET NOT NULL` when the column contains no null values.
+這個語法會變更欄位是否標記為允許空值或拒絕空值。當欄位不應該包含空值時，您就可以使用 SET NOT NULL。
 
-If this table is a partition, one cannot perform `DROP NOT NULL` on a column if it is marked `NOT NULL` in the parent table. To drop the `NOT NULL` constraint from all the partitions, perform `DROP NOT NULL` on the parent table. Even if there is no `NOT NULL` constraint on the parent, such a constraint can still be added to individual partitions, if desired; that is, the children can disallow nulls even if the parent allows them, but not the other way around.
+如果此資料表是一個資料表分割區，而在父資料表中標記為 NOT NULL，則不能在欄位上執行 DROP NOT NULL。要從所有分割區中刪除 NOT NULL 約束，請在父資料表上執行 DROP NOT NULL。即使父級沒有 NOT NULL 限制條件，如果需要，這樣的限制條件仍然可以加到單獨的分割區中；也就是說，即使父資料表允許他們，子資料表們也可以不允許使用空值，但是反過來也是如此。
 
 `ADD GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY`  
 `SET GENERATED { ALWAYS | BY DEFAULT }`  
 `DROP IDENTITY [ IF EXISTS ]`
 
-These forms change whether a column is an identity column or change the generation attribute of an existing identity column. See [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for details.
+這個語法會變更欄位是否為標識欄位\(identity column\)或變更現有標識欄位的生成屬性。有關詳細訊息，請參閱 [CREATE TABLE](create-table.md)。
 
-If `DROP IDENTITY IF EXISTS` is specified and the column is not an identity column, no error is thrown. In this case a notice is issued instead.
+如果指定了 DROP IDENTITY IF EXISTS 而該欄位不是標識欄位，則不會引發錯誤。 在這種情況下，會發布通知。
 
 `SET `_`sequence_option`_  
 `RESTART`
 
-These forms alter the sequence that underlies an existing identity column. _`sequence_option`_ is an option supported by [ALTER SEQUENCE](https://www.postgresql.org/docs/10/static/sql-altersequence.html) such as `INCREMENT BY`.
+這個語法變更現有標識欄下的序列設定。sequence\_option 是 [ALTER SEQUENCE](alter-sequence.md) 支援的選項，像是 INCREMENT BY。
 
 `SET STATISTICS`
 

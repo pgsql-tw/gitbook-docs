@@ -413,6 +413,7 @@
     * [ALTER FUNCTION](reference/sql-commands/alter-function.md)
     * [ALTER POLICY](reference/sql-commands/alter-policy.md)
     * [ALTER ROLE](reference/sql-commands/alter-role.md)
+    * [ALTER SEQUENCE](reference/sql-commands/alter-sequence.md)
     * [ALTER TABLE](reference/sql-commands/alter-table.md)
     * [ALTER TABLESPACE](reference/sql-commands/alter-tablespace.md)
     * [COMMENT](reference/sql-commands/comment.md)
