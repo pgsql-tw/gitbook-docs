@@ -1,8 +1,8 @@
 # CREATE ROLE
 
-CREATE ROLE — define a new database role
+CREATE ROLE — 定義一個新的資料庫角色
 
-### Synopsis
+### 語法
 
 ```text
 CREATE ROLE name [ [ WITH ] option [ ... ] ]
@@ -27,11 +27,11 @@ where option can be:
     | SYSID uid
 ```
 
-### Description
+### 說明
 
-`CREATE ROLE` adds a new role to a PostgreSQL database cluster. A role is an entity that can own database objects and have database privileges; a role can be considered a “user”, a “group”, or both depending on how it is used. Refer to [Chapter 21](https://www.postgresql.org/docs/10/static/user-manag.html) and [Chapter 20](https://www.postgresql.org/docs/10/static/client-authentication.html) for information about managing users and authentication. You must have `CREATEROLE` privilege or be a database superuser to use this command.
+`CREATE ROLE 將新的角色加到 PostgreSQL 資料庫叢集之中。角色是可以擁有資料庫物件並具有資料庫權限的實體；根據使用方式的不同，角色可以被視為「使用者」、「群組」或是兩者兼具。有關管理使用者和身份驗證的訊息，請參閱`[`第 21 章`](../../server-administration/user-manag/)`和`[`第 20 章`](../../server-administration/20.-shi-yong-zhe-ren-zheng/)`。 您必須具有 CREATE ROLE 權限或成為資料庫的超級使用者才能使用此命令。`
 
-Note that roles are defined at the database cluster level, and so are valid in all databases in the cluster.
+請注意，角色是在資料庫叢集等級所定義的，因此在叢集中的所有資料庫中都是有效的。
 
 ### Parameters
 
