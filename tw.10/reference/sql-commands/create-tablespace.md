@@ -63,11 +63,7 @@ CREATE TABLESPACE indexspace OWNER genevieve LOCATION '/data/indexes';
 
 ### See Also
 
-[CREATE DATABASE](https://www.postgresql.org/docs/10/static/sql-createdatabase.html), [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html), [CREATE INDEX](https://www.postgresql.org/docs/10/static/sql-createindex.html), [DROP TABLESPACE](drop-tablespace.md), [ALTER TABLESPACE](alter-tablespace.md)
-
-### 參考資料
-
-1.  [PostgreSQL: Documentation: 10: CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html)
+[CREATE DATABASE](create-database.md), [CREATE TABLE](create-table.md), [CREATE INDEX](untitled.md), [DROP TABLESPACE](drop-tablespace.md), [ALTER TABLESPACE](alter-tablespace.md)
 
 
 
