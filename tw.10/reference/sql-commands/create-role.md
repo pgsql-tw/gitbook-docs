@@ -136,49 +136,49 @@ The `CONNECTION LIMIT` option is only enforced approximately; if two new session
 
 Caution must be exercised when specifying an unencrypted password with this command. The password will be transmitted to the server in cleartext, and it might also be logged in the client's command history or the server log. The command [createuser](https://www.postgresql.org/docs/10/static/app-createuser.html), however, transmits the password encrypted. Also, [psql](https://www.postgresql.org/docs/10/static/app-psql.html) contains a command `\password` that can be used to safely change the password later.
 
-### Examples
+### 範例
 
-Create a role that can log in, but don't give it a password:
+建立一個可以登入的角色，但不要給它一個密碼：
 
 ```text
 CREATE ROLE jonathan LOGIN;
 ```
 
-Create a role with a password:
+建立角色同時設定一個密碼：
 
 ```text
 CREATE USER davide WITH PASSWORD 'jw8s0F4';
 ```
 
-\(`CREATE USER` is the same as `CREATE ROLE` except that it implies `LOGIN`.\)
+（CREATE USER 與 CREATE ROLE 相同，但它暗示著 LOGIN。）
 
-Create a role with a password that is valid until the end of 2004. After one second has ticked in 2005, the password is no longer valid.
+使用一個有效的密碼建立一個角色，直到 2004 年底。在 2005 年的第一秒之後，密碼就不再有效。
 
 ```text
 CREATE ROLE miriam WITH LOGIN PASSWORD 'jw8s0F4' VALID UNTIL '2005-01-01';
 ```
 
-Create a role that can create databases and manage roles:
+建立一個可以建立資料庫和管理角色的角色：
 
 ```text
 CREATE ROLE admin WITH CREATEDB CREATEROLE;
 ```
 
-### Compatibility
+### 相容性
 
-The `CREATE ROLE` statement is in the SQL standard, but the standard only requires the syntax
+CREATE ROLE 語句在 SQL 標準中，只有簡單的語法標準。
 
 ```text
 CREATE ROLE name [ WITH ADMIN role_name ]
 ```
 
-Multiple initial administrators, and all the other options of `CREATE ROLE`, are PostgreSQL extensions.
+多個初始管理員和 CREATE ROLE 的所有其他選項都是 PostgreSQL 延伸功能。
 
-The SQL standard defines the concepts of users and roles, but it regards them as distinct concepts and leaves all commands defining users to be specified by each database implementation. In PostgreSQL we have chosen to unify users and roles into a single kind of entity. Roles therefore have many more optional attributes than they do in the standard.
+SQL 標準定義了使用者和角色的概念，且將它們視為不同的概念，並將所有定義使用者的命令留在每個資料庫的實作中。在 PostgreSQL 中，我們選擇將使用者和角色統一為單一類型的實體。因此，角色擁有比標準更多的可選屬性。
 
-The behavior specified by the SQL standard is most closely approximated by giving users the `NOINHERIT` attribute, while roles are given the `INHERIT` attribute.
+由 SQL 標準指定的行為最接近於給予使用者 NOINHERIT 屬性，而角色則賦予了 INHERIT 屬性。
 
-### See Also
+### 參閱
 
 [SET ROLE](set-role.md), [ALTER ROLE](alter-role.md), [DROP ROLE](drop-role.md), [GRANT](grant.md), [REVOKE](revoke.md), [createuser](../client/createuser.md)
 
