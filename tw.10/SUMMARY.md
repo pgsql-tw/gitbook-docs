@@ -195,7 +195,7 @@
     * 19.5. Write Ahead Log
     * [19.6. Replication](server-administration/runtime-config/19.6.-replication.md)
     * [19.7. 查詢規畫](server-administration/runtime-config/query-planning.md)
-    * [19.8. 錯誤回報與記錄](server-administration/runtime-config/19.8.-cuo-wu-hui-bao-yu-ji-lu.md)
+    * [19.8. 錯誤回報與日誌記錄](server-administration/runtime-config/logging.md)
     * 19.9. Run-time Statistics
     * [19.10. 自動系統清理](server-administration/runtime-config/19.10.-zi-dong-xi-tong-qing-li.md)
     * [19.11. 用戶端連線預設參數](server-administration/runtime-config/runtime-config-client.md)
