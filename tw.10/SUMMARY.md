@@ -431,6 +431,7 @@
     * [CREATE TABLESPACE](reference/sql-commands/create-tablespace.md)
     * [CREATE TRANSFORM](reference/sql-commands/create-transform.md)
     * [CREATE TYPE](reference/sql-commands/create-type.md)
+    * [CREATE USER](reference/sql-commands/create-user.md)
     * [CREATE USER MAPPING](reference/sql-commands/create-user-mapping.md)
     * [CREATE VIEW](reference/sql-commands/create-view.md)
     * [DELETE](reference/sql-commands/delete.md)

@@ -29,40 +29,40 @@ where option can be:
 
 ### 說明
 
-`CREATE ROLE 將新的角色加到 PostgreSQL 資料庫叢集之中。角色是可以擁有資料庫物件並具有資料庫權限的實體；根據使用方式的不同，角色可以被視為「使用者」、「群組」或是兩者兼具。有關管理使用者和身份驗證的訊息，請參閱`[`第 21 章`](../../server-administration/user-manag/)`和`[`第 20 章`](../../server-administration/20.-shi-yong-zhe-ren-zheng/)`。 您必須具有 CREATE ROLE 權限或成為資料庫的超級使用者才能使用此命令。`
+`CREATE ROLE 將新的角色加到 PostgreSQL 資料庫叢集之中。角色是可以擁有資料庫物件並具有資料庫權限的實體；根據使用方式的不同，角色可以被視為「使用者」、「群組」或是兩者兼具。有關管理使用者和身份驗證的訊息，請參閱`[`第 21 章`](../../server-administration/user-manag/)`和`[`第 20 章`](../../server-administration/20.-shi-yong-zhe-ren-zheng/)`。 您必須具有 CREATEROLE 權限或成為資料庫的超級使用者才能使用此命令。`
 
 請注意，角色是在資料庫叢集等級所定義的，因此在叢集中的所有資料庫中都是有效的。
 
-### Parameters
+### 參數
 
 _`name`_
 
-The name of the new role.
+新角色的名稱。
 
 `SUPERUSER`  
 `NOSUPERUSER`
 
-These clauses determine whether the new role is a “superuser”, who can override all access restrictions within the database. Superuser status is dangerous and should be used only when really needed. You must yourself be a superuser to create a new superuser. If not specified, `NOSUPERUSER` is the default.
+這個子句決定新角色是否為「超級使用者」，他可以覆寫資料庫中的所有存取限制。超級使用者的狀態很危險，只能在真正需要時才使用。您必須自己成為超級使用者才能建立新的超級使用者。如果未指定，則 NOSUPERUSER 是預設值。
 
 `CREATEDB`  
 `NOCREATEDB`
 
-These clauses define a role's ability to create databases. If `CREATEDB` is specified, the role being defined will be allowed to create new databases. Specifying `NOCREATEDB` will deny a role the ability to create databases. If not specified, `NOCREATEDB` is the default.
+這個子句定義了角色是否可以建立資料庫。如果指定了 CREATEDB，則被定義的角色將被允許建立新的資料庫。指定 NOCREATEDB 則是不允許建立資料庫的角色。如果未指定，則預設為 NOCREATEDB。
 
 `CREATEROLE`  
 `NOCREATEROLE`
 
-These clauses determine whether a role will be permitted to create new roles \(that is, execute `CREATE ROLE`\). A role with `CREATEROLE` privilege can also alter and drop other roles. If not specified, `NOCREATEROLE` is the default.
+這個子句決定是否允許角色建立新角色（即執行CREATE ROLE）。具有CREATEROLE 權限的角色也可以變更和刪除其他角色。如果未指定，則預設為 NOCREATEROLE。
 
 `INHERIT`  
 `NOINHERIT`
 
-These clauses determine whether a role “inherits” the privileges of roles it is a member of. A role with the `INHERIT` attribute can automatically use whatever database privileges have been granted to all roles it is directly or indirectly a member of. Without `INHERIT`, membership in another role only grants the ability to `SET ROLE` to that other role; the privileges of the other role are only available after having done so. If not specified, `INHERIT` is the default.
+這個子句決定角色是否「繼承」它所屬角色的特權。具有 INHERIT 屬性的角色可以自動使用已授予其直接或間接成員的所有角色的任何資料庫特權。沒有INHERIT，另一個角色的成員資格只能賦予角色設定其他角色的能力；其他角色的權限僅在完成後才可用。如果未指定，INHERIT 是預設值。
 
 `LOGIN`  
 `NOLOGIN`
 
-These clauses determine whether a role is allowed to log in; that is, whether the role can be given as the initial session authorization name during client connection. A role having the `LOGIN` attribute can be thought of as a user. Roles without this attribute are useful for managing database privileges, but are not users in the usual sense of the word. If not specified, `NOLOGIN` is the default, except when `CREATE ROLE` is invoked through its alternative spelling [CREATE USER](https://www.postgresql.org/docs/10/static/sql-createuser.html).
+這個子句決定是否允許角色登入；也就是說，在用戶端連線期間，角色是否可以作為初始連線的授權名稱。具有 LOGIN 屬性的角色可以被認為是一個使用者。沒有此屬性的角色對於管理資料庫權限很有用，但不是一般認知上的使用者。如果未指定，則除了通過其替代指令 [CREATE USER](create-user.md) 使用 CREATE ROLE 時，NOLOGIN 是預設值。
 
 `REPLICATION`  
 `NOREPLICATION`
