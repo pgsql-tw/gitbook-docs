@@ -501,7 +501,11 @@
     * [F.11. dblink](appendix/f.-yan-shen-zhi-yuan-mo-zu/f.11.-dblink/README.md)
       * [dblink](appendix/f.-yan-shen-zhi-yuan-mo-zu/f.11.-dblink/dblink.md)
   * Additional Supplied Programs
-  * External Projects
+  * [H. 外部專案](appendix/external-projects/README.md)
+    * [H.1. 用戶端介面](appendix/external-projects/client-interface.md)
+    * [H.2. Administration Tools](appendix/external-projects/h.2.-administration-tools.md)
+    * [H.3. Procedural Languages](appendix/external-projects/untitled.md)
+    * [H.4. Extensions](appendix/external-projects/h.4.-extensions.md)
   * The Source Code Repository
   * [J. 文件取得](appendix/j.-wen-jian-qu-de.md)
   * [K. 縮寫字](appendix/k.-suo-xie-zi.md)
