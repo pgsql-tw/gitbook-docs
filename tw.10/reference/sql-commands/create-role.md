@@ -116,25 +116,25 @@ USER 子句是 ROLE 子句的過時寫法。
 
 SYSID 子句會被忽略，但為了相容性而被接受。
 
-### Notes
+### 注意
 
-Use [ALTER ROLE](https://www.postgresql.org/docs/10/static/sql-alterrole.html) to change the attributes of a role, and [DROP ROLE](https://www.postgresql.org/docs/10/static/sql-droprole.html) to remove a role. All the attributes specified by `CREATE ROLE` can be modified by later `ALTER ROLE` commands.
+使用 [ALTER ROLE](alter-role.md) 變更改角色的屬性，使用 [DROP ROLE](drop-role.md) 刪除角色。所有由CREATE ROLE 指定的屬性都可以在後面的 ALTER ROLE 命令中修改。
 
-The preferred way to add and remove members of roles that are being used as groups is to use [GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html).
+從群組加入和移出角色成員的首選方法是使用 [GRANT](grant.md) 和 [REVOKE](revoke.md)。
 
-The `VALID UNTIL` clause defines an expiration time for a password only, not for the role _per se_. In particular, the expiration time is not enforced when logging in using a non-password-based authentication method.
+VALID UNTIL 子句僅定義密碼的到期時間，而不是角色本身。特別要注意的是，使用基於非密碼的身份驗證方法登錄時，不會強制實施到期的時間。
 
-The `INHERIT` attribute governs inheritance of grantable privileges \(that is, access privileges for database objects and role memberships\). It does not apply to the special role attributes set by `CREATE ROLE` and `ALTER ROLE`. For example, being a member of a role with `CREATEDB`privilege does not immediately grant the ability to create databases, even if `INHERIT` is set; it would be necessary to become that role via [SET ROLE](https://www.postgresql.org/docs/10/static/sql-set-role.html) before creating a database.
+INHERIT 屬性管理可授予權限的繼承（即資料庫物件和角色成員的存取權限）。它不適用於由 CREATE ROLE 和 ALTER ROLE 設定的特殊角色屬性。例如，即使設定了INHERIT，作為 CREATEDB 權限角色的成員也不會立即授予建立資料庫的能力；在建立資料庫之前，有必要通過 SET ROLE 來扮演這個角色。
 
-The `INHERIT` attribute is the default for reasons of backwards compatibility: in prior releases of PostgreSQL, users always had access to all privileges of groups they were members of. However, `NOINHERIT` provides a closer match to the semantics specified in the SQL standard.
+出於相容性的原因，INHERIT 屬性是預設屬性：在 PostgreSQL 的以前版本中，使用者總是可以存取它們所屬的群組的所有特權。但是，NOINHERIT 提供了與 SQL 標準中指定的語義更接近的設定。
 
-Be careful with the `CREATEROLE` privilege. There is no concept of inheritance for the privileges of a `CREATEROLE`-role. That means that even if a role does not have a certain privilege but is allowed to create other roles, it can easily create another role with different privileges than its own \(except for creating roles with superuser privileges\). For example, if the role “user” has the `CREATEROLE` privilege but not the `CREATEDB` privilege, nonetheless it can create a new role with the `CREATEDB` privilege. Therefore, regard roles that have the `CREATEROLE` privilege as almost-superuser-roles.
+請小心使用 CREATEROLE 權限。對於 CREATEROLE 角色的權限並沒有繼承的概念。這意味著即使角色沒有特定的權限但允許建立其他角色，也可以使用不同於自己的權限輕鬆建立另一個角色（除了使用超級使用者權限建立角色）。例如，如果角色「使用者」具有 CREATEROLE 權限但不具有 CREATEDB 權限，但它可以使用 CREATEDB 權限建立新角色。 因此，將具有 CREATEROLE 權限的角色視為幾乎是超級使用者的角色。
 
-PostgreSQL includes a program [createuser](https://www.postgresql.org/docs/10/static/app-createuser.html) that has the same functionality as `CREATE ROLE` \(in fact, it calls this command\) but can be run from the command shell.
+PostgreSQL 包含一個工具 [createuser](../client/createuser.md)，它具有與 CREATE ROLE 相同的功能（實際上，它也使用此命令），但可以從命令列終端機中執行。
 
-The `CONNECTION LIMIT` option is only enforced approximately; if two new sessions start at about the same time when just one connection “slot” remains for the role, it is possible that both will fail. Also, the limit is never enforced for superusers.
+CONNECTION LIMIT 選項只是大略地執行；如果兩個新的連線幾乎同時啟動，但只剩下連線留給該角色的話，也可能兩個都失敗。 此外，此限制不會限制超級使用者。
 
-Caution must be exercised when specifying an unencrypted password with this command. The password will be transmitted to the server in cleartext, and it might also be logged in the client's command history or the server log. The command [createuser](https://www.postgresql.org/docs/10/static/app-createuser.html), however, transmits the password encrypted. Also, [psql](https://www.postgresql.org/docs/10/static/app-psql.html) contains a command `\password` that can be used to safely change the password later.
+使用此命令指定未加密的密碼時必須謹慎行事。密碼將以明文形式傳輸到伺服器，並且還可能會記錄在用戶端的命令歷史記錄或伺服器日誌中。但是，[createuser](../client/createuser.md) 指令會傳輸加密的密碼。此外，[psql](../client/psql.md) 還包含一個命令 \password，可用於安全地更改密碼。
 
 ### 範例
 
