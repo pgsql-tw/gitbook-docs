@@ -230,9 +230,9 @@
     * 23.2. Collation Support
     * 23.3. Character Set Support
   * [24. 例行性資料庫維護工作](server-administration/maintenance/README.md)
-    * [24.1. 例行性資料清理](server-administration/maintenance/24.1.-li-hang-xing-zi-liao-qing-li.md)
+    * [24.1. 例行性資料清理](server-administration/maintenance/routine-vacuuming.md)
     * 24.2. Routine Reindexing
-    * 24.3. Log File Maintenance
+    * [24.3. Log File Maintenance](server-administration/maintenance/log-file-maintenance.md)
   * [25. 備份及還原](server-administration/backup-and-restore/README.md)
     * 25.1. SQL Dump
     * 25.2. File System Level Backup
