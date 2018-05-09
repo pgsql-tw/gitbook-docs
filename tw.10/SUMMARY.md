@@ -421,6 +421,7 @@
     * [COPY](reference/sql-commands/copy.md)
     * [CREATE FOREIGN TABLE](reference/sql-commands/create-foreign-table.md)
     * [CREATE FOREIGN DATA WRAPPER](reference/sql-commands/create-foreign-data-wrapper.md)
+    * [CLUSTER](reference/sql-commands/cluster.md)
     * [CREATE FUNCTION](reference/sql-commands/create-function.md)
     * [CREATE POLICY](reference/sql-commands/create-policy.md)
     * [CREATE ROLE](reference/sql-commands/create-role.md)

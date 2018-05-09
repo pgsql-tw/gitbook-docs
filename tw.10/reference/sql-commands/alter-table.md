@@ -176,27 +176,27 @@ and table_constraint_using_index is:
 
 `DISABLE`/`ENABLE [ REPLICA | ALWAYS ] RULE`
 
-These forms configure the firing of rewrite rules belonging to the table. A disabled rule is still known to the system, but is not applied during query rewriting. The semantics are as for disabled/enabled triggers. This configuration is ignored for `ON SELECT` rules, which are always applied in order to keep views working even if the current session is in a non-default replication role.
+這個語法設定屬於資料表的覆寫規則的觸發。禁用的規則仍為系統所知的，但在查詢覆寫期間不適用。其語法義意和禁用/啟用觸發器一樣。對於 ON SELECT 規則，將忽略此設定，即使目前連線處於非預設的複製角色，也始終使用此設定以保持 view 能正常工作。
 
 `DISABLE`/`ENABLE ROW LEVEL SECURITY`
 
-These forms control the application of row security policies belonging to the table. If enabled and no policies exist for the table, then a default-deny policy is applied. Note that policies can exist for a table even if row level security is disabled - in this case, the policies will NOT be applied and the policies will be ignored. See also [CREATE POLICY](https://www.postgresql.org/docs/10/static/sql-createpolicy.html).
+這個語法為資料表控制屬於資料表的資料列級安全原則的適用。 如果啟用且該資料表不存在任何安全原則，則應用預設為拒絕原則。請注意，即使資料列級安全性被禁用，安全原則也可以存在於資料表中 - 在這種情況下，原則將不會被採用，它們將被忽略。 另請參閱 [CREATE POLICY](create-policy.md)。
 
 `NO FORCE`/`FORCE ROW LEVEL SECURITY`
 
-These forms control the application of row security policies belonging to the table when the user is the table owner. If enabled, row level security policies will be applied when the user is the table owner. If disabled \(the default\) then row level security will not be applied when the user is the table owner. See also [CREATE POLICY](https://www.postgresql.org/docs/10/static/sql-createpolicy.html).
+當使用者為資料表的所有者時，這個語法控制屬於資料表的資料列安全原則的使用。如果啟用，則在使用者是資料表所有者時應用資料列級安全原則。 如果禁用（預設），那麼當使用者是資料表所有者時，資料列級安全性將不會被應用。另請參閱 [CREATE POLICY](create-policy.md)。
 
 `CLUSTER ON`
 
-This form selects the default index for future [CLUSTER](https://www.postgresql.org/docs/10/static/sql-cluster.html) operations. It does not actually re-cluster the table.
+此資料表為將來的 [CLUSTER](cluster.md) 操作選擇預設索引。但它實際上並不會重組資料表。
 
-Changing cluster options acquires a `SHARE UPDATE EXCLUSIVE` lock.
+變更叢集選項將取得 SHARE UPDATE EXCLUSIVE 鎖定。
 
 `SET WITHOUT CLUSTER`
 
-This form removes the most recently used [CLUSTER](https://www.postgresql.org/docs/10/static/sql-cluster.html) index specification from the table. This affects future cluster operations that don't specify an index.
+此語法從資料表中刪除最近使用的 CLUSTER 索引設定。這會影響未指定索引的後續叢集操作。
 
-Changing cluster options acquires a `SHARE UPDATE EXCLUSIVE` lock.
+ 變更叢集選項將取得 SHARE UPDATE EXCLUSIVE 鎖定。
 
 `SET WITH OIDS`
 
