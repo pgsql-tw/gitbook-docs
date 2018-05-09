@@ -67,7 +67,7 @@ _`name`_
 `REPLICATION`  
 `NOREPLICATION`
 
-These clauses determine whether a role is a replication role. A role must have this attribute \(or be a superuser\) in order to be able to connect to the server in replication mode \(physical or logical replication\) and in order to be able to create or drop replication slots. A role having the `REPLICATION` attribute is a very highly privileged role, and should only be used on roles actually used for replication. If not specified, `NOREPLICATION` is the default.
+這個子句確定角色是否是可以進行複製工作的角色。角色必須具有此屬性（或成為超級使用者）才能以複製模式（實體或邏輯複製）連線到伺服器，並且能夠建立或刪除複製單元。具有 REPLICATION 屬性的角色是一個非常高權限的角色，只能用於實際用於複製工作的角色。 如果未指定，則預設為 NOREPLICATION。
 
 `BYPASSRLS`  
 `NOBYPASSRLS`
