@@ -493,7 +493,7 @@
     * [B.2. 日期時間慣用字](appendix/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.2.-ri-qi-shi-jian-guan-yong-zi.md)
     * [B.3. 日期時間設定檔](appendix/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.3.-ri-qi-shi-jian-she-ding-dang.md)
     * [B.4. 日期時間的沿革](appendix/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.4.-ri-qi-shi-jian-de-yan-ge.md)
-  * C. SQL 關鍵字
+  * [C. SQL 關鍵字](appendix/sql-keywords.md)
   * [D. SQL 相容性](appendix/sql-conformance.md)
   * [E. 版本資訊](appendix/release-notes.md)
   * [F. 延伸支援模組](appendix/f.-yan-shen-zhi-yuan-mo-zu/README.md)
@@ -504,6 +504,8 @@
     * [G.1. Client Applications](appendix/additional-supplied-programs/g.1.-client-applications/README.md)
       * [oid2name](appendix/additional-supplied-programs/g.1.-client-applications/oid2name.md)
       * [vacuumlo](appendix/additional-supplied-programs/g.1.-client-applications/untitled.md)
+    * [G.2. Server Applications](appendix/additional-supplied-programs/g.2.-server-applications/README.md)
+      * [pg\_standby](appendix/additional-supplied-programs/g.2.-server-applications/pg_standby.md)
   * [H. 外部專案](appendix/external-projects/README.md)
     * [H.1. 用戶端介面](appendix/external-projects/client-interface.md)
     * [H.2. Administration Tools](appendix/external-projects/h.2.-administration-tools.md)
