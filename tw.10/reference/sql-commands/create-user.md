@@ -1,8 +1,8 @@
 # CREATE USER
 
-CREATE USER — define a new database role
+CREATE USER — 定義一個新的資料庫角色
 
-### Synopsis
+### 語法
 
 ```text
 CREATE USER name [ [ WITH ] option [ ... ] ]
@@ -27,15 +27,15 @@ where option can be:
     | SYSID uid
 ```
 
-### Description
+### 說明
 
-`CREATE USER` is now an alias for [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html). The only difference is that when the command is spelled `CREATE USER`, `LOGIN` is assumed by default, whereas `NOLOGIN` is assumed when the command is spelled `CREATE ROLE`.
+`CREATE USER 現在是 CREATE ROLE 的別名指令。唯一的區別是當命令為 CREATE USER 時，預設情況下是具有 LOGIN 權限的，而當命令為 CREATE ROLE 時則預設為 NOLOGIN。`
 
-### Compatibility
+### 相容性
 
-The `CREATE USER` statement is a PostgreSQL extension. The SQL standard leaves the definition of users to the implementation.
+CREATE USER 語句是 PostgreSQL 延伸功能。SQL 標準將使用者的定義留給各資料庫系統自行實作。
 
-### See Also
+### 參閱
 
 [CREATE ROLE](create-role.md)
 
