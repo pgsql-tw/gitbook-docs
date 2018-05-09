@@ -455,6 +455,7 @@
     * [VALUES](reference/sql-commands/values.md)
   * [II. PostgreSQL 用戶端工具](reference/client/README.md)
     * [createdb](reference/client/createdb.md)
+    * [createuser](reference/client/createuser.md)
     * [dropdb](reference/client/dropdb.md)
     * [pgbench](reference/client/pgbench.md)
     * [psql](reference/client/psql.md)
