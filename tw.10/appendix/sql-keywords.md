@@ -1,6 +1,6 @@
 # C. SQL 關鍵字
 
-[Table C.1](https://www.postgresql.org/docs/devel/static/sql-keywords-appendix.html#KEYWORDS-TABLE) lists all tokens that are key words in the SQL standard and in PostgreSQL 11devel. Background information can be found in [Section 4.1.1](https://www.postgresql.org/docs/devel/static/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS). \(For space reasons, only the latest two versions of the SQL standard, and SQL-92 for historical comparison, are included. The differences between those and the other intermediate standard versions are small.\)
+[Table C.1](sql-keywords.md#table-c-1-sql-key-words) lists all tokens that are key words in the SQL standard and in PostgreSQL 11devel. Background information can be found in [Section 4.1.1](../sql/syntax/lexical.md#4-1-1-identifier-he-zi-keyword). \(For space reasons, only the latest two versions of the SQL standard, and SQL-92 for historical comparison, are included. The differences between those and the other intermediate standard versions are small.\)
 
 SQL distinguishes between _reserved_ and _non-reserved_ key words. According to the standard, reserved key words are the only real key words; they are never allowed as identifiers. Non-reserved key words only have a special meaning in particular contexts and can be used as identifiers in other contexts. Most non-reserved key words are actually the names of built-in tables and functions specified by SQL. The concept of non-reserved key words essentially only exists to declare that some predefined meaning is attached to a word in some contexts.
 
@@ -12,5 +12,66 @@ As a general rule, if you get spurious parser errors for commands that contain a
 
 It is important to understand before studying [Table C.1](https://www.postgresql.org/docs/devel/static/sql-keywords-appendix.html#KEYWORDS-TABLE) that the fact that a key word is not reserved in PostgreSQL does not mean that the feature related to the word is not implemented. Conversely, the presence of a key word does not indicate the existence of a feature.
 
-**Table C.1. SQL Key Words**
+#### **Table C.1. SQL Key Words**
+
+| Key Word | PostgreSQL | SQL:2011 | SQL:2008 | SQL-92 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `A` |   | non-reserved | non-reserved |   |
+| `ABORT` | non-reserved |   |   |   |
+| `ABS` |   | reserved | reserved |   |
+| `ABSENT` |   | non-reserved | non-reserved |   |
+| `ABSOLUTE` | non-reserved | non-reserved | non-reserved | reserved |
+| `ACCESS` | non-reserved |   |   |   |
+| `ACCORDING` |   | non-reserved | non-reserved |   |
+| `ACTION` | non-reserved | non-reserved | non-reserved | reserved |
+| `ADA` |   | non-reserved | non-reserved | non-reserved |
+| `ADD` | non-reserved | non-reserved | non-reserved | reserved |
+| `ADMIN` | non-reserved | non-reserved | non-reserved |   |
+| `AFTER` | non-reserved | non-reserved | non-reserved |   |
+| `AGGREGATE` | non-reserved |   |   |   |
+| `ALL` | reserved | reserved | reserved | reserved |
+| `ALLOCATE` |   | reserved | reserved | reserved |
+| `ALSO` | non-reserved |   |   |   |
+| `ALTER` | non-reserved | reserved | reserved | reserved |
+| `ALWAYS` | non-reserved | non-reserved | non-reserved |   |
+| `ANALYSE` | reserved |   |   |   |
+| `ANALYZE` | reserved |   |   |   |
+| `AND` | reserved | reserved | reserved | reserved |
+| `ANY` | reserved | reserved | reserved | reserved |
+| `ARE` |   | reserved | reserved | reserved |
+| `ARRAY` | reserved | reserved | reserved |   |
+| `ARRAY_AGG` |   | reserved | reserved |   |
+| `ARRAY_MAX_CARDINALITY` |   | reserved |   |   |
+| `AS` | reserved | reserved | reserved | reserved |
+| `ASC` | reserved | non-reserved | non-reserved | reserved |
+| `ASENSITIVE` |   | reserved | reserved |   |
+| `ASSERTION` | non-reserved | non-reserved | non-reserved | reserved |
+| `ASSIGNMENT` | non-reserved | non-reserved | non-reserved |   |
+| `ASYMMETRIC` | reserved | reserved | reserved |   |
+| `AT` | non-reserved | reserved | reserved | reserved |
+| `ATOMIC` |   | reserved | reserved |   |
+| `ATTACH` | non-reserved |   |   |   |
+| `ATTRIBUTE` | non-reserved | non-reserved | non-reserved |   |
+| `ATTRIBUTES` |   | non-reserved | non-reserved |   |
+| `AUTHORIZATION` | reserved \(can be function or type\) | reserved | reserved | reserved |
+| `AVG` |   | reserved | reserved | reserved |
+| `BACKWARD` | non-reserved |   |   |   |
+| `BASE64` |   | non-reserved | non-reserved |   |
+| `BEFORE` | non-reserved | non-reserved | non-reserved |   |
+| `BEGIN` | non-reserved | reserved | reserved | reserved |
+| `BEGIN_FRAME` |   | reserved |   |   |
+| `BEGIN_PARTITION` |   | reserved |   |   |
+| `BERNOULLI` |   | non-reserved | non-reserved |   |
+| `BETWEEN` | non-reserved \(cannot be function or type\) | reserved | reserved | reserved |
+| `BIGINT` | non-reserved \(cannot be function or type\) | reserved | reserved |   |
+| `BINARY` | reserved \(can be function or type\) | reserved | reserved |   |
+| `BIT` | non-reserved \(cannot be function or type\) |   |   | reserved |
+| `BIT_LENGTH` |   |   |   | reserved |
+| `BLOB` |   | reserved | reserved |   |
+| `BLOCKED` |   | non-reserved | non-reserved |   |
+| `BOM` |   | non-reserved | non-reserved |   |
+| `BOOLEAN` | non-reserved \(cannot be function or type\) | reserved | reserved |   |
+| `BOTH` | reserved | reserved | reserved | reserved |
+| `BREADTH` |   | non-reserved | non-reserved |   |
+| `BY` | non-reserved | reserved | reserved | reserved |
 
