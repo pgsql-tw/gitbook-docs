@@ -424,7 +424,7 @@
     * [CREATE FOREIGN TABLE](reference/sql-commands/create-foreign-table.md)
     * [CREATE FOREIGN DATA WRAPPER](reference/sql-commands/create-foreign-data-wrapper.md)
     * [CREATE FUNCTION](reference/sql-commands/create-function.md)
-    * [CREATE INDEX](reference/sql-commands/untitled.md)
+    * [CREATE INDEX](reference/sql-commands/create-index.md)
     * [CREATE POLICY](reference/sql-commands/create-policy.md)
     * [CREATE ROLE](reference/sql-commands/create-role.md)
     * [CREATE SCHEMA](reference/sql-commands/create-schema.md)
