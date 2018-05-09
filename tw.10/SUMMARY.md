@@ -233,7 +233,7 @@
     * [24.1. 例行性資料清理](server-administration/maintenance/24.1.-li-hang-xing-zi-liao-qing-li.md)
     * 24.2. Routine Reindexing
     * 24.3. Log File Maintenance
-  * Backup and Restore
+  * [25. 備份及還原](server-administration/backup-and-restore/README.md)
     * 25.1. SQL Dump
     * 25.2. File System Level Backup
     * 25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)
