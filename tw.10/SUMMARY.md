@@ -1,12 +1,12 @@
 # Table of contents
 
 * [簡介](README.md)
-* [前言](qian-yan/README.md)
-  * [1. 什麼是PostgreSQL？](qian-yan/1.-shi-mo-shi-postgresql.md)
-  * [2. PostgreSQL沿革](qian-yan/2.-postgresql-yan-ge.md)
-  * [3. 慣例](qian-yan/3.-guan-li.md)
-  * [4. 其他參考資訊](qian-yan/4.-qi-ta-can-kao-zi-xun.md)
-  * [5. 問題回報指南](qian-yan/5.-wen-ti-hui-bao-zhi-nan.md)
+* [前言](preface/README.md)
+  * [1. 什麼是PostgreSQL？](preface/1.-shi-mo-shi-postgresql.md)
+  * [2. PostgreSQL沿革](preface/2.-postgresql-yan-ge.md)
+  * [3. 慣例](preface/3.-guan-li.md)
+  * [4. 其他參考資訊](preface/4.-qi-ta-can-kao-zi-xun.md)
+  * [5. 問題回報指南](preface/5.-wen-ti-hui-bao-zhi-nan.md)
 * [I. 新手教學](tutorial/README.md)
   * [1. 入門指南](tutorial/start/README.md)
     * [1.1. 安裝](tutorial/start/1.1.-an-zhuang.md)
