@@ -277,7 +277,7 @@
     * 32.3. Variant Comparison Files
     * 32.4. TAP Tests
     * 32.5. Test Coverage Examination
-* [IV. Client Interfaces](iv.-client-interfaces/README.md)
+* [IV. 用戶端介面](iv.-client-interfaces/README.md)
   * [33. libpq - C Library](iv.-client-interfaces/33.-libpq-c-library/README.md)
     * 33.1. Database Connection Control Functions
     * [33.2. 連線狀態函數](iv.-client-interfaces/33.-libpq-c-library/33.2.-lian-xian-zhuang-tai-han-shu.md)
@@ -388,7 +388,7 @@
     * 36.62. view\_routine\_usage
     * 36.63. view\_table\_usage
     * 36.64. views
-* [V. Server Programming](server-programming/README.md)
+* [V. 資料庫程式設計](server-programming/README.md)
   * [37. Extending SQL](server-programming/extending-sql/README.md)
     * 37.1. How Extensibility Works
     * 37.2. The PostgreSQL Type System
