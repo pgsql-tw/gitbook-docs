@@ -486,24 +486,24 @@
     * 64.7. Examples
   * [66. 資料庫實體儲存格式](internals/database-physical-storage/README.md)
     * [66.2. TOAST](internals/database-physical-storage/toast.md)
-* [VIII. 附錄](viii.-fu-lu/README.md)
-  * [A. PostgreSQL錯誤代碼](viii.-fu-lu/a.-postgresql-cuo-wu-dai-ma.md)
-  * [B. 日期時間格式支援](viii.-fu-lu/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/README.md)
-    * [B.1. 日期時間解譯流程](viii.-fu-lu/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.1.-ri-qi-shi-jian-jie-yi-liu-cheng.md)
-    * [B.2. 日期時間慣用字](viii.-fu-lu/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.2.-ri-qi-shi-jian-guan-yong-zi.md)
-    * [B.3. 日期時間設定檔](viii.-fu-lu/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.3.-ri-qi-shi-jian-she-ding-dang.md)
-    * [B.4. 日期時間的沿革](viii.-fu-lu/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.4.-ri-qi-shi-jian-de-yan-ge.md)
+* [VIII. 附錄](appendix/README.md)
+  * [A. PostgreSQL錯誤代碼](appendix/a.-postgresql-cuo-wu-dai-ma.md)
+  * [B. 日期時間格式支援](appendix/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/README.md)
+    * [B.1. 日期時間解譯流程](appendix/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.1.-ri-qi-shi-jian-jie-yi-liu-cheng.md)
+    * [B.2. 日期時間慣用字](appendix/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.2.-ri-qi-shi-jian-guan-yong-zi.md)
+    * [B.3. 日期時間設定檔](appendix/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.3.-ri-qi-shi-jian-she-ding-dang.md)
+    * [B.4. 日期時間的沿革](appendix/b.-ri-qi-shi-jian-ge-shi-zhi-yuan/b.4.-ri-qi-shi-jian-de-yan-ge.md)
   * C. SQL 關鍵字
-  * SQL Conformance
-  * Release Notes
-  * [F. 延伸支援模組](viii.-fu-lu/f.-yan-shen-zhi-yuan-mo-zu/README.md)
-    * [F.4. auto\_explain](viii.-fu-lu/f.-yan-shen-zhi-yuan-mo-zu/f.4.-auto_explain.md)
-    * [F.11. dblink](viii.-fu-lu/f.-yan-shen-zhi-yuan-mo-zu/f.11.-dblink/README.md)
-      * [dblink](viii.-fu-lu/f.-yan-shen-zhi-yuan-mo-zu/f.11.-dblink/dblink.md)
+  * [D. SQL 相容性](appendix/sql-conformance.md)
+  * [E. 版本資訊](appendix/release-notes.md)
+  * [F. 延伸支援模組](appendix/f.-yan-shen-zhi-yuan-mo-zu/README.md)
+    * [F.4. auto\_explain](appendix/f.-yan-shen-zhi-yuan-mo-zu/f.4.-auto_explain.md)
+    * [F.11. dblink](appendix/f.-yan-shen-zhi-yuan-mo-zu/f.11.-dblink/README.md)
+      * [dblink](appendix/f.-yan-shen-zhi-yuan-mo-zu/f.11.-dblink/dblink.md)
   * Additional Supplied Programs
   * External Projects
   * The Source Code Repository
-  * [J. 文件取得](viii.-fu-lu/j.-wen-jian-qu-de.md)
-  * [K. 縮寫字](viii.-fu-lu/k.-suo-xie-zi.md)
+  * [J. 文件取得](appendix/j.-wen-jian-qu-de.md)
+  * [K. 縮寫字](appendix/k.-suo-xie-zi.md)
 * [參考書目](can-kao-shu-mu.md)
 
