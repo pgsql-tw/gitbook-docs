@@ -72,49 +72,49 @@ _`name`_
 `BYPASSRLS`  
 `NOBYPASSRLS`
 
-These clauses determine whether a role bypasses every row-level security \(RLS\) policy. `NOBYPASSRLS` is the default. Note that pg\_dump will set `row_security` to `OFF` by default, to ensure all contents of a table are dumped out. If the user running pg\_dump does not have appropriate permissions, an error will be returned. The superuser and owner of the table being dumped always bypass RLS.
+這個子句決定角色是否可以繞過每個資料列級安全（RLS）原則檢查。 NOBYPASSRLS 是預設值。請注意，預設情況下，pg\_dump 會將 row\_security 設定為 OFF，以確保資料表中的所有內容都被匯出。如果執行 pg\_dump 的使用者沒有適當的權限，則會回報錯誤。超級使用者和匯出資料表的擁有者總是能夠繞過 RLS。
 
 `CONNECTION LIMIT` _`connlimit`_
 
-If role can log in, this specifies how many concurrent connections the role can make. -1 \(the default\) means no limit. Note that only normal connections are counted towards this limit. Neither prepared transactions nor background worker connections are counted towards this limit.
+如果角色可以登入，則指定該角色可以建立多少個同時連線。-1（預設值）表示沒有限制。請注意，只有正常連線才會計入此限制。預備交易和後端服務連線都不計入此限制。
 
 \[ `ENCRYPTED` \] `PASSWORD` _`password`_
 
-Sets the role's password. \(A password is only of use for roles having the `LOGIN` attribute, but you can nonetheless define one for roles without it.\) If you do not plan to use password authentication you can omit this option. If no password is specified, the password will be set to null and password authentication will always fail for that user. A null password can optionally be written explicitly as `PASSWORD NULL`.
+設定角色的密碼。（密碼僅用於具有 LOGIN 屬性的角色，但您可以為沒有密碼的角色定義密碼。）如果您不打算使用密碼驗證，則可以省略此選項。如果未指定密碼，則密碼將設定為 NULL，而該使用者的密碼驗證將始終失敗。可以選擇將空密碼明確寫為PASSWORD NULL。
 
-#### Note
+#### 提醒
 
-Specifying an empty string will also set the password to null, but that was not the case before PostgreSQL version 10. In earlier versions, an empty string could be used, or not, depending on the authentication method and the exact version, and libpq would refuse to use it in any case. To avoid the ambiguity, specifying an empty string should be avoided.
+**指定一個空字串也會將密碼設定為 NULL，但 PostgreSQL 版本 10 之前並不是這種情況。在早期版本中，可以使用或不使用空字串，具體取決於身份驗證方法和確切版本，libpq 會拒絕在任何情況下使用它。為避免歧義，應避免指定空字串。**
 
-The password is always stored encrypted in the system catalogs. The `ENCRYPTED` keyword has no effect, but is accepted for backwards compatibility. The method of encryption is determined by the configuration parameter [password\_encryption](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-PASSWORD-ENCRYPTION). If the presented password string is already in MD5-encrypted or SCRAM-encrypted format, then it is stored as-is regardless of `password_encryption` \(since the system cannot decrypt the specified encrypted password string, to encrypt it in a different format\). This allows reloading of encrypted passwords during dump/restore.
+密碼總是會以加密方式儲存在系統目錄中。ENCRYPTED 關鍵字不起作用，但為了相容性而被接受。加密方法由配置參數 password\_encryption 決定。如果提供的密碼字串已經以 MD5 加密或 SCRAM 加密的格式存在，則無論使用password\_encryption 為何（因為系統無法解密指定的加密密碼字符串，如果以不同的格式對其進行加密的話），它都會按原樣儲存。 這允許在轉存/恢復期間重新載入加密的密碼。
 
 `VALID UNTIL` '_`timestamp`_'
 
-The `VALID UNTIL` clause sets a date and time after which the role's password is no longer valid. If this clause is omitted the password will be valid for all time.
+VALID UNTIL 子句設定角色密碼不再有效的日期和時間。 如果省略此項，則密碼將始終有效。
 
 `IN ROLE` _`role_name`_
 
-The `IN ROLE` clause lists one or more existing roles to which the new role will be immediately added as a new member. \(Note that there is no option to add the new role as an administrator; use a separate `GRANT` command to do that.\)
+IN ROLE 子句列出一個或多個新角色將立即添加為新成員的現有角色。（請注意，不能選擇以管理員身份增加新角色；請使用單獨的 GRANT 指令來執行此操作。）
 
 `IN GROUP` _`role_name`_
 
-`IN GROUP` is an obsolete spelling of `IN ROLE`.
+`IN GROUP 是 IN ROLE 的過時選項。`
 
 `ROLE` _`role_name`_
 
-The `ROLE` clause lists one or more existing roles which are automatically added as members of the new role. \(This in effect makes the new role a “group”.\)
+ROLE 子句列出了一個或多個自動增加為新角色成員的現有角色。 （這實際上使新角色成為「群組」。）
 
 `ADMIN` _`role_name`_
 
-The `ADMIN` clause is like `ROLE`, but the named roles are added to the new role `WITH ADMIN OPTION`, giving them the right to grant membership in this role to others.
+ADMIN 子句與 ROLE 類似，但已命名的角色被新增到新角色 WITH ADMIN OPTION 中，賦予他們將此角色的成員身份授予其他人的權利。
 
 `USER` _`role_name`_
 
-The `USER` clause is an obsolete spelling of the `ROLE` clause.
+USER 子句是 ROLE 子句的過時寫法。
 
 `SYSID` _`uid`_
 
-The `SYSID` clause is ignored, but is accepted for backwards compatibility.
+SYSID 子句會被忽略，但為了相容性而被接受。
 
 ### Notes
 
