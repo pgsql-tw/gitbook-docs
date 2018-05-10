@@ -58,5 +58,5 @@ PostgreSQLallows identifier syntax \(`"rolename`"\), while the SQL standard requ
 
 ## See Also
 
-[SET SESSION AUTHORIZATION](https://www.postgresql.org/docs/10/static/sql-set-session-authorization.html)
+[SET SESSION AUTHORIZATION](set-session-authorization.md)
 
