@@ -196,7 +196,7 @@
     * [19.6. Replication](server-administration/runtime-config/19.6.-replication.md)
     * [19.7. 查詢規畫](server-administration/runtime-config/query-planning.md)
     * [19.8. 錯誤回報與日誌記錄](server-administration/runtime-config/logging.md)
-    * 19.9. Run-time Statistics
+    * [19.9. Run-time Statistics](server-administration/runtime-config/19.9.-run-time-statistics.md)
     * [19.10. 自動資料庫清理](server-administration/runtime-config/autovacuum.md)
     * [19.11. 用戶端連線預設參數](server-administration/runtime-config/runtime-config-client.md)
     * 19.12. Lock Management

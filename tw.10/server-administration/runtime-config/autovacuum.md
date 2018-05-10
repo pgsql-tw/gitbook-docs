@@ -1,12 +1,12 @@
 # 19.10. 自動資料庫清理
 
-These settings control the behavior of the _autovacuum_ feature. Refer to [Section 24.1.6](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#AUTOVACUUM) for more information. Note that many of these settings can be overridden on a per-table basis; see [Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-STORAGE-PARAMETERS).
+這些設定控制自動資料清理（autovacuum）功能的行為。有關更多訊息，請參閱[第 24.1.6 節](../maintenance/routine-vacuuming.md#24-1-6-the-autovacuum-daemon)。請注意，許多這些設定可以基於每個資料表進行調整；請參閱[儲存參數](../../reference/sql-commands/create-table.md#storage-parameters)的說明。
 
 `autovacuum` \(`boolean`\)
 
-Controls whether the server should run the autovacuum launcher daemon. This is on by default; however, [track\_counts](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-COUNTS) must also be enabled for autovacuum to work. This parameter can only be set in the `postgresql.conf` file or on the server command line; however, autovacuuming can be disabled for individual tables by changing table storage parameters.
+控制伺服器是否應該執行 autovacuum 啟動程序背景程序。這是預設開啟的；但是，[track\_counts](19.9.-run-time-statistics.md#19-9-2-statistics-monitoring) 也必須啟用 autovacuum 工作。此參數只能在 postgresql.conf 檔案或伺服器命令行中設定；但是，可以透過變更資料表儲存參數來禁用單個資料表的自動清除。
 
-Note that even when this parameter is disabled, the system will launch autovacuum processes if necessary to prevent transaction ID wraparound. See [Section 24.1.5](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND) for more information.
+請注意，即使禁用此參數，系統也會在必要時啟動自動清理過程以防止交易事務 ID 重覆。有關更多訊息，請參閱[第 24.1.5 節](../maintenance/routine-vacuuming.md#24-1-5-preventing-transaction-id-wraparound-failures)。
 
 `log_autovacuum_min_duration` \(`integer`\)
 
