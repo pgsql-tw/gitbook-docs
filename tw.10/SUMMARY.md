@@ -247,7 +247,7 @@
     * 27.1. Archive Recovery Settings
     * 27.2. Recovery Target Settings
     * 27.3. Standby Server Settings
-  * [28. 監控資料庫活動](server-administration/28.-jian-kong-zi-liao-ku-huo-dong/README.md)
+  * [28. 監控資料庫活動](server-administration/monitoring/README.md)
     * 28.1. Standard Unix Tools
     * 28.2. 統計資訊收集器
     * 28.3. Viewing Locks
