@@ -75,3 +75,100 @@ It is important to understand before studying [Table C.1](https://www.postgresql
 | `BREADTH` |   | non-reserved | non-reserved |   |
 | `BY` | non-reserved | reserved | reserved | reserved |
 
+| `C` |   | non-reserved | non-reserved | non-reserved |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `CACHE` | non-reserved |   |   |   |
+| `CALL` |   | reserved | reserved |   |
+| `CALLED` | non-reserved | reserved | reserved |   |
+| `CARDINALITY` |   | reserved | reserved |   |
+| `CASCADE` | non-reserved | non-reserved | non-reserved | reserved |
+| `CASCADED` | non-reserved | reserved | reserved | reserved |
+| `CASE` | reserved | reserved | reserved | reserved |
+| `CAST` | reserved | reserved | reserved | reserved |
+| `CATALOG` | non-reserved | non-reserved | non-reserved | reserved |
+| `CATALOG_NAME` |   | non-reserved | non-reserved | non-reserved |
+| `CEIL` |   | reserved | reserved |   |
+| `CEILING` |   | reserved | reserved |   |
+| `CHAIN` | non-reserved | non-reserved | non-reserved |   |
+| `CHAR` | non-reserved \(cannot be function or type\) | reserved | reserved | reserved |
+| `CHARACTER` | non-reserved \(cannot be function or type\) | reserved | reserved | reserved |
+| `CHARACTERISTICS` | non-reserved | non-reserved | non-reserved |   |
+| `CHARACTERS` |   | non-reserved | non-reserved |   |
+| `CHARACTER_LENGTH` |   | reserved | reserved | reserved |
+| `CHARACTER_SET_CATALOG` |   | non-reserved | non-reserved | non-reserved |
+| `CHARACTER_SET_NAME` |   | non-reserved | non-reserved | non-reserved |
+| `CHARACTER_SET_SCHEMA` |   | non-reserved | non-reserved | non-reserved |
+| `CHAR_LENGTH` |   | reserved | reserved | reserved |
+| `CHECK` | reserved | reserved | reserved | reserved |
+| `CHECKPOINT` | non-reserved |   |   |   |
+| `CLASS` | non-reserved |   |   |   |
+| `CLASS_ORIGIN` |   | non-reserved | non-reserved | non-reserved |
+| `CLOB` |   | reserved | reserved |   |
+| `CLOSE` | non-reserved | reserved | reserved | reserved |
+| `CLUSTER` | non-reserved |   |   |   |
+| `COALESCE` | non-reserved \(cannot be function or type\) | reserved | reserved | reserved |
+| `COBOL` |   | non-reserved | non-reserved | non-reserved |
+| `COLLATE` | reserved | reserved | reserved | reserved |
+| `COLLATION` | reserved \(can be function or type\) | non-reserved | non-reserved | reserved |
+| `COLLATION_CATALOG` |   | non-reserved | non-reserved | non-reserved |
+| `COLLATION_NAME` |   | non-reserved | non-reserved | non-reserved |
+| `COLLATION_SCHEMA` |   | non-reserved | non-reserved | non-reserved |
+| `COLLECT` |   | reserved | reserved |   |
+| `COLUMN` | reserved | reserved | reserved | reserved |
+| `COLUMNS` | non-reserved | non-reserved | non-reserved |   |
+| `COLUMN_NAME` |   | non-reserved | non-reserved | non-reserved |
+| `COMMAND_FUNCTION` |   | non-reserved | non-reserved | non-reserved |
+| `COMMAND_FUNCTION_CODE` |   | non-reserved | non-reserved |   |
+| `COMMENT` | non-reserved |   |   |   |
+| `COMMENTS` | non-reserved |   |   |   |
+| `COMMIT` | non-reserved | reserved | reserved | reserved |
+| `COMMITTED` | non-reserved | non-reserved | non-reserved | non-reserved |
+| `CONCURRENTLY` | reserved \(can be function or type\) |   |   |   |
+| `CONDITION` |   | reserved | reserved |   |
+| `CONDITION_NUMBER` |   | non-reserved | non-reserved | non-reserved |
+| `CONFIGURATION` | non-reserved |   |   |   |
+| `CONFLICT` | non-reserved |   |   |   |
+| `CONNECT` |   | reserved | reserved | reserved |
+| `CONNECTION` | non-reserved | non-reserved | non-reserved | reserved |
+| `CONNECTION_NAME` |   | non-reserved | non-reserved | non-reserved |
+| `CONSTRAINT` | reserved | reserved | reserved | reserved |
+| `CONSTRAINTS` | non-reserved | non-reserved | non-reserved | reserved |
+| `CONSTRAINT_CATALOG` |   | non-reserved | non-reserved | non-reserved |
+| `CONSTRAINT_NAME` |   | non-reserved | non-reserved | non-reserved |
+| `CONSTRAINT_SCHEMA` |   | non-reserved | non-reserved | non-reserved |
+| `CONSTRUCTOR` |   | non-reserved | non-reserved |   |
+| `CONTAINS` |   | reserved | non-reserved |   |
+| `CONTENT` | non-reserved | non-reserved | non-reserved |   |
+| `CONTINUE` | non-reserved | non-reserved | non-reserved | reserved |
+| `CONTROL` |   | non-reserved | non-reserved |   |
+| `CONVERSION` | non-reserved |   |   |   |
+| `CONVERT` |   | reserved | reserved | reserved |
+| `COPY` | non-reserved |   |   |   |
+| `CORR` |   | reserved | reserved |   |
+| `CORRESPONDING` |   | reserved | reserved | reserved |
+| `COST` | non-reserved |   |   |   |
+| `COUNT` |   | reserved | reserved | reserved |
+| `COVAR_POP` |   | reserved | reserved |   |
+| `COVAR_SAMP` |   | reserved | reserved |   |
+| `CREATE` | reserved | reserved | reserved | reserved |
+| `CROSS` | reserved \(can be function or type\) | reserved | reserved | reserved |
+| `CSV` | non-reserved |   |   |   |
+| `CUBE` | non-reserved | reserved | reserved |   |
+| `CUME_DIST` |   | reserved | reserved |   |
+| `CURRENT` | non-reserved | reserved | reserved | reserved |
+| `CURRENT_CATALOG` | reserved | reserved | reserved |   |
+| `CURRENT_DATE` | reserved | reserved | reserved | reserved |
+| `CURRENT_DEFAULT_TRANSFORM_GROUP` |   | reserved | reserved |   |
+| `CURRENT_PATH` |   | reserved | reserved |   |
+| `CURRENT_ROLE` | reserved | reserved | reserved |   |
+| `CURRENT_ROW` |   | reserved |   |   |
+| `CURRENT_SCHEMA` | reserved \(can be function or type\) | reserved | reserved |   |
+| `CURRENT_TIME` | reserved | reserved | reserved | reserved |
+| `CURRENT_TIMESTAMP` | reserved | reserved | reserved | reserved |
+| `CURRENT_TRANSFORM_GROUP_FOR_TYPE` |   | reserved | reserved |   |
+| `CURRENT_USER` | reserved | reserved | reserved | reserved |
+| `CURSOR` | non-reserved | reserved | reserved | reserved |
+| `CURSOR_NAME` |   | non-reserved | non-reserved | non-reserved |
+| `CYCLE` | non-reserved | reserved | reserved |   |
+| `DATA` | non-reserved | non-reserved | non-reserved | non-reserved |
+
