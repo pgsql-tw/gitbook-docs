@@ -438,7 +438,7 @@
     * [CREATE VIEW](reference/sql-commands/create-view.md)
     * [DELETE](reference/sql-commands/delete.md)
     * [DROP FUNCTION](reference/sql-commands/drop-function.md)
-    * [DROP OWNED](reference/sql-commands/untitled.md)
+    * [DROP OWNED](reference/sql-commands/drop-owned.md)
     * [DROP POLICY](reference/sql-commands/drop-policy.md)
     * [DROP ROLE](reference/sql-commands/drop-role.md)
     * [DROP TABLE](reference/sql-commands/drop-table.md)
