@@ -482,11 +482,11 @@
     * 52.9. Logical Replication Message Formats
     * 52.10. Summary of Changes since Protocol 2.0
   * 64. GIN 索引
-    * [64.1. Introduction](internals/gin-indexes/64.1.-introduction.md)
-    * 64.2. Built-in Operator Classes
-    * 64.3. Extensibility
-    * [64.4. Implementation](internals/gin-indexes/64.4.-implementation.md)
-    * [64.5. GIN Tips and Tricks](internals/gin-indexes/64.5.-gin-tips-and-tricks.md)
+    * [64.1. Introduction](internals/gin-indexes/introduction.md)
+    * [64.2. Built-in Operator Classes](internals/gin-indexes/built-in-operator-classes.md)
+    * [64.3. Extensibility](internals/gin-indexes/extensibility.md)
+    * [64.4. Implementation](internals/gin-indexes/implementation.md)
+    * [64.5. GIN Tips and Tricks](internals/gin-indexes/gin-tips-and-tricks.md)
     * 64.6. Limitations
     * 64.7. Examples
   * [66. 資料庫實體儲存格式](internals/database-physical-storage/README.md)
