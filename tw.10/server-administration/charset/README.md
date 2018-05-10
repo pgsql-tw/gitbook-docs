@@ -1,7 +1,7 @@
 # 23. 語系
 
-This chapter describes the available localization features from the point of view of the administrator. PostgreSQL supports two localization facilities:
+本章從管理員的角度描述可用的本地化語系功能。PostgreSQL 支援兩種本地化的功能：
 
-* Using the locale features of the operating system to provide locale-specific collation order, number formatting, translated messages, and other aspects. This is covered in [Section 23.1](https://www.postgresql.org/docs/10/static/locale.html) and [Section 23.2](https://www.postgresql.org/docs/10/static/collation.html).
-* Providing a number of different character sets to support storing text in all kinds of languages, and providing character set translation between client and server. This is covered in [Section 23.3](https://www.postgresql.org/docs/10/static/multibyte.html).
+* 使用作業系統的區域設定功能來提供特定於語言環境的資料排序、數字格式、翻譯的訊息和其他方面。這在[第 23.1 節](locale.md)和[第 23.2 節](collation-support.md)中有介紹。
+* 提供許多不同的字元集以支援各種語言的儲存檔案，並在用戶端和伺服器之間提供字元集轉換。這在[第 23.3 節](multibyte.md)中有介紹。
 
