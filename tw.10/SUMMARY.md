@@ -464,6 +464,7 @@
     * [createdb](reference/client/createdb.md)
     * [createuser](reference/client/createuser.md)
     * [dropdb](reference/client/dropdb.md)
+    * [dropuser](reference/client/dropuser.md)
     * [pgbench](reference/client/pgbench.md)
     * [psql](reference/client/psql.md)
   * III. PostgreSQL Server Applications
