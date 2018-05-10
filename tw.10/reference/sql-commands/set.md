@@ -31,17 +31,25 @@ In PostgreSQL versions 8.0 through 8.2, the effects of a `SET LOCAL` would be ca
 
 Specifies that the command takes effect for the current session. \(This is the default if neither `SESSION` nor `LOCAL` appears.\)`LOCAL`
 
-Specifies that the command takes effect for only the current transaction. After `COMMIT` or `ROLLBACK`, the session-level setting takes effect again. Issuing this outside of a transaction block emits a warning and otherwise has no effect._`configuration_parameter`_
+Specifies that the command takes effect for only the current transaction. After `COMMIT` or `ROLLBACK`, the session-level setting takes effect again. Issuing this outside of a transaction block emits a warning and otherwise has no effect.
+
+_`configuration_parameter`_
 
 Name of a settable run-time parameter. Available parameters are documented in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) and below._`value`_
 
 New value of parameter. Values can be specified as string constants, identifiers, numbers, or comma-separated lists of these, as appropriate for the particular parameter. `DEFAULT` can be written to specify resetting the parameter to its default value \(that is, whatever value it would have had if no `SET` had been executed in the current session\).
 
-Besides the configuration parameters documented in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html), there are a few that can only be adjusted using the `SET` command or that have a special syntax:`SCHEMA`
+Besides the configuration parameters documented in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html), there are a few that can only be adjusted using the `SET` command or that have a special syntax:
 
-`SET SCHEMA '`_`value`_' is an alias for `SET search_path TO `_`value`_. Only one schema can be specified using this syntax.`NAMES`
+`SCHEMA`
 
-`SET NAMES `_`value`_ is an alias for `SET client_encoding TO `_`value`_.`SEED`
+`SET SCHEMA '`_`value`_' is an alias for `SET search_path TO `_`value`_. Only one schema can be specified using this syntax.
+
+`NAMES`
+
+`SET NAMES `_`value`_ is an alias for `SET client_encoding TO `_`value`_.
+
+`SEED`
 
 Sets the internal seed for the random number generator \(the function `random`\). Allowed values are floating-point numbers between -1 and 1, which are then multiplied by 231-1.
 
@@ -53,15 +61,23 @@ SELECT setseed(value);
 
 `TIME ZONE`
 
-`SET TIME ZONE `_`value`_ is an alias for `SET timezone TO `_`value`_. The syntax `SET TIME ZONE` allows special syntax for the time zone specification. Here are examples of valid values:`'PST8PDT'`
+`SET TIME ZONE `_`value`_ is an alias for `SET timezone TO `_`value`_. The syntax `SET TIME ZONE` allows special syntax for the time zone specification. Here are examples of valid values:
 
-The time zone for Berkeley, California.`'Europe/Rome'`
+`'PST8PDT'`
+
+The time zone for Berkeley, California.
+
+`'Europe/Rome'`
 
 The time zone for Italy.`-7`
 
-The time zone 7 hours west from UTC \(equivalent to PDT\). Positive values are east from UTC.`INTERVAL '-08:00' HOUR TO MINUTE`
+The time zone 7 hours west from UTC \(equivalent to PDT\). Positive values are east from UTC.
 
-The time zone 8 hours west from UTC \(equivalent to PST\).`LOCAL`  
+`INTERVAL '-08:00' HOUR TO MINUTE`
+
+The time zone 8 hours west from UTC \(equivalent to PST\).
+
+`LOCAL`  
 `DEFAULT`
 
 Set the time zone to your local time zone \(that is, the server's default value of `timezone`\).
@@ -106,5 +122,5 @@ SET TIME ZONE 'Europe/Rome';
 
 ### See Also
 
-[RESET](https://www.postgresql.org/docs/10/static/sql-reset.html), [SHOW](https://www.postgresql.org/docs/10/static/sql-show.html)
+RESET, [SHOW](https://www.postgresql.org/docs/10/static/sql-show.html)
 

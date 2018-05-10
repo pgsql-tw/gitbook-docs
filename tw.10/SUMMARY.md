@@ -451,6 +451,7 @@
     * [LOAD](reference/sql-commands/load.md)
     * [NOTIFY](reference/sql-commands/notify.md)
     * [REASSIGN OWNED](reference/sql-commands/reassign-owned.md)
+    * [RESET](reference/sql-commands/reset.md)
     * [REVOKE](reference/sql-commands/revoke.md)
     * SELECT
     * [SET ROLE](reference/sql-commands/set-role.md)
@@ -460,6 +461,7 @@
     * [UPDATE](reference/sql-commands/update.md)
     * [VACUUM](reference/sql-commands/vacuum.md)
     * [VALUES](reference/sql-commands/values.md)
+    * [SHOW](reference/sql-commands/show.md)
   * [II. PostgreSQL 用戶端工具](reference/client/README.md)
     * [createdb](reference/client/createdb.md)
     * [createuser](reference/client/createuser.md)
