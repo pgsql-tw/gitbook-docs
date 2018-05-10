@@ -234,8 +234,8 @@
     * 24.2. Routine Reindexing
     * [24.3. Log File Maintenance](server-administration/maintenance/log-file-maintenance.md)
   * [25. 備份及還原](server-administration/backup-and-restore/README.md)
-    * 25.1. SQL Dump
-    * 25.2. File System Level Backup
+    * [25.1. SQL Dump](server-administration/backup-and-restore/sql-dump.md)
+    * [25.2. File System Level Backup](server-administration/backup-and-restore/file-system-level-backup.md)
     * 25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)
   * High Availability, Load Balancing, and Replication
     * 26.1. Comparison of Different Solutions

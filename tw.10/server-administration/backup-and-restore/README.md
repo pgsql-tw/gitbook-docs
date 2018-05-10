@@ -1,12 +1,12 @@
 # 25. 備份及還原
 
-As with everything that contains valuable data, PostgreSQL databases should be backed up regularly. While the procedure is essentially simple, it is important to have a clear understanding of the underlying techniques and assumptions.
+與有價值的所有資料一樣，PostgreSQL 資料庫應定期備份。雖然程序本質上很簡單，但對基本技術和假設有清晰的了解是很重要的。
 
-There are three fundamentally different approaches to backing up PostgreSQL data:
+以三種根本上不同的方法來備份 PostgreSQL 資料：
 
 * SQL dump
-* File system level backup
-* Continuous archiving
+* 檔案系統層級的備份
+* 持續性歸檔
 
-Each has its own strengths and weaknesses; each is discussed in turn in the following sections.
+每個方式都有它的優點和缺點；以下各節將逐一討論。
 
