@@ -1,8 +1,8 @@
 # III. 系統管理
 
-This part covers topics that are of interest to aPostgreSQLdatabase administrator. This includes installation of the software, set up and configuration of the server, management of users and databases, and maintenance tasks. Anyone who runs aPostgreSQLserver, even for personal use, but especially in production, should be familiar with the topics covered in this part.
+本部分涵蓋了 PostgreSQL 資料庫管理員會感興趣的主題。這包括安裝軟體，設定和配置伺服器，管理使用者和資料庫以及維護任務。任何運行 PostgreSQL 伺服器的人，即使是個人使用，特別是在產品環境中，都應該熟悉本部分所涉及的主題。
 
-The information in this part is arranged approximately in the order in which a new user should read it. But the chapters are self-contained and can be read individually as desired. The information in this part is presented in a narrative fashion in topical units. Readers looking for a complete description of a particular command should see[Part VI](https://www.postgresql.org/docs/10/static/reference.html).
+這部分的資訊大致按照新使用者閱讀的順序排列。但是這些章節是獨立的，可以根據需求再單獨閱讀。這部分的內容以主題單位的敘述方式呈現。要查看某個特定指令的完整說明，請參閱[第 VI 部分](../reference/)。
 
-The first few chapters are written so they can be understood without prerequisite knowledge, so new users who need to set up their own server can begin their exploration with this part. The rest of this part is about tuning and management; that material assumes that the reader is familiar with the general use of thePostgreSQLdatabase system. Readers are encouraged to look at[Part I](https://www.postgresql.org/docs/10/static/tutorial.html)and[Part II](https://www.postgresql.org/docs/10/static/sql.html)for additional information.
+前幾章是為了在沒有必要知識的情況下可以理解而撰寫的，因此需要建立自有伺服器的新使用者可以使用這一部分開始探索。這部分的其餘部分是關於調教和管理；該內容假定讀者熟悉 PostgreSQL 資料庫系統的一般用法。建議讀者閱讀[第 I 部分](../tutorial/)和[第 II 部分](../sql/)以取得更多訊息。
 
