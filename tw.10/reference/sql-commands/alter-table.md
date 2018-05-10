@@ -200,9 +200,9 @@ and table_constraint_using_index is:
 
 `SET WITH OIDS`
 
-此語法在資料表中增加了一個 oid 系統欄位（參閱[第 5.4 節](../../sql/ddl/5.4.-xi-tong-lan-wei.md)）。 如果資料表已經有 OID，那就什麼都不做。
+此語法在資料表中增加了一個 oid 系統欄位（參閱[第 5.4 節](../../sql/ddl/system-columns.md)）。 如果資料表已經有 OID，那就什麼都不做。
 
-Note that this is not equivalent to `ADD COLUMN oid oid`; that would add a normal column that happened to be named `oid`, not a system column.
+請注意，這不等同於 ADD COLUMN oid oid；那只會增加一個正常的欄位，而它碰巧被命名為 oid，而不是系統欄位。
 
 `SET WITHOUT OIDS`
 
