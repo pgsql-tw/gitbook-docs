@@ -11,11 +11,11 @@ PostgreSQL 資料庫需要定期維護，稱為資料庫清理\(vacuum\)。 對�
 3. 更新可視性結構，這會增加[索引限定掃描](../../sql/index/index-only-scans.md)的效率。
 4. 防止由於事務 ID 重覆或 multixact ID 重覆而失去非常舊的資料。
 
-Each of these reasons dictates performing `VACUUM` operations of varying frequency and scope, as explained in the following subsections.
+這些原因中的每一個都會要求執行不同頻率和範圍的 VACUUM 操作，如以下小節所述。
 
-There are two variants of `VACUUM`: standard `VACUUM` and `VACUUM FULL`. `VACUUM FULL` can reclaim more disk space but runs much more slowly. Also, the standard form of `VACUUM` can run in parallel with production database operations. \(Commands such as `SELECT`, `INSERT`, `UPDATE`, and `DELETE` will continue to function normally, though you will not be able to modify the definition of a table with commands such as `ALTER TABLE` while it is being vacuumed.\) `VACUUM FULL` requires exclusive lock on the table it is working on, and therefore cannot be done in parallel with other use of the table. Generally, therefore, administrators should strive to use standard `VACUUM` and avoid `VACUUM FULL`.
+VACUUM 有兩種變形：標準 VACUUM 和 VACUUM FULL。VACUUM FULL 可以回收更多磁碟空間，但執行速度要慢得多。而且，VACUUM 的標準形式可以與產品資料庫同時操作運行。（SELECT、INSERT、UPDATE 和 DELETE 等指令將繼續正常工作，但在 VACUUM FULL 時，您將無法使用諸如 ALTER TABLE 之類的指令修改資料表的定義。）VACUUM FULL 需要獨占鎖定它正在處理的資料表，因此無法與其他資料表的使用同時進行。因此，一般來說，管理員應該努力使用標準 VACUUM 並避免VACUUM FULL。
 
-`VACUUM` creates a substantial amount of I/O traffic, which can cause poor performance for other active sessions. There are configuration parameters that can be adjusted to reduce the performance impact of background vacuuming — see [Section 19.4.4](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#RUNTIME-CONFIG-RESOURCE-VACUUM-COST).
+VACUUM 會產生大量的 I/O流量，這會導致其他正在進行的連線效能較差。有一些配置參數可以調整以減少背景資料庫清理對效能的影響 - 參閱[第 19.4.4 節](../runtime-config/resource-consumption.md#19-4-4-cost-based-vacuum-delay)`。`
 
 #### 24.1.2. Recovering Disk Space
 
