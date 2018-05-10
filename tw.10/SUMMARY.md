@@ -165,7 +165,7 @@
     * [15.3. 平行查詢計畫](sql/15.-ping-hang-cha-xun/15.3.-ping-hang-cha-xun-ji-hua.md)
     * [15.4. 平行查詢的安全性](sql/15.-ping-hang-cha-xun/15.4.-ping-hang-cha-xun-de-an-quan-xing.md)
 * [III. 系統管理](server-administration/README.md)
-  * Installation from Source Code
+  * [16. 用原始碼安裝](server-administration/installation-from-source-code/README.md)
     * 16.1. Short Version
     * 16.2. Requirements
     * 16.3. Getting The Source
@@ -173,7 +173,7 @@
     * 16.5. Post-Installation Setup
     * 16.6. Supported Platforms
     * 16.7. Platform-specific Notes
-  * Installation from Source Code on Windows
+  * [17. 用原始碼在 Windows 上安裝](server-administration/installation-from-source-code-on-windows/README.md)
     * 17.1. Building with Visual C++ or the Microsoft Windows SDK
   * [18. 服務配置與維運](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/README.md)
     * [18.1. The PostgreSQL User Account](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.1.-the-postgresql-user-account.md)
