@@ -277,10 +277,10 @@
     * 32.3. Variant Comparison Files
     * 32.4. TAP Tests
     * 32.5. Test Coverage Examination
-* [IV. 用戶端介面](iv.-client-interfaces/README.md)
-  * [33. libpq - C Library](iv.-client-interfaces/33.-libpq-c-library/README.md)
+* [IV. 用戶端介面](client-interfaces/README.md)
+  * [33. libpq - C Library](client-interfaces/libpq-c-library/README.md)
     * 33.1. Database Connection Control Functions
-    * [33.2. 連線狀態函數](iv.-client-interfaces/33.-libpq-c-library/33.2.-lian-xian-zhuang-tai-han-shu.md)
+    * [33.2. 連線狀態函數](client-interfaces/libpq-c-library/libpq-status.md)
     * 33.3. Command Execution Functions
     * 33.4. Asynchronous Command Processing
     * 33.5. Retrieving Query Results Row-By-Row
