@@ -487,8 +487,8 @@
     * [64.3. Extensibility](internals/gin-indexes/extensibility.md)
     * [64.4. Implementation](internals/gin-indexes/implementation.md)
     * [64.5. GIN Tips and Tricks](internals/gin-indexes/gin-tips-and-tricks.md)
-    * 64.6. Limitations
-    * 64.7. Examples
+    * [64.6. Limitations](internals/gin-indexes/limitations.md)
+    * [64.7. Examples](internals/gin-indexes/examples.md)
   * [66. 資料庫實體儲存格式](internals/database-physical-storage/README.md)
     * [66.2. TOAST](internals/database-physical-storage/toast.md)
 * [VIII. 附錄](appendix/README.md)

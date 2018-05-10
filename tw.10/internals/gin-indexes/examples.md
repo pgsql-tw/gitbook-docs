@@ -1,0 +1,20 @@
+# 64.7. Examples
+
+The core PostgreSQL distribution includes the GIN operator classes previously shown in [Table 64.1](https://www.postgresql.org/docs/10/static/gin-builtin-opclasses.html#GIN-BUILTIN-OPCLASSES-TABLE). The following `contrib` modules also contain GIN operator classes:
+
+`btree_gin`
+
+B-tree equivalent functionality for several data types
+
+`hstore`
+
+Module for storing \(key, value\) pairs
+
+`intarray`
+
+Enhanced support for `int[]`
+
+`pg_trgm`
+
+Text similarity using trigram matching
+
