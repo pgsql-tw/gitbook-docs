@@ -206,8 +206,8 @@
     * 19.16. Customized Options
     * 19.17. Developer Options
     * 19.18. Short Options
-  * [20. 使用者認證](server-administration/20.-shi-yong-zhe-ren-zheng/README.md)
-    * [20.1. 設定檔：pg\_hba.conf](server-administration/20.-shi-yong-zhe-ren-zheng/20.1.-she-ding-dang-pghba.conf.md)
+  * [20. 使用者認證](server-administration/client-authentication/README.md)
+    * [20.1. 設定檔：pg\_hba.conf](server-administration/client-authentication/20.1.-she-ding-dang-pghba.conf.md)
     * 20.2. User Name Maps
     * 20.3. Authentication Methods
     * 20.4. Authentication Problems
