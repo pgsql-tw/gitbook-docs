@@ -17,17 +17,29 @@ SHOW ALL
 
 _`name`_
 
-The name of a run-time parameter. Available parameters are documented in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) and on the [SET](https://www.postgresql.org/docs/10/static/sql-set.html) reference page. In addition, there are a few parameters that can be shown but not set:`SERVER_VERSION`
+The name of a run-time parameter. Available parameters are documented in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) and on the [SET](https://www.postgresql.org/docs/10/static/sql-set.html) reference page. In addition, there are a few parameters that can be shown but not set:
 
-Shows the server's version number.`SERVER_ENCODING`
+`SERVER_VERSION`
 
-Shows the server-side character set encoding. At present, this parameter can be shown but not set, because the encoding is determined at database creation time.`LC_COLLATE`
+Shows the server's version number.
 
-Shows the database's locale setting for collation \(text ordering\). At present, this parameter can be shown but not set, because the setting is determined at database creation time.`LC_CTYPE`
+`SERVER_ENCODING`
 
-Shows the database's locale setting for character classification. At present, this parameter can be shown but not set, because the setting is determined at database creation time.`IS_SUPERUSER`
+Shows the server-side character set encoding. At present, this parameter can be shown but not set, because the encoding is determined at database creation time.
 
-True if the current role has superuser privileges.`ALL`
+`LC_COLLATE`
+
+Shows the database's locale setting for collation \(text ordering\). At present, this parameter can be shown but not set, because the setting is determined at database creation time.
+
+`LC_CTYPE`
+
+Shows the database's locale setting for character classification. At present, this parameter can be shown but not set, because the setting is determined at database creation time.
+
+`IS_SUPERUSER`
+
+True if the current role has superuser privileges.
+
+`ALL`
 
 Show the values of all configuration parameters, with descriptions.
 
@@ -78,5 +90,5 @@ The `SHOW` command is a PostgreSQL extension.
 
 ### See Also
 
-[SET](https://www.postgresql.org/docs/10/static/sql-set.html), [RESET](https://www.postgresql.org/docs/10/static/sql-reset.html)
+[SET](set.md), [RESET](reset.md)
 

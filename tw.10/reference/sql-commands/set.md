@@ -122,5 +122,5 @@ SET TIME ZONE 'Europe/Rome';
 
 ### See Also
 
-RESET, [SHOW](https://www.postgresql.org/docs/10/static/sql-show.html)
+[RESET](reset.md), [SHOW](show.md)
 

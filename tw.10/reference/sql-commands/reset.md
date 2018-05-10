@@ -47,5 +47,5 @@ RESET timezone;
 
 ### See Also
 
-[SET](set.md), SHOW
+[SET](set.md), [SHOW](show.md)
 

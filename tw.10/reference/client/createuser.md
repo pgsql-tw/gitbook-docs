@@ -18,78 +18,128 @@ createuser is a wrapper around the SQL command [CREATE ROLE](https://www.postgre
 
 createuser accepts the following command-line arguments:_`username`_
 
-Specifies the name of the PostgreSQL user to be created. This name must be different from all existing roles in this PostgreSQL installation.`-c `_`number`_  
+Specifies the name of the PostgreSQL user to be created. This name must be different from all existing roles in this PostgreSQL installation.
+
+`-c `_`number`_  
 `--connection-limit=`_`number`_
 
-Set a maximum number of connections for the new user. The default is to set no limit.`-d`  
+Set a maximum number of connections for the new user. The default is to set no limit.
+
+`-d`  
 `--createdb`
 
-The new user will be allowed to create databases.`-D`  
+The new user will be allowed to create databases.
+
+`-D`  
 `--no-createdb`
 
-The new user will not be allowed to create databases. This is the default.`-e`  
+The new user will not be allowed to create databases. This is the default.
+
+`-e`  
 `--echo`
 
-Echo the commands that createuser generates and sends to the server.`-E`  
+Echo the commands that createuser generates and sends to the server.
+
+`-E`  
 `--encrypted`
 
-This option is obsolete but still accepted for backward compatibility.`-g `_`role`_  
+This option is obsolete but still accepted for backward compatibility.
+
+`-g `_`role`_  
 `--role=`_`role`_
 
-Indicates role to which this role will be added immediately as a new member. Multiple roles to which this role will be added as a member can be specified by writing multiple `-g` switches.`-i`  
+Indicates role to which this role will be added immediately as a new member. Multiple roles to which this role will be added as a member can be specified by writing multiple `-g` switches.
+
+`-i`  
 `--inherit`
 
-The new role will automatically inherit privileges of roles it is a member of. This is the default.`-I`  
+The new role will automatically inherit privileges of roles it is a member of. This is the default.
+
+`-I`  
 `--no-inherit`
 
-The new role will not automatically inherit privileges of roles it is a member of.`--interactive`
+The new role will not automatically inherit privileges of roles it is a member of.
 
-Prompt for the user name if none is specified on the command line, and also prompt for whichever of the options `-d`/`-D`, `-r`/`-R`, `-s`/`-S` is not specified on the command line. \(This was the default behavior up to PostgreSQL 9.1.\)`-l`  
+`--interactive`
+
+Prompt for the user name if none is specified on the command line, and also prompt for whichever of the options `-d`/`-D`, `-r`/`-R`, `-s`/`-S` is not specified on the command line. \(This was the default behavior up to PostgreSQL 9.1.\)
+
+`-l`  
 `--login`
 
-The new user will be allowed to log in \(that is, the user name can be used as the initial session user identifier\). This is the default.`-L`  
+The new user will be allowed to log in \(that is, the user name can be used as the initial session user identifier\). This is the default.
+
+`-L`  
 `--no-login`
 
-The new user will not be allowed to log in. \(A role without login privilege is still useful as a means of managing database permissions.\)`-P`  
+The new user will not be allowed to log in. \(A role without login privilege is still useful as a means of managing database permissions.\)
+
+`-P`  
 `--pwprompt`
 
-If given, createuser will issue a prompt for the password of the new user. This is not necessary if you do not plan on using password authentication.`-r`  
+If given, createuser will issue a prompt for the password of the new user. This is not necessary if you do not plan on using password authentication.
+
+`-r`  
 `--createrole`
 
-The new user will be allowed to create new roles \(that is, this user will have `CREATEROLE` privilege\).`-R`  
+The new user will be allowed to create new roles \(that is, this user will have `CREATEROLE` privilege\).
+
+`-R`  
 `--no-createrole`
 
-The new user will not be allowed to create new roles. This is the default.`-s`  
+The new user will not be allowed to create new roles. This is the default.
+
+`-s`  
 `--superuser`
 
-The new user will be a superuser.`-S`  
+The new user will be a superuser.
+
+`-S`  
 `--no-superuser`
 
-The new user will not be a superuser. This is the default.`-V`  
+The new user will not be a superuser. This is the default.
+
+`-V`  
 `--version`
 
-Print the createuser version and exit.`--replication`
+Print the createuser version and exit.
 
-The new user will have the `REPLICATION` privilege, which is described more fully in the documentation for [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html).`--no-replication`
+`--replication`
 
-The new user will not have the `REPLICATION` privilege, which is described more fully in the documentation for [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html).`-?`  
+The new user will have the `REPLICATION` privilege, which is described more fully in the documentation for [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html).
+
+`--no-replication`
+
+The new user will not have the `REPLICATION` privilege, which is described more fully in the documentation for [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html).
+
+`-?`  
 `--help`
 
 Show help about createuser command line arguments, and exit.
 
-createuser also accepts the following command-line arguments for connection parameters:`-h `_`host`_  
+createuser also accepts the following command-line arguments for connection parameters:
+
+`-h `_`host`_  
 `--host=`_`host`_
 
-Specifies the host name of the machine on which the server is running. If the value begins with a slash, it is used as the directory for the Unix domain socket.`-p `_`port`_  
+Specifies the host name of the machine on which the server is running. If the value begins with a slash, it is used as the directory for the Unix domain socket.
+
+`-p `_`port`_  
 `--port=`_`port`_
 
-Specifies the TCP port or local Unix domain socket file extension on which the server is listening for connections.`-U `_`username`_  
+Specifies the TCP port or local Unix domain socket file extension on which the server is listening for connections.
+
+`-U `_`username`_  
 `--username=`_`username`_
 
-User name to connect as \(not the user name to create\).`-w`  
+User name to connect as \(not the user name to create\).
+
+`-w`  
 `--no-password`
 
-Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a `.pgpass` file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.`-W`  
+Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a `.pgpass` file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.
+
+`-W`  
 `--password`
 
 Force createuser to prompt for a password \(for connecting to the server, not for the password of the new user\).
@@ -147,5 +197,5 @@ In the above example, the new password isn't actually echoed when typed, but we 
 
 ### See Also
 
-[dropuser](https://www.postgresql.org/docs/10/static/app-dropuser.html), [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html)
+[dropuser](dropuser.md), [CREATE ROLE](../sql-commands/create-role.md)
 
