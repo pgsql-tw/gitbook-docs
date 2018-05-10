@@ -1,16 +1,16 @@
 # 51.54. pg\_tablespace
 
-The catalog `pg_tablespace` stores information about the available tablespaces. Tables can be placed in particular tablespaces to aid administration of disk layout.
+系統目錄 pg\_tablespace 儲存有關可用資料表空間的訊息。可以將資料表放置在特定的資料表空間中以幫助管理磁碟規畫。
 
-Unlike most system catalogs, `pg_tablespace` is shared across all databases of a cluster: there is only one copy of `pg_tablespace` per cluster, not one per database.
+與大多數系統目錄不同，pg\_tablespace 在叢集的所有資料庫之間共享：每個叢集只有一個 pg\_tablespace 副本，而不是每個資料庫一個副本。
 
-**Table 51.54. `pg_tablespace` Columns**
+**Table 51.54. `pg_tablespace` 欄位**
 
-| Name | Type | References | Description |
+| 名稱 | 型別 | 參考 | 說明 |
 | --- | --- | --- | --- | --- | --- |
-| `oid` | `oid` |   | Row identifier \(hidden attribute; must be explicitly selected\) |
-| `spcname` | `name` |   | Tablespace name |
-| `spcowner` | `oid` | [`pg_authid`](https://www.postgresql.org/docs/10/static/catalog-pg-authid.html).oid | Owner of the tablespace, usually the user who created it |
-| `spcacl` | `aclitem[]` |   | Access privileges; see [GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html) for details |
-| `spcoptions` | `text[]` |   | Tablespace-level options, as “keyword=value” strings |
+| `oid` | `oid` |   | 資料列識別指標（隱藏屬性；必須明確選擇） |
+| `spcname` | `name` |   | 資料表空間名稱 |
+| `spcowner` | `oid` | [`pg_authid`](pg_authid.md).oid | 資料表空間的所有者，通常是建立它的使用者 |
+| `spcacl` | `aclitem[]` |   | 存取權限；詳情請參閱 [GRANT](../../reference/sql-commands/grant.md) 和 [REVOKE](../../reference/sql-commands/revoke.md) |
+| `spcoptions` | `text[]` |   | 資料表空間的選項，為“keyword = value”字串 |
 
