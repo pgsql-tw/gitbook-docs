@@ -202,7 +202,7 @@
     * 19.12. Lock Management
     * [19.13. 版本與平台的相容性](server-administration/runtime-config/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md)
     * 19.14. Error Handling
-    * [19.15. 預先配置的參數](server-administration/runtime-config/19.15.-yu-xian-pei-zhi-de-can-shu.md)
+    * [19.15. 預先配置的參數](server-administration/runtime-config/preset.md)
     * 19.16. Customized Options
     * 19.17. Developer Options
     * 19.18. Short Options
