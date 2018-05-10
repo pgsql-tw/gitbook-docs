@@ -1,6 +1,6 @@
 # 28. 監控資料庫活動
 
-A database administrator frequently wonders, “What is the system doing right now?” This chapter discusses how to find that out.
+資料庫管理員經常會想：「系統現在正在做什麼？」本章討論如何回答這個問題。
 
-Several tools are available for monitoring database activity and analyzing performance. Most of this chapter is devoted to describing PostgreSQL's statistics collector, but one should not neglect regular Unix monitoring programs such as `ps`, `top`, `iostat`, and `vmstat`. Also, once one has identified a poorly-performing query, further investigation might be needed using PostgreSQL's [EXPLAIN](https://www.postgresql.org/docs/10/static/sql-explain.html) command. [Section 14.1](https://www.postgresql.org/docs/10/static/using-explain.html) discusses `EXPLAIN` and other methods for understanding the behavior of an individual query.
+有幾種工具可用於監控資料庫活動和分析效能。本章的大部分內容都致力於描述 PostgreSQL 的統計收集器，但不應忽視普通的 Unix 監控程序，如 ps、top、iostat 和 vmstat。而且，一旦發現查詢效率不佳，可能需要使用 PostgreSQL 的 EXPLAIN 指令進一步調查。[第 14.1 節](../../sql/performance-tips/14.1.-shan-yong-explain.md)討論了 EXPLAIN 和其他方法來解析單個查詢的行為。
 

@@ -442,6 +442,7 @@
     * [DROP ROLE](reference/sql-commands/drop-role.md)
     * [DROP TABLE](reference/sql-commands/drop-table.md)
     * [DROP TABLESPACE](reference/sql-commands/drop-tablespace.md)
+    * [EXPLAIN](reference/sql-commands/untitled.md)
     * [GRANT](reference/sql-commands/grant.md)
     * [IMPORT FOREIGN SCHEMA](reference/sql-commands/import-foreign-schema.md)
     * [INSERT](reference/sql-commands/insert.md)

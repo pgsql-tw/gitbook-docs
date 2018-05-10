@@ -1,207 +1,197 @@
-# CREATE INDEX
+# EXPLAIN
 
-CREATE INDEX — define a new index
+EXPLAIN — show the execution plan of a statement
 
 ### Synopsis
 
 ```text
-CREATE [ UNIQUE ] INDEX [ CONCURRENTLY ] [ [ IF NOT EXISTS ] name ] ON table_name [ USING method ]
-    ( { column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ] [, ...] )
-    [ WITH ( storage_parameter = value [, ... ] ) ]
-    [ TABLESPACE tablespace_name ]
-    [ WHERE predicate ]
+EXPLAIN [ ( option [, ...] ) ] statement
+EXPLAIN [ ANALYZE ] [ VERBOSE ] statement
+
+where option can be one of:
+
+    ANALYZE [ boolean ]
+    VERBOSE [ boolean ]
+    COSTS [ boolean ]
+    BUFFERS [ boolean ]
+    TIMING [ boolean ]
+    SUMMARY [ boolean ]
+    FORMAT { TEXT | XML | JSON | YAML }
 ```
 
 ### Description
 
-`CREATE INDEX` constructs an index on the specified column\(s\) of the specified relation, which can be a table or a materialized view. Indexes are primarily used to enhance database performance \(though inappropriate use can result in slower performance\).
+This command displays the execution plan that the PostgreSQL planner generates for the supplied statement. The execution plan shows how the table\(s\) referenced by the statement will be scanned — by plain sequential scan, index scan, etc. — and if multiple tables are referenced, what join algorithms will be used to bring together the required rows from each input table.
 
-The key field\(s\) for the index are specified as column names, or alternatively as expressions written in parentheses. Multiple fields can be specified if the index method supports multicolumn indexes.
+The most critical part of the display is the estimated statement execution cost, which is the planner's guess at how long it will take to run the statement \(measured in cost units that are arbitrary, but conventionally mean disk page fetches\). Actually two numbers are shown: the start-up cost before the first row can be returned, and the total cost to return all the rows. For most queries the total cost is what matters, but in contexts such as a subquery in `EXISTS`, the planner will choose the smallest start-up cost instead of the smallest total cost \(since the executor will stop after getting one row, anyway\). Also, if you limit the number of rows to return with a `LIMIT` clause, the planner makes an appropriate interpolation between the endpoint costs to estimate which plan is really the cheapest.
 
-An index field can be an expression computed from the values of one or more columns of the table row. This feature can be used to obtain fast access to data based on some transformation of the basic data. For example, an index computed on `upper(col)` would allow the clause `WHERE upper(col) = 'JIM'` to use an index.
+The `ANALYZE` option causes the statement to be actually executed, not only planned. Then actual run time statistics are added to the display, including the total elapsed time expended within each plan node \(in milliseconds\) and the total number of rows it actually returned. This is useful for seeing whether the planner's estimates are close to reality.
 
-PostgreSQL provides the index methods B-tree, hash, GiST, SP-GiST, GIN, and BRIN. Users can also define their own index methods, but that is fairly complicated.
+#### Important
 
-When the `WHERE` clause is present, a _partial index_ is created. A partial index is an index that contains entries for only a portion of a table, usually a portion that is more useful for indexing than the rest of the table. For example, if you have a table that contains both billed and unbilled orders where the unbilled orders take up a small fraction of the total table and yet that is an often used section, you can improve performance by creating an index on just that portion. Another possible application is to use `WHERE` with `UNIQUE` to enforce uniqueness over a subset of a table. See [Section 11.8](https://www.postgresql.org/docs/10/static/indexes-partial.html) for more discussion.
+Keep in mind that the statement is actually executed when the `ANALYZE` option is used. Although `EXPLAIN` will discard any output that a `SELECT` would return, other side effects of the statement will happen as usual. If you wish to use `EXPLAIN ANALYZE` on an `INSERT`, `UPDATE`,`DELETE`, `CREATE TABLE AS`, or `EXECUTE` statement without letting the command affect your data, use this approach:
 
-The expression used in the `WHERE` clause can refer only to columns of the underlying table, but it can use all columns, not just the ones being indexed. Presently, subqueries and aggregate expressions are also forbidden in `WHERE`. The same restrictions apply to index fields that are expressions.
+```text
+BEGIN;
+EXPLAIN ANALYZE ...;
+ROLLBACK;
+```
 
-All functions and operators used in an index definition must be “immutable”, that is, their results must depend only on their arguments and never on any outside influence \(such as the contents of another table or the current time\). This restriction ensures that the behavior of the index is well-defined. To use a user-defined function in an index expression or `WHERE` clause, remember to mark the function immutable when you create it.
+Only the `ANALYZE` and `VERBOSE` options can be specified, and only in that order, without surrounding the option list in parentheses. Prior to PostgreSQL 9.0, the unparenthesized syntax was the only one supported. It is expected that all new options will be supported only in the parenthesized syntax.
 
 ### Parameters
 
-`UNIQUE`
+`ANALYZE`
 
-Causes the system to check for duplicate values in the table when the index is created \(if data already exist\) and each time data is added. Attempts to insert or update data which would result in duplicate entries will generate an error.`CONCURRENTLY`
+Carry out the command and show actual run times and other statistics. This parameter defaults to `FALSE`.`VERBOSE`
 
-When this option is used, PostgreSQL will build the index without taking any locks that prevent concurrent inserts, updates, or deletes on the table; whereas a standard index build locks out writes \(but not reads\) on the table until it's done. There are several caveats to be aware of when using this option — see [Building Indexes Concurrently](https://www.postgresql.org/docs/10/static/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY).`IF NOT EXISTS`
+Display additional information regarding the plan. Specifically, include the output column list for each node in the plan tree, schema-qualify table and function names, always label variables in expressions with their range table alias, and always print the name of each trigger for which statistics are displayed. This parameter defaults to `FALSE`.`COSTS`
 
-Do not throw an error if a relation with the same name already exists. A notice is issued in this case. Note that there is no guarantee that the existing index is anything like the one that would have been created. Index name is required when `IF NOT EXISTS` is specified._`name`_
+Include information on the estimated startup and total cost of each plan node, as well as the estimated number of rows and the estimated width of each row. This parameter defaults to `TRUE`.`BUFFERS`
 
-The name of the index to be created. No schema name can be included here; the index is always created in the same schema as its parent table. If the name is omitted, PostgreSQL chooses a suitable name based on the parent table's name and the indexed column name\(s\)._`table_name`_
+Include information on buffer usage. Specifically, include the number of shared blocks hit, read, dirtied, and written, the number of local blocks hit, read, dirtied, and written, and the number of temp blocks read and written. A _hit_ means that a read was avoided because the block was found already in cache when needed. Shared blocks contain data from regular tables and indexes; local blocks contain data from temporary tables and indexes; while temp blocks contain short-term working data used in sorts, hashes, Materialize plan nodes, and similar cases. The number of blocks _dirtied_ indicates the number of previously unmodified blocks that were changed by this query; while the number of blocks _written_ indicates the number of previously-dirtied blocks evicted from cache by this backend during query processing. The number of blocks shown for an upper-level node includes those used by all its child nodes. In text format, only non-zero values are printed. This parameter may only be used when `ANALYZE` is also enabled. It defaults to `FALSE`.`TIMING`
 
-The name \(possibly schema-qualified\) of the table to be indexed._`method`_
+Include actual startup time and time spent in each node in the output. The overhead of repeatedly reading the system clock can slow down the query significantly on some systems, so it may be useful to set this parameter to `FALSE` when only actual row counts, and not exact times, are needed. Run time of the entire statement is always measured, even when node-level timing is turned off with this option. This parameter may only be used when `ANALYZE` is also enabled. It defaults to `TRUE`.`SUMMARY`
 
-The name of the index method to be used. Choices are `btree`, `hash`, `gist`, `spgist`, `gin`, and `brin`. The default method is `btree`._`column_name`_
+Include summary information \(e.g., totaled timing information\) after the query plan. Summary information is included by default when `ANALYZE` is used but otherwise is not included by default, but can be enabled using this option. Planning time in `EXPLAIN EXECUTE`includes the time required to fetch the plan from the cache and the time required for re-planning, if necessary.`FORMAT`
 
-The name of a column of the table._`expression`_
+Specify the output format, which can be TEXT, XML, JSON, or YAML. Non-text output contains the same information as the text output format, but is easier for programs to parse. This parameter defaults to `TEXT`._`boolean`_
 
-An expression based on one or more columns of the table. The expression usually must be written with surrounding parentheses, as shown in the syntax. However, the parentheses can be omitted if the expression has the form of a function call._`collation`_
+Specifies whether the selected option should be turned on or off. You can write `TRUE`, `ON`, or `1` to enable the option, and `FALSE`, `OFF`, or `0` to disable it. The _`boolean`_ value can also be omitted, in which case `TRUE` is assumed._`statement`_
 
-The name of the collation to use for the index. By default, the index uses the collation declared for the column to be indexed or the result collation of the expression to be indexed. Indexes with non-default collations can be useful for queries that involve expressions using non-default collations._`opclass`_
+Any `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `VALUES`, `EXECUTE`, `DECLARE`, `CREATE TABLE AS`, or `CREATE MATERIALIZED VIEW AS` statement, whose execution plan you wish to see.
 
-The name of an operator class. See below for details.`ASC`
+### Outputs
 
-Specifies ascending sort order \(which is the default\).`DESC`
-
-Specifies descending sort order.`NULLS FIRST`
-
-Specifies that nulls sort before non-nulls. This is the default when `DESC` is specified.`NULLS LAST`
-
-Specifies that nulls sort after non-nulls. This is the default when `DESC` is not specified._`storage_parameter`_
-
-The name of an index-method-specific storage parameter. See [Index Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createindex.html#SQL-CREATEINDEX-STORAGE-PARAMETERS) for details._`tablespace_name`_
-
-The tablespace in which to create the index. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) for indexes on temporary tables._`predicate`_
-
-The constraint expression for a partial index.
-
-#### Index Storage Parameters
-
-The optional `WITH` clause specifies _storage parameters_ for the index. Each index method has its own set of allowed storage parameters. The B-tree, hash, GiST and SP-GiST index methods all accept this parameter:`fillfactor`
-
-The fillfactor for an index is a percentage that determines how full the index method will try to pack index pages. For B-trees, leaf pages are filled to this percentage during initial index build, and also when extending the index at the right \(adding new largest key values\). If pages subsequently become completely full, they will be split, leading to gradual degradation in the index's efficiency. B-trees use a default fillfactor of 90, but any integer value from 10 to 100 can be selected. If the table is static then fillfactor 100 is best to minimize the index's physical size, but for heavily updated tables a smaller fillfactor is better to minimize the need for page splits. The other index methods use fillfactor in different but roughly analogous ways; the default fillfactor varies between methods.
-
-GiST indexes additionally accept this parameter:`buffering`
-
-Determines whether the buffering build technique described in [Section 62.4.1](https://www.postgresql.org/docs/10/static/gist-implementation.html#GIST-BUFFERING-BUILD) is used to build the index. With `OFF` it is disabled, with `ON` it is enabled, and with `AUTO` it is initially disabled, but turned on on-the-fly once the index size reaches [effective\_cache\_size](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-EFFECTIVE-CACHE-SIZE). The default is `AUTO`.
-
-GIN indexes accept different parameters:`fastupdate`
-
-This setting controls usage of the fast update technique described in [Section 64.4.1](https://www.postgresql.org/docs/10/static/gin-implementation.html#GIN-FAST-UPDATE). It is a Boolean parameter: `ON` enables fast update, `OFF` disables it. \(Alternative spellings of `ON` and `OFF` are allowed as described in [Section 19.1](https://www.postgresql.org/docs/10/static/config-setting.html).\) The default is `ON`.
-
-#### Note
-
-Turning `fastupdate` off via `ALTER INDEX` prevents future insertions from going into the list of pending index entries, but does not in itself flush previous entries. You might want to `VACUUM`the table or call `gin_clean_pending_list` function afterward to ensure the pending list is emptied.`gin_pending_list_limit`
-
-Custom [gin\_pending\_list\_limit](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-GIN-PENDING-LIST-LIMIT) parameter. This value is specified in kilobytes.
-
-BRIN indexes accept different parameters:`pages_per_range`
-
-Defines the number of table blocks that make up one block range for each entry of a BRIN index \(see [Section 65.1](https://www.postgresql.org/docs/10/static/brin-intro.html) for more details\). The default is `128`.`autosummarize`
-
-Defines whether a summarization run is invoked for the previous page range whenever an insertion is detected on the next one.
-
-#### Building Indexes Concurrently
-
-Creating an index can interfere with regular operation of a database. Normally PostgreSQL locks the table to be indexed against writes and performs the entire index build with a single scan of the table. Other transactions can still read the table, but if they try to insert, update, or delete rows in the table they will block until the index build is finished. This could have a severe effect if the system is a live production database. Very large tables can take many hours to be indexed, and even for smaller tables, an index build can lock out writers for periods that are unacceptably long for a production system.
-
-PostgreSQL supports building indexes without locking out writes. This method is invoked by specifying the `CONCURRENTLY` option of `CREATE INDEX`. When this option is used, PostgreSQL must perform two scans of the table, and in addition it must wait for all existing transactions that could potentially modify or use the index to terminate. Thus this method requires more total work than a standard index build and takes significantly longer to complete. However, since it allows normal operations to continue while the index is built, this method is useful for adding new indexes in a production environment. Of course, the extra CPU and I/O load imposed by the index creation might slow other operations.
-
-In a concurrent index build, the index is actually entered into the system catalogs in one transaction, then two table scans occur in two more transactions. Before each table scan, the index build must wait for existing transactions that have modified the table to terminate. After the second scan, the index build must wait for any transactions that have a snapshot \(see [Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)\) predating the second scan to terminate. Then finally the index can be marked ready for use, and the `CREATE INDEX` command terminates. Even then, however, the index may not be immediately usable for queries: in the worst case, it cannot be used as long as transactions exist that predate the start of the index build.
-
-If a problem arises while scanning the table, such as a deadlock or a uniqueness violation in a unique index, the `CREATE INDEX` command will fail but leave behind an “invalid” index. This index will be ignored for querying purposes because it might be incomplete; however it will still consume update overhead. The psql `\d` command will report such an index as `INVALID`:
-
-```text
-postgres=# \d tab
-       Table "public.tab"
- Column |  Type   | Collation | Nullable | Default 
---------+---------+-----------+----------+---------
- col    | integer |           |          | 
-Indexes:
-    "idx" btree (col) INVALID
-```
-
-The recommended recovery method in such cases is to drop the index and try again to perform `CREATE INDEX CONCURRENTLY`. \(Another possibility is to rebuild the index with `REINDEX`. However, since `REINDEX` does not support concurrent builds, this option is unlikely to seem attractive.\)
-
-Another caveat when building a unique index concurrently is that the uniqueness constraint is already being enforced against other transactions when the second table scan begins. This means that constraint violations could be reported in other queries prior to the index becoming available for use, or even in cases where the index build eventually fails. Also, if a failure does occur in the second scan, the “invalid” index continues to enforce its uniqueness constraint afterwards.
-
-Concurrent builds of expression indexes and partial indexes are supported. Errors occurring in the evaluation of these expressions could cause behavior similar to that described above for unique constraint violations.
-
-Regular index builds permit other regular index builds on the same table to occur in parallel, but only one concurrent index build can occur on a table at a time. In both cases, no other types of schema modification on the table are allowed meanwhile. Another difference is that a regular `CREATE INDEX` command can be performed within a transaction block, but `CREATE INDEX CONCURRENTLY` cannot.
+The command's result is a textual description of the plan selected for the _`statement`_, optionally annotated with execution statistics. [Section 14.1](https://www.postgresql.org/docs/10/static/using-explain.html) describes the information provided.
 
 ### Notes
 
-See [Chapter 11](https://www.postgresql.org/docs/10/static/indexes.html) for information about when indexes can be used, when they are not used, and in which particular situations they can be useful.
+In order to allow the PostgreSQL query planner to make reasonably informed decisions when optimizing queries, the [`pg_statistic`](https://www.postgresql.org/docs/10/static/catalog-pg-statistic.html) data should be up-to-date for all tables used in the query. Normally the [autovacuum daemon](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#AUTOVACUUM) will take care of that automatically. But if a table has recently had substantial changes in its contents, you might need to do a manual [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) rather than wait for autovacuum to catch up with the changes.
 
-Currently, only the B-tree, GiST, GIN, and BRIN index methods support multicolumn indexes. Up to 32 fields can be specified by default. \(This limit can be altered when building PostgreSQL.\) Only B-tree currently supports unique indexes.
-
-An _operator class_ can be specified for each column of an index. The operator class identifies the operators to be used by the index for that column. For example, a B-tree index on four-byte integers would use the `int4_ops` class; this operator class includes comparison functions for four-byte integers. In practice the default operator class for the column's data type is usually sufficient. The main point of having operator classes is that for some data types, there could be more than one meaningful ordering. For example, we might want to sort a complex-number data type either by absolute value or by real part. We could do this by defining two operator classes for the data type and then selecting the proper class when making an index. More information about operator classes is in [Section 11.9](https://www.postgresql.org/docs/10/static/indexes-opclass.html) and in [Section 37.14](https://www.postgresql.org/docs/10/static/xindex.html).
-
-For index methods that support ordered scans \(currently, only B-tree\), the optional clauses `ASC`, `DESC`, `NULLS FIRST`, and/or `NULLS LAST` can be specified to modify the sort ordering of the index. Since an ordered index can be scanned either forward or backward, it is not normally useful to create a single-column `DESC` index — that sort ordering is already available with a regular index. The value of these options is that multicolumn indexes can be created that match the sort ordering requested by a mixed-ordering query, such as `SELECT ... ORDER BY x ASC, y DESC`. The `NULLS` options are useful if you need to support “nulls sort low” behavior, rather than the default “nulls sort high”, in queries that depend on indexes to avoid sorting steps.
-
-For most index methods, the speed of creating an index is dependent on the setting of [maintenance\_work\_mem](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM). Larger values will reduce the time needed for index creation, so long as you don't make it larger than the amount of memory really available, which would drive the machine into swapping.
-
-Use [DROP INDEX](https://www.postgresql.org/docs/10/static/sql-dropindex.html) to remove an index.
-
-Prior releases of PostgreSQL also had an R-tree index method. This method has been removed because it had no significant advantages over the GiST method. If `USING rtree` is specified, `CREATE INDEX` will interpret it as `USING gist`, to simplify conversion of old databases to GiST.
+In order to measure the run-time cost of each node in the execution plan, the current implementation of `EXPLAIN ANALYZE` adds profiling overhead to query execution. As a result, running `EXPLAIN ANALYZE` on a query can sometimes take significantly longer than executing the query normally. The amount of overhead depends on the nature of the query, as well as the platform being used. The worst case occurs for plan nodes that in themselves require very little time per execution, and on machines that have relatively slow operating system calls for obtaining the time of day.
 
 ### Examples
 
-To create a B-tree index on the column `title` in the table `films`:
+To show the plan for a simple query on a table with a single `integer` column and 10000 rows:
 
 ```text
-CREATE UNIQUE INDEX title_idx ON films (title);
+EXPLAIN SELECT * FROM foo;
+
+                       QUERY PLAN
+---------------------------------------------------------
+ Seq Scan on foo  (cost=0.00..155.00 rows=10000 width=4)
+(1 row)
 ```
 
-To create an index on the expression `lower(title)`, allowing efficient case-insensitive searches:
+Here is the same query, with JSON output formatting:
 
 ```text
-CREATE INDEX ON films ((lower(title)));
+EXPLAIN (FORMAT JSON) SELECT * FROM foo;
+           QUERY PLAN
+--------------------------------
+ [                             +
+   {                           +
+     "Plan": {                 +
+       "Node Type": "Seq Scan",+
+       "Relation Name": "foo", +
+       "Alias": "foo",         +
+       "Startup Cost": 0.00,   +
+       "Total Cost": 155.00,   +
+       "Plan Rows": 10000,     +
+       "Plan Width": 4         +
+     }                         +
+   }                           +
+ ]
+(1 row)
 ```
 
-\(In this example we have chosen to omit the index name, so the system will choose a name, typically `films_lower_idx`.\)
-
-To create an index with non-default collation:
+If there is an index and we use a query with an indexable `WHERE` condition, `EXPLAIN` might show a different plan:
 
 ```text
-CREATE INDEX title_idx_german ON films (title COLLATE "de_DE");
+EXPLAIN SELECT * FROM foo WHERE i = 4;
+
+                         QUERY PLAN
+--------------------------------------------------------------
+ Index Scan using fi on foo  (cost=0.00..5.98 rows=1 width=4)
+   Index Cond: (i = 4)
+(2 rows)
 ```
 
-To create an index with non-default sort ordering of nulls:
+Here is the same query, but in YAML format:
 
 ```text
-CREATE INDEX title_idx_nulls_low ON films (title NULLS FIRST);
+EXPLAIN (FORMAT YAML) SELECT * FROM foo WHERE i='4';
+          QUERY PLAN
+-------------------------------
+ - Plan:                      +
+     Node Type: "Index Scan"  +
+     Scan Direction: "Forward"+
+     Index Name: "fi"         +
+     Relation Name: "foo"     +
+     Alias: "foo"             +
+     Startup Cost: 0.00       +
+     Total Cost: 5.98         +
+     Plan Rows: 1             +
+     Plan Width: 4            +
+     Index Cond: "(i = 4)"    
+(1 row)
 ```
 
-To create an index with non-default fill factor:
+XML format is left as an exercise for the reader.
+
+Here is the same plan with cost estimates suppressed:
 
 ```text
-CREATE UNIQUE INDEX title_idx ON films (title) WITH (fillfactor = 70);
+EXPLAIN (COSTS FALSE) SELECT * FROM foo WHERE i = 4;
+
+        QUERY PLAN
+----------------------------
+ Index Scan using fi on foo
+   Index Cond: (i = 4)
+(2 rows)
 ```
 
-To create a GIN index with fast updates disabled:
+Here is an example of a query plan for a query using an aggregate function:
 
 ```text
-CREATE INDEX gin_idx ON documents_table USING GIN (locations) WITH (fastupdate = off);
+EXPLAIN SELECT sum(i) FROM foo WHERE i < 10;
+
+                             QUERY PLAN
+---------------------------------------------------------------------
+ Aggregate  (cost=23.93..23.93 rows=1 width=4)
+   ->  Index Scan using fi on foo  (cost=0.00..23.92 rows=6 width=4)
+         Index Cond: (i < 10)
+(3 rows)
 ```
 
-To create an index on the column `code` in the table `films` and have the index reside in the tablespace `indexspace`:
+Here is an example of using `EXPLAIN EXECUTE` to display the execution plan for a prepared query:
 
 ```text
-CREATE INDEX code_idx ON films (code) TABLESPACE indexspace;
+PREPARE query(int, int) AS SELECT sum(bar) FROM test
+    WHERE id > $1 AND id < $2
+    GROUP BY foo;
+
+EXPLAIN ANALYZE EXECUTE query(100, 200);
+
+                                                       QUERY PLAN                                                       
+------------------------------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=9.54..9.54 rows=1 width=8) (actual time=0.156..0.161 rows=11 loops=1)
+   Group Key: foo
+   ->  Index Scan using test_pkey on test  (cost=0.29..9.29 rows=50 width=8) (actual time=0.039..0.091 rows=99 loops=1)
+         Index Cond: ((id > $1) AND (id < $2))
+ Planning time: 0.197 ms
+ Execution time: 0.225 ms
+(6 rows)
 ```
 
-To create a GiST index on a point attribute so that we can efficiently use box operators on the result of the conversion function:
-
-```text
-CREATE INDEX pointloc
-    ON points USING gist (box(location,location));
-SELECT * FROM points
-    WHERE box(location,location) && '(0,0),(1,1)'::box;
-```
-
-To create an index without locking out writes to the table:
-
-```text
-CREATE INDEX CONCURRENTLY sales_quantity_index ON sales_table (quantity);
-```
+Of course, the specific numbers shown here depend on the actual contents of the tables involved. Also note that the numbers, and even the selected query strategy, might vary between PostgreSQL releases due to planner improvements. In addition, the `ANALYZE` command uses random sampling to estimate data statistics; therefore, it is possible for cost estimates to change after a fresh run of `ANALYZE`, even if the actual distribution of data in the table has not changed.
 
 ### Compatibility
 
-`CREATE INDEX` is a PostgreSQL language extension. There are no provisions for indexes in the SQL standard.
+There is no `EXPLAIN` statement defined in the SQL standard.
 
 ### See Also
 
-[ALTER INDEX](https://www.postgresql.org/docs/10/static/sql-alterindex.html), [DROP INDEX](https://www.postgresql.org/docs/10/static/sql-dropindex.html)
+[ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html)
 
