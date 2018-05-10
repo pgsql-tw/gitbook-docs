@@ -1,20 +1,20 @@
 # DROP ROLE
 
-DROP ROLE — remove a database role
+DROP ROLE — 移除資料庫角色
 
-### Synopsis
+### 語法
 
 ```text
 DROP ROLE [ IF EXISTS ] name [, ...]
 ```
 
-### Description
+### 說明
 
-`DROP ROLE` removes the specified role\(s\). To drop a superuser role, you must be a superuser yourself; to drop non-superuser roles, you must have `CREATEROLE` privilege.
+DROP ROLE 移除指定的角色。要移除超級使用者角色的話，您必須自己成為超級用戶；要刪除非超級使用者角色，您必須具有 CREATEROLE 權限。
 
-A role cannot be removed if it is still referenced in any database of the cluster; an error will be raised if so. Before dropping the role, you must drop all the objects it owns \(or reassign their ownership\) and revoke any privileges the role has been granted on other objects. The [REASSIGN OWNED](https://www.postgresql.org/docs/10/static/sql-reassign-owned.html) and [DROP OWNED](https://www.postgresql.org/docs/10/static/sql-drop-owned.html) commands can be useful for this purpose; see [Section 21.4](https://www.postgresql.org/docs/10/static/role-removal.html) for more discussion.
+如果角色在叢集的任何資料庫中仍被引用，則無法移除該角色；如果執行的話，會出現錯誤。在移除角色之前，您必須移除其擁有的所有物件（或重新分配其所有權），並撤銷該角色已授予其他角色的任何權限。REASSIGN OWNED 和 DROP OWNED 指令可用於此目的；更多討論請參閱[第 21.4 節](../../server-administration/user-manag/dropping-roles.md)。
 
-However, it is not necessary to remove role memberships involving the role; `DROP ROLE` automatically revokes any memberships of the target role in other roles, and of other roles in the target role. The other roles are not dropped nor otherwise affected.
+但是，沒有必要刪除涉及角色的角色成員。DROP ROLE 會自動撤銷其他角色中的目標角色以及目標角色中的其他角色的任何成員資格。其他角色不會被丟棄或受到其他影響。
 
 ### Parameters
 
