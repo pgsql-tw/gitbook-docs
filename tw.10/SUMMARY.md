@@ -249,7 +249,7 @@
     * 27.3. Standby Server Settings
   * [28. 監控資料庫活動](server-administration/monitoring/README.md)
     * 28.1. Standard Unix Tools
-    * 28.2. 統計資訊收集器
+    * [28.2. 統計資訊收集器](server-administration/monitoring/stats.md)
     * 28.3. Viewing Locks
     * 28.4. Progress Reporting
     * 28.5. Dynamic Tracing
