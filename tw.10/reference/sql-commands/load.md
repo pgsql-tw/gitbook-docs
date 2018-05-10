@@ -1,28 +1,26 @@
 # LOAD
 
-LOAD — load a shared library file
+LOAD — 載入共享函式庫檔案
 
-## Synopsis
+### 語法
 
 ```text
-LOAD '
-filename
-'
+LOAD 'filename'
 ```
 
-## Description
+### 說明
 
-This command loads a shared library file into thePostgreSQLserver's address space. If the file has been loaded already, the command does nothing. Shared library files that contain C functions are automatically loaded whenever one of their functions is called. Therefore, an explicit`LOAD`is usually only needed to load a library that modifies the server's behavior through“hooks”rather than providing a set of functions.
+此命令將共享函式庫檔案載入到 PostgreSQL 伺服器的定址空間中。如果檔案已經被載入，那麼此命令就不會進行任何操作。包含 C 函數的共享函式庫檔案只要呼叫其中一個函數就會自動載入。因此，LOAD 通常只需要載入一個透過「hook」修改伺服器行為而不是提供一組函數的函式庫。
 
-The library file name is typically given as just a bare file name, which is sought in the server's library search path \(set by[dynamic\_library\_path](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DYNAMIC-LIBRARY-PATH)\). Alternatively it can be given as a full path name. In either case the platform's standard shared library file name extension may be omitted. See[Section 37.9.1](https://www.postgresql.org/docs/10/static/xfunc-c.html#XFUNC-C-DYNLOAD)for more information on this topic.
+函式庫檔案名通常只是一個檔案名稱，在伺服器的函式庫搜尋路徑（由 [dynamic\_library\_path](../../server-administration/runtime-config/runtime-config-client.md#19-11-4-qi-ta-ding-ji-qi-zhi) 設定）中尋找。或者，它可以以完整的路徑名稱給予。無論哪種情況，平台的標準共享庫文件延伸名稱都可以省略。有關該主題的更多訊息，請參閱[第 37.9.1 節](../../server-programming/extending-sql/c-language-functions.md#37-9-1-dynamic-loading)。
 
-Non-superusers can only apply`LOAD`to library files located in`$libdir/plugins/`— the specified\_`filename`\_must begin with exactly that string. \(It is the database administrator's responsibility to ensure that only“safe”libraries are installed there.\)
+非超級使用者只能將 LOAD 用於位於 $libdir/plugins/ 中的函式庫檔案 - 指定的檔案名稱必須以該字串開頭。（資料庫管理員有責任確保在那裡只安裝「安全」函式庫。）
 
-## Compatibility
+### 相容性
 
-`LOAD`is aPostgreSQLextension.
+`LOAD`是 PostgreSQL 的延伸功能。
 
-## See Also
+### 參閱
 
-[CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html)
+[CREATE FUNCTION](create-function.md)
 

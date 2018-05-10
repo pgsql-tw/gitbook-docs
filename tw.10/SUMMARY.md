@@ -134,18 +134,18 @@
     * [11.10. Indexes and Collations](sql/index/11.10.-indexes-and-collations.md)
     * [11.11. 索引限定查詢](sql/index/index-only-scans.md)
     * [11.12. 檢查索引運用](sql/index/11.12.-jian-cha-suo-yin-yun-yong.md)
-  * [12. 全文檢索](sql/12.-quan-wen-jian-suo/README.md)
-    * [12.1. 簡介](sql/12.-quan-wen-jian-suo/12.1.-jian-jie.md)
-    * [12.2. 查詢與索引](sql/12.-quan-wen-jian-suo/12.2.-cha-xun-yu-suo-yin.md)
-    * [12.3. 細部控制](sql/12.-quan-wen-jian-suo/12.3.-xi-bu-kong-zhi.md)
-    * [12.4. 延伸功能](sql/12.-quan-wen-jian-suo/12.4.-yan-shen-gong-neng.md)
-    * [12.5. 斷詞](sql/12.-quan-wen-jian-suo/12.5.-duan-ci.md)
-    * [12.6. 字典](sql/12.-quan-wen-jian-suo/12.6.-zi-dian.md)
-    * [12.7. 組態範例](sql/12.-quan-wen-jian-suo/12.7.-zu-tai-fan-li.md)
-    * [12.8. 測試與除錯](sql/12.-quan-wen-jian-suo/12.8.-ce-shi-yu-chu-cuo.md)
-    * [12.9. GIN及GiST索引型別](sql/12.-quan-wen-jian-suo/12.9.-gin-ji-gist-suo-yin-xing-bie.md)
-    * [12.10. psql支援](sql/12.-quan-wen-jian-suo/12.10.-psql-zhi-yuan.md)
-    * [12.11. 功能限制](sql/12.-quan-wen-jian-suo/12.11.-gong-neng-xian-zhi.md)
+  * [12. 全文檢索](sql/textsearch/README.md)
+    * [12.1. 簡介](sql/textsearch/12.1.-jian-jie.md)
+    * [12.2. 查詢與索引](sql/textsearch/12.2.-cha-xun-yu-suo-yin.md)
+    * [12.3. 細部控制](sql/textsearch/12.3.-xi-bu-kong-zhi.md)
+    * [12.4. 延伸功能](sql/textsearch/12.4.-yan-shen-gong-neng.md)
+    * [12.5. 斷詞](sql/textsearch/12.5.-duan-ci.md)
+    * [12.6. 字典](sql/textsearch/12.6.-zi-dian.md)
+    * [12.7. 組態範例](sql/textsearch/12.7.-zu-tai-fan-li.md)
+    * [12.8. 測試與除錯](sql/textsearch/12.8.-ce-shi-yu-chu-cuo.md)
+    * [12.9. GIN及GiST索引型別](sql/textsearch/12.9.-gin-ji-gist-suo-yin-xing-bie.md)
+    * [12.10. psql支援](sql/textsearch/12.10.-psql-zhi-yuan.md)
+    * [12.11. 功能限制](sql/textsearch/12.11.-gong-neng-xian-zhi.md)
   * [13. 一致性管理](sql/mvcc/README.md)
     * [13.1. 簡介](sql/mvcc/13.1.-jian-jie.md)
     * [13.2. 交易隔離](sql/mvcc/13.2.-jiao-yi-ge-li.md)
@@ -398,7 +398,7 @@
     * 37.6. Function Volatility Categories
     * 37.7. Procedural Language Functions
     * 37.8. Internal Functions
-    * 37.9. C-Language Functions
+    * [37.9. C-Language Functions](server-programming/extending-sql/c-language-functions.md)
     * 37.10. User-defined Aggregates
     * 37.11. User-defined Types
     * 37.12. User-defined Operators
