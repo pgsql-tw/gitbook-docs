@@ -1,10 +1,10 @@
 # 24.1. 例行性資料清理
 
-PostgreSQL databases require periodic maintenance known as _vacuuming_. For many installations, it is sufficient to let vacuuming be performed by the _autovacuum daemon_, which is described in [Section 24.1.6](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#AUTOVACUUM). You might need to adjust the autovacuuming parameters described there to obtain best results for your situation. Some database administrators will want to supplement or replace the daemon's activities with manually-managed `VACUUM` commands, which typically are executed according to a schedule by cron or Task Schedulerscripts. To set up manually-managed vacuuming properly, it is essential to understand the issues discussed in the next few subsections. Administrators who rely on autovacuuming may still wish to skim this material to help them understand and adjust autovacuuming.
+PostgreSQL 資料庫需要定期維護，稱為資料庫清理\(vacuum\)。 對於一裝的執行環境而言，透過 autovacuum 背景程序進行資料庫清理就足夠了，這在 [24.1.6 節](routine-vacuuming.md#24-1-6-the-autovacuum-daemon)中有描述。您可能需要調整其中所描述的自動清除參數，以獲得您的情況的最佳結果。 一些資料庫管理員希望用手動管理的 VACUUM 命令來補充或替換背景程序的活動，這些命令通常根據 cron 或 Task Scheduler 的腳本計劃執行。 要正確設定手動管理的資料庫清理，了解接下來幾小節中討論的問題至關重要。依靠自動清理的管理員可能仍然希望瀏覽這些內容以幫助他們理解和調整自動清理。
 
-#### 24.1.1. Vacuuming Basics
+#### 24.1.1. 資料庫清理的基本概念
 
-PostgreSQL's [VACUUM](https://www.postgresql.org/docs/10/static/sql-vacuum.html) command has to process each table on a regular basis for several reasons:
+必須以 PostgreSQL [VACUUM](../../reference/sql-commands/vacuum.md) 命令處理每個資料表，原因如下：
 
 1. To recover or reuse disk space occupied by updated or deleted rows.
 2. To update data statistics used by the PostgreSQL query planner.

@@ -455,6 +455,7 @@
     * [SET](reference/sql-commands/set.md)
     * [SET TRANSACTION](reference/sql-commands/set-transaction.md)
     * [UPDATE](reference/sql-commands/update.md)
+    * [VACUUM](reference/sql-commands/vacuum.md)
     * [VALUES](reference/sql-commands/values.md)
   * [II. PostgreSQL 用戶端工具](reference/client/README.md)
     * [createdb](reference/client/createdb.md)
