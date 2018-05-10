@@ -6,10 +6,10 @@ PostgreSQL 資料庫需要定期維護，稱為資料庫清理\(vacuum\)。 對�
 
 必須以 PostgreSQL [VACUUM](../../reference/sql-commands/vacuum.md) 命令處理每個資料表，原因如下：
 
-1. To recover or reuse disk space occupied by updated or deleted rows.
-2. To update data statistics used by the PostgreSQL query planner.
-3. To update the visibility map, which speeds up [index-only scans](https://www.postgresql.org/docs/10/static/indexes-index-only-scans.html).
-4. To protect against loss of very old data due to _transaction ID wraparound_ or _multixact ID wraparound_.
+1. 恢復或回收使用因更新或刪除資料列所佔用的磁碟空間。
+2. 更新 PostgreSQL 查詢計劃器使用的資料統計資訊。
+3. 更新可視性結構，這會增加[索引限定掃描](../../sql/index/index-only-scans.md)的效率。
+4. 防止由於事務 ID 重覆或 multixact ID 重覆而失去非常舊的資料。
 
 Each of these reasons dictates performing `VACUUM` operations of varying frequency and scope, as explained in the following subsections.
 
