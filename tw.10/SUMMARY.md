@@ -189,14 +189,14 @@
     * 18.11. Registering Event Log on Windows
   * [19. 服務組態設定](server-administration/runtime-config/README.md)
     * 19.1. Setting Parameters
-    * 19.2. File Locations
+    * [19.2. File Locations](server-administration/runtime-config/file-locations.md)
     * 19.3. Connections and Authentication
     * 19.4. Resource Consumption
     * 19.5. Write Ahead Log
     * [19.6. Replication](server-administration/runtime-config/19.6.-replication.md)
     * [19.7. 查詢規畫](server-administration/runtime-config/query-planning.md)
     * [19.8. 錯誤回報與日誌記錄](server-administration/runtime-config/logging.md)
-    * [19.9. Run-time Statistics](server-administration/runtime-config/19.9.-run-time-statistics.md)
+    * [19.9. Run-time Statistics](server-administration/runtime-config/run-time-statistics.md)
     * [19.10. 自動資料庫清理](server-administration/runtime-config/autovacuum.md)
     * [19.11. 用戶端連線預設參數](server-administration/runtime-config/runtime-config-client.md)
     * 19.12. Lock Management

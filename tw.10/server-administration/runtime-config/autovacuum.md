@@ -4,7 +4,7 @@
 
 `autovacuum` \(`boolean`\)
 
-控制伺服器是否應該執行 autovacuum 啟動程序背景程序。這是預設開啟的；但是，[track\_counts](19.9.-run-time-statistics.md#19-9-2-statistics-monitoring) 也必須啟用 autovacuum 工作。此參數只能在 postgresql.conf 檔案或伺服器命令行中設定；但是，可以透過變更資料表儲存參數來禁用單個資料表的自動清除。
+控制伺服器是否應該執行 autovacuum 啟動程序背景程序。這是預設開啟的；但是，[track\_counts](run-time-statistics.md#19-9-2-statistics-monitoring) 也必須啟用 autovacuum 工作。此參數只能在 postgresql.conf 檔案或伺服器命令行中設定；但是，可以透過變更資料表儲存參數來禁用單個資料表的自動清除。
 
 請注意，即使禁用此參數，系統也會在必要時啟動自動清理過程以防止交易事務 ID 重覆。有關更多訊息，請參閱[第 24.1.5 節](../maintenance/routine-vacuuming.md#24-1-5-preventing-transaction-id-wraparound-failures)。
 
