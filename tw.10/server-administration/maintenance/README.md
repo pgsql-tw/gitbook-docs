@@ -8,7 +8,7 @@
 
 另一個需要定期關注的任務是日誌檔案管理。這在[第 24.3 節](log-file-maintenance.md)中討論。
 
-[check\_postgres](https://bucardo.org/check_postgres/) is available for monitoring database health and reporting unusual conditions. check\_postgres integrates with Nagios and MRTG, but can be run standalone too.
+[check\_postgres](https://bucardo.org/check_postgres/) 可用於監控資料庫執行狀況並回報異常情況。check\_postgres 能與Nagios 和 MRTG 共同運作，但也可以獨立運行。
 
-PostgreSQL is low-maintenance compared to some other database management systems. Nonetheless, appropriate attention to these tasks will go far towards ensuring a pleasant and productive experience with the system.
+與其他一些資料庫管理系統相比，PostgreSQL 維護費用較低。儘管如此，對這些任務的適當關注將能有效地確保系統的使用上愉快且富有成效的體驗。
 
