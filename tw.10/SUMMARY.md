@@ -225,10 +225,10 @@
     * 22.4. Database Configuration
     * 22.5. Destroying a Database
     * [22.6. Tablespaces](server-administration/managing-databases/manage-ag-tablespaces.md)
-  * [23. 語系](server-administration/23.-yu-xi/README.md)
-    * [23.1. 語系支援](server-administration/23.-yu-xi/23.1.-yu-xi-zhi-yuan.md)
-    * 23.2. Collation Support
-    * 23.3. Character Set Support
+  * [23. 語系](server-administration/charset/README.md)
+    * [23.1. 語系支援](server-administration/charset/locale.md)
+    * [23.2. Collation Support](server-administration/charset/collation-support.md)
+    * [23.3. Character Set Support](server-administration/charset/multibyte.md)
   * [24. 例行性資料庫維護工作](server-administration/maintenance/README.md)
     * [24.1. 例行性資料清理](server-administration/maintenance/routine-vacuuming.md)
     * 24.2. Routine Reindexing
