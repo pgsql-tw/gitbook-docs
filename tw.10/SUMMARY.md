@@ -236,7 +236,7 @@
   * [25. 備份及還原](server-administration/backup-and-restore/README.md)
     * [25.1. SQL Dump](server-administration/backup-and-restore/sql-dump.md)
     * [25.2. File System Level Backup](server-administration/backup-and-restore/file-system-level-backup.md)
-    * 25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)
+    * [25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)](server-administration/backup-and-restore/continuous-archiving-and-point-in-time-recovery-pitr.md)
   * High Availability, Load Balancing, and Replication
     * 26.1. Comparison of Different Solutions
     * 26.2. Log-Shipping Standby Servers

@@ -200,7 +200,7 @@ and table_constraint_using_index is:
 
 `SET WITH OIDS`
 
-This form adds an `oid` system column to the table \(see [Section 5.4](https://www.postgresql.org/docs/10/static/ddl-system-columns.html)\). It does nothing if the table already has OIDs.
+此語法在資料表中增加了一個 oid 系統欄位（參閱[第 5.4 節](../../sql/ddl/5.4.-xi-tong-lan-wei.md)）。 如果資料表已經有 OID，那就什麼都不做。
 
 Note that this is not equivalent to `ADD COLUMN oid oid`; that would add a normal column that happened to be named `oid`, not a system column.
 
