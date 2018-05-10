@@ -193,7 +193,7 @@
     * 19.3. Connections and Authentication
     * [19.4. Resource Consumption](server-administration/runtime-config/resource-consumption.md)
     * 19.5. Write Ahead Log
-    * [19.6. Replication](server-administration/runtime-config/19.6.-replication.md)
+    * [19.6. Replication](server-administration/runtime-config/replication.md)
     * [19.7. 查詢規畫](server-administration/runtime-config/query-planning.md)
     * [19.8. 錯誤回報與日誌記錄](server-administration/runtime-config/logging.md)
     * [19.9. Run-time Statistics](server-administration/runtime-config/run-time-statistics.md)

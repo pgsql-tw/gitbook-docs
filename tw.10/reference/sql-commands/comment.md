@@ -2,309 +2,157 @@
 
 COMMENT — define or change the comment of an object
 
-## Synopsis
+### Synopsis
 
 ```text
 COMMENT ON
 {
-  ACCESS METHOD 
-object_name
- |
-  AGGREGATE 
-aggregate_name
- ( 
-aggregate_signature
- ) |
-  CAST (
-source_type
- AS 
-target_type
-) |
-  COLLATION 
-object_name
- |
-  COLUMN 
-relation_name
-.
-column_name
- |
-  CONSTRAINT 
-constraint_name
- ON 
-table_name
- |
-  CONSTRAINT 
-constraint_name
- ON DOMAIN 
-domain_name
- |
-  CONVERSION 
-object_name
- |
-  DATABASE 
-object_name
- |
-  DOMAIN 
-object_name
- |
-  EXTENSION 
-object_name
- |
-  EVENT TRIGGER 
-object_name
- |
-  FOREIGN DATA WRAPPER 
-object_name
- |
-  FOREIGN TABLE 
-object_name
- |
-  FUNCTION 
-function_name
- [ ( [ [ 
-argmode
- ] [ 
-argname
- ] 
-argtype
- [, ...] ] ) ] |
-  INDEX 
-object_name
- |
-  LARGE OBJECT 
-large_object_oid
- |
-  MATERIALIZED VIEW 
-object_name
- |
-  OPERATOR 
-operator_name
- (
-left_type
-, 
-right_type
-) |
-  OPERATOR CLASS 
-object_name
- USING 
-index_method
- |
-  OPERATOR FAMILY 
-object_name
- USING 
-index_method
- |
-  POLICY 
-policy_name
- ON 
-table_name
- |
-  [ PROCEDURAL ] LANGUAGE 
-object_name
- |
-  PUBLICATION 
-object_name
- |
-  ROLE 
-object_name
- |
-  RULE 
-rule_name
- ON 
-table_name
- |
-  SCHEMA 
-object_name
- |
-  SEQUENCE 
-object_name
- |
-  SERVER 
-object_name
- |
-  STATISTICS 
-object_name
- |
-  SUBSCRIPTION 
-object_name
- |
-  TABLE 
-object_name
- |
-  TABLESPACE 
-object_name
- |
-  TEXT SEARCH CONFIGURATION 
-object_name
- |
-  TEXT SEARCH DICTIONARY 
-object_name
- |
-  TEXT SEARCH PARSER 
-object_name
- |
-  TEXT SEARCH TEMPLATE 
-object_name
- |
-  TRANSFORM FOR 
-type_name
- LANGUAGE 
-lang_name
- |
-  TRIGGER 
-trigger_name
- ON 
-table_name
- |
-  TYPE 
-object_name
- |
-  VIEW 
-object_name
+  ACCESS METHOD object_name |
+  AGGREGATE aggregate_name ( aggregate_signature ) |
+  CAST (source_type AS target_type) |
+  COLLATION object_name |
+  COLUMN relation_name.column_name |
+  CONSTRAINT constraint_name ON table_name |
+  CONSTRAINT constraint_name ON DOMAIN domain_name |
+  CONVERSION object_name |
+  DATABASE object_name |
+  DOMAIN object_name |
+  EXTENSION object_name |
+  EVENT TRIGGER object_name |
+  FOREIGN DATA WRAPPER object_name |
+  FOREIGN TABLE object_name |
+  FUNCTION function_name [ ( [ [ argmode ] [ argname ] argtype [, ...] ] ) ] |
+  INDEX object_name |
+  LARGE OBJECT large_object_oid |
+  MATERIALIZED VIEW object_name |
+  OPERATOR operator_name (left_type, right_type) |
+  OPERATOR CLASS object_name USING index_method |
+  OPERATOR FAMILY object_name USING index_method |
+  POLICY policy_name ON table_name |
+  [ PROCEDURAL ] LANGUAGE object_name |
+  PUBLICATION object_name |
+  ROLE object_name |
+  RULE rule_name ON table_name |
+  SCHEMA object_name |
+  SEQUENCE object_name |
+  SERVER object_name |
+  STATISTICS object_name |
+  SUBSCRIPTION object_name |
+  TABLE object_name |
+  TABLESPACE object_name |
+  TEXT SEARCH CONFIGURATION object_name |
+  TEXT SEARCH DICTIONARY object_name |
+  TEXT SEARCH PARSER object_name |
+  TEXT SEARCH TEMPLATE object_name |
+  TRANSFORM FOR type_name LANGUAGE lang_name |
+  TRIGGER trigger_name ON table_name |
+  TYPE object_name |
+  VIEW object_name
+} IS 'text'
 
-} IS '
-text
-'
-
-
-where 
-aggregate_signature
- is:
-
+where aggregate_signature is:
 
 * |
-[ 
-argmode
- ] [ 
-argname
- ] 
-argtype
- [ , ... ] |
-[ [ 
-argmode
- ] [ 
-argname
- ] 
-argtype
- [ , ... ] ] ORDER BY [ 
-argmode
- ] [ 
-argname
- ] 
-argtype
- [ , ... ]
+[ argmode ] [ argname ] argtype [ , ... ] |
+[ [ argmode ] [ argname ] argtype [ , ... ] ] ORDER BY [ argmode ] [ argname ] argtype [ , ... ]
 ```
 
-## Description
+### Description
 
-`COMMENT`stores a comment about a database object.
+`COMMENT` stores a comment about a database object.
 
-Only one comment string is stored for each object, so to modify a comment, issue a new`COMMENT`command for the same object. To remove a comment, write`NULL`in place of the text string. Comments are automatically dropped when their object is dropped.
+Only one comment string is stored for each object, so to modify a comment, issue a new `COMMENT` command for the same object. To remove a comment, write `NULL` in place of the text string. Comments are automatically dropped when their object is dropped.
 
-For most kinds of object, only the object's owner can set the comment. Roles don't have owners, so the rule for`COMMENT ON ROLE`is that you must be superuser to comment on a superuser role, or have the`CREATEROLE`privilege to comment on non-superuser roles. Likewise, access methods don't have owners either; you must be superuser to comment on an access method. Of course, a superuser can comment on anything.
+For most kinds of object, only the object's owner can set the comment. Roles don't have owners, so the rule for `COMMENT ON ROLE` is that you must be superuser to comment on a superuser role, or have the `CREATEROLE` privilege to comment on non-superuser roles. Likewise, access methods don't have owners either; you must be superuser to comment on an access method. Of course, a superuser can comment on anything.
 
-Comments can be viewed usingpsql's`\d`family of commands. Other user interfaces to retrieve comments can be built atop the same built-in functions thatpsqluses, namely`obj_description`,`col_description`, and`shobj_description`\(see[Table 9.68](https://www.postgresql.org/docs/10/static/functions-info.html#FUNCTIONS-INFO-COMMENT-TABLE)\).
+Comments can be viewed using psql's `\d` family of commands. Other user interfaces to retrieve comments can be built atop the same built-in functions that psql uses, namely `obj_description`, `col_description`, and `shobj_description` \(see [Table 9.68](https://www.postgresql.org/docs/10/static/functions-info.html#FUNCTIONS-INFO-COMMENT-TABLE)\).
 
-## Parameters
+### Parameters
 
-`object_name`
+_`object_name`_  
+_`relation_name`_._`column_name`_  
+_`aggregate_name`_  
+_`constraint_name`_  
+_`function_name`_  
+_`operator_name`_  
+_`policy_name`_  
+_`rule_name`_  
+_`trigger_name`_
 
-`relation_name`
+The name of the object to be commented. Names of tables, aggregates, collations, conversions, domains, foreign tables, functions, indexes, operators, operator classes, operator families, sequences, statistics, text search objects, types, and views can be schema-qualified. When commenting on a column, _`relation_name`_ must refer to a table, view, composite type, or foreign table.
 
-.
-
-`column_name`
-
-`aggregate_name`
-
-`constraint_name`
-
-`function_name`
-
-`operator_name`
-
-`policy_name`
-
-`rule_name`
-
-`trigger_name`
-
-The name of the object to be commented. Names of tables, aggregates, collations, conversions, domains, foreign tables, functions, indexes, operators, operator classes, operator families, sequences, statistics, text search objects, types, and views can be schema-qualified. When commenting on a column,\_`relation_name`\_must refer to a table, view, composite type, or foreign table.
-
-`table_name`
-
-`domain_name`
+_`table_name`_  
+_`domain_name`_
 
 When creating a comment on a constraint, a trigger, a rule or a policy these parameters specify the name of the table or domain on which that object is defined.
 
-`source_type`
+_`source_type`_
 
 The name of the source data type of the cast.
 
-`target_type`
+_`target_type`_
 
 The name of the target data type of the cast.
 
-`argmode`
+_`argmode`_
 
-The mode of a function or aggregate argument:`IN`,`OUT`,`INOUT`, or`VARIADIC`. If omitted, the default is`IN`. Note that`COMMENT`does not actually pay any attention to`OUT`arguments, since only the input arguments are needed to determine the function's identity. So it is sufficient to list the`IN`,`INOUT`, and`VARIADIC`arguments.
+The mode of a function or aggregate argument: `IN`, `OUT`, `INOUT`, or `VARIADIC`. If omitted, the default is `IN`. Note that `COMMENT` does not actually pay any attention to `OUT` arguments, since only the input arguments are needed to determine the function's identity. So it is sufficient to list the `IN`, `INOUT`, and `VARIADIC` arguments.
 
-`argname`
+_`argname`_
 
-The name of a function or aggregate argument. Note that`COMMENT`does not actually pay any attention to argument names, since only the argument data types are needed to determine the function's identity.
+The name of a function or aggregate argument. Note that `COMMENT` does not actually pay any attention to argument names, since only the argument data types are needed to determine the function's identity.
 
-`argtype`
+_`argtype`_
 
 The data type of a function or aggregate argument.
 
-`large_object_oid`
+_`large_object_oid`_
 
 The OID of the large object.
 
-`left_type`
+_`left_type`_  
+_`right_type`_
 
-`right_type`
-
-The data type\(s\) of the operator's arguments \(optionally schema-qualified\). Write`NONE`for the missing argument of a prefix or postfix operator.
+The data type\(s\) of the operator's arguments \(optionally schema-qualified\). Write `NONE` for the missing argument of a prefix or postfix operator.
 
 `PROCEDURAL`
 
 This is a noise word.
 
-`type_name`
+_`type_name`_
 
 The name of the data type of the transform.
 
-`lang_name`
+_`lang_name`_
 
 The name of the language of the transform.
 
-`text`
+_`text`_
 
-The new comment, written as a string literal; or`NULL`to drop the comment.
+The new comment, written as a string literal; or `NULL` to drop the comment.
 
-## Notes
+### Notes
 
 There is presently no security mechanism for viewing comments: any user connected to a database can see all the comments for objects in that database. For shared objects such as databases, roles, and tablespaces, comments are stored globally so any user connected to any database in the cluster can see all the comments for shared objects. Therefore, don't put security-critical information in comments.
 
-## Examples
+### Examples
 
-Attach a comment to the table`mytable`:
+Attach a comment to the table `mytable`:
 
 ```text
-    COMMENT ON TABLE mytable IS 'This is my table.';
+COMMENT ON TABLE mytable IS 'This is my table.';
 ```
 
 Remove it again:
 
 ```text
-    COMMENT ON TABLE mytable IS NULL;
+COMMENT ON TABLE mytable IS NULL;
 ```
 
 Some more examples:
 
 ```text
-    COMMENT ON ACCESS METHOD rtree IS 'R-Tree access method';
+COMMENT ON ACCESS METHOD rtree IS 'R-Tree access method';
 COMMENT ON AGGREGATE my_aggregate (double precision) IS 'Computes sample variance';
 COMMENT ON CAST (text AS int4) IS 'Allow casts from text to int4';
 COMMENT ON COLLATION "fr_CA" IS 'Canadian French';
@@ -345,7 +193,7 @@ COMMENT ON TYPE complex IS 'Complex number data type';
 COMMENT ON VIEW my_view IS 'View of departmental costs';
 ```
 
-## Compatibility
+### Compatibility
 
-There is no`COMMENT`command in the SQL standard.
+There is no `COMMENT` command in the SQL standard.
 
