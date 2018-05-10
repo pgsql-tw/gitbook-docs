@@ -197,7 +197,7 @@
     * [19.7. 查詢規畫](server-administration/runtime-config/query-planning.md)
     * [19.8. 錯誤回報與日誌記錄](server-administration/runtime-config/logging.md)
     * 19.9. Run-time Statistics
-    * [19.10. 自動系統清理](server-administration/runtime-config/19.10.-zi-dong-xi-tong-qing-li.md)
+    * [19.10. 自動資料庫清理](server-administration/runtime-config/autovacuum.md)
     * [19.11. 用戶端連線預設參數](server-administration/runtime-config/runtime-config-client.md)
     * 19.12. Lock Management
     * [19.13. 版本與平台的相容性](server-administration/runtime-config/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md)
