@@ -396,8 +396,8 @@
     * [37.4. SQL 語言函數](server-programming/extending-sql/xfunc-sql.md)
     * 37.5. Function Overloading
     * 37.6. Function Volatility Categories
-    * 37.7. Procedural Language Functions
-    * 37.8. Internal Functions
+    * [37.7. Procedural Language Functions](server-programming/extending-sql/xfunc-pl.md)
+    * [37.8. Internal Functions](server-programming/extending-sql/xfunc-internal.md)
     * [37.9. C-Language Functions](server-programming/extending-sql/c-language-functions.md)
     * 37.10. User-defined Aggregates
     * 37.11. User-defined Types

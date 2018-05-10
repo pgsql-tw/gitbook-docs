@@ -3,15 +3,15 @@
 PostgreSQL 提供了四種形態的函數：
 
 * 查詢語言函數（用 SQL 語言撰寫的函數）（[第 37.4 節](xfunc-sql.md)）
-* procedural language functions \(functions written in, for example, PL/pgSQL or PL/Tcl\) \([Section 37.7](https://www.postgresql.org/docs/10/static/xfunc-pl.html)\)
-* internal functions \([Section 37.8](https://www.postgresql.org/docs/10/static/xfunc-internal.html)\)
-* C-language functions \([Section 37.9](https://www.postgresql.org/docs/10/static/xfunc-c.html)\)
+* 程序語言函數（例如，用 PL/pgSQL 或 PL/Tcl 撰寫的函數）（[第 37.7 節](xfunc-pl.md)）
+* 內部函數（[第 37.8 節](xfunc-internal.md)）
+* C 語言函數（[第 37.9 節](c-language-functions.md)）
 
-Every kind of function can take base types, composite types, or combinations of these as arguments \(parameters\). In addition, every kind of function can return a base type or a composite type. Functions can also be defined to return sets of base or composite values.
+每種函數都可以將基本型別、複合類型或它們的組合型別作為參數。 另外，每種函數都可以回傳一個基本型別或一個複合型別。函數也可以定義為回傳基本或複合值的集合。
 
-Many kinds of functions can take or return certain pseudo-types \(such as polymorphic types\), but the available facilities vary. Consult the description of each kind of function for more details.
+許多函數可以接受或回傳某些虛擬型別 pseudo type（如多態型別 polymorphic type），但可用的方式會有所不同。有關更多詳細訊息，請參閱各種函數的說明。
 
-It's easiest to define SQL functions, so we'll start by discussing those. Most of the concepts presented for SQL functions will carry over to the other types of functions.
+定義 SQL 函數最簡單，所以我們先討論這些。為 SQL 函數提供的大多數概念將轉入其他類型的函數。
 
-Throughout this chapter, it can be useful to look at the reference page of the [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) command to understand the examples better. Some examples from this chapter can be found in `funcs.sql` and `funcs.c` in the `src/tutorial` directory in the PostgreSQL source distribution.
+在本章中，查看 [CREATE FUNCTION](../../reference/sql-commands/create-function.md) 指令的參考頁面可以更好地理解這些範例。本章中的一些範例可以在 PostgreSQL 原始碼發行版的 src/tutorial 目錄中的 funcs.sql 和 funcs.c 中找到。
 
