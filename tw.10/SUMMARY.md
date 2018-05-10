@@ -502,7 +502,7 @@
   * [D. SQL 相容性](appendix/sql-conformance.md)
   * [E. 版本資訊](appendix/release-notes.md)
   * [F. 延伸支援模組](appendix/contrib/README.md)
-    * [F.4. auto\_explain](appendix/contrib/f.4.-auto_explain.md)
+    * [F.4. auto\_explain](appendix/contrib/auto_explain.md)
     * [F.11. dblink](appendix/contrib/f.11.-dblink/README.md)
       * [dblink](appendix/contrib/f.11.-dblink/dblink.md)
   * [G. Additional Supplied Programs](appendix/additional-supplied-programs/README.md)
