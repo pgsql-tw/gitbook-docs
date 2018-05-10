@@ -1,4 +1,4 @@
 # IV. 用戶端介面
 
-This part describes the client programming interfaces distributed with PostgreSQL. Each of these chapters can be read independently. Note that there are many other programming interfaces for client programs that are distributed separately and contain their own documentation \([Appendix H](https://www.postgresql.org/docs/10/static/external-projects.html) lists some of the more popular ones\). Readers of this part should be familiar with using SQL commands to manipulate and query the database \(see [Part II](https://www.postgresql.org/docs/10/static/sql.html)\) and of course with the programming language that the interface uses.
+這部分描述了使用 PostgreSQL 的用戶端程式介面。這些章節中的每一章都可以獨立閱讀。請注意，用戶端程序還有許多其他程式介面，這些程式介面獨立發佈並包含自己的文件（[附錄 H](../appendix/external-projects/) 列出了一些較受歡迎的文件）。這部分的讀者應該熟悉使用 SQL 指令來操作和查詢資料庫（請參閱[第 II 部分](../sql/)），當然還有程序語言的介面使用方式。
 

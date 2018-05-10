@@ -172,7 +172,7 @@
     * 16.4. Installation Procedure
     * 16.5. Post-Installation Setup
     * 16.6. Supported Platforms
-    * 16.7. Platform-specific Notes
+    * [16.7. 平台相關的注意事項](server-administration/installation-from-source-code/platform-specific-notes.md)
   * [17. 用原始碼在 Windows 上安裝](server-administration/installation-from-source-code-on-windows/README.md)
     * 17.1. Building with Visual C++ or the Microsoft Windows SDK
   * [18. 服務配置與維運](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/README.md)
