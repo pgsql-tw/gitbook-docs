@@ -206,11 +206,11 @@ and table_constraint_using_index is:
 
 `SET WITHOUT OIDS`
 
-This form removes the `oid` system column from the table. This is exactly equivalent to `DROP COLUMN oid RESTRICT`, except that it will not complain if there is already no `oid` column.
+此語法從資料表中移除 oid 系統欄位。這完全等同於 DROP COLUMN oid RESTRICT，只是如果已經沒有 oid 欄位，它不會有動作產生。
 
 `SET TABLESPACE`
 
-This form changes the table's tablespace to the specified tablespace and moves the data file\(s\) associated with the table to the new tablespace. Indexes on the table, if any, are not moved; but they can be moved separately with additional `SET TABLESPACE` commands. All tables in the current database in a tablespace can be moved by using the `ALL IN TABLESPACE` form, which will lock all tables to be moved first and then move each one. This form also supports `OWNED BY`, which will only move tables owned by the roles specified. If the `NOWAIT` option is specified then the command will fail if it is unable to acquire all of the locks required immediately. Note that system catalogs are not moved by this command, use `ALTER DATABASE` or explicit `ALTER TABLE` invocations instead if desired. The `information_schema` relations are not considered part of the system catalogs and will be moved. See also [CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html).
+此語法將資料表的資料表空間更改為指定的資料表空間，並將與資料表關聯的資料檔案移動到新的資料表空間。資料表中的索引（如果有的話）不會移動；但它們可以通過額外的 SET TABLESPACE 指令單獨移動。資料表空間中目前資料庫中的所有資料表都可以通過使用 ALL IN TABLESPACE 語法來移動，它將鎖定所有要移動的資料表，然後移動每個資料表。這種語法也支持 OWNED BY，它只會移動指定角色擁有的資料表。 如果指定了 NOWAIT 選項，那麼如果無法立即取得所有需要的鎖定，該指令將失敗。請注意，如果需要，系統目錄不會被此指令移動，而是使用 ALTER DATABASE 或 ALTER TABLE 呼叫。information\_schema 關連不被視為系統目錄的一部分，將會被移動。另請參閱 [CREATE TABLESPACE](create-tablespace.md)。
 
 `SET { LOGGED | UNLOGGED }`
 
