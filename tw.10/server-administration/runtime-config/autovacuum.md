@@ -44,13 +44,13 @@ Vacuum 還允許從 pg\_xact 子目錄中刪除舊檔案，這就是為什麼預
 
 `autovacuum_multixact_freeze_max_age` \(`integer`\)
 
-Specifies the maximum age \(in multixacts\) that a table's `pg_class`.`relminmxid` field can attain before a `VACUUM` operation is forced to prevent multixact ID wraparound within the table. Note that the system will launch autovacuum processes to prevent wraparound even when autovacuum is otherwise disabled.
+指定資料表的 pg\_class.relminmxid 參數在 VACUUM 操作以防止資料表中的多個事務ID 重覆之前可以達到的最大時間（以 multixacts 表示）。請注意，系統將啟動 autovacuum 程序以防止重覆，即使禁用 autovacuum 也會進行。
 
-Vacuuming multixacts also allows removal of old files from the `pg_multixact/members` and `pg_multixact/offsets` subdirectories, which is why the default is a relatively low 400 million multixacts. This parameter can only be set at server start, but the setting can be reduced for individual tables by changing table storage parameters. For more information see [Section 24.1.5.1](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-MULTIXACT-WRAPAROUND).
+資料庫清理 multixacts 還允許從 pg\_multixact/members 和 pg\_multixact/offset 子目錄中刪除舊檔案，這就是為什麼預設值是相對較低的 4 億個 multixacts。該參數只能在伺服器啟動時設定，但透過變更資料表儲存參數可以減少單個資料表的設定。有關更多訊息，請參閱[第 24.1.5.1 節](../maintenance/routine-vacuuming.md#24-1-5-preventing-transaction-id-wraparound-failures)。
 
 `autovacuum_vacuum_cost_delay` \(`integer`\)
 
-Specifies the cost delay value that will be used in automatic `VACUUM` operations. If -1 is specified, the regular [vacuum\_cost\_delay](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-VACUUM-COST-DELAY) value will be used. The default value is 20 milliseconds. This parameter can only be set in the `postgresql.conf` file or on the server command line; but the setting can be overridden for individual tables by changing table storage parameters.
+指定將在自動 VACUUM 操作中使用的成本延遲值。如果指定了 -1，則將使用標準的 [vacuum\_cost\_delay](resource-consumption.md#19-4-4-cost-based-vacuum-delay) 值。預設值是 20 毫秒。此參數只能在 postgresql.conf 檔案或伺務器命令行中設定；但是可以透過變更資料表儲存參數來覆寫單個資料表的設定。
 
 `autovacuum_vacuum_cost_limit` \(`integer`\)
 
