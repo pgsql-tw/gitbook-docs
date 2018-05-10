@@ -392,8 +392,8 @@
   * [37. Extending SQL](server-programming/extending-sql/README.md)
     * 37.1. How Extensibility Works
     * 37.2. The PostgreSQL Type System
-    * [37.3. User-defined Functions](server-programming/extending-sql/user-defined-functions.md)
-    * 37.4. SQL 語言函數
+    * [37.3. 使用者自訂函數](server-programming/extending-sql/user-defined-functions.md)
+    * [37.4. SQL 語言函數](server-programming/extending-sql/xfunc-sql.md)
     * 37.5. Function Overloading
     * 37.6. Function Volatility Categories
     * 37.7. Procedural Language Functions

@@ -1,8 +1,8 @@
-# 37.3. User-defined Functions
+# 37.3. 使用者自訂函數
 
-PostgreSQL provides four kinds of functions:
+PostgreSQL 提供了四種形態的函數：
 
-* query language functions \(functions written in SQL\) \([Section 37.4](https://www.postgresql.org/docs/10/static/xfunc-sql.html)\)
+* 查詢語言函數（用 SQL 語言撰寫的函數）（[第 37.4 節](xfunc-sql.md)）
 * procedural language functions \(functions written in, for example, PL/pgSQL or PL/Tcl\) \([Section 37.7](https://www.postgresql.org/docs/10/static/xfunc-pl.html)\)
 * internal functions \([Section 37.8](https://www.postgresql.org/docs/10/static/xfunc-internal.html)\)
 * C-language functions \([Section 37.9](https://www.postgresql.org/docs/10/static/xfunc-c.html)\)
