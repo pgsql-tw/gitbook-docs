@@ -441,6 +441,7 @@
     * [CREATE VIEW](reference/sql-commands/create-view.md)
     * [DELETE](reference/sql-commands/delete.md)
     * [DROP FUNCTION](reference/sql-commands/drop-function.md)
+    * [DROP MATERIALIZED VIEW](reference/sql-commands/drop-materialized-view.md)
     * [DROP OWNED](reference/sql-commands/drop-owned.md)
     * [DROP POLICY](reference/sql-commands/drop-policy.md)
     * [DROP ROLE](reference/sql-commands/drop-role.md)
