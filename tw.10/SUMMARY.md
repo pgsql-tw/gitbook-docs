@@ -455,6 +455,7 @@
     * [LOAD](reference/sql-commands/load.md)
     * [NOTIFY](reference/sql-commands/notify.md)
     * [REASSIGN OWNED](reference/sql-commands/reassign-owned.md)
+    * [REFRESH MATERIALIZED VIEW](reference/sql-commands/refresh-materialized-view.md)
     * [RESET](reference/sql-commands/reset.md)
     * [REVOKE](reference/sql-commands/revoke.md)
     * [SELECT](reference/sql-commands/select.md)
