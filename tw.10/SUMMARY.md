@@ -411,6 +411,7 @@
 * [VI. 參考資訊](reference/README.md)
   * [I. SQL 指令](reference/sql-commands/README.md)
     * [ALTER FUNCTION](reference/sql-commands/alter-function.md)
+    * [ALTER MATERIALIZED VIEW](reference/sql-commands/alter-materialized-view.md)
     * [ALTER POLICY](reference/sql-commands/alter-policy.md)
     * [ALTER ROLE](reference/sql-commands/alter-role.md)
     * [ALTER SEQUENCE](reference/sql-commands/alter-sequence.md)

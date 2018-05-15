@@ -55,5 +55,5 @@ _`query`_
 
 ### 參閱
 
-[ALTER MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-altermaterializedview.html), [CREATE TABLE AS](https://www.postgresql.org/docs/10/static/sql-createtableas.html), [CREATE VIEW](https://www.postgresql.org/docs/10/static/sql-createview.html), [DROP MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-dropmaterializedview.html), [REFRESH MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-refreshmaterializedview.html)
+[ALTER MATERIALIZED VIEW](alter-materialized-view.md), [CREATE TABLE AS](https://www.postgresql.org/docs/10/static/sql-createtableas.html), [CREATE VIEW](create-view.md), [DROP MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-dropmaterializedview.html), [REFRESH MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-refreshmaterializedview.html)
 
