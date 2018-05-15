@@ -2,7 +2,7 @@
 
 CREATE MATERIALIZED VIEW — 定義一個新的具體化檢視表
 
-### Synopsis
+### 語法
 
 ```text
 CREATE MATERIALIZED VIEW [ IF NOT EXISTS ] table_name
@@ -13,33 +13,33 @@ CREATE MATERIALIZED VIEW [ IF NOT EXISTS ] table_name
     [ WITH [ NO ] DATA ]
 ```
 
-### Description
+### 說明
 
-`CREATE MATERIALIZED VIEW` defines a materialized view of a query. The query is executed and used to populate the view at the time the command is issued \(unless `WITH NO DATA`is used\) and may be refreshed later using `REFRESH MATERIALIZED VIEW`.
+CREATE MATERIALIZED VIEW 定義查詢的具體化檢視表。執行該查詢並在命令完成後將資料儲存於檢視表中（除非使用 WITH NO DATA），並可在稍後使用 `REFRESH MATERIALIZED VIEW 更新。`
 
-`CREATE MATERIALIZED VIEW` is similar to `CREATE TABLE AS`, except that it also remembers the query used to initialize the view, so that it can be refreshed later upon demand. A materialized view has many of the same properties as a table, but there is no support for temporary materialized views or automatic generation of OIDs.
+`CREATE MATERIALIZED VIEW 與 CREATE TABLE AS 類似，只是它還記得用於初始化檢視表的查詢，以便稍後可以根據需要更新它。具體化檢視表具有許多與資料表相同的屬性，但不支援臨時具體化檢視表或自動產生 O`ID。
 
-### Parameters
+### 參數
 
 `IF NOT EXISTS`
 
-Do not throw an error if a materialized view with the same name already exists. A notice is issued in this case. Note that there is no guarantee that the existing materialized view is anything like the one that would have been created.
+如果已經存在具有相同名稱的具體化檢視表的話，請不要拋出錯誤。在這種情況下會發布通知。請注意，這不能保證現有的具體化檢視表與想要建立的檢視表相似。
 
 _`table_name`_
 
-The name \(optionally schema-qualified\) of the materialized view to be created.
+要建立的具體化檢視表名稱（可選擇性加上所屬綱要）。
 
 _`column_name`_
 
-The name of a column in the new materialized view. If column names are not provided, they are taken from the output column names of the query.
+新的具體化檢視表中欄位的名稱。如果未提供欄位名稱，則從查詢的輸出的欄位名稱中取得它們。
 
 `WITH ( `_`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
 
-This clause specifies optional storage parameters for the new materialized view; see [Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-STORAGE-PARAMETERS) for more information. All parameters supported for `CREATE TABLE`are also supported for `CREATE MATERIALIZED VIEW` with the exception of `OIDS`. See [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for more information.
+此子句為新的具體化檢視表指定選擇性的儲存參數；請參閱[儲存參數選項](create-table.md#storage-parameters)了解更多訊息。CREATE TABLE 支援的所有參數也都支援 CREATE MATERIALIZED VIEW，只有 OIDS 除外。有關更多訊息，請參閱 [CREATE TABLE](create-table.md)。
 
 `TABLESPACE `_`tablespace_name`_
 
-The _`tablespace_name`_ is the name of the tablespace in which the new materialized view is to be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted.
+tablespace\_name 用於要在其中建立新的具體化檢視表的資料表空間名稱。如果未指定，則會使用 [default\_tablespace](../../server-administration/runtime-config/runtime-config-client.md#19-11-1-cha-ju-de-hang) 設定。
 
 _`query`_
 

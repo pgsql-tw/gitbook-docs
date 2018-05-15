@@ -454,7 +454,7 @@
     * [REASSIGN OWNED](reference/sql-commands/reassign-owned.md)
     * [RESET](reference/sql-commands/reset.md)
     * [REVOKE](reference/sql-commands/revoke.md)
-    * SELECT
+    * [SELECT](reference/sql-commands/select.md)
     * [SET ROLE](reference/sql-commands/set-role.md)
     * [SET SESSION AUTHORIZATION](reference/sql-commands/set-session-authorization.md)
     * [SET](reference/sql-commands/set.md)
