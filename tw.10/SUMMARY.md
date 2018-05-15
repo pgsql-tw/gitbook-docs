@@ -432,6 +432,7 @@
     * [CREATE SCHEMA](reference/sql-commands/create-schema.md)
     * [CREATE SERVER](reference/sql-commands/create-server.md)
     * [CREATE TABLE](reference/sql-commands/create-table.md)
+    * [CREATE TABLE AS](reference/sql-commands/create-table-as.md)
     * [CREATE TABLESPACE](reference/sql-commands/create-tablespace.md)
     * [CREATE TRANSFORM](reference/sql-commands/create-transform.md)
     * [CREATE TYPE](reference/sql-commands/create-type.md)
