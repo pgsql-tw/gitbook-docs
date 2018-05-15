@@ -43,17 +43,17 @@ tablespace\_name 用於要在其中建立新的具體化檢視表的資料表空
 
 _`query`_
 
-A [SELECT](https://www.postgresql.org/docs/10/static/sql-select.html), [TABLE](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-TABLE), or [VALUES](https://www.postgresql.org/docs/10/static/sql-values.html) command. This query will run within a security-restricted operation; in particular, calls to functions that themselves create temporary tables will fail.
+一個 [SELECT](select.md)、[TABLE](select.md#table-command) 或 [VALUES](values.md) 指令。該查詢將在安全保障的操作環境中執行；特別是對自己建立的臨時資料表函數的呼叫將會失敗。
 
 `WITH [ NO ] DATA`
 
-This clause specifies whether or not the materialized view should be populated at creation time. If not, the materialized view will be flagged as unscannable and cannot be queried until `REFRESH MATERIALIZED VIEW` is used.
+此子句指定是否需要在建立時把資料填入具體化檢視表。如果沒有的話，則具體化檢視表將被標記為不可進行資料掃描，並且在使用 REFRESH MATERIALIZED VIEW 之前都無法查詢。
 
-### Compatibility
+### 相容性
 
 `CREATE MATERIALIZED VIEW` is a PostgreSQL extension.
 
-### See Also
+### 參閱
 
 [ALTER MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-altermaterializedview.html), [CREATE TABLE AS](https://www.postgresql.org/docs/10/static/sql-createtableas.html), [CREATE VIEW](https://www.postgresql.org/docs/10/static/sql-createview.html), [DROP MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-dropmaterializedview.html), [REFRESH MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-refreshmaterializedview.html)
 
