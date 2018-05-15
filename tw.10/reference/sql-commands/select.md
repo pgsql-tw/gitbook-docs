@@ -95,21 +95,33 @@ See [Section 7.8](https://www.postgresql.org/docs/10/static/queries-with.html) f
 
 The `FROM` clause specifies one or more source tables for the `SELECT`. If multiple sources are specified, the result is the Cartesian product \(cross join\) of all the sources. But usually qualification conditions are added \(via `WHERE`\) to restrict the returned rows to a small subset of the Cartesian product.
 
-The `FROM` clause can contain the following elements:_`table_name`_
+The `FROM` clause can contain the following elements:
 
-The name \(optionally schema-qualified\) of an existing table or view. If `ONLY` is specified before the table name, only that table is scanned. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are scanned. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included._`alias`_
+_`table_name`_
 
-A substitute name for the `FROM` item containing the alias. An alias is used for brevity or to eliminate ambiguity for self-joins \(where the same table is scanned multiple times\). When an alias is provided, it completely hides the actual name of the table or function; for example given `FROM foo AS f`, the remainder of the `SELECT` must refer to this `FROM` item as `f` not `foo`. If an alias is written, a column alias list can also be written to provide substitute names for one or more columns of the table.`TABLESAMPLE `_`sampling_method`_ \( _`argument`_ \[, ...\] \) \[ REPEATABLE \( _`seed`_ \) \]
+The name \(optionally schema-qualified\) of an existing table or view. If `ONLY` is specified before the table name, only that table is scanned. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are scanned. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included.
+
+_`alias`_
+
+A substitute name for the `FROM` item containing the alias. An alias is used for brevity or to eliminate ambiguity for self-joins \(where the same table is scanned multiple times\). When an alias is provided, it completely hides the actual name of the table or function; for example given `FROM foo AS f`, the remainder of the `SELECT` must refer to this `FROM` item as `f` not `foo`. If an alias is written, a column alias list can also be written to provide substitute names for one or more columns of the table.
+
+`TABLESAMPLE `_`sampling_method`_ \( _`argument`_ \[, ...\] \) \[ REPEATABLE \( _`seed`_ \) \]
 
 A `TABLESAMPLE` clause after a _`table_name`_ indicates that the specified _`sampling_method`_ should be used to retrieve a subset of the rows in that table. This sampling precedes the application of any other filters such as `WHERE` clauses. The standard PostgreSQL distribution includes two sampling methods, `BERNOULLI` and `SYSTEM`, and other sampling methods can be installed in the database via extensions.
 
 The `BERNOULLI` and `SYSTEM` sampling methods each accept a single _`argument`_ which is the fraction of the table to sample, expressed as a percentage between 0 and 100. This argument can be any `real`-valued expression. \(Other sampling methods might accept more or different arguments.\) These two methods each return a randomly-chosen sample of the table that will contain approximately the specified percentage of the table's rows. The `BERNOULLI` method scans the whole table and selects or ignores individual rows independently with the specified probability. The `SYSTEM` method does block-level sampling with each block having the specified chance of being selected; all rows in each selected block are returned. The `SYSTEM` method is significantly faster than the `BERNOULLI` method when small sampling percentages are specified, but it may return a less-random sample of the table as a result of clustering effects.
 
-The optional `REPEATABLE` clause specifies a _`seed`_ number or expression to use for generating random numbers within the sampling method. The seed value can be any non-null floating-point value. Two queries that specify the same seed and _`argument`_ values will select the same sample of the table, if the table has not been changed meanwhile. But different seed values will usually produce different samples. If `REPEATABLE` is not given then a new random sample is selected for each query, based upon a system-generated seed. Note that some add-on sampling methods do not accept `REPEATABLE`, and will always produce new samples on each use._`select`_
+The optional `REPEATABLE` clause specifies a _`seed`_ number or expression to use for generating random numbers within the sampling method. The seed value can be any non-null floating-point value. Two queries that specify the same seed and _`argument`_ values will select the same sample of the table, if the table has not been changed meanwhile. But different seed values will usually produce different samples. If `REPEATABLE` is not given then a new random sample is selected for each query, based upon a system-generated seed. Note that some add-on sampling methods do not accept `REPEATABLE`, and will always produce new samples on each use.
 
-A sub-`SELECT` can appear in the `FROM` clause. This acts as though its output were created as a temporary table for the duration of this single `SELECT` command. Note that the sub-`SELECT` must be surrounded by parentheses, and an alias _must_ be provided for it. A [VALUES](https://www.postgresql.org/docs/10/static/sql-values.html)command can also be used here._`with_query_name`_
+_`select`_
 
-A `WITH` query is referenced by writing its name, just as though the query's name were a table name. \(In fact, the `WITH` query hides any real table of the same name for the purposes of the primary query. If necessary, you can refer to a real table of the same name by schema-qualifying the table's name.\) An alias can be provided in the same way as for a table._`function_name`_
+A sub-`SELECT` can appear in the `FROM` clause. This acts as though its output were created as a temporary table for the duration of this single `SELECT` command. Note that the sub-`SELECT` must be surrounded by parentheses, and an alias _must_ be provided for it. A [VALUES](https://www.postgresql.org/docs/10/static/sql-values.html)command can also be used here.
+
+_`with_query_name`_
+
+A `WITH` query is referenced by writing its name, just as though the query's name were a table name. \(In fact, the `WITH` query hides any real table of the same name for the purposes of the primary query. If necessary, you can refer to a real table of the same name by schema-qualifying the table's name.\) An alias can be provided in the same way as for a table.
+
+_`function_name`_
 
 Function calls can appear in the `FROM` clause. \(This is especially useful for functions that return result sets, but any function can be used.\) This acts as though the function's output were created as a temporary table for the duration of this single `SELECT` command. When the optional `WITH ORDINALITY` clause is added to the function call, a new column is appended after all the function's output columns with numbering for each row.
 
@@ -121,7 +133,9 @@ If the function has been defined as returning the `record` data type, then an al
 
 When using the `ROWS FROM( ... )` syntax, if one of the functions requires a column definition list, it's preferred to put the column definition list after the function call inside `ROWS FROM( ... )`. A column definition list can be placed after the `ROWS FROM( ... )` construct only if there's just a single function and no `WITH ORDINALITY` clause.
 
-To use `ORDINALITY` together with a column definition list, you must use the `ROWS FROM( ... )` syntax and put the column definition list inside `ROWS FROM( ... )`._`join_type`_
+To use `ORDINALITY` together with a column definition list, you must use the `ROWS FROM( ... )` syntax and put the column definition list inside `ROWS FROM( ... )`.
+
+_`join_type`_
 
 One of
 
@@ -145,9 +159,13 @@ Conversely, `RIGHT OUTER JOIN` returns all the joined rows, plus one row for eac
 
 _`join_condition`_ is an expression resulting in a value of type `boolean` \(similar to a `WHERE` clause\) that specifies which rows in a join are considered to match.`USING ( `_`join_column`_ \[, ...\] \)
 
-A clause of the form `USING ( a, b, ... )` is shorthand for `ON left_table.a = right_table.a AND left_table.b = right_table.b ...`. Also, `USING` implies that only one of each pair of equivalent columns will be included in the join output, not both.`NATURAL`
+A clause of the form `USING ( a, b, ... )` is shorthand for `ON left_table.a = right_table.a AND left_table.b = right_table.b ...`. Also, `USING` implies that only one of each pair of equivalent columns will be included in the join output, not both.
 
-`NATURAL` is shorthand for a `USING` list that mentions all columns in the two tables that have matching names. If there are no common column names, `NATURAL` is equivalent to `ON TRUE`.`LATERAL`
+`NATURAL`
+
+`NATURAL` is shorthand for a `USING` list that mentions all columns in the two tables that have matching names. If there are no common column names, `NATURAL` is equivalent to `ON TRUE`.
+
+`LATERAL`
 
 The `LATERAL` key word can precede a sub-`SELECT` `FROM` item. This allows the sub-`SELECT` to refer to columns of `FROM` items that appear before it in the `FROM` list. \(Without `LATERAL`, each sub-`SELECT` is evaluated independently and so cannot cross-reference any other `FROM`item.\)
 
