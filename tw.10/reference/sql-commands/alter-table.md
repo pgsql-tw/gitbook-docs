@@ -214,17 +214,17 @@ and table_constraint_using_index is:
 
 `SET { LOGGED | UNLOGGED }`
 
-This form changes the table from unlogged to logged or vice-versa \(see [`UNLOGGED`](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-UNLOGGED)\). It cannot be applied to a temporary table.
+此子句會將資料表從無日誌資料表變更為有日誌資料表或反之亦然（請參閱 [UNLOGGED](create-table.md)）。它不能用於臨時資料表。
 
 `SET ( `_`storage_parameter`_ = _`value`_ \[, ... \] \)
 
-This form changes one or more storage parameters for the table. See [Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-STORAGE-PARAMETERS) for details on the available parameters. Note that the table contents will not be modified immediately by this command; depending on the parameter you might need to rewrite the table to get the desired effects. That can be done with [VACUUM FULL](https://www.postgresql.org/docs/10/static/sql-vacuum.html), [CLUSTER](https://www.postgresql.org/docs/10/static/sql-cluster.html) or one of the forms of `ALTER TABLE` that forces a table rewrite. For planner related parameters, changes will take effect from the next time the table is locked so currently executing queries will not be affected.
+此子句變更資料表的一個或多個儲存參數。有關可用參數的詳細訊息，請參閱[儲存參數選項](create-table.md#storage-parameters)。請注意，這個指令不會立即修改資料表內容；根據參數，您可能需要重填資料表以獲得所需的效果。這可以透過 [VACUUM FULL](vacuum.md)、[CLUSTER](cluster.md)或強制重填資料表的 ALTER TABLE 形式來完成。對於與規劃器相關的參數，更改將在下次資料表鎖定時生效，因此目前執行的查詢不會受到影響。
 
-`SHARE UPDATE EXCLUSIVE` lock will be taken for fillfactor and autovacuum storage parameters, as well as the following planner related parameters: `effective_io_concurrency`, `parallel_workers`, `seq_page_cost`, `random_page_cost`, `n_distinct` and `n_distinct_inherited`.
+SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以下計劃程序的相關參數進行鎖定：effective\_io\_concurrency，parallel\_workers，seq\_page\_cost，random\_page\_cost，n\_distinct 和 n\_distinct\_inherited。
 
-#### Note
+#### 注意
 
-While `CREATE TABLE` allows `OIDS` to be specified in the `WITH (`_`storage_parameter`_\) syntax, `ALTER TABLE` does not treat `OIDS` as a storage parameter. Instead use the `SET WITH OIDS` and `SET WITHOUT OIDS` forms to change OID status.
+雖然 CREATE TABLE 允許在 WITH（storage\_parameter）語法中指定 OIDS，但 ALTER TABLE 不會將 OIDS 視為儲存參數。而是使用 SET WITH OIDS 和 SET WITHOUT OIDS 語法來變更 OID 狀態。
 
 `RESET ( `_`storage_parameter`_ \[, ... \] \)
 
