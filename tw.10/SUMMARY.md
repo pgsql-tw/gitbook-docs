@@ -462,6 +462,7 @@
     * [UPDATE](reference/sql-commands/update.md)
     * [VACUUM](reference/sql-commands/vacuum.md)
     * [VALUES](reference/sql-commands/values.md)
+    * [CREATE MATERIALIZED VIEW](reference/sql-commands/create-materialized-view.md)
   * [II. PostgreSQL 用戶端工具](reference/client/README.md)
     * [createdb](reference/client/createdb.md)
     * [createuser](reference/client/createuser.md)
