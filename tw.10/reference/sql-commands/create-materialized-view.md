@@ -1,6 +1,6 @@
 # CREATE MATERIALIZED VIEW
 
-CREATE MATERIALIZED VIEW — define a new materialized view
+CREATE MATERIALIZED VIEW — 定義一個新的具體化檢視表
 
 ### Synopsis
 
