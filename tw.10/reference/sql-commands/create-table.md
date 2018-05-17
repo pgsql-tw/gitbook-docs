@@ -112,11 +112,11 @@ If specified, the table is created as an unlogged table. Data written to unlogge
 
 Do not throw an error if a relation with the same name already exists. A notice is issued in this case. Note that there is no guarantee that the existing relation is anything like the one that would have been created._`table_name`_
 
-The name \(optionally schema-qualified\) of the table to be created.`OF `_`type_name`_
+The name \(optionally schema-qualified\) of the table to be created.`OF` _`type_name`_
 
 Creates a _typed table_, which takes its structure from the specified composite type \(name optionally schema-qualified\). A typed table is tied to its type; for example the table will be dropped if the type is dropped \(with `DROP TYPE ... CASCADE`\).
 
-When a typed table is created, then the data types of the columns are determined by the underlying composite type and are not specified by the `CREATE TABLE` command. But the `CREATE TABLE` command can add defaults and constraints to the table and can specify storage parameters.`PARTITION OF `_`parent_table`_ FOR VALUES _`partition_bound_spec`_
+When a typed table is created, then the data types of the columns are determined by the underlying composite type and are not specified by the `CREATE TABLE` command. But the `CREATE TABLE` command can add defaults and constraints to the table and can specify storage parameters.`PARTITION OF` _`parent_table`_ FOR VALUES _`partition_bound_spec`_
 
 Creates the table as a _partition_ of the specified parent table.
 
@@ -144,9 +144,9 @@ Operations such as TRUNCATE which normally affect a table and all of its inherit
 
 The name of a column to be created in the new table._`data_type`_
 
-The data type of the column. This can include array specifiers. For more information on the data types supported by PostgreSQL, refer to [Chapter 8](https://www.postgresql.org/docs/10/static/datatype.html).`COLLATE `_`collation`_
+The data type of the column. This can include array specifiers. For more information on the data types supported by PostgreSQL, refer to [Chapter 8](https://www.postgresql.org/docs/10/static/datatype.html).`COLLATE` _`collation`_
 
-The `COLLATE` clause assigns a collation to the column \(which must be of a collatable data type\). If not specified, the column data type's default collation is used.`INHERITS ( `_`parent_table`_ \[, ... \] \)
+The `COLLATE` clause assigns a collation to the column \(which must be of a collatable data type\). If not specified, the column data type's default collation is used.`INHERITS (` _`parent_table`_ \[, ... \] \)
 
 The optional `INHERITS` clause specifies a list of tables from which the new table automatically inherits all columns. Parent tables can be plain tables or foreign tables.
 
@@ -158,13 +158,13 @@ If the same column name exists in more than one parent table, an error is report
 
 Column `STORAGE` settings are also copied from parent tables.
 
-If a column in the parent table is an identity column, that property is not inherited. A column in the child table can be declared identity column if desired.`PARTITION BY { RANGE | LIST } ( { `_`column_name`_ \| \( _`expression`_ \) } \[ _`opclass`_ \] \[, ...\] \)
+If a column in the parent table is an identity column, that property is not inherited. A column in the child table can be declared identity column if desired.`PARTITION BY { RANGE | LIST } ( {` _`column_name`_ \| \( _`expression`_ \) } \[ _`opclass`_ \] \[, ...\] \)
 
 The optional `PARTITION BY` clause specifies a strategy of partitioning the table. The table thus created is called a _partitioned_ table. The parenthesized list of columns or expressions forms the _partition key_ for the table. When using range partitioning, the partition key can include multiple columns or expressions \(up to 32, but this limit can be altered when building PostgreSQL\), but for list partitioning, the partition key must consist of a single column or expression. If no B-tree operator class is specified when creating a partitioned table, the default B-tree operator class for the datatype will be used. If there is none, an error will be reported.
 
 A partitioned table is divided into sub-tables \(called partitions\), which are created using separate `CREATE TABLE` commands. The partitioned table is itself empty. A data row inserted into the table is routed to a partition based on the value of columns or expressions in the partition key. If no existing partition matches the values in the new row, an error will be reported.
 
-Partitioned tables do not support `UNIQUE`, `PRIMARY KEY`, `EXCLUDE`, or `FOREIGN KEY` constraints; however, you can define these constraints on individual partitions.`LIKE `_`source_table`_ \[ _`like_option`_ ... \]
+Partitioned tables do not support `UNIQUE`, `PRIMARY KEY`, `EXCLUDE`, or `FOREIGN KEY` constraints; however, you can define these constraints on individual partitions.`LIKE` _`source_table`_ \[ _`like_option`_ ... \]
 
 The `LIKE` clause specifies a table from which the new table automatically copies all column names, their data types, and their not-null constraints.
 
@@ -186,7 +186,7 @@ Comments for the copied columns, constraints, and indexes will be copied only if
 
 Note that unlike `INHERITS`, columns and constraints copied by `LIKE` are not merged with similarly named columns and constraints. If the same name is specified explicitly or in another `LIKE` clause, an error is signaled.
 
-The `LIKE` clause can also be used to copy column definitions from views, foreign tables, or composite types. Inapplicable options \(e.g., `INCLUDING INDEXES` from a view\) are ignored.`CONSTRAINT `_`constraint_name`_
+The `LIKE` clause can also be used to copy column definitions from views, foreign tables, or composite types. Inapplicable options \(e.g., `INCLUDING INDEXES` from a view\) are ignored.`CONSTRAINT` _`constraint_name`_
 
 An optional name for a column or table constraint. If the constraint is violated, the constraint name is present in error messages, so constraint names like `col must be positive` can be used to communicate helpful constraint information to client applications. \(Double-quotes are needed to specify constraint names that contain spaces.\) If a constraint name is not specified, the system generates a name.`NOT NULL`
 
@@ -194,7 +194,7 @@ The column is not allowed to contain null values.`NULL`
 
 The column is allowed to contain null values. This is the default.
 
-This clause is only provided for compatibility with non-standard SQL databases. Its use is discouraged in new applications.`CHECK ( `_`expression`_ \) \[ NO INHERIT \]
+This clause is only provided for compatibility with non-standard SQL databases. Its use is discouraged in new applications.`CHECK (` _`expression`_ \) \[ NO INHERIT \]
 
 The `CHECK` clause specifies an expression producing a Boolean result which new or updated rows must satisfy for an insert or update operation to succeed. Expressions evaluating to TRUE or UNKNOWN succeed. Should any row of an insert or update operation produce a FALSE result, an error exception is raised and the insert or update does not alter the database. A check constraint specified as a column constraint should reference that column's value only, while an expression appearing in a table constraint can reference multiple columns.
 
@@ -202,31 +202,31 @@ Currently, `CHECK` expressions cannot contain subqueries nor refer to variables 
 
 A constraint marked with `NO INHERIT` will not propagate to child tables.
 
-When a table has multiple `CHECK` constraints, they will be tested for each row in alphabetical order by name, after checking `NOT NULL` constraints. \(PostgreSQL versions before 9.5 did not honor any particular firing order for `CHECK` constraints.\)`DEFAULT `_`default_expr`_
+When a table has multiple `CHECK` constraints, they will be tested for each row in alphabetical order by name, after checking `NOT NULL` constraints. \(PostgreSQL versions before 9.5 did not honor any particular firing order for `CHECK` constraints.\)`DEFAULT` _`default_expr`_
 
 The `DEFAULT` clause assigns a default data value for the column whose column definition it appears within. The value is any variable-free expression \(subqueries and cross-references to other columns in the current table are not allowed\). The data type of the default expression must match the data type of the column.
 
-The default expression will be used in any insert operation that does not specify a value for the column. If there is no default for a column, then the default is null.`GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY [ ( `_`sequence_options`_ \) \]
+The default expression will be used in any insert operation that does not specify a value for the column. If there is no default for a column, then the default is null.`GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY [ (` _`sequence_options`_ \) \]
 
 This clause creates the column as an _identity column_. It will have an implicit sequence attached to it and the column in new rows will automatically have values from the sequence assigned to it.
 
 The clauses `ALWAYS` and `BY DEFAULT` determine how the sequence value is given precedence over a user-specified value in an `INSERT` statement. If `ALWAYS` is specified, a user-specified value is only accepted if the `INSERT` statement specifies `OVERRIDING SYSTEM VALUE`. If `BY DEFAULT` is specified, then the user-specified value takes precedence. See [INSERT](https://www.postgresql.org/docs/10/static/sql-insert.html) for details. \(In the `COPY` command, user-specified values are always used regardless of this setting.\)
 
 The optional _`sequence_options`_ clause can be used to override the options of the sequence. See [CREATE SEQUENCE](https://www.postgresql.org/docs/10/static/sql-createsequence.html) for details.`UNIQUE` \(column constraint\)  
-`UNIQUE ( `_`column_name`_ \[, ... \] \) \(table constraint\)
+`UNIQUE (` _`column_name`_ \[, ... \] \) \(table constraint\)
 
 The `UNIQUE` constraint specifies that a group of one or more columns of a table can contain only unique values. The behavior of the unique table constraint is the same as that for column constraints, with the additional capability to span multiple columns.
 
 For the purpose of a unique constraint, null values are not considered equal.
 
 Each unique table constraint must name a set of columns that is different from the set of columns named by any other unique or primary key constraint defined for the table. \(Otherwise it would just be the same constraint listed twice.\)`PRIMARY KEY` \(column constraint\)  
-`PRIMARY KEY ( `_`column_name`_ \[, ... \] \) \(table constraint\)
+`PRIMARY KEY (` _`column_name`_ \[, ... \] \) \(table constraint\)
 
 The `PRIMARY KEY` constraint specifies that a column or columns of a table can contain only unique \(non-duplicate\), nonnull values. Only one primary key can be specified for a table, whether as a column constraint or a table constraint.
 
 The primary key constraint should name a set of columns that is different from the set of columns named by any unique constraint defined for the same table. \(Otherwise, the unique constraint is redundant and will be discarded.\)
 
-`PRIMARY KEY` enforces the same data constraints as a combination of `UNIQUE` and `NOT NULL`, but identifying a set of columns as the primary key also provides metadata about the design of the schema, since a primary key implies that other tables can rely on this set of columns as a unique identifier for rows.`EXCLUDE [ USING `_`index_method`_ \] \( _`exclude_element`_ WITH _`operator`_ \[, ... \] \) _`index_parameters`_ \[ WHERE \( _`predicate`_ \) \]
+`PRIMARY KEY` enforces the same data constraints as a combination of `UNIQUE` and `NOT NULL`, but identifying a set of columns as the primary key also provides metadata about the design of the schema, since a primary key implies that other tables can rely on this set of columns as a unique identifier for rows.`EXCLUDE [ USING` _`index_method`_ \] \( _`exclude_element`_ WITH _`operator`_ \[, ... \] \) _`index_parameters`_ \[ WHERE \( _`predicate`_ \) \]
 
 The `EXCLUDE` clause defines an exclusion constraint, which guarantees that if any two rows are compared on the specified column\(s\) or expression\(s\) using the specified operator\(s\), not all of these comparisons will return `TRUE`. If all of the specified operators test for equality, this is equivalent to a `UNIQUE` constraint, although an ordinary unique constraint will be faster. However, exclusion constraints can specify constraints that are more general than simple equality. For example, you can specify a constraint that no two rows in the table contain overlapping circles \(see [Section 8.8](https://www.postgresql.org/docs/10/static/datatype-geometric.html)\) by using the `&&` operator.
 
@@ -234,8 +234,8 @@ Exclusion constraints are implemented using an index, so each specified operator
 
 The access method must support `amgettuple` \(see [Chapter 60](https://www.postgresql.org/docs/10/static/indexam.html)\); at present this means GIN cannot be used. Although it's allowed, there is little point in using B-tree or hash indexes with an exclusion constraint, because this does nothing that an ordinary unique constraint doesn't do better. So in practice the access method will always be GiST or SP-GiST.
 
-The _`predicate`_ allows you to specify an exclusion constraint on a subset of the table; internally this creates a partial index. Note that parentheses are required around the predicate.`REFERENCES `_`reftable`_ \[ \( _`refcolumn`_ \) \] \[ MATCH _`matchtype`_ \] \[ ON DELETE _`action`_ \] \[ ON UPDATE _`action`_ \] \(column constraint\)  
-`FOREIGN KEY ( `_`column_name`_ \[, ... \] \) REFERENCES _`reftable`_ \[ \( _`refcolumn`_ \[, ... \] \) \] \[ MATCH _`matchtype`_ \] \[ ON DELETE _`action`_ \] \[ ON UPDATE _`action`_ \] \(table constraint\)
+The _`predicate`_ allows you to specify an exclusion constraint on a subset of the table; internally this creates a partial index. Note that parentheses are required around the predicate.`REFERENCES` _`reftable`_ \[ \( _`refcolumn`_ \) \] \[ MATCH _`matchtype`_ \] \[ ON DELETE _`action`_ \] \[ ON UPDATE _`action`_ \] \(column constraint\)  
+`FOREIGN KEY (` _`column_name`_ \[, ... \] \) REFERENCES _`reftable`_ \[ \( _`refcolumn`_ \[, ... \] \) \] \[ MATCH _`matchtype`_ \] \[ ON DELETE _`action`_ \] \[ ON UPDATE _`action`_ \] \(table constraint\)
 
 These clauses specify a foreign key constraint, which requires that a group of one or more columns of the new table must only contain values that match values in the referenced column\(s\) of some row of the referenced table. If the _`refcolumn`_ list is omitted, the primary key of the _`reftable`_ is used. The referenced columns must be the columns of a non-deferrable unique or primary key constraint in the referenced table. The user must have `REFERENCES` permission on the referenced table \(either the whole table, or the specific referenced columns\). Note that foreign key constraints cannot be defined between temporary tables and permanent tables.
 
@@ -259,7 +259,7 @@ If the referenced column\(s\) are changed frequently, it might be wise to add an
 This controls whether the constraint can be deferred. A constraint that is not deferrable will be checked immediately after every command. Checking of constraints that are deferrable can be postponed until the end of the transaction \(using the [SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html)command\). `NOT DEFERRABLE` is the default. Currently, only `UNIQUE`, `PRIMARY KEY`, `EXCLUDE`, and `REFERENCES` \(foreign key\) constraints accept this clause. `NOT NULL` and `CHECK` constraints are not deferrable. Note that deferrable constraints cannot be used as conflict arbitrators in an `INSERT` statement that includes an `ON CONFLICT DO UPDATE` clause.`INITIALLY IMMEDIATE`  
 `INITIALLY DEFERRED`
 
-If a constraint is deferrable, this clause specifies the default time to check the constraint. If the constraint is `INITIALLY IMMEDIATE`, it is checked after each statement. This is the default. If the constraint is `INITIALLY DEFERRED`, it is checked only at the end of the transaction. The constraint check time can be altered with the [SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html) command.`WITH ( `_`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
+If a constraint is deferrable, this clause specifies the default time to check the constraint. If the constraint is `INITIALLY IMMEDIATE`, it is checked after each statement. This is the default. If the constraint is `INITIALLY DEFERRED`, it is checked only at the end of the transaction. The constraint check time can be altered with the [SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html) command.`WITH (` _`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
 
 This clause specifies optional storage parameters for a table or index; see [Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-STORAGE-PARAMETERS) for more information. The `WITH` clause for a table can also include `OIDS=TRUE` \(or just `OIDS`\) to specify that rows of the new table should have OIDs \(object identifiers\) assigned to them, or `OIDS=FALSE` to specify that the rows should not have OIDs. If `OIDS` is not specified, the default setting depends upon the [default\_with\_oids](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#GUC-DEFAULT-WITH-OIDS) configuration parameter. \(If the new table inherits from any tables that have OIDs, then `OIDS=TRUE` is forced even if the command says `OIDS=FALSE`.\)
 
@@ -276,9 +276,9 @@ No special action is taken at the ends of transactions. This is the default beha
 
 All rows in the temporary table will be deleted at the end of each transaction block. Essentially, an automatic [TRUNCATE](https://www.postgresql.org/docs/10/static/sql-truncate.html) is done at each commit.`DROP`
 
-The temporary table will be dropped at the end of the current transaction block.`TABLESPACE `_`tablespace_name`_
+The temporary table will be dropped at the end of the current transaction block.`TABLESPACE` _`tablespace_name`_
 
-The _`tablespace_name`_ is the name of the tablespace in which the new table is to be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.`USING INDEX TABLESPACE `_`tablespace_name`_
+The _`tablespace_name`_ is the name of the tablespace in which the new table is to be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.`USING INDEX TABLESPACE` _`tablespace_name`_
 
 This clause allows selection of the tablespace in which the index associated with a `UNIQUE`, `PRIMARY KEY`, or `EXCLUDE` constraint will be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.
 

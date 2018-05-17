@@ -43,11 +43,11 @@ Besides the configuration parameters documented in [Chapter 19](https://www.post
 
 `SCHEMA`
 
-`SET SCHEMA '`_`value`_' is an alias for `SET search_path TO `_`value`_. Only one schema can be specified using this syntax.
+`SET SCHEMA '`_`value`_' is an alias for `SET search_path TO` _`value`_. Only one schema can be specified using this syntax.
 
 `NAMES`
 
-`SET NAMES `_`value`_ is an alias for `SET client_encoding TO `_`value`_.
+`SET NAMES` _`value`_ is an alias for `SET client_encoding TO` _`value`_.
 
 `SEED`
 
@@ -61,7 +61,7 @@ SELECT setseed(value);
 
 `TIME ZONE`
 
-`SET TIME ZONE `_`value`_ is an alias for `SET timezone TO `_`value`_. The syntax `SET TIME ZONE` allows special syntax for the time zone specification. Here are examples of valid values:
+`SET TIME ZONE` _`value`_ is an alias for `SET timezone TO` _`value`_. The syntax `SET TIME ZONE` allows special syntax for the time zone specification. Here are examples of valid values:
 
 `'PST8PDT'`
 

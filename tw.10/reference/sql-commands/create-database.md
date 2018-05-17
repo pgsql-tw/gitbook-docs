@@ -23,7 +23,7 @@ CREATE DATABASE name
 
 To create a database, you must be a superuser or have the special `CREATEDB` privilege. See [CREATE USER](https://www.postgresql.org/docs/10/static/sql-createuser.html).
 
-By default, the new database will be created by cloning the standard system database `template1`. A different template can be specified by writing `TEMPLATE `_`name`_. In particular, by writing `TEMPLATE template0`, you can create a virgin database containing only the standard objects predefined by your version of PostgreSQL. This is useful if you wish to avoid copying any installation-local objects that might have been added to `template1`.
+By default, the new database will be created by cloning the standard system database `template1`. A different template can be specified by writing `TEMPLATE` _`name`_. In particular, by writing `TEMPLATE template0`, you can create a virgin database containing only the standard objects predefined by your version of PostgreSQL. This is useful if you wish to avoid copying any installation-local objects that might have been added to `template1`.
 
 ### Parameters
 

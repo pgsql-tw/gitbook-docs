@@ -44,7 +44,7 @@ _`column_name`_
 
 The name of a column in the new table. If column names are not provided, they are taken from the output column names of the query.
 
-`WITH ( `_`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
+`WITH (` _`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
 
 This clause specifies optional storage parameters for the new table; see [Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-STORAGE-PARAMETERS) for more information. The `WITH` clause can also include `OIDS=TRUE` \(or just `OIDS`\) to specify that rows of the new table should have OIDs \(object identifiers\) assigned to them, or `OIDS=FALSE` to specify that the rows should not have OIDs. See [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for more information.
 
@@ -67,7 +67,7 @@ All rows in the temporary table will be deleted at the end of each transaction b
 
 `DROP`
 
-The temporary table will be dropped at the end of the current transaction block.`TABLESPACE `_`tablespace_name`_
+The temporary table will be dropped at the end of the current transaction block.`TABLESPACE` _`tablespace_name`_
 
 The _`tablespace_name`_ is the name of the tablespace in which the new table is to be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.
 

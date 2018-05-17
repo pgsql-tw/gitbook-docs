@@ -8,9 +8,9 @@ pg_dump dbname > outfile
 
 As you see, pg\_dump writes its result to the standard output. We will see below how this can be useful. While the above command creates a text file, pg\_dump can create files in other formats that allow for parallelism and more fine-grained control of object restoration.
 
-pg\_dump is a regular PostgreSQL client application \(albeit a particularly clever one\). This means that you can perform this backup procedure from any remote host that has access to the database. But remember that pg\_dump does not operate with special permissions. In particular, it must have read access to all tables that you want to back up, so in order to back up the entire database you almost always have to run it as a database superuser. \(If you do not have sufficient privileges to back up the entire database, you can still back up portions of the database to which you do have access using options such as `-n `_`schema`_ or `-t `_`table`_.\)
+pg\_dump is a regular PostgreSQL client application \(albeit a particularly clever one\). This means that you can perform this backup procedure from any remote host that has access to the database. But remember that pg\_dump does not operate with special permissions. In particular, it must have read access to all tables that you want to back up, so in order to back up the entire database you almost always have to run it as a database superuser. \(If you do not have sufficient privileges to back up the entire database, you can still back up portions of the database to which you do have access using options such as `-n` _`schema`_ or `-t` _`table`_.\)
 
-To specify which database server pg\_dump should contact, use the command line options `-h `_`host`_ and `-p `_`port`_. The default host is the local host or whatever your `PGHOST` environment variable specifies. Similarly, the default port is indicated by the `PGPORT` environment variable or, failing that, by the compiled-in default. \(Conveniently, the server will normally have the same compiled-in default.\)
+To specify which database server pg\_dump should contact, use the command line options `-h` _`host`_ and `-p` _`port`_. The default host is the local host or whatever your `PGHOST` environment variable specifies. Similarly, the default port is indicated by the `PGPORT` environment variable or, failing that, by the compiled-in default. \(Conveniently, the server will normally have the same compiled-in default.\)
 
 Like any other PostgreSQL client application, pg\_dump will by default connect with the database user name that is equal to the current operating system user name. To override this, either specify the `-U` option or set the environment variable `PGUSER`. Remember that pg\_dump connections are subject to the normal client authentication mechanisms \(which are described in [Chapter 20](https://www.postgresql.org/docs/10/static/client-authentication.html)\).
 
@@ -26,7 +26,7 @@ Text files created by pg\_dump are intended to be read in by the psql program. T
 psql dbname < infile
 ```
 
-where _`infile`_ is the file output by the pg\_dump command. The database _`dbname`_ will not be created by this command, so you must create it yourself from `template0` before executing psql \(e.g., with `createdb -T template0 `_`dbname`_\). psql supports options similar to pg\_dumpfor specifying the database server to connect to and the user name to use. See the [psql](https://www.postgresql.org/docs/10/static/app-psql.html) reference page for more information. Non-text file dumps are restored using the [pg\_restore](https://www.postgresql.org/docs/10/static/app-pgrestore.html) utility.
+where _`infile`_ is the file output by the pg\_dump command. The database _`dbname`_ will not be created by this command, so you must create it yourself from `template0` before executing psql \(e.g., with `createdb -T template0` _`dbname`_\). psql supports options similar to pg\_dumpfor specifying the database server to connect to and the user name to use. See the [psql](https://www.postgresql.org/docs/10/static/app-psql.html) reference page for more information. Non-text file dumps are restored using the [pg\_restore](https://www.postgresql.org/docs/10/static/app-pgrestore.html) utility.
 
 Before restoring an SQL dump, all the users who own objects or were granted permissions on objects in the dumped database must already exist. If they do not, the restore will fail to recreate the objects with the original ownership and/or permissions. \(Sometimes this is what you want, but usually it is not.\)
 
@@ -74,7 +74,7 @@ Cluster-wide data can be dumped alone using the pg\_dumpall `--globals-only` opt
 
 Some operating systems have maximum file size limits that cause problems when creating large pg\_dump output files. Fortunately, pg\_dump can write to the standard output, so you can use standard Unix tools to work around this potential problem. There are several possible methods:
 
-**Use compressed dumps. ** You can use your favorite compression program, for example gzip:
+**Use compressed dumps.**  You can use your favorite compression program, for example gzip:
 
 ```text
 pg_dump dbname | gzip > filename.gz
@@ -92,7 +92,7 @@ or:
 cat filename.gz | gunzip | psql dbname
 ```
 
-**Use `split`. ** The `split` command allows you to split the output into smaller files that are acceptable in size to the underlying file system. For example, to make chunks of 1 megabyte:
+**Use `split`.**  The `split` command allows you to split the output into smaller files that are acceptable in size to the underlying file system. For example, to make chunks of 1 megabyte:
 
 ```text
 pg_dump dbname | split -b 1m - filename
@@ -104,7 +104,7 @@ Reload with:
 cat filename* | psql dbname
 ```
 
-**Use pg\_dump's custom dump format. ** If PostgreSQL was built on a system with the zlib compression library installed, the custom dump format will compress data as it writes it to the output file. This will produce dump file sizes similar to using `gzip`, but it has the added advantage that tables can be restored selectively. The following command dumps a database using the custom dump format:
+**Use pg\_dump's custom dump format.**  If PostgreSQL was built on a system with the zlib compression library installed, the custom dump format will compress data as it writes it to the output file. This will produce dump file sizes similar to using `gzip`, but it has the added advantage that tables can be restored selectively. The following command dumps a database using the custom dump format:
 
 ```text
 pg_dump -Fc dbname > filename
@@ -120,7 +120,7 @@ See the [pg\_dump](https://www.postgresql.org/docs/10/static/app-pgdump.html) an
 
 For very large databases, you might need to combine `split` with one of the other two approaches.
 
-**Use pg\_dump's parallel dump feature. ** To speed up the dump of a large database, you can use pg\_dump's parallel mode. This will dump multiple tables at the same time. You can control the degree of parallelism with the `-j` parameter. Parallel dumps are only supported for the "directory" archive format.
+**Use pg\_dump's parallel dump feature.**  To speed up the dump of a large database, you can use pg\_dump's parallel mode. This will dump multiple tables at the same time. You can control the degree of parallelism with the `-j` parameter. Parallel dumps are only supported for the "directory" archive format.
 
 ```text
 pg_dump -j num -F d -f out.dir dbname

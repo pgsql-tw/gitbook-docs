@@ -32,25 +32,25 @@ The name \(optionally schema-qualified\) of a sequence to be altered.`IF EXISTS`
 
 Do not throw an error if the sequence does not exist. A notice is issued in this case._`data_type`_
 
-The optional clause `AS `_`data_type`_ changes the data type of the sequence. Valid types are `smallint`, `integer`, and `bigint`.
+The optional clause `AS` _`data_type`_ changes the data type of the sequence. Valid types are `smallint`, `integer`, and `bigint`.
 
 Changing the data type automatically changes the minimum and maximum values of the sequence if and only if the previous minimum and maximum values were the minimum or maximum value of the old data type \(in other words, if the sequence had been created using `NO MINVALUE` or `NO MAXVALUE`, implicitly or explicitly\). Otherwise, the minimum and maximum values are preserved, unless new values are given as part of the same command. If the minimum and maximum values do not fit into the new data type, an error will be generated._`increment`_
 
-The clause `INCREMENT BY `_`increment`_ is optional. A positive value will make an ascending sequence, a negative one a descending sequence. If unspecified, the old increment value will be maintained._`minvalue`_  
+The clause `INCREMENT BY` _`increment`_ is optional. A positive value will make an ascending sequence, a negative one a descending sequence. If unspecified, the old increment value will be maintained._`minvalue`_  
 `NO MINVALUE`
 
-The optional clause `MINVALUE `_`minvalue`_ determines the minimum value a sequence can generate. If `NO MINVALUE` is specified, the defaults of 1 and the minimum value of the data type for ascending and descending sequences, respectively, will be used. If neither option is specified, the current minimum value will be maintained._`maxvalue`_  
+The optional clause `MINVALUE` _`minvalue`_ determines the minimum value a sequence can generate. If `NO MINVALUE` is specified, the defaults of 1 and the minimum value of the data type for ascending and descending sequences, respectively, will be used. If neither option is specified, the current minimum value will be maintained._`maxvalue`_  
 `NO MAXVALUE`
 
-The optional clause `MAXVALUE `_`maxvalue`_ determines the maximum value for the sequence. If `NO MAXVALUE` is specified, the defaults of the maximum value of the data type and -1 for ascending and descending sequences, respectively, will be used. If neither option is specified, the current maximum value will be maintained._`start`_
+The optional clause `MAXVALUE` _`maxvalue`_ determines the maximum value for the sequence. If `NO MAXVALUE` is specified, the defaults of the maximum value of the data type and -1 for ascending and descending sequences, respectively, will be used. If neither option is specified, the current maximum value will be maintained._`start`_
 
-The optional clause `START WITH `_`start`_ changes the recorded start value of the sequence. This has no effect on the _current_ sequence value; it simply sets the value that future `ALTER SEQUENCE RESTART` commands will use._`restart`_
+The optional clause `START WITH` _`start`_ changes the recorded start value of the sequence. This has no effect on the _current_ sequence value; it simply sets the value that future `ALTER SEQUENCE RESTART` commands will use._`restart`_
 
-The optional clause `RESTART [ WITH `_`restart`_ \] changes the current value of the sequence. This is similar to calling the `setval` function with `is_called` = `false`: the specified value will be returned by the _next_ call of `nextval`. Writing `RESTART` with no _`restart`_ value is equivalent to supplying the start value that was recorded by `CREATE SEQUENCE` or last set by `ALTER SEQUENCE START WITH`.
+The optional clause `RESTART [ WITH` _`restart`_ \] changes the current value of the sequence. This is similar to calling the `setval` function with `is_called` = `false`: the specified value will be returned by the _next_ call of `nextval`. Writing `RESTART` with no _`restart`_ value is equivalent to supplying the start value that was recorded by `CREATE SEQUENCE` or last set by `ALTER SEQUENCE START WITH`.
 
 In contrast to a `setval` call, a `RESTART` operation on a sequence is transactional and blocks concurrent transactions from obtaining numbers from the same sequence. If that's not the desired mode of operation, `setval` should be used._`cache`_
 
-The clause `CACHE `_`cache`_ enables sequence numbers to be preallocated and stored in memory for faster access. The minimum value is 1 \(only one value can be generated at a time, i.e., no cache\). If unspecified, the old cache value will be maintained.`CYCLE`
+The clause `CACHE` _`cache`_ enables sequence numbers to be preallocated and stored in memory for faster access. The minimum value is 1 \(only one value can be generated at a time, i.e., no cache\). If unspecified, the old cache value will be maintained.`CYCLE`
 
 The optional `CYCLE` key word can be used to enable the sequence to wrap around when the _`maxvalue`_ or _`minvalue`_ has been reached by an ascending or descending sequence respectively. If the limit is reached, the next number generated will be the _`minvalue`_ or _`maxvalue`_, respectively.`NO CYCLE`
 

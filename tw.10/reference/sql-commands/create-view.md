@@ -43,7 +43,7 @@ A view column name list must be specified for a recursive view._`name`_
 
 The name \(optionally schema-qualified\) of a view to be created._`column_name`_
 
-An optional list of names to be used for columns of the view. If not given, the column names are deduced from the query.`WITH ( `_`view_option_name`_ \[= _`view_option_value`_\] \[, ... \] \)
+An optional list of names to be used for columns of the view. If not given, the column names are deduced from the query.`WITH (` _`view_option_name`_ \[= _`view_option_value`_\] \[, ... \] \)
 
 This clause specifies optional parameters for a view; the following parameters are supported:`check_option` \(`string`\)
 

@@ -33,11 +33,11 @@ _`column_name`_
 
 新的具體化檢視表中欄位的名稱。如果未提供欄位名稱，則從查詢的輸出的欄位名稱中取得它們。
 
-`WITH ( `_`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
+`WITH (` _`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
 
 此子句為新的具體化檢視表指定選擇性的儲存參數；請參閱[儲存參數選項](create-table.md#storage-parameters)了解更多訊息。CREATE TABLE 支援的所有參數也都支援 CREATE MATERIALIZED VIEW，只有 OIDS 除外。有關更多訊息，請參閱 [CREATE TABLE](create-table.md)。
 
-`TABLESPACE `_`tablespace_name`_
+`TABLESPACE` _`tablespace_name`_
 
 tablespace\_name 用於要在其中建立新的具體化檢視表的資料表空間名稱。如果未指定，則會使用 [default\_tablespace](../../server-administration/runtime-config/runtime-config-client.md#19-11-1-cha-ju-de-hang) 設定。
 

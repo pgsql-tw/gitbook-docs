@@ -20,7 +20,7 @@ createuser accepts the following command-line arguments:_`username`_
 
 Specifies the name of the PostgreSQL user to be created. This name must be different from all existing roles in this PostgreSQL installation.
 
-`-c `_`number`_  
+`-c` _`number`_  
 `--connection-limit=`_`number`_
 
 Set a maximum number of connections for the new user. The default is to set no limit.
@@ -45,7 +45,7 @@ Echo the commands that createuser generates and sends to the server.
 
 This option is obsolete but still accepted for backward compatibility.
 
-`-g `_`role`_  
+`-g` _`role`_  
 `--role=`_`role`_
 
 Indicates role to which this role will be added immediately as a new member. Multiple roles to which this role will be added as a member can be specified by writing multiple `-g` switches.
@@ -119,17 +119,17 @@ Show help about createuser command line arguments, and exit.
 
 createuser also accepts the following command-line arguments for connection parameters:
 
-`-h `_`host`_  
+`-h` _`host`_  
 `--host=`_`host`_
 
 Specifies the host name of the machine on which the server is running. If the value begins with a slash, it is used as the directory for the Unix domain socket.
 
-`-p `_`port`_  
+`-p` _`port`_  
 `--port=`_`port`_
 
 Specifies the TCP port or local Unix domain socket file extension on which the server is listening for connections.
 
-`-U `_`username`_  
+`-U` _`username`_  
 `--username=`_`username`_
 
 User name to connect as \(not the user name to create\).

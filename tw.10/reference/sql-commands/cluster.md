@@ -15,7 +15,7 @@ CLUSTER [VERBOSE]
 
 When a table is clustered, it is physically reordered based on the index information. Clustering is a one-time operation: when the table is subsequently updated, the changes are not clustered. That is, no attempt is made to store new or updated rows according to their index order. \(If one wishes, one can periodically recluster by issuing the command again. Also, setting the table's `fillfactor` storage parameter to less than 100% can aid in preserving cluster ordering during updates, since updated rows are kept on the same page if enough space is available there.\)
 
-When a table is clustered, PostgreSQL remembers which index it was clustered by. The form `CLUSTER `_`table_name`_ reclusters the table using the same index as before. You can also use the `CLUSTER` or `SET WITHOUT CLUSTER` forms of [ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html) to set the index to be used for future cluster operations, or to clear any previous setting.
+When a table is clustered, PostgreSQL remembers which index it was clustered by. The form `CLUSTER` _`table_name`_ reclusters the table using the same index as before. You can also use the `CLUSTER` or `SET WITHOUT CLUSTER` forms of [ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html) to set the index to be used for future cluster operations, or to clear any previous setting.
 
 `CLUSTER` without any parameter reclusters all the previously-clustered tables in the current database that the calling user owns, or all such tables if called by a superuser. This form of `CLUSTER` cannot be executed inside a transaction block.
 

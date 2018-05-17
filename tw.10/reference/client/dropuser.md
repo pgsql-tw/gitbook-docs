@@ -46,17 +46,17 @@ Show help about dropuser command line arguments, and exit.
 
 dropuser also accepts the following command-line arguments for connection parameters:
 
-`-h `_`host`_  
+`-h` _`host`_  
 `--host=`_`host`_
 
 Specifies the host name of the machine on which the server is running. If the value begins with a slash, it is used as the directory for the Unix domain socket.
 
-`-p `_`port`_  
+`-p` _`port`_  
 `--port=`_`port`_
 
 Specifies the TCP port or local Unix domain socket file extension on which the server is listening for connections.
 
-`-U `_`username`_  
+`-U` _`username`_  
 `--username=`_`username`_
 
 User name to connect as \(not the user name to drop\).

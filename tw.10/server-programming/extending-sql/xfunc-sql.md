@@ -2,7 +2,7 @@
 
 SQL functions execute an arbitrary list of SQL statements, returning the result of the last query in the list. In the simple \(non-set\) case, the first row of the last query's result will be returned. \(Bear in mind that “the first row” of a multirow result is not well-defined unless you use `ORDER BY`.\) If the last query happens to return no rows at all, the null value will be returned.
 
-Alternatively, an SQL function can be declared to return a set \(that is, multiple rows\) by specifying the function's return type as `SETOF `_`sometype`_, or equivalently by declaring it as `RETURNS TABLE(`_`columns`_\). In this case all rows of the last query's result are returned. Further details appear below.
+Alternatively, an SQL function can be declared to return a set \(that is, multiple rows\) by specifying the function's return type as `SETOF` _`sometype`_, or equivalently by declaring it as `RETURNS TABLE(`_`columns`_\). In this case all rows of the last query's result are returned. Further details appear below.
 
 The body of an SQL function must be a list of SQL statements separated by semicolons. A semicolon after the last statement is optional. Unless the function is declared to return `void`, the last statement must be a `SELECT`, or an `INSERT`, `UPDATE`, or `DELETE` that has a `RETURNING` clause.
 
@@ -461,7 +461,7 @@ Note that we only got one row out of the function. This is because we did not us
 
 #### 37.4.8. SQL Functions Returning Sets
 
-When an SQL function is declared as returning `SETOF `_`sometype`_, the function's final query is executed to completion, and each row it outputs is returned as an element of the result set.
+When an SQL function is declared as returning `SETOF` _`sometype`_, the function's final query is executed to completion, and each row it outputs is returned as an element of the result set.
 
 This feature is normally used when calling the function in the `FROM` clause. In this case each row returned by the function becomes a row of the table seen by the query. For example, assume that table `foo` has the same contents as above, and we say:
 

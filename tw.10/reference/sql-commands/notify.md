@@ -10,7 +10,7 @@ NOTIFY channel [ , payload ]
 
 ### Description
 
-The `NOTIFY` command sends a notification event together with an optional “payload” string to each client application that has previously executed `LISTEN `_`channel`_ for the specified channel name in the current database. Notifications are visible to all users.
+The `NOTIFY` command sends a notification event together with an optional “payload” string to each client application that has previously executed `LISTEN` _`channel`_ for the specified channel name in the current database. Notifications are visible to all users.
 
 `NOTIFY` provides a simple interprocess communication mechanism for a collection of processes accessing the same PostgreSQL database. A payload string can be sent along with the notification, and higher-level mechanisms for passing structured data can be built by using tables in the database to pass additional data from notifier to listener\(s\).
 

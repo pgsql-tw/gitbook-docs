@@ -110,7 +110,7 @@ and table_constraint_using_index is:
 
 如果指定了 DROP IDENTITY IF EXISTS 而該欄位不是標識欄位，則不會引發錯誤。 在這種情況下，會發布通知。
 
-`SET `_`sequence_option`_  
+`SET` _`sequence_option`_  
 `RESTART`
 
 這個語法變更現有標識欄下的序列設定。sequence\_option 是 [ALTER SEQUENCE](alter-sequence.md) 支援的選項，像是 INCREMENT BY。
@@ -121,8 +121,8 @@ and table_constraint_using_index is:
 
 `SET STATISTICS` 會要求一個 `SHARE UPDATE EXCLUSIVE` 的鎖定。
 
-`SET ( `_`attribute_option`_ = _`value`_ \[, ... \] \)  
-`RESET ( `_`attribute_option`_ \[, ... \] \)
+`SET (` _`attribute_option`_ = _`value`_ \[, ... \] \)  
+`RESET (` _`attribute_option`_ \[, ... \] \)
 
 此語法設定或重置每個屬性選項。目前，只有定義的每個屬性選項是 n\_distinct 和 n\_distinct\_inherited，它們會覆蓋後續 [ANALYZE](analyze.md) 操作所做的不同值的估計數量。 n\_distinct 會影響資料表本身的統計訊息，而 n\_distinct\_inherited 會影響為該表及其繼承子資料表所收集的統計訊息。當設定為正值時，ANALYZE 將假定該欄位正好包含指定數量的相異非空值。當設定為負值（必須大於或等於 -1）時，ANALYZE 將假定欄位中相異非空值的數量與表的大小成線性關係；準確的計數是透過將估計的資料表大小乘以給定數字的絕對值來計算。例如，值 -1 意味著欄位中的所有值都是不同的，而值 -0.5 意味著每個值在平均值上會出現兩次。當資料表的大小隨時間變化時這很有用，因為在查詢計劃階段之前，不會執行資料表中行數的乘法運算。指定值 0 以恢復到一般性估計不同值的數量。有關 PostgreSQL 查詢規劃器使用統計資訊的更多訊息，請參閱[第 14.2 節](../../sql/performance-tips/planner-stats.md)。
 
@@ -132,11 +132,11 @@ and table_constraint_using_index is:
 
 此語法設定欄位的儲存模式。 這將控制此欄位是以內建方式保存還是以輔助 TOAST 方式保存，以及是否應該壓縮資料。PLAIN 必須用於固定長度值（如整數），並且是內建的，未壓縮的。MAIN 用於內建可壓縮資料。EXTERNAL 用於外部未壓縮資料，EXTENDED 用於外部壓縮資料。EXTENDED 是非 PLAIN 儲存的大多數資料型別的預設值。 使用 EXTERNAL 將使得對非常大的字串和 bytea 值進行子字串處理的速度更快，從而增加儲存空間。請注意，SET STORAGE 本身並不會改變資料表中的任何內容，它只是設定在將來的資料表更新期間追求的策略。有關更多訊息，請參閱[第 66.2 節](../../internals/database-physical-storage/toast.md)。
 
-`ADD `_`table_constraint`_ \[ NOT VALID \]
+`ADD` _`table_constraint`_ \[ NOT VALID \]
 
 此語法用於與 [CREATE TABLE](create-table.md) 相同的語法為資料表加上一個新的限制條件，並可以加上選項 NOT VALID，該選項目前只允許用於外部鍵和 CHECK 限制條件。如果限制條件被標記為 NOT VALID，則跳過用於驗證資料表中的所有資料列滿足限制條件的冗長初始檢查。對於後續的插入或更新，這個檢查仍然會被執行（也就是說，除非在被引用的資料表中存在有匹配的資料，否則在外部鍵的情況下它們將會失敗；並且除非新的資料列匹配指定的檢查，否則它們將會失敗）。但是，資料庫不會假定該限制條件適用於資料表中的所有的資料，直到透過使用 VALIDATE CONSTRAINT 選項進行驗證。
 
-`ADD `_`table_constraint_using_index`_
+`ADD` _`table_constraint_using_index`_
 
 此語法根據現有的唯一索引向資料表中增加新的 PRIMARY KEY 或 UNIQUE 限制條件。索引中的所有欄位都將包含在限制條件裡。
 
@@ -216,7 +216,7 @@ and table_constraint_using_index is:
 
 此子句會將資料表從無日誌資料表變更為有日誌資料表或反之亦然（請參閱 [UNLOGGED](create-table.md)）。它不能用於臨時資料表。
 
-`SET ( `_`storage_parameter`_ = _`value`_ \[, ... \] \)
+`SET (` _`storage_parameter`_ = _`value`_ \[, ... \] \)
 
 此子句變更資料表的一個或多個儲存參數。有關可用參數的詳細訊息，請參閱[儲存參數選項](create-table.md#storage-parameters)。請注意，這個指令不會立即修改資料表內容；根據參數，您可能需要重填資料表以獲得所需的效果。這可以透過 [VACUUM FULL](vacuum.md)、[CLUSTER](cluster.md)或強制重填資料表的 ALTER TABLE 形式來完成。對於與規劃器相關的參數，更改將在下次資料表鎖定時生效，因此目前執行的查詢不會受到影響。
 
@@ -226,21 +226,21 @@ SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以
 
 雖然 CREATE TABLE 允許在 WITH（storage\_parameter）語法中指定 OIDS，但 ALTER TABLE 不會將 OIDS 視為儲存參數。而是使用 SET WITH OIDS 和 SET WITHOUT OIDS 語法來變更 OID 狀態。
 
-`RESET ( `_`storage_parameter`_ \[, ... \] \)
+`RESET (` _`storage_parameter`_ \[, ... \] \)
 
 This form resets one or more storage parameters to their defaults. As with `SET`, a table rewrite might be needed to update the table entirely.
 
-`INHERIT `_`parent_table`_
+`INHERIT` _`parent_table`_
 
 This form adds the target table as a new child of the specified parent table. Subsequently, queries against the parent will include records of the target table. To be added as a child, the target table must already contain all the same columns as the parent \(it could have additional columns, too\). The columns must have matching data types, and if they have `NOT NULL` constraints in the parent then they must also have `NOT NULL` constraints in the child.
 
 There must also be matching child-table constraints for all `CHECK` constraints of the parent, except those marked non-inheritable \(that is, created with `ALTER TABLE ... ADD CONSTRAINT ... NO INHERIT`\) in the parent, which are ignored; all child-table constraints matched must not be marked non-inheritable. Currently `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` constraints are not considered, but this might change in the future.
 
-`NO INHERIT `_`parent_table`_
+`NO INHERIT` _`parent_table`_
 
 This form removes the target table from the list of children of the specified parent table. Queries against the parent table will no longer include records drawn from the target table.
 
-`OF `_`type_name`_
+`OF` _`type_name`_
 
 This form links the table to a composite type as though `CREATE TABLE OF` had formed it. The table's list of column names and types must precisely match that of the composite type; the presence of an `oid` system column is permitted to differ. The table must not inherit from any other table. These restrictions ensure that `CREATE TABLE OF` would permit an equivalent table definition.
 
@@ -262,7 +262,7 @@ The `RENAME` forms change the name of a table \(or an index, sequence, view, mat
 
 This form moves the table into another schema. Associated indexes, constraints, and sequences owned by table columns are moved as well.
 
-`ATTACH PARTITION `_`partition_name`_ FOR VALUES _`partition_bound_spec`_
+`ATTACH PARTITION` _`partition_name`_ FOR VALUES _`partition_bound_spec`_
 
 This form attaches an existing table \(which might itself be partitioned\) as a partition of the target table using the same syntax for _`partition_bound_spec`_ as [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html). The partition bound specification must correspond to the partitioning strategy and partition key of the target table. The table to be attached must have all the same columns as the target table and no more; moreover, the column types must also match. Also, it must have all the `NOT NULL` and `CHECK` constraints of the target table. Currently `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` constraints are not considered. If any of the `CHECK` constraints of the table being attached is marked `NO INHERIT`, the command will fail; such a constraint must be recreated without the `NO INHERIT` clause.
 

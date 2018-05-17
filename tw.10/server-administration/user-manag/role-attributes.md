@@ -13,13 +13,13 @@ CREATE USER name;
 
 A database superuser bypasses all permission checks, except the right to log in. This is a dangerous privilege and should not be used carelessly; it is best to do most of your work as a role that is not a superuser. To create a new database superuser, use `CREATE ROLE`_`name`_ SUPERUSER. You must do this as a role that is already a superuser.database creation
 
-A role must be explicitly given permission to create databases \(except for superusers, since those bypass all permission checks\). To create such a role, use `CREATE ROLE `_`name`_ CREATEDB.role creation
+A role must be explicitly given permission to create databases \(except for superusers, since those bypass all permission checks\). To create such a role, use `CREATE ROLE` _`name`_ CREATEDB.role creation
 
-A role must be explicitly given permission to create more roles \(except for superusers, since those bypass all permission checks\). To create such a role, use `CREATE ROLE `_`name`_ CREATEROLE. A role with `CREATEROLE` privilege can alter and drop other roles, too, as well as grant or revoke membership in them. However, to create, alter, drop, or change membership of a superuser role, superuser status is required; `CREATEROLE` is insufficient for that.initiating replication
+A role must be explicitly given permission to create more roles \(except for superusers, since those bypass all permission checks\). To create such a role, use `CREATE ROLE` _`name`_ CREATEROLE. A role with `CREATEROLE` privilege can alter and drop other roles, too, as well as grant or revoke membership in them. However, to create, alter, drop, or change membership of a superuser role, superuser status is required; `CREATEROLE` is insufficient for that.initiating replication
 
-A role must explicitly be given permission to initiate streaming replication \(except for superusers, since those bypass all permission checks\). A role used for streaming replication must have `LOGIN` permission as well. To create such a role, use `CREATE ROLE `_`name`_REPLICATION LOGIN.password
+A role must explicitly be given permission to initiate streaming replication \(except for superusers, since those bypass all permission checks\). A role used for streaming replication must have `LOGIN` permission as well. To create such a role, use `CREATE ROLE` _`name`_REPLICATION LOGIN.password
 
-A password is only significant if the client authentication method requires the user to supply a password when connecting to the database. The `password` and `md5` authentication methods make use of passwords. Database passwords are separate from operating system passwords. Specify a password upon role creation with `CREATE ROLE `_`name`_ PASSWORD '_`string`_'.
+A password is only significant if the client authentication method requires the user to supply a password when connecting to the database. The `password` and `md5` authentication methods make use of passwords. Database passwords are separate from operating system passwords. Specify a password upon role creation with `CREATE ROLE` _`name`_ PASSWORD '_`string`_'.
 
 A role's attributes can be modified after creation with `ALTER ROLE`. See the reference pages for the [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html) and [ALTER ROLE](https://www.postgresql.org/docs/10/static/sql-alterrole.html) commands for details.
 
@@ -33,5 +33,5 @@ A role can also have role-specific defaults for many of the run-time configurati
 ALTER ROLE myname SET enable_indexscan TO off;
 ```
 
-This will save the setting \(but not set it immediately\). In subsequent connections by this role it will appear as though `SET enable_indexscan TO off` had been executed just before the session started. You can still alter this setting during the session; it will only be the default. To remove a role-specific default setting, use `ALTER ROLE `_`rolename`_ RESET _`varname`_. Note that role-specific defaults attached to roles without `LOGIN` privilege are fairly useless, since they will never be invoked.
+This will save the setting \(but not set it immediately\). In subsequent connections by this role it will appear as though `SET enable_indexscan TO off` had been executed just before the session started. You can still alter this setting during the session; it will only be the default. To remove a role-specific default setting, use `ALTER ROLE` _`rolename`_ RESET _`varname`_. Note that role-specific defaults attached to roles without `LOGIN` privilege are fairly useless, since they will never be invoked.
 

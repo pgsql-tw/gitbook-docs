@@ -1,7 +1,7 @@
 # E. 版本資訊
 
-> **版本資訊不進行翻譯，請參閱官方手冊網頁：  
-> **[**https://www.postgresql.org/docs/devel/static/release.html**](https://www.postgresql.org/docs/devel/static/release.html)
+> **版本資訊不進行翻譯，請參閱官方手冊網頁：**  
+> [**https://www.postgresql.org/docs/devel/static/release.html**](https://www.postgresql.org/docs/devel/static/release.html)
 
 The release notes contain the significant changes in each PostgreSQL release, with major features and migration issues listed at the top. The release notes do not contain changes that affect only a few users or changes that are internal and therefore not user-visible. For example, the optimizer is improved in almost every release, but the improvements are usually observed by users as simply faster queries.
 

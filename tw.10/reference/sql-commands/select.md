@@ -105,7 +105,7 @@ _`alias`_
 
 A substitute name for the `FROM` item containing the alias. An alias is used for brevity or to eliminate ambiguity for self-joins \(where the same table is scanned multiple times\). When an alias is provided, it completely hides the actual name of the table or function; for example given `FROM foo AS f`, the remainder of the `SELECT` must refer to this `FROM` item as `f` not `foo`. If an alias is written, a column alias list can also be written to provide substitute names for one or more columns of the table.
 
-`TABLESAMPLE `_`sampling_method`_ \( _`argument`_ \[, ...\] \) \[ REPEATABLE \( _`seed`_ \) \]
+`TABLESAMPLE` _`sampling_method`_ \( _`argument`_ \[, ...\] \) \[ REPEATABLE \( _`seed`_ \) \]
 
 A `TABLESAMPLE` clause after a _`table_name`_ indicates that the specified _`sampling_method`_ should be used to retrieve a subset of the rows in that table. This sampling precedes the application of any other filters such as `WHERE` clauses. The standard PostgreSQL distribution includes two sampling methods, `BERNOULLI` and `SYSTEM`, and other sampling methods can be installed in the database via extensions.
 
@@ -129,7 +129,7 @@ An alias can be provided in the same way as for a table. If an alias is written,
 
 Multiple function calls can be combined into a single `FROM`-clause item by surrounding them with `ROWS FROM( ... )`. The output of such an item is the concatenation of the first row from each function, then the second row from each function, etc. If some of the functions produce fewer rows than others, null values are substituted for the missing data, so that the total number of rows returned is always the same as for the function that produced the most rows.
 
-If the function has been defined as returning the `record` data type, then an alias or the key word `AS` must be present, followed by a column definition list in the form `( `_`column_name`_ _`data_type`_ \[, ... \]\). The column definition list must match the actual number and types of columns returned by the function.
+If the function has been defined as returning the `record` data type, then an alias or the key word `AS` must be present, followed by a column definition list in the form `(` _`column_name`_ _`data_type`_ \[, ... \]\). The column definition list must match the actual number and types of columns returned by the function.
 
 When using the `ROWS FROM( ... )` syntax, if one of the functions requires a column definition list, it's preferred to put the column definition list after the function call inside `ROWS FROM( ... )`. A column definition list can be placed after the `ROWS FROM( ... )` construct only if there's just a single function and no `WITH ORDINALITY` clause.
 
@@ -145,7 +145,7 @@ One of
 * `FULL [ OUTER ] JOIN`
 * `CROSS JOIN`
 
-For the `INNER` and `OUTER` join types, a join condition must be specified, namely exactly one of `NATURAL`, `ON `_`join_condition`_, or `USING (`_`join_column`_ \[, ...\]\). See below for the meaning. For `CROSS JOIN`, none of these clauses can appear.
+For the `INNER` and `OUTER` join types, a join condition must be specified, namely exactly one of `NATURAL`, `ON` _`join_condition`_, or `USING (`_`join_column`_ \[, ...\]\). See below for the meaning. For `CROSS JOIN`, none of these clauses can appear.
 
 A `JOIN` clause combines two `FROM` items, which for convenience we will refer to as “tables”, though in reality they can be any type of `FROM` item. Use parentheses if necessary to determine the order of nesting. In the absence of parentheses, `JOIN`s nest left-to-right. In any case `JOIN` binds more tightly than the commas separating `FROM`-list items.
 
@@ -155,9 +155,9 @@ A `JOIN` clause combines two `FROM` items, which for convenience we will refer t
 
 Conversely, `RIGHT OUTER JOIN` returns all the joined rows, plus one row for each unmatched right-hand row \(extended with nulls on the left\). This is just a notational convenience, since you could convert it to a `LEFT OUTER JOIN` by switching the left and right tables.
 
-`FULL OUTER JOIN` returns all the joined rows, plus one row for each unmatched left-hand row \(extended with nulls on the right\), plus one row for each unmatched right-hand row \(extended with nulls on the left\).`ON `_`join_condition`_
+`FULL OUTER JOIN` returns all the joined rows, plus one row for each unmatched left-hand row \(extended with nulls on the right\), plus one row for each unmatched right-hand row \(extended with nulls on the left\).`ON` _`join_condition`_
 
-_`join_condition`_ is an expression resulting in a value of type `boolean` \(similar to a `WHERE` clause\) that specifies which rows in a join are considered to match.`USING ( `_`join_column`_ \[, ...\] \)
+_`join_condition`_ is an expression resulting in a value of type `boolean` \(similar to a `WHERE` clause\) that specifies which rows in a join are considered to match.`USING (` _`join_column`_ \[, ...\] \)
 
 A clause of the form `USING ( a, b, ... )` is shorthand for `ON left_table.a = right_table.a AND left_table.b = right_table.b ...`. Also, `USING` implies that only one of each pair of equivalent columns will be included in the join output, not both.
 
@@ -263,7 +263,7 @@ value FOLLOWING
 UNBOUNDED FOLLOWING
 ```
 
-If _`frame_end`_ is omitted it defaults to `CURRENT ROW`. Restrictions are that _`frame_start`_ cannot be `UNBOUNDED FOLLOWING`, _`frame_end`_ cannot be `UNBOUNDED PRECEDING`, and the _`frame_end`_ choice cannot appear earlier in the above list than the _`frame_start`_ choice — for example `RANGE BETWEEN CURRENT ROW AND `_`value`_ PRECEDING is not allowed.
+If _`frame_end`_ is omitted it defaults to `CURRENT ROW`. Restrictions are that _`frame_start`_ cannot be `UNBOUNDED FOLLOWING`, _`frame_end`_ cannot be `UNBOUNDED PRECEDING`, and the _`frame_end`_ choice cannot appear earlier in the above list than the _`frame_start`_ choice — for example `RANGE BETWEEN CURRENT ROW AND` _`value`_ PRECEDING is not allowed.
 
 The default framing option is `RANGE UNBOUNDED PRECEDING`, which is the same as `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`; it sets the frame to be all rows from the partition start up through the current row's last peer \(a row that `ORDER BY` considers equivalent to the current row, or all rows if there is no `ORDER BY`\). In general, `UNBOUNDED PRECEDING` means that the frame starts with the first row of the partition, and similarly `UNBOUNDED FOLLOWING` means that the frame ends with the last row of the partition \(regardless of `RANGE` or `ROWS` mode\). In `ROWS` mode, `CURRENT ROW` means that the frame starts or ends with the current row; but in `RANGE` mode it means that the frame starts or ends with the current row's first or last peer in the `ORDER BY` ordering. The _`value`_ `PRECEDING` and _`value`_ `FOLLOWING` cases are currently only allowed in `ROWS` mode. They indicate that the frame starts or ends with the row that many rows before or after the current row. _`value`_ must be an integer expression not containing any variables, aggregate functions, or window functions. The value must not be null or negative; but it can be zero, which selects the current row itself.
 
@@ -295,7 +295,7 @@ PostgreSQL versions before 9.6 did not provide any guarantees about the timing o
 
 If `SELECT DISTINCT` is specified, all duplicate rows are removed from the result set \(one row is kept from each group of duplicates\). `SELECT ALL` specifies the opposite: all rows are kept; that is the default.
 
-`SELECT DISTINCT ON ( `_`expression`_ \[, ...\] \) keeps only the first row of each set of rows where the given expressions evaluate to equal. The `DISTINCT ON` expressions are interpreted using the same rules as for `ORDER BY` \(see above\). Note that the “first row” of each set is unpredictable unless `ORDER BY` is used to ensure that the desired row appears first. For example:
+`SELECT DISTINCT ON (` _`expression`_ \[, ...\] \) keeps only the first row of each set of rows where the given expressions evaluate to equal. The `DISTINCT ON` expressions are interpreted using the same rules as for `ORDER BY` \(see above\). Note that the “first row” of each set is unpredictable unless `ORDER BY` is used to ensure that the desired row appears first. For example:
 
 ```text
 SELECT DISTINCT ON (location) location, time, report
@@ -738,7 +738,7 @@ The `TABLESAMPLE` clause is currently accepted only on regular tables and materi
 
 #### Function Calls in `FROM`
 
-PostgreSQL allows a function call to be written directly as a member of the `FROM` list. In the SQL standard it would be necessary to wrap such a function call in a sub-`SELECT`; that is, the syntax `FROM `_`func`_\(...\) _`alias`_ is approximately equivalent to `FROM LATERAL (SELECT`_`func`_\(...\)\) _`alias`_. Note that `LATERAL` is considered to be implicit; this is because the standard requires `LATERAL` semantics for an `UNNEST()` item in `FROM`. PostgreSQL treats `UNNEST()` the same as other set-returning functions.
+PostgreSQL allows a function call to be written directly as a member of the `FROM` list. In the SQL standard it would be necessary to wrap such a function call in a sub-`SELECT`; that is, the syntax `FROM` _`func`_\(...\) _`alias`_ is approximately equivalent to `FROM LATERAL (SELECT`_`func`_\(...\)\) _`alias`_. Note that `LATERAL` is considered to be implicit; this is because the standard requires `LATERAL` semantics for an `UNNEST()` item in `FROM`. PostgreSQL treats `UNNEST()` the same as other set-returning functions.
 
 #### Namespace Available to `GROUP BY` and `ORDER BY`
 
