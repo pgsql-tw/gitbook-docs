@@ -228,7 +228,7 @@ SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以
 
 `RESET (` _`storage_parameter`_ \[, ... \] \)
 
-This form resets one or more storage parameters to their defaults. As with `SET`, a table rewrite might be needed to update the table entirely.
+此語法將一個或多個儲存參數重置為其預設值。 和 SET 一樣，可能需要重新寫入資料來完成更新其效果。
 
 `INHERIT` _`parent_table`_
 
