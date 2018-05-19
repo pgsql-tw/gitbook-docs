@@ -57,7 +57,7 @@
     * [6.4. 修改並回傳資料](sql/6.-zi-liao-chu-li/6.4.-xiu-gai-bing-hui-chuan-zi-liao.md)
   * [7. 資料查詢](sql/7.-zi-liao-cha-xun/README.md)
     * [7.1. 概觀](sql/7.-zi-liao-cha-xun/7.1.-gai-guan.md)
-    * 7.2. 資料表表示式
+    * [7.2. 資料表表示式](sql/7.-zi-liao-cha-xun/table-expressions.md)
     * [7.3. 取得資料列表](sql/7.-zi-liao-cha-xun/7.3.-qu-de-zi-liao-lie-biao.md)
     * [7.4. 合併查詢結果](sql/7.-zi-liao-cha-xun/7.4.-he-bing-cha-xun-jie-guo.md)
     * [7.5. 資料排序](sql/7.-zi-liao-cha-xun/7.5.-zi-liao-pai-xu.md)
