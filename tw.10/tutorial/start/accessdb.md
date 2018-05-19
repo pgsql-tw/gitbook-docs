@@ -69,5 +69,5 @@ mydb=> \h
 mydb=> \q
 ```
 
-如此的話，psql 將會結束，並回到你的命令列介面之中。（想瞭解更多內建指令，在 psql 提示字串後輸入 \? 。）完整的 psql 說明，都記載在 [psql 頁面](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/ii-postgresql-client-applications/psql.md)之中。在這份指南中，我們並未使用這些功能，但你可以在需要的時候使用他們。
+如此的話，psql 將會結束，並回到你的命令列介面之中。（想瞭解更多內建指令，在 psql 提示字串後輸入 \? 。）完整的 psql 說明，都記載在 [psql 頁面](../../reference/client/psql.md)之中。在這份指南中，我們並未使用這些功能，但你可以在需要的時候使用他們。
 

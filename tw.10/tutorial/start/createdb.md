@@ -67,5 +67,5 @@ $ dropdb mydb
 
 （對這個指令來說，資料庫名稱並不會預設使用你的使用者同名資料庫。你必須明確地指定名稱）這個動作會完全地移除所有和這個資料庫相關的檔案，並且沒有回復的可能，所以要進行這個動作的話，請一定要考慮清楚。
 
-更多有關於 createdb 和 dropdb 的說明，請參閱 [createdb](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/ii-postgresql-client-applications/createdb.md) 和 [dropdb](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/ii-postgresql-client-applications/dropdb.md) 的相關章節。
+更多有關於 createdb 和 dropdb 的說明，請參閱 [createdb](../../reference/client/createdb.md) 和 [dropdb ](../../reference/client/dropdb.md)的相關章節。
 
