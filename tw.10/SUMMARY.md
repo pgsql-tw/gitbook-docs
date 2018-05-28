@@ -92,7 +92,7 @@
     * 9.4. 字串函式及運算子
     * [9.5. 位元字串函式及運算子](sql/functions/9.5.-wei-yuan-zi-chuan-han-shi-ji-yun-suan-zi.md)
     * [9.6. 二元字串函式及運算子](sql/functions/9.6.-er-yuan-zi-chuan-han-shi-ji-yun-suan-zi.md)
-    * [9.7. 特徵比對](sql/functions/9.7.-te-zhi-bi-dui.md)
+    * [9.7. 特徵比對](sql/functions/functions-matching.md)
     * [9.8. 型別轉換函式](sql/functions/9.8.-xing-bie-zhuan-huan-han-shi.md)
     * 9.9 日期時間函式及運算子
     * [9.10. 列舉型別函式](sql/functions/9.10.-lie-ju-xing-bie-han-shi.md)
@@ -293,7 +293,7 @@
     * 33.12. Notice Processing
     * 33.13. Event System
     * 33.14. Environment Variables
-    * 33.15. The Password File
+    * [33.15. 密碼檔](client-interfaces/libpq-c-library/password-file.md)
     * 33.16. The Connection Service File
     * 33.17. LDAP Lookup of Connection Parameters
     * 33.18. SSL Support
@@ -459,11 +459,12 @@
     * [RESET](reference/sql-commands/reset.md)
     * [REVOKE](reference/sql-commands/revoke.md)
     * [SELECT](reference/sql-commands/select.md)
+    * [SET](reference/sql-commands/set.md)
     * [SET ROLE](reference/sql-commands/set-role.md)
     * [SET SESSION AUTHORIZATION](reference/sql-commands/set-session-authorization.md)
-    * [SET](reference/sql-commands/set.md)
     * [SET TRANSACTION](reference/sql-commands/set-transaction.md)
     * [SHOW](reference/sql-commands/show.md)
+    * [TRUNCATE](reference/sql-commands/truncate.md)
     * [UPDATE](reference/sql-commands/update.md)
     * [VACUUM](reference/sql-commands/vacuum.md)
     * [VALUES](reference/sql-commands/values.md)
@@ -474,6 +475,7 @@
     * [dropuser](reference/client/dropuser.md)
     * [pgbench](reference/client/pgbench.md)
     * [psql](reference/client/psql.md)
+    * [vacuumdb](reference/client/vacuumdb.md)
   * III. PostgreSQL Server Applications
 * [VII. 資料庫進階](internals/README.md)
   * [51. 系統目錄](internals/system-catalogs/README.md)

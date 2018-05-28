@@ -1,22 +1,24 @@
 # VACUUM
 
-VACUUM — garbage-collect and optionally analyze a database
+VACUUM — 資源回收並且選擇性地重整資料庫
 
-### Synopsis
+### 語法
 
 ```text
-VACUUM [ ( { FULL | FREEZE | VERBOSE | ANALYZE | DISABLE_PAGE_SKIPPING } [, ...] ) ] [ table_name [ (column_name [, ...] ) ] ]
+VACUUM [ ( { FULL | FREEZE | VERBOSE | ANALYZE | DISABLE_PAGE_SKIPPING } [, ...] ) ]
+       [ table_name [ (column_name [, ...] ) ] ]
 VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] [ table_name ]
-VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] ANALYZE [ table_name [ (column_name [, ...] ) ] ]
+VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] 
+       ANALYZE [ table_name [ (column_name [, ...] ) ] ]
 ```
 
-### Description
+### 說明
 
-`VACUUM` reclaims storage occupied by dead tuples. In normal PostgreSQL operation, tuples that are deleted or obsoleted by an update are not physically removed from their table; they remain present until a `VACUUM` is done. Therefore it's necessary to do `VACUUM` periodically, especially on frequently-updated tables.
+VACUUM 回收不再使用的儲存空間。在普通的 PostgreSQL 操作中，被刪除或被更新的儲存空間實際上並不會真實在磁碟上刪除；它們會一直存在，直到 VACUUM 完成。因此，必須定期執行 VACUUM，尤其是在經常更新的資料表上。
 
-With no parameter, `VACUUM` processes every table in the current database that the current user has permission to vacuum. With a parameter, `VACUUM` processes only that table.
+在沒有參數的情況下，VACUUM 處理目前資料庫中目前使用者有權清理的每個資料表。使用參數的話，VACUUM 就能只處理某個資料表。
 
-`VACUUM ANALYZE` performs a `VACUUM` and then an `ANALYZE` for each selected table. This is a handy combination form for routine maintenance scripts. See [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) for more details about its processing.
+VACUUM ANALYZE 為每個選定的資料表執行 VACUUM 然後進行 ANALYZE 分析。 這是日常維護腳本的便捷組合形式。有關其處理的更多詳細訊息，請參閱 [ANALYZE](analyze.md)。
 
 Plain `VACUUM` \(without `FULL`\) simply reclaims space and makes it available for re-use. This form of the command can operate in parallel with normal reading and writing of the table, as an exclusive lock is not obtained. However, extra space is not returned to the operating system \(in most cases\); it's just kept available for re-use within the same table. `VACUUM FULL` rewrites the entire contents of the table into a new disk file with no extra space, allowing unused space to be returned to the operating system. This form is much slower and requires an exclusive lock on each table while it is being processed.
 
@@ -30,13 +32,15 @@ Selects “full” vacuum, which can reclaim more space, but takes much longer a
 
 `FREEZE`
 
-Selects aggressive “freezing” of tuples. Specifying `FREEZE` is equivalent to performing `VACUUM` with the [vacuum\_freeze\_min\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-FREEZE-MIN-AGE) and [vacuum\_freeze\_table\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-FREEZE-TABLE-AGE) parameters set to zero. Aggressive freezing is always performed when the table is rewritten, so this option is redundant when `FULL` is specified.`VERBOSE`
+選擇積極的「凍結」tuple。指定 FREEZE 等同於使用將 [vacuum\_freeze\_min\_age ](../../server-administration/runtime-config/runtime-config-client.md#19-11-1-cha-ju-de-hang)和 [vacuum\_freeze\_table\_age](../../server-administration/runtime-config/runtime-config-client.md#19-11-1-cha-ju-de-hang) 參數設定為零來執行 VACUUM。資料表在重寫時始終執行積極凍結，因此當指定 FULL 時這個選項是多餘的。
 
-Prints a detailed vacuum activity report for each table.
+`VERBOSE`
+
+為每個資料表輸出詳細的清理活動報告。
 
 `ANALYZE`
 
-Updates statistics used by the planner to determine the most efficient way to execute a query.
+更新查詢規劃單元需要使用的統計訊息，以決定最有效執行查詢的方式。
 
 `DISABLE_PAGE_SKIPPING`
 
@@ -84,5 +88,5 @@ There is no `VACUUM` statement in the SQL standard.
 
 ### See Also
 
-[vacuumdb](https://www.postgresql.org/docs/10/static/app-vacuumdb.html), [Section 19.4.4](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#RUNTIME-CONFIG-RESOURCE-VACUUM-COST), [Section 24.1.6](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#AUTOVACUUM)
+vacuumdb, [19.4.4 節](../../server-administration/runtime-config/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#24-1-6-the-autovacuum-daemon)
 

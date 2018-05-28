@@ -232,21 +232,23 @@ SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以
 
 `INHERIT` _`parent_table`_
 
-This form adds the target table as a new child of the specified parent table. Subsequently, queries against the parent will include records of the target table. To be added as a child, the target table must already contain all the same columns as the parent \(it could have additional columns, too\). The columns must have matching data types, and if they have `NOT NULL` constraints in the parent then they must also have `NOT NULL` constraints in the child.
+此子句將目標資料表加到指定的父資料表中成為新的子資料表。然後，針對父資料表的查詢將會包含目標資料表的資料。要作為子資料表加入前，目標資料表必須已經包含與父資料表的所有欄位（它也可以具有其他欄位）。這些欄位必須具有可匹配的資料型別，並且如果它們在父資料表中具有 NOT NULL 限制條件，那麼它們還必須在子資料表中也具有 NOT NULL 限制條件。
 
-There must also be matching child-table constraints for all `CHECK` constraints of the parent, except those marked non-inheritable \(that is, created with `ALTER TABLE ... ADD CONSTRAINT ... NO INHERIT`\) in the parent, which are ignored; all child-table constraints matched must not be marked non-inheritable. Currently `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` constraints are not considered, but this might change in the future.
+對於父資料表的所有 CHECK 限制條件，必須還有相對應的子資料表限制條件，除非父資料表中標記為不可繼承（即使用ALTER TABLE ... ADD CONSTRAINT ... NO INHERIT 所建立的，它們將會被忽略；所有匹配的子資料表限制條件不得標記為不可繼承。目前不用考慮 UNIQUE，PRIMARY KEY 和 FOREIGN KEY，但未來這些可能會改變。
 
 `NO INHERIT` _`parent_table`_
 
-This form removes the target table from the list of children of the specified parent table. Queries against the parent table will no longer include records drawn from the target table.
+此字句從指定的父資料表的子資料表中刪除目標資料表。針對父資料表的查詢將不再包含從目標資料表中所産生的記錄。
 
 `OF` _`type_name`_
 
-This form links the table to a composite type as though `CREATE TABLE OF` had formed it. The table's list of column names and types must precisely match that of the composite type; the presence of an `oid` system column is permitted to differ. The table must not inherit from any other table. These restrictions ensure that `CREATE TABLE OF` would permit an equivalent table definition.
+此子句將資料表連接到複合型別，就像 CREATE TABLE OF 已經産生它一樣。該資料表的欄位名稱和型別必須與組合型別的列表完全吻合；oid 系統欄位的存在會有所不同。該資料表不得從任何其他的資料表繼承。這些限制確保了 CREATE TABLE OF 將得到一個等效的資料表定義。
 
 `NOT OF`
 
-This form dissociates a typed table from its type.`OWNER`
+This form dissociates a typed table from its type.
+
+`OWNER`
 
 This form changes the owner of the table, sequence, view, materialized view, or foreign table to the specified user.
 

@@ -106,17 +106,27 @@ If specified, the table is created as a temporary table. Temporary tables are au
 
 The [autovacuum daemon](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#AUTOVACUUM) cannot access and therefore cannot vacuum or analyze temporary tables. For this reason, appropriate vacuum and analyze operations should be performed via session SQL commands. For example, if a temporary table is going to be used in complex queries, it is wise to run `ANALYZE` on the temporary table after it is populated.
 
-Optionally, `GLOBAL` or `LOCAL` can be written before `TEMPORARY` or `TEMP`. This presently makes no difference in PostgreSQL and is deprecated; see [Compatibility](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-COMPATIBILITY).`UNLOGGED`
+Optionally, `GLOBAL` or `LOCAL` can be written before `TEMPORARY` or `TEMP`. This presently makes no difference in PostgreSQL and is deprecated; see [Compatibility](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-COMPATIBILITY).
 
-If specified, the table is created as an unlogged table. Data written to unlogged tables is not written to the write-ahead log \(see [Chapter 30](https://www.postgresql.org/docs/10/static/wal.html)\), which makes them considerably faster than ordinary tables. However, they are not crash-safe: an unlogged table is automatically truncated after a crash or unclean shutdown. The contents of an unlogged table are also not replicated to standby servers. Any indexes created on an unlogged table are automatically unlogged as well.`IF NOT EXISTS`
+`UNLOGGED`
 
-Do not throw an error if a relation with the same name already exists. A notice is issued in this case. Note that there is no guarantee that the existing relation is anything like the one that would have been created._`table_name`_
+If specified, the table is created as an unlogged table. Data written to unlogged tables is not written to the write-ahead log \(see [Chapter 30](https://www.postgresql.org/docs/10/static/wal.html)\), which makes them considerably faster than ordinary tables. However, they are not crash-safe: an unlogged table is automatically truncated after a crash or unclean shutdown. The contents of an unlogged table are also not replicated to standby servers. Any indexes created on an unlogged table are automatically unlogged as well.
 
-The name \(optionally schema-qualified\) of the table to be created.`OF` _`type_name`_
+`IF NOT EXISTS`
+
+Do not throw an error if a relation with the same name already exists. A notice is issued in this case. Note that there is no guarantee that the existing relation is anything like the one that would have been created.
+
+_`table_name`_
+
+The name \(optionally schema-qualified\) of the table to be created.
+
+`OF` _`type_name`_
 
 Creates a _typed table_, which takes its structure from the specified composite type \(name optionally schema-qualified\). A typed table is tied to its type; for example the table will be dropped if the type is dropped \(with `DROP TYPE ... CASCADE`\).
 
-When a typed table is created, then the data types of the columns are determined by the underlying composite type and are not specified by the `CREATE TABLE` command. But the `CREATE TABLE` command can add defaults and constraints to the table and can specify storage parameters.`PARTITION OF` _`parent_table`_ FOR VALUES _`partition_bound_spec`_
+When a typed table is created, then the data types of the columns are determined by the underlying composite type and are not specified by the `CREATE TABLE` command. But the `CREATE TABLE` command can add defaults and constraints to the table and can specify storage parameters.
+
+`PARTITION OF` _`parent_table`_ FOR VALUES _`partition_bound_spec`_
 
 Creates the table as a _partition_ of the specified parent table.
 
@@ -140,13 +150,21 @@ A partition must have the same column names and types as the partitioned table t
 
 Rows inserted into a partitioned table will be automatically routed to the correct partition. If no suitable partition exists, an error will occur. Also, if updating a row in a given partition would require it to move to another partition due to new partition key values, an error will occur.
 
-Operations such as TRUNCATE which normally affect a table and all of its inheritance children will cascade to all partitions, but may also be performed on an individual partition. Note that dropping a partition with `DROP TABLE` requires taking an `ACCESS EXCLUSIVE` lock on the parent table._`column_name`_
+Operations such as TRUNCATE which normally affect a table and all of its inheritance children will cascade to all partitions, but may also be performed on an individual partition. Note that dropping a partition with `DROP TABLE` requires taking an `ACCESS EXCLUSIVE` lock on the parent table.
 
-The name of a column to be created in the new table._`data_type`_
+_`column_name`_
 
-The data type of the column. This can include array specifiers. For more information on the data types supported by PostgreSQL, refer to [Chapter 8](https://www.postgresql.org/docs/10/static/datatype.html).`COLLATE` _`collation`_
+The name of a column to be created in the new table.
 
-The `COLLATE` clause assigns a collation to the column \(which must be of a collatable data type\). If not specified, the column data type's default collation is used.`INHERITS (` _`parent_table`_ \[, ... \] \)
+_`data_type`_
+
+The data type of the column. This can include array specifiers. For more information on the data types supported by PostgreSQL, refer to [Chapter 8](https://www.postgresql.org/docs/10/static/datatype.html).
+
+`COLLATE` _`collation`_
+
+The `COLLATE` clause assigns a collation to the column \(which must be of a collatable data type\). If not specified, the column data type's default collation is used.
+
+`INHERITS (` _`parent_table`_ \[, ... \] \)
 
 The optional `INHERITS` clause specifies a list of tables from which the new table automatically inherits all columns. Parent tables can be plain tables or foreign tables.
 
@@ -158,13 +176,17 @@ If the same column name exists in more than one parent table, an error is report
 
 Column `STORAGE` settings are also copied from parent tables.
 
-If a column in the parent table is an identity column, that property is not inherited. A column in the child table can be declared identity column if desired.`PARTITION BY { RANGE | LIST } ( {` _`column_name`_ \| \( _`expression`_ \) } \[ _`opclass`_ \] \[, ...\] \)
+If a column in the parent table is an identity column, that property is not inherited. A column in the child table can be declared identity column if desired.
+
+`PARTITION BY { RANGE | LIST } ( {` _`column_name`_ \| \( _`expression`_ \) } \[ _`opclass`_ \] \[, ...\] \)
 
 The optional `PARTITION BY` clause specifies a strategy of partitioning the table. The table thus created is called a _partitioned_ table. The parenthesized list of columns or expressions forms the _partition key_ for the table. When using range partitioning, the partition key can include multiple columns or expressions \(up to 32, but this limit can be altered when building PostgreSQL\), but for list partitioning, the partition key must consist of a single column or expression. If no B-tree operator class is specified when creating a partitioned table, the default B-tree operator class for the datatype will be used. If there is none, an error will be reported.
 
 A partitioned table is divided into sub-tables \(called partitions\), which are created using separate `CREATE TABLE` commands. The partitioned table is itself empty. A data row inserted into the table is routed to a partition based on the value of columns or expressions in the partition key. If no existing partition matches the values in the new row, an error will be reported.
 
-Partitioned tables do not support `UNIQUE`, `PRIMARY KEY`, `EXCLUDE`, or `FOREIGN KEY` constraints; however, you can define these constraints on individual partitions.`LIKE` _`source_table`_ \[ _`like_option`_ ... \]
+Partitioned tables do not support `UNIQUE`, `PRIMARY KEY`, `EXCLUDE`, or `FOREIGN KEY` constraints; however, you can define these constraints on individual partitions.
+
+`LIKE` _`source_table`_ \[ _`like_option`_ ... \]
 
 The `LIKE` clause specifies a table from which the new table automatically copies all column names, their data types, and their not-null constraints.
 
@@ -186,15 +208,23 @@ Comments for the copied columns, constraints, and indexes will be copied only if
 
 Note that unlike `INHERITS`, columns and constraints copied by `LIKE` are not merged with similarly named columns and constraints. If the same name is specified explicitly or in another `LIKE` clause, an error is signaled.
 
-The `LIKE` clause can also be used to copy column definitions from views, foreign tables, or composite types. Inapplicable options \(e.g., `INCLUDING INDEXES` from a view\) are ignored.`CONSTRAINT` _`constraint_name`_
+The `LIKE` clause can also be used to copy column definitions from views, foreign tables, or composite types. Inapplicable options \(e.g., `INCLUDING INDEXES` from a view\) are ignored.
 
-An optional name for a column or table constraint. If the constraint is violated, the constraint name is present in error messages, so constraint names like `col must be positive` can be used to communicate helpful constraint information to client applications. \(Double-quotes are needed to specify constraint names that contain spaces.\) If a constraint name is not specified, the system generates a name.`NOT NULL`
+`CONSTRAINT` _`constraint_name`_
 
-The column is not allowed to contain null values.`NULL`
+An optional name for a column or table constraint. If the constraint is violated, the constraint name is present in error messages, so constraint names like `col must be positive` can be used to communicate helpful constraint information to client applications. \(Double-quotes are needed to specify constraint names that contain spaces.\) If a constraint name is not specified, the system generates a name.
+
+`NOT NULL`
+
+The column is not allowed to contain null values.
+
+`NULL`
 
 The column is allowed to contain null values. This is the default.
 
-This clause is only provided for compatibility with non-standard SQL databases. Its use is discouraged in new applications.`CHECK (` _`expression`_ \) \[ NO INHERIT \]
+This clause is only provided for compatibility with non-standard SQL databases. Its use is discouraged in new applications.
+
+`CHECK (` _`expression`_ \) \[ NO INHERIT \]
 
 The `CHECK` clause specifies an expression producing a Boolean result which new or updated rows must satisfy for an insert or update operation to succeed. Expressions evaluating to TRUE or UNKNOWN succeed. Should any row of an insert or update operation produce a FALSE result, an error exception is raised and the insert or update does not alter the database. A check constraint specified as a column constraint should reference that column's value only, while an expression appearing in a table constraint can reference multiple columns.
 
@@ -202,31 +232,41 @@ Currently, `CHECK` expressions cannot contain subqueries nor refer to variables 
 
 A constraint marked with `NO INHERIT` will not propagate to child tables.
 
-When a table has multiple `CHECK` constraints, they will be tested for each row in alphabetical order by name, after checking `NOT NULL` constraints. \(PostgreSQL versions before 9.5 did not honor any particular firing order for `CHECK` constraints.\)`DEFAULT` _`default_expr`_
+When a table has multiple `CHECK` constraints, they will be tested for each row in alphabetical order by name, after checking `NOT NULL` constraints. \(PostgreSQL versions before 9.5 did not honor any particular firing order for `CHECK` constraints.\)
+
+`DEFAULT` _`default_expr`_
 
 The `DEFAULT` clause assigns a default data value for the column whose column definition it appears within. The value is any variable-free expression \(subqueries and cross-references to other columns in the current table are not allowed\). The data type of the default expression must match the data type of the column.
 
-The default expression will be used in any insert operation that does not specify a value for the column. If there is no default for a column, then the default is null.`GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY [ (` _`sequence_options`_ \) \]
+The default expression will be used in any insert operation that does not specify a value for the column. If there is no default for a column, then the default is null.
+
+`GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY [ (` _`sequence_options`_ \) \]
 
 This clause creates the column as an _identity column_. It will have an implicit sequence attached to it and the column in new rows will automatically have values from the sequence assigned to it.
 
 The clauses `ALWAYS` and `BY DEFAULT` determine how the sequence value is given precedence over a user-specified value in an `INSERT` statement. If `ALWAYS` is specified, a user-specified value is only accepted if the `INSERT` statement specifies `OVERRIDING SYSTEM VALUE`. If `BY DEFAULT` is specified, then the user-specified value takes precedence. See [INSERT](https://www.postgresql.org/docs/10/static/sql-insert.html) for details. \(In the `COPY` command, user-specified values are always used regardless of this setting.\)
 
-The optional _`sequence_options`_ clause can be used to override the options of the sequence. See [CREATE SEQUENCE](https://www.postgresql.org/docs/10/static/sql-createsequence.html) for details.`UNIQUE` \(column constraint\)  
+The optional _`sequence_options`_ clause can be used to override the options of the sequence. See [CREATE SEQUENCE](https://www.postgresql.org/docs/10/static/sql-createsequence.html) for details.
+
+`UNIQUE` \(column constraint\)  
 `UNIQUE (` _`column_name`_ \[, ... \] \) \(table constraint\)
 
 The `UNIQUE` constraint specifies that a group of one or more columns of a table can contain only unique values. The behavior of the unique table constraint is the same as that for column constraints, with the additional capability to span multiple columns.
 
 For the purpose of a unique constraint, null values are not considered equal.
 
-Each unique table constraint must name a set of columns that is different from the set of columns named by any other unique or primary key constraint defined for the table. \(Otherwise it would just be the same constraint listed twice.\)`PRIMARY KEY` \(column constraint\)  
+Each unique table constraint must name a set of columns that is different from the set of columns named by any other unique or primary key constraint defined for the table. \(Otherwise it would just be the same constraint listed twice.\)
+
+`PRIMARY KEY` \(column constraint\)  
 `PRIMARY KEY (` _`column_name`_ \[, ... \] \) \(table constraint\)
 
 The `PRIMARY KEY` constraint specifies that a column or columns of a table can contain only unique \(non-duplicate\), nonnull values. Only one primary key can be specified for a table, whether as a column constraint or a table constraint.
 
 The primary key constraint should name a set of columns that is different from the set of columns named by any unique constraint defined for the same table. \(Otherwise, the unique constraint is redundant and will be discarded.\)
 
-`PRIMARY KEY` enforces the same data constraints as a combination of `UNIQUE` and `NOT NULL`, but identifying a set of columns as the primary key also provides metadata about the design of the schema, since a primary key implies that other tables can rely on this set of columns as a unique identifier for rows.`EXCLUDE [ USING` _`index_method`_ \] \( _`exclude_element`_ WITH _`operator`_ \[, ... \] \) _`index_parameters`_ \[ WHERE \( _`predicate`_ \) \]
+`PRIMARY KEY` enforces the same data constraints as a combination of `UNIQUE` and `NOT NULL`, but identifying a set of columns as the primary key also provides metadata about the design of the schema, since a primary key implies that other tables can rely on this set of columns as a unique identifier for rows.
+
+`EXCLUDE [ USING` _`index_method`_ \] \( _`exclude_element`_ WITH _`operator`_ \[, ... \] \) _`index_parameters`_ \[ WHERE \( _`predicate`_ \) \]
 
 The `EXCLUDE` clause defines an exclusion constraint, which guarantees that if any two rows are compared on the specified column\(s\) or expression\(s\) using the specified operator\(s\), not all of these comparisons will return `TRUE`. If all of the specified operators test for equality, this is equivalent to a `UNIQUE` constraint, although an ordinary unique constraint will be faster. However, exclusion constraints can specify constraints that are more general than simple equality. For example, you can specify a constraint that no two rows in the table contain overlapping circles \(see [Section 8.8](https://www.postgresql.org/docs/10/static/datatype-geometric.html)\) by using the `&&` operator.
 
@@ -234,89 +274,155 @@ Exclusion constraints are implemented using an index, so each specified operator
 
 The access method must support `amgettuple` \(see [Chapter 60](https://www.postgresql.org/docs/10/static/indexam.html)\); at present this means GIN cannot be used. Although it's allowed, there is little point in using B-tree or hash indexes with an exclusion constraint, because this does nothing that an ordinary unique constraint doesn't do better. So in practice the access method will always be GiST or SP-GiST.
 
-The _`predicate`_ allows you to specify an exclusion constraint on a subset of the table; internally this creates a partial index. Note that parentheses are required around the predicate.`REFERENCES` _`reftable`_ \[ \( _`refcolumn`_ \) \] \[ MATCH _`matchtype`_ \] \[ ON DELETE _`action`_ \] \[ ON UPDATE _`action`_ \] \(column constraint\)  
+The _`predicate`_ allows you to specify an exclusion constraint on a subset of the table; internally this creates a partial index. Note that parentheses are required around the predicate.
+
+`REFERENCES` _`reftable`_ \[ \( _`refcolumn`_ \) \] \[ MATCH _`matchtype`_ \] \[ ON DELETE _`action`_ \] \[ ON UPDATE _`action`_ \] \(column constraint\)  
 `FOREIGN KEY (` _`column_name`_ \[, ... \] \) REFERENCES _`reftable`_ \[ \( _`refcolumn`_ \[, ... \] \) \] \[ MATCH _`matchtype`_ \] \[ ON DELETE _`action`_ \] \[ ON UPDATE _`action`_ \] \(table constraint\)
 
 These clauses specify a foreign key constraint, which requires that a group of one or more columns of the new table must only contain values that match values in the referenced column\(s\) of some row of the referenced table. If the _`refcolumn`_ list is omitted, the primary key of the _`reftable`_ is used. The referenced columns must be the columns of a non-deferrable unique or primary key constraint in the referenced table. The user must have `REFERENCES` permission on the referenced table \(either the whole table, or the specific referenced columns\). Note that foreign key constraints cannot be defined between temporary tables and permanent tables.
 
 A value inserted into the referencing column\(s\) is matched against the values of the referenced table and referenced columns using the given match type. There are three match types: `MATCH FULL`, `MATCH PARTIAL`, and `MATCH SIMPLE` \(which is the default\). `MATCH FULL` will not allow one column of a multicolumn foreign key to be null unless all foreign key columns are null; if they are all null, the row is not required to have a match in the referenced table. `MATCH SIMPLE` allows any of the foreign key columns to be null; if any of them are null, the row is not required to have a match in the referenced table. `MATCH PARTIAL` is not yet implemented. \(Of course, `NOT NULL` constraints can be applied to the referencing column\(s\) to prevent these cases from arising.\)
 
-In addition, when the data in the referenced columns is changed, certain actions are performed on the data in this table's columns. The `ON DELETE` clause specifies the action to perform when a referenced row in the referenced table is being deleted. Likewise, the `ON UPDATE` clause specifies the action to perform when a referenced column in the referenced table is being updated to a new value. If the row is updated, but the referenced column is not actually changed, no action is done. Referential actions other than the `NO ACTION`check cannot be deferred, even if the constraint is declared deferrable. There are the following possible actions for each clause:`NO ACTION`
+In addition, when the data in the referenced columns is changed, certain actions are performed on the data in this table's columns. The `ON DELETE` clause specifies the action to perform when a referenced row in the referenced table is being deleted. Likewise, the `ON UPDATE` clause specifies the action to perform when a referenced column in the referenced table is being updated to a new value. If the row is updated, but the referenced column is not actually changed, no action is done. Referential actions other than the `NO ACTION`check cannot be deferred, even if the constraint is declared deferrable. There are the following possible actions for each clause:
 
-Produce an error indicating that the deletion or update would create a foreign key constraint violation. If the constraint is deferred, this error will be produced at constraint check time if there still exist any referencing rows. This is the default action.`RESTRICT`
+`NO ACTION`
 
-Produce an error indicating that the deletion or update would create a foreign key constraint violation. This is the same as `NO ACTION` except that the check is not deferrable.`CASCADE`
+Produce an error indicating that the deletion or update would create a foreign key constraint violation. If the constraint is deferred, this error will be produced at constraint check time if there still exist any referencing rows. This is the default action.
 
-Delete any rows referencing the deleted row, or update the values of the referencing column\(s\) to the new values of the referenced columns, respectively.`SET NULL`
+`RESTRICT`
 
-Set the referencing column\(s\) to null.`SET DEFAULT`
+Produce an error indicating that the deletion or update would create a foreign key constraint violation. This is the same as `NO ACTION` except that the check is not deferrable.
+
+`CASCADE`
+
+Delete any rows referencing the deleted row, or update the values of the referencing column\(s\) to the new values of the referenced columns, respectively.
+
+`SET NULL`
+
+Set the referencing column\(s\) to null.
+
+`SET DEFAULT`
 
 Set the referencing column\(s\) to their default values. \(There must be a row in the referenced table matching the default values, if they are not null, or the operation will fail.\)
 
-If the referenced column\(s\) are changed frequently, it might be wise to add an index to the referencing column\(s\) so that referential actions associated with the foreign key constraint can be performed more efficiently.`DEFERRABLE`  
+If the referenced column\(s\) are changed frequently, it might be wise to add an index to the referencing column\(s\) so that referential actions associated with the foreign key constraint can be performed more efficiently.
+
+`DEFERRABLE`  
 `NOT DEFERRABLE`
 
-This controls whether the constraint can be deferred. A constraint that is not deferrable will be checked immediately after every command. Checking of constraints that are deferrable can be postponed until the end of the transaction \(using the [SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html)command\). `NOT DEFERRABLE` is the default. Currently, only `UNIQUE`, `PRIMARY KEY`, `EXCLUDE`, and `REFERENCES` \(foreign key\) constraints accept this clause. `NOT NULL` and `CHECK` constraints are not deferrable. Note that deferrable constraints cannot be used as conflict arbitrators in an `INSERT` statement that includes an `ON CONFLICT DO UPDATE` clause.`INITIALLY IMMEDIATE`  
+This controls whether the constraint can be deferred. A constraint that is not deferrable will be checked immediately after every command. Checking of constraints that are deferrable can be postponed until the end of the transaction \(using the [SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html)command\). `NOT DEFERRABLE` is the default. Currently, only `UNIQUE`, `PRIMARY KEY`, `EXCLUDE`, and `REFERENCES` \(foreign key\) constraints accept this clause. `NOT NULL` and `CHECK` constraints are not deferrable. Note that deferrable constraints cannot be used as conflict arbitrators in an `INSERT` statement that includes an `ON CONFLICT DO UPDATE` clause.
+
+`INITIALLY IMMEDIATE`  
 `INITIALLY DEFERRED`
 
-If a constraint is deferrable, this clause specifies the default time to check the constraint. If the constraint is `INITIALLY IMMEDIATE`, it is checked after each statement. This is the default. If the constraint is `INITIALLY DEFERRED`, it is checked only at the end of the transaction. The constraint check time can be altered with the [SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html) command.`WITH (` _`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
+If a constraint is deferrable, this clause specifies the default time to check the constraint. If the constraint is `INITIALLY IMMEDIATE`, it is checked after each statement. This is the default. If the constraint is `INITIALLY DEFERRED`, it is checked only at the end of the transaction. The constraint check time can be altered with the [SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html) command.
+
+`WITH (` _`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
 
 This clause specifies optional storage parameters for a table or index; see [Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-STORAGE-PARAMETERS) for more information. The `WITH` clause for a table can also include `OIDS=TRUE` \(or just `OIDS`\) to specify that rows of the new table should have OIDs \(object identifiers\) assigned to them, or `OIDS=FALSE` to specify that the rows should not have OIDs. If `OIDS` is not specified, the default setting depends upon the [default\_with\_oids](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#GUC-DEFAULT-WITH-OIDS) configuration parameter. \(If the new table inherits from any tables that have OIDs, then `OIDS=TRUE` is forced even if the command says `OIDS=FALSE`.\)
 
 If `OIDS=FALSE` is specified or implied, the new table does not store OIDs and no OID will be assigned for a row inserted into it. This is generally considered worthwhile, since it will reduce OID consumption and thereby postpone the wraparound of the 32-bit OID counter. Once the counter wraps around, OIDs can no longer be assumed to be unique, which makes them considerably less useful. In addition, excluding OIDs from a table reduces the space required to store the table on disk by 4 bytes per row \(on most machines\), slightly improving performance.
 
-To remove OIDs from a table after it has been created, use [ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html).`WITH OIDS`  
+To remove OIDs from a table after it has been created, use [ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html).
+
+`WITH OIDS`  
 `WITHOUT OIDS`
 
-These are obsolescent syntaxes equivalent to `WITH (OIDS)` and `WITH (OIDS=FALSE)`, respectively. If you wish to give both an `OIDS` setting and storage parameters, you must use the `WITH ( ... )` syntax; see above.`ON COMMIT`
+These are obsolescent syntaxes equivalent to `WITH (OIDS)` and `WITH (OIDS=FALSE)`, respectively. If you wish to give both an `OIDS` setting and storage parameters, you must use the `WITH ( ... )` syntax; see above.
 
-The behavior of temporary tables at the end of a transaction block can be controlled using `ON COMMIT`. The three options are:`PRESERVE ROWS`
+`ON COMMIT`
 
-No special action is taken at the ends of transactions. This is the default behavior.`DELETE ROWS`
+The behavior of temporary tables at the end of a transaction block can be controlled using `ON COMMIT`. The three options are:
 
-All rows in the temporary table will be deleted at the end of each transaction block. Essentially, an automatic [TRUNCATE](https://www.postgresql.org/docs/10/static/sql-truncate.html) is done at each commit.`DROP`
+`PRESERVE ROWS`
 
-The temporary table will be dropped at the end of the current transaction block.`TABLESPACE` _`tablespace_name`_
+No special action is taken at the ends of transactions. This is the default behavior.
 
-The _`tablespace_name`_ is the name of the tablespace in which the new table is to be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.`USING INDEX TABLESPACE` _`tablespace_name`_
+`DELETE ROWS`
+
+All rows in the temporary table will be deleted at the end of each transaction block. Essentially, an automatic [TRUNCATE](https://www.postgresql.org/docs/10/static/sql-truncate.html) is done at each commit.
+
+`DROP`
+
+The temporary table will be dropped at the end of the current transaction block.
+
+`TABLESPACE` _`tablespace_name`_
+
+The _`tablespace_name`_ is the name of the tablespace in which the new table is to be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.
+
+`USING INDEX TABLESPACE` _`tablespace_name`_
 
 This clause allows selection of the tablespace in which the index associated with a `UNIQUE`, `PRIMARY KEY`, or `EXCLUDE` constraint will be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.
 
 #### Storage Parameters
 
-The `WITH` clause can specify _storage parameters_ for tables, and for indexes associated with a `UNIQUE`, `PRIMARY KEY`, or `EXCLUDE` constraint. Storage parameters for indexes are documented in [CREATE INDEX](https://www.postgresql.org/docs/10/static/sql-createindex.html). The storage parameters currently available for tables are listed below. For many of these parameters, as shown, there is an additional parameter with the same name prefixed with `toast.`, which controls the behavior of the table's secondary TOAST table, if any \(see [Section 66.2](https://www.postgresql.org/docs/10/static/storage-toast.html) for more information about TOAST\). If a table parameter value is set and the equivalent `toast.` parameter is not, the TOAST table will use the table's parameter value. Specifying these parameters for partitioned tables is not supported, but you may specify them for individual leaf partitions.`fillfactor` \(`integer`\)
+The `WITH` clause can specify _storage parameters_ for tables, and for indexes associated with a `UNIQUE`, `PRIMARY KEY`, or `EXCLUDE` constraint. Storage parameters for indexes are documented in [CREATE INDEX](https://www.postgresql.org/docs/10/static/sql-createindex.html). The storage parameters currently available for tables are listed below. For many of these parameters, as shown, there is an additional parameter with the same name prefixed with `toast.`, which controls the behavior of the table's secondary TOAST table, if any \(see [Section 66.2](https://www.postgresql.org/docs/10/static/storage-toast.html) for more information about TOAST\). If a table parameter value is set and the equivalent `toast.` parameter is not, the TOAST table will use the table's parameter value. Specifying these parameters for partitioned tables is not supported, but you may specify them for individual leaf partitions.
 
-The fillfactor for a table is a percentage between 10 and 100. 100 \(complete packing\) is the default. When a smaller fillfactor is specified, `INSERT` operations pack table pages only to the indicated percentage; the remaining space on each page is reserved for updating rows on that page. This gives `UPDATE` a chance to place the updated copy of a row on the same page as the original, which is more efficient than placing it on a different page. For a table whose entries are never updated, complete packing is the best choice, but in heavily updated tables smaller fillfactors are appropriate. This parameter cannot be set for TOAST tables.`parallel_workers` \(`integer`\)
+`fillfactor` \(`integer`\)
 
-This sets the number of workers that should be used to assist a parallel scan of this table. If not set, the system will determine a value based on the relation size. The actual number of workers chosen by the planner may be less, for example due to the setting of [max\_worker\_processes](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES).`autovacuum_enabled`, `toast.autovacuum_enabled` \(`boolean`\)
+The fillfactor for a table is a percentage between 10 and 100. 100 \(complete packing\) is the default. When a smaller fillfactor is specified, `INSERT` operations pack table pages only to the indicated percentage; the remaining space on each page is reserved for updating rows on that page. This gives `UPDATE` a chance to place the updated copy of a row on the same page as the original, which is more efficient than placing it on a different page. For a table whose entries are never updated, complete packing is the best choice, but in heavily updated tables smaller fillfactors are appropriate. This parameter cannot be set for TOAST tables.
 
-Enables or disables the autovacuum daemon for a particular table. If true, the autovacuum daemon will perform automatic `VACUUM` and/or `ANALYZE` operations on this table following the rules discussed in [Section 24.1.6](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#AUTOVACUUM). If false, this table will not be autovacuumed, except to prevent transaction ID wraparound. See [Section 24.1.5](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND) for more about wraparound prevention. Note that the autovacuum daemon does not run at all \(except to prevent transaction ID wraparound\) if the [autovacuum](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM) parameter is false; setting individual tables' storage parameters does not override that. Therefore there is seldom much point in explicitly setting this storage parameter to `true`, only to `false`.`autovacuum_vacuum_threshold`, `toast.autovacuum_vacuum_threshold` \(`integer`\)
+`parallel_workers` \(`integer`\)
 
-Per-table value for [autovacuum\_vacuum\_threshold](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-THRESHOLD) parameter.`autovacuum_vacuum_scale_factor`, `toast.autovacuum_vacuum_scale_factor` \(`float4`\)
+This sets the number of workers that should be used to assist a parallel scan of this table. If not set, the system will determine a value based on the relation size. The actual number of workers chosen by the planner may be less, for example due to the setting of [max\_worker\_processes](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES).
 
-Per-table value for [autovacuum\_vacuum\_scale\_factor](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-SCALE-FACTOR) parameter.`autovacuum_analyze_threshold` \(`integer`\)
+`autovacuum_enabled`, `toast.autovacuum_enabled` \(`boolean`\)
 
-Per-table value for [autovacuum\_analyze\_threshold](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-THRESHOLD) parameter.`autovacuum_analyze_scale_factor` \(`float4`\)
+Enables or disables the autovacuum daemon for a particular table. If true, the autovacuum daemon will perform automatic `VACUUM` and/or `ANALYZE` operations on this table following the rules discussed in [Section 24.1.6](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#AUTOVACUUM). If false, this table will not be autovacuumed, except to prevent transaction ID wraparound. See [Section 24.1.5](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND) for more about wraparound prevention. Note that the autovacuum daemon does not run at all \(except to prevent transaction ID wraparound\) if the [autovacuum](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM) parameter is false; setting individual tables' storage parameters does not override that. Therefore there is seldom much point in explicitly setting this storage parameter to `true`, only to `false`.
 
-Per-table value for [autovacuum\_analyze\_scale\_factor](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-SCALE-FACTOR) parameter.`autovacuum_vacuum_cost_delay`, `toast.autovacuum_vacuum_cost_delay` \(`integer`\)
+`autovacuum_vacuum_threshold`, `toast.autovacuum_vacuum_threshold` \(`integer`\)
 
-Per-table value for [autovacuum\_vacuum\_cost\_delay](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-COST-DELAY) parameter.`autovacuum_vacuum_cost_limit`, `toast.autovacuum_vacuum_cost_limit` \(`integer`\)
+Per-table value for [autovacuum\_vacuum\_threshold](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-THRESHOLD) parameter.
 
-Per-table value for [autovacuum\_vacuum\_cost\_limit](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-COST-LIMIT) parameter.`autovacuum_freeze_min_age`, `toast.autovacuum_freeze_min_age` \(`integer`\)
+`autovacuum_vacuum_scale_factor`, `toast.autovacuum_vacuum_scale_factor` \(`float4`\)
 
-Per-table value for [vacuum\_freeze\_min\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-FREEZE-MIN-AGE) parameter. Note that autovacuum will ignore per-table `autovacuum_freeze_min_age` parameters that are larger than half the system-wide [autovacuum\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-FREEZE-MAX-AGE) setting.`autovacuum_freeze_max_age`, `toast.autovacuum_freeze_max_age` \(`integer`\)
+Per-table value for [autovacuum\_vacuum\_scale\_factor](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-SCALE-FACTOR) parameter.
 
-Per-table value for [autovacuum\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-FREEZE-MAX-AGE) parameter. Note that autovacuum will ignore per-table `autovacuum_freeze_max_age` parameters that are larger than the system-wide setting \(it can only be set smaller\).`autovacuum_freeze_table_age`, `toast.autovacuum_freeze_table_age` \(`integer`\)
+`autovacuum_analyze_threshold` \(`integer`\)
 
-Per-table value for [vacuum\_freeze\_table\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-FREEZE-TABLE-AGE) parameter.`autovacuum_multixact_freeze_min_age`, `toast.autovacuum_multixact_freeze_min_age` \(`integer`\)
+Per-table value for [autovacuum\_analyze\_threshold](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-THRESHOLD) parameter.
 
-Per-table value for [vacuum\_multixact\_freeze\_min\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-MULTIXACT-FREEZE-MIN-AGE) parameter. Note that autovacuum will ignore per-table `autovacuum_multixact_freeze_min_age` parameters that are larger than half the system-wide [autovacuum\_multixact\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE) setting.`autovacuum_multixact_freeze_max_age`, `toast.autovacuum_multixact_freeze_max_age` \(`integer`\)
+`autovacuum_analyze_scale_factor` \(`float4`\)
 
-Per-table value for [autovacuum\_multixact\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE) parameter. Note that autovacuum will ignore per-table `autovacuum_multixact_freeze_max_age` parameters that are larger than the system-wide setting \(it can only be set smaller\).`autovacuum_multixact_freeze_table_age`, `toast.autovacuum_multixact_freeze_table_age` \(`integer`\)
+Per-table value for [autovacuum\_analyze\_scale\_factor](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-SCALE-FACTOR) parameter.
 
-Per-table value for [vacuum\_multixact\_freeze\_table\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-MULTIXACT-FREEZE-TABLE-AGE) parameter.`log_autovacuum_min_duration`, `toast.log_autovacuum_min_duration` \(`integer`\)
+`autovacuum_vacuum_cost_delay`, `toast.autovacuum_vacuum_cost_delay` \(`integer`\)
 
-Per-table value for [log\_autovacuum\_min\_duration](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-LOG-AUTOVACUUM-MIN-DURATION) parameter.`user_catalog_table` \(`boolean`\)
+Per-table value for [autovacuum\_vacuum\_cost\_delay](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-COST-DELAY) parameter.
+
+`autovacuum_vacuum_cost_limit`, `toast.autovacuum_vacuum_cost_limit` \(`integer`\)
+
+Per-table value for [autovacuum\_vacuum\_cost\_limit](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-COST-LIMIT) parameter.
+
+`autovacuum_freeze_min_age`, `toast.autovacuum_freeze_min_age` \(`integer`\)
+
+Per-table value for [vacuum\_freeze\_min\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-FREEZE-MIN-AGE) parameter. Note that autovacuum will ignore per-table `autovacuum_freeze_min_age` parameters that are larger than half the system-wide [autovacuum\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-FREEZE-MAX-AGE) setting.
+
+`autovacuum_freeze_max_age`, `toast.autovacuum_freeze_max_age` \(`integer`\)
+
+Per-table value for [autovacuum\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-FREEZE-MAX-AGE) parameter. Note that autovacuum will ignore per-table `autovacuum_freeze_max_age` parameters that are larger than the system-wide setting \(it can only be set smaller\).
+
+`autovacuum_freeze_table_age`, `toast.autovacuum_freeze_table_age` \(`integer`\)
+
+Per-table value for [vacuum\_freeze\_table\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-FREEZE-TABLE-AGE) parameter.
+
+`autovacuum_multixact_freeze_min_age`, `toast.autovacuum_multixact_freeze_min_age` \(`integer`\)
+
+Per-table value for [vacuum\_multixact\_freeze\_min\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-MULTIXACT-FREEZE-MIN-AGE) parameter. Note that autovacuum will ignore per-table `autovacuum_multixact_freeze_min_age` parameters that are larger than half the system-wide [autovacuum\_multixact\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE) setting.
+
+`autovacuum_multixact_freeze_max_age`, `toast.autovacuum_multixact_freeze_max_age` \(`integer`\)
+
+Per-table value for [autovacuum\_multixact\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE) parameter. Note that autovacuum will ignore per-table `autovacuum_multixact_freeze_max_age` parameters that are larger than the system-wide setting \(it can only be set smaller\).
+
+`autovacuum_multixact_freeze_table_age`, `toast.autovacuum_multixact_freeze_table_age` \(`integer`\)
+
+Per-table value for [vacuum\_multixact\_freeze\_table\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-MULTIXACT-FREEZE-TABLE-AGE) parameter.
+
+`log_autovacuum_min_duration`, `toast.log_autovacuum_min_duration` \(`integer`\)
+
+Per-table value for [log\_autovacuum\_min\_duration](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-LOG-AUTOVACUUM-MIN-DURATION) parameter.
+
+`user_catalog_table` \(`boolean`\)
 
 Declare the table as an additional catalog table for purposes of logical replication. See [Section 48.6.2](https://www.postgresql.org/docs/10/static/logicaldecoding-output-plugin.html#LOGICALDECODING-CAPABILITIES) for details. This parameter cannot be set for TOAST tables.
 
@@ -653,5 +759,5 @@ The `PARTITION OF` clause is a PostgreSQL extension.
 
 ### See Also
 
-[ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html), [DROP TABLE](https://www.postgresql.org/docs/10/static/sql-droptable.html), [CREATE TABLE AS](https://www.postgresql.org/docs/10/static/sql-createtableas.html), [CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html), [CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html)
+[ALTER TABLE](alter-table.md), [DROP TABLE](drop-table.md), [CREATE TABLE AS](create-table-as.md), [CREATE TABLESPACE](create-tablespace.md), [CREATE TYPE](create-type.md)
 
