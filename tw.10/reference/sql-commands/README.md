@@ -1,11 +1,8 @@
----
-description: >-
-  This part contains reference information for the SQL commands supported by
-  PostgreSQL. By “SQL” the language in general is meant; information about the
-  standards conformance and compatibility of each
----
-
 # I. SQL 指令
+
+本部分包含 PostgreSQL 支援的 SQL 指令的參考訊息。一般而言，「SQL」是指語言；內容包含了有關各標準的一致性和相容性。
+
+連結將會連結至 PostgreSQL 官方使用手冊，本手冊連結請使用左側目錄。
 
 **Table of Contents**
 
