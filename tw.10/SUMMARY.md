@@ -102,7 +102,7 @@
     * [9.14. XML函式](sql/functions/functions-xml.md)
     * [9.15. JSON函式及運算子](sql/functions/9.15.-json-han-shi-ji-yun-suan-zi.md)
     * [9.16. 序列函式](sql/functions/9.16.-xu-lie-han-shi.md)
-    * [9.17. 條件表示式](sql/functions/9.17.-tiao-jian-biao-shi-shi.md)
+    * [9.17. 條件表示式](sql/functions/functions-conditional.md)
     * [9.18. 陣列函式及運算子](sql/functions/9.18.-zhen-lie-han-shi-ji-yun-suan-zi.md)
     * [9.19. 範圍函式及運算子](sql/functions/9.19.-fan-wei-han-shi-ji-yun-suan-zi.md)
     * [9.20. 彙總函式](sql/functions/9.20.-hui-zong-han-shi.md)
