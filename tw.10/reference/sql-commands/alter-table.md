@@ -246,15 +246,15 @@ SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以
 
 `NOT OF`
 
-This form dissociates a typed table from its type.
+此子句將複合型別資料表從它的型別中分離出來。
 
 `OWNER`
 
-This form changes the owner of the table, sequence, view, materialized view, or foreign table to the specified user.
+該子句將資料表、序列、檢視表、具體化檢視表或外部資料表的擁有者變更為指定的使用者。
 
 `REPLICA IDENTITY`
 
-This form changes the information which is written to the write-ahead log to identify rows which are updated or deleted. This option has no effect except when logical replication is in use. `DEFAULT` \(the default for non-system tables\) records the old values of the columns of the primary key, if any. `USING INDEX` records the old values of the columns covered by the named index, which must be unique, not partial, not deferrable, and include only columns marked `NOT NULL`. `FULL` records the old values of all columns in the row. `NOTHING`records no information about the old row. \(This is the default for system tables.\) In all cases, no old values are logged unless at least one of the columns that would be logged differs between the old and new versions of the row.
+此子句變更寫入 WAL 的訊息，以識別更新或刪除的資料列。如果正在使用邏輯複製的話，則此子句不起作用。DEFAULT（非系統資料表的預設值）記錄主鍵欄位的舊值（如果有的話）。USING INDEX 記錄指定索引覆蓋欄位的舊值，它必須是唯一的，不能是部分的，也不可是延遲的，並且只能包含標記為 NOT NULL 的欄位。FULL 記錄行中所有欄位的舊值。 沒有記錄關於舊資料列的訊息。（這是系統資料表的預設值。）在任何情況下，都不記錄舊值，除非至少有一個將記錄的欄位在新舊版本的資料列之間不同。
 
 `RENAME`
 
