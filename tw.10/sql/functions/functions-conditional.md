@@ -45,7 +45,7 @@ SELECT a,
  3 | other
 ```
 
-所有結果表示式的資料型別都必須可轉換為單一的輸出型別。更多細節請參閱 [10.5 節](../10.-xing-bie-zhuan-huan/10.5.-unioncase-deng-xiang-guan-cao-zuo.md)。
+所有結果表示式的資料型別都必須可轉換為單一的輸出型別。更多細節請參閱 [10.5 節](../typeconv/union-case.md)。
 
 There is a “simple” form of `CASE` expression that is a variant of the general form above:
 
