@@ -1,10 +1,10 @@
 # 9.17. 條件表示式
 
-This section describes the SQL-compliant conditional expressions available in PostgreSQL.
+本節介紹 PostgreSQL 中符合 SQL 標準可用的條件表示式。
 
-#### Tip
+#### 提示
 
-If your needs go beyond the capabilities of these conditional expressions, you might want to consider writing a stored procedure in a more expressive programming language.
+如果您的需求超出了這些條件表示式的功能，您可能需要考慮使用功能更強的程序語言編寫 stored procedure。
 
 #### 9.17.1. `CASE`
 
