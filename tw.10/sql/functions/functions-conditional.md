@@ -8,7 +8,7 @@
 
 #### 9.17.1. `CASE`
 
-The SQL `CASE` expression is a generic conditional expression, similar to if/else statements in other programming languages:
+SQL 中的 CASE 表示式是一種通用的條件表示式，類似於其他程序語言中的 if / else 語句：
 
 ```text
 CASE WHEN condition THEN result
@@ -17,9 +17,9 @@ CASE WHEN condition THEN result
 END
 ```
 
-`CASE` clauses can be used wherever an expression is valid. Each _`condition`_ is an expression that returns a `boolean` result. If the condition's result is true, the value of the `CASE` expression is the _`result`_ that follows the condition, and the remainder of the `CASE` expression is not processed. If the condition's result is not true, any subsequent `WHEN` clauses are examined in the same manner. If no `WHEN` _`condition`_ yields true, the value of the `CASE`expression is the _`result`_ of the `ELSE` clause. If the `ELSE` clause is omitted and no condition is true, the result is null.
+CASE子句可用於任何表示式有效的地方。每個條件都是一個回傳布林值的表示式。如果條件結果為 true，則 CASE 表示式的值為該條件之後的結果，而不處理CASE表達式的其餘部分。如果條件的結果不成立，則以相同的方式檢查後續的 WHEN 子句。如果沒有任何 WHEN 條件成立，則 CASE 表示式的值是 ELSE 子句的結果。如果省略了 ELSE 子句並且沒有條件為真，則結果為 null。
 
-An example:
+範例：
 
 ```text
 SELECT * FROM test;
@@ -45,7 +45,7 @@ SELECT a,
  3 | other
 ```
 
-The data types of all the _`result`_ expressions must be convertible to a single output type. See [Section 10.5](https://www.postgresql.org/docs/10/static/typeconv-union-case.html) for more details.
+所有結果表示式的資料型別都必須可轉換為單一的輸出型別。更多細節請參閱 [10.5 節](../10.-xing-bie-zhuan-huan/10.5.-unioncase-deng-xiang-guan-cao-zuo.md)。
 
 There is a “simple” form of `CASE` expression that is a variant of the general form above:
 
