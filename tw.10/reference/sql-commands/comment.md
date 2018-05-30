@@ -1,8 +1,8 @@
 # COMMENT
 
-COMMENT — define or change the comment of an object
+COMMENT — 定義或變更物件的註解
 
-### Synopsis
+### 語法
 
 ```text
 COMMENT ON
@@ -57,15 +57,15 @@ where aggregate_signature is:
 [ [ argmode ] [ argname ] argtype [ , ... ] ] ORDER BY [ argmode ] [ argname ] argtype [ , ... ]
 ```
 
-### Description
+### 說明
 
-`COMMENT` stores a comment about a database object.
+COMMENT 儲存有關資料庫物件的註解。
 
-Only one comment string is stored for each object, so to modify a comment, issue a new `COMMENT` command for the same object. To remove a comment, write `NULL` in place of the text string. Comments are automatically dropped when their object is dropped.
+每個物件僅能儲存一個註解字串，因此要修改註解，請為同一物件發出新的 COMMENT 指令。 要刪除註解，請寫入 NULL 代替文字字串。當物件被移除時，註解也會自動移除。
 
-For most kinds of object, only the object's owner can set the comment. Roles don't have owners, so the rule for `COMMENT ON ROLE` is that you must be superuser to comment on a superuser role, or have the `CREATEROLE` privilege to comment on non-superuser roles. Likewise, access methods don't have owners either; you must be superuser to comment on an access method. Of course, a superuser can comment on anything.
+對於大多數類型的物件，只有物件的擁有者才能設定註解。角色本身沒有擁有者，因此 COMMENT ON ROLE 的規則是您必須是超級使用者才能對超級使用者角色註解，或具有 CREATEROLE 權限才能對非超級使用者角色註解。 同樣，存取方法也沒有擁有者；所以您必須是超級使用者才能對存取方法留下註解。 當然，超級使用者可以對任何物件註解。
 
-Comments can be viewed using psql's `\d` family of commands. Other user interfaces to retrieve comments can be built atop the same built-in functions that psql uses, namely `obj_description`, `col_description`, and `shobj_description` \(see [Table 9.68](https://www.postgresql.org/docs/10/static/functions-info.html#FUNCTIONS-INFO-COMMENT-TABLE)\).
+可以使用psql的 \d 系列指令查看註解。其他使用者界面要檢索註解的話，可以使用 psql 相同內建函數的建置，即 obj\_description，col\_description 和 shobj\_description（請參閱[表格 9.68](../../sql/functions/9.25.-xi-tong-zi-xun-han-shu.md#table-9-68-comment-information-functions)）。
 
 ### Parameters
 
@@ -131,25 +131,25 @@ _`text`_
 
 The new comment, written as a string literal; or `NULL` to drop the comment.
 
-### Notes
+### 注意
 
-There is presently no security mechanism for viewing comments: any user connected to a database can see all the comments for objects in that database. For shared objects such as databases, roles, and tablespaces, comments are stored globally so any user connected to any database in the cluster can see all the comments for shared objects. Therefore, don't put security-critical information in comments.
+目前並沒有用於查看註解的安全機制：連線到資料庫的任何使用者可以看到該資料庫中的所有物件註解。對於資料庫而言，角色和資料表空間等共享物件，註解將以全域儲存，因此連線到叢集中任何資料庫的任何使用者都可以看到共享物件的所有註解。因此，請勿將安全關鍵訊息置於註解中。
 
-### Examples
+### 範例
 
-Attach a comment to the table `mytable`:
+對資料表 mytable 加上註解：
 
 ```text
 COMMENT ON TABLE mytable IS 'This is my table.';
 ```
 
-Remove it again:
+再來移除它：
 
 ```text
 COMMENT ON TABLE mytable IS NULL;
 ```
 
-Some more examples:
+更多例子：
 
 ```text
 COMMENT ON ACCESS METHOD rtree IS 'R-Tree access method';
@@ -193,7 +193,7 @@ COMMENT ON TYPE complex IS 'Complex number data type';
 COMMENT ON VIEW my_view IS 'View of departmental costs';
 ```
 
-### Compatibility
+### 相容性
 
-There is no `COMMENT` command in the SQL standard.
+SQL 標準中並沒有 COMMENT 指令。
 
