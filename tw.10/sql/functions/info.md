@@ -1,6 +1,6 @@
 # 9.25. 系統資訊函數
 
-[Table 9.60](9.25.-xi-tong-zi-xun-han-shu.md#table-960-session-information-functions) 列出了一些取得連線和系統資訊的函數。
+[Table 9.60](info.md#table-960-session-information-functions) 列出了一些取得連線和系統資訊的函數。
 
 除了本節中列出的功能之外，還有一些與統計系統相關的功能也提供系統訊息。有關更多訊息，請參閱[第 28.2.2 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/iii-server-administration/monitoring-database-activity/282-the-statistics-collector.md)。
 
@@ -68,7 +68,7 @@ pg\_safe\_snapshot\_blocking\_pids 回傳阻擋具有指定 Process ID的取得�
 
 version 回傳一個說明 PostgreSQL 伺服器版本的字串。你也可以從 [server\_version](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/iii-server-administration/server-configuration/1915-preset-options.md) 或適於機器讀取的 [server\_version\_num](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/iii-server-administration/server-configuration/1915-preset-options.md) 取得此信息。軟體研發人員應該使用 server\_version\_num（自8.2起可用）或 [PQserverVersion](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/iv-client-interfaces/332-connection-status-functions.md)，而不用需要解析文字的版本。
 
-[Table 9.61](9.25.-xi-tong-zi-xun-han-shu.md#table-961-access-privilege-inquiry-functions) 列出了允許使用者以程式控制的方式查詢資料庫物件存取權限的函數。有關權限的更多訊息，請參閱[第 5.6 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-definition/56-privileges.md)。
+[Table 9.61](info.md#table-961-access-privilege-inquiry-functions) 列出了允許使用者以程式控制的方式查詢資料庫物件存取權限的函數。有關權限的更多訊息，請參閱[第 5.6 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-definition/56-privileges.md)。
 
 ### **Table 9.61. 存取權限查詢功能**
 
@@ -139,7 +139,7 @@ pg\_has\_role 用於檢查使用者是否能以特定方式存取角色。它的
 
 row\_security\_active 用於檢查 current\_user 和 environment 的上下文中的資料列級的安全性是否對指定的資料表是有效的。該資料表可以使用名稱或 OID 來指定。
 
-[Table 9.62](9.25.-xi-tong-zi-xun-han-shu.md#table-962-schema-可見性的查詢函數) 列出想要確定某個物件在目前 schema 搜尋路徑中是否可見的函數。例如，如果一個資料表所包含的 schema 位於搜尋路徑中，並且在搜尋路徑的前面沒有出現同名的資料表，則稱該資料表是可見的。這相當於可以透過名稱引用資料表而不需要明確指定 schema 限定的語法。要列出所有可見資料表的名稱：
+[Table 9.62](info.md#table-962-schema-可見性的查詢函數) 列出想要確定某個物件在目前 schema 搜尋路徑中是否可見的函數。例如，如果一個資料表所包含的 schema 位於搜尋路徑中，並且在搜尋路徑的前面沒有出現同名的資料表，則稱該資料表是可見的。這相當於可以透過名稱引用資料表而不需要明確指定 schema 限定的語法。要列出所有可見資料表的名稱：
 
 ```text
 SELECT relname FROM pg_class WHERE pg_table_is_visible(oid);
@@ -173,7 +173,7 @@ SELECT pg_type_is_visible('myschema.widget'::regtype);
 
 請注意，以這種方式測試非 schema 限定的型別名稱沒有什麼意義 - 因為如果名稱可以被識別，則它必然是可見的。
 
-[Table 9.63](9.25.-xi-tong-zi-xun-han-shu.md#table-963-system-catalog-information-functions) 列出了從系統目錄中取得資訊的功能。
+[Table 9.63](info.md#table-963-system-catalog-information-functions) 列出了從系統目錄中取得資訊的功能。
 
 ### **Table 9.63. System Catalog Information Functions**
 
@@ -236,7 +236,7 @@ pg\_get\_serial\_sequence 回傳與欄位關聯的序列的名稱，如果沒有
 
 pg\_get\_userbyid 根據其 OID 取得角色的名稱。
 
-pg\_index\_column\_has\_property、pg\_index\_has\_property 和 pg\_indexam\_has\_property 回傳指定的索引欄位、索引或索引存取方法是否擁有指定的屬性。如果屬性名稱未知或不適用於特定的物件，或者 OID 或欄位編號未標識有效物件，則回傳 NULL。 請參閱 [Table 9.64 欄位屬性](9.25.-xi-tong-zi-xun-han-shu.md#table-964-index-column-properties)，[Table 9.65 索引屬性](9.25.-xi-tong-zi-xun-han-shu.md#table-965-index-properties)以及 [Table 9.66 存取方法屬性](9.25.-xi-tong-zi-xun-han-shu.md#table-966-index-access-method-properties)。 （請注意，延伸套件的存取方法可以為其索引定義其他屬性名稱。）
+pg\_index\_column\_has\_property、pg\_index\_has\_property 和 pg\_indexam\_has\_property 回傳指定的索引欄位、索引或索引存取方法是否擁有指定的屬性。如果屬性名稱未知或不適用於特定的物件，或者 OID 或欄位編號未標識有效物件，則回傳 NULL。 請參閱 [Table 9.64 欄位屬性](info.md#table-964-index-column-properties)，[Table 9.65 索引屬性](info.md#table-965-index-properties)以及 [Table 9.66 存取方法屬性](info.md#table-966-index-access-method-properties)。 （請注意，延伸套件的存取方法可以為其索引定義其他屬性名稱。）
 
 ### **Table 9.64. 索引欄位屬性**
 
@@ -311,7 +311,7 @@ SELECT collation for ('foo' COLLATE "de_DE");
 
 to\_regclass、to\_regproc、to\_regprocedure、to\_regoper、to\_regoperator、to\_regtype、to\_regnamespace 和 to\_regrole 函數將關連、函數、運算子、資料型別、schema 和角色名稱（文字型別輸入）分別轉換為 regclass、regproc、regprocedure、regoper、regoperator、regtype、regnamespace 和 regrole。這些函數不同於型別轉換，因為它們不接受 OID，那將會回傳 null，而不是在找不到名稱時拋出錯誤（或者會回傳 forto\_regproc 和 to\_regoper，如果輸入的名稱與多個物件吻合時）。
 
-[Table 9.67](9.25.-xi-tong-zi-xun-han-shu.md#table-967-object-information-and-addressing-functions) 列出與資料庫物件識別和定址的相關函數。
+[Table 9.67](info.md#table-967-object-information-and-addressing-functions) 列出與資料庫物件識別和定址的相關函數。
 
 ### **Table 9.67. 物件資訊與定址函數**
 
@@ -332,7 +332,7 @@ pg\_get\_object\_address 回傳一個包含足夠訊息的資料列，以唯一�
 
 Table 9.68 中列出的功能用於取得先前與 [COMMENT](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/comment.md) 指令一起儲存的註解。如果未找到指定參數的註解，則回傳 NULL。
 
-### [**Table 9.68. Comment Information Functions**](9.25.-xi-tong-zi-xun-han-shu.md#table-968-comment-information-functions)
+### [**Table 9.68. Comment Information Functions**](info.md#table-968-comment-information-functions)
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -347,7 +347,7 @@ obj\_description 以雙參數的形式回傳由其 OID 指定的資料庫物件�
 
 shobj\_description 和 obj\_description 用法相同，只是它用於檢索共享物件上的註解。 某些系統目錄對每個叢取中的所有資料庫都是全域的，並且其中的物件註解也全域存放的。
 
-[Table 9.69 ](9.25.-xi-tong-zi-xun-han-shu.md#table-969-transaction-ids-and-snapshots)中列出可匯出形式的函數以提供伺服器交易事務的訊息。這些函數的主要用途在於確定兩個快照之間提交了哪些交易事務。
+[Table 9.69 ](info.md#table-969-transaction-ids-and-snapshots)中列出可匯出形式的函數以提供伺服器交易事務的訊息。這些函數的主要用途在於確定兩個快照之間提交了哪些交易事務。
 
 ### **Table 9.69. Transaction IDs and Snapshots**
 
@@ -376,7 +376,7 @@ txid\_snapshot的文字字串表示是 xmin:xmax:xip\_list。例如 10:20:10,14,
 
 txid\_status\(bigint\) 回報最近事務的提交狀態。應用程式可以使用它來確定在 COMMIT正在進行時，應用程式和資料庫伺服器連線中斷時是否提交或中止事務。如果交易時間足夠短以至於系統能保留該交易的提交狀態，則交易狀態將被回報為正在進行、已提交或已中止。如果太長以至於在系統中不存在對該交易事務的引用，而提交狀態訊息已被丟棄，則該函數將回傳 NULL。請注意，prepared transaction 會回報為正在進行中；如果需要確定 txid 是否為 prepared transaction，則應用程式必須使用checkpg\_prepared\_xacts。
 
-[Table 9.71](9.25.-xi-tong-zi-xun-han-shu.md#table-971-committed-transaction-information) 中列出的函數用於取得關於已經提交的事務訊息。這些功能主要提供有關交易何時發生的訊息。當啟用 [track\_commit\_timestamp](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/iii-server-administration/server-configuration/196-replication.md) 配置選項時，它們可以提供一些有用的資料，只是僅用於啟用後所提交的事務。
+[Table 9.71](info.md#table-971-committed-transaction-information) 中列出的函數用於取得關於已經提交的事務訊息。這些功能主要提供有關交易何時發生的訊息。當啟用 [track\_commit\_timestamp](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/iii-server-administration/server-configuration/196-replication.md) 配置選項時，它們可以提供一些有用的資料，只是僅用於啟用後所提交的事務。
 
 ### **Table 9.71. Committed transaction information**
 
@@ -385,7 +385,7 @@ txid\_status\(bigint\) 回報最近事務的提交狀態。應用程式可以使
 | `pg_xact_commit_timestamp(xid`\) | `timestamp with time zone` | 取得交易事務的提交時間戳記 |
 | `pg_last_committed_xact()` | `xidxid`,`timestamptimestamp with time zone` | 取得最新提交事務的事務 ID 和提交時間戳記 |
 
-[Table 9.72](9.25.-xi-tong-zi-xun-han-shu.md#table-972-control-data-functions) 中列出的函數為在 initdb 期間輸出的初始化訊息，例如系統目錄版本。它們還顯示關於 WAL 和查核點的處理訊息。這些訊息都是 cluster 範圍內的，並非特定於任何一個資料庫。它們提供了與 pg\_control 資料相同的大部分訊息，儘管它們的形式更適合用於 SQL 函數。
+[Table 9.72](info.md#table-972-control-data-functions) 中列出的函數為在 initdb 期間輸出的初始化訊息，例如系統目錄版本。它們還顯示關於 WAL 和查核點的處理訊息。這些訊息都是 cluster 範圍內的，並非特定於任何一個資料庫。它們提供了與 pg\_control 資料相同的大部分訊息，儘管它們的形式更適合用於 SQL 函數。
 
 ### **Table 9.72. Control Data Functions**
 
@@ -396,7 +396,7 @@ txid\_status\(bigint\) 回報最近事務的提交狀態。應用程式可以使
 | `pg_control_init()` | `record` | Returns information about cluster initialization state. |
 | `pg_control_recovery()` | `record` | Returns information about recovery state. |
 
-pg\_control\_checkpoint 回傳一筆記錄，如 [Table 9.73](9.25.-xi-tong-zi-xun-han-shu.md#table-973-pgcontrolcheckpointcolumns) 所示
+pg\_control\_checkpoint 回傳一筆記錄，如 [Table 9.73](info.md#table-973-pgcontrolcheckpointcolumns) 所示
 
 ### **Table 9.73.** `pg_control_checkpoint`**Columns**
 
@@ -422,7 +422,7 @@ pg\_control\_checkpoint 回傳一筆記錄，如 [Table 9.73](9.25.-xi-tong-zi-x
 | `newest_commit_ts_xid` | `xid` |
 | `checkpoint_time` | `timestamp with time zone` |
 
-pg\_control\_system 回傳一筆記錄，如 [Table 9.74](9.25.-xi-tong-zi-xun-han-shu.md#table-974-pgcontrolsystemcolumns) 所示
+pg\_control\_system 回傳一筆記錄，如 [Table 9.74](info.md#table-974-pgcontrolsystemcolumns) 所示
 
 ### **Table 9.74.** `pg_control_system`**Columns**
 
@@ -433,7 +433,7 @@ pg\_control\_system 回傳一筆記錄，如 [Table 9.74](9.25.-xi-tong-zi-xun-h
 | `system_identifier` | `bigint` |
 | `pg_control_last_modified` | `timestamp with time zone` |
 
-pg\_control\_init 回傳一筆記錄，如 [Table 9.75](9.25.-xi-tong-zi-xun-han-shu.md#table-975-pgcontrolinitcolumns) 所示
+pg\_control\_init 回傳一筆記錄，如 [Table 9.75](info.md#table-975-pgcontrolinitcolumns) 所示
 
 ### **Table 9.75.** `pg_control_init`**Columns**
 
@@ -452,7 +452,7 @@ pg\_control\_init 回傳一筆記錄，如 [Table 9.75](9.25.-xi-tong-zi-xun-han
 | `float8_pass_by_value` | `boolean` |
 | `data_page_checksum_version` | `integer` |
 
-pg\_control\_recovery 回傳一筆記錄，如 [Table 9.76](9.25.-xi-tong-zi-xun-han-shu.md#table-976-pgcontrolrecoverycolumns) 所示
+pg\_control\_recovery 回傳一筆記錄，如 [Table 9.76](info.md#table-976-pgcontrolrecoverycolumns) 所示
 
 ### **Table 9.76.** `pg_control_recovery`**Columns**
 

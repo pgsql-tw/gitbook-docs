@@ -110,7 +110,7 @@
     * [9.22. 子查詢](sql/functions/9.22.-zi-cha-xun.md)
     * [9.23. 資料列與陣列的比較運算](sql/functions/functions-comparisons.md)
     * [9.24. 集合回傳函式](sql/functions/9.24.-ji-he-hui-chuan-han-shi.md)
-    * [9.25. 系統資訊函數](sql/functions/9.25.-xi-tong-zi-xun-han-shu.md)
+    * [9.25. 系統資訊函數](sql/functions/info.md)
     * [9.26. 系統管理函式](sql/functions/functions-admin.md)
     * [9.27. 觸發函式](sql/functions/9.27.-chu-fa-han-shi.md)
     * [9.28. 事件觸發函式](sql/functions/9.28.-shi-jian-chu-fa-han-shi.md)
