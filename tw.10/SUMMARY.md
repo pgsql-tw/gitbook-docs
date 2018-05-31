@@ -94,7 +94,7 @@
     * [9.6. 二元字串函式及運算子](sql/functions/9.6.-er-yuan-zi-chuan-han-shi-ji-yun-suan-zi.md)
     * [9.7. 特徵比對](sql/functions/functions-matching.md)
     * [9.8. 型別轉換函式](sql/functions/9.8.-xing-bie-zhuan-huan-han-shi.md)
-    * 9.9 日期時間函式及運算子
+    * [9.9 日期時間函式及運算子](sql/functions/datetime.md)
     * [9.10. 列舉型別函式](sql/functions/9.10.-lie-ju-xing-bie-han-shi.md)
     * [9.11. 地理資訊函式及運算子](sql/functions/9.11.-di-li-zi-xun-han-shi-ji-yun-suan-zi.md)
     * [9.12. 網路位址函式及運算子](sql/functions/9.12.-wang-lu-wei-zhi-han-shi-ji-yun-suan-zi.md)
