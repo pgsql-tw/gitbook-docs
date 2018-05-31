@@ -69,7 +69,7 @@
     * [8.2. 貨幣型別](sql/datatype/8.2.-huo-bi-xing-bie.md)
     * [8.3. 文字型別](sql/datatype/8.3.-wen-zi-xing-bie.md)
     * [8.4. 位元組型別](sql/datatype/datatype-binary.md)
-    * [8.5. 日期時間型別](sql/datatype/8.5.-ri-qi-shi-jian-xing-bie.md)
+    * [8.5. 日期時間型別](sql/datatype/datetime.md)
     * [8.6. 布林型別](sql/datatype/8.6.-bu-lin-xing-bie.md)
     * [8.7. 列舉型別](sql/datatype/8.7.-lie-ju-xing-bie.md)
     * [8.8. 地理資訊型別](sql/datatype/8.8.-di-li-zi-xun-xing-bie.md)
