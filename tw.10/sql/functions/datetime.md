@@ -1,6 +1,6 @@
 # 9.9 日期時間函式及運算子
 
-[Table 9-28](https://www.postgresql.org/docs/9.4/static/functions-datetime.html#FUNCTIONS-DATETIME-TABLE) shows the available functions for date/time value processing, with details appearing in the following subsections. [Table 9-27](https://www.postgresql.org/docs/9.4/static/functions-datetime.html#OPERATORS-DATETIME-TABLE) illustrates the behaviors of the basic arithmetic operators \(+, \*, etc.\). For formatting functions, refer to [Section 9.8](https://www.postgresql.org/docs/9.4/static/functions-formatting.html). You should be familiar with the background information on date/time data types from [Section 8.5](https://www.postgresql.org/docs/9.4/static/datatype-datetime.html).
+Table 9-28 shows the available functions for date/time value processing, with details appearing in the following subsections. Table 9-27 illustrates the behaviors of the basic arithmetic operators \(+, \*, etc.\). For formatting functions, refer to [Section 9.8](9.8.-xing-bie-zhuan-huan-han-shi.md). You should be familiar with the background information on date/time data types from [Section 8.5](../datatype/datetime.md).
 
 All the functions and operators described below that take time or timestamp inputs actually come in two variants: one that takes time with time zone or timestamp with time zone, and one that takes time without time zone or timestamp without time zone. For brevity, these variants are not shown separately. Also, the + and \* operators come in commutative pairs \(for example both date + integer and integer + date\); we show only one of each such pair.
 
@@ -32,10 +32,10 @@ All the functions and operators described below that take time or timestamp inpu
 
 | Function | Return Type | Description | Example | Result |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `age(timestamp, timestamp)` | interval | Subtract arguments, producing a "symbolic" result that uses years and months, rather than just days | age\(timestamp '2001-04-10', timestamp '1957-06-13'\) | 43 years 9 mons 27 days |
-| `age(timestamp)` | interval | Subtract from `current_date` \(at midnight\) | age\(timestamp '1957-06-13'\) | 43 years 8 mons 3 days |
+| `age(timestamp, timestamp)` | interval | 參數間相減，產生一個使用年和月的帶有「符號」的結果，而不僅僅是幾天 | age\(timestamp '2001-04-10', timestamp '1957-06-13'\) | 43 years 9 mons 27 days |
+| `age(timestamp)` | interval | 用 current\_date 減去該日期（以午夜為準） | age\(timestamp '1957-06-13'\) | 43 years 8 mons 3 days |
 | `clock_timestamp()` | timestamp with time zone | Current date and time \(changes during statement execution\); see [Section 9.9.4](https://www.postgresql.org/docs/9.4/static/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT) |   |   |
-| `current_date` | date | Current date; see [Section 9.9.4](https://www.postgresql.org/docs/9.4/static/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT) |   |   |
+| `current_date` | date | 目前日期；詳見第 [9.9.4 節](datetime.md#9-9-4-current-date-time) |   |   |
 | `current_time` | time with time zone | Current time of day; see [Section 9.9.4](https://www.postgresql.org/docs/9.4/static/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT) |   |   |
 | `current_timestamp` | timestamp with time zone | Current date and time \(start of current transaction\); see[Section 9.9.4](https://www.postgresql.org/docs/9.4/static/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT) |   |   |
 | `date_part(text, timestamp)` | double precision | Get subfield \(equivalent to `extract`\); see [Section 9.9.1](https://www.postgresql.org/docs/9.4/static/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT) | date\_part\('hour', timestamp '2001-02-16 20:38:40'\) | 20 |
