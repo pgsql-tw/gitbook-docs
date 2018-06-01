@@ -480,7 +480,7 @@
 * [VII. 資料庫進階](internals/README.md)
   * [51. 系統目錄](internals/system-catalogs/README.md)
     * [51.8. pg\_authid](internals/system-catalogs/pg_authid.md)
-    * [51.15 pg\_database](internals/system-catalogs/51.15-pg_database.md)
+    * [51.15 pg\_database](internals/system-catalogs/pg_database.md)
     * [51.26 pg\_index](internals/system-catalogs/pg_index.md)
     * [51.54. pg\_tablespace](internals/system-catalogs/pg_tablespace.md)
     * [51.81 pg\_roles](internals/system-catalogs/pg_roles.md)

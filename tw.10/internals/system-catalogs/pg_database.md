@@ -4,7 +4,7 @@ description: 版本：10
 
 # 51.15 pg\_database
 
-The catalog `pg_database` stores information about the available databases. Databases are created with the [CREATE DATABASE](https://www.postgresql.org/docs/10/static/sql-createdatabase.html) command. Consult [Chapter 22](https://www.postgresql.org/docs/10/static/managing-databases.html) for details about the meaning of some of the parameters.
+目錄 pg\_database 儲存有關資料庫一些可用的訊息。資料庫是使用 [CREATE DATABASE](../../reference/sql-commands/create-database.md) 命令建立的。關於某些參數的含義的詳細訊息，請參閱[第 22 章](../../server-administration/managing-databases/)。
 
 Unlike most system catalogs, `pg_database` is shared across all databases of a cluster: there is only one copy of `pg_database` per cluster, not one per database.
 
