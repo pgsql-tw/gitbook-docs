@@ -26,7 +26,7 @@ The name \(optionally schema-qualified\) of the table to drop.
 
 `CASCADE`
 
-Automatically drop objects that depend on the table \(such as views\), and in turn all objects that depend on those objects \(see [Section 5.13](../../sql/ddl/5.13.-xiang-yi-xing-zhui-zong.md)\).
+Automatically drop objects that depend on the table \(such as views\), and in turn all objects that depend on those objects \(see [Section 5.13](../../sql/ddl/dependency-tracking.md)\).
 
 `RESTRICT`
 

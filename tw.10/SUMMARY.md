@@ -49,7 +49,7 @@
     * [5.10. 分割資料表](sql/ddl/partition-table.md)
     * [5.11. 外部資料](sql/ddl/5.11.-wai-bu-zi-liao.md)
     * [5.12. 其他資料庫物件](sql/ddl/5.12.-qi-ta-zi-liao-ku-wu-jian.md)
-    * [5.13. 相依性追蹤](sql/ddl/5.13.-xiang-yi-xing-zhui-zong.md)
+    * [5.13. 相依性追蹤](sql/ddl/dependency-tracking.md)
   * [6. 資料處理](sql/6.-zi-liao-chu-li/README.md)
     * [6.1. 新增資料](sql/6.-zi-liao-chu-li/6.1.-xin-zeng-zi-liao.md)
     * [6.2. 更新資料](sql/6.-zi-liao-chu-li/6.2.-geng-xin-zi-liao.md)
