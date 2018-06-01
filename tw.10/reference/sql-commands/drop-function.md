@@ -1,73 +1,91 @@
+---
+description: 版本：10
+---
+
 # DROP FUNCTION
 
-DROP FUNCTION — remove a function
+DROP FUNCTION — 移除一個函數
 
-### Synopsis
+### 語法
 
 ```text
-DROP FUNCTION [ IF EXISTS ] name [ ( [ [ argmode ] [ argname ] argtype [, ...] ] ) ] [, ...]
-    [ CASCADE | RESTRICT ]
+DROP FUNCTION [ IF EXISTS ] name 
+              [ ( [ [ argmode ] [ argname ] argtype [, ...] ] ) ] 
+              [, ...]
+              [ CASCADE | RESTRICT ]
 ```
 
-### Description
+### 說明
 
-`DROP FUNCTION` removes the definition of an existing function. To execute this command the user must be the owner of the function. The argument types to the function must be specified, since several different functions can exist with the same name and different argument lists.
+DROP FUNCTION 移除現有函數的定義。要執行此命令，使用者必須是該函數的擁有者。必須指定該函數的參數類型，因為可能存在多個具有相同名稱和不同參數列表的不同函數。
 
-### Parameters
+### 參數
 
 `IF EXISTS`
 
-Do not throw an error if the function does not exist. A notice is issued in this case._`name`_
+如果函數不存在，不要拋出錯誤。在這種情況下發布 NOTICE。
 
-The name \(optionally schema-qualified\) of an existing function. If no argument list is specified, the name must be unique in its schema._`argmode`_
+_`name`_
 
-The mode of an argument: `IN`, `OUT`, `INOUT`, or `VARIADIC`. If omitted, the default is `IN`. Note that `DROP FUNCTION` does not actually pay any attention to `OUT` arguments, since only the input arguments are needed to determine the function's identity. So it is sufficient to list the `IN`, `INOUT`, and `VARIADIC` arguments._`argname`_
+現有函數的名稱（可以加上綱要）。如果未指定參數列表，則該名稱在其綱要中必須是唯一的。
 
-The name of an argument. Note that `DROP FUNCTION` does not actually pay any attention to argument names, since only the argument data types are needed to determine the function's identity._`argtype`_
+_`argmode`_
 
-The data type\(s\) of the function's arguments \(optionally schema-qualified\), if any.`CASCADE`
+參數的模式：IN、OUT、INOUT 或 VARIADIC。如果省略，則預設為 IN。請注意，DROP FUNCTION 實際上並不關注 OUT 參數，因為只需要輸入參數來確定函數的身份。所以列出 IN、INOUT 和 VARIADIC 參數就足夠了。
 
-Automatically drop objects that depend on the function \(such as operators or triggers\), and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).`RESTRICT`
+_`argname`_
 
-Refuse to drop the function if any objects depend on it. This is the default.
+參數的名稱。 請注意，DROP FUNCTION 實際上並不關注參數名稱，因為只需要參數資料型別來確定函數的身份。
 
-### Examples
+_`argtype`_
 
-This command removes the square root function:
+如果有的話，函數參數的資料型別（可加上綱要）。
+
+`CASCADE`
+
+自動刪除依賴於該功能的物件（如運算子或觸發器），並依次移除依賴於這些物件的所有物件（請參閱[第 5.13 節](../../sql/ddl/5.13.-xiang-yi-xing-zhui-zong.md)）。
+
+`RESTRICT`
+
+如果任何物件依賴於它，拒絕移除該函數。這是預設的做法。
+
+### 範例
+
+此指令移除平方根函數：
 
 ```text
 DROP FUNCTION sqrt(integer);
 ```
 
-Drop multiple functions in one command:
+在一個指令中刪除多個函數：
 
 ```text
 DROP FUNCTION sqrt(integer), sqrt(bigint);
 ```
 
-If the function name is unique in its schema, it can be referred to without an argument list:
+如果函數名稱在其綱要中是唯一的，則可以在不帶參數列表的情況下引用它：
 
 ```text
 DROP FUNCTION update_employee_salaries;
 ```
 
-Note that this is different from
+請注意，這不同於
 
 ```text
 DROP FUNCTION update_employee_salaries();
 ```
 
-which refers to a function with zero arguments, whereas the first variant can refer to a function with any number of arguments, including zero, as long as the name is unique.
+它指的是一個零個參數的函數，而第一個變形可以引用具有任意數量參數的函數，包括零個，只要該名稱是唯一的。
 
-### Compatibility
+### 相容性
 
-This command conforms to the SQL standard, with these PostgreSQL extensions:
+這個指令符合 SQL 標準，並帶有這些 PostgreSQL 的延伸功能：
 
-* The standard only allows one function to be dropped per command.
-* The `IF EXISTS` option
-* The ability to specify argument modes and names
+* 原標準只允許每個指令刪除一個函數。
+* 具有 IF EXISTS 選項
+* 能夠指定參數模式和名稱
 
-### See Also
+### 參閱
 
 [CREATE FUNCTION](create-function.md), [ALTER FUNCTION](alter-function.md)
 
