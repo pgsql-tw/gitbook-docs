@@ -92,15 +92,15 @@ SELECT ... WHERE CASE WHEN x <> 0 THEN y/x > 1.5 ELSE false END;
 COALESCE(value [, ...])
 ```
 
-The `COALESCE` function returns the first of its arguments that is not null. Null is returned only if all arguments are null. It is often used to substitute a default value for null values when data is retrieved for display, for example:
+COALESCE 函數回傳非空值的第一個參數。僅當所有參數都為空值時才回傳空值。當檢索資料要進行顯示時，它通常用於將預認值替換為空值，例如：
 
 ```text
 SELECT COALESCE(description, short_description, '(none)') ...
 ```
 
-This returns `description` if it is not null, otherwise `short_description` if it is not null, otherwise `(none)`.
+如果它不為 null，則回傳 descrtiption；否則，如果 short\_description 不為null，則傳回 short\_description；否則回傳（none）。
 
-Like a `CASE` expression, `COALESCE` only evaluates the arguments that are needed to determine the result; that is, arguments to the right of the first non-null argument are not evaluated. This SQL-standard function provides capabilities similar to `NVL` and `IFNULL`, which are used in some other database systems.
+像 CASE 表示式一樣，COALESCE 只計算確定結果所需的參數；也就是說，不會計算第一個非空值參數之後的參數。此 SQL 標準函數提供了與 NVL 和 IFNULL 類似的功能，這些在其他某些資料庫系統中所使用的功能。
 
 #### 9.17.3. `NULLIF`
 
