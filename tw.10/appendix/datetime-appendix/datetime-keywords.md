@@ -1,10 +1,12 @@
+---
+description: 版本：10
+---
+
 # B.2. 日期時間慣用字
 
-Table B.1 月份名稱及縮寫字
+**Table B.1. 月份名稱**
 
-**Table B.1. Month Names**
-
-| Month | Abbreviations |
+| 月份 | 縮寫 |
 | :--- | :--- |
 | January | Jan |
 | February | Feb |
@@ -19,11 +21,9 @@ Table B.1 月份名稱及縮寫字
 | November | Nov |
 | December | Dec |
 
-Table B.2 星期名稱及縮寫字
+**Table B.2. 星期名稱**
 
-**Table B.2. Day of the Week Names**
-
-| Day | Abbreviations |
+| 星期 | 縮寫 |
 | :--- | :--- |
 | Sunday | Sun |
 | Monday | Mon |
@@ -33,18 +33,16 @@ Table B.2 星期名稱及縮寫字
 | Friday | Fri |
 | Saturday | Sat |
 
-Table B.3 各種日期時間的修飾字
+**Table B.3. 日期/時間修飾字**
 
-**Table B.3. Date/Time Field Modifiers**
-
-| Identifier | Description |
+| 修飾字 | 說明 |
 | :--- | :--- |
-| `AM` | Time is before 12:00 |
-| `AT` | Ignored |
-| `JULIAN`,`JD`,`J` | Next field is Julian Date |
-| `ON` | Ignored |
-| `PM` | Time is on or after 12:00 |
-| `T` | Next field is time |
+| `AM` | 12:00 之前的時間 |
+| `AT` | 忽略 |
+| `JULIAN`,`JD`,`J` | 接下來的字串是 Julian Date 格式 |
+| `ON` | 忽略 |
+| `PM` | 12:00 之後的時間 |
+| `T` | 接下來的字串是 time |
 
-* [https://www.postgresql.org/docs/10/static/datetime-keywords.html](https://www.postgresql.org/docs/10/static/datetime-keywords.html)
+
 
