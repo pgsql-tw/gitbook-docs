@@ -108,13 +108,13 @@ SELECT COALESCE(description, short_description, '(none)') ...
 NULLIF(value1, value2)
 ```
 
-The `NULLIF` function returns a null value if _`value1`_ equals _`value2`_; otherwise it returns _`value1`_. This can be used to perform the inverse operation of the `COALESCE` example given above:
+如果 value1 等於 value2，則 NULLIF 函數回傳空值；否則回傳 value1。這可以用來執行上面 COALESCE 範例的逆操作：
 
 ```text
 SELECT NULLIF(value, '(none)') ...
 ```
 
-In this example, if `value` is `(none)`, null is returned, otherwise the value of `value` is returned.
+在這個例子中，如果 value 是（none），則回傳 null，否則回傳 value 的值。
 
 #### 9.17.4. `GREATEST` and `LEAST`
 
@@ -126,7 +126,7 @@ GREATEST(value [, ...])
 LEAST(value [, ...])
 ```
 
-The `GREATEST` and `LEAST` functions select the largest or smallest value from a list of any number of expressions. The expressions must all be convertible to a common data type, which will be the type of the result \(see [Section 10.5](https://www.postgresql.org/docs/10/static/typeconv-union-case.html) for details\). NULL values in the list are ignored. The result will be NULL only if all the expressions evaluate to NULL.
+GREATEST 和 LEAST 函數從任意數量的表示式列表中選擇最大值或最小值。表示式必須全部轉換為通用的資料型別，這將成為結果的別型（詳見 [10.5 節](../typeconv/union-case.md)）。列表中的 **NULL 值將會被忽略**。僅當所有表示式求值為 NULL 時，結果才會為 NULL。
 
-Note that `GREATEST` and `LEAST` are not in the SQL standard, but are a common extension. Some other databases make them return NULL if any argument is NULL, rather than only when all are NULL.
+請注意，GREATEST 和 LEAST 並不在 SQL 標準中，但卻是一個常見的延伸功能。如果任何參數為 NULL，則其他一些資料庫會使其回傳 NULL，而不是僅在所有參數都為 NULL 時回傳 NULL。
 
