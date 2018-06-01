@@ -34,7 +34,7 @@
 * [II. SQL查詢語言](sql/README.md)
   * [4. SQL語法](sql/syntax/README.md)
     * [4.1. 語法結構](sql/syntax/lexical.md)
-    * [4.2. 參數表示式](sql/syntax/4.2.-can-shu-biao-shi-shi.md)
+    * [4.2. 參數表示式](sql/syntax/value-expressions.md)
     * [4.3. 函數呼叫](sql/syntax/calling-funcs.md)
   * [5. 定義資料結構](sql/ddl/README.md)
     * [5.1. 認識資料表](sql/ddl/5.1.-ren-shi-zi-liao-biao.md)
