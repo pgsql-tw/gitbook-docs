@@ -1,14 +1,18 @@
-# 64.1. Introduction
+---
+description: 版本：10
+---
 
-GIN stands for Generalized Inverted Index. GIN is designed for handling cases where the items to be indexed are composite values, and the queries to be handled by the index need to search for element values that appear within the composite items. For example, the items could be documents, and the queries could be searches for documents containing specific words.
+# 64.1. 簡介
 
-We use the word _item_ to refer to a composite value that is to be indexed, and the word _key_ to refer to an element value. GIN always stores and searches for keys, not item values per se.
+GIN 代表 Generalized Inverted Index。GIN 設計用於處理要被索引的項目是複合值的情況，並且由索引處理的查詢需要搜索出現在複合項目內的元素值。例如，這些項目可能是文件，查詢可能是搜索包含特定單詞的文件。
 
-A GIN index stores a set of \(key, posting list\) pairs, where a _posting list_ is a set of row IDs in which the key occurs. The same row ID can appear in multiple posting lists, since an item can contain more than one key. Each key value is stored only once, so a GIN index is very compact for cases where the same key appears many times.
+我們使用單詞 item 來引用要編入索引的複合值，並使用單詞索引鍵（word key）來引用元素值。GIN 總是儲存和搜索索引鍵，而不是其值。
 
-GIN is generalized in the sense that the GIN access method code does not need to know the specific operations that it accelerates. Instead, it uses custom strategies defined for particular data types. The strategy defines how keys are extracted from indexed items and query conditions, and how to determine whether a row that contains some of the key values in a query actually satisfies the query.
+GIN 索引儲存一組（key, posting list）對，其中 posting list 是 key 對應的一組資料列 ID。同一資料列 ID 可以出現在多個 posting list 當中，因為一個項目可以包含多個關鍵字。每個索引鍵值只儲存一次，因此對於相同鍵出現多次的情況，GIN 索引非常會緊湊。
 
-One advantage of GIN is that it allows the development of custom data types with the appropriate access methods, by an expert in the domain of the data type, rather than a database expert. This is much the same advantage as using GiST.
+GIN 是泛用的，因為 GIN 存取方法的語法不需要知道它加速的具體操作。相反地，它使用為特定資料型別定義的自訂策略。該策略定義瞭瞭如何從索引項目和查詢條件中提取關鍵字，以及如何確定包含查詢中某些關鍵值的資料列能夠實際滿足查詢。
 
-The GIN implementation in PostgreSQL is primarily maintained by Teodor Sigaev and Oleg Bartunov. There is more information about GIN on their [website](http://www.sai.msu.su/~megera/wiki/Gin).
+GIN 的一個優點是，它允許由資料型別領域的專家而不是資料庫專家使用適當的存取方法開發自訂的資料型別。這與使用 GiST 的優點相同。
+
+PostgreSQL 中的 GIN 實現偏主要由 Teodor Sigaev 和 Oleg Bartunov 維護。在他們的[網站](http://www.sai.msu.su/~megera/wiki/Gin)上有更多關於 GIN 的訊息。
 

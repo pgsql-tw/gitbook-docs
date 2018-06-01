@@ -495,7 +495,7 @@
     * 52.9. Logical Replication Message Formats
     * 52.10. Summary of Changes since Protocol 2.0
   * 64. GIN 索引
-    * [64.1. Introduction](internals/gin-indexes/introduction.md)
+    * [64.1. 簡介](internals/gin-indexes/introduction.md)
     * [64.2. Built-in Operator Classes](internals/gin-indexes/built-in-operator-classes.md)
     * [64.3. Extensibility](internals/gin-indexes/extensibility.md)
     * [64.4. Implementation](internals/gin-indexes/implementation.md)
