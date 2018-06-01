@@ -280,15 +280,15 @@ All the forms of ALTER TABLE that act on a single table, except `RENAME`, `SET S
 
 You must own the table to use `ALTER TABLE`. To change the schema or tablespace of a table, you must also have `CREATE` privilege on the new schema or tablespace. To add the table as a new child of a parent table, you must own the parent table as well. Also, to attach a table as a new partition of the table, you must own the table being attached. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have `CREATE` privilege on the table's schema. \(These restrictions enforce that altering the owner doesn't do anything you couldn't do by dropping and recreating the table. However, a superuser can alter ownership of any table anyway.\) To add a column or alter a column type or use the `OF` clause, you must also have `USAGE` privilege on the data type.
 
-### Parameters
+### 參數
 
 `IF EXISTS`
 
-Do not throw an error if the table does not exist. A notice is issued in this case.
+如果資料表不存在，請不要拋出錯誤。在這種情況下發布 NOTICE。
 
 _`name`_
 
-The name \(optionally schema-qualified\) of an existing table to alter. If `ONLY` is specified before the table name, only that table is altered. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are altered. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included.
+要變更的現有資料表名稱（可以加上綱要指定）。如果在資料表名稱之前指定了 ONLY，則只變更改該資料表。如果沒有指定 ONLY，則資料表及其所有繼承的資料表（如果有的話）都進行變更。或者，可以在資料表名稱之後指定 \* 以明確指示包含繼承資料表。
 
 _`column_name`_
 
@@ -300,7 +300,7 @@ New name for an existing column.
 
 _`new_name`_
 
-New name for the table.
+資料表的新名稱。
 
 _`data_type`_
 
