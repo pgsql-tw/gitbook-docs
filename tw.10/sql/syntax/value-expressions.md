@@ -545,27 +545,27 @@ SELECT ROW(table.*) IS NULL FROM table;  -- detect all-null rows
 
 For more detail see[Section 9.23](https://www.postgresql.org/docs/10/static/functions-comparisons.html). Row constructors can also be used in connection with subqueries, as discussed in[Section 9.22](https://www.postgresql.org/docs/10/static/functions-subquery.html).
 
-## 4.2.14. Expression Evaluation Rules
+## 4.2.14. 表示式運算規則
 
-The order of evaluation of subexpressions is not defined. In particular, the inputs of an operator or function are not necessarily evaluated left-to-right or in any other fixed order.
+並沒有定義子表示式的運算順序。特別是，運算子或函數的輸入不一定是從左到右或以任何其他固定順序進行運算。
 
-Furthermore, if the result of an expression can be determined by evaluating only some parts of it, then other subexpressions might not be evaluated at all. For instance, if one wrote:
+進一步來說，如果一個表示式的結果可以透過只運算它的某些部分來得到，那麼其他子表示式可能根本就不會被運算。 例如，如果有人寫了：
 
 ```text
 SELECT true OR somefunc();
 ```
 
-then`somefunc()`would \(probably\) not be called at all. The same would be the case if one wrote:
+那麼 somefunc\(\) 將（可能）根本不會被呼叫。如果有人寫了：
 
 ```text
 SELECT somefunc() OR true;
 ```
 
-Note that this is not the same as the left-to-right“short-circuiting”of Boolean operators that is found in some programming languages.
+請注意，這與在某些程語言中發現的布林運算是從左到右的「短路」不同。
 
-As a consequence, it is unwise to use functions with side effects as part of complex expressions. It is particularly dangerous to rely on side effects or evaluation order in`WHERE`and`HAVING`clauses, since those clauses are extensively reprocessed as part of developing an execution plan. Boolean expressions \(`AND`/`OR`/`NOT`combinations\) in those clauses can be reorganized in any manner allowed by the laws of Boolean algebra.
+因此，將具有副作用的函數用作複雜表示式的一部分是不明智的。在 WHERE 和 HAVING 子句中依賴副作用或運算順序是特別危險的，因為這些子句作為製定執行計劃的一部分經常式會被重新運算。這些子句中的布林表示式（AND / OR / NOT 組合）可以按照布林代數法則的任何方式重新組織。
 
-When it is essential to force evaluation order, a`CASE`construct \(see[Section 9.17](https://www.postgresql.org/docs/10/static/functions-conditional.html)\) can be used. For example, this is an untrustworthy way of trying to avoid division by zero in a`WHERE`clause:
+如果必須強制執行某部份的運算指令，則可以使用 CASE 結構（請參閱[第 9.17 節](../functions/functions-conditional.md)）。例如，這是試圖避免在 WHERE 子句中除以零不可信任的方式：
 
 ```text
 SELECT ... WHERE x 
@@ -575,7 +575,7 @@ SELECT ... WHERE x
  1.5;
 ```
 
-But this is safe:
+但這樣是安全的：
 
 ```text
 SELECT ... WHERE CASE WHEN x 
@@ -585,9 +585,9 @@ SELECT ... WHERE CASE WHEN x
  1.5 ELSE false END;
 ```
 
-A`CASE`construct used in this fashion will defeat optimization attempts, so it should only be done when necessary. \(In this particular example, it would be better to sidestep the problem by writing`y > 1.5*x`instead.\)
+以這種方式使用的 CASE 構造將放棄最佳化嘗試，因此只能在必要時進行。（在這個特定的例子中，透過改寫為 y&gt; 1.5 \* x 來避免這個問題會更好。）
 
-`CASE`is not a cure-all for such issues, however. One limitation of the technique illustrated above is that it does not prevent early evaluation of constant subexpressions. As described in[Section 37.6](https://www.postgresql.org/docs/10/static/xfunc-volatility.html), functions and operators marked`IMMUTABLE`can be evaluated when the query is planned rather than when it is executed. Thus for example
+然而，CASE 對於這些問題並不是萬能的。上述技術的一個局限是它不能阻止對常數子表示式的預先評估。如[第 37.6 節](../../server-programming/extending-sql/37.6.-function-volatility-categories.md)所述，標記為 IMMUTABLE 的函數和運算子可以在查詢計劃時進行運算，而不是在執行時進行運算。因此，例如：
 
 ```text
 SELECT CASE WHEN x 
@@ -595,20 +595,18 @@ SELECT CASE WHEN x
  0 THEN x ELSE 1/0 END FROM tab;
 ```
 
-is likely to result in a division-by-zero failure due to the planner trying to simplify the constant subexpression, even if every row in the table has`x > 0`so that the`ELSE`arm would never be entered at run time.
+由於查詢規劃試圖簡化常數子表示式，因此即使資料表中的每一個資料列都具有 x&gt; 0，以至於在執行時永遠不會走到 ELSE，也可能導致除以零的例外情況。
 
-While that particular example might seem silly, related cases that don't obviously involve constants can occur in queries executed within functions, since the values of function arguments and local variables can be inserted into queries as constants for planning purposes. WithinPL/pgSQLfunctions, for example, using an`IF`-`THEN`-`ELSE`statement to protect a risky computation is much safer than just nesting it in a`CASE`expression.
+雖然這個特殊的例子看起來很愚蠢，但是在函數中執行的查詢中可能會出現不明顯涉及常數的情況，因為函數參數和局部變數的值可以作為常數插入到查詢中以用於查詢規劃。例如，在 PL/pgSQL 函數中，使用 IF-THEN-ELSE 語句來保護有風險的運算要比將它嵌套在 CASE 表示式中要安全得多。
 
-Another limitation of the same kind is that a`CASE`cannot prevent evaluation of an aggregate expression contained within it, because aggregate expressions are computed before other expressions in a`SELECT`list or`HAVING`clause are considered. For example, the following query can cause a division-by-zero error despite seemingly having protected against it:
+同一種類型的另一個限制是，CASE 無法阻止運算其中包含的彙總表示式，因為需要在 SELECT 資料列表或 HAVING 子句中的其他表示式之前計算彙總表示式。例如，下面的查詢可能會導致一個除以零例外情況，儘管似乎已經受到保護：
 
 ```text
-SELECT CASE WHEN min(employees) 
->
- 0
+SELECT CASE WHEN min(employees) > 0
             THEN avg(expenses / employees)
        END
     FROM departments;
 ```
 
-The`min()`and`avg()`aggregates are computed concurrently over all the input rows, so if any row has`employees`equal to zero, the division-by-zero error will occur before there is any opportunity to test the result of`min()`. Instead, use a`WHERE`or`FILTER`clause to prevent problematic input rows from reaching an aggregate function in the first place.
+min\(\) 和 avg\(\) 彙總運算是在所有輸入的資料列上同時計算的，因此如果任何員工的資料等於零，則在有任何測試 min\(\) 結果的機會之前，發生除以零的錯誤。相反，使用 WHERE 或 FILTER 子句來防止有問題的輸入資料列，將可以在彙總函數之前來預防這種情況發生。
 
