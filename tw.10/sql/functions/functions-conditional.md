@@ -47,7 +47,7 @@ SELECT a,
 
 所有結果表示式的資料型別都必須可轉換為單一的輸出型別。更多細節請參閱 [10.5 節](../typeconv/union-case.md)。
 
-There is a “simple” form of `CASE` expression that is a variant of the general form above:
+CASE 表示式的「簡單」語法是上述一般語法的變形：
 
 ```text
 CASE expression
@@ -57,9 +57,9 @@ CASE expression
 END
 ```
 
-The first _`expression`_ is computed, then compared to each of the _`value`_ expressions in the `WHEN` clauses until one is found that is equal to it. If no match is found, the _`result`_ of the `ELSE` clause \(or a null value\) is returned. This is similar to the `switch` statement in C.
+計算第一個表示式，然後與 WHEN 子句中的每個表示式的結果值進行比較，直到找到與其相等的值。如果未找到匹配的項目，則回傳 ELSE 子句（或空值）的結果。這與 C 語言中的 switch 語句類似。
 
-The example above can be written using the simple `CASE` syntax:
+上面的例子可以使用簡單的 CASE 語法來撰寫：
 
 ```text
 SELECT a,
@@ -76,15 +76,15 @@ SELECT a,
  3 | other
 ```
 
-A `CASE` expression does not evaluate any subexpressions that are not needed to determine the result. For example, this is a possible way of avoiding a division-by-zero failure:
+CASE 表示式不會計算任何不需要的子表示式來確定結果。例如，這是避免除以零例外狀況可能的方法：
 
 ```text
 SELECT ... WHERE CASE WHEN x <> 0 THEN y/x > 1.5 ELSE false END;
 ```
 
-#### Note
+#### 注意
 
-As described in [Section 4.2.14](https://www.postgresql.org/docs/10/static/sql-expressions.html#SYNTAX-EXPRESS-EVAL), there are various situations in which subexpressions of an expression are evaluated at different times, so that the principle that “`CASE` evaluates only necessary subexpressions” is not ironclad. For example a constant `1/0` subexpression will usually result in a division-by-zero failure at planning time, even if it's within a `CASE` arm that would never be entered at run time.
+如 [4.2.14 節](../syntax/4.2.-can-shu-biao-shi-shi.md#4-2-14-expression-evaluation-rules)所述，在不同時候計算表示式的子表示式時會出現各種情況，因此「CASE 只計算必要子表示式」的原則並不是固定的。例如，一個常數 1/0 的子表示式在查詢規畫時通常就會導致一個除以零的錯誤，即使它在 CASE 部分內，在執行時永遠不會被使用。
 
 #### 9.17.2. `COALESCE`
 
