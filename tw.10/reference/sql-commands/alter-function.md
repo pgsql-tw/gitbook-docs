@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # ALTER FUNCTION
 
-ALTER FUNCTION — change the definition of a function
+ALTER FUNCTION — 變更一個函數的定義
 
-### Synopsis
+### 語法
 
 ```text
 ALTER FUNCTION name [ ( [ [ argmode ] [ argname ] argtype [, ...] ] ) ]
@@ -30,55 +34,87 @@ where action is one of:
     RESET ALL
 ```
 
-### Description
+### 說明
 
-`ALTER FUNCTION` changes the definition of a function.
+`ALTER FUNCTION` 變更一個函數的定義。
 
-You must own the function to use `ALTER FUNCTION`. To change a function's schema, you must also have `CREATE` privilege on the new schema. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have `CREATE` privilege on the function's schema. \(These restrictions enforce that altering the owner doesn't do anything you couldn't do by dropping and recreating the function. However, a superuser can alter ownership of any function anyway.\)
+您必須是函數擁有者才能使用 ALTER FUNCTION 功能。要變更函數的綱要，您還必須具有新綱要的 CREATE 權限。要變更擁有者，您還必須是新擁有角色的直接或間接成員，並且該角色必須對該函數的綱要具有 CREATE 權限。（這些限制強制改變擁有者不會做任何透過刪除和重新建立函數都無法做到的事情，但是超級用戶可以改變任何函數的所有權。）
 
 ### Parameters
 
 _`name`_
 
-The name \(optionally schema-qualified\) of an existing function. If no argument list is specified, the name must be unique in its schema._`argmode`_
+The name \(optionally schema-qualified\) of an existing function. If no argument list is specified, the name must be unique in its schema.
 
-The mode of an argument: `IN`, `OUT`, `INOUT`, or `VARIADIC`. If omitted, the default is `IN`. Note that `ALTER FUNCTION` does not actually pay any attention to `OUT` arguments, since only the input arguments are needed to determine the function's identity. So it is sufficient to list the `IN`, `INOUT`, and `VARIADIC` arguments._`argname`_
+_`argmode`_
 
-The name of an argument. Note that `ALTER FUNCTION` does not actually pay any attention to argument names, since only the argument data types are needed to determine the function's identity._`argtype`_
+The mode of an argument: `IN`, `OUT`, `INOUT`, or `VARIADIC`. If omitted, the default is `IN`. Note that `ALTER FUNCTION` does not actually pay any attention to `OUT` arguments, since only the input arguments are needed to determine the function's identity. So it is sufficient to list the `IN`, `INOUT`, and `VARIADIC` arguments.
 
-The data type\(s\) of the function's arguments \(optionally schema-qualified\), if any._`new_name`_
+_`argname`_
 
-The new name of the function._`new_owner`_
+The name of an argument. Note that `ALTER FUNCTION` does not actually pay any attention to argument names, since only the argument data types are needed to determine the function's identity.
 
-The new owner of the function. Note that if the function is marked `SECURITY DEFINER`, it will subsequently execute as the new owner._`new_schema`_
+_`argtype`_
 
-The new schema for the function._`extension_name`_
+The data type\(s\) of the function's arguments \(optionally schema-qualified\), if any.
 
-The name of the extension that the function is to depend on.`CALLED ON NULL INPUT`  
+_`new_name`_
+
+The new name of the function.
+
+_`new_owner`_
+
+The new owner of the function. Note that if the function is marked `SECURITY DEFINER`, it will subsequently execute as the new owner.
+
+_`new_schema`_
+
+The new schema for the function.
+
+_`extension_name`_
+
+The name of the extension that the function is to depend on.
+
+`CALLED ON NULL INPUT`  
 `RETURNS NULL ON NULL INPUT`  
 `STRICT`
 
-`CALLED ON NULL INPUT` changes the function so that it will be invoked when some or all of its arguments are null. `RETURNS NULL ON NULL INPUT` or `STRICT` changes the function so that it is not invoked if any of its arguments are null; instead, a null result is assumed automatically. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information.`IMMUTABLE`  
+`CALLED ON NULL INPUT` changes the function so that it will be invoked when some or all of its arguments are null. `RETURNS NULL ON NULL INPUT` or `STRICT` changes the function so that it is not invoked if any of its arguments are null; instead, a null result is assumed automatically. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information.
+
+`IMMUTABLE`  
 `STABLE`  
 `VOLATILE`
 
-Change the volatility of the function to the specified setting. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for details.`[ EXTERNAL ] SECURITY INVOKER`  
+Change the volatility of the function to the specified setting. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for details.
+
+`[ EXTERNAL ] SECURITY INVOKER`  
 `[ EXTERNAL ] SECURITY DEFINER`
 
-Change whether the function is a security definer or not. The key word `EXTERNAL` is ignored for SQL conformance. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information about this capability.`PARALLEL`
+Change whether the function is a security definer or not. The key word `EXTERNAL` is ignored for SQL conformance. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information about this capability.
 
-Change whether the function is deemed safe for parallelism. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for details.`LEAKPROOF`
+`PARALLEL`
 
-Change whether the function is considered leakproof or not. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information about this capability.`COST` _`execution_cost`_
+Change whether the function is deemed safe for parallelism. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for details.
 
-Change the estimated execution cost of the function. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information.`ROWS` _`result_rows`_
+`LEAKPROOF`
 
-Change the estimated number of rows returned by a set-returning function. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information._`configuration_parameter`_  
+Change whether the function is considered leakproof or not. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information about this capability.
+
+`COST` _`execution_cost`_
+
+Change the estimated execution cost of the function. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information.
+
+`ROWS` _`result_rows`_
+
+Change the estimated number of rows returned by a set-returning function. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information.
+
+_`configuration_parameter`_  
 _`value`_
 
 Add or change the assignment to be made to a configuration parameter when the function is called. If _`value`_ is `DEFAULT` or, equivalently, `RESET` is used, the function-local setting is removed, so that the function executes with the value present in its environment. Use `RESET ALL` to clear all function-local settings. `SET FROM CURRENT` saves the value of the parameter that is current when `ALTER FUNCTION` is executed as the value to be applied when the function is entered.
 
-See [SET](https://www.postgresql.org/docs/10/static/sql-set.html) and [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) for more information about allowed parameter names and values.`RESTRICT`
+See [SET](https://www.postgresql.org/docs/10/static/sql-set.html) and [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) for more information about allowed parameter names and values.
+
+`RESTRICT`
 
 Ignored for conformance with the SQL standard.
 
