@@ -111,7 +111,7 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 `VOLATILE 表示即使在單個資料表掃描中函數值也會改變，因此不能進行優化。 在這個意義上，相對較少的資料庫功能是不穩定的，有一些例子是random ()、currval()、timeofday()。 但請注意，任何具有副作用的函數都必須分類為 VOLATILE，即使其結果具有相當的可預測性，以防止結果被優化掉，這樣例子是setval()。`
 
-更多詳細訊息請參閱[第 37.6 節](../../server-programming/extending-sql/37.6.-function-volatility-categories.md)。
+更多詳細訊息請參閱[第 37.6 節](../../server-programming/extending-sql/function-volatility-categories.md)。
 
 `LEAKPROOF`
 
