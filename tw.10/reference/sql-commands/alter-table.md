@@ -258,11 +258,11 @@ SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以
 
 `RENAME`
 
-The `RENAME` forms change the name of a table \(or an index, sequence, view, materialized view, or foreign table\), the name of an individual column in a table, or the name of a constraint of the table. There is no effect on the stored data.
+給資料表一個新的名稱。RENAME 子句變更資料表的名稱（或索引、序列、檢視表、具體化檢視表或外部資料表）、資料表中各別的欄位名稱、及資料表的限制條件名稱。對於儲存的資料沒有任何影響。
 
 `SET SCHEMA`
 
-This form moves the table into another schema. Associated indexes, constraints, and sequences owned by table columns are moved as well.
+此子句將資料表移動到另一個綱要之中。資料表的關聯索引、約束和序列也將被移動。
 
 `ATTACH PARTITION` _`partition_name`_ FOR VALUES _`partition_bound_spec`_
 
