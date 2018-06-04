@@ -266,19 +266,19 @@ SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以
 
 `ATTACH PARTITION` _`partition_name`_ FOR VALUES _`partition_bound_spec`_
 
-This form attaches an existing table \(which might itself be partitioned\) as a partition of the target table using the same syntax for _`partition_bound_spec`_ as [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html). The partition bound specification must correspond to the partitioning strategy and partition key of the target table. The table to be attached must have all the same columns as the target table and no more; moreover, the column types must also match. Also, it must have all the `NOT NULL` and `CHECK` constraints of the target table. Currently `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` constraints are not considered. If any of the `CHECK` constraints of the table being attached is marked `NO INHERIT`, the command will fail; such a constraint must be recreated without the `NO INHERIT` clause.
+此子句使用與 [CREATE TABLE](create-table.md) 相同的 partition\_bound\_spec 語法，將現有資料表（可能本身已為分區割資料表）作為目標資料表的分割區。 分割區綁定規範必須對應於目標資料表的分割區限制條件和分割區主鍵。要附加的資料表必須與目標資料表具有相同的欄位，並且不得再更多；此外，欄位型別也必須匹配。而且，它必須具有目標資料表的所有 NOT NULL 和 CHECK 限制條件。目前暫不考慮UNIQUE，PRIMARY KEY 和 FOREIGN KEY 限制條件。如果附加資料表中的任何 CHECK 限制條件被標記為 NO INHERIT，則此指令將會失敗；這種限制條件必須在沒有 NO INHERIT 子句的情況下重新建立。
 
-If the new partition is a regular table, a full table scan is performed to check that no existing row in the table violates the partition constraint. It is possible to avoid this scan by adding a valid `CHECK` constraint to the table that would allow only the rows satisfying the desired partition constraint before running this command. It will be determined using such a constraint that the table need not be scanned to validate the partition constraint. This does not work, however, if any of the partition keys is an expression and the partition does not accept `NULL` values. If attaching a list partition that will not accept `NULL` values, also add `NOT NULL` constraint to the partition key column, unless it's an expression.
+如果新的分割區是一般資料表，則執行全資料表掃描以檢查資料表中的現有資料列是否違反分割區的限制條件。透過在資料表中加入一個有效的 CHECK 限制條件來避免這種掃描，在執行此命令之前，只允許滿足所需分割區限制條件的資料列。資料庫將使用這樣的限制條件來確定，即不需要掃描資料表來驗證分割區的合法性。但是，如果任何分割區鍵是表示式並且分割區不接受 NULL 值，則這個語法不起作用。 如果附加一個不接受 NULL 值的列表分割區，除非它是一個表示式，否則請將 NOT NULL 限制條件加到到分割區鍵欄位。
 
-If the new partition is a foreign table, nothing is done to verify that all the rows in the foreign table obey the partition constraint. \(See the discussion in [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-createforeigntable.html) about constraints on the foreign table.\)
+如果新的分割區是外部資料表，則不會執行任何操作來驗證外部資料表中的所有資料都遵守分割區限制條件。（請參閱 [CREATE FOREIGN TABLE](create-foreign-table.md) 中有關外部資料表上限制條件的說明。）
 
 `DETACH PARTITION` _`partition_name`_
 
-This form detaches specified partition of the target table. The detached partition continues to exist as a standalone table, but no longer has any ties to the table from which it was detached.
+此子句會分離目標資料表的指定分割區。 分離的分割區作為獨立資料表繼續存在，只是不再與原來的資料表相關聯。
 
-All the forms of ALTER TABLE that act on a single table, except `RENAME`, `SET SCHEMA`, `ATTACH PARTITION`, and `DETACH PARTITION` can be combined into a list of multiple alterations to be applied together. For example, it is possible to add several columns and/or alter the type of several columns in a single command. This is particularly useful with large tables, since only one pass over the table need be made.
+除了 RENAME，SET SCHEMA，ATTACH PARTITION 和 DETACH PARTITION 之外，所有在單個資料表上作用的 ALTER TABLE 子句可以組合成一個或多個變更的列表一起使用。例如，可以在單個命令中加入多個欄位（及/或）變更多個欄位的型別。這對於大型資料表尤其有用，因為只需要在資料表上進行一次操作。
 
-You must own the table to use `ALTER TABLE`. To change the schema or tablespace of a table, you must also have `CREATE` privilege on the new schema or tablespace. To add the table as a new child of a parent table, you must own the parent table as well. Also, to attach a table as a new partition of the table, you must own the table being attached. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have `CREATE` privilege on the table's schema. \(These restrictions enforce that altering the owner doesn't do anything you couldn't do by dropping and recreating the table. However, a superuser can alter ownership of any table anyway.\) To add a column or alter a column type or use the `OF` clause, you must also have `USAGE` privilege on the data type.
+您必須擁有該資料表才能使用 ALTER TABLE。要變更資料表的綱要或資料表空間，還必須對新的綱要或資料表空間具有 CREATE 權限。要將資料表加上為父資料表的新子資料表，您也必須擁有父資料表。另外，要將資料表附加為另一個資料表的新分割區，您必須擁有附加的資料表。要變更擁有者，您還必須是新擁有角色的直接或間接成員，並且該角色必須對資料表具有 CREATE 權限。（這些限制強制改變擁有者不會做任何刪除和重新建立資料表的操作，但超級用戶可以改變任何資料表的所有權。）要加入欄位或更改欄位型別或使用 OF 子句中，您還必須具有資料型別的 USAGE 權限。
 
 ### 參數
 
