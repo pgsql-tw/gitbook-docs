@@ -376,11 +376,11 @@ SELECT * FROM tbl WHERE (a
 
 because it attempts to apply a collation to the result of the`>`operator, which is of the non-collatable data type`boolean`.
 
-## 4.2.11. Scalar Subqueries
+## 4.2.11. Scalar 子查詢
 
-A scalar subquery is an ordinary`SELECT`query in parentheses that returns exactly one row with one column. \(See[Chapter 7](https://www.postgresql.org/docs/10/static/queries.html)for information about writing queries.\) The`SELECT`query is executed and the single returned value is used in the surrounding value expression. It is an error to use a query that returns more than one row or more than one column as a scalar subquery. \(But if, during a particular execution, the subquery returns no rows, there is no error; the scalar result is taken to be null.\) The subquery can refer to variables from the surrounding query, which will act as constants during any one evaluation of the subquery. See also[Section 9.22](https://www.postgresql.org/docs/10/static/functions-subquery.html)for other expressions involving subqueries.
+Scalar 子查詢指的是括號中的普通 SELECT 查詢，但它只回傳一個資料列的一個欄位。（有關撰寫查詢的訊息，請參閱[第 7 章](../7.-zi-liao-cha-xun/)。）執行 SELECT 查詢並在周圍的值表示式中使用單個回傳的值。使用回傳多於一個資料列或多於一個欄位的查詢作為 scalar 子查詢是錯誤的。（但是，如果在特定執行過程中子查詢不回傳任何資料列，則不會出現錯誤；Scalar 結果將視為空）。子查詢可以引用周圍查詢中的變數，該變數在任何一次運算期間都將用作常數的子查詢。有關子查詢的其他表示式，另請參閱[第 9.22 節](../functions/9.22.-zi-cha-xun.md)。
 
-For example, the following finds the largest city population in each state:
+例如，以下是每個州中最大的城市人口數量：
 
 ```text
 SELECT name, (SELECT max(pop) FROM cities WHERE cities.state = states.name)
