@@ -370,27 +370,27 @@ _`partition_bound_spec`_
 
 新分割區的分割區綁定規範。關於語法的更多細節請參考 [CREATE TABLE](create-table.md)。
 
-### Notes
+### 注意
 
-The key word `COLUMN` is noise and can be omitted.
+關鍵詞 COLUMN 是可以省略的。
 
-When a column is added with `ADD COLUMN`, all existing rows in the table are initialized with the column's default value \(NULL if no `DEFAULT` clause is specified\). If there is no `DEFAULT` clause, this is merely a metadata change and does not require any immediate update of the table's data; the added NULL values are supplied on readout, instead.
+當使用 ADD COLUMN 增加欄時，資料表中的所有現有的資料列都將使用該欄位的預設值進行初始化（如果未指定 DEFAULT 子句，則為 NULL）。如果沒有 DEFAULT 子句的話，這只是一個結構的變更，而不需要立即更新資料表的資料，只是在讀出時加上 NULL 值。
 
-Adding a column with a `DEFAULT` clause or changing the type of an existing column will require the entire table and its indexes to be rewritten. As an exception when changing the type of an existing column, if the `USING` clause does not change the column contents and the old type is either binary coercible to the new type or an unconstrained domain over the new type, a table rewrite is not needed; but any indexes on the affected columns must still be rebuilt. Adding or removing a system `oid` column also requires rewriting the entire table. Table and/or index rebuilds may take a significant amount of time for a large table; and will temporarily require as much as double the disk space.
+使用 DEFAULT 子句增加欄位或變更現有欄位的型別會需要重寫整個資料表及其索引。變更現有欄位型別時的例外情況，如果 USING 子句不變更欄位內容，並且舊型別可以是新型別的二進制強製或新類型的不受限制的 domain，則不需要重寫資料表；但受影響欄位上的任何索引仍必須重建。增加或刪除系統 oid 欄位也需要重寫整個資料表。資料表和索引重建對於大型資料表來說，可能需要大量時間，並且暫時需要可能多達兩倍的磁碟空間。
 
-Adding a `CHECK` or `NOT NULL` constraint requires scanning the table to verify that existing rows meet the constraint, but does not require a table rewrite.
+增加 CHECK 或 NOT NULL 限制條件需要掃描資料表以驗證現有的資料列是否滿足限制條件，但不需要重寫資料表。
 
-Similarly, when attaching a new partition it may be scanned to verify that existing rows meet the partition constraint.
+同樣，在附加新分割區時，可能會掃描它們以驗證現有資料是否符合分割區的限制條件。
 
-The main reason for providing the option to specify multiple changes in a single `ALTER TABLE` is that multiple table scans or rewrites can thereby be combined into a single pass over the table.
+提供在單個 ALTER TABLE 中指定多個變更選項的主要原因是多個資料表掃描或重寫可以因此在資料表中組合成單次作業。
 
-The `DROP COLUMN` form does not physically remove the column, but simply makes it invisible to SQL operations. Subsequent insert and update operations in the table will store a null value for the column. Thus, dropping a column is quick but it will not immediately reduce the on-disk size of your table, as the space occupied by the dropped column is not reclaimed. The space will be reclaimed over time as existing rows are updated. \(These statements do not apply when dropping the system `oid` column; that is done with an immediate rewrite.\)
+DROP COLUMN 資料表不會在實體上刪除欄位，而只是使其對 SQL 操作設為不可見。資料表中的後續插入和更新操作將該欄位儲存為空值。因此，刪除欄位很快，但不會立即減少資料表的磁碟大小，因為所刪除的欄位所佔用的空間並不會被回收。隨著現有資料的更新，空間將隨著時間的推移而被回收。（這些語句在刪除系統 oid 欄位時不適用，這是透過立即重寫完成的。）
 
-To force immediate reclamation of space occupied by a dropped column, you can execute one of the forms of `ALTER TABLE` that performs a rewrite of the whole table. This results in reconstructing each row with the dropped column replaced by a null value.
+要強制立即回收被刪除的欄位所佔用的空間，可以執行 ALTER TABLE 的一種語法來執行整個資料表的重寫。這會導致重建每個資料列，並將刪除的欄位替換為空值。
 
-The rewriting forms of `ALTER TABLE` are not MVCC-safe. After a table rewrite, the table will appear empty to concurrent transactions, if they are using a snapshot taken before the rewrite occurred. See [Section 13.5](https://www.postgresql.org/docs/10/static/mvcc-caveats.html) for more details.
+ALTER TABLE 的重寫語法並不是 MVCC 安全的。在資料表重寫後，如果使用在重寫發生之前的快照，該資料表對於平行事務將會顯示為空。更多細節參閱 [13.5 節](../../sql/mvcc/13.5.-te-bie-zhu-yi.md)。
 
-The `USING` option of `SET DATA TYPE` can actually specify any expression involving the old values of the row; that is, it can refer to other columns as well as the one being converted. This allows very general conversions to be done with the `SET DATA TYPE` syntax. Because of this flexibility, the `USING` expression is not applied to the column's default value \(if any\); the result might not be a constant expression as required for a default. This means that when there is no implicit or assignment cast from old to new type, `SET DATA TYPE` might fail to convert the default even though a `USING` clause is supplied. In such cases, drop the default with `DROP DEFAULT`, perform the `ALTER TYPE`, and then use `SET DEFAULT` to add a suitable new default. Similar considerations apply to indexes and constraints involving the column.
+SET DATA TYPE 的 USING 選項實際上可以指定涉及資料列舊值的任何表示式；也就是說，它可以引用其他欄位以及正在轉換的欄位。這允許使用 SET DATA TYPE 語法完成非常普遍的轉換。由於這種靈活性，USING 表示式並不適用於欄位的預設值（如果有的話）； 結果可能不是預設所需的常數表示式。這意味著，如果沒有隱含或賦值從舊型別轉換為新型別，即使提供了 USING 子句，SET DATA TYPE 也可能無法轉換預設值。在這種情況下，請使用 DROP DEFAULT 刪除預設值，執行 ALTER TYPE，然後使用 SET DEFAULT 加上合適的新預設值。類似的考量適用於涉及該欄位的索引和限制條件。
 
 If a table has any descendant tables, it is not permitted to add, rename, or change the type of a column in the parent table without doing same to the descendants. This ensures that the descendants always have columns matching the parent. Similarly, a constraint cannot be renamed in the parent without also renaming it in all descendants, so that constraints also match between the parent and its descendants. Also, because selecting from the parent also selects from its descendants, a constraint on the parent cannot be marked valid unless it is also marked valid for those descendants. In all of these cases, `ALTER TABLE ONLY` will be rejected.
 
