@@ -330,51 +330,43 @@ typename ( expression )
 
 函數式語法實際上只是一個函數呼叫。當兩個標準轉換語法之一用於執行轉換時，它將在內部呼叫已註冊的函數來執行轉換。按照慣例，這些轉換函數與它們的輸出類型具有相同的名稱，因此「函數式語法」只不過是直接呼叫底層的轉換函數。顯然，這不是一個可移植式應用程序應該依賴的東西。有關更多詳情，請參閱 [CREATE CAST](../../reference/sql-commands/create-cast.md)。
 
-## 4.2.10. Collation Expressions
+## 4.2.10. 排序表示式
 
-The`COLLATE`clause overrides the collation of an expression. It is appended to the expression it applies to:
+COLLATE 子句用於覆蓋排序規則的表示式。它附加到所套用的表示式上：
 
 ```text
-expr
- COLLATE 
-collation
+expr COLLATE collation
 ```
 
-where\_`collation`\_is a possibly schema-qualified identifier. The`COLLATE`clause binds tighter than operators; parentheses can be used when necessary.
+排序規則是一種可以綱要限定識別指標。COLLATE 子句比運算子更緊密；必要時可以使用括號。
 
-If no collation is explicitly specified, the database system either derives a collation from the columns involved in the expression, or it defaults to the default collation of the database if no column is involved in the expression.
+如果沒有明確指定排序規則，那麼資料庫系統會從表示式中涉及的欄位中衍生一個排序規則，或者如果表示式中未包含任何欄位，則預設為資料庫的預設排序規則。
 
-The two common uses of the`COLLATE`clause are overriding the sort order in an`ORDER BY`clause, for example:
+COLLATE 子句的兩個常見用法是重寫 ORDER BY 子句中的排序順序，例如：
 
 ```text
 SELECT a, b, c FROM tbl WHERE ... ORDER BY a COLLATE "C";
 ```
 
-and overriding the collation of a function or operator call that has locale-sensitive results, for example:
+並覆蓋具有語言環境特性結果的函數或運算子呼叫的排序規則，例如：
 
 ```text
-SELECT * FROM tbl WHERE a 
->
- 'foo' COLLATE "C";
+SELECT * FROM tbl WHERE a > 'foo' COLLATE "C";
 ```
 
-Note that in the latter case the`COLLATE`clause is attached to an input argument of the operator we wish to affect. It doesn't matter which argument of the operator or function call the`COLLATE`clause is attached to, because the collation that is applied by the operator or function is derived by considering all arguments, and an explicit`COLLATE`clause will override the collations of all other arguments. \(Attaching non-matching`COLLATE`clauses to more than one argument, however, is an error. For more details see[Section 23.2](https://www.postgresql.org/docs/10/static/collation.html).\) Thus, this gives the same result as the previous example:
+請注意，在後者的情況下，COLLATE 子句附加到我們希望影響的運算子的輸入參數。 無論運算子或函數呼叫 COLLATE 子句的哪個參數被附加到哪個參數都沒有關係，因為運算子或函數套用的排序規則是透過考慮所有參數衍生的，並且顯式 COLLATE 子句將覆蓋所有其他排序規則參數。（然而，將不匹配的 COLLATE 子句連接到多個參數是錯誤的，更多細節請參閱[第 23.2 節](../../server-administration/charset/collation-support.md)）。因此，這會産生與前面的例子相同的結果：
 
 ```text
-SELECT * FROM tbl WHERE a COLLATE "C" 
->
- 'foo';
+SELECT * FROM tbl WHERE a COLLATE "C" > 'foo';
 ```
 
-But this is an error:
+但是這會有錯：
 
 ```text
-SELECT * FROM tbl WHERE (a 
->
- 'foo') COLLATE "C";
+SELECT * FROM tbl WHERE (a > 'foo') COLLATE "C";
 ```
 
-because it attempts to apply a collation to the result of the`>`operator, which is of the non-collatable data type`boolean`.
+因為它試圖將排序規則應用於「&gt;」運算子的結果，該運算符是不可排序的布林資料型別。
 
 ## 4.2.11. Scalar 子查詢
 
