@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # ALTER TABLE
 
 ALTER TABLE — 變更資料表的定義
@@ -392,15 +396,15 @@ ALTER TABLE 的重寫語法並不是 MVCC 安全的。在資料表重寫後，�
 
 SET DATA TYPE 的 USING 選項實際上可以指定涉及資料列舊值的任何表示式；也就是說，它可以引用其他欄位以及正在轉換的欄位。這允許使用 SET DATA TYPE 語法完成非常普遍的轉換。由於這種靈活性，USING 表示式並不適用於欄位的預設值（如果有的話）； 結果可能不是預設所需的常數表示式。這意味著，如果沒有隱含或賦值從舊型別轉換為新型別，即使提供了 USING 子句，SET DATA TYPE 也可能無法轉換預設值。在這種情況下，請使用 DROP DEFAULT 刪除預設值，執行 ALTER TYPE，然後使用 SET DEFAULT 加上合適的新預設值。類似的考量適用於涉及該欄位的索引和限制條件。
 
-If a table has any descendant tables, it is not permitted to add, rename, or change the type of a column in the parent table without doing same to the descendants. This ensures that the descendants always have columns matching the parent. Similarly, a constraint cannot be renamed in the parent without also renaming it in all descendants, so that constraints also match between the parent and its descendants. Also, because selecting from the parent also selects from its descendants, a constraint on the parent cannot be marked valid unless it is also marked valid for those descendants. In all of these cases, `ALTER TABLE ONLY` will be rejected.
+如果資料表有任何後代資料表，則不允許在父資料表中增加、重新命名或變更欄位的型別，卻不對後代資料進行相同操作。這確保了後代資料總是有與父代資料匹配的欄位。同樣，如果不在所有後代資料表中重新命名限制條件，則不能在父級資料表中重新命名該限制條件，以便限制條件在父代資料及其後代資料表之間也匹配。此外，因為從父代資料中查詢也會從其後代資料中進行查詢，所以對父代資料表的限制條件不能被標記為有效，除非它對於那些後代資料表也被標記為有效。在所有這些情況下，ALTER TABLE ONLY 將會被拒絕。
 
-A recursive `DROP COLUMN` operation will remove a descendant table's column only if the descendant does not inherit that column from any other parents and never had an independent definition of the column. A nonrecursive `DROP COLUMN` \(i.e., `ALTER TABLE ONLY ... DROP COLUMN`\) never removes any descendant columns, but instead marks them as independently defined rather than inherited. A nonrecursive `DROP COLUMN` command will fail for a partitioned table, because all partitions of a table must have the same columns as the partitioning root.
+遞迴的 DROP COLUMN 操作只有在後代資料表不從其他父代繼承該欄位並且從未擁有該欄位的獨立定義的情況下才會刪除後代資料表欄位。非遞迴 DROP COLUMN（即，ALTER TABLE ONLY ... DROP COLUMN）永遠不會刪除任何後代欄位，而是將它們標記為獨立定義而非繼承。對於分割區資料表，非遞迴 DROP COLUMN 命令將會失敗，因為資料表的所有分割區必須與分割區源頭具有相同的欄位。
 
-The actions for identity columns \(`ADD GENERATED`, `SET` etc., `DROP IDENTITY`\), as well as the actions `TRIGGER`, `CLUSTER`, `OWNER`, and `TABLESPACE` never recurse to descendant tables; that is, they always act as though `ONLY` were specified. Adding a constraint recurses only for `CHECK`constraints that are not marked `NO INHERIT`.
+識別欄位（ADD GENERATED，SET 等，DROP IDENTITY）的行為以及TRIGGER，CLUSTER，OWNER 和 TABLESPACE 行為絕不會遞迴到後代資料表；也就是說，他們總是像只有被指定的那樣行事。增加限制條件僅針對未標記為 NO INHERIT 的 CHECK constraints 遞迴。
 
-Changing any part of a system catalog table is not permitted.
+變更系統目錄資料表的任何部分都不會允許。
 
-Refer to [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for a further description of valid parameters. [Chapter 5](https://www.postgresql.org/docs/10/static/ddl.html) has further information on inheritance.
+有關有效參數的更多描述，請參閱 [CREATE TABLE](create-table.md)。[第 5 章](../../sql/ddl/)則有關於繼承的更多訊息。
 
 ### 範例
 
