@@ -292,11 +292,11 @@ _`name`_
 
 _`column_name`_
 
-Name of a new or existing column.
+新的欄位或現有欄位的名稱。
 
 _`new_column_name`_
 
-New name for an existing column.
+現有欄位的新名稱。
 
 _`new_name`_
 
@@ -304,71 +304,71 @@ _`new_name`_
 
 _`data_type`_
 
-Data type of the new column, or new data type for an existing column.
+新欄位的資料型別或現有欄位的新資料型別。
 
 _`table_constraint`_
 
-New table constraint for the table.
+資料表新的限制條件。
 
 _`constraint_name`_
 
-Name of a new or existing constraint.
+新的或現有限制條件的名稱。
 
 `CASCADE`
 
-Automatically drop objects that depend on the dropped column or constraint \(for example, views referencing the column\), and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
+自動刪除相依於刪除欄位或限制條件的物件（例如，引用欄位的檢視表），並依次刪除相依於這些物件的所有物件（請參閱[第 5.13 節](../../sql/ddl/dependency-tracking.md)）。
 
 `RESTRICT`
 
-Refuse to drop the column or constraint if there are any dependent objects. This is the default behavior.
+如果有任何相依物件，則拒絕刪除欄位或限制條件。這是預設的行為。
 
 _`trigger_name`_
 
-Name of a single trigger to disable or enable.
+要停用或啟用事件觸發器的名稱。
 
 `ALL`
 
-Disable or enable all triggers belonging to the table. \(This requires superuser privilege if any of the triggers are internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints.\)
+停用或啟用屬於資料表的所有觸發器。（如果觸發器是內部生成的限制條件觸發器，例如那些用於實現外部鍵限制條件或可延遲的唯一性和排除性限制條件的觸發器，則調整它們需要超級使用者權限。）
 
 `USER`
 
-Disable or enable all triggers belonging to the table except for internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints.
+除內部産生的限制條件觸發器（例如那些用於實現外部鍵限制條件或可延遲唯一性和排除性限制條件的觸發器）之外，停用或啟用屬於資料表的所有觸發器。
 
 _`index_name`_
 
-The name of an existing index.
+現有索引的名稱。
 
 _`storage_parameter`_
 
-The name of a table storage parameter.
+資料表儲存參數的名稱。
 
 _`value`_
 
-The new value for a table storage parameter. This might be a number or a word depending on the parameter.
+資料表儲存參數的新值。這可能是一個數字或一個字串，具體形式取決於參數為何。
 
 _`parent_table`_
 
-A parent table to associate or de-associate with this table.
+與此資料表關聯或取消關聯的父資料表。
 
 _`new_owner`_
 
-The user name of the new owner of the table.
+資料表的新擁有者名稱。
 
 _`new_tablespace`_
 
-The name of the tablespace to which the table will be moved.
+資料表將被移動到的資料表空間名稱。
 
 _`new_schema`_
 
-The name of the schema to which the table will be moved.
+資料表將被移動到的綱要名稱。
 
 _`partition_name`_
 
-The name of the table to attach as a new partition or to detach from this table.
+要附加為新分割區或從此資料表中分離的分割區資料表名稱。
 
 _`partition_bound_spec`_
 
-The partition bound specification for a new partition. Refer to [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for more details on the syntax of the same.
+新分割區的分割區綁定規範。關於語法的更多細節請參考 [CREATE TABLE](create-table.md)。
 
 ### Notes
 
