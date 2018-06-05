@@ -72,7 +72,7 @@
     * [8.5. 日期時間型別](sql/datatype/datetime.md)
     * [8.6. 布林型別](sql/datatype/8.6.-bu-lin-xing-bie.md)
     * [8.7. 列舉型別](sql/datatype/8.7.-lie-ju-xing-bie.md)
-    * [8.8. 地理資訊型別](sql/datatype/8.8.-di-li-zi-xun-xing-bie.md)
+    * [8.8. 地理資訊型別](sql/datatype/geometric.md)
     * [8.9. 網路資訊型別](sql/datatype/8.9.-wang-lu-zi-xun-xing-bie.md)
     * [8.10. 位元字串型別](sql/datatype/8.10.-wei-yuan-zi-chuan-xing-bie.md)
     * [8.11. 全文檢索型別](sql/datatype/8.11.-quan-wen-jian-suo-xing-bie.md)
