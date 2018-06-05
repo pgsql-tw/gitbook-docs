@@ -242,7 +242,7 @@
     * 26.2. Log-Shipping Standby Servers
     * 26.3. Failover
     * 26.4. Alternative Method for Log Shipping
-    * 26.5. Hot Standby
+    * [26.5. Hot Standby](server-administration/high-availability-load-balancing-and-replication/hot-standby.md)
   * Recovery Configuration
     * 27.1. Archive Recovery Settings
     * 27.2. Recovery Target Settings
