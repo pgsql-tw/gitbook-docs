@@ -299,42 +299,32 @@ frame\_start 的限制是不能使用 UNBOUNDED FOLLOWING，而 frame\_end 不�
 
 更多窗函數的說明請參閱 [3.5 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/advanced-features/35-window-functions.md)、[9.21 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/functions-and-operators/921-window-functions.md)、及 [7.2.5 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/queries/72-table-expressions.md)。
 
-## 4.2.9. Type Casts
+## 4.2.9. 型別轉換
 
-A type cast specifies a conversion from one data type to another.PostgreSQLaccepts two equivalent syntaxes for type casts:
-
-```text
-CAST ( 
-expression
- AS 
-type
- )
-
-expression
-::
-type
-```
-
-The`CAST`syntax conforms to SQL; the syntax with`::`is historicalPostgreSQLusage.
-
-When a cast is applied to a value expression of a known type, it represents a run-time type conversion. The cast will succeed only if a suitable type conversion operation has been defined. Notice that this is subtly different from the use of casts with constants, as shown in[Section 4.1.2.7](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#sql-syntax-constants-generic). A cast applied to an unadorned string literal represents the initial assignment of a type to a literal constant value, and so it will succeed for any type \(if the contents of the string literal are acceptable input syntax for the data type\).
-
-An explicit type cast can usually be omitted if there is no ambiguity as to the type that a value expression must produce \(for example, when it is assigned to a table column\); the system will automatically apply a type cast in such cases. However, automatic casting is only done for casts that are marked“OK to apply implicitly”in the system catalogs. Other casts must be invoked with explicit casting syntax. This restriction is intended to prevent surprising conversions from being applied silently.
-
-It is also possible to specify a type cast using a function-like syntax:
+型別轉換指定從一種資料型別轉換為另一種資料型別。PostgreSQL 接受兩種用於型別轉換的等效語法：
 
 ```text
-typename
- ( 
-expression
- )
+CAST ( expression AS type )
+expression::type
 ```
 
-However, this only works for types whose names are also valid as function names. For example,`double precision`cannot be used this way, but the equivalent`float8`can. Also, the names`interval`,`time`, and`timestamp`can only be used in this fashion if they are double-quoted, because of syntactic conflicts. Therefore, the use of the function-like cast syntax leads to inconsistencies and should probably be avoided.
+CAST 語法符合 SQL 標準；帶「::」的語法是 PostgreSQL 既有的用法。
 
-## Note
+當強制轉換應用於已知型別的值表示式時，它表示執行時型別轉換。只有定義了合適的型別轉換操作，操作才能成功。請注意，這與使用帶常數的強制轉換略有不同，如 [4.1.2.7 節](lexical.md#4-1-2-7-qi-ta-xing-chang)所示。應用於未經修飾的字串文字的強制轉換表示將型別初始分配給文字常數，因此對於任何型別（如果字串文字的內容都是資料型別的可接受輸入語法）都會成功。
 
-The function-like syntax is in fact just a function call. When one of the two standard cast syntaxes is used to do a run-time conversion, it will internally invoke a registered function to perform the conversion. By convention, these conversion functions have the same name as their output type, and thus the“function-like syntax”is nothing more than a direct invocation of the underlying conversion function. Obviously, this is not something that a portable application should rely on. For further details see[CREATE CAST](https://www.postgresql.org/docs/10/static/sql-createcast.html).
+如果對於值表示式必須產生的型別沒有歧義（例如，當它被分配給資料表欄位），通常可以省略顯式的型別轉換；系統將在這種情況下自動套用型別轉換。但是，只有在系統目錄中標記為「可以隱式套用」的強制轉換才會執行自動強制轉換。其他強制轉換必須使用顯式強制轉換語法來使用。此限制旨在防止系統默默地套用令人意外的轉換。
+
+也可以使用函數式語法來指定型別轉換：
+
+```text
+typename ( expression )
+```
+
+但是，這僅適用於名稱也可以作為函數名稱使用的型別。例如，雙精度不能用這種方式，但等價的 float8 可以。而且，由於語法衝突，名稱間隔，時間和時間戳記只能使用雙引號才能用於這種方式。因此，使用類似功能的轉換語法會導致不一致，因此可能應該避免。
+
+#### 注意
+
+函數式語法實際上只是一個函數呼叫。當兩個標準轉換語法之一用於執行轉換時，它將在內部呼叫已註冊的函數來執行轉換。按照慣例，這些轉換函數與它們的輸出類型具有相同的名稱，因此「函數式語法」只不過是直接呼叫底層的轉換函數。顯然，這不是一個可移植式應用程序應該依賴的東西。有關更多詳情，請參閱 CREATE CAST。
 
 ## 4.2.10. Collation Expressions
 
