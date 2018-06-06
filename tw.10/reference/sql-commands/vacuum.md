@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # VACUUM
 
 VACUUM — 資源回收並且選擇性地重整資料庫
@@ -20,9 +24,9 @@ VACUUM 回收不再使用的儲存空間。在普通的 PostgreSQL 操作中，�
 
 VACUUM ANALYZE 為每個選定的資料表執行 VACUUM 然後進行 ANALYZE 分析。 這是日常維護腳本的便捷組合形式。有關其處理的更多詳細訊息，請參閱 [ANALYZE](analyze.md)。
 
-Plain `VACUUM` \(without `FULL`\) simply reclaims space and makes it available for re-use. This form of the command can operate in parallel with normal reading and writing of the table, as an exclusive lock is not obtained. However, extra space is not returned to the operating system \(in most cases\); it's just kept available for re-use within the same table. `VACUUM FULL` rewrites the entire contents of the table into a new disk file with no extra space, allowing unused space to be returned to the operating system. This form is much slower and requires an exclusive lock on each table while it is being processed.
+普通的 VACUUM（不帶FULL）只是回收空間並使其可供重複使用。由於沒有獲得排他鎖定，此指令的這種形式可以與正常讀取和寫入資料表平行操作。但是，額外的空間不會還回到作業系統（大多數情況下）。它只是保持在同一張資料表內重新使用。VACUUM FULL 會將資料表中的全部內容重寫為新的磁碟檔案，不會遺留額外的空間佔用，可將未使用的空間還回作業系統。這種形式顯然要慢得多，並且在處理每個資料表時需要排它鎖定。
 
-When the option list is surrounded by parentheses, the options can be written in any order. Without parentheses, options must be specified in exactly the order shown above. The parenthesized syntax was added in PostgreSQL 9.0; the unparenthesized syntax is deprecated.
+當選項列表被括號包圍時，選項可以按任意順序書寫。如果沒有括號，必須按照上面所示的順序指定選項。PostgreSQL 9.0 中加入了括號語法；未使用括號的語法已被棄用。
 
 ### Parameters
 
