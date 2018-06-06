@@ -2,7 +2,7 @@
 
 PostgreSQL 資料庫需要定期維護，稱為資料庫清理\(vacuum\)。 對於一裝的執行環境而言，透過 autovacuum 背景程序進行資料庫清理就足夠了，這在 [24.1.6 節](routine-vacuuming.md#24-1-6-the-autovacuum-daemon)中有描述。您可能需要調整其中所描述的自動清除參數，以獲得您的情況的最佳結果。 一些資料庫管理員希望用手動管理的 VACUUM 命令來補充或替換背景程序的活動，這些命令通常根據 cron 或 Task Scheduler 的腳本計劃執行。 要正確設定手動管理的資料庫清理，了解接下來幾小節中討論的問題至關重要。依靠自動清理的管理員可能仍然希望瀏覽這些內容以幫助他們理解和調整自動清理。
 
-#### 24.1.1. 資料庫清理的基本概念
+## 24.1.1. 資料庫清理的基本概念
 
 必須以 PostgreSQL [VACUUM](../../reference/sql-commands/vacuum.md) 命令處理每個資料表，原因如下：
 
@@ -17,27 +17,27 @@ VACUUM 有兩種變形：標準 VACUUM 和 VACUUM FULL。VACUUM FULL 可以回�
 
 VACUUM 會產生大量的 I/O流量，這會導致其他正在進行的連線效能較差。有一些配置參數可以調整以減少背景資料庫清理對效能的影響 - 參閱[第 19.4.4 節](../runtime-config/resource-consumption.md#19-4-4-cost-based-vacuum-delay)`。`
 
-#### 24.1.2. Recovering Disk Space
+## 24.1.2. 恢復磁碟空間
 
-In PostgreSQL, an `UPDATE` or `DELETE` of a row does not immediately remove the old version of the row. This approach is necessary to gain the benefits of multiversion concurrency control \(MVCC, see [Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)\): the row version must not be deleted while it is still potentially visible to other transactions. But eventually, an outdated or deleted row version is no longer of interest to any transaction. The space it occupies must then be reclaimed for reuse by new rows, to avoid unbounded growth of disk space requirements. This is done by running `VACUUM`.
+在 PostgreSQL 中，資料列的 UPDATE 或 DELETE 不會立即刪除該資料列的舊版本。這種方法對於獲得多版本平行控制（MVCC，參閱[第 13 章](../../sql/mvcc/)）的好處是必要的：資料列的版本不能被刪除，而其他事務仍然可以看到。 但最終，過時或刪除的資料列版本不再讓任何交易感興趣。它佔用的空間必須被新行重新使用以避免無限增長的磁碟空間需求。這是透過執行 VACUUM 來完成的。
 
-The standard form of `VACUUM` removes dead row versions in tables and indexes and marks the space available for future reuse. However, it will not return the space to the operating system, except in the special case where one or more pages at the end of a table become entirely free and an exclusive table lock can be easily obtained. In contrast, `VACUUM FULL` actively compacts tables by writing a complete new version of the table file with no dead space. This minimizes the size of the table, but can take a long time. It also requires extra disk space for the new copy of the table, until the operation completes.
+VACUUM 的標準作法是移除資料表和索引中過時的資料列版本，並標記可供將來重複使用的空間。 但是，除非資料表末端的一個或多個頁面變為完全空閒並且可以輕鬆獲取排他資料表鎖的特殊情況，否則它不會將空間還給作業系統。相比之下，VACUUM FULL 透過寫入完整新版本使其沒有空閒的空間來主動壓縮資料表。這最大限度地減少了資料表的大小，但可能需要很長時間。 它還需要用於資料表的新副本的額外磁碟空間，直到操作完成。
 
-The usual goal of routine vacuuming is to do standard `VACUUM`s often enough to avoid needing `VACUUM FULL`. The autovacuum daemon attempts to work this way, and in fact will never issue `VACUUM FULL`. In this approach, the idea is not to keep tables at their minimum size, but to maintain steady-state usage of disk space: each table occupies space equivalent to its minimum size plus however much space gets used up between vacuumings. Although `VACUUM FULL` can be used to shrink a table back to its minimum size and return the disk space to the operating system, there is not much point in this if the table will just grow again in the future. Thus, moderately-frequent standard `VACUUM` runs are a better approach than infrequent `VACUUM FULL` runs for maintaining heavily-updated tables.
+常態的資料庫清理通常目標是經常足夠地執行標準 VACUUM 以避免需要 VACUUM FULL。autovacuum 背景程序嘗試以這種方式工作，實際上永遠不會發出 VACUUM FULL。在這種方法中，這個想法並不是將資料表保持在最小尺寸，而是為了保持磁碟空間的穩定狀態使用：每個資料表都佔用相當於其最小尺寸的空間，再加上在 VACUUM 之間使用的空間很大，儘管可以使用 VACUUM FULL 將表縮回到最小大小並將磁碟空間還回到作業系統，但如果資料表將來會再次增長，則沒有多大意義。 因此，適度頻繁的標準 VACUUM 運行比用於維護大量更新資料表的罕見 VACUUM FULL 運行更好。
 
-Some administrators prefer to schedule vacuuming themselves, for example doing all the work at night when load is low. The difficulty with doing vacuuming according to a fixed schedule is that if a table has an unexpected spike in update activity, it may get bloated to the point that `VACUUM FULL` is really necessary to reclaim space. Using the autovacuum daemon alleviates this problem, since the daemon schedules vacuuming dynamically in response to update activity. It is unwise to disable the daemon completely unless you have an extremely predictable workload. One possible compromise is to set the daemon's parameters so that it will only react to unusually heavy update activity, thus keeping things from getting out of hand, while scheduled `VACUUM`s are expected to do the bulk of the work when the load is typical.
+有些管理者更喜歡自己安排資料庫清理作業，例如在負載較低時在夜間進行所有工作。按照固定的時間表進行資料庫清理作業的困難在於，如果資料表在更新活動中出現意外的峰值，則可能會變得臃腫到 VACUUM FULL 真的需要回收空間。使用自動清理背景程序緩解了這個問題，因為背景程序會根據更新活動動態調度清理作業。除非您有一個非常可預測的工作量，否則完全停用該背景程序是不明智的。一個可能的折衷辦法是設定背景程序的參數，以便它僅對異常繁重的更新活動作出反應，從而避免事情失控，而預定的 VACUUM 參數是能在典型的情況下完成大部分工作。
 
-For those not using autovacuum, a typical approach is to schedule a database-wide `VACUUM` once a day during a low-usage period, supplemented by more frequent vacuuming of heavily-updated tables as necessary. \(Some installations with extremely high update rates vacuum their busiest tables as often as once every few minutes.\) If you have multiple databases in a cluster, don't forget to `VACUUM` each one; the program [vacuumdb](https://www.postgresql.org/docs/10/static/app-vacuumdb.html) might be helpful.
+對於那些不使用自動清理的人來說，一種典型的方法是在低使用期內每天安排一次資料庫範圍內的 VACUUM，並根據需要更頻繁地清空大量更新的資料表。（一些具有極高更新率的設定每隔幾分鐘就會清理一次最繁忙的資料表，如此頻繁。）如果叢集中有多個資料庫，請不要忘記每個資料庫都有 VACUUM；[vacuumdb](../../reference/client/vacuumdb.md) 工作可能會有所幫助。
 
-#### Tip
+#### 小技巧
 
-Plain `VACUUM` may not be satisfactory when a table contains large numbers of dead row versions as a result of massive update or delete activity. If you have such a table and you need to reclaim the excess disk space it occupies, you will need to use `VACUUM FULL`, or alternatively [CLUSTER](https://www.postgresql.org/docs/10/static/sql-cluster.html) or one of the table-rewriting variants of [ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html). These commands rewrite an entire new copy of the table and build new indexes for it. All these options require exclusive lock. Note that they also temporarily use extra disk space approximately equal to the size of the table, since the old copies of the table and indexes can't be released until the new ones are complete.
+當一個資料表由於大量更新或刪除活動而包含大量過時資料列版本時，一般的 VACUUM 可能不能令人滿意。如果您有這樣一個資料表並且您需要回收佔用的多餘磁碟空間，則需要使用 VACUUM FULL 或 [CLUSTER](../../reference/sql-commands/cluster.md) 或 [ALTER TABLE](../../reference/sql-commands/alter-table.md) 的資料表重寫變形之一。這些命令重寫整個資料表的新副本並為其構建新的索引。所有這些選項都需要獨占鎖定。請注意，它們也暫時使用大約等於資料表大小的額外磁碟空間，因為資料表和索引的舊副本只有在新資料表完成後才能完全釋放。
 
-#### Tip
+#### 小技巧
 
-If you have a table whose entire contents are deleted on a periodic basis, consider doing it with [TRUNCATE](https://www.postgresql.org/docs/10/static/sql-truncate.html) rather than using `DELETE` followed by `VACUUM`. `TRUNCATE` removes the entire content of the table immediately, without requiring a subsequent `VACUUM` or `VACUUM FULL` to reclaim the now-unused disk space. The disadvantage is that strict MVCC semantics are violated.
+如果您有一張定期刪除整個內容的資料表，請考慮使用 TRUNCATE 而不是使用 DELETE 和 VACUUM。[TRUNCATE](../../reference/sql-commands/truncate.md) 會立即刪除資料表的全部內容，而不需要後續的 VACUUM 或 VACUUM FULL 來回收現在未使用的磁碟空間。缺點是違反了嚴格的 MVCC 意義。
 
-#### 24.1.3. Updating Planner Statistics
+## 24.1.3. Updating Planner Statistics
 
 The PostgreSQL query planner relies on statistical information about the contents of tables in order to generate good plans for queries. These statistics are gathered by the [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) command, which can be invoked by itself or as an optional step in `VACUUM`. It is important to have reasonably accurate statistics, otherwise poor choices of plans might degrade database performance.
 
@@ -57,13 +57,13 @@ Also, by default there is limited information available about the selectivity of
 
 The autovacuum daemon does not issue `ANALYZE` commands for foreign tables, since it has no means of determining how often that might be useful. If your queries require statistics on foreign tables for proper planning, it's a good idea to run manually-managed `ANALYZE`commands on those tables on a suitable schedule.
 
-#### 24.1.4. Updating The Visibility Map
+## 24.1.4. Updating The Visibility Map
 
 Vacuum maintains a [visibility map](https://www.postgresql.org/docs/10/static/storage-vm.html) for each table to keep track of which pages contain only tuples that are known to be visible to all active transactions \(and all future transactions, until the page is again modified\). This has two purposes. First, vacuum itself can skip such pages on the next run, since there is nothing to clean up.
 
 Second, it allows PostgreSQL to answer some queries using only the index, without reference to the underlying table. Since PostgreSQL indexes don't contain tuple visibility information, a normal index scan fetches the heap tuple for each matching index entry, to check whether it should be seen by the current transaction. An [_index-only scan_](https://www.postgresql.org/docs/10/static/indexes-index-only-scans.html), on the other hand, checks the visibility map first. If it's known that all tuples on the page are visible, the heap fetch can be skipped. This is most useful on large data sets where the visibility map can prevent disk accesses. The visibility map is vastly smaller than the heap, so it can easily be cached even when the heap is very large.
 
-#### 24.1.5. Preventing Transaction ID Wraparound Failures
+## 24.1.5. Preventing Transaction ID Wraparound Failures
 
 PostgreSQL's [MVCC](https://www.postgresql.org/docs/10/static/mvcc-intro.html) transaction semantics depend on being able to compare transaction ID \(XID\) numbers: a row version with an insertion XID greater than the current transaction's XID is “in the future” and should not be visible to the current transaction. But since transaction IDs have limited size \(32 bits\) a cluster that runs for a long time \(more than 4 billion transactions\) would suffer _transaction ID wraparound_: the XID counter wraps around to zero, and all of a sudden transactions that were in the past appear to be in the future — which means their output become invisible. In short, catastrophic data loss. \(Actually the data is still there, but that's cold comfort if you cannot get at it.\) To avoid this, it is necessary to vacuum every table in every database at least once every two billion transactions.
 
@@ -121,7 +121,7 @@ HINT:  Stop the postmaster and vacuum that database in single-user mode.
 
 The 1-million-transaction safety margin exists to let the administrator recover without data loss, by manually executing the required `VACUUM` commands. However, since the system will not execute commands once it has gone into the safety shutdown mode, the only way to do this is to stop the server and start the server in single-user mode to execute `VACUUM`. The shutdown mode is not enforced in single-user mode. See the [postgres](https://www.postgresql.org/docs/10/static/app-postgres.html) reference page for details about using single-user mode.
 
-**24.1.5.1. Multixacts and Wraparound**
+### **24.1.5.1. Multixacts and Wraparound**
 
 _Multixact IDs_ are used to support row locking by multiple transactions. Since there is only limited space in a tuple header to store lock information, that information is encoded as a “multiple transaction ID”, or multixact ID for short, whenever there is more than one transaction concurrently locking a row. Information about which transaction IDs are included in any particular multixact ID is stored separately in the `pg_multixact` subdirectory, and only the multixact ID appears in the `xmax` field in the tuple header. Like transaction IDs, multixact IDs are implemented as a 32-bit counter and corresponding storage, all of which requires careful aging management, storage cleanup, and wraparound handling. There is a separate storage area which holds the list of members in each multixact, which also uses a 32-bit counter and which must also be managed.
 
@@ -131,7 +131,7 @@ Aggressive `VACUUM` scans, regardless of what causes them, enable advancing the 
 
 As a safety device, an aggressive vacuum scan will occur for any table whose multixact-age is greater than [autovacuum\_multixact\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE). Aggressive vacuum scans will also occur progressively for all tables, starting with those that have the oldest multixact-age, if the amount of used member storage space exceeds the amount 50% of the addressable storage space. Both of these kinds of aggressive scans will occur even if autovacuum is nominally disabled.
 
-#### 24.1.6. The Autovacuum Daemon
+## 24.1.6. The Autovacuum Daemon
 
 PostgreSQL has an optional but highly recommended feature called _autovacuum_, whose purpose is to automate the execution of `VACUUM` and `ANALYZE` commands. When enabled, autovacuum checks for tables that have had a large number of inserted, updated or deleted tuples. These checks use the statistics collection facility; therefore, autovacuum cannot be used unless [track\_counts](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-COUNTS) is set to `true`. In the default configuration, autovacuuming is enabled and the related configuration parameters are appropriately set.
 
