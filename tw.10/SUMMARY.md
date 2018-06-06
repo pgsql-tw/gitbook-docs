@@ -186,7 +186,7 @@
     * [18.8. Encryption Options](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.8.-encryption-options.md)
     * [18.9. Secure TCP/IP Connections with SSL](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.9.-secure-tcp-ip-connections-with-ssl.md)
     * [18.10. Secure TCP/IP Connections with SSH Tunnels](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.10.-secure-tcp-ip-connections-with-ssh-tunnels.md)
-    * [18.11. Registering Event Log on Windows](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.11.-registering-event-log-on-windows.md)
+    * [18.11. 在 Windows 註冊事件日誌](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/registering-event-log-on-windows.md)
   * [19. 服務組態設定](server-administration/runtime-config/README.md)
     * [19.1. Setting Parameters](server-administration/runtime-config/19.1.-setting-parameters.md)
     * [19.2. File Locations](server-administration/runtime-config/file-locations.md)

@@ -1,0 +1,30 @@
+---
+description: 版本：10
+---
+
+# 18.11. 在 Windows 註冊事件日誌
+
+要在作業系統註冊 Windows 事件日誌，請使用以下指令：
+
+```text
+regsvr32 pgsql_library_directory/pgevent.dll
+```
+
+這將建立事件檢視器使用的註冊機碼項目，該項目由名為 PostgreSQL 的預設事件來源建立。
+
+要指定不同的事件來源名稱（請參閱 [event\_source](../runtime-config/logging.md#event_source-string)），請使用 /n 和 /i 選項：
+
+```text
+regsvr32 /n /i:event_source_name pgsql_library_directory/pgevent.dll
+```
+
+要從作業系統註銷事件日誌，請使用以下指令：
+
+```text
+regsvr32 /u [/i:event_source_name] pgsql_library_directory/pgevent.dll
+```
+
+#### 注意
+
+要在資料庫伺服器中啟用事件日誌記錄，請修改 postgresql.conf 中的 [log\_destination ](../runtime-config/logging.md#log_destination-string)，使其包含 eventlog。
+
