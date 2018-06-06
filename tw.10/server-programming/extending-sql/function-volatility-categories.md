@@ -20,17 +20,15 @@ description: 版本：10
 
 對於使用 SQL 或任何標準程序語言撰寫的函數，由易變性類別確定的第二個重要屬性，即由正在呼叫該函數的 SQL 指令所做的任何資料變更的可見性。一個 VOLATILE 函數會看到這樣的變化，一個 STABLE 或 IMMUTABLE 函數則不會。此行為是使用 MVCC 的快照行為實現的（請參閱[第 13 章](../../sql/mvcc/)）：STABLE 和 IMMUTABLE 函數使用從呼叫查詢開始時所建立的快照，而 VOLATILE 函數在執行每個查詢的開始時獲取新的快照。
 
-#### Note
+> 注意  
+> 用 C 語言撰寫的函數可以想要的方式管理快照，不過以本節的方式運用 C 函數也是一個好的作法。
 
-Functions written in C can manage snapshots however they want, but it's usually a good idea to make C functions work this way too.
+由於此快照行為，即使從可能正在透過平行查詢進行變更的資料表中選擇，只包含 SELECT 指令的函數也可以安全地標記為 STABLE。PostgreSQL將使用為呼叫查詢建立的快照執行 STABLE 函數的所有命令，因此它將在該查詢中看到資料庫的固定檢視內容。
 
-Because of this snapshotting behavior, a function containing only `SELECT` commands can safely be marked `STABLE`, even if it selects from tables that might be undergoing modifications by concurrent queries. PostgreSQL will execute all commands of a `STABLE` function using the snapshot established for the calling query, and so it will see a fixed view of the database throughout that query.
+IMMUTABLE 函數中的 SELECT 指令使用相同的快照行為。根據 IMMUTABLE 函數從資料庫資料表中進行選擇通常是不明智的，因為如果資料表內容發生變化，不變性將被破壞。但是，PostgreSQL並沒有強制你不能這樣做。
 
-The same snapshotting behavior is used for `SELECT` commands within `IMMUTABLE` functions. It is generally unwise to select from database tables within an `IMMUTABLE` function at all, since the immutability will be broken if the table contents ever change. However, PostgreSQL does not enforce that you do not do that.
+當一個函數的結果取決於一個配置參數時，一個常見的錯誤是標記一個函數 IMMUTABLE。 例如，一個操縱時間戳記的函數可能具有取決於 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#19-11-2-xi-ge-shi) 設定的結果。為了安全起見，這些功能應該標記為 STABLE。
 
-A common error is to label a function `IMMUTABLE` when its results depend on a configuration parameter. For example, a function that manipulates timestamps might well have results that depend on the [TimeZone](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TIMEZONE) setting. For safety, such functions should be labeled `STABLE` instead.
-
-#### Note
-
-PostgreSQL requires that `STABLE` and `IMMUTABLE` functions contain no SQL commands other than `SELECT` to prevent data modification. \(This is not a completely bulletproof test, since such functions could still call `VOLATILE` functions that modify the database. If you do that, you will find that the `STABLE` or `IMMUTABLE` function does not notice the database changes applied by the called function, since they are hidden from its snapshot.\)
+> 注意  
+> PostgreSQL 要求 STABLE 和 IMMUTABLE 函數不能包含 SELECT 以外的 SQL 指令以防止資料修改。（這不是一個完全防彈的要求，因為這些函數仍然可以呼叫修改資料庫的 VOLATILE 函數，如果這樣做，你會發現 STABLE 或 IMMUTABLE 函數並沒有注意到被呼叫函數應用的資料庫更改，因為它們會其快照是隱藏的。）
 
