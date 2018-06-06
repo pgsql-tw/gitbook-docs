@@ -61,27 +61,27 @@ local0.*    /var/log/postgresql
 
 #### `log_file_mode` \(`integer`\)
 
-On Unix systems this parameter sets the permissions for log files when `logging_collector` is enabled. \(On Microsoft Windows this parameter is ignored.\) The parameter value is expected to be a numeric mode specified in the format accepted by the `chmod` and `umask`system calls. \(To use the customary octal format the number must start with a `0` \(zero\).\)
+在 Unix 系統上，此參數在啟用 logging\_collector 時設定日誌檔案的權限。（在 Microsoft Windows 上，此參數將被忽略。）參數值預期為以 chmod 和 umask 系統呼叫接受的格式來指定的數字模式。（要使用習慣的八進制格式，數字必須以 0（零）開頭。）
 
-The default permissions are `0600`, meaning only the server owner can read or write the log files. The other commonly useful setting is `0640`, allowing members of the owner's group to read the files. Note however that to make use of such a setting, you'll need to alter[log\_directory](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-DIRECTORY) to store the files somewhere outside the cluster data directory. In any case, it's unwise to make the log files world-readable, since they might contain sensitive data.
+預設權限為 0600，這意味著只有伺服器擁有者才能讀取或寫入日誌檔案。另一個常用的設定是 0640，允許擁有者組群的成員讀取文件。 但是請注意，要使用這種設定，您需要變更 log\_directory 以將檔案儲存在叢集 data 目錄之外的某個位置。無論如何，使日誌檔案讓任何人都可讀是不明智的，因為它們可能包含敏感資料。
 
-This parameter can only be set in the `postgresql.conf` file or on the server command line.
+該參數只能在 postgresql.conf 檔案或伺服器指令中設定。
 
 #### `log_rotation_age` \(`integer`\)
 
-When `logging_collector` is enabled, this parameter determines the maximum lifetime of an individual log file. After this many minutes have elapsed, a new log file will be created. Set to zero to disable time-based creation of new log files. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+當啟用 logging\_collector 時，此參數決定單個日誌檔案的最長生命週期。經過指定的分鐘後，會建立一個新的日誌檔案。設定為零以停用基於時間的新日誌檔案建立。該參數只能在 postgresql.conf 檔案或伺服器指令中設定。
 
 #### `log_rotation_size` \(`integer`\)
 
-When `logging_collector` is enabled, this parameter determines the maximum size of an individual log file. After this many kilobytes have been emitted into a log file, a new log file will be created. Set to zero to disable size-based creation of new log files. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+當啟用 logging\_collector 時，此參數決定單個日誌檔的大小上限。在超過上限的記錄被發送到日誌檔案後，將建立一個新的日誌檔案。設定為零以禁用基於大小的新日誌檔案創立。該參數只能在 postgresql.conf 檔案或伺服器指令中設定。
 
 #### `log_truncate_on_rotation` \(`boolean`\)
 
-When `logging_collector` is enabled, this parameter will cause PostgreSQL to truncate \(overwrite\), rather than append to, any existing log file of the same name. However, truncation will occur only when a new file is being opened due to time-based rotation, not during server startup or size-based rotation. When off, pre-existing files will be appended to in all cases. For example, using this setting in combination with a `log_filename` like `postgresql-%H.log` would result in generating twenty-four hourly log files and then cyclically overwriting them. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+當啟用 logging\_collector 時，此參數將導致 PostgreSQL 分割（覆蓋）而不是追加到任何具有相同名稱的現有日誌檔案。 但是，分割只會在由於基於時間的覆寫而打開新檔案時發生，而不是在伺服器啟動或基於大小的覆寫情況進行。關閉時，預先存在的檔案將被附加到所有情況下。例如，將此設定與 log\_filename（如 postgresql-％H.log）結合使用可産生 24 個小時日誌檔案，然後循環覆蓋它們。該參數只能在 postgresql.conf 檔案或伺服器指令中設定。
 
-Example: To keep 7 days of logs, one log file per day named `server_log.Mon`, `server_log.Tue`, etc, and automatically overwrite last week's log with this week's log, set `log_filename` to `server_log.%a`, `log_truncate_on_rotation` to `on`, and `log_rotation_age` to `1440`.
+例如：要保留 7 天的日誌，每天一個名稱為 server\_log.Mon，server\_log.Tue 等的日誌檔案，並自動使用本週的日誌覆蓋上週的日誌，將 log\_filename 設定為server\_log.％a，將 log\_truncate\_on\_rotation 設定為 on，並將 log\_rotation\_age 到 1440。
 
-Example: To keep 24 hours of logs, one log file per hour, but also rotate sooner if the log file size exceeds 1GB, set `log_filename` to `server_log.%H%M`, `log_truncate_on_rotation` to `on`, `log_rotation_age` to `60`, and `log_rotation_size` to `1000000`. Including `%M` in `log_filename` allows any size-driven rotations that might occur to select a file name different from the hour's initial file name.
+又例如：要保留 24 小時的日誌，每小時記錄一個日誌檔案，但是如果日誌檔案大小超過 1GB，則會盡快輪換，將 log\_filename 設定為 server\_log.％H％M，log\_truncate\_on\_rotation 為 on，log\_rotation\_age 為 60，log\_rotation\_size 為1000000。在 log\_filename 中包含 ％M 允許可能出現的任何大小驅動的旋轉，以選擇與小時的初始檔案名稱不同的檔案名稱。
 
 #### `syslog_facility` \(`enum`\)
 
