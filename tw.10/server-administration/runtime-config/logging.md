@@ -47,17 +47,17 @@ local0.*    /var/log/postgresql
 
 #### `log_directory` \(`string`\)
 
-When `logging_collector` is enabled, this parameter determines the directory in which log files will be created. It can be specified as an absolute path, or relative to the cluster data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `log`.
+當啟用 logging\_collector 時，此參數確定將在其中建立日誌檔案的目錄。它可以被指定為絕對路徑，或相對於叢集的 data 目錄。該參數只能在 postgresql.conf 檔案或伺服器指令行中設定。預設值是 log。
 
 #### `log_filename` \(`string`\)
 
-When `logging_collector` is enabled, this parameter sets the file names of the created log files. The value is treated as a `strftime` pattern, so `%`-escapes can be used to specify time-varying file names. \(Note that if there are any time-zone-dependent `%`-escapes, the computation is done in the zone specified by [log\_timezone](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-TIMEZONE).\) The supported `%`-escapes are similar to those listed in the Open Group's [strftime](http://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html) specification. Note that the system's `strftime` is not used directly, so platform-specific \(nonstandard\) extensions do not work. The default is `postgresql-%Y-%m-%d_%H%M%S.log`.
+當啟用 logging\_collector 時，此參數設定建立的日誌檔案的檔案名稱。該值被視為 strftime 模式，因此 ％-escapes 可用於指定隨時間變化的檔案名稱。（請注意，如果有任何時區相關的 ％-escapes，計算將在由 [log\_timezone](logging.md#log_timezone-string) 指定的區域中完成。）支援的 ％-escapes 與 Open Group 的 [strftime](http://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html) 規範中列出的類似。請注意，系統的 strftime 並未直接使用，因此特定於平台的（非標準）延伸功能不起作用。預設值是 postgresql-％Y-％m-％d\_％H％M％S.log。
 
-If you specify a file name without escapes, you should plan to use a log rotation utility to avoid eventually filling the entire disk. In releases prior to 8.4, if no `%` escapes were present, PostgreSQL would append the epoch of the new log file's creation time, but this is no longer the case.
+如果您指定的檔案名稱不含跳脫符號，則應該計劃使用日誌覆寫程序來避免最後存滿整個磁碟。在 8.4 之前的版本中，如果不存在 ％ 跳脫符號，PostgreSQL 會追加新日誌檔案建立時間的紀元，但已經不再是這種情況了。
 
-If CSV-format output is enabled in `log_destination`, `.csv` will be appended to the timestamped log file name to create the file name for CSV-format output. \(If `log_filename` ends in `.log`, the suffix is replaced instead.\)
+如果在 log\_destination 中啟用 CSV 格式的輸出，則會將時間戳記檔案名稱附加.csv 以建立 CSV 格式輸出的檔案名稱。 （如果 log\_filename 以 .log 結尾，則替換後綴。）
 
-This parameter can only be set in the `postgresql.conf` file or on the server command line.
+該參數只能在 postgresql.conf 檔案或伺服器指令中設定。
 
 #### `log_file_mode` \(`integer`\)
 
