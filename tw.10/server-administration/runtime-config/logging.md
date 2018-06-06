@@ -35,15 +35,15 @@ local0.*    /var/log/postgresql
 
 #### `logging_collector` \(`boolean`\)
 
-This parameter enables the _logging collector_, which is a background process that captures log messages sent to stderr and redirects them into log files. This approach is often more useful than logging to syslog, since some types of messages might not appear in syslogoutput. \(One common example is dynamic-linker failure messages; another is error messages produced by scripts such as `archive_command`.\) This parameter can only be set at server start.
+此參數啟用日誌收集器，這是一個後端的程序，用於攔截發送到 stderr 的日誌訊息並將其重新輸出到日誌檔案。這種方法通常比記錄到 syslog 更有用，因為某些類型的訊息可能不會出現在 syslog 輸出之中。（一個常見的案例是動態連結程序失敗訊息；另一個案例是由如 archive\_command 等腳本産生的錯誤訊息。）此參數只能在伺服器啟動時設定。
 
-#### Note
+#### 注意
 
-It is possible to log to stderr without using the logging collector; the log messages will just go to wherever the server's stderr is directed. However, that method is only suitable for low log volumes, since it provides no convenient way to rotate log files. Also, on some platforms not using the logging collector can result in lost or garbled log output, because multiple processes writing concurrently to the same log file can overwrite each other's output.
+可以在不使用日誌收集器的情況下送到 stderr；日誌訊息將只發送到伺服器的 stderr 所指向的任何地方。但是，該方法僅適用於較低階的日誌程序，因為它不提供日誌檔案覆寫的簡便方法。另外，在某些不使用日誌收集器的平台上可能會導致日誌輸出遺失或出現亂碼，因為同時寫入同一日誌檔案的多個程序可能會覆蓋彼此的輸出。
 
-#### Note
+#### 注意
 
-The logging collector is designed to never lose messages. This means that in case of extremely high load, server processes could be blocked while trying to send additional log messages when the collector has fallen behind. In contrast, syslog prefers to drop messages if it cannot write them, which means it may fail to log some messages in such cases but it will not block the rest of the system.
+日誌記錄收集器旨在永不遺失訊息。這意味著，如果負載極高，則在收集器落後時嘗試發送其他日誌消息時，伺服器程序可能會被阻止繼續執行。相比之下，如果系統日誌不能寫入訊息，系統日誌更喜歡丟棄訊息，這意味著在這種情況下它可能無法記錄某些訊息，但不會阻塞系統的其餘部分。
 
 #### `log_directory` \(`string`\)
 
