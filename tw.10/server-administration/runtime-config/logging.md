@@ -320,13 +320,13 @@ There are a few things you need to do to simplify importing CSV log files:
 
 ## 19.8.5. Process Title
 
-These settings control how process titles of server processes are modified. Process titles are typically viewed using programs like ps or, on Windows, Process Explorer. See [Section 28.1](https://www.postgresql.org/docs/10/static/monitoring-ps.html) for details.
+這些設定控制如何修改伺服器程序的程序標題。程序標題通常使用如 ps 或 Windows 上的 Process Explorer 查看。詳情請參閱[第 28.1 節](../monitoring/28.1.-standard-unix-tools.md)。
 
 #### `cluster_name` \(`string`\)
 
-Sets the cluster name that appears in the process title for all server processes in this cluster. The name can be any string of less than `NAMEDATALEN` characters \(64 characters in a standard build\). Only printable ASCII characters may be used in the `cluster_name` value. Other characters will be replaced with question marks \(`?`\). No name is shown if this parameter is set to the empty string `''` \(which is the default\). This parameter can only be set at server start.
+設定此叢集中所有伺服器程序的程序標題中顯示的叢集名稱。該名稱可以是任何少於 NAMEDATALEN 字元數的字串（標準版本中為 64 個字元）。cluster\_name 值中只能使用可列印的 ASCII 字元。其他字元將被替換為問號（？）。如果此參數設定為空字串“”（這是預設值），則不顯示名稱。此參數只能在伺服器啟動時設定。
 
 #### `update_process_title` \(`boolean`\)
 
-Enables updating of the process title every time a new SQL command is received by the server. This setting defaults to `on` on most platforms, but it defaults to `off` on Windows due to that platform's larger overhead for updating the process title. Only superusers can change this setting.
+每當伺服器收到新的 SQL 指令時，都可以更新程序標題。此設定在大多數平台上預設為開啟，不過在 Windows 上預設為關閉，因為在 Windows 上更新程序標題的開銷較大。只有超級使用者可以變更此設定。
 
