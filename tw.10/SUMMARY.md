@@ -89,7 +89,7 @@
     * [9.1. 邏輯運算子](sql/functions/9.1.-luo-ji-yun-suan-zi.md)
     * [9.2. 比較函式及運算子](sql/functions/9.2.-bi-jiao-han-shi-ji-yun-suan-zi.md)
     * [9.3. 數學函式及運算子](sql/functions/9.3.-shu-xue-han-shi-ji-yun-suan-zi.md)
-    * 9.4. 字串函式及運算子
+    * [9.4. 字串函式及運算子](sql/functions/9.4.-zi-chuan-han-shi-ji-yun-suan-zi.md)
     * [9.5. 位元字串函式及運算子](sql/functions/9.5.-wei-yuan-zi-chuan-han-shi-ji-yun-suan-zi.md)
     * [9.6. 二元字串函式及運算子](sql/functions/9.6.-er-yuan-zi-chuan-han-shi-ji-yun-suan-zi.md)
     * [9.7. 特徵比對](sql/functions/functions-matching.md)
@@ -166,51 +166,51 @@
     * [15.4. 平行查詢的安全性](sql/15.-ping-hang-cha-xun/15.4.-ping-hang-cha-xun-de-an-quan-xing.md)
 * [III. 系統管理](server-administration/README.md)
   * [16. 用原始碼安裝](server-administration/installation-from-source-code/README.md)
-    * 16.1. Short Version
-    * 16.2. Requirements
-    * 16.3. Getting The Source
-    * 16.4. Installation Procedure
-    * 16.5. Post-Installation Setup
-    * 16.6. Supported Platforms
+    * [16.1. Short Version](server-administration/installation-from-source-code/16.1.-short-version.md)
+    * [16.2. Requirements](server-administration/installation-from-source-code/16.2.-requirements.md)
+    * [16.3. Getting The Source](server-administration/installation-from-source-code/16.3.-getting-the-source.md)
+    * [16.4. Installation Procedure](server-administration/installation-from-source-code/16.4.-installation-procedure.md)
+    * [16.5. Post-Installation Setup](server-administration/installation-from-source-code/16.5.-post-installation-setup.md)
+    * [16.6. Supported Platforms](server-administration/installation-from-source-code/16.6.-supported-platforms.md)
     * [16.7. 平台相關的注意事項](server-administration/installation-from-source-code/platform-specific-notes.md)
   * [17. 用原始碼在 Windows 上安裝](server-administration/installation-from-source-code-on-windows/README.md)
-    * 17.1. Building with Visual C++ or the Microsoft Windows SDK
+    * [17.1. Building with Visual C++ or the Microsoft Windows SDK](server-administration/installation-from-source-code-on-windows/17.1.-building-with-visual-c++-or-the-microsoft-windows-sdk.md)
   * [18. 服務配置與維運](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/README.md)
     * [18.1. The PostgreSQL User Account](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.1.-the-postgresql-user-account.md)
-    * 18.2. Creating a Database Cluster
-    * 18.3. Starting the Database Server
-    * 18.4. Managing Kernel Resources
-    * 18.5. Shutting Down the Server
-    * 18.6. Upgrading a PostgreSQL Cluster
-    * 18.7. Preventing Server Spoofing
-    * 18.8. Encryption Options
-    * 18.9. Secure TCP/IP Connections with SSL
-    * 18.10. Secure TCP/IP Connections with SSH Tunnels
-    * 18.11. Registering Event Log on Windows
+    * [18.2. Creating a Database Cluster](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.2.-creating-a-database-cluster.md)
+    * [18.3. Starting the Database Server](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.3.-starting-the-database-server.md)
+    * [18.4. Managing Kernel Resources](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.4.-managing-kernel-resources.md)
+    * [18.5. Shutting Down the Server](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.5.-shutting-down-the-server.md)
+    * [18.6. Upgrading a PostgreSQL Cluster](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.6.-upgrading-a-postgresql-cluster.md)
+    * [18.7. Preventing Server Spoofing](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.7.-preventing-server-spoofing.md)
+    * [18.8. Encryption Options](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.8.-encryption-options.md)
+    * [18.9. Secure TCP/IP Connections with SSL](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.9.-secure-tcp-ip-connections-with-ssl.md)
+    * [18.10. Secure TCP/IP Connections with SSH Tunnels](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.10.-secure-tcp-ip-connections-with-ssh-tunnels.md)
+    * [18.11. Registering Event Log on Windows](server-administration/18.-fu-wu-pei-zhi-yu-wei-yun/18.11.-registering-event-log-on-windows.md)
   * [19. 服務組態設定](server-administration/runtime-config/README.md)
-    * 19.1. Setting Parameters
+    * [19.1. Setting Parameters](server-administration/runtime-config/19.1.-setting-parameters.md)
     * [19.2. File Locations](server-administration/runtime-config/file-locations.md)
-    * 19.3. Connections and Authentication
+    * [19.3. Connections and Authentication](server-administration/runtime-config/19.3.-connections-and-authentication.md)
     * [19.4. Resource Consumption](server-administration/runtime-config/resource-consumption.md)
-    * 19.5. Write Ahead Log
+    * [19.5. Write Ahead Log](server-administration/runtime-config/19.5.-write-ahead-log.md)
     * [19.6. Replication](server-administration/runtime-config/replication.md)
     * [19.7. 查詢規畫](server-administration/runtime-config/query-planning.md)
     * [19.8. 錯誤回報與日誌記錄](server-administration/runtime-config/logging.md)
     * [19.9. Run-time Statistics](server-administration/runtime-config/run-time-statistics.md)
     * [19.10. 自動資料庫清理](server-administration/runtime-config/autovacuum.md)
     * [19.11. 用戶端連線預設參數](server-administration/runtime-config/runtime-config-client.md)
-    * 19.12. Lock Management
+    * [19.12. Lock Management](server-administration/runtime-config/19.12.-lock-management.md)
     * [19.13. 版本與平台的相容性](server-administration/runtime-config/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md)
-    * 19.14. Error Handling
+    * [19.14. Error Handling](server-administration/runtime-config/19.14.-error-handling.md)
     * [19.15. 預先配置的參數](server-administration/runtime-config/preset.md)
-    * 19.16. Customized Options
-    * 19.17. Developer Options
-    * 19.18. Short Options
+    * [19.16. Customized Options](server-administration/runtime-config/19.16.-customized-options.md)
+    * [19.17. Developer Options](server-administration/runtime-config/19.17.-developer-options.md)
+    * [19.18. Short Options](server-administration/runtime-config/19.18.-short-options.md)
   * [20. 使用者認證](server-administration/client-authentication/README.md)
     * [20.1. 設定檔：pg\_hba.conf](server-administration/client-authentication/auth-pg-hba-conf.md)
-    * 20.2. User Name Maps
-    * 20.3. Authentication Methods
-    * 20.4. Authentication Problems
+    * [20.2. User Name Maps](server-administration/client-authentication/20.2.-user-name-maps.md)
+    * [20.3. Authentication Methods](server-administration/client-authentication/20.3.-authentication-methods.md)
+    * [20.4. Authentication Problems](server-administration/client-authentication/20.4.-authentication-problems.md)
   * [21. 資料庫角色](server-administration/user-manag/README.md)
     * [21.1. Database Roles](server-administration/user-manag/database-roles.md)
     * [21.2. Role Attributes](server-administration/user-manag/role-attributes.md)
@@ -219,11 +219,11 @@
     * [21.5. Default Roles](server-administration/user-manag/default-roles.md)
     * [21.6. Function Security](server-administration/user-manag/function-security.md)
   * [22. Managing Databases](server-administration/managing-databases/README.md)
-    * 22.1. Overview
-    * 22.2. Creating a Database
-    * 22.3. Template Databases
-    * 22.4. Database Configuration
-    * 22.5. Destroying a Database
+    * [22.1. Overview](server-administration/managing-databases/22.1.-overview.md)
+    * [22.2. Creating a Database](server-administration/managing-databases/22.2.-creating-a-database.md)
+    * [22.3. Template Databases](server-administration/managing-databases/22.3.-template-databases.md)
+    * [22.4. Database Configuration](server-administration/managing-databases/22.4.-database-configuration.md)
+    * [22.5. Destroying a Database](server-administration/managing-databases/22.5.-destroying-a-database.md)
     * [22.6. Tablespaces](server-administration/managing-databases/manage-ag-tablespaces.md)
   * [23. 語系](server-administration/charset/README.md)
     * [23.1. 語系支援](server-administration/charset/locale.md)
@@ -231,181 +231,181 @@
     * [23.3. Character Set Support](server-administration/charset/multibyte.md)
   * [24. 例行性資料庫維護工作](server-administration/maintenance/README.md)
     * [24.1. 例行性資料清理](server-administration/maintenance/routine-vacuuming.md)
-    * 24.2. Routine Reindexing
+    * [24.2. Routine Reindexing](server-administration/maintenance/24.2.-routine-reindexing.md)
     * [24.3. Log File Maintenance](server-administration/maintenance/log-file-maintenance.md)
   * [25. 備份及還原](server-administration/backup-and-restore/README.md)
     * [25.1. SQL Dump](server-administration/backup-and-restore/sql-dump.md)
     * [25.2. File System Level Backup](server-administration/backup-and-restore/file-system-level-backup.md)
     * [25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)](server-administration/backup-and-restore/continuous-archiving-and-point-in-time-recovery-pitr.md)
-  * High Availability, Load Balancing, and Replication
-    * 26.1. Comparison of Different Solutions
-    * 26.2. Log-Shipping Standby Servers
-    * 26.3. Failover
-    * 26.4. Alternative Method for Log Shipping
+  * [High Availability, Load Balancing, and Replication](server-administration/high-availability-load-balancing-and-replication/README.md)
+    * [26.1. Comparison of Different Solutions](server-administration/high-availability-load-balancing-and-replication/26.1.-comparison-of-different-solutions.md)
+    * [26.2. Log-Shipping Standby Servers](server-administration/high-availability-load-balancing-and-replication/26.2.-log-shipping-standby-servers.md)
+    * [26.3. Failover](server-administration/high-availability-load-balancing-and-replication/26.3.-failover.md)
+    * [26.4. Alternative Method for Log Shipping](server-administration/high-availability-load-balancing-and-replication/26.4.-alternative-method-for-log-shipping.md)
     * [26.5. Hot Standby](server-administration/high-availability-load-balancing-and-replication/hot-standby.md)
-  * Recovery Configuration
-    * 27.1. Archive Recovery Settings
-    * 27.2. Recovery Target Settings
-    * 27.3. Standby Server Settings
+  * [Recovery Configuration](server-administration/recovery-configuration/README.md)
+    * [27.1. Archive Recovery Settings](server-administration/recovery-configuration/27.1.-archive-recovery-settings.md)
+    * [27.2. Recovery Target Settings](server-administration/recovery-configuration/27.2.-recovery-target-settings.md)
+    * [27.3. Standby Server Settings](server-administration/recovery-configuration/27.3.-standby-server-settings.md)
   * [28. 監控資料庫活動](server-administration/monitoring/README.md)
-    * 28.1. Standard Unix Tools
+    * [28.1. Standard Unix Tools](server-administration/monitoring/28.1.-standard-unix-tools.md)
     * [28.2. 統計資訊收集器](server-administration/monitoring/stats.md)
-    * 28.3. Viewing Locks
-    * 28.4. Progress Reporting
-    * 28.5. Dynamic Tracing
-  * Monitoring Disk Usage
-    * 29.1. Determining Disk Usage
-    * 29.2. Disk Full Failure
-  * Reliability and the Write-Ahead Log
-    * 30.1. Reliability
-    * 30.2. Write-Ahead Logging \(WAL\)
-    * 30.3. Asynchronous Commit
-    * 30.4. WAL Configuration
-    * 30.5. WAL Internals
-  * Logical Replication
-    * 31.1. Publication
-    * 31.2. Subscription
-    * 31.3. Conflicts
-    * 31.4. Architecture
-    * 31.5. Monitoring
-    * 31.6. Security
-    * 31.7. Configuration Settings
-    * 31.8. Quick Setup
-  * Regression Tests
-    * 32.1. Running the Tests
-    * 32.2. Test Evaluation
-    * 32.3. Variant Comparison Files
-    * 32.4. TAP Tests
-    * 32.5. Test Coverage Examination
+    * [28.3. Viewing Locks](server-administration/monitoring/28.3.-viewing-locks.md)
+    * [28.4. Progress Reporting](server-administration/monitoring/28.4.-progress-reporting.md)
+    * [28.5. Dynamic Tracing](server-administration/monitoring/28.5.-dynamic-tracing.md)
+  * [Monitoring Disk Usage](server-administration/monitoring-disk-usage/README.md)
+    * [29.1. Determining Disk Usage](server-administration/monitoring-disk-usage/29.1.-determining-disk-usage.md)
+    * [29.2. Disk Full Failure](server-administration/monitoring-disk-usage/29.2.-disk-full-failure.md)
+  * [Reliability and the Write-Ahead Log](server-administration/reliability-and-the-write-ahead-log/README.md)
+    * [30.1. Reliability](server-administration/reliability-and-the-write-ahead-log/30.1.-reliability.md)
+    * [30.2. Write-Ahead Logging \(WAL\)](server-administration/reliability-and-the-write-ahead-log/30.2.-write-ahead-logging-wal.md)
+    * [30.3. Asynchronous Commit](server-administration/reliability-and-the-write-ahead-log/30.3.-asynchronous-commit.md)
+    * [30.4. WAL Configuration](server-administration/reliability-and-the-write-ahead-log/30.4.-wal-configuration.md)
+    * [30.5. WAL Internals](server-administration/reliability-and-the-write-ahead-log/30.5.-wal-internals.md)
+  * [Logical Replication](server-administration/logical-replication/README.md)
+    * [31.1. Publication](server-administration/logical-replication/31.1.-publication.md)
+    * [31.2. Subscription](server-administration/logical-replication/31.2.-subscription.md)
+    * [31.3. Conflicts](server-administration/logical-replication/31.3.-conflicts.md)
+    * [31.4. Architecture](server-administration/logical-replication/31.4.-architecture.md)
+    * [31.5. Monitoring](server-administration/logical-replication/31.5.-monitoring.md)
+    * [31.6. Security](server-administration/logical-replication/31.6.-security.md)
+    * [31.7. Configuration Settings](server-administration/logical-replication/31.7.-configuration-settings.md)
+    * [31.8. Quick Setup](server-administration/logical-replication/31.8.-quick-setup.md)
+  * [Regression Tests](server-administration/regression-tests/README.md)
+    * [32.1. Running the Tests](server-administration/regression-tests/32.1.-running-the-tests.md)
+    * [32.2. Test Evaluation](server-administration/regression-tests/32.2.-test-evaluation.md)
+    * [32.3. Variant Comparison Files](server-administration/regression-tests/32.3.-variant-comparison-files.md)
+    * [32.4. TAP Tests](server-administration/regression-tests/32.4.-tap-tests.md)
+    * [32.5. Test Coverage Examination](server-administration/regression-tests/32.5.-test-coverage-examination.md)
 * [IV. 用戶端介面](client-interfaces/README.md)
   * [33. libpq - C Library](client-interfaces/libpq-c-library/README.md)
-    * 33.1. Database Connection Control Functions
+    * [33.1. Database Connection Control Functions](client-interfaces/libpq-c-library/33.1.-database-connection-control-functions.md)
     * [33.2. 連線狀態函數](client-interfaces/libpq-c-library/libpq-status.md)
-    * 33.3. Command Execution Functions
-    * 33.4. Asynchronous Command Processing
-    * 33.5. Retrieving Query Results Row-By-Row
-    * 33.6. Canceling Queries in Progress
-    * 33.7. The Fast-Path Interface
-    * 33.8. Asynchronous Notification
-    * 33.9. Functions Associated with the COPY Command
-    * 33.10. Control Functions
-    * 33.11. Miscellaneous Functions
-    * 33.12. Notice Processing
-    * 33.13. Event System
-    * 33.14. Environment Variables
+    * [33.3. Command Execution Functions](client-interfaces/libpq-c-library/33.3.-command-execution-functions.md)
+    * [33.4. Asynchronous Command Processing](client-interfaces/libpq-c-library/33.4.-asynchronous-command-processing.md)
+    * [33.5. Retrieving Query Results Row-By-Row](client-interfaces/libpq-c-library/33.5.-retrieving-query-results-row-by-row.md)
+    * [33.6. Canceling Queries in Progress](client-interfaces/libpq-c-library/33.6.-canceling-queries-in-progress.md)
+    * [33.7. The Fast-Path Interface](client-interfaces/libpq-c-library/33.7.-the-fast-path-interface.md)
+    * [33.8. Asynchronous Notification](client-interfaces/libpq-c-library/33.8.-asynchronous-notification.md)
+    * [33.9. Functions Associated with the COPY Command](client-interfaces/libpq-c-library/33.9.-functions-associated-with-the-copy-command.md)
+    * [33.10. Control Functions](client-interfaces/libpq-c-library/33.10.-control-functions.md)
+    * [33.11. Miscellaneous Functions](client-interfaces/libpq-c-library/33.11.-miscellaneous-functions.md)
+    * [33.12. Notice Processing](client-interfaces/libpq-c-library/33.12.-notice-processing.md)
+    * [33.13. Event System](client-interfaces/libpq-c-library/33.13.-event-system.md)
+    * [33.14. Environment Variables](client-interfaces/libpq-c-library/33.14.-environment-variables.md)
     * [33.15. 密碼檔](client-interfaces/libpq-c-library/password-file.md)
-    * 33.16. The Connection Service File
-    * 33.17. LDAP Lookup of Connection Parameters
-    * 33.18. SSL Support
-    * 33.19. Behavior in Threaded Programs
-    * 33.20. Building libpq Programs
-    * 33.21. Example Programs
-  * Large Objects
-    * 34.1. Introduction
-    * 34.2. Implementation Features
-    * 34.3. Client Interfaces
-    * 34.4. Server-side Functions
-    * 34.5. Example Program
-  * ECPG - Embedded SQL in C
-    * 35.1. The Concept
-    * 35.2. Managing Database Connections
-    * 35.3. Running SQL Commands
-    * 35.4. Using Host Variables
-    * 35.5. Dynamic SQL
-    * 35.6. pgtypes Library
-    * 35.7. Using Descriptor Areas
-    * 35.8. Error Handling
-    * 35.9. Preprocessor Directives
-    * 35.10. Processing Embedded SQL Programs
-    * 35.11. Library Functions
-    * 35.12. Large Objects
-    * 35.13. C++ Applications
-    * 35.14. Embedded SQL Commands
-    * 35.15. Informix Compatibility Mode
-    * 35.16. Internals
-  * The Information Schema
-    * 36.1. The Schema
-    * 36.2. Data Types
-    * 36.3. information\_schema\_catalog\_name
-    * 36.4. administrable\_role\_authorizations
-    * 36.5. applicable\_roles
-    * 36.6. attributes
-    * 36.7. character\_sets
-    * 36.8. check\_constraint\_routine\_usage
-    * 36.9. check\_constraints
-    * 36.10. collations
-    * 36.11. collation\_character\_set\_applicability
-    * 36.12. column\_domain\_usage
-    * 36.13. column\_options
-    * 36.14. column\_privileges
-    * 36.15. column\_udt\_usage
-    * 36.16. columns
-    * 36.17. constraint\_column\_usage
-    * 36.18. constraint\_table\_usage
-    * 36.19. data\_type\_privileges
-    * 36.20. domain\_constraints
-    * 36.21. domain\_udt\_usage
-    * 36.22. domains
-    * 36.23. element\_types
-    * 36.24. enabled\_roles
-    * 36.25. foreign\_data\_wrapper\_options
-    * 36.26. foreign\_data\_wrappers
-    * 36.27. foreign\_server\_options
-    * 36.28. foreign\_servers
-    * 36.29. foreign\_table\_options
-    * 36.30. foreign\_tables
-    * 36.31. key\_column\_usage
-    * 36.32. parameters
-    * 36.33. referential\_constraints
-    * 36.34. role\_column\_grants
-    * 36.35. role\_routine\_grants
-    * 36.36. role\_table\_grants
-    * 36.37. role\_udt\_grants
-    * 36.38. role\_usage\_grants
-    * 36.39. routine\_privileges
-    * 36.40. routines
-    * 36.41. schemata
-    * 36.42. sequences
-    * 36.43. sql\_features
-    * 36.44. sql\_implementation\_info
-    * 36.45. sql\_languages
-    * 36.46. sql\_packages
-    * 36.47. sql\_parts
-    * 36.48. sql\_sizing
-    * 36.49. sql\_sizing\_profiles
-    * 36.50. table\_constraints
-    * 36.51. table\_privileges
-    * 36.52. tables
-    * 36.53. transforms
-    * 36.54. triggered\_update\_columns
-    * 36.55. triggers
-    * 36.56. udt\_privileges
-    * 36.57. usage\_privileges
-    * 36.58. user\_defined\_types
-    * 36.59. user\_mapping\_options
-    * 36.60. user\_mappings
-    * 36.61. view\_column\_usage
-    * 36.62. view\_routine\_usage
-    * 36.63. view\_table\_usage
-    * 36.64. views
+    * [33.16. The Connection Service File](client-interfaces/libpq-c-library/33.16.-the-connection-service-file.md)
+    * [33.17. LDAP Lookup of Connection Parameters](client-interfaces/libpq-c-library/33.17.-ldap-lookup-of-connection-parameters.md)
+    * [33.18. SSL Support](client-interfaces/libpq-c-library/33.18.-ssl-support.md)
+    * [33.19. Behavior in Threaded Programs](client-interfaces/libpq-c-library/33.19.-behavior-in-threaded-programs.md)
+    * [33.20. Building libpq Programs](client-interfaces/libpq-c-library/33.20.-building-libpq-programs.md)
+    * [33.21. Example Programs](client-interfaces/libpq-c-library/33.21.-example-programs.md)
+  * [Large Objects](client-interfaces/large-objects/README.md)
+    * [34.1. Introduction](client-interfaces/large-objects/34.1.-introduction.md)
+    * [34.2. Implementation Features](client-interfaces/large-objects/34.2.-implementation-features.md)
+    * [34.3. Client Interfaces](client-interfaces/large-objects/34.3.-client-interfaces.md)
+    * [34.4. Server-side Functions](client-interfaces/large-objects/34.4.-server-side-functions.md)
+    * [34.5. Example Program](client-interfaces/large-objects/34.5.-example-program.md)
+  * [ECPG - Embedded SQL in C](client-interfaces/ecpg-embedded-sql-in-c/README.md)
+    * [35.1. The Concept](client-interfaces/ecpg-embedded-sql-in-c/35.1.-the-concept.md)
+    * [35.2. Managing Database Connections](client-interfaces/ecpg-embedded-sql-in-c/35.2.-managing-database-connections.md)
+    * [35.3. Running SQL Commands](client-interfaces/ecpg-embedded-sql-in-c/35.3.-running-sql-commands.md)
+    * [35.4. Using Host Variables](client-interfaces/ecpg-embedded-sql-in-c/35.4.-using-host-variables.md)
+    * [35.5. Dynamic SQL](client-interfaces/ecpg-embedded-sql-in-c/35.5.-dynamic-sql.md)
+    * [35.6. pgtypes Library](client-interfaces/ecpg-embedded-sql-in-c/35.6.-pgtypes-library.md)
+    * [35.7. Using Descriptor Areas](client-interfaces/ecpg-embedded-sql-in-c/35.7.-using-descriptor-areas.md)
+    * [35.8. Error Handling](client-interfaces/ecpg-embedded-sql-in-c/35.8.-error-handling.md)
+    * [35.9. Preprocessor Directives](client-interfaces/ecpg-embedded-sql-in-c/35.9.-preprocessor-directives.md)
+    * [35.10. Processing Embedded SQL Programs](client-interfaces/ecpg-embedded-sql-in-c/35.10.-processing-embedded-sql-programs.md)
+    * [35.11. Library Functions](client-interfaces/ecpg-embedded-sql-in-c/35.11.-library-functions.md)
+    * [35.12. Large Objects](client-interfaces/ecpg-embedded-sql-in-c/35.12.-large-objects.md)
+    * [35.13. C++ Applications](client-interfaces/ecpg-embedded-sql-in-c/35.13.-c++-applications.md)
+    * [35.14. Embedded SQL Commands](client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands.md)
+    * [35.15. Informix Compatibility Mode](client-interfaces/ecpg-embedded-sql-in-c/35.15.-informix-compatibility-mode.md)
+    * [35.16. Internals](client-interfaces/ecpg-embedded-sql-in-c/35.16.-internals.md)
+  * [The Information Schema](client-interfaces/the-information-schema/README.md)
+    * [36.1. The Schema](client-interfaces/the-information-schema/36.1.-the-schema.md)
+    * [36.2. Data Types](client-interfaces/the-information-schema/36.2.-data-types.md)
+    * [36.3. information\_schema\_catalog\_name](client-interfaces/the-information-schema/36.3.-information_schema_catalog_name.md)
+    * [36.4. administrable\_role\_authorizations](client-interfaces/the-information-schema/36.4.-administrable_role_authorizations.md)
+    * [36.5. applicable\_roles](client-interfaces/the-information-schema/36.5.-applicable_roles.md)
+    * [36.6. attributes](client-interfaces/the-information-schema/36.6.-attributes.md)
+    * [36.7. character\_sets](client-interfaces/the-information-schema/36.7.-character_sets.md)
+    * [36.8. check\_constraint\_routine\_usage](client-interfaces/the-information-schema/36.8.-check_constraint_routine_usage.md)
+    * [36.9. check\_constraints](client-interfaces/the-information-schema/36.9.-check_constraints.md)
+    * [36.10. collations](client-interfaces/the-information-schema/36.10.-collations.md)
+    * [36.11. collation\_character\_set\_applicability](client-interfaces/the-information-schema/36.11.-collation_character_set_applicability.md)
+    * [36.12. column\_domain\_usage](client-interfaces/the-information-schema/36.12.-column_domain_usage.md)
+    * [36.13. column\_options](client-interfaces/the-information-schema/36.13.-column_options.md)
+    * [36.14. column\_privileges](client-interfaces/the-information-schema/36.14.-column_privileges.md)
+    * [36.15. column\_udt\_usage](client-interfaces/the-information-schema/36.15.-column_udt_usage.md)
+    * [36.16. columns](client-interfaces/the-information-schema/36.16.-columns.md)
+    * [36.17. constraint\_column\_usage](client-interfaces/the-information-schema/36.17.-constraint_column_usage.md)
+    * [36.18. constraint\_table\_usage](client-interfaces/the-information-schema/36.18.-constraint_table_usage.md)
+    * [36.19. data\_type\_privileges](client-interfaces/the-information-schema/36.19.-data_type_privileges.md)
+    * [36.20. domain\_constraints](client-interfaces/the-information-schema/36.20.-domain_constraints.md)
+    * [36.21. domain\_udt\_usage](client-interfaces/the-information-schema/36.21.-domain_udt_usage.md)
+    * [36.22. domains](client-interfaces/the-information-schema/36.22.-domains.md)
+    * [36.23. element\_types](client-interfaces/the-information-schema/36.23.-element_types.md)
+    * [36.24. enabled\_roles](client-interfaces/the-information-schema/36.24.-enabled_roles.md)
+    * [36.25. foreign\_data\_wrapper\_options](client-interfaces/the-information-schema/36.25.-foreign_data_wrapper_options.md)
+    * [36.26. foreign\_data\_wrappers](client-interfaces/the-information-schema/36.26.-foreign_data_wrappers.md)
+    * [36.27. foreign\_server\_options](client-interfaces/the-information-schema/36.27.-foreign_server_options.md)
+    * [36.28. foreign\_servers](client-interfaces/the-information-schema/36.28.-foreign_servers.md)
+    * [36.29. foreign\_table\_options](client-interfaces/the-information-schema/36.29.-foreign_table_options.md)
+    * [36.30. foreign\_tables](client-interfaces/the-information-schema/36.30.-foreign_tables.md)
+    * [36.31. key\_column\_usage](client-interfaces/the-information-schema/36.31.-key_column_usage.md)
+    * [36.32. parameters](client-interfaces/the-information-schema/36.32.-parameters.md)
+    * [36.33. referential\_constraints](client-interfaces/the-information-schema/36.33.-referential_constraints.md)
+    * [36.34. role\_column\_grants](client-interfaces/the-information-schema/36.34.-role_column_grants.md)
+    * [36.35. role\_routine\_grants](client-interfaces/the-information-schema/36.35.-role_routine_grants.md)
+    * [36.36. role\_table\_grants](client-interfaces/the-information-schema/36.36.-role_table_grants.md)
+    * [36.37. role\_udt\_grants](client-interfaces/the-information-schema/36.37.-role_udt_grants.md)
+    * [36.38. role\_usage\_grants](client-interfaces/the-information-schema/36.38.-role_usage_grants.md)
+    * [36.39. routine\_privileges](client-interfaces/the-information-schema/36.39.-routine_privileges.md)
+    * [36.40. routines](client-interfaces/the-information-schema/36.40.-routines.md)
+    * [36.41. schemata](client-interfaces/the-information-schema/36.41.-schemata.md)
+    * [36.42. sequences](client-interfaces/the-information-schema/36.42.-sequences.md)
+    * [36.43. sql\_features](client-interfaces/the-information-schema/36.43.-sql_features.md)
+    * [36.44. sql\_implementation\_info](client-interfaces/the-information-schema/36.44.-sql_implementation_info.md)
+    * [36.45. sql\_languages](client-interfaces/the-information-schema/36.45.-sql_languages.md)
+    * [36.46. sql\_packages](client-interfaces/the-information-schema/36.46.-sql_packages.md)
+    * [36.47. sql\_parts](client-interfaces/the-information-schema/36.47.-sql_parts.md)
+    * [36.48. sql\_sizing](client-interfaces/the-information-schema/36.48.-sql_sizing.md)
+    * [36.49. sql\_sizing\_profiles](client-interfaces/the-information-schema/36.49.-sql_sizing_profiles.md)
+    * [36.50. table\_constraints](client-interfaces/the-information-schema/36.50.-table_constraints.md)
+    * [36.51. table\_privileges](client-interfaces/the-information-schema/36.51.-table_privileges.md)
+    * [36.52. tables](client-interfaces/the-information-schema/36.52.-tables.md)
+    * [36.53. transforms](client-interfaces/the-information-schema/36.53.-transforms.md)
+    * [36.54. triggered\_update\_columns](client-interfaces/the-information-schema/36.54.-triggered_update_columns.md)
+    * [36.55. triggers](client-interfaces/the-information-schema/36.55.-triggers.md)
+    * [36.56. udt\_privileges](client-interfaces/the-information-schema/36.56.-udt_privileges.md)
+    * [36.57. usage\_privileges](client-interfaces/the-information-schema/36.57.-usage_privileges.md)
+    * [36.58. user\_defined\_types](client-interfaces/the-information-schema/36.58.-user_defined_types.md)
+    * [36.59. user\_mapping\_options](client-interfaces/the-information-schema/36.59.-user_mapping_options.md)
+    * [36.60. user\_mappings](client-interfaces/the-information-schema/36.60.-user_mappings.md)
+    * [36.61. view\_column\_usage](client-interfaces/the-information-schema/36.61.-view_column_usage.md)
+    * [36.62. view\_routine\_usage](client-interfaces/the-information-schema/36.62.-view_routine_usage.md)
+    * [36.63. view\_table\_usage](client-interfaces/the-information-schema/36.63.-view_table_usage.md)
+    * [36.64. views](client-interfaces/the-information-schema/36.64.-views.md)
 * [V. 資料庫程式設計](server-programming/README.md)
   * [37. Extending SQL](server-programming/extending-sql/README.md)
-    * 37.1. How Extensibility Works
-    * 37.2. The PostgreSQL Type System
+    * [37.1. How Extensibility Works](server-programming/extending-sql/37.1.-how-extensibility-works.md)
+    * [37.2. The PostgreSQL Type System](server-programming/extending-sql/37.2.-the-postgresql-type-system.md)
     * [37.3. 使用者自訂函數](server-programming/extending-sql/user-defined-functions.md)
     * [37.4. SQL 語言函數](server-programming/extending-sql/xfunc-sql.md)
-    * 37.5. Function Overloading
+    * [37.5. Function Overloading](server-programming/extending-sql/37.5.-function-overloading.md)
     * [37.6. Function Volatility Categories](server-programming/extending-sql/function-volatility-categories.md)
     * [37.7. Procedural Language Functions](server-programming/extending-sql/xfunc-pl.md)
     * [37.8. Internal Functions](server-programming/extending-sql/xfunc-internal.md)
     * [37.9. C-Language Functions](server-programming/extending-sql/c-language-functions.md)
-    * 37.10. User-defined Aggregates
-    * 37.11. User-defined Types
-    * 37.12. User-defined Operators
-    * 37.13. Operator Optimization Information
-    * 37.14. Interfacing Extensions To Indexes
-    * 37.15. Packaging Related Objects into an Extension
-    * 37.16. Extension Building Infrastructure
+    * [37.10. User-defined Aggregates](server-programming/extending-sql/37.10.-user-defined-aggregates.md)
+    * [37.11. User-defined Types](server-programming/extending-sql/37.11.-user-defined-types.md)
+    * [37.12. User-defined Operators](server-programming/extending-sql/37.12.-user-defined-operators.md)
+    * [37.13. Operator Optimization Information](server-programming/extending-sql/37.13.-operator-optimization-information.md)
+    * [37.14. Interfacing Extensions To Indexes](server-programming/extending-sql/37.14.-interfacing-extensions-to-indexes.md)
+    * [37.15. Packaging Related Objects into an Extension](server-programming/extending-sql/37.15.-packaging-related-objects-into-an-extension.md)
+    * [37.16. Extension Building Infrastructure](server-programming/extending-sql/37.16.-extension-building-infrastructure.md)
   * [40. 規則系統](server-programming/the-rule-system/README.md)
     * [40.5. Rules and Privileges](server-programming/the-rule-system/rules-and-privileges.md)
 * [VI. 參考資訊](reference/README.md)
@@ -477,7 +477,7 @@
     * [pgbench](reference/client/pgbench.md)
     * [psql](reference/client/psql.md)
     * [vacuumdb](reference/client/vacuumdb.md)
-  * III. PostgreSQL Server Applications
+  * [III. PostgreSQL Server Applications](reference/iii.-postgresql-server-applications.md)
 * [VII. 資料庫進階](internals/README.md)
   * [51. 系統目錄](internals/system-catalogs/README.md)
     * [51.8. pg\_authid](internals/system-catalogs/pg_authid.md)
@@ -487,17 +487,17 @@
     * [51.54. pg\_tablespace](internals/system-catalogs/pg_tablespace.md)
     * [51.81 pg\_roles](internals/system-catalogs/pg_roles.md)
   * [52. Frontend/Backend Protocol](internals/52.-frontend-backend-protocol/README.md)
-    * 52.1. Overview
-    * 52.2. Message Flow
-    * 52.3. SASL Authentication
-    * 52.4. Streaming Replication Protocol
-    * 52.5. Logical Streaming Replication Protocol
-    * 52.6. Message Data Types
-    * 52.7. Message Formats
-    * 52.8. Error and Notice Message Fields
-    * 52.9. Logical Replication Message Formats
-    * 52.10. Summary of Changes since Protocol 2.0
-  * 64. GIN 索引
+    * [52.1. Overview](internals/52.-frontend-backend-protocol/52.1.-overview.md)
+    * [52.2. Message Flow](internals/52.-frontend-backend-protocol/52.2.-message-flow.md)
+    * [52.3. SASL Authentication](internals/52.-frontend-backend-protocol/52.3.-sasl-authentication.md)
+    * [52.4. Streaming Replication Protocol](internals/52.-frontend-backend-protocol/52.4.-streaming-replication-protocol.md)
+    * [52.5. Logical Streaming Replication Protocol](internals/52.-frontend-backend-protocol/52.5.-logical-streaming-replication-protocol.md)
+    * [52.6. Message Data Types](internals/52.-frontend-backend-protocol/52.6.-message-data-types.md)
+    * [52.7. Message Formats](internals/52.-frontend-backend-protocol/52.7.-message-formats.md)
+    * [52.8. Error and Notice Message Fields](internals/52.-frontend-backend-protocol/52.8.-error-and-notice-message-fields.md)
+    * [52.9. Logical Replication Message Formats](internals/52.-frontend-backend-protocol/52.9.-logical-replication-message-formats.md)
+    * [52.10. Summary of Changes since Protocol 2.0](internals/52.-frontend-backend-protocol/52.10.-summary-of-changes-since-protocol-2.0.md)
+  * [64. GIN 索引](internals/gin-indexes/README.md)
     * [64.1. 簡介](internals/gin-indexes/introduction.md)
     * [64.2. Built-in Operator Classes](internals/gin-indexes/built-in-operator-classes.md)
     * [64.3. Extensibility](internals/gin-indexes/extensibility.md)
