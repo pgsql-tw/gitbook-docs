@@ -248,7 +248,7 @@
     * [27.2. Recovery Target Settings](server-administration/recovery-configuration/27.2.-recovery-target-settings.md)
     * [27.3. Standby Server Settings](server-administration/recovery-configuration/27.3.-standby-server-settings.md)
   * [28. 監控資料庫活動](server-administration/monitoring/README.md)
-    * [28.1. Standard Unix Tools](server-administration/monitoring/28.1.-standard-unix-tools.md)
+    * [28.1. Standard Unix Tools](server-administration/monitoring/standard-unix-tools.md)
     * [28.2. 統計資訊收集器](server-administration/monitoring/stats.md)
     * [28.3. Viewing Locks](server-administration/monitoring/28.3.-viewing-locks.md)
     * [28.4. Progress Reporting](server-administration/monitoring/28.4.-progress-reporting.md)
