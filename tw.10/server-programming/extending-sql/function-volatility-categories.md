@@ -1,20 +1,24 @@
-# 37.6. Function Volatility Categories
+---
+description: 版本：10
+---
 
-每個函數都有變動性的分類，可能為 VOLATILE、STABLE 或 IMMUTABLE。如果 CREATE FUNCTION 指令沒有指定類別，則 VOLATILE 是預設值。變動性類別用於是函數最佳化時的承諾：
+# 37.6. 函數易變性類別
 
-* A `VOLATILE` function can do anything, including modifying the database. It can return different results on successive calls with the same arguments. The optimizer makes no assumptions about the behavior of such functions. A query using a volatile function will re-evaluate the function at every row where its value is needed.
-* A `STABLE` function cannot modify the database and is guaranteed to return the same results given the same arguments for all rows within a single statement. This category allows the optimizer to optimize multiple calls of the function to a single call. In particular, it is safe to use an expression containing such a function in an index scan condition. \(Since an index scan will evaluate the comparison value only once, not once at each row, it is not valid to use a `VOLATILE` function in an index scan condition.\)
+每個函數都有易變性的分類，可能為 VOLATILE、STABLE 或 IMMUTABLE。如果 CREATE FUNCTION 指令沒有指定類別，則 VOLATILE 是預設值。易變性類別用於是函數最佳化時的依據：
+
+* 一個 VOLATILE 函數可以做任何事情，包括修改資料庫。它可以使用相同的參數在連續呼叫中回傳不同的結果。優化器不對這些函數的行為做任何假設。使用 volatile 函數的查詢將在需要其值的每一個資料列重新運算該函數。
+* STABLE 函數不能修改資料庫，並且保證在單個語句中給予所有資料列相同參數的情況下回傳相同的結果。此類別允許優化器將函數的多個呼叫優化為單個呼叫。 特別是，在索引掃描條件下使用包含這種函數的表示式是安全的。（由於索引掃描只會計算一次比較值，而不是每個資料列一次，因此在索引掃描條件下使用 VOLATILE 函數無效）。
 * IMMUTABLE 函數不能修改資料庫，並且保證相同輸入永遠回傳相同的結果。這個類別允許最佳化時在查詢用常數參數呼叫函數時預先運算函數。例如，像 SELECT ... WHERE x = 2 + 2 這樣的查詢可以簡化為 SELECT ... WHERE x = 4，因為整數加法運算子下的函數被標記為 IMMUTABLE。
 
-For best optimization results, you should label your functions with the strictest volatility category that is valid for them.
+為獲得最佳化結果，您應該使用對他們有效的最嚴格的易變性類別來標記您的函數。
 
-Any function with side-effects _must_ be labeled `VOLATILE`, so that calls to it cannot be optimized away. Even a function with no side-effects needs to be labeled `VOLATILE` if its value can change within a single query; some examples are `random()`, `currval()`, `timeofday()`.
+任何會有預期以外結果的函數必須標註為 VOLATILE，以便對其進行優化時不能被優化。即使是不會有預期以外結果的函數，如果它的值可能在單個查詢中改變，也需要標記為 VOLATILE；一些例子是 random\(\)，currval\(\)，timeofday\(\)。
 
-Another important example is that the `current_timestamp` family of functions qualify as `STABLE`, since their values do not change within a transaction.
+另一個重要的例子是 current\_timestamp 函數家族被限定為 STABLE，因為它們的值在交易事務中不會改變。
 
-There is relatively little difference between `STABLE` and `IMMUTABLE` categories when considering simple interactive queries that are planned and immediately executed: it doesn't matter a lot whether a function is executed once during planning or once during query execution startup. But there is a big difference if the plan is saved and reused later. Labeling a function `IMMUTABLE` when it really isn't might allow it to be prematurely folded to a constant during planning, resulting in a stale value being re-used during subsequent uses of the plan. This is a hazard when using prepared statements or when using function languages that cache plans \(such as PL/pgSQL\).
+在考慮到查詢計劃並且立即執行的簡單交互式查詢時，STABLE 和 IMMUTABLE 類別之間的差別相對較小：函數在計劃期間執行一次，或者在查詢執行啟動期間執行一次並不重要。但是，如果查詢計劃保存並稍後再使用，則會有很大差異。如果標記一個函數 IMMUTABLE，那麼它可能會在查詢計劃過程中過早地將其簡化為常數，導致在隨後的計劃使用過程中重新使用舊值。使用預準備語句或使用暫存計劃的函數語言（如PL/pgSQL）時，這會是一種風險。
 
-For functions written in SQL or in any of the standard procedural languages, there is a second important property determined by the volatility category, namely the visibility of any data changes that have been made by the SQL command that is calling the function. A `VOLATILE` function will see such changes, a `STABLE` or `IMMUTABLE` function will not. This behavior is implemented using the snapshotting behavior of MVCC \(see [Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)\): `STABLE` and `IMMUTABLE` functions use a snapshot established as of the start of the calling query, whereas `VOLATILE` functions obtain a fresh snapshot at the start of each query they execute.
+對於使用 SQL 或任何標準程序語言撰寫的函數，由易變性類別確定的第二個重要屬性，即由正在呼叫該函數的 SQL 指令所做的任何資料變更的可見性。一個 VOLATILE 函數會看到這樣的變化，一個 STABLE 或 IMMUTABLE 函數則不會。此行為是使用 MVCC 的快照行為實現的（請參閱[第 13 章](../../sql/mvcc/)）：STABLE 和 IMMUTABLE 函數使用從呼叫查詢開始時所建立的快照，而 VOLATILE 函數在執行每個查詢的開始時獲取新的快照。
 
 #### Note
 
