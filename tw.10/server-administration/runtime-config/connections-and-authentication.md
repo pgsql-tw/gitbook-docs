@@ -8,11 +8,11 @@ description: 版本：10
 
 `listen_addresses` \(`string`\)
 
-Specifies the TCP/IP address\(es\) on which the server is to listen for connections from client applications. The value takes the form of a comma-separated list of host names and/or numeric IP addresses. The special entry `*`corresponds to all available IP interfaces. The entry `0.0.0.0` allows listening for all IPv4 addresses and `::` allows listening for all IPv6 addresses. If the list is empty, the server does not listen on any IP interface at all, in which case only Unix-domain sockets can be used to connect to it. The default value is localhost, which allows only local TCP/IP “loopback” connections to be made. While client authentication \([Chapter 20](https://www.postgresql.org/docs/10/static/client-authentication.html)\) allows fine-grained control over who can access the server, `listen_addresses` controls which interfaces accept connection attempts, which can help prevent repeated malicious connection requests on insecure network interfaces. This parameter can only be set at server start.
+指定伺服器監聽用戶端應用程序連線的 TCP/IP 位址。該值採用逗號分隔的主機名稱或數字 IP 位址列表的形式。特殊項目「\*」對應於所有可用的 IP。項目 0.0.0.0 允許監聽所有 IPv4 位址，還有「::」允許監聽所有 IPv6 位址。如果列表為空，則伺服器根本不監聽任何 IP 接口，在這種情況下，就只能使用 Unix-domain socket 來連接它。預設值是 localhost，它只允許進行本地 TCP/IP loopback 連線。儘管用戶端身份驗證（[第 20 章](../client-authentication/)）允許對誰可以存取伺服器進行細維的控制，但 listen\_addresses 控制哪些 IP 接受連線嘗試，這有助於防止在不安全的網路接口上重複發出惡意的連線請求。此參數只能在伺服器啟動時設定。
 
 `port` \(`integer`\)
 
-The TCP port the server listens on; 5432 by default. Note that the same port number is used for all IP addresses the server listens on. This parameter can only be set at server start.
+伺服器監聽的 TCP 連接埠；預設是 5432。請注意，相同的連接埠號號用於伺服器監聽的所有 IP 地址。此參數只能在伺服器啟動時設定。
 
 `max_connections` \(`integer`\)
 
@@ -28,37 +28,37 @@ The TCP port the server listens on; 5432 by default. Note that the same port num
 
 `unix_socket_directories` \(`string`\)
 
-Specifies the directory of the Unix-domain socket\(s\) on which the server is to listen for connections from client applications. Multiple sockets can be created by listing multiple directories separated by commas. Whitespace between entries is ignored; surround a directory name with double quotes if you need to include whitespace or commas in the name. An empty value specifies not listening on any Unix-domain sockets, in which case only TCP/IP sockets can be used to connect to the server. The default value is normally `/tmp`, but that can be changed at build time. This parameter can only be set at server start.
+指定伺服器要監聽來自用戶端應用程序以 Unix-domain socket 連線的目錄。列出由逗號分隔的多個目錄可以建立多個 socket。項目之間的空白會被忽略；如果您需要在名稱中包含空格或逗號，請用雙引號括住目錄名稱。空值表示不監聽任何 Unix-domain socket，在這種情況下，只有 TCP/IP 協定可用於連線到服務器。預設值通常是 /tmp，但可以在編譯時變更。此參數只能在伺服器啟動時設定。
 
-In addition to the socket file itself, which is named `.s.PGSQL.`_`nnnn`_ where _`nnnn`_ is the server's port number, an ordinary file named `.s.PGSQL.`_`nnnn`_.lock will be created in each of the `unix_socket_directories` directories. Neither file should ever be removed manually.
+除了名為 .s.PGSQL.nnnn 的 socket 檔案本身之外，其中 nnnn 是伺服器的連接埠號號，將在每個 unix\_socket\_directories 目錄中建立一個名為 .s.PGSQL.nnnn.lock 的普通檔案。這兩個檔案都不應該手動刪除。
 
-This parameter is irrelevant on Windows, which does not have Unix-domain sockets.
+這個參數與 Windows 無關，它沒有 Unix-domain socket。
 
 `unix_socket_group` \(`string`\)
 
-Sets the owning group of the Unix-domain socket\(s\). \(The owning user of the sockets is always the user that starts the server.\) In combination with the parameter `unix_socket_permissions` this can be used as an additional access control mechanism for Unix-domain connections. By default this is the empty string, which uses the default group of the server user. This parameter can only be set at server start.
+設定 Unix-domain socket 的群組。（socket 的使用者始終是啟動伺服器的使用者。）結合參數 unix\_socket\_permissions，可以將其用作為 Unix-domain socket 的附加存取控制機制。預設情況下，這是空字符串，它使用服務器用戶的預設群組。此參數只能在伺服器啟動時設定。
 
-This parameter is irrelevant on Windows, which does not have Unix-domain sockets.
+這個參數與 Windows 無關，它沒有 Unix-domain socket。
 
 `unix_socket_permissions` \(`integer`\)
 
-Sets the access permissions of the Unix-domain socket\(s\). Unix-domain sockets use the usual Unix file system permission set. The parameter value is expected to be a numeric mode specified in the format accepted by the `chmod` and `umask` system calls. \(To use the customary octal format the number must start with a `0` \(zero\).\)
+設定 Unix-domain socket 的存取權限。Unix-domain socket 使用一般的 Unix 檔案系統權限設定。期望的參數值是以 chmod 和 umask 系統呼叫可接受的格式指定數字模式。（要使用習慣的八進制格式，數字必須以 0（零）開頭。）
 
-The default permissions are `0777`, meaning anyone can connect. Reasonable alternatives are `0770` \(only user and group, see also `unix_socket_group`\) and `0700` \(only user\). \(Note that for a Unix-domain socket, only write permission matters, so there is no point in setting or revoking read or execute permissions.\)
+預設權限是 0777，意味著任何人都可以進行連線。合理的選擇是 0770（僅使用者和其群組，另請參閱 unix\_socket\_group）和 0700（僅使用者本身）。（請注意，對於Unix-domain socket，只有寫入權限很重要，所以設定還是撤消讀取或執行權限都沒有意義。）
 
-This access control mechanism is independent of the one described in [Chapter 20](https://www.postgresql.org/docs/10/static/client-authentication.html).
+這種存取控制機制獨立於[第 20 章](../client-authentication/)中所描述的機制。
 
-This parameter can only be set at server start.
+此參數只能在伺服器啟動時設定。
 
-This parameter is irrelevant on systems, notably Solaris as of Solaris 10, that ignore socket permissions entirely. There, one can achieve a similar effect by pointing `unix_socket_directories` to a directory having search permission limited to the desired audience. This parameter is also irrelevant on Windows, which does not have Unix-domain sockets.
+此參數在某些系統上無關緊要，特別是從 Solaris 10 開始的 Solaris，會完全忽略權限許可。在那裡，透過將 unix\_socket\_directories 指向具有僅限於所需的搜尋權限的目錄，就可以實現類似的效果。這個參數與 Windows 也是無關的，它沒有 Unix-domain socket。
 
 `bonjour` \(`boolean`\)
 
-Enables advertising the server's existence via Bonjour. The default is off. This parameter can only be set at server start.
+透過 Bonjour 啟用伺服器存在的廣播。預設是關閉的。此參數只能在伺服器啟動時設定。
 
 `bonjour_name` \(`string`\)
 
-Specifies the Bonjour service name. The computer name is used if this parameter is set to the empty string `''` \(which is the default\). This parameter is ignored if the server was not compiled with Bonjour support. This parameter can only be set at server start.
+指定 Bonjour 的服務名稱。如果此參數設定為空字串''（這是預設值），則使用電腦名稱。 如果伺服器未使用 Bonjour 支援進行編譯，則此參數將被忽略。此參數只能在伺服器啟動時設定。
 
 `tcp_keepalives_idle` \(`integer`\)
 
