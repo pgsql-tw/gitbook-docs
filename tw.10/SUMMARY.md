@@ -190,7 +190,7 @@
   * [19. 服務組態設定](server-administration/runtime-config/README.md)
     * [19.1. Setting Parameters](server-administration/runtime-config/19.1.-setting-parameters.md)
     * [19.2. File Locations](server-administration/runtime-config/file-locations.md)
-    * [19.3. Connections and Authentication](server-administration/runtime-config/19.3.-connections-and-authentication.md)
+    * [19.3. Connections and Authentication](server-administration/runtime-config/connections-and-authentication.md)
     * [19.4. Resource Consumption](server-administration/runtime-config/resource-consumption.md)
     * [19.5. Write Ahead Log](server-administration/runtime-config/19.5.-write-ahead-log.md)
     * [19.6. Replication](server-administration/runtime-config/replication.md)
