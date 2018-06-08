@@ -2,9 +2,9 @@
 description: 版本：10
 ---
 
-# 19.3. Connections and Authentication
+# 19.3. 連線與認證
 
-## 19.3.1. Connection Settings
+## 19.3.1. 連線設定
 
 `listen_addresses` \(`string`\)
 
@@ -16,15 +16,15 @@ The TCP port the server listens on; 5432 by default. Note that the same port num
 
 `max_connections` \(`integer`\)
 
-Determines the maximum number of concurrent connections to the database server. The default is typically 100 connections, but might be less if your kernel settings will not support it \(as determined during initdb\). This parameter can only be set at server start.
+決定資料庫伺服器的最大同時連線數。預設值通常為 100 個連線，但如果您的核心設定不支援它（在 initdb 期間確定），則可能會更少。該參數只能在伺服器啟動時設定。
 
-When running a standby server, you must set this parameter to the same or higher value than on the master server. Otherwise, queries will not be allowed in the standby server.
+運行備用伺服器時，必須將此參數設定為與主服務器上相同或更高的值。 否則，查詢將不被允許在備用伺服器中使用。
 
 `superuser_reserved_connections` \(`integer`\)
 
-Determines the number of connection “slots” that are reserved for connections by PostgreSQL superusers. At most [max\_connections](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS) connections can ever be active simultaneously. Whenever the number of active concurrent connections is at least `max_connections` minus `superuser_reserved_connections`, new connections will be accepted only for superusers, and no new replication connections will be accepted.
+決定為 PostgreSQL 超級使用者連線保留的連線「插槽」的數量。最多 max\_connections 連線可以同時活動。當活動同時連線的數量為 max\_connections 減去 superuser\_reserved\_connections 以上時，新連線將僅接受超級使用者，並且不會接受新的複寫作業連線。
 
-The default value is three connections. The value must be less than the value of `max_connections`. This parameter can only be set at server start.
+預設值是三個連線。該值必須小於 max\_connections 的值。此參數只能在伺服器啟動時設定。
 
 `unix_socket_directories` \(`string`\)
 
