@@ -4,7 +4,7 @@ description: 版本：10
 
 # 19.4. 資源配置
 
-#### 19.4.1. Memory
+## 19.4.1. 記憶體
 
 `shared_buffers` \(`integer`\)
 
@@ -40,7 +40,7 @@ A session will allocate temporary buffers as needed up to the limit given by `te
 
 `work_mem` \(`integer`\)
 
-Specifies the amount of memory to be used by internal sort operations and hash tables before writing to temporary disk files. The value defaults to four megabytes \(`4MB`\). Note that for a complex query, several sort or hash operations might be running in parallel; each operation will be allowed to use as much memory as this value specifies before it starts to write data into temporary files. Also, several running sessions could be doing such operations concurrently. Therefore, the total memory used could be many times the value of`work_mem`; it is necessary to keep this fact in mind when choosing the value. Sort operations are used for `ORDER BY`, `DISTINCT`, and merge joins. Hash tables are used in hash joins, hash-based aggregation, and hash-based processing of `IN` subqueries.
+指定寫入暫存檔之前內部排序操作和雜湊表使用的記憶體大小。此值預設為 4 MB。請注意，對於複雜的查詢，可能會同時執行多個排序或雜湊作業；在開始將資料寫入暫存檔之前，每個操作都將被允許盡可能使用記憶體。此外，多個連線可以同時進行這些操作。因此，所使用的總記憶體量可能是 work\_mem 值的許多倍；決定值時必須牢記此一事實。排序操作用於 ORDER BY，DISTINCT 和 merge JOIN。雜湊表用於 hash JOIN，hash aggregation 和 IN 子查詢處理。
 
 `maintenance_work_mem` \(`integer`\)
 
@@ -70,21 +70,21 @@ Setting `max_stack_depth` higher than the actual kernel limit will mean that a r
 
 Specifies the dynamic shared memory implementation that the server should use. Possible values are `posix` \(for POSIX shared memory allocated using `shm_open`\), `sysv` \(for System V shared memory allocated via `shmget`\), `windows` \(for Windows shared memory\), `mmap`\(to simulate shared memory using memory-mapped files stored in the data directory\), and `none` \(to disable this feature\). Not all values are supported on all platforms; the first supported option is the default for that platform. The use of the `mmap` option, which is not the default on any platform, is generally discouraged because the operating system may write modified pages back to disk repeatedly, increasing system I/O load; however, it may be useful for debugging, when the `pg_dynshmem` directory is stored on a RAM disk, or when other shared memory facilities are not available.
 
-#### 19.4.2. Disk
+## 19.4.2. 磁碟
 
 `temp_file_limit` \(`integer`\)
 
-Specifies the maximum amount of disk space that a process can use for temporary files, such as sort and hash temporary files, or the storage file for a held cursor. A transaction attempting to exceed this limit will be canceled. The value is specified in kilobytes, and `-1`\(the default\) means no limit. Only superusers can change this setting.
+指定程序可用於暫存檔的最大磁碟空間大小，例如排序和雜湊暫存檔，或持有游標的檔案。試圖超過此限制的交易將被取消。此值以 KB 為單位指定，-1（預設值）表示無限制。只有超級使用者可以變更改此設定。
 
-This setting constrains the total space used at any instant by all temporary files used by a given PostgreSQL process. It should be noted that disk space used for explicit temporary tables, as opposed to temporary files used behind-the-scenes in query execution, does_not_ count against this limit.
+此設定限制了給予 PostgreSQL 程序使用的所有暫存檔在任何時刻能使用的總空間。應該注意的是，用於臨時資料表的磁碟空間與在查詢執行過程中使用的暫存檔不同，並不會計入此限制。
 
-#### 19.4.3. Kernel Resource Usage
+## 19.4.3. Kernel Resource Usage
 
 `max_files_per_process` \(`integer`\)
 
 Sets the maximum number of simultaneously open files allowed to each server subprocess. The default is one thousand files. If the kernel is enforcing a safe per-process limit, you don't need to worry about this setting. But on some platforms \(notably, most BSD systems\), the kernel will allow individual processes to open many more files than the system can actually support if many processes all try to open that many files. If you find yourself seeing “Too many open files” failures, try reducing this setting. This parameter can only be set at server start.
 
-#### 19.4.4. Cost-based Vacuum Delay
+## 19.4.4. Cost-based Vacuum Delay
 
 During the execution of [VACUUM](https://www.postgresql.org/docs/10/static/sql-vacuum.html) and [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) commands, the system maintains an internal counter that keeps track of the estimated cost of the various I/O operations that are performed. When the accumulated cost reaches a limit \(specified by `vacuum_cost_limit`\), the process performing the operation will sleep for a short period of time, as specified by `vacuum_cost_delay`. Then it will reset the counter and continue execution.
 
@@ -118,7 +118,7 @@ The accumulated cost that will cause the vacuuming process to sleep. The default
 
 There are certain operations that hold critical locks and should therefore complete as quickly as possible. Cost-based vacuum delays do not occur during such operations. Therefore it is possible that the cost accumulates far higher than the specified limit. To avoid uselessly long delays in such cases, the actual delay is calculated as `vacuum_cost_delay` \* `accumulated_balance` / `vacuum_cost_limit` with a maximum of `vacuum_cost_delay` \* 4.
 
-#### 19.4.5. Background Writer
+## 19.4.5. Background Writer
 
 There is a separate server process called the _background writer_, whose function is to issue writes of “dirty” \(new or modified\) shared buffers. It writes shared buffers so server processes handling user queries seldom or never need to wait for a write to occur. However, the background writer does cause a net overall increase in I/O load, because while a repeatedly-dirtied page might otherwise be written only once per checkpoint interval, the background writer might write it several times as it is dirtied in the same interval. The parameters discussed in this subsection can be used to tune the behavior for local needs.
 
@@ -138,7 +138,7 @@ Whenever more than `bgwriter_flush_after` bytes have been written by the backgro
 
 Smaller values of `bgwriter_lru_maxpages` and `bgwriter_lru_multiplier` reduce the extra I/O load caused by the background writer, but make it more likely that server processes will have to issue writes for themselves, delaying interactive queries.
 
-#### 19.4.6. Asynchronous Behavior
+## 19.4.6. Asynchronous Behavior
 
 `effective_io_concurrency` \(`integer`\)
 
