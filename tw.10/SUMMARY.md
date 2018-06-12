@@ -462,6 +462,7 @@
     * [RESET](reference/sql-commands/reset.md)
     * [REVOKE](reference/sql-commands/revoke.md)
     * [SELECT](reference/sql-commands/select.md)
+    * [SELECT INTO](reference/sql-commands/select-into.md)
     * [SET](reference/sql-commands/set.md)
     * [SET ROLE](reference/sql-commands/set-role.md)
     * [SET SESSION AUTHORIZATION](reference/sql-commands/set-session-authorization.md)

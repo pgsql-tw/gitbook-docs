@@ -126,5 +126,5 @@ CREATE TABLE AS 符合 SQL 標準。以下是非標準的延伸功能：
 
 ### See Also
 
-[CREATE MATERIALIZED VIEW](create-materialized-view.md), [CREATE TABLE](create-table.md), EXECUTE, [SELECT](select.md), SELECT INTO, [VALUES](values.md)
+[CREATE MATERIALIZED VIEW](create-materialized-view.md), [CREATE TABLE](create-table.md), EXECUTE, [SELECT](select.md), [SELECT INTO](select-into.md), [VALUES](values.md)
 
