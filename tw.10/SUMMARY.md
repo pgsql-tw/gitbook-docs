@@ -455,6 +455,7 @@
     * [LISTEN](reference/sql-commands/listen.md)
     * [LOAD](reference/sql-commands/load.md)
     * [NOTIFY](reference/sql-commands/notify.md)
+    * [PREPARE TRANSACTION](reference/sql-commands/prepare-transaction.md)
     * [REASSIGN OWNED](reference/sql-commands/reassign-owned.md)
     * [REFRESH MATERIALIZED VIEW](reference/sql-commands/refresh-materialized-view.md)
     * [RESET](reference/sql-commands/reset.md)
