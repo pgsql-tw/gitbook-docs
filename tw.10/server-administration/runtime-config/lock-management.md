@@ -6,9 +6,9 @@ description: 版本：10
 
 `deadlock_timeout` \(`integer`\)
 
-This is the amount of time, in milliseconds, to wait on a lock before checking to see if there is a deadlock condition. The check for deadlock is relatively expensive, so the server doesn't run it every time it waits for a lock. We optimistically assume that deadlocks are not common in production applications and just wait on the lock for a while before checking for a deadlock. Increasing this value reduces the amount of time wasted in needless deadlock checks, but slows down reporting of real deadlock errors. The default is one second \(`1s`\), which is probably about the smallest value you would want in practice. On a heavily loaded server you might want to raise it. Ideally the setting should exceed your typical transaction time, so as to improve the odds that a lock will be released before the waiter decides to check for deadlock. Only superusers can change this setting.
+這是查看是否存在交易鎖定鎖死情況之前，所等待的時間量（以毫秒為單位）。檢查鎖死是相對昂貴的，所以伺服器在每次等待鎖定時都不會執行這個動作。我們樂觀地認為鎖死在產品應用程式中並不常見，所以在檢查鎖死之前等待鎖定一段時間。增加此值可減少無謂的鎖死檢查所浪費的時間，但會減慢真正鎖死錯誤的回報速度。預設值是 1 秒，這可能是您實際需要的最小值。 在負載很重的伺服器上，您可能需要提升一些。理想情況下，此設定應該超過您典型的交易時間，以便提高在伺服器決定檢查鎖死之前鎖定就被解除的可能性。只有超級使用者可以變更此設定。
 
-When [log\_lock\_waits](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-LOCK-WAITS) is set, this parameter also determines the length of time to wait before a log message is issued about the lock wait. If you are trying to investigate locking delays you might want to set a shorter than normal `deadlock_timeout`.
+當設定 [log\_lock\_waits ](logging.md#19-8-3-what-to-log)時，此參數還會確定在發出有關鎖定等待的日誌消息之前需要等待的時間長度。如果您試圖查看鎖定延遲，則可能需要設定比正常情況更短的 deadlock\_timeout。
 
 `max_locks_per_transaction` \(`integer`\)
 
