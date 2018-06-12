@@ -8,11 +8,11 @@ description: 版本：10
 
 `shared_buffers` \(`integer`\)
 
-Sets the amount of memory the database server uses for shared memory buffers. The default is typically 128 megabytes \(`128MB`\), but might be less if your kernel settings will not support it \(as determined during initdb\). This setting must be at least 128 kilobytes. \(Non-default values of `BLCKSZ` change the minimum.\) However, settings significantly higher than the minimum are usually needed for good performance. This parameter can only be set at server start.
+設定資料庫伺服器用於共享記憶體緩衝區的大小。預設值通常為 128 MB，但如果您的核心設定不支援（在 initdb 期間確定），則可能會更少。此設定必須至少為128 KB。（非預設值的 BLCKSZ 會改變最小值。）但是，通常需要高於最小值的設定才能獲得良好的性能。此參數只能在伺服器啟動時設定。
 
-If you have a dedicated database server with 1GB or more of RAM, a reasonable starting value for `shared_buffers` is 25% of the memory in your system. There are some workloads where even larger settings for `shared_buffers` are effective, but because PostgreSQLalso relies on the operating system cache, it is unlikely that an allocation of more than 40% of RAM to `shared_buffers` will work better than a smaller amount. Larger settings for `shared_buffers` usually require a corresponding increase in `max_wal_size`, in order to spread out the process of writing large quantities of new or changed data over a longer period of time.
+如果您擁有 1GB 或更多記憶體的專用資料庫伺服器，shared\_buffers 的合理起始值是系統記憶體的 25％。有些工作負載甚至可以為 shared\_buffers 設定更大的值，但由於PostgreSQL 依賴於作業系統緩衝區，因此，把 shared\_buffers 分配 40％ 以上的記憶體大小不太可能比少量分配更好。shared\_buffers 較大設定通常需要 max\_wal\_size 相對應的增加，以便分散在較長時間內寫入大量新資料或變更資料的過程。
 
-On systems with less than 1GB of RAM, a smaller percentage of RAM is appropriate, so as to leave adequate space for the operating system.
+在 RAM 小於 1GB 的系統上，更小比例是合適的，以便為作業系統留下足夠的空間。
 
 `huge_pages` \(`enum`\)
 
@@ -32,7 +32,7 @@ A session will allocate temporary buffers as needed up to the limit given by `te
 
 `max_prepared_transactions` \(`integer`\)
 
-設定可同時處於「prepared」狀態的最大交易事務數量（請參閱 PREPARE TRANSACTION）。將此參數設定為零（這是預設值）的話，會停用預備交易的功能。此參數只能在伺服器啟動時設定。
+設定可同時處於「prepared」狀態的最大交易事務數量（請參閱 [PREPARE TRANSACTION](../../reference/sql-commands/prepare-transaction.md)）。將此參數設定為零（這是預設值）的話，會停用預備交易的功能。此參數只能在伺服器啟動時設定。
 
 如果您不打算使用預備交易事務，則應將此參數設定為零以防止意外建立預備的交易事務。如果您正在使用預備的交易事務，那麼您可能希望 max\_prepared\_transactions 至少與 [max\_connections](connections-and-authentication.md#19-3-1-ding) 一樣大，以便每個連線都可以至少有一個準備好的預備交易事務。
 
