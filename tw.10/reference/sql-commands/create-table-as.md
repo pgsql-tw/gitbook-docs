@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # CREATE TABLE AS
 
-CREATE TABLE AS — define a new table from the results of a query
+CREATE TABLE AS — 從查詢結果來定義一個新資料表
 
-### Synopsis
+### 語法
 
 ```text
 CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ] table_name
@@ -14,11 +18,11 @@ CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXI
     [ WITH [ NO ] DATA ]
 ```
 
-### Description
+### 說明
 
-`CREATE TABLE AS` creates a table and fills it with data computed by a `SELECT` command. The table columns have the names and data types associated with the output columns of the `SELECT` \(except that you can override the column names by giving an explicit list of new column names\).
+CREATE TABLE AS 建立一個資料表並且以 SELECT 指令産生的資料填入。資料表欄位具有與 SELECT 的輸出列表相關聯的名稱與資料型別（除此之外，你也可以透過給予明確欄位來重寫欄位名稱）。
 
-`CREATE TABLE AS` bears some resemblance to creating a view, but it is really quite different: it creates a new table and evaluates the query just once to fill the new table initially. The new table will not track subsequent changes to the source tables of the query. In contrast, a view re-evaluates its defining `SELECT` statement whenever it is queried.
+CREATE TABLE AS 與建立檢視表具有一些相似之處，但實際上完全不同：它建立一個新的資料表並僅對該查詢進行一次性運算以填入新資料表。新資料表將不隨查詢來源資料表的後續變更而改變。相比之下，無論何時查詢，檢視資料表都會重新運算其所定義的 SELECT 語句。
 
 ### Parameters
 
@@ -85,23 +89,23 @@ This command is functionally similar to [SELECT INTO](https://www.postgresql.org
 
 The `CREATE TABLE AS` command allows the user to explicitly specify whether OIDs should be included. If the presence of OIDs is not explicitly specified, the [default\_with\_oids](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#GUC-DEFAULT-WITH-OIDS) configuration variable is used.
 
-### Examples
+### 範例
 
-Create a new table `films_recent` consisting of only recent entries from the table `films`:
+建立一個新的資料表 films\_recent，其中只包含來自資料表 film 的最新項目：
 
 ```text
 CREATE TABLE films_recent AS
   SELECT * FROM films WHERE date_prod >= '2002-01-01';
 ```
 
-To copy a table completely, the short form using the `TABLE` command can also be used:
+要完全複製資料表，也可以使用 TABLE 指令的簡短格式：
 
 ```text
 CREATE TABLE films2 AS
   TABLE films;
 ```
 
-Create a new temporary table `films_recent`, consisting of only recent entries from the table `films`, using a prepared statement. The new table has OIDs and will be dropped at commit:
+使用預備查詢語句建立一個新的臨時資料表 films\_recent，僅包含來自資料表 film 的最近項目。新資料表具有 OID，並將在 commit 時丢棄：
 
 ```text
 PREPARE recentfilms(date) AS
@@ -110,17 +114,17 @@ CREATE TEMP TABLE films_recent WITH (OIDS) ON COMMIT DROP AS
   EXECUTE recentfilms('2002-01-01');
 ```
 
-### Compatibility
+### 相容性
 
-`CREATE TABLE AS` conforms to the SQL standard. The following are nonstandard extensions:
+CREATE TABLE AS 符合 SQL 標準。以下是非標準的延伸功能：
 
-* The standard requires parentheses around the subquery clause; in PostgreSQL, these parentheses are optional.
-* In the standard, the `WITH [ NO ] DATA` clause is required; in PostgreSQL it is optional.
-* PostgreSQL handles temporary tables in a way rather different from the standard; see [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for details.
-* The `WITH` clause is a PostgreSQL extension; neither storage parameters nor OIDs are in the standard.
-* The PostgreSQL concept of tablespaces is not part of the standard. Hence, the clause `TABLESPACE` is an extension.
+* 在標準中需要括住子查詢子句的括號；在 PostgreSQL 中，這些括號是選用的。
+* 在標準中，WITH \[NO\] DATA 子句是必須的；在 PostgreSQL 中是選用的。
+* PostgreSQL 以一種與標準不同的方式處理臨時資料表；有關詳細訊息，請參閱 [CREATE TABLE](create-table.md)。
+* WITH 子句是一個 PostgreSQL 延伸功能；標準中既沒有儲存參數也沒有 OID。
+* PostgreSQL 資料表空間的概念並不是標準的一部分。因此，TABLESPACE 子句是一個延伸功能。
 
 ### See Also
 
-[CREATE MATERIALIZED VIEW](create-materialized-view.md), [CREATE TABLE](create-table.md), [EXECUTE](https://www.postgresql.org/docs/10/static/sql-execute.html), [SELECT](select.md), [SELECT INTO](https://www.postgresql.org/docs/10/static/sql-selectinto.html), [VALUES](values.md)
+[CREATE MATERIALIZED VIEW](create-materialized-view.md), [CREATE TABLE](create-table.md), EXECUTE, [SELECT](select.md), SELECT INTO, [VALUES](values.md)
 
