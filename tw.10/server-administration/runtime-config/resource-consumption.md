@@ -1,4 +1,8 @@
-# 19.4. Resource Consumption
+---
+description: 版本：10
+---
+
+# 19.4. 資源配置
 
 #### 19.4.1. Memory
 
@@ -28,11 +32,11 @@ A session will allocate temporary buffers as needed up to the limit given by `te
 
 `max_prepared_transactions` \(`integer`\)
 
-Sets the maximum number of transactions that can be in the “prepared” state simultaneously \(see [PREPARE TRANSACTION](https://www.postgresql.org/docs/10/static/sql-prepare-transaction.html)\). Setting this parameter to zero \(which is the default\) disables the prepared-transaction feature. This parameter can only be set at server start.
+設定可同時處於「prepared」狀態的最大交易事務數量（請參閱 PREPARE TRANSACTION）。將此參數設定為零（這是預設值）的話，會停用預備交易的功能。此參數只能在伺服器啟動時設定。
 
-If you are not planning to use prepared transactions, this parameter should be set to zero to prevent accidental creation of prepared transactions. If you are using prepared transactions, you will probably want `max_prepared_transactions` to be at least as large as [max\_connections](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS), so that every session can have a prepared transaction pending.
+如果您不打算使用預備交易事務，則應將此參數設定為零以防止意外建立預備的交易事務。如果您正在使用預備的交易事務，那麼您可能希望 max\_prepared\_transactions 至少與 [max\_connections](connections-and-authentication.md#19-3-1-ding) 一樣大，以便每個連線都可以至少有一個準備好的預備交易事務。
 
-When running a standby server, you must set this parameter to the same or higher value than on the master server. Otherwise, queries will not be allowed in the standby server.
+運行備用伺服器時，必須將此參數設定為與主服務器上相同或更高的值。 否則，查詢將不被允許在備用伺服器中。
 
 `work_mem` \(`integer`\)
 
