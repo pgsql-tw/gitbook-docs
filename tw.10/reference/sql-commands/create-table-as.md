@@ -24,70 +24,74 @@ CREATE TABLE AS 建立一個資料表並且以 SELECT 指令産生的資料填�
 
 CREATE TABLE AS 與建立檢視表具有一些相似之處，但實際上完全不同：它建立一個新的資料表並僅對該查詢進行一次性運算以填入新資料表。新資料表將不隨查詢來源資料表的後續變更而改變。相比之下，無論何時查詢，檢視資料表都會重新運算其所定義的 SELECT 語句。
 
-### Parameters
+### 參數
 
 `GLOBAL` or `LOCAL`
 
-Ignored for compatibility. Use of these keywords is deprecated; refer to [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for details.
+忽略相容性。不推薦使用這個關鍵字；有關詳細訊息，請參閱 [CREATE TABLE](create-table.md)。
 
 `TEMPORARY` or `TEMP`
 
-If specified, the table is created as a temporary table. Refer to [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for details.
+如果指定，則資料表被建立為臨時資料表。有關詳細訊息，請參閱 [CREATE TABLE](create-table.md)。
 
 `UNLOGGED`
 
-If specified, the table is created as an unlogged table. Refer to [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for details.
+如果指定，則將該資料表建立為無日誌記錄的資料表。有關詳細訊息，請參閱 [CREATE TABLE](create-table.md)。
 
 `IF NOT EXISTS`
 
-Do not throw an error if a relation with the same name already exists. A notice is issued in this case. Refer to [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for details._`table_name`_
+如果已存在具有相同名稱的關連，則不要拋出錯誤。 在這種情況下發布 NOTICE。有關詳細訊息，請參閱 [CREATE TABLE](create-table.md)。
 
-The name \(optionally schema-qualified\) of the table to be created.
+_`table_name`_
+
+要建立的資料表名稱（可以加上綱要名稱）。
 
 _`column_name`_
 
-The name of a column in the new table. If column names are not provided, they are taken from the output column names of the query.
+新資料表中欄位的名稱。如果未提供欄位名稱，則從查詢的輸出欄位名稱中取得它們。
 
 `WITH (` _`storage_parameter`_ \[= _`value`_\] \[, ... \] \)
 
-This clause specifies optional storage parameters for the new table; see [Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-STORAGE-PARAMETERS) for more information. The `WITH` clause can also include `OIDS=TRUE` \(or just `OIDS`\) to specify that rows of the new table should have OIDs \(object identifiers\) assigned to them, or `OIDS=FALSE` to specify that the rows should not have OIDs. See [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) for more information.
+此子句為新資料表指定可選用的儲存參數；請參閱[儲存參數](create-table.md#storage-parameters)了解更多訊息。WITH 子句還可以包含 OIDS = TRUE（或只是 OIDS）來指定新資料表的資料列應具有分配給它們的 OID（物件指標），或者 OIDS = FALSE 來指定行不應具有 OID。有關更多訊息，請參閱 [CREATE TABLE](create-table.md)。
 
 `WITH OIDS`  
 `WITHOUT OIDS`
 
-These are obsolescent syntaxes equivalent to `WITH (OIDS)` and `WITH (OIDS=FALSE)`, respectively. If you wish to give both an `OIDS` setting and storage parameters, you must use the `WITH ( ... )` syntax; see above.
+這些過時的語法分別等同於 WITH（OIDS）和 WITH（OIDS = FALSE）。如果您希望同時提供 OIDS 設定和儲存參數，則必須使用 WITH（...）語法；請參閱上個段落。
 
 `ON COMMIT`
 
-The behavior of temporary tables at the end of a transaction block can be controlled using `ON COMMIT`. The three options are:
+使用 ON COMMIT 可以控制交易事務區塊結尾時的臨時資料表行為。有三個選項是：
 
 `PRESERVE ROWS`
 
-No special action is taken at the ends of transactions. This is the default behavior.
+交易結束時不會採取特殊行動。這是預設行為。
 
 `DELETE ROWS`
 
-All rows in the temporary table will be deleted at the end of each transaction block. Essentially, an automatic [TRUNCATE](https://www.postgresql.org/docs/10/static/sql-truncate.html) is done at each commit.
+臨時資料表中的所有資料列將在每個交易事務區塊的末尾被刪除。本質上，每次提交都會自動完成 TRUNCATE。
 
 `DROP`
 
-The temporary table will be dropped at the end of the current transaction block.`TABLESPACE` _`tablespace_name`_
+臨時資料表將在目前交易事務區塊的結尾被刪除。
 
-The _`tablespace_name`_ is the name of the tablespace in which the new table is to be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.
+`TABLESPACE` _`tablespace_name`_
+
+tablespace\_name 是要在其中建立新資料表的資料表空間名稱。如果未指定，則查詢 [default\_tablespace](../../server-administration/runtime-config/runtime-config-client.md#19-11-1-cha-ju-de-hang)，如果該資料表是臨時資料表，則為 [temp\_tablespaces](../../server-administration/runtime-config/runtime-config-client.md#19-11-1-cha-ju-de-hang)。
 
 _`query`_
 
-A [SELECT](https://www.postgresql.org/docs/10/static/sql-select.html), [TABLE](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-TABLE), or [VALUES](https://www.postgresql.org/docs/10/static/sql-values.html) command, or an [EXECUTE](https://www.postgresql.org/docs/10/static/sql-execute.html) command that runs a prepared `SELECT`, `TABLE`, or `VALUES` query.
+[SELECT](select.md)，[TABLE](select.md#table-command) 或 [VALUES](values.md) 指令或執行預備好 SELECT，TABLE 或 VALUES 查詢的 [EXECUTE ](execute.md)指令。
 
 `WITH [ NO ] DATA`
 
-This clause specifies whether or not the data produced by the query should be copied into the new table. If not, only the table structure is copied. The default is to copy the data.
+此子句指定是否將查詢産生的資料複製到新資料表中。如果不是，則就只複製資料表結構。預設值是複製資料。
 
-### Notes
+### 注意
 
-This command is functionally similar to [SELECT INTO](https://www.postgresql.org/docs/10/static/sql-selectinto.html), but it is preferred since it is less likely to be confused with other uses of the `SELECT INTO` syntax. Furthermore, `CREATE TABLE AS` offers a superset of the functionality offered by `SELECT INTO`.
+此指令在功能上類似於 SELECT INTO，但通常會優先使用這個，因為它不太可能與 SELECT INTO 語法的其他用法混淆。基本上，CREATE TABLE AS 的功能包含了 SELECT INTO 所提供的功能。
 
-The `CREATE TABLE AS` command allows the user to explicitly specify whether OIDs should be included. If the presence of OIDs is not explicitly specified, the [default\_with\_oids](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html#GUC-DEFAULT-WITH-OIDS) configuration variable is used.
+CREATE TABLE AS 指令允許使用者明確指定是否應包含 OID。如果未明確指定 OID 的存在，則使用 [default\_with\_oids ](../../server-administration/runtime-config/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md#19-13-1-previous-postgresql-versions)的設定變數。
 
 ### 範例
 
@@ -126,5 +130,5 @@ CREATE TABLE AS 符合 SQL 標準。以下是非標準的延伸功能：
 
 ### See Also
 
-[CREATE MATERIALIZED VIEW](create-materialized-view.md), [CREATE TABLE](create-table.md), EXECUTE, [SELECT](select.md), [SELECT INTO](select-into.md), [VALUES](values.md)
+[CREATE MATERIALIZED VIEW](create-materialized-view.md), [CREATE TABLE](create-table.md), [EXECUTE](execute.md), [SELECT](select.md), [SELECT INTO](select-into.md), [VALUES](values.md)
 
