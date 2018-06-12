@@ -247,7 +247,7 @@ log_line_prefix = '%m [%p] %q%u@%d/%a '
 
 #### `log_lock_waits` \(`boolean`\)
 
-Controls whether a log message is produced when a session waits longer than [deadlock\_timeout](https://www.postgresql.org/docs/10/static/runtime-config-locks.html#GUC-DEADLOCK-TIMEOUT) to acquire a lock. This is useful in determining if lock waits are causing poor performance. The default is `off`. Only superusers can change this setting.
+控制連線等待時間超過 [deadlock\_timeout](lock-management.md) 時是否產生日誌訊息。這對於確定鎖定等待是否導致性能較差很有用。預設是關閉的。只有超級使用者可以變更此設定。
 
 #### `log_statement` \(`enum`\)
 
