@@ -199,7 +199,7 @@
     * [19.9. Run-time Statistics](server-administration/runtime-config/run-time-statistics.md)
     * [19.10. 自動資料庫清理](server-administration/runtime-config/autovacuum.md)
     * [19.11. 用戶端連線預設參數](server-administration/runtime-config/runtime-config-client.md)
-    * [19.12. Lock Management](server-administration/runtime-config/19.12.-lock-management.md)
+    * [19.12. 交易鎖定管理](server-administration/runtime-config/lock-management.md)
     * [19.13. 版本與平台的相容性](server-administration/runtime-config/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md)
     * [19.14. Error Handling](server-administration/runtime-config/19.14.-error-handling.md)
     * [19.15. 預先配置的參數](server-administration/runtime-config/preset.md)
