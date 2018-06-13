@@ -40,83 +40,83 @@ where action is one of:
 
 您必須是函數擁有者才能使用 ALTER FUNCTION 功能。要變更函數的綱要，您還必須具有新綱要的 CREATE 權限。要變更擁有者，您還必須是新擁有角色的直接或間接成員，並且該角色必須對該函數的綱要具有 CREATE 權限。（這些限制強制改變擁有者不會做任何透過刪除和重新建立函數都無法做到的事情，但是超級用戶可以改變任何函數的所有權。）
 
-### Parameters
+### 參數
 
 _`name`_
 
-The name \(optionally schema-qualified\) of an existing function. If no argument list is specified, the name must be unique in its schema.
+現有函數的名稱（可以加上綱要）。如果未指定參數列表，則該名稱在其綱要中必須是唯一的。
 
 _`argmode`_
 
-The mode of an argument: `IN`, `OUT`, `INOUT`, or `VARIADIC`. If omitted, the default is `IN`. Note that `ALTER FUNCTION` does not actually pay any attention to `OUT` arguments, since only the input arguments are needed to determine the function's identity. So it is sufficient to list the `IN`, `INOUT`, and `VARIADIC` arguments.
+參數的模式：IN，OUT，INOUT 或 VARIADIC。如果省略，則預設為 IN。請注意，ALTER FUNCTION 實際上並不關心 OUT 參數，因為只需要輸入參數來確定函數的身份。所以列出 IN，INOUT 和 VARIADIC 參數就足夠了。
 
 _`argname`_
 
-The name of an argument. Note that `ALTER FUNCTION` does not actually pay any attention to argument names, since only the argument data types are needed to determine the function's identity.
+參數的名稱。請注意，ALTER FUNCTION 實際上並不關心參數名稱，因為只需要參數資料型別來確定函數的身份。
 
 _`argtype`_
 
-The data type\(s\) of the function's arguments \(optionally schema-qualified\), if any.
+如果有的話，函數參數的資料型別（可選用綱要修飾）。
 
 _`new_name`_
 
-The new name of the function.
+函數的新名稱。
 
 _`new_owner`_
 
-The new owner of the function. Note that if the function is marked `SECURITY DEFINER`, it will subsequently execute as the new owner.
+函數的新擁有者。請注意，如果該函數被標記為 SECURITY DEFINER，隨後它將以新的擁有者執行。
 
 _`new_schema`_
 
-The new schema for the function.
+函數的新綱要。
 
 _`extension_name`_
 
-The name of the extension that the function is to depend on.
+函數相依的延伸套件。
 
 `CALLED ON NULL INPUT`  
 `RETURNS NULL ON NULL INPUT`  
 `STRICT`
 
-`CALLED ON NULL INPUT` changes the function so that it will be invoked when some or all of its arguments are null. `RETURNS NULL ON NULL INPUT` or `STRICT` changes the function so that it is not invoked if any of its arguments are null; instead, a null result is assumed automatically. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information.
+CALLED ON NULL INPUT 變更此函數，以便在其某些或全部參數為空時呼叫此函數。回傳 NULL ON NULL INPUT 或 STRICT 變更該函數，以便在其任何參數為 null 時不呼叫此函數；相反地，則會自動假設空的結果。有關更多訊息，請參閱 [CREATE FUNCTION](create-function.md)。
 
 `IMMUTABLE`  
 `STABLE`  
 `VOLATILE`
 
-Change the volatility of the function to the specified setting. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for details.
+將函數的易變性變更為指定的設定。詳情請參閱 [CREATE FUNCTION](create-function.md)。
 
 `[ EXTERNAL ] SECURITY INVOKER`  
 `[ EXTERNAL ] SECURITY DEFINER`
 
-Change whether the function is a security definer or not. The key word `EXTERNAL` is ignored for SQL conformance. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information about this capability.
+變更該函數是否是安全性定義者。考慮到 SQL 標準的一致性，關鍵字 EXTERNAL 會被忽略。有關此功能的更多訊息，請參閱 [CREATE FUNCTION](create-function.md)。
 
 `PARALLEL`
 
-Change whether the function is deemed safe for parallelism. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for details.
+改變函數是否被認為是可以安全地平行運算。 詳情請參閱 [CREATE FUNCTION](create-function.md)。
 
 `LEAKPROOF`
 
-Change whether the function is considered leakproof or not. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information about this capability.
+變更函數是否被認為是 leakproof。有關此功能的更多訊息，請參閱 [CREATE FUNCTION](create-function.md)。
 
 `COST` _`execution_cost`_
 
-Change the estimated execution cost of the function. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information.
+變更函數估計的執行成本。有關更多訊息，請參閱 [CREATE FUNCTION](create-function.md)。
 
 `ROWS` _`result_rows`_
 
-Change the estimated number of rows returned by a set-returning function. See [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html) for more information.
+變更由 set-returning 函數回傳的估計資料列數。有關更多訊息，請參閱 [CREATE FUNCTION](create-function.md)。
 
 _`configuration_parameter`_  
 _`value`_
 
-Add or change the assignment to be made to a configuration parameter when the function is called. If _`value`_ is `DEFAULT` or, equivalently, `RESET` is used, the function-local setting is removed, so that the function executes with the value present in its environment. Use `RESET ALL` to clear all function-local settings. `SET FROM CURRENT` saves the value of the parameter that is current when `ALTER FUNCTION` is executed as the value to be applied when the function is entered.
+呼叫函數時，增加或變更要對配置參數進行的指定方式。 如果值為 DEFAULT，或者等價地使用 RESET，那麼函數本地配置將被刪除，以便該函數執行其環境中存在的值。使用 RESET ALL 清除所有功能本地配置。SET FROM CURRENT 將執行 ALTER FUNCTION 時當下參數的值保存為輸入函數時所要應用的值。
 
-See [SET](https://www.postgresql.org/docs/10/static/sql-set.html) and [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) for more information about allowed parameter names and values.
+有關允許的參數名稱和值相關更多訊息，請參閱 [SET](set.md) 和[第 19 章](../../server-administration/runtime-config/)。
 
 `RESTRICT`
 
-Ignored for conformance with the SQL standard.
+此語法會被忽略，它只為了符合 SQL 標準。
 
 ### 範例
 
