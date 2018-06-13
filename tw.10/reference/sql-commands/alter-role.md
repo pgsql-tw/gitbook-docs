@@ -52,11 +52,17 @@ Superusers can change anyone's session defaults. Roles having `CREATEROLE` privi
 
 _`name`_
 
-The name of the role whose attributes are to be altered.`CURRENT_USER`
+The name of the role whose attributes are to be altered.
 
-Alter the current user instead of an explicitly identified role.`SESSION_USER`
+`CURRENT_USER`
 
-Alter the current session user instead of an explicitly identified role.`SUPERUSER`  
+Alter the current user instead of an explicitly identified role.
+
+`SESSION_USER`
+
+Alter the current session user instead of an explicitly identified role.
+
+`SUPERUSER`  
 `NOSUPERUSER`  
 `CREATEDB`  
 `NOCREATEDB`  
@@ -74,11 +80,17 @@ Alter the current session user instead of an explicitly identified role.`SUPERUS
 \[ `ENCRYPTED` \] `PASSWORD` _`password`_  
 `VALID UNTIL` '_`timestamp`_'
 
-These clauses alter attributes originally set by [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html). For more information, see the `CREATE ROLE` reference page._`new_name`_
+These clauses alter attributes originally set by [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html). For more information, see the `CREATE ROLE` reference page.
 
-The new name of the role._`database_name`_
+_`new_name`_
 
-The name of the database the configuration variable should be set in._`configuration_parameter`_  
+The new name of the role.
+
+_`database_name`_
+
+The name of the database the configuration variable should be set in.
+
+_`configuration_parameter`_  
 _`value`_
 
 Set this role's session default for the specified configuration parameter to the given value. If _`value`_ is `DEFAULT` or, equivalently, `RESET` is used, the role-specific variable setting is removed, so the role will inherit the system-wide default setting in new sessions. Use `RESET ALL` to clear all role-specific settings. `SET FROM CURRENT` saves the session's current value of the parameter as the role-specific value. If `IN DATABASE` is specified, the configuration parameter is set or removed for the given role and database only.
@@ -147,5 +159,5 @@ The `ALTER ROLE` statement is a PostgreSQL extension.
 
 ### See Also
 
-[CREATE ROLE](create-role.md), [DROP ROLE](drop-role.md), [ALTER DATABASE](https://www.postgresql.org/docs/10/static/sql-alterdatabase.html), [SET](https://www.postgresql.org/docs/10/static/sql-set.html)
+[CREATE ROLE](create-role.md), [DROP ROLE](drop-role.md), ALTER DATABASE, [SET](set.md)
 
