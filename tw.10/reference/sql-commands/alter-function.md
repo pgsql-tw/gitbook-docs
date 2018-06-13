@@ -118,51 +118,51 @@ See [SET](https://www.postgresql.org/docs/10/static/sql-set.html) and [Chapter 1
 
 Ignored for conformance with the SQL standard.
 
-### Examples
+### 範例
 
-To rename the function `sqrt` for type `integer` to `square_root`:
+要將 integer 型別的函數 sqrt 重新命名為 square\_root：
 
 ```text
 ALTER FUNCTION sqrt(integer) RENAME TO square_root;
 ```
 
-To change the owner of the function `sqrt` for type `integer` to `joe`:
+要將整數型別函數 sqrt 的擁有者變更為 joe，請執行以下操作：
 
 ```text
 ALTER FUNCTION sqrt(integer) OWNER TO joe;
 ```
 
-To change the schema of the function `sqrt` for type `integer` to `maths`:
+要將整數型別函數 sqrt 的綱要變更為 maths，請執行以下操作：
 
 ```text
 ALTER FUNCTION sqrt(integer) SET SCHEMA maths;
 ```
 
-To mark the function `sqrt` for type `integer` as being dependent on the extension `mathlib`:
+要將 integer 型別的函數標記為相依於延伸套件 mathlib：
 
 ```text
 ALTER FUNCTION sqrt(integer) DEPENDS ON EXTENSION mathlib;
 ```
 
-To adjust the search path that is automatically set for a function:
+自動以該函數調整搜尋路徑：
 
 ```text
 ALTER FUNCTION check_password(text) SET search_path = admin, pg_temp;
 ```
 
-To disable automatic setting of `search_path` for a function:
+要停用某個函數的 search\_path 自動設定，請執行以下操作：
 
 ```text
 ALTER FUNCTION check_password(text) RESET search_path;
 ```
 
-The function will now execute with whatever search path is used by its caller.
+該函數現在將執行其呼叫者使用的任何搜尋路徑。
 
-### Compatibility
+### 相容性
 
-This statement is partially compatible with the `ALTER FUNCTION` statement in the SQL standard. The standard allows more properties of a function to be modified, but does not provide the ability to rename a function, make a function a security definer, attach configuration parameter values to a function, or change the owner, schema, or volatility of a function. The standard also requires the `RESTRICT` key word, which is optional in PostgreSQL.
+此語法與 SQL 標準中的 ALTER FUNCTION 語法部分相容。標準可以允許修改一個函數的更多屬性，但不能提供重新命名函數、使函數成為 security definer、將配置參數值附加到函數或變更函數的擁有者、綱要或易變性的設定。標準還需要 RESTRICT 關鍵字，這在 PostgreSQL 中是選用的。
 
-### See Also
+### 參閱
 
 [CREATE FUNCTION](create-function.md), [DROP FUNCTION](drop-function.md)
 
