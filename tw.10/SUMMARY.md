@@ -160,7 +160,7 @@
     * [14.4. 快速建立資料庫內容](sql/performance-tips/14.4.-kuai-su-jian-li-zi-liao-ku-nei-rong.md)
     * [14.5. 彈性設定](sql/performance-tips/14.5.-dan-xing-she-ding.md)
   * [15. 平行查詢](sql/parallel-query/README.md)
-    * [15.1. 如何運作？](sql/parallel-query/15.1.-ru-he-yun-zuo.md)
+    * [15.1. 如何運作？](sql/parallel-query/how-parallel-query-works.md)
     * [15.2. 啓用時機？](sql/parallel-query/15.2.-qi-yong-shi-ji.md)
     * [15.3. 平行查詢計畫](sql/parallel-query/15.3.-ping-hang-cha-xun-ji-hua.md)
     * [15.4. 平行查詢的安全性](sql/parallel-query/15.4.-ping-hang-cha-xun-de-an-quan-xing.md)
