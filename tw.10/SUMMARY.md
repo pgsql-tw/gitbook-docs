@@ -154,7 +154,7 @@
     * [13.5. 特別注意](sql/mvcc/caveats.md)
     * [13.6. 鎖定與索引](sql/mvcc/13.6.-suo-ding-yu-suo-yin.md)
   * [14. 效能技巧](sql/performance-tips/README.md)
-    * [14.1. 善用EXPLAIN](sql/performance-tips/14.1.-shan-yong-explain.md)
+    * [14.1. 善用EXPLAIN](sql/performance-tips/using-explain.md)
     * [14.2. 統計資訊](sql/performance-tips/planner-stats.md)
     * [14.3. 使用確切的JOIN方式](sql/performance-tips/14.3.-shi-yong-que-qie-de-join-fang-shi.md)
     * [14.4. 快速建立資料庫內容](sql/performance-tips/14.4.-kuai-su-jian-li-zi-liao-ku-nei-rong.md)

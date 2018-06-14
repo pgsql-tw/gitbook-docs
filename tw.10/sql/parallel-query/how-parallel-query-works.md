@@ -19,7 +19,7 @@ EXPLAIN SELECT * FROM pgbench_accounts WHERE filler LIKE '%x%';
 
 在所有情況下，Gather 或 Gather Merge 合併節點都只有一個子計劃，它是平行執行計劃的一部分。如果 Gather 或 Gather Merge 節點位於計劃樹的頂部，則整個查詢將會平行執行。如果它在計劃樹中的其他位置，那麼只有它下面的計劃部分將平行運行。在上面的範例中，查詢只存取一個資料表，因此除了 Gather 節點本身之外，只有一個計劃節點；由於該計劃節點是 Gather 節點的子節點，因此它將平行運行。
 
-[使用 EXPLAIN](../performance-tips/14.1.-shan-yong-explain.md)，您可以看到規劃器選擇的後端程序數量。當在查詢執行過程中到達 Gather 節點時，執行使用者連線的程序將請求與規劃器選擇的後端程序數量相等的後端工作程序。規劃器將考慮使用的後端工作程序數量最多限制為 max\_parallel\_workers\_per\_gather。任何時候可以存在的後端工作程序總數受 max\_worker\_processes 和 max\_parallel\_workers 限制。因此，平行查詢可以用比計劃更少的工作程序運行，甚至根本不需要工作程序。最佳計劃可能取決於可用的工作程序數量，因此這可能會導致查詢性能較差。如果頻繁發生，請考慮增加 max\_worker\_processes 和 max\_parallel\_workers，以便可以同時運行更多工作程序，或者減少 max\_parallel\_workers\_per\_gather，以便規劃器請求更少的工作程序。
+[使用 EXPLAIN](../performance-tips/using-explain.md)，您可以看到規劃器選擇的後端程序數量。當在查詢執行過程中到達 Gather 節點時，執行使用者連線的程序將請求與規劃器選擇的後端程序數量相等的後端工作程序。規劃器將考慮使用的後端工作程序數量最多限制為 max\_parallel\_workers\_per\_gather。任何時候可以存在的後端工作程序總數受 max\_worker\_processes 和 max\_parallel\_workers 限制。因此，平行查詢可以用比計劃更少的工作程序運行，甚至根本不需要工作程序。最佳計劃可能取決於可用的工作程序數量，因此這可能會導致查詢性能較差。如果頻繁發生，請考慮增加 max\_worker\_processes 和 max\_parallel\_workers，以便可以同時運行更多工作程序，或者減少 max\_parallel\_workers\_per\_gather，以便規劃器請求更少的工作程序。
 
 為給予的平行查詢成功啟動的每個後端工作程序都將執行計劃的平行部分。領導程序也會執行計劃的一部分，但它還有一個額外的責任：它還必須讀取其他後諯程序所生成的所有資料。當計劃的平行部分只産生少量資料時，領導程序通常會表現得非常像一個額外的後端程序，而加快了查詢的執行速度。相反地，當計劃的平行部分産生大量資料時，領導程序可能幾乎完全被讀取由後端程序産生的資料所佔據，並且執行 Gather 節點級之上的計劃節點所需的任何進一步處理步驟或是扮演 Gather Merge 節點。在這種情況下，領導程序將會少量執行計劃的平行部分。
 
