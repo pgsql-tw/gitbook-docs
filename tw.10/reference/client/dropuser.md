@@ -16,66 +16,66 @@ dropuser 移除現有的 PostgreSQL 使用者。只有具有 CREATEROLE 權限�
 
 dropuser 是 SQL 指令 [DROP ROLE](../sql-commands/drop-role.md) 的一個封裝。透過此實用工具和透過存取伺服器的其他方法移除使用者，之間沒有區別。
 
-### Options
+### 參數
 
-dropuser accepts the following command-line arguments:
+dropuser 接受以下的命令列參數：
 
 _`username`_
 
-Specifies the name of the PostgreSQL user to be removed. You will be prompted for a name if none is specified on the command line and the `-i`/`--interactive` option is used.
+指定要移除的 PostgreSQL 使用者的名稱。如果在命令列中沒有指定名稱，則會提示您輸入名稱，如同使用 -i / -interactive。
 
 `-e`  
 `--echo`
 
-Echo the commands that dropuser generates and sends to the server.
+顯示 dropuser 發送到伺服器的指令。
 
 `-i`  
 `--interactive`
 
-Prompt for confirmation before actually removing the user, and prompt for the user name if none is specified on the command line.
+在實際移除使用者之前提示確認，如果沒有在命令列中指定使用者名稱，會提示輸入。
 
 `-V`  
 `--version`
 
-Print the dropuser version and exit.
+輸出 dropuser 版本然後退出。
 
 `--if-exists`
 
-Do not throw an error if the user does not exist. A notice is issued in this case.
+如果使用者不存在，請不要拋出錯誤。在這種情況下發布 NOTICE。
 
 `-?`  
 `--help`
 
-Show help about dropuser command line arguments, and exit.
+顯示有關 dropuser 命令列參數的說明，然後退出。
 
-dropuser also accepts the following command-line arguments for connection parameters:
+dropuser 還接受連線有關的以下命令列參數：
 
 `-h` _`host`_  
 `--host=`_`host`_
 
-Specifies the host name of the machine on which the server is running. If the value begins with a slash, it is used as the directory for the Unix domain socket.
+指定運行伺服器的主機名。如果以斜線開頭，則將其視為 Unix domain socket 的目錄。
 
 `-p` _`port`_  
 `--port=`_`port`_
 
-Specifies the TCP port or local Unix domain socket file extension on which the server is listening for connections.
+指定伺服器正在監聽連線的 TCP 連接埠或本地 Unix domain socket 檔案延伸名稱。
 
 `-U` _`username`_  
 `--username=`_`username`_
 
-User name to connect as \(not the user name to drop\).
+要連線的使用者名稱（不是要移除的使用者名稱）。
 
 `-w`  
 `--no-password`
 
-Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a `.pgpass` file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.
+避免發出密碼提示。如果伺服器需要密碼驗證，請透過其他方式（如 .pgpass 檔案），無法使用密碼的話，則連線嘗試將會失敗。此選項可用於沒有使用者輸入密碼的批次處理作業和腳本。
 
 `-W`  
 `--password`
 
-Force dropuser to prompt for a password before connecting to a database.
+強制 dropuser 在連線到資料庫之前提示輸入密碼。
 
-This option is never essential, since dropuser will automatically prompt for a password if the server demands password authentication. However, dropuser will waste a connection attempt finding out that the server wants a password. In some cases it is worth typing `-W`to avoid the extra connection attempt.
+此選項從來不是必須的，因為如果伺服器需要密碼認證，dropuser 將自動提示輸入密碼。然而，dropuser 會浪費連線嘗試發現伺服器想要密碼。在某些情況下，值得輸入 -W 以避免額外的連線嘗試。
 
 ### 環境變數
 
