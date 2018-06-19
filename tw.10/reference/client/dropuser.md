@@ -1,16 +1,20 @@
+---
+description: 版本：10
+---
+
 # dropuser
 
-dropuser — remove a PostgreSQL user account
+dropuser — 移除 PostgreSQL 使用者帳戶
 
-### Synopsis
+### 語法
 
 `dropuser` \[_`connection-option`_...\] \[_`option`_...\] \[_`username`_\]
 
-### Description
+### 說明
 
-dropuser removes an existing PostgreSQL user. Only superusers and users with the `CREATEROLE` privilege can remove PostgreSQL users. \(To remove a superuser, you must yourself be a superuser.\)
+dropuser 移除現有的 PostgreSQL 使用者。只有具有 CREATEROLE 權限的超級使用者或一般使用者才能移除 PostgreSQL 使用者。（但要移除超級使用者，您還必須自己是超級使用者。）
 
-dropuser is a wrapper around the SQL command [DROP ROLE](https://www.postgresql.org/docs/10/static/sql-droprole.html). There is no effective difference between dropping users via this utility and via other methods for accessing the server.
+dropuser 是 SQL 指令 [DROP ROLE](../sql-commands/drop-role.md) 的一個封裝。透過此實用工具和透過存取伺服器的其他方法移除使用者，之間沒有區別。
 
 ### Options
 
@@ -73,29 +77,29 @@ Force dropuser to prompt for a password before connecting to a database.
 
 This option is never essential, since dropuser will automatically prompt for a password if the server demands password authentication. However, dropuser will waste a connection attempt finding out that the server wants a password. In some cases it is worth typing `-W`to avoid the extra connection attempt.
 
-### Environment
+### 環境變數
 
 `PGHOST`  
 `PGPORT`  
 `PGUSER`
 
-Default connection parameters
+預設連線參數
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/10/static/libpq-envars.html)\).
+與其他大多數 PostgreSQL 實用工具一樣，此工具也使用 libpq 支援的環境變數（請參閱[第 33.14 節](../../client-interfaces/libpq-c-library/33.14.-environment-variables.md)）。
 
-### Diagnostics
+### 診斷
 
-In case of difficulty, see [DROP ROLE](https://www.postgresql.org/docs/10/static/sql-droprole.html) and [psql](https://www.postgresql.org/docs/10/static/app-psql.html) for discussions of potential problems and error messages. The database server must be running at the targeted host. Also, any default connection settings and environment variables used by the libpq front-end library will apply.
+如果遇到困難，請參閱 [DROP ROLE](../sql-commands/drop-role.md) 和 [psql](psql.md)，以便討論潛在問題和錯誤訊息。資料庫伺服器必須在目標主機上運行。此外，libpq 前端函式庫使用的任何預設連線設定和環境變數都將適用。
 
-### Examples
+### 範例
 
-To remove user `joe` from the default database server:
+要從預設資料庫伺服器中移除使用者 joe：
 
 ```text
 $ dropuser joe
 ```
 
-To remove user `joe` using the server on host `eden`, port 5000, with verification and a peek at the underlying command:
+使用主機 eden 的連接埠 5000 上的服務移除使用者 joe，驗證並查看基礎指令：
 
 ```text
 $ dropuser -p 5000 -h eden -i -e joe
@@ -104,7 +108,7 @@ Are you sure? (y/n) y
 DROP ROLE joe;
 ```
 
-### See Also
+### 參閱
 
 [createuser](createuser.md), [DROP ROLE](../sql-commands/drop-role.md)
 
