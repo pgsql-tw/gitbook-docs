@@ -85,7 +85,7 @@ dropuser 還接受連線有關的以下命令列參數：
 
 預設連線參數
 
-與其他大多數 PostgreSQL 實用工具一樣，此工具也使用 libpq 支援的環境變數（請參閱[第 33.14 節](../../client-interfaces/libpq-c-library/33.14.-environment-variables.md)）。
+與其他大多數 PostgreSQL 實用工具一樣，此工具也使用 libpq 支援的環境變數（請參閱[第 33.14 節](../../client-interfaces/libpq-c-library/environment-variables.md)）。
 
 ### 診斷
 

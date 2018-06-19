@@ -292,7 +292,7 @@
     * [33.11. Miscellaneous Functions](client-interfaces/libpq-c-library/33.11.-miscellaneous-functions.md)
     * [33.12. Notice Processing](client-interfaces/libpq-c-library/33.12.-notice-processing.md)
     * [33.13. Event System](client-interfaces/libpq-c-library/33.13.-event-system.md)
-    * [33.14. Environment Variables](client-interfaces/libpq-c-library/33.14.-environment-variables.md)
+    * [33.14. Environment Variables](client-interfaces/libpq-c-library/environment-variables.md)
     * [33.15. 密碼檔](client-interfaces/libpq-c-library/password-file.md)
     * [33.16. The Connection Service File](client-interfaces/libpq-c-library/33.16.-the-connection-service-file.md)
     * [33.17. LDAP Lookup of Connection Parameters](client-interfaces/libpq-c-library/33.17.-ldap-lookup-of-connection-parameters.md)
