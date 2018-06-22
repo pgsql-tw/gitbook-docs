@@ -28,11 +28,11 @@ VACUUM ANALYZE 為每個選定的資料表執行 VACUUM 然後進行 ANALYZE 分
 
 當選項列表被括號包圍時，選項可以按任意順序書寫。如果沒有括號，必須按照上面所示的順序指定選項。PostgreSQL 9.0 中加入了括號語法；未使用括號的語法已被棄用。
 
-### Parameters
+### 參數
 
 `FULL`
 
-Selects “full” vacuum, which can reclaim more space, but takes much longer and exclusively locks the table. This method also requires extra disk space, since it writes a new copy of the table and doesn't release the old copy until the operation is complete. Usually this should only be used when a significant amount of space needs to be reclaimed from within the table.
+選擇「FULL」清理，可以回收更多的空間，但需要更長的時間並且會完全鎖定資料表。此方法還需要額外的磁碟空間，因為它會寫入資料表的新的副本，並且在操作完成之前不會釋放舊副本。通常這只能在需要從資料表內回收大量空間時才會使用。
 
 `FREEZE`
 
@@ -48,49 +48,49 @@ Selects “full” vacuum, which can reclaim more space, but takes much longer a
 
 `DISABLE_PAGE_SKIPPING`
 
-Normally, `VACUUM` will skip pages based on the [visibility map](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#VACUUM-FOR-VISIBILITY-MAP). Pages where all tuples are known to be frozen can always be skipped, and those where all tuples are known to be visible to all transactions may be skipped except when performing an aggressive vacuum. Furthermore, except when performing an aggressive vacuum, some pages may be skipped in order to avoid waiting for other sessions to finish using them. This option disables all page-skipping behavior, and is intended to be used only the contents of the visibility map are thought to be suspect, which should happen only if there is a hardware or software issue causing database corruption.
+通常情況下，VACUUM 將根據可見性記錄跳過頁面。已知所有 tuple 都被凍結的頁面總是可以被跳過，並且所有 tuple 被知道對所有交易事務都可見的頁面也可能會被跳過，除非執行積極的清理。此外，除了執行積極的清理時，可能會跳過某些頁面以避免等待其他連線完成使用。此選項禁用所有頁面跳轉行為，並且僅用於可見性映射的內容被認為是可疑的，只有在存在導致資料庫損壞的硬體或軟體問題時才會發生。
 
 _`table_name`_
 
-The name \(optionally schema-qualified\) of a specific table to vacuum. If omitted, all regular tables and materialized views in the current database are vacuumed. If the specified table is a partitioned table, all of its leaf partitions are vacuumed.
+要清理的特定資料表名稱（可選擇性加上綱要）。如果省略，則目前資料庫中的所有常態的資料表和具體化檢視表都會被清理。如果指定的資料表是分割資料表，則其所有子分區都將被清理。
 
 _`column_name`_
 
-The name of a specific column to analyze. Defaults to all columns. If a column list is specified, `ANALYZE` is implied.
+要分析的特定欄位的名稱。預設為所有欄位。 如果指定了列表，則隱含 ANALYZE。
 
-### Outputs
+### 輸出
 
-When `VERBOSE` is specified, `VACUUM` emits progress messages to indicate which table is currently being processed. Various statistics about the tables are printed as well.
+當指定 VERBOSE 時，VACUUM 發出進度訊息以表示目前正在處理哪個資料表。有關資料表的各種統計訊息也會顯示出來。
 
-### Notes
+### 注意
 
-To vacuum a table, one must ordinarily be the table's owner or a superuser. However, database owners are allowed to vacuum all tables in their databases, except shared catalogs. \(The restriction for shared catalogs means that a true database-wide `VACUUM` can only be performed by a superuser.\) `VACUUM` will skip over any tables that the calling user does not have permission to vacuum.
+要清理資料表，通常必須是資料表的擁有者或超級使用者。但是，資料庫擁有者可以清理資料庫中的所有資料表，共享目錄除外。（對共享目錄的限制意味著真正的資料庫範圍內的 VACUUM 只能由超級使用者執行。）VACUUM 將跳過無權清理的所有資料表。
 
-`VACUUM` cannot be executed inside a transaction block.
+VACUUM 不能在交易事務區塊內執行。
 
-For tables with GIN indexes, `VACUUM` \(in any form\) also completes any pending index insertions, by moving pending index entries to the appropriate places in the main GIN index structure. See [Section 64.4.1](https://www.postgresql.org/docs/10/static/gin-implementation.html#GIN-FAST-UPDATE) for details.
+對於具有 GIN 索引的資料表，透過將掛起的索引項目移動到主 GIN 索引結構中的適當位置，VACUUM（以任何形式）還是可以完成任何掛起的索引插入。詳情請參閱[第 64.4.1 節](../../internals/gin-indexes/implementation.md#64-4-1-gin-fast-update-technique)。
 
-We recommend that active production databases be vacuumed frequently \(at least nightly\), in order to remove dead rows. After adding or deleting a large number of rows, it might be a good idea to issue a `VACUUM ANALYZE` command for the affected table. This will update the system catalogs with the results of all recent changes, and allow the PostgreSQL query planner to make better choices in planning queries.
+我們建議經常清理活動產品資料庫（至少每晚）以回收空間。增加或刪除大量資料列後，對受影響的資料表發出 VACUUM ANALYZE 指令會是個好主意。這將使用所有最近更改的結果更新系統目錄，並允許 PostgreSQL 查詢計劃程序在計劃查詢中做出更好的選擇。
 
-The `FULL` option is not recommended for routine use, but might be useful in special cases. An example is when you have deleted or updated most of the rows in a table and would like the table to physically shrink to occupy less disk space and allow faster table scans. `VACUUM FULL` will usually shrink the table more than a plain `VACUUM` would.
+FULL 選項不推薦於日常使用，但在特殊情況下可能會有用。例如，您刪除或更新了資料表中的大部分資料列，並且希望資料表在物理上縮小以佔用較少的磁碟空間以允許更快的資料表掃描。VACUUM FULL 通常會縮小資料表，而不是簡單的 VACUUM。
 
-`VACUUM` causes a substantial increase in I/O traffic, which might cause poor performance for other active sessions. Therefore, it is sometimes advisable to use the cost-based vacuum delay feature. See [Section 19.4.4](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#RUNTIME-CONFIG-RESOURCE-VACUUM-COST) for details.
+VACUUM 會導致 I/O 流量大幅增加，這可能會導致其他連線活動的效能下降。因此，有時建議使用基於成本的清理延遲功能。詳情請參閱[第 19.4.4 節](../../server-administration/runtime-config/resource-consumption.md#19-4-4-cost-based-vacuum-delay)。
 
-PostgreSQL includes an “autovacuum” facility which can automate routine vacuum maintenance. For more information about automatic and manual vacuuming, see [Section 24.1](https://www.postgresql.org/docs/10/static/routine-vacuuming.html).
+PostgreSQL 內含一個「autovacuum」工具，可以自動執行常態的清理維護。有關自動和手動清理的更多訊息，請參閱[第 24.1 節](../../server-administration/maintenance/routine-vacuuming.md)。
 
-### Examples
+### 範例
 
-To clean a single table `onek`, analyze it for the optimizer and print a detailed vacuum activity report:
+要清理單個資料表，請為其進行最佳化程序分析並輸出詳細的清理活動報告：
 
 ```text
 VACUUM (VERBOSE, ANALYZE) onek;
 ```
 
-### Compatibility
+### 相容性
 
-There is no `VACUUM` statement in the SQL standard.
+SQL 標準中並沒有 VACUUM 語句。
 
-### See Also
+### 參閱
 
-vacuumdb, [19.4.4 節](../../server-administration/runtime-config/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#24-1-6-the-autovacuum-daemon)
+[vacuumdb](../client/vacuumdb.md), [19.4.4 節](../../server-administration/runtime-config/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#24-1-6-the-autovacuum-daemon)
 
