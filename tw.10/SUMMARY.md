@@ -408,6 +408,7 @@
     * [37.16. Extension Building Infrastructure](server-programming/extending-sql/37.16.-extension-building-infrastructure.md)
   * [40. 規則系統](server-programming/the-rule-system/README.md)
     * [40.5. Rules and Privileges](server-programming/the-rule-system/rules-and-privileges.md)
+  * [42. PL/pgSQL - SQL Procedural Language](server-programming/42.-pl-pgsql-sql-procedural-language.md)
   * [47. Background Worker Processes](server-programming/background-worker-processes.md)
 * [VI. 參考資訊](reference/README.md)
   * [I. SQL 指令](reference/sql-commands/README.md)
