@@ -1,19 +1,23 @@
-# 31. Logical Replication
+---
+description: 版本：10
+---
 
-Logical replication is a method of replicating data objects and their changes, based upon their replication identity \(usually a primary key\). We use the term logical in contrast to physical replication, which uses exact block addresses and byte-by-byte replication. PostgreSQL supports both mechanisms concurrently, see [Chapter 26](https://www.postgresql.org/docs/10/static/high-availability.html). Logical replication allows fine-grained control over both data replication and security.
+# 31. 邏輯複寫（Logical Replication）
 
-Logical replication uses a _publish_ and _subscribe_ model with one or more _subscribers_ subscribing to one or more _publications_ on a _publisher_ node. Subscribers pull data from the publications they subscribe to and may subsequently re-publish data to allow cascading replication or more complex configurations.
+邏輯複寫（Logical Replication）是一種依據複寫指標（通常是主鍵）複製資料物件及其更新的方法。我們使用術語邏輯與物理複寫相對比，物理複寫使用確切的區塊位址進行每一個字元組的複寫。PostgreSQL 同時支持這兩種機制，請參閱[第 26 章](../high-availability-load-balancing-and-replication/)。邏輯複寫允許對資料複寫和安全性進行更精細的控制。
 
-Logical replication of a table typically starts with taking a snapshot of the data on the publisher database and copying that to the subscriber. Once that is done, the changes on the publisher are sent to the subscriber as they occur in real-time. The subscriber applies the data in the same order as the publisher so that transactional consistency is guaranteed for publications within a single subscription. This method of data replication is sometimes referred to as transactional replication.
+邏輯複寫使用 publish（發佈）和 subscribe（訂閱）模式，其中一個或多個訂閱者 subscribe 發布者節點上的一個或多個 publish。 訂閱戶從他們訂閱的 publish 中提取資料，並可能隨後重新發布資料以允許串聯複寫或更複雜的複寫架構。
 
-The typical use-cases for logical replication are:
+資料表的邏輯複寫通常始於對發佈者資料庫上的資料進行快照並將其複寫到訂閱伺服器。一旦完成，發佈者的變化就會即時發送給訂閱者。訂閱者按照與發佈者相同的順序變動資料，以確保單個訂閱內的發佈的交易事務一致性。這種資料複寫方法有時被稱為交易事務複寫。
 
-* Sending incremental changes in a single database or a subset of a database to subscribers as they occur.
-* Firing triggers for individual changes as they arrive on the subscriber.
-* Consolidating multiple databases into a single one \(for example for analytical purposes\).
-* Replicating between different major versions of PostgreSQL.
-* Giving access to replicated data to different groups of users.
-* Sharing a subset of the database between multiple databases.
+典型的邏輯複寫情況有：
 
-The subscriber database behaves in the same way as any other PostgreSQL instance and can be used as a publisher for other databases by defining its own publications. When the subscriber is treated as read-only by application, there will be no conflicts from a single subscription. On the other hand, if there are other writes done either by an application or by other subscribers to the same set of tables, conflicts can arise.
+* 在訂閱者時常向單個資料庫或資料庫的子集發送增量變更時。
+* 當訂閱者收到個別的變更時能觸發事件。
+* 將多個資料庫合併成一個資料庫（例如為了分析的需求）。
+* 在不同的 PostgreSQL 版本之間複寫。
+* 將複寫的資料給予不同的用戶群組存取權限。
+* 在多個資料庫之間共享資料庫的一部份。
+
+訂閱戶資料庫的行為與任何其他 PostgreSQL 的行為相同，並且可以透過定義其自己的發佈來用作其他資料庫的發佈者。當訂閱者被應用程序視為唯讀時，單個訂閱就不會發生衝突。另一方面，如果應用程序或其他使用者對同一組資料表執行了其他的寫入操作，則可能會出現衝突。
 
