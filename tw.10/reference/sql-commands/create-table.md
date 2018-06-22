@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # CREATE TABLE
 
-CREATE TABLE — define a new table
+CREATE TABLE — 定義一個新的資料表
 
-### Synopsis
+### 語法
 
 ```text
 CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ] table_name ( [
@@ -110,7 +114,7 @@ Optionally, `GLOBAL` or `LOCAL` can be written before `TEMPORARY` or `TEMP`. Thi
 
 `UNLOGGED`
 
-If specified, the table is created as an unlogged table. Data written to unlogged tables is not written to the write-ahead log \(see [Chapter 30](https://www.postgresql.org/docs/10/static/wal.html)\), which makes them considerably faster than ordinary tables. However, they are not crash-safe: an unlogged table is automatically truncated after a crash or unclean shutdown. The contents of an unlogged table are also not replicated to standby servers. Any indexes created on an unlogged table are automatically unlogged as well.
+如果指定了這個選項，則將此表建立為無日誌記錄的資料表。寫入無日誌記錄資料表的資料不寫入 WAL（見[第 30 章](../../server-administration/reliability-and-the-write-ahead-log/)），這使得它們比普通的資料表快得多。但是，它們就不是完全安全的：在系統崩潰或不正常關閉之後，會自動清除無日誌記錄的資料表。 無日誌記錄的資料表內容也無法複製到備用伺服器。在無日誌記錄資料表上所建的所有索引也沒有日誌記錄。
 
 `IF NOT EXISTS`
 
@@ -348,11 +352,11 @@ The temporary table will be dropped at the end of the current transaction block.
 
 `TABLESPACE` _`tablespace_name`_
 
-The _`tablespace_name`_ is the name of the tablespace in which the new table is to be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.
+tablespace\_name 是要在其中建立新資料表的資料表空間名稱。如果未指定，則會使用 [default\_tablespace](../../server-administration/runtime-config/runtime-config-client.md#default_tablespace-string)，如果此資料表是臨時資料表，則為使用 [temp\_tablespaces](../../server-administration/runtime-config/runtime-config-client.md#temp_tablespaces-string)。
 
 `USING INDEX TABLESPACE` _`tablespace_name`_
 
-This clause allows selection of the tablespace in which the index associated with a `UNIQUE`, `PRIMARY KEY`, or `EXCLUDE` constraint will be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.
+此子句允許選擇與其建立的 UNIQUE，PRIMARY KEY 或 EXCLUDE 限制條件約束關連索引的資料表空間。如果未指定，則使用 [default\_tablespace](../../server-administration/runtime-config/runtime-config-client.md#default_tablespace-string)，如果此表是臨時資料表，則為 [temp\_tablespaces](../../server-administration/runtime-config/runtime-config-client.md#temp_tablespaces-string)。
 
 #### Storage Parameters
 
