@@ -1,72 +1,64 @@
+---
+description: 版本：10
+---
+
 # VALUES
 
-VALUES — compute a set of rows
+VALUES — 産生一組資料列
 
-## Synopsis
+### 語法
 
 ```text
-VALUES ( 
-expression
- [, ...] ) [, ...]
-    [ ORDER BY 
-sort_expression
- [ ASC | DESC | USING 
-operator
- ] [, ...] ]
-    [ LIMIT { 
-count
- | ALL } ]
-    [ OFFSET 
-start
- [ ROW | ROWS ] ]
-    [ FETCH { FIRST | NEXT } [ 
-count
- ] { ROW | ROWS } ONLY ]
+VALUES ( expression [, ...] ) [, ...]
+    [ ORDER BY sort_expression [ ASC | DESC | USING operator ] [, ...] ]
+    [ LIMIT { count | ALL } ]
+    [ OFFSET start [ ROW | ROWS ] ]
+    [ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY ]
 ```
 
-## Description
+### 說明
 
-`VALUES`computes a row value or set of row values specified by value expressions. It is most commonly used to generate a“constant table”within a larger command, but it can be used on its own.
+VALUES 由指定值表示式産生資料列或就是一組資料列。它通常用於在更大的指令中産生「常數資料表」，但它也可以單獨使用。
 
-When more than one row is specified, all the rows must have the same number of elements. The data types of the resulting table's columns are determined by combining the explicit or inferred types of the expressions appearing in that column, using the same rules as for`UNION`\(see[Section 10.5](https://www.postgresql.org/docs/10/static/typeconv-union-case.html)\).
+當指定多個資料列時，所有資料列必須具有相同數量的元素。結果的資料表的資料型別是透過組合顯示或推斷出現在該欄位中表示式的型別來決定的，其使用與 UNION 相同的規則（見[第 10.5 節](../../sql/typeconv/union-case.md)）。
 
-Within larger commands,`VALUES`is syntactically allowed anywhere that`SELECT`is. Because it is treated like a`SELECT`by the grammar, it is possible to use the`ORDER BY`,`LIMIT`\(or equivalently`FETCH FIRST`\), and`OFFSET`clauses with a`VALUES`command.
+在較大的指令中，VALUES 在 SELECT 的任何位置在語法上都是被允許的。由於語法將其視為 SELECT，因此可以使用 ORDER BY、LIMIT（或等價的 FETCH FIRST）和 OFFSET 子句以及 VALUES 指令。
 
-## Parameters
+### 參數
 
-`expression`
+_`expression`_
 
-A constant or expression to compute and insert at the indicated place in the resulting table \(set of rows\). In a`VALUES`list appearing at the top level of an`INSERT`, an\_`expression`\_can be replaced by`DEFAULT`to indicate that the destination column's default value should be inserted.`DEFAULT`cannot be used when`VALUES`appears in other contexts.
+計算並在結果資料表（資料列集合）中的指定位置插入的常數或表示式。在出現在 INSERT 最上層的 VALUES 列表中，可以用 DEFAULT 替換表示式來指示應該插入目標欄位的預設值。當 VALUES 出現在其他層級時，就不能使用 DEFAULT。
 
-`sort_expression`
+_`sort_expression`_
 
-An expression or integer constant indicating how to sort the result rows. This expression can refer to the columns of the`VALUES`result as`column1`,`column2`, etc. For more details see[`ORDER BY`Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-ORDERBY).
+指示如何對結果資料列進行排序的表示式或整數常數。此表示式可以將 VALUES 結果的欄位引用為 column1，column2 等。有關更多詳細訊息，請參閱 [ORDER BY 子句](select.md#order-by-clause)。
 
-`operator`
+_`operator`_
 
-A sorting operator. For details see[`ORDER BY`Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-ORDERBY).
+排序運算符號。有關詳細訊息，請參閱 [ORDER BY 子句](select.md#order-by-clause)。
 
-`count`
+_`count`_
 
-The maximum number of rows to return. For details see[`LIMIT`Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-LIMIT).
+要回傳的最大資料列數。有關詳情，請參閱 [LIMIT 子句](select.md#limit-clause)。
 
-`start`
+_`start`_
 
-The number of rows to skip before starting to return rows. For details see[`LIMIT`Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-LIMIT).
+在開始回傳資料列之前要跳過的列數。有關詳情，請參閱 [LIMIT 子句](select.md#limit-clause)。
 
-## Notes
+### 注意
 
-`VALUES`lists with very large numbers of rows should be avoided, as you might encounter out-of-memory failures or poor performance.`VALUES`appearing within`INSERT`is a special case \(because the desired column types are known from the`INSERT`'s target table, and need not be inferred by scanning the`VALUES`list\), so it can handle larger lists than are practical in other contexts.
+應該避免使用大量資料列的 VALUES 列表，因為可能會遇到記憶體不足或效能不佳的情況。在 INSERT 中出現的 VALUES 是一種特殊情況（因為所需的欄位型別可從 INSERT 的目標資料表中得知，而不需要透過掃描 VALUES 列表來推斷），所以它可以處理比其他情況實際可用的更大列表。
 
-## Examples
+### 範例
 
-A bare`VALUES`command:
+直接的 VALUES 指令：
 
 ```text
 VALUES (1, 'one'), (2, 'two'), (3, 'three');
 ```
 
-This will return a table of two columns and three rows. It's effectively equivalent to:
+這將回傳一個兩個欄位和三個資料列的資料表。它實際上相當於：
 
 ```text
 SELECT 1 AS column1, 'one' AS column2
@@ -76,14 +68,14 @@ UNION ALL
 SELECT 3, 'three';
 ```
 
-More usually,`VALUES`is used within a larger SQL command. The most common use is in`INSERT`:
+更通常的情況是，在更大的 SQL 指令中使用 VALUES。INSERT 中最常見的用法是：
 
 ```text
 INSERT INTO films (code, title, did, date_prod, kind)
     VALUES ('T_601', 'Yojimbo', 106, '1961-06-16', 'Drama');
 ```
 
-In the context of`INSERT`, entries of a`VALUES`list can be`DEFAULT`to indicate that the column default should be used here instead of specifying a value:
+在 INSERT 的指令中，VALUES 列表的項目可以是 DEFAULT，以表示在此應該使用欄位的預設值而不是指定值：
 
 ```text
 INSERT INTO films VALUES
@@ -91,7 +83,7 @@ INSERT INTO films VALUES
     ('T_601', 'Yojimbo', 106, DEFAULT, 'Drama', DEFAULT);
 ```
 
-`VALUES`can also be used where a sub-`SELECT`might be written, for example in a`FROM`clause:
+在可能寫入子 SELECT 的地方也可以使用 VALUES，例如在 FROM 子句中：
 
 ```text
 SELECT f.*
@@ -100,33 +92,27 @@ SELECT f.*
 
 UPDATE employees SET salary = salary * v.increase
   FROM (VALUES(1, 200000, 1.2), (2, 400000, 1.4)) AS v (depno, target, increase)
-  WHERE employees.depno = v.depno AND employees.sales 
->
-= v.target;
+  WHERE employees.depno = v.depno AND employees.sales >= v.target;
 ```
 
-Note that an`AS`clause is required when`VALUES`is used in a`FROM`clause, just as is true for`SELECT`. It is not required that the`AS`clause specify names for all the columns, but it's good practice to do so. \(The default column names for`VALUES`are`column1`,`column2`, etc inPostgreSQL, but these names might be different in other database systems.\)
+請注意，在 FROM 子句中使用 VALUES 時需要 AS 子句，對於 SELECT 也是如此。 AS 子句不需要為所有欄位指定名稱，但這是很好的做法。（VALUES 的預設欄位名稱是 PostgreSQL 中的 column1，column2 等，但這些名稱在其他資料庫系統中可能會不同。）
 
-When`VALUES`is used in`INSERT`, the values are all automatically coerced to the data type of the corresponding destination column. When it's used in other contexts, it might be necessary to specify the correct data type. If the entries are all quoted literal constants, coercing the first is sufficient to determine the assumed type for all:
+在 INSERT 中使用 VALUES 時，這些值會全部自動強制轉為相應目標欄位的資料型別。 當它在其他指令部份中使用時，可能需要指定正確的資料型別。如果項目都是引用文字常數，強制第一個項目就足以決定所有的假設型別：
 
 ```text
 SELECT * FROM machines
 WHERE ip_address IN (VALUES('192.168.0.1'::inet), ('192.168.0.10'), ('192.168.1.43'));
 ```
 
-### Tip
+#### 小技巧
 
-For simple`IN`tests, it's better to rely on the[list-of-scalars](https://www.postgresql.org/docs/10/static/functions-comparisons.html#FUNCTIONS-COMPARISONS-IN-SCALAR)form of`IN`than to write a`VALUES`query as shown above. The list of scalars method requires less writing and is often more efficient.
+對於簡單的 IN 測試，最好依賴 IN 的 [scalar 列表](../../sql/functions/functions-comparisons.md#9-23-1-in)形式，而不是像上面那樣撰寫 VALUES 查詢。scalar 列表方式只需要更少的寫入，並且通常效能更高。
 
-## Compatibility
+### 相容性
 
-`VALUES`conforms to the SQL standard.`LIMIT`and`OFFSET`arePostgreSQLextensions; see also under[SELECT](https://www.postgresql.org/docs/10/static/sql-select.html).
+VALUES 符合 SQL 標準。LIMIT 和 OFFSET 是 PostgreSQL 的延伸功能；請參閱 [SELECT](select.md) 下的內容。
 
-## See Also
+### 參閱
 
-[INSERT](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/insert.md)
-
-,
-
-[SELECT](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/select.md)
+[INSERT](insert.md), [SELECT](select.md)
 
