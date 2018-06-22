@@ -1,0 +1,12 @@
+# 32.4. TAP Tests
+
+Various tests, particularly the client program tests under `src/bin`, use the Perl TAP tools and are run using the Perl testing program `prove`. You can pass command-line options to `prove`by setting the `make` variable `PROVE_FLAGS`, for example:
+
+```text
+make -C src/bin check PROVE_FLAGS='--timer'
+```
+
+See the manual page of `prove` for more information.
+
+The TAP tests require the Perl module `IPC::Run`. This module is available from CPAN or an operating system package.
+
