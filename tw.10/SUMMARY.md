@@ -269,7 +269,7 @@
     * [31.4. 限制](server-administration/logical-replication/restrictions.md)
     * [31.5. 架構](server-administration/logical-replication/architecture.md)
     * [31.6. 監控](server-administration/logical-replication/monitoring.md)
-    * [31.7. Configuration Settings](server-administration/logical-replication/configuration-settings.md)
+    * [31.7. 安全性](server-administration/logical-replication/security.md)
     * [31.8. Quick Setup](server-administration/logical-replication/quick-setup.md)
   * [32. 迴歸測試](server-administration/regression-tests/README.md)
     * [32.1. Running the Tests](server-administration/regression-tests/running-the-tests.md)
