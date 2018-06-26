@@ -32,6 +32,6 @@ description: 版本：10
 
 * 建立訂閱時，複寫插槽已經存在。在這種情況下，可以使用 create\_slot = false 選項來與現有插槽關連以建立訂閱。
 * 建立訂閱時，遠端主機無法存取或處於不明狀態。在這種情況下，可以使用 connect = false 選項建立訂閱。遠端主機將不會被聯繫。這是 pg\_dump 所使用的。然後必須在訂閱啓動之前手動建立遠端的複寫插槽。
-* When dropping a subscription, the replication slot should be kept. This could be useful when the subscriber database is being moved to a different host and will be activated from there. In that case, disassociate the slot from the subscription using `ALTER SUBSCRIPTION` before attempting to drop the subscription.
-* When dropping a subscription, the remote host is not reachable. In that case, disassociate the slot from the subscription using `ALTER SUBSCRIPTION` before attempting to drop the subscription. If the remote database instance no longer exists, no further action is then necessary. If, however, the remote database instance is just unreachable, the replication slot should then be dropped manually; otherwise it would continue to reserve WAL and might eventually cause the disk to fill up. Such cases should be carefully investigated.
+* 在移除訂閱時，應該保留複寫插槽。當使用者資料庫被移動到不同的主機並且從那裡被啓動時，這可能會有用。在這種情況下，在嘗試移除訂閱之前，請使用 ALTER SUBSCRIPTION 從插入位置解除關連。
+* 在移除訂閱時，遠端主機無法存取。在這種情況下，在嘗試移除訂閱之前，請使用 ALTER SUBSCRIPTION 從插入位置解除關連。如果遠端資料庫服務不再存在，則不需要進一步的操作。但是，如果遠端資料庫服務不可存取，則應手動移除複寫插槽；否則它會繼續保留 WAL，最終可能會導致磁碟空間不足。應該仔細檢查這種情況。
 
