@@ -2,33 +2,33 @@
 description: 版本：10
 ---
 
-# 31.9. Quick Setup
+# 31.9. 快速設定
 
-First set the configuration options in `postgresql.conf`:
+首先在 postgresql.conf 中進行組態設定：
 
 ```text
 wal_level = logical
 ```
 
-The other required settings have default values that are sufficient for a basic setup.
+其他所需的設定的預設值已經足夠。
 
-`pg_hba.conf` needs to be adjusted to allow replication \(the values here depend on your actual network configuration and user you want to use for connecting\):
+需要調整 pg\_hba.conf 以允許複寫（這裡的內容取決於您想要用於連線的實際網路配置和使用者）：
 
 ```text
 host     all     repuser     0.0.0.0/0     md5
 ```
 
-Then on the publisher database:
+然後在發佈者的資料庫上：
 
 ```text
 CREATE PUBLICATION mypub FOR TABLE users, departments;
 ```
 
-And on the subscriber database:
+在訂閱者的資料庫上：
 
 ```text
 CREATE SUBSCRIPTION mysub CONNECTION 'dbname=foo host=bar user=repuser' PUBLICATION mypub;
 ```
 
-The above will start the replication process, which synchronizes the initial table contents of the tables `users` and `departments` and then starts replicating incremental changes to those tables.
+以上將啟動複寫程序，此程序同步資料表 users 和 departments 的初始資料表內容，然後開始以增量變更複寫到這些資料表。
 
