@@ -1,8 +1,12 @@
-# 31.3. Conflicts
+---
+description: 版本：10
+---
 
-Logical replication behaves similarly to normal DML operations in that the data will be updated even if it was changed locally on the subscriber node. If incoming data violates any constraints the replication will stop. This is referred to as a _conflict_. When replicating `UPDATE` or `DELETE` operations, missing data will not produce a conflict and such operations will simply be skipped.
+# 31.3. 衝突處理
 
-A conflict will produce an error and will stop the replication; it must be resolved manually by the user. Details about the conflict can be found in the subscriber's server log.
+邏輯複寫的行為與正常的 DML 操作類似，因為即使在訂閱節點上變更了資料，資料也會更新。 如果傳入的資料違反任何限制條件，複寫將會停止。這被稱為衝突。當複寫 UPDATE 或 DELETE 操作時，失去的資料不會產生衝突，而這些操作將會簡單地跳過。
 
-The resolution can be done either by changing data on the subscriber so that it does not conflict with the incoming change or by skipping the transaction that conflicts with the existing data. The transaction can be skipped by calling the [`pg_replication_origin_advance()`](https://www.postgresql.org/docs/10/static/functions-admin.html#PG-REPLICATION-ORIGIN-ADVANCE) function with a _`node_name`_ corresponding to the subscription name, and a position. The current position of origins can be seen in the [`pg_replication_origin_status`](https://www.postgresql.org/docs/10/static/view-pg-replication-origin-status.html) system view.
+衝突會產生錯誤並停止複寫；它必須由使用者手動解決。有關衝突的詳細訊息可以在使用者的伺服器日誌中找到。
+
+解決方案可以透過變更訂閱戶上的資料來完成，以避免與傳入變更衝突或跳過與現有資料衝突的交易事務。透過呼叫 [pg\_replication\_origin\_advance\(\)](../../sql/functions/functions-admin.md#9-26-6-replication-functions) 函數以及與訂閱名稱和位置相對應的 node\_name，可以跳過該交易事務。可以在 [pg\_replication\_origin\_status](../../internals/system-catalogs/pg_replication_origin_status.md) 系統檢視表中看到開始的目前位置。
 
