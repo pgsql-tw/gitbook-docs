@@ -264,7 +264,7 @@
     * [30.5. WAL Internals](server-administration/reliability-and-the-write-ahead-log/wal-internals.md)
   * [31. 邏輯複寫（Logical Replication）](server-administration/logical-replication/README.md)
     * [31.1. 發佈（Publication）](server-administration/logical-replication/publication.md)
-    * [31.2. Subscription](server-administration/logical-replication/subscription.md)
+    * [31.2. 訂閱（Subscription）](server-administration/logical-replication/subscription.md)
     * [31.3. Conflicts](server-administration/logical-replication/conflicts.md)
     * [31.4. Architecture](server-administration/logical-replication/architecture.md)
     * [31.5. Monitoring](server-administration/logical-replication/monitoring.md)

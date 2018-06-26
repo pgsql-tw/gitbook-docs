@@ -2,15 +2,15 @@
 description: 版本：10
 ---
 
-# 31.2. Subscription
+# 31.2. 訂閱（Subscription）
 
-A _subscription_ is the downstream side of logical replication. The node where a subscription is defined is referred to as the _subscriber_. A subscription defines the connection to another database and set of publications \(one or more\) to which it wants to subscribe.
+訂閱是邏輯複寫的下游。訂閱的節點被稱為訂閱者。訂閱定義了與另一個資料庫以及它想要訂閱的一組或多組發佈（一個或多個）的連線。
 
-The subscriber database behaves in the same way as any other PostgreSQL instance and can be used as a publisher for other databases by defining its own publications.
+訂閱資料庫的行為與任何其他 PostgreSQL 服務的行為相同，也可以透過定義自己的發佈來成為其他資料庫的發佈者。
 
-A subscriber node may have multiple subscriptions if desired. It is possible to define multiple subscriptions between a single publisher-subscriber pair, in which case care must be taken to ensure that the subscribed publication objects don't overlap.
+如果需要，用戶節點可能有多個訂閱。在單個（發佈者 - 訂閱者）配對之間定義多個訂閱允許的，在這種情況下必須小心以確保訂閱的發佈對象不重疊。
 
-Each subscription will receive changes via one replication slot \(see [Section 26.2.6](https://www.postgresql.org/docs/10/static/warm-standby.html#STREAMING-REPLICATION-SLOTS)\). Additional temporary replication slots may be required for the initial data synchronization of pre-existing table data.
+每個訂閱都將透過一個複寫插槽（replication slot）接收變更（請參閱[第 26.2.6 節](../high-availability-load-balancing-and-replication/26.2.-log-shipping-standby-servers.md)）。額外的臨時複寫插槽可能需要用於預先存在的資料表資料才能開始初始化資料同步。
 
 A logical replication subscription can be a standby for synchronous replication \(see [Section 26.2.8](https://www.postgresql.org/docs/10/static/warm-standby.html#SYNCHRONOUS-REPLICATION)\). The standby name is by default the subscription name. An alternative name can be specified as `application_name` in the connection information of the subscription.
 
