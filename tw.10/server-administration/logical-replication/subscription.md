@@ -16,22 +16,22 @@ description: 版本：10
 
 如果目前使用者是超級使用者，則 pg\_dump 會匯出訂閱的內容。否則會提示警告訊息並跳過訂閱內容，因為非超級使用者無法讀取 pg\_subscription 目錄中的訂閱訊息。
 
-訂閱是使用 CREATE SUBSCRIPTION 加入的，可以隨時使用 ALTER SUBSCRIPTION 指令停止或恢復，並使用 DROP SUBSCRIPTION 移除訂閱。
+訂閱是使用 [CREATE SUBSCRIPTION](../../reference/sql-commands/create-subscription.md) 加入的，可以隨時使用 [ALTER SUBSCRIPTION](../../reference/sql-commands/alter-subscription.md) 指令停止或恢復，並使用 [DROP SUBSCRIPTION](../../reference/sql-commands/drop-subscription.md) 移除訂閱。
 
-When a subscription is dropped and recreated, the synchronization information is lost. This means that the data has to be resynchronized afterwards.
+當訂閱被移除並重新建立時，將會失去同步訊息。這意味著資料必須在事後重新同步。
 
-The schema definitions are not replicated, and the published tables must exist on the subscriber. Only regular tables may be the target of replication. For example, you can't replicate to a view.
+綱要的定義不會被複寫，並且已發佈的資料表必須存在於訂閱的伺服器上。只有一般的資料表可以是複寫的標的。例如，您不能複寫到檢視表（view）。
 
-The tables are matched between the publisher and the subscriber using the fully qualified table name. Replication to differently-named tables on the subscriber is not supported.
+這些資料表使用完全限定的資料表名稱，在發佈者和訂閱者之間進行匹配。不支援複寫到訂閱戶上不同名稱的資料表。
 
-Columns of a table are also matched by name. A different order of columns in the target table is allowed, but the column types have to match. The target table can have additional columns not provided by the published table. Those will be filled with their default values.
+資料表的欄位也按照名稱匹配。目標資料表中不同的欄位順序是允許的，但欄位型別必須匹配。目標資料表可以具有未由發佈資料表所提供的附加欄位。那些欄位將以它們的預設值填入。
 
-#### 31.2.1. Replication Slot Management
+## 31.2.1. 複寫插槽管理
 
-As mentioned earlier, each \(active\) subscription receives changes from a replication slot on the remote \(publishing\) side. Normally, the remote replication slot is created automatically when the subscription is created using `CREATE SUBSCRIPTION` and it is dropped automatically when the subscription is dropped using `DROP SUBSCRIPTION`. In some situations, however, it can be useful or necessary to manipulate the subscription and the underlying replication slot separately. Here are some scenarios:
+如前所述，每個（活動）訂閱都會從遠端（發佈）端的複寫插槽接收變更。通常，使用 CREATE SUBSCRIPTION 建立訂閱時會自動建立遠端的複寫插槽，使用 DROP SUBSCRIPTION 移除訂閱時會自動移除該插槽。但是，在某些情況下，分別管理訂閱和底層複寫插槽可能很有用甚至是必要的。 以下是一些情況：
 
-* When creating a subscription, the replication slot already exists. In that case, the subscription can be created using the `create_slot = false` option to associate with the existing slot.
-* When creating a subscription, the remote host is not reachable or in an unclear state. In that case, the subscription can be created using the `connect = false` option. The remote host will then not be contacted at all. This is what pg\_dump uses. The remote replication slot will then have to be created manually before the subscription can be activated.
+* 建立訂閱時，複寫插槽已經存在。在這種情況下，可以使用 create\_slot = false 選項來與現有插槽關連以建立訂閱。
+* 建立訂閱時，遠端主機無法存取或處於不明狀態。在這種情況下，可以使用 connect = false 選項建立訂閱。遠端主機將不會被聯繫。這是 pg\_dump 所使用的。然後必須在訂閱啓動之前手動建立遠端的複寫插槽。
 * When dropping a subscription, the replication slot should be kept. This could be useful when the subscriber database is being moved to a different host and will be activated from there. In that case, disassociate the slot from the subscription using `ALTER SUBSCRIPTION` before attempting to drop the subscription.
 * When dropping a subscription, the remote host is not reachable. In that case, disassociate the slot from the subscription using `ALTER SUBSCRIPTION` before attempting to drop the subscription. If the remote database instance no longer exists, no further action is then necessary. If, however, the remote database instance is just unreachable, the replication slot should then be dropped manually; otherwise it would continue to reserve WAL and might eventually cause the disk to fill up. Such cases should be carefully investigated.
 
