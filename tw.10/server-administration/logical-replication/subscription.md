@@ -10,13 +10,13 @@ description: 版本：10
 
 如果需要，用戶節點可能有多個訂閱。在單個（發佈者 - 訂閱者）配對之間定義多個訂閱允許的，在這種情況下必須小心以確保訂閱的發佈對象不重疊。
 
-每個訂閱都將透過一個複寫插槽（replication slot）接收變更（請參閱[第 26.2.6 節](../high-availability-load-balancing-and-replication/26.2.-log-shipping-standby-servers.md)）。額外的臨時複寫插槽可能需要用於預先存在的資料表資料才能開始初始化資料同步。
+每個訂閱都將透過一個複寫插槽（replication slot）接收變更（請參閱[第 26.2.6 節](../high-availability-load-balancing-and-replication/26.2.-log-shipping-standby-servers.md#26-2-6-replication-slots)）。額外的臨時複寫插槽可能需要用於預先存在的資料表資料才能開始初始化資料同步。
 
-A logical replication subscription can be a standby for synchronous replication \(see [Section 26.2.8](https://www.postgresql.org/docs/10/static/warm-standby.html#SYNCHRONOUS-REPLICATION)\). The standby name is by default the subscription name. An alternative name can be specified as `application_name` in the connection information of the subscription.
+邏輯複寫訂閱可以是同步複寫的備用資料庫（請參閱[第 26.2.8 節](../high-availability-load-balancing-and-replication/26.2.-log-shipping-standby-servers.md#26-2-8-synchronous-replication)）。備用名稱預設為訂閱名稱。可以在訂閱的連線訊息中將另一個名稱以 application\_name 指定。
 
-Subscriptions are dumped by `pg_dump` if the current user is a superuser. Otherwise a warning is written and subscriptions are skipped, because non-superusers cannot read all subscription information from the `pg_subscription` catalog.
+如果目前使用者是超級使用者，則 pg\_dump 會匯出訂閱的內容。否則會提示警告訊息並跳過訂閱內容，因為非超級使用者無法讀取 pg\_subscription 目錄中的訂閱訊息。
 
-The subscription is added using [CREATE SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-createsubscription.html) and can be stopped/resumed at any time using the [ALTER SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-altersubscription.html) command and removed using [DROP SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-dropsubscription.html).
+訂閱是使用 CREATE SUBSCRIPTION 加入的，可以隨時使用 ALTER SUBSCRIPTION 指令停止或恢復，並使用 DROP SUBSCRIPTION 移除訂閱。
 
 When a subscription is dropped and recreated, the synchronization information is lost. This means that the data has to be resynchronized afterwards.
 

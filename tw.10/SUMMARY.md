@@ -437,6 +437,7 @@
     * [CREATE ROLE](reference/sql-commands/create-role.md)
     * [CREATE SCHEMA](reference/sql-commands/create-schema.md)
     * [CREATE SERVER](reference/sql-commands/create-server.md)
+    * [CREATE SUBSCRIPTION](reference/sql-commands/create-subscription.md)
     * [CREATE TABLE](reference/sql-commands/create-table.md)
     * [CREATE TABLE AS](reference/sql-commands/create-table-as.md)
     * [CREATE TABLESPACE](reference/sql-commands/create-tablespace.md)
