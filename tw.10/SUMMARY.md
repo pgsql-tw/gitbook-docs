@@ -268,7 +268,7 @@
     * [31.3. 衝突處理](server-administration/logical-replication/conflicts.md)
     * [31.4. 限制](server-administration/logical-replication/restrictions.md)
     * [31.5. 架構](server-administration/logical-replication/architecture.md)
-    * [31.6. Security](server-administration/logical-replication/security.md)
+    * [31.6. 監控](server-administration/logical-replication/monitoring.md)
     * [31.7. Configuration Settings](server-administration/logical-replication/configuration-settings.md)
     * [31.8. Quick Setup](server-administration/logical-replication/quick-setup.md)
   * [32. 迴歸測試](server-administration/regression-tests/README.md)
