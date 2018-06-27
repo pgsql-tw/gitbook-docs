@@ -31,7 +31,7 @@ local0.*    /var/log/postgresql
 
 變更 syslog 背景程序的配置檔案以使其産生作用。
 
-在 Windows 上，當您為 log\_destination 使用 eventlog 選項時，應該向作業系統註冊事件來源及其函式庫，以便 Windows 事件查詢器可以清楚地顯示事件日誌消息。詳情請參閱[第 18.11 節](../18.-fu-wu-pei-zhi-yu-wei-yun/registering-event-log-on-windows.md)。
+在 Windows 上，當您為 log\_destination 使用 eventlog 選項時，應該向作業系統註冊事件來源及其函式庫，以便 Windows 事件查詢器可以清楚地顯示事件日誌消息。詳情請參閱[第 18.11 節](../server-setup-and-operation/registering-event-log-on-windows.md)。
 
 #### `logging_collector` \(`boolean`\)
 
