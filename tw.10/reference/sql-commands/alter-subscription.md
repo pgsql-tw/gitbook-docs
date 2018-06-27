@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # ALTER SUBSCRIPTION
 
 ALTER SUBSCRIPTION — change the definition of a subscription
 
-### Synopsis
+### 語法
 
 ```text
 ALTER SUBSCRIPTION name CONNECTION 'conninfo'
@@ -15,63 +19,83 @@ ALTER SUBSCRIPTION name OWNER TO { new_owner | CURRENT_USER | SESSION_USER }
 ALTER SUBSCRIPTION name RENAME TO new_name
 ```
 
-### Description
+### 說明
 
-`ALTER SUBSCRIPTION` can change most of the subscription properties that can be specified in [CREATE SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-createsubscription.html).
+ALTER SUBSCRIPTION 可以變更 [CREATE SUBSCRIPTION](create-subscription.md) 中大部分可指定的訂閱屬性。
 
-You must own the subscription to use `ALTER SUBSCRIPTION`. To alter the owner, you must also be a direct or indirect member of the new owning role. The new owner has to be a superuser. \(Currently, all subscription owners must be superusers, so the owner checks will be bypassed in practice. But this might change in the future.\)
+您必須是該訂閱的擁有者才能使用 ALTER SUBSCRIPTION。要變更擁有者，您必須是新角色的直接或間接成員，而新所有者必須是超級使用者。（目前，訂閱擁有者都必須是超級使用者，因此擁有者檢查將在實作中繞過，但未來這個部份有可能會發生變化。）
 
-### Parameters
+### 參數
 
 _`name`_
 
-The name of a subscription whose properties are to be altered.`CONNECTION '`_`conninfo`_'
+屬性將被變更的訂閱名稱。
 
-This clause alters the connection property originally set by [CREATE SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-createsubscription.html). See there for more information.`SET PUBLICATION` _`publication_name`_
+`CONNECTION '`_`conninfo`_'
 
-Changes list of subscribed publications. See [CREATE SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-createsubscription.html) for more information. By default this command will also act like `REFRESH PUBLICATION`.
+此子句變更最初由 [CREATE SUBSCRIPTION](create-subscription.md) 設定的連線參數。請到該指令查看更多訊息。
 
-_`set_publication_option`_ specifies additional options for this operation. The supported options are:`refresh` \(`boolean`\)
+`SET PUBLICATION` _`publication_name`_
 
-When false, the command will not try to refresh table information. `REFRESH PUBLICATION` should then be executed separately. The default is `true`.
+變更訂閱發佈的列表。有關更多訊息，請參閱 [CREATE SUBSCRIPTION](create-subscription.md)。預設情況下，這個指令就如同 REFRESH PUBLICATION 一樣。
 
-Additionally, refresh options as described under `REFRESH PUBLICATION` may be specified.`REFRESH PUBLICATION`
+set\_publication\_option 為此操作指定了其他選項。支援的選項有：
 
-Fetch missing table information from publisher. This will start replication of tables that were added to the subscribed-to publications since the last invocation of `REFRESH PUBLICATION` or since `CREATE SUBSCRIPTION`.
+`refresh` \(`boolean`\)
 
-_`refresh_option`_ specifies additional options for the refresh operation. The supported options are:`copy_data` \(`boolean`\)
+如果為 false，此指令將不會嘗試更新資料表訊息。REFRESH PUBLICATION 就應該要分開執行。預設值是 true。
 
-Specifies whether the existing data in the publications that are being subscribed to should be copied once the replication starts. The default is `true`.`ENABLE`
+此外，可能需要指定更新選項，如 REFRESH PUBLICATION 中所述。
 
-Enables the previously disabled subscription, starting the logical replication worker at the end of transaction.`DISABLE`
+`REFRESH PUBLICATION`
 
-Disables the running subscription, stopping the logical replication worker at the end of transaction.`SET (` _`subscription_parameter`_ \[= _`value`_\] \[, ... \] \)
+從發佈者取得缺少的資料表訊息。這將開始複寫自從上次呼叫 REFRESH PUBLICATION 或自從 CREATE SUBSCRIPTION 以來已加到訂閱發佈中的資料表。
 
-This clause alters parameters originally set by [CREATE SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-createsubscription.html). See there for more information. The allowed options are `slot_name` and `synchronous_commit`_`new_owner`_
+refresh\_option 指定更新操作的附加選項。支援的選項有：
 
-The user name of the new owner of the subscription._`new_name`_
+`copy_data` \(`boolean`\)
 
-The new name for the subscription.
+指定在複寫開始之後是否應複寫正在訂閱的發佈中的現有資料。預設值是 true。
 
-### Examples
+`ENABLE`
 
-Change the publication subscribed by a subscription to `insert_only`:
+啟用先前停用的訂閱，在交易事務結束時啟動邏輯複寫程序。
+
+`DISABLE`
+
+停用正在運行的訂閱，在交易事務結束時停止邏輯複寫的工作。
+
+`SET (` _`subscription_parameter`_ \[= _`value`_\] \[, ... \] \)
+
+此子句變更最初由 [CREATE SUBSCRIPTION](create-subscription.md) 設定的參數。查看該指令取得更多訊息。允許的選項是 slot\_name 和 synchronous\_commit
+
+_`new_owner`_
+
+訂閱的新擁有者的使用者名稱。
+
+_`new_name`_
+
+訂閱的新名稱。
+
+### 範例
+
+將訂閱的發佈對象變更為 insert\_only：
 
 ```text
 ALTER SUBSCRIPTION mysub SET PUBLICATION insert_only;
 ```
 
-Disable \(stop\) the subscription:
+停用（停止）訂閱：
 
 ```text
 ALTER SUBSCRIPTION mysub DISABLE;
 ```
 
-### Compatibility
+### 相容性
 
-`ALTER SUBSCRIPTION` is a PostgreSQL extension.
+ALTER SUBSCRIPTION 是 PostgreSQL 的延伸功能。
 
-### See Also
+### 參閱
 
-[CREATE SUBSCRIPTION](create-subscription.md), [DROP SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-dropsubscription.html), [CREATE PUBLICATION](create-publication.md), [ALTER PUBLICATION](alter-publication.md)
+[CREATE SUBSCRIPTION](create-subscription.md), [DROP SUBSCRIPTION](drop-subscription.md), [CREATE PUBLICATION](create-publication.md), [ALTER PUBLICATION](alter-publication.md)
 

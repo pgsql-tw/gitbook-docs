@@ -1,49 +1,55 @@
+---
+description: 版本：10
+---
+
 # DROP SUBSCRIPTION
 
-DROP SUBSCRIPTION — remove a subscription
+DROP SUBSCRIPTION — 移除訂閱
 
-### Synopsis
+### 語法
 
 ```text
 DROP SUBSCRIPTION [ IF EXISTS ] name [ CASCADE | RESTRICT ]
 ```
 
-### Description
+### 說明
 
-`DROP SUBSCRIPTION` removes a subscription from the database cluster.
+DROP SUBSCRIPTION 從資料庫叢集中移除訂閱。
 
-A subscription can only be dropped by a superuser.
+訂閱只能由超級使用者移除。
 
-`DROP SUBSCRIPTION` cannot be executed inside a transaction block if the subscription is associated with a replication slot. \(You can use `ALTER SUBSCRIPTION` to unset the slot.\)
+如果訂閱與複寫插槽關連，則不能在交易事務內執行 DROP SUBSCRIPTION。 （您可以使用 ALTER SUBSCRIPTION 來取消插槽的設定。）
 
-### Parameters
+### 參數
 
 _`name`_
 
-The name of a subscription to be dropped.`CASCADE`  
+要移除的訂閱名稱。
+
+`CASCADE`  
 `RESTRICT`
 
-These key words do not have any effect, since there are no dependencies on subscriptions.
+這些關鍵詞沒有任何作用，因為訂閱沒有相依關係。
 
-### Notes
+### 注意
 
-When dropping a subscription that is associated with a replication slot on the remote host \(the normal state\), `DROP SUBSCRIPTION` will connect to the remote host and try to drop the replication slot as part of its operation. This is necessary so that the resources allocated for the subscription on the remote host are released. If this fails, either because the remote host is not reachable or because the remote replication slot cannot be dropped or does not exist or never existed, the `DROP SUBSCRIPTION` command will fail. To proceed in this situation, disassociate the subscription from the replication slot by executing `ALTER SUBSCRIPTION ... SET (slot_name = NONE)`. After that, `DROP SUBSCRIPTION` will no longer attempt any actions on a remote host. Note that if the remote replication slot still exists, it should then be dropped manually; otherwise it will continue to reserve WAL and might eventually cause the disk to fill up. See also [Section 31.2.1](https://www.postgresql.org/docs/10/static/logical-replication-subscription.html#LOGICAL-REPLICATION-SUBSCRIPTION-SLOT).
+在移除與遠端主機上的複寫插槽關連的訂閱（正常狀態）時，DROP SUBSCRIPTION 將連線到遠端主機，並嘗試將復寫插槽移除作為其操作的一部分。這是必要的，以便釋放為遠端主機上的訂閱所分配的資源。如果失敗，無論是因為遠端主機不可連線，還是因為遠端複寫插槽不能被移除或不存在，DROP SUBSCRIPTION 命令都將失敗。要在這種情況下繼續，請透過執行 ALTER SUBSCRIPTION ... SET（slot\_name = NONE）來解除訂閱與複寫插槽的關連。 之後，DROP SUBSCRIPTION 將不再嘗試對遠端主機執行任何操作。請注意，如果遠程複寫插槽仍然存在，則應該手動移除它；否則它將繼續保留 WAL 並最終可能導致磁碟空間不足。另見[第 31.2.1 節](../../server-administration/logical-replication/subscription.md)。
 
-If a subscription is associated with a replication slot, then `DROP SUBSCRIPTION` cannot be executed inside a transaction block.
+如果訂閱與複寫插槽相關連，則 DROP SUBSCRIPTION 不能在交易事務內執行。
 
-### Examples
+### 範例
 
-Drop a subscription:
+移除訂閱：
 
 ```text
 DROP SUBSCRIPTION mysub;
 ```
 
-### Compatibility
+### 相容性
 
-`DROP SUBSCRIPTION` is a PostgreSQL extension.
+DROP SUBSCRIPTION 是 PostgreSQL 的延伸功能。
 
-### See Also
+### 參閱
 
 [CREATE SUBSCRIPTION](create-subscription.md), [ALTER SUBSCRIPTION](alter-subscription.md)
 
