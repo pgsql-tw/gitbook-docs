@@ -164,23 +164,23 @@ This parameter can only be set in the `postgresql.conf` file or on the server co
 
 `krb_server_keyfile` \(`string`\)
 
-Sets the location of the Kerberos server key file. See [Section 20.3.3](https://www.postgresql.org/docs/10/static/auth-methods.html#GSSAPI-AUTH) for details. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+設定 Kerberos 伺服器密鑰檔案的位置。有關詳細訊息，請參閱[第 20.3.3 節](../20.-shi-yong-zhe-ren-zheng/20.3.-authentication-methods.md)。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `krb_caseins_users` \(`boolean`\)
 
-Sets whether GSSAPI user names should be treated case-insensitively. The default is `off` \(case sensitive\). This parameter can only be set in the `postgresql.conf` file or on the server command line.
+設定是否應該區分大小寫地處理 GSSAPI 用戶名。預設是關閉的（區分大小寫）。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `db_user_namespace` \(`boolean`\)
 
-This parameter enables per-database user names. It is off by default. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+此參數啟用每個資料庫分別的使用者名稱。預設是關閉的。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
-If this is on, you should create users as _`username@dbname`_. When _`username`_ is passed by a connecting client, `@` and the database name are appended to the user name and that database-specific user name is looked up by the server. Note that when you create users with names containing `@` within the SQL environment, you will need to quote the user name.
+如果開啓的話，您應該將使用者建立為 username@dbname。當連線用戶端傳遞使用者名稱時，@和資料庫名稱將附加到使用者名稱中，並且該伺服器會查詢特定於資料庫的使用者名稱。請注意，當您在 SQL 環境中建立名稱包含 @ 的使用者時，您需要以引號括住使用者名稱。
 
-With this parameter enabled, you can still create ordinary global users. Simply append `@` when specifying the user name in the client, e.g. `joe@`. The `@` will be stripped off before the user name is looked up by the server.
+啟用此參數後，您仍然可以建立普通的全域使用者。在用戶端指定使用者名稱時簡單追加 @，例如 joe@。在使用者名稱被伺服器查詢之前，@ 將被剝離。
 
-`db_user_namespace` causes the client's and server's user name representation to differ. Authentication checks are always done with the server's user name so authentication methods must be configured for the server's user name, not the client's. Because `md5` uses the user name as salt on both the client and server, `md5` cannot be used with `db_user_namespace`.
+db\_user\_namespace 會導致用戶端和伺服器的使用者名稱表示方式不同。身份驗證檢查始終使用伺服器的使用者名稱完成，因此必須為伺服器的使用者名稱配置身份驗證方法，而不是用戶端。而 md5 在用戶端和伺服器上均使用使用者名稱作為 salt，所以 md5 不能與 db\_user\_namespace 一起使用。
 
-#### Note
+#### 注意
 
-This feature is intended as a temporary measure until a complete solution is found. At that time, this option will be removed.
+此功能是一種臨時措施，到找到完整的解決方案的時候，這個選項將被刪除。
 
