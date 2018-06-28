@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # 19.8. 錯誤回報與日誌記錄
 
 ## 19.8.1. 記錄在哪裡
@@ -81,29 +85,29 @@ local0.*    /var/log/postgresql
 
 #### `syslog_facility` \(`enum`\)
 
-When logging to syslog is enabled, this parameter determines the syslog “facility” to be used. You can choose from `LOCAL0`, `LOCAL1`, `LOCAL2`, `LOCAL3`, `LOCAL4`, `LOCAL5`, `LOCAL6`, `LOCAL7`; the default is `LOCAL0`. See also the documentation of your system's syslog daemon. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+當啟用日誌記錄到 syslog 時，此參數確定要使用的系統日誌的「設施」。 您可以選擇 LOCAL0，LOCAL1，LOCAL2，LOCAL3，LOCAL4，LOCAL5，LOCAL6，LOCAL7；預設值是 LOCAL0。另請參閱系統的 syslog 背景程序的文件。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 #### `syslog_ident` \(`string`\)
 
-When logging to syslog is enabled, this parameter determines the program name used to identify PostgreSQL messages in syslog logs. The default is `postgres`. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+當啟用日誌記錄到系統日誌時，此參數決定用於在系統日誌中識別 PostgreSQL 記錄的程序名稱。預設是 postgres。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 #### `syslog_sequence_numbers` \(`boolean`\)
 
-When logging to syslog and this is on \(the default\), then each message will be prefixed by an increasing sequence number \(such as `[2]`\). This circumvents the “--- last message repeated N times ---” suppression that many syslog implementations perform by default. In more modern syslog implementations, repeated message suppression can be configured \(for example, `$RepeatedMsgReduction` in rsyslog\), so this might not be necessary. Also, you could turn this off if you actually want to suppress repeated messages.
+當記錄到系統日誌並且這是啓用的（預設），那麼每筆記錄將以遞增的序列號碼（例如\[2\]）作為前置內容。這規避了「---最後一條記錄重複 N 次---」抑制了許多 syslog 實務上預設執行的操作。在更現代的 syslog 實作中，可以設定重複的記錄抑制（例如，rsyslog 中的 $RepeatedMsgReduction），所以這可能不是必要的。另外，如果你真的想要抑制重複的記錄，就可以關掉它。
 
-This parameter can only be set in the `postgresql.conf` file or on the server command line.
+此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 #### `syslog_split_messages` \(`boolean`\)
 
-When logging to syslog is enabled, this parameter determines how messages are delivered to syslog. When on \(the default\), messages are split by lines, and long lines are split so that they will fit into 1024 bytes, which is a typical size limit for traditional syslog implementations. When off, PostgreSQL server log messages are delivered to the syslog service as is, and it is up to the syslog service to cope with the potentially bulky messages.
+當啟用日誌記錄到 syslog 時，此參數決定記錄如何傳遞到系統日誌。啟用時（預設），記錄按行分割，使得行長在 1024 字元以下，這是傳統 syslog 實作的典型大小限制。關閉時，PostgreSQL 伺服器日誌記錄會按原樣傳遞到系統日誌服務，並由系統日誌服務來處理潛在的龐大記錄。
 
-If syslog is ultimately logging to a text file, then the effect will be the same either way, and it is best to leave the setting on, since most syslog implementations either cannot handle large messages or would need to be specially configured to handle them. But if syslog is ultimately writing into some other medium, it might be necessary or more useful to keep messages logically together.
+如果 syslog 最終記錄到文字檔案，那麼效果將是相同的，並且最好將設定保留為開啟狀態，因為大多數 syslog 實作無法處理大量記錄，或者需要專門設定以處理它們。但是，如果系統日誌最終寫入其他媒體，將記錄邏輯上地組合在一起可能是必要的或更有用的。
 
-This parameter can only be set in the `postgresql.conf` file or on the server command line.
+此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 #### `event_source` \(`string`\)
 
-When logging to event log is enabled, this parameter determines the program name used to identify PostgreSQL messages in the log. The default is `PostgreSQL`. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+當啟用記錄到事件日誌時，此參數確定用於在記錄中識別 PostgreSQL 記錄的程序名稱。預設是 PostgreSQL。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 ## 19.8.2. When To Log
 
