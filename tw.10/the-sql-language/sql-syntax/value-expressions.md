@@ -375,9 +375,9 @@ SELECT name, (SELECT max(pop) FROM cities WHERE cities.state = states.name)
     FROM states;
 ```
 
-## 4.2.12. Array Constructors
+## 4.2.12. 陣列建構函數
 
-An array constructor is an expression that builds an array value using values for its member elements. A simple array constructor consists of the key word`ARRAY`, a left square bracket`[`, a list of expressions \(separated by commas\) for the array element values, and finally a right square bracket`]`. For example:
+陣列建構函數是一種使用其成員元素的值建構陣列的表示式。一個簡單的陣列建構函數由關鍵字 ARRAY，左方括號 \[，陣列元素值的表示式列表（用逗號分隔），最後一個右方括號 \] 組成。例如：
 
 ```text
 SELECT ARRAY[1,2,3+4];
@@ -387,7 +387,7 @@ SELECT ARRAY[1,2,3+4];
 (1 row)
 ```
 
-By default, the array element type is the common type of the member expressions, determined using the same rules as for`UNION`or`CASE`constructs \(see[Section 10.5](https://www.postgresql.org/docs/10/static/typeconv-union-case.html)\). You can override this by explicitly casting the array constructor to the desired type, for example:
+預設情況下，陣列元素型別是成員表示式的通用型別，使用與 UNION 或 CASE 結構相同的規則來決定（參閱 [10.5 節](../10.-xing-bie-zhuan-huan/10.5.-unioncase-deng-xiang-guan-cao-zuo.md)）。您也可以透過明確將陣列建構函數轉換為所需的型別來覆蓋它，例如：
 
 ```text
 SELECT ARRAY[1,2,22.7]::integer[];
@@ -397,9 +397,9 @@ SELECT ARRAY[1,2,22.7]::integer[];
 (1 row)
 ```
 
-This has the same effect as casting each expression to the array element type individually. For more on casting, see[Section 4.2.9](https://www.postgresql.org/docs/10/static/sql-expressions.html#sql-syntax-type-casts).
+這與分別將每個表示式轉換為陣列元素型別的效果相同。有關型別轉換的更多訊息，請參閱[第 4.2.9 節](value-expressions.md#4-2-9-xing)。
 
-Multidimensional array values can be built by nesting array constructors. In the inner constructors, the key word`ARRAY`can be omitted. For example, these produce the same result:
+可以透過巢狀的陣列建構函數來建構多維陣列。在內部的建構函數中，關鍵字 ARRAY 可以省略。例如，這些語法會產生相同的結果：
 
 ```text
 SELECT ARRAY[ARRAY[1,2], ARRAY[3,4]];
@@ -415,9 +415,9 @@ SELECT ARRAY[[1,2],[3,4]];
 (1 row)
 ```
 
-Since multidimensional arrays must be rectangular, inner constructors at the same level must produce sub-arrays of identical dimensions. Any cast applied to the outer`ARRAY`constructor propagates automatically to all the inner constructors.
+由於多維陣列必須是矩形，因此同一級別的內部建構函數必須産生具有相同維數的子陣列。套用於外部 ARRAY 建構函數的任何強制型別都會自動轉送給所有內部建構函數。
 
-Multidimensional array constructor elements can be anything yielding an array of the proper kind, not only a sub-`ARRAY`construct. For example:
+多維陣列建構函數的元素可以是任何產生適當型別陣列的東西，不僅只是一個子 ARRAY 結構。例如：
 
 ```text
 CREATE TABLE arr(f1 int[], f2 int[]);
@@ -431,7 +431,7 @@ SELECT ARRAY[f1, f2, '&#123;{9,10},{11,12}&#125;'::int[]] FROM arr;
 (1 row)
 ```
 
-You can construct an empty array, but since it's impossible to have an array with no type, you must explicitly cast your empty array to the desired type. For example:
+你可以建構一個空陣列，但由於不可能有一個沒有型別的陣列，所以你必須明確地將你的空陣列轉換為所需的型別。例如：
 
 ```text
 SELECT ARRAY[]::integer[];
@@ -441,7 +441,7 @@ SELECT ARRAY[]::integer[];
 (1 row)
 ```
 
-It is also possible to construct an array from the results of a subquery. In this form, the array constructor is written with the key word`ARRAY`followed by a parenthesized \(not bracketed\) subquery. For example:
+也可以從子查詢的結果中建構一個陣列。在這種形式下，陣列建構函數使用關鍵字 ARRAY 和小括號（不是中括號）的子查詢寫入。例如：
 
 ```text
 SELECT ARRAY(SELECT oid FROM pg_proc WHERE proname LIKE 'bytea%');
@@ -457,9 +457,9 @@ SELECT ARRAY(SELECT ARRAY[i, i*2] FROM generate_series(1,5) AS a(i));
 (1 row)
 ```
 
-The subquery must return a single column. If the subquery's output column is of a non-array type, the resulting one-dimensional array will have an element for each row in the subquery result, with an element type matching that of the subquery's output column. If the subquery's output column is of an array type, the result will be an array of the same type but one higher dimension; in this case all the subquery rows must yield arrays of identical dimensionality, else the result would not be rectangular.
+子查詢必須回傳一個資料列。如果子查詢的輸出欄位是非陣列型別，則産生的一維陣列將具有子查詢結果中每個資料列的元素，其元素型別與子查詢的輸出欄位匹配。如果子查詢的輸出欄位是一個陣列型別，則結果將是一個相同型別的陣列，但會是一個更高的維度；在這種情況下，所有子查詢資料列都必須産生具有相同維度的陣列，否則結果將不是矩形。
 
-The subscripts of an array value built with`ARRAY`always begin with one. For more information about arrays, see[Section 8.15](https://www.postgresql.org/docs/10/static/arrays.html).
+用 ARRAY 建構的陣列索引值的下標始終以 1 開頭。有關陣列的更多訊息，請參閱[第 8.15 節](../8.-zi-liao-xing-bie/8.15.-zhen-lie.md)。
 
 ## 4.2.13. Row Constructors
 
