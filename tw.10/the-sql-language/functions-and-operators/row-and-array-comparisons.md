@@ -61,9 +61,9 @@ expression operator SOME (array expression)
 expression operator ALL (array expression)
 ```
 
-The right-hand side is a parenthesized expression, which must yield an array value. The left-hand expression is evaluated and compared to each element of the array using the given _`operator`_, which must yield a Boolean result. The result of `ALL` is “true” if all comparisons yield true \(including the case where the array has zero elements\). The result is “false” if any false result is found.
+右側是一個帶括號的表示式，它必須產生一個陣列。使用給定的運算子計算左側表示式並與陣列的每個元素進行比較，該運算子必須產生布林結果。如果所有比較都為真（包括陣列為空的情況），則 ALL 的結果為“真”。如果發現任何錯誤的情況，結果就為“假”。
 
-If the array expression yields a null array, the result of `ALL` will be null. If the left-hand expression yields null, the result of `ALL` is ordinarily null \(though a non-strict comparison operator could possibly yield a different result\). Also, if the right-hand array contains any null elements and no false comparison result is obtained, the result of `ALL` will be null, not true \(again, assuming a strict comparison operator\). This is in accordance with SQL's normal rules for Boolean combinations of null values.
+如果陣列表示式產生一個空陣列，則 ALL 的結果將為 NULL。如果左邊的表示式為NULL，則 ALL 的結果通常為 NULL（儘管非嚴格的比較運算子可能產生不同的結果）。另外，如果右邊的陣列包含任何 NULL 元素，並且沒有獲得錯誤的比較結果，則 ALL 的結果將為 NULL，而不是 TRUE（再次假設一個嚴格的比較運算子）。 這符合 SQL NULL 布林組合的一般性規則。
 
 ## 9.23.5. Row Constructor Comparison
 
