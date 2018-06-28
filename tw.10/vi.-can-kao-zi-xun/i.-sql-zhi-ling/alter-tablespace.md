@@ -33,7 +33,7 @@ _`new_owner`_
 
 _`tablespace_option`_
 
-要設定或重置的資料表空間參數。目前，唯一可用的參數是 seq\_page\_cost，random\_page\_cost 和 effective\_io\_concurrency。為特定資料表空間設定任一值將覆蓋查詢規劃器一般從該資料表空間中的資料表中讀取頁面成本的估計值，這由相同名稱的配置參數（請參閱 [seq\_page\_cost，random\_page\_cost，effective\_io\_concurrency](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.4.-zi-yuan-pei-zhi.md#19-4-6-asynchronous-behavior)）所決定。如果一個資料表空間位於比一般 I/O 子系統更快或更慢的磁碟上，這可能很有用。
+要設定或重置的資料表空間參數。目前，唯一可用的參數是 seq\_page\_cost，random\_page\_cost 和 effective\_io\_concurrency。為特定資料表空間設定任一值將覆蓋查詢規劃器一般從該資料表空間中的資料表中讀取頁面成本的估計值，這由相同名稱的配置參數（請參閱 [seq\_page\_cost，random\_page\_cost，effective\_io\_concurrency](../../server-administration/server-configuration/19.4.-zi-yuan-pei-zhi.md#19-4-6-asynchronous-behavior)）所決定。如果一個資料表空間位於比一般 I/O 子系統更快或更慢的磁碟上，這可能很有用。
 
 ### 範例
 

@@ -156,7 +156,7 @@ SET 子句在輸入函數時將指定的配置參數設定為指定的值，然�
 
 如果將一個 SET 子句附加到一個函數，那麼在該函數內對同一個變數執行的 SET LOCAL 命令的作用將僅限於該函數：配置參數的先前的值仍然會在函數離開時恢復。 然而，一個普通的 SET 命令（沒有 LOCAL）會覆蓋 SET 子句，就像它對於先前的 SET LOCAL 指令所做的那樣：除非當下的事務被回復，否則這種指令的效果將在函數退出後持續存在。
 
-有關允許的參數名稱和值的更多訊息，請參閱 [SET](set.md) 和[第 19 章](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/)。
+有關允許的參數名稱和值的更多訊息，請參閱 [SET](set.md) 和[第 19 章](../../server-administration/server-configuration/)。
 
 `definition`
 

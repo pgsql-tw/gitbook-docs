@@ -73,7 +73,7 @@ _`column_name`_
 
 `TABLESPACE` _`tablespace_name`_
 
-tablespace\_name 是要在其中建立新資料表的資料表空間名稱。如果未指定，則查詢 [default\_tablespace](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang)，如果該資料表是臨時資料表，則為 [temp\_tablespaces](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang)。
+tablespace\_name 是要在其中建立新資料表的資料表空間名稱。如果未指定，則查詢 [default\_tablespace](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang)，如果該資料表是臨時資料表，則為 [temp\_tablespaces](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang)。
 
 _`query`_
 
@@ -87,7 +87,7 @@ _`query`_
 
 此指令在功能上類似於 SELECT INTO，但通常會優先使用這個，因為它不太可能與 SELECT INTO 語法的其他用法混淆。基本上，CREATE TABLE AS 的功能包含了 SELECT INTO 所提供的功能。
 
-CREATE TABLE AS 指令允許使用者明確指定是否應包含 OID。如果未明確指定 OID 的存在，則使用 [default\_with\_oids ](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md#19-13-1-previous-postgresql-versions)的設定變數。
+CREATE TABLE AS 指令允許使用者明確指定是否應包含 OID。如果未明確指定 OID 的存在，則使用 [default\_with\_oids ](../../server-administration/server-configuration/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md#19-13-1-previous-postgresql-versions)的設定變數。
 
 ### 範例
 

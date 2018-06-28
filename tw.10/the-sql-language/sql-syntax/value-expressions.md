@@ -350,7 +350,7 @@ SELECT a, b, c FROM tbl WHERE ... ORDER BY a COLLATE "C";
 SELECT * FROM tbl WHERE a > 'foo' COLLATE "C";
 ```
 
-請注意，在後者的情況下，COLLATE 子句附加到我們希望影響的運算子的輸入參數。 無論運算子或函數呼叫 COLLATE 子句的哪個參數被附加到哪個參數都沒有關係，因為運算子或函數套用的排序規則是透過考慮所有參數衍生的，並且顯式 COLLATE 子句將覆蓋所有其他排序規則參數。（然而，將不匹配的 COLLATE 子句連接到多個參數是錯誤的，更多細節請參閱[第 23.2 節](../../iii.-xi-tong-guan-li/23.-yu-xi/23.2.-collation-support.md)）。因此，這會産生與前面的例子相同的結果：
+請注意，在後者的情況下，COLLATE 子句附加到我們希望影響的運算子的輸入參數。 無論運算子或函數呼叫 COLLATE 子句的哪個參數被附加到哪個參數都沒有關係，因為運算子或函數套用的排序規則是透過考慮所有參數衍生的，並且顯式 COLLATE 子句將覆蓋所有其他排序規則參數。（然而，將不匹配的 COLLATE 子句連接到多個參數是錯誤的，更多細節請參閱[第 23.2 節](../../server-administration/23.-yu-xi/23.2.-collation-support.md)）。因此，這會産生與前面的例子相同的結果：
 
 ```text
 SELECT * FROM tbl WHERE a COLLATE "C" > 'foo';

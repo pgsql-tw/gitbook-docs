@@ -19,7 +19,7 @@ CREATE SUBSCRIPTION 為目前資料庫加上一個新的訂閱。訂閱名稱必
 
 將在運行此指令的交易事務提交時啟動邏輯複寫工作程序以複寫新訂閱的資料。
 
-有關訂閱和邏輯複寫完整的訊息，請參閱[第 31.2 節](../../iii.-xi-tong-guan-li/31.-luo-ji-fu-xie-logical-replication/31.2.-ding-yue-subscription.md)和[第 31 章](../../iii.-xi-tong-guan-li/31.-luo-ji-fu-xie-logical-replication/)。
+有關訂閱和邏輯複寫完整的訊息，請參閱[第 31.2 節](../../server-administration/31.-luo-ji-fu-xie-logical-replication/31.2.-ding-yue-subscription.md)和[第 31 章](../../server-administration/31.-luo-ji-fu-xie-logical-replication/)。
 
 ### Parameters
 

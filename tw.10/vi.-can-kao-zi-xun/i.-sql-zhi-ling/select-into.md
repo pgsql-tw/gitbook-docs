@@ -46,7 +46,7 @@ _`new_table`_
 
 [CREATE TABLE AS](create-table-as.md) 在功能上類似於 SELECT INTO。CREATE TABLE AS 是推薦的語法，因為這種 SELECT INTO 形式在 ECPG 或 PL/pgSQL 中不可用，它們會以不同的方式解釋 INTO 子句。此外，CREATE TABLE AS 提供了 SELECT INTO 提供的功能的更多功能。
 
-要將 OID 加到 SELECT INTO 所建立的資料表中，請啟用 [default\_with\_oids](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md#19-13-1-previous-postgresql-versions) 組態變數。或者，以 CREATE TABLE AS 與 WITH OIDS 子句一起使用。
+要將 OID 加到 SELECT INTO 所建立的資料表中，請啟用 [default\_with\_oids](../../server-administration/server-configuration/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md#19-13-1-previous-postgresql-versions) 組態變數。或者，以 CREATE TABLE AS 與 WITH OIDS 子句一起使用。
 
 ### 範例
 

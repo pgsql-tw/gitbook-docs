@@ -1,46 +1,14 @@
 # 20. 使用者認證
 
-**Table of Contents**
+當用戶端應用程序連線到資料庫伺服器時，它將指定要連線的 PostgreSQL 資料庫使用者名稱，這與以特定使用者身份登入到 Unix 伺服器的方式大致相同。在 SQL 環境中，有效的資料庫使用者名確定資料庫物件的存取權限 - 有關詳細訊息，請參閱[第 21 章](../21.-zi-liao-ku-jiao-se/)。因此，限制哪些資料庫使用者可以進行連線是非常重要的。
 
-[20.1. The`pg_hba.conf`File](https://www.postgresql.org/docs/10/static/auth-pg-hba-conf.html)
+#### 注意
 
-[20.2. User Name Maps](https://www.postgresql.org/docs/10/static/auth-username-maps.html)
+正如第 21 章所描述的，PostgreSQL 實際上是以「角色」的角度來管理權限的。在本章中，我們一直使用資料庫使用者來表示「具有 LOGIN 權限的角色」。
 
-[20.3. Authentication Methods](https://www.postgresql.org/docs/10/static/auth-methods.html)
+身份驗證是資料庫伺服器建立用戶端身份的過程，延伸確認用戶端應用程序（或執行用戶端應用程序的使用者）是否被允許以請求的資料庫使用者名稱進行連線。
 
-[20.3.1. Trust Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-TRUST)
+PostgreSQL 提供了許多不同的用戶端身份驗證方法。用於驗證特定用戶端連線的方法可以根據（用戶端）主機位址、資料庫名稱和使用者名稱進行驗證。
 
-[20.3.2. Password Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-PASSWORD)
-
-[20.3.3. GSSAPI Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#GSSAPI-AUTH)
-
-[20.3.4. SSPI Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#SSPI-AUTH)
-
-[20.3.5. Ident Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-IDENT)
-
-[20.3.6. Peer Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-PEER)
-
-[20.3.7. LDAP Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-LDAP)
-
-[20.3.8. RADIUS Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-RADIUS)
-
-[20.3.9. Certificate Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-CERT)
-
-[20.3.10. PAM Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-PAM)
-
-[20.3.11. BSD Authentication](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-BSD)
-
-[20.4. Authentication Problems](https://www.postgresql.org/docs/10/static/client-authentication-problems.html)
-
-When a client application connects to the database server, it specifies whichPostgreSQLdatabase user name it wants to connect as, much the same way one logs into a Unix computer as a particular user. Within the SQL environment the active database user name determines access privileges to database objects — see[Chapter 21](https://www.postgresql.org/docs/10/static/user-manag.html)for more information. Therefore, it is essential to restrict which database users can connect.
-
-## Note
-
-As explained in[Chapter 21](https://www.postgresql.org/docs/10/static/user-manag.html),PostgreSQLactually does privilege management in terms of“roles”. In this chapter, we consistently use\_database user\_to mean“role with the`LOGIN`privilege”.
-
-\_Authentication\_is the process by which the database server establishes the identity of the client, and by extension determines whether the client application \(or the user who runs the client application\) is permitted to connect with the database user name that was requested.
-
-PostgreSQLoffers a number of different client authentication methods. The method used to authenticate a particular client connection can be selected on the basis of \(client\) host address, database, and user.
-
-PostgreSQLdatabase user names are logically separate from user names of the operating system in which the server runs. If all the users of a particular server also have accounts on the server's machine, it makes sense to assign database user names that match their operating system user names. However, a server that accepts remote connections might have many database users who have no local operating system account, and in such cases there need be no connection between database user names and OS user names.
+PostgreSQL 資料庫使用者名稱在邏輯上與運行服務器的作業系統的使用者名稱是分開的。如果特定伺服器的所有用戶在伺服器的機器上也有帳戶，那麼分配與其作業系統用戶名搭配的資料庫用戶名是有意義的。但是，接受遠端連線的伺服器可能有許多沒有本地作業系統帳戶的資料庫用戶，在這種情況下，資料庫用戶名和作業系統用戶名之間不需要有所關連。
 

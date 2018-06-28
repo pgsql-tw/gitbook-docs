@@ -110,7 +110,7 @@ Optionally, `GLOBAL` or `LOCAL` can be written before `TEMPORARY` or `TEMP`. Thi
 
 `UNLOGGED`
 
-如果指定了這個選項，則將此表建立為無日誌記錄的資料表。寫入無日誌記錄資料表的資料不寫入 WAL（見[第 30 章](../../iii.-xi-tong-guan-li/30.-gao-ke-kao-du-ji-yu-xie-ri-zhi/)），這使得它們比普通的資料表快得多。但是，它們就不是完全安全的：在系統崩潰或不正常關閉之後，會自動清除無日誌記錄的資料表。 無日誌記錄的資料表內容也無法複製到備用伺服器。在無日誌記錄資料表上所建的所有索引也沒有日誌記錄。
+如果指定了這個選項，則將此表建立為無日誌記錄的資料表。寫入無日誌記錄資料表的資料不寫入 WAL（見[第 30 章](../../server-administration/30.-gao-ke-kao-du-ji-yu-xie-ri-zhi/)），這使得它們比普通的資料表快得多。但是，它們就不是完全安全的：在系統崩潰或不正常關閉之後，會自動清除無日誌記錄的資料表。 無日誌記錄的資料表內容也無法複製到備用伺服器。在無日誌記錄資料表上所建的所有索引也沒有日誌記錄。
 
 `IF NOT EXISTS`
 
@@ -348,11 +348,11 @@ The temporary table will be dropped at the end of the current transaction block.
 
 `TABLESPACE` _`tablespace_name`_
 
-tablespace\_name 是要在其中建立新資料表的資料表空間名稱。如果未指定，則會使用 [default\_tablespace](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#default_tablespace-string)，如果此資料表是臨時資料表，則為使用 [temp\_tablespaces](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#temp_tablespaces-string)。
+tablespace\_name 是要在其中建立新資料表的資料表空間名稱。如果未指定，則會使用 [default\_tablespace](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#default_tablespace-string)，如果此資料表是臨時資料表，則為使用 [temp\_tablespaces](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#temp_tablespaces-string)。
 
 `USING INDEX TABLESPACE` _`tablespace_name`_
 
-此子句允許選擇與其建立的 UNIQUE，PRIMARY KEY 或 EXCLUDE 限制條件約束關連索引的資料表空間。如果未指定，則使用 [default\_tablespace](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#default_tablespace-string)，如果此表是臨時資料表，則為 [temp\_tablespaces](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#temp_tablespaces-string)。
+此子句允許選擇與其建立的 UNIQUE，PRIMARY KEY 或 EXCLUDE 限制條件約束關連索引的資料表空間。如果未指定，則使用 [default\_tablespace](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#default_tablespace-string)，如果此表是臨時資料表，則為 [temp\_tablespaces](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#temp_tablespaces-string)。
 
 #### Storage Parameters
 

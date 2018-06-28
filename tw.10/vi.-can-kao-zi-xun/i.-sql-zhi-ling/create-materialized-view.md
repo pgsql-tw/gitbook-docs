@@ -39,7 +39,7 @@ _`column_name`_
 
 `TABLESPACE` _`tablespace_name`_
 
-tablespace\_name 用於要在其中建立新的具體化檢視表的資料表空間名稱。如果未指定，則會使用 [default\_tablespace](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang) 設定。
+tablespace\_name 用於要在其中建立新的具體化檢視表的資料表空間名稱。如果未指定，則會使用 [default\_tablespace](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang) 設定。
 
 _`query`_
 

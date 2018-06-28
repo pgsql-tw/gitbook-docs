@@ -12,7 +12,7 @@ DROP TABLESPACE [ IF EXISTS ] name
 
 DROP TABLESPACE 從系統中移除資料表空間。
 
-資料表空間只能由其所有者或超級使用者移除。資料表空間在移除之前必須清空所有的資料庫物件。即使目前資料庫中沒有物件正在使用資料表空間，其他資料庫中的物件仍可能仍駐留在資料表空間中。另外，如果資料表空間在任何連線中的 [temp\_tablespaces](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang) 設定列表上，則 DROP 可能會因臨時檔案駐留在資料表空間中而失敗。
+資料表空間只能由其所有者或超級使用者移除。資料表空間在移除之前必須清空所有的資料庫物件。即使目前資料庫中沒有物件正在使用資料表空間，其他資料庫中的物件仍可能仍駐留在資料表空間中。另外，如果資料表空間在任何連線中的 [temp\_tablespaces](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang) 設定列表上，則 DROP 可能會因臨時檔案駐留在資料表空間中而失敗。
 
 ### 參數
 

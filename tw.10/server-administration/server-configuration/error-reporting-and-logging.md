@@ -6,7 +6,7 @@
 
 PostgreSQL 支援多種記錄伺服器訊息的方法，包括 stderr、csvlog 和 syslog。在 Windows 上，支援 eventlog。 將此參數設定為用逗號分隔的所需日誌目標的列表。 預設情況下僅記錄到 stderr。此參數只能在 postgresql.conf 檔案或伺服器命令中設定。
 
-如果 csvlog 包含在 log\_destination 中的話，則日誌將以「逗號分隔」（CSV）格式輸出，便於將日誌載入到其他程序中。詳情請參閱[第 19.8.4 節](19.8.-cuo-wu-hui-bao-yu-ri-zhi-ji-lu.md#19-8-4-using-csv-format-log-output)。 必須啟用 [logging\_collector ](19.8.-cuo-wu-hui-bao-yu-ri-zhi-ji-lu.md#logging_collector-boolean)才能産生 CSV 格式的日誌輸出。
+如果 csvlog 包含在 log\_destination 中的話，則日誌將以「逗號分隔」（CSV）格式輸出，便於將日誌載入到其他程序中。詳情請參閱[第 19.8.4 節](error-reporting-and-logging.md#19-8-4-using-csv-format-log-output)。 必須啟用 [logging\_collector ](error-reporting-and-logging.md#logging_collector-boolean)才能産生 CSV 格式的日誌輸出。
 
 如果包含 stderr 或 csvlog，則會建立 current\_logfiles 檔案以記錄日誌記錄收集器和相關日誌記錄目標目前正在使用的日誌檔案的位置。這提供了一種便捷的方式來查詢目前資料庫實例正在使用的日誌。這裡有這個檔案內容的一個例子：
 
@@ -19,7 +19,7 @@ csvlog log/postgresql.csv
 
 #### 注意
 
-在大多數 Unix 系統上，您需要變更系統 syslog daemon 的配置，以便使用 log\_destination 的 syslog 選項。PostgreSQL 可以登入到系統日誌工具 LOCAL0 到 LOCAL7（請參閱 [syslog\_facility](19.8.-cuo-wu-hui-bao-yu-ri-zhi-ji-lu.md#syslog_facility-enum)），但大多數平台上的預設 syslog 配置將放棄所有此類訊息。您需要加入如下的內容：
+在大多數 Unix 系統上，您需要變更系統 syslog daemon 的配置，以便使用 log\_destination 的 syslog 選項。PostgreSQL 可以登入到系統日誌工具 LOCAL0 到 LOCAL7（請參閱 [syslog\_facility](error-reporting-and-logging.md#syslog_facility-enum)），但大多數平台上的預設 syslog 配置將放棄所有此類訊息。您需要加入如下的內容：
 
 ```text
 local0.*    /var/log/postgresql
@@ -47,7 +47,7 @@ local0.*    /var/log/postgresql
 
 #### `log_filename` \(`string`\)
 
-當啟用 logging\_collector 時，此參數設定建立的日誌檔案的檔案名稱。該值被視為 strftime 模式，因此 ％-escapes 可用於指定隨時間變化的檔案名稱。（請注意，如果有任何時區相關的 ％-escapes，計算將在由 [log\_timezone](19.8.-cuo-wu-hui-bao-yu-ri-zhi-ji-lu.md#log_timezone-string) 指定的區域中完成。）支援的 ％-escapes 與 Open Group 的 [strftime](http://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html) 規範中列出的類似。請注意，系統的 strftime 並未直接使用，因此特定於平台的（非標準）延伸功能不起作用。預設值是 postgresql-％Y-％m-％d\_％H％M％S.log。
+當啟用 logging\_collector 時，此參數設定建立的日誌檔案的檔案名稱。該值被視為 strftime 模式，因此 ％-escapes 可用於指定隨時間變化的檔案名稱。（請注意，如果有任何時區相關的 ％-escapes，計算將在由 [log\_timezone](error-reporting-and-logging.md#log_timezone-string) 指定的區域中完成。）支援的 ％-escapes 與 Open Group 的 [strftime](http://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html) 規範中列出的類似。請注意，系統的 strftime 並未直接使用，因此特定於平台的（非標準）延伸功能不起作用。預設值是 postgresql-％Y-％m-％d\_％H％M％S.log。
 
 如果您指定的檔案名稱不含跳脫符號，則應該計劃使用日誌覆寫程序來避免最後存滿整個磁碟。在 8.4 之前的版本中，如果不存在 ％ 跳脫符號，PostgreSQL 會追加新日誌檔案建立時間的紀元，但已經不再是這種情況了。
 

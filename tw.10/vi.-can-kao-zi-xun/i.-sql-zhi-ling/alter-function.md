@@ -108,7 +108,7 @@ _`value`_
 
 呼叫函數時，增加或變更要對配置參數進行的指定方式。 如果值為 DEFAULT，或者等價地使用 RESET，那麼函數本地配置將被刪除，以便該函數執行其環境中存在的值。使用 RESET ALL 清除所有功能本地配置。SET FROM CURRENT 將執行 ALTER FUNCTION 時當下參數的值保存為輸入函數時所要應用的值。
 
-有關允許的參數名稱和值相關更多訊息，請參閱 [SET](set.md) 和[第 19 章](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/)。
+有關允許的參數名稱和值相關更多訊息，請參閱 [SET](set.md) 和[第 19 章](../../server-administration/server-configuration/)。
 
 `RESTRICT`
 
