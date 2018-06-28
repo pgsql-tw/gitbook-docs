@@ -1,2 +1,0 @@
-# The Information Schema
-
