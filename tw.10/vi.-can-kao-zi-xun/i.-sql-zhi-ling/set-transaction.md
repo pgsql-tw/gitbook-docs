@@ -38,13 +38,13 @@ SET TRANSACTION 指令設定目前交易事務的模式。它對任何後續的�
 
 SQL 標準定義了另一個等級 READ UNCOMMITTED。在 PostgreSQL 中，READ UNCOMMITTED 被視為 READ COMMITTED。
 
-事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）已執行後，事務隔離等級就不能再更改。有關事務隔離和同時一致性控制的更多訊息，請參閱[第 13 章](../../ii.-sql-cha-xun-yu-yan/13.-yi-zhi-xing-guan-li-mvcc/)。
+事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）已執行後，事務隔離等級就不能再更改。有關事務隔離和同時一致性控制的更多訊息，請參閱[第 13 章](../../the-sql-language/13.-yi-zhi-xing-guan-li-mvcc/)。
 
 事務存取模式會決定該事務是讀/寫還是唯讀。讀/寫是預設值。如果事務處於唯讀狀態，則不允許執行以下的 SQL 命令：INSERT、UPDATE、DELETE 和 COPY FROM，除非它們要寫入的資料表是臨時資料表；還有所有的 CREATE、ALTER 和 DROP命令；COMMENT、GRANT、REVOKE、TRUNCATE；以及 EXPLAIN ANALYZE 和 EXECUTE，如果它們執行的命令在以上列出的命令之中的。這是一個高等級的唯讀概念，它不會阻止所有寫入磁碟的行為。
 
 除非事務是 SERIALIZABLE 和 READ ONLY，否則 DEFERRABLE 事務屬性不會起作用。當為事務選擇這三個屬性時，事務可能會在第一次取得其快照時阻隔，之後它就可以在沒有 SERIALIZABLE 事務的正常開銷的情況下執行，並且沒有任何串接化作用或被取消的失敗風險。此模式非常適合長時間執行的報告或備份。
 
-SET TRANSACTION SNAPSHOT 指令允許使用與現有事務相同的快照執行新的事務。預先存在的事務必須使用 pg\_export\_snapshot 函數匯出其快照（請參閱[第 9.26.5節](../../ii.-sql-cha-xun-yu-yan/9.-han-shi-ji-yun-suan-zi/9.26.-xi-tong-guan-li-han-shi.md)）。該函數回傳一個快照識別指標，該識別指標必須賦予 SET TRANSACTION SNAPSHOT 以指定要導入哪個快照。該命令中的識別指標必須寫為字串文字，例如 '000003A1-1'。 SET TRANSACTION SNAPSHOT 只能在事務開始時，在事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）之前執行。此外，事務必須已設定為 SERIALIZABLE 或 REPEATABLE READ 的隔離等級（否則，由於 READ COMMITTED 模式會為每個指令建立一個新快照，因此快照會立即丟棄）。如果導入事務使用 SERIALIZABLE 隔離等級，則導出快照的事務也必須使用該隔離等級。此外，非唯讀序列化事務不能從唯讀事務導入快照。
+SET TRANSACTION SNAPSHOT 指令允許使用與現有事務相同的快照執行新的事務。預先存在的事務必須使用 pg\_export\_snapshot 函數匯出其快照（請參閱[第 9.26.5節](../../the-sql-language/9.-han-shi-ji-yun-suan-zi/9.26.-xi-tong-guan-li-han-shi.md)）。該函數回傳一個快照識別指標，該識別指標必須賦予 SET TRANSACTION SNAPSHOT 以指定要導入哪個快照。該命令中的識別指標必須寫為字串文字，例如 '000003A1-1'。 SET TRANSACTION SNAPSHOT 只能在事務開始時，在事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）之前執行。此外，事務必須已設定為 SERIALIZABLE 或 REPEATABLE READ 的隔離等級（否則，由於 READ COMMITTED 模式會為每個指令建立一個新快照，因此快照會立即丟棄）。如果導入事務使用 SERIALIZABLE 隔離等級，則導出快照的事務也必須使用該隔離等級。此外，非唯讀序列化事務不能從唯讀事務導入快照。
 
 ## 注意
 

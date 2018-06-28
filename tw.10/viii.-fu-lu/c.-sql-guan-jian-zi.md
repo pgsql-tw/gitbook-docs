@@ -1,6 +1,6 @@
 # C. SQL 關鍵字
 
-[Table C.1](c.-sql-guan-jian-zi.md#table-c-1-sql-key-words) lists all tokens that are key words in the SQL standard and in PostgreSQL 11devel. Background information can be found in [Section 4.1.1](../ii.-sql-cha-xun-yu-yan/4.-sql-yu-fa/4.1.-yu-fa-jie-gou.md#4-1-1-identifier-he-zi-keyword). \(For space reasons, only the latest two versions of the SQL standard, and SQL-92 for historical comparison, are included. The differences between those and the other intermediate standard versions are small.\)
+[Table C.1](c.-sql-guan-jian-zi.md#table-c-1-sql-key-words) lists all tokens that are key words in the SQL standard and in PostgreSQL 11devel. Background information can be found in [Section 4.1.1](../the-sql-language/4.-sql-yu-fa/4.1.-yu-fa-jie-gou.md#4-1-1-identifier-he-zi-keyword). \(For space reasons, only the latest two versions of the SQL standard, and SQL-92 for historical comparison, are included. The differences between those and the other intermediate standard versions are small.\)
 
 SQL distinguishes between _reserved_ and _non-reserved_ key words. According to the standard, reserved key words are the only real key words; they are never allowed as identifiers. Non-reserved key words only have a special meaning in particular contexts and can be used as identifiers in other contexts. Most non-reserved key words are actually the names of built-in tables and functions specified by SQL. The concept of non-reserved key words essentially only exists to declare that some predefined meaning is attached to a word in some contexts.
 

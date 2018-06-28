@@ -117,14 +117,14 @@ and table_constraint_using_index is:
 
 `SET STATISTICS`
 
-此語法為隨後的 [ANALYZE](analyze.md) 操作設定每個欄位的統計目標。目標可以設定在 0 到 10000 範圍內；或者，將其設定為 -1 以恢復為使用系統預設的統計訊息目標（[default\_statistics\_target](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.7.-cha-xun-gui-hua.md#19-7-4-other-planner-options)）。有關 PostgreSQL 查詢規劃器使用統計訊息的更多資訊，請參閱[第 14.2 節](../../ii.-sql-cha-xun-yu-yan/14.-xiao-neng-ji-qiao/14.2.-tong-ji-zi-xun.md)。
+此語法為隨後的 [ANALYZE](analyze.md) 操作設定每個欄位的統計目標。目標可以設定在 0 到 10000 範圍內；或者，將其設定為 -1 以恢復為使用系統預設的統計訊息目標（[default\_statistics\_target](../../iii.-xi-tong-guan-li/19.-fu-wu-zu-tai-she-ding/19.7.-cha-xun-gui-hua.md#19-7-4-other-planner-options)）。有關 PostgreSQL 查詢規劃器使用統計訊息的更多資訊，請參閱[第 14.2 節](../../the-sql-language/14.-xiao-neng-ji-qiao/14.2.-tong-ji-zi-xun.md)。
 
 `SET STATISTICS` 會要求一個 `SHARE UPDATE EXCLUSIVE` 的鎖定。
 
 `SET (` _`attribute_option`_ = _`value`_ \[, ... \] \)  
 `RESET (` _`attribute_option`_ \[, ... \] \)
 
-此語法設定或重置每個屬性選項。目前，只有定義的每個屬性選項是 n\_distinct 和 n\_distinct\_inherited，它們會覆蓋後續 [ANALYZE](analyze.md) 操作所做的不同值的估計數量。 n\_distinct 會影響資料表本身的統計訊息，而 n\_distinct\_inherited 會影響為該表及其繼承子資料表所收集的統計訊息。當設定為正值時，ANALYZE 將假定該欄位正好包含指定數量的相異非空值。當設定為負值（必須大於或等於 -1）時，ANALYZE 將假定欄位中相異非空值的數量與表的大小成線性關係；準確的計數是透過將估計的資料表大小乘以給定數字的絕對值來計算。例如，值 -1 意味著欄位中的所有值都是不同的，而值 -0.5 意味著每個值在平均值上會出現兩次。當資料表的大小隨時間變化時這很有用，因為在查詢計劃階段之前，不會執行資料表中行數的乘法運算。指定值 0 以恢復到一般性估計不同值的數量。有關 PostgreSQL 查詢規劃器使用統計資訊的更多訊息，請參閱[第 14.2 節](../../ii.-sql-cha-xun-yu-yan/14.-xiao-neng-ji-qiao/14.2.-tong-ji-zi-xun.md)。
+此語法設定或重置每個屬性選項。目前，只有定義的每個屬性選項是 n\_distinct 和 n\_distinct\_inherited，它們會覆蓋後續 [ANALYZE](analyze.md) 操作所做的不同值的估計數量。 n\_distinct 會影響資料表本身的統計訊息，而 n\_distinct\_inherited 會影響為該表及其繼承子資料表所收集的統計訊息。當設定為正值時，ANALYZE 將假定該欄位正好包含指定數量的相異非空值。當設定為負值（必須大於或等於 -1）時，ANALYZE 將假定欄位中相異非空值的數量與表的大小成線性關係；準確的計數是透過將估計的資料表大小乘以給定數字的絕對值來計算。例如，值 -1 意味著欄位中的所有值都是不同的，而值 -0.5 意味著每個值在平均值上會出現兩次。當資料表的大小隨時間變化時這很有用，因為在查詢計劃階段之前，不會執行資料表中行數的乘法運算。指定值 0 以恢復到一般性估計不同值的數量。有關 PostgreSQL 查詢規劃器使用統計資訊的更多訊息，請參閱[第 14.2 節](../../the-sql-language/14.-xiao-neng-ji-qiao/14.2.-tong-ji-zi-xun.md)。
 
 變更每個屬性選項會要求取得一個 SHARE UPDATE EXCLUSIVE 鎖定。
 
@@ -200,7 +200,7 @@ and table_constraint_using_index is:
 
 `SET WITH OIDS`
 
-此語法在資料表中增加了一個 oid 系統欄位（參閱[第 5.4 節](../../ii.-sql-cha-xun-yu-yan/5.-ding-yi-zi-liao-jie-gou/5.4.-xi-tong-lan-wei.md)）。 如果資料表已經有 OID，那就什麼都不做。
+此語法在資料表中增加了一個 oid 系統欄位（參閱[第 5.4 節](../../the-sql-language/5.-ding-yi-zi-liao-jie-gou/5.4.-xi-tong-lan-wei.md)）。 如果資料表已經有 OID，那就什麼都不做。
 
 請注意，這不等同於 ADD COLUMN oid oid；那只會增加一個正常的欄位，而它碰巧被命名為 oid，而不是系統欄位。
 
@@ -316,7 +316,7 @@ _`constraint_name`_
 
 `CASCADE`
 
-自動刪除相依於刪除欄位或限制條件的物件（例如，引用欄位的檢視表），並依次刪除相依於這些物件的所有物件（請參閱[第 5.13 節](../../ii.-sql-cha-xun-yu-yan/5.-ding-yi-zi-liao-jie-gou/5.13.-xiang-yi-xing-zhui-zong.md)）。
+自動刪除相依於刪除欄位或限制條件的物件（例如，引用欄位的檢視表），並依次刪除相依於這些物件的所有物件（請參閱[第 5.13 節](../../the-sql-language/5.-ding-yi-zi-liao-jie-gou/5.13.-xiang-yi-xing-zhui-zong.md)）。
 
 `RESTRICT`
 
@@ -388,7 +388,7 @@ DROP COLUMN 資料表不會在實體上刪除欄位，而只是使其對 SQL 操
 
 要強制立即回收被刪除的欄位所佔用的空間，可以執行 ALTER TABLE 的一種語法來執行整個資料表的重寫。這會導致重建每個資料列，並將刪除的欄位替換為空值。
 
-ALTER TABLE 的重寫語法並不是 MVCC 安全的。在資料表重寫後，如果使用在重寫發生之前的快照，該資料表對於平行事務將會顯示為空。更多細節參閱 [13.5 節](../../ii.-sql-cha-xun-yu-yan/13.-yi-zhi-xing-guan-li-mvcc/13.5.-te-bie-zhu-yi.md)。
+ALTER TABLE 的重寫語法並不是 MVCC 安全的。在資料表重寫後，如果使用在重寫發生之前的快照，該資料表對於平行事務將會顯示為空。更多細節參閱 [13.5 節](../../the-sql-language/13.-yi-zhi-xing-guan-li-mvcc/13.5.-te-bie-zhu-yi.md)。
 
 SET DATA TYPE 的 USING 選項實際上可以指定涉及資料列舊值的任何表示式；也就是說，它可以引用其他欄位以及正在轉換的欄位。這允許使用 SET DATA TYPE 語法完成非常普遍的轉換。由於這種靈活性，USING 表示式並不適用於欄位的預設值（如果有的話）； 結果可能不是預設所需的常數表示式。這意味著，如果沒有隱含或賦值從舊型別轉換為新型別，即使提供了 USING 子句，SET DATA TYPE 也可能無法轉換預設值。在這種情況下，請使用 DROP DEFAULT 刪除預設值，執行 ALTER TYPE，然後使用 SET DEFAULT 加上合適的新預設值。類似的考量適用於涉及該欄位的索引和限制條件。
 
@@ -400,7 +400,7 @@ SET DATA TYPE 的 USING 選項實際上可以指定涉及資料列舊值的任�
 
 變更系統目錄資料表的任何部分都不會允許。
 
-有關有效參數的更多描述，請參閱 [CREATE TABLE](create-table.md)。[第 5 章](../../ii.-sql-cha-xun-yu-yan/5.-ding-yi-zi-liao-jie-gou/)則有關於繼承的更多訊息。
+有關有效參數的更多描述，請參閱 [CREATE TABLE](create-table.md)。[第 5 章](../../the-sql-language/5.-ding-yi-zi-liao-jie-gou/)則有關於繼承的更多訊息。
 
 ### 範例
 

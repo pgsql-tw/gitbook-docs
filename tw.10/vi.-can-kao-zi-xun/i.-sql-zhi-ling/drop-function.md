@@ -39,7 +39,7 @@ _`argtype`_
 
 `CASCADE`
 
-自動刪除依賴於該功能的物件（如運算子或觸發器），並依次移除依賴於這些物件的所有物件（請參閱[第 5.13 節](../../ii.-sql-cha-xun-yu-yan/5.-ding-yi-zi-liao-jie-gou/5.13.-xiang-yi-xing-zhui-zong.md)）。
+自動刪除依賴於該功能的物件（如運算子或觸發器），並依次移除依賴於這些物件的所有物件（請參閱[第 5.13 節](../../the-sql-language/5.-ding-yi-zi-liao-jie-gou/5.13.-xiang-yi-xing-zhui-zong.md)）。
 
 `RESTRICT`
 

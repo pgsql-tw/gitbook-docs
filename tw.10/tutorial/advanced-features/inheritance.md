@@ -83,5 +83,5 @@ SELECT name, altitude
 
 ## 注意
 
-雖然繼承經常被使用，但尚未整合唯一性限制或外部索引鍵的功能，這限制了它的可用性。詳情請參考 [5.9 節](../../ii.-sql-cha-xun-yu-yan/5.-ding-yi-zi-liao-jie-gou/5.9.-ji-cheng.md)的說明。
+雖然繼承經常被使用，但尚未整合唯一性限制或外部索引鍵的功能，這限制了它的可用性。詳情請參考 [5.9 節](../../the-sql-language/5.-ding-yi-zi-liao-jie-gou/5.9.-ji-cheng.md)的說明。
 

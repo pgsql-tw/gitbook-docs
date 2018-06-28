@@ -16,7 +16,7 @@ VALUES ( expression [, ...] ) [, ...]
 
 VALUES 由指定值表示式産生資料列或就是一組資料列。它通常用於在更大的指令中産生「常數資料表」，但它也可以單獨使用。
 
-當指定多個資料列時，所有資料列必須具有相同數量的元素。結果的資料表的資料型別是透過組合顯示或推斷出現在該欄位中表示式的型別來決定的，其使用與 UNION 相同的規則（見[第 10.5 節](../../ii.-sql-cha-xun-yu-yan/10.-xing-bie-zhuan-huan/10.5.-unioncase-deng-xiang-guan-cao-zuo.md)）。
+當指定多個資料列時，所有資料列必須具有相同數量的元素。結果的資料表的資料型別是透過組合顯示或推斷出現在該欄位中表示式的型別來決定的，其使用與 UNION 相同的規則（見[第 10.5 節](../../the-sql-language/10.-xing-bie-zhuan-huan/10.5.-unioncase-deng-xiang-guan-cao-zuo.md)）。
 
 在較大的指令中，VALUES 在 SELECT 的任何位置在語法上都是被允許的。由於語法將其視為 SELECT，因此可以使用 ORDER BY、LIMIT（或等價的 FETCH FIRST）和 OFFSET 子句以及 VALUES 指令。
 
@@ -102,7 +102,7 @@ WHERE ip_address IN (VALUES('192.168.0.1'::inet), ('192.168.0.10'), ('192.168.1.
 
 #### 小技巧
 
-對於簡單的 IN 測試，最好依賴 IN 的 [scalar 列表](../../ii.-sql-cha-xun-yu-yan/9.-han-shi-ji-yun-suan-zi/9.23.-zi-liao-lie-yu-zhen-lie-de-bi-jiao-yun-suan.md#9-23-1-in)形式，而不是像上面那樣撰寫 VALUES 查詢。scalar 列表方式只需要更少的寫入，並且通常效能更高。
+對於簡單的 IN 測試，最好依賴 IN 的 [scalar 列表](../../the-sql-language/9.-han-shi-ji-yun-suan-zi/9.23.-zi-liao-lie-yu-zhen-lie-de-bi-jiao-yun-suan.md#9-23-1-in)形式，而不是像上面那樣撰寫 VALUES 查詢。scalar 列表方式只需要更少的寫入，並且通常效能更高。
 
 ### 相容性
 
