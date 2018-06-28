@@ -102,7 +102,7 @@ WHERE ip_address IN (VALUES('192.168.0.1'::inet), ('192.168.0.10'), ('192.168.1.
 
 #### 小技巧
 
-對於簡單的 IN 測試，最好依賴 IN 的 [scalar 列表](../../the-sql-language/9.-han-shi-ji-yun-suan-zi/9.23.-zi-liao-lie-yu-zhen-lie-de-bi-jiao-yun-suan.md#9-23-1-in)形式，而不是像上面那樣撰寫 VALUES 查詢。scalar 列表方式只需要更少的寫入，並且通常效能更高。
+對於簡單的 IN 測試，最好依賴 IN 的 [scalar 列表](../../the-sql-language/functions-and-operators/row-and-array-comparisons.md#9-23-1-in)形式，而不是像上面那樣撰寫 VALUES 查詢。scalar 列表方式只需要更少的寫入，並且通常效能更高。
 
 ### 相容性
 
