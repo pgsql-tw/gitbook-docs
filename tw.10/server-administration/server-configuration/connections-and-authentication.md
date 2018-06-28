@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # 19.3. 連線與認證
 
 ## 19.3.1. 連線設定
@@ -80,51 +84,59 @@
 
 此參數在 Windows 上不支援，並且必須為零。
 
-## 19.3.2. Security and Authentication
+## 19.3.2. 安全性與認證
 
 `authentication_timeout` \(`integer`\)
 
-Maximum time to complete client authentication, in seconds. If a would-be client has not completed the authentication protocol in this much time, the server closes the connection. This prevents hung clients from occupying a connection indefinitely. The default is one minute \(`1m`\). This parameter can only be set in the `postgresql.conf` file or on the server command line.
+以秒為單位設定用戶端身份驗證的最長時間。如果可能的用戶端在這段時間內還沒有完成認證協議，伺服器將會關閉連線。這可以防止掛起的用戶端無限期地佔用連線。預設值是一分鐘。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `ssl` \(`boolean`\)
 
-Enables SSL connections. Please read [Section 18.9](https://www.postgresql.org/docs/10/static/ssl-tcp.html) before using this. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `off`.
+啟用 SSL 連線。使用前請先閱讀[第 18.9 節](../18.-fu-wu-pei-zhi-yu-wei-yun/18.9.-secure-tcp-ip-connections-with-ssl.md)。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設是關閉的。
 
 `ssl_ca_file` \(`string`\)
 
-Specifies the name of the file containing the SSL server certificate authority \(CA\). Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is empty, meaning no CA file is loaded, and client certificate verification is not performed.
+指定包含 SSL 伺服器證書頒發機構（CA）的檔案名稱。相對路徑與資料目錄有關。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值為空，表示未載入 CA 檔案，並且不執行用戶端證書驗證。
 
-In previous releases of PostgreSQL, the name of this file was hard-coded as `root.crt`.
+在以前的 PostgreSQL 版本中，該檔案的名稱被硬性指定為 root.crt。
 
 `ssl_cert_file` \(`string`\)
 
-Specifies the name of the file containing the SSL server certificate. Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `server.crt`.
+指定包含 SSL 伺服器證書的檔案名稱。相對路徑與資料目錄有關。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值是 server.crt。
 
 `ssl_crl_file` \(`string`\)
 
-Specifies the name of the file containing the SSL server certificate revocation list \(CRL\). Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is empty, meaning no CRL file is loaded.
+指定包含 SSL 伺服器證書吊銷列表（CRL）的文件的名稱。相對路徑與資料目錄有關。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值為空，表示沒有加載 CRL 檔案。
 
-In previous releases of PostgreSQL, the name of this file was hard-coded as `root.crl`.
+在以前的 PostgreSQL 版本中，該檔案的名稱被硬性指定為 root.crl。
 
 `ssl_key_file` \(`string`\)
 
-Specifies the name of the file containing the SSL server private key. Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `server.key`.
+指定包含 SSL 伺服器私鑰的檔案名稱。相對路徑與資料目錄有關。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值是 server.key。
 
 `ssl_ciphers` \(`string`\)
 
-Specifies a list of SSL cipher suites that are allowed to be used on secure connections. See the ciphers manual page in the OpenSSL package for the syntax of this setting and a list of supported values. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default value is `HIGH:MEDIUM:+3DES:!aNULL`. The default is usually a reasonable choice unless you have specific security requirements.
+指定允許在安全連線上使用的 SSL 密碼套件列表。有關此設定的語法和支援的列表，請參閱 OpenSSL 軟體套件中的密碼手冊文件。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值為 HIGH:MEDIUM:+3DES:!aNULL。這個預設通常是一個合理的設定，除非您有特定的安全要求。
 
-Explanation of the default value:`HIGH`
+預設值延伸說明：
 
-Cipher suites that use ciphers from `HIGH` group \(e.g., AES, Camellia, 3DES\)`MEDIUM`
+`HIGH`
 
-Cipher suites that use ciphers from `MEDIUM` group \(e.g., RC4, SEED\)`+3DES`
+使用來自 HIGH group 的密碼套件（例如：AES，Camellia，3DES）
 
-The OpenSSL default order for `HIGH` is problematic because it orders 3DES higher than AES128. This is wrong because 3DES offers less security than AES128, and it is also much slower. `+3DES` reorders it after all other `HIGH` and `MEDIUM` ciphers.`!aNULL`
+`MEDIUM`
 
-Disables anonymous cipher suites that do no authentication. Such cipher suites are vulnerable to man-in-the-middle attacks and therefore should not be used.
+使用來自 MEDIUM group 的密碼套件（例如：RC4，SEED）
 
-Available cipher suite details will vary across OpenSSL versions. Use the command `openssl ciphers -v 'HIGH:MEDIUM:+3DES:!aNULL'` to see actual details for the currently installed OpenSSL version. Note that this list is filtered at run time based on the server key type.
+`+3DES`
+
+HIGH 的 OpenSSL 預設順序有問題，因為它的 3DES 高於 AES128。這是錯誤的，因為 3DES 比 AES128 提供較低的安全性，而且速度也更慢。+3DES 將所有其他高級和中級密碼重新排序。
+
+`!aNULL`
+
+停用不進行身份驗證的匿名密碼套件。這種密碼套件容易受到中間人攻擊，因此不應使用。
+
+可用的密碼套件詳細訊息將因 OpenSSL 版本而異。使用命令 `openssl ciphers -v'HIGH:MEDIUM:+3DES:!aNULL'` 來查看當下安裝的 OpenSSL 版本細節。請注意，此列表在運行時基於伺服器密鑰型別進行過濾。
 
 `ssl_prefer_server_ciphers` \(`boolean`\)
 

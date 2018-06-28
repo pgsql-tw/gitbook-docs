@@ -190,7 +190,7 @@
   * [19. 服務組態設定](server-administration/server-configuration/README.md)
     * [19.1. Setting Parameters](server-administration/server-configuration/19.1.-setting-parameters.md)
     * [19.2. File Locations](server-administration/server-configuration/19.2.-file-locations.md)
-    * [19.3. 連線與認證](server-administration/server-configuration/19.3.-lian-xian-yu-ren-zheng.md)
+    * [19.3. 連線與認證](server-administration/server-configuration/connections-and-authentication.md)
     * [19.4. 資源配置](server-administration/server-configuration/19.4.-zi-yuan-pei-zhi.md)
     * [19.5. Write Ahead Log](server-administration/server-configuration/19.5.-write-ahead-log.md)
     * [19.6. Replication](server-administration/server-configuration/19.6.-replication.md)
