@@ -1,7 +1,5 @@
 # 20.1. 設定檔：pg\_hba.conf
 
-
-
 Client authentication is controlled by a configuration file, which traditionally is named `pg_hba.conf` and is stored in the database cluster's data directory. \(HBA stands for host-based authentication.\) A default `pg_hba.conf` file is installed when the data directory is initialized by `initdb`. It is possible to place the authentication configuration file elsewhere, however; see the [hba\_file](https://www.postgresql.org/docs/10/static/runtime-config-file-locations.html#GUC-HBA-FILE) configuration parameter.
 
 The general format of the `pg_hba.conf` file is a set of records, one per line. Blank lines are ignored, as is any text after the `#` comment character. Records cannot be continued across lines. A record is made up of a number of fields which are separated by spaces and/or tabs. Fields can contain white space if the field value is double-quoted. Quoting one of the keywords in a database, user, or address field \(e.g., `all` or `replication`\) makes the word lose its special meaning, and just match a database, user, or host with that name.

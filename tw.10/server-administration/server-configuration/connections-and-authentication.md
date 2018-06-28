@@ -8,7 +8,7 @@ description: 版本：10
 
 `listen_addresses` \(`string`\)
 
-指定伺服器監聽用戶端應用程序連線的 TCP/IP 位址。該值採用逗號分隔的主機名稱或數字 IP 位址列表的形式。特殊項目「\*」對應於所有可用的 IP。項目 0.0.0.0 允許監聽所有 IPv4 位址，還有「::」允許監聽所有 IPv6 位址。如果列表為空，則伺服器根本不監聽任何 IP 接口，在這種情況下，就只能使用 Unix-domain socket 來連接它。預設值是 localhost，它只允許進行本地 TCP/IP loopback 連線。儘管用戶端身份驗證（[第 20 章](../20.-shi-yong-zhe-ren-zheng/)）允許對誰可以存取伺服器進行細維的控制，但 listen\_addresses 控制哪些 IP 接受連線嘗試，這有助於防止在不安全的網路接口上重複發出惡意的連線請求。此參數只能在伺服器啟動時設定。
+指定伺服器監聽用戶端應用程序連線的 TCP/IP 位址。該值採用逗號分隔的主機名稱或數字 IP 位址列表的形式。特殊項目「\*」對應於所有可用的 IP。項目 0.0.0.0 允許監聽所有 IPv4 位址，還有「::」允許監聽所有 IPv6 位址。如果列表為空，則伺服器根本不監聽任何 IP 接口，在這種情況下，就只能使用 Unix-domain socket 來連接它。預設值是 localhost，它只允許進行本地 TCP/IP loopback 連線。儘管用戶端身份驗證（[第 20 章](../client-authentication/)）允許對誰可以存取伺服器進行細維的控制，但 listen\_addresses 控制哪些 IP 接受連線嘗試，這有助於防止在不安全的網路接口上重複發出惡意的連線請求。此參數只能在伺服器啟動時設定。
 
 `port` \(`integer`\)
 
@@ -46,7 +46,7 @@ description: 版本：10
 
 預設權限是 0777，意味著任何人都可以進行連線。合理的選擇是 0770（僅使用者和其群組，另請參閱 unix\_socket\_group）和 0700（僅使用者本身）。（請注意，對於Unix-domain socket，只有寫入權限很重要，所以設定還是撤消讀取或執行權限都沒有意義。）
 
-這種存取控制機制獨立於[第 20 章](../20.-shi-yong-zhe-ren-zheng/)中所描述的機制。
+這種存取控制機制獨立於[第 20 章](../client-authentication/)中所描述的機制。
 
 此參數只能在伺服器啟動時設定。
 
@@ -164,7 +164,7 @@ This parameter can only be set in the `postgresql.conf` file or on the server co
 
 `krb_server_keyfile` \(`string`\)
 
-設定 Kerberos 伺服器密鑰檔案的位置。有關詳細訊息，請參閱[第 20.3.3 節](../20.-shi-yong-zhe-ren-zheng/20.3.-authentication-methods.md)。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
+設定 Kerberos 伺服器密鑰檔案的位置。有關詳細訊息，請參閱[第 20.3.3 節](../client-authentication/authentication-methods.md)。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `krb_caseins_users` \(`boolean`\)
 

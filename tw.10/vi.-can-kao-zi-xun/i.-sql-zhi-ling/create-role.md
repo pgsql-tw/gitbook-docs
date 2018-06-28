@@ -29,7 +29,7 @@ where option can be:
 
 ### 說明
 
-`CREATE ROLE 將新的角色加到 PostgreSQL 資料庫叢集之中。角色是可以擁有資料庫物件並具有資料庫權限的實體；根據使用方式的不同，角色可以被視為「使用者」、「群組」或是兩者兼具。有關管理使用者和身份驗證的訊息，請參閱`[`第 21 章`](../../server-administration/21.-zi-liao-ku-jiao-se/)`和`[`第 20 章`](../../server-administration/20.-shi-yong-zhe-ren-zheng/)`。 您必須具有 CREATEROLE 權限或成為資料庫的超級使用者才能使用此命令。`
+`CREATE ROLE 將新的角色加到 PostgreSQL 資料庫叢集之中。角色是可以擁有資料庫物件並具有資料庫權限的實體；根據使用方式的不同，角色可以被視為「使用者」、「群組」或是兩者兼具。有關管理使用者和身份驗證的訊息，請參閱`[`第 21 章`](../../server-administration/21.-zi-liao-ku-jiao-se/)`和`[`第 20 章`](../../server-administration/client-authentication/)`。 您必須具有 CREATEROLE 權限或成為資料庫的超級使用者才能使用此命令。`
 
 請注意，角色是在資料庫叢集等級所定義的，因此在叢集中的所有資料庫中都是有效的。
 
