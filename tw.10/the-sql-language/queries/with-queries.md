@@ -1,6 +1,10 @@
-# 7.8. 遞迴查詢
+---
+description: 版本：10
+---
 
-WITH 提供了一種撰寫用於更複雜查詢輔助語句的方法。這些通常被稱為公用資料表表示式或 CTE 的宣告可以被想成是定義僅存在於一個查詢中的臨時資料表。WITH子句中的每個輔助語句都可以是SELECT，INSERT，UPDATE或DELETE; 並且WITH子句本身附加到也可以是SELECT，INSERT，UPDATE或DELETE的主語句。
+# 7.8. 遞迴查詢（Common Table Expressions）
+
+WITH 提供了一種撰寫用於更複雜查詢輔助語句的方法。這些通常被稱為公用資料表表示式或 CTE（Common Table Expressions） 的宣告可以被想成是定義僅存在於一個查詢中的臨時資料表。WITH子句中的每個輔助語句都可以是 SELECT、INSERT、UPDATE 或 DELETE；並且 WITH 子句本身附加到 SELECT、INSERT、UPDATE 或 DELETE 的主語句。
 
 ## 7.8.1. `SELECT`in`WITH`
 
@@ -25,9 +29,9 @@ WHERE region IN (SELECT region FROM top_regions)
 GROUP BY region, product;
 ```
 
-其中僅顯示最上層銷售區域中的每個產品的銷售總計。WITH子句定義了兩個名為 regional\_sales 和 top\_regions 的輔助語句，其中 top\_size 使用 region\_sales 的輸出，top\_regions 的輸出在主 SELECT 語句中使用。這個例子本來可以不用 WITH 編寫，但是我們需要兩層的SELECT 子查詢。按照這種方式更容易一些。
+其中僅顯示最上層銷售區域中的每個產品的銷售總計。WITH 子句定義了兩個名為 regional\_sales 和 top\_regions 的輔助語句，其中 top\_size 使用 region\_sales 的輸出，top\_regions 的輸出在主 SELECT 語句中使用。這個例子本來可以不用 WITH 編寫，但是我們需要兩層的SELECT 子查詢。按照這種方式更容易一些。
 
-選擇性的 RECURSIVE 修飾字將 WITH 從單純的語法便利性增加了標準SQL所無法實現的功能。使用 RECURSIVE，WITH 查詢可以引用它自己的輸出。一個非常簡單的例子是這個查詢來從1到100的整數求和：
+選擇性的 RECURSIVE 修飾字將 WITH 從單純的語法便利性增加了標準 SQL 所無法實現的功能。使用 RECURSIVE，WITH 查詢可以引用它自己的輸出。一個非常簡單的例子是這個查詢來從 1 到 100 的整數求和：
 
 ```text
 WITH RECURSIVE t(n) AS (
@@ -124,7 +128,7 @@ SELECT * FROM search_graph;
 >
 > 在通常情況下，只需要檢查一個欄位來識別週期，就會省略 ROW\(\) 語法。這可以使用簡單的陣列而不用複合型別的陣列，從而獲得效率。
 >
-> ## Tip
+> ## 小技巧
 >
 > 遞迴查詢評估演算法以廣度優先搜尋次序產生其輸出。你也可以按照深度優先的搜尋順序顯示結果，方法是以外部查詢 ORDER BY 「path」欄位。
 
