@@ -459,7 +459,7 @@ SELECT ARRAY(SELECT ARRAY[i, i*2] FROM generate_series(1,5) AS a(i));
 
 子查詢必須回傳一個資料列。如果子查詢的輸出欄位是非陣列型別，則産生的一維陣列將具有子查詢結果中每個資料列的元素，其元素型別與子查詢的輸出欄位匹配。如果子查詢的輸出欄位是一個陣列型別，則結果將是一個相同型別的陣列，但會是一個更高的維度；在這種情況下，所有子查詢資料列都必須産生具有相同維度的陣列，否則結果將不是矩形。
 
-用 ARRAY 建構的陣列索引值的下標始終以 1 開頭。有關陣列的更多訊息，請參閱[第 8.15 節](../8.-zi-liao-xing-bie/8.15.-zhen-lie.md)。
+用 ARRAY 建構的陣列索引值的下標始終以 1 開頭。有關陣列的更多訊息，請參閱[第 8.15 節](../data-types/8.15.-zhen-lie.md)。
 
 ## 4.2.13. Row Constructors
 
@@ -569,7 +569,7 @@ SELECT ... WHERE CASE WHEN x
 
 以這種方式使用的 CASE 構造將放棄最佳化嘗試，因此只能在必要時進行。（在這個特定的例子中，透過改寫為 y&gt; 1.5 \* x 來避免這個問題會更好。）
 
-然而，CASE 對於這些問題並不是萬能的。上述技術的一個局限是它不能阻止對常數子表示式的預先評估。如[第 37.6 節](../../v.-zi-liao-ku-cheng-shi-she-ji/37.-extending-sql/37.6.-han-shu-yi-bian-xing-lei-bie.md)所述，標記為 IMMUTABLE 的函數和運算子可以在查詢計劃時進行運算，而不是在執行時進行運算。因此，例如：
+然而，CASE 對於這些問題並不是萬能的。上述技術的一個局限是它不能阻止對常數子表示式的預先評估。如[第 37.6 節](../../server-programming/37.-extending-sql/37.6.-han-shu-yi-bian-xing-lei-bie.md)所述，標記為 IMMUTABLE 的函數和運算子可以在查詢計劃時進行運算，而不是在執行時進行運算。因此，例如：
 
 ```text
 SELECT CASE WHEN x 

@@ -38,7 +38,7 @@ SET TRANSACTION 指令設定目前交易事務的模式。它對任何後續的�
 
 SQL 標準定義了另一個等級 READ UNCOMMITTED。在 PostgreSQL 中，READ UNCOMMITTED 被視為 READ COMMITTED。
 
-事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）已執行後，事務隔離等級就不能再更改。有關事務隔離和同時一致性控制的更多訊息，請參閱[第 13 章](../../the-sql-language/13.-yi-zhi-xing-guan-li-mvcc/)。
+事務的第一個查詢或資料修改語句（SELECT、INSERT、DELETE、UPDATE、FETCH 或 COPY）已執行後，事務隔離等級就不能再更改。有關事務隔離和同時一致性控制的更多訊息，請參閱[第 13 章](../../the-sql-language/concurrency-control/)。
 
 事務存取模式會決定該事務是讀/寫還是唯讀。讀/寫是預設值。如果事務處於唯讀狀態，則不允許執行以下的 SQL 命令：INSERT、UPDATE、DELETE 和 COPY FROM，除非它們要寫入的資料表是臨時資料表；還有所有的 CREATE、ALTER 和 DROP命令；COMMENT、GRANT、REVOKE、TRUNCATE；以及 EXPLAIN ANALYZE 和 EXECUTE，如果它們執行的命令在以上列出的命令之中的。這是一個高等級的唯讀概念，它不會阻止所有寫入磁碟的行為。
 

@@ -111,11 +111,11 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 `VOLATILE 表示即使在單個資料表掃描中函數值也會改變，因此不能進行優化。 在這個意義上，相對較少的資料庫功能是不穩定的，有一些例子是random ()、currval()、timeofday()。 但請注意，任何具有副作用的函數都必須分類為 VOLATILE，即使其結果具有相當的可預測性，以防止結果被優化掉，這樣例子是setval()。`
 
-更多詳細訊息請參閱[第 37.6 節](../../v.-zi-liao-ku-cheng-shi-she-ji/37.-extending-sql/37.6.-han-shu-yi-bian-xing-lei-bie.md)。
+更多詳細訊息請參閱[第 37.6 節](../../server-programming/37.-extending-sql/37.6.-han-shu-yi-bian-xing-lei-bie.md)。
 
 `LEAKPROOF`
 
-`LEAKPROOF` 表示該函數不會有副作用。除了其回傳值之外，它沒有揭示任何關於它的參數訊息。例如，某些參數值引發了錯誤訊息但不引發其他錯誤訊息的函數，或者在任何錯誤訊息中包含參數值的函數都是不洩漏的。這會影響系統如何對使用這些 security\_barrier 選項建立的 view 或啟用資料列級別安全性的資料表執行查詢。在查詢本身包含非防漏功能的使用者提供的任何條件之前，系統將執行安全策略和安全屏障 view 的條件，以防止資料意外暴露。標記為防漏的功能和操作子被認為是可信的，並且可以在來自安全原則和安全障礙視圖的條件之前執行。另外，沒有參數或者沒有從安全屏障 view 或資料表中傳遞任何參數的函數在安全條件之前不必被標記為不可洩漏。請參閱 [CREATE VIEW](create-view.md) 和[第 40.5 節](../../v.-zi-liao-ku-cheng-shi-she-ji/40.-gui-ze-xi-tong/40.5.-rules-and-privileges.md)。此選項只能由超級使用者設定。
+`LEAKPROOF` 表示該函數不會有副作用。除了其回傳值之外，它沒有揭示任何關於它的參數訊息。例如，某些參數值引發了錯誤訊息但不引發其他錯誤訊息的函數，或者在任何錯誤訊息中包含參數值的函數都是不洩漏的。這會影響系統如何對使用這些 security\_barrier 選項建立的 view 或啟用資料列級別安全性的資料表執行查詢。在查詢本身包含非防漏功能的使用者提供的任何條件之前，系統將執行安全策略和安全屏障 view 的條件，以防止資料意外暴露。標記為防漏的功能和操作子被認為是可信的，並且可以在來自安全原則和安全障礙視圖的條件之前執行。另外，沒有參數或者沒有從安全屏障 view 或資料表中傳遞任何參數的函數在安全條件之前不必被標記為不可洩漏。請參閱 [CREATE VIEW](create-view.md) 和[第 40.5 節](../../server-programming/40.-gui-ze-xi-tong/40.5.-rules-and-privileges.md)。此選項只能由超級使用者設定。
 
 `CALLED ON NULL INPUT`
 
@@ -184,7 +184,7 @@ SET 子句在輸入函數時將指定的配置參數設定為指定的值，然�
 
 屬性名稱都不區分大小寫。
 
-有關撰寫函數的更多訊息，請參閱[第 37.3 節](../../v.-zi-liao-ku-cheng-shi-she-ji/37.-extending-sql/37.3.-shi-yong-zhe-zi-ding-han-shu.md)。
+有關撰寫函數的更多訊息，請參閱[第 37.3 節](../../server-programming/37.-extending-sql/37.3.-shi-yong-zhe-zi-ding-han-shu.md)。
 
 ## 函數多載（Overloading）
 
@@ -216,7 +216,7 @@ CREATE FUNCTION foo(int, int default 42) ...
 
 ## 範例
 
-這裡有一些簡單的例子可以幫助你開始。有關更多訊息和範例，請參閱[第 37.3 節](../../v.-zi-liao-ku-cheng-shi-she-ji/37.-extending-sql/37.3.-shi-yong-zhe-zi-ding-han-shu.md)。
+這裡有一些簡單的例子可以幫助你開始。有關更多訊息和範例，請參閱[第 37.3 節](../../server-programming/37.-extending-sql/37.3.-shi-yong-zhe-zi-ding-han-shu.md)。
 
 ```text
 CREATE FUNCTION add(integer, integer) RETURNS integer

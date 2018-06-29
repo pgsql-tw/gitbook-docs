@@ -166,7 +166,7 @@ WITH moved_rows AS (
 
 上面例子的很好的一點是，WITH 子句被附加到 INSERT，而不是使用 INSERT 中的子查詢。這是必要的，因為資料修改語句只能在最上層語句的 WITH 子句中使用。但是，以一般的 WITH 變數可見性規則，可以從子查詢中引用 WITH 語句的輸出。
 
-WITH 中的資料修改語句通常具有 RETURNING 子句（詳見[第 6.4 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-manipulation/64-returning-data-from-modified-rows.md)），如上例所示。它是 RETURNING 子句的輸出，而不是資料修改語句的目標資料表，它構成了查詢的其餘部分可以引用的臨時資料表。如果 WITH 中的資料修改語句沒有 RETURNING 子句，則它就不構成臨時資料表，並且不能在查詢的其餘部分引用。這樣的陳述將被執行。一個不是特別有用的例子是：
+WITH 中的資料修改語句通常具有 RETURNING 子句（詳見[第 6.4 節](../data-manipulation/returning-data-from-modified-rows.md)），如上例所示。它是 RETURNING 子句的輸出，而不是資料修改語句的目標資料表，它構成了查詢的其餘部分可以引用的臨時資料表。如果 WITH 中的資料修改語句沒有 RETURNING 子句，則它就不構成臨時資料表，並且不能在查詢的其餘部分引用。這樣的陳述將被執行。一個不是特別有用的例子是：
 
 ```text
 WITH t AS (
@@ -194,7 +194,7 @@ DELETE FROM parts
 
 WITH 中的資料修改語句只執行一次，並且一定會完成，與主查詢是否讀取其所有（或者甚至是任何）輸出無關。請注意，這與 SELECT 在 WITH 之中的規則不同：如前一節所述，僅在主要查詢要求其輸出的情況下執行 SELECT。
 
-WITH 中的子語句會與主查詢平行執行。因此，在 WITH 中使用資料修改語句時，指定更新的實際發生順序是不可預知的。所有的語句都使用相同的快照執行（見[第 13 章](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/concurrency-control.md)），所以它們不能在目標資料表上「看到」對方所產生的變更。 這減輕了資料列更新的實際順序時不可預測性的影響，並且意味著回傳資料是在不同 WITH 子語句和主查詢之間傳遞變化的唯一方式。 範例如下所示：
+WITH 中的子語句會與主查詢平行執行。因此，在 WITH 中使用資料修改語句時，指定更新的實際發生順序是不可預知的。所有的語句都使用相同的快照執行（見[第 13 章](../concurrency-control/)），所以它們不能在目標資料表上「看到」對方所產生的變更。 這減輕了資料列更新的實際順序時不可預測性的影響，並且意味著回傳資料是在不同 WITH 子語句和主查詢之間傳遞變化的唯一方式。 範例如下所示：
 
 ```text
 WITH t AS (

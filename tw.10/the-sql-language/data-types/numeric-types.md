@@ -1,8 +1,8 @@
 # 8.1. 數字型別
 
-數字型別由兩位數，四位數和八位數整數，四位元組和八位元組的浮點數以及可調式精確度的小數組成。表格 8.2 列出了可用的類型。
+數字型別由兩位數，四位數和八位數整數，四位元組和八位元組的浮點數以及可調式精確度的小數組成。[表格 8.2 ](numeric-types.md#table-8-2-numeric-types)列出了可用的類型。
 
-**Table 8.2. Numeric Types**
+#### **Table 8.2. Numeric Types**
 
 | Name | Storage Size | Description | Range |
 | :--- | :--- | :--- | :--- |
@@ -19,7 +19,7 @@
 
 [4.1.2 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/sql-syntax/41-lexical-structure.md)描述了數字型別常數的語法。 數字型別有一整套相應的算術運算元和函數。有關更多訊息，請參閱第 9 章。 以下各節將詳細介紹這些型別。
 
-## 8.1.1. Integer Types（整數型別）
+## 8.1.1. 整數型別（Integer Types）
 
 smallint、integer 和 bigint 型別儲存整數，即不包含小數部分的各種範圍的數字。嘗試儲存在允許的範圍之外的數值將會導致錯誤。
 
@@ -123,7 +123,7 @@ PostgreSQL 也支援 SQL 標準的 float 和 float\(p\) 來表示非精確的數
 >
 > 假設 real 和 double 的尾數分別為 24 位和 53 位，以 IEEE 標準浮點數實作而言是正確的。在非 IEEE 平台上，它可能會有一些小問題，但為了簡單起見，最好在所有平台上都使用相同的 p 範圍。
 
-## 8.1.4. Serial Types
+## 8.1.4. 序列型別（Serial Types）
 
 > ## 注意
 >
