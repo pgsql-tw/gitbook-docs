@@ -61,11 +61,11 @@ autovacuum 背景程序（如果啟用的話）會在資料表內容發生相當
 
 autovacuum 背景程序不會為外部資料表發出 ANALYZE 指令，因為它無法確定可能有用的頻率。如果您的查詢需要統計外部資料表的正確計劃，最好在適當的時間表上執行手動管理的 ANALYZE 指令。
 
-## 24.1.4. Updating The Visibility Map
+## 24.1.4. 更新可見性映射表（Visibility Map）
 
-Vacuum maintains a [visibility map](https://www.postgresql.org/docs/10/static/storage-vm.html) for each table to keep track of which pages contain only tuples that are known to be visible to all active transactions \(and all future transactions, until the page is again modified\). This has two purposes. First, vacuum itself can skip such pages on the next run, since there is nothing to clean up.
+Vacuum 為每個資料表維護一個[可見性映射表（Visibility Map）](../../internals/database-physical-storage/visibility-map.md)，以追踪哪些頁面包含對所有進行中事務（以及所有未來事務，直到頁面再次被修改）可見的 tuple。這有兩個目的，首先，資料庫清理本身可以在下一次運行中跳過這些頁面，因為沒有什麼要清理的。
 
-Second, it allows PostgreSQL to answer some queries using only the index, without reference to the underlying table. Since PostgreSQL indexes don't contain tuple visibility information, a normal index scan fetches the heap tuple for each matching index entry, to check whether it should be seen by the current transaction. An [_index-only scan_](https://www.postgresql.org/docs/10/static/indexes-index-only-scans.html), on the other hand, checks the visibility map first. If it's known that all tuples on the page are visible, the heap fetch can be skipped. This is most useful on large data sets where the visibility map can prevent disk accesses. The visibility map is vastly smaller than the heap, so it can easily be cached even when the heap is very large.
+其次，它允許 PostgreSQL [僅使用索引](../../the-sql-language/11.-suo-yin/11.11.-suo-yin-xian-ding-cha-xun.md)來回應某些查詢，而無需參考基本資料表。 由於 PostgreSQL 索引不包含 tuple 的可見性資訊，因此普通的索引掃描會取得每個匹配索引項目的 heap tuple，以檢查目前事務是否應該看到它。另一方面，僅索引掃描首先檢查可見性映射表。如果知道頁面上的所有 tuple 都可見，則可以跳過 heap 取回。這對於可見性映射表可以防止磁碟存取的大型資料集非常有用。可見性映射表遠小於 heap，因此即使 heap 非常大，也可以輕鬆地進行快取。
 
 ## 24.1.5. Preventing Transaction ID Wraparound Failures
 
