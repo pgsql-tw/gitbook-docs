@@ -271,9 +271,9 @@ Controls logging of temporary file names and sizes. Temporary files can be creat
 
 Sets the time zone used for timestamps written in the server log. Unlike [TimeZone](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TIMEZONE), this value is cluster-wide, so that all sessions will report timestamps consistently. The built-in default is `GMT`, but that is typically overridden in `postgresql.conf`; initdb will install a setting there corresponding to its system environment. See [Section 8.5.3](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONES) for more information. This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
-## 19.8.4. Using CSV-Format Log Output
+## 19.8.4. 使用 CSV 格式輸出記錄
 
-Including `csvlog` in the `log_destination` list provides a convenient way to import log files into a database table. This option emits log lines in comma-separated-values \(CSV\) format, with these columns: time stamp with milliseconds, user name, database name, process ID, client host:port number, session ID, per-session line number, command tag, session start time, virtual transaction ID, regular transaction ID, error severity, SQLSTATE code, error message, error message detail, hint, internal query that led to the error \(if any\), character count of the error position therein, error context, user query that led to the error \(if any and enabled by `log_min_error_statement`\), character count of the error position therein, location of the error in the PostgreSQL source code \(if `log_error_verbosity` is set to `verbose`\), and application name. Here is a sample table definition for storing CSV-format log output:
+在 log\_destination 列表中包含 csvlog 提供了將日誌檔案匯入資料庫資料表的便捷方法。此選項以逗號分隔（CSV）格式送出日誌資料，其中包含以下欄位：時間戳記，毫秒，使用者名稱，資料庫名稱，程序 ID，用戶端主機：連接埠號號，連線 ID，每個連線的行號，指令標記，連線開始時間，虛擬交易事務 ID，一般交易事務 ID，錯誤嚴重性，SQLSTATE 代碼，錯誤訊息，錯誤訊息的詳細訊息，提示，導致錯誤的內部查詢（如果有的話），其中錯誤位置的字串位置，錯誤內容，導致錯誤的使用者查詢（如果有的話，由 log\_min\_error\_statement 啟用），其中錯誤位置的字元數，PostgreSQL 原始碼中的錯誤位置（如果 log\_error\_verbosity 設定為 verbose）和應用程序名稱。以下是用於儲存 CSV 格式日誌輸出的範例資料表定義：
 
 ```text
 CREATE TABLE postgres_log
@@ -305,18 +305,18 @@ CREATE TABLE postgres_log
 );
 ```
 
-To import a log file into this table, use the `COPY FROM` command:
+要將日誌檔案匯入此資料表，請使用 COPY FROM 指令：
 
 ```text
 COPY postgres_log FROM '/full/path/to/logfile.csv' WITH csv;
 ```
 
-There are a few things you need to do to simplify importing CSV log files:
+您需要做一些事情來簡化匯入 CSV 日誌檔案：
 
-1. Set `log_filename` and `log_rotation_age` to provide a consistent, predictable naming scheme for your log files. This lets you predict what the file name will be and know when an individual log file is complete and therefore ready to be imported.
-2. Set `log_rotation_size` to 0 to disable size-based log rotation, as it makes the log file name difficult to predict.
-3. Set `log_truncate_on_rotation` to `on` so that old log data isn't mixed with the new in the same file.
-4. The table definition above includes a primary key specification. This is useful to protect against accidentally importing the same information twice. The `COPY` command commits all of the data it imports at one time, so any error will cause the entire import to fail. If you import a partial log file and later import the file again when it is complete, the primary key violation will cause the import to fail. Wait until the log is complete and closed before importing. This procedure will also protect against accidentally importing a partial line that hasn't been completely written, which would also cause `COPY` to fail.
+1. 設定 log\_filename 和 log\_rotation\_age 使日誌檔案提供一致性，可預測的命名方案。這使您可以預測檔案名稱會是什麼，並知道單個日誌檔案何時完成而可以匯入。
+2. 將 log\_rotation\_size 設定為 0 可停用基於大小的日誌輪轉，因為它會使日誌檔案名稱難以預測。
+3. 將 log\_truncate\_on\_rotation 設定為 on，以便舊的日誌資料不會與同一檔案中的新資料混合。
+4. 上面的資料表定義包含主鍵規範。這有助於防止意外匯入兩次相同的訊息。COPY 指令一次提交它匯入的所有資料，因此任何錯誤都會導致整個匯入失敗。如果匯入部分日誌檔案，並在稍後再次匯入該檔案時，主鍵重覆將導致匯入失敗。請等到日誌完成關閉後再匯入。此過程還可以防止意外匯入尚未完全寫入的部分資料列，這也會導致 COPY 失敗。
 
 ## 19.8.5. Process Title
 
