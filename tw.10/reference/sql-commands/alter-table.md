@@ -130,7 +130,7 @@ and table_constraint_using_index is:
 
 `SET STORAGE`
 
-此語法設定欄位的儲存模式。 這將控制此欄位是以內建方式保存還是以輔助 TOAST 方式保存，以及是否應該壓縮資料。PLAIN 必須用於固定長度值（如整數），並且是內建的，未壓縮的。MAIN 用於內建可壓縮資料。EXTERNAL 用於外部未壓縮資料，EXTENDED 用於外部壓縮資料。EXTENDED 是非 PLAIN 儲存的大多數資料型別的預設值。 使用 EXTERNAL 將使得對非常大的字串和 bytea 值進行子字串處理的速度更快，從而增加儲存空間。請注意，SET STORAGE 本身並不會改變資料表中的任何內容，它只是設定在將來的資料表更新期間追求的策略。有關更多訊息，請參閱[第 66.2 節](../../vii.-zi-liao-ku-jin-jie/66.-zi-liao-ku-shi-ti-chu-cun-ge-shi/66.2.-toast.md)。
+此語法設定欄位的儲存模式。 這將控制此欄位是以內建方式保存還是以輔助 TOAST 方式保存，以及是否應該壓縮資料。PLAIN 必須用於固定長度值（如整數），並且是內建的，未壓縮的。MAIN 用於內建可壓縮資料。EXTERNAL 用於外部未壓縮資料，EXTENDED 用於外部壓縮資料。EXTENDED 是非 PLAIN 儲存的大多數資料型別的預設值。 使用 EXTERNAL 將使得對非常大的字串和 bytea 值進行子字串處理的速度更快，從而增加儲存空間。請注意，SET STORAGE 本身並不會改變資料表中的任何內容，它只是設定在將來的資料表更新期間追求的策略。有關更多訊息，請參閱[第 66.2 節](../../internals/database-physical-storage/toast.md)。
 
 `ADD` _`table_constraint`_ \[ NOT VALID \]
 

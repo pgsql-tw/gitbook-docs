@@ -64,7 +64,7 @@ _`column_name`_
 
 VACUUM 不能在交易事務區塊內執行。
 
-對於具有 GIN 索引的資料表，透過將掛起的索引項目移動到主 GIN 索引結構中的適當位置，VACUUM（以任何形式）還是可以完成任何掛起的索引插入。詳情請參閱[第 64.4.1 節](../../vii.-zi-liao-ku-jin-jie/64.-gin-suo-yin/64.4.-implementation.md#64-4-1-gin-fast-update-technique)。
+對於具有 GIN 索引的資料表，透過將掛起的索引項目移動到主 GIN 索引結構中的適當位置，VACUUM（以任何形式）還是可以完成任何掛起的索引插入。詳情請參閱[第 64.4.1 節](../../internals/64.-gin-suo-yin/64.4.-implementation.md#64-4-1-gin-fast-update-technique)。
 
 我們建議經常清理活動產品資料庫（至少每晚）以回收空間。增加或刪除大量資料列後，對受影響的資料表發出 VACUUM ANALYZE 指令會是個好主意。這將使用所有最近更改的結果更新系統目錄，並允許 PostgreSQL 查詢計劃程序在計劃查詢中做出更好的選擇。
 
@@ -72,7 +72,7 @@ FULL 選項不推薦於日常使用，但在特殊情況下可能會有用。例
 
 VACUUM 會導致 I/O 流量大幅增加，這可能會導致其他連線活動的效能下降。因此，有時建議使用基於成本的清理延遲功能。詳情請參閱[第 19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay)。
 
-PostgreSQL 內含一個「autovacuum」工具，可以自動執行常態的清理維護。有關自動和手動清理的更多訊息，請參閱[第 24.1 節](../../server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/24.1.-li-hang-xing-zi-liao-qing-li.md)。
+PostgreSQL 內含一個「autovacuum」工具，可以自動執行常態的清理維護。有關自動和手動清理的更多訊息，請參閱[第 24.1 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md)。
 
 ### 範例
 
@@ -88,5 +88,5 @@ SQL 標準中並沒有 VACUUM 語句。
 
 ### 參閱
 
-[vacuumdb](../ii.-postgresql-yong-hu-duan-gong-ju/vacuumdb.md), [19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/24.1.-li-hang-xing-zi-liao-qing-li.md#24-1-6-the-autovacuum-daemon)
+[vacuumdb](../ii.-postgresql-yong-hu-duan-gong-ju/vacuumdb.md), [19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon)
 
