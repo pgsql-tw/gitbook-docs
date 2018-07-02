@@ -1,6 +1,10 @@
+---
+description: 版本：10
+---
+
 # 9. 函式及運算子
 
-PostgreSQLprovides a large number of functions and operators for the built-in data types. Users can also define their own functions and operators, as described in[Part V](https://www.postgresql.org/docs/10/static/server-programming.html). Thepsqlcommands`\df`and`\do`can be used to list all available functions and operators, respectively.
+PostgreSQL 為內建的資料型別提供了大量的函數和運算子。使用者還可以定義自己的函數和運算子，如[第 V 部分](../../server-programming/)所述。psql 指令 \df 和 \do 可分別用於列出所有可用的函數和運算子。
 
-If you are concerned about portability then note that most of the functions and operators described in this chapter, with the exception of the most trivial arithmetic and comparison operators and some explicitly marked functions, are not specified by theSQLstandard. Some of this extended functionality is present in otherSQLdatabase management systems, and in many cases this functionality is compatible and consistent between the various implementations. This chapter is also not exhaustive; additional functions appear in relevant sections of the manual.
+如果您擔心可移植性，那麼請注意，本章中描述的大多數函數和運算子（最常見的算術運算子和比較運算子以及一些明確標記的函數除外）都不是由 SQL 標準指定的。其他一些 SQL 資料庫管理系統提供了其中一些延伸功能，並且在許多情況下，這些功能在各種實作之間是相容和一致的。本章可能不夠完整；附加功能出現在手冊的其他相關章節中。
 

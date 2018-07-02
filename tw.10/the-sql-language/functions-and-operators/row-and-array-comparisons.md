@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # 9.23. 資料列與陣列的比較運算
 
 本節介紹了用於在多群組內容之間進行多重比較的幾個專用語法結構。這些功能在語法上與前一節的子查詢形式相關，但不涉及子查詢。涉及陣列子表示式的形式是 PostgreSQL 的延伸功能；其餘的都是相容 SQL 的。本節中記錄的所有表達形式都是回傳布林值（true/false）結果。
@@ -97,15 +101,15 @@ row_constructor IS NOT DISTINCT FROM row_constructor
 
 This construct is similar to a `=` row comparison, but it does not yield null for null inputs. Instead, any null value is considered unequal to \(distinct from\) any non-null value, and any two nulls are considered equal \(not distinct\). Thus the result will always be either true or false, never null.
 
-## 9.23.6. Composite Type Comparison
+## 9.23.6. 複合型別比較
 
 ```text
 record operator record
 ```
 
-The SQL specification requires row-wise comparison to return NULL if the result depends on comparing two NULL values or a NULL and a non-NULL. PostgreSQL does this only when comparing the results of two row constructors \(as in [Section 9.23.5](https://www.postgresql.org/docs/10/static/functions-comparisons.html#ROW-WISE-COMPARISON)\) or comparing a row constructor to the output of a subquery \(as in [Section 9.22](https://www.postgresql.org/docs/10/static/functions-subquery.html)\). In other contexts where two composite-type values are compared, two NULL field values are considered equal, and a NULL is considered larger than a non-NULL. This is necessary in order to have consistent sorting and indexing behavior for composite types.
+如果結果取決於比較兩個 NULL 值或 NULL 和非 NULL，則 SQL 規範要求按資料列進行比較以回傳 NULL。PostgreSQL只在比較兩個資料列建構函數的結果（如 [9.23.5 節](row-and-array-comparisons.md#9-23-5-row-constructor-comparison)）或者將一個資料列建構函數與子查詢的輸出結果進行比較時（如 [9.22 節](9.22.-zi-cha-xun.md)）那樣做。在比較兩個複合型別內容的其他部份中，兩個 NULL 字串會被認為是相等的，並且 NULL 被認為大於非 NULL。為了對複合型別進行一致的排序和索引行為，這是必須的。
 
-Each side is evaluated and they are compared row-wise. Composite type comparisons are allowed when the _`operator`_ is `=`, `<>`, `<`, `<=`, `>` or `>=`, or has semantics similar to one of these. \(To be specific, an operator can be a row comparison operator if it is a member of a B-tree operator class, or is the negator of the `=` member of a B-tree operator class.\) The default behavior of the above operators is the same as for `IS [ NOT ] DISTINCT FROM` for row constructors \(see [Section 9.23.5](https://www.postgresql.org/docs/10/static/functions-comparisons.html#ROW-WISE-COMPARISON)\).
+評估每一側，並逐個資料列比較它們。 當運算符為 =，&lt;&gt;，&lt;，&lt;=，&gt; 或 &gt;= 時，允許複合型別比較，或者俱有與其中一個類似的語義。（具體而言，如果一個運算子是 B-Tree 運算子類的成員，或者是 B-Tree 運算子類的 = 成員的否定運算，則它可以是資料列比較運算子。）上述運算子的預設行為與資料列建構函數的 IS \[NOT\] DISTINCT FROM 相同（見[第 9.23.5 節](row-and-array-comparisons.md#9-23-5-row-constructor-comparison)）。
 
-To support matching of rows which include elements without a default B-tree operator class, the following operators are defined for composite type comparison: `*=`, `*<>`, `*<`, `*<=`,`*>`, and `*>=`. These operators compare the internal binary representation of the two rows. Two rows might have a different binary representation even though comparisons of the two rows with the equality operator is true. The ordering of rows under these comparison operators is deterministic but not otherwise meaningful. These operators are used internally for materialized views and might be useful for other specialized purposes such as replication but are not intended to be generally useful for writing queries.
+為了支援包含沒有預設 B-Tree 運算子類的元素的資料列匹配，以下運算子被定義用於複合型別比較： _=，_ &lt;&gt;， _&lt;，_ &lt;=，_&gt; 和_ &gt;=。這些運算子比較兩個資料列的內部二進製表示形式。即使兩個資料列與等號運算子的比較為真，兩個資料列也可能具有不同的二進製表示形式。 這些比較運算子下的資料列排序是確定性的，但沒有其他意義。這些運算子在內部用於具體化檢視表，並可用於其他專用目的（如複寫），但不打算經常用於撰寫查詢。
 
