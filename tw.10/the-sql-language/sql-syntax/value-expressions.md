@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # 4.2. 參數表示式
 
 參數表示式用在許多不同的方面，像是 SELECT 指令中的回傳列表；在 INSERT 或 UPDATE 指令中指定欄位的新值；又或是在一些命令中，指出搜尋的條件等。參數表示式的結果，有時候會被稱作 scalar，以有別於表格表示式（就是一個表格）的結果。參數表示式也可以稱作 scalar expressions（賦值表示式），甚或簡化為 expressions （表示式）。表示式的語法容許其值為各種運算的單一結果，如數學、邏輯、集合、或其他運算。
@@ -461,28 +465,28 @@ SELECT ARRAY(SELECT ARRAY[i, i*2] FROM generate_series(1,5) AS a(i));
 
 用 ARRAY 建構的陣列索引值的下標始終以 1 開頭。有關陣列的更多訊息，請參閱[第 8.15 節](../data-types/8.15.-zhen-lie.md)。
 
-## 4.2.13. Row Constructors
+## 4.2.13. 資料列建構者
 
-A row constructor is an expression that builds a row value \(also called a composite value\) using values for its member fields. A row constructor consists of the key word`ROW`, a left parenthesis, zero or more expressions \(separated by commas\) for the row field values, and finally a right parenthesis. For example:
+資料列建構函數是一個表示式，它使用其成員字串的值建構資料列內容（也稱為複合值）。資料建構函數由關鍵字 ROW，左括號，資料列字串的零個或多個表示式（以逗號分隔）所組成，最後則是右括號。例如：
 
 ```text
 SELECT ROW(1,2.5,'this is a test');
 ```
 
-The key word`ROW`is optional when there is more than one expression in the list.
+當列表中有多個表示式時，關鍵詞 ROW 是選用的。
 
-A row constructor can include the syntax`rowvalue.*`, which will be expanded to a list of the elements of the row value, just as occurs when the`.*`syntax is used at the top level of a`SELECT`list \(see[Section 8.16.5](https://www.postgresql.org/docs/10/static/rowtypes.html#rowtypes-usage)\). For example, if table`t`has columns`f1`and`f2`, these are the same:
+資料列建構函數可以包含語法 rowvalue._，它將被延展為資料列內容的元素列表，就像在 SELECT 回傳列表的使用 ._ 語法時一樣（請參閱[第 8.16.5 節](../data-types/8.16.-fu-he-xing-bie.md#8-16-5-using-composite-types-in-queries)）。例如，如果資料列具有欄位 f1 和 f2，則這些欄位是相同的：
 
 ```text
 SELECT ROW(t.*, 42) FROM t;
 SELECT ROW(t.f1, t.f2, 42) FROM t;
 ```
 
-## Note
+## 注意
 
-BeforePostgreSQL8.2, the`.*`syntax was not expanded in row constructors, so that writing`ROW(t.*, 42)`created a two-field row whose first field was another row value. The new behavior is usually more useful. If you need the old behavior of nested row values, write the inner row value without`.*`, for instance`ROW(t, 42)`.
+在 PostgreSQL 8.2 之前，. _語法在資料列建構函數中不會展開，因此寫了ROW\(t._, 42\) 會建立一個兩個字串欄位的資料列，其第一個是欄位是另一個資料列值。新的建構行為通常更有用。如果您需要嵌套資料列值的舊行為，請不要使用 .\* 的內部資料列值，例如 ROW\(t, 42\)。
 
-By default, the value created by a`ROW`expression is of an anonymous record type. If necessary, it can be cast to a named composite type — either the row type of a table, or a composite type created with`CREATE TYPE AS`. An explicit cast might be needed to avoid ambiguity. For example:
+預設情況下，由 ROW 表示式建立的值是匿名記錄型別。如有必要，可將其轉換為指定的複合型別 - 資料表的資料列型別或使用 CREATE TYPE AS 建立的複合型別。可能需要明確表示以避免歧義。例如：
 
 ```text
 CREATE TABLE mytable(f1 int, f2 float, f3 text);
@@ -517,7 +521,7 @@ SELECT getf1(CAST(ROW(11,'this is a test',2.5) AS myrowtype));
 (1 row)
 ```
 
-Row constructors can be used to build composite values to be stored in a composite-type table column, or to be passed to a function that accepts a composite parameter. Also, it is possible to compare two row values or test a row with`IS NULL`or`IS NOT NULL`, for example:
+資料列建構函數可用於建構要儲存在複合型別資料表欄位中的複合內容，或者要傳遞給接受複合參數的函數。此外，可以比較兩個資料列值或用 IS NULL 或 IS NOT NULL 來測試資料列，例如：
 
 ```text
 SELECT ROW(1,2.5,'this is a test') = ROW(1, 3, 'not the same');
@@ -525,7 +529,7 @@ SELECT ROW(1,2.5,'this is a test') = ROW(1, 3, 'not the same');
 SELECT ROW(table.*) IS NULL FROM table;  -- detect all-null rows
 ```
 
-For more detail see[Section 9.23](https://www.postgresql.org/docs/10/static/functions-comparisons.html). Row constructors can also be used in connection with subqueries, as discussed in[Section 9.22](https://www.postgresql.org/docs/10/static/functions-subquery.html).
+更多細節請參閱[第 9.23 節](../functions-and-operators/row-and-array-comparisons.md)。資料列建構函數也可以與子查詢結合使用，如[第 9.22 節](../functions-and-operators/9.22.-zi-cha-xun.md)所述。
 
 ## 4.2.14. 表示式運算規則
 
