@@ -140,27 +140,27 @@ HIGH 的 OpenSSL 預設順序有問題，因為它的 3DES 高於 AES128。這�
 
 `ssl_prefer_server_ciphers` \(`boolean`\)
 
-Specifies whether to use the server's SSL cipher preferences, rather than the client's. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `true`.
+指定是否使用伺服器的 SSL 密碼設定，而不是用戶端的。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值是 true。
 
-Older PostgreSQL versions do not have this setting and always use the client's preferences. This setting is mainly for backward compatibility with those versions. Using the server's preferences is usually better because it is more likely that the server is appropriately configured.
+較舊的 PostgreSQL 版本並沒有此設定，始終使用用戶端的設定。此設定主要是為了與這些版本的相容性。使用伺服器的選項通常更好，因為伺服器更有可能做適當的配置。
 
 `ssl_ecdh_curve` \(`string`\)
 
-Specifies the name of the curve to use in ECDH key exchange. It needs to be supported by all clients that connect. It does not need to be the same curve used by the server's Elliptic Curve key. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `prime256v1`.
+指定要在 ECDH 密鑰交換中使用的 curve 名稱。它需要所有連線的用戶端支援。它不需要與伺服器的 curve 鍵使用的相同。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設為 prime256v1。
 
-OpenSSL names for the most common curves are: `prime256v1` \(NIST P-256\), `secp384r1` \(NIST P-384\), `secp521r1` \(NIST P-521\). The full list of available curves can be shown with the command `openssl ecparam -list_curves`. Not all of them are usable in TLS though.
+最常用 curve 的 OpenSSL 名稱為：prime256v1（NIST P-256），secp384r1（NIST P-384），secp521r1（NIST P-521）。可用 curve 的完整列表可以使用 openssl ecparam -list\_curves 指令列出。但並非所有的結果都可以在 TLS 中使用。
 
 `password_encryption` \(`enum`\)
 
-When a password is specified in [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html) or [ALTER ROLE](https://www.postgresql.org/docs/10/static/sql-alterrole.html), this parameter determines the algorithm to use to encrypt the password. The default value is `md5`, which stores the password as an MD5 hash \(`on` is also accepted, as alias for `md5`\). Setting this parameter to `scram-sha-256` will encrypt the password with SCRAM-SHA-256.
+當在 [CREATE ROLE](../../vi.-can-kao-zi-xun/i.-sql-zhi-ling/create-role.md) 或 [ALTER ROLE](../../vi.-can-kao-zi-xun/i.-sql-zhi-ling/alter-role.md) 中指定密碼時，此參數決定用於加密密碼的演算法。預設值是md5，它將密碼儲存為MD5 hash（on 也被接受，作為 md5 的別名）。將此參數設定為 scram-sha-256 時將使用 SCRAM-SHA-256 加密密碼。
 
-Note that older clients might lack support for the SCRAM authentication mechanism, and hence not work with passwords encrypted with SCRAM-SHA-256. See [Section 20.3.2](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-PASSWORD) for more details.
+請注意，較舊的用戶端可能缺少對 SCRAM 認證機制的支援，因此不適用於使用 SCRAM-SHA-256 加密的密碼。有關更多詳細訊息，請參閱[第 20.3.2 節](../client-authentication/authentication-methods.md#20-3-2-password-authentication)。
 
 `ssl_dh_params_file` \(`string`\)
 
-Specifies the name of the file containing Diffie-Hellman parameters used for so-called ephemeral DH family of SSL ciphers. The default is empty, in which case compiled-in default DH parameters used. Using custom DH parameters reduces the exposure if an attacker manages to crack the well-known compiled-in DH parameters. You can create your own DH parameters file with the command `openssl dhparam -out dhparams.pem 2048`.
+指定包含用於所謂的 ephemeral DH family 的 SSL 加密的 Diffie-Hellman 參數的檔案名稱。預設值為空，在這種情況下，使用預設編譯的 DH 參數。如果攻擊者設法破解眾所周知的編譯 DH 參數，則使用自行定義 DH 參數可以減少暴露的可能性。 您可以使用指令 `openssl dhparam -out dhparams.pem 2048` 建立您自己的DH參數檔案。
 
-This parameter can only be set in the `postgresql.conf` file or on the server command line.
+此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `krb_server_keyfile` \(`string`\)
 
