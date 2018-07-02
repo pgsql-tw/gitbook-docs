@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # 19.4. 資源配置
 
 ## 19.4.1. 記憶體
@@ -74,11 +78,11 @@ Specifies the dynamic shared memory implementation that the server should use. P
 
 此設定限制了給予 PostgreSQL 程序使用的所有暫存檔在任何時刻能使用的總空間。應該注意的是，用於臨時資料表的磁碟空間與在查詢執行過程中使用的暫存檔不同，並不會計入此限制。
 
-## 19.4.3. Kernel Resource Usage
+## 19.4.3. 核心資源配置
 
 `max_files_per_process` \(`integer`\)
 
-Sets the maximum number of simultaneously open files allowed to each server subprocess. The default is one thousand files. If the kernel is enforcing a safe per-process limit, you don't need to worry about this setting. But on some platforms \(notably, most BSD systems\), the kernel will allow individual processes to open many more files than the system can actually support if many processes all try to open that many files. If you find yourself seeing “Too many open files” failures, try reducing this setting. This parameter can only be set at server start.
+設定每個伺服器子程序允許的同時最大開啓的檔案數。預設值是 1000 個檔案。如果核心可以確保每個程序的安全限制，則不必擔心此設定。但是在某些平台上（特別是大多數 BSD 系統），如果許多程序都嘗試開啓那麼多檔案，核心將允許單個程序打開比系統實際支援的更多的檔案。如果您發現自己看到“Too many open files”失敗，請嘗試減少此設定。此參數只能在伺服器啟動時設定。
 
 ## 19.4.4. Cost-based Vacuum Delay
 

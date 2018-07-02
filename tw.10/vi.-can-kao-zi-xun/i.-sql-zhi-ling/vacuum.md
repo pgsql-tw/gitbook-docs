@@ -70,7 +70,7 @@ VACUUM 不能在交易事務區塊內執行。
 
 FULL 選項不推薦於日常使用，但在特殊情況下可能會有用。例如，您刪除或更新了資料表中的大部分資料列，並且希望資料表在物理上縮小以佔用較少的磁碟空間以允許更快的資料表掃描。VACUUM FULL 通常會縮小資料表，而不是簡單的 VACUUM。
 
-VACUUM 會導致 I/O 流量大幅增加，這可能會導致其他連線活動的效能下降。因此，有時建議使用基於成本的清理延遲功能。詳情請參閱[第 19.4.4 節](../../server-administration/server-configuration/19.4.-zi-yuan-pei-zhi.md#19-4-4-cost-based-vacuum-delay)。
+VACUUM 會導致 I/O 流量大幅增加，這可能會導致其他連線活動的效能下降。因此，有時建議使用基於成本的清理延遲功能。詳情請參閱[第 19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay)。
 
 PostgreSQL 內含一個「autovacuum」工具，可以自動執行常態的清理維護。有關自動和手動清理的更多訊息，請參閱[第 24.1 節](../../server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/24.1.-li-hang-xing-zi-liao-qing-li.md)。
 
@@ -88,5 +88,5 @@ SQL 標準中並沒有 VACUUM 語句。
 
 ### 參閱
 
-[vacuumdb](../ii.-postgresql-yong-hu-duan-gong-ju/vacuumdb.md), [19.4.4 節](../../server-administration/server-configuration/19.4.-zi-yuan-pei-zhi.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/24.1.-li-hang-xing-zi-liao-qing-li.md#24-1-6-the-autovacuum-daemon)
+[vacuumdb](../ii.-postgresql-yong-hu-duan-gong-ju/vacuumdb.md), [19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/24.-li-hang-xing-zi-liao-ku-wei-hu-gong-zuo/24.1.-li-hang-xing-zi-liao-qing-li.md#24-1-6-the-autovacuum-daemon)
 
