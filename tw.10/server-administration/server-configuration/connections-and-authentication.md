@@ -152,7 +152,7 @@ HIGH 的 OpenSSL 預設順序有問題，因為它的 3DES 高於 AES128。這�
 
 `password_encryption` \(`enum`\)
 
-當在 [CREATE ROLE](../../vi.-can-kao-zi-xun/i.-sql-zhi-ling/create-role.md) 或 [ALTER ROLE](../../vi.-can-kao-zi-xun/i.-sql-zhi-ling/alter-role.md) 中指定密碼時，此參數決定用於加密密碼的演算法。預設值是md5，它將密碼儲存為MD5 hash（on 也被接受，作為 md5 的別名）。將此參數設定為 scram-sha-256 時將使用 SCRAM-SHA-256 加密密碼。
+當在 [CREATE ROLE](../../reference/sql-commands/create-role.md) 或 [ALTER ROLE](../../reference/sql-commands/alter-role.md) 中指定密碼時，此參數決定用於加密密碼的演算法。預設值是md5，它將密碼儲存為MD5 hash（on 也被接受，作為 md5 的別名）。將此參數設定為 scram-sha-256 時將使用 SCRAM-SHA-256 加密密碼。
 
 請注意，較舊的用戶端可能缺少對 SCRAM 認證機制的支援，因此不適用於使用 SCRAM-SHA-256 加密的密碼。有關更多詳細訊息，請參閱[第 20.3.2 節](../client-authentication/authentication-methods.md#20-3-2-password-authentication)。
 

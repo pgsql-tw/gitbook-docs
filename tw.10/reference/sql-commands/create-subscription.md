@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # CREATE SUBSCRIPTION
 
 CREATE SUBSCRIPTION — 定義一個新的訂閱
@@ -73,13 +77,13 @@ It is not allowed to combine `connect` set to `false` and `enabled`, `create_slo
 
 Since no connection is made when this option is set to `false`, the tables are not subscribed, and so after you enable the subscription nothing will be replicated. It is required to run `ALTER SUBSCRIPTION ... REFRESH PUBLICATION` in order for tables to be subscribed.
 
-### Notes
+### 注意
 
-See [Section 31.7](https://www.postgresql.org/docs/10/static/logical-replication-security.html) for details on how to configure access control between the subscription and the publication instance.
+有關如何在訂閱和發佈的服服之間配置存取控制的詳細訊息，請參閱[第 31.7 節](../../server-administration/31.-luo-ji-fu-xie-logical-replication/31.7.-an-quan-xing.md)。
 
-When creating a replication slot \(the default behavior\), `CREATE SUBSCRIPTION` cannot be executed inside a transaction block.
+建立複寫插槽時（預設行為），CREATE SUBSCRIPTION 不能在交易事務區塊內執行。
 
-Creating a subscription that connects to the same database cluster \(for example, to replicate between databases in the same cluster or to replicate within the same database\) will only succeed if the replication slot is not created as part of the same command. Otherwise, the `CREATE SUBSCRIPTION` call will hang. To make this work, create the replication slot separately \(using the function `pg_create_logical_replication_slot` with the plugin name `pgoutput`\) and create the subscription using the parameter `create_slot = false`. This is an implementation restriction that might be lifted in a future release.
+建立連線到同一資料庫叢集的訂閱（例如，在同一叢集中的資料庫之間進行複寫或在同一資料庫中進行複寫）只有在複寫插槽未作為同一指令的一部分建立時才會成功。否則，CREATE SUBSCRIPTION 呼叫將失敗。要使其順利運作，請單獨建立複寫插槽（使用函數 pg\_create\_logical\_replication\_slot，套件名稱為 pgoutput），並使用參數 create\_slot = false 建立訂閱。這是一個可能在將來的版本中解除的實作限制。
 
 ### 範例
 

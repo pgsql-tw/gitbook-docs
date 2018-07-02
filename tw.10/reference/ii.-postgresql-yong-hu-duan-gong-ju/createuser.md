@@ -197,5 +197,5 @@ In the above example, the new password isn't actually echoed when typed, but we 
 
 ### See Also
 
-[dropuser](dropuser.md), [CREATE ROLE](../i.-sql-zhi-ling/create-role.md)
+[dropuser](dropuser.md), [CREATE ROLE](../sql-commands/create-role.md)
 

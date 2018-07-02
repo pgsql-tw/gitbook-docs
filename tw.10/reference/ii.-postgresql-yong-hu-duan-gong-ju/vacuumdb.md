@@ -171,5 +171,5 @@ $ vacuumdb --analyze --verbose --table='foo(bar)' xyzzy
 
 ### See Also
 
-[VACUUM](../i.-sql-zhi-ling/vacuum.md)
+[VACUUM](../sql-commands/vacuum.md)
 

@@ -10,7 +10,7 @@ dropuser — 移除 PostgreSQL 使用者帳戶
 
 dropuser 移除現有的 PostgreSQL 使用者。只有具有 CREATEROLE 權限的超級使用者或一般使用者才能移除 PostgreSQL 使用者。（但要移除超級使用者，您還必須自己是超級使用者。）
 
-dropuser 是 SQL 指令 [DROP ROLE](../i.-sql-zhi-ling/drop-role.md) 的一個封裝。透過此實用工具和透過存取伺服器的其他方法移除使用者，之間沒有區別。
+dropuser 是 SQL 指令 [DROP ROLE](../sql-commands/drop-role.md) 的一個封裝。透過此實用工具和透過存取伺服器的其他方法移除使用者，之間沒有區別。
 
 ### 參數
 
@@ -85,7 +85,7 @@ dropuser 還接受連線有關的以下命令列參數：
 
 ### 診斷
 
-如果遇到困難，請參閱 [DROP ROLE](../i.-sql-zhi-ling/drop-role.md) 和 [psql](psql.md)，以便討論潛在問題和錯誤訊息。資料庫伺服器必須在目標主機上運行。此外，libpq 前端函式庫使用的任何預設連線設定和環境變數都將適用。
+如果遇到困難，請參閱 [DROP ROLE](../sql-commands/drop-role.md) 和 [psql](psql.md)，以便討論潛在問題和錯誤訊息。資料庫伺服器必須在目標主機上運行。此外，libpq 前端函式庫使用的任何預設連線設定和環境變數都將適用。
 
 ### 範例
 
@@ -106,5 +106,5 @@ DROP ROLE joe;
 
 ### 參閱
 
-[createuser](createuser.md), [DROP ROLE](../i.-sql-zhi-ling/drop-role.md)
+[createuser](createuser.md), [DROP ROLE](../sql-commands/drop-role.md)
 
