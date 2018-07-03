@@ -6,9 +6,9 @@ description: 版本：10
 
 PostgreSQL 會為它收到的每個查詢設計一個查詢計劃。選擇正確的計劃以搭配查詢結構和資料屬性對於提高效能至關重要，所以系統包含一個複雜的計劃程序，試圖選擇好的計劃。您可以使用 [EXPLAIN](../../reference/sql-commands/explain.md) 指令查看計劃程序為每一個查詢所建立的查詢計劃。計劃內容閱讀是一門需要掌握一定經驗的藝術，但本部分主要涵蓋基本知識。
 
-Examples in this section are drawn from the regression test database after doing a `VACUUM ANALYZE`, using 9.3 development sources. You should be able to get similar results if you try the examples yourself, but your estimated costs and row counts might vary slightly because `ANALYZE`'s statistics are random samples rather than exact, and because costs are inherently somewhat platform-dependent.
+本節中的範例是在使用 9.3 開發原始碼進行 VACUUM ANALYZE 後進行迴歸測試資料庫中提取的。如果您自己嘗試這些範例，應該能夠獲得類似的結果，但您的估計成本和行數可能略有不同，因為 ANALYZE 的統計資訊是隨機樣本而不是精確的，而且因為成本本質上與平台有關。
 
-The examples use `EXPLAIN`'s default “text” output format, which is compact and convenient for humans to read. If you want to feed `EXPLAIN`'s output to a program for further analysis, you should use one of its machine-readable output formats \(XML, JSON, or YAML\) instead.
+這些範例使用 EXPLAIN 的預設「文字」輸出格式，該格式緊湊且便於人類閱讀。 如果要將 EXPLAIN 的輸出提供給程式以進行進一步分析，則應使用其機器可讀輸出格式之一（XML、JSON 或 YAML）。
 
 #### 14.1.1. `EXPLAIN` Basics
 
