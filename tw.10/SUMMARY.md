@@ -494,6 +494,7 @@
     * [vacuumdb](reference/ii.-postgresql-yong-hu-duan-gong-ju/vacuumdb.md)
   * [III. PostgreSQL 伺服器應用程式](reference/server-applications/README.md)
     * [pg\_test\_timing](reference/server-applications/pg_test_timing.md)
+    * [postgres](reference/server-applications/postgres.md)
 * [VII. 資料庫進階](internals/README.md)
   * [51. 系統目錄](internals/51.-xi-tong-mu-lu/README.md)
     * [51.8. pg\_authid](internals/51.-xi-tong-mu-lu/51.8.-pg_authid.md)
