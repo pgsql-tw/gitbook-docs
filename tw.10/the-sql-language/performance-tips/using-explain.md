@@ -10,7 +10,7 @@ PostgreSQL 會為它收到的每個查詢設計一個查詢計劃。選擇正確
 
 這些範例使用 EXPLAIN 的預設「文字」輸出格式，該格式緊湊且便於人類閱讀。 如果要將 EXPLAIN 的輸出提供給程式以進行進一步分析，則應使用其機器可讀輸出格式之一（XML、JSON 或 YAML）。
 
-#### 14.1.1. `EXPLAIN` Basics
+## 14.1.1. `EXPLAIN` 基本概念
 
 The structure of a query plan is a tree of _plan nodes_. Nodes at the bottom level of the tree are scan nodes: they return raw rows from a table. There are different types of scan nodes for different table access methods: sequential scans, index scans, and bitmap index scans. There are also non-table row sources, such as `VALUES` clauses and set-returning functions in `FROM`, which have their own scan node types. If the query requires joining, aggregation, sorting, or other operations on the raw rows, then there will be additional nodes above the scan nodes to perform these operations. Again, there is usually more than one possible way to do these operations, so different node types can appear here too. The output of `EXPLAIN` has one line for each node in the plan tree, showing the basic node type plus the cost estimates that the planner made for the execution of that plan node. Additional lines might appear, indented from the node's summary line, to show additional properties of the node. The very first line \(the summary line for the topmost node\) has the estimated total execution cost for the plan; it is this number that the planner seeks to minimize.
 
@@ -254,9 +254,9 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
 
 which shows that the planner thinks that sorting `onek` by index-scanning is about 12% more expensive than sequential-scan-and-sort. Of course, the next question is whether it's right about that. We can investigate that using`EXPLAIN ANALYZE`, as discussed below.
 
-#### 14.1.2. `EXPLAIN ANALYZE`
+## 14.1.2. `EXPLAIN ANALYZE`
 
-It is possible to check the accuracy of the planner's estimates by using `EXPLAIN`'s `ANALYZE` option. With this option, `EXPLAIN` actually executes the query, and then displays the true row counts and true run time accumulated within each plan node, along with the same estimates that a plain `EXPLAIN` shows. For example, we might get a result like this:
+可以使用 EXPLAIN 的 ANALYZE 選項檢查計劃員估算的準確性。 使用此選項，EXPLAIN 實際執行查詢，然後顯示每個計劃節點中累積的真實資料列計數和真實執行時間，以及簡單 EXPLAIN 顯示的相同估計值。例如，我們可能得到這樣的結果：
 
 ```text
 EXPLAIN ANALYZE SELECT *
@@ -276,7 +276,7 @@ WHERE t1.unique1 < 10 AND t1.unique2 = t2.unique2;
  Execution time: 0.501 ms
 ```
 
-Note that the “actual time” values are in milliseconds of real time, whereas the `cost` estimates are expressed in arbitrary units; so they are unlikely to match up. The thing that's usually most important to look for is whether the estimated row counts are reasonably close to reality. In this example the estimates were all dead-on, but that's quite unusual in practice.
+注意，「實際時間」值是實際執行的時間，以毫秒為單位，而成本估算會以任意單位表示；所以他們不太可能匹配。通常最重要的事情是估計的資料列數量是否與現實相當接近。在這個例子中，估計都是死的，但這在實務上很不尋常。
 
 In some query plans, it is possible for a subplan node to be executed more than once. For example, the inner index scan will be executed once per outer row in the above nested-loop plan. In such cases, the `loops` value reports the total number of executions of the node, and the actual time and rows values shown are averages per-execution. This is done to make the numbers comparable with the way that the cost estimates are shown. Multiply by the `loops`value to get the total time actually spent in the node. In the above example, we spent a total of 0.220 milliseconds executing the index scans on `tenk2`.
 
@@ -428,7 +428,7 @@ The `Planning time` shown by `EXPLAIN ANALYZE` is the time it took to generate t
 
 The `Execution time` shown by `EXPLAIN ANALYZE` includes executor start-up and shut-down time, as well as the time to run any triggers that are fired, but it does not include parsing, rewriting, or planning time. Time spent executing `BEFORE` triggers, if any, is included in the time for the related Insert, Update, or Delete node; but time spent executing `AFTER` triggers is not counted there because `AFTER` triggers are fired after completion of the whole plan. The total time spent in each trigger \(either `BEFORE` or `AFTER`\) is also shown separately. Note that deferred constraint triggers will not be executed until end of transaction and are thus not considered at all by `EXPLAIN ANALYZE`.
 
-#### 14.1.3. Caveats
+## 14.1.3. 注意事項
 
 There are two significant ways in which run times measured by `EXPLAIN ANALYZE` can deviate from normal execution of the same query. First, since no output rows are delivered to the client, network transmission costs and I/O conversion costs are not included. Second, the measurement overhead added by `EXPLAIN ANALYZE` can be significant, especially on machines with slow `gettimeofday()` operating-system calls. You can use the [pg\_test\_timing](https://www.postgresql.org/docs/10/static/pgtesttiming.html) tool to measure the overhead of timing on your system.
 

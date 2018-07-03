@@ -1,4 +1,0 @@
-# III. PostgreSQL Server Applications
-
-
-
