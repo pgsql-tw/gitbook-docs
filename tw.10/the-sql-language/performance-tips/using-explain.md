@@ -12,9 +12,9 @@ PostgreSQL 會為它收到的每個查詢設計一個查詢計劃。選擇正確
 
 ## 14.1.1. `EXPLAIN` 基本概念
 
-The structure of a query plan is a tree of _plan nodes_. Nodes at the bottom level of the tree are scan nodes: they return raw rows from a table. There are different types of scan nodes for different table access methods: sequential scans, index scans, and bitmap index scans. There are also non-table row sources, such as `VALUES` clauses and set-returning functions in `FROM`, which have their own scan node types. If the query requires joining, aggregation, sorting, or other operations on the raw rows, then there will be additional nodes above the scan nodes to perform these operations. Again, there is usually more than one possible way to do these operations, so different node types can appear here too. The output of `EXPLAIN` has one line for each node in the plan tree, showing the basic node type plus the cost estimates that the planner made for the execution of that plan node. Additional lines might appear, indented from the node's summary line, to show additional properties of the node. The very first line \(the summary line for the topmost node\) has the estimated total execution cost for the plan; it is this number that the planner seeks to minimize.
+查詢計劃的結構是計劃節點樹。樹底層的節點是掃描節點：它們從資料表中回傳原始資料列。對於不同的資料表存取方法，存在不同類型的掃描節點：循序掃描、索引掃描和 bitmap 索引掃描。還有非資料表的來源，例如 VALUES 中的 VALUES 子句和 set-returns 函數，它們有自己的掃描節點類型。如果查詢需要對原始資料列進行交叉查詢、彙總、排序或其他操作，則掃描節點上方將有其他節點來執行這些操作。同樣，通常有多種可能的方法來執行這些操作，因此這裡也可以顯示不同的節點類型。EXPLAIN 的輸出對於計劃樹中的每個節點都有一行，顯示基本節點類型以及計劃程序為執行該計劃節點所做的成本估算。可能會顯示從節點的摘要行縮進的其他行，以顯示節點的其他屬性。第一行（最頂層節點的摘要行）具有計劃的估計總執行成本；計劃程序會試圖最小化這個數字。
 
-Here is a trivial example, just to show what the output looks like:
+這裡有一個簡單的例子，只是為了顯示輸出的樣子：
 
 ```text
 EXPLAIN SELECT * FROM tenk1;
@@ -24,7 +24,7 @@ EXPLAIN SELECT * FROM tenk1;
  Seq Scan on tenk1  (cost=0.00..458.00 rows=10000 width=244)
 ```
 
-Since this query has no `WHERE` clause, it must scan all the rows of the table, so the planner has chosen to use a simple sequential scan plan. The numbers that are quoted in parentheses are \(left to right\):
+由於此查詢沒有 WHERE 子句，因此它必須掃描資料表的所有資料列，因此規劃程序選擇使用簡單的循序掃描計劃。括號中引用的數字是（從左到右）：
 
 * Estimated start-up cost. This is the time expended before the output phase can begin, e.g., time to do the sorting in a sort node.
 * Estimated total cost. This is stated on the assumption that the plan node is run to completion, i.e., all available rows are retrieved. In practice a node's parent node might stop short of reading all available rows \(see the `LIMIT`example below\).
