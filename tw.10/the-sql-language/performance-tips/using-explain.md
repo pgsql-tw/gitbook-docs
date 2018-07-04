@@ -26,18 +26,18 @@ EXPLAIN SELECT * FROM tenk1;
 
 由於此查詢沒有 WHERE 子句，因此它必須掃描資料表的所有資料列，因此規劃程序選擇使用簡單的循序掃描計劃。括號中引用的數字是（從左到右）：
 
-* Estimated start-up cost. This is the time expended before the output phase can begin, e.g., time to do the sorting in a sort node.
-* Estimated total cost. This is stated on the assumption that the plan node is run to completion, i.e., all available rows are retrieved. In practice a node's parent node might stop short of reading all available rows \(see the `LIMIT`example below\).
-* Estimated number of rows output by this plan node. Again, the node is assumed to be run to completion.
-* Estimated average width of rows output by this plan node \(in bytes\).
+* 估計的啟動成本。這是在輸出階段開始之前花費的時間，例如，在排序節點中進行排序的時間。
+* 估計總成本。這是在假設計劃節點執行完成，即檢索所有可用資料列的情況下評估的。實際上，節點的父節點可能會停止讀取所有可用的資料列（請參閱下面的 LIMIT 範例）。
+* 此計劃節點輸出的估計資料列數量。同樣地，假定節點完全執行。
+* 此計劃節點輸出的資料列估計的平均資料大小（以 byte 為單位）。
 
-The costs are measured in arbitrary units determined by the planner's cost parameters \(see [Section 19.7.2](https://www.postgresql.org/docs/10/static/runtime-config-query.html#RUNTIME-CONFIG-QUERY-CONSTANTS)\). Traditional practice is to measure the costs in units of disk page fetches; that is, [seq\_page\_cost](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-SEQ-PAGE-COST) is conventionally set to `1.0` and the other cost parameters are set relative to that. The examples in this section are run with the default cost parameters.
+成本按照規劃程序的成本參數決定的各個單位計量（見[第 19.7.2 節](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)）。傳統做法是以磁碟頁面讀取為單位來衡量成本；也就是說，[seq\_page\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants) 通常設定為 1.0，其他成本參數相對於此來設定。本節中的範例使用預設的成本參數進行。
 
-It's important to understand that the cost of an upper-level node includes the cost of all its child nodes. It's also important to realize that the cost only reflects things that the planner cares about. In particular, the cost does not consider the time spent transmitting result rows to the client, which could be an important factor in the real elapsed time; but the planner ignores it because it cannot change it by altering the plan. \(Every correct plan will output the same row set, we trust.\)
+很重要的是要了解上層節點的成本包括其所有子節點的成本。同樣重要的是要意識到成本只反映了計劃程序所關心的事情。特別是，成本不考慮將結果資料列傳輸到用戶端所花費的時間，這可能是實際經過時間的一個重要因素；但是計劃者忽略了它，因為它不能透過改變計劃來改善它。（我們相信，每個正確的計劃都會輸出相同的資料列集合。）
 
-The `rows` value is a little tricky because it is not the number of rows processed or scanned by the plan node, but rather the number emitted by the node. This is often less than the number scanned, as a result of filtering by any`WHERE`-clause conditions that are being applied at the node. Ideally the top-level rows estimate will approximate the number of rows actually returned, updated, or deleted by the query.
+資料列的數目有點棘手，因為它不是計劃節點處理或掃描的數量，而是節點發出的資料列數量。這通常小於掃描的數量，這是透過在節點上套用的任何 WHHERE 子句條件進行過濾的結果。理想情況下，最上層級資料列數量估計值將近似於查詢實際回傳、更新或刪除的資料列數目。
 
-Returning to our example:
+回到我們的例子：
 
 ```text
 EXPLAIN SELECT * FROM tenk1;
@@ -47,15 +47,15 @@ EXPLAIN SELECT * FROM tenk1;
  Seq Scan on tenk1  (cost=0.00..458.00 rows=10000 width=244)
 ```
 
-These numbers are derived very straightforwardly. If you do:
+這些數字非常直觀。如果你這樣做：
 
 ```text
 SELECT relpages, reltuples FROM pg_class WHERE relname = 'tenk1';
 ```
 
-you will find that `tenk1` has 358 disk pages and 10000 rows. The estimated cost is computed as \(disk pages read \* [seq\_page\_cost](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-SEQ-PAGE-COST)\) + \(rows scanned \* [cpu\_tuple\_cost](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-CPU-TUPLE-COST)\). By default, `seq_page_cost` is 1.0 and `cpu_tuple_cost` is 0.01, so the estimated cost is \(358 \* 1.0\) + \(10000 \* 0.01\) = 458.
+你會發現 tenk1 有 358 個磁碟頁面和 10000 個資料列。估計的成本計算為（磁碟頁讀取  _\*_ [seq\_page\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)）+（資料列掃描 \* [cpu\_tuple\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)）。預設的情況下，seq\_page\_cost 為 1.0，cpu\_tuple\_cost 為 0.01，因此估計成本為（358 \*  __1.0）+（10000 \* 0.01）= 458。
 
-Now let's modify the query to add a `WHERE` condition:
+現在讓我們修改查詢加入 WHERE 條件：
 
 ```text
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 7000;
@@ -66,9 +66,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 7000;
    Filter: (unique1 < 7000)
 ```
 
-Notice that the `EXPLAIN` output shows the `WHERE` clause being applied as a “filter” condition attached to the Seq Scan plan node. This means that the plan node checks the condition for each row it scans, and outputs only the ones that pass the condition. The estimate of output rows has been reduced because of the `WHERE` clause. However, the scan will still have to visit all 10000 rows, so the cost hasn't decreased; in fact it has gone up a bit \(by 10000 \* [cpu\_operator\_cost](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-CPU-OPERATOR-COST), to be exact\) to reflect the extra CPU time spent checking the `WHERE` condition.
+請注意，EXPLAIN 輸出顯示 WHERE 子句作為附加到 Seq Scan 計劃節點的「filter」條件應用。這意味著計劃節點檢查它掃描的每一筆資料的條件，並僅輸出通過該條件的那些資料列。由於 WHERE 子句，輸出資料列的估計已經減少。只是，掃描仍然需要讀取所有 10000 筆資料，因此成本並沒有降低；實際上它已經上升了一點（確切地說是 10000 \* [cpu\_operator\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)）以反映檢查 WHERE 條件所花費的額外 CPU 時間。
 
-The actual number of rows this query would select is 7000, but the `rows` estimate is only approximate. If you try to duplicate this experiment, you will probably get a slightly different estimate; moreover, it can change after each`ANALYZE` command, because the statistics produced by `ANALYZE` are taken from a randomized sample of the table.
+此查詢將回傳的實際筆數為 7000，但筆數估計值僅為近似值。如果您嘗試複製此實驗，您可能會得到略微不同的估計；此外，它可能在每個 ANALYZE 指令之後改變，因為 ANALYZE 産成的統計訊息來自於資料表的隨機樣本。
 
 Now, let's make the condition more restrictive:
 
