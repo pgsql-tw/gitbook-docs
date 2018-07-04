@@ -501,6 +501,7 @@
     * [51.11 pg\_class](internals/51.-xi-tong-mu-lu/51.11-pg_class.md)
     * [51.15 pg\_database](internals/51.-xi-tong-mu-lu/51.15-pg_database.md)
     * [51.26 pg\_index](internals/51.-xi-tong-mu-lu/51.26-pg_index.md)
+    * [51.50. pg\_statistic](internals/51.-xi-tong-mu-lu/51.50.-pg_statistic.md)
     * [51.54. pg\_tablespace](internals/51.-xi-tong-mu-lu/51.54.-pg_tablespace.md)
     * [51.79. pg\_replication\_origin\_status](internals/51.-xi-tong-mu-lu/51.79.-pg_replication_origin_status.md)
     * [51.81 pg\_roles](internals/51.-xi-tong-mu-lu/51.81-pg_roles.md)

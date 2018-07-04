@@ -43,57 +43,57 @@ ROLLBACK;
 
 在未括號的語法中，只有 ANALYZE 和 VERBOSE 選項可以使用，而且也只能依次序使用。在 PostgreSQL 9.0 之前，沒有括號的語法是唯一受支援的語法。預計所有新選項僅在括號語法中受支援。
 
-### Parameters
+### 參數
 
 `ANALYZE`
 
-Carry out the command and show actual run times and other statistics. This parameter defaults to `FALSE`.
+執行命令並顯示實際運行時間和其他統計訊息。此參數預設為 FALSE。
 
 `VERBOSE`
 
-Display additional information regarding the plan. Specifically, include the output column list for each node in the plan tree, schema-qualify table and function names, always label variables in expressions with their range table alias, and always print the name of each trigger for which statistics are displayed. This parameter defaults to `FALSE`.
+顯示有關計劃的其他訊息。具體來說，包括計劃樹中每個節點的輸出欄位列表， schema-qualify 資料表和函數名稱，始終在表示式中使用其範圍資料表別名標記，並始終輸出顯示統計訊息的每個觸發器的名稱。此參數預設為 FALSE。
 
 `COSTS`
 
-Include information on the estimated startup and total cost of each plan node, as well as the estimated number of rows and the estimated width of each row. This parameter defaults to `TRUE`.
+包括有關每個計劃節點的估計啟動和總成本的訊息，以及估計的資料列數和每個資料列的估計寬度。此參數預設為 TRUE。
 
 `BUFFERS`
 
-Include information on buffer usage. Specifically, include the number of shared blocks hit, read, dirtied, and written, the number of local blocks hit, read, dirtied, and written, and the number of temp blocks read and written. A _hit_ means that a read was avoided because the block was found already in cache when needed. Shared blocks contain data from regular tables and indexes; local blocks contain data from temporary tables and indexes; while temp blocks contain short-term working data used in sorts, hashes, Materialize plan nodes, and similar cases. The number of blocks _dirtied_ indicates the number of previously unmodified blocks that were changed by this query; while the number of blocks _written_ indicates the number of previously-dirtied blocks evicted from cache by this backend during query processing. The number of blocks shown for an upper-level node includes those used by all its child nodes. In text format, only non-zero values are printed. This parameter may only be used when `ANALYZE` is also enabled. It defaults to `FALSE`.
+加入顯示有關緩衝區使用的訊息。具體來說，包括命中、讀取、弄髒和寫入的共享塊的數量，命中、讀取、弄髒和寫入的本地區塊的數量，以及讀取和寫入的臨時區塊的數量。命中意味著避免了讀取，因為在需要時已經在緩衝區中找到了區塊。共享區塊包含來自一般資料表和索引的資料；本地區塊包含臨時資料表和索引的資料；臨時區塊包含用於排序、映射、具體化計劃節點和類似情況的短期工作資料。髒污的區塊數表示此查詢更改的先前未修改的區塊數量；而寫入的區塊數表示在查詢處理期間由該後端從緩衝區中讀出的先前髒污區塊的數量。為上層節點顯示的塊數包括其所有子節點使用的塊數。在文字格式中，僅輸出非零的值。僅當啟用 ANALYZE 時，才能使用此參數。它預設為 FALSE。
 
 `TIMING`
 
-Include actual startup time and time spent in each node in the output. The overhead of repeatedly reading the system clock can slow down the query significantly on some systems, so it may be useful to set this parameter to `FALSE` when only actual row counts, and not exact times, are needed. Run time of the entire statement is always measured, even when node-level timing is turned off with this option. This parameter may only be used when `ANALYZE` is also enabled. It defaults to `TRUE`.
+包括輸出中每個節點花費的實際啟動時間和總時間。重複讀取系統時鐘的開銷可能會在某些系統上顯著減慢查詢速度，因此當僅需要實際資料列計數而非精確時間時，將此參數設定為 FALSE 可能會很有用。即使使用此選項關閉節點級時序，也始終會測量整個語句的執行時間。僅當啟用 ANALYZE 時，才能使用此參數。 它預設為 TRUE。
 
 `SUMMARY`
 
-Include summary information \(e.g., totaled timing information\) after the query plan. Summary information is included by default when `ANALYZE` is used but otherwise is not included by default, but can be enabled using this option. Planning time in `EXPLAIN EXECUTE`includes the time required to fetch the plan from the cache and the time required for re-planning, if necessary.
+在查詢計劃之後顯示摘要訊息（例如，總計的時間訊息）。使用 ANALYZE 時預設會包含摘要訊息，但一般預設的情況下不包括摘要信息，不過可以使用此選項啟用。EXPLAIN EXECUTE 中的計劃時間包括從緩衝區中取得計劃所需的時間以及必要時重新計劃所需的時間。
 
 `FORMAT`
 
-Specify the output format, which can be TEXT, XML, JSON, or YAML. Non-text output contains the same information as the text output format, but is easier for programs to parse. This parameter defaults to `TEXT`.
+指定輸出格式，可以是 TEXT、XML、JSON 或 YAML。非文字輸出格式包含與文字輸出格式相同的訊息，但能讓程式更容易解析。此參數預設為 TEXT。
 
 _`boolean`_
 
-Specifies whether the selected option should be turned on or off. You can write `TRUE`, `ON`, or `1` to enable the option, and `FALSE`, `OFF`, or `0` to disable it. The _`boolean`_ value can also be omitted, in which case `TRUE` is assumed.
+指定是應打開還是關閉所選選項。您可以寫入 TRUE、ON 或 1 以啟用該選項，使用 FALSE、OFF 或 0 來停用它。布林值也可以省略，在這種情況下假定為 TRUE。
 
 _`statement`_
 
-Any `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `VALUES`, `EXECUTE`, `DECLARE`, `CREATE TABLE AS`, or `CREATE MATERIALIZED VIEW AS` statement, whose execution plan you wish to see.
+任何 SELECT，INSERT，UPDATE，DELETE，VALUES，EXECUTE，DECLARE，CREATE TABLE AS 或 CREATE MATERIALIZED VIEW AS 語句，您希望查看其執行計劃。
 
-### Outputs
+### 輸出
 
-The command's result is a textual description of the plan selected for the _`statement`_, optionally annotated with execution statistics. [Section 14.1](https://www.postgresql.org/docs/10/static/using-explain.html) describes the information provided.
+命令的結果是為語句選擇計劃的文字描述，可選擇使用執行統計訊息加以註釋。[第 14.1 節](../../the-sql-language/performance-tips/using-explain.md)描述了其所提供的訊息。
 
-### Notes
+### 注意
 
-In order to allow the PostgreSQL query planner to make reasonably informed decisions when optimizing queries, the [`pg_statistic`](https://www.postgresql.org/docs/10/static/catalog-pg-statistic.html) data should be up-to-date for all tables used in the query. Normally the [autovacuum daemon](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#AUTOVACUUM) will take care of that automatically. But if a table has recently had substantial changes in its contents, you might need to do a manual [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) rather than wait for autovacuum to catch up with the changes.
+為了使 PostgreSQL 查詢規劃器在優化查詢時做出合理的明智決策，[pg\_statistic](../../internals/51.-xi-tong-mu-lu/51.50.-pg_statistic.md) 資料應該是查詢中使用的所有資料表的最新數據。通常，[autovacuum](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon) 背景程序會自動處理。但是如果資料表的內容最近發生了重大變化，您可能需要手動 [ANALYZE](analyze.md) 而不是等待 autovacuum 來趕上變化。
 
-In order to measure the run-time cost of each node in the execution plan, the current implementation of `EXPLAIN ANALYZE` adds profiling overhead to query execution. As a result, running `EXPLAIN ANALYZE` on a query can sometimes take significantly longer than executing the query normally. The amount of overhead depends on the nature of the query, as well as the platform being used. The worst case occurs for plan nodes that in themselves require very little time per execution, and on machines that have relatively slow operating system calls for obtaining the time of day.
+為了測量執行計劃中每個節點的執行時成本，EXPLAIN ANALYZE 的目前實作為查詢執行加入了開銷分析。因此，對查詢執行 EXPLAIN ANALYZE 有時會比正常執行查詢花費更長的時間。開銷量取決於查詢的性質以及所使用的平台。最糟糕的情況發生在計劃節點上，這些節點本身每次執行只需要很少的時間，而且在作業系統呼相對較慢以獲取時間的主機上。
 
-### Examples
+### 範例
 
-To show the plan for a simple query on a table with a single `integer` column and 10000 rows:
+要顯示具有單個整數欄位和 10000 個資料列的資料表的簡單查詢計劃：
 
 ```text
 EXPLAIN SELECT * FROM foo;
@@ -104,7 +104,7 @@ EXPLAIN SELECT * FROM foo;
 (1 row)
 ```
 
-Here is the same query, with JSON output formatting:
+這是相同的查詢，使用 JSON 輸出格式：
 
 ```text
 EXPLAIN (FORMAT JSON) SELECT * FROM foo;
@@ -126,7 +126,7 @@ EXPLAIN (FORMAT JSON) SELECT * FROM foo;
 (1 row)
 ```
 
-If there is an index and we use a query with an indexable `WHERE` condition, `EXPLAIN` might show a different plan:
+如果索引存在並且我們使用具有可索引的 WHERE 條件查詢，則 EXPLAIN 可能會顯示不同的計劃：
 
 ```text
 EXPLAIN SELECT * FROM foo WHERE i = 4;
@@ -138,7 +138,7 @@ EXPLAIN SELECT * FROM foo WHERE i = 4;
 (2 rows)
 ```
 
-Here is the same query, but in YAML format:
+這是相同的查詢，但是採用 YAML 格式：
 
 ```text
 EXPLAIN (FORMAT YAML) SELECT * FROM foo WHERE i='4';
@@ -158,9 +158,9 @@ EXPLAIN (FORMAT YAML) SELECT * FROM foo WHERE i='4';
 (1 row)
 ```
 
-XML format is left as an exercise for the reader.
+XML 格式留給讀者練習。
 
-Here is the same plan with cost estimates suppressed:
+以下是同一計劃，其成本估算被停用：
 
 ```text
 EXPLAIN (COSTS FALSE) SELECT * FROM foo WHERE i = 4;
@@ -172,7 +172,7 @@ EXPLAIN (COSTS FALSE) SELECT * FROM foo WHERE i = 4;
 (2 rows)
 ```
 
-Here is an example of a query plan for a query using an aggregate function:
+以下是使用彙總函數查詢的查詢計劃範例：
 
 ```text
 EXPLAIN SELECT sum(i) FROM foo WHERE i < 10;
@@ -185,7 +185,7 @@ EXPLAIN SELECT sum(i) FROM foo WHERE i < 10;
 (3 rows)
 ```
 
-Here is an example of using `EXPLAIN EXECUTE` to display the execution plan for a prepared query:
+以下是使用 EXPLAIN EXECUTE 顯示準備好的查詢執行計劃範例：
 
 ```text
 PREPARE query(int, int) AS SELECT sum(bar) FROM test
@@ -205,13 +205,13 @@ EXPLAIN ANALYZE EXECUTE query(100, 200);
 (6 rows)
 ```
 
-Of course, the specific numbers shown here depend on the actual contents of the tables involved. Also note that the numbers, and even the selected query strategy, might vary between PostgreSQL releases due to planner improvements. In addition, the `ANALYZE` command uses random sampling to estimate data statistics; therefore, it is possible for cost estimates to change after a fresh run of `ANALYZE`, even if the actual distribution of data in the table has not changed.
+當然，此處顯示的具體數字取決於所涉及資料表的實際內容。另請注意，由於計劃程序的改進，PostgreSQL 版本之間的數字甚至選定的查詢策略可能會有所不同。此外，ANALYZE 指令使用隨機採樣來估計數據統計；因此，即使資料表中資料的實際分佈沒有改變，也可能在全新的 ANALYZE 之後改變成本估算。
 
-### Compatibility
+### 相容性
 
-There is no `EXPLAIN` statement defined in the SQL standard.
+SQL 標準中並沒有定義 EXPLAIN 語句。
 
-### See Also
+### 參閱
 
-[ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html)
+[ANALYZE](analyze.md)
 
