@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # EXPLAIN
 
-EXPLAIN — show the execution plan of a statement
+EXPLAIN — 顯示執行計劃的內容
 
-### Synopsis
+### 語法
 
 ```text
 EXPLAIN [ ( option [, ...] ) ] statement
@@ -19,17 +23,17 @@ where option can be one of:
     FORMAT { TEXT | XML | JSON | YAML }
 ```
 
-### Description
+### 說明
 
-This command displays the execution plan that the PostgreSQL planner generates for the supplied statement. The execution plan shows how the table\(s\) referenced by the statement will be scanned — by plain sequential scan, index scan, etc. — and if multiple tables are referenced, what join algorithms will be used to bring together the required rows from each input table.
+此命令顯示 PostgreSQL 計劃程序為所提供的查詢語句設計的執行計劃。執行計劃顯示查詢語句如何掃瞄其所引用的資料表 - 通過簡單循序掃描、索引掃描等 - 如果引用了多個資料表，將使用哪些交叉查詢的演算法將每個資料表所需的資料列匯集在一起。
 
-The most critical part of the display is the estimated statement execution cost, which is the planner's guess at how long it will take to run the statement \(measured in cost units that are arbitrary, but conventionally mean disk page fetches\). Actually two numbers are shown: the start-up cost before the first row can be returned, and the total cost to return all the rows. For most queries the total cost is what matters, but in contexts such as a subquery in `EXISTS`, the planner will choose the smallest start-up cost instead of the smallest total cost \(since the executor will stop after getting one row, anyway\). Also, if you limit the number of rows to return with a `LIMIT` clause, the planner makes an appropriate interpolation between the endpoint costs to estimate which plan is really the cheapest.
+顯示這些資訊的最關鍵部分是估計查詢語句的執行成本，這是計劃程序猜測執行行語句需要多長時間（以成本單位測量，是任何面向的，但通常意味著磁碟頁面讀取）。實際上顯示了兩個數字：可以回傳第一個資料列之前的啟動成本，以及回傳所有資料列的總成本。對於大多數查詢而言，總成本是重要的，但在諸如 EXISTS 中的子查詢之類的查詢中，規劃程序將選擇最小的啟動成本而不是最小的總成本（因為執行程序會在獲得一個資料列之後將停止）。此外，如果使用 LIMIT 子句限制要回傳的資料列數量，則計劃程序會在兩端的成本之間進行適當的插值，以估計哪個計劃確實成本較低。
 
-The `ANALYZE` option causes the statement to be actually executed, not only planned. Then actual run time statistics are added to the display, including the total elapsed time expended within each plan node \(in milliseconds\) and the total number of rows it actually returned. This is useful for seeing whether the planner's estimates are close to reality.
+ANALYZE 選項讓語句實際執行，而不僅僅是計劃而已。然後將實際運行時的統計資訊加到顯示結果中，包括每個計劃節點中消耗的總耗用時間（以毫秒為單位）以及實際回傳的總資料列數。這對於了解規劃程序的估計是否接近現實非常有用。
 
-#### Important
+#### 重點
 
-Keep in mind that the statement is actually executed when the `ANALYZE` option is used. Although `EXPLAIN` will discard any output that a `SELECT` would return, other side effects of the statement will happen as usual. If you wish to use `EXPLAIN ANALYZE` on an `INSERT`, `UPDATE`,`DELETE`, `CREATE TABLE AS`, or `EXECUTE` statement without letting the command affect your data, use this approach:
+請記住，當使用 ANALYZE 選項時，實際上會執行該語句。儘管 EXPLAIN 將丟棄 SELECT 回傳的任何輸出，但該語句的其他副作用將照常發生。如果您希望在 INSERT、UPDATE、DELETE、CREATE TABLE AS 或 EXECUTE 語句上使用 EXPLAIN ANALYZE 而不讓命令影響您的資料，請使用以下方法：
 
 ```text
 BEGIN;
@@ -37,7 +41,7 @@ EXPLAIN ANALYZE ...;
 ROLLBACK;
 ```
 
-Only the `ANALYZE` and `VERBOSE` options can be specified, and only in that order, without surrounding the option list in parentheses. Prior to PostgreSQL 9.0, the unparenthesized syntax was the only one supported. It is expected that all new options will be supported only in the parenthesized syntax.
+在未括號的語法中，只有 ANALYZE 和 VERBOSE 選項可以使用，而且也只能依次序使用。在 PostgreSQL 9.0 之前，沒有括號的語法是唯一受支援的語法。預計所有新選項僅在括號語法中受支援。
 
 ### Parameters
 
