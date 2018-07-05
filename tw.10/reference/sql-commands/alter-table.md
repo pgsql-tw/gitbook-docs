@@ -200,7 +200,7 @@ and table_constraint_using_index is:
 
 `SET WITH OIDS`
 
-此語法在資料表中增加了一個 oid 系統欄位（參閱[第 5.4 節](../../the-sql-language/5.-ding-yi-zi-liao-jie-gou/5.4.-xi-tong-lan-wei.md)）。 如果資料表已經有 OID，那就什麼都不做。
+此語法在資料表中增加了一個 oid 系統欄位（參閱[第 5.4 節](../../the-sql-language/ddl/5.4.-xi-tong-lan-wei.md)）。 如果資料表已經有 OID，那就什麼都不做。
 
 請注意，這不等同於 ADD COLUMN oid oid；那只會增加一個正常的欄位，而它碰巧被命名為 oid，而不是系統欄位。
 
@@ -316,7 +316,7 @@ _`constraint_name`_
 
 `CASCADE`
 
-自動刪除相依於刪除欄位或限制條件的物件（例如，引用欄位的檢視表），並依次刪除相依於這些物件的所有物件（請參閱[第 5.13 節](../../the-sql-language/5.-ding-yi-zi-liao-jie-gou/5.13.-xiang-yi-xing-zhui-zong.md)）。
+自動刪除相依於刪除欄位或限制條件的物件（例如，引用欄位的檢視表），並依次刪除相依於這些物件的所有物件（請參閱[第 5.13 節](../../the-sql-language/ddl/dependency-tracking.md)）。
 
 `RESTRICT`
 
@@ -400,7 +400,7 @@ SET DATA TYPE 的 USING 選項實際上可以指定涉及資料列舊值的任�
 
 變更系統目錄資料表的任何部分都不會允許。
 
-有關有效參數的更多描述，請參閱 [CREATE TABLE](create-table.md)。[第 5 章](../../the-sql-language/5.-ding-yi-zi-liao-jie-gou/)則有關於繼承的更多訊息。
+有關有效參數的更多描述，請參閱 [CREATE TABLE](create-table.md)。[第 5 章](../../the-sql-language/ddl/)則有關於繼承的更多訊息。
 
 ### 範例
 

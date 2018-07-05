@@ -573,7 +573,7 @@ SELECT ... WHERE CASE WHEN x
 
 以這種方式使用的 CASE 構造將放棄最佳化嘗試，因此只能在必要時進行。（在這個特定的例子中，透過改寫為 y&gt; 1.5 \* x 來避免這個問題會更好。）
 
-然而，CASE 對於這些問題並不是萬能的。上述技術的一個局限是它不能阻止對常數子表示式的預先評估。如[第 37.6 節](../../server-programming/37.-extending-sql/37.6.-han-shu-yi-bian-xing-lei-bie.md)所述，標記為 IMMUTABLE 的函數和運算子可以在查詢計劃時進行運算，而不是在執行時進行運算。因此，例如：
+然而，CASE 對於這些問題並不是萬能的。上述技術的一個局限是它不能阻止對常數子表示式的預先評估。如[第 37.6 節](../../server-programming/extending-sql/37.6.-han-shu-yi-bian-xing-lei-bie.md)所述，標記為 IMMUTABLE 的函數和運算子可以在查詢計劃時進行運算，而不是在執行時進行運算。因此，例如：
 
 ```text
 SELECT CASE WHEN x 

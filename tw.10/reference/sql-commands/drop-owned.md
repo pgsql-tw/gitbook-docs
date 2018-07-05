@@ -16,9 +16,13 @@ DROP OWNED BY { name | CURRENT_USER | SESSION_USER } [, ...] [ CASCADE | RESTRIC
 
 _`name`_
 
-The name of a role whose objects will be dropped, and whose privileges will be revoked.`CASCADE`
+The name of a role whose objects will be dropped, and whose privileges will be revoked.
 
-Automatically drop objects that depend on the affected objects, and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).`RESTRICT`
+`CASCADE`
+
+Automatically drop objects that depend on the affected objects, and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
+
+`RESTRICT`
 
 Refuse to drop the objects owned by a role if any other database objects depend on one of the affected objects. This is the default.
 

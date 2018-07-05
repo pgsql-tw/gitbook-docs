@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # 5.13. 相依性追蹤
 
 當你建立了一個複雜的資料庫結構，包含了許多資料表，也設計了許多外部索引鍵、檢視表、觸發事件、函數.....等等。也就是說，其實你建立了一堆物件之間的關連性。舉例來說，資料表的外部索引鍵就與另一個資料表有著參考的關連性。
 
-要維護整個資料庫結構的完整性，PostgreSQL 得確保你不能在有關連性的情況下，隨意刪去物件。舉例來說，企圖刪去在 [5.3.5 節](5.3.-xian-zhi-tiao-jian.md#5-3-5-wai-bu-foreign-keys)中，我們所使用過的產品資料表，而訂單資料表與其有相依的關連性，那就會產生如下的錯誤訊息：
+要維護整個資料庫結構的完整性，PostgreSQL 得確保你不能在有關連性的情況下，隨意刪去物件。舉例來說，企圖刪去在 [5.3.5 節](constraints.md#5-3-5-wai-bu-foreign-keys)中，我們所使用過的產品資料表，而訂單資料表與其有相依的關連性，那就會產生如下的錯誤訊息：
 
 ```text
 DROP TABLE products;
@@ -41,5 +45,5 @@ CREATE FUNCTION get_color_note (rainbow) RETURNS text AS
   LANGUAGE SQL;
 ```
 
-（參閱 [37.4 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/v-server-programming/extending-sql/374-query-language-sql-functions.md)，瞭解 SQL 語言的函數。）PostgreSQL 會知道 get\_color\_note 函數相依於 rainbow 資料型別：也就是刪去該資料型別時，也會強制要刪去該函數，因為它的參數將不再合法。但 PostgreSQL 就無法發現 get\_color\_note 和 my\_colors 之間的關連性，當該資料表被移除時，此函數並不會跟著被移除。這種情況有好有壞，函數基本上還是合法的，即使內含的資料表不存在的話，頂多就是執行會出錯就是了，只要再建立該名稱的資料表就可以讓這個函數重新正常運作。
+（參閱 [37.4 節](../../server-programming/extending-sql/query-language-functions.md)，瞭解 SQL 語言的函數。）PostgreSQL 會知道 get\_color\_note 函數相依於 rainbow 資料型別：也就是刪去該資料型別時，也會強制要刪去該函數，因為它的參數將不再合法。但 PostgreSQL 就無法發現 get\_color\_note 和 my\_colors 之間的關連性，當該資料表被移除時，此函數並不會跟著被移除。這種情況有好有壞，函數基本上還是合法的，即使內含的資料表不存在的話，頂多就是執行會出錯就是了，只要再建立該名稱的資料表就可以讓這個函數重新正常運作。
 

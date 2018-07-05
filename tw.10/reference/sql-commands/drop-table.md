@@ -30,7 +30,7 @@ DROP TABLE 會移除目標資料表所關連的任何索引、規則、觸發器
 
 `CASCADE`
 
-自動刪除相依於資料表的物件（例如檢視表），以及相依於這些物件的所有物件（參閱[第 5.13 節](../../the-sql-language/5.-ding-yi-zi-liao-jie-gou/5.13.-xiang-yi-xing-zhui-zong.md)）。
+自動刪除相依於資料表的物件（例如檢視表），以及相依於這些物件的所有物件（參閱[第 5.13 節](../../the-sql-language/ddl/dependency-tracking.md)）。
 
 `RESTRICT`
 
