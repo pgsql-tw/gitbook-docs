@@ -25,57 +25,57 @@ CREATE SUBSCRIPTION 為目前資料庫加上一個新的訂閱。訂閱名稱必
 
 有關訂閱和邏輯複寫完整的訊息，請參閱[第 31.2 節](../../server-administration/31.-luo-ji-fu-xie-logical-replication/31.2.-ding-yue-subscription.md)和[第 31 章](../../server-administration/31.-luo-ji-fu-xie-logical-replication/)。
 
-### Parameters
+### 參數
 
 _`subscription_name`_
 
-The name of the new subscription.
+新訂閱的名稱。
 
 `CONNECTION '`_`conninfo`_'
 
-The connection string to the publisher. For details see [Section 33.1.1](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNSTRING).
+發佈者的連線字串。有關詳細訊息，請參閱[第 33.1.1 節](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#33-1-1-connection-strings)。
 
 `PUBLICATION` _`publication_name`_
 
-Names of the publications on the publisher to subscribe to.
+要訂閱的發佈者的發佈名稱。
 
 `WITH (` _`subscription_parameter`_ \[= _`value`_\] \[, ... \] \)
 
-This clause specifies optional parameters for a subscription. The following parameters are supported:
+此子句指定訂閱的選用參數。支援以下參數：
 
 `copy_data` \(`boolean`\)
 
-Specifies whether the existing data in the publications that are being subscribed to should be copied once the replication starts. The default is `true`.
+指定複寫開始後是否應複寫正在訂閱的發佈中的現有資料。預設值為 true。
 
 `create_slot` \(`boolean`\)
 
-Specifies whether the command should create the replication slot on the publisher. The default is `true`.
+指定指令是否應在發佈者上建立複寫插槽。預設值為 true。
 
 `enabled` \(`boolean`\)
 
-Specifies whether the subscription should be actively replicating, or whether it should be just setup but not started yet. The default is `true`.
+指定訂閱是應該主動複寫，還是應該只是設定而不啟動。預設值為 true。
 
 `slot_name` \(`string`\)
 
-Name of the replication slot to use. The default behavior is to use the name of the subscription for the slot name.
+要使用的複寫插槽的名稱。預設行為是使用插槽名稱的訂閱。
 
-When `slot_name` is set to `NONE`, there will be no replication slot associated with the subscription. This can be used if the replication slot will be created later manually. Such subscriptions must also have both `enabled` and `create_slot` set to `false`.
+當 slot\_name 設定為 NONE 時，將不會有與該訂閱關聯的複寫插槽。如果稍後手動建立複寫插槽，則可以使用此方法。此類訂閱還必須同時啟用並且將 create\_slot 設定為 false。
 
 `synchronous_commit` \(`enum`\)
 
-The value of this parameter overrides the [synchronous\_commit](https://www.postgresql.org/docs/10/static/runtime-config-wal.html#GUC-SYNCHRONOUS-COMMIT) setting. The default value is `off`.
+此參數的值將覆寫 [synchronous\_commit ](../../server-administration/server-configuration/write-ahead-log.md#19-5-1-settings)設定。預設值為 off。
 
-It is safe to use `off` for logical replication: If the subscriber loses transactions because of missing synchronization, the data will be resent from the publisher.
+使用 off 進行邏輯複寫是安全的：如果訂閱戶因缺少同步而遺失事務，則資料將從發佈者重新發送。
 
-A different setting might be appropriate when doing synchronous logical replication. The logical replication workers report the positions of writes and flushes to the publisher, and when using synchronous replication, the publisher will wait for the actual flush. This means that setting `synchronous_commit` for the subscriber to `off` when the subscription is used for synchronous replication might increase the latency for `COMMIT` on the publisher. In this scenario, it can be advantageous to set `synchronous_commit` to `local` or higher.
+執行同步邏寫複製時，可能需要使用其他設定。邏輯複寫工作程序向發佈者報告寫入和更新的位置，使用同步複寫時，發佈者將等待實際更新。這意味著在將訂閱用於同步複寫時將訂閱戶的 synchronous\_commit 設定為 off 可能會增加發佈伺服器上 COMMIT 的延遲。在這種情況下，將 synchronous\_commit 設定為 local 或更高的值可能更有利。
 
 `connect` \(`boolean`\)
 
-Specifies whether the `CREATE SUBSCRIPTION` should connect to the publisher at all. Setting this to `false` will change default values of `enabled`, `create_slot` and `copy_data` to `false`.
+指定 CREATE SUBSCRIPTION 是否應該連線到發佈者。將此設定為 false 會將enabled、create\_slot 和 copy\_data 的預設值更改為 false。
 
-It is not allowed to combine `connect` set to `false` and `enabled`, `create_slot`, or `copy_data` set to `true`.
+不允許將 connect 設定為 false，卻將 enabled、create\_slot 或 copy\_data 設定為 true。
 
-Since no connection is made when this option is set to `false`, the tables are not subscribed, and so after you enable the subscription nothing will be replicated. It is required to run `ALTER SUBSCRIPTION ... REFRESH PUBLICATION` in order for tables to be subscribed.
+由於此選項設定為 false 時未建立連線，所以資料表未訂閱，而在您啟用訂閱後，將不會複寫任何內容。需要執行 ALTER SUBSCRIPTION ... REFRESH PUBLICATION 才能訂閱資料表。
 
 ### 注意
 

@@ -147,7 +147,7 @@ In case of difficulty, see [VACUUM](https://www.postgresql.org/docs/10/static/sq
 
 ### Notes
 
-vacuumdb might need to connect several times to the PostgreSQL server, asking for a password each time. It is convenient to have a `~/.pgpass` file in such cases. See[Section 33.15 ](../../iv.-yong-hu-duan-jie-mian/33.-libpq-c-library/33.15.-mi-ma-dang.md)for more information.
+vacuumdb might need to connect several times to the PostgreSQL server, asking for a password each time. It is convenient to have a `~/.pgpass` file in such cases. See[Section 33.15 ](../../client-interfaces/libpq-c-library/33.15.-mi-ma-dang.md)for more information.
 
 ### Examples
 
