@@ -118,25 +118,27 @@ The accumulated cost that will cause the vacuuming process to sleep. The default
 
 There are certain operations that hold critical locks and should therefore complete as quickly as possible. Cost-based vacuum delays do not occur during such operations. Therefore it is possible that the cost accumulates far higher than the specified limit. To avoid uselessly long delays in such cases, the actual delay is calculated as `vacuum_cost_delay` \* `accumulated_balance` / `vacuum_cost_limit` with a maximum of `vacuum_cost_delay` \* 4.
 
-## 19.4.5. Background Writer
+## 19.4.5. 背景寫入程序
 
-There is a separate server process called the _background writer_, whose function is to issue writes of “dirty” \(new or modified\) shared buffers. It writes shared buffers so server processes handling user queries seldom or never need to wait for a write to occur. However, the background writer does cause a net overall increase in I/O load, because while a repeatedly-dirtied page might otherwise be written only once per checkpoint interval, the background writer might write it several times as it is dirtied in the same interval. The parameters discussed in this subsection can be used to tune the behavior for local needs.
+有一個單獨的伺服器程序稱為背景寫入程序，其功能是發起「dirty」（新的或修改的）共享緩衝區的寫入。 它會寫入共享緩衝區，因此處理使用者查詢的伺服器程序很少或永遠不需要等待寫入的發生。但是，背景寫入程序確實導致 I/O 負載的整體的淨增加，因為雖然每個檢查點間隔可能只會寫一次 repeatedly-dirtied 頁面，但背景寫入程序可能會發起多次寫入，因為它在同一時間間隔內被變更了。本小節中討論的參數可用於調整適於本地需求的行為。
 
 `bgwriter_delay` \(`integer`\)
 
-Specifies the delay between activity rounds for the background writer. In each round the writer issues writes for some number of dirty buffers \(controllable by the following parameters\). It then sleeps for `bgwriter_delay` milliseconds, and repeats. When there are no dirty buffers in the buffer pool, though, it goes into a longer sleep regardless of `bgwriter_delay`. The default value is 200 milliseconds \(`200ms`\). Note that on many systems, the effective resolution of sleep delays is 10 milliseconds; setting `bgwriter_delay` to a value that is not a multiple of 10 might have the same results as setting it to the next higher multiple of 10. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+指定背景寫入程序的輪詢之間的延遲。在每一次輪詢中，寫入程序發出一些 dirty 緩衝區的寫入（可透過以下參數控制）。然後它睡眠 bgwriter\_delay 毫秒，再重複。但是，當緩衝池中沒有 dirty 緩衝區時，無論 bgwriter\_delay 如何，它都會進入更長的睡眠狀態。預設值為 200 毫秒。請注意，在許多系統上，睡眠延遲的有效分辨率為 10 毫秒；將 bgwriter\_delay 設定為不是 10 的倍數可能與將其設定為 10 的下一個更高倍數具有相同的結果。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `bgwriter_lru_maxpages` \(`integer`\)
 
-In each round, no more than this many buffers will be written by the background writer. Setting this to zero disables background writing. \(Note that checkpoints, which are managed by a separate, dedicated auxiliary process, are unaffected.\) The default value is 100 buffers. This parameter can only be set in the `postgresql.conf` file or on the server command line.`bgwriter_lru_multiplier` \(`floating point`\)
+在每一次輪詢中，背景寫入程序將寫入多個緩衝區。將此值設定為零將停用背景寫入。（請注意，由單獨的專用輔助程序管理的檢查點不受影響。）預設值為 100 個緩衝區。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
-The number of dirty buffers written in each round is based on the number of new buffers that have been needed by server processes during recent rounds. The average recent need is multiplied by `bgwriter_lru_multiplier` to arrive at an estimate of the number of buffers that will be needed during the next round. Dirty buffers are written until there are that many clean, reusable buffers available. \(However, no more than `bgwriter_lru_maxpages` buffers will be written per round.\) Thus, a setting of 1.0 represents a “just in time”policy of writing exactly the number of buffers predicted to be needed. Larger values provide some cushion against spikes in demand, while smaller values intentionally leave writes to be done by server processes. The default is 2.0. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+`bgwriter_lru_multiplier` \(`floating point`\)
+
+每次輪詢寫入的 dirty 緩衝區數量取決於最近幾輪中伺服器程序所需的新緩衝區數。將最近的平均需求乘以 bgwriter\_lru\_multiplier，得出下一輪期間所需緩衝區數量的估計值。寫入 dirty 緩衝區，直到有許多乾淨，可再利用的緩衝區可用。（但是，每輪不會寫入超過 bgwriter\_lru\_maxpages 的緩衝區。）因此，1.0 的設定表示準確寫出預測需要的緩衝區數量的「Just in time」策略。較大的值為需求中的峰值提供了一些緩衝，而較小的值有意地使寫入由伺服器程序完成。預設值為 2.0。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `bgwriter_flush_after` \(`integer`\)
 
-Whenever more than `bgwriter_flush_after` bytes have been written by the background writer, attempt to force the OS to issue these writes to the underlying storage. Doing so will limit the amount of dirty data in the kernel's page cache, reducing the likelihood of stalls when an `fsync` is issued at the end of a checkpoint, or when the OS writes data back in larger batches in the background. Often that will result in greatly reduced transaction latency, but there also are some cases, especially with workloads that are bigger than [shared\_buffers](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-SHARED-BUFFERS), but smaller than the OS's page cache, where performance might degrade. This setting may have no effect on some platforms. The valid range is between `0`, which disables forced writeback, and `2MB`. The default is `512kB` on Linux, `0` elsewhere. \(If `BLCKSZ` is not 8kB, the default and maximum values scale proportionally to it.\) This parameter can only be set in the `postgresql.conf` file or on the server command line.
+只要背景寫入程序寫入了超過 bgwriter\_flush\_after 個位元組，就會嘗試強制作業系統向底層儲存系統發出這些寫入操作。這樣做會限制核心頁面緩衝區中的 dirty 資料量，減少在檢查點結束時發出 fsync 時停止的可能性，或者作業系統在背景以較大批次寫回資料的可能性。通常這會導致事務延遲大大減少，但也有一些情況，特別是工作負載大於 shared\_buffers，但小於作業系統的頁面緩衝，其效能可能會降低。 此設定可能對某些平台沒有影響。有效範圍介於 0（停用強制寫回）和2MB之間。Linux 上的預設值為 512kB，其他地方為 0。（如果 BLCKSZ 不是8kB，則預設值和最大值會按比例縮放。）此參數只能在 postgresql.conf 檔案或匼服器命令列中設定。
 
-Smaller values of `bgwriter_lru_maxpages` and `bgwriter_lru_multiplier` reduce the extra I/O load caused by the background writer, but make it more likely that server processes will have to issue writes for themselves, delaying interactive queries.
+bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減少背景寫入程序造成的額外 I/O 負載，但使伺服器程序更有可能必須為自己發出寫入要求，可能造成交互查詢的延遟。
 
 ## 19.4.6. Asynchronous Behavior
 
