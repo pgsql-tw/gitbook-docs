@@ -32,63 +32,107 @@ All functions and operators used in an index definition must be “immutable”,
 
 `UNIQUE`
 
-Causes the system to check for duplicate values in the table when the index is created \(if data already exist\) and each time data is added. Attempts to insert or update data which would result in duplicate entries will generate an error.`CONCURRENTLY`
+Causes the system to check for duplicate values in the table when the index is created \(if data already exist\) and each time data is added. Attempts to insert or update data which would result in duplicate entries will generate an error.
 
-When this option is used, PostgreSQL will build the index without taking any locks that prevent concurrent inserts, updates, or deletes on the table; whereas a standard index build locks out writes \(but not reads\) on the table until it's done. There are several caveats to be aware of when using this option — see [Building Indexes Concurrently](https://www.postgresql.org/docs/10/static/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY).`IF NOT EXISTS`
+`CONCURRENTLY`
 
-Do not throw an error if a relation with the same name already exists. A notice is issued in this case. Note that there is no guarantee that the existing index is anything like the one that would have been created. Index name is required when `IF NOT EXISTS` is specified._`name`_
+When this option is used, PostgreSQL will build the index without taking any locks that prevent concurrent inserts, updates, or deletes on the table; whereas a standard index build locks out writes \(but not reads\) on the table until it's done. There are several caveats to be aware of when using this option — see [Building Indexes Concurrently](https://www.postgresql.org/docs/10/static/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY).
 
-The name of the index to be created. No schema name can be included here; the index is always created in the same schema as its parent table. If the name is omitted, PostgreSQL chooses a suitable name based on the parent table's name and the indexed column name\(s\)._`table_name`_
+`IF NOT EXISTS`
 
-The name \(possibly schema-qualified\) of the table to be indexed._`method`_
+Do not throw an error if a relation with the same name already exists. A notice is issued in this case. Note that there is no guarantee that the existing index is anything like the one that would have been created. Index name is required when `IF NOT EXISTS` is specified.
 
-The name of the index method to be used. Choices are `btree`, `hash`, `gist`, `spgist`, `gin`, and `brin`. The default method is `btree`._`column_name`_
+_`name`_
 
-The name of a column of the table._`expression`_
+The name of the index to be created. No schema name can be included here; the index is always created in the same schema as its parent table. If the name is omitted, PostgreSQL chooses a suitable name based on the parent table's name and the indexed column name\(s\).
 
-An expression based on one or more columns of the table. The expression usually must be written with surrounding parentheses, as shown in the syntax. However, the parentheses can be omitted if the expression has the form of a function call._`collation`_
+_`table_name`_
 
-The name of the collation to use for the index. By default, the index uses the collation declared for the column to be indexed or the result collation of the expression to be indexed. Indexes with non-default collations can be useful for queries that involve expressions using non-default collations._`opclass`_
+The name \(possibly schema-qualified\) of the table to be indexed.
 
-The name of an operator class. See below for details.`ASC`
+_`method`_
 
-Specifies ascending sort order \(which is the default\).`DESC`
+The name of the index method to be used. Choices are `btree`, `hash`, `gist`, `spgist`, `gin`, and `brin`. The default method is `btree`.
 
-Specifies descending sort order.`NULLS FIRST`
+_`column_name`_
 
-Specifies that nulls sort before non-nulls. This is the default when `DESC` is specified.`NULLS LAST`
+The name of a column of the table.
 
-Specifies that nulls sort after non-nulls. This is the default when `DESC` is not specified._`storage_parameter`_
+_`expression`_
 
-The name of an index-method-specific storage parameter. See [Index Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createindex.html#SQL-CREATEINDEX-STORAGE-PARAMETERS) for details._`tablespace_name`_
+An expression based on one or more columns of the table. The expression usually must be written with surrounding parentheses, as shown in the syntax. However, the parentheses can be omitted if the expression has the form of a function call.
 
-The tablespace in which to create the index. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) for indexes on temporary tables._`predicate`_
+_`collation`_
+
+The name of the collation to use for the index. By default, the index uses the collation declared for the column to be indexed or the result collation of the expression to be indexed. Indexes with non-default collations can be useful for queries that involve expressions using non-default collations.
+
+_`opclass`_
+
+The name of an operator class. See below for details.
+
+`ASC`
+
+Specifies ascending sort order \(which is the default\).
+
+`DESC`
+
+Specifies descending sort order.
+
+`NULLS FIRST`
+
+Specifies that nulls sort before non-nulls. This is the default when `DESC` is specified.
+
+`NULLS LAST`
+
+Specifies that nulls sort after non-nulls. This is the default when `DESC` is not specified.
+
+_`storage_parameter`_
+
+The name of an index-method-specific storage parameter. See [Index Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createindex.html#SQL-CREATEINDEX-STORAGE-PARAMETERS) for details.
+
+_`tablespace_name`_
+
+The tablespace in which to create the index. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) for indexes on temporary tables.
+
+_`predicate`_
 
 The constraint expression for a partial index.
 
 #### Index Storage Parameters
 
-The optional `WITH` clause specifies _storage parameters_ for the index. Each index method has its own set of allowed storage parameters. The B-tree, hash, GiST and SP-GiST index methods all accept this parameter:`fillfactor`
+The optional `WITH` clause specifies _storage parameters_ for the index. Each index method has its own set of allowed storage parameters. The B-tree, hash, GiST and SP-GiST index methods all accept this parameter:
+
+`fillfactor`
 
 The fillfactor for an index is a percentage that determines how full the index method will try to pack index pages. For B-trees, leaf pages are filled to this percentage during initial index build, and also when extending the index at the right \(adding new largest key values\). If pages subsequently become completely full, they will be split, leading to gradual degradation in the index's efficiency. B-trees use a default fillfactor of 90, but any integer value from 10 to 100 can be selected. If the table is static then fillfactor 100 is best to minimize the index's physical size, but for heavily updated tables a smaller fillfactor is better to minimize the need for page splits. The other index methods use fillfactor in different but roughly analogous ways; the default fillfactor varies between methods.
 
-GiST indexes additionally accept this parameter:`buffering`
+GiST indexes additionally accept this parameter:
+
+`buffering`
 
 Determines whether the buffering build technique described in [Section 62.4.1](https://www.postgresql.org/docs/10/static/gist-implementation.html#GIST-BUFFERING-BUILD) is used to build the index. With `OFF` it is disabled, with `ON` it is enabled, and with `AUTO` it is initially disabled, but turned on on-the-fly once the index size reaches [effective\_cache\_size](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-EFFECTIVE-CACHE-SIZE). The default is `AUTO`.
 
-GIN indexes accept different parameters:`fastupdate`
+GIN indexes accept different parameters:
+
+`fastupdate`
 
 This setting controls usage of the fast update technique described in [Section 64.4.1](https://www.postgresql.org/docs/10/static/gin-implementation.html#GIN-FAST-UPDATE). It is a Boolean parameter: `ON` enables fast update, `OFF` disables it. \(Alternative spellings of `ON` and `OFF` are allowed as described in [Section 19.1](https://www.postgresql.org/docs/10/static/config-setting.html).\) The default is `ON`.
 
 #### Note
 
-Turning `fastupdate` off via `ALTER INDEX` prevents future insertions from going into the list of pending index entries, but does not in itself flush previous entries. You might want to `VACUUM`the table or call `gin_clean_pending_list` function afterward to ensure the pending list is emptied.`gin_pending_list_limit`
+Turning `fastupdate` off via `ALTER INDEX` prevents future insertions from going into the list of pending index entries, but does not in itself flush previous entries. You might want to `VACUUM`the table or call `gin_clean_pending_list` function afterward to ensure the pending list is emptied.
+
+`gin_pending_list_limit`
 
 Custom [gin\_pending\_list\_limit](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-GIN-PENDING-LIST-LIMIT) parameter. This value is specified in kilobytes.
 
-BRIN indexes accept different parameters:`pages_per_range`
+BRIN indexes accept different parameters:
 
-Defines the number of table blocks that make up one block range for each entry of a BRIN index \(see [Section 65.1](https://www.postgresql.org/docs/10/static/brin-intro.html) for more details\). The default is `128`.`autosummarize`
+`pages_per_range`
+
+Defines the number of table blocks that make up one block range for each entry of a BRIN index \(see [Section 65.1](https://www.postgresql.org/docs/10/static/brin-intro.html) for more details\). The default is `128`.
+
+`autosummarize`
 
 Defines whether a summarization run is invoked for the previous page range whenever an insertion is detected on the next one.
 
