@@ -527,6 +527,8 @@
     * [64.5. GIN Tips and Tricks](internals/64.-gin-suo-yin/64.5.-gin-tips-and-tricks.md)
     * [64.6. Limitations](internals/64.-gin-suo-yin/64.6.-limitations.md)
     * [64.7. Examples](internals/64.-gin-suo-yin/64.7.-examples.md)
+  * [65. BRIN Indexes](internals/brin/README.md)
+    * [65.1. Introduction](internals/brin/introduction.md)
   * [66. 資料庫實體儲存格式](internals/database-physical-storage/README.md)
     * [66.2. TOAST](internals/database-physical-storage/toast.md)
     * [66.4 Visibility Map](internals/database-physical-storage/visibility-map.md)
