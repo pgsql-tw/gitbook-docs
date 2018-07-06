@@ -16,19 +16,19 @@ description: 版本：10
 
 `huge_pages` \(`enum`\)
 
-Enables/disables the use of huge memory pages. Valid values are `try` \(the default\), `on`, and `off`.
+啟用/停用大型記憶體頁面。有效值為 try（預設值），on 和 off。
 
-At present, this feature is supported only on Linux. The setting is ignored on other systems when set to `try`.
+目前，僅在 Linux 上支援此功能。設定為 try 時，在其他系統上會忽略該設定。
 
-The use of huge pages results in smaller page tables and less CPU time spent on memory management, increasing performance. For more details, see [Section 18.4.5](https://www.postgresql.org/docs/10/static/kernel-resources.html#LINUX-HUGE-PAGES).
+大型頁面的使用會使得頁面管理表更小，記憶體管理花費的 CPU 時間更少，從而提高了效能。有關更多詳細訊息，請參閱[第 18.4.5 節](../server-setup-and-operation/managing-kernel-resources.md#18-4-5-linux-huge-pages)。
 
-With `huge_pages` set to `try`, the server will try to use huge pages, but fall back to using normal allocation if that fails. With `on`, failure to use huge pages will prevent the server from starting up. With `off`, huge pages will not be used.
+設定 huge\_pages 後，伺服器將嘗試使用大型頁面，但如果失敗則回退到使用正常分配。如果為 on，則若無法使用大型頁面將使伺服器無法啟動。 off 時，則不會使用大型頁面。
 
 `temp_buffers` \(`integer`\)
 
-Sets the maximum number of temporary buffers used by each database session. These are session-local buffers used only for access to temporary tables. The default is eight megabytes \(`8MB`\). The setting can be changed within individual sessions, but only before the first use of temporary tables within the session; subsequent attempts to change the value will have no effect on that session.
+設定每個資料庫連線使用的最大臨時緩衝區大小。這些是僅用於存取臨時資料表的連線本地緩衝區。預設值為 8MB。可以在單個連線中變更設定，但只能在連線中首次使用臨時資料表之前更改；後續嘗試更改該值將不會對該連線產生任何影響。
 
-A session will allocate temporary buffers as needed up to the limit given by `temp_buffers`. The cost of setting a large value in sessions that do not actually need many temporary buffers is only a buffer descriptor, or about 64 bytes, per increment in `temp_buffers`. However if a buffer is actually used an additional 8192 bytes will be consumed for it \(or in general, `BLCKSZ` bytes\).
+連線將根據需要分配臨時緩衝區，直到 temp\_buffers 的上限。實際上不需要很多臨時緩衝區的連線中設定較大值的成本只是 temp\_buffers 中每個增量的緩衝區描述指標，或大約 64 個位元組。但是，如果實際使用緩衝區，則會消耗額外的 8192 位元組（或者通常為 BLCKSZ 個位元組）。
 
 `max_prepared_transactions` \(`integer`\)
 
