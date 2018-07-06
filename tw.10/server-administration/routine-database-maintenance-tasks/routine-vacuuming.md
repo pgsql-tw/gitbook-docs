@@ -141,27 +141,27 @@ PostgreSQL 有一個選用但強烈推薦的 autovacuum 功能，其目的是自
 
 「autovacuum 背景程序」實際上由多個程序所組成。有一個主控的背景程序，稱為 autovacuum 啟動程序，負責啟動所有資料庫的 autovacuum 工作程序。啟動程序將跨時間分配工作，嘗試在每個 [autovacuum\_naptime](../server-configuration/automatic-vacuuming.md) 秒內啟動每個資料庫中的一個工作程序。（因此，如果安裝 N 個資料庫，則每個 autovacuum\_naptime / N 秒將啟動一個新工作程序。）允許最多同時運行 [autovacuum\_max\_workers](../server-configuration/automatic-vacuuming.md) 工作程序。如果要處理的 autovacuum\_max\_workers 資料庫不止一個，則第一個工作程序完成後將立即處理下一個資料庫。每個工作程序將檢查其資料庫中的每個資料表，並根據需要執行 VACUUM 或 ANALYZE。log\_autovacuum\_min\_duration 可以設定為監控 autovacuum 工作程序的活動。
 
-If several large tables all become eligible for vacuuming in a short amount of time, all autovacuum workers might become occupied with vacuuming those tables for a long period. This would result in other tables and databases not being vacuumed until a worker becomes available. There is no limit on how many workers might be in a single database, but workers do try to avoid repeating work that has already been done by other workers. Note that the number of running workers does not count towards [max\_connections](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS) or [superuser\_reserved\_connections](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-SUPERUSER-RESERVED-CONNECTIONS) limits.
+如果幾個大型資料表都有資格在短時間內進行清理，那麼所有自動清理工作程序可能會長時間針對這些資料表進行清理。這將導致其他資料表和資料庫在工作程序可用之前無法被清理。單個資料庫中可能有多少程序沒有限制，但工作程序確實會試圖避免重複已經由其他工作程序完成的工作。請注意，正在運行的 worker 的數量不計入 [max\_connections](../server-configuration/connections-and-authentication.md#19-3-1-ding) 或 [superuser\_reserved\_connections](../server-configuration/connections-and-authentication.md#19-3-1-ding) 限制。
 
-Tables whose `relfrozenxid` value is more than [autovacuum\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-FREEZE-MAX-AGE) transactions old are always vacuumed \(this also applies to those tables whose freeze max age has been modified via storage parameters; see below\). Otherwise, if the number of tuples obsoleted since the last `VACUUM` exceeds the “vacuum threshold”, the table is vacuumed. The vacuum threshold is defined as:
+其 relfrozenxid 值大於 autovacuum\_freeze\_max\_age 事務舊的資料表總是被清理（這也適用於那些已通過儲存參數修改了凍結最大年齡的資料表；請參閱下文）。 否則，如果自上一個 VACUUM 以來廢棄的 tuple 數超過“清理閾值（vacuum threshold）”，則對該資料表進行清理。 清理閾值的定義為：
 
 ```text
 vacuum threshold = vacuum base threshold + vacuum scale factor * number of tuples
 ```
 
-where the vacuum base threshold is [autovacuum\_vacuum\_threshold](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-THRESHOLD), the vacuum scale factor is [autovacuum\_vacuum\_scale\_factor](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-VACUUM-SCALE-FACTOR), and the number of tuples is `pg_class`.`reltuples`. The number of obsolete tuples is obtained from the statistics collector; it is a semi-accurate count updated by each `UPDATE` and `DELETE` operation. \(It is only semi-accurate because some information might be lost under heavy load.\) If the `relfrozenxid` value of the table is more than `vacuum_freeze_table_age` transactions old, an aggressive vacuum is performed to freeze old tuples and advance `relfrozenxid`; otherwise, only pages that have been modified since the last vacuum are scanned.
+自動清理的基準閾值為 [autovacuum\_vacuum\_threshold](../server-configuration/automatic-vacuuming.md)，自動清理比例因子為 [autovacuum\_vacuum\_scale\_factor](../server-configuration/automatic-vacuuming.md)，tuple 數為 pg\_class.reltuples。從統計資訊收集器獲取過時 tuple 的數量；它是由每個 UPDATE 和 DELETE 操作時的半精確計數。（這只是半精確的，因為某些資訊可能會在負載較重時下遺失。）如果資料表的 relfrozenxid 值超過 vacuum\_freeze\_table\_age 時，則執行積極的清理以凍結舊 tuple 並提前 relfrozenxid；否則，僅掃描自上次清理以來已修改的頁面。
 
-For analyze, a similar condition is used: the threshold, defined as:
+對於分析，使用類似的條件：此閾值定義為：
 
 ```text
 analyze threshold = analyze base threshold + analyze scale factor * number of tuples
 ```
 
-is compared to the total number of tuples inserted, updated, or deleted since the last `ANALYZE`.
+與自上次 ANALYZE 以來插入、更新或刪除的 tuple 總數進行比較。
 
-Temporary tables cannot be accessed by autovacuum. Therefore, appropriate vacuum and analyze operations should be performed via session SQL commands.
+autovacuum 無法存取臨時資料表。因此，應透過直接執行 SQL 指令進行適當的清理和分析操作。
 
-The default thresholds and scale factors are taken from `postgresql.conf`, but it is possible to override them \(and many other autovacuum control parameters\) on a per-table basis; see [Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-STORAGE-PARAMETERS) for more information. If a setting has been changed via a table's storage parameters, that value is used when processing that table; otherwise the global settings are used. See [Section 19.10](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html) for more details on the global settings.
+預設閾值和比例因子來自 postgresql.conf，但可以基於每個資料表覆寫它們（以及許多其他 autovacuum 控制參數）；有關更多訊息，請參閱[儲存參數](../../reference/sql-commands/create-table.md#storage-parameters)。如果透過資料表的儲存參數變更了設定，則在處理該資料表時使用該值；否則使用全域設定。 有關全域設定的更多詳細訊息，請參閱[第 19.10 節](../server-configuration/automatic-vacuuming.md)。
 
-When multiple workers are running, the autovacuum cost delay parameters \(see [Section 19.4.4](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)\) are “balanced” among all the running workers, so that the total I/O impact on the system is the same regardless of the number of workers actually running. However, any workers processing tables whose per-table `autovacuum_vacuum_cost_delay` or `autovacuum_vacuum_cost_limit` storage parameters have been set are not considered in the balancing algorithm.
+當多個工作程序執行時，autovacuum 成本延遲參數（參閱[第 19.4.4 節](../server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay)）在所有正在執行的工作程序中是「平衡的」，因此無論實際執行的工作程序數量如何，對系統的總 I/O 影響都是相同的。但是，在平衡算法中不考慮任何處理已設定每表 autovacuum\_vacuum\_cost\_delay 或 autovacuum\_vacuum\_cost\_limit 儲存參數的資料表工作程序。
 
