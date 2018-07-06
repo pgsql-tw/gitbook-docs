@@ -473,6 +473,7 @@
     * [PREPARE TRANSACTION](reference/sql-commands/prepare-transaction.md)
     * [REASSIGN OWNED](reference/sql-commands/reassign-owned.md)
     * [REFRESH MATERIALIZED VIEW](reference/sql-commands/refresh-materialized-view.md)
+    * [REINDEX](reference/sql-commands/reindex.md)
     * [RESET](reference/sql-commands/reset.md)
     * [REVOKE](reference/sql-commands/revoke.md)
     * [SELECT](reference/sql-commands/select.md)
