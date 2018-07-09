@@ -430,11 +430,11 @@ The `Execution time` shown by `EXPLAIN ANALYZE` includes executor start-up and s
 
 ## 14.1.3. 注意事項
 
-There are two significant ways in which run times measured by `EXPLAIN ANALYZE` can deviate from normal execution of the same query. First, since no output rows are delivered to the client, network transmission costs and I/O conversion costs are not included. Second, the measurement overhead added by `EXPLAIN ANALYZE` can be significant, especially on machines with slow `gettimeofday()` operating-system calls. You can use the [pg\_test\_timing](https://www.postgresql.org/docs/10/static/pgtesttiming.html) tool to measure the overhead of timing on your system.
+EXPLAIN ANALYZE 測量的執行時間有兩種主要情況可能偏離同一查詢的實際執行。首先，由於沒有輸出資料列傳送到客戶端，因此不包括網路傳輸成本和 I/O 轉換成本。其次，EXPLAIN ANALYZE 增加的測量開銷可能很大，特別是在具有較慢 gettimeofday\(\) 作業系統的機器上。您可以使用 [pg\_test\_timing](../../reference/server-applications/pg_test_timing.md) 工具來衡量系統計時的成本。
 
-`EXPLAIN` results should not be extrapolated to situations much different from the one you are actually testing; for example, results on a toy-sized table cannot be assumed to apply to large tables. The planner's cost estimates are not linear and so it might choose a different plan for a larger or smaller table. An extreme example is that on a table that only occupies one disk page, you'll nearly always get a sequential scan plan whether indexes are available or not. The planner realizes that it's going to take one disk page read to process the table in any case, so there's no value in expending additional page reads to look at an index. \(We saw this happening in the `polygon_tbl` example above.\)
+EXPLAIN 結果不應該推斷到與您實際測試的情況大不相同的情況；例如，不能假設小型資料表上的結果適用於大型資料表。規劃程序的成本估算不是線性的，因此可能會為更大或更小的資料表選擇不同的計劃。一個極端的例子是，在只佔用一個磁碟頁面的資料表上，無論索引是否可用，您幾乎總能獲得循順掃描計劃。規劃程序在任何情況下都會讀取一個磁碟頁面來處理資料表，因此在延伸額外的頁面讀取以查看索引時就沒有任何價值。（我們在上面的 polygon\_tbl 範例中看到了這種情況。）
 
-There are cases in which the actual and estimated values won't match up well, but nothing is really wrong. One such case occurs when plan node execution is stopped short by a `LIMIT` or similar effect. For example, in the `LIMIT`query we used before,
+在某些情況下，實際值和估計值不能很好地對應，但沒有什麼是真正的錯誤。當計劃節點執行由 LIMIT 或類似效果停止時，就會發生這種情況。例如，在我們之前使用的 LIMIT 查詢中，
 
 ```text
 EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT 2;
@@ -450,9 +450,9 @@ EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT
  Execution time: 0.336 ms
 ```
 
-the estimated cost and row count for the Index Scan node are shown as though it were run to completion. But in reality the Limit node stopped requesting rows after it got two, so the actual row count is only 2 and the run time is less than the cost estimate would suggest. This is not an estimation error, only a discrepancy in the way the estimates and true values are displayed.
+索引掃描節點的估計成本和資料列數目顯示為執行完成。但實際上，Limit 節點在獲得兩個資料列後停止請求，因此實際資料列數目僅為 2，執行時間小於成本估算所顯示的。這不是估計誤差，只是估計值和真實值顯示方式有所差異。
 
-Merge joins also have measurement artifacts that can confuse the unwary. A merge join will stop reading one input if it's exhausted the other input and the next key value in the one input is greater than the last key value of the other input; in such a case there can be no more matches and so no need to scan the rest of the first input. This results in not reading all of one child, with results like those mentioned for `LIMIT`. Also, if the outer \(first\) child contains rows with duplicate key values, the inner \(second\) child is backed up and rescanned for the portion of its rows matching that key value. `EXPLAIN ANALYZE` counts these repeated emissions of the same inner rows as if they were real additional rows. When there are many outer duplicates, the reported actual row count for the inner child plan node can be significantly larger than the number of rows that are actually in the inner relation.
+交叉查詢也有測量工具，也可能産生混淆。如果一個輸入耗盡了另一個輸入，並且一個輸入中的下一個鍵值大於另一個輸入的最後一個鍵值，則交叉查詢將停止讀取一個輸入；在這種情況下，不可能再有匹配，因此不需要掃描第一個輸入的其餘部分。這導致不讀取所有下一個子項，結果如 LIMIT 所述。此外，如果外部（第一個）子項包含具有重複鍵值的資料列，則內部（第二個）子項將被備份並重新掃描其與該鍵值匹配資料列的部分。EXPLAIN ANALYZE 計算相同內部資料列的這些重複映射，就好像它們是真正的附加資料列一樣。當存在許多外部重複項時，內部子計劃節點的報告實際資料列數目可能明顯大於內部關連中實際存在的資料列數目。
 
-BitmapAnd and BitmapOr nodes always report their actual row counts as zero, due to implementation limitations.
+由於實作限制，BitmapAnd 和 BitmapOr 節點始終將其實際資料列計數回報為零。
 
