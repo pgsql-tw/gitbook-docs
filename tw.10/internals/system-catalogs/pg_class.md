@@ -4,46 +4,46 @@ description: 版本：10
 
 # 51.11 pg\_class
 
-The catalog `pg_class` catalogs tables and most everything else that has columns or is otherwise similar to a table. This includes indexes \(but see also `pg_index`\), sequences \(but see also`pg_sequence`\), views, materialized views, composite types, and TOAST tables; see `relkind`. Below, when we mean all of these kinds of objects we speak of “relations”. Not all columns are meaningful for all relation types.
+目錄 pg\_class 對資料表和大多數具有欄位或其他類似於資料表的內容進行彙整。 包括索引（但也參閱 pg\_index）、序列（但請參閱 pg\_sequence）、檢視表、具體化檢視表、複合型別和 TOAST 資料表；另請查看 relkind 欄位。以下，當我們指的是所有這些類型的物件時，我們都會說「關連（relation）」。 並非所有欄位對所有關連類型都有意義。
 
 **Table 51.11. `pg_class` Columns**
 
 | Name | Type | References | Description |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `oid` | `oid` |   | Row identifier \(hidden attribute; must be explicitly selected\) |
-| `relname` | `name` |   | Name of the table, index, view, etc. |
-| `relnamespace` | `oid` | [`pg_namespace`](https://www.postgresql.org/docs/10/static/catalog-pg-namespace.html).oid | The OID of the namespace that contains this relation |
-| `reltype` | `oid` | [`pg_type`](https://www.postgresql.org/docs/10/static/catalog-pg-type.html).oid | The OID of the data type that corresponds to this table's row type, if any \(zero for indexes, which have no `pg_type` entry\) |
-| `reloftype` | `oid` | [`pg_type`](https://www.postgresql.org/docs/10/static/catalog-pg-type.html).oid | For typed tables, the OID of the underlying composite type, zero for all other relations |
-| `relowner` | `oid` | [`pg_authid`](https://www.postgresql.org/docs/10/static/catalog-pg-authid.html).oid | Owner of the relation |
-| `relam` | `oid` | [`pg_am`](https://www.postgresql.org/docs/10/static/catalog-pg-am.html).oid | If this is an index, the access method used \(B-tree, hash, etc.\) |
-| `relfilenode` | `oid` |   | Name of the on-disk file of this relation; zero means this is a “mapped” relation whose disk file name is determined by low-level state |
-| `reltablespace` | `oid` | [`pg_tablespace`](https://www.postgresql.org/docs/10/static/catalog-pg-tablespace.html).oid | The tablespace in which this relation is stored. If zero, the database's default tablespace is implied. \(Not meaningful if the relation has no on-disk file.\) |
-| `relpages` | `int4` |   | Size of the on-disk representation of this table in pages \(of size `BLCKSZ`\). This is only an estimate used by the planner. It is updated by `VACUUM`, `ANALYZE`, and a few DDL commands such as `CREATE INDEX`. |
-| `reltuples` | `float4` |   | Number of rows in the table. This is only an estimate used by the planner. It is updated by `VACUUM`, `ANALYZE`, and a few DDL commands such as `CREATE INDEX`. |
-| `relallvisible` | `int4` |   | Number of pages that are marked all-visible in the table's visibility map. This is only an estimate used by the planner. It is updated by `VACUUM`, `ANALYZE`, and a few DDL commands such as `CREATE INDEX`. |
-| `reltoastrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | OID of the TOAST table associated with this table, 0 if none. The TOAST table stores large attributes “out of line” in a secondary table. |
-| `relhasindex` | `bool` |   | True if this is a table and it has \(or recently had\) any indexes |
-| `relisshared` | `bool` |   | True if this table is shared across all databases in the cluster. Only certain system catalogs \(such as `pg_database`\) are shared. |
-| `relpersistence` | `char` |   | `p` = permanent table, `u` = unlogged table, `t` = temporary table |
-| `relkind` | `char` |   | `r` = ordinary table, `i` = index, `S` = sequence, `t` = TOAST table, `v` = view, `m` = materialized view, `c` = composite type, `f` = foreign table, `p` = partitioned table |
-| `relnatts` | `int2` |   | Number of user columns in the relation \(system columns not counted\). There must be this many corresponding entries in`pg_attribute`. See also `pg_attribute.attnum`. |
-| `relchecks` | `int2` |   | Number of `CHECK` constraints on the table; see [`pg_constraint`](https://www.postgresql.org/docs/10/static/catalog-pg-constraint.html) catalog |
-| `relhasoids` | `bool` |   | True if we generate an OID for each row of the relation |
-| `relhaspkey` | `bool` |   | True if the table has \(or once had\) a primary key |
-| `relhasrules` | `bool` |   | True if table has \(or once had\) rules; see [`pg_rewrite`](https://www.postgresql.org/docs/10/static/catalog-pg-rewrite.html) catalog |
-| `relhastriggers` | `bool` |   | True if table has \(or once had\) triggers; see [`pg_trigger`](https://www.postgresql.org/docs/10/static/catalog-pg-trigger.html) catalog |
-| `relhassubclass` | `bool` |   | True if table has \(or once had\) any inheritance children |
-| `relrowsecurity` | `bool` |   | True if table has row level security enabled; see [`pg_policy`](https://www.postgresql.org/docs/10/static/catalog-pg-policy.html) catalog |
-| `relforcerowsecurity` | `bool` |   | True if row level security \(when enabled\) will also apply to table owner; see [`pg_policy`](https://www.postgresql.org/docs/10/static/catalog-pg-policy.html) catalog |
-| `relispopulated` | `bool` |   | True if relation is populated \(this is true for all relations other than some materialized views\) |
-| `relreplident` | `char` |   | Columns used to form “replica identity” for rows: `d` = default \(primary key, if any\), `n` = nothing, `f` = all columns `i` = index with `indisreplident` set, or default |
+| `oid` | `oid` |   | 資料列指標（隱藏屬性；必須明確選擇） |
+| `relname` | `name` |   | 資料表的名稱，索引，檢視表等 |
+| `relnamespace` | `oid` | [`pg_namespace`](https://www.postgresql.org/docs/10/static/catalog-pg-namespace.html).oid | 包含此關連命名空間的 OID |
+| `reltype` | `oid` | [`pg_type`](https://www.postgresql.org/docs/10/static/catalog-pg-type.html).oid | 與此資料表的資料列類型對應資料型別的OID（如果有）（索引為零，因為沒有 pg\_type 項目） |
+| `reloftype` | `oid` | [`pg_type`](https://www.postgresql.org/docs/10/static/catalog-pg-type.html).oid | 對於複合型別資料表，底層複合型別的 OID，對於所有其他關連的值為零 |
+| `relowner` | `oid` | [`pg_authid`](https://www.postgresql.org/docs/10/static/catalog-pg-authid.html).oid | 關連的所有者 |
+| `relam` | `oid` | [`pg_am`](https://www.postgresql.org/docs/10/static/catalog-pg-am.html).oid | 如果這是索引，則為使用存取的方法（B-tree，hash 等） |
+| `relfilenode` | `oid` |   | 此關連的磁碟檔案的名稱；零表示這是一個「映射」關連，其磁碟檔案名稱由底層狀態決定 |
+| `reltablespace` | `oid` | [`pg_tablespace`](https://www.postgresql.org/docs/10/static/catalog-pg-tablespace.html).oid | 儲存此關連的資料表空間。如果為零，則隱含資料庫的預設資料表空間。（如果關連沒有磁碟檔案，則沒有意義。） |
+| `relpages` | `int4` |   | 頁面（大小為 BLCKSZ）的磁碟表示形式的大小。這只是計劃程序使用的估算值。它由 VACUUM，ANALYZE 和一些 DDL 指令（如 CREATE INDEX）更新。 |
+| `reltuples` | `float4` |   | 資料表中的資料列數。這只是計劃程序使用的估算值。它由VACUUM，ANALYZE 和一些 DDL 指令（如 CREATE INDEX）更新。 |
+| `relallvisible` | `int4` |   | 在資料表的可見性映射中標記為全部可見的頁面數。這只是計劃程序使用的估算值。它由 VACUUM，ANALYZE 和一些 DDL 指令（如 CREATE INDEX）更新。 |
+| `reltoastrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | 與此資料表關連的 TOAST 資料表的OID，如果沒有，則為0。TOAST 資料表在輔助資料表中儲存“out of line”的大型屬性。 |
+| `relhasindex` | `bool` |   | 如果這是一個資料表並且它有（或最近有）任何索引，則為 True |
+| `relisshared` | `bool` |   | 如果此資料表在叢集中的所有資料庫之間共享，則為 True。只有某些系統目錄共享（例如 pg\_database）。 |
+| `relpersistence` | `char` |   | p = 永久資料表，u = 無日誌資料，t = 臨時資料表 |
+| `relkind` | `char` |   | r = 普通資料表，i = 索引，S = 序列，t = TOAST 資料表，v = 檢視表，m = 具體化檢視表，c = 複合型別，f = 外部資料表，p = 分割資料表 |
+| `relnatts` | `int2` |   | 關連中的用戶欄位數（系統欄位未計算）。pg\_attribute 中必須有這麼多對應的項目。另請參閱 pg\_attribute.attnum。 |
+| `relchecks` | `int2` |   | 資料表上的 CHECK 限制條件數目；請參閱 [pg\_constraint](pg_constraint.md) 目錄 |
+| `relhasoids` | `bool` |   | 如果我們為關連的每一個資料列産生一個 OID，則為 True |
+| `relhaspkey` | `bool` |   | 如果資料表具有（或曾經有）主鍵，則為 True |
+| `relhasrules` | `bool` |   | 如果資料表有（或曾經有）rule，則為 true；請參閱 [pg\_rewrite](51.44.-pg_rewrite.md) 目錄 |
+| `relhastriggers` | `bool` |   | 如果資料表具有（或曾經有）觸發器，則為 True；請參閱 [pg\_trigger](51.56.-pg_trigger.md) 目錄 |
+| `relhassubclass` | `bool` |   | 如果資料表具有（或曾經有）任何繼承子項，則為 True |
+| `relrowsecurity` | `bool` |   | 如果資料表啟用了資料列級安全性，則為 True；請參閱 [pg\_policy](pg_policy.md) 目錄 |
+| `relforcerowsecurity` | `bool` |   | 如果資料列級別安全性（啟用時）也適用於資料表擁有者，則為 True；請參閱 [pg\_policy ](pg_policy.md)目錄 |
+| `relispopulated` | `bool` |   | 如果關連充入了資料，則為 True（除了某些具體化檢視表之外的所有關連都是 True） |
+| `relreplident` | `char` |   | 用於為資料列形成“replica identity”的欄位：d = 預設（主鍵，如果有），n = 無，f = 所有列，i = 具有 indisreplident 設定的索引，或預設值 |
 | `relispartition` | `bool` |   | True if table is a partition |
-| `relfrozenxid` | `xid` |   | All transaction IDs before this one have been replaced with a permanent \(“frozen”\) transaction ID in this table. This is used to track whether the table needs to be vacuumed in order to prevent transaction ID wraparound or to allow `pg_xact` to be shrunk. Zero \(`InvalidTransactionId`\) if the relation is not a table. |
-| `relminmxid` | `xid` |   | All multixact IDs before this one have been replaced by a transaction ID in this table. This is used to track whether the table needs to be vacuumed in order to prevent multixact ID wraparound or to allow `pg_multixact` to be shrunk. Zero \(`InvalidMultiXactId`\) if the relation is not a table. |
-| `relacl` | `aclitem[]` |   | Access privileges; see [GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html) for details |
-| `reloptions` | `text[]` |   | Access-method-specific options, as “keyword=value” strings |
-| `relpartbound` | `pg_node_tree` |   | If table is a partition \(see `relispartition`\), internal representation of the partition bound |
+| `relfrozenxid` | `xid` |   | 此資料表之前的所有事務 ID 都已替換為此資料表中的永久（“frozen”）事務 ID。這用於追踪資料表是否需要被清理以防止事務 ID 重覆或讓 pg\_xact 縮小。如果關連不是資料表，則為零（InvalidTransactionId）。 |
+| `relminmxid` | `xid` |   | 此資料表之前的所有 multixact ID 都已被此資料表中的事務 ID 替換。這用於追踪表是否需要被清理以防止多重 ID 重覆或使 pg\_multixact 縮小。如果關連不是資料表，則為零（InvalidMultiXactId）。 |
+| `relacl` | `aclitem[]` |   | 存取權限；有關詳細信息，請參閱 [GRANT](../../reference/sql-commands/grant.md) 和 [REVOKE](../../reference/sql-commands/revoke.md) |
+| `reloptions` | `text[]` |   | 存取方法的特定選項，為「keyword = value」字串 |
+| `relpartbound` | `pg_node_tree` |   | 如果資料表是一個分割區（請參閱 relispartition），則綁定分割區的內部表示 |
 
-Several of the Boolean flags in `pg_class` are maintained lazily: they are guaranteed to be true if that's the correct state, but may not be reset to false immediately when the condition is no longer true. For example, `relhasindex` is set by `CREATE INDEX`, but it is never cleared by `DROP INDEX`. Instead, `VACUUM` clears `relhasindex` if it finds the table has no indexes. This arrangement avoids race conditions and improves concurrency.
+pg\_class 中的幾個布林標示的維護的鬆散的：如果這是正確的狀態，它們保證為 true，但是當條件不再為真時，可能不會立即重置為 false。例如，relhasindex 由CREATE INDEX 設定，但它永遠不會被 DROP INDEX 清除。相反地，如果 VACUUM 發現資料表沒有索引，則清除 relhasindex。這種安排避免了競爭條件並改善了一致性。
 
