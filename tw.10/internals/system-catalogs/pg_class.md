@@ -12,17 +12,17 @@ description: 版本：10
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `oid` | `oid` |   | 資料列指標（隱藏屬性；必須明確選擇） |
 | `relname` | `name` |   | 資料表的名稱，索引，檢視表等 |
-| `relnamespace` | `oid` | [`pg_namespace`](https://www.postgresql.org/docs/10/static/catalog-pg-namespace.html).oid | 包含此關連命名空間的 OID |
-| `reltype` | `oid` | [`pg_type`](https://www.postgresql.org/docs/10/static/catalog-pg-type.html).oid | 與此資料表的資料列類型對應資料型別的OID（如果有）（索引為零，因為沒有 pg\_type 項目） |
-| `reloftype` | `oid` | [`pg_type`](https://www.postgresql.org/docs/10/static/catalog-pg-type.html).oid | 對於複合型別資料表，底層複合型別的 OID，對於所有其他關連的值為零 |
-| `relowner` | `oid` | [`pg_authid`](https://www.postgresql.org/docs/10/static/catalog-pg-authid.html).oid | 關連的所有者 |
-| `relam` | `oid` | [`pg_am`](https://www.postgresql.org/docs/10/static/catalog-pg-am.html).oid | 如果這是索引，則為使用存取的方法（B-tree，hash 等） |
+| `relnamespace` | `oid` | [`pg_namespace`](pg_namespace.md).oid | 包含此關連命名空間的 OID |
+| `reltype` | `oid` | [`pg_type`](pg_type.md).oid | 與此資料表的資料列類型對應資料型別的OID（如果有）（索引為零，因為沒有 pg\_type 項目） |
+| `reloftype` | `oid` | [`pg_type`](pg_type.md).oid | 對於複合型別資料表，底層複合型別的 OID，對於所有其他關連的值為零 |
+| `relowner` | `oid` | [`pg_authid`](51.8.-pg_authid.md).oid | 關連的所有者 |
+| `relam` | `oid` | [`pg_am`](pg_am.md).oid | 如果這是索引，則為使用存取的方法（B-tree，hash 等） |
 | `relfilenode` | `oid` |   | 此關連的磁碟檔案的名稱；零表示這是一個「映射」關連，其磁碟檔案名稱由底層狀態決定 |
-| `reltablespace` | `oid` | [`pg_tablespace`](https://www.postgresql.org/docs/10/static/catalog-pg-tablespace.html).oid | 儲存此關連的資料表空間。如果為零，則隱含資料庫的預設資料表空間。（如果關連沒有磁碟檔案，則沒有意義。） |
+| `reltablespace` | `oid` | [`pg_tablespace`](51.54.-pg_tablespace.md).oid | 儲存此關連的資料表空間。如果為零，則隱含資料庫的預設資料表空間。（如果關連沒有磁碟檔案，則沒有意義。） |
 | `relpages` | `int4` |   | 頁面（大小為 BLCKSZ）的磁碟表示形式的大小。這只是計劃程序使用的估算值。它由 VACUUM，ANALYZE 和一些 DDL 指令（如 CREATE INDEX）更新。 |
 | `reltuples` | `float4` |   | 資料表中的資料列數。這只是計劃程序使用的估算值。它由VACUUM，ANALYZE 和一些 DDL 指令（如 CREATE INDEX）更新。 |
 | `relallvisible` | `int4` |   | 在資料表的可見性映射中標記為全部可見的頁面數。這只是計劃程序使用的估算值。它由 VACUUM，ANALYZE 和一些 DDL 指令（如 CREATE INDEX）更新。 |
-| `reltoastrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | 與此資料表關連的 TOAST 資料表的OID，如果沒有，則為0。TOAST 資料表在輔助資料表中儲存“out of line”的大型屬性。 |
+| `reltoastrelid` | `oid` | [`pg_class`](pg_class.md).oid | 與此資料表關連的 TOAST 資料表的OID，如果沒有，則為0。TOAST 資料表在輔助資料表中儲存“out of line”的大型屬性。 |
 | `relhasindex` | `bool` |   | 如果這是一個資料表並且它有（或最近有）任何索引，則為 True |
 | `relisshared` | `bool` |   | 如果此資料表在叢集中的所有資料庫之間共享，則為 True。只有某些系統目錄共享（例如 pg\_database）。 |
 | `relpersistence` | `char` |   | p = 永久資料表，u = 無日誌資料，t = 臨時資料表 |
@@ -45,5 +45,5 @@ description: 版本：10
 | `reloptions` | `text[]` |   | 存取方法的特定選項，為「keyword = value」字串 |
 | `relpartbound` | `pg_node_tree` |   | 如果資料表是一個分割區（請參閱 relispartition），則綁定分割區的內部表示 |
 
-pg\_class 中的幾個布林標示的維護的鬆散的：如果這是正確的狀態，它們保證為 true，但是當條件不再為真時，可能不會立即重置為 false。例如，relhasindex 由CREATE INDEX 設定，但它永遠不會被 DROP INDEX 清除。相反地，如果 VACUUM 發現資料表沒有索引，則清除 relhasindex。這種安排避免了競爭條件並改善了一致性。
+pg\_class 中的幾個布林欄位的維護是鬆散的：如果這是正確的狀態，那它們保證為 true，但是當條件不再為真時，可能不會立即重置為 false。例如，relhasindex 由CREATE INDEX 設定，但它永遠不會被 DROP INDEX 清除。相反地，如果 VACUUM 發現資料表沒有索引，則清除 relhasindex。這種安排避免了競爭條件並改善了一致性。
 
