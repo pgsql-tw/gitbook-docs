@@ -109,15 +109,15 @@ local0.*    /var/log/postgresql
 
 當啟用記錄到事件日誌時，此參數確定用於在記錄中識別 PostgreSQL 記錄的程序名稱。預設是 PostgreSQL。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
-## 19.8.2. When To Log
+## 19.8.2. 何時要記錄
 
 #### `client_min_messages` \(`enum`\)
 
-Controls which message levels are sent to the client. Valid values are `DEBUG5`, `DEBUG4`, `DEBUG3`, `DEBUG2`, `DEBUG1`, `LOG`, `NOTICE`, `WARNING`, `ERROR`, `FATAL`, and `PANIC`. Each level includes all the levels that follow it. The later the level, the fewer messages are sent. The default is `NOTICE`. Note that `LOG` has a different rank here than in `log_min_messages`.
+控制將哪些訊息等級要發送到用戶端。有效的值為 DEBUG5、DEBUG4、DEBUG3、DEBUG2、DEBUG1、LOG、NOTICE、WARNING、ERROR、FATAL 和 PANIC。每個等級包括其後的所有等級。等級越低，發送的訊息越少。預設值為 NOTICE。請注意，LOG 在此處的排名與 log\_min\_messages 中的排序不同。
 
 #### `log_min_messages` \(`enum`\)
 
-Controls which message levels are written to the server log. Valid values are `DEBUG5`, `DEBUG4`, `DEBUG3`, `DEBUG2`, `DEBUG1`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `LOG`, `FATAL`, and `PANIC`. Each level includes all the levels that follow it. The later the level, the fewer messages are sent to the log. The default is `WARNING`. Note that `LOG` has a different rank here than in `client_min_messages`. Only superusers can change this setting.
+控制將哪些訊息等級寫入伺服器日誌。有效的值為 DEBUG5、DEBUG4、DEBUG3、DEBUG2、DEBUG1、INFO、NOTICE、WARNING、ERROR、LOG、FATAL 和 PANIC。每個等級包括其後的所有等級。等級越低，發送到日誌的訊息越少。預設值為 WARNING。請注意，LOG 在此處的排序與 client\_min\_messages 中的排名不同。只有超級使用者才能變更此設定。
 
 #### `log_min_error_statement` \(`enum`\)
 
