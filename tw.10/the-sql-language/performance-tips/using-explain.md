@@ -70,7 +70,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 7000;
 
 此查詢將回傳的實際筆數為 7000，但筆數估計值僅為近似值。如果您嘗試複製此實驗，您可能會得到略微不同的估計；此外，它可能在每個 ANALYZE 指令之後改變，因為 ANALYZE 産成的統計訊息來自於資料表的隨機樣本。
 
-Now, let's make the condition more restrictive:
+現在，我們加上更多條件限制：
 
 ```text
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100;
@@ -83,9 +83,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100;
          Index Cond: (unique1 < 100)
 ```
 
-Here the planner has decided to use a two-step plan: the child plan node visits an index to find the locations of rows matching the index condition, and then the upper plan node actually fetches those rows from the table itself. Fetching rows separately is much more expensive than reading them sequentially, but because not all the pages of the table have to be visited, this is still cheaper than a sequential scan. \(The reason for using two plan levels is that the upper plan node sorts the row locations identified by the index into physical order before reading them, to minimize the cost of separate fetches. The “bitmap” mentioned in the node names is the mechanism that does the sorting.\)
+規劃程序決定使用兩個步驟的計劃：子計劃節點讀取索引以查詢與索引條件匹配的資料列位置，然後上層計劃節點實際從資料表本身中提取這些資料列。單獨獲取資料列比按順序讀取它們要昂貴得多，但由於不是必須讀取該資料表的所有頁面，因此這仍然比循序掃描便宜。（使用兩個計劃層級的原因是上層計劃節點在讀取之前將索引標示的資料列位置排序為物理順序，以最小化單獨提取的成本。節點名稱中提到的「bitmap」是排序機制。）
 
-Now let's add another condition to the `WHERE` clause:
+現在讓我們為 WHERE 子句增加另一個條件：
 
 ```text
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND stringu1 = 'xxx';
@@ -99,9 +99,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND stringu1 = 'xxx';
          Index Cond: (unique1 < 100)
 ```
 
-The added condition `stringu1 = 'xxx'` reduces the output row count estimate, but not the cost because we still have to visit the same set of rows. Notice that the `stringu1` clause cannot be applied as an index condition, since this index is only on the `unique1` column. Instead it is applied as a filter on the rows retrieved by the index. Thus the cost has actually gone up slightly to reflect this extra checking.
+增加的條件 stringu1 ='xxx' 減少了輸出資料列數的估計，但不是成本，因為我們仍然必須讀取同一組資料列。請注意，stringu1 子句無法作為索引條件套用，因為此索引僅在 unique1 欄位上。而是將其作為過濾器套用於索引檢索的資料列。因此，成本實際上略有上升，以反映這種額外的檢查。
 
-In some cases the planner will prefer a “simple” index scan plan:
+在某些情況下，規劃程序更喜歡「簡單」的索引掃描計劃：
 
 ```text
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 = 42;
@@ -112,7 +112,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 = 42;
    Index Cond: (unique1 = 42)
 ```
 
-In this type of plan the table rows are fetched in index order, which makes them even more expensive to read, but there are so few that the extra cost of sorting the row locations is not worth it. You'll most often see this plan type for queries that fetch just a single row. It's also often used for queries that have an `ORDER BY` condition that matches the index order, because then no extra sorting step is needed to satisfy the `ORDER BY`.
+在這種類型的計劃中，資料列按索引順序讀取，這使得它們讀取起來更加昂貴，但是很少有人覺得資料列位置進行排序的額外成本是不值得的。對於只獲取一個資料列的查詢，您通常會看到此計劃類型。它也經常用於具有與索引順序匹配的 ORDER BY 條件的查詢，因為這樣就不需要額外的排序步驟來滿足 ORDER BY。
 
 If there are separate indexes on several of the columns referenced in `WHERE`, the planner might choose to use an AND or OR combination of the indexes:
 
