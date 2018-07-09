@@ -87,7 +87,7 @@ _`statement`_
 
 ### 注意
 
-為了使 PostgreSQL 查詢規劃器在優化查詢時做出合理的明智決策，[pg\_statistic](../../internals/51.-xi-tong-mu-lu/51.50.-pg_statistic.md) 資料應該是查詢中使用的所有資料表的最新數據。通常，[autovacuum](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon) 背景程序會自動處理。但是如果資料表的內容最近發生了重大變化，您可能需要手動 [ANALYZE](analyze.md) 而不是等待 autovacuum 來趕上變化。
+為了使 PostgreSQL 查詢規劃器在優化查詢時做出合理的明智決策，[pg\_statistic](../../internals/system-catalogs/51.50.-pg_statistic.md) 資料應該是查詢中使用的所有資料表的最新數據。通常，[autovacuum](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon) 背景程序會自動處理。但是如果資料表的內容最近發生了重大變化，您可能需要手動 [ANALYZE](analyze.md) 而不是等待 autovacuum 來趕上變化。
 
 為了測量執行計劃中每個節點的執行時成本，EXPLAIN ANALYZE 的目前實作為查詢執行加入了開銷分析。因此，對查詢執行 EXPLAIN ANALYZE 有時會比正常執行查詢花費更長的時間。開銷量取決於查詢的性質以及所使用的平台。最糟糕的情況發生在計劃節點上，這些節點本身每次執行只需要很少的時間，而且在作業系統呼相對較慢以獲取時間的主機上。
 

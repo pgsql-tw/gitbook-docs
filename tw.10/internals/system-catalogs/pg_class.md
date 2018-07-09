@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # 51.11 pg\_class
 
 The catalog `pg_class` catalogs tables and most everything else that has columns or is otherwise similar to a table. This includes indexes \(but see also `pg_index`\), sequences \(but see also`pg_sequence`\), views, materialized views, composite types, and TOAST tables; see `relkind`. Below, when we mean all of these kinds of objects we speak of “relations”. Not all columns are meaningful for all relation types.
