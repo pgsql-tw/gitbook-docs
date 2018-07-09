@@ -121,32 +121,32 @@ local0.*    /var/log/postgresql
 
 #### `log_min_error_statement` \(`enum`\)
 
-Controls which SQL statements that cause an error condition are recorded in the server log. The current SQL statement is included in the log entry for any message of the specified severity or higher. Valid values are `DEBUG5`, `DEBUG4`, `DEBUG3`, `DEBUG2`, `DEBUG1`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `LOG`, `FATAL`, and `PANIC`. The default is `ERROR`, which means statements causing errors, log messages, fatal errors, or panics will be logged. To effectively turn off logging of failing statements, set this parameter to `PANIC`. Only superusers can change this setting.
+將導致錯誤情況的 SQL 語句記錄在伺服器日誌中。當下的 SQL 語句包含在指定的嚴重性或更高等級的任何訊息日誌項目中。有效值為 DEBUG5、DEBUG4、DEBUG3、DEBUG2、DEBUG1、INFO、NOTICE、WARNING、ERROR、LOG、FATAL 和 PANIC。預設值為 ERROR，這意味著將會記錄 ERROR、LOG、FATL 或 PANIC。要有效地關閉失敗語句的日誌記錄，請將此參數設定為PANIC。只有超級使用者才能變更此設定。
 
 #### `log_min_duration_statement` \(`integer`\)
 
-Causes the duration of each completed statement to be logged if the statement ran for at least the specified number of milliseconds. Setting this to zero prints all statement durations. Minus-one \(the default\) disables logging statement durations. For example, if you set it to `250ms` then all SQL statements that run 250ms or longer will be logged. Enabling this parameter can be helpful in tracking down unoptimized queries in your applications. Only superusers can change this setting.
+如果語句執行達到指定的毫秒數，則會記錄每個已完成語句的執行時間。將此值設定為零將輸出所有語句的執行時間。減號（預設值）停用日誌記錄語句執行時間。例如，如果將其設定為 250ms，則將記錄執行 250ms 或更長時間的所有 SQL 語句。啟用此參數有助於在應用程序中追踪未優化的查詢。只有超級使用者才能變更此設定。
 
-For clients using extended query protocol, durations of the Parse, Bind, and Execute steps are logged independently.
+對於使用延伸查詢協議的用戶端，Parse、Bind 和 Execute 步驟的執行時間是獨立記錄的。
 
-#### Note
+#### 注意
 
-When using this option together with [log\_statement](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-STATEMENT), the text of statements that are logged because of `log_statement` will not be repeated in the duration log message. If you are not using syslog, it is recommended that you log the PID or session ID using [log\_line\_prefix](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-LINE-PREFIX) so that you can link the statement message to the later duration message using the process ID or session ID.
+將此選項與 log\_statement 一起使用時，由於 log\_statement 而記錄的語句文字將不會在執行時間日誌訊息中重複。如果您不使用 syslog，建議您使用 log\_line\_prefix 記錄 PID 或連線 ID，以便可以使用 PID 或連線 ID將語句訊息連接到之後的執行時間訊息。
 
-[Table 19.1](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#RUNTIME-CONFIG-SEVERITY-LEVELS) explains the message severity levels used by PostgreSQL. If logging output is sent to syslog or Windows' eventlog, the severity levels are translated as shown in the table.
+[表格 19.1 ](error-reporting-and-logging.md#table-19-1-message-severity-levels)說明了 PostgreSQL 使用的訊息嚴重性等級。如果將日誌記錄輸出發送到 syslog 或 Windows 的事件日誌，則嚴重性等級將按表格中所示進行轉換。
 
-**Table 19.1. Message Severity Levels**
+#### **Table 19.1. Message Severity Levels**
 
 | Severity | Usage | syslog | eventlog |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `DEBUG1..DEBUG5` | Provides successively-more-detailed information for use by developers. | `DEBUG` | `INFORMATION` |
-| `INFO` | Provides information implicitly requested by the user, e.g., output from `VACUUM VERBOSE`. | `INFO` | `INFORMATION` |
-| `NOTICE` | Provides information that might be helpful to users, e.g., notice of truncation of long identifiers. | `NOTICE` | `INFORMATION` |
-| `WARNING` | Provides warnings of likely problems, e.g., `COMMIT` outside a transaction block. | `NOTICE` | `WARNING` |
-| `ERROR` | Reports an error that caused the current command to abort. | `WARNING` | `ERROR` |
-| `LOG` | Reports information of interest to administrators, e.g., checkpoint activity. | `INFO` | `INFORMATION` |
-| `FATAL` | Reports an error that caused the current session to abort. | `ERR` | `ERROR` |
-| `PANIC` | Reports an error that caused all database sessions to abort. | `CRIT` | `ERROR` |
+| `DEBUG1..DEBUG5` | 提供連續且更詳細的訊息供開發人員使用。 | `DEBUG` | `INFORMATION` |
+| `INFO` | 提供隱含用戶請求的訊息，例如來自 VACUUM VERBOSE 的輸出。 | `INFO` | `INFORMATION` |
+| `NOTICE` | 提供可能對用戶有幫助的訊息，例如，截斷 long identifier 的通知。 | `NOTICE` | `INFORMATION` |
+| `WARNING` | 提供可能出現問題的警告，例如交易事務區塊外的 COMMIT。 | `NOTICE` | `WARNING` |
+| `ERROR` | 回報導致當下指令中止的錯誤。 | `WARNING` | `ERROR` |
+| `LOG` | 回報管理員感興趣的訊息，例如檢查點的活動。 | `INFO` | `INFORMATION` |
+| `FATAL` | 回報導致當下連線中止的錯誤。 | `ERR` | `ERROR` |
+| `PANIC` | 回報導致所有資料庫連線中止的錯誤。 | `CRIT` | `ERROR` |
 
 ## 19.8.3. What To Log
 
