@@ -148,49 +148,47 @@ local0.*    /var/log/postgresql
 | `FATAL` | 回報導致當下連線中止的錯誤。 | `ERR` | `ERROR` |
 | `PANIC` | 回報導致所有資料庫連線中止的錯誤。 | `CRIT` | `ERROR` |
 
-## 19.8.3. What To Log
+## 19.8.3. 要記錄的什麼
 
 #### `application_name` \(`string`\)
 
-The `application_name` can be any string of less than `NAMEDATALEN` characters \(64 characters in a standard build\). It is typically set by an application upon connection to the server. The name will be displayed in the `pg_stat_activity` view and included in CSV log entries. It can also be included in regular log entries via the [log\_line\_prefix](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-LINE-PREFIX) parameter. Only printable ASCII characters may be used in the `application_name` value. Other characters will be replaced with question marks \(`?`\).
+application\_name 可以是少於 NAMEDATALEN 個字元的任何字串（標準版本中為 64 個字元）。它通常由應用程序在連線到伺服器時設定。此名稱將顯示在 pg\_stat\_activity 檢視表中，並包含在 CSV 日誌項目中。它還可以透過 [log\_line\_prefix](error-reporting-and-logging.md#log_line_prefix-string) 參數包含在日常日誌項目中。application\_name 中只能使用可列印的 ASCII 字元。其他字元將替換為問號（？）。
 
 #### `debug_print_parse` \(`boolean`\)  `debug_print_rewritten` \(`boolean`\)  `debug_print_plan` \(`boolean`\)
 
-These parameters enable various debugging output to be emitted. When set, they print the resulting parse tree, the query rewriter output, or the execution plan for each executed query. These messages are emitted at `LOG` message level, so by default they will appear in the server log but will not be sent to the client. You can change that by adjusting [client\_min\_messages](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-CLIENT-MIN-MESSAGES) and/or [log\_min\_messages](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-MIN-MESSAGES). These parameters are off by default.
+這些參數可以發出各種除錯輸出。設定後，它們將輸出産生的語法解析樹，查詢重寫程序輸出或每個已執行查詢的執行計劃。這些訊息以 LOG 訊息等級發出，因此預設情況下它們將顯示在伺服器日誌中，但不會發送到客戶端。您可以透過調整 [client\_min\_messages](error-reporting-and-logging.md#client_min_messages-enum) 或 [log\_min\_messages](error-reporting-and-logging.md#log_min_messages-enum) 來變更它。這些參數預設是關閉的。
 
 #### `debug_pretty_print` \(`boolean`\)
 
-When set, `debug_pretty_print` indents the messages produced by `debug_print_parse`, `debug_print_rewritten`, or `debug_print_plan`. This results in more readable but much longer output than the “compact” format used when it is off. It is on by default.
+設定後，debug\_pretty\_print 會放進 debug\_print\_parse，debug\_print\_rewritten 或debug\_print\_plan 産生的訊息。與關閉時使用的緊湊格式相比，這會產生更多可讀但更長的輸出。它預設開啟。
 
 #### `log_checkpoints` \(`boolean`\)
 
-Causes checkpoints and restartpoints to be logged in the server log. Some statistics are included in the log messages, including the number of buffers written and the time spent writing them. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is off.
+使檢查點和重新啟動點記錄在伺服器日誌中。日誌訊息中包含一些統計訊息，包括寫入的緩衝區數和寫入時間。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設為關閉。
 
 #### `log_connections` \(`boolean`\)
 
-Causes each attempted connection to the server to be logged, as well as successful completion of client authentication. Only superusers can change this parameter at session start, and it cannot be changed at all within a session. The default is `off`.
+導致記錄每個嘗試連線到伺服器，以及成功完成用戶端身份驗證。只有超級使用者才能在連線開始時變更此參數，之後在連線中無法更改。預設為關閉。
 
-#### Note
-
-Some client programs, like psql, attempt to connect twice while determining if a password is required, so duplicate “connection received” messages do not necessarily indicate a problem.
+**注意**  
+某些用戶端程序（如 psql）在確定是否需要密碼時會嘗試連線兩次，因此重複的“connection received”訊息不一定表示存在問題。
 
 #### `log_disconnections` \(`boolean`\)
 
-Causes session terminations to be logged. The log output provides information similar to `log_connections`, plus the duration of the session. Only superusers can change this parameter at session start, and it cannot be changed at all within a session. The default is `off`.
+導致連線終止會被記錄。日誌輸出提供類似於 log\_connections 的訊息，以及連線的持續時間。只有超級使用者才能在連線開始時變更此參數，並且在連線中無法更改。預設為關閉。
 
 #### `log_duration` \(`boolean`\)
 
-Causes the duration of every completed statement to be logged. The default is `off`. Only superusers can change this setting.
+記錄每個已完成語句的持續時間。預設為關閉。只有超級使用者才能變更此設定。
 
-For clients using extended query protocol, durations of the Parse, Bind, and Execute steps are logged independently.
+對於使用延伸查詢協議的用戶端，Parse、Bind 和 Execute 步驟的持續時間是獨立記錄的。
 
-#### Note
-
-The difference between setting this option and setting [log\_min\_duration\_statement](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-LOG-MIN-DURATION-STATEMENT) to zero is that exceeding `log_min_duration_statement` forces the text of the query to be logged, but this option doesn't. Thus, if `log_duration` is `on` and `log_min_duration_statement` has a positive value, all durations are logged but the query text is included only for statements exceeding the threshold. This behavior can be useful for gathering statistics in high-load installations.
+**注意**  
+設定選項和將 log\_min\_duration\_statement 設定為零之間的區別在於，超出 [log\_min\_duration\_statement](error-reporting-and-logging.md#log_min_duration_statement-integer) 會強制記錄查詢的語句，但此選項不會。因此，如果啟用了 log\_duration 且 log\_min\_duration\_statement 具有正值，則會記錄所有持續時間，但僅包含超過閾值的語句的查詢語句。此行為對於在高負載環境中收集統計訊息非常有用。
 
 #### `log_error_verbosity` \(`enum`\)
 
-Controls the amount of detail written in the server log for each message that is logged. Valid values are `TERSE`, `DEFAULT`, and `VERBOSE`, each adding more fields to displayed messages. `TERSE` excludes the logging of `DETAIL`, `HINT`, `QUERY`, and `CONTEXT` error information.`VERBOSE` output includes the `SQLSTATE` error code \(see also [Appendix A](https://www.postgresql.org/docs/10/static/errcodes-appendix.html)\) and the source code file name, function name, and line number that generated the error. Only superusers can change this setting.
+控制記錄的每條訊息在伺服器日誌中寫入的詳細訊息量。有效值為 TERSE，DEFAULT 和 VERBOSE，每個都向顯示的訊息加上更多內容。TERSE 排除記錄DETAIL，HINT，QUERY 和 CONTEXT 錯誤訊息。VERBOSE 輸出包括 SQLSTATE 錯誤代碼（另請參閱[附錄 A](../../appendixes/postgresql-error-codes.md)）以及産生錯誤的原始檔案名稱，函數名稱和行號。只有超級使用者才能更改此設定。
 
 #### `log_hostname` \(`boolean`\)
 
@@ -318,7 +316,7 @@ COPY postgres_log FROM '/full/path/to/logfile.csv' WITH csv;
 3. 將 log\_truncate\_on\_rotation 設定為 on，以便舊的日誌資料不會與同一檔案中的新資料混合。
 4. 上面的資料表定義包含主鍵規範。這有助於防止意外匯入兩次相同的訊息。COPY 指令一次提交它匯入的所有資料，因此任何錯誤都會導致整個匯入失敗。如果匯入部分日誌檔案，並在稍後再次匯入該檔案時，主鍵重覆將導致匯入失敗。請等到日誌完成關閉後再匯入。此過程還可以防止意外匯入尚未完全寫入的部分資料列，這也會導致 COPY 失敗。
 
-## 19.8.5. Process Title
+## 19.8.5. 程序標題（Process Title）
 
 這些設定控制如何修改伺服器程序的程序標題。程序標題通常使用如 ps 或 Windows 上的 Process Explorer 查看。詳情請參閱[第 28.1 節](../monitoring-database-activity/28.1.-standard-unix-tools.md)。
 
