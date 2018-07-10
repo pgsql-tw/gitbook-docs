@@ -69,37 +69,35 @@ expression operator ALL (array expression)
 
 如果陣列表示式產生一個空陣列，則 ALL 的結果將為 NULL。如果左邊的表示式為NULL，則 ALL 的結果通常為 NULL（儘管非嚴格的比較運算子可能產生不同的結果）。另外，如果右邊的陣列包含任何 NULL 元素，並且沒有獲得錯誤的比較結果，則 ALL 的結果將為 NULL，而不是 TRUE（再次假設一個嚴格的比較運算子）。 這符合 SQL NULL 布林組合的一般性規則。
 
-## 9.23.5. Row Constructor Comparison
+## 9.23.5. 資料列行建構函數比較
 
 ```text
 row_constructor operator row_constructor
 ```
 
-Each side is a row constructor, as described in [Section 4.2.13](https://www.postgresql.org/docs/10/static/sql-expressions.html#SQL-SYNTAX-ROW-CONSTRUCTORS). The two row values must have the same number of fields. Each side is evaluated and they are compared row-wise. Row constructor comparisons are allowed when the _`operator`_ is `=`, `<>`, `<`, `<=`, `>` or `>=`. Every row element must be of a type which has a default B-tree operator class or the attempted comparison may generate an error.
+每一邊都是資料列建構函數，如 4.2.13 節所述。兩個資料列內容必須具有相同的欄位數。運算好每一側，並逐個資料列比較它們。當運算子為 =，&lt;&gt;，&lt;，&lt;=，&gt;或 &gt;=時，允許進行資料列建構函數比較。每個資料列元素必須是具有預設 B-tree運算子類的型別，否則嘗試的比較可能會産生錯誤。
 
-### Note
+**注意**  
+如果使用前面的欄位解析比較，則可能不會發生與元素數量或型別相關的錯誤。
 
-Errors related to the number or types of elements might not occur if the comparison is resolved using earlier columns.
+= 和 &lt;&gt; 比較的工作方式與其他比較略有不同。如果所有相應的成員都是非空且相等的，則認為兩個資料列相等；如果任何相應的成員非空且不相等，則資料列不相等；否則資料列比較的結果是未知的（null）。
 
-The `=` and `<>` cases work slightly differently from the others. Two rows are considered equal if all their corresponding members are non-null and equal; the rows are unequal if any corresponding members are non-null and unequal; otherwise the result of the row comparison is unknown \(null\).
+對於 &lt;，&lt;=，&gt; 和 &gt;= 情況，資料列元素從左到右進行比較，一旦找到不相等或空的元素配對就停止。如果這對元素中的任何一個為 null，則資料列比較的結果是未知的（null）；否則這對元素的比較就決定了結果。例如，ROW\(1, 2, NULL\) &lt; ROW\(1, 3, 0\) 產生 true，而不是 null，因為不考慮第三組元素。
 
-For the `<`, `<=`, `>` and `>=` cases, the row elements are compared left-to-right, stopping as soon as an unequal or null pair of elements is found. If either of this pair of elements is null, the result of the row comparison is unknown \(null\); otherwise comparison of this pair of elements determines the result. For example, `ROW(1,2,NULL) < ROW(1,3,0)` yields true, not null, because the third pair of elements are not considered.
-
-### Note
-
-Prior to PostgreSQL 8.2, the `<`, `<=`, `>` and `>=` cases were not handled per SQL specification. A comparison like `ROW(a,b) < ROW(c,d)` was implemented as `a < c AND b < d` whereas the correct behavior is equivalent to `a < c OR (a = c AND b < d)`.
+**注意**  
+在 PostgreSQL 8.2 之前，每個 SQL 規範都沒有處理 &lt;，&lt;=，&gt; 和 &gt;=。像ROW\(a, b\) &lt; ROW\(c, d\) 這樣的比較被實作為 a &lt; c AND b &lt; d，而正確的行為等同於 a &lt; c OR \(a = c AND b &lt;d\)。
 
 ```text
 row_constructor IS DISTINCT FROM row_constructor
 ```
 
-This construct is similar to a `<>` row comparison, but it does not yield null for null inputs. Instead, any null value is considered unequal to \(distinct from\) any non-null value, and any two nulls are considered equal \(not distinct\). Thus the result will either be true or false, never null.
+此語法類似於 &lt;&gt; 行比較，但它不會因為 null 輸入產生 null。相反地，任何空值被認為不等於（不同於）任何非空值，並且任何兩個空值被認為是相等的（不是不同的）。因此結果將為 true 或 false，永遠不為 null。
 
 ```text
 row_constructor IS NOT DISTINCT FROM row_constructor
 ```
 
-This construct is similar to a `=` row comparison, but it does not yield null for null inputs. Instead, any null value is considered unequal to \(distinct from\) any non-null value, and any two nulls are considered equal \(not distinct\). Thus the result will always be either true or false, never null.
+此語法類似於 a = 資料列比較，但它不會因為 null 輸入而產生 null。相反地，任何空值被認為不等於（不同於）任何非空值，並且任何兩個空值被認為是相等的（不是不同的）。因此，結果將始終為 true 或 false，永遠不會為 null。
 
 ## 9.23.6. 複合型別比較
 
