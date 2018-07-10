@@ -84,39 +84,39 @@ Specifies the dynamic shared memory implementation that the server should use. P
 
 設定每個伺服器子程序允許的同時最大開啓的檔案數。預設值是 1000 個檔案。如果核心可以確保每個程序的安全限制，則不必擔心此設定。但是在某些平台上（特別是大多數 BSD 系統），如果許多程序都嘗試開啓那麼多檔案，核心將允許單個程序打開比系統實際支援的更多的檔案。如果您發現自己看到“Too many open files”失敗，請嘗試減少此設定。此參數只能在伺服器啟動時設定。
 
-## 19.4.4. Cost-based Vacuum Delay
+## 19.4.4. 成本考量的 Vacuum 延遲
 
-During the execution of [VACUUM](https://www.postgresql.org/docs/10/static/sql-vacuum.html) and [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) commands, the system maintains an internal counter that keeps track of the estimated cost of the various I/O operations that are performed. When the accumulated cost reaches a limit \(specified by `vacuum_cost_limit`\), the process performing the operation will sleep for a short period of time, as specified by `vacuum_cost_delay`. Then it will reset the counter and continue execution.
+在執行 [VACUUM](../../reference/sql-commands/vacuum.md) 和 [ANALYZE](../../reference/sql-commands/analyze.md) 指令期間，系統會維護一個內部計數器，用於追踪執行的各種 I/O 操作的估計成本。當累計成本達到極限（由 vacuum\_cost\_limit 指定）時，執行操作的過程將在 sleep\_cost\_delay 指定的短時間內休眠。然後它將重置計數器並繼續執行。
 
-The intent of this feature is to allow administrators to reduce the I/O impact of these commands on concurrent database activity. There are many situations where it is not important that maintenance commands like `VACUUM` and `ANALYZE` finish quickly; however, it is usually very important that these commands do not significantly interfere with the ability of the system to perform other database operations. Cost-based vacuum delay provides a way for administrators to achieve this.
+此功能的目的是允許管理員減少這些指令對同時間資料庫活動的 I/O 影響。在許多情況下，像 VACUUM 和 ANALYZE 這樣的維護指令很快完成就不重要；但是，這些指令又通常非常重要，不會嚴重干擾系統執行其他資料庫操作的能力。基於成本的清理延遲為管理員提供了實現這一目標的途徑。
 
-This feature is disabled by default for manually issued `VACUUM` commands. To enable it, set the `vacuum_cost_delay` variable to a nonzero value.
+對於手動發出的 VACUUM 指令，預設情況下會停用此功能。要啟用它，請將 vacuum\_cost\_delay 變數設定為非零值。
 
 `vacuum_cost_delay` \(`integer`\)
 
-The length of time, in milliseconds, that the process will sleep when the cost limit has been exceeded. The default value is zero, which disables the cost-based vacuum delay feature. Positive values enable cost-based vacuuming. Note that on many systems, the effective resolution of sleep delays is 10 milliseconds; setting `vacuum_cost_delay` to a value that is not a multiple of 10 might have the same results as setting it to the next higher multiple of 10.
+超出成本限制時程序將休眠的時間長度（以毫秒為單位）。預設值為零，這會停用成本考量的清理延遲功能。正值可實現成本考量的清理。請注意，在許多系統上，睡眠延遲的有效分辨率為 10 毫秒；將 vacuum\_cost\_delay 設定為不是 10 的倍數的值可能與將其設定為 10 的下一個更高倍數具有相同的結果。
 
-When using cost-based vacuuming, appropriate values for `vacuum_cost_delay` are usually quite small, perhaps 10 or 20 milliseconds. Adjusting vacuum's resource consumption is best done by changing the other vacuum cost parameters.
+當使用成本考量的資料庫清理時，vacuum\_cost\_delay 的適當值通常非常小，可能是 10 或 20 毫秒。調整清理的資源消耗最好透過變更其他清理成本參數來完成。
 
 `vacuum_cost_page_hit` \(`integer`\)
 
-The estimated cost for vacuuming a buffer found in the shared buffer cache. It represents the cost to lock the buffer pool, lookup the shared hash table and scan the content of the page. The default value is one.
+清除共享緩衝區中找到的緩衝區估計成本。它表示鎖定緩衝池，查詢共享雜湊表和掃描頁面內容的成本。預設值為 1。
 
 `vacuum_cost_page_miss` \(`integer`\)
 
-The estimated cost for vacuuming a buffer that has to be read from disk. This represents the effort to lock the buffer pool, lookup the shared hash table, read the desired block in from the disk and scan its content. The default value is 10.
+清除必須從磁碟讀取的緩衝區的估計成本。這表示鎖定緩衝池，查詢共享雜湊表，從磁碟讀取所需塊並掃描其內容的成本。預設值為 10。
 
 `vacuum_cost_page_dirty` \(`integer`\)
 
-The estimated cost charged when vacuum modifies a block that was previously clean. It represents the extra I/O required to flush the dirty block out to disk again. The default value is 20.
+清理修改先前清理的區塊時産生的估計成本。它表示將已修改區塊再次更新到磁碟所需的額外 I/O。預設值為 20。
 
 `vacuum_cost_limit` \(`integer`\)
 
-The accumulated cost that will cause the vacuuming process to sleep. The default value is 200.
+累積成本將導致清理程序進入睡眠狀態。預設值為 200。
 
-#### Note
+#### 注意
 
-There are certain operations that hold critical locks and should therefore complete as quickly as possible. Cost-based vacuum delays do not occur during such operations. Therefore it is possible that the cost accumulates far higher than the specified limit. To avoid uselessly long delays in such cases, the actual delay is calculated as `vacuum_cost_delay` \* `accumulated_balance` / `vacuum_cost_limit` with a maximum of `vacuum_cost_delay` \* 4.
+某些操作可能會持有關鍵的鎖定，因此應盡快完成。在此類操作期間不會發生成本考量的清理延遲。因此，成本可能會遠遠高於指定的限制。為了避免在這種情況下無意義的長延遲，實際延遲計算為 vacuum\_cost\_delay  __\* cumulative\_balance / vacuum\_cost\_limit，最大為 vacuum\_cost\_delay _\*_ 4。
 
 ## 19.4.5. 背景寫入程序
 
