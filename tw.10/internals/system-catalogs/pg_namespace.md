@@ -1,13 +1,17 @@
+---
+description: 版本：10
+---
+
 # 51.32. pg\_namespace
 
-The catalog `pg_namespace` stores namespaces. A namespace is the structure underlying SQL schemas: each namespace can have a separate collection of relations, types, etc. without name conflicts.
+目錄 pg\_namespace 儲存命名空間。命名空間是 SQL 綱要的基礎結構：每個命名空間可以有一個獨立的關連，型別等集合，而不會有名稱衝突。
 
 **Table 51.32. `pg_namespace` Columns**
 
 | Name | Type | References | Description |
 | --- | --- | --- | --- | --- |
-| `oid` | `oid` |   | Row identifier \(hidden attribute; must be explicitly selected\) |
-| `nspname` | `name` |   | Name of the namespace |
-| `nspowner` | `oid` | [`pg_authid`](https://www.postgresql.org/docs/10/static/catalog-pg-authid.html).oid | Owner of the namespace |
-| `nspacl` | `aclitem[]` |   | Access privileges; see [GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html) for details |
+| `oid` | `oid` |   | 資料列指標（隱藏屬性；必須明確選擇） |
+| `nspname` | `name` |   | 命名空間的名稱 |
+| `nspowner` | `oid` | [`pg_authid`](51.8.-pg_authid.md).oid | 命名空間的所有者 |
+| `nspacl` | `aclitem[]` |   | 存取權限；有關詳細信息，請參閱 [GRANT](../../reference/sql-commands/grant.md) 和 [REVOKE](../../reference/sql-commands/revoke.md) |
 
