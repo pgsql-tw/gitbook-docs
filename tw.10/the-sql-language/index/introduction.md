@@ -1,6 +1,10 @@
+---
+description: 版本：11
+---
+
 # 11.1. 簡介
 
-Suppose we have a table similar to this:
+假設我們有一個類似於這樣的資料表：
 
 ```text
 CREATE TABLE test1 (
@@ -9,33 +13,31 @@ CREATE TABLE test1 (
 );
 ```
 
-and the application issues many queries of the form:
+並且應用程序發出許多這樣形式的查詢：
 
 ```text
-SELECT content FROM test1 WHERE id = 
-constant
-;
+SELECT content FROM test1 WHERE id = constant;
 ```
 
-With no advance preparation, the system would have to scan the entire`test1`table, row by row, to find all matching entries. If there are many rows in`test1`and only a few rows \(perhaps zero or one\) that would be returned by such a query, this is clearly an inefficient method. But if the system has been instructed to maintain an index on the`id`column, it can use a more efficient method for locating matching rows. For instance, it might only have to walk a few levels deep into a search tree.
+如果沒有提前準備，系統必須逐行掃描整個 test1 資料表，以查詢所有符合的項目。如果 test1 中有很多資料列，並且只有幾個資料列（可能是零個或一個）會被這樣的查詢回傳，這顯然是一種效率低下的方法。但是，如果系統已被指示在 id 欄位上維護索引，則可以使用更有效的方法來定位符合的資料列。例如，它可能只需要深入走幾層搜索樹就好。
 
-A similar approach is used in most non-fiction books: terms and concepts that are frequently looked up by readers are collected in an alphabetic index at the end of the book. The interested reader can scan the index relatively quickly and flip to the appropriate page\(s\), rather than having to read the entire book to find the material of interest. Just as it is the task of the author to anticipate the items that readers are likely to look up, it is the task of the database programmer to foresee which indexes will be useful.
+在大多數非小說類書籍中使用了類似的方法：讀者經常查詢的術語和概念收集在本書末尾的字母索引中。感興趣的讀者可以相對快速地掃描索引並翻到適當的頁面，而不必閱讀整本書以找到感興趣的內容。正如作者的任務是預測讀者可能會查詢的項目一樣，資料庫管理員的任務是預測哪些索引有用。
 
-The following command can be used to create an index on the`id`column, as discussed:
+可以使用以下指令在 id 欄位上建立索引，如下所示：
 
 ```text
 CREATE INDEX test1_id_index ON test1 (id);
 ```
 
-The name`test1_id_index`can be chosen freely, but you should pick something that enables you to remember later what the index was for.
+可以自由選擇名稱 test1\_id\_index，但是您應該選擇能夠讓您以後記住索引的名字。
 
-To remove an index, use the`DROP INDEX`command. Indexes can be added to and removed from tables at any time.
+要移除索引，請使用 DROP INDEX 指令。 可以隨時向資料表中增加索引或從資料表中移除索引。
 
-Once an index is created, no further intervention is required: the system will update the index when the table is modified, and it will use the index in queries when it thinks doing so would be more efficient than a sequential table scan. But you might have to run the`ANALYZE`command regularly to update statistics to allow the query planner to make educated decisions. See[Chapter 14](https://www.postgresql.org/docs/10/static/performance-tips.html)for information about how to find out whether an index is used and when and why the planner might choose\_not\_to use an index.
+建立索引後，就不需要進一步操作：系統將在修改資料表時更新索引，並且當它認為這樣做比使用循序資料表掃描更有效時，它將在查詢中使用索引。但是，您可能必須定期執行 ANALYZE 指令以更新統計訊息，以允許查詢計劃程序做出明智的決策。有關如何確定是否使用索引以及計劃程序何時以及為何可以選擇不使用索引的訊息，請參閱[第 14 章](../performance-tips/)。
 
-Indexes can also benefit`UPDATE`and`DELETE`commands with search conditions. Indexes can moreover be used in join searches. Thus, an index defined on a column that is part of a join condition can also significantly speed up queries with joins.
+索引還可以使用搜索條件使 UPDATE 和 DELETE 指令受益。此外，索引可用於交叉查詢。因此，在作為交叉查詢條件一部分的欄位上定義的索引也可以顯著加快交叉查詢。
 
-Creating an index on a large table can take a long time. By default,PostgreSQLallows reads \(`SELECT`statements\) to occur on the table in parallel with index creation, but writes \(`INSERT`,`UPDATE`,`DELETE`\) are blocked until the index build is finished. In production environments this is often unacceptable. It is possible to allow writes to occur in parallel with index creation, but there are several caveats to be aware of — for more information see[Building Indexes Concurrently](https://www.postgresql.org/docs/10/static/sql-createindex.html#sql-createindex-concurrently).
+在大型資料表上建立索引可能需要很長時間。預設情況下，PostgreSQL 允許在索引建立的同時在資料表上進行讀取（SELECT 語句），但寫入（INSERT，UPDATE，DELETE）將被阻止，直到索引建構完成。在産品環境中，這通常是不可接受的。允許寫入與索引建立同時發生是可能的，但有幾點值得注意 - 有關更多訊息，請參閱[同步建立索引](../../reference/sql-commands/create-index.md#building-indexes-concurrently)。
 
-After an index is created, the system has to keep it synchronized with the table. This adds overhead to data manipulation operations. Therefore indexes that are seldom or never used in queries should be removed.
+建立索引後，系統必須使其與資料表保持同步。這增加了資料操作的開銷。因此，應移除在查詢中很少或從不使用的索引。
 
