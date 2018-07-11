@@ -130,9 +130,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000;
                Index Cond: (unique2 > 9000)
 ```
 
-But this requires visiting both indexes, so it's not necessarily a win compared to using just one index and treating the other condition as a filter. If you vary the ranges involved you'll see the plan change accordingly.
+但這需要存取兩個索引，因此與僅使用一個索引並將另一個條件視為過濾器相比，它不一定更好。如果您改變所涉及的範圍，您將看到相應的計劃變更。
 
-Here is an example showing the effects of `LIMIT`:
+以下是顯示 LIMIT 效果的範例：
 
 ```text
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT 2;
@@ -145,9 +145,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT 2;
          Filter: (unique1 < 100)
 ```
 
-This is the same query as above, but we added a `LIMIT` so that not all the rows need be retrieved, and the planner changed its mind about what to do. Notice that the total cost and row count of the Index Scan node are shown as if it were run to completion. However, the Limit node is expected to stop after retrieving only a fifth of those rows, so its total cost is only a fifth as much, and that's the actual estimated cost of the query. This plan is preferred over adding a Limit node to the previous plan because the Limit could not avoid paying the startup cost of the bitmap scan, so the total cost would be something over 25 units with that approach.
+這是與上面相同的查詢，但是我們增加了一個 LIMIT，以便不需要檢索所有資料列，並且計劃程序改變了想要做什麼的想法。請注意，「索引掃描」節點的總成本和資料列數量顯示為執行完成。但是，限制節點預計僅檢索這些資料列中的五分之一後停止，因此其總成本僅為五分之一，這是查詢的實際估計成本。此計劃優於將 Limit 節點加到上一個計劃，因為 Limit 無法避免支付 bitmap 掃描的啟動成本，因此使用該方法的總成本將超過 25 個單位。
 
-Let's try joining two tables, using the columns we have been discussing:
+讓我們嘗試使用我們一直在討論的欄位來交叉查詢兩個資料表：
 
 ```text
 EXPLAIN SELECT *
@@ -165,9 +165,9 @@ WHERE t1.unique1 < 10 AND t1.unique2 = t2.unique2;
          Index Cond: (unique2 = t1.unique2)
 ```
 
-In this plan, we have a nested-loop join node with two table scans as inputs, or children. The indentation of the node summary lines reflects the plan tree structure. The join's first, or “outer”, child is a bitmap scan similar to those we saw before. Its cost and row count are the same as we'd get from `SELECT ... WHERE unique1 < 10` because we are applying the `WHERE` clause `unique1 < 10` at that node. The `t1.unique2 = t2.unique2` clause is not relevant yet, so it doesn't affect the row count of the outer scan. The nested-loop join node will run its second, or “inner” child once for each row obtained from the outer child. Column values from the current outer row can be plugged into the inner scan; here, the `t1.unique2` value from the outer row is available, so we get a plan and costs similar to what we saw above for a simple `SELECT ... WHERE t2.unique2 =` _`constant`_ case. \(The estimated cost is actually a bit lower than what was seen above, as a result of caching that's expected to occur during the repeated index scans on `t2`.\) The costs of the loop node are then set on the basis of the cost of the outer scan, plus one repetition of the inner scan for each outer row \(10 \* 7.91, here\), plus a little CPU time for join processing.
+在此計劃中，我們有一個巢狀循環的交叉查詢節點，其中有兩個資料表掃描作為輸入或子節點。節點摘要行的縮進反映了計劃樹狀結構。交叉查詢的第一個或「外部」子節點是一個類似於我們之前看到的 bitmap 掃描。它的成本和行數與我們從SELECT ... WHERE unique1 &lt;10 得到的相同，因為我們在該節點上使用了WHERE 子句 unique1 &lt;10。 t1.unique2 = t2.unique2 子句尚未相關，因此它不會影響外部掃描的行數。巢狀循環交叉查詢節點將為從外部子節點獲取的每一行運行其第二個或“內部”子節點一次。來自當下外部交叉查詢資料列的欄位值可以插入內部掃瞄；在這裡，來自外部交叉查詢資料列的 t1.unique2 值是可用的，因此我們得到一個類似於我們在上面看到的簡單「SELECT ... WHERE t2.unique2 = 常數」的情況。 （估計的成本實際上比上面看到的要低一些，因為在 t2 上重複索引掃描期間預計會發生快取。）然後根據成本確定循環節點的成本。外部交叉查詢掃描，每個外部交叉查詢資料列重複一次內部交叉查詢掃描（此處為10 \* 7.91），加上一點 CPU 時間進行交叉查詢處理。
 
-In this example the join's output row count is the same as the product of the two scans' row counts, but that's not true in all cases because there can be additional `WHERE` clauses that mention both tables and so can only be applied at the join point, not to either input scan. Here's an example:
+在此範例中，交叉查詢的輸出資料列計數與兩個掃描的資料列計數的乘積相同，但在所有情況下都不是這樣，因為可以有其他 WHERE 子句提及兩個資料表，因此只會用於交叉查詢的節點，不論其他輸入任何掃描。這是一個例子：
 
 ```text
 EXPLAIN SELECT *
