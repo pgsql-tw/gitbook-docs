@@ -148,7 +148,7 @@ local0.*    /var/log/postgresql
 | `FATAL` | 回報導致當下連線中止的錯誤。 | `ERR` | `ERROR` |
 | `PANIC` | 回報導致所有資料庫連線中止的錯誤。 | `CRIT` | `ERROR` |
 
-## 19.8.3. 要記錄的什麼
+## 19.8.3. 要記錄什麼
 
 #### `application_name` \(`string`\)
 
@@ -192,34 +192,34 @@ application\_name 可以是少於 NAMEDATALEN 個字元的任何字串（標準�
 
 #### `log_hostname` \(`boolean`\)
 
-By default, connection log messages only show the IP address of the connecting host. Turning this parameter on causes logging of the host name as well. Note that depending on your host name resolution setup this might impose a non-negligible performance penalty. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+預設情況下，連線日誌訊息僅顯示連線主機的 IP 位址。打開此參數就會記錄主機名。請注意，根據您的主機名稱解析設定，這可能會造成不可忽視的效能損失。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 #### `log_line_prefix` \(`string`\)
 
-This is a `printf`-style string that is output at the beginning of each log line. `%` characters begin “escape sequences” that are replaced with status information as outlined below. Unrecognized escapes are ignored. Other characters are copied straight to the log line. Some escapes are only recognized by session processes, and will be treated as empty by background processes such as the main server process. Status information may be aligned either left or right by specifying a numeric literal after the % and before the option. A negative value will cause the status information to be padded on the right with spaces to give it a minimum width, whereas a positive value will pad on the left. Padding can be useful to aid human readability in log files. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `'%m [%p] '` which logs a time stamp and the process ID.
+這是一個 printf 樣式的字串，在每個日誌的開頭輸出。%字元開始「跳脫序列（escape sequence）」，它們會被狀態訊息替換，如下所述。 無法識別的跳脫字元會被忽略。其他字元將直接複製到日誌內容。某些跳脫字元只能由連線程序識別，並且將被背景程序（例如主伺服器程序）視為空。透過在 % 之後和選項之前指定數字文字，可以向左或向右對齊狀態訊息。負值會將狀態信息在右側填充空格以給予一個最小寬度，而正值將填充在左側。填充可用於增加日誌檔案中的可讀性。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值為'%m \[%p\]'，用於記錄時間戳記和程序 ID。
 
 | Escape | Effect | Session only |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `%a` | Application name | yes |
-| `%u` | User name | yes |
-| `%d` | Database name | yes |
-| `%r` | Remote host name or IP address, and remote port | yes |
-| `%h` | Remote host name or IP address | yes |
-| `%p` | Process ID | no |
-| `%t` | Time stamp without milliseconds | no |
-| `%m` | Time stamp with milliseconds | no |
-| `%n` | Time stamp with milliseconds \(as a Unix epoch\) | no |
-| `%i` | Command tag: type of session's current command | yes |
-| `%e` | SQLSTATE error code | no |
-| `%c` | Session ID: see below | no |
-| `%l` | Number of the log line for each session or process, starting at 1 | no |
-| `%s` | Process start time stamp | no |
-| `%v` | Virtual transaction ID \(backendID/localXID\) | no |
-| `%x` | Transaction ID \(0 if none is assigned\) | no |
-| `%q` | Produces no output, but tells non-session processes to stop at this point in the string; ignored by session processes | no |
-| `%%` | Literal `%` | no |
+| `%a` | 應用名稱 | yes |
+| `%u` | 使用者名稱 | yes |
+| `%d` | 資料庫名稱 | yes |
+| `%r` | 遠端主機名稱或 IP 位址，以及遠端連接埠 | yes |
+| `%h` | 遠端主機名稱或 IP 位址 | yes |
+| `%p` | 程序 ID | no |
+| `%t` | 時間戳記，不含毫秒 | no |
+| `%m` | 時間戳記，包含毫秒 | no |
+| `%n` | 時間戳記，包含毫秒（Unix epoch） | no |
+| `%i` | 指令標記：連線的當下指令類型 | yes |
+| `%e` | SQLSTATE 錯誤代碼 | no |
+| `%c` | 連線 ID：詳見下文 | no |
+| `%l` | 每個連線或程序的日誌行號，從 1 開始 | no |
+| `%s` | 開始處理的時間戳記 | no |
+| `%v` | 虛擬交易事務 ID（backendID / localXID） | no |
+| `%x` | 交易事務 ID（如果沒有分配，則為 0） | no |
+| `%q` | 不產生輸出，但告訴非連線程序在此字串中停止；被連線中程序忽略 | no |
+| `%%` | 文字 `%` | no |
 
-The `%c` escape prints a quasi-unique session identifier, consisting of two 4-byte hexadecimal numbers \(without leading zeros\) separated by a dot. The numbers are the process start time and the process ID, so `%c` can also be used as a space saving way of printing those items. For example, to generate the session identifier from `pg_stat_activity`, use this query:
+%c 跳脫字元輸出一個幾乎唯一的連線指標，兩個由點分隔的 4 位元組的十六進制數字（不帶前導零）組成。數字是流程開始時間和程序 ID，因此 %c 也可以用作輸出這些項目的節省空間的方式。例如，要從 pg\_stat\_activity 産生連線指標，請使用以下查詢：
 
 ```text
 SELECT to_hex(trunc(EXTRACT(EPOCH FROM backend_start))::integer) || '.' ||
@@ -227,17 +227,13 @@ SELECT to_hex(trunc(EXTRACT(EPOCH FROM backend_start))::integer) || '.' ||
 FROM pg_stat_activity;
 ```
 
-#### Tip
+**小技巧**  
+如果為 log\_line\_prefix 設定了非空值，則通常應將其最後一個字元設為空格，以便與日誌行的其餘部分進行視覺隔離。也可以使用標點符號。
 
-If you set a nonempty value for `log_line_prefix`, you should usually make its last character be a space, to provide visual separation from the rest of the log line. A punctuation character can be used too.
+**小技巧**  
+Syslog 會産生成自己的時間戳記和程序 ID 訊息，因此如果要輸出到 syslog，可能不希望包含這些跳脫字元。
 
-#### Tip
-
-Syslog produces its own time stamp and process ID information, so you probably do not want to include those escapes if you are logging to syslog.
-
-#### Tip
-
-The `%q` escape is useful when including information that is only available in session \(backend\) context like user or database name. For example:
+當包含僅在使用者或資料庫名稱等連線（後端）內容中可用的訊息時，%q 跳脫字元非常有用。例如：
 
 ```text
 log_line_prefix = '%m [%p] %q%u@%d/%a '
