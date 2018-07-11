@@ -114,7 +114,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 = 42;
 
 在這種類型的計劃中，資料列按索引順序讀取，這使得它們讀取起來更加昂貴，但是很少有人覺得資料列位置進行排序的額外成本是不值得的。對於只獲取一個資料列的查詢，您通常會看到此計劃類型。它也經常用於具有與索引順序匹配的 ORDER BY 條件的查詢，因為這樣就不需要額外的排序步驟來滿足 ORDER BY。
 
-If there are separate indexes on several of the columns referenced in `WHERE`, the planner might choose to use an AND or OR combination of the indexes:
+如果在 WHERE 中引用的幾個欄位上有單獨的索引，則查詢規劃器可能會選擇使用索引的 AND 及 OR 組合：
 
 ```text
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000;
