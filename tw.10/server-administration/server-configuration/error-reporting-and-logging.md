@@ -233,6 +233,7 @@ FROM pg_stat_activity;
 **小技巧**  
 Syslog 會産生成自己的時間戳記和程序 ID 訊息，因此如果要輸出到 syslog，可能不希望包含這些跳脫字元。
 
+**小技巧**  
 當包含僅在使用者或資料庫名稱等連線（後端）內容中可用的訊息時，%q 跳脫字元非常有用。例如：
 
 ```text
@@ -245,25 +246,24 @@ log_line_prefix = '%m [%p] %q%u@%d/%a '
 
 #### `log_statement` \(`enum`\)
 
-Controls which SQL statements are logged. Valid values are `none` \(off\), `ddl`, `mod`, and `all` \(all statements\). `ddl` logs all data definition statements, such as `CREATE`, `ALTER`, and `DROP` statements. `mod` logs all `ddl` statements, plus data-modifying statements such as `INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`, and `COPY FROM`. `PREPARE`, `EXECUTE`, and `EXPLAIN ANALYZE` statements are also logged if their contained command is of an appropriate type. For clients using extended query protocol, logging occurs when an Execute message is received, and values of the Bind parameters are included \(with any embedded single-quote marks doubled\).
+控制記錄哪些 SQL 語句。有效值為 none（off），ddl，mod 和 all（所有語句）。 ddl 記錄所有資料定義語句，例如 CREATE，ALTER 和 DROP 語句。mod 記錄所有 ddl 語句，以及 INSERT，UPDATE，DELETE，TRUNCATE 和 COPY FROM 等資料修改語句。如果包含的指令屬於適合的類型，也會記錄 PREPARE，EXECUTE 和 EXPLAIN ANALYZE 語句。對於使用延伸查詢協議的用戶端，在收到 Execute 訊息時會發生日誌記錄，並且包含 Bind 參數的值（任何嵌入的單引號標記加倍）。
 
-The default is `none`. Only superusers can change this setting.
+預設值為 none。只有超級使用者才能變更此設定。
 
-#### Note
-
-Statements that contain simple syntax errors are not logged even by the `log_statement` = `all` setting, because the log message is emitted only after basic parsing has been done to determine the statement type. In the case of extended query protocol, this setting likewise does not log statements that fail before the Execute phase \(i.e., during parse analysis or planning\). Set `log_min_error_statement` to `ERROR` \(or lower\) to log such statements.
+**注意**  
+即使是 log\_statement = all 設定也不會記錄包含簡單語法錯誤的語句，因為只有在完成基本分析以確定語句類型後才會發出日誌訊息。在延伸查詢協議的情況下，此設定同樣不記錄在執行階段之前失敗的語句（即，在解析分析或計劃期間）。將 log\_min\_error\_statement 設定為 ERROR（或更低）以記錄此類語句。
 
 #### `log_replication_commands` \(`boolean`\)
 
-Causes each replication command to be logged in the server log. See [Section 52.4](https://www.postgresql.org/docs/10/static/protocol-replication.html) for more information about replication command. The default value is `off`. Only superusers can change this setting.
+讓每個複寫指令都記錄在伺服器日誌中。有關複寫指令的更多訊息，請參閱[第 52.4 節](../../internals/52.-frontend-backend-protocol/52.4.-streaming-replication-protocol.md)。預設值為 off。只有超級使用者才能變更此設定。
 
 #### `log_temp_files` \(`integer`\)
 
-Controls logging of temporary file names and sizes. Temporary files can be created for sorts, hashes, and temporary query results. A log entry is made for each temporary file when it is deleted. A value of zero logs all temporary file information, while positive values log only files whose size is greater than or equal to the specified number of kilobytes. The default setting is -1, which disables such logging. Only superusers can change this setting.
+控制臨時檔案名稱和大小的記錄。可以為排序，雜湊和臨時查詢結果建立臨時檔案。移除時，會為每個臨時檔案建立一個日誌項目。值為 0 時會記錄所有臨時檔案訊息，而正值僅記錄大小大於或等於指定 KB 的檔案。預設設定為 -1，停用此類日誌記錄。只有超級使用者才能變更此設定。
 
 #### `log_timezone` \(`string`\)
 
-Sets the time zone used for timestamps written in the server log. Unlike [TimeZone](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TIMEZONE), this value is cluster-wide, so that all sessions will report timestamps consistently. The built-in default is `GMT`, but that is typically overridden in `postgresql.conf`; initdb will install a setting there corresponding to its system environment. See [Section 8.5.3](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONES) for more information. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+設定用於在伺服器日誌中寫入的時間戳記的時區。與 [TimeZone](19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#timezone-string) 不同，此值是叢集範圍的，因此所有連線都將一致地報告時間戳記。內建的預設值是 GMT，但這通常在 postgresql.conf 中會再設定過；initdb 將在那裡安裝與其系統環境相對應的設定。有關更多訊息，請參閱[第 8.5.3 節](../../the-sql-language/data-types/8.5.-ri-qi-shi-jian-xing-bie.md#8-5-3-time-zones)。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 ## 19.8.4. 使用 CSV 格式輸出記錄
 
