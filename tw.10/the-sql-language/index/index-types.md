@@ -63,11 +63,11 @@ SP-GiST 索引（如 GiST 索引）提供支援各種搜尋的基礎結構。SP-
 | `<^` |
 | `>^` |
 
-\(See [Section 9.11](https://www.postgresql.org/docs/10/static/functions-geometry.html) for the meaning of these operators.\) The SP-GiST operator classes included in the standard distribution are documented in [Table 63.1](https://www.postgresql.org/docs/10/static/spgist-builtin-opclasses.html#SPGIST-BUILTIN-OPCLASSES-TABLE). For more information see [Chapter 63](https://www.postgresql.org/docs/10/static/spgist.html).
+（有關這些運算子的含義，請參閱[第 9.11 節](../functions-and-operators/9.11.-di-li-zi-xun-han-shi-ji-yun-suan-zi.md)。）標準版本中包含的 SP-GiST 運算子類記錄在[ Table 63.1 ](../../internals/sp-gist-indexes/built-in-operator-classes.md#table-63-1-built-in-sp-gist-operator-classes)中。有關更多訊息，請參閱[第 63 章](../../internals/sp-gist-indexes/)。
 
-GIN indexes are “inverted indexes” which are appropriate for data values that contain multiple component values, such as arrays. An inverted index contains a separate entry for each component value, and can efficiently handle queries that test for the presence of specific component values.
+GIN 索引是「反向索引」，適用於包含多個值的組合的資料值，例如陣列。反向索引包含每個組合值的單獨項目，並且可以有效地處理測試特定組合值是否存在的查詢。
 
-Like GiST and SP-GiST, GIN can support many different user-defined indexing strategies, and the particular operators with which a GIN index can be used vary depending on the indexing strategy. As an example, the standard distribution of PostgreSQL includes a GIN operator class for arrays, which supports indexed queries using these operators:
+與 GiST 和 SP-GiST 一樣，GIN 可以支援許多不同的使用者定義的索引策略，並且可以使用 GIN 索引的特定運算子根據索引策略而有所不同。例如，PostgreSQL 的標準發行版包括一個陣列的 GIN 運算子類，它支援使用這些運算子的索引查詢：
 
 | `<@` |
 | --- | --- | --- | --- |
@@ -77,7 +77,7 @@ Like GiST and SP-GiST, GIN can support many different user-defined indexing stra
 
 （有關這些運算子的含義，請參閱[第 9.18 節](../functions-and-operators/9.18.-zhen-lie-han-shi-ji-yun-suan-zi.md)。）標準版本中包含的 GIN 運算子類記錄在 [Table 64.1](../../internals/64.-gin-suo-yin/64.2.-built-in-operator-classes.md#table-64-1-built-in-gin-operator-classes) 中。許多其他 GIN 運算子類在 contrib 套件中可用或作為單獨的專案支援。有關更多訊息，請參閱[第 64 章](../../internals/64.-gin-suo-yin/)。
 
-BRIN indexes \(a shorthand for Block Range INdexes\) store summaries about the values stored in consecutive physical block ranges of a table. Like GiST, SP-GiST and GIN, BRIN can support many different indexing strategies, and the particular operators with which a BRIN index can be used vary depending on the indexing strategy. For data types that have a linear sort order, the indexed data corresponds to the minimum and maximum values of the values in the column for each block range. This supports indexed queries using these operators:
+BRIN 索引（Block Range Indexes 的簡寫）儲存關於儲存在資料表的連續物理區塊範圍中值的摘要。與 GiST，SP-GiST 和 GIN 一樣，BRIN 可以支援許多不同的索引策略，並且可以使用 BRIN 索引的特定運算子根據索引策略而變化。對於具有線性排序順序的資料類型，索引數據對應於每個區塊範圍的欄位中值的最小值和最大值。這支援使用這些運算子的索引查詢：
 
 | `<` |
 | --- | --- | --- | --- | --- |
@@ -86,5 +86,5 @@ BRIN indexes \(a shorthand for Block Range INdexes\) store summaries about the v
 | `>=` |
 | `>` |
 
-The BRIN operator classes included in the standard distribution are documented in [Table 65.1](https://www.postgresql.org/docs/10/static/brin-builtin-opclasses.html#BRIN-BUILTIN-OPCLASSES-TABLE). For more information see [Chapter 65](https://www.postgresql.org/docs/10/static/brin.html).
+[Table 65.1](../../internals/brin/built-in-operator-classes.md#table-65-1-built-in-brin-operator-classes) 中記錄了標準發行版中包含的 BRIN 運算子類。有關更多訊息，請參閱[第 65 章](../../internals/brin/)。
 

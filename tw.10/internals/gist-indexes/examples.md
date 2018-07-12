@@ -1,4 +1,4 @@
-# 64.5. Examples
+# 62.5. Examples
 
 The PostgreSQL source distribution includes several examples of index methods implemented using GiST. The core system currently provides text search support \(indexing for `tsvector`and `tsquery`\) as well as R-Tree equivalent functionality for some of the built-in geometric data types \(see `src/backend/access/gist/gistproc.c`\). The following `contrib` modules also contain GiST operator classes:`btree_gist`
 
