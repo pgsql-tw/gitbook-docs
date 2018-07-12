@@ -1,6 +1,10 @@
+---
+description: 版本：10
+---
+
 # 11.3. 多欄位索引
 
-An index can be defined on more than one column of a table. For example, if you have a table of this form:
+可以在資料表的多個欄位上定義索引。例如，如果您有此形式的資料表：
 
 ```text
 CREATE TABLE test2 (
@@ -10,33 +14,29 @@ CREATE TABLE test2 (
 );
 ```
 
-\(say, you keep your`/dev`directory in a database...\) and you frequently issue queries like:
+（比如，你將 /dev 目錄儲存在資料庫中......）並經常發出如下查詢：
 
 ```text
-SELECT name FROM test2 WHERE major = 
-constant
- AND minor = 
-constant
-;
+SELECT name FROM test2 WHERE major = constant AND minor = constant;
 ```
 
-then it might be appropriate to define an index on the columns`major`and`minor`together, e.g.:
+那麼在 major 和 minor 欄位上定義一個索引可能是合適的，例如：
 
 ```text
 CREATE INDEX test2_mm_idx ON test2 (major, minor);
 ```
 
-Currently, only the B-tree, GiST, GIN, and BRIN index types support multicolumn indexes. Up to 32 columns can be specified. \(This limit can be altered when buildingPostgreSQL; see the file`pg_config_manual.h`.\)
+目前，只有 B-tree、GiST、GIN 和 BRIN 索引型別支援多欄位索引。最多可以指定 32 個欄位。（編譯 PostgreSQL 時可以變更此限制；請參閱檔案 pg\_config\_manual.h。）
 
-A multicolumn B-tree index can be used with query conditions that involve any subset of the index's columns, but the index is most efficient when there are constraints on the leading \(leftmost\) columns. The exact rule is that equality constraints on leading columns, plus any inequality constraints on the first column that does not have an equality constraint, will be used to limit the portion of the index that is scanned. Constraints on columns to the right of these columns are checked in the index, so they save visits to the table proper, but they do not reduce the portion of the index that has to be scanned. For example, given an index on`(a, b, c)`and a query condition`WHERE a = 5 AND b >= 42 AND c < 77`, the index would have to be scanned from the first entry with`a`= 5 and`b`= 42 up through the last entry with`a`= 5. Index entries with`c`&gt;= 77 would be skipped, but they'd still have to be scanned through. This index could in principle be used for queries that have constraints on`b`and/or`c`with no constraint on`a`— but the entire index would have to be scanned, so in most cases the planner would prefer a sequential table scan over using the index.
+多欄位 B-tree 索引可以與涉及索引欄位的任何子集的查詢條件一起使用，但是當前導（最左側）欄位存在限制條件時，索引最有效。確切的規則是對前導欄位的等式限制條件以及第一欄位上沒有等式限制條件的任何不等式限制條件將用於索引的條件掃描。在索引中檢查對這些欄位右側的欄位限制條件，因此它們可以儲存對資料表的正確存取，而不會減少必須掃描的索引部分。例如，給定 \(a, b, c\) 上的索引和查詢條件 WHERE a = 5 AND b &gt;= 42 AND c &lt; 77，必須從第一個項目掃描索引，其中 a = 5 且 b = 42，直到最後一個項目 a = 5。將跳過 c &gt;= 77 的索引條目，但仍然需要掃描它們。該索引原則上可以用於對 b 或 c 有限制條件，但對 a 沒有限制條件的查詢 - 只是必須掃描整個索引，因此在大多數情況下，查詢規劃程序更喜歡使用索引進行循序資料表掃描。
 
-A multicolumn GiST index can be used with query conditions that involve any subset of the index's columns. Conditions on additional columns restrict the entries returned by the index, but the condition on the first column is the most important one for determining how much of the index needs to be scanned. A GiST index will be relatively ineffective if its first column has only a few distinct values, even if there are many distinct values in additional columns.
+多欄位 GiST 索引可以與涉及索引欄位的任何子集的查詢條件一起使用。其他欄位的條件限制索引回傳的項目，但第一欄位的條件是確定需要掃描多少索引的最重要條件。如果 GiST 索引的第一欄位只有幾個不同的值，即使其他欄位中有許多不同的值，它也會相對無效。
 
-A multicolumn GIN index can be used with query conditions that involve any subset of the index's columns. Unlike B-tree or GiST, index search effectiveness is the same regardless of which index column\(s\) the query conditions use.
+多欄位 GIN 索引可以與涉及索引欄位的任何子集的查詢條件一起使用。與 B-tree 或 GiST 不同，無論查詢條件使用哪個索引欄位，索引搜尋的有效性都是相同的。
 
-A multicolumn BRIN index can be used with query conditions that involve any subset of the index's columns. Like GIN and unlike B-tree or GiST, index search effectiveness is the same regardless of which index column\(s\) the query conditions use. The only reason to have multiple BRIN indexes instead of one multicolumn BRIN index on a single table is to have a different`pages_per_range`storage parameter.
+多欄位 BRIN 索引可以與涉及索引欄位的任何子集的查詢條件一起使用。與 GIN 類似，與 B-tree 或 GiST 不同，無論查詢條件使用哪個索引欄位，索引搜尋有效性都是相同的。在單個資料表上具有多個 BRIN 索引而不是一個多欄位 BRIN 索引的唯一原因是具有不同的 pages\_per\_range 儲存參數。
 
-Of course, each column must be used with operators appropriate to the index type; clauses that involve other operators will not be considered.
+當然，每個欄位必須與適合索引類型的運算子一起使用；涉及其他運算子的子句將不予考慮。
 
-Multicolumn indexes should be used sparingly. In most situations, an index on a single column is sufficient and saves space and time. Indexes with more than three columns are unlikely to be helpful unless the usage of the table is extremely stylized. See also[Section 11.5](https://www.postgresql.org/docs/10/static/indexes-bitmap-scans.html)and[Section 11.11](https://www.postgresql.org/docs/10/static/indexes-index-only-scans.html)for some discussion of the merits of different index configurations.
+應謹慎使用多欄位索引。在大多數情況下，單個欄位上的索引就足夠了，節省了空間和時間。除非資料表的使用非常特殊，否則具有三個欄位以上的索引不太可能有用。有關不同索引配置的優點的一些討論，另請參閱[第 11.5 節](combining-multiple-indexes.md)和[第 11.11 節](index-only-scans.md)。
 
