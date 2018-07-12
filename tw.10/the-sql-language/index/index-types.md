@@ -45,15 +45,15 @@ GiST 索引不是一種索引，而是一種可以實作許多不同索引策略
 
 （有關這些運算子的含義，請參閱[第 9.11 節](../functions-and-operators/9.11.-di-li-zi-xun-han-shi-ji-yun-suan-zi.md)。）標準版本中包含的 GiST 運算子類記錄在 [Table 62.1](../../internals/gist-indexes/built-in-operator-classes.md#table-62-1-built-in-gist-operator-classes) 中。許多其他 GiST 運算子類在 contrib 套件中可用或作為單獨的專案支援。有關更多訊息，請參閱[第 62 章](../../internals/gist-indexes/)。
 
-GiST indexes are also capable of optimizing “nearest-neighbor” searches, such as
+GiST 索引還能夠最佳化「最近鄰居」搜尋，例如
 
 ```text
 SELECT * FROM places ORDER BY location <-> point '(101,456)' LIMIT 10;
 ```
 
-which finds the ten places closest to a given target point. The ability to do this is again dependent on the particular operator class being used. In [Table 62.1](https://www.postgresql.org/docs/10/static/gist-builtin-opclasses.html#GIST-BUILTIN-OPCLASSES-TABLE), operators that can be used in this way are listed in the column “Ordering Operators”.
+找到最接近給予目標點的 10 個位置。執行此操作的能力再次取決於所使用的特定運算子類。在 Table 62.1 中，可以以這種方式使用的運算子列在「Ordering Operators」欄位中。
 
-SP-GiST indexes, like GiST indexes, offer an infrastructure that supports various kinds of searches. SP-GiST permits implementation of a wide range of different non-balanced disk-based data structures, such as quadtrees, k-d trees, and radix trees \(tries\). As an example, the standard distribution of PostgreSQL includes SP-GiST operator classes for two-dimensional points, which support indexed queries using these operators:
+SP-GiST 索引（如 GiST 索引）提供支援各種搜尋的基礎結構。SP-GiST 允許實作各種不同的非平衡的磁碟資料結構，例如 quadtree，k-d tree 和 radix tree。 例如，PostgreSQL 的標準版本包括用於二維空間的 SP-GiST 運算子類，它支援使用這些運算子的索引查詢：
 
 | `<<` |
 | --- | --- | --- | --- | --- | --- |
@@ -75,7 +75,7 @@ Like GiST and SP-GiST, GIN can support many different user-defined indexing stra
 | `=` |
 | `&&` |
 
-\(See [Section 9.18](https://www.postgresql.org/docs/10/static/functions-array.html) for the meaning of these operators.\) The GIN operator classes included in the standard distribution are documented in [Table 64.1](https://www.postgresql.org/docs/10/static/gin-builtin-opclasses.html#GIN-BUILTIN-OPCLASSES-TABLE). Many other GIN operator classes are available in the `contrib` collection or as separate projects. For more information see [Chapter 64](https://www.postgresql.org/docs/10/static/gin.html).
+（有關這些運算子的含義，請參閱[第 9.18 節](../functions-and-operators/9.18.-zhen-lie-han-shi-ji-yun-suan-zi.md)。）標準版本中包含的 GIN 運算子類記錄在 [Table 64.1](../../internals/64.-gin-suo-yin/64.2.-built-in-operator-classes.md#table-64-1-built-in-gin-operator-classes) 中。許多其他 GIN 運算子類在 contrib 套件中可用或作為單獨的專案支援。有關更多訊息，請參閱[第 64 章](../../internals/64.-gin-suo-yin/)。
 
 BRIN indexes \(a shorthand for Block Range INdexes\) store summaries about the values stored in consecutive physical block ranges of a table. Like GiST, SP-GiST and GIN, BRIN can support many different indexing strategies, and the particular operators with which a BRIN index can be used vary depending on the indexing strategy. For data types that have a linear sort order, the indexed data corresponds to the minimum and maximum values of the values in the column for each block range. This supports indexed queries using these operators:
 

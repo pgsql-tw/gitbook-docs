@@ -534,7 +534,7 @@
     * [64.5. Examples](internals/gist-indexes/examples.md)
   * [64. GIN 索引](internals/64.-gin-suo-yin/README.md)
     * [64.1. 簡介](internals/64.-gin-suo-yin/64.1.-jian-jie.md)
-    * [64.2. Built-in Operator Classes](internals/64.-gin-suo-yin/64.2.-built-in-operator-classes.md)
+    * [64.2. 內建運算子類](internals/64.-gin-suo-yin/64.2.-built-in-operator-classes.md)
     * [64.3. Extensibility](internals/64.-gin-suo-yin/64.3.-extensibility.md)
     * [64.4. Implementation](internals/64.-gin-suo-yin/64.4.-implementation.md)
     * [64.5. GIN Tips and Tricks](internals/64.-gin-suo-yin/64.5.-gin-tips-and-tricks.md)
