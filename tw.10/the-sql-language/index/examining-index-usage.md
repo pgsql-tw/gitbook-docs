@@ -1,19 +1,20 @@
+---
+description: 版本：10
+---
+
 # 11.12. 檢查索引運用
 
-Although indexes inPostgreSQLdo not need maintenance or tuning, it is still important to check which indexes are actually used by the real-life query workload. Examining index usage for an individual query is done with the[EXPLAIN](https://www.postgresql.org/docs/10/static/sql-explain.html)command; its application for this purpose is illustrated in[Section 14.1](https://www.postgresql.org/docs/10/static/using-explain.html). It is also possible to gather overall statistics about index usage in a running server, as described in[Section 28.2](https://www.postgresql.org/docs/10/static/monitoring-stats.html).
 
-It is difficult to formulate a general procedure for determining which indexes to create. There are a number of typical cases that have been shown in the examples throughout the previous sections. A good deal of experimentation is often necessary. The rest of this section gives some tips for that:
 
-* Always run[ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html)first. This command collects statistics about the distribution of the values in the table. This information is required to estimate the number of rows returned by a query, which is needed by the planner to assign realistic costs to each possible query plan. In absence of any real statistics, some default values are assumed, which are almost certain to be inaccurate. Examining an application's index usage without having run`ANALYZE`is therefore a lost cause. See[Section 24.1.3](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#vacuum-for-statistics)and[Section 24.1.6](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#autovacuum)for more information.
-* Use real data for experimentation. Using test data for setting up indexes will tell you what indexes you need for the test data, but that is all.
+雖然 PostgreSQL 中的索引不需要維護或調教，但檢查查詢工作負載實際使用哪些索引仍然很重要。以 [EXPLAIN](../../reference/sql-commands/explain.md) 指令檢查單個查詢的索引使用情況；[第 14.1 節](../performance-tips/using-explain.md)說明了其應用。如[第 28.2 節](../../server-administration/monitoring-database-activity/the-statistics-collector.md)所述，還可以在正在執行的伺服器中收集有關索引使用情況的整體統計訊息。
 
-  It is especially fatal to use very small test data sets. While selecting 1000 out of 100000 rows could be a candidate for an index, selecting 1 out of 100 rows will hardly be, because the 100 rows probably fit within a single disk page, and there is no plan that can beat sequentially fetching 1 disk page.
+決定要建立哪些索引的一般過程是很難確定的。在前面幾節的範例中已經顯示了許多典型案例。通常需要進行大量的實驗。本節的剩餘部分提供了一些提示：
 
-  Also be careful when making up test data, which is often unavoidable when the application is not yet in production. Values that are very similar, completely random, or inserted in sorted order will skew the statistics away from the distribution that real data would have.
+* 始終先執行 [ANALYZE](../../reference/sql-commands/analyze.md)。此指令收集有關資料表中內容的分佈的統計訊息。需要此訊息來估計查詢回傳的資料列數量，計劃程序需要為每個可能的查詢計劃分配實際成本。在沒有任何實際統計資料的情況下，會假設某些預設值，但這幾乎肯定是不準確的。因此，在沒有執行 ANALYZE 的情況下檢查應用程序的索引使用情況是失敗的。有關更多訊息，請參閱[第 24.1.3 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-3-geng-xin-qi)和[第 24.1.6 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-autovacuum-bei-jing-cheng-xu)。
+* 使用真實資料進行實驗。使用測試資料設定索引將告訴您測試資料需要哪些索引，但這就是全部。使用非常小的測試資料集尤其致命。雖然選擇 100000 筆資料中的 1000 個可能是索引的候選者，但選擇 100 筆資料中的 1 個就幾乎不會，因為 100 筆資料可能適合單個磁碟頁面，並且沒有計劃可以比循序讀取 1 個磁碟頁面更好。在編輯測試資料時要小心，這在應用尚未投入産品階段時通常是不可避免的。非常相似，完全隨機或按排序順序插入的值會使統計資料偏離實際資料所具有的分佈。
+* 當不使用索引時，它可以用於測試以強制使用它們。有些執行時的參數可以關閉各種計劃類型（參閱[第 19.7.1 節](../../server-administration/server-configuration/query-planning.md#19-7-1-planner-method-configuration)）。例如，關閉循序掃描（enable\_seqscan）和巢狀循環掃描（enable\_nestloop）這些是最基本的計劃，將迫使系統使用不同的計劃。如果系統仍然選擇循序掃描或巢狀循環掃描，則可能存在更為根本的原因，即不使用索引；例如，查詢條件與索引無法搭配。（什麼樣的查詢可以使用前面幾節中解釋的索引類型。）
+* 如果強制索引使用也確實使用索引，那麼有兩種可能性：系統是正確的並且使用索引確實不合適，或者查詢計劃的成本估算未反映現實。因此，您應該使用和不使用索引來查詢查詢。EXPLAIN ANALYZE 指令在這裡很有用。
+* 如果事實證明成本估算是錯誤的，那麼又有兩種可能性。 總成本是根據每個計劃節點的每行成本乘以計劃節點的可能性估計來計算的。可以透過執行時參數調整計劃節點的估計成本（在[第 19.7.2 節](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)中描述）。可能性估計不準確是由於統計資訊不足。可以透過調整統計訊息收集參數來改進這一點（參閱 [ALTER TABLE](../../reference/sql-commands/alter-table.md)）。
 
-* When indexes are not used, it can be useful for testing to force their use. There are run-time parameters that can turn off various plan types \(see[Section 19.7.1](https://www.postgresql.org/docs/10/static/runtime-config-query.html#runtime-config-query-enable)\). For instance, turning off sequential scans \(`enable_seqscan`\) and nested-loop joins \(`enable_nestloop`\), which are the most basic plans, will force the system to use a different plan. If the system still chooses a sequential scan or nested-loop join then there is probably a more fundamental reason why the index is not being used; for example, the query condition does not match the index. \(What kind of query can use what kind of index is explained in the previous sections.\)
-* If forcing index usage does use the index, then there are two possibilities: Either the system is right and using the index is indeed not appropriate, or the cost estimates of the query plans are not reflecting reality. So you should time your query with and without indexes. The`EXPLAIN ANALYZE`command can be useful here.
-* If it turns out that the cost estimates are wrong, there are, again, two possibilities. The total cost is computed from the per-row costs of each plan node times the selectivity estimate of the plan node. The costs estimated for the plan nodes can be adjusted via run-time parameters \(described in[Section 19.7.2](https://www.postgresql.org/docs/10/static/runtime-config-query.html#runtime-config-query-constants)\). An inaccurate selectivity estimate is due to insufficient statistics. It might be possible to improve this by tuning the statistics-gathering parameters \(see[ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html)\).
-
-  If you do not succeed in adjusting the costs to be more appropriate, then you might have to resort to forcing index usage explicitly. You might also want to contact thePostgreSQLdevelopers to examine the issue.
+  如果您沒有成功地將成本調整為更合適的情況，那麼您可能不得不明確強制使用索引。您可能還需要聯繫 PostgreSQL 開發人員來檢查問題。
 

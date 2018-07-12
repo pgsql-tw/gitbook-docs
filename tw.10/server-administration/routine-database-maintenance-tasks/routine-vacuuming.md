@@ -53,7 +53,7 @@ autovacuum 背景程序（如果啟用的話）會在資料表內容發生相當
 
 #### 小技巧
 
-儘管 ANALYZE 頻率對每個欄位的調整可能效率不高，但您可能會發現值得對 ANALYZE 統計資訊的詳細程度進行每個欄位調整。在 WHERE 子句中大量使用且具有高度不規則資料分佈的欄位可能需要比其他欄位更精細的資料直方圖。請參閱 ALTER TABLE SET STATISTICS，或使用 [default\_statistics\_target](../server-configuration/19.7.-cha-xun-gui-hua.md#19-7-4-other-planner-options) 組態參數變更資料庫層級的預設值。
+儘管 ANALYZE 頻率對每個欄位的調整可能效率不高，但您可能會發現值得對 ANALYZE 統計資訊的詳細程度進行每個欄位調整。在 WHERE 子句中大量使用且具有高度不規則資料分佈的欄位可能需要比其他欄位更精細的資料直方圖。請參閱 ALTER TABLE SET STATISTICS，或使用 [default\_statistics\_target](../server-configuration/query-planning.md#19-7-4-other-planner-options) 組態參數變更資料庫層級的預設值。
 
 此外，預設情況下，有關 SELECT 函數的訊息有限。但是，如果建立使用函數呼叫的表示式索引，則會收集有關該函數的有用統計訊息，這可以極大地改進使用表示式索引的查詢計劃。
 

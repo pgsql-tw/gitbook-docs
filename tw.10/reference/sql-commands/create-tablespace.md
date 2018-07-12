@@ -37,7 +37,7 @@ _`directory`_
 
 _`tablespace_option`_
 
-要設定或重置的資料表空間參數。目前，唯一可用的參數是 seq\_page\_cost，random\_page\_cost 和 effective\_io\_concurrency。為特定資料表空間設定任一值將覆寫查詢規劃器通常從該資料表空間中的資料表中讀取成本的估計值，這由相同名稱的配置參數（請參閱 [seq\_page\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)、[random\_page\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)、[effective\_io\_concurrency](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)）確定。如果一個資料表空間位於比一般 I/O 子系統更快或更慢的磁碟上，這些參數可能會很有用。
+要設定或重置的資料表空間參數。目前，唯一可用的參數是 seq\_page\_cost，random\_page\_cost 和 effective\_io\_concurrency。為特定資料表空間設定任一值將覆寫查詢規劃器通常從該資料表空間中的資料表中讀取成本的估計值，這由相同名稱的配置參數（請參閱 [seq\_page\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)、[random\_page\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)、[effective\_io\_concurrency](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)）確定。如果一個資料表空間位於比一般 I/O 子系統更快或更慢的磁碟上，這些參數可能會很有用。
 
 ### 注意
 

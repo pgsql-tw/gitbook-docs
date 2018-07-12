@@ -117,7 +117,7 @@ and table_constraint_using_index is:
 
 `SET STATISTICS`
 
-此語法為隨後的 [ANALYZE](analyze.md) 操作設定每個欄位的統計目標。目標可以設定在 0 到 10000 範圍內；或者，將其設定為 -1 以恢復為使用系統預設的統計訊息目標（[default\_statistics\_target](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-4-other-planner-options)）。有關 PostgreSQL 查詢規劃器使用統計訊息的更多資訊，請參閱[第 14.2 節](../../the-sql-language/performance-tips/14.2.-tong-ji-zi-xun.md)。
+此語法為隨後的 [ANALYZE](analyze.md) 操作設定每個欄位的統計目標。目標可以設定在 0 到 10000 範圍內；或者，將其設定為 -1 以恢復為使用系統預設的統計訊息目標（[default\_statistics\_target](../../server-administration/server-configuration/query-planning.md#19-7-4-other-planner-options)）。有關 PostgreSQL 查詢規劃器使用統計訊息的更多資訊，請參閱[第 14.2 節](../../the-sql-language/performance-tips/14.2.-tong-ji-zi-xun.md)。
 
 `SET STATISTICS` 會要求一個 `SHARE UPDATE EXCLUSIVE` 的鎖定。
 

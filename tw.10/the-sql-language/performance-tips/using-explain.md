@@ -31,7 +31,7 @@ EXPLAIN SELECT * FROM tenk1;
 * 此計劃節點輸出的估計資料列數量。同樣地，假定節點完全執行。
 * 此計劃節點輸出的資料列估計的平均資料大小（以 byte 為單位）。
 
-成本按照規劃程序的成本參數決定的各個單位計量（見[第 19.7.2 節](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)）。傳統做法是以磁碟頁面讀取為單位來衡量成本；也就是說，[seq\_page\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants) 通常設定為 1.0，其他成本參數相對於此來設定。本節中的範例使用預設的成本參數進行。
+成本按照規劃程序的成本參數決定的各個單位計量（見[第 19.7.2 節](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)）。傳統做法是以磁碟頁面讀取為單位來衡量成本；也就是說，[seq\_page\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants) 通常設定為 1.0，其他成本參數相對於此來設定。本節中的範例使用預設的成本參數進行。
 
 很重要的是要了解上層節點的成本包括其所有子節點的成本。同樣重要的是要意識到成本只反映了計劃程序所關心的事情。特別是，成本不考慮將結果資料列傳輸到用戶端所花費的時間，這可能是實際經過時間的一個重要因素；但是計劃者忽略了它，因為它不能透過改變計劃來改善它。（我們相信，每個正確的計劃都會輸出相同的資料列集合。）
 
@@ -53,7 +53,7 @@ EXPLAIN SELECT * FROM tenk1;
 SELECT relpages, reltuples FROM pg_class WHERE relname = 'tenk1';
 ```
 
-你會發現 tenk1 有 358 個磁碟頁面和 10000 個資料列。估計的成本計算為（磁碟頁讀取  _\*_ [seq\_page\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)）+（資料列掃描 \* [cpu\_tuple\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)）。預設的情況下，seq\_page\_cost 為 1.0，cpu\_tuple\_cost 為 0.01，因此估計成本為（358 \*  __1.0）+（10000 \* 0.01）= 458。
+你會發現 tenk1 有 358 個磁碟頁面和 10000 個資料列。估計的成本計算為（磁碟頁讀取  _\*_ [seq\_page\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)）+（資料列掃描 \* [cpu\_tuple\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)）。預設的情況下，seq\_page\_cost 為 1.0，cpu\_tuple\_cost 為 0.01，因此估計成本為（358 \*  __1.0）+（10000 \* 0.01）= 458。
 
 現在讓我們修改查詢加入 WHERE 條件：
 
@@ -66,7 +66,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 7000;
    Filter: (unique1 < 7000)
 ```
 
-請注意，EXPLAIN 輸出顯示 WHERE 子句作為附加到 Seq Scan 計劃節點的「filter」條件應用。這意味著計劃節點檢查它掃描的每一筆資料的條件，並僅輸出通過該條件的那些資料列。由於 WHERE 子句，輸出資料列的估計已經減少。只是，掃描仍然需要讀取所有 10000 筆資料，因此成本並沒有降低；實際上它已經上升了一點（確切地說是 10000 \* [cpu\_operator\_cost](../../server-administration/server-configuration/19.7.-cha-xun-gui-hua.md#19-7-2-planner-cost-constants)）以反映檢查 WHERE 條件所花費的額外 CPU 時間。
+請注意，EXPLAIN 輸出顯示 WHERE 子句作為附加到 Seq Scan 計劃節點的「filter」條件應用。這意味著計劃節點檢查它掃描的每一筆資料的條件，並僅輸出通過該條件的那些資料列。由於 WHERE 子句，輸出資料列的估計已經減少。只是，掃描仍然需要讀取所有 10000 筆資料，因此成本並沒有降低；實際上它已經上升了一點（確切地說是 10000 \* [cpu\_operator\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)）以反映檢查 WHERE 條件所花費的額外 CPU 時間。
 
 此查詢將回傳的實際筆數為 7000，但筆數估計值僅為近似值。如果您嘗試複製此實驗，您可能會得到略微不同的估計；此外，它可能在每個 ANALYZE 指令之後改變，因為 ANALYZE 産成的統計訊息來自於資料表的隨機樣本。
 

@@ -194,7 +194,7 @@
     * [19.4. 資源配置](server-administration/server-configuration/resource-consumption.md)
     * [19.5. Write Ahead Log](server-administration/server-configuration/write-ahead-log.md)
     * [19.6. Replication](server-administration/server-configuration/19.6.-replication.md)
-    * [19.7. 查詢規畫](server-administration/server-configuration/19.7.-cha-xun-gui-hua.md)
+    * [19.7. 查詢規畫](server-administration/server-configuration/query-planning.md)
     * [19.8. 錯誤回報與日誌記錄](server-administration/server-configuration/error-reporting-and-logging.md)
     * [19.9. Run-time Statistics](server-administration/server-configuration/19.9.-run-time-statistics.md)
     * [19.10. 自動資料庫清理](server-administration/server-configuration/automatic-vacuuming.md)
