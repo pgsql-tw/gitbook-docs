@@ -1,26 +1,21 @@
+---
+description: 版本：10
+---
+
 # 11.6. 唯一值索引
 
-Indexes can also be used to enforce uniqueness of a column's value, or the uniqueness of the combined values of more than one column.
+索引還可用於強制欄位值的唯一性，或多個欄位的組合值唯一性。
 
 ```text
-CREATE UNIQUE INDEX 
-name
- ON 
-table
- (
-column
- [
-, ...
-]);
+CREATE UNIQUE INDEX name ON table (column [, ...]);
 ```
 
-Currently, only B-tree indexes can be declared unique.
+目前，只能將 B-tree 索引宣告為唯一。
 
-When an index is declared unique, multiple table rows with equal indexed values are not allowed. Null values are not considered equal. A multicolumn unique index will only reject cases where all indexed columns are equal in multiple rows.
+當索引宣告為唯一時，不允許具有相等索引值有多筆資料。但空值不被視為相等， 多欄位唯一索引僅拒絕所有索引欄位在多筆資料中相等的情況。
 
-PostgreSQLautomatically creates a unique index when a unique constraint or primary key is defined for a table. The index covers the columns that make up the primary key or unique constraint \(a multicolumn index, if appropriate\), and is the mechanism that enforces the constraint.
+當為資料表定義唯一限制條件或主鍵時，PostgreSQL 會自動建立唯一索引。索引涵蓋構成主鍵或唯一限制條件的欄位（如果適用，則為多欄位索引），並且是強制執行限制條件的機制。
 
-## Note
-
-There's no need to manually create indexes on unique columns; doing so would just duplicate the automatically-created index.
+**注意**  
+毋須在宣告唯一性的欄位上手動建立索引；這樣做只會複製自動建立的索引。
 
