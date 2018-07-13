@@ -1,25 +1,29 @@
-# 11.11. 索引限定查詢
+---
+description: 版本：10
+---
 
-All indexes in PostgreSQL are _secondary_ indexes, meaning that each index is stored separately from the table's main data area \(which is called the table's _heap_ in PostgreSQL terminology\). This means that in an ordinary index scan, each row retrieval requires fetching data from both the index and the heap. Furthermore, while the index entries that match a given indexable `WHERE` condition are usually close together in the index, the table rows they reference might be anywhere in the heap. The heap-access portion of an index scan thus involves a lot of random access into the heap, which can be slow, particularly on traditional rotating media. \(As described in [Section 11.5](https://www.postgresql.org/docs/10/static/indexes-bitmap-scans.html), bitmap scans try to alleviate this cost by doing the heap accesses in sorted order, but that only goes so far.\)
+# 11.11. 索引限定查詢（Index-only scan）
 
-To solve this performance problem, PostgreSQL supports _index-only scans_, which can answer queries from an index alone without any heap access. The basic idea is to return values directly out of each index entry instead of consulting the associated heap entry. There are two fundamental restrictions on when this method can be used:
+PostgreSQL 中的所有索引都是二級索引，這意味著每個索引都與資料的主資料區域（在 PostgreSQL 術語中稱為資料表的 heap）分開儲存。這意味著在普通索引掃描中，每個資料列檢索都需要從索引和堆中獲取資料。此外，雖然與給予可索引 WHERE 條件匹配的索引項目通常在索引中靠近在一起，但它們引用的資料列可能在 heap 中的任何位置。因此，索引掃描 heap 部分涉及大量隨機存取，這可能很慢，特別是在傳統的磁碟媒體上。（如第 11.5 節所述，bitmap 掃描嘗試透過按排序循序執行 heap 存取來減輕此成本，但這只是到目前為止而已。）
 
-1. The index type must support index-only scans. B-tree indexes always do. GiST and SP-GiST indexes support index-only scans for some operator classes but not others. Other index types have no support. The underlying requirement is that the index must physically store, or else be able to reconstruct, the original data value for each index entry. As a counterexample, GIN indexes cannot support index-only scans because each index entry typically holds only part of the original data value.
-2. The query must reference only columns stored in the index. For example, given an index on columns `x` and `y` of a table that also has a column `z`, these queries could use index-only scans:
+為了解決這個效能問題，PostgreSQL 支援索引限定掃描，它可以單獨回答索引中的查詢而毋須任何 heap 存取。基本思維是直接從每個索引項目中回傳值，而不是查詢相關的 heap 項目。何時可以使用此方法有兩個基本限制：
+
+1. 索引類型必須支援僅索引掃描。B-tree 索引能做到，GiST 和 SP-GiST 索引支援某些運算子類的僅索引掃描，但不支持其他運算子類。其他索引類型則沒有支援。 基本要求是索引必須物理儲存或能夠重建每個索引項目的原始資料值。作為一個反例，GIN 索引不支援索引限定掃描，因為每個索引項目通常只包含原始資料值的一部分。
+2. 查詢必須僅引用儲存在索引中的欄位。例如，給予一個也有欄位 z 的資料表欄位 x 和 y 的索引，這些查詢可以使用索引限定掃描：
 
    ```text
    SELECT x, y FROM tab WHERE x = 'key';
    SELECT x FROM tab WHERE x = 'key' AND y < 42;
    ```
 
-   but these queries could not:
+   但這些查詢不能：
 
    ```text
    SELECT x, z FROM tab WHERE x = 'key';
    SELECT x FROM tab WHERE x = 'key' AND z < 42;
    ```
 
-   \(Expression indexes and partial indexes complicate this rule, as discussed below.\)
+   （表示式索引和部分索引使此規則複雜化，如下所述。）
 
 If these two fundamental requirements are met, then all the data values required by the query are available from the index, so an index-only scan is physically possible. But there is an additional requirement for any table scan in PostgreSQL: it must verify that each retrieved row be “visible” to the query's MVCC snapshot, as discussed in [Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html). Visibility information is not stored in index entries, only in heap entries; so at first glance it would seem that every row retrieval would require a heap access anyway. And this is indeed the case, if the table row has been modified recently. However, for seldom-changing data there is a way around this problem. PostgreSQL tracks, for each page in a table's heap, whether all rows stored in that page are old enough to be visible to all current and future transactions. This information is stored in a bit in the table's _visibility map_. An index-only scan, after finding a candidate index entry, checks the visibility map bit for the corresponding heap page. If it's set, the row is known visible and so the data can be returned with no further work. If it's not set, the heap entry must be visited to find out whether it's visible, so no performance advantage is gained over a standard index scan. Even in the successful case, this approach trades visibility map accesses for heap accesses; but since the visibility map is four orders of magnitude smaller than the heap it describes, far less physical I/O is needed to access it. In most situations the visibility map remains cached in memory all the time.
 

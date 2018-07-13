@@ -1,8 +1,12 @@
-# 11.10. Indexes and Collations
+---
+description: 版本：10
+---
 
-An index can support only one collation per index column. If multiple collations are of interest, multiple indexes may be needed.
+# 11.10. 索引與排序規則
 
-Consider these statements:
+每個索引欄位只能支援一個排序規則（Collation）。 如果感興趣多個排序規則，則可能需要多個索引。
+
+看看以下語法：
 
 ```text
 CREATE TABLE test1c (
@@ -13,25 +17,19 @@ CREATE TABLE test1c (
 CREATE INDEX test1c_content_index ON test1c (content);
 ```
 
-The index automatically uses the collation of the underlying column. So a query of the form
+索引自動使用基礎欄位的排序規則。所以這樣的查詢形式
 
 ```text
-SELECT * FROM test1c WHERE content 
->
-constant
-;
+SELECT * FROM test1c WHERE content > constant;
 ```
 
-could use the index, because the comparison will by default use the collation of the column. However, this index cannot accelerate queries that involve some other collation. So if queries of the form, say,
+會使用這個索引，因為預設情況下比較將使用欄位的排序規則。但是，此索引無法加速涉及其他一些排序規則的查詢。所以，如果是像這樣的查詢，比方說，
 
 ```text
-SELECT * FROM test1c WHERE content 
->
-constant
- COLLATE "y";
+SELECT * FROM test1c WHERE content > constant COLLATE "y";
 ```
 
-are also of interest, an additional index could be created that supports the`"y"`collation, like this:
+也是有意義的，可以建立一個支援「y」排序規則的附加索引，如下所示：
 
 ```text
 CREATE INDEX test1c_content_y_index ON test1c (content COLLATE "y");
