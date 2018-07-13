@@ -1,34 +1,38 @@
+---
+description: 版本：10
+---
+
 # 11.7. 表示式索引
 
-An index column need not be just a column of the underlying table, but can be a function or scalar expression computed from one or more columns of the table. This feature is useful to obtain fast access to tables based on the results of computations.
+索引欄位不必只是基礎資料表的一個欄位，而是可以是從資料表的一個欄位或多個欄位計算的函數或 scalar 表示式。此功能對於根據計算結果來快速存取資料表非常有用。
 
-For example, a common way to do case-insensitive comparisons is to use the`lower`function:
+例如，進行不區分大小寫的比較的常用方法是使用 lower 函數：
 
 ```text
 SELECT * FROM test1 WHERE lower(col1) = 'value';
 ```
 
-This query can use an index if one has been defined on the result of the`lower(col1)`function:
+如果已在 lower\(col1\) 函數的結果上定義了一個索引，則此查詢可以使用索引：
 
 ```text
 CREATE INDEX test1_lower_col1_idx ON test1 (lower(col1));
 ```
 
-If we were to declare this index`UNIQUE`, it would prevent creation of rows whose`col1`values differ only in case, as well as rows whose`col1`values are actually identical. Thus, indexes on expressions can be used to enforce constraints that are not definable as simple unique constraints.
+如果我們要宣告這個索引 UNIQUE，它將阻止建立 col1 值僅在大小寫情況下不同的資料，以及 col1 值實際上相同的資料。因此，表示式上的索引可用於強制執行不能作為簡單唯一性定義的限制條件。
 
-As another example, if one often does queries like:
+另一個例子，如果經常進行如下查詢：
 
 ```text
 SELECT * FROM people WHERE (first_name || ' ' || last_name) = 'John Smith';
 ```
 
-then it might be worth creating an index like this:
+那麼可能值得建立這樣的索引：
 
 ```text
 CREATE INDEX people_names ON people ((first_name || ' ' || last_name));
 ```
 
-The syntax of the`CREATE INDEX`command normally requires writing parentheses around index expressions, as shown in the second example. The parentheses can be omitted when the expression is just a function call, as in the first example.
+CREATE INDEX 指令的語法通常需要在索引表示式使用括號，如第二個範例所示。當表示式只是函數呼叫時，可以省略括號，如第一個範例中所示。
 
-Index expressions are relatively expensive to maintain, because the derived expression\(s\) must be computed for each row upon insertion and whenever it is updated. However, the index expressions are\_not\_recomputed during an indexed search, since they are already stored in the index. In both examples above, the system sees the query as just`WHERE indexedcolumn = 'constant'`and so the speed of the search is equivalent to any other simple index query. Thus, indexes on expressions are useful when retrieval speed is more important than insertion and update speed.
+索引表示式的維護成本相對較高，因為必須在插入時和每次更新時為每一行計算衍生表示式。但是，索引表示式在索引搜尋期間不會重新計算，因為它們已儲存在索引中。在上面的兩個範例中，系統將查詢視為 WHERE indexedcolumn ='constant'，因此搜尋速度等同於任何其他簡單索引查詢。因此，當檢索速度比插入和更新速度更重要時，表示式上的索引就很有用。
 
