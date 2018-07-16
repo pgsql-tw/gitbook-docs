@@ -129,7 +129,7 @@
     * [11.5. 善用多個索引](the-sql-language/index/combining-multiple-indexes.md)
     * [11.6. 唯一值索引](the-sql-language/index/unique-indexes.md)
     * [11.7. 表示式索引](the-sql-language/index/indexes-on-expressions.md)
-    * [11.8. 部份索引](the-sql-language/index/partial-indexes.md)
+    * [11.8. 部份索引（partial index）](the-sql-language/index/partial-indexes.md)
     * [11.9. 運算子物件及家族](the-sql-language/index/operator-classes-and-operator-families.md)
     * [11.10. 索引與排序規則](the-sql-language/index/indexes-and-collations.md)
     * [11.11. 索引限定查詢（Index-only scan）](the-sql-language/index/index-only-scans.md)
