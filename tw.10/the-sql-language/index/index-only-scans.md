@@ -25,38 +25,38 @@ PostgreSQL 中的所有索引都是二級索引，這意味著每個索引都與
 
    （表示式索引和部分索引使此規則複雜化，如下所述。）
 
-If these two fundamental requirements are met, then all the data values required by the query are available from the index, so an index-only scan is physically possible. But there is an additional requirement for any table scan in PostgreSQL: it must verify that each retrieved row be “visible” to the query's MVCC snapshot, as discussed in [Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html). Visibility information is not stored in index entries, only in heap entries; so at first glance it would seem that every row retrieval would require a heap access anyway. And this is indeed the case, if the table row has been modified recently. However, for seldom-changing data there is a way around this problem. PostgreSQL tracks, for each page in a table's heap, whether all rows stored in that page are old enough to be visible to all current and future transactions. This information is stored in a bit in the table's _visibility map_. An index-only scan, after finding a candidate index entry, checks the visibility map bit for the corresponding heap page. If it's set, the row is known visible and so the data can be returned with no further work. If it's not set, the heap entry must be visited to find out whether it's visible, so no performance advantage is gained over a standard index scan. Even in the successful case, this approach trades visibility map accesses for heap accesses; but since the visibility map is four orders of magnitude smaller than the heap it describes, far less physical I/O is needed to access it. In most situations the visibility map remains cached in memory all the time.
+只要滿足這兩個基本要求，那麼查詢所需的所有資料值都可以從索引中獲得，因此就能只進行索引掃描。但是對 PostgreSQL 中的任何資料表掃描還有一個額外的要求：它必須驗證每個檢索到的資料列對查詢的 MVCC 快照是「可見的」，如[第 13 章](../concurrency-control/)所述。可見性訊息不儲存在索引項目中，僅儲存在 heap 項目中；所以乍看之下似乎每個資料列檢索都需要存取 heap。如果資料列最近被修改，情況確實如此。但是，對於很少變化的資料，可以解決這個問題。對於資料表 heap 中的每個頁面，PostgreSQL 追踪儲存在該頁面中的所有資料表是否足夠大以使所有目前和未來的事務都可見。此訊息儲存在資料表的可見性映射表中。在找到候選索引項目之後，索引限定掃描會檢查相應 heap 頁面的可見性映射表。如果已設定，則該資料列已知可見，因此可以回傳資料而毋須進一步的作業。如果未設定，則必須存取 heap 項目以查明它是否可見，因此與標準索引掃描相比沒有效能優勢。即使在成功的情況下，這種方法也會對 heap 存取進行可見性映射表存取；但由於可見性圖比它描述的 heap 小四個數量級，因此存取它所需的物理 I/O 要少得多。在大多數情況下，可見性映射表始終在暫存在記憶體中。
 
-In short, while an index-only scan is possible given the two fundamental requirements, it will be a win only if a significant fraction of the table's heap pages have their all-visible map bits set. But tables in which a large fraction of the rows are unchanging are common enough to make this type of scan very useful in practice.
+簡而言之，雖然在給予兩個基本要求的情況下可以進行索引限定掃描，但只有當資料表的 heap 頁面的很大一部分設定了全部可見的映射位元時，才會獲勝。但是大部分資料列不變的資料通常足以使這種類型的掃描成立，這在實作中非常有用。
 
-To make effective use of the index-only scan feature, you might choose to create indexes in which only the leading columns are meant to match `WHERE` clauses, while the trailing columns hold “payload” data to be returned by a query. For example, if you commonly run queries like
+要有效使用索引限定掃描功能，您可以選擇建立僅在前導欄位中匹配 WHERE 子句的索引，而尾隨列包含要由查詢回傳的“payload”資料。例如，如果你經常執行像這樣的查詢
 
 ```text
 SELECT y FROM tab WHERE x = 'key';
 ```
 
-the traditional approach to speeding up such queries would be to create an index on `x` only. However, an index on `(x, y)` would offer the possibility of implementing this query as an index-only scan. As previously discussed, such an index would be larger and hence more expensive than an index on `x` alone, so this is attractive only if the table is known to be mostly static. Note it's important that the index be declared on `(x, y)` not `(y, x)`, as for most index types \(particularly B-trees\) searches that do not constrain the leading index columns are not very efficient.
+加速此類查詢的傳統方法是僅在 x 上建立索引。但是，\(x, y\) 上的索引將提供將此查詢實作為索引限定掃描的可能性。 如前所述，這樣的索引會更大，因此比單獨使用 x 的索引更昂貴，所以只有在知道該資表大部分是靜態的情況下才有吸引力。 請注意，在 \(x, y\) 而不是 \(y, x\) 上宣告索引很重要，因為大多數索引類型（特別是B-tree）不限制前導索引欄位的搜尋效率不高。
 
-In principle, index-only scans can be used with expression indexes. For example, given an index on `f(x)` where `x` is a table column, it should be possible to execute
+原則上，索引限定掃描可以與表示式索引一起使用。例如，給予 f\(x\) 上的索引，其中 x 是資料表欄位，應該可以執行
 
 ```text
 SELECT f(x) FROM tab WHERE f(x) < 1;
 ```
 
-as an index-only scan; and this is very attractive if `f()` is an expensive-to-compute function. However, PostgreSQL's planner is currently not very smart about such cases. It considers a query to be potentially executable by index-only scan only when all _columns_ needed by the query are available from the index. In this example, `x` is not needed except in the context `f(x)`, but the planner does not notice that and concludes that an index-only scan is not possible. If an index-only scan seems sufficiently worthwhile, this can be worked around by declaring the index to be on `(f(x), x)`, where the second column is not expected to be used in practice but is just there to convince the planner that an index-only scan is possible. An additional caveat, if the goal is to avoid recalculating `f(x)`, is that the planner won't necessarily match uses of `f(x)` that aren't in indexable `WHERE` clauses to the index column. It will usually get this right in simple queries such as shown above, but not in queries that involve joins. These deficiencies may be remedied in future versions of PostgreSQL.
+作為索引限定掃描；如果 f\(\) 是一個昂貴的計算函數，這是非常有吸引力的。但是，PostgreSQL 的規劃程序目前對這種情況並不十分聰明。只有當查詢所需的所有欄位都可以從索引獲得時，它才會將查詢視為可能透過索引限定進行掃描。在此範例中，除了裡面的 f\(x\) 之外，不需要 x，但是規劃程序沒有注意到這一點，並得出結論進行索引限定掃描。如果索引限定掃描似乎足夠值得，可以通過宣告索引打開 \(f\(x\), x\) 來解決這個問題，其中第二欄位預計不會在實作中使用，而只是說服了規劃程序可以進行索引限定掃描。如果目標是避免重新計算 f\(x\)，則另一個警告是規劃程序不一定要匹配不在索引欄位的可索引 WHERE 子句中的 f\(x\) 使用。它通常會在如上所示的簡單查詢中得到正確的結果，但在涉及 JOIN 的查詢中則不會。這些缺陷也許會在 PostgreSQL 的未來版本中得到改善。
 
-Partial indexes also have interesting interactions with index-only scans. Consider the partial index shown in [Example 11.3](https://www.postgresql.org/docs/10/static/indexes-partial.html#INDEXES-PARTIAL-EX3):
+部分索引還與索引限定掃描具有有趣的交互運作。考慮[範例 11.3 ](partial-indexes.md)中顯示的部分索引：
 
 ```text
 CREATE UNIQUE INDEX tests_success_constraint ON tests (subject, target)
     WHERE success;
 ```
 
-In principle, we could do an index-only scan on this index to satisfy a query like
+原則上，我們可以對此索引執行索引限定掃描就能滿足查詢
 
 ```text
 SELECT target FROM tests WHERE subject = 'some-subject' AND success;
 ```
 
-But there's a problem: the `WHERE` clause refers to `success` which is not available as a result column of the index. Nonetheless, an index-only scan is possible because the plan does not need to recheck that part of the `WHERE` clause at run time: all entries found in the index necessarily have `success = true` so this need not be explicitly checked in the plan. PostgreSQL versions 9.6 and later will recognize such cases and allow index-only scans to be generated, but older versions will not.
+但是存在一個問題：WHERE 子句參考的 success，它不能作為索引的結果欄位。 儘管如此，仍能進行索引限定掃描，因為計劃不需要在執行時重新檢查 WHERE 子句的那一部分：索引中找到的所有項目必須具有 success = true，因此毋須在計劃中明確檢查。 PostgreSQL 版本 9.6 及更高版本能識別此類情況並允許産生索引限定掃描，但舊版本不會。
 
