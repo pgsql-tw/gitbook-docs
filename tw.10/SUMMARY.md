@@ -505,7 +505,7 @@
     * [51.11 pg\_class](internals/system-catalogs/pg_class.md)
     * [51.13. pg\_constraint](internals/system-catalogs/pg_constraint.md)
     * [51.15 pg\_database](internals/system-catalogs/51.15-pg_database.md)
-    * [51.26 pg\_index](internals/system-catalogs/51.26-pg_index.md)
+    * [51.26 pg\_index](internals/system-catalogs/pg_index.md)
     * [51.32. pg\_namespace](internals/system-catalogs/pg_namespace.md)
     * [51.38. pg\_policy](internals/system-catalogs/pg_policy.md)
     * [51.44. pg\_rewrite](internals/system-catalogs/51.44.-pg_rewrite.md)

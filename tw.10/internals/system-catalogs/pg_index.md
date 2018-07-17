@@ -1,18 +1,22 @@
+---
+description: 版本：10
+---
+
 # 51.26 pg\_index
 
-The catalog `pg_index` contains part of the information about indexes. The rest is mostly in `pg_class`.
+目錄 pg\_index 包含有關索引的部分信息。其餘的大多數是在 pg\_class 中。
 
 **Table 51.26. `pg_index` Columns**
 
 | Name | Type | References | Description |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `indexrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | The OID of the `pg_class` entry for this index |
-| `indrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | The OID of the `pg_class` entry for the table this index is for |
-| `indnatts` | `int2` |   | The number of columns in the index \(duplicates `pg_class.relnatts`\) |
-| `indisunique` | `bool` |   | If true, this is a unique index |
-| `indisprimary` | `bool` |   | If true, this index represents the primary key of the table \(`indisunique` should always be true when this is true\) |
-| `indisexclusion` | `bool` |   | If true, this index supports an exclusion constraint |
-| `indimmediate` | `bool` |   | If true, the uniqueness check is enforced immediately on insertion \(irrelevant if `indisunique` is not true\) |
+| `indexrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | 此索引在 pg\_class 中的 OID |
+| `indrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | 此索引對應資料表在 pg\_class 中的 OID |
+| `indnatts` | `int2` |   | 索引中的欄位數（複製自 pg\_class.relnatts） |
+| `indisunique` | `bool` |   | 如果為 true，則這是唯一性索引 |
+| `indisprimary` | `bool` |   | 如果為 true，則此索引表示資料表的主鍵（如果為 true，則 indisunique 應始終為true） |
+| `indisexclusion` | `bool` |   | 如果為 true，則此索引支援排除限制條件 |
+| `indimmediate` | `bool` |   | 如果為 true，則在插入時立即強制執行唯一性檢查（如果 indisunique 不成立則無關緊要） |
 | `indisclustered` | `bool` |   | If true, the table was last clustered on this index |
 | `indisvalid` | `bool` |   | If true, the index is currently valid for queries. False means the index is possibly incomplete: it must still be modified by `INSERT`/`UPDATE` operations, but it cannot safely be used for queries. If it is unique, the uniqueness property is not guaranteed true either. |
 | `indcheckxmin` | `bool` |   | If true, queries must not use the index until the `xmin` of this `pg_index` row is below their `TransactionXmin` event horizon, because the table may contain broken HOT chains with incompatible rows that they can see |
