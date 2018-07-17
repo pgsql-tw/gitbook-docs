@@ -12,6 +12,6 @@ description: 版本：10
 | --- | --- | --- | --- | --- |
 | `oid` | `oid` |   | 資料列指標（隱藏屬性；必須明確選擇） |
 | `nspname` | `name` |   | 命名空間的名稱 |
-| `nspowner` | `oid` | [`pg_authid`](51.8.-pg_authid.md).oid | 命名空間的所有者 |
+| `nspowner` | `oid` | [`pg_authid`](pg_authid.md).oid | 命名空間的所有者 |
 | `nspacl` | `aclitem[]` |   | 存取權限；有關詳細信息，請參閱 [GRANT](../../reference/sql-commands/grant.md) 和 [REVOKE](../../reference/sql-commands/revoke.md) |
 

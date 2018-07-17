@@ -502,7 +502,7 @@
   * [51. 系統目錄](internals/system-catalogs/README.md)
     * [51.3. pg\_am](internals/system-catalogs/pg_am.md)
     * [51.7. pg\_attribute](internals/system-catalogs/pg_attribute.md)
-    * [51.8. pg\_authid](internals/system-catalogs/51.8.-pg_authid.md)
+    * [51.8. pg\_authid](internals/system-catalogs/pg_authid.md)
     * [51.11 pg\_class](internals/system-catalogs/pg_class.md)
     * [51.12. pg\_collation](internals/system-catalogs/pg_collation.md)
     * [51.13. pg\_constraint](internals/system-catalogs/pg_constraint.md)

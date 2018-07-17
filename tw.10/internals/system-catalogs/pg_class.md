@@ -15,7 +15,7 @@ description: 版本：10
 | `relnamespace` | `oid` | [`pg_namespace`](pg_namespace.md).oid | 包含此關連命名空間的 OID |
 | `reltype` | `oid` | [`pg_type`](pg_type.md).oid | 與此資料表的資料列類型對應資料型別的OID（如果有）（索引為零，因為沒有 pg\_type 項目） |
 | `reloftype` | `oid` | [`pg_type`](pg_type.md).oid | 對於複合型別資料表，底層複合型別的 OID，對於所有其他關連的值為零 |
-| `relowner` | `oid` | [`pg_authid`](51.8.-pg_authid.md).oid | 關連的所有者 |
+| `relowner` | `oid` | [`pg_authid`](pg_authid.md).oid | 關連的所有者 |
 | `relam` | `oid` | [`pg_am`](pg_am.md).oid | 如果這是索引，則為使用存取的方法（B-tree，hash 等） |
 | `relfilenode` | `oid` |   | 此關連的磁碟檔案的名稱；零表示這是一個「映射」關連，其磁碟檔案名稱由底層狀態決定 |
 | `reltablespace` | `oid` | [`pg_tablespace`](51.54.-pg_tablespace.md).oid | 儲存此關連的資料表空間。如果為零，則隱含資料庫的預設資料表空間。（如果關連沒有磁碟檔案，則沒有意義。） |
