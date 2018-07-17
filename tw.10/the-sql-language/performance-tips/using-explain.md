@@ -187,13 +187,13 @@ WHERE t1.unique1 < 10 AND t2.unique2 < 10 AND t1.hundred < t2.hundred;
                Index Cond: (unique2 < 10)
 ```
 
-The condition `t1.hundred < t2.hundred` can't be tested in the `tenk2_unique2` index, so it's applied at the join node. This reduces the estimated output row count of the join node, but does not change either input scan.
+條件 t1.hundred &lt; t2.hundred 無法在 tenk2\_unique2 索引中進行測試，因此它套用於 join 節點。這會減少連接節點的估計輸出資料列數，但不會更改任何輸入掃描。
 
-Notice that here the planner has chosen to “materialize” the inner relation of the join, by putting a Materialize plan node atop it. This means that the `t2` index scan will be done just once, even though the nested-loop join node needs to read that data ten times, once for each row from the outer relation. The Materialize node saves the data in memory as it's read, and then returns the data from memory on each subsequent pass.
+請注意，此處規劃程序已選擇透過在其上放置 Materialize 計劃節點來「具體化」交叉查詢的內部關係。這意味著 t2 索引掃描將只執行一次，即使 nested-loop join 節點需要讀取該資料十次，對於來自外部關係的每一筆資料一次。Materialize 節點在讀取資料時將資料保存在記憶體中，然後在每次後續傳遞時從記憶體中回傳資料。
 
-When dealing with outer joins, you might see join plan nodes with both “Join Filter” and plain “Filter” conditions attached. Join Filter conditions come from the outer join's `ON` clause, so a row that fails the Join Filter condition could still get emitted as a null-extended row. But a plain Filter condition is applied after the outer-join rules and so acts to remove rows unconditionally. In an inner join there is no semantic difference between these types of filters.
+處理外部交叉查詢時，您可能會看到連接計劃節點同時附加了「Join Filter」和簡單的「Filter」情境。 Join Filter 情境來自外部交叉查詢的 ON 子句，因此交叉查詢過濾條件失敗的資料列仍然可以作為 null-extended 資料列發出。但是在外部交叉查詢之後套用了一個普通的 Filter 條件，因此可以無條件地刪除資料列。在內部交叉查詢中，這些類型的過濾程序之間沒有實質差異。
 
-If we change the query's selectivity a bit, we might get a very different join plan:
+如果我們稍微改變查詢的過濾條件，我們可能會得到一個非常不同的交叉查詢計劃：
 
 ```text
 EXPLAIN SELECT *
@@ -212,9 +212,9 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
                      Index Cond: (unique1 < 100)
 ```
 
-Here, the planner has chosen to use a hash join, in which rows of one table are entered into an in-memory hash table, after which the other table is scanned and the hash table is probed for matches to each row. Again note how the indentation reflects the plan structure: the bitmap scan on `tenk1` is the input to the Hash node, which constructs the hash table. That's then returned to the Hash Join node, which reads rows from its outer child plan and searches the hash table for each one.
+這裡，規劃程序選擇使用 hash 交叉查詢，其中一個資料表的資料列被輸入到記憶體中的 hash 資料表中，之後掃描另一個資料表並且檢查 hash 資料表以匹配每一筆資料。再次注意，縮排如何反映計劃結構：tenk1 上的 bitmap 掃描是 hash 節點的輸入，它建構 hash 資料表。然後返回到 Hash Join 節點，該節點從其外部子計劃中讀取資料列並在 hash 資料表中搜索每一筆資料。
 
-Another possible type of join is a merge join, illustrated here:
+另一種可能的交叉查詢類型是 merge join，如下所示：
 
 ```text
 EXPLAIN SELECT *
@@ -232,9 +232,9 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
          ->  Seq Scan on onek t2  (cost=0.00..148.00 rows=1000 width=244)
 ```
 
-Merge join requires its input data to be sorted on the join keys. In this plan the `tenk1` data is sorted by using an index scan to visit the rows in the correct order, but a sequential scan and sort is preferred for `onek`, because there are many more rows to be visited in that table. \(Sequential-scan-and-sort frequently beats an index scan for sorting many rows, because of the nonsequential disk access required by the index scan.\)
+合併交叉查詢要求其輸入資料在交叉查詢主鍵上排序。在此計劃中，tenk1 資料使用索引掃描進行排序，以正確的順序存取資料列，但是對於 onek，偏好順序掃描和排序，因為在該資料表中要存取的筆數要多得多。（循序掃描和排序經常擊敗索引掃描以排序多筆資料，因為索引掃描需要非循序磁碟存取。）
 
-One way to look at variant plans is to force the planner to disregard whatever strategy it thought was the cheapest, using the enable/disable flags described in [Section 19.7.1](https://www.postgresql.org/docs/10/static/runtime-config-query.html#RUNTIME-CONFIG-QUERY-ENABLE). \(This is a crude tool, but useful. See also [Section 14.3](https://www.postgresql.org/docs/10/static/explicit-joins.html).\) For example, if we're unconvinced that sequential-scan-and-sort is the best way to deal with table `onek` in the previous example, we could try
+查看變形計劃的一種方法是使用[第 19.7.1 節](../../server-administration/server-configuration/query-planning.md#19-7-1-planner-method-configuration)中描述的啟用/禁用旗標強制規劃程予忽略它認為最便宜的策略。（這是一個粗略的工具，但很有用。另請參閱[第 14.3 節](controlling-the-planner-with-explicit-join-clauses.md)。）例如，如果我們不相信循序掃描和排序是在前一個範例中處理資料表 onek 的最佳方法，我們可以嘗試
 
 ```text
 SET enable_sort = off;
@@ -252,7 +252,7 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
    ->  Index Scan using onek_unique2 on onek t2  (cost=0.28..224.79 rows=1000 width=244)
 ```
 
-which shows that the planner thinks that sorting `onek` by index-scanning is about 12% more expensive than sequential-scan-and-sort. Of course, the next question is whether it's right about that. We can investigate that using`EXPLAIN ANALYZE`, as discussed below.
+這表明計劃程予認為透過索引掃描排序 onek 比循序掃描和排序貴 12％。當然，接下來的問題是它是否正確。 我們可以使用 EXPPLIN ANALYZE 來調查，如下所述。
 
 ## 14.1.2. `EXPLAIN ANALYZE`
 
