@@ -10,23 +10,23 @@ description: 版本：10
 
 | Name | Type | References | Description |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `indexrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | 此索引在 pg\_class 中的 OID |
-| `indrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | 此索引對應資料表在 pg\_class 中的 OID |
+| `indexrelid` | `oid` | \`\`[`pg_class`](pg_class.md).oid | 此索引在 pg\_class 中的 OID |
+| `indrelid` | `oid` | \`\`[`pg_class`](pg_class.md).oid | 此索引對應資料表在 pg\_class 中的 OID |
 | `indnatts` | `int2` |   | 索引中的欄位數（複製自 pg\_class.relnatts） |
 | `indisunique` | `bool` |   | 如果為 true，則這是唯一性索引 |
 | `indisprimary` | `bool` |   | 如果為 true，則此索引表示資料表的主鍵（如果為 true，則 indisunique 應始終為true） |
 | `indisexclusion` | `bool` |   | 如果為 true，則此索引支援排除限制條件 |
 | `indimmediate` | `bool` |   | 如果為 true，則在插入時立即強制執行唯一性檢查（如果 indisunique 不成立則無關緊要） |
 | `indisclustered` | `bool` |   | If true, the table was last clustered on this index |
-| `indisvalid` | `bool` |   | If true, the index is currently valid for queries. False means the index is possibly incomplete: it must still be modified by `INSERT`/`UPDATE` operations, but it cannot safely be used for queries. If it is unique, the uniqueness property is not guaranteed true either. |
-| `indcheckxmin` | `bool` |   | If true, queries must not use the index until the `xmin` of this `pg_index` row is below their `TransactionXmin` event horizon, because the table may contain broken HOT chains with incompatible rows that they can see |
-| `indisready` | `bool` |   | If true, the index is currently ready for inserts. False means the index must be ignored by `INSERT`/`UPDATE` operations. |
-| `indislive` | `bool` |   | If false, the index is in process of being dropped, and should be ignored for all purposes \(including HOT-safety decisions\) |
-| `indisreplident` | `bool` |   | If true this index has been chosen as “replica identity” using `ALTER TABLE ... REPLICA IDENTITY USING INDEX ...` |
-| `indkey` | `int2vector` | [`pg_attribute`](https://www.postgresql.org/docs/10/static/catalog-pg-attribute.html).attnum | This is an array of `indnatts` values that indicate which table columns this index indexes. For example a value of `1 3` would mean that the first and the third table columns make up the index key. A zero in this array indicates that the corresponding index attribute is an expression over the table columns, rather than a simple column reference. |
-| `indcollation` | `oidvector` | [`pg_collation`](https://www.postgresql.org/docs/10/static/catalog-pg-collation.html).oid | For each column in the index key, this contains the OID of the collation to use for the index, or zero if the column is not of a collatable data type. |
-| `indclass` | `oidvector` | [`pg_opclass`](https://www.postgresql.org/docs/10/static/catalog-pg-opclass.html).oid | For each column in the index key, this contains the OID of the operator class to use. See [`pg_opclass`](https://www.postgresql.org/docs/10/static/catalog-pg-opclass.html) for details. |
-| `indoption` | `int2vector` |   | This is an array of `indnatts` values that store per-column flag bits. The meaning of the bits is defined by the index's access method. |
-| `indexprs` | `pg_node_tree` |   | Expression trees \(in `nodeToString()` representation\) for index attributes that are not simple column references. This is a list with one element for each zero entry in `indkey`. Null if all index attributes are simple references. |
-| `indpred` | `pg_node_tree` |   | Expression tree \(in `nodeToString()` representation\) for partial index predicate. Null if not a partial index. |
+| `indisvalid` | `bool` |   | 如果為 true，則索引目前對查詢有效。False 意味著索引可能不完整：它仍然必須通過 INSERT / UPDATE 操作進行修改，但它不能安全地用於查詢。 如果它是唯一的，則唯一性屬性也不保證是真的。 |
+| `indcheckxmin` | `bool` |   | 如果為 true，則查詢必須不使用索引，直到此 pg\_index 資料列的 xmin 低於其 TransactionXmin 事務範圍，因為可以看到該資料表可能包含具有不相容資料列的損壞 HOT 鏈 |
+| `indisready` | `bool` |   | 如果為 true，則索引目前已準備好進行插入。False 表示 INSERT / UPDATE 操作必須忽略索引。 |
+| `indislive` | `bool` |   | 如果為 false，則索引正在被移除，並且應該被忽略用於所有目的（包括 HOT-safety 決策） |
+| `indisreplident` | `bool` |   | If true this index 已使用 ALTER TABLE ... REPLICA IDENTITY 選擇“replica identity”... |
+| `indkey` | `int2vector` | \`\`[`pg_attribute`](pg_attribute.md).attnum | 這是一個 indnatts 陣列，意指此索引所索引的資料表欄位。例如，值為 1 3 意味著第一個和第三個資料表欄位構成索引鍵。此陣列中的零表示相應的索引屬性是資料表欄位上的表示式，而不是簡單的欄位引用。 |
+| `indcollation` | `oidvector` | \`\`[`pg_collation`](pg_collation.md).oid | 對於索引鍵中的每一個欄位，它包含用於索引的排序規則的 OID，如果該欄位不是可合併的資料型別，則為零。 |
+| `indclass` | `oidvector` | \`\`[`pg_opclass`](pg_opclass.md).oid | 對於索引鍵中的每一欄位，它包含要使用的運算子類的 OID。有關詳細訊息，請參閱 [pg\_opclass](pg_opclass.md)。 |
+| `indoption` | `int2vector` |   | 這是一個 indnatts 陣列，用於儲存每個欄位的旗標位元。位元的意義由索引的存取方法定義。 |
+| `indexprs` | `pg_node_tree` |   | 表示式樹（以 nodeToString\(\) 表示），用於不是簡單欄位引用的索引屬性。這是一個列表，其中包含 indkey 中每個零項目的一個元素。如果所有索引屬性都是簡單引用，則為空。 |
+| `indpred` | `pg_node_tree` |   | 部分索引條件的表示式樹（以 nodeToString\(\) 表示）。如果不是部分索引，則為空。 |
 
