@@ -1,10 +1,14 @@
-# 40.5. Rules and Privileges
+---
+description: 版本：10
+---
 
-Due to rewriting of queries by the PostgreSQL rule system, other tables/views than those used in the original query get accessed. When update rules are used, this can include write access to tables.
+# 40.5. 規則及權限
 
-Rewrite rules don't have a separate owner. The owner of a relation \(table or view\) is automatically the owner of the rewrite rules that are defined for it. The PostgreSQL rule system changes the behavior of the default access control system. Relations that are used due to rules get checked against the privileges of the rule owner, not the user invoking the rule. This means that users only need the required privileges for the tables/views that are explicitly named in their queries.
+由於PostgreSQL 規則系統重寫了查詢，因此可以存取除原始查詢中使用的資料表/檢視表之外的其他資料表/檢視表。使用規則更新時，可以包括對資料表的寫入存取。
 
-For example: A user has a list of phone numbers where some of them are private, the others are of interest for the assistant of the office. The user can construct the following:
+重寫規則沒有單獨的擁有者。關連（資料表或檢視表）的擁有者自動成為為其定義的重寫規則的擁有者。PostgreSQL 規則系統改變了預設存取控制系統的行為。根據規則使用的關連將根據規則擁有者的權限進行檢查，而不是呼叫規則的使用者。這意味著使用者只需要在查詢中明確命名的資料表/檢視表所需的權限。
+
+例如：使用者有一個電話號碼列表，其中一些是私人的，其他的是辦公室助理共享的。使用者可以建構以下內容：
 
 ```text
 CREATE TABLE phone_data (person text, phone text, private boolean);
@@ -14,20 +18,20 @@ CREATE VIEW phone_number AS
 GRANT SELECT ON phone_number TO assistant;
 ```
 
-Nobody except that user \(and the database superusers\) can access the `phone_data` table. But because of the `GRANT`, the assistant can run a `SELECT` on the `phone_number` view. The rule system will rewrite the `SELECT` from `phone_number` into a `SELECT` from `phone_data`. Since the user is the owner of `phone_number` and therefore the owner of the rule, the read access to `phone_data` is now checked against the user's privileges and the query is permitted. The check for accessing `phone_number` is also performed, but this is done against the invoking user, so nobody but the user and the assistant can use it.
+除了該使用者（以及資料庫超級使用者）之外，沒有人可以存取 phone\_data 資料表。 但是由於 GRANT，assistant 可以在 phone\_number 檢視表上執行 SELECT。規則系統將 phone\_number 中的 SELECT 重寫為來自 phone\_data 的 SELECT。由於使用者是phone\_number的所有者，因此是規則的擁有者，而現在根據使用者的權限檢查對 phone\_data 的讀取，並允許查詢。 還執行了存取 phone\_number 的檢查，但這是針對呼叫使用者完成的，因此除了使用者和助理之外，沒有人可以使用它。
 
-The privileges are checked rule by rule. So the assistant is for now the only one who can see the public phone numbers. But the assistant can set up another view and grant access to that to the public. Then, anyone can see the `phone_number` data through the assistant's view. What the assistant cannot do is to create a view that directly accesses `phone_data`. \(Actually the assistant can, but it will not work since every access will be denied during the permission checks.\) And as soon as the user notices that the assistant opened their `phone_number`view, the user can revoke the assistant's access. Immediately, any access to the assistant's view would fail.
+按規則檢查權限。 所以助理現在是唯一可以看到公用電話號碼的人。 但助理可以設定另一個檢視表並向公眾授予存取權限。然後，任何人都可以透過助理的檢視表查看 phone\_number 資料。助理不能做的是建立一個直接存取 phone\_data 的檢視表。（實際上助理可以，但是由於在權限檢查期間每次存取都將被拒絕，所以它將無法使用。）一旦使用者注意到助理打開了他們的 phone\_number 檢視表，使用者就可以撤銷助理的存取權限。馬上，對助理檢視表的任何存取都將失敗。
 
-One might think that this rule-by-rule checking is a security hole, but in fact it isn't. But if it did not work this way, the assistant could set up a table with the same columns as `phone_number` and copy the data to there once per day. Then it's the assistant's own data and the assistant can grant access to everyone they want. A `GRANT` command means, “I trust you”. If someone you trust does the thing above, it's time to think it over and then use `REVOKE`.
+有人可能認為這種逐規則檢查是一個安全漏洞，但實際上並非如此。 但如果它不能以這種方式工作，助理可以設定一個與 phone\_number 具有相同欄位的資料表，並將資料每天複製到那裡一次。然後它是助理自己的資料，助理可以授予他們想要給每個人的存取權限。GRANT 指令意味著「我相信你」。如果你信任的人做了上面的事情，是時候考慮一下然後使用 REVOKE。
 
-Note that while views can be used to hide the contents of certain columns using the technique shown above, they cannot be used to reliably conceal the data in unseen rows unless the `security_barrier` flag has been set. For example, the following view is insecure:
+請注意，雖然檢視表可用於使用上面顯示的技術隱藏某些欄位內容，但除非已設定 security\_barrier 旗標，否則它們不能可靠地用於隱藏未顯示資料列的資料。 例如，以下檢視表不安全：
 
 ```text
 CREATE VIEW phone_number AS
     SELECT person, phone FROM phone_data WHERE phone NOT LIKE '412%';
 ```
 
-This view might seem secure, since the rule system will rewrite any `SELECT` from `phone_number` into a `SELECT` from `phone_data` and add the qualification that only entries where `phone` does not begin with 412 are wanted. But if the user can create their own functions, it is not difficult to convince the planner to execute the user-defined function prior to the `NOT LIKE` expression. For example:
+此檢視表可能看起來很安全，因為規則系統會將來自 phone\_number 的任何 SELECT 重寫為來自 phone\_data 的 SELECT，並增加僅需要電話不以 412 開頭項目的限定條件。但是，如果使用者可以建立自己的函數，則說服計劃程序在 NOT LIKE 表示式之前執行使用者定義的函數並不困難。 例如：
 
 ```text
 CREATE FUNCTION tricky(text, text) RETURNS bool AS $$
