@@ -44,21 +44,21 @@ $$ LANGUAGE plpgsql COST 0.0000000000000000000001;
 SELECT * FROM phone_number WHERE tricky(person, phone);
 ```
 
-Every person and phone number in the `phone_data` table will be printed as a `NOTICE`, because the planner will choose to execute the inexpensive `tricky` function before the more expensive `NOT LIKE`. Even if the user is prevented from defining new functions, built-in functions can be used in similar attacks. \(For example, most casting functions include their input values in the error messages they produce.\)
+phone\_data 資料表中的每個人和電話號碼都將以 NOTICE 輸出，因為計劃程序將選擇在更昂貴的 NOT LIKE 之前執行廉價的複雜功能。即使阻止使用者定義新功能，內建功能也可用於類似的攻擊。（例如，大多數強制轉換函數會在它們産生的錯誤訊息中包含它們的輸入值。）
 
-Similar considerations apply to update rules. In the examples of the previous section, the owner of the tables in the example database could grant the privileges `SELECT`, `INSERT`, `UPDATE`, and `DELETE` on the `shoelace` view to someone else, but only `SELECT` on `shoelace_log`. The rule action to write log entries will still be executed successfully, and that other user could see the log entries. But they could not create fake entries, nor could they manipulate or remove existing ones. In this case, there is no possibility of subverting the rules by convincing the planner to alter the order of operations, because the only rule which references `shoelace_log` is an unqualified `INSERT`. This might not be true in more complex scenarios.
+類似的考慮適用於更新規則。在上一節的範例中，範例資料庫中資料表的擁有者可以將 shoelace 檢視表上的 SELECT，INSERT，UPDATE 和 DELETE 權限授予其他人，但僅在 shoelace\_log 上授予 SELECT。寫入日誌項目的規則操作仍將成功執行，其他用戶可以查看日誌項目。 但他們無法建立假項目，也無法變更或刪除現有項目。在這種情況下，不可能通過說服規劃程予改變操作順序來破壞規則，因為引用 shoelace\_log 的唯一規則是不合格的 INSERT。在更複雜的場景中可能不是這樣。
 
-When it is necessary for a view to provide row level security, the `security_barrier` attribute should be applied to the view. This prevents maliciously-chosen functions and operators from being passed values from rows until after the view has done its work. For example, if the view shown above had been created like this, it would be secure:
+當檢視表需要提供資料列級安全性時，應將 security\_barrier 屬性套用於檢視表。這可以防止惡意的函數和運算子從資料列傳遞值，直到檢視表完成其工作。例如，如果上面顯示的檢視表是這樣建立，那麼它將是安全的：
 
 ```text
 CREATE VIEW phone_number WITH (security_barrier) AS
     SELECT person, phone FROM phone_data WHERE phone NOT LIKE '412%';
 ```
 
-Views created with the `security_barrier` may perform far worse than views created without this option. In general, there is no way to avoid this: the fastest possible plan must be rejected if it may compromise security. For this reason, this option is not enabled by default.
+使用 security\_barrier 建立的檢視表可能比沒有此選項建立的檢視表更糟糕。通常，沒有辦法避免這種情況：如果可能危及安全性，則必須拒絕最快的計劃。因此，預設情況下不啟用此選項。
 
-The query planner has more flexibility when dealing with functions that have no side effects. Such functions are referred to as `LEAKPROOF`, and include many simple, commonly used operators, such as many equality operators. The query planner can safely allow such functions to be evaluated at any point in the query execution process, since invoking them on rows invisible to the user will not leak any information about the unseen rows. Further, functions which do not take arguments or which are not passed any arguments from the security barrier view do not have to be marked as `LEAKPROOF` to be pushed down, as they never receive data from the view. In contrast, a function that might throw an error depending on the values received as arguments \(such as one that throws an error in the event of overflow or division by zero\) is not leak-proof, and could provide significant information about the unseen rows if applied before the security view's row filters.
+在處理沒有副作用的函數時，查詢規劃程序具有更大的靈活性。 這些函數稱為 LEAKPROOF，包括許多簡單的常用運算子，例如許多相等運算子。查詢計劃程序可以安全地允許在查詢執行過程中的任何時候執行此類函數，因為在使用者不可見的資料列上呼叫它們不會洩漏有關不可見資料列的任何信息。此外，不帶參數或未從安全屏障檢視表傳遞任何參數的函數不必標記為 LEAKPROOF 以便向下推，因為它們從不從檢視表接收資料。相反地，根據作為參數接收的值（例如在溢出或除零時拋出錯誤的函數）可能拋出錯誤的函數都不是防漏的，並且可能提供關於不可見資料列的重要信息，如果在安全檢視表的資料列過濾器之前套用。
 
-It is important to understand that even a view created with the `security_barrier` option is intended to be secure only in the limited sense that the contents of the invisible tuples will not be passed to possibly-insecure functions. The user may well have other means of making inferences about the unseen data; for example, they can see the query plan using `EXPLAIN`, or measure the run time of queries against the view. A malicious attacker might be able to infer something about the amount of unseen data, or even gain some information about the data distribution or most common values \(since these things may affect the run time of the plan; or even, since they are also reflected in the optimizer statistics, the choice of plan\). If these types of "covert channel" attacks are of concern, it is probably unwise to grant any access to the data at all.  
+重要的是要理解即使是使用 security\_barrier 選項建立的檢視圖也只是在有限的意義上是安全的，即不可見 tuple 的內容不會傳遞給可能不安全的函數。使用者可能還有其他方法可以推斷出看不見的資料；例如，他們可以使用 EXPLAIN 查看查詢計劃，或者根據檢視表測量查詢的執行時間。惡意攻擊者可能能夠推斷出有關未見資料量的訊息，甚至可以獲得有關資料分佈或最常見值的一些訊息（因為這些事情可能會影響計劃的執行時間；甚至，因為它們也會被反映出來。在最佳化程序統計中，選擇計劃）。如果關注這些類型的“隱蔽通道（covert channel）”攻擊，則根本不允許對資料進行任何存取。  
 
 
