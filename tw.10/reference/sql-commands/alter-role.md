@@ -38,19 +38,19 @@ where role_specification can be:
   | SESSION_USER
 ```
 
-### Description
+### 說明
 
-`ALTER ROLE` changes the attributes of a PostgreSQL role.
+ALTER ROLE 變更 PostgreSQL 角色的屬性。
 
-The first variant of this command listed in the synopsis can change many of the role attributes that can be specified in [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html). \(All the possible attributes are covered, except that there are no options for adding or removing memberships; use [GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html) for that.\) Attributes not mentioned in the command retain their previous settings. Database superusers can change any of these settings for any role. Roles having `CREATEROLE` privilege can change any of these settings, but only for non-superuser and non-replication roles. Ordinary roles can only change their own password.
+語法中列出的此指令的第一個形式可以變更可在 CREATE ROLE 中指定的許多角色屬性。（所有可能的屬性都會被覆寫，除了沒有增加或移除成員資格的選項之外，應使用 GRANT 和 REVOKE。）指令中未提及的屬性保留其先前的設定。資料庫超級使用者可以變更任何角色的任何設定。具有 CREATEROLE 權限的角色可以變更任何的這些設定，但僅適用於非超級使用者和非複寫角色。普通角色只能變更自己的密碼。
 
-The second variant changes the name of the role. Database superusers can rename any role. Roles having `CREATEROLE` privilege can rename non-superuser roles. The current session user cannot be renamed. \(Connect as a different user if you need to do that.\) Because `MD5`-encrypted passwords use the role name as cryptographic salt, renaming a role clears its password if the password is `MD5`-encrypted.
+第二個形式變更角色的名稱。資料庫超級使用者可以重新命名任何角色。具有 CREATEROLE 權限的角色可以重新命名非超級使用者角色。無法重新命名目前連線使用者。（如果需要，請以其他使用者身份進行連線。）由於 MD5 加密的密碼使用角色名稱作為加密 salt，因此如果密碼是 MD5 加密的，則重新命名角色會清除其密碼。
 
-The remaining variants change a role's session default for a configuration variable, either for all databases or, when the `IN DATABASE` clause is specified, only for sessions in the named database. If `ALL` is specified instead of a role name, this changes the setting for all roles. Using `ALL` with `IN DATABASE` is effectively the same as using the command `ALTER DATABASE ... SET ...`.
+其餘形式變更組態變數的角色連線預設值，或者為所有資料庫更改，或者在指定 IN DATABASE 子句時，僅針對指定名稱資料庫中的連線。如果指定了 ALL 而不是角色名稱，則會變更所有角色的設定。使用 ALL 與 IN DATABASE 實際上與使用指令 ALTER DATABASE ... SET .... 相同。
 
-Whenever the role subsequently starts a new session, the specified value becomes the session default, overriding whatever setting is present in `postgresql.conf` or has been received from the `postgres` command line. This only happens at login time; executing [SET ROLE](https://www.postgresql.org/docs/10/static/sql-set-role.html) or [SET SESSION AUTHORIZATION](https://www.postgresql.org/docs/10/static/sql-set-session-authorization.html) does not cause new configuration values to be set. Settings set for all databases are overridden by database-specific settings attached to a role. Settings for specific databases or specific roles override settings for all roles.
+每當角色隨後啟動一個新連線時，指定的值將成為連線預設值，覆寫 postgresql.conf 中存在的任何設定或已從 postgres 命令列接收。這只發生在登入時；執行 [SET ROLE](set-role.md) 或 [SET SESSION AUTHORIZATION](set-session-authorization.md) 不會設定新的組態值。為所有資料庫的設定將由附加到角色的特定於資料庫的設定覆寫。特定資料庫或特定角色的設定會覆寫所有角色的設定。
 
-Superusers can change anyone's session defaults. Roles having `CREATEROLE` privilege can change defaults for non-superuser roles. Ordinary roles can only set defaults for themselves. Certain configuration variables cannot be set this way, or can only be set if a superuser issues the command. Only superusers can change a setting for all roles in all databases.
+超級使用者可以變更任何人的連線預設值。具有 CREATEROLE 權限的角色可以變更非超級使用者角色的預設值。普通角色只能為自己設定預設值。某些組態變數不能以這種方式設定，或者只能在超級使用者發出命令時設定。只有超級使用者才能變更所有資料庫中所有角色的設定。
 
 ### 參數
 
