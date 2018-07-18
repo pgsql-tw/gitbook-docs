@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # ALTER ROLE
 
-ALTER ROLE — change a database role
+ALTER ROLE — 變更資料庫角色
 
-### Synopsis
+### 語法
 
 ```text
 ALTER ROLE role_specification [ WITH ] option [ ... ]
@@ -109,55 +113,55 @@ Caution must be exercised when specifying an unencrypted password with this comm
 
 It is also possible to tie a session default to a specific database rather than to a role; see [ALTER DATABASE](https://www.postgresql.org/docs/10/static/sql-alterdatabase.html). If there is a conflict, database-role-specific settings override role-specific ones, which in turn override database-specific ones.
 
-### Examples
+### 範例
 
-Change a role's password:
+變更角色的密碼：
 
 ```text
 ALTER ROLE davide WITH PASSWORD 'hu8jmn3';
 ```
 
-Remove a role's password:
+移除角色的密碼：
 
 ```text
 ALTER ROLE davide WITH PASSWORD NULL;
 ```
 
-Change a password expiration date, specifying that the password should expire at midday on 4th May 2015 using the time zone which is one hour ahead of UTC:
+變更密碼到期日期，指定密碼將於 2015 年 5 月 4 日中午到期，使用比 UTC 提前一小時的時區：
 
 ```text
 ALTER ROLE chris VALID UNTIL 'May 4 12:00:00 2015 +1';
 ```
 
-Make a password valid forever:
+使密碼永久有效：
 
 ```text
 ALTER ROLE fred VALID UNTIL 'infinity';
 ```
 
-Give a role the ability to create other roles and new databases:
+賦予角色建立其他角色和新資料庫的能力：
 
 ```text
 ALTER ROLE miriam CREATEROLE CREATEDB;
 ```
 
-Give a role a non-default setting of the [maintenance\_work\_mem](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM) parameter:
+讓某個角色的 [maintenance\_work\_mem](../../server-administration/server-configuration/resource-consumption.md#19-4-1) 參數使用非預設值：
 
 ```text
 ALTER ROLE worker_bee SET maintenance_work_mem = 100000;
 ```
 
-Give a role a non-default, database-specific setting of the [client\_min\_messages](https://www.postgresql.org/docs/10/static/runtime-config-logging.html#GUC-CLIENT-MIN-MESSAGES) parameter:
+為 [client\_min\_messages ](../../server-administration/server-configuration/error-reporting-and-logging.md#client_min_messages-enum)參數指定一個非預設的，特定於某資料庫的設定：
 
 ```text
 ALTER ROLE fred IN DATABASE devel SET client_min_messages = DEBUG;
 ```
 
-### Compatibility
+### 相容性
 
-The `ALTER ROLE` statement is a PostgreSQL extension.
+ALTER ROLE 語句是 PostgreSQL 的延伸功能。
 
-### See Also
+### 參閱
 
-[CREATE ROLE](create-role.md), [DROP ROLE](drop-role.md), ALTER DATABASE, [SET](set.md)
+[CREATE ROLE](create-role.md), [DROP ROLE](drop-role.md), [ALTER DATABASE](alter-database.md), [SET](set.md)
 
