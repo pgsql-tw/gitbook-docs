@@ -52,19 +52,19 @@ Whenever the role subsequently starts a new session, the specified value becomes
 
 Superusers can change anyone's session defaults. Roles having `CREATEROLE` privilege can change defaults for non-superuser roles. Ordinary roles can only set defaults for themselves. Certain configuration variables cannot be set this way, or can only be set if a superuser issues the command. Only superusers can change a setting for all roles in all databases.
 
-### Parameters
+### 參數
 
 _`name`_
 
-The name of the role whose attributes are to be altered.
+要變更其屬性的角色名稱。
 
 `CURRENT_USER`
 
-Alter the current user instead of an explicitly identified role.
+變更目前使用者而不是指定的角色。
 
 `SESSION_USER`
 
-Alter the current session user instead of an explicitly identified role.
+變更目前連線使用者而不是指定的角色。
 
 `SUPERUSER`  
 `NOSUPERUSER`  
@@ -84,24 +84,24 @@ Alter the current session user instead of an explicitly identified role.
 \[ `ENCRYPTED` \] `PASSWORD` _`password`_  
 `VALID UNTIL` '_`timestamp`_'
 
-These clauses alter attributes originally set by [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html). For more information, see the `CREATE ROLE` reference page.
+這些子句變更 CREATE ROLE 最初設定的屬性。有關更多訊息，請參閱 [CREATE ROLE](create-role.md) 參考頁面。
 
 _`new_name`_
 
-The new name of the role.
+角色的新名稱。
 
 _`database_name`_
 
-The name of the database the configuration variable should be set in.
+應在其中設定組態變數的資料庫名稱。
 
 _`configuration_parameter`_  
 _`value`_
 
-Set this role's session default for the specified configuration parameter to the given value. If _`value`_ is `DEFAULT` or, equivalently, `RESET` is used, the role-specific variable setting is removed, so the role will inherit the system-wide default setting in new sessions. Use `RESET ALL` to clear all role-specific settings. `SET FROM CURRENT` saves the session's current value of the parameter as the role-specific value. If `IN DATABASE` is specified, the configuration parameter is set or removed for the given role and database only.
+將使指定組態參數覆寫此角色的連線預設值。如果 value 為 DEFAULT，或者等效地使用 RESET，則會移除特定於角色的組態參數，因此該角色將在新連線中繼承系統範圍的預設設定。使用 RESET ALL 清除所有特定於角色的設定。SET FROM CURRENT 將連線當下參數值保存為特定於角色的值。如果指定了 IN DATABASE，則僅為給定角色和資料庫設定或移除組態參數。
 
-Role-specific variable settings take effect only at login; [SET ROLE](https://www.postgresql.org/docs/10/static/sql-set-role.html) and [SET SESSION AUTHORIZATION](https://www.postgresql.org/docs/10/static/sql-set-session-authorization.html) do not process role-specific variable settings.
+特定於角色的組態變數設定僅在登入時生效；[SET ROLE](set-role.md) 和 [SET SESSION AUTHORIZATION](set-session-authorization.md) 不處理特定於角色的組態變數設定。
 
-See [SET](https://www.postgresql.org/docs/10/static/sql-set.html) and [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) for more information about allowed parameter names and values.
+有關可使用的參數名稱和內容的更多訊息，請參閱 [SET](set.md) 和[第 19 章](../../server-administration/server-configuration/)。
 
 ### 注意
 
