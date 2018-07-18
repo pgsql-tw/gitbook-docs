@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # CREATE TRANSFORM
 
-CREATE TRANSFORM — define a new transform
+CREATE TRANSFORM — 定義一個新的轉變
 
-### Synopsis
+### 語法
 
 ```text
 CREATE [ OR REPLACE ] TRANSFORM FOR type_name LANGUAGE lang_name (
@@ -11,30 +15,36 @@ CREATE [ OR REPLACE ] TRANSFORM FOR type_name LANGUAGE lang_name (
 );
 ```
 
-### Description
+### 說明
 
-`CREATE TRANSFORM` defines a new transform. `CREATE OR REPLACE TRANSFORM` will either create a new transform, or replace an existing definition.
+CREATE TRANSFORM 定義一個新的轉換。CREATE OR REPLACE TRANSFORM 將建立新的轉換，或替換現有定義。
 
-A transform specifies how to adapt a data type to a procedural language. For example, when writing a function in PL/Python using the `hstore` type, PL/Python has no prior knowledge how to present `hstore` values in the Python environment. Language implementations usually default to using the text representation, but that is inconvenient when, for example, an associative array or a list would be more appropriate.
+Transform 指的是如何讓資料型別為程序語言進行轉換。例如，當使用 hstore 型別在 PL/Python 中撰寫函數時，PL/Python 並不具備如何在 Python 環境中呈現 hstore 值的實作方法。語言實作通常預設使用字串型別，但是如果關聯陣列或列表更合適時，這會很不方便的。
 
-A transform specifies two functions:
+轉換指定了兩個函數：
 
-* A “from SQL” function that converts the type from the SQL environment to the language. This function will be invoked on the arguments of a function written in the language.
-* A “to SQL” function that converts the type from the language to the SQL environment. This function will be invoked on the return value of a function written in the language.
+* 「from SQL」函數，用於將型別從 SQL 環境轉換為某個程序語言。將使用該語言撰寫的函數的參數呼叫此函數。
+* 「to SQL」函數，用於將型別從某程序語言轉換到 SQL 環境。將使用該語言撰寫的函數呼叫此函數回傳值。
 
-It is not necessary to provide both of these functions. If one is not specified, the language-specific default behavior will be used if necessary. \(To prevent a transformation in a certain direction from happening at all, you could also write a transform function that always errors out.\)
+沒有一定要提供這兩種功能。如果未指定，則必要時將使用特定於語言的預設行為。（為了防止某個方向的轉換發生，你也可以寫一個總是出錯的轉換函數。）
 
-To be able to create a transform, you must own and have `USAGE` privilege on the type, have `USAGE` privilege on the language, and own and have `EXECUTE` privilege on the from-SQL and to-SQL functions, if specified.
+為了能夠建立轉換，您必須擁有該型別的 USAGE 權限，擁有該語言的 USAGE 權限，並且擁有對 from-SQL 和 to-SQL 函數的 EXECUTE 權限（如果已指定）。
 
 ### Parameters
 
 _`type_name`_
 
-The name of the data type of the transform._`lang_name`_
+The name of the data type of the transform.
 
-The name of the language of the transform._`from_sql_function_name`_\[\(_`argument_type`_ \[, ...\]\)\]
+_`lang_name`_
 
-The name of the function for converting the type from the SQL environment to the language. It must take one argument of type `internal` and return type `internal`. The actual argument will be of the type for the transform, and the function should be coded as if it were. \(But it is not allowed to declare an SQL-level function returning `internal` without at least one argument of type `internal`.\) The actual return value will be something specific to the language implementation. If no argument list is specified, the function name must be unique in its schema._`to_sql_function_name`_\[\(_`argument_type`_ \[, ...\]\)\]
+The name of the language of the transform.
+
+_`from_sql_function_name`_\[\(_`argument_type`_ \[, ...\]\)\]
+
+The name of the function for converting the type from the SQL environment to the language. It must take one argument of type `internal` and return type `internal`. The actual argument will be of the type for the transform, and the function should be coded as if it were. \(But it is not allowed to declare an SQL-level function returning `internal` without at least one argument of type `internal`.\) The actual return value will be something specific to the language implementation. If no argument list is specified, the function name must be unique in its schema.
+
+_`to_sql_function_name`_\[\(_`argument_type`_ \[, ...\]\)\]
 
 The name of the function for converting the type from the language to the SQL environment. It must take one argument of type `internal` and return the type that is the type for the transform. The actual argument value will be something specific to the language implementation. If no argument list is specified, the function name must be unique in its schema.
 
