@@ -30,31 +30,31 @@ Transform 指的是如何讓資料型別為程序語言進行轉換。例如，�
 
 為了能夠建立轉換，您必須擁有該型別的 USAGE 權限，擁有該語言的 USAGE 權限，並且擁有對 from-SQL 和 to-SQL 函數的 EXECUTE 權限（如果已指定）。
 
-### Parameters
+### 參數
 
 _`type_name`_
 
-The name of the data type of the transform.
+轉換的資料型別名稱。
 
 _`lang_name`_
 
-The name of the language of the transform.
+轉換程序語言的名稱。
 
 _`from_sql_function_name`_\[\(_`argument_type`_ \[, ...\]\)\]
 
-The name of the function for converting the type from the SQL environment to the language. It must take one argument of type `internal` and return type `internal`. The actual argument will be of the type for the transform, and the function should be coded as if it were. \(But it is not allowed to declare an SQL-level function returning `internal` without at least one argument of type `internal`.\) The actual return value will be something specific to the language implementation. If no argument list is specified, the function name must be unique in its schema.
+用於將資料型別從 SQL 環境轉換為程序語言的函數名稱。它必須採用一個資料型別為 internal 且回傳型別為 internal 的參數。實際的參數將是轉換的型別，並且函數應該被撰寫為就像它一樣。（但是，如果沒有至少一個型別為 internal 的參數，則不允許聲明回傳 internal 的 SQL 級函數。）實際回傳值將是特定於語言實作的內容。如果未指定參數列表，則函數名稱在其綱要中必須是唯一的。
 
 _`to_sql_function_name`_\[\(_`argument_type`_ \[, ...\]\)\]
 
-The name of the function for converting the type from the language to the SQL environment. It must take one argument of type `internal` and return the type that is the type for the transform. The actual argument value will be something specific to the language implementation. If no argument list is specified, the function name must be unique in its schema.
+用於將資料型別從程序語言轉換為 SQL 環境的函數名稱。它必須採用型別為 internal 的一個參數，並回傳作為轉換型別的型別。實際參數值將是特定於語言實作的內容。如果未指定參數列表，則函數名稱在其綱要中必須是唯一的。
 
-### Notes
+### 注意
 
-Use [DROP TRANSFORM](https://www.postgresql.org/docs/10/static/sql-droptransform.html) to remove transforms.
+使用 [DROP TRANSFORM](drop-transform.md) 移除轉換。
 
-### Examples
+### 範例
 
-To create a transform for type `hstore` and language `plpythonu`, first set up the type and the language:
+要為型別 hstore 和語言 plpythonu 建立轉換，首先要建立型別和語言：
 
 ```text
 CREATE TYPE hstore ...;
@@ -62,7 +62,7 @@ CREATE TYPE hstore ...;
 CREATE LANGUAGE plpythonu ...;
 ```
 
-Then create the necessary functions:
+然後建立必要的函數：
 
 ```text
 CREATE FUNCTION hstore_to_plpython(val internal) RETURNS internal
@@ -74,7 +74,7 @@ LANGUAGE C STRICT IMMUTABLE
 AS ...;
 ```
 
-And finally create the transform to connect them all together:
+最後建立轉換將它們連結在一起：
 
 ```text
 CREATE TRANSFORM FOR hstore LANGUAGE plpythonu (
@@ -83,15 +83,15 @@ CREATE TRANSFORM FOR hstore LANGUAGE plpythonu (
 );
 ```
 
-In practice, these commands would be wrapped up in extensions.
+實際上，這些指令將被包含在延伸套件中。
 
-The `contrib` section contains a number of extensions that provide transforms, which can serve as real-world examples.
+contrib 包含許多提供轉換的延伸套件，可以作為真實範例。
 
-### Compatibility
+### 相容性
 
-This form of `CREATE TRANSFORM` is a PostgreSQL extension. There is a `CREATE TRANSFORM` command in the SQL standard, but it is for adapting data types to client languages. That usage is not supported by PostgreSQL.
+這種形式的 CREATE TRANSFORM 是 PostgreSQL 延伸功能。SQL 標準中有一個 CREATE TRANSFORM 指令，但它用於使資料型別適應用戶端語言。 PostgreSQL 不支援這種用法。
 
-### See Also
+### 參閱
 
-[CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html), [CREATE LANGUAGE](https://www.postgresql.org/docs/10/static/sql-createlanguage.html), [CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html), [DROP TRANSFORM](https://www.postgresql.org/docs/10/static/sql-droptransform.html)
+[CREATE FUNCTION](create-function.md), [CREATE LANGUAGE](create-language.md), [CREATE TYPE](create-type.md), [DROP TRANSFORM](drop-transform.md)
 
