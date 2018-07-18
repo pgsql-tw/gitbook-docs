@@ -103,15 +103,15 @@ Role-specific variable settings take effect only at login; [SET ROLE](https://ww
 
 See [SET](https://www.postgresql.org/docs/10/static/sql-set.html) and [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) for more information about allowed parameter names and values.
 
-### Notes
+### 注意
 
-Use [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html) to add new roles, and [DROP ROLE](https://www.postgresql.org/docs/10/static/sql-droprole.html) to remove a role.
+使用 [CREATE ROLE](create-role.md) 增加新角色，使用 [DROP ROLE](drop-role.md) 移除角色。
 
-`ALTER ROLE` cannot change a role's memberships. Use [GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html) to do that.
+ALTER ROLE 無法變更角色的成員資格。請使用 [GRANT](grant.md) 和 [REVOKE](revoke.md) 來做到這一點。
 
-Caution must be exercised when specifying an unencrypted password with this command. The password will be transmitted to the server in cleartext, and it might also be logged in the client's command history or the server log. [psql](https://www.postgresql.org/docs/10/static/app-psql.html) contains a command `\password` that can be used to change a role's password without exposing the cleartext password.
+使用此指令指定未加密的密碼時必須小心。密碼將以明文形式傳輸到伺服器，也可能記錄在用戶端的指令歷史記錄或伺服器日誌中。psql 包含一個指令 \password，可用於變更角色的密碼而不暴露明文密碼。
 
-It is also possible to tie a session default to a specific database rather than to a role; see [ALTER DATABASE](https://www.postgresql.org/docs/10/static/sql-alterdatabase.html). If there is a conflict, database-role-specific settings override role-specific ones, which in turn override database-specific ones.
+也可以將連線預設值綁定到特定資料庫而不是角色；請參閱 ALTER DATABASE。 如果存在衝突，則特定於資料庫角色的設定會覆蓋特定於角色的設定，而這些設定又會覆蓋特定於資料庫的設定。
 
 ### 範例
 
