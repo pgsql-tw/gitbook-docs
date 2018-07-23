@@ -107,11 +107,11 @@ A substitute name for the `FROM` item containing the alias. An alias is used for
 
 `TABLESAMPLE` _`sampling_method`_ \( _`argument`_ \[, ...\] \) \[ REPEATABLE \( _`seed`_ \) \]
 
-A `TABLESAMPLE` clause after a _`table_name`_ indicates that the specified _`sampling_method`_ should be used to retrieve a subset of the rows in that table. This sampling precedes the application of any other filters such as `WHERE` clauses. The standard PostgreSQL distribution includes two sampling methods, `BERNOULLI` and `SYSTEM`, and other sampling methods can be installed in the database via extensions.
+table\_name 之後的 TABLESAMPLE 子句表示應使用指定的 sampling\_method 來檢索該資料表中的子集合。此抽樣將優先於任何其他過濾程序（如 WHERE 子句）。標準的 PostgreSQL 發行版包含兩種抽樣方法，BERNOULLI 和 SYSTEM，其他抽樣方法可以通過延伸功能安裝在資料庫中。
 
-The `BERNOULLI` and `SYSTEM` sampling methods each accept a single _`argument`_ which is the fraction of the table to sample, expressed as a percentage between 0 and 100. This argument can be any `real`-valued expression. \(Other sampling methods might accept more or different arguments.\) These two methods each return a randomly-chosen sample of the table that will contain approximately the specified percentage of the table's rows. The `BERNOULLI` method scans the whole table and selects or ignores individual rows independently with the specified probability. The `SYSTEM` method does block-level sampling with each block having the specified chance of being selected; all rows in each selected block are returned. The `SYSTEM` method is significantly faster than the `BERNOULLI` method when small sampling percentages are specified, but it may return a less-random sample of the table as a result of clustering effects.
+BERNOULLI 和 SYSTEM 抽樣方法都接受一個參數，該參數是要抽樣資料表的一部分，為 0 到 100 之間的百分比。此參數可以是任何實數表示式。（其他採樣方法可以接受更多或不同的參數。）這兩種方法都回傳一個隨機選擇的資料表樣本，該資料表將包含表行的大約指定的百分比。BERNOULLI 方法會掃描整個資料表，並以指定的機率獨立選擇或忽略各個資料列。SYSTEM 方法對具有指定機會被選中的每個磁碟區塊進行區塊級抽樣；回傳每個選定區塊中的所有資料列。當指定小的抽樣百分比時，SYSTEM 方法明顯快於 BERNOULLI 方法，但由於聚類效應，它可能回傳資料表中較不隨機的樣本。
 
-The optional `REPEATABLE` clause specifies a _`seed`_ number or expression to use for generating random numbers within the sampling method. The seed value can be any non-null floating-point value. Two queries that specify the same seed and _`argument`_ values will select the same sample of the table, if the table has not been changed meanwhile. But different seed values will usually produce different samples. If `REPEATABLE` is not given then a new random sample is selected for each query, based upon a system-generated seed. Note that some add-on sampling methods do not accept `REPEATABLE`, and will always produce new samples on each use.
+選擇性的參數 REPEATABLE 子句指定用於在抽樣方法中産生隨機數的種子編號或表示式。種子值可以是任何非 null 浮點值。如果資料表沒有更新，則指定相同種子和參數值的兩個查詢將選擇資料表相同樣本。但是不同的種子值通常會產生不同的樣本。如果未設定 REPEATABLE，則由系統産生種子為每個查詢選擇新的隨機樣本。請注意，某些附加的抽樣方法不接受 REPEATABLE，每次使用時都會産生新的樣本。
 
 _`select`_
 
