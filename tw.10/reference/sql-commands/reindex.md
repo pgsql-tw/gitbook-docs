@@ -51,19 +51,19 @@ _`name`_
 
 在重新索引每個索引時輸出進度報告。
 
-### Notes
+### 注意
 
-If you suspect corruption of an index on a user table, you can simply rebuild that index, or all indexes on the table, using `REINDEX INDEX` or `REINDEX TABLE`.
+如果您懷疑使用者資料表上的索引損壞，您可以使用 REINDEX INDEX 或 REINDEX TABLE 簡單地重建該索引或資料表上的所有索引。
 
-Things are more difficult if you need to recover from corruption of an index on a system table. In this case it's important for the system to not have used any of the suspect indexes itself. \(Indeed, in this sort of scenario you might find that server processes are crashing immediately at start-up, due to reliance on the corrupted indexes.\) To recover safely, the server must be started with the `-P` option, which prevents it from using indexes for system catalog lookups.
+如果您需要從系統資料表上的索引損壞中恢復，則事情會比較困難。在這種情況下，系統沒有使用到任何可疑索引很重要。（實際上，在這種情況下，由於依賴於損壞的索引，您可能會發現伺服器程序在啟動時立即終止。）要安全恢復，必須使用 -P 選項啟動伺服器，這樣可以防止伺服器程序使用索引進行系統目錄查詢。
 
-One way to do this is to shut down the server and start a single-user PostgreSQL server with the `-P` option included on its command line. Then, `REINDEX DATABASE`, `REINDEX SYSTEM`, `REINDEX TABLE`, or `REINDEX INDEX` can be issued, depending on how much you want to reconstruct. If in doubt, use `REINDEX SYSTEM` to select reconstruction of all system indexes in the database. Then quit the single-user server session and restart the regular server. See the [postgres](https://www.postgresql.org/docs/10/static/app-postgres.html) reference page for more information about how to interact with the single-user server interface.
+一種方法是關閉伺服器並啟動單一使用者模式的 PostgreSQL 伺服器，其命令列中包含 -P 選項。然後，可以發出 REINDEX DATABASE，REINDEX SYSTEM，REINDEX TABLE 或 REINDEX INDEX，具體取決於您需要重建的程度。如有疑問，請使用 REINDEX SYSTEM 選擇資料庫中所有系統索引的重建。然後退出單一使用者模式伺服器連線再重新啟動一般模式伺服器。有關如何與單一使用者模式伺服器界面交互的更多訊息，請參閱 [postgres](../server-applications/postgres.md) 參考頁面。
 
-Alternatively, a regular server session can be started with `-P` included in its command line options. The method for doing this varies across clients, but in all libpq-based clients, it is possible to set the `PGOPTIONS` environment variable to `-P` before starting the client. Note that while this method does not require locking out other clients, it might still be wise to prevent other users from connecting to the damaged database until repairs have been completed.
+或者，可以在其命令列選項中包含 -P 的情況下啟動一般模式的伺服器連線。執行此操作的方法因用戶端而異，但在所有基於 libpq 的客戶端中，可以在啟動用戶端之前將 PGOPTIONS 環境變數設定為 -P。請注意，雖然此方法不需要鎖定其他用戶端，但在修復完成之前阻止其他用戶連線到損壞的資料庫仍然是明智之舉。
 
-`REINDEX` is similar to a drop and recreate of the index in that the index contents are rebuilt from scratch. However, the locking considerations are rather different. `REINDEX` locks out writes but not reads of the index's parent table. It also takes an exclusive lock on the specific index being processed, which will block reads that attempt to use that index. In contrast, `DROP INDEX` momentarily takes an exclusive lock on the parent table, blocking both writes and reads. The subsequent `CREATE INDEX` locks out writes but not reads; since the index is not there, no read will attempt to use it, meaning that there will be no blocking but reads might be forced into expensive sequential scans.
+REINDEX 類似於索引的刪除和重新建立，因為索引內容是從頭開始建立的。但是，鎖定考慮情況是相當不同的。REINDEX 鎖定寫入但不讀取索引的父資料表。它還對正在處理的特定索引進行獨占鎖定，這將阻止嘗試使用該索引的讀取。相反，DROP INDEX 會暫時對父資料表進行獨占鎖定，從而阻止寫入和讀取。隨後的 CREATE INDEX 鎖定寫入但不讀取；由於索引不在那裡，沒有讀取會嘗試使用它，這意味著沒有阻塞但是讀取可能會被強制進入昂貴的循序掃描。
 
-Reindexing a single index or table requires being the owner of that index or table. Reindexing a database requires being the owner of the database \(note that the owner can therefore rebuild indexes of tables owned by other users\). Of course, superusers can always reindex anything.
+重新索引單個索引或資料表需要成為該索引或資料表的擁有者。重新索引資料庫需要成為資料庫的擁有者（請注意，擁有者因此可以重建其他使用者擁有的資料表索引）。當然，超級使用者總是可以重新索引任何東西。
 
 ### 範例
 
