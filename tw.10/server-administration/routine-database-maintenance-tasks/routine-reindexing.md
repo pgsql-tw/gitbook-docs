@@ -1,12 +1,16 @@
-# 24.2. Routine Reindexing
+---
+description: 版本：10
+---
 
-In some situations it is worthwhile to rebuild indexes periodically with the [REINDEX](https://www.postgresql.org/docs/current/static/sql-reindex.html) command or a series of individual rebuilding steps.
+# 24.2. 定期重建索引
 
-B-tree index pages that have become completely empty are reclaimed for re-use. However, there is still a possibility of inefficient use of space: if all but a few index keys on a page have been deleted, the page remains allocated. Therefore, a usage pattern in which most, but not all, keys in each range are eventually deleted will see poor use of space. For such usage patterns, periodic reindexing is recommended.
+在某些情況下，使用 [REINDEX](../../reference/sql-commands/reindex.md) 指令或一系列單獨的重建步驟定期重建索引是值得的。
 
-The potential for bloat in non-B-tree indexes has not been well researched. It is a good idea to periodically monitor the index's physical size when using any non-B-tree index type.
+已完全為空的 B-tree 索引頁面將被回收以供重複使用。但是，仍然存在空間使用效率低的可能性：如果頁面上除了少數索引鍵之外的所有索引鍵都已被刪除，則頁面仍然會被分配。因此，最終刪除每個範圍中的大多數但不是所有鍵的使用模式將會發現空間使用率不佳。對於此類使用模式，建議定期重建索引。
 
-Also, for B-tree indexes, a freshly-constructed index is slightly faster to access than one that has been updated many times because logically adjacent pages are usually also physically adjacent in a newly built index. \(This consideration does not apply to non-B-tree indexes.\) It might be worthwhile to reindex periodically just to improve access speed.
+非 B-tree 索引中膨脹的可能性尚未具有很好的研究。所以在使用任何非 B-tree 索引類型時，定期監視索引的磁碟大小是個好主意。
 
-[REINDEX](https://www.postgresql.org/docs/current/static/sql-reindex.html) can be used safely and easily in all cases. But since the command requires an exclusive table lock, it is often preferable to execute an index rebuild with a sequence of creation and replacement steps. Index types that support [CREATE INDEX](https://www.postgresql.org/docs/current/static/sql-createindex.html) with the `CONCURRENTLY` option can instead be recreated that way. If that is successful and the resulting index is valid, the original index can then be replaced by the newly built one using a combination of [ALTER INDEX](https://www.postgresql.org/docs/current/static/sql-alterindex.html) and [DROP INDEX](https://www.postgresql.org/docs/current/static/sql-dropindex.html). When an index is used to enforce uniqueness or other constraints, [ALTER TABLE](https://www.postgresql.org/docs/current/static/sql-altertable.html) might be necessary to swap the existing constraint with one enforced by the new index. Review this alternate multistep rebuild approach carefully before using it as there are limitations on which indexes can be reindexed this way, and errors must be handled.
+此外，對於 B-tree 索引，新建構的索引比多次更新的索引要快一些，因為邏輯上相鄰的頁面通常在新建構的索引中也是物理上相鄰的。（這種考慮不適用於非 B-tree 索引。）為了提高存取速度，定期重建索引會是值得的。
+
+在所有情況下，REINDEX 都可以很安全，簡單地使用。但由於該指令需要獨占資料表鎖定，因此通常最好使用一系列建立和替換步驟來執行索引重建。使用 CONCURRENTLY 選項支援 [CREATE INDEX](../../reference/sql-commands/create-index.md) 的索引類型可以透過這種方式重新建立。如果成功並且結果索引有效，則可以使用 [ALTER INDEX](../../reference/sql-commands/alter-index.md) 和 [DROP INDEX](../../reference/sql-commands/drop-index.md) 的組合將原始索引替換為新建構的索引。當索引用於強制唯一性或其他約束時，可能需要使用 [ALTER TABLE](../../reference/sql-commands/alter-table.md) 將現有限制條件與新索引強制執行的限制條件交換。 在使用之前仔細檢查這種多步驟重建方法，因為對這些索引透過這種方式重新建立索引可能有些限制，並且必須處理錯誤。
 
