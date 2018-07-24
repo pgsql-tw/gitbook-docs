@@ -21,35 +21,35 @@ REINDEX 使用索引資料表中所儲存的資料重建索引，替換索引舊
 * 您變更了索引的儲存參數（例如 fillfactor），並希望確保變更能完全生效。
 * 使用 CONCURRENTLY 選項的索引建構失敗，留下「無效」的索引。 這些索引沒用，但使用 REINDEX 重建它們會很方便。請注意，REINDEX 將不執行同步建構。要在不干擾線上查詢的情況下建構索引，您應該刪除索引並重新發出 CREATE INDEX CONCURRENTLY 指令。
 
-### Parameters
+### 參數
 
 `INDEX`
 
-Recreate the specified index.
+重新建立指定的索引。
 
 `TABLE`
 
-Recreate all indexes of the specified table. If the table has a secondary “TOAST” table, that is reindexed as well.
+重新建立指定資料表的所有索引。如果資料表具有額外的「TOAST」資料表，那麼也會重新編制索引。
 
 `SCHEMA`
 
-Recreate all indexes of the specified schema. If a table of this schema has a secondary “TOAST” table, that is reindexed as well. Indexes on shared system catalogs are also processed. This form of `REINDEX` cannot be executed inside a transaction block.
+重新建立指定綱要的所有索引。如果此綱要的資料表具有額外的「TOAST」資料表，那麼也會重新編制索引。還會處理共享系統目錄上的索引。這種形式的 REINDEX 不能在交易事務區塊中執行。
 
 `DATABASE`
 
-Recreate all indexes within the current database. Indexes on shared system catalogs are also processed. This form of `REINDEX` cannot be executed inside a transaction block.
+重新建立目前資料庫中的所有索引。還會處理共享系統目錄上的索引。這種形式的 REINDEX 不能在交易事務區塊中執行。
 
 `SYSTEM`
 
-Recreate all indexes on system catalogs within the current database. Indexes on shared system catalogs are included. Indexes on user tables are not processed. This form of `REINDEX` cannot be executed inside a transaction block.
+重新建立目前資料庫中系統目錄的所有索引。包含共享系統目錄的索引。但不處理使用者資料表的索引。這種形式的 REINDEX 不能在交易事務區塊中執行。
 
 _`name`_
 
-The name of the specific index, table, or database to be reindexed. Index and table names can be schema-qualified. Presently, `REINDEX DATABASE` and `REINDEX SYSTEM` can only reindex the current database, so their parameter must match the current database's name.
+要重新編制索引的特定索引，資料表或資料庫的名稱。索引和資料表名稱可以是加上綱要名稱的。目前，REINDEX DATABASE 和 REINDEX SYSTEM 只能重新索引目前資料庫，因此它們的參數必須符合目前資料庫的名稱。
 
 `VERBOSE`
 
-Prints a progress report as each index is reindexed.
+在重新索引每個索引時輸出進度報告。
 
 ### Notes
 
@@ -65,21 +65,21 @@ Alternatively, a regular server session can be started with `-P` included in its
 
 Reindexing a single index or table requires being the owner of that index or table. Reindexing a database requires being the owner of the database \(note that the owner can therefore rebuild indexes of tables owned by other users\). Of course, superusers can always reindex anything.
 
-### Examples
+### 範例
 
-Rebuild a single index:
+重建單個索引：
 
 ```text
 REINDEX INDEX my_index;
 ```
 
-Rebuild all the indexes on the table `my_table`:
+重建資料表 my\_table 上的所有索引：
 
 ```text
 REINDEX TABLE my_table;
 ```
 
-Rebuild all indexes in a particular database, without trusting the system indexes to be valid already:
+重建特定資料庫中的所有索引，而不必信任系統索引是否有效：
 
 ```text
 $ export PGOPTIONS="-P"
@@ -89,7 +89,7 @@ broken_db=> REINDEX DATABASE broken_db;
 broken_db=> \q
 ```
 
-### Compatibility
+### 相容性
 
-There is no `REINDEX` command in the SQL standard.
+SQL 標準中沒有 REINDEX 指令。
 
