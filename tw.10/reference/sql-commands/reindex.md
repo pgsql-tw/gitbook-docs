@@ -1,21 +1,25 @@
+---
+description: 版本：10
+---
+
 # REINDEX
 
-REINDEX — rebuild indexes
+REINDEX — 重建索引
 
-### Synopsis
+### 語法
 
 ```text
 REINDEX [ ( VERBOSE ) ] { INDEX | TABLE | SCHEMA | DATABASE | SYSTEM } name
 ```
 
-### Description
+### 說明
 
-`REINDEX` rebuilds an index using the data stored in the index's table, replacing the old copy of the index. There are several scenarios in which to use `REINDEX`:
+REINDEX 使用索引資料表中所儲存的資料重建索引，替換索引舊的版本。有幾種情況可以使用 REINDEX：
 
-* An index has become corrupted, and no longer contains valid data. Although in theory this should never happen, in practice indexes can become corrupted due to software bugs or hardware failures. `REINDEX` provides a recovery method.
-* An index has become “bloated”, that is it contains many empty or nearly-empty pages. This can occur with B-tree indexes in PostgreSQL under certain uncommon access patterns. `REINDEX` provides a way to reduce the space consumption of the index by writing a new version of the index without the dead pages. See [Section 24.2](https://www.postgresql.org/docs/10/static/routine-reindex.html) for more information.
-* You have altered a storage parameter \(such as fillfactor\) for an index, and wish to ensure that the change has taken full effect.
-* An index build with the `CONCURRENTLY` option failed, leaving an “invalid” index. Such indexes are useless but it can be convenient to use `REINDEX` to rebuild them. Note that `REINDEX`will not perform a concurrent build. To build the index without interfering with production you should drop the index and reissue the `CREATE INDEX CONCURRENTLY` command.
+* 索引損壞，不再包含有效的資料。雖然理論上這種情況永遠不會發生，但實際上索引會因程式錯誤或硬體故障而損壞。REINDEX 提供了一種恢復的方法。
+* 索引變得「臃腫」，即它包含許多空或幾乎空的頁面。在某些不常見的存取模式下，PostgreSQL 中 的 B-tree 索引會發生這種情況。REINDEX 提供了一種透過寫入無死頁的索引新版本來減少索引空間消耗的方法。有關更多訊息，請參閱[第 24.2 節](../../server-administration/routine-database-maintenance-tasks/routine-reindexing.md)。
+* 您變更了索引的儲存參數（例如 fillfactor），並希望確保變更能完全生效。
+* 使用 CONCURRENTLY 選項的索引建構失敗，留下「無效」的索引。 這些索引沒用，但使用 REINDEX 重建它們會很方便。請注意，REINDEX 將不執行同步建構。要在不干擾線上查詢的情況下建構索引，您應該刪除索引並重新發出 CREATE INDEX CONCURRENTLY 指令。
 
 ### Parameters
 
