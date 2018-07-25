@@ -44,31 +44,31 @@ description: 版本：10
 
 `maintenance_work_mem` \(`integer`\)
 
-Specifies the maximum amount of memory to be used by maintenance operations, such as `VACUUM`, `CREATE INDEX`, and `ALTER TABLE ADD FOREIGN KEY`. It defaults to 64 megabytes \(`64MB`\). Since only one of these operations can be executed at a time by a database session, and an installation normally doesn't have many of them running concurrently, it's safe to set this value significantly larger than `work_mem`. Larger settings might improve performance for vacuuming and for restoring database dumps.
+指定維護操作要使用的最大記憶體大小，例如 VACUUM，CREATE INDEX 和ALTER TABLE ADD FOREIGN KEY。預設為 64 MB。由於資料庫連線一次只能執行其中一個操作，不會有多個同時運行，因此將此值設定為遠大於 work\_mem 是安全的。較大的設定可能會提高清理和恢復資料庫回復的效能。
 
-Note that when autovacuum runs, up to [autovacuum\_max\_workers](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-MAX-WORKERS) times this memory may be allocated, so be careful not to set the default value too high. It may be useful to control for this by separately setting [autovacuum\_work\_mem](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-AUTOVACUUM-WORK-MEM).
+請注意，當 autovacuum 運行時，最多可以分配 [autovacuum\_max\_workers](automatic-vacuuming.md) 倍的記憶體，因此請注意不要將預設值設定得太高。透過單獨設定 [autovacuum\_work\_mem](resource-consumption.md#19-4-1) 來控制它會有幫助。
 
 `replacement_sort_tuples` \(`integer`\)
 
-When the number of tuples to be sorted is smaller than this number, a sort will produce its first output run using replacement selection rather than quicksort. This may be useful in memory-constrained environments where tuples that are input into larger sort operations have a strong physical-to-logical correlation. Note that this does not include input tuples with an _inverse_ correlation. It is possible for the replacement selection algorithm to generate one long run that requires no merging, where use of the default strategy would result in many runs that must be merged to produce a final sorted output. This may allow sort operations to complete sooner.
+當要排序的 tuple 數小於此數時，排序將使用 replacement selection 而不是以 quicksort 産生其第一個輸出，這在記憶體受限的環境中可能很有用。在這種環境中，輸入到較大排序操作的 tuple 具有強大的物理到邏輯關連。請注意，這不包括具有反相關的輸入 tuple。替換選擇算法有可能産生一個不需要合併的長查詢，其中使用預設策略將導致必須合併以產生最終排序輸出的許多輸出資料列。這能更快地完成排序操作。
 
-The default is 150,000 tuples. Note that higher values are typically not much more effective, and may be counter-productive, since the priority queue is sensitive to the size of available CPU cache, whereas the default strategy sorts runs using a _cache oblivious_algorithm. This property allows the default sort strategy to automatically and transparently make effective use of available CPU cache.
+預設值為 150,000 個 tuple。請注意，較高的值通常不會更有效，並且可能適得其反，因為優先佇列對可用 CPU 緩衝區的大小很敏感，而預設策略使用快取的 oblivious algorithm 運行。此屬性允許預設排序策略自動且透明地有效使用可用的CPU 緩衝區。
 
-Setting `maintenance_work_mem` to its default value usually prevents utility command external sorts \(e.g., sorts used by `CREATE INDEX` to build B-Tree indexes\) from ever using replacement selection sort, unless the input tuples are quite wide.
+將 maintenance\_work\_mem 設定為其預設值通常會防止工具程序命令的外部排序（例如，CREATE INDEX 用於建構 B-tree 索引的排序）使用選擇排序法，除非輸入tuple 非常大。
 
 `autovacuum_work_mem` \(`integer`\)
 
-Specifies the maximum amount of memory to be used by each autovacuum worker process. It defaults to -1, indicating that the value of [maintenance\_work\_mem](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM) should be used instead. The setting has no effect on the behavior of `VACUUM` when run in other contexts.
+指定每個 autovacuum 工作程序使用的最大記憶體。它預設為 -1，表示應該使用 [maintenance\_work\_mem](resource-consumption.md#19-4-1) 的值。以其他方式執行時，此設定對 VACUUM 的行為沒有影響。
 
 `max_stack_depth` \(`integer`\)
 
-Specifies the maximum safe depth of the server's execution stack. The ideal setting for this parameter is the actual stack size limit enforced by the kernel \(as set by `ulimit -s` or local equivalent\), less a safety margin of a megabyte or so. The safety margin is needed because the stack depth is not checked in every routine in the server, but only in key potentially-recursive routines such as expression evaluation. The default setting is two megabytes \(`2MB`\), which is conservatively small and unlikely to risk crashes. However, it might be too small to allow execution of complex functions. Only superusers can change this setting.
+指定伺服器工作堆疊的最大安全深度。此參數的理想設定是核心強制執行的實際堆疊大小限制（由 ulimit -s 或其他等效設定），減去 1 MB 左右的安全範圍。需要安全額度，因為在伺服器的每個程序中都不會檢查堆疊深度，而是僅在關鍵的潛在遞迴程序（例如表示式求值）中檢查。預設設定是 2 MB，這是保守地小，不太可能冒崩潰的風險。但是，它可能太小而無法執行複雜的功能。只有超級使用者才能變更此設定。
 
-Setting `max_stack_depth` higher than the actual kernel limit will mean that a runaway recursive function can crash an individual backend process. On platforms where PostgreSQL can determine the kernel limit, the server will not allow this variable to be set to an unsafe value. However, not all platforms provide the information, so caution is recommended in selecting a value.
+將 max\_stack\_depth 設定為高於實際核心限制將意味著失控的遞迴函數可能導致單個後端程序崩潰。在 PostgreSQL 可以確定核心限制的平台上，伺服器不允許將此變數設定為不安全的值。但是，並非所有平台都有提供資訊，因此建議在選擇值時要小心。
 
 `dynamic_shared_memory_type` \(`enum`\)
 
-Specifies the dynamic shared memory implementation that the server should use. Possible values are `posix` \(for POSIX shared memory allocated using `shm_open`\), `sysv` \(for System V shared memory allocated via `shmget`\), `windows` \(for Windows shared memory\), `mmap`\(to simulate shared memory using memory-mapped files stored in the data directory\), and `none` \(to disable this feature\). Not all values are supported on all platforms; the first supported option is the default for that platform. The use of the `mmap` option, which is not the default on any platform, is generally discouraged because the operating system may write modified pages back to disk repeatedly, increasing system I/O load; however, it may be useful for debugging, when the `pg_dynshmem` directory is stored on a RAM disk, or when other shared memory facilities are not available.
+指定伺服器應使用的動態共享記憶體方法。可能的值是 posix（使用 shm\_open 分配的 POSIX 共享記憶體），sysv（透過 shmget 分配的 System V 共享記憶體），windows（Windows 共享記憶體），mmap（使用儲存在資料目錄中的記憶體映射檔案來模擬共享記憶體） ），沒有（停用此功能）。並非所有平台都支援所有值；第一個受支援的選項是該平台的預設選項。通常不鼓勵使用 mmap 選項，這在任何平台上都不是預設選項，因為作業系統可能會將修改後的頁面重複寫回磁碟，從而增加系統 I/O 負載；但是，當 pg\_dynshmem 目錄儲存在 RAM 磁碟上或其他共享記憶體裝置不可用時，它可能對除錯很有用。
 
 ## 19.4.2. 磁碟
 
