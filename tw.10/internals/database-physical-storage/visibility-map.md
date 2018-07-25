@@ -1,10 +1,14 @@
-# 66.4 Visibility Map
+---
+description: 版本：10
+---
 
-Each heap relation has a Visibility Map \(VM\) to keep track of which pages contain only tuples that are known to be visible to all active transactions; it also keeps track of which pages contain only frozen tuples. It's stored alongside the main relation data in a separate relation fork, named after the filenode number of the relation, plus a `_vm` suffix. For example, if the filenode of a relation is 12345, the VM is stored in a file called `12345_vm`, in the same directory as the main relation file. Note that indexes do not have VMs.
+# 66.4 可視性映射表（Visibility Map）
 
-The visibility map stores two bits per heap page. The first bit, if set, indicates that the page is all-visible, or in other words that the page does not contain any tuples that need to be vacuumed. This information can also be used by [_index-only scans_](https://www.postgresql.org/docs/10/static/indexes-index-only-scans.html) to answer queries using only the index tuple. The second bit, if set, means that all tuples on the page have been frozen. That means that even an anti-wraparound vacuum need not revisit the page.
+每個 heap 關連都有一個可見性映射表（VM，Visibility Map），用於追踪哪些頁面僅包含已知對所有活動事務可見的 tuple；它還追踪哪些頁面僅包含凍結的 tuple。 它與主要的關連資料一起儲存在一個單獨的關連分支中，以關連的 filenode 編號命名，加上 \_vm 後綴。例如，如果關連的 filenode 是 12345，則 VM 儲存在名稱為 12345\_vm 的檔案中，與主要關連檔案位於同一目錄中。請注意，索引沒有 VM。
 
-The map is conservative in the sense that we make sure that whenever a bit is set, we know the condition is true, but if a bit is not set, it might or might not be true. Visibility map bits are only set by vacuum, but are cleared by any data-modifying operations on a page.
+可見性映射表將每個 heap 頁面儲存 2 個位元。第一個位元（如果為 1）表示頁面全部可見，或者換句話說，頁面不包含任何需要清理的 tuple。索引限定掃描也可以使用此訊息來索引限定掃描 tuple 來回答查詢。第二個位元（如果為 1）表示頁面上的所有 tuple 都已凍結。這意味著即使是防止交易重疊清理也不需要重新讀取頁面。
 
-The [pg\_visibility](https://www.postgresql.org/docs/10/static/pgvisibility.html) module can be used to examine the information stored in the visibility map.
+映射表是保守的，因為我們得確保無論何時設定一個位元，我們都知道條件為真，但如果沒有設定一個位元，它可能會也可能不會成立。可見性映射位元僅由 vacuum 設定，但可以透過頁面上的任何資料修改操作清除。
+
+[pg\_visibility](../../appendixes/additional-supplied-modules/pg_visibility.md) 模組可用於檢查可見性映射表中儲存的訊息。
 
