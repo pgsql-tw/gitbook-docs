@@ -77,23 +77,23 @@ PostgreSQL 的 MVCC 交易事務處理相依於比較交易事務 ID（XID）：
 
 在 9.4 之前的 PostgreSQL 版本中，透過實際用 FrozenTransactionId 替換資料列的插入 XID 來實現凍結，這在資料列的 xmin 系統欄位中是可見的。較新版本只設置一個指標，保留資料列的原始 xmin 以便進行可能的查證使用。但是，仍然可以在 9.4 之前版本的資料庫 pg\_upgrade 中找到 xmin 等於 FrozenTransactionId（2）的資料列。
 
-Also, system catalogs may contain rows with `xmin` equal to `BootstrapTransactionId` \(1\), indicating that they were inserted during the first phase of initdb. Like `FrozenTransactionId`, this special XID is treated as older than every normal XID.
+此外，系統目錄可能包含 xmin 等於 BootstrapTransactionId\(1\) 的資料列，表示它們是在 initdb 的第一階段插入的。與 FrozenTransactionId 一樣，此特殊 XID 被視為比每個普通 XID 更舊。
 
-[vacuum\_freeze\_min\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-FREEZE-MIN-AGE) controls how old an XID value has to be before rows bearing that XID will be frozen. Increasing this setting may avoid unnecessary work if the rows that would otherwise be frozen will soon be modified again, but decreasing this setting increases the number of transactions that can elapse before the table must be vacuumed again.
+[vacuum\_freeze\_min\_age](../server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang) 控制在凍結該 XID 的資料列之前 XID 值的大小。增加此設定可以避免不必要的維護工作，否則將很快再次修改否則交易事務將被凍結，但減少此設定會增加在必須再次對資料表進行清理之前可以處理的交易事務數量。
 
-`VACUUM` uses the [visibility map](https://www.postgresql.org/docs/10/static/storage-vm.html) to determine which pages of a table must be scanned. Normally, it will skip pages that don't have any dead row versions even if those pages might still have row versions with old XID values. Therefore, normal `VACUUM`s won't always freeze every old row version in the table. Periodically, `VACUUM` will perform an _aggressive vacuum_, skipping only those pages which contain neither dead rows nor any unfrozen XID or MXID values. [vacuum\_freeze\_table\_age](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-VACUUM-FREEZE-TABLE-AGE) controls when `VACUUM` does that: all-visible but not all-frozen pages are scanned if the number of transactions that have passed since the last such scan is greater than `vacuum_freeze_table_age` minus `vacuum_freeze_min_age`. Setting `vacuum_freeze_table_age` to 0 forces `VACUUM` to use this more aggressive strategy for all scans.
+VACUUM 使用[可見性映射表](../../internals/database-physical-storage/visibility-map.md)來確定必須掃描資料表的哪些頁面。通常，它會跳過沒有任何過期資料列版本的頁面，即使這些頁面可能仍然具有舊 XID 值的資料列版本。因此，正常的 VACUUM 並不總是凍結資料表中每個舊的資料列版本。 VACUUM 會定期執行積極的清理，僅跳過既不包含過期資料列也不包含任何未凍結的 XID 或 MXID 值的頁面。[vacuum\_freeze\_table\_age](../server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang) 控制 VACUUM 何時執行此操作：如果自上次此類掃描以來已經處理過的事務數量大於 vacuum\_freeze\_table\_age 減去 vacuum\_freeze\_min\_age，則掃描全部可見但未全部凍結的頁面。將 vacuum\_freeze\_table\_age 設定為 0 會強制 VACUUM 對所有掃描使用此更積極的策略。
 
-The maximum time that a table can go unvacuumed is two billion transactions minus the `vacuum_freeze_min_age` value at the time of the last aggressive vacuum. If it were to go unvacuumed for longer than that, data loss could result. To ensure that this does not happen, autovacuum is invoked on any table that might contain unfrozen rows with XIDs older than the age specified by the configuration parameter [autovacuum\_freeze\_max\_age](https://www.postgresql.org/docs/10/static/runtime-config-autovacuum.html#GUC-AUTOVACUUM-FREEZE-MAX-AGE). \(This will happen even if autovacuum is disabled.\)
+資料表可以不清理的最長時間是 20 億個事務減去上次積極清理時的 vacuum\_freeze\_min\_age 值。如果它不清理超過了那個時間，可能會導致資料遺失。為確保不會發生這種情況，將在任何可能包含 XID 未滿配定參數 [autovacuum\_freeze\_max\_age ](../server-configuration/automatic-vacuuming.md)指定的年齡的未凍結資料列的資料表上呼叫autovacuum。（即使禁用 autovacuum，也會執行這個動作。）
 
-This implies that if a table is not otherwise vacuumed, autovacuum will be invoked on it approximately once every `autovacuum_freeze_max_age` minus `vacuum_freeze_min_age` transactions. For tables that are regularly vacuumed for space reclamation purposes, this is of little importance. However, for static tables \(including tables that receive inserts, but no updates or deletes\), there is no need to vacuum for space reclamation, so it can be useful to try to maximize the interval between forced autovacuums on very large static tables. Obviously one can do this either by increasing `autovacuum_freeze_max_age` or decreasing `vacuum_freeze_min_age`.
+這意味著如果資料表沒有以其他方式進行清理，則每次 autovacuum\_freeze\_max\_age 減去 vacuum\_freeze\_min\_age 的事務數量時，將在其上執行 autovacuum。對於經常用於空間回收目的而被清理的資料表，這一點並不重要。但是，對於靜態資料表（包括接收插入但沒有更新或刪除的資料表），不需要清理進行空間回收，因此嘗試最大化非常大的靜態資料表上強制自動清理之間的間隔會很有用。顯然，可以透過增加 autovacuum\_freeze\_max\_age 或減少 vacuum\_freeze\_min\_age 來達到此目的。
 
-The effective maximum for `vacuum_freeze_table_age` is 0.95 \* `autovacuum_freeze_max_age`; a setting higher than that will be capped to the maximum. A value higher than `autovacuum_freeze_max_age` wouldn't make sense because an anti-wraparound autovacuum would be triggered at that point anyway, and the 0.95 multiplier leaves some breathing room to run a manual `VACUUM` before that happens. As a rule of thumb, `vacuum_freeze_table_age` should be set to a value somewhat below `autovacuum_freeze_max_age`, leaving enough gap so that a regularly scheduled `VACUUM` or an autovacuum triggered by normal delete and update activity is run in that window. Setting it too close could lead to anti-wraparound autovacuums, even though the table was recently vacuumed to reclaim space, whereas lower values lead to more frequent aggressive vacuuming.
+vacuum\_freeze\_table\_age 的有效最大值為 0.95 \* autovacuum\_freeze\_max\_age；高於此值的設定將被限制為最大值。高於 autovacuum\_freeze\_max\_age 的值是沒有意義的，因為無論如何都會在該點觸發n防止交易重疊的自動清理，並且 0.95 乘數在此之前留下一些喘息空間來執行手動 VACUUM。根據經驗，vacuum\_freeze\_table\_age 應設定為略低於 autovacuum\_freeze\_max\_age 的值，留下足夠的間隙，以便在該間隙中執行由日常刪除和更新活動觸發定期的 VACUUM 或 autovacuum。將它設定得太近可能會導致防止交易重疊的自動清理，即使該資料表最近被清理以回收空間，而較低的值還是會導致更頻繁的積極清理。
 
-The sole disadvantage of increasing `autovacuum_freeze_max_age` \(and `vacuum_freeze_table_age` along with it\) is that the `pg_xact` and `pg_commit_ts` subdirectories of the database cluster will take more space, because it must store the commit status and \(if `track_commit_timestamp` is enabled\) timestamp of all transactions back to the `autovacuum_freeze_max_age` horizon. The commit status uses two bits per transaction, so if `autovacuum_freeze_max_age` is set to its maximum allowed value of two billion, `pg_xact` can be expected to grow to about half a gigabyte and `pg_commit_ts` to about 20GB. If this is trivial compared to your total database size, setting `autovacuum_freeze_max_age` to its maximum allowed value is recommended. Otherwise, set it depending on what you are willing to allow for `pg_xact` and `pg_commit_ts` storage. \(The default, 200 million transactions, translates to about 50MB of `pg_xact` storage and about 2GB of `pg_commit_ts` storage.\)
+增加 autovacuum\_freeze\_max\_age（以及 vacuum\_freeze\_table\_age）的唯一缺點是資料庫叢集的 pg\_xact 和 pg\_commit\_ts 子目錄將佔用更多空間，因為它必須儲存提交狀態和（如果啟用了 track\_commit\_timestamp）所有事務的時間戳記回到 autovacuum\_freeze\_max\_age horizon。提交狀態每個交易事務使用兩個位元，因此如果 autovacuum\_freeze\_max\_age 設定為其最大允許值 20 億，則 pg\_xact 可以增長到大約 0.5 GB，pg\_commit\_ts 可以增長到大約 20 GB，這與總資料庫大小相比這是微不足道的。建議將 autovacuum\_freeze\_max\_age 設定為其最大允許值。否則，根據您願意允許 pg\_xact 和 pg\_commit\_ts 儲存的內容進行設定。（一般情況下，2 億次交易，轉換為大約 50 MB 的 pg\_xact 儲存空間和大約 2 GB 的pg\_commit\_ts 儲存空間。）
 
-One disadvantage of decreasing `vacuum_freeze_min_age` is that it might cause `VACUUM` to do useless work: freezing a row version is a waste of time if the row is modified soon thereafter \(causing it to acquire a new XID\). So the setting should be large enough that rows are not frozen until they are unlikely to change any more.
+減少 vacuum\_freeze\_min\_age 的一個缺點是它可能導致 VACUUM 進行無謂的工作：如果此後很快更新資料列（導致它獲取新的 XID），凍結資料列版本會浪費時間。因此，設定應該足夠大，以至於資料列不會被凍結，直到它們不再可能更新為止。
 
-To track the age of the oldest unfrozen XIDs in a database, `VACUUM` stores XID statistics in the system tables `pg_class` and `pg_database`. In particular, the `relfrozenxid` column of a table's `pg_class` row contains the freeze cutoff XID that was used by the last aggressive `VACUUM` for that table. All rows inserted by transactions with XIDs older than this cutoff XID are guaranteed to have been frozen. Similarly, the `datfrozenxid` column of a database's `pg_database` row is a lower bound on the unfrozen XIDs appearing in that database — it is just the minimum of the per-table `relfrozenxid` values within the database. A convenient way to examine this information is to execute queries such as:
+為了追踪資料庫中最早解凍的 XID 的值，VACUUM 將 XID 統計訊息儲存在系統資料表 pg\_class 和 pg\_database 中。特別是，資料表 pg\_class 的 relfrozenxid 欄位包含該資料表的最後一個積極 VACUUM 使用的凍結截止 XID。由 XID 早於此截止 XID 的事務插入，則所有資料列都保證已被凍結。同理，資料庫的 pg\_database 的 datfrozenxid 欄位是該資料庫中出現的未凍結 XID 的下限 - 它只是資料庫中每個資料表 relfrozenxid 的最小值。檢查此訊息的便捷方法是執行以下查詢：
 
 ```text
 SELECT c.oid::regclass as table_name,
@@ -105,25 +105,25 @@ WHERE c.relkind IN ('r', 'm');
 SELECT datname, age(datfrozenxid) FROM pg_database;
 ```
 
-The `age` column measures the number of transactions from the cutoff XID to the current transaction's XID.
+age 欄位測量從截止 XID 到目前事務的 XID 的事務數。
 
-`VACUUM` normally only scans pages that have been modified since the last vacuum, but `relfrozenxid` can only be advanced when every page of the table that might contain unfrozen XIDs is scanned. This happens when `relfrozenxid` is more than `vacuum_freeze_table_age`transactions old, when `VACUUM`'s `FREEZE` option is used, or when all pages that are not already all-frozen happen to require vacuuming to remove dead row versions. When `VACUUM` scans every page in the table that is not already all-frozen, it should set `age(relfrozenxid)` to a value just a little more than the `vacuum_freeze_min_age` setting that was used \(more by the number of transactions started since the `VACUUM` started\). If no `relfrozenxid`-advancing `VACUUM` is issued on the table until `autovacuum_freeze_max_age` is reached, an autovacuum will soon be forced for the table.
+VACUUM 通常僅掃描自上次清理以來已修改的頁面，但只有在掃描可能包含未凍結 XID 資料表的每個頁面時才能提升 relfrozenxid。當 relfrozenxid 超過 vacuum\_freeze\_table\_agetransactions 時，或當使用 VACUUM 的 FREEZE 選項時，又或當所有尚未全部凍結的頁面碰巧需要清理以刪除過期資料列版本時，才會發生這種情況。當 VACUUM 掃描資料表中尚未全部凍結的每個頁面時，應將 age（relfrozenxid）設定為比 vacuum\_freeze\_min\_age 設定略多一點的值（更多是自 VACUUM 啟動以來啟動的事務數量）。如果在達到 autovacuum\_freeze\_max\_age 之前沒有在資料表上發出 relfrozenxid-advance 的 VACUUM，則很快將強制執行該資料表的 autovacuum。
 
-If for some reason autovacuum fails to clear old XIDs from a table, the system will begin to emit warning messages like this when the database's oldest XIDs reach ten million transactions from the wraparound point:
+如果由於某種原因 autovacuum 無法從資料表中清除舊的 XID，當資料庫最舊的 XID 從重疊點到達一千萬個事務時，系統將開始發出這樣的警告消息：
 
 ```text
 WARNING:  database "mydb" must be vacuumed within 177009986 transactions
 HINT:  To avoid a database shutdown, execute a database-wide VACUUM in "mydb".
 ```
 
-\(A manual `VACUUM` should fix the problem, as suggested by the hint; but note that the `VACUUM` must be performed by a superuser, else it will fail to process system catalogs and thus not be able to advance the database's `datfrozenxid`.\) If these warnings are ignored, the system will shut down and refuse to start any new transactions once there are fewer than 1 million transactions left until wraparound:
+（應該按照提示的建議進行手動 VACUUM 解決問題；但請注意，VACUUM 必須由超級使用者執行，否則它將無法處理系統目錄，就無法推進資料庫的 datfrozenxid。）這些警告如果被忽略，系統將關閉並拒絕啟動任何新的事務，一旦剩下的事務 XID 在重疊前少於 100 萬：
 
 ```text
 ERROR:  database is not accepting commands to avoid wraparound data loss in database "mydb"
 HINT:  Stop the postmaster and vacuum that database in single-user mode.
 ```
 
-The 1-million-transaction safety margin exists to let the administrator recover without data loss, by manually executing the required `VACUUM` commands. However, since the system will not execute commands once it has gone into the safety shutdown mode, the only way to do this is to stop the server and start the server in single-user mode to execute `VACUUM`. The shutdown mode is not enforced in single-user mode. See the [postgres](https://www.postgresql.org/docs/10/static/app-postgres.html) reference page for details about using single-user mode.
+透過手動執行所需的 VACUUM 命令，可以讓管理員在沒有資料遺失的情況下恢復 100 萬個事務安全邊界。但是，由於系統一旦進入安全關閉模式就不會執行命令，唯一的方法是停止伺服器並以單一使用者模式啟動伺服器再執行 VACUUM。在單一使用者模式下不會強制執行關閉。有關使用單一使用者模式的詳細訊息，請參閱 [postgres](../../reference/server-applications/postgres.md) 參考頁面。
 
 ### **24.1.5.1. Multixacts and Wraparound**
 
