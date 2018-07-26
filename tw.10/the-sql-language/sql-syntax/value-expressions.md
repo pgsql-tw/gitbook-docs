@@ -391,7 +391,7 @@ SELECT ARRAY[1,2,3+4];
 (1 row)
 ```
 
-預設情況下，陣列元素型別是成員表示式的通用型別，使用與 UNION 或 CASE 結構相同的規則來決定（參閱 [10.5 節](../10.-xing-bie-zhuan-huan/10.5.-unioncase-deng-xiang-guan-cao-zuo.md)）。您也可以透過明確將陣列建構函數轉換為所需的型別來覆蓋它，例如：
+預設情況下，陣列元素型別是成員表示式的通用型別，使用與 UNION 或 CASE 結構相同的規則來決定（參閱 [10.5 節](../type-conversion/union-case-and-related-constructs.md)）。您也可以透過明確將陣列建構函數轉換為所需的型別來覆蓋它，例如：
 
 ```text
 SELECT ARRAY[1,2,22.7]::integer[];

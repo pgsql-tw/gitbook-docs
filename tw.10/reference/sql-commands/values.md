@@ -16,7 +16,7 @@ VALUES ( expression [, ...] ) [, ...]
 
 VALUES 由指定值表示式産生資料列或就是一組資料列。它通常用於在更大的指令中産生「常數資料表」，但它也可以單獨使用。
 
-當指定多個資料列時，所有資料列必須具有相同數量的元素。結果的資料表的資料型別是透過組合顯示或推斷出現在該欄位中表示式的型別來決定的，其使用與 UNION 相同的規則（見[第 10.5 節](../../the-sql-language/10.-xing-bie-zhuan-huan/10.5.-unioncase-deng-xiang-guan-cao-zuo.md)）。
+當指定多個資料列時，所有資料列必須具有相同數量的元素。結果的資料表的資料型別是透過組合顯示或推斷出現在該欄位中表示式的型別來決定的，其使用與 UNION 相同的規則（見[第 10.5 節](../../the-sql-language/type-conversion/union-case-and-related-constructs.md)）。
 
 在較大的指令中，VALUES 在 SELECT 的任何位置在語法上都是被允許的。由於語法將其視為 SELECT，因此可以使用 ORDER BY、LIMIT（或等價的 FETCH FIRST）和 OFFSET 子句以及 VALUES 指令。
 
