@@ -128,9 +128,9 @@ A more complex view that does not satisfy all these conditions is read-only by d
 
 Note that the user performing the insert, update or delete on the view must have the corresponding insert, update or delete privilege on the view. In addition the view's owner must have the relevant privileges on the underlying base relations, but the user performing the update does not need any permissions on the underlying base relations \(see [Section 40.5](https://www.postgresql.org/docs/10/static/rules-privileges.html)\).
 
-### Examples
+### 範例
 
-Create a view consisting of all comedy films:
+建立一個包含所有喜劇電影的檢視表：
 
 ```text
 CREATE VIEW comedies AS
@@ -139,9 +139,9 @@ CREATE VIEW comedies AS
     WHERE kind = 'Comedy';
 ```
 
-This will create a view containing the columns that are in the `film` table at the time of view creation. Though `*` was used to create the view, columns added later to the table will not be part of the view.
+這將建立一個檢視表，包含資料表 film 中當下所有欄位。雖然 \* 用於建立檢視表，但稍後附加到資料表中的欄位，將不會成為檢視表的一部分。
 
-Create a view with `LOCAL CHECK OPTION`:
+使用 LOCAL CHECK OPTION 建立檢視表：
 
 ```text
 CREATE VIEW universal_comedies AS
@@ -151,9 +151,9 @@ CREATE VIEW universal_comedies AS
     WITH LOCAL CHECK OPTION;
 ```
 
-This will create a view based on the `comedies` view, showing only films with `kind = 'Comedy'` and `classification = 'U'`. Any attempt to `INSERT` or `UPDATE` a row in the view will be rejected if the new row doesn't have `classification = 'U'`, but the film `kind` will not be checked.
+這將建立一個基於喜劇檢視表的檢視表，僅顯示具有 kind = 'Comedy' 和 classification='U' 的電影。如果新的資料列沒有 classification = 'U'，則將拒絕任何在檢視表中插入或更新資料列的嘗試，但不會檢查 film 中的 kind 欄位。
 
-Create a view with `CASCADED CHECK OPTION`:
+使用 CASCADED CHECK OPTION 建立檢視表：
 
 ```text
 CREATE VIEW pg_comedies AS
@@ -163,9 +163,9 @@ CREATE VIEW pg_comedies AS
     WITH CASCADED CHECK OPTION;
 ```
 
-This will create a view that checks both the `kind` and `classification` of new rows.
+這將建立一個檢視表，檢查新資料列的 classification 和 kind。
 
-Create a view with a mix of updatable and non-updatable columns:
+混合可更新和不可更新欄位建立檢視表：
 
 ```text
 CREATE VIEW comedies AS
@@ -178,9 +178,9 @@ CREATE VIEW comedies AS
     WHERE f.kind = 'Comedy';
 ```
 
-This view will support `INSERT`, `UPDATE` and `DELETE`. All the columns from the `films` table will be updatable, whereas the computed columns `country` and `avg_rating` will be read-only.
+此檢視表將支援 INSERT，UPDATE 和 DELETE。film 資料表中的所有欄位都是可更新的，而計算欄位 country 和 avg\_rating 將只是唯讀的。
 
-Create a recursive view consisting of the numbers from 1 to 100:
+建立一個包含 1 到 100 之間數字的遞迴檢視表：
 
 ```text
 CREATE RECURSIVE VIEW public.nums_1_100 (n) AS
@@ -189,7 +189,7 @@ UNION ALL
     SELECT n+1 FROM nums_1_100 WHERE n < 100;
 ```
 
-Notice that although the recursive view's name is schema-qualified in this `CREATE`, its internal self-reference is not schema-qualified. This is because the implicitly-created CTE's name cannot be schema-qualified.
+請注意，雖然遞迴檢視表的名稱在此 CREATE 中加上綱要的，但其內部自我引用不能加上綱要。這是因為 CTE 名稱不能包含綱要名稱。
 
 ### 相容性
 
