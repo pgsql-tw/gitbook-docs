@@ -182,7 +182,7 @@
     * [18.4. 核心資源管理](server-administration/server-setup-and-operation/managing-kernel-resources.md)
     * [18.5. Shutting Down the Server](server-administration/server-setup-and-operation/18.5.-shutting-down-the-server.md)
     * [18.6. Upgrading a PostgreSQL Cluster](server-administration/server-setup-and-operation/18.6.-upgrading-a-postgresql-cluster.md)
-    * [18.7. Preventing Server Spoofing](server-administration/server-setup-and-operation/18.7.-preventing-server-spoofing.md)
+    * [18.7. Preventing Server Spoofing](server-administration/server-setup-and-operation/preventing-server-spoofing.md)
     * [18.8. Encryption Options](server-administration/server-setup-and-operation/18.8.-encryption-options.md)
     * [18.9. Secure TCP/IP Connections with SSL](server-administration/server-setup-and-operation/18.9.-secure-tcp-ip-connections-with-ssl.md)
     * [18.10. Secure TCP/IP Connections with SSH Tunnels](server-administration/server-setup-and-operation/18.10.-secure-tcp-ip-connections-with-ssh-tunnels.md)

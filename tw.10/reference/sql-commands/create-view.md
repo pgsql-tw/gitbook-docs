@@ -23,69 +23,69 @@ CREATE OR REPLACE VIEW 類似，只是如果已經存在同名的檢視表，則
 
 如果加上了綱要名稱（例如，CREATE VIEW myschema.myview ...），則會在指定的綱要中建立檢視表。否則，它將在目前綱要中建立。臨時檢視表存在於特殊綱要中，因此在建立臨時檢視圖時不能加上綱要名稱。檢視表的名稱必須與同一綱要中的任何其他檢視表、資料表、序列、索引或外部資料表的名稱不同。
 
-### Parameters
+### 參數
 
 `TEMPORARY` or `TEMP`
 
-If specified, the view is created as a temporary view. Temporary views are automatically dropped at the end of the current session. Existing permanent relations with the same name are not visible to the current session while the temporary view exists, unless they are referenced with schema-qualified names.
+如果指定此選項，則檢視表將建立為臨時檢視表。臨時檢視表會在目前連線結束時自動刪除。當臨時檢視表存在時，目前連線不會顯示具有相同名稱的現有永久關連，除非它們以綱要名稱引用。
 
-If any of the tables referenced by the view are temporary, the view is created as a temporary view \(whether `TEMPORARY` is specified or not\).
+如果檢視表引用的任何資料表是臨時的，則檢視表將建立為臨時檢視表（無論是否指定了 TEMPORARY）。
 
 `RECURSIVE`
 
-Creates a recursive view. The syntax
+建立遞迴檢視表。語法：
 
 ```text
 CREATE RECURSIVE VIEW [ schema . ] view_name (column_names) AS SELECT ...;
 ```
 
-is equivalent to
+同等於
 
 ```text
 CREATE VIEW [ schema . ] view_name AS WITH RECURSIVE view_name (column_names) AS (SELECT ...) SELECT column_names FROM view_name;
 ```
 
-A view column name list must be specified for a recursive view.
+必須為遞迴檢視表指定檢視表欄位名稱列表。
 
 _`name`_
 
-The name \(optionally schema-qualified\) of a view to be created.
+要建立的檢視表名稱（選擇性加入綱要名稱）。
 
 _`column_name`_
 
-An optional list of names to be used for columns of the view. If not given, the column names are deduced from the query.
+用於檢視表欄位的選擇性名稱列表。如果沒有，則從查詢中推導出欄位名稱。
 
 `WITH (` _`view_option_name`_ \[= _`view_option_value`_\] \[, ... \] \)
 
-This clause specifies optional parameters for a view; the following parameters are supported:
+此子句指定檢視表的選擇性參數；支援以下參數：
 
 `check_option` \(`string`\)
 
-This parameter may be either `local` or `cascaded`, and is equivalent to specifying `WITH [ CASCADED | LOCAL ] CHECK OPTION` \(see below\). This option can be changed on existing views using [ALTER VIEW](https://www.postgresql.org/docs/10/static/sql-alterview.html).
+此參數可能是 local 或 cascaded，等同於指定 WITH \[CASCADED \| LOCAL\] CHECK OPTION（見下文）。可以使用 ALTER VIEW 在現有檢視表上變更此選項。
 
 `security_barrier` \(`boolean`\)
 
-This should be used if the view is intended to provide row-level security. See [Section 40.5](https://www.postgresql.org/docs/10/static/rules-privileges.html) for full details.
+如果檢視表旨在提供資料列級安全性，則應使用此方法。有關詳細訊息，請參閱[第 40.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)。
 
 _`query`_
 
-A [SELECT](https://www.postgresql.org/docs/10/static/sql-select.html) or [VALUES](https://www.postgresql.org/docs/10/static/sql-values.html) command which will provide the columns and rows of the view.
+[SELECT](select.md) 或 [VALUES](values.md) 指令，它將提供檢視表的欄位和資料列。
 
 `WITH [ CASCADED | LOCAL ] CHECK OPTION`
 
-This option controls the behavior of automatically updatable views. When this option is specified, `INSERT` and `UPDATE` commands on the view will be checked to ensure that new rows satisfy the view-defining condition \(that is, the new rows are checked to ensure that they are visible through the view\). If they are not, the update will be rejected. If the `CHECK OPTION` is not specified, `INSERT` and `UPDATE` commands on the view are allowed to create rows that are not visible through the view. The following check options are supported:
+此選項控制自動可更新檢視表的行為。指定此選項時，將檢查檢視表上的 INSERT 和 UPDATE 指令，以確保新資料列滿足檢視表定義條件（即，檢查新資料列以確保它們在檢視表中可見）。如果不是，則將拒絕更新。如果未指定 CHECK OPTION，則允許檢視表上的 INSERT 和 UPDATE 指令建立檢視表不可見的資料列。支援以下檢查選項：
 
 `LOCAL`
 
-New rows are only checked against the conditions defined directly in the view itself. Any conditions defined on underlying base views are not checked \(unless they also specify the `CHECK OPTION`\).
+僅根據檢視表本身中直接定義的條件檢查新資料列。不檢查在其基礎的檢視表上定義的任何條件（除非它們也指定了 CHECK OPTION）。
 
 `CASCADED`
 
-New rows are checked against the conditions of the view and all underlying base views. If the `CHECK OPTION` is specified, and neither `LOCAL` nor `CASCADED` is specified, then `CASCADED` is assumed.
+根據檢視圖條件和所有其基礎的檢視表檢查新資料列。如果指定了 CHECK OPTION，而既未指定 LOCAL 也未指定 CASCADED，則假定為 CASCADED。
 
-The `CHECK OPTION` may not be used with `RECURSIVE` views.
+CHECK OPTION 可能不適用於 RECURSIVE 檢視表。
 
-Note that the `CHECK OPTION` is only supported on views that are automatically updatable, and do not have `INSTEAD OF` triggers or `INSTEAD` rules. If an automatically updatable view is defined on top of a base view that has `INSTEAD OF` triggers, then the `LOCAL CHECK OPTION`may be used to check the conditions on the automatically updatable view, but the conditions on the base view with `INSTEAD OF` triggers will not be checked \(a cascaded check option will not cascade down to a trigger-updatable view, and any check options defined directly on a trigger-updatable view will be ignored\). If the view or any of its base relations has an `INSTEAD` rule that causes the `INSERT` or `UPDATE` command to be rewritten, then all check options will be ignored in the rewritten query, including any checks from automatically updatable views defined on top of the relation with the `INSTEAD` rule.
+請注意，CHECK OPTION 僅在可自動更新的檢視表上受到支援，並且沒有 INSTEAD OF 觸發器或 INSTEAD 規則。如果在具有 INSTEAD OF 觸發器的基本檢視表之上定義了可自動更新的檢視表，則 LOCAL CHECK OPTION 可用於檢查自動更新檢視表上的條件。但是具有 INSTEAD OF 觸發器的基本檢視表上的條件將不會檢查（CASCADED 選項不會延伸影響到觸發器可更新檢視表，並且將忽略直接在觸發器可更新檢視表上定義的任何檢查選項）。如果檢視表或其任何基本關連具有導致 INSERT 或 UPDATE 指令被重寫的 INSTEAD 規則，則在重寫的查詢中將忽略所有檢查選項，包括在與關連之上定義的自動可更新檢視表的任何檢查與 INSTEAD 規則。
 
 ### Notes
 
