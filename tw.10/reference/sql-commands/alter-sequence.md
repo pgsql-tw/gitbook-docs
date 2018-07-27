@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # ALTER SEQUENCE
 
 ALTER SEQUENCE — change the definition of a sequence generator
@@ -115,7 +119,7 @@ ALTER SEQUENCE serial RESTART WITH 105;
 
 `ALTER SEQUENCE` conforms to the SQL standard, except for the `AS`, `START WITH`, `OWNED BY`, `OWNER TO`, `RENAME TO`, and `SET SCHEMA` clauses, which are PostgreSQL extensions.
 
-### See Also
+### 參閱
 
-CREATE SEQUENCE, [DROP SEQUENCE](https://www.postgresql.org/docs/10/static/sql-dropsequence.html)
+[CREATE SEQUENCE](create-sequence.md), [DROP SEQUENCE](drop-sequence.md)
 
