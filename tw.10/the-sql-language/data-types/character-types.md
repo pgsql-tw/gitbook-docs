@@ -8,8 +8,8 @@ description: 版本：10
 
 | Name | Description |
 | --- | --- | --- | --- |
-| `character varying(`_`n`_\), `varchar(`_`n`_\) | 可變長度，但有限制 |
-| `character(`_`n`_\), `char(`_`n`_\) | 固定長度，空白填充 |
+| `character varying(n)`, `varchar(n)` | 可變長度，但有限制 |
+| `character(n)`, `char(n)` | 固定長度，空白填充 |
 | `text` | 可變且無限長度 |
 
 Table 8.4 列出了 PostgreSQL 中可用的通用字串型別。
@@ -22,7 +22,7 @@ SQL 定義了兩種主要字串型別：character varying\(n\) 和 character\(n\
 
 另外，PostgreSQL 提供了 text 型別，它儲存任意長度的字串。雖然型別 text 不在 SQL 標準中，但是其他幾個 SQL 資料庫管理系統也支援它。
 
-character 的值用空格填充到指定的長度 n，並以這種方式儲存和顯示。但是，在比較兩個型別字串時，尾隨空格在語義上無關緊要會被忽略。在空格很重要的排序規則中，這種行為會產生意想不到的結果; 例如 SELECT 'a '::CHAR\(2\) collate "C"&lt;E'a\n'::CHAR\(2\) 會回傳 true，即使 C 語言環境會認為空格大於換行符。將字串轉換為其他字串型別之一時，將刪除尾隨的空格。請注意，尾隨空格在 character varying 和 text 方面具有語義重要性，尤其在使用樣式匹配時，即 LIKE 和正規表示式。
+character 的值用空格填充到指定的長度 n，並以這種方式儲存和顯示。但是，在比較兩個型別字串時，尾隨空格在語義上無關緊要會被忽略。在空格很重要的排序規則中，這種行為會產生意想不到的結果; 例如 `SELECT 'a '::CHAR(2) collate "C"<E'a\n'::CHAR(2)` 會回傳 true，即使 C 語言環境會認為空格大於換行符。將字串轉換為其他字串型別之一時，將刪除尾隨的空格。請注意，尾隨空格在 character varying 和 text 方面具有語義重要性，尤其在使用樣式匹配時，即 LIKE 和正規表示式。
 
 短字串（126 個位元組以下）的儲存要求是 1 個位元組加上實際字串，其中包括字串空間填充。較長的字串有 4 個位元組的開銷而不是 1。長字串由系統自動壓縮，因此磁碟上的物理需求可能更少。非常長的值也儲存在後台的資料表中，這樣它們就不會干擾對較短欄位的快速存取。在任何情況下，可儲存的最長字串大約為 1 GB。（資料型別宣告中 n 允許的最大值小於此值。更改此值沒有用，因為使用多位元組字串編碼時，位元組數和字元數可能完全不同。如果您希望儲存沒有特定上限的長字串，使用不帶長度的 text 或 character varying，而不是隨便設定長度限制。）
 
@@ -53,7 +53,7 @@ SELECT b, char_length(b) FROM test2;
 -------+-------------
  ok    |           2
  good  |           5
- too l |           5
+ tool  |           5
 ```
 
 | \(1\) | char\_length 函數在 [9.4 節](../functions-and-operators/9.4.-zi-chuan-han-shi-ji-yun-suan-zi.md)中討論。 |
