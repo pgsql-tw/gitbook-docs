@@ -162,7 +162,7 @@ SET 子句在輸入函數時將指定的配置參數設定為指定的值，然�
 
 定義函數的字串常數；其意義取決於程式語言。它可以是內部函數名稱、目標檔案的路徑、SQL 指令或程序語言中的內容。
 
-使用錢字號括弧（請參閱[第 4.1.2.4 節](../../the-sql-language/sql-syntax/4.1.-yu-fa-jie-gou.md#4-1-2-3-string-constants-with-unicode-escapes)）撰寫函數定義內容，而不是普通的單引號語法的話，通常很有幫助。如果沒有錢字號括弧，函數定義中的任何單引號或反斜線都必須通過加倍來避免編譯錯誤。
+使用錢字號括弧（請參閱[第 4.1.2.4 節](../../the-sql-language/sql-syntax/lexical-structure.md#4-1-2-3-string-constants-with-unicode-escapes)）撰寫函數定義內容，而不是普通的單引號語法的話，通常很有幫助。如果沒有錢字號括弧，函數定義中的任何單引號或反斜線都必須通過加倍來避免編譯錯誤。
 
 `obj_file`,`link_symbol`
 
