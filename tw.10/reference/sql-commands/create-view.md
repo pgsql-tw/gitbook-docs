@@ -87,46 +87,46 @@ CHECK OPTION 可能不適用於 RECURSIVE 檢視表。
 
 請注意，CHECK OPTION 僅在可自動更新的檢視表上受到支援，並且沒有 INSTEAD OF 觸發器或 INSTEAD 規則。如果在具有 INSTEAD OF 觸發器的基本檢視表之上定義了可自動更新的檢視表，則 LOCAL CHECK OPTION 可用於檢查自動更新檢視表上的條件。但是具有 INSTEAD OF 觸發器的基本檢視表上的條件將不會檢查（CASCADED 選項不會延伸影響到觸發器可更新檢視表，並且將忽略直接在觸發器可更新檢視表上定義的任何檢查選項）。如果檢視表或其任何基本關連具有導致 INSERT 或 UPDATE 指令被重寫的 INSTEAD 規則，則在重寫的查詢中將忽略所有檢查選項，包括在與關連之上定義的自動可更新檢視表的任何檢查與 INSTEAD 規則。
 
-### Notes
+### 注意
 
-Use the [DROP VIEW](https://www.postgresql.org/docs/10/static/sql-dropview.html) statement to drop views.
+使用 [DROP VIEW](drop-view.md) 語句移除檢視表。
 
-Be careful that the names and types of the view's columns will be assigned the way you want. For example:
+請注意，檢視表欄位的名稱和型別會按您希望的方式分配。例如：
 
 ```text
 CREATE VIEW vista AS SELECT 'Hello World';
 ```
 
-is bad form because the column name defaults to `?column?`; also, the column data type defaults to `text`, which might not be what you wanted. Better style for a string literal in a view's result is something like:
+是不好的形式，因為欄位名稱預設為 ?column?；此外，欄位資料型別預設為 text，可能不是您想要的。在檢視表的結果中，字串的更好形式是這樣的：
 
 ```text
 CREATE VIEW vista AS SELECT text 'Hello World' AS hello;
 ```
 
-Access to tables referenced in the view is determined by permissions of the view owner. In some cases, this can be used to provide secure but restricted access to the underlying tables. However, not all views are secure against tampering; see [Section 40.5](https://www.postgresql.org/docs/10/static/rules-privileges.html) for details. Functions called in the view are treated the same as if they had been called directly from the query using the view. Therefore the user of a view must have permissions to call all functions used by the view.
+對檢視表中引用的資料表存取權限由檢視表擁有者的權限決定。在某些情況下，這可用於提供對基礎資料表安全但受限制的存取。但是，並非所有檢視表都可以防範篡改；有關詳細訊息，請參閱[第 40.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)。在檢視表中呼叫的函數處理方式與使用檢視表直接從查詢中呼叫的函數相同。因此，檢視表的使用者必須具有呼叫檢視表使用的所有函數權限。
 
-When `CREATE OR REPLACE VIEW` is used on an existing view, only the view's defining SELECT rule is changed. Other view properties, including ownership, permissions, and non-SELECT rules, remain unchanged. You must own the view to replace it \(this includes being a member of the owning role\).
+在現有檢視表上使用 CREATE OR REPLACE VIEW 時，僅更改檢視表定義的 SELECT 規則。其他檢視表屬性（包括所有權，權限和非 SELECT 規則）保持不變。您必須擁有檢視表才能替換它（這包括成為擁有角色的成員）。
 
-#### Updatable Views
+#### 可更新的檢視表（Updatable Views）
 
-Simple views are automatically updatable: the system will allow `INSERT`, `UPDATE` and `DELETE` statements to be used on the view in the same way as on a regular table. A view is automatically updatable if it satisfies all of the following conditions:
+簡單檢視表可自動更新：系統將允許 INSERT，UPDATE 和 DELETE 語句以與一般資料表相同的方式在檢視表上使用。如果檢視表滿足以下所有條件，則檢視表可自動更新：
 
-* The view must have exactly one entry in its `FROM` list, which must be a table or another updatable view.
-* The view definition must not contain `WITH`, `DISTINCT`, `GROUP BY`, `HAVING`, `LIMIT`, or `OFFSET` clauses at the top level.
-* The view definition must not contain set operations \(`UNION`, `INTERSECT` or `EXCEPT`\) at the top level.
-* The view's select list must not contain any aggregates, window functions or set-returning functions.
+* 檢視表必須在其 FROM 列表中只有一個項目，該列表必須是資料表或另一個可更新檢視表。
+* 檢視表定義不得在最上層有 WITH，DISTINCT，GROUP BY，HAVING，LIMIT 或 OFFSET 子句。
+* 檢視表定義不得在最上層有集合的操作（UNION，INTERSECT 或 EXCEPT）。
+* 檢視表的選擇列表不得包含任何彙總、窗函數或設定回傳函數。
 
-An automatically updatable view may contain a mix of updatable and non-updatable columns. A column is updatable if it is a simple reference to an updatable column of the underlying base relation; otherwise the column is read-only, and an error will be raised if an `INSERT` or `UPDATE` statement attempts to assign a value to it.
+可自動更新的檢視表可以包含可更新欄位和不可更新欄位的混合。如果欄位是對底層基本關連的可更新欄位簡單引用，則欄位是可更新的；否則該欄位是唯讀的，如果 INSERT 或 UPDATE 語句嘗試為其賦值，則會引發錯誤。
 
-If the view is automatically updatable the system will convert any `INSERT`, `UPDATE` or `DELETE` statement on the view into the corresponding statement on the underlying base relation. `INSERT` statements that have an `ON CONFLICT UPDATE` clause are fully supported.
+如果檢視表可自動更新，則系統會將檢視表上的任何 INSERT，UPDATE 或 DELETE 語句轉換為基本關連上的相應語句。完全支援具有 ON CONFLICT UPDATE 子句的 INSERT 語句。
 
-If an automatically updatable view contains a `WHERE` condition, the condition restricts which rows of the base relation are available to be modified by `UPDATE` and `DELETE` statements on the view. However, an `UPDATE` is allowed to change a row so that it no longer satisfies the `WHERE` condition, and thus is no longer visible through the view. Similarly, an `INSERT` command can potentially insert base-relation rows that do not satisfy the `WHERE` condition and thus are not visible through the view \(`ON CONFLICT UPDATE` may similarly affect an existing row not visible through the view\). The `CHECK OPTION` may be used to prevent `INSERT` and `UPDATE` commands from creating such rows that are not visible through the view.
+如果可自動更新的檢視表包含 WHERE 條件，則條件限制檢視表上的 UPDATE 和 DELETE 語句可以修改基本關連的哪些資料列。但是，允許 UPDATE 更改資料列以使其不再滿足 WHERE 條件，因此不再透過檢視表看見。類似地，INSERT 指令可能會插入不滿足 WHERE 條件的基本關連資料列，因此透過檢視圖就不可見（ON CONFLICT UPDATE 可能類似地影響透過檢視圖不可見的現有資料列）。 CHECK OPTION 可用於防止 INSERT 和 UPDATE 指令建立檢視表不可見的資料列。
 
-If an automatically updatable view is marked with the `security_barrier` property then all the view's `WHERE` conditions \(and any conditions using operators which are marked as `LEAKPROOF`\) will always be evaluated before any conditions that a user of the view has added. See [Section 40.5](https://www.postgresql.org/docs/10/static/rules-privileges.html) for full details. Note that, due to this, rows which are not ultimately returned \(because they do not pass the user's `WHERE` conditions\) may still end up being locked. `EXPLAIN` can be used to see which conditions are applied at the relation level \(and therefore do not lock rows\) and which are not.
+如果使用 security\_barrier 屬性標記了可自動更新的檢視表，那麼將始終在檢視表使用者增加的任何條件之前評估所有檢視表的 WHERE 條件（以及使用標記為 LEAKPROOF 的運算子的任何條件）。有關詳細訊息，請參閱[第 40.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)。請注意，由於這個原因，最終未回傳的資料列（因為它們沒有通過使用者的 WHERE 條件）可能仍然會被鎖定。EXPLAIN 可用於查看在關連等級套用哪些條件（因此不鎖定資料列），哪些不是。
 
-A more complex view that does not satisfy all these conditions is read-only by default: the system will not allow an insert, update, or delete on the view. You can get the effect of an updatable view by creating `INSTEAD OF` triggers on the view, which must convert attempted inserts, etc. on the view into appropriate actions on other tables. For more information see [CREATE TRIGGER](https://www.postgresql.org/docs/10/static/sql-createtrigger.html). Another possibility is to create rules \(see [CREATE RULE](https://www.postgresql.org/docs/10/static/sql-createrule.html)\), but in practice triggers are easier to understand and use correctly.
+預設情況下，不滿足所有這些條件的更複雜檢視表是唯讀的：系統不允許在檢視表上插入，更新或刪除。您可以透過在檢視表上建立 INSTEAD OF 觸發器來獲取可更新檢視表的效果，該觸發器必須將檢視表上的嘗試插入等轉換為對其他資料表的適當操作。有關更多訊息，請參閱 [CREATE TRIGGER](create-trigger.md)。另一種可能性是建立規則（參閱 [CREATE RULE](create-rule.md)），但實際上觸發器更容易理解和正確使用。
 
-Note that the user performing the insert, update or delete on the view must have the corresponding insert, update or delete privilege on the view. In addition the view's owner must have the relevant privileges on the underlying base relations, but the user performing the update does not need any permissions on the underlying base relations \(see [Section 40.5](https://www.postgresql.org/docs/10/static/rules-privileges.html)\).
+請注意，在檢視表上執行插入，更新或刪除的使用者必須在檢視表上具有相對應的插入，更新或刪除權限。此外，檢視表的擁有者必須具有底層基本關連的相關權限，但執行更新的使用者不需要對底層基本關連的任何權限（請參閱[第 40.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)）。
 
 ### 範例
 
