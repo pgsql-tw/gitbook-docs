@@ -1,32 +1,36 @@
-# 8.3. 文字型別
+---
+description: 版本：10
+---
+
+# 8.3. 字串型別
 
 **Table 8.4. Character Types**
 
 | Name | Description |
 | --- | --- | --- | --- |
-| `character varying(`_`n`_\), `varchar(`_`n`_\) | variable-length with limit |
-| `character(`_`n`_\), `char(`_`n`_\) | fixed-length, blank padded |
-| `text` | variable unlimited length |
+| `character varying(`_`n`_\), `varchar(`_`n`_\) | 可變長度，但有限制 |
+| `character(`_`n`_\), `char(`_`n`_\) | 固定長度，空白填充 |
+| `text` | 可變且無限長度 |
 
-[Table 8.4](https://www.postgresql.org/docs/10/static/datatype-character.html#DATATYPE-CHARACTER-TABLE) shows the general-purpose character types available in PostgreSQL.
+Table 8.4 列出了 PostgreSQL 中可用的通用字串型別。
 
-SQL defines two primary character types: `character varying(`_`n`_\) and `character(`_`n`_\), where _`n`_ is a positive integer. Both of these types can store strings up to _`n`_ characters \(not bytes\) in length. An attempt to store a longer string into a column of these types will result in an error, unless the excess characters are all spaces, in which case the string will be truncated to the maximum length. \(This somewhat bizarre exception is required by the SQL standard.\) If the string to be stored is shorter than the declared length, values of type `character` will be space-padded; values of type `character varying` will simply store the shorter string.
+SQL 定義了兩種主要字串型別：character varying\(n\) 和 character\(n\)，其中 n 是正整數。這兩種型別都可以儲存長度最多為 n 個字元（不是位元組）的字串。嘗試將較長的字串儲存到這些型別的欄位中將産生錯誤，除非多餘的字元都是空格，在這種情況下，字串將被截斷為最大長度。（這個有點奇怪的異常是 SQL 標準所要求的。）如果要儲存的字串比宣告的長度短，則 character 型別的值將被空格填充；character varying 的值將只儲存較短的字串。
 
-If one explicitly casts a value to `character varying(`_`n`_\) or `character(`_`n`_\), then an over-length value will be truncated to _`n`_ characters without raising an error. \(This too is required by the SQL standard.\)
+如果明確地將值轉換為 character varying\(n\) 或 character\(n\)，則超長值將被截斷為 n 個字元而不會引發錯誤。（這也是 SQL 標準所要求的。）
 
-The notations `varchar(`_`n`_\) and `char(`_`n`_\) are aliases for `character varying(`_`n`_\) and `character(`_`n`_\), respectively. `character` without length specifier is equivalent to `character(1)`. If `character varying` is used without length specifier, the type accepts strings of any size. The latter is a PostgreSQL extension.
+型別 varchar\(n\) 和 char\(n\) 分別是 character varying\(n\) 和 character\(n\) 的別名。沒有長度的 character 等同於 character\(1\)。如果在沒有長度的情況下使用 character varying，則該型別接受任何長度的字串。後者是 PostgreSQL 延伸功能。
 
-In addition, PostgreSQL provides the `text` type, which stores strings of any length. Although the type `text` is not in the SQL standard, several other SQL database management systems have it as well.
+另外，PostgreSQL 提供了 text 型別，它儲存任意長度的字串。雖然型別 text 不在 SQL 標準中，但是其他幾個 SQL 資料庫管理系統也支援它。
 
-Values of type `character` are physically padded with spaces to the specified width _`n`_, and are stored and displayed that way. However, trailing spaces are treated as semantically insignificant and disregarded when comparing two values of type `character`. In collations where whitespace is significant, this behavior can produce unexpected results; for example `SELECT 'a '::CHAR(2) collate "C" < E'a\n'::CHAR(2)` returns true, even though `C` locale would consider a space to be greater than a newline. Trailing spaces are removed when converting a `character` value to one of the other string types. Note that trailing spaces _are_ semantically significant in `character varying` and `text` values, and when using pattern matching, that is `LIKE` and regular expressions.
+character 的值用空格填充到指定的長度 n，並以這種方式儲存和顯示。但是，在比較兩個型別字串時，尾隨空格在語義上無關緊要會被忽略。在空格很重要的排序規則中，這種行為會產生意想不到的結果; 例如 SELECT 'a '::CHAR\(2\) collate "C"&lt;E'a\n'::CHAR\(2\) 會回傳 true，即使 C 語言環境會認為空格大於換行符。將字串轉換為其他字串型別之一時，將刪除尾隨的空格。請注意，尾隨空格在 character varying 和 text 方面具有語義重要性，尤其在使用樣式匹配時，即 LIKE 和正規表示式。
 
-The storage requirement for a short string \(up to 126 bytes\) is 1 byte plus the actual string, which includes the space padding in the case of `character`. Longer strings have 4 bytes of overhead instead of 1. Long strings are compressed by the system automatically, so the physical requirement on disk might be less. Very long values are also stored in background tables so that they do not interfere with rapid access to shorter column values. In any case, the longest possible character string that can be stored is about 1 GB. \(The maximum value that will be allowed for _`n`_ in the data type declaration is less than that. It wouldn't be useful to change this because with multibyte character encodings the number of characters and bytes can be quite different. If you desire to store long strings with no specific upper limit, use `text` or `character varying` without a length specifier, rather than making up an arbitrary length limit.\)
+短字串（126 個位元組以下）的儲存要求是 1 個位元組加上實際字串，其中包括字串空間填充。較長的字串有 4 個位元組的開銷而不是 1。長字串由系統自動壓縮，因此磁碟上的物理需求可能更少。非常長的值也儲存在後台的資料表中，這樣它們就不會干擾對較短欄位的快速存取。在任何情況下，可儲存的最長字串大約為 1 GB。（資料型別宣告中 n 允許的最大值小於此值。更改此值沒有用，因為使用多位元組字串編碼時，位元組數和字元數可能完全不同。如果您希望儲存沒有特定上限的長字串，使用不帶長度的 text 或 character varying，而不是隨便設定長度限制。）
 
-#### Tip
+#### 小提醒
 
-There is no performance difference among these three types, apart from increased storage space when using the blank-padded type, and a few extra CPU cycles to check the length when storing into a length-constrained column. While `character(`_`n`_\) has performance advantages in some other database systems, there is no such advantage in PostgreSQL; in fact `character(`_`n`_\) is usually the slowest of the three because of its additional storage costs. In most situations `text` or `character varying` should be used instead.
+這三種型別之間並沒有效能差異，除了使用空白填充類型時增加的儲存空間之外，以及一些額外的 CPU 週期來檢查儲存長度與欄位中的長度。雖然 character\(n\) 在其他一些資料庫系統中具有效能優勢，但 PostgreSQL 中並沒有這樣的優勢；事實上，由於額外的儲存成本，character\(n\) 通常是三者中最慢的。在大多數情況下，應使用 text 或 character varying。
 
-Refer to [Section 4.1.2.1](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS) for information about the syntax of string literals, and to [Chapter 9](https://www.postgresql.org/docs/10/static/functions.html) for information about available operators and functions. The database character set determines the character set used to store textual values; for more information on character set support, refer to [Section 23.3](https://www.postgresql.org/docs/10/static/multibyte.html).
+有關字串文字語法的資訊，請參閱[第 4.1.2.1 節](../sql-syntax/4.1.-yu-fa-jie-gou.md#4-1-2-chang)；有關可用運算子和函數的資訊，請參閱[第 9 章](../functions-and-operators/)。資料庫字元集決定用於儲存文字的字元集；有關字元集支援的更多訊息，請參閱[第 23.3 節](../../server-administration/23.-yu-xi/23.3.-character-set-support.md)。
 
 **Example 8.1. Using the Character Types**
 
@@ -52,16 +56,16 @@ SELECT b, char_length(b) FROM test2;
  too l |           5
 ```
 
-| [\(1\)](https://www.postgresql.org/docs/10/static/datatype-character.html#co.datatype-char) | The `char_length` function is discussed in [Section 9.4](https://www.postgresql.org/docs/10/static/functions-string.html). |
+| \(1\) | char\_length 函數在 [9.4 節](../functions-and-operators/9.4.-zi-chuan-han-shi-ji-yun-suan-zi.md)中討論。 |
 | --- |
 
 
-There are two other fixed-length character types in PostgreSQL, shown in [Table 8.5](https://www.postgresql.org/docs/10/static/datatype-character.html#DATATYPE-CHARACTER-SPECIAL-TABLE). The `name` type exists _only_ for the storage of identifiers in the internal system catalogs and is not intended for use by the general user. Its length is currently defined as 64 bytes \(63 usable characters plus terminator\) but should be referenced using the constant `NAMEDATALEN` in `C`source code. The length is set at compile time \(and is therefore adjustable for special uses\); the default maximum length might change in a future release. The type `"char"` \(note the quotes\) is different from `char(1)` in that it only uses one byte of storage. It is internally used in the system catalogs as a simplistic enumeration type.
+PostgreSQL 中還有另外兩種固定長度的字串型別，如 Table 8.5 所示。name 型別僅用於在內部系統目錄中儲存指標，並非供一般使用者使用。它的長度目前定義為 64 個位元組（63 個可用字元加結尾符號），但應視 C 原始碼中的常數 NAMEDATALEN 而定。長度在編譯時設定（因此可以根據特殊用途進行調整）; 預設的最大長度可能會在將來的版本中變更。型別「“char”」（注意雙引號）與 char\(1\) 的不同之處在於它僅使用一個位元組的儲存空間。它在系統目錄中作為簡單內部使用的列舉型別。
 
 **Table 8.5. Special Character Types**
 
 | Name | Storage Size | Description |
 | --- | --- | --- |
-| `"char"` | 1 byte | single-byte internal type |
-| `name` | 64 bytes | internal type for object names |
+| `"char"` | 1 byte | 單位元組內部型別 |
+| `name` | 64 bytes | 物件名稱的內部型別 |
 
