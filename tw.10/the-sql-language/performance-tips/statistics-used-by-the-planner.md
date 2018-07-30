@@ -4,11 +4,11 @@ description: 版本：10
 
 # 14.2. 統計資訊
 
-## 14.2.1. Single-Column Statistics
+## 14.2.1. 單一欄位統計資訊
 
-As we saw in the previous section, the query planner needs to estimate the number of rows retrieved by a query in order to make good choices of query plans. This section provides a quick look at the statistics that the system uses for these estimates.
+正如我們在上一節中看到的那樣，查詢規劃程序需要估計查詢檢索的資料列數量，以便對查詢計劃做出正確的選擇。本節簡要介紹系統用於這些估算的統計訊息。
 
-One component of the statistics is the total number of entries in each table and index, as well as the number of disk blocks occupied by each table and index. This information is kept in the table [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html), in the columns `reltuples` and `relpages`. We can look at it with queries similar to this one:
+統計訊息的其中一部分是每個資料表和索引中的項目總數，以及每個資料表和索引佔用的磁磁區塊數。此訊息保存在資料表 [pg\_class](../../internals/system-catalogs/pg_class.md) 中，列在 reltuples 和 relpages 欄位中。我們可以使用與此類似的查詢來查看它：
 
 ```text
 SELECT relname, relkind, reltuples, relpages
@@ -25,13 +25,13 @@ WHERE relname LIKE 'tenk1%';
 (5 rows)
 ```
 
-Here we can see that `tenk1` contains 10000 rows, as do its indexes, but the indexes are \(unsurprisingly\) much smaller than the table.
+在這裡我們可以看到 tenk1 包含 10000 個資料列，其索引也是如此，但索引（不出所料）比資料表小得多。
 
-For efficiency reasons, `reltuples` and `relpages` are not updated on-the-fly, and so they usually contain somewhat out-of-date values. They are updated by `VACUUM`, `ANALYZE`, and a few DDL commands such as `CREATE INDEX`. A `VACUUM` or `ANALYZE` operation that does not scan the entire table \(which is commonly the case\) will incrementally update the `reltuples` count on the basis of the part of the table it did scan, resulting in an approximate value. In any case, the planner will scale the values it finds in `pg_class` to match the current physical table size, thus obtaining a closer approximation.
+由於效率因素，reltuples 和 relpup 並不會即時更新，因此它們通常包含一些過時的值。它們由 VACUUM，ANALYZE 和一些 DDL 指令（如 CREATE INDEX）更新。不掃描整個資料表的 VACUUM 或 ANALYZE 操作（通常是這種情況）將根據其掃描資料表的部分逐步更新 reltuples 計數，從而得到近似值。在任何情況下，規劃程序將縮放它在 pg\_class 中找到的值以匹配目前實際上資料表大小，從而獲得更接近的近似值。
 
-Most queries retrieve only a fraction of the rows in a table, due to `WHERE` clauses that restrict the rows to be examined. The planner thus needs to make an estimate of the _selectivity_ of `WHERE` clauses, that is, the fraction of rows that match each condition in the `WHERE` clause. The information used for this task is stored in the [`pg_statistic`](https://www.postgresql.org/docs/10/static/catalog-pg-statistic.html) system catalog. Entries in `pg_statistic` are updated by the `ANALYZE` and `VACUUM ANALYZE` commands, and are always approximate even when freshly updated.
+由於 WHERE 子句會限制要檢查的資料列，因此大多數查詢僅檢索資料表中的一小部分行。因此，規劃程序需要估計 WHERE 子句的篩選性，即與 WHERE 子句中的每個條件匹配的資料列比率。用於此任務的訊息儲存在 [pg\_statistic](../../internals/system-catalogs/51.50.-pg_statistic.md) 系統目錄中。pg\_statistic 中的項目由 ANALYZE 和 VACUUM ANALYZE 指令更新，即使在剛更新時也都是近似值。
 
-Rather than look at `pg_statistic` directly, it's better to look at its view [`pg_stats`](https://www.postgresql.org/docs/10/static/view-pg-stats.html) when examining the statistics manually. `pg_stats` is designed to be more easily readable. Furthermore, `pg_stats` is readable by all, whereas `pg_statistic` is only readable by a superuser. \(This prevents unprivileged users from learning something about the contents of other people's tables from the statistics. The `pg_stats` view is restricted to show only rows about tables that the current user can read.\) For example, we might do:
+除了直接查看 pg\_statistic，最好在手動檢查統計訊息時查看其檢視表 [pg\_stats](../../internals/system-catalogs/pg_stats.md)。pg\_stats 旨在於更容易閱讀。此外，所有人都可以讀取 pg\_stats，而 pg\_statistic 只能由超級使用者讀取。（這可以防止非特權使用者從統計訊息中學習有關其他人表的內容。pg\_stats 檢視表僅限於顯示目前使用者可以讀取的資料表資訊。）例如，我們可能會這樣做：
 
 ```text
 SELECT attname, inherited, n_distinct,
@@ -54,11 +54,11 @@ WHERE tablename = 'road';
 (2 rows)
 ```
 
-Note that two rows are displayed for the same column, one corresponding to the complete inheritance hierarchy starting at the `road` table \(`inherited`=`t`\), and another one including only the `road` table itself \(`inherited`=`f`\).
+請注意，同一欄位顯示兩行，一行對應於從路徑表開始的完整繼承層次結構（inherited = t），另一行僅包含路徑表本身（inherited = f）。
 
-The amount of information stored in `pg_statistic` by `ANALYZE`, in particular the maximum number of entries in the `most_common_vals` and `histogram_bounds` arrays for each column, can be set on a column-by-column basis using the `ALTER TABLE SET STATISTICS` command, or globally by setting the [default\_statistics\_target](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-DEFAULT-STATISTICS-TARGET) configuration variable. The default limit is presently 100 entries. Raising the limit might allow more accurate planner estimates to be made, particularly for columns with irregular data distributions, at the price of consuming more space in `pg_statistic` and slightly more time to compute the estimates. Conversely, a lower limit might be sufficient for columns with simple data distributions.
+ANALYZE 儲存在 pg\_statistic 中的資訊量，特別是每欄位的 most\_common\_vals 和 histogram\_bounds 陣列中的最大項目數，可以使用 ALTER TABLE SET STATISTICS 指令逐個欄位設定，也可以透過設定全域的 [default\_statistics\_target](../../server-administration/server-configuration/query-planning.md#19-7-4-other-planner-options) 組態變數。預設限制目前是 100 個項目。提高限制可能允許進行更準確的計劃程序估算，特別是對於具有不規則資料分佈的欄位，其代價是在 pg\_statistic 中消耗更多空間並且計算估計的時間稍長。相反地，對於具有簡單資料分佈的欄位，下限可能就足夠了。
 
-Further details about the planner's use of statistics can be found in [Chapter 68](https://www.postgresql.org/docs/10/static/planner-stats-details.html).
+有關規劃程序使用統計資料的更多詳細訊息，請參閱[第 68 章](../../internals/68.-how-the-planner-uses-statistics.md)。
 
 ## 14.2.2. Extended Statistics
 
