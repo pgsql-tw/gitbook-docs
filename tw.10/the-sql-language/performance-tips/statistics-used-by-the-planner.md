@@ -1,6 +1,10 @@
+---
+description: 版本：10
+---
+
 # 14.2. 統計資訊
 
-#### 14.2.1. Single-Column Statistics
+## 14.2.1. Single-Column Statistics
 
 As we saw in the previous section, the query planner needs to estimate the number of rows retrieved by a query in order to make good choices of query plans. This section provides a quick look at the statistics that the system uses for these estimates.
 
@@ -56,7 +60,7 @@ The amount of information stored in `pg_statistic` by `ANALYZE`, in particular t
 
 Further details about the planner's use of statistics can be found in [Chapter 68](https://www.postgresql.org/docs/10/static/planner-stats-details.html).
 
-#### 14.2.2. Extended Statistics
+## 14.2.2. Extended Statistics
 
 It is common to see slow queries running bad execution plans because multiple columns used in the query clauses are correlated. The planner normally assumes that multiple conditions are independent of each other, an assumption that does not hold when column values are correlated. Regular statistics, because of their per-individual-column nature, cannot capture any knowledge about cross-column correlation. However, PostgreSQL has the ability to compute _multivariate statistics_, which can capture such information.
 
@@ -68,7 +72,7 @@ Statistics objects are created using [CREATE STATISTICS](https://www.postgresql.
 
 The following subsections describe the kinds of extended statistics that are currently supported.
 
-**14.2.2.1. Functional Dependencies**
+### **14.2.2.1. Functional Dependencies**
 
 The simplest kind of extended statistics tracks _functional dependencies_, a concept used in definitions of database normal forms. We say that column `b` is functionally dependent on column `a` if knowledge of the value of `a` is sufficient to determine the value of `b`, that is there are no two rows having the same value of `a` but different values of `b`. In a fully normalized database, functional dependencies should exist only on primary keys and superkeys. However, in practice many data sets are not fully normalized for various reasons; intentional denormalization for performance reasons is a common example. Even in a fully normalized database, there may be partial correlation between some columns, which can be expressed as partial functional dependency.
 
@@ -96,7 +100,7 @@ Here it can be seen that column 1 \(zip code\) fully determines column 5 \(city\
 
 When computing the selectivity for a query involving functionally dependent columns, the planner adjusts the per-condition selectivity estimates using the dependency coefficients so as not to produce an underestimate.
 
-**14.2.2.1.1. Limitations of Functional Dependencies**
+#### **14.2.2.1.1. Limitations of Functional Dependencies**
 
 Functional dependencies are currently only applied when considering simple equality conditions that compare columns to constant values. They are not used to improve estimates for equality conditions comparing two columns or comparing a column to an expression, nor for range clauses, `LIKE` or any other type of condition.
 
@@ -116,7 +120,7 @@ even though there will really be zero rows satisfying this query. Functional dep
 
 In many practical situations, this assumption is usually satisfied; for example, there might be a GUI in the application that only allows selecting compatible city and ZIP code values to use in a query. But if that's not the case, functional dependencies may not be a viable option.
 
-**14.2.2.2. Multivariate N-Distinct Counts**
+### **14.2.2.2. Multivariate N-Distinct Counts**
 
 Single-column statistics store the number of distinct values in each column. Estimates of the number of distinct values when combining more than one column \(for example, for `GROUP BY a, b`\) are frequently wrong when the planner only has single-column statistical data, causing it to select bad plans.
 

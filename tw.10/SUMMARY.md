@@ -155,7 +155,7 @@
     * [13.6. 鎖定與索引](the-sql-language/concurrency-control/13.6.-suo-ding-yu-suo-yin.md)
   * [14. 效能技巧](the-sql-language/performance-tips/README.md)
     * [14.1. 善用EXPLAIN](the-sql-language/performance-tips/using-explain.md)
-    * [14.2. 統計資訊](the-sql-language/performance-tips/14.2.-tong-ji-zi-xun.md)
+    * [14.2. 統計資訊](the-sql-language/performance-tips/statistics-used-by-the-planner.md)
     * [14.3. 使用確切的JOIN方式](the-sql-language/performance-tips/controlling-the-planner-with-explicit-join-clauses.md)
     * [14.4. 快速建立資料庫內容](the-sql-language/performance-tips/14.4.-kuai-su-jian-li-zi-liao-ku-nei-rong.md)
     * [14.5. 彈性設定](the-sql-language/performance-tips/14.5.-dan-xing-she-ding.md)

@@ -117,14 +117,14 @@ and table_constraint_using_index is:
 
 `SET STATISTICS`
 
-此語法為隨後的 [ANALYZE](analyze.md) 操作設定每個欄位的統計目標。目標可以設定在 0 到 10000 範圍內；或者，將其設定為 -1 以恢復為使用系統預設的統計訊息目標（[default\_statistics\_target](../../server-administration/server-configuration/query-planning.md#19-7-4-other-planner-options)）。有關 PostgreSQL 查詢規劃器使用統計訊息的更多資訊，請參閱[第 14.2 節](../../the-sql-language/performance-tips/14.2.-tong-ji-zi-xun.md)。
+此語法為隨後的 [ANALYZE](analyze.md) 操作設定每個欄位的統計目標。目標可以設定在 0 到 10000 範圍內；或者，將其設定為 -1 以恢復為使用系統預設的統計訊息目標（[default\_statistics\_target](../../server-administration/server-configuration/query-planning.md#19-7-4-other-planner-options)）。有關 PostgreSQL 查詢規劃器使用統計訊息的更多資訊，請參閱[第 14.2 節](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md)。
 
 `SET STATISTICS` 會要求一個 `SHARE UPDATE EXCLUSIVE` 的鎖定。
 
 `SET (` _`attribute_option`_ = _`value`_ \[, ... \] \)  
 `RESET (` _`attribute_option`_ \[, ... \] \)
 
-此語法設定或重置每個屬性選項。目前，只有定義的每個屬性選項是 n\_distinct 和 n\_distinct\_inherited，它們會覆蓋後續 [ANALYZE](analyze.md) 操作所做的不同值的估計數量。 n\_distinct 會影響資料表本身的統計訊息，而 n\_distinct\_inherited 會影響為該表及其繼承子資料表所收集的統計訊息。當設定為正值時，ANALYZE 將假定該欄位正好包含指定數量的相異非空值。當設定為負值（必須大於或等於 -1）時，ANALYZE 將假定欄位中相異非空值的數量與表的大小成線性關係；準確的計數是透過將估計的資料表大小乘以給定數字的絕對值來計算。例如，值 -1 意味著欄位中的所有值都是不同的，而值 -0.5 意味著每個值在平均值上會出現兩次。當資料表的大小隨時間變化時這很有用，因為在查詢計劃階段之前，不會執行資料表中行數的乘法運算。指定值 0 以恢復到一般性估計不同值的數量。有關 PostgreSQL 查詢規劃器使用統計資訊的更多訊息，請參閱[第 14.2 節](../../the-sql-language/performance-tips/14.2.-tong-ji-zi-xun.md)。
+此語法設定或重置每個屬性選項。目前，只有定義的每個屬性選項是 n\_distinct 和 n\_distinct\_inherited，它們會覆蓋後續 [ANALYZE](analyze.md) 操作所做的不同值的估計數量。 n\_distinct 會影響資料表本身的統計訊息，而 n\_distinct\_inherited 會影響為該表及其繼承子資料表所收集的統計訊息。當設定為正值時，ANALYZE 將假定該欄位正好包含指定數量的相異非空值。當設定為負值（必須大於或等於 -1）時，ANALYZE 將假定欄位中相異非空值的數量與表的大小成線性關係；準確的計數是透過將估計的資料表大小乘以給定數字的絕對值來計算。例如，值 -1 意味著欄位中的所有值都是不同的，而值 -0.5 意味著每個值在平均值上會出現兩次。當資料表的大小隨時間變化時這很有用，因為在查詢計劃階段之前，不會執行資料表中行數的乘法運算。指定值 0 以恢復到一般性估計不同值的數量。有關 PostgreSQL 查詢規劃器使用統計資訊的更多訊息，請參閱[第 14.2 節](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md)。
 
 變更每個屬性選項會要求取得一個 SHARE UPDATE EXCLUSIVE 鎖定。
 
