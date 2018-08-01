@@ -29,23 +29,41 @@ By default, the new database will be created by cloning the standard system data
 
 _`name`_
 
-The name of a database to create._`user_name`_
+The name of a database to create.
 
-The role name of the user who will own the new database, or `DEFAULT` to use the default \(namely, the user executing the command\). To create a database owned by another role, you must be a direct or indirect member of that role, or be a superuser._`template`_
+_`user_name`_
 
-The name of the template from which to create the new database, or `DEFAULT` to use the default template \(`template1`\)._`encoding`_
+The role name of the user who will own the new database, or `DEFAULT` to use the default \(namely, the user executing the command\). To create a database owned by another role, you must be a direct or indirect member of that role, or be a superuser.
 
-Character set encoding to use in the new database. Specify a string constant \(e.g., `'SQL_ASCII'`\), or an integer encoding number, or `DEFAULT` to use the default encoding \(namely, the encoding of the template database\). The character sets supported by the PostgreSQL server are described in [Section 23.3.1](https://www.postgresql.org/docs/10/static/multibyte.html#MULTIBYTE-CHARSET-SUPPORTED). See below for additional restrictions._`lc_collate`_
+_`template`_
 
-Collation order \(`LC_COLLATE`\) to use in the new database. This affects the sort order applied to strings, e.g. in queries with ORDER BY, as well as the order used in indexes on text columns. The default is to use the collation order of the template database. See below for additional restrictions._`lc_ctype`_
+The name of the template from which to create the new database, or `DEFAULT` to use the default template \(`template1`\).
 
-Character classification \(`LC_CTYPE`\) to use in the new database. This affects the categorization of characters, e.g. lower, upper and digit. The default is to use the character classification of the template database. See below for additional restrictions._`tablespace_name`_
+_`encoding`_
 
-The name of the tablespace that will be associated with the new database, or `DEFAULT` to use the template database's tablespace. This tablespace will be the default tablespace used for objects created in this database. See [CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html) for more information._`allowconn`_
+Character set encoding to use in the new database. Specify a string constant \(e.g., `'SQL_ASCII'`\), or an integer encoding number, or `DEFAULT` to use the default encoding \(namely, the encoding of the template database\). The character sets supported by the PostgreSQL server are described in [Section 23.3.1](https://www.postgresql.org/docs/10/static/multibyte.html#MULTIBYTE-CHARSET-SUPPORTED). See below for additional restrictions.
 
-If false then no one can connect to this database. The default is true, allowing connections \(except as restricted by other mechanisms, such as `GRANT`/`REVOKE CONNECT`\)._`connlimit`_
+_`lc_collate`_
 
-How many concurrent connections can be made to this database. -1 \(the default\) means no limit._`istemplate`_
+Collation order \(`LC_COLLATE`\) to use in the new database. This affects the sort order applied to strings, e.g. in queries with ORDER BY, as well as the order used in indexes on text columns. The default is to use the collation order of the template database. See below for additional restrictions.
+
+_`lc_ctype`_
+
+Character classification \(`LC_CTYPE`\) to use in the new database. This affects the categorization of characters, e.g. lower, upper and digit. The default is to use the character classification of the template database. See below for additional restrictions.
+
+_`tablespace_name`_
+
+The name of the tablespace that will be associated with the new database, or `DEFAULT` to use the template database's tablespace. This tablespace will be the default tablespace used for objects created in this database. See [CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html) for more information.
+
+_`allowconn`_
+
+If false then no one can connect to this database. The default is true, allowing connections \(except as restricted by other mechanisms, such as `GRANT`/`REVOKE CONNECT`\).
+
+_`connlimit`_
+
+How many concurrent connections can be made to this database. -1 \(the default\) means no limit.
+
+_`istemplate`_
 
 If true, then this database can be cloned by any user with `CREATEDB` privileges; if false \(the default\), then only superusers or the owner of the database can clone it.
 
@@ -114,5 +132,5 @@ There is no `CREATE DATABASE` statement in the SQL standard. Databases are equiv
 
 ### See Also
 
-[ALTER DATABASE](https://www.postgresql.org/docs/10/static/sql-alterdatabase.html), [DROP DATABASE](https://www.postgresql.org/docs/10/static/sql-dropdatabase.html)
+[ALTER DATABASE](alter-database.md), [DROP DATABASE](drop-database.md)
 

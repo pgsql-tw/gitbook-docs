@@ -464,6 +464,7 @@
     * [CREATE USER MAPPING](reference/sql-commands/create-user-mapping.md)
     * [CREATE VIEW](reference/sql-commands/create-view.md)
     * [DELETE](reference/sql-commands/delete.md)
+    * [DROP DATABASE](reference/sql-commands/drop-database.md)
     * [DROP FUNCTION](reference/sql-commands/drop-function.md)
     * [DROP INDEX](reference/sql-commands/drop-index.md)
     * [DROP MATERIALIZED VIEW](reference/sql-commands/drop-materialized-view.md)
