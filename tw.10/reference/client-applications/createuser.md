@@ -160,7 +160,7 @@ This option is never essential, since createuser will automatically prompt for a
 
 預設連線參數
 
-與大多數其他 PostgreSQL 工具程式一樣，此工具也使用 libpq 支援的環境變數（請參閱[第 33.14 節](../../client-interfaces/libpq-c-library/33.14.-environment-variables.md)）。
+與大多數其他 PostgreSQL 工具程式一樣，此工具也使用 libpq 支援的環境變數（請參閱[第 33.14 節](../../client-interfaces/libpq-c-library/environment-variables.md)）。
 
 ### 例外
 
