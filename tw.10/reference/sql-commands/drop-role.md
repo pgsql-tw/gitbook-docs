@@ -28,7 +28,7 @@ _`name`_
 
 ### 注意
 
-PostgreSQL 包含一個與此命令具有相同功能的工具程式 [dropuser](../ii.-postgresql-yong-hu-duan-gong-ju/dropuser.md)（實際上，它也呼叫此命令），但可以從終端機的命令列上執行。
+PostgreSQL 包含一個與此命令具有相同功能的工具程式 [dropuser](../client-applications/dropuser.md)（實際上，它也呼叫此命令），但可以從終端機的命令列上執行。
 
 ### 範例
 

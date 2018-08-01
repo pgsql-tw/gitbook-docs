@@ -66,5 +66,5 @@ SQL 標準中沒有 ANALYZE 語句。
 
 ### 參閱
 
-[VACUUM](vacuum.md), [vacuumdb](../ii.-postgresql-yong-hu-duan-gong-ju/vacuumdb.md), [Section 19.4.4](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cheng-ben-kao-liang-de-vacuum-yan), [Section 24.1.6](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-autovacuum-bei-jing-cheng-xu)
+[VACUUM](vacuum.md), [vacuumdb](../client-applications/vacuumdb.md), [Section 19.4.4](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cheng-ben-kao-liang-de-vacuum-yan), [Section 24.1.6](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-autovacuum-bei-jing-cheng-xu)
 

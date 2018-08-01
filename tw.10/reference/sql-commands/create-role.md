@@ -130,11 +130,11 @@ INHERIT 屬性管理可授予權限的繼承（即資料庫物件和角色成員
 
 請小心使用 CREATEROLE 權限。對於 CREATEROLE 角色的權限並沒有繼承的概念。這意味著即使角色沒有特定的權限但允許建立其他角色，也可以使用不同於自己的權限輕鬆建立另一個角色（除了使用超級使用者權限建立角色）。例如，如果角色「使用者」具有 CREATEROLE 權限但不具有 CREATEDB 權限，但它可以使用 CREATEDB 權限建立新角色。 因此，將具有 CREATEROLE 權限的角色視為幾乎是超級使用者的角色。
 
-PostgreSQL 包含一個工具 [createuser](../ii.-postgresql-yong-hu-duan-gong-ju/createuser.md)，它具有與 CREATE ROLE 相同的功能（實際上，它也使用此命令），但可以從命令列終端機中執行。
+PostgreSQL 包含一個工具 [createuser](../client-applications/createuser.md)，它具有與 CREATE ROLE 相同的功能（實際上，它也使用此命令），但可以從命令列終端機中執行。
 
 CONNECTION LIMIT 選項只是大略地執行；如果兩個新的連線幾乎同時啟動，但只剩下連線留給該角色的話，也可能兩個都失敗。 此外，此限制不會限制超級使用者。
 
-使用此命令指定未加密的密碼時必須謹慎行事。密碼將以明文形式傳輸到伺服器，並且還可能會記錄在用戶端的命令歷史記錄或伺服器日誌中。但是，[createuser](../ii.-postgresql-yong-hu-duan-gong-ju/createuser.md) 指令會傳輸加密的密碼。此外，[psql](../ii.-postgresql-yong-hu-duan-gong-ju/psql.md) 還包含一個命令 \password，可用於安全地更改密碼。
+使用此命令指定未加密的密碼時必須謹慎行事。密碼將以明文形式傳輸到伺服器，並且還可能會記錄在用戶端的命令歷史記錄或伺服器日誌中。但是，[createuser](../client-applications/createuser.md) 指令會傳輸加密的密碼。此外，[psql](../client-applications/psql.md) 還包含一個命令 \password，可用於安全地更改密碼。
 
 ### 範例
 
@@ -180,5 +180,5 @@ SQL 標準定義了使用者和角色的概念，且將它們視為不同的概�
 
 ### 參閱
 
-[SET ROLE](set-role.md), [ALTER ROLE](alter-role.md), [DROP ROLE](drop-role.md), [GRANT](grant.md), [REVOKE](revoke.md), [createuser](../ii.-postgresql-yong-hu-duan-gong-ju/createuser.md)
+[SET ROLE](set-role.md), [ALTER ROLE](alter-role.md), [DROP ROLE](drop-role.md), [GRANT](grant.md), [REVOKE](revoke.md), [createuser](../client-applications/createuser.md)
 

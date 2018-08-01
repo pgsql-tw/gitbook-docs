@@ -88,5 +88,5 @@ SQL 標準中並沒有 VACUUM 語句。
 
 ### 參閱
 
-[vacuumdb](../ii.-postgresql-yong-hu-duan-gong-ju/vacuumdb.md), [19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon)
+[vacuumdb](../client-applications/vacuumdb.md), [19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon)
 

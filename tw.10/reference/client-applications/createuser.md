@@ -1,22 +1,28 @@
+---
+description: 版本：10
+---
+
 # createuser
 
-createuser — define a new PostgreSQL user account
+createuser — 定義一個新的 PostgreSQL 使用者帳戶
 
-### Synopsis
+### 語法
 
 `createuser` \[_`connection-option`_...\] \[_`option`_...\] \[_`username`_\]
 
-### Description
+### 說明
 
-createuser creates a new PostgreSQL user \(or more precisely, a role\). Only superusers and users with `CREATEROLE` privilege can create new users, so createuser must be invoked by someone who can connect as a superuser or a user with `CREATEROLE` privilege.
+createuser 建立一個新的 PostgreSQL 使用者（或更確切地說，一個角色）。只有具有 CREATEROLE 權限使用者或超級使用者才能建立新的使用者，因此必須由可以作為超級用戶或具有 CREATEROLE 權限的使用者進行連線使用 createuser。
 
-If you wish to create a new superuser, you must connect as a superuser, not merely with `CREATEROLE` privilege. Being a superuser implies the ability to bypass all access permission checks within the database, so superuserdom should not be granted lightly.
+如果要建立新的超級使用者，則必須以超級使用者身份進行連線，而不僅僅是擁有 CREATEROLE 權限。作為超級使用者意味著能夠繞過資料庫中的所有存取權限檢查，因此不應輕易授予超級使用者權限。
 
-createuser is a wrapper around the SQL command [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html). There is no effective difference between creating users via this utility and via other methods for accessing the server.
+createuser 是 SQL 指令 CREATE ROLE 封裝的工具。透過此實用工具建立使用者和透過其他方法存取伺服器之間沒有任何區別。
 
-### Options
+### 選項
 
-createuser accepts the following command-line arguments:_`username`_
+createuser accepts the following command-line arguments:
+
+_`username`_
 
 Specifies the name of the PostgreSQL user to be created. This name must be different from all existing roles in this PostgreSQL installation.
 
@@ -146,29 +152,29 @@ Force createuser to prompt for a password \(for connecting to the server, not fo
 
 This option is never essential, since createuser will automatically prompt for a password if the server demands password authentication. However, createuser will waste a connection attempt finding out that the server wants a password. In some cases it is worth typing `-W` to avoid the extra connection attempt.
 
-### Environment
+### 環境變數
 
 `PGHOST`  
 `PGPORT`  
 `PGUSER`
 
-Default connection parameters
+預設連線參數
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/10/static/libpq-envars.html)\).
+與大多數其他 PostgreSQL 工具程式一樣，此工具也使用 libpq 支援的環境變數（請參閱[第 33.14 節](../../client-interfaces/libpq-c-library/33.14.-environment-variables.md)）。
 
-### Diagnostics
+### 例外
 
-In case of difficulty, see [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html) and [psql](https://www.postgresql.org/docs/10/static/app-psql.html) for discussions of potential problems and error messages. The database server must be running at the targeted host. Also, any default connection settings and environment variables used by the libpq front-end library will apply.
+如果遇到困難，請參閱 CREATE ROLE 和 psql 以討論潛在問題和錯誤訊息。資料庫伺服器必須在目標主機上運行。此外，將套用 libpq 前端函式庫使用的任何預鉆水連線設定和環境變數。
 
-### Examples
+### 範例
 
-To create a user `joe` on the default database server:
+要在預設的資料庫伺服器上建立使用者 joe：
 
 ```text
 $ createuser joe
 ```
 
-To create a user `joe` on the default database server with prompting for some additional attributes:
+要在預設的資料庫伺服器上建立使用者 joe，並提示輸入一些其他的屬性：
 
 ```text
 $ createuser --interactive joe
@@ -177,14 +183,14 @@ Shall the new role be allowed to create databases? (y/n) n
 Shall the new role be allowed to create more new roles? (y/n) n
 ```
 
-To create the same user `joe` using the server on host `eden`, port 5000, with attributes explicitly specified, taking a look at the underlying command:
+要使用主機 eden 上的伺服器（連接埠 5000）建立相同的使用者 joe，並明確指定屬性，屬性請查看基礎指令：
 
 ```text
 $ createuser -h eden -p 5000 -S -D -R -e joe
 CREATE ROLE joe NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;
 ```
 
-To create the user `joe` as a superuser, and assign a password immediately:
+要以超級使用者身份建立使用者 joe，並立即指定密碼：
 
 ```text
 $ createuser -P -s -e joe
@@ -193,9 +199,9 @@ Enter it again: xyzzy
 CREATE ROLE joe PASSWORD 'md5b5f5ba1a423792b526f799ae4eb3d59e' SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;
 ```
 
-In the above example, the new password isn't actually echoed when typed, but we show what was typed for clarity. As you see, the password is encrypted before it is sent to the client.
+在上面的範例中，新密碼在鍵入時實際上並未顯示，但為了清楚起見，我們顯示了鍵入的內容。如您所見，密碼在發送到用戶端之前已經加密過。
 
-### See Also
+### 參閱
 
 [dropuser](dropuser.md), [CREATE ROLE](../sql-commands/create-role.md)
 
