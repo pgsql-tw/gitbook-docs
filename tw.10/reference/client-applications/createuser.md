@@ -20,137 +20,137 @@ createuser 是 SQL 指令 CREATE ROLE 封裝的工具。透過此實用工具建
 
 ### 選項
 
-createuser accepts the following command-line arguments:
+createuser 接受以下命令列選項：
 
 _`username`_
 
-Specifies the name of the PostgreSQL user to be created. This name must be different from all existing roles in this PostgreSQL installation.
+指定要建立的 PostgreSQL 使用者名稱。此名稱必須與此 PostgreSQL 服務中的所有現有角色不同。
 
 `-c` _`number`_  
 `--connection-limit=`_`number`_
 
-Set a maximum number of connections for the new user. The default is to set no limit.
+設定新使用者的最大連線數。預設為無限制。
 
 `-d`  
 `--createdb`
 
-The new user will be allowed to create databases.
+將允許新使用者建立資料庫。
 
 `-D`  
 `--no-createdb`
 
-The new user will not be allowed to create databases. This is the default.
+不允許新使用者建立資料庫。這是預設值。
 
 `-e`  
 `--echo`
 
-Echo the commands that createuser generates and sends to the server.
+顯示 createuser 産生並發送到伺服器的指令。
 
 `-E`  
 `--encrypted`
 
-This option is obsolete but still accepted for backward compatibility.
+此選項已過時但仍可接受，為了向下相容。
 
 `-g` _`role`_  
 `--role=`_`role`_
 
-Indicates role to which this role will be added immediately as a new member. Multiple roles to which this role will be added as a member can be specified by writing multiple `-g` switches.
+表示此角色將作為新成員立即添加到的角色。可以透過加上多個 -g 來指定將此角色添加為成員的多個角色。
 
 `-i`  
 `--inherit`
 
-The new role will automatically inherit privileges of roles it is a member of. This is the default.
+新角色將自動繼承其所屬角色的權限。這是預設值。
 
 `-I`  
 `--no-inherit`
 
-The new role will not automatically inherit privileges of roles it is a member of.
+新角色不會自動繼承其所屬角色的權限。
 
 `--interactive`
 
-Prompt for the user name if none is specified on the command line, and also prompt for whichever of the options `-d`/`-D`, `-r`/`-R`, `-s`/`-S` is not specified on the command line. \(This was the default behavior up to PostgreSQL 9.1.\)
+如果在命令列中未指定使用者名稱，則提示輸入使用者名稱，並且還會提示在命令列中未指定 -d/-D，-r/-R，-s/-S 中的任何選項。（這是 PostgreSQL 9.1 的預設行為。）
 
 `-l`  
 `--login`
 
-The new user will be allowed to log in \(that is, the user name can be used as the initial session user identifier\). This is the default.
+將允許新使用者登入（即，使用者名稱可以用作初始連線使用者）。這是預設值。
 
 `-L`  
 `--no-login`
 
-The new user will not be allowed to log in. \(A role without login privilege is still useful as a means of managing database permissions.\)
+將不允許新使用者登入。（沒有登入權限的角色作為管理資料庫權限的作法仍然很有用。）
 
 `-P`  
 `--pwprompt`
 
-If given, createuser will issue a prompt for the password of the new user. This is not necessary if you do not plan on using password authentication.
+如果有此選項，createuser 將發出新使用者密碼的提示。如果您不打算使用密碼身份驗證，則毌須執行此操作。
 
 `-r`  
 `--createrole`
 
-The new user will be allowed to create new roles \(that is, this user will have `CREATEROLE` privilege\).
+將允許新使用者建立新角色（即，此使用者將具有 CREATEROLE 權限）。
 
 `-R`  
 `--no-createrole`
 
-The new user will not be allowed to create new roles. This is the default.
+不允許新使用者建立新角色。這是預設值。
 
 `-s`  
 `--superuser`
 
-The new user will be a superuser.
+新使用者將是超級使用者。
 
 `-S`  
 `--no-superuser`
 
-The new user will not be a superuser. This is the default.
+新用戶不是超級用戶。這是預設值。
 
 `-V`  
 `--version`
 
-Print the createuser version and exit.
+輸出 createuser 版本然後退出。
 
 `--replication`
 
-The new user will have the `REPLICATION` privilege, which is described more fully in the documentation for [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html).
+新使用者將具有 REPLICATION 權限，在 [CREATE ROLE](../sql-commands/create-role.md) 的頁面中對此進行了更全面的描述。
 
 `--no-replication`
 
-The new user will not have the `REPLICATION` privilege, which is described more fully in the documentation for [CREATE ROLE](https://www.postgresql.org/docs/10/static/sql-createrole.html).
+新使用者將不會有 REPLICATION 權限，這在 [CREATE ROLE](../sql-commands/create-role.md) 的頁面中有更全面的描述。
 
 `-?`  
 `--help`
 
-Show help about createuser command line arguments, and exit.
+顯示有關 createuser 命令列選項的協助資訊，然後退出。
 
-createuser also accepts the following command-line arguments for connection parameters:
+createuser 還接受以下連線參數的命令列選項：
 
 `-h` _`host`_  
 `--host=`_`host`_
 
-Specifies the host name of the machine on which the server is running. If the value begins with a slash, it is used as the directory for the Unix domain socket.
+指定運行伺服器的主機名稱。如果以斜槓開頭，則將其用作 Unix domain socke 的目錄。
 
 `-p` _`port`_  
 `--port=`_`port`_
 
-Specifies the TCP port or local Unix domain socket file extension on which the server is listening for connections.
+指定伺服器正在監聽連線的 TCP 連接埠或本地 Unix domain socket 檔案延伸名稱。
 
 `-U` _`username`_  
 `--username=`_`username`_
 
-User name to connect as \(not the user name to create\).
+要連線的使用者名稱（不是要建立的使用者名稱）。
 
 `-w`  
 `--no-password`
 
-Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a `.pgpass` file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.
+不要發出密碼提示。如果伺服器需要密碼身份驗證，並且其他方式（例如 .pgpass 檔案）也無法使用密碼，則連線嘗試將會失敗。此選項在沒有使用者輸入密碼的批處理作業和腳本中非常有用。
 
 `-W`  
 `--password`
 
-Force createuser to prompt for a password \(for connecting to the server, not for the password of the new user\).
+強制 createuser 提示輸入密碼（用於連線伺服器，而不是新使用者的密碼）。
 
-This option is never essential, since createuser will automatically prompt for a password if the server demands password authentication. However, createuser will waste a connection attempt finding out that the server wants a password. In some cases it is worth typing `-W` to avoid the extra connection attempt.
+此選項都不是必須的，因為如果伺服器需要密碼身份驗證，createuser 將自動提示輸入密碼。只是，createuser 會浪費連線嘗試，為了發現伺服器需要密碼。在某些情況下，值得輸入 -W 以避免額外的連線嘗試。
 
 ### 環境變數
 
