@@ -16,21 +16,21 @@ CREATE [ UNIQUE ] INDEX [ CONCURRENTLY ] [ [ IF NOT EXISTS ] name ] ON table_nam
     [ WHERE predicate ]
 ```
 
-### Description
+### 說明
 
-`CREATE INDEX` constructs an index on the specified column\(s\) of the specified relation, which can be a table or a materialized view. Indexes are primarily used to enhance database performance \(though inappropriate use can result in slower performance\).
+CREATE INDEX 在指定關連的指定欄位上建構索引，該索引可以是資料表或具體化檢視表。索引主要用於增強資料庫效能（儘管不恰當的使用會導致效能降低）。
 
-The key field\(s\) for the index are specified as column names, or alternatively as expressions written in parentheses. Multiple fields can be specified if the index method supports multicolumn indexes.
+索引的主要欄位指定欄位名稱，或者作為括號中的表示式指定。如果索引方法支援多欄位索引，則可以指定多個欄位。
 
-An index field can be an expression computed from the values of one or more columns of the table row. This feature can be used to obtain fast access to data based on some transformation of the basic data. For example, an index computed on `upper(col)` would allow the clause `WHERE upper(col) = 'JIM'` to use an index.
+索引欄位可以是根據資料表的一個欄位或多個欄位的計算表示式。此功能可用於基於對基本資料的某些轉換來快速存取資料。例如，在 upper\(col\) 上計算的索引將允許子句 WHERE upper\(col\) = 'JIM' 使用索引。
 
-PostgreSQL provides the index methods B-tree, hash, GiST, SP-GiST, GIN, and BRIN. Users can also define their own index methods, but that is fairly complicated.
+PostgreSQL 提供索引方法 B-tree，hash，GiST，SP-GiST，GIN 和 BRIN。使用者也可以定義自己的索引方法，但這相當複雜。
 
-When the `WHERE` clause is present, a _partial index_ is created. A partial index is an index that contains entries for only a portion of a table, usually a portion that is more useful for indexing than the rest of the table. For example, if you have a table that contains both billed and unbilled orders where the unbilled orders take up a small fraction of the total table and yet that is an often used section, you can improve performance by creating an index on just that portion. Another possible application is to use `WHERE` with `UNIQUE` to enforce uniqueness over a subset of a table. See [Section 11.8](https://www.postgresql.org/docs/10/static/indexes-partial.html) for more discussion.
+WHERE子句存在時，將建立部分索引。部分索引是一個索引，它只包含資料表的一部分項目，通常是比索引的其餘部分更有用的索引部分。例如，如果您的資料表包含已開票和未開單的訂單，其中未開單的訂單佔據總資料表的一小部分，但這是一個經常使用的部分，您可以透過僅在該部分上建立索引來提高效能。另一個可能的應用是使用帶有 UNIQUE 的 WHERE 來強制資料表子集的唯一性。有關更多討論，請參閱[第 11.8 節](../../the-sql-language/index/partial-indexes.md)。
 
-The expression used in the `WHERE` clause can refer only to columns of the underlying table, but it can use all columns, not just the ones being indexed. Presently, subqueries and aggregate expressions are also forbidden in `WHERE`. The same restrictions apply to index fields that are expressions.
+WHERE 子句中使用的表示式只能引用基礎資料表的欄位，但它可以使用所有欄位，而不僅僅是被索引的欄位。目前，WHERE 中也禁止使用子查詢和彙總資料表示式。相同的限制適用於作為表示式的索引欄位。
 
-All functions and operators used in an index definition must be “immutable”, that is, their results must depend only on their arguments and never on any outside influence \(such as the contents of another table or the current time\). This restriction ensures that the behavior of the index is well-defined. To use a user-defined function in an index expression or `WHERE` clause, remember to mark the function immutable when you create it.
+索引定義中使用的所有函數和運算符必須是「immutable」，也就是說，它們的結果必須僅依賴於它們的參數，而不是任何外部影響（例如另一個資料表的內容或目前時間）。此限制可確保明確定義索引的行為。要在索引表示式或 WHERE 子句中使用使用者定義的函數，請記住在建立函數時將該函數標記為 immutable。
 
 ### Parameters
 
@@ -168,21 +168,21 @@ Concurrent builds of expression indexes and partial indexes are supported. Error
 
 Regular index builds permit other regular index builds on the same table to occur in parallel, but only one concurrent index build can occur on a table at a time. In both cases, no other types of schema modification on the table are allowed meanwhile. Another difference is that a regular `CREATE INDEX` command can be performed within a transaction block, but `CREATE INDEX CONCURRENTLY` cannot.
 
-### Notes
+### 注意
 
-See [Chapter 11](https://www.postgresql.org/docs/10/static/indexes.html) for information about when indexes can be used, when they are not used, and in which particular situations they can be useful.
+有關何時可以使用索引，何時不使用索引以及哪些特定情況可以使用索引的訊息，請參閱[第 11 章](../../the-sql-language/index/)。
 
-Currently, only the B-tree, GiST, GIN, and BRIN index methods support multicolumn indexes. Up to 32 fields can be specified by default. \(This limit can be altered when building PostgreSQL.\) Only B-tree currently supports unique indexes.
+目前，只有B-tree，GiST，GIN 和 BRIN 索引方法支持多欄位索引。預設情況下最多可以指定 32 個欄位。（編譯 PostgreSQL 時可以變更此限制。）只有 B-tree 目前支援唯一索引。
 
-An _operator class_ can be specified for each column of an index. The operator class identifies the operators to be used by the index for that column. For example, a B-tree index on four-byte integers would use the `int4_ops` class; this operator class includes comparison functions for four-byte integers. In practice the default operator class for the column's data type is usually sufficient. The main point of having operator classes is that for some data types, there could be more than one meaningful ordering. For example, we might want to sort a complex-number data type either by absolute value or by real part. We could do this by defining two operator classes for the data type and then selecting the proper class when making an index. More information about operator classes is in [Section 11.9](https://www.postgresql.org/docs/10/static/indexes-opclass.html) and in [Section 37.14](https://www.postgresql.org/docs/10/static/xindex.html).
+可以為索引的每個欄位指定運算子類。運算子類識別該欄位的索引要使用的運算子。例如，4 bytes 整數的 B-tree 索引將使用 int4\_ops 類；此運算子類包括 4 bytes 整數的比較函數。實際上，欄位資料型別的預設運算子類通常就足夠了。擁有運算子類的要點是，對於某些資料型別，可能存在多個有意義的排序。例如，我們可能希望按絕對值或複數資料型別的實部進行排序。我們可以透過為資料型別定義兩個運算子類，然後在建立索引時選擇適當的類。有關運算子類的更多訊息，請參閱[第 11.9 節](../../the-sql-language/index/operator-classes-and-operator-families.md)和[第 37.14 節](../../server-programming/extending-sql/interfacing-extensions-to-indexes.md)。
 
-For index methods that support ordered scans \(currently, only B-tree\), the optional clauses `ASC`, `DESC`, `NULLS FIRST`, and/or `NULLS LAST` can be specified to modify the sort ordering of the index. Since an ordered index can be scanned either forward or backward, it is not normally useful to create a single-column `DESC` index — that sort ordering is already available with a regular index. The value of these options is that multicolumn indexes can be created that match the sort ordering requested by a mixed-ordering query, such as `SELECT ... ORDER BY x ASC, y DESC`. The `NULLS` options are useful if you need to support “nulls sort low” behavior, rather than the default “nulls sort high”, in queries that depend on indexes to avoid sorting steps.
+對於支援有序掃描的索引方法（目前只有 B-tree），可以指定選擇性子句 ASC，DESC，NULLS FIRST 和 NULLS LAST 來修改索引的排序順序。由於可以向前或向後掃描有序索引，因此建立單欄位 DESC 索引並不常用 - 排序順序已經可用於一般性索引。這些選項的值是可以建立多欄位索引，該索引搭配混合排序查詢所請求的排序順序，例如 SELECT ... ORDER BY x ASC, y DESC。如果您需要在依賴於索引以避免排序步驟的查詢中支援「nulls sort low」行為而不是預設的「nulls sort high」，那麼 NULLS 選項很有用。
 
-For most index methods, the speed of creating an index is dependent on the setting of [maintenance\_work\_mem](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM). Larger values will reduce the time needed for index creation, so long as you don't make it larger than the amount of memory really available, which would drive the machine into swapping.
+對於大多數索引方法，建立索引的速度取決於 [maintenance\_work\_mem](../../server-administration/server-configuration/resource-consumption.md#19-4-1) 的設定。較大的值將減少索引建立所需的時間，只要您不要使其大於真正可用的記憶體大小，否則將驅使主機使用 SWAP。
 
-Use [DROP INDEX](https://www.postgresql.org/docs/10/static/sql-dropindex.html) to remove an index.
+使用 [DROP INDEX](drop-index.md) 移除索引。
 
-Prior releases of PostgreSQL also had an R-tree index method. This method has been removed because it had no significant advantages over the GiST method. If `USING rtree` is specified, `CREATE INDEX` will interpret it as `USING gist`, to simplify conversion of old databases to GiST.
+PostgreSQL 的早期版本也有一個 R-tree 索引方法。此方法已被移除，因為它沒有 GiST 方法的顯著優勢。如果指定了 USING rtree，CREATE INDEX 會將其解釋為USING gist，以簡化舊資料庫到 GiST 的轉換。
 
 ### 範例
 

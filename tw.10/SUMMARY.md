@@ -404,7 +404,7 @@
     * [37.11. User-defined Types](server-programming/extending-sql/user-defined-types.md)
     * [37.12. User-defined Operators](server-programming/extending-sql/37.12.-user-defined-operators.md)
     * [37.13. Operator Optimization Information](server-programming/extending-sql/37.13.-operator-optimization-information.md)
-    * [37.14. Interfacing Extensions To Indexes](server-programming/extending-sql/37.14.-interfacing-extensions-to-indexes.md)
+    * [37.14. Interfacing Extensions To Indexes](server-programming/extending-sql/interfacing-extensions-to-indexes.md)
     * [37.15. Packaging Related Objects into an Extension](server-programming/extending-sql/37.15.-packaging-related-objects-into-an-extension.md)
     * [37.16. Extension Building Infrastructure](server-programming/extending-sql/37.16.-extension-building-infrastructure.md)
   * [38. Triggers](server-programming/triggers.md)
