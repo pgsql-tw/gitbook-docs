@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # CREATE DATABASE
 
-CREATE DATABASE — create a new database
+CREATE DATABASE — 建立一個新的資料庫
 
-### Synopsis
+### 語法
 
 ```text
 CREATE DATABASE name
@@ -17,13 +21,13 @@ CREATE DATABASE name
            [ IS_TEMPLATE [=] istemplate ] ]
 ```
 
-### Description
+### 說明
 
-`CREATE DATABASE` creates a new PostgreSQL database.
+CREATE DATABASE 建立一個新的 PostgreSQL 資料庫。
 
-To create a database, you must be a superuser or have the special `CREATEDB` privilege. See [CREATE USER](https://www.postgresql.org/docs/10/static/sql-createuser.html).
+要建立資料庫，您必須是超級使用者或具有特殊的 CREATEDB 權限。請參閱 [CREATE USER](create-user.md)。
 
-By default, the new database will be created by cloning the standard system database `template1`. A different template can be specified by writing `TEMPLATE` _`name`_. In particular, by writing `TEMPLATE template0`, you can create a virgin database containing only the standard objects predefined by your version of PostgreSQL. This is useful if you wish to avoid copying any installation-local objects that might have been added to `template1`.
+預設情況下，將透過複製標準系統資料庫 template1 來建立新的資料庫。可以透過修改 TEMPLATE 名稱來指定不同的樣板。特別是，通過修改 TEMPLATE template0，您可以建立一個僅包含您的 PostgreSQL 版本預定義的標準物件的原始資料庫。如果您希望避免複製可能已添加到 template1 的任何本地物件，這將非常有用。
 
 ### Parameters
 
@@ -69,41 +73,41 @@ If true, then this database can be cloned by any user with `CREATEDB` privileges
 
 Optional parameters can be written in any order, not only the order illustrated above.
 
-### Notes
+### 注意
 
-`CREATE DATABASE` cannot be executed inside a transaction block.
+不能在交易事務區塊內執行 CREATE DATABASE。
 
-Errors along the line of “could not initialize database directory” are most likely related to insufficient permissions on the data directory, a full disk, or other file system problems.
+「無法初始化資料庫目錄」的錯誤很可能與資料目錄，磁碟空間滿載或其他檔案系統的權限不足問題有關。
 
-Use [DROP DATABASE](https://www.postgresql.org/docs/10/static/sql-dropdatabase.html) to remove a database.
+使用 [DROP DATABASE](drop-database.md) 移除資料庫。
 
-The program [createdb](https://www.postgresql.org/docs/10/static/app-createdb.html) is a wrapper program around this command, provided for convenience.
+工具 [createdb](../client-applications/createdb.md) 是一個封裝此指令的程式，為方便起見而提供。
 
-Database-level configuration parameters \(set via [ALTER DATABASE](https://www.postgresql.org/docs/10/static/sql-alterdatabase.html)\) are not copied from the template database.
+不會從樣板資料庫中複製資料庫級的組態參數（透過 ALTER DATABASE 設定）。
 
-Although it is possible to copy a database other than `template1` by specifying its name as the template, this is not \(yet\) intended as a general-purpose “`COPY DATABASE`” facility. The principal limitation is that no other sessions can be connected to the template database while it is being copied. `CREATE DATABASE` will fail if any other connection exists when it starts; otherwise, new connections to the template database are locked out until `CREATE DATABASE` completes. See [Section 22.3](https://www.postgresql.org/docs/10/static/manage-ag-templatedbs.html) for more information.
+雖然可以透過將其名稱指定為模板來複製除 template1 之外的資料庫，但這並不是（通常）用作通用的「COPY DATABASE」工具。主要限制是在複製樣板資料庫時不能有其他連線到樣板資料庫。如果啟動時存在任何其他連線，則 CREATE DATABASE 將失敗；否則，在 CREATE DATABASE 完成之前，將鎖定與樣版資料庫新的連線。有關更多訊息，請參閱[第 22.3 節](../../server-administration/22.-managing-databases/22.3.-template-databases.md)。
 
-The character set encoding specified for the new database must be compatible with the chosen locale settings \(`LC_COLLATE` and `LC_CTYPE`\). If the locale is `C` \(or equivalently `POSIX`\), then all encodings are allowed, but for other locale settings there is only one encoding that will work properly. \(On Windows, however, UTF-8 encoding can be used with any locale.\) `CREATE DATABASE` will allow superusers to specify `SQL_ASCII` encoding regardless of the locale settings, but this choice is deprecated and may result in misbehavior of character-string functions if data that is not encoding-compatible with the locale is stored in the database.
+為新資料庫指定的字元集編碼必須與所選的區域設定（LC\_COLLATE 和 LC\_CTYPE）相容。如果語言環境是 C（或等效 POSIX），則允許所有編碼，但對於其他語言環境設定，只有一種編碼可以正常工作。（不過，在Windows上，UTF-8 編碼可以與任何語言環境一起使用。）CREATE DATABASE 將允許超級使用者指定 SQL\_ASCII 編碼而不管語言環境設定如何，但是這種方式已被棄用。如果資料可能導致字串函數的不當行為，則與語言環境不相容的編碼就會儲存在資料庫中。
 
-The encoding and locale settings must match those of the template database, except when `template0` is used as template. This is because other databases might contain data that does not match the specified encoding, or might contain indexes whose sort ordering is affected by `LC_COLLATE` and `LC_CTYPE`. Copying such data would result in a database that is corrupt according to the new settings. `template0`, however, is known to not contain any data or indexes that would be affected.
+編碼和語言環境設定必須與樣板資料庫的設定相符合，除非將 template0 用作樣板。這是因為其他資料庫可能包含與指定編碼不相符合的資料，或者可能包含其排序順序受 LC\_COLLATE 和 LC\_CTYPE 影響的索引。複製此類資料將導致資料庫根據新設定而損壞。總之，template0 不包含任何會受影響的資料或索引。
 
-The `CONNECTION LIMIT` option is only enforced approximately; if two new sessions start at about the same time when just one connection “slot” remains for the database, it is possible that both will fail. Also, the limit is not enforced against superusers or background worker processes.
+CONNECTION LIMIT 選項僅近乎強制執行：如果兩個新連線幾乎同時開始，當資料庫只剩下一個連線「插槽」時，則兩者都可能會失敗。此外，不會對超級使用者或後台工作程序強制執行此限制。
 
-### Examples
+### 範例
 
-To create a new database:
+要建立新資料庫：
 
 ```text
 CREATE DATABASE lusiadas;
 ```
 
-To create a database `sales` owned by user `salesapp` with a default tablespace of `salesspace`:
+使用 salesspace 預設資料表空間並建立由使用者 salesapp 所擁有的資料庫 sales：
 
 ```text
 CREATE DATABASE sales OWNER salesapp TABLESPACE salesspace;
 ```
 
-To create a database `music` with a different locale:
+要使用不同的區域設定來建立資料庫 music：
 
 ```text
 CREATE DATABASE music
@@ -111,9 +115,9 @@ CREATE DATABASE music
     TEMPLATE template0;
 ```
 
-In this example, the `TEMPLATE template0` clause is required if the specified locale is different from the one in `template1`. \(If it is not, then specifying the locale explicitly is redundant.\)
+在此範例中，如果指定的語言環境與 template1 中的語言環境不同，則需要 TEMPLATE template0 子句。（如果不是，則明確指定語言環境是多餘的。）
 
-To create a database `music2` with a different locale and a different character set encoding:
+要建立具有不同區域設定和不同字元集編碼的資料庫 music2：
 
 ```text
 CREATE DATABASE music2
@@ -122,15 +126,15 @@ CREATE DATABASE music2
     TEMPLATE template0;
 ```
 
-The specified locale and encoding settings must match, or an error will be reported.
+指定的區域設定和編碼設定必須相符合，否則將回報錯誤。
 
-Note that locale names are specific to the operating system, so that the above commands might not work in the same way everywhere.
+請注意，區域設定名稱專屬於作業系統，因此上述指令可能無法在其他地方以相同的方式工作。
 
-### Compatibility
+### 相容性
 
-There is no `CREATE DATABASE` statement in the SQL standard. Databases are equivalent to catalogs, whose creation is implementation-defined.
+SQL 標準中沒有 CREATE DATABASE 語句。資料庫等同於目錄，其建立是實作上定義的。
 
-### See Also
+### 參閱
 
 [ALTER DATABASE](alter-database.md), [DROP DATABASE](drop-database.md)
 
