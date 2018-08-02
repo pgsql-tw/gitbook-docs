@@ -32,75 +32,75 @@ WHERE 子句中使用的表示式只能引用基礎資料表的欄位，但它�
 
 索引定義中使用的所有函數和運算符必須是「immutable」，也就是說，它們的結果必須僅依賴於它們的參數，而不是任何外部影響（例如另一個資料表的內容或目前時間）。此限制可確保明確定義索引的行為。要在索引表示式或 WHERE 子句中使用使用者定義的函數，請記住在建立函數時將該函數標記為 immutable。
 
-### Parameters
+### 參數
 
 `UNIQUE`
 
-Causes the system to check for duplicate values in the table when the index is created \(if data already exist\) and each time data is added. Attempts to insert or update data which would result in duplicate entries will generate an error.
+在建立索引時（如果資料已存在）並且每次插入資料時，系統都會檢查資料表中的重複值。嘗試插入或更新如果導致重複項目的資料將產生錯誤。
 
 `CONCURRENTLY`
 
-When this option is used, PostgreSQL will build the index without taking any locks that prevent concurrent inserts, updates, or deletes on the table; whereas a standard index build locks out writes \(but not reads\) on the table until it's done. There are several caveats to be aware of when using this option — see [Building Indexes Concurrently](https://www.postgresql.org/docs/10/static/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY).
+使用此選項時，PostgreSQL 將在建立索引時，不會採取任何阻止資料表上同時的插入，更新或刪除的鎖定；而標準索引建立會鎖定資料表上的寫入（但不是讀取），直到完成為止。使用此選項時需要注意幾點 - 請參閱[同步建立索引](create-index.md#building-indexes-concurrently)。
 
 `IF NOT EXISTS`
 
-Do not throw an error if a relation with the same name already exists. A notice is issued in this case. Note that there is no guarantee that the existing index is anything like the one that would have been created. Index name is required when `IF NOT EXISTS` is specified.
+如果已存在具有相同名稱的關連，請不要拋出錯誤，在這種情況下發出 NOTICE。請注意，無法保證現有索引與已建立的索引類似。指定 IF NOT EXISTS 時需要索引名稱。
 
 _`name`_
 
-The name of the index to be created. No schema name can be included here; the index is always created in the same schema as its parent table. If the name is omitted, PostgreSQL chooses a suitable name based on the parent table's name and the indexed column name\(s\).
+要建立的索引名稱。這裡不能包含綱要名稱；索引始終在與其父資料表相同的綱要中創建。如果省略該名稱，PostgreSQL會根據父資料表的名稱和索引的欄位名稱選擇合適的名稱。
 
 _`table_name`_
 
-The name \(possibly schema-qualified\) of the table to be indexed.
+要編制索引的資料表名稱（可以加上綱要名稱）。
 
 _`method`_
 
-The name of the index method to be used. Choices are `btree`, `hash`, `gist`, `spgist`, `gin`, and `brin`. The default method is `btree`.
+要使用的索引方法的名稱。選項是 btree，hash，gist，spgist，gin 和 brin。預設方法是 btree。
 
 _`column_name`_
 
-The name of a column of the table.
+資料表欄位的名稱。
 
 _`expression`_
 
-An expression based on one or more columns of the table. The expression usually must be written with surrounding parentheses, as shown in the syntax. However, the parentheses can be omitted if the expression has the form of a function call.
+基於資料表的一個欄位或多個欄位的表示式。表示式通常必須與周圍的括號一起填寫，如語法中所示。但是，如果表示式具有函數呼叫的形式，則可以省略括號。
 
 _`collation`_
 
-The name of the collation to use for the index. By default, the index uses the collation declared for the column to be indexed or the result collation of the expression to be indexed. Indexes with non-default collations can be useful for queries that involve expressions using non-default collations.
+用於索引的排序規則的名稱。預設情況下，索引使用為要索引的欄位宣告排序規則或要索引的表示式結果排序規則。具有非預設排序規則的索引對於涉及使用非預設排序規則的表示式查詢非常有用。
 
 _`opclass`_
 
-The name of an operator class. See below for details.
+運算子類的名稱。請參閱下文了解詳情。
 
 `ASC`
 
-Specifies ascending sort order \(which is the default\).
+指定遞增排序順序（預設值）。
 
 `DESC`
 
-Specifies descending sort order.
+指定遞減排序。
 
 `NULLS FIRST`
 
-Specifies that nulls sort before non-nulls. This is the default when `DESC` is specified.
+指定 nulls 排在非 null 之前。這是指定 DESC 時的預設值。
 
 `NULLS LAST`
 
-Specifies that nulls sort after non-nulls. This is the default when `DESC` is not specified.
+指定 nulls 排在非 null 之後。這是未指定 DESC 時的預設值。
 
 _`storage_parameter`_
 
-The name of an index-method-specific storage parameter. See [Index Storage Parameters](https://www.postgresql.org/docs/10/static/sql-createindex.html#SQL-CREATEINDEX-STORAGE-PARAMETERS) for details.
+特定於索引方法的儲存參數的名稱。有關詳情，請參見[索引儲存參數](create-index.md#index-storage-parameters)。
 
 _`tablespace_name`_
 
-The tablespace in which to create the index. If not specified, [default\_tablespace](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TEMP-TABLESPACES) for indexes on temporary tables.
+用於建立索引的資料表空間。如果未指定，則查詢 [default\_tablespace](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#default_tablespace-string)，或臨時資料表 [temp\_tablespaces](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#temp_tablespaces-string)。
 
 _`predicate`_
 
-The constraint expression for a partial index.
+部分索引的限制條件表示式。
 
 #### Index Storage Parameters
 
