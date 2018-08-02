@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # CREATE INDEX
 
-CREATE INDEX — define a new index
+CREATE INDEX — 定義一個新的索引
 
-### Synopsis
+### 語法
 
 ```text
 CREATE [ UNIQUE ] INDEX [ CONCURRENTLY ] [ [ IF NOT EXISTS ] name ] ON table_name [ USING method ]
@@ -180,53 +184,53 @@ Use [DROP INDEX](https://www.postgresql.org/docs/10/static/sql-dropindex.html) t
 
 Prior releases of PostgreSQL also had an R-tree index method. This method has been removed because it had no significant advantages over the GiST method. If `USING rtree` is specified, `CREATE INDEX` will interpret it as `USING gist`, to simplify conversion of old databases to GiST.
 
-### Examples
+### 範例
 
-To create a B-tree index on the column `title` in the table `films`:
+要在資料表中的欄位 title 上建立 B-tree 索引：
 
 ```text
 CREATE UNIQUE INDEX title_idx ON films (title);
 ```
 
-To create an index on the expression `lower(title)`, allowing efficient case-insensitive searches:
+要在表示式 lower\(title\) 上建立索引，允許有效的不分大小寫搜尋：
 
 ```text
 CREATE INDEX ON films ((lower(title)));
 ```
 
-\(In this example we have chosen to omit the index name, so the system will choose a name, typically `films_lower_idx`.\)
+（在此範例中，我們選擇省略索引名稱，因此系統將選擇一個名稱，通常為 films\_lower\_idx。）
 
-To create an index with non-default collation:
+要使用非預設排序規則建立索引：
 
 ```text
 CREATE INDEX title_idx_german ON films (title COLLATE "de_DE");
 ```
 
-To create an index with non-default sort ordering of nulls:
+要建立具有空值的非預設排序順序索引：
 
 ```text
 CREATE INDEX title_idx_nulls_low ON films (title NULLS FIRST);
 ```
 
-To create an index with non-default fill factor:
+要使用非預設 fill factor 建立索引：
 
 ```text
 CREATE UNIQUE INDEX title_idx ON films (title) WITH (fillfactor = 70);
 ```
 
-To create a GIN index with fast updates disabled:
+要建立停用快速更新的 GIN 索引：
 
 ```text
 CREATE INDEX gin_idx ON documents_table USING GIN (locations) WITH (fastupdate = off);
 ```
 
-To create an index on the column `code` in the table `films` and have the index reside in the tablespace `indexspace`:
+要在資料表 film 中的欄位 code 上建立索引，並將索引放在資料表空間 indexspace 中：
 
 ```text
 CREATE INDEX code_idx ON films (code) TABLESPACE indexspace;
 ```
 
-To create a GiST index on a point attribute so that we can efficiently use box operators on the result of the conversion function:
+要在 point 屬性上建立 GiST 索引，以便我們可以在轉換函數的結果上有效地使用 box 運算子：
 
 ```text
 CREATE INDEX pointloc
@@ -235,17 +239,17 @@ SELECT * FROM points
     WHERE box(location,location) && '(0,0),(1,1)'::box;
 ```
 
-To create an index without locking out writes to the table:
+要建立索引但不鎖定對資料表的寫入：
 
 ```text
 CREATE INDEX CONCURRENTLY sales_quantity_index ON sales_table (quantity);
 ```
 
-### Compatibility
+### 相容性
 
-`CREATE INDEX` is a PostgreSQL language extension. There are no provisions for indexes in the SQL standard.
+CREATE INDEX 是 PostgreSQL 延伸語法。SQL 標準中沒有索引的規定。
 
-### See Also
+### 參閱
 
-[ALTER INDEX](https://www.postgresql.org/docs/10/static/sql-alterindex.html), [DROP INDEX](https://www.postgresql.org/docs/10/static/sql-dropindex.html)
+[ALTER INDEX](alter-index.md), [DROP INDEX](drop-index.md)
 
