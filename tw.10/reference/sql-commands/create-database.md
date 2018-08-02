@@ -29,49 +29,49 @@ CREATE DATABASE 建立一個新的 PostgreSQL 資料庫。
 
 預設情況下，將透過複製標準系統資料庫 template1 來建立新的資料庫。可以透過修改 TEMPLATE 名稱來指定不同的樣板。特別是，通過修改 TEMPLATE template0，您可以建立一個僅包含您的 PostgreSQL 版本預定義的標準物件的原始資料庫。如果您希望避免複製可能已添加到 template1 的任何本地物件，這將非常有用。
 
-### Parameters
+### 參數
 
 _`name`_
 
-The name of a database to create.
+要建立的資料庫名稱。
 
 _`user_name`_
 
-The role name of the user who will own the new database, or `DEFAULT` to use the default \(namely, the user executing the command\). To create a database owned by another role, you must be a direct or indirect member of that role, or be a superuser.
+將擁有新資料庫的使用者角色名稱，或 DEFAULT 使用預設值（即執行指令的使用者）。要建立由其他角色擁有的資料庫，您必須是該角色的直接或間接成員，或者是超級使用者。
 
 _`template`_
 
-The name of the template from which to create the new database, or `DEFAULT` to use the default template \(`template1`\).
+從中建立新資料庫的樣板名稱，或 DEFAULT 以使用預設樣板（template1）。
 
 _`encoding`_
 
-Character set encoding to use in the new database. Specify a string constant \(e.g., `'SQL_ASCII'`\), or an integer encoding number, or `DEFAULT` to use the default encoding \(namely, the encoding of the template database\). The character sets supported by the PostgreSQL server are described in [Section 23.3.1](https://www.postgresql.org/docs/10/static/multibyte.html#MULTIBYTE-CHARSET-SUPPORTED). See below for additional restrictions.
+要在新資料庫中使用的字元集編碼。指定字串常數（例如，'SQL\_ASCII'）或整數編碼數字，或指定 DEFAULT 以使用預設編碼（即樣板資料庫的編碼）。 PostgreSQL 伺服器支援的字元集在[第 23.3.1 節](../../server-administration/localization/character-set-support.md#23-3-1-supported-character-sets)中描述。其他限制請參閱下面說明。
 
 _`lc_collate`_
 
-Collation order \(`LC_COLLATE`\) to use in the new database. This affects the sort order applied to strings, e.g. in queries with ORDER BY, as well as the order used in indexes on text columns. The default is to use the collation order of the template database. See below for additional restrictions.
+要在新資料庫中使用的排列順序（LC\_COLLATE）。這會影響套用於字串的排序順序，例如在使用 ORDER BY的查詢中，以及在文字欄位索引中使用的順序。預設設定是使用樣板資料庫的排序順序。其他限制請參閱下面說明。
 
 _`lc_ctype`_
 
-Character classification \(`LC_CTYPE`\) to use in the new database. This affects the categorization of characters, e.g. lower, upper and digit. The default is to use the character classification of the template database. See below for additional restrictions.
+要在新資料庫中使用的字元分類（LC\_CTYPE）。這會影響字元的分類，例如小寫、大寫和數字。預設設定是使用樣板資料庫的字元分類。其他限制請參閱下面的說明。
 
 _`tablespace_name`_
 
-The name of the tablespace that will be associated with the new database, or `DEFAULT` to use the template database's tablespace. This tablespace will be the default tablespace used for objects created in this database. See [CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html) for more information.
+將與新資料庫關連的資料表空間名稱，或 DEFAULT 以使用樣板資料庫的資料表空間。此資料表空間將是用於在此資料庫中建立物件的預設資料表空間。有關更多訊息，請參閱 [CREATE TABLESPACE](create-tablespace.md)。
 
 _`allowconn`_
 
-If false then no one can connect to this database. The default is true, allowing connections \(except as restricted by other mechanisms, such as `GRANT`/`REVOKE CONNECT`\).
+如果為 false，則沒有人可以連線到此資料庫。預設值為 true，允許連線（除非受到其他機制限制，例如 GRANT / REVOKE CONNECT）。
 
 _`connlimit`_
 
-How many concurrent connections can be made to this database. -1 \(the default\) means no limit.
+可以對此資料庫建立多少同時連線。 -1（預設值）表示沒有限制。
 
 _`istemplate`_
 
-If true, then this database can be cloned by any user with `CREATEDB` privileges; if false \(the default\), then only superusers or the owner of the database can clone it.
+如果為 true，則任何具有 CREATEDB 權限的使用者都可以複製此資料庫；如果為false（預設值），則只有超級使用者或資料庫的擁有者才能複製它。
 
-Optional parameters can be written in any order, not only the order illustrated above.
+選擇性參數可以按任何順序輸入，而不僅僅是上面說明的順序。
 
 ### 注意
 
