@@ -92,7 +92,7 @@ _`opclass`_
 
 _`storage_parameter`_
 
-特定於索引方法的儲存參數的名稱。有關詳情，請參見[索引儲存參數](create-index.md#index-storage-parameters)。
+特定於索引方法的儲存參數的名稱。有關詳情，請參見[索引儲存參數](create-index.md#suo-yin-cun)。
 
 _`tablespace_name`_
 
@@ -102,25 +102,25 @@ _`predicate`_
 
 部分索引的限制條件表示式。
 
-#### Index Storage Parameters
+#### 索引儲存參數
 
-The optional `WITH` clause specifies _storage parameters_ for the index. Each index method has its own set of allowed storage parameters. The B-tree, hash, GiST and SP-GiST index methods all accept this parameter:
+選擇性的 WITH 子句指定索引的儲存參數。每個索引方法都有自己的一組允許的儲存參數。B-tree，hash，GiST 和 SP-GiST 索引方法都接受此參數：
 
 `fillfactor`
 
-The fillfactor for an index is a percentage that determines how full the index method will try to pack index pages. For B-trees, leaf pages are filled to this percentage during initial index build, and also when extending the index at the right \(adding new largest key values\). If pages subsequently become completely full, they will be split, leading to gradual degradation in the index's efficiency. B-trees use a default fillfactor of 90, but any integer value from 10 to 100 can be selected. If the table is static then fillfactor 100 is best to minimize the index's physical size, but for heavily updated tables a smaller fillfactor is better to minimize the need for page splits. The other index methods use fillfactor in different but roughly analogous ways; the default fillfactor varies between methods.
+索引的 fillfactor 一個百分比，用於確定索引方法嘗試填充索引頁面的程度。對於B-tree，在初始索引建構期間以及在右側擴展索引時（在插入新的最大索引值時），葉子頁面將填充到此百分比。 如果頁面隨後變得完整，它們將被拆分，導致索引效率逐漸下降。B-tree 使用預設的 fillfactor 為90，但可以選擇 10 到 100 之間的任何整數值。如果資料表是靜態的，那麼 fillfactor 100 能最小化索引的實體大小，但是對於大量更新的資料表，較小的 fillfactor 能最小化頁面拆分的需要。其他索引方法以不同但大致類似的方式使用 fillfactor；預設的 fillfactor 會因方法而異。
 
-GiST indexes additionally accept this parameter:
+GiST 索引另外接受此參數：
 
 `buffering`
 
-Determines whether the buffering build technique described in [Section 62.4.1](https://www.postgresql.org/docs/10/static/gist-implementation.html#GIST-BUFFERING-BUILD) is used to build the index. With `OFF` it is disabled, with `ON` it is enabled, and with `AUTO` it is initially disabled, but turned on on-the-fly once the index size reaches [effective\_cache\_size](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-EFFECTIVE-CACHE-SIZE). The default is `AUTO`.
+確定是否使用[第 62.4.1 節](../../internals/gist-indexes/implementation.md#62-4-1-gist-buffering-build)中描述的緩衝建構技術來建構索引。使用 OFF 時，它被停用，ON 時啟用。當使用 AUTO 時，它最初被停用，但一旦索引大小達到 [effective\_cache\_size](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)，就會立即打開。預設值為 AUTO。
 
-GIN indexes accept different parameters:
+GIN 索引接受不同的參數：
 
 `fastupdate`
 
-This setting controls usage of the fast update technique described in [Section 64.4.1](https://www.postgresql.org/docs/10/static/gin-implementation.html#GIN-FAST-UPDATE). It is a Boolean parameter: `ON` enables fast update, `OFF` disables it. \(Alternative spellings of `ON` and `OFF` are allowed as described in [Section 19.1](https://www.postgresql.org/docs/10/static/config-setting.html).\) The default is `ON`.
+此設定控制[第 64.4.1 節](../../internals/64.-gin-suo-yin/64.4.-implementation.md#64-4-1-gin-fast-update-technique)中描述的快速更新技術的運用。它是一個布林參數：ON 啟用快速更新，OFF 停用它。 （如[第 19.1 節](../../server-administration/server-configuration/19.1.-setting-parameters.md)所述，允許使用 ON 和 OFF 的替代拼寫。）預設為 ON。
 
 #### Note
 
