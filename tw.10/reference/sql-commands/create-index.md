@@ -40,7 +40,7 @@ WHERE 子句中使用的表示式只能引用基礎資料表的欄位，但它�
 
 `CONCURRENTLY`
 
-使用此選項時，PostgreSQL 將在建立索引時，不會採取任何阻止資料表上同時的插入，更新或刪除的鎖定；而標準索引建立會鎖定資料表上的寫入（但不是讀取），直到完成為止。使用此選項時需要注意幾點 - 請參閱[同步建立索引](create-index.md#building-indexes-concurrently)。
+使用此選項時，PostgreSQL 將在建立索引時，不會採取任何阻止資料表上同時的插入，更新或刪除的鎖定；而標準索引建立會鎖定資料表上的寫入（但不是讀取），直到完成為止。使用此選項時需要注意幾點 - 請參閱[同步建立索引](create-index.md#tong-bu-jian-li-suo-yin)。
 
 `IF NOT EXISTS`
 
@@ -122,33 +122,33 @@ GIN 索引接受不同的參數：
 
 此設定控制[第 64.4.1 節](../../internals/64.-gin-suo-yin/64.4.-implementation.md#64-4-1-gin-fast-update-technique)中描述的快速更新技術的運用。它是一個布林參數：ON 啟用快速更新，OFF 停用它。 （如[第 19.1 節](../../server-administration/server-configuration/19.1.-setting-parameters.md)所述，允許使用 ON 和 OFF 的替代拼寫。）預設為 ON。
 
-#### Note
+#### 提醒
 
-Turning `fastupdate` off via `ALTER INDEX` prevents future insertions from going into the list of pending index entries, but does not in itself flush previous entries. You might want to `VACUUM`the table or call `gin_clean_pending_list` function afterward to ensure the pending list is emptied.
+透過 ALTER INDEX 關閉 fastupdate 可防止將來的插入進入擱置的索引項目列表，但本身不會更新以前的項目。您可能希望 VACUUM 資料表或之後呼叫 gin\_clean\_pending\_list 函數以確保清空擱置列表。
 
 `gin_pending_list_limit`
 
-Custom [gin\_pending\_list\_limit](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-GIN-PENDING-LIST-LIMIT) parameter. This value is specified in kilobytes.
+自定義 [gin\_pending\_list\_limit](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#gin_pending_list_limit-integer) 參數。此值以 KB 為單位。
 
-BRIN indexes accept different parameters:
+BRIN 索引接受不同的參數：
 
 `pages_per_range`
 
-Defines the number of table blocks that make up one block range for each entry of a BRIN index \(see [Section 65.1](https://www.postgresql.org/docs/10/static/brin-intro.html) for more details\). The default is `128`.
+定義構成 BRIN 索引每個項目的一個區塊範圍的資料表區塊數（有關更多詳細訊息，請參閱[第 65.1 節](../../internals/brin/introduction.md)）。預設值為 128。
 
 `autosummarize`
 
-Defines whether a summarization run is invoked for the previous page range whenever an insertion is detected on the next one.
+定義每當在下一個頁面上檢測到插入時是否為前一頁面範圍進行摘要。
 
-#### Building Indexes Concurrently
+#### 同步建立索引
 
-Creating an index can interfere with regular operation of a database. Normally PostgreSQL locks the table to be indexed against writes and performs the entire index build with a single scan of the table. Other transactions can still read the table, but if they try to insert, update, or delete rows in the table they will block until the index build is finished. This could have a severe effect if the system is a live production database. Very large tables can take many hours to be indexed, and even for smaller tables, an index build can lock out writers for periods that are unacceptably long for a production system.
+建立索引可能會干擾資料庫的日常操作。通常，PostgreSQL 會鎖定要對寫入進行索引的資料表，並通過對資料的單次掃描來執行整個索引建構。其他事務仍然可以讀取資料表，但如果它們嘗試插入，更新或刪除資料表中的資料列，它們將被阻擋，直到索引建構完成。如果系統是線上正式資料庫，這可能會產生嚴重影響。非常大的資料表可能需要很長時間才能被編入索引，即使對於較小的資料表，索引建構也可能會鎖定寫入程序，這些時間對於線上正式系統來說是不可接受的。
 
-PostgreSQL supports building indexes without locking out writes. This method is invoked by specifying the `CONCURRENTLY` option of `CREATE INDEX`. When this option is used, PostgreSQL must perform two scans of the table, and in addition it must wait for all existing transactions that could potentially modify or use the index to terminate. Thus this method requires more total work than a standard index build and takes significantly longer to complete. However, since it allows normal operations to continue while the index is built, this method is useful for adding new indexes in a production environment. Of course, the extra CPU and I/O load imposed by the index creation might slow other operations.
+PostgreSQL 支援建構索引而不會鎖定寫入。透過指定 CREATE INDEX 的 CONCURRENTLY 選項來呼叫此方法。使用此選項時，PostgreSQL 必須對資料執行兩次掃描，此外，它必須等待可能修改或使用索引的所有事務。因此，這種方法比標準索引建構需要更多的工作，也需要更長的時間來完成。但是，由於它允許在建構索引時繼續正常操作，因此此方法對於在正式環境中增加新的索引很有用。當然，索引建立帶來的額外 CPU 和 I/O 負載可能會減慢其他操作。
 
-In a concurrent index build, the index is actually entered into the system catalogs in one transaction, then two table scans occur in two more transactions. Before each table scan, the index build must wait for existing transactions that have modified the table to terminate. After the second scan, the index build must wait for any transactions that have a snapshot \(see [Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)\) predating the second scan to terminate. Then finally the index can be marked ready for use, and the `CREATE INDEX` command terminates. Even then, however, the index may not be immediately usable for queries: in the worst case, it cannot be used as long as transactions exist that predate the start of the index build.
+在同步索引建構時，索引實際上在一個交易事務中輸入到系統目錄，然後在另外兩個事務中産生兩個資料表掃描。在每次掃描資料表之前，索引建構必須等待已修改資料表的現有事務結束。在第二次掃描之後，索引建構必須等待具有快照（參閱[第 13 章](../../the-sql-language/concurrency-control/)）的任何事務在第二次掃描之前結束。最後，索引可以標記為可以使用，然後 CREATE INDEX 指令完成。但是，即使這樣，索引也可能無法立即用於查詢：在最壞的情況下，只要在索引建構開始之前存在事務，都不能使用它。
 
-If a problem arises while scanning the table, such as a deadlock or a uniqueness violation in a unique index, the `CREATE INDEX` command will fail but leave behind an “invalid” index. This index will be ignored for querying purposes because it might be incomplete; however it will still consume update overhead. The psql `\d` command will report such an index as `INVALID`:
+如果在掃描資料表時出現問題，例如鎖死或唯一索引中的唯一性違規，則 CREATE INDEX 指令將會失敗但留下「無效」索引。出於查詢目的，該索引將被忽略，因為它可能不完整；但它仍然會消耗更新成本。psql \d 指令將回報此類索引為 INVALID：
 
 ```text
 postgres=# \d tab
@@ -160,13 +160,13 @@ Indexes:
     "idx" btree (col) INVALID
 ```
 
-The recommended recovery method in such cases is to drop the index and try again to perform `CREATE INDEX CONCURRENTLY`. \(Another possibility is to rebuild the index with `REINDEX`. However, since `REINDEX` does not support concurrent builds, this option is unlikely to seem attractive.\)
+在這種情況下，建議的恢復方法是刪除索引並再次嘗試同時執行 CREATE INDEX。（另一種可能性是使用 REINDEX 重建索引。但是，由於 REINDEX 不支持同步建構，因此該選項看起來不太有吸引力。）
 
-Another caveat when building a unique index concurrently is that the uniqueness constraint is already being enforced against other transactions when the second table scan begins. This means that constraint violations could be reported in other queries prior to the index becoming available for use, or even in cases where the index build eventually fails. Also, if a failure does occur in the second scan, the “invalid” index continues to enforce its uniqueness constraint afterwards.
+同時建構唯一索引時的另一個警告是，當第二個資料表掃描開始時，已經對其他事務強制加上唯一性限制條件。這意味著在索引可供使用之前，甚至在索引建構最終失敗的情況下，可以在其他查詢中回報違反限制條件。此外，如果在第二次掃描中確實發生了故障，則「無效」索引將繼續強制執行其唯一性約束。
 
-Concurrent builds of expression indexes and partial indexes are supported. Errors occurring in the evaluation of these expressions could cause behavior similar to that described above for unique constraint violations.
+表示式索引和部分索引的同步建構也是支援的。在評估這些表示式時發生的錯誤可能導致類似於上面針對唯一性違規所描述的行為。
 
-Regular index builds permit other regular index builds on the same table to occur in parallel, but only one concurrent index build can occur on a table at a time. In both cases, no other types of schema modification on the table are allowed meanwhile. Another difference is that a regular `CREATE INDEX` command can be performed within a transaction block, but `CREATE INDEX CONCURRENTLY` cannot.
+一般索引建立允許同一資料表上的其他一般索引建立同時執行，但一次只能在一個資料表上進行一個同步索引構立。在這兩種情況下，同時不允許在資料表上進行其他類型的結構變更。另一個區別是可以在事務塊中執行一般的 CREATE INDEX 指令，但 CREATE INDEX CONCURRENTLY 不能。
 
 ### 注意
 
