@@ -64,9 +64,9 @@ SELECT xmlconcat('<?xml version="1.1"?><foo/>', '<?xml version="1.1" standalone=
 xmlelement(name name [, xmlattributes(value [AS attname] [, ... ])] [, content, ...])
 ```
 
-The `xmlelement` expression produces an XML element with the given name, attributes, and content.
+xmlelement 表示式産生具有給定名稱、屬性和內容的 XML 元素。
 
-Examples:
+範例：
 
 ```text
 SELECT xmlelement(name foo);
@@ -88,7 +88,7 @@ SELECT xmlelement(name foo, xmlattributes(current_date as bar), 'cont', 'ent');
  <foo bar="2007-01-26">content</foo>
 ```
 
-Element and attribute names that are not valid XML names are escaped by replacing the offending characters by the sequence `_x`_`HHHH`_\_, where _`HHHH`_ is the character's Unicode codepoint in hexadecimal notation. For example:
+透過用 _xHHHH_ 序列替換有問題的字符來轉譯非有效 XML 名稱的元素和屬性名稱，其中 HHHH 是十六進位表示法中字元的 Unicode 代碼。例如：
 
 ```text
 SELECT xmlelement(name "foo$bar", xmlattributes('xyz' as "a&b"));
@@ -98,21 +98,21 @@ SELECT xmlelement(name "foo$bar", xmlattributes('xyz' as "a&b"));
  <foo_x0024_bar a_x0026_b="xyz"/>
 ```
 
-An explicit attribute name need not be specified if the attribute value is a column reference, in which case the column's name will be used as the attribute name by default. In other cases, the attribute must be given an explicit name. So this example is valid:
+如果屬性值是引用欄位，則無需明確指定屬性名稱，在這種情況下，預設情況下欄位的名稱將用作屬性名稱。在其他情況下，必須為該屬性明確指定名稱。所以這個例子是有效的：
 
 ```text
 CREATE TABLE test (a xml, b xml);
 SELECT xmlelement(name test, xmlattributes(a, b)) FROM test;
 ```
 
-But these are not:
+但這些不行：
 
 ```text
 SELECT xmlelement(name test, xmlattributes('constant'), a, b) FROM test;
 SELECT xmlelement(name test, xmlattributes(func(a, b))) FROM test;
 ```
 
-Element content, if specified, will be formatted according to its data type. If the content is itself of type `xml`, complex XML documents can be constructed. For example:
+元素內容（如果已指定）將根據其資料型別進行格式化。如果內容本身是 xml 型別，則可以建構複雜的 XML 文件。例如：
 
 ```text
 SELECT xmlelement(name foo, xmlattributes('xyz' as bar),
@@ -125,7 +125,7 @@ SELECT xmlelement(name foo, xmlattributes('xyz' as bar),
  <foo bar="xyz"><abc/><!--test--><xyz/></foo>
 ```
 
-Content of other types will be formatted into valid XML character data. This means in particular that the characters &lt;, &gt;, and & will be converted to entities. Binary data \(data type `bytea`\) will be represented in base64 or hex encoding, depending on the setting of the configuration parameter [xmlbinary](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-XMLBINARY). The particular behavior for individual data types is expected to evolve in order to align the SQL and PostgreSQL data types with the XML Schema specification, at which point a more precise description will appear.
+其他型別的內容將被格式化為有效的 XML 字元資料。這尤其意味著字符 &lt;、&gt; 和 ＆ 將被轉換為其他形式。二進位資料（資料型別 bytea）將以 base64 或十六進位編碼表示，具體取決於組態參數 xmlbinary 的設定。為了使 SQL 和 PostgreSQL 資料型別與 XML Schema 規範保持一致，預計各種資料型別的特定行為將會各自發展，此時將出現更精確的描述。
 
 ### **9.14.1.4. xmlforest**
 
@@ -133,9 +133,9 @@ Content of other types will be formatted into valid XML character data. This mea
 xmlforest(content [AS name] [, ...])
 ```
 
-The `xmlforest` expression produces an XML forest \(sequence\) of elements using the given names and content.
+xmlforest 表示式使用給定的名稱和內容産生元素的 XML 序列。
 
-Examples:
+範例：
 
 ```text
 SELECT xmlforest('abc' AS foo, 123 AS bar);
@@ -156,11 +156,11 @@ WHERE table_schema = 'pg_catalog';
  ...
 ```
 
-As seen in the second example, the element name can be omitted if the content value is a column reference, in which case the column name is used by default. Otherwise, a name must be specified.
+如第二個範例所示，如果內容值是欄位引用，則可以省略元素名稱，在這種情況下，預設情況下使用欄位名稱。 否則，必須指定名稱。
 
-Element names that are not valid XML names are escaped as shown for `xmlelement` above. Similarly, content data is escaped to make valid XML content, unless it is already of type `xml`.
+非有效的 XML 名稱的元素名稱將被轉譯，如上面的 xmlelement 所示。類似地，內容資料會被轉譯以産生有效的 XML 內容，除非它已經是 xml 型別。
 
-Note that XML forests are not valid XML documents if they consist of more than one element, so it might be useful to wrap `xmlforest` expressions in `xmlelement`.
+請注意，如果 XML 序列由多個元素組成，則它們不是有效的 XML 文件，因此將 xmlforest 表示式包裝在 xmlelement 中可能很有用。
 
 ### **9.14.1.5. xmlpi**
 
@@ -168,9 +168,9 @@ Note that XML forests are not valid XML documents if they consist of more than o
 xmlpi(name target [, content])
 ```
 
-The `xmlpi` expression creates an XML processing instruction. The content, if present, must not contain the character sequence `?>`.
+xmlpi 表示式建立 XML 處理指令。內容（如果存在）不得包含字元序列 ?&gt;。
 
-Example:
+例如：
 
 ```text
 SELECT xmlpi(name php, 'echo "hello world";');
@@ -186,7 +186,7 @@ SELECT xmlpi(name php, 'echo "hello world";');
 xmlroot(xml, version text | no value [, standalone yes|no|no value])
 ```
 
-The `xmlroot` expression alters the properties of the root node of an XML value. If a version is specified, it replaces the value in the root node's version declaration; if a standalone setting is specified, it replaces the value in the root node's standalone declaration.
+xmlroot 表示式改變 XML 值的根節點屬性。如果指定了版本，它將替換根節點的版本宣告中的值；如果指定了獨立設定，則它將替換根節點的獨立宣告中的值。
 
 ```text
 SELECT xmlroot(xmlparse(document '<?xml version="1.1"?><content>abc</content>'),
@@ -204,9 +204,9 @@ SELECT xmlroot(xmlparse(document '<?xml version="1.1"?><content>abc</content>'),
 xmlagg(xml)
 ```
 
-The function `xmlagg` is, unlike the other functions described here, an aggregate function. It concatenates the input values to the aggregate function call, much like `xmlconcat` does, except that concatenation occurs across rows rather than across expressions in a single row. See [Section 9.20](https://www.postgresql.org/docs/10/static/functions-aggregate.html) for additional information about aggregate functions.
+與此處描述的其他函數不同，函數 xmlagg 是一個彙總函數。它將輸入值連接到彙總函數呼叫，就像 xmlconcat 一樣，除了它是跨資料列而不是在單個資料列中的表示式進行連接。有關彙總函數的其他訊息，請參閱[第 9.20 節](9.20.-hui-zong-han-shi.md)。
 
-Example:
+例如：
 
 ```text
 CREATE TABLE test (y int, x xml);
@@ -218,7 +218,7 @@ SELECT xmlagg(x) FROM test;
  <foo>abc</foo><bar/>
 ```
 
-To determine the order of the concatenation, an `ORDER BY` clause may be added to the aggregate call as described in [Section 4.2.7](https://www.postgresql.org/docs/10/static/sql-expressions.html#SYNTAX-AGGREGATES). For example:
+要確定連接的順序，可以將 ORDER BY 子句加到彙總呼叫中，如第 4.2.7 節中所述。例如：
 
 ```text
 SELECT xmlagg(x ORDER BY y DESC) FROM test;
@@ -227,7 +227,7 @@ SELECT xmlagg(x ORDER BY y DESC) FROM test;
  <bar/><foo>abc</foo>
 ```
 
-The following non-standard approach used to be recommended in previous versions, and may still be useful in specific cases:
+以前的版本中推薦使用以下非標準方法，在特定情況下可能仍然有用：
 
 ```text
 SELECT xmlagg(x) FROM (SELECT * FROM test ORDER BY y DESC) AS tab;
