@@ -1,10 +1,14 @@
+---
+description: 版本：10
+---
+
 # 9.14. XML函式
 
-The functions and function-like expressions described in this section operate on values of type `xml`. Check [Section 8.13](https://www.postgresql.org/docs/10/static/datatype-xml.html) for information about the `xml` type. The function-like expressions `xmlparse` and `xmlserialize` for converting to and from type `xml` are not repeated here. Use of most of these functions requires the installation to have been built with `configure --with-libxml`.
+本節中描述的函數和類函數表示式對 xml 型別的值進行操作。有關 xml 型別的訊息，請查看[第 8.13 節](../data-types/8.13.-xml-xing-bie.md)。這裡不再重複用於轉換為 xml 型別的函數表示式 xmlparse 和 xmlserialize。使用大多數這些函數需要使用 configure --with-libxml 編譯安裝。
 
-## 9.14.1. Producing XML Content
+## 9.14.1. 産生 XML 內容
 
-A set of functions and function-like expressions are available for producing XML content from SQL data. As such, they are particularly suitable for formatting query results into XML documents for processing in client applications.
+一組函數和類函數的表示式可用於從 SQL 資料産生 XML 內容。因此，它們特別適合將查詢結果格式化為 XML 文件以便在用戶端應用程序中進行處理。
 
 ### **9.14.1.1. xmlcomment**
 
@@ -12,9 +16,9 @@ A set of functions and function-like expressions are available for producing XML
 xmlcomment(text)
 ```
 
-The function `xmlcomment` creates an XML value containing an XML comment with the specified text as content. The text cannot contain “`--`” or end with a “`-`” so that the resulting construct is a valid XML comment. If the argument is null, the result is null.
+函數 xmlcomment 建立一個 XML 字串，其中包含指定文字作為內容的 XML 註釋。文字不能包含「 -- 」或以「 - 」結尾，以便産生的結構是有效的 XML 註釋。 如果參數為 null，則結果為 null。
 
-Example:
+例如：
 
 ```text
 SELECT xmlcomment('hello');
@@ -30,9 +34,9 @@ SELECT xmlcomment('hello');
 xmlconcat(xml[, ...])
 ```
 
-The function `xmlconcat` concatenates a list of individual XML values to create a single value containing an XML content fragment. Null values are omitted; the result is only null if there are no nonnull arguments.
+函數 xmlconcat 連接列表中各個 XML 字串，以建立包含 XML 內容片段的單個字串。空值會被忽略；如果都沒有非空值參數，則結果僅為 null。
 
-Example:
+例如：
 
 ```text
 SELECT xmlconcat('<abc/>', '<bar>foo</bar>');
@@ -42,9 +46,9 @@ SELECT xmlconcat('<abc/>', '<bar>foo</bar>');
  <abc/><bar>foo</bar>
 ```
 
-XML declarations, if present, are combined as follows. If all argument values have the same XML version declaration, that version is used in the result, else no version is used. If all argument values have the standalone declaration value “yes”, then that value is used in the result. If all argument values have a standalone declaration value and at least one is “no”, then that is used in the result. Else the result will have no standalone declaration. If the result is determined to require a standalone declaration but no version declaration, a version declaration with version 1.0 will be used because XML requires an XML declaration to contain a version declaration. Encoding declarations are ignored and removed in all cases.
+XML 宣告（如果存在）組合如下。如果所有參數值具有相同的 XML 版本宣告，則在結果中使用該版本，否則不使用任何版本。如果所有參數值都具有獨立宣告值「yes」，則在結果中使用該值。如果所有參數值都具有獨立的宣告值且至少有一個為「no」，則在結果中使用該值。否則結果將沒有獨立宣告。如果確定結果需要獨立宣告但沒有版本聲明，則將使用版本為 1.0 的版本宣告，因為 XML 要求 XML 宣告包含版本宣告。在所有情況下都會忽略編碼宣告並將其刪除。
 
-Example:
+例如：
 
 ```text
 SELECT xmlconcat('<?xml version="1.1"?><foo/>', '<?xml version="1.1" standalone="no"?><bar/>');
