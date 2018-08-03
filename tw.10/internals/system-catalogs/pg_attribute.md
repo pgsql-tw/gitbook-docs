@@ -7,7 +7,7 @@ The term attribute is equivalent to column and is used for historical reasons.
 **Table 51.7. `pg_attribute` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `attrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | The table this column belongs to |
 | `attname` | `name` |   | The column name |
 | `atttypid` | `oid` | [`pg_type`](https://www.postgresql.org/docs/10/static/catalog-pg-type.html).oid | The data type of this column |

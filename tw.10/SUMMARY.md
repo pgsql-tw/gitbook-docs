@@ -68,7 +68,7 @@
     * [8.1. 數字型別](the-sql-language/data-types/numeric-types.md)
     * [8.2. 貨幣型別](the-sql-language/data-types/8.2.-huo-bi-xing-bie.md)
     * [8.3. 字串型別](the-sql-language/data-types/character-types.md)
-    * [8.4. 位元組型別](the-sql-language/data-types/8.4.-wei-yuan-zu-xing-bie.md)
+    * [8.4. 位元組型別](the-sql-language/data-types/binary.md)
     * [8.5. 日期時間型別](the-sql-language/data-types/8.5.-ri-qi-shi-jian-xing-bie.md)
     * [8.6. 布林型別](the-sql-language/data-types/8.6.-bu-lin-xing-bie.md)
     * [8.7. 列舉型別](the-sql-language/data-types/8.7.-lie-ju-xing-bie.md)

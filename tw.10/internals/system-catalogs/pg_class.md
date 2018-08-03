@@ -9,7 +9,7 @@ description: 版本：10
 **Table 51.11. `pg_class` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `oid` | `oid` |   | 資料列指標（隱藏屬性；必須明確選擇） |
 | `relname` | `name` |   | 資料表的名稱，索引，檢視表等 |
 | `relnamespace` | `oid` | [`pg_namespace`](pg_namespace.md).oid | 包含此關連命名空間的 OID |

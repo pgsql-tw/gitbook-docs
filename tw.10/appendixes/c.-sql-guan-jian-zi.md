@@ -15,7 +15,7 @@ It is important to understand before studying [Table C.1](https://www.postgresql
 #### **Table C.1. SQL Key Words**
 
 | Key Word | PostgreSQL | SQL:2011 | SQL:2008 | SQL-92 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- | :--- |
 | `A` |   | non-reserved | non-reserved |   |
 | `ABORT` | non-reserved |   |   |   |
 | `ABS` |   | reserved | reserved |   |
@@ -76,7 +76,7 @@ It is important to understand before studying [Table C.1](https://www.postgresql
 | `BY` | non-reserved | reserved | reserved | reserved |
 
 | `C` |   | non-reserved | non-reserved | non-reserved |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- | :--- |
 | `CACHE` | non-reserved |   |   |   |
 | `CALL` |   | reserved | reserved |   |
 | `CALLED` | non-reserved | reserved | reserved |   |

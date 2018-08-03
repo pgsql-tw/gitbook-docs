@@ -5,7 +5,7 @@ The catalog `pg_collation` describes the available collations, which are essenti
 **Table 51.12. `pg_collation` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `oid` | `oid` |   | Row identifier \(hidden attribute; must be explicitly selected\) |
 | `collname` | `name` |   | Collation name \(unique per namespace and encoding\) |
 | `collnamespace` | `oid` | [`pg_namespace`](https://www.postgresql.org/docs/10/static/catalog-pg-namespace.html).oid | The OID of the namespace that contains this collation |

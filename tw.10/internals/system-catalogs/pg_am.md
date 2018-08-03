@@ -5,7 +5,7 @@ The catalog `pg_am` stores information about relation access methods. There is o
 **Table 51.3. `pg_am` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `oid` | `oid` |   | Row identifier \(hidden attribute; must be explicitly selected\) |
 | `amname` | `name` |   | Name of the access method |
 | `amhandler` | `regproc` | [`pg_proc`](https://www.postgresql.org/docs/10/static/catalog-pg-proc.html).oid | OID of a handler function that is responsible for supplying information about the access method |

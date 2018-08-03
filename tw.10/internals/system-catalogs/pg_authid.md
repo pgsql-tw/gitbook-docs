@@ -15,7 +15,7 @@ description: 版本：10
 **Table 51.8. `pg_authid` Columns**
 
 | Name | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `oid` | `oid` | 資料列指標（隱藏屬性；必須明確選擇） |
 | `rolname` | `name` | 角色名稱 |
 | `rolsuper` | `bool` | 角色具有超級使用者權限 |

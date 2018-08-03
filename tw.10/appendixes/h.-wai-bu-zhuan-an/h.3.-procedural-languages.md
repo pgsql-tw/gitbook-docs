@@ -9,7 +9,7 @@ In addition, there are a number of procedural languages that are developed and m
 **Table H.2. Externally Maintained Procedural Languages**
 
 | Name | Language | Website |
-| --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | PL/Java | Java | [https://tada.github.io/pljava/](https://tada.github.io/pljava/) |
 | PL/Lua | Lua | [https://github.com/pllua/pllua](https://github.com/pllua/pllua) |
 | PL/R | R | [http://www.joeconway.com/plr.html](http://www.joeconway.com/plr.html) |

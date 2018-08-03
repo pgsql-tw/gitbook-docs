@@ -106,7 +106,7 @@ The “Identification Protocol” is described in RFC 1413. Virtually every Unix
 The drawback of this procedure is that it depends on the integrity of the client: if the client machine is untrusted or compromised, an attacker could run just about any program on port 113 and return any user name they choose. This authentication method is therefore only appropriate for closed networks where each client machine is under tight control and where the database and system administrators operate in close contact. In other words, you must trust the machine running the ident server. Heed the warning:
 
 |   | The Identification Protocol is not intended as an authorization or access control protocol. |   |
-| --- | --- |
+| :--- | :--- | :--- |
 |   | --RFC 1413 |  |
 
 Some ident servers have a nonstandard option that causes the returned user name to be encrypted, using a key that only the originating machine's administrator knows. This option _must not_ be used when using the ident server with PostgreSQL, since PostgreSQL does not have any way to decrypt the returned string to determine the actual user name.

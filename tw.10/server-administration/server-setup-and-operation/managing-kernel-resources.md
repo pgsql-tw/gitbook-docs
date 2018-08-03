@@ -19,7 +19,7 @@ System V IPC features are typically constrained by system-wide allocation limits
 **Table 18.1. System V IPC Parameters**
 
 | Name | Description | Values needed to run one PostgreSQL instance |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `SHMMAX` | Maximum size of shared memory segment \(bytes\) | at least 1kB, but the default is usually much higher |
 | `SHMMIN` | Minimum size of shared memory segment \(bytes\) | 1 |
 | `SHMALL` | Total amount of shared memory available \(bytes or pages\) | same as `SHMMAX` if bytes, or `ceil(SHMMAX/PAGE_SIZE)` if pages, plus room for other applications |

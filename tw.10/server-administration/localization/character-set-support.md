@@ -11,7 +11,7 @@ An important restriction, however, is that each database's character set must be
 **Table 23.1. PostgreSQL Character Sets**
 
 | Name | Description | Language | Server? | ICU? | Bytes/Char | Aliases |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `BIG5` | Big Five | Traditional Chinese | No | No | 1-2 | `WIN950`, `Windows950` |
 | `EUC_CN` | Extended UNIX Code-CN | Simplified Chinese | Yes | Yes | 1-3 |   |
 | `EUC_JP` | Extended UNIX Code-JP | Japanese | Yes | Yes | 1-3 |   |
@@ -113,7 +113,7 @@ PostgreSQL supports automatic character set conversion between server and client
 **Table 23.2. Client/Server Character Set Conversions**
 
 | Server Character Set | Available Client Character Sets |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- |
 | `BIG5` | _not supported as a server encoding_ |
 | `EUC_CN` | _EUC\_CN_, `MULE_INTERNAL`, `UTF8` |
 | `EUC_JP` | _EUC\_JP_, `MULE_INTERNAL`, `SJIS`, `UTF8` |

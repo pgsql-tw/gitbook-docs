@@ -37,7 +37,7 @@ In addition, triggers may be defined to fire for `TRUNCATE`, though only `FOR EA
 The following table summarizes which types of triggers may be used on tables, views, and foreign tables:
 
 | When | Event | Row-level | Statement-level |
-| --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `BEFORE` | `INSERT`/`UPDATE`/`DELETE` | Tables and foreign tables | Tables, views, and foreign tables |
 | `TRUNCATE` | — | Tables |  |
 | `AFTER` | `INSERT`/`UPDATE`/`DELETE` | Tables and foreign tables | Tables, views, and foreign tables |

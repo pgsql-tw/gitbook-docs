@@ -12,7 +12,7 @@ All other language interfaces are external projects and are distributed separate
 **Table H.1. Externally Maintained Client Interfaces**
 
 | Name | Language | Comments | Website |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | DBD::Pg | Perl | Perl DBI driver | [http://search.cpan.org/dist/DBD-Pg/](http://search.cpan.org/dist/DBD-Pg/) |
 | JDBC | Java | Type 4 JDBC driver | [https://jdbc.postgresql.org/](https://jdbc.postgresql.org/) |
 | libpqxx | C++ | New-style C++ interface | [http://pqxx.org/](http://pqxx.org/) |

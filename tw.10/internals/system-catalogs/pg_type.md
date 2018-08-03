@@ -5,7 +5,7 @@ The catalog `pg_type` stores information about data types. Base types and enum t
 **Table 51.62. `pg_type` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `oid` | `oid` |   | Row identifier \(hidden attribute; must be explicitly selected\) |
 | `typname` | `name` |   | Data type name |
 | `typnamespace` | `oid` | [`pg_namespace`](https://www.postgresql.org/docs/10/static/catalog-pg-namespace.html).oid | The OID of the namespace that contains this type |
@@ -43,7 +43,7 @@ The catalog `pg_type` stores information about data types. Base types and enum t
 **Table 51.63. `typcategory` Codes**
 
 | Code | Category |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- |
 | `A` | Array types |
 | `B` | Boolean types |
 | `C` | Composite types |

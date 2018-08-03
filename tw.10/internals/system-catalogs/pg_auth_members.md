@@ -11,7 +11,7 @@ description: 版本：10
 **Table 51.9. `pg_auth_members` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `roleid` | `oid` | \`\`[`pg_authid`](pg_authid.md).oid | 具有成員的角色 ID |
 | `member` | `oid` | [`pg_authid`](pg_authid.md).oid | 作為 roleid 成員的角色 ID |
 | `grantor` | `oid` | \`\`[`pg_authid`](pg_authid.md).oid | 授予此成員資格的角色 ID |

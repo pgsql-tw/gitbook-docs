@@ -9,7 +9,7 @@ description: 版本：10
 **Table 51.26. `pg_index` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `indexrelid` | `oid` | \`\`[`pg_class`](pg_class.md).oid | 此索引在 pg\_class 中的 OID |
 | `indrelid` | `oid` | \`\`[`pg_class`](pg_class.md).oid | 此索引對應資料表在 pg\_class 中的 OID |
 | `indnatts` | `int2` |   | 索引中的欄位數（複製自 pg\_class.relnatts） |

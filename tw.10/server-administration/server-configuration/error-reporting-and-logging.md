@@ -138,7 +138,7 @@ local0.*    /var/log/postgresql
 #### **Table 19.1. Message Severity Levels**
 
 | Severity | Usage | syslog | eventlog |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `DEBUG1..DEBUG5` | 提供連續且更詳細的訊息供開發人員使用。 | `DEBUG` | `INFORMATION` |
 | `INFO` | 提供隱含用戶請求的訊息，例如來自 VACUUM VERBOSE 的輸出。 | `INFO` | `INFORMATION` |
 | `NOTICE` | 提供可能對用戶有幫助的訊息，例如，截斷 long identifier 的通知。 | `NOTICE` | `INFORMATION` |
@@ -199,7 +199,7 @@ application\_name 可以是少於 NAMEDATALEN 個字元的任何字串（標準�
 這是一個 printf 樣式的字串，在每個日誌的開頭輸出。%字元開始「跳脫序列（escape sequence）」，它們會被狀態訊息替換，如下所述。 無法識別的跳脫字元會被忽略。其他字元將直接複製到日誌內容。某些跳脫字元只能由連線程序識別，並且將被背景程序（例如主伺服器程序）視為空。透過在 % 之後和選項之前指定數字文字，可以向左或向右對齊狀態訊息。負值會將狀態信息在右側填充空格以給予一個最小寬度，而正值將填充在左側。填充可用於增加日誌檔案中的可讀性。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值為'%m \[%p\]'，用於記錄時間戳記和程序 ID。
 
 | Escape | Effect | Session only |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `%a` | 應用名稱 | yes |
 | `%u` | 使用者名稱 | yes |
 | `%d` | 資料庫名稱 | yes |

@@ -7,7 +7,7 @@ pg\_roles 這個 view 提供對資料庫角色的資訊。 這只是 [pg\_authid
 **Table 51.82. `pg_roles` 欄位**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `rolname` | `name` |   | 角色名稱 |
 | `rolsuper` | `bool` |   | 角色具有超級使用者權限 |
 | `rolinherit` | `bool` |   | 角色自動繼承它所屬角色的權限 |

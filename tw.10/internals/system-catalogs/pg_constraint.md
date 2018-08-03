@@ -9,7 +9,7 @@ Check constraints on domains are stored here, too.
 **Table 51.13. `pg_constraint` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `oid` | `oid` |   | Row identifier \(hidden attribute; must be explicitly selected\) |
 | `conname` | `name` |   | Constraint name \(not necessarily unique!\) |
 | `connamespace` | `oid` | [`pg_namespace`](https://www.postgresql.org/docs/10/static/catalog-pg-namespace.html).oid | The OID of the namespace that contains this constraint |

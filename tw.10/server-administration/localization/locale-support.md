@@ -17,7 +17,7 @@ What locales are available on your system under what names depends on what was p
 Occasionally it is useful to mix rules from several locales, e.g., use English collation rules but Spanish messages. To support that, a set of locale subcategories exist that control only certain aspects of the localization rules:
 
 | `LC_COLLATE` | String sort order |
-| --- | --- | --- | --- | --- | --- |
+| :--- | :--- |
 | `LC_CTYPE` | Character classification \(What is a letter? Its upper-case equivalent?\) |
 | `LC_MESSAGES` | Language of messages |
 | `LC_MONETARY` | Formatting of currency amounts |

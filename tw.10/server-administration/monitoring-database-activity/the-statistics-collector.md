@@ -37,7 +37,7 @@ A transaction can also see its own statistics \(as yet untransmitted to the coll
 #### **Table 28.1. Dynamic Statistics Views**
 
 | View Name | Description |
-| --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- |
 | `pg_stat_activity` | 每個伺服器程序一個資料列，顯示與該程序的當時活動相關的訊息，例如狀態和當時查詢。有關詳細訊息，請參閱 [pg\_stat\_activity](the-statistics-collector.md#table-28-3-pg_stat_activity-view)。 |
 | `pg_stat_replication` | One row per WAL sender process, showing statistics about replication to that sender's connected standby server. See [pg\_stat\_replication](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-REPLICATION-VIEW) for details. |
 | `pg_stat_wal_receiver` | Only one row, showing statistics about the WAL receiver from that receiver's connected server. See [pg\_stat\_wal\_receiver](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-WAL-RECEIVER-VIEW) for details. |
@@ -48,7 +48,7 @@ A transaction can also see its own statistics \(as yet untransmitted to the coll
 #### **Table 28.2. Collected Statistics Views**
 
 | View Name | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- |
 | `pg_stat_archiver` | One row only, showing statistics about the WAL archiver process's activity. See [pg\_stat\_archiver](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-ARCHIVER-VIEW) for details. |
 | `pg_stat_bgwriter` | One row only, showing statistics about the background writer process's activity. See [pg\_stat\_bgwriter](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-BGWRITER-VIEW) for details. |
 | `pg_stat_database` | One row per database, showing database-wide statistics. See [pg\_stat\_database](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-DATABASE-VIEW) for details. |
@@ -81,7 +81,7 @@ The `pg_statio_` views are primarily useful to determine the effectiveness of th
 #### **Table 28.3. `pg_stat_activity` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `datid` | `oid` | 此後端連線到的資料庫 OID |
 | `datname` | `name` | 此後端連線到的資料庫名稱 |
 | `pid` | `integer` | 此後端的程序 ID |
@@ -112,7 +112,7 @@ The `wait_event` and `state` columns are independent. If a backend is in the `ac
 **Table 28.4. `wait_event` Description**
 
 | Wait Event Type | Wait Event Name | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `LWLock` | `ShmemIndexLock` | Waiting to find or allocate space in shared memory. |
 | `OidGenLock` | Waiting to allocate or assign an OID. |  |
 | `XidGenLock` | Waiting to allocate or assign a transaction id. |  |
@@ -315,7 +315,7 @@ SELECT pid, wait_event_type, wait_event FROM pg_stat_activity WHERE wait_event i
 **Table 28.5. `pg_stat_replication` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `pid` | `integer` | Process ID of a WAL sender process |
 | `usesysid` | `oid` | OID of the user logged into this WAL sender process |
 | `usename` | `name` | Name of the user logged into this WAL sender process |
@@ -349,7 +349,7 @@ The reported lag times are not predictions of how long it will take for the stan
 **Table 28.6. `pg_stat_wal_receiver` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `pid` | `integer` | Process ID of the WAL receiver process |
 | `status` | `text` | Activity status of the WAL receiver process |
 | `receive_start_lsn` | `pg_lsn` | First write-ahead log location used when WAL receiver is started |
@@ -368,7 +368,7 @@ The `pg_stat_wal_receiver` view will contain only one row, showing statistics ab
 **Table 28.7. `pg_stat_subscription` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `subid` | `oid` | OID of the subscription |
 | `subname` | `text` | Name of the subscription |
 | `pid` | `integer` | Process ID of the subscription worker process |
@@ -384,7 +384,7 @@ The `pg_stat_subscription` view will contain one row per subscription for main w
 **Table 28.8. `pg_stat_ssl` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `pid` | `integer` | Process ID of a backend or WAL sender process |
 | `ssl` | `boolean` | True if SSL is used on this connection |
 | `version` | `text` | Version of SSL in use, or NULL if SSL is not in use on this connection |
@@ -398,7 +398,7 @@ The `pg_stat_ssl` view will contain one row per backend or WAL sender process, s
 **Table 28.9. `pg_stat_archiver` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `archived_count` | `bigint` | Number of WAL files that have been successfully archived |
 | `last_archived_wal` | `text` | Name of the last WAL file successfully archived |
 | `last_archived_time` | `timestamp with time zone` | Time of the last successful archive operation |
@@ -412,7 +412,7 @@ The `pg_stat_archiver` view will always have a single row, containing data about
 **Table 28.10. `pg_stat_bgwriter` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `checkpoints_timed` | `bigint` | Number of scheduled checkpoints that have been performed |
 | `checkpoints_req` | `bigint` | Number of requested checkpoints that have been performed |
 | `checkpoint_write_time` | `double precision` | Total amount of time that has been spent in the portion of checkpoint processing where files are written to disk, in milliseconds |
@@ -430,7 +430,7 @@ The `pg_stat_bgwriter` view will always have a single row, containing global dat
 **Table 28.11. `pg_stat_database` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `datid` | `oid` | OID of a database |
 | `datname` | `name` | Name of this database |
 | `numbackends` | `integer` | Number of backends currently connected to this database. This is the only column in this view that returns a value reflecting current state; all other columns return the accumulated values since the last reset. |
@@ -456,7 +456,7 @@ The `pg_stat_database` view will contain one row for each database in the cluste
 **Table 28.12. `pg_stat_database_conflicts` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `datid` | `oid` | OID of a database |
 | `datname` | `name` | Name of this database |
 | `confl_tablespace` | `bigint` | Number of queries in this database that have been canceled due to dropped tablespaces |
@@ -470,7 +470,7 @@ The `pg_stat_database_conflicts` view will contain one row per database, showing
 **Table 28.13. `pg_stat_all_tables` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `relid` | `oid` | OID of a table |
 | `schemaname` | `name` | Name of the schema that this table is in |
 | `relname` | `name` | Name of this table |
@@ -499,7 +499,7 @@ The `pg_stat_all_tables` view will contain one row for each table in the current
 **Table 28.14. `pg_stat_all_indexes` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `relid` | `oid` | OID of the table for this index |
 | `indexrelid` | `oid` | OID of this index |
 | `schemaname` | `name` | Name of the schema this index is in |
@@ -520,7 +520,7 @@ The `idx_tup_read` and `idx_tup_fetch` counts can be different even without any 
 **Table 28.15. `pg_statio_all_tables` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `relid` | `oid` | OID of a table |
 | `schemaname` | `name` | Name of the schema that this table is in |
 | `relname` | `name` | Name of this table |
@@ -538,7 +538,7 @@ The `pg_statio_all_tables` view will contain one row for each table in the curre
 **Table 28.16. `pg_statio_all_indexes` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `relid` | `oid` | OID of the table for this index |
 | `indexrelid` | `oid` | OID of this index |
 | `schemaname` | `name` | Name of the schema this index is in |
@@ -552,7 +552,7 @@ The `pg_statio_all_indexes` view will contain one row for each index in the curr
 **Table 28.17. `pg_statio_all_sequences` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `relid` | `oid` | OID of a sequence |
 | `schemaname` | `name` | Name of the schema this sequence is in |
 | `relname` | `name` | Name of this sequence |
@@ -564,7 +564,7 @@ The `pg_statio_all_sequences` view will contain one row for each sequence in the
 **Table 28.18. `pg_stat_user_functions` View**
 
 | Column | Type | Description |
-| --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `funcid` | `oid` | OID of a function |
 | `schemaname` | `name` | Name of the schema this function is in |
 | `funcname` | `name` | Name of this function |
@@ -583,7 +583,7 @@ Additional functions related to statistics collection are listed in [Table 28.19
 **Table 28.19. Additional Statistics Functions**
 
 | Function | Return Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `pg_backend_pid()` | `integer` | Process ID of the server process handling the current session |
 | `pg_stat_get_activity`\(`integer`\) | `setof record` | Returns a record of information about the backend with the specified PID, or one record for each active backend in the system if `NULL` is specified. The fields returned are a subset of those in the `pg_stat_activity` view. |
 | `pg_stat_get_snapshot_timestamp()` | `timestamp with time zone` | Returns the timestamp of the current statistics snapshot |
@@ -604,7 +604,7 @@ SELECT pg_stat_get_backend_pid(s.backendid) AS pid,
 **Table 28.20. Per-Backend Statistics Functions**
 
 | Function | Return Type | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `pg_stat_get_backend_idset()` | `setof integer` | Set of currently active backend ID numbers \(from 1 to the number of active backends\) |
 | `pg_stat_get_backend_activity(integer)` | `text` | Text of this backend's most recent query |
 | `pg_stat_get_backend_activity_start(integer)` | `timestamp with time zone` | Time when the most recent query was started |

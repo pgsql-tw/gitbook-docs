@@ -11,7 +11,7 @@ Before PostgreSQL 8.3, these functions would silently accept values of several n
 **Table 9.8. SQL String Functions and Operators**
 
 | Function | Return Type | Description | Example | Result |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- | :--- |
 | _`string`_ `||` _`string`_ | `text` | String concatenation | `'Post' || 'greSQL'` | `PostgreSQL` |
 | _`string`_ `||` _`non-string`_ or _`non-string`_ `||`_`string`_ | `text` | String concatenation with one non-string input | `'Value: ' || 42` | `Value: 42` |
 | `bit_length(`_`string`_\) | `int` | Number of bits in string | `bit_length('jose')` | `32` |
@@ -32,7 +32,7 @@ Additional string manipulation functions are available and are listed in [Table 
 **Table 9.9. Other String Functions**
 
 | Function | Return Type | Description | Example | Result |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- | :--- |
 | `ascii(`_`string`_\) | `int` | ASCII code of the first character of the argument. For UTF8 returns the Unicode code point of the character. For other multibyte encodings, the argument must be an ASCII character. | `ascii('x')` | `120` |
 | `btrim(`_`string`_ `text` \[, _`characters`_`text`\]\) | `text` | Remove the longest string consisting only of characters in _`characters`_ \(a space by default\) from the start and end of _`string`_ | `btrim('xyxtrimyyx', 'xyz')` | `trim` |
 | `chr(int`\) | `text` | Character with the given code. For UTF8 the argument is treated as a Unicode code point. For other multibyte encodings the argument must designate an ASCII character. The NULL \(0\) character is not allowed because text data types cannot store such bytes. | `chr(65)` | `A` |
@@ -83,7 +83,7 @@ See also the aggregate function `string_agg` in [Section 9.20](https://www.postg
 **Table 9.10. Built-in Conversions**
 
 | Conversion Name [\[a\]](https://www.postgresql.org/docs/10/static/functions-string.html#ftn.id-1.5.8.9.10.2.1.1.1.1) | Source Encoding | Destination Encoding |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `ascii_to_mic` | `SQL_ASCII` | `MULE_INTERNAL` |
 | `ascii_to_utf8` | `SQL_ASCII` | `UTF8` |
 | `big5_to_euc_tw` | `BIG5` | `EUC_TW` |

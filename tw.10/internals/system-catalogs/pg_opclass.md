@@ -7,7 +7,7 @@ Operator classes are described at length in [Section 37.14](https://www.postgres
 **Table 51.33. `pg_opclass` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `oid` | `oid` |   | Row identifier \(hidden attribute; must be explicitly selected\) |
 | `opcmethod` | `oid` | [`pg_am`](https://www.postgresql.org/docs/10/static/catalog-pg-am.html).oid | Index access method operator class is for |
 | `opcname` | `name` |   | Name of this operator class |

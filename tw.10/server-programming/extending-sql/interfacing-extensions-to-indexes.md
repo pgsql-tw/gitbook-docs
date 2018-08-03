@@ -23,7 +23,7 @@ The B-tree index method defines five strategies, shown in [Table 37.2](https://w
 **Table 37.2. B-tree Strategies**
 
 | Operation | Strategy Number |
-| --- | --- | --- | --- | --- | --- |
+| :--- | :--- |
 | less than | 1 |
 | less than or equal | 2 |
 | equal | 3 |
@@ -35,7 +35,7 @@ Hash indexes support only equality comparisons, and so they use only one strateg
 **Table 37.3. Hash Strategies**
 
 | Operation | Strategy Number |
-| --- | --- |
+| :--- | :--- |
 | equal | 1 |
 
 GiST indexes are more flexible: they do not have a fixed set of strategies at all. Instead, the “consistency” support routine of each particular GiST operator class interprets the strategy numbers however it likes. As an example, several of the built-in GiST index operator classes index two-dimensional geometric objects, providing the “R-tree” strategies shown in [Table 37.4](https://www.postgresql.org/docs/10/static/xindex.html#XINDEX-RTREE-STRAT-TABLE). Four of these are true two-dimensional tests \(overlaps, same, contains, contained by\); four of them consider only the X direction; and the other four provide the same tests in the Y direction.
@@ -43,7 +43,7 @@ GiST indexes are more flexible: they do not have a fixed set of strategies at al
 **Table 37.4. GiST Two-Dimensional “R-tree” Strategies**
 
 | Operation | Strategy Number |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- |
 | strictly left of | 1 |
 | does not extend to right of | 2 |
 | overlaps | 3 |
@@ -62,7 +62,7 @@ SP-GiST indexes are similar to GiST indexes in flexibility: they don't have a fi
 **Table 37.5. SP-GiST Point Strategies**
 
 | Operation | Strategy Number |
-| --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- |
 | strictly left of | 1 |
 | strictly right of | 5 |
 | same | 6 |
@@ -75,7 +75,7 @@ GIN indexes are similar to GiST and SP-GiST indexes, in that they don't have a f
 **Table 37.6. GIN Array Strategies**
 
 | Operation | Strategy Number |
-| --- | --- | --- | --- | --- |
+| :--- | :--- |
 | overlap | 1 |
 | contains | 2 |
 | is contained by | 3 |
@@ -86,7 +86,7 @@ BRIN indexes are similar to GiST, SP-GiST and GIN indexes in that they don't hav
 **Table 37.7. BRIN Minmax Strategies**
 
 | Operation | Strategy Number |
-| --- | --- | --- | --- | --- | --- |
+| :--- | :--- |
 | less than | 1 |
 | less than or equal | 2 |
 | equal | 3 |
@@ -106,7 +106,7 @@ B-trees require a single support function, and allow a second one to be supplied
 **Table 37.8. B-tree Support Functions**
 
 | Function | Support Number |
-| --- | --- | --- |
+| :--- | :--- |
 | Compare two keys and return an integer less than zero, zero, or greater than zero, indicating whether the first key is less than, equal to, or greater than the second | 1 |
 | Return the addresses of C-callable sort support function\(s\), as documented in `utils/sortsupport.h` \(optional\) | 2 |
 
@@ -115,7 +115,7 @@ Hash indexes require one support function, shown in [Table 37.9](https://www.pos
 **Table 37.9. Hash Support Functions**
 
 | Function | Support Number |
-| --- | --- |
+| :--- | :--- |
 | Compute the hash value for a key | 1 |
 
 GiST indexes have nine support functions, two of which are optional, as shown in [Table 37.10](https://www.postgresql.org/docs/10/static/xindex.html#XINDEX-GIST-SUPPORT-TABLE). \(For more information see [Chapter 62](https://www.postgresql.org/docs/10/static/gist.html).\)
@@ -123,7 +123,7 @@ GiST indexes have nine support functions, two of which are optional, as shown in
 **Table 37.10. GiST Support Functions**
 
 | Function | Description | Support Number |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `consistent` | determine whether key satisfies the query qualifier | 1 |
 | `union` | compute union of a set of keys | 2 |
 | `compress` | compute a compressed representation of a key or value to be indexed | 3 |
@@ -139,7 +139,7 @@ SP-GiST indexes require five support functions, as shown in [Table 37.11](https:
 **Table 37.11. SP-GiST Support Functions**
 
 | Function | Description | Support Number |
-| --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `config` | provide basic information about the operator class | 1 |
 | `choose` | determine how to insert a new value into an inner tuple | 2 |
 | `picksplit` | determine how to partition a set of values | 3 |
@@ -151,7 +151,7 @@ GIN indexes have six support functions, three of which are optional, as shown in
 **Table 37.12. GIN Support Functions**
 
 | Function | Description | Support Number |
-| --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `compare` | compare two keys and return an integer less than zero, zero, or greater than zero, indicating whether the first key is less than, equal to, or greater than the second | 1 |
 | `extractValue` | extract keys from a value to be indexed | 2 |
 | `extractQuery` | extract keys from a query condition | 3 |
@@ -164,7 +164,7 @@ BRIN indexes have four basic support functions, as shown in [Table 37.13](https:
 **Table 37.13. BRIN Support Functions**
 
 | Function | Description | Support Number |
-| --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `opcInfo` | return internal information describing the indexed columns' summary data | 1 |
 | `add_value` | add a new value to an existing summary index tuple | 2 |
 | `consistent` | determine whether value matches query condition | 3 |

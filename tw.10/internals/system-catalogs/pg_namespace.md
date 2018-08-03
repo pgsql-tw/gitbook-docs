@@ -9,7 +9,7 @@ description: 版本：10
 **Table 51.32. `pg_namespace` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `oid` | `oid` |   | 資料列指標（隱藏屬性；必須明確選擇） |
 | `nspname` | `name` |   | 命名空間的名稱 |
 | `nspowner` | `oid` | [`pg_authid`](pg_authid.md).oid | 命名空間的所有者 |

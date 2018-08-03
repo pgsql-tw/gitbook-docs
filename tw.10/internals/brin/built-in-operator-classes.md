@@ -7,7 +7,7 @@ The _minmax_ operator classes store the minimum and the maximum values appearing
 #### **Table 65.1. Built-in BRIN Operator Classes**
 
 | Name | Indexed Data Type | Indexable Operators |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `abstime_minmax_ops` | `abstime` | `<` `<=` `=` `>=` `>` |
 | `int8_minmax_ops` | `bigint` | `<` `<=` `=` `>=` `>` |
 | `bit_minmax_ops` | `bit` | `<` `<=` `=` `>=` `>` |

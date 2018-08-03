@@ -11,7 +11,7 @@ For additional information on tuning these settings, see [Section 30.4](https://
 In `minimal` level, WAL-logging of some bulk operations can be safely skipped, which can make those operations much faster \(see [Section 14.4.7](https://www.postgresql.org/docs/10/static/populate.html#POPULATE-PITR)\). Operations in which this optimization can be applied include:
 
 | `CREATE TABLE AS` |
-| --- | --- | --- | --- |
+| :--- |
 | `CREATE INDEX` |
 | `CLUSTER` |
 | `COPY` into tables that were created or truncated in the same transaction |

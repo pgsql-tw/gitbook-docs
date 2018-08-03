@@ -5,7 +5,7 @@ The core PostgreSQL distribution includes the GiST operator classes shown in [Ta
 #### **Table 62.1. Built-in GiST Operator Classes**
 
 | Name | Indexed Data Type | Indexable Operators | Ordering Operators |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `box_ops` | `box` | `&&` `&>` `&<` `&<|` `>>` `<<` `<<|` `<@` `@>` `@` `|&>` `|>>` `~` `~=` |  |
 | `circle_ops` | `circle` | `&&` `&>` `&<` `&<|` `>>` `<<` `<<|` `<@` `@>` `@` `|&>` `|>>` `~` `~=` | `<->` |
 | `inet_ops` | `inet`, `cidr` | `&&` `>>` `>>=` `>` `>=` `<>` `<<` `<<=` `<` `<=` `=` |  |

@@ -5,7 +5,7 @@ The `bytea` data type allows storage of binary strings; see [Table 8.6](https://
 **Table 8.6. Binary Data Types**
 
 | Name | Storage Size | Description |
-| --- | --- |
+| :--- | :--- | :--- |
 | `bytea` | 1 or 4 bytes plus the actual binary string | variable-length binary string |
 
 A binary string is a sequence of octets \(or bytes\). Binary strings are distinguished from character strings in two ways. First, binary strings specifically allow storing octets of value zero and other “non-printable” octets \(usually, octets outside the range 32 to 126\). Character strings disallow zero octets, and also disallow any other octet values and sequences of octet values that are invalid according to the database's selected character set encoding. Second, operations on binary strings process the actual bytes, whereas the processing of character strings depends on locale settings. In short, binary strings are appropriate for storing data that the programmer thinks of as “raw bytes”, whereas character strings are appropriate for storing text.
@@ -33,7 +33,7 @@ When entering `bytea` values in escape format, octets of certain values _must_ b
 **Table 8.7. `bytea` Literal Escaped Octets**
 
 | Decimal Octet Value | Description | Escaped Input Representation | Example | Output Representation |
-| --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- | :--- |
 | 0 | zero octet | `E'\\000'` | `SELECT E'\\000'::bytea;` | `\000` |
 | 39 | single quote | `''''` or `E'\\047'` | `SELECT E'\''::bytea;` | `'` |
 | 92 | backslash | `E'\\\\'` or `E'\\134'` | `SELECT E'\\\\'::bytea;` | `\\` |
@@ -48,7 +48,7 @@ The reason multiple backslashes are required, as shown in [Table 8.7](https://ww
 **Table 8.8. `bytea` Output Escaped Octets**
 
 | Decimal Octet Value | Description | Escaped Output Representation | Example | Output Result |
-| --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- | :--- |
 | 92 | backslash | `\\` | `SELECT E'\\134'::bytea;` | `\\` |
 | 0 to 31 and 127 to 255 | “non-printable” octets | `\`_`xxx`_ \(octal value\) | `SELECT E'\\001'::bytea;` | `\001` |
 | 32 to 126 | “printable” octets | client character set representation | `SELECT E'\\176'::bytea;` | `~` |

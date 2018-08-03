@@ -5,7 +5,7 @@ The core PostgreSQL distribution includes the SP-GiST operator classes shown in 
 #### **Table 63.1. Built-in SP-GiST Operator Classes**
 
 | Name | Indexed Data Type | Indexable Operators |
-| --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- |
 | `kd_point_ops` | `point` | `<<` `<@` `<^` `>>` `>^` `~=` |
 | `quad_point_ops` | `point` | `<<` `<@` `<^` `>>` `>^` `~=` |
 | `range_ops` | any range type | `&&` `&<` `&>` `-|-` `<<` `<@` `=` `>>` `@>` |

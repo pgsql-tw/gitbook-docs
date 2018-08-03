@@ -7,7 +7,7 @@ description: 版本：10
 **Table 8.4. Character Types**
 
 | Name | Description |
-| --- | --- | --- | --- |
+| :--- | :--- |
 | `character varying(n)`, `varchar(n)` | 可變長度，但有限制 |
 | `character(n)`, `char(n)` | 固定長度，空白填充 |
 | `text` | 可變且無限長度 |
@@ -57,7 +57,7 @@ SELECT b, char_length(b) FROM test2;
 ```
 
 | \(1\) | char\_length 函數在 [9.4 節](../functions-and-operators/string-functions-and-operators.md)中討論。 |
-| --- |
+| :--- | :--- |
 
 
 PostgreSQL 中還有另外兩種固定長度的字串型別，如 Table 8.5 所示。name 型別僅用於在內部系統目錄中儲存指標，並非供一般使用者使用。它的長度目前定義為 64 個位元組（63 個可用字元加結尾符號），但應視 C 原始碼中的常數 NAMEDATALEN 而定。長度在編譯時設定（因此可以根據特殊用途進行調整）; 預設的最大長度可能會在將來的版本中變更。型別「“char”」（注意雙引號）與 char\(1\) 的不同之處在於它僅使用一個位元組的儲存空間。它在系統目錄中作為簡單內部使用的列舉型別。
@@ -65,7 +65,7 @@ PostgreSQL 中還有另外兩種固定長度的字串型別，如 Table 8.5 所�
 **Table 8.5. Special Character Types**
 
 | Name | Storage Size | Description |
-| --- | --- | --- |
+| :--- | :--- | :--- |
 | `"char"` | 1 byte | 單位元組內部型別 |
 | `name` | 64 bytes | 物件名稱的內部型別 |
 

@@ -7,7 +7,7 @@ The view `pg_stats` provides access to the information stored in the [`pg_statis
 **Table 51.88. `pg_stats` Columns**
 
 | Name | Type | References | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `schemaname` | `name` | [`pg_namespace`](https://www.postgresql.org/docs/10/static/catalog-pg-namespace.html).nspname | Name of schema containing table |
 | `tablename` | `name` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).relname | Name of table |
 | `attname` | `name` | [`pg_attribute`](https://www.postgresql.org/docs/10/static/catalog-pg-attribute.html).attname | Name of the column described by this row |
