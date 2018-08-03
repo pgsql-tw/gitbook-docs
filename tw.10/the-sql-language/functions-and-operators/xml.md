@@ -2,11 +2,11 @@
 
 The functions and function-like expressions described in this section operate on values of type `xml`. Check [Section 8.13](https://www.postgresql.org/docs/10/static/datatype-xml.html) for information about the `xml` type. The function-like expressions `xmlparse` and `xmlserialize` for converting to and from type `xml` are not repeated here. Use of most of these functions requires the installation to have been built with `configure --with-libxml`.
 
-#### 9.14.1. Producing XML Content
+## 9.14.1. Producing XML Content
 
 A set of functions and function-like expressions are available for producing XML content from SQL data. As such, they are particularly suitable for formatting query results into XML documents for processing in client applications.
 
-**9.14.1.1. xmlcomment**
+### **9.14.1.1. xmlcomment**
 
 ```text
 xmlcomment(text)
@@ -24,7 +24,7 @@ SELECT xmlcomment('hello');
  <!--hello-->
 ```
 
-**9.14.1.2. xmlconcat**
+### **9.14.1.2. xmlconcat**
 
 ```text
 xmlconcat(xml[, ...])
@@ -54,7 +54,7 @@ SELECT xmlconcat('<?xml version="1.1"?><foo/>', '<?xml version="1.1" standalone=
  <?xml version="1.1"?><foo/><bar/>
 ```
 
-**9.14.1.3. xmlelement**
+### **9.14.1.3. xmlelement**
 
 ```text
 xmlelement(name name [, xmlattributes(value [AS attname] [, ... ])] [, content, ...])
@@ -123,7 +123,7 @@ SELECT xmlelement(name foo, xmlattributes('xyz' as bar),
 
 Content of other types will be formatted into valid XML character data. This means in particular that the characters &lt;, &gt;, and & will be converted to entities. Binary data \(data type `bytea`\) will be represented in base64 or hex encoding, depending on the setting of the configuration parameter [xmlbinary](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-XMLBINARY). The particular behavior for individual data types is expected to evolve in order to align the SQL and PostgreSQL data types with the XML Schema specification, at which point a more precise description will appear.
 
-**9.14.1.4. xmlforest**
+### **9.14.1.4. xmlforest**
 
 ```text
 xmlforest(content [AS name] [, ...])
@@ -158,7 +158,7 @@ Element names that are not valid XML names are escaped as shown for `xmlelement`
 
 Note that XML forests are not valid XML documents if they consist of more than one element, so it might be useful to wrap `xmlforest` expressions in `xmlelement`.
 
-**9.14.1.5. xmlpi**
+### **9.14.1.5. xmlpi**
 
 ```text
 xmlpi(name target [, content])
@@ -176,7 +176,7 @@ SELECT xmlpi(name php, 'echo "hello world";');
  <?php echo "hello world";?>
 ```
 
-**9.14.1.6. xmlroot**
+### **9.14.1.6. xmlroot**
 
 ```text
 xmlroot(xml, version text | no value [, standalone yes|no|no value])
@@ -194,7 +194,7 @@ SELECT xmlroot(xmlparse(document '<?xml version="1.1"?><content>abc</content>'),
  <content>abc</content>
 ```
 
-**9.14.1.7. xmlagg**
+### **9.14.1.7. xmlagg**
 
 ```text
 xmlagg(xml)
@@ -232,11 +232,11 @@ SELECT xmlagg(x) FROM (SELECT * FROM test ORDER BY y DESC) AS tab;
  <bar/><foo>abc</foo>
 ```
 
-#### 9.14.2. XML Predicates
+## 9.14.2. XML Predicates
 
 The expressions described in this section check properties of `xml` values.
 
-**9.14.2.1. IS DOCUMENT**
+### **9.14.2.1. IS DOCUMENT**
 
 ```text
 xml IS DOCUMENT
@@ -244,7 +244,7 @@ xml IS DOCUMENT
 
 The expression `IS DOCUMENT` returns true if the argument XML value is a proper XML document, false if it is not \(that is, it is a content fragment\), or null if the argument is null. See [Section 8.13](https://www.postgresql.org/docs/10/static/datatype-xml.html) about the difference between documents and content fragments.
 
-**9.14.2.2. XMLEXISTS**
+### **9.14.2.2. XMLEXISTS**
 
 ```text
 XMLEXISTS(text PASSING [BY REF] xml [BY REF])
@@ -265,7 +265,7 @@ SELECT xmlexists('//town[text() = ''Toronto'']' PASSING BY REF '<towns><town>Tor
 
 The `BY REF` clauses have no effect in PostgreSQL, but are allowed for SQL conformance and compatibility with other implementations. Per SQL standard, the first `BY REF` is required, the second is optional. Also note that the SQL standard specifies the `xmlexists` construct to take an XQuery expression as first argument, but PostgreSQL currently only supports XPath, which is a subset of XQuery.
 
-**9.14.2.3. xml\_is\_well\_formed**
+### **9.14.2.3. xml\_is\_well\_formed**
 
 ```text
 xml_is_well_formed(text)
@@ -313,11 +313,11 @@ SELECT xml_is_well_formed_document('<pg:foo xmlns:pg="http://postgresql.org/stuf
 
 The last example shows that the checks include whether namespaces are correctly matched.
 
-#### 9.14.3. Processing XML
+## 9.14.3. Processing XML
 
 To process values of data type `xml`, PostgreSQL offers the functions `xpath` and `xpath_exists`, which evaluate XPath 1.0 expressions, and the `XMLTABLE` table function.
 
-**9.14.3.1. xpath**
+### **9.14.3.1. xpath**
 
 ```text
 xpath(xpath, xml [, nsarray])
@@ -353,7 +353,7 @@ SELECT xpath('//mydefns:b/text()', '<a xmlns="http://example.com"><b>test</b></a
 (1 row)
 ```
 
-**9.14.3.2. xpath\_exists**
+### **9.14.3.2. xpath\_exists**
 
 ```text
 xpath_exists(xpath, xml [, nsarray])
@@ -373,7 +373,7 @@ SELECT xpath_exists('/my:a/text()', '<my:a xmlns:my="http://example.com">test</m
 (1 row)
 ```
 
-**9.14.3.3. xmltable**
+### **9.14.3.3. xmltable**
 
 ```text
 xmltable( [XMLNAMESPACES(namespace uri AS namespace name[, ...]), ]
@@ -494,7 +494,7 @@ SELECT xmltable.*
 (3 rows)
 ```
 
-#### 9.14.4. Mapping Tables to XML
+## 9.14.4. Mapping Tables to XML
 
 The following functions map the contents of relational tables to XML values. They can be thought of as XML export functionality:
 
@@ -626,7 +626,7 @@ where the schema mapping is as above.
 
 As an example of using the output produced by these functions, [Figure 9.1](https://www.postgresql.org/docs/10/static/functions-xml.html#XSLT-XML-HTML) shows an XSLT stylesheet that converts the output of `table_to_xml_and_xmlschema` to an HTML document containing a tabular rendition of the table data. In a similar manner, the results from these functions can be converted into other XML-based formats.
 
-**Figure 9.1. XSLT Stylesheet for Converting SQL/XML Output to HTML**
+#### **Figure 9.1. XSLT Stylesheet for Converting SQL/XML Output to HTML**
 
 ```text
 <?xml version="1.0"?>
