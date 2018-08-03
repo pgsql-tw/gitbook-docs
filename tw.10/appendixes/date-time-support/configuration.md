@@ -1,10 +1,14 @@
+---
+description: 版本：10
+---
+
 # B.3. 日期時間設定檔
 
-Since timezone abbreviations are not well standardized, PostgreSQL provides a means to customize the set of abbreviations accepted by the server. The [timezone\_abbreviations](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TIMEZONE-ABBREVIATIONS) run-time parameter determines the active set of abbreviations. While this parameter can be altered by any database user, the possible values for it are under the control of the database administrator — they are in fact names of configuration files stored in `.../share/timezonesets/` of the installation directory. By adding or altering files in that directory, the administrator can set local policy for timezone abbreviations.
+由於時區縮寫並沒有很好地標準化，PostgreSQL 提供了一種自訂的伺服器接受的縮寫集方法。[timezone\_abbreviations](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#timezone_abbreviations-string) 運行時參數決定有效的縮寫集。雖然此參數可由任何資料庫使用者變更，但其可能的值受資料庫管理員控制 - 實際上它們是儲存在安裝目錄的 .../share/timezonesets/ 中的組態檔案的名稱。透過增加或變更該目錄中的檔案，管理員可以為時區縮寫設定本地策略。
 
-`timezone_abbreviations` can be set to any file name found in `.../share/timezonesets/`, if the file's name is entirely alphabetic. \(The prohibition against non-alphabetic characters in `timezone_abbreviations` prevents reading files outside the intended directory, as well as reading editor backup files and other extraneous files.\)
+timezone\_abbreviations 可以設定為在 .../share/timezonesets/ 中找到的任何檔案名稱，檔案的名稱需要完全是英文字母的。（禁止 timezone\_abbreviations 中的非英文字母字元可以防止讀取目標目錄之外的檔案，以及讀取編輯器備份檔案和其他無關檔案。）
 
-A timezone abbreviation file can contain blank lines and comments beginning with `#`. Non-comment lines must have one of these formats:
+時區縮寫檔案可以包含空白行和以 \# 開頭的註釋。非註釋行必須具有以下格式之一：
 
 ```text
 zone_abbreviation offset
@@ -14,31 +18,26 @@ zone_abbreviation time_zone_name
 @OVERRIDE
 ```
 
-A _`zone_abbreviation`_ is just the abbreviation being defined. An _`offset`_ is an integer giving the equivalent offset in seconds from UTC, positive being east from Greenwich and negative being west. For example, -18000 would be five hours west of Greenwich, or North American east coast standard time. `D` indicates that the zone name represents local daylight-savings time rather than standard time.
+zone\_abbreviation 只是定義的縮寫。offset 是一個整數，定義與 UTC 相等的偏移量，以秒為單位，正向格林威治為東，負向為西。例如，-18000 將在格林威治以西 5 小時或北美東海岸標準時間。D 的區域名稱表示本地夏令時間而不是標準時間。
 
-Alternatively, a _`time_zone_name`_ can be given, referencing a zone name defined in the IANA timezone database. The zone's definition is consulted to see whether the abbreviation is or has been in use in that zone, and if so, the appropriate meaning is used — that is, the meaning that was currently in use at the timestamp whose value is being determined, or the meaning in use immediately before that if it wasn't current at that time, or the oldest meaning if it was used only after that time. This behavior is essential for dealing with abbreviations whose meaning has historically varied. It is also allowed to define an abbreviation in terms of a zone name in which that abbreviation does not appear; then using the abbreviation is just equivalent to writing out the zone name.
+或者，可以定義 time\_zone\_name，引用 IANA 時區資料庫中定義的區域名稱。查詢區域的定義以查看該區域中是否正在使用縮寫，如果是，則使用適當的含義 - 即，目前正在確定其值的時間戳記中使用的含義，或者如果當時不是目前使用的話，則使用之前的含義，如果僅在該時間之後使用，則使用最舊的含義。這種行為對於處理其含義歷史變化的縮寫至關重要。還允許根據區域名稱定義縮寫，其中不出現該縮寫；使用縮寫就等於寫出區域名稱。
 
-#### Tip
+**小技巧**  
+在定義與 UTC 的偏移量從未改變的縮寫時，偏好使用簡單的整數偏移量，因為這些縮寫比需要查閱時區定義的縮寫要簡單得多。
 
-Using a simple integer _`offset`_ is preferred when defining an abbreviation whose offset from UTC has never changed, as such abbreviations are much cheaper to process than those that require consulting a time zone definition.
+@INCLUDE 語法允許在 .../share/timezonesets/ 目錄中包含另一個檔案。包含可以嵌套到某個有限的深度。
 
-The `@INCLUDE` syntax allows inclusion of another file in the `.../share/timezonesets/` directory. Inclusion can be nested, to a limited depth.
+@OVERRIDE 語法指示檔案中的後續項目可以覆蓋先前的項目（通常是從包含的檔案中獲取的項目）。如果沒有這個，相同時區縮寫的衝突定義將被視為錯誤。
 
-The `@OVERRIDE` syntax indicates that subsequent entries in the file can override previous entries \(typically, entries obtained from included files\). Without this, conflicting definitions of the same timezone abbreviation are considered an error.
+在未修改的安裝環境中，檔案 Default 包含了世界上大多數地區的所有非衝突時區縮寫。為這些區域提供了澳大利亞和印度的附加檔案：這些檔案先有預設設定，然後根據需要增加或修改縮寫。
 
-In an unmodified installation, the file `Default` contains all the non-conflicting time zone abbreviations for most of the world. Additional files `Australia` and `India` are provided for those regions: these files first include the `Default` file and then add or modify abbreviations as needed.
+出於參考目的，標準安裝還包含 Africa.txt，America.txt 等文件，其中包含有關根據 IANA 時區資料庫已知正在使用的每個時區縮寫的訊息。可以根據需要將這些檔案中找到的區域名稱定義複製並貼到自行定義配置檔案中。請注意，由於名稱中包含了點，因此無法將這些檔案直接引用為 timezone\_abbreviations 設定。
 
-For reference purposes, a standard installation also contains files `Africa.txt`, `America.txt`, etc, containing information about every time zone abbreviation known to be in use according to the IANA timezone database. The zone name definitions found in these files can be copied and pasted into a custom configuration file as needed. Note that these files cannot be directly referenced as `timezone_abbreviations` settings, because of the dot embedded in their names.
+#### **注意**
 
-#### Note
+如果在讀取時區縮寫集時發生錯誤，則不會應用新值並保留舊值。如果在啟動資料庫時發生錯誤，則啟動失敗。
 
-If an error occurs while reading the time zone abbreviation set, no new value is applied and the old set is kept. If the error occurs while starting the database, startup fails.
+配置檔案中定義的時區縮寫會覆寫 PostgreSQL 中內建的非時區定義。例如，澳大利亞配置檔案定義了 SAT（南澳大利亞標準時間）。當此檔案有效時，SAT 將不會被識別為星期六的縮寫。
 
-#### Caution
-
-Time zone abbreviations defined in the configuration file override non-timezone meanings built into PostgreSQL. For example, the `Australia` configuration file defines `SAT` \(for South Australian Standard Time\). When this file is active, `SAT` will not be recognized as an abbreviation for Saturday.
-
-#### Caution
-
-If you modify files in `.../share/timezonesets/`, it is up to you to make backups — a normal database dump will not include this directory.
+如果您修改 .../share/timezonesets/ 中的檔案，則由您來進行備份 - 正常的資料庫轉存將不包含此目錄。
 
