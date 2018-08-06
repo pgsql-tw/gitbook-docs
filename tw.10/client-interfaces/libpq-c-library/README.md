@@ -1,10 +1,14 @@
+---
+description: 版本：10
+---
+
 # 33. libpq - C Library
 
-libpq is the C application programmer's interface to PostgreSQL. libpq is a set of library functions that allow client programs to pass queries to the PostgreSQL backend server and to receive the results of these queries.
+libpq 是 C 應用程式設計師對 PostgreSQL 的介面。libpq 是一組函式庫，提供用戶端程序可以將查詢傳遞給 PostgreSQL 後端伺務器並接收這些查詢的結果。
 
-libpq is also the underlying engine for several other PostgreSQL application interfaces, including those written for C++, Perl, Python, Tcl and ECPG. So some aspects of libpq's behavior will be important to you if you use one of those packages. In particular, [Section 33.14](https://www.postgresql.org/docs/10/static/libpq-envars.html),[Section 33.15](https://www.postgresql.org/docs/10/static/libpq-pgpass.html) and [Section 33.18](https://www.postgresql.org/docs/10/static/libpq-ssl.html) describe behavior that is visible to the user of any application that uses libpq.
+libpq 也是其他幾個 PostgreSQL 應用程序接口的底層引擎，包括為 C++、Perl、Python、Tcl 和 ECPG 程式的介面。因此，如果您使用其中一個軟體套件，libpq 行為的某些方面對您很重要。特別是，[第 33.14 節](environment-variables.md)，[第 33.15 節](33.15.-mi-ma-dang.md)和[第 33.18 節](33.18.-ssl-support.md)描述了使用 libpq 應用程式的用戶可見行為。
 
-Some short programs are included at the end of this chapter \([Section 33.21](https://www.postgresql.org/docs/10/static/libpq-example.html)\) to show how to write programs that use libpq. There are also several complete examples of libpq applications in the directory `src/test/examples` in the source code distribution.
+本章末尾包含一些簡短的程式（[第 33.21 節](example-programs.md)），以展示如何撰寫使用 libpq 的程式。在原始碼的目錄 src/test/examples 中還有幾個完整的 libpq 應用程式範例。
 
-Client programs that use libpq must include the header file `libpq-fe.h` and must link with the libpq library.
+使用 libpq 的用戶端程式必須包含標頭檔 libpq-fe.h，並且必須與 libpq 函式庫連接。
 

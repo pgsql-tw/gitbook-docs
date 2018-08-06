@@ -300,7 +300,7 @@
     * [33.18. SSL Support](client-interfaces/libpq-c-library/33.18.-ssl-support.md)
     * [33.19. Behavior in Threaded Programs](client-interfaces/libpq-c-library/33.19.-behavior-in-threaded-programs.md)
     * [33.20. Building libpq Programs](client-interfaces/libpq-c-library/33.20.-building-libpq-programs.md)
-    * [33.21. Example Programs](client-interfaces/libpq-c-library/33.21.-example-programs.md)
+    * [33.21. Example Programs](client-interfaces/libpq-c-library/example-programs.md)
   * [34. Large Objects](client-interfaces/34.-large-objects/README.md)
     * [34.1. Introduction](client-interfaces/34.-large-objects/34.1.-introduction.md)
     * [34.2. Implementation Features](client-interfaces/34.-large-objects/34.2.-implementation-features.md)
