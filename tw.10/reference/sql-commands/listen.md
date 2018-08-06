@@ -1,40 +1,44 @@
+---
+description: 版本：10
+---
+
 # LISTEN
 
-LISTEN — listen for a notification
+LISTEN — 監聽某個通知
 
-### Synopsis
+### 語法
 
 ```text
 LISTEN channel
 ```
 
-### Description
+### 說明
 
-`LISTEN` registers the current session as a listener on the notification channel named _`channel`_. If the current session is already registered as a listener for this notification channel, nothing is done.
+LISTEN 將目前連線註冊為名為 channel 的通知通道上的監聽器。如果目前連線已註冊為此通知通道的監聽器，則不執行任何操作。
 
-Whenever the command `NOTIFY` _`channel`_ is invoked, either by this session or another one connected to the same database, all the sessions currently listening on that notification channel are notified, and each will in turn notify its connected client application.
+無論何時透過此連線或連線到同一資料庫的另一個連線呼叫指令 NOTIFY 通道，都會通知目前正在該通知通道上監聽的所有連線，並且每個連線將依次通知其連線的用戶端應用程序。
 
-A session can be unregistered for a given notification channel with the `UNLISTEN` command. A session's listen registrations are automatically cleared when the session ends.
+可以使用 UNLISTEN 指令為給定通知通道取消註冊連線。連線結束時會自動清除連線的監聽註冊。
 
-The method a client application must use to detect notification events depends on which PostgreSQL application programming interface it uses. With the libpq library, the application issues `LISTEN` as an ordinary SQL command, and then must periodically call the function `PQnotifies` to find out whether any notification events have been received. Other interfaces such as libpgtcl provide higher-level methods for handling notify events; indeed, with libpgtcl the application programmer should not even issue `LISTEN` or `UNLISTEN` directly. See the documentation for the interface you are using for more details.
+用戶端應用程序必須用於檢測通知事件的方法取決於它使用的 PostgreSQL 應用程序程式介面。使用 libpq 函式庫，應用程序將 LISTEN 作為普通 SQL 指令送出，然後必須定期呼叫函數 PQnotifies 以查明是否已收到任何通知事件。其他介面（如 libpgtcl）提供了處理通知事件的更高階的方法；實際上，使用 libpgtcl，應用程式設計師甚至不應該直接送出 LISTEN 或 UNLISTEN。有關更多詳細訊息，請參閱所用介面的使用手冊。
 
-[NOTIFY](https://www.postgresql.org/docs/10/static/sql-notify.html) contains a more extensive discussion of the use of `LISTEN` and `NOTIFY`.
+[NOTIFY](notify.md) 包含對 LISTEN 及 NOTIFY 使用的更廣泛討論。
 
-### Parameters
+### 參數
 
 _`channel`_
 
-Name of a notification channel \(any identifier\).
+通知通道的名稱（任何識別指標）。
 
-### Notes
+### 注意
 
-`LISTEN` takes effect at transaction commit. If `LISTEN` or `UNLISTEN` is executed within a transaction that later rolls back, the set of notification channels being listened to is unchanged.
+LISTEN 在事務提交時生效。如果在稍後回復的事務中執行 LISTEN 或 UNLISTEN，則正在監聽的通知通道也不會改變。
 
-A transaction that has executed `LISTEN` cannot be prepared for two-phase commit.
+已執行 LISTEN 的事務無法為兩階段提交做 prepared。
 
-### Examples
+### 範例
 
-Configure and execute a listen/notify sequence from psql:
+從 psql 配置並執行 listen / notify 指令：
 
 ```text
 LISTEN virtual;
@@ -42,11 +46,11 @@ NOTIFY virtual;
 Asynchronous notification "virtual" received from server process with PID 8448.
 ```
 
-### Compatibility
+### 相容性
 
-There is no `LISTEN` statement in the SQL standard.
+SQL 標準中沒有 LISTEN 語句。
 
-### See Also
+### 參閱
 
-[NOTIFY](https://www.postgresql.org/docs/10/static/sql-notify.html), [UNLISTEN](https://www.postgresql.org/docs/10/static/sql-unlisten.html)
+[NOTIFY](notify.md), [UNLISTEN](unlisten.md)
 

@@ -501,6 +501,7 @@
     * [SET TRANSACTION](reference/sql-commands/set-transaction.md)
     * [SHOW](reference/sql-commands/show.md)
     * [TRUNCATE](reference/sql-commands/truncate.md)
+    * [UNLISTEN](reference/sql-commands/unlisten.md)
     * [UPDATE](reference/sql-commands/update.md)
     * [VACUUM](reference/sql-commands/vacuum.md)
     * [VALUES](reference/sql-commands/values.md)
