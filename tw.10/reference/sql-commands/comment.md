@@ -65,7 +65,7 @@ COMMENT 儲存有關資料庫物件的註解。
 
 對於大多數類型的物件，只有物件的擁有者才能設定註解。角色本身沒有擁有者，因此 COMMENT ON ROLE 的規則是您必須是超級使用者才能對超級使用者角色註解，或具有 CREATEROLE 權限才能對非超級使用者角色註解。 同樣，存取方法也沒有擁有者；所以您必須是超級使用者才能對存取方法留下註解。 當然，超級使用者可以對任何物件註解。
 
-可以使用psql的 \d 系列指令查看註解。其他使用者界面要檢索註解的話，可以使用 psql 相同內建函數的建置，即 obj\_description，col\_description 和 shobj\_description（請參閱[表格 9.68](../../the-sql-language/functions-and-operators/9.25.-xi-tong-zi-xun-han-shu.md#table-9-68-comment-information-functions)）。
+可以使用psql的 \d 系列指令查看註解。其他使用者界面要檢索註解的話，可以使用 psql 相同內建函數的建置，即 obj\_description，col\_description 和 shobj\_description（請參閱[表格 9.68](../../the-sql-language/functions-and-operators/system-information-functions.md#table-9-68-comment-information-functions)）。
 
 ### Parameters
 

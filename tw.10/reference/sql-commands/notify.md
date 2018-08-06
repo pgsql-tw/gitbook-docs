@@ -44,7 +44,7 @@ _`payload`_
 
 有一個佇列保存已發送但尚未由所有監聽會話處理的通知。如果此佇列已滿，則在提交時呼叫 NOTIFY 的事務將失敗。佇列非常大（標準安裝中為 8GB），應該足夠大，幾乎適用於所有情境。但是，如果連線執行 LISTEN 然後進入事務很長時間，則不會進行清理。一旦佇列半滿，您將在日誌檔案中看到警告，指出阻擋清理的連線。在這種情況下，您應確保此連線結束其當下事務，以便可以繼續進行清理。
 
-函數 pg\_notification\_queue\_usage 回傳目前被掛起通知佔用的佇列部分。有關更多訊息，請參閱[第 9.25 節](../../the-sql-language/functions-and-operators/9.25.-xi-tong-zi-xun-han-shu.md)。
+函數 pg\_notification\_queue\_usage 回傳目前被掛起通知佔用的佇列部分。有關更多訊息，請參閱[第 9.25 節](../../the-sql-language/functions-and-operators/system-information-functions.md)。
 
 已執行 NOTIFY 的事務無法為兩階段提交做 prepared。
 
