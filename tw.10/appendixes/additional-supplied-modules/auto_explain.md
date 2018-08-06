@@ -1,60 +1,64 @@
+---
+description: 版本：10
+---
+
 # F.4. auto\_explain
 
-The `auto_explain` module provides a means for logging execution plans of slow statements automatically, without having to run [EXPLAIN](https://www.postgresql.org/docs/10/static/sql-explain.html) by hand. This is especially helpful for tracking down un-optimized queries in large applications.
+auto\_explain 模組提供了一種自動記錄慢速語句執行計劃的方法，毌須手動執行 [EXPLAIN](../../reference/sql-commands/explain.md)。這對於在大型應用程序中追踪未最佳化的查詢特別有用。
 
-The module provides no SQL-accessible functions. To use it, simply load it into the server. You can load it into an individual session:
+該模組不提供 SQL 可存取的功能。要使用它，只需將其載入到伺服器中即可。您也可以將其載入到單個連線之中：
 
 ```text
 LOAD 'auto_explain';
 ```
 
-\(You must be superuser to do that.\) More typical usage is to preload it into some or all sessions by including `auto_explain` in [session\_preload\_libraries](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-SESSION-PRELOAD-LIBRARIES) or [shared\_preload\_libraries](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-SHARED-PRELOAD-LIBRARIES) in `postgresql.conf`. Then you can track unexpectedly slow queries no matter when they happen. Of course there is a price in overhead for that.
+（您必須是超級使用者才能這樣做。）更典型的用法是透過在 postgresql.conf 中的 [session\_preload\_libraries](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#session_preload_libraries-string) 或 [shared\_preload\_libraries](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#shared_preload_libraries-string) 中包含 auto\_explain 將其預先載入到部分或全部連線中。然後，無論何時發生，您都可以追踪意外緩慢的查詢。當然，會有一些系統代價。
 
-#### F.4.1. Configuration Parameters
+## F.4.1. 組態參數
 
-There are several configuration parameters that control the behavior of `auto_explain`. Note that the default behavior is to do nothing, so you must set at least `auto_explain.log_min_duration` if you want any results.
+有幾個組態參數可以控制 auto\_explain 的行為。請注意，預設行為是什麼都不做，因此如果需要任何結果，必須至少設定 auto\_explain.log\_min\_duration。
 
 `auto_explain.log_min_duration` \(`integer`\)
 
-`auto_explain.log_min_duration` is the minimum statement execution time, in milliseconds, that will cause the statement's plan to be logged. Setting this to zero logs all plans. Minus-one \(the default\) disables logging of plans. For example, if you set it to `250ms` then all statements that run 250ms or longer will be logged. Only superusers can change this setting.
+auto\_explain.log\_min\_duration 是記錄語句計劃的最小語句執行時間（以毫秒為單位）。將此設定為零會記錄所有計劃。減號（預設值）停用計劃的記錄。例如，如果將其設定為 250ms，則將記錄執行 250ms 或更長時間的所有語句。只有超級使用者才能變更此設定。
 
 `auto_explain.log_analyze` \(`boolean`\)
 
-`auto_explain.log_analyze` causes `EXPLAIN ANALYZE` output, rather than just `EXPLAIN` output, to be printed when an execution plan is logged. This parameter is off by default. Only superusers can change this setting.
+auto\_explain.log\_analyze 會在記錄執行計劃時列印 EXPLAIN ANALYZE 輸出，而不僅僅是 EXPLAIN 輸出。預設情況下，此參數處於停用狀態。只有超級使用者才能變更此設定。
 
-#### Note
+### 注意
 
-When this parameter is on, per-plan-node timing occurs for all statements executed, whether or not they run long enough to actually get logged. This can have an extremely negative impact on performance. Turning off `auto_explain.log_timing` ameliorates the performance cost, at the price of obtaining less information.
+啟用此參數後，將對所有執行的語句執行每計劃節點計時，無論它們是否執行足夠長時間以實際記錄。這可能會對效能產生極為不利的影響。關閉 auto\_explain.log\_timing 可以獲得較少的訊息，從而改善效能成本。
 
 `auto_explain.log_buffers` \(`boolean`\)
 
-`auto_explain.log_buffers` controls whether buffer usage statistics are printed when an execution plan is logged; it's equivalent to the `BUFFERS` option of `EXPLAIN`. This parameter has no effect unless `auto_explain.log_analyze` is enabled. This parameter is off by default. Only superusers can change this setting.
+auto\_explain.log\_buffers 控制是否在記錄執行計劃時輸出緩衝區使用情況統計訊息；它相當於 EXPLAIN 的 BUFFERS 選項。除非啟用了 auto\_explain.log\_analyze，否則此參數無效。預鉆水情況下，此參數處於停用狀態。只有超級使用者才能變更改此設定。
 
 `auto_explain.log_timing` \(`boolean`\)
 
-`auto_explain.log_timing` controls whether per-node timing information is printed when an execution plan is logged; it's equivalent to the `TIMING` option of `EXPLAIN`. The overhead of repeatedly reading the system clock can slow down queries significantly on some systems, so it may be useful to set this parameter to off when only actual row counts, and not exact times, are needed. This parameter has no effect unless `auto_explain.log_analyze` is enabled. This parameter is on by default. Only superusers can change this setting.
+auto\_explain.log\_timing 控制在記錄執行計劃時是否輸出每個節點的計時訊息；它相當於 EXPLAIN 的 TIMING 選項。重複讀取系統時鐘的成本會在某些系統上明顯減慢查詢速度，因此當只需要實際資料列計數而非精確時間計時，將此參數設定為關閉可能很有用。除非啟用了 auto\_explain.log\_analyze，否則此參數無效。預設情況下，此參數處於啟用狀態。只有超級使用者才能變更此設定。
 
 `auto_explain.log_triggers` \(`boolean`\)
 
-`auto_explain.log_triggers` causes trigger execution statistics to be included when an execution plan is logged. This parameter has no effect unless `auto_explain.log_analyze` is enabled. This parameter is off by default. Only superusers can change this setting.
+auto\_explain.log\_triggers 會在記錄執行計劃時包含觸發器執行統計訊息。除非啟用了 auto\_explain.log\_analyze，否則此參數無效。預設情況下，此參數處於停用狀態。只有超級使用者才能變更此設定。
 
 `auto_explain.log_verbose` \(`boolean`\)
 
-`auto_explain.log_verbose` controls whether verbose details are printed when an execution plan is logged; it's equivalent to the `VERBOSE` option of `EXPLAIN`. This parameter is off by default. Only superusers can change this setting.
+auto\_explain.log\_verbose 控制是否在記錄執行計劃時輸出詳細訊息；它相當於 EXPLAIN 的 VERBOSE 選項。預設情況下，此參數處於停用狀態。只有超級使用者才能變更此設定。
 
 `auto_explain.log_format` \(`enum`\)
 
-`auto_explain.log_format` selects the `EXPLAIN` output format to be used. The allowed values are `text`, `xml`, `json`, and `yaml`. The default is text. Only superusers can change this setting.
+auto\_explain.log\_format 選擇要使用的 EXPLAIN 輸出格式。允許的值為 text、xml、json 和 yaml。預設為 text。只有超級使用者才能變更此設定。
 
 `auto_explain.log_nested_statements` \(`boolean`\)
 
-`auto_explain.log_nested_statements` causes nested statements \(statements executed inside a function\) to be considered for logging. When it is off, only top-level query plans are logged. This parameter is off by default. Only superusers can change this setting.
+auto\_explain.log\_nested\_statements 會讓巢狀語句（在函數內執行的語句）記錄下來。關閉時，僅記錄最上層查詢計劃。預設情況下，此參數處於停用狀態。只有超級使用者才能變更此設定。
 
 `auto_explain.sample_rate` \(`real`\)
 
-`auto_explain.sample_rate` causes auto\_explain to only explain a fraction of the statements in each session. The default is 1, meaning explain all the queries. In case of nested statements, either all will be explained or none. Only superusers can change this setting.
+auto\_explain.sample\_rate 使 auto\_explain 僅解釋每個連線中的一小部分語句。預設值為 1，表示 EXPLAIN 所有查詢。在巢狀語句的情況下，要就全部都要解釋，要就都不解釋。只有超級使用者才能變更此設定。
 
-In ordinary usage, these parameters are set in `postgresql.conf`, although superusers can alter them on-the-fly within their own sessions. Typical usage might be:
+在一般的用法中，這些參數在 postgresql.conf 中設定，儘管超級使用者可以在他們自己的連線中即時更改它們。典型用法可能是：
 
 ```text
 # postgresql.conf
@@ -63,7 +67,7 @@ session_preload_libraries = 'auto_explain'
 auto_explain.log_min_duration = '3s'
 ```
 
-#### F.4.2. Example
+## F.4.2. 範例
 
 ```text
 postgres=# LOAD 'auto_explain';
@@ -74,7 +78,7 @@ postgres=# SELECT count(*)
            WHERE oid = indrelid AND indisunique;
 ```
 
-This might produce log output such as:
+這可能會產生如下的日誌輸出：
 
 ```text
 LOG:  duration: 3.651 ms  plan:
@@ -91,7 +95,7 @@ LOG:  duration: 3.651 ms  plan:
                       Filter: indisunique
 ```
 
-#### F.4.3. Author
+## F.4.3. 作者
 
 Takahiro Itagaki `<`[`itagaki.takahiro@oss.ntt.co.jp`](mailto:itagaki.takahiro@oss.ntt.co.jp)`>`
 
