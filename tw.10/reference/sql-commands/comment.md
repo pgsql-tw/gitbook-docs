@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # COMMENT
 
 COMMENT — 定義或變更物件的註解
@@ -67,7 +71,7 @@ COMMENT 儲存有關資料庫物件的註解。
 
 可以使用psql的 \d 系列指令查看註解。其他使用者界面要檢索註解的話，可以使用 psql 相同內建函數的建置，即 obj\_description，col\_description 和 shobj\_description（請參閱[表格 9.68](../../the-sql-language/functions-and-operators/system-information-functions.md#table-9-68-comment-information-functions)）。
 
-### Parameters
+### 參數
 
 _`object_name`_  
 _`relation_name`_._`column_name`_  
@@ -79,57 +83,57 @@ _`policy_name`_
 _`rule_name`_  
 _`trigger_name`_
 
-The name of the object to be commented. Names of tables, aggregates, collations, conversions, domains, foreign tables, functions, indexes, operators, operator classes, operator families, sequences, statistics, text search objects, types, and views can be schema-qualified. When commenting on a column, _`relation_name`_ must refer to a table, view, composite type, or foreign table.
+要註釋的物件名稱。Table、aggregate、collation、conversion、domain、foreign table、function、index、operator、operator class、sequence、statistics、text search object、type、view 的名稱，並且可以是指定 schema。在對欄位進行註釋時，relation\_name 必須引用資料表、檢視表、複合型別或外部資料表。
 
 _`table_name`_  
 _`domain_name`_
 
-When creating a comment on a constraint, a trigger, a rule or a policy these parameters specify the name of the table or domain on which that object is defined.
+在 constraint、trigger、rule 或 policy 上建立註釋時，這些參數指定定義該物件的資料表或 domain 名稱。
 
 _`source_type`_
 
-The name of the source data type of the cast.
+來源資料型別轉換的名稱。
 
 _`target_type`_
 
-The name of the target data type of the cast.
+目標資料型別轉換的名稱。
 
 _`argmode`_
 
-The mode of a function or aggregate argument: `IN`, `OUT`, `INOUT`, or `VARIADIC`. If omitted, the default is `IN`. Note that `COMMENT` does not actually pay any attention to `OUT` arguments, since only the input arguments are needed to determine the function's identity. So it is sufficient to list the `IN`, `INOUT`, and `VARIADIC` arguments.
+函數或彙總函數的模式：IN，OUT，INOUT 或 VARIADIC。如果省略，則預設為 IN。請注意，COMMENT 實際上並不關心 OUT 參數，因為只需要輸入參數來決定函數的識別。因此，列出 IN，INOUT 和 VARIADIC 參數就足夠了。
 
 _`argname`_
 
-The name of a function or aggregate argument. Note that `COMMENT` does not actually pay any attention to argument names, since only the argument data types are needed to determine the function's identity.
+函數或彙總參數的名稱。請注意，COMMENT 實際上並不關心參數名稱，因為只需要參數資料型別來決定函數的識別。
 
 _`argtype`_
 
-The data type of a function or aggregate argument.
+函數或彙總參數的資料型別。
 
 _`large_object_oid`_
 
-The OID of the large object.
+large object 的 OID。
 
 _`left_type`_  
 _`right_type`_
 
-The data type\(s\) of the operator's arguments \(optionally schema-qualified\). Write `NONE` for the missing argument of a prefix or postfix operator.
+運算子參數的資料型別（可加上綱要名稱）。使用 NONE 表示缺少前綴或後綴運算子的參數。
 
 `PROCEDURAL`
 
-This is a noise word.
+這是一個噪音詞。
 
 _`type_name`_
 
-The name of the data type of the transform.
+轉換的資料型別名稱。
 
 _`lang_name`_
 
-The name of the language of the transform.
+變換語言的名稱。
 
 _`text`_
 
-The new comment, written as a string literal; or `NULL` to drop the comment.
+新的註解，寫成字串文字；或 NULL 以刪除註解。
 
 ### 注意
 
