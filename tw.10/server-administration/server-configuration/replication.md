@@ -1,24 +1,28 @@
+---
+description: 版本：10
+---
+
 # 19.6. Replication
 
-These settings control the behavior of the built-in _streaming replication_ feature \(see [Section 26.2.5](https://www.postgresql.org/docs/10/static/warm-standby.html#STREAMING-REPLICATION)\). Servers will be either a Master or a Standby server. Masters can send data, while Standby\(s\) are always receivers of replicated data. When cascading replication \(see [Section 26.2.7](https://www.postgresql.org/docs/10/static/warm-standby.html#CASCADING-REPLICATION)\) is used, Standby server\(s\) can also be senders, as well as receivers. Parameters are mainly for Sending and Standby servers, though some parameters have meaning only on the Master server. Settings may vary across the cluster without problems if that is required.
+這些設定控制內建的串流複寫功能行為（請參閱[第 26.2.5 節](../26.-high-availability-load-balancing-and-replication/26.2.-log-shipping-standby-servers.md#26-2-5-streaming-replication)）。伺服器指的是主伺服務器或備用伺服器。主伺服器可以發送資料，而備用伺服器始終是複寫資料的接收者。當使用串聯複寫（請參閱[第 26.2.7 節](../26.-high-availability-load-balancing-and-replication/26.2.-log-shipping-standby-servers.md#26-2-7-cascading-replication)）時，備用伺服器也可以是發送者和接收者。參數主要用於發送和備用伺服器，但某些參數僅在主伺服器上有意義。如果需要，設定是跨群集的，不會産生問題。
 
-#### 19.6.1. Sending Server\(s\)
+## 19.6.1. 發送伺服器
 
-These parameters can be set on any server that is to send replication data to one or more standby servers. The master is always a sending server, so these parameters must always be set on the master. The role and meaning of these parameters does not change after a standby becomes the master.
+可以在將資料複寫發送到一個或多個備用伺服器的任何伺服器上設定這些參數。主伺服器始終是發送伺服器，因此必須在主伺服器上設定這些參數。備用資料庫成為主資料庫後，這些參數的作用也不會改變。
 
 `max_wal_senders` \(`integer`\)
 
-Specifies the maximum number of concurrent connections from standby servers or streaming base backup clients \(i.e., the maximum number of simultaneously running WAL sender processes\). The default is 10. The value 0 means replication is disabled. WAL sender processes count towards the total number of connections, so the parameter cannot be set higher than [max\_connections](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS). Abrupt streaming client disconnection might cause an orphaned connection slot until a timeout is reached, so this parameter should be set slightly higher than the maximum number of expected clients so disconnected clients can immediately reconnect. This parameter can only be set at server start. `wal_level` must be set to `replica` or higher to allow connections from standby servers.
+指定來自備用伺服器或串流複寫備份用戶端的最大同時連線數（即同時運行的 WAL 發送程序的最大數量）。預設值為 10，0 表示停用複寫。WAL 發送方程序也計入連線總數，因此參數不能設定高於 [max\_connections](connections-and-authentication.md#19-3-1-ding)。突然串流用戶端中斷連線可能會導致遺留連線插槽，直到達到超時。因此此參數應設定為略高於預期用戶端的最大數量，以便中斷連線的用戶端可以立即重新連線。此參數只能在伺服器啟動時設定。wal\_level 必須設定為副本或更高版本才能允許來自備用伺服器的連線。
 
 `max_replication_slots` \(`integer`\)
 
-Specifies the maximum number of replication slots \(see [Section 26.2.6](https://www.postgresql.org/docs/10/static/warm-standby.html#STREAMING-REPLICATION-SLOTS)\) that the server can support. The default is 10. This parameter can only be set at server start. `wal_level` must be set to `replica` or higher to allow replication slots to be used. Setting it to a lower value than the number of currently existing replication slots will prevent the server from starting.
+指定伺服器可以支援的最大複寫槽數（請參閱[第 26.2.6 節](../26.-high-availability-load-balancing-and-replication/26.2.-log-shipping-standby-servers.md#26-2-6-replication-slots)）。預設值為 10。此參數只能在伺服器啟動時設定。必須將 wal\_level 設定為副本或更高版本才能使用複寫槽。將其設定為低於目前現有複寫插槽數的值將阻止伺服器啟動。
 
 `wal_keep_segments` \(`integer`\)
 
-Specifies the minimum number of past log file segments kept in the `pg_wal` directory, in case a standby server needs to fetch them for streaming replication. Each segment is normally 16 megabytes. If a standby server connected to the sending server falls behind by more than `wal_keep_segments` segments, the sending server might remove a WAL segment still needed by the standby, in which case the replication connection will be terminated. Downstream connections will also eventually fail as a result. \(However, the standby server can recover by fetching the segment from archive, if WAL archiving is in use.\)
+指定保留在 pg\_wal 目錄中的過時日誌段落檔案的最小數量，以防備用伺服器需要取得它們以進行串流複寫。每個段落段通常為 16 MB。如果連線到發送伺服器的備用伺服器落後於 wal\_keep\_segments 個段落以上，則發送伺服器可能會刪除備用資料庫仍需要的 WAL 段落，在這種情況下，複寫連線將會終止。因此，下游連線最終也會失敗。（但是，如果正在使用 WAL Archive，則備用伺服器可以透過從 Archive 中取得段落來進行回復。）
 
-This sets only the minimum number of segments retained in `pg_wal`; the system might need to retain more segments for WAL archival or to recover from a checkpoint. If `wal_keep_segments` is zero \(the default\), the system doesn't keep any extra segments for standby purposes, so the number of old WAL segments available to standby servers is a function of the location of the previous checkpoint and status of WAL archiving. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+這僅設定 pg\_wal 中保留的最小段落數量；系統可能需要為 WAL 存檔保留更多段落或從檢查點回復。如果 wal\_keep\_segments 為零（預設值），則系統不會為備用目的保留任何額外的段落，因此備用伺服器可用的舊 WAL 段落數是上一個檢查點的位置和WAL 歸檔狀態的函數。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `wal_sender_timeout` \(`integer`\)
 
@@ -28,7 +32,7 @@ Terminate replication connections that are inactive longer than the specified nu
 
 Record commit time of transactions. This parameter can only be set in `postgresql.conf` file or on the server command line. The default value is `off`.
 
-#### 19.6.2. Master Server
+## 19.6.2. Master Server
 
 These parameters can be set on the master/primary server that is to send replication data to one or more standby servers. Note that in addition to these parameters, [wal\_level](https://www.postgresql.org/docs/10/static/runtime-config-wal.html#GUC-WAL-LEVEL) must be set appropriately on the master server, and optionally WAL archiving can be enabled as well \(see [Section 19.5.3](https://www.postgresql.org/docs/10/static/runtime-config-wal.html#RUNTIME-CONFIG-WAL-ARCHIVING)\). The values of these parameters on standby servers are irrelevant, although you may wish to set them there in preparation for the possibility of a standby becoming the master.`synchronous_standby_names` \(`string`\)
 
@@ -74,7 +78,7 @@ You should also consider setting `hot_standby_feedback` on standby server\(s\) a
 
 This does not prevent cleanup of dead rows which have reached the age specified by `old_snapshot_threshold`.
 
-#### 19.6.3. Standby Servers
+## 19.6.3. Standby Servers
 
 These settings control the behavior of a standby server that is to receive replication data. Their values on the master server are irrelevant.
 
@@ -116,7 +120,7 @@ Specify how long the standby server should wait when WAL data is not available f
 
 This parameter is useful in configurations where a node in recovery needs to control the amount of time to wait for new WAL data to be available. For example, in archive recovery, it is possible to make the recovery more responsive in the detection of a new WAL log file by reducing the value of this parameter. On a system with low WAL activity, increasing it reduces the amount of requests necessary to access WAL archives, something useful for example in cloud environments where the amount of times an infrastructure is accessed is taken into account.
 
-#### 19.6.4. Subscribers
+## 19.6.4. Subscribers
 
 These settings control the behavior of a logical replication subscriber. Their values on the publisher are irrelevant.
 
