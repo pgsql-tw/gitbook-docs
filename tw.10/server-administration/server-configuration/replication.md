@@ -26,11 +26,11 @@ description: 版本：10
 
 `wal_sender_timeout` \(`integer`\)
 
-Terminate replication connections that are inactive longer than the specified number of milliseconds. This is useful for the sending server to detect a standby crash or network outage. A value of zero disables the timeout mechanism. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default value is 60 seconds.
+終止靜止狀態超過指定毫秒數的複寫連線。這對於發送伺服器檢測備用伺服器當機或網路斷線很有用。值為零會停用超時機制。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值為 60 秒。
 
 `track_commit_timestamp` \(`boolean`\)
 
-Record commit time of transactions. This parameter can only be set in `postgresql.conf` file or on the server command line. The default value is `off`.
+記錄事務的提交時間。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值為 off。
 
 ## 19.6.2. Master Server
 
