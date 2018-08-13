@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # SELECT
 
-SELECT, TABLE, WITH — retrieve rows from a table or view
+SELECT, TABLE, WITH — 從資料表或檢視表中檢索資料列
 
-### Synopsis
+### 語法
 
 ```text
 [ WITH [ RECURSIVE ] with_query [, ...] ]
@@ -50,13 +54,13 @@ and with_query is:
 TABLE [ ONLY ] table_name [ * ]
 ```
 
-### Description
+### 說明
 
-`SELECT` retrieves rows from zero or more tables. The general processing of `SELECT` is as follows:
+SELECT 從零個或多個資料表中檢索資料列。SELECT 的一般處理如下：
 
-1. All queries in the `WITH` list are computed. These effectively serve as temporary tables that can be referenced in the `FROM` list. A `WITH` query that is referenced more than once in `FROM` is computed only once. \(See [`WITH` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-WITH) below.\)
-2. All elements in the `FROM` list are computed. \(Each element in the `FROM` list is a real or virtual table.\) If more than one element is specified in the `FROM` list, they are cross-joined together. \(See [`FROM` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-FROM) below.\)
-3. If the `WHERE` clause is specified, all rows that do not satisfy the condition are eliminated from the output. \(See [`WHERE` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-WHERE) below.\)
+1. 計算 WITH 列表中的所有查詢語句。這有效地製作可以在 FROM 列表中引用的臨時資料表。在 FROM 中多次引用的 WITH 查詢僅會計算一次。（參閱下面的 [WITH 子句](select.md#with-clause)。）
+2. FROM 列表中的所有元素都是計算出來的。（FROM 列表中的每個元素可以是一個真實或虛擬的資料表。）如果在 FROM 列表中指定了多個元素，它們將會交叉查詢在一起。 （參閱下面的 [FROM 語句](select.md#from-clause)。）
+3. 如果指定了 WHERE 子句，則從會輸出中過濾掉所有不滿足條件的資料列。（參閱下面的 [WHERE 子句](select.md#where-clause)。）
 4. If the `GROUP BY` clause is specified, or if there are aggregate function calls, the output is combined into groups of rows that match on one or more values, and the results of aggregate functions are computed. If the `HAVING` clause is present, it eliminates groups that do not satisfy the given condition. \(See [`GROUP BY` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-GROUPBY) and [`HAVING` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-HAVING) below.\)
 5. The actual output rows are computed using the `SELECT` output expressions for each selected row or row group. \(See [`SELECT` List](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-SELECT-LIST) below.\)
 6. `SELECT DISTINCT` eliminates duplicate rows from the result. `SELECT DISTINCT ON` eliminates rows that match on all the specified expressions. `SELECT ALL` \(the default\) will return all candidate rows, including duplicates. \(See [`DISTINCT` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-DISTINCT) below.\)
@@ -65,7 +69,7 @@ TABLE [ ONLY ] table_name [ * ]
 9. If the `LIMIT` \(or `FETCH FIRST`\) or `OFFSET` clause is specified, the `SELECT` statement only returns a subset of the result rows. \(See [`LIMIT` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-LIMIT) below.\)
 10. If `FOR UPDATE`, `FOR NO KEY UPDATE`, `FOR SHARE` or `FOR KEY SHARE` is specified, the `SELECT` statement locks the selected rows against concurrent updates. \(See [The Locking Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-FOR-UPDATE-SHARE) below.\)
 
-You must have `SELECT` privilege on each column used in a `SELECT` command. The use of `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` or `FOR KEY SHARE` requires `UPDATE` privilege as well \(for at least one column of each table so selected\).
+您必須對 SELECT 指令中使用的每個欄位具有 SELECT 權限。FOR NO KEY UPDATE、FOR UPDATE、FOR SHARE 或 FOR KEY SHARE 的使用也需要 UPDATE 權限（對於如此選擇的每個資料表的至少一個欄位）。
 
 ### Parameters
 
