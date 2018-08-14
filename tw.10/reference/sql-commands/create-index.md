@@ -120,7 +120,7 @@ GIN 索引接受不同的參數：
 
 `fastupdate`
 
-此設定控制[第 64.4.1 節](../../internals/64.-gin-suo-yin/64.4.-implementation.md#64-4-1-gin-fast-update-technique)中描述的快速更新技術的運用。它是一個布林參數：ON 啟用快速更新，OFF 停用它。 （如[第 19.1 節](../../server-administration/server-configuration/19.1.-setting-parameters.md)所述，允許使用 ON 和 OFF 的替代拼寫。）預設為 ON。
+此設定控制[第 64.4.1 節](../../internals/gin-indexes/implementation.md#64-4-1-gin-fast-update-technique)中描述的快速更新技術的運用。它是一個布林參數：ON 啟用快速更新，OFF 停用它。 （如[第 19.1 節](../../server-administration/server-configuration/19.1.-setting-parameters.md)所述，允許使用 ON 和 OFF 的替代拼寫。）預設為 ON。
 
 #### 提醒
 

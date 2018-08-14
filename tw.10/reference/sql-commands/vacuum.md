@@ -64,7 +64,7 @@ _`column_name`_
 
 VACUUM 不能在交易事務區塊內執行。
 
-對於具有 GIN 索引的資料表，透過將掛起的索引項目移動到主 GIN 索引結構中的適當位置，VACUUM（以任何形式）還是可以完成任何掛起的索引插入。詳情請參閱[第 64.4.1 節](../../internals/64.-gin-suo-yin/64.4.-implementation.md#64-4-1-gin-fast-update-technique)。
+對於具有 GIN 索引的資料表，透過將掛起的索引項目移動到主 GIN 索引結構中的適當位置，VACUUM（以任何形式）還是可以完成任何掛起的索引插入。詳情請參閱[第 64.4.1 節](../../internals/gin-indexes/implementation.md#64-4-1-gin-fast-update-technique)。
 
 我們建議經常清理活動產品資料庫（至少每晚）以回收空間。增加或刪除大量資料列後，對受影響的資料表發出 VACUUM ANALYZE 指令會是個好主意。這將使用所有最近更改的結果更新系統目錄，並允許 PostgreSQL 查詢計劃程序在計劃查詢中做出更好的選擇。
 
