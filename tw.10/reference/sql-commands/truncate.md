@@ -39,23 +39,23 @@ _`name`_
 
 如果任何資料表具有未在命令中列出的資料表外部鍵引用，則拒絕清空。這是預設值。
 
-### Notes
+### 注意
 
-You must have the `TRUNCATE` privilege on a table to truncate it.
+您必須對資料具有 TRUNCATE 權限才能以 TRUNCATE 清空它。
 
-`TRUNCATE` acquires an `ACCESS EXCLUSIVE` lock on each table it operates on, which blocks all other concurrent operations on the table. When `RESTART IDENTITY` is specified, any sequences that are to be restarted are likewise locked exclusively. If concurrent access to a table is required, then the `DELETE` command should be used instead.
+TRUNCATE 會在其執行的每個資料表上取得一個 ACCESS EXCLUSIVE 鎖定，它阻止資料表上的所有其他同時間的操作。指定 RESTART IDENTITY 時，任何要重置的序列同樣都是獨占鎖定的。如果需要對資料表進行同時間的存取，則應使用 DELETE 指令。
 
-`TRUNCATE` cannot be used on a table that has foreign-key references from other tables, unless all such tables are also truncated in the same command. Checking validity in such cases would require table scans, and the whole point is not to do one. The `CASCADE` option can be used to automatically include all dependent tables — but be very careful when using this option, or else you might lose data you did not intend to!
+TRUNCATE 不能用於具有其他資料表外部鍵引用的資料表，除非所有這些資料表也在同一指令中被清空。在這種情況下檢查其有效性將需要資料表掃描，掃描點不一定只有一個。CASCADE 選項可用於自動包含所有相關資料表 - 但在使用此選項時要非常小心，否則您可能會失去您不想要失去的資料！
 
-`TRUNCATE` will not fire any `ON DELETE` triggers that might exist for the tables. But it will fire `ON TRUNCATE` triggers. If `ON TRUNCATE` triggers are defined for any of the tables, then all `BEFORE TRUNCATE` triggers are fired before any truncation happens, and all `AFTER TRUNCATE` triggers are fired after the last truncation is performed and any sequences are reset. The triggers will fire in the order that the tables are to be processed \(first those listed in the command, and then any that were added due to cascading\).
+TRUNCATE 不會觸發資料表可能存在的任何 ON DELETE 觸發器。但它將觸發 TRUNCATE 觸發器。如果為任何資料表定義了 ON TRUNCATE 觸發器，則在發生任何清空之前觸發所有 BEFORE TRUNCATE 觸發器，並在執行最後一次清空且重置任何序列之後觸發所有 AFTER TRUNCATE 觸發器。觸發器將按照要處理的資料表順序觸發（首先是指令中列出的那些，然後是由於串聯處理而添加的資料表）。
 
-`TRUNCATE` is not MVCC-safe. After truncation, the table will appear empty to concurrent transactions, if they are using a snapshot taken before the truncation occurred. See [Section 13.5](https://www.postgresql.org/docs/10/static/mvcc-caveats.html) for more details.
+TRUNCATE 並不是 MVCC 安全的。清空後，如果資料表使用在清空發生之前所産生的快照，則資料表對於平行執行的事務將顯示為空。更多詳細訊息，請參閱[第 13.5 節](../../the-sql-language/concurrency-control/13.5.-te-bie-zhu-yi.md)。
 
-`TRUNCATE` is transaction-safe with respect to the data in the tables: the truncation will be safely rolled back if the surrounding transaction does not commit.
+TRUNCATE 對於資料表中的資料是事務安全的：如果其他的事務沒有提交，則 TRUNCATE 將能安全地回溯。
 
-When `RESTART IDENTITY` is specified, the implied `ALTER SEQUENCE RESTART` operations are also done transactionally; that is, they will be rolled back if the surrounding transaction does not commit. This is unlike the normal behavior of `ALTER SEQUENCE RESTART`. Be aware that if any additional sequence operations are done on the restarted sequences before the transaction rolls back, the effects of these operations on the sequences will be rolled back, but not their effects on `currval()`; that is, after the transaction `currval()` will continue to reflect the last sequence value obtained inside the failed transaction, even though the sequence itself may no longer be consistent with that. This is similar to the usual behavior of `currval()` after a failed transaction.
+指定 RESTART IDENTITY 時，隱含的 ALTER SEQUENCE RESTART 操作也會以事務方式完成；也就是說，如果其他的事務沒有提交，它們將被回溯。這與 ALTER SEQUENCE RESTART 的正常行為不同。請注意，如果在事務回溯之前對重置的序列執行任何其他序列操作，則會回溯這些操作對序列的影響，但不會影響它們對 currval\(\) 的影響。也就是說，事務 currval\(\) 將繼續反映失敗事務中獲得的最後一個序列值，即使序列本身可能不再與之一致。 這類似於事務失敗後 currval\(\) 的通常行為。
 
-`TRUNCATE` is not currently supported for foreign tables. This implies that if a specified table has any descendant tables that are foreign, the command will fail.
+外部資料表目前不支援 TRUNCATE。這意味著如果指定的資料表具有任何外部的後代資料表，則此指令將會失敗。
 
 ### 範例
 
