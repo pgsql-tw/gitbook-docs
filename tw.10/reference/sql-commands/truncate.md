@@ -1,39 +1,43 @@
+---
+description: 版本：10
+---
+
 # TRUNCATE
 
-TRUNCATE — empty a table or set of tables
+TRUNCATE — 清空一個資料表或一堆資料表
 
-### Synopsis
+### 語法
 
 ```text
 TRUNCATE [ TABLE ] [ ONLY ] name [ * ] [, ... ]
     [ RESTART IDENTITY | CONTINUE IDENTITY ] [ CASCADE | RESTRICT ]
 ```
 
-### Description
+### 說明
 
-`TRUNCATE` quickly removes all rows from a set of tables. It has the same effect as an unqualified `DELETE` on each table, but since it does not actually scan the tables it is faster. Furthermore, it reclaims disk space immediately, rather than requiring a subsequent `VACUUM` operation. This is most useful on large tables.
+TRUNCATE 快速移除一堆資料表中的所有資料列。它與每個資料表上的無差別 DELETE 具有相同的效果，但由於它實際上不掃描資料表，因此速度更快。此外，它會立即回收磁碟空間，而不是需要後續的 VACUUM 操作。這對大型資料表非常有用。
 
-### Parameters
+### 參數
 
 _`name`_
 
-The name \(optionally schema-qualified\) of a table to truncate. If `ONLY` is specified before the table name, only that table is truncated. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are truncated. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included.
+要清空的資料表名稱（可選用綱要名稱）。如果在資料表名稱之前指定了 ONLY，則僅清空此資料表。如果未指定 ONLY，則會清空此表及其所有後代資料表（如果有的話）。也可以在資料表名稱後指定 \* 以明確指示包含後代資料表。
 
 `RESTART IDENTITY`
 
-Automatically restart sequences owned by columns of the truncated table\(s\).
+自動重置清空資料表的欄位所擁有的序列。
 
 `CONTINUE IDENTITY`
 
-Do not change the values of sequences. This is the default.
+不要變更序列的值。這是預設值。
 
 `CASCADE`
 
-Automatically truncate all tables that have foreign-key references to any of the named tables, or to any tables added to the group due to `CASCADE`.
+自動清空所有對任何對此資料表具有外部鍵引用的資料表，或者由於 CASCADE 而加入群組的資料表。
 
 `RESTRICT`
 
-Refuse to truncate if any of the tables have foreign-key references from tables that are not listed in the command. This is the default.
+如果任何資料表具有未在命令中列出的資料表外部鍵引用，則拒絕清空。這是預設值。
 
 ### Notes
 
@@ -53,31 +57,31 @@ When `RESTART IDENTITY` is specified, the implied `ALTER SEQUENCE RESTART` opera
 
 `TRUNCATE` is not currently supported for foreign tables. This implies that if a specified table has any descendant tables that are foreign, the command will fail.
 
-### Examples
+### 範例
 
-Truncate the tables `bigtable` and `fattable`:
+清空資料表 bigtable 和 fattable：
 
 ```text
 TRUNCATE bigtable, fattable;
 ```
 
-The same, and also reset any associated sequence generators:
+同樣，再加上重置任何相關的序列産生器：
 
 ```text
 TRUNCATE bigtable, fattable RESTART IDENTITY;
 ```
 
-Truncate the table `othertable`, and cascade to any tables that reference `othertable` via foreign-key constraints:
+清空資料表 othertable，串聯清空任何透過外部鍵引用的其他資料表：
 
 ```text
 TRUNCATE othertable CASCADE;
 ```
 
-### Compatibility
+### 相容性
 
-The SQL:2008 standard includes a `TRUNCATE` command with the syntax `TRUNCATE TABLE` _`tablename`_. The clauses `CONTINUE IDENTITY`/`RESTART IDENTITY` also appear in that standard, but have slightly different though related meanings. Some of the concurrency behavior of this command is left implementation-defined by the standard, so the above notes should be considered and compared with other implementations if necessary.
+SQL:2008 標準有一個 TRUNCATE 指令，其語法為 TRUNCATE TABLE tablename。子句 CONTINUE IDENTITY / RESTART IDENTITY 也出現在該標準中，但具有略微不同但類似的意義。此指令的某些平行作業行為是由實作定義的，因此應考慮上述註釋，並在必要時與其他實作進行比較。
 
-### See Also
+### 參閱
 
 [DELETE](delete.md)
 
