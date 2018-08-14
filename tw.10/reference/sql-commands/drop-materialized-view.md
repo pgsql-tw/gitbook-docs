@@ -1,48 +1,52 @@
+---
+description: 版本：10
+---
+
 # DROP MATERIALIZED VIEW
 
-DROP MATERIALIZED VIEW — remove a materialized view
+DROP MATERIALIZED VIEW — 移除具體化檢視表
 
-### Synopsis
+### 語法
 
 ```text
 DROP MATERIALIZED VIEW [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 ```
 
-### Description
+### 說明
 
-`DROP MATERIALIZED VIEW` drops an existing materialized view. To execute this command you must be the owner of the materialized view.
+DROP MATERIALIZED VIEW 移除現有的具體化檢視表。要執行此指令，您必須是具體化檢視表的擁有者。
 
-### Parameters
+### 參數
 
 `IF EXISTS`
 
-Do not throw an error if the materialized view does not exist. A notice is issued in this case.
+如果具體化檢視表不存在，請不要拋出錯誤。在這種情況下發出 NOTICE。
 
 _`name`_
 
-The name \(optionally schema-qualified\) of the materialized view to remove.
+要移除的具體化檢視表名稱（可選用綱要名稱）。
 
 `CASCADE`
 
-Automatically drop objects that depend on the materialized view \(such as other materialized views, or regular views\), and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
+自動移除相依於具體化檢視表的物件（例如其他具體化檢視表或一般的檢視表），以及相依於這些物件的所有物件（參閱[第 5.13 節](../../the-sql-language/ddl/dependency-tracking.md)）。
 
 `RESTRICT`
 
-Refuse to drop the materialized view if any objects depend on it. This is the default.
+如果任何物件相依於它，則拒絕移除具體化檢視表。這是預設值。
 
-### Examples
+### 範例
 
-This command will remove the materialized view called `order_summary`:
+此指令將移除名為 order\_summary 的具體化檢視表：
 
 ```text
 DROP MATERIALIZED VIEW order_summary;
 ```
 
-### Compatibility
+### 相容性
 
-`DROP MATERIALIZED VIEW` is a PostgreSQL extension.
+DROP MATERIALIZED VIEW 是 PostgreSQL 延伸語法。
 
-### See Also
+### 參閱
 
-[CREATE MATERIALIZED VIEW](create-materialized-view.md), [ALTER MATERIALIZED VIEW](alter-materialized-view.md), [REFRESH MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-refreshmaterializedview.html)
+[CREATE MATERIALIZED VIEW](create-materialized-view.md), [ALTER MATERIALIZED VIEW](alter-materialized-view.md), [REFRESH MATERIALIZED VIEW](refresh-materialized-view.md)
 
