@@ -4,21 +4,21 @@ description: 版本：10
 
 # 64.4. Implementation
 
-Internally, a GIN index contains a B-tree index constructed over keys, where each key is an element of one or more indexed items \(a member of an array, for example\) and where each tuple in a leaf page contains either a pointer to a B-tree of heap pointers \(a “posting tree”\), or a simple list of heap pointers \(a “posting list”\) when the list is small enough to fit into a single index tuple along with the key value.
+在內部，GIN 索引包含在索引鍵上建構的 B-tree 索引，其中每個索引鍵是一個或多個索引項目（例如，陣列的成員）元素，並且葉結點頁面中的每個 tuple 包含指向 heap 指標的 B-tree（“posting tree”）或 heap 指標的簡易列表（“posting list”），其列表足夠小以能與其索引鍵值放進單個索引 tuple。
 
-As of PostgreSQL 9.1, null key values can be included in the index. Also, placeholder nulls are included in the index for indexed items that are null or contain no keys according to `extractValue`. This allows searches that should find empty items to do so.
+從 PostgreSQL 9.1 開始，null 索引鍵值可以包含在索引中。此外，placeholder null 值也包含在索引項目中，該索引項目根據 extractValue 的結果判斷為 null 或不包含任何鍵值。這可以進行空項目的搜索。
 
-Multicolumn GIN indexes are implemented by building a single B-tree over composite values \(column number, key value\). The key values for different columns can be of different types.
+透過在複合值（欄位號碼，鍵值）上建構單個 B-tree 來實現多欄位 GIN 索引。不同欄位的鍵值可以是不同型別。
 
-#### 64.4.1. GIN Fast Update Technique
+## 64.4.1. GIN 快速更新技術
 
-Updating a GIN index tends to be slow because of the intrinsic nature of inverted indexes: inserting or updating one heap row can cause many inserts into the index \(one for each key extracted from the indexed item\). As of PostgreSQL 8.4, GIN is capable of postponing much of this work by inserting new tuples into a temporary, unsorted list of pending entries. When the table is vacuumed or autoanalyzed, or when `gin_clean_pending_list` function is called, or if the pending list becomes larger than [gin\_pending\_list\_limit](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-GIN-PENDING-LIST-LIMIT), the entries are moved to the main GIN data structure using the same bulk insert techniques used during initial index creation. This greatly improves GIN index update speed, even counting the additional vacuum overhead. Moreover the overhead work can be done by a background process instead of in foreground query processing.
+由於反向索引的固有特性，更新 GIN 索引往往會很慢：插入或更新一個 heap 資料列會導致許多項目插入到索引中（每個索引鍵從索引項目中提取一個）。從 PostgreSQL 8.4 開始，GIN 能夠透過將新的 tuple 插入臨時的未排序待處理條目列表來延遲大部分工作。當資料表被清理或自動分析時，或者當呼叫 gin\_clean\_pending\_list 函數時，又或者待處理列表變得大於 [gin\_pending\_list\_limit](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#gin_pending_list_limit-integer) 時，使用在初始索引建立期間使用的相同批次插入技術將項目移動到主要的 GIN 資料結構。這大大提升了 GIN 索引更新速度，甚至可以計算額外的清理開銷。此外，額外的工作可以通過背景程序而不是前端查詢處理來完成。
 
-The main disadvantage of this approach is that searches must scan the list of pending entries in addition to searching the regular index, and so a large list of pending entries will slow searches significantly. Another disadvantage is that, while most updates are fast, an update that causes the pending list to become “too large” will incur an immediate cleanup cycle and thus be much slower than other updates. Proper use of autovacuum can minimize both of these problems.
+這種方法的主要缺點是除了搜尋一般索引之外，還必須掃描待處理項目列表，因此大量待處理項目將顯著拖慢搜尋速度。另一個缺點是，雖然大多數更新都很快，但是導致待處理列表變得「太大」的更新將導致觸發立即性清理工作，因此比其他更新慢得多。正確使用 autovacuum 可以儘可能地減少這些問題。
 
-If consistent response time is more important than update speed, use of pending entries can be disabled by turning off the `fastupdate` storage parameter for a GIN index. See [CREATE INDEX](https://www.postgresql.org/docs/10/static/sql-createindex.html) for details.
+如果一致回應時間比更新速度更重要，則可以透過關閉 GIN 索引的 fastupdate 儲存參數來停用待處理項目的使用。有關詳細訊息，請參閱 [CREATE INDEX](../../reference/sql-commands/create-index.md)。
 
-#### 64.4.2. Partial Match Algorithm
+## 64.4.2. Partial Match Algorithm
 
-GIN can support “partial match” queries, in which the query does not determine an exact match for one or more keys, but the possible matches fall within a reasonably narrow range of key values \(within the key sorting order determined by the `compare` support method\). The `extractQuery` method, instead of returning a key value to be matched exactly, returns a key value that is the lower bound of the range to be searched, and sets the `pmatch` flag true. The key range is then scanned using the `comparePartial` method. `comparePartial` must return zero for a matching index key, less than zero for a non-match that is still within the range to be searched, or greater than zero if the index key is past the range that could match.
+GIN可以支援「部分匹配」查詢，其中查詢不確定一個或多個索引鍵能完全匹配，但可能的匹配屬於相當窄的索引鍵值範圍（以比較支持法確定的索引鍵排序順序））。 extractQuery 方法不是回傳要精確匹配的索引鍵值，而是回傳某鍵值，該鍵值是搜尋範圍的下限，並將 pmatch 標示設定為 true。然後使用 comparePartial 方法掃描關鍵的範圍。comparePartial 讓能匹配的索引鍵回傳零，對於仍在搜尋範圍內的非匹配小於零，或者如果索引鍵超出可匹配的範圍則大於零。
 
