@@ -4,9 +4,13 @@ vacuumdb — garbage-collect and analyze a PostgreSQL database
 
 ### Synopsis
 
-`vacuumdb` \[_`connection-option`_...\] \[_`option`_...\] \[ `--table` \| `-t` _`table`_ \[\( _`column`_ \[,...\] \)\] \] ... \[_`dbname`_\]
+```text
+vacuumdb [connection-option...] [option...] [ --table | -t table [( column [,...] )] ] ... [dbname]
+```
 
-`vacuumdb` \[_`connection-option`_...\] \[_`option`_...\] `--all` \| `-a`
+```text
+vacuumdb [connection-option...] [option...] --all | -a
+```
 
 ### Description
 
