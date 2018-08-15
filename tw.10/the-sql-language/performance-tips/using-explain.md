@@ -278,9 +278,9 @@ WHERE t1.unique1 < 10 AND t1.unique2 = t2.unique2;
 
 注意，「實際時間」值是實際執行的時間，以毫秒為單位，而成本估算會以任意單位表示；所以他們不太可能匹配。通常最重要的事情是估計的資料列數量是否與現實相當接近。在這個例子中，估計都是死的，但這在實務上很不尋常。
 
-In some query plans, it is possible for a subplan node to be executed more than once. For example, the inner index scan will be executed once per outer row in the above nested-loop plan. In such cases, the `loops` value reports the total number of executions of the node, and the actual time and rows values shown are averages per-execution. This is done to make the numbers comparable with the way that the cost estimates are shown. Multiply by the `loops`value to get the total time actually spent in the node. In the above example, we spent a total of 0.220 milliseconds executing the index scans on `tenk2`.
+在某些查詢計劃中，子計劃節點可能不止一次執行。例如，內部索引掃描將在上述巢狀循環計劃中的每個外部資料列執行一次。在這種情況下，循環的值回報節點的總執行次數，顯示的實際時間和資料列的值是每次執行的平均值。這樣做是為了使數字與顯示成本估算的方式相當。乘以 loopsvalue 得到實際花費在節點上的總時間。在上面的例子中，我們總共花了 0.220 毫秒來執行 tenk2 上的索引掃描。
 
-In some cases `EXPLAIN ANALYZE` shows additional execution statistics beyond the plan node execution times and row counts. For example, Sort and Hash nodes provide extra information:
+在某些情況下，EXPLAIN ANALYZE 會在計劃節點執行時間和資料列計數之外顯示其他執行統計訊息。例如，Sort 和 Hash 節點提供了額外的訊息：
 
 ```text
 EXPLAIN ANALYZE SELECT *
@@ -305,9 +305,9 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2 ORDER BY t1.fivethous;
  Execution time: 8.008 ms
 ```
 
-The Sort node shows the sort method used \(in particular, whether the sort was in-memory or on-disk\) and the amount of memory or disk space needed. The Hash node shows the number of hash buckets and batches as well as the peak amount of memory used for the hash table. \(If the number of batches exceeds one, there will also be disk space usage involved, but that is not shown.\)
+Sort 節點顯示使用的排序方法（特別是，排序是在記憶體中還是在磁碟上）以及所需的記憶體量或磁盤空間量。Hash 節點顯示 hash buckets 和批次的數量以及用於雜湊表的尖峰記憶體用量。（如果批次次數超過 1，則還會涉及磁碟空間使用，但不會顯示出來。）
 
-Another type of extra information is the number of rows removed by a filter condition:
+另一種類型的額外訊息是過濾條件移除的資料列數目：
 
 ```text
 EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE ten < 7;
@@ -321,9 +321,9 @@ EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE ten < 7;
  Execution time: 5.905 ms
 ```
 
-These counts can be particularly valuable for filter conditions applied at join nodes. The “Rows Removed” line only appears when at least one scanned row, or potential join pair in the case of a join node, is rejected by the filter condition.
+這些計數對於在連接節點處應用的過濾條件特別有用。僅當過濾條件拒絕了至少一個掃描資料列或加入節點情況下的潛在交叉查詢配對時，才會顯示「Rows Removed」。
 
-A case similar to filter conditions occurs with “lossy” index scans. For example, consider this search for polygons containing a specific point:
+類似於過濾條件的情況發生在「lossy」索引掃描中。例如，考慮搜尋包含特定點的多邊形：
 
 ```text
 EXPLAIN ANALYZE SELECT * FROM polygon_tbl WHERE f1 @> polygon '(0.5,2.0)';
@@ -337,7 +337,7 @@ EXPLAIN ANALYZE SELECT * FROM polygon_tbl WHERE f1 @> polygon '(0.5,2.0)';
  Execution time: 0.083 ms
 ```
 
-The planner thinks \(quite correctly\) that this sample table is too small to bother with an index scan, so we have a plain sequential scan in which all the rows got rejected by the filter condition. But if we force an index scan to be used, we see:
+規劃程序（非常正確地）認為這個樣本資料表太小而無法進行索引掃描，因此我們進行了簡單的循序掃描，其中所有資料列都被過濾條件拒絕。但是如果我們強制使用索引掃描，我們會看到：
 
 ```text
 SET enable_seqscan TO off;
@@ -353,9 +353,9 @@ EXPLAIN ANALYZE SELECT * FROM polygon_tbl WHERE f1 @> polygon '(0.5,2.0)';
  Execution time: 0.144 ms
 ```
 
-Here we can see that the index returned one candidate row, which was then rejected by a recheck of the index condition. This happens because a GiST index is “lossy” for polygon containment tests: it actually returns the rows with polygons that overlap the target, and then we have to do the exact containment test on those rows.
+在這裡我們可以看到索引回傳了一個候選資料列，然後透過重新檢查索引條件來拒絕該資料列。發生這種情況是因為 GiST 索引對於多邊形包含測試來說是「lossy」的：它實際上回傳的多個資料列與目標重疊的多邊形，然後我們必須對這些資料列進行精確的測試。
 
-`EXPLAIN` has a `BUFFERS` option that can be used with `ANALYZE` to get even more run time statistics:
+EXPLAIN 有一個 BUFFERS 選項，可以與 ANALYZE 一起使用以獲得更多的執行時統計訊息：
 
 ```text
 EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000;
@@ -377,9 +377,9 @@ EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 >
  Execution time: 0.423 ms
 ```
 
-The numbers provided by `BUFFERS` help to identify which parts of the query are the most I/O-intensive.
+BUFFERS 提供的數字有助於識別查詢的哪些部分是 I/O 密集程度最高的。
 
-Keep in mind that because `EXPLAIN ANALYZE` actually runs the query, any side-effects will happen as usual, even though whatever results the query might output are discarded in favor of printing the `EXPLAIN` data. If you want to analyze a data-modifying query without changing your tables, you can roll the command back afterwards, for example:
+請記住，因為 EXPLAIN ANALYZE 實際上執行查詢，所以任何副作用都會照常發生，即使查詢可能輸出的任何結果都被丟棄，有利於輸出 EXPLAIN 數據。如果要在不更改資料表的情況下分析資料修改查詢，可以在之後回溯事務，例如：
 
 ```text
 BEGIN;
@@ -399,9 +399,9 @@ EXPLAIN ANALYZE UPDATE tenk1 SET hundred = hundred + 1 WHERE unique1 < 100;
 ROLLBACK;
 ```
 
-As seen in this example, when the query is an `INSERT`, `UPDATE`, or `DELETE` command, the actual work of applying the table changes is done by a top-level Insert, Update, or Delete plan node. The plan nodes underneath this node perform the work of locating the old rows and/or computing the new data. So above, we see the same sort of bitmap table scan we've seen already, and its output is fed to an Update node that stores the updated rows. It's worth noting that although the data-modifying node can take a considerable amount of run time \(here, it's consuming the lion's share of the time\), the planner does not currently add anything to the cost estimates to account for that work. That's because the work to be done is the same for every correct query plan, so it doesn't affect planning decisions.
+如此範例所示，當查詢是 INSERT，UPDATE 或 DELETE 指令時，套用資料表變更的實際工作由最上層的 INSERT，UPDATE 或 DELETE 計劃節點完成。此節點下的計劃節點執行定位舊的資料列和計算新資料的工作。所以上面，我們看到了我們已經看到的相同類型的 bitmap 資料表掃描，並且它的輸出被遞送到儲存更新資料列的 Update 節點。值得注意的是，儘管資料修改節點可能需要相當長的執行時間（此時，它佔用了大部分時間），但規劃程序目前並未在成本估算中加入任何內容來解釋該工作。這是因為要完成的工作對於每個正確的查詢計劃都是相同的，因此它不會影響計劃決策。
 
-When an `UPDATE` or `DELETE` command affects an inheritance hierarchy, the output might look like this:
+當 UPDATE 或 DELETE 指令影響繼承結構時，輸出可能如下所示：
 
 ```text
 EXPLAIN UPDATE parent SET f2 = f2 + 1 WHERE f1 = 101;
@@ -422,11 +422,11 @@ EXPLAIN UPDATE parent SET f2 = f2 + 1 WHERE f1 = 101;
          Index Cond: (f1 = 101)
 ```
 
-In this example the Update node needs to consider three child tables as well as the originally-mentioned parent table. So there are four input scanning subplans, one per table. For clarity, the Update node is annotated to show the specific target tables that will be updated, in the same order as the corresponding subplans. \(These annotations are new as of PostgreSQL 9.5; in prior versions the reader had to intuit the target tables by inspecting the subplans.\)
+在此範例中，Update 節點需要考慮三個子資料表以及最初提到的父資料表。因此，有四個輸入掃描子計劃，每個資料表一個。為清楚起見，更新節點的註釋是為了顯示將要更新的特定目標資料表，其順序與相應的子計劃相同。（這些註釋是 PostgreSQL 9.5 的新註釋；在以前的版本中，讀取者必須透過檢查子計劃來看到目標資料表。）
 
-The `Planning time` shown by `EXPLAIN ANALYZE` is the time it took to generate the query plan from the parsed query and optimize it. It does not include parsing or rewriting.
+EXPLAIN ANALYZE 顯示的 Planning 時間是從解析的查詢産生查詢計劃並對其進行最佳化所花費的時間。它不包括解析或重寫。
 
-The `Execution time` shown by `EXPLAIN ANALYZE` includes executor start-up and shut-down time, as well as the time to run any triggers that are fired, but it does not include parsing, rewriting, or planning time. Time spent executing `BEFORE` triggers, if any, is included in the time for the related Insert, Update, or Delete node; but time spent executing `AFTER` triggers is not counted there because `AFTER` triggers are fired after completion of the whole plan. The total time spent in each trigger \(either `BEFORE` or `AFTER`\) is also shown separately. Note that deferred constraint triggers will not be executed until end of transaction and are thus not considered at all by `EXPLAIN ANALYZE`.
+EXPLAIN ANALYZE 顯示的執行時間包括執行程序啟動和關閉時間，以及執行觸發的任何觸發器的時間，但不包括解析，重寫或計劃時間。執行 BEFORE 觸發器所花費的時間（如果有）包含在相關的 Insert，Update 或 Delete 節點的時間中；但是執行 AFTER 觸發器所花費的時間不計算在那裡，因為 AFTER 觸發器在完成整個計劃後被觸發。每個觸發器（BEFORE 或 AFTER）花費的總時間也會單獨顯示。請注意，延遲限制條件觸發器在事務結束之前不會執行，因此 EXPLAIN ANALYZE 根本不會考慮延遲限制條件觸發器。
 
 ## 14.1.3. 注意事項
 
