@@ -1,14 +1,18 @@
+---
+description: 版本：10
+---
+
 # 26.2. Log-Shipping Standby Servers
 
-Continuous archiving can be used to create a _high availability_ \(HA\) cluster configuration with one or more _standby servers_ ready to take over operations if the primary server fails. This capability is widely referred to as _warm standby_ or _log shipping_.
+持續性歸檔可用於建構高可用性（HA）的叢集配置，其中一個或多個備用伺服器準備好在主伺服器發生故障時接管操作。此功能被廣泛稱為熱備份（warm standby）或日誌輸送\(Log-Shipping\)。
 
-The primary and standby server work together to provide this capability, though the servers are only loosely coupled. The primary server operates in continuous archiving mode, while each standby server operates in continuous recovery mode, reading the WAL files from the primary. No changes to the database tables are required to enable this capability, so it offers low administration overhead compared to some other replication solutions. This configuration also has relatively low performance impact on the primary server.
+伺服器們是人為的相依，由主伺服器和備用伺服器協同工作以提供此功能。主伺服器以持續性歸檔模式運行，而每個備用伺服器以連續恢復模式運行，從主伺服器讀取 WAL 檔案。毌須更改資料庫的資料表即可啟用此功能，因此與其他一些複寫解決方案相比，它可以提供較低的管理成本。此配置對主伺服器的效能影響也相對較低。
 
-Directly moving WAL records from one database server to another is typically described as log shipping. PostgreSQL implements file-based log shipping by transferring WAL records one file \(WAL segment\) at a time. WAL files \(16MB\) can be shipped easily and cheaply over any distance, whether it be to an adjacent system, another system at the same site, or another system on the far side of the globe. The bandwidth required for this technique varies according to the transaction rate of the primary server. Record-based log shipping is more granular and streams WAL changes incrementally over a network connection \(see [Section 26.2.5](https://www.postgresql.org/docs/10/static/warm-standby.html#STREAMING-REPLICATION)\).
+直接將 WAL 記錄從一個資料庫伺服器移動到另一個資料庫伺服器通常被稱為日誌輸送。PostgreSQL 透過一次傳輸 WAL 記錄一個檔案（WAL 段落）來實現基於檔案的日誌輸送。WAL 檔案（16MB）可以在任何距離上輕鬆便宜地運輸，無論是相鄰系統，同一站點的另一個系統，還是地球另一端的其他系統。此技術所需的頻寬依主伺服器的事務速率而變化。基於記錄的日誌傳送更精細，並且通過網路連連逐步更改 WAL（請參閱[第 26.2.5 節](log-shipping-standby-servers.md#26-2-5-streaming-replication)）。
 
-It should be noted that log shipping is asynchronous, i.e., the WAL records are shipped after transaction commit. As a result, there is a window for data loss should the primary server suffer a catastrophic failure; transactions not yet shipped will be lost. The size of the data loss window in file-based log shipping can be limited by use of the `archive_timeout`parameter, which can be set as low as a few seconds. However such a low setting will substantially increase the bandwidth required for file shipping. Streaming replication \(see [Section 26.2.5](https://www.postgresql.org/docs/10/static/warm-standby.html#STREAMING-REPLICATION)\) allows a much smaller window of data loss.
+應該注意的是，日誌輸送是非同步的，即 WAL 記錄在事務提交之後被傳送。因此，如果主伺服器遭受災難性故障，則存在資料遺失的可能性；尚未提交的交易將會失去。基於檔案的日誌輸送中的資料遺失的大小可以透過使用 archive\_timeout 參數來限制，該參數可以設定低至數秒鐘。然而，這種低的設定將大大增加檔案傳送所需的頻寬。 串流複寫（參閱[第 26.2.5 節](log-shipping-standby-servers.md#26-2-5-streaming-replication)）允許更小的資料遺失大小。
 
-Recovery performance is sufficiently good that the standby will typically be only moments away from full availability once it has been activated. As a result, this is called a warm standby configuration which offers high availability. Restoring a server from an archived base backup and rollforward will take considerably longer, so that technique only offers a solution for disaster recovery, not high availability. A standby server can also be used for read-only queries, in which case it is called a Hot Standby server. See [Section 26.5](https://www.postgresql.org/docs/10/static/hot-standby.html) for more information.
+回復的效率很高，一旦備用轉為主要，備用資料庫通常只需要幾分鐘即可完全可用。因此，這稱為熱備用配置，可提供高可用性。從歸檔的基本備份和回溯還原伺服器將花費相當長的時間，因此該技術僅提供災難恢復的解決方案，而不是高可用性。備用伺服器也可用於唯讀查詢，在這種情況下，它稱為熱備份伺服器。有關更多訊息，請參閱[第 26.5 節](26.5.-hot-standby.md)。
 
 ## 26.2.1. Planning
 
