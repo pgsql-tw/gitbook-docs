@@ -566,7 +566,7 @@
     * [64.2. 內建運算子類](internals/gin-indexes/64.2.-built-in-operator-classes.md)
     * [64.3. Extensibility](internals/gin-indexes/64.3.-extensibility.md)
     * [64.4. Implementation](internals/gin-indexes/implementation.md)
-    * [64.5. GIN Tips and Tricks](internals/gin-indexes/64.5.-gin-tips-and-tricks.md)
+    * [64.5. GIN Tips and Tricks](internals/gin-indexes/gin-tips-and-tricks.md)
     * [64.6. Limitations](internals/gin-indexes/64.6.-limitations.md)
     * [64.7. Examples](internals/gin-indexes/64.7.-examples.md)
   * [65. BRIN Indexes](internals/brin/README.md)
