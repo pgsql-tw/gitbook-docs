@@ -1,48 +1,51 @@
+---
+description: 版本：10
+---
+
 # 23.1. 語系支援
 
-_Locale_ support refers to an application respecting cultural preferences regarding alphabets, sorting, number formatting, etc. PostgreSQL uses the standard ISO C and POSIX locale facilities provided by the server operating system. For additional information refer to the documentation of your system.
+區域設定支援是指某個應用程序，它提供有關字母、排序、數字格式等文化偏好。PostgreSQL 使用伺服器作業系統提供的標準 ISO C 和 POSIX 區域設定。有關其他訊息，請參閱作業系統文件。
 
-#### 23.1.1. Overview
+## 23.1.1. 綜觀
 
-Locale support is automatically initialized when a database cluster is created using `initdb`. `initdb` will initialize the database cluster with the locale setting of its execution environment by default, so if your system is already set to use the locale that you want in your database cluster then there is nothing else you need to do. If you want to use a different locale \(or you are not sure which locale your system is set to\), you can instruct `initdb` exactly which locale to use by specifying the `--locale` option. For example:
+使用 initdb 建立資料庫叢集時，將自動初始化語言環境支援。initdb 將預設使用其執行環境的語言環境設定初始化資料庫叢集。因此，如果您的作業系統已設定為使用資料庫叢集中所需的語言環境，那麼您毌須進行任何額外操作。如果要使用其他語言環境（或者您不確定系統設定的語言環境），可以透過指定 --locale 選項指示 initdb 確切使用哪個語言環境。例如：
 
 ```text
 initdb --locale=sv_SE
 ```
 
-This example for Unix systems sets the locale to Swedish \(`sv`\) as spoken in Sweden \(`SE`\). Other possibilities might include `en_US` \(U.S. English\) and `fr_CA` \(French Canadian\). If more than one character set can be used for a locale then the specifications can take the form _`language_territory.codeset`_. For example, `fr_BE.UTF-8` represents the French language \(fr\) as spoken in Belgium \(BE\), with a UTF-8 character set encoding.
+Unix 系統的這個範例將語言環境設定為瑞典語（SE）中的瑞典語（sv）。其他可能性可能包括 en\_US（美國英語）和 fr\_CA（加拿大法語）。如果可以將多個字元集用於語言環境，則規範可採用 language\_territory.codeset 形式。例如，fr\_BE.UTF-8 表示比利時（BE）中使用的法語（fr），具有 UTF-8 字元集編碼。
 
-What locales are available on your system under what names depends on what was provided by the operating system vendor and what was installed. On most Unix systems, the command `locale -a` will provide a list of available locales. Windows uses more verbose locale names, such as `German_Germany` or `Swedish_Sweden.1252`, but the principles are the same.
+系統上可用的區域設定取決於作業系統供應商提供和安裝的內容。在大多數 Unix 系統上，指令 `locale -a` 將提供可用語言環境的列表。Windows 使用更詳細的區域設定名稱，例如 German\_Germany 或 Swedish\_Sweden.1252，但原則是相同的。
 
-Occasionally it is useful to mix rules from several locales, e.g., use English collation rules but Spanish messages. To support that, a set of locale subcategories exist that control only certain aspects of the localization rules:
+有時，混合來自多個語言環境的規則很有用，例如，使用英語校對規則，但使用西班牙語訊息。為了支援這一點，可以存在一組區域設定子類別，它們僅控制本地化規則的某些方面：
 
 | `LC_COLLATE` | String sort order |
 | :--- | :--- |
-| `LC_CTYPE` | Character classification \(What is a letter? Its upper-case equivalent?\) |
-| `LC_MESSAGES` | Language of messages |
-| `LC_MONETARY` | Formatting of currency amounts |
-| `LC_NUMERIC` | Formatting of numbers |
-| `LC_TIME` | Formatting of dates and times |
+| `LC_CTYPE` | 字元分類（什麼是字母？它的大寫字母是？） |
+| `LC_MESSAGES` | 訊息的語言 |
+| `LC_MONETARY` | 格式化貨幣金額 |
+| `LC_NUMERIC` | 格式化數字 |
+| `LC_TIME` | 格式化日期和時間 |
 
-The category names translate into names of `initdb` options to override the locale choice for a specific category. For instance, to set the locale to French Canadian, but use U.S. rules for formatting currency, use `initdb --locale=fr_CA --lc-monetary=en_US`.
+類別名稱轉換為 initdb 選項的名稱，以覆蓋特定類別的區域設定選項。例如，要將語言環境設定為加拿大法語，但使用美國規則格式化貨幣，請使用 `initdb --locale = fr_CA --lc-monetary = en_US`。
 
-If you want the system to behave as if it had no locale support, use the special locale name `C`, or equivalently `POSIX`.
+如果您希望系統的行為就像它沒有語言環境支援一樣，請使用特殊的語言環境名稱 C 或等效的 POSIX。
 
-Some locale categories must have their values fixed when the database is created. You can use different settings for different databases, but once a database is created, you cannot change them for that database anymore. `LC_COLLATE` and `LC_CTYPE` are these categories. They affect the sort order of indexes, so they must be kept fixed, or indexes on text columns would become corrupt. \(But you can alleviate this restriction using collations, as discussed in [Section 23.2](https://www.postgresql.org/docs/10/static/collation.html).\) The default values for these categories are determined when `initdb` is run, and those values are used when new databases are created, unless specified otherwise in the `CREATE DATABASE` command.
+建立資料庫時，某些區域設定類別必須固定其值。 您可以對不同的資料庫使用不同的設定，但是一旦建立了資料庫，就無法再為該資料庫更改它們。LC\_COLLATE 和 LC\_CTYPE 是這些類別。它們會影響索引的排序順序，因此必須保持不變，否則文字欄位上的索引會損壞。（但是您可以使用排序規則來緩解此限制，如[第 23.2 節](collation-support.md)中所述。）這些類別的預設值在執行 initdb 時確定，並且在建立新資料庫時使用這些值，除非在 CREATE DATABASE 指令中另行指定。
 
-The other locale categories can be changed whenever desired by setting the server configuration parameters that have the same name as the locale categories \(see [Section 19.11.2](https://www.postgresql.org/docs/10/static/runtime-config-client.html#RUNTIME-CONFIG-CLIENT-FORMAT) for details\). The values that are chosen by `initdb` are actually only written into the configuration file `postgresql.conf` to serve as defaults when the server is started. If you remove these assignments from `postgresql.conf` then the server will inherit the settings from its execution environment.
+透過設定與語言環境類別同名的伺服器配置參數，可以隨時更改其他語言環境類別（有關詳細訊息，請參閱[第 19.11.2 節](../server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-2-xi-ge-shi)）。initdb 選擇的值實際上只寫入配置文件 postgresql.conf，以在伺服器啟動時用作預設值。如果從 postgresql.conf 中刪除這些設定，則伺服器將從其執行環境繼承設定。
 
-Note that the locale behavior of the server is determined by the environment variables seen by the server, not by the environment of any client. Therefore, be careful to configure the correct locale settings before starting the server. A consequence of this is that if client and server are set up in different locales, messages might appear in different languages depending on where they originated.
+請注意，服務器的區域設定行為由伺服器看到的環境變數決定，而不是由任何用戶端的環境確定。因此，在啟動伺服器之前，請務必配置正確的區域設定。這樣做的結果是，如果用戶端和伺服器設定在不同的區域設定中，則訊息可能會以不同的語言顯示，具體取決於它們的來源。
 
-#### Note
+**注意**  
+當我們談到從執行環境繼承語言環境時，這意味著在大多數作業系統上都有以下內容：對於給定的語言環境類別，比如排序規則，將按此順序查詢以下環境變數，直到找到一個設定：LC\_ALL， LC\_COLLATE（或對應於相應類別的變數），LANG。如果未設定這些環境變數，則語言環境預設為 C.
 
-When we speak of inheriting the locale from the execution environment, this means the following on most operating systems: For a given locale category, say the collation, the following environment variables are consulted in this order until one is found to be set: `LC_ALL`, `LC_COLLATE` \(or the variable corresponding to the respective category\), `LANG`. If none of these environment variables are set then the locale defaults to `C`.
+某些訊息的本地化函式庫還會查看環境變數 LANGUAGE，該變數將覆寫所有其他區域設定，以便設定訊息的語言。如有疑問，請參閱作業系統的文件，特別是有關 gettext 的文件。
 
-Some message localization libraries also look at the environment variable `LANGUAGE` which overrides all other locale settings for the purpose of setting the language of messages. If in doubt, please refer to the documentation of your operating system, in particular the documentation about gettext.
+要使訊息能夠轉換為用戶的偏好語言，必須在編譯時選擇 NLS（`configure --enable-nls`）。所有其他語言環境支援都是自動編譯的。
 
-To enable messages to be translated to the user's preferred language, NLS must have been selected at build time \(`configure --enable-nls`\). All other locale support is built in automatically.
-
-#### 23.1.2. Behavior
+## 23.1.2. Behavior
 
 The locale settings influence the following SQL features:
 
@@ -56,7 +59,7 @@ The drawback of using locales other than `C` or `POSIX` in PostgreSQL is its per
 
 As a workaround to allow PostgreSQL to use indexes with `LIKE` clauses under a non-C locale, several custom operator classes exist. These allow the creation of an index that performs a strict character-by-character comparison, ignoring locale comparison rules. Refer to [Section 11.9](https://www.postgresql.org/docs/10/static/indexes-opclass.html) for more information. Another approach is to create indexes using the `C` collation, as discussed in [Section 23.2](https://www.postgresql.org/docs/10/static/collation.html).
 
-#### 23.1.3. Problems
+## 23.1.3. Problems
 
 If locale support doesn't work according to the explanation above, check that the locale support in your operating system is correctly configured. To check what locales are installed on your system, you can use the command `locale -a` if your operating system provides it.
 
