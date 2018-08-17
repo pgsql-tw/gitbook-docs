@@ -247,41 +247,41 @@ If the “Access privileges” column is empty for a given object, it means the 
 
 Notice that the owner's implicit grant options are not marked in the access privileges display. A `*` will appear only when grant options have been explicitly granted to someone.
 
-### Examples
+### 範例
 
-Grant insert privilege to all users on table `films`:
+把向資料表 film 插入資料的權限授予所有使用者：
 
 ```text
 GRANT INSERT ON films TO PUBLIC;
 ```
 
-Grant all available privileges to user `manuel` on view `kinds`:
+把所有檢視表 kind 可用的權限授予使用者 manuel：
 
 ```text
 GRANT ALL PRIVILEGES ON kinds TO manuel;
 ```
 
-Note that while the above will indeed grant all privileges if executed by a superuser or the owner of `kinds`, when executed by someone else it will only grant those permissions for which the someone else has grant options.
+請注意，雖然如果由超級使用者或該型別的擁有者執行，上述內容確實會授予所有權限；但當由其他人執行時，它將僅授予其他人其所擁有授權選項的權限。
 
-Grant membership in role `admins` to user `joe`:
+將角色 admin 的成員資格授予使用者 joe：
 
 ```text
 GRANT admins TO joe;
 ```
 
-### Compatibility
+### 相容性
 
-According to the SQL standard, the `PRIVILEGES` key word in `ALL PRIVILEGES` is required. The SQL standard does not support setting the privileges on more than one object per command.
+根據 SQL 標準，ALL PRIVILEGES 中的 PRIVILEGES 關鍵字是需要的。SQL 標準不支援在指令設定多個物件的權限。
 
-PostgreSQL allows an object owner to revoke their own ordinary privileges: for example, a table owner can make the table read-only to themselves by revoking their own `INSERT`, `UPDATE`, `DELETE`, and `TRUNCATE` privileges. This is not possible according to the SQL standard. The reason is that PostgreSQL treats the owner's privileges as having been granted by the owner to themselves; therefore they can revoke them too. In the SQL standard, the owner's privileges are granted by an assumed entity “\_SYSTEM”. Not being “\_SYSTEM”, the owner cannot revoke these rights.
+PostgreSQL 允許物件擁有者撤銷他們自己的普通權限：例如，資料表擁有者可以透過撤銷自己的 INSERT，UPDATE，DELETE 和 TRUNCATE 權限使資料表對自己而言是唯讀。但根據 SQL 標準，這是不可能的。原因是 PostgreSQL 將擁有者的權限視為已由擁有者授予他們自己；因此他們自己也可以撤銷它們。在 SQL 標準中，擁有者的權限由假設上的實體「\_SYSTEM」授予。由於不是「\_SYSTEM」，擁有者就不能撤銷這些權利。
 
-According to the SQL standard, grant options can be granted to `PUBLIC`; PostgreSQL only supports granting grant options to roles.
+根據 SQL 標準，可以向 PUBLIC 授予授權選項；PostgreSQL 僅支援向角色授予授權選項。
 
-The SQL standard provides for a `USAGE` privilege on other kinds of objects: character sets, collations, translations.
+SQL 標準為其他型別的物件提供 USAGE 權限：字元集，排序規則，翻譯。
 
-In the SQL standard, sequences only have a `USAGE` privilege, which controls the use of the `NEXT VALUE FOR` expression, which is equivalent to the function `nextval` in PostgreSQL. The sequence privileges `SELECT` and `UPDATE` are PostgreSQL extensions. The application of the sequence `USAGE` privilege to the `currval` function is also a PostgreSQL extension \(as is the function itself\).
+在 SQL 標準中，序列只有 USAGE 權限，它控制 NEXT VALUE FOR 表示式的使用，這相當於 PostgreSQL 中的 nextval 函數。序列權限 SELECT 和 UPDATE 是 PostgreSQL 的延伸功能。將序列 USAGE 權限套用於 currval 函數也是 PostgreSQL 的延伸功能（函數本身也是如此）。
 
-Privileges on databases, tablespaces, schemas, and languages are PostgreSQL extensions.
+資料庫，資料表空間，綱要和語言的權限都是 PostgreSQL 的延伸功能。
 
 ### 參閱
 
