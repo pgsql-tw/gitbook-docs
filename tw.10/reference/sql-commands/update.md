@@ -30,27 +30,49 @@ You must have the `UPDATE` privilege on the table, or at least on the column\(s\
 
 _`with_query`_
 
-The `WITH` clause allows you to specify one or more subqueries that can be referenced by name in the `UPDATE` query. See [Section 7.8](https://www.postgresql.org/docs/10/static/queries-with.html) and [SELECT](https://www.postgresql.org/docs/10/static/sql-select.html) for details._`table_name`_
+The `WITH` clause allows you to specify one or more subqueries that can be referenced by name in the `UPDATE` query. See [Section 7.8](https://www.postgresql.org/docs/10/static/queries-with.html) and [SELECT](https://www.postgresql.org/docs/10/static/sql-select.html) for details.
 
-The name \(optionally schema-qualified\) of the table to update. If `ONLY` is specified before the table name, matching rows are updated in the named table only. If `ONLY` is not specified, matching rows are also updated in any tables inheriting from the named table. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included._`alias`_
+_`table_name`_
 
-A substitute name for the target table. When an alias is provided, it completely hides the actual name of the table. For example, given `UPDATE foo AS f`, the remainder of the `UPDATE` statement must refer to this table as `f` not`foo`._`column_name`_
+The name \(optionally schema-qualified\) of the table to update. If `ONLY` is specified before the table name, matching rows are updated in the named table only. If `ONLY` is not specified, matching rows are also updated in any tables inheriting from the named table. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included.
 
-The name of a column in the table named by _`table_name`_. The column name can be qualified with a subfield name or array subscript, if needed. Do not include the table's name in the specification of a target column — for example, `UPDATE table_name SET table_name.col = 1` is invalid._`expression`_
+_`alias`_
 
-An expression to assign to the column. The expression can use the old values of this and other columns in the table.`DEFAULT`
+A substitute name for the target table. When an alias is provided, it completely hides the actual name of the table. For example, given `UPDATE foo AS f`, the remainder of the `UPDATE` statement must refer to this table as `f` not`foo`.
 
-Set the column to its default value \(which will be NULL if no specific default expression has been assigned to it\)._`sub-SELECT`_
+_`column_name`_
 
-A `SELECT` sub-query that produces as many output columns as are listed in the parenthesized column list preceding it. The sub-query must yield no more than one row when executed. If it yields one row, its column values are assigned to the target columns; if it yields no rows, NULL values are assigned to the target columns. The sub-query can refer to old values of the current row of the table being updated._`from_list`_
+The name of a column in the table named by _`table_name`_. The column name can be qualified with a subfield name or array subscript, if needed. Do not include the table's name in the specification of a target column — for example, `UPDATE table_name SET table_name.col = 1` is invalid.
 
-A list of table expressions, allowing columns from other tables to appear in the `WHERE` condition and the update expressions. This is similar to the list of tables that can be specified in the [`FROM` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-FROM) of a `SELECT` statement. Note that the target table must not appear in the _`from_list`_, unless you intend a self-join \(in which case it must appear with an alias in the _`from_list`_\)._`condition`_
+_`expression`_
 
-An expression that returns a value of type `boolean`. Only rows for which this expression returns `true` will be updated._`cursor_name`_
+An expression to assign to the column. The expression can use the old values of this and other columns in the table.
 
-The name of the cursor to use in a `WHERE CURRENT OF` condition. The row to be updated is the one most recently fetched from this cursor. The cursor must be a non-grouping query on the `UPDATE`'s target table. Note that `WHERE CURRENT OF` cannot be specified together with a Boolean condition. See [DECLARE](https://www.postgresql.org/docs/10/static/sql-declare.html) for more information about using cursors with `WHERE CURRENT OF`._`output_expression`_
+`DEFAULT`
 
-An expression to be computed and returned by the `UPDATE` command after each row is updated. The expression can use any column names of the table named by _`table_name`_ or table\(s\) listed in `FROM`. Write `*` to return all columns._`output_name`_
+Set the column to its default value \(which will be NULL if no specific default expression has been assigned to it\).
+
+_`sub-SELECT`_
+
+A `SELECT` sub-query that produces as many output columns as are listed in the parenthesized column list preceding it. The sub-query must yield no more than one row when executed. If it yields one row, its column values are assigned to the target columns; if it yields no rows, NULL values are assigned to the target columns. The sub-query can refer to old values of the current row of the table being updated.
+
+_`from_list`_
+
+A list of table expressions, allowing columns from other tables to appear in the `WHERE` condition and the update expressions. This is similar to the list of tables that can be specified in the [`FROM` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-FROM) of a `SELECT` statement. Note that the target table must not appear in the _`from_list`_, unless you intend a self-join \(in which case it must appear with an alias in the _`from_list`_\).
+
+_`condition`_
+
+An expression that returns a value of type `boolean`. Only rows for which this expression returns `true` will be updated.
+
+_`cursor_name`_
+
+The name of the cursor to use in a `WHERE CURRENT OF` condition. The row to be updated is the one most recently fetched from this cursor. The cursor must be a non-grouping query on the `UPDATE`'s target table. Note that `WHERE CURRENT OF` cannot be specified together with a Boolean condition. See [DECLARE](https://www.postgresql.org/docs/10/static/sql-declare.html) for more information about using cursors with `WHERE CURRENT OF`.
+
+_`output_expression`_
+
+An expression to be computed and returned by the `UPDATE` command after each row is updated. The expression can use any column names of the table named by _`table_name`_ or table\(s\) listed in `FROM`. Write `*` to return all columns.
+
+_`output_name`_
 
 A name to use for a returned column.
 
