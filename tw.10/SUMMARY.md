@@ -422,6 +422,7 @@
 * [VI. 參考資訊](reference/README.md)
   * [I. SQL 指令](reference/sql-commands/README.md)
     * [ALTER DATABASE](reference/sql-commands/alter-database.md)
+    * [ALTER DEFAULT PRIVILEGES](reference/sql-commands/alter-default-privileges.md)
     * [ALTER FUNCTION](reference/sql-commands/alter-function.md)
     * [ALTER INDEX](reference/sql-commands/alter-index.md)
     * [ALTER MATERIALIZED VIEW](reference/sql-commands/alter-materialized-view.md)

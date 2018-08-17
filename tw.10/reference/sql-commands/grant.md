@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # GRANT
 
-GRANT — define access privileges
+GRANT — 賦予存取權限
 
-### Synopsis
+### 語法
 
 ```text
 GRANT { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER }
@@ -279,7 +283,7 @@ In the SQL standard, sequences only have a `USAGE` privilege, which controls the
 
 Privileges on databases, tablespaces, schemas, and languages are PostgreSQL extensions.
 
-### See Also
+### 參閱
 
-[REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html), [ALTER DEFAULT PRIVILEGES](https://www.postgresql.org/docs/10/static/sql-alterdefaultprivileges.html)
+[REVOKE](revoke.md), [ALTER DEFAULT PRIVILEGES](alter-default-privileges.md)
 
