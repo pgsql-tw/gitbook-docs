@@ -1,40 +1,42 @@
+---
+description: 版本：10
+---
+
 # SET ROLE
 
-SET ROLE — set the current user identifier of the current session
+SET ROLE — 設定目前連線的目前使用者識別
 
-## Synopsis
+### 語法
 
 ```text
-SET [ SESSION | LOCAL ] ROLE 
-role_name
-
+SET [ SESSION | LOCAL ] ROLE role_name
 SET [ SESSION | LOCAL ] ROLE NONE
 RESET ROLE
 ```
 
-## Description
+### 說明
 
-This command sets the current user identifier of the current SQL session to be`role_name`. The role name can be written as either an identifier or a string literal. After`SET ROLE`, permissions checking for SQL commands is carried out as though the named role were the one that had logged in originally.
+此命令將目前 SQL 連線的目前使用者識別指定為 role\_name。角色名稱可以寫為識別字或字串文字。在 SET ROLE 之後，執行 SQL 命令的權限檢查，就如同指定角色是最初登入的角色一樣。
 
-The specified\_`role_name`\_must be a role that the current session user is a member of. \(If the session user is a superuser, any role can be selected.\)
+指定的 role\_name 必須是目前連線角色所屬的角色。（如果連線使用者是超級使用者，則可以選擇任何角色。）
 
-The`SESSION`and`LOCAL`modifiers act the same as for the regular[SET](https://www.postgresql.org/docs/10/static/sql-set.html)command.
+SESSION 和 LOCAL 修飾字的作用與一般 [SET](set.md) 命令的作用相同。
 
-The`NONE`and`RESET`forms reset the current user identifier to be the current session user identifier. These forms can be executed by any user.
+NONE 和 RESET 語法將目前使用者識別字重置為目前連線使用者的識別字。這些語法可以由任何使用者執行。
 
-## Notes
+### 注意
 
-Using this command, it is possible to either add privileges or restrict one's privileges. If the session user role has the`INHERITS`attribute, then it automatically has all the privileges of every role that it could`SET ROLE`to; in this case`SET ROLE`effectively drops all the privileges assigned directly to the session user and to the other roles it is a member of, leaving only the privileges available to the named role. On the other hand, if the session user role has the`NOINHERITS`attribute,`SET ROLE`drops the privileges assigned directly to the session user and instead acquires the privileges available to the named role.
+使用此命令，可以增加權限或限制其權限。如果連線使用者角色具有 INHERITS 屬性，則它自動擁有它可以設定為 ROLE 的每個角色所有權限；在這種情況下，SET ROLE 有效地刪除了直接分配給連線使用者以及它所屬的其他角色的所有權限，只留下指定角色可用的權限。另一方面，如果連線使用者角色具有 NOINHERITS 屬性，則 SET ROLE 將刪除直接分配給連線使用者的權限，而是獲取指定角色可用的權限。
 
-In particular, when a superuser chooses to`SET ROLE`to a non-superuser role, they lose their superuser privileges.
+特別是，當超級使用者選擇將 SET ROLE 設定為非超級使用者角色時，他們將失去超級使用者權限。
 
-`SET ROLE`has effects comparable to[SET SESSION AUTHORIZATION](https://www.postgresql.org/docs/10/static/sql-set-session-authorization.html), but the privilege checks involved are quite different. Also,`SET SESSION AUTHORIZATION`determines which roles are allowable for later`SET ROLE`commands, whereas changing roles with`SET ROLE`does not change the set of roles allowed to a later`SET ROLE`.
+SET ROLE 具有與 [SET SESSION AUTHORIZATION](set-session-authorization.md) 相當的效果，但涉及的權限檢查完全不同。此外，SET SESSION AUTHORIZATION 決定哪些角色可用於以後的 SET ROLE命令，而使用 SET ROLE 變更角色不會更改允許用於以後的 SET ROLE 的角色集合。
 
-`SET ROLE`does not process session variables as specified by the role's[ALTER ROLE](https://www.postgresql.org/docs/10/static/sql-alterrole.html)settings; this only happens during login.
+SET ROLE 不處理角色由 [ALTER ROLE](alter-role.md) 指定的連線變數；這只發生在登入期間。
 
-`SET ROLE`cannot be used within a`SECURITY DEFINER`function.
+SET ROLE 不能在 SECURITY DEFINER 功能中使用。
 
-## Examples
+### 範例
 
 ```text
 SELECT SESSION_USER, CURRENT_USER;
@@ -52,11 +54,11 @@ SELECT SESSION_USER, CURRENT_USER;
  peter        | paul
 ```
 
-## Compatibility
+### 相容性
 
-PostgreSQLallows identifier syntax \(`"rolename`"\), while the SQL standard requires the role name to be written as a string literal. SQL does not allow this command during a transaction;PostgreSQLdoes not make this restriction because there is no reason to. The`SESSION`and`LOCAL`modifiers are aPostgreSQLextension, as is the`RESET`syntax.
+PostgreSQL 允許使用識別字語法（“rolename”），而 SQL 標準要求將角色名稱寫為字串文字。SQL 在事務期間不允許此命令；PostgreSQL 則沒有這個限制，因為沒有理由限制。SESSION 和 LOCAL 修飾字是 PostgreSQL 延伸功能，RESET 語法也是。
 
-## See Also
+### 參閱
 
 [SET SESSION AUTHORIZATION](set-session-authorization.md)
 
