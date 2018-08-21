@@ -235,9 +235,9 @@ Before PostgreSQL version 8.2, the shell-type creation syntax `CREATE TYPE` _`na
 
 In PostgreSQL versions before 7.3, it was customary to avoid creating a shell type at all, by replacing the functions' forward references to the type name with the placeholder pseudo-type `opaque`. The `cstring` arguments and results also had to be declared as `opaque` before 7.3. To support loading of old dump files, `CREATE TYPE` will accept I/O functions declared using `opaque`, but it will issue a notice and change the function declarations to use the correct types.
 
-### Examples
+### 範例
 
-This example creates a composite type and uses it in a function definition:
+此範例建立一個複合型別並在函數定義中使用它：
 
 ```text
 CREATE TYPE compfoo AS (f1 int, f2 text);
@@ -247,7 +247,7 @@ CREATE FUNCTION getfoo() RETURNS SETOF compfoo AS $$
 $$ LANGUAGE SQL;
 ```
 
-This example creates an enumerated type and uses it in a table definition:
+此範例建立列舉型別並在資料表定義中使用它：
 
 ```text
 CREATE TYPE bug_status AS ENUM ('new', 'open', 'closed');
@@ -259,13 +259,13 @@ CREATE TABLE bug (
 );
 ```
 
-This example creates a range type:
+此範例建立範圍型別：
 
 ```text
 CREATE TYPE float8_range AS RANGE (subtype = float8, subtype_diff = float8mi);
 ```
 
-This example creates the base data type `box` and then uses the type in a table definition:
+此範例建立基本資料型別 box，然後在資料表定義中使用該型別：
 
 ```text
 CREATE TYPE box;
@@ -285,7 +285,7 @@ CREATE TABLE myboxes (
 );
 ```
 
-If the internal structure of `box` were an array of four `float4` elements, we might instead use:
+如果 box 的內部結構是一個包含四個 float4 元素的陣列，我們可能會使用：
 
 ```text
 CREATE TYPE box (
@@ -296,9 +296,9 @@ CREATE TYPE box (
 );
 ```
 
-which would allow a box value's component numbers to be accessed by subscripting. Otherwise the type behaves the same as before.
+這將允許透過索引存取 box 值的組件編號。其他型別的行為與先前相同。
 
-This example creates a large object type and uses it in a table definition:
+此範例建立一個 large object 型別並在資料表定義中使用它：
 
 ```text
 CREATE TYPE bigobj (
@@ -311,7 +311,7 @@ CREATE TABLE big_objs (
 );
 ```
 
-More examples, including suitable input and output functions, are in [Section 37.11](https://www.postgresql.org/docs/10/static/xtypes.html).
+更多範例，包括適當的輸入和輸出功能，請參閱[第 37.11 節](../../server-programming/extending-sql/user-defined-types.md)。
 
 ### 相容性
 
