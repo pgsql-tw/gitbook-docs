@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # CREATE LANGUAGE
 
-CREATE LANGUAGE — define a new procedural language
+CREATE LANGUAGE — 宣告一種新的程序語言
 
-### Synopsis
+### 語法
 
 ```text
 CREATE [ OR REPLACE ] [ PROCEDURAL ] LANGUAGE name
@@ -74,15 +78,15 @@ The call handler function, the inline handler function \(if any\), and the valid
 
 In PostgreSQL versions before 7.3, it was necessary to declare handler functions as returning the placeholder type `opaque`, rather than `language_handler`. To support loading of old dump files, `CREATE LANGUAGE` will accept a function declared as returning `opaque`, but it will issue a notice and change the function's declared return type to `language_handler`.
 
-### Examples
+### 範例
 
-The preferred way of creating any of the standard procedural languages is just:
+建立任何標準程序語言的最好方式是：
 
 ```text
 CREATE LANGUAGE plperl;
 ```
 
-For a language not known in the `pg_pltemplate` catalog, a sequence such as this is needed:
+對於 pg\_pltemplate 目錄中未知的語言，需要這樣的指令程序：
 
 ```text
 CREATE FUNCTION plsample_call_handler() RETURNS language_handler
@@ -92,11 +96,11 @@ CREATE LANGUAGE plsample
     HANDLER plsample_call_handler;
 ```
 
-### Compatibility
+### 相容性
 
-`CREATE LANGUAGE` is a PostgreSQL extension.
+CREATE LANGUAGE 是 PostgreSQL 的延伸功能。
 
-### See Also
+### 參閱
 
-[ALTER LANGUAGE](https://www.postgresql.org/docs/10/static/sql-alterlanguage.html), [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html), [DROP LANGUAGE](https://www.postgresql.org/docs/10/static/sql-droplanguage.html), [GRANT](https://www.postgresql.org/docs/10/static/sql-grant.html), [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html)
+[ALTER LANGUAGE](alter-language.md), [CREATE FUNCTION](create-function.md), [DROP LANGUAGE](drop-language.md), [GRANT](grant.md), [REVOKE](revoke.md)
 
