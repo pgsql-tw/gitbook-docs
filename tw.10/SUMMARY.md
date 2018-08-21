@@ -442,6 +442,7 @@
     * [COPY](reference/sql-commands/copy.md)
     * [CREATE CAST](reference/sql-commands/create-cast.md)
     * [CREATE DATABASE](reference/sql-commands/create-database.md)
+    * [CREATE EXTENSION](reference/sql-commands/create-extension.md)
     * [CREATE FOREIGN TABLE](reference/sql-commands/create-foreign-table.md)
     * [CREATE FOREIGN DATA WRAPPER](reference/sql-commands/create-foreign-data-wrapper.md)
     * [CREATE FUNCTION](reference/sql-commands/create-function.md)

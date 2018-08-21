@@ -14,13 +14,12 @@ CREATE [ OR REPLACE ] [ TRUSTED ] [ PROCEDURAL ] LANGUAGE name
     HANDLER call_handler [ INLINE inline_handler ] [ VALIDATOR valfunction ]
 ```
 
-### Description
+### 說明
 
-`CREATE LANGUAGE` registers a new procedural language with a PostgreSQL database. Subsequently, functions and trigger procedures can be defined in this new language.
+CREATE LANGUAGE 使用 PostgreSQL 資料庫註冊新的程序語言。隨後即可使用這種新語言定義函數和觸發器程序。
 
-#### Note
-
-As of PostgreSQL 9.1, most procedural languages have been made into “extensions”, and should therefore be installed with [CREATE EXTENSION](https://www.postgresql.org/docs/10/static/sql-createextension.html) not `CREATE LANGUAGE`. Direct use of `CREATE LANGUAGE` should now be confined to extension installation scripts. If you have a “bare” language in your database, perhaps as a result of an upgrade, you can convert it to an extension using `CREATE EXTENSION` _`langname`_ FROM unpackaged.
+**注意**  
+從 PostgreSQL 9.1 開始，大多數程序語言都被製作成「extension」，因此應該使用 [CREATE EXTENSION](create-extension.md) 而不是 CREATE LANGUAGE 安裝。現在應該直接使用 CREATE LANGUAGE 來限制性的延伸套件安裝腳本。如果資料庫中存在有純粹的程序語言（可能是升級後的結果），則可以使用 CREATE EXTENSION langname FROM unpackaged 將其轉換為延伸套件。
 
 `CREATE LANGUAGE` effectively associates the language name with handler function\(s\) that are responsible for executing functions written in the language. Refer to [Chapter 55](https://www.postgresql.org/docs/10/static/plhandler.html) for more information about language handlers.
 
