@@ -538,6 +538,7 @@
     * [51.62. pg\_type](internals/system-catalogs/pg_type.md)
     * [51.79. pg\_replication\_origin\_status](internals/system-catalogs/51.79.-pg_replication_origin_status.md)
     * [51.81 pg\_roles](internals/system-catalogs/pg_roles.md)
+    * [51.85. pg\_settings](internals/system-catalogs/pg_settings.md)
     * [51.87. pg\_stats](internals/system-catalogs/pg_stats.md)
   * [52. Frontend/Backend Protocol](internals/52.-frontend-backend-protocol/README.md)
     * [52.1. Overview](internals/52.-frontend-backend-protocol/52.1.-overview.md)

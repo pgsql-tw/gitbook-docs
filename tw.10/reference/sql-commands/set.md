@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # SET
 
-SET — change a run-time parameter
+SET — 變更執行環境參數
 
-### Synopsis
+### 語法
 
 ```text
 SET [ SESSION | LOCAL ] configuration_parameter { TO | = } { value | 'value' | DEFAULT }
@@ -86,41 +90,41 @@ Timezone settings given as numbers or intervals are internally translated to POS
 
 See [Section 8.5.3](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONES) for more information about time zones.
 
-### Notes
+### 注意
 
-The function `set_config` provides equivalent functionality; see [Section 9.26](https://www.postgresql.org/docs/10/static/functions-admin.html). Also, it is possible to UPDATE the [`pg_settings`](https://www.postgresql.org/docs/10/static/view-pg-settings.html) system view to perform the equivalent of `SET`.
+函數 set\_config 提供了等效的功能；詳見 [9.26 節](../../the-sql-language/functions-and-operators/9.26.-xi-tong-guan-li-han-shi.md)。此外，也可以更新 [pg\_settings](../../internals/system-catalogs/pg_settings.md) 系統檢視表以執行 SET 的等效操作。
 
-### Examples
+### 範例
 
-Set the schema search path:
+設定綱要（schema）搜尋路徑：
 
 ```text
 SET search_path TO my_schema, public;
 ```
 
-Set the style of date to traditional POSTGRES with “day before month” input convention:
+使用「日期置於月份前面」的輸入方式，將日期樣式設定為傳統 POSTGRES：
 
 ```text
 SET datestyle TO postgres, dmy;
 ```
 
-Set the time zone for Berkeley, California:
+設定為 Berkeley, California 的時區：
 
 ```text
 SET TIME ZONE 'PST8PDT';
 ```
 
-Set the time zone for Italy:
+設定為義大利的時區：
 
 ```text
 SET TIME ZONE 'Europe/Rome';
 ```
 
-### Compatibility
+### 相容性
 
-`SET TIME ZONE` extends syntax defined in the SQL standard. The standard allows only numeric time zone offsets while PostgreSQL allows more flexible time-zone specifications. All other `SET` features are PostgreSQL extensions.
+SET TIME ZONE 延伸了 SQL 標準所定義的語法。原標準僅允許數字時區語法，而 PostgreSQL 允許更靈活的時區規範。所有其他 SET 功能都是 PostgreSQL 的延伸功能。
 
-### See Also
+### 參閱
 
 [RESET](reset.md), [SHOW](show.md)
 
