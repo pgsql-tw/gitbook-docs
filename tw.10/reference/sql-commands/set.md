@@ -13,21 +13,20 @@ SET [ SESSION | LOCAL ] configuration_parameter { TO | = } { value | 'value' | D
 SET [ SESSION | LOCAL ] TIME ZONE { timezone | LOCAL | DEFAULT }
 ```
 
-### Description
+### 說明
 
-The `SET` command changes run-time configuration parameters. Many of the run-time parameters listed in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) can be changed on-the-fly with `SET`. \(But some require superuser privileges to change, and others cannot be changed after server or session start.\) `SET` only affects the value used by the current session.
+SET 指令變更執行環境的配置參數。[第 19 章](../../server-administration/server-configuration/)中列出的許多執行環境參數都可以使用 SET 動態變更。（但有些需要超級使用者權限才能變更，有些參數則是伺服器或連線啟動後無法變更。）SET 僅影響目前連線所使用的值。
 
-If `SET` \(or equivalently `SET SESSION`\) is issued within a transaction that is later aborted, the effects of the `SET` command disappear when the transaction is rolled back. Once the surrounding transaction is committed, the effects will persist until the end of the session, unless overridden by another `SET`.
+如果在稍後中止的事務中發出 SET（或等效的 SET SESSION），則在回溯事務時 SET 指令的效果也會消失。一旦提交了相關的事務，則效果將持續到連線結束，除非被另一個 SET 覆寫。
 
-The effects of `SET LOCAL` last only till the end of the current transaction, whether committed or not. A special case is `SET` followed by `SET LOCAL` within a single transaction: the `SET LOCAL` value will be seen until the end of the transaction, but afterwards \(if the transaction is committed\) the `SET` value will take effect.
+SET LOCAL 的效果僅持續到目前事務結束，無論是否已提交。一個特殊情況是在單個事務中 SET 後跟 SET LOCAL：SET LOCAL 值將一直顯示直到事務結束，但在事務之後（如果事務已提交）SET 值將生效。
 
-The effects of `SET` or `SET LOCAL` are also canceled by rolling back to a savepoint that is earlier than the command.
+透過回溯到早於指令的 savepoint，也會取消 SET 或 SET LOCAL 的效果。
 
-If `SET LOCAL` is used within a function that has a `SET` option for the same variable \(see [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html)\), the effects of the `SET LOCAL` command disappear at function exit; that is, the value in effect when the function was called is restored anyway. This allows `SET LOCAL` to be used for dynamic or repeated changes of a parameter within a function, while still having the convenience of using the `SET` option to save and restore the caller's value. However, a regular `SET` command overrides any surrounding function's `SET` option; its effects will persist unless rolled back.
+如果在具有相同變數的 SET 選項函數中使用 SET LOCAL（參閱 [CREATE FUNCTION](create-function.md)），則 SET LOCAL 指令的效果在函數結束時消失；也就是說，無論如何都會恢復呼叫函數時生效的值。這允許 SET LOCAL 用於函數內參數的動態或重複變更，同時仍然可以方便地使用 SET 選項來保存和恢復呼叫者的值。但是，一般 SET 指令會覆寫任何相關函數的 SET 選項；除非回溯，否則其效果將持續存在。
 
-#### Note
-
-In PostgreSQL versions 8.0 through 8.2, the effects of a `SET LOCAL` would be canceled by releasing an earlier savepoint, or by successful exit from a PL/pgSQL exception block. This behavior has been changed because it was deemed unintuitive.
+**注意**  
+在 PostgreSQL 版本 8.0 到 8.2 中，SET LOCAL 的效果將透過釋放較早的 savepoint 或成功退出 PL/pgSQL 例外處理來取消。此行為已被調整，因為它被認為是不直觀的。
 
 ### Parameters
 
