@@ -31,37 +31,37 @@ CREATE LANGUAGE 指令有兩種形式。在第一種形式中，使用者只提�
 
 CREATE OR REPLACE LANGUAGE 將註冊新的語言或更換現有的定義。如果該語言已存在，則其參數將根據指定的值或從 pg\_pltemplate 取得，但語言的擁有權和權限設定不會更改，並且假定使用該語言撰寫的任何現有函數仍然有效。除了建立語言的普通權限要求之外，使用者還必須是現有語言的擁有者或超級使用者。REPLACE 主要用於確保語言存在。如果該語言具有 pg\_pltemplate 項目，則 REPLACE 實際上不會變更現有定義的任何內容，除非在建立語言後修改了 pg\_pltemplate 項目的特殊情況。
 
-### Parameters
+### 參數
 
 `TRUSTED`
 
-`TRUSTED` specifies that the language does not grant access to data that the user would not otherwise have. If this key word is omitted when registering the language, only users with the PostgreSQL superuser privilege can use this language to create new functions.
+TRUSTED 表該語言不會授予使用者不應該擁有的資料存取權限。如果在註冊語言時省略了此關鍵字，則只有具有 PostgreSQL 超級使用者權限的使用者才能使用該語言建立新的函數。
 
 `PROCEDURAL`
 
-This is a noise word.
+這是一個無功能的修飾詞。
 
 _`name`_
 
-The name of the new procedural language. The name must be unique among the languages in the database.
+新的程序語言名稱。此名稱在資料庫中的語言中必須是唯一的。
 
-For backward compatibility, the name can be enclosed by single quotes.
+為了向下相容，名稱可以用單引號括起來。
 
 `HANDLER` _`call_handler`_
 
-_`call_handler`_ is the name of a previously registered function that will be called to execute the procedural language's functions. The call handler for a procedural language must be written in a compiled language such as C with version 1 call convention and registered with PostgreSQL as a function taking no arguments and returning the `language_handler`type, a placeholder type that is simply used to identify the function as a call handler.
+call\_handler 是先前註冊的函數名稱，將呼叫該函數來執行程序語言的函數。程序語言的呼叫處理程序必須用編譯語言撰寫，例如 C with version 1 convention，並在 PostgreSQL 中註冊為不帶參數的函數，回傳 language\_handlertype，這是一種 placeholder 型別，僅用於將函數識別為呼叫處理程序
 
 `INLINE` _`inline_handler`_
 
-_`inline_handler`_ is the name of a previously registered function that will be called to execute an anonymous code block \([DO](https://www.postgresql.org/docs/10/static/sql-do.html) command\) in this language. If no _`inline_handler`_function is specified, the language does not support anonymous code blocks. The handler function must take one argument of type `internal`, which will be the `DO` command's internal representation, and it will typically return `void`. The return value of the handler is ignored.
+inline\_handler 是先前註冊的函數名稱，該函數將被呼叫以執行此語言的匿名代碼區塊（[DO](do.md) 指令）。如果未指定 inline\_handlerfunction，則該語言不支援匿名代碼區塊。處理函數必須使用一個型別為 internal 的參數，它將是 DO 指令的內部形式，並且通常回傳是 void。處理程序的回傳值將被忽略。
 
 `VALIDATOR` _`valfunction`_
 
-_`valfunction`_ is the name of a previously registered function that will be called when a new function in the language is created, to validate the new function. If no validator function is specified, then a new function will not be checked when it is created. The validator function must take one argument of type `oid`, which will be the OID of the to-be-created function, and will typically return `void`.
+valfunction 是先前註冊的函數名稱，該函數將在宣告語言中的新函數時呼叫，以驗證新函數。如果未指定驗證程序功能，則在建立新函數時不會檢查該函數。驗證程序函數必須使用一個型別為 oid 的參數，該參數將是要建立的函數 OID，並且通常回傳為 void。
 
-A validator function would typically inspect the function body for syntactical correctness, but it can also look at other properties of the function, for example if the language cannot handle certain argument types. To signal an error, the validator function should use the `ereport()` function. The return value of the function is ignored.
+驗證程序函數通常會檢查函數的語法正確性，但它也可以查看函數的其他屬性。例如，如果語言無法處理某些參數型別。要發出錯誤信號，驗證程序函數應使用ereport\(\) 函數。該函數的回傳值將被忽略。
 
-The `TRUSTED` option and the support function name\(s\) are ignored if the server has an entry for the specified language name in `pg_pltemplate`.
+如果伺服器在 pg\_pltemplate 中具有指定語言名稱的項目，則忽略 TRUSTED 選項和支援函數名稱。
 
 ### Notes
 
