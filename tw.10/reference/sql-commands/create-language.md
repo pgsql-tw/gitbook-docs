@@ -63,19 +63,19 @@ valfunction 是先前註冊的函數名稱，該函數將在宣告語言中的�
 
 如果伺服器在 pg\_pltemplate 中具有指定語言名稱的項目，則忽略 TRUSTED 選項和支援函數名稱。
 
-### Notes
+### 注意
 
-Use [DROP LANGUAGE](https://www.postgresql.org/docs/10/static/sql-droplanguage.html) to drop procedural languages.
+使用 [DROP LANGUAGE](drop-language.md) 移除程序語言。
 
-The system catalog `pg_language` \(see [Section 51.29](https://www.postgresql.org/docs/10/static/catalog-pg-language.html)\) records information about the currently installed languages. Also, the psql command `\dL` lists the installed languages.
+系統目錄 pg\_language（參閱[第 51.29 節](../../internals/system-catalogs/pg_language.md)）記錄有關目前安裝的語言訊息。此外，psql 指令 \dL 可列出已安裝的語言。
 
-To create functions in a procedural language, a user must have the `USAGE` privilege for the language. By default, `USAGE` is granted to `PUBLIC` \(i.e., everyone\) for trusted languages. This can be revoked if desired.
+要以程序語言建立函數，使用者必須具有該語言的 USAGE 權限。預設情況下，USAGE 被授予 PUBLIC（即每個人）在可信任的語言上。如果需要，可以撤銷此權限。
 
-Procedural languages are local to individual databases. However, a language can be installed into the `template1` database, which will cause it to be available automatically in all subsequently-created databases.
+程序語言在各個資料庫之間是獨立。但是，可以在 template1 資料庫中安裝一種語言，這將使其在所有後續建立的資料庫中自動可用。
 
-The call handler function, the inline handler function \(if any\), and the validator function \(if any\) must already exist if the server does not have an entry for the language in `pg_pltemplate`. But when there is an entry, the functions need not already exist; they will be automatically defined if not present in the database. \(This might result in `CREATE LANGUAGE`failing, if the shared library that implements the language is not available in the installation.\)
+如果伺務器在 pg\_pltemplate 中沒有該語言的項目，則必須已存在呼叫處理函數，內嵌處理函數（如果有）和驗證程序函數（如果有）。但是當有項目時，處理函數就不一定需要存在；如果資料庫中不存在，它們將會自動被定義。（如果實作該語言的共享函式庫在安裝環境中不可用，則可能導致 CREATE LANGUAGE 失敗。）
 
-In PostgreSQL versions before 7.3, it was necessary to declare handler functions as returning the placeholder type `opaque`, rather than `language_handler`. To support loading of old dump files, `CREATE LANGUAGE` will accept a function declared as returning `opaque`, but it will issue a notice and change the function's declared return type to `language_handler`.
+在 7.3 之前的 PostgreSQL 版本中，有必要將處理函數宣告為回傳 placeholder 型別 opaque，而不是 language\_handler。為了支援載入舊的備份檔案，CREATE LANGUAGE 將接受宣告為回傳 opaque 的函數，但它會發出通知並將函數宣告的回傳型別變更為 language\_handler。
 
 ### 範例
 
