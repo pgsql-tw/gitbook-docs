@@ -1,7 +1,5 @@
 # 8.5. 日期時間型別
 
-
-
 PostgreSQL supports the full set of SQL date and time types, shown in Table 8.9. The operations available on these data types are described in [Section 9.9](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md). Dates are counted according to the Gregorian calendar, even in years before that calendar was introduced \(see [Section B.4](../../appendixes/date-time-support/b.4.-ri-qi-shi-jian-de-yan-ge.md) for more information\).
 
 **Table 8.9. Date/Time Types**

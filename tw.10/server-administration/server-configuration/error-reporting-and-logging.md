@@ -263,7 +263,7 @@ log_line_prefix = '%m [%p] %q%u@%d/%a '
 
 #### `log_timezone` \(`string`\)
 
-設定用於在伺服器日誌中寫入的時間戳記的時區。與 [TimeZone](19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#timezone-string) 不同，此值是叢集範圍的，因此所有連線都將一致地報告時間戳記。內建的預設值是 GMT，但這通常在 postgresql.conf 中會再設定過；initdb 將在那裡安裝與其系統環境相對應的設定。有關更多訊息，請參閱[第 8.5.3 節](../../the-sql-language/data-types/8.5.-ri-qi-shi-jian-xing-bie.md#8-5-3-time-zones)。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
+設定用於在伺服器日誌中寫入的時間戳記的時區。與 [TimeZone](19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#timezone-string) 不同，此值是叢集範圍的，因此所有連線都將一致地報告時間戳記。內建的預設值是 GMT，但這通常在 postgresql.conf 中會再設定過；initdb 將在那裡安裝與其系統環境相對應的設定。有關更多訊息，請參閱[第 8.5.3 節](../../the-sql-language/data-types/date-time.md#8-5-3-time-zones)。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 ## 19.8.4. 使用 CSV 格式輸出記錄
 

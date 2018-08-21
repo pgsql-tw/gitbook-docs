@@ -93,7 +93,7 @@ Berkeley, California 的時區。
 
 以數字或間隔設定的時區設定在內部轉換為 POSIX 時區語法。例如，在 SET TIME ZONE -7 之後，SHOW TIME ZONE 將回報 &lt;-07&gt;+07。
 
-有關時區的更多訊息，請參閱[第 8.5.3 節](../../the-sql-language/data-types/8.5.-ri-qi-shi-jian-xing-bie.md#8-5-3-time-zones)。
+有關時區的更多訊息，請參閱[第 8.5.3 節](../../the-sql-language/data-types/date-time.md#8-5-3-time-zones)。
 
 ### 注意
 
