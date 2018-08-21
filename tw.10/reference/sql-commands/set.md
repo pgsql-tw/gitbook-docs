@@ -28,35 +28,39 @@ SET LOCAL 的效果僅持續到目前事務結束，無論是否已提交。一�
 **注意**  
 在 PostgreSQL 版本 8.0 到 8.2 中，SET LOCAL 的效果將透過釋放較早的 savepoint 或成功退出 PL/pgSQL 例外處理來取消。此行為已被調整，因為它被認為是不直觀的。
 
-### Parameters
+### 參數
 
 `SESSION`
 
-Specifies that the command takes effect for the current session. \(This is the default if neither `SESSION` nor `LOCAL` appears.\)`LOCAL`
+指定此指令對目前連線生效。（如果 SESSION 和 LOCAL 都沒有出現，這是預設行為。）
 
-Specifies that the command takes effect for only the current transaction. After `COMMIT` or `ROLLBACK`, the session-level setting takes effect again. Issuing this outside of a transaction block emits a warning and otherwise has no effect.
+`LOCAL`
+
+指定此指令僅對目前事務生效。在 COMMIT 或 ROLLBACK 之後，連線等級的設定會再次生效。在事務區塊之外發出此指令會發出警告，並且無效。
 
 _`configuration_parameter`_
 
-Name of a settable run-time parameter. Available parameters are documented in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) and below._`value`_
+可設定的執行環境參數名稱。可用參數記錄在[第 19 章](../../server-administration/server-configuration/)及其以下小節。
 
-New value of parameter. Values can be specified as string constants, identifiers, numbers, or comma-separated lists of these, as appropriate for the particular parameter. `DEFAULT` can be written to specify resetting the parameter to its default value \(that is, whatever value it would have had if no `SET` had been executed in the current session\).
+_`value`_
 
-Besides the configuration parameters documented in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html), there are a few that can only be adjusted using the `SET` command or that have a special syntax:
+參數的新值。可以將值指定為字串常數、識別字、數字或逗號分隔的值列表，以適應特定參數。可以使用 DEFAULT 來指定將參數重置為其預設值（即如果在目前會話中沒有執行 SET，它將具有的值）。
+
+除了[第 19 章](../../server-administration/server-configuration/)中記錄的配置參數外，還有一些只能使用 SET 指令調整或具備的特殊語法：
 
 `SCHEMA`
 
-`SET SCHEMA '`_`value`_' is an alias for `SET search_path TO` _`value`_. Only one schema can be specified using this syntax.
+`SET SCHEMA 'value'` 是 `SET search_path TO value` 的別名。使用此語法只能指定一個綱要。
 
 `NAMES`
 
-`SET NAMES` _`value`_ is an alias for `SET client_encoding TO` _`value`_.
+`SET NAMES value` 是 `SET client_encoding TO value` 的別名。
 
 `SEED`
 
-Sets the internal seed for the random number generator \(the function `random`\). Allowed values are floating-point numbers between -1 and 1, which are then multiplied by 231-1.
+設定隨機數産生器的內部種子（函數隨機）。允許值是介於 -1 和 1 之間的浮點數，然後乘以 2^31-1。
 
-The seed can also be set by invoking the function `setseed`:
+也可以透過呼叫 setseed 函數來設定種子：
 
 ```text
 SELECT setseed(value);
@@ -64,30 +68,32 @@ SELECT setseed(value);
 
 `TIME ZONE`
 
-`SET TIME ZONE` _`value`_ is an alias for `SET timezone TO` _`value`_. The syntax `SET TIME ZONE` allows special syntax for the time zone specification. Here are examples of valid values:
+SET TIME ZONE value 是 SET timezone TO value 的別名。語法 SET TIME ZONE 是允許時區規範的特殊語法。以下是有效值的範例：
 
 `'PST8PDT'`
 
-The time zone for Berkeley, California.
+Berkeley, California 的時區。
 
 `'Europe/Rome'`
 
-The time zone for Italy.`-7`
+義大利的時區。
 
-The time zone 7 hours west from UTC \(equivalent to PDT\). Positive values are east from UTC.
+`-7`
+
+從 UTC 往西 7 小時的時區（相當於 PDT）。正值為 UTC 往東。
 
 `INTERVAL '-08:00' HOUR TO MINUTE`
 
-The time zone 8 hours west from UTC \(equivalent to PST\).
+從 UTC 往西 8 小時的時區（相當於 PST）。
 
 `LOCAL`  
 `DEFAULT`
 
-Set the time zone to your local time zone \(that is, the server's default value of `timezone`\).
+將時區設定為本地時區（即伺服器的時區預設值）。
 
-Timezone settings given as numbers or intervals are internally translated to POSIX timezone syntax. For example, after `SET TIME ZONE -7`, `SHOW TIME ZONE` would report `<-07>+07`.
+以數字或間隔設定的時區設定在內部轉換為 POSIX 時區語法。例如，在 SET TIME ZONE -7 之後，SHOW TIME ZONE 將回報 &lt;-07&gt;+07。
 
-See [Section 8.5.3](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONES) for more information about time zones.
+有關時區的更多訊息，請參閱[第 8.5.3 節](../../the-sql-language/data-types/8.5.-ri-qi-shi-jian-xing-bie.md#8-5-3-time-zones)。
 
 ### 注意
 
