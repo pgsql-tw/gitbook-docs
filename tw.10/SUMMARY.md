@@ -554,6 +554,7 @@
     * [52.8. Error and Notice Message Fields](internals/52.-frontend-backend-protocol/52.8.-error-and-notice-message-fields.md)
     * [52.9. Logical Replication Message Formats](internals/52.-frontend-backend-protocol/52.9.-logical-replication-message-formats.md)
     * [52.10. Summary of Changes since Protocol 2.0](internals/52.-frontend-backend-protocol/52.10.-summary-of-changes-since-protocol-2.0.md)
+  * [55. Writing A Procedural Language Handler](internals/writing-a-procedural-language-handler.md)
   * [62. GiST Indexes](internals/gist-indexes/README.md)
     * [62.1. Introduction](internals/gist-indexes/introduction.md)
     * [62.2. Built-in Operator Classes](internals/gist-indexes/built-in-operator-classes.md)
