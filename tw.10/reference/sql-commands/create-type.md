@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # CREATE TYPE
 
-CREATE TYPE — define a new data type
+CREATE TYPE — 定義新的資料型別
 
-### Synopsis
+### 語法
 
 ```text
 CREATE TYPE name AS
@@ -309,13 +313,13 @@ CREATE TABLE big_objs (
 
 More examples, including suitable input and output functions, are in [Section 37.11](https://www.postgresql.org/docs/10/static/xtypes.html).
 
-### Compatibility
+### 相容性
 
-The first form of the `CREATE TYPE` command, which creates a composite type, conforms to the SQL standard. The other forms are PostgreSQL extensions. The `CREATE TYPE` statement in the SQL standard also defines other forms that are not implemented in PostgreSQL.
+建立複合型別 CREATE TYPE 指令的第一種形式符合 SQL 標準。其他形式則是 PostgreSQL 延伸語法。SQL 標準中的 CREATE TYPE 語句還定義了 PostgreSQL 中未實作的其他形式。
 
-The ability to create a composite type with zero attributes is a PostgreSQL-specific deviation from the standard \(analogous to the same case in `CREATE TABLE`\).
+建立具有零屬性的複合型別是 PostgreSQL 專有的（類似於 CREATE TABLE 的情況）。
 
-### See Also
+### 參閱
 
-[ALTER TYPE](https://www.postgresql.org/docs/10/static/sql-altertype.html), [CREATE DOMAIN](https://www.postgresql.org/docs/10/static/sql-createdomain.html), [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html), [DROP TYPE](https://www.postgresql.org/docs/10/static/sql-droptype.html)
+[ALTER TYPE](alter-type.md), [CREATE DOMAIN](create-domain.md), [CREATE FUNCTION](create-function.md), [DROP TYPE](drop-type.md)
 
