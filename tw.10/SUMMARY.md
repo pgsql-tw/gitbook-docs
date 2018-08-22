@@ -119,7 +119,7 @@
     * [10.2. 運算子](the-sql-language/type-conversion/10.2.-yun-suan-zi.md)
     * [10.3. 函式](the-sql-language/type-conversion/10.3.-han-shi.md)
     * [10.4. 儲存轉換規則](the-sql-language/type-conversion/10.4.-chu-cun-zhuan-huan-gui-ze.md)
-    * [10.5. UNION、CASE等相關操作](the-sql-language/type-conversion/union-case-and-related-constructs.md)
+    * [10.5. UNION、CASE 等相關結構](the-sql-language/type-conversion/union-case-and-related-constructs.md)
     * [10.6. SELECT輸出規則](the-sql-language/type-conversion/10.6.-select-shu-chu-gui-ze.md)
   * [11. 索引（Index）](the-sql-language/index/README.md)
     * [11.1. 簡介](the-sql-language/index/introduction.md)

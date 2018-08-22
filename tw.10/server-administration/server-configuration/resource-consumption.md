@@ -140,51 +140,51 @@ description: 版本：10
 
 bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減少背景寫入程序造成的額外 I/O 負載，但使伺服器程序更有可能必須為自己發出寫入要求，可能造成交互查詢的延遟。
 
-## 19.4.6. Asynchronous Behavior
+## 19.4.6. 非同步作業
 
 `effective_io_concurrency` \(`integer`\)
 
-Sets the number of concurrent disk I/O operations that PostgreSQL expects can be executed simultaneously. Raising this value will increase the number of I/O operations that any individual PostgreSQL session attempts to initiate in parallel. The allowed range is 1 to 1000, or zero to disable issuance of asynchronous I/O requests. Currently, this setting only affects bitmap heap scans.
+設定 PostgreSQL 期望可以同時執行的磁碟 I/O 操作數。提高此值將增加任何單個 PostgreSQL 連線嘗試同時啟動的 I/O 操作數。允許的範圍是 1 到 1000，或者為零以停用非同步 I/O 要求的使用。目前，此設定僅影響 bitmap heap 掃描。
 
-For magnetic drives, a good starting point for this setting is the number of separate drives comprising a RAID 0 stripe or RAID 1 mirror being used for the database. \(For RAID 5 the parity drive should not be counted.\) However, if the database is often busy with multiple queries issued in concurrent sessions, lower values may be sufficient to keep the disk array busy. A value higher than needed to keep the disks busy will only result in extra CPU overhead. SSDs and other memory-based storage can often process many concurrent requests, so the best value might be in the hundreds.
+對於磁碟機而言，此設定一個很好的起點是包含用於資料庫的 RAID 0 分散或 RAID 1 鏡像的單獨磁碟數量。（對於 RAID 5，不應計算奇偶校驗磁碟。）但是，如果資料庫通常忙於在同時連線中發出多個查詢，則較低的值可能足以使磁碟陣列保持忙碌狀態。高於保持磁碟繁忙所需的值只會導致額外的 CPU 開銷。SSD和其他基於內存的儲存通常可以處理許多同時要求，因此最佳值可能是數百個。
 
-Asynchronous I/O depends on an effective `posix_fadvise` function, which some operating systems lack. If the function is not present then setting this parameter to anything but zero will result in an error. On some operating systems \(e.g., Solaris\), the function is present but does not actually do anything.
+非同步 I/O 取決於某些作業系統缺乏的有效 posix\_fadvise 函數。如果該功能不存在，則將此參數設定為零以外的任何值將導致錯誤。而在某些作業系統（例如，Solaris）上，此功能存在但實際上並沒有做任何事情。
 
-The default is 1 on supported systems, otherwise 0. This value can be overridden for tables in a particular tablespace by setting the tablespace parameter of the same name \(see [ALTER TABLESPACE](https://www.postgresql.org/docs/10/static/sql-altertablespace.html)\).
+在受支援的系統上預設值為 1，否則為 0。透過設定同名的 tablespace 參數，可以為特定資料表空間中的資料表覆寫此值（請參閱 [ALTER TABLESPACE](../../reference/sql-commands/alter-tablespace.md)）。
 
 `max_worker_processes` \(`integer`\)
 
-Sets the maximum number of background processes that the system can support. This parameter can only be set at server start. The default is 8.
+設定系統可以支援的最大背景程序數量。此參數只能在伺服器啟動時設定。預定值為 8。
 
-When running a standby server, you must set this parameter to the same or higher value than on the master server. Otherwise, queries will not be allowed in the standby server.
+執行備用伺服器時，必須將此參數設定為與主伺服器上相同或更高的值。否則，將不允許在備用伺服器中進行查詢。
 
-When changing this value, consider also adjusting [max\_parallel\_workers](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS) and [max\_parallel\_workers\_per\_gather](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-PER-GATHER).
+變更此值時，請考慮同步調整 max\_parallel\_workers 和 max\_parallel\_workers\_per\_gather。
 
 `max_parallel_workers_per_gather` \(`integer`\)
 
-Sets the maximum number of workers that can be started by a single `Gather` or `Gather Merge` node. Parallel workers are taken from the pool of processes established by [max\_worker\_processes](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES), limited by [max\_parallel\_workers](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS). Note that the requested number of workers may not actually be available at run time. If this occurs, the plan will run with fewer workers than expected, which may be inefficient. The default value is 2. Setting this value to 0 disables parallel query execution.
+設定單個 Gather 或 Gather Merge 節點可以啟動的最大工作程序數量。同時工作程序取自 max\_worker\_processes 建立的程序池，由 max\_parallel\_workers 限制。請注意，請求的工作程序數量在執行時可能實際上不可用。如果發生這種情況，計劃將以比預期更少的工作程序運行，這可能是低效能的。預設值為 2。將此值設定為 0 將停用平行查詢執行。
 
-Note that parallel queries may consume very substantially more resources than non-parallel queries, because each worker process is a completely separate process which has roughly the same impact on the system as an additional user session. This should be taken into account when choosing a value for this setting, as well as when configuring other settings that control resource utilization, such as [work\_mem](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-WORK-MEM). Resource limits such as `work_mem` are applied individually to each worker, which means the total utilization may be much higher across all processes than it would normally be for any single process. For example, a parallel query using 4 workers may use up to 5 times as much CPU time, memory, I/O bandwidth, and so forth as a query which uses no workers at all.
+請注意，平行查詢可能比非平行查詢消耗的資源要多得多，因為每個工作程序都是一個完全獨立的程序，與其他使用者連線對系統的影響大致相同。在為此設定選擇值時，以及在配置控制資源利用率的其他設定（例如work\_mem）時，應考慮這一點。 諸如 work\_mem 之類的資源限制被單獨應用於每個工作程序，這意味著所有程序的總利用率可能比通常用於任何單個程序的總利用率高得多。例如，使用 4 個工作程序的平行查詢可能會使用高達 5 倍的 CPU 時間、記憶體、I/O 頻寬等作為根本不使用工作程序的查詢。
 
-For more information on parallel query, see [Chapter 15](https://www.postgresql.org/docs/10/static/parallel-query.html).
+有關平行查詢的更多訊息，請參閱[第 15 章](../../the-sql-language/15.-ping-hang-cha-xun/)。
 
 `max_parallel_workers` \(`integer`\)
 
-Sets the maximum number of workers that the system can support for parallel queries. The default value is 8. When increasing or decreasing this value, consider also adjusting [max\_parallel\_workers\_per\_gather](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-PER-GATHER). Also, note that a setting for this value which is higher than [max\_worker\_processes](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES) will have no effect, since parallel workers are taken from the pool of worker processes established by that setting.
+設定系統可以支援平行查詢的最大工作程序數量。預設值為 8。增大或減小此值時，請考慮調整 max\_parallel\_workers\_per\_gather。另請注意，此值的設定高於 max\_worker\_processes 將不起作用，因為平行工作程序取自該設定所建立的工作程序池。
 
 `backend_flush_after` \(`integer`\)
 
-Whenever more than `backend_flush_after` bytes have been written by a single backend, attempt to force the OS to issue these writes to the underlying storage. Doing so will limit the amount of dirty data in the kernel's page cache, reducing the likelihood of stalls when an `fsync` is issued at the end of a checkpoint, or when the OS writes data back in larger batches in the background. Often that will result in greatly reduced transaction latency, but there also are some cases, especially with workloads that are bigger than [shared\_buffers](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-SHARED-BUFFERS), but smaller than the OS's page cache, where performance might degrade. This setting may have no effect on some platforms. The valid range is between `0`, which disables forced writeback, and `2MB`. The default is `0`, i.e., no forced writeback. \(If `BLCKSZ`is not 8kB, the maximum value scales proportionally to it.\)
+只要一個後端寫入了多個 backend\_flush\_after 字串，就會嘗試強制作業系統向底層儲存發出這些寫入操作。這樣做會限制核心頁面緩衝區中的非同步資料量，減少在檢查點結束時發出 fsync 時暫時停止的可能性，或者作業系統在後端以較大批量寫回資料的可能性。通常這會導致事務延遲大大減少，但也有一些情況，特別是工作負載大於shared\_buffers，但小於作業系統的頁面暫存，其性能可能會降低。此設定可能對某些平台沒有影響。有效範圍介於 0（停用強制寫回）和 2MB 之間。預設值為 0，即沒有強制寫回。（如果 BLCKSZ 不是 8kB，則最大值與其成比例。）
 
 `old_snapshot_threshold` \(`integer`\)
 
-Sets the minimum time that a snapshot can be used without risk of a `snapshot too old` error occurring when using the snapshot. This parameter can only be set at server start.
+設定可以使用快照的最短時間，而不會在使用快照時發生快照過舊的錯誤。此參數只能在伺服器啟動時設定。
 
-Beyond the threshold, old data may be vacuumed away. This can help prevent bloat in the face of snapshots which remain in use for a long time. To prevent incorrect results due to cleanup of data which would otherwise be visible to the snapshot, an error is generated when the snapshot is older than this threshold and the snapshot is used to read a page which has been modified since the snapshot was built.
+超過閾值，舊資料可能被清理。這可以幫助防止長時間使用的快照所面臨的資料膨脹。為了防止由於清理快照可能會顯示資料的錯誤結果，當快照早於此閾值時會産生錯誤，並且快照用於讀取自建構快照以來已修改的頁面。
 
-A value of `-1` disables this feature, and is the default. Useful values for production work probably range from a small number of hours to a few days. The setting will be coerced to a granularity of minutes, and small numbers \(such as `0` or `1min`\) are only allowed because they may sometimes be useful for testing. While a setting as high as `60d` is allowed, please note that in many workloads extreme bloat or transaction ID wraparound may occur in much shorter time frames.
+值 -1 將停用此功能，並且是預設值。産品等級的有用值可能從少量幾小時到幾天不等。此設定將被強制為分鐘的顆粒度，並且僅允許小數字（例如 0 或 1 分鐘），因為它們有時可用於測試。雖然允許設定高達 60d，但請注意，在許多工作負載中，可能會在更短的時間範圍內發生極端資料膨脹或事務 ID 重覆。
 
-When this feature is enabled, freed space at the end of a relation cannot be released to the operating system, since that could remove information needed to detect the `snapshot too old` condition. All space allocated to a relation remains associated with that relation for reuse only within that relation unless explicitly freed \(for example, with `VACUUM FULL`\).
+啟用此功能後，關連末尾釋放的空間無法釋放到作業系統，因為這可能會刪除檢測快照過舊狀態所需的訊息。除非明確要求釋放（例如，使用 VACUUM FULL），否則分配給關連的所有空間仍與該關連相關聯，僅在該關連內重覆使用。
 
-This setting does not attempt to guarantee that an error will be generated under any particular circumstances. In fact, if the correct results can be generated from \(for example\) a cursor which has materialized a result set, no error will be generated even if the underlying rows in the referenced table have been vacuumed away. Some tables cannot safely be vacuumed early, and so will not be affected by this setting, such as system catalogs. For such tables this setting will neither reduce bloat nor create a possibility of a `snapshot too old` error on scanning.
+此設定不會嘗試保證在任何特定情況下都會産生錯誤。實際上，如果可以從已完成結果集合的游標産生正確的結果，即使引用資料表中的基礎資料列已被清理，也不會産生錯誤。有些資料表不能安全地儘早清理，因此不會受到此設定的影響，例如系統目錄。對於此類資料表，此設定既不會減少膨脹，也不會在掃描時產生快照過舊的錯誤。
 
