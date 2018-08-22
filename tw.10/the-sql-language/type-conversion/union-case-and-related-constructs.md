@@ -10,6 +10,7 @@ SQL UNION 結構必須匹配可能不相似的型別才能成為單個結果集�
 
 1. 如果所有輸入屬於同一型別且不是未知，就以該型別解析。
 2. 如果任何輸入屬於 domain 型別，則將其視為 domain 的基本型別進行所有後續步驟。
+   1. 有點像處理運算子和函數的 domain 輸入，這種行為允許透過 UNION 或類似結構保留 doamin 型別，只要使用者小心確保所有輸入都能確定該型別。否則， domain 的基本型別將是首選。
 3. 如果所有輸入都是未知類型，則解析為 text 型別（字串類別的偏好型別）。否則，為了剩餘規則的處理，將忽略未知輸入。
 4. 如果非未知輸入不是所有相同的型別類別，則失敗。
 5. 選擇第一個非未知輸入型別，如果有，則選擇該類別中的偏好型別。
@@ -83,37 +84,5 @@ The inner `UNION` is resolved as emitting type `text`, according to the rules gi
   
 
 
-[\[11\]](https://www.postgresql.org/docs/10/static/typeconv-union-case.html#id-1.5.9.10.9.3.1.1) Somewhat like the treatment of domain inputs for operators and functions, this behavior allows a domain type to be preserved through a `UNION` or similar construct, so long as the user is careful to ensure that all inputs are implicitly or explicitly of that exact type. Otherwise the domain's base type will be preferred.
 
-```text
-------
-    1
-  2.2
-(2 rows)
-```
-
-Here, since type `real` cannot be implicitly cast to `integer`, but `integer` can be implicitly cast to `real`, the union result type is resolved as `real`.  
-
-
-**Example 10.12. Type Resolution in a Nested Union**
-
-```text
-SELECT NULL UNION SELECT NULL UNION SELECT 1;
-
-ERROR:  UNION types text and integer cannot be matched
-```
-
-This failure occurs because PostgreSQL treats multiple `UNION`s as a nest of pairwise operations; that is, this input is the same as
-
-```text
-(SELECT NULL UNION SELECT NULL) UNION SELECT 1;
-```
-
-The inner `UNION` is resolved as emitting type `text`, according to the rules given above. Then the outer `UNION` has inputs of types `text` and `integer`, leading to the observed error. The problem can be fixed by ensuring that the leftmost `UNION` has at least one input of the desired result type.
-
-`INTERSECT` and `EXCEPT` operations are likewise resolved pairwise. However, the other constructs described in this section consider all of their inputs in one resolution step.  
-  
-
-
-[\[9\]](https://www.postgresql.org/docs/10/static/typeconv-union-case.html#id-1.5.9.10.9.3.1.1) Somewhat like the treatment of domain inputs for operators and functions, this behavior allows a domain type to be preserved through a `UNION`or similar construct, so long as the user is careful to ensure that all inputs are implicitly or explicitly of that exact type. Otherwise the domain's base type will be preferred.
 
