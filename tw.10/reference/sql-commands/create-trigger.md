@@ -1,3 +1,7 @@
+---
+description: 版本：10
+---
+
 # CREATE TRIGGER
 
 CREATE TRIGGER — define a new trigger
@@ -245,7 +249,7 @@ The ability to fire triggers for `TRUNCATE` is a PostgreSQL extension of the SQL
 
 `CREATE CONSTRAINT TRIGGER` is a PostgreSQL extension of the SQL standard.
 
-### See Also
+### 參閱
 
-[ALTER TRIGGER](https://www.postgresql.org/docs/10/static/sql-altertrigger.html), [DROP TRIGGER](https://www.postgresql.org/docs/10/static/sql-droptrigger.html), [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html), [SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html)
+[ALTER TRIGGER](alter-trigger.md), [DROP TRIGGER](drop-trigger.md), [CREATE FUNCTION](create-function.md), [SET CONSTRAINTS](set-constraints.md)
 
