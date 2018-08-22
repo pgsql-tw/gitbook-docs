@@ -4,9 +4,9 @@ description: 版本：10
 
 # CREATE TRIGGER
 
-CREATE TRIGGER — define a new trigger
+CREATE TRIGGER — 宣告一個新的觸發器
 
-### Synopsis
+### 語法
 
 ```text
 CREATE [ CONSTRAINT ] TRIGGER name { BEFORE | AFTER | INSTEAD OF } { event [ OR ... ] }
@@ -26,19 +26,19 @@ where event can be one of:
     TRUNCATE
 ```
 
-### Description
+### 說明
 
-`CREATE TRIGGER` creates a new trigger. The trigger will be associated with the specified table, view, or foreign table and will execute the specified function _`function_name`_ when certain operations are performed on that table.
+CREATE TRIGGER 建立一個新的觸發器。觸發器將與指定的資料表，檢視表或外部資料表關聯，並在對該表執行某些操作時執行指定的函數。
 
-The trigger can be specified to fire before the operation is attempted on a row \(before constraints are checked and the `INSERT`, `UPDATE`, or `DELETE` is attempted\); or after the operation has completed \(after constraints are checked and the `INSERT`, `UPDATE`, or `DELETE` has completed\); or instead of the operation \(in the case of inserts, updates or deletes on a view\). If the trigger fires before or instead of the event, the trigger can skip the operation for the current row, or change the row being inserted \(for `INSERT` and `UPDATE` operations only\). If the trigger fires after the event, all changes, including the effects of other triggers, are “visible” to the trigger.
+可以指定觸發器在嘗試對某行執行操作之前（在檢查限制條件並嘗試執行 INSERT，UPDATE 或 DELETE 之前）；或者在操作完成後（在檢查限制條件並且 INSERT，UPDATE 或 DELETE 完成之後）；又或者代替操作（在檢視表上插入，更新或刪除的情況下）。如果觸發器在事件之前或之後觸發，則觸發器可以跳過目前資料列的操作，或者更改正在插入的資料列（僅適用於 INSERT 和 UPDATE 操作）。如果觸發器在事件發生後觸發，則所有更改（包括其他觸發器的效果）都對觸發器都是「可見」。
 
-A trigger that is marked `FOR EACH ROW` is called once for every row that the operation modifies. For example, a `DELETE` that affects 10 rows will cause any `ON DELETE` triggers on the target relation to be called 10 separate times, once for each deleted row. In contrast, a trigger that is marked `FOR EACH STATEMENT` only executes once for any given operation, regardless of how many rows it modifies \(in particular, an operation that modifies zero rows will still result in the execution of any applicable `FOR EACH STATEMENT` triggers\).
+對於操作修改的每一個資料列，都會呼叫標記為 FOR EACH ROW 的觸發器一次。例如，影響 10 行的 DELETE 將導致目標關連上的任何 ON DELETE 觸發器被分別呼叫 10 次，每次刪除則執行一次。相反，標記為 FOR EACH STATEMENT 的觸發器僅對任何給予操作的執行一次，無論其修改多少資料列（特別是，修改零個資料列的操作仍將驅使執行任何適用的 FOR EACH STATEMENT 觸發器）。
 
-Triggers that are specified to fire `INSTEAD OF` the trigger event must be marked `FOR EACH ROW`, and can only be defined on views. `BEFORE` and `AFTER` triggers on a view must be marked as`FOR EACH STATEMENT`.
+指定用於觸發 INSTEAD OF 觸發事件的觸發器必須標記為 FOR EACH ROW，而且只能在檢視表上定義。 必須將檢視圖上的 BEFORE 和 AFTER 觸發器標記為每個語句。
 
-In addition, triggers may be defined to fire for `TRUNCATE`, though only `FOR EACH STATEMENT`.
+此外，觸發器可以定義為觸發 TRUNCATE，儘管只有 FOR EACH STATEMENT。
 
-The following table summarizes which types of triggers may be used on tables, views, and foreign tables:
+下表總結了可以在資料表，檢視表和外部資料表上使用哪些類型的觸發器：
 
 | When | Event | Row-level | Statement-level |
 | :--- | :--- | :--- | :--- |
