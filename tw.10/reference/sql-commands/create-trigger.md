@@ -49,17 +49,17 @@ CREATE TRIGGER 建立一個新的觸發器。觸發器將與指定的資料表�
 | `INSTEAD OF` | `INSERT`/`UPDATE`/`DELETE` | Views | — |
 | `TRUNCATE` | — | — |  |
 
-Also, a trigger definition can specify a Boolean `WHEN` condition, which will be tested to see whether the trigger should be fired. In row-level triggers the `WHEN` condition can examine the old and/or new values of columns of the row. Statement-level triggers can also have `WHEN` conditions, although the feature is not so useful for them since the condition cannot refer to any values in the table.
+此外，觸發器定義可以指定布林 WHEN 條件，將對其進行測試以查看是否應觸發觸發器。在資料列級觸發器中，WHEN 條件可以檢查資料列的欄位舊值和新值。語句級觸發器也可以具有 WHEN 條件，儘管該功能對它們沒有那麼有用，因為條件不能引用資料表中的任何值。
 
-If multiple triggers of the same kind are defined for the same event, they will be fired in alphabetical order by name.
+如果為同一事件定義了多個相同類型的觸發器，則按名稱的字母順序觸發它們。
 
-When the `CONSTRAINT` option is specified, this command creates a _constraint trigger_. This is the same as a regular trigger except that the timing of the trigger firing can be adjusted using [SET CONSTRAINTS](https://www.postgresql.org/docs/10/static/sql-set-constraints.html). Constraint triggers must be `AFTER ROW` triggers on plain tables \(not foreign tables\). They can be fired either at the end of the statement causing the triggering event, or at the end of the containing transaction; in the latter case they are said to be _deferred_. A pending deferred-trigger firing can also be forced to happen immediately by using `SET CONSTRAINTS`. Constraint triggers are expected to raise an exception when the constraints they implement are violated.
+指定 CONSTRAINT 選項時，此指令將建令限制條件觸發器。除了可以使用 [SET CONSTRAINTS ](set-constraints.md)調整觸發器觸發的時機之外，其他與一般觸發器相同。限制條件觸發器必須是普通資料表（而不是外部資料表）上的 AFTER ROW 觸發器。 它們可以在語句結尾引發觸發事件，也可以在包含事務結束時觸發；在後面的情況下，他們會被延後。透過使用 SET CONSTRAINTS，也可以強制立即觸發待處理的延遲觸發器。當限制條件時，限制條件觸發器會引發例外處理。
 
-The `REFERENCING` option enables collection of _transition relations_, which are row sets that include all of the rows inserted, deleted, or modified by the current SQL statement. This feature lets the trigger see a global view of what the statement did, not just one row at a time. This option is only allowed for an `AFTER` trigger that is not a constraint trigger; also, if the trigger is an `UPDATE` trigger, it must not specify a _`column_name`_ list. `OLD TABLE` may only be specified once, and only for a trigger that can fire on `UPDATE` or `DELETE`; it creates a transition relation containing the _before-images_ of all rows updated or deleted by the statement. Similarly, `NEW TABLE` may only be specified once, and only for a trigger that can fire on `UPDATE` or `INSERT`; it creates a transition relation containing the _after-images_ of all rows updated or inserted by the statement.
+REFERENCING 選項啟用轉換關連的集合，轉換關連是包含目前 SQL 語句插入，刪除或修改的所有資料列的子集。此功能允許觸發器查看語句的全域檢視圖，而不是一次只能查看一個資料列。此選項僅適用於非限制條件觸發器的 AFTER 觸發器；另外，如果觸發器是 UPDATE 觸發器，則它不能指定 column\_name 列表。OLD TABLE 只能指定一次，並且只能用於可以在 UPDATE 或 DELETE上 觸發的觸發器；它建立一個轉換關係，其中包含語句更新或刪除的所有資料列的先前版本。類似地，NEW TABLE 只能指定一次，並且只能用於可以在 UPDATE 或 INSERT 上觸發的觸發器；它建立一個轉換關連，包含語句更新或插入的所有資料列的新版本。
 
-`SELECT` does not modify any rows so you cannot create `SELECT` triggers. Rules and views may provide workable solutions to problems that seem to need `SELECT` triggers.
+SELECT 不會修改任何資料列，因此您無法建立 SELECT 觸發器。規則和檢視表需要除錯以提供可行的解決方案時，就需要 SELECT 觸發器。
 
-Refer to [Chapter 38](https://www.postgresql.org/docs/10/static/triggers.html) for more information about triggers.
+有關觸發器的更多訊息，請參閱[第 38 章](../../server-programming/triggers.md)。
 
 ### Parameters
 
