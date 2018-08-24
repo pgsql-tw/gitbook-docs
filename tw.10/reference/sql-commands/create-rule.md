@@ -18,23 +18,22 @@ where event can be one of:
     SELECT | INSERT | UPDATE | DELETE
 ```
 
-### Description
+### 說明
 
-`CREATE RULE` defines a new rule applying to a specified table or view. `CREATE OR REPLACE RULE` will either create a new rule, or replace an existing rule of the same name for the same table.
+CREATE RULE 定義了套用於指定資料表或檢視表的新規則。CREATE OR REPLACE RULE 將建立新規則，或替換同一個資料表的同名現有規則。
 
-The PostgreSQL rule system allows one to define an alternative action to be performed on insertions, updates, or deletions in database tables. Roughly speaking, a rule causes additional commands to be executed when a given command on a given table is executed. Alternatively, an `INSTEAD` rule can replace a given command by another, or cause a command not to be executed at all. Rules are used to implement SQL views as well. It is important to realize that a rule is really a command transformation mechanism, or command macro. The transformation happens before the execution of the command starts. If you actually want an operation that fires independently for each physical row, you probably want to use a trigger, not a rule. More information about the rules system is in [Chapter 40](https://www.postgresql.org/docs/10/static/rules.html).
+PostgreSQL 規則系統允許人們定義要對資料庫資料表中的插入，更新或刪除的執行替代操作。粗略地說，當使用者給予資料表上的特定指令時，規則會使其執行其他指令。或者，INSTEAD 規則可以用另一個指令替換特定的指令，或者根本不執行指令。規則也用於實作 SQL 檢視表。重要的是要意識到規則實際上是命令轉換機制或巨集。轉換在指令執行開始之前發生。如果您確實希望為每個實體資料列獨立觸發操作，則可能需要使用觸發器，而不是規則。有關規則系統的更多訊息，請參閱[第 40 章](../../server-programming/the-rule-system/)。
 
-Presently, `ON SELECT` rules must be unconditional `INSTEAD` rules and must have actions that consist of a single `SELECT` command. Thus, an `ON SELECT` rule effectively turns the table into a view, whose visible contents are the rows returned by the rule's `SELECT` command rather than whatever had been stored in the table \(if anything\). It is considered better style to write a `CREATE VIEW` command than to create a real table and define an `ON SELECT` rule for it.
+目前，ON SELECT 規則必須是無條件的 INSTEAD 規則，並且必須具有由單個SELECT 指令組成的操作。因此，ON SELECT 規則有效地將資料表轉換為檢視表，其可見內容是由規則的 SELECT 指令回傳的資料列，而不是資料表中儲存的任何內容（如果有的話）。撰寫 CREATE VIEW 指令比建立實際資料表並為其定義 ON SELECT 規則被認為是更好的方式。
 
-You can create the illusion of an updatable view by defining `ON INSERT`, `ON UPDATE`, and `ON DELETE` rules \(or any subset of those that's sufficient for your purposes\) to replace update actions on the view with appropriate updates on other tables. If you want to support `INSERT RETURNING` and so on, then be sure to put a suitable `RETURNING` clause into each of these rules.
+您可以透過定義 ON INSERT，ON UPDATE 和 ON DELETE 規則（或任何足以滿足目的的子集）來建立可更新檢視表的錯覺，以使用其他資料表上的適當更新替換檢視表上的更新操作。如果要支援 INSERT RETURNING 等，請務必在每個規則中加上適當的 RETURNING 子句。
 
-There is a catch if you try to use conditional rules for complex view updates: there _must_ be an unconditional `INSTEAD` rule for each action you wish to allow on the view. If the rule is conditional, or is not `INSTEAD`, then the system will still reject attempts to perform the update action, because it thinks it might end up trying to perform the action on the dummy table of the view in some cases. If you want to handle all the useful cases in conditional rules, add an unconditional `DO INSTEAD NOTHING` rule to ensure that the system understands it will never be called on to update the dummy table. Then make the conditional rules non-`INSTEAD`; in the cases where they are applied, they add to the default `INSTEAD NOTHING` action. \(This method does not currently work to support `RETURNING` queries, however.\)
+如果您嘗試對複雜的檢視表更新使用條件規則，則會有一個問題：對於您希望在檢視表上允許的每個操作，必須有一個無條件的 INSTEAD 規則。 如果規則是有條件的，或者不是 INSTEAD，那麼系統仍將拒絕執行更新操作的嘗試，因為它認為在某些情況下它可能最終會嘗試在檢視表的虛擬資料表上執行操作。如果要處理條件規則中的所有有用情況，請加上無條件 DO INSTEAD NOTHING 規則以確保系統知道它永遠不會被呼叫去更新虛擬資料表。然後使條件規則非 INSTEAD；在套用它們的情況下，它們會加到預設的 INSTEAD NOTHING 操作。（但是，此方法目前不支援 RETURNING 查詢。）
 
-#### Note
+**注意**  
+一個簡單到可自動更新的檢視表（請參閱 [CREATE VIEW](create-view.md#ke-geng-xin-de-biao-updatable-views)）不需要使用者建立的規則便可更新。雖然您仍然可以建立明確的規則，但自動更新轉換通常會優於規則。
 
-A view that is simple enough to be automatically updatable \(see [CREATE VIEW](https://www.postgresql.org/docs/10/static/sql-createview.html)\) does not require a user-created rule in order to be updatable. While you can create an explicit rule anyway, the automatic update transformation will generally outperform an explicit rule.
-
-Another alternative worth considering is to use `INSTEAD OF` triggers \(see [CREATE TRIGGER](https://www.postgresql.org/docs/10/static/sql-createtrigger.html)\) in place of rules.
+值得考慮的另一個選擇是使用 INSTEAD OF 觸發器（請參閱 [CREATE TRIGGER](create-trigger.md)）代替規則。
 
 ### Parameters
 
