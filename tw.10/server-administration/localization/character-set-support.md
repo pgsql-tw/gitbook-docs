@@ -85,7 +85,7 @@ createdb -E EUC_KR -T template0 --lc-collate=ko_KR.euckr --lc-ctype=ko_KR.euckr 
 CREATE DATABASE korean WITH ENCODING 'EUC_KR' LC_COLLATE='ko_KR.euckr' LC_CTYPE='ko_KR.euckr' TEMPLATE=template0;
 ```
 
-請注意，上述指令指定複製 template0 資料庫。複製任何其他資料庫時，無法更改原資料庫的編碼和語言環境設定，因為這可能會導致資料損壞。有關更多訊息，請參閱[第 22.3 節](../22.-managing-databases/22.3.-template-databases.md)。
+請注意，上述指令指定複製 template0 資料庫。複製任何其他資料庫時，無法更改原資料庫的編碼和語言環境設定，因為這可能會導致資料損壞。有關更多訊息，請參閱[第 22.3 節](../managing-databases/template-databases.md)。
 
 資料庫的編碼儲存在系統目錄 pg\_database 中。您可以使用 psql -l 選項或 \l 指令查看。
 

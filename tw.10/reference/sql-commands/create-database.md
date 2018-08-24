@@ -85,7 +85,7 @@ _`istemplate`_
 
 不會從樣板資料庫中複製資料庫級的組態參數（透過 ALTER DATABASE 設定）。
 
-雖然可以透過將其名稱指定為模板來複製除 template1 之外的資料庫，但這並不是（通常）用作通用的「COPY DATABASE」工具。主要限制是在複製樣板資料庫時不能有其他連線到樣板資料庫。如果啟動時存在任何其他連線，則 CREATE DATABASE 將失敗；否則，在 CREATE DATABASE 完成之前，將鎖定與樣版資料庫新的連線。有關更多訊息，請參閱[第 22.3 節](../../server-administration/22.-managing-databases/22.3.-template-databases.md)。
+雖然可以透過將其名稱指定為模板來複製除 template1 之外的資料庫，但這並不是（通常）用作通用的「COPY DATABASE」工具。主要限制是在複製樣板資料庫時不能有其他連線到樣板資料庫。如果啟動時存在任何其他連線，則 CREATE DATABASE 將失敗；否則，在 CREATE DATABASE 完成之前，將鎖定與樣版資料庫新的連線。有關更多訊息，請參閱[第 22.3 節](../../server-administration/managing-databases/template-databases.md)。
 
 為新資料庫指定的字元集編碼必須與所選的區域設定（LC\_COLLATE 和 LC\_CTYPE）相容。如果語言環境是 C（或等效 POSIX），則允許所有編碼，但對於其他語言環境設定，只有一種編碼可以正常工作。（不過，在Windows上，UTF-8 編碼可以與任何語言環境一起使用。）CREATE DATABASE 將允許超級使用者指定 SQL\_ASCII 編碼而不管語言環境設定如何，但是這種方式已被棄用。如果資料可能導致字串函數的不當行為，則與語言環境不相容的編碼就會儲存在資料庫中。
 

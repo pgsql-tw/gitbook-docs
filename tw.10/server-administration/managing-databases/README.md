@@ -3,7 +3,7 @@
 **Table of Contents**  
 [22.1. Overview](22.1.-overview.md)  
 [22.2. Creating a Database](22.2.-creating-a-database.md)  
-[22.3. Template Databases](22.3.-template-databases.md)  
+[22.3. Template Databases](template-databases.md)  
 [22.4. Database Configuration](22.4.-database-configuration.md)  
 [22.5. Destroying a Database](22.5.-destroying-a-database.md)  
 [22.6. Tablespaces](22.6.-tablespaces.md)
