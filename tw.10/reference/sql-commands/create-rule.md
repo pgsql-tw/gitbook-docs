@@ -69,13 +69,13 @@ The command or commands that make up the rule action. Valid commands are `SELECT
 
 Within _`condition`_ and _`command`_, the special table names `NEW` and `OLD` can be used to refer to values in the referenced table. `NEW` is valid in `ON INSERT` and `ON UPDATE` rules to refer to the new row being inserted or updated. `OLD` is valid in `ON UPDATE` and `ON DELETE` rules to refer to the existing row being updated or deleted.
 
-### Notes
+### 注意
 
-You must be the owner of a table to create or change rules for it.
+您必須是資料表的擁有者才能為其建立或變更規則。
 
-In a rule for `INSERT`, `UPDATE`, or `DELETE` on a view, you can add a `RETURNING` clause that emits the view's columns. This clause will be used to compute the outputs if the rule is triggered by an `INSERT RETURNING`, `UPDATE RETURNING`, or `DELETE RETURNING` command respectively. When the rule is triggered by a command without `RETURNING`, the rule's `RETURNING` clause will be ignored. The current implementation allows only unconditional `INSTEAD` rules to contain `RETURNING`; furthermore there can be at most one `RETURNING` clause among all the rules for the same event. \(This ensures that there is only one candidate `RETURNING` clause to be used to compute the results.\) `RETURNING` queries on the view will be rejected if there is no `RETURNING`clause in any available rule.
+在檢視表中的 INSERT，UPDATE 或 DELETE 規則中，您可以加入一個發出檢視表欄位的 RETURNING 子句。如果規則分別由 INSERT RETURNING，UPDATE RETURNING 或 DELETE RETURNING 指令觸發，則此子句將用於計算輸出。當規則由沒有 RETURNING 的指令觸發時，將忽略規則的 RETURNING 子句。目前實作上只允許無條件的 INSTEAD 規則包含 RETURNING；此外，同一事件的所有規則中最多只能有一個 RETURNING 子句。（這可確保只有一個候選 RETURNING 子句用於計算結果。）如果任何可用規則中沒有 RETURNING 子句，則將拒絕對檢視表的 RETURNING 查詢。
 
-It is very important to take care to avoid circular rules. For example, though each of the following two rule definitions are accepted by PostgreSQL, the `SELECT` command would causePostgreSQL to report an error because of recursive expansion of a rule:
+注意避免循環規則非常重要。例如，雖然 PostgreSQL 接受以下兩個規則定義中，但由於規則的遞迴擴展，SELECT 指令會導致 PostgreSQL 回報錯誤：
 
 ```text
 CREATE RULE "_RETURN" AS
@@ -91,7 +91,7 @@ CREATE RULE "_RETURN" AS
 SELECT * FROM t1;
 ```
 
-Presently, if a rule action contains a `NOTIFY` command, the `NOTIFY` command will be executed unconditionally, that is, the `NOTIFY` will be issued even if there are not any rows that the rule should apply to. For example, in:
+目前，如果規則操作包含 NOTIFY 指令的話，NOTIFY 指令將無條件執行。也就是即使沒有規則應該套用的任何資料，也會發出 NOTIFY。例如，在：
 
 ```text
 CREATE RULE notify_me AS ON UPDATE TO mytable DO ALSO NOTIFY mytable;
@@ -99,7 +99,7 @@ CREATE RULE notify_me AS ON UPDATE TO mytable DO ALSO NOTIFY mytable;
 UPDATE mytable SET name = 'foo' WHERE id = 42;
 ```
 
-one `NOTIFY` event will be sent during the `UPDATE`, whether or not there are any rows that match the condition `id = 42`. This is an implementation restriction that might be fixed in future releases.
+在 UPDATE 期間將發送一個 NOTIFY 事件，無論是否存在與條件 id = 42 相符的資料列。這是可能在未來版本中修補的實作限制。
 
 ### 相容性
 
