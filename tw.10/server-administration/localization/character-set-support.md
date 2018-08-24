@@ -1,14 +1,18 @@
-# 23.3. Character Set Support
+---
+description: 版本：10
+---
 
-The character set support in PostgreSQL allows you to store text in a variety of character sets \(also called encodings\), including single-byte character sets such as the ISO 8859 series and multiple-byte character sets such as EUC \(Extended Unix Code\), UTF-8, and Mule internal code. All supported character sets can be used transparently by clients, but a few are not supported for use within the server \(that is, as a server-side encoding\). The default character set is selected while initializing your PostgreSQL database cluster using `initdb`. It can be overridden when you create a database, so you can have multiple databases each with a different character set.
+# 23.3. 字元集支援
 
-An important restriction, however, is that each database's character set must be compatible with the database's `LC_CTYPE` \(character classification\) and `LC_COLLATE` \(string sort order\) locale settings. For `C` or `POSIX` locale, any character set is allowed, but for other libc-provided locales there is only one character set that will work correctly. \(On Windows, however, UTF-8 encoding can be used with any locale.\) If you have ICU support configured, ICU-provided locales can be used with most but not all server-side encodings.
+PostgreSQL 中的字元集支援允許您將文字以各種字元集（也稱為編碼）儲存，包括單位元組字元集（如 ISO 8859 系列）和多位元組字元集，如 EUC（延伸 Unix 代碼）， UTF-8 和 Mule 內部代碼。用戶端可以透通地使用所有支援的字元集，但有一些並不支援在伺服器中使用（即作為伺服器端編碼）。使用 initdb 初始化 PostgreSQL 資料庫叢集時，會選擇預設字元集。建立資料庫時可以覆寫它，因此您可以擁有多個資料庫，每個資料庫具有不同的字元集。
 
-#### 23.3.1. Supported Character Sets
+但是，一個重要的限制是每個資料庫的字元集必須與資料庫的 LC\_CTYPE（字元分類）和 LC\_COLLATE（字串排序順序）語言環境設定相容。對於 C 或 POSIX 語言環境，允許使用任何字元集，但對於其他 libc 提供的語言環境，只有一個字元集可以正常工作。（但在 Windows 上，UTF-8 編碼可以與任何語言環境一起使用。）如果您配置了 ICU 支援，ICU 提供的語言環境可以與大多數但不是所有伺服器端編碼一起使用。
 
-[Table 23.1](https://www.postgresql.org/docs/10/static/multibyte.html#CHARSET-TABLE) shows the character sets available for use in PostgreSQL.
+## 23.3.1. 支援的字元集
 
-**Table 23.1. PostgreSQL Character Sets**
+[Table 23.1](character-set-support.md#table-23-1-postgresql-character-sets) 顯示了可在 PostgreSQL 中使用的字元集。
+
+#### **Table 23.1. PostgreSQL Character Sets**
 
 | Name | Description | Language | Server? | ICU? | Bytes/Char | Aliases |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -55,11 +59,11 @@ An important restriction, however, is that each database's character set must be
 | `WIN1257` | Windows CP1257 | Baltic | Yes | Yes | 1 |   |
 | `WIN1258` | Windows CP1258 | Vietnamese | Yes | Yes | 1 | `ABC`, `TCVN`, `TCVN5712`, `VSCII` |
 
-Not all client APIs support all the listed character sets. For example, the PostgreSQL JDBC driver does not support `MULE_INTERNAL`, `LATIN6`, `LATIN8`, and `LATIN10`.
+並非所有用戶端 API 都支援所有列出的字元集。例如，PostgreSQL JDBC 驅動程式就不支援 MULE\_INTERNAL，LATIN6，LATIN8 和 LATIN10。
 
-The `SQL_ASCII` setting behaves considerably differently from the other settings. When the server character set is `SQL_ASCII`, the server interprets byte values 0-127 according to the ASCII standard, while byte values 128-255 are taken as uninterpreted characters. No encoding conversion will be done when the setting is `SQL_ASCII`. Thus, this setting is not so much a declaration that a specific encoding is in use, as a declaration of ignorance about the encoding. In most cases, if you are working with any non-ASCII data, it is unwise to use the `SQL_ASCII` setting because PostgreSQL will be unable to help you by converting or validating non-ASCII characters.
+SQL\_ASCII 設定與其他設定的行為大不相同。當伺服器字元集是 SQL\_ASCII 時，伺服器根據 ASCII 標準解譯位元組值 0-127，而位元組值 128-255 作為未解譯的字元。當設定為 SQL\_ASCII 時，不會進行編碼轉換。因此，這個設定並不是使用特定編碼的宣告，而是對編碼的未知宣告。在大多數情況下，如果您使用任何非 ASCII 資料，使用 SQL\_ASCII 設定是不明智的，因為 PostgreSQL 將無法透過轉換或驗證非 ASCII 字元來幫助您。
 
-#### 23.3.2. Setting the Character Set
+## 23.3.2. Setting the Character Set
 
 `initdb` defines the default character set \(encoding\) for a PostgreSQL cluster. For example,
 
@@ -106,11 +110,11 @@ On most modern operating systems, PostgreSQL can determine which character set i
 
 PostgreSQL will allow superusers to create databases with `SQL_ASCII` encoding even when `LC_CTYPE` is not `C` or `POSIX`. As noted above, `SQL_ASCII` does not enforce that the data stored in the database has any particular encoding, and so this choice poses risks of locale-dependent misbehavior. Using this combination of settings is deprecated and may someday be forbidden altogether.
 
-#### 23.3.3. Automatic Character Set Conversion Between Server and Client
+## 23.3.3. Automatic Character Set Conversion Between Server and Client
 
 PostgreSQL supports automatic character set conversion between server and client for certain character set combinations. The conversion information is stored in the `pg_conversion` system catalog. PostgreSQL comes with some predefined conversions, as shown in [Table 23.2](https://www.postgresql.org/docs/10/static/multibyte.html#MULTIBYTE-TRANSLATION-TABLE). You can create a new conversion using the SQL command `CREATE CONVERSION`.
 
-**Table 23.2. Client/Server Character Set Conversions**
+#### **Table 23.2. Client/Server Character Set Conversions**
 
 | Server Character Set | Available Client Character Sets |
 | :--- | :--- |
@@ -195,13 +199,14 @@ If the conversion of a particular character is not possible — suppose you chos
 
 If the client character set is defined as `SQL_ASCII`, encoding conversion is disabled, regardless of the server's character set. Just as for the server, use of `SQL_ASCII` is unwise unless you are working with all-ASCII data.
 
-#### 23.3.4. Further Reading
+## 23.3.4. 延伸閱讀
 
-These are good sources to start learning about various kinds of encoding systems._CJKV Information Processing: Chinese, Japanese, Korean & Vietnamese Computing_
+這些是開始學習各種編碼系統的好資源。
 
-Contains detailed explanations of `EUC_JP`, `EUC_CN`, `EUC_KR`, `EUC_TW`.[http://www.unicode.org/](http://www.unicode.org/)
-
-The web site of the Unicode Consortium.RFC 3629
-
-UTF-8 \(8-bit UCS/Unicode Transformation Format\) is defined here.
+* CJKV 訊息處理：中文，日文，韓文和越南文運算
+  * 包含 EUC\_JP，EUC\_CN，EUC\_KR，EUC\_TW 的詳細說明。
+* [http://www.unicode.org/](http://www.unicode.org/)
+  * Unicode Consortium 的網站。
+* RFC 3629
+  * UTF-8 \(8-bit UCS/Unicode Transformation Format\) 定義在這裡
 

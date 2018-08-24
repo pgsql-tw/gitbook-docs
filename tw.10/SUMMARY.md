@@ -228,7 +228,7 @@
   * [23. 語系](server-administration/localization/README.md)
     * [23.1. 語系支援](server-administration/localization/locale-support.md)
     * [23.2. Collation Support](server-administration/localization/collation-support.md)
-    * [23.3. Character Set Support](server-administration/localization/character-set-support.md)
+    * [23.3. 字元集支援](server-administration/localization/character-set-support.md)
   * [24. 例行性資料庫維護工作](server-administration/routine-database-maintenance-tasks/README.md)
     * [24.1. 例行性資料清理](server-administration/routine-database-maintenance-tasks/routine-vacuuming.md)
     * [24.2. 定期重建索引](server-administration/routine-database-maintenance-tasks/routine-reindexing.md)
