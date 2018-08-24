@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # CREATE RULE
 
-CREATE RULE — define a new rewrite rule
+CREATE RULE — 定義新的重寫規則
 
-### Synopsis
+### 語法
 
 ```text
 CREATE [ OR REPLACE ] RULE name AS ON event
@@ -98,11 +102,11 @@ UPDATE mytable SET name = 'foo' WHERE id = 42;
 
 one `NOTIFY` event will be sent during the `UPDATE`, whether or not there are any rows that match the condition `id = 42`. This is an implementation restriction that might be fixed in future releases.
 
-### Compatibility
+### 相容性
 
-`CREATE RULE` is a PostgreSQL language extension, as is the entire query rewrite system.
+CREATE RULE 是一個 PostgreSQL 延伸語法，整個查詢語句重寫系統也是。
 
-### See Also
+### 參閱
 
-[ALTER RULE](https://www.postgresql.org/docs/10/static/sql-alterrule.html), [DROP RULE](https://www.postgresql.org/docs/10/static/sql-droprule.html)
+[ALTER RULE](alter-rule.md), [DROP RULE](drop-rule.md)
 
