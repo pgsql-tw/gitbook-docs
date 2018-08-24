@@ -289,7 +289,7 @@
     * [33.7. The Fast-Path Interface](client-interfaces/libpq-c-library/33.7.-the-fast-path-interface.md)
     * [33.8. Asynchronous Notification](client-interfaces/libpq-c-library/33.8.-asynchronous-notification.md)
     * [33.9. Functions Associated with the COPY Command](client-interfaces/libpq-c-library/33.9.-functions-associated-with-the-copy-command.md)
-    * [33.10. Control Functions](client-interfaces/libpq-c-library/33.10.-control-functions.md)
+    * [33.10. Control Functions](client-interfaces/libpq-c-library/control-functions.md)
     * [33.11. Miscellaneous Functions](client-interfaces/libpq-c-library/33.11.-miscellaneous-functions.md)
     * [33.12. Notice Processing](client-interfaces/libpq-c-library/33.12.-notice-processing.md)
     * [33.13. Event System](client-interfaces/libpq-c-library/33.13.-event-system.md)

@@ -166,7 +166,7 @@ PostgreSQL 支援伺服器和用戶端之間針對某些字元集組合的自動
   \encoding SJIS
   ```
 
-* libpq（[第 33.10 節](../../client-interfaces/libpq-c-library/33.10.-control-functions.md)）具有控制用戶端編碼的功能。
+* libpq（[第 33.10 節](../../client-interfaces/libpq-c-library/control-functions.md)）具有控制用戶端編碼的功能。
 * 使用 SET client\_encoding TO。可以使用以下 SQL 指令設定用戶端編碼：
 
   ```text
