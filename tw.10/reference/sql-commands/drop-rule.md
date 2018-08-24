@@ -16,13 +16,21 @@ DROP RULE [ IF EXISTS ] name ON table_name [ CASCADE | RESTRICT ]
 
 `IF EXISTS`
 
-Do not throw an error if the rule does not exist. A notice is issued in this case._`name`_
+Do not throw an error if the rule does not exist. A notice is issued in this case.
 
-The name of the rule to drop._`table_name`_
+_`name`_
 
-The name \(optionally schema-qualified\) of the table or view that the rule applies to.`CASCADE`
+The name of the rule to drop.
 
-Automatically drop objects that depend on the rule, and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).`RESTRICT`
+_`table_name`_
+
+The name \(optionally schema-qualified\) of the table or view that the rule applies to.
+
+`CASCADE`
+
+Automatically drop objects that depend on the rule, and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
+
+`RESTRICT`
 
 Refuse to drop the rule if any objects depend on it. This is the default.
 
