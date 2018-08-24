@@ -35,39 +35,39 @@ PostgreSQL 規則系統允許人們定義要對資料庫資料表中的插入，
 
 值得考慮的另一個選擇是使用 INSTEAD OF 觸發器（請參閱 [CREATE TRIGGER](create-trigger.md)）代替規則。
 
-### Parameters
+### 參數
 
 _`name`_
 
-The name of a rule to create. This must be distinct from the name of any other rule for the same table. Multiple rules on the same table and same event type are applied in alphabetical name order.
+要建立的規則名稱。這必須與同一個資料表的其他規則名稱不同。同一個資料表和相同事件類型的多個規會按字母順序套用。
 
 _`event`_
 
-The event is one of `SELECT`, `INSERT`, `UPDATE`, or `DELETE`. Note that an `INSERT` containing an `ON CONFLICT` clause cannot be used on tables that have either `INSERT` or `UPDATE` rules. Consider using an updatable view instead.
+此事件是 SELECT，INSERT，UPDATE 或 DELETE 之一。請注意，包含 ON CONFLICT 子句的 INSERT 不能用於具有 INSERT 或 UPDATE 規則的資料表。請考慮使用可更新檢視表。
 
 _`table_name`_
 
-The name \(optionally schema-qualified\) of the table or view the rule applies to.
+規則適用的資料表或檢視表名稱（可加上綱要名稱）。
 
 _`condition`_
 
-Any SQL conditional expression \(returning `boolean`\). The condition expression cannot refer to any tables except `NEW` and `OLD`, and cannot contain aggregate functions.
+任何 SQL 條件表示式（回傳布林值）。條件表示式不能引用除 NEW 和 OLD 之外的任何資料表，也不能包含彙總函數。
 
 `INSTEAD`
 
-`INSTEAD` indicates that the commands should be executed _instead of_ the original command.
+INSTEAD 表示應該執行此指令而不是原始指令。
 
 `ALSO`
 
-`ALSO` indicates that the commands should be executed _in addition to_ the original command.
+ALSO 表示除原始指令外還應該執行此命令。
 
-If neither `ALSO` nor `INSTEAD` is specified, `ALSO` is the default.
+如果既未指定 ALSO 也未指定 INSTEAD，則 ALSO 是預設行為。
 
 _`command`_
 
-The command or commands that make up the rule action. Valid commands are `SELECT`, `INSERT`, `UPDATE`, `DELETE`, or `NOTIFY`.
+組成規則操作的指令。有效指令是 SELECT，INSERT，UPDATE，DELETE 或 NOTIFY。
 
-Within _`condition`_ and _`command`_, the special table names `NEW` and `OLD` can be used to refer to values in the referenced table. `NEW` is valid in `ON INSERT` and `ON UPDATE` rules to refer to the new row being inserted or updated. `OLD` is valid in `ON UPDATE` and `ON DELETE` rules to refer to the existing row being updated or deleted.
+在條件和指令中，特殊資料表名稱 NEW 和 OLD 可用於引用資料表中的值。NEW 在 ON INSERT 和 ON UPDATE 規則中有效，用於引用要插入或更新的新資料列。OLD 在 ON UPDATE 和 ON DELETE 規則中有效，以引用正在更新或刪除的現有資料列。
 
 ### 注意
 
