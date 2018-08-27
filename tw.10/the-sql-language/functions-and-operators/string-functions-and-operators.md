@@ -30,7 +30,7 @@ SQL 定義了一些字串函數，它們使用關鍵字而不是逗號來分隔�
 | `trim([leading | trailing | both] [from]` _`string`_ \[, _`characters`_\] \) | `text` | Non-standard syntax for `trim()` | `trim(both from 'yxTomxx', 'xyz')` | `Tom` |
 | `upper(`_`string`_\) | `text` | Convert string to upper case | `upper('tom')` | `TOM` |
 
-Additional string manipulation functions are available and are listed in [Table 9.9](https://www.postgresql.org/docs/10/static/functions-string.html#FUNCTIONS-STRING-OTHER). Some of them are used internally to implement the SQL-standard string functions listed in [Table 9.8](https://www.postgresql.org/docs/10/static/functions-string.html#FUNCTIONS-STRING-SQL).
+還有其他字串操作函數可用，在 [Table 9.9](string-functions-and-operators.md#table-9-9-other-string-functions) 中列出。 其中一些內部用於實作 SQL 標準的字串函數列在 [Table 9.8](string-functions-and-operators.md#table-9-8-sql-string-functions-and-operators)。
 
 #### **Table 9.9. Other String Functions**
 
@@ -215,33 +215,33 @@ concat，concat\_ws 和 format 函數是可變參數，因此可以將值連接�
 | `utf8_to_shift_jis_2004` | `UTF8` | `SHIFT_JIS_2004` |
 | `euc_jis_2004_to_shift_jis_2004` | `EUC_JIS_2004` | `SHIFT_JIS_2004` |
 | `shift_jis_2004_to_euc_jis_2004` | `SHIFT_JIS_2004` | `EUC_JIS_2004` |
-| [\[a\]](https://www.postgresql.org/docs/10/static/functions-string.html#id-1.5.8.9.10.2.1.1.1.1) The conversion names follow a standard naming scheme: The official name of the source encoding with all non-alphanumeric characters replaced by underscores, followed by`_to_`, followed by the similarly processed destination encoding name. Therefore, the names might deviate from the customary encoding names. |  |  |
+| [\[a\]](https://www.postgresql.org/docs/10/static/functions-string.html#id-1.5.8.9.10.2.1.1.1.1) 轉換名稱遵循標準命名方式：原始碼的正式名稱，所有非字母數字字元替換為底線，後接_to_，後接類似處理的目標編碼名稱。因此，名稱可能會偏離慣用的編碼名稱。 |  |  |
 
 ## 9.4.1. `format`
 
-The function `format` produces output formatted according to a format string, in a style similar to the C function `sprintf`.
+函數格式化輸出根據格式字串的輸出，其格式類似於 C 函數 sprintf。
 
 ```text
 format(formatstr text [, formatarg "any" [, ...] ])
 ```
 
-_`formatstr`_ is a format string that specifies how the result should be formatted. Text in the format string is copied directly to the result, except where _format specifiers_ are used. Format specifiers act as placeholders in the string, defining how subsequent function arguments should be formatted and inserted into the result. Each _`formatarg`_ argument is converted to text according to the usual output rules for its data type, and then formatted and inserted into the result string according to the format specifier\(s\).
+formatstr 是一個格式字串，指定如何格式化結果。格式字串中的文字將直接複製到結果中，除非使用格式標示符。格式標示符充當字串中的佔位符，定義後續函數參數應如何格式化並插入結果中。每個 formatarg 參數根據其資料型別的一般輸出規則轉換為文字，然後根據格式標示符進行格式化並插入到結果字串中。
 
-Format specifiers are introduced by a `%` character and have the form
+格式標示符由 % 字元引入並具有其語法
 
 ```text
 %[position][flags][width]type
 ```
 
-where the component fields are:_`position`_ \(optional\)
+組件段落的位置：position（選擇性）
 
-A string of the form _`n`_$ where _`n`_ is the index of the argument to print. Index 1 means the first argument after _`formatstr`_. If the _`position`_ is omitted, the default is to use the next argument in sequence._`flags`_ \(optional\)
+形式為 n$ 的字串，其中 n 是要輸入參數的索引。索引 1 表示 formatstr 之後的第一個參數。如果省略該位置，則預設使用 sequence.flags 中的下一個參數（選擇性）
 
-Additional options controlling how the format specifier's output is formatted. Currently the only supported flag is a minus sign \(`-`\) which will cause the format specifier's output to be left-justified. This has no effect unless the _`width`_ field is also specified._`width`_ \(optional\)
+控制格式標示符輸出格式的其他選項。目前唯一支援的標示是減號（ - ），這將使格式標示符的輸出向左對齊。除非還指定了 width，否則這沒有效果。（選擇性）
 
-Specifies the _minimum_ number of characters to use to display the format specifier's output. The output is padded on the left or right \(depending on the `-` flag\) with spaces as needed to fill the width. A too-small width does not cause truncation of the output, but is simply ignored. The width may be specified using any of the following: a positive integer; an asterisk \(`*`\) to use the next function argument as the width; or a string of the form `*`_`n`_$ to use the _`n`_th function argument as the width.
+指定用於顯示格式標示符輸出的最小字元數。輸出在左側或右側（取決於 - 標示）填充，並根據需要填充空格以填充寬度。寬度太小不會導致截斷輸出，但會被忽略。可以使用以下任何一種來指定寬度：正整數；星號（_）使用下一個函數參數作為寬度；或者_ n$ 形式的字串，以使用第 n 個函數參數作為寬度。
 
-If the width comes from a function argument, that argument is consumed before the argument that is used for the format specifier's value. If the width argument is negative, the result is left aligned \(as if the `-` flag had been specified\) within a field of length `abs`\(_`width`_\)._`type`_ \(required\)
+如果寬度來自函數參數，則該參數在用於格式標示符值的參數之前使用。如果 width 參數為負，則結果在長度為 abs\(width\).type（必要）的段落內保持對齊（就像指定了 - 標誌一樣）。
 
 The type of format conversion to use to produce the format specifier's output. The following types are supported:
 
