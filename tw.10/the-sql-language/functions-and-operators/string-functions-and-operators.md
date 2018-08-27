@@ -243,15 +243,15 @@ formatstr 是一個格式字串，指定如何格式化結果。格式字串中�
 
 如果寬度來自函數參數，則該參數在用於格式標示符值的參數之前使用。如果 width 參數為負，則結果在長度為 abs\(width\).type（必要）的段落內保持對齊（就像指定了 - 標誌一樣）。
 
-The type of format conversion to use to produce the format specifier's output. The following types are supported:
+用於産生格式標示符輸出的格式轉換型別。支援以下型別：
 
-* `s` formats the argument value as a simple string. A null value is treated as an empty string.
-* `I` treats the argument value as an SQL identifier, double-quoting it if necessary. It is an error for the value to be null \(equivalent to `quote_ident`\).
-* `L` quotes the argument value as an SQL literal. A null value is displayed as the string `NULL`, without quotes \(equivalent to `quote_nullable`\).
+* `s` 將參數值格式化為簡單字串。空值被視為空字串。
+* `I` 將參數值視為 SQL 標示符，必要時對其進行雙引號。值為 null（相當於 quote\_ident）是一個錯誤。
+* `L` 引用參數值作為 SQL 文字。空值顯示為字串 NULL，不帶引號（相當於 quote\_nullable）。
 
-In addition to the format specifiers described above, the special sequence `%%` may be used to output a literal `%` character.
+除了上面描述的格式標示符之外，特殊序列 %% 可用於輸出文字 % 字元。
 
-Here are some examples of the basic format conversions:
+以下是基本格式轉換的一些範例：
 
 ```text
 SELECT format('Hello %s', 'World');
@@ -267,7 +267,7 @@ SELECT format('INSERT INTO %I VALUES(%L)', 'locations', E'C:\\Program Files');
 Result: INSERT INTO locations VALUES(E'C:\\Program Files')
 ```
 
-Here are examples using _`width`_ fields and the `-` flag:
+以下是使用寬度欄位和 - 標示的範例：
 
 ```text
 SELECT format('|%10s|', 'foo');
@@ -289,7 +289,7 @@ SELECT format('|%-*s|', -10, 'foo');
 Result: |foo       |
 ```
 
-These examples show use of _`position`_ fields:
+這些範例顯示了 position 欄位的使用：
 
 ```text
 SELECT format('Testing %3$s, %2$s, %1$s', 'one', 'two', 'three');
@@ -302,12 +302,12 @@ SELECT format('|%1$*2$s|', 'foo', 10, 'bar');
 Result: |       foo|
 ```
 
-Unlike the standard C function `sprintf`, PostgreSQL's `format` function allows format specifiers with and without _`position`_ fields to be mixed in the same format string. A format specifier without a _`position`_ field always uses the next argument after the last argument consumed. In addition, the `format` function does not require all function arguments to be used in the format string. For example:
+與標準 C 函數 sprintf 不同，PostgreSQL 的格式函數允許將具有和不具有位置欄位的格式標示符混合在相同的格式字串中。沒有位置欄位的格式標示符始終使用最後一個參數消耗後的下一個參數。此外，format 函數不要求在格式字串中使用所有函數參數。例如：
 
 ```text
 SELECT format('Testing %3$s, %2$s, %s', 'one', 'two', 'three');
 Result: Testing three, two, three
 ```
 
-The `%I` and `%L` format specifiers are particularly useful for safely constructing dynamic SQL statements. See [Example 42.1](https://www.postgresql.org/docs/10/static/plpgsql-statements.html#PLPGSQL-QUOTE-LITERAL-EXAMPLE).
+%I 和 %L 格式標示符對於安全地建構動態 SQL 語句特別有用。詳見範例 42.1。
 

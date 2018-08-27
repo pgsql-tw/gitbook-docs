@@ -58,7 +58,7 @@ SELECT * INTO films_recent FROM films WHERE date_prod >= '2002-01-01';
 
 ### 相容性
 
-SQL 標準使用 SELECT INTO 將查詢結果表示為主機程序的 scalar 變量，而不是建立新資料表。這確實是 ECPG（參閱[第 35 章](../../client-interfaces/ecpg-embedded-sql-in-c/)）和 PL/pgSQL（參見[第 42 章](../../server-programming/42.-pl-pgsql-sql-procedural-language.md)）中的用法。SELECT INTO 用於結果資料表建立的 PostgreSQL 用法是歷史性的。在新的程式中最好使用 CREATE TABLE AS 來達到此目的。
+SQL 標準使用 SELECT INTO 將查詢結果表示為主機程序的 scalar 變量，而不是建立新資料表。這確實是 ECPG（參閱[第 35 章](../../client-interfaces/ecpg-embedded-sql-in-c/)）和 PL/pgSQL（參見[第 42 章](../../server-programming/pl-pgsql-sql-procedural-language/)）中的用法。SELECT INTO 用於結果資料表建立的 PostgreSQL 用法是歷史性的。在新的程式中最好使用 CREATE TABLE AS 來達到此目的。
 
 ### 參閱
 
