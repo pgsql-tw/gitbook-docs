@@ -15,20 +15,20 @@ SQL 定義了一些字串函數，它們使用關鍵字而不是逗號來分隔�
 
 | Function | Return Type | Description | Example | Result |
 | :--- | :--- | :--- | :--- | :--- |
-| _`string`_ `||` _`string`_ | `text` | String concatenation | `'Post' || 'greSQL'` | `PostgreSQL` |
-| _`string`_ `||` _`non-string`_ or _`non-string`_ `||`_`string`_ | `text` | String concatenation with one non-string input | `'Value: ' || 42` | `Value: 42` |
-| `bit_length(`_`string`_\) | `int` | Number of bits in string | `bit_length('jose')` | `32` |
-| `char_length(`_`string`_\) or `character_length(`_`string`_\) | `int` | Number of characters in string  | `char_length('jose')` | `4` |
-| `lower(`_`string`_\) | `text` | Convert string to lower case | `lower('TOM')` | `tom` |
-| `octet_length(`_`string`_\) | `int` | Number of bytes in string | `octet_length('jose')` | `4` |
-| `overlay(`_`string`_ placing _`string`_ from`int` \[for `int`\]\) | `text` | Replace substring | `overlay('Txxxxas' placing 'hom' from 2 for 4)` | `Thomas` |
-| `position(`_`substring`_ in _`string`_\) | `int` | Location of specified substring | `position('om' in 'Thomas')` | `3` |
-| `substring(`_`string`_ \[from `int`\] \[for`int`\]\) | `text` | Extract substring | `substring('Thomas' from 2 for 3)` | `hom` |
-| `substring(`_`string`_ from _`pattern`_\) | `text` | Extract substring matching POSIX regular expression. See [Section 9.7](https://www.postgresql.org/docs/10/static/functions-matching.html) for more information on pattern matching. | `substring('Thomas' from '...$')` | `mas` |
-| `substring(`_`string`_ from _`pattern`_ for_`escape`_\) | `text` | Extract substring matching SQL regular expression. See [Section 9.7](https://www.postgresql.org/docs/10/static/functions-matching.html) for more information on pattern matching. | `substring('Thomas' from '%#"o_a#"_' for '#')` | `oma` |
-| `trim([leading | trailing | both] [`_`characters`_\] from _`string`_\) | `text` | Remove the longest string containing only characters from _`characters`_ \(a space by default\) from the start, end, or both ends \(`both` is the default\) of _`string`_ | `trim(both 'xyz' from 'yxTomxx')` | `Tom` |
-| `trim([leading | trailing | both] [from]` _`string`_ \[, _`characters`_\] \) | `text` | Non-standard syntax for `trim()` | `trim(both from 'yxTomxx', 'xyz')` | `Tom` |
-| `upper(`_`string`_\) | `text` | Convert string to upper case | `upper('tom')` | `TOM` |
+| _`string`_ `||` _`string`_ | `text` | 字串連接 | `'Post' || 'greSQL'` | `PostgreSQL` |
+| _`string`_ `||` _`non-string`_ or _`non-string`_ `||`_`string`_ | `text` | 字串與一個非字串輸入連接 | `'Value: ' || 42` | `Value: 42` |
+| `bit_length(`_`string`_\) | `int` | 字串中的位元數 | `bit_length('jose')` | `32` |
+| `char_length(`_`string`_\) or `character_length(`_`string`_\) | `int` | 字串中的字元數 | `char_length('jose')` | `4` |
+| `lower(`_`string`_\) | `text` | 將字串轉換為小寫 | `lower('TOM')` | `tom` |
+| `octet_length(`_`string`_\) | `int` | 字串中的位元組數 | `octet_length('jose')` | `4` |
+| `overlay(`_`string`_ placing _`string`_ from`int` \[for `int`\]\) | `text` | 子字串替換 | `overlay('Txxxxas' placing 'hom' from 2 for 4)` | `Thomas` |
+| `position(`_`substring`_ in _`string`_\) | `int` | 指出子字串的位置 | `position('om' in 'Thomas')` | `3` |
+| `substring(`_`string`_ \[from `int`\] \[for`int`\]\) | `text` | 提取子字串 | `substring('Thomas' from 2 for 3)` | `hom` |
+| `substring(`_`string`_ from _`pattern`_\) | `text` | 提取符合 POSIX 正規表示式的子字串。有關特徵比對的更多訊息，請參見[第 9.7 節](9.7.-te-zhi-bi-dui.md)。 | `substring('Thomas' from '...$')` | `mas` |
+| `substring(`_`string`_ from _`pattern`_ for_`escape`_\) | `text` | 提取符合 SQL 正規表示式的子字串。有關特徵比對的更多訊息，請參閱[第 9.7 節](9.7.-te-zhi-bi-dui.md)。 | `substring('Thomas' from '%#"o_a#"_' for '#')` | `oma` |
+| `trim([leading | trailing | both] [`_`characters`_\] from _`string`_\) | `text` | 從字串的開頭，結尾或兩端（兩者都是預設值）中刪除包含某些字元（預設為空格）的最長字串 | `trim(both 'xyz' from 'yxTomxx')` | `Tom` |
+| `trim([leading | trailing | both] [from]` _`string`_ \[, _`characters`_\] \) | `text` | trim\(\) 的非標準語法 | `trim(both from 'yxTomxx', 'xyz')` | `Tom` |
+| `upper(`_`string`_\) | `text` | 將字串轉換為大寫 | `upper('tom')` | `TOM` |
 
 還有其他字串操作函數可用，在 [Table 9.9](string-functions-and-operators.md#table-9-9-other-string-functions) 中列出。 其中一些內部用於實作 SQL 標準的字串函數列在 [Table 9.8](string-functions-and-operators.md#table-9-8-sql-string-functions-and-operators)。
 
@@ -309,5 +309,5 @@ SELECT format('Testing %3$s, %2$s, %s', 'one', 'two', 'three');
 Result: Testing three, two, three
 ```
 
-%I 和 %L 格式標示符對於安全地建構動態 SQL 語句特別有用。詳見範例 42.1。
+%I 和 %L 格式標示符對於安全地建構動態 SQL 語句特別有用。詳見[範例 42.1](../../server-programming/pl-pgsql-sql-procedural-language/basic-statements.md)。
 
