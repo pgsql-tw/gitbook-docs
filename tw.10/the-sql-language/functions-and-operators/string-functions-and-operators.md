@@ -1,14 +1,17 @@
+---
+description: 版本：10
+---
+
 # 9.4. 字串函式及運算子
 
-This section describes functions and operators for examining and manipulating string values. Strings in this context include values of the types `character`, `character varying`, and `text`. Unless otherwise noted, all of the functions listed below work on all of these types, but be wary of potential effects of automatic space-padding when using the `character` type. Some functions also exist natively for the bit-string types.
+本節介紹用於檢查和操作字串值的函數和運算子。此節中的字串包括 character，character varying 和 text 的內容。除非另有說明，否則下面列出的所有函數都適用於所有這些型別，但在使用字串型別時要小心自動填充字元的潛在影響。對於 bit-string 型別，一些函數也可以處理。
 
-SQL defines some string functions that use key words, rather than commas, to separate arguments. Details are in [Table 9.8](https://www.postgresql.org/docs/10/static/functions-string.html#FUNCTIONS-STRING-SQL). PostgreSQL also provides versions of these functions that use the regular function invocation syntax \(see [Table 9.9](https://www.postgresql.org/docs/10/static/functions-string.html#FUNCTIONS-STRING-OTHER)\).
+SQL 定義了一些字串函數，它們使用關鍵字而不是逗號來分隔參數。詳情見 [Table 9.8](string-functions-and-operators.md#table-9-8-sql-string-functions-and-operators)。PostgreSQL 還提供了一般函數呼叫語法的這些函數的版本（參見 [Table 9.9](string-functions-and-operators.md#table-9-9-other-string-functions)）。
 
-#### Note
+**注意**  
+在 PostgreSQL 8.3 之前，由於存在從這些資料型別到文字的強制轉換，這些函數也會默默地接受幾個非字串資料型別的值。但這些強制措施已被刪除，因為它們經常引起令人驚訝的行為。不過，字串連接運算子（\|\|）仍然接受非字串輸入，只要至少有一個輸入是字串型別，如 Table 9.8 所示。對於其他情況，如果需要複製先前的行為，請在語法中加入明確的轉換。
 
-Before PostgreSQL 8.3, these functions would silently accept values of several non-string data types as well, due to the presence of implicit coercions from those data types to `text`. Those coercions have been removed because they frequently caused surprising behaviors. However, the string concatenation operator \(`||`\) still accepts non-string input, so long as at least one input is of a string type, as shown in [Table 9.8](https://www.postgresql.org/docs/10/static/functions-string.html#FUNCTIONS-STRING-SQL). For other cases, insert an explicit coercion to `text` if you need to duplicate the previous behavior.
-
-**Table 9.8. SQL String Functions and Operators**
+#### **Table 9.8. SQL String Functions and Operators**
 
 | Function | Return Type | Description | Example | Result |
 | :--- | :--- | :--- | :--- | :--- |
@@ -29,7 +32,7 @@ Before PostgreSQL 8.3, these functions would silently accept values of several n
 
 Additional string manipulation functions are available and are listed in [Table 9.9](https://www.postgresql.org/docs/10/static/functions-string.html#FUNCTIONS-STRING-OTHER). Some of them are used internally to implement the SQL-standard string functions listed in [Table 9.8](https://www.postgresql.org/docs/10/static/functions-string.html#FUNCTIONS-STRING-SQL).
 
-**Table 9.9. Other String Functions**
+#### **Table 9.9. Other String Functions**
 
 | Function | Return Type | Description | Example | Result |
 | :--- | :--- | :--- | :--- | :--- |
@@ -76,11 +79,11 @@ Additional string manipulation functions are available and are listed in [Table 
 | `to_hex(`_`number`_ `int` or `bigint`\) | `text` | Convert _`number`_ to its equivalent hexadecimal representation | `to_hex(2147483647)` | `7fffffff` |
 | `translate(`_`string`_ `text`, _`from`_`text`, _`to`_ `text`\) | `text` | Any character in _`string`_ that matches a character in the _`from`_ set is replaced by the corresponding character in the _`to`_ set. If _`from`_ is longer than _`to`_, occurrences of the extra characters in _`from`_ are removed. | `translate('12345', '143', 'ax')` | `a2x5` |
 
-The `concat`, `concat_ws` and `format` functions are variadic, so it is possible to pass the values to be concatenated or formatted as an array marked with the `VARIADIC` keyword \(see[Section 37.4.5](https://www.postgresql.org/docs/10/static/xfunc-sql.html#XFUNC-SQL-VARIADIC-FUNCTIONS)\). The array's elements are treated as if they were separate ordinary arguments to the function. If the variadic array argument is NULL, `concat` and `concat_ws` return NULL, but `format` treats a NULL as a zero-element array.
+concat，concat\_ws 和 format 函數是可變參數，因此可以將值連接或格式化成標記為 VARIADIC 關鍵字的陣列（請參閱[第 37.4.5 節](../../server-programming/extending-sql/query-language-functions.md#37-4-5-sql-functions-with-variable-numbers-of-arguments)）。陣列的元素被視為它們是函數的單獨普通參數。如果 variadic 陣列參數為 NULL，則 concat 和 concat\_ws 回傳 NULL，但 format 將 NULL 視為零元素陣列。
 
-See also the aggregate function `string_agg` in [Section 9.20](https://www.postgresql.org/docs/10/static/functions-aggregate.html).
+另請參閱[第 9.20 節](9.20.-hui-zong-han-shi.md)中的彙總函數 string\_agg。
 
-**Table 9.10. Built-in Conversions**
+#### **Table 9.10. Built-in Conversions**
 
 | Conversion Name [\[a\]](https://www.postgresql.org/docs/10/static/functions-string.html#ftn.id-1.5.8.9.10.2.1.1.1.1) | Source Encoding | Destination Encoding |
 | :--- | :--- | :--- |
@@ -214,7 +217,7 @@ See also the aggregate function `string_agg` in [Section 9.20](https://www.postg
 | `shift_jis_2004_to_euc_jis_2004` | `SHIFT_JIS_2004` | `EUC_JIS_2004` |
 | [\[a\]](https://www.postgresql.org/docs/10/static/functions-string.html#id-1.5.8.9.10.2.1.1.1.1) The conversion names follow a standard naming scheme: The official name of the source encoding with all non-alphanumeric characters replaced by underscores, followed by`_to_`, followed by the similarly processed destination encoding name. Therefore, the names might deviate from the customary encoding names. |  |  |
 
-#### 9.4.1. `format`
+## 9.4.1. `format`
 
 The function `format` produces output formatted according to a format string, in a style similar to the C function `sprintf`.
 
