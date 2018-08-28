@@ -105,7 +105,7 @@
     * [9.17. 條件表示式](the-sql-language/functions-and-operators/9.17.-tiao-jian-biao-shi-shi.md)
     * [9.18. 陣列函式及運算子](the-sql-language/functions-and-operators/9.18.-zhen-lie-han-shi-ji-yun-suan-zi.md)
     * [9.19. 範圍函式及運算子](the-sql-language/functions-and-operators/9.19.-fan-wei-han-shi-ji-yun-suan-zi.md)
-    * [9.20. 彙總函式](the-sql-language/functions-and-operators/9.20.-hui-zong-han-shi.md)
+    * [9.20. 彙總函式](the-sql-language/functions-and-operators/aggregate-functions.md)
     * [9.21. Window函式](the-sql-language/functions-and-operators/9.21.-window-han-shi.md)
     * [9.22. 子查詢](the-sql-language/functions-and-operators/9.22.-zi-cha-xun.md)
     * [9.23. 資料列與陣列的比較運算](the-sql-language/functions-and-operators/row-and-array-comparisons.md)

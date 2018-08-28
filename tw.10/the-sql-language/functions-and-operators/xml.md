@@ -204,7 +204,7 @@ SELECT xmlroot(xmlparse(document '<?xml version="1.1"?><content>abc</content>'),
 xmlagg(xml)
 ```
 
-與此處描述的其他函數不同，函數 xmlagg 是一個彙總函數。它將輸入值連接到彙總函數呼叫，就像 xmlconcat 一樣，除了它是跨資料列而不是在單個資料列中的表示式進行連接。有關彙總函數的其他訊息，請參閱[第 9.20 節](9.20.-hui-zong-han-shi.md)。
+與此處描述的其他函數不同，函數 xmlagg 是一個彙總函數。它將輸入值連接到彙總函數呼叫，就像 xmlconcat 一樣，除了它是跨資料列而不是在單個資料列中的表示式進行連接。有關彙總函數的其他訊息，請參閱[第 9.20 節](aggregate-functions.md)。
 
 例如：
 

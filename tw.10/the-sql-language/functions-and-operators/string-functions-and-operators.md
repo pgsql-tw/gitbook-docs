@@ -81,7 +81,7 @@ SQL 定義了一些字串函數，它們使用關鍵字而不是逗號來分隔�
 
 concat，concat\_ws 和 format 函數是可變參數，因此可以將值連接或格式化成標記為 VARIADIC 關鍵字的陣列（請參閱[第 37.4.5 節](../../server-programming/extending-sql/query-language-functions.md#37-4-5-sql-functions-with-variable-numbers-of-arguments)）。陣列的元素被視為它們是函數的單獨普通參數。如果 variadic 陣列參數為 NULL，則 concat 和 concat\_ws 回傳 NULL，但 format 將 NULL 視為零元素陣列。
 
-另請參閱[第 9.20 節](9.20.-hui-zong-han-shi.md)中的彙總函數 string\_agg。
+另請參閱[第 9.20 節](aggregate-functions.md)中的彙總函數 string\_agg。
 
 #### **Table 9.10. Built-in Conversions**
 
