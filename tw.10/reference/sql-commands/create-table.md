@@ -84,19 +84,19 @@ exclude_element in an EXCLUDE constraint is:
 { column_name | ( expression ) } [ opclass ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ]
 ```
 
-### Description
+### 說明
 
-`CREATE TABLE` will create a new, initially empty table in the current database. The table will be owned by the user issuing the command.
+CREATE TABLE 將在目前資料庫中建立一個新的，初始化為空的資料表。該資料表將由發出此指令的使用者擁有。
 
-If a schema name is given \(for example, `CREATE TABLE myschema.mytable ...`\) then the table is created in the specified schema. Otherwise it is created in the current schema. Temporary tables exist in a special schema, so a schema name cannot be given when creating a temporary table. The name of the table must be distinct from the name of any other table, sequence, index, view, or foreign table in the same schema.
+如果加上了綱要名稱（例如，CREATE TABLE myschema.mytable ...），那麼將在指定的綱要中建立資料表。否則，它將在目前綱要中建立。臨時資料表存在於特殊綱要中，因此在建立臨時資料表時無法使用綱要名稱。資料表的名稱必須與同一綱要中的任何其他資料表、序列、索引、檢視表或外部資料表的名稱不同。
 
-`CREATE TABLE` also automatically creates a data type that represents the composite type corresponding to one row of the table. Therefore, tables cannot have the same name as any existing data type in the same schema.
+CREATE TABLE 還自動建立一個資料型別，表示與資料表的一個資料列對應的複合型別。因此，資料表不能與同一綱要中的任何現有資料型別具有相同的名稱。
 
-The optional constraint clauses specify constraints \(tests\) that new or updated rows must satisfy for an insert or update operation to succeed. A constraint is an SQL object that helps define the set of valid values in the table in various ways.
+可選擇性加上限制條件子句指定新的資料列或更新資料列必須滿足的限制條件才能使其插入或更新操作成功。限制條件是一個 SQL 物件，它有助於以各種方式定義資料表中的有效值集合。
 
-There are two ways to define constraints: table constraints and column constraints. A column constraint is defined as part of a column definition. A table constraint definition is not tied to a particular column, and it can encompass more than one column. Every column constraint can also be written as a table constraint; a column constraint is only a notational convenience for use when the constraint only affects one column.
+定義限制條件有兩種方法：資料表限制條件和欄位限制條件。欄位限制條件被定義為欄位定義的一部分。資料表限制條件定義不依賴於特定欄位，它可以包含多個欄位。 每個欄位限制條件也可以寫為資料表限制條件；欄位限制條件只是在其限制僅影響一欄位時使用的語法方便。
 
-To be able to create a table, you must have `USAGE` privilege on all column types or the type in the `OF` clause, respectively.
+為了能夠建立資料表，您必須分別對所有欄位型別或 OF 子句中的型別具有 USAGE 權限。
 
 ### Parameters
 
@@ -753,11 +753,7 @@ Typed tables implement a subset of the SQL standard. According to the standard, 
 
 The `PARTITION BY` clause is a PostgreSQL extension.
 
-#### `PARTITION OF` Clause
-
-The `PARTITION OF` clause is a PostgreSQL extension.
-
-### See Also
+### 參閱
 
 [ALTER TABLE](alter-table.md), [DROP TABLE](drop-table.md), [CREATE TABLE AS](create-table-as.md), [CREATE TABLESPACE](create-tablespace.md), [CREATE TYPE](create-type.md)
 
