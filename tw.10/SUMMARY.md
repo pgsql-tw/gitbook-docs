@@ -92,7 +92,7 @@
     * [9.4. 字串函式及運算子](the-sql-language/functions-and-operators/string-functions-and-operators.md)
     * [9.5. 位元字串函式及運算子](the-sql-language/functions-and-operators/9.5.-wei-yuan-zi-chuan-han-shi-ji-yun-suan-zi.md)
     * [9.6. 二元字串函式及運算子](the-sql-language/functions-and-operators/9.6.-er-yuan-zi-chuan-han-shi-ji-yun-suan-zi.md)
-    * [9.7. 特徵比對](the-sql-language/functions-and-operators/9.7.-te-zhi-bi-dui.md)
+    * [9.7. 特徵比對](the-sql-language/functions-and-operators/pattern-matching.md)
     * [9.8. 型別轉換函式](the-sql-language/functions-and-operators/9.8.-xing-bie-zhuan-huan-han-shi.md)
     * [9.9 日期時間函式及運算子](the-sql-language/functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md)
     * [9.10. 列舉型別函式](the-sql-language/functions-and-operators/9.10.-lie-ju-xing-bie-han-shi.md)
