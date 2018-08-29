@@ -1,8 +1,12 @@
+---
+description: 版本：10
+---
+
 # COPY
 
-COPY — copy data between a file and a table
+COPY — 在檔案和資料表之間複製資料
 
-### Synopsis
+### 語法
 
 ```text
 COPY table_name [ ( column_name [, ...] ) ]
@@ -29,65 +33,99 @@ where option can be one of:
     ENCODING 'encoding_name'
 ```
 
-### Description
+### 說明
 
-`COPY` moves data between PostgreSQL tables and standard file-system files. `COPY TO` copies the contents of a table _to_ a file, while `COPY FROM` copies data _from_ a file to a table \(appending the data to whatever is in the table already\). `COPY TO` can also copy the results of a `SELECT`query.
+COPY 在 PostgreSQL 資料表和標準檔案系統的檔案之間移動資料。COPY TO 將資料表的內容複製到檔案，而 COPY FROM 將資料從檔案複製到資料表（將資料附加到資料表中）。COPY TO 還可以複製 SELECT 查詢的結果。
 
-If a list of columns is specified, `COPY` will only copy the data in the specified columns to or from the file. If there are any columns in the table that are not in the column list, `COPY FROM` will insert the default values for those columns.
+如果指定了欄位列表，則 COPY 將僅將指定欄位中的資料複製到檔案或從檔案複製。如果資料表中有任何欄位不在欄位列表中，則 COPY FROM 將插入這些欄位的預設值。
 
-`COPY` with a file name instructs the PostgreSQL server to directly read from or write to a file. The file must be accessible by the PostgreSQL user \(the user ID the server runs as\) and the name must be specified from the viewpoint of the server. When `PROGRAM` is specified, the server executes the given command and reads from the standard output of the program, or writes to the standard input of the program. The command must be specified from the viewpoint of the server, and be executable by the PostgreSQL user. When `STDIN` or `STDOUT` is specified, data is transmitted via the connection between the client and the server.
+帶有檔案名稱的 COPY 指示 PostgreSQL 伺服器直接讀取或寫入檔案。PostgreSQL 使用者必須可以存取該檔案（伺服器執行的作業系統使用者 ID），並且必須從伺服器的角度指定名稱。使用 PROGRAM 時，伺服器執行給定的命令並從程序的標準輸出讀取，或寫入程序的標準輸入。必須從伺服器的角度使用該命令，並且該命令可由 PostgreSQL 作業系統使用者執行。指定 STDIN 或 STDOUT 時，資料透過用戶端和伺服器之間的連線傳輸。
 
 ### Parameters
 
 _`table_name`_
 
-The name \(optionally schema-qualified\) of an existing table._`column_name`_
+The name \(optionally schema-qualified\) of an existing table.
 
-An optional list of columns to be copied. If no column list is specified, all columns of the table will be copied._`query`_
+_`column_name`_
+
+An optional list of columns to be copied. If no column list is specified, all columns of the table will be copied.
+
+_`query`_
 
 A [SELECT](https://www.postgresql.org/docs/10/static/sql-select.html), [VALUES](https://www.postgresql.org/docs/10/static/sql-values.html), [INSERT](https://www.postgresql.org/docs/10/static/sql-insert.html), [UPDATE](https://www.postgresql.org/docs/10/static/sql-update.html) or [DELETE](https://www.postgresql.org/docs/10/static/sql-delete.html) command whose results are to be copied. Note that parentheses are required around the query.
 
-For `INSERT`, `UPDATE` and `DELETE` queries a RETURNING clause must be provided, and the target relation must not have a conditional rule, nor an `ALSO` rule, nor an `INSTEAD` rule that expands to multiple statements._`filename`_
+For `INSERT`, `UPDATE` and `DELETE` queries a RETURNING clause must be provided, and the target relation must not have a conditional rule, nor an `ALSO` rule, nor an `INSTEAD` rule that expands to multiple statements.
 
-The path name of the input or output file. An input file name can be an absolute or relative path, but an output file name must be an absolute path. Windows users might need to use an `E''` string and double any backslashes used in the path name.`PROGRAM`
+_`filename`_
+
+The path name of the input or output file. An input file name can be an absolute or relative path, but an output file name must be an absolute path. Windows users might need to use an `E''` string and double any backslashes used in the path name.
+
+`PROGRAM`
 
 A command to execute. In `COPY FROM`, the input is read from standard output of the command, and in `COPY TO`, the output is written to the standard input of the command.
 
-Note that the command is invoked by the shell, so if you need to pass any arguments to shell command that come from an untrusted source, you must be careful to strip or escape any special characters that might have a special meaning for the shell. For security reasons, it is best to use a fixed command string, or at least avoid passing any user input in it.`STDIN`
+Note that the command is invoked by the shell, so if you need to pass any arguments to shell command that come from an untrusted source, you must be careful to strip or escape any special characters that might have a special meaning for the shell. For security reasons, it is best to use a fixed command string, or at least avoid passing any user input in it.
 
-Specifies that input comes from the client application.`STDOUT`
+`STDIN`
 
-Specifies that output goes to the client application._`boolean`_
+Specifies that input comes from the client application.
+
+`STDOUT`
+
+Specifies that output goes to the client application.
+
+_`boolean`_
 
 Specifies whether the selected option should be turned on or off. You can write `TRUE`, `ON`, or `1` to enable the option, and `FALSE`, `OFF`, or `0` to disable it. The _`boolean`_ value can also be omitted, in which case `TRUE` is assumed.`FORMAT`
 
-Selects the data format to be read or written: `text`, `csv` \(Comma Separated Values\), or `binary`. The default is `text`.`OIDS`
+Selects the data format to be read or written: `text`, `csv` \(Comma Separated Values\), or `binary`. The default is `text`.
 
-Specifies copying the OID for each row. \(An error is raised if `OIDS` is specified for a table that does not have OIDs, or in the case of copying a _`query`_.\)`FREEZE`
+`OIDS`
+
+Specifies copying the OID for each row. \(An error is raised if `OIDS` is specified for a table that does not have OIDs, or in the case of copying a _`query`_.\)
+
+`FREEZE`
 
 Requests copying the data with rows already frozen, just as they would be after running the `VACUUM FREEZE` command. This is intended as a performance option for initial data loading. Rows will be frozen only if the table being loaded has been created or truncated in the current subtransaction, there are no cursors open and there are no older snapshots held by this transaction.
 
-Note that all other sessions will immediately be able to see the data once it has been successfully loaded. This violates the normal rules of MVCC visibility and users specifying should be aware of the potential problems this might cause.`DELIMITER`
+Note that all other sessions will immediately be able to see the data once it has been successfully loaded. This violates the normal rules of MVCC visibility and users specifying should be aware of the potential problems this might cause.
 
-Specifies the character that separates columns within each row \(line\) of the file. The default is a tab character in text format, a comma in `CSV` format. This must be a single one-byte character. This option is not allowed when using `binary` format.`NULL`
+`DELIMITER`
+
+Specifies the character that separates columns within each row \(line\) of the file. The default is a tab character in text format, a comma in `CSV` format. This must be a single one-byte character. This option is not allowed when using `binary` format.
+
+`NULL`
 
 Specifies the string that represents a null value. The default is `\N` \(backslash-N\) in text format, and an unquoted empty string in `CSV` format. You might prefer an empty string even in text format for cases where you don't want to distinguish nulls from empty strings. This option is not allowed when using `binary` format.
 
 #### Note
 
-When using `COPY FROM`, any data item that matches this string will be stored as a null value, so you should make sure that you use the same string as you used with `COPY TO`.`HEADER`
+When using `COPY FROM`, any data item that matches this string will be stored as a null value, so you should make sure that you use the same string as you used with `COPY TO`.
 
-Specifies that the file contains a header line with the names of each column in the file. On output, the first line contains the column names from the table, and on input, the first line is ignored. This option is allowed only when using `CSV` format.`QUOTE`
+`HEADER`
+
+Specifies that the file contains a header line with the names of each column in the file. On output, the first line contains the column names from the table, and on input, the first line is ignored. This option is allowed only when using `CSV` format.
+
+`QUOTE`
 
 Specifies the quoting character to be used when a data value is quoted. The default is double-quote. This must be a single one-byte character. This option is allowed only when using `CSV` format.`ESCAPE`
 
-Specifies the character that should appear before a data character that matches the `QUOTE` value. The default is the same as the `QUOTE` value \(so that the quoting character is doubled if it appears in the data\). This must be a single one-byte character. This option is allowed only when using `CSV` format.`FORCE_QUOTE`
+Specifies the character that should appear before a data character that matches the `QUOTE` value. The default is the same as the `QUOTE` value \(so that the quoting character is doubled if it appears in the data\). This must be a single one-byte character. This option is allowed only when using `CSV` format.
 
-Forces quoting to be used for all non-`NULL` values in each specified column. `NULL` output is never quoted. If `*` is specified, non-`NULL` values will be quoted in all columns. This option is allowed only in `COPY TO`, and only when using `CSV` format.`FORCE_NOT_NULL`
+`FORCE_QUOTE`
 
-Do not match the specified columns' values against the null string. In the default case where the null string is empty, this means that empty values will be read as zero-length strings rather than nulls, even when they are not quoted. This option is allowed only in `COPY FROM`, and only when using `CSV` format.`FORCE_NULL`
+Forces quoting to be used for all non-`NULL` values in each specified column. `NULL` output is never quoted. If `*` is specified, non-`NULL` values will be quoted in all columns. This option is allowed only in `COPY TO`, and only when using `CSV` format.
 
-Match the specified columns' values against the null string, even if it has been quoted, and if a match is found set the value to `NULL`. In the default case where the null string is empty, this converts a quoted empty string into NULL. This option is allowed only in `COPY FROM`, and only when using `CSV` format.`ENCODING`
+`FORCE_NOT_NULL`
+
+Do not match the specified columns' values against the null string. In the default case where the null string is empty, this means that empty values will be read as zero-length strings rather than nulls, even when they are not quoted. This option is allowed only in `COPY FROM`, and only when using `CSV` format.
+
+`FORCE_NULL`
+
+Match the specified columns' values against the null string, even if it has been quoted, and if a match is found set the value to `NULL`. In the default case where the null string is empty, this converts a quoted empty string into NULL. This option is allowed only in `COPY FROM`, and only when using `CSV` format.
+
+`ENCODING`
 
 Specifies that the file is encoded in the _`encoding_name`_. If this option is omitted, the current client encoding is used. See the Notes below for more details.
 
@@ -288,11 +326,11 @@ The following is the same data, output in binary format. The data is shown after
 0000200   M   B   A   B   W   E 377 377 377 377 377 377
 ```
 
-### Compatibility
+### 相容性
 
-There is no `COPY` statement in the SQL standard.
+SQL 標準中沒有 COPY 語句。
 
-The following syntax was used before PostgreSQL version 9.0 and is still supported:
+在 PostgreSQL 版本 9.0 之前使用了以下語法並且仍然支援：
 
 ```text
 COPY table_name [ ( column_name [, ...] ) ]
@@ -320,9 +358,9 @@ COPY { table_name [ ( column_name [, ...] ) ] | ( query ) }
                 [ FORCE QUOTE { column_name [, ...] | * } ] ] ]
 ```
 
-Note that in this syntax, `BINARY` and `CSV` are treated as independent keywords, not as arguments of a `FORMAT` option.
+請注意，在此語法中，BINARY 和 CSV 被視為獨立的關鍵字，而不是 FORMAT 選項的參數。
 
-The following syntax was used before PostgreSQL version 7.3 and is still supported:
+在 PostgreSQL 版本 7.3 之前使用了以下語法，並且仍然支援：
 
 ```text
 COPY [ BINARY ] table_name [ WITH OIDS ]
