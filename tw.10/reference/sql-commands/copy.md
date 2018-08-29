@@ -129,19 +129,18 @@ Match the specified columns' values against the null string, even if it has been
 
 Specifies that the file is encoded in the _`encoding_name`_. If this option is omitted, the current client encoding is used. See the Notes below for more details.
 
-### Outputs
+### 輸出
 
-On successful completion, a `COPY` command returns a command tag of the form
+成功完成後，COPY 命令將回傳命令標記的形式
 
 ```text
 COPY count
 ```
 
-The _`count`_ is the number of rows copied.
+計數是複製的資料列數量。
 
-#### Note
-
-psql will print this command tag only if the command was not `COPY ... TO STDOUT`, or the equivalent psql meta-command `\copy ... to stdout`. This is to prevent confusing the command tag with the data that was just printed.
+**注意**  
+僅當命令不是 COPY ... TO STDOUT 或等效的 psql 元命令 \copy ... to stdout 時，psql 才會輸出此命令標記。這是為了防止命令標記與剛剛輸出的資料混淆。
 
 ### Notes
 
@@ -274,33 +273,33 @@ The file trailer consists of a 16-bit integer word containing -1. This is easily
 
 A reader should report an error if a field-count word is neither -1 nor the expected number of columns. This provides an extra check against somehow getting out of sync with the data.
 
-### Examples
+### 範例
 
-The following example copies a table to the client using the vertical bar \(`|`\) as the field delimiter:
+以下範例使用破折號「\|」作為欄位分隔符把資料表複製到用戶端：
 
 ```text
 COPY country TO STDOUT (DELIMITER '|');
 ```
 
-To copy data from a file into the `country` table:
+要將檔案中的資料複製到 country 資料表中：
 
 ```text
 COPY country FROM '/usr1/proj/bray/sql/country_data';
 ```
 
-To copy into a file just the countries whose names start with 'A':
+要將名稱以「A」開頭的國家複製到檔案中：
 
 ```text
 COPY (SELECT * FROM country WHERE country_name LIKE 'A%') TO '/usr1/proj/bray/sql/a_list_countries.copy';
 ```
 
-To copy into a compressed file, you can pipe the output through an external compression program:
+要複製到壓縮檔案，可以透過外部壓縮程序輸出：
 
 ```text
 COPY country TO PROGRAM 'gzip > /usr1/proj/bray/sql/country_data.gz';
 ```
 
-Here is a sample of data suitable for copying into a table from `STDIN`:
+以下是適合從 STDIN 複製到資料表中的資料範例：
 
 ```text
 AF      AFGHANISTAN
@@ -310,9 +309,9 @@ ZM      ZAMBIA
 ZW      ZIMBABWE
 ```
 
-Note that the white space on each line is actually a tab character.
+請注意，每行上的空白實際上是 tab 字元。
 
-The following is the same data, output in binary format. The data is shown after filtering through the Unix utility `od -c`. The table has three columns; the first has type `char(2)`, the second has type `text`, and the third has type `integer`. All the rows have a null value in the third column.
+以下是相同的資料，以二進位格式輸出。在透過 Unix 實用工具 od -c 過濾後顯示資料。該資料表有三個欄位；第一個是 char\(2\) 型別，第二個是 text 型別，第三個是 integer 型別。所有行在第三欄位中都具有空值。
 
 ```text
 0000000   P   G   C   O   P   Y  \n 377  \r  \n  \0  \0  \0  \0  \0  \0
