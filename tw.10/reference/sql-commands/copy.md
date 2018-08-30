@@ -145,17 +145,17 @@ COPY count
 **注意**  
 僅當命令不是 COPY ... TO STDOUT 或等效的 psql 元命令 \copy ... to stdout 時，psql 才會輸出此命令標記。這是為了防止命令標記與剛剛輸出的資料混淆。
 
-### Notes
+### 注意
 
-`COPY TO` can only be used with plain tables, not with views. However, you can write `COPY (SELECT * FROM` _`viewname`_\) TO ... to copy the current contents of a view.
+COPY TO 只能用於普通資料表，而不能用於檢視表。但是，您可以使用 COPY（SELECT \* FROM viewname） ...以被複製檢視表的目前內容。
 
-`COPY FROM` can be used with plain tables and with views that have `INSTEAD OF INSERT` triggers.
+COPY FROM 可以與普通資料表一起使用，也可以與具有 INSTEAD OF INSERT 觸發器的檢視表一起使用。
 
-`COPY` only deals with the specific table named; it does not copy data to or from child tables. Thus for example `COPY` _`table`_ TO shows the same data as `SELECT * FROM ONLY` _`table`_. But `COPY (SELECT * FROM` _`table`_\) TO ... can be used to dump all of the data in an inheritance hierarchy.
+COPY 僅處理指定名稱的資料表；它不會將資料複製到子資料表或從子資料表複製資料。因此，例如 COPY table TO 會輸出與 SELECT  _FROM ONLY table 相同的資料。但 COPY（SELECT_  FROM table）TO ... 可用於轉存繼承結構中的所有資料。
 
-You must have select privilege on the table whose values are read by `COPY TO`, and insert privilege on the table into which values are inserted by `COPY FROM`. It is sufficient to have column privileges on the column\(s\) listed in the command.
+您必須對其值由 COPY TO 讀取的資料表具有 select 權限，並對透過 COPY FROM 插入值的資料表有 INSERT 權限。在命令中列出的欄位上具有欄位權限就足夠了。
 
-If row-level security is enabled for the table, the relevant `SELECT` policies will apply to `COPY` _`table`_ TO statements. Currently, `COPY FROM` is not supported for tables with row-level security. Use equivalent `INSERT` statements instead.
+如果為資料表啟用了資料列級安全性原則，則相關的 SELECT 安全原則將套用於 COPY table TO 語句。目前，具有資料列級安全性的資料表不支援 COPY FROM。請改用等效的 INSERT 語句。
 
 Files named in a `COPY` command are read or written directly by the server, not by the client application. Therefore, they must reside on or be accessible to the database server machine, not the client. They must be accessible to and readable or writable by the PostgreSQL user \(the user ID the server runs as\), not the client. Similarly, the command specified with `PROGRAM` is executed directly by the server, not by the client application, must be executable by the PostgreSQL user. `COPY` naming a file or command is only allowed to database superusers, since it allows reading or writing any file that the server has privileges to access.
 
@@ -177,7 +177,7 @@ Input data is interpreted according to `ENCODING` option or the current client e
 
 `FORCE_NULL` and `FORCE_NOT_NULL` can be used simultaneously on the same column. This results in converting quoted null strings to null values and unquoted null strings to empty strings.
 
-### File Formats
+### 檔案格式
 
 #### Text Format
 
@@ -232,15 +232,14 @@ CSV format will both recognize and produce CSV files with quoted values containi
 
 Many programs produce strange and occasionally perverse CSV files, so the file format is more a convention than a standard. Thus you might encounter some files that cannot be imported using this mechanism, and `COPY` might produce files that other programs cannot process.
 
-#### Binary Format
+#### Binary 格式
 
-The `binary` format option causes all data to be stored/read as binary format rather than as text. It is somewhat faster than the text and `CSV` formats, but a binary-format file is less portable across machine architectures and PostgreSQL versions. Also, the binary format is very data type specific; for example it will not work to output binary data from a `smallint` column and read it into an `integer` column, even though that would work fine in text format.
+binary 格式選項使所有資料以二進位格式而不是文字形式儲存/讀取。它比 text 和 CSV 格式快一些，但二進位格式檔案在機器架構和 PostgreSQL 版本之間的可移植性較低。此外，二進位格式是資料型別專屬的；例如，它不能從 smallint 欄位輸出二進位資料並將其讀入 int 欄位，即使它在 text 格式中可以正常運作。
 
-The `binary` file format consists of a file header, zero or more tuples containing the row data, and a file trailer. Headers and data are in network byte order.
+二進位檔案格式由檔案標頭，包含資料列資料的零個或多個 tuple 以及檔案結尾組成。標頭和資料按 network byte order 排列。
 
-#### Note
-
-PostgreSQL releases before 7.4 used a different binary file format.
+**注意**  
+7.4 之前的 PostgreSQL 版本使用了不同的二進位檔案格式。
 
 **File Header**
 
