@@ -41,93 +41,96 @@ COPY 在 PostgreSQL 資料表和標準檔案系統的檔案之間移動資料。
 
 帶有檔案名稱的 COPY 指示 PostgreSQL 伺服器直接讀取或寫入檔案。PostgreSQL 使用者必須可以存取該檔案（伺服器執行的作業系統使用者 ID），並且必須從伺服器的角度指定名稱。使用 PROGRAM 時，伺服器執行給定的命令並從程序的標準輸出讀取，或寫入程序的標準輸入。必須從伺服器的角度使用該命令，並且該命令可由 PostgreSQL 作業系統使用者執行。指定 STDIN 或 STDOUT 時，資料透過用戶端和伺服器之間的連線傳輸。
 
-### Parameters
+### 參數
 
 _`table_name`_
 
-The name \(optionally schema-qualified\) of an existing table.
+現有資料表的名稱（可選擇性加上綱要）。
 
 _`column_name`_
 
-An optional list of columns to be copied. If no column list is specified, all columns of the table will be copied.
+要複製欄位的選擇性列表。如果未指定欄位列表，則將複製資料表的所有欄位。
 
 _`query`_
 
-A [SELECT](https://www.postgresql.org/docs/10/static/sql-select.html), [VALUES](https://www.postgresql.org/docs/10/static/sql-values.html), [INSERT](https://www.postgresql.org/docs/10/static/sql-insert.html), [UPDATE](https://www.postgresql.org/docs/10/static/sql-update.html) or [DELETE](https://www.postgresql.org/docs/10/static/sql-delete.html) command whose results are to be copied. Note that parentheses are required around the query.
+[SELECT](select.md)，[VALUES](values.md)，[INSERT](insert.md)，[UPDATE](update.md) 或 [DELETE](delete.md) 指令，其結果將被複製。請注意，查詢周圍需要括號。
 
-For `INSERT`, `UPDATE` and `DELETE` queries a RETURNING clause must be provided, and the target relation must not have a conditional rule, nor an `ALSO` rule, nor an `INSTEAD` rule that expands to multiple statements.
+對於 INSERT，UPDATE 和 DELETE 查詢，必須提供 RETURNING 子句，並且目標關連不能具有條件規則，也不能具有 ALSO 規則，也不能具有延伸為多個語句的 INSTEAD 規則。
 
 _`filename`_
 
-The path name of the input or output file. An input file name can be an absolute or relative path, but an output file name must be an absolute path. Windows users might need to use an `E''` string and double any backslashes used in the path name.
+輸入或輸出檔案的路徑名稱。輸入檔案名稱可以是絕對路徑或相對路徑，但輸出檔案名稱必須是絕對路徑。Windows 使用者可能需要使用 E''字串並將路徑名稱中所使用的任何倒斜線加倍。
 
 `PROGRAM`
 
-A command to execute. In `COPY FROM`, the input is read from standard output of the command, and in `COPY TO`, the output is written to the standard input of the command.
+要執行的命令。在 COPY FROM 中，從命令的標準輸出讀取輸入；在 COPY TO 中，輸出給寫入命令的標準輸入。
 
-Note that the command is invoked by the shell, so if you need to pass any arguments to shell command that come from an untrusted source, you must be careful to strip or escape any special characters that might have a special meaning for the shell. For security reasons, it is best to use a fixed command string, or at least avoid passing any user input in it.
+請注意，該命令由 shell 呼叫，因此如果您需要將任何參數傳遞給來自不受信任來源的 shell 命令，則必須小心去除或轉義可能對 shell 具有特殊含義的任何特殊字串。出於安全原因，最好使用固定的命令字串，或者至少避免在其中傳遞任何使用者輸入參數。
 
 `STDIN`
 
-Specifies that input comes from the client application.
+指定輸入來自用戶端應用程式。
 
 `STDOUT`
 
-Specifies that output goes to the client application.
+指定輸出轉到用戶端應用程序式。
 
 _`boolean`_
 
-Specifies whether the selected option should be turned on or off. You can write `TRUE`, `ON`, or `1` to enable the option, and `FALSE`, `OFF`, or `0` to disable it. The _`boolean`_ value can also be omitted, in which case `TRUE` is assumed.`FORMAT`
+指定是應打開還是關閉所選選項。您可以寫入TRUE，ON 或 1 以啟用該選項，使用 FALSE，OFF 或 0 來停用它。布林值也可以省略，在這種情況下假定為 TRUE
 
-Selects the data format to be read or written: `text`, `csv` \(Comma Separated Values\), or `binary`. The default is `text`.
+`FORMAT`
+
+選擇要讀取或寫入的資料格式：text，csv（逗號分隔值）或二進位。預設為 text。
 
 `OIDS`
 
-Specifies copying the OID for each row. \(An error is raised if `OIDS` is specified for a table that does not have OIDs, or in the case of copying a _`query`_.\)
+指定複製每個資料列的 OID。 （如果為沒有 OID 的資料表指定 OIDS，或者在複製查詢的情況下，會引發錯誤。）
 
 `FREEZE`
 
-Requests copying the data with rows already frozen, just as they would be after running the `VACUUM FREEZE` command. This is intended as a performance option for initial data loading. Rows will be frozen only if the table being loaded has been created or truncated in the current subtransaction, there are no cursors open and there are no older snapshots held by this transaction.
+請求複製已經凍結的資料列，就像在執行 VACUUM FREEZE 命令之後一樣。這是初始資料載入的效能選項。只有在目前子事務中建立或清空正在載入的資料表時，才會凍結資料列，而沒有使用中游標，並且此事務不保留舊的快照。
 
-Note that all other sessions will immediately be able to see the data once it has been successfully loaded. This violates the normal rules of MVCC visibility and users specifying should be aware of the potential problems this might cause.
+請注意，所有其他連線在成功載入後將立即能夠看到資料。這違反了 MVCC 可見性的正常規則，使用者應該知道這可能的潛在問題。
 
 `DELIMITER`
 
-Specifies the character that separates columns within each row \(line\) of the file. The default is a tab character in text format, a comma in `CSV` format. This must be a single one-byte character. This option is not allowed when using `binary` format.
+指定用於分隔檔案每行內欄位的字元。預設值為 text 格式的 tab 字元，CSV 格式的逗號。這必須是一個單位元組字元。採用二進位格式時不允許使用此選項。
 
 `NULL`
 
-Specifies the string that represents a null value. The default is `\N` \(backslash-N\) in text format, and an unquoted empty string in `CSV` format. You might prefer an empty string even in text format for cases where you don't want to distinguish nulls from empty strings. This option is not allowed when using `binary` format.
+指定表示空值的字串。 預設值為 text 格式的 N（倒斜線-N）和 CSV 格式的未加引號的空字串。對於不希望將空值與空字串區分開的情況，即使是 text 格式，也可能更喜歡空字串。採用二進位格式時不允許使用此選項。
 
-#### Note
-
-When using `COPY FROM`, any data item that matches this string will be stored as a null value, so you should make sure that you use the same string as you used with `COPY TO`.
+**注意**  
+使用 COPY FROM 時，與該字串匹配的任何資料項都將儲存為空值，因此您應確保使用與 COPY TO 相同的字串。
 
 `HEADER`
 
-Specifies that the file contains a header line with the names of each column in the file. On output, the first line contains the column names from the table, and on input, the first line is ignored. This option is allowed only when using `CSV` format.
+指定該檔案包含標題列，其中包含檔案中每個欄位的名稱。在輸出時，第一行包含資料表中的欄位名稱；在輸入時，第一行將被忽略。僅在採用 CSV 格式時才允許此選項。
 
 `QUOTE`
 
-Specifies the quoting character to be used when a data value is quoted. The default is double-quote. This must be a single one-byte character. This option is allowed only when using `CSV` format.`ESCAPE`
+指定引用資料值時要使用的引用字元。預設為雙引號。這必須是一個單位元組字元。僅在採用 CSV 格式時才允許此選項。
 
-Specifies the character that should appear before a data character that matches the `QUOTE` value. The default is the same as the `QUOTE` value \(so that the quoting character is doubled if it appears in the data\). This must be a single one-byte character. This option is allowed only when using `CSV` format.
+`ESCAPE`
+
+指定應在與 QUOTE 值匹配的資料字元之前出現的字元。預設值與 QUOTE 值相同（因此，如果引號字元出現在資料中，則引號字元加倍）。這必須是一個單位元組字元。僅在使用 CSV 格式時才允許此選項。
 
 `FORCE_QUOTE`
 
-Forces quoting to be used for all non-`NULL` values in each specified column. `NULL` output is never quoted. If `*` is specified, non-`NULL` values will be quoted in all columns. This option is allowed only in `COPY TO`, and only when using `CSV` format.
+強制引用用於每個指定欄位中的所有非 NULL 值。從不引用 NULL 輸出。如果指定 \*，則將在所有欄位中引用非 NULL 值。此選項僅在 COPY TO 中允許，並且僅在使用 CSV 格式時允許。
 
 `FORCE_NOT_NULL`
 
-Do not match the specified columns' values against the null string. In the default case where the null string is empty, this means that empty values will be read as zero-length strings rather than nulls, even when they are not quoted. This option is allowed only in `COPY FROM`, and only when using `CSV` format.
+不要將指定欄位的值與空字串匹配。在 null 字串為空的預設情況下，這意味著空值將被讀取為零長度字串而不是空值，即使它們未被引用也是如此。此選項僅在 COPY FROM 中允許，並且僅能用在 CSV 格式時。
 
 `FORCE_NULL`
 
-Match the specified columns' values against the null string, even if it has been quoted, and if a match is found set the value to `NULL`. In the default case where the null string is empty, this converts a quoted empty string into NULL. This option is allowed only in `COPY FROM`, and only when using `CSV` format.
+將指定欄位的值與空字串匹配，即使它已被引用，如果找到匹配項，則將值設定為 NULL。在 null 字串為空的預設情況下，這會將帶引號的空字串轉換為 NULL。此選項僅在 COPY FROM 中允許，並且僅能用在 CSV 格式。
 
 `ENCODING`
 
-Specifies that the file is encoded in the _`encoding_name`_. If this option is omitted, the current client encoding is used. See the Notes below for more details.
+指定文件在 encoding\_name 中編碼。如果省略此選項，則使用目前用戶端編碼。有關詳細訊息，請參閱下面的註釋。
 
 ### 輸出
 
