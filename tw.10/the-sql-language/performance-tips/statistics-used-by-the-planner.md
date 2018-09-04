@@ -60,17 +60,17 @@ ANALYZE 儲存在 pg\_statistic 中的資訊量，特別是每欄位的 most\_co
 
 有關規劃程序使用統計資料的更多詳細訊息，請參閱[第 68 章](../../internals/68.-how-the-planner-uses-statistics.md)。
 
-## 14.2.2. Extended Statistics
+## 14.2.2. 延伸統計資訊
 
-It is common to see slow queries running bad execution plans because multiple columns used in the query clauses are correlated. The planner normally assumes that multiple conditions are independent of each other, an assumption that does not hold when column values are correlated. Regular statistics, because of their per-individual-column nature, cannot capture any knowledge about cross-column correlation. However, PostgreSQL has the ability to compute _multivariate statistics_, which can capture such information.
+通常會看到執行錯誤執行計劃的緩慢查詢，因為查詢子句中使用的多個欄位是相關的。規劃程序通常假設多個條件彼此獨立，這一假設在欄位值相關時並不成立。由於每個欄位的性質，一般的統計數據無法捕獲有關跨欄位關聯的任何知識。但是，PostgreSQL 能夠計算此類信息的多變量統計訊息。
 
-Because the number of possible column combinations is very large, it's impractical to compute multivariate statistics automatically. Instead, _extended statistics objects_, more often called just _statistics objects_, can be created to instruct the server to obtain statistics across interesting sets of columns.
+由於可能的欄位組合數量非常大，因此自動計算多變量統計數據是不切實際的。相反，可以建立延伸統計物件（通常稱為統計物件），以指示伺服器獲取有趣的欄位集合之間的統計訊息。
 
-Statistics objects are created using [CREATE STATISTICS](https://www.postgresql.org/docs/10/static/sql-createstatistics.html), which see for more details. Creation of such an object merely creates a catalog entry expressing interest in the statistics. Actual data collection is performed by `ANALYZE` \(either a manual command, or background auto-analyze\). The collected values can be examined in the [`pg_statistic_ext`](https://www.postgresql.org/docs/10/static/catalog-pg-statistic-ext.html) catalog.
+使用 [CREATE STATISTICS](../../reference/sql-commands/create-statistics.md) 建立統計物件，可以查看更多詳細訊息。建立這樣的物件僅建立表示對統計訊息感興趣的目錄項目。實際數據收集由 ANALYZE（手動命令或背景自動分析）執行。可以在 [pg\_statistic\_ext](../../internals/system-catalogs/pg_statistic_ext.md) 目錄中檢查收集的數據。
 
-`ANALYZE` computes extended statistics based on the same sample of table rows that it takes for computing regular single-column statistics. Since the sample size is increased by increasing the statistics target for the table or any of its columns \(as described in the previous section\), a larger statistics target will normally result in more accurate extended statistics, as well as more time spent calculating them.
+ANALYZE 根據計算一般單欄位統計訊息所需的資料表中資料列樣本計算延伸統計訊息。由於透過增加資料表或其任何欄位的統計目標來增加樣本大小（如上一節中所述），因此較大的統計目標通常會産生更準確的延伸統計訊息，但也會讓計算它們時間花費更多。
 
-The following subsections describe the kinds of extended statistics that are currently supported.
+以下小節介紹了目前支援延伸統計訊息的種類。
 
 ### **14.2.2.1. Functional Dependencies**
 
