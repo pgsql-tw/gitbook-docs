@@ -120,13 +120,13 @@ even though there will really be zero rows satisfying this query. Functional dep
 
 In many practical situations, this assumption is usually satisfied; for example, there might be a GUI in the application that only allows selecting compatible city and ZIP code values to use in a query. But if that's not the case, functional dependencies may not be a viable option.
 
-### **14.2.2.2. Multivariate N-Distinct Counts**
+### **14.2.2.2.** 多變量 N-Distinct 計數
 
-Single-column statistics store the number of distinct values in each column. Estimates of the number of distinct values when combining more than one column \(for example, for `GROUP BY a, b`\) are frequently wrong when the planner only has single-column statistical data, causing it to select bad plans.
+單欄位統計訊息儲存每欄位中不同值的數量。當計劃程序僅具有單欄位統計數據時，估計組合多個欄位時的不同值的數量（例如，對於 GROUP BY a, b）通常是錯誤的，從而導致它選擇錯誤的計劃。
 
-To improve such estimates, `ANALYZE` can collect n-distinct statistics for groups of columns. As before, it's impractical to do this for every possible column grouping, so data is collected only for those groups of columns appearing together in a statistics object defined with the `ndistinct` option. Data will be collected for each possible combination of two or more columns from the set of listed columns.
+為了改進這樣的估計，ANALYZE 可以為欄位組合收集 n 個不同的統計數據。和以前一樣，為每個可能的欄位分組執行此操作是不切實際的，因此僅為在使用 ndistinct 選項定義的統計物件中出現的那些欄位組合收集數據。將從列出的欄位集合中的兩個或更多欄位的每個可能組合收集數據。
 
-Continuing the previous example, the n-distinct counts in a table of ZIP codes might look like the following:
+繼續前面的範例，郵政編碼表中的 n 個不同計數可能如下所示：
 
 ```text
 CREATE STATISTICS stts2 (ndistinct) ON zip, state, city FROM zipcodes;
@@ -142,7 +142,7 @@ nd | {"1, 2": 33178, "1, 5": 33178, "2, 5": 27435, "1, 2, 5": 33178}
 (1 row)
 ```
 
-This indicates that there are three combinations of columns that have 33178 distinct values: ZIP code and state; ZIP code and city; and ZIP code, city and state \(the fact that they are all equal is expected given that ZIP code alone is unique in this table\). On the other hand, the combination of city and state has only 27435 distinct values.
+這表明有三種具有 33,178 個不同值的欄位組合：ZIP code 和 state；ZIP code 和 city；和 ZIP code，city 和 state（由於此表中的郵政編碼是唯一的，因此預計它們都是相同的）。另一方面，city 和 state 的組合只有 27,435 個不同的值。
 
-It's advisable to create `ndistinct` statistics objects only on combinations of columns that are actually used for grouping, and for which misestimation of the number of groups is resulting in bad plans. Otherwise, the `ANALYZE` cycles are just wasted.
+建議僅在實際用於 GROUP 的欄位組合上建立 ndistinct 統計物件，對於那些因為群組數量錯誤估計導致錯誤計劃的組合。否則，ANALYZE 工作只是一種浪費。
 
