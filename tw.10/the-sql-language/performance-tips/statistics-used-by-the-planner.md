@@ -72,15 +72,15 @@ ANALYZE 根據計算一般單欄位統計訊息所需的資料表中資料列樣
 
 以下小節介紹了目前支援延伸統計訊息的種類。
 
-### **14.2.2.1. Functional Dependencies**
+### **14.2.2.1.** 功能相依性
 
-The simplest kind of extended statistics tracks _functional dependencies_, a concept used in definitions of database normal forms. We say that column `b` is functionally dependent on column `a` if knowledge of the value of `a` is sufficient to determine the value of `b`, that is there are no two rows having the same value of `a` but different values of `b`. In a fully normalized database, functional dependencies should exist only on primary keys and superkeys. However, in practice many data sets are not fully normalized for various reasons; intentional denormalization for performance reasons is a common example. Even in a fully normalized database, there may be partial correlation between some columns, which can be expressed as partial functional dependency.
+最簡單的延伸統計訊息是追踪功能相依性，這是資料庫一般資料表定義中所使用的概念。我們說如果 a 的值足以決定 b 的值，那麼欄位 b 在功能上相依於欄位 a，即沒有兩個資料列具有相同的 a 值而是具有不同的 b 值。在完全正規化的資料庫中，功能相依性應僅存在於主鍵和超級鍵（superkey）上。 然而，在實務中，由於各種原因，許多資料集未完全正規化；出於效能原因的故意非正規化是一種常見的例子。即使在完全正規化的資料庫中，某些欄位之間也可能存在部分關連性，這可以表示為部分功能相依性。
 
-The existence of functional dependencies directly affects the accuracy of estimates in certain queries. If a query contains conditions on both the independent and the dependent column\(s\), the conditions on the dependent columns do not further reduce the result size; but without knowledge of the functional dependency, the query planner will assume that the conditions are independent, resulting in underestimating the result size.
+功能相依性的存在直接影響某些查詢中估計的準確性。如果查詢包含獨立欄位和從屬欄位的條件，則相依欄位上的條件不會進一步減小結果大小；但是，如果不了解功能相依性，查詢計劃程序將假定條件是獨立的，從而導致低估結果大小。
 
-To inform the planner about functional dependencies, `ANALYZE` can collect measurements of cross-column dependency. Assessing the degree of dependency between all sets of columns would be prohibitively expensive, so data collection is limited to those groups of columns appearing together in a statistics object defined with the `dependencies` option. It is advisable to create `dependencies` statistics only for column groups that are strongly correlated, to avoid unnecessary overhead in both `ANALYZE` and later query planning.
+為了向計劃程序告知功能相依性，ANALYZE 可以收集跨欄位相依性的度量。評估所有欄位集合之間的相依程度非常昂貴，因此數據收集僅限於在使用 dependencies 選項定義的統計物件中一起出現的那些欄位組合。建議僅為強關聯的欄位組合建立相依關係統計訊息，以避免在 ANALYZE 和以後的查詢規劃中產生不必要的開銷。
 
-Here is an example of collecting functional-dependency statistics:
+以下是收集功能相依性統計訊息的範例：
 
 ```text
 CREATE STATISTICS stts (dependencies) ON zip, city FROM zipcodes;
@@ -96,29 +96,29 @@ SELECT stxname, stxkeys, stxdependencies
 (1 row)
 ```
 
-Here it can be seen that column 1 \(zip code\) fully determines column 5 \(city\) so the coefficient is 1.0, while city only determines zip code about 42% of the time, meaning that there are many cities \(58%\) that are represented by more than a single ZIP code.
+在這裡可以看出，第 1 欄位（zip code）完全決定第 5 欄位（city），因此係數為 1.0，而 city 僅在 42％ 的時間內決定 zip code，這意味著有許多城市（58％）是由多個郵政編碼所代表。
 
-When computing the selectivity for a query involving functionally dependent columns, the planner adjusts the per-condition selectivity estimates using the dependency coefficients so as not to produce an underestimate.
+在計算涉及功能相關欄位的查詢的選擇性時，計劃程序使用相依性係數調整每個條件的選擇性估計，以便不低估它們。
 
-#### **14.2.2.1.1. Limitations of Functional Dependencies**
+#### **14.2.2.1.1.** 功能相依性的限制
 
-Functional dependencies are currently only applied when considering simple equality conditions that compare columns to constant values. They are not used to improve estimates for equality conditions comparing two columns or comparing a column to an expression, nor for range clauses, `LIKE` or any other type of condition.
+功能相依性目前僅在考慮將欄位與常數值進行比較的簡單相等條件時套用。它們不會用於改善比較兩欄位或將欄位與表示式進行比較等式條件的估計，也不用於範圍子句，LIKE 或任何其他類型的條件。
 
-When estimating with functional dependencies, the planner assumes that conditions on the involved columns are compatible and hence redundant. If they are incompatible, the correct estimate would be zero rows, but that possibility is not considered. For example, given a query like
+在使用函數相依性進行估計時，計劃程序假定所涉及欄位的條件是相容的，因此是多餘的。如果它們不相容，則正確的估計值將為零個資料列，但不考慮這種可能性。例如，給出一個類似的查詢
 
 ```text
 SELECT * FROM zipcodes WHERE city = 'San Francisco' AND zip = '94105';
 ```
 
-the planner will disregard the `city` clause as not changing the selectivity, which is correct. However, it will make the same assumption about
+規劃程序將忽視 city 子句，因為不改變選擇性，這是正確的。但是，它會做出相同的假設
 
 ```text
 SELECT * FROM zipcodes WHERE city = 'San Francisco' AND zip = '90210';
 ```
 
-even though there will really be zero rows satisfying this query. Functional dependency statistics do not provide enough information to conclude that, however.
+即使確實有零個資料列滿足此查詢。但是，功能相依性統計訊息不能提供足夠的訊息來得到結論。
 
-In many practical situations, this assumption is usually satisfied; for example, there might be a GUI in the application that only allows selecting compatible city and ZIP code values to use in a query. But if that's not the case, functional dependencies may not be a viable option.
+在許多實際情況中，通常會滿足這種假設; 例如，應用程序中可能存在一個 GUI，它只允許選擇要在查詢中使用的相容的城市和郵政編碼值。但如果情況並非如此，那麼功能相依性可能不是一個可行的選擇。
 
 ### **14.2.2.2.** 多變量 N-Distinct 計數
 
