@@ -12,9 +12,9 @@ PostgreSQL 使用固定的頁面大小（通常為 8 kB），並且不允許 tup
 
 TOAST 使用 varlena 長度的兩位元（big-endian 機器上的高位元，little-endian 機器上的低位元），從而將 TOAST-able 資料型別的任何值的邏輯大小限制為 1 GB。當兩個位元都為零時，該值是資料型別的普通值非 TOAST，長度位元組的其餘位以位元組為單位記錄總資料大小（包括長度位元組）。當設定最高位或最低位時，該值只有一個單位元組標頭而不是普通的四位元組標頭，該位元組的其餘位元表示以位元組為單位的總資料大小（包括長度位元組） 。此額外的方案支援空間高效率儲存短於 127 位元組的值，同時仍允許資料型別在需要時增長到 1 GB。具有單位元組標頭的值不在任何特定邊界上對齊，而具有四位元組標頭的值在至少四位元組邊界上對齊；與短值相比，這種省略對齊填充提供了額外的空間節省。作為特殊情況，如果單位元組標頭的剩餘位全部為零（對於自包含長度而言這是不可能的），則該值是指向外部資料的指標，具有如所描述的幾種可能的替代方案，如下所示。這種 TOAST 指標的型別和大小由儲存在資料的第二個位元組中的代碼決定。最後，當最高位元或最低位元清除為零但相鄰位置時，資料的內容已被壓縮，必須在使用前解壓縮。在這種情況下，四位元組長度字的剩餘位表示壓縮資料的總大小，而不是原始資料。請注意，對於外部資料也可以進行壓縮，但 varlena 標頭不會告訴它是否已經發生 - 而 TOAST 指標的內容則說明這件事。
 
-As mentioned, there are multiple types of TOAST pointer datums. The oldest and most common type is a pointer to out-of-line data stored in a _TOAST table_ that is separate from, but associated with, the table containing the TOAST pointer datum itself. These _on-disk_ pointer datums are created by the TOAST management code \(in `access/heap/tuptoaster.c`\) when a tuple to be stored on disk is too large to be stored as-is. Further details appear in [Section 66.2.1](https://www.postgresql.org/docs/10/static/storage-toast.html#STORAGE-TOAST-ONDISK). Alternatively, a TOAST pointer datum can contain a pointer to out-of-line data that appears elsewhere in memory. Such datums are necessarily short-lived, and will never appear on-disk, but they are very useful for avoiding copying and redundant processing of large data values. Further details appear in [Section 66.2.2](https://www.postgresql.org/docs/10/static/storage-toast.html#STORAGE-TOAST-INMEMORY).
+如上所述，有多種類型的 TOAST 指標基準。最舊和最常見的類型是指向儲存在 TOAST 資料表中的外部資料的指標，該資料表與包含 TOAST 指標資料本身的資料表分開但與之相關聯。當要儲存在磁碟上的 tuple 太大而無法按原樣儲存時，這些磁碟指標基準由 TOAST 管理代碼（在 access/heap/tuptoaster.c 中）建立。更多細節見[第 66.2.1 節](toast.md#66-2-1-out-of-line-on-disk-toast-storage)。或者，TOAST 指標資料可以包含指向出現在記憶體中其他位置外部資料的指標。這些資料必然是短暫的，並且永遠不會出現在磁碟上，但它們對於避免複製和冗餘處理大量資料值非常有用。更多細節見[第 66.2.2 節](toast.md#66-2-2-out-of-line-in-memory-toast-storage)。
 
-The compression technique used for either in-line or out-of-line compressed data is a fairly simple and very fast member of the LZ family of compression techniques. See `src/common/pg_lzcompress.c` for the details.
+用於壓縮資料的壓縮技術是 LZ 系列壓縮技術中相當簡單且非常快速的方法。有關詳細訊息，請參閱 src/common/pg\_lzcompress.c。
 
 ## 66.2.1. Out-of-line, on-disk TOAST storage
 
