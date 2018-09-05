@@ -1,12 +1,16 @@
+---
+description: 版本：10
+---
+
 # 20.1. 設定檔：pg\_hba.conf
 
-Client authentication is controlled by a configuration file, which traditionally is named `pg_hba.conf` and is stored in the database cluster's data directory. \(HBA stands for host-based authentication.\) A default `pg_hba.conf` file is installed when the data directory is initialized by `initdb`. It is possible to place the authentication configuration file elsewhere, however; see the [hba\_file](https://www.postgresql.org/docs/10/static/runtime-config-file-locations.html#GUC-HBA-FILE) configuration parameter.
+用戶端身份驗證由組態檔案控制，組態檔案通常名稱為 pg\_hba.conf，並儲存在資料庫叢集的資料目錄中。 （HBA 代表 host-based authentication。）當 initdb 初始化資料目錄時，將安裝預設的 pg\_hba.conf 檔案。但是，可以將身份驗證組態檔案放在其他路徑；請參閱 [hba\_file](../server-configuration/19.2.-file-locations.md) 組態參數。
 
-The general format of the `pg_hba.conf` file is a set of records, one per line. Blank lines are ignored, as is any text after the `#` comment character. Records cannot be continued across lines. A record is made up of a number of fields which are separated by spaces and/or tabs. Fields can contain white space if the field value is double-quoted. Quoting one of the keywords in a database, user, or address field \(e.g., `all` or `replication`\) makes the word lose its special meaning, and just match a database, user, or host with that name.
+pg\_hba.conf 檔案的一般格式是一組記錄，每行一個。空白行將被忽略，\# comment 字元後面的任何文字都將被忽略。記錄不能跨行。記錄由許多段落組成，這些段落由空格或 tab 分隔。如果段落的值用了雙引號，則段落可以包含空格。在資料庫，使用者或位址段落（例如，all 或 replication）中括起其中一個關鍵字會使該字失去其特殊含義，並且只是將資料庫，使用者或主機與該名稱相匹配。
 
-Each record specifies a connection type, a client IP address range \(if relevant for the connection type\), a database name, a user name, and the authentication method to be used for connections matching these parameters. The first record with a matching connection type, client address, requested database, and user name is used to perform authentication. There is no “fall-through” or “backup”: if one record is chosen and the authentication fails, subsequent records are not considered. If no record matches, access is denied.
+每條記錄指定連線類型，用戶端 IP 位址範圍（如果與連線類型相關）、資料庫名稱、使用者名稱以及符合這些參數的連線身份驗證方法。具有符合的連線類型、用戶端位址、要求的資料庫和使用者名稱的第一個記錄用於執行身份驗證。沒有“fall-through”或“replication”：如果選擇了一條記錄而認證失敗，就不再考慮後續記錄。如果沒有記錄匹配，則拒絕存取。
 
-A record can have one of the seven formats
+記錄可以是七種格式之一
 
 ```text
 local      database  user  auth-method  [auth-options]
@@ -18,19 +22,18 @@ hostssl    database  user  IP-address  IP-mask  auth-method  [auth-options]
 hostnossl  database  user  IP-address  IP-mask  auth-method  [auth-options]
 ```
 
-The meaning of the fields is as follows:
+段落的含義如下：
 
 `local`
 
-This record matches connection attempts using Unix-domain sockets. Without a record of this type, Unix-domain socket connections are disallowed.
+此記錄搭配使用 Unix-domain socket 的連線嘗試。如果沒有此類型的記錄，則不允許使用 Unix-domain socket 連線。
 
 `host`
 
-This record matches connection attempts made using TCP/IP. `host` records match either SSL or non-SSL connection attempts.
+此記錄用於使用 TCP/IP 進行的連線嘗試。主機記錄使用 SSL 或非 SSL 連線嘗試.
 
-#### Note
-
-Remote TCP/IP connections will not be possible unless the server is started with an appropriate value for the [listen\_addresses](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-LISTEN-ADDRESSES) configuration parameter, since the default behavior is to listen for TCP/IP connections only on the local loopback address `localhost`.
+**重要**  
+除非使用 [listen\_addresses](../server-configuration/connections-and-authentication.md#19-3-1-ding) 組態參數的適當值啟動伺服器，否則將無法進行遠端 TCP/IP 連線，因為預設行為是僅在 localhost 上監聽 TCP/IP 連線。
 
 `hostssl`
 
