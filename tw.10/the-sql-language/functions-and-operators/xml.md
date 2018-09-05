@@ -238,7 +238,7 @@ SELECT xmlagg(x) FROM (SELECT * FROM test ORDER BY y DESC) AS tab;
 
 ## 9.14.2. XML Predicates
 
-The expressions described in this section check properties of `xml` values.
+本節中描述的表示式用於檢查 xml 的屬性。
 
 ### **9.14.2.1. IS DOCUMENT**
 
@@ -246,7 +246,7 @@ The expressions described in this section check properties of `xml` values.
 xml IS DOCUMENT
 ```
 
-The expression `IS DOCUMENT` returns true if the argument XML value is a proper XML document, false if it is not \(that is, it is a content fragment\), or null if the argument is null. See [Section 8.13](https://www.postgresql.org/docs/10/static/datatype-xml.html) about the difference between documents and content fragments.
+如果參數 XML 是正確的 XML 文件，則表示式 IS DOCUMENT 將回傳 true，如果不是（它是內容片段），則回傳 false；如果參數為 null，則回傳 null。有關文件和內容片段之間的區別，請參閱[第 8.13 節](../data-types/8.13.-xml-xing-bie.md)。
 
 ### **9.14.2.2. XMLEXISTS**
 
@@ -254,9 +254,9 @@ The expression `IS DOCUMENT` returns true if the argument XML value is a proper 
 XMLEXISTS(text PASSING [BY REF] xml [BY REF])
 ```
 
-The function `xmlexists` returns true if the XPath expression in the first argument returns any nodes, and false otherwise. \(If either argument is null, the result is null.\)
+如果第一個參數中的 XPath 表示式回傳任何節點，則 xmlexists 函數回傳 true，否則回傳 false。 （如果任一參數為 null，則結果為 null。）
 
-Example:
+範例
 
 ```text
 SELECT xmlexists('//town[text() = ''Toronto'']' PASSING BY REF '<towns><town>Toronto</town><town>Ottawa</town></towns>');
@@ -267,7 +267,7 @@ SELECT xmlexists('//town[text() = ''Toronto'']' PASSING BY REF '<towns><town>Tor
 (1 row)
 ```
 
-The `BY REF` clauses have no effect in PostgreSQL, but are allowed for SQL conformance and compatibility with other implementations. Per SQL standard, the first `BY REF` is required, the second is optional. Also note that the SQL standard specifies the `xmlexists` construct to take an XQuery expression as first argument, but PostgreSQL currently only supports XPath, which is a subset of XQuery.
+BY REF 子句在 PostgreSQL 中沒有任何作用，但可以達到 SQL 一致性和與其他實作的相容性。根據 SQL 標準，第一個 BY REF 是必需的，第二個是選擇性的。另請注意，SQL 標準指定 xmlexists 構造將 XQuery 表示式作為第一個參數，但 PostgreSQL 目前僅支持 XPath，它是 XQuery 的子集。
 
 ### **9.14.2.3. xml\_is\_well\_formed**
 
@@ -277,9 +277,9 @@ xml_is_well_formed_document(text)
 xml_is_well_formed_content(text)
 ```
 
-These functions check whether a `text` string is well-formed XML, returning a Boolean result. `xml_is_well_formed_document` checks for a well-formed document, while `xml_is_well_formed_content` checks for well-formed content. `xml_is_well_formed` does the former if the [xmloption](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-XMLOPTION) configuration parameter is set to `DOCUMENT`, or the latter if it is set to `CONTENT`. This means that `xml_is_well_formed` is useful for seeing whether a simple cast to type `xml` will succeed, whereas the other two functions are useful for seeing whether the corresponding variants of `XMLPARSE` will succeed.
+此函數檢查文字字串是否格式正確，回傳布林結果。xml\_is\_well\_formed\_document 檢查格式正確的文檔，而 xml\_is\_well\_formed\_content 檢查格式良好的內容。如果 xmloption 配置參數設定為 DOCUMENT，則 xml\_is\_well\_formed 會執行前者；如果設定為 CONTENT，則執行後者。這意味著 xml\_is\_well\_formed 對於查看對 xml 類型的簡單強制轉換是否成功很有用，而其他兩個函數對於查看 XMLPARSE 的相對應變數是否成功很有用。
 
-Examples:
+範例：
 
 ```text
 SET xmloption TO DOCUMENT;
@@ -315,7 +315,7 @@ SELECT xml_is_well_formed_document('<pg:foo xmlns:pg="http://postgresql.org/stuf
 (1 row)
 ```
 
-The last example shows that the checks include whether namespaces are correctly matched.
+最後一個範例顯示檢查包括命名空間是否符合。
 
 ## 9.14.3. Processing XML
 

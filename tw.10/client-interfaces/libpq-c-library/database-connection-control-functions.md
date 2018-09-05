@@ -372,11 +372,15 @@ If a password file is used, you can have different passwords for different hosts
 
 ## 33.1.2. Parameter Key Words
 
-The currently recognized parameter key words are:`host`
+The currently recognized parameter key words are:
+
+#### `host`
 
 Name of host to connect to. If a host name begins with a slash, it specifies Unix-domain communication rather than TCP/IP communication; the value is the name of the directory in which the socket file is stored. If multiple host names are specified, each will be tried in turn in the order given. The default behavior when `host` is not specified is to connect to a Unix-domain socket in `/tmp` \(or whatever socket directory was specified when PostgreSQL was built\). On machines without Unix-domain sockets, the default is to connect to `localhost`.
 
-A comma-separated list of host names is also accepted, in which case each host name in the list is tried in order. See [Section 33.1.1.3](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-MULTIPLE-HOSTS) for details.`hostaddr`
+A comma-separated list of host names is also accepted, in which case each host name in the list is tried in order. See [Section 33.1.1.3](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-MULTIPLE-HOSTS) for details.
+
+#### `hostaddr`
 
 Numeric IP address of host to connect to. This should be in the standard IPv4 address format, e.g., `172.28.40.9`. If your machine supports IPv6, you can also use those addresses. TCP/IP communication is always used when a nonempty string is specified for this parameter.
 
@@ -392,33 +396,33 @@ A comma-separated list of `hostaddr` values is also accepted, in which case each
 
 Without either a host name or host address, libpq will connect using a local Unix-domain socket; or on machines without Unix-domain sockets, it will attempt to connect to `localhost`.
 
-`port`
+#### `port`
 
 Port number to connect to at the server host, or socket file name extension for Unix-domain connections. If multiple hosts were given in the `host` or `hostaddr` parameters, this parameter may specify a list of ports of equal length, or it may specify a single port number to be used for all hosts.
 
-`dbname`
+#### `dbname`
 
 The database name. Defaults to be the same as the user name. In certain contexts, the value is checked for extended formats; see [Section 33.1.1](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNSTRING) for more details on those.
 
-`user`
+#### `user`
 
 PostgreSQL user name to connect as. Defaults to be the same as the operating system name of the user running the application.
 
-`password`
+#### `password`
 
 Password to be used if the server demands password authentication.`passfile`
 
 Specifies the name of the file used to store passwords \(see [Section 33.15](https://www.postgresql.org/docs/10/static/libpq-pgpass.html)\). Defaults to `~/.pgpass`, or `%APPDATA%\postgresql\pgpass.conf` on Microsoft Windows. \(No error is reported if this file does not exist.\)
 
-`connect_timeout`
+#### `connect_timeout`
 
 Maximum wait for connection, in seconds \(write as a decimal integer string\). Zero or not specified means wait indefinitely. It is not recommended to use a timeout of less than 2 seconds. This timeout applies separately to each connection attempt. For example, if you specify two hosts and `connect_timeout` is 5, each host will time out if no connection is made within 5 seconds, so the total time spent waiting for a connection might be up to 10 seconds.
 
-`client_encoding`
+#### `client_encoding`
 
 This sets the `client_encoding` configuration parameter for this connection. In addition to the values accepted by the corresponding server option, you can use `auto` to determine the right encoding from the current locale in the client \(`LC_CTYPE` environment variable on Unix systems\).
 
-`options`
+#### `options`
 
 Specifies command-line options to send to the server at connection start. For example, setting this to `-c geqo=off` sets the session's value of the `geqo` parameter to `off`. Spaces within this string are considered to separate command-line arguments, unless escaped with a backslash \(`\`\); write `\\` to represent a literal backslash. For a detailed discussion of the available options, consult [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html).
 

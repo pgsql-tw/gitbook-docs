@@ -1,13 +1,17 @@
-# 33.14. Environment Variables
+---
+description: 版本：10
+---
 
-The following environment variables can be used to select default connection parameter values, which will be used by `PQconnectdb`, `PQsetdbLogin` and `PQsetdb` if no value is directly specified by the calling code. These are useful to avoid hard-coding database connection information into simple client applications, for example.
+# 33.14. 環境變數
 
-* `PGHOST` behaves the same as the [host](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNECT-HOST) connection parameter.
-* `PGHOSTADDR` behaves the same as the [hostaddr](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNECT-HOSTADDR) connection parameter. This can be set instead of or in addition to `PGHOST` to avoid DNS lookup overhead.
-* `PGPORT` behaves the same as the [port](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNECT-PORT) connection parameter.
-* `PGDATABASE` behaves the same as the [dbname](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNECT-DBNAME) connection parameter.
-* `PGUSER` behaves the same as the [user](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNECT-USER) connection parameter.
-* `PGPASSWORD` behaves the same as the [password](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNECT-PASSWORD) connection parameter. Use of this environment variable is not recommended for security reasons, as some operating systems allow non-root users to see process environment variables via ps; instead consider using a password file \(see [Section 33.15](https://www.postgresql.org/docs/10/static/libpq-pgpass.html)\).
+以下環境變數可用於選擇預設連線參數值，如果呼叫變數沒有直接指定值， PQconnectdb，PQsetdbLogin 和 PQsetdb 將使用這些值。例如，這些有助於避免將資料庫連線訊息硬寫到簡單的用戶端應用程序中。
+
+* PGHOST 的行為與 [host](database-connection-control-functions.md#host) 參數相同。
+* PGHOSTADDR 的行為與 [hostaddr](database-connection-control-functions.md#hostaddr) 連線參數相同。這可以代替 PGHOST 或者除了 PGHOST 之外設定，以避免 DNS 查詢的開銷。
+* PGPORT 的行為與 [port](database-connection-control-functions.md#port) 連線參數相同。
+* PGDATABASE 的行為與 [dbname](database-connection-control-functions.md#dbname) 連線參數相同。
+* PGUSER 的行為與 [user](database-connection-control-functions.md#user) 連線參數相同。
+* PGPASSWORD 的行為與 [password](database-connection-control-functions.md#password) 連線參數相同。但由於安全因素，不建議使用此環境變數，因為某些作業系統允許非 root 使用者透過 ps 查看程序環境變數；而是考慮使用密碼檔案（參閱[第 33.15 節](33.15.-mi-ma-dang.md)）。
 * `PGPASSFILE` behaves the same as the [passfile](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNECT-PASSFILE) connection parameter.
 * `PGSERVICE` behaves the same as the [service](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNECT-SERVICE) connection parameter.
 * `PGSERVICEFILE` specifies the name of the per-user connection service file. If not set, it defaults to `~/.pg_service.conf` \(see [Section 33.16](https://www.postgresql.org/docs/10/static/libpq-pgservice.html)\).
