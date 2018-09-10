@@ -1,40 +1,44 @@
+---
+description: 版本：10
+---
+
 # UNLISTEN
 
-UNLISTEN — stop listening for a notification
+UNLISTEN — 停止監聽通知
 
-### Synopsis
+### 語法
 
 ```text
 UNLISTEN { channel | * }
 ```
 
-### Description
+### 說明
 
-`UNLISTEN` is used to remove an existing registration for `NOTIFY` events. `UNLISTEN` cancels any existing registration of the current PostgreSQL session as a listener on the notification channel named _`channel`_. The special wildcard `*` cancels all listener registrations for the current session.
+UNLISTEN 用於移除現有已註冊的 NOTIFY 事件。UNLISTEN 取消目前 PostgreSQL 連線的任何現有註冊，名稱為 channel 的通知通道上的監聽器。特殊符號 \* 為取消目前連線已註冊的所有監聽器。
 
-[NOTIFY](https://www.postgresql.org/docs/10/static/sql-notify.html) contains a more extensive discussion of the use of `LISTEN` and `NOTIFY`.
+[NOTIFY](notify.md) 包含了對 LISTEN 和 NOTIFY 使用上更廣泛的討論。
 
-### Parameters
+### 參數
 
 _`channel`_
 
-Name of a notification channel \(any identifier\).
+通知通道的名稱（任何標識字）。
 
 `*`
 
-All current listen registrations for this session are cleared.
+清除此連線目前已註冊的所有監聽。
 
-### Notes
+### 注意
 
-You can unlisten something you were not listening for; no warning or error will appear.
+你可以取消你不要監聽的東西；不會出現警告或錯誤。
 
-At the end of each session, `UNLISTEN *` is automatically executed.
+在每個連線結束時，UNLISTEN \* 會自動執行。
 
-A transaction that has executed `UNLISTEN` cannot be prepared for two-phase commit.
+已執行 UNLISTEN 的事務無法為兩階段提交做準備。
 
-### Examples
+### 範例
 
-To make a registration:
+進行註冊：
 
 ```text
 LISTEN virtual;
@@ -42,7 +46,7 @@ NOTIFY virtual;
 Asynchronous notification "virtual" received from server process with PID 8448.
 ```
 
-Once `UNLISTEN` has been executed, further `NOTIFY` messages will be ignored:
+一旦執行了 UNLISTEN，將忽略之後的 NOTIFY 訊息：
 
 ```text
 UNLISTEN virtual;
@@ -50,11 +54,11 @@ NOTIFY virtual;
 -- no NOTIFY event is received
 ```
 
-### Compatibility
+### 相容性
 
-There is no `UNLISTEN` command in the SQL standard.
+SQL 標準中沒有 UNLISTEN 指令。
 
-### See Also
+### 參閱
 
 [LISTEN](listen.md), [NOTIFY](notify.md)
 
