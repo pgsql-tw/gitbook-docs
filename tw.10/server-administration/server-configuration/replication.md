@@ -64,21 +64,20 @@ FIRST 和 ANY 都不區分大小寫。 如果將這些關鍵字用作備用伺�
 
 沒有其他機制來強制備用名稱的唯一性。如果重複的話，其中一個備用資料庫將被視為更優先的，但無法確切說是哪一個。
 
-#### Note
+**注意**  
+每個 standby\_name 都應具有有效 SQL 識別字的形式，除非是 \*。如有必要，您可以使用雙引號。但請注意，standby\_names 與備用 application name 都不區分大小寫，無論是否為雙引號。
 
-Each _`standby_name`_ should have the form of a valid SQL identifier, unless it is `*`. You can use double-quoting if necessary. But note that _`standby_name`_s are compared to standby application names case-insensitively, whether double-quoted or not.
+如果此處未指定同步的備用伺服器名稱，則不啟用同步複寫，事務提交就不會等待複寫。這是預設配置。即使啟用了同步複寫，也可以將單個事務設定為不等待複寫，方法是將 [synchronous\_commit](write-ahead-log.md#19-5-1-settings) 參數設定為 local 或 off。
 
-If no synchronous standby names are specified here, then synchronous replication is not enabled and transaction commits will not wait for replication. This is the default configuration. Even when synchronous replication is enabled, individual transactions can be configured not to wait for replication by setting the [synchronous\_commit](https://www.postgresql.org/docs/10/static/runtime-config-wal.html#GUC-SYNCHRONOUS-COMMIT) parameter to `local` or `off`.
-
-This parameter can only be set in the `postgresql.conf` file or on the server command line.
+此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `vacuum_defer_cleanup_age` \(`integer`\)
 
-Specifies the number of transactions by which `VACUUM` and HOT updates will defer cleanup of dead row versions. The default is zero transactions, meaning that dead row versions can be removed as soon as possible, that is, as soon as they are no longer visible to any open transaction. You may wish to set this to a non-zero value on a primary server that is supporting hot standby servers, as described in [Section 26.5](https://www.postgresql.org/docs/10/static/hot-standby.html). This allows more time for queries on the standby to complete without incurring conflicts due to early cleanup of rows. However, since the value is measured in terms of number of write transactions occurring on the primary server, it is difficult to predict just how much additional grace time will be made available to standby queries. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+指定 VACUUM 和 HOT 更新將延遲清除過期資料列版本的事務數。預設值為 0 事務，這意味著可以盡快刪除過期資料列的版本。也就是說，只要它們不再對任何開放的事務是可見的。您可能希望在支持熱備用伺服器的主要服務器上將其設定為非零值，如[第 26.5 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md)中所述。這樣可以讓備用資料庫上的查詢有更多時間完成，而不會因過早清理資料列而導致衝突。但是，由於該值是根據主要服務器上所發生的寫入事務的數量來衡量的，因此很難預測備用查詢可用多少額外的寬限時間。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
-You should also consider setting `hot_standby_feedback` on standby server\(s\) as an alternative to using this parameter.
+您還應該考慮在備用伺服器上設定 hot\_standby\_feedback 作為使用此參數的替代方法。
 
-This does not prevent cleanup of dead rows which have reached the age specified by `old_snapshot_threshold`.
+這不會阻止已達到 old\_snapshot\_threshold 指定期間的過時資料列清除。
 
 ## 19.6.3. Standby Servers
 
