@@ -1,4 +1,8 @@
-# 19.6. Replication
+---
+description: 版本：10
+---
+
+# 19.6. 複寫（Replication）
 
 這些設定控制內建的串流複寫功能行為（請參閱[第 26.2.5 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-5-streaming-replication)）。伺服器指的是主伺服務器或備用伺服器。主伺服器可以發送資料，而備用伺服器始終是複寫資料的接收者。當使用串聯複寫（請參閱[第 26.2.7 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-7-cascading-replication)）時，備用伺服器也可以是發送者和接收者。參數主要用於發送和備用伺服器，但某些參數僅在主伺服器上有意義。如果需要，設定是跨群集的，不會産生問題。
 
@@ -46,19 +50,19 @@ ANY num_sync ( standby_name [, ...] )
 standby_name [, ...]
 ```
 
-where _`num_sync`_ is the number of synchronous standbys that transactions need to wait for replies from, and _`standby_name`_ is the name of a standby server. `FIRST` and `ANY` specify the method to choose synchronous standbys from the listed servers.
+其中 num\_sync 是交易事務需要等待回覆的同步備用數量，而 standby\_name 是備用伺服器的名稱。FIRST 和 ANY 指定從列出的伺服器中選擇同步備用資料庫的方法。
 
-The keyword `FIRST`, coupled with _`num_sync`_, specifies a priority-based synchronous replication and makes transaction commits wait until their WAL records are replicated to _`num_sync`_ synchronous standbys chosen based on their priorities. For example, a setting of`FIRST 3 (s1, s2, s3, s4)` will cause each commit to wait for replies from three higher-priority standbys chosen from standby servers `s1`, `s2`, `s3` and `s4`. The standbys whose names appear earlier in the list are given higher priority and will be considered as synchronous. Other standby servers appearing later in this list represent potential synchronous standbys. If any of the current synchronous standbys disconnects for whatever reason, it will be replaced immediately with the next-highest-priority standby. The keyword `FIRST` is optional.
+關鍵字 FIRST 與 num\_sync 合併使用，指定基於優先的同步複寫，讓事務提交等待，直到將其 WAL 記錄複寫到優先選擇的 num\_sync 同步備用資料庫。例如，FIRST 3（s1，s2，s3，s4）的設定將使得每個提交等待從備用伺服器 s1，s2，s3 和 s4 中選擇的三個較優先的備用資料庫回覆。名稱在列表中較早出現的備用資料庫具有較高的優先等級，並被視為是同步的。此列表中稍後出現的其他備用伺服器代表潛在的同步備用資料庫。如果任何當下的同步備用資料庫因任何原因斷開連線，它將立即被替換為次高優先等級的備用資料庫。關鍵字 FIRST 是選用的。
 
-The keyword `ANY`, coupled with _`num_sync`_, specifies a quorum-based synchronous replication and makes transaction commits wait until their WAL records are replicated to _at least_ _`num_sync`_ listed standbys. For example, a setting of `ANY 3 (s1, s2, s3, s4)` will cause each commit to proceed as soon as at least any three standbys of `s1`, `s2`, `s3` and `s4` reply.
+關鍵字 ANY 與 num\_sync 一起使用，指定需要仲裁的同步複寫，使事務提交等待，直到將其 WAL 記錄複寫到至少 num\_sync 列出的備用資料庫。例如，ANY 3（s1，s2，s3，s4）的設定將使得每個提交在 s1，s2，s3 和 s4 的至少任何三個備用資料回覆時繼續進行。
 
-`FIRST` and `ANY` are case-insensitive. If these keywords are used as the name of a standby server, its _`standby_name`_ must be double-quoted.
+FIRST 和 ANY 都不區分大小寫。 如果將這些關鍵字用作備用伺服器的名稱，則其 standby\_name 必須使用雙引號。
 
-The third syntax was used before PostgreSQL version 9.6 and is still supported. It's the same as the first syntax with `FIRST` and _`num_sync`_ equal to 1. For example, `FIRST 1 (s1, s2)` and `s1, s2` have the same meaning: either `s1` or `s2` is chosen as a synchronous standby.
+第三種語法在 PostgreSQL 版本 9.6 之前使用，仍然受支援。它與 FIRST 和 num\_sync 等於 1 的第一個語法相同。例如，FIRST 1（s1，s2）和 s1，s2 具有相同的含義：s1 或 s2 被選為同步的備用伺服器。
 
-The special entry `*` matches any standby name.
+特殊符號 \* 表示匹配任何備用名稱。
 
-There is no mechanism to enforce uniqueness of standby names. In case of duplicates one of the matching standbys will be considered as higher priority, though exactly which one is indeterminate.
+沒有其他機制來強制備用名稱的唯一性。如果重複的話，其中一個備用資料庫將被視為更優先的，但無法確切說是哪一個。
 
 #### Note
 
