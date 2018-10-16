@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE TRIGGER
 
 CREATE TRIGGER — 宣告一個新的觸發器

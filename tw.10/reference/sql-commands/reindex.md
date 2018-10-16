@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # REINDEX
 
 REINDEX — 重建索引

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # ALTER SEQUENCE
 
 ALTER SEQUENCE — change the definition of a sequence generator

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # COPY
 
 COPY — 在檔案和資料表之間複製資料

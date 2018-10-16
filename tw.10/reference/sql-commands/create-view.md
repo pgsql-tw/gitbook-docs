@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE VIEW
 
 CREATE VIEW — 定義一個新的檢視表

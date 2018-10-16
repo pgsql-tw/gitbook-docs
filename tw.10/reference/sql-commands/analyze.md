@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # ANALYZE
 
 ANALYZE — 收集有關資料庫的統計資訊

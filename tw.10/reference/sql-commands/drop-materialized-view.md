@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # DROP MATERIALIZED VIEW
 
 DROP MATERIALIZED VIEW — 移除具體化檢視表

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE TYPE
 
 CREATE TYPE — 定義新的資料型別

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # NOTIFY
 
 NOTIFY — 發起一個通知

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # SET ROLE
 
 SET ROLE — 設定目前連線的目前使用者識別

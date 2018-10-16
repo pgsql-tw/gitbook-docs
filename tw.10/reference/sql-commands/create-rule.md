@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE RULE
 
 CREATE RULE — 定義新的重寫規則

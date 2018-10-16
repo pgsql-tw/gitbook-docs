@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 8.3. 字串型別
 
 **Table 8.4. Character Types**

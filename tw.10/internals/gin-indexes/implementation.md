@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 64.4. Implementation
 
 在內部，GIN 索引包含在索引鍵上建構的 B-tree 索引，其中每個索引鍵是一個或多個索引項目（例如，陣列的成員）元素，並且葉結點頁面中的每個 tuple 包含指向 heap 指標的 B-tree（“posting tree”）或 heap 指標的簡易列表（“posting list”），其列表足夠小以能與其索引鍵值放進單個索引 tuple。

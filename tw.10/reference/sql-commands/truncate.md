@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # TRUNCATE
 
 TRUNCATE — 清空一個資料表或一堆資料表

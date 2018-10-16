@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 20.1. 設定檔：pg\_hba.conf
 
 用戶端身份驗證由組態檔案控制，組態檔案通常名稱為 pg\_hba.conf，並儲存在資料庫叢集的資料目錄中。 （HBA 代表 host-based authentication。）當 initdb 初始化資料目錄時，將安裝預設的 pg\_hba.conf 檔案。但是，可以將身份驗證組態檔案放在其他路徑；請參閱 [hba\_file](../server-configuration/19.2.-file-locations.md) 組態參數。

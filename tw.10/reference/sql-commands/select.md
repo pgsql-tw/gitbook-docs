@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # SELECT
 
 SELECT, TABLE, WITH — 從資料表或檢視表中檢索資料列

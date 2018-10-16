@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 28.2. 統計資訊收集器
 
 PostgreSQL's _statistics collector_ is a subsystem that supports collection and reporting of information about server activity. Presently, the collector can count accesses to tables and indexes in both disk-block and individual-row terms. It also tracks the total number of rows in each table, and information about vacuum and analyze actions for each table. It can also count calls to user-defined functions and the total time spent in each one.

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 10.5. UNION、CASE 等相關結構
 
 SQL UNION 結構必須匹配可能不相似的型別才能成為單個結果集合。解析演算法分別套用於合併集合查詢的每個輸出欄位。INTERSECT 和 EXCEPT 結構以與 UNION 相同的方式解析不同型別。CASE，ARRAY，VALUES，GREATEST 和 LEAST 結構使用相同的演算法來匹配其組合表示式並選擇結果資料型別。

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE SUBSCRIPTION
 
 CREATE SUBSCRIPTION — 定義一個新的訂閱

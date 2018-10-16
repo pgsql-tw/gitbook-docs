@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # COMMENT
 
 COMMENT — 定義或變更物件的註解

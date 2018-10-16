@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # UNLISTEN
 
 UNLISTEN — 停止監聽通知

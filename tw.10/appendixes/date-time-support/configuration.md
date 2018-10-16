@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # B.3. 日期時間設定檔
 
 由於時區縮寫並沒有很好地標準化，PostgreSQL 提供了一種自訂的伺服器接受的縮寫集方法。[timezone\_abbreviations](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#timezone_abbreviations-string) 運行時參數決定有效的縮寫集。雖然此參數可由任何資料庫使用者變更，但其可能的值受資料庫管理員控制 - 實際上它們是儲存在安裝目錄的 .../share/timezonesets/ 中的組態檔案的名稱。透過增加或變更該目錄中的檔案，管理員可以為時區縮寫設定本地策略。

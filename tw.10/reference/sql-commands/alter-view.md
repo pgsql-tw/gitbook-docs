@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # ALTER VIEW
 
 ALTER VIEW — 變更檢視表的定義

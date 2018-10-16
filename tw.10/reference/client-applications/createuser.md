@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # createuser
 
 createuser — 定義一個新的 PostgreSQL 使用者帳戶

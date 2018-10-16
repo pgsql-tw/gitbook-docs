@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 8.4. 位元組型別（bytea）
 
 bytea 資料型別允許儲存位元組字串；詳見 [Table 8.6](binary.md#table-8-6-binary-data-types)。

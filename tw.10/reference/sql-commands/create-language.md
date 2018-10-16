@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE LANGUAGE
 
 CREATE LANGUAGE — 宣告一種新的程序語言

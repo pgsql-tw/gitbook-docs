@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 11.2. 索引型別
 
 PostgreSQL 提供了幾種索引型別：B-tree，Hash，GiST，SP-GiST，GIN 和 BRIN。每種索引型別依適合類型的查詢使用不同的演算法。預設情況下， CREATE INDEX 指令建立適合最常見情況的 B-tree 索引。

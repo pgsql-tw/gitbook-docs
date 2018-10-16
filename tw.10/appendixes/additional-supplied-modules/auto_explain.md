@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # F.4. auto\_explain
 
 auto\_explain 模組提供了一種自動記錄慢速語句執行計劃的方法，毌須手動執行 [EXPLAIN](../../reference/sql-commands/explain.md)。這對於在大型應用程序中追踪未最佳化的查詢特別有用。

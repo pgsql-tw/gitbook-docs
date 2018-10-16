@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE TRANSFORM
 
 CREATE TRANSFORM — 定義一個新的轉變

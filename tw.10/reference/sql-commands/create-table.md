@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE TABLE
 
 CREATE TABLE — 定義一個新的資料表

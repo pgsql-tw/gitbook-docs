@@ -1,12 +1,8 @@
----
-description: 版本：10
----
-
 # 19.6. Replication
 
 這些設定控制內建的串流複寫功能行為（請參閱[第 26.2.5 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-5-streaming-replication)）。伺服器指的是主伺服務器或備用伺服器。主伺服器可以發送資料，而備用伺服器始終是複寫資料的接收者。當使用串聯複寫（請參閱[第 26.2.7 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-7-cascading-replication)）時，備用伺服器也可以是發送者和接收者。參數主要用於發送和備用伺服器，但某些參數僅在主伺服器上有意義。如果需要，設定是跨群集的，不會産生問題。
 
-## 19.6.1. 發送伺服器
+## 19.6.1. 發送伺服器（Sender Server）
 
 可以在將資料複寫發送到一個或多個備用伺服器的任何伺服器上設定這些參數。主伺服器始終是發送伺服器，因此必須在主伺服器上設定這些參數。備用資料庫成為主資料庫後，這些參數的作用也不會改變。
 
@@ -32,15 +28,17 @@ description: 版本：10
 
 記錄事務的提交時間。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值為 off。
 
-## 19.6.2. Master Server
+## 19.6.2. 主要伺服器（Master Server）
 
-These parameters can be set on the master/primary server that is to send replication data to one or more standby servers. Note that in addition to these parameters, [wal\_level](https://www.postgresql.org/docs/10/static/runtime-config-wal.html#GUC-WAL-LEVEL) must be set appropriately on the master server, and optionally WAL archiving can be enabled as well \(see [Section 19.5.3](https://www.postgresql.org/docs/10/static/runtime-config-wal.html#RUNTIME-CONFIG-WAL-ARCHIVING)\). The values of these parameters on standby servers are irrelevant, although you may wish to set them there in preparation for the possibility of a standby becoming the master.`synchronous_standby_names` \(`string`\)
+可以將要複寫資料發送到一個或多個備用伺服器，在主要伺服器上設定這些參數。請注意，除了這些參數之外，還必須在主要伺服器上正確設定 [wal\_level](write-ahead-log.md#19-5-1-settings)，可以選擇啟用 WAL 歸檔（參閱[第 19.5.3 節](write-ahead-log.md#19-5-3-archiving)）。備用伺服器上這些參數的值是無意義的，儘管您可能希望將它們設定在那裡以預備備用資料庫成為主要伺服器的可能性。
 
-Specifies a list of standby servers that can support _synchronous replication_, as described in [Section 26.2.8](https://www.postgresql.org/docs/10/static/warm-standby.html#SYNCHRONOUS-REPLICATION). There will be one or more active synchronous standbys; transactions waiting for commit will be allowed to proceed after these standby servers confirm receipt of their data. The synchronous standbys will be those whose names appear in this list, and that are both currently connected and streaming data in real-time \(as shown by a state of `streaming` in the [`pg_stat_replication`](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-VIEWS-TABLE) view\). Specifying more than one synchronous standby can allow for very high availability and protection against data loss.
+`synchronous_standby_names` \(`string`\)
 
-The name of a standby server for this purpose is the `application_name` setting of the standby, as set in the standby's connection information. In case of a physical replication standby, this should be set in the `primary_conninfo` setting in `recovery.conf`; the default is`walreceiver`. For logical replication, this can be set in the connection information of the subscription, and it defaults to the subscription name. For other replication stream consumers, consult their documentation.
+指定可支援同步複寫的備用伺服器列表，如[第 26.2.8 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-8-synchronous-replication)中所述。 將有一個或多個線上同步的備用資料庫；在這些備用伺服器確認收到其資料後，將允許等待提交的事務繼續進行。同步備用資料庫將是其名稱出現在此列表中的那些，並且即時以串流傳輸資料（如 [pg\_stat\_replication](../monitoring-database-activity/the-statistics-collector.md) 檢視表中的串流傳輸狀態所示）。指定多個同步備用資料庫可以達到非常高的可用性並防止資料遺失。
 
-This parameter specifies a list of standby servers using either of the following syntaxes:
+用於此目的的備用伺服器的名稱是以備用資料庫的 application\_name 設定，在備用資料庫的連線資訊中設定。如果是物理性複寫的備用，則應在 recovery.conf 中的 primary\_conninfo 設定中進行設定；預設是 walreceiver。對於邏輯性複寫，可以在訂閱的連線訊息中設定，並且預設為訂閱名稱。對於其他複寫的串流使用者，請查閱其文件。
+
+此參數使用以下任一語法指定備用伺服器列表：
 
 ```text
 [FIRST] num_sync ( standby_name [, ...] )

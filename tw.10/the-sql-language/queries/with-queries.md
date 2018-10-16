@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 7.8. 遞迴查詢（Common Table Expressions）
 
 WITH 提供了一種撰寫用於更複雜查詢輔助語句的方法。這些通常被稱為公用資料表表示式或 CTE（Common Table Expressions） 的宣告可以被想成是定義僅存在於一個查詢中的臨時資料表。WITH子句中的每個輔助語句都可以是 SELECT、INSERT、UPDATE 或 DELETE；並且 WITH 子句本身附加到 SELECT、INSERT、UPDATE 或 DELETE 的主語句。

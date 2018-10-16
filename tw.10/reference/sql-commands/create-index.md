@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE INDEX
 
 CREATE INDEX — 定義一個新的索引

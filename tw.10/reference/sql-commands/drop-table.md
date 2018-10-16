@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # DROP TABLE
 
 DROP TABLE — 移除一個資料表

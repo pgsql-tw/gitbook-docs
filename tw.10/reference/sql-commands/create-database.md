@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # CREATE DATABASE
 
 CREATE DATABASE — 建立一個新的資料庫

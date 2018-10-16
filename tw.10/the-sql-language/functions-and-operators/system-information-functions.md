@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 9.25. 系統資訊函數
 
 [Table 9.60](system-information-functions.md#table-960-session-information-functions) 列出了一些取得連線和系統資訊的函數。

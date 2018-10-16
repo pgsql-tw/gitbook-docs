@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # DROP VIEW
 
 DROP VIEW — 移除檢視表

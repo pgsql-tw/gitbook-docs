@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 24.2. 定期重建索引
 
 在某些情況下，使用 [REINDEX](../../reference/sql-commands/reindex.md) 指令或一系列單獨的重建步驟定期重建索引是值得的。

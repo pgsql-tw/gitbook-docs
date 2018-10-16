@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # LISTEN
 
 LISTEN — 監聽某個通知

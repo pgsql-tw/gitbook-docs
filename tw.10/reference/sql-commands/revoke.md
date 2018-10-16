@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # REVOKE
 
 REVOKE — 撤銷存取權限

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # EXPLAIN
 
 EXPLAIN — 顯示執行計劃的內容

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # SET
 
 SET — 變更執行環境參數

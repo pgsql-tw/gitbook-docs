@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 64.5. GIN Tips and Tricks
 
 Create vs. insert

@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # ALTER ROLE
 
 ALTER ROLE — 變更資料庫角色

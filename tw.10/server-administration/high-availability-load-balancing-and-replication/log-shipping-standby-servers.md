@@ -1,7 +1,3 @@
----
-description: 版本：10
----
-
 # 26.2. Log-Shipping Standby Servers
 
 持續性歸檔可用於建構高可用性（HA）的叢集配置，其中一個或多個備用伺服器準備好在主伺服器發生故障時接管操作。此功能被廣泛稱為熱備份（warm standby）或日誌輸送\(Log-Shipping\)。
