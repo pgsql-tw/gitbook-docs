@@ -99,29 +99,29 @@ PGTransactionStatusType PQtransactionStatus(const PGconn *conn);
 const char *PQparameterStatus(const PGconn *conn, const char *paramName);
 ```
 
-Certain parameter values are reported by the server automatically at connection startup or whenever their values change. `PQparameterStatus` can be used to interrogate these settings. It returns the current value of a parameter if known, or `NULL` if the parameter is not known.
+伺服器在連線啟動時或其值發生變化時會自動回報某些參數值。PQparameterStatus 可用於查詢這些設定。如果參數已知，則回傳參數的目前值；如果參數未知，則回傳 NULL。
 
-Parameters reported as of the current release include `server_version`, `server_encoding`, `client_encoding`, `application_name`, `is_superuser`, `session_authorization`, `DateStyle`, `IntervalStyle`, `TimeZone`, `integer_datetimes`, and `standard_conforming_strings`. \(`server_encoding`, `TimeZone`, and `integer_datetimes` were not reported by releases before 8.0; `standard_conforming_strings` was not reported by releases before 8.1; `IntervalStyle` was not reported by releases before 8.4; `application_name` was not reported by releases before 9.0.\) Note that `server_version`, `server_encoding` and `integer_datetimes` cannot change after startup.
+截至目前版本可回報的參數包括 server\_version，server\_encoding，client\_encoding，application\_name，is\_superuser，session\_authorization，DateStyle，IntervalStyle，TimeZone，integer\_datetimes 和 standard\_conforming\_strings。（8.0 之前的版本沒有 server\_encoding，TimeZone 和 integer\_datetimes；8.1 之前的版本沒有 standard\_conforming\_strings；8.4 之前的版本沒有 IntervalStyle；9.0 之前的版本沒有 application\_name。）請注意 server\_version，server\_encoding 和 integer\_datetimes 啟動後無法更改。
 
-Pre-3.0-protocol servers do not report parameter settings, but libpq includes logic to obtain values for `server_version` and `client_encoding` anyway. Applications are encouraged to use `PQparameterStatus` rather than _ad hoc_ code to determine these values. \(Beware however that on a pre-3.0 connection, changing `client_encoding` via `SET` after connection startup will not be reflected by `PQparameterStatus`.\) For `server_version`, see also `PQserverVersion`, which returns the information in a numeric form that is much easier to compare against.
+3.0 之前的協定，伺服器不回報參數設定，但 libpq 包括了無論如何都要取得 server\_version 和 client\_encoding 的值的邏輯，所以鼓勵應用程式使用 PQparameterStatus 而不是直接的程式碼來確定這些值。（請注意，在 3.0 之前的連線上，在連線啟動後透過 SET 更改 client\_encoding 將不會為 PQparameterStatus 所反映。）對於 server\_version，另請參閱 PQserverVersion，它以更容易比較的數字形式回傳資訊。
 
-If no value for `standard_conforming_strings` is reported, applications can assume it is `off`, that is, backslashes are treated as escapes in string literals. Also, the presence of this parameter can be taken as an indication that the escape string syntax \(`E'...'`\) is accepted.
+如果沒有回報 standard\_conforming\_strings 的值，則應用程式可以假設它已經關閉；而倒斜線在字串文字中被視為轉置符號。此外，可以將此參數的存在視為接受轉置字串語法（E'...'）的指示。
 
-Although the returned pointer is declared `const`, it in fact points to mutable storage associated with the `PGconn` structure. It is unwise to assume the pointer will remain valid across queries.
+雖然回傳的指標被宣告為 const，但它實際上指向與 PGconn 結構相關聯的可變的儲存空間。假設指標在查詢中保持有效是不明智的。
 
 `PQprotocolVersion`
 
-Interrogates the frontend/backend protocol being used.
+詢問正在使用的前端/後端協定。
 
 ```text
 int PQprotocolVersion(const PGconn *conn);
 ```
 
-Applications might wish to use this function to determine whether certain features are supported. Currently, the possible values are 2 \(2.0 protocol\), 3 \(3.0 protocol\), or zero \(connection bad\). The protocol version will not change after connection startup is complete, but it could theoretically change during a connection reset. The 3.0 protocol will normally be used when communicating with PostgreSQL 7.4 or later servers; pre-7.4 servers support only protocol 2.0. \(Protocol 1.0 is obsolete and not supported by libpq.\)
+應用程式可能希望使用此函數來確定是否支援某些功能。目前，可能的值是 2（2.0 協議），3（3.0 協議）或零（連線錯誤）。 連線啟動完成後協定的版本不會改變，但理論上它可以在連線重置期間改變。通常在與 PostgreSQL 7.4 或更高版本的伺服器連線時使用 3.0 協議；7.4 之前的伺服器僅支持協定 2.0。（協定 1.0 已過時，libpq 不支援。）
 
 `PQserverVersion`
 
-Returns an integer representing the server version.
+回傳伺服器版本的整數表示。
 
 ```text
 int PQserverVersion(const PGconn *conn);
