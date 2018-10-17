@@ -1,16 +1,19 @@
+---
+description: 版本：10
+---
+
 # 33.2. 連線狀態函數
 
-These functions can be used to interrogate the status of an existing database connection object.
+這些函數可用於查詢現有資料庫連線物件的狀態。
 
-#### Tip
+**提醒**  
+libpq 應用程式設計師應該小心地使用 PGconn 的功能。使用下面描述的函數功能以獲取 PGconn 的內容。建議不要使用 libpq-int.h 引用內部 PGconn 變數，因為它們將來可能會有所改變。
 
-libpq application programmers should be careful to maintain the `PGconn` abstraction. Use the accessor functions described below to get at the contents of `PGconn`. Reference to internal `PGconn` fields using `libpq-int.h` is not recommended because they are subject to change in the future.
-
-The following functions return parameter values established at connection. These values are fixed for the life of the connection. If a multi-host connection string is used, the values of `PQhost`, `PQport`, and `PQpass` can change if a new connection is established using the same`PGconn` object. Other values are fixed for the lifetime of the `PGconn` object.
+以下函數回傳在連線建立時的參數值。這些值在連線的生命週期之間是不變的。如果使用多主機連線字串，則在使用同樣的 PGconn 物件建立新連線時，PQhost，PQport 和 PQpass 的值可能會變動。其他值在 PGconn 物件的生命週期內是不變的。
 
 `PQdb`
 
-Returns the database name of the connection.
+回傳連線的資料庫名稱。
 
 ```text
 char *PQdb(const PGconn *conn);
@@ -18,7 +21,7 @@ char *PQdb(const PGconn *conn);
 
 `PQuser`
 
-Returns the user name of the connection.
+回傳連線的使用者名稱。
 
 ```text
 char *PQuser(const PGconn *conn);
@@ -26,7 +29,7 @@ char *PQuser(const PGconn *conn);
 
 `PQpass`
 
-Returns the password of the connection.
+回傳連線所使用的密碼。
 
 ```text
 char *PQpass(const PGconn *conn);
@@ -34,7 +37,7 @@ char *PQpass(const PGconn *conn);
 
 `PQhost`
 
-Returns the server host name of the connection. This can be a host name, an IP address, or a directory path if the connection is via Unix socket. \(The path case can be distinguished because it will always be an absolute path, beginning with `/`.\)
+回傳連線的伺服器主機名稱。如果連線是透過 Unix-domain socket，則可以是主機名稱，IP 位址或目錄路徑。（路徑會區分大小寫，因為它始終是一個絕對路徑，並以 / 開頭。）
 
 ```text
 char *PQhost(const PGconn *conn);
@@ -42,7 +45,7 @@ char *PQhost(const PGconn *conn);
 
 `PQport`
 
-Returns the port of the connection.
+回傳連線的連接埠號碼。
 
 ```text
 char *PQport(const PGconn *conn);
@@ -50,7 +53,7 @@ char *PQport(const PGconn *conn);
 
 `PQtty`
 
-Returns the debug TTY of the connection. \(This is obsolete, since the server no longer pays attention to the TTY setting, but the function remains for backward compatibility.\)
+回傳連線的除錯 TTY。（這已經過時了，因為伺服器不再關注 TTY 設定，但此功能仍然存在是為了相容性。）
 
 ```text
 char *PQtty(const PGconn *conn);
@@ -58,39 +61,39 @@ char *PQtty(const PGconn *conn);
 
 `PQoptions`
 
-Returns the command-line options passed in the connection request.
+回傳連線請求中傳遞的命令列選項。
 
 ```text
 char *PQoptions(const PGconn *conn);
 ```
 
-The following functions return status data that can change as operations are executed on the `PGconn` object.
+以下函數回傳狀態資訊，這些資訊會在 PGconn 物件上執行操作時變動。
 
 `PQstatus`
 
-Returns the status of the connection.
+回傳連線的狀態。
 
 ```text
 ConnStatusType PQstatus(const PGconn *conn);
 ```
 
-The status can be one of a number of values. However, only two of these are seen outside of an asynchronous connection procedure: `CONNECTION_OK` and `CONNECTION_BAD`. A good connection to the database has the status `CONNECTION_OK`. A failed connection attempt is signaled by status `CONNECTION_BAD`. Ordinarily, an OK status will remain so until `PQfinish`, but a communications failure might result in the status changing to `CONNECTION_BAD` prematurely. In that case the application could try to recover by calling `PQreset`.
+狀態可以是許多值中的一個。但是，在非同步連線過程之外只能看到其中的兩個：CONNECTION\_OK 和 CONNECTION\_BAD。與資料庫的良好連線時是 CONNECTION\_OK 狀態。CONNECTION\_BAD 狀態表示連線嘗試失敗。通常情況下，OK 狀態將保持不變，直到 PQfinish，但網路故障可能導致狀態提前更改為 CONNECTION\_BAD。在這種情況下，應用程式可以嘗試透過呼叫 PQreset 進行恢復。
 
-See the entry for `PQconnectStartParams`, `PQconnectStart` and `PQconnectPoll` with regards to other status codes that might be returned.
+有關可能回傳的其他狀態代碼，請參閱 PQconnectStartParams，PQconnectStart 和 PQconnectPoll 的項目。
 
 `PQtransactionStatus`
 
-Returns the current in-transaction status of the server.
+回傳伺服器的目前在交易事務中狀態。
 
 ```text
 PGTransactionStatusType PQtransactionStatus(const PGconn *conn);
 ```
 
-The status can be `PQTRANS_IDLE` \(currently idle\), `PQTRANS_ACTIVE` \(a command is in progress\), `PQTRANS_INTRANS` \(idle, in a valid transaction block\), or `PQTRANS_INERROR` \(idle, in a failed transaction block\). `PQTRANS_UNKNOWN` is reported if the connection is bad. `PQTRANS_ACTIVE` is reported only when a query has been sent to the server and not yet completed.
+狀態可以是 PQTRANS\_IDLE（目前空閒），PQTRANS\_ACTIVE（命令正在進行中），PQTRANS\_INTRANS（空閒，在有效的事務區塊中）或PQTRANS\_INERROR（空閒，在失敗的事務區塊中）。 如果連線錯誤，則回報 PQTRANS\_UNKNOWN。僅當查詢已發送到伺服器但尚未完成時才會回報 PQTRANS\_ACTIVE。
 
 `PQparameterStatus`
 
-Looks up a current parameter setting of the server.
+查詢伺服器的目前參數設定。
 
 ```text
 const char *PQparameterStatus(const PGconn *conn, const char *paramName);
