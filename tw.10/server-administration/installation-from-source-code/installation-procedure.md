@@ -399,51 +399,51 @@ If using GCC, it is best to build with an optimization level of at least `-O1`, 
 
 The `COPT` and `PROFILE` environment variables are actually handled identically by the PostgreSQL makefiles. Which to use is a matter of preference, but a common habit among developers is to use `PROFILE` for one-time flag adjustments, while `COPT` might be kept set all the time.
 
-## **2. Build**
+## **2. 編譯**
 
-To start the build, type either of:
+要開始編譯，請輸入以下任一項：
 
 ```text
 make
 make all
 ```
 
-\(Remember to use GNU make.\) The build will take a few minutes depending on your hardware. The last line displayed should be:
+（請使用GNU make。）編譯將花費一些時間，具體取決於您的硬體。顯示的最後一行應該是：
 
 ```text
 All of PostgreSQL successfully made. Ready to install.
 ```
 
-If you want to build everything that can be built, including the documentation \(HTML and man pages\), and the additional modules \(`contrib`\), type instead:
+如果要編譯所有可編譯的內容，包括文件（HTML和手冊頁）以及其他模組（contrib），請輸入：
 
 ```text
 make world
 ```
 
-The last line displayed should be:
+顯示的最後一行應該是：
 
 ```text
 PostgreSQL, contrib, and documentation successfully made. Ready to install.
 ```
 
-If you want to invoke the build from another makefile rather than manually, you must unset `MAKELEVEL` or set it to zero, for instance like this:
+如果要從另一個 makefile 而不是手動呼叫編譯，則必須取消設定 MAKELEVEL 或將其設定為零，例如：
 
 ```text
 build-postgresql:
         $(MAKE) -C postgresql MAKELEVEL=0 all
 ```
 
-Failure to do that can lead to strange error messages, typically about missing header files.
+如果不這樣做可能會導致奇怪的錯誤訊息，通常是缺少標頭檔案。
 
-## **3. Regression Tests**
+## **3.** 迴歸測試
 
-If you want to test the newly built server before you install it, you can run the regression tests at this point. The regression tests are a test suite to verify that PostgreSQL runs on your machine in the way the developers expected it to. Type:
+如果要在安裝之前測試新編譯的伺服器，則可以在此時執行迴歸測試。迴歸測試是一個測試套件，用於驗證 PostgreSQL 是否以開發人員期望的方式在您的主機上執行。輸入：
 
 ```text
 make check
 ```
 
-\(This won't work as root; do it as an unprivileged user.\) See [Chapter 33](https://www.postgresql.org/docs/current/static/regress.html) for detailed information about interpreting the test results. You can repeat this test at any later time by issuing the same command.
+（這不能以 root 身份運行；請以非特權用戶身份執行。）有關解釋測試結果的詳細訊息，請參閱[第 33 章](../32.-hui-gui-ce-shi/)。您可以在之後透過相同的命令重複此測試。
 
 ## **4. Installing the Files**
 
