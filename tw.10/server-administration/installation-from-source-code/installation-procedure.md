@@ -82,47 +82,45 @@ PostgreSQL 的 HTML 格式文件檔案將安裝在此目錄下。預設值為 DA
 
 `--with-extra-version=`_`STRING`_
 
-Append _`STRING`_ to the PostgreSQL version number. You can use this, for example, to mark binaries built from unreleased Git snapshots or containing custom patches with an extra version string such as a `git describe` identifier or a distribution package release number.
+將 STRING 附加到 PostgreSQL 版本號。例如，您可以使用此標記來標記從未發布的 Git 快照所編譯的二進位檔案，或者包含帶有額外版本字串的自訂修補程式，例如 git describe 識別字或某個發行套裝的版本號碼。
 
 `--with-includes=`_`DIRECTORIES`_
 
-_`DIRECTORIES`_ is a colon-separated list of directories that will be added to the list the compiler searches for header files. If you have optional packages \(such as GNU Readline\) installed in a non-standard location, you have to use this option and probably also the corresponding 
+DIRECTORIES 是一個以冒號分隔的目錄列表，它們將加到編譯器搜尋標頭檔案的列表中。如果您在非標準路徑安裝了選擇性套件（例如GNU Readline），則必須使用此選項，並且可能還需要設定相對應的 --with-libraries 選項。
 
-`--with-libraries` option.
-
-Example: `--with-includes=/opt/gnu/include:/usr/sup/include`.
+例如： `--with-includes=/opt/gnu/include:/usr/sup/include`
 
 `--with-libraries=`_`DIRECTORIES`_
 
-_`DIRECTORIES`_ is a colon-separated list of directories to search for libraries. You will probably have to use this option \(and the corresponding `--with-includes` option\) if you have packages installed in non-standard locations.
+DIRECTORIES 是一個以冒號分隔的目錄列表，用於搜尋函式庫。如果您在非標準路徑安裝了某些軟體套件，則可能必須使用此選項（以及相對應的 --with-includes 選項）。
 
-Example: `--with-libraries=/opt/gnu/lib:/usr/sup/lib`.
+例如： `--with-libraries=/opt/gnu/lib:/usr/sup/lib`
 
 `--enable-nls[=`_`LANGUAGES`_\]
 
-Enables Native Language Support \(NLS\), that is, the ability to display a program's messages in a language other than English. _`LANGUAGES`_ is an optional space-separated list of codes of the languages that you want supported, for example `--enable-nls='de fr'`. \(The intersection between your list and the set of actually provided translations will be computed automatically.\) If you do not specify a list, then all available translations are installed.
+啟用內建語言支援（NLS），即以英語以外的語言顯示程式訊息的功能。 LANGUAGES 是您希望支援語言代碼的選擇性空格分隔列表，例如 --enable-nls ='de fr'。（將自動計算列表與實際提供的翻譯集之間的交集。）如果未指定列表，則會安裝所有可用的翻譯。
 
-To use this option, you will need an implementation of the Gettext API; see above.
+要使用此選項，您需要實作 Gettext API；如上所述。
 
 `--with-pgport=`_`NUMBER`_
 
-Set _`NUMBER`_ as the default port number for server and clients. The default is 5432. The port can always be changed later on, but if you specify it here then both server and clients will have the same default compiled in, which can be very convenient. Usually the only good reason to select a non-default value is if you intend to run multiple PostgreSQL servers on the same machine.
+將 NUMBER 設定為伺服器和用戶端的預設連接埠號碼。預設值為 5432。之後可以隨時更改連接埠，但如果在此處指定端口，則伺服器和用戶端都將具有相同的預設編譯，這會非常方便。通常，選擇非預設值的唯一理由是，您打算在同一台機器上執行多個 PostgreSQL 伺服器。
 
 `--with-perl`
 
-Build the PL/Perl server-side language.
+編譯 PL / Perl 伺服器端語言。
 
 `--with-python`
 
-Build the PL/Python server-side language.
+編譯 PL / Python 伺服器端語言。
 
 `--with-tcl`
 
-Build the PL/Tcl server-side language.
+編譯 PL / Tcl 伺服器端語言。
 
 `--with-tclconfig=`_`DIRECTORY`_
 
-Tcl installs the file `tclConfig.sh`, which contains configuration information needed to build modules interfacing to Tcl. This file is normally found automatically at a well-known location, but if you want to use a different version of Tcl you can specify the directory in which to look for it.
+Tcl 安裝檔案 tclConfig.sh，其中包含編譯與 Tcl 介面模組所需的組態資訊。此檔案通常在一個眾所周知的路徑中自動找到，但如果您想使用不同版本的 Tcl，則可以指定搜尋它的目錄。
 
 `--with-gssapi`
 
