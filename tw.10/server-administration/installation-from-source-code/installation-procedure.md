@@ -2,17 +2,17 @@
 description: 版木：11
 ---
 
-# 16.4. Installation Procedure
+# 16.4. 安裝流程
 
-## 1. **Configuration**
+## 1. **組態設定**
 
-The first step of the installation procedure is to configure the source tree for your system and choose the options you would like. This is done by running the `configure` script. For a default installation simply enter:
+安裝過程的第一步是設定原始碼編譯時所需的選項。這是透過執行 configure 腳本完成的。對於預設安裝而言，只需輸入：
 
 ```text
 ./configure
 ```
 
-This script will run a number of tests to determine values for various system dependent variables and detect any quirks of your operating system, and finally will create several files in the build tree to record what it found. You can also run `configure` in a directory outside the source tree, if you want to keep the build directory separate. This procedure is also called a _VPATH_ build. Here's how:
+此腳本將執行許多測試以確定各種系統相關變數的值，並檢測操作業系統的所有特性，最後將在編譯樹中建立多個檔案以記錄它找到的內容。如果要將編譯目錄分開，也可以在原始碼以外的目錄中執行 configure。此過程也稱為 VPATH 編譯。可以這樣做：
 
 ```text
 mkdir build_dir
@@ -21,9 +21,9 @@ cd build_dir
 make
 ```
 
-The default configuration will build the server and utilities, as well as all client applications and interfaces that require only a C compiler. All files will be installed under `/usr/local/pgsql` by default.
+預設配置將編譯伺服器和工具程式，以及僅需要 C 編譯器的所有用戶端應用程式和介存取介面。預設情況下，所有檔案都將安裝在 /usr/local/pgsql 下。
 
-You can customize the build and installation process by supplying one or more of the following command line options to `configure`:
+您可以透過提供以下一個或多個命令列選項來自訂編譯的過程：
 
 `--prefix=`_`PREFIX`_
 
