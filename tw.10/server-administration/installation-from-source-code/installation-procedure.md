@@ -27,59 +27,58 @@ make
 
 `--prefix=`_`PREFIX`_
 
-Install all files under the directory _`PREFIX`_ instead of `/usr/local/pgsql`. The actual files will be installed into various subdirectories; no files will ever be installed directly into the _`PREFIX`_ directory.
+安裝所以檔案到到目錄 PREFIX 下而不是 /usr/local/pgsql。實際檔案將安裝到各個子目錄中；任何檔案都不會直接安裝到 PREFIX 目錄中。
 
-If you have special needs, you can also customize the individual subdirectories with the following options. However, if you leave these with their defaults, the installation will be relocatable, meaning you can move the directory after installation. \(The `man` and `doc` locations are not affected by this.\)
+如果您有特殊需求，還可以使用以下選項自訂各個子目錄。但是，如果保留這些預設值，則安裝結果將是可重新配置的，這意味著您可以在安裝後移動目錄。（man 和 doc 路徑不受此影響。）
 
-For relocatable installs, you might want to use `configure`'s `--disable-rpath` option. Also, you will need to tell the operating system how to find the shared libraries.
+對於可重新配置的安裝，您可能希望使用 configure 的 --disable-rpath 選項。此外，您需要告訴作業系統如何尋找共享函式庫。
 
 `--exec-prefix=`_`EXEC-PREFIX`_
 
-You can install architecture-dependent files under a different prefix, _`EXEC-PREFIX`_, than what _`PREFIX`_ was set to. This can be useful to share architecture-independent files between hosts. If you omit this, then _`EXEC-PREFIX`_ is set equal to _`PREFIX`_ and both architecture-dependent and independent files will be installed under the same tree, which is probably what you want.
+您可以在與 PREFIX 設定的前綴不同的前綴 EXEC-PREFIX 下安裝相依於系統結構的檔案。這對於在主機之間共享與系統結構無關的檔案非常有用。如果省略這一點，則 EXEC-PREFIX 設定為等於 PREFIX，並且相依於系統結構的檔案和獨立檔案都將安裝在同一個樹下，這可能就是您想要的。
 
 `--bindir=`_`DIRECTORY`_
 
-Specifies the directory for executable programs. The default is _`EXEC-PREFIX`_/bin, which normally means `/usr/local/pgsql/bin`.
+指定可執行程式的目錄。預設值為 EXEC-PREFIX/bin，通常為 /usr/local/pgsql/bin。
 
 `--sysconfdir=`_`DIRECTORY`_
 
-Sets the directory for various configuration files, _`PREFIX`_/etc by default.
+預設設定各種組態配置檔案的目錄，PREFIX/etc。
 
 `--libdir=`_`DIRECTORY`_
 
-Sets the location to install libraries and dynamically loadable modules. The default is _`EXEC-PREFIX`_/lib.
+設定安裝函式庫和動態模組的位置。預設值為 EXEC-PREFIX/lib。
 
 `--includedir=`_`DIRECTORY`_
 
-Sets the directory for installing C and C++ header files. The default is _`PREFIX`_/include.
+設定安裝 C 和 C++ 標頭檔案的目錄。預設值為 PREFIX/include。
 
 `--datarootdir=`_`DIRECTORY`_
 
-Sets the root directory for various types of read-only data files. This only sets the default for some of the following options. The default is _`PREFIX`_/share.
+設定各種類型的唯讀資料檔案的根目錄。這僅設定以下某些選項的預設值。預設值為 PREFIX/share。
 
 `--datadir=`_`DIRECTORY`_
 
-Sets the directory for read-only data files used by the installed programs. The default is _`DATAROOTDIR`_. Note that this has nothing to do with where your database files will be placed.
+設定安裝好的程式所使用的唯讀資料檔案目錄。預設值為 DATAROOTDIR。請注意，這與放置資料庫檔案的位置無關。
 
 `--localedir=`_`DIRECTORY`_
 
-Sets the directory for installing locale data, in particular message translation catalog files. The default is _`DATAROOTDIR`_/locale.
+設定用於安裝區域設定資料的目錄，像是訊息翻譯的目錄檔案。預設值為 DATAROOTDIR/locale。
 
 `--mandir=`_`DIRECTORY`_
 
-The man pages that come with PostgreSQL will be installed under this directory, in their respective `man`_`x`_ subdirectories. The default is _`DATAROOTDIR`_/man.
+PostgreSQL 附帶的手冊頁面將安裝在此目錄下的各自 manx 子目錄中。預設值為 DATAROOTDIR/man。
 
 `--docdir=`_`DIRECTORY`_
 
-Sets the root directory for installing documentation files, except “man” pages. This only sets the default for the following options. The default value for this option is_`DATAROOTDIR`_/doc/postgresql.
+設定安裝文件檔案的根目錄，“man” 頁面除外。這僅設定以下選項的預設值。此選項的預設值為 DARAROOTDIR/doc/postgresql。
 
 `--htmldir=`_`DIRECTORY`_
 
-The HTML-formatted documentation for PostgreSQL will be installed under this directory. The default is _`DATAROOTDIR`_.
+PostgreSQL 的 HTML 格式文件檔案將安裝在此目錄下。預設值為 DATAROOTDIR。
 
-**Note**
-
-Care has been taken to make it possible to install PostgreSQL into shared installation locations \(such as `/usr/local/include`\) without interfering with the namespace of the rest of the system. First, the string “`/postgresql`” is automatically appended to `datadir`, `sysconfdir`, and `docdir`, unless the fully expanded directory name already contains the string “`postgres`” or “`pgsql`”. For example, if you choose `/usr/local` as prefix, the documentation will be installed in `/usr/local/doc/postgresql`, but if the prefix is `/opt/postgres`, then it will be in `/opt/postgres/doc`. The public C header files of the client interfaces are installed into `includedir` and are namespace-clean. The internal header files and the server header files are installed into private directories under `includedir`. See the documentation of each interface for information about how to access its header files. Finally, a private subdirectory will also be created, if appropriate, under `libdir` for dynamically loadable modules.
+**注意**  
+可以將 PostgreSQL 安裝到共享安裝位置（例如 /usr/local/include），而不會干擾系統其餘部分的命名空間。首先，字串 “/postgresql” 會自動附加到 datadir，sysconfdir 和docdir，除非完全展開的目錄名已包含字串 “postgres” 或 “pgsql”。例如，如果選擇 /usr/local 作為前綴，則檔案將安裝在 /usr/local/doc/postgresql 中，但如果前綴為 /opt/postgres，則它將位於 /opt/postgres/doc 中。用戶端介面的公用 C 標頭檔案安裝在 includedir 中，並且命名空間是清楚的。內部標頭檔案和伺服器標頭檔案安裝在 includedir 下的私有目錄中。有關如何存取其標頭檔案的訊息，請參閱每個介面的文件檔案。最後，如果可以的話，還將在 libdir 下為可動態載入的模組建立一個私有的子目錄。
 
 `--with-extra-version=`_`STRING`_
 
