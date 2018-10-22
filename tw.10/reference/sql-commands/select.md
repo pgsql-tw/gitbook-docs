@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # SELECT
 
 SELECT, TABLE, WITH — 從資料表或檢視表中檢索資料列
@@ -502,9 +506,9 @@ SELECT * FROM name
 
 It can be used as a top-level command or as a space-saving syntax variant in parts of complex queries. Only the `WITH`, `UNION`, `INTERSECT`, `EXCEPT`, `ORDER BY`, `LIMIT`, `OFFSET`, `FETCH` and `FOR` locking clauses can be used with `TABLE`; the `WHERE` clause and any form of aggregation cannot be used.
 
-### Examples
+### 範例
 
-To join the table `films` with the table `distributors`:
+要讓資料表 films 與資料表 distributors 進行交叉查詢的話：
 
 ```text
 SELECT f.title, f.did, d.name, f.date_prod, f.kind
@@ -518,7 +522,7 @@ SELECT f.title, f.did, d.name, f.date_prod, f.kind
  ...
 ```
 
-To sum the column `len` of all films and group the results by `kind`:
+要在 films 資料表中以 kind 分組，並彙總 len 欄位的話：
 
 ```text
 SELECT kind, sum(len) AS total FROM films GROUP BY kind;
@@ -672,7 +676,7 @@ WITH RECURSIVE employee_recursive(distance, employee_name, manager_name) AS (
 SELECT distance, employee_name FROM employee_recursive;
 ```
 
-Notice the typical form of recursive queries: an initial condition, followed by `UNION`, followed by the recursive part of the query. Be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. \(See [Section 7.8](https://www.postgresql.org/docs/10/static/queries-with.html) for more examples.\)
+Notice the typical form of recursive queries: an initial condition, followed by `UNION`, followed by the recursive part of the query. Be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. \(See [Section 7.8](https://www.postgresql.org/docs/current/static/queries-with.html) for more examples.\)
 
 This example uses `LATERAL` to apply a set-returning function `get_product_names()` for each row of the `manufacturers` table:
 
@@ -738,7 +742,7 @@ The `TABLESAMPLE` clause is currently accepted only on regular tables and materi
 
 #### Function Calls in `FROM`
 
-PostgreSQL allows a function call to be written directly as a member of the `FROM` list. In the SQL standard it would be necessary to wrap such a function call in a sub-`SELECT`; that is, the syntax `FROM` _`func`_\(...\) _`alias`_ is approximately equivalent to `FROM LATERAL (SELECT`_`func`_\(...\)\) _`alias`_. Note that `LATERAL` is considered to be implicit; this is because the standard requires `LATERAL` semantics for an `UNNEST()` item in `FROM`. PostgreSQL treats `UNNEST()` the same as other set-returning functions.
+PostgreSQL allows a function call to be written directly as a member of the `FROM` list. In the SQL standard it would be necessary to wrap such a function call in a sub-`SELECT`; that is, the syntax `FROM`_`func`_\(...\) _`alias`_ is approximately equivalent to `FROM LATERAL (SELECT` _`func`_\(...\)\) _`alias`_. Note that `LATERAL` is considered to be implicit; this is because the standard requires `LATERAL` semantics for an `UNNEST()` item in `FROM`. PostgreSQL treats `UNNEST()` the same as other set-returning functions.
 
 #### Namespace Available to `GROUP BY` and `ORDER BY`
 
@@ -750,13 +754,9 @@ SQL:1999 and later use a slightly different definition which is not entirely upw
 
 PostgreSQL recognizes functional dependency \(allowing columns to be omitted from `GROUP BY`\) only when a table's primary key is included in the `GROUP BY` list. The SQL standard specifies additional conditions that should be recognized.
 
-#### `WINDOW` Clause Restrictions
-
-The SQL standard provides additional options for the window _`frame_clause`_. PostgreSQL currently supports only the options listed above.
-
 #### `LIMIT` and `OFFSET`
 
-The clauses `LIMIT` and `OFFSET` are PostgreSQL-specific syntax, also used by MySQL. The SQL:2008 standard has introduced the clauses `OFFSET ... FETCH {FIRST|NEXT} ...` for the same functionality, as shown above in [`LIMIT` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-LIMIT). This syntax is also used by IBM DB2. \(Applications written for Oracle frequently use a workaround involving the automatically generated `rownum` column, which is not available in PostgreSQL, to implement the effects of these clauses.\)
+The clauses `LIMIT` and `OFFSET` are PostgreSQL-specific syntax, also used by MySQL. The SQL:2008 standard has introduced the clauses `OFFSET ... FETCH {FIRST|NEXT} ...` for the same functionality, as shown above in [`LIMIT` Clause](https://www.postgresql.org/docs/current/static/sql-select.html#SQL-LIMIT). This syntax is also used by IBM DB2. \(Applications written for Oracle frequently use a workaround involving the automatically generated `rownum`column, which is not available in PostgreSQL, to implement the effects of these clauses.\)
 
 #### `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE`, `FOR KEY SHARE`
 
