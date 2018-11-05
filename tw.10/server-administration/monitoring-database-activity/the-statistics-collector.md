@@ -4,21 +4,21 @@ PostgreSQL 的統計資訊收集器是一個子系統，支援收集和回報有
 
 PostgreSQL 也支援回報有關系統當下正在發生什麼的動態訊息，例如目前正由其他伺服器程序所執行的明確指令，以及系統中正在進行的其他連線。此功能獨立於收集器程序。
 
-## 28.2.1. Statistics Collection Configuration
+## 28.2.1. 統計收集設定
 
-Since collection of statistics adds some overhead to query execution, the system can be configured to collect or not collect information. This is controlled by configuration parameters that are normally set in `postgresql.conf`. \(See [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) for details about setting configuration parameters.\)
+由於統計信息的收集會增加查詢執行的成本，因此系統可以設定收集或不收集訊息。這由通常在 postgresql.conf 中的參數控制。（有關設定參數的詳細訊息，請參閱第 19 章。）
 
-The parameter [track\_activities](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-ACTIVITIES) enables monitoring of the current command being executed by any server process.
+參數 track_activities 啓用監控任何伺服器程序正在執行的指令。
 
-The parameter [track\_counts](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-COUNTS) controls whether statistics are collected about table and index accesses.
+參數 track_counts 控制是否收集有關資料表和索引存取的統計資訊。
 
-The parameter [track\_functions](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-FUNCTIONS) enables tracking of usage of user-defined functions.
+參數 track_functions 可以追踪使用者自訂函數的使用情況。
 
-The parameter [track\_io\_timing](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-IO-TIMING) enables monitoring of block read and write times.
+參數 track_io_timing 啓用監控磁碟區塊讀取和寫入時間。
 
-Normally these parameters are set in `postgresql.conf` so that they apply to all server processes, but it is possible to turn them on or off in individual sessions using the [SET](https://www.postgresql.org/docs/10/static/sql-set.html) command. \(To prevent ordinary users from hiding their activity from the administrator, only superusers are allowed to change these parameters with `SET`.\)
+通常這些參數會在 postgresql.conf 中設定，以便它們適用於所有伺服器程序，但也可以使用 SET 指令在各個連線中啓用或停用它們。（為了防止普通使用者將其活動隱藏於管理員之外，只允許超級使用者使用 SET 變更這些參數。）
 
-The statistics collector transmits the collected information to other PostgreSQL processes through temporary files. These files are stored in the directory named by the [stats\_temp\_directory](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-STATS-TEMP-DIRECTORY) parameter, `pg_stat_tmp` by default. For better performance, `stats_temp_directory`can be pointed at a RAM-based file system, decreasing physical I/O requirements. When the server shuts down cleanly, a permanent copy of the statistics data is stored in the `pg_stat` subdirectory, so that statistics can be retained across server restarts. When recovery is performed at server start \(e.g. after immediate shutdown, server crash, and point-in-time recovery\), all statistics counters are reset.
+統計資訊收集器透過臨時檔案將收集的資訊傳輸到其他 PostgreSQL 程序。這些檔案儲存在參數 stats_temp_directory 所指定的目錄中，預設為 pg_stat_tmp。為了獲得更好的效能，可以將 stats_temp_directory 指向記憶體的檔案系統，從而降低物理 I/O 需求。當伺服器完全地關閉時，統計資料的永久副本將儲存在 pg_stat 子目錄中，以便可以跨伺服器重新啟動並保留統計資訊。在伺服器啟動時進行回復（例如，在立即關閉，伺服器當機和實時回復之後），將重置所有統計計數器。
 
 ## 28.2.2. Viewing Statistics
 
