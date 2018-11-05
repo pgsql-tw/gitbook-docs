@@ -1,8 +1,8 @@
 # 28.2. 統計資訊收集器
 
-PostgreSQL's _statistics collector_ is a subsystem that supports collection and reporting of information about server activity. Presently, the collector can count accesses to tables and indexes in both disk-block and individual-row terms. It also tracks the total number of rows in each table, and information about vacuum and analyze actions for each table. It can also count calls to user-defined functions and the total time spent in each one.
+PostgreSQL 的統計資訊收集器是一個子系統，支援收集和回報有關伺服器活動的訊息。目前，收集器可以計算對磁盤區塊和單個資料列中資料表和索引的存取。它還追踪每個資料表中的總資料列數量，以及有關每個資料表的清理和分析操作的資訊。它還可以統計對使用者定義函數的呼叫以及每個函數所花費的總時間。
 
-PostgreSQL also supports reporting dynamic information about exactly what is going on in the system right now, such as the exact command currently being executed by other server processes, and which other connections exist in the system. This facility is independent of the collector process.
+PostgreSQL 也支援回報有關系統當下正在發生什麼的動態訊息，例如目前正由其他伺服器程序所執行的明確指令，以及系統中正在進行的其他連線。此功能獨立於收集器程序。
 
 ## 28.2.1. Statistics Collection Configuration
 
