@@ -1,8 +1,8 @@
 # 8.5. 日期時間型別
 
-PostgreSQL supports the full set of SQL date and time types, shown in Table 8.9. The operations available on these data types are described in [Section 9.9](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md). Dates are counted according to the Gregorian calendar, even in years before that calendar was introduced \(see [Section B.4](../../appendixes/date-time-support/b.4.-ri-qi-shi-jian-de-yan-ge.md) for more information\).
+PostgreSQL 支援完整的 SQL 日期和時間格式，如表 8.9 所示。對於這些資料型態能使用的操作，將會在[9.9節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md)描述。
 
-**Table 8.9. Date/Time Types**
+**Table 8.9. 日期/時間型態**
 
 | Name | Storage Size | Description | Low Value | High Value | Resolution |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -13,13 +13,13 @@ PostgreSQL supports the full set of SQL date and time types, shown in Table 8.9.
 | `time [ (`_`p`_\) \] with time zone | 12 bytes | time of day \(no date\), with time zone | 00:00:00+1459 | 24:00:00-1459 | 1 microsecond |
 | `interval [` _`fields`_ \] \[ \(_`p`_\) \] | 16 bytes | time interval | -178000000 years | 178000000 years | 1 microsecond |
 
-#### Note
+#### 注意
 
-The SQL standard requires that writing just `timestamp` be equivalent to `timestamp without time zone`, and PostgreSQL honors that behavior. `timestamptz` is accepted as an abbreviation for `timestamp with time zone`; this is a PostgreSQL extension.
+SQL 標準中要求 `timestamp` 的效果等同於 `timestamp without time zone`，對此 PostgreSQL 尊重這個行為。同時 PostgreSQL 額外擴充了 `timestamptz` 作為 `timestamp with time zone` 的縮寫。
 
-`time`, `timestamp`, and `interval` accept an optional precision value _`p`_ which specifies the number of fractional digits retained in the seconds field. By default, there is no explicit bound on precision. The allowed range of _`p`_ is from 0 to 6.
+`time`, `timestamp`, 和 `interval` 接受 _`p`_ 作為非必須的精度參數，可指定秒的欄位保留的小數位數。預設情況下，精度沒有明確的界限。其中 _`p`_ 允許的範圍是 0 到 6。
 
-The `interval` type has an additional option, which is to restrict the set of stored fields by writing one of these phrases:
+`interval` 型態有個額外的選項，可以寫下下列其中一個詞組來限制存放的欄位：
 
 ```text
 YEAR
@@ -37,11 +37,11 @@ HOUR TO SECOND
 MINUTE TO SECOND
 ```
 
-Note that if both _`fields`_ and _`p`_ are specified, the _`fields`_ must include `SECOND`, since the precision applies only to the seconds.
+需注意若是 _`fields`_ 和 _`p`_ 同時指定時，_`fields`_ 必須要包含 `SECOND`。這是因為精度只會套用在秒上。
 
-The type `time with time zone` is defined by the SQL standard, but the definition exhibits properties which lead to questionable usefulness. In most cases, a combination of `date`, `time`, `timestamp without time zone`, and `timestamp with time zone` should provide a complete range of date/time functionality required by any application.
+`time with time zone` 型態是由 SQL 標準所定義的，但是定義展示的屬性會導致對有用性產生疑問。在多數的例子中，`date`, `time`, `timestamp without time zone`, 和 `timestamp with time zone` 的組合應該要提供任何應用程式需要的完整日期/時間的功能。
 
-The types `abstime` and `reltime` are lower precision types which are used internally. You are discouraged from using these types in applications; these internal types might disappear in a future release.
+`abstime` 和 `reltime` 型態是較低精度的內部用型態，並不建議將這些型態用在應用程式中；這些內部型態也可能在未來的釋出中消失。
 
 #### 8.5.1. Date/Time Input
 
