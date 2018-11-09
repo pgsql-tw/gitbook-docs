@@ -1,6 +1,6 @@
 # 8.5. 日期時間型別
 
-PostgreSQL 支援完整的 SQL 日期和時間格式，如表 8.9 所示。對於這些資料型態能使用的操作，將會在[9.9節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md)描述。
+PostgreSQL 支援完整的 SQL 日期和時間格式，如表 8.9 所示。對於這些資料型態能使用的操作，將會在[9.9節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md)說明。
 
 **Table 8.9. 日期/時間型態**
 
@@ -47,15 +47,15 @@ MINUTE TO SECOND
 
 日期和時間的輸入格式可以接受幾乎任何合理的格式，包括 ISO 8601、相容於 SQL 的格式、傳統 POSTGRES 格式或者其他格式。在部份格式中，日期的年、月、日的順序可能很含糊，因此有支援指定這些欄位期望的順序。可以設定 [DateStyle](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DATESTYLE) 參數為 `MDY` 來以 月-日-年 表示、設定為 `DMY` 以 日-月-年 表示、或者設定為 `YMD` 以 年-月-日 表示。
 
-PostgreSQL 在處理日期/時間的輸入是比 SQL 標準要求的更加靈活，可以參考[附錄 B ](https://www.postgresql.org/docs/10/static/datetime-appendix.html)關於精確的解析規則以及包含月份、一週天數、時區等可以接受的文字欄位
+PostgreSQL 在處理日期/時間的輸入是比 SQL 標準要求的更加靈活，關於精確的解析規則以及包含月份、一週天數、時區等可以接受的文字欄位，可以參閱[附錄 B](https://www.postgresql.org/docs/10/static/datetime-appendix.html)。
 
-請記得，任何日期和時間字面的輸入，都需要像文字一樣以單引號結束。請參考[4.1.2.7 節](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS-GENERIC)。SQL 要求使用以下的語法：
+請記得，任何日期和時間字面的輸入，都需要像文字一樣以單引號結束，詳細的資訊請參閱[4.1.2.7 節](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS-GENERIC)。SQL 要求使用以下的語法：
 
 ```text
 type [ (p) ] 'value'
 ```
 
-其中 _`p`_ 是非必須的精度設定，用來指定秒欄位的小數位數。精度可以用來指定 `time`、`timestamp` 和 `interval` 型態，可指定範圍為 0 到 6。如果沒有指定精度時，預設將以字面數值的精度為準（但最多不超過 6 位）
+其中 _`p`_ 是非必須的精度設定，用來指定秒欄位的小數位數。精度可以用來指定 `time`、`timestamp` 和 `interval` 型態，可指定範圍為 0 到 6。如果沒有指定精度時，預設將以字面數值的精度為準（但最多不超過 6 位）。
 
 **8.5.1.1. Dates**
 
