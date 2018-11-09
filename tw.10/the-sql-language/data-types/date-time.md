@@ -17,7 +17,7 @@ PostgreSQL 支援完整的 SQL 日期和時間格式，如表 8.9 所示。對�
 
 SQL 標準中要求 `timestamp` 的效果等同於 `timestamp without time zone`，對此 PostgreSQL 尊重這個行為。同時 PostgreSQL 額外擴充了 `timestamptz` 作為 `timestamp with time zone` 的縮寫。
 
-`time`, `timestamp`, 和 `interval` 接受 _`p`_ 作為非必須的精度參數，可指定秒的欄位保留的小數位數。預設情況下，精度沒有明確的界限。其中 _`p`_ 允許的範圍是 0 到 6。
+`time`、`timestamp` 和 `interval` 接受 _`p`_ 作為非必須的精度參數，可指定秒的欄位保留的小數位數。預設情況下，精度沒有明確的界限。其中 _`p`_ 允許的範圍是 0 到 6。
 
 `interval` 型態有個額外的選項，可以寫下下列其中一個詞組來限制存放的欄位：
 
@@ -39,23 +39,23 @@ MINUTE TO SECOND
 
 需注意若是 _`fields`_ 和 _`p`_ 同時指定時，_`fields`_ 必須要包含 `SECOND`。這是因為精度只會套用在秒上。
 
-`time with time zone` 型態是由 SQL 標準所定義的，但是定義展示的屬性會導致對有用性產生疑問。在多數的例子中，`date`, `time`, `timestamp without time zone`, 和 `timestamp with time zone` 的組合應該要提供任何應用程式需要的完整日期/時間的功能。
+`time with time zone` 型態是由 SQL 標準所定義的，但是在定義中展示的屬性會導致對有用性產生疑問。在多數狀況下，`date`、`time`、`timestamp without time zone` 和 `timestamp with time zone` 的組合應該就能提供任何應用程式需要的完整日期/時間功能。
 
 `abstime` 和 `reltime` 型態是較低精度的內部用型態，並不建議將這些型態用在應用程式中；這些內部型態也可能在未來的釋出中消失。
 
-#### 8.5.1. Date/Time Input
+#### 8.5.1. 日期/時間輸入
 
-Date and time input is accepted in almost any reasonable format, including ISO 8601, SQL-compatible, traditional POSTGRES, and others. For some formats, ordering of day, month, and year in date input is ambiguous and there is support for specifying the expected ordering of these fields. Set the [DateStyle](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DATESTYLE) parameter to `MDY` to select month-day-year interpretation, `DMY` to select day-month-year interpretation, or `YMD` to select year-month-day interpretation.
+日期和時間的輸入格式可以接受幾乎任何合理的格式，包括 ISO 8601、相容於 SQL 的格式、傳統 POSTGRES 格式或者其他格式。在部份格式中，日期的年、月、日的順序可能很含糊，因此有支援指定這些欄位期望的順序。可以設定 [DateStyle](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DATESTYLE) 參數為 `MDY` 來以 月-日-年 表示、設定為 `DMY` 以 日-月-年 表示、或者設定為 `YMD` 以 年-月-日 表示。
 
-PostgreSQL is more flexible in handling date/time input than the SQL standard requires. See [Appendix B](https://www.postgresql.org/docs/10/static/datetime-appendix.html) for the exact parsing rules of date/time input and for the recognized text fields including months, days of the week, and time zones.
+PostgreSQL 在處理日期/時間的輸入是比 SQL 標準要求的更加靈活，可以參考[附錄 B ](https://www.postgresql.org/docs/10/static/datetime-appendix.html)關於精確的解析規則以及包含月份、一週天數、時區等可以接受的文字欄位
 
-Remember that any date or time literal input needs to be enclosed in single quotes, like text strings. Refer to [Section 4.1.2.7](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS-GENERIC) for more information. SQL requires the following syntax
+請記得，任何日期和時間字面的輸入，都需要像文字一樣以單引號結束。請參考[4.1.2.7 節](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS-GENERIC)。SQL 要求使用以下的語法：
 
 ```text
 type [ (p) ] 'value'
 ```
 
-where _`p`_ is an optional precision specification giving the number of fractional digits in the seconds field. Precision can be specified for `time`, `timestamp`, and `interval` types, and can range from 0 to 6. If no precision is specified in a constant specification, it defaults to the precision of the literal value \(but not more than 6 digits\).
+其中 _`p`_ 是非必須的精度設定，用來指定秒欄位的小數位數。精度可以用來指定 `time`、`timestamp` 和 `interval` 型態，可指定範圍為 0 到 6。如果沒有指定精度時，預設將以字面數值的精度為準（但最多不超過 6 位）
 
 **8.5.1.1. Dates**
 
