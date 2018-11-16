@@ -1,4 +1,4 @@
-# 33. libpq - C Library
+# 34. libpq - C Library
 
 libpq 是 C 應用程式設計師對 PostgreSQL 的介面。libpq 是一組函式庫，提供用戶端程序可以將查詢傳遞給 PostgreSQL 後端伺務器並接收這些查詢的結果。
 
