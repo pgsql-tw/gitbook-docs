@@ -1,4 +1,4 @@
-# 64.5. GIN Tips and Tricks
+# 66.5. GIN Tips and Tricks
 
 Create vs. insert
 

@@ -1,4 +1,4 @@
-# 51.29. pg\_language
+# 52.29. pg\_language
 
 The catalog `pg_language` registers languages in which you can write functions or stored procedures. See [CREATE LANGUAGE](https://www.postgresql.org/docs/10/static/sql-createlanguage.html) and [Chapter 41](https://www.postgresql.org/docs/10/static/xplang.html) for more information about language handlers.
 

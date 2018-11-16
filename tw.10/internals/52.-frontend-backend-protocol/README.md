@@ -1,4 +1,4 @@
-# 52. Frontend/Backend Protocol
+# 53. Frontend/Backend Protocol
 
 PostgreSQLuses a message-based protocol for communication between frontends and backends \(clients and servers\). The protocol is supported overTCP/IPand also over Unix-domain sockets. Port number 5432 has been registered with IANA as the customary TCP port number for servers supporting this protocol, but in practice any non-privileged port number can be used.
 

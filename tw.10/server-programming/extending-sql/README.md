@@ -1,4 +1,4 @@
-# 37. Extending SQL
+# 38. Extending SQL
 
 In the sections that follow, we will discuss how you can extend thePostgreSQLSQLquery language by adding:
 

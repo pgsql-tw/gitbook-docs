@@ -1,4 +1,4 @@
-# 33.10. Control Functions
+# 34.10. Control Functions
 
 These functions control miscellaneous details of libpq's behavior.`PQclientEncoding`
 

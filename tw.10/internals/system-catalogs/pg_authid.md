@@ -1,4 +1,4 @@
-# 51.8. pg\_authid
+# 52.8. pg\_authid
 
 目錄 pg\_authid 包含有關資料庫認證識別（角色）的資訊。角色包含「使用者」和「群組」的概念。使用者基本上只是設置了 rolcanlogin 識別的角色。任何角色（無論有或沒有 rolcanlogin）都可以擁有其他角色作為成員；詳見 [pg\_auth\_members](pg_auth_members.md)。
 

@@ -1,4 +1,4 @@
-# 51.51. pg\_statistic\_ext
+# 52.51. pg\_statistic\_ext
 
 The catalog `pg_statistic_ext` holds extended planner statistics. Each row in this catalog corresponds to a _statistics object_ created with [CREATE STATISTICS](https://www.postgresql.org/docs/10/static/sql-createstatistics.html).
 

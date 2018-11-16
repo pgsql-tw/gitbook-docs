@@ -1,4 +1,4 @@
-# 51.13. pg\_constraint
+# 52.13. pg\_constraint
 
 The catalog `pg_constraint` stores check, primary key, unique, foreign key, and exclusion constraints on tables. \(Column constraints are not treated specially. Every column constraint is equivalent to some table constraint.\) Not-null constraints are represented in the `pg_attribute` catalog, not here.
 

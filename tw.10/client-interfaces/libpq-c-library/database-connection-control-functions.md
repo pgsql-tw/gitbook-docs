@@ -1,4 +1,4 @@
-# 33.1. 資料庫連線控制函數
+# 34.1. 資料庫連線控制函數
 
 The following functions deal with making a connection to a PostgreSQL backend server. An application program can have several backend connections open at one time. \(One reason to do that is to access more than one database.\) Each connection is represented by a `PGconn` object, which is obtained from the function `PQconnectdb`, `PQconnectdbParams`, or `PQsetdbLogin`. Note that these functions will always return a non-null object pointer, unless perhaps there is too little memory even to allocate the `PGconn` object. The `PQstatus` function should be called to check the return value for a successful connection before queries are sent via the connection object.
 

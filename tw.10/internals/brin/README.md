@@ -1,4 +1,4 @@
-# 65. BRIN Indexes
+# 67. BRIN Indexes
 
 
 

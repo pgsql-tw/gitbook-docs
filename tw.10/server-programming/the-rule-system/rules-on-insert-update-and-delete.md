@@ -1,4 +1,4 @@
-# 40.4. Rules on INSERT, UPDATE, and DELETE
+# 41.4. Rules on INSERT, UPDATE, and DELETE
 
 Rules that are defined on `INSERT`, `UPDATE`, and `DELETE` are significantly different from the view rules described in the previous section. First, their `CREATE RULE` command allows more:
 

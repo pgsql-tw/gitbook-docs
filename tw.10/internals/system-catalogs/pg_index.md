@@ -1,4 +1,4 @@
-# 51.26 pg\_index
+# 52.26 pg\_index
 
 目錄 pg\_index 包含有關索引的部分信息。其餘的大多數是在 pg\_class 中。
 

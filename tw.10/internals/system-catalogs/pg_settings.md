@@ -1,4 +1,4 @@
-# 51.85. pg\_settings
+# 52.85. pg\_settings
 
 The view `pg_settings` provides access to run-time parameters of the server. It is essentially an alternative interface to the [SHOW](https://www.postgresql.org/docs/10/static/sql-show.html) and [SET](https://www.postgresql.org/docs/10/static/sql-set.html) commands. It also provides access to some facts about each parameter that are not directly available from `SHOW`, such as minimum and maximum values.
 

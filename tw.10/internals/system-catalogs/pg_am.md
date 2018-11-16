@@ -1,4 +1,4 @@
-# 51.3. pg\_am
+# 52.3. pg\_am
 
 The catalog `pg_am` stores information about relation access methods. There is one row for each access method supported by the system. Currently, only indexes have access methods. The requirements for index access methods are discussed in detail in [Chapter 60](https://www.postgresql.org/docs/10/static/indexam.html).
 

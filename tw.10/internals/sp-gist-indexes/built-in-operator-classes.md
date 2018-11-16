@@ -1,4 +1,4 @@
-# 63.2. Built-in Operator Classes
+# 65.2. Built-in Operator Classes
 
 The core PostgreSQL distribution includes the SP-GiST operator classes shown in [Table 63.1](https://www.postgresql.org/docs/10/static/spgist-builtin-opclasses.html#SPGIST-BUILTIN-OPCLASSES-TABLE).
 

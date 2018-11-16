@@ -1,4 +1,4 @@
-# 37.11. User-defined Types
+# 38.11. User-defined Types
 
 As described in [Section 37.2](https://www.postgresql.org/docs/10/static/extend-type-system.html), PostgreSQL can be extended to support new data types. This section describes how to define new base types, which are data types defined below the level of the SQL language. Creating a new base type requires implementing functions to operate on the type in a low-level language, usually C.
 

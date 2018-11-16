@@ -1,4 +1,4 @@
-# 51.12. pg\_collation
+# 52.12. pg\_collation
 
 The catalog `pg_collation` describes the available collations, which are essentially mappings from an SQL name to operating system locale categories. See [Section 23.2](https://www.postgresql.org/docs/10/static/collation.html) for more information.
 

@@ -1,4 +1,4 @@
-# 51.81 pg\_roles
+# 52.81 pg\_roles
 
 pg\_roles 這個 view 提供對資料庫角色的資訊。 這只是 [pg\_authid](pg_authid.md) 的一個公共可讀的 view，它將密碼部份予以屏蔽。
 

@@ -1,4 +1,4 @@
-# 33.4. Asynchronous Command Processing
+# 34.4. Asynchronous Command Processing
 
 The `PQexec` function is adequate for submitting commands in normal, synchronous applications. It has a few deficiencies, however, that can be of importance to some users:
 

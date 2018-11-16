@@ -1,4 +1,4 @@
-# 51.87. pg\_stats
+# 52.87. pg\_stats
 
 The view `pg_stats` provides access to the information stored in the [`pg_statistic`](https://www.postgresql.org/docs/10/static/catalog-pg-statistic.html) catalog. This view allows access only to rows of `pg_statistic` that correspond to tables the user has permission to read, and therefore it is safe to allow public read access to this view.
 

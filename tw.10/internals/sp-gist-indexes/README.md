@@ -1,4 +1,4 @@
-# 63. SP-GiST Indexes
+# 65. SP-GiST Indexes
 
 
 

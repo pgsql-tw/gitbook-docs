@@ -1,4 +1,4 @@
-# 40.1. The Query Tree
+# 41.1. The Query Tree
 
 To understand how the rule system works it is necessary to know when it is invoked and what its input and results are.
 

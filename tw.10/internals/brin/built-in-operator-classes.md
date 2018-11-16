@@ -1,4 +1,4 @@
-# 65.2. Built-in Operator Classes
+# 67.2. Built-in Operator Classes
 
 The core PostgreSQL distribution includes the BRIN operator classes shown in [Table 65.1](https://www.postgresql.org/docs/10/static/brin-builtin-opclasses.html#BRIN-BUILTIN-OPCLASSES-TABLE).
 

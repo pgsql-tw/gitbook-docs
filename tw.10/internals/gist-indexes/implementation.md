@@ -1,4 +1,4 @@
-# 62.4. Implementation
+# 64.4. Implementation
 
 #### 62.4.1. GiST buffering build
 

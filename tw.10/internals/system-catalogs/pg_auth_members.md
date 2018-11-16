@@ -1,4 +1,4 @@
-# 51.9. pg\_auth\_members
+# 52.9. pg\_auth\_members
 
 目錄 pg\_auth\_members 顯示角色之間的成員資格關連。允許任何非循環的關連。
 

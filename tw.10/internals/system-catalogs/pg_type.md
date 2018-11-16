@@ -1,4 +1,4 @@
-# 51.62. pg\_type
+# 52.62. pg\_type
 
 The catalog `pg_type` stores information about data types. Base types and enum types \(scalar types\) are created with [CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html), and domains with [CREATE DOMAIN](https://www.postgresql.org/docs/10/static/sql-createdomain.html). A composite type is automatically created for each table in the database, to represent the row structure of the table. It is also possible to create composite types with `CREATE TYPE AS`.
 
