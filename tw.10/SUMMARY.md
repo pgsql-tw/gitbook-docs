@@ -426,13 +426,8 @@
     * [42.1. Installing Procedural Languages](server-programming/procedural-languages/installing-procedural-languages.md)
   * [43. PL/pgSQL - SQL Procedural Language](server-programming/pl-pgsql-sql-procedural-language/README.md)
     * [43.5. Basic Statements](server-programming/pl-pgsql-sql-procedural-language/basic-statements.md)
-  * 44. PL/Tcl - Tcl Procedural Language
-  * 45. PL/Perl - Perl Procedural Language
-  * 46. PL/Python - Python Procedural Language
-  * 47. Server Programming Interface
   * [48. Background Worker Processes](server-programming/47.-background-worker-processes.md)
   * [49. Logical Decoding](server-programming/48.-logical-decoding.md)
-  * 50. Replication Progress Tracking
 * [VI. 參考資訊](reference/README.md)
   * [I. SQL 指令](reference/sql-commands/README.md)
     * [ALTER DATABASE](reference/sql-commands/alter-database.md)
@@ -468,6 +463,7 @@
     * [CREATE MATERIALIZED VIEW](reference/sql-commands/create-materialized-view.md)
     * [CREATE DOMAIN](reference/sql-commands/create-domain.md)
     * [CREATE POLICY](reference/sql-commands/create-policy.md)
+    * [CREATE PROCEDURE](reference/sql-commands/create-procedure.md)
     * [CREATE PUBLICATION](reference/sql-commands/create-publication.md)
     * [CREATE ROLE](reference/sql-commands/create-role.md)
     * [CREATE RULE](reference/sql-commands/create-rule.md)
