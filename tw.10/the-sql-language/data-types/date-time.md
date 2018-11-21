@@ -1,8 +1,8 @@
 # 8.5. 日期時間型別
 
-PostgreSQL supports the full set of SQL date and time types, shown in Table 8.9. The operations available on these data types are described in [Section 9.9](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md). Dates are counted according to the Gregorian calendar, even in years before that calendar was introduced \(see [Section B.4](../../appendixes/date-time-support/b.4.-ri-qi-shi-jian-de-yan-ge.md) for more information\).
+PostgreSQL 支援完整的 SQL 日期和時間格式，如表 8.9 所示。對於這些資料型態能使用的操作，將會在[9.9節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md)說明。
 
-**Table 8.9. Date/Time Types**
+**Table 8.9. 日期/時間型態**
 
 | Name | Storage Size | Description | Low Value | High Value | Resolution |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -13,13 +13,13 @@ PostgreSQL supports the full set of SQL date and time types, shown in Table 8.9.
 | `time [ (`_`p`_\) \] with time zone | 12 bytes | time of day \(no date\), with time zone | 00:00:00+1459 | 24:00:00-1459 | 1 microsecond |
 | `interval [` _`fields`_ \] \[ \(_`p`_\) \] | 16 bytes | time interval | -178000000 years | 178000000 years | 1 microsecond |
 
-#### Note
+#### 注意
 
-The SQL standard requires that writing just `timestamp` be equivalent to `timestamp without time zone`, and PostgreSQL honors that behavior. `timestamptz` is accepted as an abbreviation for `timestamp with time zone`; this is a PostgreSQL extension.
+SQL 標準中要求 `timestamp` 的效果等同於 `timestamp without time zone`，對此 PostgreSQL 尊重這個行為。同時 PostgreSQL 額外擴充了 `timestamptz` 作為 `timestamp with time zone` 的縮寫。
 
-`time`, `timestamp`, and `interval` accept an optional precision value _`p`_ which specifies the number of fractional digits retained in the seconds field. By default, there is no explicit bound on precision. The allowed range of _`p`_ is from 0 to 6.
+`time`、`timestamp` 和 `interval` 接受 _`p`_ 作為非必須的精度參數，可指定秒的欄位保留的小數位數。預設情況下，精度沒有明確的界限。其中 _`p`_ 允許的範圍是 0 到 6。
 
-The `interval` type has an additional option, which is to restrict the set of stored fields by writing one of these phrases:
+`interval` 型態有個額外的選項，可以寫下下列其中一個詞組來限制存放的欄位：
 
 ```text
 YEAR
@@ -37,31 +37,31 @@ HOUR TO SECOND
 MINUTE TO SECOND
 ```
 
-Note that if both _`fields`_ and _`p`_ are specified, the _`fields`_ must include `SECOND`, since the precision applies only to the seconds.
+需注意若是 _`fields`_ 和 _`p`_ 同時指定時，_`fields`_ 必須要包含 `SECOND`。這是因為精度只會套用在秒上。
 
-The type `time with time zone` is defined by the SQL standard, but the definition exhibits properties which lead to questionable usefulness. In most cases, a combination of `date`, `time`, `timestamp without time zone`, and `timestamp with time zone` should provide a complete range of date/time functionality required by any application.
+`time with time zone` 型態是由 SQL 標準所定義的，但是在定義中展示的屬性會導致對有用性產生疑問。在多數狀況下，`date`、`time`、`timestamp without time zone` 和 `timestamp with time zone` 的組合應該就能提供任何應用程式需要的完整日期/時間功能。
 
-The types `abstime` and `reltime` are lower precision types which are used internally. You are discouraged from using these types in applications; these internal types might disappear in a future release.
+`abstime` 和 `reltime` 型態是較低精度的內部用型態，並不建議將這些型態用在應用程式中；這些內部型態也可能在未來的釋出中消失。
 
-#### 8.5.1. Date/Time Input
+#### 8.5.1. 日期/時間輸入
 
-Date and time input is accepted in almost any reasonable format, including ISO 8601, SQL-compatible, traditional POSTGRES, and others. For some formats, ordering of day, month, and year in date input is ambiguous and there is support for specifying the expected ordering of these fields. Set the [DateStyle](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DATESTYLE) parameter to `MDY` to select month-day-year interpretation, `DMY` to select day-month-year interpretation, or `YMD` to select year-month-day interpretation.
+日期和時間的輸入格式可以接受幾乎任何合理的格式，包括 ISO 8601、相容於 SQL 的格式、傳統 POSTGRES 格式或者其他格式。在部份格式中，日期的年、月、日的順序可能很含糊，因此有支援指定這些欄位期望的順序。可以設定 [DateStyle](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DATESTYLE) 參數為 `MDY` 來以 月-日-年 表示、設定為 `DMY` 以 日-月-年 表示、或者設定為 `YMD` 以 年-月-日 表示。
 
-PostgreSQL is more flexible in handling date/time input than the SQL standard requires. See [Appendix B](https://www.postgresql.org/docs/10/static/datetime-appendix.html) for the exact parsing rules of date/time input and for the recognized text fields including months, days of the week, and time zones.
+PostgreSQL 在處理日期/時間的輸入是比 SQL 標準要求的更加靈活，關於精確的解析規則以及包含月份、一週天數、時區等可以接受的文字欄位，可以參閱[附錄 B](https://www.postgresql.org/docs/10/static/datetime-appendix.html)。
 
-Remember that any date or time literal input needs to be enclosed in single quotes, like text strings. Refer to [Section 4.1.2.7](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS-GENERIC) for more information. SQL requires the following syntax
+請記得，任何日期和時間字面的輸入，都需要像文字一樣以單引號結束，詳細的資訊請參閱[4.1.2.7 節](https://www.postgresql.org/docs/10/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS-GENERIC)。SQL 要求使用以下的語法：
 
 ```text
 type [ (p) ] 'value'
 ```
 
-where _`p`_ is an optional precision specification giving the number of fractional digits in the seconds field. Precision can be specified for `time`, `timestamp`, and `interval` types, and can range from 0 to 6. If no precision is specified in a constant specification, it defaults to the precision of the literal value \(but not more than 6 digits\).
+其中 _`p`_ 是非必須的精度設定，用來指定秒欄位的小數位數。精度可以用來指定 `time`、`timestamp` 和 `interval` 型態，可指定範圍為 0 到 6。如果沒有指定精度時，預設將以字面數值的精度為準（但最多不超過 6 位）。
 
-**8.5.1.1. Dates**
+**8.5.1.1. 日期**
 
-[Table 8.10](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-DATETIME-DATE-TABLE) shows some possible inputs for the `date` type.
+[表 8.10](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-DATETIME-DATE-TABLE) 列出 `date` 型態的一些可能的輸入格式：
 
-**Table 8.10. Date Input**
+**表 8.10. 日期輸入**
 
 | Example | Description |
 | :--- | :--- |
@@ -82,13 +82,13 @@ where _`p`_ is an optional precision specification giving the number of fraction
 | J2451187 | Julian date |
 | January 8, 99 BC | year 99 BC |
 
-**8.5.1.2. Times**
+**8.5.1.2. 時間**
 
-The time-of-day types are `time [ (`_`p`_\) \] without time zone and `time [ (`_`p`_\) \] with time zone. `time` alone is equivalent to `time without time zone`.
+time-of-day 格式包含 `time [ (`_`p`_\) \] without time zone` 和 `time [ (`_`p`_\) \] with time zone`，其中 `time` 單獨出現時等同於 `time without time zone`。
 
-Valid input for these types consists of a time of day followed by an optional time zone. \(See [Table 8.11](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-DATETIME-TIME-TABLE) and [Table 8.12](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONE-TABLE).\) If a time zone is specified in the input for `time without time zone`, it is silently ignored. You can also specify a date but it will be ignored, except when you use a time zone name that involves a daylight-savings rule, such as `America/New_York`. In this case specifying the date is required in order to determine whether standard or daylight-savings time applies. The appropriate time zone offset is recorded in the `time with time zone` value.
+這些型態的合法輸入包含了一天當中的時間，以及非必須的時區。（請參照[表 8.11](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-DATETIME-TIME-TABLE) 和[表 8.12](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONE-TABLE)）。如果在 `time without time zone` 的輸入中指定了時區，則時區會被無聲地忽略。你也可以指定日期，但日期也會被忽略，除非你指定的時區名稱是像 `America/New_York` 這種具有日光節約規則的時區，因為在這種狀況下，為了能夠決定要套用一般規則或是日光節約規則，必須要有日期。適合的時差資訊會被紀錄在 `time with time zone` 的值當中。
 
-**Table 8.11. Time Input**
+**表 8.11. 時間輸入**
 
 | Example | Description |
 | :--- | :--- |
@@ -105,7 +105,7 @@ Valid input for these types consists of a time of day followed by an optional ti
 | `04:05:06 PST` | time zone specified by abbreviation |
 | `2003-04-12 04:05:06 America/New_York` | time zone specified by full name |
 
-**Table 8.12. Time Zone Input**
+**表 8.12. 時區輸入**
 
 | Example | Description |
 | :--- | :--- |
@@ -118,43 +118,43 @@ Valid input for these types consists of a time of day followed by an optional ti
 | `zulu` | Military abbreviation for UTC |
 | `z` | Short form of `zulu` |
 
-Refer to [Section 8.5.3](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONES) for more information on how to specify time zones.
+關於指定時區的其他資訊，請參照[8.5.3節](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONES)。
 
-**8.5.1.3. Time Stamps**
+**8.5.1.3. 時間戳記**
 
-Valid input for the time stamp types consists of the concatenation of a date and a time, followed by an optional time zone, followed by an optional `AD` or `BC`. \(Alternatively, `AD`/`BC` can appear before the time zone, but this is not the preferred ordering.\) Thus:
+時間戳記型態的合法輸入，依序包含了日期、時間、非必須的時區、以及非必須的 `AD` 或者 `BC`。 （其中，`AD` 或者 `BC` 也可以寫在時區前面，但這並非推薦的格式。）因此：
 
 ```text
 1999-01-08 04:05:06
 ```
 
-and:
+以及：
 
 ```text
 1999-01-08 04:05:06 -8:00
 ```
 
-are valid values, which follow the ISO 8601 standard. In addition, the common format:
+都是遵循 ISO 8601 標準的合法值。除此之外，常見的格式：
 
 ```text
 January 8 04:05:06 1999 PST
 ```
 
-is supported.
+也有支援。
 
-The SQL standard differentiates `timestamp without time zone` and `timestamp with time zone` literals by the presence of a “+” or “-” symbol and time zone offset after the time. Hence, according to the standard,
+SQL 標準中，`timestamp without time zone` 和 `timestamp with time zone` 字面可以在時間後面加上 “+” 或 “-” 符號和時差來做區別，因此根據這個標準，
 
 ```text
 TIMESTAMP '2004-10-19 10:23:54'
 ```
 
-is a `timestamp without time zone`, while
+是 `timestamp without time zone` 型態，而
 
 ```text
 TIMESTAMP '2004-10-19 10:23:54+02'
 ```
 
-is a `timestamp with time zone`. PostgreSQL never examines the content of a literal string before determining its type, and therefore will treat both of the above as `timestamp without time zone`. To ensure that a literal is treated as `timestamp with time zone`, give it the correct explicit type:
+則是 `timestamp with time zone` 型態。PostgreSQL 從不會在識別型態前就解析字面的內容，因此會將上述兩種值都視為 `timestamp without time zone` 型態。如要確保字面會被視為 `timestamp with time zone`，請給它正確而明確的型態：
 
 ```text
 TIMESTAMP WITH TIME ZONE '2004-10-19 10:23:54+02'
