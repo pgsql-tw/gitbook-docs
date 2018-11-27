@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 23.1. 語系支援
 
 區域設定支援是指某個應用程序，它提供有關字母、排序、數字格式等文化偏好。PostgreSQL 使用伺服器作業系統提供的標準 ISO C 和 POSIX 區域設定。有關其他訊息，請參閱作業系統文件。
@@ -41,19 +45,19 @@ Unix 系統的這個範例將語言環境設定為瑞典語（SE）中的瑞典�
 
 要使訊息能夠轉換為用戶的偏好語言，必須在編譯時選擇 NLS（`configure --enable-nls`）。所有其他語言環境支援都是自動編譯的。
 
-## 23.1.2. Behavior
+## 23.1.2. 操作行為
 
-The locale settings influence the following SQL features:
+語系設定會影響以下的 SQL 功能：
 
-* Sort order in queries using `ORDER BY` or the standard comparison operators on textual data
-* The `upper`, `lower`, and `initcap` functions
-* Pattern matching operators \(`LIKE`, `SIMILAR TO`, and POSIX-style regular expressions\); locales affect both case insensitive matching and the classification of characters by character-class regular expressions
-* The `to_char` family of functions
-* The ability to use indexes with `LIKE` clauses
+* 使用 ORDER BY 或標準比較運算子對查詢中文字排序
+* upper，lower 和 initcap 功能
+* 樣式匹配運算子（LIKE，SIMILAR TO 和 POSIX 形式的正規表示式）；locales 透過字元類的正規表示式影響不區分大小寫的匹配和字元分類
+* to\_char 系列函數
+* 索引可以與 LIKE 子句一起使用
 
-The drawback of using locales other than `C` or `POSIX` in PostgreSQL is its performance impact. It slows character handling and prevents ordinary indexes from being used by `LIKE`. For this reason use locales only if you actually need them.
+在 PostgreSQL 中使用 C 或 POSIX 以外語言環境的缺點是對效能的影響。它會減慢字元處理速度並阻止 LIKE 使用普通索引。因此，最好只有在實際需要時才進行區域設定。
 
-As a workaround to allow PostgreSQL to use indexes with `LIKE` clauses under a non-C locale, several custom operator classes exist. These allow the creation of an index that performs a strict character-by-character comparison, ignoring locale comparison rules. Refer to [Section 11.9](https://www.postgresql.org/docs/10/static/indexes-opclass.html) for more information. Another approach is to create indexes using the `C` collation, as discussed in [Section 23.2](https://www.postgresql.org/docs/10/static/collation.html).
+作為允許 PostgreSQL 在非 C 語言環境下使用具有 LIKE 子句索引的解決方法，存在多個自訂運算子類。允許建立一個執行嚴格的逐字元比較的索引，忽略區域設定的比較規則。有關更多訊息，請參閱[第 11.9 節](../../the-sql-language/index/operator-classes-and-operator-families.md)。另一種方法是使用 C collation 建立索引，如[第 23.2 節](collation-support.md)中所述。
 
 ## 23.1.3. Problems
 

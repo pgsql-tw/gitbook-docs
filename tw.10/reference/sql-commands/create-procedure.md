@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # CREATE PROCEDURE
 
 CREATE PROCEDURE — define a new procedure
