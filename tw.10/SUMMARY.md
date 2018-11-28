@@ -422,7 +422,7 @@
     * [41.5. 規則及權限](server-programming/the-rule-system/rules-and-privileges.md)
     * [41.6. Rules and Command Status](server-programming/the-rule-system/rules-and-command-status.md)
     * [41.7. Rules Versus Triggers](server-programming/the-rule-system/rules-versus-triggers.md)
-  * [42. Procedural Languages](server-programming/procedural-languages/README.md)
+  * [42. Procedural Languages（程序語言）](server-programming/procedural-languages/README.md)
     * [42.1. Installing Procedural Languages](server-programming/procedural-languages/installing-procedural-languages.md)
   * [43. PL/pgSQL - SQL Procedural Language](server-programming/pl-pgsql-sql-procedural-language/README.md)
     * [43.5. Basic Statements](server-programming/pl-pgsql-sql-procedural-language/basic-statements.md)

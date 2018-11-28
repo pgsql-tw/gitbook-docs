@@ -1,6 +1,10 @@
-# 42. Procedural Languages
+---
+description: 版本：11
+---
 
-PostgreSQL allows user-defined functions to be written in other languages besides SQL and C. These other languages are generically called _procedural languages_ \(PLs\). For a function written in a procedural language, the database server has no built-in knowledge about how to interpret the function's source text. Instead, the task is passed to a special handler that knows the details of the language. The handler could either do all the work of parsing, syntax analysis, execution, etc. itself, or it could serve as “glue” between PostgreSQL and an existing implementation of a programming language. The handler itself is a C language function compiled into a shared object and loaded on demand, just like any other C function.
+# 42. Procedural Languages（程序語言）
 
-There are currently four procedural languages available in the standard PostgreSQL distribution: PL/pgSQL \([Chapter 43](https://www.postgresql.org/docs/current/plpgsql.html)\), PL/Tcl \([Chapter 44](https://www.postgresql.org/docs/current/pltcl.html)\), PL/Perl \([Chapter 45](https://www.postgresql.org/docs/current/plperl.html)\), and PL/Python \([Chapter 46](https://www.postgresql.org/docs/current/plpython.html)\). There are additional procedural languages available that are not included in the core distribution. [Appendix H](https://www.postgresql.org/docs/current/external-projects.html) has information about finding them. In addition other languages can be defined by users; the basics of developing a new procedural language are covered in [Chapter 56](https://www.postgresql.org/docs/current/plhandler.html).
+PostgreSQL 可以讓使用者自行定義的函數除了 SQL 和 C 之外還能用其他語言編寫。這些其他語言通常稱為程序語言（PL）。對於用程序語言編寫的函數，資料庫伺服器並沒有關於如何解釋函數原始程式碼的能力。所以相關的任務會被傳遞給一個瞭解語言細節的特殊處理程序來處理。處理程序可以自己完成內容過濾，語法分析，程序執行等所有工作，也可以作為 PostgreSQL 與現有程序語言實作之間的「粘合劑」。處理程序本身是一個 C 語言函數，編譯成一個共享物件並按需要載入，就像任何其他 C 函數一樣。
+
+目前標準的 PostgreSQL 發行版中有四種可用的程序語言：PL/pgSQL（[第 43 章](../pl-pgsql-sql-procedural-language/)），PL/Tcl（第 44 章），PL/Perl（第 45 章）和 PL/Python（第 46 章）。 還有其他可用的程序語言未包含在主要發行版中。附錄 H 包含相關的其他訊息。此外，使用者可以定義其他語言；[第 56 章](../../internals/writing-a-procedural-language-handler.md)介紹了開發新程序語言的基礎知識。
 
