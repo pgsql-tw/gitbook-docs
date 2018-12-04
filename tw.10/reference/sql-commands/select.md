@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # SELECT
 
 SELECT, TABLE, WITH — 從資料表或檢視表中檢索資料列
@@ -67,7 +71,7 @@ SELECT 從零個或多個資料表中檢索資料列。SELECT 的一般處理如
 
 您必須對 SELECT 指令中使用的每個欄位具有 SELECT 權限。FOR NO KEY UPDATE、FOR UPDATE、FOR SHARE 或 FOR KEY SHARE 的使用也需要 UPDATE 權限（對於如此選擇的每個資料表的至少一個欄位）。
 
-### Parameters
+### 子句
 
 #### `WITH` Clause
 
@@ -93,17 +97,17 @@ See [Section 7.8](https://www.postgresql.org/docs/10/static/queries-with.html) f
 
 #### `FROM` Clause
 
-The `FROM` clause specifies one or more source tables for the `SELECT`. If multiple sources are specified, the result is the Cartesian product \(cross join\) of all the sources. But usually qualification conditions are added \(via `WHERE`\) to restrict the returned rows to a small subset of the Cartesian product.
+FROM子句為SELECT指定一個或多個來源資料表。如果指定了多個來源，則結果是所有來源的 Cartesian product（cross join）。但通常會加上過濾條件（透過 WHERE），將回傳的資料列限制在其中一小部分。
 
-The `FROM` clause can contain the following elements:
+FROM 子句可以包含以下內容：
 
 _`table_name`_
 
-The name \(optionally schema-qualified\) of an existing table or view. If `ONLY` is specified before the table name, only that table is scanned. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are scanned. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included.
+現有資料表或檢視表的名稱（可加上綱要名稱）。如果在資料表名稱之前指定了 ONLY，則僅掃描該資料表。如果未指定 ONLY，則掃描資料表及其所有繼承資料表（如果有的）。 （選擇性）可以在資料表名稱後指定 \* 以明確指示包含繼承資料表。
 
 _`alias`_
 
-A substitute name for the `FROM` item containing the alias. An alias is used for brevity or to eliminate ambiguity for self-joins \(where the same table is scanned multiple times\). When an alias is provided, it completely hides the actual name of the table or function; for example given `FROM foo AS f`, the remainder of the `SELECT` must refer to this `FROM` item as `f` not `foo`. If an alias is written, a column alias list can also be written to provide substitute names for one or more columns of the table.
+提供 FROM 子句中的項目別名。別名用於簡潔或消除自我交叉查詢的模糊性（多次掃描同一個資料表）。提供別名時，它會完全隱藏資料表或函數的實際名稱；例如，給定 FROM foo AS f，SELECT 的其餘部分就必須將此項目稱為 f 而不是 foo。使用別名時，還可以編寫欄位別名列表以提供資料表的一個或多個欄位的替換名稱。
 
 `TABLESAMPLE` _`sampling_method`_ \( _`argument`_ \[, ...\] \) \[ REPEATABLE \( _`seed`_ \) \]
 
