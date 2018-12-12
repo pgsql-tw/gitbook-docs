@@ -73,27 +73,27 @@ SELECT 從零個或多個資料表中檢索資料列。SELECT 的一般處理如
 
 ### 子句
 
-#### `WITH` Clause
+#### `WITH` 子句
 
-The `WITH` clause allows you to specify one or more subqueries that can be referenced by name in the primary query. The subqueries effectively act as temporary tables or views for the duration of the primary query. Each subquery can be a `SELECT`, `TABLE`, `VALUES`, `INSERT`, `UPDATE` or `DELETE` statement. When writing a data-modifying statement \(`INSERT`, `UPDATE` or `DELETE`\) in `WITH`, it is usual to include a `RETURNING` clause. It is the output of `RETURNING`, _not_ the underlying table that the statement modifies, that forms the temporary table that is read by the primary query. If `RETURNING` is omitted, the statement is still executed, but it produces no output so it cannot be referenced as a table by the primary query.
+WITH 子句可以讓您指定一個或多個子查詢，這些子查詢可以在主查詢中以名稱引用。子查詢在主查詢的存續時間內有效地充當臨時資料表或檢視表。每個子查詢可以是 SELECT、TABLE、VALUES、INSERT、UPDATE 或 DELETE 語句。在 WITH 中使用資料變更語句（INSERT、UPDATE 或 DELETE）時，通常會包含 RETURNING 子句。它作為 RETURNING 的輸出，而不是語句修改的基礎資料表，它會構成主查詢所讀取的臨時資料表。 如果省略 RETURNING，則仍會執行該語句，但不會產生任何輸出，因此主查詢就不能將其作為資料表所引用。
 
-A name \(without schema qualification\) must be specified for each `WITH` query. Optionally, a list of column names can be specified; if this is omitted, the column names are inferred from the subquery.
+必須為每個 WITH 查詢指定名稱（不用限定綱要）。選擇性地，可以指定欄位名稱列表；如果省略的話，則從子查詢中推斷欄位名稱。
 
-If `RECURSIVE` is specified, it allows a `SELECT` subquery to reference itself by name. Such a subquery must have the form
+如果指定了 RECURSIVE，也允許 SELECT 子查詢以名稱引用本身。這樣的子查詢必須具有這樣的形式
 
 ```text
 non_recursive_term UNION [ ALL | DISTINCT ] recursive_term
 ```
 
-where the recursive self-reference must appear on the right-hand side of the `UNION`. Only one recursive self-reference is permitted per query. Recursive data-modifying statements are not supported, but you can use the results of a recursive `SELECT` query in a data-modifying statement. See [Section 7.8](https://www.postgresql.org/docs/10/static/queries-with.html) for an example.
+遞迴自我引用必須出現在 UNION 的右側。每個查詢只允許一次遞迴自我引用。不支援遞迴式的資料變更語句，但您可以在資料變更語句中使用遞迴 SELECT 查詢的結果。相關範例，請參閱[第 7.8 節](../../the-sql-language/queries/with-queries.md)。
 
-Another effect of `RECURSIVE` is that `WITH` queries need not be ordered: a query can reference another one that is later in the list. \(However, circular references, or mutual recursion, are not implemented.\) Without `RECURSIVE`, `WITH` queries can only reference sibling `WITH` queries that are earlier in the `WITH` list.
+RECURSIVE 的另一個作用是不需要對 WITH 查詢進行排序：查詢可以引用列表後面的另一個查詢。（但是，未實作循環引用或相互遞迴。）如果沒有 RECURSIVE，WITH 查詢只能引用相鄰的 WITH，精確來說是 WITH 列表中較早的查詢。
 
-A key property of `WITH` queries is that they are evaluated only once per execution of the primary query, even if the primary query refers to them more than once. In particular, data-modifying statements are guaranteed to be executed once and only once, regardless of whether the primary query reads all or any of their output.
+WITH 查詢的一個關鍵屬性是，每次執行主查詢時，它們只會被運算一次，即使主查詢多次引用它們也是如此。特別的是，無論主查詢是讀取所有輸出還是任何輸出，都保證資料變更語句只會執行一次。
 
-The primary query and the `WITH` queries are all \(notionally\) executed at the same time. This implies that the effects of a data-modifying statement in `WITH` cannot be seen from other parts of the query, other than by reading its `RETURNING` output. If two such data-modifying statements attempt to modify the same row, the results are unspecified.
+主查詢和 WITH 查詢都是（概念上）同時執行的。 這意味著除了透過讀取其 RETURNING 輸出之外，不能從查詢的其他部分看到 WITH 中的資料變更語句的執行結果。如果兩個此類資料變更語句嘗試修改同一筆資料，則無法預想其結果為何。
 
-See [Section 7.8](https://www.postgresql.org/docs/10/static/queries-with.html) for additional information.
+有關其他資訊，請參閱[第 7.8 節](../../the-sql-language/queries/with-queries.md)。
 
 #### `FROM` Clause
 
