@@ -1,179 +1,179 @@
+---
+description: 版本：11
+---
+
 # vacuumdb
 
-vacuumdb — garbage-collect and analyze a PostgreSQL database
+vacuumdb — 資源回收並重新分析 PostgreSQL 資料庫
 
-### Synopsis
+### 語法
 
-```text
-vacuumdb [connection-option...] [option...] [ --table | -t table [( column [,...] )] ] ... [dbname]
-```
+`vacuumdb [`_`connection-option`_`...] [`_`option`_`...] [ --table | -t` _`table`_ `[(` _`column`_ `[,...] )] ] ... [`_`dbname`_`]`
 
-```text
-vacuumdb [connection-option...] [option...] --all | -a
-```
+`vacuumdb` \[_`connection-option`_...\] \[_`option`_...\] `--all` \| `-a`
 
-### Description
+### 說明
 
-vacuumdb is a utility for cleaning a PostgreSQL database. vacuumdb will also generate internal statistics used by the PostgreSQL query optimizer.
+vacuumdb 是一個用於清理 PostgreSQL 資料庫的工具程式。vacuumdb 也會產生 PostgreSQL 查詢最佳化程式所使用的內部統計資訊。
 
-vacuumdb is a wrapper around the SQL command [VACUUM](https://www.postgresql.org/docs/10/static/sql-vacuum.html). There is no effective difference between vacuuming and analyzing databases via this utility and via other methods for accessing the server.
+vacuumdb 只是一個將 SQL 指令 [VACUUM ](../sql-commands/vacuum.md)封裝起來的工具。透過此工具與透過其他方法存取伺服器之間，對資料庫進行清理和分析的工作並沒有任何區別。
 
-### Options
+### 選項參數
 
-vacuumdb accepts the following command-line arguments:
+vacuumdb 接受以下的命令列參數：
 
 `-a`  
 `--all`
 
-Vacuum all databases.
+清理所有資料庫。
 
 `[-d]` _`dbname`_  
 `[--dbname=]`_`dbname`_
 
-Specifies the name of the database to be cleaned or analyzed. If this is not specified and `-a` \(or `--all`\) is not used, the database name is read from the environment variable `PGDATABASE`. If that is not set, the user name specified for the connection is used.
+指定要清理或分析的資料庫名稱。如果未指定，也未使用 -a（或--all），則從環境變數 PGDATABASE 中取得資料庫名稱。如果都未設定，則使用此連線所使用的使用者名稱。
 
 `-e`  
 `--echo`
 
-Echo the commands that vacuumdb generates and sends to the server.
+顯示 vacuumdb 產生並發送到伺服器的指令。
 
 `-f`  
 `--full`
 
-Perform “full” vacuuming.
+執行「完全」清理。
 
 `-F`  
 `--freeze`
 
-Aggressively “freeze” tuples.
+積極地「凍結」資料 tuple。
 
 `-j` _`njobs`_  
 `--jobs=`_`njobs`_
 
-Execute the vacuum or analyze commands in parallel by running _`njobs`_ commands simultaneously. This option reduces the time of the processing but it also increases the load on the database server.
+透過同時執行 njobs 指令平行執行 vacuum 或 analyze 指令。此選項可以縮短處理時間，但也會增加資料庫伺服器的負載。
 
-vacuumdb will open _`njobs`_ connections to the database, so make sure your [max\_connections](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS) setting is high enough to accommodate all connections.
+vacuumdb 將打開與資料庫的 njobs 連線，因此請確保您的 max\_connections 設定夠高以容納所有連線。
 
-Note that using this mode together with the `-f` \(`FULL`\) option might cause deadlock failures if certain system catalogs are processed in parallel.
+請注意，如果平行處理某些系統目錄，則此選項與 -f（FULL）選項一起使用可能會導致鎖死而失敗。
 
 `-q`  
 `--quiet`
 
-Do not display progress messages.
+不顯示進度訊息。
 
 `-t` _`table`_ \[ \(_`column`_ \[,...\]\) \]  
 `--table=`_`table`_ \[ \(_`column`_ \[,...\]\) \]
 
-Clean or analyze _`table`_ only. Column names can be specified only in conjunction with the `--analyze` or `--analyze-only` options. Multiple tables can be vacuumed by writing multiple `-t` switches.
+僅清理或分析資料表。欄位名稱只能與 --analyze 或 --analyze-only 選項一起指定。以多個選項開關可以對多個資料表進行清理。
 
-#### Tip
+#### 小技巧
 
-If you specify columns, you probably have to escape the parentheses from the shell. \(See examples below.\)
+如果指定欄位，則可能必須從 shell 中跳脫括號。 （請參閱下面的例子。）
 
 `-v`  
 `--verbose`
 
-Print detailed information during processing.
+處理期間輸出詳細訊息。
 
-`-V`  
+`V`  
 `--version`
 
-Print the vacuumdb version and exit.
+輸出 vacuumdb 版本後結束。
 
 `-z`  
 `--analyze`
 
-Also calculate statistics for use by the optimizer.
+同時計算最佳化程序所使用的統計資訊。
 
 `-Z`  
 `--analyze-only`
 
-Only calculate statistics for use by the optimizer \(no vacuum\).
+僅計算最佳化程序所使用的統計資訊（不做清理）。
 
 `--analyze-in-stages`
 
-Only calculate statistics for use by the optimizer \(no vacuum\), like `--analyze-only`. Run several \(currently three\) stages of analyze with different configuration settings, to produce usable statistics faster.
+僅計算最佳化程序所使用的統計資訊（不做清理），如同 --analyze-only。使用不同的設定執行幾個（目前是三個）分析階段，以更快地產可用的統計資訊。
 
-This option is useful to analyze a database that was newly populated from a restored dump or by `pg_upgrade`. This option will try to create some statistics as fast as possible, to make the database usable, and then produce full statistics in the subsequent stages.
+此選項對於分析從還原備份或 pg\_upgrade 新加入的資料庫非常有用。此選項將嘗試盡可能更快地建立一些統計資訊，使資料庫可用，然後在後續階段產生更完整的統計資訊。
 
 `-?`  
 `--help`
 
-Show help about vacuumdb command line arguments, and exit.
+顯示有關 vacuumdb 命令列參數的說明，然後結束。
 
-vacuumdb also accepts the following command-line arguments for connection parameters:
+vacuumdb 也在命令列中接受以下連線參數：
 
 `-h` _`host`_  
 `--host=`_`host`_
 
-Specifies the host name of the machine on which the server is running. If the value begins with a slash, it is used as the directory for the Unix domain socket.
+指定執行伺服器的主機名稱。如果以斜線開頭，則將其用作 Unix domain socket 的目錄。
 
 `-p` _`port`_  
 `--port=`_`port`_
 
-Specifies the TCP port or local Unix domain socket file extension on which the server is listening for connections.
+指定伺服器正在監聽連線的 TCP 連接埠或本地 Unix domain socket 檔案的延伸名稱。
 
 `-U` _`username`_  
 `--username=`_`username`_
 
-User name to connect as.
+要連線的使用者名稱。
 
 `-w`  
 `--no-password`
 
-Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a `.pgpass` file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.
+不要發出密碼提示。如果伺服器需要密碼身份驗證，而其他方式（例如 .pgpass 檔案）無法使用密碼，則連線嘗試將會失敗。此選項在沒有使用者輸入密碼的批次處理作業腳本中非常有用。
 
 `-W`  
 `--password`
 
-Force vacuumdb to prompt for a password before connecting to a database.
+強制 vacuumdb 在連線到資料庫之前提示輸入密碼。
 
-This option is never essential, since vacuumdb will automatically prompt for a password if the server demands password authentication. However, vacuumdb will waste a connection attempt finding out that the server wants a password. In some cases it is worth typing `-W` to avoid the extra connection attempt.
+此選項並不是必要的，因為如果伺服器需要密碼驗證，vacuumdb 將自動提示輸入密碼。只是，vacuumdb 會浪費連線嘗試，才能發現伺服器需要密碼。在某些情況下，值得輸入 -W 以避免額外的連線嘗試。
 
 `--maintenance-db=`_`dbname`_
 
-Specifies the name of the database to connect to discover what other databases should be vacuumed. If not specified, the `postgres` database will be used, and if that does not exist, `template1` will be used.
+指定要連線的資料庫名稱，以發現應該清理哪些其他資料庫。如果未指定，將使用 postgres 資料庫，如果 postgres 不存在的話，將使用 template1。
 
-### Environment
+### 執行環境
 
 `PGDATABASE`  
 `PGHOST`  
 `PGPORT`  
 `PGUSER`
 
-Default connection parameters
+預設連線參數
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/10/static/libpq-envars.html)\).
+與大多數其他 PostgreSQL 工具程式一樣，此工具也使用 libpq 所支援的環境變數（請參閱[第 34.14 節](../../client-interfaces/libpq-c-library/environment-variables.md)）。
 
-### Diagnostics
+### 問題分析 
 
-In case of difficulty, see [VACUUM](https://www.postgresql.org/docs/10/static/sql-vacuum.html) and [psql](https://www.postgresql.org/docs/10/static/app-psql.html) for discussions of potential problems and error messages. The database server must be running at the targeted host. Also, any default connection settings and environment variables used by the libpq front-end library will apply.
+如果遇到困難，請參閱 [VACUUM](../sql-commands/vacuum.md) 和 [psql](psql.md) 以了解潛在問題和錯誤訊息。資料庫伺服器必須在目標主機上執行。此外，將套用 libpq 前端函式庫使用的所有預設連線設定和環境變數。
 
-### Notes
+### 注意
 
-vacuumdb might need to connect several times to the PostgreSQL server, asking for a password each time. It is convenient to have a `~/.pgpass` file in such cases. See[Section 33.15 ](../../client-interfaces/libpq-c-library/33.15.-mi-ma-dang.md)for more information.
+vacuumdb 可能需要多次連線到 PostgreSQL 伺服器，而每次都會要求輸入密碼。在這種情況下，有一個 ~/.pgpass 檔案的話會很方便。有關更多訊息，請參閱[第 34.15 節](../../client-interfaces/libpq-c-library/33.15.-mi-ma-dang.md)。
 
-### Examples
+### `範例`
 
-To clean the database `test`:
+要清理資料庫 test：
 
 ```text
 $ vacuumdb test
 ```
 
-To clean and analyze for the optimizer a database named `bigdb`:
+為最佳化程序清理並分析名為 bigdb 的資料庫：
 
 ```text
 $ vacuumdb --analyze bigdb
 ```
 
-To clean a single table `foo` in a database named `xyzzy`, and analyze a single column `bar` of the table for the optimizer:
+要清理 xyzzy 資料庫中的資料表 foo，並為最佳化程序分析資料表的單個欄位：
 
 ```text
 $ vacuumdb --analyze --verbose --table='foo(bar)' xyzzy
 ```
 
-### See Also
+### 參閱
 
 [VACUUM](../sql-commands/vacuum.md)
 
