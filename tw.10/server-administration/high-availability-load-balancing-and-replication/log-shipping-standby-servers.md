@@ -1,20 +1,24 @@
-# 26.2. Log-Shipping Standby Servers
+---
+description: 版本：11
+---
 
-持續性歸檔可用於建構高可用性（HA）的叢集配置，其中一個或多個備用伺服器準備好在主伺服器發生故障時接管操作。此功能被廣泛稱為熱備份（warm standby）或日誌輸送\(Log-Shipping\)。
+# 26.2. 日誌轉送備用伺服器 Log-Shipping Standby Servers
+
+持續性歸檔可用於建構高可用性（HA）的叢集配置，其中一個或多個備用伺服器準備好在主伺服器發生故障時接管操作。此功能被廣泛稱為熱備份（warm standby）或日誌轉送\(Log-Shipping\)。
 
 伺服器們是人為的相依，由主伺服器和備用伺服器協同工作以提供此功能。主伺服器以持續性歸檔模式運行，而每個備用伺服器以連續恢復模式運行，從主伺服器讀取 WAL 檔案。毌須更改資料庫的資料表即可啟用此功能，因此與其他一些複寫解決方案相比，它可以提供較低的管理成本。此配置對主伺服器的效能影響也相對較低。
 
-直接將 WAL 記錄從一個資料庫伺服器移動到另一個資料庫伺服器通常被稱為日誌輸送。PostgreSQL 透過一次傳輸 WAL 記錄一個檔案（WAL 段落）來實現基於檔案的日誌輸送。WAL 檔案（16MB）可以在任何距離上輕鬆便宜地運輸，無論是相鄰系統，同一站點的另一個系統，還是地球另一端的其他系統。此技術所需的頻寬依主伺服器的事務速率而變化。基於記錄的日誌傳送更精細，並且通過網路連連逐步更改 WAL（請參閱[第 26.2.5 節](log-shipping-standby-servers.md#26-2-5-streaming-replication)）。
+直接將 WAL 記錄從一個資料庫伺服器移動到另一個資料庫伺服器通常被稱為日誌轉送。PostgreSQL 透過一次傳輸 WAL 記錄一個檔案（WAL 段落）來實現基於檔案的日誌轉送。WAL 檔案（16MB）可以在任何距離上輕鬆便宜地運輸，無論是相鄰系統，同一站點的另一個系統，還是地球另一端的其他系統。此技術所需的頻寬依主伺服器的事務速率而變化。基於記錄的日誌傳送更精細，並且通過網路連連逐步更改 WAL（請參閱[第 26.2.5 節](log-shipping-standby-servers.md#26-2-5-streaming-replication)）。
 
-應該注意的是，日誌輸送是非同步的，即 WAL 記錄在事務提交之後被傳送。因此，如果主伺服器遭受災難性故障，則存在資料遺失的可能性；尚未提交的交易將會失去。基於檔案的日誌輸送中的資料遺失的大小可以透過使用 archive\_timeout 參數來限制，該參數可以設定低至數秒鐘。然而，這種低的設定將大大增加檔案傳送所需的頻寬。 串流複寫（參閱[第 26.2.5 節](log-shipping-standby-servers.md#26-2-5-streaming-replication)）允許更小的資料遺失大小。
+應該注意的是，日誌輸送是非同步的，即 WAL 記錄在事務提交之後被傳送。因此，如果主伺服器遭受災難性故障，則存在資料遺失的可能性；尚未提交的交易將會失去。基於檔案的日誌轉送中的資料遺失的大小可以透過使用 archive\_timeout 參數來限制，該參數可以設定低至數秒鐘。然而，這種低的設定將大大增加檔案傳送所需的頻寬。 串流複寫（參閱[第 26.2.5 節](log-shipping-standby-servers.md#26-2-5-streaming-replication)）允許更小的資料遺失大小。
 
 回復的效率很高，一旦備用轉為主要，備用資料庫通常只需要幾分鐘即可完全可用。因此，這稱為熱備用配置，可提供高可用性。從歸檔的基本備份和回溯還原伺服器將花費相當長的時間，因此該技術僅提供災難恢復的解決方案，而不是高可用性。備用伺服器也可用於唯讀查詢，在這種情況下，它稱為熱備份伺服器。有關更多訊息，請參閱[第 26.5 節](26.5.-hot-standby.md)。
 
-## 26.2.1. Planning
+## 26.2.1. 規畫
 
-It is usually wise to create the primary and standby servers so that they are as similar as possible, at least from the perspective of the database server. In particular, the path names associated with tablespaces will be passed across unmodified, so both primary and standby servers must have the same mount paths for tablespaces if that feature is used. Keep in mind that if [CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html) is executed on the primary, any new mount point needed for it must be created on the primary and all standby servers before the command is executed. Hardware need not be exactly the same, but experience shows that maintaining two identical systems is easier than maintaining two dissimilar ones over the lifetime of the application and system. In any case the hardware architecture must be the same — shipping from, say, a 32-bit to a 64-bit system will not work.
+建立主伺服器和備用伺服器通常是好的規畫，使它們可以盡可能相似，至少從資料庫伺服器的角度來看。特別是，與資料表空間關聯的路徑名稱將在未修改的情況下傳遞。因此，如果使用此功能，主伺服器和備用伺服器必須具有相同的資料表空間的安裝路徑。請記住，如果在主伺服器上執行 [CREATE TABLESPACE](../../reference/sql-commands/create-tablespace.md)，則必須在執行命令之前在主伺服器和所有備用伺服器上建立所需的所有新安裝點。硬體不需要完全相同，但經驗上，維護兩個相同的系統會比在應用系統的生命週期內維護兩個不同的系統更容易。不過在硬體架構則必須相同 - 例如，從 32 位元到 64 位元系統的搭配則無法運作。
 
-In general, log shipping between servers running different major PostgreSQL release levels is not possible. It is the policy of the PostgreSQL Global Development Group not to make changes to disk formats during minor release upgrades, so it is likely that running different minor release levels on primary and standby servers will work successfully. However, no formal support for that is offered and you are advised to keep primary and standby servers at the same release level as much as possible. When updating to a new minor release, the safest policy is to update the standby servers first — a new minor release is more likely to be able to read WAL files from a previous minor release than vice versa.
+一般來說，無法在不同主要 PostgreSQL 版本的伺服器之間進行日誌傳送。PostgreSQL 全球開發團隊的原則是不要在次要版本升級期間更改磁碟格式，因此在主伺服器和備用伺服器上使用不同的次要版本可能會成功執行。 但是，並沒有保證正式支持，建議您盡可能將主伺服器和備用伺服器保持在同一版本。更新到新的次要版本時，最安全的策略是先更新備用伺服器 - 新的次要版本更有可能從先前的次要版本讀取 WAL 檔案，反過來則不一定。
 
 ## 26.2.2. Standby Server Operation
 

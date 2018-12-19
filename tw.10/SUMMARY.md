@@ -239,7 +239,7 @@
     * [25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)](server-administration/25.-bei-fen-ji-huan-yuan/25.3.-continuous-archiving-and-point-in-time-recovery-pitr.md)
   * [26. High Availability, Load Balancing, and Replication](server-administration/high-availability-load-balancing-and-replication/README.md)
     * [26.1. Comparison of Different Solutions](server-administration/high-availability-load-balancing-and-replication/26.1.-comparison-of-different-solutions.md)
-    * [26.2. Log-Shipping Standby Servers](server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md)
+    * [26.2. 日誌轉送備用伺服器 Log-Shipping Standby Servers](server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md)
     * [26.3. Failover](server-administration/high-availability-load-balancing-and-replication/26.3.-failover.md)
     * [26.4. Alternative Method for Log Shipping](server-administration/high-availability-load-balancing-and-replication/26.4.-alternative-method-for-log-shipping.md)
     * [26.5. Hot Standby](server-administration/high-availability-load-balancing-and-replication/26.5.-hot-standby.md)
