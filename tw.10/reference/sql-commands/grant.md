@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # GRANT
 
 GRANT — 賦予存取權限
@@ -73,25 +77,25 @@ where role_specification can be:
 GRANT role_name [, ...] TO role_name [, ...] [ WITH ADMIN OPTION ]
 ```
 
-### Description
+### 說明
 
-The `GRANT` command has two basic variants: one that grants privileges on a database object \(table, column, view, foreign table, sequence, database, foreign-data wrapper, foreign server, function, procedural language, schema, or tablespace\), and one that grants membership in a role. These variants are similar in many ways, but they are different enough to be described separately.
+GRANT 指令有兩個基本用法：一個是授予資料庫物件（資料表、欄位、檢視表、外部資料表、序列、資料庫、外部資料封裝、外部伺服器、函數、程序語言、綱要或資料表空間）的權限；另一個則是授予角色成員資格的人。這些用法在許多方面類似，但它們的不同之處將會單獨描述。
 
-#### GRANT on Database Objects
+**在資料庫物件上的 GRANT**
 
-This variant of the `GRANT` command gives specific privileges on a database object to one or more roles. These privileges are added to those already granted, if any.
+GRANT 指令的這個用法為資料庫物件提供了對一個或多個角色的特定權限。這些權限將會附加到已授予的權限（如果有的話）。
 
-There is also an option to grant privileges on all objects of the same type within one or more schemas. This functionality is currently supported only for tables, sequences, and functions \(but note that `ALL TABLES` is considered to include views and foreign tables\).
+還有一個選項可以在一個或多個綱要中為相同類型的所有物件授予權限。目前僅有資料、序列和函數支援此功能（但請注意，ALL TABLES 被視為包括檢視圖和外部資料表）。
 
-The key word `PUBLIC` indicates that the privileges are to be granted to all roles, including those that might be created later. `PUBLIC` can be thought of as an implicitly defined group that always includes all roles. Any particular role will have the sum of privileges granted directly to it, privileges granted to any role it is presently a member of, and privileges granted to `PUBLIC`.
+關鍵字 PUBLIC 表示將權限授予所有角色，包括稍後可能建立的角色。 PUBLIC 可以被視為一個隱性定義的群組，它包含了所有角色。任何特定角色都將擁有直接授予它的權限總和，也就是授予其目前成員的任何角色的權限，加上授予 PUBLIC 的權限。
 
-If `WITH GRANT OPTION` is specified, the recipient of the privilege can in turn grant it to others. Without a grant option, the recipient cannot do that. Grant options cannot be granted to `PUBLIC`.
+如果指定了 WITH GRANT OPTION，則權限的被授予者可以將該權限授予其他人。如果沒有授權選項，被授予者就無法執行此操作。授權選項不能授予 PUBLIC。
 
-There is no need to grant privileges to the owner of an object \(usually the user that created it\), as the owner has all privileges by default. \(The owner could, however, choose to revoke some of their own privileges for safety.\)
+毌須向物件的所有者（通常是建立它的使用者）授予權限，因為預設情況下所有者具備所有權限。 （但是，所有者可以選擇撤銷他們自己的一些安全權限。）
 
-The right to drop an object, or to alter its definition in any way, is not treated as a grantable privilege; it is inherent in the owner, and cannot be granted or revoked. \(However, a similar effect can be obtained by granting or revoking membership in the role that owns the object; see below.\) The owner implicitly has all grant options for the object, too.
+刪除物件或以任何方式變更其定義的權利將不被視為可授予的權限；它是所有者固有的，不能被授予或撤銷。（但是，透過授予或撤銷擁有該物件的角色成員資格可以獲得類似的效果；請參閱下文。）所有者也隱含地擁有該物件的所有授權選項。
 
-PostgreSQL grants default privileges on some types of objects to `PUBLIC`. No privileges are granted to `PUBLIC` by default on tables, table columns, sequences, foreign data wrappers, foreign servers, large objects, schemas, or tablespaces. For other types of objects, the default privileges granted to `PUBLIC` are as follows: `CONNECT` and `TEMPORARY` \(create temporary tables\) privileges for databases; `EXECUTE` privilege for functions; and `USAGE` privilege for languages and data types \(including domains\). The object owner can, of course, `REVOKE` both default and expressly granted privileges. \(For maximum security, issue the `REVOKE` in the same transaction that creates the object; then there is no window in which another user can use the object.\) Also, these initial default privilege settings can be changed using the [ALTER DEFAULT PRIVILEGES](https://www.postgresql.org/docs/10/static/sql-alterdefaultprivileges.html) command.
+PostgreSQL 將某些類型物件的預設權限授予 PUBLIC。預設情況下，對資料表、資料表欄位、序列、外部資料封裝、外部伺服器、大型物件、綱要或資料表空間不會授予 PUBLIC 權限。對於其他類型的物件，授予 PUBLIC 的預設權限如下：CONNECT 和 TEMPORARY（建立臨時資料表）資料庫權限；函數的 EXECUTE 權限；以及語言和資料型別（包括 domain）的 USAGE 權限。當然，物件所有者可以撤銷預設和明確授予的權限。（為了最大限度地提高安全性，請在建立物件的同一交易事務中發出 REVOKE；如此就沒有其他用戶可以使用該物件的窗口。）此外，可以使用 [ALTER DEFAULT PRIVILEGES](alter-default-privileges.md) 指令更改這些初始預設權限設定。
 
 The possible privileges are:
 
