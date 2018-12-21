@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # 50. Replication Progress Tracking
 
 Replication origins are intended to make it easier to implement logical replication solutions on top of [logical decoding](https://www.postgresql.org/docs/current/logicaldecoding.html). They provide a solution to two common problems:

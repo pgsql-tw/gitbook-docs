@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # 46. PL/Python - Python Procedural Language
 
 The PL/Python procedural language allows PostgreSQL functions to be written in the [Python language](https://www.python.org/).

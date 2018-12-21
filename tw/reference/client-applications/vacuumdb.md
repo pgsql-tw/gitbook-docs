@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # vacuumdb
 
 vacuumdb — 資源回收並重新分析 PostgreSQL 資料庫

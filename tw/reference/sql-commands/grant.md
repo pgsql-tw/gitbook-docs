@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # GRANT
 
 GRANT — 賦予存取權限
