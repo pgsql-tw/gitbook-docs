@@ -540,6 +540,7 @@
     * [dropdb](reference/client-applications/dropdb.md)
     * [dropuser](reference/client-applications/dropuser.md)
     * [pgbench](reference/client-applications/pgbench.md)
+    * [pg\_dump](reference/client-applications/pg_dump.md)
     * [psql](reference/client-applications/psql.md)
     * [vacuumdb](reference/client-applications/vacuumdb.md)
   * [III. PostgreSQL 伺服器應用程式](reference/server-applications/README.md)

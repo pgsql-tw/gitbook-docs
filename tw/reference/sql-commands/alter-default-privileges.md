@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # ALTER DEFAULT PRIVILEGES
 
 ALTER DEFAULT PRIVILEGES — 設定預設的存取權限
