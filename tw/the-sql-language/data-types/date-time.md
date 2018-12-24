@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 8.5. 日期時間型別
 
 PostgreSQL 支援完整的 SQL 日期和時間格式，如表 8.9 所示。對於這些資料型態能使用的操作，將會在[9.9節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md)說明。
@@ -57,7 +61,7 @@ type [ (p) ] 'value'
 
 其中 `p` 是非必須的精度設定，用來指定秒欄位的小數位數。精度可以用來指定 `time`、`timestamp` 和 `interval` 型態，可指定範圍為 0 到 6。如果沒有指定精度時，預設將以字面數值的精度為準（但最多不超過 6 位）。
 
-**8.5.1.1. 日期**
+### **8.5.1.1. 日期**
 
 [表 8.10](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-DATETIME-DATE-TABLE) 列出 `date` 型態的一些可能的輸入格式：
 
@@ -82,7 +86,7 @@ type [ (p) ] 'value'
 | J2451187 | Julian date |
 | January 8, 99 BC | year 99 BC |
 
-**8.5.1.2. 時間**
+### **8.5.1.2. 時間**
 
 time-of-day 格式包含 `time [ (p`\) \] without time zone`和`time \[ \(`_`p`_\) \] with time zone`，其中 `time` 單獨出現時等同於 `time without time zone`。
 
@@ -120,7 +124,7 @@ time-of-day 格式包含 `time [ (p`\) \] without time zone`和`time \[ \(`_`p`_
 
 關於指定時區的其他資訊，請參照[8.5.3節](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-TIMEZONES)。
 
-**8.5.1.3. 時間戳記**
+### **8.5.1.3. 時間戳記**
 
 時間戳記型態的合法輸入，依序包含了日期、時間、非必須的時區、以及非必須的 `AD` 或者 `BC`。 （其中，`AD` 或者 `BC` 也可以寫在時區前面，但這並非推薦的格式。）因此：
 
@@ -160,17 +164,17 @@ TIMESTAMP '2004-10-19 10:23:54+02'
 TIMESTAMP WITH TIME ZONE '2004-10-19 10:23:54+02'
 ```
 
-In a literal that has been determined to be `timestamp without time zone`, PostgreSQL will silently ignore any time zone indication. That is, the resulting value is derived from the date/time fields in the input value, and is not adjusted for time zone.
+在一個已被確定為沒有時區的時間戳記的字串中，PostgreSQL 將默默地忽略任何時區指示。也就是說，結果值是從輸入值中的日期/時間字串產生的，而不針對時區進行調整。
 
-For `timestamp with time zone`, the internally stored value is always in UTC \(Universal Coordinated Time, traditionally known as Greenwich Mean Time, GMT\). An input value that has an explicit time zone specified is converted to UTC using the appropriate offset for that time zone. If no time zone is stated in the input string, then it is assumed to be in the time zone indicated by the system's [TimeZone](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-TIMEZONE) parameter, and is converted to UTC using the offset for the `timezone` zone.
+對於帶有時區的時間戳記，內部儲存的值始終為 UTC（Universal Coordinated Time，傳統上稱為格林威治標準時間，GMT）。具有指定時區的輸入值將使用該時區的相對偏移量轉換為 UTC。如果輸入字串中未指定時區，則假定它位於系統的 [TimeZone](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#timezone-string) 參數所指示的時區中，並使用時區的偏移量轉換為 UTC。
 
-When a `timestamp with time zone` value is output, it is always converted from UTC to the current `timezone` zone, and displayed as local time in that zone. To see the time in another time zone, either change `timezone` or use the `AT TIME ZONE` construct \(see [Section 9.9.3](https://www.postgresql.org/docs/10/static/functions-datetime.html#FUNCTIONS-DATETIME-ZONECONVERT)\).
+輸出帶有時區值的時間戳記時，始終由 UTC 轉換為目前時區，並在該時區中顯示為本地時間。要查看另一個時區的時間，請變更時區或使用 AT TIME ZONE 語法（參閱[第 9.9.3 節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md#9-9-3-at-time-zone)）。
 
-Conversions between `timestamp without time zone` and `timestamp with time zone` normally assume that the `timestamp without time zone` value should be taken or given as `timezone` local time. A different time zone can be specified for the conversion using `AT TIME ZONE`.
+沒有時區的時間戳記和帶時區的時間戳記之間的轉換通常假定應該採用沒有時區值的時間戳記或本地時間所給予的時區。可以使用 AT TIME ZONE 為指定轉換不同的時區。
 
-**8.5.1.4. Special Values**
+### **8.5.1.4. 特殊值**
 
-PostgreSQL supports several special date/time input values for convenience, as shown in [Table 8.13](https://www.postgresql.org/docs/10/static/datatype-datetime.html#DATATYPE-DATETIME-SPECIAL-TABLE). The values `infinity` and `-infinity` are specially represented inside the system and will be displayed unchanged; but the others are simply notational shorthands that will be converted to ordinary date/time values when read. \(In particular, `now` and related strings are converted to a specific time value as soon as they are read.\) All of these values need to be enclosed in single quotes when used as constants in SQL commands.
+為方便起見，PostgreSQL 支援幾個特殊的日期/時間輸入值，如 Table 8.13 所示。infinaity 和 -infinity 值在系統內部有特別的表示，但不會顯示；而其他的只是符號縮寫，在閱讀時會轉換為普通的日期/時間值。（特別是，now 和相關的字串一旦被讀取就會被轉換為特定的時間值。）當在 SQL 命令中要作為常數使用時，所有這些值都需要用單引號括起來。
 
 **Table 8.13. Special Date/Time Inputs**
 
@@ -185,7 +189,7 @@ PostgreSQL supports several special date/time input values for convenience, as s
 | `yesterday` | `date`, `timestamp` | midnight yesterday |
 | `allballs` | `time` | 00:00:00.00 UTC |
 
-The following SQL-compatible functions can also be used to obtain the current time value for the corresponding data type: `CURRENT_DATE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`, `LOCALTIME`, `LOCALTIMESTAMP`. The latter four accept an optional subsecond precision specification. \(See [Section 9.9.4](https://www.postgresql.org/docs/10/static/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT).\) Note that these are SQL functions and are _not_ recognized in data input strings.
+以下 SQL 相容函數也可用於取得相對應資料型別目前的時間值：CURRENT\_DATE，CURRENT\_TIME，CURRENT\_TIMESTAMP，LOCALTIME，LOCALTIMESTAMP。後四者接受選擇性的 subsecond 級精確度。 （請參閱[第 9.9.4 節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md#9-9-4-current-date-time)。）請注意，這些是 SQL 函數，在資料輸入字串中會無法識別。
 
 ## 8.5.2. Date/Time Output
 
