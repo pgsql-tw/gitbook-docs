@@ -1,51 +1,55 @@
+---
+description: 版本：11
+---
+
 # RESET
 
-RESET — restore the value of a run-time parameter to the default value
+RESET — 將執行時期參數的值還原為預設值
 
-### Synopsis
+### 語法
 
 ```text
 RESET configuration_parameter
 RESET ALL
 ```
 
-### Description
+### 說明
 
-`RESET` restores run-time parameters to their default values. `RESET` is an alternative spelling for
+RESET 將執行時期參數恢復為其預設值。RESET 另一種寫法是
 
 ```text
 SET configuration_parameter TO DEFAULT
 ```
 
-Refer to [SET](https://www.postgresql.org/docs/10/static/sql-set.html) for details.
+有關詳細訊息，請參閱 [SET](set.md)。
 
-The default value is defined as the value that the parameter would have had, if no `SET` had ever been issued for it in the current session. The actual source of this value might be a compiled-in default, the configuration file, command-line options, or per-database or per-user default settings. This is subtly different from defining it as “the value that the parameter had at session start”, because if the value came from the configuration file, it will be reset to whatever is specified by the configuration file now. See [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) for details.
+如果在目前連線中沒有為它發出 SET，則預設值被定義為參數將具有的值。此值的實際來源可能是已編譯的預設值、組態檔案、命令列選項或每個資料庫、每個使用者的預設設定。這與將其定義為「參數在連線開始時具有的值」略有不同，因為如果值來自組態檔案，它將被重置為組態檔案現在指定的值。詳細訊息請參閱[第 19 章](../../server-administration/server-configuration/)。
 
-The transactional behavior of `RESET` is the same as `SET`: its effects will be undone by transaction rollback.
+RESET 的事務行為與 SET 相同：事務回溯將撤消其效果。
 
-### Parameters
+### 參數
 
 _`configuration_parameter`_
 
-Name of a settable run-time parameter. Available parameters are documented in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) and on the [SET](https://www.postgresql.org/docs/10/static/sql-set.html) reference page.
+可設定的執行時期參數的名稱。可用參數說明在[第 19 章](../../server-administration/server-configuration/)和 [SET](set.md) 參考頁面中。
 
 `ALL`
 
-Resets all settable run-time parameters to default values.
+將所有可設定的執行時期參數重置為預設值。
 
-### Examples
+### 範例
 
-Set the `timezone` configuration variable to its default value:
+將 timezone 變數設定回其預設值：
 
 ```text
 RESET timezone;
 ```
 
-### Compatibility
+### 相容性
 
-`RESET` is a PostgreSQL extension.
+RESET 是 PostgreSQL 的延伸功能。
 
-### See Also
+### 參閱
 
 [SET](set.md), [SHOW](show.md)
 
