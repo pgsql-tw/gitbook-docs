@@ -1,55 +1,59 @@
+---
+description: 版本：11
+---
+
 # SHOW
 
-SHOW — show the value of a run-time parameter
+SHOW — 顯示執行時期參數的值
 
-### Synopsis
+### 語法
 
 ```text
 SHOW name
 SHOW ALL
 ```
 
-### Description
+### 說明
 
-`SHOW` will display the current setting of run-time parameters. These variables can be set using the `SET` statement, by editing the `postgresql.conf` configuration file, through the `PGOPTIONS` environmental variable \(when using libpq or a libpq-based application\), or through command-line flags when starting the `postgres` server. See [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) for details.
+SHOW 將顯示執行時期參數的目前設定。可以使用 SET 語句、編輯postgresql.conf 組態檔案、透過 PGOPTIONS 環境變數（使用 libpq 或基於 libpq 的應用程式）或啟動 postgres 伺服器時以命令列選項來設定這些變數。詳細訊息請參閱[第 19 章](../../server-administration/server-configuration/)。
 
-### Parameters
+### 參數
 
 _`name`_
 
-The name of a run-time parameter. Available parameters are documented in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) and on the [SET](https://www.postgresql.org/docs/10/static/sql-set.html) reference page. In addition, there are a few parameters that can be shown but not set:
+執行時期參數的名稱。可用參數列在[第 19 章](../../server-administration/server-configuration/)和 [SET](set.md) 參考頁面中。此外，還有一些參數可以顯示但不能設定：
 
 `SERVER_VERSION`
 
-Shows the server's version number.
+顯示伺服器的版本號碼。
 
 `SERVER_ENCODING`
 
-Shows the server-side character set encoding. At present, this parameter can be shown but not set, because the encoding is determined at database creation time.
+顯示伺服器端字元集編碼。目前，此參數可以顯示但不能設定，因為編碼是在資料庫建立時決定的。
 
 `LC_COLLATE`
 
-Shows the database's locale setting for collation \(text ordering\). At present, this parameter can be shown but not set, because the setting is determined at database creation time.
+顯示資料庫的 collation 設定（文字排序方式）。目前，此參數可以顯示但不能設定，因為此設定是在資料庫建立時決定的。
 
 `LC_CTYPE`
 
-Shows the database's locale setting for character classification. At present, this parameter can be shown but not set, because the setting is determined at database creation time.
+顯示資料庫的字元分類區域設定。目前，此參數可以顯示但不能設定，因為此設定是在資料庫建立時決定的。
 
 `IS_SUPERUSER`
 
-True if the current role has superuser privileges.
+如果目前角色具有超級使用者權限，則為 True。
 
 `ALL`
 
-Show the values of all configuration parameters, with descriptions.
+顯示所有組態參數的值和說明。
 
-### Notes
+### 注意
 
-The function `current_setting` produces equivalent output; see [Section 9.26](https://www.postgresql.org/docs/10/static/functions-admin.html). Also, the [`pg_settings`](https://www.postgresql.org/docs/10/static/view-pg-settings.html) system view produces the same information.
+函數 current\_setting 可以產生相同的輸出；詳見 [9.26 節](../../the-sql-language/functions-and-operators/system-administration.md)。此外， [pg\_settings ](../../internals/system-catalogs/pg_settings.md)系統檢視表也產出相同的資訊。
 
-### Examples
+### 範例
 
-Show the current setting of the parameter `DateStyle`:
+顯示參數 DateStyle 目前的設定：
 
 ```text
 SHOW DateStyle;
@@ -59,7 +63,7 @@ SHOW DateStyle;
 (1 row)
 ```
 
-Show the current setting of the parameter `geqo`:
+顯示參數 geqo 目前的設定：
 
 ```text
 SHOW geqo;
@@ -69,7 +73,7 @@ SHOW geqo;
 (1 row)
 ```
 
-Show all settings:
+顯示所有設定：
 
 ```text
 SHOW ALL;
@@ -84,11 +88,11 @@ SHOW ALL;
 (196 rows)
 ```
 
-### Compatibility
+### 相容性
 
-The `SHOW` command is a PostgreSQL extension.
+SHOW 指令是 PostgreSQL 的延伸功能。
 
-### See Also
+### 參閱
 
 [SET](set.md), [RESET](reset.md)
 
