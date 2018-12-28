@@ -1,8 +1,12 @@
+---
+description: 版本：11
+---
+
 # CREATE EXTENSION
 
-CREATE EXTENSION — install an extension
+CREATE EXTENSION — 安裝延伸套件
 
-### Synopsis
+### 語法
 
 ```text
 CREATE EXTENSION [ IF NOT EXISTS ] extension_name
@@ -66,11 +70,11 @@ CREATE EXTENSION hstore SCHEMA public FROM unpackaged;
 
 Be careful to specify the schema in which you installed the existing `hstore` objects.
 
-### Compatibility
+### 相容性
 
-`CREATE EXTENSION` is a PostgreSQL extension.
+CREATE EXTENSION 是 PostgreSQL 的延伸功能。
 
-### See Also
+### 參閱
 
-[ALTER EXTENSION](https://www.postgresql.org/docs/10/static/sql-alterextension.html), [DROP EXTENSION](https://www.postgresql.org/docs/10/static/sql-dropextension.html)
+[ALTER EXTENSION](alter-extension.md), [DROP EXTENSION](drop-extension.md)
 
