@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # psql
 
 psql — PostgreSQL 互動式終端介面

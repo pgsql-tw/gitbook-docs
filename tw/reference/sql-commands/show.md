@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # SHOW
 
 SHOW — 顯示執行時期參數的值

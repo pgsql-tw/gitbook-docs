@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # RESET
 
 RESET — 將執行時期參數的值還原為預設值

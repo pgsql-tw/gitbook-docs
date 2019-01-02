@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # pg\_dump
 
 pg\_dump — extract a PostgreSQL database into a script file or other archive file

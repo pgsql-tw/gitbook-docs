@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # CREATE EXTENSION
 
 CREATE EXTENSION — 安裝延伸套件

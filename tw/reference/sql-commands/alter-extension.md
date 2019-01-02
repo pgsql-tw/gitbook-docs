@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # ALTER EXTENSION
 
 ALTER EXTENSION — change the definition of an extension

@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # DROP EXTENSION
 
 DROP EXTENSION — remove an extension

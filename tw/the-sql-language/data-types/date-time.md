@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # 8.5. 日期時間型別
 
 PostgreSQL 支援完整的 SQL 日期和時間格式，如表 8.9 所示。對於這些資料型態能使用的操作，將會在[9.9節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md)說明。
