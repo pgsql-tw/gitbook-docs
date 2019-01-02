@@ -1,38 +1,44 @@
+---
+description: 版本：11
+---
+
 # DO
 
-DO — execute an anonymous code block
+DO — 執行匿名的程式區塊
 
-### Synopsis
+### 語法
 
 ```text
 DO [ LANGUAGE lang_name ] code
 ```
 
-### Description
+### 說明
 
-`DO` executes an anonymous code block, or in other words a transient anonymous function in a procedural language.
+DO 執行匿名的程式區塊，換句話說，在程序語言中執行短暫的匿名函數。
 
-The code block is treated as though it were the body of a function with no parameters, returning `void`. It is parsed and executed a single time.
+程式區塊被視為沒有參數的函數，回傳 void。它被解譯並只執行一次。
 
-The optional `LANGUAGE` clause can be written either before or after the code block.
+可以在程式區塊之前或之後寫入選擇性的 LANGUAGE 子句。
 
-### Parameters
+### 參數
 
 _`code`_
 
-The procedural language code to be executed. This must be specified as a string literal, just as in `CREATE FUNCTION`. Use of a dollar-quoted literal is recommended._`lang_name`_
+要執行的程序語言程式。必須將其指定為字串，就像在 CREATE FUNCTION 中一樣。建議使用錢字號引用的文字。
 
-The name of the procedural language the code is written in. If omitted, the default is `plpgsql`.
+_`lang_name`_
 
-### Notes
+程式碼的程序語言名稱。如果省略，則預設為 plpgsql。
 
-The procedural language to be used must already have been installed into the current database by means of `CREATE LANGUAGE`. `plpgsql` is installed by default, but other languages are not.
+### 注意
 
-The user must have `USAGE` privilege for the procedural language, or must be a superuser if the language is untrusted. This is the same privilege requirement as for creating a function in the language.
+要使用的程序語言必須已透過 CREATE LANGUAGE 安裝到目前資料庫中。plpgsql 預設會安裝，但其他語言則沒有。
 
-### Examples
+使用者必須具有程序語言的 USAGE 權限，如果語言是 untrusted，則必須是超級使用者。這與在語言中建立函數的權限要求相同。
 
-Grant all privileges on all views in schema `public` to role `webuser`:
+### 範例
+
+將綱要 public 中所有檢視表的所有權限授予角色webuser：
 
 ```text
 DO $$DECLARE r record;
@@ -45,11 +51,11 @@ BEGIN
 END$$;
 ```
 
-### Compatibility
+### 相容性
 
-There is no `DO` statement in the SQL standard.
+SQL 標準中沒有 DO 語句。
 
-### See Also
+### 參閱
 
-[CREATE LANGUAGE](https://www.postgresql.org/docs/10/static/sql-createlanguage.html)
+[CREATE LANGUAGE](create-language.md)
 
