@@ -45,7 +45,7 @@ TRUNCATE 不能用於具有其他資料表外部鍵引用的資料表，除非�
 
 TRUNCATE 不會觸發資料表可能存在的任何 ON DELETE 觸發器。但它將觸發 TRUNCATE 觸發器。如果為任何資料表定義了 ON TRUNCATE 觸發器，則在發生任何清空之前觸發所有 BEFORE TRUNCATE 觸發器，並在執行最後一次清空且重置任何序列之後觸發所有 AFTER TRUNCATE 觸發器。觸發器將按照要處理的資料表順序觸發（首先是指令中列出的那些，然後是由於串聯處理而添加的資料表）。
 
-TRUNCATE 並不是 MVCC 安全的。清空後，如果資料表使用在清空發生之前所産生的快照，則資料表對於平行執行的事務將顯示為空。更多詳細訊息，請參閱[第 13.5 節](../../the-sql-language/concurrency-control/13.5.-te-bie-zhu-yi.md)。
+TRUNCATE 並不是 MVCC 安全的。清空後，如果資料表使用在清空發生之前所産生的快照，則資料表對於平行執行的事務將顯示為空。更多詳細訊息，請參閱[第 13.5 節](../../the-sql-language/concurrency-control/caveats.md)。
 
 TRUNCATE 對於資料表中的資料是事務安全的：如果其他的事務沒有提交，則 TRUNCATE 將能安全地回溯。
 
