@@ -563,6 +563,7 @@
     * [52.32. pg\_namespace](internals/system-catalogs/pg_namespace.md)
     * [52.33. pg\_opclass](internals/system-catalogs/pg_opclass.md)
     * [52.38. pg\_policy](internals/system-catalogs/pg_policy.md)
+    * [52.39. pg\_proc](internals/system-catalogs/pg_proc.md)
     * [52.44. pg\_rewrite](internals/system-catalogs/51.44.-pg_rewrite.md)
     * [52.50. pg\_statistic](internals/system-catalogs/51.50.-pg_statistic.md)
     * [52.51. pg\_statistic\_ext](internals/system-catalogs/pg_statistic_ext.md)
