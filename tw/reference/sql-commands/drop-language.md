@@ -1,52 +1,56 @@
+---
+description: 版本：11
+---
+
 # DROP LANGUAGE
 
-DROP LANGUAGE — remove a procedural language
+DROP LANGUAGE — 移除程序語言
 
-### Synopsis
+### 語法
 
 ```text
 DROP [ PROCEDURAL ] LANGUAGE [ IF EXISTS ] name [ CASCADE | RESTRICT ]
 ```
 
-### Description
+### 說明
 
-`DROP LANGUAGE` removes the definition of a previously registered procedural language. You must be a superuser or the owner of the language to use `DROP LANGUAGE`.
+DROP LANGUAGE 移除先前註冊的程序語言定義。您必須是超級使用者或語言的所有者才能使用 DROP LANGUAGE。
 
-#### Note
+#### 注意
 
-As of PostgreSQL 9.1, most procedural languages have been made into “extensions”, and should therefore be removed with [DROP EXTENSION](https://www.postgresql.org/docs/10/static/sql-dropextension.html) not `DROP LANGUAGE`.
+從 PostgreSQL 9.1 開始，大多數程序語言都被製作成「extension」，因此，應該使用 [DROP EXTENSION](drop-extension.md) 而不是 DROP LANGUAGE 來移除。
 
-### Parameters
+### 參數
 
 `IF EXISTS`
 
-Do not throw an error if the language does not exist. A notice is issued in this case.
+如果該語言不存在，請不要拋出錯誤。而在這種情況下發出 NOTICE。
 
 _`name`_
 
-The name of an existing procedural language. For backward compatibility, the name can be enclosed by single quotes.
+現有程序語言的名稱。為了相容性，名稱可以用單引號括起來。
 
 `CASCADE`
 
-Automatically drop objects that depend on the language \(such as functions in the language\), and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
+自動移除相依於語言的物件（例如語言中的函數），以及相依於這些物件的所有物件（參閱[第 5.13 節](../../the-sql-language/ddl/dependency-tracking.md)）。
 
 `RESTRICT`
 
-Refuse to drop the language if any objects depend on it. This is the default.
+如果任何物件相依於它，則拒絕移除。這是預設選項。
 
-### Examples
+### 範例
 
-This command removes the procedural language `plsample`:
+此命令會移除程序語言 plsample：
 
 ```text
 DROP LANGUAGE plsample;
 ```
 
-### Compatibility
+### 相容性
 
-There is no `DROP LANGUAGE` statement in the SQL standard.
+SQL 標準中沒有 DROP LANGUAGE 語句。
 
-### See Also
+### 參閱
 
 [ALTER LANGUAGE](alter-language.md), [CREATE LANGUAGE](create-language.md)
 
