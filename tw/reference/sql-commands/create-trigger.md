@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # CREATE TRIGGER
 
 CREATE TRIGGER — 宣告一個新的觸發器
@@ -156,9 +160,9 @@ Modifying a partitioned table or a table with inheritance children fires stateme
 
 In PostgreSQL versions before 7.3, it was necessary to declare trigger functions as returning the placeholder type `opaque`, rather than `trigger`. To support loading of old dump files, `CREATE TRIGGER` will accept a function declared as returning `opaque`, but it will issue a notice and change the function's declared return type to `trigger`.
 
-### Examples
+### 範例
 
-Execute the function `check_account_update` whenever a row of the table `accounts` is about to be updated:
+每當要更新資料表 accounts 的資料列時，執行函數 check\_account\_update：
 
 ```text
 CREATE TRIGGER check_update
@@ -167,7 +171,7 @@ CREATE TRIGGER check_update
     EXECUTE PROCEDURE check_account_update();
 ```
 
-The same, but only execute the function if column `balance` is specified as a target in the `UPDATE` command:
+一樣，但只有在 UPDATE 命令中將欄位 balance 作為更新標的時才執行該函數：
 
 ```text
 CREATE TRIGGER check_update
@@ -176,7 +180,7 @@ CREATE TRIGGER check_update
     EXECUTE PROCEDURE check_account_update();
 ```
 
-This form only executes the function if column `balance` has in fact changed value:
+如果欄位 balance 實際上已變更其值，則此語法才會執行該函數：
 
 ```text
 CREATE TRIGGER check_update
@@ -186,7 +190,7 @@ CREATE TRIGGER check_update
     EXECUTE PROCEDURE check_account_update();
 ```
 
-Call a function to log updates of `accounts`, but only if something changed:
+呼叫函數來記錄 accounts 的更新，但僅在變更了某些內容時：
 
 ```text
 CREATE TRIGGER log_update
@@ -196,7 +200,7 @@ CREATE TRIGGER log_update
     EXECUTE PROCEDURE log_account_update();
 ```
 
-Execute the function `view_insert_row` for each row to insert rows into the tables underlying a view:
+對每一個資料列執行函數 view\_insert\_row，資料列被插入到檢視表中時：
 
 ```text
 CREATE TRIGGER view_insert
@@ -205,7 +209,7 @@ CREATE TRIGGER view_insert
     EXECUTE PROCEDURE view_insert_row();
 ```
 
-Execute the function `check_transfer_balances_to_zero` for each statement to confirm that the `transfer` rows offset to a net of zero:
+對每個語句執行函數 check\_transfer\_balances\_to\_zero 以確認所傳輸的資料列與淨值的差異：
 
 ```text
 CREATE TRIGGER transfer_insert
@@ -215,7 +219,7 @@ CREATE TRIGGER transfer_insert
     EXECUTE PROCEDURE check_transfer_balances_to_zero();
 ```
 
-Execute the function `check_matching_pairs` for each row to confirm that changes are made to matching pairs at the same time \(by the same statement\):
+對每一個資料列執行 check\_matching\_pairs 函數以確認同時對相對應的資料列對進行變更（透過相同的語句）：
 
 ```text
 CREATE TRIGGER paired_items_update
@@ -225,7 +229,7 @@ CREATE TRIGGER paired_items_update
     EXECUTE PROCEDURE check_matching_pairs();
 ```
 
-[Section 38.4](https://www.postgresql.org/docs/10/static/trigger-example.html) contains a complete example of a trigger function written in C.
+[第 38.4 節](../../server-programming/extending-sql/query-language-functions.md)中有使用 C 撰寫的觸發器函數完整範例。
 
 ### Compatibility
 
