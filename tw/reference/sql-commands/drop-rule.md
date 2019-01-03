@@ -1,52 +1,56 @@
+---
+description: 版本：11
+---
+
 # DROP RULE
 
-DROP RULE — remove a rewrite rule
+DROP RULE — 移除覆寫規則
 
-### Synopsis
+### 語法
 
 ```text
 DROP RULE [ IF EXISTS ] name ON table_name [ CASCADE | RESTRICT ]
 ```
 
-### Description
+### 說明
 
-`DROP RULE` drops a rewrite rule.
+DROP RULE 用於移除覆寫規則。
 
-### Parameters
+### 參數
 
 `IF EXISTS`
 
-Do not throw an error if the rule does not exist. A notice is issued in this case.
+如果規則不存在，請不要拋出錯誤。在這種情況下發出 NOTICE。
 
 _`name`_
 
-The name of the rule to drop.
+要移除的規則名稱。
 
 _`table_name`_
 
-The name \(optionally schema-qualified\) of the table or view that the rule applies to.
+規則適用的資料表或檢視表名稱（可加入綱要限定）。
 
 `CASCADE`
 
-Automatically drop objects that depend on the rule, and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
+自動移除相依於規則的物件，以及相依於這些物件的所有物件（請參閱[第 5.13 節](../../the-sql-language/ddl/dependency-tracking.md)）。
 
 `RESTRICT`
 
-Refuse to drop the rule if any objects depend on it. This is the default.
+如果任何物件相依於它，則拒絕移除規則。這是預設行為。
 
-### Examples
+### 範例
 
-To drop the rewrite rule `newrule`:
+要移除覆寫規則 newrule：
 
 ```text
 DROP RULE newrule ON mytable;
 ```
 
-### Compatibility
+### 相容性
 
-`DROP RULE` is a PostgreSQL language extension, as is the entire query rewrite system.
+DROP RULE 是 PostgreSQL 語法的延伸功能，整個查詢覆寫系統也是。
 
-### See Also
+### 參閱
 
-[CREATE RULE](https://www.postgresql.org/docs/10/static/sql-createrule.html), [ALTER RULE](https://www.postgresql.org/docs/10/static/sql-alterrule.html)
+[CREATE RULE](create-rule.md), [ALTER RULE](alter-rule.md)
 
