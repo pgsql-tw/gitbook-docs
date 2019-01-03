@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # CREATE TYPE
 
 CREATE TYPE — 定義新的資料型別
@@ -43,33 +47,33 @@ CREATE TYPE name (
 CREATE TYPE name
 ```
 
-### Description
+### 說明
 
-`CREATE TYPE` registers a new data type for use in the current database. The user who defines a type becomes its owner.
+CREATE TYPE 註冊一個新的資料型別，以便在目前資料庫中使用。定義型別的使用者將成為其所有者。
 
-If a schema name is given then the type is created in the specified schema. Otherwise it is created in the current schema. The type name must be distinct from the name of any existing type or domain in the same schema. \(Because tables have associated data types, the type name must also be distinct from the name of any existing table in the same schema.\)
+如果加上了綱要名稱，則會在指定的綱要中建立型別。否則，它將在目前的綱要中建立。型別名稱必須與同一綱要中任何現有型別或 domain 的名稱不同。（因為資料表具有關連的資料型別，所以型別名稱也必須與同一綱要中任何現有資料表的名稱不同。）
 
-There are five forms of `CREATE TYPE`, as shown in the syntax synopsis above. They respectively create a _composite type_, an _enum type_, a _range type_, a _base type_, or a _shell type_. The first four of these are discussed in turn below. A shell type is simply a placeholder for a type to be defined later; it is created by issuing `CREATE TYPE` with no parameters except for the type name. Shell types are needed as forward references when creating range types and base types, as discussed in those sections.
+CREATE TYPE 有五種形式，如上面的語法概要所示。分別可以建立複合型別、列舉型別、範圍型別、基本型別或 shell 型別。下面將依次討論前四個。 shell 型別只是一個佔位型別，用於稍後定義的型別；它透過發出 CREATE TYPE 建立的，除了型別名稱之外沒有參數。在建立範圍型別和基本型別時，需要使用 Shell 型別作為先行引用，詳細如下面小節中所述。
 
 #### Composite Types
 
-The first form of `CREATE TYPE` creates a composite type. The composite type is specified by a list of attribute names and data types. An attribute's collation can be specified too, if its data type is collatable. A composite type is essentially the same as the row type of a table, but using `CREATE TYPE` avoids the need to create an actual table when all that is wanted is to define a type. A stand-alone composite type is useful, for example, as the argument or return type of a function.
+CREATE TYPE 的第一種形式是複合型別。複合型別以屬性名稱和資料型別列表組成。如果屬性可以指定 collation 的話，則也可以指定 collation。複合型別與資料表的資料列型別基本相同，但使用 CREATE TYPE 時，毌須建立實際的資料表，只需要定義型別即可。舉例來說，獨立複合型別可用於函數的參數或回傳型別。
 
-To be able to create a composite type, you must have `USAGE` privilege on all attribute types.
+要能夠建立複合型別，您必須具有所有屬性型別的 USAGE 權限。
 
 #### Enumerated Types
 
-The second form of `CREATE TYPE` creates an enumerated \(enum\) type, as described in [Section 8.7](https://www.postgresql.org/docs/10/static/datatype-enum.html). Enum types take a list of one or more quoted labels, each of which must be less than `NAMEDATALEN` bytes long \(64 bytes in a standard PostgreSQL build\).
+第二種形式的 CREATE TYPE 創建一個列舉（enum）型別，如[第 8.7 節](../../the-sql-language/data-types/8.7.-lie-ju-xing-bie.md)所述。列舉型別採用一個或多個帶引號的標籤列表，每個標籤的長度必須小於 NAMEDATALEN 個字元（標準 PostgreSQL 編譯中為 64 個字元）。
 
 #### Range Types
 
-The third form of `CREATE TYPE` creates a new range type, as described in [Section 8.17](https://www.postgresql.org/docs/10/static/rangetypes.html).
+第三種形式的 CREATE TYPE 建立一個新的範圍型別，如第 8.17 節所述。
 
-The range type's _`subtype`_ can be any type with an associated b-tree operator class \(to determine the ordering of values for the range type\). Normally the subtype's default b-tree operator class is used to determine ordering; to use a non-default operator class, specify its name with _`subtype_opclass`_. If the subtype is collatable, and you want to use a non-default collation in the range's ordering, specify the desired collation with the _`collation`_ option.
+範圍型別的子型別可以是具有關連的 b-tree 運算子類的任何型別（用於確定範圍型別值的排序）。通常，子型別的預設 b-tree 運算子類用於決定排序；要使用非預設的運算子類，請使用 subtype\_opclass 指定其名稱。如果子型別是可指定 collation 的，並且您希望在範圍的排序中使用非預設的排序規則，請使用排序規則選項指定所需的排序規則。
 
-The optional _`canonical`_ function must take one argument of the range type being defined, and return a value of the same type. This is used to convert range values to a canonical form, when applicable. See [Section 8.17.8](https://www.postgresql.org/docs/10/static/rangetypes.html#RANGETYPES-DEFINING) for more information. Creating a _`canonical`_ function is a bit tricky, since it must be defined before the range type can be declared. To do this, you must first create a shell type, which is a placeholder type that has no properties except a name and an owner. This is done by issuing the command `CREATE TYPE` _`name`_, with no additional parameters. Then the function can be declared using the shell type as argument and result, and finally the range type can be declared using the same name. This automatically replaces the shell type entry with a valid range type.
+選擇性的規範函數必須能接受所定義範圍型別的一個參數，並回傳相同型別的值。在套用時，這會用於將範圍值轉換為所規範形式。有關更多訊息，請參閱[第 8.17.8 節](../../the-sql-language/data-types/8.17.-fan-wei-xing-bie.md#8-17-8-defining-new-range-types)。建立規範函數有點棘手，因為必須在宣告範圍型別之前定義它。而要執行此操作，必須先建立一個 shell 型別，這是一種佔位型別，除了名稱和所有者之外沒有其他屬性。這是透過發出命令 CREATE TYPE name 來完成的，沒有其他參數。然後可以使用 shell 型別作為參數和結果宣告函數，最後可以使用相同的名稱宣告範圍型別。這會自動使用有效的範圍型別替換 shell 型別參數。
 
-The optional _`subtype_diff`_ function must take two values of the _`subtype`_ type as argument, and return a `double precision` value representing the difference between the two given values. While this is optional, providing it allows much greater efficiency of GiST indexes on columns of the range type. See [Section 8.17.8](https://www.postgresql.org/docs/10/static/rangetypes.html#RANGETYPES-DEFINING) for more information.
+選擇性的 subtype\_diff 函數必須將子型別的兩個值作為參數，並回傳表示兩個給定值之間差異的雙精確度值。雖然這是選擇性的，但是有提供它的話，可以在範圍型別的欄位上實現更高的 GiST 索引效率。有關更多訊息，請參閱[第 8.17.8 節](../../the-sql-language/data-types/8.17.-fan-wei-xing-bie.md#8-17-8-defining-new-range-types)。
 
 #### Base Types
 
