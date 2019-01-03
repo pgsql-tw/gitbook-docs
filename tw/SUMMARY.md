@@ -81,7 +81,7 @@
     * [8.14. JSON型別](the-sql-language/data-types/8.14.-json-xing-bie.md)
     * [8.15. 陣列](the-sql-language/data-types/8.15.-zhen-lie.md)
     * [8.16. 複合型別](the-sql-language/data-types/8.16.-fu-he-xing-bie.md)
-    * [8.17. 範圍型別](the-sql-language/data-types/8.17.-fan-wei-xing-bie.md)
+    * [8.17. 範圍型別](the-sql-language/data-types/range-types.md)
     * [8.18. 指標型別](the-sql-language/data-types/8.18.-zhi-biao-xing-bie.md)
     * [8.19. pg\_lsn型別](the-sql-language/data-types/8.19.-pglsn-xing-bie.md)
     * [8.20. 概念型別](the-sql-language/data-types/8.20.-gai-nian-xing-bie.md)

@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 38.4. SQL 語言函數
 
 SQL functions execute an arbitrary list of SQL statements, returning the result of the last query in the list. In the simple \(non-set\) case, the first row of the last query's result will be returned. \(Bear in mind that “the first row” of a multirow result is not well-defined unless you use `ORDER BY`.\) If the last query happens to return no rows at all, the null value will be returned.
