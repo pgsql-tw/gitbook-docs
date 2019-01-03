@@ -13,7 +13,7 @@ description: 本使用手冊由台灣 PostgreSQL 社群提供，翻譯自 Postgr
 [https://gitpitch.com/pgsql-tw/twpug-doc](https://gitpitch.com/pgsql-tw/twpug-doc)
 
 目前最新版本為 PostgreSQL 11：\(部份內容為版本10，持續更新中\)  
-[http://island.postgresql.tw/2018/10/19/pg11-press-kit.html](https://medium.com/pgsql-tw/postgresql-11-press-kit-331df8357dcc)
+[https://medium.com/pgsql-tw/postgresql-11-press-kit-331df8357dcc](https://medium.com/pgsql-tw/postgresql-11-press-kit-331df8357dcc)
 
 參與協作請在任何頁面，點選右上角的「**Edit on GitHub**」，修改後直接送 PR 給我們即可。  
 （**只翻一句也可以唷！**）
