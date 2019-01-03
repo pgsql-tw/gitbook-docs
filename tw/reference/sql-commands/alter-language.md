@@ -1,37 +1,41 @@
+---
+description: 版本：11
+---
+
 # ALTER LANGUAGE
 
-ALTER LANGUAGE — change the definition of a procedural language
+ALTER LANGUAGE — 變更程序語言的宣告
 
-### Synopsis
+### 語法
 
 ```text
 ALTER [ PROCEDURAL ] LANGUAGE name RENAME TO new_name
 ALTER [ PROCEDURAL ] LANGUAGE name OWNER TO { new_owner | CURRENT_USER | SESSION_USER }
 ```
 
-### Description
+### 說明
 
-`ALTER LANGUAGE` changes the definition of a procedural language. The only functionality is to rename the language or assign a new owner. You must be superuser or owner of the language to use `ALTER LANGUAGE`.
+ALTER LANGUAGE 變更程序語言的宣告。唯一的功能是將語言重新命名或分配新的所有者。您必須是該語言所有者或超級使用者才能使用 ALTER LANGUAGE。
 
-### Parameters
+### 參數
 
 _`name`_
 
-Name of a language
+語言名稱
 
 _`new_name`_
 
-The new name of the language
+語言的新名稱
 
 _`new_owner`_
 
-The new owner of the language
+語言的新所有者e
 
-### Compatibility
+### 相容性
 
-There is no `ALTER LANGUAGE` statement in the SQL standard.
+SQL 標準中沒有 ALTER LANGUAGE 語句。
 
-### See Also
+### 參閱
 
 [CREATE LANGUAGE](create-language.md), [DROP LANGUAGE](drop-language.md)  
 
