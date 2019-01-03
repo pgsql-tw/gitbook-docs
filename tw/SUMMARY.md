@@ -221,7 +221,7 @@
   * [22. Managing Databases](server-administration/managing-databases/README.md)
     * [22.1. Overview](server-administration/managing-databases/22.1.-overview.md)
     * [22.2. Creating a Database](server-administration/managing-databases/22.2.-creating-a-database.md)
-    * [22.3. Template Databases](server-administration/managing-databases/template-databases.md)
+    * [22.3. 樣版資料庫](server-administration/managing-databases/template-databases.md)
     * [22.4. Database Configuration](server-administration/managing-databases/22.4.-database-configuration.md)
     * [22.5. Destroying a Database](server-administration/managing-databases/22.5.-destroying-a-database.md)
     * [22.6. Tablespaces](server-administration/managing-databases/22.6.-tablespaces.md)
