@@ -400,7 +400,7 @@
     * [38.2. The PostgreSQL Type System](server-programming/extending-sql/37.2.-the-postgresql-type-system.md)
     * [38.3. 使用者自訂函數](server-programming/extending-sql/user-defined-functions.md)
     * [38.4. User-defined Procedures](server-programming/extending-sql/user-defined-procedures.md)
-    * [38.5. Query Language \(SQL\) Functions](server-programming/extending-sql/37.5.-function-overloading.md)
+    * [38.5. Query Language \(SQL\) Functions](server-programming/extending-sql/query-language-sql-functions.md)
     * [38.6. Function Overloading](server-programming/extending-sql/function-overloading.md)
     * [38.7. 函數易變性類別](server-programming/extending-sql/function-volatility-categories.md)
     * [38.8. Procedural Language Functions](server-programming/extending-sql/procedural-language-functions.md)
