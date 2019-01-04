@@ -2,9 +2,9 @@
 description: 版本：11
 ---
 
-# 9.20. 彙總函式
+# 9.20. 彙總函數
 
-_Aggregate functions_ compute a single result from a set of input values. The built-in general-purpose aggregate functions are listed in [Table 9.52](https://www.postgresql.org/docs/11/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE) and statistical aggregates in [Table 9.53](https://www.postgresql.org/docs/11/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE). The built-in within-group ordered-set aggregate functions are listed in [Table 9.54](https://www.postgresql.org/docs/11/functions-aggregate.html#FUNCTIONS-ORDEREDSET-TABLE) while the built-in within-group hypothetical-set ones are in [Table 9.55](https://www.postgresql.org/docs/11/functions-aggregate.html#FUNCTIONS-HYPOTHETICAL-TABLE). Grouping operations, which are closely related to aggregate functions, are listed in [Table 9.56](https://www.postgresql.org/docs/11/functions-aggregate.html#FUNCTIONS-GROUPING-TABLE). The special syntax considerations for aggregate functions are explained in [Section 4.2.7](https://www.postgresql.org/docs/11/sql-expressions.html#SYNTAX-AGGREGATES). Consult [Section 2.7](https://www.postgresql.org/docs/11/tutorial-agg.html) for additional introductory information.
+彙總函數將一組輸入值計算為單一個結果。[Table 9.52](aggregate-functions.md#table-9-52-general-purpose-aggregate-functions) 中列出了內建的通用彙總函數，[Table 9.53](aggregate-functions.md#table-9-53-aggregate-functions-for-statistics) 中列出了統計的彙總函數。[Table 9.54](aggregate-functions.md#table-9-54-ordered-set-aggregate-functions) 中列出了內建的群組內有序集合函數，而內建的群組內假設集合函數列於 [Table 9.55](aggregate-functions.md#table-9-55-hypothetical-set-aggregate-functions) 中。[Table 9.56](aggregate-functions.md#table-9-56-grouping-operations) 列出了與彙總函數密切相關的分組操作。[第 4.2.7 節](../sql-syntax/value-expressions.md#4-2-7-biao-shi-shi)介紹了彙總函數的特殊語法注意事項。有關其他介紹性資訊，請參閱[第 2.7 節](../../tutorial/2.-sql-cha-xun-yu-yan/2.7.-hui-zong-cha-xun.md)。
 
 #### **Table 9.52. General-Purpose Aggregate Functions**
 
