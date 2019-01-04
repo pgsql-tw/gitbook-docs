@@ -1,11 +1,15 @@
-# 38. Extending SQL
+---
+description: 版本：11
+---
 
-In the sections that follow, we will discuss how you can extend thePostgreSQLSQLquery language by adding:
+# 38. SQL 延伸功能
 
-* functions \(starting in[Section 37.3](https://www.postgresql.org/docs/10/static/xfunc.html)\)
-* aggregates \(starting in[Section 37.10](https://www.postgresql.org/docs/10/static/xaggr.html)\)
-* data types \(starting in[Section 37.11](https://www.postgresql.org/docs/10/static/xtypes.html)\)
-* operators \(starting in[Section 37.12](https://www.postgresql.org/docs/10/static/xoper.html)\)
-* operator classes for indexes \(starting in[Section 37.14](https://www.postgresql.org/docs/10/static/xindex.html)\)
-* packages of related objects \(starting in[Section 37.15](https://www.postgresql.org/docs/10/static/extend-extensions.html)\)
+在接下來的部分中，我們將討論如何透過增加以下內容來延伸 PostgreSQL 中 SQL 查詢語言的功能：
+
+* functions \(從[第 38.3 節](user-defined-functions.md)開始\)
+* aggregates \(從[第 38.11 節](user-defined-aggregates.md)開始\)
+* data types \(從[第 38.12 節](user-defined-types.md)開始\)
+* operators \(從[第 38.13 節](user-defined-operators.md)開始\)
+* operator classes for indexes \(從[第 38.15 節](interfacing-extensions-to-indexes.md)開始\)
+* packages of related objects \(從[第 38.16 節](packaging-related-objects-into-an-extension.md)開始\)
 

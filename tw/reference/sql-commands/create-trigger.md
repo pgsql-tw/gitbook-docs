@@ -229,7 +229,7 @@ CREATE TRIGGER paired_items_update
     EXECUTE PROCEDURE check_matching_pairs();
 ```
 
-[第 38.4 節](../../server-programming/extending-sql/query-language-functions.md)中有使用 C 撰寫的觸發器函數完整範例。
+[第 38.4 節](../../server-programming/extending-sql/user-defined-procedures.md)中有使用 C 撰寫的觸發器函數完整範例。
 
 ### Compatibility
 

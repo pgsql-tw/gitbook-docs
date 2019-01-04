@@ -1,11 +1,15 @@
+---
+description: 版本：11
+---
+
 # 38.3. 使用者自訂函數
 
 PostgreSQL 提供了四種形態的函數：
 
-* 查詢語言函數（用 SQL 語言撰寫的函數）（[第 37.4 節](query-language-functions.md)）
-* 程序語言函數（例如，用 PL/pgSQL 或 PL/Tcl 撰寫的函數）（[第 37.7 節](37.7.-procedural-language-functions.md)）
-* 內部函數（[第 37.8 節](37.8.-internal-functions.md)）
-* C 語言函數（[第 37.9 節](37.9.-c-language-functions.md)）
+* 查詢語言函數（用 SQL 語言撰寫的函數）（[第 38.5 節](37.5.-function-overloading.md)）
+* 程序語言函數（例如，用 PL/pgSQL 或 PL/Tcl 撰寫的函數）（[第 38.8 節](procedural-language-functions.md)）
+* 內部函數（[第 38.9 節](internal-functions.md)）
+* C 語言函數（[第 38.10 節](c-language-functions.md)）
 
 每種函數都可以將基本型別、複合類型或它們的組合型別作為參數。 另外，每種函數都可以回傳一個基本型別或一個複合型別。函數也可以定義為回傳基本或複合值的集合。
 
