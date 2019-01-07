@@ -86,7 +86,9 @@ Using this option is subtly different from writing `psql <` _`filename`_. In gen
 `-F` _`separator`_  
 `--field-separator=`_`separator`_
 
-Use _`separator`_ as the field separator for unaligned output. This is equivalent to `\pset fieldsep` or `\f`.`-h` _`hostname`_  
+Use _`separator`_ as the field separator for unaligned output. This is equivalent to `\pset fieldsep` or `\f`.
+
+`-h` _`hostname`_  
 `--host=`_`hostname`_
 
 Specifies the host name of the machine on which the server is running. If the value begins with a slash, it is used as the directory for the Unix-domain socket.
@@ -322,9 +324,11 @@ To print your current working directory, use `\! pwd`.
 
 `\conninfo`
 
-Outputs information about the current database connection.`\copy {` _`table`_ \[ \( _`column_list`_ \) \] \| \( _`query`_ \) } { `from` \| `to` } { _`'filename'`_ \| program _`'command'`_ \| stdin \| stdout \| pstdin \| pstdout } \[ \[ with \] \( _`option`_ \[, ...\] \) \]
+Outputs information about the current database connection.
 
-Performs a frontend \(client\) copy. This is an operation that runs an SQL [COPY](https://www.postgresql.org/docs/11/sql-copy.html) command, but instead of the server reading or writing the specified file, psql reads or writes the file and routes the data between the server and the local file system. This means that file accessibility and privileges are those of the local user, not the server, and no SQL superuser privileges are required.
+`\copy {` _`table`_ \[ \( _`column_list`_ \) \] \| \( _`query`_ \) } { `from` \| `to` } { _`'filename'`_ \| program _`'command'`_ \| stdin \| stdout \| pstdin \| pstdout } \[ \[ with \] \( _`option`_ \[, ...\] \) \]
+
+執行前端（用戶端）資料複製。這是一個執行 SQL [COPY](../sql-commands/copy.md) 命令的操作，但不是由伺服器讀取或寫入指定的檔案，psql 讀取或寫入檔案並在伺服器和本地檔案系統之間傳輸資料。這意味著檔案可存取性和權限是本地使用者的權限，而不是伺服器，並且不需要 SQL 超級使用者權限。
 
 When `program` is specified, _`command`_ is executed by psql and the data passed from or to _`command`_ is routed between the server and the client. Again, the execution privileges are those of the local user, not the server, and no SQL superuser privileges are required.
 
