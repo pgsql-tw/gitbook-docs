@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # COPY
 
 COPY — 在檔案和資料表之間複製資料
@@ -138,7 +142,7 @@ COPY count
 
 計數是複製的資料列數量。
 
-**注意**  
+**提醒**  
 僅當命令不是 COPY ... TO STDOUT 或等效的 psql 元命令 \copy ... to stdout 時，psql 才會輸出此命令標記。這是為了防止命令標記與剛剛輸出的資料混淆。
 
 ### 注意
@@ -153,25 +157,25 @@ COPY 僅處理指定名稱的資料表；它不會將資料複製到子資料表
 
 如果為資料表啟用了資料列級安全性原則，則相關的 SELECT 安全原則將套用於 COPY table TO 語句。目前，具有資料列級安全性的資料表不支援 COPY FROM。請改用等效的 INSERT 語句。
 
-Files named in a `COPY` command are read or written directly by the server, not by the client application. Therefore, they must reside on or be accessible to the database server machine, not the client. They must be accessible to and readable or writable by the PostgreSQL user \(the user ID the server runs as\), not the client. Similarly, the command specified with `PROGRAM` is executed directly by the server, not by the client application, must be executable by the PostgreSQL user. `COPY` naming a file or command is only allowed to database superusers, since it allows reading or writing any file that the server has privileges to access.
+在 COPY 命令中所指名的檔案由伺服器直接讀取或寫入，而不是由用戶端應用程序讀取或寫入。因此，它們必須儲存在資料庫伺服器主機上，或者具有它們的存取能力，而非用戶端。它們必須是 PostgreSQL 使用者帳號（伺服器執行的使用者 ID）可存取，可讀或可寫，而不是用戶端。同樣地，用 PROGRAM 指定的命令是由伺服器直接執行，而不是由用戶端應用程序執行，且必須由 PostgreSQL 使用者執行。COPY 指名的檔案或命令僅允許資料庫超級使用者使用，因為它允許讀取或寫入伺服器有權存取的任何檔案。
 
-Do not confuse `COPY` with the psql instruction [`\copy`](https://www.postgresql.org/docs/10/static/app-psql.html#APP-PSQL-META-COMMANDS-COPY). `\copy` invokes `COPY FROM STDIN` or `COPY TO STDOUT`, and then fetches/stores the data in a file accessible to the psql client. Thus, file accessibility and access rights depend on the client rather than the server when `\copy` is used.
+不要將 COPY 與 psql 指令 [\copy](../client-applications/psql.md) 混淆。\copy 呼叫 COPY FROM STDIN 或 COPY TO STDOUT，然後將資料讀取/儲存在 psql 用戶端可存取的檔案中。因此，使用 \copy時，檔案可存取性和存取權限取決於用戶端而不是伺服器端。
 
-It is recommended that the file name used in `COPY` always be specified as an absolute path. This is enforced by the server in the case of `COPY TO`, but for `COPY FROM` you do have the option of reading from a file specified by a relative path. The path will be interpreted relative to the working directory of the server process \(normally the cluster's data directory\), not the client's working directory.
+建議始終都將 COPY 中使用的檔案名稱指定為絕對路徑。這在 COPY TO 的情況下由伺服器是強制執行的，但對於 COPY FROM，您可以選擇由相對路徑指定的檔案中讀取。該路徑將相對於伺服器程序的工作目錄（通常是叢集的資料目錄）作為起點，而不是用戶端的工作目錄。
 
-Executing a command with `PROGRAM` might be restricted by the operating system's access control mechanisms, such as SELinux.
+使用 PROGRAM 執行命令可能受作業系統的存取控制機制（如 SELinux）所限制。
 
-`COPY FROM` will invoke any triggers and check constraints on the destination table. However, it will not invoke rules.
+COPY FROM 將呼叫目標資料表上的所有觸發器和檢查限制條件。但是，它不會呼叫規則。
 
-For identity columns, the `COPY FROM` command will always write the column values provided in the input data, like the `INSERT` option `OVERRIDING SYSTEM VALUE`.
+對於標識欄位，COPY FROM 命令將會寫入輸入資料中提供的欄位值，如 INSERT 選項 OVERRIDING SYSTEM VALUE。
 
-`COPY` input and output is affected by `DateStyle`. To ensure portability to other PostgreSQL installations that might use non-default `DateStyle` settings, `DateStyle` should be set to `ISO` before using `COPY TO`. It is also a good idea to avoid dumping data with `IntervalStyle` set to`sql_standard`, because negative interval values might be misinterpreted by a server that has a different setting for `IntervalStyle`.
+COPY 輸入和輸出受 DateStyle 影響。為確保可以使用非預設 DateStyle 設定的其他 PostgreSQL 安裝的可移植性，應在使用 COPY TO 之前將 DateStyle 設定為 ISO。避免使用 IntervalStyle 設定 tosql\_standard 轉存資料也是一個好主意，因為負間隔值可能會被具有不同 IntervalStyle 設定的伺服器所誤解。
 
-Input data is interpreted according to `ENCODING` option or the current client encoding, and output data is encoded in `ENCODING` or the current client encoding, even if the data does not pass through the client but is read from or written to a file directly by the server.
+輸入資料根據 ENCODING 選項或目前用戶端編碼進行解譯，輸出資料以 ENCODING 或目前用戶端編碼進行編碼，即使資料未透過用戶端而直接由伺服器讀取或寫入檔案。
 
-`COPY` stops operation at the first error. This should not lead to problems in the event of a `COPY TO`, but the target table will already have received earlier rows in a `COPY FROM`. These rows will not be visible or accessible, but they still occupy disk space. This might amount to a considerable amount of wasted disk space if the failure happened well into a large copy operation. You might wish to invoke `VACUUM` to recover the wasted space.
+COPY 會在第一個錯誤時停止操作。這不應該會使 COPY TO 出現問題，但目標資料表已經收到了 COPY FROM 中的之前的資料列。這些資料列將不可見或無法存取，但它們仍佔用磁碟空間。 如果故障發生在大量的複製操作中，則可能相當於浪費大量磁碟空間。您可能需要呼叫 VACUUM 來恢復浪費的空間。
 
-`FORCE_NULL` and `FORCE_NOT_NULL` can be used simultaneously on the same column. This results in converting quoted null strings to null values and unquoted null strings to empty strings.
+FORCE\_NULL 和 FORCE\_NOT\_NULL 可以在同一個欄位上同時使用。這會導致將帶引號的空字串轉換為空值，將不帶引號的空字串轉換為空字串。
 
 ### 檔案格式
 
