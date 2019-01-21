@@ -4,7 +4,7 @@ description: 版本：11
 
 # 9.20. 彙總函數
 
-彙總函數將一組輸入值計算為單一個結果。[Table 9.52](aggregate-functions.md#table-9-52-general-purpose-aggregate-functions) 中列出了內建的通用彙總函數，[Table 9.53](aggregate-functions.md#table-9-53-aggregate-functions-for-statistics) 中列出了統計的彙總函數。[Table 9.54](aggregate-functions.md#table-9-54-ordered-set-aggregate-functions) 中列出了內建的群組內有序集合函數，而內建的群組內假設集合函數列於 [Table 9.55](aggregate-functions.md#table-9-55-hypothetical-set-aggregate-functions) 中。[Table 9.56](aggregate-functions.md#table-9-56-grouping-operations) 列出了與彙總函數密切相關的分組操作。[第 4.2.7 節](../sql-syntax/value-expressions.md#4-2-7-biao-shi-shi)介紹了彙總函數的特殊語法注意事項。有關其他介紹性資訊，請參閱[第 2.7 節](../../tutorial/2.-sql-cha-xun-yu-yan/2.7.-hui-zong-cha-xun.md)。
+彙總函數將一組輸入值計算為單一個結果。[Table 9.52](aggregate-functions.md#table-9-52-general-purpose-aggregate-functions) 中列出了內建的通用彙總函數，[Table 9.53](aggregate-functions.md#table-9-53-aggregate-functions-for-statistics) 中列出了統計的彙總函數。[Table 9.54](aggregate-functions.md#table-9-54-ordered-set-aggregate-functions) 中列出了內建的群組內有序集合函數，而內建的群組內假設集合函數列於 [Table 9.55](aggregate-functions.md#table-9-55-hypothetical-set-aggregate-functions) 中。[Table 9.56](aggregate-functions.md#table-9-56-grouping-operations) 列出了與彙總函數密切相關的分組操作。[第 4.2.7 節](../sql-syntax/value-expressions.md#4-2-7-biao-shi-shi)介紹了彙總函數的特殊語法注意事項。有關其他介紹性資訊，請參閱[第 2.7 節](../../tutorial/the-sql-language/aggregate-functions.md)。
 
 #### **Table 9.52. General-Purpose Aggregate Functions**
 

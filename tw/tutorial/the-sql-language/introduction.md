@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 2.1. 簡介
 
 在這一章之中，提供了一個如何使用 SQL 進行簡易操作的大致概念。這裡主要讓你有基本的認識，但無法提供 SQL 完整且巨細靡遺的說明。許多書籍詳細介紹了 SQL，例如「Understanding the New SQL. A complete quide.」及「A Guide to the SQL Standard. A user's guid to the standard database language SQL.」。你應該瞭解的是，一些 PostgreSQL 語法來自於標準 SQL 的延伸。
