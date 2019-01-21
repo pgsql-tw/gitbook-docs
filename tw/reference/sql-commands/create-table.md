@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # CREATE TABLE
 
 CREATE TABLE — 定義一個新的資料表
@@ -98,15 +102,15 @@ CREATE TABLE 還自動建立一個資料型別，表示與資料表的一個資�
 
 為了能夠建立資料表，您必須分別對所有欄位型別或 OF 子句中的型別具有 USAGE 權限。
 
-### Parameters
+### 參數
 
-`TEMPORARY` or `TEMP`
+`TEMPORARY` 或 `TEMP`
 
-If specified, the table is created as a temporary table. Temporary tables are automatically dropped at the end of a session, or optionally at the end of the current transaction \(see `ON COMMIT` below\). Existing permanent tables with the same name are not visible to the current session while the temporary table exists, unless they are referenced with schema-qualified names. Any indexes created on a temporary table are automatically temporary as well.
+如果使用此參數，則將資料表建立為臨時資料表。臨時資料表會在連線結束時自動刪除，或者選擇性地在目前交易事務結束時刪除（請參閱下面的 ON COMMIT）。當臨時資料表存在時，目前連線不會顯示具有相同名稱的現有永久資料表，除非它們使用綱要限定的名稱引用。在臨時資料表上建立的任何索引也都自動是臨時的。
 
-The [autovacuum daemon](https://www.postgresql.org/docs/10/static/routine-vacuuming.html#AUTOVACUUM) cannot access and therefore cannot vacuum or analyze temporary tables. For this reason, appropriate vacuum and analyze operations should be performed via session SQL commands. For example, if a temporary table is going to be used in complex queries, it is wise to run `ANALYZE` on the temporary table after it is populated.
+由於 autovacuum 背景程序無法存取，因此無法對臨時資料表進行清理或分析。所以，應透過線上的 SQL 命令執行適當的清理和分析操作。例如，如果要在複雜查詢中使用臨時資料表，在填入資料後的臨時表上執行 ANALYZE 是個不錯的作法。
 
-Optionally, `GLOBAL` or `LOCAL` can be written before `TEMPORARY` or `TEMP`. This presently makes no difference in PostgreSQL and is deprecated; see [Compatibility](https://www.postgresql.org/docs/10/static/sql-createtable.html#SQL-CREATETABLE-COMPATIBILITY).
+選擇性地，可以在 TEMPORARY 或 TEMP 之前寫入 GLOBAL 或 LOCAL。目前這在 PostgreSQL 中沒有任何區別，也已經被棄用；請參閱[相容性](create-table.md#xiang-rong-xing)。
 
 `UNLOGGED`
 
@@ -689,21 +693,21 @@ CREATE TABLE cities_ab_10000_to_100000
     PARTITION OF cities_ab FOR VALUES FROM (10000) TO (100000);
 ```
 
-### Compatibility
+### 相容性
 
-The `CREATE TABLE` command conforms to the SQL standard, with exceptions listed below.
+CREATE TABLE 命令基本上符合 SQL 標準，而下面列出了一些例外情況。
 
 #### Temporary Tables
 
-Although the syntax of `CREATE TEMPORARY TABLE` resembles that of the SQL standard, the effect is not the same. In the standard, temporary tables are defined just once and automatically exist \(starting with empty contents\) in every session that needs them. PostgreSQLinstead requires each session to issue its own `CREATE TEMPORARY TABLE` command for each temporary table to be used. This allows different sessions to use the same temporary table name for different purposes, whereas the standard's approach constrains all instances of a given temporary table name to have the same table structure.
+儘管 CREATE TEMPORARY TABLE 的語法類似於 SQL 標準的語法，但效果卻不盡相同。在標準中，臨時資料表只定義一次，並在每個需要它們的連線中自動存在（以空內容開始）。 而 PostgreSQL 則要求每個連線為要使用的每個臨時資料表發出自己的 CREATE TEMPORARY TABLE 命令。這使得不同的連線可以為不同的目的使用相同的臨時資料表名稱，而標準的方法限制了給定臨時資料表名稱的所有物件具有相同的資料表結構。
 
-The standard's definition of the behavior of temporary tables is widely ignored. PostgreSQL's behavior on this point is similar to that of several other SQL databases.
+標準對臨時資料表行為的定義大部份都被忽略。PostgreSQL 在這一點上的行為類似於其他幾個 SQL 資料庫。
 
-The SQL standard also distinguishes between global and local temporary tables, where a local temporary table has a separate set of contents for each SQL module within each session, though its definition is still shared across sessions. Since PostgreSQL does not support SQL modules, this distinction is not relevant in PostgreSQL.
+SQL 標準還區分全域和區域的臨時資料表，其中區域的臨時資料表為每個連線中的每個 SQL 區塊都有一組單獨的內容，儘管它的定義仍然在連線之間共享。由於 PostgreSQL 不支援 SQL 區塊，因此這種區別與 PostgreSQL 無關。
 
-For compatibility's sake, PostgreSQL will accept the `GLOBAL` and `LOCAL` keywords in a temporary table declaration, but they currently have no effect. Use of these keywords is discouraged, since future versions of PostgreSQL might adopt a more standard-compliant interpretation of their meaning.
+為了相容性，PostgreSQL 將在臨時資料表宣告中接受 GLOBAL 和 LOCAL 關鍵字，但它們目前沒有任何效果。並不鼓勵使用這些關鍵字，因為 PostgreSQL 的未來版本可能採用更符合標準的方式來解譯。
 
-The `ON COMMIT` clause for temporary tables also resembles the SQL standard, but has some differences. If the `ON COMMIT` clause is omitted, SQL specifies that the default behavior is `ON COMMIT DELETE ROWS`. However, the default behavior in PostgreSQL is `ON COMMIT PRESERVE ROWS`. The `ON COMMIT DROP` option does not exist in SQL.
+臨時資料表的 ON COMMIT 子句也類似於 SQL 標準，但有一些差異。 如果省略 ON COMMIT 子句，則 SQL 指定預設行為為 ON COMMIT DELETE ROWS。但是，PostgreSQL 中的預設行為是 ON COMMIT PRESERVE ROWS。SQL 中不存在 ON COMMIT DROP 語法。
 
 #### Non-deferred Uniqueness Constraints
 
