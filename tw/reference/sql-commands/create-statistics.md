@@ -1,8 +1,12 @@
+---
+description: 版本：11
+---
+
 # CREATE STATISTICS
 
-CREATE STATISTICS — define extended statistics
+CREATE STATISTICS — 定義延伸統計資訊
 
-### Synopsis
+### 語法
 
 ```text
 CREATE STATISTICS [ IF NOT EXISTS ] statistics_name
@@ -11,41 +15,41 @@ CREATE STATISTICS [ IF NOT EXISTS ] statistics_name
     FROM table_name
 ```
 
-### Description
+### 說明
 
-`CREATE STATISTICS` will create a new extended statistics object tracking data about the specified table, foreign table or materialized view. The statistics object will be created in the current database and will be owned by the user issuing the command.
+CREATE STATISTICS 將建立一個新的延伸統計資訊物件，追踪指定資料表、外部資料表或具體化檢視表的相關數據。統計資訊物件將在目前的資料庫中建立，並由發出此命令的使用者擁有。
 
-If a schema name is given \(for example, `CREATE STATISTICS myschema.mystat ...`\) then the statistics object is created in the specified schema. Otherwise it is created in the current schema. The name of the statistics object must be distinct from the name of any other statistics object in the same schema.
+如果使用了綱要名稱（例如，CREATE STATISTICS myschema.mystat ...），則會在指定的綱要中建立統計資訊物件。 否則，它將在目前的綱要中建立。統計資訊物件的名稱必須與同一綱要中任何其他統計資訊物件的名稱不同。
 
-### Parameters
+### 參數
 
 `IF NOT EXISTS`
 
-Do not throw an error if a statistics object with the same name already exists. A notice is issued in this case. Note that only the name of the statistics object is considered here, not the details of its definition.
+如果已存在具有相同名稱的統計物件，請不要拋出錯誤。在這種情況下發出 NOTICE。請注意，此處僅考慮統計物件的名稱，而不是其定義的詳細內容。
 
 _`statistics_name`_
 
-The name \(optionally schema-qualified\) of the statistics object to be created.
+要建立的統計資訊物件名稱（可選擇性加上綱要名稱）。
 
 _`statistics_kind`_
 
-A statistics kind to be computed in this statistics object. Currently supported kinds are `ndistinct`, which enables n-distinct statistics, and `dependencies`, which enables functional dependency statistics. If this clause is omitted, all supported statistics kinds are included in the statistics object. For more information, see [Section 14.2.2](https://www.postgresql.org/docs/10/static/planner-stats.html#PLANNER-STATS-EXTENDED) and [Section 68.2](https://www.postgresql.org/docs/10/static/multivariate-statistics-examples.html).
+要在此統計物件中計算的統計類型。目前支援的種類是 ndistinct，它支援 n 個不同的統計資訊和相依關係，它們支援功能相依性統計。如果省略此子句，則統計物件中將包含所有受支援的統計類型。有關更多訊息，請參閱[第 14.2.2 節](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md#14-2-2-yan-shen)和[第 70.2 節](../../internals/68.-how-the-planner-uses-statistics/multivariate-statistics-examples.md)。
 
 _`column_name`_
 
-The name of a table column to be covered by the computed statistics. At least two column names must be given.
+計算統計資訊要涵蓋的資料表欄位名稱。必須至少提供兩個欄位名稱。
 
 _`table_name`_
 
-The name \(optionally schema-qualified\) of the table containing the column\(s\) the statistics are computed on.
+包含計算統計資訊欄位的資料表名稱（可選擇性加上綱要）。
 
-### Notes
+### 注意
 
-You must be the owner of a table to create a statistics object reading it. Once created, however, the ownership of the statistics object is independent of the underlying table\(s\).
+您必須是資料表的所有者才能建立讀取它的統計物件。但是，一旦建立，統計物件的所有權就獨立於基礎資料表。
 
-### Examples
+### 範例
 
-Create table `t1` with two functionally dependent columns, i.e. knowledge of a value in the first column is sufficient for determining the value in the other column. Then functional dependency statistics are built on those columns:
+建立具有兩個功能性相關連的欄位在資料表 t1，也就是知道第一欄位中的值就足以決定另一欄位中的值。然後在這些欄位上建構功能相依性統計資訊：
 
 ```text
 CREATE TABLE t1 (
@@ -69,13 +73,13 @@ ANALYZE t1;
 EXPLAIN ANALYZE SELECT * FROM t1 WHERE (a = 1) AND (b = 0);
 ```
 
-Without functional-dependency statistics, the planner would assume that the two `WHERE` conditions are independent, and would multiply their selectivities together to arrive at a much-too-small row count estimate. With such statistics, the planner recognizes that the `WHERE` conditions are redundant and does not underestimate the rowcount.
+如果沒有功能相依性統計，計劃程序將會假設兩個 WHERE 條件是獨立的，並且將它們的可能性相乘而得到非常小的資料列計數估計。有了這樣的統計數據，規劃程序就會瞭解到 WHERE 條件是多餘的，就不會低估資料列數量。
 
-### Compatibility
+### 相容性
 
-There is no `CREATE STATISTICS` command in the SQL standard.
+SQL 標準中沒有 CREATE STATISTICS 指令。
 
-### See Also
+### 參閱
 
-[ALTER STATISTICS](https://www.postgresql.org/docs/10/static/sql-alterstatistics.html), [DROP STATISTICS](https://www.postgresql.org/docs/10/static/sql-dropstatistics.html)
+[ALTER STATISTICS](alter-statistics.md), [DROP STATISTICS](drop-statistics.md)
 

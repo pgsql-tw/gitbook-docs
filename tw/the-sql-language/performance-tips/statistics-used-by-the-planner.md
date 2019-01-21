@@ -54,7 +54,7 @@ WHERE tablename = 'road';
 
 ANALYZE 儲存在 pg\_statistic 中的資訊量，特別是每欄位的 most\_common\_vals 和 histogram\_bounds 陣列中的最大項目數，可以使用 ALTER TABLE SET STATISTICS 指令逐個欄位設定，也可以透過設定全域的 [default\_statistics\_target](../../server-administration/server-configuration/query-planning.md#19-7-4-other-planner-options) 組態變數。預設限制目前是 100 個項目。提高限制可能允許進行更準確的計劃程序估算，特別是對於具有不規則資料分佈的欄位，其代價是在 pg\_statistic 中消耗更多空間並且計算估計的時間稍長。相反地，對於具有簡單資料分佈的欄位，下限可能就足夠了。
 
-有關規劃程序使用統計資料的更多詳細訊息，請參閱[第 68 章](../../internals/68.-how-the-planner-uses-statistics.md)。
+有關規劃程序使用統計資料的更多詳細訊息，請參閱[第 68 章](../../internals/68.-how-the-planner-uses-statistics/)。
 
 ## 14.2.2. 延伸統計資訊
 
