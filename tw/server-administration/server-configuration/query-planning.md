@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 19.7. 查詢規畫
 
 ## 19.7.1. 規劃方法配置
@@ -52,17 +56,16 @@
 
 啟用或停用查詢計劃程序使用 TID 掃描計劃類型。預設為開啓。
 
-## 19.7.2. Planner Cost Constants
+## 19.7.2. 規劃程序成本常數
 
-The _cost_ variables described in this section are measured on an arbitrary scale. Only their relative values matter, hence scaling them all up or down by the same factor will result in no change in the planner's choices. By default, these cost variables are based on the cost of sequential page fetches; that is, `seq_page_cost` is conventionally set to `1.0` and the other cost variables are set with reference to that. But you can use a different scale if you prefer, such as actual execution times in milliseconds on a particular machine.
+本節中描述的成本變數是以比例來使用的。只有它們的相對值很重要，因此按相同因子放大或縮小它們將不會讓規劃程式的選擇有所變化。預設情況下，這些成本變數基於連續頁面讀取的成本；也就是說，seq\_page\_cost 通常設定為 1.0，其他成本變數是相對參考其設定的。 但是，如果您願意，可以使用不同的比例，例如特定主機上的實際執行時間（以毫秒為單位）。
 
-#### Note
-
-Unfortunately, there is no well-defined method for determining ideal values for the cost variables. They are best treated as averages over the entire mix of queries that a particular installation will receive. This means that changing them on the basis of just a few experiments is very risky.
+**注意**  
+不幸的是，並沒有明確定義的方法來決定成本變數的理想值。它們最好被視為特定安裝環境可能接受的所有查詢組合的平均值。這意味著僅僅根據一些實驗來改變它們都不是真正的最佳。
 
 #### `seq_page_cost` \(`floating point`\)
 
-Sets the planner's estimate of the cost of a disk page fetch that is part of a series of sequential fetches. The default is 1.0. This value can be overridden for tables and indexes in a particular tablespace by setting the tablespace parameter of the same name \(see [ALTER TABLESPACE](https://www.postgresql.org/docs/10/static/sql-altertablespace.html)\).
+設定計劃程序對磁碟頁面讀取的成本估計，此成本是一系列連續讀取的一部分。預設值為 1.0。透過設定同名的 tablespace 參數，可以為特定資料表空間中的資料表和索引覆寫此值（請參閱 [ALTER TABLESPACE](../../reference/sql-commands/alter-tablespace.md)）。
 
 #### `random_page_cost` \(`floating point`\)
 
@@ -80,23 +83,23 @@ Although the system will let you set `random_page_cost` to less than `seq_page_c
 
 #### `cpu_tuple_cost` \(`floating point`\)
 
-Sets the planner's estimate of the cost of processing each row during a query. The default is 0.01.
+設定計劃程序在查詢期間處理每個資料列的成本估算。預設值為 0.01。
 
 #### `cpu_index_tuple_cost` \(`floating point`\)
 
-Sets the planner's estimate of the cost of processing each index entry during an index scan. The default is 0.005.
+設定計劃程序在索引掃描期間處理每個索引項目的成本估計。預設值為 0.005。
 
 #### `cpu_operator_cost` \(`floating point`\)
 
-Sets the planner's estimate of the cost of processing each operator or function executed during a query. The default is 0.0025.
+設定計劃程序對查詢期間執行的每個運算子或函數的處理成本的估計。 預設值為 0.0025。
 
 #### `parallel_setup_cost` \(`floating point`\)
 
-Sets the planner's estimate of the cost of launching parallel worker processes. The default is 1000.
+設定計劃程序對啟動平行工作程序的成本估計。預設值為 1000。
 
 #### `parallel_tuple_cost` \(`floating point`\)
 
-Sets the planner's estimate of the cost of transferring one tuple from a parallel worker process to another process. The default is 0.1.
+設定計劃程序對從一個平行工作程序轉移到另一個程序的一個 tuple 的成本估算。預設值為 0.1。
 
 #### `min_parallel_table_scan_size` \(`integer`\)
 
