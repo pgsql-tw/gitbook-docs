@@ -1,10 +1,14 @@
+---
+description: 版本：11
+---
+
 # 52.11 pg\_class
 
 目錄 pg\_class 對資料表和大多數具有欄位或其他類似於資料表的內容進行彙整。 包括索引（但也參閱 pg\_index）、序列（但請參閱 pg\_sequence）、檢視表、具體化檢視表、複合型別和 TOAST 資料表；另請查看 relkind 欄位。以下，當我們指的是所有這些類型的物件時，我們都會說「關連（relation）」。 並非所有欄位對所有關連類型都有意義。
 
-**Table 51.11. `pg_class` Columns**
+#### **Table 52.11. `pg_class` Columns**
 
-| Name | Type | References | Description |
+| 欄位 | 型別 | 參考 | 說明 |
 | :--- | :--- | :--- | :--- |
 | `oid` | `oid` |   | 資料列指標（隱藏屬性；必須明確選擇） |
 | `relname` | `name` |   | 資料表的名稱，索引，檢視表等 |
