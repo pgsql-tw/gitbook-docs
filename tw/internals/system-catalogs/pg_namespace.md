@@ -1,10 +1,14 @@
+---
+description: 版本：11
+---
+
 # 52.32. pg\_namespace
 
 目錄 pg\_namespace 儲存命名空間。命名空間是 SQL 綱要的基礎結構：每個命名空間可以有一個獨立的關連，型別等集合，而不會有名稱衝突。
 
-**Table 51.32. `pg_namespace` Columns**
+#### **Table 52.32. `pg_namespace` Columns**
 
-| Name | Type | References | Description |
+| 欄位 | 型別 | 參考 | 說明 |
 | :--- | :--- | :--- | :--- |
 | `oid` | `oid` |   | 資料列指標（隱藏屬性；必須明確選擇） |
 | `nspname` | `name` |   | 命名空間的名稱 |
