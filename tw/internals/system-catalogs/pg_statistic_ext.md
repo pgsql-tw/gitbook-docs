@@ -1,19 +1,23 @@
+---
+description: 版本：11
+---
+
 # 52.51. pg\_statistic\_ext
 
-The catalog `pg_statistic_ext` holds extended planner statistics. Each row in this catalog corresponds to a _statistics object_ created with [CREATE STATISTICS](https://www.postgresql.org/docs/10/static/sql-createstatistics.html).
+目錄 pg\_statistic\_ext 包含了延伸的計劃程序統計資訊。此目錄中的每一個資料列相對應於使用 [CREATE STATISTICS](../../reference/sql-commands/create-statistics.md) 所建立的統計資訊物件。
 
-**Table 51.51. `pg_statistic_ext` Columns**
+#### **Table 52.51. `pg_statistic_ext` Columns**
 
-| Name | Type | References | Description |
+| 欄位 | 型別 | 參考 | 說明 |
 | :--- | :--- | :--- | :--- |
-| `stxrelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | Table containing the columns described by this object |
-| `stxname` | `name` |   | Name of the statistics object |
-| `stxnamespace` | `oid` | [`pg_namespace`](https://www.postgresql.org/docs/10/static/catalog-pg-namespace.html).oid | The OID of the namespace that contains this statistics object |
-| `stxowner` | `oid` | [`pg_authid`](https://www.postgresql.org/docs/10/static/catalog-pg-authid.html).oid | Owner of the statistics object |
-| `stxkeys` | `int2vector` | [`pg_attribute`](https://www.postgresql.org/docs/10/static/catalog-pg-attribute.html).attnum | An array of attribute numbers, indicating which table columns are covered by this statistics object; for example a value of `1 3` would mean that the first and the third table columns are covered |
-| `stxkind` | `char[]` |   | An array containing codes for the enabled statistic kinds; valid values are: `d` for n-distinct statistics, `f` for functional dependency statistics |
-| `stxndistinct` | `pg_ndistinct` |   | N-distinct counts, serialized as `pg_ndistinct` type |
-| `stxdependencies` | `pg_dependencies` |   | Functional dependency statistics, serialized as `pg_dependencies` type |
+| `stxrelid` | `oid` | \`\`[`pg_class`](pg_class.md).oid | 包含此物件包含欄位的所屬資料表 |
+| `stxname` | `name` |  | 統計物件的名稱 |
+| `stxnamespace` | `oid` | \`\`[`pg_namespace`](pg_namespace.md).oid | 包含此統計資訊物件在命名空間裡的 OID |
+| `stxowner` | `oid` | \`\`[`pg_authid`](pg_authid.md).oid | 統計物件的所有者 |
+| `stxkeys` | `int2vector` | \`\`[`pg_attribute`](pg_attribute.md).attnum | 一組陣列表示的屬性數字，指示此統計物件覆蓋哪些資料表欄位；例如，值為 1 3 意味著覆蓋了第一個和第三個資料表欄位 |
+| `stxkind` | `char[]` |  | 包含已啟用統計類型的代碼的陣列；有效值為：d 表示 n-distinct 統計資訊，f 表示功能相依統計資訊 |
+| `stxndistinct` | `pg_ndistinct` |  | N-distinct 計數，序列化為 pg\_ndistinct 型別 |
+| `stxdependencies` | `pg_dependencies` |  | 功能相依統計資訊，序列化為 pg\_dependencies 型別 |
 
-The `stxkind` field is filled at creation of the statistics object, indicating which statistic type\(s\) are desired. The fields after it are initially NULL and are filled only when the corresponding statistic has been computed by`ANALYZE`.
+stxkind 欄位會在建立統計物件時填入，指示需要哪種統計類型。在它之後的欄位最初為 NULL，僅在 ANALYZE 計算出相對應的統計量時才填入內容。
 
