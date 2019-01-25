@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 68.2. TOAST
 
 本節概述了 TOAST（The Oversized-Attribute Storage Technique，超大型屬性儲存技術）。
@@ -14,7 +18,7 @@ TOAST 使用 varlena 長度的兩位元（big-endian 機器上的高位元，lit
 
 ## 66.2.1. Out-of-line, on-disk TOAST storage
 
-If any of the columns of a table are TOAST-able, the table will have an associated TOAST table, whose OID is stored in the table's `pg_class`.`reltoastrelid` entry. On-disk TOASTed values are kept in the TOAST table, as described in more detail below.
+如果資料表的任何欄位都是可以 TOAST 的，則該資料表將擁有關連的 TOAST 資料表，其 OID 儲存在資料表的 pg\_class.reltoastrelid 項目中。磁盤上 TOAST 後的值保留在 TOAST 資料表中，下面將有更詳細的描述。
 
 Out-of-line values are divided \(after compression if used\) into chunks of at most `TOAST_MAX_CHUNK_SIZE` bytes \(by default this value is chosen so that four chunk rows will fit on a page, making it about 2000 bytes\). Each chunk is stored as a separate row in the TOAST table belonging to the owning table. Every TOAST table has the columns `chunk_id` \(an OID identifying the particular TOASTed value\), `chunk_seq` \(a sequence number for the chunk within its value\), and `chunk_data` \(the actual data of the chunk\). A unique index on `chunk_id` and `chunk_seq` provides fast retrieval of the values. A pointer datum representing an out-of-line on-disk TOASTed value therefore needs to store the OID of the TOAST table in which to look and the OID of the specific value \(its `chunk_id`\). For convenience, pointer datums also store the logical datum size \(original uncompressed data length\) and physical stored size \(different if compression was applied\). Allowing for the varlena header bytes, the total size of an on-disk TOAST pointer datum is therefore 18 bytes regardless of the actual size of the represented value.
 
