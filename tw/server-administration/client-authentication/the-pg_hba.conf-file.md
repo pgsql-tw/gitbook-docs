@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 20.1. 設定檔：pg\_hba.conf
 
 用戶端身份驗證由組態檔案控制，組態檔案通常名稱為 pg\_hba.conf，並儲存在資料庫叢集的資料目錄中。 （HBA 代表 host-based authentication。）當 initdb 初始化資料目錄時，將安裝預設的 pg\_hba.conf 檔案。但是，可以將身份驗證組態檔案放在其他路徑；請參閱 [hba\_file](../server-configuration/19.2.-file-locations.md) 組態參數。
@@ -6,7 +10,7 @@ pg\_hba.conf 檔案的一般格式是一組記錄，每行一個。空白行將�
 
 每條記錄指定連線類型，用戶端 IP 位址範圍（如果與連線類型相關）、資料庫名稱、使用者名稱以及符合這些參數的連線身份驗證方法。具有符合的連線類型、用戶端位址、要求的資料庫和使用者名稱的第一個記錄用於執行身份驗證。沒有“fall-through”或“replication”：如果選擇了一條記錄而認證失敗，就不再考慮後續記錄。如果沒有記錄匹配，則拒絕存取。
 
-記錄可以是七種格式之一
+記錄可以是下面的七種格式之一
 
 ```text
 local      database  user  auth-method  [auth-options]
@@ -33,17 +37,17 @@ hostnossl  database  user  IP-address  IP-mask  auth-method  [auth-options]
 
 `hostssl`
 
-This record matches connection attempts made using TCP/IP, but only when the connection is made with SSL encryption.
+此記錄會套用於使用 TCP/IP 進行的連線嘗試，但僅限於使用 SSL 加密進行連線時。
 
-To make use of this option the server must be built with SSL support. Furthermore, SSL must be enabled by setting the [ssl](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-SSL) configuration parameter \(see [Section 18.9](https://www.postgresql.org/docs/10/static/ssl-tcp.html) for more information\). Otherwise, the `hostssl` record is ignored except for logging a warning that it cannot match any connections.
+要使用此選項，必須以 SSL 建置伺服器，也必須透過設定 [ssl 組態參數](../server-configuration/connections-and-authentication.md#19-3-3-ssl)來啟用 SSL（有關更多訊息，請參閱[第 18.9 節](../server-setup-and-operation/18.9.-secure-tcp-ip-connections-with-ssl.md)）。否則，將會忽略 hostssl 記錄，除非是為了記錄不能與任何連線相符合的警告。
 
 `hostnossl`
 
-This record type has the opposite behavior of `hostssl`; it only matches connection attempts made over TCP/IP that do not use SSL.
+此記錄類型與 hostssl 具有相反的行為；它僅套用於透過 TCP/IP 且不使用 SSL 的連線嘗試。
 
 _`database`_
 
-Specifies which database name\(s\) this record matches. The value `all` specifies that it matches all databases. The value `sameuser` specifies that the record matches if the requested database has the same name as the requested user. The value `samerole` specifies that the requested user must be a member of the role with the same name as the requested database. \(`samegroup` is an obsolete but still accepted spelling of `samerole`.\) Superusers are not considered to be members of a role for the purposes of `samerole` unless they are explicitly members of the role, directly or indirectly, and not just by virtue of being a superuser. The value `replication` specifies that the record matches if a physical replication connection is requested \(note that replication connections do not specify any particular database\). Otherwise, this is the name of a specific PostgreSQL database. Multiple database names can be supplied by separating them with commas. A separate file containing database names can be specified by preceding the file name with `@`.
+指定此記錄所要求搭配的資料庫名稱。值 all 使其搭配所有資料庫。如果請求的資料庫與請求的使用者具有相同的名稱，則可以用 sameuser 值來指定。值 samerole 指定所請求的使用者必須是與請求的資料庫同名的角色成員。 （ samegroup 是一個過時但仍然被接受的 samerole 別名。）超級使用者不被認為是同一角色的成員，除非他們直接或間接地明確地成為角色的成員，而不僅僅是作為超級使用者。值 replication 指定在請求 physical replication 連線時的記錄搭配（請注意，複寫連線不指定任何特定資料庫）。否則，這是特定 PostgreSQL 資料庫的名稱。可以透過用逗號分隔它們來設定多個資料庫名稱，也可以透過在檔案名稱前加上 @ 來指定包含資料庫名稱的額外檔案。
 
 _`user`_
 

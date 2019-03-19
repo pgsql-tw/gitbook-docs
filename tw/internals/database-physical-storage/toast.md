@@ -20,20 +20,20 @@ TOAST 使用 varlena 長度的兩位元（big-endian 機器上的高位元，lit
 
 如果資料表的任何欄位都是可以 TOAST 的，則該資料表將擁有關連的 TOAST 資料表，其 OID 儲存在資料表的 pg\_class.reltoastrelid 項目中。磁盤上 TOAST 後的值保留在 TOAST 資料表中，下面將有更詳細的描述。
 
-Out-of-line values are divided \(after compression if used\) into chunks of at most `TOAST_MAX_CHUNK_SIZE` bytes \(by default this value is chosen so that four chunk rows will fit on a page, making it about 2000 bytes\). Each chunk is stored as a separate row in the TOAST table belonging to the owning table. Every TOAST table has the columns `chunk_id` \(an OID identifying the particular TOASTed value\), `chunk_seq` \(a sequence number for the chunk within its value\), and `chunk_data` \(the actual data of the chunk\). A unique index on `chunk_id` and `chunk_seq` provides fast retrieval of the values. A pointer datum representing an out-of-line on-disk TOASTed value therefore needs to store the OID of the TOAST table in which to look and the OID of the specific value \(its `chunk_id`\). For convenience, pointer datums also store the logical datum size \(original uncompressed data length\) and physical stored size \(different if compression was applied\). Allowing for the varlena header bytes, the total size of an on-disk TOAST pointer datum is therefore 18 bytes regardless of the actual size of the represented value.
+將 out-of-line 的內容（在壓縮後使用）分割為最多 TOAST\_MAX\_CHUNK\_SIZE 個字元的區塊（預設情況下，選擇此值使得四個區塊的資料列行剛好放進一個 page，大約為 2000 個字元）。每個區塊都屬於其所有資料表的 TOAST 資料表中單獨的資料列來儲存。每個 TOAST 資料表都有欄位的 chunk\_id（識別特定有 TOAST 值的 OID），chunk\_seq（其值中區塊的序列號）和 chunk\_data（區塊的實際資料）。chunk\_id 和 chunk\_seq 上的唯一索引提供了對內容的快速檢索。表示線上磁碟 TOAST 值的指標資料需要儲存要查看的 TOAST 資料表 OID 以及特定值的 OID（其chunk\_id）。為方便起見，指標 datum 還儲存邏輯上的 datum 大小（原始未壓縮字串長度）和實際上的儲存大小（如果套用了壓縮則會不同）。因此，允許 varlena 標頭字元，磁碟 TOAST 指標資料的總大小為 18 個位元組，不論其所表示字串大小。
 
-The TOAST management code is triggered only when a row value to be stored in a table is wider than `TOAST_TUPLE_THRESHOLD` bytes \(normally 2 kB\). The TOAST code will compress and/or move field values out-of-line until the row value is shorter than `TOAST_TUPLE_TARGET`bytes \(also normally 2 kB\) or no more gains can be had. During an UPDATE operation, values of unchanged fields are normally preserved as-is; so an UPDATE of a row with out-of-line values incurs no TOAST costs if none of the out-of-line values change.
+僅當要儲存在資料表中的資料列內容大於 TOAST\_TUPLE\_THRESHOLD 字元（通常為2 kB）時，才會觸發 TOAST 機制。TOAST 程式將會壓縮或移動字串內容，直到資料列小於 TOAST\_TUPLE\_TARGET 個字元（通常也是 2 kB）或者不能再獲得更多的增益。在 UPDATE 操作期間，未變更字串的內容通常就保持原樣；因此，如果沒有任何 out-of-line 需要變更，則具有 out-of-line 的資料列更新就不會產生任何 TOAST 成本。
 
-The TOAST management code recognizes four different strategies for storing TOAST-able columns on disk:
+TOAST 機制識別用於在磁碟上儲存可 TOAST 欄位有四種不同策略：
 
-* `PLAIN` prevents either compression or out-of-line storage; furthermore it disables use of single-byte headers for varlena types. This is the only possible strategy for columns of non-TOAST-able data types.
-* `EXTENDED` allows both compression and out-of-line storage. This is the default for most TOAST-able data types. Compression will be attempted first, then out-of-line storage if the row is still too big.
-* `EXTERNAL` allows out-of-line storage but not compression. Use of `EXTERNAL` will make substring operations on wide `text` and `bytea` columns faster \(at the penalty of increased storage space\) because these operations are optimized to fetch only the required parts of the out-of-line value when it is not compressed.
-* `MAIN` allows compression but not out-of-line storage. \(Actually, out-of-line storage will still be performed for such columns, but only as a last resort when there is no other way to make the row small enough to fit on a page.\)
+* PLAIN 可防止壓縮或 out-of-line 儲存方式；此外，它禁止使用 varlena 類型的單字元標頭。對於非 TOAST-capable 資料型別欄位，這是唯一可行的策略。
+* EXTENDED 允許壓縮和 out-of-line 儲存。這是大多數 TOAST-capable 資料型別的預設方式。首先嘗試壓縮，然後在資料列仍然太大的情況下進行 out-of-line 儲存。
+* EXTERNAL 允許 out-of-line 儲存但不允許壓縮。使用 EXTERNAL 將使大量文字和 bytea 欄位上的子字串操作更快（以增加的儲存空間為代價），因為這些操作被最佳化為在未壓縮時僅獲取 out-of-line 內容所需的部分。
+* MAIN 允許壓縮但不允許 out-of-line 儲存。（實際上，仍然會為這些欄位執行 out-of-line 儲存，但只有在沒有其他方法使資料列足夠小到適合頁面時才做的最後手段。）
 
-Each TOAST-able data type specifies a default strategy for columns of that data type, but the strategy for a given table column can be altered with [`ALTER TABLE ... SET STORAGE`](https://www.postgresql.org/docs/10/static/sql-altertable.html).
+每個 TOAST-able 資料型別會為該型別的欄位指定預設策略，但是可以使用 [ALTER TABLE ... SET STORAGE](../../reference/sql-commands/alter-table.md) 變更指定資料表欄位的策略。
 
-This scheme has a number of advantages compared to a more straightforward approach such as allowing row values to span pages. Assuming that queries are usually qualified by comparisons against relatively small key values, most of the work of the executor will be done using the main row entry. The big values of TOASTed attributes will only be pulled out \(if selected at all\) at the time the result set is sent to the client. Thus, the main table is much smaller and more of its rows fit in the shared buffer cache than would be the case without any out-of-line storage. Sort sets shrink also, and sorts will more often be done entirely in memory. A little test showed that a table containing typical HTML pages and their URLs was stored in about half of the raw data size including the TOAST table, and that the main table contained only about 10% of the entire data \(the URLs and some small HTML pages\). There was no run time difference compared to an un-TOASTed comparison table, in which all the HTML pages were cut down to 7 kB to fit.
+與更直覺的方法（例如允許資料列內容跨越頁面）相比，此方案具有許多優點。假設查詢通常透過與相對較小的鍵值進行比較來過濾，執行程序的大部分工作將使用主要欄位完成。 TOASTed 屬性的大量內容只會在結果集發送到用戶端時被取出（如果選中的話）。因此，與沒有任何外部儲存的情況相比，主要資料表更小並且其更多資料列置於共享緩衝區高速處理。排序集合也會縮小，而排序通常完全在記憶體中完成。一個小小的測試顯示，包含典型 HTML 頁面及其 URL 的資料儲存在大約一半的原始資料大小（包括 TOAST 資料表）中，並且主要資料表僅包含大約 10％ 的內容（URL 和一些小的 HTML）。與未轉換的相比，並沒有執行時間差異，其中所有 HTML 頁面都被削減到 7 kB 以適應頁面。
 
 ## 66.2.2. Out-of-line, in-memory TOAST storage
 

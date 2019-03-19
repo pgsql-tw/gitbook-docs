@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 19.6. 複寫（Replication）
 
 這些設定控制內建的串流複寫功能行為（請參閱[第 26.2.5 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-5-streaming-replication)）。伺服器指的是主伺服務器或備用伺服器。主伺服器可以發送資料，而備用伺服器始終是複寫資料的接收者。當使用串聯複寫（請參閱[第 26.2.7 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-7-cascading-replication)）時，備用伺服器也可以是發送者和接收者。參數主要用於發送和備用伺服器，但某些參數僅在主伺服器上有意義。如果需要，設定是跨群集的，不會産生問題。
@@ -77,23 +81,23 @@ FIRST 和 ANY 都不區分大小寫。 如果將這些關鍵字用作備用伺�
 
 ## 19.6.3. Standby Servers
 
-These settings control the behavior of a standby server that is to receive replication data. Their values on the master server are irrelevant.
+這些設定控制要接收複寫資料的備用伺服器行為，與主伺服器上的設定是無關的。
 
 `hot_standby` \(`boolean`\)
 
-Specifies whether or not you can connect and run queries during recovery, as described in [Section 26.5](https://www.postgresql.org/docs/10/static/hot-standby.html). The default value is `on`. This parameter can only be set at server start. It only has effect during archive recovery or in standby mode.
+指定是否可以在回復期間連線和執行查詢，如[第 26.5 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md)中所述。預設值為 on。 此參數只能在伺服器啟動時設定。它僅在歸檔回復或備機模式下有效。
 
 `max_standby_archive_delay` \(`integer`\)
 
-When Hot Standby is active, this parameter determines how long the standby server should wait before canceling standby queries that conflict with about-to-be-applied WAL entries, as described in [Section 26.5.2](https://www.postgresql.org/docs/10/static/hot-standby.html#HOT-STANDBY-CONFLICT). `max_standby_archive_delay` applies when WAL data is being read from WAL archive \(and is therefore not current\). The default is 30 seconds. Units are milliseconds if not specified. A value of -1 allows the standby to wait forever for conflicting queries to complete. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+當 Hot Standby 處於啟用狀態時，此參數確定備用伺服器在取消與即將套用的 WAL 項目衝突的備用查詢之前應等待的時間，如[第 26.5.2 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md#26-5-2-handling-query-conflicts)中所述。當從 WAL 歸檔中讀取 WAL 資料時，max\_standby\_archive\_delay 適用（因此不是當下的）。預設值為 30 秒。如果未指定，則單位為毫秒。值 -1 時允許備用資料庫永遠等待衝突查詢完成。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
-Note that `max_standby_archive_delay` is not the same as the maximum length of time a query can run before cancellation; rather it is the maximum total time allowed to apply any one WAL segment's data. Thus, if one query has resulted in significant delay earlier in the WAL segment, subsequent conflicting queries will have much less grace time.
+請注意，max\_standby\_archive\_delay 與取消前查詢可以執行的最長時間不同；相反地，它是允許套用任何一個 WAL 資料段的最大總時間。因此，如果一個查詢在 WAL 資料段中導致顯著延遲，則後續衝突查詢將具有更少的寬限時間。
 
 `max_standby_streaming_delay` \(`integer`\)
 
-When Hot Standby is active, this parameter determines how long the standby server should wait before canceling standby queries that conflict with about-to-be-applied WAL entries, as described in [Section 26.5.2](https://www.postgresql.org/docs/10/static/hot-standby.html#HOT-STANDBY-CONFLICT). `max_standby_streaming_delay` applies when WAL data is being received via streaming replication. The default is 30 seconds. Units are milliseconds if not specified. A value of -1 allows the standby to wait forever for conflicting queries to complete. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+當 Hot Standby 處於啓用狀態時，此參數決定備用伺服器在取消與即將套用的 WAL 項目衝突的備用查詢之前應等待的時間，如[第 26.5.2 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md#26-5-2-handling-query-conflicts)中所述。當透過串流複寫接收 WAL 資料時，套用max\_standby\_streaming\_delay。預設值為 30 秒。如果未指定，則單位為毫秒。值 -1 時允許備用資料庫永遠等待衝突查詢完成。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
-Note that `max_standby_streaming_delay` is not the same as the maximum length of time a query can run before cancellation; rather it is the maximum total time allowed to apply WAL data once it has been received from the primary server. Thus, if one query has resulted in significant delay, subsequent conflicting queries will have much less grace time until the standby server has caught up again.
+請注意，max\_standby\_streaming\_delay 與取消前查詢可以執行的最長時間不同；相反地，它是從主伺服器收到 WAL 資料後允許套用的最大總時間。因此，如果一個查詢導致顯著延遲，則後續衝突查詢將具有更少的寬限時間，直到備用伺服器再次趕上。
 
 `wal_receiver_status_interval` \(`integer`\)
 

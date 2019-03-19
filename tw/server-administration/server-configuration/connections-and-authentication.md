@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 19.3. 連線與認證
 
 ## 19.3.1. 連線設定
@@ -179,4 +183,86 @@ db\_user\_namespace 會導致用戶端和伺服器的使用者名稱表示方式
 #### 注意
 
 此功能是一種臨時措施，到找到完整的解決方案的時候，這個選項將被刪除。
+
+## 19.3.3. SSL
+
+有關設定 SSL 的更多資訊，請參閱[第 18.9 節](../server-setup-and-operation/18.9.-secure-tcp-ip-connections-with-ssl.md)。
+
+`ssl` \(`boolean`\)
+
+啟用 SSL 連線。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設為 off。
+
+`ssl_ca_file` \(`string`\)
+
+Specifies the name of the file containing the SSL server certificate authority \(CA\). Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is empty, meaning no CA file is loaded, and client certificate verification is not performed.
+
+`ssl_cert_file` \(`string`\)
+
+Specifies the name of the file containing the SSL server certificate. Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `server.crt`.
+
+ \(`string`\)
+
+Specifies the name of the file containing the SSL server certificate revocation list \(CRL\). Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is empty, meaning no CRL file is loaded.
+
+`ssl_key_file` \(`string`\)
+
+Specifies the name of the file containing the SSL server private key. Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `server.key`.
+
+`ssl_ciphers` \(`string`\)
+
+Specifies a list of SSL cipher suites that are allowed to be used on secure connections. See the ciphers manual page in the OpenSSL package for the syntax of this setting and a list of supported values. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default value is `HIGH:MEDIUM:+3DES:!aNULL`. The default is usually a reasonable choice unless you have specific security requirements.
+
+Explanation of the default value:
+
+`HIGH`
+
+Cipher suites that use ciphers from `HIGH` group \(e.g., AES, Camellia, 3DES\)
+
+`MEDIUM`
+
+Cipher suites that use ciphers from `MEDIUM` group \(e.g., RC4, SEED\)
+
+`+3DES`
+
+The OpenSSL default order for `HIGH` is problematic because it orders 3DES higher than AES128. This is wrong because 3DES offers less security than AES128, and it is also much slower. `+3DES` reorders it after all other `HIGH` and `MEDIUM` ciphers.
+
+`!aNULL`
+
+Disables anonymous cipher suites that do no authentication. Such cipher suites are vulnerable to man-in-the-middle attacks and therefore should not be used.
+
+Available cipher suite details will vary across OpenSSL versions. Use the command `openssl ciphers -v 'HIGH:MEDIUM:+3DES:!aNULL'` to see actual details for the currently installed OpenSSL version. Note that this list is filtered at run time based on the server key type
+
+`ssl_prefer_server_ciphers` \(`boolean`\)
+
+Specifies whether to use the server's SSL cipher preferences, rather than the client's. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `true`.
+
+Older PostgreSQL versions do not have this setting and always use the client's preferences. This setting is mainly for backward compatibility with those versions. Using the server's preferences is usually better because it is more likely that the server is appropriately configured.
+
+`ssl_ecdh_curve` \(`string`\)
+
+Specifies the name of the curve to use in ECDH key exchange. It needs to be supported by all clients that connect. It does not need to be the same curve used by the server's Elliptic Curve key. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `prime256v1`.
+
+OpenSSL names for the most common curves are: `prime256v1` \(NIST P-256\), `secp384r1` \(NIST P-384\), `secp521r1` \(NIST P-521\). The full list of available curves can be shown with the command `openssl ecparam -list_curves`. Not all of them are usable in TLS though.
+
+`ssl_dh_params_file` \(`string`\)
+
+Specifies the name of the file containing Diffie-Hellman parameters used for so-called ephemeral DH family of SSL ciphers. The default is empty, in which case compiled-in default DH parameters used. Using custom DH parameters reduces the exposure if an attacker manages to crack the well-known compiled-in DH parameters. You can create your own DH parameters file with the command `openssl dhparam -out dhparams.pem 2048`.
+
+This parameter can only be set in the `postgresql.conf` file or on the server command line.
+
+`ssl_passphrase_command` \(`string`\)
+
+Sets an external command to be invoked when a passphrase for decrypting an SSL file such as a private key needs to be obtained. By default, this parameter is empty, which means the built-in prompting mechanism is used.
+
+The command must print the passphrase to the standard output and exit with code 0. In the parameter value, `%p` is replaced by a prompt string. \(Write `%%` for a literal `%`.\) Note that the prompt string will probably contain whitespace, so be sure to quote adequately. A single newline is stripped from the end of the output if present.
+
+The command does not actually have to prompt the user for a passphrase. It can read it from a file, obtain it from a keychain facility, or similar. It is up to the user to make sure the chosen mechanism is adequately secure.
+
+This parameter can only be set in the `postgresql.conf` file or on the server command line
+
+`ssl_passphrase_command_supports_reload` \(`boolean`\)
+
+This parameter determines whether the passphrase command set by `ssl_passphrase_command` will also be called during a configuration reload if a key file needs a passphrase. If this parameter is false \(the default\), then `ssl_passphrase_command` will be ignored during a reload and the SSL configuration will not be reloaded if a passphrase is needed. That setting is appropriate for a command that requires a TTY for prompting, which might not be available when the server is running. Setting this parameter to true might be appropriate if the passphrase is obtained from a file, for example.
+
+This parameter can only be set in the `postgresql.conf` file or on the server command line.
 

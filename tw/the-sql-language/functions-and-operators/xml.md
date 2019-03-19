@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 9.14. XML函式
 
 本節中描述的函數和類函數表示式對 xml 型別的值進行操作。有關 xml 型別的訊息，請查看[第 8.13 節](../data-types/8.13.-xml-xing-bie.md)。這裡不再重複用於轉換為 xml 型別的函數表示式 xmlparse 和 xmlserialize。使用大多數這些函數需要使用 configure --with-libxml 編譯安裝。
@@ -313,9 +317,9 @@ SELECT xml_is_well_formed_document('<pg:foo xmlns:pg="http://postgresql.org/stuf
 
 最後一個範例顯示檢查包括命名空間是否符合。
 
-## 9.14.3. Processing XML
+## 9.14.3. 處理 XML
 
-To process values of data type `xml`, PostgreSQL offers the functions `xpath` and `xpath_exists`, which evaluate XPath 1.0 expressions, and the `XMLTABLE` table function.
+為了處理資料型別為 xml 的值，PostgreSQL 提供了 xpath 和 xpath\_exists 函數，它們用於計算 XPath 1.0 表示式和 XMLTABLE 資料表函數。
 
 ### **9.14.3.1. xpath**
 
@@ -323,13 +327,13 @@ To process values of data type `xml`, PostgreSQL offers the functions `xpath` an
 xpath(xpath, xml [, nsarray])
 ```
 
-The function `xpath` evaluates the XPath expression _`xpath`_ \(a `text` value\) against the XML value _`xml`_. It returns an array of XML values corresponding to the node set produced by the XPath expression. If the XPath expression returns a scalar value rather than a node set, a single-element array is returned.
+函數 xpath 根據 XML 值 xml 計算 XPath 表示式 xpath（字串）。 它回傳與 XPath 表示式產生的節點集合所相對應 XML 值的陣列。如果 XPath 表示式回傳單一變數值而不是節點集合，則回傳單個元素的陣列。
 
-The second argument must be a well formed XML document. In particular, it must have a single root node element.
+第二個參數必須是格式良好的 XML 內容。特別要注意是，它必須具有單一根節點元素。
 
-The optional third argument of the function is an array of namespace mappings. This array should be a two-dimensional `text` array with the length of the second axis being equal to 2 \(i.e., it should be an array of arrays, each of which consists of exactly 2 elements\). The first element of each array entry is the namespace name \(alias\), the second the namespace URI. It is not required that aliases provided in this array be the same as those being used in the XML document itself \(in other words, both in the XML document and in the `xpath`function context, aliases are _local_\).
+該函數的選擇性第三個參數是命名空間對應的陣列。該陣列應該是二維字串陣列，第二維的長度等於 2（即，它應該是陣列的陣列，每個陣列恰好由 2 個元素組成）。每個陣列項目的第一個元素是命名空間名稱（別名），第二個是命名空間 URI。不要求此陣列中提供的別名與 XML 內容本身所使用的別名相同（換句話說，在 XML 內容和 xpath 函數內容中，別名都是區域性的）。
 
-Example:
+例如：
 
 ```text
 SELECT xpath('/my:a/text()', '<my:a xmlns:my="http://example.com">test</my:a>',
@@ -341,7 +345,7 @@ SELECT xpath('/my:a/text()', '<my:a xmlns:my="http://example.com">test</my:a>',
 (1 row)
 ```
 
-To deal with default \(anonymous\) namespaces, do something like this:
+要設定預設的（匿名）命名空間，請執行以下操作：
 
 ```text
 SELECT xpath('//mydefns:b/text()', '<a xmlns="http://example.com"><b>test</b></a>',
