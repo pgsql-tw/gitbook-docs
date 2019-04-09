@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 28.2. 統計資訊收集器
 
 PostgreSQL 的統計資訊收集器是一個子系統，支援收集和回報有關伺服器活動的訊息。目前，收集器可以計算對磁盤區塊和單個資料列中資料表和索引的存取。它還追踪每個資料表中的總資料列數量，以及有關每個資料表的清理和分析操作的資訊。它還可以統計對使用者定義函數的呼叫以及每個函數所花費的總時間。
@@ -22,15 +26,15 @@ PostgreSQL 也支援回報有關系統當下正在發生什麼的動態訊息，
 
 ## 28.2.2. Viewing Statistics
 
-Several predefined views, listed in [Table 28.1](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-DYNAMIC-VIEWS-TABLE), are available to show the current state of the system. There are also several other views, listed in [Table 28.2](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-VIEWS-TABLE), available to show the results of statistics collection. Alternatively, one can build custom views using the underlying statistics functions, as discussed in [Section 28.2.3](https://www.postgresql.org/docs/10/static/monitoring-stats.html#MONITORING-STATS-FUNCTIONS).
+[Table 28.1](the-statistics-collector.md#table-28-1-dynamic-statistics-views) 中列出了的幾個預先定義好的檢視表，可用於顯示系統的當下的狀態。[Table 28.2](the-statistics-collector.md#table-28-2-collected-statistics-views) 中還列出了其他幾個檢視表，可用於顯示統計訊息收集的結果。進一步可以使用基礎統計函數建構自訂的檢視表，如[第 28.2.3 節](the-statistics-collector.md#28-2-3-statistics-functions)中所述。
 
-When using the statistics to monitor collected data, it is important to realize that the information does not update instantaneously. Each individual server process transmits new statistical counts to the collector just before going idle; so a query or transaction still in progress does not affect the displayed totals. Also, the collector itself emits a new report at most once per `PGSTAT_STAT_INTERVAL` milliseconds \(500 ms unless altered while building the server\). So the displayed information lags behind actual activity. However, current-query information collected by `track_activities` is always up-to-date.
+使用統計訊息監控收集的資料時，重要的是要瞭解到訊息並不會立即更新。每個伺服器程序在回到閒置狀態之前會向收集器發送新的統計計數；因此，仍在進行中的查詢或事務不會對顯示的數據產生影響。此外，收集器本身每 PGSTAT\_STAT\_INTERVAL 毫秒最多回報一次（500毫秒，除非在編譯伺服器時更改）。因此顯示的數據是落後於實際活動的。 但是，track\_activities 所收集的目前查詢資訊是最新的。
 
-Another important point is that when a server process is asked to display any of these statistics, it first fetches the most recent report emitted by the collector process and then continues to use this snapshot for all statistical views and functions until the end of its current transaction. So the statistics will show static information as long as you continue the current transaction. Similarly, information about the current queries of all sessions is collected when any such information is first requested within a transaction, and the same information will be displayed throughout the transaction. This is a feature, not a bug, because it allows you to perform several queries on the statistics and correlate the results without worrying that the numbers are changing underneath you. But if you want to see new results with each query, be sure to do the queries outside any transaction block. Alternatively, you can invoke `pg_stat_clear_snapshot`\(\), which will discard the current transaction's statistics snapshot \(if any\). The next use of statistical information will cause a new snapshot to be fetched.
+另一個要點是，當要求伺服器程序顯示任何這些統計訊息時，它首先獲取收集器程序發出的最新報告，然後繼續將此快照結果用於所有統計檢視表和函數，直到其當下該事務結束。因此，只要您繼續該事務，統計數據就會顯示靜態結果。同樣地，當在事務中首次請求任何此類資訊時，收集關於所有連線的當下查詢資訊，將會在整個事務中顯示相同的資訊。這是一個正常的功能，而不是一個錯誤，因為它允許您對統計信息執行多個查詢並且關聯結果，而不必擔心數字在您交易當下發生變化。但是，如果要查看每個查詢的新結果，請確保在任何事務區塊之外執行查詢。或者，您可以呼叫 pg\_stat\_clear\_snapshot\(\)，它將丟棄當下事務的統計資訊快照（如果有的話）。下次使用統計資訊時將會去獲取新的快照。
 
-A transaction can also see its own statistics \(as yet untransmitted to the collector\) in the views `pg_stat_xact_all_tables`, `pg_stat_xact_sys_tables`, `pg_stat_xact_user_tables`, and `pg_stat_xact_user_functions`. These numbers do not act as stated above; instead they update continuously throughout the transaction.
+事務還可以在檢視圖 pg\_stat\_xact\_all\_tables，pg\_stat\_xact\_sys\_tables，pg\_stat\_xact\_user\_tables 和pg\_stat\_xact\_user\_functions 中查看自己的統計訊息（尚未傳遞給收集器的）。 這些數字不符合上述原則；相反地，他們在整個交易過程中不斷更新。
 
-### **Table 28.1. Dynamic Statistics Views**
+#### **Table 28.1. Dynamic Statistics Views**
 
 | View Name | Description |
 | :--- | :--- |
@@ -41,7 +45,7 @@ A transaction can also see its own statistics \(as yet untransmitted to the coll
 | `pg_stat_ssl` | One row per connection \(regular and replication\), showing information about SSL used on this connection. See [pg\_stat\_ssl](https://www.postgresql.org/docs/10/static/monitoring-stats.html#PG-STAT-SSL-VIEW) for details. |
 | `pg_stat_progress_vacuum` | One row for each backend \(including autovacuum worker processes\) running `VACUUM`, showing current progress. See [Section 28.4.1](https://www.postgresql.org/docs/10/static/progress-reporting.html#VACUUM-PROGRESS-REPORTING). |
 
-### **Table 28.2. Collected Statistics Views**
+#### **Table 28.2. Collected Statistics Views**
 
 | View Name | Description |
 | :--- | :--- |
@@ -74,7 +78,7 @@ The per-index statistics are particularly useful to determine which indexes are 
 
 The `pg_statio_` views are primarily useful to determine the effectiveness of the buffer cache. When the number of actual disk reads is much smaller than the number of buffer hits, then the cache is satisfying most read requests without invoking a kernel call. However, these statistics do not give the entire story: due to the way in which PostgreSQL handles disk I/O, data that is not in the PostgreSQL buffer cache might still reside in the kernel's I/O cache, and might therefore still be fetched without requiring a physical read. Users interested in obtaining more detailed information on PostgreSQL I/O behavior are advised to use the PostgreSQL statistics collector in combination with operating system utilities that allow insight into the kernel's handling of I/O.
 
-### **Table 28.3.** `pg_stat_activity` **View**
+#### **Table 28.3.** `pg_stat_activity` **View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -570,7 +574,7 @@ The `pg_statio_all_sequences` view will contain one row for each sequence in the
 
 The `pg_stat_user_functions` view will contain one row for each tracked function, showing statistics about executions of that function. The [track\_functions](https://www.postgresql.org/docs/10/static/runtime-config-statistics.html#GUC-TRACK-FUNCTIONS) parameter controls exactly which functions are tracked.
 
-### 28.2.3. Statistics Functions
+## 28.2.3. Statistics Functions
 
 Other ways of looking at the statistics can be set up by writing queries that use the same underlying statistics access functions used by the standard views shown above. For details such as the functions' names, consult the definitions of the standard views. \(For example, in psql you could issue `\d+ pg_stat_activity`.\) The access functions for per-database statistics take a database OID as an argument to identify which database to report on. The per-table and per-index functions take a table or index OID. The functions for per-function statistics take a function OID. Note that only tables, indexes, and functions in the current database can be seen with these functions.
 
