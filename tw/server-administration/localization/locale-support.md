@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 23.1. 語系支援
 
 區域設定支援是指某個應用程序，它提供有關字母、排序、數字格式等文化偏好。PostgreSQL 使用伺服器作業系統提供的標準 ISO C 和 POSIX 區域設定。有關其他訊息，請參閱作業系統文件。
@@ -55,15 +59,15 @@ Unix 系統的這個範例將語言環境設定為瑞典語（SE）中的瑞典�
 
 作為允許 PostgreSQL 在非 C 語言環境下使用具有 LIKE 子句索引的解決方法，存在多個自訂運算子類。允許建立一個執行嚴格的逐字元比較的索引，忽略區域設定的比較規則。有關更多訊息，請參閱[第 11.9 節](../../the-sql-language/index/operator-classes-and-operator-families.md)。另一種方法是使用 C collation 建立索引，如[第 23.2 節](collation-support.md)中所述。
 
-## 23.1.3. Problems
+## 23.1.3. 問題
 
-If locale support doesn't work according to the explanation above, check that the locale support in your operating system is correctly configured. To check what locales are installed on your system, you can use the command `locale -a` if your operating system provides it.
+如果區域設定依上述說明操作卻不起作用的話，請檢查作業系統中的區域設定是否已正確配置。要檢查作業系統上安裝的語言環境，可以使用命令 locale -a（如果作業系統有提供的話）。
 
-Check that PostgreSQL is actually using the locale that you think it is. The `LC_COLLATE` and `LC_CTYPE` settings are determined when a database is created, and cannot be changed except by creating a new database. Other locale settings including `LC_MESSAGES` and `LC_MONETARY` are initially determined by the environment the server is started in, but can be changed on-the-fly. You can check the active locale settings using the `SHOW` command.
+檢查 PostgreSQL 實際上是否正在使用您認為的語言環境。LC\_COLLATE 和 LC\_CTYPE 設定會在建立資料庫時確定，除非建立新的資料庫，否則無法變更。其他區域設定（包括 LC\_MESSAGES 和 LC\_MONETARY）最初由伺服器啟動的環境決定，但可以即時變更。您可以使用 SHOW 命令檢查當下有效的區域設定。
 
-The directory `src/test/locale` in the source distribution contains a test suite for PostgreSQL's locale support.
+原始碼發行版中的目錄 src/test/locale 包含了 PostgreSQL 語言環境支援的測試套件。
 
-Client applications that handle server-side errors by parsing the text of the error message will obviously have problems when the server's messages are in a different language. Authors of such applications are advised to make use of the error code scheme instead.
+當伺服器的訊息使用不同的語言時，透過解析錯誤訊息文字來處理伺服器端錯誤的用戶端應用程序顯然會出現問題。建議此類應用程序的作者使用錯誤代碼方案。
 
-Maintaining catalogs of message translations requires the on-going efforts of many volunteers that want to see PostgreSQL speak their preferred language well. If messages in your language are currently not available or not fully translated, your assistance would be appreciated. If you want to help, refer to [Chapter 54](https://www.postgresql.org/docs/10/static/nls.html) or write to the developers' mailing list.
+維護訊息翻譯目錄需要許多志願者的持續努力，他們希望看到 PostgreSQL 能夠順暢地說出他們喜歡的語言。如果您的語言訊息目前無法使用或未完全翻譯，我們將非常歡迎您的協助。如果您想幫助我們，請參閱[第 54 章](../../internals/postgresql-coding-conventions/)或寫信給開發人員的郵件列表。
 
