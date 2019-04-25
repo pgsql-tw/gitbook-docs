@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # SELECT
 
 SELECT, TABLE, WITH — 從資料表或檢視表中檢索資料列
@@ -115,11 +119,11 @@ BERNOULLI 和 SYSTEM 抽樣方法都接受一個參數，該參數是要抽樣�
 
 _`select`_
 
-A sub-`SELECT` can appear in the `FROM` clause. This acts as though its output were created as a temporary table for the duration of this single `SELECT` command. Note that the sub-`SELECT` must be surrounded by parentheses, and an alias _must_ be provided for it. A [VALUES](https://www.postgresql.org/docs/10/static/sql-values.html)command can also be used here.
+sub-SELECT 可以出現在 FROM 子句中。就像在一般 SELECT 指令在執行時間時將其輸出建立為臨時資料表一樣。請注意，sub-SELECT 必須使用括號括起來，並且必須為它提供別名。這裡也可以使用 [VALUES](values.md) 指令。
 
 _`with_query_name`_
 
-A `WITH` query is referenced by writing its name, just as though the query's name were a table name. \(In fact, the `WITH` query hides any real table of the same name for the purposes of the primary query. If necessary, you can refer to a real table of the same name by schema-qualifying the table's name.\) An alias can be provided in the same way as for a table.
+透過使用其名稱來引用 WITH 查詢，就像查詢名稱是資料表名稱一樣。（事實上，為了主查詢的需要，WITH 查詢會隱藏任何同名的資料表。如果需要的話，也可以加上綱要限定的資料表名稱來引用同名的真實資料表。）別名可以使用，方式與資料表相同。
 
 _`function_name`_
 
@@ -163,7 +167,7 @@ A clause of the form `USING ( a, b, ... )` is shorthand for `ON left_table.a = r
 
 `NATURAL`
 
-`NATURAL` is shorthand for a `USING` list that mentions all columns in the two tables that have matching names. If there are no common column names, `NATURAL` is equivalent to `ON TRUE`.
+NATURAL 是 USING 列表的簡寫，它表示兩個資料表中具有匹配名稱的所有欄位。如果沒有共同的欄位名稱，則 NATURAL 等於 ON TRUE。
 
 `LATERAL`
 
