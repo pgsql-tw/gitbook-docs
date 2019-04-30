@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 26.2. 日誌轉送備用伺服器 Log-Shipping Standby Servers
 
 持續性歸檔可用於建構高可用性（HA）的叢集配置，其中一個或多個備用伺服器準備好在主伺服器發生故障時接管操作。此功能被廣泛稱為熱備份（warm standby）或日誌轉送\(Log-Shipping\)。
@@ -16,13 +20,13 @@
 
 一般來說，無法在不同主要 PostgreSQL 版本的伺服器之間進行日誌傳送。PostgreSQL 全球開發團隊的原則是不要在次要版本升級期間更改磁碟格式，因此在主伺服器和備用伺服器上使用不同的次要版本可能會成功執行。 但是，並沒有保證正式支持，建議您盡可能將主伺服器和備用伺服器保持在同一版本。更新到新的次要版本時，最安全的策略是先更新備用伺服器 - 新的次要版本更有可能從先前的次要版本讀取 WAL 檔案，反過來則不一定。
 
-## 26.2.2. Standby Server Operation
+## 26.2.2. 備用伺服器作業
 
-In standby mode, the server continuously applies WAL received from the master server. The standby server can read WAL from a WAL archive \(see [restore\_command](https://www.postgresql.org/docs/10/static/archive-recovery-settings.html#RESTORE-COMMAND)\) or directly from the master over a TCP connection \(streaming replication\). The standby server will also attempt to restore any WAL found in the standby cluster's `pg_wal` directory. That typically happens after a server restart, when the standby replays again WAL that was streamed from the master before the restart, but you can also manually copy files to `pg_wal` at any time to have them replayed.
+在備用模式下，伺服器連續套用從主要伺服器所接收的 WAL。備用伺服器可以透過 TCP 連線（串流複寫）從 WAL 歸檔（請參閱 [restore\_command](../recovery-configuration/27.1.-archive-recovery-settings.md)）。備用伺服器也會嘗試恢復在備用集群的 pg\_wal 目錄中能找到的任何 WAL。這通常發生在伺服器重新啟動之後，當備用資料庫再次重新執行在重新啟動之前從主服務器串流傳輸的 WAL 時，您也可以隨時手動將檔案複製到 pg\_wal 以重新執行它們。
 
-At startup, the standby begins by restoring all WAL available in the archive location, calling `restore_command`. Once it reaches the end of WAL available there and `restore_command` fails, it tries to restore any WAL available in the `pg_wal` directory. If that fails, and streaming replication has been configured, the standby tries to connect to the primary server and start streaming WAL from the last valid record found in archive or `pg_wal`. If that fails or streaming replication is not configured, or if the connection is later disconnected, the standby goes back to step 1 and tries to restore the file from the archive again. This loop of retries from the archive, `pg_wal`, and via streaming replication goes on until the server is stopped or failover is triggered by a trigger file.
+在啟動時，備用資料庫首先恢復存檔路徑中的所有可用的 WAL，然後呼叫 restore\_command。一旦達到 WAL 可用的尾端並且 restore\_command 失敗，它就會嘗試恢復 pg\_wal 目錄中可用的任何WAL。如果失敗，並且已啟用串流複寫，則備用資料庫會嘗試連到主伺服器，並從 archive 或 pg\_wal 中找到的最後一個有效記錄開始串流傳輸 WAL。 如果失敗或未啟用串流複寫，或者稍後中斷連線，則備用資料庫將返回步驟 1 並嘗試再次從存檔中還原交易。pg\_wal 和串流複寫的重試循環一直持續到伺服器停止或觸發故障轉移為止。
 
-Standby mode is exited and the server switches to normal operation when `pg_ctl promote` is run or a trigger file is found \(`trigger_file`\). Before failover, any WAL immediately available in the archive or in `pg_wal` will be restored, but no attempt is made to connect to the master.
+退出備用模式，當執行 pg\_ctl promote 或找到觸發器檔案（trigger\_file）時，伺服器將切換到正常操作。在故障轉移之前，將恢復存檔或 pg\_wal 中立即可用的 WAL，但不會嘗試連線到主要伺服器。
 
 ## 26.2.3. Preparing the Master for Standby Servers
 
