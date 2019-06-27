@@ -1,16 +1,15 @@
-# 26. High Availability, Load Balancing, and Replication
+# 26.高可用性、負載平衡、複製 (High Availability, Load Balancing, and Replication)
 
-Database servers can work together to allow a second server to take over quickly if the primary server fails \(high availability\), or to allow several computers to serve the same data \(load balancing\). Ideally, database servers could work together seamlessly. Web servers serving static web pages can be combined quite easily by merely load-balancing web requests to multiple machines. In fact, read-only database servers can be combined relatively easily too. Unfortunately, most database servers have a read/write mix of requests, and read/write servers are much harder to combine. This is because though read-only data needs to be placed on each server only once, a write to any server has to be propagated to all servers so that future read requests to those servers return consistent results.
+資料庫伺服器可以協同工作，以便在主要伺服器故障時允許第二台伺服器快速的接管(高可用性 High Availability)，或者允許多台伺服器提供相同的資料(負載平衡 Loading Balancing)。理想狀況下，資料伺服器可以無縫接軌地協同工作。網頁伺服器提供靜態網頁可以被相當簡單的組合，僅透過負載平衡把網頁請求分配到多台機器上。事實上，只提供讀取的資料庫伺服器也可以相對容易地被組合。不幸地是大多數地資料庫伺服器具有讀/寫請求的組合，可是具備讀/寫請求資料伺服器被組合起來是相當地困難。這是因為儘管只供讀取的資料只被放進每台伺服器一次，但是必須將對任何伺服器寫入的資料傳播到所有的伺服器中，以便將來對這些伺服器發送讀取請求能夠返回一致的結果。
 
-This synchronization problem is the fundamental difficulty for servers working together. Because there is no single solution that eliminates the impact of the sync problem for all use cases, there are multiple solutions. Each solution addresses this problem in a different way, and minimizes its impact for a specific workload.
+這種同步化的問題算是伺服器協同工作上的基本難題。由於沒有單一得解決方案可以消除所有使用案例同步問題的影響，因此有多許多種解決方案。每種解決方案都以不同的方式解決問題，並最小化該問題對特定工作負載的影響。
 
-Some solutions deal with synchronization by allowing only one server to modify the data. Servers that can modify data are called read/write, _master_ or _primary_ servers. Servers that track changes in the master are called _standby_or _secondary_ servers. A standby server that cannot be connected to until it is promoted to a master server is called a _warm standby_ server, and one that can accept connections and serves read-only queries is called a _hot standby_server.
+有些解決方案處理同步化是藉由只讓單一伺服器可以修改資料。可以修改資料伺服器被稱之為 read/write、master或primary的伺服器。 可以追蹤master伺服器改變的伺服器我們稱為standby或secondary伺服器。standby伺服器不能接受連線上直到他被提升為maaster伺服器才能連線的伺服器稱之為warm standby伺服器，另一種可以接受連線且只提供其他伺服器作讀取查詢的稱之為hot standby伺服器。
 
-Some solutions are synchronous, meaning that a data-modifying transaction is not considered committed until all servers have committed the transaction. This guarantees that a failover will not lose any data and that all load-balanced servers will return consistent results no matter which server is queried. In contrast, asynchronous solutions allow some delay between the time of a commit and its propagation to the other servers, opening the possibility that some transactions might be lost in the switch to a backup server, and that load balanced servers might return slightly stale results. Asynchronous communication is used when synchronous would be too slow.
+一些解決方案是同步的，代表說一個資料修改的交易是不被認為提交直到所有伺服器都已經提交這些交易。這保證故障轉移不會遺失掉任何資料，和不論哪一台資料庫伺服器被查詢時，所有負載平衡的伺服器都可以返回一致的結果。相反地，非同步解決方案允許在提交交易時間和傳播到其他伺服器之間存在些許延遲，從而可能會在切換到備份伺服器時遺失某些交易，且負載平衡伺服器可能會返回一些稍微過時的結果。非同步解決方案被運用在當同步解決方案太慢的時候。
 
-Solutions can also be categorized by their granularity. Some solutions can deal only with an entire database server, while others allow control at the per-table or per-database level.
+解決方案也可以被依照規模分類，某些解決方案只能處理整個資料庫伺服器，然而其他的解決方案允許處理控制在每個表或每個資料庫等級。
 
-Performance must be considered in any choice. There is usually a trade-off between functionality and performance. For example, a fully synchronous solution over a slow network might cut performance by more than half, while an asynchronous one might have a minimal performance impact.
+做任何選擇都必須考慮到其性能。通常必須在功能和性能之間取其權衡。例如一個完整的同步解決方案可能會讓性能降低一半以上，而異步解決方案可能會對性能有比較小的影響。
 
-The remainder of this section outlines various failover, replication, and load balancing solutions.
-
+本節的其餘部分概述了各種故障轉移、複製和負載平衡解決方案。
