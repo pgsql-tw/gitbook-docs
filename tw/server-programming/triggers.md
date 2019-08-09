@@ -1,6 +1,6 @@
-# 39. Triggers
+# 39. 觸發器函數
 
-This chapter provides general information about writing trigger functions. Trigger functions can be written in most of the available procedural languages, including PL/pgSQL\([Chapter 42](https://www.postgresql.org/docs/10/static/plpgsql.html)\), PL/Tcl \([Chapter 43](https://www.postgresql.org/docs/10/static/pltcl.html)\), PL/Perl \([Chapter 44](https://www.postgresql.org/docs/10/static/plperl.html)\), and PL/Python \([Chapter 45](https://www.postgresql.org/docs/10/static/plpython.html)\). After reading this chapter, you should consult the chapter for your favorite procedural language to find out the language-specific details of writing a trigger in it.
+這章中介紹有關於觸發器函數的基本導引。觸發器函數能夠用大多數的程序語言編寫， 包括 PL/pgSQL([第42章](https://www.postgresql.org/docs/10/static/plpgsql.html))，PL/Tcl ([第43章](https://www.postgresql.org/docs/10/static/pltcl.html))， PL/Perl ([第44章](https://www.postgresql.org/docs/10/static/plperl.html))，和 PL/Python ([第45章](https://www.postgresql.org/docs/10/static/plpython.html))。閱讀本章后， 你可以參考你最喜歡的程序語言的章節， 找出該程序語言的特定指引。
 
-It is also possible to write a trigger function in C, although most people find it easier to use one of the procedural languages. It is not currently possible to write a trigger function in the plain SQL function language.
+儘管大多數人認為觸發器函數比較容易用程序語言編寫， 觸發器也可以在C中編寫。 目前無法在SQL函數語言中編寫觸發器函數。
 
