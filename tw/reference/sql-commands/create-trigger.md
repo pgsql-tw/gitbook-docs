@@ -6,7 +6,7 @@ description: 版本：11
 
 CREATE TRIGGER — 宣告一個新的觸發器
 
-### 語法
+## 語法
 
 ```text
 CREATE [ CONSTRAINT ] TRIGGER name { BEFORE | AFTER | INSTEAD OF } { event [ OR ... ] }
@@ -26,7 +26,7 @@ where event can be one of:
     TRUNCATE
 ```
 
-### 說明
+## 說明
 
 CREATE TRIGGER 建立一個新的觸發器。觸發器將與指定的資料表，檢視表或外部資料表關聯，並在對該表執行某些操作時執行指定的函數。
 
@@ -61,7 +61,7 @@ SELECT 不會修改任何資料列，因此您無法建立 SELECT 觸發器。�
 
 有關觸發器的更多訊息，請參閱[第 38 章](../../server-programming/triggers.md)。
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -138,7 +138,7 @@ _`arguments`_
 
 An optional comma-separated list of arguments to be provided to the function when the trigger is executed. The arguments are literal string constants. Simple names and numeric constants can be written here, too, but they will all be converted to strings. Please check the description of the implementation language of the trigger function to find out how these arguments can be accessed within the function; it might be different from normal function arguments.
 
-### Notes
+## Notes
 
 To create a trigger on a table, the user must have the `TRIGGER` privilege on the table. The user must also have `EXECUTE` privilege on the trigger function.
 
@@ -160,7 +160,7 @@ Modifying a partitioned table or a table with inheritance children fires stateme
 
 In PostgreSQL versions before 7.3, it was necessary to declare trigger functions as returning the placeholder type `opaque`, rather than `trigger`. To support loading of old dump files, `CREATE TRIGGER` will accept a function declared as returning `opaque`, but it will issue a notice and change the function's declared return type to `trigger`.
 
-### 範例
+## 範例
 
 每當要更新資料表 accounts 的資料列時，執行函數 check\_account\_update：
 
@@ -231,7 +231,7 @@ CREATE TRIGGER paired_items_update
 
 [第 38.4 節](../../server-programming/extending-sql/user-defined-procedures.md)中有使用 C 撰寫的觸發器函數完整範例。
 
-### Compatibility
+## Compatibility
 
 The `CREATE TRIGGER` statement in PostgreSQL implements a subset of the SQL standard. The following functionalities are currently missing:
 
@@ -249,7 +249,7 @@ The ability to fire triggers for `TRUNCATE` is a PostgreSQL extension of the SQL
 
 `CREATE CONSTRAINT TRIGGER` is a PostgreSQL extension of the SQL standard.
 
-### 參閱
+## 參閱
 
 [ALTER TRIGGER](alter-trigger.md), [DROP TRIGGER](drop-trigger.md), [CREATE FUNCTION](create-function.md), [SET CONSTRAINTS](set-constraints.md)
 

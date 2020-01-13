@@ -73,7 +73,7 @@ When host names are specified in `pg_hba.conf`, you should make sure that name r
 
 This field only applies to `host`, `hostssl`, and `hostnossl` records.
 
-#### Note
+## Note
 
 Users sometimes wonder why host names are handled in this seemingly complicated way, with two name resolutions including a reverse lookup of the client's IP address. This complicates use of the feature in case the client's reverse DNS entry is not set up or yields some undesirable host name. It is done primarily for efficiency: this way, a connection attempt requires at most two resolver lookups, one reverse and one forward. If there is a resolver problem with some address, it becomes only that client's problem. A hypothetical alternative implementation that only did forward lookups would have to resolve every host name mentioned in `pg_hba.conf` during every connection attempt. That could be quite slow if many names are listed. And if there is a resolver problem with one of the host names, it becomes everyone's problem.
 
@@ -160,13 +160,13 @@ Since the `pg_hba.conf` records are examined sequentially for each connection at
 
 The `pg_hba.conf` file is read on start-up and when the main server process receives a SIGHUP signal. If you edit the file on an active system, you will need to signal the postmaster \(using `pg_ctl reload` or `kill -HUP`\) to make it re-read the file.
 
-#### Note
+## Note
 
 The preceding statement is not true on Microsoft Windows: there, any changes in the `pg_hba.conf` file are immediately applied by subsequent new connections.
 
 The system view [`pg_hba_file_rules`](https://www.postgresql.org/docs/10/static/view-pg-hba-file-rules.html) can be helpful for pre-testing changes to the `pg_hba.conf` file, or for diagnosing problems if loading of the file did not have the desired effects. Rows in the view with non-null `error` fields indicate problems in the corresponding lines of the file.
 
-#### Tip
+## Tip
 
 To connect to a particular database, a user must not only pass the `pg_hba.conf` checks, but must have the `CONNECT` privilege for the database. If you wish to restrict which users can connect to which databases, it's usually easier to control this by granting/revoking `CONNECT`privilege than to put the rules in `pg_hba.conf` entries.
 

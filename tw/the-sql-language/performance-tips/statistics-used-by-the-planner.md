@@ -25,7 +25,7 @@ WHERE relname LIKE 'tenk1%';
 
 由於效率因素，reltuples 和 relpup 並不會即時更新，因此它們通常包含一些過時的值。它們由 VACUUM，ANALYZE 和一些 DDL 指令（如 CREATE INDEX）更新。不掃描整個資料表的 VACUUM 或 ANALYZE 操作（通常是這種情況）將根據其掃描資料表的部分逐步更新 reltuples 計數，從而得到近似值。在任何情況下，規劃程序將縮放它在 pg\_class 中找到的值以匹配目前實際上資料表大小，從而獲得更接近的近似值。
 
-由於 WHERE 子句會限制要檢查的資料列，因此大多數查詢僅檢索資料表中的一小部分行。因此，規劃程序需要估計 WHERE 子句的篩選性，即與 WHERE 子句中的每個條件匹配的資料列比率。用於此任務的訊息儲存在 [pg\_statistic](../../internals/system-catalogs/51.50.-pg_statistic.md) 系統目錄中。pg\_statistic 中的項目由 ANALYZE 和 VACUUM ANALYZE 指令更新，即使在剛更新時也都是近似值。
+由於 WHERE 子句會限制要檢查的資料列，因此大多數查詢僅檢索資料表中的一小部分行。因此，規劃程序需要估計 WHERE 子句的篩選性，即與 WHERE 子句中的每個條件匹配的資料列比率。用於此任務的訊息儲存在 [pg\_statistic](../../internals/system-catalogs/pg_statistic.md) 系統目錄中。pg\_statistic 中的項目由 ANALYZE 和 VACUUM ANALYZE 指令更新，即使在剛更新時也都是近似值。
 
 除了直接查看 pg\_statistic，最好在手動檢查統計訊息時查看其檢視表 [pg\_stats](../../internals/system-catalogs/pg_stats.md)。pg\_stats 旨在於更容易閱讀。此外，所有人都可以讀取 pg\_stats，而 pg\_statistic 只能由超級使用者讀取。（這可以防止非特權使用者從統計訊息中學習有關其他人表的內容。pg\_stats 檢視表僅限於顯示目前使用者可以讀取的資料表資訊。）例如，我們可能會這樣做：
 
@@ -54,7 +54,7 @@ WHERE tablename = 'road';
 
 ANALYZE 儲存在 pg\_statistic 中的資訊量，特別是每欄位的 most\_common\_vals 和 histogram\_bounds 陣列中的最大項目數，可以使用 ALTER TABLE SET STATISTICS 指令逐個欄位設定，也可以透過設定全域的 [default\_statistics\_target](../../server-administration/server-configuration/query-planning.md#19-7-4-other-planner-options) 組態變數。預設限制目前是 100 個項目。提高限制可能允許進行更準確的計劃程序估算，特別是對於具有不規則資料分佈的欄位，其代價是在 pg\_statistic 中消耗更多空間並且計算估計的時間稍長。相反地，對於具有簡單資料分佈的欄位，下限可能就足夠了。
 
-有關規劃程序使用統計資料的更多詳細訊息，請參閱[第 68 章](../../internals/68.-how-the-planner-uses-statistics/)。
+有關規劃程序使用統計資料的更多詳細訊息，請參閱[第 68 章](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/internals/68.-how-the-planner-uses-statistics)。
 
 ## 14.2.2. 延伸統計資訊
 

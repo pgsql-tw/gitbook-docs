@@ -60,7 +60,7 @@ Enables tracing of the client/server communication to a debugging file stream.
 void PQtrace(PGconn *conn, FILE *stream);
 ```
 
-#### Note
+## Note
 
 On Windows, if the libpq library and an application are compiled with different flags, this function call will crash the application because the internal representation of the `FILE`pointers differ. Specifically, multithreaded/single-threaded, release/debug, and static/dynamic flags should be the same for the library and all applications using that library.`PQuntrace`
 

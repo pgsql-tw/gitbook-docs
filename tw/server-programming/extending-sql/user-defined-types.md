@@ -47,7 +47,6 @@ complex_in(PG_FUNCTION_ARGS)
     result->y = y;
     PG_RETURN_POINTER(result);
 }
-
 ```
 
 The output function can simply be:
@@ -64,7 +63,6 @@ complex_out(PG_FUNCTION_ARGS)
     result = psprintf("(%g,%g)", complex->x, complex->y);
     PG_RETURN_CSTRING(result);
 }
-
 ```
 
 You should be careful to make the input and output functions inverses of each other. If you do not, you will have severe problems when you need to dump your data into a file and then read it back in. This is a particularly common problem when floating-point numbers are involved.
@@ -99,7 +97,6 @@ complex_send(PG_FUNCTION_ARGS)
     pq_sendfloat8(&buf, complex->y);
     PG_RETURN_BYTEA_P(pq_endtypsend(&buf));
 }
-
 ```
 
 Once we have written the I/O functions and compiled them into a shared library, we can define the `complex` type in SQL. First we declare it as a shell type:
@@ -161,7 +158,7 @@ To support TOAST storage, the C functions operating on the data type must always
 
 If data alignment is unimportant \(either just for a specific function or because the data type specifies byte alignment anyway\) then it's possible to avoid some of the overhead of `PG_DETOAST_DATUM`. You can use `PG_DETOAST_DATUM_PACKED` instead \(customarily hidden by defining a `GETARG_DATATYPE_PP` macro\) and using the macros `VARSIZE_ANY_EXHDR` and `VARDATA_ANY` to access a potentially-packed datum. Again, the data returned by these macros is not aligned even if the data type definition specifies an alignment. If the alignment is important you must go through the regular `PG_DETOAST_DATUM` interface.
 
-#### Note
+### Note
 
 Older code frequently declares `vl_len_` as an `int32` field instead of `char[4]`. This is OK as long as the struct definition has other fields that have at least `int32` alignment. But it is dangerous to use such a struct definition when working with a potentially unaligned datum; the compiler may take it as license to assume the datum actually is aligned, leading to core dumps on architectures that are strict about alignment.
 
@@ -173,6 +170,5 @@ C functions that know how to work with an expanded representation typically fall
 
 The TOAST infrastructure not only allows regular varlena values to be distinguished from expanded values, but also distinguishes “read-write” and “read-only” pointers to expanded values. C functions that only need to examine an expanded value, or will only change it in safe and non-semantically-visible ways, need not care which type of pointer they receive. C functions that produce a modified version of an input value are allowed to modify an expanded input value in-place if they receive a read-write pointer, but must not modify the input if they receive a read-only pointer; in that case they have to copy the value first, producing a new value to modify. A C function that has constructed a new expanded value should always return a read-write pointer to it. Also, a C function that is modifying a read-write expanded value in-place should take care to leave the value in a sane state if it fails partway through.
 
-For examples of working with expanded values, see the standard array infrastructure, particularly `src/backend/utils/adt/array_expanded.c`.  
-
+For examples of working with expanded values, see the standard array infrastructure, particularly `src/backend/utils/adt/array_expanded.c`.
 

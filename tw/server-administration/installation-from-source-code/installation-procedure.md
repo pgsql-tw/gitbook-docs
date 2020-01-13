@@ -389,7 +389,7 @@ make
 
 When developing code inside the server, it is recommended to use the configure options `--enable-cassert` \(which turns on many run-time error checks\) and `--enable-debug`\(which improves the usefulness of debugging tools\).
 
-If using GCC, it is best to build with an optimization level of at least `-O1`, because using no optimization \(`-O0`\) disables some important compiler warnings \(such as the use of uninitialized variables\). However, non-zero optimization levels can complicate debugging because stepping through compiled code will usually not match up one-to-one with source code lines. If you get confused while trying to debug optimized code, recompile the specific files of interest with `-O0`. An easy way to do this is by passing an option to make: 
+If using GCC, it is best to build with an optimization level of at least `-O1`, because using no optimization \(`-O0`\) disables some important compiler warnings \(such as the use of uninitialized variables\). However, non-zero optimization levels can complicate debugging because stepping through compiled code will usually not match up one-to-one with source code lines. If you get confused while trying to debug optimized code, recompile the specific files of interest with `-O0`. An easy way to do this is by passing an option to make:
 
 `make PROFILE=-O0 file.o`.
 
@@ -439,7 +439,7 @@ build-postgresql:
 make check
 ```
 
-（這不能以 root 身份運行；請以非特權用戶身份執行。）有關解釋測試結果的詳細訊息，請參閱[第 33 章](../32.-hui-gui-ce-shi/)。您可以在之後透過相同的命令重複此測試。
+（這不能以 root 身份運行；請以非特權用戶身份執行。）有關解釋測試結果的詳細訊息，請參閱[第 33 章](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/server-administration/32.-hui-gui-ce-shi)。您可以在之後透過相同的命令重複此測試。
 
 ## **4. Installing the Files**
 
@@ -473,7 +473,7 @@ You can use `make install-strip` instead of `make install` to strip the executab
 
 The standard installation provides all the header files needed for client application development as well as for server-side program development, such as custom functions or data types written in C. \(Prior to PostgreSQL 8.0, a separate `make install-all-headers` command was needed for the latter, but this step has been folded into the standard install.\)
 
-**Client-only installation:**  If you want to install only the client applications and interface libraries, then you can use these commands:
+**Client-only installation:** If you want to install only the client applications and interface libraries, then you can use these commands:
 
 ```text
 make -C src/bin install
@@ -484,9 +484,9 @@ make -C doc install
 
 `src/bin` has a few binaries for server-only use, but they are small.
 
-**Uninstallation:**  To undo the installation use the command `make uninstall`. However, this will not remove any created directories.
+**Uninstallation:** To undo the installation use the command `make uninstall`. However, this will not remove any created directories.
 
-**Cleaning:**  After the installation you can free disk space by removing the built files from the source tree with the command `make clean`. This will preserve the files made by the `configure` program, so that you can rebuild everything with `make` later on. To reset the source tree to the state in which it was distributed, use `make distclean`. If you are going to build for several platforms within the same source tree you must do this and re-configure for each platform. \(Alternatively, use a separate build tree for each platform, so that the source tree remains unmodified.\)
+**Cleaning:** After the installation you can free disk space by removing the built files from the source tree with the command `make clean`. This will preserve the files made by the `configure` program, so that you can rebuild everything with `make` later on. To reset the source tree to the state in which it was distributed, use `make distclean`. If you are going to build for several platforms within the same source tree you must do this and re-configure for each platform. \(Alternatively, use a separate build tree for each platform, so that the source tree remains unmodified.\)
 
 If you perform a build and then discover that your `configure` options were wrong, or if you change anything that `configure` investigates \(for example, software upgrades\), then it's a good idea to do `make distclean` before reconfiguring and rebuilding. Without this, your changes in configuration choices might not propagate everywhere they need to.
 

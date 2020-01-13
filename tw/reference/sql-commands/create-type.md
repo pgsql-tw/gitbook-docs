@@ -6,7 +6,7 @@ description: 版本：11
 
 CREATE TYPE — 定義新的資料型別
 
-### 語法
+## 語法
 
 ```text
 CREATE TYPE name AS
@@ -47,7 +47,7 @@ CREATE TYPE name (
 CREATE TYPE name
 ```
 
-### 說明
+## 說明
 
 CREATE TYPE 註冊一個新的資料型別，以便在目前資料庫中使用。定義型別的使用者將成為其所有者。
 
@@ -55,17 +55,17 @@ CREATE TYPE 註冊一個新的資料型別，以便在目前資料庫中使用�
 
 CREATE TYPE 有五種形式，如上面的語法概要所示。分別可以建立複合型別、列舉型別、範圍型別、基本型別或 shell 型別。下面將依次討論前四個。 shell 型別只是一個佔位型別，用於稍後定義的型別；它透過發出 CREATE TYPE 建立的，除了型別名稱之外沒有參數。在建立範圍型別和基本型別時，需要使用 Shell 型別作為先行引用，詳細如下面小節中所述。
 
-#### Composite Types
+### Composite Types
 
 CREATE TYPE 的第一種形式是複合型別。複合型別以屬性名稱和資料型別列表組成。如果屬性可以指定 collation 的話，則也可以指定 collation。複合型別與資料表的資料列型別基本相同，但使用 CREATE TYPE 時，毌須建立實際的資料表，只需要定義型別即可。舉例來說，獨立複合型別可用於函數的參數或回傳型別。
 
 要能夠建立複合型別，您必須具有所有屬性型別的 USAGE 權限。
 
-#### Enumerated Types
+### Enumerated Types
 
 第二種形式的 CREATE TYPE 創建一個列舉（enum）型別，如[第 8.7 節](../../the-sql-language/data-types/8.7.-lie-ju-xing-bie.md)所述。列舉型別採用一個或多個帶引號的標籤列表，每個標籤的長度必須小於 NAMEDATALEN 個字元（標準 PostgreSQL 編譯中為 64 個字元）。
 
-#### Range Types
+### Range Types
 
 第三種形式的 CREATE TYPE 建立一個新的範圍型別，如第 8.17 節所述。
 
@@ -75,7 +75,7 @@ CREATE TYPE 的第一種形式是複合型別。複合型別以屬性名稱和�
 
 選擇性的 subtype\_diff 函數必須將子型別的兩個值作為參數，並回傳表示兩個給定值之間差異的雙精確度值。雖然這是選擇性的，但是有提供它的話，可以在範圍型別的欄位上實現更高的 GiST 索引效率。有關更多訊息，請參閱[第 8.17.8 節](../../the-sql-language/data-types/range-types.md#8-17-8-defining-new-range-types)。
 
-#### Base Types
+### Base Types
 
 The fourth form of `CREATE TYPE` creates a new base type \(scalar type\). To create a new base type, you must be a superuser. \(This restriction is made because an erroneous type definition could confuse or even crash the server.\)
 
@@ -113,13 +113,13 @@ To indicate the delimiter to be used between values in the external representati
 
 If the optional Boolean parameter _`collatable`_ is true, column definitions and expressions of the type may carry collation information through use of the `COLLATE` clause. It is up to the implementations of the functions operating on the type to actually make use of the collation information; this does not happen automatically merely by marking the type collatable.
 
-#### Array Types
+### Array Types
 
 Whenever a user-defined type is created, PostgreSQL automatically creates an associated array type, whose name consists of the element type's name prepended with an underscore, and truncated if necessary to keep it less than `NAMEDATALEN` bytes long. \(If the name so generated collides with an existing type name, the process is repeated until a non-colliding name is found.\) This implicitly-created array type is variable length and uses the built-in input and output functions `array_in` and `array_out`. The array type tracks any changes in its element type's owner or schema, and is dropped if the element type is.
 
 You might reasonably ask why there is an `ELEMENT` option, if the system makes the correct array type automatically. The only case where it's useful to use `ELEMENT` is when you are making a fixed-length type that happens to be internally an array of a number of identical things, and you want to allow these things to be accessed directly by subscripting, in addition to whatever operations you plan to provide for the type as a whole. For example, type `point` is represented as just two floating-point numbers, which can be accessed using `point[0]`and `point[1]`. Note that this facility only works for fixed-length types whose internal form is exactly a sequence of identical fixed-length fields. A subscriptable variable-length type must have the generalized internal representation used by `array_in` and `array_out`. For historical reasons \(i.e., this is clearly wrong but it's far too late to change it\), subscripting of fixed-length array types starts from zero, rather than from one as for variable-length arrays.
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -223,7 +223,7 @@ _`collatable`_
 
 True if this type's operations can use collation information. The default is false.
 
-### Notes
+## Notes
 
 Because there are no restrictions on use of a data type once it's been created, creating a base type or range type is tantamount to granting public execute permission on the functions mentioned in the type definition. This is usually not an issue for the sorts of functions that are useful in a type definition. But you might want to think twice before designing a type in a way that would require “secret” information to be used while converting it to or from external form.
 
@@ -235,7 +235,7 @@ Before PostgreSQL version 8.2, the shell-type creation syntax `CREATE TYPE` _`na
 
 In PostgreSQL versions before 7.3, it was customary to avoid creating a shell type at all, by replacing the functions' forward references to the type name with the placeholder pseudo-type `opaque`. The `cstring` arguments and results also had to be declared as `opaque` before 7.3. To support loading of old dump files, `CREATE TYPE` will accept I/O functions declared using `opaque`, but it will issue a notice and change the function declarations to use the correct types.
 
-### 範例
+## 範例
 
 此範例建立一個複合型別並在函數定義中使用它：
 
@@ -313,13 +313,13 @@ CREATE TABLE big_objs (
 
 更多範例，包括適當的輸入和輸出功能，請參閱[第 37.11 節](../../server-programming/extending-sql/user-defined-types.md)。
 
-### 相容性
+## 相容性
 
 建立複合型別 CREATE TYPE 指令的第一種形式符合 SQL 標準。其他形式則是 PostgreSQL 延伸語法。SQL 標準中的 CREATE TYPE 語句還定義了 PostgreSQL 中未實作的其他形式。
 
 建立具有零屬性的複合型別是 PostgreSQL 專有的（類似於 CREATE TABLE 的情況）。
 
-### 參閱
+## 參閱
 
 [ALTER TYPE](alter-type.md), [CREATE DOMAIN](create-domain.md), [CREATE FUNCTION](create-function.md), [DROP TYPE](drop-type.md)
 

@@ -2,7 +2,7 @@
 
 ALTER TABLE — 變更資料表的定義
 
-### 語法
+## 語法
 
 ```text
 ALTER TABLE [ IF EXISTS ] [ ONLY ] name [ * ]
@@ -76,7 +76,7 @@ and table_constraint_using_index is:
     [ DEFERRABLE | NOT DEFERRABLE ] [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
 ```
 
-### 說明
+## 說明
 
 `ALTER TABLE` 變更現有資料表的定義。有幾個子命令描述如下。請注意，每個子命令所需的鎖定等級可能不同。除非明確指出，否則都是 ACCESS EXCLUSIVE 鎖定。當列出多個子命令時，所有子命令所需的鎖以最嚴格的為準。
 
@@ -148,7 +148,7 @@ and table_constraint_using_index is:
 
 執行此命令後，索引由該限制條件「擁有」，就像索引由一般的 ADD PRIMARY KEY 或 ADD UNIQUE 命令建立的一樣。特別要注意是，刪除限制條件會使索引消失。
 
-#### 注意
+### 注意
 
 在需要增加新的限制條件情況下，使用現有索引加上約束可能會很有幫助。這種情況下需要加上新限制條件需要很長一段時間但不會阻斷資料表更新。為此，請使用 CREATE INDEX CONCURRENTLY 建立索引，然後使用此語法將其作為官方限制條件進行安裝。請參閱後續的例子。
 
@@ -196,7 +196,7 @@ and table_constraint_using_index is:
 
 此語法從資料表中刪除最近使用的 CLUSTER 索引設定。這會影響未指定索引的後續叢集操作。
 
- 變更叢集選項將取得 SHARE UPDATE EXCLUSIVE 鎖定。
+變更叢集選項將取得 SHARE UPDATE EXCLUSIVE 鎖定。
 
 `SET WITH OIDS`
 
@@ -222,7 +222,7 @@ and table_constraint_using_index is:
 
 SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以下計劃程序的相關參數進行鎖定：effective\_io\_concurrency，parallel\_workers，seq\_page\_cost，random\_page\_cost，n\_distinct 和 n\_distinct\_inherited。
 
-#### 注意
+### 注意
 
 雖然 CREATE TABLE 允許在 WITH（storage\_parameter）語法中指定 OIDS，但 ALTER TABLE 不會將 OIDS 視為儲存參數。而是使用 SET WITH OIDS 和 SET WITHOUT OIDS 語法來變更 OID 狀態。
 
@@ -280,7 +280,7 @@ SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以
 
 您必須擁有該資料表才能使用 ALTER TABLE。要變更資料表的綱要或資料表空間，還必須對新的綱要或資料表空間具有 CREATE 權限。要將資料表加上為父資料表的新子資料表，您也必須擁有父資料表。另外，要將資料表附加為另一個資料表的新分割區，您必須擁有附加的資料表。要變更擁有者，您還必須是新擁有角色的直接或間接成員，並且該角色必須對資料表具有 CREATE 權限。（這些限制強制改變擁有者不會做任何刪除和重新建立資料表的操作，但超級用戶可以改變任何資料表的所有權。）要加入欄位或更改欄位型別或使用 OF 子句中，您還必須具有資料型別的 USAGE 權限。
 
-### 參數
+## 參數
 
 `IF EXISTS`
 
@@ -370,7 +370,7 @@ _`partition_bound_spec`_
 
 新分割區的分割區綁定規範。關於語法的更多細節請參考 [CREATE TABLE](create-table.md)。
 
-### 注意
+## 注意
 
 關鍵詞 COLUMN 是可以省略的。
 
@@ -402,7 +402,7 @@ SET DATA TYPE 的 USING 選項實際上可以指定涉及資料列舊值的任�
 
 有關有效參數的更多描述，請參閱 [CREATE TABLE](create-table.md)。[第 5 章](../../the-sql-language/ddl/)則有關於繼承的更多訊息。
 
-### 範例
+## 範例
 
 要將一個 varchar 型別的欄位加到資料表中，請執行以下操作指令：
 
@@ -568,13 +568,13 @@ ALTER TABLE measurement
     DETACH PARTITION measurement_y2015m12;
 ```
 
-### 相容性
+## 相容性
 
 ADD（沒有 USING INDEX）、DROP \[COLUMN\]、DROP IDENTITY、RESTART、SET DEFAULT、SET DATA TYPE（沒有 USING）、SET GENERATED 和 SET sequence\_option 的語法是符合 SQL 標準的。其他語法則是 SQL 標準的 PostgreSQL 延伸語法。此外，在單個 ALTER TABLE 指令中進行多個操作的功能也是延伸語法。
 
 ALTER TABLE DROP COLUMN 可用於刪除資料表的單一欄位，而留下一個沒有欄位的資料表。這是 SQL 的延伸，SQL 標準禁止使用無欄位的資料表。
 
-### 參閱
+## 參閱
 
 [CREATE TABLE](create-table.md)
 

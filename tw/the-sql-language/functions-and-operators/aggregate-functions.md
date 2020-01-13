@@ -6,7 +6,7 @@ description: 版本：11
 
 彙總函數將一組輸入值計算為單一個結果。[Table 9.52](aggregate-functions.md#table-9-52-general-purpose-aggregate-functions) 中列出了內建的通用彙總函數，[Table 9.53](aggregate-functions.md#table-9-53-aggregate-functions-for-statistics) 中列出了統計的彙總函數。[Table 9.54](aggregate-functions.md#table-9-54-ordered-set-aggregate-functions) 中列出了內建的群組內有序集合函數，而內建的群組內假設集合函數列於 [Table 9.55](aggregate-functions.md#table-9-55-hypothetical-set-aggregate-functions) 中。[Table 9.56](aggregate-functions.md#table-9-56-grouping-operations) 列出了與彙總函數密切相關的分組操作。[第 4.2.7 節](../sql-syntax/value-expressions.md#4-2-7-biao-shi-shi)介紹了彙總函數的特殊語法注意事項。有關其他介紹性資訊，請參閱[第 2.7 節](../../tutorial/the-sql-language/aggregate-functions.md)。
 
-#### **Table 9.52. General-Purpose Aggregate Functions**
+## **Table 9.52. General-Purpose Aggregate Functions**
 
 | Function | Argument Type\(s\) | Return Type | Partial Mode | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -18,7 +18,7 @@ description: 版本：11
 | `bool_and(`_`expression`_\) | `bool` | `bool` | Yes | true if all input values are true, otherwise false |
 | `bool_or(`_`expression`_\) | `bool` | `bool` | Yes | true if at least one input value is true, otherwise false |
 | `count(*)` |  | `bigint` | Yes | number of input rows |
-| `count(`_`expression`_\) | any | `bigint` | Yes | number of input rows for which the value of _`expression`_is not null |
+| `count(`_`expression`_\) | any | `bigint` | Yes | number of input rows for which the value of \_`expression`\_is not null |
 | `every(`_`expression`_\) | `bool` | `bool` | Yes | equivalent to `bool_and` |
 | `json_agg(`_`expression`_\) | `any` | `json` | No | aggregates values as a JSON array |
 | `jsonb_agg(`_`expression`_\) | `any` | `jsonb` | No | aggregates values as a JSON array |
@@ -34,7 +34,7 @@ It should be noted that except for `count`, these functions return a null value 
 
 Aggregate functions which support _Partial Mode_ are eligible to participate in various optimizations, such as parallel aggregation.
 
-#### Note
+## Note
 
 Boolean aggregates `bool_and` and `bool_or` correspond to standard SQL aggregates `every` and `any` or `some`. As for `any` and `some`, it seems that there is an ambiguity built into the standard syntax:
 
@@ -44,7 +44,7 @@ SELECT b1 = ANY((SELECT b2 FROM t2 ...)) FROM t1 ...;
 
 Here `ANY` can be considered either as introducing a subquery, or as being an aggregate function, if the subquery returns one row with a Boolean value. Thus the standard name cannot be given to these aggregates.
 
-#### Note
+## Note
 
 Users accustomed to working with other SQL database management systems might be disappointed by the performance of the `count` aggregate when it is applied to the entire table. A query like:
 
@@ -64,7 +64,7 @@ Beware that this approach can fail if the outer query level contains additional 
 
 [Table 9.53](https://www.postgresql.org/docs/11/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE) shows aggregate functions typically used in statistical analysis. \(These are separated out merely to avoid cluttering the listing of more-commonly-used aggregates.\) Where the description mentions _`N`_, it means the number of input rows for which all the input expressions are non-null. In all cases, null is returned if the computation is meaningless, for example when _`N`_ is zero.
 
-#### **Table 9.53. Aggregate Functions for Statistics**
+## **Table 9.53. Aggregate Functions for Statistics**
 
 | Function | Argument Type | Return Type | Partial Mode | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -89,21 +89,21 @@ Beware that this approach can fail if the outer query level contains additional 
 
 [Table 9.54](https://www.postgresql.org/docs/11/functions-aggregate.html#FUNCTIONS-ORDEREDSET-TABLE) shows some aggregate functions that use the _ordered-set aggregate_ syntax. These functions are sometimes referred to as “inverse distribution” functions.
 
-#### **Table 9.54. Ordered-Set Aggregate Functions**
+## **Table 9.54. Ordered-Set Aggregate Functions**
 
 | Function | Direct Argument Type\(s\) | Aggregated Argument Type\(s\) | Return Type | Partial Mode | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `mode() WITHIN GROUP (ORDER BY`_`sort_expression`_\) |  | any sortable type | same as sort expression | No | returns the most frequent input value \(arbitrarily choosing the first one if there are multiple equally-frequent results\) |
 | `percentile_cont(`_`fraction`_\) WITHIN GROUP \(ORDER BY _`sort_expression`_\) | `double precision` | `double precision` or`interval` | same as sort expression | No | continuous percentile: returns a value corresponding to the specified fraction in the ordering, interpolating between adjacent input items if needed |
-| `percentile_cont(`_`fractions`_\) WITHIN GROUP \(ORDER BY _`sort_expression`_\) | `double precision[]` | `double precision` or`interval` | array of sort expression's type | No | multiple continuous percentile: returns an array of results matching the shape of the _`fractions`_parameter, with each non-null element replaced by the value corresponding to that percentile |
+| `percentile_cont(`_`fractions`_\) WITHIN GROUP \(ORDER BY _`sort_expression`_\) | `double precision[]` | `double precision` or`interval` | array of sort expression's type | No | multiple continuous percentile: returns an array of results matching the shape of the \_`fractions`\_parameter, with each non-null element replaced by the value corresponding to that percentile |
 | `percentile_disc(`_`fraction`_\) WITHIN GROUP \(ORDER BY _`sort_expression`_\) | `double precision` | any sortable type | same as sort expression | No | discrete percentile: returns the first input value whose position in the ordering equals or exceeds the specified fraction |
-| `percentile_disc(`_`fractions`_\) WITHIN GROUP \(ORDER BY _`sort_expression`_\) | `double precision[]` | any sortable type | array of sort expression's type | No | multiple discrete percentile: returns an array of results matching the shape of the _`fractions`_parameter, with each non-null element replaced by the input value corresponding to that percentile |
+| `percentile_disc(`_`fractions`_\) WITHIN GROUP \(ORDER BY _`sort_expression`_\) | `double precision[]` | any sortable type | array of sort expression's type | No | multiple discrete percentile: returns an array of results matching the shape of the \_`fractions`\_parameter, with each non-null element replaced by the input value corresponding to that percentile |
 
 All the aggregates listed in [Table 9.54](https://www.postgresql.org/docs/11/functions-aggregate.html#FUNCTIONS-ORDEREDSET-TABLE) ignore null values in their sorted input. For those that take a _`fraction`_ parameter, the fraction value must be between 0 and 1; an error is thrown if not. However, a null fraction value simply produces a null result.
 
 Each of the aggregates listed in [Table 9.55](https://www.postgresql.org/docs/11/functions-aggregate.html#FUNCTIONS-HYPOTHETICAL-TABLE) is associated with a window function of the same name defined in [Section 9.21](https://www.postgresql.org/docs/11/functions-window.html). In each case, the aggregate result is the value that the associated window function would have returned for the “hypothetical” row constructed from _`args`_, if such a row had been added to the sorted group of rows computed from the _`sorted_args`_.
 
-#### **Table 9.55. Hypothetical-Set Aggregate Functions**
+## **Table 9.55. Hypothetical-Set Aggregate Functions**
 
 | Function | Direct Argument Type\(s\) | Aggregated Argument Type\(s\) | Return Type | Partial Mode | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -114,7 +114,7 @@ Each of the aggregates listed in [Table 9.55](https://www.postgresql.org/docs/11
 
 For each of these hypothetical-set aggregates, the list of direct arguments given in _`args`_ must match the number and types of the aggregated arguments given in _`sorted_args`_. Unlike most built-in aggregates, these aggregates are not strict, that is they do not drop input rows containing nulls. Null values sort according to the rule specified in the `ORDER BY` clause.
 
-#### **Table 9.56. Grouping Operations**
+## **Table 9.56. Grouping Operations**
 
 | Function | Return Type | Description |
 | :--- | :--- | :--- |

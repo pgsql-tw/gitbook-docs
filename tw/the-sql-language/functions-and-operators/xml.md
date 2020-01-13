@@ -470,7 +470,7 @@ SELECT xmltable.*
   FROM xmlelements, XMLTABLE('/root' PASSING data COLUMNS element text);
        element        
 ----------------------
-   Hello2a2   bbbCC  
+   Hello2a2   bbbCC
 ```
 
 The following example illustrates how the `XMLNAMESPACES` clause can be used to specify the default namespace, and a list of additional namespaces used in the XML document as well as in the XPath expressions:

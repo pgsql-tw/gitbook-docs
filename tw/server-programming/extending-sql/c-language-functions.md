@@ -27,7 +27,7 @@ The user ID the PostgreSQL server runs as must be able to traverse the path to t
 
 In any case, the file name that is given in the `CREATE FUNCTION` command is recorded literally in the system catalogs, so if the file needs to be loaded again the same procedure is applied.
 
-#### Note
+### Note
 
 PostgreSQL will not compile a C function automatically. The object file must be compiled before it is referenced in a `CREATE FUNCTION` command. See [Section 38.10.5](https://www.postgresql.org/docs/11/xfunc-c.html#DFUNC) for additional information.
 
@@ -76,7 +76,7 @@ Finally, all variable-length types must also be passed by reference. All variabl
 
 Another important point is to avoid leaving any uninitialized bits within data type values; for example, take care to zero out any alignment padding bytes that might be present in structs. Without this, logically-equivalent constants of your data type might be seen as unequal by the planner, leading to inefficient \(though not incorrect\) plans.
 
-#### Warning
+### Warning
 
 _Never_ modify the contents of a pass-by-reference input value. If you do so you are likely to corrupt on-disk data, since the pointer you are given might point directly into a disk buffer. The sole exception to this rule is explained in [Section 38.11](https://www.postgresql.org/docs/11/xaggr.html).
 
@@ -102,14 +102,13 @@ text *destination = (text *) palloc(VARHDRSZ + 40);
 SET_VARSIZE(destination, VARHDRSZ + 40);
 memcpy(destination->data, buffer, 40);
 ...
-
 ```
 
 `VARHDRSZ` is the same as `sizeof(int32)`, but it's considered good style to use the macro `VARHDRSZ` to refer to the size of the overhead for a variable-length type. Also, the length field _must_ be set using the `SET_VARSIZE` macro, not by simple assignment.
 
 [Table 38.1](https://www.postgresql.org/docs/11/xfunc-c.html#XFUNC-C-TYPE-TABLE) specifies which C type corresponds to which SQL type when writing a C-language function that uses a built-in type of PostgreSQL. The “Defined In” column gives the header file that needs to be included to get the type definition. \(The actual definition might be in a different file that is included by the listed file. It is recommended that users stick to the defined interface.\) Note that you should always include `postgres.h` first in any source file, because it declares a number of things that you will need anyway.
 
-#### **Table 38.1. Equivalent C Types for Built-in SQL Types**
+### **Table 38.1. Equivalent C Types for Built-in SQL Types**
 
 | SQL Type | C Type | Defined In |
 | :--- | :--- | :--- |
@@ -260,7 +259,6 @@ concat_text(PG_FUNCTION_ARGS)
     memcpy(VARDATA(new_text) + arg1_size, VARDATA_ANY(arg2), arg2_size);
     PG_RETURN_TEXT_P(new_text);
 }
-
 ```
 
 Supposing that the above code has been prepared in file `funcs.c` and compiled into a shared object, we could define the functions to PostgreSQL with commands like this:
@@ -403,7 +401,7 @@ gcc -fPIC -c foo.c
 gcc -G -o foo.so foo.o
 ```
 
-#### Tip
+### Tip
 
 If this is too complicated for you, you should consider using [GNU Libtool](http://www.gnu.org/software/libtool/), which hides the platform differences behind a uniform interface.
 
@@ -448,7 +446,6 @@ c_overpaid(PG_FUNCTION_ARGS)
 
     PG_RETURN_BOOL(DatumGetInt32(salary) > limit);
 }
-
 ```
 
 `GetAttributeByName` is the PostgreSQL system function that returns attributes out of the specified row. It has three arguments: the argument of type `HeapTupleHeader` passed into the function, the name of the desired attribute, and a return parameter that tells whether the attribute is null. `GetAttributeByName` returns a `Datum` value that you can convert to the proper data type by using the appropriate `DatumGet`_`XXX`_\(\) macro. Note that the return value is meaningless if the null flag is set; always check the null flag before trying to do anything with the result.
@@ -485,11 +482,11 @@ TypeFuncClass get_call_result_type(FunctionCallInfo fcinfo,
 
 passing the same `fcinfo` struct passed to the calling function itself. \(This of course requires that you use the version-1 calling conventions.\) `resultTypeId` can be specified as `NULL` or as the address of a local variable to receive the function's result type OID. `resultTupleDesc` should be the address of a local `TupleDesc` variable. Check that the result is `TYPEFUNC_COMPOSITE`; if so, `resultTupleDesc` has been filled with the needed `TupleDesc`. \(If it is not, you can report an error along the lines of “function returning record called in context that cannot accept type record”.\)
 
-#### Tip
+### Tip
 
 `get_call_result_type` can resolve the actual type of a polymorphic function result; so it is useful in functions that return scalar polymorphic results, not only functions that return composites. The `resultTypeId` output is primarily useful for functions returning polymorphic scalars.
 
-#### Note
+### Note
 
 `get_call_result_type` has a sibling `get_expr_result_type`, which can be used to resolve the expected output type for a function call represented by an expression tree. This can be used when trying to determine the result type from outside the function itself. There is also `get_func_result_type`, which can be used when only the function's OID is available. However these functions are not able to deal with functions declared to return `record`, and `get_func_result_type` cannot resolve polymorphic types, so you should preferentially use `get_call_result_type`.
 
@@ -659,7 +656,7 @@ to clean up and end the SRF.
 
 The memory context that is current when the SRF is called is a transient context that will be cleared between calls. This means that you do not need to call `pfree` on everything you allocated using `palloc`; it will go away anyway. However, if you want to allocate any data structures to live across calls, you need to put them somewhere else. The memory context referenced by `multi_call_memory_ctx` is a suitable location for any data that needs to survive until the SRF is finished running. In most cases, this means that you should switch into `multi_call_memory_ctx`while doing the first-call setup.
 
-#### Warning
+### Warning
 
 While the actual arguments to the function remain unchanged between calls, if you detoast the argument values \(which is normally done transparently by the `PG_GETARG_`_`xxx`_ macro\) in the transient context then the detoasted copies will be freed on each cycle. Accordingly, if you keep references to such values in your `user_fctx`, you must either copy them into the `multi_call_memory_ctx` after detoasting, or ensure that you detoast the values only in that context.
 
@@ -801,7 +798,6 @@ retcomposite(PG_FUNCTION_ARGS)
         SRF_RETURN_DONE(funcctx);
     }
 }
-
 ```
 
 One way to declare this function in SQL is:

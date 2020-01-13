@@ -6,11 +6,11 @@ The main advantage to using PL/Perl is that this allows use, within stored funct
 
 To install PL/Perl in a particular database, use `CREATE EXTENSION plperl`.
 
-#### Tip
+## Tip
 
 If a language is installed into `template1`, all subsequently created databases will have the language installed automatically.
 
-#### Note
+## Note
 
 Users of source packages must specially enable the build of PL/Perl during the installation process. \(Refer to [Chapter 16](https://www.postgresql.org/docs/current/installation.html) for more information.\) Users of binary packages might find PL/Perl in a separate subpackage.
 

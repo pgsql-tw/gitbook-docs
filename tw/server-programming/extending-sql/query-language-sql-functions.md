@@ -26,7 +26,7 @@ SELECT clean_emp();
 (1 row)
 ```
 
-#### Note
+### Note
 
 The entire body of a SQL function is parsed before any of it is executed. While a SQL function can contain commands that alter the system catalogs \(e.g., `CREATE TABLE`\), the effects of such commands will not be visible during parse analysis of later commands in the function. Thus, for example, `CREATE TABLE foo (...); INSERT INTO foo VALUES(...);` will not work as desired if packaged up into a single SQL function, since `foo` won't exist yet when the `INSERT` command is parsed. It's recommended to use PL/pgSQL instead of a SQL function in this type of situation.
 
@@ -54,7 +54,7 @@ but this will not work:
 INSERT INTO $1 VALUES (42);
 ```
 
-#### Note
+### Note
 
 The ability to use names to reference SQL function arguments was added in PostgreSQL9.2. Functions to be used in older servers must use the `$`_`n`_ notation.
 
@@ -229,9 +229,7 @@ Note two important things about defining the function:
 * We must ensure each expression's type matches the corresponding column of the composite type, inserting a cast if necessary. Otherwise we'll get errors like this:
 
   ```text
-
   ERROR:  function declared to return emp returns varchar instead of text at column 1
-
   ```
 
   As with the base-type case, the function will not insert any casts automatically.
@@ -626,11 +624,11 @@ SELECT x, CASE WHEN x > 0 THEN generate_series(1, 5) ELSE 0 END FROM tab;
 
 It might seem that this should produce five repetitions of input rows that have `x > 0`, and a single repetition of those that do not; but actually, because `generate_series(1, 5)` would be run in an implicit `LATERAL FROM` item before the `CASE` expression is ever evaluated, it would produce five repetitions of every input row. To reduce confusion, such cases produce a parse-time error instead.
 
-#### Note
+### Note
 
 If a function's last command is `INSERT`, `UPDATE`, or `DELETE` with `RETURNING`, that command will always be executed to completion, even if the function is not declared with `SETOF` or the calling query does not fetch all the result rows. Any extra rows produced by the `RETURNING` clause are silently dropped, but the commanded table modifications still happen \(and are all completed before returning from the function\).
 
-#### Note
+### Note
 
 Before PostgreSQL 10, putting more than one set-returning function in the same select list did not behave very sensibly unless they always produced equal numbers of rows. Otherwise, what you got was a number of output rows equal to the least common multiple of the numbers of rows produced by the set-returning functions. Also, nested set-returning functions did not work as described above; instead, a set-returning function could have at most one set-returning argument, and each nest of set-returning functions was run independently. Also, conditional execution \(set-returning functions inside `CASE`etc\) was previously allowed, complicating things even more. Use of the `LATERAL` syntax is recommended when writing queries that need to work in older PostgreSQL versions, because that will give consistent results across different versions. If you have a query that is relying on conditional execution of a set-returning function, you may be able to fix it by moving the conditional test into a custom set-returning function. For example,
 
@@ -690,9 +688,7 @@ SELECT make_array(1, 2) AS intarray, make_array('a'::text, 'b') AS textarray;
 Notice the use of the typecast `'a'::text` to specify that the argument is of type `text`. This is required if the argument is just a string literal, since otherwise it would be treated as type `unknown`, and array of `unknown` is not a valid type. Without the typecast, you will get errors like this:
 
 ```text
-
 ERROR:  could not determine polymorphic type because input has type "unknown"
-
 ```
 
 It is permitted to have polymorphic arguments with a fixed return type, but the converse is not. For example:

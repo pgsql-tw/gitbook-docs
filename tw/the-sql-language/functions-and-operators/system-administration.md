@@ -6,14 +6,12 @@
 
 [Table 9.77](system-administration.md#table-9-77-configuration-settings-functions) 列出了可用於查詢和變更執行時組態參數的函數。
 
-#### **Table 9.77. Configuration Settings Functions**
+### **Table 9.77. Configuration Settings Functions**
 
 | 函數名稱 | 回傳型別 | 說明 |
 | :--- | :--- | :--- |
 | `current_setting(`_`setting_name`_ \[, _`missing_ok`_ \]\) | `text` | 取得目前設定值 |
 | `set_config(`_`setting_name`_, _`new_value`_, _`is_local`_\) | `text` | 設定參數並回傳新值 |
-
-
 
 函數 current\_setting 會產生設定 setting\_name 目前的值。它對應於 SQL 指令 SHOW。範例如下：
 
@@ -41,11 +39,9 @@ SELECT set_config('log_statement_stats', 'off', false);
 
 ## 9.26.2. Server Signaling Functions
 
-
-
 The functions shown in [Table 9.78](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-ADMIN-SIGNAL-TABLE) send control signals to other server processes. Use of these functions is restricted to superusers by default but access may be granted to others using `GRANT`, with noted exceptions.
 
-#### **Table 9.78. Server Signaling Functions**
+### **Table 9.78. Server Signaling Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -64,11 +60,9 @@ Each of these functions returns `true` if successful and `false` otherwise.
 
 ## 9.26.3. Backup Control Functions
 
-
-
 The functions shown in [Table 9.79](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-ADMIN-BACKUP-TABLE) assist in making on-line backups. These functions cannot be executed during recovery \(except `pg_is_in_backup`, `pg_backup_start_time` and `pg_wal_lsn_diff`\).
 
-#### **Table 9.79. Backup Control Functions**
+### **Table 9.79. Backup Control Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -126,8 +120,6 @@ For details about proper usage of these functions, see [Section 25.3](https://ww
 
 ## 9.26.4. Recovery Control Functions
 
-
-
 The functions shown in [Table 9.80](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-RECOVERY-INFO-TABLE) provide information about the current status of the standby. These functions may be executed both during recovery and in normal running.
 
 **Table 9.80. Recovery Information Functions**
@@ -139,11 +131,9 @@ The functions shown in [Table 9.80](https://www.postgresql.org/docs/11/functions
 | `pg_last_wal_replay_lsn()` | `pg_lsn` | Get last write-ahead log location replayed during recovery. If recovery is still in progress this will increase monotonically. If recovery has completed then this value will remain static at the value of the last WAL record applied during that recovery. When the server has been started normally without recovery the function returns NULL. |
 | `pg_last_xact_replay_timestamp()` | `timestamp with time zone` | Get time stamp of last transaction replayed during recovery. This is the time at which the commit or abort WAL record for that transaction was generated on the primary. If no transactions have been replayed during recovery, this function returns NULL. Otherwise, if recovery is still in progress this will increase monotonically. If recovery has completed then this value will remain static at the value of the last transaction applied during that recovery. When the server has been started normally without recovery the function returns NULL. |
 
-
-
 The functions shown in [Table 9.81](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-RECOVERY-CONTROL-TABLE) control the progress of recovery. These functions may be executed only during recovery.
 
-#### **Table 9.81. Recovery Control Functions**
+### **Table 9.81. Recovery Control Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -157,15 +147,13 @@ If streaming replication is disabled, the paused state may continue indefinitely
 
 ## 9.26.5. Snapshot Synchronization Functions
 
-
-
 PostgreSQL allows database sessions to synchronize their snapshots. A _snapshot_ determines which data is visible to the transaction that is using the snapshot. Synchronized snapshots are necessary when two or more sessions need to see identical content in the database. If two sessions just start their transactions independently, there is always a possibility that some third transaction commits between the executions of the two `START TRANSACTION` commands, so that one session sees the effects of that transaction and the other does not.
 
 To solve this problem, PostgreSQL allows a transaction to _export_ the snapshot it is using. As long as the exporting transaction remains open, other transactions can _import_ its snapshot, and thereby be guaranteed that they see exactly the same view of the database that the first transaction sees. But note that any database changes made by any one of these transactions remain invisible to the other transactions, as is usual for changes made by uncommitted transactions. So the transactions are synchronized with respect to pre-existing data, but act normally for changes they make themselves.
 
 Snapshots are exported with the `pg_export_snapshot` function, shown in [Table 9.82](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION-TABLE), and imported with the [SET TRANSACTION](https://www.postgresql.org/docs/11/sql-set-transaction.html) command.
 
-#### **Table 9.82. Snapshot Synchronization Functions**
+### **Table 9.82. Snapshot Synchronization Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -183,14 +171,14 @@ Many of these functions have equivalent commands in the replication protocol; se
 
 The functions described in [Section 9.26.3](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-ADMIN-BACKUP), [Section 9.26.4](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-RECOVERY-CONTROL), and [Section 9.26.5](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION) are also relevant for replication.
 
-#### **Table 9.83. Replication SQL Functions**
+### **Table 9.83. Replication SQL Functions**
 
 | Function | Return Type | Description |
 | :--- | :--- | :--- |
 | `pg_create_physical_replication_slot(`_`slot_name`_`name` \[, _`immediately_reserve`_ `boolean`,_`temporary`_ `boolean`\]\) | \(_`slot_name`_`name`, _`lsn`_`pg_lsn`\) | Creates a new physical replication slot named _`slot_name`_. The optional second parameter, when `true`, specifies that the LSNfor this replication slot be reserved immediately; otherwise the LSN is reserved on first connection from a streaming replication client. Streaming changes from a physical slot is only possible with the streaming-replication protocol — see [Section 53.4](https://www.postgresql.org/docs/11/protocol-replication.html). The optional third parameter, _`temporary`_, when set to true, specifies that the slot should not be permanently stored to disk and is only meant for use by current session. Temporary slots are also released upon any error. This function corresponds to the replication protocol command `CREATE_REPLICATION_SLOT ... PHYSICAL`. |
 | `pg_drop_replication_slot(`_`slot_name`_ `name`\) | `void` | Drops the physical or logical replication slot named _`slot_name`_. Same as replication protocol command `DROP_REPLICATION_SLOT`. For logical slots, this must be called when connected to the same database the slot was created on. |
 | `pg_create_logical_replication_slot(`_`slot_name`_`name`, _`plugin`_ `name` \[, _`temporary`_ `boolean`\]\) | \(_`slot_name`_`name`, _`lsn`_`pg_lsn`\) | Creates a new logical \(decoding\) replication slot named _`slot_name`_ using the output plugin _`plugin`_. The optional third parameter, _`temporary`_, when set to true, specifies that the slot should not be permanently stored to disk and is only meant for use by current session. Temporary slots are also released upon any error. A call to this function has the same effect as the replication protocol command `CREATE_REPLICATION_SLOT ... LOGICAL`. |
-| `pg_logical_slot_get_changes(`_`slot_name`_ `name`,_`upto_lsn`_ `pg_lsn`, _`upto_nchanges`_ `int`, VARIADIC_`options`_ `text[]`\) | \(_`lsn`_`pg_lsn`, _`xid`_ `xid`, _`data`_ `text`\) | Returns changes in the slot _`slot_name`_, starting from the point at which since changes have been consumed last. If _`upto_lsn`_and _`upto_nchanges`_ are NULL, logical decoding will continue until end of WAL. If _`upto_lsn`_ is non-NULL, decoding will include only those transactions which commit prior to the specified LSN. If _`upto_nchanges`_ is non-NULL, decoding will stop when the number of rows produced by decoding exceeds the specified value. Note, however, that the actual number of rows returned may be larger, since this limit is only checked after adding the rows produced when decoding each new transaction commit. |
+| `pg_logical_slot_get_changes(`_`slot_name`_ `name`,_`upto_lsn`_ `pg_lsn`, _`upto_nchanges`_ `int`, VARIADIC_`options`_ `text[]`\) | \(_`lsn`_`pg_lsn`, _`xid`_ `xid`, _`data`_ `text`\) | Returns changes in the slot _`slot_name`_, starting from the point at which since changes have been consumed last. If _`upto_lsn`\_and_ `upto_nchanges` _are NULL, logical decoding will continue until end of WAL. If_ `upto_lsn` _is non-NULL, decoding will include only those transactions which commit prior to the specified LSN. If_ `upto_nchanges`\_ is non-NULL, decoding will stop when the number of rows produced by decoding exceeds the specified value. Note, however, that the actual number of rows returned may be larger, since this limit is only checked after adding the rows produced when decoding each new transaction commit. |
 | `pg_logical_slot_peek_changes(`_`slot_name`_ `name`,_`upto_lsn`_ `pg_lsn`, _`upto_nchanges`_ `int`, VARIADIC_`options`_ `text[]`\) | \(_`lsn`_`pg_lsn`, _`xid`_ `xid`, _`data`_ `text`\) | Behaves just like the `pg_logical_slot_get_changes()` function, except that changes are not consumed; that is, they will be returned again on future calls. |
 | `pg_logical_slot_get_binary_changes(`_`slot_name`_`name`, _`upto_lsn`_ `pg_lsn`, _`upto_nchanges`_ `int`, VARIADIC _`options`_ `text[]`\) | \(_`lsn`_`pg_lsn`, _`xid`_ `xid`, _`data`_`bytea`\) | Behaves just like the `pg_logical_slot_get_changes()` function, except that changes are returned as `bytea`. |
 | `pg_logical_slot_peek_binary_changes(`_`slot_name`_`name`, _`upto_lsn`_ `pg_lsn`, _`upto_nchanges`_ `int`, VARIADIC _`options`_ `text[]`\) | \(_`lsn`_`pg_lsn`, _`xid`_ `xid`, _`data`_`bytea`\) | Behaves just like the `pg_logical_slot_get_changes()` function, except that changes are returned as `bytea` and that changes are not consumed; that is, they will be returned again on future calls. |
@@ -213,7 +201,7 @@ The functions described in [Section 9.26.3](https://www.postgresql.org/docs/11/f
 
 The functions shown in [Table 9.84](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-ADMIN-DBSIZE) calculate the disk space usage of database objects.
 
-#### **Table 9.84. Database Object Size Functions**
+### **Table 9.84. Database Object Size Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -252,7 +240,7 @@ The functions shown in [Table 9.84](https://www.postgresql.org/docs/11/functions
 
 `pg_size_bytes` can be used to get the size in bytes from a string in human-readable format. The input may have units of bytes, kB, MB, GB or TB, and is parsed case-insensitively. If no units are specified, bytes are assumed.
 
-#### Note
+### Note
 
 The units kB, MB, GB and TB used by the functions `pg_size_pretty` and `pg_size_bytes` are defined using powers of 2 rather than powers of 10, so 1kB is 1024 bytes, 1MB is 10242 = 1048576 bytes, and so on.
 
@@ -262,7 +250,7 @@ If an OID that does not represent an existing object is passed as argument to on
 
 The functions shown in [Table 9.85](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-ADMIN-DBLOCATION) assist in identifying the specific disk files associated with database objects.
 
-#### **Table 9.85. Database Object Location Functions**
+### **Table 9.85. Database Object Location Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -278,7 +266,7 @@ The functions shown in [Table 9.85](https://www.postgresql.org/docs/11/functions
 
 [Table 9.86](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-ADMIN-COLLATION) lists functions used to manage collations.
 
-#### **Table 9.86. Collation Management Functions**
+### **Table 9.86. Collation Management Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -291,11 +279,9 @@ The functions shown in [Table 9.85](https://www.postgresql.org/docs/11/functions
 
 ## 9.26.8. Index Maintenance Functions
 
-
-
 [Table 9.87](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-ADMIN-INDEX-TABLE) shows the functions available for index maintenance tasks. These functions cannot be executed during recovery. Use of these functions is restricted to superusers and the owner of the given index.
 
-#### **Table 9.87. Index Maintenance Functions**
+### **Table 9.87. Index Maintenance Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -314,7 +300,7 @@ The functions shown in [Table 9.88](https://www.postgresql.org/docs/11/functions
 
 Note that granting users the EXECUTE privilege on the `pg_read_file()`, or related, functions allows them the ability to read any file on the server which the database can read and that those reads bypass all in-database privilege checks. This means that, among other things, a user with this access is able to read the contents of the `pg_authid` table where authentication information is contained, as well as read any file in the database. Therefore, granting access to these functions should be carefully considered.
 
-#### **Table 9.88. Generic File Access Functions**
+### **Table 9.88. Generic File Access Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -341,8 +327,6 @@ Some of these functions take an optional _`missing_ok`_ parameter, which specifi
 SELECT convert_from(pg_read_binary_file('file_in_utf8.txt'), 'UTF8');
 ```
 
-
-
 `pg_stat_file` returns a record containing the file size, last accessed time stamp, last modified time stamp, last file status change time stamp \(Unix platforms only\), file creation time stamp \(Windows only\), and a `boolean` indicating if it is a directory. Typical usages include:
 
 ```text
@@ -354,7 +338,7 @@ SELECT (pg_stat_file('filename')).modification;
 
 The functions shown in [Table 9.89](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS-TABLE) manage advisory locks. For details about proper use of these functions, see [Section 13.3.5](https://www.postgresql.org/docs/11/explicit-locking.html#ADVISORY-LOCKS).
 
-#### **Table 9.89. Advisory Lock Functions**
+### **Table 9.89. Advisory Lock Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -379,8 +363,6 @@ The functions shown in [Table 9.89](https://www.postgresql.org/docs/11/functions
 | `pg_try_advisory_xact_lock(`_`key1`_ `int`, _`key2`_ `int`\) | `boolean` | Obtain exclusive transaction level advisory lock if available |
 | `pg_try_advisory_xact_lock_shared(`_`key`_ `bigint`\) | `boolean` | Obtain shared transaction level advisory lock if available |
 | `pg_try_advisory_xact_lock_shared(`_`key1`_ `int`, _`key2`_ `int`\) | `boolean` | Obtain shared transaction level advisory lock if available |
-
-
 
 `pg_advisory_lock` locks an application-defined resource, which can be identified either by a single 64-bit key value or two 32-bit key values \(note that these two key spaces do not overlap\). If another session already holds a lock on the same resource identifier, this function will wait until the resource becomes available. The lock is exclusive. Multiple lock requests stack, so that if the same resource is locked three times it must then be unlocked three times to be released for other sessions' use.
 

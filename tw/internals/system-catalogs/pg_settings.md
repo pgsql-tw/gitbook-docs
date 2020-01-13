@@ -1,8 +1,8 @@
-# 52.85. pg\_settings
+# 51.85. pg\_settings
 
 檢視表 pg\_settings 提供對伺服器的執行時參數的存取。它本質上是 [SHOW](../../reference/sql-commands/show.md) 和 [SET ](../../reference/sql-commands/set.md)指令的替代介面。它也提供 SHOW 無法直接獲得的一些資訊存取，例如最小值和最大值。
 
-#### **Table 52.86. `pg_settings` Columns**
+## **Table 52.86. `pg_settings` Columns**
 
 | 名稱 | 型別 | 說明 |
 | :--- | :--- | :--- |

@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 52.39. pg\_proc
+# 51.39. pg\_proc
 
 The catalog `pg_proc` stores information about functions, procedures, aggregate functions, and window functions \(collectively also known as routines\). See [CREATE FUNCTION](https://www.postgresql.org/docs/11/sql-createfunction.html), [CREATE PROCEDURE](https://www.postgresql.org/docs/11/sql-createprocedure.html), and [Section 38.3](https://www.postgresql.org/docs/11/xfunc.html) for more information.
 

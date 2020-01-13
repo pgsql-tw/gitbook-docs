@@ -1,4 +1,4 @@
-# 52.50. pg\_statistic
+# 51.50. pg\_statistic
 
 The catalog `pg_statistic` stores statistical data about the contents of the database. Entries are created by [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) and subsequently used by the query planner. Note that all the statistical data is inherently approximate, even assuming that it is up-to-date.
 
@@ -16,12 +16,12 @@ Since different kinds of statistics might be appropriate for different kinds of 
 | :--- | :--- | :--- | :--- |
 | `starelid` | `oid` | [`pg_class`](https://www.postgresql.org/docs/10/static/catalog-pg-class.html).oid | The table or index that the described column belongs to |
 | `staattnum` | `int2` | [`pg_attribute`](https://www.postgresql.org/docs/10/static/catalog-pg-attribute.html).attnum | The number of the described column |
-| `stainherit` | `bool` |   | If true, the stats include inheritance child columns, not just the values in the specified relation |
-| `stanullfrac` | `float4` |   | The fraction of the column's entries that are null |
-| `stawidth` | `int4` |   | The average stored width, in bytes, of nonnull entries |
-| `stadistinct` | `float4` |   | The number of distinct nonnull data values in the column. A value greater than zero is the actual number of distinct values. A value less than zero is the negative of a multiplier for the number of rows in the table; for example, a column in which about 80% of the values are nonnull and each nonnull value appears about twice on average could be represented by `stadistinct` = -0.4. A zero value means the number of distinct values is unknown. |
-| `stakind`_`N`_ | `int2` |   | A code number indicating the kind of statistics stored in the _`N`_th “slot” of the `pg_statistic` row. |
-| `staop`_`N`_ | `oid` | [`pg_operator`](https://www.postgresql.org/docs/10/static/catalog-pg-operator.html).oid | An operator used to derive the statistics stored in the _`N`_th “slot”. For example, a histogram slot would show the `<` operator that defines the sort order of the data. |
-| `stanumbers`_`N`_ | `float4[]` |   | Numerical statistics of the appropriate kind for the _`N`_th “slot”, or null if the slot kind does not involve numerical values |
-| `stavalues`_`N`_ | `anyarray` |   | Column data values of the appropriate kind for the _`N`_th “slot”, or null if the slot kind does not store any data values. Each array's element values are actually of the specific column's data type, or a related type such as an array's element type, so there is no way to define these columns' type more specifically than `anyarray`. |
+| `stainherit` | `bool` |  | If true, the stats include inheritance child columns, not just the values in the specified relation |
+| `stanullfrac` | `float4` |  | The fraction of the column's entries that are null |
+| `stawidth` | `int4` |  | The average stored width, in bytes, of nonnull entries |
+| `stadistinct` | `float4` |  | The number of distinct nonnull data values in the column. A value greater than zero is the actual number of distinct values. A value less than zero is the negative of a multiplier for the number of rows in the table; for example, a column in which about 80% of the values are nonnull and each nonnull value appears about twice on average could be represented by `stadistinct` = -0.4. A zero value means the number of distinct values is unknown. |
+| `stakind`_`N`_ | `int2` |  | A code number indicating the kind of statistics stored in the \_`N`\_th “slot” of the `pg_statistic` row. |
+| `staop`_`N`_ | `oid` | [`pg_operator`](https://www.postgresql.org/docs/10/static/catalog-pg-operator.html).oid | An operator used to derive the statistics stored in the \_`N`\_th “slot”. For example, a histogram slot would show the `<` operator that defines the sort order of the data. |
+| `stanumbers`_`N`_ | `float4[]` |  | Numerical statistics of the appropriate kind for the \_`N`\_th “slot”, or null if the slot kind does not involve numerical values |
+| `stavalues`_`N`_ | `anyarray` |  | Column data values of the appropriate kind for the \_`N`\_th “slot”, or null if the slot kind does not store any data values. Each array's element values are actually of the specific column's data type, or a related type such as an array's element type, so there is no way to define these columns' type more specifically than `anyarray`. |
 

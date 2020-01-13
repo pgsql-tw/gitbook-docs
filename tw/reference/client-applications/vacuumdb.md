@@ -2,19 +2,19 @@
 
 vacuumdb — 資源回收並重新分析 PostgreSQL 資料庫
 
-### 語法
+## 語法
 
 `vacuumdb [`_`connection-option`_`...] [`_`option`_`...] [ --table | -t` _`table`_ `[(` _`column`_ `[,...] )] ] ... [`_`dbname`_`]`
 
 `vacuumdb` \[_`connection-option`_...\] \[_`option`_...\] `--all` \| `-a`
 
-### 說明
+## 說明
 
 vacuumdb 是一個用於清理 PostgreSQL 資料庫的工具程式。vacuumdb 也會產生 PostgreSQL 查詢最佳化程式所使用的內部統計資訊。
 
 vacuumdb 只是一個將 SQL 指令 [VACUUM ](../sql-commands/vacuum.md)封裝起來的工具。透過此工具與透過其他方法存取伺服器之間，對資料庫進行清理和分析的工作並沒有任何區別。
 
-### 選項參數
+## 選項參數
 
 vacuumdb 接受以下的命令列參數：
 
@@ -62,7 +62,7 @@ vacuumdb 將打開與資料庫的 njobs 連線，因此請確保您的 max\_conn
 
 僅清理或分析資料表。欄位名稱只能與 --analyze 或 --analyze-only 選項一起指定。以多個選項開關可以對多個資料表進行清理。
 
-#### 小技巧
+### 小技巧
 
 如果指定欄位，則可能必須從 shell 中跳脫括號。 （請參閱下面的例子。）
 
@@ -130,7 +130,7 @@ vacuumdb 也在命令列中接受以下連線參數：
 
 指定要連線的資料庫名稱，以發現應該清理哪些其他資料庫。如果未指定，將使用 postgres 資料庫，如果 postgres 不存在的話，將使用 template1。
 
-### 執行環境
+## 執行環境
 
 `PGDATABASE`  
 `PGHOST`  
@@ -141,15 +141,15 @@ vacuumdb 也在命令列中接受以下連線參數：
 
 與大多數其他 PostgreSQL 工具程式一樣，此工具也使用 libpq 所支援的環境變數（請參閱[第 34.14 節](../../client-interfaces/libpq-c-library/environment-variables.md)）。
 
-### 問題分析 
+## 問題分析
 
 如果遇到困難，請參閱 [VACUUM](../sql-commands/vacuum.md) 和 [psql](psql.md) 以了解潛在問題和錯誤訊息。資料庫伺服器必須在目標主機上執行。此外，將套用 libpq 前端函式庫使用的所有預設連線設定和環境變數。
 
-### 注意
+## 注意
 
 vacuumdb 可能需要多次連線到 PostgreSQL 伺服器，而每次都會要求輸入密碼。在這種情況下，有一個 ~/.pgpass 檔案的話會很方便。有關更多訊息，請參閱[第 34.15 節](../../client-interfaces/libpq-c-library/33.15.-mi-ma-dang.md)。
 
-### `範例`
+## `範例`
 
 要清理資料庫 test：
 
@@ -169,7 +169,7 @@ $ vacuumdb --analyze bigdb
 $ vacuumdb --analyze --verbose --table='foo(bar)' xyzzy
 ```
 
-### 參閱
+## 參閱
 
 [VACUUM](../sql-commands/vacuum.md)
 

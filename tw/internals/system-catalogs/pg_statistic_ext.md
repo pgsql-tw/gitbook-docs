@@ -2,11 +2,11 @@
 description: 版本：11
 ---
 
-# 52.51. pg\_statistic\_ext
+# 51.51. pg\_statistic\_ext
 
 目錄 pg\_statistic\_ext 包含了延伸的計劃程序統計資訊。此目錄中的每一個資料列相對應於使用 [CREATE STATISTICS](../../reference/sql-commands/create-statistics.md) 所建立的統計資訊物件。
 
-#### **Table 52.51. `pg_statistic_ext` Columns**
+## **Table 52.51. `pg_statistic_ext` Columns**
 
 | 欄位 | 型別 | 參考 | 說明 |
 | :--- | :--- | :--- | :--- |

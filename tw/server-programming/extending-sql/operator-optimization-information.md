@@ -94,11 +94,11 @@ Care should be exercised when preparing a hash function, because there are machi
 
 A hash-joinable operator must have a commutator \(itself if the two operand data types are the same, or a related equality operator if they are different\) that appears in the same operator family. If this is not the case, planner errors might occur when the operator is used. Also, it is a good idea \(but not strictly required\) for a hash operator family that supports multiple data types to provide equality operators for every combination of the data types; this allows better optimization.
 
-#### Note
+### Note
 
 The function underlying a hash-joinable operator must be marked immutable or stable. If it is volatile, the system will never attempt to use the operator for a hash join.
 
-#### Note
+### Note
 
 If a hash-joinable operator has an underlying function that is marked strict, the function must also be complete: that is, it should return true or false, never null, for any two nonnull inputs. If this rule is not followed, hash-optimization of `IN` operations might generate wrong results. \(Specifically, `IN` might return false where the correct answer according to the standard would be null; or it might yield an error complaining that it wasn't prepared for a null result.\)
 
@@ -112,7 +112,7 @@ To be marked `MERGES`, the join operator must appear as an equality member of a 
 
 A merge-joinable operator must have a commutator \(itself if the two operand data types are the same, or a related equality operator if they are different\) that appears in the same operator family. If this is not the case, planner errors might occur when the operator is used. Also, it is a good idea \(but not strictly required\) for a `btree` operator family that supports multiple data types to provide equality operators for every combination of the data types; this allows better optimization.
 
-#### Note
+### Note
 
 The function underlying a merge-joinable operator must be marked immutable or stable. If it is volatile, the system will never attempt to use the operator for a merge join.
 

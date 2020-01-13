@@ -47,7 +47,7 @@ CREATE AGGREGATE avg (float8)
 );
 ```
 
-#### Note
+## Note
 
 `float8_accum` requires a three-element array, not just two elements, because it accumulates the sum of squares as well as the sum and count of the inputs. This is so that it can be used for some other aggregates as well as `avg`.
 
@@ -55,9 +55,7 @@ Aggregate function calls in SQL allow `DISTINCT` and `ORDER BY` options that con
 
 For further details see the [CREATE AGGREGATE](https://www.postgresql.org/docs/11/sql-createaggregate.html) command.
 
-#### 38.11.1. Moving-Aggregate Mode
-
-
+## 38.11.1. Moving-Aggregate Mode
 
 Aggregate functions can optionally support _moving-aggregate mode_, which allows substantially faster execution of aggregate functions within windows with moving frame starting points. \(See [Section 3.5](https://www.postgresql.org/docs/11/tutorial-window.html) and [Section 4.2.8](https://www.postgresql.org/docs/11/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS) for information about use of aggregate functions as window functions.\) The basic idea is that in addition to a normal “forward” transition function, the aggregate provides an _inverse transition function_, which allows rows to be removed from the aggregate's running state value when they exit the window frame. For example a `sum` aggregate, which uses addition as the forward transition function, would use subtraction as the inverse transition function. Without an inverse transition function, the window function mechanism must recalculate the aggregate from scratch each time the frame starting point moves, resulting in run time proportional to the number of input rows times the average frame length. With an inverse transition function, the run time is only proportional to the number of input rows.
 
@@ -106,9 +104,7 @@ FROM (VALUES (1, 1.0e20::float8),
 
 This query returns `0` as its second result, rather than the expected answer of `1`. The cause is the limited precision of floating-point values: adding `1` to `1e20` results in `1e20` again, and so subtracting `1e20` from that yields `0`, not `1`. Note that this is a limitation of floating-point arithmetic in general, not a limitation of PostgreSQL.
 
-#### 38.11.2. Polymorphic and Variadic Aggregates
-
-
+## 38.11.2. Polymorphic and Variadic Aggregates
 
 Aggregate functions can use polymorphic state transition functions or final functions, so that the same functions can be used to implement multiple aggregates. See [Section 38.2.5](https://www.postgresql.org/docs/11/extend-type-system.html#EXTEND-TYPES-POLYMORPHIC) for an explanation of polymorphic functions. Going a step further, the aggregate function itself can be specified with polymorphic input type\(s\) and state type, allowing a single aggregate definition to serve for multiple input data types. Here is an example of a polymorphic aggregate:
 
@@ -168,7 +164,7 @@ Here, the `finalfunc_extra` option specifies that the final function receives, i
 
 An aggregate function can be made to accept a varying number of arguments by declaring its last argument as a `VARIADIC` array, in much the same fashion as for regular functions; see [Section 38.5.5](https://www.postgresql.org/docs/11/xfunc-sql.html#XFUNC-SQL-VARIADIC-FUNCTIONS). The aggregate's transition function\(s\) must have the same array type as their last argument. The transition function\(s\) typically would also be marked `VARIADIC`, but this is not strictly required.
 
-#### Note
+## Note
 
 Variadic aggregates are easily misused in connection with the `ORDER BY` option \(see[Section 4.2.7](https://www.postgresql.org/docs/11/sql-expressions.html#SYNTAX-AGGREGATES)\), since the parser cannot tell whether the wrong number of actual arguments have been given in such a combination. Keep in mind that everything to the right of `ORDER BY` is a sort key, not an argument to the aggregate. For example, in
 
@@ -186,9 +182,7 @@ If `myaggregate` is variadic, both these calls could be perfectly valid.
 
 For the same reason, it's wise to think twice before creating aggregate functions with the same names and different numbers of regular arguments.
 
-#### 38.11.3. Ordered-Set Aggregates
-
-
+## 38.11.3. Ordered-Set Aggregates
 
 The aggregates we have been describing so far are “normal” aggregates. PostgreSQL also supports _ordered-set aggregates_, which differ from normal aggregates in two key ways. First, in addition to ordinary aggregated arguments that are evaluated once per input row, an ordered-set aggregate can have “direct” arguments that are evaluated only once per aggregation operation. Second, the syntax for the ordinary aggregated arguments specifies a sort ordering for them explicitly. An ordered-set aggregate is usually used to implement a computation that depends on a specific row ordering, for instance rank or percentile, so that the sort ordering is a required aspect of any call. For example, the built-in definition of `percentile_disc` is equivalent to:
 
@@ -224,9 +218,7 @@ The state transition function for an ordered-set aggregate receives the current 
 
 Currently, ordered-set aggregates cannot be used as window functions, and therefore there is no need for them to support moving-aggregate mode.
 
-#### 38.11.4. Partial Aggregation
-
-
+## 38.11.4. Partial Aggregation
 
 Optionally, an aggregate function can support _partial aggregation_. The idea of partial aggregation is to run the aggregate's state transition function over different subsets of the input data independently, and then to combine the state values resulting from those subsets to produce the same state value that would have resulted from scanning all the input in a single operation. This mode can be used for parallel aggregation by having different worker processes scan different portions of a table. Each worker produces a partial state value, and at the end those state values are combined to produce a final state value. \(In the future this mode might also be used for purposes such as combining aggregations over local and remote tables; but that is not implemented yet.\)
 
@@ -244,9 +236,7 @@ A serialization function must take a single argument of type `internal` and retu
 
 Worth noting also is that for an aggregate to be executed in parallel, the aggregate itself must be marked `PARALLEL SAFE`. The parallel-safety markings on its support functions are not consulted.
 
-#### 38.11.5. Support Functions for Aggregates
-
-
+## 38.11.5. Support Functions for Aggregates
 
 A function written in C can detect that it is being called as an aggregate support function by calling `AggCheckCallContext`, for example:
 

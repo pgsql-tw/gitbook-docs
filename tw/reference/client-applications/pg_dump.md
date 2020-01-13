@@ -2,11 +2,11 @@
 
 pg\_dump — extract a PostgreSQL database into a script file or other archive file
 
-### Synopsis
+## Synopsis
 
 `pg_dump` \[_`connection-option`_...\] \[_`option`_...\] \[_`dbname`_\]
 
-### Description
+## Description
 
 pg\_dump is a utility for backing up a PostgreSQL database. It makes consistent backups even if the database is being used concurrently. pg\_dump does not block other users accessing the database \(readers or writers\).
 
@@ -20,7 +20,7 @@ When used with one of the archive file formats and combined with pg\_restore, pg
 
 While running pg\_dump, one should examine the output for any warnings \(printed on standard error\), especially in light of the limitations listed below.
 
-### Options
+## Options
 
 The following command-line options control the content and format of the output.
 
@@ -116,11 +116,11 @@ If you want to run a parallel dump of a pre-9.2 server, you need to make sure th
 
 Dump only schemas matching _`schema`_; this selects both the schema itself, and all its contained objects. When this option is not specified, all non-system schemas in the target database will be dumped. Multiple schemas can be selected by writing multiple `-n` switches. Also, the _`schema`_ parameter is interpreted as a pattern according to the same rules used by psql's `\d` commands \(see [Patterns](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-PATTERNS)\), so multiple schemas can also be selected by writing wildcard characters in the pattern. When using wildcards, be careful to quote the pattern if needed to prevent the shell from expanding the wildcards; see [Examples](https://www.postgresql.org/docs/11/app-pgdump.html#PG-DUMP-EXAMPLES).
 
-#### Note
+### Note
 
 When `-n` is specified, pg\_dump makes no attempt to dump any other database objects that the selected schema\(s\) might depend upon. Therefore, there is no guarantee that the results of a specific-schema dump can be successfully restored by themselves into a clean database.
 
-#### Note
+### Note
 
 Non-schema objects such as blobs are not dumped when `-n` is specified. You can add blobs back to the dump with the `--blobs` switch.
 
@@ -171,11 +171,11 @@ Dump only tables with names matching _`table`_. For this purpose, “table” in
 
 The `-n` and `-N` switches have no effect when `-t` is used, because tables selected by `-t` will be dumped regardless of those switches, and non-table objects will not be dumped.
 
-#### Note
+### Note
 
 When `-t` is specified, pg\_dump makes no attempt to dump any other database objects that the selected table\(s\) might depend upon. Therefore, there is no guarantee that the results of a specific-table dump can be successfully restored by themselves into a clean database.
 
-#### Note
+### Note
 
 The behavior of the `-t` switch is not entirely upward compatible with pre-8.2PostgreSQL versions. Formerly, writing `-t tab` would dump all tables named `tab`, but now it just dumps whichever one is visible in your default search path. To get the old behavior you can write `-t '*.tab'`. Also, you must write something like `-t sch.tab` to select a table in a particular schema, rather than the old locution of `-n sch -t tab`.`-T` _`table`_  
 `--exclude-table=`_`table`_
@@ -371,7 +371,7 @@ This option is never essential, since pg\_dump will automatically prompt for a p
 
 Specifies a role name to be used to create the dump. This option causes pg\_dump to issue a `SET ROLE` _`rolename`_ command after connecting to the database. It is useful when the authenticated user \(specified by `-U`\) lacks privileges needed by pg\_dump, but can switch to a role with the required rights. Some installations have a policy against logging in directly as a superuser, and use of this option allows dumps to be made without violating the policy.
 
-### Environment
+## Environment
 
 `PGDATABASE`  
 `PGHOST`  
@@ -383,13 +383,13 @@ Default connection parameters.
 
 This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 34.14](https://www.postgresql.org/docs/11/libpq-envars.html)\).
 
-### Diagnostics
+## Diagnostics
 
 pg\_dump internally executes `SELECT` statements. If you have problems running pg\_dump, make sure you are able to select information from the database using, for example, [psql](https://www.postgresql.org/docs/11/app-psql.html). Also, any default connection settings and environment variables used by the libpq front-end library will apply.
 
 The database activity of pg\_dump is normally collected by the statistics collector. If this is undesirable, you can set parameter `track_counts` to false via `PGOPTIONS` or the `ALTER USER` command.
 
-### Notes
+## Notes
 
 If your database cluster has any local additions to the `template1` database, be careful to restore the output of pg\_dump into a truly empty database; otherwise you are likely to get errors due to duplicate definitions of the added objects. To make an empty database without any local additions, copy from `template0` not `template1`, for example:
 
@@ -405,7 +405,7 @@ Because pg\_dump is used to transfer data to newer versions of PostgreSQL, the o
 
 When dumping logical replication subscriptions, pg\_dump will generate `CREATE SUBSCRIPTION` commands that use the `NOCONNECT` option, so that restoring the subscription does not make remote connections for creating a replication slot or for initial table copy. That way, the dump can be restored without requiring network access to the remote servers. It is then up to the user to reactivate the subscriptions in a suitable way. If the involved hosts have changed, the connection information might have to be changed. It might also be appropriate to truncate the target tables before initiating a new full table copy.
 
-### Examples
+## Examples
 
 To dump a database called `mydb` into a SQL-script file:
 
@@ -485,7 +485,7 @@ To specify an upper-case or mixed-case name in `-t` and related switches, you ne
 $ pg_dump -t "\"MixedCaseName\"" mydb > mytab.sql
 ```
 
-### See Also
+## See Also
 
 [pg\_dumpall](https://www.postgresql.org/docs/11/app-pg-dumpall.html), [pg\_restore](https://www.postgresql.org/docs/11/app-pgrestore.html), [psql](psql.md)
 

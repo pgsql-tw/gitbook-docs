@@ -2,7 +2,7 @@
 
 ALTER EXTENSION — change the definition of an extension
 
-### Synopsis
+## Synopsis
 
 ```text
 ALTER EXTENSION name UPDATE [ TO new_version ]
@@ -48,7 +48,7 @@ and aggregate_signature is:
 [ [ argmode ] [ argname ] argtype [ , ... ] ] ORDER BY [ argmode ] [ argname ] argtype [ , ... ]
 ```
 
-### Description
+## Description
 
 `ALTER EXTENSION` changes the definition of an installed extension. There are several subforms:`UPDATE`
 
@@ -64,7 +64,7 @@ See [Section 38.16](https://www.postgresql.org/docs/11/extend-extensions.html) f
 
 You must own the extension to use `ALTER EXTENSION`. The `ADD`/`DROP` forms require ownership of the added/dropped object as well.
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -100,7 +100,7 @@ The name of the data type of the transform._`lang_name`_
 
 The name of the language of the transform.
 
-### Examples
+## Examples
 
 To update the `hstore` extension to version 2.0:
 
@@ -120,11 +120,11 @@ To add an existing function to the `hstore` extension:
 ALTER EXTENSION hstore ADD FUNCTION populate_record(anyelement, hstore);
 ```
 
-### Compatibility
+## Compatibility
 
 `ALTER EXTENSION` is a PostgreSQL extension.
 
-### See Also
+## See Also
 
 [CREATE EXTENSION](create-extension.md), [DROP EXTENSION](drop-extension.md)
 

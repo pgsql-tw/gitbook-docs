@@ -2,7 +2,7 @@
 
 GRANT — 賦予存取權限
 
-### 語法
+## 語法
 
 ```text
 GRANT { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER }
@@ -73,7 +73,7 @@ where role_specification can be:
 GRANT role_name [, ...] TO role_name [, ...] [ WITH ADMIN OPTION ]
 ```
 
-### 說明
+## 說明
 
 GRANT 指令有兩個基本用法：一個是授予資料庫物件（資料表、欄位、檢視表、外部資料表、序列、資料庫、外部資料封裝、外部伺服器、函數、程序語言、綱要或資料表空間）的權限；另一個則是授予角色成員資格的人。這些用法在許多方面類似，但它們的不同之處將會單獨描述。
 
@@ -164,7 +164,7 @@ Grant all of the available privileges at once. The `PRIVILEGES` key word is opti
 
 The privileges required by other commands are listed on the reference page of the respective command.
 
-#### GRANT on Roles
+### GRANT on Roles
 
 This variant of the `GRANT` command grants membership in a role to one or more other roles. Membership in a role is significant because it conveys the privileges granted to a role to each of its members.
 
@@ -172,7 +172,7 @@ If `WITH ADMIN OPTION` is specified, the member can in turn grant membership in 
 
 Unlike the case with privileges, membership in a role cannot be granted to `PUBLIC`. Note also that this form of the command does not allow the noise word `GROUP`.
 
-### Notes
+## Notes
 
 The [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html) command is used to revoke access privileges.
 
@@ -243,7 +243,7 @@ If the “Access privileges” column is empty for a given object, it means the 
 
 Notice that the owner's implicit grant options are not marked in the access privileges display. A `*` will appear only when grant options have been explicitly granted to someone.
 
-### 範例
+## 範例
 
 把向資料表 film 插入資料的權限授予所有使用者：
 
@@ -265,7 +265,7 @@ GRANT ALL PRIVILEGES ON kinds TO manuel;
 GRANT admins TO joe;
 ```
 
-### 相容性
+## 相容性
 
 根據 SQL 標準，ALL PRIVILEGES 中的 PRIVILEGES 關鍵字是需要的。SQL 標準不支援在指令設定多個物件的權限。
 
@@ -279,7 +279,7 @@ SQL 標準為其他型別的物件提供 USAGE 權限：字元集，排序規則
 
 資料庫，資料表空間，綱要和語言的權限都是 PostgreSQL 的延伸功能。
 
-### 參閱
+## 參閱
 
 [REVOKE](revoke.md), [ALTER DEFAULT PRIVILEGES](alter-default-privileges.md)
 

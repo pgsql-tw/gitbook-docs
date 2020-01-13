@@ -211,7 +211,6 @@ The `regexp_split_to_array` function behaves the same as `regexp_split_to_table`
 Some examples:
 
 ```text
-
 SELECT foo FROM regexp_split_to_table('the quick brown fox jumps over the lazy dog', '\s+') AS foo;
   foo   
 -------

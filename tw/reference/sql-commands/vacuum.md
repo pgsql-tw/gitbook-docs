@@ -2,7 +2,7 @@
 
 VACUUM — 資源回收並且選擇性地重整資料庫
 
-### 語法
+## 語法
 
 ```text
 VACUUM [ ( { FULL | FREEZE | VERBOSE | ANALYZE | DISABLE_PAGE_SKIPPING } [, ...] ) ]
@@ -12,7 +12,7 @@ VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ]
        ANALYZE [ table_name [ (column_name [, ...] ) ] ]
 ```
 
-### 說明
+## 說明
 
 VACUUM 回收不再使用的儲存空間。在普通的 PostgreSQL 操作中，被刪除或被更新的儲存空間實際上並不會真實在磁碟上刪除；它們會一直存在，直到 VACUUM 完成。因此，必須定期執行 VACUUM，尤其是在經常更新的資料表上。
 
@@ -24,7 +24,7 @@ VACUUM ANALYZE 為每個選定的資料表執行 VACUUM 然後進行 ANALYZE 分
 
 當選項列表被括號包圍時，選項可以按任意順序書寫。如果沒有括號，必須按照上面所示的順序指定選項。PostgreSQL 9.0 中加入了括號語法；未使用括號的語法已被棄用。
 
-### 參數
+## 參數
 
 `FULL`
 
@@ -54,11 +54,11 @@ _`column_name`_
 
 要分析的特定欄位的名稱。預設為所有欄位。 如果指定了列表，則隱含 ANALYZE。
 
-### 輸出
+## 輸出
 
 當指定 VERBOSE 時，VACUUM 發出進度訊息以表示目前正在處理哪個資料表。有關資料表的各種統計訊息也會顯示出來。
 
-### 注意
+## 注意
 
 要清理資料表，通常必須是資料表的擁有者或超級使用者。但是，資料庫擁有者可以清理資料庫中的所有資料表，共享目錄除外。（對共享目錄的限制意味著真正的資料庫範圍內的 VACUUM 只能由超級使用者執行。）VACUUM 將跳過無權清理的所有資料表。
 
@@ -74,7 +74,7 @@ VACUUM 會導致 I/O 流量大幅增加，這可能會導致其他連線活動�
 
 PostgreSQL 內含一個「autovacuum」工具，可以自動執行常態的清理維護。有關自動和手動清理的更多訊息，請參閱[第 24.1 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md)。
 
-### 範例
+## 範例
 
 要清理單個資料表，請為其進行最佳化程序分析並輸出詳細的清理活動報告：
 
@@ -82,11 +82,11 @@ PostgreSQL 內含一個「autovacuum」工具，可以自動執行常態的清�
 VACUUM (VERBOSE, ANALYZE) onek;
 ```
 
-### 相容性
+## 相容性
 
 SQL 標準中並沒有 VACUUM 語句。
 
-### 參閱
+## 參閱
 
 [vacuumdb](../client-applications/vacuumdb.md), [19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon)
 

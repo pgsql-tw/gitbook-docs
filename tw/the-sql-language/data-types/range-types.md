@@ -84,7 +84,7 @@ Each bound value can be quoted using `"` \(double quote\) characters. This is ne
 
 Whitespace is allowed before and after the range value, but any whitespace between the parentheses or brackets is taken as part of the lower or upper bound value. \(Depending on the element type, it might or might not be significant.\)
 
-#### Note
+### Note
 
 These rules are very similar to those for writing field values in composite-type literals. See [Section 8.16.6](https://www.postgresql.org/docs/11/rowtypes.html#ROWTYPES-IO-SYNTAX) for additional commentary.
 
@@ -173,8 +173,6 @@ See [CREATE TYPE](https://www.postgresql.org/docs/11/sql-createtype.html) for mo
 
 ## 8.17.9. Indexing
 
-
-
 GiST and SP-GiST indexes can be created for table columns of range types. For instance, to create a GiST index:
 
 ```text
@@ -186,8 +184,6 @@ A GiST or SP-GiST index can accelerate queries involving these range operators: 
 In addition, B-tree and hash indexes can be created for table columns of range types. For these index types, basically the only useful range operation is equality. There is a B-tree sort ordering defined for range values, with corresponding `<` and `>` operators, but the ordering is rather arbitrary and not usually useful in the real world. Range types' B-tree and hash support is primarily meant to allow sorting and hashing internally in queries, rather than creation of actual indexes.
 
 ## 8.17.10. Constraints on Ranges
-
-
 
 While `UNIQUE` is a natural constraint for scalar values, it is usually unsuitable for range types. Instead, an exclusion constraint is often more appropriate \(see [CREATE TABLE ... CONSTRAINT ... EXCLUDE](https://www.postgresql.org/docs/11/sql-createtable.html#SQL-CREATETABLE-EXCLUDE)\). Exclusion constraints allow the specification of constraints such as “non-overlapping” on a range type. For example:
 

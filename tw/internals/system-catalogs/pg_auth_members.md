@@ -1,4 +1,4 @@
-# 52.9. pg\_auth\_members
+# 51.9. pg\_auth\_members
 
 目錄 pg\_auth\_members 顯示角色之間的成員資格關連。允許任何非循環的關連。
 
@@ -11,5 +11,5 @@
 | `roleid` | `oid` | \`\`[`pg_authid`](pg_authid.md).oid | 具有成員的角色 ID |
 | `member` | `oid` | [`pg_authid`](pg_authid.md).oid | 作為 roleid 成員的角色 ID |
 | `grantor` | `oid` | \`\`[`pg_authid`](pg_authid.md).oid | 授予此成員資格的角色 ID |
-| `admin_option` | `bool` |   | 如果成員可以將 roleid 的成員資格授予其他人，則為 True |
+| `admin_option` | `bool` |  | 如果成員可以將 roleid 的成員資格授予其他人，則為 True |
 

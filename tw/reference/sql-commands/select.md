@@ -6,7 +6,7 @@ description: 版本：11
 
 SELECT, TABLE, WITH — 從資料表或檢視表中檢索資料列
 
-### 語法
+## 語法
 
 ```text
 [ WITH [ RECURSIVE ] with_query [, ...] ]
@@ -54,7 +54,7 @@ and with_query is:
 TABLE [ ONLY ] table_name [ * ]
 ```
 
-### 說明
+## 說明
 
 SELECT 從零個或多個資料表中檢索資料列。SELECT 的一般處理如下：
 
@@ -71,9 +71,9 @@ SELECT 從零個或多個資料表中檢索資料列。SELECT 的一般處理如
 
 您必須對 SELECT 指令中使用的每個欄位具有 SELECT 權限。FOR NO KEY UPDATE、FOR UPDATE、FOR SHARE 或 FOR KEY SHARE 的使用也需要 UPDATE 權限（對於如此選擇的每個資料表的至少一個欄位）。
 
-### 子句
+## 子句
 
-#### `WITH` 子句
+### `WITH` 子句
 
 WITH 子句可以讓您指定一個或多個子查詢，這些子查詢可以在主查詢中以名稱引用。子查詢在主查詢的存續時間內有效地充當臨時資料表或檢視表。每個子查詢可以是 SELECT、TABLE、VALUES、INSERT、UPDATE 或 DELETE 語句。在 WITH 中使用資料變更語句（INSERT、UPDATE 或 DELETE）時，通常會包含 RETURNING 子句。它作為 RETURNING 的輸出，而不是語句修改的基礎資料表，它會構成主查詢所讀取的臨時資料表。 如果省略 RETURNING，則仍會執行該語句，但不會產生任何輸出，因此主查詢就不能將其作為資料表所引用。
 
@@ -95,7 +95,7 @@ WITH 查詢的一個關鍵屬性是，每次執行主查詢時，它們只會被
 
 有關其他資訊，請參閱[第 7.8 節](../../the-sql-language/queries/with-queries.md)。
 
-#### `FROM` Clause
+### `FROM` Clause
 
 FROM子句為SELECT指定一個或多個來源資料表。如果指定了多個來源，則結果是所有來源的 Cartesian product（cross join）。但通常會加上過濾條件（透過 WHERE），將回傳的資料列限制在其中一小部分。
 
@@ -181,7 +181,7 @@ When a `FROM` item contains `LATERAL` cross-references, evaluation proceeds as f
 
 The column source table\(s\) must be `INNER` or `LEFT` joined to the `LATERAL` item, else there would not be a well-defined set of rows from which to compute each set of rows for the `LATERAL` item. Thus, although a construct such as _`X`_ RIGHT JOIN LATERAL _`Y`_ is syntactically valid, it is not actually allowed for _`Y`_ to reference _`X`_.
 
-#### `WHERE` Clause
+### `WHERE` Clause
 
 The optional `WHERE` clause has the general form
 
@@ -191,7 +191,7 @@ WHERE condition
 
 where _`condition`_ is any expression that evaluates to a result of type `boolean`. Any row that does not satisfy this condition will be eliminated from the output. A row satisfies the condition if it returns true when the actual row values are substituted for any variable references.
 
-#### `GROUP BY` Clause
+### `GROUP BY` Clause
 
 The optional `GROUP BY` clause has the general form
 
@@ -211,7 +211,7 @@ Keep in mind that all aggregate functions are evaluated before evaluating any �
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified with `GROUP BY`.
 
-#### `HAVING` Clause
+### `HAVING` Clause
 
 The optional `HAVING` clause has the general form
 
@@ -227,7 +227,7 @@ The presence of `HAVING` turns a query into a grouped query even if there is no 
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified with `HAVING`.
 
-#### `WINDOW` Clause
+### `WINDOW` Clause
 
 The optional `WINDOW` clause has the general form
 
@@ -279,7 +279,7 @@ Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` ca
 
 Window functions are described in detail in [Section 3.5](https://www.postgresql.org/docs/10/static/tutorial-window.html), [Section 4.2.8](https://www.postgresql.org/docs/10/static/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS), and [Section 7.2.5](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#QUERIES-WINDOW).
 
-#### `SELECT` List
+### `SELECT` List
 
 The `SELECT` list \(between the key words `SELECT` and `FROM`\) specifies expressions that form the output rows of the `SELECT` statement. The expressions can \(and usually do\) refer to columns computed in the `FROM` clause.
 
@@ -291,11 +291,11 @@ Instead of an expression, `*` can be written in the output list as a shorthand f
 
 According to the SQL standard, the expressions in the output list should be computed before applying `DISTINCT`, `ORDER BY`, or `LIMIT`. This is obviously necessary when using `DISTINCT`, since otherwise it's not clear what values are being made distinct. However, in many cases it is convenient if output expressions are computed after `ORDER BY` and `LIMIT`; particularly if the output list contains any volatile or expensive functions. With that behavior, the order of function evaluations is more intuitive and there will not be evaluations corresponding to rows that never appear in the output. PostgreSQL will effectively evaluate output expressions after sorting and limiting, so long as those expressions are not referenced in `DISTINCT`, `ORDER BY` or `GROUP BY`. \(As a counterexample, `SELECT f(x) FROM tab ORDER BY 1` clearly must evaluate `f(x)` before sorting.\) Output expressions that contain set-returning functions are effectively evaluated after sorting and before limiting, so that `LIMIT` will act to cut off the output from a set-returning function.
 
-#### Note
+### Note
 
 PostgreSQL versions before 9.6 did not provide any guarantees about the timing of evaluation of output expressions versus sorting and limiting; it depended on the form of the chosen query plan.
 
-#### `DISTINCT` Clause
+### `DISTINCT` Clause
 
 If `SELECT DISTINCT` is specified, all duplicate rows are removed from the result set \(one row is kept from each group of duplicates\). `SELECT ALL` specifies the opposite: all rows are kept; that is the default.
 
@@ -313,7 +313,7 @@ The `DISTINCT ON` expression\(s\) must match the leftmost `ORDER BY` expression\
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified with `DISTINCT`.
 
-#### `UNION` Clause
+### `UNION` Clause
 
 The `UNION` clause has this general form:
 
@@ -331,7 +331,7 @@ Multiple `UNION` operators in the same `SELECT` statement are evaluated left to 
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified either for a `UNION` result or for any input of a `UNION`.
 
-#### `INTERSECT` Clause
+### `INTERSECT` Clause
 
 The `INTERSECT` clause has this general form:
 
@@ -349,7 +349,7 @@ Multiple `INTERSECT` operators in the same `SELECT` statement are evaluated left
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified either for an `INTERSECT` result or for any input of an `INTERSECT`.
 
-#### `EXCEPT` Clause
+### `EXCEPT` Clause
 
 The `EXCEPT` clause has this general form:
 
@@ -367,7 +367,7 @@ Multiple `EXCEPT` operators in the same `SELECT` statement are evaluated left to
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified either for an `EXCEPT` result or for any input of an `EXCEPT`.
 
-#### `ORDER BY` Clause
+### `ORDER BY` Clause
 
 The optional `ORDER BY` clause has this general form:
 
@@ -399,7 +399,7 @@ Note that ordering options apply only to the expression they follow; for example
 
 Character-string data is sorted according to the collation that applies to the column being sorted. That can be overridden at need by including a `COLLATE` clause in the _`expression`_, for example `ORDER BY mycolumn COLLATE "en_US"`. For more information see [Section 4.2.10](https://www.postgresql.org/docs/10/static/sql-expressions.html#SQL-SYNTAX-COLLATE-EXPRS) and[Section 23.2](https://www.postgresql.org/docs/10/static/collation.html).
 
-#### `LIMIT` Clause
+### `LIMIT` Clause
 
 The `LIMIT` clause consists of two independent sub-clauses:
 
@@ -427,7 +427,7 @@ The query planner takes `LIMIT` into account when generating a query plan, so yo
 
 It is even possible for repeated executions of the same `LIMIT` query to return different subsets of the rows of a table, if there is not an `ORDER BY` to enforce selection of a deterministic subset. Again, this is not a bug; determinism of the results is simply not guaranteed in such a case.
 
-#### The Locking Clause
+### The Locking Clause
 
 `FOR UPDATE`, `FOR NO KEY UPDATE`, `FOR SHARE` and `FOR KEY SHARE` are _locking clauses_; they affect how `SELECT` locks rows as they are obtained from the table.
 
@@ -478,7 +478,7 @@ ROLLBACK TO s;
 
 would fail to preserve the `FOR UPDATE` lock after the `ROLLBACK TO`. This has been fixed in release 9.3.
 
-#### Caution
+### Caution
 
 It is possible for a `SELECT` command running at the `READ COMMITTED` transaction isolation level and using `ORDER BY` and a locking clause to return rows out of order. This is because `ORDER BY` is applied first. The command sorts the result, but might then block trying to obtain a lock on one or more of the rows. Once the `SELECT` unblocks, some of the ordering column values might have been modified, leading to those rows appearing to be out of order \(though they are in order in terms of the original column values\). This can be worked around at need by placing the `FOR UPDATE/SHARE` clause in a sub-query, for example
 
@@ -490,7 +490,7 @@ Note that this will result in locking all rows of `mytable`, whereas `FOR UPDATE
 
 At the `REPEATABLE READ` or `SERIALIZABLE` transaction isolation level this would cause a serialization failure \(with a `SQLSTATE` of `'40001'`\), so there is no possibility of receiving rows out of order under these isolation levels.
 
-#### `TABLE` Command
+### `TABLE` Command
 
 The command
 
@@ -506,7 +506,7 @@ SELECT * FROM name
 
 It can be used as a top-level command or as a space-saving syntax variant in parts of complex queries. Only the `WITH`, `UNION`, `INTERSECT`, `EXCEPT`, `ORDER BY`, `LIMIT`, `OFFSET`, `FETCH` and `FOR` locking clauses can be used with `TABLE`; the `WHERE` clause and any form of aggregation cannot be used.
 
-### 範例
+## 範例
 
 要讓資料表 films 與資料表 distributors 進行交叉查詢的話：
 
@@ -692,11 +692,11 @@ SELECT m.name AS mname, pname
 FROM manufacturers m LEFT JOIN LATERAL get_product_names(m.id) pname ON true;
 ```
 
-### Compatibility
+## Compatibility
 
 Of course, the `SELECT` statement is compatible with the SQL standard. But there are some extensions and some missing features.
 
-#### Omitted `FROM` Clauses
+### Omitted `FROM` Clauses
 
 PostgreSQL allows one to omit the `FROM` clause. It has a straightforward use to compute the results of simple expressions:
 
@@ -718,17 +718,17 @@ SELECT distributors.* WHERE distributors.name = 'Westward';
 
 PostgreSQL releases prior to 8.1 would accept queries of this form, and add an implicit entry to the query's `FROM` clause for each table referenced by the query. This is no longer allowed.
 
-#### Empty `SELECT` Lists
+### Empty `SELECT` Lists
 
 The list of output expressions after `SELECT` can be empty, producing a zero-column result table. This is not valid syntax according to the SQL standard. PostgreSQL allows it to be consistent with allowing zero-column tables. However, an empty list is not allowed when `DISTINCT` is used.
 
-#### Omitting the `AS` Key Word
+### Omitting the `AS` Key Word
 
 In the SQL standard, the optional key word `AS` can be omitted before an output column name whenever the new column name is a valid column name \(that is, not the same as any reserved keyword\). PostgreSQL is slightly more restrictive: `AS` is required if the new column name matches any keyword at all, reserved or not. Recommended practice is to use `AS` or double-quote output column names, to prevent any possible conflict against future keyword additions.
 
 In `FROM` items, both the standard and PostgreSQL allow `AS` to be omitted before an alias that is an unreserved keyword. But this is impractical for output column names, because of syntactic ambiguities.
 
-#### `ONLY` and Inheritance
+### `ONLY` and Inheritance
 
 The SQL standard requires parentheses around the table name when writing `ONLY`, for example `SELECT * FROM ONLY (tab1), ONLY (tab2) WHERE ...`. PostgreSQL considers these parentheses to be optional.
 
@@ -736,37 +736,37 @@ PostgreSQL allows a trailing `*` to be written to explicitly specify the non-`ON
 
 \(These points apply equally to all SQL commands supporting the `ONLY` option.\)
 
-#### `TABLESAMPLE` Clause Restrictions
+### `TABLESAMPLE` Clause Restrictions
 
 The `TABLESAMPLE` clause is currently accepted only on regular tables and materialized views. According to the SQL standard it should be possible to apply it to any `FROM` item.
 
-#### Function Calls in `FROM`
+### Function Calls in `FROM`
 
 PostgreSQL allows a function call to be written directly as a member of the `FROM` list. In the SQL standard it would be necessary to wrap such a function call in a sub-`SELECT`; that is, the syntax `FROM`_`func`_\(...\) _`alias`_ is approximately equivalent to `FROM LATERAL (SELECT` _`func`_\(...\)\) _`alias`_. Note that `LATERAL` is considered to be implicit; this is because the standard requires `LATERAL` semantics for an `UNNEST()` item in `FROM`. PostgreSQL treats `UNNEST()` the same as other set-returning functions.
 
-#### Namespace Available to `GROUP BY` and `ORDER BY`
+### Namespace Available to `GROUP BY` and `ORDER BY`
 
 In the SQL-92 standard, an `ORDER BY` clause can only use output column names or numbers, while a `GROUP BY` clause can only use expressions based on input column names. PostgreSQL extends each of these clauses to allow the other choice as well \(but it uses the standard's interpretation if there is ambiguity\). PostgreSQL also allows both clauses to specify arbitrary expressions. Note that names appearing in an expression will always be taken as input-column names, not as output-column names.
 
 SQL:1999 and later use a slightly different definition which is not entirely upward compatible with SQL-92. In most cases, however, PostgreSQL will interpret an `ORDER BY` or `GROUP BY` expression the same way SQL:1999 does.
 
-#### Functional Dependencies
+### Functional Dependencies
 
 PostgreSQL recognizes functional dependency \(allowing columns to be omitted from `GROUP BY`\) only when a table's primary key is included in the `GROUP BY` list. The SQL standard specifies additional conditions that should be recognized.
 
-#### `LIMIT` and `OFFSET`
+### `LIMIT` and `OFFSET`
 
 The clauses `LIMIT` and `OFFSET` are PostgreSQL-specific syntax, also used by MySQL. The SQL:2008 standard has introduced the clauses `OFFSET ... FETCH {FIRST|NEXT} ...` for the same functionality, as shown above in [`LIMIT` Clause](https://www.postgresql.org/docs/current/static/sql-select.html#SQL-LIMIT). This syntax is also used by IBM DB2. \(Applications written for Oracle frequently use a workaround involving the automatically generated `rownum`column, which is not available in PostgreSQL, to implement the effects of these clauses.\)
 
-#### `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE`, `FOR KEY SHARE`
+### `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE`, `FOR KEY SHARE`
 
 Although `FOR UPDATE` appears in the SQL standard, the standard allows it only as an option of `DECLARE CURSOR`. PostgreSQL allows it in any `SELECT` query as well as in sub-`SELECT`s, but this is an extension. The `FOR NO KEY UPDATE`, `FOR SHARE` and `FOR KEY SHARE` variants, as well as the `NOWAIT` and `SKIP LOCKED` options, do not appear in the standard.
 
-#### Data-Modifying Statements in `WITH`
+### Data-Modifying Statements in `WITH`
 
 PostgreSQL allows `INSERT`, `UPDATE`, and `DELETE` to be used as `WITH` queries. This is not found in the SQL standard.
 
-#### Nonstandard Clauses
+### Nonstandard Clauses
 
 `DISTINCT ON ( ... )` is an extension of the SQL standard.
 

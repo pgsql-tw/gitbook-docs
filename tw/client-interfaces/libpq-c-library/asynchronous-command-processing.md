@@ -82,7 +82,7 @@ PGresult *PQgetResult(PGconn *conn);
 
 `PQgetResult` must be called repeatedly until it returns a null pointer, indicating that the command is done. \(If called when no command is active, `PQgetResult` will just return a null pointer at once.\) Each non-null result from `PQgetResult` should be processed using the same `PGresult` accessor functions previously described. Don't forget to free each result object with `PQclear` when done with it. Note that `PQgetResult` will block only if a command is active and the necessary response data has not yet been read by `PQconsumeInput`.
 
-#### Note
+## Note
 
 Even when `PQresultStatus` indicates a fatal error, `PQgetResult` should be called until it returns a null pointer, to allow libpq to process the error information completely.
 

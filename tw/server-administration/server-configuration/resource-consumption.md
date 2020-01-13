@@ -110,9 +110,9 @@
 
 累積成本將導致清理程序進入睡眠狀態。預設值為 200。
 
-#### 注意
+### 注意
 
-某些操作可能會持有關鍵的鎖定，因此應盡快完成。在此類操作期間不會發生成本考量的清理延遲。因此，成本可能會遠遠高於指定的限制。為了避免在這種情況下無意義的長延遲，實際延遲計算為 vacuum\_cost\_delay  __\* cumulative\_balance / vacuum\_cost\_limit，最大為 vacuum\_cost\_delay _\*_ 4。
+某些操作可能會持有關鍵的鎖定，因此應盡快完成。在此類操作期間不會發生成本考量的清理延遲。因此，成本可能會遠遠高於指定的限制。為了避免在這種情況下無意義的長延遲，實際延遲計算為 vacuum\_cost\_delay _\_\* cumulative\_balance / vacuum\_cost\_limit，最大為 vacuum\_cost\_delay_ \*\_ 4。
 
 ## 19.4.5. 背景寫入程序
 
@@ -162,7 +162,7 @@ bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減�
 
 請注意，平行查詢可能比非平行查詢消耗的資源要多得多，因為每個工作程序都是一個完全獨立的程序，與其他使用者連線對系統的影響大致相同。在為此設定選擇值時，以及在配置控制資源利用率的其他設定（例如work\_mem）時，應考慮這一點。 諸如 work\_mem 之類的資源限制被單獨應用於每個工作程序，這意味著所有程序的總利用率可能比通常用於任何單個程序的總利用率高得多。例如，使用 4 個工作程序的平行查詢可能會使用高達 5 倍的 CPU 時間、記憶體、I/O 頻寬等作為根本不使用工作程序的查詢。
 
-有關平行查詢的更多訊息，請參閱[第 15 章](../../the-sql-language/15.-ping-hang-cha-xun/)。
+有關平行查詢的更多訊息，請參閱[第 15 章](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/the-sql-language/15.-ping-hang-cha-xun)。
 
 `max_parallel_workers` \(`integer`\)
 

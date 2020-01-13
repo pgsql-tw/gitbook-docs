@@ -2,7 +2,7 @@
 
 CREATE ROLE — 定義一個新的資料庫角色
 
-### 語法
+## 語法
 
 ```text
 CREATE ROLE name [ [ WITH ] option [ ... ] ]
@@ -27,13 +27,13 @@ where option can be:
     | SYSID uid
 ```
 
-### 說明
+## 說明
 
-`CREATE ROLE 將新的角色加到 PostgreSQL 資料庫叢集之中。角色是可以擁有資料庫物件並具有資料庫權限的實體；根據使用方式的不同，角色可以被視為「使用者」、「群組」或是兩者兼具。有關管理使用者和身份驗證的訊息，請參閱`[`第 21 章`](../../server-administration/21.-zi-liao-ku-jiao-se/)`和`[`第 20 章`](../../server-administration/client-authentication/)`。 您必須具有 CREATEROLE 權限或成為資料庫的超級使用者才能使用此命令。`
+`CREATE ROLE 將新的角色加到 PostgreSQL 資料庫叢集之中。角色是可以擁有資料庫物件並具有資料庫權限的實體；根據使用方式的不同，角色可以被視為「使用者」、「群組」或是兩者兼具。有關管理使用者和身份驗證的訊息，請參閱`[`第 21 章`](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/server-administration/21.-zi-liao-ku-jiao-se)`和`[`第 20 章`](../../server-administration/client-authentication/)`。 您必須具有 CREATEROLE 權限或成為資料庫的超級使用者才能使用此命令。`
 
 請注意，角色是在資料庫叢集等級所定義的，因此在叢集中的所有資料庫中都是有效的。
 
-### 參數
+## 參數
 
 _`name`_
 
@@ -82,7 +82,7 @@ _`name`_
 
 設定角色的密碼。（密碼僅用於具有 LOGIN 屬性的角色，但您可以為沒有密碼的角色定義密碼。）如果您不打算使用密碼驗證，則可以省略此選項。如果未指定密碼，則密碼將設定為 NULL，而該使用者的密碼驗證將始終失敗。可以選擇將空密碼明確寫為PASSWORD NULL。
 
-#### 提醒
+### 提醒
 
 **指定一個空字串也會將密碼設定為 NULL，但 PostgreSQL 版本 10 之前並不是這種情況。在早期版本中，可以使用或不使用空字串，具體取決於身份驗證方法和確切版本，libpq 會拒絕在任何情況下使用它。為避免歧義，應避免指定空字串。**
 
@@ -116,7 +116,7 @@ USER 子句是 ROLE 子句的過時寫法。
 
 SYSID 子句會被忽略，但為了相容性而被接受。
 
-### 注意
+## 注意
 
 使用 [ALTER ROLE](alter-role.md) 變更改角色的屬性，使用 [DROP ROLE](drop-role.md) 刪除角色。所有由CREATE ROLE 指定的屬性都可以在後面的 ALTER ROLE 命令中修改。
 
@@ -136,7 +136,7 @@ CONNECTION LIMIT 選項只是大略地執行；如果兩個新的連線幾乎同
 
 使用此命令指定未加密的密碼時必須謹慎行事。密碼將以明文形式傳輸到伺服器，並且還可能會記錄在用戶端的命令歷史記錄或伺服器日誌中。但是，[createuser](../client-applications/createuser.md) 指令會傳輸加密的密碼。此外，[psql](../client-applications/psql.md) 還包含一個命令 \password，可用於安全地更改密碼。
 
-### 範例
+## 範例
 
 建立一個可以登入的角色，但不要給它一個密碼：
 
@@ -164,7 +164,7 @@ CREATE ROLE miriam WITH LOGIN PASSWORD 'jw8s0F4' VALID UNTIL '2005-01-01';
 CREATE ROLE admin WITH CREATEDB CREATEROLE;
 ```
 
-### 相容性
+## 相容性
 
 CREATE ROLE 語句在 SQL 標準中，只有簡單的語法標準。
 
@@ -178,7 +178,7 @@ SQL 標準定義了使用者和角色的概念，且將它們視為不同的概�
 
 由 SQL 標準指定的行為最接近於給予使用者 NOINHERIT 屬性，而角色則賦予了 INHERIT 屬性。
 
-### 參閱
+## 參閱
 
 [SET ROLE](set-role.md), [ALTER ROLE](alter-role.md), [DROP ROLE](drop-role.md), [GRANT](grant.md), [REVOKE](revoke.md), [createuser](../client-applications/createuser.md)
 

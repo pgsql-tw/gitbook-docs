@@ -41,7 +41,7 @@ PERFORM query;
 
 This executes _`query`_ and discards the result. Write the _`query`_ the same way you would write an SQL `SELECT` command, but replace the initial keyword `SELECT` with `PERFORM`. For `WITH` queries, use `PERFORM` and then place the query in parentheses. \(In this case, the query can only return one row.\) PL/pgSQL variables will be substituted into the query just as for commands that return no result, and the plan is cached in the same way. Also, the special variable `FOUND` is set to true if the query produced at least one row, or false if it produced no rows \(see [Section 43.5.5](https://www.postgresql.org/docs/11/plpgsql-statements.html#PLPGSQL-STATEMENTS-DIAGNOSTICS)\).
 
-#### Note
+### Note
 
 One might expect that writing `SELECT` directly would accomplish this result, but at present the only accepted way to do it is `PERFORM`. A SQL command that can return rows, such as `SELECT`, will be rejected as an error unless it has an `INTO` clause as discussed in the next section.
 
@@ -52,8 +52,6 @@ PERFORM create_mv('cs_session_page_requests_mv', my_query);
 ```
 
 ## 43.5.3. Executing a Query with a Single-row Result
-
-
 
 The result of a SQL command yielding a single row \(possibly of multiple columns\) can be assigned to a record variable, row-type variable, or list of scalar variables. This is done by writing the base SQL command and adding an `INTO` clause. For example,
 
@@ -66,7 +64,7 @@ DELETE ... RETURNING expressions INTO [STRICT] target;
 
 where _`target`_ can be a record variable, a row variable, or a comma-separated list of simple variables and record/row fields. PL/pgSQL variables will be substituted into the rest of the query, and the plan is cached, just as described above for commands that do not return rows. This works for `SELECT`, `INSERT`/`UPDATE`/`DELETE` with `RETURNING`, and utility commands that return row-set results \(such as `EXPLAIN`\). Except for the `INTO` clause, the SQL command is the same as it would be written outside PL/pgSQL.
 
-#### Tip
+### Tip
 
 Note that this interpretation of `SELECT` with `INTO` is quite different from PostgreSQL's regular `SELECT INTO` command, wherein the `INTO` target is a newly created table. If you want to create a table from a `SELECT` result inside a PL/pgSQL function, use the syntax`CREATE TABLE ... AS SELECT`.
 
@@ -124,7 +122,7 @@ DETAIL:  parameters: $1 = 'nosuchuser'
 CONTEXT:  PL/pgSQL function get_userid(text) line 6 at SQL statement
 ```
 
-#### Note
+### Note
 
 The `STRICT` option matches the behavior of Oracle PL/SQL's `SELECT INTO` and related statements.
 
@@ -181,11 +179,11 @@ An `EXECUTE` with a simple constant command string and some `USING` parameters, 
 
 `SELECT INTO` is not currently supported within `EXECUTE`; instead, execute a plain `SELECT` command and specify `INTO` as part of the `EXECUTE` itself.
 
-#### Note
+### Note
 
 The PL/pgSQL `EXECUTE` statement is not related to the [EXECUTE](https://www.postgresql.org/docs/11/sql-execute.html) SQL statement supported by the PostgreSQL server. The server's `EXECUTE` statement cannot be used directly within PL/pgSQL functions \(and is not needed\).
 
-#### **Example 43.1. Quoting Values In Dynamic Queries**
+### **Example 43.1. Quoting Values In Dynamic Queries**
 
 When working with dynamic commands you will often have to handle escaping of single quotes. The recommended method for quoting fixed text in your function body is dollar quoting. \(If you have legacy code that does not use dollar quoting, please refer to the overview in [Section 43.12.1](https://www.postgresql.org/docs/11/plpgsql-development-tips.html#PLPGSQL-QUOTE-TIPS), which can save you some effort when translating said code to a more reasonable scheme.\)
 
@@ -263,8 +261,7 @@ EXECUTE format('UPDATE tbl SET %I = $1 WHERE key = $2', colname)
    USING newvalue, keyvalue;
 ```
 
-This form is better because the variables are handled in their native data type format, rather than unconditionally converting them to text and quoting them via `%L`. It is also more efficient.  
-
+This form is better because the variables are handled in their native data type format, rather than unconditionally converting them to text and quoting them via `%L`. It is also more efficient.
 
 A much larger example of a dynamic command and `EXECUTE` can be seen in [Example 43.10](https://www.postgresql.org/docs/11/plpgsql-porting.html#PLPGSQL-PORTING-EX2), which builds and executes a `CREATE FUNCTION` command to define a new function.
 
@@ -282,7 +279,7 @@ This command allows retrieval of system status indicators. `CURRENT` is a noise 
 GET DIAGNOSTICS integer_var = ROW_COUNT;
 ```
 
-#### **Table 43.1. Available Diagnostics Items**
+### **Table 43.1. Available Diagnostics Items**
 
 | Name | Type | Description |
 | :--- | :--- | :--- |
@@ -333,7 +330,7 @@ END;
 
 Which is preferable is a matter of taste.
 
-#### Note
+### Note
 
 In Oracle's PL/SQL, empty statement lists are not allowed, and so `NULL` statements are_required_ for situations such as this. PL/pgSQL allows you to just write nothing, instead.
 

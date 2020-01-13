@@ -2,7 +2,7 @@
 
 CREATE EXTENSION — 安裝延伸套件
 
-### 語法
+## 語法
 
 ```text
 CREATE EXTENSION [ IF NOT EXISTS ] extension_name
@@ -12,7 +12,7 @@ CREATE EXTENSION [ IF NOT EXISTS ] extension_name
              [ CASCADE ]
 ```
 
-### Description
+## Description
 
 `CREATE EXTENSION` loads a new extension into the current database. There must not be an extension of the same name already loaded.
 
@@ -20,7 +20,7 @@ Loading an extension essentially amounts to running the extension's script file.
 
 Loading an extension requires the same privileges that would be required to create its component objects. For most extensions this means superuser or database owner privileges are needed. The user who runs `CREATE EXTENSION` becomes the owner of the extension for purposes of later privilege checks, as well as the owner of any objects created by the extension's script.
 
-### Parameters
+## Parameters
 
 `IF NOT EXISTS`
 
@@ -42,7 +42,7 @@ The value to use for _`old_version`_ is determined by the extension's author, an
 
 Automatically install any extensions that this extension depends on that are not already installed. Their dependencies are likewise automatically installed, recursively. The `SCHEMA` clause, if given, applies to all extensions that get installed this way. Other options of the statement are not applied to automatically-installed extensions; in particular, their default versions are always selected.
 
-### Notes
+## Notes
 
 Before you can use `CREATE EXTENSION` to load an extension into a database, the extension's supporting files must be installed. Information about installing the extensions supplied with PostgreSQL can be found in [Additional Supplied Modules](https://www.postgresql.org/docs/10/static/contrib.html).
 
@@ -50,7 +50,7 @@ The extensions currently available for loading can be identified from the [`pg_a
 
 For information about writing new extensions, see [Section 37.15](https://www.postgresql.org/docs/10/static/extend-extensions.html).
 
-### Examples
+## Examples
 
 Install the [hstore](https://www.postgresql.org/docs/10/static/hstore.html) extension into the current database:
 
@@ -66,11 +66,11 @@ CREATE EXTENSION hstore SCHEMA public FROM unpackaged;
 
 Be careful to specify the schema in which you installed the existing `hstore` objects.
 
-### 相容性
+## 相容性
 
 CREATE EXTENSION 是 PostgreSQL 的延伸功能。
 
-### 參閱
+## 參閱
 
 [ALTER EXTENSION](alter-extension.md), [DROP EXTENSION](drop-extension.md)
 

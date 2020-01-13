@@ -98,7 +98,7 @@ This procedure can work with a greater variety of directory layouts.
 
 The scripts listed in the `REGRESS` variable are used for regression testing of your module, which can be invoked by `make installcheck` after doing `make install`. For this to work you must have a running PostgreSQL server. The script files listed in `REGRESS` must appear in a subdirectory named `sql/` in your extension's directory. These files must have extension `.sql`, which must not be included in the `REGRESS` list in the makefile. For each test there should also be a file containing the expected output in a subdirectory named `expected/`, with the same stem and extension `.out`. `make installcheck` executes each test script with psql, and compares the resulting output to the matching expected file. Any differences will be written to the file `regression.diffs` in `diff -c` format. Note that trying to run a test that is missing its expected file will be reported as “trouble”, so make sure you have all expected files.
 
-#### Tip
+## Tip
 
 The easiest way to create the expected files is to create empty files, then do a test run \(which will of course report differences\). Inspect the actual result files found in the`results/` directory, then copy them to `expected/` if they match what you expect from the test.
 

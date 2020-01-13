@@ -4,5 +4,3 @@ his part contains reference information forPostgreSQLclient applications and uti
 
 When specified on the command line, user and database names have their case preserved — the presence of spaces or special characters might require quoting. Table names and other identifiers do not have their case preserved, except where documented, and might require quoting.
 
-
-

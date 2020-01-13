@@ -2,7 +2,7 @@
 
 Once a connection to a database server has been successfully established, the functions described here are used to perform SQL queries and commands.
 
-#### 33.3.1. Main Functions
+## 33.3.1. Main Functions
 
 `PQexec`
 
@@ -55,7 +55,7 @@ The primary advantage of `PQexecParams` over `PQexec` is that parameter values c
 
 Unlike `PQexec`, `PQexecParams` allows at most one SQL command in the given string. \(There can be semicolons in it, but not more than one nonempty command.\) This is a limitation of the underlying protocol, but has some usefulness as an extra defense against SQL-injection attacks.
 
-#### Tip
+## Tip
 
 Specifying parameter types via OIDs is tedious, particularly if you prefer not to hard-wire particular OID values into your program. However, you can avoid doing so even in cases where the server by itself cannot determine the type of the parameter, or chooses a different type than you want. In the SQL command text, attach an explicit cast to the parameter symbol to show what data type you will send. For example:
 
@@ -231,7 +231,7 @@ The line number of the source-code location where the error was reported.`PG_DIA
 
 The name of the source-code function reporting the error.
 
-#### Note
+## Note
 
 The fields for schema name, table name, column name, data type name, and constraint name are supplied only for a limited number of error types; see [Appendix A](https://www.postgresql.org/docs/10/static/errcodes-appendix.html). Do not assume that the presence of any of these fields guarantees the presence of another field. Core error sources observe the interrelationships noted above, but user-defined functions may use these fields in other ways. In the same vein, do not assume that these fields denote contemporary objects in the current database.
 
@@ -249,7 +249,7 @@ void PQclear(PGresult *res);
 
 You can keep a `PGresult` object around for as long as you need it; it does not go away when you issue a new command, nor even if you close the connection. To get rid of it, you must call `PQclear`. Failure to do this will result in memory leaks in your application.
 
-#### 33.3.2. Retrieving Query Result Information
+## 33.3.2. Retrieving Query Result Information
 
 These functions are used to extract information from a `PGresult` object that represents a successful query result \(that is, one that has status `PGRES_TUPLES_OK` or `PGRES_SINGLE_TUPLE`\). They can also be used to extract information from a successful Describe operation: a Describe's result has all the same column information that actual execution of the query would provide, but it has zero rows. For objects with other status values, these functions will act as though the result has zero rows and zero columns.`PQntuples`
 
@@ -443,7 +443,7 @@ typedef struct
 
 This function was formerly used by psql to print query results, but this is no longer the case. Note that it assumes all the data is in text format.
 
-#### 33.3.3. Retrieving Other Result Information
+## 33.3.3. Retrieving Other Result Information
 
 These functions are used to extract other information from `PGresult` objects.`PQcmdStatus`
 
@@ -477,7 +477,7 @@ This function is deprecated in favor of `PQoidValue` and is not thread-safe. It 
 char *PQoidStatus(const PGresult *res);
 ```
 
-#### 33.3.4. Escaping Strings for Inclusion in SQL Commands
+## 33.3.4. Escaping Strings for Inclusion in SQL Commands
 
 `PQescapeLiteral`
 
@@ -491,7 +491,7 @@ char *PQescapeLiteral(PGconn *conn, const char *str, size_t length);
 
 On error, `PQescapeLiteral` returns `NULL` and a suitable message is stored in the _`conn`_ object.
 
-#### Tip
+## Tip
 
 It is especially important to do proper escaping when handling strings that were received from an untrustworthy source. Otherwise there is a security risk: you are vulnerable to “SQL injection” attacks wherein unwanted SQL commands are fed to your database.
 
@@ -507,7 +507,7 @@ char *PQescapeIdentifier(PGconn *conn, const char *str, size_t length);
 
 On error, `PQescapeIdentifier` returns `NULL` and a suitable message is stored in the _`conn`_ object.
 
-#### Tip
+## Tip
 
 As with string literals, to prevent SQL injection attacks, SQL identifiers must be escaped when they are received from an untrustworthy source.`PQescapeStringConn`
 
@@ -519,7 +519,7 @@ size_t PQescapeStringConn(PGconn *conn,
 
 `PQescapeStringConn` escapes string literals, much like `PQescapeLiteral`. Unlike `PQescapeLiteral`, the caller is responsible for providing an appropriately sized buffer. Furthermore, `PQescapeStringConn` does not generate the single quotes that must surround PostgreSQL string literals; they should be provided in the SQL command that the result is inserted into. The parameter _`from`_ points to the first character of the string that is to be escaped, and the _`length`_ parameter gives the number of bytes in this string. A terminating zero byte is not required, and should not be counted in _`length`_. \(If a terminating zero byte is found before _`length`_ bytes are processed, `PQescapeStringConn` stops at the zero; the behavior is thus rather like `strncpy`.\) _`to`_ shall point to a buffer that is able to hold at least one more byte than twice the value of _`length`_, otherwise the behavior is undefined. Behavior is likewise undefined if the _`to`_ and _`from`_ strings overlap.
 
-If the _`error`_ parameter is not `NULL`, then `*error` is set to zero on success, nonzero on error. Presently the only possible error conditions involve invalid multibyte encoding in the source string. The output string is still generated on error, but it can be expected that the server will reject it as malformed. On error, a suitable message is stored in the _`conn`_object, whether or not _`error`_ is `NULL`.
+If the _`error`_ parameter is not `NULL`, then `*error` is set to zero on success, nonzero on error. Presently the only possible error conditions involve invalid multibyte encoding in the source string. The output string is still generated on error, but it can be expected that the server will reject it as malformed. On error, a suitable message is stored in the _`conn`\_object, whether or not_ `error`\_ is `NULL`.
 
 `PQescapeStringConn` returns the number of bytes written to _`to`_, not including the terminating zero byte.`PQescapeString`
 

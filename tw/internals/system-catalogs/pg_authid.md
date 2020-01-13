@@ -1,10 +1,10 @@
-# 52.8. pg\_authid
+# 51.8. pg\_authid
 
 目錄 pg\_authid 包含有關資料庫認證識別（角色）的資訊。角色包含「使用者」和「群組」的概念。使用者基本上只是設置了 rolcanlogin 識別的角色。任何角色（無論有或沒有 rolcanlogin）都可以擁有其他角色作為成員；詳見 [pg\_auth\_members](pg_auth_members.md)。
 
 由於此目錄包含密碼，因此不得公開讀取。 [pg\_roles](pg_roles.md) 是 pg\_authid 上的一個公開可讀的檢視表，它隱藏了密碼字串。
 
-[第 21 章](../../server-administration/21.-zi-liao-ku-jiao-se/)包含有關使用者和權限管理的詳細訊息。
+[第 21 章](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/server-administration/21.-zi-liao-ku-jiao-se)包含有關使用者和權限管理的詳細訊息。
 
 由於使用者身份是叢集範圍的，因此 pg\_authid 在叢集的所有資料庫之間共享：每個叢集只有一個 pg\_authid 副本，而不是每個資料庫一個副本。
 
