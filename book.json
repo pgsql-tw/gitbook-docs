@@ -2,8 +2,8 @@
 	"language": "tw.10",
 	"plugins": [ "notocjk", "localized-footer" ],
 	"localized-footer": {
-     		"hline": true,            
-     		"filename": "./FOOTER.md" 
+     		"hline": true,
+     		"filename": "./FOOTER.md"
    	},
 	"root": "./tw"
 }
