@@ -1,14 +1,14 @@
 # 前言
 
-本手冊為PostgreSQL官方手冊翻譯版，由PostgreSQL台灣社群愛好者所提供，描述本版本PostgreSQL的功能與支援情形。
+This book is the official documentation of PostgreSQL. It has been written by the PostgreSQL developers and other volunteers in parallel to the development of the PostgreSQL software. It describes all the functionality that the current version of PostgreSQL officially supports.
 
-為了更易於閱讀與管理，本手冊以下列數個部份所組成。每一個部份均為不同類型的使用者所撰寫：
+To make the large amount of information about PostgreSQL manageable, this book has been organized in several parts. Each part is targeted at a different class of users, or at users in different stages of their PostgreSQL experience:
 
-* [第一部份](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/i-tutorial.md)：給新的使用者一份簡易的介紹。
-* [第二部份](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language.md)：介紹SQL查詢語言，包含資料型態及函數功能，應用層級的效能調教也在此有所說明。每一個PostgreSQL使用者都推薦閱讀此部份。
-* [第三部份](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/iii-server-administration.md)：說明資料庫伺服器的安裝及管理資訊。如果你需要管理一個PostgreSQL伺服器，那你必須閱讀此部份的內容。
-* [第四部份](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/iv-client-interfaces.md)：說明PostgreSQL用戶端的程式操作介面。
-* [第五部份](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/v-server-programming.md)：資料庫伺服務的進階說明及延伸的使用方式，亦包含了使用者自訂的資料型別及函式。
-* [第六部份](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference.md)：SQL查詢指令、用戶端指令及伺服器端指令在此部份詳細說明。
-* [第七部份](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vii-internals.md)：提供PostgreSQL開發者可能需要的其他相關資訊。
+* [Part I](https://www.postgresql.org/docs/12/tutorial.html) is an informal introduction for new users.
+* [Part II](https://www.postgresql.org/docs/12/sql.html) documents the SQL query language environment, including data types and functions, as well as user-level performance tuning. Every PostgreSQL user should read this.
+* [Part III](https://www.postgresql.org/docs/12/admin.html) describes the installation and administration of the server. Everyone who runs a PostgreSQL server, be it for private use or for others, should read this part.
+* [Part IV](https://www.postgresql.org/docs/12/client-interfaces.html) describes the programming interfaces for PostgreSQL client programs.
+* [Part V](https://www.postgresql.org/docs/12/server-programming.html) contains information for advanced users about the extensibility capabilities of the server. Topics include user-defined data types and functions.
+* [Part VI](https://www.postgresql.org/docs/12/reference.html) contains reference information about SQL commands, client and server programs. This part supports the other parts with structured information sorted by command or program.
+* [Part VII](https://www.postgresql.org/docs/12/internals.html) contains assorted information that might be of use to PostgreSQL developers.
 

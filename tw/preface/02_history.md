@@ -18,13 +18,13 @@ POSTGRES 接下來開始被運用在許多不同的研究和產品上，財務�
 
 Postgres95 的程式碼是完全以 ANSI C 開發，並且輕量化了 25%。許多內部的改良增進了效率及可維護性。當時 Wisconsin Benchmark 進行測試，Postgres95 在 1.0.x 時的效能比原始的 POSTGRES 4.2 快了約 30% 至 50%。除了一些錯誤修正之外，還有下面這些主要的改良：
 
-- 原有的 PostQUEL 以 SQL（實作於伺服器端）所取代。（連接介面在 PostQUEL 之後便採 [libpq](https://www.postgresql.org/docs/current/libpq.html) 函式庫）子查詢一直到 PostgreSQL 出現之前都還未支援，但在 Postgres95 便已能使用自訂的 SQL 函數，聚合函數 Aggregate function 則被重新實作。`GROUP BY` 查詢語句也在此時被加入。
-- 提供新的工具 `psql` 可進行互動式的 SQL 操作，採用的是 GNU Readline 的技術，大量地取代了老舊的管理工具。
-- 提供新的前端函式庫 `libpgtcl`，支援 Tcl-based 用戶端程式。還有一個簡易的 shell 接口 `pgtclsh`，使用新的 Tcl 命令來和 Postgres95 伺服器進行操作。
-- 重新改寫了大型物件的交換介面，只保留大型物件翻轉（inversion）作為儲存大型物件的唯一機制。（移除了 inversion 檔案系統）
-- 淘汰了實例層級（instance-level）的規則系統，但其規則仍用於重構規則所使用。
-- 製作了一個簡短的說明，介紹標準的 SQL 功能，並隨 Postgres95 原始碼發佈。
-- 使用 GNU make（取代 BSD make）來編譯程式碼。除此之外，Postgres95 也支援使用未修正的 GCC 編譯器（修正高精度資料對齊問題）。
+* 原有的 PostQUEL 以 SQL（實作於伺服器端）所取代。（連接介面在 PostQUEL 之後便採 [libpq](https://www.postgresql.org/docs/current/libpq.html) 函式庫）子查詢一直到 PostgreSQL 出現之前都還未支援，但在 Postgres95 便已能使用自訂的 SQL 函數，聚合函數 Aggregate function 則被重新實作。`GROUP BY` 查詢語句也在此時被加入。
+* 提供新的工具 `psql` 可進行互動式的 SQL 操作，採用的是 GNU Readline 的技術，大量地取代了老舊的管理工具。
+* 提供新的前端函式庫 `libpgtcl`，支援 Tcl-based 用戶端程式。還有一個簡易的 shell 接口 `pgtclsh`，使用新的 Tcl 命令來和 Postgres95 伺服器進行操作。
+* 重新改寫了大型物件的交換介面，只保留大型物件翻轉（inversion）作為儲存大型物件的唯一機制。（移除了 inversion 檔案系統）
+* 淘汰了實例層級（instance-level）的規則系統，但其規則仍用於重構規則所使用。
+* 製作了一個簡短的說明，介紹標準的 SQL 功能，並隨 Postgres95 原始碼發佈。
+* 使用 GNU make（取代 BSD make）來編譯程式碼。除此之外，Postgres95 也支援使用未修正的 GCC 編譯器（修正高精度資料對齊問題）。
 
 ## 2.3. PostgreSQL
 
@@ -35,3 +35,4 @@ Postgres95 的程式碼是完全以 ANSI C 開發，並且輕量化了 25%。許
 Postgres95 的發展主要在於瞭解及定義伺服器程式既有的問題，而 PostgreSQL 則更重視系統的能力與爭議性的功能上，不過所有的工作是全面性的。
 
 更多有關於 PostgreSQL 的發展，請參閱 [附錄 E](https://www.postgresql.org/docs/current/release.html)。
+

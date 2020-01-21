@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 9.14. XML函式
+# 9.14. XML 函式
 
 本節中描述的函數和類函數表示式對 xml 型別的值進行操作。有關 xml 型別的訊息，請查看[第 8.13 節](../data-types/8.13.-xml-xing-bie.md)。這裡不再重複用於轉換為 xml 型別的函數表示式 xmlparse 和 xmlserialize。使用大多數這些函數需要使用 configure --with-libxml 編譯安裝。
 
