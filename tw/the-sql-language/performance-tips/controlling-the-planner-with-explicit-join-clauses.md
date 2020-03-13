@@ -1,4 +1,4 @@
-# 14.3. 使用確切的JOIN方式
+# 14.3. 使用確切的 JOIN 方式
 
 It is possible to control the query planner to some extent by using the explicit `JOIN` syntax. To see why this matters, we first need some background.
 
