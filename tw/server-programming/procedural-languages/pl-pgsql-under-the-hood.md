@@ -1,8 +1,8 @@
-# 42.11. PL/pgSQL under the Hood
+# 42.11. 深入了解 PL/pgSQL
 
-This section discusses some implementation details that are frequently important for PL/pgSQL users to know.
+本節討論一些實作的細節，這些細節通常對於 PL/pgSQL 使用者來說很重要。
 
-## 42.11.1. Variable Substitution
+## 42.11.1. 變數代換
 
 SQL statements and expressions within a PL/pgSQL function can refer to variables and parameters of the function. Behind the scenes, PL/pgSQL substitutes query parameters for such references. Parameters will only be substituted in places where a parameter or column reference is syntactically allowed. As an extreme case, consider this example of poor programming style:
 
@@ -85,7 +85,7 @@ Variable substitution does not happen in the command string given to `EXECUTE` o
 
 Variable substitution currently works only in `SELECT`, `INSERT`, `UPDATE`, and `DELETE` commands, because the main SQL engine allows query parameters only in these commands. To use a non-constant name or value in other statement types \(generically called utility statements\), you must construct the utility statement as a string and `EXECUTE` it.
 
-## 42.11.2. Plan Caching
+## 42.11.2. 查詢計劃快取
 
 The PL/pgSQL interpreter parses the function's source text and produces an internal binary instruction tree the first time the function is called \(within each session\). The instruction tree fully translates the PL/pgSQL statement structure, but individual SQL expressions and SQL commands used in the function are not translated immediately.
 
