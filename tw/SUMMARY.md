@@ -425,6 +425,8 @@
     * [41.7. Rules Versus Triggers](server-programming/the-rule-system/rules-versus-triggers.md)
   * [42. Procedural Languages（程序語言）](server-programming/procedural-languages/README.md)
     * [42.1. Installing Procedural Languages](server-programming/procedural-languages/installing-procedural-languages.md)
+    * [42.2. Structure of PL/pgSQL](server-programming/procedural-languages/structure-of-pl-pgsql.md)
+    * [42.5. Basic Statements](server-programming/procedural-languages/42.5.-basic-statements.md)
     * [42.11. 深入了解 PL/pgSQL](server-programming/procedural-languages/pl-pgsql-under-the-hood.md)
   * [43. PL/pgSQL - SQL Procedural Language](server-programming/pl-pgsql-sql-procedural-language/README.md)
     * [43.5. 基本語法](server-programming/pl-pgsql-sql-procedural-language/basic-statements.md)

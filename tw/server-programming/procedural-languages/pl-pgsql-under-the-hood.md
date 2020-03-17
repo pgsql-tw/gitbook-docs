@@ -4,31 +4,30 @@
 
 ## 42.11.1. 變數代換
 
-SQL statements and expressions within a PL/pgSQL function can refer to variables and parameters of the function. Behind the scenes, PL/pgSQL substitutes query parameters for such references. Parameters will only be substituted in places where a parameter or column reference is syntactically allowed. As an extreme case, consider this example of poor programming style:
+PL/pgSQL 函數中的 SQL 語句和表示式可以引用函數的變數和參數。在後端處理時，PL/pgSQL 會將查詢參數代換為資料內容的引用。僅在語法上允許使用參數或欄位引用的位置代換參數。有一個極端的情況，請參考以下不良程式風格的範例：
 
 ```text
 INSERT INTO foo (foo) VALUES (foo);
 ```
 
-The first occurrence of `foo` must syntactically be a table name, so it will not be substituted, even if the function has a variable named `foo`. The second occurrence must be the name of a column of the table, so it will not be substituted either. Only the third occurrence is a candidate to be a reference to the function's variable.
+從語法上講，第一個出現的 foo 必須是一個資料表名稱，因此即使該函數具有一個名為 foo 的變數，也不能將其代換。第二個出現的 foo 必須是資料表的欄位名稱，因此也不會被代換。 只有第三次出現的 foo 才可以引用該函數的變數。
 
-#### Note
+**提醒**  
+版本 9.0 之前的 PostgreSQL 會在所有這三種情況下都嘗試代換該變數，從而導致語法錯誤。
 
-PostgreSQL versions before 9.0 would try to substitute the variable in all three cases, leading to syntax errors.
-
-Since the names of variables are syntactically no different from the names of table columns, there can be ambiguity in statements that also refer to tables: is a given name meant to refer to a table column, or a variable? Let's change the previous example to
+由於變數的名稱在語法上與資料表欄位的名稱沒有差別，因此在引用資料表的語句中可能存在歧義：給予的名稱是要引用資料表欄位還是變數？ 我們將前面的範例更改為
 
 ```text
 INSERT INTO dest (col) SELECT foo + bar FROM src;
 ```
 
-Here, `dest` and `src` must be table names, and `col` must be a column of `dest`, but `foo` and `bar` might reasonably be either variables of the function or columns of `src`.
+在這裡，dest 和 src 必須是資料表名稱，col 必須是 dest 的欄位，但是 foo 和 bar 可能合理地是函數的變數或 src 的欄位。
 
-By default, PL/pgSQL will report an error if a name in a SQL statement could refer to either a variable or a table column. You can fix such a problem by renaming the variable or column, or by qualifying the ambiguous reference, or by telling PL/pgSQL which interpretation to prefer.
+預設情況下，如果 SQL 語句中的名稱可以引用變數或資料表欄位，則 PL/pgSQL 將回報錯誤。您可以透過重新命名變數或欄位，限定引用或告訴 PL/pgSQL 偏好哪種解釋來解決此問題。
 
-The simplest solution is to rename the variable or column. A common coding rule is to use a different naming convention for PL/pgSQL variables than you use for column names. For example, if you consistently name function variables `v_`_`something`_ while none of your column names start with `v_`, no conflicts will occur.
+最簡單的解決方案是重新命名變數或欄位。常見的命名規則是對 PL/pgSQL 變數使用與對欄位名不同的命名約定。例如，如果您一致地命名函數變數 v_something，而您的欄位名稱都不以 v_ 開頭，就絕對不會發生衝突。
 
-Alternatively you can qualify ambiguous references to make them clear. In the above example, `src.foo` would be an unambiguous reference to the table column. To create an unambiguous reference to a variable, declare it in a labeled block and use the block's label \(see [Section 42.2](https://www.postgresql.org/docs/12/plpgsql-structure.html)\). For example,
+或者，您可以限定模糊的引用以使其變得清楚。在上面的範例中，src.foo 將是對資料表欄位的明確引用。要建立對變數的明確引用，請在帶標籤的區塊中對其進行宣告，並使用該區塊的標籤（請參閱[第 42.2 節](structure-of-pl-pgsql.md)）。例如，
 
 ```text
 <<block>>
@@ -39,13 +38,13 @@ BEGIN
     INSERT INTO dest (col) SELECT block.foo + bar FROM src;
 ```
 
-Here `block.foo` means the variable even if there is a column `foo` in `src`. Function parameters, as well as special variables such as `FOUND`, can be qualified by the function's name, because they are implicitly declared in an outer block labeled with the function's name.
+即使在 src 中有欄位 foo，block.foo 也還是會被認定為變數。函數參數以及諸如 FOUND 之類的特殊變數可以透過函數名稱來限定，因為它們是在標有函數名稱的外部區塊中隱含宣告的。
 
-Sometimes it is impractical to fix all the ambiguous references in a large body of PL/pgSQL code. In such cases you can specify that PL/pgSQL should resolve ambiguous references as the variable \(which is compatible with PL/pgSQL's behavior before PostgreSQL 9.0\), or as the table column \(which is compatible with some other systems such as Oracle\).
+有時在大量的 PL/pgSQL 程式中修復所有模棱兩可的引用是不切實際的。在這種情況下，您可以指定 PL/pgSQL 應該將歧義引用解析為變數（與 PostgreSQL 9.0 之前的 PL/pgSQL 行為相容）或資料表欄位（與 Oracle 這樣的系統相容）。
 
-To change this behavior on a system-wide basis, set the configuration parameter `plpgsql.variable_conflict` to one of `error`, `use_variable`, or `use_column` \(where `error` is the factory default\). This parameter affects subsequent compilations of statements in PL/pgSQL functions, but not statements already compiled in the current session. Because changing this setting can cause unexpected changes in the behavior of PL/pgSQL functions, it can only be changed by a superuser.
+要在系統範圍內變更行為，請將組態參數 plpgsql.variable\_conflict 設定為 error、use\_variable 或 use\_column（其中 error 是預設設定）之一。 此參數影響 PL/pgSQL 函數中語句的後續編譯，但不影響目前連線中已編譯的語句。由於變更此設定可能會導致 PL/pgSQL 函數的行為發生意外變更，因此只能由超級使用者變更。
 
-You can also set the behavior on a function-by-function basis, by inserting one of these special commands at the start of the function text:
+您還可以透過在函數內容的開頭插入以下特殊命令之一來達到逐個函數的設定行為：
 
 ```text
 #variable_conflict error
@@ -53,7 +52,7 @@ You can also set the behavior on a function-by-function basis, by inserting one 
 #variable_conflict use_column
 ```
 
-These commands affect only the function they are written in, and override the setting of `plpgsql.variable_conflict`. An example is
+這些命令僅影響它們所在的函數，並覆蓋 plpgsql.variable\_conflict 的設定。範例如下
 
 ```text
 CREATE FUNCTION stamp_user(id int, comment text) RETURNS void AS $$
@@ -67,7 +66,7 @@ CREATE FUNCTION stamp_user(id int, comment text) RETURNS void AS $$
 $$ LANGUAGE plpgsql;
 ```
 
-In the `UPDATE` command, `curtime`, `comment`, and `id` will refer to the function's variable and parameters whether or not `users` has columns of those names. Notice that we had to qualify the reference to `users.id` in the `WHERE` clause to make it refer to the table column. But we did not have to qualify the reference to `comment` as a target in the `UPDATE` list, because syntactically that must be a column of `users`. We could write the same function without depending on the `variable_conflict` setting in this way:
+在 UPDATE 指令中，無論使用者是否具有這些名稱的欄位，curtime、comment 和 id 將引用該函數的變數和參數。注意，我們必須在 WHERE 子句中限定對 users.id 的引用，以使其引用資料表欄位。但是我們不必將引用的註釋限定為 UPDATE 列表中的標的，因為在語法上必須是使用者的欄位。我們可以這樣撰寫相同的函數，而毋需依賴 variable\_conflict 設定：
 
 ```text
 CREATE FUNCTION stamp_user(id int, comment text) RETURNS void AS $$
@@ -81,9 +80,9 @@ CREATE FUNCTION stamp_user(id int, comment text) RETURNS void AS $$
 $$ LANGUAGE plpgsql;
 ```
 
-Variable substitution does not happen in the command string given to `EXECUTE` or one of its variants. If you need to insert a varying value into such a command, do so as part of constructing the string value, or use `USING`, as illustrated in [Section 42.5.4](https://www.postgresql.org/docs/12/plpgsql-statements.html#PLPGSQL-STATEMENTS-EXECUTING-DYN).
+給予 EXECUTE 或其等效的指令字串中不會發生變數代換。如果您需要在這樣的命令中插入變化的值，則應在建構字串的過程中進行，或使用 USING，如[第 42.5.4 節](42.5.-basic-statements.md#42-5-4-executing-dynamic-commands)中所示。
 
-Variable substitution currently works only in `SELECT`, `INSERT`, `UPDATE`, and `DELETE` commands, because the main SQL engine allows query parameters only in these commands. To use a non-constant name or value in other statement types \(generically called utility statements\), you must construct the utility statement as a string and `EXECUTE` it.
+目前，變數代換僅在 SELECT、INSERT、UPDATE 和 DELETE 指令中有作用，因為主要的 SQL 引擎僅在這些指令中允許查詢參數。要在其他語句類型（通常稱為工具程序語句 utility statements）中使用非常數的名稱或值，必須將工具程序語句建構為字串再使用 EXECUTE。
 
 ## 42.11.2. 查詢計劃快取
 
