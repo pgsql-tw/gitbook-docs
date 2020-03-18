@@ -11,7 +11,7 @@
 | `current_setting(`_`setting_name`_ \[, _`missing_ok`_ \]\) | `text` | get current value of setting |
 | `set_config(`_`setting_name`_, _`new_value`_, _`is_local`_\) | `text` | set parameter and return new value |
 
-The function `current_setting` yields the current value of the setting _`setting_name`_. It corresponds to the SQL command `SHOW`. An example:
+函數 current\_setting 會回傳 setting\_name 目前的設定值。它對應於 SQL 指令 SHOW。範例如下：
 
 ```text
 SELECT current_setting('datestyle');
@@ -22,9 +22,9 @@ SELECT current_setting('datestyle');
 (1 row)
 ```
 
-If there is no setting named _`setting_name`_, `current_setting` throws an error unless _`missing_ok`_ is supplied and is `true`.
+如果沒有名為 setting\_name 的設定，也沒有設定 missing\_ok 為 true，則 current\_setting 會引發執行錯誤訊息。
 
-`set_config` sets the parameter _`setting_name`_ to _`new_value`_. If _`is_local`_ is `true`, the new value will only apply to the current transaction. If you want the new value to apply for the current session, use `false` instead. The function corresponds to the SQL command `SET`. An example:
+set\_config 將參數 setting\_name 設定為 new\_value。如果 is\_local 為 true，則新值將僅套用於目前交易事務之中。如果您希望新值套用於目前連線，請讓 is\_local 為 false。此功能對應的 SQL 命令為 SET。範例如下：
 
 ```text
 SELECT set_config('log_statement_stats', 'off', false);
