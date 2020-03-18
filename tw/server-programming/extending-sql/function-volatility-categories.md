@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 38.7. 函數易變性類別
+# 37.7. 函數易變性類別
 
 每個函數都有易變性的分類，可能為 VOLATILE、STABLE 或 IMMUTABLE。如果 CREATE FUNCTION 指令沒有指定類別，則 VOLATILE 是預設值。易變性類別用於是函數最佳化時的依據：
 

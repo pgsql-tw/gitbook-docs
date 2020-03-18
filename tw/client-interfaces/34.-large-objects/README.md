@@ -1,4 +1,4 @@
-# 35. Large Objects
+# 34. Large Objects
 
 PostgreSQL has a _large object_ facility, which provides stream-style access to user data that is stored in a special large-object structure. Streaming access is useful when working with data values that are too large to manipulate conveniently as a whole.
 

@@ -1,4 +1,4 @@
-# 34.5. Retrieving Query Results Row-By-Row
+# 33.5. Retrieving Query Results Row-By-Row
 
 Ordinarily, libpq collects a SQL command's entire result and returns it to the application as a single `PGresult`. This can be unworkable for commands that return a large number of rows. For such cases, applications can use `PQsendQuery` and `PQgetResult` in _single-row mode_. In this mode, the result row\(s\) are returned to the application one at a time, as they are received from the server.
 

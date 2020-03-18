@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 38.4. User-defined Procedures
+# 37.4. User-defined Procedures
 
 A procedure is a database object similar to a function. The difference is that a procedure does not return a value, so there is no return type declaration. While a function is called as part of a query or DML command, a procedure is called explicitly using the [CALL](https://www.postgresql.org/docs/11/sql-call.html) statement.
 

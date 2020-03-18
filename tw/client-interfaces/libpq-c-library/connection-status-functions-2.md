@@ -1,4 +1,4 @@
-# 34.3. Command Execution Functions
+# 33.3. Command Execution Functions
 
 Once a connection to a database server has been successfully established, the functions described here are used to perform SQL queries and commands.
 

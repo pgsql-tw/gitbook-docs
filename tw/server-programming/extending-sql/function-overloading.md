@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 38.6. Function Overloading
+# 37.6. Function Overloading
 
 More than one function can be defined with the same SQL name, so long as the arguments they take are different. In other words, function names can be _overloaded_. Whether or not you use it, this capability entails security precautions when calling functions in databases where some users mistrust other users; see [Section 10.3](https://www.postgresql.org/docs/11/typeconv-func.html). When a query is executed, the server will determine which function to call from the data types and the number of the provided arguments. Overloading can also be used to simulate functions with a variable number of arguments, up to a finite maximum number.
 
