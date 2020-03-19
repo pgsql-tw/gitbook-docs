@@ -1,4 +1,4 @@
-# 42.2. Structure of PL/pgSQL
+# 41.2. Structure of PL/pgSQL
 
 Functions written in PL/pgSQL are defined to the server by executing [CREATE FUNCTION](https://www.postgresql.org/docs/12/sql-createfunction.html) commands. Such a command would normally look like, say,
 

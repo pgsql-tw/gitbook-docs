@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 38.10. C-Language Functions
+# 37.10. C-Language Functions
 
 User-defined functions can be written in C \(or a language that can be made compatible with C, such as C++\). Such functions are compiled into dynamically loadable objects \(also called shared libraries\) and are loaded by the server on demand. The dynamic loading feature is what distinguishes “C language” functions from “internal” functions — the actual coding conventions are essentially the same for both. \(Hence, the standard internal function library is a rich source of coding examples for user-defined C functions.\)
 

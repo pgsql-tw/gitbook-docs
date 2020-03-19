@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 38.13. User-defined Operators
+# 37.14. User-defined Operators
 
 Every operator is “syntactic sugar” for a call to an underlying function that does the real work; so you must first create the underlying function before you can create the operator. However, an operator is _not merely_ syntactic sugar, because it carries additional information that helps the query planner optimize queries that use the operator. The next section will be devoted to explaining that additional information.
 

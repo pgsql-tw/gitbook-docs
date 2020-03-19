@@ -1,4 +1,4 @@
-# 41.6. Rules and Command Status
+# 40.6. Rules and Command Status
 
 The PostgreSQL server returns a command status string, such as `INSERT 149592 1`, for each command it receives. This is simple enough when there are no rules involved, but what happens when the query is rewritten by rules?
 

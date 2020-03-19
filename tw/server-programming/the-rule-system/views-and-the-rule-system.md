@@ -1,4 +1,4 @@
-# 41.2. Views and the Rule System
+# 40.2. Views and the Rule System
 
 Views in PostgreSQL are implemented using the rule system. In fact, there is essentially no difference between:
 

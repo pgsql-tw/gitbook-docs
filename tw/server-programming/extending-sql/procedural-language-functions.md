@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 38.8. Procedural Language Functions
+# 37.8. Procedural Language Functions
 
-PostgreSQL allows user-defined functions to be written in other languages besides SQL and C. These other languages are generically called _procedural languages_ \(PLs\). Procedural languages aren't built into the PostgreSQL server; they are offered by loadable modules. See [Chapter 42](https://www.postgresql.org/docs/11/xplang.html) and following chapters for more information.
+PostgreSQL 允許使用者定義的函數用 SQL 和 C 之外的其他語言撰寫。這些其他的程式語言通常稱為程序語言（PL）。程序語言並沒有內建在 PostgreSQL 伺服器中的。它們由可外掛模組提供。有關更多資訊，請參閱第 41 章和後續章節。
 

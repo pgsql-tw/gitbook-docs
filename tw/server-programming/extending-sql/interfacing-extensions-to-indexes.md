@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 38.15. Interfacing Extensions To Indexes
+# 37.16. Interfacing Extensions To Indexes
 
 The procedures described thus far let you define new types, new functions, and new operators. However, we cannot yet define an index on a column of a new data type. To do this, we must define an _operator class_ for the new data type. Later in this section, we will illustrate this concept in an example: a new operator class for the B-tree index method that stores and sorts complex numbers in ascending absolute value order.
 

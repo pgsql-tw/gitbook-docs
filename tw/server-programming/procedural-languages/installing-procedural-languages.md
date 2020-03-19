@@ -1,4 +1,4 @@
-# 42.1. Installing Procedural Languages
+# 41.1. Installing Procedural Languages
 
 A procedural language must be “installed” into each database where it is to be used. But procedural languages installed in the database `template1` are automatically available in all subsequently created databases, since their entries in `template1` will be copied by `CREATE DATABASE`. So the database administrator can decide which languages are available in which databases and can make some languages available by default if desired.
 

@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 38.11. User-defined Aggregates
+# 37.12. User-defined Aggregates
 
 Aggregate functions in PostgreSQL are defined in terms of _state values_ and _state transition functions_. That is, an aggregate operates using a state value that is updated as each successive input row is processed. To define a new aggregate function, one selects a data type for the state value, an initial value for the state, and a state transition function. The state transition function takes the previous state value and the aggregate's input value\(s\) for the current row, and returns a new state value. A _final function_ can also be specified, in case the desired result of the aggregate is different from the data that needs to be kept in the running state value. The final function takes the ending state value and returns whatever is wanted as the aggregate result. In principle, the transition and final functions are just ordinary functions that could also be used outside the context of the aggregate. \(In practice, it's often helpful for performance reasons to create specialized transition functions that can only work when called as part of an aggregate.\)
 
