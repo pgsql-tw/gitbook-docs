@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # 1. 入門指南
 
 * [1.1. 安裝](installation.md)：從無到有，安裝一個 PostgreSQL 資料庫系統。
