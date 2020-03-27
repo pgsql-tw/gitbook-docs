@@ -14,7 +14,7 @@
 [ALTER DEFAULT PRIVILEGES](https://www.postgresql.org/docs/10/static/sql-alterdefaultprivileges.html) — define default access privileges  
 [ALTER DOMAIN](https://www.postgresql.org/docs/10/static/sql-alterdomain.html) — change the definition of a domain  
 [ALTER EVENT TRIGGER](https://www.postgresql.org/docs/10/static/sql-altereventtrigger.html) — change the definition of an event trigger  
-[ALTER EXTENSION](https://www.postgresql.org/docs/10/static/sql-alterextension.html) — change the definition of an extension  
+[ALTER EXTENSION ](alter-extension.md)— change the definition of an extension  
 [ALTER FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/10/static/sql-alterforeigndatawrapper.html) — change the definition of a foreign-data wrapper  
 [ALTER FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-alterforeigntable.html) — change the definition of a foreign table  
 [ALTER FUNCTION](https://www.postgresql.org/docs/10/static/sql-alterfunction.html) — change the definition of a function  

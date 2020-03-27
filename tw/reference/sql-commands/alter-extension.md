@@ -48,29 +48,29 @@ and aggregate_signature is:
 [ [ argmode ] [ argname ] argtype [ , ... ] ] ORDER BY [ argmode ] [ argname ] argtype [ , ... ]
 ```
 
-## Description
+## 說明
 
-`ALTER EXTENSION` changes the definition of an installed extension. There are several subforms:
+ALTER EXTENSION 用來變更已安裝的延伸功能的定義。包括有幾個子形態：
 
 `UPDATE`
 
-This form updates the extension to a newer version. The extension must supply a suitable update script \(or series of scripts\) that can modify the currently-installed version into the requested version.
+此形態將該延伸功能更新為新的版本。該延伸功能必須提供合適的更新腳本（或一系列的腳本），可以將目前安裝的版本升級到要求更新的版本。
 
 `SET SCHEMA`
 
-This form moves the extension's objects into another schema. The extension has to be _relocatable_ for this command to succeed.
+這種形態將延伸功能的物件移動到另一個綱要中。該延伸功能必須是可以重新定位的，此命令才能成功。
 
 `ADD` _`member_object`_
 
-This form adds an existing object to the extension. This is mainly useful in extension update scripts. The object will subsequently be treated as a member of the extension; notably, it can only be dropped by dropping the extension.
+此形態將現有物件新增至延伸功能之中。這主要在延伸功能更新腳本時有用處。該物件隨後將被視為延伸功能的成員之一；值得注意的是，接下來也只能透過移除延伸功能來移除它。
 
 `DROP` _`member_object`_
 
-This form removes a member object from the extension. This is mainly useful in extension update scripts. The object is not dropped, only disassociated from the extension.
+此形態從延伸功能中移除成員物件。這主要用於延伸功能的更新腳本之中。該物件並不會被實體移除，僅與該延伸功能脫離關連。
 
-See [Section 38.16](https://www.postgresql.org/docs/11/extend-extensions.html) for more information about these operations.
+有關這些操作的更多資訊，請參閱[第 37.17 節](../../server-programming/extending-sql/packaging-related-objects-into-an-extension.md)。
 
-You must own the extension to use `ALTER EXTENSION`. The `ADD`/`DROP` forms require ownership of the added/dropped object as well.
+您必須擁有該延伸功能才能使用 ALTER EXTENSION。ADD/DROP 形態還需要所要新增/移除物件的所有權。
 
 ## Parameters
 
