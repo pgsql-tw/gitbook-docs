@@ -553,6 +553,8 @@
     * [psql](reference/client-applications/psql.md)
     * [vacuumdb](reference/client-applications/vacuumdb.md)
   * [III. PostgreSQL 伺服器應用程式](reference/server-applications/README.md)
+    * [initdb](reference/server-applications/initdb.md)
+    * [pg\_ctl](reference/server-applications/pg_ctl.md)
     * [pg\_test\_timing](reference/server-applications/pg_test_timing.md)
     * [postgres](reference/server-applications/postgres.md)
 * [VII. 資料庫進階](internals/README.md)
