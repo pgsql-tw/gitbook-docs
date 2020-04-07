@@ -4,11 +4,11 @@ description: 版本：11
 
 # 51.39. pg\_proc
 
-The catalog `pg_proc` stores information about functions, procedures, aggregate functions, and window functions \(collectively also known as routines\). See [CREATE FUNCTION](https://www.postgresql.org/docs/11/sql-createfunction.html), [CREATE PROCEDURE](https://www.postgresql.org/docs/11/sql-createprocedure.html), and [Section 38.3](https://www.postgresql.org/docs/11/xfunc.html) for more information.
+目錄 pg\_proc 儲存有關函數、程序函數、彙總函數和窗函數（或統稱為 routines）的資訊。 有關更多資訊，請參閱 [CREATE FUNCTION](../../reference/sql-commands/create-function.md)，[CREATE PROCEDURE](../../reference/sql-commands/create-procedure.md) 和[第 37.3 節](../../server-programming/extending-sql/user-defined-functions.md)。
 
-If `prokind` indicates that the entry is for an aggregate function, there should be a matching row in `pg_aggregate`.
+如果 prokind 指示該項目用於彙總函數，則 pg\_aggregate 中應有相對應的資料列。
 
-**Table 52.39. `pg_proc` Columns**
+#### **Table 51.39. `pg_proc` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |
@@ -42,5 +42,5 @@ If `prokind` indicates that the entry is for an aggregate function, there should
 | `proconfig` | `text[]` |  | Function's local settings for run-time configuration variables |
 | `proacl` | `aclitem[]` |  | Access privileges; see [GRANT](https://www.postgresql.org/docs/11/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/11/sql-revoke.html) for details |
 
-For compiled functions, both built-in and dynamically loaded, `prosrc` contains the function's C-language name \(link symbol\). For all other currently-known language types, `prosrc` contains the function's source text. `probin` is unused except for dynamically-loaded C functions, for which it gives the name of the shared library file containing the function.
+對於內建和動態載入的已編譯函數，prosrc 包含函數的 C 語言名稱（link symbol）。 對於所有其他目前已知的語言類型，prosrc 包含函數的原始碼。除了動態載入的 C 函數外，probin 均未使用，因為它用於記錄該函數的共享函式庫檔案的名稱。
 
