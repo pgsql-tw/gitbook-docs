@@ -235,7 +235,7 @@
     * [24.3. Log File Maintenance](server-administration/routine-database-maintenance-tasks/24.3.-log-file-maintenance.md)
   * [25. 備份及還原](server-administration/25.-bei-fen-ji-huan-yuan/README.md)
     * [25.1. SQL Dump](server-administration/25.-bei-fen-ji-huan-yuan/25.1.-sql-dump.md)
-    * [25.2. File System Level Backup](server-administration/25.-bei-fen-ji-huan-yuan/25.2.-file-system-level-backup.md)
+    * [25.2. 檔案系統層級備份](server-administration/25.-bei-fen-ji-huan-yuan/file-system-level-backup.md)
     * [25.3. Continuous Archiving and Point-in-Time Recovery \(PITR\)](server-administration/25.-bei-fen-ji-huan-yuan/25.3.-continuous-archiving-and-point-in-time-recovery-pitr.md)
   * [26. High Availability, Load Balancing, and Replication](server-administration/high-availability-load-balancing-and-replication/README.md)
     * [26.1. Comparison of Different Solutions](server-administration/high-availability-load-balancing-and-replication/26.1.-comparison-of-different-solutions.md)
