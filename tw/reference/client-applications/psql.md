@@ -2,15 +2,15 @@
 
 psql — PostgreSQL 互動式終端介面
 
-### 語法
+## 語法
 
 `psql` \[_`option`_...\] \[_`dbname`_ \[_`username`_\]\]
 
-### 說明
+## 說明
 
 psql 是 PostgreSQL 的終端機介面的前端工具。它讓您能夠以互動式輸入查詢指令，將它們發送到 PostgreSQL，並查看查詢結果。還有，輸入可以來自檔案或命令列參數。此外，psql 提供了許多自有指令以及各種類似 shell 的功能，以便於撰寫腳本以自動執行各種任務。
 
-### Options
+## Options
 
 `-a`  
 `--echo-all`
@@ -150,7 +150,7 @@ Run in single-step mode. That means the user is prompted before each command is 
 
 Runs in single-line mode where a newline terminates an SQL command, as a semicolon does.
 
-#### Note
+### Note
 
 This mode is provided for those who insist on it, but you are not necessarily encouraged to use it. In particular, if you mix SQL and meta-commands on a line the order of execution might not always be clear to the inexperienced user.
 
@@ -228,13 +228,13 @@ If the commands themselves contain `BEGIN`, `COMMIT`, or `ROLLBACK`, this option
 
 Show help about psql and exit. The optional _`topic`_ parameter \(defaulting to `options`\) selects which part of psql is explained: `commands` describes psql's backslash commands; `options` describes the command-line options that can be passed to psql; and `variables` shows help about psql configuration variables.
 
-### Exit Status
+## Exit Status
 
 psql returns 0 to the shell if it finished normally, 1 if a fatal error of its own occurs \(e.g. out of memory, file not found\), 2 if the connection to the server went bad and the session was not interactive, and 3 if an error occurred in a script and the variable `ON_ERROR_STOP` was set.
 
-### Usage
+## Usage
 
-#### Connecting to a Database
+### Connecting to a Database
 
 psql is a regular PostgreSQL client application. In order to connect to a database you need to know the name of your target database, the host name and port number of the server, and what user name you want to connect as. psql can be told about those parameters via command line options, namely `-d`, `-h`, `-p`, and `-U` respectively. If an argument is found that does not belong to any option it will be interpreted as the database name \(or the user name, if the database name is already given\). Not all of these options are required; there are useful defaults. If you omit the host name, psql will connect via a Unix-domain socket to a server on the local host, or via TCP/IP to `localhost` on machines that don't have Unix-domain sockets. The default port number is determined at compile time. Since the database server uses the same default, you will not have to specify the port in most cases. The default user name is your operating-system user name, as is the default database name. Note that you cannot just connect to any database under any user name. Your database administrator should have informed you about your access rights.
 
@@ -253,7 +253,7 @@ If the connection could not be made for any reason \(e.g., insufficient privileg
 
 If both standard input and standard output are a terminal, then psql sets the client encoding to “auto”, which will detect the appropriate client encoding from the locale settings \(`LC_CTYPE` environment variable on Unix systems\). If this doesn't work out as expected, the client encoding can be overridden using the environment variable `PGCLIENTENCODING`.
 
-#### Entering SQL Commands
+### Entering SQL Commands
 
 In normal operation, psql provides a prompt with the name of the database to which psql is currently connected, followed by the string `=>`. For example:
 
@@ -273,7 +273,7 @@ Whenever a command is executed, psql also polls for asynchronous notification ev
 
 While C-style block comments are passed to the server for processing and removal, SQL-standard comments are removed by psql.
 
-#### Meta-Commands
+### Meta-Commands
 
 Anything you enter in psql that begins with an unquoted backslash is a psql meta-command that is processed by psql itself. These commands make psql more useful for administration or scripting. Meta-commands are often called slash or backslash commands.
 
@@ -283,7 +283,7 @@ To include whitespace in an argument you can quote it with single quotes. To inc
 
 If an unquoted colon \(`:`\) followed by a psql variable name appears within an argument, it is replaced by the variable's value, as described in [SQL Interpolation](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-INTERPOLATION). The forms `:'`_`variable_name`_' and`:"`_`variable_name`_" described there work as well. The `:{?`_`variable_name`_} syntax allows testing whether a variable is defined. It is substituted by TRUE or FALSE. Escaping the colon with a backslash protects it from substitution.
 
-Within an argument, text that is enclosed in backquotes \(`````\) is taken as a command line that is passed to the shell. The output of the command \(with any trailing newline removed\) replaces the backquoted text. Within the text enclosed in backquotes, no special quoting or other processing occurs, except that appearances of `:`_`variable_name`_ where _`variable_name`_ is a psql variable name are replaced by the variable's value. Also, appearances of `:'`_`variable_name`_' are replaced by the variable's value suitably quoted to become a single shell command argument. \(The latter form is almost always preferable, unless you are very sure of what is in the variable.\) Because carriage return and line feed characters cannot be safely quoted on all platforms, the `:'`_`variable_name`_' form prints an error message and does not substitute the variable value when such characters appear in the value.
+Within an argument, text that is enclosed in backquotes \(`````````\) is taken as a command line that is passed to the shell. The output of the command \(with any trailing newline removed\) replaces the backquoted text. Within the text enclosed in backquotes, no special quoting or other processing occurs, except that appearances of`````:`_`variable_name\`_ where _`variable_name`_ is a psql variable name are replaced by the variable's value. Also, appearances of `:'`_`variable_name`_' are replaced by the variable's value suitably quoted to become a single shell command argument. \(The latter form is almost always preferable, unless you are very sure of what is in the variable.\) Because carriage return and line feed characters cannot be safely quoted on all platforms, the `:'`_`variable_name`_' form prints an error message and does not substitute the variable value when such characters appear in the value.
 
 Some commands take an SQL identifier \(such as a table name\) as argument. These arguments follow the syntax rules of SQL: Unquoted letters are forced to lowercase, while double quotes \(`"`\) protect letters from case conversion and allow incorporation of whitespace into the identifier. Within double quotes, paired double quotes reduce to a single double quote in the resulting name. For example, `FOO"BAR"BAZ` is interpreted as `fooBARbaz`, and `"A weird"" name"` becomes `A weird" name`.
 
@@ -318,7 +318,7 @@ Sets the title of any tables being printed as the result of a query or unset any
 
 Changes the current working directory to _`directory`_. Without argument, changes to the current user's home directory.
 
-#### Tip
+### Tip
 
 To print your current working directory, use `\! pwd`.
 
@@ -336,7 +336,7 @@ For `\copy ... from stdin`, data rows are read from the same source that issued 
 
 The syntax of this command is similar to that of the SQL [COPY](https://www.postgresql.org/docs/11/sql-copy.html) command. All options other than the data source/destination are as specified for [COPY](https://www.postgresql.org/docs/11/sql-copy.html). Because of this, special parsing rules apply to the `\copy` meta-command. Unlike most other meta-commands, the entire remainder of the line is always taken to be the arguments of `\copy`, and neither variable interpolation nor backquote expansion are performed in the arguments.
 
-#### Tip
+### Tip
 
 This operation is not as efficient as the SQL `COPY` command because all data must pass through the client/server connection. For large amounts of data the SQLcommand might be preferable.
 
@@ -366,7 +366,7 @@ The command form `\d+` is identical, except that more information is displayed: 
 
 By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects.
 
-#### Note
+### Note
 
 If `\d` is used without a _`pattern`_ argument, it is equivalent to `\dtvmsE` which will show a list of all visible tables, views, materialized views, sequences and foreign tables. This is purely a convenience measure.
 
@@ -429,7 +429,7 @@ Lists foreign tables \(mnemonic: “external tables”\). If _`pattern`_ is spec
 
 Lists user mappings \(mnemonic: “external users”\). If _`pattern`_ is specified, only those mappings whose user names match the pattern are listed. If the form `\deu+` is used, additional information about each mapping is shown.
 
-#### Caution
+### Caution
 
 `\deu+` might also display the user name and password of the remote user, so care should be taken not to disclose them.
 
@@ -441,7 +441,7 @@ Lists foreign-data wrappers \(mnemonic: “external wrappers”\). If _`pattern`
 
 Lists functions, together with their result data types, argument data types, and function types, which are classified as “agg” \(aggregate\), “normal”, “procedure”, “trigger”, or “window”. To display only functions of specific type\(s\), add the corresponding letters `a`, `n`, `p`, `t`, or `w` to the command. If _`pattern`_ is specified, only functions whose names match the pattern are shown. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If the form `\df+` is used, additional information about each function is shown, including volatility, parallel safety, owner, security classification, access privileges, language, source code and description.
 
-#### Tip
+### Tip
 
 To look up functions taking arguments or returning values of a specific data type, use your pager's search capability to scroll through the `\df` output.`\dF[+] [` [_`pattern`_](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-PATTERNS) \]
 
@@ -525,7 +525,7 @@ The new contents of the query buffer are then re-parsed according to the normal 
 
 If a line number is specified, psql will position the cursor on the specified line of the file or query buffer. Note that if a single all-digits argument is given, psql assumes it is a line number, not a file name.
 
-#### Tip
+### Tip
 
 See under [Environment](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-ENVIRONMENT) for how to configure and customize your editor.
 
@@ -540,7 +540,7 @@ Tue Oct 26 21:40:57 CEST 1999
 
 If the first argument is an unquoted `-n` the trailing newline is not written.
 
-#### Tip
+### Tip
 
 If you use the `\o` command to redirect your query output you might wish to use `\qecho` instead of this command.`\ef [` _`function_description`_ \[ _`line_number`_ \] \]
 
@@ -554,7 +554,7 @@ If a line number is specified, psql will position the cursor on the specified li
 
 Unlike most other meta-commands, the entire remainder of the line is always taken to be the argument\(s\) of `\ef`, and neither variable interpolation nor backquote expansion are performed in the arguments.
 
-#### Tip
+### Tip
 
 See under [Environment](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-ENVIRONMENT) for how to configure and customize your editor.
 
@@ -652,7 +652,7 @@ Gives syntax help on the specified SQL command. If _`command`_ is not specified,
 
 Unlike most other meta-commands, the entire remainder of the line is always taken to be the argument\(s\) of `\help`, and neither variable interpolation nor backquote expansion are performed in the arguments.
 
-#### Note
+### Note
 
 To simplify typing, commands that consists of several words do not have to be quoted. Thus it is fine to type **`\help alter table`**.`\H` or `\html`
 
@@ -662,7 +662,7 @@ Reads input from the file _`filename`_ and executes it as though it had been typ
 
 If _`filename`_ is `-` \(hyphen\), then standard input is read until an EOF indication or `\q` meta-command. This can be used to intersperse interactive input with input from files. Note that Readline behavior will be used only if it is active at the outermost level.
 
-#### Note
+### Note
 
 If you want to see the lines on the screen as they are read you must set the variable `ECHO` to `all`.
 
@@ -718,7 +718,7 @@ List the databases in the server and show their names, owners, character set enc
 
 Reads the large object with OID _`loid`_ from the database and writes it to _`filename`_. Note that this is subtly different from the server function `lo_export`, which acts with the permissions of the user that the database server runs as and on the server's file system.
 
-#### Tip
+### Tip
 
 Use `\lo_list` to find out the large object's OID.
 
@@ -743,7 +743,7 @@ Shows a list of all PostgreSQL large objects currently stored in the database, a
 
 Deletes the large object with OID _`loid`_ from the database.
 
-#### Tip
+### Tip
 
 Use `\lo_list` to find out the large object's OID.
 
@@ -756,7 +756,7 @@ If the argument begins with `|`, then the entire remainder of the line is taken 
 
 “Query results” includes all tables, command responses, and notices obtained from the database server, as well as output of various backslash commands that query the database \(such as `\d`\); but not error messages.
 
-#### Tip
+### Tip
 
 To intersperse text output in between query results, use `\qecho`.
 
@@ -878,7 +878,7 @@ Sets the header drawing style for the `unicode` line style to one of `single` or
 
 Illustrations of how these different formats look can be seen in the [Examples](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-EXAMPLES) section.
 
-#### Tip
+### Tip
 
 There are various shortcut commands for `\pset`. See `\a`, `\C`, `\f`, `\H`, `\t`, `\T`, and `\x`.`\q` or `\quit`
 
@@ -904,7 +904,7 @@ Valid variable names can contain letters, digits, and underscores. See the secti
 
 Certain variables are special, in that they control psql's behavior or are automatically set to reflect connection state. These variables are documented in [Variables](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-VARIABLES), below.
 
-#### Note
+### Note
 
 This command is unrelated to the SQL command [SET](https://www.postgresql.org/docs/11/sql-set.html).
 
@@ -1006,8 +1006,6 @@ results in sending the three SQL commands to the server in a single request, whe
 
 **Patterns**
 
-
-
 The various `\d` commands accept a _`pattern`_ parameter to specify the object name\(s\) to be displayed. In the simplest case, a pattern is just the exact name of the object. The characters within a pattern are normally folded to lower case, just as in SQL names; for example, `\dt FOO` will display the table named `foo`. As in SQL names, placing double quotes around a pattern stops folding to lower case. Should you need to include an actual double quote character in a pattern, write it as a pair of double quotes within a double-quote sequence; again this is in accord with the rules for SQL quoted identifiers. For example, `\dt "FOO""BAR"` will display the table named `FOO"BAR` \(not `foo"bar`\). Unlike the normal rules for SQL names, you can put double quotes around just part of a pattern, for instance `\dt FOO"FOO"BAR` will display the table named `fooFOObar`.
 
 Whenever the _`pattern`_ parameter is omitted completely, the `\d` commands display all objects that are visible in the current schema search path — this is equivalent to using `*` as the pattern. \(An object is said to be _visible_ if its containing schema is in the search path and no object of the same kind and name appears earlier in the search path. This is equivalent to the statement that the object can be referenced by name without explicit schema qualification.\) To see all objects in the database regardless of visibility, use `*.*` as the pattern.
@@ -1018,7 +1016,7 @@ A pattern that contains a dot \(`.`\) is interpreted as a schema name pattern fo
 
 Advanced users can use regular-expression notations such as character classes, for example `[0-9]` to match any digit. All regular expression special characters work as specified in [Section 9.7.3](https://www.postgresql.org/docs/11/functions-matching.html#FUNCTIONS-POSIX-REGEXP), except for `.` which is taken as a separator as mentioned above, `*` which is translated to the regular-expression notation `.*`, `?` which is translated to `.`, and `$` which is matched literally. You can emulate these pattern characters at need by writing `?` for `.`, `(`_`R`_+\|\) for _`R`_\*, or `(`_`R`_\|\) for _`R`_?. `$` is not needed as a regular-expression character since the pattern must match the whole name, unlike the usual interpretation of regular expressions \(in other words, `$` is automatically appended to your pattern\). Write `*` at the beginning and/or end if you don't wish the pattern to be anchored. Note that within double quotes, all regular expression special characters lose their special meanings and are matched literally. Also, the regular expression special characters are matched literally in operator name patterns \(i.e., the argument of `\do`\).
 
-#### Advanced Features
+### Advanced Features
 
 **Variables**
 
@@ -1041,7 +1039,7 @@ This works in both regular SQL commands and meta-commands; there is more detail 
 
 If you call `\set` without a second argument, the variable is set to an empty-string value. To unset \(i.e., delete\) a variable, use the command `\unset`. To show the values of all variables, call `\set` without any argument.
 
-#### Note
+### Note
 
 The arguments of `\set` are subject to the same substitution rules as with other commands. Thus you can construct interesting references such as `\set :foo 'something'` and get “soft links” or “variable variables” of Perl or PHP fame, respectively. Unfortunately \(or fortunately?\), there is no way to do anything useful with these constructs. On the other hand, `\set bar :foo` is a perfectly valid way to copy a variable.
 
@@ -1053,11 +1051,11 @@ The specially treated variables are:`AUTOCOMMIT`
 
 When `on` \(the default\), each SQL command is automatically committed upon successful completion. To postpone commit in this mode, you must enter a `BEGIN` or `START TRANSACTION` SQL command. When `off` or unset, SQL commands are not committed until you explicitly issue `COMMIT` or `END`. The autocommit-off mode works by issuing an implicit `BEGIN` for you, just before any command that is not already in a transaction block and is not itself a `BEGIN` or other transaction-control command, nor a command that cannot be executed inside a transaction block \(such as `VACUUM`\).
 
-#### Note
+### Note
 
 In autocommit-off mode, you must explicitly abandon any failed transaction by entering `ABORT` or `ROLLBACK`. Also keep in mind that if you exit the session without committing, your work will be lost.
 
-#### Note
+### Note
 
 The autocommit-on mode is PostgreSQL's traditional behavior, but autocommit-off is closer to the SQL spec. If you prefer autocommit-off, you might wish to set it in the system-wide `psqlrc` file or your `~/.psqlrc` file.
 
@@ -1089,7 +1087,7 @@ The current client character set encoding. This is set every time you connect to
 
 If this variable is set to an integer value greater than zero, the results of `SELECT` queries are fetched and displayed in groups of that many rows, rather than the default behavior of collecting the entire result set before display. Therefore only a limited amount of memory is used, regardless of the size of the result set. Settings of 100 to 1000 are commonly used when enabling this feature. Keep in mind that when using this feature, a query might fail after having already displayed some rows.
 
-#### Tip
+### Tip
 
 Although you can use any output format with this feature, the default `aligned`format tends to look bad because each group of `FETCH_COUNT` rows will be formatted separately, leading to varying column widths across the row groups. The other output formats work better.
 
@@ -1097,7 +1095,7 @@ Although you can use any output format with this feature, the default `aligned`f
 
 If this variable is set to `ignorespace`, lines which begin with a space are not entered into the history list. If set to a value of `ignoredups`, lines matching the previous history line are not entered. A value of `ignoreboth` combines the two options. If set to `none` \(the default\), all lines read in interactive mode are saved on the history list.
 
-#### Note
+### Note
 
 This feature was shamelessly plagiarized from Bash.
 
@@ -1111,7 +1109,7 @@ The file name that will be used to store the history list. If unset, the file na
 
 in `~/.psqlrc` will cause psql to maintain a separate history for each database.
 
-#### Note
+### Note
 
 This feature was shamelessly plagiarized from Bash.
 
@@ -1119,7 +1117,7 @@ This feature was shamelessly plagiarized from Bash.
 
 The maximum number of commands to store in the command history \(default 500\). If set to a negative value, no limit is applied.
 
-#### Note
+### Note
 
 This feature was shamelessly plagiarized from Bash.
 
@@ -1131,7 +1129,7 @@ The database server host you are currently connected to. This is set every time 
 
 If set to 1 or less, sending an EOF character \(usually **Control**+**D**\) to an interactive session of psql will terminate the application. If set to a larger numeric value, that many consecutive EOF characters must be typed to make an interactive session terminate. If the variable is set to a non-numeric value, it is interpreted as 10. The default is 0.
 
-#### Note
+### Note
 
 This feature was shamelessly plagiarized from Bash.
 
@@ -1288,7 +1286,7 @@ The line number inside the current statement, starting from `1`.`%`_`digits`_
 
 The character with the indicated octal code is substituted.`%:`_`name`_`:`
 
-The value of the psql variable _`name`_. See the section [Variables](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-VARIABLES) for details.``%```_`command`_`````
+The value of the psql variable _`name`_. See the section [Variables](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-VARIABLES) for details.`````%```_````command\`\_\`\`\`\`\`
 
 The output of _`command`_, similar to ordinary “back-tick” substitution.`%[` ... `%]`
 
@@ -1302,7 +1300,7 @@ results in a boldfaced \(`1;`\) yellow-on-black \(`33;40`\) prompt on VT100-comp
 
 To insert a percent sign into your prompt, write `%%`. The default prompts are `'%/%R%# '` for prompts 1 and 2, and `'>> '` for prompt 3.
 
-#### Note
+### Note
 
 This feature was shamelessly plagiarized from tcsh.
 
@@ -1318,7 +1316,7 @@ $endif
 
 \(This is not a psql but a Readline feature. Read its documentation for further details.\)
 
-### Environment
+## Environment
 
 `COLUMNS`
 
@@ -1371,7 +1369,7 @@ Directory for storing temporary files. The default is `/tmp`.
 
 This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 34.14](https://www.postgresql.org/docs/11/libpq-envars.html)\).
 
-### Files
+## Files
 
 `psqlrc` and `~/.psqlrc`
 
@@ -1387,7 +1385,7 @@ The command-line history is stored in the file `~/.psql_history`, or `%APPDATA%\
 
 The location of the history file can be set explicitly via the `HISTFILE` psql variable or the `PSQL_HISTORY` environment variable.
 
-### Notes
+## Notes
 
 * psql works best with servers of the same or an older major version. Backslash commands are particularly likely to fail if the server is of a newer version than psql itself. However, backslash commands of the `\d` family should work with servers of versions back to 7.4, though not necessarily with servers newer than psql itself. The general functionality of running SQL commands and displaying query results should also work with servers of a newer major version, but this cannot be guaranteed in all cases.
 
@@ -1396,14 +1394,14 @@ The location of the history file can be set explicitly via the `HISTFILE` psql v
 * Before PostgreSQL 9.6, the `-c` option implied `-X` \(`--no-psqlrc`\); this is no longer the case.
 * Before PostgreSQL 8.4, psql allowed the first argument of a single-letter backslash command to start directly after the command, without intervening whitespace. Now, some whitespace is required.
 
-### Notes for Windows Users
+## Notes for Windows Users
 
 psql is built as a “console application”. Since the Windows console windows use a different encoding than the rest of the system, you must take special care when using 8-bit characters within psql. If psql detects a problematic console code page, it will warn you at startup. To change the console code page, two things are necessary:
 
 * Set the code page by entering **`cmd.exe /c chcp 1252`**. \(1252 is a code page that is appropriate for German; replace it with your value.\) If you are using Cygwin, you can put this command in `/etc/profile`.
 * Set the console font to `Lucida Console`, because the raster font does not work with the ANSI code page.
 
-### Examples
+## Examples
 
 The first example shows how to spread a command over several lines of input. Notice the changing prompt:
 
@@ -1423,7 +1421,7 @@ testdb=> \d my_table
  Column |  Type   | Collation | Nullable | Default
 --------+---------+-----------+----------+---------
  first  | integer |           | not null | 0
- second | text    |           |          | 
+ second | text    |           |          |
 ```
 
 Now we change the prompt to something more interesting:
@@ -1444,7 +1442,6 @@ peter@localhost testdb=> SELECT * FROM my_table;
      3 | three
      4 | four
 (4 rows)
-
 ```
 
 You can display tables in different ways by using the `\pset` command:
