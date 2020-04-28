@@ -1,4 +1,4 @@
-# 28.1. Determining Disk Usage
+# 28.1. 瞭解磁碟使用情形
 
 Each table has a primary heap disk file where most of the data is stored. If the table has any columns with potentially-wide values, there also might be a TOAST file associated with the table, which is used to store values too wide to fit comfortably in the main table \(see [Section 68.2](https://www.postgresql.org/docs/12/storage-toast.html)\). There will be one valid index on the TOAST table, if present. There also might be indexes associated with the base table. Each table and index is stored in a separate disk file — possibly more than one file, if the file would exceed one gigabyte. Naming conventions for these files are described in [Section 68.1](https://www.postgresql.org/docs/12/storage-file-layout.html).
 

@@ -1,12 +1,11 @@
-# 28.2. Disk Full Failure
+# 28.2. 磁碟空間不足錯誤
 
-The most important disk monitoring task of a database administrator is to make sure the disk doesn't become full. A filled data disk will not result in data corruption, but it might prevent useful activity from occurring. If the disk holding the WAL files grows full, database server panic and consequent shutdown might occur.
+資料庫管理員最重要的磁碟監控任務是確保磁碟空間是足夠的。充滿資料的資料磁碟不會導致資料損壞，但是可能限制繼續進行資料處理的活動。如果儲存 WAL 檔案的磁碟空間已滿，則資料庫伺服器會出現混亂，並因此而導致服務中斷。
 
-If you cannot free up additional space on the disk by deleting other things, you can move some of the database files to other file systems by making use of tablespaces. See [Section 22.6](https://www.postgresql.org/docs/12/manage-ag-tablespaces.html) for more information about that.
+如果無法透過刪除其他內容來釋放磁碟上的其他空間，則可以透過使用資料表空間將某些資料庫檔案移至其他檔案系統。有關更多資訊，請參閱[第 22.6 節](../managing-databases/22.6.-tablespaces.md)。
 
-#### Tip
+**注意**  
+有一些檔案系統在幾乎全滿時效能會很差，因此不要等到磁碟完全滿之後才採取措施。
 
-Some file systems perform badly when they are almost full, so do not wait until the disk is completely full to take action.
-
-If your system supports per-user disk quotas, then the database will naturally be subject to whatever quota is placed on the user the server runs as. Exceeding the quota will have the same bad effects as running out of disk space entirely.
+如果您的系統支援使用者的磁碟配額，那麼資料庫自然會受到伺服器作為其執行使用者的配額限制。超過配額將帶來與完全用盡磁碟空間相同的不良影響。
 
