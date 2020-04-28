@@ -1,10 +1,10 @@
 # 28.1. 瞭解磁碟使用情形
 
-Each table has a primary heap disk file where most of the data is stored. If the table has any columns with potentially-wide values, there also might be a TOAST file associated with the table, which is used to store values too wide to fit comfortably in the main table \(see [Section 68.2](https://www.postgresql.org/docs/12/storage-toast.html)\). There will be one valid index on the TOAST table, if present. There also might be indexes associated with the base table. Each table and index is stored in a separate disk file — possibly more than one file, if the file would exceed one gigabyte. Naming conventions for these files are described in [Section 68.1](https://www.postgresql.org/docs/12/storage-file-layout.html).
+每個資料表都有一個主要的 heap 磁碟檔案，其中儲存了大多數的資料。如果資料表中的任何欄位可能會有大量內容，則可能還會有一個與該資料表相關聯的 TOAST 欄位，該欄位用於儲存太大量而無法適當地容納在主資料表中的內容（請參閱[第 68.2 節](../../internals/database-physical-storage/toast.md)）。如果存在的話，TOAST 資料表上將有一個有效的索引。也可能會有與基本資料表關聯的索引。每個資料表和索引都會儲存在一個單獨的磁碟檔案中-如果檔案超過 1 GB，則可能有多個文檔案。這些檔案的命名規則的請參閱[第 68.1 節](../../internals/database-physical-storage/database-file-layout.md)。
 
-You can monitor disk space in three ways: using the SQL functions listed in [Table 9.89](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-DBSIZE), using the [oid2name](https://www.postgresql.org/docs/12/oid2name.html) module, or using manual inspection of the system catalogs. The SQL functions are the easiest to use and are generally recommended. The remainder of this section shows how to do it by inspection of the system catalogs.
+您可以透過三種方式監控磁碟空間：使用 [Table 9.89](../../the-sql-language/functions-and-operators/system-administration.md#table-9-89-database-object-size-functions) 中所列出的 SQL 函數，使用 [oid2name](../../reference/client-applications/oid2name.md) 模組或對系統目錄進行手動檢查。SQL 函數最易於使用，通常建議使用。本節的其餘部分顯示如何透過檢查系統目錄來執行此操作。
 
-Using psql on a recently vacuumed or analyzed database, you can issue queries to see the disk usage of any table:
+在最近清理或分析的資料庫上使用 psql，可以發出查詢以查看任何資料表的磁碟使用情況：
 
 ```text
 SELECT pg_relation_filepath(oid), relpages FROM pg_class WHERE relname = 'customer';
@@ -15,9 +15,9 @@ SELECT pg_relation_filepath(oid), relpages FROM pg_class WHERE relname = 'custom
 (1 row)
 ```
 
-Each page is typically 8 kilobytes. \(Remember, `relpages` is only updated by `VACUUM`, `ANALYZE`, and a few DDL commands such as `CREATE INDEX`.\) The file path name is of interest if you want to examine the table's disk file directly.
+每個頁面通常為 8 KB。（請記住，只有 VACUUM，ANALYZE 和一些 DDL 命令（如 CREATE INDEX）才能更新 relpages。）如果要直接檢查資料表的磁碟檔案，則需要使用檔案路徑名稱。
 
-To show the space used by TOAST tables, use a query like the following:
+要顯示 TOAST 資料表所使用的空間，請使用如下的查詢：
 
 ```text
 SELECT relname, relpages
@@ -37,7 +37,7 @@ ORDER BY relname;
  pg_toast_16806_index |        1
 ```
 
-You can easily display index sizes, too:
+您也可以輕鬆顯示索引大小：
 
 ```text
 SELECT c2.relname, c2.relpages
@@ -52,7 +52,7 @@ ORDER BY c2.relname;
  customer_id_index |       26
 ```
 
-It is easy to find your largest tables and indexes using this information:
+使用以下語法可以很容易找到最大的資料表和索引：
 
 ```text
 SELECT relname, relpages

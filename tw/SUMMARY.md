@@ -544,6 +544,7 @@
     * [createuser](reference/client-applications/createuser.md)
     * [dropdb](reference/client-applications/dropdb.md)
     * [dropuser](reference/client-applications/dropuser.md)
+    * [oid2name](reference/client-applications/oid2name.md)
     * [pgbench](reference/client-applications/pgbench.md)
     * [pg\_dump](reference/client-applications/pg_dump.md)
     * [psql](reference/client-applications/psql.md)
