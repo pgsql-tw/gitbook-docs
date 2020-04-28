@@ -580,6 +580,7 @@
     * [51.62. pg\_type](internals/system-catalogs/pg_type.md)
     * [51.66. pg\_available\_extensions](internals/system-catalogs/pg_available_extensions.md)
     * [51.67. pg\_available\_extension\_versions](internals/system-catalogs/pg_available_extension_versions.md)
+    * [51.74. pg\_locks](internals/system-catalogs/pg_locks.md)
     * [51.79. pg\_replication\_origin\_status](internals/system-catalogs/51.79.-pg_replication_origin_status.md)
     * [51.81 pg\_roles](internals/system-catalogs/pg_roles.md)
     * [51.85. pg\_settings](internals/system-catalogs/pg_settings.md)
