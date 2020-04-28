@@ -1,4 +1,4 @@
-# 31. 邏輯複寫（Logical Replication）
+# 30. 邏輯複寫（Logical Replication）
 
 邏輯複寫（Logical Replication）是一種依據複寫指標（通常是主鍵）複製資料物件及其更新的方法。我們使用術語邏輯與物理複寫相對比，物理複寫使用確切的區塊位址進行每一個字元組的複寫。PostgreSQL 同時支持這兩種機制，請參閱[第 26 章](../high-availability-load-balancing-and-replication/)。邏輯複寫允許對資料複寫和安全性進行更精細的控制。
 
