@@ -310,7 +310,7 @@ COPY postgres_log FROM '/full/path/to/logfile.csv' WITH csv;
 
 ## 19.8.5. 程序標題（Process Title）
 
-這些設定控制如何修改伺服器程序的程序標題。程序標題通常使用如 ps 或 Windows 上的 Process Explorer 查看。詳情請參閱[第 28.1 節](../monitoring-database-activity/28.1.-standard-unix-tools.md)。
+這些設定控制如何修改伺服器程序的程序標題。程序標題通常使用如 ps 或 Windows 上的 Process Explorer 查看。詳情請參閱[第 28.1 節](../monitoring-database-activity/standard-unix-tools.md)。
 
 ### `cluster_name` \(`string`\)
 
