@@ -1,4 +1,4 @@
-# 5.7. 資料列安全原則
+# 5.8. 資料列安全原則
 
 除了透過 [GRANT 指令](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/grant.md)設定 SQL 標準的[權限系統](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-definition/56-privileges.md)之外，資料表也可以有資料列層級的安全原則，控制每個使用者在資料查詢或變更時，所能接觸到的資料列。這個功能就稱作資料列安全原則（Row-Level Security）。預設上，資料表並不會有這些安全原則，所以只要使用者能存取該資料表，就表示他能存取所有資料列的內容。
 

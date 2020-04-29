@@ -20,7 +20,7 @@
 | `rolcreatedb` | `bool` | 角色可以建立資料庫 |
 | `rolcanlogin` | `bool` | 角色可以登入。也就是說，此角色可以作為初始連線認證識別 |
 | `rolreplication` | `bool` | 角色是複寫角色。複寫角色可以啟動複寫連線並建立和移除複寫槽。 |
-| `rolbypassrls` | `bool` | 角色繞過每個資料列級別的安全原則，有關詳細訊息，請參閱[第 5.7 節](../../the-sql-language/ddl/5.7.-zi-liao-lie-an-quan-yuan-ze.md)。 |
+| `rolbypassrls` | `bool` | 角色繞過每個資料列級別的安全原則，有關詳細訊息，請參閱[第 5.7 節](../../the-sql-language/ddl/row-security-policies.md)。 |
 | `rolconnlimit` | `int4` | 對於可以登入的角色，這將設定此角色可以進行的最大同時連線數。-1 表示沒有限制。 |
 | `rolpassword` | `text` | 密碼（可能是加密的）; 如果沒有則為 null。格式取決於使用的加密形式。 |
 | `rolvaliduntil` | `timestamptz` | 密碼到期時間（僅用於密碼驗證）；如果沒有過期，則回傳 null |
