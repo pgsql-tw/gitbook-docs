@@ -547,6 +547,7 @@
     * [dropuser](reference/client-applications/dropuser.md)
     * [oid2name](reference/client-applications/oid2name.md)
     * [pgbench](reference/client-applications/pgbench.md)
+    * [pg\_basebackup](reference/client-applications/pg_basebackup.md)
     * [pg\_dump](reference/client-applications/pg_dump.md)
     * [psql](reference/client-applications/psql.md)
     * [vacuumdb](reference/client-applications/vacuumdb.md)
