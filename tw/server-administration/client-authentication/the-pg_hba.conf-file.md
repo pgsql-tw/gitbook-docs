@@ -39,7 +39,7 @@ hostnossl  database  user  IP-address  IP-mask  auth-method  [auth-options]
 
 此記錄會套用於使用 TCP/IP 進行的連線嘗試，但僅限於使用 SSL 加密進行連線時。
 
-要使用此選項，必須以 SSL 建置伺服器，也必須透過設定 [ssl 組態參數](../server-configuration/connections-and-authentication.md#19-3-3-ssl)來啟用 SSL（有關更多訊息，請參閱[第 18.9 節](../server-setup-and-operation/18.9.-secure-tcp-ip-connections-with-ssl.md)）。否則，將會忽略 hostssl 記錄，除非是為了記錄不能與任何連線相符合的警告。
+要使用此選項，必須以 SSL 建置伺服器，也必須透過設定 [ssl 組態參數](../server-configuration/connections-and-authentication.md#19-3-3-ssl)來啟用 SSL（有關更多訊息，請參閱[第 18.9 節](../server-setup-and-operation/secure-tcp-ip-connections-with-ssl.md)）。否則，將會忽略 hostssl 記錄，除非是為了記錄不能與任何連線相符合的警告。
 
 `hostnossl`
 

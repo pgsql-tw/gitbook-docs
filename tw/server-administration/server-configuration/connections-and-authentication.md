@@ -92,7 +92,7 @@ description: 版本：11
 
 `ssl` \(`boolean`\)
 
-啟用 SSL 連線。使用前請先閱讀[第 18.9 節](../server-setup-and-operation/18.9.-secure-tcp-ip-connections-with-ssl.md)。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設是關閉的。
+啟用 SSL 連線。使用前請先閱讀[第 18.9 節](../server-setup-and-operation/secure-tcp-ip-connections-with-ssl.md)。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設是關閉的。
 
 `ssl_ca_file` \(`string`\)
 
@@ -186,7 +186,7 @@ db\_user\_namespace 會導致用戶端和伺服器的使用者名稱表示方式
 
 ## 19.3.3. SSL
 
-有關設定 SSL 的更多資訊，請參閱[第 18.9 節](../server-setup-and-operation/18.9.-secure-tcp-ip-connections-with-ssl.md)。
+有關設定 SSL 的更多資訊，請參閱[第 18.9 節](../server-setup-and-operation/secure-tcp-ip-connections-with-ssl.md)。
 
 `ssl` \(`boolean`\)
 
