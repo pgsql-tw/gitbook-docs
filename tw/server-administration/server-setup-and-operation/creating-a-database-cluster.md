@@ -51,15 +51,15 @@ Many installations create their database clusters on file systems \(volumes\) ot
 
 ## 18.2.2. File Systems
 
-Generally, any file system with POSIX semantics can be used for PostgreSQL. Users prefer different file systems for a variety of reasons, including vendor support, performance, and familiarity. Experience suggests that, all other things being equal, one should not expect major performance or behavior changes merely from switching file systems or making minor file system configuration changes.
+一般來說，任何具備 POSIX 標準的檔案系統都可以用於 PostgreSQL。 由於各種原因，使用者可能會使用不同的檔案系統，包括供應商支援、效能和熟悉程度。經驗上來說，在所有其他條件都相同的情況下，不應該僅因為切換檔案系統或進行次要的檔案系統配置變更，而期待效能或行為有明顯的改變。
 
 ### **18.2.2.1. NFS**
 
-It is possible to use an NFS file system for storing the PostgreSQL data directory. PostgreSQL does nothing special for NFS file systems, meaning it assumes NFS behaves exactly like locally-connected drives. PostgreSQL does not use any functionality that is known to have nonstandard behavior on NFS, such as file locking.
+可以使用 NFS 檔案系統來儲存 PostgreSQL 資料目錄。PostgreSQL 對 NFS 檔案系統並沒有任何特殊的要求，這意味著它假設 NFS 的行為與本地連接的磁碟完全相同。PostgreSQL 不使用已知在NFS上具有非標準行為的任何功能，例如檔案鎖定。
 
-The only firm requirement for using NFS with PostgreSQL is that the file system is mounted using the `hard` option. With the `hard` option, processes can “hang” indefinitely if there are network problems, so this configuration will require a careful monitoring setup. The `soft` option will interrupt system calls in case of network problems, but PostgreSQL will not repeat system calls interrupted in this way, so any such interruption will result in an I/O error being reported.
+將 NFS 與 PostgreSQL 一起使用時，唯一確定要求是使用 hard 選項安裝檔案系統。使用 hard 選項，如果出現網路問題，NFS 程序可以無限期「hang」（暫停），因此此配置將需要仔細的監控。如果出現網路問題，soft 選項會中斷系統呼，但是 PostgreSQL 不會重複以此方式中斷的系統呼叫，因此任何此類中斷都將導致回報 I/O 錯誤。
 
-It is not necessary to use the `sync` mount option. The behavior of the `async` option is sufficient, since PostgreSQL issues `fsync` calls at appropriate times to flush the write caches. \(This is analogous to how it works on a local file system.\) However, it is strongly recommended to use the `sync` export option on the NFS _server_ on systems where it exists \(mainly Linux\). Otherwise, an `fsync` or equivalent on the NFS client is not actually guaranteed to reach permanent storage on the server, which could cause corruption similar to running with the parameter [fsync](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-FSYNC) off. The defaults of these mount and export options differ between vendors and versions, so it is recommended to check and perhaps specify them explicitly in any case to avoid any ambiguity.
+不必要使用同步（sync）掛載選項。 async 選項的行為就足夠了，因為 PostgreSQL 會在適當的時機發出 fsync 呼叫來強制緩衝寫入。（這類似於它在本機檔案系統上的工作方式。）但是，強烈建議在存在該檔案的系統（主要是 Linux）上的 NFS 伺服器上使用 sync export 選項。否則，實際上不能保證 NFS 用戶端上的 fsync 或等效檔案可以到達伺服器上的永久儲存，這可能導致損壞，類似於在關閉參數 fsync 的情況下提供服務。這些掛載和輸出選項的預設設定在不同的供應商和版本之間略所不同，因此建議在任何情況下都需要進行檢查並且明確指定它們的內容，以避免任何誤解。
 
-In some cases, an external storage product can be accessed either via NFS or a lower-level protocol such as iSCSI. In the latter case, the storage appears as a block device and any available file system can be created on it. That approach might relieve the DBA from having to deal with some of the idiosyncrasies of NFS, but of course the complexity of managing remote storage then happens at other levels.
+在某些情況下，可以透過 NFS 或更低等級的通訊協定（例如 iSCSI）存取外部儲存產品。在後者，儲存裝置為 block device，可以在其上建立任何可用的檔案系統。這種方法可能使 DBA 不必處理 NFS 的某些特質，不過，管理遠端儲存服務的複雜性會仍發生在其他層級之中。
 
