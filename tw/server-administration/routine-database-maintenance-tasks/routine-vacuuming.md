@@ -133,7 +133,7 @@ Multixact ID 用於支援多個事務的資料列鎖定。由於 tuple 標頭中
 
 ## 24.1.6. Autovacuum 背景程序
 
-PostgreSQL 有一個選用但強烈推薦的 autovacuum 功能，其目的是自動執行 VACUUM 和 ANALYZE 指令。啟用後，autovacuum 將檢查已插入、更新或刪除大量 tuple 的資料表。這些檢查使用統計資訊收集工具；因此，除非將 [track\_counts](../server-configuration/19.9.-run-time-statistics.md#19-9-1-query-and-index-statistics-collector) 設定為 true，否則無法使用 autovacuum。在預設配置中，啟用 autovacuuming 並相對應地設定相關的配置參數。
+PostgreSQL 有一個選用但強烈推薦的 autovacuum 功能，其目的是自動執行 VACUUM 和 ANALYZE 指令。啟用後，autovacuum 將檢查已插入、更新或刪除大量 tuple 的資料表。這些檢查使用統計資訊收集工具；因此，除非將 [track\_counts](../server-configuration/run-time-statistics.md#19-9-1-query-and-index-statistics-collector) 設定為 true，否則無法使用 autovacuum。在預設配置中，啟用 autovacuuming 並相對應地設定相關的配置參數。
 
 「autovacuum 背景程序」實際上由多個程序所組成。有一個主控的背景程序，稱為 autovacuum 啟動程序，負責啟動所有資料庫的 autovacuum 工作程序。啟動程序將跨時間分配工作，嘗試在每個 [autovacuum\_naptime](../server-configuration/automatic-vacuuming.md) 秒內啟動每個資料庫中的一個工作程序。（因此，如果安裝 N 個資料庫，則每個 autovacuum\_naptime / N 秒將啟動一個新工作程序。）允許最多同時運行 [autovacuum\_max\_workers](../server-configuration/automatic-vacuuming.md) 工作程序。如果要處理的 autovacuum\_max\_workers 資料庫不止一個，則第一個工作程序完成後將立即處理下一個資料庫。每個工作程序將檢查其資料庫中的每個資料表，並根據需要執行 VACUUM 或 ANALYZE。log\_autovacuum\_min\_duration 可以設定為監控 autovacuum 工作程序的活動。
 
