@@ -31,5 +31,5 @@ ERROR:  insert or update on table "weather" violates foreign key constraint "wea
 DETAIL:  Key (city)=(Berkeley) is not present in table "cities".
 ```
 
-外部索引鍵或簡稱外部鍵（foreign key）的行為可以讓你的應用程式變得容易調整。我們在這個導覽中不會在深入這個簡單的例子了，但你可以在[第 5 章](../../the-sql-language/ddl/)取得進一步的資訊。正確地使用外部索引鍵，可以改善資料庫應用程式的品質，所以強烈建議一定要好好學習它。
+外部索引鍵或簡稱外部鍵（foreign key）的行為可以讓你的應用程式變得容易調整。我們在這個導覽中不會再深入這個簡單的例子了，但你可以在[第 5 章](../../the-sql-language/ddl/)取得進一步的資訊。正確地使用外部索引鍵，可以改善資料庫應用程式的品質，所以強烈建議一定要好好學習它。
 
