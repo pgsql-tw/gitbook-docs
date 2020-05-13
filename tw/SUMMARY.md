@@ -213,6 +213,8 @@
     * [20.2. User Name Maps](server-administration/client-authentication/user-name-maps.md)
     * [20.3. Authentication Methods](server-administration/client-authentication/authentication-methods.md)
     * [20.4. Authentication Problems](server-administration/client-authentication/authentication-problems.md)
+    * [20.5. Password Authentication](server-administration/client-authentication/password-authentication.md)
+    * [20.13. PAM Authentication](server-administration/client-authentication/pam-authentication.md)
   * [21. 資料庫角色](server-administration/21.-zi-liao-ku-jiao-se/README.md)
     * [21.1. Database Roles](server-administration/21.-zi-liao-ku-jiao-se/21.1.-database-roles.md)
     * [21.2. Role Attributes](server-administration/21.-zi-liao-ku-jiao-se/21.2.-role-attributes.md)
