@@ -455,6 +455,7 @@
     * [ALTER SEQUENCE](reference/sql-commands/alter-sequence.md)
     * [ALTER STATISTICS](reference/sql-commands/alter-statistics.md)
     * [ALTER SUBSCRIPTION](reference/sql-commands/alter-subscription.md)
+    * [ALTER SYSTEM](reference/sql-commands/alter-system.md)
     * [ALTER TABLE](reference/sql-commands/alter-table.md)
     * [ALTER TABLESPACE](reference/sql-commands/alter-tablespace.md)
     * [ALTER TRIGGER](reference/sql-commands/alter-trigger.md)
