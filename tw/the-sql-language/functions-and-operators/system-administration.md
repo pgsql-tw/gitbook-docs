@@ -35,26 +35,26 @@ SELECT set_config('log_statement_stats', 'off', false);
 (1 row)
 ```
 
-## 9.26.2. Server Signaling Functions
+## 9.26.2. 伺服器系統信號函數
 
-The functions shown in [Table 9.83](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-SIGNAL-TABLE) send control signals to other server processes. Use of these functions is restricted to superusers by default but access may be granted to others using `GRANT`, with noted exceptions.
+[Table 9.83](system-administration.md#table-9-83-server-signaling-functions) 中列出的功能將系統控制信號發送到其他伺服器程序。預設情況下，這些功能僅限於超級使用者使用，可以在例外情況使用 GRANT 授予其他人存取權限。
 
 #### **Table 9.83. Server Signaling Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `pg_cancel_backend(`_`pid`_ `int`\) | `boolean` | Cancel a backend's current query. This is also allowed if the calling role is a member of the role whose backend is being canceled or the calling role has been granted `pg_signal_backend`, however only superusers can cancel superuser backends. |
-| `pg_reload_conf()` | `boolean` | Cause server processes to reload their configuration files |
-| `pg_rotate_logfile()` | `boolean` | Rotate server's log file |
-| `pg_terminate_backend(`_`pid`_ `int`\) | `boolean` | Terminate a backend. This is also allowed if the calling role is a member of the role whose backend is being terminated or the calling role has been granted `pg_signal_backend`, however only superusers can terminate superuser backends. |
+| `pg_cancel_backend(`_`pid`_ `int`\) | `boolean` | 從後端服務取消正在執行的查詢。如果呼叫的角色是其後端被取消的角色的成員或已授予呼叫角色 pg\_signal\_backend 的角色，則也允許進行這個動作，但是只有超級使用者才能取消超級使用者後端行程。 |
+| `pg_reload_conf()` | `boolean` | 使伺服器程序重新載入其組態配置檔案 |
+| `pg_rotate_logfile()` | `boolean` | 輪流使用下一個伺服器的日誌檔案 |
+| `pg_terminate_backend(`_`pid`_ `int`\) | `boolean` | 終止整個後端程序。如果呼叫的角色是其後端被終止的角色的成員或已授予呼叫角色 pg\_signal\_backend 的角色，則也允許進行這個動作，但是只有超級使用者才能終止超級使用者的後端程序。 |
 
-Each of these functions returns `true` if successful and `false` otherwise.
+如果成功，這些函數均回傳 true，否則回傳 false。
 
-`pg_cancel_backend` and `pg_terminate_backend` send signals \(SIGINT or SIGTERM respectively\) to backend processes identified by process ID. The process ID of an active backend can be found from the `pid` column of the `pg_stat_activity` view, or by listing the `postgres` processes on the server \(using ps on Unix or the Task Manager on Windows\). The role of an active backend can be found from the `usename` column of the `pg_stat_activity` view.
+pg\_cancel\_backend 和 pg\_terminate\_backend 發送信號（分別為SIGINT 或 SIGTERM）到由程序 ID 指示的後端程序。正在運作中的後端程序 ID 可以從 pg\_stat\_activity 檢視表的 pid 欄位中找到，或者透過列出伺服器上的 postgres 程序（在 Unix 上使用 ps 或在 Windows 上使用工作管理員）找到。正在執行的後端角色可以在 pg\_stat\_activity 檢視表的 usename 欄位中找到。
 
-`pg_reload_conf` sends a SIGHUP signal to the server, causing configuration files to be reloaded by all server processes.
+pg\_reload\_conf 向伺服器發送 SIGHUP 信號，會使所有伺服器程序重新載入組態檔案。
 
-`pg_rotate_logfile` signals the log-file manager to switch to a new output file immediately. This works only when the built-in log collector is running, since otherwise there is no log-file manager subprocess.
+pg\_rotate\_logfile 指示日誌檔案管理器立即切換到新的輸出檔案。僅當內建的日誌收集器正在運行時，此函數才有作用，因為沒有日誌檔案管理器的子程序可以操作。
 
 ## 9.26.3. Backup Control Functions
 
