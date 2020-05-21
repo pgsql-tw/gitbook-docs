@@ -6,7 +6,7 @@ description: 版本：11
 
 CREATE TYPE — 定義新的資料型別
 
-## 語法
+### 語法
 
 ```text
 CREATE TYPE name AS
@@ -47,7 +47,7 @@ CREATE TYPE name (
 CREATE TYPE name
 ```
 
-## 說明
+### 說明
 
 CREATE TYPE 註冊一個新的資料型別，以便在目前資料庫中使用。定義型別的使用者將成為其所有者。
 
@@ -55,31 +55,31 @@ CREATE TYPE 註冊一個新的資料型別，以便在目前資料庫中使用�
 
 CREATE TYPE 有五種形式，如上面的語法概要所示。分別可以建立複合型別、列舉型別、範圍型別、基本型別或 shell 型別。下面將依次討論前四個。 shell 型別只是一個佔位型別，用於稍後定義的型別；它透過發出 CREATE TYPE 建立的，除了型別名稱之外沒有參數。在建立範圍型別和基本型別時，需要使用 Shell 型別作為先行引用，詳細如下面小節中所述。
 
-### Composite Types
+#### Composite Types \(複合型別\)
 
 CREATE TYPE 的第一種形式是複合型別。複合型別以屬性名稱和資料型別列表組成。如果屬性可以指定 collation 的話，則也可以指定 collation。複合型別與資料表的資料列型別基本相同，但使用 CREATE TYPE 時，毌須建立實際的資料表，只需要定義型別即可。舉例來說，獨立複合型別可用於函數的參數或回傳型別。
 
 要能夠建立複合型別，您必須具有所有屬性型別的 USAGE 權限。
 
-### Enumerated Types
+#### Enumerated Types \(列舉型別\)
 
-第二種形式的 CREATE TYPE 創建一個列舉（enum）型別，如[第 8.7 節](../../the-sql-language/data-types/8.7.-lie-ju-xing-bie.md)所述。列舉型別採用一個或多個帶引號的標籤列表，每個標籤的長度必須小於 NAMEDATALEN 個字元（標準 PostgreSQL 編譯中為 64 個字元）。
+ 第二種形式的 CREATE TYPE 創建一個列舉（enum）型別，如[第 8.7 節](../../the-sql-language/data-types/8.7.-lie-ju-xing-bie.md)所述。列舉型別採用一個或多個帶引號的標籤列表，每個標籤的長度必須小於 NAMEDATALEN 個字元（標準 PostgreSQL 編譯中為 64 個字元）。（可以以空集合建立列舉型別，但是在使用 [ALTER TYPE](alter-type.md) 加入一個以上標籤之前，這樣的型別是不允許使用的。）
 
-### Range Types
+#### Range Types
 
-第三種形式的 CREATE TYPE 建立一個新的範圍型別，如第 8.17 節所述。
+第三種形式的 CREATE TYPE 建立一個新的範圍型別，如[第 8.17 節](../../the-sql-language/data-types/range-types.md)所述。
 
 範圍型別的子型別可以是具有關連的 b-tree 運算子類的任何型別（用於確定範圍型別值的排序）。通常，子型別的預設 b-tree 運算子類用於決定排序；要使用非預設的運算子類，請使用 subtype\_opclass 指定其名稱。如果子型別是可指定 collation 的，並且您希望在範圍的排序中使用非預設的排序規則，請使用排序規則選項指定所需的排序規則。
 
-選擇性的規範函數必須能接受所定義範圍型別的一個參數，並回傳相同型別的值。在套用時，這會用於將範圍值轉換為所規範形式。有關更多訊息，請參閱[第 8.17.8 節](../../the-sql-language/data-types/range-types.md#8-17-8-defining-new-range-types)。建立規範函數有點棘手，因為必須在宣告範圍型別之前定義它。而要執行此操作，必須先建立一個 shell 型別，這是一種佔位型別，除了名稱和所有者之外沒有其他屬性。這是透過發出命令 CREATE TYPE name 來完成的，沒有其他參數。然後可以使用 shell 型別作為參數和結果宣告函數，最後可以使用相同的名稱宣告範圍型別。這會自動使用有效的範圍型別替換 shell 型別參數。
+選擇性的規範函數必須能接受所定義範圍型別的一個參數，並回傳相同型別的值。在套用時，這會用於將範圍值轉換為所規範形式。有關更多訊息，請參閱[第 8.17.8 節](https://docs.postgresql.tw/the-sql-language/data-types/range-types#8-17-8-defining-new-range-types)。建立規範函數有點棘手，因為必須在宣告範圍型別之前定義它。而要執行此操作，必須先建立一個 shell 型別，這是一種佔位型別，除了名稱和所有者之外沒有其他屬性。這是透過發出命令 CREATE TYPE name 來完成的，沒有其他參數。然後可以使用 shell 型別作為參數和結果宣告函數，最後可以使用相同的名稱宣告範圍型別。這會自動使用有效的範圍型別替換 shell 型別參數。
 
-選擇性的 subtype\_diff 函數必須將子型別的兩個值作為參數，並回傳表示兩個給定值之間差異的雙精確度值。雖然這是選擇性的，但是有提供它的話，可以在範圍型別的欄位上實現更高的 GiST 索引效率。有關更多訊息，請參閱[第 8.17.8 節](../../the-sql-language/data-types/range-types.md#8-17-8-defining-new-range-types)。
+選擇性的 subtype\_diff 函數必須將子型別的兩個值作為參數，並回傳表示兩個給定值之間差異的雙精確度值。雖然這是選擇性的，但是有提供它的話，可以在範圍型別的欄位上實現更高的 GiST 索引效率。有關更多訊息，請參閱[第 8.17.8 節](https://docs.postgresql.tw/the-sql-language/data-types/range-types#8-17-8-defining-new-range-types)。
 
-### Base Types
+#### Base Types \(基本型別\)
 
 The fourth form of `CREATE TYPE` creates a new base type \(scalar type\). To create a new base type, you must be a superuser. \(This restriction is made because an erroneous type definition could confuse or even crash the server.\)
 
-The parameters can appear in any order, not only that illustrated above, and most are optional. You must register two or more functions \(using `CREATE FUNCTION`\) before defining the type. The support functions _`input_function`_ and _`output_function`_ are required, while the functions _`receive_function`_, _`send_function`_, _`type_modifier_input_function`_,_`type_modifier_output_function`_ and _`analyze_function`_ are optional. Generally these functions have to be coded in C or another low-level language.
+The parameters can appear in any order, not only that illustrated above, and most are optional. You must register two or more functions \(using `CREATE FUNCTION`\) before defining the type. The support functions _`input_function`_ and _`output_function`_ are required, while the functions _`receive_function`_, _`send_function`_, _`type_modifier_input_function`_, _`type_modifier_output_function`_ and _`analyze_function`_ are optional. Generally these functions have to be coded in C or another low-level language.
 
 The _`input_function`_ converts the type's external textual representation to the internal representation used by the operators and functions defined for the type. _`output_function`_ performs the reverse transformation. The input function can be declared as taking one argument of type `cstring`, or as taking three arguments of types `cstring`, `oid`, `integer`. The first argument is the input text as a C string, the second argument is the type's own OID \(except for array types, which instead receive their element type's OID\), and the third is the `typmod` of the destination column, if known \(-1 will be passed if not\). The input function must return a value of the data type itself. Usually, an input function should be declared STRICT; if it is not, it will be called with a NULL first parameter when reading a NULL input value. The function must still return NULL in this case, unless it raises an error. \(This case is mainly meant to support domain input functions, which might need to reject NULL inputs.\) The output function must be declared as taking one argument of the new data type. The output function must return type `cstring`. Output functions are not invoked for NULL values.
 
@@ -91,7 +91,7 @@ The optional _`type_modifier_input_function`_ and _`type_modifier_output_functio
 
 The optional _`analyze_function`_ performs type-specific statistics collection for columns of the data type. By default, `ANALYZE` will attempt to gather statistics using the type's “equals” and “less-than” operators, if there is a default b-tree operator class for the type. For non-scalar types this behavior is likely to be unsuitable, so it can be overridden by specifying a custom analysis function. The analysis function must be declared to take a single argument of type `internal`, and return a `boolean` result. The detailed API for analysis functions appears in `src/include/commands/vacuum.h`.
 
-While the details of the new type's internal representation are only known to the I/O functions and other functions you create to work with the type, there are several properties of the internal representation that must be declared to PostgreSQL. Foremost of these is _`internallength`_. Base data types can be fixed-length, in which case _`internallength`_ is a positive integer, or variable-length, indicated by setting _`internallength`_ to `VARIABLE`. \(Internally, this is represented by setting `typlen` to -1.\) The internal representation of all variable-length types must start with a 4-byte integer giving the total length of this value of the type. \(Note that the length field is often encoded, as described in [Section 66.2](https://www.postgresql.org/docs/10/static/storage-toast.html); it's unwise to access it directly.\)
+While the details of the new type's internal representation are only known to the I/O functions and other functions you create to work with the type, there are several properties of the internal representation that must be declared to PostgreSQL. Foremost of these is _`internallength`_. Base data types can be fixed-length, in which case _`internallength`_ is a positive integer, or variable-length, indicated by setting _`internallength`_ to `VARIABLE`. \(Internally, this is represented by setting `typlen` to -1.\) The internal representation of all variable-length types must start with a 4-byte integer giving the total length of this value of the type. \(Note that the length field is often encoded, as described in [Section 68.2](https://www.postgresql.org/docs/12/storage-toast.html); it's unwise to access it directly.\)
 
 The optional flag `PASSEDBYVALUE` indicates that values of this data type are passed by value, rather than by reference. Types passed by value must be fixed-length, and their internal representation cannot be larger than the size of the `Datum` type \(4 bytes on some machines, 8 bytes on others\).
 
@@ -99,11 +99,11 @@ The _`alignment`_ parameter specifies the storage alignment required for the dat
 
 The _`storage`_ parameter allows selection of storage strategies for variable-length data types. \(Only `plain` is allowed for fixed-length types.\) `plain` specifies that data of the type will always be stored in-line and not compressed. `extended` specifies that the system will first try to compress a long data value, and will move the value out of the main table row if it's still too long. `external` allows the value to be moved out of the main table, but the system will not try to compress it. `main` allows compression, but discourages moving the value out of the main table. \(Data items with this storage strategy might still be moved out of the main table if there is no other way to make a row fit, but they will be kept in the main table preferentially over `extended` and `external` items.\)
 
-All _`storage`_ values other than `plain` imply that the functions of the data type can handle values that have been _toasted_, as described in [Section 66.2](https://www.postgresql.org/docs/10/static/storage-toast.html) and [Section 37.11.1](https://www.postgresql.org/docs/10/static/xtypes.html#XTYPES-TOAST). The specific other value given merely determines the default TOAST storage strategy for columns of a toastable data type; users can pick other strategies for individual columns using `ALTER TABLE SET STORAGE`.
+All _`storage`_ values other than `plain` imply that the functions of the data type can handle values that have been _toasted_, as described in [Section 68.2](https://www.postgresql.org/docs/12/storage-toast.html) and [Section 37.13.1](https://www.postgresql.org/docs/12/xtypes.html#XTYPES-TOAST). The specific other value given merely determines the default TOAST storage strategy for columns of a toastable data type; users can pick other strategies for individual columns using `ALTER TABLE SET STORAGE`.
 
 The _`like_type`_ parameter provides an alternative method for specifying the basic representation properties of a data type: copy them from some existing type. The values of _`internallength`_, _`passedbyvalue`_, _`alignment`_, and _`storage`_ are copied from the named type. \(It is possible, though usually undesirable, to override some of these values by specifying them along with the `LIKE` clause.\) Specifying representation this way is especially useful when the low-level implementation of the new type “piggybacks” on an existing type in some fashion.
 
-The _`category`_ and _`preferred`_ parameters can be used to help control which implicit cast will be applied in ambiguous situations. Each data type belongs to a category named by a single ASCII character, and each type is either “preferred” or not within its category. The parser will prefer casting to preferred types \(but only from other types within the same category\) when this rule is helpful in resolving overloaded functions or operators. For more details see [Chapter 10](https://www.postgresql.org/docs/10/static/typeconv.html). For types that have no implicit casts to or from any other types, it is sufficient to leave these settings at the defaults. However, for a group of related types that have implicit casts, it is often helpful to mark them all as belonging to a category and select one or two of the “most general” types as being preferred within the category. The _`category`_ parameter is especially useful when adding a user-defined type to an existing built-in category, such as the numeric or string types. However, it is also possible to create new entirely-user-defined type categories. Select any ASCII character other than an upper-case letter to name such a category.
+The _`category`_ and _`preferred`_ parameters can be used to help control which implicit cast will be applied in ambiguous situations. Each data type belongs to a category named by a single ASCII character, and each type is either “preferred” or not within its category. The parser will prefer casting to preferred types \(but only from other types within the same category\) when this rule is helpful in resolving overloaded functions or operators. For more details see [Chapter 10](https://www.postgresql.org/docs/12/typeconv.html). For types that have no implicit casts to or from any other types, it is sufficient to leave these settings at the defaults. However, for a group of related types that have implicit casts, it is often helpful to mark them all as belonging to a category and select one or two of the “most general” types as being preferred within the category. The _`category`_ parameter is especially useful when adding a user-defined type to an existing built-in category, such as the numeric or string types. However, it is also possible to create new entirely-user-defined type categories. Select any ASCII character other than an upper-case letter to name such a category.
 
 A default value can be specified, in case a user wants columns of the data type to default to something other than the null value. Specify the default with the `DEFAULT` key word. \(Such a default can be overridden by an explicit `DEFAULT` clause attached to a particular column.\)
 
@@ -113,13 +113,13 @@ To indicate the delimiter to be used between values in the external representati
 
 If the optional Boolean parameter _`collatable`_ is true, column definitions and expressions of the type may carry collation information through use of the `COLLATE` clause. It is up to the implementations of the functions operating on the type to actually make use of the collation information; this does not happen automatically merely by marking the type collatable.
 
-### Array Types
+#### Array Types \(陣列型別\)
 
-Whenever a user-defined type is created, PostgreSQL automatically creates an associated array type, whose name consists of the element type's name prepended with an underscore, and truncated if necessary to keep it less than `NAMEDATALEN` bytes long. \(If the name so generated collides with an existing type name, the process is repeated until a non-colliding name is found.\) This implicitly-created array type is variable length and uses the built-in input and output functions `array_in` and `array_out`. The array type tracks any changes in its element type's owner or schema, and is dropped if the element type is.
+每當建立使用者定義的型別時，PostgreSQL 都會自動建立一個相關聯的陣列型別，其名稱由元素型別的名稱組成，該名稱前面帶有底線，並在必要時將其截斷以使其長度小於 NAMEDATALEN 個字元。（如果這樣產生的名稱與現有型別名稱衝突，則重複此程序，直到找到一個非衝突名稱為止。）這個在幕後建立的陣列型別為可變長度，並使用內建的輸入和輸出函數 array\_in 和 array\_out。陣列型別會追隨其元素型別的所有者或網要中的所有變更，如果元素型別被刪除，也會將其刪除。
 
-You might reasonably ask why there is an `ELEMENT` option, if the system makes the correct array type automatically. The only case where it's useful to use `ELEMENT` is when you are making a fixed-length type that happens to be internally an array of a number of identical things, and you want to allow these things to be accessed directly by subscripting, in addition to whatever operations you plan to provide for the type as a whole. For example, type `point` is represented as just two floating-point numbers, which can be accessed using `point[0]`and `point[1]`. Note that this facility only works for fixed-length types whose internal form is exactly a sequence of identical fixed-length fields. A subscriptable variable-length type must have the generalized internal representation used by `array_in` and `array_out`. For historical reasons \(i.e., this is clearly wrong but it's far too late to change it\), subscripting of fixed-length array types starts from zero, rather than from one as for variable-length arrays.
+直覺地您可能會問，如果系統自動產生正確的陣列型別，為什麼會有 ELEMENT 選項。使用 ELEMENT 唯一有用的情況是，當您建立一個固定長度的型別時，該型別在內部恰好是由許多相同的東西組成的陣列，並且除了希望直接透過索引來存取這些元素。您打算為整個型別提供的任何支援操作。例如，型別 point 僅表示為兩個浮點數，可以使用 point\[0\] 和 point\[1\] 對其進行存取的行為。請注意，此功能僅適用於內部格式完全相同的固定長度欄位序列的固定長度型別。可索引的可變長度型別必須具有由 array\_in 和 array\_out 使用的通用內部表示形式。出於歷史原因（也就是說，這顯然是錯誤的，但要更改它為時已晚），固定長度陣列型別的索引是從零開始的，而非如同可變長度陣列從一開始。
 
-## Parameters
+### Parameters
 
 _`name`_
 
@@ -131,7 +131,9 @@ The name of an attribute \(column\) for the composite type.
 
 _`data_type`_
 
-The name of an existing data type to become a column of the composite type._`collation`_
+The name of an existing data type to become a column of the composite type.
+
+_`collation`_
 
 The name of an existing collation to be associated with a column of a composite type, or with a range type.
 
@@ -201,7 +203,7 @@ The name of an existing data type that the new type will have the same represent
 
 _`category`_
 
-The category code \(a single ASCII character\) for this type. The default is `'U'` for “user-defined type”. Other standard category codes can be found in [Table 51.63](https://www.postgresql.org/docs/10/static/catalog-pg-type.html#CATALOG-TYPCATEGORY-TABLE). You may also choose other ASCII characters in order to create custom categories.
+The category code \(a single ASCII character\) for this type. The default is `'U'` for “user-defined type”. Other standard category codes can be found in [Table 51.64](https://www.postgresql.org/docs/12/catalog-pg-type.html#CATALOG-TYPCATEGORY-TABLE). You may also choose other ASCII characters in order to create custom categories.
 
 _`preferred`_
 
@@ -223,7 +225,7 @@ _`collatable`_
 
 True if this type's operations can use collation information. The default is false.
 
-## Notes
+### Notes
 
 Because there are no restrictions on use of a data type once it's been created, creating a base type or range type is tantamount to granting public execute permission on the functions mentioned in the type definition. This is usually not an issue for the sorts of functions that are useful in a type definition. But you might want to think twice before designing a type in a way that would require “secret” information to be used while converting it to or from external form.
 
@@ -235,7 +237,7 @@ Before PostgreSQL version 8.2, the shell-type creation syntax `CREATE TYPE` _`na
 
 In PostgreSQL versions before 7.3, it was customary to avoid creating a shell type at all, by replacing the functions' forward references to the type name with the placeholder pseudo-type `opaque`. The `cstring` arguments and results also had to be declared as `opaque` before 7.3. To support loading of old dump files, `CREATE TYPE` will accept I/O functions declared using `opaque`, but it will issue a notice and change the function declarations to use the correct types.
 
-## 範例
+### 範例
 
 此範例建立一個複合型別並在函數定義中使用它：
 
@@ -311,15 +313,15 @@ CREATE TABLE big_objs (
 );
 ```
 
-更多範例，包括適當的輸入和輸出功能，請參閱[第 37.11 節](../../server-programming/extending-sql/user-defined-types.md)。
+ 更多範例，包括適當的輸入和輸出功能，請參閱[第 37.13 節](../../server-programming/extending-sql/user-defined-types.md)。
 
-## 相容性
+### 相容性
 
 建立複合型別 CREATE TYPE 指令的第一種形式符合 SQL 標準。其他形式則是 PostgreSQL 延伸語法。SQL 標準中的 CREATE TYPE 語句還定義了 PostgreSQL 中未實作的其他形式。
 
 建立具有零屬性的複合型別是 PostgreSQL 專有的（類似於 CREATE TABLE 的情況）。
 
-## 參閱
+### 參閱
 
-[ALTER TYPE](alter-type.md), [CREATE DOMAIN](create-domain.md), [CREATE FUNCTION](create-function.md), [DROP TYPE](drop-type.md)
+[ALTER TYPE](alter-type.md), [CREATE DOMAIN](create-domain.md),[ CREATE FUNCTION](create-function.md), [DROP TYPE](drop-type.md)
 

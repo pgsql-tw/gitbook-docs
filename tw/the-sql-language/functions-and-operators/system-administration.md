@@ -206,7 +206,7 @@ The functions shown in [Table 9.89](https://www.postgresql.org/docs/12/functions
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `pg_column_size(any`\) | `int` | Number of bytes used to store a particular value \(possibly compressed\) |
+| `pg_column_size(any`\) | `int` | 欄位用於儲存特定內容的位元數（可能已壓縮） |
 | `pg_database_size(oid`\) | `bigint` | Disk space used by the database with the specified OID |
 | `pg_database_size(name`\) | `bigint` | Disk space used by the database with the specified name |
 | `pg_indexes_size(regclass`\) | `bigint` | Total disk space used by indexes attached to the specified table |
@@ -215,14 +215,14 @@ The functions shown in [Table 9.89](https://www.postgresql.org/docs/12/functions
 | `pg_size_bytes(text`\) | `bigint` | Converts a size in human-readable format with size units into bytes |
 | `pg_size_pretty(bigint`\) | `text` | Converts a size in bytes expressed as a 64-bit integer into a human-readable format with size units |
 | `pg_size_pretty(numeric`\) | `text` | Converts a size in bytes expressed as a numeric value into a human-readable format with size units |
-| `pg_table_size(regclass`\) | `bigint` | Disk space used by the specified table, excluding indexes \(but including TOAST, free space map, and visibility map\) |
+| `pg_table_size(regclass`\) | `bigint` | 回傳指定資料表所使用的磁碟空間，不包括索引（但包括 TOAST、free space map 和 visibility map） |
 | `pg_tablespace_size(oid`\) | `bigint` | Disk space used by the tablespace with the specified OID |
 | `pg_tablespace_size(name`\) | `bigint` | Disk space used by the tablespace with the specified name |
 | `pg_total_relation_size(regclass`\) | `bigint` | Total disk space used by the specified table, including all indexes and TOAST data |
 
-`pg_column_size` shows the space used to store any individual data value.
+pg\_column\_size 顯示用於儲存任何單一資料內容的空間。
 
-`pg_total_relation_size` accepts the OID or name of a table or toast table, and returns the total on-disk space used for that table, including all associated indexes. This function is equivalent to `pg_table_size` `+` `pg_indexes_size`.
+pg\_total\_relation\_size 接受資料表或 Toast 資料表的 OID 或名稱，回傳用於該資料表的磁碟上總空間，包括所有關聯的索引。此函數等效於 pg\_table\_size + pg\_indexes\_size。
 
 `pg_table_size` accepts the OID or name of a table and returns the disk space needed for that table, exclusive of indexes. \(TOAST space, free space map, and visibility map are included.\)
 

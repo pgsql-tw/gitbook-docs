@@ -231,9 +231,9 @@ CREATE TRIGGER paired_items_update
 
 [第 38.4 節](../../server-programming/extending-sql/user-defined-procedures.md)中有使用 C 撰寫的觸發器函數完整範例。
 
-## Compatibility
+## 相容性
 
-The `CREATE TRIGGER` statement in PostgreSQL implements a subset of the SQL standard. The following functionalities are currently missing:
+PostgreSQL 中的 CREATE TRIGGER 語句只實作了 SQL 標準的一部份。 目前還缺少以下功能：
 
 * While transition table names for `AFTER` triggers are specified using the `REFERENCING` clause in the standard way, the row variables used in `FOR EACH ROW` triggers may not be specified in a `REFERENCING` clause. They are available in a manner that is dependent on the language in which the trigger function is written, but is fixed for any one language. Some languages effectively behave as though there is a `REFERENCING` clause containing `OLD ROW AS OLD NEW ROW AS NEW`.
 * The standard allows transition tables to be used with column-specific `UPDATE` triggers, but then the set of rows that should be visible in the transition tables depends on the trigger's column list. This is not currently implemented by PostgreSQL.
