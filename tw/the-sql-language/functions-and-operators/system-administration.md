@@ -200,15 +200,15 @@ The functions described in [Section 9.26.3](https://www.postgresql.org/docs/12/f
 
 ## 9.26.7. Database Object Management Functions
 
-The functions shown in [Table 9.89](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-DBSIZE) calculate the disk space usage of database objects.
+Table 9.89 中列出的函數用於計算資料庫物件的磁碟空間使用情況。
 
 #### **Table 9.89. Database Object Size Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
 | `pg_column_size(any`\) | `int` | 欄位用於儲存特定內容的位元數（可能已壓縮） |
-| `pg_database_size(oid`\) | `bigint` | Disk space used by the database with the specified OID |
-| `pg_database_size(name`\) | `bigint` | Disk space used by the database with the specified name |
+| `pg_database_size(oid`\) | `bigint` | 指定 OID 的資料庫磁碟空間使用情況 |
+| `pg_database_size(name`\) | `bigint` | 指定名稱的資料庫磁碟空間使用情況 |
 | `pg_indexes_size(regclass`\) | `bigint` | Total disk space used by indexes attached to the specified table |
 | `pg_relation_size(`_`relation`_ `regclass`, _`fork`_ `text`\) | `bigint` | Disk space used by the specified fork \(`'main'`, `'fsm'`, `'vm'`, or `'init'`\) of the specified table or index |
 | `pg_relation_size(`_`relation`_ `regclass`\) | `bigint` | Shorthand for `pg_relation_size(..., 'main')` |
@@ -228,7 +228,7 @@ pg\_total\_relation\_size 接受資料表或 Toast 資料表的 OID 或名稱，
 
 `pg_indexes_size` accepts the OID or name of a table and returns the total disk space used by all the indexes attached to that table.
 
-`pg_database_size` and `pg_tablespace_size` accept the OID or name of a database or tablespace, and return the total disk space used therein. To use `pg_database_size`, you must have `CONNECT` permission on the specified database \(which is granted by default\), or be a member of the `pg_read_all_stats` role. To use `pg_tablespace_size`, you must have `CREATE` permission on the specified tablespace, or be a member of the `pg_read_all_stats` role unless it is the default tablespace for the current database.
+pg\_database\_size 和 pg\_tablespace\_size 接受資料庫或資料表空間的 OID 或名稱，並回傳其中使用的磁碟空間總量。要使用 pg\_database\_size，您必須對指定的資料庫具有 CONNECT 權限（預設情況下已授予該權限），或者是 pg\_read\_all\_stats 角色的成員。要使用 pg\_tablespace\_size，您必須對指定的資料表空間具有 CREATE 權限，或者是 pg\_read\_all\_stats 角色的成員，除非它是目前資料庫的預設資料表空間。
 
 `pg_relation_size` accepts the OID or name of a table, index or toast table, and returns the on-disk size in bytes of one fork of that relation. \(Note that for most purposes it is more convenient to use the higher-level functions `pg_total_relation_size` or `pg_table_size`, which sum the sizes of all forks.\) With one argument, it returns the size of the main data fork of the relation. The second argument can be provided to specify which fork to examine:
 
