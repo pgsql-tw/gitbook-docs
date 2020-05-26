@@ -340,7 +340,7 @@ pgbench 支援使用自訂的情境腳步取代內建的測試腳本（如上所
 
 腳本檔案可以進行簡易的變數代換動作。變數可以由命令列的 -D 來設定，或使用下面所介紹的中繼指令。進一步來說，任何變數都可以使用 -D 選項來預先設定，而在 Table 240 的變數則會自動產生。一旦設定好之後，變數內容就可以使用 :variablename 的形式放入 SQL 指令之中。而每一個模擬用戶的連線中，他們都擁有他們自己的變數內容。
 
-**Table 240. Automatic Variables**
+#### **Table 240. Automatic Variables**
 
 | Variable | Description |
 | :--- | :--- |
@@ -397,7 +397,7 @@ command 和每一個 argument 都可以是文字常數或使用 :variablename �
 
 Table 241 是 pgbench 內建，可以在 \set 的函數。
 
-**Table 241. pgbench Functions**
+#### **Table 241. pgbench Functions**
 
 | Function | Return Type | Description | Example | Result |
 | :--- | :--- | :--- | :--- | :--- |
