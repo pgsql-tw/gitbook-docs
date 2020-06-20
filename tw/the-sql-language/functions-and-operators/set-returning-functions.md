@@ -1,16 +1,16 @@
 # 9.24. 集合回傳函式
 
-This section describes functions that possibly return more than one row. The most widely used functions in this class are series generating functions, as detailed in [Table 9.61](https://www.postgresql.org/docs/12/functions-srf.html#FUNCTIONS-SRF-SERIES) and [Table 9.62](https://www.postgresql.org/docs/12/functions-srf.html#FUNCTIONS-SRF-SUBSCRIPTS). Other, more specialized set-returning functions are described elsewhere in this manual. See [Section 7.2.1.4](https://www.postgresql.org/docs/12/queries-table-expressions.html#QUERIES-TABLEFUNCTIONS) for ways to combine multiple set-returning functions.
+本節介紹可以回傳多個資料列的函數。此類中使用最廣泛的函數是序列生成函數，如 [Table 9.61](set-returning-functions.md#table-9-61-series-generating-functions)和 [Table 9.62](set-returning-functions.md#table-9-62-subscript-generating-functions) 所述。其他更專門的集合回傳函數在本手冊的其他地方介紹。有關組合多個集合回傳函數的方法，請參見[第 7.2.1.4 節](../queries/7.2.-zi-liao-biao-biao-shi-shi.md#7-2-1-the-from-clause)。
 
 #### **Table 9.61. Series Generating Functions**
 
 | Function | Argument Type | Return Type | Description |
 | :--- | :--- | :--- | :--- |
-| `generate_series(`_`start`_, _`stop`_\) | `int`, `bigint` or `numeric` | `setof int`, `setof bigint`, or `setof numeric` \(same as argument type\) | Generate a series of values, from _`start`_ to _`stop`_ with a step size of one |
-| `generate_series(`_`start`_, _`stop`_, _`step`_\) | `int`, `bigint` or `numeric` | `setof int`, `setof bigint` or `setof numeric` \(same as argument type\) | Generate a series of values, from _`start`_ to _`stop`_ with a step size of _`step`_ |
-| `generate_series(`_`start`_, _`stop`_, _`step`_ `interval`\) | `timestamp` or `timestamp with time zone` | `setof timestamp` or `setof timestamp with time zone` \(same as argument type\) | Generate a series of values, from _`start`_ to _`stop`_ with a step size of _`step`_ |
+| `generate_series(`_`start`_, _`stop`_\) | `int`, `bigint` or `numeric` | `setof int`, `setof bigint`, or `setof numeric` \(same as argument type\) | 從 start 到 stop 產生成一系列的值，間隔為 1 |
+| `generate_series(`_`start`_, _`stop`_, _`step`_\) | `int`, `bigint` or `numeric` | `setof int`, `setof bigint` or `setof numeric` \(same as argument type\) | 產生一系列的值，從 start 到 end，間隔為 step |
+| `generate_series(`_`start`_, _`stop`_, _`step`_ `interval`\) | `timestamp` or `timestamp with time zone` | `setof timestamp` or `setof timestamp with time zone` \(same as argument type\) | 產生一系列的值，從 start 到 end，間隔為 step |
 
-When _`step`_ is positive, zero rows are returned if _`start`_ is greater than _`stop`_. Conversely, when _`step`_ is negative, zero rows are returned if _`start`_ is less than _`stop`_. Zero rows are also returned for `NULL` inputs. It is an error for _`step`_ to be zero. Some examples follow:
+當 step 為正時，如果 start 大於 stop 則回傳零筆資料。相反地，當 step 為負時，如果 start 小於 stop 也回傳零筆資料。NULL 的輸入也回傳零筆資料。 step 為零是錯誤的。以下是一些範例：
 
 ```text
 SELECT * FROM generate_series(2,4);
