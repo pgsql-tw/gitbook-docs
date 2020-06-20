@@ -71,10 +71,10 @@ SELECT * FROM generate_series('2008-03-01 00:00'::timestamp,
 
 | Function | Return Type | Description |
 | :--- | :--- | :--- |
-| `generate_subscripts(`_`array anyarray`_, _`dim int`_\) | `setof int` | Generate a series comprising the given array's subscripts. |
-| `generate_subscripts(`_`array anyarray`_, _`dim int`_, _`reverse boolean`_\) | `setof int` | Generate a series comprising the given array's subscripts. When _`reverse`_ is true, the series is returned in reverse order. |
+| `generate_subscripts(`_`array anyarray`_, _`dim int`_\) | `setof int` | 產生成一個包含給定陣列索引的系列內容。 |
+| `generate_subscripts(`_`array anyarray`_, _`dim int`_, _`reverse boolean`_\) | `setof int` | 產生一個包含給定陣列索引的序列內容。當 reverse 為 true 時，將以相反的順序回傳該序列。 |
 
-`generate_subscripts` is a convenience function that generates the set of valid subscripts for the specified dimension of the given array. Zero rows are returned for arrays that do not have the requested dimension, or for NULL arrays \(but valid subscripts are returned for NULL array elements\). Some examples follow:
+generate\_subscripts 是一個很方便的函數，用於為給定陣列的指定維度產成一組有效的索引內容。對於沒有所請求維數的陣列或 NULL 陣列，回傳零筆資料（但是對於 NULL 陣列元素，回傳有效的索引）。以下是一些範例：
 
 ```text
 -- basic usage
@@ -125,7 +125,7 @@ SELECT * FROM unnest2(ARRAY[[1,2],[3,4]]);
 (4 rows)
 ```
 
-When a function in the `FROM` clause is suffixed by `WITH ORDINALITY`, a `bigint` column is appended to the output which starts from 1 and increments by 1 for each row of the function's output. This is most useful in the case of set returning functions such as `unnest()`.
+當 FROM 子句中的函數加上 WITH ORDINALITY 時，一個 bigint 欄位將附加到輸出資料中，該欄位從 1 開始，並針對函數輸出的每一筆資料以 1 遞增。這對集合回傳函數中的 unnest\(\) 特別有用。
 
 ```text
 -- set returning function WITH ORDINALITY
