@@ -68,17 +68,11 @@ The `pg_stat_statements` view is defined in terms of a function also named `pg_s
 
 `pg_stat_statements.max` \(`integer`\)
 
-`pg_stat_statements.max` is the maximum number of statements tracked by the module \(i.e., the maximum number of rows in the `pg_stat_statements` view\). If more distinct statements than that are observed, information about the least-executed statements is discarded. The default value is 5000. This parameter can only be set at server start.
+`pg_stat_statements.max` is the maximum number of statements tracked by the module \(i.e., the maximum number of rows in the `pg_stat_statements` view\). If more distinct statements than that are observed, information about the least-executed statements is discarded. The default value is 5000. This parameter can only be set at server start.`pg_stat_statements.track` \(`enum`\)
 
-`pg_stat_statements.track` \(`enum`\)
+`pg_stat_statements.track` controls which statements are counted by the module. Specify `top` to track top-level statements \(those issued directly by clients\), `all` to also track nested statements \(such as statements invoked within functions\), or `none` to disable statement statistics collection. The default value is `top`. Only superusers can change this setting.`pg_stat_statements.track_utility` \(`boolean`\)
 
-`pg_stat_statements.track` controls which statements are counted by the module. Specify `top` to track top-level statements \(those issued directly by clients\), `all` to also track nested statements \(such as statements invoked within functions\), or `none` to disable statement statistics collection. The default value is `top`. Only superusers can change this setting.
-
-`pg_stat_statements.track_utility` \(`boolean`\)
-
-`pg_stat_statements.track_utility` controls whether utility commands are tracked by the module. Utility commands are all those other than `SELECT`, `INSERT`, `UPDATE` and `DELETE`. The default value is `on`. Only superusers can change this setting.
-
-`pg_stat_statements.save` \(`boolean`\)
+`pg_stat_statements.track_utility` controls whether utility commands are tracked by the module. Utility commands are all those other than `SELECT`, `INSERT`, `UPDATE` and `DELETE`. The default value is `on`. Only superusers can change this setting.`pg_stat_statements.save` \(`boolean`\)
 
 `pg_stat_statements.save` specifies whether to save statement statistics across server shutdowns. If it is `off` then statistics are not saved at shutdown nor reloaded at server start. The default value is `on`. This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
@@ -191,6 +185,5 @@ hit_percent |
 
 ## F.29.5. Authors
 
-Takahiro Itagaki `<`[`itagaki.takahiro@oss.ntt.co.jp`](mailto:itagaki.takahiro@oss.ntt.co.jp)`>`. Query normalization added by Peter Geoghegan `<`[`peter@2ndquadrant.com`](mailto:peter@2ndquadrant.com)`>`.  
-
+Takahiro Itagaki `<`[`itagaki.takahiro@oss.ntt.co.jp`](mailto:itagaki.takahiro@oss.ntt.co.jp)`>`. Query normalization added by Peter Geoghegan `<`[`peter@2ndquadrant.com`](mailto:peter@2ndquadrant.com)`>`.
 

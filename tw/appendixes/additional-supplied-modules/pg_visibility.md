@@ -1,4 +1,4 @@
-# F.33. pg\_visibility
+# F.32. pg\_visibility
 
 The `pg_visibility` module provides a means for examining the visibility map \(VM\) and page-level visibility information of a table. It also provides functions to check the integrity of a visibility map and to force it to be rebuilt.
 
@@ -6,44 +6,29 @@ Three different bits are used to store information about page-level visibility. 
 
 Functions that display information about `PD_ALL_VISIBLE` bits are much more costly than those that only consult the visibility map, because they must read the relation's data blocks rather than only the \(much smaller\) visibility map. Functions that check the relation's data blocks are similarly expensive.
 
-#### F.33.1. Functions
+## F.32.1. Functions
 
 `pg_visibility_map(relation regclass, blkno bigint, all_visible OUT boolean, all_frozen OUT boolean) returns record`
 
-Returns the all-visible and all-frozen bits in the visibility map for the given block of the given relation.
+Returns the all-visible and all-frozen bits in the visibility map for the given block of the given relation.`pg_visibility(relation regclass, blkno bigint, all_visible OUT boolean, all_frozen OUT boolean, pd_all_visible OUT boolean) returns record`
 
-`pg_visibility(relation regclass, blkno bigint, all_visible OUT boolean, all_frozen OUT boolean, pd_all_visible OUT boolean) returns record`
+Returns the all-visible and all-frozen bits in the visibility map for the given block of the given relation, plus the `PD_ALL_VISIBLE` bit of that block.`pg_visibility_map(relation regclass, blkno OUT bigint, all_visible OUT boolean, all_frozen OUT boolean) returns setof record`
 
-Returns the all-visible and all-frozen bits in the visibility map for the given block of the given relation, plus the `PD_ALL_VISIBLE` bit of that block.
+Returns the all-visible and all-frozen bits in the visibility map for each block of the given relation.`pg_visibility(relation regclass, blkno OUT bigint, all_visible OUT boolean, all_frozen OUT boolean, pd_all_visible OUT boolean) returns setof record`
 
-`pg_visibility_map(relation regclass, blkno OUT bigint, all_visible OUT boolean, all_frozen OUT boolean) returns setof record`
+Returns the all-visible and all-frozen bits in the visibility map for each block of the given relation, plus the `PD_ALL_VISIBLE` bit of each block.`pg_visibility_map_summary(relation regclass, all_visible OUT bigint, all_frozen OUT bigint) returns record`
 
-Returns the all-visible and all-frozen bits in the visibility map for each block of the given relation.
+Returns the number of all-visible pages and the number of all-frozen pages in the relation according to the visibility map.`pg_check_frozen(relation regclass, t_ctid OUT tid) returns setof tid`
 
-`pg_visibility(relation regclass, blkno OUT bigint, all_visible OUT boolean, all_frozen OUT boolean, pd_all_visible OUT boolean) returns setof record`
+Returns the TIDs of non-frozen tuples stored in pages marked all-frozen in the visibility map. If this function returns a non-empty set of TIDs, the visibility map is corrupt.`pg_check_visible(relation regclass, t_ctid OUT tid) returns setof tid`
 
-Returns the all-visible and all-frozen bits in the visibility map for each block of the given relation, plus the `PD_ALL_VISIBLE` bit of each block.
+Returns the TIDs of non-all-visible tuples stored in pages marked all-visible in the visibility map. If this function returns a non-empty set of TIDs, the visibility map is corrupt.`pg_truncate_visibility_map(relation regclass) returns void`
 
-`pg_visibility_map_summary(relation regclass, all_visible OUT bigint, all_frozen OUT bigint) returns record`
-
-Returns the number of all-visible pages and the number of all-frozen pages in the relation according to the visibility map.
-
-`pg_check_frozen(relation regclass, t_ctid OUT tid) returns setof tid`
-
-Returns the TIDs of non-frozen tuples stored in pages marked all-frozen in the visibility map. If this function returns a non-empty set of TIDs, the visibility map is corrupt.
-
-`pg_check_visible(relation regclass, t_ctid OUT tid) returns setof tid`
-
-Returns the TIDs of non-all-visible tuples stored in pages marked all-visible in the visibility map. If this function returns a non-empty set of TIDs, the visibility map is corrupt.
-
-`pg_truncate_visibility_map(relation regclass) returns void`
-
-Truncates the visibility map for the given relation. This function is useful if you believe that the visibility map for the relation is corrupt and wish to force rebuilding it. The first`VACUUM` executed on the given relation after this function is executed will scan every page in the relation and rebuild the visibility map. \(Until that is done, queries will treat the visibility map as containing all zeroes.\)
+Truncates the visibility map for the given relation. This function is useful if you believe that the visibility map for the relation is corrupt and wish to force rebuilding it. The first `VACUUM` executed on the given relation after this function is executed will scan every page in the relation and rebuild the visibility map. \(Until that is done, queries will treat the visibility map as containing all zeroes.\)
 
 By default, these functions are executable only by superusers and members of the `pg_stat_scan_tables` role, with the exception of `pg_truncate_visibility_map(relation regclass)` which can only be executed by superusers.
 
-#### F.33.2. Author
+## F.32.2. Author
 
-Robert Haas `<`[`rhaas@postgresql.org`](mailto:rhaas@postgresql.org)`>`  
-
+Robert Haas `<`[`rhaas@postgresql.org`](mailto:rhaas@postgresql.org)`>`
 
