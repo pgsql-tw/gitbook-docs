@@ -1,22 +1,23 @@
 # 67.1. Introduction
 
-BRIN stands for Block Range Index. BRIN is designed for handling very large tables in which certain columns have some natural correlation with their physical location within the table. A _block range_ is a group of pages that are physically adjacent in the table; for each block range, some summary info is stored by the index. For example, a table storing a store's sale orders might have a date column on which each order was placed, and most of the time the entries for earlier orders will appear earlier in the table as well; a table storing a ZIP code column might have all codes for a city grouped together naturally.
+BRIN 意思是 Block Range Index。BRIN 設計用於處理非常大的資料表，其中某些欄位與其在資料表中的物理位置具有某些自然的相關性。區域範圍是在資料表中是物理上相鄰的一組頁面。對於每個區域範圍，索引都會儲存一些摘要資訊。例如，儲存商店銷售訂單的資料表中可能有一個日期欄位，每個訂單都放置在該欄位上，大多數時候，較早訂單的項目也會在資料表中更早出現。儲存郵遞區號欄的資料表可能會將某個城市的所有編碼自然地組合在一起。
 
-BRIN indexes can satisfy queries via regular bitmap index scans, and will return all tuples in all pages within each range if the summary info stored by the index is _consistent_ with the query conditions. The query executor is in charge of rechecking these tuples and discarding those that do not match the query conditions — in other words, these indexes are lossy. Because a BRIN index is very small, scanning the index adds little overhead compared to a sequential scan, but may avoid scanning large parts of the table that are known not to contain matching tuples.
+BRIN 索引可以透過一般的 bitmap 索引掃描來滿足查詢，如果索引儲存的摘要資訊與查詢條件一致，則 BRIN 索引將回傳每個範圍內所有頁面中的所有資料列。查詢執行程序負責重新檢查這些資料列，並丟棄不符合查詢條件的資料列 - 換句話說，這些索引是失真的。由於 BRIN 索引非常小，因此與順序掃描相比，掃描索引幾乎不會增加成本，但是可以避免掃描資料表多數不符合條件的部分。
 
-The specific data that a BRIN index will store, as well as the specific queries that the index will be able to satisfy, depend on the operator class selected for each column of the index. Data types having a linear sort order can have operator classes that store the minimum and maximum value within each block range, for instance; geometrical types might store the bounding box for all the objects in the block range.
+BRIN 索引將儲存的特定資料，使該索引能夠滿足的特定查詢，其取決於為索引的每一欄位選擇的運算子類。例如，具有線性排序順序的資料型別可以具有儲存每個區域範圍內的最小值和最大值的運算子類。幾何型別可以儲存區域範圍內所有物件的邊界。
 
-The size of the block range is determined at index creation time by the `pages_per_range` storage parameter. The number of index entries will be equal to the size of the relation in pages divided by the selected value for `pages_per_range`. Therefore, the smaller the number, the larger the index becomes \(because of the need to store more index entries\), but at the same time the summary data stored can be more precise and more data blocks can be skipped during an index scan.
+區域範圍的大小在索引建立時由 pages\_per\_range 儲存參數決定。索引項目的數量等於頁面中關係的大小除以 pages\_per\_range 的值。因此，數字越小，索引就越大（由於需要儲存更多的索引項目），但是同時儲存的摘要資料可以更精確，並且在索引掃描期間可以跳過更多的資料區塊。
 
-#### 65.1.1. Index Maintenance
+## 67.1.1. Index Maintenance
 
-At the time of creation, all existing heap pages are scanned and a summary index tuple is created for each range, including the possibly-incomplete range at the end. As new pages are filled with data, page ranges that are already summarized will cause the summary information to be updated with data from the new tuples. When a new page is created that does not fall within the last summarized range, that range does not automatically acquire a summary tuple; those tuples remain unsummarized until a summarization run is invoked later, creating initial summaries. This process can be invoked manually using the `brin_summarize_range(regclass, bigint)` or `brin_summarize_new_values(regclass)` functions; automatically when `VACUUM` processes the table; or by automatic summarization executed by autovacuum, as insertions occur. \(This last trigger is disabled by default and can be enabled with the `autosummarize` parameter.\) Conversely, a range can be de-summarized using the `brin_desummarize_range(regclass, bigint)` function, which is useful when the index tuple is no longer a very good representation because the existing values have changed.
+在建立的時候，將會掃描所有現有的 heap 頁面，並為每個資料範圍（包括最後可能不完整的範圍）建立一個摘要索引資料。當新的頁面充滿資料時，已經彙總的頁面範圍將會讓彙總資訊被來自新資料的資訊更新。當建立的新頁面不在上一個彙總範圍內時，該範圍就不會自動獲取彙總資訊；這些資料保持未摘要狀態，直到稍後呼叫摘要重整以建立初始摘要。可以使用 brin\_summarize\_range\(regclass, bigint\) 或 brin\_summarize\_new\_values\(regclass\) 函數手動呼叫此程序。 VACUUM 時會自動處理資料表；或透過 autovacuum 執行自動彙總（INSERT 指令時）。（最後一個觸發器預設情況下處於停用狀態，可以使用 autosummarize 參數啟用。）相反地，可以使用 brin\_desummarize\_range\(regclass, bigint\) 函數對範圍進行反彙總，當索引資料不再是一個很效的索引時，此函數會很有用，因為現有值已經變更。
 
-When autosummarization is enabled, each time a page range is filled a request is sent to autovacuum for it to execute a targeted summarization for that range, to be fulfilled at the end of the next worker run on the same database. If the request queue is full, the request is not recorded and a message is sent to the server log:
+啟用 autosummarization 後，每次頁面範圍被填滿時，都會發送一個請求到 autovacuum，以對其執行針對該範圍的目標彙總，該請求將在下一個在同一資料庫上執行的工作程序結束時完成。如果請求佇列已滿，則不會記錄該請求，並且會將訊息發送到伺服器日誌：
 
 ```text
 LOG:  request for BRIN range summarization for index "brin_wi_idx" page 128 was not recorded
 ```
 
-When this happens, the range will be summarized normally during the next regular vacuum of the table.
+發生這種情況時，該範圍將在資料表的下一次日常 vacuum 期間修正彙總資訊。  
+
 

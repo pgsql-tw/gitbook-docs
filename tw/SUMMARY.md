@@ -643,7 +643,7 @@
   * [67. BRIN Indexes](internals/brin/README.md)
     * [67.1. Introduction](internals/brin/introduction.md)
     * [67.2. Built-in Operator Classes](internals/brin/built-in-operator-classes.md)
-    * [67.3. Extensibility](internals/brin/65.3.-extensibility.md)
+    * [67.3. Extensibility](internals/brin/extensibility.md)
   * [68. 資料庫實體儲存格式](internals/database-physical-storage/README.md)
     * [68.1. Database File Layout](internals/database-physical-storage/database-file-layout.md)
     * [68.2. TOAST](internals/database-physical-storage/toast.md)

@@ -1,14 +1,13 @@
 # 67.2. Built-in Operator Classes
 
-The core PostgreSQL distribution includes the BRIN operator classes shown in [Table 65.1](https://www.postgresql.org/docs/10/static/brin-builtin-opclasses.html#BRIN-BUILTIN-OPCLASSES-TABLE).
+The core PostgreSQL distribution includes the BRIN operator classes shown in [Table 67.1](https://www.postgresql.org/docs/12/brin-builtin-opclasses.html#BRIN-BUILTIN-OPCLASSES-TABLE).
 
 The _minmax_ operator classes store the minimum and the maximum values appearing in the indexed column within the range. The _inclusion_ operator classes store a value which includes the values in the indexed column within the range.
 
-#### **Table 65.1. Built-in BRIN Operator Classes**
+#### **Table 67.1. Built-in BRIN Operator Classes**
 
 | Name | Indexed Data Type | Indexable Operators |
 | :--- | :--- | :--- |
-| `abstime_minmax_ops` | `abstime` | `<` `<=` `=` `>=` `>` |
 | `int8_minmax_ops` | `bigint` | `<` `<=` `=` `>=` `>` |
 | `bit_minmax_ops` | `bit` | `<` `<=` `=` `>=` `>` |
 | `varbit_minmax_ops` | `bit varying` | `<` `<=` `=` `>=` `>` |
@@ -30,7 +29,6 @@ The _minmax_ operator classes store the minimum and the maximum values appearing
 | `oid_minmax_ops` | `oid` | `<` `<=` `=` `>=` `>` |
 | `range_inclusion_ops` | `any range type` | `<<` `&<` `&&` `&>` `>>` `@>` `<@` `-|-` `=` `<` `<=` `=` `>` `>=` |
 | `float4_minmax_ops` | `real` | `<` `<=` `=` `>=` `>` |
-| `reltime_minmax_ops` | `reltime` | `<` `<=` `=` `>=` `>` |
 | `int2_minmax_ops` | `smallint` | `<` `<=` `=` `>=` `>` |
 | `text_minmax_ops` | `text` | `<` `<=` `=` `>=` `>` |
 | `tid_minmax_ops` | `tid` | `<` `<=` `=` `>=` `>` |
