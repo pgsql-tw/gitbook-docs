@@ -1,10 +1,10 @@
 # F.29. pg\_stat\_statements
 
-The `pg_stat_statements` module provides a means for tracking execution statistics of all SQL statements executed by a server.
+pg\_stat\_statements 模組提供了一個追踪在伺服器上執行的 SQL 語句統計資訊方法。
 
-The module must be loaded by adding `pg_stat_statements` to [shared\_preload\_libraries](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-SHARED-PRELOAD-LIBRARIES) in `postgresql.conf`, because it requires additional shared memory. This means that a server restart is needed to add or remove the module.
+必須透過將 pg\_stat\_statements 加到 postgresql.conf 中的 [shared\_preload\_libraries](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#shared_preload_libraries-string) 中來載入模組，因為它需要額外的共享記憶體。這意味著需要重新啟動伺服器才能載加或刪除模組。
 
-When `pg_stat_statements` is loaded, it tracks statistics across all databases of the server. To access and manipulate these statistics, the module provides a view, `pg_stat_statements`, and the utility functions `pg_stat_statements_reset` and `pg_stat_statements`. These are not available globally but can be enabled for a specific database with `CREATE EXTENSION pg_stat_statements`.
+載入 pg\_stat\_statements 後，它將追踪伺服器所有資料庫的統計資訊。 為了存取和處理這些統計資訊，此模組提供了一個檢視表 pg\_stat\_statements 以及工具程序函數 pg\_stat\_statements\_reset 和 pg\_stat\_statements。這些不是全域可用的，但可以使用 `CREATE EXTENSION pg_stat_statements` 為特定資料庫啟用。
 
 ## F.29.1. The `pg_stat_statements` View
 
@@ -60,25 +60,33 @@ The representative query texts are kept in an external disk file, and do not con
 
 `pg_stat_statements_reset(userid Oid, dbid Oid, queryid bigint) returns void`
 
-`pg_stat_statements_reset` discards statistics gathered so far by `pg_stat_statements` corresponding to the specified `userid`, `dbid` and `queryid`. If any of the parameters are not specified, the default value `0`\(invalid\) is used for each of them and the statistics that match with other parameters will be reset. If no parameter is specified or all the specified parameters are `0`\(invalid\), it will discard all statistics. By default, this function can only be executed by superusers. Access may be granted to others using `GRANT`.`pg_stat_statements(showtext boolean) returns setof record`
+pg\_stat\_statements\_reset 會移除到目前為止由 pg\_stat\_statements 收集的與指定的 userid、dbid 和 queryid 相對應的統計資訊。如果未指定任何參數，則對每個參數使用預設值 0（無效），並且將重置與其他參數相對應的統計資訊。如果未指定任何參數，或者所有指定的參數均為0（無效），則將移除所有統計資訊。預設情況下，此功能只能由超級使用者執行。可以使用 GRANT 將存取權限授予其他人。
 
-The `pg_stat_statements` view is defined in terms of a function also named `pg_stat_statements`. It is possible for clients to call the `pg_stat_statements` function directly, and by specifying `showtext := false` have query text be omitted \(that is, the `OUT` argument that corresponds to the view's `query` column will return nulls\). This feature is intended to support external tools that might wish to avoid the overhead of repeatedly retrieving query texts of indeterminate length. Such tools can instead cache the first query text observed for each entry themselves, since that is all `pg_stat_statements` itself does, and then retrieve query texts only as needed. Since the server stores query texts in a file, this approach may reduce physical I/O for repeated examination of the `pg_stat_statements` data.
+`pg_stat_statements(showtext boolean) returns setof record`
+
+pg\_stat\_statements 檢視表是根據也稱為 pg\_stat\_statements 的函數定義的。用戶端可以直接呼叫 pg\_stat\_statements 函數，並透過指定showtext := false 可以省略查詢字串（即，對應於檢視圖查詢欄位的 OUT 參數將回傳 null）。此功能旨在支持可能希望避免重複獲取長度不確定的查詢字串成本的外部工具。這樣的工具可以代替暫存每個項目本身觀察到的第一個查詢字串，因為 pg\_stat\_statements 本身就是這樣做的，然後僅根據需要檢索查詢字串。由於伺服器將查詢字串儲存在檔案中，因此此方法可以減少用於重複檢查 pg\_stat\_statements 資料的實際 I/O 成本。
 
 ## F.29.3. Configuration Parameters
 
 `pg_stat_statements.max` \(`integer`\)
 
-`pg_stat_statements.max` is the maximum number of statements tracked by the module \(i.e., the maximum number of rows in the `pg_stat_statements` view\). If more distinct statements than that are observed, information about the least-executed statements is discarded. The default value is 5000. This parameter can only be set at server start.`pg_stat_statements.track` \(`enum`\)
+pg\_stat\_statements.max 設定此模組所追踪的語句數量上限（即 pg\_stat\_statements 檢視表中的最大資料列數）。如果觀察到的語句不同，則將丟棄有關執行最少的語句的資訊。預設值為 5,000。只能在伺服器啟動時設定此參數。
 
-`pg_stat_statements.track` controls which statements are counted by the module. Specify `top` to track top-level statements \(those issued directly by clients\), `all` to also track nested statements \(such as statements invoked within functions\), or `none` to disable statement statistics collection. The default value is `top`. Only superusers can change this setting.`pg_stat_statements.track_utility` \(`boolean`\)
+`pg_stat_statements.track` \(`enum`\)
 
-`pg_stat_statements.track_utility` controls whether utility commands are tracked by the module. Utility commands are all those other than `SELECT`, `INSERT`, `UPDATE` and `DELETE`. The default value is `on`. Only superusers can change this setting.`pg_stat_statements.save` \(`boolean`\)
+pg\_stat\_statements.track 控制此模組關注哪些語句。指定 top 表示追踪最上層語句（由用戶端直接發出的語句），也可以全部追踪巢狀語句（例如在函數內呼叫的語句），或者不指定以停用語句統計資訊收集。預設值為 top。只有超級使用者可以變更此設定。
 
-`pg_stat_statements.save` specifies whether to save statement statistics across server shutdowns. If it is `off` then statistics are not saved at shutdown nor reloaded at server start. The default value is `on`. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+`pg_stat_statements.track_utility` \(`boolean`\)
 
-The module requires additional shared memory proportional to `pg_stat_statements.max`. Note that this memory is consumed whenever the module is loaded, even if `pg_stat_statements.track` is set to `none`.
+pg\_stat\_statements.track\_utility 控制模組是否追踪管理程序命令。管理程序命令是除 SELECT、INSERT、UPDATE 和 DELETE 之外的所有命令。預設值為 on。只有超級使用者可以變更改此設定。
 
-These parameters must be set in `postgresql.conf`. Typical usage might be:
+`pg_stat_statements.save` \(`boolean`\)
+
+pg\_stat\_statements.save 指定是否在伺服器關閉時保存語句統計資訊。 如果關閉，則統計資訊不會在關閉時保存，也不會在伺服器啟動時重新載入。預設值為開。只能在 postgresql.conf 檔案或伺服器命令列中設定此參數。
+
+此模塊需要與 pg\_stat\_statements.max 成比例的額外共享記憶體。請注意，即使將 pg\_stat\_statements.track 設定為 none，只要載入模組，就會佔用記憶體空間。
+
+這些參數必須在 postgresql.conf 中設定。典型的用法可能是：
 
 ```text
 # postgresql.conf
