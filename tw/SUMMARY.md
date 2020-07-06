@@ -260,7 +260,7 @@
     * [29.1. 可靠度](server-administration/reliability-and-the-write-ahead-log/reliability.md)
     * [29.2. Write-Ahead Logging（WAL）](server-administration/reliability-and-the-write-ahead-log/write-ahead-logging-wal.md)
     * [29.3. Asynchronous Commit](server-administration/reliability-and-the-write-ahead-log/asynchronous-commit.md)
-    * [29.4. WAL Configuration](server-administration/reliability-and-the-write-ahead-log/30.4.-wal-configuration.md)
+    * [29.4. WAL Configuration](server-administration/reliability-and-the-write-ahead-log/wal-configuration.md)
     * [29.5. WAL Internals](server-administration/reliability-and-the-write-ahead-log/wal-internals.md)
   * [30. 邏輯複寫（Logical Replication）](server-administration/logical-replication/README.md)
     * [30.1. 發佈（Publication）](server-administration/logical-replication/31.1.-fa-bu-publication.md)

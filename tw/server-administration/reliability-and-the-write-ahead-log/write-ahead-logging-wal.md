@@ -1,6 +1,6 @@
 # 29.2. Write-Ahead Logging（WAL）
 
-_Write-Ahead Logging_ \(WAL\) is a standard method for ensuring data integrity. A detailed description can be found in most \(if not all\) books about transaction processing. Briefly, WAL's central concept is that changes to data files \(where tables and indexes reside\) must be written only after those changes have been logged, that is, after log records describing the changes have been flushed to permanent storage. If we follow this procedure, we do not need to flush data pages to disk on every transaction commit, because we know that in the event of a crash we will be able to recover the database using the log: any changes that have not been applied to the data pages can be redone from the log records. \(This is roll-forward recovery, also known as REDO.\)
+預寫日誌記錄（WAL）是確保資料完整性的標準方法。在大多數（可能不是全部）有關交易處理的書中可以找到詳細的說明。簡而言之，WAL的中心概念是，只有在記錄了這些變更後，即在描述變更的日誌記錄已更新到永久儲存的時候，才必須寫入對資料檔案（資料表和索引所在的位置）的變更。如果遵循此流程，則不需要在每次事務提交時都將資料完全更新到磁碟，因為我們知道在系統崩潰的情況下，我們將能夠使用日誌來恢復資料庫：尚未套用的所有變更則可以從日誌記錄重新執行到資料頁面。 （這是 roll-forward recovery，也稱為 REDO。）
 
 #### Tip
 
