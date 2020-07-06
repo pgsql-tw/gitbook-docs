@@ -1,16 +1,16 @@
 # pg\_basebackup
 
-pg\_basebackup — take a base backup of a PostgreSQL cluster
+pg\_basebackup — 對 PostgreSQL 叢集進行基礎備份
 
-### Synopsis
+### 語法
 
 `pg_basebackup` \[_`option`_...\]
 
-### Description
+### 說明
 
-pg\_basebackup is used to take base backups of a running PostgreSQL database cluster. These are taken without affecting other clients to the database, and can be used both for point-in-time recovery \(see [Section 25.3](https://www.postgresql.org/docs/12/continuous-archiving.html)\) and as the starting point for a log shipping or streaming replication standby servers \(see [Section 26.2](https://www.postgresql.org/docs/12/warm-standby.html)\).
+pg\_basebackup 用於對正在執行的 PostgreSQL 資料庫叢集進行基礎備份。採取這些措施不會影響資料庫的其他用戶端，並且可以用於時間點隨選還原（請參閱[第 25.3 節](../../server-administration/25.-bei-fen-ji-huan-yuan/25.3.-continuous-archiving-and-point-in-time-recovery-pitr.md)），也可以用於日誌傳送或串流複寫備用伺服器的起點（請參閱[第 26.2 節](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md)）。
 
-pg\_basebackup makes a binary copy of the database cluster files, while making sure the system is put in and out of backup mode automatically. Backups are always taken of the entire database cluster; it is not possible to back up individual databases or database objects. For individual database backups, a tool such as [pg\_dump](https://www.postgresql.org/docs/12/app-pgdump.html) must be used.
+pg\_basebackup 製作資料庫叢集檔案的二進位副本，同時確保系統自動進入和退出備份模式。只能對整個資料庫叢集進行備份；無法備份單個資料庫或資料庫物件。對於單一資料庫的備份，必須使用如 [pg\_dump](pg_dump.md) 之類的工具。
 
 The backup is made over a regular PostgreSQL connection, and uses the replication protocol. The connection must be made with a superuser or a user having `REPLICATION` permissions \(see [Section 21.2](https://www.postgresql.org/docs/12/role-attributes.html)\), and `pg_hba.conf` must explicitly permit the replication connection. The server must also be configured with [max\_wal\_senders](https://www.postgresql.org/docs/12/runtime-config-replication.html#GUC-MAX-WAL-SENDERS) set high enough to leave at least one session available for the backup and one for WAL streaming \(if used\).
 
@@ -241,7 +241,7 @@ Show help about pg\_basebackup command line arguments, and exit.
 
 This utility, like most other PostgreSQL utilities, uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)\).
 
-The environment variable `PG_COLOR` specifies whether to use color in diagnostics messages. Possible values are `always`, `auto`, `never`.
+The environment variable `PG_COLOR` specifies whether to use color in diagnostic messages. Possible values are `always`, `auto` and `never`.
 
 ### Notes
 
@@ -257,7 +257,7 @@ pg\_basebackup works with servers of the same or an older major version, down to
 
 pg\_basebackup will preserve group permissions in both the `plain` and `tar` formats if group permissions are enabled on the source cluster.
 
-### Examples
+### 範例
 
 To create a base backup of the server at `mydbserver` and store it in the local directory `/usr/local/pgsql/data`:
 
@@ -285,7 +285,7 @@ To create a backup of a local database where the tablespace in `/opt/ts` is relo
 $ pg_basebackup -D backup/data -T /opt/ts=$(pwd)/backup/ts
 ```
 
-### See Also
+### 參閱
 
 [pg\_dump](pg_dump.md)
 
