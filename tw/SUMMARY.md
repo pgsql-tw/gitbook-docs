@@ -669,6 +669,8 @@
     * [F.10. dblink](appendixes/additional-supplied-modules/dblink-1.md)
     * [F.14. file\_fdw](appendixes/additional-supplied-modules/file_fdw.md)
     * [F.29. pg\_stat\_statements](appendixes/additional-supplied-modules/pg_stat_statements.md)
+    * [F.31. pg\_trgm](appendixes/additional-supplied-modules/pg_trgm.md)
+    * [Untitled](appendixes/additional-supplied-modules/untitled.md)
     * [F.32. pg\_visibility](appendixes/additional-supplied-modules/pg_visibility.md)
     * [F.33. postgres\_fdw](appendixes/additional-supplied-modules/f.33.-postgres_fdw.md)
     * [F.35. sepgsql](appendixes/additional-supplied-modules/sepgsql.md)
