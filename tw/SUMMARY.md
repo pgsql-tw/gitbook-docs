@@ -667,6 +667,7 @@
   * [F. 延伸支援模組](appendixes/additional-supplied-modules/README.md)
     * [F.4. auto\_explain](appendixes/additional-supplied-modules/auto_explain.md)
     * [F.10. dblink](appendixes/additional-supplied-modules/dblink-1.md)
+    * [F.13. earthdistance](appendixes/additional-supplied-modules/earthdistance.md)
     * [F.14. file\_fdw](appendixes/additional-supplied-modules/file_fdw.md)
     * [F.29. pg\_stat\_statements](appendixes/additional-supplied-modules/pg_stat_statements.md)
     * [F.31. pg\_trgm](appendixes/additional-supplied-modules/pg_trgm.md)
