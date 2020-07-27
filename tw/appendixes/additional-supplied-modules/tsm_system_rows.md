@@ -8,7 +8,7 @@ tsm\_system\_rows 模組提供資料表抽樣方法 SYSTEM\_ROWS，此方法可�
 
 SYSTEM\_ROWS 不支援 REPEATABLE 子句。
 
-## F.41.1. Examples
+## F.41.1. 範例
 
 使用 SYSTEM\_ROWS 選擇資料表樣本的範例。首先要安裝延伸功能：
 
