@@ -674,6 +674,7 @@
     * [F.32. pg\_visibility](appendixes/additional-supplied-modules/pg_visibility.md)
     * [F.33. postgres\_fdw](appendixes/additional-supplied-modules/f.33.-postgres_fdw.md)
     * [F.35. sepgsql](appendixes/additional-supplied-modules/sepgsql.md)
+    * [F.41. tsm\_system\_rows](appendixes/additional-supplied-modules/tsm_system_rows.md)
   * [G. Additional Supplied Programs](appendixes/g.-additional-supplied-programs/README.md)
     * [G.1. Client Applications](appendixes/g.-additional-supplied-programs/g.1.-client-applications/README.md)
       * [oid2name](appendixes/g.-additional-supplied-programs/g.1.-client-applications/oid2name.md)
