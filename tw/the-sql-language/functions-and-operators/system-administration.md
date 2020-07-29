@@ -210,11 +210,11 @@ Table 9.89 中列出的函數用於計算資料庫物件的磁碟空間使用情
 | `pg_database_size(oid`\) | `bigint` | 指定 OID 的資料庫磁碟空間使用情況 |
 | `pg_database_size(name`\) | `bigint` | 指定名稱的資料庫磁碟空間使用情況 |
 | `pg_indexes_size(regclass`\) | `bigint` | Total disk space used by indexes attached to the specified table |
-| `pg_relation_size(`_`relation`_ `regclass`, _`fork`_ `text`\) | `bigint` | Disk space used by the specified fork \(`'main'`, `'fsm'`, `'vm'`, or `'init'`\) of the specified table or index |
-| `pg_relation_size(`_`relation`_ `regclass`\) | `bigint` | Shorthand for `pg_relation_size(..., 'main')` |
+| `pg_relation_size(`_`relation`_ `regclass`, _`fork`_ `text`\) | `bigint` | 指定資料表或索引的衍生物件（“ main”，“ fsm”，“ vm”或“ init”）所使用的磁碟空間 |
+| `pg_relation_size(`_`relation`_ `regclass`\) | `bigint` | `pg_relation_size(..., 'main') 的簡寫` |
 | `pg_size_bytes(text`\) | `bigint` | Converts a size in human-readable format with size units into bytes |
 | `pg_size_pretty(bigint`\) | `text` | Converts a size in bytes expressed as a 64-bit integer into a human-readable format with size units |
-| `pg_size_pretty(numeric`\) | `text` | Converts a size in bytes expressed as a numeric value into a human-readable format with size units |
+| `pg_size_pretty(numeric`\) | `text` | 將以數字表示的內容轉換為具有大小單位且適於人類易讀的格式 |
 | `pg_table_size(regclass`\) | `bigint` | 回傳指定資料表所使用的磁碟空間，不包括索引（但包括 TOAST、free space map 和 visibility map） |
 | `pg_tablespace_size(oid`\) | `bigint` | Disk space used by the tablespace with the specified OID |
 | `pg_tablespace_size(name`\) | `bigint` | Disk space used by the tablespace with the specified name |
