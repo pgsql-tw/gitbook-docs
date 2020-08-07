@@ -10,7 +10,7 @@ bytea 資料型別允許儲存位元組字串；詳見 [Table 8.6](binary.md#tab
 
 位元組字串是位元組的序列。位元組字串以兩種方式與字串區分開來。首先，位元組字串特別允許儲存零值的位元組和其他「不可列印」位元組（通常是在 32 到 126 範圍之外的位元組）。字串不允許全為零位元組，並且還禁止資料庫選擇無效的字元集編碼序列。其次，對位元組字串的操作處理實際的位元組，而字串的處理取決於區域設定。簡而言之，位元組字串適合於儲存程式設計師認為是「raw bytes」的資料，而字串適合於儲存文字。
 
-bytea 型別支援兩種輸入和輸出的外部格式：PostgreSQL 既有的「escape」格式和「十六進位」格式，輸入時始終接受這兩個。輸出格式取決於組態參數 [bytea\_output](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#bytea_output-enum)；預設值為十六進位。（注意，在 PostgreSQL 9.0 中引入了十六進位格式；早期版本和一些工具並無法解譯它。）
+bytea 型別支援兩種輸入和輸出的外部格式：PostgreSQL 既有的「escape」格式和「十六進位」格式，輸入時始終接受這兩個。輸出格式取決於組態參數 [bytea\_output](../../server-administration/server-configuration/client-connection-defaults.md#bytea_output-enum)；預設值為十六進位。（注意，在 PostgreSQL 9.0 中引入了十六進位格式；早期版本和一些工具並無法解譯它。）
 
 SQL 標準定義了一種不同的位元組字串型別，稱為 BLOB 或 BINARY LARGE OBJECT。輸入格式與 bytea 不同，但提供的函數和運算子大致相同。
 

@@ -10,13 +10,13 @@ Create vs. insert
 
 GIN 索引的建構時間對 maintenance\_work\_mem 設定非常敏感；在建立索引期間，不需要花費工作記憶體。
 
-[gin\_pending\_list\_limit](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-2-xi-ge-shi)
+[gin\_pending\_list\_limit](../../server-administration/server-configuration/client-connection-defaults.md#19-11-2-xi-ge-shi)
 
 在一系列插入已啟用 fastupdate 的現有 GIN 索引期間，只要列表大於 gin\_pending\_list\_limit，系統就會清理待處理項目列表。為了避免觀察的回應時間波動，希望在背景進行待處理列表清理（即透過 autovacuum）。透過增加 gin\_pending\_list\_limit 或使 autovacuum 更積極，可以減少手動清理操作。但是，擴大清理操作的閾值意味著如果確實發生了手動清理，則需要更長時間。
 
 可以透過變更儲存參數來覆蓋各個 GIN 索引的 gin\_pending\_list\_limit，並允許每個 GIN 索引具有自己的清理閾值。例如，可以僅為可以大量更新的 GIN 索引增加閾值，否則可以減少閾值。
 
-[gin\_fuzzy\_search\_limit](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-4-qi-ta-ding-ji-qi-zhi)
+[gin\_fuzzy\_search\_limit](../../server-administration/server-configuration/client-connection-defaults.md#19-11-4-qi-ta-ding-ji-qi-zhi)
 
 開發 GIN 索引的主要目標是在 PostgreSQL 中建立對可高度延展的全文檢索支援，並且通常情況下全文檢索會回傳非常大的結果集合。然而，當查詢包含非常頻繁的單詞時，通常會發生這種情況，因此大型結果集甚至不起作用。由於從磁碟讀取許多 tuple 並對它們進行排序可能需要花費大量時間，因此這對於產品環境來說是不可接受的。（請注意，索引搜尋本身非常快。）
 

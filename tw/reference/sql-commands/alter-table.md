@@ -170,7 +170,7 @@ and table_constraint_using_index is:
 
 `DISABLE`/`ENABLE [ REPLICA | ALWAYS ] TRIGGER`
 
-這個語法設定這個資料表的觸發器。被禁用的觸發器仍然是系統已知的，只是在發生觸發事件時不會執行而已。對於延遲觸發器，當事件發生時檢查啟用狀態，而不是在實際執行觸發器函數時檢查。可以禁用或啟用由名稱指定的單個觸發器或資料表中的所有觸發器，或者僅禁用使用者的觸發器（此選項不包括內部生成的限制條件觸發器，例如用於實作外部鍵約束或可延遲唯一性和排除限制條件的觸發器）。禁用或啟用內部生成的限制條件觸發器需要超級使用者權限；應該謹慎對待，因為如果不執行觸發器，限制條件的完整性將無法得到保證。觸發器的觸發機制也會受設定變數 [session\_replication\_role](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#session_replication_role-enum) 的影響。當複製角色是「origin」（預設）或「local」時，只需啟用觸發器就會觸發。配置為 ENABLE REPLICA 的觸發器只會在連線處於「replica」模式時觸發，而設定為 ENABLE ALWAYS 的觸發器將觸發，不論目前的複複模式為何。
+這個語法設定這個資料表的觸發器。被禁用的觸發器仍然是系統已知的，只是在發生觸發事件時不會執行而已。對於延遲觸發器，當事件發生時檢查啟用狀態，而不是在實際執行觸發器函數時檢查。可以禁用或啟用由名稱指定的單個觸發器或資料表中的所有觸發器，或者僅禁用使用者的觸發器（此選項不包括內部生成的限制條件觸發器，例如用於實作外部鍵約束或可延遲唯一性和排除限制條件的觸發器）。禁用或啟用內部生成的限制條件觸發器需要超級使用者權限；應該謹慎對待，因為如果不執行觸發器，限制條件的完整性將無法得到保證。觸發器的觸發機制也會受設定變數 [session\_replication\_role](../../server-administration/server-configuration/client-connection-defaults.md#session_replication_role-enum) 的影響。當複製角色是「origin」（預設）或「local」時，只需啟用觸發器就會觸發。配置為 ENABLE REPLICA 的觸發器只會在連線處於「replica」模式時觸發，而設定為 ENABLE ALWAYS 的觸發器將觸發，不論目前的複複模式為何。
 
 此指令會取得一個 SHARE ROW EXCLUSIVE 鎖定。
 

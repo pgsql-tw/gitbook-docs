@@ -2,7 +2,7 @@
 
 pg\_stat\_statements 模組提供了一個追踪在伺服器上執行的 SQL 語句統計資訊方法。
 
-必須透過將 pg\_stat\_statements 加到 postgresql.conf 中的 [shared\_preload\_libraries](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#shared_preload_libraries-string) 中來載入模組，因為它需要額外的共享記憶體。這意味著需要重新啟動伺服器才能載加或刪除模組。
+必須透過將 pg\_stat\_statements 加到 postgresql.conf 中的 [shared\_preload\_libraries](../../server-administration/server-configuration/client-connection-defaults.md#shared_preload_libraries-string) 中來載入模組，因為它需要額外的共享記憶體。這意味著需要重新啟動伺服器才能載加或刪除模組。
 
 載入 pg\_stat\_statements 後，它將追踪伺服器所有資料庫的統計資訊。 為了存取和處理這些統計資訊，此模組提供了一個檢視表 pg\_stat\_statements 以及工具程序函數 pg\_stat\_statements\_reset 和 pg\_stat\_statements。這些不是全域可用的，但可以使用 `CREATE EXTENSION pg_stat_statements` 為特定資料庫啟用。
 

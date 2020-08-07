@@ -75,9 +75,9 @@ PostgreSQL 的 MVCC 交易事務處理相依於比較交易事務 ID（XID）：
 
 此外，系統目錄可能包含 xmin 等於 BootstrapTransactionId\(1\) 的資料列，表示它們是在 initdb 的第一階段插入的。與 FrozenTransactionId 一樣，此特殊 XID 被視為比每個普通 XID 更舊。
 
-[vacuum\_freeze\_min\_age](../server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang) 控制在凍結該 XID 的資料列之前 XID 值的大小。增加此設定可以避免不必要的維護工作，否則將很快再次修改否則交易事務將被凍結，但減少此設定會增加在必須再次對資料表進行清理之前可以處理的交易事務數量。
+[vacuum\_freeze\_min\_age](../server-configuration/client-connection-defaults.md#19-11-1-cha-ju-de-hang) 控制在凍結該 XID 的資料列之前 XID 值的大小。增加此設定可以避免不必要的維護工作，否則將很快再次修改否則交易事務將被凍結，但減少此設定會增加在必須再次對資料表進行清理之前可以處理的交易事務數量。
 
-VACUUM 使用[可見性映射表](../../internals/database-physical-storage/visibility-map.md)來確定必須掃描資料表的哪些頁面。通常，它會跳過沒有任何過期資料列版本的頁面，即使這些頁面可能仍然具有舊 XID 值的資料列版本。因此，正常的 VACUUM 並不總是凍結資料表中每個舊的資料列版本。 VACUUM 會定期執行積極的清理，僅跳過既不包含過期資料列也不包含任何未凍結的 XID 或 MXID 值的頁面。[vacuum\_freeze\_table\_age](../server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang) 控制 VACUUM 何時執行此操作：如果自上次此類掃描以來已經處理過的事務數量大於 vacuum\_freeze\_table\_age 減去 vacuum\_freeze\_min\_age，則掃描全部可見但未全部凍結的頁面。將 vacuum\_freeze\_table\_age 設定為 0 會強制 VACUUM 對所有掃描使用此更積極的策略。
+VACUUM 使用[可見性映射表](../../internals/database-physical-storage/visibility-map.md)來確定必須掃描資料表的哪些頁面。通常，它會跳過沒有任何過期資料列版本的頁面，即使這些頁面可能仍然具有舊 XID 值的資料列版本。因此，正常的 VACUUM 並不總是凍結資料表中每個舊的資料列版本。 VACUUM 會定期執行積極的清理，僅跳過既不包含過期資料列也不包含任何未凍結的 XID 或 MXID 值的頁面。[vacuum\_freeze\_table\_age](../server-configuration/client-connection-defaults.md#19-11-1-cha-ju-de-hang) 控制 VACUUM 何時執行此操作：如果自上次此類掃描以來已經處理過的事務數量大於 vacuum\_freeze\_table\_age 減去 vacuum\_freeze\_min\_age，則掃描全部可見但未全部凍結的頁面。將 vacuum\_freeze\_table\_age 設定為 0 會強制 VACUUM 對所有掃描使用此更積極的策略。
 
 資料表可以不清理的最長時間是 20 億個事務減去上次積極清理時的 vacuum\_freeze\_min\_age 值。如果它不清理超過了那個時間，可能會導致資料遺失。為確保不會發生這種情況，將在任何可能包含 XID 未滿配定參數 [autovacuum\_freeze\_max\_age ](../server-configuration/automatic-vacuuming.md)指定的年齡的未凍結資料列的資料表上呼叫autovacuum。（即使禁用 autovacuum，也會執行這個動作。）
 
@@ -125,7 +125,7 @@ HINT:  Stop the postmaster and vacuum that database in single-user mode.
 
 Multixact ID 用於支援多個事務的資料列鎖定。由於 tuple 標頭中只有有限的空間來儲存鎖定訊息，因此只要有多個事務同時鎖定一個資料列，該訊息就會被編碼為“multiple transaction ID”或簡稱 Multixact ID。 有關哪些事務 ID 包含在任何特定 multixact ID 中的訊息將單獨儲存在 pg\_multixact 目錄中，並且只有 multixact ID 出現在 tuple 標頭中的 xmax 字串中。與事務 ID 一樣，multixact ID 實作為 32 位元計數器和相對應的儲存，所有這些都需要仔細的存續管理，儲存清理和環繞處理。有一個單獨的儲存區域，用於保存每個 multixact 中的成員列表，該列表也使用 32 位元計數器，必須進行管理。
 
-每當 VACUUM 掃描資料表時，它將替換任何比 [vacuum\_multixact\_freeze\_min\_age](../server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang) 更舊的多重 ID（Multixact ID），其值可以是零值，單個事務 ID 或更新的多重 ID。對於每個資料表，pg\_class.relminmxid 儲存仍出現在該資料表的任何 tuple 中的最舊的多重 ID。如果此值早於 [vacuum\_multixact\_freeze\_table\_age](../server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang)，則強制使用積極地清理。如前一節所述，積極的清理意味著只會跳過那些已知全凍結的頁面。可以在 pg\_class.relminmxid 上使用 mxid\_age\(\) 來查詢其存在時間。
+每當 VACUUM 掃描資料表時，它將替換任何比 [vacuum\_multixact\_freeze\_min\_age](../server-configuration/client-connection-defaults.md#19-11-1-cha-ju-de-hang) 更舊的多重 ID（Multixact ID），其值可以是零值，單個事務 ID 或更新的多重 ID。對於每個資料表，pg\_class.relminmxid 儲存仍出現在該資料表的任何 tuple 中的最舊的多重 ID。如果此值早於 [vacuum\_multixact\_freeze\_table\_age](../server-configuration/client-connection-defaults.md#19-11-1-cha-ju-de-hang)，則強制使用積極地清理。如前一節所述，積極的清理意味著只會跳過那些已知全凍結的頁面。可以在 pg\_class.relminmxid 上使用 mxid\_age\(\) 來查詢其存在時間。
 
 無論是什麼原因導致積極的 VACUUM 掃描都能夠提升該資料表的值。最終，由於掃描了所有資料庫中的所有資料表並提升了其最舊的 multixact 值，因此可以移除舊的 multixacts 的磁碟儲存。
 

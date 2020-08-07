@@ -73,7 +73,7 @@ _`column_name`_
 
 `TABLESPACE` _`tablespace_name`_
 
-tablespace\_name 是要在其中建立新資料表的資料表空間名稱。如果未指定，則查詢 [default\_tablespace](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang)，如果該資料表是臨時資料表，則為 [temp\_tablespaces](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#19-11-1-cha-ju-de-hang)。
+tablespace\_name 是要在其中建立新資料表的資料表空間名稱。如果未指定，則查詢 [default\_tablespace](../../server-administration/server-configuration/client-connection-defaults.md#19-11-1-cha-ju-de-hang)，如果該資料表是臨時資料表，則為 [temp\_tablespaces](../../server-administration/server-configuration/client-connection-defaults.md#19-11-1-cha-ju-de-hang)。
 
 _`query`_
 

@@ -8,7 +8,7 @@ auto\_explain 模組提供了一種自動記錄慢速語句執行計劃的方法
 LOAD 'auto_explain';
 ```
 
-（您必須是超級使用者才能這樣做。）更典型的用法是透過在 postgresql.conf 中的 [session\_preload\_libraries](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#session_preload_libraries-string) 或 [shared\_preload\_libraries](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#shared_preload_libraries-string) 中包含 auto\_explain 將其預先載入到部分或全部連線中。然後，無論何時發生，您都可以追踪意外緩慢的查詢。當然，會有一些系統代價。
+（您必須是超級使用者才能這樣做。）更典型的用法是透過在 postgresql.conf 中的 [session\_preload\_libraries](../../server-administration/server-configuration/client-connection-defaults.md#session_preload_libraries-string) 或 [shared\_preload\_libraries](../../server-administration/server-configuration/client-connection-defaults.md#shared_preload_libraries-string) 中包含 auto\_explain 將其預先載入到部分或全部連線中。然後，無論何時發生，您都可以追踪意外緩慢的查詢。當然，會有一些系統代價。
 
 ## F.4.1. 組態參數
 

@@ -92,7 +92,7 @@ _`storage_parameter`_
 
 _`tablespace_name`_
 
-用於建立索引的資料表空間。如果未指定，則查詢 [default\_tablespace](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#default_tablespace-string)，或臨時資料表 [temp\_tablespaces](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#temp_tablespaces-string)。
+用於建立索引的資料表空間。如果未指定，則查詢 [default\_tablespace](../../server-administration/server-configuration/client-connection-defaults.md#default_tablespace-string)，或臨時資料表 [temp\_tablespaces](../../server-administration/server-configuration/client-connection-defaults.md#temp_tablespaces-string)。
 
 _`predicate`_
 
@@ -124,7 +124,7 @@ GIN 索引接受不同的參數：
 
 `gin_pending_list_limit`
 
-自定義 [gin\_pending\_list\_limit](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#gin_pending_list_limit-integer) 參數。此值以 KB 為單位。
+自定義 [gin\_pending\_list\_limit](../../server-administration/server-configuration/client-connection-defaults.md#gin_pending_list_limit-integer) 參數。此值以 KB 為單位。
 
 BRIN 索引接受不同的參數：
 

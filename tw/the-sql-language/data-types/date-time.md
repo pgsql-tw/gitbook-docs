@@ -162,7 +162,7 @@ TIMESTAMP WITH TIME ZONE '2004-10-19 10:23:54+02'
 
 在一個已被確定為沒有時區的時間戳記的字串中，PostgreSQL 將默默地忽略任何時區指示。也就是說，結果值是從輸入值中的日期/時間字串產生的，而不針對時區進行調整。
 
-對於帶有時區的時間戳記，內部儲存的值始終為 UTC（Universal Coordinated Time，傳統上稱為格林威治標準時間，GMT）。具有指定時區的輸入值將使用該時區的相對偏移量轉換為 UTC。如果輸入字串中未指定時區，則假定它位於系統的 [TimeZone](../../server-administration/server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#timezone-string) 參數所指示的時區中，並使用時區的偏移量轉換為 UTC。
+對於帶有時區的時間戳記，內部儲存的值始終為 UTC（Universal Coordinated Time，傳統上稱為格林威治標準時間，GMT）。具有指定時區的輸入值將使用該時區的相對偏移量轉換為 UTC。如果輸入字串中未指定時區，則假定它位於系統的 [TimeZone](../../server-administration/server-configuration/client-connection-defaults.md#timezone-string) 參數所指示的時區中，並使用時區的偏移量轉換為 UTC。
 
 輸出帶有時區值的時間戳記時，始終由 UTC 轉換為目前時區，並在該時區中顯示為本地時間。要查看另一個時區的時間，請變更時區或使用 AT TIME ZONE 語法（參閱[第 9.9.3 節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md#9-9-3-at-time-zone)）。
 

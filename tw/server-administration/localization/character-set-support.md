@@ -188,7 +188,7 @@ PostgreSQL 支援伺服器和用戶端之間針對某些字元集組合的自動
   ```
 
 * 使用 PGCLIENTENCODING。如果在用戶端環境中定義了環境變數 PGCLIENTENCODING，則在建立與伺服器的連線時會自動選擇該用戶端編碼。（這可以隨後使用上面提到的任何其他方法覆蓋。）
-* 使用組態變數 client\_encoding。如果設定了 [client\_encoding](../server-configuration/19.11.-yong-hu-duan-lian-xian-yu-she-can-shu.md#client_encoding-string) 變數，則在建立與伺服器的連線時會自動選擇該用戶端編碼。（這可以隨後使用上面提到的任何其他方法覆蓋。）
+* 使用組態變數 client\_encoding。如果設定了 [client\_encoding](../server-configuration/client-connection-defaults.md#client_encoding-string) 變數，則在建立與伺服器的連線時會自動選擇該用戶端編碼。（這可以隨後使用上面提到的任何其他方法覆蓋。）
 
 如果無法轉換特定字元 - 假設您為伺服器選擇了 EUC\_JP 而為用戶端選擇了 LATIN1，並且回傳了一些在 LATIN1 中沒有表示的日文字元 - 回報錯誤。
 
