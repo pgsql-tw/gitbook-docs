@@ -64,7 +64,7 @@
     * [7.5. 資料排序](the-sql-language/queries/7.5.-zi-liao-pai-xu.md)
     * [7.6. 指定資料範圍](the-sql-language/queries/7.6.-zhi-ding-zi-liao-fan-wei.md)
     * [7.7. 列舉資料](the-sql-language/queries/7.7.-lie-ju-zi-liao.md)
-    * [7.8. 遞迴查詢（Common Table Expressions）](the-sql-language/queries/with-queries.md)
+    * [7.8. WITH Querys（Common Table Expressions）](the-sql-language/queries/with-queries.md)
   * [8. 資料型別](the-sql-language/data-types/README.md)
     * [8.1. 數字型別](the-sql-language/data-types/numeric-types.md)
     * [8.2. 貨幣型別](the-sql-language/data-types/8.2.-huo-bi-xing-bie.md)

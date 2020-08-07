@@ -1,21 +1,21 @@
-# 7.8. 遞迴查詢（Common Table Expressions）
+# 7.8. WITH Querys（Common Table Expressions）
 
-WITH 提供了一種撰寫用於更複雜查詢輔助語句的方法。這些通常被稱為公用資料表表示式或 CTE（Common Table Expressions） 的宣告可以被想成是定義僅存在於一個查詢中的臨時資料表。WITH子句中的每個輔助語句都可以是 SELECT、INSERT、UPDATE 或 DELETE；並且 WITH 子句本身附加到 SELECT、INSERT、UPDATE 或 DELETE 的主語句。
+`WITH` provides a way to write auxiliary statements for use in a larger query. These statements, which are often referred to as Common Table Expressions or CTEs, can be thought of as defining temporary tables that exist just for one query. Each auxiliary statement in a `WITH` clause can be a `SELECT`, `INSERT`, `UPDATE`, or `DELETE`; and the `WITH` clause itself is attached to a primary statement that can also be a `SELECT`, `INSERT`, `UPDATE`, or `DELETE`.
 
-## 7.8.1. `SELECT`in`WITH`
+## 7.8.1. `SELECT` in `WITH`
 
-SELECT 中 WITH 的基本價值是將複雜的查詢分解為較為簡單的部分。一個例子是：
+The basic value of `SELECT` in `WITH` is to break down complicated queries into simpler parts. An example is:
 
 ```text
 WITH regional_sales AS (
-        SELECT region, SUM(amount) AS total_sales
-        FROM orders
-        GROUP BY region
-     ), top_regions AS (
-        SELECT region
-        FROM regional_sales
-        WHERE total_sales > (SELECT SUM(total_sales)/10 FROM regional_sales)
-     )
+    SELECT region, SUM(amount) AS total_sales
+    FROM orders
+    GROUP BY region
+), top_regions AS (
+    SELECT region
+    FROM regional_sales
+    WHERE total_sales > (SELECT SUM(total_sales)/10 FROM regional_sales)
+)
 SELECT region,
        product,
        SUM(quantity) AS product_units,
@@ -25,9 +25,9 @@ WHERE region IN (SELECT region FROM top_regions)
 GROUP BY region, product;
 ```
 
-其中僅顯示最上層銷售區域中的每個產品的銷售總計。WITH 子句定義了兩個名為 regional\_sales 和 top\_regions 的輔助語句，其中 top\_size 使用 region\_sales 的輸出，top\_regions 的輸出在主 SELECT 語句中使用。這個例子本來可以不用 WITH 編寫，但是我們需要兩層的SELECT 子查詢。按照這種方式更容易一些。
+which displays per-product sales totals in only the top sales regions. The `WITH` clause defines two auxiliary statements named `regional_sales` and `top_regions`, where the output of `regional_sales` is used in `top_regions` and the output of `top_regions` is used in the primary `SELECT` query. This example could have been written without `WITH`, but we'd have needed two levels of nested sub-`SELECT`s. It's a bit easier to follow this way.
 
-選擇性的 RECURSIVE 修飾字將 WITH 從單純的語法便利性增加了標準 SQL 所無法實現的功能。使用 RECURSIVE，WITH 查詢可以引用它自己的輸出。一個非常簡單的例子是這個查詢來從 1 到 100 的整數求和：
+The optional `RECURSIVE` modifier changes `WITH` from a mere syntactic convenience into a feature that accomplishes things not otherwise possible in standard SQL. Using `RECURSIVE`, a `WITH` query can refer to its own output. A very simple example is this query to sum the integers from 1 through 100:
 
 ```text
 WITH RECURSIVE t(n) AS (
@@ -38,22 +38,22 @@ WITH RECURSIVE t(n) AS (
 SELECT sum(n) FROM t;
 ```
 
-遞迴 WITH 查詢的一般形式始終是非遞迴子句，然後是 UNION（或 UNION ALL），然後是遞迴子句，其中只有遞迴子句可以包含對查詢自己的輸出引用。這樣的查詢執行如下：
+The general form of a recursive `WITH` query is always a _non-recursive term_, then `UNION` \(or `UNION ALL`\), then a _recursive term_, where only the recursive term can contain a reference to the query's own output. Such a query is executed as follows:
 
-執行**遞迴查詢**
+**Recursive Query Evaluation**
 
-1. 執行非遞迴子句。 對於 UNION（但不是 UNION ALL），丟棄重複的資料列。在遞迴查詢的結果中包含所有剩餘的資料列，並將它們放在臨時的工作資料表中。
-2. 只要工作資料表不是空的，就重複這些步驟：
-   1. 執行遞迴子句，將工作資料表的當下的內容替換為遞迴自我引用。對於 UNION（但不是 UNION ALL），將重複的資料列及和之前結果重覆的資料列都丟棄。在遞迴查詢的結果中包含所有剩餘的資料列，並將其放置在臨時中介資料表中。
-   2. 將工作資料表的內容替換為中介資料表的內容，然後清空中介資料表。
+1. Evaluate the non-recursive term. For `UNION` \(but not `UNION ALL`\), discard duplicate rows. Include all remaining rows in the result of the recursive query, and also place them in a temporary _working table_.
+2. So long as the working table is not empty, repeat these steps:
+   1. Evaluate the recursive term, substituting the current contents of the working table for the recursive self-reference. For `UNION` \(but not `UNION ALL`\), discard duplicate rows and rows that duplicate any previous result row. Include all remaining rows in the result of the recursive query, and also place them in a temporary _intermediate table_.
+   2. Replace the contents of the working table with the contents of the intermediate table, then empty the intermediate table.
 
-> ## 注意
->
-> 嚴格地說，這個過程仍然是疊代的而不是遞迴的，但是 RECURSIVE 是 SQL 標準委員會所選擇的用字。
+#### Note
 
-在上面的例子中，工作資料表在每一步驟中只有一個資料列，並且在連續的步驟中從 1 取值到 100。在第 100 步時，由於 WHERE 子句而沒有輸出，因此結束查詢。
+Strictly speaking, this process is iteration not recursion, but `RECURSIVE` is the terminology chosen by the SQL standards committee.
 
-遞迴查詢通常用於處理分層或樹狀結構的資料。一個實用的例子是，這個查詢用來找到產品的所有直接和間接子部分，只產出一個顯示即時包含這些資訊的資料表：
+In the example above, the working table has just a single row in each step, and it takes on the values from 1 through 100 in successive steps. In the 100th step, there is no output because of the `WHERE` clause, and so the query terminates.
+
+Recursive queries are typically used to deal with hierarchical or tree-structured data. A useful example is this query to find all the direct and indirect sub-parts of a product, given only a table that shows immediate inclusions:
 
 ```text
 WITH RECURSIVE included_parts(sub_part, part, quantity) AS (
@@ -62,73 +62,73 @@ WITH RECURSIVE included_parts(sub_part, part, quantity) AS (
     SELECT p.sub_part, p.part, p.quantity
     FROM included_parts pr, parts p
     WHERE p.part = pr.sub_part
-  )
+)
 SELECT sub_part, SUM(quantity) as total_quantity
 FROM included_parts
 GROUP BY sub_part
 ```
 
-使用遞迴查詢時，務必確保查詢的遞迴部分最終不回傳資料列，否則查詢將會無限循環。有時，使用 UNION 而不是 UNION ALL 可以透過丟棄與先前輸出行重覆的資料列來達成此目的。但是，循環查詢通常不涉及完全重複的輸出資料列：可能需要檢查一個或幾個欄位，以查看是否在之前就已經達到相同的點。處理這種情況的標準方法是從已經訪問過的陣列中，計算其值。例如，以下查詢是，使用連接欄位搜尋資料表網路圖：
+When working with recursive queries it is important to be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. Sometimes, using `UNION` instead of `UNION ALL` can accomplish this by discarding rows that duplicate previous output rows. However, often a cycle does not involve output rows that are completely duplicate: it may be necessary to check just one or a few fields to see if the same point has been reached before. The standard method for handling such situations is to compute an array of the already-visited values. For example, consider the following query that searches a table `graph` using a `link` field:
 
 ```text
 WITH RECURSIVE search_graph(id, link, data, depth) AS (
-        SELECT g.id, g.link, g.data, 1
-        FROM graph g
-      UNION ALL
-        SELECT g.id, g.link, g.data, sg.depth + 1
-        FROM graph g, search_graph sg
-        WHERE g.id = sg.link
+    SELECT g.id, g.link, g.data, 1
+    FROM graph g
+  UNION ALL
+    SELECT g.id, g.link, g.data, sg.depth + 1
+    FROM graph g, search_graph sg
+    WHERE g.id = sg.link
 )
 SELECT * FROM search_graph;
 ```
 
-如果連接關係包含循環，則此查詢將持續循環。因為我們需要一個「depth」輸出，只要將 UNION ALL 更改為 UNION 就不會停止循環。相反地，我們需要瞭解到，在遵循特定的連接路徑的情況下，我們是否再一次到達同樣的資料列。我們增加兩個欄位 path 和 cycle 到有循環傾向的查詢之中：
+This query will loop if the `link` relationships contain cycles. Because we require a “depth” output, just changing `UNION ALL` to `UNION` would not eliminate the looping. Instead we need to recognize whether we have reached the same row again while following a particular path of links. We add two columns `path` and `cycle` to the loop-prone query:
 
 ```text
 WITH RECURSIVE search_graph(id, link, data, depth, path, cycle) AS (
-        SELECT g.id, g.link, g.data, 1,
-          ARRAY[g.id],
-          false
-        FROM graph g
-      UNION ALL
-        SELECT g.id, g.link, g.data, sg.depth + 1,
-          path || g.id,
-          g.id = ANY(path)
-        FROM graph g, search_graph sg
-        WHERE g.id = sg.link AND NOT cycle
+    SELECT g.id, g.link, g.data, 1,
+      ARRAY[g.id],
+      false
+    FROM graph g
+  UNION ALL
+    SELECT g.id, g.link, g.data, sg.depth + 1,
+      path || g.id,
+      g.id = ANY(path)
+    FROM graph g, search_graph sg
+    WHERE g.id = sg.link AND NOT cycle
 )
 SELECT * FROM search_graph;
 ```
 
-除了防止循環之外，陣列內容本身通常也是有用的，表示為達到任何特定資料列所採取的「path」。
+Aside from preventing cycles, the array value is often useful in its own right as representing the “path” taken to reach any particular row.
 
-在一般情況下，需要檢查多個欄位來識別是一個循環，請使用資料列陣列來處理。例如，如果我們需要比較欄位 f1 和 f2：
+In the general case where more than one field needs to be checked to recognize a cycle, use an array of rows. For example, if we needed to compare fields `f1` and `f2`:
 
 ```text
 WITH RECURSIVE search_graph(id, link, data, depth, path, cycle) AS (
-        SELECT g.id, g.link, g.data, 1,
-          ARRAY[ROW(g.f1, g.f2)],
-          false
-        FROM graph g
-      UNION ALL
-        SELECT g.id, g.link, g.data, sg.depth + 1,
-          path || ROW(g.f1, g.f2),
-          ROW(g.f1, g.f2) = ANY(path)
-        FROM graph g, search_graph sg
-        WHERE g.id = sg.link AND NOT cycle
+    SELECT g.id, g.link, g.data, 1,
+      ARRAY[ROW(g.f1, g.f2)],
+      false
+    FROM graph g
+  UNION ALL
+    SELECT g.id, g.link, g.data, sg.depth + 1,
+      path || ROW(g.f1, g.f2),
+      ROW(g.f1, g.f2) = ANY(path)
+    FROM graph g, search_graph sg
+    WHERE g.id = sg.link AND NOT cycle
 )
 SELECT * FROM search_graph;
 ```
 
-> ## 小技巧
->
-> 在通常情況下，只需要檢查一個欄位來識別週期，就會省略 ROW\(\) 語法。這可以使用簡單的陣列而不用複合型別的陣列，從而獲得效率。
->
-> ## 小技巧
->
-> 遞迴查詢評估演算法以廣度優先搜尋次序產生其輸出。你也可以按照深度優先的搜尋順序顯示結果，方法是以外部查詢 ORDER BY 「path」欄位。
+#### Tip
 
-當你不確定是否可能會形成循環時，測試查詢的一個有用的技巧是在父查詢中放置一個 LIMIT。例如，這個查詢沒有 LIMIT，將會無限循環：
+Omit the `ROW()` syntax in the common case where only one field needs to be checked to recognize a cycle. This allows a simple array rather than a composite-type array to be used, gaining efficiency.
+
+#### Tip
+
+The recursive query evaluation algorithm produces its output in breadth-first search order. You can display the results in depth-first search order by making the outer query `ORDER BY` a “path” column constructed in this way.
+
+A helpful trick for testing queries when you are not certain if they might loop is to place a `LIMIT` in the parent query. For example, this query would loop forever without the `LIMIT`:
 
 ```text
 WITH RECURSIVE t(n) AS (
@@ -139,40 +139,94 @@ WITH RECURSIVE t(n) AS (
 SELECT n FROM t LIMIT 100;
 ```
 
-這是有效的，因為 PostgreSQL 的實作的關係，看起來像是執行一個 WITH 查詢的許多行，但實際上是由父查詢獲取的。不建議在產品階段中使用這個技巧，因為其他系統的工作方式可能不同。此外，如果你以外部查詢對遞迴查詢的結果進行排序或將它們與某個其他資料表交叉查詢，則通常不可行，因為在這種情況下，外部的查詢通常會嘗試獲取所有 WITH 查詢的輸出。
+This works because PostgreSQL's implementation evaluates only as many rows of a `WITH` query as are actually fetched by the parent query. Using this trick in production is not recommended, because other systems might work differently. Also, it usually won't work if you make the outer query sort the recursive query's results or join them to some other table, because in such cases the outer query will usually try to fetch all of the `WITH` query's output anyway.
 
-WITH 查詢的一個有用的屬性是，每次執行父查詢時，它們只被評估一次，即使它們被父查詢或兄弟的 WITH 查詢引用多次。因此，在多個地方需要昂貴的計算可以放在 WITH 查詢中以避免重複的工作。另一個可能的應用是防止不必要多重評估的副作用。然而，如同硬幣有反面一樣，查詢優化器不太可能限制從父查詢向下推入的是 WITH 查詢而不是普通的子查詢。WITH 查詢通常會按其撰寫方式進行評估，而不會抑制父查詢之後可能丟棄的資料列。（但是，如上所述，如果查詢的引用只需要有限的資料列數量，評估可能會提前結束。）
+A useful property of `WITH` queries is that they are normally evaluated only once per execution of the parent query, even if they are referred to more than once by the parent query or sibling `WITH` queries. Thus, expensive calculations that are needed in multiple places can be placed within a `WITH` query to avoid redundant work. Another possible application is to prevent unwanted multiple evaluations of functions with side-effects. However, the other side of this coin is that the optimizer is not able to push restrictions from the parent query down into a multiply-referenced `WITH` query, since that might affect all uses of the `WITH` query's output when it should affect only one. The multiply-referenced `WITH` query will be evaluated as written, without suppression of rows that the parent query might discard afterwards. \(But, as mentioned above, evaluation might stop early if the reference\(s\) to the query demand only a limited number of rows.\)
 
-上面的例子只說明 WITH 與 SELECT 一起使用，但是它也可以以同樣的方式附加到INSERT、UPDATE 或 DELETE。在每種情況下，它都有效地提供了可以在主查詢中可引用的臨時資料表。
+但是，如果 WITH 查詢是非遞迴且不會在執行中變動的（即它是一個不包含 volatile 函數的 SELECT），則可以將其合併到父查詢之中，從而可以對兩個查詢等級進行聯合語法最佳化。預設情況下，如果父查詢僅引用一次 WITH 語句，而不是多次引用 WITH 一次查詢，則會觸發這個機制。您可以透過指定 MATERIALIZED 強制執行 WITH 查詢的單獨計算，或者透過指定 NOT MATERIALIZED 強制執行將其合併到父查詢中來覆蓋該查詢計畫。後面一種選擇可能會冒著重複計算 WITH 查詢的風險，但如果 WITH 查詢的每次使用只需要 WITH 查詢全部輸出的一小部分，那麼它仍然可以節省成本。
 
-## 7.8.2. WITH 中的資料修改語法
+A simple example of these rules is
 
-你可以在 WITH 中使用資料修改語法（INSERT、UPDATE 或 DELETE）。 這使你可以在同一個查詢中執行多個不同的操作。範例如下：
+```text
+WITH w AS (
+    SELECT * FROM big_table
+)
+SELECT * FROM w WHERE key = 123;
+```
+
+This `WITH` query will be folded, producing the same execution plan as
+
+```text
+SELECT * FROM big_table WHERE key = 123;
+```
+
+In particular, if there's an index on `key`, it will probably be used to fetch just the rows having `key = 123`. On the other hand, in
+
+```text
+WITH w AS (
+    SELECT * FROM big_table
+)
+SELECT * FROM w AS w1 JOIN w AS w2 ON w1.key = w2.ref
+WHERE w2.key = 123;
+```
+
+the `WITH` query will be materialized, producing a temporary copy of `big_table` that is then joined with itself — without benefit of any index. This query will be executed much more efficiently if written as
+
+```text
+WITH w AS NOT MATERIALIZED (
+    SELECT * FROM big_table
+)
+SELECT * FROM w AS w1 JOIN w AS w2 ON w1.key = w2.ref
+WHERE w2.key = 123;
+```
+
+so that the parent query's restrictions can be applied directly to scans of `big_table`.
+
+An example where `NOT MATERIALIZED` could be undesirable is
+
+```text
+WITH w AS (
+    SELECT key, very_expensive_function(val) as f FROM some_table
+)
+SELECT * FROM w AS w1 JOIN w AS w2 ON w1.f = w2.f;
+```
+
+Here, materialization of the `WITH` query ensures that `very_expensive_function` is evaluated only once per table row, not twice.
+
+The examples above only show `WITH` being used with `SELECT`, but it can be attached in the same way to `INSERT`, `UPDATE`, or `DELETE`. In each case it effectively provides temporary table\(s\) that can be referred to in the main command.
+
+## 7.8.2. Data-Modifying Statements in `WITH`
+
+You can use data-modifying statements \(`INSERT`, `UPDATE`, or `DELETE`\) in `WITH`. This allows you to perform several different operations in the same query. An example is:
 
 ```text
 WITH moved_rows AS (
     DELETE FROM products
-    WHERE "date" >= '2010-10-01' AND
-          "date" < '2010-11-01'
+    WHERE
+        "date" >= '2010-10-01' AND
+        "date" < '2010-11-01'
     RETURNING *
-) INSERT INTO products_log SELECT * FROM moved_rows;
+)
+INSERT INTO products_log
+SELECT * FROM moved_rows;
 ```
 
-這個查詢有效地將資料列從 products 搬移到products\_log。WITH 中的 DELETE 從 products 中刪除指定的資料列，透過 RETURNING 子句回傳其內容；然後主查詢讀取該輸出並將其插入到 products\_log 中。
+This query effectively moves rows from `products` to `products_log`. The `DELETE` in `WITH` deletes the specified rows from `products`, returning their contents by means of its `RETURNING` clause; and then the primary query reads that output and inserts it into `products_log`.
 
-上面例子的很好的一點是，WITH 子句被附加到 INSERT，而不是使用 INSERT 中的子查詢。這是必要的，因為資料修改語句只能在最上層語句的 WITH 子句中使用。但是，以一般的 WITH 變數可見性規則，可以從子查詢中引用 WITH 語句的輸出。
+A fine point of the above example is that the `WITH` clause is attached to the `INSERT`, not the sub-`SELECT` within the `INSERT`. This is necessary because data-modifying statements are only allowed in `WITH` clauses that are attached to the top-level statement. However, normal `WITH` visibility rules apply, so it is possible to refer to the `WITH` statement's output from the sub-`SELECT`.
 
-WITH 中的資料修改語句通常具有 RETURNING 子句（詳見[第 6.4 節](../data-manipulation/returning-data-from-modified-rows.md)），如上例所示。它是 RETURNING 子句的輸出，而不是資料修改語句的目標資料表，它構成了查詢的其餘部分可以引用的臨時資料表。如果 WITH 中的資料修改語句沒有 RETURNING 子句，則它就不構成臨時資料表，並且不能在查詢的其餘部分引用。這樣的陳述將被執行。一個不是特別有用的例子是：
+Data-modifying statements in `WITH` usually have `RETURNING` clauses \(see [Section 6.4](https://www.postgresql.org/docs/12/dml-returning.html)\), as shown in the example above. It is the output of the `RETURNING` clause, _not_ the target table of the data-modifying statement, that forms the temporary table that can be referred to by the rest of the query. If a data-modifying statement in `WITH` lacks a `RETURNING` clause, then it forms no temporary table and cannot be referred to in the rest of the query. Such a statement will be executed nonetheless. A not-particularly-useful example is:
 
 ```text
 WITH t AS (
     DELETE FROM foo
-) DELETE FROM bar;
+)
+DELETE FROM bar;
 ```
 
-這個例子將刪除 foo 和 bar 資料表中的所有資料列。報告給客戶端的受影響資料列的數量將只包括從 bar 中刪除的資料列。
+This example would remove all rows from tables `foo` and `bar`. The number of affected rows reported to the client would only include rows removed from `bar`.
 
-資料修改語句中的遞迴的自我引用是不被允許的。在某些情況下，可以通過引用遞迴 WITH 的輸出來解決這個限制，例如：
+Recursive self-references in data-modifying statements are not allowed. In some cases it is possible to work around this limitation by referring to the output of a recursive `WITH`, for example:
 
 ```text
 WITH RECURSIVE included_parts(sub_part, part) AS (
@@ -181,16 +235,16 @@ WITH RECURSIVE included_parts(sub_part, part) AS (
     SELECT p.sub_part, p.part
     FROM included_parts pr, parts p
     WHERE p.part = pr.sub_part
-  )
+)
 DELETE FROM parts
   WHERE part IN (SELECT part FROM included_parts);
 ```
 
-該查詢將刪除產品的所有直接和間接子部分。
+This query would remove all direct and indirect subparts of a product.
 
-WITH 中的資料修改語句只執行一次，並且一定會完成，與主查詢是否讀取其所有（或者甚至是任何）輸出無關。請注意，這與 SELECT 在 WITH 之中的規則不同：如前一節所述，僅在主要查詢要求其輸出的情況下執行 SELECT。
+Data-modifying statements in `WITH` are executed exactly once, and always to completion, independently of whether the primary query reads all \(or indeed any\) of their output. Notice that this is different from the rule for `SELECT` in `WITH`: as stated in the previous section, execution of a `SELECT` is carried only as far as the primary query demands its output.
 
-WITH 中的子語句會與主查詢平行執行。因此，在 WITH 中使用資料修改語句時，指定更新的實際發生順序是不可預知的。所有的語句都使用相同的快照執行（見[第 13 章](../concurrency-control/)），所以它們不能在目標資料表上「看到」對方所產生的變更。 這減輕了資料列更新的實際順序時不可預測性的影響，並且意味著回傳資料是在不同 WITH 子語句和主查詢之間傳遞變化的唯一方式。 範例如下所示：
+The sub-statements in `WITH` are executed concurrently with each other and with the main query. Therefore, when using data-modifying statements in `WITH`, the order in which the specified updates actually happen is unpredictable. All the statements are executed with the same _snapshot_ \(see [Chapter 13](https://www.postgresql.org/docs/12/mvcc.html)\), so they cannot “see” one another's effects on the target tables. This alleviates the effects of the unpredictability of the actual order of row updates, and means that `RETURNING` data is the only way to communicate changes between different `WITH` sub-statements and the main query. An example of this is that in
 
 ```text
 WITH t AS (
@@ -200,7 +254,7 @@ WITH t AS (
 SELECT * FROM products;
 ```
 
-外面的 SELECT 將會在 UPDATE 的執行之前就回傳原始價格
+the outer `SELECT` would return the original prices before the action of the `UPDATE`, while in
 
 ```text
 WITH t AS (
@@ -210,9 +264,9 @@ WITH t AS (
 SELECT * FROM t;
 ```
 
-外面的 SELECT 將會回傳更新後的資料。
+the outer `SELECT` would return the updated data.
 
-企圖在單個語句中更新同一資料列兩次是不被允許的。只有一個修改會發生，但是要可靠地預測哪一個是不容易的（有時不可能）。 這也適用於刪除已在同一語句中更新的資料列：僅更新會被執行。因此，通常你應該避免企圖在單個語句中修改單個資料列兩次。特別注意避免在 WITH 子語句中使用可能會被主語句或其子查詢所影響的資料列。這種查詢語句的效果是不可預測的。
+Trying to update the same row twice in a single statement is not supported. Only one of the modifications takes place, but it is not easy \(and sometimes not possible\) to reliably predict which one. This also applies to deleting a row that was already updated in the same statement: only the update is performed. Therefore you should generally avoid trying to modify a single row twice in a single statement. In particular avoid writing `WITH` sub-statements that could affect the same rows changed by the main statement or a sibling sub-statement. The effects of such a statement will not be predictable.
 
-目前來說，在 WITH 中使用資料修改語句的目標資料表都不能有條件規則，也不能有 ALSO 規則，也不能有擴展為多個語句的 INSTEAD 規則。
+At present, any table used as the target of a data-modifying statement in `WITH` must not have a conditional rule, nor an `ALSO` rule, nor an `INSTEAD` rule that expands to multiple statements.
 
