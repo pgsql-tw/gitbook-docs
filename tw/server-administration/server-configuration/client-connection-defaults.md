@@ -20,13 +20,13 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 搜尋路徑的目前內容可以使用 SQL 函數 current\_schemas 來檢查（詳見 [9.25 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/functions-and-operators/925-system-information-functions.md)）。這與檢查 search\_path 的內容並不完全相同，因為 current\_schemas 表示 search\_path 中出現的項目是如何解析的。
 
-有關 schema 處理的更多訊息，請參見第 [5.8 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-definition/58-schemas.md)。
+有關 schema 處理的更多訊息，請參見[第 5.9 節](../../the-sql-language/ddl/schemas.md)。
 
 #### `row_security`\(`boolean`\)
 
 此參數控制在資料列安全原則檢查時是否進行錯誤中斷。設定為 on 時，安全原則以正常方式運作。當設定為 off 時，除非查詢失敗，否則會至少符合一個原則。 預設值為 on。變更為 off 時，將會限制資料列的可視性，而可能造成不正確的結果；例如，pg\_dump 就會變更其預設值。此參數對於可以繞過每個安全原則的角色，也就是對具有 BYPASSRLS 屬性的超級使用者和角色都不會產生影響。
 
-有關於資料列安全原則的更多訊息，請參閱 [CREATE POLICY](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/create-policy.md)。
+有關於資料列安全原則的更多訊息，請參閱 [CREATE POLICY](../../reference/sql-commands/create-policy.md)。
 
 #### `default_tablespace`\(`string`\)
 
@@ -38,7 +38,7 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 建立資料庫時也不會使用這個參數。預設情況下，新的資料庫將複製的樣板資料庫，並繼承其資料表空間的設定。
 
-有關於資料表空間的更多資訊，請參閱[第 22.6 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/iii-server-administration/226-tablespaces.md)。
+有關於資料表空間的更多資訊，請參閱[第 22.6 節](../managing-databases/22.6.-tablespaces.md)。
 
 #### `temp_tablespaces`\(`string`\)
 
@@ -54,19 +54,19 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 #### `check_function_bodies`\(`boolean`\)
 
-這個參數通常是啓用（on）的。如果把它關閉（off）的話，將在 [CREATE FUNCTION](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/create-function.md) 時關閉函數內容檢驗的措施。停用檢驗可避免檢驗過程的副作用，避免由於物件引用等問題所導致的誤報。例如以其他使用者載入函數之前，將此參數設置為 off；pg\_dump 將會自動執行此操作。
+這個參數通常是啓用（on）的。如果把它關閉（off）的話，將在 [CREATE FUNCTION](../../reference/sql-commands/create-function.md) 時關閉函數內容檢驗的措施。停用檢驗可避免檢驗過程的副作用，避免由於物件引用等問題所導致的誤報。例如以其他使用者載入函數之前，將此參數設置為 off；pg\_dump 將會自動執行此操作。
 
 #### `default_transaction_isolation`\(`enum`\)
 
 每組 SQL 交易查詢都有一個隔離的等級，可以是「read uncommitted」、「read committed」、「repeatable read」或「serializable」。此參數控制每個新的交易產生時的預設隔離等級。預設是「read committed」。
 
-請參閱[第 13 章](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/concurrency-control.md)和 [SET TRANSACTION](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/set-transaction.md) 以取得更多訊息。
+請參閱[第 13 章](../../the-sql-language/concurrency-control/)和 [SET TRANSACTION](../../reference/sql-commands/set-transaction.md) 以取得更多訊息。
 
 #### `default_transaction_read_only`\(`boolean`\)
 
 一個唯讀的 SQL 交易不能更新非臨時的資料表。此參數控制每個新的交易的預設為唯讀狀態。預設是關閉（off）的（可讀／可寫）。
 
-請參閱 [SET TRANSACTION](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/set-transaction.md) 以取得更多訊息。
+請參閱 [SET TRANSACTION](../../reference/sql-commands/set-transaction.md) 以取得更多訊息。
 
 #### `default_transaction_deferrable`\(`boolean`\)
 
@@ -74,11 +74,11 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 此參數控制每個新交易查詢的預設可延期狀態。它目前對讀寫交易或者低於 serializable 隔離等級的操作沒有影響。預設是關閉（off）的。
 
-請參閱 [SET TRANSACTION](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/set-transaction.md) 以取得更多訊息。
+請參閱 [SET TRANSACTION](../../reference/sql-commands/set-transaction.md) 以取得更多訊息。
 
 #### `session_replication_role`\(`enum`\)
 
-控制目前連線與複寫相關觸發器與規則。設定此參數需要超級使用者權限，會導致放棄任何先前快取的查詢計劃。可能的值是 origin（預設）、replica 和 local。 有關更多訊息，請參閱 [ALTER TABLE](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/alter-table.md)。
+控制目前連線與複寫相關觸發器與規則。設定此參數需要超級使用者權限，會導致放棄任何先前快取的查詢計劃。可能的值是 origin（預設）、replica 和 local。 有關更多訊息，請參閱 [ALTER TABLE](../../reference/sql-commands/alter-table.md)。
 
 #### `statement_timeout`\(`integer`\)
 
@@ -122,13 +122,13 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 #### `xmlbinary`\(`enum`\)
 
-設定如何在 XML 中編碼二進位數值。例如，當 bytea 值被函數 xmlelement 或 xmlforest 轉換為XML時，就適用這個設定。可以使用的值是 base64 和 hex，都是在 XML Schema 標準中定義的。 預設值是 base64。有關 XML 相關函數的更多訊息，請參閱[第 9.14 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/functions-and-operators/914-xml-functions.md)。
+設定如何在 XML 中編碼二進位數值。例如，當 bytea 值被函數 xmlelement 或 xmlforest 轉換為XML時，就適用這個設定。可以使用的值是 base64 和 hex，都是在 XML Schema 標準中定義的。 預設值是 base64。有關 XML 相關函數的更多訊息，請參閱[第 9.14 節](../../the-sql-language/functions-and-operators/xml.md)。
 
 實際上的選擇主要是習慣問題，僅受限於客戶端應用程式中的可能限制。這兩種方法都支援所有可能的值，儘管 hex 編碼會比 base64 編碼稍大。
 
 #### `xmloption`\(`enum`\)
 
-在 XML 和字串之間轉換時，設定是否隱含 DOCUMENT 或 CONTENT。請參閱 [8.13 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-types/813-xml-type.md)的描述。有效值是 DOCUMENT 和 CONTENT。預設值是 CONTENT。
+在 XML 和字串之間轉換時，設定是否隱含 DOCUMENT 或 CONTENT。請參閱 [8.13 節](../../the-sql-language/data-types/8.13.-xml-xing-bie.md)的描述。有效值是 DOCUMENT 和 CONTENT。預設值是 CONTENT。
 
 根據 SQL 標準，設定此選項的命令是
 
