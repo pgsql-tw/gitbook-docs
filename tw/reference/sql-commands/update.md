@@ -58,11 +58,11 @@ A `SELECT` sub-query that produces as many output columns as are listed in the p
 
 _`from_list`_
 
-A list of table expressions, allowing columns from other tables to appear in the `WHERE` condition and the update expressions. This is similar to the list of tables that can be specified in the [`FROM` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-FROM) of a `SELECT` statement. Note that the target table must not appear in the _`from_list`_, unless you intend a self-join \(in which case it must appear with an alias in the _`from_list`_\).
+資料表表示式的列表，讓其他資料表中的欄位出現在 WHERE 條件和更新表示式中。 這類似於可以在 SELECT 語句的 FROM [子句](select.md#from-clause)中指定資料表的列表。請注意，除非您打算以同一個資料表進行 JOIN，否則目標資料表一定不能出現在 from\_list 中（在這種情況下，目標資料表都必須帶有別名出現在 from\_list 中）。
 
 _`condition`_
 
-An expression that returns a value of type `boolean`. Only rows for which this expression returns `true` will be updated.
+此表示式回傳 boolean 型別的值。只有此表示式回傳 true 的資料列會被更新。
 
 _`cursor_name`_
 
