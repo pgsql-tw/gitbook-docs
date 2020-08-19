@@ -14,7 +14,7 @@ INSERT INTO t SELECT i % 100, i % 100 FROM generate_series(1, 10000) s(i);
 ANALYZE t;
 ```
 
-As explained in [Section 14.2](https://www.postgresql.org/docs/11/planner-stats.html), the planner can determine cardinality of `t` using the number of pages and rows obtained from `pg_class`:
+As explained in [Section 14.2](https://www.postgresql.org/docs/12/planner-stats.html), the planner can determine cardinality of `t` using the number of pages and rows obtained from `pg_class`:
 
 ```text
 SELECT relpages, reltuples FROM pg_class WHERE relname = 't';
@@ -99,5 +99,72 @@ EXPLAIN (ANALYZE, TIMING OFF) SELECT COUNT(*) FROM t GROUP BY a, b;
  HashAggregate  (cost=220.00..221.00 rows=100 width=16) (actual rows=100 loops=1)
    Group Key: a, b
    ->  Seq Scan on t  (cost=0.00..145.00 rows=10000 width=8) (actual rows=10000 loops=1)
+```
+
+## 70.2.3. MCV Lists
+
+As explained in [Section 70.2.1](https://www.postgresql.org/docs/12/multivariate-statistics-examples.html#FUNCTIONAL-DEPENDENCIES), functional dependencies are very cheap and efficient type of statistics, but their main limitation is their global nature \(only tracking dependencies at the column level, not between individual column values\).
+
+This section introduces multivariate variant of MCV \(most-common values\) lists, a straightforward extension of the per-column statistics described in [Section 70.1](https://www.postgresql.org/docs/12/row-estimation-examples.html). These statistics address the limitation by storing individual values, but it is naturally more expensive, both in terms of building the statistics in `ANALYZE`, storage and planning time.
+
+Let's look at the query from [Section 70.2.1](https://www.postgresql.org/docs/12/multivariate-statistics-examples.html#FUNCTIONAL-DEPENDENCIES) again, but this time with a MCV list created on the same set of columns \(be sure to drop the functional dependencies, to make sure the planner uses the newly created statistics\).
+
+```text
+DROP STATISTICS stts;
+CREATE STATISTICS stts2 (mcv) ON a, b FROM t;
+ANALYZE t;
+EXPLAIN (ANALYZE, TIMING OFF) SELECT * FROM t WHERE a = 1 AND b = 1;
+                                   QUERY PLAN
+-------------------------------------------------------------------------------
+ Seq Scan on t  (cost=0.00..195.00 rows=100 width=8) (actual rows=100 loops=1)
+   Filter: ((a = 1) AND (b = 1))
+   Rows Removed by Filter: 9900
+```
+
+The estimate is as accurate as with the functional dependencies, mostly thanks to the table being fairly small and having a simple distribution with a low number of distinct values. Before looking at the second query, which was not handled by functional dependencies particularly well, let's inspect the MCV list a bit.
+
+Inspecting the MCV list is possible using `pg_mcv_list_items` set-returning function.
+
+```text
+SELECT m.* FROM pg_statistic_ext join pg_statistic_ext_data on (oid = stxoid),
+                pg_mcv_list_items(stxdmcv) m WHERE stxname = 'stts2';
+ index |  values  | nulls | frequency | base_frequency 
+-------+----------+-------+-----------+----------------
+     0 | {0, 0}   | {f,f} |      0.01 |         0.0001
+     1 | {1, 1}   | {f,f} |      0.01 |         0.0001
+   ...
+    49 | {49, 49} | {f,f} |      0.01 |         0.0001
+    50 | {50, 50} | {f,f} |      0.01 |         0.0001
+   ...
+    97 | {97, 97} | {f,f} |      0.01 |         0.0001
+    98 | {98, 98} | {f,f} |      0.01 |         0.0001
+    99 | {99, 99} | {f,f} |      0.01 |         0.0001
+(100 rows)
+```
+
+This confirms there are 100 distinct combinations in the two columns, and all of them are about equally likely \(1% frequency for each one\). The base frequency is the frequency computed from per-column statistics, as if there were no multi-column statistics. Had there been any null values in either of the columns, this would be identified in the `nulls` column.
+
+When estimating the selectivity, the planner applies all the conditions on items in the MCV list, and then sums the frequencies of the matching ones. See `mcv_clauselist_selectivity` in `src/backend/statistics/mcv.c` for details.
+
+Compared to functional dependencies, MCV lists have two major advantages. Firstly, the list stores actual values, making it possible to decide which combinations are compatible.
+
+```text
+EXPLAIN (ANALYZE, TIMING OFF) SELECT * FROM t WHERE a = 1 AND b = 10;
+                                 QUERY PLAN
+---------------------------------------------------------------------------
+ Seq Scan on t  (cost=0.00..195.00 rows=1 width=8) (actual rows=0 loops=1)
+   Filter: ((a = 1) AND (b = 10))
+   Rows Removed by Filter: 10000
+```
+
+Secondly, MCV lists handle a wider range of clause types, not just equality clauses like functional dependencies. For example, consider the following range query for the same table:
+
+```text
+EXPLAIN (ANALYZE, TIMING OFF) SELECT * FROM t WHERE a <= 49 AND b > 49;
+                                QUERY PLAN
+---------------------------------------------------------------------------
+ Seq Scan on t  (cost=0.00..195.00 rows=1 width=8) (actual rows=0 loops=1)
+   Filter: ((a <= 49) AND (b > 49))
+   Rows Removed by Filter: 10000
 ```
 

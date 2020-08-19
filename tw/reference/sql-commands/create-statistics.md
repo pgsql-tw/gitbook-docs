@@ -33,7 +33,7 @@ _`statistics_name`_
 
 _`statistics_kind`_
 
-要在此統計物件中計算的統計類型。目前支援的種類是 ndistinct，它支援 n 個不同的統計資訊和相依關係，它們支援功能相依性統計。如果省略此子句，則統計物件中將包含所有受支援的統計類型。有關更多訊息，請參閱[第 14.2.2 節](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md#14-2-2-yan-shen)和[第 70.2 節](../../internals/68.-how-the-planner-uses-statistics/multivariate-statistics-examples.md)。
+要在此統計物件中計算的統計類型。目前支援的種類是 ndistinct，它支援 n 個不同的統計資訊和相依關係，它們支援功能相依性統計。如果省略此子句，則統計物件中將包含所有受支援的統計類型。有關更多訊息，請參閱[第 14.2.2 節](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md#14-2-2-yan-shen)和[第 70.2 節](../../internals/how-the-planner-uses-statistics/multivariate-statistics-examples.md)。
 
 _`column_name`_
 
