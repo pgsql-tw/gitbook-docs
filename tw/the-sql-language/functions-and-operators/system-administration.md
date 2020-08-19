@@ -206,19 +206,19 @@ Table 9.89 中列出的函數用於計算資料庫物件的磁碟空間使用情
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
-| `pg_column_size(any`\) | `int` | 欄位用於儲存特定內容的位元數（可能已壓縮） |
+| `pg_column_size(any`\) | `int` | 欄位用於儲存特定內容的位元組數（可能已壓縮） |
 | `pg_database_size(oid`\) | `bigint` | 指定 OID 的資料庫磁碟空間使用情況 |
 | `pg_database_size(name`\) | `bigint` | 指定名稱的資料庫磁碟空間使用情況 |
-| `pg_indexes_size(regclass`\) | `bigint` | Total disk space used by indexes attached to the specified table |
+| `pg_indexes_size(regclass`\) | `bigint` | 指定資料表的索引所使用的磁碟總空間 |
 | `pg_relation_size(`_`relation`_ `regclass`, _`fork`_ `text`\) | `bigint` | 指定資料表或索引的衍生物件（“ main”，“ fsm”，“ vm”或“ init”）所使用的磁碟空間 |
 | `pg_relation_size(`_`relation`_ `regclass`\) | `bigint` | `pg_relation_size(..., 'main') 的簡寫` |
-| `pg_size_bytes(text`\) | `bigint` | Converts a size in human-readable format with size units into bytes |
-| `pg_size_pretty(bigint`\) | `text` | Converts a size in bytes expressed as a 64-bit integer into a human-readable format with size units |
+| `pg_size_bytes(text`\) | `bigint` | 將人類可讀格式的大小（以大小單位）轉換為以位元組表示 |
+| `pg_size_pretty(bigint`\) | `text` | 將以 64 位元整數表示的位元組單位數值轉換為具有量級單位的人類可讀格式 |
 | `pg_size_pretty(numeric`\) | `text` | 將以數字表示的內容轉換為具有大小單位且適於人類易讀的格式 |
 | `pg_table_size(regclass`\) | `bigint` | 回傳指定資料表所使用的磁碟空間，不包括索引（但包括 TOAST、free space map 和 visibility map） |
-| `pg_tablespace_size(oid`\) | `bigint` | Disk space used by the tablespace with the specified OID |
-| `pg_tablespace_size(name`\) | `bigint` | Disk space used by the tablespace with the specified name |
-| `pg_total_relation_size(regclass`\) | `bigint` | Total disk space used by the specified table, including all indexes and TOAST data |
+| `pg_tablespace_size(oid`\) | `bigint` | 指定 OID 的資料表空間其所使用的磁碟空間 |
+| `pg_tablespace_size(name`\) | `bigint` | 指定名稱資料表空間所使用的磁碟空間 |
+| `pg_total_relation_size(regclass`\) | `bigint` | 指定資料所表使用的總磁碟空間，包括所有索引和 TOAST 資料 |
 
 pg\_column\_size 顯示用於儲存任何單一資料內容的空間。
 
