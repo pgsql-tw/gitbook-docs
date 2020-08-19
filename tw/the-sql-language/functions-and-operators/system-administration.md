@@ -230,7 +230,7 @@ pg\_total\_relation\_size 接受資料表或 Toast 資料表的 OID 或名稱，
 
 pg\_database\_size 和 pg\_tablespace\_size 接受資料庫或資料表空間的 OID 或名稱，並回傳其中使用的磁碟空間總量。要使用 pg\_database\_size，您必須對指定的資料庫具有 CONNECT 權限（預設情況下已授予該權限），或者是 pg\_read\_all\_stats 角色的成員。要使用 pg\_tablespace\_size，您必須對指定的資料表空間具有 CREATE 權限，或者是 pg\_read\_all\_stats 角色的成員，除非它是目前資料庫的預設資料表空間。
 
-`pg_relation_size` accepts the OID or name of a table, index or toast table, and returns the on-disk size in bytes of one fork of that relation. \(Note that for most purposes it is more convenient to use the higher-level functions `pg_total_relation_size` or `pg_table_size`, which sum the sizes of all forks.\) With one argument, it returns the size of the main data fork of the relation. The second argument can be provided to specify which fork to examine:
+pg\_relation\_size 接受資料表、索引或 Toast 資料表的 OID 或名稱，回傳該關連物件的一個衍生子物件的磁碟大小（以 Byte 為單位）。（請注意，在大多數情況下，使用更上級的函數 pg\_total\_relation\_size 或 pg\_table\_size會比較方便，這些函數會加總所有衍生子物件的大小。）只使用一個參數的時候，它回傳衍生子物件 main 所佔的磁碟空間的大小。可以提供第二個參數來指定要檢查的衍生子物件：
 
 * `'main'` returns the size of the main data fork of the relation.
 * `'fsm'` returns the size of the Free Space Map \(see [Section 68.3](https://www.postgresql.org/docs/12/storage-fsm.html)\) associated with the relation.
