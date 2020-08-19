@@ -1,41 +1,40 @@
 # 8.14. JSON 型別
 
-JSON data types are for storing JSON \(JavaScript Object Notation\) data, as specified in [RFC 7159](https://tools.ietf.org/html/rfc7159). Such data can also be stored as `text`, but the JSON data types have the advantage of enforcing that each stored value is valid according to the JSON rules. There are also assorted JSON-specific functions and operators available for data stored in these data types; see [Section 9.15](https://www.postgresql.org/docs/12/functions-json.html).
+JSON 資料型別用於儲存 [RFC 7159](https://tools.ietf.org/html/rfc7159) 中所規範的 JSON（JavaScript Object Notation）資料。此類資料也可以儲存為 text，但是 JSON 資料型別的優點是可以根據 JSON 規則強制讓每個儲存的值必須是有效的值 。對於這些資料型別中儲存的資料，還提供了各種特定於 JSON 的函數和運算子。 另請參閱[第 9.15 節](../functions-and-operators/json-functions-and-operators.md)。
 
-PostgreSQL offers two types for storing JSON data: `json` and `jsonb`. To implement efficient query mechanisms for these data types, PostgreSQL also provides the `jsonpath` data type described in [Section 8.14.6](https://www.postgresql.org/docs/12/datatype-json.html#DATATYPE-JSONPATH).
+PostgreSQL 提供了兩種儲存 JSON 資料的型別：json 和 jsonb。為了對這些資料型別實作有效的查詢機制，PostgreSQL 還提供了 [8.14.6 節](json-types.md#8-14-6-jsonpath-type)中所描述的 jsonpath 資料型別。
 
-The `json` and `jsonb` data types accept _almost_ identical sets of values as input. The major practical difference is one of efficiency. The `json` data type stores an exact copy of the input text, which processing functions must reparse on each execution; while `jsonb` data is stored in a decomposed binary format that makes it slightly slower to input due to added conversion overhead, but significantly faster to process, since no reparsing is needed. `jsonb` also supports indexing, which can be a significant advantage.
+json 和 jsonb 資料型別接受幾乎相同的內容集合作為輸入。實際主要的差別是效率。json 資料型別儲存與輸入字串完全相同的內容，處理函數必須在每次執行時重新解析；jsonb 資料型別則以分解後的二進位格式儲存，由於增加了轉換成本，因此資料輸入的速度稍慢，但由於後續不需要解析，因此處理速度明顯加快。jsonb 還支援索引處理，這是一個很大的優勢。
 
-Because the `json` type stores an exact copy of the input text, it will preserve semantically-insignificant white space between tokens, as well as the order of keys within JSON objects. Also, if a JSON object within the value contains the same key more than once, all the key/value pairs are kept. \(The processing functions consider the last value as the operative one.\) By contrast, `jsonb` does not preserve white space, does not preserve the order of object keys, and does not keep duplicate object keys. If duplicate keys are specified in the input, only the last value is kept.
+因為 json 型別儲存與輸入字串完全相同的內容，所以它將保留標記之間語義上無關的空白以及 JSON 物件中鍵的順序。另外，如果 JSON 內容物件包含相同的鍵不只一次，則所有鍵/值對都會保留。（處理函數會將最後一個值視為可用的值。）相比之下，jsonb 不會保留空白，不會保留物件中鍵的順序，也不會保留物件中重複的鍵。如果在輸入中指定了重複的鍵，則僅保留最後一個值。
 
-In general, most applications should prefer to store JSON data as `jsonb`, unless there are quite specialized needs, such as legacy assumptions about ordering of object keys.
+通常，大多數應用程序應該將 JSON 資料儲存為 jsonb，除非有非常特殊的需求，例如關於物件中鍵的順序有一些傳統上的假設。
 
-PostgreSQL allows only one character set encoding per database. It is therefore not possible for the JSON types to conform rigidly to the JSON specification unless the database encoding is UTF8. Attempts to directly include characters that cannot be represented in the database encoding will fail; conversely, characters that can be represented in the database encoding but not in UTF8 will be allowed.
+由於 PostgreSQL 每個資料庫只允許一種字元集的編碼。因此，除非資料庫編碼為 UTF8，否則 JSON 型別不可能嚴格符合 JSON 規範。嘗試直接使用資料庫編碼中無法表示的字元會失敗；相反，character 型別則允許使用可以在資料庫編碼中表示但不能以 UTF8 表示的字元。
 
-RFC 7159 permits JSON strings to contain Unicode escape sequences denoted by `\u`_`XXXX`_. In the input function for the `json` type, Unicode escapes are allowed regardless of the database encoding, and are checked only for syntactic correctness \(that is, that four hex digits follow `\u`\). However, the input function for `jsonb` is stricter: it disallows Unicode escapes for non-ASCII characters \(those above `U+007F`\) unless the database encoding is UTF8. The `jsonb` type also rejects `\u0000` \(because that cannot be represented in PostgreSQL's `text` type\), and it insists that any use of Unicode surrogate pairs to designate characters outside the Unicode Basic Multilingual Plane be correct. Valid Unicode escapes are converted to the equivalent ASCII or UTF8 character for storage; this includes folding surrogate pairs into a single character.
+RFC 7159 允許 JSON 字串包含 \uXXXX 所表示的 Unicode 轉譯序列。在 json 型別的輸入函數中，無論資料庫編碼如何，都允許 Unicode 轉譯，並且僅檢查語法正確性（即，四個十六進位數字跟在 \u 之後）。但是，jsonb 的輸入函數更嚴格：除非資料庫編碼為 UTF8，否則它不允許非 ASCII 字元（U+007F 以上的字元）使用 Unicode 轉譯。jsonb 型別也拒絕 \u0000（因為無法在 PostgreSQL 的 text 型別中表現），並且堅持認為使用 Unicode surrogate pair 對來指定 Unicode Basic Multilingual Plane 之外的字元都是正確的。有效的 Unicode 轉譯會轉換為等效的 ASCII 或 UTF8 字元進行儲存； 這包括將 surrogate pair 折疊為單個字元。
 
-#### Note
+**注意**  
+第 9.15 節中描述的許多 JSON 處理函數會將 Unicode 轉譯為一般字元，因此，即使輸入型別為 json 而不是 jsonb，它們也會拋出與上述類型相同的錯誤。json 輸入函數不進行這些檢查的事實可能被認為是歷史共業，儘管它確實允許以非 UTF8 資料庫編碼的形式簡單儲存（毋須處理）JSON Unicode 轉譯。 通常，如果可以的話，最好避免將 JSON 中的 Unicode 轉譯與非 UTF8 資料庫編碼混在一起。
 
-Many of the JSON processing functions described in [Section 9.15](https://www.postgresql.org/docs/12/functions-json.html) will convert Unicode escapes to regular characters, and will therefore throw the same types of errors just described even if their input is of type `json` not `jsonb`. The fact that the `json` input function does not make these checks may be considered a historical artifact, although it does allow for simple storage \(without processing\) of JSON Unicode escapes in a non-UTF8 database encoding. In general, it is best to avoid mixing Unicode escapes in JSON with a non-UTF8 database encoding, if possible.
+將字串 JSON 輸入轉換為 jsonb 時，RFC 7159 描述的原始型別將會有效地對應到內建的 PostgreSQL 型別，如 Table 8.23 所示。因此，對於構成有效 jsonb 資料的內容存在一些較小的附加約束條件，這些約束條件既不適用於 json 型別，也不適用於抽象上 JSON，這對應於基礎資料型別可以表示的內容限制。值得注意的是，jsonb 會拒絕 PostgreSQL 數字資料型別範圍之外的數字，而 json 不會。RFC 7159 允許此類實作定義限制。但是，實際上，在其他實作中更容易出現此類問題，因為通常將 JSON 的數字基本型別表示為 IEEE 754 雙精確度浮點數（RFC 7159 明確預期了這一點且允許）。當使用 JSON 作為此類系統的交換格式時，應考慮與 PostgreSQL 最初儲存的資料相比較，可能會有失去數字精確度的風險。
 
-When converting textual JSON input into `jsonb`, the primitive types described by RFC 7159 are effectively mapped onto native PostgreSQL types, as shown in [Table 8.23](https://www.postgresql.org/docs/12/datatype-json.html#JSON-TYPE-MAPPING-TABLE). Therefore, there are some minor additional constraints on what constitutes valid `jsonb` data that do not apply to the `json` type, nor to JSON in the abstract, corresponding to limits on what can be represented by the underlying data type. Notably, `jsonb` will reject numbers that are outside the range of the PostgreSQL `numeric` data type, while `json` will not. Such implementation-defined restrictions are permitted by RFC 7159. However, in practice such problems are far more likely to occur in other implementations, as it is common to represent JSON's `number` primitive type as IEEE 754 double precision floating point \(which RFC 7159 explicitly anticipates and allows for\). When using JSON as an interchange format with such systems, the danger of losing numeric precision compared to data originally stored by PostgreSQL should be considered.
-
-Conversely, as noted in the table there are some minor restrictions on the input format of JSON primitive types that do not apply to the corresponding PostgreSQL types.
+相反，如下表中所示，JSON 基本型別的輸入格式有一些微小的限制，但並不適用於其相應的 PostgreSQL 資料型別。
 
 #### **Table 8.23. JSON Primitive Types and Corresponding PostgreSQL Types**
 
 | JSON primitive type | PostgreSQL type | Notes |
 | :--- | :--- | :--- |
-| `string` | `text` | `\u0000` is disallowed, as are non-ASCII Unicode escapes if database encoding is not UTF8 |
-| `number` | `numeric` | `NaN` and `infinity` values are disallowed |
-| `boolean` | `boolean` | Only lowercase `true` and `false` spellings are accepted |
-| `null` | \(none\) | SQL `NULL` is a different concept |
+| `string` | `text` | 禁止使用 \u0000，如果資料庫編碼不是 UTF8，則不允許使用非 ASCII Unicode 轉譯 |
+| `number` | `numeric` | 不允許使用 NaN 和 infinity |
+| `boolean` | `boolean` | 僅接受小寫的 true 和 false |
+| `null` | \(none\) | 與 SQL NULL 是不同的概念 |
 
 ## 8.14.1. JSON Input and Output Syntax
 
-The input/output syntax for the JSON data types is as specified in RFC 7159.
+JSON 資料型別的輸入/輸出語法被規範在 RFC 7159 之中。
 
-The following are all valid `json` \(or `jsonb`\) expressions:
+以下是所有有效的 json（或 jsonb）表示式：
 
 ```text
 -- Simple scalar/primitive value
@@ -53,7 +52,7 @@ SELECT '{"bar": "baz", "balance": 7.77, "active": false}'::json;
 SELECT '{"foo": [true, "bar"], "tags": {"a": 1, "b": null}}'::json;
 ```
 
-As previously stated, when a JSON value is input and then printed without any additional processing, `json` outputs the same text that was input, while `jsonb` does not preserve semantically-insignificant details such as whitespace. For example, note the differences here:
+如前所述，當輸入 JSON 內容然後在不進行任何其他處理的情況下進行輸出時，json 輸出與輸入相同的內容，而 jsonb 則不會保留與語義無關的細節，像是空格。例如，請注意此處的差別：
 
 ```text
 SELECT '{"bar": "baz", "balance": 7.77, "active":false}'::json;
@@ -69,7 +68,7 @@ SELECT '{"bar": "baz", "balance": 7.77, "active":false}'::jsonb;
 (1 row)
 ```
 
-One semantically-insignificant detail worth noting is that in `jsonb`, numbers will be printed according to the behavior of the underlying `numeric` type. In practice this means that numbers entered with `E` notation will be printed without it, for example:
+值得注意的一個語義無關的細節是，在 jsonb 中，數字將根據基本數字型別的行為進行輸出。實際上，這意味著使用 E 記號輸入的數字將不會以原輸出形式輸出，例如：
 
 ```text
 SELECT '{"reading": 1.230e-5}'::json, '{"reading": 1.230e-5}'::jsonb;
@@ -79,9 +78,9 @@ SELECT '{"reading": 1.230e-5}'::json, '{"reading": 1.230e-5}'::jsonb;
 (1 row)
 ```
 
-However, `jsonb` will preserve trailing fractional zeroes, as seen in this example, even though those are semantically insignificant for purposes such as equality checks.
+但是，jsonb 將保留小數尾巴的數字零，如在本範例中所示，即使它們在語義上無意義（例如，相等運算），也是如此。
 
-For the list of built-in functions and operators available for constructing and processing JSON values, see [Section 9.15](https://www.postgresql.org/docs/12/functions-json.html).
+有關可用於建構和處理 JSON 內容的內建函數和運算子的列表，請參閱[第 9.15 節](../functions-and-operators/json-functions-and-operators.md)。
 
 ## 8.14.2. Designing JSON Documents
 

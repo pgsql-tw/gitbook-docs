@@ -101,7 +101,7 @@
     * [9.12. 網路位址函式及運算子](the-sql-language/functions-and-operators/9.12.-wang-lu-wei-zhi-han-shi-ji-yun-suan-zi.md)
     * [9.13. 文字檢索函式及運算子](the-sql-language/functions-and-operators/9.13.-wen-zi-jian-suo-han-shi-ji-yun-suan-zi.md)
     * [9.14. XML 函式](the-sql-language/functions-and-operators/xml.md)
-    * [9.15. JSON 函式及運算子](the-sql-language/functions-and-operators/9.15.-json-han-shi-ji-yun-suan-zi.md)
+    * [9.15. JSON 函式及運算子](the-sql-language/functions-and-operators/json-functions-and-operators.md)
     * [9.16. 序列函式](the-sql-language/functions-and-operators/9.16.-xu-lie-han-shi.md)
     * [9.17. 條件表示式](the-sql-language/functions-and-operators/9.17.-tiao-jian-biao-shi-shi.md)
     * [9.18. 陣列函式及運算子](the-sql-language/functions-and-operators/9.18.-zhen-lie-han-shi-ji-yun-suan-zi.md)
