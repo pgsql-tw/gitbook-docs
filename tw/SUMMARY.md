@@ -79,7 +79,7 @@
     * [8.11. 全文檢索型別](the-sql-language/data-types/8.11.-quan-wen-jian-suo-xing-bie.md)
     * [8.12. UUID 型別](the-sql-language/data-types/8.12.-uuid-xing-bie.md)
     * [8.13. XML 型別](the-sql-language/data-types/8.13.-xml-xing-bie.md)
-    * [8.14. JSON 型別](the-sql-language/data-types/8.14.-json-xing-bie.md)
+    * [8.14. JSON 型別](the-sql-language/data-types/json-types.md)
     * [8.15. 陣列](the-sql-language/data-types/8.15.-zhen-lie.md)
     * [8.16. 複合型別](the-sql-language/data-types/8.16.-fu-he-xing-bie.md)
     * [8.17. 範圍型別](the-sql-language/data-types/range-types.md)
