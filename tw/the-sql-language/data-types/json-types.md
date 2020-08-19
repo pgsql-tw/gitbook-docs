@@ -303,13 +303,13 @@ The extensions for PL/Python are called `jsonb_plpythonu`, `jsonb_plpython2u`, a
 
 ## 8.14.6. jsonpath Type
 
-The `jsonpath` type implements support for the SQL/JSON path language in PostgreSQL to efficiently query JSON data. It provides a binary representation of the parsed SQL/JSON path expression that specifies the items to be retrieved by the path engine from the JSON data for further processing with the SQL/JSON query functions.
+jsonpath 型別實現了 PostgreSQL 中對 SQL/JSON 路徑語法的支援，以有效地查詢 JSON 資料。它提供以二元運算的形式來使用已解析的 SQL/JSON 路徑表示式，此表示式讓路徑引擎從 JSON 資料檢索的項目取出內容，以供 SQL/JSON 查詢函數進一步處理。
 
-The semantics of SQL/JSON path predicates and operators generally follow SQL. At the same time, to provide a most natural way of working with JSON data, SQL/JSON path syntax uses some of the JavaScript conventions:
+SQL / JSON 路徑 predicate 和運算子的語義基本遵循 SQL 標準。同時，為了提供使用 JSON 資料的更自然的方式，SQL/JSON 路徑語法使用了一些 JavaScript 約定：
 
-* Dot \(`.`\) is used for member access.
-* Square brackets \(`[]`\) are used for array access.
-* SQL/JSON arrays are 0-relative, unlike regular SQL arrays that start from 1.
+* 點（.）用於資料成員存取。
+* 中括號（\[ \]）用於陣列存取。
+* 與從 1 開始的一般 SQL 陣列不同，SQL/JSON 陣列是 從 0 開始。
 
 An SQL/JSON path expression is typically written in an SQL query as an SQL character string literal, so it must be enclosed in single quotes, and any single quotes desired within the value must be doubled \(see [Section 4.1.2.1](https://www.postgresql.org/docs/12/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS)\). Some forms of path expressions require string literals within them. These embedded string literals follow JavaScript/ECMAScript conventions: they must be surrounded by double quotes, and backslash escapes may be used within them to represent otherwise-hard-to-type characters. In particular, the way to write a double quote within an embedded string literal is `\"`, and to write a backslash itself, you must write `\\`. Other special backslash sequences include those recognized in JSON strings: `\b`, `\f`, `\n`, `\r`, `\t`, `\v` for various ASCII control characters, and `\u`_`NNNN`_ for a Unicode character identified by its 4-hex-digit code point. The backslash syntax also includes two cases not allowed by JSON: `\x`_`NN`_ for a character code written with only two hex digits, and `\u{`_`N...`_} for a character code written with 1 to 6 hex digits.
 
