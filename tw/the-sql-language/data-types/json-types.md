@@ -228,13 +228,13 @@ However, the index could not be used for queries like the following, because tho
 SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc -> 'tags' ? 'qui';
 ```
 
-Still, with appropriate use of expression indexes, the above query can use an index. If querying for particular items within the `"tags"` key is common, defining an index like this may be worthwhile:
+儘管如此，透過適當使用表示式索引，上述查詢仍可以使用索引。如果在“tags”鍵中查詢特定項目很常見，則定義這樣的索引可能是值得的：
 
 ```text
 CREATE INDEX idxgintags ON api USING GIN ((jdoc -> 'tags'));
 ```
 
-Now, the `WHERE` clause `jdoc -> 'tags' ? 'qui'` will be recognized as an application of the indexable operator `?` to the indexed expression `jdoc -> 'tags'`. \(More information on expression indexes can be found in [Section 11.7](https://www.postgresql.org/docs/12/indexes-expressional.html).\)
+現在，WHERE 子句 jdoc-&gt;'tags' ? 'qui' 將被識別為可索引運算子的應用程序 ? 到索引表示式 jdoc-&gt;'tags'。（有關表示式索引的更多資訊，請參閱[第 11.7 節](../index/indexes-on-expressions.md)。）
 
 Also, GIN index supports `@@` and `@?` operators, which perform `jsonpath` matching.
 
