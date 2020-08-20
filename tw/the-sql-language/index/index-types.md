@@ -39,7 +39,7 @@ GiST 索引不是一種索引，而是一種可以實作許多不同索引策略
 | `~=` |
 | `&&` |
 
-（有關這些運算子的含義，請參閱[第 9.11 節](../functions-and-operators/9.11.-di-li-zi-xun-han-shi-ji-yun-suan-zi.md)。）標準版本中包含的 GiST 運算子類記錄在 [Table 62.1](../../internals/gist-indexes/built-in-operator-classes.md#table-62-1-built-in-gist-operator-classes) 中。許多其他 GiST 運算子類在 contrib 套件中可用或作為單獨的專案支援。有關更多訊息，請參閱[第 62 章](../../internals/gist-indexes/)。
+（有關這些運算子的含義，請參閱[第 9.11 節](../functions-and-operators/geometric-functions-and-operators.md)。）標準版本中包含的 GiST 運算子類記錄在 [Table 62.1](../../internals/gist-indexes/built-in-operator-classes.md#table-62-1-built-in-gist-operator-classes) 中。許多其他 GiST 運算子類在 contrib 套件中可用或作為單獨的專案支援。有關更多訊息，請參閱[第 62 章](../../internals/gist-indexes/)。
 
 GiST 索引還能夠最佳化「最近鄰居」搜尋，例如
 
@@ -59,7 +59,7 @@ SP-GiST 索引（如 GiST 索引）提供支援各種搜尋的基礎結構。SP-
 | `<^` |
 | `>^` |
 
-（有關這些運算子的含義，請參閱[第 9.11 節](../functions-and-operators/9.11.-di-li-zi-xun-han-shi-ji-yun-suan-zi.md)。）標準版本中包含的 SP-GiST 運算子類記錄在[ Table 63.1 ](../../internals/sp-gist-indexes/built-in-operator-classes.md#table-63-1-built-in-sp-gist-operator-classes)中。有關更多訊息，請參閱[第 63 章](../../internals/sp-gist-indexes/)。
+（有關這些運算子的含義，請參閱[第 9.11 節](../functions-and-operators/geometric-functions-and-operators.md)。）標準版本中包含的 SP-GiST 運算子類記錄在[ Table 63.1 ](../../internals/sp-gist-indexes/built-in-operator-classes.md#table-63-1-built-in-sp-gist-operator-classes)中。有關更多訊息，請參閱[第 63 章](../../internals/sp-gist-indexes/)。
 
 GIN 索引是「反向索引」，適用於包含多個值的組合的資料值，例如陣列。反向索引包含每個組合值的單獨項目，並且可以有效地處理測試特定組合值是否存在的查詢。
 

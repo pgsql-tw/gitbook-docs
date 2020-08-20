@@ -2,7 +2,7 @@
 
 本節提供了 PostgreSQL 的數學運算方式。對於沒有標準數學約定的型別（例如，日期/時間型別），我們將在後續部分中介紹具體的行為。
 
-[Table 9.4](9.3.-shu-xue-han-shi-ji-yun-suan-zi.md#table-9-4-mathematical-operators) 列出了可用的數學運算子。
+[Table 9.4](mathematical-functions-and-operators.md#table-9-4-mathematical-operators) 列出了可用的數學運算子。
 
 #### **Table 9.4. Mathematical Operators**
 
@@ -26,9 +26,9 @@
 | `<<` | bitwise shift left | `1 << 4` | `16` |
 | `>>` | bitwise shift right | `8 >> 2` | `2` |
 
-位元運算子僅適用於整數資料型別，也可用於位元字串型別的位元和位元變化，如 [Table 9.14](9.6.-er-yuan-zi-chuan-han-shi-ji-yun-suan-zi.md#table-9-14-bit-string-operators) 所示。
+位元運算子僅適用於整數資料型別，也可用於位元字串型別的位元和位元變化，如 [Table 9.14](bit-string-functions-and-operators.md#table-9-14-bit-string-operators) 所示。
 
-[Table 9.5](9.3.-shu-xue-han-shi-ji-yun-suan-zi.md#table-9-5-mathematical-functions) 列出了可用的數學函數。在該表中，dp 表示雙精確度。這些函數中的許多函數都提供了多種形式，且具有不同的參數型別。除非另有說明，否則函數的任何形式都將回傳與其參數相同的資料型別。使用雙精確度資料的功能主要以主機系統的 C 函式庫實作； 因此，邊界情況下的準確性和行為可能會因主機系統而有所差異。
+[Table 9.5](mathematical-functions-and-operators.md#table-9-5-mathematical-functions) 列出了可用的數學函數。在該表中，dp 表示雙精確度。這些函數中的許多函數都提供了多種形式，且具有不同的參數型別。除非另有說明，否則函數的任何形式都將回傳與其參數相同的資料型別。使用雙精確度資料的功能主要以主機系統的 C 函式庫實作； 因此，邊界情況下的準確性和行為可能會因主機系統而有所差異。
 
 #### **Table 9.5. Mathematical Functions**
 
