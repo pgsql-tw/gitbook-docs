@@ -366,7 +366,7 @@ SELECT * FROM tbl WHERE (a > 'foo') COLLATE "C";
 
 ## 4.2.11. Scalar 子查詢
 
-Scalar 子查詢指的是括號中的普通 SELECT 查詢，但它只回傳一個資料列的一個欄位。（有關撰寫查詢的訊息，請參閱[第 7 章](../queries/)。）執行 SELECT 查詢並在周圍的值表示式中使用單個回傳的值。使用回傳多於一個資料列或多於一個欄位的查詢作為 scalar 子查詢是錯誤的。（但是，如果在特定執行過程中子查詢不回傳任何資料列，則不會出現錯誤；Scalar 結果將視為空）。子查詢可以引用周圍查詢中的變數，該變數在任何一次運算期間都將用作常數的子查詢。有關子查詢的其他表示式，另請參閱[第 9.22 節](../functions-and-operators/9.22.-zi-cha-xun.md)。
+Scalar 子查詢指的是括號中的普通 SELECT 查詢，但它只回傳一個資料列的一個欄位。（有關撰寫查詢的訊息，請參閱[第 7 章](../queries/)。）執行 SELECT 查詢並在周圍的值表示式中使用單個回傳的值。使用回傳多於一個資料列或多於一個欄位的查詢作為 scalar 子查詢是錯誤的。（但是，如果在特定執行過程中子查詢不回傳任何資料列，則不會出現錯誤；Scalar 結果將視為空）。子查詢可以引用周圍查詢中的變數，該變數在任何一次運算期間都將用作常數的子查詢。有關子查詢的其他表示式，另請參閱[第 9.22 節](../functions-and-operators/subquery-expressions.md)。
 
 例如，以下是每個州中最大的城市人口數量：
 
@@ -525,7 +525,7 @@ SELECT ROW(1,2.5,'this is a test') = ROW(1, 3, 'not the same');
 SELECT ROW(table.*) IS NULL FROM table;  -- detect all-null rows
 ```
 
-更多細節請參閱[第 9.23 節](../functions-and-operators/row-and-array-comparisons.md)。資料列建構函數也可以與子查詢結合使用，如[第 9.22 節](../functions-and-operators/9.22.-zi-cha-xun.md)所述。
+更多細節請參閱[第 9.23 節](../functions-and-operators/row-and-array-comparisons.md)。資料列建構函數也可以與子查詢結合使用，如[第 9.22 節](../functions-and-operators/subquery-expressions.md)所述。
 
 ## 4.2.14. 表示式運算規則
 
@@ -547,7 +547,7 @@ SELECT somefunc() OR true;
 
 因此，將具有副作用的函數用作複雜表示式的一部分是不明智的。在 WHERE 和 HAVING 子句中依賴副作用或運算順序是特別危險的，因為這些子句作為製定執行計劃的一部分經常式會被重新運算。這些子句中的布林表示式（AND / OR / NOT 組合）可以按照布林代數法則的任何方式重新組織。
 
-如果必須強制執行某部份的運算指令，則可以使用 CASE 結構（請參閱[第 9.17 節](../functions-and-operators/9.17.-tiao-jian-biao-shi-shi.md)）。例如，這是試圖避免在 WHERE 子句中除以零不可信任的方式：
+如果必須強制執行某部份的運算指令，則可以使用 CASE 結構（請參閱[第 9.17 節](../functions-and-operators/conditional-expressions.md)）。例如，這是試圖避免在 WHERE 子句中除以零不可信任的方式：
 
 ```text
 SELECT ... WHERE x 

@@ -101,7 +101,7 @@ row_constructor IS NOT DISTINCT FROM row_constructor
 record operator record
 ```
 
-如果結果取決於比較兩個 NULL 值或 NULL 和非 NULL，則 SQL 規範要求按資料列進行比較以回傳 NULL。PostgreSQL只在比較兩個資料列建構函數的結果（如 [9.23.5 節](row-and-array-comparisons.md#9-23-5-row-constructor-comparison)）或者將一個資料列建構函數與子查詢的輸出結果進行比較時（如 [9.22 節](9.22.-zi-cha-xun.md)）那樣做。在比較兩個複合型別內容的其他部份中，兩個 NULL 字串會被認為是相等的，並且 NULL 被認為大於非 NULL。為了對複合型別進行一致的排序和索引行為，這是必須的。
+如果結果取決於比較兩個 NULL 值或 NULL 和非 NULL，則 SQL 規範要求按資料列進行比較以回傳 NULL。PostgreSQL只在比較兩個資料列建構函數的結果（如 [9.23.5 節](row-and-array-comparisons.md#9-23-5-row-constructor-comparison)）或者將一個資料列建構函數與子查詢的輸出結果進行比較時（如 [9.22 節](subquery-expressions.md)）那樣做。在比較兩個複合型別內容的其他部份中，兩個 NULL 字串會被認為是相等的，並且 NULL 被認為大於非 NULL。為了對複合型別進行一致的排序和索引行為，這是必須的。
 
 評估每一側，並逐個資料列比較它們。 當運算符為 =，&lt;&gt;，&lt;，&lt;=，&gt; 或 &gt;= 時，允許複合型別比較，或者俱有與其中一個類似的語義。（具體而言，如果一個運算子是 B-Tree 運算子類的成員，或者是 B-Tree 運算子類的 = 成員的否定運算，則它可以是資料列比較運算子。）上述運算子的預設行為與資料列建構函數的 IS \[NOT\] DISTINCT FROM 相同（見[第 9.23.5 節](row-and-array-comparisons.md#9-23-5-row-constructor-comparison)）。
 
