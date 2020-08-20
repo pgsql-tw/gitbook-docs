@@ -621,6 +621,7 @@
     * [56.3. Foreign Data Wrapper Helper Functions](internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-helper-functions.md)
     * [56.4. Foreign Data Wrapper Query Planning](internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-query-planning.md)
     * [56.5. Row Locking in Foreign Data Wrappers](internals/writing-a-foreign-data-wrapper/row-locking-in-foreign-data-wrappers.md)
+  * [59. Genetic Query Optimizer](internals/59.-genetic-query-optimizer.md)
   * [64. GiST Indexes](internals/gist-indexes/README.md)
     * [64.1. Introduction](internals/gist-indexes/introduction.md)
     * [64.2. Built-in Operator Classes](internals/gist-indexes/built-in-operator-classes.md)
