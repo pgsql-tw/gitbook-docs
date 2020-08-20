@@ -30,7 +30,7 @@ RFC 7159 允許 JSON 字串包含 \uXXXX 所表示的 Unicode 轉譯序列。在
 | `boolean` | `boolean` | 僅接受小寫的 true 和 false |
 | `null` | \(none\) | 與 SQL NULL 是不同的概念 |
 
-## 8.14.1. JSON Input and Output Syntax
+## 8.14.1. JSON 輸入與輸出語法
 
 JSON 資料型別的輸入/輸出語法被規範在 RFC 7159 之中。
 
@@ -82,11 +82,11 @@ SELECT '{"reading": 1.230e-5}'::json, '{"reading": 1.230e-5}'::jsonb;
 
 有關可用於建構和處理 JSON 內容的內建函數和運算子的列表，請參閱[第 9.15 節](../functions-and-operators/json-functions-and-operators.md)。
 
-## 8.14.2. Designing JSON Documents
+## 8.14.2. 設計 JSON 文件結構
 
-Representing data as JSON can be considerably more flexible than the traditional relational data model, which is compelling in environments where requirements are fluid. It is quite possible for both approaches to co-exist and complement each other within the same application. However, even for applications where maximal flexibility is desired, it is still recommended that JSON documents have a somewhat fixed structure. The structure is typically unenforced \(though enforcing some business rules declaratively is possible\), but having a predictable structure makes it easier to write queries that usefully summarize a set of “documents” \(datums\) in a table.
+將資料表示為 JSON 可以比傳統的關連資料模型要靈活得多，而傳統的關連資料模型在需求多變的環境中非常引人注目。這兩種方法很可能在同一應用程序中共存和互補。但是，即使對於需要最大靈活性的應用程序，仍然建議 JSON 文件具有某種固定的結構。該結構通常是不具有強制性的（儘管可以宣告強制執行某些業務規則），但是具有可預測的結構可以使撰編查詢變得更加容易，該查詢可以有效地彙總資料表中的一組「文件」（datums）。
 
-JSON data is subject to the same concurrency-control considerations as any other data type when stored in a table. Although storing large documents is practicable, keep in mind that any update acquires a row-level lock on the whole row. Consider limiting JSON documents to a manageable size in order to decrease lock contention among updating transactions. Ideally, JSON documents should each represent an atomic datum that business rules dictate cannot reasonably be further subdivided into smaller datums that could be modified independently.
+JSON 資料儲存在資料表中時，與其他任何資料型別一樣，要遵循相同的一致性控制事項。儘管儲存大型文件是可行的，但請記住，任何更新都會取得整筆資料的 row-level lock。考慮將 JSON 文件限制在可管理的大小以內，以減少更新交易事務之間的鎖定競爭。理想情況下，每個 JSON 文件都應代表一個完整交易單位資料\(atomic datum\)，業務規則規定不能將該完整交易單位資料進一步細分為可以獨立更新的較小單位資料。
 
 ## 8.14.3. `jsonb` Containment and Existence
 
