@@ -180,21 +180,21 @@ SELECT doc->'site_name' FROM websites
 
 ## 8.14.4. `jsonb` Indexing
 
-GIN indexes can be used to efficiently search for keys or key/value pairs occurring within a large number of `jsonb` documents \(datums\). Two GIN “operator classes” are provided, offering different performance and flexibility trade-offs.
+GIN 索引可用於有效搜尋大量的 jsonb 文件（datums）中出現的鍵或鍵/值配對。有兩種 GIN “operator classes”，提供了不同的效能和靈活性權衡。
 
-The default GIN operator class for `jsonb` supports queries with top-level key-exists operators `?`, `?&` and `?|` operators and path/value-exists operator `@>`. \(For details of the semantics that these operators implement, see [Table 9.45](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-JSONB-OP-TABLE).\) An example of creating an index with this operator class is:
+jsonb 的預設 GIN 運算子類支援使用最上層鍵存在的運算子 ?，?& 和 ?\| 進行查詢。運算子和路徑/值存在性運算子 @&gt;。（有關這些運算子實作的語義的詳細信息，請參見 [Table 9.45](../functions-and-operators/json-functions-and-operators.md#table-9-45-additional-jsonb-operators)。）使用此運算子類建立索引的範例是：
 
 ```text
 CREATE INDEX idxgin ON api USING GIN (jdoc);
 ```
 
-The non-default GIN operator class `jsonb_path_ops` supports indexing the `@>` operator only. An example of creating an index with this operator class is:
+非預設 GIN 運算子類 jsonb\_path\_ops 僅支援對 @&gt; 運算子進行索引。使用此運算子類建立索引的範例是：
 
 ```text
 CREATE INDEX idxginp ON api USING GIN (jdoc jsonb_path_ops);
 ```
 
-Consider the example of a table that stores JSON documents retrieved from a third-party web service, with a documented schema definition. A typical document is:
+想像一個資料表的範例，該資料表儲存了從第三方 Web 服務檢索到的 JSON 文件以及已文件化的結構定義。典型的文件是：
 
 ```text
 {
@@ -214,7 +214,7 @@ Consider the example of a table that stores JSON documents retrieved from a thir
 }
 ```
 
-We store these documents in a table named `api`, in a `jsonb` column named `jdoc`. If a GIN index is created on this column, queries like the following can make use of the index:
+我們將這些文件儲存在名為 api 的資料表中，名為 jdoc 的 jsonb 欄位中。如果在此欄位上建立了 GIN 索引，則如下查詢可以使用到該索引：
 
 ```text
 -- Find documents in which the key "company" has value "Magnafone"
@@ -257,7 +257,7 @@ SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @> '{"tags": ["qui"]}';
 
 A simple GIN index on the `jdoc` column can support this query. But note that such an index will store copies of every key and value in the `jdoc` column, whereas the expression index of the previous example stores only data found under the `tags` key. While the simple-index approach is far more flexible \(since it supports queries about any key\), targeted expression indexes are likely to be smaller and faster to search than a simple index.
 
-Although the `jsonb_path_ops` operator class supports only queries with the `@>`, `@@` and `@?` operators, it has notable performance advantages over the default operator class `jsonb_ops`. A `jsonb_path_ops` index is usually much smaller than a `jsonb_ops` index over the same data, and the specificity of searches is better, particularly when queries contain keys that appear frequently in the data. Therefore search operations typically perform better than with the default operator class.
+儘管 jsonb\_path\_ops 運算子類僅支援使用 @&gt;，@@ 和 @? 運算子的查詢，它比預設的運算子類 jsonb\_ops 具有明顯的效能優勢。對於相同資料集，jsonb\_path\_ops 索引通常也比 jsonb\_ops 索引小得多，針對搜尋的專用性更好，尤其是當查詢包含頻繁出現在資料中的鍵時。因此，搜尋性質的操作通常比預設運算子類具有更好的效能。
 
 The technical difference between a `jsonb_ops` and a `jsonb_path_ops` GIN index is that the former creates independent index items for each key and value in the data, while the latter creates index items only for each value in the data. [\[6\]](https://www.postgresql.org/docs/12/datatype-json.html#ftn.id-1.5.7.22.18.9.3) Basically, each `jsonb_path_ops` index item is a hash of the value and the key\(s\) leading to it; for example to index `{"foo": {"bar": "baz"}}`, a single index item would be created incorporating all three of `foo`, `bar`, and `baz` into the hash value. Thus a containment query looking for this structure would result in an extremely specific index search; but there is no way at all to find out whether `foo` appears as a key. On the other hand, a `jsonb_ops` index would create three index items representing `foo`, `bar`, and `baz` separately; then to do the containment query, it would look for rows containing all three of these items. While GIN indexes can perform such an AND search fairly efficiently, it will still be less specific and slower than the equivalent `jsonb_path_ops` search, especially if there are a very large number of rows containing any single one of the three index items.
 
@@ -293,13 +293,13 @@ element-1, element-2 ...
 
 Primitive JSON values are compared using the same comparison rules as for the underlying PostgreSQL data type. Strings are compared using the default database collation.
 
-## 8.14.5. Transforms
+## 8.14.5. 對應轉換
 
-Additional extensions are available that implement transforms for the `jsonb` type for different procedural languages.
+可以使用其他延伸功能來實作針對不同程序語言的 jsonb 型別轉換。
 
-The extensions for PL/Perl are called `jsonb_plperl` and `jsonb_plperlu`. If you use them, `jsonb` values are mapped to Perl arrays, hashes, and scalars, as appropriate.
+PL/Perl 的延伸功能名稱為 jsonb\_plperl 和 jsonb\_plperlu。如果使用它們，則 jsonb 的值將視情況對應轉換為到 Perl 的 array、hash 和 scalar。
 
-The extensions for PL/Python are called `jsonb_plpythonu`, `jsonb_plpython2u`, and `jsonb_plpython3u` \(see [Section 45.1](https://www.postgresql.org/docs/12/plpython-python23.html) for the PL/Python naming convention\). If you use them, `jsonb` values are mapped to Python dictionaries, lists, and scalars, as appropriate.
+PL/Python 的延伸功能名稱為 jsonb\_plpythonu，jsonb\_plpython2u 和 jsonb\_plpython3u（有關 PL/Python 的命名約定，請參閱第 45.1 節）。 如果使用它們，則 jsonb 值將適當地對應轉換到 Python 的 dictionary，list 和 scalar。
 
 ## 8.14.6. jsonpath Type
 
