@@ -1,6 +1,6 @@
 # 8.5. 日期時間型別
 
-PostgreSQL 支援完整的 SQL 日期和時間格式，如表 8.9 所示。對於這些資料型態能使用的操作，將會在[9.9節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md)說明。
+PostgreSQL 支援完整的 SQL 日期和時間格式，如表 8.9 所示。對於這些資料型態能使用的操作，將會在[9.9節](../functions-and-operators/date-time-functions-and-operators.md)說明。
 
 **Table 8.9. 日期/時間型態**
 
@@ -164,7 +164,7 @@ TIMESTAMP WITH TIME ZONE '2004-10-19 10:23:54+02'
 
 對於帶有時區的時間戳記，內部儲存的值始終為 UTC（Universal Coordinated Time，傳統上稱為格林威治標準時間，GMT）。具有指定時區的輸入值將使用該時區的相對偏移量轉換為 UTC。如果輸入字串中未指定時區，則假定它位於系統的 [TimeZone](../../server-administration/server-configuration/client-connection-defaults.md#timezone-string) 參數所指示的時區中，並使用時區的偏移量轉換為 UTC。
 
-輸出帶有時區值的時間戳記時，始終由 UTC 轉換為目前時區，並在該時區中顯示為本地時間。要查看另一個時區的時間，請變更時區或使用 AT TIME ZONE 語法（參閱[第 9.9.3 節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md#9-9-3-at-time-zone)）。
+輸出帶有時區值的時間戳記時，始終由 UTC 轉換為目前時區，並在該時區中顯示為本地時間。要查看另一個時區的時間，請變更時區或使用 AT TIME ZONE 語法（參閱[第 9.9.3 節](../functions-and-operators/date-time-functions-and-operators.md#9-9-3-at-time-zone)）。
 
 沒有時區的時間戳記和帶時區的時間戳記之間的轉換通常假定應該採用沒有時區值的時間戳記或本地時間所給予的時區。可以使用 AT TIME ZONE 為指定轉換不同的時區。
 
@@ -185,7 +185,7 @@ TIMESTAMP WITH TIME ZONE '2004-10-19 10:23:54+02'
 | `yesterday` | `date`, `timestamp` | midnight yesterday |
 | `allballs` | `time` | 00:00:00.00 UTC |
 
-以下 SQL 相容函數也可用於取得相對應資料型別目前的時間值：CURRENT\_DATE，CURRENT\_TIME，CURRENT\_TIMESTAMP，LOCALTIME，LOCALTIMESTAMP。後四者接受選擇性的 subsecond 級精確度。 （請參閱[第 9.9.4 節](../functions-and-operators/9.9-ri-qi-shi-jian-han-shi-ji-yun-suan-zi.md#9-9-4-current-date-time)。）請注意，這些是 SQL 函數，在資料輸入字串中會無法識別。
+以下 SQL 相容函數也可用於取得相對應資料型別目前的時間值：CURRENT\_DATE，CURRENT\_TIME，CURRENT\_TIMESTAMP，LOCALTIME，LOCALTIMESTAMP。後四者接受選擇性的 subsecond 級精確度。 （請參閱[第 9.9.4 節](../functions-and-operators/date-time-functions-and-operators.md#9-9-4-current-date-time)。）請注意，這些是 SQL 函數，在資料輸入字串中會無法識別。
 
 ## 8.5.2. Date/Time Output
 

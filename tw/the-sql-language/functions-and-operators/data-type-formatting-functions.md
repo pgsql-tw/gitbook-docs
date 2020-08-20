@@ -1,6 +1,6 @@
 # 9.8. 型別轉換函式
 
-PostgreSQL 格式化函數提供了一套功能強大的工具，用於將各種資料型別（日期/時間、整數、浮點數、數字）轉換為格式化的字串，以及從格式化字串轉換為特定資料型別。[Table 9.24 ](9.8.-xing-bie-zhuan-huan-han-shi.md#table-9-24-formatting-functions)列出了這些函數，而這些函數都遵循一個通用的呼叫約定：第一個參數是要格式化的值，第二個參數是定義輸出或輸入格式的樣板。
+PostgreSQL 格式化函數提供了一套功能強大的工具，用於將各種資料型別（日期/時間、整數、浮點數、數字）轉換為格式化的字串，以及從格式化字串轉換為特定資料型別。[Table 9.24 ](data-type-formatting-functions.md#table-9-24-formatting-functions)列出了這些函數，而這些函數都遵循一個通用的呼叫約定：第一個參數是要格式化的值，第二個參數是定義輸出或輸入格式的樣板。
 
 #### **Table 9.24. Formatting Functions**
 
@@ -15,13 +15,11 @@ PostgreSQL 格式化函數提供了一套功能強大的工具，用於將各種
 | `to_number(text`, `text`\) | `numeric` | convert string to numeric | `to_number('12,454.8-', '99G999D9S')` |
 | `to_timestamp(text`, `text`\) | `timestamp with time zone` | convert string to time stamp | `to_timestamp('05 Dec 2000', 'DD Mon YYYY')` |
 
-#### Note
+**提醒**  
+還有一個單一參數 to\_timestamp 函數； 請參閱 [Table 9.31](date-time-functions-and-operators.md#table-9-31-date-time-functions)。
 
-There is also a single-argument `to_timestamp` function; see [Table 9.31](https://www.postgresql.org/docs/12/functions-datetime.html#FUNCTIONS-DATETIME-TABLE).
-
-#### Tip
-
-`to_timestamp` and `to_date` exist to handle input formats that cannot be converted by simple casting. For most standard date/time formats, simply casting the source string to the required data type works, and is much easier. Similarly, `to_number` is unnecessary for standard numeric representations.
+**小技巧**  
+存在有 to\_timestamp 和 to\_date 來處理無法透過簡單轉換進行轉換的輸入格式。對於大多數標準日期/時間格式，只需將來源字串強制轉換為所需的資料型別即可，並且非常容易。同樣地，對於標準數字表示形式，to\_number 也不是必要的。
 
 在 to\_char 輸出樣版字串中，基於給予值識別並替換為某些格式資料的某些樣式。 非樣板的任何文字都將被逐字複製。同樣地，在輸入樣板字串（用於其他功能）中，樣板標識輸入資料字串要提供的值。如果樣板字串中存在不是樣板的字串，則只需跳過輸入資料字串中的相對應字元（無論它們是否等於樣板字串字元）。
 
