@@ -459,7 +459,7 @@ SELECT ARRAY(SELECT ARRAY[i, i*2] FROM generate_series(1,5) AS a(i));
 
 子查詢必須回傳一個資料列。如果子查詢的輸出欄位是非陣列型別，則産生的一維陣列將具有子查詢結果中每個資料列的元素，其元素型別與子查詢的輸出欄位匹配。如果子查詢的輸出欄位是一個陣列型別，則結果將是一個相同型別的陣列，但會是一個更高的維度；在這種情況下，所有子查詢資料列都必須産生具有相同維度的陣列，否則結果將不是矩形。
 
-用 ARRAY 建構的陣列索引值的下標始終以 1 開頭。有關陣列的更多訊息，請參閱[第 8.15 節](../data-types/8.15.-zhen-lie.md)。
+用 ARRAY 建構的陣列索引值的下標始終以 1 開頭。有關陣列的更多訊息，請參閱[第 8.15 節](../data-types/arrays.md)。
 
 ## 4.2.13. 資料列建構者
 
@@ -471,7 +471,7 @@ SELECT ROW(1,2.5,'this is a test');
 
 當列表中有多個表示式時，關鍵詞 ROW 是選用的。
 
-資料列建構函數可以包含語法 rowvalue._，它將被延展為資料列內容的元素列表，就像在 SELECT 回傳列表的使用 ._ 語法時一樣（請參閱[第 8.16.5 節](../data-types/8.16.-fu-he-xing-bie.md#8-16-5-using-composite-types-in-queries)）。例如，如果資料列具有欄位 f1 和 f2，則這些欄位是相同的：
+資料列建構函數可以包含語法 rowvalue._，它將被延展為資料列內容的元素列表，就像在 SELECT 回傳列表的使用 ._ 語法時一樣（請參閱[第 8.16.5 節](../data-types/composite-types.md#8-16-5-using-composite-types-in-queries)）。例如，如果資料列具有欄位 f1 和 f2，則這些欄位是相同的：
 
 ```text
 SELECT ROW(t.*, 42) FROM t;

@@ -19,7 +19,7 @@ PostgreSQL comes with the following built-in range types:
 * `tstzrange` — Range of `timestamp with time zone`
 * `daterange` — Range of `date`
 
-In addition, you can define your own range types; see [CREATE TYPE](https://www.postgresql.org/docs/11/sql-createtype.html) for more information.
+In addition, you can define your own range types; see [CREATE TYPE](https://www.postgresql.org/docs/12/sql-createtype.html) for more information.
 
 ## 8.17.2. Examples
 
@@ -44,23 +44,21 @@ SELECT int4range(10, 20) * int4range(15, 25);
 SELECT isempty(numrange(1, 5));
 ```
 
-See [Table 9.50](https://www.postgresql.org/docs/11/functions-range.html#RANGE-OPERATORS-TABLE) and [Table 9.51](https://www.postgresql.org/docs/11/functions-range.html#RANGE-FUNCTIONS-TABLE) for complete lists of operators and functions on range types.
+See [Table 9.53](https://www.postgresql.org/docs/12/functions-range.html#RANGE-OPERATORS-TABLE) and [Table 9.54](https://www.postgresql.org/docs/12/functions-range.html#RANGE-FUNCTIONS-TABLE) for complete lists of operators and functions on range types.
 
 ## 8.17.3. Inclusive and Exclusive Bounds
 
 Every non-empty range has two bounds, the lower bound and the upper bound. All points between these values are included in the range. An inclusive bound means that the boundary point itself is included in the range as well, while an exclusive bound means that the boundary point is not included in the range.
 
-In the text form of a range, an inclusive lower bound is represented by “`[`” while an exclusive lower bound is represented by “`(`”. Likewise, an inclusive upper bound is represented by “`]`”, while an exclusive upper bound is represented by “`)`”. \(See [Section 8.17.5](https://www.postgresql.org/docs/11/rangetypes.html#RANGETYPES-IO) for more details.\)
+In the text form of a range, an inclusive lower bound is represented by “`[`” while an exclusive lower bound is represented by “`(`”. Likewise, an inclusive upper bound is represented by “`]`”, while an exclusive upper bound is represented by “`)`”. \(See [Section 8.17.5](https://www.postgresql.org/docs/12/rangetypes.html#RANGETYPES-IO) for more details.\)
 
 The functions `lower_inc` and `upper_inc` test the inclusivity of the lower and upper bounds of a range value, respectively.
 
 ## 8.17.4. Infinite \(Unbounded\) Ranges
 
-The lower bound of a range can be omitted, meaning that all points less than the upper bound are included in the range. Likewise, if the upper bound of the range is omitted, then all points greater than the lower bound are included in the range. If both lower and upper bounds are omitted, all values of the element type are considered to be in the range.
+The lower bound of a range can be omitted, meaning that all values less than the upper bound are included in the range, e.g., `(,3]`. Likewise, if the upper bound of the range is omitted, then all values greater than the lower bound are included in the range. If both lower and upper bounds are omitted, all values of the element type are considered to be in the range. Specifying a missing bound as inclusive is automatically converted to exclusive, e.g., `[,]` is converted to `(,)`. You can think of these missing values as +/-infinity, but they are special range type values and are considered to be beyond any range element type's +/-infinity values.
 
-This is equivalent to considering that the lower bound is “minus infinity”, or the upper bound is “plus infinity”, respectively. But note that these infinite values are never values of the range's element type, and can never be part of the range. \(So there is no such thing as an inclusive infinite bound — if you try to write one, it will automatically be converted to an exclusive bound.\)
-
-Also, some element types have a notion of “infinity”, but that is just another value so far as the range type mechanisms are concerned. For example, in timestamp ranges, `[today,]` means the same thing as `[today,)`. But `[today,infinity]` means something different from `[today,infinity)` — the latter excludes the special `timestamp` value `infinity`.
+Element types that have the notion of “infinity” can use them as explicit bound values. For example, with timestamp ranges, `[today,infinity)` excludes the special `timestamp` value `infinity`, while `[today,infinity]` include it, as does `[today,)` and `[today,]`.
 
 The functions `lower_inf` and `upper_inf` test for infinite lower and upper bounds of a range, respectively.
 
@@ -84,9 +82,9 @@ Each bound value can be quoted using `"` \(double quote\) characters. This is ne
 
 Whitespace is allowed before and after the range value, but any whitespace between the parentheses or brackets is taken as part of the lower or upper bound value. \(Depending on the element type, it might or might not be significant.\)
 
-### Note
+#### Note
 
-These rules are very similar to those for writing field values in composite-type literals. See [Section 8.16.6](https://www.postgresql.org/docs/11/rowtypes.html#ROWTYPES-IO-SYNTAX) for additional commentary.
+These rules are very similar to those for writing field values in composite-type literals. See [Section 8.16.6](https://www.postgresql.org/docs/12/rowtypes.html#ROWTYPES-IO-SYNTAX) for additional commentary.
 
 Examples:
 
@@ -169,7 +167,7 @@ CREATE TYPE timerange AS RANGE (
 SELECT '[11:10, 23:00]'::timerange;
 ```
 
-See [CREATE TYPE](https://www.postgresql.org/docs/11/sql-createtype.html) for more information about creating range types.
+See [CREATE TYPE](https://www.postgresql.org/docs/12/sql-createtype.html) for more information about creating range types.
 
 ## 8.17.9. Indexing
 
@@ -179,13 +177,13 @@ GiST and SP-GiST indexes can be created for table columns of range types. For in
 CREATE INDEX reservation_idx ON reservation USING GIST (during);
 ```
 
-A GiST or SP-GiST index can accelerate queries involving these range operators: `=`, `&&`, `<@`, `@>`, `<<`, `>>`, `-|-`, `&<`, and `&>` \(see [Table 9.50](https://www.postgresql.org/docs/11/functions-range.html#RANGE-OPERATORS-TABLE) for more information\).
+A GiST or SP-GiST index can accelerate queries involving these range operators: `=`, `&&`, `<@`, `@>`, `<<`, `>>`, `-|-`, `&<`, and `&>` \(see [Table 9.53](https://www.postgresql.org/docs/12/functions-range.html#RANGE-OPERATORS-TABLE) for more information\).
 
 In addition, B-tree and hash indexes can be created for table columns of range types. For these index types, basically the only useful range operation is equality. There is a B-tree sort ordering defined for range values, with corresponding `<` and `>` operators, but the ordering is rather arbitrary and not usually useful in the real world. Range types' B-tree and hash support is primarily meant to allow sorting and hashing internally in queries, rather than creation of actual indexes.
 
 ## 8.17.10. Constraints on Ranges
 
-While `UNIQUE` is a natural constraint for scalar values, it is usually unsuitable for range types. Instead, an exclusion constraint is often more appropriate \(see [CREATE TABLE ... CONSTRAINT ... EXCLUDE](https://www.postgresql.org/docs/11/sql-createtable.html#SQL-CREATETABLE-EXCLUDE)\). Exclusion constraints allow the specification of constraints such as “non-overlapping” on a range type. For example:
+While `UNIQUE` is a natural constraint for scalar values, it is usually unsuitable for range types. Instead, an exclusion constraint is often more appropriate \(see [CREATE TABLE ... CONSTRAINT ... EXCLUDE](https://www.postgresql.org/docs/12/sql-createtable.html#SQL-CREATETABLE-EXCLUDE)\). Exclusion constraints allow the specification of constraints such as “non-overlapping” on a range type. For example:
 
 ```text
 CREATE TABLE reservation (
@@ -208,7 +206,7 @@ DETAIL:  Key (during)=(["2010-01-01 14:45:00","2010-01-01 15:45:00")) conflicts
 with existing key (during)=(["2010-01-01 11:30:00","2010-01-01 15:00:00")).
 ```
 
-You can use the [`btree_gist`](https://www.postgresql.org/docs/11/btree-gist.html) extension to define exclusion constraints on plain scalar data types, which can then be combined with range exclusions for maximum flexibility. For example, after `btree_gist` is installed, the following constraint will reject overlapping ranges only if the meeting room numbers are equal:
+You can use the [`btree_gist`](https://www.postgresql.org/docs/12/btree-gist.html) extension to define exclusion constraints on plain scalar data types, which can then be combined with range exclusions for maximum flexibility. For example, after `btree_gist` is installed, the following constraint will reject overlapping ranges only if the meeting room numbers are equal:
 
 ```text
 CREATE EXTENSION btree_gist;

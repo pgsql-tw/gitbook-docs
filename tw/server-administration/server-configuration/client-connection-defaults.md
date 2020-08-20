@@ -128,7 +128,7 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 #### `xmloption`\(`enum`\)
 
-在 XML 和字串之間轉換時，設定是否隱含 DOCUMENT 或 CONTENT。請參閱 [8.13 節](../../the-sql-language/data-types/8.13.-xml-xing-bie.md)的描述。有效值是 DOCUMENT 和 CONTENT。預設值是 CONTENT。
+在 XML 和字串之間轉換時，設定是否隱含 DOCUMENT 或 CONTENT。請參閱 [8.13 節](../../the-sql-language/data-types/xml-type.md)的描述。有效值是 DOCUMENT 和 CONTENT。預設值是 CONTENT。
 
 根據 SQL 標準，設定此選項的命令是
 

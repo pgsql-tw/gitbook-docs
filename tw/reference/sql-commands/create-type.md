@@ -63,7 +63,7 @@ CREATE TYPE 的第一種形式是複合型別。複合型別以屬性名稱和�
 
 #### Enumerated Types \(列舉型別\)
 
- 第二種形式的 CREATE TYPE 創建一個列舉（enum）型別，如[第 8.7 節](../../the-sql-language/data-types/8.7.-lie-ju-xing-bie.md)所述。列舉型別採用一個或多個帶引號的標籤列表，每個標籤的長度必須小於 NAMEDATALEN 個字元（標準 PostgreSQL 編譯中為 64 個字元）。（可以以空集合建立列舉型別，但是在使用 [ALTER TYPE](alter-type.md) 加入一個以上標籤之前，這樣的型別是不允許使用的。）
+ 第二種形式的 CREATE TYPE 創建一個列舉（enum）型別，如[第 8.7 節](../../the-sql-language/data-types/enumerated-types.md)所述。列舉型別採用一個或多個帶引號的標籤列表，每個標籤的長度必須小於 NAMEDATALEN 個字元（標準 PostgreSQL 編譯中為 64 個字元）。（可以以空集合建立列舉型別，但是在使用 [ALTER TYPE](alter-type.md) 加入一個以上標籤之前，這樣的型別是不允許使用的。）
 
 #### Range Types
 

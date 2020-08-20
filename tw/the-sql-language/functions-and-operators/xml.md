@@ -4,7 +4,7 @@ description: 版本：11
 
 # 9.14. XML 函式
 
-本節中描述的函數和類函數表示式對 xml 型別的值進行操作。有關 xml 型別的訊息，請查看[第 8.13 節](../data-types/8.13.-xml-xing-bie.md)。這裡不再重複用於轉換為 xml 型別的函數表示式 xmlparse 和 xmlserialize。使用大多數這些函數需要使用 configure --with-libxml 編譯安裝。
+本節中描述的函數和類函數表示式對 xml 型別的值進行操作。有關 xml 型別的訊息，請查看[第 8.13 節](../data-types/xml-type.md)。這裡不再重複用於轉換為 xml 型別的函數表示式 xmlparse 和 xmlserialize。使用大多數這些函數需要使用 configure --with-libxml 編譯安裝。
 
 ## 9.14.1. 産生 XML 內容
 
@@ -246,7 +246,7 @@ SELECT xmlagg(x) FROM (SELECT * FROM test ORDER BY y DESC) AS tab;
 xml IS DOCUMENT
 ```
 
-如果參數 XML 是正確的 XML 文件，則表示式 IS DOCUMENT 將回傳 true，如果不是（它是內容片段），則回傳 false；如果參數為 null，則回傳 null。有關文件和內容片段之間的區別，請參閱[第 8.13 節](../data-types/8.13.-xml-xing-bie.md)。
+如果參數 XML 是正確的 XML 文件，則表示式 IS DOCUMENT 將回傳 true，如果不是（它是內容片段），則回傳 false；如果參數為 null，則回傳 null。有關文件和內容片段之間的區別，請參閱[第 8.13 節](../data-types/xml-type.md)。
 
 ### **9.14.2.2. XMLEXISTS**
 

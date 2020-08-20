@@ -17,7 +17,7 @@ Geometric data types represent two-dimensional spatial objects. [Table 8.20](htt
 
 A rich set of functions and operators is available to perform various geometric operations such as scaling, translation, rotation, and determining intersections. They are explained in [Section 9.11](https://www.postgresql.org/docs/10/static/functions-geometry.html).
 
-#### 8.8.1. Points
+## 8.8.1. Points
 
 Points are the fundamental two-dimensional building block for geometric types. Values of type `point` are specified using either of the following syntaxes:
 
@@ -30,7 +30,7 @@ where _`x`_ and _`y`_ are the respective coordinates, as floating-point numbers.
 
 Points are output using the first syntax.
 
-#### 8.8.2. Lines
+## 8.8.2. Lines
 
 Lines are represented by the linear equation _`A`_x + _`B`_y + _`C`_ = 0, where _`A`_ and _`B`_ are not both zero. Values of type `line` are input and output in the following form:
 
@@ -49,7 +49,7 @@ Alternatively, any of the following forms can be used for input:
 
 where `(`_`x1`_,_`y1`_\) and `(`_`x2`_,_`y2`_\) are two different points on the line.
 
-#### 8.8.3. Line Segments
+## 8.8.3. Line Segments
 
 Line segments are represented by pairs of points that are the endpoints of the segment. Values of type `lseg` are specified using any of the following syntaxes:
 
@@ -64,7 +64,7 @@ where `(`_`x1`_,_`y1`_\) and `(`_`x2`_,_`y2`_\) are the end points of the line s
 
 Line segments are output using the first syntax.
 
-#### 8.8.4. Boxes
+## 8.8.4. Boxes
 
 Boxes are represented by pairs of points that are opposite corners of the box. Values of type `box` are specified using any of the following syntaxes:
 
@@ -80,7 +80,7 @@ Boxes are output using the second syntax.
 
 Any two opposite corners can be supplied on input, but the values will be reordered as needed to store the upper right and lower left corners, in that order.
 
-#### 8.8.5. Paths
+## 8.8.5. Paths
 
 Paths are represented by lists of connected points. Paths can be _open_, where the first and last points in the list are considered not connected, or _closed_, where the first and last points are considered connected.
 
@@ -98,7 +98,7 @@ where the points are the end points of the line segments comprising the path. Sq
 
 Paths are output using the first or second syntax, as appropriate.
 
-#### 8.8.6. Polygons
+## 8.8.6. Polygons
 
 Polygons are represented by lists of points \(the vertexes of the polygon\). Polygons are very similar to closed paths, but are stored differently and have their own set of support routines.
 
@@ -115,7 +115,7 @@ where the points are the end points of the line segments comprising the boundary
 
 Polygons are output using the first syntax.
 
-#### 8.8.7. Circles
+## 8.8.7. Circles
 
 Circles are represented by a center point and radius. Values of type `circle` are specified using any of the following syntaxes:
 

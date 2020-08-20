@@ -34,7 +34,7 @@ Table 8-19. 布林型別的資料型態描述
 
 \[Example 8-2\]\("DATATYPE-BOOLEAN-EXAMPLE"\) 使用字母 t 和 f，來顯示布林型別的輸出。
 
-[ ](8.6.-bu-lin-xing-bie.md#DATATYPE-BOOLEAN-EXAMPLE)Example 8-2. 使用布林型別
+[ ](boolean-type.md#DATATYPE-BOOLEAN-EXAMPLE)Example 8-2. 使用布林型別
 
 ```text
 CREATE TABLE test1 (a boolean, b text);
