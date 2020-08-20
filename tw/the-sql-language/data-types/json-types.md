@@ -90,7 +90,7 @@ JSON 資料儲存在資料表中時，與其他任何資料型別一樣，要遵
 
 ## 8.14.3. `jsonb` Containment and Existence
 
-Testing _containment_ is an important capability of `jsonb`. There is no parallel set of facilities for the `json` type. Containment tests whether one `jsonb` document has contained within it another one. These examples return true except as noted:
+測試包容性\(containment\)是 jsonb 的一項重要功能。json 型別沒有平行處理的工具集。包含性測試一個 jsonb 文件是否在其中包含另一個。除說明以外的部份，這些範例會回傳 true：
 
 ```text
 -- Simple scalar/primitive values contain only the identical value:
@@ -123,9 +123,9 @@ SELECT '{"foo": {"bar": "baz"}}'::jsonb @> '{"bar": "baz"}'::jsonb;  -- yields f
 SELECT '{"foo": {"bar": "baz"}}'::jsonb @> '{"foo": {}}'::jsonb;
 ```
 
-The general principle is that the contained object must match the containing object as to structure and data contents, possibly after discarding some non-matching array elements or object key/value pairs from the containing object. But remember that the order of array elements is not significant when doing a containment match, and duplicate array elements are effectively considered only once.
+一般原則是，包含物件必須在結構和資料內容上與包含的物件相吻合，可能是在從包含的物件中丟棄了一些不吻合的陣列元素或物件鍵/值配對之後。但是請記住，進行包含性檢查時，陣列元素的順序並不重要，並且重複陣列元素僅有一個元素會被視為有效。
 
-As a special exception to the general principle that the structures must match, an array may contain a primitive value:
+作為結構必須吻合的一般原則的特殊例外，陣列可以包含單一基本值：
 
 ```text
 -- This array contains the primitive string value:
@@ -135,7 +135,7 @@ SELECT '["foo", "bar"]'::jsonb @> '"bar"'::jsonb;
 SELECT '"bar"'::jsonb @> '["bar"]'::jsonb;  -- yields false
 ```
 
-`jsonb` also has an _existence_ operator, which is a variation on the theme of containment: it tests whether a string \(given as a `text` value\) appears as an object key or array element at the top level of the `jsonb` value. These examples return true except as noted:
+jsonb 還具有一個 existence 運算子，它是包含性的變體：它測試字串（作為 text 值）是否作為物件鍵或陣列元素出現在 jsonb 值的頂層。這些範例回傳 true，除非另有說明：
 
 ```text
 -- String exists as array element:
@@ -154,29 +154,29 @@ SELECT '{"foo": {"bar": "baz"}}'::jsonb ? 'bar'; -- yields false
 SELECT '"foo"'::jsonb ? 'foo';
 ```
 
-JSON objects are better suited than arrays for testing containment or existence when there are many keys or elements involved, because unlike arrays they are internally optimized for searching, and do not need to be searched linearly.
+當涉及許多鍵或元素時，JSON 物件比陣列更適合用於測試是否包含或存在，因為與陣列不同，JSON 物件在內部進行了最佳化以進行搜尋，因此不需要線性搜尋。
 
 #### Tip
 
-Because JSON containment is nested, an appropriate query can skip explicit selection of sub-objects. As an example, suppose that we have a `doc` column containing objects at the top level, with most objects containing `tags` fields that contain arrays of sub-objects. This query finds entries in which sub-objects containing both `"term":"paris"` and `"term":"food"` appear, while ignoring any such keys outside the `tags` array:
+由於 JSON 的包含性是巢狀的，因此適當的查詢可以跳過對子物件的明確選擇。舉例來說，假設我們有一個 doc 欄位，其中包含最上層物件，而大多數物件包含子物件陣列的標籤欄位。該查詢項目，在其中包含“ term”：“ paris”和“ term”：“ food”的子物件出現，而忽略標籤陣列以外的任何鍵：
 
 ```text
 SELECT doc->'site_name' FROM websites
   WHERE doc @> '{"tags":[{"term":"paris"}, {"term":"food"}]}';
 ```
 
-One could accomplish the same thing with, say,
+例如，另一個方式可以完成同一件事
 
 ```text
 SELECT doc->'site_name' FROM websites
   WHERE doc->'tags' @> '[{"term":"paris"}, {"term":"food"}]';
 ```
 
-but that approach is less flexible, and often less efficient as well.
+但是這種方法靈活性較差，而且效率通常也較低。
 
-On the other hand, the JSON existence operator is not nested: it will only look for the specified key or array element at top level of the JSON value.
+另一方面，JSON 存在性運算子不是巢狀的：它只會在 JSON 內容的最上層查詢指定的鍵或陣列元素。
 
-The various containment and existence operators, along with all other JSON operators and functions are documented in [Section 9.15](https://www.postgresql.org/docs/12/functions-json.html).
+在第 9.15 節中記錄了各種包含性和存在性的運算子，以及所有其他 JSON 運算子和函數。
 
 ## 8.14.4. `jsonb` Indexing
 
