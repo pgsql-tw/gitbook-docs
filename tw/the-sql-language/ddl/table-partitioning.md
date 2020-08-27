@@ -1,6 +1,6 @@
 # 5.11. 分割資料表
 
-PostgreSQL supports basic table partitioning. This section describes why and how to implement partitioning as part of your database design.
+PostgreSQL 支援基本的分割資料表。本節描述了為什麼以及如何在資料庫設計中實現分割資料表。
 
 ## 5.11.1. Overview
 
@@ -13,15 +13,21 @@ Partitioning refers to splitting what is logically one large table into smaller 
 
 The benefits will normally be worthwhile only when a table would otherwise be very large. The exact point at which a table will benefit from partitioning depends on the application, although a rule of thumb is that the size of the table should exceed the physical memory of the database server.
 
-PostgreSQL offers built-in support for the following forms of partitioning:Range Partitioning
+PostgreSQL offers built-in support for the following forms of partitioning:
 
-The table is partitioned into “ranges” defined by a key column or set of columns, with no overlap between the ranges of values assigned to different partitions. For example, one might partition by date ranges, or by ranges of identifiers for particular business objects.List Partitioning
+Range Partitioning
 
-The table is partitioned by explicitly listing which key values appear in each partition.Hash Partitioning
+此資料庫表的分割區以一個欄位為鍵或一組欄位定義的「range」來分配，分配給不同分割區的範圍之間沒有重疊。例如，可以按日期範圍或特定業務對象的標識範圍進行分割。
 
-The table is partitioned by specifying a modulus and a remainder for each partition. Each partition will hold the rows for which the hash value of the partition key divided by the specified modulus will produce the specified remainder.
+List Partitioning
 
-If your application needs to use other forms of partitioning not listed above, alternative methods such as inheritance and `UNION ALL` views can be used instead. Such methods offer flexibility but do not have some of the performance benefits of built-in declarative partitioning.
+透過明確列出哪些鍵值出現應該在哪個分割區中來對資料表進行分割。
+
+Hash Partitioning
+
+透過為每個分割區指定除數和餘數來對資料表進行分割。每個分割區將保留其分割鍵的雜湊值除以指定的除數所產生指定的餘數的資料列。
+
+如果您的應用程式需要使用上面未列出的其他分割區形式，則可以使用替代方法，例如繼承和 UNION ALL 檢視表。此類方法提供了靈活性，但沒有內建宣告分割區的效能優勢。
 
 ## 5.11.2. Declarative Partitioning
 
