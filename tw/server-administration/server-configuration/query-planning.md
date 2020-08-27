@@ -44,6 +44,26 @@ description: 版本：11
 
 啟用或停用查詢計劃程序使用 nested-loop join 計劃。完全抑制 nested-loop join 是不可能的，但如果有其他可用方法，則關閉此變數會阻止規劃器使用它。預設為開啓。
 
+#### `enable_parallel_append` \(`boolean`\)
+
+Enables or disables the query planner's use of parallel-aware append plan types. The default is `on`.
+
+#### `enable_parallel_hash` \(`boolean`\)
+
+Enables or disables the query planner's use of hash-join plan types with parallel hash. Has no effect if hash-join plans are not also enabled. The default is `on`.
+
+#### `enable_partition_pruning` \(`boolean`\)
+
+Enables or disables the query planner's ability to eliminate a partitioned table's partitions from query plans. This also controls the planner's ability to generate query plans which allow the query executor to remove \(ignore\) partitions during query execution. The default is `on`. See [Section 5.11.4](https://www.postgresql.org/docs/current/ddl-partitioning.html#DDL-PARTITION-PRUNING) for details.
+
+#### `enable_partitionwise_join` \(`boolean`\)
+
+Enables or disables the query planner's use of partitionwise join, which allows a join between partitioned tables to be performed by joining the matching partitions. Partitionwise join currently applies only when the join conditions include all the partition keys, which must be of the same data type and have exactly matching sets of child partitions. Because partitionwise join planning can use significantly more CPU time and memory during planning, the default is `off`.
+
+#### `enable_partitionwise_aggregate` \(`boolean`\)
+
+Enables or disables the query planner's use of partitionwise grouping or aggregation, which allows grouping or aggregation on a partitioned tables performed separately for each partition. If the `GROUP BY` clause does not include the partition keys, only partial aggregation can be performed on a per-partition basis, and finalization must be performed later. Because partitionwise grouping or aggregation can use significantly more CPU time and memory during planning, the default is `off`.
+
 ### `enable_seqscan` \(`boolean`\)
 
 啟用或停用查詢計劃程序使用循序掃描計劃類型。完全抑制循序掃描是不可能的，但如果有其他方法可用，則關閉此變數會阻止計劃程序使用。預設為開啓。

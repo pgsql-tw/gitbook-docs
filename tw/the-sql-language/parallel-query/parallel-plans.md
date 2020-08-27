@@ -30,13 +30,13 @@ Parallel aggregation is not supported in all situations. Each aggregate must be 
 
 ## 15.3.4. Parallel Append
 
-Whenever PostgreSQL needs to combine rows from multiple sources into a single result set, it uses an `Append` or `MergeAppend` plan node. This commonly happens when implementing `UNION ALL` or when scanning a partitioned table. Such nodes can be used in parallel plans just as they can in any other plan. However, in a parallel plan, the planner may instead use a `Parallel Append` node.
+每當 PostgreSQL 需要將來自多個資料源的資料列合併到一個結果集合之中時，它都會使用一個 Append 或 MergeAppend 的查詢計劃節點。在執行 UNION ALL 或掃描分割區資料表時，通常會是這種情況。這樣的節點可以在平行查詢計劃中使用，就像在其他任何查詢計劃中一樣。但是，在平行查詢計劃中，查詢計劃程序可以改為使用「Parallel Append」節點。
 
-When an `Append` node is used in a parallel plan, each process will execute the child plans in the order in which they appear, so that all participating processes cooperate to execute the first child plan until it is complete and then move to the second plan at around the same time. When a `Parallel Append` is used instead, the executor will instead spread out the participating processes as evenly as possible across its child plans, so that multiple child plans are executed simultaneously. This avoids contention, and also avoids paying the startup cost of a child plan in those processes that never execute it.
+當在平行查詢計劃中使用 Append 節點時，每個流程將按照它們出現的順序執行子計劃，以便所有參與的流程合作執行第一個子計劃，直到完成為止，然後移至第二個計劃。 大約在同一時間。 當使用 Parallel Append 時，執行程序時，將在其子計劃中盡可能平均地分散參與的程序，以便同時執行多個子計劃。 這樣可以避免競爭使用，也可以避免在從未執行子計劃的程序中負擔子計劃的啟動成本。
 
-Also, unlike a regular `Append` node, which can only have partial children when used within a parallel plan, a `Parallel Append` node can have both partial and non-partial child plans. Non-partial children will be scanned by only a single process, since scanning them more than once would produce duplicate results. Plans that involve appending multiple results sets can therefore achieve coarse-grained parallelism even when efficient partial plans are not available. For example, consider a query against a partitioned table which can only be implemented efficiently by using an index that does not support parallel scans. The planner might choose a `Parallel Append` of regular `Index Scan` plans; each individual index scan would have to be executed to completion by a single process, but different scans could be performed at the same time by different processes.
+同樣，與一般的 Append 節點不同，一般的 Append 節點在平行查詢計劃中使用時只能具有 partial 子項，而 Parallel Append 節點可以同時具有 partial 和 non-partial 子計劃。non-partial 子項只能透過一個程序進行掃描，因為多次掃描它們會產生重複的結果內容。因此，即使沒有有效的局部計劃，涉及附加多個結果集合的計劃也可以實作粗粒度的平行處理。例如，考慮對分割資料表的查詢，該查詢只能透過使用不支援平行掃描的索引來有效地實作。計劃程序可以選擇“一般索引掃描”計劃的“Parallel Append”；每個單獨的索引掃描都必須由一個程序執行才能完成，但是不同的程序可以同時執行不同的掃描。
 
-[enable\_parallel\_append](https://www.postgresql.org/docs/12/runtime-config-query.html#GUC-ENABLE-PARALLEL-APPEND) can be used to disable this feature.
+[enable\_parallel\_append](../../server-administration/server-configuration/query-planning.md#enable_parallel_append-boolean) 可用於停用此功能。
 
 ## 15.3.5. Parallel Plan Tips
 
