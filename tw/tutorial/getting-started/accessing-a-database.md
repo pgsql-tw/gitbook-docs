@@ -17,7 +17,7 @@ $ psql mydb
 在 psql 中，你會以下列訊息開始：
 
 ```text
-psql (10beta1)
+psql (12.4)
 Type "help" for help.
 
 mydb=>
@@ -40,7 +40,7 @@ mydb=#
 mydb=> SELECT version();
                                          version
 ------------------------------------------------------------------------------------------
- PostgreSQL 10beta1 on x86_64-pc-linux-gnu, compiled by gcc (Debian 4.9.2-10) 4.9.2, 64-bit
+ PostgreSQL 12.4 on x86_64-pc-linux-gnu, compiled by gcc (Debian 4.9.2-10) 4.9.2, 64-bit
 (1 row)
 
 mydb=> SELECT current_date;
@@ -50,7 +50,6 @@ mydb=> SELECT current_date;
 (1 row)
 
 mydb=> SELECT 2 + 2;
-
  ?column?
 ----------
         4
