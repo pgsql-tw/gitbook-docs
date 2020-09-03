@@ -221,7 +221,7 @@ CREATE INDEX idxginp ON api USING GIN (jdoc jsonb_path_ops);
 SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @> '{"company": "Magnafone"}';
 ```
 
-However, the index could not be used for queries like the following, because though the operator `?` is indexable, it is not applied directly to the indexed column `jdoc`:
+但是，索引不能用於以下查詢，儘管運算子 ? 是可索引的，但它不會直接套用於索引欄位 jdoc：
 
 ```text
 -- Find documents in which the key "tags" contains key or array element "qui"
@@ -236,7 +236,7 @@ CREATE INDEX idxgintags ON api USING GIN ((jdoc -> 'tags'));
 
 現在，WHERE 子句 jdoc-&gt;'tags' ? 'qui' 將被識別為可索引運算子的應用程序 ? 到索引表示式 jdoc-&gt;'tags'。（有關表示式索引的更多資訊，請參閱[第 11.7 節](../index/indexes-on-expressions.md)。）
 
-Also, GIN index supports `@@` and `@?` operators, which perform `jsonpath` matching.
+另外，GIN 索引支援 ＠＠ 和 ＠？ 運算子，它們處理 jsonpath 的搜尋。
 
 ```text
 SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @@ '$.tags[*] == "qui"';
@@ -246,7 +246,7 @@ SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @@ '$.tags[*] == "qui"';
 SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @@ '$.tags[*] ? (@ == "qui")';
 ```
 
-GIN index extracts statements of following form out of `jsonpath`: _`accessors_chain`_ = _`const`_. Accessors chain may consist of `.key`, `[*]`, and `[`_`index`_\] accessors. `jsonb_ops` additionally supports `.*` and `.**` accessors.
+GIN 索引從 jsonpath 中取出以下形式的語句：`accessors_chain = const`。Accessors chain 可能由 .key，\[\*\] 和 \[index\] 的 Accessor 所組成_。_jsonb\_ops 也支持 _.\*_ 和 .\*\* 的 Accessor。
 
 Another approach to querying is to exploit containment, for example:
 
