@@ -216,6 +216,7 @@
     * [20.3. Authentication Methods](server-administration/client-authentication/authentication-methods.md)
     * [20.4. Authentication Problems](server-administration/client-authentication/authentication-problems.md)
     * [20.5. Password Authentication](server-administration/client-authentication/password-authentication.md)
+    * [20.12. Certificate Authentication](server-administration/client-authentication/certificate-authentication.md)
     * [20.13. PAM Authentication](server-administration/client-authentication/pam-authentication.md)
   * [21. 資料庫角色](server-administration/database-roles/README.md)
     * [21.1. Database Roles](server-administration/database-roles/database-roles.md)
