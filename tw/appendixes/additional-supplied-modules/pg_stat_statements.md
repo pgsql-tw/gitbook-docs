@@ -8,7 +8,7 @@ pg\_stat\_statements 模組提供了一個追踪在伺服器上執行的 SQL 語
 
 ## F.29.1. The `pg_stat_statements` View
 
-The statistics gathered by the module are made available via a view named `pg_stat_statements`. This view contains one row for each distinct database ID, user ID and query ID \(up to the maximum number of distinct statements that the module can track\). The columns of the view are shown in [Table F.21](https://www.postgresql.org/docs/12/pgstatstatements.html#PGSTATSTATEMENTS-COLUMNS).
+此延伸功能收集的統計數據可透過名為 pg\_stat\_statements 的檢視表查詢。對於每個不同的資料庫 ID、使用者 ID和查詢語句 ID（此延伸功能可以追踪的最大不同查詢語句數量），在此檢視表會在一筆資料中呈現。 檢視表的欄位在 Table F.21 中說明。
 
 #### **Table F.21. `pg_stat_statements` Columns**
 
@@ -38,11 +38,11 @@ The statistics gathered by the module are made available via a view named `pg_st
 | `blk_read_time` | `double precision` |  | Total time the statement spent reading blocks, in milliseconds \(if [track\_io\_timing](https://www.postgresql.org/docs/12/runtime-config-statistics.html#GUC-TRACK-IO-TIMING) is enabled, otherwise zero\) |
 | `blk_write_time` | `double precision` |  | Total time the statement spent writing blocks, in milliseconds \(if [track\_io\_timing](https://www.postgresql.org/docs/12/runtime-config-statistics.html#GUC-TRACK-IO-TIMING) is enabled, otherwise zero\) |
 
-For security reasons, only superusers and members of the `pg_read_all_stats` role are allowed to see the SQL text and `queryid` of queries executed by other users. Other users can see the statistics, however, if the view has been installed in their database.
+因為安全因素，僅超級使用者和 pg\_read\_all\_stats 角色成員被允許查看其他使用者所執行的 SQL 語句和 queryid。但是，如果檢視圖已安裝在他們的資料庫中，則其他使用者也可以查看統計內容。
 
-Plannable queries \(that is, `SELECT`, `INSERT`, `UPDATE`, and `DELETE`\) are combined into a single `pg_stat_statements` entry whenever they have identical query structures according to an internal hash calculation. Typically, two queries will be considered the same for this purpose if they are semantically equivalent except for the values of literal constants appearing in the query. Utility commands \(that is, all other commands\) are compared strictly on the basis of their textual query strings, however.
+只要有計劃查詢的查詢（即 SELECT、INSERT、UPDATE 和 DELETE）根據內部雜湊計算具有相同的查詢結構，它們就會組合到單筆 pg\_stat\_statements 資料中。通常，如果兩個查詢在語義上等效，即兩個查詢在此意義上是相同的，只是出現在查詢中的常數內容的值除外。 但是，會嚴格地根據資料庫結構維護指令（即所有其他指令）的查詢字串進行比較。
 
-When a constant's value has been ignored for purposes of matching the query to other queries, the constant is replaced by a parameter symbol, such as `$1`, in the `pg_stat_statements` display. The rest of the query text is that of the first query that had the particular `queryid` hash value associated with the `pg_stat_statements` entry.
+為了將查詢與其他查詢搭配而忽略了常數內容時，該常數內容會在 pg\_stat\_statements 顯示中替換為參數符號，例如 $1。查詢語句的其餘部分是第一個查詢的內容，該查詢具有與 pg\_stat\_statements 項目關聯的特定 queryid 雜湊值。
 
 In some cases, queries with visibly different texts might get merged into a single `pg_stat_statements` entry. Normally this will happen only for semantically equivalent queries, but there is a small chance of hash collisions causing unrelated queries to be merged into one entry. \(This cannot happen for queries belonging to different users or databases, however.\)
 
