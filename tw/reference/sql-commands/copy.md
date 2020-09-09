@@ -212,25 +212,27 @@ It is strongly recommended that applications generating `COPY` data convert data
 
 ### CSV Format
 
-This format option is used for importing and exporting the Comma Separated Value \(`CSV`\) file format used by many other programs, such as spreadsheets. Instead of the escaping rules used by PostgreSQL's standard text format, it produces and recognizes the common CSV escaping mechanism.
+此格式選項用於匯入和匯出許多其他應用程式（例如試算表）也常使用的逗號分隔（CSV, Comma Separated Value）檔案格式。它不會使用 PostgreSQL 的標準文字格式所使用轉譯規則，而是產成通用的 CSV 轉譯機制。
 
-The values in each record are separated by the `DELIMITER` character. If the value contains the delimiter character, the `QUOTE` character, the `NULL` string, a carriage return, or line feed character, then the whole value is prefixed and suffixed by the `QUOTE` character, and any occurrence within the value of a `QUOTE` character or the `ESCAPE` character is preceded by the escape character. You can also use `FORCE_QUOTE` to force quotes when outputting non-`NULL` values in specific columns.
+每個記錄中的值由 DELIMITER 字元分隔。如果該值包含 DELIMITER，QUOTE 字元，NULL 字串，Carriage Return 或換行字元，則整個值將以 QUOTE 字元前後夾住，以及在 QUOTE 字元或 ESCAPE 字元前面有轉譯字元。在特定欄位中輸出非 NULL 值時，也可以使用 FORCE\_QUOTE 強制使用引號。
 
-The `CSV` format has no standard way to distinguish a `NULL` value from an empty string. PostgreSQL's `COPY` handles this by quoting. A `NULL` is output as the `NULL` parameter string and is not quoted, while a non-`NULL` value matching the `NULL` parameter string is quoted. For example, with the default settings, a `NULL` is written as an unquoted empty string, while an empty string data value is written with double quotes \(`""`\). Reading values follows similar rules. You can use `FORCE_NOT_NULL` to prevent `NULL` input comparisons for specific columns. You can also use `FORCE_NULL` to convert quoted null string data values to `NULL`.
+CSV 格式沒有區分空值和空字串的標準方法。PostgreSQL 的 COPY 透過引號來處理。輸出 NULL 作為 NULL 參數字串，並且不加引號，而與 NULL 參數字串相符的非 NULL 值則被加引號。例如，使用預設設定，將 NULL 寫入未加引號的空字串，而將空字串資料值寫入雙引號（""）。 讀取時則遵循類似的規則。您可以使用 FORCE\_NOT\_NULL 來防止對特定欄位進行 NULL 輸入比較。您還可以使用 FORCE\_NULL 將帶引號的空字串轉換為 NULL。
 
-Because backslash is not a special character in the `CSV` format, `\.`, the end-of-data marker, could also appear as a data value. To avoid any misinterpretation, a `\.` data value appearing as a lone entry on a line is automatically quoted on output, and on input, if quoted, is not interpreted as the end-of-data marker. If you are loading a file created by another application that has a single unquoted column and might have a value of `\.`, you might need to quote that value in the input file.
+由於反斜線不是 CSV 格式的特殊字元，因此 .（資料結尾標記）也可能會顯示為資料。 為避免任何誤解，請使用 . 在行上顯示為單獨項目的資料將在輸出上自動加上引號，並且在輸入（如果加引號）時不會被解釋為資料結束標記。如果要載入的檔案是由另一個應用程式產生的，該檔案只有一個未加引號的欄位，並且值可能為 .，則可能需要在輸入檔案中將值加上引號。
 
-### Note
+### 注意
 
-In `CSV` format, all characters are significant. A quoted value surrounded by white space, or any characters other than `DELIMITER`, will include those characters. This can cause errors if you import data from a system that pads `CSV` lines with white space out to some fixed width. If such a situation arises you might need to preprocess the `CSV` file to remove the trailing white space, before importing the data into PostgreSQL.
+{% hint style="info" %}
+在 CSV 格式中，所有字元均為有效字元。用引號括起來的值用空格或除 DELIMITER 以外的任何字元包圍，將包括這些字元。如果從從空白行填充到固定寬度的 CSV 行的系統中匯入資料，則可能會導致錯誤。如果出現這種情況，在將資料匯入 PostgreSQL 之前，可能需要預處理 CSV 檔案以除去尾隨的空白字元。
+{% endhint %}
 
-### Note
+{% hint style="info" %}
+CSV 格式將識別並產生帶有括號的 CSV 檔案，這些值包含嵌入式回車字元和換行字元。因此，與文字格式的檔案相比，檔案並非嚴格限於每筆資料一行。
+{% endhint %}
 
-CSV format will both recognize and produce CSV files with quoted values containing embedded carriage returns and line feeds. Thus the files are not strictly one line per table row like text-format files.
-
-### Note
-
-Many programs produce strange and occasionally perverse CSV files, so the file format is more a convention than a standard. Thus you might encounter some files that cannot be imported using this mechanism, and `COPY` might produce files that other programs cannot process.
+{% hint style="info" %}
+許多程式會產生奇怪的，有時是錯誤的 CSV 檔案，因此檔案格式更像是一種約定，而不是一種標準。因此，您可能會遇到一些無法使用此機制匯入的檔案，並且 COPY 也可能會產生成其他程式無法處理的檔案內容。
+{% endhint %}
 
 ### Binary 格式
 
