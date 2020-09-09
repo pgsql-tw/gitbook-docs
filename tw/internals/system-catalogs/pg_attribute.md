@@ -4,7 +4,7 @@ The catalog `pg_attribute` stores information about table columns. There will be
 
 The term attribute is equivalent to column and is used for historical reasons.
 
-**Table 51.7. `pg_attribute` Columns**
+#### **Table 51.7. `pg_attribute` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |
