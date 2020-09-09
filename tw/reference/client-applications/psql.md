@@ -154,9 +154,9 @@ Run in single-step mode. That means the user is prompted before each command is 
 
 Runs in single-line mode where a newline terminates an SQL command, as a semicolon does.
 
-#### Note
-
-This mode is provided for those who insist on it, but you are not necessarily encouraged to use it. In particular, if you mix SQL and meta-commands on a line the order of execution might not always be clear to the inexperienced user.
+{% hint style="info" %}
+堅持使用此模式的人可以使用，但不一定鼓勵您使用它。特別是，如果您在一行指令上混合使用 SQL 和快捷指令的話，則對於經驗不足的使用者，執行的次序可能會搞不清楚。
+{% endhint %}
 
 `-t`  
 `--tuples-only`
@@ -277,7 +277,7 @@ Whenever a command is executed, psql also polls for asynchronous notification ev
 
 While C-style block comments are passed to the server for processing and removal, SQL-standard comments are removed by psql.
 
-#### Meta-Commands
+#### Meta-Commands \(快捷指令\)
 
 Anything you enter in psql that begins with an unquoted backslash is a psql meta-command that is processed by psql itself. These commands make psql more useful for administration or scripting. Meta-commands are often called slash or backslash commands.
 
@@ -297,7 +297,7 @@ Many of the meta-commands act on the _current query buffer_. This is simply a bu
 
 The following meta-commands are defined:
 
-`\a`
+#### `\a`
 
 If the current table output format is unaligned, it is switched to aligned. If it is not unaligned, it is set to unaligned. This command is kept for backwards compatibility. See `\pset` for a more general solution.`\c` or `\connect [ -reuse-previous=`_`on|off`_ \] \[ _`dbname`_ \[ _`username`_ \] \[ _`host`_ \] \[ _`port`_ \] \| _`conninfo`_ \]
 
@@ -316,21 +316,21 @@ Examples:
 => \c postgresql://tom@localhost/mydb?application_name=myapp
 ```
 
-`\C [` _`title`_ \]
+#### `\C [` _`title`_ \]
 
 Sets the title of any tables being printed as the result of a query or unset any such title. This command is equivalent to `\pset title` _`title`_. \(The name of this command derives from “caption”, as it was previously only used to set the caption in an HTML table.\)`\cd [` _`directory`_ \]
 
 Changes the current working directory to _`directory`_. Without argument, changes to the current user's home directory.
 
-#### Tip
+{% hint style="info" %}
+要顯示目前的工作目錄，可以使用 ! pwd
+{% endhint %}
 
-To print your current working directory, use `\! pwd`.
-
-`\conninfo`
+#### `\conninfo`
 
 Outputs information about the current database connection.
 
-`\copy {` _`table`_ \[ \( _`column_list`_ \) \] \| \( _`query`_ \) } { `from` \| `to` } { _`'filename'`_ \| program _`'command'`_ \| stdin \| stdout \| pstdin \| pstdout } \[ \[ with \] \( _`option`_ \[, ...\] \) \]
+#### `\copy {` _`table`_ \[ \( _`column_list`_ \) \] \| \( _`query`_ \) } { `from` \| `to` } { _`'filename'`_ \| program _`'command'`_ \| stdin \| stdout \| pstdin \| pstdout } \[ \[ with \] \( _`option`_ \[, ...\] \) \]
 
 Performs a frontend \(client\) copy. This is an operation that runs an SQL [COPY](https://www.postgresql.org/docs/12/sql-copy.html) command, but instead of the server reading or writing the specified file, psql reads or writes the file and routes the data between the server and the local file system. This means that file accessibility and privileges are those of the local user, not the server, and no SQL superuser privileges are required.
 
@@ -340,19 +340,19 @@ For `\copy ... from stdin`, data rows are read from the same source that issued 
 
 The syntax of this command is similar to that of the SQL [COPY](https://www.postgresql.org/docs/12/sql-copy.html) command. All options other than the data source/destination are as specified for [COPY](https://www.postgresql.org/docs/12/sql-copy.html). Because of this, special parsing rules apply to the `\copy` meta-command. Unlike most other meta-commands, the entire remainder of the line is always taken to be the arguments of `\copy`, and neither variable interpolation nor backquote expansion are performed in the arguments.
 
-#### Tip
+{% hint style="info" %}
+獲得與 \copy ... to 相同結果的另一種方法是使用 SQL COPY ... TO STDOUT 指令並在最後以 \g filename 或 \g \| program 來結束它。與 \copy 不同，此方法允許指令跨越多行。同樣地，可以使用變數插值和 backquote 擴展。
+{% endhint %}
 
-Another way to obtain the same result as `\copy ... to` is to use the SQL `COPY ... TO STDOUT` command and terminate it with `\g` _`filename`_ or `\g |`_`program`_. Unlike `\copy`, this method allows the command to span multiple lines; also, variable interpolation and backquote expansion can be used.
+{% hint style="info" %}
+這些操作的效率不如使用檔案、程式產生資料源、或 SQL COPY 指令，因為所有資料都必須透過用戶端/伺服器連線傳遞。對於大量資料，更應該使用 SQL 指令。
+{% endhint %}
 
-#### Tip
-
-These operations are not as efficient as the SQL `COPY` command with a file or program data source or destination, because all data must pass through the client/server connection. For large amounts of data the SQL command might be preferable.
-
-`\copyright`
+#### `\copyright`
 
 Shows the copyright and distribution terms of PostgreSQL.
 
-`\crosstabview [` _`colV`_ \[ _`colH`_ \[ _`colD`_ \[ _`sortcolH`_ \] \] \] \]
+#### `\crosstabview [` _`colV`_ \[ _`colH`_ \[ _`colD`_ \[ _`sortcolH`_ \] \] \] \]
 
 Executes the current query buffer \(like `\g`\) and shows the results in a crosstab grid. The query must return at least three columns. The output column identified by _`colV`_ becomes a vertical header and the output column identified by _`colH`_ becomes a horizontal header. _`colD`_ identifies the output column to display within the grid. _`sortcolH`_ identifies an optional sort column for the horizontal header.
 
@@ -362,7 +362,9 @@ The vertical header, displayed as the leftmost column, contains the values found
 
 The horizontal header, displayed as the first row, contains the values found in column _`colH`_, with duplicates removed. By default, these appear in the same order as in the query results. But if the optional _`sortcolH`_ argument is given, it identifies a column whose values must be integer numbers, and the values from _`colH`_ will appear in the horizontal header sorted according to the corresponding _`sortcolH`_ values.
 
-Inside the crosstab grid, for each distinct value `x` of _`colH`_ and each distinct value `y` of _`colV`_, the cell located at the intersection `(x,y)` contains the value of the `colD` column in the query result row for which the value of _`colH`_ is `x` and the value of _`colV`_ is `y`. If there is no such row, the cell is empty. If there are multiple such rows, an error is reported.`\d[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+Inside the crosstab grid, for each distinct value `x` of _`colH`_ and each distinct value `y` of _`colV`_, the cell located at the intersection `(x,y)` contains the value of the `colD` column in the query result row for which the value of _`colH`_ is `x` and the value of _`colV`_ is `y`. If there is no such row, the cell is empty. If there are multiple such rows, an error is reported.
+
+#### `\d[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 For each relation \(table, view, materialized view, index, sequence, or foreign table\) or composite type matching the _`pattern`_, show all columns, their types, the tablespace \(if not the default\) and any special attributes such as `NOT NULL` or defaults. Associated indexes, constraints, rules, and triggers are also shown. For foreign tables, the associated foreign server is shown as well. \(“Matching the pattern” is defined in [Patterns](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) below.\)
 
@@ -376,27 +378,27 @@ By default, only user-created objects are shown; supply a pattern or the `S` mod
 
 If `\d` is used without a _`pattern`_ argument, it is equivalent to `\dtvmsE` which will show a list of all visible tables, views, materialized views, sequences and foreign tables. This is purely a convenience measure.
 
-`\da[S] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\da[S] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists aggregate functions, together with their return type and the data types they operate on. If _`pattern`_ is specified, only aggregates whose names match the pattern are shown. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects.
 
-`\dA[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dA[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists access methods. If _`pattern`_ is specified, only access methods whose names match the pattern are shown. If `+` is appended to the command name, each access method is listed with its associated handler function and description.
 
-`\db[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\db[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists tablespaces. If _`pattern`_ is specified, only tablespaces whose names match the pattern are shown. If `+` is appended to the command name, each tablespace is listed with its associated options, on-disk size, permissions and description.
 
-`\dc[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dc[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists conversions between character-set encodings. If _`pattern`_ is specified, only conversions whose names match the pattern are listed. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If `+` is appended to the command name, each object is listed with its associated description.
 
-`\dC[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dC[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists type casts. If _`pattern`_ is specified, only casts whose source or target types match the pattern are listed. If `+` is appended to the command name, each object is listed with its associated description.
 
-`\dd[S] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dd[S] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Shows the descriptions of objects of type `constraint`, `operator class`, `operator family`, `rule`, and `trigger`. All other comments may be viewed by the respective backslash commands for those object types.
 
@@ -404,7 +406,7 @@ Shows the descriptions of objects of type `constraint`, `operator class`, `opera
 
 Descriptions for objects can be created with the [COMMENT](https://www.postgresql.org/docs/12/sql-comment.html) SQL command.
 
-`\dD[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dD[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists domains. If _`pattern`_ is specified, only domains whose names match the pattern are shown. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If `+` is appended to the command name, each object is listed with its associated permissions and description.`\ddp [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
@@ -421,15 +423,15 @@ The [ALTER DEFAULT PRIVILEGES](https://www.postgresql.org/docs/12/sql-alterdefau
 
 In this group of commands, the letters `E`, `i`, `m`, `s`, `t`, and `v` stand for foreign table, index, materialized view, sequence, table, and view, respectively. You can specify any or all of these letters, in any order, to obtain a listing of objects of these types. For example, `\dit` lists indexes and tables. If `+` is appended to the command name, each object is listed with its physical size on disk and its associated description, if any. If _`pattern`_ is specified, only objects whose names match the pattern are listed. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects.
 
-`\des[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\des[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists foreign servers \(mnemonic: “external servers”\). If _`pattern`_ is specified, only those servers whose name matches the pattern are listed. If the form `\des+` is used, a full description of each server is shown, including the server's access privileges, type, version, options, and description.
 
-`\det[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\det[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists foreign tables \(mnemonic: “external tables”\). If _`pattern`_ is specified, only entries whose table name or schema name matches the pattern are listed. If the form `\det+` is used, generic options and the foreign table description are also displayed.
 
-`\deu[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\deu[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists user mappings \(mnemonic: “external users”\). If _`pattern`_ is specified, only those mappings whose user names match the pattern are listed. If the form `\deu+` is used, additional information about each mapping is shown.
 
@@ -447,33 +449,33 @@ Lists functions, together with their result data types, argument data types, and
 
 To look up functions taking arguments or returning values of a specific data type, use your pager's search capability to scroll through the `\df` output.
 
-`\dF[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dF[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists text search configurations. If _`pattern`_ is specified, only configurations whose names match the pattern are shown. If the form `\dF+` is used, a full description of each configuration is shown, including the underlying text search parser and the dictionary list for each parser token type.
 
-`\dFd[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dFd[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists text search dictionaries. If _`pattern`_ is specified, only dictionaries whose names match the pattern are shown. If the form `\dFd+` is used, additional information is shown about each selected dictionary, including the underlying text search template and the option values.
 
-`\dFp[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dFp[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists text search parsers. If _`pattern`_ is specified, only parsers whose names match the pattern are shown. If the form `\dFp+` is used, a full description of each parser is shown, including the underlying functions and the list of recognized token types.
 
-`\dFt[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dFt[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists text search templates. If _`pattern`_ is specified, only templates whose names match the pattern are shown. If the form `\dFt+` is used, additional information is shown about each template, including the underlying function names.
 
-`\dg[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dg[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists database roles. \(Since the concepts of “users” and “groups” have been unified into “roles”, this command is now equivalent to `\du`.\) By default, only user-created roles are shown; supply the `S` modifier to include system roles. If _`pattern`_ is specified, only those roles whose names match the pattern are listed. If the form `\dg+` is used, additional information is shown about each role; currently this adds the comment for each role.`\dl`
 
 This is an alias for `\lo_list`, which shows a list of large objects.
 
-`\dL[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dL[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists procedural languages. If _`pattern`_ is specified, only languages whose names match the pattern are listed. By default, only user-created languages are shown; supply the `S` modifier to include system objects. If `+` is appended to the command name, each language is listed with its call handler, validator, access privileges, and whether it is a system object.
 
-`\dn[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
+#### `\dn[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \]
 
 Lists schemas \(namespaces\). If _`pattern`_ is specified, only schemas whose names match the pattern are listed. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If `+` is appended to the command name, each object is listed with its associated permissions and description, if any.
 
