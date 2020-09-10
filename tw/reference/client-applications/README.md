@@ -1,6 +1,6 @@
 # II. PostgreSQL 用戶端工具
 
-his part contains reference information forPostgreSQLclient applications and utilities. Not all of these commands are of general utility; some might require special privileges. The common feature of these applications is that they can be run on any host, independent of where the database server resides.
+這裡包含了 PostgreSQL 用戶端應用工具程式的參考資訊。並非所有的命令都具有通用性。有些可能需要特殊權限。這些應用程式的共同特徵是它們可以在任何主機上執行，而與資料庫伺服器所在的地點無關。
 
-When specified on the command line, user and database names have their case preserved — the presence of spaces or special characters might require quoting. Table names and other identifiers do not have their case preserved, except where documented, and might require quoting.
+在命令列上指定參數時，使用者名稱和資料庫名稱將保留大小寫，如果有空格或特殊字元，則可能需要加引號。資料表名稱和其他標識符號也不保留大小寫，除非有說明，否則可能也需要引號。
 

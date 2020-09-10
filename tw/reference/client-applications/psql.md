@@ -200,10 +200,9 @@ This option is never essential, since psql will automatically prompt for a passw
 
 Note that this option will remain set for the entire session, and so it affects uses of the meta-command `\connect` as well as the initial connection attempt.
 
-`x`  
-`--expanded`
+#### `x` `--expanded`
 
-Turn on the expanded table formatting mode. This is equivalent to `\x` or `\pset expanded`.
+使用資料表的延伸的格式。這等效於 `\x` 或 `\pset expenaded`。
 
 `-X,`  
 `--no-psqlrc`
@@ -1250,7 +1249,7 @@ The location of the history file can be set explicitly via the `HISTFILE` psql v
 
 ### Notes for Windows Users
 
-psql is built as a “console application”. Since the Windows console windows use a different encoding than the rest of the system, you must take special care when using 8-bit characters within psql. If psql detects a problematic console code page, it will warn you at startup. To change the console code page, two things are necessary:
+psql 被建構為“console application”。由於 Windows 的 console 視窗使用與系統其餘部分不同的編碼，因此在 psql 中使用 8 位元字元時必須格外小心。如果 psql 檢測到有問題的語系代碼頁，它將在啟動時警告您。要更改語系代碼頁，需要做兩件事：
 
 * Set the code page by entering **`cmd.exe /c chcp 1252`**. \(1252 is a code page that is appropriate for German; replace it with your value.\) If you are using Cygwin, you can put this command in `/etc/profile`.
 * Set the console font to `Lucida Console`, because the raster font does not work with the ANSI code page.
