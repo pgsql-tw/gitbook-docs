@@ -1,15 +1,15 @@
 # 9.15. JSON 函式及運算子
 
-This section describes:
+本節描述的內容為：
 
-* functions and operators for processing and creating JSON data
-* the SQL/JSON path language
+* 用於處理和建立 JSON 資料的函數和運算子
+* SQL/JSON 路徑語言
 
-To learn more about the SQL/JSON standard, see [\[sqltr-19075-6\]](https://www.postgresql.org/docs/12/biblio.html#SQLTR-19075-6). For details on JSON types supported in PostgreSQL, see [Section 8.14](https://www.postgresql.org/docs/12/datatype-json.html).
+要了解有關 SQL/JSON 標準的更多資訊，請參閱 \[[sqltr-19075-6](../../bibliography.md#sqltr-19075-6-sql-technical-report-part-6-sql-support-for-javascript-object-notation-json-first-edition-2017)\]。有關於 PostgreSQL 支援的 JSON 型別的詳細資訊，請參閱[第 8.14 節](../data-types/json-types.md)。
 
 ## 9.15.1. Processing and Creating JSON Data
 
-[Table 9.44](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-JSON-OP-TABLE) shows the operators that are available for use with JSON data types \(see [Section 8.14](https://www.postgresql.org/docs/12/datatype-json.html)\).
+[Table 9.44](json-functions-and-operators.md#table-9-44-json-and-jsonb-operators) 列出了可用於 JSON 資料型別的運算子（請參閱[第 8.14 節](../data-types/json-types.md)）。
 
 #### **Table 9.44. `json` and `jsonb` Operators**
 
@@ -22,9 +22,9 @@ To learn more about the SQL/JSON standard, see [\[sqltr-19075-6\]](https://www.p
 | `#>` | `text[]` | `json` or `jsonb` | Get JSON object at the specified path | `'{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}'` | `{"c": "foo"}` |
 | `#>>` | `text[]` | `text` | Get JSON object at the specified path as `text` | `'{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}'` | `3` |
 
-#### Note
-
-There are parallel variants of these operators for both the `json` and `jsonb` types. The field/element/path extraction operators return the same type as their left-hand input \(either `json` or `jsonb`\), except for those specified as returning `text`, which coerce the value to text. The field/element/path extraction operators return NULL, rather than failing, if the JSON input does not have the right structure to match the request; for example if no such element exists. The field/element/path extraction operators that accept integer JSON array subscripts all support negative subscripting from the end of arrays.
+{% hint style="info" %}
+這些運算子都有 json 和 jsonb 型別共用的變形。欄位/元素/路徑提取運算子回傳與其左側輸入相同的類型（json 或 jsonb），但指定為回傳 text 的運算符除外，這些運算子將結果強制轉換為 text。如果 JSON 輸入的結構不符合要求，則欄位/元素/路徑提取運算子將回傳 NULL 而不會失敗。例如，如果不存在這樣的元素。接受整數 JSON 陣列索引的欄位/元素/路徑提取運算子均支援表示從陣列末尾開始的負數索引值。
+{% endhint %}
 
 The standard comparison operators shown in [Table 9.1](https://www.postgresql.org/docs/12/functions-comparison.html#FUNCTIONS-COMPARISON-OP-TABLE) are available for `jsonb`, but not for `json`. They follow the ordering rules for B-tree operations outlined at [Section 8.14.4](https://www.postgresql.org/docs/12/datatype-json.html#JSON-INDEXING).
 
