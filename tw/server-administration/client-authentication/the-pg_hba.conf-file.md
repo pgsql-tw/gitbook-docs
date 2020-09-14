@@ -67,19 +67,19 @@ You can also write `all` to match any IP address, `samehost` to match any of the
 
 If a host name is specified \(anything that is not an IP address range or a special key word is treated as a host name\), that name is compared with the result of a reverse name resolution of the client's IP address \(e.g., reverse DNS lookup, if DNS is used\). Host name comparisons are case insensitive. If there is a match, then a forward name resolution \(e.g., forward DNS lookup\) is performed on the host name to check whether any of the addresses it resolves to are equal to the client's IP address. If both directions match, then the entry is considered to match. \(The host name that is used in `pg_hba.conf` should be the one that address-to-name resolution of the client's IP address returns, otherwise the line won't be matched. Some host name databases allow associating an IP address with multiple host names, but the operating system will only return one host name when asked to resolve an IP address.\)
 
-A host name specification that starts with a dot \(`.`\) matches a suffix of the actual host name. So `.example.com` would match `foo.example.com` \(but not just `example.com`\).
+以點（.）開頭的主機名稱表示與實際主機名稱的後段比對。因此，.example.com 與 foo.example.com 比較是相符的（不僅限於 example.com）。
 
-When host names are specified in `pg_hba.conf`, you should make sure that name resolution is reasonably fast. It can be of advantage to set up a local name resolution cache such as `nscd`. Also, you may wish to enable the configuration parameter `log_hostname` to see the client's host name instead of the IP address in the log.
+當在 pg\_hba.conf 中指定了主機名稱時，您應該確保名稱解析足夠快。設定本地名稱解析暫存（例如 nscd）可能是有幫助的。另外，您可能希望啟用配置參數 log\_hostname 來查看用戶端的主機名稱，而不是日誌中的 IP 位址。
 
-This field only applies to `host`, `hostssl`, and `hostnossl` records.
+此欄位僅適用於 host、hostssl 和 hostnossl 規則項目。
 
-## Note
+{% hint style="info" %}
+使用者有時會想知道為什麼以這種看似複雜的方式來處理主機名稱，並具有兩種名稱解析，其中包括對用戶端 IP 地址的反向查詢。如果未設定用戶端的反向 DNS 項目或設定了某些不良的主機名稱，則會使該功能的使用複雜化。這樣做主要是為了提高效率：透過這種方式，連線嘗試最多需要兩次 DNS 查詢，一次反向查詢和一次正向查詢。如果某個位址存在 DNS 問題，則僅成為該使用者的問題。假設僅執行正向查詢的替代實作方式，必須在每次連線嘗試期間解析 pg\_hba.conf 中提到的每個主機名稱。 如果列出了許多名稱，那可能會很慢。而且，如果其中一個主機名稱存在有 DNS 問題，那麼它將成為每個人的問題。
 
-Users sometimes wonder why host names are handled in this seemingly complicated way, with two name resolutions including a reverse lookup of the client's IP address. This complicates use of the feature in case the client's reverse DNS entry is not set up or yields some undesirable host name. It is done primarily for efficiency: this way, a connection attempt requires at most two resolver lookups, one reverse and one forward. If there is a resolver problem with some address, it becomes only that client's problem. A hypothetical alternative implementation that only did forward lookups would have to resolve every host name mentioned in `pg_hba.conf` during every connection attempt. That could be quite slow if many names are listed. And if there is a resolver problem with one of the host names, it becomes everyone's problem.
+另外，必須執行反向查詢以實作後段樣式比對的功能，因為需要知道實際的用戶端主機名稱，以便將其與樣式進行比對。
 
-Also, a reverse lookup is necessary to implement the suffix matching feature, because the actual client host name needs to be known in order to match it against the pattern.
-
-Note that this behavior is consistent with other popular implementations of host name-based access control, such as the Apache HTTP Server and TCP Wrappers.
+請注意，此行為與基於主機名稱的存取控制的其他常見的實作方式一致，例如 Apache HTTP Server 和 TCP Wrappers。
+{% endhint %}
 
 _`IP-address`_  
 _`IP-mask`_
@@ -160,11 +160,11 @@ Since the `pg_hba.conf` records are examined sequentially for each connection at
 
 The `pg_hba.conf` file is read on start-up and when the main server process receives a SIGHUP signal. If you edit the file on an active system, you will need to signal the postmaster \(using `pg_ctl reload` or `kill -HUP`\) to make it re-read the file.
 
-## Note
+{% hint style="info" %}
+前面的宣告在 Microsoft Windows 上是不正確的：在 Windows，pg\_hba.conf 檔案中的任何變更都會在後續的新連線立即適用。
+{% endhint %}
 
-The preceding statement is not true on Microsoft Windows: there, any changes in the `pg_hba.conf` file are immediately applied by subsequent new connections.
-
-The system view [`pg_hba_file_rules`](https://www.postgresql.org/docs/10/static/view-pg-hba-file-rules.html) can be helpful for pre-testing changes to the `pg_hba.conf` file, or for diagnosing problems if loading of the file did not have the desired effects. Rows in the view with non-null `error` fields indicate problems in the corresponding lines of the file.
+系統檢視表 [pg\_hba\_file\_rules](../../internals/system-catalogs/pg_hba_file_rules.md) 有助於預先測試對 pg\_hba.conf 檔案的變更，或者在檔案載入未達到預期效果時診斷問題。檢視表中帶有非空白錯誤欄位會指示檔案相應規則項目中的問題。
 
 {% hint style="info" %}
 要連線到特定的資料庫，使用者不僅必須通過 pg\_hba.conf 檢查，而且必須具有資料庫的 CONNECT 權限。如果您希望限制哪些使用者可以連接到哪些資料庫，通常比設定 pg\_hba.conf 項目更容易，透過授權/撤銷 CONNECT 權限來控制。
