@@ -54,7 +54,7 @@ Enables or disables the query planner's use of hash-join plan types with paralle
 
 #### `enable_partition_pruning` \(`boolean`\)
 
-Enables or disables the query planner's ability to eliminate a partitioned table's partitions from query plans. This also controls the planner's ability to generate query plans which allow the query executor to remove \(ignore\) partitions during query execution. The default is `on`. See [Section 5.11.4](https://www.postgresql.org/docs/current/ddl-partitioning.html#DDL-PARTITION-PRUNING) for details.
+啟用或停用查詢計劃程序從查詢計劃中修剪分割資料表分割區的功能。 這也控制了計劃程序產生查詢計劃的功能，此功能使查詢執行程序可以在查詢執行期間刪除（忽略）分割區。 預設為 on。有關詳細資訊，請參閱[第 5.11.4 節](../../the-sql-language/ddl/table-partitioning.md#5-11-4-partition-pruning)。
 
 #### `enable_partitionwise_join` \(`boolean`\)
 

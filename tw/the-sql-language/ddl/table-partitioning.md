@@ -2,28 +2,28 @@
 
 PostgreSQL 支援基本的分割資料表。本節描述了為什麼以及如何在資料庫設計中實現分割資料表。
 
-## 5.11.1. Overview
+## 5.11.1. 概念
 
-Partitioning refers to splitting what is logically one large table into smaller physical pieces. Partitioning can provide several benefits:
+分割資料表指的是將一個大型資料表以邏輯規則實體拆分為較小的資料庫。分割資料表可以帶來以下好處：
 
-* Query performance can be improved dramatically in certain situations, particularly when most of the heavily accessed rows of the table are in a single partition or a small number of partitions. The partitioning substitutes for leading columns of indexes, reducing index size and making it more likely that the heavily-used parts of the indexes fit in memory.
-* When queries or updates access a large percentage of a single partition, performance can be improved by taking advantage of sequential scan of that partition instead of using an index and random access reads scattered across the whole table.
-* Bulk loads and deletes can be accomplished by adding or removing partitions, if that requirement is planned into the partitioning design. Doing `ALTER TABLE DETACH PARTITION` or dropping an individual partition using `DROP TABLE` is far faster than a bulk operation. These commands also entirely avoid the `VACUUM` overhead caused by a bulk `DELETE`.
-* Seldom-used data can be migrated to cheaper and slower storage media.
+* 在某些情況下，尤其是當資料表中大多數被頻繁存取的資料位於單個分割區或少量的分割區之中時，查詢效能可以顯著地提高。分割區替代了索引的前幾個欄位，從而縮減了索引的大小，並使索引中頻繁使用的部分更有可能都放入記憶體之中。
+* 當查詢或更新存取單個分割區的很大一部分時，可以透過對該分割區進行循序掃描而不是使用索引和遍及整個資料表的隨機讀取來提高效能。
+* 如果計劃程序將這種需求計劃在分割區的設計中，則可以透過增加或刪除分區來完成批次加入和刪除。使用 ALTER TABLE DETACH PARTITION 或使用 DROP TABLE 刪除單個分割區比批次操作要快得多。這些命令還完全避免了由批次 DELETE 所增加的 VACUUM 成本。
+* 很少使用的資料可以遷移到慢一些，但更便宜的儲存媒體上。
 
-The benefits will normally be worthwhile only when a table would otherwise be very large. The exact point at which a table will benefit from partitioning depends on the application, although a rule of thumb is that the size of the table should exceed the physical memory of the database server.
+通常只有在資料表很大的情況下，這些好處才是值得的。資料表可以從分割區中受益的確切評估點取決於應用程式，儘管經驗法則是資料表的大小超過資料庫伺服器的記憶體大小的時候。
 
-PostgreSQL offers built-in support for the following forms of partitioning:
+PostgreSQL 內建支援以下形式的分割方式：
 
-Range Partitioning
+### Range Partitioning
 
 此資料庫表的分割區以一個欄位為鍵或一組欄位定義的「range」來分配，分配給不同分割區的範圍之間沒有重疊。例如，可以按日期範圍或特定業務對象的標識範圍進行分割。
 
-List Partitioning
+### List Partitioning
 
 透過明確列出哪些鍵值出現應該在哪個分割區中來對資料表進行分割。
 
-Hash Partitioning
+### Hash Partitioning
 
 透過為每個分割區指定除數和餘數來對資料表進行分割。每個分割區將保留其分割鍵的雜湊值除以指定的除數所產生指定的餘數的資料列。
 
@@ -47,9 +47,9 @@ Individual partitions are linked to the partitioned table with inheritance behin
 * Partitions cannot have columns that are not present in the parent. It is not possible to specify columns when creating partitions with `CREATE TABLE`, nor is it possible to add columns to partitions after-the-fact using `ALTER TABLE`. Tables may be added as a partition with `ALTER TABLE ... ATTACH PARTITION` only if their columns exactly match the parent.
 * You cannot drop the `NOT NULL` constraint on a partition's column if the constraint is present in the parent table.
 
-Partitions can also be foreign tables, although they have some limitations that normal tables do not; see [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/12/sql-createforeigntable.html) for more information.
+分割區也可以是外部資料表，儘管它們會有一些普通資料表所沒有的限制。有關更多資訊，請參閱 [CREATE FOREIGN TABLE](../../reference/sql-commands/create-foreign-table.md)。
 
-Updating the partition key of a row might cause it to be moved into a different partition where this row satisfies the partition bounds.
+更新資料的分割區主鍵會將其遷移到該筆資料所滿足分割區範圍的其他分割區中。
 
 ### **5.11.2.1. Example**
 
@@ -422,16 +422,16 @@ The following caveats apply to partitioning implemented using inheritance:
 
 ## 5.11.4. Partition Pruning
 
-_Partition pruning_ is a query optimization technique that improves performance for declaratively partitioned tables. As an example:
+Partition pruning \(分割區修剪\)是一種查詢最佳化技術，可提高分割資料表的效能。 舉個例子：
 
 ```text
 SET enable_partition_pruning = on;                 -- the default
 SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
 ```
 
-Without partition pruning, the above query would scan each of the partitions of the `measurement` table. With partition pruning enabled, the planner will examine the definition of each partition and prove that the partition need not be scanned because it could not contain any rows meeting the query's `WHERE` clause. When the planner can prove this, it excludes \(_prunes_\) the partition from the query plan.
+如果不進行分割區修剪，則上面的查詢將掃描 measurement 資料表的每個分割區。啟用分割區修剪後，計劃程序將檢查每個分割區的定義並證明不需要掃描該分割區，因為該分割區不會包含滿足查詢 WHERE 子句的資料。當計劃程序可以證明這一點時，它將從查詢計劃中排除（修剪）分割區。
 
-By using the EXPLAIN command and the [enable\_partition\_pruning](https://www.postgresql.org/docs/12/runtime-config-query.html#GUC-ENABLE-PARTITION-PRUNING) configuration parameter, it's possible to show the difference between a plan for which partitions have been pruned and one for which they have not. A typical unoptimized plan for this type of table setup is:
+透過使用 EXPLAIN 指令和 [enable\_partition\_pruning](../../server-administration/server-configuration/query-planning.md#enable_partition_pruning-boolean) 組態參數，可以顯示已修剪分割區的計劃與未修剪分割區的計劃之間差異。對於這種類型的資料表設定，典型未最佳化的計劃是：
 
 ```text
 SET enable_partition_pruning = off;
