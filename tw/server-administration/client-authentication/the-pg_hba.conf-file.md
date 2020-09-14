@@ -51,7 +51,7 @@ _`database`_
 
 _`user`_
 
-Specifies which database user name\(s\) this record matches. The value `all` specifies that it matches all users. Otherwise, this is either the name of a specific database user, or a group name preceded by `+`. \(Recall that there is no real distinction between users and groups in PostgreSQL; a `+` mark really means “match any of the roles that are directly or indirectly members of this role”, while a name without a `+` mark matches only that specific role.\) For this purpose, a superuser is only considered to be a member of a role if they are explicitly a member of the role, directly or indirectly, and not just by virtue of being a superuser. Multiple user names can be supplied by separating them with commas. A separate file containing user names can be specified by preceding the file name with `@`.
+指定此記錄所限制的資料庫使用者名稱。all 表示所有使用者都適用。否則，它就是是特定資料庫使用者的名稱，要就是帶有 + 的群組名稱。（回想一下，PostgreSQL 中的使用者和群組之間並沒有真正的差別； + 標記實際上表示「符合直接或間接地成為該角色成員的任何角色」，而沒有 + 標記的名稱僅適用該特定角色。 ）為此，只有超級使用者直接或間接明確地是角色的成員，而不僅僅是憑藉超級使用者，才將其視為角色的成員。可以使用逗號分隔多個使用者名稱。透過在檔案名稱前面加上 @ 來指定包含使用者名稱的獨立設定檔案。
 
 _`address`_
 
@@ -94,11 +94,11 @@ Specifies the authentication method to use when a connection matches this record
 
 `trust`
 
-Allow the connection unconditionally. This method allows anyone that can connect to the PostgreSQL database server to login as any PostgreSQL user they wish, without the need for a password or any other authentication. See [Section 20.3.1](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-TRUST) for details.
+無條件地允許連線。此方法允許可以連線到 PostgreSQL 資料庫伺服器的任何人以他們希望的任何 PostgreSQL 使用者身份登入，而毌需密碼或任何其他身份驗證。有關詳細資訊，請參閱[第 20.3.1 節](authentication-methods.md#20-3-1-trust-authentication)。
 
 `reject`
 
-Reject the connection unconditionally. This is useful for “filtering out” certain hosts from a group, for example a `reject` line could block a specific host from connecting, while a later line allows the remaining hosts in a specific network to connect.
+無條件地拒絕連線。這對於「過濾」群組網路中的某些主機很有用。例如拒絕阻止特定主機的連接，而更前面的規則則允許特定網路中的其餘主機進行連線。
 
 `scram-sha-256`
 
@@ -154,7 +154,7 @@ After the _`auth-method`_ field, there can be field\(s\) of the form _`name`_`=`
 
 In addition to the method-specific options listed below, there is one method-independent authentication option `clientcert`, which can be specified in any `hostssl` record. When set to `1`, this option requires the client to present a valid \(trusted\) SSL certificate, in addition to the other requirements of the authentication method.
 
-Files included by `@` constructs are read as lists of names, which can be separated by either whitespace or commas. Comments are introduced by `#`, just as in `pg_hba.conf`, and nested `@` constructs are allowed. Unless the file name following `@` is an absolute path, it is taken to be relative to the directory containing the referencing file.
+@ 語法結構包含的檔案會被入為名稱列表，可以用空格或逗號分隔。就像在 pg\_hba.conf 中一樣，註釋由 ＃ 引入，並且允許巢狀式的 @ 結構。除非 @ 之後的檔案名稱是絕對路徑，否則它將被視為相對於包含引用檔案的目錄。
 
 Since the `pg_hba.conf` records are examined sequentially for each connection attempt, the order of the records is significant. Typically, earlier records will have tight connection match parameters and weaker authentication methods, while later records will have looser match parameters and stronger authentication methods. For example, one might wish to use `trust` authentication for local TCP/IP connections but require a password for remote TCP/IP connections. In this case a record specifying `trust` authentication for connections from 127.0.0.1 would appear before a record specifying password authentication for a wider range of allowed client IP addresses.
 
@@ -166,9 +166,9 @@ The preceding statement is not true on Microsoft Windows: there, any changes in 
 
 The system view [`pg_hba_file_rules`](https://www.postgresql.org/docs/10/static/view-pg-hba-file-rules.html) can be helpful for pre-testing changes to the `pg_hba.conf` file, or for diagnosing problems if loading of the file did not have the desired effects. Rows in the view with non-null `error` fields indicate problems in the corresponding lines of the file.
 
-## Tip
-
-To connect to a particular database, a user must not only pass the `pg_hba.conf` checks, but must have the `CONNECT` privilege for the database. If you wish to restrict which users can connect to which databases, it's usually easier to control this by granting/revoking `CONNECT`privilege than to put the rules in `pg_hba.conf` entries.
+{% hint style="info" %}
+要連線到特定的資料庫，使用者不僅必須通過 pg\_hba.conf 檢查，而且必須具有資料庫的 CONNECT 權限。如果您希望限制哪些使用者可以連接到哪些資料庫，通常比設定 pg\_hba.conf 項目更容易，透過授權/撤銷 CONNECT 權限來控制。
+{% endhint %}
 
 Some examples of `pg_hba.conf` entries are shown in [Example 20.1](https://www.postgresql.org/docs/10/static/auth-pg-hba-conf.html#EXAMPLE-PG-HBA.CONF). See the next section for details on the different authentication methods.
 
