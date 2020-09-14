@@ -176,7 +176,7 @@ See [Section 5.11](https://www.postgresql.org/docs/12/ddl-partitioning.html) for
 
 `PARTITION OF` _`parent_table`_ { FOR VALUES _`partition_bound_spec`_ \| DEFAULT }
 
-Creates the table as a _partition_ of the specified parent table. The table can be created either as a partition for specific values using `FOR VALUES` or as a default partition using `DEFAULT`. Any indexes, constraints and user-defined row-level triggers that exist in the parent table are cloned on the new partition.
+建資料表作為指定父資料表的分割區。此資料表可以使用 FOR VALUES 建立為特定值的分割區，也可以使用 DEFAULT 建立為預設分割區。父資料表中存在所有的索引、限制條件和使用者定義的資料列級觸發器都將複製到新的分割區上。
 
 The _`partition_bound_spec`_ must correspond to the partitioning method and partition key of the parent table, and must not overlap with any existing partition of that parent. The form with `IN` is used for list partitioning, the form with `FROM` and `TO` is used for range partitioning, and the form with `WITH` is used for hash partitioning.
 
