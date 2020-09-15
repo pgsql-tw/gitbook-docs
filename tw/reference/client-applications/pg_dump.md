@@ -8,25 +8,25 @@ pg\_dump — 將 PostgreSQL 資料庫匯出到腳本檔案或其他封存檔案�
 
 ## 說明
 
-pg\_dump is a utility for backing up a PostgreSQL database. It makes consistent backups even if the database is being used concurrently. pg\_dump does not block other users accessing the database \(readers or writers\).
+pg\_dump 是用於備份 PostgreSQL 資料庫的工具程式。即使同時也在使用資料庫，它會進行具有一致性的備份。pg\_dump 不會阻礙其他使用者存取資料庫（讀取或寫入皆不會阻礙）。
 
-pg\_dump only dumps a single database. To back up an entire cluster, or to back up global objects that are common to all databases in a cluster \(such as roles and tablespaces\), use [pg\_dumpall](https://www.postgresql.org/docs/11/app-pg-dumpall.html).
+pg\_dump 只匯出一個數據庫。要備份整個叢集，或備份叢集中所有資料庫共有的全域物件（例如角色和資料表空間），請使用 [pg\_dumpall](pg_dumpall.md)。
 
-Dumps can be output in script or archive file formats. Script dumps are plain-text files containing the SQL commands required to reconstruct the database to the state it was in at the time it was saved. To restore from such a script, feed it to [psql](https://www.postgresql.org/docs/11/app-psql.html). Script files can be used to reconstruct the database even on other machines and other architectures; with some modifications, even on other SQL database products.
+Dump 可以是腳本或封存檔案格式輸出。腳本匯出是純文字檔案，其中包含將資料庫重建到保存時所處狀態所需的 SQL 命令。要從此類腳本還原，請將其腳本檔案提供給 [psql](psql.md)。腳本檔案甚至可以在其他機器和其他系統結構上用於重建資料庫；進行一些修改，甚至在其他 SQL 資料庫產品上還原。
 
-The alternative archive file formats must be used with [pg\_restore](https://www.postgresql.org/docs/11/app-pgrestore.html) to rebuild the database. They allow pg\_restore to be selective about what is restored, or even to reorder the items prior to being restored. The archive file formats are designed to be portable across architectures.
+另一種封存檔案格式必須與 pg\_restore 一起使用才能重建資料庫。它們允許 pg\_restore 對還原哪些東西有選擇性，甚至可以在還原之前對資料進行重新排序。封存檔案格式設計為可跨系統結構移植。
 
 When used with one of the archive file formats and combined with pg\_restore, pg\_dump provides a flexible archival and transfer mechanism. pg\_dump can be used to backup an entire database, then pg\_restore can be used to examine the archive and/or select which parts of the database are to be restored. The most flexible output file formats are the “custom” format \(`-Fc`\) and the “directory”format \(`-Fd`\). They allow for selection and reordering of all archived items, support parallel restoration, and are compressed by default. The “directory” format is the only format that supports parallel dumps.
 
 While running pg\_dump, one should examine the output for any warnings \(printed on standard error\), especially in light of the limitations listed below.
 
-## Options
+## 選項
 
-The following command-line options control the content and format of the output.
+以下命令列選項來控制輸出的內容和格式。
 
 _`dbname`_
 
-Specifies the name of the database to be dumped. If this is not specified, the environment variable `PGDATABASE` is used. If that is not set, the user name specified for the connection is used.
+指定要匯出的資料庫的名稱。如果未指定，則使用環境變數 PGDATABASE。如果環境變數也未設定，則使用連線的使用者名稱作為資料庫名稱。
 
 `-a`  
 `--data-only`
