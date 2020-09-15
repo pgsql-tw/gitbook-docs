@@ -557,6 +557,8 @@
     * [pgbench](reference/client-applications/pgbench.md)
     * [pg\_basebackup](reference/client-applications/pg_basebackup.md)
     * [pg\_dump](reference/client-applications/pg_dump.md)
+    * [pg\_dumpall](reference/client-applications/pg_dumpall.md)
+    * [pg\_restore](reference/client-applications/pg_restore.md)
     * [psql](reference/client-applications/psql.md)
     * [vacuumdb](reference/client-applications/vacuumdb.md)
   * [III. PostgreSQL 伺服器應用程式](reference/server-applications/README.md)

@@ -1,12 +1,12 @@
 # pg\_dump
 
-pg\_dump — extract a PostgreSQL database into a script file or other archive file
+pg\_dump — 將 PostgreSQL 資料庫匯出到腳本檔案或其他封存檔案中
 
-## Synopsis
+## 語法
 
 `pg_dump` \[_`connection-option`_...\] \[_`option`_...\] \[_`dbname`_\]
 
-## Description
+## 說明
 
 pg\_dump is a utility for backing up a PostgreSQL database. It makes consistent backups even if the database is being used concurrently. pg\_dump does not block other users accessing the database \(readers or writers\).
 
@@ -31,9 +31,9 @@ Specifies the name of the database to be dumped. If this is not specified, the e
 `-a`  
 `--data-only`
 
-Dump only the data, not the schema \(data definitions\). Table data, large objects, and sequence values are dumped.
+僅匯出資料，而不匯出結構（資料結構定義）。資料表的資料內容、大型物件和序列值將被匯出。
 
-This option is similar to, but for historical reasons not identical to, specifying `--section=data`.
+此選項與 --section = data 相似，但由於歷史原因並不完全相同。
 
 `-b`  
 `--blobs`
@@ -167,13 +167,13 @@ Specify the superuser user name to use when disabling triggers. This is relevant
 `-t` _`table`_  
 `--table=`_`table`_
 
-Dump only tables with names matching _`table`_. For this purpose, “table” includes views, materialized views, sequences, and foreign tables. Multiple tables can be selected by writing multiple `-t`switches. Also, the _`table`_ parameter is interpreted as a pattern according to the same rules used by psql's `\d` commands \(see [Patterns](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-PATTERNS)\), so multiple tables can also be selected by writing wildcard characters in the pattern. When using wildcards, be careful to quote the pattern if needed to prevent the shell from expanding the wildcards; see [Examples](https://www.postgresql.org/docs/11/app-pgdump.html#PG-DUMP-EXAMPLES).
+僅匯出名稱與此選項相符的資料表。為此，“資料表”還包括檢視表、具體化檢視表、序列和外部資料表。透過寫入多個 -t 選項就可以選擇多個資料表。另外，根據 psql 的 \d 命令使用的相同規則，將 table 參數解釋為 pattern（請參閱 [Patterns](psql.md#d-s-pattern)），因此也可以透過在 pattern 中寫入萬用字元來選擇多個資料表。使用萬用字元時，如果需要，請小心引用該樣式，以防止 Shell 擴展萬用字元。請參閱[範例](pg_dump.md#fan-li)。
 
 The `-n` and `-N` switches have no effect when `-t` is used, because tables selected by `-t` will be dumped regardless of those switches, and non-table objects will not be dumped.
 
-### Note
-
-When `-t` is specified, pg\_dump makes no attempt to dump any other database objects that the selected table\(s\) might depend upon. Therefore, there is no guarantee that the results of a specific-table dump can be successfully restored by themselves into a clean database.
+{% hint style="info" %}
+當指定 -t 時，pg\_dump 不會嘗試匯出所選資料表可能相依的任何其他資料庫物件。因此，不能保證自己可以成功地將特定資料表匯出的結果還原到乾淨的資料庫中。
+{% endhint %}
 
 ### Note
 
@@ -405,15 +405,15 @@ Because pg\_dump is used to transfer data to newer versions of PostgreSQL, the o
 
 When dumping logical replication subscriptions, pg\_dump will generate `CREATE SUBSCRIPTION` commands that use the `NOCONNECT` option, so that restoring the subscription does not make remote connections for creating a replication slot or for initial table copy. That way, the dump can be restored without requiring network access to the remote servers. It is then up to the user to reactivate the subscriptions in a suitable way. If the involved hosts have changed, the connection information might have to be changed. It might also be appropriate to truncate the target tables before initiating a new full table copy.
 
-## Examples
+## 範例
 
-To dump a database called `mydb` into a SQL-script file:
+要將名稱為 mydb 的資料庫匯出到 SQL 腳本檔案中：
 
 ```text
 $ pg_dump mydb > db.sql
 ```
 
-To reload such a script into a \(freshly created\) database named `newdb`:
+要將這樣的腳本重新載入到名稱為 newdb 的（新建立的）資料庫中：
 
 ```text
 $ psql -d newdb -f db.sql
@@ -449,13 +449,13 @@ To reload an archive file into the same database it was dumped from, discarding 
 $ pg_restore -d postgres --clean --create db.dump
 ```
 
-To dump a single table named `mytab`:
+只要單獨匯出名稱為 mytab 的資料表：
 
 ```text
 $ pg_dump -t mytab mydb > db.sql
 ```
 
-To dump all tables whose names start with `emp` in the `detroit` schema, except for the table named `employee_log`:
+要在 detroit 綱要中匯出所有名稱以 emp 開頭的資料表，但名稱為 employee\_log 的資料表除外：
 
 ```text
 $ pg_dump -t 'detroit.emp*' -T detroit.employee_log mydb > db.sql
@@ -485,9 +485,9 @@ To specify an upper-case or mixed-case name in `-t` and related switches, you ne
 $ pg_dump -t "\"MixedCaseName\"" mydb > mytab.sql
 ```
 
-## See Also
+## 參閱
 
-[pg\_dumpall](https://www.postgresql.org/docs/11/app-pg-dumpall.html), [pg\_restore](https://www.postgresql.org/docs/11/app-pgrestore.html), [psql](psql.md)
+[pg\_dumpall](pg_dumpall.md), [pg\_restore](pg_restore.md), [psql](psql.md)
 
 |  |
 | :--- |
