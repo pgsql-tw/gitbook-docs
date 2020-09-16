@@ -602,6 +602,7 @@
     * [51.85. pg\_settings](internals/system-catalogs/pg_settings.md)
     * [51.87. pg\_stats](internals/system-catalogs/pg_stats.md)
     * [51.90. pg\_tables](internals/system-catalogs/pg_tables.md)
+    * [51.95. pg\_views](internals/system-catalogs/pg_views.md)
   * [52. Frontend/Backend Protocol](internals/52.-frontend-backend-protocol/README.md)
     * [52.1. Overview](internals/52.-frontend-backend-protocol/overview.md)
     * [52.2. Message Flow](internals/52.-frontend-backend-protocol/52.2.-message-flow.md)
