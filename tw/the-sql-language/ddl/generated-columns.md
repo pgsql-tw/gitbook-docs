@@ -1,6 +1,6 @@
 # 5.3. Generated Columns
 
-A generated column is a special column that is always computed from other columns. Thus, it is for columns what a view is for tables. There are two kinds of generated columns: stored and virtual. A stored generated column is computed when it is written \(inserted or updated\) and occupies storage as if it were a normal column. A virtual generated column occupies no storage and is computed when it is read. Thus, a virtual generated column is similar to a view and a stored generated column is similar to a materialized view \(except that it is always updated automatically\). PostgreSQL currently implements only stored generated columns.
+Generated column \(自動欄位\)是特殊的欄位，它的內容由其他欄位的內容計算得出。相對於資料表來說，就是欄位形態的 View。Generated column 有兩種：stored 和 virtual。 Stored 的自動欄位在寫入（插入或更新）時進行計算，會像正常欄位一樣佔用儲存空間。Virtual 的自動欄位則不佔用任何儲存空間，而是在讀取時會對其進行計算。因此，虛擬的自動欄位類似於檢視表\(view\)，而儲存的自動欄位則類似於具體化檢視表\(materialized view\)（但會自動更新）。 PostgreSQL 目前僅實作了儲存的自動欄位。
 
 To create a generated column, use the `GENERATED ALWAYS AS` clause in `CREATE TABLE`, for example:
 
