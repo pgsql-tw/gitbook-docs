@@ -1,87 +1,613 @@
 # 9.4. 字串函式及運算子
 
-本節介紹用於檢查和操作字串值的函數和運算子。此節中的字串包括 character，character varying 和 text 的內容。除非另有說明，否則下面列出的所有函數都適用於所有這些型別，但在使用字串型別時要小心自動填充字元的潛在影響。對於 bit-string 型別，一些函數也可以處理。
+This section describes functions and operators for examining and manipulating string values. Strings in this context include values of the types `character`, `character varying`, and `text`. Unless otherwise noted, all of the functions listed below work on all of these types, but be wary of potential effects of automatic space-padding when using the `character` type. Some functions also exist natively for the bit-string types.
 
-SQL 定義了一些字串函數，它們使用關鍵字而不是逗號來分隔參數。詳情見 [Table 9.8](string-functions-and-operators.md#table-9-8-sql-string-functions-and-operators)。PostgreSQL 還提供了一般函數呼叫語法的這些函數的版本（參見 [Table 9.9](string-functions-and-operators.md#table-9-9-other-string-functions)）。
+SQL defines some string functions that use key words, rather than commas, to separate arguments. Details are in [Table 9.9](https://www.postgresql.org/docs/12/functions-string.html#FUNCTIONS-STRING-SQL). PostgreSQL also provides versions of these functions that use the regular function invocation syntax \(see [Table 9.10](https://www.postgresql.org/docs/12/functions-string.html#FUNCTIONS-STRING-OTHER)\).
 
-**注意**  
-在 PostgreSQL 8.3 之前，由於存在從這些資料型別到文字的強制轉換，這些函數也會默默地接受幾個非字串資料型別的值。但這些強制措施已被刪除，因為它們經常引起令人驚訝的行為。不過，字串連接運算子（\|\|）仍然接受非字串輸入，只要至少有一個輸入是字串型別，如 Table 9.8 所示。對於其他情況，如果需要複製先前的行為，請在語法中加入明確的轉換。
+{% hint style="info" %}
+在 PostgreSQL 8.3 之前的版本中，由於存在從這些資料型別到文字的隱式強制轉換，這些函數也將默默接受幾種非字串資料型別的值。這些強制轉換已被刪除，因為它們經常引起令人驚訝的結果。但是，字串連接運算子（\|\|）仍然接受非字串輸入，只要至少一個輸入為字串型別即可，如 Table 9.9 所示。對於其他情況，如果您需要複製以前的行為，請在查詢語句中明確加入型別轉換。
+{% endhint %}
 
-#### **Table 9.8. SQL String Functions and Operators**
-
-| Function | Return Type | Description | Example | Result |
-| :--- | :--- | :--- | :--- | :--- |
-| _`string`_ `||` _`string`_ | `text` | 字串連接 | `'Post' || 'greSQL'` | `PostgreSQL` |
-| _`string`_ `||` _`non-string`_ or _`non-string`_ `||`_`string`_ | `text` | 字串與一個非字串輸入連接 | `'Value: ' || 42` | `Value: 42` |
-| `bit_length(`_`string`_\) | `int` | 字串中的位元數 | `bit_length('jose')` | `32` |
-| `char_length(`_`string`_\) or `character_length(`_`string`_\) | `int` | 字串中的字元數 | `char_length('jose')` | `4` |
-| `lower(`_`string`_\) | `text` | 將字串轉換為小寫 | `lower('TOM')` | `tom` |
-| `octet_length(`_`string`_\) | `int` | 字串中的位元組數 | `octet_length('jose')` | `4` |
-| `overlay(`_`string`_ placing _`string`_ from`int` \[for `int`\]\) | `text` | 子字串替換 | `overlay('Txxxxas' placing 'hom' from 2 for 4)` | `Thomas` |
-| `position(`_`substring`_ in _`string`_\) | `int` | 指出子字串的位置 | `position('om' in 'Thomas')` | `3` |
-| `substring(`_`string`_ \[from `int`\] \[for`int`\]\) | `text` | 提取子字串 | `substring('Thomas' from 2 for 3)` | `hom` |
-| `substring(`_`string`_ from _`pattern`_\) | `text` | 提取符合 POSIX 正規表示式的子字串。有關特徵比對的更多訊息，請參見[第 9.7 節](pattern-matching.md)。 | `substring('Thomas' from '...$')` | `mas` |
-| `substring(`_`string`_ from _`pattern`_ for_`escape`_\) | `text` | 提取符合 SQL 正規表示式的子字串。有關特徵比對的更多訊息，請參閱[第 9.7 節](pattern-matching.md)。 | `substring('Thomas' from '%#"o_a#"_' for '#')` | `oma` |
-| `trim([leading | trailing | both] [`_`characters`_\] from _`string`_\) | `text` | 從字串的開頭，結尾或兩端（兩者都是預設值）中刪除包含某些字元（預設為空格）的最長字串 | `trim(both 'xyz' from 'yxTomxx')` | `Tom` |
-| `trim([leading | trailing | both] [from]` _`string`_ \[, _`characters`_\] \) | `text` | trim\(\) 的非標準語法 | `trim(both from 'yxTomxx', 'xyz')` | `Tom` |
-| `upper(`_`string`_\) | `text` | 將字串轉換為大寫 | `upper('tom')` | `TOM` |
-
-還有其他字串操作函數可用，在 [Table 9.9](string-functions-and-operators.md#table-9-9-other-string-functions) 中列出。 其中一些內部用於實作 SQL 標準的字串函數列在 [Table 9.8](string-functions-and-operators.md#table-9-8-sql-string-functions-and-operators)。
-
-#### **Table 9.9. Other String Functions**
+#### **Table 9.9. SQL String Functions and Operators**
 
 | Function | Return Type | Description | Example | Result |
 | :--- | :--- | :--- | :--- | :--- |
-| `ascii(`_`string`_\) | `int` | 參數的第一個字元的 ASCII 碼。對於 UTF8，回傳字元的 Unicode 代碼。對於其他多位元組編碼，參數必須是 ASCII 字元。 | `ascii('x')` | `120` |
-| `btrim(`_`string`_ `text` \[, _`characters`_`text`\]\) | `text` | 從字串的開頭和結尾刪除特定字元的最長字串（預設為空格） | `btrim('xyxtrimyyx', 'xyz')` | `trim` |
-| `chr(int`\) | `text` | 輸出給定代碼的字元。對於 UTF8，該參數被視為 Unicode 代碼。對於其他多位元組編碼，參數必須指定 ASCII 字元。不允許使用 NULL（0）字元，因為文字資料型別無法儲存這個位元組。 | `chr(65)` | `A` |
-| `concat(`_`str`_ `"any"` \[, _`str`_ `"any"` \[, ...\] \]\) | `text` | 連接所有參數的文字結果。NULL 參數會被忽略。 | `concat('abcde', 2, NULL, 22)` | `abcde222` |
-| `concat_ws(`_`sep`_ `text`, _`str`_ `"any"` \[,_`str`_ `"any"` \[, ...\] \]\) | `text` | 使用分隔字元連接除第一個參數以外的所有參數。第一個參數用作分隔字串。NULL 參數會被忽略。 | `concat_ws(',', 'abcde', 2, NULL, 22)` | `abcde,2,22` |
-| `convert(`_`string`_ `bytea`,_`src_encoding`_ `name`, _`dest_encoding`_`name`\) | `bytea` | 將字串轉換為 dest\_encoding。原始編碼由 src\_encoding 指定。該字串必須在此編碼中有效。可以透過 CREATE CONVERSION 定義轉換。還有一些預定義的轉換。有關可用的轉換，請參閱 [Table 9.10](string-functions-and-operators.md#table-9-10-built-in-conversions)。 | `convert('text_in_utf8', 'UTF8', 'LATIN1')` | `text_in_utf8`represented in Latin-1 encoding \(ISO 8859-1\) |
-| `convert_from(`_`string`_ `bytea`,_`src_encoding`_ `name`\) | `text` | 將字串轉換為資料庫編碼。原始編碼由 src\_encoding 指定。該字串必須在此編碼中有效。 | `convert_from('text_in_utf8', 'UTF8')` | `text_in_utf8`represented in the current database encoding |
-| `convert_to(`_`string`_ `text`,_`dest_encoding`_ `name`\) | `bytea` | 將字串轉換為 dest\_encoding。 | `convert_to('some text', 'UTF8')` | `some text` represented in the UTF8 encoding |
-| `decode(`_`string`_ `text`, _`format`_ `text`\) | `bytea` | 從字串中的文字表示中解碼二進位資料。格式選項與編碼相同。 | `decode('MTIzAAE=', 'base64')` | `\x3132330001` |
-| `encode(`_`data`_ `bytea`, _`format`_ `text`\) | `text` | 將二進制資料編碼為文字表示。支援的格式為：base64，hex，escape。escape 將零位元組和 high-bit-set 位元組轉換為八進制序列（\nnn）並將倒斜線加倍。 | `encode(E'123\\000\\001', 'base64')` | `MTIzAAE=` |
-| `format`\(_`formatstr`_ `text` \[,_`formatarg`_ `"any"` \[, ...\] \]\) | `text` | 根據格式字串格式化參數。此功能類似於 C 函數 sprintf。詳見 [9.4.1 節](string-functions-and-operators.md#9-4-1-format)。 | `format('Hello %s, %1$s', 'World')` | `Hello World, World` |
-| `initcap(`_`string`_\) | `text` | 將每個單詞的第一個字母轉換為大寫，其餘單詞轉換為小寫。單詞是由非字母數字字元分隔的字母數字字元序列。 | `initcap('hi THOMAS')` | `Hi Thomas` |
-| `left(`_`str`_ `text`, _`n`_ `int`\) | `text` | 回傳字串中的前 n 個字元。當 n 為負數時，回傳除最後 \|n\| 之外的所有內容字元。 | `left('abcde', 2)` | `ab` |
-| `length(`_`string`_\) | `int` | 字串中的字元數 | `length('jose')` | `4` |
-| `length(`_`string`_ `bytea`, _`encoding`_`name` \) | `int` | 給定編碼中字串中的字元數。該字串必須在此編碼中有效。 | `length('jose', 'UTF8')` | `4` |
-| `lpad(`_`string`_ `text`, _`length`_ `int` \[,_`fill`_ `text`\]\) | `text` | 透過在字元填充前加上字串填充（預設為空格）。 如果字串已經長於長度，那麼它將被截斷（在右側）。 | `lpad('hi', 5, 'xy')` | `xyxhi` |
-| `ltrim(`_`string`_ `text` \[, _`characters`_`text`\]\) | `text` | 從字串的開頭刪除最長指定字元的字串（預設為空格） | `ltrim('zzzytest', 'xyz')` | `test` |
-| `md5(`_`string`_\) | `text` | 計算字串的 MD5 雜湊值，以十六進位形式回傳結果 | `md5('abc')` | `900150983cd24fb0 d6963f7d28e17f72` |
-| `parse_ident(`_`qualified_identifier`_`text` \[, _`strictmode`_ `boolean`DEFAULT true \] \) | `text[]` | 將 qualified\_identifier 以標示字拆分為陣列，刪除任何單個標示字的引用。預設情況下，最後一個標示字後面的額外字元將被視為錯誤；但如果第二個參數為 false，則忽略這些額外的字元。（此行為對於解析函數等物件的名稱很有用。）請注意，此函數不會截斷超長標示字。如果要截斷，可以將結果轉換為 name\[\]。 | `parse_ident('"SomeSchema".someTable')` | `{SomeSchema,sometable}` |
-| `pg_client_encoding()` | `name` | 目前用戶端的編碼名稱 | `pg_client_encoding()` | `SQL_ASCII` |
-| `quote_ident(`_`string`_ `text`\) | `text` | 回傳適當引用的字串，以用作 SQL 語句字串中的標示字。僅在必要時加上引號（即如果字串包含非標示字或將被大小寫折疊）。 嵌入式引號會正確加倍。請參閱[例 42.1](../../server-programming/pl-pgsql-sql-procedural-language/basic-statements.md)。 | `quote_ident('Foo bar')` | `"Foo bar"` |
-| `quote_literal(`_`string`_ `text`\) | `text` | 回傳適當引用的字串，以用作 SQL 語句字串中的字串文字。嵌入式單引號和倒斜線會適當加倍。請注意，quote\_literal 在 null 輸入時回傳 null；如果參數可能為 null，則 quote\_nullable 通常更合適。請參閱[例 42.1](../../server-programming/pl-pgsql-sql-procedural-language/basic-statements.md)。 | `quote_literal(E'O\'Reilly')` | `'O''Reilly'` |
-| `quote_literal(`_`value`_ `anyelement`\) | `text` | 將給定的值強制轉換為文字型別，然後將其引用為文字。嵌入式單引號和反斜線會適當加倍。 | `quote_literal(42.5)` | `'42.5'` |
-| `quote_nullable(`_`string`_ `text`\) | `text` | 回傳適當引用的字串，以用作 SQL 語句字串中的字串文字；或者，如果參數為 null，則回傳NULL。嵌入式單引號和倒斜線將適當加倍。請參閱[例 42.1](../../server-programming/pl-pgsql-sql-procedural-language/basic-statements.md)。 | `quote_nullable(NULL)` | `NULL` |
-| `quote_nullable(`_`value`_ `anyelement`\) | `text` | 將給定的值強制轉換為文字型別，然後將其引用為文字；或者，如果參數為 null，則回傳 NULL。嵌入式單引號和倒斜線將適當加倍。 | `quote_nullable(42.5)` | `'42.5'` |
-| `regexp_match(`_`string`_ `text`,_`pattern`_ `text` \[, _`flags`_ `text`\]\) | `text[]` | 回傳由 POSIX 正規表示式與字串的第一個匹配產生的子字串。有關更多訊息，請參閱[第 9.7.3 節](pattern-matching.md#9-7-3-posix-regular-expressions)。 | `regexp_match('foobarbequebaz', '(bar)(beque)')` | `{bar,beque}` |
-| `regexp_matches(`_`string`_ `text`,_`pattern`_ `text` \[, _`flags`_ `text`\]\) | `setof text[]` | 回傳透過將 POSIX 正規表示式與字串匹配而得到的子字串。有關更多訊息，請參閱[第 9.7.3 節](pattern-matching.md#9-7-3-posix-regular-expressions)。 | `regexp_matches('foobarbequebaz', 'ba.', 'g')` | `{bar}{baz}`\(2 rows\) |
-| `regexp_replace(`_`string`_ `text`,_`pattern`_ `text`, _`replacement`_ `text`\[, _`flags`_ `text`\]\) | `text` | 替換與 POSIX 正規表示式匹配的子字串。有關更多訊息，請參閱[第 9.7.3 節](pattern-matching.md#9-7-3-posix-regular-expressions)。 | `regexp_replace('Thomas', '.[mN]a.', 'M')` | `ThM` |
-| `regexp_split_to_array(`_`string`_`text`, _`pattern`_ `text` \[, _`flags`_ `text`\]\) | `text[]` | 使用 POSIX 正規表示式作為分隔字拆分字串。有關更多訊息，請參閱[第 9.7.3 節](pattern-matching.md#9-7-3-posix-regular-expressions)。 | `regexp_split_to_array('hello world', E'\\s+')` | `{hello,world}` |
-| `regexp_split_to_table(`_`string`_`text`, _`pattern`_ `text` \[, _`flags`_`text`\]\) | `setof text` | 使用 POSIX 正規表示式作為分隔字拆分字串。有關更多訊息，請參閱[第 9.7.3 節](pattern-matching.md#9-7-3-posix-regular-expressions)。 | `regexp_split_to_table('hello world', E'\\s+')` | `helloworld`\(2 rows\) |
-| `repeat(`_`string`_ `text`, _`number`_ `int`\) | `text` | 將字串重複的指定次數 | `repeat('Pg', 4)` | `PgPgPgPg` |
-| `replace(`_`string`_ `text`, _`from`_ `text`,_`to`_ `text`\) | `text` | 以子字串 to 替換所有符合 from 的子字串 | `replace('abcdefabcdef', 'cd', 'XX')` | `abXXefabXXef` |
-| `reverse(`_`str`_\) | `text` | 回傳反轉字串。 | `reverse('abcde')` | `edcba` |
-| `right(`_`str`_ `text`, _`n`_ `int`\) | `text` | 回傳字串中的最後 n 個字元。當 n 為負數時，回傳除了第一個 \|n\| 之外的所有字元。 | `right('abcde', 2)` | `de` |
-| `rpad(`_`string`_ `text`, _`length`_ `int` \[,_`fill`_ `text`\]\) | `text` | 透過附加字元 fill（預設為空格）將字串填充至長度 length。如果字串已經長於 length，那麼它將被截斷。 | `rpad('hi', 5, 'xy')` | `hixyx` |
-| `rtrim(`_`string`_ `text` \[, _`characters`_`text`\]\) | `text` | 從字串末尾刪除最長某包含 characters （預設為空格）的字串 | `rtrim('testxxzx', 'xyz')` | `test` |
-| `split_part(`_`string`_ `text`,_`delimiter`_ `text`, _`field`_ `int`\) | `text` | 在分隔字上拆分字串並回傳給定段落（從一個字元開始） | `split_part('abc~@~def~@~ghi', '~@~', 2)` | `def` |
-| `strpos(`_`string`_, _`substring`_\) | `int` | 回傳子字串的位置（與 position 相同，但請注意參數順序不同） | `strpos('high', 'ig')` | `2` |
-| `substr(`_`string`_, _`from`_ \[, _`count`_\]\) | `text` | 提取子字串（與 substring 相同） | `substr('alphabet', 3, 2)` | `ph` |
-| `to_ascii(`_`string`_ `text` \[, _`encoding`_`text`\]\) | `text` | 從其他編碼將字串轉換為 ASCII（僅支援從 LATIN1，LATIN2，LATIN9 和 WIN1250 編碼轉換） | `to_ascii('Karel')` | `Karel` |
-| `to_hex(`_`number`_ `int` or `bigint`\) | `text` | 將數字轉換為其等效的十六進位表示 | `to_hex(2147483647)` | `7fffffff` |
-| `translate(`_`string`_ `text`, _`from`_`text`, _`to`_ `text`\) | `text` | 字串中與 from 集合中相符合的任何字元都將替換為 to 集合中的相對應字元。如果 from 長於 to，則會刪除 from 中出現的額外字元。 | `translate('12345', '143', 'ax')` | `a2x5` |
+| _`string`_ `||` _`string`_ | `text` | String concatenation | `'Post' || 'greSQL'` | `PostgreSQL` |
+| _`string`_ `||` _`non-string`_ or _`non-string`_ `||` _`string`_ | `text` | String concatenation with one non-string input | `'Value: ' || 42` | `Value: 42` |
+| `bit_length(`_`string`_\) | `int` | Number of bits in string | `bit_length('jose')` | `32` |
+| `char_length(`_`string`_\) or `character_length(`_`string`_\) | `int` | Number of characters in string | `char_length('jose')` | `4` |
+| `lower(`_`string`_\) | `text` | Convert string to lower case | `lower('TOM')` | `tom` |
+| `octet_length(`_`string`_\) | `int` | Number of bytes in string | `octet_length('jose')` | `4` |
+| `overlay(`_`string`_ placing _`string`_ from `int` \[for `int`\]\) | `text` | Replace substring | `overlay('Txxxxas' placing 'hom' from 2 for 4)` | `Thomas` |
+| `position(`_`substring`_ in _`string`_\) | `int` | Location of specified substring | `position('om' in 'Thomas')` | `3` |
+| `substring(`_`string`_ \[from `int`\] \[for `int`\]\) | `text` | Extract substring | `substring('Thomas' from 2 for 3)` | `hom` |
+| `substring(`_`string`_ from _`pattern`_\) | `text` | Extract substring matching POSIX regular expression. See [Section 9.7](https://www.postgresql.org/docs/12/functions-matching.html) for more information on pattern matching. | `substring('Thomas' from '...$')` | `mas` |
+| `substring(`_`string`_ from _`pattern`_ for _`escape`_\) | `text` | Extract substring matching SQL regular expression. See [Section 9.7](https://www.postgresql.org/docs/12/functions-matching.html) for more information on pattern matching. | `substring('Thomas' from '%#"o_a#"_' for '#')` | `oma` |
+| `trim([leading | trailing | both] [`_`characters`_\] from _`string`_\) | `text` | Remove the longest string containing only characters from _`characters`_ \(a space by default\) from the start, end, or both ends \(`both` is the default\) of _`string`_ | `trim(both 'xyz' from 'yxTomxx')` | `Tom` |
+| `trim([leading | trailing | both] [from]` _`string`_ \[, _`characters`_\] \) | `text` | Non-standard syntax for `trim()` | `trim(both from 'yxTomxx', 'xyz')` | `Tom` |
+| `upper(`_`string`_\) | `text` | Convert string to upper case | `upper('tom')` | `TOM` |
 
-concat，concat\_ws 和 format 函數是可變參數，因此可以將值連接或格式化成標記為 VARIADIC 關鍵字的陣列（請參閱[第 37.4.5 節](../../server-programming/extending-sql/user-defined-procedures.md#37-4-5-sql-functions-with-variable-numbers-of-arguments)）。陣列的元素被視為它們是函數的單獨普通參數。如果 variadic 陣列參數為 NULL，則 concat 和 concat\_ws 回傳 NULL，但 format 將 NULL 視為零元素陣列。
+Additional string manipulation functions are available and are listed in [Table 9.10](https://www.postgresql.org/docs/12/functions-string.html#FUNCTIONS-STRING-OTHER). Some of them are used internally to implement the SQL-standard string functions listed in [Table 9.9](https://www.postgresql.org/docs/12/functions-string.html#FUNCTIONS-STRING-SQL).
 
-另請參閱[第 9.20 節](aggregate-functions.md)中的彙總函數 string\_agg。
+#### **Table 9.10. Other String Functions**
 
-#### **Table 9.10. Built-in Conversions**
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Function</th>
+      <th style="text-align:left">Return Type</th>
+      <th style="text-align:left">Description</th>
+      <th style="text-align:left">Example</th>
+      <th style="text-align:left">Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><code>ascii(</code><em><code>string</code></em>)</td>
+      <td style="text-align:left"><code>int</code>
+      </td>
+      <td style="text-align:left">ASCII code of the first character of the argument. For UTF8 returns the
+        Unicode code point of the character. For other multibyte encodings, the
+        argument must be an ASCII character.</td>
+      <td style="text-align:left"><code>ascii(&apos;x&apos;)</code>
+      </td>
+      <td style="text-align:left"><code>120</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>btrim(</code><em><code>string</code></em>  <code>text</code> [, <em><code>characters</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Remove the longest string consisting only of characters in <em><code>characters</code></em> (a
+          space by default) from the start and end of <em><code>string</code></em>
+        </td>
+        <td style="text-align:left"><code>btrim(&apos;xyxtrimyyx&apos;, &apos;xyz&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>trim</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>chr(int</code>)</td>
+      <td style="text-align:left"><code>text</code>
+      </td>
+      <td style="text-align:left">Character with the given code. For UTF8 the argument is treated as a Unicode
+        code point. For other multibyte encodings the argument must designate an
+        ASCII character. The NULL (0) character is not allowed because text data
+        types cannot store such bytes.</td>
+      <td style="text-align:left"><code>chr(65)</code>
+      </td>
+      <td style="text-align:left"><code>A</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>concat(</code><em><code>str</code></em>  <code>&quot;any&quot;</code> [, <em><code>str</code></em>  <code>&quot;any&quot;</code> [,
+        ...] ])</td>
+      <td style="text-align:left"><code>text</code>
+      </td>
+      <td style="text-align:left">Concatenate the text representations of all the arguments. NULL arguments
+        are ignored.</td>
+      <td style="text-align:left"><code>concat(&apos;abcde&apos;, 2, NULL, 22)</code>
+      </td>
+      <td style="text-align:left"><code>abcde222</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>concat_ws(</code><em><code>sep</code></em>  <code>text</code>, <em><code>str</code></em>  <code>&quot;any&quot;</code> [, <em><code>str</code></em>  <code>&quot;any&quot;</code> [,
+        ...] ])</td>
+      <td style="text-align:left"><code>text</code>
+      </td>
+      <td style="text-align:left">Concatenate all but the first argument with separators. The first argument
+        is used as the separator string. NULL arguments are ignored.</td>
+      <td style="text-align:left"><code>concat_ws(&apos;,&apos;, &apos;abcde&apos;, 2, NULL, 22)</code>
+      </td>
+      <td style="text-align:left"><code>abcde,2,22</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>convert(</code><em><code>string</code></em>  <code>bytea</code>, <em><code>src_encoding</code></em>  <code>name</code>, <em><code>dest_encoding</code></em>  <code>name</code>)</td>
+      <td
+      style="text-align:left"><code>bytea</code>
+        </td>
+        <td style="text-align:left">Convert string to <em><code>dest_encoding</code></em>. The original encoding
+          is specified by <em><code>src_encoding</code></em>. The <em><code>string</code></em> must
+          be valid in this encoding. Conversions can be defined by <code>CREATE CONVERSION</code>.
+          Also there are some predefined conversions. See <a href="https://www.postgresql.org/docs/12/functions-string.html#CONVERSION-NAMES">Table 9.11</a> for
+          available conversions.</td>
+        <td style="text-align:left"><code>convert(&apos;text_in_utf8&apos;, &apos;UTF8&apos;, &apos;LATIN1&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>text_in_utf8</code> represented in Latin-1 encoding (ISO 8859-1)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>convert_from(</code><em><code>string</code></em>  <code>bytea</code>, <em><code>src_encoding</code></em>  <code>name</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Convert string to the database encoding. The original encoding is specified
+          by <em><code>src_encoding</code></em>. The <em><code>string</code></em> must
+          be valid in this encoding.</td>
+        <td style="text-align:left"><code>convert_from(&apos;text_in_utf8&apos;, &apos;UTF8&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>text_in_utf8</code> represented in the current database encoding</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>convert_to(</code><em><code>string</code></em>  <code>text</code>, <em><code>dest_encoding</code></em>  <code>name</code>)</td>
+      <td
+      style="text-align:left"><code>bytea</code>
+        </td>
+        <td style="text-align:left">Convert string to <em><code>dest_encoding</code></em>.</td>
+        <td style="text-align:left"><code>convert_to(&apos;some text&apos;, &apos;UTF8&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>some text</code> represented in the UTF8 encoding</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>decode(</code><em><code>string</code></em>  <code>text</code>, <em><code>format</code></em>  <code>text</code>)</td>
+      <td
+      style="text-align:left"><code>bytea</code>
+        </td>
+        <td style="text-align:left">Decode binary data from textual representation in <em><code>string</code></em>.
+          Options for <em><code>format</code></em> are same as in <code>encode</code>.</td>
+        <td
+        style="text-align:left"><code>decode(&apos;MTIzAAE=&apos;, &apos;base64&apos;)</code>
+          </td>
+          <td style="text-align:left"><code>\x3132330001</code>
+          </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>encode(</code><em><code>data</code></em>  <code>bytea</code>, <em><code>format</code></em>  <code>text</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Encode binary data into a textual representation. Supported formats are: <code>base64</code>, <code>hex</code>, <code>escape</code>. <code>escape</code> converts
+          zero bytes and high-bit-set bytes to octal sequences (<code>\</code><em><code>nnn</code></em>)
+          and doubles backslashes.</td>
+        <td style="text-align:left"><code>encode(&apos;123\000\001&apos;, &apos;base64&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>MTIzAAE=</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>format</code>(<em><code>formatstr</code></em>  <code>text</code> [, <em><code>formatarg</code></em>  <code>&quot;any&quot;</code> [,
+        ...] ])</td>
+      <td style="text-align:left"><code>text</code>
+      </td>
+      <td style="text-align:left">Format arguments according to a format string. This function is similar
+        to the C function <code>sprintf</code>. See <a href="https://www.postgresql.org/docs/12/functions-string.html#FUNCTIONS-STRING-FORMAT">Section 9.4.1</a>.</td>
+      <td
+      style="text-align:left"><code>format(&apos;Hello %s, %1$s&apos;, &apos;World&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>Hello World, World</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>initcap(</code><em><code>string</code></em>)</td>
+      <td style="text-align:left"><code>text</code>
+      </td>
+      <td style="text-align:left">Convert the first letter of each word to upper case and the rest to lower
+        case. Words are sequences of alphanumeric characters separated by non-alphanumeric
+        characters.</td>
+      <td style="text-align:left"><code>initcap(&apos;hi THOMAS&apos;)</code>
+      </td>
+      <td style="text-align:left"><code>Hi Thomas</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>left(</code><em><code>str</code></em>  <code>text</code>, <em><code>n</code></em>  <code>int</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Return first <em><code>n</code></em> characters in the string. When <em><code>n</code></em> is
+          negative, return all but last |<em><code>n</code></em>| characters.</td>
+        <td
+        style="text-align:left"><code>left(&apos;abcde&apos;, 2)</code>
+          </td>
+          <td style="text-align:left"><code>ab</code>
+          </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>length(</code><em><code>string</code></em>)</td>
+      <td style="text-align:left"><code>int</code>
+      </td>
+      <td style="text-align:left">Number of characters in <em><code>string</code></em>
+      </td>
+      <td style="text-align:left"><code>length(&apos;jose&apos;)</code>
+      </td>
+      <td style="text-align:left"><code>4</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>length(</code><em><code>string</code></em>  <code>bytea</code>, <em><code>encoding</code></em>  <code>name</code> )</td>
+      <td
+      style="text-align:left"><code>int</code>
+        </td>
+        <td style="text-align:left">Number of characters in <em><code>string</code></em> in the given <em><code>encoding</code></em>.
+          The <em><code>string</code></em> must be valid in this encoding.</td>
+        <td
+        style="text-align:left"><code>length(&apos;jose&apos;, &apos;UTF8&apos;)</code>
+          </td>
+          <td style="text-align:left"><code>4</code>
+          </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>lpad(</code><em><code>string</code></em>  <code>text</code>, <em><code>length</code></em>  <code>int</code> [, <em><code>fill</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Fill up the <em><code>string</code></em> to length <em><code>length</code></em> by
+          prepending the characters <em><code>fill</code></em> (a space by default).
+          If the <em><code>string</code></em> is already longer than <em><code>length</code></em> then
+          it is truncated (on the right).</td>
+        <td style="text-align:left"><code>lpad(&apos;hi&apos;, 5, &apos;xy&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>xyxhi</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>ltrim(</code><em><code>string</code></em>  <code>text</code> [, <em><code>characters</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Remove the longest string containing only characters from <em><code>characters</code></em> (a
+          space by default) from the start of <em><code>string</code></em>
+        </td>
+        <td style="text-align:left"><code>ltrim(&apos;zzzytest&apos;, &apos;xyz&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>test</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>md5(</code><em><code>string</code></em>)</td>
+      <td style="text-align:left"><code>text</code>
+      </td>
+      <td style="text-align:left">Calculates the MD5 hash of <em><code>string</code></em>, returning the
+        result in hexadecimal</td>
+      <td style="text-align:left"><code>md5(&apos;abc&apos;)</code>
+      </td>
+      <td style="text-align:left"><code>900150983cd24fb0 d6963f7d28e17f72</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>parse_ident(</code><em><code>qualified_identifier</code></em>  <code>text</code> [, <em><code>strictmode</code></em>  <code>boolean</code> DEFAULT
+        true ] )</td>
+      <td style="text-align:left"><code>text[]</code>
+      </td>
+      <td style="text-align:left">Split <em><code>qualified_identifier</code></em> into an array of identifiers,
+        removing any quoting of individual identifiers. By default, extra characters
+        after the last identifier are considered an error; but if the second parameter
+        is <code>false</code>, then such extra characters are ignored. (This behavior
+        is useful for parsing names for objects like functions.) Note that this
+        function does not truncate over-length identifiers. If you want truncation
+        you can cast the result to <code>name[]</code>.</td>
+      <td style="text-align:left"><code>parse_ident(&apos;&quot;SomeSchema&quot;.someTable&apos;)</code>
+      </td>
+      <td style="text-align:left"><code>{SomeSchema,sometable}</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>pg_client_encoding()</code>
+      </td>
+      <td style="text-align:left"><code>name</code>
+      </td>
+      <td style="text-align:left">Current client encoding name</td>
+      <td style="text-align:left"><code>pg_client_encoding()</code>
+      </td>
+      <td style="text-align:left"><code>SQL_ASCII</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>quote_ident(</code><em><code>string</code></em>  <code>text</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Return the given string suitably quoted to be used as an identifier in
+          an SQL statement string. Quotes are added only if necessary (i.e., if the
+          string contains non-identifier characters or would be case-folded). Embedded
+          quotes are properly doubled. See also <a href="https://www.postgresql.org/docs/12/plpgsql-statements.html#PLPGSQL-QUOTE-LITERAL-EXAMPLE">Example 42.1</a>.</td>
+        <td
+        style="text-align:left"><code>quote_ident(&apos;Foo bar&apos;)</code>
+          </td>
+          <td style="text-align:left"><code>&quot;Foo bar&quot;</code>
+          </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>quote_literal(</code><em><code>string</code></em>  <code>text</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Return the given string suitably quoted to be used as a string literal
+          in an SQL statement string. Embedded single-quotes and backslashes are
+          properly doubled. Note that <code>quote_literal</code> returns null on null
+          input; if the argument might be null, <code>quote_nullable</code> is often
+          more suitable. See also <a href="https://www.postgresql.org/docs/12/plpgsql-statements.html#PLPGSQL-QUOTE-LITERAL-EXAMPLE">Example 42.1</a>.</td>
+        <td
+        style="text-align:left"><code>quote_literal(E&apos;O\&apos;Reilly&apos;)</code>
+          </td>
+          <td style="text-align:left"><code>&apos;O&apos;&apos;Reilly&apos;</code>
+          </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>quote_literal(</code><em><code>value</code></em>  <code>anyelement</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Coerce the given value to text and then quote it as a literal. Embedded
+          single-quotes and backslashes are properly doubled.</td>
+        <td style="text-align:left"><code>quote_literal(42.5)</code>
+        </td>
+        <td style="text-align:left"><code>&apos;42.5&apos;</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>quote_nullable(</code><em><code>string</code></em>  <code>text</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Return the given string suitably quoted to be used as a string literal
+          in an SQL statement string; or, if the argument is null, return <code>NULL</code>.
+          Embedded single-quotes and backslashes are properly doubled. See also
+          <a
+          href="https://www.postgresql.org/docs/12/plpgsql-statements.html#PLPGSQL-QUOTE-LITERAL-EXAMPLE">Example 42.1</a>.</td>
+        <td style="text-align:left"><code>quote_nullable(NULL)</code>
+        </td>
+        <td style="text-align:left"><code>NULL</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>quote_nullable(</code><em><code>value</code></em>  <code>anyelement</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Coerce the given value to text and then quote it as a literal; or, if
+          the argument is null, return <code>NULL</code>. Embedded single-quotes and
+          backslashes are properly doubled.</td>
+        <td style="text-align:left"><code>quote_nullable(42.5)</code>
+        </td>
+        <td style="text-align:left"><code>&apos;42.5&apos;</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>regexp_match(</code><em><code>string</code></em>  <code>text</code>, <em><code>pattern</code></em>  <code>text</code> [, <em><code>flags</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>text[]</code>
+        </td>
+        <td style="text-align:left">Return captured substring(s) resulting from the first match of a POSIX
+          regular expression to the <em><code>string</code></em>. See <a href="https://www.postgresql.org/docs/12/functions-matching.html#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a> for
+          more information.</td>
+        <td style="text-align:left"><code>regexp_match(&apos;foobarbequebaz&apos;, &apos;(bar)(beque)&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>{bar,beque}</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>regexp_matches(</code><em><code>string</code></em>  <code>text</code>, <em><code>pattern</code></em>  <code>text</code> [, <em><code>flags</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>setof text[]</code>
+        </td>
+        <td style="text-align:left">Return captured substring(s) resulting from matching a POSIX regular expression
+          to the <em><code>string</code></em>. See <a href="https://www.postgresql.org/docs/12/functions-matching.html#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a> for
+          more information.</td>
+        <td style="text-align:left"><code>regexp_matches(&apos;foobarbequebaz&apos;, &apos;ba.&apos;, &apos;g&apos;)</code>
+        </td>
+        <td style="text-align:left">
+          <p><code>{bar}</code>
+          </p>
+          <p><code>{baz}</code>(2 rows)</p>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>regexp_replace(</code><em><code>string</code></em>  <code>text</code>, <em><code>pattern</code></em>  <code>text</code>, <em><code>replacement</code></em>  <code>text</code> [, <em><code>flags</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Replace substring(s) matching a POSIX regular expression. See <a href="https://www.postgresql.org/docs/12/functions-matching.html#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a> for
+          more information.</td>
+        <td style="text-align:left"><code>regexp_replace(&apos;Thomas&apos;, &apos;.[mN]a.&apos;, &apos;M&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>ThM</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>regexp_split_to_array(</code><em><code>string</code></em>  <code>text</code>, <em><code>pattern</code></em>  <code>text</code> [, <em><code>flags</code></em>  <code>text</code> ])</td>
+      <td
+      style="text-align:left"><code>text[]</code>
+        </td>
+        <td style="text-align:left">Split <em><code>string</code></em> using a POSIX regular expression as the
+          delimiter. See <a href="https://www.postgresql.org/docs/12/functions-matching.html#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a> for
+          more information.</td>
+        <td style="text-align:left"><code>regexp_split_to_array(&apos;hello world&apos;, &apos;\s+&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>{hello,world}</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>regexp_split_to_table(</code><em><code>string</code></em>  <code>text</code>, <em><code>pattern</code></em>  <code>text</code> [, <em><code>flags</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>setof text</code>
+        </td>
+        <td style="text-align:left">Split <em><code>string</code></em> using a POSIX regular expression as the
+          delimiter. See <a href="https://www.postgresql.org/docs/12/functions-matching.html#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a> for
+          more information.</td>
+        <td style="text-align:left"><code>regexp_split_to_table(&apos;hello world&apos;, &apos;\s+&apos;)</code>
+        </td>
+        <td style="text-align:left">
+          <p><code>hello</code>
+          </p>
+          <p><code>world</code>(2 rows)</p>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>repeat(</code><em><code>string</code></em>  <code>text</code>, <em><code>number</code></em>  <code>int</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Repeat <em><code>string</code></em> the specified <em><code>number</code></em> of
+          times</td>
+        <td style="text-align:left"><code>repeat(&apos;Pg&apos;, 4)</code>
+        </td>
+        <td style="text-align:left"><code>PgPgPgPg</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>replace(</code><em><code>string</code></em>  <code>text</code>, <em><code>from</code></em>  <code>text</code>, <em><code>to</code></em>  <code>text</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Replace all occurrences in <em><code>string</code></em> of substring <em><code>from</code></em> with
+          substring <em><code>to</code></em>
+        </td>
+        <td style="text-align:left"><code>replace(&apos;abcdefabcdef&apos;, &apos;cd&apos;, &apos;XX&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>abXXefabXXef</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>reverse(</code><em><code>str</code></em>)</td>
+      <td style="text-align:left"><code>text</code>
+      </td>
+      <td style="text-align:left">Return reversed string.</td>
+      <td style="text-align:left"><code>reverse(&apos;abcde&apos;)</code>
+      </td>
+      <td style="text-align:left"><code>edcba</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>right(</code><em><code>str</code></em>  <code>text</code>, <em><code>n</code></em>  <code>int</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Return last <em><code>n</code></em> characters in the string. When <em><code>n</code></em> is
+          negative, return all but first |<em><code>n</code></em>| characters.</td>
+        <td
+        style="text-align:left"><code>right(&apos;abcde&apos;, 2)</code>
+          </td>
+          <td style="text-align:left"><code>de</code>
+          </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>rpad(</code><em><code>string</code></em>  <code>text</code>, <em><code>length</code></em>  <code>int</code> [, <em><code>fill</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Fill up the <em><code>string</code></em> to length <em><code>length</code></em> by
+          appending the characters <em><code>fill</code></em> (a space by default).
+          If the <em><code>string</code></em> is already longer than <em><code>length</code></em> then
+          it is truncated.</td>
+        <td style="text-align:left"><code>rpad(&apos;hi&apos;, 5, &apos;xy&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>hixyx</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>rtrim(</code><em><code>string</code></em>  <code>text</code> [, <em><code>characters</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Remove the longest string containing only characters from <em><code>characters</code></em> (a
+          space by default) from the end of <em><code>string</code></em>
+        </td>
+        <td style="text-align:left"><code>rtrim(&apos;testxxzx&apos;, &apos;xyz&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>test</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>split_part(</code><em><code>string</code></em>  <code>text</code>, <em><code>delimiter</code></em>  <code>text</code>, <em><code>field</code></em>  <code>int</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Split <em><code>string</code></em> on <em><code>delimiter</code></em> and
+          return the given field (counting from one)</td>
+        <td style="text-align:left"><code>split_part(&apos;abc~@~def~@~ghi&apos;, &apos;~@~&apos;, 2)</code>
+        </td>
+        <td style="text-align:left"><code>def</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>strpos(</code><em><code>string</code></em>, <em><code>substring</code></em>)</td>
+      <td
+      style="text-align:left"><code>int</code>
+        </td>
+        <td style="text-align:left">Location of specified substring (same as <code>position(</code><em><code>substring</code></em> in <em><code>string</code></em>),
+          but note the reversed argument order)</td>
+        <td style="text-align:left"><code>strpos(&apos;high&apos;, &apos;ig&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>2</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>substr(</code><em><code>string</code></em>, <em><code>from</code></em> [, <em><code>count</code></em>])</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">&#x56DE;&#x50B3;&#x5B50;&#x5B57;&#x4E32;&#xFF08;&#x8207; substring(<code>string</code> from <code>from</code> for <code>count</code>)
+          &#x76F8;&#x540C;&#xFF09;</td>
+        <td style="text-align:left"><code>substr(&apos;alphabet&apos;, 3, 2)</code>
+        </td>
+        <td style="text-align:left"><code>ph</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>starts_with(</code><em><code>string</code></em>, <em><code>prefix</code></em>)</td>
+      <td
+      style="text-align:left"><code>bool</code>
+        </td>
+        <td style="text-align:left">Returns true if <em><code>string</code></em> starts with <em><code>prefix</code></em>.</td>
+        <td
+        style="text-align:left"><code>starts_with(&apos;alphabet&apos;, &apos;alph&apos;)</code>
+          </td>
+          <td style="text-align:left"><code>t</code>
+          </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>to_ascii(</code><em><code>string</code></em>  <code>text</code> [, <em><code>encoding</code></em>  <code>text</code>])</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Convert <em><code>string</code></em> to ASCII from another encoding (only
+          supports conversion from <code>LATIN1</code>, <code>LATIN2</code>, <code>LATIN9</code>,
+          and <code>WIN1250</code> encodings)</td>
+        <td style="text-align:left"><code>to_ascii(&apos;Karel&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>Karel</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>to_hex(</code><em><code>number</code></em>  <code>int</code> or <code>bigint</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Convert <em><code>number</code></em> to its equivalent hexadecimal representation</td>
+        <td
+        style="text-align:left"><code>to_hex(2147483647)</code>
+          </td>
+          <td style="text-align:left"><code>7fffffff</code>
+          </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>translate(</code><em><code>string</code></em>  <code>text</code>, <em><code>from</code></em>  <code>text</code>, <em><code>to</code></em>  <code>text</code>)</td>
+      <td
+      style="text-align:left"><code>text</code>
+        </td>
+        <td style="text-align:left">Any character in <em><code>string</code></em> that matches a character in
+          the <em><code>from</code></em> set is replaced by the corresponding character
+          in the <em><code>to</code></em> set. If <em><code>from</code></em> is longer
+          than <em><code>to</code></em>, occurrences of the extra characters in <em><code>from</code></em> are
+          removed.</td>
+        <td style="text-align:left"><code>translate(&apos;12345&apos;, &apos;143&apos;, &apos;ax&apos;)</code>
+        </td>
+        <td style="text-align:left"><code>a2x5</code>
+        </td>
+    </tr>
+  </tbody>
+</table>
 
-| Conversion Name [\[a\]](https://www.postgresql.org/docs/10/static/functions-string.html#ftn.id-1.5.8.9.10.2.1.1.1.1) | Source Encoding | Destination Encoding |
+The `concat`, `concat_ws` and `format` functions are variadic, so it is possible to pass the values to be concatenated or formatted as an array marked with the `VARIADIC` keyword \(see [Section 37.5.5](https://www.postgresql.org/docs/12/xfunc-sql.html#XFUNC-SQL-VARIADIC-FUNCTIONS)\). The array's elements are treated as if they were separate ordinary arguments to the function. If the variadic array argument is NULL, `concat` and `concat_ws` return NULL, but `format` treats a NULL as a zero-element array.
+
+See also the aggregate function `string_agg` in [Section 9.20](https://www.postgresql.org/docs/12/functions-aggregate.html).
+
+#### **Table 9.11. Built-in Conversions**
+
+| Conversion Name [\[a\]](https://www.postgresql.org/docs/12/functions-string.html#ftn.id-1.5.8.9.10.2.1.1.1.1) | Source Encoding | Destination Encoding |
 | :--- | :--- | :--- |
 | `ascii_to_mic` | `SQL_ASCII` | `MULE_INTERNAL` |
 | `ascii_to_utf8` | `SQL_ASCII` | `UTF8` |
@@ -149,7 +675,7 @@ concat，concat\_ws 和 format 函數是可變參數，因此可以將值連接�
 | `sjis_to_euc_jp` | `SJIS` | `EUC_JP` |
 | `sjis_to_mic` | `SJIS` | `MULE_INTERNAL` |
 | `sjis_to_utf8` | `SJIS` | `UTF8` |
-| `tcvn_to_utf8` | `WIN1258` | `UTF8` |
+| `windows_1258_to_utf8` | `WIN1258` | `UTF8` |
 | `uhc_to_utf8` | `UHC` | `UTF8` |
 | `utf8_to_ascii` | `UTF8` | `SQL_ASCII` |
 | `utf8_to_big5` | `UTF8` | `BIG5` |
@@ -177,7 +703,7 @@ concat，concat\_ws 和 format 函數是可變參數，因此可以將值連接�
 | `utf8_to_koi8_r` | `UTF8` | `KOI8R` |
 | `utf8_to_koi8_u` | `UTF8` | `KOI8U` |
 | `utf8_to_sjis` | `UTF8` | `SJIS` |
-| `utf8_to_tcvn` | `UTF8` | `WIN1258` |
+| `utf8_to_windows_1258` | `UTF8` | `WIN1258` |
 | `utf8_to_uhc` | `UTF8` | `UHC` |
 | `utf8_to_windows_1250` | `UTF8` | `WIN1250` |
 | `utf8_to_windows_1251` | `UTF8` | `WIN1251` |
@@ -211,43 +737,43 @@ concat，concat\_ws 和 format 函數是可變參數，因此可以將值連接�
 | `utf8_to_shift_jis_2004` | `UTF8` | `SHIFT_JIS_2004` |
 | `euc_jis_2004_to_shift_jis_2004` | `EUC_JIS_2004` | `SHIFT_JIS_2004` |
 | `shift_jis_2004_to_euc_jis_2004` | `SHIFT_JIS_2004` | `EUC_JIS_2004` |
-| [\[a\]](https://www.postgresql.org/docs/10/static/functions-string.html#id-1.5.8.9.10.2.1.1.1.1) 轉換名稱遵循標準命名方式：原始碼的正式名稱，所有非字母數字字元替換為底線，後接_to_，後接類似處理的目標編碼名稱。因此，名稱可能會偏離慣用的編碼名稱。 |  |  |
+| [\[a\]](https://www.postgresql.org/docs/12/functions-string.html#id-1.5.8.9.10.2.1.1.1.1) The conversion names follow a standard naming scheme: The official name of the source encoding with all non-alphanumeric characters replaced by underscores, followed by `_to_`, followed by the similarly processed destination encoding name. Therefore, the names might deviate from the customary encoding names. |  |  |
 
 ## 9.4.1. `format`
 
-函數格式化輸出根據格式字串的輸出，其格式類似於 C 函數 sprintf。
+The function `format` produces output formatted according to a format string, in a style similar to the C function `sprintf`.
 
 ```text
 format(formatstr text [, formatarg "any" [, ...] ])
 ```
 
-formatstr 是一個格式字串，指定如何格式化結果。格式字串中的文字將直接複製到結果中，除非使用格式標示符。格式標示符充當字串中的佔位符，定義後續函數參數應如何格式化並插入結果中。每個 formatarg 參數根據其資料型別的一般輸出規則轉換為文字，然後根據格式標示符進行格式化並插入到結果字串中。
+_`formatstr`_ is a format string that specifies how the result should be formatted. Text in the format string is copied directly to the result, except where _format specifiers_ are used. Format specifiers act as placeholders in the string, defining how subsequent function arguments should be formatted and inserted into the result. Each _`formatarg`_ argument is converted to text according to the usual output rules for its data type, and then formatted and inserted into the result string according to the format specifier\(s\).
 
-格式標示符由 % 字元引入並具有其語法
+Format specifiers are introduced by a `%` character and have the form
 
 ```text
 %[position][flags][width]type
 ```
 
-組件段落的位置：position（選擇性）
+where the component fields are:_`position`_ \(optional\)
 
-形式為 n$ 的字串，其中 n 是要輸入參數的索引。索引 1 表示 formatstr 之後的第一個參數。如果省略該位置，則預設使用 sequence.flags 中的下一個參數（選擇性）
+A string of the form _`n`_$ where _`n`_ is the index of the argument to print. Index 1 means the first argument after _`formatstr`_. If the _`position`_ is omitted, the default is to use the next argument in sequence._`flags`_ \(optional\)
 
-控制格式標示符輸出格式的其他選項。目前唯一支援的標示是減號（ - ），這將使格式標示符的輸出向左對齊。除非還指定了 width，否則這沒有效果。（選擇性）
+Additional options controlling how the format specifier's output is formatted. Currently the only supported flag is a minus sign \(`-`\) which will cause the format specifier's output to be left-justified. This has no effect unless the _`width`_ field is also specified._`width`_ \(optional\)
 
-指定用於顯示格式標示符輸出的最小字元數。輸出在左側或右側（取決於 - 標示）填充，並根據需要填充空格以填充寬度。寬度太小不會導致截斷輸出，但會被忽略。可以使用以下任何一種來指定寬度：正整數；星號（_）使用下一個函數參數作為寬度；或者_ n$ 形式的字串，以使用第 n 個函數參數作為寬度。
+Specifies the _minimum_ number of characters to use to display the format specifier's output. The output is padded on the left or right \(depending on the `-` flag\) with spaces as needed to fill the width. A too-small width does not cause truncation of the output, but is simply ignored. The width may be specified using any of the following: a positive integer; an asterisk \(`*`\) to use the next function argument as the width; or a string of the form `*`_`n`_$ to use the _`n`_th function argument as the width.
 
-如果寬度來自函數參數，則該參數在用於格式標示符值的參數之前使用。如果 width 參數為負，則結果在長度為 abs\(width\).type（必要）的段落內保持對齊（就像指定了 - 標誌一樣）。
+If the width comes from a function argument, that argument is consumed before the argument that is used for the format specifier's value. If the width argument is negative, the result is left aligned \(as if the `-` flag had been specified\) within a field of length `abs`\(_`width`_\)._`type`_ \(required\)
 
-用於産生格式標示符輸出的格式轉換型別。支援以下型別：
+The type of format conversion to use to produce the format specifier's output. The following types are supported:
 
-* `s` 將參數值格式化為簡單字串。空值被視為空字串。
-* `I` 將參數值視為 SQL 標示符，必要時對其進行雙引號。值為 null（相當於 quote\_ident）是一個錯誤。
-* `L` 引用參數值作為 SQL 文字。空值顯示為字串 NULL，不帶引號（相當於 quote\_nullable）。
+* `s` formats the argument value as a simple string. A null value is treated as an empty string.
+* `I` treats the argument value as an SQL identifier, double-quoting it if necessary. It is an error for the value to be null \(equivalent to `quote_ident`\).
+* `L` quotes the argument value as an SQL literal. A null value is displayed as the string `NULL`, without quotes \(equivalent to `quote_nullable`\).
 
-除了上面描述的格式標示符之外，特殊序列 %% 可用於輸出文字 % 字元。
+In addition to the format specifiers described above, the special sequence `%%` may be used to output a literal `%` character.
 
-以下是基本格式轉換的一些範例：
+Here are some examples of the basic format conversions:
 
 ```text
 SELECT format('Hello %s', 'World');
@@ -259,11 +785,11 @@ Result: Testing one, two, three, %
 SELECT format('INSERT INTO %I VALUES(%L)', 'Foo bar', E'O\'Reilly');
 Result: INSERT INTO "Foo bar" VALUES('O''Reilly')
 
-SELECT format('INSERT INTO %I VALUES(%L)', 'locations', E'C:\\Program Files');
-Result: INSERT INTO locations VALUES(E'C:\\Program Files')
+SELECT format('INSERT INTO %I VALUES(%L)', 'locations', 'C:\Program Files');
+Result: INSERT INTO locations VALUES('C:\Program Files')
 ```
 
-以下是使用寬度欄位和 - 標示的範例：
+Here are examples using _`width`_ fields and the `-` flag:
 
 ```text
 SELECT format('|%10s|', 'foo');
@@ -285,7 +811,7 @@ SELECT format('|%-*s|', -10, 'foo');
 Result: |foo       |
 ```
 
-這些範例顯示了 position 欄位的使用：
+These examples show use of _`position`_ fields:
 
 ```text
 SELECT format('Testing %3$s, %2$s, %1$s', 'one', 'two', 'three');
@@ -298,12 +824,12 @@ SELECT format('|%1$*2$s|', 'foo', 10, 'bar');
 Result: |       foo|
 ```
 
-與標準 C 函數 sprintf 不同，PostgreSQL 的格式函數允許將具有和不具有位置欄位的格式標示符混合在相同的格式字串中。沒有位置欄位的格式標示符始終使用最後一個參數消耗後的下一個參數。此外，format 函數不要求在格式字串中使用所有函數參數。例如：
+Unlike the standard C function `sprintf`, PostgreSQL's `format` function allows format specifiers with and without _`position`_ fields to be mixed in the same format string. A format specifier without a _`position`_ field always uses the next argument after the last argument consumed. In addition, the `format` function does not require all function arguments to be used in the format string. For example:
 
 ```text
 SELECT format('Testing %3$s, %2$s, %s', 'one', 'two', 'three');
 Result: Testing three, two, three
 ```
 
-%I 和 %L 格式標示符對於安全地建構動態 SQL 語句特別有用。詳見[範例 42.1](../../server-programming/pl-pgsql-sql-procedural-language/basic-statements.md)。
+The `%I` and `%L` format specifiers are particularly useful for safely constructing dynamic SQL statements. See [Example 42.1](https://www.postgresql.org/docs/12/plpgsql-statements.html#PLPGSQL-QUOTE-LITERAL-EXAMPLE).
 
