@@ -1,8 +1,8 @@
 # 9.4. 字串函式及運算子
 
-This section describes functions and operators for examining and manipulating string values. Strings in this context include values of the types `character`, `character varying`, and `text`. Unless otherwise noted, all of the functions listed below work on all of these types, but be wary of potential effects of automatic space-padding when using the `character` type. Some functions also exist natively for the bit-string types.
+本節介紹了用於檢查和操作字串的函數和運算子。在這種情況下，字串包括 character、character varying 和 text 型別的值。除非另有說明，否則下面列出的所有函數都可以在這些型別上使用，但是請注意在使用 character 型別時自動空格填充的潛在影響。其中有一些函數還支援對於位元型別的處理。
 
-SQL defines some string functions that use key words, rather than commas, to separate arguments. Details are in [Table 9.9](https://www.postgresql.org/docs/12/functions-string.html#FUNCTIONS-STRING-SQL). PostgreSQL also provides versions of these functions that use the regular function invocation syntax \(see [Table 9.10](https://www.postgresql.org/docs/12/functions-string.html#FUNCTIONS-STRING-OTHER)\).
+SQL 定義了一些使用關鍵字而不是逗號分隔參數的字串函數。詳情請見 [Table 9.9](string-functions-and-operators.md#table-9-9-sql-string-functions-and-operators)。PostgreSQL 還提供了使用一般函數呼叫的語法，這些功能的函數版本（請參見 [Table 9.10](string-functions-and-operators.md#table-9-10-other-string-functions)）。
 
 {% hint style="info" %}
 在 PostgreSQL 8.3 之前的版本中，由於存在從這些資料型別到文字的隱式強制轉換，這些函數也將默默接受幾種非字串資料型別的值。這些強制轉換已被刪除，因為它們經常引起令人驚訝的結果。但是，字串連接運算子（\|\|）仍然接受非字串輸入，只要至少一個輸入為字串型別即可，如 Table 9.9 所示。對於其他情況，如果您需要複製以前的行為，請在查詢語句中明確加入型別轉換。
@@ -27,7 +27,7 @@ SQL defines some string functions that use key words, rather than commas, to sep
 | `trim([leading | trailing | both] [from]` _`string`_ \[, _`characters`_\] \) | `text` | Non-standard syntax for `trim()` | `trim(both from 'yxTomxx', 'xyz')` | `Tom` |
 | `upper(`_`string`_\) | `text` | Convert string to upper case | `upper('tom')` | `TOM` |
 
-Additional string manipulation functions are available and are listed in [Table 9.10](https://www.postgresql.org/docs/12/functions-string.html#FUNCTIONS-STRING-OTHER). Some of them are used internally to implement the SQL-standard string functions listed in [Table 9.9](https://www.postgresql.org/docs/12/functions-string.html#FUNCTIONS-STRING-SQL).
+其他字串操作的可用函數，在 [Table 9.10](string-functions-and-operators.md#table-9-10-other-string-functions) 中列出。其中一些用於內部實作的SQL標準字符串函數，則在 [Table 9.9](string-functions-and-operators.md#table-9-9-sql-string-functions-and-operators) 中列出。
 
 #### **Table 9.10. Other String Functions**
 
@@ -601,13 +601,13 @@ Additional string manipulation functions are available and are listed in [Table 
   </tbody>
 </table>
 
-The `concat`, `concat_ws` and `format` functions are variadic, so it is possible to pass the values to be concatenated or formatted as an array marked with the `VARIADIC` keyword \(see [Section 37.5.5](https://www.postgresql.org/docs/12/xfunc-sql.html#XFUNC-SQL-VARIADIC-FUNCTIONS)\). The array's elements are treated as if they were separate ordinary arguments to the function. If the variadic array argument is NULL, `concat` and `concat_ws` return NULL, but `format` treats a NULL as a zero-element array.
+concat、concat\_ws 和 format 函數是動態參數，因此可以將要連接或格式化的值以 VARIADIC 關鍵字標記的陣列（請參閱[第 37.5.5 節](../../server-programming/extending-sql/query-language-sql-functions.md#37-5-5-sql-functions-with-variable-numbers-of-arguments)）輸入。 將陣列的元素視為函數的一個普通參數。如果動態參數陣列參數為 NULL，則 concat 和 concat\_ws 回傳 NULL，但是 format 將 NULL 視為零元素陣列。
 
-See also the aggregate function `string_agg` in [Section 9.20](https://www.postgresql.org/docs/12/functions-aggregate.html).
+另請參閱[第 9.20 節](aggregate-functions.md)中的彙總函數 string\_agg。
 
 #### **Table 9.11. Built-in Conversions**
 
-| Conversion Name [\[a\]](https://www.postgresql.org/docs/12/functions-string.html#ftn.id-1.5.8.9.10.2.1.1.1.1) | Source Encoding | Destination Encoding |
+| Conversion Name | Source Encoding | Destination Encoding |
 | :--- | :--- | :--- |
 | `ascii_to_mic` | `SQL_ASCII` | `MULE_INTERNAL` |
 | `ascii_to_utf8` | `SQL_ASCII` | `UTF8` |
@@ -737,7 +737,10 @@ See also the aggregate function `string_agg` in [Section 9.20](https://www.postg
 | `utf8_to_shift_jis_2004` | `UTF8` | `SHIFT_JIS_2004` |
 | `euc_jis_2004_to_shift_jis_2004` | `EUC_JIS_2004` | `SHIFT_JIS_2004` |
 | `shift_jis_2004_to_euc_jis_2004` | `SHIFT_JIS_2004` | `EUC_JIS_2004` |
-| [\[a\]](https://www.postgresql.org/docs/12/functions-string.html#id-1.5.8.9.10.2.1.1.1.1) The conversion names follow a standard naming scheme: The official name of the source encoding with all non-alphanumeric characters replaced by underscores, followed by `_to_`, followed by the similarly processed destination encoding name. Therefore, the names might deviate from the customary encoding names. |  |  |
+
+{% hint style="info" %}
+轉換名稱遵循標準的命名規則：來源編碼的正式名稱，所有非字母數字字元均用下底線代替，接在 \_to_\__ 之後，然後是經過類似處理的目標編碼名稱。因此，名稱可能與習慣的編碼名稱有所不同。
+{% endhint %}
 
 ## 9.4.1. `format`
 

@@ -26,13 +26,13 @@ SELECT clean_emp();
 (1 row)
 ```
 
-### Note
+#### Note
 
 The entire body of a SQL function is parsed before any of it is executed. While a SQL function can contain commands that alter the system catalogs \(e.g., `CREATE TABLE`\), the effects of such commands will not be visible during parse analysis of later commands in the function. Thus, for example, `CREATE TABLE foo (...); INSERT INTO foo VALUES(...);` will not work as desired if packaged up into a single SQL function, since `foo` won't exist yet when the `INSERT` command is parsed. It's recommended to use PL/pgSQL instead of a SQL function in this type of situation.
 
-The syntax of the `CREATE FUNCTION` command requires the function body to be written as a string constant. It is usually most convenient to use dollar quoting \(see [Section 4.1.2.4](https://www.postgresql.org/docs/11/sql-syntax-lexical.html#SQL-SYNTAX-DOLLAR-QUOTING)\) for the string constant. If you choose to use regular single-quoted string constant syntax, you must double single quote marks \(`'`\) and backslashes \(`\`\) \(assuming escape string syntax\) in the body of the function \(see [Section 4.1.2.1](https://www.postgresql.org/docs/11/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS)\).
+The syntax of the `CREATE FUNCTION` command requires the function body to be written as a string constant. It is usually most convenient to use dollar quoting \(see [Section 4.1.2.4](https://www.postgresql.org/docs/12/sql-syntax-lexical.html#SQL-SYNTAX-DOLLAR-QUOTING)\) for the string constant. If you choose to use regular single-quoted string constant syntax, you must double single quote marks \(`'`\) and backslashes \(`\`\) \(assuming escape string syntax\) in the body of the function \(see [Section 4.1.2.1](https://www.postgresql.org/docs/12/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS)\).
 
-## 38.5.1. Arguments for SQL Functions
+## 37.5.1. Arguments for SQL Functions
 
 Arguments of a SQL function can be referenced in the function body using either names or numbers. Examples of both methods appear below.
 
@@ -54,11 +54,11 @@ but this will not work:
 INSERT INTO $1 VALUES (42);
 ```
 
-### Note
+#### Note
 
-The ability to use names to reference SQL function arguments was added in PostgreSQL9.2. Functions to be used in older servers must use the `$`_`n`_ notation.
+The ability to use names to reference SQL function arguments was added in PostgreSQL 9.2. Functions to be used in older servers must use the `$`_`n`_ notation.
 
-## 38.5.2. SQL Functions on Base Types
+## 37.5.2. SQL Functions on Base Types
 
 The simplest possible SQL function has no arguments and simply returns a base type, such as `integer`:
 
@@ -166,7 +166,7 @@ CREATE FUNCTION add_em(integer, integer) RETURNS float8 AS $$
 $$ LANGUAGE SQL;
 ```
 
-## 38.5.3. SQL Functions on Composite Types
+## 37.5.3. SQL Functions on Composite Types
 
 When writing functions with arguments of composite types, we must not only specify which argument we want but also the desired attribute \(field\) of that argument. For example, suppose that `emp` is a table containing employee data, and therefore also the name of the composite type of each row of the table. Here is a function `double_salary` that computes what someone's salary would be if it were doubled:
 
@@ -201,7 +201,7 @@ SELECT name, double_salary(emp) AS dream
     WHERE emp.cubicle ~= point '(2,1)';
 ```
 
-but this usage is deprecated since it's easy to get confused. \(See [Section 8.16.5](https://www.postgresql.org/docs/11/rowtypes.html#ROWTYPES-USAGE) for details about these two notations for the composite value of a table row.\)
+but this usage is deprecated since it's easy to get confused. \(See [Section 8.16.5](https://www.postgresql.org/docs/12/rowtypes.html#ROWTYPES-USAGE) for details about these two notations for the composite value of a table row.\)
 
 Sometimes it is handy to construct a composite argument value on-the-fly. This can be done with the `ROW` construct. For example, we could adjust the data being passed to the function:
 
@@ -229,7 +229,9 @@ Note two important things about defining the function:
 * We must ensure each expression's type matches the corresponding column of the composite type, inserting a cast if necessary. Otherwise we'll get errors like this:
 
   ```text
+
   ERROR:  function declared to return emp returns varchar instead of text at column 1
+
   ```
 
   As with the base-type case, the function will not insert any casts automatically.
@@ -264,7 +266,7 @@ SELECT * FROM new_emp();
  None | 1000.0 |  25 | (2,2)
 ```
 
-The second way is described more fully in [Section 38.5.7](https://www.postgresql.org/docs/11/xfunc-sql.html#XFUNC-SQL-TABLE-FUNCTIONS).
+The second way is described more fully in [Section 37.5.7](https://www.postgresql.org/docs/12/xfunc-sql.html#XFUNC-SQL-TABLE-FUNCTIONS).
 
 When you use a function that returns a composite type, you might want only one field \(attribute\) from its result. You can do that with syntax like this:
 
@@ -295,7 +297,7 @@ SELECT name(new_emp());
  None
 ```
 
-As explained in [Section 8.16.5](https://www.postgresql.org/docs/11/rowtypes.html#ROWTYPES-USAGE), the field notation and functional notation are equivalent.
+As explained in [Section 8.16.5](https://www.postgresql.org/docs/12/rowtypes.html#ROWTYPES-USAGE), the field notation and functional notation are equivalent.
 
 Another way to use a function returning a composite type is to pass the result to another function that accepts the correct row type as input:
 
@@ -311,7 +313,7 @@ SELECT getname(new_emp());
 (1 row)
 ```
 
-## 38.5.4. SQL Functions with Output Parameters
+## 37.5.4. SQL Functions with Output Parameters
 
 An alternative way of describing a function's results is to define it with _output parameters_, as in this example:
 
@@ -327,7 +329,7 @@ SELECT add_em(3,7);
 (1 row)
 ```
 
-This is not essentially different from the version of `add_em` shown in [Section 38.5.2](https://www.postgresql.org/docs/11/xfunc-sql.html#XFUNC-SQL-BASE-FUNCTIONS). The real value of output parameters is that they provide a convenient way of defining functions that return several columns. For example,
+This is not essentially different from the version of `add_em` shown in [Section 37.5.2](https://www.postgresql.org/docs/12/xfunc-sql.html#XFUNC-SQL-BASE-FUNCTIONS). The real value of output parameters is that they provide a convenient way of defining functions that return several columns. For example,
 
 ```text
 CREATE FUNCTION sum_n_product (x int, y int, OUT sum int, OUT product int)
@@ -362,7 +364,7 @@ DROP FUNCTION sum_n_product (int, int);
 
 Parameters can be marked as `IN` \(the default\), `OUT`, `INOUT`, or `VARIADIC`. An `INOUT` parameter serves as both an input parameter \(part of the calling argument list\) and an output parameter \(part of the result record type\). `VARIADIC` parameters are input parameters, but are treated specially as described next.
 
-## 38.5.5. SQL Functions with Variable Numbers of Arguments
+## 37.5.5. SQL Functions with Variable Numbers of Arguments
 
 SQL functions can be declared to accept variable numbers of arguments, so long as all the “optional” arguments are of the same data type. The optional arguments will be passed to the function as an array. The function is declared by marking the last parameter as `VARIADIC`; this parameter must be declared as being of an array type. For example:
 
@@ -386,7 +388,7 @@ SELECT mleast(ARRAY[10, -1, 5, 4.4]);    -- doesn't work
 
 You can't actually write that, though — or at least, it will not match this function definition. A parameter marked `VARIADIC` matches one or more occurrences of its element type, not of its own type.
 
-Sometimes it is useful to be able to pass an already-constructed array to a variadic function; this is particularly handy when one variadic function wants to pass on its array parameter to another one. Also, this is the only secure way to call a variadic function found in a schema that permits untrusted users to create objects; see [Section 10.3](https://www.postgresql.org/docs/11/typeconv-func.html). You can do this by specifying `VARIADIC` in the call:
+Sometimes it is useful to be able to pass an already-constructed array to a variadic function; this is particularly handy when one variadic function wants to pass on its array parameter to another one. Also, this is the only secure way to call a variadic function found in a schema that permits untrusted users to create objects; see [Section 10.3](https://www.postgresql.org/docs/12/typeconv-func.html). You can do this by specifying `VARIADIC` in the call:
 
 ```text
 SELECT mleast(VARIADIC ARRAY[10, -1, 5, 4.4]);
@@ -402,7 +404,7 @@ SELECT mleast(VARIADIC ARRAY[]::numeric[]);
 
 Simply writing `SELECT mleast()` does not work because a variadic parameter must match at least one actual argument. \(You could define a second function also named `mleast`, with no parameters, if you wanted to allow such calls.\)
 
-The array element parameters generated from a variadic parameter are treated as not having any names of their own. This means it is not possible to call a variadic function using named arguments \([Section 4.3](https://www.postgresql.org/docs/11/sql-syntax-calling-funcs.html)\), except when you specify `VARIADIC`. For example, this will work:
+The array element parameters generated from a variadic parameter are treated as not having any names of their own. This means it is not possible to call a variadic function using named arguments \([Section 4.3](https://www.postgresql.org/docs/12/sql-syntax-calling-funcs.html)\), except when you specify `VARIADIC`. For example, this will work:
 
 ```text
 SELECT mleast(VARIADIC arr => ARRAY[10, -1, 5, 4.4]);
@@ -415,9 +417,9 @@ SELECT mleast(arr => 10);
 SELECT mleast(arr => ARRAY[10, -1, 5, 4.4]);
 ```
 
-## 38.5.6. SQL Functions with Default Values for Arguments
+## 37.5.6. SQL Functions with Default Values for Arguments
 
-Functions can be declared with default values for some or all input arguments. The default values are inserted whenever the function is called with insufficiently many actual arguments. Since arguments can only be omitted from the end of the actual argument list, all parameters after a parameter with a default value have to have default values as well. \(Although the use of named argument notation could allow this restriction to be relaxed, it's still enforced so that positional argument notation works sensibly.\) Whether or not you use it, this capability creates a need for precautions when calling functions in databases where some users mistrust other users; see [Section 10.3](https://www.postgresql.org/docs/11/typeconv-func.html).
+Functions can be declared with default values for some or all input arguments. The default values are inserted whenever the function is called with insufficiently many actual arguments. Since arguments can only be omitted from the end of the actual argument list, all parameters after a parameter with a default value have to have default values as well. \(Although the use of named argument notation could allow this restriction to be relaxed, it's still enforced so that positional argument notation works sensibly.\) Whether or not you use it, this capability creates a need for precautions when calling functions in databases where some users mistrust other users; see [Section 10.3](https://www.postgresql.org/docs/12/typeconv-func.html).
 
 For example:
 
@@ -453,7 +455,7 @@ ERROR:  function foo() does not exist
 
 The `=` sign can also be used in place of the key word `DEFAULT`.
 
-## 38.5.7. SQL Functions as Table Sources
+## 37.5.7. SQL Functions as Table Sources
 
 All SQL functions can be used in the `FROM` clause of a query, but it is particularly useful for functions returning composite types. If the function is defined to return a base type, the table function produces a one-column table. If the function is defined to return a composite type, the table function produces a column for each attribute of the composite type.
 
@@ -481,7 +483,7 @@ As the example shows, we can work with the columns of the function's result just
 
 Note that we only got one row out of the function. This is because we did not use `SETOF`. That is described in the next section.
 
-## 38.5.8. SQL Functions Returning Sets
+## 37.5.8. SQL Functions Returning Sets
 
 When an SQL function is declared as returning `SETOF` _`sometype`_, the function's final query is executed to completion, and each row it outputs is returned as an element of the result set.
 
@@ -529,7 +531,7 @@ SELECT * FROM sum_n_product_with_tab(10);
 
 The key point here is that you must write `RETURNS SETOF record` to indicate that the function returns multiple rows instead of just one. If there is only one output parameter, write that parameter's type instead of `record`.
 
-It is frequently useful to construct a query's result by invoking a set-returning function multiple times, with the parameters for each invocation coming from successive rows of a table or subquery. The preferred way to do this is to use the `LATERAL` key word, which is described in [Section 7.2.1.5](https://www.postgresql.org/docs/11/queries-table-expressions.html#QUERIES-LATERAL). Here is an example using a set-returning function to enumerate elements of a tree structure:
+It is frequently useful to construct a query's result by invoking a set-returning function multiple times, with the parameters for each invocation coming from successive rows of a table or subquery. The preferred way to do this is to use the `LATERAL` key word, which is described in [Section 7.2.1.5](https://www.postgresql.org/docs/12/queries-table-expressions.html#QUERIES-LATERAL). Here is an example using a set-returning function to enumerate elements of a tree structure:
 
 ```text
 SELECT * FROM nodes;
@@ -604,7 +606,7 @@ is almost equivalent to
 SELECT x, g FROM tab, LATERAL generate_series(1,5) AS g;
 ```
 
-It would be exactly the same, except that in this specific example, the planner could choose to put `g` on the outside of the nestloop join, since `g` has no actual lateral dependency on `tab`. That would result in a different output row order. Set-returning functions in the select list are always evaluated as though they are on the inside of a nestloop join with the rest of the `FROM` clause, so that the function\(s\) are run to completion before the next row from the `FROM` clause is considered.
+It would be exactly the same, except that in this specific example, the planner could choose to put `g` on the outside of the nested-loop join, since `g` has no actual lateral dependency on `tab`. That would result in a different output row order. Set-returning functions in the select list are always evaluated as though they are on the inside of a nested-loop join with the rest of the `FROM` clause, so that the function\(s\) are run to completion before the next row from the `FROM` clause is considered.
 
 If there is more than one set-returning function in the query's select list, the behavior is similar to what you get from putting the functions into a single `LATERAL ROWS FROM( ... )` `FROM`-clause item. For each row from the underlying query, there is an output row using the first result from each function, then an output row using the second result, and so on. If some of the set-returning functions produce fewer outputs than others, null values are substituted for the missing data, so that the total number of rows emitted for one underlying row is the same as for the set-returning function that produced the most outputs. Thus the set-returning functions run “in lockstep” until they are all exhausted, and then execution continues with the next underlying row.
 
@@ -624,13 +626,13 @@ SELECT x, CASE WHEN x > 0 THEN generate_series(1, 5) ELSE 0 END FROM tab;
 
 It might seem that this should produce five repetitions of input rows that have `x > 0`, and a single repetition of those that do not; but actually, because `generate_series(1, 5)` would be run in an implicit `LATERAL FROM` item before the `CASE` expression is ever evaluated, it would produce five repetitions of every input row. To reduce confusion, such cases produce a parse-time error instead.
 
-### Note
+#### Note
 
 If a function's last command is `INSERT`, `UPDATE`, or `DELETE` with `RETURNING`, that command will always be executed to completion, even if the function is not declared with `SETOF` or the calling query does not fetch all the result rows. Any extra rows produced by the `RETURNING` clause are silently dropped, but the commanded table modifications still happen \(and are all completed before returning from the function\).
 
-### Note
+#### Note
 
-Before PostgreSQL 10, putting more than one set-returning function in the same select list did not behave very sensibly unless they always produced equal numbers of rows. Otherwise, what you got was a number of output rows equal to the least common multiple of the numbers of rows produced by the set-returning functions. Also, nested set-returning functions did not work as described above; instead, a set-returning function could have at most one set-returning argument, and each nest of set-returning functions was run independently. Also, conditional execution \(set-returning functions inside `CASE`etc\) was previously allowed, complicating things even more. Use of the `LATERAL` syntax is recommended when writing queries that need to work in older PostgreSQL versions, because that will give consistent results across different versions. If you have a query that is relying on conditional execution of a set-returning function, you may be able to fix it by moving the conditional test into a custom set-returning function. For example,
+Before PostgreSQL 10, putting more than one set-returning function in the same select list did not behave very sensibly unless they always produced equal numbers of rows. Otherwise, what you got was a number of output rows equal to the least common multiple of the numbers of rows produced by the set-returning functions. Also, nested set-returning functions did not work as described above; instead, a set-returning function could have at most one set-returning argument, and each nest of set-returning functions was run independently. Also, conditional execution \(set-returning functions inside `CASE` etc\) was previously allowed, complicating things even more. Use of the `LATERAL` syntax is recommended when writing queries that need to work in older PostgreSQL versions, because that will give consistent results across different versions. If you have a query that is relying on conditional execution of a set-returning function, you may be able to fix it by moving the conditional test into a custom set-returning function. For example,
 
 ```text
 SELECT x, CASE WHEN y > 0 THEN generate_series(1, z) ELSE 5 END FROM tab;
@@ -654,7 +656,7 @@ SELECT x, case_generate_series(y > 0, 1, z, 5) FROM tab;
 
 This formulation will work the same in all versions of PostgreSQL.
 
-## 38.5.9. SQL Functions Returning `TABLE`
+## 37.5.9. SQL Functions Returning `TABLE`
 
 There is another way to declare a function as returning a set, which is to use the syntax `RETURNS TABLE(`_`columns`_\). This is equivalent to using one or more `OUT` parameters plus marking the function as returning `SETOF record` \(or `SETOF` a single output parameter's type, as appropriate\). This notation is specified in recent versions of the SQL standard, and thus may be more portable than using `SETOF`.
 
@@ -669,9 +671,9 @@ $$ LANGUAGE SQL;
 
 It is not allowed to use explicit `OUT` or `INOUT` parameters with the `RETURNS TABLE` notation — you must put all the output columns in the `TABLE` list.
 
-## 38.5.10. Polymorphic SQL Functions
+## 37.5.10. Polymorphic SQL Functions
 
-SQL functions can be declared to accept and return the polymorphic types `anyelement`, `anyarray`, `anynonarray`, `anyenum`, and `anyrange`. See [Section 38.2.5](https://www.postgresql.org/docs/11/extend-type-system.html#EXTEND-TYPES-POLYMORPHIC) for a more detailed explanation of polymorphic functions. Here is a polymorphic function `make_array` that builds up an array from two arbitrary data type elements:
+SQL functions can be declared to accept and return the polymorphic types `anyelement`, `anyarray`, `anynonarray`, `anyenum`, and `anyrange`. See [Section 37.2.5](https://www.postgresql.org/docs/12/extend-type-system.html#EXTEND-TYPES-POLYMORPHIC) for a more detailed explanation of polymorphic functions. Here is a polymorphic function `make_array` that builds up an array from two arbitrary data type elements:
 
 ```text
 CREATE FUNCTION make_array(anyelement, anyelement) RETURNS anyarray AS $$
@@ -688,7 +690,9 @@ SELECT make_array(1, 2) AS intarray, make_array('a'::text, 'b') AS textarray;
 Notice the use of the typecast `'a'::text` to specify that the argument is of type `text`. This is required if the argument is just a string literal, since otherwise it would be treated as type `unknown`, and array of `unknown` is not a valid type. Without the typecast, you will get errors like this:
 
 ```text
+
 ERROR:  could not determine polymorphic type because input has type "unknown"
+
 ```
 
 It is permitted to have polymorphic arguments with a fixed return type, but the converse is not. For example:
@@ -754,9 +758,9 @@ SELECT concat_values('|', 1, 4, 2);
 (1 row)
 ```
 
-## 38.5.11. SQL Functions with Collations
+## 37.5.11. SQL Functions with Collations
 
-When a SQL function has one or more parameters of collatable data types, a collation is identified for each function call depending on the collations assigned to the actual arguments, as described in [Section 23.2](https://www.postgresql.org/docs/11/collation.html). If a collation is successfully identified \(i.e., there are no conflicts of implicit collations among the arguments\) then all the collatable parameters are treated as having that collation implicitly. This will affect the behavior of collation-sensitive operations within the function. For example, using the `anyleast` function described above, the result of
+When a SQL function has one or more parameters of collatable data types, a collation is identified for each function call depending on the collations assigned to the actual arguments, as described in [Section 23.2](https://www.postgresql.org/docs/12/collation.html). If a collation is successfully identified \(i.e., there are no conflicts of implicit collations among the arguments\) then all the collatable parameters are treated as having that collation implicitly. This will affect the behavior of collation-sensitive operations within the function. For example, using the `anyleast` function described above, the result of
 
 ```text
 SELECT anyleast('abc'::text, 'ABC');
