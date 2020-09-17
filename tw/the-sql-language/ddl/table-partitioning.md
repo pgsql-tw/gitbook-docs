@@ -200,12 +200,12 @@ ALTER INDEX measurement_city_id_logdate_key
 
 ### **5.11.2.3. Limitations**
 
-The following limitations apply to partitioned tables:
+以下是分割區資料表的限制：
 
-* There is no way to create an exclusion constraint spanning all partitions; it is only possible to constrain each leaf partition individually.
-* Unique constraints on partitioned tables must include all the partition key columns. This limitation exists because PostgreSQL can only enforce uniqueness in each partition individually.
-* `BEFORE ROW` triggers, if necessary, must be defined on individual partitions, not the partitioned table.
-* Mixing temporary and permanent relations in the same partition tree is not allowed. Hence, if the partitioned table is permanent, so must be its partitions and likewise if the partitioned table is temporary. When using temporary relations, all members of the partition tree have to be from the same session.
+* 無法建立跨所有分割區的限制條件。只能單獨對每個分割區設定。
+* 分割區資料表上的唯一性限制條件必須包含所有分割主鍵欄位。存在此限制是因為 PostgreSQL 只能在每個分割區中個別實施唯一性。
+* 必要時，必須在單個分割區（而不是分割資料表）上定義 BEFORE ROW 觸發器。
+* 不允許在同一分割區中混合臨時和永久關連。因此，如果分割資料表是永久性的，則分割區也必須是永久性的，或者都臨時的。使用臨時關連時，分割資料表的所有成員必須來自同一個資料庫連線。
 
 ## 5.11.3. Implementation Using Inheritance
 
