@@ -1,6 +1,6 @@
 # 51.50. pg\_statistic
 
-The catalog `pg_statistic` stores statistical data about the contents of the database. Entries are created by [ANALYZE](https://www.postgresql.org/docs/10/static/sql-analyze.html) and subsequently used by the query planner. Note that all the statistical data is inherently approximate, even assuming that it is up-to-date.
+系統目錄 pg\_statistic 儲存有關資料庫內容的統計數據。內容項目是由 [ANALYZE](../../reference/sql-commands/analyze.md) 所建立的，隨後由查詢計劃程序使用。請注意，所有統計數據本質上都是趨近的，即使假設上它是最新的數據。
 
 Normally there is one entry, with `stainherit` = `false`, for each table column that has been analyzed. If the table has inheritance children, a second entry with `stainherit` = `true` is also created. This row represents the column's statistics over the inheritance tree, i.e., statistics for the data you'd see with `SELECT` _`column`_ FROM _`table`_\*, whereas the `stainherit` = `false` row represents the results of `SELECT` _`column`_ FROM ONLY _`table`_.
 
@@ -10,7 +10,7 @@ Since different kinds of statistics might be appropriate for different kinds of 
 
 `pg_statistic` should not be readable by the public, since even statistical information about a table's contents might be considered sensitive. \(Example: minimum and maximum values of a salary column might be quite interesting.\) [`pg_stats`](https://www.postgresql.org/docs/10/static/view-pg-stats.html) is a publicly readable view on `pg_statistic` that only exposes information about those tables that are readable by the current user.
 
-**Table 51.50. `pg_statistic` Columns**
+#### **Table 51.50. `pg_statistic` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |
