@@ -54,7 +54,7 @@
 
 這些設定可以從 postgresql.conf 設定，也可以透過 SET 指令在連線中設定。允許任何使用者變更其連線中所使用的值。僅當未使用 SET 未建立連線專用值時，postgresql.conf 中的變更才會影響現有連線。
 
-有關變更這些參數的各種方法和更多資訊，請參閱[第 19.1 節](../../server-administration/server-configuration/19.1.-setting-parameters.md)。
+有關變更這些參數的各種方法和更多資訊，請參閱[第 19.1 節](../../server-administration/server-configuration/setting-parameters.md)。
 
 pg\_settings 檢視表無法INSERT 或 DELETE，但可以 UPDATE。套用於一行 pg\_settings 的 UPDATE 相當於對該參數執行 [SET](../../reference/sql-commands/set.md) 指令。此變更僅影響目前連線所使用的值。如果在稍後中止的交易事務中發出 UPDATE，則在回溯事務時 UPDATE 指令的效果會消失。一旦提交了相關的事務，則效果將持續到連線結束，除非被另一個 UPDATE 或 SET 覆蓋。
 

@@ -31,9 +31,9 @@ _`value`_
 
 ### 注意
 
-此命令不能用於設定 [data\_directory](../../server-administration/server-configuration/19.2.-file-locations.md#data_directory-string)，也不能用於設定 postgresql.conf 中不允許的參數（例如，[preset options](../../server-administration/server-configuration/19.15.-yu-xian-pei-zhi-de-can-shu.md)）。
+此命令不能用於設定 [data\_directory](../../server-administration/server-configuration/file-locations.md#data_directory-string)，也不能用於設定 postgresql.conf 中不允許的參數（例如，[preset options](../../server-administration/server-configuration/19.15.-yu-xian-pei-zhi-de-can-shu.md)）。
 
-有關其他設定參數的方法，請參閱[第 19.1 節](../../server-administration/server-configuration/19.1.-setting-parameters.md)。
+有關其他設定參數的方法，請參閱[第 19.1 節](../../server-administration/server-configuration/setting-parameters.md)。
 
 ### 範例
 
