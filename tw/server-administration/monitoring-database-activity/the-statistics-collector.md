@@ -4,13 +4,13 @@ description: 版本：11
 
 # 27.2. 統計資訊收集器
 
-PostgreSQL's _statistics collector_ is a subsystem that supports collection and reporting of information about server activity. Presently, the collector can count accesses to tables and indexes in both disk-block and individual-row terms. It also tracks the total number of rows in each table, and information about vacuum and analyze actions for each table. It can also count calls to user-defined functions and the total time spent in each one.
+PostgreSQL 的統計資訊收集器是一個子系統，支援收集和回報有關伺服器活動的資訊。目前，收集器可以以磁區和單個資料列的方式計算對資料表和索引的存取。它也追踪著每個資料表中的總資料筆數，以及有關每個資料表的清理和分析操作的資訊。它還可以計算對使用者定義函數的呼叫以及每個函數所花費的總時間。
 
-PostgreSQL also supports reporting dynamic information about exactly what is going on in the system right now, such as the exact command currently being executed by other server processes, and which other connections exist in the system. This facility is independent of the collector process.
+PostgreSQL 也支援回報有關目前系統中確切正在發生情況的動態資訊，例如目前由其他伺服器程序執行的確切指令以及系統中存在哪些其他連線。此功能獨立於收集器程序。
 
 ## 27.2.1. Statistics Collection Configuration
 
-Since collection of statistics adds some overhead to query execution, the system can be configured to collect or not collect information. This is controlled by configuration parameters that are normally set in `postgresql.conf`. \(See [Chapter 19](https://www.postgresql.org/docs/12/runtime-config.html) for details about setting configuration parameters.\)
+由於收集統計資訊會增加查詢執行的成本，因此可以將系統配置為收集或不收集資訊。這由通常由 postgresql.conf 中的配置參數所控制。 （有關設定配置參數的詳細資訊，請參閱[第 19 章](../server-configuration/)。）
 
 The parameter [track\_activities](https://www.postgresql.org/docs/12/runtime-config-statistics.html#GUC-TRACK-ACTIVITIES) enables monitoring of the current command being executed by any server process.
 
@@ -1001,7 +1001,7 @@ Additional functions related to statistics collection are listed in [Table 27.20
 | `pg_stat_get_activity`\(`integer`\) | `setof record` | Returns a record of information about the backend with the specified PID, or one record for each active backend in the system if `NULL` is specified. The fields returned are a subset of those in the `pg_stat_activity` view. |
 | `pg_stat_get_snapshot_timestamp()` | `timestamp with time zone` | Returns the timestamp of the current statistics snapshot |
 | `pg_stat_clear_snapshot()` | `void` | Discard the current statistics snapshot |
-| `pg_stat_reset()` | `void` | Reset all statistics counters for the current database to zero \(requires superuser privileges by default, but EXECUTE for this function can be granted to others.\) |
+| `pg_stat_reset()` | `void` | 將目前資料庫的所有統計數據計數器重置為零（預設情況下需要超級使用者權限，但是也可以將此函數的 EXECUTE 權限授予其他人。） |
 | `pg_stat_reset_shared`\(text\) | `void` | Reset some cluster-wide statistics counters to zero, depending on the argument \(requires superuser privileges by default, but EXECUTE for this function can be granted to others\). Calling `pg_stat_reset_shared('bgwriter')` will zero all the counters shown in the `pg_stat_bgwriter` view. Calling `pg_stat_reset_shared('archiver')` will zero all the counters shown in the `pg_stat_archiver` view. |
 | `pg_stat_reset_single_table_counters`\(oid\) | `void` | Reset statistics for a single table or index in the current database to zero \(requires superuser privileges by default, but EXECUTE for this function can be granted to others\) |
 | `pg_stat_reset_single_function_counters`\(oid\) | `void` | Reset statistics for a single function in the current database to zero \(requires superuser privileges by default, but EXECUTE for this function can be granted to others\) |

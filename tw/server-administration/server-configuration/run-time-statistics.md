@@ -18,7 +18,7 @@
 
 `track_io_timing` \(`boolean`\)
 
-啟用資料庫 I/O 呼叫的計時。此參數預設情況下是處於關閉狀態，因為它將重複查詢作業系統當下的時間，這可能會導致某些平台上的大量運算成本。您可以使用 [pg\_test\_timing](../../reference/server-applications/pg_test_timing.md) 工具來測量系統計時的成本。I/O 時序資訊會顯示在 [pg\_stat\_database](../monitoring-database-activity/the-statistics-collector.md) 中，使用 BUFFERS 選項時在 [EXPLAIN](../../reference/sql-commands/explain.md) 的輸出中以及 [pg\_stat\_statements]() 中顯示。僅超級使用者可以變更改此設定。
+啟用資料庫 I/O 呼叫的計時。此參數預設情況下是處於關閉狀態，因為它將重複查詢作業系統當下的時間，這可能會導致某些平台上的大量運算成本。您可以使用 [pg\_test\_timing](../../reference/server-applications/pg_test_timing.md) 工具來測量系統計時的成本。I/O 時序資訊會顯示在 [pg\_stat\_database](../monitoring-database-activity/the-statistics-collector.md) 中，使用 BUFFERS 選項時在 [EXPLAIN](../../reference/sql-commands/explain.md) 的輸出中以及 [pg\_stat\_statements](../../appendixes/additional-supplied-modules/pg_stat_statements.md) 中顯示。僅超級使用者可以變更改此設定。
 
 `track_functions` \(`enum`\)
 
