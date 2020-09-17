@@ -20,15 +20,15 @@ Consider the differences between a column with a default and a generated column.
 
 Several restrictions apply to the definition of generated columns and tables involving generated columns:
 
-* The generation expression can only use immutable functions and cannot use subqueries or reference anything other than the current row in any way.
-* A generation expression cannot reference another generated column.
-* A generation expression cannot reference a system column, except `tableoid`.
-* A generated column cannot have a column default or an identity definition.
-* A generated column cannot be part of a partition key.
-* Foreign tables can have generated columns. See [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/12/sql-createforeigntable.html) for details.
+* 自動欄位的表示式只能使用 immutable 函數，不能使用子查詢或以任何方式引用同筆資料以外的任何內容。
+* 自動欄位的表示式不能引用另一個自動欄位。
+* 自動欄位的表示式不能引用系統欄位（tableoid 除外）。
+* 自動欄位不能有欄位預設值或識別定義。
+* 自動欄位不能是分割區主鍵的一部分。
+* 外部資料表可以具有自動欄位。有關詳細資訊，請參閱 [CREATE FOREIGN TABLE](../../reference/sql-commands/create-foreign-table.md)。
 
-Additional considerations apply to the use of generated columns.
+其他注意事項適用於自動欄位的使用。
 
-* Generated columns maintain access privileges separately from their underlying base columns. So, it is possible to arrange it so that a particular role can read from a generated column but not from the underlying base columns.
-* Generated columns are, conceptually, updated after `BEFORE` triggers have run. Therefore, changes made to base columns in a `BEFORE` trigger will be reflected in generated columns. But conversely, it is not allowed to access generated columns in `BEFORE` triggers.
+* 自動欄位與其一般欄位分開維護存取權限。因此，可以對其進行安排，以便設定可以從自動欄位中讀取，但不能從一般欄位中讀取的特定角色。
+* 從概念上講，在執行事件觸發器之前，會先更新自動欄位。因此，在 BEFORE 觸發器中對基本欄位所做的更新將先反映在自動欄位中。但是相反地，不允許在觸發器之前讀取自動欄位。
 
