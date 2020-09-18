@@ -8,9 +8,11 @@ So if you index, say, an image collection with a PostgreSQL B-tree, you can only
 
 All it takes to get a GiST access method up and running is to implement several user-defined methods, which define the behavior of keys in the tree. Of course these methods have to be pretty fancy to support fancy queries, but for all the standard queries \(B-trees, R-trees, etc.\) they're relatively straightforward. In short, GiST combines extensibility along with generality, code reuse, and a clean interface.
 
-There are seven methods that an index operator class for GiST must provide, and two that are optional. Correctness of the index is ensured by proper implementation of the `same`,`consistent` and `union` methods, while efficiency \(size and speed\) of the index will depend on the `penalty` and `picksplit` methods. The remaining two basic methods are `compress` and `decompress`, which allow an index to have internal tree data of a different type than the data it indexes. The leaves are to be of the indexed data type, while the other tree nodes can be of any C struct \(but you still have to follow PostgreSQL data type rules here, see about `varlena` for variable sized data\). If the tree's internal data type exists at the SQL level, the`STORAGE` option of the `CREATE OPERATOR CLASS` command can be used. The optional eighth method is `distance`, which is needed if the operator class wishes to support ordered scans \(nearest-neighbor searches\). The optional ninth method `fetch` is needed if the operator class wishes to support index-only scans.`consistent`
+There are five methods that an index operator class for GiST must provide, and four that are optional. Correctness of the index is ensured by proper implementation of the `same`, `consistent` and `union` methods, while efficiency \(size and speed\) of the index will depend on the `penalty` and `picksplit` methods. Two optional methods are `compress` and `decompress`, which allow an index to have internal tree data of a different type than the data it indexes. The leaves are to be of the indexed data type, while the other tree nodes can be of any C struct \(but you still have to follow PostgreSQL data type rules here, see about `varlena` for variable sized data\). If the tree's internal data type exists at the SQL level, the `STORAGE` option of the `CREATE OPERATOR CLASS` command can be used. The optional eighth method is `distance`, which is needed if the operator class wishes to support ordered scans \(nearest-neighbor searches\). The optional ninth method `fetch` is needed if the operator class wishes to support index-only scans, except when the `compress` method is omitted.
 
-Given an index entry `p` and a query value `q`, this function determines whether the index entry is “consistent” with the query; that is, could the predicate “_`indexed_columnindexable_operator`_ `q`” be true for any row represented by the index entry? For a leaf index entry this is equivalent to testing the indexable condition, while for an internal tree node this determines whether it is necessary to scan the subtree of the index represented by the tree node. When the result is `true`, a `recheck` flag must also be returned. This indicates whether the predicate is certainly true or only possibly true. If `recheck` = `false` then the index has tested the predicate condition exactly, whereas if `recheck` = `true` the row is only a candidate match. In that case the system will automatically evaluate the _`indexable_operator`_ against the actual row value to see if it is really a match. This convention allows GiST to support both lossless and lossy index structures.
+`consistent`
+
+Given an index entry `p` and a query value `q`, this function determines whether the index entry is “consistent” with the query; that is, could the predicate “_`indexed_column`_ _`indexable_operator`_ `q`” be true for any row represented by the index entry? For a leaf index entry this is equivalent to testing the indexable condition, while for an internal tree node this determines whether it is necessary to scan the subtree of the index represented by the tree node. When the result is `true`, a `recheck` flag must also be returned. This indicates whether the predicate is certainly true or only possibly true. If `recheck` = `false` then the index has tested the predicate condition exactly, whereas if `recheck` = `true` the row is only a candidate match. In that case the system will automatically evaluate the _`indexable_operator`_ against the actual row value to see if it is really a match. This convention allows GiST to support both lossless and lossy index structures.
 
 The SQL declaration of the function must look like this:
 
@@ -54,7 +56,9 @@ my_consistent(PG_FUNCTION_ARGS)
 
 Here, `key` is an element in the index and `query` the value being looked up in the index. The `StrategyNumber` parameter indicates which operator of your operator class is being applied — it matches one of the operator numbers in the `CREATE OPERATOR CLASS` command.
 
-Depending on which operators you have included in the class, the data type of `query` could vary with the operator, since it will be whatever type is on the righthand side of the operator, which might be different from the indexed data type appearing on the lefthand side. \(The above code skeleton assumes that only one type is possible; if not, fetching the `query` argument value would have to depend on the operator.\) It is recommended that the SQL declaration of the `consistent` function use the opclass's indexed data type for the `query` argument, even though the actual type might be something else depending on the operator.`union`
+Depending on which operators you have included in the class, the data type of `query` could vary with the operator, since it will be whatever type is on the righthand side of the operator, which might be different from the indexed data type appearing on the lefthand side. \(The above code skeleton assumes that only one type is possible; if not, fetching the `query` argument value would have to depend on the operator.\) It is recommended that the SQL declaration of the `consistent` function use the opclass's indexed data type for the `query` argument, even though the actual type might be something else depending on the operator.
+
+`union`
 
 This method consolidates information in the tree. Given a set of entries, this function generates a new index entry that represents all the given entries.
 
@@ -107,11 +111,13 @@ my_union(PG_FUNCTION_ARGS)
 
 As you can see, in this skeleton we're dealing with a data type where `union(X, Y, Z) = union(union(X, Y), Z)`. It's easy enough to support data types where this is not the case, by implementing the proper union algorithm in this GiST support method.
 
-The result of the `union` function must be a value of the index's storage type, whatever that is \(it might or might not be different from the indexed column's type\). The `union`function should return a pointer to newly `palloc()`ed memory. You can't just return the input value as-is, even if there is no type change.
+The result of the `union` function must be a value of the index's storage type, whatever that is \(it might or might not be different from the indexed column's type\). The `union` function should return a pointer to newly `palloc()`ed memory. You can't just return the input value as-is, even if there is no type change.
 
-As shown above, the `union` function's first `internal` argument is actually a `GistEntryVector` pointer. The second argument is a pointer to an integer variable, which can be ignored. \(It used to be required that the `union` function store the size of its result value into that variable, but this is no longer necessary.\)`compress`
+As shown above, the `union` function's first `internal` argument is actually a `GistEntryVector` pointer. The second argument is a pointer to an integer variable, which can be ignored. \(It used to be required that the `union` function store the size of its result value into that variable, but this is no longer necessary.\)
 
-Converts the data item into a format suitable for physical storage in an index page.
+`compress`
+
+Converts a data item into a format suitable for physical storage in an index page. If the `compress` method is omitted, data items are stored in the index without modification.
 
 The SQL declaration of the function must look like this:
 
@@ -154,9 +160,11 @@ my_compress(PG_FUNCTION_ARGS)
 }
 ```
 
-You have to adapt _`compressed_data_type`_ to the specific type you're converting to in order to compress your leaf nodes, of course.`decompress`
+You have to adapt _`compressed_data_type`_ to the specific type you're converting to in order to compress your leaf nodes, of course.
 
-The reverse of the `compress` method. Converts the index representation of the data item into a format that can be manipulated by the other GiST methods in the operator class.
+`decompress`
+
+Converts the stored representation of a data item into a format that can be manipulated by the other GiST methods in the operator class. If the `decompress` method is omitted, it is assumed that the other GiST methods can work directly on the stored data format. \(`decompress` is not necessarily the reverse of the `compress` method; in particular, if `compress` is lossy then it's impossible for `decompress` to exactly reconstruct the original data. `decompress` is not necessarily equivalent to `fetch`, either, since the other GiST methods might not require full reconstruction of the data.\)
 
 The SQL declaration of the function must look like this:
 
@@ -179,7 +187,9 @@ my_decompress(PG_FUNCTION_ARGS)
 }
 ```
 
-The above skeleton is suitable for the case where no decompression is needed.`penalty`
+The above skeleton is suitable for the case where no decompression is needed. \(But, of course, omitting the method altogether is even easier, and is recommended in such cases.\)
+
+`penalty`
 
 Returns a value indicating the “cost” of inserting the new entry into a particular branch of the tree. Items will be inserted down the path of least `penalty` in the tree. Values returned by `penalty` should be non-negative. If a negative value is returned, it will be treated as zero.
 
@@ -213,7 +223,9 @@ my_penalty(PG_FUNCTION_ARGS)
 
 For historical reasons, the `penalty` function doesn't just return a `float` result; instead it has to store the value at the location indicated by the third argument. The return value per se is ignored, though it's conventional to pass back the address of that argument.
 
-The `penalty` function is crucial to good performance of the index. It'll get used at insertion time to determine which branch to follow when choosing where to add the new entry in the tree. At query time, the more balanced the index, the quicker the lookup.`picksplit`
+The `penalty` function is crucial to good performance of the index. It'll get used at insertion time to determine which branch to follow when choosing where to add the new entry in the tree. At query time, the more balanced the index, the quicker the lookup.
+
+`picksplit`
 
 When an index page split is necessary, this function decides which entries on the page are to stay on the old page, and which are to move to the new page.
 
@@ -275,8 +287,8 @@ my_picksplit(PG_FUNCTION_ARGS)
 
         /*
          * Choose where to put the index entries and update unionL and unionR
-         * accordingly. Append the entries to either v_spl_left or
-         * v_spl_right, and care about the counters.
+         * accordingly. Append the entries to either v->spl_left or
+         * v->spl_right, and care about the counters.
          */
 
         if (my_choice_is_left(unionL, curl, unionR, curr))
@@ -306,7 +318,9 @@ my_picksplit(PG_FUNCTION_ARGS)
 
 Notice that the `picksplit` function's result is delivered by modifying the passed-in `v` structure. The return value per se is ignored, though it's conventional to pass back the address of `v`.
 
-Like `penalty`, the `picksplit` function is crucial to good performance of the index. Designing suitable `penalty` and `picksplit` implementations is where the challenge of implementing well-performing GiST indexes lies.`same`
+Like `penalty`, the `picksplit` function is crucial to good performance of the index. Designing suitable `penalty` and `picksplit` implementations is where the challenge of implementing well-performing GiST indexes lies.
+
+`same`
 
 Returns true if two index entries are identical, false otherwise. \(An “index entry” is a value of the index's storage type, not necessarily the original indexed column's type.\)
 
@@ -336,7 +350,9 @@ my_same(PG_FUNCTION_ARGS)
 }
 ```
 
-For historical reasons, the `same` function doesn't just return a Boolean result; instead it has to store the flag at the location indicated by the third argument. The return value per se is ignored, though it's conventional to pass back the address of that argument.`distance`
+For historical reasons, the `same` function doesn't just return a Boolean result; instead it has to store the flag at the location indicated by the third argument. The return value per se is ignored, though it's conventional to pass back the address of that argument.
+
+`distance`
 
 Given an index entry `p` and a query value `q`, this function determines the index entry's “distance” from the query value. This function must be supplied if the operator class contains any ordering operators. A query using the ordering operator will be implemented by returning index entries with the smallest “distance” values first, so the results must be consistent with the operator's semantics. For a leaf index entry the result just represents the distance to the index entry; for an internal tree node, the result must be the smallest distance that any child entry could have.
 
@@ -377,7 +393,9 @@ The arguments to the `distance` function are identical to the arguments of the `
 
 Some approximation is allowed when determining the distance, so long as the result is never greater than the entry's actual distance. Thus, for example, distance to a bounding box is usually sufficient in geometric applications. For an internal tree node, the distance returned must not be greater than the distance to any of the child nodes. If the returned distance is not exact, the function must set `*recheck` to true. \(This is not necessary for internal tree nodes; for them, the calculation is always assumed to be inexact.\) In this case the executor will calculate the accurate distance after fetching the tuple from the heap, and reorder the tuples if necessary.
 
-If the distance function returns `*recheck = true` for any leaf node, the original ordering operator's return type must be `float8` or `float4`, and the distance function's result values must be comparable to those of the original ordering operator, since the executor will sort using both distance function results and recalculated ordering-operator results. Otherwise, the distance function's result values can be any finite `float8` values, so long as the relative order of the result values matches the order returned by the ordering operator. \(Infinity and minus infinity are used internally to handle cases such as nulls, so it is not recommended that `distance` functions return these values.\)`fetch`
+If the distance function returns `*recheck = true` for any leaf node, the original ordering operator's return type must be `float8` or `float4`, and the distance function's result values must be comparable to those of the original ordering operator, since the executor will sort using both distance function results and recalculated ordering-operator results. Otherwise, the distance function's result values can be any finite `float8` values, so long as the relative order of the result values matches the order returned by the ordering operator. \(Infinity and minus infinity are used internally to handle cases such as nulls, so it is not recommended that `distance` functions return these values.\)
+
+`fetch`
 
 Converts the compressed index representation of a data item into the original data type, for index-only scans. The returned data must be an exact, non-lossy copy of the originally indexed value.
 
@@ -390,7 +408,7 @@ AS 'MODULE_PATHNAME'
 LANGUAGE C STRICT;
 ```
 
-The argument is a pointer to a `GISTENTRY` struct. On entry, its `key` field contains a non-NULL leaf datum in compressed form. The return value is another `GISTENTRY` struct, whose `key` field contains the same datum in its original, uncompressed form. If the opclass's compress function does nothing for leaf entries, the `fetch` method can return the argument as-is.
+The argument is a pointer to a `GISTENTRY` struct. On entry, its `key` field contains a non-NULL leaf datum in compressed form. The return value is another `GISTENTRY` struct, whose `key` field contains the same datum in its original, uncompressed form. If the opclass's compress function does nothing for leaf entries, the `fetch` method can return the argument as-is. Or, if the opclass does not have a compress function, the `fetch` method can be omitted as well, since it would necessarily be a no-op.
 
 The matching code in the C module could then follow this skeleton:
 
@@ -401,7 +419,7 @@ Datum
 my_fetch(PG_FUNCTION_ARGS)
 {
     GISTENTRY  *entry = (GISTENTRY *) PG_GETARG_POINTER(0);
-    input_data_type *in = DatumGetP(entry->key);
+    input_data_type *in = DatumGetPointer(entry->key);
     fetched_data_type *fetched_data;
     GISTENTRY  *retval;
 
@@ -412,7 +430,7 @@ my_fetch(PG_FUNCTION_ARGS)
      * Convert 'fetched_data' into the a Datum of the original datatype.
      */
 
-    /* fill *retval from fetch_data. */
+    /* fill *retval from fetched_data. */
     gistentryinit(*retval, PointerGetDatum(converted_datum),
                   entry->rel, entry->page, entry->offset, FALSE);
 

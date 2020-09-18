@@ -1,18 +1,32 @@
 # 64.5. Examples
 
-The PostgreSQL source distribution includes several examples of index methods implemented using GiST. The core system currently provides text search support \(indexing for `tsvector`and `tsquery`\) as well as R-Tree equivalent functionality for some of the built-in geometric data types \(see `src/backend/access/gist/gistproc.c`\). The following `contrib` modules also contain GiST operator classes:`btree_gist`
+The PostgreSQL source distribution includes several examples of index methods implemented using GiST. The core system currently provides text search support \(indexing for `tsvector` and `tsquery`\) as well as R-Tree equivalent functionality for some of the built-in geometric data types \(see `src/backend/access/gist/gistproc.c`\). The following `contrib` modules also contain GiST operator classes:
 
-B-tree equivalent functionality for several data types`cube`
+`btree_gist`
 
-Indexing for multidimensional cubes`hstore`
+B-tree equivalent functionality for several data types
 
-Module for storing \(key, value\) pairs`intarray`
+`cube`
 
-RD-Tree for one-dimensional array of int4 values`ltree`
+Indexing for multidimensional cubes
 
-Indexing for tree-like structures`pg_trgm`
+`hstore`
 
-Text similarity using trigram matching`seg`
+Module for storing \(key, value\) pairs
+
+`intarray`
+
+RD-Tree for one-dimensional array of int4 values
+
+`ltree`
+
+Indexing for tree-like structures
+
+`pg_trgm`
+
+Text similarity using trigram matching
+
+`seg`
 
 Indexing for “float ranges”
 
