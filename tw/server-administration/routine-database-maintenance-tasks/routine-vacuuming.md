@@ -29,13 +29,13 @@ VACUUM 的標準作法是移除資料表和索引中過時的資料列版本，�
 
 對於那些不使用自動清理的人來說，一種典型的方法是在低使用期內每天安排一次資料庫範圍內的 VACUUM，並根據需要更頻繁地清空大量更新的資料表。（一些具有極高更新率的設定每隔幾分鐘就會清理一次最繁忙的資料表，如此頻繁。）如果叢集中有多個資料庫，請不要忘記每個資料庫都有 VACUUM；[vacuumdb](../../reference/client-applications/vacuumdb.md) 工作可能會有所幫助。
 
-#### 小技巧
-
+{% hint style="info" %}
 當一個資料表由於大量更新或刪除活動而包含大量過時資料列版本時，一般的 VACUUM 可能不能令人滿意。如果您有這樣一個資料表並且您需要回收佔用的多餘磁碟空間，則需要使用 VACUUM FULL 或 [CLUSTER](../../reference/sql-commands/cluster.md) 或 [ALTER TABLE](../../reference/sql-commands/alter-table.md) 的資料表重寫變形之一。這些命令重寫整個資料表的新副本並為其構建新的索引。所有這些選項都需要獨占鎖定。請注意，它們也暫時使用大約等於資料表大小的額外磁碟空間，因為資料表和索引的舊副本只有在新資料表完成後才能完全釋放。
+{% endhint %}
 
-#### 小技巧
-
+{% hint style="info" %}
 如果您有一張定期刪除整個內容的資料表，請考慮使用 TRUNCATE 而不是使用 DELETE 和 VACUUM。[TRUNCATE](../../reference/sql-commands/truncate.md) 會立即刪除資料表的全部內容，而不需要後續的 VACUUM 或 VACUUM FULL 來回收現在未使用的磁碟空間。缺點是違反了嚴格的 MVCC 意義。
+{% endhint %}
 
 ## 24.1.3. 更新規劃器統計資訊
 
@@ -47,15 +47,15 @@ autovacuum 背景程序（如果啟用的話）會在資料表內容發生相當
 
 可以在特定的資料表上執行 ANALYZE，甚至可以在資料表中特定的欄位上執行ANALYZE，因此如果應用程序需要，可以更靈活地更新某些統計資訊。然而，在實務上，通常最好僅分析整個資料庫，因為這是一種快速操作。ANALYZE 以資料表中資料列的隨機抽樣而不是讀取每一個資料列。
 
-#### 小技巧
-
+{% hint style="info" %}
 儘管 ANALYZE 頻率對每個欄位的調整可能效率不高，但您可能會發現值得對 ANALYZE 統計資訊的詳細程度進行每個欄位調整。在 WHERE 子句中大量使用且具有高度不規則資料分佈的欄位可能需要比其他欄位更精細的資料直方圖。請參閱 ALTER TABLE SET STATISTICS，或使用 [default\_statistics\_target](../server-configuration/query-planning.md#19-7-4-other-planner-options) 組態參數變更資料庫層級的預設值。
+{% endhint %}
 
 此外，預設情況下，有關 SELECT 函數的訊息有限。但是，如果建立使用函數呼叫的表示式索引，則會收集有關該函數的有用統計訊息，這可以極大地改進使用表示式索引的查詢計劃。
 
-#### 小技巧
-
+{% hint style="info" %}
 autovacuum 背景程序不會為外部資料表發出 ANALYZE 指令，因為它無法確定可能有用的頻率。如果您的查詢需要統計外部資料表的正確計劃，最好在適當的時間表上執行手動管理的 ANALYZE 指令。
+{% endhint %}
 
 ## 24.1.4. 更新可見性映射表（Visibility Map）
 
@@ -69,9 +69,9 @@ PostgreSQL 的 MVCC 交易事務處理相依於比較交易事務 ID（XID）：
 
 定期清理能解決問題的原因是 VACUUM 會將資料列標記為凍結，表明它們是由過去的事務插入的，以至於插入事務的影響肯定對所有目前和未來的事務都可見。使用 modulo-232 運算比較普通 XID。這意味著對於每個普通的 XID，有20億個「較舊」的 XID 和 20 個「較新」的 XID；另一種說法是普通的 XID 空間是圓形的，沒有端點。因此，一旦使用特定的普通 XID 建立了資料列版本，無論我們在談論哪種正常的 XID，資料列版本對於接下來的 20 億次交易看起來都是“過去的”。如果資料列版本在超過 20 億次交易後仍然存在，那麼它將來會突然出現。為了防止這種情況，PostgreSQL 保留了一個特殊的 XID，FrozenTransactionId，它不遵循正常的 XID 比較規則，並且總是被認為比每個普通的 XID 都舊。凍結資料列版本被視為插入 XID 是 FrozenTransactionId，因此它們對於所有正常事務而言似乎都是「過去」而不管繞回重覆的問題，因此這些資料列版本在刪除之前有效，無論多長時間都是。
 
-#### 注意
-
+{% hint style="info" %}
 在 9.4 之前的 PostgreSQL 版本中，透過實際用 FrozenTransactionId 替換資料列的插入 XID 來實現凍結，這在資料列的 xmin 系統欄位中是可見的。較新版本只設置一個指標，保留資料列的原始 xmin 以便進行可能的查證使用。但是，仍然可以在 9.4 之前版本的資料庫 pg\_upgrade 中找到 xmin 等於 FrozenTransactionId（2）的資料列。
+{% endhint %}
 
 此外，系統目錄可能包含 xmin 等於 BootstrapTransactionId\(1\) 的資料列，表示它們是在 initdb 的第一階段插入的。與 FrozenTransactionId 一樣，此特殊 XID 被視為比每個普通 XID 更舊。
 
