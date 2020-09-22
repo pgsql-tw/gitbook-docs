@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # 13.2. 交易隔離
 
 SQL 標準中定義了四個等級的交易隔離，其中最嚴格的隔離是「Serializable（序列化）」。序列化在標準的描述中，被定義為任意序列化交易的並行操作，都會保證產出與依照某種任意順序一個一個執行它們的效果相同。其他三個等級則是經由現象來定義的，即在不同的並行交易間的互動，這些現象在各個等集中必不能發生。標準中也注意到，基於 Serializable 的定義，這些現象都不可能發生在 Serializable 等級。（這並不難理解 -- 如果交易的影響必須與一個一個執行的結果一致，你怎麼會看到這些因為互動而產生的現象呢？）
@@ -18,7 +14,7 @@ SQL 標準中定義了四個等級的交易隔離，其中最嚴格的隔離是�
 
 SQL 標準以及 PostgreSQL 實作的交易隔離等級，可參閱 Table 13.1。
 
-**Table 13.1. 交易隔離等級**
+#### **Table 13.1. 交易隔離等級**
 
 | 隔離等級 | Dirty Read | Nonrepeatable Read | Phantom Read | Serialization Anomaly |
 | :--- | :--- | :--- | :--- | :--- |
@@ -33,9 +29,9 @@ SQL 標準以及 PostgreSQL 實作的交易隔離等級，可參閱 Table 13.1�
 
 若要設定交易的隔離等級，可使用指令 [SET TRANSACTION](https://www.postgresql.org/docs/10/static/sql-set-transaction.html)。
 
-## 重要
-
+{% hint style="info" %}
 有些 PostgreSQL 的資料型態和函式具有特殊的交易行為的規則。具體來說，對序列（以及以 `serial` 宣告的計算器欄位）造成的變更將會立刻能夠被所有其他交易所看見，並且即使造成變更的交易取消了也不會被還原。請參考 [9.16 小節](https://github.com/pgsql-tw/gitbook-docs/tree/cf1d43f0131d46f75fce957eab384b4cc45e0168/tw/the-sql-language/functions-and-operators/9.16.-xu-lie-han-shi) 及 [8.1.4 小節](https://github.com/pgsql-tw/gitbook-docs/tree/cf1d43f0131d46f75fce957eab384b4cc45e0168/tw/the-sql-language/data-types/numeric-types/README.md#8-1-4-xu-lie-xing-serial-types)。
+{% endhint %}
 
 ## 13.2.1. Read Committed 隔離等級
 

@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # 13.4. 在應用端檢視資料一致性
 
 It is very difficult to enforce business rules regarding data integrity using Read Committed transactions because the view of the data is shifting with each statement, and even a single statement may not restrict itself to the statement's snapshot if a write conflict occurs.

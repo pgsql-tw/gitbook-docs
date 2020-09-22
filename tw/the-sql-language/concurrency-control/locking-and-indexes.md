@@ -1,7 +1,3 @@
----
-description: 版本：11
----
-
 # 13.6. 鎖定與索引
 
 Though PostgreSQL provides nonblocking read/write access to table data, nonblocking read/write access is not currently offered for every index access method implemented in PostgreSQL. The various index types are handled as follows:
