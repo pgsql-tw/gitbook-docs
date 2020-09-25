@@ -581,7 +581,7 @@
     * [postgres](reference/server-applications/postgres.md)
 * [VII. 資料庫進階](internals/README.md)
   * [50. PostgreSQL 的內部架構](internals/overview-of-postgresql-internals/README.md)
-    * [50.1. The Path of a Query](internals/overview-of-postgresql-internals/the-path-of-a-query.md)
+    * [50.1. 處理查詢語句的流程](internals/overview-of-postgresql-internals/the-path-of-a-query.md)
     * [50.2. How Connections Are Established](internals/overview-of-postgresql-internals/how-connections-are-established.md)
     * [50.3. The Parser Stage](internals/overview-of-postgresql-internals/the-parser-stage.md)
     * [50.4. The PostgreSQL Rule System](internals/overview-of-postgresql-internals/50.4.-the-postgresql-rule-system.md)
