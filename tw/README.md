@@ -4,7 +4,7 @@ description: 本使用手冊由台灣 PostgreSQL 社群提供，翻譯自 Postgr
 
 # 簡介
 
-本使用手冊目前編譯內容為 PostgreSQL 12。
+本使用手冊目前編譯內容為 PostgreSQL 13。
 
 每一個頁面均附上[官方手冊](https://www.postgresql.org/docs/current/index.html)對應連結，翻譯未詳盡之處，可對照閱讀。  
 未翻譯完成之段落，將暫以原文（英文）替代。
