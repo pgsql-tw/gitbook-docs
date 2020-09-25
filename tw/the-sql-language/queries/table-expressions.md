@@ -4,9 +4,9 @@ A _table expression_ computes a table. The table expression contains a `FROM` cl
 
 The optional `WHERE`, `GROUP BY`, and `HAVING` clauses in the table expression specify a pipeline of successive transformations performed on the table derived in the `FROM` clause. All these transformations produce a virtual table that provides the rows that are passed to the select list to compute the output rows of the query.
 
-#### 7.2.1. The `FROM` Clause
+## 7.2.1. The `FROM` Clause
 
-The [`FROM` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-FROM) derives a table from one or more other tables given in a comma-separated table reference list.
+The [`FROM`](https://www.postgresql.org/docs/13/sql-select.html#SQL-FROM) clause derives a table from one or more other tables given in a comma-separated table reference list.
 
 ```text
 FROM table_reference [, table_reference [, ...]]
@@ -18,7 +18,7 @@ When a table reference names a table that is the parent of a table inheritance h
 
 Instead of writing `ONLY` before the table name, you can write `*` after the table name to explicitly specify that descendant tables are included. There is no real reason to use this syntax any more, because searching descendant tables is now always the default behavior. However, it is supported for compatibility with older releases.
 
-**7.2.1.1. Joined Tables**
+### **7.2.1.1. Joined Tables**
 
 A joined table is a table derived from two other \(real or derived\) tables according to the rules of the particular join type. Inner, outer, and cross-joins are available. The general syntax of a joined table is
 
@@ -40,7 +40,7 @@ For every possible combination of rows from _`T1`_ and _`T2`_ \(i.e., a Cartesia
 
 #### Note
 
-This latter equivalence does not hold exactly when more than two tables appear, because `JOIN` binds more tightly than comma. For example `FROM`_`T1`_ CROSS JOIN _`T2`_ INNER JOIN _`T3`_ ON _`condition`_ is not the same as `FROM`_`T1`_, _`T2`_ INNER JOIN _`T3`_ ON _`condition`_ because the _`condition`_ can reference_`T1`_ in the first case but not the second.Qualified joins
+This latter equivalence does not hold exactly when more than two tables appear, because `JOIN` binds more tightly than comma. For example `FROM` _`T1`_ CROSS JOIN _`T2`_ INNER JOIN _`T3`_ ON _`condition`_ is not the same as `FROM` _`T1`_, _`T2`_ INNER JOIN _`T3`_ ON _`condition`_ because the _`condition`_ can reference _`T1`_ in the first case but not the second.Qualified joins
 
 ```text
 T1 { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2 ON boolean_expression
@@ -62,9 +62,9 @@ First, an inner join is performed. Then, for each row in T2 that does not satisf
 
 First, an inner join is performed. Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2. Also, for each row of T2 that does not satisfy the join condition with any row in T1, a joined row with null values in the columns of T1 is added.
 
-The `ON` clause is the most general kind of join condition: it takes a Boolean value expression of the same kind as is used in a `WHERE` clause. A pair of rows from _`T1`_ and _`T2`_match if the `ON` expression evaluates to true.
+The `ON` clause is the most general kind of join condition: it takes a Boolean value expression of the same kind as is used in a `WHERE` clause. A pair of rows from _`T1`_ and _`T2`_ match if the `ON` expression evaluates to true.
 
-The `USING` clause is a shorthand that allows you to take advantage of the specific situation where both sides of the join use the same name for the joining column\(s\). It takes a comma-separated list of the shared column names and forms a join condition that includes an equality comparison for each one. For example, joining _`T1`_ and _`T2`_with `USING (a, b)` produces the join condition `ON` _`T1`_.a = _`T2`_.a AND _`T1`_.b = _`T2`_.b.
+The `USING` clause is a shorthand that allows you to take advantage of the specific situation where both sides of the join use the same name for the joining column\(s\). It takes a comma-separated list of the shared column names and forms a join condition that includes an equality comparison for each one. For example, joining _`T1`_ and _`T2`_ with `USING (a, b)` produces the join condition `ON` _`T1`_.a = _`T2`_.a AND _`T1`_.b = _`T2`_.b.
 
 Furthermore, the output of `JOIN USING` suppresses redundant columns: there is no need to print both of the matched columns, since they must have equal values. While `JOIN ON` produces all columns from _`T1`_ followed by all columns from _`T2`_, `JOIN USING` produces one output column for each of the listed column pairs \(in the listed order\), followed by any remaining columns from _`T1`_, followed by any remaining columns from _`T2`_.
 
@@ -190,7 +190,7 @@ Notice that placing the restriction in the `WHERE` clause produces a different r
 
 This is because a restriction placed in the `ON` clause is processed _before_ the join, while a restriction placed in the `WHERE` clause is processed _after_ the join. That does not matter with inner joins, but it matters a lot with outer joins.
 
-**7.2.1.2. Table and Column Aliases**
+### **7.2.1.2. Table And Column Aliases**
 
 A temporary name can be given to tables and complex table references to be used for references to the derived table in the rest of the query. This is called a _table alias_.
 
@@ -226,7 +226,7 @@ Table aliases are mainly for notational convenience, but it is necessary to use 
 SELECT * FROM people AS mother JOIN people AS child ON mother.id = child.mother_id;
 ```
 
-Additionally, an alias is required if the table reference is a subquery \(see [Section 7.2.1.3](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#QUERIES-SUBQUERIES)\).
+Additionally, an alias is required if the table reference is a subquery \(see [Section 7.2.1.3](https://www.postgresql.org/docs/13/queries-table-expressions.html#QUERIES-SUBQUERIES)\).
 
 Parentheses are used to resolve ambiguities. In the following example, the first statement assigns the alias `b` to the second instance of `my_table`, but the second statement assigns the alias to the result of the join:
 
@@ -257,9 +257,9 @@ SELECT a.* FROM (my_table AS a JOIN your_table AS b ON ...) AS c
 
 is not valid; the table alias `a` is not visible outside the alias `c`.
 
-**7.2.1.3. Subqueries**
+### **7.2.1.3. Subqueries**
 
-Subqueries specifying a derived table must be enclosed in parentheses and _must_ be assigned a table alias name \(as in [Section 7.2.1.2](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#QUERIES-TABLE-ALIASES)\). For example:
+Subqueries specifying a derived table must be enclosed in parentheses and _must_ be assigned a table alias name \(as in [Section 7.2.1.2](https://www.postgresql.org/docs/13/queries-table-expressions.html#QUERIES-TABLE-ALIASES)\). For example:
 
 ```text
 FROM (SELECT * FROM table1) AS alias_name
@@ -274,9 +274,9 @@ FROM (VALUES ('anne', 'smith'), ('bob', 'jones'), ('joe', 'blow'))
      AS names(first, last)
 ```
 
-Again, a table alias is required. Assigning alias names to the columns of the `VALUES` list is optional, but is good practice. For more information see [Section 7.7](https://www.postgresql.org/docs/10/static/queries-values.html).
+Again, a table alias is required. Assigning alias names to the columns of the `VALUES` list is optional, but is good practice. For more information see [Section 7.7](https://www.postgresql.org/docs/13/queries-values.html).
 
-**7.2.1.4. Table Functions**
+### **7.2.1.4. Table Functions**
 
 Table functions are functions that produce a set of rows, made up of either base data types \(scalar types\) or composite data types \(table rows\). They are used like a table, view, or subquery in the `FROM` clause of a query. Columns returned by table functions can be included in `SELECT`, `JOIN`, or `WHERE` clauses in the same manner as columns of a table, view, or subquery.
 
@@ -289,7 +289,7 @@ ROWS FROM( function_call [, ... ] ) [WITH ORDINALITY] [[AS] table_alias [(column
 
 If the `WITH ORDINALITY` clause is specified, an additional column of type `bigint` will be added to the function result columns. This column numbers the rows of the function result set, starting from 1. \(This is a generalization of the SQL-standard syntax for `UNNEST ... WITH ORDINALITY`.\) By default, the ordinal column is called `ordinality`, but a different column name can be assigned to it using an `AS` clause.
 
-The special table function `UNNEST` may be called with any number of array parameters, and it returns a corresponding number of columns, as if `UNNEST` \([Section 9.18](https://www.postgresql.org/docs/10/static/functions-array.html)\) had been called on each parameter separately and combined using the `ROWS FROM` construct.
+The special table function `UNNEST` may be called with any number of array parameters, and it returns a corresponding number of columns, as if `UNNEST` \([Section 9.19](https://www.postgresql.org/docs/13/functions-array.html)\) had been called on each parameter separately and combined using the `ROWS FROM` construct.
 
 ```text
 UNNEST( array_expression [, ... ] ) [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ... ])]]
@@ -341,9 +341,9 @@ SELECT *
     WHERE proname LIKE 'bytea%';
 ```
 
-The [dblink](https://www.postgresql.org/docs/10/static/contrib-dblink-function.html) function \(part of the [dblink](https://www.postgresql.org/docs/10/static/dblink.html) module\) executes a remote query. It is declared to return `record` since it might be used for any kind of query. The actual column set must be specified in the calling query so that the parser knows, for example, what `*` should expand to.
+The [dblink](https://www.postgresql.org/docs/13/contrib-dblink-function.html) function \(part of the [dblink](https://www.postgresql.org/docs/13/dblink.html) module\) executes a remote query. It is declared to return `record` since it might be used for any kind of query. The actual column set must be specified in the calling query so that the parser knows, for example, what `*` should expand to.
 
-**7.2.1.5. LATERAL Subqueries**
+### **7.2.1.5. LATERAL Subqueries**
 
 Subqueries appearing in `FROM` can be preceded by the key word `LATERAL`. This allows them to reference columns provided by preceding `FROM` items. \(Without `LATERAL`, each subquery is evaluated independently and so cannot cross-reference any other `FROM` item.\)
 
@@ -394,21 +394,21 @@ FROM manufacturers m LEFT JOIN LATERAL get_product_names(m.id) pname ON true
 WHERE pname IS NULL;
 ```
 
-#### 7.2.2. The `WHERE` Clause
+## 7.2.2. The `WHERE` Clause
 
-The syntax of the [`WHERE` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-WHERE) is
+The syntax of the [`WHERE`](https://www.postgresql.org/docs/13/sql-select.html#SQL-WHERE) clause is
 
 ```text
 WHERE search_condition
 ```
 
-where _`search_condition`_ is any value expression \(see [Section 4.2](https://www.postgresql.org/docs/10/static/sql-expressions.html)\) that returns a value of type `boolean`.
+where _`search_condition`_ is any value expression \(see [Section 4.2](https://www.postgresql.org/docs/13/sql-expressions.html)\) that returns a value of type `boolean`.
 
-After the processing of the `FROM` clause is done, each row of the derived virtual table is checked against the search condition. If the result of the condition is true, the row is kept in the output table, otherwise \(i.e., if the result is false or null\) it is discarded. The search condition typically references at least one column of the table generated in the `FROM`clause; this is not required, but otherwise the `WHERE` clause will be fairly useless.
+After the processing of the `FROM` clause is done, each row of the derived virtual table is checked against the search condition. If the result of the condition is true, the row is kept in the output table, otherwise \(i.e., if the result is false or null\) it is discarded. The search condition typically references at least one column of the table generated in the `FROM` clause; this is not required, but otherwise the `WHERE` clause will be fairly useless.
 
 #### Note
 
-The join condition of an inner join can be written either in the `WHERE`clause or in the `JOIN` clause. For example, these table expressions are equivalent:
+The join condition of an inner join can be written either in the `WHERE` clause or in the `JOIN` clause. For example, these table expressions are equivalent:
 
 ```text
 FROM a, b WHERE a.id = b.id AND b.val > 5
@@ -446,7 +446,7 @@ SELECT ... FROM fdt WHERE EXISTS (SELECT c1 FROM t2 WHERE c2 > fdt.c1)
 
 `fdt` is the table derived in the `FROM` clause. Rows that do not meet the search condition of the `WHERE` clause are eliminated from `fdt`. Notice the use of scalar subqueries as value expressions. Just like any other query, the subqueries can employ complex table expressions. Notice also how `fdt` is referenced in the subqueries. Qualifying `c1` as `fdt.c1` is only necessary if `c1` is also the name of a column in the derived input table of the subquery. But qualifying the column name adds clarity even when it is not needed. This example shows how the column naming scope of an outer query extends into its inner queries.
 
-#### 7.2.3. The `GROUP BY` and `HAVING` Clauses
+## 7.2.3. The `GROUP BY` and `HAVING` Clauses
 
 After passing the `WHERE` filter, the derived input table might be subject to grouping, using the `GROUP BY` clause, and elimination of group rows using the `HAVING` clause.
 
@@ -457,7 +457,7 @@ SELECT select_list
     GROUP BY grouping_column_reference [, grouping_column_reference]...
 ```
 
-The [`GROUP BY` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-GROUPBY) is used to group together those rows in a table that have the same values in all the columns listed. The order in which the columns are listed does not matter. The effect is to combine each set of rows having common values into one group row that represents all rows in the group. This is done to eliminate redundancy in the output and/or compute aggregates that apply to these groups. For instance:
+The [`GROUP BY`](https://www.postgresql.org/docs/13/sql-select.html#SQL-GROUPBY) clause is used to group together those rows in a table that have the same values in all the columns listed. The order in which the columns are listed does not matter. The effect is to combine each set of rows having common values into one group row that represents all rows in the group. This is done to eliminate redundancy in the output and/or compute aggregates that apply to these groups. For instance:
 
 ```text
 => SELECT * FROM test1;
@@ -492,11 +492,11 @@ In general, if a table is grouped, columns that are not listed in `GROUP BY` can
 (3 rows)
 ```
 
-Here `sum` is an aggregate function that computes a single value over the entire group. More information about the available aggregate functions can be found in [Section 9.20](https://www.postgresql.org/docs/10/static/functions-aggregate.html).
+Here `sum` is an aggregate function that computes a single value over the entire group. More information about the available aggregate functions can be found in [Section 9.21](https://www.postgresql.org/docs/13/functions-aggregate.html).
 
 #### Tip
 
-Grouping without aggregate expressions effectively calculates the set of distinct values in a column. This can also be achieved using the `DISTINCT`clause \(see [Section 7.3.3](https://www.postgresql.org/docs/10/static/queries-select-lists.html#QUERIES-DISTINCT)\).
+Grouping without aggregate expressions effectively calculates the set of distinct values in a column. This can also be achieved using the `DISTINCT` clause \(see [Section 7.3.3](https://www.postgresql.org/docs/13/queries-select-lists.html#QUERIES-DISTINCT)\).
 
 Here is another example: it calculates the total sales for each product \(rather than the total sales of all products\):
 
@@ -506,7 +506,7 @@ SELECT product_id, p.name, (sum(s.units) * p.price) AS sales
     GROUP BY product_id, p.name, p.price;
 ```
 
-In this example, the columns `product_id`, `p.name`, and `p.price` must be in the `GROUP BY` clause since they are referenced in the query select list \(but see below\). The column`s.units` does not have to be in the `GROUP BY` list since it is only used in an aggregate expression \(`sum(...)`\), which represents the sales of a product. For each product, the query returns a summary row about all sales of the product.
+In this example, the columns `product_id`, `p.name`, and `p.price` must be in the `GROUP BY` clause since they are referenced in the query select list \(but see below\). The column `s.units` does not have to be in the `GROUP BY` list since it is only used in an aggregate expression \(`sum(...)`\), which represents the sales of a product. For each product, the query returns a summary row about all sales of the product.
 
 If the products table is set up so that, say, `product_id` is the primary key, then it would be enough to group by `product_id` in the above example, since name and price would be _functionally dependent_ on the product ID, and so there would be no ambiguity about which name and price value to return for each product ID group.
 
@@ -548,11 +548,11 @@ SELECT product_id, p.name, (sum(s.units) * (p.price - p.cost)) AS profit
     HAVING sum(p.price * s.units) > 5000;
 ```
 
-In the example above, the `WHERE` clause is selecting rows by a column that is not grouped \(the expression is only true for sales during the last four weeks\), while the `HAVING`clause restricts the output to groups with total gross sales over 5000. Note that the aggregate expressions do not necessarily need to be the same in all parts of the query.
+In the example above, the `WHERE` clause is selecting rows by a column that is not grouped \(the expression is only true for sales during the last four weeks\), while the `HAVING` clause restricts the output to groups with total gross sales over 5000. Note that the aggregate expressions do not necessarily need to be the same in all parts of the query.
 
 If a query contains aggregate function calls, but no `GROUP BY` clause, grouping still occurs: the result is a single group row \(or perhaps no rows at all, if the single row is then eliminated by `HAVING`\). The same is true if it contains a `HAVING` clause, even without any aggregate function calls or `GROUP BY` clause.
 
-#### 7.2.4. `GROUPING SETS`, `CUBE`, and `ROLLUP`
+## 7.2.4. `GROUPING SETS`, `CUBE`, and `ROLLUP`
 
 More complex grouping operations than those described above are possible using the concept of _grouping sets_. The data selected by the `FROM` and `WHERE` clauses is grouped separately by each specified grouping set, aggregates computed for each group just as for simple `GROUP BY` clauses, and then the results returned. For example:
 
@@ -579,7 +579,7 @@ More complex grouping operations than those described above are possible using t
 
 Each sublist of `GROUPING SETS` may specify zero or more columns or expressions and is interpreted the same way as though it were directly in the `GROUP BY` clause. An empty grouping set means that all rows are aggregated down to a single group \(which is output even if no input rows were present\), as described above for the case of aggregate functions with no `GROUP BY` clause.
 
-References to the grouping columns or expressions are replaced by null values in result rows for grouping sets in which those columns do not appear. To distinguish which grouping a particular output row resulted from, see [Table 9.56](https://www.postgresql.org/docs/10/static/functions-aggregate.html#FUNCTIONS-GROUPING-TABLE).
+References to the grouping columns or expressions are replaced by null values in result rows for grouping sets in which those columns do not appear. To distinguish which grouping a particular output row resulted from, see [Table 9.59](https://www.postgresql.org/docs/13/functions-aggregate.html#FUNCTIONS-GROUPING-TABLE).
 
 A shorthand notation is provided for specifying two common types of grouping set. A clause of the form
 
@@ -599,7 +599,7 @@ GROUPING SETS (
 )
 ```
 
-This is commonly used for analysis over hierarchical data; e.g. total salary by department, division, and company-wide total.
+This is commonly used for analysis over hierarchical data; e.g., total salary by department, division, and company-wide total.
 
 A clause of the form
 
@@ -607,7 +607,7 @@ A clause of the form
 CUBE ( e1, e2, ... )
 ```
 
-represents the given list and all of its possible subsets \(i.e. the power set\). Thus
+represents the given list and all of its possible subsets \(i.e., the power set\). Thus
 
 ```text
 CUBE ( a, b, c )
@@ -683,13 +683,14 @@ GROUP BY GROUPING SETS (
 
 #### Note
 
-The construct `(a, b)` is normally recognized in expressions as a [row constructor](https://www.postgresql.org/docs/10/static/sql-expressions.html#SQL-SYNTAX-ROW-CONSTRUCTORS). Within the `GROUP BY` clause, this does not apply at the top levels of expressions, and `(a, b)` is parsed as a list of expressions as described above. If for some reason you _need_ a row constructor in a grouping expression, use `ROW(a, b)`.
+The construct `(a, b)` is normally recognized in expressions as a [row constructor](https://www.postgresql.org/docs/13/sql-expressions.html#SQL-SYNTAX-ROW-CONSTRUCTORS). Within the `GROUP BY` clause, this does not apply at the top levels of expressions, and `(a, b)` is parsed as a list of expressions as described above. If for some reason you _need_ a row constructor in a grouping expression, use `ROW(a, b)`.
 
-#### 7.2.5. Window Function Processing
+## 7.2.5. Window Function Processing
 
-If the query contains any window functions \(see [Section 3.5](https://www.postgresql.org/docs/10/static/tutorial-window.html), [Section 9.21](https://www.postgresql.org/docs/10/static/functions-window.html) and [Section 4.2.8](https://www.postgresql.org/docs/10/static/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)\), these functions are evaluated after any grouping, aggregation, and `HAVING` filtering is performed. That is, if the query uses any aggregates, `GROUP BY`, or `HAVING`, then the rows seen by the window functions are the group rows instead of the original table rows from `FROM`/`WHERE`.
+If the query contains any window functions \(see [Section 3.5](https://www.postgresql.org/docs/13/tutorial-window.html), [Section 9.22](https://www.postgresql.org/docs/13/functions-window.html) and [Section 4.2.8](https://www.postgresql.org/docs/13/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)\), these functions are evaluated after any grouping, aggregation, and `HAVING` filtering is performed. That is, if the query uses any aggregates, `GROUP BY`, or `HAVING`, then the rows seen by the window functions are the group rows instead of the original table rows from `FROM`/`WHERE`.
 
 When multiple window functions are used, all the window functions having syntactically equivalent `PARTITION BY` and `ORDER BY` clauses in their window definitions are guaranteed to be evaluated in a single pass over the data. Therefore they will see the same sort ordering, even if the `ORDER BY` does not uniquely determine an ordering. However, no guarantees are made about the evaluation of functions having different `PARTITION BY` or `ORDER BY` specifications. \(In such cases a sort step is typically required between the passes of window function evaluations, and the sort is not guaranteed to preserve ordering of rows that its `ORDER BY` sees as equivalent.\)
 
-Currently, window functions always require presorted data, and so the query output will be ordered according to one or another of the window functions' `PARTITION BY`/`ORDER BY`clauses. It is not recommended to rely on this, however. Use an explicit top-level `ORDER BY` clause if you want to be sure the results are sorted in a particular way.
+Currently, window functions always require presorted data, and so the query output will be ordered according to one or another of the window functions' `PARTITION BY`/`ORDER BY` clauses. It is not recommended to rely on this, however. Use an explicit top-level `ORDER BY` clause if you want to be sure the results are sorted in a particular way.  
+
 

@@ -1,10 +1,10 @@
-# 9.28. 事件觸發函式
+# 9.29. 事件觸發函式
 
 PostgreSQL provides these helper functions to retrieve information from event triggers.
 
 For more information about event triggers, see [Chapter 39](https://www.postgresql.org/docs/12/event-triggers.html).
 
-## 9.28.1. Capturing Changes at Command End
+## 9.29.1. Capturing Changes at Command End
 
 `pg_event_trigger_ddl_commands` returns a list of DDL commands executed by each user action, when invoked in a function attached to a `ddl_command_end` event trigger. If called in any other context, an error is raised. `pg_event_trigger_ddl_commands` returns one row for each base command executed; some commands that are a single SQL sentence may return more than one row. This function returns the following columns:
 
@@ -20,7 +20,7 @@ For more information about event triggers, see [Chapter 39](https://www.postgres
 | `in_extension` | `bool` | True if the command is part of an extension script |
 | `command` | `pg_ddl_command` | A complete representation of the command, in internal format. This cannot be output directly, but it can be passed to other functions to obtain different pieces of information about the command. |
 
-## 9.28.2. Processing Objects Dropped by a DDL Command
+## 9.29.2. Processing Objects Dropped by a DDL Command
 
 `pg_event_trigger_dropped_objects` returns a list of all objects dropped by the command in whose `sql_drop` event it is called. If called in any other context, `pg_event_trigger_dropped_objects` raises an error. `pg_event_trigger_dropped_objects` returns the following columns:
 
@@ -63,7 +63,7 @@ CREATE EVENT TRIGGER test_event_trigger_for_drops
    EXECUTE FUNCTION test_event_trigger_for_drops();
 ```
 
-## 9.28.3. Handling a Table Rewrite Event
+## 9.29.3. Handling a Table Rewrite Event
 
 The functions shown in [Table 9.96](https://www.postgresql.org/docs/12/functions-event-triggers.html#FUNCTIONS-EVENT-TRIGGER-TABLE-REWRITE) provide information about a table for which a `table_rewrite` event has just been called. If called in any other context, an error is raised.
 

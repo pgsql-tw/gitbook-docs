@@ -1,4 +1,4 @@
-# 9.27. 觸發函式
+# 9.28. 觸發函式
 
 CurrentlyPostgreSQLprovides one built in trigger function,`suppress_redundant_updates_trigger`, which will prevent any update that does not actually change the data in the row from taking place, in contrast to the normal behavior which always performs the update regardless of whether or not the data has changed. \(This normal behavior makes updates run faster, since no checking is required, and is also useful in certain cases.\)
 

@@ -1,4 +1,4 @@
-# 9.18. 陣列函式及運算子
+# 9.19. 陣列函式及運算子
 
 [Table 9.48](https://www.postgresql.org/docs/10/static/functions-array.html#array-operators-table)shows the operators available for array types.
 

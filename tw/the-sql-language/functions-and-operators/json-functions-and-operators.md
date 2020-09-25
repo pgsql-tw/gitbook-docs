@@ -1,4 +1,4 @@
-# 9.15. JSON 函式及運算子
+# 9.16. JSON 函式及運算子
 
 本節描述的內容為：
 
@@ -7,7 +7,7 @@
 
 要了解有關 SQL/JSON 標準的更多資訊，請參閱 \[[sqltr-19075-6](../../bibliography.md#sqltr-19075-6-sql-technical-report-part-6-sql-support-for-javascript-object-notation-json-first-edition-2017)\]。有關於 PostgreSQL 支援的 JSON 型別的詳細資訊，請參閱[第 8.14 節](../data-types/json-types.md)。
 
-## 9.15.1. Processing and Creating JSON Data
+## 9.16.1. Processing and Creating JSON Data
 
 [Table 9.44](json-functions-and-operators.md#table-9-44-json-and-jsonb-operators) 列出了可用於 JSON 資料型別的運算子（請參閱[第 8.14 節](../data-types/json-types.md)）。
 
@@ -598,7 +598,7 @@ If the _`silent`_ argument is specified and has the `true` value, these function
 
 See also [Section 9.20](https://www.postgresql.org/docs/12/functions-aggregate.html) for the aggregate function `json_agg` which aggregates record values as JSON, and the aggregate function `json_object_agg` which aggregates pairs of values into a JSON object, and their `jsonb` equivalents, `jsonb_agg` and `jsonb_object_agg`.
 
-## 9.15.2. The SQL/JSON Path Language
+## 9.16.2. The SQL/JSON Path Language
 
 SQL/JSON path expressions specify the items to be retrieved from the JSON data, similar to XPath expressions used for SQL access to XML. In PostgreSQL, path expressions are implemented as the `jsonpath` data type and can use any elements described in [Section 8.14.6](https://www.postgresql.org/docs/12/datatype-json.html#DATATYPE-JSONPATH).
 
@@ -708,7 +708,7 @@ PostgreSQL's implementation of SQL/JSON path language has the following deviatio
 
 * There are minor differences in the interpretation of regular expression patterns used in `like_regex` filters, as described in [Section 9.15.2.2](https://www.postgresql.org/docs/12/functions-json.html#JSONPATH-REGULAR-EXPRESSIONS).
 
-### **9.15.2.1. Strict And Lax Modes**
+### **9.16.2.1. Strict And Lax Modes**
 
 When you query JSON data, the path expression may not match the actual JSON data structure. An attempt to access a non-existent member of an object or element of an array results in a structural error. SQL/JSON path expressions have two modes of handling structural errors:
 
@@ -732,7 +732,7 @@ In the strict mode, the specified path must exactly match the structure of the q
 'strict $.track.segments[*].location'
 ```
 
-### **9.15.2.2. Regular Expressions**
+### **9.16.2.2. Regular Expressions**
 
 SQL/JSON path expressions allow matching text to a regular expression with the `like_regex` filter. For example, the following SQL/JSON path query would case-insensitively match all strings in an array that start with an English vowel:
 
@@ -750,7 +750,7 @@ Keep in mind that the pattern argument of `like_regex` is a JSON path string lit
 '$ ? (@ like_regex "^\\d+$")'
 ```
 
-### **9.15.2.3. SQL/JSON Path Operators And Methods**
+### **9.16.2.3. SQL/JSON Path Operators And Methods**
 
 [Table 9.48](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-SQLJSON-OP-TABLE) shows the operators and methods available in `jsonpath`. [Table 9.49](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-SQLJSON-FILTER-EX-TABLE) shows the available filter expression elements.
 

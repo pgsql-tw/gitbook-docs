@@ -2,15 +2,15 @@
 description: 版本：11
 ---
 
-# 9.14. XML 函式
+# 9.15. XML 函式
 
 本節中描述的函數和類函數表示式對 xml 型別的值進行操作。有關 xml 型別的訊息，請查看[第 8.13 節](../data-types/xml-type.md)。這裡不再重複用於轉換為 xml 型別的函數表示式 xmlparse 和 xmlserialize。使用大多數這些函數需要使用 configure --with-libxml 編譯安裝。
 
-## 9.14.1. 産生 XML 內容
+## 9.15.1. 産生 XML 內容
 
 一組函數和類函數的表示式可用於從 SQL 資料産生 XML 內容。因此，它們特別適合將查詢結果格式化為 XML 文件以便在用戶端應用程序中進行處理。
 
-### **9.14.1.1. xmlcomment**
+### **9.15.1.1. xmlcomment**
 
 ```text
 xmlcomment(text)
@@ -28,7 +28,7 @@ SELECT xmlcomment('hello');
  <!--hello-->
 ```
 
-### **9.14.1.2. xmlconcat**
+### **9.15.1.2. xmlconcat**
 
 ```text
 xmlconcat(xml[, ...])
@@ -58,7 +58,7 @@ SELECT xmlconcat('<?xml version="1.1"?><foo/>', '<?xml version="1.1" standalone=
  <?xml version="1.1"?><foo/><bar/>
 ```
 
-### **9.14.1.3. xmlelement**
+### **9.15.1.3. xmlelement**
 
 ```text
 xmlelement(name name [, xmlattributes(value [AS attname] [, ... ])] [, content, ...])
@@ -127,7 +127,7 @@ SELECT xmlelement(name foo, xmlattributes('xyz' as bar),
 
 其他型別的內容將被格式化為有效的 XML 字元資料。這尤其意味著字符 &lt;、&gt; 和 ＆ 將被轉換為其他形式。二進位資料（資料型別 bytea）將以 base64 或十六進位編碼表示，具體取決於組態參數 xmlbinary 的設定。為了使 SQL 和 PostgreSQL 資料型別與 XML Schema 規範保持一致，預計各種資料型別的特定行為將會各自發展，此時將出現更精確的描述。
 
-### **9.14.1.4. xmlforest**
+### **9.15.1.4. xmlforest**
 
 ```text
 xmlforest(content [AS name] [, ...])
@@ -162,7 +162,7 @@ WHERE table_schema = 'pg_catalog';
 
 請注意，如果 XML 序列由多個元素組成，則它們不是有效的 XML 文件，因此將 xmlforest 表示式包裝在 xmlelement 中可能很有用。
 
-### **9.14.1.5. xmlpi**
+### **9.15.1.5. xmlpi**
 
 ```text
 xmlpi(name target [, content])
@@ -180,7 +180,7 @@ SELECT xmlpi(name php, 'echo "hello world";');
  <?php echo "hello world";?>
 ```
 
-### **9.14.1.6. xmlroot**
+### **9.15.1.6. xmlroot**
 
 ```text
 xmlroot(xml, version text | no value [, standalone yes|no|no value])
@@ -198,7 +198,7 @@ SELECT xmlroot(xmlparse(document '<?xml version="1.1"?><content>abc</content>'),
  <content>abc</content>
 ```
 
-### **9.14.1.7. xmlagg**
+### **9.15.1.7. xmlagg**
 
 ```text
 xmlagg(xml)
@@ -236,11 +236,11 @@ SELECT xmlagg(x) FROM (SELECT * FROM test ORDER BY y DESC) AS tab;
  <bar/><foo>abc</foo>
 ```
 
-## 9.14.2. XML Predicates
+## 9.15.2. XML Predicates
 
 本節中描述的表示式用於檢查 xml 的屬性。
 
-### **9.14.2.1. IS DOCUMENT**
+### **9.15.2.1. IS DOCUMENT**
 
 ```text
 xml IS DOCUMENT
@@ -248,7 +248,7 @@ xml IS DOCUMENT
 
 如果參數 XML 是正確的 XML 文件，則表示式 IS DOCUMENT 將回傳 true，如果不是（它是內容片段），則回傳 false；如果參數為 null，則回傳 null。有關文件和內容片段之間的區別，請參閱[第 8.13 節](../data-types/xml-type.md)。
 
-### **9.14.2.2. XMLEXISTS**
+### **9.15.2.2. XMLEXISTS**
 
 ```text
 XMLEXISTS(text PASSING [BY REF] xml [BY REF])
@@ -269,7 +269,7 @@ SELECT xmlexists('//town[text() = ''Toronto'']' PASSING BY REF '<towns><town>Tor
 
 BY REF 子句在 PostgreSQL 中沒有任何作用，但可以達到 SQL 一致性和與其他實作的相容性。根據 SQL 標準，第一個 BY REF 是必需的，第二個是選擇性的。另請注意，SQL 標準指定 xmlexists 構造將 XQuery 表示式作為第一個參數，但 PostgreSQL 目前僅支持 XPath，它是 XQuery 的子集。
 
-### **9.14.2.3. xml\_is\_well\_formed**
+### **9.15.2.3. xml\_is\_well\_formed**
 
 ```text
 xml_is_well_formed(text)
@@ -317,11 +317,11 @@ SELECT xml_is_well_formed_document('<pg:foo xmlns:pg="http://postgresql.org/stuf
 
 最後一個範例顯示檢查包括命名空間是否符合。
 
-## 9.14.3. 處理 XML
+## 9.15.3. 處理 XML
 
 為了處理資料型別為 xml 的值，PostgreSQL 提供了 xpath 和 xpath\_exists 函數，它們用於計算 XPath 1.0 表示式和 XMLTABLE 資料表函數。
 
-### **9.14.3.1. xpath**
+### **9.15.3.1. xpath**
 
 ```text
 xpath(xpath, xml [, nsarray])
@@ -357,7 +357,7 @@ SELECT xpath('//mydefns:b/text()', '<a xmlns="http://example.com"><b>test</b></a
 (1 row)
 ```
 
-### **9.14.3.2. xpath\_exists**
+### **9.15.3.2. xpath\_exists**
 
 ```text
 xpath_exists(xpath, xml [, nsarray])
@@ -377,7 +377,7 @@ SELECT xpath_exists('/my:a/text()', '<my:a xmlns:my="http://example.com">test</m
 (1 row)
 ```
 
-### **9.14.3.3. xmltable**
+### **9.15.3.3. xmltable**
 
 ```text
 xmltable( [XMLNAMESPACES(namespace uri AS namespace name[, ...]), ]
@@ -498,7 +498,7 @@ SELECT xmltable.*
 (3 rows)
 ```
 
-## 9.14.4. Mapping Tables to XML
+## 9.15.4. Mapping Tables to XML
 
 The following functions map the contents of relational tables to XML values. They can be thought of as XML export functionality:
 

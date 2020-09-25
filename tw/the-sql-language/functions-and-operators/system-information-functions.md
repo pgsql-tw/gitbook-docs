@@ -1,4 +1,4 @@
-# 9.25. 系統資訊函數
+# 9.26. 系統資訊函數
 
 [Table 9.63](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-SESSION-TABLE) shows several functions that extract session and system information.
 

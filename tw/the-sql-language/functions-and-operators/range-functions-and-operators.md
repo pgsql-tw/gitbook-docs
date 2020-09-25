@@ -1,4 +1,4 @@
-# 9.19. 範圍函式及運算子
+# 9.20. 範圍函式及運算子
 
 See[Section 8.17](https://www.postgresql.org/docs/10/static/rangetypes.html)for an overview of range types.
 

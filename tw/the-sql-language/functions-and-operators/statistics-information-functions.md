@@ -1,8 +1,8 @@
-# 9.29. Statistics Information Functions
+# 9.30. Statistics Information Functions
 
 PostgreSQL provides a function to inspect complex statistics defined using the `CREATE STATISTICS` command.
 
-## 9.29.1. Inspecting MCV Lists
+## 9.30.1. Inspecting MCV Lists
 
 `pg_mcv_list_items` returns a list of all items stored in a multi-column MCV list, and returns the following columns:
 

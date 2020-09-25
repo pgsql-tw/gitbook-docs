@@ -1,4 +1,4 @@
-# 9.21. Window 函式
+# 9.22. Window 函式
 
 _Window functions_ provide the ability to perform calculations across sets of rows that are related to the current query row. See [Section 3.5](https://www.postgresql.org/docs/12/tutorial-window.html) for an introduction to this feature, and [Section 4.2.8](https://www.postgresql.org/docs/12/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS) for syntax details.
 

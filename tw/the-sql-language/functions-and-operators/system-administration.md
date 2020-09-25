@@ -1,6 +1,6 @@
-# 9.26. 系統管理函式
+# 9.27. 系統管理函式
 
-## 9.26.1. 組態設定函式
+## 9.27.1. 組態設定函式
 
 [Table 9.82](system-administration.md#table-9-82-configuration-settings-functions) 列出了可用於查詢和變更執行階段組態參數的函式。
 
@@ -35,7 +35,7 @@ SELECT set_config('log_statement_stats', 'off', false);
 (1 row)
 ```
 
-## 9.26.2. 伺服器系統信號函數
+## 9.27.2. 伺服器系統信號函數
 
 [Table 9.83](system-administration.md#table-9-83-server-signaling-functions) 中列出的功能將系統控制信號發送到其他伺服器程序。預設情況下，這些功能僅限於超級使用者使用，可以在例外情況使用 GRANT 授予其他人存取權限。
 
@@ -56,7 +56,7 @@ pg\_reload\_conf 向伺服器發送 SIGHUP 信號，會使所有伺服器程序�
 
 pg\_rotate\_logfile 指示日誌檔案管理器立即切換到新的輸出檔案。僅當內建的日誌收集器正在運行時，此函數才有作用，因為沒有日誌檔案管理器的子程序可以操作。
 
-## 9.26.3. Backup Control Functions
+## 9.27.3. Backup Control Functions
 
 The functions shown in [Table 9.84](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-BACKUP-TABLE) assist in making on-line backups. These functions cannot be executed during recovery \(except non-exclusive `pg_start_backup`, non-exclusive `pg_stop_backup`, `pg_is_in_backup`, `pg_backup_start_time` and `pg_wal_lsn_diff`\).
 
@@ -116,7 +116,7 @@ Similarly, `pg_walfile_name` extracts just the write-ahead log file name. When t
 
 For details about proper usage of these functions, see [Section 25.3](https://www.postgresql.org/docs/12/continuous-archiving.html).
 
-## 9.26.4. Recovery Control Functions
+## 9.27.4. Recovery Control Functions
 
 The functions shown in [Table 9.85](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-RECOVERY-INFO-TABLE) provide information about the current status of the standby. These functions may be executed both during recovery and in normal running.
 
@@ -144,7 +144,7 @@ While recovery is paused no further database changes are applied. If in hot stan
 
 If streaming replication is disabled, the paused state may continue indefinitely without problem. While streaming replication is in progress WAL records will continue to be received, which will eventually fill available disk space, depending upon the duration of the pause, the rate of WAL generation and available disk space.
 
-## 9.26.5. Snapshot Synchronization Functions
+## 9.27.5. Snapshot Synchronization Functions
 
 PostgreSQL allows database sessions to synchronize their snapshots. A _snapshot_ determines which data is visible to the transaction that is using the snapshot. Synchronized snapshots are necessary when two or more sessions need to see identical content in the database. If two sessions just start their transactions independently, there is always a possibility that some third transaction commits between the executions of the two `START TRANSACTION` commands, so that one session sees the effects of that transaction and the other does not.
 
@@ -162,7 +162,7 @@ The function `pg_export_snapshot` saves the current snapshot and returns a `text
 
 See [SET TRANSACTION](https://www.postgresql.org/docs/12/sql-set-transaction.html) for details of how to use an exported snapshot.
 
-## 9.26.6. Replication Functions
+## 9.27.6. Replication Functions
 
 The functions shown in [Table 9.88](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-REPLICATION-TABLE) are for controlling and interacting with replication features. See [Section 26.2.5](https://www.postgresql.org/docs/12/warm-standby.html#STREAMING-REPLICATION), [Section 26.2.6](https://www.postgresql.org/docs/12/warm-standby.html#STREAMING-REPLICATION-SLOTS), and [Chapter 49](https://www.postgresql.org/docs/12/replication-origins.html) for information about the underlying features. Use of functions for replication origin is restricted to superusers. Use of functions for replication slot is restricted to superusers and users having `REPLICATION` privilege.
 
@@ -198,7 +198,7 @@ The functions described in [Section 9.26.3](https://www.postgresql.org/docs/12/f
 | `pg_logical_emit_message(`_`transactional`_ `bool`, _`prefix`_ `text`, _`content`_ `text`\) | `pg_lsn` | Emit text logical decoding message. This can be used to pass generic messages to logical decoding plugins through WAL. The parameter _`transactional`_ specifies if the message should be part of current transaction or if it should be written immediately and decoded as soon as the logical decoding reads the record. The _`prefix`_ is textual prefix used by the logical decoding plugins to easily recognize interesting messages for them. The _`content`_ is the text of the message. |
 | `pg_logical_emit_message(`_`transactional`_ `bool`, _`prefix`_ `text`, _`content`_ `bytea`\) | `pg_lsn` | Emit binary logical decoding message. This can be used to pass generic messages to logical decoding plugins through WAL. The parameter _`transactional`_ specifies if the message should be part of current transaction or if it should be written immediately and decoded as soon as the logical decoding reads the record. The _`prefix`_ is textual prefix used by the logical decoding plugins to easily recognize interesting messages for them. The _`content`_ is the binary content of the message. |
 
-## 9.26.7. Database Object Management Functions
+## 9.27.7. Database Object Management Functions
 
 Table 9.89 中列出的函數用於計算資料庫物件的磁碟空間使用情況。
 
@@ -297,7 +297,7 @@ To check the total size of the data contained in `measurement` table described i
 (1 row)
 ```
 
-## 9.26.8. Index Maintenance Functions
+## 9.27.8. Index Maintenance Functions
 
 [Table 9.93](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-INDEX-TABLE) shows the functions available for index maintenance tasks. These functions cannot be executed during recovery. Use of these functions is restricted to superusers and the owner of the given index.
 
@@ -314,7 +314,7 @@ To check the total size of the data contained in `measurement` table described i
 
 `gin_clean_pending_list` accepts the OID or name of a GIN index and cleans up the pending list of the specified index by moving entries in it to the main GIN data structure in bulk. It returns the number of pages removed from the pending list. Note that if the argument is a GIN index built with the `fastupdate` option disabled, no cleanup happens and the return value is 0, because the index doesn't have a pending list. Please see [Section 66.4.1](https://www.postgresql.org/docs/12/gin-implementation.html#GIN-FAST-UPDATE) and [Section 66.5](https://www.postgresql.org/docs/12/gin-tips.html) for details of the pending list and `fastupdate` option.
 
-## 9.26.9. Generic File Access Functions
+## 9.27.9. Generic File Access Functions
 
 The functions shown in [Table 9.94](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-GENFILE-TABLE) provide native access to files on the machine hosting the server. Only files within the database cluster directory and the `log_directory` can be accessed unless the user is granted the role `pg_read_server_files`. Use a relative path for files in the cluster directory, and a path matching the `log_directory` configuration setting for log files.
 
@@ -360,7 +360,7 @@ SELECT * FROM pg_stat_file('filename');
 SELECT (pg_stat_file('filename')).modification;
 ```
 
-## 9.26.10. Advisory Lock Functions
+## 9.27.10. Advisory Lock Functions
 
 The functions shown in [Table 9.95](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS-TABLE) manage advisory locks. For details about proper use of these functions, see [Section 13.3.5](https://www.postgresql.org/docs/12/explicit-locking.html#ADVISORY-LOCKS).
 
