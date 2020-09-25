@@ -9,8 +9,9 @@ description: 本使用手冊由台灣 PostgreSQL 社群提供，翻譯自 Postgr
 每一個頁面均附上[官方手冊](https://www.postgresql.org/docs/current/index.html)對應連結，翻譯未詳盡之處，可對照閱讀。  
 未翻譯完成之段落，將暫以原文（英文）替代。
 
-參與協作請在任何頁面，點選右上角的「**Edit on GitHub**」，修改後直接送 PR 給我們即可。  
-（**只翻一句也可以唷！**）
+參與協作請在任何頁面，點選右上角的「**Edit on GitHub**」，修改後直接送 PR 給我們即可。（**只翻一句也可以唷！**）
+
+下載及安裝指引，請到[官方下載頁面](https://www.postgresql.org/download/)，依您的環境選擇操作步驟。
 
 任何問題或建議可以 Email 給我們的文件小組：[docs@postgresql.tw](mailto:docs@postgresql.tw)
 
