@@ -62,53 +62,77 @@ For more information, see [Chapter 47](https://www.postgresql.org/docs/13/bgwork
 
 A process that writes dirty [data pages](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATA-PAGE) from [shared memory](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-SHARED-MEMORY) to the file system. It wakes up periodically, but works only for a short period in order to distribute its expensive I/O activity over time to avoid generating larger I/O peaks which could block other processes.
 
-For more information, see [Section 19.4.5](https://www.postgresql.org/docs/13/runtime-config-resource.html#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER).Bloat
+For more information, see [Section 19.4.5](https://www.postgresql.org/docs/13/runtime-config-resource.html#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER).
+
+#### Bloat
 
 Space in data pages which does not contain current row versions, such as unused \(free\) space or outdated row versions.Cast
 
 A conversion of a [datum](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATUM) from its current data type to another data type.
 
-For more information, see [CREATE CAST](https://www.postgresql.org/docs/13/sql-createcast.html).Catalog
+For more information, see [CREATE CAST](https://www.postgresql.org/docs/13/sql-createcast.html).
+
+#### Catalog
 
 The SQL standard uses this term to indicate what is called a [database](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATABASE) in PostgreSQL's terminology.
 
 \(Don't confuse this term with [system catalog](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-SYSTEM-CATALOG)\).
 
-For more information, see [Section 22.1](https://www.postgresql.org/docs/13/manage-ag-overview.html).Check constraint
+For more information, see [Section 22.1](https://www.postgresql.org/docs/13/manage-ag-overview.html).
+
+#### Check constraint
 
 A type of [constraint](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-CONSTRAINT) defined on a [relation](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-RELATION) which restricts the values allowed in one or more [attributes](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-ATTRIBUTE). The check constraint can make reference to any attribute of the same row in the relation, but cannot reference other rows of the same relation or other relations.
 
-For more information, see [Section 5.4](https://www.postgresql.org/docs/13/ddl-constraints.html).Checkpoint
+For more information, see [Section 5.4](https://www.postgresql.org/docs/13/ddl-constraints.html).
+
+#### Checkpoint
 
 A point in the [WAL](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-WAL) sequence at which it is guaranteed that the heap and index data files have been updated with all information from [shared memory](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-SHARED-MEMORY) modified before that checkpoint; a _checkpoint record_ is written and flushed to WAL to mark that point.
 
 A checkpoint is also the act of carrying out all the actions that are necessary to reach a checkpoint as defined above. This process is initiated when predefined conditions are met, such as a specified amount of time has passed, or a certain volume of records has been written; or it can be invoked by the user with the command `CHECKPOINT`.
 
-For more information, see [Section 29.4](https://www.postgresql.org/docs/13/wal-configuration.html).Checkpointer \(process\)
+For more information, see [Section 29.4](https://www.postgresql.org/docs/13/wal-configuration.html).
 
-A specialized process responsible for executing checkpoints.Class \(archaic\)
+#### Checkpointer \(process\)
+
+A specialized process responsible for executing checkpoints.
+
+#### Class \(archaic\)
 
 See [Relation](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-RELATION).Client \(process\)
 
-Any process, possibly remote, that establishes a [session](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-SESSION) by [connecting](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-CONNECTION) to an [instance](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-INSTANCE) to interact with a [database](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATABASE).Column
+Any process, possibly remote, that establishes a [session](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-SESSION) by [connecting](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-CONNECTION) to an [instance](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-INSTANCE) to interact with a [database](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATABASE).
+
+#### Column
 
 An [attribute](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-ATTRIBUTE) found in a [table](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-TABLE) or [view](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-VIEW).Commit
 
 The act of finalizing a [transaction](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-TRANSACTION) within the [database](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATABASE), which makes it visible to other transactions and assures its [durability](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DURABILITY).
 
-For more information, see [COMMIT](https://www.postgresql.org/docs/13/sql-commit.html).Concurrency
+For more information, see [COMMIT](https://www.postgresql.org/docs/13/sql-commit.html).
 
-The concept that multiple independent operations happen within the [database](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATABASE) at the same time. In PostgreSQL, concurrency is controlled by the [multiversion concurrency control](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-MVCC) mechanism.Connection
+#### Concurrency
+
+The concept that multiple independent operations happen within the [database](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATABASE) at the same time. In PostgreSQL, concurrency is controlled by the [multiversion concurrency control](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-MVCC) mechanism.
+
+#### Connection
 
 An established line of communication between a client process and a [backend](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-BACKEND) process, usually over a network, supporting a [session](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-SESSION). This term is sometimes used as a synonym for session.
 
-For more information, see [Section 19.3](https://www.postgresql.org/docs/13/runtime-config-connection.html).Consistency
+For more information, see [Section 19.3](https://www.postgresql.org/docs/13/runtime-config-connection.html).
 
-The property that the data in the [database](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATABASE) is always in compliance with [integrity constraints](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-CONSTRAINT). Transactions may be allowed to violate some of the constraints transiently before it commits, but if such violations are not resolved by the time it commits, such a transaction is automatically [rolled back](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-ROLLBACK). This is one of the ACID properties.Constraint
+#### Consistency
+
+The property that the data in the [database](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATABASE) is always in compliance with [integrity constraints](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-CONSTRAINT). Transactions may be allowed to violate some of the constraints transiently before it commits, but if such violations are not resolved by the time it commits, such a transaction is automatically [rolled back](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-ROLLBACK). This is one of the ACID properties.
+
+#### Constraint
 
 A restriction on the values of data allowed within a [table](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-TABLE), or in attributes of a _domain_.
 
-For more information, see [Section 5.4](https://www.postgresql.org/docs/13/ddl-constraints.html).Data area
+For more information, see [Section 5.4](https://www.postgresql.org/docs/13/ddl-constraints.html).
+
+#### Data area
 
 See [Data directory](https://www.postgresql.org/docs/13/glossary.html#GLOSSARY-DATA-DIRECTORY).Database
 
