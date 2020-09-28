@@ -18,39 +18,69 @@ oid2name connects to a target database and extracts OID, filenode, and/or table 
 
 ### Options
 
-oid2name accepts the following command-line arguments:`-f` _`filenode`_
+oid2name accepts the following command-line arguments:
 
-show info for table with filenode _`filenode`_`-i`
+`-f` _`filenode`_
 
-include indexes and sequences in the listing`-o` _`oid`_
+show info for table with filenode 
 
-show info for table with OID _`oid`_`-q`
+_`filenode`_`-i`
 
-omit headers \(useful for scripting\)`-s`
+include indexes and sequences in the listing
 
-show tablespace OIDs`-S`
+`-o` _`oid`_
 
-include system objects \(those in `information_schema`, `pg_toast` and `pg_catalog` schemas\)`-t` _`tablename_pattern`_
+show info for table with OID 
 
-show info for table\(s\) matching _`tablename_pattern`_`-V`  
+_`oid`_`-q`
+
+omit headers \(useful for scripting\)
+
+`-s`
+
+show tablespace OIDs
+
+`-S`
+
+include system objects \(those in `information_schema`, `pg_toast` and `pg_catalog` schemas\)
+
+`-t` _`tablename_pattern`_
+
+show info for table\(s\) matching 
+
+_`tablename_pattern`_`-V`  
 `--version`
 
-Print the oid2name version and exit.`-x`
+Print the oid2name version and exit.
 
-display more information about each object shown: tablespace name, schema name, and OID`-?`  
+`-x`
+
+display more information about each object shown: tablespace name, schema name, and OID
+
+`-?`  
 `--help`
 
 Show help about oid2name command line arguments, and exit.
 
-oid2name also accepts the following command-line arguments for connection parameters:`-d` _`database`_
+oid2name also accepts the following command-line arguments for connection parameters:
 
-database to connect to`-H` _`host`_
+`-d` _`database`_
 
-database server's host`-p` _`port`_
+database to connect to
 
-database server's port`-U` _`username`_
+`-H` _`host`_
 
-user name to connect as`-P` _`password`_
+database server's host
+
+`-p` _`port`_
+
+database server's port
+
+`-U` _`username`_
+
+user name to connect as
+
+`-P` _`password`_
 
 password \(deprecated — putting this on the command line is a security hazard\)
 

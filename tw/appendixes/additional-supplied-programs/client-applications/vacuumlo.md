@@ -16,30 +16,50 @@ All databases named on the command line are processed.
 
 ### Options
 
-vacuumlo accepts the following command-line arguments:`-l` _`limit`_
+vacuumlo accepts the following command-line arguments:
 
-Remove no more than _`limit`_ large objects per transaction \(default 1000\). Since the server acquires a lock per LO removed, removing too many LOs in one transaction risks exceeding [max\_locks\_per\_transaction](https://www.postgresql.org/docs/10/static/runtime-config-locks.html#GUC-MAX-LOCKS-PER-TRANSACTION). Set the limit to zero if you want all removals done in a single transaction.`-n`
+`-l` _`limit`_
 
-Don't remove anything, just show what would be done.`-v`
+Remove no more than _`limit`_ large objects per transaction \(default 1000\). Since the server acquires a lock per LO removed, removing too many LOs in one transaction risks exceeding [max\_locks\_per\_transaction](https://www.postgresql.org/docs/10/static/runtime-config-locks.html#GUC-MAX-LOCKS-PER-TRANSACTION). Set the limit to zero if you want all removals done in a single transaction.
 
-Write a lot of progress messages.`-V`  
+`-n`
+
+Don't remove anything, just show what would be done.
+
+`-v`
+
+Write a lot of progress messages.
+
+`-V`  
 `--version`
 
-Print the vacuumlo version and exit.`-?`  
+Print the vacuumlo version and exit.
+
+`-?`  
 `--help`
 
 Show help about vacuumlo command line arguments, and exit.
 
-vacuumlo also accepts the following command-line arguments for connection parameters:`-h` _`hostname`_
+vacuumlo also accepts the following command-line arguments for connection parameters:
 
-Database server's host.`-p` _`port`_
+`-h` _`hostname`_
 
-Database server's port.`-U` _`username`_
+Database server's host.
 
-User name to connect as.`-w`  
+`-p` _`port`_
+
+Database server's port.
+
+`-U` _`username`_
+
+User name to connect as.
+
+`-w`  
 `--no-password`
 
-Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a `.pgpass` file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.`-W`
+Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a `.pgpass` file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.
+
+`-W`
 
 Force vacuumlo to prompt for a password before connecting to a database.
 

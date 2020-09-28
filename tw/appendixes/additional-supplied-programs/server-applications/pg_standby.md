@@ -32,24 +32,40 @@ In fast failover, the server is brought up immediately. Any WAL files in the arc
 
 ### Options
 
-pg\_standby accepts the following command-line arguments:`-c`
+pg\_standby accepts the following command-line arguments:
+
+`-c`
 
 Use `cp` or `copy` command to restore WAL files from archive. This is the only supported behavior so this option is useless.`-d`
 
-Print lots of debug logging output on `stderr`.`-k`
+Print lots of debug logging output on `stderr`.
 
-Remove files from _`archivelocation`_ so that no more than this many WAL files before the current one are kept in the archive. Zero \(the default\) means not to remove any files from _`archivelocation`_. This parameter will be silently ignored if _`restartwalfile`_ is specified, since that specification method is more accurate in determining the correct archive cut-off point. Use of this parameter is _deprecated_ as of PostgreSQL 8.3; it is safer and more efficient to specify a _`restartwalfile`_ parameter. A too small setting could result in removal of files that are still needed for a restart of the standby server, while a too large setting wastes archive space.`-r` _`maxretries`_
+`-k`
 
-Set the maximum number of times to retry the copy command if it fails \(default 3\). After each failure, we wait for _`sleeptime`_ \* _`num_retries`_ so that the wait time increases progressively. So by default, we will wait 5 secs, 10 secs, then 15 secs before reporting the failure back to the standby server. This will be interpreted as end of recovery and the standby will come up fully as a result.`-s` _`sleeptime`_
+Remove files from _`archivelocation`_ so that no more than this many WAL files before the current one are kept in the archive. Zero \(the default\) means not to remove any files from _`archivelocation`_. This parameter will be silently ignored if _`restartwalfile`_ is specified, since that specification method is more accurate in determining the correct archive cut-off point. Use of this parameter is _deprecated_ as of PostgreSQL 8.3; it is safer and more efficient to specify a _`restartwalfile`_ parameter. A too small setting could result in removal of files that are still needed for a restart of the standby server, while a too large setting wastes archive space.
 
-Set the number of seconds \(up to 60, default 5\) to sleep between tests to see if the WAL file to be restored is available in the archive yet. The default setting is not necessarily recommended; consult [Section 26.2](https://www.postgresql.org/docs/10/static/warm-standby.html) for discussion.`-t` _`triggerfile`_
+`-r` _`maxretries`_
 
-Specify a trigger file whose presence should cause failover. It is recommended that you use a structured file name to avoid confusion as to which server is being triggered when multiple servers exist on the same system; for example `/tmp/pgsql.trigger.5432`.`-V`  
+Set the maximum number of times to retry the copy command if it fails \(default 3\). After each failure, we wait for _`sleeptime`_ \* _`num_retries`_ so that the wait time increases progressively. So by default, we will wait 5 secs, 10 secs, then 15 secs before reporting the failure back to the standby server. This will be interpreted as end of recovery and the standby will come up fully as a result.
+
+`-s` _`sleeptime`_
+
+Set the number of seconds \(up to 60, default 5\) to sleep between tests to see if the WAL file to be restored is available in the archive yet. The default setting is not necessarily recommended; consult [Section 26.2](https://www.postgresql.org/docs/10/static/warm-standby.html) for discussion.
+
+`-t` _`triggerfile`_
+
+Specify a trigger file whose presence should cause failover. It is recommended that you use a structured file name to avoid confusion as to which server is being triggered when multiple servers exist on the same system; for example `/tmp/pgsql.trigger.5432`.
+
+`-V`  
 `--version`
 
-Print the pg\_standby version and exit.`-w` _`maxwaittime`_
+Print the pg\_standby version and exit.
 
-Set the maximum number of seconds to wait for the next WAL file, after which a fast failover will be performed. A setting of zero \(the default\) means wait forever. The default setting is not necessarily recommended; consult [Section 26.2](https://www.postgresql.org/docs/10/static/warm-standby.html) for discussion.`-?`  
+`-w` _`maxwaittime`_
+
+Set the maximum number of seconds to wait for the next WAL file, after which a fast failover will be performed. A setting of zero \(the default\) means wait forever. The default setting is not necessarily recommended; consult [Section 26.2](https://www.postgresql.org/docs/10/static/warm-standby.html) for discussion.
+
+`-?`  
 `--help`
 
 Show help about pg\_standby command line arguments, and exit.
