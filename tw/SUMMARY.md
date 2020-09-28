@@ -714,6 +714,7 @@
     * [F.2. amcheck](appendixes/additional-supplied-modules/amcheck.md)
     * [F.3. auth\_delay](appendixes/additional-supplied-modules/auth_delay.md)
     * [F.4. auto\_explain](appendixes/additional-supplied-modules/auto_explain.md)
+    * [F.5. bloom](appendixes/additional-supplied-modules/bloom.md)
     * [F.6. btree\_gin](appendixes/additional-supplied-modules/btree_gin.md)
     * [F.10. dblink](appendixes/additional-supplied-modules/dblink/README.md)
       * [dblink\_connect](appendixes/additional-supplied-modules/dblink/dblink_connect.md)
