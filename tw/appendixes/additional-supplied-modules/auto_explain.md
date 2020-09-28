@@ -22,13 +22,17 @@ auto\_explain.log\_min\_duration 是記錄語句計劃的最小語句執行時�
 
 auto\_explain.log\_analyze 會在記錄執行計劃時列印 EXPLAIN ANALYZE 輸出，而不僅僅是 EXPLAIN 輸出。預設情況下，此參數處於停用狀態。只有超級使用者才能變更此設定。
 
-### 注意
-
+{% hint style="info" %}
 啟用此參數後，將對所有執行的語句執行每計劃節點計時，無論它們是否執行足夠長時間以實際記錄。這可能會對效能產生極為不利的影響。關閉 auto\_explain.log\_timing 可以獲得較少的訊息，從而改善效能成本。
+{% endhint %}
 
 `auto_explain.log_buffers` \(`boolean`\)
 
 auto\_explain.log\_buffers 控制是否在記錄執行計劃時輸出緩衝區使用情況統計訊息；它相當於 EXPLAIN 的 BUFFERS 選項。除非啟用了 auto\_explain.log\_analyze，否則此參數無效。預鉆水情況下，此參數處於停用狀態。只有超級使用者才能變更改此設定。
+
+`auto_explain.log_wal` \(`boolean`\)
+
+auto\_explain.log\_wal 控制在記錄執行計劃時是否輸出 WAL 使用情況統計資訊。它等同於 EXPLAIN 的 WAL 選項。除非啟用了 auto\_explain.log\_analyze，否則此參數無效。預設情況下，此參數是停用的。只有超級使用者可以變更此設定。
 
 `auto_explain.log_timing` \(`boolean`\)
 
@@ -42,9 +46,17 @@ auto\_explain.log\_triggers 會在記錄執行計劃時包含觸發器執行統�
 
 auto\_explain.log\_verbose 控制是否在記錄執行計劃時輸出詳細訊息；它相當於 EXPLAIN 的 VERBOSE 選項。預設情況下，此參數處於停用狀態。只有超級使用者才能變更此設定。
 
+`auto_explain.log_settings` \(`boolean`\)
+
+auto\_explain.log\_settings 控制記錄執行計劃時是否輸出有關被修改的組態選項資訊。輸出中僅包含影響其值與內建預設值不同的查詢計劃的選項。預設情況下，此參數是停用的。 只有超級使用者可以變更此設定。
+
 `auto_explain.log_format` \(`enum`\)
 
 auto\_explain.log\_format 選擇要使用的 EXPLAIN 輸出格式。允許的值為 text、xml、json 和 yaml。預設為 text。只有超級使用者才能變更此設定。
+
+`auto_explain.log_level` \(`enum`\)
+
+auto\_explain.log\_level 選擇 auto\_explain 將記錄查詢計劃的日誌等級。 有效值為 DEBUG5，DEBUG4，DEBUG3，DEBUG2，DEBUG1，INFO，NOTICE，WARNING 和 LOG。預設值為 LOG。只有超級使用者可以變更此設定。
 
 `auto_explain.log_nested_statements` \(`boolean`\)
 
