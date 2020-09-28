@@ -148,7 +148,9 @@ Show help about initdb command line arguments, and exit.
 
 `PGDATA`
 
-Specifies the directory where the database cluster is to be stored; can be overridden using the `-D` option.`PG_COLOR`
+Specifies the directory where the database cluster is to be stored; can be overridden using the `-D` option.
+
+`PG_COLOR`
 
 Specifies whether to use color in diagnostics messages. Possible values are `always`, `auto`, `never`.`TZ`
 
