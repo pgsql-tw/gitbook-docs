@@ -59,53 +59,77 @@ init 或 initdb 模式將建立一個新的 PostgreSQL 資料庫叢集，也就�
 `-c`  
 `--core-files`
 
-Attempt to allow server crashes to produce core files, on platforms where this is possible, by lifting any soft resource limit placed on core files. This is useful in debugging or diagnosing problems by allowing a stack trace to be obtained from a failed server process.`-D` _`datadir`_  
+Attempt to allow server crashes to produce core files, on platforms where this is possible, by lifting any soft resource limit placed on core files. This is useful in debugging or diagnosing problems by allowing a stack trace to be obtained from a failed server process.
+
+`-D` _`datadir`_  
 `--pgdata=`_`datadir`_
 
-Specifies the file system location of the database configuration files. If this option is omitted, the environment variable `PGDATA` is used.`-l` _`filename`_  
+Specifies the file system location of the database configuration files. If this option is omitted, the environment variable `PGDATA` is used.
+
+`-l` _`filename`_  
 `--log=`_`filename`_
 
-Append the server log output to _`filename`_. If the file does not exist, it is created. The umask is set to 077, so access to the log file is disallowed to other users by default.`-m` _`mode`_  
+Append the server log output to _`filename`_. If the file does not exist, it is created. The umask is set to 077, so access to the log file is disallowed to other users by default.
+
+`-m` _`mode`_  
 `--mode=`_`mode`_
 
-Specifies the shutdown mode. _`mode`_ can be `smart`, `fast`, or `immediate`, or the first letter of one of these three. If this option is omitted, `fast` is the default.`-o` _`options`_  
+Specifies the shutdown mode. _`mode`_ can be `smart`, `fast`, or `immediate`, or the first letter of one of these three. If this option is omitted, `fast` is the default.
+
+`-o` _`options`_  
 `--options=`_`options`_
 
 Specifies options to be passed directly to the `postgres` command. `-o` can be specified multiple times, with all the given options being passed through.
 
-The _`options`_ should usually be surrounded by single or double quotes to ensure that they are passed through as a group.`-o` _`initdb-options`_  
+The _`options`_ should usually be surrounded by single or double quotes to ensure that they are passed through as a group.
+
+`-o` _`initdb-options`_  
 `--options=`_`initdb-options`_
 
 Specifies options to be passed directly to the `initdb` command. `-o` can be specified multiple times, with all the given options being passed through.
 
-The _`initdb-options`_ should usually be surrounded by single or double quotes to ensure that they are passed through as a group.`-p` _`path`_
+The _`initdb-options`_ should usually be surrounded by single or double quotes to ensure that they are passed through as a group.
+
+`-p` _`path`_
 
 Specifies the location of the `postgres` executable. By default the `postgres` executable is taken from the same directory as `pg_ctl`, or failing that, the hard-wired installation directory. It is not necessary to use this option unless you are doing something unusual and get errors that the `postgres` executable was not found.
 
-In `init` mode, this option analogously specifies the location of the `initdb` executable.`-s`  
+In `init` mode, this option analogously specifies the location of the `initdb` executable.
+
+`-s`  
 `--silent`
 
-Print only errors, no informational messages.`-t` _`seconds`_  
+Print only errors, no informational messages.
+
+`-t` _`seconds`_  
 `--timeout=`_`seconds`_
 
-Specifies the maximum number of seconds to wait when waiting for an operation to complete \(see option `-w`\). Defaults to the value of the `PGCTLTIMEOUT` environment variable or, if not set, to 60 seconds.`-V`  
+Specifies the maximum number of seconds to wait when waiting for an operation to complete \(see option `-w`\). Defaults to the value of the `PGCTLTIMEOUT` environment variable or, if not set, to 60 seconds.
+
+`-V`  
 `--version`
 
-Print the pg\_ctl version and exit.`-w`  
+Print the pg\_ctl version and exit.
+
+`-w`  
 `--wait`
 
 Wait for the operation to complete. This is supported for the modes `start`, `stop`, `restart`, `promote`, and `register`, and is the default for those modes.
 
 When waiting, `pg_ctl` repeatedly checks the server's PID file, sleeping for a short amount of time between checks. Startup is considered complete when the PID file indicates that the server is ready to accept connections. Shutdown is considered complete when the server removes the PID file. `pg_ctl` returns an exit code based on the success of the startup or shutdown.
 
-If the operation does not complete within the timeout \(see option `-t`\), then `pg_ctl` exits with a nonzero exit status. But note that the operation might continue in the background and eventually succeed.`-W`  
+If the operation does not complete within the timeout \(see option `-t`\), then `pg_ctl` exits with a nonzero exit status. But note that the operation might continue in the background and eventually succeed.
+
+`-W`  
 `--no-wait`
 
 Do not wait for the operation to complete. This is the opposite of the option `-w`.
 
 If waiting is disabled, the requested action is triggered, but there is no feedback about its success. In that case, the server log file or an external monitoring system would have to be used to check the progress and success of the operation.
 
-In prior releases of PostgreSQL, this was the default except for the `stop` mode.`-?`  
+In prior releases of PostgreSQL, this was the default except for the `stop` mode.
+
+`-?`  
 `--help`
 
 Show help about pg\_ctl command line arguments, and exit.
@@ -116,13 +140,21 @@ If an option is specified that is valid, but not relevant to the selected operat
 
 `-e` _`source`_
 
-Name of the event source for pg\_ctl to use for logging to the event log when running as a Windows service. The default is `PostgreSQL`. Note that this only controls messages sent from pg\_ctl itself; once started, the server will use the event source specified by its [event\_source](https://www.postgresql.org/docs/13/runtime-config-logging.html#GUC-EVENT-SOURCE) parameter. Should the server fail very early in startup, before that parameter has been set, it might also log using the default event source name `PostgreSQL`.`-N` _`servicename`_
+Name of the event source for pg\_ctl to use for logging to the event log when running as a Windows service. The default is `PostgreSQL`. Note that this only controls messages sent from pg\_ctl itself; once started, the server will use the event source specified by its [event\_source](https://www.postgresql.org/docs/13/runtime-config-logging.html#GUC-EVENT-SOURCE) parameter. Should the server fail very early in startup, before that parameter has been set, it might also log using the default event source name `PostgreSQL`.
 
-Name of the system service to register. This name will be used as both the service name and the display name. The default is `PostgreSQL`.`-P` _`password`_
+`-N` _`servicename`_
 
-Password for the user to run the service as.`-S` _`start-type`_
+Name of the system service to register. This name will be used as both the service name and the display name. The default is `PostgreSQL`.
 
-Start type of the system service. _`start-type`_ can be `auto`, or `demand`, or the first letter of one of these two. If this option is omitted, `auto` is the default.`-U` _`username`_
+`-P` _`password`_
+
+Password for the user to run the service as.
+
+`-S` _`start-type`_
+
+Start type of the system service. _`start-type`_ can be `auto`, or `demand`, or the first letter of one of these two. If this option is omitted, `auto` is the default.
+
+`-U` _`username`_
 
 User name for the user to run the service as. For domain users, use the format `DOMAIN\username`.
 
@@ -130,7 +162,9 @@ User name for the user to run the service as. For domain users, use the format `
 
 `PGCTLTIMEOUT`
 
-Default limit on the number of seconds to wait when waiting for startup or shutdown to complete. If not set, the default is 60 seconds.`PGDATA`
+Default limit on the number of seconds to wait when waiting for startup or shutdown to complete. If not set, the default is 60 seconds.
+
+`PGDATA`
 
 Default data directory location.
 
@@ -144,7 +178,9 @@ For additional variables that affect the server, see [postgres](https://www.post
 
 `postmaster.pid`
 
-pg\_ctl examines this file in the data directory to determine whether the server is currently running.`postmaster.opts`
+pg\_ctl examines this file in the data directory to determine whether the server is currently running.
+
+`postmaster.opts`
 
 If this file exists in the data directory, pg\_ctl \(in `restart` mode\) will pass the contents of the file as options to postgres, unless overridden by the `-o` option. The contents of this file are also displayed in `status` mode.
 
@@ -205,7 +241,7 @@ pg_ctl: server is running (PID: 13718)
 
 The second line is the command that would be invoked in restart mode.
 
-### See Also
+### 參閱
 
-[initdb](https://www.postgresql.org/docs/13/app-initdb.html), [postgres](https://www.postgresql.org/docs/13/app-postgres.html)
+[initdb](initdb.md), [postgres](postgres.md)
 
