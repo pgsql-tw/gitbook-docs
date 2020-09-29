@@ -2,11 +2,17 @@
 
 The actual colors to be used are configured using the environment variable `PG_COLORS` \(note plural\). The value is a colon-separated list of _`key`_=_`value`_ pairs. The keys specify what the color is to be used for. The values are SGR \(Select Graphic Rendition\) specifications, which are interpreted by the terminal.
 
-The following keys are currently in use:`error`
+The following keys are currently in use:
 
-used to highlight the text “error” in error messages`warning`
+`error`
 
-used to highlight the text “warning” in warning messages`locus`
+used to highlight the text “error” in error messages
+
+`warning`
+
+used to highlight the text “warning” in warning messages
+
+`locus`
 
 used to highlight location information \(e.g., program name and file name\) in messages
 
