@@ -126,19 +126,19 @@ _`predicate`_
 
 索引的 fillfactor 一個百分比，用於確定索引方法嘗試填充索引頁面的程度。對於B-tree，在初始索引建構期間以及在右側擴展索引時（在插入新的最大索引值時），葉子頁面將填充到此百分比。 如果頁面隨後變得完整，它們將被拆分，導致索引效率逐漸下降。B-tree 使用預設的 fillfactor 為90，但可以選擇 10 到 100 之間的任何整數值。如果資料表是靜態的，那麼 fillfactor 100 能最小化索引的實體大小，但是對於大量更新的資料表，較小的 fillfactor 能最小化頁面拆分的需要。其他索引方法以不同但大致類似的方式使用 fillfactor；預設的 fillfactor 會因方法而異。
 
-B-tree indexes also accept these parameters:
+B-tree 索引也接受以下參數：
 
-`eduplicate_items` \(`boolean`\)
+`deduplicate_items` \(`boolean`\)
 
-Controls usage of the B-tree deduplication technique described in [Section 63.4.2](https://www.postgresql.org/docs/13/btree-implementation.html#BTREE-DEDUPLICATION). Set to `ON` or `OFF` to enable or disable the optimization. \(Alternative spellings of `ON` and `OFF` are allowed as described in [Section 19.1](https://www.postgresql.org/docs/13/config-setting.html).\) The default is `ON`.
+控制[第 63.4.2 節](../../internals/b-tree-indexes/63.4.-implementation.md#63-4-2-deduplication)中所描述的 B-tree 重複資料刪除技術的使用。設定為 ON 或 OFF 以啟用或停用該機制。（如[第 19.1 節](../../server-administration/server-configuration/setting-parameters.md)所述，允許使用 ON 和 OFF 的其他寫法。）預設值為 ON。
 
-#### Note
-
-Turning `deduplicate_items` off via `ALTER INDEX` prevents future insertions from triggering deduplication, but does not in itself make existing posting list tuples use the standard tuple representation.
+{% hint style="info" %}
+透過 ALTER INDEX 關閉 deduplicate\_items 可以防止後續的插入觸發重複資料刪除，但是它本身並不會使現有的資料使用標準資料表示形式。
+{% endhint %}
 
 `vacuum_cleanup_index_scale_factor` \(`floating point`\)
 
-Per-index value for [vacuum\_cleanup\_index\_scale\_factor](https://www.postgresql.org/docs/13/runtime-config-client.html#GUC-VACUUM-CLEANUP-INDEX-SCALE-FACTOR).
+Per-index value for [vacuum\_cleanup\_index\_scale\_factor](../../server-administration/server-configuration/client-connection-defaults.md#vacuum_cleanup_index_scale_factor-floating-point).
 
 GiST 索引另外接受此參數：
 

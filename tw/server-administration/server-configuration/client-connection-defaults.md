@@ -116,6 +116,14 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 指定 VACUUM 在掃描資料表時是使用較新的 transaction ID 或是 multixact ID，來替換多個 multixact ID 的截斷年限（以 multixact 表示）。預設是500萬個 multixact。儘管使用者可以設定此值為 0 到 10 億之間的任何值，但 VACUUM 將自動地將有效值限制為 [autovacuum\_freeze\_max\_age](https://www.gitbook.com/book/pgsql-tw/documents/edit#) 值的一半，以便在強制自動清理之間沒有過短的不合理時間間隔。欲了解更多訊息，請參閱 [第 24.1.5.1 節](https://www.gitbook.com/book/pgsql-tw/documents/edit#)。
 
+#### `vacuum_cleanup_index_scale_factor` \(`floating point`\)
+
+Specifies the fraction of the total number of heap tuples counted in the previous statistics collection that can be inserted without incurring an index scan at the `VACUUM` cleanup stage. This setting currently applies to B-tree indexes only.
+
+If no tuples were deleted from the heap, B-tree indexes are still scanned at the `VACUUM` cleanup stage when at least one of the following conditions is met: the index statistics are stale, or the index contains deleted pages that can be recycled during cleanup. Index statistics are considered to be stale if the number of newly inserted tuples exceeds the `vacuum_cleanup_index_scale_factor` fraction of the total number of heap tuples detected by the previous statistics collection. The total number of heap tuples is stored in the index meta-page. Note that the meta-page does not include this data until `VACUUM` finds no dead tuples, so B-tree index scan at the cleanup stage can only be skipped if the second and subsequent `VACUUM` cycles detect no dead tuples.
+
+The value can range from `0` to `10000000000`. When `vacuum_cleanup_index_scale_factor` is set to `0`, index scans are never skipped during `VACUUM` cleanup. The default value is `0.1`.
+
 #### `bytea_output`\(`enum`\)
 
 設定預設的輸出格式型別為`bytea`。合法的設定值為 hex（預設）和 escape（傳統的 PostgreSQL 格式）。請參閱[第 8.4 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-types/84-binary-data-types.md)取得更多資訊。無論這個設定如何，bytea 型別在輸入時，兩種格式都能接受。
