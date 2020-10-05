@@ -16,9 +16,9 @@ pg\_upgrade 盡最大努力確保新舊叢集是 binary-compatible．例如，�
 
 pg\_upgrade 支援從 8.4.X 及更高版本升級到 PostgreSQL 的目前主要版本，包括快照和 beta 版本。
 
-### Options
+### 選項
 
-pg\_upgrade accepts the following command-line arguments:
+pg\_upgrade 接受以下命令列參數：
 
 `-b` _`bindir`_  
 `--old-bindir=`_`bindir`_
