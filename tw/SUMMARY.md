@@ -586,6 +586,7 @@
     * [pg\_ctl](reference/server-applications/pg_ctl.md)
     * [pg\_standby](reference/server-applications/pg_standby.md)
     * [pg\_test\_timing](reference/server-applications/pg_test_timing.md)
+    * [pg\_upgrade](reference/server-applications/pg_upgrade.md)
     * [postgres](reference/server-applications/postgres.md)
 * [VII. 資料庫進階](internals/README.md)
   * [50. PostgreSQL 的內部架構](internals/overview-of-postgresql-internals/README.md)
