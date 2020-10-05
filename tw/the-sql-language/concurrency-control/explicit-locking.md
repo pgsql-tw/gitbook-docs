@@ -58,9 +58,9 @@ Conflicts with locks of all modes \(`ACCESS SHARE`, `ROW SHARE`, `ROW EXCLUSIVE`
 
 Acquired by the `DROP TABLE`, `TRUNCATE`, `REINDEX`, `CLUSTER`, `VACUUM FULL`, and `REFRESH MATERIALIZED VIEW` \(without `CONCURRENTLY`\) commands. Many forms of `ALTER INDEX` and `ALTER TABLE` also acquire a lock at this level. This is also the default lock mode for `LOCK TABLE` statements that do not specify a mode explicitly.
 
-#### Tip
-
-Only an `ACCESS EXCLUSIVE` lock blocks a `SELECT` \(without `FOR UPDATE/SHARE`\) statement.
+{% hint style="info" %}
+僅 ACCESS EXCLUSIVE 鎖定會阻擋 SELECT（無 FOR UPDATE / SHARE）語句。
+{% endhint %}
 
 Once acquired, a lock is normally held until the end of the transaction. But if a lock is acquired after establishing a savepoint, the lock is released immediately if the savepoint is rolled back to. This is consistent with the principle that `ROLLBACK` cancels all effects of the commands since the savepoint. The same holds for locks acquired within a PL/pgSQL exception block: an error escape from the block releases locks acquired within it.
 
