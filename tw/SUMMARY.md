@@ -240,7 +240,7 @@
   * [24. 例行性資料庫維護工作](server-administration/routine-database-maintenance-tasks/README.md)
     * [24.1. 例行性資料清理](server-administration/routine-database-maintenance-tasks/routine-vacuuming.md)
     * [24.2. 定期重建索引](server-administration/routine-database-maintenance-tasks/routine-reindexing.md)
-    * [24.3. Log File Maintenance](server-administration/routine-database-maintenance-tasks/24.3.-log-file-maintenance.md)
+    * [24.3. Log 檔案維護](server-administration/routine-database-maintenance-tasks/log-file-maintenance.md)
   * [25. 備份及還原](server-administration/25.-bei-fen-ji-huan-yuan/README.md)
     * [25.1. SQL Dump](server-administration/25.-bei-fen-ji-huan-yuan/25.1.-sql-dump.md)
     * [25.2. 檔案系統層級備份](server-administration/25.-bei-fen-ji-huan-yuan/file-system-level-backup.md)

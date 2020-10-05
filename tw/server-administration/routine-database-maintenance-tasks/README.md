@@ -6,9 +6,9 @@
 
 另一個主要類別的維護任務是定期「清理」資料庫。這個活動在[第 24.1 節](routine-vacuuming.md)中討論。與此密切相關的是更新查詢規劃器所使用的統計信息，如[第 24.1.3 節](routine-vacuuming.md#24-1-3-updating-planner-statistics)所述。
 
-另一個需要定期關注的任務是日誌檔案管理。這在[第 24.3 節](24.3.-log-file-maintenance.md)中討論。
+另一個需要定期關注的任務是日誌檔案管理。這在[第 24.3 節](log-file-maintenance.md)中討論。
 
-[check\_postgres](https://bucardo.org/check_postgres/) 可用於監控資料庫執行狀況並回報異常情況。check\_postgres 能與Nagios 和 MRTG 共同運作，但也可以獨立運行。
+[check\_postgres](https://bucardo.org/check_postgres/) 可用於監控資料庫執行狀況並回報異常情況。check\_postgres 能與 Nagios 和 MRTG 共同運作，但也可以獨立運行。
 
 與其他一些資料庫管理系統相比，PostgreSQL 維護費用較低。儘管如此，對這些任務的適當關注將能有效地確保系統的使用上愉快且富有成效的體驗。
 

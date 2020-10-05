@@ -14,19 +14,25 @@ The list below shows the available lock modes and the contexts in which they are
 
 Conflicts with the `ACCESS EXCLUSIVE` lock mode only.
 
-The `SELECT` command acquires a lock of this mode on referenced tables. In general, any query that only _reads_ a table and does not modify it will acquire this lock mode.`ROW SHARE`
+The `SELECT` command acquires a lock of this mode on referenced tables. In general, any query that only _reads_ a table and does not modify it will acquire this lock mode.
+
+`ROW SHARE`
 
 Conflicts with the `EXCLUSIVE` and `ACCESS EXCLUSIVE` lock modes.
 
-The `SELECT FOR UPDATE` and `SELECT FOR SHARE` commands acquire a lock of this mode on the target table\(s\) \(in addition to `ACCESS SHARE` locks on any other tables that are referenced but not selected `FOR UPDATE/FOR SHARE`\).`ROW EXCLUSIVE`
+The `SELECT FOR UPDATE` and `SELECT FOR SHARE` commands acquire a lock of this mode on the target table\(s\) \(in addition to `ACCESS SHARE` locks on any other tables that are referenced but not selected `FOR UPDATE/FOR SHARE`\).
+
+`ROW EXCLUSIVE`
 
 Conflicts with the `SHARE`, `SHARE ROW EXCLUSIVE`, `EXCLUSIVE`, and `ACCESS EXCLUSIVE` lock modes.
 
-The commands `UPDATE`, `DELETE`, and `INSERT` acquire this lock mode on the target table \(in addition to `ACCESS SHARE` locks on any other referenced tables\). In general, this lock mode will be acquired by any command that _modifies data_ in a table.`SHARE UPDATE EXCLUSIVE`
+The commands `UPDATE`, `DELETE`, and `INSERT` acquire this lock mode on the target table \(in addition to `ACCESS SHARE` locks on any other referenced tables\). In general, this lock mode will be acquired by any command that _modifies data_ in a table.
 
-Conflicts with the `SHARE UPDATE EXCLUSIVE`, `SHARE`, `SHARE ROW EXCLUSIVE`, `EXCLUSIVE`, and `ACCESS EXCLUSIVE` lock modes. This mode protects a table against concurrent schema changes and `VACUUM` runs.
+`SHARE UPDATE EXCLUSIVE`
 
-Acquired by `VACUUM` \(without `FULL`\), `ANALYZE`, `CREATE INDEX CONCURRENTLY`, `REINDEX CONCURRENTLY`, `CREATE STATISTICS`, and certain `ALTER INDEX` and `ALTER TABLE` variants \(for full details see [ALTER INDEX](https://www.postgresql.org/docs/12/sql-alterindex.html) and [ALTER TABLE](https://www.postgresql.org/docs/12/sql-altertable.html)\).
+與 SHARE UPDATE EXCLUSIVE、SHARE、SHARE ROW EXCLUSIVE，EXCLUSIVE 和 ACCESS EXCLUSIVE 鎖定模式衝突。此模式可防止資料表發生同時間的資料庫結構變更及 VACUUM 執行。
+
+由 VACUUM（非 FULL）取用，ANALYZE，CREATE INDEX CONCURRENTLY、REINDEX CONCURRENTLY、CREATE STATISTICS 以及某些 ALTER INDEX 和 ALTER TABLE 的指令（有關詳細資訊，請參閱 [ALTER INDEX](../../reference/sql-commands/alter-index.md) 和 [ALTER TABLE](../../reference/sql-commands/alter-table.md)）。
 
 `SHARE`
 
