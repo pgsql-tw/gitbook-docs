@@ -747,7 +747,7 @@
     * [F.29. pg\_stat\_statements](appendixes/additional-supplied-modules/pg_stat_statements.md)
     * [F.31. pg\_trgm](appendixes/additional-supplied-modules/pg_trgm.md)
     * [F.32. pg\_visibility](appendixes/additional-supplied-modules/pg_visibility.md)
-    * [F.33. postgres\_fdw](appendixes/additional-supplied-modules/f.33.-postgres_fdw.md)
+    * [F.33. postgres\_fdw](appendixes/additional-supplied-modules/postgres_fdw.md)
     * [F.35. sepgsql](appendixes/additional-supplied-modules/sepgsql.md)
     * [F.38. tablefunc](appendixes/additional-supplied-modules/tablefunc.md)
     * [F.41. tsm\_system\_rows](appendixes/additional-supplied-modules/tsm_system_rows.md)
