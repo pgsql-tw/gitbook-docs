@@ -1,104 +1,72 @@
 # IMPORT FOREIGN SCHEMA
 
-IMPORT FOREIGN SCHEMA — import table definitions from a foreign server
+IMPORT FOREIGN SCHEMA — 從外部伺服器匯入資料表定義
 
-## Synopsis
+### 語法
 
 ```text
-IMPORT FOREIGN SCHEMA 
-remote_schema
-
-    [ { LIMIT TO | EXCEPT } ( 
-table_name
- [, ...] ) ]
-    FROM SERVER 
-server_name
-
-    INTO 
-local_schema
-
-    [ OPTIONS ( 
-option
- '
-value
-' [, ... ] ) ]
+IMPORT FOREIGN SCHEMA remote_schema
+    [ { LIMIT TO | EXCEPT } ( table_name [, ...] ) ]
+    FROM SERVER server_name
+    INTO local_schema
+    [ OPTIONS ( option 'value' [, ... ] ) ]
 ```
 
-## Description
+### 說明
 
-`IMPORT FOREIGN SCHEMA`creates foreign tables that represent tables existing on a foreign server. The new foreign tables will be owned by the user issuing the command and are created with the correct column definitions and options to match the remote tables.
+IMPORT FOREIGN SCHEMA 會建立外部資料表，這些外部資料表是外部伺服器上現有的資料表。新的外部資料表將由發出命令的使用者所有，並使用正確的欄位定義和選項來建立，以搭配遠端的資料表。
 
-By default, all tables and views existing in a particular schema on the foreign server are imported. Optionally, the list of tables can be limited to a specified subset, or specific tables can be excluded. The new foreign tables are all created in the target schema, which must already exist.
+預設情況下，將導入外部伺服器上特定 schema 中存在的所有資料表和檢視表。可以選擇將資料表限制為指定的名單，也可以排除特定的資料表。所有新的外部資料表都會在目標 schema 中建立，該 schema 必須已經存在。
 
-To use`IMPORT FOREIGN SCHEMA`, the user must have`USAGE`privilege on the foreign server, as well as`CREATE`privilege on the target schema.
+要使用 IMPORT FOREIGN SCHEMA，使用者必須在外部伺服器上具有 USAGE 權限，並在目標 schema 上具有 CREATE 權限。
 
-## Parameters
+### Parameters
 
-`remote_schema`
+_`remote_schema`_
 
 The remote schema to import from. The specific meaning of a remote schema depends on the foreign data wrapper in use.
 
-`LIMIT TO (`
-
-`table_name`
-
-\[, ...\] \)
+`LIMIT TO (` _`table_name`_ \[, ...\] \)
 
 Import only foreign tables matching one of the given table names. Other tables existing in the foreign schema will be ignored.
 
-`EXCEPT (`
-
-`table_name`
-
-\[, ...\] \)
+`EXCEPT (` _`table_name`_ \[, ...\] \)
 
 Exclude specified foreign tables from the import. All tables existing in the foreign schema will be imported except the ones listed here.
 
-`server_name`
+_`server_name`_
 
 The foreign server to import from.
 
-`local_schema`
+_`local_schema`_
 
 The schema in which the imported foreign tables will be created.
 
-`OPTIONS (`
-
-`option`
-
-'
-
-`value`
-
-' \[, ...\] \)
+`OPTIONS (` _`option`_ '_`value`_' \[, ...\] \)
 
 Options to be used during the import. The allowed option names and values are specific to each foreign data wrapper.
 
-## Examples
+### 範例
 
-Import table definitions from a remote schema`foreign_films`on server`film_server`, creating the foreign tables in local schema`films`:
+從伺服器 film\_server 上的遠端 schema foreign\_films 匯入資料表定義，然後在本機 schema films 中建立外部資料表：
 
 ```text
 IMPORT FOREIGN SCHEMA foreign_films
     FROM SERVER film_server INTO films;
 ```
 
-As above, but import only the two tables`actors`and`directors`\(if they exist\):
+如上所述，但僅導入兩個資料表 actors 和 directors（如果它們存在的話）：
 
 ```text
 IMPORT FOREIGN SCHEMA foreign_films LIMIT TO (actors, directors)
     FROM SERVER film_server INTO films;
 ```
 
-## Compatibility
+### 相容性
 
-The`IMPORT FOREIGN SCHEMA`command conforms to theSQLstandard, except that the`OPTIONS`clause is aPostgreSQLextension.
+IMPORT FOREIGN SCHEMA 指令符合 SQL 標準，但 OPTIONS 子句是 PostgreSQL 的延伸功能。
 
-## See Also
+### _`參閱`_
 
-[CREATE FOREIGN TABLE](https://www.postgresql.org/docs/10/static/sql-createforeigntable.html)
-
-,
-
-[CREATE SERVER](https://www.postgresql.org/docs/10/static/sql-createserver.html)
+[CREATE FOREIGN TABLE](create-foreign-table.md), [CREATE SERVER](create-server.md)
 
