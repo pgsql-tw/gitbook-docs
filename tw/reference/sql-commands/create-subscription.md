@@ -19,7 +19,7 @@ CREATE SUBSCRIPTION 為目前資料庫加上一個新的訂閱。訂閱名稱必
 
 將在運行此指令的交易事務提交時啟動邏輯複寫工作程序以複寫新訂閱的資料。
 
-有關訂閱和邏輯複寫完整的訊息，請參閱[第 31.2 節](../../server-administration/logical-replication/31.2.-ding-yue-subscription.md)和[第 31 章](../../server-administration/logical-replication/)。
+有關訂閱和邏輯複寫完整的訊息，請參閱[第 31.2 節](../../server-administration/logical-replication/subscription.md)和[第 31 章](../../server-administration/logical-replication/)。
 
 ### 參數
 
@@ -75,7 +75,7 @@ _`subscription_name`_
 
 ### 注意
 
-有關如何在訂閱和發佈的服服之間配置存取控制的詳細訊息，請參閱[第 31.7 節](../../server-administration/logical-replication/31.7.-an-quan-xing.md)。
+有關如何在訂閱和發佈的服服之間配置存取控制的詳細訊息，請參閱[第 31.7 節](../../server-administration/logical-replication/security.md)。
 
 建立複寫插槽時（預設行為），CREATE SUBSCRIPTION 不能在交易事務區塊內執行。
 
