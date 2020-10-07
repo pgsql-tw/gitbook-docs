@@ -75,7 +75,7 @@ _`subscription_name`_
 
 ### 注意
 
-有關如何在訂閱和發佈的服服之間配置存取控制的詳細訊息，請參閱[第 31.7 節](../../server-administration/logical-replication/security.md)。
+有關如何在訂閱和發佈的服服之間配置存取控制的詳細訊息，請參閱[第 30.7 節](../../server-administration/logical-replication/security.md)。
 
 建立複寫插槽時（預設行為），CREATE SUBSCRIPTION 不能在交易事務區塊內執行。
 
