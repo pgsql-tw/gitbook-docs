@@ -525,6 +525,7 @@
     * [DROP MATERIALIZED VIEW](reference/sql-commands/drop-materialized-view.md)
     * [DROP OWNED](reference/sql-commands/drop-owned.md)
     * [DROP POLICY](reference/sql-commands/drop-policy.md)
+    * [DROP PUBLICATION](reference/sql-commands/drop-publication.md)
     * [DROP ROLE](reference/sql-commands/drop-role.md)
     * [DROP RULE](reference/sql-commands/drop-rule.md)
     * [DROP SCHEMA](reference/sql-commands/drop-schema.md)
