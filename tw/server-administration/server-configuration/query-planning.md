@@ -30,7 +30,7 @@ description: 版本：11
 
 ### `enable_indexonlyscan` \(`boolean`\)
 
-啟用或停用查詢計劃程序使用 index-only 掃描計劃類型（請參閱[第 11.11 節](../../the-sql-language/index/index-only-scans.md)）。預設為開啓。
+啟用或停用查詢計劃程序使用 index-only 掃描計劃類型（請參閱[第 11.11 節]()）。預設為開啓。
 
 ### `enable_material` \(`boolean`\)
 

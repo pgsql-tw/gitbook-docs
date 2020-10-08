@@ -1,8 +1,6 @@
 # 11.12. 檢查索引運用
 
-
-
-雖然 PostgreSQL 中的索引不需要維護或調教，但檢查查詢工作負載實際使用哪些索引仍然很重要。以 [EXPLAIN](../../reference/sql-commands/explain.md) 指令檢查單個查詢的索引使用情況；[第 14.1 節](../performance-tips/using-explain.md)說明了其應用。如[第 28.2 節](../../server-administration/monitoring-database-activity/the-statistics-collector.md)所述，還可以在正在執行的伺服器中收集有關索引使用情況的整體統計訊息。
+雖然 PostgreSQL 中的索引不需要維護或調教，但檢查查詢工作負載實際使用哪些索引仍然很重要。以 [EXPLAIN](../../reference/sql-commands/explain.md) 指令檢查單個查詢的索引使用情況；[第 14.1 節](../performance-tips/using-explain.md)說明了其應用。如[第 27.2 節](../../server-administration/monitoring-database-activity/the-statistics-collector.md)所述，還可以在正在執行的伺服器中收集有關索引使用情況的整體統計訊息。
 
 決定要建立哪些索引的一般過程是很難確定的。在前面幾節的範例中已經顯示了許多典型案例。通常需要進行大量的實驗。本節的剩餘部分提供了一些提示：
 
@@ -12,5 +10,5 @@
 * 如果強制索引使用也確實使用索引，那麼有兩種可能性：系統是正確的並且使用索引確實不合適，或者查詢計劃的成本估算未反映現實。因此，您應該使用和不使用索引來查詢查詢。EXPLAIN ANALYZE 指令在這裡很有用。
 * 如果事實證明成本估算是錯誤的，那麼又有兩種可能性。 總成本是根據每個計劃節點的每行成本乘以計劃節點的可能性估計來計算的。可以透過執行時參數調整計劃節點的估計成本（在[第 19.7.2 節](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)中描述）。可能性估計不準確是由於統計資訊不足。可以透過調整統計訊息收集參數來改進這一點（參閱 [ALTER TABLE](../../reference/sql-commands/alter-table.md)）。
 
-  如果您沒有成功地將成本調整為更合適的情況，那麼您可能不得不明確強制使用索引。您可能還需要聯繫 PostgreSQL 開發人員來檢查問題。
+如果您對查詢成本沒有更好的調整方案了，那麼您可能不得不明確強制使用索引。也許你還需要聯繫 PostgreSQL 開發人員來協同檢查問題。
 
