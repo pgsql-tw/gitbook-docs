@@ -13,7 +13,9 @@ where option can be one of:
     ANALYZE [ boolean ]
     VERBOSE [ boolean ]
     COSTS [ boolean ]
+    SETTINGS [ boolean ]
     BUFFERS [ boolean ]
+    WAL [ boolean ]
     TIMING [ boolean ]
     SUMMARY [ boolean ]
     FORMAT { TEXT | XML | JSON | YAML }
@@ -53,9 +55,17 @@ ROLLBACK;
 
 包括有關每個計劃節點的估計啟動和總成本的訊息，以及估計的資料列數和每個資料列的估計寬度。此參數預設為 TRUE。
 
+`SETTINGS`
+
+Include information on configuration parameters. Specifically, include options affecting query planning with value different from the built-in default value. This parameter defaults to `FALSE`.
+
 `BUFFERS`
 
 加入顯示有關緩衝區使用的訊息。具體來說，包括命中、讀取、弄髒和寫入的共享塊的數量，命中、讀取、弄髒和寫入的本地區塊的數量，以及讀取和寫入的臨時區塊的數量。命中意味著避免了讀取，因為在需要時已經在緩衝區中找到了區塊。共享區塊包含來自一般資料表和索引的資料；本地區塊包含臨時資料表和索引的資料；臨時區塊包含用於排序、映射、具體化計劃節點和類似情況的短期工作資料。髒污的區塊數表示此查詢更改的先前未修改的區塊數量；而寫入的區塊數表示在查詢處理期間由該後端從緩衝區中讀出的先前髒污區塊的數量。為上層節點顯示的塊數包括其所有子節點使用的塊數。在文字格式中，僅輸出非零的值。僅當啟用 ANALYZE 時，才能使用此參數。它預設為 FALSE。
+
+`WAL`
+
+Include information on WAL record generation. Specifically, include the number of records, number of full page images \(fpi\) and amount of WAL bytes generated. In text format, only non-zero values are printed. This parameter may only be used when `ANALYZE` is also enabled. It defaults to `FALSE`.
 
 `TIMING`
 
