@@ -160,7 +160,7 @@ To start the server in standby mode, create a file called `standby.signal` in th
 
 To start the server in targeted recovery mode, create a file called `recovery.signal` in the data directory. If both `standby.signal` and `recovery.signal` files are created, standby mode takes precedence. Targeted recovery mode ends when the archived WAL is fully replayed, or when `recovery_target` is reached. In this mode, the parameters from both this section and [Section 19.5.5](https://www.postgresql.org/docs/12/runtime-config-wal.html#RUNTIME-CONFIG-WAL-RECOVERY-TARGET) will be used.
 
-`restore_command` \(`string`\)
+#### `restore_command` \(`string`\)
 
 The local shell command to execute to retrieve an archived segment of the WAL file series. This parameter is required for archive recovery, but optional for streaming replication. Any `%f` in the string is replaced by the name of the file to retrieve from the archive, and any `%p` is replaced by the copy destination path name on the server. \(The path name is relative to the current working directory, i.e., the cluster's data directory.\) Any `%r` is replaced by the name of the file containing the last valid restart point. That is the earliest file that must be kept to allow a restore to be restartable, so this information can be used to truncate the archive to just the minimum required to support restarting from the current restore. `%r` is typically only used by warm-standby configurations \(see [Section 26.2](https://www.postgresql.org/docs/12/warm-standby.html)\). Write `%%` to embed an actual `%` character.
 
@@ -175,7 +175,7 @@ An exception is that if the command was terminated by a signal \(other than SIGT
 
 This parameter can only be set at server start.
 
-`archive_cleanup_command` \(`string`\)
+#### `archive_cleanup_command` \(`string`\)
 
 This optional parameter specifies a shell command that will be executed at every restartpoint. The purpose of `archive_cleanup_command` is to provide a mechanism for cleaning up old archived WAL files that are no longer needed by the standby server. Any `%r` is replaced by the name of the file containing the last valid restart point. That is the earliest file that must be _kept_ to allow a restore to be restartable, and so all files earlier than `%r` may be safely removed. This information can be used to truncate the archive to just the minimum required to support restart from the current restore. The [pg\_archivecleanup](https://www.postgresql.org/docs/12/pgarchivecleanup.html) module is often used in `archive_cleanup_command` for single-standby configurations, for example:
 
@@ -189,7 +189,7 @@ If the command returns a nonzero exit status then a warning log message will be 
 
 This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
-`recovery_end_command` \(`string`\)
+#### `recovery_end_command` \(`string`\)
 
 This parameter specifies a shell command that will be executed once only at the end of recovery. This parameter is optional. The purpose of the `recovery_end_command` is to provide a mechanism for cleanup following replication or recovery. Any `%r` is replaced by the name of the file containing the last valid restart point, like in [archive\_cleanup\_command](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-ARCHIVE-CLEANUP-COMMAND).
 
@@ -201,41 +201,41 @@ This parameter can only be set in the `postgresql.conf` file or on the server co
 
 By default, recovery will recover to the end of the WAL log. The following parameters can be used to specify an earlier stopping point. At most one of `recovery_target`, `recovery_target_lsn`, `recovery_target_name`, `recovery_target_time`, or `recovery_target_xid` can be used; if more than one of these is specified in the configuration file, an error will be raised. These parameters can only be set at server start.
 
-`recovery_target` `= 'immediate'`
+#### `recovery_target` `= 'immediate'`
 
 This parameter specifies that recovery should end as soon as a consistent state is reached, i.e. as early as possible. When restoring from an online backup, this means the point where taking the backup ended.
 
 Technically, this is a string parameter, but `'immediate'` is currently the only allowed value.
 
-`recovery_target_name` \(`string`\)
+#### `recovery_target_name` \(`string`\)
 
 This parameter specifies the named restore point \(created with `pg_create_restore_point()`\) to which recovery will proceed.
 
-`recovery_target_time` \(`timestamp`\)
+#### `recovery_target_time` \(`timestamp`\)
 
 This parameter specifies the time stamp up to which recovery will proceed. The precise stopping point is also influenced by [recovery\_target\_inclusive](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-RECOVERY-TARGET-INCLUSIVE).
 
-`recovery_target_xid` \(`string`\)
+#### `recovery_target_xid` \(`string`\)
 
 This parameter specifies the transaction ID up to which recovery will proceed. Keep in mind that while transaction IDs are assigned sequentially at transaction start, transactions can complete in a different numeric order. The transactions that will be recovered are those that committed before \(and optionally including\) the specified one. The precise stopping point is also influenced by [recovery\_target\_inclusive](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-RECOVERY-TARGET-INCLUSIVE).
 
-`recovery_target_lsn` \(`pg_lsn`\)
+#### `recovery_target_lsn` \(`pg_lsn`\)
 
 This parameter specifies the LSN of the write-ahead log location up to which recovery will proceed. The precise stopping point is also influenced by [recovery\_target\_inclusive](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-RECOVERY-TARGET-INCLUSIVE). This parameter is parsed using the system data type [`pg_lsn`](https://www.postgresql.org/docs/12/datatype-pg-lsn.html).
 
 The following options further specify the recovery target, and affect what happens when the target is reached:
 
-`recovery_target_inclusive` \(`boolean`\)
+#### `recovery_target_inclusive` \(`boolean`\)
 
 Specifies whether to stop just after the specified recovery target \(`on`\), or just before the recovery target \(`off`\). Applies when [recovery\_target\_lsn](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-RECOVERY-TARGET-LSN), [recovery\_target\_time](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-RECOVERY-TARGET-TIME), or [recovery\_target\_xid](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-RECOVERY-TARGET-XID) is specified. This setting controls whether transactions having exactly the target WAL location \(LSN\), commit time, or transaction ID, respectively, will be included in the recovery. Default is `on`.
 
-`recovery_target_timeline` \(`string`\)
+#### `recovery_target_timeline` \(`string`\)
 
 Specifies recovering into a particular timeline. The value can be a numeric timeline ID or a special value. The value `current` recovers along the same timeline that was current when the base backup was taken. The value `latest` recovers to the latest timeline found in the archive, which is useful in a standby server. `latest` is the default.
 
 You usually only need to set this parameter in complex re-recovery situations, where you need to return to a state that itself was reached after a point-in-time recovery. See [Section 25.3.5](https://www.postgresql.org/docs/12/continuous-archiving.html#BACKUP-TIMELINES) for discussion.
 
-`recovery_target_action` \(`enum`\)
+#### `recovery_target_action` \(`enum`\)
 
 Specifies what action the server should take once the recovery target is reached. The default is `pause`, which means recovery will be paused. `promote` means the recovery process will finish and the server will start to accept connections. Finally `shutdown` will stop the server after reaching the recovery target.
 
