@@ -24,6 +24,10 @@ description: 版本：11
 
 這僅設定 pg\_wal 中保留的最小段落數量；系統可能需要為 WAL 存檔保留更多段落或從檢查點回復。如果 wal\_keep\_segments 為零（預設值），則系統不會為備用目的保留任何額外的段落，因此備用伺服器可用的舊 WAL 段落數是上一個檢查點的位置和WAL 歸檔狀態的函數。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
+`max_slot_wal_keep_size` \(`integer`\)
+
+Specify the maximum size of WAL files that [replication slots](https://www.postgresql.org/docs/13/warm-standby.html#STREAMING-REPLICATION-SLOTS) are allowed to retain in the `pg_wal` directory at checkpoint time. If `max_slot_wal_keep_size` is -1 \(the default\), replication slots may retain an unlimited amount of WAL files. Otherwise, if restart\_lsn of a replication slot falls behind the current LSN by more than the given size, the standby using the slot may no longer be able to continue replication due to removal of required WAL files. You can see the WAL availability of replication slots in [pg\_replication\_slots](https://www.postgresql.org/docs/13/view-pg-replication-slots.html).
+
 `wal_sender_timeout` \(`integer`\)
 
 終止靜止狀態超過指定毫秒數的複寫連線。這對於發送伺服器檢測備用伺服器當機或網路斷線很有用。值為零會停用超時機制。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設值為 60 秒。
@@ -40,7 +44,7 @@ description: 版本：11
 
 指定可支援同步複寫的備用伺服器列表，如[第 26.2.8 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-8-synchronous-replication)中所述。 將有一個或多個線上同步的備用資料庫；在這些備用伺服器確認收到其資料後，將允許等待提交的事務繼續進行。同步備用資料庫將是其名稱出現在此列表中的那些，並且即時以串流傳輸資料（如 [pg\_stat\_replication](../monitoring-database-activity/the-statistics-collector.md) 檢視表中的串流傳輸狀態所示）。指定多個同步備用資料庫可以達到非常高的可用性並防止資料遺失。
 
-用於此目的的備用伺服器的名稱是以備用資料庫的 application\_name 設定，在備用資料庫的連線資訊中設定。如果是物理性複寫的備用，則應在 recovery.conf 中的 primary\_conninfo 設定中進行設定；預設是 walreceiver。對於邏輯性複寫，可以在訂閱的連線訊息中設定，並且預設為訂閱名稱。對於其他複寫的串流使用者，請查閱其文件。
+用於此目的的備用伺服器的名稱是以備用資料庫的 application\_name 設定，在備用資料庫的連線資訊中設定。如果是物理性複寫的備用，則應在 recovery.conf 中的 primary\_conninfo 設定中進行設定；預設的是  [cluster\_name](error-reporting-and-logging.md#cluster_name-string) 的內容，不然就會是 walreceiver。對於邏輯性複寫，可以在訂閱的連線訊息中設定，並且預設為訂閱名稱。對於其他複寫的串流使用者，請查閱其文件。
 
 此參數使用以下任一語法指定備用伺服器列表：
 
@@ -83,6 +87,22 @@ FIRST 和 ANY 都不區分大小寫。 如果將這些關鍵字用作備用伺�
 
 這些設定控制要接收複寫資料的備用伺服器行為，與主伺服器上的設定是無關的。
 
+`primary_conninfo` \(`string`\)
+
+Specifies a connection string to be used for the standby server to connect with a sending server. This string is in the format described in [Section 33.1.1](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNSTRING). If any option is unspecified in this string, then the corresponding environment variable \(see [Section 33.14](https://www.postgresql.org/docs/13/libpq-envars.html)\) is checked. If the environment variable is not set either, then defaults are used.
+
+The connection string should specify the host name \(or address\) of the sending server, as well as the port number if it is not the same as the standby server's default. Also specify a user name corresponding to a suitably-privileged role on the sending server \(see [Section 26.2.5.1](https://www.postgresql.org/docs/13/warm-standby.html#STREAMING-REPLICATION-AUTHENTICATION)\). A password needs to be provided too, if the sender demands password authentication. It can be provided in the `primary_conninfo` string, or in a separate `~/.pgpass` file on the standby server \(use `replication` as the database name\). Do not specify a database name in the `primary_conninfo` string.
+
+This parameter can only be set in the `postgresql.conf` file or on the server command line. If this parameter is changed while the WAL receiver process is running, that process is signaled to shut down and expected to restart with the new setting \(except if `primary_conninfo` is an empty string\). This setting has no effect if the server is not in standby mode.
+
+`primary_slot_name` \(`string`\)
+
+Optionally specifies an existing replication slot to be used when connecting to the sending server via streaming replication to control resource removal on the upstream node \(see [Section 26.2.6](https://www.postgresql.org/docs/13/warm-standby.html#STREAMING-REPLICATION-SLOTS)\). This parameter can only be set in the `postgresql.conf` file or on the server command line. If this parameter is changed while the WAL receiver process is running, that process is signaled to shut down and expected to restart with the new setting. This setting has no effect if `primary_conninfo` is not set or the server is not in standby mode.
+
+`promote_trigger_file` \(`string`\)
+
+Specifies a trigger file whose presence ends recovery in the standby. Even if this value is not set, you can still promote the standby using `pg_ctl promote` or calling `pg_promote()`. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+
 `hot_standby` \(`boolean`\)
 
 指定是否可以在回復期間連線和執行查詢，如[第 26.5 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md)中所述。預設值為 on。 此參數只能在伺服器啟動時設定。它僅在歸檔回復或備機模式下有效。
@@ -98,6 +118,10 @@ FIRST 和 ANY 都不區分大小寫。 如果將這些關鍵字用作備用伺�
 當 Hot Standby 處於啓用狀態時，此參數決定備用伺服器在取消與即將套用的 WAL 項目衝突的備用查詢之前應等待的時間，如[第 26.5.2 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md#26-5-2-handling-query-conflicts)中所述。當透過串流複寫接收 WAL 資料時，套用max\_standby\_streaming\_delay。預設值為 30 秒。如果未指定，則單位為毫秒。值 -1 時允許備用資料庫永遠等待衝突查詢完成。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 請注意，max\_standby\_streaming\_delay 與取消前查詢可以執行的最長時間不同；相反地，它是從主伺服器收到 WAL 資料後允許套用的最大總時間。因此，如果一個查詢導致顯著延遲，則後續衝突查詢將具有更少的寬限時間，直到備用伺服器再次趕上。
+
+`wal_receiver_create_temp_slot` \(`boolean`\)
+
+Specifies whether the WAL receiver process should create a temporary replication slot on the remote instance when no permanent replication slot to use has been configured \(using [primary\_slot\_name](https://www.postgresql.org/docs/13/runtime-config-replication.html#GUC-PRIMARY-SLOT-NAME)\). The default is off. This parameter can only be set in the `postgresql.conf` file or on the server command line. If this parameter is changed while the WAL receiver process is running, that process is signaled to shut down and expected to restart with the new setting.
 
 `wal_receiver_status_interval` \(`integer`\)
 
@@ -121,27 +145,45 @@ Specify how long the standby server should wait when WAL data is not available f
 
 This parameter is useful in configurations where a node in recovery needs to control the amount of time to wait for new WAL data to be available. For example, in archive recovery, it is possible to make the recovery more responsive in the detection of a new WAL log file by reducing the value of this parameter. On a system with low WAL activity, increasing it reduces the amount of requests necessary to access WAL archives, something useful for example in cloud environments where the amount of times an infrastructure is accessed is taken into account.
 
+`recovery_min_apply_delay` \(`integer`\)
+
+By default, a standby server restores WAL records from the sending server as soon as possible. It may be useful to have a time-delayed copy of the data, offering opportunities to correct data loss errors. This parameter allows you to delay recovery by a specified amount of time. For example, if you set this parameter to `5min`, the standby will replay each transaction commit only when the system time on the standby is at least five minutes past the commit time reported by the master. If this value is specified without units, it is taken as milliseconds. The default is zero, adding no delay.
+
+It is possible that the replication delay between servers exceeds the value of this parameter, in which case no delay is added. Note that the delay is calculated between the WAL time stamp as written on master and the current time on the standby. Delays in transfer because of network lag or cascading replication configurations may reduce the actual wait time significantly. If the system clocks on master and standby are not synchronized, this may lead to recovery applying records earlier than expected; but that is not a major issue because useful settings of this parameter are much larger than typical time deviations between servers.
+
+The delay occurs only on WAL records for transaction commits. Other records are replayed as quickly as possible, which is not a problem because MVCC visibility rules ensure their effects are not visible until the corresponding commit record is applied.
+
+The delay occurs once the database in recovery has reached a consistent state, until the standby is promoted or triggered. After that the standby will end recovery without further waiting.
+
+This parameter is intended for use with streaming replication deployments; however, if the parameter is specified it will be honored in all cases except crash recovery. `hot_standby_feedback` will be delayed by use of this feature which could lead to bloat on the master; use both together with care.
+
+#### Warning
+
+Synchronous replication is affected by this setting when `synchronous_commit` is set to `remote_apply`; every `COMMIT` will need to wait to be applied.
+
+This parameter can only be set in the `postgresql.conf` file or on the server command line.
+
 ## 19.6.4. Subscribers
 
-These settings control the behavior of a logical replication subscriber. Their values on the publisher are irrelevant.
+這些設定控制著邏輯複寫訂閱伺服器的行為。它們與發佈者的設定無關。
 
-Note that `wal_receiver_timeout`, `wal_receiver_status_interval` and `wal_retrieve_retry_interval` configuration parameters affect the logical replication workers as well.
+請注意，wal\_receiver\_timeout，wal\_receiver\_status\_interval 和 wal\_retrieve\_retry\_interval 組態參數也會影響邏輯複寫的工作程序。
 
 `max_logical_replication_workers` \(`int`\)
 
-Specifies maximum number of logical replication workers. This includes both apply workers and table synchronization workers.
+指定邏輯複寫工作程序的最大數量。這包括應用工作程序和資料表同步的工作程序。
 
-Logical replication workers are taken from the pool defined by `max_worker_processes`.
+邏輯複寫工作程序來自 max\_worker\_processes 定義的資源池。
 
-The default value is 4.
+預設值為 4。
 
 `max_sync_workers_per_subscription` \(`integer`\)
 
-Maximum number of synchronization workers per subscription. This parameter controls the amount of parallelism of the initial data copy during the subscription initialization or when new tables are added.
+每個訂閱的最大同步工作程序數目。此參數控制訂閱初始化期間或增加新資料表時初始資料副本的平行處理數量。
 
-Currently, there can be only one synchronization worker per table.
+目前，每個資料表只會有一個同步工作程序。
 
-The synchronization workers are taken from the pool defined by `max_logical_replication_workers`.
+同步工作程序來自 max\_logical\_replication\_workers 定義的資源池。
 
-The default value is 2.
+預設值為 2。
 
