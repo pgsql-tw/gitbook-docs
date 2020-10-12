@@ -4,7 +4,7 @@ For additional information on tuning these settings, see [Section 29.4](https://
 
 ## 19.5.1. Settings
 
-`wal_level` \(`enum`\)
+#### `wal_level` \(`enum`\)
 
 `wal_level` determines how much information is written to the WAL. The default value is `replica`, which writes enough data to support WAL archiving and replication, including running read-only queries on a standby server. `minimal` removes all logging except the information required to recover from a crash or immediate shutdown. Finally, `logical` adds information necessary to support logical decoding. Each level includes the information logged at all lower levels. This parameter can only be set at server start.
 
