@@ -12,11 +12,11 @@ description: 版本：11
 
 `max_wal_senders` \(`integer`\)
 
-指定來自備用伺服器或串流複寫備份用戶端的最大同時連線數（即同時運行的 WAL 發送程序的最大數量）。預設值為 10，0 表示停用複寫。WAL 發送方程序也計入連線總數，因此參數不能設定高於 [max\_connections](connections-and-authentication.md#19-3-1-ding)。突然串流用戶端中斷連線可能會導致遺留連線插槽，直到達到超時。因此此參數應設定為略高於預期用戶端的最大數量，以便中斷連線的用戶端可以立即重新連線。此參數只能在伺服器啟動時設定。wal\_level 必須設定為副本或更高版本才能允許來自備用伺服器的連線。
+指定來自備用伺服器或串流複寫備份用戶端的最大同時連線數（即同時運行的 WAL 發送程序的最大數量）。預設值為 10，0 表示停用複寫。WAL 發送方程序也計入連線總數，因此參數不能設定高於 [max\_connections](connections-and-authentication.md#19-3-1-ding)。突然串流用戶端中斷連線可能會導致遺留連線插槽，直到達到超時。因此此參數應設定為略高於預期用戶端的最大數量，以便中斷連線的用戶端可以立即重新連線。此參數只能在伺服器啟動時設定。wal\_level 必須設定為 replica 或更高設定才能允許來自備用伺服器的連線。
 
 `max_replication_slots` \(`integer`\)
 
-指定伺服器可以支援的最大複寫槽數（請參閱[第 26.2.6 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-6-replication-slots)）。預設值為 10。此參數只能在伺服器啟動時設定。必須將 wal\_level 設定為副本或更高版本才能使用複寫槽。將其設定為低於目前現有複寫插槽數的值將阻止伺服器啟動。
+指定伺服器可以支援的最大複寫槽數（請參閱[第 26.2.6 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-6-replication-slots)）。預設值為 10。此參數只能在伺服器啟動時設定。必須將 wal\_level 設定為 replica 或更高設定才能使用複寫槽。將其設定為低於目前現有複寫插槽數的值將阻止伺服器啟動。
 
 `wal_keep_segments` \(`integer`\)
 
@@ -26,7 +26,7 @@ description: 版本：11
 
 `max_slot_wal_keep_size` \(`integer`\)
 
-Specify the maximum size of WAL files that [replication slots](https://www.postgresql.org/docs/13/warm-standby.html#STREAMING-REPLICATION-SLOTS) are allowed to retain in the `pg_wal` directory at checkpoint time. If `max_slot_wal_keep_size` is -1 \(the default\), replication slots may retain an unlimited amount of WAL files. Otherwise, if restart\_lsn of a replication slot falls behind the current LSN by more than the given size, the standby using the slot may no longer be able to continue replication due to removal of required WAL files. You can see the WAL availability of replication slots in [pg\_replication\_slots](https://www.postgresql.org/docs/13/view-pg-replication-slots.html).
+指定在檢查點時間允許[複寫槽\(replication slots\)](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-6-replication-slots)保留在 pg\_wal 目錄中的 WAL 檔案最大大小。如果 max\_slot\_wal\_keep\_size 為 -1（預設值），則複寫槽可能會保留無限數量的 WAL 檔案。否則，如果複寫槽的 restart\_lsn 落後於目前 LSN 超過設定大小，就會刪除所需的 WAL 檔案，使用該複寫槽的備用資料庫可能就不再能夠繼續複寫。您可以在 [pg\_replication\_slots](../../internals/system-catalogs/pg_replication_slots.md) 中看到複寫槽的 WAL 可用性。
 
 `wal_sender_timeout` \(`integer`\)
 

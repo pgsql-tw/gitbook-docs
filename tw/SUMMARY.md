@@ -625,6 +625,7 @@
     * [51.73. pg\_indexes](internals/system-catalogs/pg_indexes.md)
     * [51.74. pg\_locks](internals/system-catalogs/pg_locks.md)
     * [51.79. pg\_replication\_origin\_status](internals/system-catalogs/51.79.-pg_replication_origin_status.md)
+    * [51.80. pg\_replication\_slots](internals/system-catalogs/pg_replication_slots.md)
     * [51.82 pg\_roles](internals/system-catalogs/pg_roles.md)
     * [51.85. pg\_settings](internals/system-catalogs/pg_settings.md)
     * [51.87. pg\_stats](internals/system-catalogs/pg_stats.md)
