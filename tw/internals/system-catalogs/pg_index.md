@@ -1,28 +1,182 @@
 # 51.26 pg\_index
 
-目錄 pg\_index 包含有關索引的部分信息。其餘的大多數是在 pg\_class 中。
+The catalog `pg_index` contains part of the information about indexes. The rest is mostly in `pg_class`.
 
-**Table 51.26. `pg_index` Columns**
+#### **Table 51.26. `pg_index` Columns**
 
-| Name | Type | References | Description |
-| :--- | :--- | :--- | :--- |
-| `indexrelid` | `oid` | \`\`[`pg_class`](pg_class.md).oid | 此索引在 pg\_class 中的 OID |
-| `indrelid` | `oid` | \`\`[`pg_class`](pg_class.md).oid | 此索引對應資料表在 pg\_class 中的 OID |
-| `indnatts` | `int2` |  | 索引中的欄位數（複製自 pg\_class.relnatts） |
-| `indisunique` | `bool` |  | 如果為 true，則這是唯一性索引 |
-| `indisprimary` | `bool` |  | 如果為 true，則此索引表示資料表的主鍵（如果為 true，則 indisunique 應始終為true） |
-| `indisexclusion` | `bool` |  | 如果為 true，則此索引支援排除限制條件 |
-| `indimmediate` | `bool` |  | 如果為 true，則在插入時立即強制執行唯一性檢查（如果 indisunique 不成立則無關緊要） |
-| `indisclustered` | `bool` |  | If true, the table was last clustered on this index |
-| `indisvalid` | `bool` |  | 如果為 true，則索引目前對查詢有效。False 意味著索引可能不完整：它仍然必須通過 INSERT / UPDATE 操作進行修改，但它不能安全地用於查詢。 如果它是唯一的，則唯一性屬性也不保證是真的。 |
-| `indcheckxmin` | `bool` |  | 如果為 true，則查詢必須不使用索引，直到此 pg\_index 資料列的 xmin 低於其 TransactionXmin 事務範圍，因為可以看到該資料表可能包含具有不相容資料列的損壞 HOT 鏈 |
-| `indisready` | `bool` |  | 如果為 true，則索引目前已準備好進行插入。False 表示 INSERT / UPDATE 操作必須忽略索引。 |
-| `indislive` | `bool` |  | 如果為 false，則索引正在被移除，並且應該被忽略用於所有目的（包括 HOT-safety 決策） |
-| `indisreplident` | `bool` |  | If true this index 已使用 ALTER TABLE ... REPLICA IDENTITY 選擇“replica identity”... |
-| `indkey` | `int2vector` | \`\`[`pg_attribute`](pg_attribute.md).attnum | 這是一個 indnatts 陣列，意指此索引所索引的資料表欄位。例如，值為 1 3 意味著第一個和第三個資料表欄位構成索引鍵。此陣列中的零表示相應的索引屬性是資料表欄位上的表示式，而不是簡單的欄位引用。 |
-| `indcollation` | `oidvector` | \`\`[`pg_collation`](pg_collation.md).oid | 對於索引鍵中的每一個欄位，它包含用於索引的排序規則的 OID，如果該欄位不是可合併的資料型別，則為零。 |
-| `indclass` | `oidvector` | \`\`[`pg_opclass`](pg_opclass.md).oid | 對於索引鍵中的每一欄位，它包含要使用的運算子類的 OID。有關詳細訊息，請參閱 [pg\_opclass](pg_opclass.md)。 |
-| `indoption` | `int2vector` |  | 這是一個 indnatts 陣列，用於儲存每個欄位的旗標位元。位元的意義由索引的存取方法定義。 |
-| `indexprs` | `pg_node_tree` |  | 表示式樹（以 nodeToString\(\) 表示），用於不是簡單欄位引用的索引屬性。這是一個列表，其中包含 indkey 中每個零項目的一個元素。如果所有索引屬性都是簡單引用，則為空。 |
-| `indpred` | `pg_node_tree` |  | 部分索引條件的表示式樹（以 nodeToString\(\) 表示）。如果不是部分索引，則為空。 |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">
+        <p>Column Type</p>
+        <p>Description</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indexrelid</code>  <code>oid</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-class.html"><code>pg_class</code></a>.<code>oid</code>)</p>
+        <p>The OID of the <code>pg_class</code> entry for this index</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indrelid</code>  <code>oid</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-class.html"><code>pg_class</code></a>.<code>oid</code>)</p>
+        <p>The OID of the <code>pg_class</code> entry for the table this index is for</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indnatts</code>  <code>int2</code>
+        </p>
+        <p>The total number of columns in the index (duplicates <code>pg_class.relnatts</code>);
+          this number includes both key and included attributes</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indnkeyatts</code>  <code>int2</code>
+        </p>
+        <p>The number of <em>key columns</em> in the index, not counting any <em>included columns</em>,
+          which are merely stored and do not participate in the index semantics</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indisunique</code>  <code>bool</code>
+        </p>
+        <p>If true, this is a unique index</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indisprimary</code>  <code>bool</code>
+        </p>
+        <p>If true, this index represents the primary key of the table (<code>indisunique</code> should
+          always be true when this is true)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indisexclusion</code>  <code>bool</code>
+        </p>
+        <p>If true, this index supports an exclusion constraint</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indimmediate</code>  <code>bool</code>
+        </p>
+        <p>If true, the uniqueness check is enforced immediately on insertion (irrelevant
+          if <code>indisunique</code> is not true)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indisclustered</code>  <code>bool</code>
+        </p>
+        <p>If true, the table was last clustered on this index</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indisvalid</code>  <code>bool</code>
+        </p>
+        <p>If true, the index is currently valid for queries. False means the index
+          is possibly incomplete: it must still be modified by <code>INSERT</code>/<code>UPDATE</code> operations,
+          but it cannot safely be used for queries. If it is unique, the uniqueness
+          property is not guaranteed true either.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indcheckxmin</code>  <code>bool</code>
+        </p>
+        <p>If true, queries must not use the index until the <code>xmin</code> of this <code>pg_index</code> row
+          is below their <code>TransactionXmin</code> event horizon, because the table
+          may contain broken HOT chains with incompatible rows that they can see</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indisready</code>  <code>bool</code>
+        </p>
+        <p>If true, the index is currently ready for inserts. False means the index
+          must be ignored by <code>INSERT</code>/<code>UPDATE</code> operations.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indislive</code>  <code>bool</code>
+        </p>
+        <p>If false, the index is in process of being dropped, and should be ignored
+          for all purposes (including HOT-safety decisions)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indisreplident</code>  <code>bool</code>
+        </p>
+        <p>If true this index has been chosen as &#x201C;replica identity&#x201D;
+          using <code>ALTER TABLE ... REPLICA IDENTITY USING INDEX ...</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indkey</code>  <code>int2vector</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-attribute.html"><code>pg_attribute</code></a>.<code>attnum</code>)</p>
+        <p>This is an array of <code>indnatts</code> values that indicate which table
+          columns this index indexes. For example a value of <code>1 3</code> would
+          mean that the first and the third table columns make up the index entries.
+          Key columns come before non-key (included) columns. A zero in this array
+          indicates that the corresponding index attribute is an expression over
+          the table columns, rather than a simple column reference.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indcollation</code>  <code>oidvector</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-collation.html"><code>pg_collation</code></a>.<code>oid</code>)</p>
+        <p>For each column in the index key (<code>indnkeyatts</code> values), this
+          contains the OID of the collation to use for the index, or zero if the
+          column is not of a collatable data type.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indclass</code>  <code>oidvector</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-opclass.html"><code>pg_opclass</code></a>.<code>oid</code>)</p>
+        <p>For each column in the index key (<code>indnkeyatts</code> values), this
+          contains the OID of the operator class to use. See <a href="https://www.postgresql.org/docs/13/catalog-pg-opclass.html"><code>pg_opclass</code></a> for
+          details.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indoption</code>  <code>int2vector</code>
+        </p>
+        <p>This is an array of <code>indnkeyatts</code> values that store per-column
+          flag bits. The meaning of the bits is defined by the index&apos;s access
+          method.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indexprs</code>  <code>pg_node_tree</code>
+        </p>
+        <p>Expression trees (in <code>nodeToString()</code> representation) for index
+          attributes that are not simple column references. This is a list with one
+          element for each zero entry in <code>indkey</code>. Null if all index attributes
+          are simple references.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indpred</code>  <code>pg_node_tree</code>
+        </p>
+        <p>Expression tree (in <code>nodeToString()</code> representation) for partial
+          index predicate. Null if not a partial index.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
