@@ -5,7 +5,11 @@ REINDEX — 重建索引
 ### 語法
 
 ```text
-REINDEX [ ( VERBOSE ) ] { INDEX | TABLE | SCHEMA | DATABASE | SYSTEM } name
+REINDEX [ ( option [, ...] ) ] { INDEX | TABLE | SCHEMA | DATABASE | SYSTEM } [ CONCURRENTLY ] name
+
+where option can be one of:
+
+    VERBOSE
 ```
 
 ### 說明
@@ -15,7 +19,7 @@ REINDEX 使用索引資料表中所儲存的資料重建索引，替換索引舊
 * 索引損壞，不再包含有效的資料。雖然理論上這種情況永遠不會發生，但實際上索引會因程式錯誤或硬體故障而損壞。REINDEX 提供了一種恢復的方法。
 * 索引變得「臃腫」，即它包含許多空或幾乎空的頁面。在某些不常見的存取模式下，PostgreSQL 中 的 B-tree 索引會發生這種情況。REINDEX 提供了一種透過寫入無死頁的索引新版本來減少索引空間消耗的方法。有關更多訊息，請參閱[第 24.2 節](../../server-administration/routine-database-maintenance-tasks/routine-reindexing.md)。
 * 您變更了索引的儲存參數（例如 fillfactor），並希望確保變更能完全生效。
-* 使用 CONCURRENTLY 選項的索引建構失敗，留下「無效」的索引。 這些索引沒用，但使用 REINDEX 重建它們會很方便。請注意，REINDEX 將不執行同步建構。要在不干擾線上查詢的情況下建構索引，您應該刪除索引並重新發出 CREATE INDEX CONCURRENTLY 指令。
+* 使用 CONCURRENTLY 選項的索引建立失敗，留下「invalid」索引的時候。 這些索引沒辦法使用，但使用 REINDEX 重建它們會很方便。請注意，只有 REINDEX INDEX \(單獨針對一個索引\)的時候才能對無效索引執行平行處理\(CONCURRENTLY\)。
 
 ### 參數
 
@@ -67,7 +71,7 @@ REINDEX 類似於索引的刪除和重新建立，因為索引內容是從頭開
 
 重新索引單個索引或資料表需要成為該索引或資料表的擁有者。重新索引資料庫需要成為資料庫的擁有者（請注意，擁有者因此可以重建其他使用者擁有的資料表索引）。當然，超級使用者總是可以重新索引任何東西。
 
-Reindexing partitioned tables or partitioned indexes is not supported. Each individual partition can be reindexed separately instead.
+不支援直接對分割資料表的父表或分割資料表索引重新編制索引。但每個單獨的子資料表都可以分別重新索引。
 
 #### 同步重建索引
 
