@@ -1,14 +1,50 @@
-# 51.73. pg\_indexes
+# 51.72. pg\_indexes
 
-The view `pg_indexes` provides access to useful information about each index in the database.
+檢視表 pg\_indexes 提供資料庫中每一個索引的資訊。
 
-#### **Table 51.74. `pg_indexes` Columns**
+#### **Table 51.73. `pg_indexes` Columns**
 
-| Name | Type | References | Description |
-| :--- | :--- | :--- | :--- |
-| `schemaname` | `name` | [`pg_namespace`](https://www.postgresql.org/docs/12/catalog-pg-namespace.html).nspname | Name of schema containing table and index |
-| `tablename` | `name` | [`pg_class`](https://www.postgresql.org/docs/12/catalog-pg-class.html).relname | Name of table the index is for |
-| `indexname` | `name` | [`pg_class`](https://www.postgresql.org/docs/12/catalog-pg-class.html).relname | Name of index |
-| `tablespace` | `name` | [`pg_tablespace`](https://www.postgresql.org/docs/12/catalog-pg-tablespace.html).spcname | Name of tablespace containing index \(null if default for database\) |
-| `indexdef` | `text` |  | Index definition \(a reconstructed `CREATE INDEX` command\) |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">
+        <p>Column Type</p>
+        <p>Description</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">
+        <p><code>schemaname</code>  <code>name</code> (references <a href="pg_namespace.md"><code>pg_namespace</code></a>.<code>nspname</code>)</p>
+        <p>Name of schema containing table and index</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>tablename</code>  <code>name</code> (references <a href="pg_class.md"><code>pg_class</code></a>.<code>relname</code>)</p>
+        <p>Name of table the index is for</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indexname</code>  <code>name</code> (references <a href="pg_class.md"><code>pg_class</code></a>.<code>relname</code>)</p>
+        <p>Name of index</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>tablespace</code>  <code>name</code> (references <a href="51.54.-pg_tablespace.md"><code>pg_tablespace</code></a>.<code>spcname</code>)</p>
+        <p>Name of tablespace containing index (null if default for database)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>indexdef</code>  <code>text</code>
+        </p>
+        <p>Index definition (a reconstructed <code>CREATE INDEX</code> command)</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
