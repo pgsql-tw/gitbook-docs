@@ -82,9 +82,15 @@
 
 ## 19.3.2. 安全性與認證
 
-`authentication_timeout` \(`integer`\)
+#### `authentication_timeout` \(`integer`\)
 
 以秒為單位設定用戶端身份驗證的最長時間。如果可能的用戶端在這段時間內還沒有完成認證協議，伺服器將會關閉連線。這可以防止掛起的用戶端無限期地佔用連線。預設值是一分鐘。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
+
+#### `password_encryption` \(`enum`\)
+
+在 [CREATE ROLE](../../reference/sql-commands/create-role.md) 或 [ALTER ROLE](../../reference/sql-commands/alter-role.md) 中指定了密碼後，此參數確定用於加密密碼的演算法。預設值為 md5，它將密碼儲存為 MD5 雜湊值（也可以使用 on，作為 md5 的別名）。將此參數設定為 scram-sha-256 將使用 SCRAM-SHA-256 來加密密碼。
+
+請注意，較舊的用戶端程式可能會缺乏對 SCRAM 身份驗證機制的支援，因此不適用於使用 SCRAM-SHA-256 加密的密碼。有關更多詳細資訊，請參閱 [20.5 節](../client-authentication/password-authentication.md)。
 
 `ssl` \(`boolean`\)
 
