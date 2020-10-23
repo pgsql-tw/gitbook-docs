@@ -421,11 +421,11 @@ The fillfactor for a table is a percentage between 10 and 100. 100 \(complete pa
 
 `toast_tuple_target` \(`integer`\)
 
-The toast\_tuple\_target specifies the minimum tuple length required before we try to move long column values into TOAST tables, and is also the target length we try to reduce the length below once toasting begins. This only affects columns marked as either External or Extended and applies only to new tuples - there is no effect on existing rows. By default this parameter is set to allow at least 4 tuples per block, which with the default blocksize will be 2040 bytes. Valid values are between 128 bytes and the \(blocksize - header\), by default 8160 bytes. Changing this value may not be useful for very short or very long rows. Note that the default setting is often close to optimal, and it is possible that setting this parameter could have negative effects in some cases. This parameter cannot be set for TOAST tables.
+toast\_tuple\_target 指定在嘗試將較長的欄位值移入 TOAST 資料表之前所需的最短位元組長度，也是目標長度，一旦嘗試開始 TOAST，我們就嘗試將長度縮減到其以下的長度。這只會影響標記為「External」或「Extended」的欄位，並且僅適用於新的 tuple - 對已經存在的資料沒有影響。預設情況下，此參數設定為每個區塊至少允許 4 個 tuple，也就是預設的 blocksize 為 2040 位元組。有效值介於 128 位元組和（blocksize - header）之間，其預設為 8160 位元組。對於非常短或非常長的資料列，變更此值可能沒有效果。請注意，預設的設定通常接近最佳值，並且在某些情況下設定此參數可能會產生負面影響。不能為TOAST 資料表設定此參數。
 
 `parallel_workers` \(`integer`\)
 
-This sets the number of workers that should be used to assist a parallel scan of this table. If not set, the system will determine a value based on the relation size. The actual number of workers chosen by the planner or by utility statements that use parallel scans may be less, for example due to the setting of [max\_worker\_processes](https://www.postgresql.org/docs/12/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES).
+此設定了用於輔助對該資料表進行平行掃描的工作程序數量。如果未設定，則系統將根據其關連大小來決定一個值。例如，由於設定了 [max\_worker\_processes](../../server-administration/server-configuration/resource-consumption.md#max_worker_processes-integer)，計劃程序或透過使用平行掃描的工具程式的語句選擇的實際工作程序數量可能會更少。
 
 `autovacuum_enabled`, `toast.autovacuum_enabled` \(`boolean`\)
 

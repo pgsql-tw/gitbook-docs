@@ -148,7 +148,7 @@ bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減�
 
 在受支援的系統上預設值為 1，否則為 0。透過設定同名的 tablespace 參數，可以為特定資料表空間中的資料表覆寫此值（請參閱 [ALTER TABLESPACE](../../reference/sql-commands/alter-tablespace.md)）。
 
-`max_worker_processes` \(`integer`\)
+#### `max_worker_processes` \(`integer`\)
 
 設定系統可以支援的最大背景程序數量。此參數只能在伺服器啟動時設定。預定值為 8。
 
@@ -156,7 +156,7 @@ bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減�
 
 變更此值時，請考慮同步調整 max\_parallel\_workers 和 max\_parallel\_workers\_per\_gather。
 
-`max_parallel_workers_per_gather` \(`integer`\)
+#### `max_parallel_workers_per_gather` \(`integer`\)
 
 設定單個 Gather 或 Gather Merge 節點可以啟動的最大工作程序數量。同時工作程序取自 max\_worker\_processes 建立的程序池，由 max\_parallel\_workers 限制。請注意，請求的工作程序數量在執行時可能實際上不可用。如果發生這種情況，計劃將以比預期更少的工作程序運行，這可能是低效能的。預設值為 2。將此值設定為 0 將停用平行查詢執行。
 
