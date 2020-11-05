@@ -30,5 +30,5 @@ DELETE FROM products
   RETURNING *;
 ```
 
-如果目標資料表上有觸發函數的話（[第 38 章](../../server-programming/triggers.md)），則可用於 RETURNING 的資料是由該觸發函數所修改的資料列。因此，由觸發函數計算檢查欄位是 RETURNING 的另一個常見用法。
+如果目標資料表上有觸發函數的話（[第 38 章](../../server-programming/triggers/)），則可用於 RETURNING 的資料是由該觸發函數所修改的資料列。因此，由觸發函數計算檢查欄位是 RETURNING 的另一個常見用法。
 
