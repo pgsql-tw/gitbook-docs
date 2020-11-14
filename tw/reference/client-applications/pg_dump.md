@@ -101,15 +101,15 @@ Output a `tar`-format archive suitable for input into pg\_restore. The tar forma
 `-j` _`njobs`_  
 `--jobs=`_`njobs`_
 
-Run the dump in parallel by dumping _`njobs`_ tables simultaneously. This option reduces the time of the dump but it also increases the load on the database server. You can only use this option with the directory output format because this is the only output format where multiple processes can write their data at the same time.
+同時執行匯出 njobs 個資料表。此選項可以節省匯出的時間，但同時也增加了資料庫伺服器上的負載。您只能將此選項與 directory 輸出格式一起使用，因為這是多個程序可以同時寫入資料的唯一輸出方式。
 
-pg\_dump will open _`njobs`_ + 1 connections to the database, so make sure your [max\_connections](https://www.postgresql.org/docs/11/runtime-config-connection.html#GUC-MAX-CONNECTIONS) setting is high enough to accommodate all connections.
+pg\_dump 將打開 njobs + 1 個到資料庫的連線，因此請確保您的 [max\_connections](../../server-administration/server-configuration/connections-and-authentication.md#max_connections-integer) 設定足夠多以容納所有連線。
 
-Requesting exclusive locks on database objects while running a parallel dump could cause the dump to fail. The reason is that the pg\_dump master process requests shared locks on the objects that the worker processes are going to dump later in order to make sure that nobody deletes them and makes them go away while the dump is running. If another client then requests an exclusive lock on a table, that lock will not be granted but will be queued waiting for the shared lock of the master process to be released. Consequently any other access to the table will not be granted either and will queue after the exclusive lock request. This includes the worker process trying to dump the table. Without any precautions this would be a classic deadlock situation. To detect this conflict, the pg\_dump worker process requests another shared lock using the `NOWAIT` option. If the worker process is not granted this shared lock, somebody else must have requested an exclusive lock in the meantime and there is no way to continue with the dump, so pg\_dump has no choice but to abort the dump.
+在執行平行匯出時，對資料庫物件請求 exclusive locks \(獨佔鎖定\)可能會導致匯出失敗。原因是 pg\_dump 主要程序會對工作程序稍後將要匯出的物件請求 shared locks \(共享鎖定\)，以確保沒有人會移除它們而在執行匯出時使它們消失。如果另一個用戶端隨後請求對資料進行獨佔鎖定，則不會授予該鎖定，它會排隊等待主要程序的共享鎖定被釋放。因此，對該資料表的任何其他存取也不會被允許，並且將排在排他鎖定請求之後。這當然也包括了嘗試匯出資料表的工作程序。如果沒有任何預防措施，這將是典型的 deadlock 情況。為了發現到這種衝突，pg\_dump worker 程序使用 NOWAIT 選項請求另一個共享鎖定。如果未向工作程序授予該共享鎖定，那麼其他人在此期間必須已請求獨占鎖定，否則無法繼續進行匯出工作，因此 pg\_dump 別無選擇，只能中止匯出。
 
-For a consistent backup, the database server needs to support synchronized snapshots, a feature that was introduced in PostgreSQL 9.2 for primary servers and 10 for standbys. With this feature, database clients can ensure they see the same data set even though they use different connections. `pg_dump -j` uses multiple database connections; it connects to the database once with the master process and once again for each worker job. Without the synchronized snapshot feature, the different worker jobs wouldn't be guaranteed to see the same data in each connection, which could lead to an inconsistent backup.
+為了實現備份的一致性，資料庫伺服器需要支援同步快照，這是 PostgreSQL 9.2 中針對主要伺服器引入的功能，針對備用伺服器引入了此功能是在版本 10 的時候。使用此功能，即使資料庫用戶端使用不同的連線，也可以確保他們看到相同的資料集。 pg\_dump -j 使用多個資料庫連接； 它透過主要程序一次連線到資料庫，並針對每個工作程序再次連線到資料庫。如果沒有同步快照功能，將無法保證不同的工作程序在每個連線中都看到相同的資料，這就可能導致備份的不一致。
 
-If you want to run a parallel dump of a pre-9.2 server, you need to make sure that the database content doesn't change from between the time the master connects to the database until the last worker job has connected to the database. The easiest way to do this is to halt any data modifying processes \(DDL and DML\) accessing the database before starting the backup. You also need to specify the `--no-synchronized-snapshots` parameter when running `pg_dump -j` against a pre-9.2 PostgreSQL server.
+如果要在 9.2 之前版本伺服器的平行匯出，則需要確保從主伺服器連線到資料庫到最後一個工作程序作業連線到資料庫之間的時間裡，資料庫內容沒有變化。 最簡單的方法是在開始備份之前，停止所有資料庫的資料修改程序（包含 DDL 和 DML）。在9.2版之前的 PostgreSQL 服務器上執行 pg\_dump -j 時，還需要指定 --no-synchronized-snapshots 參數。
 
 `-n` _`schema`_  
 `--schema=`_`schema`_

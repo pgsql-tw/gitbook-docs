@@ -2,27 +2,27 @@
 
 ## 19.3.1. 連線設定
 
-`listen_addresses` \(`string`\)
+#### `listen_addresses` \(`string`\)
 
 指定伺服器監聽用戶端應用程序連線的 TCP/IP 位址。該值採用逗號分隔的主機名稱或數字 IP 位址列表的形式。特殊項目「\*」對應於所有可用的 IP。項目 0.0.0.0 允許監聽所有 IPv4 位址，還有「::」允許監聽所有 IPv6 位址。如果列表為空，則伺服器根本不監聽任何 IP 接口，在這種情況下，就只能使用 Unix-domain socket 來連接它。預設值是 localhost，它只允許進行本地 TCP/IP loopback 連線。儘管用戶端身份驗證（[第 20 章](../client-authentication/)）允許對誰可以存取伺服器進行細維的控制，但 listen\_addresses 控制哪些 IP 接受連線嘗試，這有助於防止在不安全的網路接口上重複發出惡意的連線請求。此參數只能在伺服器啟動時設定。
 
-`port` \(`integer`\)
+#### `port` \(`integer`\)
 
 伺服器監聽的 TCP 連接埠；預設是 5432。請注意，相同的連接埠號號用於伺服器監聽的所有 IP 地址。此參數只能在伺服器啟動時設定。
 
-`max_connections` \(`integer`\)
+#### `max_connections` \(`integer`\)
 
 決定資料庫伺服器的最大同時連線數。預設值通常為 100 個連線，但如果您的核心設定不支援它（在 initdb 期間確定），則可能會更少。該參數只能在伺服器啟動時設定。
 
 運行備用伺服器時，必須將此參數設定為與主服務器上相同或更高的值。 否則，查詢將不被允許在備用伺服器中使用。
 
-`superuser_reserved_connections` \(`integer`\)
+#### `superuser_reserved_connections` \(`integer`\)
 
 決定為 PostgreSQL 超級使用者連線保留的連線「插槽」的數量。最多 max\_connections 連線可以同時活動。當活動同時連線的數量為 max\_connections 減去 superuser\_reserved\_connections 以上時，新連線將僅接受超級使用者，並且不會接受新的複寫作業連線。
 
 預設值是三個連線。該值必須小於 max\_connections 的值。此參數只能在伺服器啟動時設定。
 
-`unix_socket_directories` \(`string`\)
+#### `unix_socket_directories` \(`string`\)
 
 指定伺服器要監聽來自用戶端應用程序以 Unix-domain socket 連線的目錄。列出由逗號分隔的多個目錄可以建立多個 socket。項目之間的空白會被忽略；如果您需要在名稱中包含空格或逗號，請用雙引號括住目錄名稱。空值表示不監聽任何 Unix-domain socket，在這種情況下，只有 TCP/IP 協定可用於連線到服務器。預設值通常是 /tmp，但可以在編譯時變更。此參數只能在伺服器啟動時設定。
 
