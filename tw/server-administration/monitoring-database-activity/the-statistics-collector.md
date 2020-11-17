@@ -1318,7 +1318,7 @@ The `pg_stat_bgwriter` view will always have a single row, containing global dat
 
 ## 27.2.11. `pg_stat_database`
 
-The `pg_stat_database` view will contain one row for each database in the cluster, plus one for shared objects, showing database-wide statistics.
+pg\_stat\_database 檢視表將為叢集中的每個資料庫綜合為一筆資料，再加上每個共享物件，列出資料庫層級的統計資訊。
 
 #### **Table 27.21. `pg_stat_database` View**
 
@@ -1434,18 +1434,17 @@ The `pg_stat_database` view will contain one row for each database in the cluste
       <td style="text-align:left">
         <p><code>temp_files</code>  <code>bigint</code>
         </p>
-        <p>Number of temporary files created by queries in this database. All temporary
-          files are counted, regardless of why the temporary file was created (e.g.,
-          sorting or hashing), and regardless of the <a href="https://www.postgresql.org/docs/13/runtime-config-logging.html#GUC-LOG-TEMP-FILES">log_temp_files</a> setting.</p>
+        <p>&#x7531;&#x6B64;&#x8CC7;&#x6599;&#x5EAB;&#x7684;&#x67E5;&#x8A62;&#x6240;&#x5EFA;&#x7ACB;&#x7684;&#x66AB;&#x5B58;&#x6A94;&#x6848;&#x6578;&#x91CF;&#x3002;&#x7121;&#x8AD6;&#x5EFA;&#x7ACB;&#x66AB;&#x5B58;&#x6A94;&#x6848;&#x7684;&#x539F;&#x56E0;&#xFF08;&#x4F8B;&#x5982;&#x6392;&#x5E8F;&#x6216;
+          Hash&#xFF09;&#x5982;&#x4F55;&#xFF0C;&#x4EE5;&#x53CA; <a href="../server-configuration/error-reporting-and-logging.md#log_temp_files-integer">log_temp_files</a> &#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#xFF0C;&#x90FD;&#x6703;&#x5C0D;&#x6240;&#x6709;&#x7684;&#x66AB;&#x5B58;&#x6A94;&#x6848;&#x9032;&#x884C;&#x8A08;&#x6578;&#x3002;</p>
       </td>
     </tr>
     <tr>
       <td style="text-align:left">
         <p><code>temp_bytes</code>  <code>bigint</code>
         </p>
-        <p>Total amount of data written to temporary files by queries in this database.
-          All temporary files are counted, regardless of why the temporary file was
-          created, and regardless of the <a href="https://www.postgresql.org/docs/13/runtime-config-logging.html#GUC-LOG-TEMP-FILES">log_temp_files</a> setting.</p>
+        <p>&#x6B64;&#x8CC7;&#x6599;&#x5EAB;&#x4E2D;&#x7684;&#x67E5;&#x8A62;&#x5BEB;&#x5165;&#x66AB;&#x5B58;&#x6A94;&#x6848;&#x7684;&#x8CC7;&#x6599;&#x7E3D;&#x91CF;&#x3002;&#x7121;&#x8AD6;&#x5EFA;&#x7ACB;&#x66AB;&#x6642;&#x6A94;&#x6848;&#x7684;&#x539F;&#x56E0;&#x4EE5;&#x53CA;
+          <a
+          href="../server-configuration/error-reporting-and-logging.md#log_temp_files-integer">log_temp_files</a>&#x8A2D;&#x5B9A;&#x70BA;&#x4F55;&#xFF0C;&#x90FD;&#x5C07;&#x5C0D;&#x6240;&#x6709;&#x7684;&#x66AB;&#x5B58;&#x6A94;&#x6848;&#x9032;&#x884C;&#x7D71;&#x8A08;&#x3002;</p>
       </td>
     </tr>
     <tr>
@@ -1493,7 +1492,7 @@ The `pg_stat_database` view will contain one row for each database in the cluste
       <td style="text-align:left">
         <p><code>stats_reset</code>  <code>timestamp with time zone</code>
         </p>
-        <p>Time at which these statistics were last reset</p>
+        <p>&#x4E0A;&#x6B21;&#x91CD;&#x7F6E;&#x9019;&#x500B;&#x7D71;&#x8A08;&#x8CC7;&#x8A0A;&#x7684;&#x6642;&#x9593;</p>
       </td>
     </tr>
   </tbody>
