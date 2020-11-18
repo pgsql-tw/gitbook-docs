@@ -615,6 +615,7 @@
     * [51.12. pg\_collation](internals/system-catalogs/pg_collation.md)
     * [51.13. pg\_constraint](internals/system-catalogs/pg_constraint.md)
     * [51.15 pg\_database](internals/system-catalogs/pg_database.md)
+    * [51.21. pg\_event\_trigger](internals/system-catalogs/pg_event_trigger.md)
     * [51.22. pg\_extension](internals/system-catalogs/pg_extension.md)
     * [51.26 pg\_index](internals/system-catalogs/pg_index.md)
     * [51.29. pg\_language](internals/system-catalogs/pg_language.md)
