@@ -626,6 +626,8 @@
     * [51.44. pg\_rewrite](internals/system-catalogs/51.44.-pg_rewrite.md)
     * [51.49. pg\_statistic](internals/system-catalogs/pg_statistic.md)
     * [51.50. pg\_statistic\_ext](internals/system-catalogs/pg_statistic_ext.md)
+    * [51.52. pg\_subscription](internals/system-catalogs/pg_subscription.md)
+    * [51.53. pg\_subscription\_rel](internals/system-catalogs/pg_subscription_rel.md)
     * [51.54. pg\_tablespace](internals/system-catalogs/51.54.-pg_tablespace.md)
     * [51.56. pg\_trigger](internals/system-catalogs/51.56.-pg_trigger.md)
     * [51.62. pg\_type](internals/system-catalogs/pg_type.md)
