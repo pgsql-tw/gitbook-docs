@@ -1251,8 +1251,8 @@ The location of the history file can be set explicitly via the `HISTFILE` psql v
 
 psql 被建構為“console application”。由於 Windows 的 console 視窗使用與系統其餘部分不同的編碼，因此在 psql 中使用 8 位元字元時必須格外小心。如果 psql 檢測到有問題的語系代碼頁，它將在啟動時警告您。要更改語系代碼頁，需要做兩件事：
 
-* Set the code page by entering **`cmd.exe /c chcp 1252`**. \(1252 is a code page that is appropriate for German; replace it with your value.\) If you are using Cygwin, you can put this command in `/etc/profile`.
-* Set the console font to `Lucida Console`, because the raster font does not work with the ANSI code page.
+* 透過執行 cmd.exe /c chcp 1252 來設定語言代碼頁。（1252 是適用於德文的代碼頁；你需要將其代換為你的語言代碼。）如果使用的是 Cygwin，則可以將此命令放在 /etc/profile 中。
+* 將 console 字體設定為 Lucida Console，因為 raster 字體不適用於 ANSI 代碼頁。
 
 ### Examples
 
