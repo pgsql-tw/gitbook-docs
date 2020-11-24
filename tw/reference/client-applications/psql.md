@@ -100,7 +100,7 @@ Specifies the host name of the machine on which the server is running. If the va
 `-H`  
 `--html`
 
-Switches to HTML output mode. This is equivalent to `\pset format html` or the `\H` command.
+切換到 HTML 輸出模式。這等同於 \pset format html或 \H 指令。
 
 `-l`  
 `--list`
