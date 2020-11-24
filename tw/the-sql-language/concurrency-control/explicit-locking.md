@@ -80,29 +80,29 @@ Once acquired, a lock is normally held until the end of the transaction. But if 
 
 ## 13.3.2. Row-Level Locks
 
-In addition to table-level locks, there are row-level locks, which are listed as below with the contexts in which they are used automatically by PostgreSQL. See [Table 13.3](https://www.postgresql.org/docs/12/explicit-locking.html#ROW-LOCK-COMPATIBILITY) for a complete table of row-level lock conflicts. Note that a transaction can hold conflicting locks on the same row, even in different subtransactions; but other than that, two transactions can never hold conflicting locks on the same row. Row-level locks do not affect data querying; they block only _writers and lockers_ to the same row. Row-level locks are released at transaction end or during savepoint rollback, just like table-level locks.
+除資料表層級的鎖定外，還有資料列層級的鎖定，下面列出了這些資料列層級的鎖定以及 PostgreSQL 自動使用它們的情形。有關資料列層級鎖衝突的完整列表，請參閱 [Table 13.3](explicit-locking.md#table-13-3-conflicting-row-level-locks)。請注意，即使在不同的子事務中，事務也可以在同一筆資料上上持有相衝突的鎖定。但是除此之外，兩個事務永遠不能在同一筆資料上持有相衝突的鎖定。資料列層級的鎖定不會影響資料查詢。它們只是阻止同一筆資料的寫入和鎖定。資料列層級的鎖定會在事務結束時或在保存點回溯期間釋放，就像資料表層級的鎖定一樣。
 
 **Row-Level Lock Modes**
 
 `FOR UPDATE`
 
-`FOR UPDATE` causes the rows retrieved by the `SELECT` statement to be locked as though for update. This prevents them from being locked, modified or deleted by other transactions until the current transaction ends. That is, other transactions that attempt `UPDATE`, `DELETE`, `SELECT FOR UPDATE`, `SELECT FOR NO KEY UPDATE`, `SELECT FOR SHARE` or `SELECT FOR KEY SHARE` of these rows will be blocked until the current transaction ends; conversely, `SELECT FOR UPDATE` will wait for a concurrent transaction that has run any of those commands on the same row, and will then lock and return the updated row \(or no row, if the row was deleted\). Within a `REPEATABLE READ` or `SERIALIZABLE` transaction, however, an error will be thrown if a row to be locked has changed since the transaction started. For further discussion see [Section 13.4](https://www.postgresql.org/docs/12/applevel-consistency.html).
+FOR UPDATE 會使 SELECT 語句所檢索到的資料被鎖定，就像是要進行更新一樣。這樣可以防止它們被其他事務鎖定，修改或刪除，直到目前的事務結束為止。也就是說，將阻止其他想要嘗試對於這些資料進行 UPDATE，DELETE，SELECT FOR UPDATE，SELECT FOR NO KEY UPDATE，SELECT FOR SHARE 或 SELECT FOR KEY SHARE 的事務，直到目前事務結束為止。相反地，SELECT FOR UPDATE 將等待在同一筆資料上已經執行了以上這些命令的線上事務，然後將鎖定並回傳更新的資料（如果刪除了該筆資料，則不回傳任何資料）。 但是，在 REPEATABLE READ 或 SERIALIZABLE 事務中，如果從事務起始以來要鎖定的資料已被修改，則將引發錯誤。有關更多討論，請參閱[第 13.4 節](data-consistency-checks-at-the-application-level.md)。
 
-The `FOR UPDATE` lock mode is also acquired by any `DELETE` on a row, and also by an `UPDATE` that modifies the values on certain columns. Currently, the set of columns considered for the `UPDATE` case are those that have a unique index on them that can be used in a foreign key \(so partial indexes and expressional indexes are not considered\), but this may change in the future.
+資料列上的任何 DELETE 以及修改某些欄位值的 UPDATE 也會獲取 FOR UPDATE 鎖定模式。目前在UPDATE情況下考慮使用的欄位集合是可以在外部鍵上使用的唯一索引（因此不考慮部分索引和表式式索引），但是將來可能會有所改變。
 
 `FOR NO KEY UPDATE`
 
-Behaves similarly to `FOR UPDATE`, except that the lock acquired is weaker: this lock will not block `SELECT FOR KEY SHARE` commands that attempt to acquire a lock on the same rows. This lock mode is also acquired by any `UPDATE` that does not acquire a `FOR UPDATE` lock.
+行為與 FOR UPDATE 類似，除了獲取的鎖定較弱勢之外：此鎖定不會阻止試圖獲取同一筆資料上鎖定的 SELECT FOR KEY SHARE 指令。任何不會取得 FOR UPDATE 鎖定的 UPDATE 也會取得此鎖定模式。
 
 `FOR SHARE`
 
-Behaves similarly to `FOR NO KEY UPDATE`, except that it acquires a shared lock rather than exclusive lock on each retrieved row. A shared lock blocks other transactions from performing `UPDATE`, `DELETE`, `SELECT FOR UPDATE` or `SELECT FOR NO KEY UPDATE` on these rows, but it does not prevent them from performing `SELECT FOR SHARE` or `SELECT FOR KEY SHARE`.
+行為類似於 FOR NO KEY UPDATE，不同之處在於它在每筆檢索到的資料上取得一個共享鎖定，而不是互斥鎖定。共享鎖定可以阻止其他事務在這些資料上執行 UPDATE，DELETE，SELECT FOR UPDATE 或 SELECT FOR NO KEY UPDATE，但不會阻止它們執行 SELECT FOR SHARE 或 SELECT FOR KEY SHARE。
 
 `FOR KEY SHARE`
 
-Behaves similarly to `FOR SHARE`, except that the lock is weaker: `SELECT FOR UPDATE` is blocked, but not `SELECT FOR NO KEY UPDATE`. A key-shared lock blocks other transactions from performing `DELETE` or any `UPDATE` that changes the key values, but not other `UPDATE`, and neither does it prevent `SELECT FOR NO KEY UPDATE`, `SELECT FOR SHARE`, or `SELECT FOR KEY SHARE`.
+行為與 FOR SHARE 類似，除了鎖定較弱勢之外：SELECT FOR UPDATE 被阻擋，但 SELECT FOR NO KEY UPDATE 不會。 SELECT FOR NO KEY 鎖定會阻止其他事務執行 DELETE 或任何變更鍵值的 UPDATE 操作，但不會阻止其他 UPDATE 操作，也不會阻止 SELECT FOR NO KEY UPDATE，SELECT FOR SHARE 或 SELECT FOR KEY SHARE。
 
-PostgreSQL doesn't remember any information about modified rows in memory, so there is no limit on the number of rows locked at one time. However, locking a row might cause a disk write, e.g., `SELECT FOR UPDATE` modifies selected rows to mark them locked, and so will result in disk writes.
+PostgreSQL 不會去記住記憶體中已修改資料的任何資訊，因此一次鎖定的資料筆數沒有限制。但是，鎖定一筆資料就可能會導致磁碟寫入行為。例如，SELECT FOR UPDATE 會修改所選資料以將其標記為已鎖定，因此將產生磁碟寫入行為。
 
 #### **Table 13.3. Conflicting Row-Level Locks**
 
@@ -116,7 +116,7 @@ PostgreSQL doesn't remember any information about modified rows in memory, so th
 
 ## 13.3.3. Page-Level Locks
 
-In addition to table and row locks, page-level share/exclusive locks are used to control read/write access to table pages in the shared buffer pool. These locks are released immediately after a row is fetched or updated. Application developers normally need not be concerned with page-level locks, but they are mentioned here for completeness.
+除了資料表和資料列層級的鎖定之外，頁面層級共享/獨占鎖定用於控制對共享緩衝區中資料表頁面的讀寫存取。在取得或更新一筆資料後，就會立即釋放這些鎖定。應用程序開發人員通常不必關心頁面層級的鎖定，但是出於說明完整性的考量，還是在此稍作說明。
 
 ## 13.3.4. Deadlocks
 
@@ -145,7 +145,7 @@ Transaction one attempts to acquire a row-level lock on the specified row, but i
 
 The best defense against deadlocks is generally to avoid them by being certain that all applications using a database acquire locks on multiple objects in a consistent order. In the example above, if both transactions had updated the rows in the same order, no deadlock would have occurred. One should also ensure that the first lock acquired on an object in a transaction is the most restrictive mode that will be needed for that object. If it is not feasible to verify this in advance, then deadlocks can be handled on-the-fly by retrying transactions that abort due to deadlocks.
 
-So long as no deadlock situation is detected, a transaction seeking either a table-level or row-level lock will wait indefinitely for conflicting locks to be released. This means it is a bad idea for applications to hold transactions open for long periods of time \(e.g., while waiting for user input\).
+只要未檢測到死鎖情況，尋求資料表層級或資料列層級鎖定的事務將無限期地等待衝突的鎖定被釋放。 對於應用程序來說，長時間保持事務處於打開狀態（例如，在等待使用者輸入時）不是一件好事。
 
 ## 13.3.5. Advisory Locks
 
