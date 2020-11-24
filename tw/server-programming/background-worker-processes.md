@@ -2,11 +2,11 @@
 
 PostgreSQL can be extended to run user-supplied code in separate processes. Such processes are started, stopped and monitored by `postgres`, which permits them to have a lifetime closely linked to the server's status. These processes have the option to attach to PostgreSQL's shared memory area and to connect to databases internally; they can also run multiple transactions serially, just like a regular client-connected server process. Also, by linking to libpq they can connect to the server and behave like a regular client application.
 
-## Warning
+#### Warning
 
-There are considerable robustness and security risks in using background worker processes because, being written in the `C` language, they have unrestricted access to data. Administrators wishing to enable modules that include background worker process should exercise extreme caution. Only carefully audited modules should be permitted to run background worker processes.
+There are considerable robustness and security risks in using background worker processes because, being written in the `C` language, they have unrestricted access to data. Administrators wishing to enable modules that include background worker processes should exercise extreme caution. Only carefully audited modules should be permitted to run background worker processes.
 
-Background workers can be initialized at the time that PostgreSQL is started by including the module name in `shared_preload_libraries`. A module wishing to run a background worker can register it by calling `RegisterBackgroundWorker(BackgroundWorker *worker`\) from its `_PG_init()`. Background workers can also be started after the system is up and running by calling the function `RegisterDynamicBackgroundWorker(BackgroundWorker *worker, BackgroundWorkerHandle **handle`\). Unlike `RegisterBackgroundWorker`, which can only be called from within the postmaster, `RegisterDynamicBackgroundWorker` must be called from a regular backend.
+Background workers can be initialized at the time that PostgreSQL is started by including the module name in `shared_preload_libraries`. A module wishing to run a background worker can register it by calling `RegisterBackgroundWorker(BackgroundWorker` \*_`worker`_\) from its `_PG_init()` function. Background workers can also be started after the system is up and running by calling `RegisterDynamicBackgroundWorker(BackgroundWorker` \*_`worker`_, `BackgroundWorkerHandle` \*\*_`handle`_\). Unlike `RegisterBackgroundWorker`, which can only be called from within the postmaster process, `RegisterDynamicBackgroundWorker` must be called from a regular backend or another background worker.
 
 The structure `BackgroundWorker` is defined thus:
 
@@ -15,6 +15,7 @@ typedef void (*bgworker_main_type)(Datum main_arg);
 typedef struct BackgroundWorker
 {
     char        bgw_name[BGW_MAXLEN];
+    char        bgw_type[BGW_MAXLEN];
     int         bgw_flags;
     BgWorkerStartTime bgw_start_time;
     int         bgw_restart_time;       /* in seconds, or BGW_NEVER_RESTART */
@@ -26,7 +27,7 @@ typedef struct BackgroundWorker
 } BackgroundWorker;
 ```
 
-`bgw_name` is a string to be used in log messages, process listings and similar contexts.
+`bgw_name` and `bgw_type` are strings to be used in log messages, process listings and similar contexts. `bgw_type` should be the same for all background workers of the same type, so that it is possible to group such workers in a process listing, for example. `bgw_name` on the other hand can contain additional information about the specific process. \(Typically, the string for `bgw_name` will contain the type somehow, but that is not strictly required.\)
 
 `bgw_flags` is a bitwise-or'd bit mask indicating the capabilities that the module wants. Possible values are:`BGWORKER_SHMEM_ACCESS`
 
@@ -34,7 +35,7 @@ Requests shared memory access. Workers without shared memory access cannot acces
 
 Requests the ability to establish a database connection through which it can later run transactions and queries. A background worker using `BGWORKER_BACKEND_DATABASE_CONNECTION` to connect to a database must also attach shared memory using `BGWORKER_SHMEM_ACCESS`, or worker start-up will fail.
 
-`bgw_start_time` is the server state during which `postgres` should start the process; it can be one of `BgWorkerStart_PostmasterStart` \(start as soon as `postgres` itself has finished its own initialization; processes requesting this are not eligible for database connections\), `BgWorkerStart_ConsistentState` \(start as soon as a consistent state has been reached in a hot standby, allowing processes to connect to databases and run read-only queries\), and`BgWorkerStart_RecoveryFinished` \(start as soon as the system has entered normal read-write state\). Note the last two values are equivalent in a server that's not a hot standby. Note that this setting only indicates when the processes are to be started; they do not stop when a different state is reached.
+`bgw_start_time` is the server state during which `postgres` should start the process; it can be one of `BgWorkerStart_PostmasterStart` \(start as soon as `postgres` itself has finished its own initialization; processes requesting this are not eligible for database connections\), `BgWorkerStart_ConsistentState` \(start as soon as a consistent state has been reached in a hot standby, allowing processes to connect to databases and run read-only queries\), and `BgWorkerStart_RecoveryFinished` \(start as soon as the system has entered normal read-write state\). Note the last two values are equivalent in a server that's not a hot standby. Note that this setting only indicates when the processes are to be started; they do not stop when a different state is reached.
 
 `bgw_restart_time` is the interval, in seconds, that `postgres` should wait before restarting the process, in case it crashes. It can be any positive value, or `BGW_NEVER_RESTART`, indicating not to restart the process in case of a crash.
 
@@ -50,7 +51,7 @@ On Windows \(and anywhere else where `EXEC_BACKEND` is defined\) or in dynamic b
 
 `bgw_notify_pid` is the PID of a PostgreSQL backend process to which the postmaster should send `SIGUSR1` when the process is started or exits. It should be 0 for workers registered at postmaster startup time, or when the backend registering the worker does not wish to wait for the worker to start up. Otherwise, it should be initialized to `MyProcPid`.
 
-Once running, the process can connect to a database by calling `BackgroundWorkerInitializeConnection(`_`char *dbname`_, _`char *username`_\) or `BackgroundWorkerInitializeConnectionByOid(`_`Oid dboid`_, _`Oid useroid`_\). This allows the process to run transactions and queries using the `SPI` interface. If `dbname` is NULL or `dboid` is `InvalidOid`, the session is not connected to any particular database, but shared catalogs can be accessed. If `username` is NULL or `useroid` is `InvalidOid`, the process will run as the superuser created during `initdb`. A background worker can only call one of these two functions, and only once. It is not possible to switch databases.
+Once running, the process can connect to a database by calling `BackgroundWorkerInitializeConnection(`_`char *dbname`_, _`char *username`_, _`uint32 flags`_\) or `BackgroundWorkerInitializeConnectionByOid(`_`Oid dboid`_, _`Oid useroid`_, _`uint32 flags`_\). This allows the process to run transactions and queries using the `SPI` interface. If `dbname` is NULL or `dboid` is `InvalidOid`, the session is not connected to any particular database, but shared catalogs can be accessed. If `username` is NULL or `useroid` is `InvalidOid`, the process will run as the superuser created during `initdb`. If `BGWORKER_BYPASS_ALLOWCONN` is specified as `flags` it is possible to bypass the restriction to connect to databases not allowing user connections. A background worker can only call one of these two functions, and only once. It is not possible to switch databases.
 
 Signals are initially blocked when control reaches the background worker's main function, and must be unblocked by it; this is to allow the process to customize its signal handlers, if necessary. Signals can be unblocked in the new process by calling `BackgroundWorkerUnblockSignals` and blocked by calling `BackgroundWorkerBlockSignals`.
 
@@ -58,11 +59,13 @@ If `bgw_restart_time` for a background worker is configured as `BGW_NEVER_RESTAR
 
 When a background worker is registered using the `RegisterDynamicBackgroundWorker` function, it is possible for the backend performing the registration to obtain information regarding the status of the worker. Backends wishing to do this should pass the address of a `BackgroundWorkerHandle *` as the second argument to `RegisterDynamicBackgroundWorker`. If the worker is successfully registered, this pointer will be initialized with an opaque handle that can subsequently be passed to `GetBackgroundWorkerPid(`_`BackgroundWorkerHandle *`_, _`pid_t *`_\) or `TerminateBackgroundWorker(`_`BackgroundWorkerHandle *`_\). `GetBackgroundWorkerPid` can be used to poll the status of the worker: a return value of `BGWH_NOT_YET_STARTED` indicates that the worker has not yet been started by the postmaster; `BGWH_STOPPED` indicates that it has been started but is no longer running; and `BGWH_STARTED` indicates that it is currently running. In this last case, the PID will also be returned via the second argument. `TerminateBackgroundWorker` causes the postmaster to send `SIGTERM` to the worker if it is running, and to unregister it as soon as it is not.
 
-In some cases, a process which registers a background worker may wish to wait for the worker to start up. This can be accomplished by initializing `bgw_notify_pid` to `MyProcPid` and then passing the `BackgroundWorkerHandle *`obtained at registration time to `WaitForBackgroundWorkerStartup(`_`BackgroundWorkerHandle *handle`_, _`pid_t *`_\) function. This function will block until the postmaster has attempted to start the background worker, or until the postmaster dies. If the background runner is running, the return value will `BGWH_STARTED`, and the PID will be written to the provided address. Otherwise, the return value will be `BGWH_STOPPED` or `BGWH_POSTMASTER_DIED`.
+In some cases, a process which registers a background worker may wish to wait for the worker to start up. This can be accomplished by initializing `bgw_notify_pid` to `MyProcPid` and then passing the `BackgroundWorkerHandle *` obtained at registration time to `WaitForBackgroundWorkerStartup(`_`BackgroundWorkerHandle *handle`_, _`pid_t *`_\) function. This function will block until the postmaster has attempted to start the background worker, or until the postmaster dies. If the background worker is running, the return value will be `BGWH_STARTED`, and the PID will be written to the provided address. Otherwise, the return value will be `BGWH_STOPPED` or `BGWH_POSTMASTER_DIED`.
+
+A process can also wait for a background worker to shut down, by using the `WaitForBackgroundWorkerShutdown(`_`BackgroundWorkerHandle *handle`_\) function and passing the `BackgroundWorkerHandle *` obtained at registration. This function will block until the background worker exits, or postmaster dies. When the background worker exits, the return value is `BGWH_STOPPED`, if postmaster dies it will return `BGWH_POSTMASTER_DIED`.
 
 If a background worker sends asynchronous notifications with the `NOTIFY` command via the Server Programming Interface \(SPI\), it should call `ProcessCompletedNotifies` explicitly after committing the enclosing transaction so that any notifications can be delivered. If a background worker registers to receive asynchronous notifications with the `LISTEN` through SPI, the worker will log those notifications, but there is no programmatic way for the worker to intercept and respond to those notifications.
 
 The `src/test/modules/worker_spi` module contains a working example, which demonstrates some useful techniques.
 
-The maximum number of registered background workers is limited by [max\_worker\_processes](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES).
+The maximum number of registered background workers is limited by [max\_worker\_processes](https://www.postgresql.org/docs/13/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES).
 
