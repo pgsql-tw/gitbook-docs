@@ -776,6 +776,7 @@
     * [F.33. postgres\_fdw](appendixes/additional-supplied-modules/postgres_fdw.md)
     * [F.35. sepgsql](appendixes/additional-supplied-modules/sepgsql.md)
     * [F.38. tablefunc](appendixes/additional-supplied-modules/tablefunc.md)
+    * [F.40. test\_decoding](appendixes/additional-supplied-modules/test_decoding.md)
     * [F.41. tsm\_system\_rows](appendixes/additional-supplied-modules/tsm_system_rows.md)
     * [F.42. tsm\_system\_time](appendixes/additional-supplied-modules/tsm_system_time.md)
   * [G. Additional Supplied Programs](appendixes/additional-supplied-programs/README.md)
