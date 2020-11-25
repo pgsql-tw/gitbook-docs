@@ -1,10 +1,10 @@
 # 48. Logical Decoding
 
-PostgreSQL provides infrastructure to stream the modifications performed via SQL to external consumers. This functionality can be used for a variety of purposes, including replication solutions and auditing.
+PostgreSQL 提供了將 SQL 執行的資料變更串流傳輸到外部資料庫的基礎結構。此功能可用於多種目的，包括了複寫解決方案和稽核需求。
 
-Changes are sent out in streams identified by logical replication slots.
+變更會以邏輯複寫插槽的串流形式發送出去。
 
-The format in which those changes are streamed is determined by the output plugin used. An example plugin is provided in the PostgreSQL distribution. Additional plugins can be written to extend the choice of available formats without modifying any core code. Every output plugin has access to each individual new row produced by `INSERT` and the new row version created by `UPDATE`. Availability of old row versions for `UPDATE` and `DELETE` depends on the configured replica identity \(see [`REPLICA IDENTITY`](https://www.postgresql.org/docs/13/sql-altertable.html#SQL-CREATETABLE-REPLICA-IDENTITY)\).
+串流傳輸這些變更的格式由所使用的輸出模組決定。PostgreSQL 發行版中提供了一個範例模組。可以撰寫其他模組來擴展可用的格式，而毋須修改任何核心程式。每個輸出模組都可以存取 INSERT 所產生的每個新資料列以及 UPDATE 所建立的新資料列版本。UPDATE 和 DELETE 舊資料列版本的可用性取決於其所設定的副本識別（請參閱 [REPLICA IDENTITY](../../reference/sql-commands/alter-table.md#replica-identity)）。
 
-Changes can be consumed either using the streaming replication protocol \(see [Section 52.4](https://www.postgresql.org/docs/13/protocol-replication.html) and [Section 48.3](https://www.postgresql.org/docs/13/logicaldecoding-walsender.html)\), or by calling functions via SQL \(see [Section 48.4](https://www.postgresql.org/docs/13/logicaldecoding-sql.html)\). It is also possible to write additional methods of consuming the output of a replication slot without modifying core code \(see [Section 48.7](https://www.postgresql.org/docs/13/logicaldecoding-writer.html)\).
+可以使用串流複寫協定（請參閱[第 52.4 節](../../internals/52.-frontend-backend-protocol/streaming-replication-protocol.md)和[第 48.3 節](streaming-replication-protocol-interface.md)）或透過 SQL 呼叫函數（請參閱[第 48.4 節](logical-decoding-sql-interface.md)）來使用資料變更的內容。也可以撰寫其他方法來處理複寫插槽的輸出，而毋須修改核心程式（請參閱[第 48.7 節](logical-decoding-output-writers.md)）。
 

@@ -251,7 +251,7 @@ log_line_prefix = '%m [%p] %q%u@%d/%a '
 
 ### `log_replication_commands` \(`boolean`\)
 
-讓每個複寫指令都記錄在伺服器日誌中。有關複寫指令的更多訊息，請參閱[第 52.4 節](../../internals/52.-frontend-backend-protocol/52.4.-streaming-replication-protocol.md)。預設值為 off。只有超級使用者才能變更此設定。
+讓每個複寫指令都記錄在伺服器日誌中。有關複寫指令的更多訊息，請參閱[第 52.4 節](../../internals/52.-frontend-backend-protocol/streaming-replication-protocol.md)。預設值為 off。只有超級使用者才能變更此設定。
 
 ### `log_temp_files` \(`integer`\)
 

@@ -656,7 +656,7 @@
     * [52.1. Overview](internals/52.-frontend-backend-protocol/overview.md)
     * [52.2. Message Flow](internals/52.-frontend-backend-protocol/52.2.-message-flow.md)
     * [52.3. SASL Authentication](internals/52.-frontend-backend-protocol/52.3.-sasl-authentication.md)
-    * [52.4. Streaming Replication Protocol](internals/52.-frontend-backend-protocol/52.4.-streaming-replication-protocol.md)
+    * [52.4. Streaming Replication Protocol](internals/52.-frontend-backend-protocol/streaming-replication-protocol.md)
     * [52.5. Logical Streaming Replication Protocol](internals/52.-frontend-backend-protocol/52.5.-logical-streaming-replication-protocol.md)
     * [52.6. Message Data Types](internals/52.-frontend-backend-protocol/52.6.-message-data-types.md)
     * [52.7. Message Formats](internals/52.-frontend-backend-protocol/52.7.-message-formats.md)
