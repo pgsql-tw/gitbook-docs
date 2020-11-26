@@ -18,8 +18,8 @@
 | columns per index | 32 | can be increased by recompiling PostgreSQL |
 | partition keys | 32 | can be increased by recompiling PostgreSQL |
 
-The maximum number of columns for a table is further reduced as the tuple being stored must fit in a single 8192-byte heap page. For example, excluding the tuple header, a tuple made up of 1600 `int` columns would consume 6400 bytes and could be stored in a heap page, but a tuple of 1600 `bigint` columns would consume 12800 bytes and would therefore not fit inside a heap page. Variable-length fields of types such as `text`, `varchar`, and `char` can have their values stored out of line in the table's TOAST table when the values are large enough to require it. Only an 18-byte pointer must remain inside the tuple in the table's heap. For shorter length variable-length fields, either a 4-byte or 1-byte field header is used and the value is stored inside the heap tuple.
+由於要儲存的 tuple 要儘量塞進一個 8,192 位元組的 heap page，因此資料表的最大欄位數量可能還會減少一些。 例如，如果不包括 tuple 標頭資訊的話，由 1600 個 int 欄位組成的 tuple 將會佔用 6,400 個位元組，並且可以儲存在 heap page 之中，但是具有 1600 個 bigint 欄位的 tuple 將需要使用 12,800 個位元組，因此不適合放入 heap page 之中。型別是可變動長度（例如 text，varchar 和 char）的內容可以儲存在資料表的 TOAST 資料表中，而這些內容到了足夠長度就會這樣使用。資料 heap 中的 tuple 中只會保留 18 位元組的指標。對於較短長度的可變長度文字，會使用 4 位元組或 1 位元組的字串標頭，並且該內容儲存在 heap tuple 之內。
 
-Columns that have been dropped from the table also contribute to the maximum column limit. Moreover, although the dropped column values for newly created tuples are internally marked as null in the tuple's null bitmap, the null bitmap also occupies space.  
+從資料表中刪除的欄位也會影響最大欄位數的限制。此外，儘管在 tuple 的 null bitmap 中將新建立的 tuple 的刪除欄位值內部標記為 null，但 null bitmap 也還是佔用空間。  
 
 
