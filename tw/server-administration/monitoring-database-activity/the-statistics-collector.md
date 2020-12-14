@@ -773,7 +773,7 @@ The `pg_stat_replication` view will contain one row per WAL sender process, show
       <td style="text-align:left">
         <p><code>reply_time</code>  <code>timestamp with time zone</code>
         </p>
-        <p>Send time of last reply message received from standby server</p>
+        <p>&#x6700;&#x5F8C;&#x5F9E;&#x5099;&#x7528;&#x4F3A;&#x670D;&#x5668;&#x6536;&#x5230;&#x56DE;&#x8986;&#x8A0A;&#x606F;&#x7684;&#x767C;&#x9001;&#x6642;&#x9593;</p>
       </td>
     </tr>
   </tbody>
