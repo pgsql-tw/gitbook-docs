@@ -28,7 +28,7 @@
     * [3.2. 檢視表（View）](tutorial/advanced-features/views.md)
     * [3.3. 外部索引鍵](tutorial/advanced-features/foreign-keys.md)
     * [3.4. 交易安全](tutorial/advanced-features/transactions.md)
-    * [3.5. 窗函數](tutorial/advanced-features/3.5.-chuang-han-shu.md)
+    * [3.5. 窗函數](tutorial/advanced-features/window-functions.md)
     * [3.6. 繼承](tutorial/advanced-features/inheritance.md)
     * [3.7. 結論](tutorial/advanced-features/conclusion.md)
 * [II. SQL 查詢語言](the-sql-language/README.md)
