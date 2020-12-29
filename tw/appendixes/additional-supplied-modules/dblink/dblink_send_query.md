@@ -1,34 +1,34 @@
 # dblink\_send\_query
 
-dblink\_send\_query — sends an async query to a remote database
+dblink\_send\_query — 送出非同步的查詢到遠端資料庫
 
-### Synopsis
+### 語法
 
 ```text
 dblink_send_query(text connname, text sql) returns int
 ```
 
-### Description
+### 說明
 
-`dblink_send_query` sends a query to be executed asynchronously, that is, without immediately waiting for the result. There must not be an async query already in progress on the connection.
+dblink\_send\_query 發送查詢以非同步方式執行，意即毋須等待指令結果。 連線上必須沒有其他正在進行的非同步查詢。
 
-After successfully dispatching an async query, completion status can be checked with `dblink_is_busy`, and the results are ultimately collected with `dblink_get_result`. It is also possible to attempt to cancel an active async query using `dblink_cancel_query`.
+成功呼叫非同步查詢後，可以使用 dblink\_is\_busy 檢查完成狀態，並在最後使用 dblink\_get\_result 收集查詢結果。也可以嘗試使用 dblink\_cancel\_query 取消正在進行的非同步查詢。
 
-### Arguments
+### 參數
 
 _`connname`_
 
-Name of the connection to use.
+要使用的連線名稱。
 
 _`sql`_
 
-The SQL statement that you wish to execute in the remote database, for example `select * from pg_class`.
+您希望在遠端資料庫中執行的 SQL 語句，例如，從 `select * from pg_class`。
 
-### Return Value
+### 回傳值
 
-Returns 1 if the query was successfully dispatched, 0 otherwise.
+如果已成功開始執行查詢，則回傳 1，否則回傳 0。
 
-### Examples
+### 範例
 
 ```text
 SELECT dblink_send_query('dtest1', 'SELECT * FROM foo WHERE f1 < 3');
