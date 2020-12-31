@@ -595,6 +595,7 @@
     * [pg\_basebackup](reference/client-applications/pg_basebackup.md)
     * [pg\_dump](reference/client-applications/pg_dump.md)
     * [pg\_dumpall](reference/client-applications/pg_dumpall.md)
+    * [pg\_isready](reference/client-applications/pg_isready.md)
     * [pg\_receivewal](reference/client-applications/pg_receivewal.md)
     * [pg\_recvlogical](reference/client-applications/pg_recvlogical.md)
     * [pg\_restore](reference/client-applications/pg_restore.md)
