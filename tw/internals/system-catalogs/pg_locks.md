@@ -136,7 +136,7 @@ There are several distinct types of lockable objects: whole relations \(e.g., ta
   </tbody>
 </table>
 
-`granted` is true in a row representing a lock held by the indicated process. False indicates that this process is currently waiting to acquire this lock, which implies that at least one other process is holding or waiting for a conflicting lock mode on the same lockable object. The waiting process will sleep until the other lock is released \(or a deadlock situation is detected\). A single process can be waiting to acquire at most one lock at a time.
+granted 為 true 的話，代表此鎖定由該筆資料的程序所持有。False 表示此程序目前正在等待取得鎖定，這意味著至少一個其他程序正持有或等待同一可鎖定物件上在鎖定模式有衝突。等待的程序將會一直休眠，直到另一個鎖定被釋放（或檢測到 deadlock 情況）為止。一個程序等待最多只可以取得一個鎖定。
 
 Throughout running a transaction, a server process holds an exclusive lock on the transaction's virtual transaction ID. If a permanent ID is assigned to the transaction \(which normally happens only if the transaction changes the state of the database\), it also holds an exclusive lock on the transaction's permanent transaction ID until it ends. When a process finds it necessary to wait specifically for another transaction to end, it does so by attempting to acquire share lock on the other transaction's ID \(either virtual or permanent ID depending on the situation\). That will succeed only when the other transaction terminates and releases its locks.
 
