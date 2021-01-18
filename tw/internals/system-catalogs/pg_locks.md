@@ -23,7 +23,7 @@ There are several distinct types of lockable objects: whole relations \(e.g., ta
         <p><code>locktype</code>  <code>text</code>
         </p>
         <p>Type of the lockable object: <code>relation</code>, <code>extend</code>, <code>frozenid</code>, <code>page</code>, <code>tuple</code>, <code>transactionid</code>, <code>virtualxid</code>, <code>spectoken</code>, <code>object</code>, <code>userlock</code>,
-          or <code>advisory</code>. (See also <a href="https://www.postgresql.org/docs/13/monitoring-stats.html#WAIT-EVENT-LOCK-TABLE">Table 27.11</a>.)</p>
+          or <code>advisory</code>. (See also<a href="../../server-administration/monitoring-database-activity/the-statistics-collector.md#table-27-11-wait-events-of-type-lock"> Table 27.11</a>.)</p>
       </td>
     </tr>
     <tr>
@@ -138,9 +138,9 @@ There are several distinct types of lockable objects: whole relations \(e.g., ta
 
 granted 為 true 的話，代表此鎖定由該筆資料的程序所持有。False 表示此程序目前正在等待取得鎖定，這意味著至少一個其他程序正持有或等待同一可鎖定物件上在鎖定模式有衝突。等待的程序將會一直休眠，直到另一個鎖定被釋放（或檢測到 deadlock 情況）為止。一個程序等待最多只可以取得一個鎖定。
 
-Throughout running a transaction, a server process holds an exclusive lock on the transaction's virtual transaction ID. If a permanent ID is assigned to the transaction \(which normally happens only if the transaction changes the state of the database\), it also holds an exclusive lock on the transaction's permanent transaction ID until it ends. When a process finds it necessary to wait specifically for another transaction to end, it does so by attempting to acquire share lock on the other transaction's ID \(either virtual or permanent ID depending on the situation\). That will succeed only when the other transaction terminates and releases its locks.
+在整個交易事務執行過程中，伺服器程序對事務的虛擬事務 ID 持有排他鎖定\(exclusive lock\)。如果將永久性 ID 分配給事務（通常僅在事務變更資料庫狀態時才會發生），它還會對事務的永久性事務 ID 持有排他鎖定，直到結束。當一個程序發現有必要專門等待另一個事務結束時，它透過嘗試獲取另一個事務的 ID（取決於情況的虛擬 ID 或永久 ID）上的共享鎖定\(share lock\)來做到這一點。僅當另一個事務結束並釋放其鎖定時，該操作才會成功。
 
-Although tuples are a lockable type of object, information about row-level locks is stored on disk, not in memory, and therefore row-level locks normally do not appear in this view. If a process is waiting for a row-level lock, it will usually appear in the view as waiting for the permanent transaction ID of the current holder of that row lock.
+儘管 tuple 是可鎖定的物件型別，但是有關資料列級鎖定的資訊是儲存在磁碟上，而不是儲存在記憶體之中，因此資料列級的鎖定通常不會出現在此檢視表中。如果程序正在等待資料列級的鎖定，則它通常在檢視表中顯示為正在等待該資料列鎖定目前持有者的永久事務 ID。
 
 Advisory locks can be acquired on keys consisting of either a single `bigint` value or two integer values. A `bigint` key is displayed with its high-order half in the `classid` column, its low-order half in the `objid` column, and `objsubid` equal to 1. The original `bigint` value can be reassembled with the expression `(classid::bigint << 32) | objid::bigint`. Integer keys are displayed with the first key in the `classid` column, the second key in the `objid` column, and `objsubid` equal to 2. The actual meaning of the keys is up to the user. Advisory locks are local to each database, so the `database` column is meaningful for an advisory lock.
 
