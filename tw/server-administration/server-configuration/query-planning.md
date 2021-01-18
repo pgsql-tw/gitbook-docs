@@ -171,7 +171,7 @@ Controls the initial value of the random number generator used by GEQO to select
 
 ### `default_statistics_target` \(`integer`\)
 
-Sets the default statistics target for table columns without a column-specific target set via `ALTER TABLE SET STATISTICS`. Larger values increase the time needed to do `ANALYZE`, but might improve the quality of the planner's estimates. The default is 100. For more information on the use of statistics by the PostgreSQL query planner, refer to [Section 14.2](https://www.postgresql.org/docs/10/static/planner-stats.html).
+為沒有透過 ALTER TABLE SET STATISTICS 設定特定於欄位目標的資料表欄位設定預設的統計目標。較大的值會增加進行分析所需的時間，但可能會提高查詢計劃程序評估的準確度。預設值為 100。有關 PostgreSQL 查詢計劃程序使用統計資訊的更多說明，請參閱 [14.2 節](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md)。
 
 ### `constraint_exclusion` \(`enum`\)
 
