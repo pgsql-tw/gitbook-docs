@@ -17,7 +17,7 @@ where option can be:
     | REPLICATION | NOREPLICATION
     | BYPASSRLS | NOBYPASSRLS
     | CONNECTION LIMIT connlimit
-    | [ ENCRYPTED ] PASSWORD 'password'
+    | [ ENCRYPTED ] PASSWORD 'password' | PASSWORD NULL
     | VALID UNTIL 'timestamp'
 
 ALTER ROLE name RENAME TO new_name
@@ -38,11 +38,11 @@ where role_specification can be:
 
 ALTER ROLE 變更 PostgreSQL 角色的屬性。
 
-語法中列出的此指令的第一個形式可以變更可在 CREATE ROLE 中指定的許多角色屬性。（所有可能的屬性都會被覆寫，除了沒有增加或移除成員資格的選項之外，應使用 GRANT 和 REVOKE。）指令中未提及的屬性保留其先前的設定。資料庫超級使用者可以變更任何角色的任何設定。具有 CREATEROLE 權限的角色可以變更任何的這些設定，但僅適用於非超級使用者和非複寫角色。普通角色只能變更自己的密碼。
+語法中列出的此指令的第一種語法樣式可以變更可在 [CREATE ROLE](create-role.md) 中指定的許多角色屬性。（所有可能的屬性都會被覆寫，除了沒有增加或移除成員資格的選項之外，應使用 [GRANT](grant.md) 和 [REVOKE](revoke.md)。）指令中未提及的屬性保留其先前的設定。資料庫超級使用者可以變更任何角色的任何設定。具有 CREATEROLE 權限的角色可以變更任何的這些設定，但僅適用於非超級使用者和非複寫角色。普通角色只能變更自己的密碼。
 
-第二個形式變更角色的名稱。資料庫超級使用者可以重新命名任何角色。具有 CREATEROLE 權限的角色可以重新命名非超級使用者角色。無法重新命名目前連線使用者。（如果需要，請以其他使用者身份進行連線。）由於 MD5 加密的密碼使用角色名稱作為加密 salt，因此如果密碼是 MD5 加密的，則重新命名角色會清除其密碼。
+第二種語法樣式用於變更角色的名稱。資料庫超級使用者可以重新命名任何角色。具有 CREATEROLE 權限的角色可以重新命名非超級使用者角色。無法重新命名目前連線使用者。（如果需要，請以其他使用者身份進行連線。）由於 MD5 加密的密碼使用角色名稱作為加密 salt，因此如果密碼是 MD5 加密的，則重新命名角色會重置其加密密碼。
 
-其餘形式變更組態變數的角色連線預設值，或者為所有資料庫更改，或者在指定 IN DATABASE 子句時，僅針對指定名稱資料庫中的連線。如果指定了 ALL 而不是角色名稱，則會變更所有角色的設定。使用 ALL 與 IN DATABASE 實際上與使用指令 ALTER DATABASE ... SET .... 相同。
+其餘語法樣式則是變更組態變數的角色連線預設值，或者為所有資料庫更改，或者在指定 IN DATABASE 子句時，僅針對指定名稱資料庫中的連線。如果指定了 ALL 而不是角色名稱，則會變更所有角色的設定。使用 ALL 與 IN DATABASE 實際上與使用指令 ALTER DATABASE ... SET .... 相同。
 
 每當角色隨後啟動一個新連線時，指定的值將成為連線預設值，覆寫 postgresql.conf 中存在的任何設定或已從 postgres 命令列接收。這只發生在登入時；執行 [SET ROLE](set-role.md) 或 [SET SESSION AUTHORIZATION](set-session-authorization.md) 不會設定新的組態值。為所有資料庫的設定將由附加到角色的特定於資料庫的設定覆寫。特定資料庫或特定角色的設定會覆寫所有角色的設定。
 
@@ -62,7 +62,7 @@ _`name`_
 
 變更目前連線使用者而不是指定的角色。
 
-`SUPERUSER`  
+ `SUPERUSER`  
 `NOSUPERUSER`  
 `CREATEDB`  
 `NOCREATEDB`  
@@ -77,7 +77,8 @@ _`name`_
 `BYPASSRLS`  
 `NOBYPASSRLS`  
 `CONNECTION LIMIT` _`connlimit`_  
-\[ `ENCRYPTED` \] `PASSWORD` _`password`_  
+\[ `ENCRYPTED` \] `PASSWORD` '_`password`_'  
+`PASSWORD NULL`  
 `VALID UNTIL` '_`timestamp`_'
 
 這些子句變更 CREATE ROLE 最初設定的屬性。有關更多訊息，請參閱 [CREATE ROLE](create-role.md) 參考頁面。
