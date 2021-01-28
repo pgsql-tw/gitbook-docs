@@ -496,6 +496,7 @@
     * [ALTER TABLESPACE](reference/sql-commands/alter-tablespace.md)
     * [ALTER TRIGGER](reference/sql-commands/alter-trigger.md)
     * [ALTER TYPE](reference/sql-commands/alter-type.md)
+    * [ALTER USER](reference/sql-commands/alter-user.md)
     * [ALTER VIEW](reference/sql-commands/alter-view.md)
     * [ANALYZE](reference/sql-commands/analyze.md)
     * [CLUSTER](reference/sql-commands/cluster.md)
