@@ -112,9 +112,9 @@ Minimum number of concurrent open transactions to require before performing the 
 
 自動 WAL 檢查點之間的最長時間。如果指定的值不帶單位，則以秒為單位。有效範圍是 30 秒至 1 天。預設值為五分鐘（5 分鐘）。增大此參數可能會增加當機回復所需的時間。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
-`checkpoint_completion_target` \(`floating point`\)
+#### `checkpoint_completion_target` \(`floating point`\)
 
-Specifies the target of checkpoint completion, as a fraction of total time between checkpoints. The default is 0.5. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+指定檢查點完成的目標，佔檢查點之間總時間的一部分。預設值為 0.5。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 `checkpoint_flush_after` \(`integer`\)
 
