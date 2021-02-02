@@ -349,7 +349,7 @@
     * [36.13. column\_options](client-interfaces/the-information-schema/36.13.-column_options.md)
     * [36.14. column\_privileges](client-interfaces/the-information-schema/36.14.-column_privileges.md)
     * [36.15. column\_udt\_usage](client-interfaces/the-information-schema/36.15.-column_udt_usage.md)
-    * [36.17. columns](client-interfaces/the-information-schema/36.16.-columns.md)
+    * [36.17. columns](client-interfaces/the-information-schema/columns.md)
     * [36.18. constraint\_column\_usage](client-interfaces/the-information-schema/constraint_column_usage.md)
     * [37.18. constraint\_table\_usage](client-interfaces/the-information-schema/36.18.-constraint_table_usage.md)
     * [37.19. data\_type\_privileges](client-interfaces/the-information-schema/36.19.-data_type_privileges.md)
