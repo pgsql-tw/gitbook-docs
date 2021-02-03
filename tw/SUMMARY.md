@@ -600,6 +600,7 @@
     * [pg\_receivewal](reference/client-applications/pg_receivewal.md)
     * [pg\_recvlogical](reference/client-applications/pg_recvlogical.md)
     * [pg\_restore](reference/client-applications/pg_restore.md)
+    * [pg\_verifybackup](reference/client-applications/pg_verifybackup.md)
     * [psql](reference/client-applications/psql.md)
     * [vacuumdb](reference/client-applications/vacuumdb.md)
   * [III. PostgreSQL 伺服器應用程式](reference/server-applications/README.md)
