@@ -237,17 +237,17 @@ Print the pg\_basebackup version and exit.
 
 Show help about pg\_basebackup command line arguments, and exit.
 
-### Environment
+### 環境變數
 
-This utility, like most other PostgreSQL utilities, uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)\).
+與大多數其他 PostgreSQL 工具程式一樣，此工具使用 libpq 所支援的環境變數（請參閱[第 33.14 節](../../client-interfaces/libpq-c-library/environment-variables.md)）。
 
-The environment variable `PG_COLOR` specifies whether to use color in diagnostic messages. Possible values are `always`, `auto` and `never`.
+環境變數 PG\_COLOR 指定是否在診斷資訊中使用彩色。可能的值為 always，auto 和 never。
 
-### Notes
+### 注意
 
-At the beginning of the backup, a checkpoint needs to be written on the server the backup is taken from. Especially if the option `--checkpoint=fast` is not used, this can take some time during which pg\_basebackup will be appear to be idle.
+在備份開始時，需要在備份目標的伺服器上寫入一個檢查點。特別是如果不使用 --checkpoint = fast 選項的話，這可能會花費一些時間，在此期間 pg\_basebackup 會顯示為 idle。
 
-The backup will include all files in the data directory and tablespaces, including the configuration files and any additional files placed in the directory by third parties, except certain temporary files managed by PostgreSQL. But only regular files and directories are copied, except that symbolic links used for tablespaces are preserved. Symbolic links pointing to certain directories known to PostgreSQL are copied as empty directories. Other symbolic links and special device files are skipped. See [Section 52.4](https://www.postgresql.org/docs/12/protocol-replication.html) for the precise details.
+備份將包括資料目錄和資料表空間中的所有檔案，包括組態檔案以及由第三方套件放置在目錄中的任何其他檔案，但由 PostgreSQL 管理的某些臨時檔案會排除在外。只會複製一般檔案和目錄，除了保留用於資料表空間的 symbolic links。指向 PostgreSQL 已知的某些目錄的 symbolic links 會被複製為空目錄。其他 symbolic links 和特殊裝置檔案將被跳過。有關詳細資訊，請參閱[第 52.4 節](../../internals/52.-frontend-backend-protocol/streaming-replication-protocol.md)。
 
 Tablespaces will in plain format by default be backed up to the same path they have on the server, unless the option `--tablespace-mapping` is used. Without this option, running a plain format base backup on the same host as the server will not work if tablespaces are in use, because the backup would have to be written to the same directory locations as the original tablespaces.
 
