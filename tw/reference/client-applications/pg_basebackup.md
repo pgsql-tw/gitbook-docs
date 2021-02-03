@@ -8,7 +8,7 @@ pg\_basebackup — 對 PostgreSQL 叢集進行基礎備份
 
 ### 說明
 
-pg\_basebackup 用於對正在執行的 PostgreSQL 資料庫叢集進行基礎備份。採取這些措施不會影響資料庫的其他用戶端，並且可以用於時間點隨選還原（請參閱[第 25.3 節](../../server-administration/25.-bei-fen-ji-huan-yuan/25.3.-continuous-archiving-and-point-in-time-recovery-pitr.md)），也可以用於日誌傳送或串流複寫備用伺服器的起點（請參閱[第 26.2 節](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md)）。
+pg\_basebackup 用於對正在執行的 PostgreSQL 資料庫叢集進行基礎備份。採取這些措施不會影響資料庫的其他用戶端，並且可以用於時間點隨選還原（請參閱[第 25.3 節](../../server-administration/backup-and-restore/25.3.-continuous-archiving-and-point-in-time-recovery-pitr.md)），也可以用於日誌傳送或串流複寫備用伺服器的起點（請參閱[第 26.2 節](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md)）。
 
 pg\_basebackup 製作資料庫叢集檔案的二進位副本，同時確保系統自動進入和退出備份模式。只能對整個資料庫叢集進行備份；無法備份單個資料庫或資料庫物件。對於單一資料庫的備份，必須使用如 [pg\_dump](pg_dump.md) 之類的工具。
 
