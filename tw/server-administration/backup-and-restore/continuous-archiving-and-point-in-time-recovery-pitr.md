@@ -248,13 +248,13 @@ The switch file `/var/lib/pgsql/backup_in_progress` is created first, enabling a
 
 ### **25.3.6.2. Compressed Archive Logs**
 
-If archive storage size is a concern, you can use gzip to compress the archive files:
+如果需要考慮封存檔案的儲存空間，則可以使用 gzip 壓縮這些檔案：
 
 ```text
 archive_command = 'gzip < %p > /var/lib/pgsql/archive/%f'
 ```
 
-You will then need to use gunzip during recovery:
+然後，您將需要在還原過程中使用 gunzip：
 
 ```text
 restore_command = 'gunzip < /mnt/server/archivedir/%f > %p'
@@ -277,16 +277,16 @@ Examples of requirements that might be solved within a script include:
 * Interfacing with other backup and recovery software
 * Interfacing with monitoring software to report errors
 
-#### Tip
-
-When using an `archive_command` script, it's desirable to enable [logging\_collector](https://www.postgresql.org/docs/12/runtime-config-logging.html#GUC-LOGGING-COLLECTOR). Any messages written to stderr from the script will then appear in the database server log, allowing complex configurations to be diagnosed easily if they fail.
+{% hint style="info" %}
+使用 archive\_command 腳本時，最好啟用 [logging\_collector](../server-configuration/error-reporting-and-logging.md#logging_collector-boolean)。這樣的話，從腳本寫入 stderr 的所有訊息都會出現在資料庫伺服器記錄檔之中，從而使複雜的設定在異常時易於除錯。
+{% endhint %}
 
 ## 25.3.7. Caveats
 
-At this writing, there are several limitations of the continuous archiving technique. These will probably be fixed in future releases:
+截至目前為止，連續歸檔技術\(PITR\)仍然存在著一些侷限性。這些可能會在未來的版本中改善：
 
-* If a [CREATE DATABASE](https://www.postgresql.org/docs/12/sql-createdatabase.html) command is executed while a base backup is being taken, and then the template database that the `CREATE DATABASE` copied is modified while the base backup is still in progress, it is possible that recovery will cause those modifications to be propagated into the created database as well. This is of course undesirable. To avoid this risk, it is best not to modify any template databases while taking a base backup.
-* [CREATE TABLESPACE](https://www.postgresql.org/docs/12/sql-createtablespace.html) commands are WAL-logged with the literal absolute path, and will therefore be replayed as tablespace creations with the same absolute path. This might be undesirable if the log is being replayed on a different machine. It can be dangerous even if the log is being replayed on the same machine, but into a new data directory: the replay will still overwrite the contents of the original tablespace. To avoid potential gotchas of this sort, the best practice is to take a new base backup after creating or dropping tablespaces.
+* 如果在執行基礎備份時執行了 [CREATE DATABASE](../../reference/sql-commands/create-database.md) 命令，然後在仍在進行基礎備份的同時修改了 CREATE DATABASE 所複製的樣版資料庫，則還原的時候很可能會使這些修改連帶影響到其所建立的資料庫之中。 這當然不是希望發生的事。為了避免這種風險，最好在進行基礎1備份的同時不要修改任何樣版資料庫。
+* [CREATE TABLESPACE](../../reference/sql-commands/create-tablespace.md) 指令使用絕對路徑進行存放 WAL 記錄，因此重放交易時，將會以相同絕對路徑的資料表空間進行重放。如果正在其他主機上重放交易日誌，則這可能不是希望的的結果。即使在同一台主機上重放交易日誌，但是將日誌重放到新的資料目錄中，也可能很危險：重放仍將覆蓋原始資料表空間的內容。為了避免這種潛在的麻煩，最佳實作是在建立或刪除資料表空間之後進行新的基礎備份。
 
-It should also be noted that the default WAL format is fairly bulky since it includes many disk page snapshots. These page snapshots are designed to support crash recovery, since we might need to fix partially-written disk pages. Depending on your system hardware and software, the risk of partial writes might be small enough to ignore, in which case you can significantly reduce the total volume of archived logs by turning off page snapshots using the [full\_page\_writes](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-FULL-PAGE-WRITES) parameter. \(Read the notes and warnings in [Chapter 29](https://www.postgresql.org/docs/12/wal.html) before you do so.\) Turning off page snapshots does not prevent use of the logs for PITR operations. An area for future development is to compress archived WAL data by removing unnecessary page copies even when `full_page_writes` is on. In the meantime, administrators might wish to reduce the number of page snapshots included in WAL by increasing the checkpoint interval parameters as much as feasible.
+你還需要注意的是，一般而言 WAL 格式相當龐大，因為它包含許多磁碟頁面快照。這些頁面快照旨在支援災難復原，因為我們可能需要修復部分寫入的磁碟頁面。根據系統硬體和軟體環境的不同，部分寫入的風險可能很小，可以忽略，在這種情況下，您可以透過使用 [full\_page\_writes](../server-configuration/write-ahead-log.md#full_page_writes-boolean) 參數關閉頁面快照來顯著減少已歸檔日誌的總量。（在執行此操作之前，請先閱讀[第 29 章](../reliability-and-the-write-ahead-log/)中的說明和警告。）關閉頁面快照並不會阻礙將日誌用於 PITR 操作。未來的發展方向1是即使在啟用 full\_page\_writes 的情況下，也可以透過刪除不必要的頁面副本來壓縮已歸檔封存的 WAL 資料。同時，管理者可能希望透過儘可能增加檢查點\(checkpoint\)間隔參數來減少 WAL 中包含的頁面快照的數量。
 

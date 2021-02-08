@@ -15,7 +15,7 @@ tar -cf backup.tar /usr/local/pgsql/data
 
 如果您的資料庫分散在多個檔案系統中，則可能沒有任何方法可以獲取所有 volume 完全同步的凍結快照。例如，如果資料檔案和 WAL 日誌位於不同的磁碟上，或者資料表空間位於不同的檔案系統上，則可能無法使用快照備份，因為快照必須同時進行。在這種情況下，請務必仔細閱讀檔案系統文件，然後再使用一致性快照技術。
 
-如果不可能同時建立快照，則一種選擇是關閉資料庫伺服器足夠長的時間以建立所有凍結的快照。或者你還有一種選擇是執行連續歸檔\(continuous archiving\)基礎備份（[第 25.3.2 節](25.3.-continuous-archiving-and-point-in-time-recovery-pitr.md#25-3-2-making-a-base-backup)），因為此類備份在備份期間不受檔案系統變更的影響。這要求僅在備份過程中啟用連續歸檔。使用連續歸檔還原（[第 25.3.4 節](25.3.-continuous-archiving-and-point-in-time-recovery-pitr.md#25-3-4-recovering-using-a-continuous-archive-backup)）來完成還原。
+如果不可能同時建立快照，則一種選擇是關閉資料庫伺服器足夠長的時間以建立所有凍結的快照。或者你還有一種選擇是執行連續歸檔\(continuous archiving\)基礎備份（[第 25.3.2 節](continuous-archiving-and-point-in-time-recovery-pitr.md#25-3-2-making-a-base-backup)），因為此類備份在備份期間不受檔案系統變更的影響。這要求僅在備份過程中啟用連續歸檔。使用連續歸檔還原（[第 25.3.4 節](continuous-archiving-and-point-in-time-recovery-pitr.md#25-3-4-recovering-using-a-continuous-archive-backup)）來完成還原。
 
 使用 rsync 執行檔案系統備份也是可以的。首先在資料庫伺服器執行時也執行 rsync，然後關閉資料庫伺服器足夠長的時間以執行 rsync --checksum，即可完成此操作。（--checksum 是必須的，因為 rsync 僅具有一秒的檔案修改時間顆粒度。）第二次 rsync 將比第一次更快，因為它要傳輸的資料相對較少，並且最終結果將會是一致的，因為伺服器是關閉的狀態。此方法目標在最少停機時間的情況下執行檔案系統備份。
 

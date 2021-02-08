@@ -64,7 +64,7 @@ The `open_`\* options also use `O_DIRECT` if available. Not all of these choices
 
 停用此參數可加快正常操作的速度，但在系統故障後可能會導致不可恢復的資料損壞或未知的資料損壞。風險與關閉 fsync 相似，儘管較小，但應僅根據針對該參數建議的相同情況將其關閉。
 
-禁用此參數不會影響使用 WAL 歸檔進行時間點還原作業（PITR）（請參閱[第 25.3 節](../backup-and-restore/25.3.-continuous-archiving-and-point-in-time-recovery-pitr.md)）。
+禁用此參數不會影響使用 WAL 歸檔進行時間點還原作業（PITR）（請參閱[第 25.3 節](../backup-and-restore/continuous-archiving-and-point-in-time-recovery-pitr.md)）。
 
 該參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設為 on。
 
