@@ -12,7 +12,7 @@ EXPLAIN SELECT * FROM tenk1;
  Seq Scan on tenk1  (cost=0.00..458.00 rows=10000 width=244)
 ```
 
-How the planner determines the cardinality of `tenk1` is covered in [Section 14.2](https://www.postgresql.org/docs/12/planner-stats.html), but is repeated here for completeness. The number of pages and rows is looked up in `pg_class`:
+How the planner determines the cardinality of `tenk1` is covered in [Section 14.2](https://www.postgresql.org/docs/13/planner-stats.html), but is repeated here for completeness. The number of pages and rows is looked up in `pg_class`:
 
 ```text
 SELECT relpages, reltuples FROM pg_class WHERE relname = 'tenk1';
@@ -30,7 +30,7 @@ Let's move on to an example with a range condition in its `WHERE` clause:
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 1000;
 
                                    QUERY PLAN
---------------------------------------------------------------------------------
+-------------------------------------------------------------------​-------------
  Bitmap Heap Scan on tenk1  (cost=24.06..394.64 rows=1007 width=244)
    Recheck Cond: (unique1 < 1000)
    ->  Bitmap Index Scan on tenk1_unique1  (cost=0.00..23.80 rows=1007 width=0)
@@ -48,7 +48,7 @@ WHERE tablename='tenk1' AND attname='unique1';
  {0,993,1997,3050,4040,5036,5957,7057,8029,9016,9995}
 ```
 
-Next the fraction of the histogram occupied by “&lt; 1000” is worked out. This is the selectivity. The histogram divides the range into equal frequency buckets, so all we have to do is locate the bucket that our value is in and count _part_ of it and _all_ of the ones before. The value 1000 is clearly in the second bucket \(993-1997\). Assuming a linear distribution of values inside each bucket, we can calculate the selectivity as:
+Next the fraction of the histogram occupied by “&lt; 1000” is worked out. This is the selectivity. The histogram divides the range into equal frequency buckets, so all we have to do is locate the bucket that our value is in and count _part_ of it and _all_ of the ones before. The value 1000 is clearly in the second bucket \(993–1997\). Assuming a linear distribution of values inside each bucket, we can calculate the selectivity as:
 
 ```text
 selectivity = (1 + (1000 - bucket[2].min)/(bucket[2].max - bucket[2].min))/num_buckets
@@ -83,8 +83,8 @@ WHERE tablename='tenk1' AND attname='stringu1';
 
 null_frac         | 0
 n_distinct        | 676
-most_common_vals  | {EJAAAA,BBAAAA,CRAAAA,FCAAAA,FEAAAA,GSAAAA,JOAAAA,MCAAAA,NAAAAA,WGAAAA}
-most_common_freqs | {0.00333333,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003}
+most_common_vals  | {EJAAAA,BBAAAA,CRAAAA,FCAAAA,FEAAAA,GSAAAA,​JOAAAA,MCAAAA,NAAAAA,WGAAAA}
+most_common_freqs | {0.00333333,0.003,0.003,0.003,0.003,0.003,​0.003,0.003,0.003,0.003}
 
 ```
 
@@ -147,8 +147,8 @@ SELECT histogram_bounds FROM pg_stats
 WHERE tablename='tenk1' AND attname='stringu1';
 
                                 histogram_bounds
---------------------------------------------------------------------------------
- {AAAAAA,CQAAAA,FRAAAA,IBAAAA,KRAAAA,NFAAAA,PSAAAA,SGAAAA,VAAAAA,XLAAAA,ZZAAAA}
+-------------------------------------------------------------------​-------------
+ {AAAAAA,CQAAAA,FRAAAA,IBAAAA,KRAAAA,NFAAAA,PSAAAA,SGAAAA,VAAAAA,​XLAAAA,ZZAAAA}
 ```
 
 Checking the MCV list, we find that the condition `stringu1 < 'IAAAAA'` is satisfied by the first six entries and not the last four, so the selectivity within the MCV part of the population is
@@ -178,7 +178,7 @@ Now let's consider a case with more than one condition in the `WHERE` clause:
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 1000 AND stringu1 = 'xxx';
 
                                    QUERY PLAN
---------------------------------------------------------------------------------
+-------------------------------------------------------------------​-------------
  Bitmap Heap Scan on tenk1  (cost=23.80..396.91 rows=1 width=244)
    Recheck Cond: (unique1 < 1000)
    Filter: (stringu1 = 'xxx'::name)
@@ -206,7 +206,7 @@ EXPLAIN SELECT * FROM tenk1 t1, tenk2 t2
 WHERE t1.unique1 < 50 AND t1.unique2 = t2.unique2;
 
                                       QUERY PLAN
---------------------------------------------------------------------------------------
+-------------------------------------------------------------------​-------------------
  Nested Loop  (cost=4.64..456.23 rows=50 width=488)
    ->  Bitmap Heap Scan on tenk1 t1  (cost=4.64..142.17 rows=50 width=244)
          Recheck Cond: (unique1 < 50)
