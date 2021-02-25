@@ -33,7 +33,7 @@ _`statistics_name`_
 
 _`statistics_kind`_
 
-要在此統計資訊物件中計算的統計資訊類型。目前支援的類型是 ndistinct（啟用 n-distinct 統計資訊）、dependencies（啟用函數相依性統計資訊）和 mcv（啟用最常見值的列表）。如果省略此子句，則所有受支援的統計資訊類型都會包含在統計資訊物件中。有關更多說明，請參閱[第 14.2.2 節](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md#14-2-2-yan-shen-tong-ji-zi-xun)和[第 70.2 節](../../internals/how-the-planner-uses-statistics/multivariate-statistics-examples.md)。
+要在此統計資訊物件中計算的統計資訊類型。目前支援的類型是 ndistinct（啟用 n-distinct 統計資訊）、dependencies（啟用欄位相依性統計資訊）和 mcv（啟用最常見值的列表）。如果省略此子句，則所有受支援的統計資訊類型都會包含在統計資訊物件中。有關更多說明，請參閱[第 14.2.2 節](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md#14-2-2-yan-shen-tong-ji-zi-xun)和[第 70.2 節](../../internals/how-the-planner-uses-statistics/multivariate-statistics-examples.md)。
 
 _`column_name`_
 
