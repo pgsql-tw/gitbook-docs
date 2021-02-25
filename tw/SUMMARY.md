@@ -730,7 +730,7 @@
   * [69. System Catalog Declarations and Initial Contents](internals/system-catalog-declarations-and-initial-contents.md)
   * [70. 查詢計畫如何使用統計資訊](internals/how-the-planner-uses-statistics/README.md)
     * [70.1. Row Estimation Examples](internals/how-the-planner-uses-statistics/row-estimation-examples.md)
-    * [70.2. Multivariate Statistics Examples](internals/how-the-planner-uses-statistics/multivariate-statistics-examples.md)
+    * [70.2. 多元統計資訊範例](internals/how-the-planner-uses-statistics/multivariate-statistics-examples.md)
     * [70.3. Planner Statistics and Security](internals/how-the-planner-uses-statistics/planner-statistics-and-security.md)
   * [71. Backup Manifest Format](internals/71.-backup-manifest-format.md)
 * [VIII. 附錄](appendixes/README.md)
