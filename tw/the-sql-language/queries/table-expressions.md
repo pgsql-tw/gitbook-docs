@@ -1,46 +1,49 @@
 # 7.2. 資料表表示式
 
-A _table expression_ computes a table. The table expression contains a `FROM` clause that is optionally followed by `WHERE`, `GROUP BY`, and `HAVING` clauses. Trivial table expressions simply refer to a table on disk, a so-called base table, but more complex expressions can be used to modify or combine base tables in various ways.
+一個 _資料表表示式_ 計算出一個資料表。資料表表示式包含了一個可以選擇在後方跟隨`WHERE`、`GROUP BY`和`HAVING`子句的`FROM`子句。普遍的資料表表示式簡單地在磁碟上引用一個資料表，, 即聲稱的基底資料表（base table）, 但更複雜的表示式可被用於以多種形式修改或組合基底資料表。
 
-The optional `WHERE`, `GROUP BY`, and `HAVING` clauses in the table expression specify a pipeline of successive transformations performed on the table derived in the `FROM` clause. All these transformations produce a virtual table that provides the rows that are passed to the select list to compute the output rows of the query.
+在資料表表示式中選擇性的`WHERE`、`GROUP BY`和`HAVING`子句指定一個逐次變換執行在`FROM`子句衍生的資料表上的管道。所有的這些轉換都會產生一個虛擬資料表，該資料表提供了被傳遞到選擇串列的資料列，以計算查詢的輸出資料列。
 
-## 7.2.1. The `FROM` Clause
+## 7.2.1. `FROM`子句
 
-The [`FROM`](https://www.postgresql.org/docs/13/sql-select.html#SQL-FROM) clause derives a table from one or more other tables given in a comma-separated table reference list.
+The [`FROM`子句](https://docs.postgresql.tw/reference/sql-commands/select#from-clause)從逗號分隔資料表參照串列中給出的一個或多個其他的資料表衍生一個資料表。
 
 ```text
 FROM table_reference [, table_reference [, ...]]
 ```
 
-A table reference can be a table name \(possibly schema-qualified\), or a derived table such as a subquery, a `JOIN` construct, or complex combinations of these. If more than one table reference is listed in the `FROM` clause, the tables are cross-joined \(that is, the Cartesian product of their rows is formed; see below\). The result of the `FROM` list is an intermediate virtual table that can then be subject to transformations by the `WHERE`, `GROUP BY`, and `HAVING` clauses and is finally the result of the overall table expression.
+一個資料表參照能是一個表格名稱（也許綱要限定的），或一個衍生出的資料表，例如子查詢，`JOIN`建構或這些的複雜組合。如果多個資料表參照被列在`FROM`子句中， 這些資料表參照則表將被交叉聯接（cross-joined，即形成其資料列的笛卡爾積；請參見下文）。`FROM`串列的結果是一個中間的虛擬表，該表可以受到`WHERE`、`GROUP BY`和`HAVING`子句的轉換，並且最終是整個資料表表示式的結果。
 
-When a table reference names a table that is the parent of a table inheritance hierarchy, the table reference produces rows of not only that table but all of its descendant tables, unless the key word `ONLY` precedes the table name. However, the reference produces only the columns that appear in the named table — any columns added in subtables are ignored.
+當一個資料表參照命名一個表格繼承層次結構的父級資料表，資料表參照不只是產生該表格的列，還會產生其所有後代表格的列，除非關鍵字`ONLY`在表格名稱之前。然而，該參照僅產生出現在已命名資料表中的欄位—子資料表中添加的任何欄位都將被忽略。
 
-Instead of writing `ONLY` before the table name, you can write `*` after the table name to explicitly specify that descendant tables are included. There is no real reason to use this syntax any more, because searching descendant tables is now always the default behavior. However, it is supported for compatibility with older releases.
+可以在表格名稱之後寫入`*`來明確指定包含後代表格，而不是在表格名稱之前寫入`ONLY`。因為搜索後代表格現在始終是默認行為，沒有真正的理由再使用此語法。但是，支持它是為了與舊版本的兼容性。
 
-### **7.2.1.1. Joined Tables**
+### **7.2.1.1. 聯接的資料表**
 
-A joined table is a table derived from two other \(real or derived\) tables according to the rules of the particular join type. Inner, outer, and cross-joins are available. The general syntax of a joined table is
+聯接的資料表（joined table）是一個根據特定聯接型別的規則從兩個（真實的或被衍生的）其他資料表衍生的資料表。可以使用 Inner、outer、及cross-join 。聯接資料表的一般語法是
 
 ```text
 T1 join_type T2 [ join_condition ]
 ```
 
-Joins of all types can be chained together, or nested: either or both _`T1`_ and _`T2`_ can be joined tables. Parentheses can be used around `JOIN` clauses to control the join order. In the absence of parentheses, `JOIN` clauses nest left-to-right.
+所有型別的聯接可以鏈結或嵌套在一起： _`T1`_ and _`T2`_ 中的一個或兩個都可以被聯接資料表。可以在`JOIN`子句周圍使用括號來控制聯接順序。在沒有括號的情況下，`JOIN`子句從左到右嵌套。
 
-**Join Types**Cross join
+**聯接型別**
+
+`Cross join`
 
 ```text
 T1 CROSS JOIN T2
 ```
+對於從 _`T1`_ and _`T2`_ 的列的每種可能的組合(即笛卡爾積), 聯接的資料表將包含一個由 _`T1`_ 所有欄其次是 _`T2`_ 所有欄組成的列。如果資料表分別有 _N_ 列及 _M_ 列， 聯接表將具有 _N \* M_ 列。
 
-For every possible combination of rows from _`T1`_ and _`T2`_ \(i.e., a Cartesian product\), the joined table will contain a row consisting of all columns in _`T1`_ followed by all columns in _`T2`_. If the tables have N and M rows respectively, the joined table will have N \* M rows.
+`FROM` _`T1`_` CROSS JOIN` _`T2`_ 相當於 `FROM` _`T1`_ `INNER JOIN` _`T2`_ `ON TRUE`（見下文）。它也等同於 `FROM` _`T1`_`,` _`T2`_。
 
-`FROM` _`T1`_ CROSS JOIN _`T2`_ is equivalent to `FROM` _`T1`_ INNER JOIN _`T2`_ ON TRUE \(see below\). It is also equivalent to `FROM` _`T1`_, _`T2`_.
+> **注意**
+>
+> 當出現兩個以上的表時，後者的等價關係並不完全成立，因為`JOIN`的綁定比逗號更緊密。例如，`FROM` _`T1`_ `CROSS JOIN` _`T2`_ `INNER JOIN` _`T3`_ `ON` _`condition`_ 不同於`FROM` _`T1`_`,` _`T2`_ `INNER JOIN` _`T3`_ `ON` _`condition`_ 因為 _`condition`_ 可以第一種情況中但不能在第二個情況中參照 _`T1`_ 。
 
-#### Note
-
-This latter equivalence does not hold exactly when more than two tables appear, because `JOIN` binds more tightly than comma. For example `FROM` _`T1`_ CROSS JOIN _`T2`_ INNER JOIN _`T3`_ ON _`condition`_ is not the same as `FROM` _`T1`_, _`T2`_ INNER JOIN _`T3`_ ON _`condition`_ because the _`condition`_ can reference _`T1`_ in the first case but not the second.Qualified joins
+`Qualified joins`
 
 ```text
 T1 { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2 ON boolean_expression
@@ -48,33 +51,41 @@ T1 { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2 USING ( join column lis
 T1 NATURAL { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2
 ```
 
-The words `INNER` and `OUTER` are optional in all forms. `INNER` is the default; `LEFT`, `RIGHT`, and `FULL` imply an outer join.
+單詞 `INNER` 及 `OUTER`在所有形式中都是可選的。`INNER` 是默認值； `LEFT`、`RIGHT`及 `FULL` 表示外部聯接。
 
-The _join condition_ is specified in the `ON` or `USING` clause, or implicitly by the word `NATURAL`. The join condition determines which rows from the two source tables are considered to “match”, as explained in detail below.
+在 `ON` or `USING`子句中指定 _join condition_ ，或由單詞`NATURAL`隱式指定。聯接條件決定兩個來源資料表中的哪些列被視為“匹配”，如下面詳細的說明。
 
-The possible types of qualified join are:`INNER JOIN`
+限定聯接（qualified joins）的可能型別為：
 
-For each row R1 of T1, the joined table has a row for each row in T2 that satisfies the join condition with R1.`LEFT OUTER JOIN`
+`INNER JOIN`
 
-First, an inner join is performed. Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2. Thus, the joined table always has at least one row for each row in T1.`RIGHT OUTER JOIN`
+對於`T1`的每一列 `R1` ，聯接表有一列在`T2`中的每一列中滿足`R1`的聯接條件。
 
-First, an inner join is performed. Then, for each row in T2 that does not satisfy the join condition with any row in T1, a joined row is added with null values in columns of T1. This is the converse of a left join: the result table will always have a row for each row in T2.`FULL OUTER JOIN`
+`LEFT OUTER JOIN`
 
-First, an inner join is performed. Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2. Also, for each row of T2 that does not satisfy the join condition with any row in T1, a joined row with null values in the columns of T1 is added.
+首先，執行內部聯接。然後，對於`T1`中每一列與`T2`中任何列不滿足聯接條件，聯接列在`T2`的欄中添加空值。因此，對於`T1`中的每一列聯接表始終至少具有一列。
 
-The `ON` clause is the most general kind of join condition: it takes a Boolean value expression of the same kind as is used in a `WHERE` clause. A pair of rows from _`T1`_ and _`T2`_ match if the `ON` expression evaluates to true.
+`RIGHT OUTER JOIN`
 
-The `USING` clause is a shorthand that allows you to take advantage of the specific situation where both sides of the join use the same name for the joining column\(s\). It takes a comma-separated list of the shared column names and forms a join condition that includes an equality comparison for each one. For example, joining _`T1`_ and _`T2`_ with `USING (a, b)` produces the join condition `ON` _`T1`_.a = _`T2`_.a AND _`T1`_.b = _`T2`_.b.
+首先，執行內部聯接。 然後，對於`T2`中每一列與`T1`中任何列不滿足聯接條件，聯接列在`T1`的欄中添加空值。這是左聯接的反面：對於`T2`中的每一列結果表將始終有一列。
 
-Furthermore, the output of `JOIN USING` suppresses redundant columns: there is no need to print both of the matched columns, since they must have equal values. While `JOIN ON` produces all columns from _`T1`_ followed by all columns from _`T2`_, `JOIN USING` produces one output column for each of the listed column pairs \(in the listed order\), followed by any remaining columns from _`T1`_, followed by any remaining columns from _`T2`_.
+`FULL OUTER JOIN`
 
-Finally, `NATURAL` is a shorthand form of `USING`: it forms a `USING` list consisting of all column names that appear in both input tables. As with `USING`, these columns appear only once in the output table. If there are no common column names, `NATURAL JOIN` behaves like `JOIN ... ON TRUE`, producing a cross-product join.
+首先，執行內部聯接。然後，對於`T1`中每一列與`T2`中任何列不滿足聯接條件，聯接列在`T2`的欄中添加空值。另外，對於`T2`中每一列與`T1`中任何列不滿足聯接條件，聯接列在`T1`的欄中添加空值。
 
-#### Note
+`ON`子句是最通用種類的聯接條件：它採用與`WHERE`子句中使用的種類相同的Boolean值表示式。如果 `ON`表示式評估為真值，來自 _`T1`_ 和 _`T2`_ 的一對資料列匹配。
 
-`USING` is reasonably safe from column changes in the joined relations since only the listed columns are combined. `NATURAL` is considerably more risky since any schema changes to either relation that cause a new matching column name to be present will cause the join to combine that new column as well.
+`USING` 子句是一種簡寫形式，可讓您在特定的情況充分利用，即在聯接兩端使用相同的名稱聯接欄位。它使用逗號分隔的共享欄位名稱串列並形成一個包括每個條件相等性比較的聯接條件。例如，將 _`T1`_ 和 _`T2`_ 與 `USING (a, b)` 進行聯接會產生聯接條件`ON` _`T1`_`.a =`_`T2`_`.a AND`_`T1`_`.b =`_`T2`_`.b`。
 
-To put this together, assume we have tables `t1`:
+此外，`JOIN USING`的輸出抑制多餘的欄：無需打印兩個匹配的欄，因為它們必須具有相等的值。儘管`JOIN ON`會產生 _`T1`_ 的所有欄其次是 _`T2`_ 的所有欄，`JOIN USING`為每個列出的欄配對（按照列出的順序）產生一個輸出欄，其次是 _`T1`_ 的所有剩餘欄，其次是 _`T2`_ 的所有剩餘欄。
+
+最後，`NATURAL`是`USING`的簡寫形式：它形成一個由出現在兩個輸入資料表中的所有欄位名稱組成的`USING`串列。 與`USING`一樣，這些欄在輸出表中僅出現一次。如果沒有共用的欄位名稱，`NATURAL JOIN` 的行為類似於`JOIN ... ON TRUE`，產生外積聯接（cross-product join。
+
+> **注意**
+>
+> `USING`對於在聯接關係中變更欄位是相當安全的因為只有列出的欄位被合併。`NATURAL`的風險相當可觀，因為任何綱要（schema）變更為任一導致新的匹配欄位名稱出現的關係，也將會導致聯接合併該新的欄位。
+
+綜合以上所述，假設我們有資料表`t1`:
 
 ```text
  num | name
@@ -84,7 +95,7 @@ To put this together, assume we have tables `t1`:
    3 | c
 ```
 
-and `t2`:
+和資料表`t2`:
 
 ```text
  num | value
@@ -94,7 +105,7 @@ and `t2`:
    5 | zzz
 ```
 
-then we get the following results for the various joins:
+然後對於各種聯接我們得到以下結果：
 
 ```text
 => SELECT * FROM t1 CROSS JOIN t2;
@@ -166,7 +177,7 @@ then we get the following results for the various joins:
 (4 rows)
 ```
 
-The join condition specified with `ON` can also contain conditions that do not relate directly to the join. This can prove useful for some queries but needs to be thought out carefully. For example:
+以`ON`指定的聯接條件還可以包含與聯接不直接相關的條件。對於某些查詢這可以證明是有用的但需要小心地深思熟慮。例如：
 
 ```text
 => SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num AND t2.value = 'xxx';
@@ -178,7 +189,7 @@ The join condition specified with `ON` can also contain conditions that do not r
 (3 rows)
 ```
 
-Notice that placing the restriction in the `WHERE` clause produces a different result:
+請注意，將限制放置在`WHERE`子句中會產生不同的結果：
 
 ```text
 => SELECT * FROM t1 LEFT JOIN t2 ON t1.num = t2.num WHERE t2.value = 'xxx';
@@ -188,99 +199,99 @@ Notice that placing the restriction in the `WHERE` clause produces a different r
 (1 row)
 ```
 
-This is because a restriction placed in the `ON` clause is processed _before_ the join, while a restriction placed in the `WHERE` clause is processed _after_ the join. That does not matter with inner joins, but it matters a lot with outer joins.
+這是因為限制放在 `ON`子句會在聯接**之前**被處理，而限制放在 `WHERE`子句會在聯接**之後**被處理。這與內部聯接無關緊要，但對於外部聯接則很重要。
 
-### **7.2.1.2. Table And Column Aliases**
+### **7.2.1.2. 資料表和欄位別名**
 
-A temporary name can be given to tables and complex table references to be used for references to the derived table in the rest of the query. This is called a _table alias_.
+可以為資料表和復雜資料表參照給定一個臨時名稱來用在其餘查詢中參照衍生的資料表。這稱為 _資料表別名（table alias）_ 。
 
-To create a table alias, write
+要創建資料表別名，請編寫
 
 ```text
 FROM table_reference AS alias
 ```
 
-or
+或者是
 
 ```text
 FROM table_reference alias
 ```
 
-The `AS` key word is optional noise. _`alias`_ can be any identifier.
+關鍵字`AS`是選擇性的。 _`alias`_ 可以是任何標識符。
 
-A typical application of table aliases is to assign short identifiers to long table names to keep the join clauses readable. For example:
+資料表別名的典型應用是將短標識符分配給長資料表名稱，以保持連接子句的可讀性。例如：
 
 ```text
 SELECT * FROM some_very_long_table_name s JOIN another_fairly_long_name a ON s.id = a.num;
 ```
 
-The alias becomes the new name of the table reference so far as the current query is concerned — it is not allowed to refer to the table by the original name elsewhere in the query. Thus, this is not valid:
+以當前查詢而言，別名成為表參照的新名稱 —不允許在查詢其他位置中使用原始名稱引用該表。因此，這是無效的：
 
 ```text
 SELECT * FROM my_table AS m WHERE my_table.a > 5;    -- wrong
 ```
 
-Table aliases are mainly for notational convenience, but it is necessary to use them when joining a table to itself, e.g.:
+資料表別名主要是為了表示法的方便，但是在將資料表聯接到自身時必須使用它們，例如：
 
 ```text
 SELECT * FROM people AS mother JOIN people AS child ON mother.id = child.mother_id;
 ```
 
-Additionally, an alias is required if the table reference is a subquery \(see [Section 7.2.1.3](https://www.postgresql.org/docs/13/queries-table-expressions.html#QUERIES-SUBQUERIES)\).
+此外，如果表參照是子查詢，則需要別名（詳見[7.2.1.3節](https://docs.postgresql.tw/the-sql-language/queries/table-expressions#7-2-1-3-subqueries)）。
 
-Parentheses are used to resolve ambiguities. In the following example, the first statement assigns the alias `b` to the second instance of `my_table`, but the second statement assigns the alias to the result of the join:
+括號被用於解決歧義。在以下示例中，第一條語句將別名`b`分配給`my_table`的第二個實例，但是第二條語句將別名分配給聯接結果：
 
 ```text
 SELECT * FROM my_table AS a CROSS JOIN my_table AS b ...
 SELECT * FROM (my_table AS a CROSS JOIN my_table) AS b ...
 ```
 
-Another form of table aliasing gives temporary names to the columns of the table, as well as the table itself:
+資料表別名的另一種形式為資料表欄位以及資料表本身賦予臨時名稱：
 
 ```text
 FROM table_reference [AS] alias ( column1 [, column2 [, ...]] )
 ```
 
-If fewer column aliases are specified than the actual table has columns, the remaining columns are not renamed. This syntax is especially useful for self-joins or subqueries.
+如果指定的欄位別名少於實際表中包含的欄位，則不會重命名剩餘的欄位。此語法對於自聯接或子查詢特別有用。
 
-When an alias is applied to the output of a `JOIN` clause, the alias hides the original name\(s\) within the `JOIN`. For example:
+當別名被應用到`JOIN`子句的輸出時，別名將原始名稱隱藏在`JOIN`中。例如：
 
 ```text
 SELECT a.* FROM my_table AS a JOIN your_table AS b ON ...
 ```
 
-is valid SQL, but:
+是有效的SQL，但是：
 
 ```text
 SELECT a.* FROM (my_table AS a JOIN your_table AS b ON ...) AS c
 ```
 
-is not valid; the table alias `a` is not visible outside the alias `c`.
+是無效的；資料表別名`a`在別名`c`之外並不可見。
 
-### **7.2.1.3. Subqueries**
+### **7.2.1.3. 子查詢**
 
-Subqueries specifying a derived table must be enclosed in parentheses and _must_ be assigned a table alias name \(as in [Section 7.2.1.2](https://www.postgresql.org/docs/13/queries-table-expressions.html#QUERIES-TABLE-ALIASES)\). For example:
+子查詢指定衍生資料表必須括號括起來必須為資料表分配別名（如[7.2.1.2節](https://docs.postgresql.tw/the-sql-language/queries/table-expressions#7-2-1-2-table-and-column-aliases)）。例如：
 
 ```text
 FROM (SELECT * FROM table1) AS alias_name
 ```
 
-This example is equivalent to `FROM table1 AS alias_name`. More interesting cases, which cannot be reduced to a plain join, arise when the subquery involves grouping or aggregation.
+這個例子相當於`FROM table1 AS alias_name`。當子查詢涉及分組或彙總時會出現更有趣的無法簡化為普通聯接的情況。
 
-A subquery can also be a `VALUES` list:
+子查詢也可以是`VALUES`串列：
 
 ```text
 FROM (VALUES ('anne', 'smith'), ('bob', 'jones'), ('joe', 'blow'))
      AS names(first, last)
 ```
 
-Again, a table alias is required. Assigning alias names to the columns of the `VALUES` list is optional, but is good practice. For more information see [Section 7.7](https://www.postgresql.org/docs/13/queries-values.html).
+同樣，需要資料表別名。為`VALUES`串列的欄位分配別名是選擇性的，但這是一種好的實踐。有關更多訊息，請參見[7.7節](https://docs.postgresql.tw/the-sql-language/queries/values-lists)。
 
-### **7.2.1.4. Table Functions**
+### **7.2.1.4. 資料表函數**
 
-Table functions are functions that produce a set of rows, made up of either base data types \(scalar types\) or composite data types \(table rows\). They are used like a table, view, or subquery in the `FROM` clause of a query. Columns returned by table functions can be included in `SELECT`, `JOIN`, or `WHERE` clauses in the same manner as columns of a table, view, or subquery.
+資料表函數是產生一組資料列的函數，這些列由基本資料型別（標量型別）或複合數資料型別（資料表列）組成。在查詢的 `FROM` 子句中，它們像資料表、檢視表或子查詢一樣使用。資料表函數返回的欄位以資料表欄位、檢視表或子查詢相同的方式可以包含在`SELECT`、`JOIN`或`WHERE`子句中。
 
-Table functions may also be combined using the `ROWS FROM` syntax, with the results returned in parallel columns; the number of result rows in this case is that of the largest function result, with smaller results padded with null values to match.
+資料表函數也可以使用`ROWS FROM`語法進行組合，以並行欄位返回結果；在這種情況下結果列的數量是最大的函數結果，較小的結果將填充空值來匹配。
 
 ```text
 function_call [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ... ])]]
@@ -343,7 +354,7 @@ SELECT *
 
 The [dblink](https://www.postgresql.org/docs/13/contrib-dblink-function.html) function \(part of the [dblink](https://www.postgresql.org/docs/13/dblink.html) module\) executes a remote query. It is declared to return `record` since it might be used for any kind of query. The actual column set must be specified in the calling query so that the parser knows, for example, what `*` should expand to.
 
-### **7.2.1.5. LATERAL Subqueries**
+### **7.2.1.5. LATERAL子查詢**
 
 Subqueries appearing in `FROM` can be preceded by the key word `LATERAL`. This allows them to reference columns provided by preceding `FROM` items. \(Without `LATERAL`, each subquery is evaluated independently and so cannot cross-reference any other `FROM` item.\)
 
@@ -394,7 +405,7 @@ FROM manufacturers m LEFT JOIN LATERAL get_product_names(m.id) pname ON true
 WHERE pname IS NULL;
 ```
 
-## 7.2.2. The `WHERE` Clause
+## 7.2.2. `WHERE`子句
 
 The syntax of the [`WHERE`](https://www.postgresql.org/docs/13/sql-select.html#SQL-WHERE) clause is
 
@@ -446,7 +457,7 @@ SELECT ... FROM fdt WHERE EXISTS (SELECT c1 FROM t2 WHERE c2 > fdt.c1)
 
 `fdt` is the table derived in the `FROM` clause. Rows that do not meet the search condition of the `WHERE` clause are eliminated from `fdt`. Notice the use of scalar subqueries as value expressions. Just like any other query, the subqueries can employ complex table expressions. Notice also how `fdt` is referenced in the subqueries. Qualifying `c1` as `fdt.c1` is only necessary if `c1` is also the name of a column in the derived input table of the subquery. But qualifying the column name adds clarity even when it is not needed. This example shows how the column naming scope of an outer query extends into its inner queries.
 
-## 7.2.3. The `GROUP BY` and `HAVING` Clauses
+## 7.2.3. `GROUP BY`及 `HAVING`子句
 
 After passing the `WHERE` filter, the derived input table might be subject to grouping, using the `GROUP BY` clause, and elimination of group rows using the `HAVING` clause.
 
@@ -552,7 +563,7 @@ In the example above, the `WHERE` clause is selecting rows by a column that is n
 
 If a query contains aggregate function calls, but no `GROUP BY` clause, grouping still occurs: the result is a single group row \(or perhaps no rows at all, if the single row is then eliminated by `HAVING`\). The same is true if it contains a `HAVING` clause, even without any aggregate function calls or `GROUP BY` clause.
 
-## 7.2.4. `GROUPING SETS`, `CUBE`, and `ROLLUP`
+## 7.2.4. `GROUPING SETS`、`CUBE`及 `ROLLUP`
 
 More complex grouping operations than those described above are possible using the concept of _grouping sets_. The data selected by the `FROM` and `WHERE` clauses is grouped separately by each specified grouping set, aggregates computed for each group just as for simple `GROUP BY` clauses, and then the results returned. For example:
 
@@ -685,7 +696,7 @@ GROUP BY GROUPING SETS (
 
 The construct `(a, b)` is normally recognized in expressions as a [row constructor](https://www.postgresql.org/docs/13/sql-expressions.html#SQL-SYNTAX-ROW-CONSTRUCTORS). Within the `GROUP BY` clause, this does not apply at the top levels of expressions, and `(a, b)` is parsed as a list of expressions as described above. If for some reason you _need_ a row constructor in a grouping expression, use `ROW(a, b)`.
 
-## 7.2.5. Window Function Processing
+## 7.2.5. 窗函數處理
 
 If the query contains any window functions \(see [Section 3.5](https://www.postgresql.org/docs/13/tutorial-window.html), [Section 9.22](https://www.postgresql.org/docs/13/functions-window.html) and [Section 4.2.8](https://www.postgresql.org/docs/13/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)\), these functions are evaluated after any grouping, aggregation, and `HAVING` filtering is performed. That is, if the query uses any aggregates, `GROUP BY`, or `HAVING`, then the rows seen by the window functions are the group rows instead of the original table rows from `FROM`/`WHERE`.
 
