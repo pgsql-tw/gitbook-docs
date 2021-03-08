@@ -12,7 +12,7 @@ The [`FROM`子句](https://docs.postgresql.tw/reference/sql-commands/select#from
 FROM table_reference [, table_reference [, ...]]
 ```
 
-一個資料表參照能是一個表格名稱（也許綱要限定的），或一個衍生出的資料表，例如子查詢，`JOIN`建構或這些的複雜組合。如果多個資料表參照被列在`FROM`子句中， 這些資料表參照則表將被交叉聯接（cross-joined，即形成其資料列的笛卡爾積；請參見下文）。`FROM`串列的結果是一個中間的虛擬表，該表可以受到`WHERE`、`GROUP BY`和`HAVING`子句的轉換，並且最終是整個資料表表示式的結果。
+一個資料表參照能是一個表格名稱（也許綱要限定的），或一個衍生出的資料表，例如子查詢，`JOIN`建構或這些的複雜組合。如果多個資料表參照被列在`FROM`子句中， 這些資料表參照則表將被交叉聯接（cross-joined，即形成其資料列的笛卡爾積；請參見下文。）`FROM`串列的結果是一個中間的虛擬表，該表可以受到`WHERE`、`GROUP BY`和`HAVING`子句的轉換，並且最終是整個資料表表示式的結果。
 
 當一個資料表參照命名一個表格繼承層次結構的父級資料表，資料表參照不只是產生該表格的列，還會產生其所有後代表格的列，除非關鍵字`ONLY`在表格名稱之前。然而，該參照僅產生出現在已命名資料表中的欄位—子資料表中添加的任何欄位都將被忽略。
 
@@ -32,16 +32,18 @@ T1 join_type T2 [ join_condition ]
 
 `Cross join`
 
-```text
+```sql
 T1 CROSS JOIN T2
 ```
 對於從 _`T1`_ and _`T2`_ 的列的每種可能的組合(即笛卡爾積), 聯接的資料表將包含一個由 _`T1`_ 所有欄其次是 _`T2`_ 所有欄組成的列。如果資料表分別有 _N_ 列及 _M_ 列， 聯接表將具有 _N \* M_ 列。
 
-`FROM` _`T1`_` CROSS JOIN` _`T2`_ 相當於 `FROM` _`T1`_ `INNER JOIN` _`T2`_ `ON TRUE`（見下文）。它也等同於 `FROM` _`T1`_`,` _`T2`_。
+`FROM` _`T1`_` CROSS JOIN` _`T2`_ 相當於 `FROM` _`T1`_ `INNER JOIN` _`T2`_ `ON TRUE`（見下文。）它也等同於 `FROM` _`T1`_`,` _`T2`_。
 
-> **注意**
->
-> 當出現兩個以上的表時，後者的等價關係並不完全成立，因為`JOIN`的綁定比逗號更緊密。例如，`FROM` _`T1`_ `CROSS JOIN` _`T2`_ `INNER JOIN` _`T3`_ `ON` _`condition`_ 不同於`FROM` _`T1`_`,` _`T2`_ `INNER JOIN` _`T3`_ `ON` _`condition`_ 因為 _`condition`_ 可以第一種情況中但不能在第二個情況中參照 _`T1`_ 。
+{% hint style="info" %}
+**注意**
+
+當出現兩個以上的表時，後者的等價關係並不完全成立，因為`JOIN`的綁定比逗號更緊密。例如，`FROM` _`T1`_ `CROSS JOIN` _`T2`_ `INNER JOIN` _`T3`_ `ON` _`condition`_ 不同於`FROM` _`T1`_`,` _`T2`_ `INNER JOIN` _`T3`_ `ON` _`condition`_ 因為 _`condition`_ 可以第一種情況中但不能在第二個情況中參照 _`T1`_ 。
+{% endhint %}
 
 `Qualified joins`
 
@@ -81,9 +83,11 @@ T1 NATURAL { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2
 
 最後，`NATURAL`是`USING`的簡寫形式：它形成一個由出現在兩個輸入資料表中的所有欄位名稱組成的`USING`串列。 與`USING`一樣，這些欄在輸出表中僅出現一次。如果沒有共用的欄位名稱，`NATURAL JOIN` 的行為類似於`JOIN ... ON TRUE`，產生外積聯接（cross-product join。
 
-> **注意**
->
-> `USING`對於在聯接關係中變更欄位是相當安全的因為只有列出的欄位被合併。`NATURAL`的風險相當可觀，因為任何綱要（schema）變更為任一導致新的匹配欄位名稱出現的關係，也將會導致聯接合併該新的欄位。
+{% hint style="info" %}
+**注意**
+
+`USING`對於在聯接關係中變更欄位是相當安全的因為只有列出的欄位被合併。`NATURAL`的風險相當可觀，因為任何綱要（schema）變更為任一導致新的匹配欄位名稱出現的關係，也將會導致聯接合併該新的欄位。
+{% endhint %}
 
 綜合以上所述，假設我們有資料表`t1`:
 
@@ -207,13 +211,13 @@ T1 NATURAL { [INNER] | { LEFT | RIGHT | FULL } [OUTER] } JOIN T2
 
 要創建資料表別名，請編寫
 
-```text
+```sql
 FROM table_reference AS alias
 ```
 
 或者是
 
-```text
+```sql
 FROM table_reference alias
 ```
 
@@ -221,27 +225,27 @@ FROM table_reference alias
 
 資料表別名的典型應用是將短標識符分配給長資料表名稱，以保持連接子句的可讀性。例如：
 
-```text
+```sql
 SELECT * FROM some_very_long_table_name s JOIN another_fairly_long_name a ON s.id = a.num;
 ```
 
 以當前查詢而言，別名成為表參照的新名稱 —不允許在查詢其他位置中使用原始名稱引用該表。因此，這是無效的：
 
-```text
+```sql
 SELECT * FROM my_table AS m WHERE my_table.a > 5;    -- wrong
 ```
 
 資料表別名主要是為了表示法的方便，但是在將資料表聯接到自身時必須使用它們，例如：
 
-```text
+```sql
 SELECT * FROM people AS mother JOIN people AS child ON mother.id = child.mother_id;
 ```
 
-此外，如果表參照是子查詢，則需要別名（詳見[7.2.1.3節](https://docs.postgresql.tw/the-sql-language/queries/table-expressions#7-2-1-3-subqueries)）。
+此外，如果表參照是子查詢，則需要別名（詳見[7.2.1.3節](https://docs.postgresql.tw/the-sql-language/queries/table-expressions7-2-1-3-zi-cha-xun)。）
 
-括號被用於解決歧義。在以下示例中，第一條語句將別名`b`分配給`my_table`的第二個實例，但是第二條語句將別名分配給聯接結果：
+括號被用於解決歧義。在以下範例中，第一條語句將別名`b`分配給`my_table`的第二個實例，但是第二條語句將別名分配給聯接結果：
 
-```text
+```sql
 SELECT * FROM my_table AS a CROSS JOIN my_table AS b ...
 SELECT * FROM (my_table AS a CROSS JOIN my_table) AS b ...
 ```
@@ -256,13 +260,13 @@ FROM table_reference [AS] alias ( column1 [, column2 [, ...]] )
 
 當別名被應用到`JOIN`子句的輸出時，別名將原始名稱隱藏在`JOIN`中。例如：
 
-```text
+```sql
 SELECT a.* FROM my_table AS a JOIN your_table AS b ON ...
 ```
 
 是有效的SQL，但是：
 
-```text
+```sql
 SELECT a.* FROM (my_table AS a JOIN your_table AS b ON ...) AS c
 ```
 
@@ -270,9 +274,9 @@ SELECT a.* FROM (my_table AS a JOIN your_table AS b ON ...) AS c
 
 ### **7.2.1.3. 子查詢**
 
-子查詢指定衍生資料表必須括號括起來必須為資料表分配別名（如[7.2.1.2節](https://docs.postgresql.tw/the-sql-language/queries/table-expressions#7-2-1-2-table-and-column-aliases)）。例如：
+子查詢指定衍生資料表必須括號括起來必須為資料表分配別名（如[7.2.1.2節](https://docs.postgresql.tw/the-sql-language/queries/table-expressions7-2-1-2-zi-liao-biao-he-lan-wei-bie-ming)。）例如：
 
-```text
+```sql
 FROM (SELECT * FROM table1) AS alias_name
 ```
 
@@ -280,7 +284,7 @@ FROM (SELECT * FROM table1) AS alias_name
 
 子查詢也可以是`VALUES`串列：
 
-```text
+```sql
 FROM (VALUES ('anne', 'smith'), ('bob', 'jones'), ('joe', 'blow'))
      AS names(first, last)
 ```
@@ -298,21 +302,22 @@ function_call [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ... ])]]
 ROWS FROM( function_call [, ... ] ) [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ... ])]]
 ```
 
-If the `WITH ORDINALITY` clause is specified, an additional column of type `bigint` will be added to the function result columns. This column numbers the rows of the function result set, starting from 1. \(This is a generalization of the SQL-standard syntax for `UNNEST ... WITH ORDINALITY`.\) By default, the ordinal column is called `ordinality`, but a different column name can be assigned to it using an `AS` clause.
+如果`WITH ORDINALITY`子句被指定，一個額外的`bigint`型別欄位将被添加到函數結果欄位。這個欄位從1開始為函數結果集合的列作編號（這是SQL標準語法`UNNEST ... WITH ORDINALITY`的概括。）在默認情況下，序數欄位欄位被稱為`ordinality`，但可以使用`AS`子句分配不同的欄位名稱給它。
 
-The special table function `UNNEST` may be called with any number of array parameters, and it returns a corresponding number of columns, as if `UNNEST` \([Section 9.19](https://www.postgresql.org/docs/13/functions-array.html)\) had been called on each parameter separately and combined using the `ROWS FROM` construct.
+特別的資料表函數`UNNEST`也許伴隨著任意數量的陣列參數被調用，並且他返回一個對應數量的欄位，就如同分別對每個參數調用`UNNEST`（[9.19節](https://docs.postgresql.tw/the-sql-language/functions-and-operators/array-functions-and-operators)）並使用`ROWS FROM`建構將其組合在一起。
 
 ```text
 UNNEST( array_expression [, ... ] ) [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ... ])]]
 ```
 
-If no _`table_alias`_ is specified, the function name is used as the table name; in the case of a `ROWS FROM()` construct, the first function's name is used.
+如果沒有指定 _`table_alias`_，該函數名稱被用作資料表名稱；
+在`ROWS FROM`建構的情況中使用第一個函數的名稱。
 
-If column aliases are not supplied, then for a function returning a base data type, the column name is also the same as the function name. For a function returning a composite type, the result columns get the names of the individual attributes of the type.
+如果沒有提供欄位別名，則對於返回一個基礎資料型別的函數，該欄位名稱也與函數名稱相同。對於返回一個複合資料型別的函數，該結果欄位取得該型別個別屬性的名稱。
 
-Some examples:
+舉一些範例：
 
-```text
+```sql
 CREATE TABLE foo (fooid int, foosubid int, fooname text);
 
 CREATE FUNCTION getfoo(int) RETURNS SETOF foo AS $$
@@ -333,7 +338,7 @@ CREATE VIEW vw_getfoo AS SELECT * FROM getfoo(1);
 SELECT * FROM vw_getfoo;
 ```
 
-In some cases it is useful to define table functions that can return different column sets depending on how they are invoked. To support this, the table function can be declared as returning the pseudo-type `record`. When such a function is used in a query, the expected row structure must be specified in the query itself, so that the system can know how to parse and plan the query. This syntax looks like:
+在一些情況中他對定義能根據它們的調用方式返回不同欄位集合的資料表函數很有用。為了要支持這情況，資料表函數可以被宣告為返回偽型別 `record`。在查詢中使用此種函數時，在查詢本身中必須指定預期的資料列結構，以便讓系統知道如何解析和規劃查詢。這種語法看起來像是：
 
 ```text
 function_call [AS] alias (column_definition [, ... ])
@@ -341,44 +346,45 @@ function_call AS [alias] (column_definition [, ... ])
 ROWS FROM( ... function_call AS (column_definition [, ... ]) [, ... ] )
 ```
 
-When not using the `ROWS FROM()` syntax, the _`column_definition`_ list replaces the column alias list that could otherwise be attached to the `FROM` item; the names in the column definitions serve as column aliases. When using the `ROWS FROM()` syntax, a _`column_definition`_ list can be attached to each member function separately; or if there is only one member function and no `WITH ORDINALITY` clause, a _`column_definition`_ list can be written in place of a column alias list following `ROWS FROM()`.
+沒有使用`ROWS FROM()`語法時，_`column_definition`_ 串列替換原本能被附加到`FROM`項目的欄位別名串列；在欄位定義中的名稱充當欄位別名。當使用`ROWS FROM()`語法時，_`column_definition`_ 串列能被分別附加到每個成員函數；或者如果只有一個成員函數且沒有`WITH ORDINALITY`子句，能編寫_`column_definition`_ 串列來代替`ROWS FROM()`之後的欄位別名串列。
 
-Consider this example:
+考慮以下範例:
 
-```text
+```sql
 SELECT *
     FROM dblink('dbname=mydb', 'SELECT proname, prosrc FROM pg_proc')
       AS t1(proname name, prosrc text)
     WHERE proname LIKE 'bytea%';
 ```
 
-The [dblink](https://www.postgresql.org/docs/13/contrib-dblink-function.html) function \(part of the [dblink](https://www.postgresql.org/docs/13/dblink.html) module\) executes a remote query. It is declared to return `record` since it might be used for any kind of query. The actual column set must be specified in the calling query so that the parser knows, for example, what `*` should expand to.
+[dblink函數](https://www.postgresql.org/docs/13/contrib-dblink-function.html)（[dblink模組](https://docs.postgresql.tw/appendixes/additional-supplied-modules/dblink)的一部分）執行遠端查詢。它宣告返回`record`，因為它可以用於任何種類的查詢。實際的欄位集合必須被指定在調用的查詢以便讓解析器知道，舉例來說，`*`應該擴展成什麼。
 
 ### **7.2.1.5. LATERAL子查詢**
 
-Subqueries appearing in `FROM` can be preceded by the key word `LATERAL`. This allows them to reference columns provided by preceding `FROM` items. \(Without `LATERAL`, each subquery is evaluated independently and so cannot cross-reference any other `FROM` item.\)
+出現在`FROM`中的子查詢的前面可以有關鍵字`LATERAL`。這允許它們參照前面`FROM`項目提供的欄位。（沒有`LATERAL`的話，每一個子查詢被個別評估所以不能交叉參照任何其他`FROM`項目。）
 
-Table functions appearing in `FROM` can also be preceded by the key word `LATERAL`, but for functions the key word is optional; the function's arguments can contain references to columns provided by preceding `FROM` items in any case.
+出現在`FROM`中的資料表函數的前面也能有關鍵字`LATERAL`，但對於函數來說該關鍵字是選擇性的；在任何情況下該函數的參數能包含前面`FROM`項目提供的欄位參照。
 
-A `LATERAL` item can appear at top level in the `FROM` list, or within a `JOIN` tree. In the latter case it can also refer to any items that are on the left-hand side of a `JOIN` that it is on the right-hand side of.
+`LATERAL`項目能出現在`FROM`串列的頂層，或在`JOIN`樹之中。在後面的情況下在`JOIN`右邊的`LATERAL`也能引用在`JOIN`左邊的任何項目。
 
-When a `FROM` item contains `LATERAL` cross-references, evaluation proceeds as follows: for each row of the `FROM` item providing the cross-referenced column\(s\), or set of rows of multiple `FROM` items providing the columns, the `LATERAL` item is evaluated using that row or row set's values of the columns. The resulting row\(s\) are joined as usual with the rows they were computed from. This is repeated for each row or set of rows from the column source table\(s\).
+當`FROM`項目包含`LATERAL`交叉參照，評估過程如下：
+對於該`FROM`項目每一個提供交叉參照後欄位的列，或是多個`FROM`項目之提供欄位的列集合，將使用該欄位的列或列集合值來評估`LATERAL`項目。結果資料列照常與運算出它們的資料列聯接。對於欄位來源表的每一列或列集合重複此操作。
 
-A trivial example of `LATERAL` is
+`LATERAL`的一個簡單範例是：
 
-```text
+```sql
 SELECT * FROM foo, LATERAL (SELECT * FROM bar WHERE bar.id = foo.bar_id) ss;
 ```
 
-This is not especially useful since it has exactly the same result as the more conventional
+這不是特別有用，因為它與完全常規的結果完全相同
 
-```text
+```sql
 SELECT * FROM foo, bar WHERE bar.id = foo.bar_id;
 ```
 
-`LATERAL` is primarily useful when the cross-referenced column is necessary for computing the row\(s\) to be joined. A common application is providing an argument value for a set-returning function. For example, supposing that `vertices(polygon)` returns the set of vertices of a polygon, we could identify close-together vertices of polygons stored in a table with:
+`LATERAL`主要有用的時機是在運算資料列聯接而需要交叉參照後欄位的時候。典型的應用是提供一個參數值給會返回集合的函數。舉例來說，假如`vertices(polygon)`返回多邊形的頂點集合，我們可以經由以下方式識別存儲在表中多邊形的近似頂點：
 
-```text
+```sql
 SELECT p1.id, p2.id, v1, v2
 FROM polygons p1, polygons p2,
      LATERAL vertices(p1.poly) v1,
@@ -386,20 +392,20 @@ FROM polygons p1, polygons p2,
 WHERE (v1 <-> v2) < 10 AND p1.id != p2.id;
 ```
 
-This query could also be written
+這個查詢也可以寫成
 
-```text
+```sql
 SELECT p1.id, p2.id, v1, v2
 FROM polygons p1 CROSS JOIN LATERAL vertices(p1.poly) v1,
      polygons p2 CROSS JOIN LATERAL vertices(p2.poly) v2
 WHERE (v1 <-> v2) < 10 AND p1.id != p2.id;
 ```
 
-or in several other equivalent formulations. \(As already mentioned, the `LATERAL` key word is unnecessary in this example, but we use it for clarity.\)
+或者以其他幾種等效公式表示。（如前所述，關鍵字`LATERAL`在此範例中是不必要的，但為了清楚起見而使用它。）
 
-It is often particularly handy to `LEFT JOIN` to a `LATERAL` subquery, so that source rows will appear in the result even if the `LATERAL` subquery produces no rows for them. For example, if `get_product_names()` returns the names of products made by a manufacturer, but some manufacturers in our table currently produce no products, we could find out which ones those are like this:
+即使`LATERAL`子查詢沒有產生資料列，通常特別便利將`LEFT JOIN`添加到`LATERAL`子查詢，使得來源資料列將出現在結果中。舉例來說，如果`get_product_names()`返回製造商生產的產品名稱，但是我們表中的某些製造商目前未生產任何產品，我們可以像這樣找出：
 
-```text
+```sql
 SELECT m.name
 FROM manufacturers m LEFT JOIN LATERAL get_product_names(m.id) pname ON true
 WHERE pname IS NULL;
