@@ -293,7 +293,7 @@ FROM (VALUES ('anne', 'smith'), ('bob', 'jones'), ('joe', 'blow'))
 
 ### **7.2.1.4. 資料表函數**
 
-資料表函數是產生一組資料列的函數，這些列由基本資料型別（標量型別）或複合數資料型別（資料表列）組成。在查詢的 `FROM` 子句中，它們像資料表、檢視表或子查詢一樣使用。資料表函數返回的欄位以資料表欄位、檢視表或子查詢相同的方式可以包含在`SELECT`、`JOIN`或`WHERE`子句中。
+資料表函數是產生一組資料列的函數，這些列由基本資料型別（標量（scalar）型別）或複合數資料型別（資料表列）組成。在查詢的 `FROM` 子句中，它們像資料表、檢視表或子查詢一樣使用。資料表函數返回的欄位以資料表欄位、檢視表或子查詢相同的方式可以包含在`SELECT`、`JOIN`或`WHERE`子句中。
 
 資料表函數也可以使用`ROWS FROM`語法進行組合，以並行欄位返回結果；在這種情況下結果列的數量是最大的函數結果，較小的結果將填充空值來匹配。
 
@@ -413,41 +413,42 @@ WHERE pname IS NULL;
 
 ## 7.2.2. `WHERE`子句
 
-The syntax of the [`WHERE`](https://www.postgresql.org/docs/13/sql-select.html#SQL-WHERE) clause is
+[`WHERE`](https://docs.postgresql.tw/reference/sql-commands/select#where-clause)子句的語法是
 
 ```text
 WHERE search_condition
 ```
 
-where _`search_condition`_ is any value expression \(see [Section 4.2](https://www.postgresql.org/docs/13/sql-expressions.html)\) that returns a value of type `boolean`.
+其中 _`search_condition`_ 是任何返回型別`boolean`值的值表示式（參見[4.2節](https://docs.postgresql.tw/the-sql-language/sql-syntax/value-expressions)。）
 
-After the processing of the `FROM` clause is done, each row of the derived virtual table is checked against the search condition. If the result of the condition is true, the row is kept in the output table, otherwise \(i.e., if the result is false or null\) it is discarded. The search condition typically references at least one column of the table generated in the `FROM` clause; this is not required, but otherwise the `WHERE` clause will be fairly useless.
+在完成`FROM`子句的處理之後，針對搜尋條件檢查衍生虛擬表的每一列。如果條件的結果為true，則資料列保留在輸出表中，否則（即結果為false或null） 被丟棄。搜尋條件通常參照在`FROM`子句中生成的表中的至少一欄；這不是必須的，但反之`WHERE` 子句是相當毫無用處的。
 
-#### Note
+{% hint style="info" %}
+**注意**
 
-The join condition of an inner join can be written either in the `WHERE` clause or in the `JOIN` clause. For example, these table expressions are equivalent:
+內部聯接的聯接條件可以寫入在 `WHERE`子句中或`JOIN` 子句中。例如，這些資料表表示式等同於：
 
-```text
+```sql
 FROM a, b WHERE a.id = b.id AND b.val > 5
 ```
 
-and:
+以及：
 
-```text
+```sql
 FROM a INNER JOIN b ON (a.id = b.id) WHERE b.val > 5
 ```
 
-or perhaps even:
+或也甚至：
 
-```text
+```sql
 FROM a NATURAL JOIN b WHERE b.val > 5
 ```
+使用其中哪一個主要是風格問題。`FROM` 子句 的`JOIN`語法對其他SQL資料庫管理系統的可能不是可攜式的， 即使它處於SQL標準中。對於外部聯接來說別無選擇：他們必須在`FROM` 子句中完成。外部聯接的`ON`或`USING`子句**不是**等同於`WHERE`條件，因為它導致列的添加（對於沒有匹配的輸入列）以及在最終結果中列的刪除。
+{% endhint %}
 
-Which one of these you use is mainly a matter of style. The `JOIN` syntax in the `FROM` clause is probably not as portable to other SQL database management systems, even though it is in the SQL standard. For outer joins there is no choice: they must be done in the `FROM` clause. The `ON` or `USING` clause of an outer join is _not_ equivalent to a `WHERE` condition, because it results in the addition of rows \(for unmatched input rows\) as well as the removal of rows in the final result.
+以下是`WHERE`子句的一些範例：
 
-Here are some examples of `WHERE` clauses:
-
-```text
+```sql
 SELECT ... FROM fdt WHERE c1 > 5
 
 SELECT ... FROM fdt WHERE c1 IN (1, 2, 3)
@@ -461,11 +462,11 @@ SELECT ... FROM fdt WHERE c1 BETWEEN (SELECT c3 FROM t2 WHERE c2 = fdt.c1 + 10) 
 SELECT ... FROM fdt WHERE EXISTS (SELECT c1 FROM t2 WHERE c2 > fdt.c1)
 ```
 
-`fdt` is the table derived in the `FROM` clause. Rows that do not meet the search condition of the `WHERE` clause are eliminated from `fdt`. Notice the use of scalar subqueries as value expressions. Just like any other query, the subqueries can employ complex table expressions. Notice also how `fdt` is referenced in the subqueries. Qualifying `c1` as `fdt.c1` is only necessary if `c1` is also the name of a column in the derived input table of the subquery. But qualifying the column name adds clarity even when it is not needed. This example shows how the column naming scope of an outer query extends into its inner queries.
+`fdt`是在 `FROM`子劇中衍生的資料表。不符合`WHERE`子句搜尋條件的列從`FDT`排除。請注意標量（scalar）子查詢作為值表示式的使用。就像任何其他查詢一樣，子查詢可以採用複雜的資料表表示式。還要注意在子查詢中`fdt`是如何被參照的。僅當`c1`也是子查詢衍生輸入表中的欄位名稱時，限定（qualifying）`c1`為`fdt.c1`是必要的。但即使不需要，限定欄位名稱會增加清晰度。此範例顯示了外部查詢的欄位命名作用域如何延伸到其內部查詢中。
 
 ## 7.2.3. `GROUP BY`及 `HAVING`子句
 
-After passing the `WHERE` filter, the derived input table might be subject to grouping, using the `GROUP BY` clause, and elimination of group rows using the `HAVING` clause.
+在經過`WHERE`篩選器後，衍生的輸入表可能會遭受到使用`GROUP BY` 子句進行分組，而使用`HAVING`子句進行群組資料列的排除。
 
 ```text
 SELECT select_list
@@ -474,7 +475,7 @@ SELECT select_list
     GROUP BY grouping_column_reference [, grouping_column_reference]...
 ```
 
-The [`GROUP BY`](https://www.postgresql.org/docs/13/sql-select.html#SQL-GROUPBY) clause is used to group together those rows in a table that have the same values in all the columns listed. The order in which the columns are listed does not matter. The effect is to combine each set of rows having common values into one group row that represents all rows in the group. This is done to eliminate redundancy in the output and/or compute aggregates that apply to these groups. For instance:
+[`GROUP BY`](https://docs.postgresql.tw/reference/sql-commands/select#group-by-clause)子句用於將資料列分組在一起，這些資料列在條列出的所有資料列中具有相同的值。條列出的的欄位順序無關緊要。其效果是將具有共同值的資料列集合在群組中組合到一個群組資料列來表示所有資料列。這樣做是為了排除輸出中的的冗餘且/或運算應用於這些群組的彙總。例如：
 
 ```text
 => SELECT * FROM test1;
@@ -495,9 +496,9 @@ The [`GROUP BY`](https://www.postgresql.org/docs/13/sql-select.html#SQL-GROUPBY)
 (3 rows)
 ```
 
-In the second query, we could not have written `SELECT * FROM test1 GROUP BY x`, because there is no single value for the column `y` that could be associated with each group. The grouped-by columns can be referenced in the select list since they have a single value in each group.
+在第二個查詢中，我們不能寫成 `SELECT * FROM test1 GROUP BY x`，因為對於可能與每個群組相關聯的欄位`y`來說沒有單一值。可以在選擇串列中參照被分組的列，因為它們在每個群組中具有單一值。
 
-In general, if a table is grouped, columns that are not listed in `GROUP BY` cannot be referenced except in aggregate expressions. An example with aggregate expressions is:
+通常來說，如果將資料表被分組，則除了彙總表示式之外不能參照沒有在`GROUP BY`中條列出的欄位。彙總表示式的範例是：
 
 ```text
 => SELECT x, sum(y) FROM test1 GROUP BY x;
@@ -509,35 +510,37 @@ In general, if a table is grouped, columns that are not listed in `GROUP BY` can
 (3 rows)
 ```
 
-Here `sum` is an aggregate function that computes a single value over the entire group. More information about the available aggregate functions can be found in [Section 9.21](https://www.postgresql.org/docs/13/functions-aggregate.html).
+在這裡`sum`是一個在整個群組之上運算一個單一值的彙總函數。有關彙總函數的更多訊息，請參見[9.21節](https://docs.postgresql.tw/the-sql-language/functions-and-operators/aggregate-functions)。
 
-#### Tip
+{% hint style="success" %}
+**Tip**
 
-Grouping without aggregate expressions effectively calculates the set of distinct values in a column. This can also be achieved using the `DISTINCT` clause \(see [Section 7.3.3](https://www.postgresql.org/docs/13/queries-select-lists.html#QUERIES-DISTINCT)\).
+沒有彙總表示式的分組有效地運算一個欄位中的相異值集合。這也可以使用`DISTINCT` 子句來實現（詳見[7.3.3節](https://docs.postgresql.tw/the-sql-language/queries/select-lists#7-3-3-distinct)。）
+{% endhint %}
 
-Here is another example: it calculates the total sales for each product \(rather than the total sales of all products\):
+這是另一個範例，它計算每個產品的總銷售額（而不是所有產品的總銷售）：
 
-```text
+```sql
 SELECT product_id, p.name, (sum(s.units) * p.price) AS sales
     FROM products p LEFT JOIN sales s USING (product_id)
     GROUP BY product_id, p.name, p.price;
 ```
 
-In this example, the columns `product_id`, `p.name`, and `p.price` must be in the `GROUP BY` clause since they are referenced in the query select list \(but see below\). The column `s.units` does not have to be in the `GROUP BY` list since it is only used in an aggregate expression \(`sum(...)`\), which represents the sales of a product. For each product, the query returns a summary row about all sales of the product.
+在這個範例，欄位`product_id`、`p.name`、及`p.price`必須在`GROUP BY`子句中是由於它們在查詢選擇串列中被參照（但詳見下文。）欄位`s.units`沒有需要在`GROUP BY`串列是由於它只能使用在彙總表示式（`sum(...)`），其代表一個產品的銷售。對於每個產品，查詢返回關於該產品所有銷售的摘要資料列。
 
-If the products table is set up so that, say, `product_id` is the primary key, then it would be enough to group by `product_id` in the above example, since name and price would be _functionally dependent_ on the product ID, and so there would be no ambiguity about which name and price value to return for each product ID group.
+如果產品資料被設置為`product_id`是主鍵（primary key），然後在上方的範例中它足以經由被`product_id` 分組，是由於名稱與價格將是**在功能上依賴於**產品ID，所以對與每個產品ID群組要返回哪些名稱和價格值都沒有模棱兩可。
 
-In strict SQL, `GROUP BY` can only group by columns of the source table but PostgreSQL extends this to also allow `GROUP BY` to group by columns in the select list. Grouping by value expressions instead of simple column names is also allowed.
+在嚴格的SQL中， `GROUP BY`只能經由來源資料表的欄位進行分組但PostgreSQL擴展允許`GROUP BY`經由選擇串列中的欄位進行分組。允許經由值表示式來取代簡單的欄位名稱進行分組。
 
-If a table has been grouped using `GROUP BY`, but only certain groups are of interest, the `HAVING` clause can be used, much like a `WHERE` clause, to eliminate groups from the result. The syntax is:
+如果資料表已經被`GROUP BY`分組，但只有對某些群組感興趣，能使用`HAVING`子句，類似`WHERE`子句，從結果來排除群組。語法如下：
 
 ```text
 SELECT select_list FROM ... [WHERE ...] GROUP BY ... HAVING boolean_expression
 ```
 
-Expressions in the `HAVING` clause can refer both to grouped expressions and to ungrouped expressions \(which necessarily involve an aggregate function\).
+在`HAVING`子句中的表示式能引用已分組表示式及未分組表示式兩者（其必然涉及彙總函數。）
 
-Example:
+舉例：
 
 ```text
 => SELECT x, sum(y) FROM test1 GROUP BY x HAVING sum(y) > 3;
@@ -555,9 +558,9 @@ Example:
 (2 rows)
 ```
 
-Again, a more realistic example:
+再來一個更真實的範例：
 
-```text
+```sql
 SELECT product_id, p.name, (sum(s.units) * (p.price - p.cost)) AS profit
     FROM products p LEFT JOIN sales s USING (product_id)
     WHERE s.date > CURRENT_DATE - INTERVAL '4 weeks'
@@ -565,9 +568,9 @@ SELECT product_id, p.name, (sum(s.units) * (p.price - p.cost)) AS profit
     HAVING sum(p.price * s.units) > 5000;
 ```
 
-In the example above, the `WHERE` clause is selecting rows by a column that is not grouped \(the expression is only true for sales during the last four weeks\), while the `HAVING` clause restricts the output to groups with total gross sales over 5000. Note that the aggregate expressions do not necessarily need to be the same in all parts of the query.
+在上方的範例中，`WHERE`子句正在經由一個未被分組的欄位選擇資料列（在過去四周內，該表示式僅適用於銷售額），儘管 `HAVING`子句限制輸出為總銷售額超過5000的群組。 請注意，彙總表示式在查詢的所有部分中不一定需要相同。
 
-If a query contains aggregate function calls, but no `GROUP BY` clause, grouping still occurs: the result is a single group row \(or perhaps no rows at all, if the single row is then eliminated by `HAVING`\). The same is true if it contains a `HAVING` clause, even without any aggregate function calls or `GROUP BY` clause.
+如果查詢包含彙總函數調用但沒有 `GROUP BY`子句，分組仍然會發生：結果是單個群組資料列（或者可能沒有資料列，如果經由`HAVING`排除該單一資料列。）即使沒有任何彙總函數調用或 `GROUP BY`子句，如果包含`HAVING`子句則同樣會發生。
 
 ## 7.2.4. `GROUPING SETS`、`CUBE`及 `ROLLUP`
 
