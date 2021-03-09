@@ -574,7 +574,7 @@ SELECT product_id, p.name, (sum(s.units) * (p.price - p.cost)) AS profit
 
 ## 7.2.4. `GROUPING SETS`、`CUBE`及 `ROLLUP`
 
-More complex grouping operations than those described above are possible using the concept of _grouping sets_. The data selected by the `FROM` and `WHERE` clauses is grouped separately by each specified grouping set, aggregates computed for each group just as for simple `GROUP BY` clauses, and then the results returned. For example:
+更多比上方描述較複雜的分組操作可以使用 _分組集合（grouping sets）_ 的概念。經由`FROM`及`WHERE`子句選擇的資料被每一個特定的分組集合分別地分組，對於每一個群組運算的彙總就如同簡單的`GROUP BY`子句，而後返回其結果。舉例來說：
 
 ```text
 => SELECT * FROM items_sold;
@@ -597,19 +597,20 @@ More complex grouping operations than those described above are possible using t
 (5 rows)
 ```
 
-Each sublist of `GROUPING SETS` may specify zero or more columns or expressions and is interpreted the same way as though it were directly in the `GROUP BY` clause. An empty grouping set means that all rows are aggregated down to a single group \(which is output even if no input rows were present\), as described above for the case of aggregate functions with no `GROUP BY` clause.
+每一個`GROUPING SETS`的子串列可以指定零個或多個欄位或表示式並且以它直接在`GROUP BY`子句中相同的方式來解釋。
+一個空的分組集合意味著所有資料列被彙總到單一的群組（即使沒有輸入資料列被呈現也會輸出），如同上方所述對於沒有`GROUP BY`子句的彙總函數之情況。
+ 
+分組欄位或表示式的參照對於未出現在這些欄位中的分組集合來說會在結果列中由null值替換。要區分源自哪邊的分組特定輸出列，詳見[表 9.59](https://docs.postgresql.tw/the-sql-language/functions-and-operators/aggregate-functions#table-9-59-grouping-operations)。
 
-References to the grouping columns or expressions are replaced by null values in result rows for grouping sets in which those columns do not appear. To distinguish which grouping a particular output row resulted from, see [Table 9.59](https://www.postgresql.org/docs/13/functions-aggregate.html#FUNCTIONS-GROUPING-TABLE).
+為了指定兩個分組集合的常見型別提供了一個簡寫表示法。該形式的子句為
 
-A shorthand notation is provided for specifying two common types of grouping set. A clause of the form
-
-```text
+```sql
 ROLLUP ( e1, e2, e3, ... )
 ```
 
-represents the given list of expressions and all prefixes of the list including the empty list; thus it is equivalent to
+代表了給定的表達式串列和該串列的所有前綴，包括空串列；因此它相當於
 
-```text
+```sql
 GROUPING SETS (
     ( e1, e2, e3, ... ),
     ...
@@ -619,23 +620,23 @@ GROUPING SETS (
 )
 ```
 
-This is commonly used for analysis over hierarchical data; e.g., total salary by department, division, and company-wide total.
+這通常用於分析階層式資料：例如，部門，分部和公司的總薪資。
 
-A clause of the form
+另一形式的子句為
 
-```text
+```sql
 CUBE ( e1, e2, ... )
 ```
 
-represents the given list and all of its possible subsets \(i.e., the power set\). Thus
+表示給定的串列和所有可能的子集合（即power set。）因此
 
-```text
+```sql
 CUBE ( a, b, c )
 ```
 
-is equivalent to
+相當於
 
-```text
+```sql
 GROUPING SETS (
     ( a, b, c ),
     ( a, b    ),
@@ -648,15 +649,15 @@ GROUPING SETS (
 )
 ```
 
-The individual elements of a `CUBE` or `ROLLUP` clause may be either individual expressions, or sublists of elements in parentheses. In the latter case, the sublists are treated as single units for the purposes of generating the individual grouping sets. For example:
+ `CUBE`或`ROLLUP` 子句各自的元素也許是各自的表示式，或元素在括號中的子串列。在後一種情況下，為了生成各自的分組集合的意圖，該子串列被視為單個單元。例如：
 
-```text
+```sql
 CUBE ( (a, b), (c, d) )
 ```
 
-is equivalent to
+相當於
 
-```text
+```sql
 GROUPING SETS (
     ( a, b, c, d ),
     ( a, b       ),
@@ -665,15 +666,15 @@ GROUPING SETS (
 )
 ```
 
-and
+以及
 
-```text
+```sql
 ROLLUP ( a, (b, c), d )
 ```
 
-is equivalent to
+相當於
 
-```text
+```sql
 GROUPING SETS (
     ( a, b, c, d ),
     ( a, b, c    ),
@@ -682,17 +683,17 @@ GROUPING SETS (
 )
 ```
 
-The `CUBE` and `ROLLUP` constructs can be used either directly in the `GROUP BY` clause, or nested inside a `GROUPING SETS` clause. If one `GROUPING SETS` clause is nested inside another, the effect is the same as if all the elements of the inner clause had been written directly in the outer clause.
+ `CUBE`或`ROLLUP` 建構能被直接用在`GROUP BY`子句中，或被嵌套在`GROUPING SETS`子句內。如果`GROUPING SETS`子句被嵌套在另一個內，效果與內部子句內的所有元素被直接寫入外部子句中時相同。
 
-If multiple grouping items are specified in a single `GROUP BY` clause, then the final list of grouping sets is the cross product of the individual items. For example:
+如果多個的分組項目被指定在單一`GROUP BY`子句，分組集合的最終串列會是各自項目的外積。例如：
 
-```text
+```sql
 GROUP BY a, CUBE (b, c), GROUPING SETS ((d), (e))
 ```
 
-is equivalent to
+相當於
 
-```text
+```sql
 GROUP BY GROUPING SETS (
     (a, b, c, d), (a, b, c, e),
     (a, b, d),    (a, b, e),
@@ -701,16 +702,20 @@ GROUP BY GROUPING SETS (
 )
 ```
 
-#### Note
+{% hint style="info" %}
+**注意**
 
-The construct `(a, b)` is normally recognized in expressions as a [row constructor](https://www.postgresql.org/docs/13/sql-expressions.html#SQL-SYNTAX-ROW-CONSTRUCTORS). Within the `GROUP BY` clause, this does not apply at the top levels of expressions, and `(a, b)` is parsed as a list of expressions as described above. If for some reason you _need_ a row constructor in a grouping expression, use `ROW(a, b)`.
+建構 `(a, b)`一般來說在表示式中被辨識為一個[資料列建構子（row constructor）](https://docs.postgresql.tw/the-sql-language/sql-syntax/value-expressions#4-2-13-zi-liao-lie-jian-gou-zhe)。在`GROUP BY`子句內，這不適用於表示式的頂層，並且 `(a, b)`是被解析為一個如上方所述的表示式串列。如果為某些理由你 _需要_ 一個資料列建構子在分組表示式，請使用`ROW(a, b)`。
+{% endhint %}
 
 ## 7.2.5. 窗函數處理
 
-If the query contains any window functions \(see [Section 3.5](https://www.postgresql.org/docs/13/tutorial-window.html), [Section 9.22](https://www.postgresql.org/docs/13/functions-window.html) and [Section 4.2.8](https://www.postgresql.org/docs/13/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)\), these functions are evaluated after any grouping, aggregation, and `HAVING` filtering is performed. That is, if the query uses any aggregates, `GROUP BY`, or `HAVING`, then the rows seen by the window functions are the group rows instead of the original table rows from `FROM`/`WHERE`.
+如果查詢包含任何窗函數（詳見[3.5節](https://docs.postgresql.tw/tutorial/advanced-features/window-functions)，[9.22節](https://docs.postgresql.tw/the-sql-language/functions-and-operators/window-functions)， [4.2.8節](https://docs.postgresql.tw/the-sql-language/sql-syntax/value-expressions#4-2-8-chuang-han-shu-hu-jiao)），這些函數在執行任何分組、彙總及`HAVING`篩選之後被評估。也就是說，如果查詢使用任何彙總、`GROUP BY`或`HAVING`，則窗函數看到的資料列是分組資料列而不是來自`FROM`/`WHERE`的原始表資料列。
 
-When multiple window functions are used, all the window functions having syntactically equivalent `PARTITION BY` and `ORDER BY` clauses in their window definitions are guaranteed to be evaluated in a single pass over the data. Therefore they will see the same sort ordering, even if the `ORDER BY` does not uniquely determine an ordering. However, no guarantees are made about the evaluation of functions having different `PARTITION BY` or `ORDER BY` specifications. \(In such cases a sort step is typically required between the passes of window function evaluations, and the sort is not guaranteed to preserve ordering of rows that its `ORDER BY` sees as equivalent.\)
+當使用多個窗函數，擁有在語法上等效於`PARTITION BY`及`ORDER BY`子句的所有窗函數在窗口定義中是被保證在資料上的單次傳遞中被評估。因此它們將看到相同的排序次序，即使`ORDER BY`沒有唯一決定次序。然而不保證具有不同於`PARTITION BY`或`ORDER BY`規範的函數之評估。（在這種情況下窗函數評估的傳遞之間通常需要排序步驟，並且不保證該排序會維持它的`ORDER BY`視為等效的資料列之次序。）
 
-Currently, window functions always require presorted data, and so the query output will be ordered according to one or another of the window functions' `PARTITION BY`/`ORDER BY` clauses. It is not recommended to rely on this, however. Use an explicit top-level `ORDER BY` clause if you want to be sure the results are sorted in a particular way.  
+目前，窗函數總是必須要預先排序的資料，因此會依照一個或其他窗函數的`PARTITION BY`/`ORDER BY`子句整理查詢輸出。然而，不建議依賴這一點。使用顯式頂層`ORDER BY`子句如果要確保結果以特定方式排序。
 
+---
 
+原文連結：https://www.postgresql.org/docs/13/queries-table-expressions.html
