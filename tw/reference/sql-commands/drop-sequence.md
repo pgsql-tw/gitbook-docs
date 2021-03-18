@@ -28,20 +28,20 @@ Automatically drop objects that depend on the sequence, and in turn all objects 
 
 Refuse to drop the sequence if any objects depend on it. This is the default.
 
-### Examples
+### 範例
 
-To remove the sequence `serial`:
+要移除序列物件：
 
 ```text
 DROP SEQUENCE serial;
 ```
 
-### Compatibility
+### 相容性
 
-`DROP SEQUENCE` conforms to the SQL standard, except that the standard only allows one sequence to be dropped per command, and apart from the `IF EXISTS` option, which is a PostgreSQL extension.
+DROP SEQUENCE 符合 SQL 標準，但標準僅允許每個指令移除一個序列，包含除了 IF EXISTS 選項（它是 PostgreSQL 加入的功能）外的部份。
 
-### See Also
+### 參閱
 
-[CREATE SEQUENCE](https://www.postgresql.org/docs/13/sql-createsequence.html), [ALTER SEQUENCE](https://www.postgresql.org/docs/13/sql-altersequence.html)  
+[CREATE SEQUENCE](create-sequence.md), [ALTER SEQUENCE](alter-sequence.md)  
 
 
