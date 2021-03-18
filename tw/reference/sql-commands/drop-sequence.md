@@ -24,9 +24,7 @@ The name \(optionally schema-qualified\) of a sequence.
 
 `CASCADE`
 
-Automatically drop objects that depend on the sequence, and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
-
-`RESTRICT`
+Automatically drop objects that depend on the sequence, and in turn all objects that depend on those objects \(see [Section 5.14](https://www.postgresql.org/docs/13/ddl-depend.html)\).`RESTRICT`
 
 Refuse to drop the sequence if any objects depend on it. This is the default.
 
@@ -44,5 +42,6 @@ DROP SEQUENCE serial;
 
 ### See Also
 
-[CREATE SEQUENCE](create-sequence.md), [ALTER SEQUENCE](alter-sequence.md)
+[CREATE SEQUENCE](https://www.postgresql.org/docs/13/sql-createsequence.html), [ALTER SEQUENCE](https://www.postgresql.org/docs/13/sql-altersequence.html)  
+
 

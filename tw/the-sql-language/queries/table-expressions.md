@@ -35,9 +35,10 @@ T1 join_type T2 [ join_condition ]
 ```sql
 T1 CROSS JOIN T2
 ```
-對於從 _`T1`_ and _`T2`_ 的列的每種可能的組合(即笛卡爾積), 聯接的資料表將包含一個由 _`T1`_ 所有欄其次是 _`T2`_ 所有欄組成的列。如果資料表分別有 _N_ 列及 _M_ 列， 聯接表將具有 _N \* M_ 列。
 
-`FROM` _`T1`_` CROSS JOIN` _`T2`_ 相當於 `FROM` _`T1`_ `INNER JOIN` _`T2`_ `ON TRUE`（見下文。）它也等同於 `FROM` _`T1`_`,` _`T2`_。
+對於從 _`T1`_ and _`T2`_ 的列的每種可能的組合\(即笛卡爾積\), 聯接的資料表將包含一個由 _`T1`_ 所有欄其次是 _`T2`_ 所有欄組成的列。如果資料表分別有 _N_ 列及 _M_ 列， 聯接表將具有 _N \* M_ 列。
+
+`FROM` _`T1`_`CROSS JOIN` _`T2`_ 相當於 `FROM` _`T1`_ `INNER JOIN` _`T2`_ `ON TRUE`（見下文。）它也等同於 `FROM` _`T1`_`,` _`T2`_。
 
 {% hint style="info" %}
 **注意**
@@ -310,8 +311,7 @@ ROWS FROM( function_call [, ... ] ) [WITH ORDINALITY] [[AS] table_alias [(column
 UNNEST( array_expression [, ... ] ) [WITH ORDINALITY] [[AS] table_alias [(column_alias [, ... ])]]
 ```
 
-如果沒有指定 _`table_alias`_，該函數名稱被用作資料表名稱；
-在`ROWS FROM`建構的情況中使用第一個函數的名稱。
+如果沒有指定 _`table_alias`_，該函數名稱被用作資料表名稱； 在`ROWS FROM`建構的情況中使用第一個函數的名稱。
 
 如果沒有提供欄位別名，則對於返回一個基礎資料型別的函數，該欄位名稱也與函數名稱相同。對於返回一個複合資料型別的函數，該結果欄位取得該型別個別屬性的名稱。
 
@@ -367,8 +367,7 @@ SELECT *
 
 `LATERAL`項目能出現在`FROM`串列的頂層，或在`JOIN`樹之中。在後面的情況下在`JOIN`右邊的`LATERAL`也能引用在`JOIN`左邊的任何項目。
 
-當`FROM`項目包含`LATERAL`交叉參照，評估過程如下：
-對於該`FROM`項目每一個提供交叉參照後欄位的列，或是多個`FROM`項目之提供欄位的列集合，將使用該欄位的列或列集合值來評估`LATERAL`項目。結果資料列照常與運算出它們的資料列聯接。對於欄位來源表的每一列或列集合重複此操作。
+當`FROM`項目包含`LATERAL`交叉參照，評估過程如下： 對於該`FROM`項目每一個提供交叉參照後欄位的列，或是多個`FROM`項目之提供欄位的列集合，將使用該欄位的列或列集合值來評估`LATERAL`項目。結果資料列照常與運算出它們的資料列聯接。對於欄位來源表的每一列或列集合重複此操作。
 
 `LATERAL`的一個簡單範例是：
 
@@ -443,6 +442,7 @@ FROM a INNER JOIN b ON (a.id = b.id) WHERE b.val > 5
 ```sql
 FROM a NATURAL JOIN b WHERE b.val > 5
 ```
+
 使用其中哪一個主要是風格問題。`FROM` 子句 的`JOIN`語法對其他SQL資料庫管理系統的可能不是可攜式的， 即使它處於SQL標準中。對於外部聯接來說別無選擇：他們必須在`FROM` 子句中完成。外部聯接的`ON`或`USING`子句**不是**等同於`WHERE`條件，因為它導致列的添加（對於沒有匹配的輸入列）以及在最終結果中列的刪除。
 {% endhint %}
 
@@ -597,9 +597,8 @@ SELECT product_id, p.name, (sum(s.units) * (p.price - p.cost)) AS profit
 (5 rows)
 ```
 
-每一個`GROUPING SETS`的子串列可以指定零個或多個欄位或表示式並且以它直接在`GROUP BY`子句中相同的方式來解釋。
-一個空的分組集合意味著所有資料列被彙總到單一的群組（即使沒有輸入資料列被呈現也會輸出），如同上方所述對於沒有`GROUP BY`子句的彙總函數之情況。
- 
+每一個`GROUPING SETS`的子串列可以指定零個或多個欄位或表示式並且以它直接在`GROUP BY`子句中相同的方式來解釋。 一個空的分組集合意味著所有資料列被彙總到單一的群組（即使沒有輸入資料列被呈現也會輸出），如同上方所述對於沒有`GROUP BY`子句的彙總函數之情況。
+
 分組欄位或表示式的參照對於未出現在這些欄位中的分組集合來說會在結果列中由null值替換。要區分源自哪邊的分組特定輸出列，詳見[表 9.59](https://docs.postgresql.tw/the-sql-language/functions-and-operators/aggregate-functions#table-9-59-grouping-operations)。
 
 為了指定兩個分組集合的常見型別提供了一個簡寫表示法。該形式的子句為
@@ -649,7 +648,7 @@ GROUPING SETS (
 )
 ```
 
- `CUBE`或`ROLLUP` 子句各自的元素也許是各自的表示式，或元素在括號中的子串列。在後一種情況下，為了生成各自的分組集合的意圖，該子串列被視為單個單元。例如：
+`CUBE`或`ROLLUP` 子句各自的元素也許是各自的表示式，或元素在括號中的子串列。在後一種情況下，為了生成各自的分組集合的意圖，該子串列被視為單個單元。例如：
 
 ```sql
 CUBE ( (a, b), (c, d) )
@@ -683,7 +682,7 @@ GROUPING SETS (
 )
 ```
 
- `CUBE`或`ROLLUP` 建構能被直接用在`GROUP BY`子句中，或被嵌套在`GROUPING SETS`子句內。如果`GROUPING SETS`子句被嵌套在另一個內，效果與內部子句內的所有元素被直接寫入外部子句中時相同。
+`CUBE`或`ROLLUP` 建構能被直接用在`GROUP BY`子句中，或被嵌套在`GROUPING SETS`子句內。如果`GROUPING SETS`子句被嵌套在另一個內，效果與內部子句內的所有元素被直接寫入外部子句中時相同。
 
 如果多個的分組項目被指定在單一`GROUP BY`子句，分組集合的最終串列會是各自項目的外積。例如：
 
@@ -716,6 +715,5 @@ GROUP BY GROUPING SETS (
 
 目前，窗函數總是必須要預先排序的資料，因此會依照一個或其他窗函數的`PARTITION BY`/`ORDER BY`子句整理查詢輸出。然而，不建議依賴這一點。使用顯式頂層`ORDER BY`子句如果要確保結果以特定方式排序。
 
----
+原文連結：[https://www.postgresql.org/docs/13/queries-table-expressions.html](https://www.postgresql.org/docs/13/queries-table-expressions.html)
 
-原文連結：https://www.postgresql.org/docs/13/queries-table-expressions.html
