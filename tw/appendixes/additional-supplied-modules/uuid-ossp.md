@@ -43,15 +43,16 @@ This module is considered “trusted”, that is, it can be installed by non-sup
         <p><code>uuid_generate_v3</code> ( <em><code>namespace</code></em>  <code>uuid</code>, <em><code>name</code></em>  <code>text</code> )
           &#x2192; <code>uuid</code>
         </p>
-        <p>Generates a version 3 UUID in the given namespace using the specified
-          input name. The namespace should be one of the special constants produced
-          by the <code>uuid_ns_*()</code> functions shown in <a href="https://www.postgresql.org/docs/13/uuid-ossp.html#UUID-OSSP-CONSTANTS">Table F.33</a>.
-          (It could be any UUID in theory.) The name is an identifier in the selected
-          namespace.</p>
-        <p>For example:</p>
-        <p>The name parameter will be MD5-hashed, so the cleartext cannot be derived
-          from the generated UUID. The generation of UUIDs by this method has no
-          random or environment-dependent element and is therefore reproducible.</p>
+        <p>&#x4F7F;&#x7528;&#x6307;&#x5B9A;&#x7684;&#x8F38;&#x5165;&#x540D;&#x7A31;&#x5728;&#x7D66;&#x4E88;&#x7684;&#x547D;&#x540D;&#x7A7A;&#x9593;
+          namespace &#x4E2D;&#x7522;&#x751F;&#x6210;&#x7248;&#x672C; 3 &#x7684; UUID&#x3002;&#x547D;&#x540D;&#x7A7A;&#x9593;&#x61C9;&#x8A72;&#x662F;
+          <a
+          href="uuid-ossp.md#table-f-33-functions-returning-uuid-constants">Table F.33</a>&#x4E2D;&#x5217;&#x51FA;&#x7684;&#x7684; uuid<em>ns</em>*()
+            &#x51FD;&#x6578;&#x7522;&#x751F;&#x7684;&#x7279;&#x6B8A;&#x5E38;&#x6578;&#x4E4B;&#x4E00;&#x3002;&#xFF08;&#x7406;&#x8AD6;&#x4E0A;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;&#x7684;
+            UUID&#x3002;&#xFF09;&#x540D;&#x7A31;&#x662F;&#x6240;&#x9078;&#x547D;&#x540D;&#x7A7A;&#x9593;&#x4E2D;&#x7684;&#x8B58;&#x5225;&#x5B57;&#x3002;</p>
+        <p>&#x4F8B;&#x5982;&#xFF1A;</p>
+        <p>&#x53C3;&#x6578; name &#x5C07;&#x70BA; MD5 &#x96DC;&#x6E4A;&#x503C;&#xFF0C;&#x56E0;&#x6B64;&#x7121;&#x6CD5;&#x5F9E;&#x7522;&#x751F;&#x7684;
+          UUID &#x53CD;&#x63A8;&#x539F;&#x4F86;&#x7684;&#x5167;&#x5BB9;&#x3002;&#x900F;&#x904E;&#x9019;&#x7A2E;&#x65B9;&#x6CD5;&#x7522;&#x751F;&#x7684;
+          UUID &#x4E26;&#x6C92;&#x6709;&#x96A8;&#x6A5F;&#x6216;&#x8207;&#x74B0;&#x5883;&#x76F8;&#x95DC;&#x7684;&#x5143;&#x7D20;&#xFF0C;&#x56E0;&#x6B64;&#x662F;&#x53EF;&#x91CD;&#x73FE;&#x7684;&#x3002;</p>
       </td>
     </tr>
     <tr>
@@ -66,9 +67,11 @@ This module is considered “trusted”, that is, it can be installed by non-sup
         <p><code>uuid_generate_v5</code> ( <em><code>namespace</code></em>  <code>uuid</code>, <em><code>name</code></em>  <code>text</code> )
           &#x2192; <code>uuid</code>
         </p>
-        <p>Generates a version 5 UUID, which works like a version 3 UUID except that
-          SHA-1 is used as a hashing method. Version 5 should be preferred over version
-          3 because SHA-1 is thought to be more secure than MD5.</p>
+        <p>&#x7522;&#x751F;&#x7248;&#x672C; 5 &#x7684; UUID&#xFF0C;&#x6B64;&#x7248;&#x672C;&#x8207;&#x7248;&#x672C;
+          3 UUID &#x985E;&#x4F3C;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x8655;&#x5728;&#x65BC;&#x4EE5;
+          SHA-1 &#x4F5C;&#x70BA;&#x96DC;&#x6E4A;&#x6F14;&#x7B97;&#x6CD5;&#x3002;&#x7248;&#x672C;
+          5 &#x61C9;&#x8A72;&#x6BD4;&#x7248;&#x672C; 3 &#x66F4;&#x597D;&#xFF0C;&#x56E0;&#x70BA;
+          SHA-1 &#x88AB;&#x8A8D;&#x70BA;&#x6BD4; MD5 &#x66F4;&#x52A0;&#x5B89;&#x5168;&#x3002;</p>
       </td>
     </tr>
   </tbody>
