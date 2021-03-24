@@ -49,7 +49,8 @@ This module is considered “trusted”, that is, it can be installed by non-sup
           href="uuid-ossp.md#table-f-33-functions-returning-uuid-constants">Table F.33</a>&#x4E2D;&#x5217;&#x51FA;&#x7684;&#x7684; uuid<em>ns</em>*()
             &#x51FD;&#x6578;&#x7522;&#x751F;&#x7684;&#x7279;&#x6B8A;&#x5E38;&#x6578;&#x4E4B;&#x4E00;&#x3002;&#xFF08;&#x7406;&#x8AD6;&#x4E0A;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;&#x7684;
             UUID&#x3002;&#xFF09;&#x540D;&#x7A31;&#x662F;&#x6240;&#x9078;&#x547D;&#x540D;&#x7A7A;&#x9593;&#x4E2D;&#x7684;&#x8B58;&#x5225;&#x5B57;&#x3002;</p>
-        <p>&#x4F8B;&#x5982;&#xFF1A;</p>
+        <p>&#x4F8B;&#x5982;&#xFF1A;
+          <br />SELECT uuid_generate_v3(uuid_ns_url(), &apos;<a href="http://www.postgresql.org">http://www.postgresql.org</a>&apos;);</p>
         <p>&#x53C3;&#x6578; name &#x5C07;&#x70BA; MD5 &#x96DC;&#x6E4A;&#x503C;&#xFF0C;&#x56E0;&#x6B64;&#x7121;&#x6CD5;&#x5F9E;&#x7522;&#x751F;&#x7684;
           UUID &#x53CD;&#x63A8;&#x539F;&#x4F86;&#x7684;&#x5167;&#x5BB9;&#x3002;&#x900F;&#x904E;&#x9019;&#x7A2E;&#x65B9;&#x6CD5;&#x7522;&#x751F;&#x7684;
           UUID &#x4E26;&#x6C92;&#x6709;&#x96A8;&#x6A5F;&#x6216;&#x8207;&#x74B0;&#x5883;&#x76F8;&#x95DC;&#x7684;&#x5143;&#x7D20;&#xFF0C;&#x56E0;&#x6B64;&#x662F;&#x53EF;&#x91CD;&#x73FE;&#x7684;&#x3002;</p>
