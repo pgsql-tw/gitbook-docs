@@ -166,13 +166,13 @@ If a column in the parent table is an identity column, that property is not inhe
 
 The optional `PARTITION BY` clause specifies a strategy of partitioning the table. The table thus created is called a _partitioned_ table. The parenthesized list of columns or expressions forms the _partition key_ for the table. When using range or hash partitioning, the partition key can include multiple columns or expressions \(up to 32, but this limit can be altered when building PostgreSQL\), but for list partitioning, the partition key must consist of a single column or expression.
 
-Range and list partitioning require a btree operator class, while hash partitioning requires a hash operator class. If no operator class is specified explicitly, the default operator class of the appropriate type will be used; if no default operator class exists, an error will be raised. When hash partitioning is used, the operator class used must implement support function 2 \(see [Section 37.16.3](https://www.postgresql.org/docs/12/xindex.html#XINDEX-SUPPORT) for details\).
+Range and list partitioning require a btree operator class, while hash partitioning requires a hash operator class. If no operator class is specified explicitly, the default operator class of the appropriate type will be used; if no default operator class exists, an error will be raised. When hash partitioning is used, the operator class used must implement support function 2 \(see [Section 37.16.3](https://www.postgresql.org/docs/13/xindex.html#XINDEX-SUPPORT) for details\).
 
 A partitioned table is divided into sub-tables \(called partitions\), which are created using separate `CREATE TABLE` commands. The partitioned table is itself empty. A data row inserted into the table is routed to a partition based on the value of columns or expressions in the partition key. If no existing partition matches the values in the new row, an error will be reported.
 
 Partitioned tables do not support `EXCLUDE` constraints; however, you can define these constraints on individual partitions.
 
-See [Section 5.11](https://www.postgresql.org/docs/12/ddl-partitioning.html) for more discussion on table partitioning.
+See [Section 5.11](https://www.postgresql.org/docs/13/ddl-partitioning.html) for more discussion on table partitioning.
 
 `PARTITION OF` _`parent_table`_ { FOR VALUES _`partition_bound_spec`_ \| DEFAULT }
 
