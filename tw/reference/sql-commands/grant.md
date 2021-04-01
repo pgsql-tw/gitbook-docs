@@ -126,7 +126,7 @@ There is also an option to grant privileges on all objects of the same type with
 
 #### GRANT on Roles
 
-This variant of the `GRANT` command grants membership in a role to one or more other roles. Membership in a role is significant because it conveys the privileges granted to a role to each of its members.
+GRANT 指令也可以用於將角色加入成為其他角色的成員。角色的成員意義重大，因為它可以將授予角色的權限也同等授予給每個成員。
 
 If `WITH ADMIN OPTION` is specified, the member can in turn grant membership in the role to others, and revoke membership in the role as well. Without the admin option, ordinary users cannot do that. A role is not considered to hold `WITH ADMIN OPTION` on itself, but it may grant or revoke membership in itself from a database session where the session user matches the role. Database superusers can grant or revoke membership in any role to anyone. Roles having `CREATEROLE` privilege can grant or revoke membership in any role that is not a superuser.
 
@@ -136,7 +136,7 @@ Unlike the case with privileges, membership in a role cannot be granted to `PUBL
 
 ### Notes
 
-The [REVOKE](https://www.postgresql.org/docs/13/sql-revoke.html) command is used to revoke access privileges.
+REVOKE 指令用於撤銷存取權限.
 
 Since PostgreSQL 8.1, the concepts of users and groups have been unified into a single kind of entity called a role. It is therefore no longer necessary to use the keyword `GROUP` to identify whether a grantee is a user or a group. `GROUP` is still allowed in the command, but it is a noise word.
 
