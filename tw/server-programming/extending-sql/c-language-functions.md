@@ -4,7 +4,7 @@ description: 版本：11
 
 # 37.10. C-Language Functions
 
-User-defined functions can be written in C \(or a language that can be made compatible with C, such as C++\). Such functions are compiled into dynamically loadable objects \(also called shared libraries\) and are loaded by the server on demand. The dynamic loading feature is what distinguishes “C language” functions from “internal” functions — the actual coding conventions are essentially the same for both. \(Hence, the standard internal function library is a rich source of coding examples for user-defined C functions.\)
+使用者定義的函數可以使用 C 語言（或可以與 C 相容的程式語言，例如 C ++）撰寫。此類函數被編譯為可動態載入的物件（也稱為共享函式庫），並由伺服器依需求載入。動態載入功能是將「C語言」函數與「內部」函數區分開來的地方–兩者的實際的編譯方式本質上是相同的。（因此，標準內部函式庫為使用者定義的 C 函數提供了豐富的編譯範例。）
 
 Currently only one calling convention is used for C functions \(“version 1”\). Support for that calling convention is indicated by writing a `PG_FUNCTION_INFO_V1()` macro call for the function, as illustrated below.
 
