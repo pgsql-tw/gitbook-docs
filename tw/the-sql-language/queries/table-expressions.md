@@ -709,11 +709,9 @@ GROUP BY GROUPING SETS (
 
 ## 7.2.5. 窗函數處理
 
-如果查詢包含任何窗函數（詳見[3.5節](https://docs.postgresql.tw/tutorial/advanced-features/window-functions)，[9.22節](https://docs.postgresql.tw/the-sql-language/functions-and-operators/window-functions)， [4.2.8節](https://docs.postgresql.tw/the-sql-language/sql-syntax/value-expressions#4-2-8-chuang-han-shu-hu-jiao)），這些函數在執行任何分組、彙總及`HAVING`篩選之後被評估。也就是說，如果查詢使用任何彙總、`GROUP BY`或`HAVING`，則窗函數看到的資料列是分組資料列而不是來自`FROM`/`WHERE`的原始表資料列。
+如果查詢包含任何窗函數（詳見 [3.5節](https://docs.postgresql.tw/tutorial/advanced-features/window-functions)，[9.22節](https://docs.postgresql.tw/the-sql-language/functions-and-operators/window-functions)， [4.2.8節](https://docs.postgresql.tw/the-sql-language/sql-syntax/value-expressions#4-2-8-chuang-han-shu-hu-jiao)），這些函數在執行任何分組、彙總及`HAVING`篩選之後被評估。也就是說，如果查詢使用任何彙總、`GROUP BY`或`HAVING`，則窗函數看到的資料列是分組資料列而不是來自`FROM`/`WHERE`的原始表資料列。
 
 當使用多個窗函數，擁有在語法上等效於`PARTITION BY`及`ORDER BY`子句的所有窗函數在窗口定義中是被保證在資料上的單次傳遞中被評估。因此它們將看到相同的排序次序，即使`ORDER BY`沒有唯一決定次序。然而不保證具有不同於`PARTITION BY`或`ORDER BY`規範的函數之評估。（在這種情況下窗函數評估的傳遞之間通常需要排序步驟，並且不保證該排序會維持它的`ORDER BY`視為等效的資料列之次序。）
 
 目前，窗函數總是必須要預先排序的資料，因此會依照一個或其他窗函數的`PARTITION BY`/`ORDER BY`子句整理查詢輸出。然而，不建議依賴這一點。使用顯式頂層`ORDER BY`子句如果要確保結果以特定方式排序。
-
-原文連結：[https://www.postgresql.org/docs/13/queries-table-expressions.html](https://www.postgresql.org/docs/13/queries-table-expressions.html)
 
