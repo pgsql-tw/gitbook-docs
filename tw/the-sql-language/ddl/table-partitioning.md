@@ -476,7 +476,7 @@ Constraint exclusion works in a very similar way to partition pruning, except th
 
 The fact that constraint exclusion uses `CHECK` constraints, which makes it slow compared to partition pruning, can sometimes be used as an advantage: because constraints can be defined even on declaratively-partitioned tables, in addition to their internal partition bounds, constraint exclusion may be able to elide additional partitions from the query plan.
 
-The default \(and recommended\) setting of [constraint\_exclusion](https://www.postgresql.org/docs/12/runtime-config-query.html#GUC-CONSTRAINT-EXCLUSION) is neither `on` nor `off`, but an intermediate setting called `partition`, which causes the technique to be applied only to queries that are likely to be working on inheritance partitioned tables. The `on` setting causes the planner to examine `CHECK` constraints in all queries, even simple ones that are unlikely to benefit.
+The default \(and recommended\) setting of [constraint\_exclusion](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-CONSTRAINT-EXCLUSION) is neither `on` nor `off`, but an intermediate setting called `partition`, which causes the technique to be applied only to queries that are likely to be working on inheritance partitioned tables. The `on` setting causes the planner to examine `CHECK` constraints in all queries, even simple ones that are unlikely to benefit.
 
 The following caveats apply to constraint exclusion:
 
