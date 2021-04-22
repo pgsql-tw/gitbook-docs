@@ -2,11 +2,11 @@
 
 pg\_basebackup — 對 PostgreSQL 叢集進行基礎備份
 
-### 語法
+## 語法
 
 `pg_basebackup` \[_`option`_...\]
 
-### 說明
+## 說明
 
 pg\_basebackup 用於對正在執行的 PostgreSQL 資料庫叢集進行基礎備份。採取這些措施不會影響資料庫的其他用戶端，並且可以用於時間點隨選還原（請參閱[第 25.3 節](../../server-administration/25.-bei-fen-ji-huan-yuan/25.3.-continuous-archiving-and-point-in-time-recovery-pitr.md)），也可以用於日誌傳送或串流複寫備用伺服器的起點（請參閱[第 26.2 節](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md)）。
 
@@ -25,7 +25,7 @@ Note that there are some limitations in an online backup from the standby:
 * If the standby is promoted to the master during online backup, the backup fails.
 * All WAL records required for the backup must contain sufficient full-page writes, which requires you to enable `full_page_writes` on the master and not to use a tool like pg\_compresslog as `archive_command` to remove full-page writes from WAL files.
 
-### Options
+## Options
 
 The following command-line options control the location and format of the output.
 
@@ -237,13 +237,13 @@ Print the pg\_basebackup version and exit.
 
 Show help about pg\_basebackup command line arguments, and exit.
 
-### Environment
+## Environment
 
 This utility, like most other PostgreSQL utilities, uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)\).
 
 The environment variable `PG_COLOR` specifies whether to use color in diagnostic messages. Possible values are `always`, `auto` and `never`.
 
-### Notes
+## Notes
 
 At the beginning of the backup, a checkpoint needs to be written on the server the backup is taken from. Especially if the option `--checkpoint=fast` is not used, this can take some time during which pg\_basebackup will be appear to be idle.
 
@@ -257,7 +257,7 @@ pg\_basebackup works with servers of the same or an older major version, down to
 
 pg\_basebackup will preserve group permissions in both the `plain` and `tar` formats if group permissions are enabled on the source cluster.
 
-### 範例
+## 範例
 
 To create a base backup of the server at `mydbserver` and store it in the local directory `/usr/local/pgsql/data`:
 
@@ -285,7 +285,7 @@ To create a backup of a local database where the tablespace in `/opt/ts` is relo
 $ pg_basebackup -D backup/data -T /opt/ts=$(pwd)/backup/ts
 ```
 
-### 參閱
+## 參閱
 
 [pg\_dump](pg_dump.md)
 

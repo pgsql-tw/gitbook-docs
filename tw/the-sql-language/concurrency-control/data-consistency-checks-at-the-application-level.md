@@ -14,7 +14,7 @@ When using this technique, it will avoid creating an unnecessary burden for appl
 
 See [Section 13.2.3](https://www.postgresql.org/docs/11/transaction-iso.html#XACT-SERIALIZABLE) for performance suggestions.
 
-#### Warning
+### Warning
 
 This level of integrity protection using Serializable transactions does not yet extend to hot standby mode \([Section 26.5](https://www.postgresql.org/docs/11/hot-standby.html)\). Because of that, those using hot standby may want to use Repeatable Read and explicit locking on the master.
 

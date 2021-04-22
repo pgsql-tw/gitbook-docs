@@ -2,7 +2,7 @@
 
 The view `pg_indexes` provides access to useful information about each index in the database.
 
-#### **Table 51.74. `pg_indexes` Columns**
+## **Table 51.74. `pg_indexes` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |

@@ -10,7 +10,7 @@ The complete lack of these facilities is usually manifested by an “Illegal sys
 
 Upon starting the server, PostgreSQL normally allocates a very small amount of System V shared memory, as well as a much larger amount of POSIX \(`mmap`\) shared memory. In addition a significant number of semaphores, which can be either System V or POSIX style, are created at server startup. Currently, POSIX semaphores are used on Linux and FreeBSD systems while other platforms use System V semaphores.
 
-#### Note
+### Note
 
 Prior to PostgreSQL 9.3, only System V shared memory was used, so the amount of System V shared memory required to start the server was much larger. If you are running an older version of the server, please consult the documentation for your server version.
 
@@ -219,7 +219,7 @@ RemoveIPC=no
 
 in `/etc/systemd/logind.conf` or another appropriate configuration file.
 
-#### Caution
+### Caution
 
 At least one of these two things has to be ensured, or the PostgreSQL server will be very unreliable.
 
@@ -289,7 +289,7 @@ These settings will cause postmaster child processes to run with the normal OOM 
 
 Older Linux kernels do not offer `/proc/self/oom_score_adj`, but may have a previous version of the same functionality called `/proc/self/oom_adj`. This works the same except the disable value is `-17` not `-1000`.
 
-#### Note
+### Note
 
 Some vendors' Linux 2.4 kernels are reported to have early versions of the 2.6 overcommit `sysctl` parameter. However, setting `vm.overcommit_memory` to 2 on a 2.4 kernel that does not have the relevant code will make things worse, not better. It is recommended that you inspect the actual kernel source code \(see the function `vm_enough_memory` in the file `mm/mmap.c`\) to verify what is supported in your kernel before you try this in a 2.4 installation. The presence of the `overcommit-accounting` documentation file should _not_ be taken as evidence that the feature is there. If in any doubt, consult a kernel expert or your kernel vendor.
 

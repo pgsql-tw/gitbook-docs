@@ -2,7 +2,7 @@
 
 CREATE LANGUAGE — 宣告一種新的程序語言
 
-### 語法
+## 語法
 
 ```text
 CREATE [ OR REPLACE ] [ PROCEDURAL ] LANGUAGE name
@@ -10,7 +10,7 @@ CREATE [ OR REPLACE ] [ TRUSTED ] [ PROCEDURAL ] LANGUAGE name
     HANDLER call_handler [ INLINE inline_handler ] [ VALIDATOR valfunction ]
 ```
 
-### 說明
+## 說明
 
 CREATE LANGUAGE 使用 PostgreSQL 資料庫註冊新的程序語言。隨後即可使用這種新語言定義函數和觸發器程序。
 
@@ -27,7 +27,7 @@ CREATE LANGUAGE 指令有兩種形式。在第一種形式中，使用者只提�
 
 CREATE OR REPLACE LANGUAGE 將註冊新的語言或更換現有的定義。如果該語言已存在，則其參數將根據指定的值或從 pg\_pltemplate 取得，但語言的擁有權和權限設定不會更改，並且假定使用該語言撰寫的任何現有函數仍然有效。除了建立語言的普通權限要求之外，使用者還必須是現有語言的擁有者或超級使用者。REPLACE 主要用於確保語言存在。如果該語言具有 pg\_pltemplate 項目，則 REPLACE 實際上不會變更現有定義的任何內容，除非在建立語言後修改了 pg\_pltemplate 項目的特殊情況。
 
-### 參數
+## 參數
 
 `TRUSTED`
 
@@ -59,7 +59,7 @@ valfunction 是先前註冊的函數名稱，該函數將在宣告語言中的�
 
 如果伺服器在 pg\_pltemplate 中具有指定語言名稱的項目，則忽略 TRUSTED 選項和支援函數名稱。
 
-### 注意
+## 注意
 
 使用 [DROP LANGUAGE](drop-language.md) 移除程序語言。
 
@@ -73,7 +73,7 @@ valfunction 是先前註冊的函數名稱，該函數將在宣告語言中的�
 
 在 7.3 之前的 PostgreSQL 版本中，有必要將處理函數宣告為回傳 placeholder 型別 opaque，而不是 language\_handler。為了支援載入舊的備份檔案，CREATE LANGUAGE 將接受宣告為回傳 opaque 的函數，但它會發出通知並將函數宣告的回傳型別變更為 language\_handler。
 
-### 範例
+## 範例
 
 建立任何標準程序語言的最好方式是：
 
@@ -91,11 +91,11 @@ CREATE LANGUAGE plsample
     HANDLER plsample_call_handler;
 ```
 
-### 相容性
+## 相容性
 
 CREATE LANGUAGE 是 PostgreSQL 的延伸功能。
 
-### 參閱
+## 參閱
 
 [ALTER LANGUAGE](alter-language.md), [CREATE FUNCTION](create-function.md), [DROP LANGUAGE](drop-language.md), [GRANT](grant.md), [REVOKE](revoke.md)
 

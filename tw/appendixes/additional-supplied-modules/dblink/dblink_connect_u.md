@@ -2,14 +2,14 @@
 
 dblink\_connect\_u — opens a persistent connection to a remote database, insecurely
 
-### Synopsis
+## Synopsis
 
 ```text
 dblink_connect_u(text connstr) returns text
 dblink_connect_u(text connname, text connstr) returns text
 ```
 
-### Description
+## Description
 
 `dblink_connect_u()` is identical to `dblink_connect()`, except that it will allow non-superusers to connect using any authentication method.
 

@@ -8,7 +8,7 @@ Inner tuples are more complex, since they are branching points in the search tre
 
 Some tree algorithms require knowledge of level \(or depth\) of the current tuple, so the SP-GiST core provides the possibility for operator classes to manage level counting while descending the tree. There is also support for incrementally reconstructing the represented value when that is needed, and for passing down additional data \(called _traverse values_\) during a tree descent.
 
-#### Note
+## Note
 
 The SP-GiST core code takes care of null entries. Although SP-GiST indexes do store entries for nulls in indexed columns, this is hidden from the index operator class code: no null index entries or search conditions will ever be passed to the operator class methods. \(It is assumed that SP-GiST operators are strict and so cannot succeed for null values.\) Null values are therefore not discussed further here.
 

@@ -2,7 +2,7 @@
 
 CREATE PUBLICATION — define a new publication
 
-### Synopsis
+## Synopsis
 
 ```text
 CREATE PUBLICATION name
@@ -11,13 +11,13 @@ CREATE PUBLICATION name
     [ WITH ( publication_parameter [= value] [, ... ] ) ]
 ```
 
-### Description
+## Description
 
 `CREATE PUBLICATION` adds a new publication into the current database. The publication name must be distinct from the name of any existing publication in the current database.
 
 A publication is essentially a group of tables whose data changes are intended to be replicated through logical replication. See [Section 31.1](https://www.postgresql.org/docs/10/static/logical-replication-publication.html) for details about how publications fit into the logical replication setup.
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -33,7 +33,7 @@ This clause specifies optional parameters for a publication. The following param
 
 This parameter determines which DML operations will be published by the new publication to the subscribers. The value is comma-separated list of operations. The allowed operations are `insert`, `update`, and `delete`. The default is to publish all actions, and so the default value for this option is `'insert, update, delete'`.
 
-### Notes
+## Notes
 
 If neither `FOR TABLE` nor `FOR ALL TABLES` is specified, then the publication starts out with an empty set of tables. That is useful if tables are to be added later.
 
@@ -51,7 +51,7 @@ For an `INSERT ... ON CONFLICT` command, the publication will publish the operat
 
 `TRUNCATE` and DDL operations are not published.
 
-### Examples
+## Examples
 
 Create a publication that publishes all changes in two tables:
 
@@ -72,11 +72,11 @@ CREATE PUBLICATION insert_only FOR TABLE mydata
     WITH (publish = 'insert');
 ```
 
-### Compatibility
+## Compatibility
 
 `CREATE PUBLICATION` is a PostgreSQL extension.
 
-### See Also
+## See Also
 
 [ALTER PUBLICATION](https://www.postgresql.org/docs/10/static/sql-alterpublication.html), [DROP PUBLICATION](https://www.postgresql.org/docs/10/static/sql-droppublication.html)
 

@@ -2,7 +2,7 @@
 
 pg\_ctl — initialize, start, stop, or control a PostgreSQL server
 
-### Synopsis
+## Synopsis
 
 `pg_ctl` `init[db]` \[`-D` _`datadir`_\] \[`-s`\] \[`-o` _`initdb-options`_\]
 
@@ -28,7 +28,7 @@ On Microsoft Windows, also:
 
 `pg_ctl` `unregister` \[`-N` _`servicename`_\]
 
-### Description
+## Description
 
 pg\_ctl is a utility for initializing a PostgreSQL database cluster, starting, stopping, or restarting the PostgreSQL database server \([postgres](https://www.postgresql.org/docs/current/app-postgres.html)\), or displaying the status of a running server. Although the server can be started manually, pg\_ctl encapsulates tasks such as redirecting log output and properly detaching from the terminal and process group. It also provides convenient options for controlled shutdown.
 
@@ -54,7 +54,7 @@ The `init` or `initdb` mode creates a new PostgreSQL database cluster, that is, 
 
 `unregister` mode unregisters a system service on Microsoft Windows. This undoes the effects of the `register` command.
 
-### Options
+## Options
 
 `-c`  
 `--core-files`
@@ -136,7 +136,7 @@ Show help about pg\_ctl command line arguments, and exit.
 
 If an option is specified that is valid, but not relevant to the selected operating mode, pg\_ctl ignores it.
 
-#### Options for Windows
+### Options for Windows
 
 `-e` _`source`_
 
@@ -158,7 +158,7 @@ Start type of the system service. _`start-type`_ can be `auto`, or `demand`, or 
 
 User name for the user to run the service as. For domain users, use the format `DOMAIN\username`.
 
-### Environment
+## Environment
 
 `PGCTLTIMEOUT`
 
@@ -172,7 +172,7 @@ Most `pg_ctl` modes require knowing the data directory location; therefore, the 
 
 For additional variables that affect the server, see [postgres](https://www.postgresql.org/docs/current/app-postgres.html).
 
-### Files
+## Files
 
 `postmaster.pid`
 
@@ -180,9 +180,9 @@ pg\_ctl examines this file in the data directory to determine whether the server
 
 If this file exists in the data directory, pg\_ctl \(in `restart` mode\) will pass the contents of the file as options to postgres, unless overridden by the `-o` option. The contents of this file are also displayed in `status` mode.
 
-### Examples
+## Examples
 
-#### Starting the Server
+### Starting the Server
 
 To start the server, waiting until the server is accepting connections:
 
@@ -196,7 +196,7 @@ To start the server using port 5433, and running without `fsync`, use:
 $ pg_ctl -o "-F -p 5433" start
 ```
 
-#### Stopping the Server
+### Stopping the Server
 
 To stop the server, use:
 
@@ -210,7 +210,7 @@ The `-m` option allows control over _how_ the server shuts down:
 $ pg_ctl stop -m smart
 ```
 
-#### Restarting the Server
+### Restarting the Server
 
 Restarting the server is almost equivalent to stopping the server and starting it again, except that by default, `pg_ctl` saves and reuses the command line options that were passed to the previously-running instance. To restart the server using the same options as before, use:
 
@@ -224,7 +224,7 @@ But if `-o` is specified, that replaces any previous options. To restart using p
 $ pg_ctl -o "-F -p 5433" restart
 ```
 
-#### Showing the Server Status
+### Showing the Server Status
 
 Here is sample status output from pg\_ctl:
 
@@ -237,7 +237,7 @@ pg_ctl: server is running (PID: 13718)
 
 The second line is the command that would be invoked in restart mode.
 
-### See Also
+## See Also
 
 [initdb](https://www.postgresql.org/docs/current/app-initdb.html), [postgres](https://www.postgresql.org/docs/current/app-postgres.html)
 

@@ -10,7 +10,7 @@ Since different kinds of statistics might be appropriate for different kinds of 
 
 `pg_statistic` should not be readable by the public, since even statistical information about a table's contents might be considered sensitive. \(Example: minimum and maximum values of a salary column might be quite interesting.\) [`pg_stats`](https://www.postgresql.org/docs/10/static/view-pg-stats.html) is a publicly readable view on `pg_statistic` that only exposes information about those tables that are readable by the current user.
 
-#### **Table 51.50. `pg_statistic` Columns**
+## **Table 51.50. `pg_statistic` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |

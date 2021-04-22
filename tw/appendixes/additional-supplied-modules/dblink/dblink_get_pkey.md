@@ -2,23 +2,23 @@
 
 dblink\_get\_pkey — returns the positions and field names of a relation's primary key fields
 
-### Synopsis
+## Synopsis
 
 ```text
 dblink_get_pkey(text relname) returns setof dblink_pkey_results
 ```
 
-### Description
+## Description
 
 `dblink_get_pkey` provides information about the primary key of a relation in the local database. This is sometimes useful in generating queries to be sent to remote databases.
 
-### Arguments
+## Arguments
 
 _`relname`_
 
 Name of a local relation, for example `foo` or `myschema.mytab`. Include double quotes if the name is mixed-case or contains special characters, for example `"FooBar"`; without quotes, the string will be folded to lower case.
 
-### Return Value
+## Return Value
 
 Returns one row for each primary key field, or no rows if the relation has no primary key. The result row type is defined as
 
@@ -28,7 +28,7 @@ CREATE TYPE dblink_pkey_results AS (position int, colname text);
 
 The `position` column simply runs from 1 to _`N`_; it is the number of the field within the primary key, not the number within the table's columns.
 
-### Examples
+## Examples
 
 ```text
 CREATE TABLE foobar (

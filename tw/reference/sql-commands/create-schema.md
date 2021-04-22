@@ -2,7 +2,7 @@
 
 CREATE SCHEMA — define a new schema
 
-### Synopsis
+## Synopsis
 
 ```text
 CREATE SCHEMA schema_name [ AUTHORIZATION role_specification ] [ schema_element [ ... ] ]
@@ -17,7 +17,7 @@ where role_specification can be:
   | SESSION_USER
 ```
 
-### Description
+## Description
 
 `CREATE SCHEMA` enters a new schema into the current database. The schema name must be distinct from the name of any existing schema in the current database.
 
@@ -25,7 +25,7 @@ A schema is essentially a namespace: it contains named objects \(tables, data ty
 
 Optionally, `CREATE SCHEMA` can include subcommands to create objects within the new schema. The subcommands are treated essentially the same as separate commands issued after creating the schema, except that if the `AUTHORIZATION` clause is used, all the created objects will be owned by that user.
 
-### Parameters
+## Parameters
 
 _`schema_name`_
 
@@ -43,11 +43,11 @@ An SQL statement defining an object to be created within the schema. Currently, 
 
 Do nothing \(except issuing a notice\) if a schema with the same name already exists. _`schema_element`_ subcommands cannot be included when this option is used.
 
-### Notes
+## Notes
 
 To create a schema, the invoking user must have the `CREATE` privilege for the current database. \(Of course, superusers bypass this check.\)
 
-### Examples
+## Examples
 
 Create a schema:
 
@@ -87,7 +87,7 @@ CREATE VIEW hollywood.winners AS
     SELECT title, release FROM hollywood.films WHERE awards IS NOT NULL;
 ```
 
-### Compatibility
+## Compatibility
 
 The SQL standard allows a `DEFAULT CHARACTER SET` clause in `CREATE SCHEMA`, as well as more subcommand types than are presently accepted by PostgreSQL.
 
@@ -97,7 +97,7 @@ According to the SQL standard, the owner of a schema always owns all objects wit
 
 The `IF NOT EXISTS` option is a PostgreSQL extension.
 
-### See Also
+## See Also
 
 [ALTER SCHEMA](alter-schema.md), [DROP SCHEMA](drop-schema.md)
 

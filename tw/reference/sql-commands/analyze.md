@@ -2,19 +2,19 @@
 
 ANALYZE — 收集有關資料庫的統計資訊
 
-### 語法
+## 語法
 
 ```text
 ANALYZE [ VERBOSE ] [ table_name [ ( column_name [, ...] ) ] ]
 ```
 
-### 說明
+## 說明
 
 ANALYZE 收集有關資料庫中資料表內容的統計資訊，並將結果儲在在 pg\_statistic 系統目錄中。然後，查詢計劃程序會使用這些統計資訊來幫助決定查詢的最有效執行計劃。
 
 如果沒有參數，ANALYZE 會檢查目前資料庫中的每個資料表。使用參數時，ANALYZE 僅檢查該資料表。還可以輸出欄位名稱列表，在這種情況下，僅收集這些欄位的統計資訊。
 
-### 參數
+## 參數
 
 `VERBOSE`
 
@@ -28,11 +28,11 @@ _`column_name`_
 
 要分析特定欄位的名稱。預設為所有欄位。
 
-### 輸出
+## 輸出
 
 指定 VERBOSE 時，ANALYZE 會輸出進度訊息以顯示目前正在處理哪個資料表。還會列出有關資料表的各種統計資訊。
 
-### 注意
+## 注意
 
 僅在明確選擇時才會分析外部資料表。並非所有外部資料封裝器都支援 ANALYZE。如果資料表的封裝器不支援 ANALYZE，則該命令只會輸出警告並且不執行任何操作。
 
@@ -56,11 +56,11 @@ ANALYZE 估計的值之一是每個欄位中出現的不同值的數量。因為
 
 如果要分析的資料表完全為空，ANALYZE 將不會記錄該資料表的新統計訊息。任何現有統計資訊都會被保留。
 
-### 相容性
+## 相容性
 
 SQL 標準中沒有 ANALYZE 語句。
 
-### 參閱
+## 參閱
 
 [VACUUM](vacuum.md), [vacuumdb](../client-applications/vacuumdb.md), [Section 19.4.4](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cheng-ben-kao-liang-de-vacuum-yan), [Section 24.1.6](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-autovacuum-bei-jing-cheng-xu)
 

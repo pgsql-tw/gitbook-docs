@@ -127,7 +127,7 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 `RETURNS NULL ON NULL INPUT` 或 `STRICT` 表示函數每當其任何參數為 null 時就回傳 null。如果指定了該參數，那麼當有 null 參數時，該函數就不會被執行；也就是，會自動假定結果為 null。
 
-`[EXTERNAL] SECURITY INVOKER  
+`[EXTERNAL] SECURITY INVOKER    
 [EXTERNAL] SECURITY DEFINER`
 
 `SECURITY INVOKER` 表示該函數將以呼叫它的使用者權限執行。這是預設的設定。 `SECURITY DEFINER` 指定該功能將以擁有它的使用者權限執行。

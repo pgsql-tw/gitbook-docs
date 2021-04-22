@@ -441,7 +441,7 @@ SELECT array_positions(ARRAY[1, 4, 3, 1, 3, 4, 2, 1], 1);
  {1,4,8}
 ```
 
-#### Tip
+### Tip
 
 Arrays are not sets; searching for specific array elements can be a sign of database misdesign. Consider using a separate table with a row for each item that would be an array element. This will be easier to search, and is likely to scale better for a large number of elements.
 
@@ -471,8 +471,7 @@ As shown previously, when writing an array value you can use double quotes aroun
 
 You can add whitespace before a left brace or after a right brace. You can also add whitespace before or after any individual item string. In all of these cases the whitespace will be ignored. However, whitespace within double-quoted elements, or surrounded on both sides by non-whitespace characters of an element, is not ignored.
 
-#### Tip
+### Tip
 
-The `ARRAY` constructor syntax \(see [Section 4.2.12](https://www.postgresql.org/docs/12/sql-expressions.html#SQL-SYNTAX-ARRAY-CONSTRUCTORS)\) is often easier to work with than the array-literal syntax when writing array values in SQL commands. In `ARRAY`, individual element values are written the same way they would be written when not members of an array.  
-
+The `ARRAY` constructor syntax \(see [Section 4.2.12](https://www.postgresql.org/docs/12/sql-expressions.html#SQL-SYNTAX-ARRAY-CONSTRUCTORS)\) is often easier to work with than the array-literal syntax when writing array values in SQL commands. In `ARRAY`, individual element values are written the same way they would be written when not members of an array.
 

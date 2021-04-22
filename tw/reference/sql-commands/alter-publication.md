@@ -2,7 +2,7 @@
 
 ALTER PUBLICATION — change the definition of a publication
 
-### Synopsis
+## Synopsis
 
 ```text
 ALTER PUBLICATION name ADD TABLE [ ONLY ] table_name [ * ] [, ...]
@@ -13,7 +13,7 @@ ALTER PUBLICATION name OWNER TO { new_owner | CURRENT_USER | SESSION_USER }
 ALTER PUBLICATION name RENAME TO new_name
 ```
 
-### Description
+## Description
 
 The command `ALTER PUBLICATION` can change the attributes of a publication.
 
@@ -25,7 +25,7 @@ The remaining variants change the owner and the name of the publication.
 
 You must own the publication to use `ALTER PUBLICATION`. To alter the owner, you must also be a direct or indirect member of the new owning role. The new owner must have `CREATE` privilege on the database. Also, the new owner of a `FOR ALL TABLES` publication must be a superuser. However, a superuser can change the ownership of a publication while circumventing these restrictions.
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -39,7 +39,7 @@ The user name of the new owner of the publication._`new_name`_
 
 The new name for the publication.
 
-### Examples
+## Examples
 
 Change the publication to publish only deletes and updates:
 
@@ -53,11 +53,11 @@ Add some tables to the publication:
 ALTER PUBLICATION mypublication ADD TABLE users, departments;
 ```
 
-### Compatibility
+## Compatibility
 
 `ALTER PUBLICATION` is a PostgreSQL extension.
 
-### See Also
+## See Also
 
 [CREATE PUBLICATION](https://www.postgresql.org/docs/10/static/sql-createpublication.html), [DROP PUBLICATION](https://www.postgresql.org/docs/10/static/sql-droppublication.html), [CREATE SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-createsubscription.html), [ALTER SUBSCRIPTION](https://www.postgresql.org/docs/10/static/sql-altersubscription.html)
 

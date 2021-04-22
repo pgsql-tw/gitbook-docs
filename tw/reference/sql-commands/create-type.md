@@ -6,7 +6,7 @@ description: 版本：11
 
 CREATE TYPE — 定義新的資料型別
 
-### 語法
+## 語法
 
 ```text
 CREATE TYPE name AS
@@ -47,7 +47,7 @@ CREATE TYPE name (
 CREATE TYPE name
 ```
 
-### 說明
+## 說明
 
 CREATE TYPE 註冊一個新的資料型別，以便在目前資料庫中使用。定義型別的使用者將成為其所有者。
 
@@ -55,17 +55,17 @@ CREATE TYPE 註冊一個新的資料型別，以便在目前資料庫中使用�
 
 CREATE TYPE 有五種形式，如上面的語法概要所示。分別可以建立複合型別、列舉型別、範圍型別、基本型別或 shell 型別。下面將依次討論前四個。 shell 型別只是一個佔位型別，用於稍後定義的型別；它透過發出 CREATE TYPE 建立的，除了型別名稱之外沒有參數。在建立範圍型別和基本型別時，需要使用 Shell 型別作為先行引用，詳細如下面小節中所述。
 
-#### Composite Types \(複合型別\)
+### Composite Types \(複合型別\)
 
 CREATE TYPE 的第一種形式是複合型別。複合型別以屬性名稱和資料型別列表組成。如果屬性可以指定 collation 的話，則也可以指定 collation。複合型別與資料表的資料列型別基本相同，但使用 CREATE TYPE 時，毌須建立實際的資料表，只需要定義型別即可。舉例來說，獨立複合型別可用於函數的參數或回傳型別。
 
 要能夠建立複合型別，您必須具有所有屬性型別的 USAGE 權限。
 
-#### Enumerated Types \(列舉型別\)
+### Enumerated Types \(列舉型別\)
 
- 第二種形式的 CREATE TYPE 創建一個列舉（enum）型別，如[第 8.7 節](../../the-sql-language/data-types/enumerated-types.md)所述。列舉型別採用一個或多個帶引號的標籤列表，每個標籤的長度必須小於 NAMEDATALEN 個字元（標準 PostgreSQL 編譯中為 64 個字元）。（可以以空集合建立列舉型別，但是在使用 [ALTER TYPE](alter-type.md) 加入一個以上標籤之前，這樣的型別是不允許使用的。）
+第二種形式的 CREATE TYPE 創建一個列舉（enum）型別，如[第 8.7 節](../../the-sql-language/data-types/enumerated-types.md)所述。列舉型別採用一個或多個帶引號的標籤列表，每個標籤的長度必須小於 NAMEDATALEN 個字元（標準 PostgreSQL 編譯中為 64 個字元）。（可以以空集合建立列舉型別，但是在使用 [ALTER TYPE](alter-type.md) 加入一個以上標籤之前，這樣的型別是不允許使用的。）
 
-#### Range Types
+### Range Types
 
 第三種形式的 CREATE TYPE 建立一個新的範圍型別，如[第 8.17 節](../../the-sql-language/data-types/range-types.md)所述。
 
@@ -75,7 +75,7 @@ CREATE TYPE 的第一種形式是複合型別。複合型別以屬性名稱和�
 
 選擇性的 subtype\_diff 函數必須將子型別的兩個值作為參數，並回傳表示兩個給定值之間差異的雙精確度值。雖然這是選擇性的，但是有提供它的話，可以在範圍型別的欄位上實現更高的 GiST 索引效率。有關更多訊息，請參閱[第 8.17.8 節](https://docs.postgresql.tw/the-sql-language/data-types/range-types#8-17-8-defining-new-range-types)。
 
-#### Base Types \(基本型別\)
+### Base Types \(基本型別\)
 
 The fourth form of `CREATE TYPE` creates a new base type \(scalar type\). To create a new base type, you must be a superuser. \(This restriction is made because an erroneous type definition could confuse or even crash the server.\)
 
@@ -113,13 +113,13 @@ To indicate the delimiter to be used between values in the external representati
 
 If the optional Boolean parameter _`collatable`_ is true, column definitions and expressions of the type may carry collation information through use of the `COLLATE` clause. It is up to the implementations of the functions operating on the type to actually make use of the collation information; this does not happen automatically merely by marking the type collatable.
 
-#### Array Types \(陣列型別\)
+### Array Types \(陣列型別\)
 
 每當建立使用者定義的型別時，PostgreSQL 都會自動建立一個相關聯的陣列型別，其名稱由元素型別的名稱組成，該名稱前面帶有底線，並在必要時將其截斷以使其長度小於 NAMEDATALEN 個字元。（如果這樣產生的名稱與現有型別名稱衝突，則重複此程序，直到找到一個非衝突名稱為止。）這個在幕後建立的陣列型別為可變長度，並使用內建的輸入和輸出函數 array\_in 和 array\_out。陣列型別會追隨其元素型別的所有者或網要中的所有變更，如果元素型別被刪除，也會將其刪除。
 
 直覺地您可能會問，如果系統自動產生正確的陣列型別，為什麼會有 ELEMENT 選項。使用 ELEMENT 唯一有用的情況是，當您建立一個固定長度的型別時，該型別在內部恰好是由許多相同的東西組成的陣列，並且除了希望直接透過索引來存取這些元素。您打算為整個型別提供的任何支援操作。例如，型別 point 僅表示為兩個浮點數，可以使用 point\[0\] 和 point\[1\] 對其進行存取的行為。請注意，此功能僅適用於內部格式完全相同的固定長度欄位序列的固定長度型別。可索引的可變長度型別必須具有由 array\_in 和 array\_out 使用的通用內部表示形式。出於歷史原因（也就是說，這顯然是錯誤的，但要更改它為時已晚），固定長度陣列型別的索引是從零開始的，而非如同可變長度陣列從一開始。
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -225,7 +225,7 @@ _`collatable`_
 
 True if this type's operations can use collation information. The default is false.
 
-### Notes
+## Notes
 
 Because there are no restrictions on use of a data type once it's been created, creating a base type or range type is tantamount to granting public execute permission on the functions mentioned in the type definition. This is usually not an issue for the sorts of functions that are useful in a type definition. But you might want to think twice before designing a type in a way that would require “secret” information to be used while converting it to or from external form.
 
@@ -237,7 +237,7 @@ Before PostgreSQL version 8.2, the shell-type creation syntax `CREATE TYPE` _`na
 
 In PostgreSQL versions before 7.3, it was customary to avoid creating a shell type at all, by replacing the functions' forward references to the type name with the placeholder pseudo-type `opaque`. The `cstring` arguments and results also had to be declared as `opaque` before 7.3. To support loading of old dump files, `CREATE TYPE` will accept I/O functions declared using `opaque`, but it will issue a notice and change the function declarations to use the correct types.
 
-### 範例
+## 範例
 
 此範例建立一個複合型別並在函數定義中使用它：
 
@@ -313,15 +313,15 @@ CREATE TABLE big_objs (
 );
 ```
 
- 更多範例，包括適當的輸入和輸出功能，請參閱[第 37.13 節](../../server-programming/extending-sql/user-defined-types.md)。
+更多範例，包括適當的輸入和輸出功能，請參閱[第 37.13 節](../../server-programming/extending-sql/user-defined-types.md)。
 
-### 相容性
+## 相容性
 
 建立複合型別 CREATE TYPE 指令的第一種形式符合 SQL 標準。其他形式則是 PostgreSQL 延伸語法。SQL 標準中的 CREATE TYPE 語句還定義了 PostgreSQL 中未實作的其他形式。
 
 建立具有零屬性的複合型別是 PostgreSQL 專有的（類似於 CREATE TABLE 的情況）。
 
-### 參閱
+## 參閱
 
 [ALTER TYPE](alter-type.md), [CREATE DOMAIN](create-domain.md),[ CREATE FUNCTION](create-function.md), [DROP TYPE](drop-type.md)
 

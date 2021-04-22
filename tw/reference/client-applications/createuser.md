@@ -2,11 +2,11 @@
 
 createuser — 定義一個新的 PostgreSQL 使用者帳戶
 
-### 語法
+## 語法
 
 `createuser` \[_`connection-option`_...\] \[_`option`_...\] \[_`username`_\]
 
-### 說明
+## 說明
 
 createuser 建立一個新的 PostgreSQL 使用者（或更確切地說，一個角色）。只有具有 CREATEROLE 權限使用者或超級使用者才能建立新的使用者，因此必須由可以作為超級用戶或具有 CREATEROLE 權限的使用者進行連線使用 createuser。
 
@@ -14,7 +14,7 @@ createuser 建立一個新的 PostgreSQL 使用者（或更確切地說，一個
 
 createuser 是 SQL 指令 CREATE ROLE 封裝的工具。透過此實用工具建立使用者和透過其他方法存取伺服器之間沒有任何區別。
 
-### 選項
+## 選項
 
 createuser 接受以下命令列選項：
 
@@ -148,7 +148,7 @@ createuser 還接受以下連線參數的命令列選項：
 
 此選項都不是必須的，因為如果伺服器需要密碼身份驗證，createuser 將自動提示輸入密碼。只是，createuser 會浪費連線嘗試，為了發現伺服器需要密碼。在某些情況下，值得輸入 -W 以避免額外的連線嘗試。
 
-### 環境變數
+## 環境變數
 
 `PGHOST`  
 `PGPORT`  
@@ -158,11 +158,11 @@ createuser 還接受以下連線參數的命令列選項：
 
 與大多數其他 PostgreSQL 工具程式一樣，此工具也使用 libpq 支援的環境變數（請參閱[第 33.14 節](../../client-interfaces/libpq-c-library/environment-variables.md)）。
 
-### 例外
+## 例外
 
 如果遇到困難，請參閱 CREATE ROLE 和 psql 以討論潛在問題和錯誤訊息。資料庫伺服器必須在目標主機上運行。此外，將套用 libpq 前端函式庫使用的任何預鉆水連線設定和環境變數。
 
-### 範例
+## 範例
 
 要在預設的資料庫伺服器上建立使用者 joe：
 
@@ -197,7 +197,7 @@ CREATE ROLE joe PASSWORD 'md5b5f5ba1a423792b526f799ae4eb3d59e' SUPERUSER CREATED
 
 在上面的範例中，新密碼在鍵入時實際上並未顯示，但為了清楚起見，我們顯示了鍵入的內容。如您所見，密碼在發送到用戶端之前已經加密過。
 
-### 參閱
+## 參閱
 
 [dropuser](dropuser.md), [CREATE ROLE](../sql-commands/create-role.md)
 

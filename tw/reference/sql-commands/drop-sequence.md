@@ -2,17 +2,17 @@
 
 DROP SEQUENCE — remove a sequence
 
-### Synopsis
+## Synopsis
 
 ```text
 DROP SEQUENCE [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 ```
 
-### Description
+## Description
 
 `DROP SEQUENCE` removes sequence number generators. A sequence can only be dropped by its owner or a superuser.
 
-### Parameters
+## Parameters
 
 `IF EXISTS`
 
@@ -30,7 +30,7 @@ Automatically drop objects that depend on the sequence, and in turn all objects 
 
 Refuse to drop the sequence if any objects depend on it. This is the default.
 
-### Examples
+## Examples
 
 To remove the sequence `serial`:
 
@@ -38,11 +38,11 @@ To remove the sequence `serial`:
 DROP SEQUENCE serial;
 ```
 
-### Compatibility
+## Compatibility
 
 `DROP SEQUENCE` conforms to the SQL standard, except that the standard only allows one sequence to be dropped per command, and apart from the `IF EXISTS` option, which is a PostgreSQL extension.
 
-### See Also
+## See Also
 
 [CREATE SEQUENCE](create-sequence.md), [ALTER SEQUENCE](alter-sequence.md)
 

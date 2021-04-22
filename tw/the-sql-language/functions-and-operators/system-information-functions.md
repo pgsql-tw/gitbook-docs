@@ -4,7 +4,7 @@
 
 In addition to the functions listed in this section, there are a number of functions related to the statistics system that also provide system information. See [Section 27.2.2](https://www.postgresql.org/docs/12/monitoring-stats.html#MONITORING-STATS-VIEWS) for more information.
 
-#### **Table 9.63. Session Information Functions**
+## **Table 9.63. Session Information Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -35,7 +35,7 @@ In addition to the functions listed in this section, there are a number of funct
 | `user` | `name` | equivalent to `current_user` |
 | `version()` | `text` | PostgreSQL version information. See also [server\_version\_num](https://www.postgresql.org/docs/12/runtime-config-preset.html#GUC-SERVER-VERSION-NUM) for a machine-readable version. |
 
-#### Note
+## Note
 
 `current_catalog`, `current_role`, `current_schema`, `current_user`, `session_user`, and `user` have special syntactic status in SQL: they must be called without trailing parentheses. \(In PostgreSQL, parentheses can optionally be used with `current_schema`, but not with the others.\)
 
@@ -43,7 +43,7 @@ The `session_user` is normally the user who initiated the current database conne
 
 `current_schema` returns the name of the schema that is first in the search path \(or a null value if the search path is empty\). This is the schema that will be used for any tables or other named objects that are created without specifying a target schema. `current_schemas(boolean)` returns an array of the names of all schemas presently in the search path. The Boolean option determines whether or not implicitly included system schemas such as `pg_catalog` are included in the returned search path.
 
-#### Note
+## Note
 
 The search path can be altered at run time. The command is:
 
@@ -71,7 +71,7 @@ SET search_path TO schema [, schema, ...]
 
 [Table 9.64](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-ACCESS-TABLE) lists functions that allow the user to query object access privileges programmatically. See [Section 5.7](https://www.postgresql.org/docs/12/ddl-priv.html) for more information about privileges.
 
-#### **Table 9.64. Access Privilege Inquiry Functions**
+## **Table 9.64. Access Privilege Inquiry Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -142,7 +142,7 @@ SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
 
 [Table 9.65](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-ACLITEM-OP-TABLE) shows the operators available for the `aclitem` type, which is the catalog representation of access privileges. See [Section 5.7](https://www.postgresql.org/docs/12/ddl-priv.html) for information about how to read access privilege values.
 
-#### **Table 9.65. `aclitem` Operators**
+## **Table 9.65. `aclitem` Operators**
 
 | Operator | Description | Example | Result |
 | :--- | :--- | :--- | :--- |
@@ -152,7 +152,7 @@ SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
 
 [Table 9.66](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-ACLITEM-FN-TABLE) shows some additional functions to manage the `aclitem` type.
 
-#### **Table 9.66. `aclitem` Functions**
+## **Table 9.66. `aclitem` Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -170,7 +170,7 @@ SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
 SELECT relname FROM pg_class WHERE pg_table_is_visible(oid);
 ```
 
-#### **Table 9.67. Schema Visibility Inquiry Functions**
+## **Table 9.67. Schema Visibility Inquiry Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -200,7 +200,7 @@ Note that it would not make much sense to test a non-schema-qualified type name 
 
 [Table 9.68](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-CATALOG-TABLE) lists functions that extract information from the system catalogs.
 
-#### **Table 9.68. System Catalog Information Functions**
+## **Table 9.68. System Catalog Information Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -263,7 +263,7 @@ SELECT currval(pg_get_serial_sequence('sometable', 'id'));
 
 `pg_index_column_has_property`, `pg_index_has_property`, and `pg_indexam_has_property` return whether the specified index column, index, or index access method possesses the named property. `NULL` is returned if the property name is not known or does not apply to the particular object, or if the OID or column number does not identify a valid object. Refer to [Table 9.69](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-INDEX-COLUMN-PROPS) for column properties, [Table 9.70](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-INDEX-PROPS) for index properties, and [Table 9.71](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-INDEXAM-PROPS) for access method properties. \(Note that extension access methods can define additional property names for their indexes.\)
 
-#### **Table 9.69. Index Column Properties**
+## **Table 9.69. Index Column Properties**
 
 | Name | Description |
 | :--- | :--- |
@@ -277,7 +277,7 @@ SELECT currval(pg_get_serial_sequence('sometable', 'id'));
 | `search_array` | Does the column natively support `col = ANY(array)` searches? |
 | `search_nulls` | Does the column support `IS NULL` and `IS NOT NULL` searches? |
 
-#### **Table 9.70. Index Properties**
+## **Table 9.70. Index Properties**
 
 | Name | Description |
 | :--- | :--- |
@@ -286,7 +286,7 @@ SELECT currval(pg_get_serial_sequence('sometable', 'id'));
 | `bitmap_scan` | Does the index support bitmap scans? |
 | `backward_scan` | Can the scan direction be changed in mid-scan \(to support `FETCH BACKWARD` on a cursor without needing materialization\)? |
 
-#### **Table 9.71. Index Access Method Properties**
+## **Table 9.71. Index Access Method Properties**
 
 | Name | Description |
 | :--- | :--- |
@@ -339,7 +339,7 @@ The `to_regclass`, `to_regproc`, `to_regprocedure`, `to_regoper`, `to_regoperato
 
 [Table 9.72](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-OBJECT-TABLE) lists functions related to database object identification and addressing.
 
-#### **Table 9.72. Object Information and Addressing Functions**
+## **Table 9.72. Object Information and Addressing Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |

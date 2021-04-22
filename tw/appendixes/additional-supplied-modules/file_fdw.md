@@ -60,7 +60,7 @@ When specifying the `program` option, keep in mind that the option string is exe
 
 For a foreign table using `file_fdw`, `EXPLAIN` shows the name of the file to be read or program to be run. For a file, unless `COSTS OFF` is specified, the file size \(in bytes\) is shown as well.
 
-### **Example F.1. Create a Foreign Table for PostgreSQL CSV Logs**
+## **Example F.1. Create a Foreign Table for PostgreSQL CSV Logs**
 
 file\_fdw 其中一個明顯的用途是使 PostgreSQL 活動日誌形成查詢方便的資料表。為此，首先必須先產生記錄為 CSV 檔案，在這裡我們將其稱為 pglog.csv。首先，安裝 file\_fdw 延伸套件：
 

@@ -1,7 +1,5 @@
 # 11.12. 檢查索引運用
 
-
-
 雖然 PostgreSQL 中的索引不需要維護或調教，但檢查查詢工作負載實際使用哪些索引仍然很重要。以 [EXPLAIN](../../reference/sql-commands/explain.md) 指令檢查單個查詢的索引使用情況；[第 14.1 節](../performance-tips/using-explain.md)說明了其應用。如[第 28.2 節](../../server-administration/monitoring-database-activity/the-statistics-collector.md)所述，還可以在正在執行的伺服器中收集有關索引使用情況的整體統計訊息。
 
 決定要建立哪些索引的一般過程是很難確定的。在前面幾節的範例中已經顯示了許多典型案例。通常需要進行大量的實驗。本節的剩餘部分提供了一些提示：

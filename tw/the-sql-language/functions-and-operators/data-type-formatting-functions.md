@@ -2,7 +2,7 @@
 
 PostgreSQL 格式化函數提供了一套功能強大的工具，用於將各種資料型別（日期/時間、整數、浮點數、數字）轉換為格式化的字串，以及從格式化字串轉換為特定資料型別。[Table 9.24 ](data-type-formatting-functions.md#table-9-24-formatting-functions)列出了這些函數，而這些函數都遵循一個通用的呼叫約定：第一個參數是要格式化的值，第二個參數是定義輸出或輸入格式的樣板。
 
-#### **Table 9.24. Formatting Functions**
+## **Table 9.24. Formatting Functions**
 
 | Function | Return Type | Description | Example |
 | :--- | :--- | :--- | :--- |
@@ -25,7 +25,7 @@ PostgreSQL 格式化函數提供了一套功能強大的工具，用於將各種
 
 [Table 9.25](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-DATETIME-TABLE) shows the template patterns available for formatting date and time values.
 
-#### **Table 9.25. Template Patterns for Date/Time Formatting**
+## **Table 9.25. Template Patterns for Date/Time Formatting**
 
 | Pattern | Description |
 | :--- | :--- |
@@ -84,7 +84,7 @@ PostgreSQL 格式化函數提供了一套功能強大的工具，用於將各種
 
 Modifiers can be applied to any template pattern to alter its behavior. For example, `FMMonth` is the `Month` pattern with the `FM` modifier. [Table 9.26](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-DATETIMEMOD-TABLE) shows the modifier patterns for date/time formatting.
 
-#### **Table 9.26. Template Pattern Modifiers for Date/Time Formatting**
+## **Table 9.26. Template Pattern Modifiers for Date/Time Formatting**
 
 | Modifier | Description | Example |
 | :--- | :--- | :--- |
@@ -102,9 +102,9 @@ Usage notes for date/time formatting:
 * `to_timestamp` and `to_date` skip multiple blank spaces at the beginning of the input string and around date and time values unless the `FX` option is used. For example, `to_timestamp(' 2000    JUN', 'YYYY MON')` and `to_timestamp('2000 - JUN', 'YYYY-MON')` work, but `to_timestamp('2000    JUN', 'FXYYYY MON')` returns an error because `to_timestamp` expects only a single space. `FX` must be specified as the first item in the template.
 * A separator \(a space or non-letter/non-digit character\) in the template string of `to_timestamp` and `to_date` matches any single separator in the input string or is skipped, unless the `FX` option is used. For example, `to_timestamp('2000JUN', 'YYYY///MON')` and `to_timestamp('2000/JUN', 'YYYY MON')` work, but `to_timestamp('2000//JUN', 'YYYY/MON')` returns an error because the number of separators in the input string exceeds the number of separators in the template.
 
-  If `FX` is specified, a separator in the template string matches exactly one character in the input string. But note that the input string character is not required to be the same as the separator from the template string. For example, `to_timestamp('2000/JUN', 'FXYYYY MON')` works, but `to_timestamp('2000/JUN', 'FXYYYY  MON')` returns an error because the second space in the template string consumes the letter `J` from the input string.
+  If `FX` is specified, a separator in the template string matches exactly one character in the input string. But note that the input string character is not required to be the same as the separator from the template string. For example, `to_timestamp('2000/JUN', 'FXYYYY MON')` works, but `to_timestamp('2000/JUN', 'FXYYYY MON')` returns an error because the second space in the template string consumes the letter `J` from the input string.
 
-* A `TZH` template pattern can match a signed number. Without the `FX` option, minus signs may be ambiguous, and could be interpreted as a separator. This ambiguity is resolved as follows: If the number of separators before `TZH` in the template string is less than the number of separators before the minus sign in the input string, the minus sign is interpreted as part of `TZH`. Otherwise, the minus sign is considered to be a separator between values. For example, `to_timestamp('2000 -10', 'YYYY TZH')` matches `-10` to `TZH`, but `to_timestamp('2000 -10', 'YYYY  TZH')` matches `10` to `TZH`.
+* A `TZH` template pattern can match a signed number. Without the `FX` option, minus signs may be ambiguous, and could be interpreted as a separator. This ambiguity is resolved as follows: If the number of separators before `TZH` in the template string is less than the number of separators before the minus sign in the input string, the minus sign is interpreted as part of `TZH`. Otherwise, the minus sign is considered to be a separator between values. For example, `to_timestamp('2000 -10', 'YYYY TZH')` matches `-10` to `TZH`, but `to_timestamp('2000 -10', 'YYYY TZH')` matches `10` to `TZH`.
 * Ordinary text is allowed in `to_char` templates and will be output literally. You can put a substring in double quotes to force it to be interpreted as literal text even if it contains template patterns. For example, in `'"Hello Year "YYYY'`, the `YYYY` will be replaced by the year data, but the single `Y` in `Year` will not be. In `to_date`, `to_number`, and `to_timestamp`, literal text and double-quoted strings result in skipping the number of characters contained in the string; for example `"XX"` skips two input characters \(whether or not they are `XX`\).
 
   **Tip**
@@ -136,7 +136,7 @@ Usage notes for date/time formatting:
 
 [Table 9.27](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-NUMERIC-TABLE) shows the template patterns available for formatting numeric values.
 
-#### **Table 9.27. Template Patterns for Numeric Formatting**
+## **Table 9.27. Template Patterns for Numeric Formatting**
 
 | Pattern | Description |
 | :--- | :--- |
@@ -171,7 +171,7 @@ Usage notes for numeric formatting:
 
 Certain modifiers can be applied to any template pattern to alter its behavior. For example, `FM99.99` is the `99.99` pattern with the `FM` modifier. [Table 9.28](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-NUMERICMOD-TABLE) shows the modifier patterns for numeric formatting.
 
-#### **Table 9.28. Template Pattern Modifiers for Numeric Formatting**
+## **Table 9.28. Template Pattern Modifiers for Numeric Formatting**
 
 | Modifier | Description | Example |
 | :--- | :--- | :--- |
@@ -181,7 +181,7 @@ Certain modifiers can be applied to any template pattern to alter its behavior. 
 
 [Table 9.29](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-EXAMPLES-TABLE) shows some examples of the use of the `to_char` function.
 
-#### **Table 9.29. `to_char` Examples**
+## **Table 9.29. `to_char` Examples**
 
 | Expression | Result |
 | :--- | :--- |

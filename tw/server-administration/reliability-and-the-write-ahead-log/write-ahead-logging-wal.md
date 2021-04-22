@@ -2,7 +2,7 @@
 
 預寫日誌記錄（WAL）是確保資料完整性的標準方法。在大多數（可能不是全部）有關交易處理的書中可以找到詳細的說明。簡而言之，WAL的中心概念是，只有在記錄了這些變更後，即在描述變更的日誌記錄已更新到永久儲存的時候，才必須寫入對資料檔案（資料表和索引所在的位置）的變更。如果遵循此流程，則不需要在每次事務提交時都將資料完全更新到磁碟，因為我們知道在系統崩潰的情況下，我們將能夠使用日誌來恢復資料庫：尚未套用的所有變更則可以從日誌記錄重新執行到資料頁面。 （這是 roll-forward recovery，也稱為 REDO。）
 
-#### Tip
+## Tip
 
 Because WAL restores database file contents after a crash, journaled file systems are not necessary for reliable storage of the data files or WAL files. In fact, journaling overhead can reduce performance, especially if journaling causes file system _data_ to be flushed to disk. Fortunately, data flushing during journaling can often be disabled with a file system mount option, e.g. `data=writeback` on a Linux ext3 file system. Journaled file systems do improve boot speed after a crash.
 

@@ -51,7 +51,7 @@ The final section is the “special section” which can contain anything the ac
 
 All table rows are structured in the same way. There is a fixed-size header \(occupying 23 bytes on most machines\), followed by an optional null bitmap, an optional object ID field, and the user data. The header is detailed in [Table 68.4](https://www.postgresql.org/docs/12/storage-page-layout.html#HEAPTUPLEHEADERDATA-TABLE). The actual user data \(columns of the row\) begins at the offset indicated by `t_hoff`, which must always be a multiple of the MAXALIGN distance for the platform. The null bitmap is only present if the _HEAP\_HASNULL_ bit is set in `t_infomask`. If it is present it begins just after the fixed header and occupies enough bytes to have one bit per data column \(that is, the number of bits that equals the attribute count in `t_infomask2`\). In this list of bits, a 1 bit indicates not-null, a 0 bit is a null. When the bitmap is not present, all columns are assumed not-null. The object ID is only present if the _HEAP\_HASOID\_OLD_ bit is set in `t_infomask`. If present, it appears just before the `t_hoff` boundary. Any padding needed to make `t_hoff` a MAXALIGN multiple will appear between the null bitmap and the object ID. \(This in turn ensures that the object ID is suitably aligned.\)
 
-#### **Table 68.4. HeapTupleHeaderData Layout**
+### **Table 68.4. HeapTupleHeaderData Layout**
 
 | Field | Type | Length | Description |
 | :--- | :--- | :--- | :--- |
@@ -68,8 +68,7 @@ All the details can be found in `src/include/access/htup_details.h`.
 
 Interpreting the actual data can only be done with information obtained from other tables, mostly `pg_attribute`. The key values needed to identify field locations are `attlen` and `attalign`. There is no way to directly get a particular attribute, except when there are only fixed width fields and no null values. All this trickery is wrapped up in the functions _heap\_getattr_, _fastgetattr_ and _heap\_getsysattr_.
 
-To read the data you need to examine each attribute in turn. First check whether the field is NULL according to the null bitmap. If it is, go to the next. Then make sure you have the right alignment. If the field is a fixed width field, then all the bytes are simply placed. If it's a variable length field \(attlen = -1\) then it's a bit more complicated. All variable-length data types share the common header structure `struct varlena`, which includes the total length of the stored value and some flag bits. Depending on the flags, the data can be either inline or in a TOAST table; it might be compressed, too \(see [Section 68.2](https://www.postgresql.org/docs/12/storage-toast.html)\).  
-
+To read the data you need to examine each attribute in turn. First check whether the field is NULL according to the null bitmap. If it is, go to the next. Then make sure you have the right alignment. If the field is a fixed width field, then all the bytes are simply placed. If it's a variable length field \(attlen = -1\) then it's a bit more complicated. All variable-length data types share the common header structure `struct varlena`, which includes the total length of the stored value and some flag bits. Depending on the flags, the data can be either inline or in a TOAST table; it might be compressed, too \(see [Section 68.2](https://www.postgresql.org/docs/12/storage-toast.html)\).
 
 [\[15\]](https://www.postgresql.org/docs/12/storage-page-layout.html#id-1.10.21.8.2.2) Actually, use of this page format is not required for either table or index access methods. The `heap` table access method always uses this format. All the existing index methods also use the basic format, but the data kept on index metapages usually doesn't follow the item layout rules.
 

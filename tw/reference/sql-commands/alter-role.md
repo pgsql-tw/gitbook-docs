@@ -2,7 +2,7 @@
 
 ALTER ROLE — 變更資料庫角色
 
-### 語法
+## 語法
 
 ```text
 ALTER ROLE role_specification [ WITH ] option [ ... ]
@@ -34,7 +34,7 @@ where role_specification can be:
   | SESSION_USER
 ```
 
-### 說明
+## 說明
 
 ALTER ROLE 變更 PostgreSQL 角色的屬性。
 
@@ -48,7 +48,7 @@ ALTER ROLE 變更 PostgreSQL 角色的屬性。
 
 超級使用者可以變更任何人的連線預設值。具有 CREATEROLE 權限的角色可以變更非超級使用者角色的預設值。普通角色只能為自己設定預設值。某些組態變數不能以這種方式設定，或者只能在超級使用者發出命令時設定。只有超級使用者才能變更所有資料庫中所有角色的設定。
 
-### 參數
+## 參數
 
 _`name`_
 
@@ -99,7 +99,7 @@ _`value`_
 
 有關可使用的參數名稱和內容的更多訊息，請參閱 [SET](set.md) 和[第 19 章](../../server-administration/server-configuration/)。
 
-### 注意
+## 注意
 
 使用 [CREATE ROLE](create-role.md) 增加新角色，使用 [DROP ROLE](drop-role.md) 移除角色。
 
@@ -109,7 +109,7 @@ ALTER ROLE 無法變更角色的成員資格。請使用 [GRANT](grant.md) 和 [
 
 也可以將連線預設值綁定到特定資料庫而不是角色；請參閱 ALTER DATABASE。 如果存在衝突，則特定於資料庫角色的設定會覆蓋特定於角色的設定，而這些設定又會覆蓋特定於資料庫的設定。
 
-### 範例
+## 範例
 
 變更角色的密碼：
 
@@ -153,11 +153,11 @@ ALTER ROLE worker_bee SET maintenance_work_mem = 100000;
 ALTER ROLE fred IN DATABASE devel SET client_min_messages = DEBUG;
 ```
 
-### 相容性
+## 相容性
 
 ALTER ROLE 語句是 PostgreSQL 的延伸功能。
 
-### 參閱
+## 參閱
 
 [CREATE ROLE](create-role.md), [DROP ROLE](drop-role.md), [ALTER DATABASE](alter-database.md), [SET](set.md)
 

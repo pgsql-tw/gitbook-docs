@@ -85,7 +85,6 @@ SELECT person.name, holidays.num_weeks FROM person, holidays
 ------+-----------
  Moe  |         4
 (1 row)
-
 ```
 
 ## 8.7.4. Implementation Details

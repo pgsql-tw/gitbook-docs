@@ -21,7 +21,7 @@ mymap   /^(.*)@otherdomain\.com$   guest
 
 will remove the domain part for users with system user names that end with `@mydomain.com`, and allow any user whose system name ends with `@otherdomain.com` to log in as `guest`.
 
-#### Tip
+## Tip
 
 Keep in mind that by default, a regular expression can match just part of a string. It's usually wise to use `^` and `$`, as shown in the above example, to force the match to be to the entire system user name.
 

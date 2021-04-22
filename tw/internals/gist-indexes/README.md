@@ -1,4 +1,2 @@
 # 64. GiST Indexes
 
-
-

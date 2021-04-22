@@ -23,7 +23,7 @@ A password is only significant if the client authentication method requires the 
 
 A role's attributes can be modified after creation with `ALTER ROLE`. See the reference pages for the [CREATE ROLE](https://www.postgresql.org/docs/12/sql-createrole.html) and [ALTER ROLE](https://www.postgresql.org/docs/12/sql-alterrole.html) commands for details.
 
-#### Tip
+## Tip
 
 It is good practice to create a role that has the `CREATEDB` and `CREATEROLE` privileges, but is not a superuser, and then use this role for all routine management of databases and roles. This approach avoids the dangers of operating as a superuser for tasks that do not really require it.
 

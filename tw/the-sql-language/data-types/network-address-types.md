@@ -2,7 +2,7 @@
 
 PostgreSQL offers data types to store IPv4, IPv6, and MAC addresses, as shown in [Table 8.21](https://www.postgresql.org/docs/12/datatype-net-types.html#DATATYPE-NET-TYPES-TABLE). It is better to use these types instead of plain text types to store network addresses, because these types offer input error checking and specialized operators and functions \(see [Section 9.12](https://www.postgresql.org/docs/12/functions-net.html)\).
 
-#### **Table 8.21. Network Address Types**
+### **Table 8.21. Network Address Types**
 
 | Name | Storage Size | Description |
 | :--- | :--- | :--- |
@@ -25,7 +25,7 @@ The `cidr` type holds an IPv4 or IPv6 network specification. Input and output fo
 
 [Table 8.22](https://www.postgresql.org/docs/12/datatype-net-types.html#DATATYPE-NET-CIDR-TABLE) shows some examples.
 
-#### **Table 8.22. `cidr` Type Input Examples**
+### **Table 8.22. `cidr` Type Input Examples**
 
 | `cidr` Input | `cidr` Output | `abbrev(cidr`\) |
 | :--- | :--- | :--- |
@@ -50,7 +50,7 @@ The `cidr` type holds an IPv4 or IPv6 network specification. Input and output fo
 
 The essential difference between `inet` and `cidr` data types is that `inet` accepts values with nonzero bits to the right of the netmask, whereas `cidr` does not. For example, `192.168.0.1/24` is valid for `inet` but not for `cidr`.
 
-#### Tip
+### Tip
 
 If you do not like the output format for `inet` or `cidr` values, try the functions `host`, `text`, and `abbrev`.
 

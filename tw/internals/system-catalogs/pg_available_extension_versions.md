@@ -2,7 +2,7 @@
 
 pg\_available\_extension\_versions 檢視圖列出可用於安裝的特定延伸功能版本。另請參閱 [pg\_extension](pg_extension.md) 目錄，該目錄列出了目前已安裝的延伸功能。
 
-#### **Table 51.68. `pg_available_extension_versions` Columns**
+## **Table 51.68. `pg_available_extension_versions` Columns**
 
 | Name | Type | Description |
 | :--- | :--- | :--- |

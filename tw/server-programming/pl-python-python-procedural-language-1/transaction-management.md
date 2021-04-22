@@ -19,6 +19,5 @@ $$;
 CALL transaction_test1();
 ```
 
-Transactions cannot be ended when an explicit subtransaction is active.  
-
+Transactions cannot be ended when an explicit subtransaction is active.
 

@@ -2,7 +2,7 @@
 
 UPDATE — update rows of a table
 
-### Synopsis
+## Synopsis
 
 ```text
 [ WITH [ RECURSIVE ] with_query [, ...] ]
@@ -16,7 +16,7 @@ UPDATE [ ONLY ] table_name [ * ] [ [ AS ] alias ]
     [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]
 ```
 
-### Description
+## Description
 
 `UPDATE` changes the values of the specified columns in all rows that satisfy the condition. Only the columns to be modified need be mentioned in the `SET` clause; columns not explicitly modified retain their previous values.
 
@@ -26,7 +26,7 @@ The optional `RETURNING` clause causes `UPDATE` to compute and return value\(s\)
 
 You must have the `UPDATE` privilege on the table, or at least on the column\(s\) that are listed to be updated. You must also have the `SELECT` privilege on any column whose values are read in the _`expressions`_ or _`condition`_.
 
-### Parameters
+## Parameters
 
 _`with_query`_
 
@@ -76,7 +76,7 @@ _`output_name`_
 
 A name to use for a returned column.
 
-### Outputs
+## Outputs
 
 On successful completion, an `UPDATE` command returns a command tag of the form
 
@@ -88,7 +88,7 @@ The _`count`_ is the number of rows updated, including matched rows whose values
 
 If the `UPDATE` command contains a `RETURNING` clause, the result will be similar to that of a `SELECT` statement containing the columns and values defined in the `RETURNING` list, computed over the row\(s\) updated by the command.
 
-### Notes
+## Notes
 
 When a `FROM` clause is present, what essentially happens is that the target table is joined to the tables mentioned in the _`from_list`_, and each output row of the join represents an update operation for the target table. When using `FROM` you should ensure that the join produces at most one output row for each row to be modified. In other words, a target row shouldn't join to more than one row from the other table\(s\). If it does, then only one of the join rows will be used to update the target row, but which one will be used is not readily predictable.
 
@@ -96,7 +96,7 @@ Because of this indeterminacy, referencing other tables only within sub-selects 
 
 In the case of a partitioned table, updating a row might cause it to no longer satisfy the partition constraint. Since there is no provision to move the row to the partition appropriate to the new value of its partitioning key, an error will occur in this case. This can also happen when updating a partition directly.
 
-### Examples
+## Examples
 
 Change the word `Drama` to `Dramatic` in the column `kind` of the table `films`:
 
@@ -188,7 +188,7 @@ Change the `kind` column of the table `films` in the row on which the cursor `c_
 UPDATE films SET kind = 'Dramatic' WHERE CURRENT OF c_films;
 ```
 
-### Compatibility
+## Compatibility
 
 This command conforms to the SQL standard, except that the `FROM` and `RETURNING` clauses are PostgreSQL extensions, as is the ability to use `WITH` with `UPDATE`.
 

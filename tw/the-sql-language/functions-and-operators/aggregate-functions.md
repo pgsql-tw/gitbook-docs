@@ -6,7 +6,7 @@ description: 版本：11
 
 _Aggregate functions_ compute a single result from a set of input values. The built-in general-purpose aggregate functions are listed in [Table 9.55](https://www.postgresql.org/docs/12/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE) and statistical aggregates in [Table 9.56](https://www.postgresql.org/docs/12/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE). The built-in within-group ordered-set aggregate functions are listed in [Table 9.57](https://www.postgresql.org/docs/12/functions-aggregate.html#FUNCTIONS-ORDEREDSET-TABLE) while the built-in within-group hypothetical-set ones are in [Table 9.58](https://www.postgresql.org/docs/12/functions-aggregate.html#FUNCTIONS-HYPOTHETICAL-TABLE). Grouping operations, which are closely related to aggregate functions, are listed in [Table 9.59](https://www.postgresql.org/docs/12/functions-aggregate.html#FUNCTIONS-GROUPING-TABLE). The special syntax considerations for aggregate functions are explained in [Section 4.2.7](https://www.postgresql.org/docs/12/sql-expressions.html#SYNTAX-AGGREGATES). Consult [Section 2.7](https://www.postgresql.org/docs/12/tutorial-agg.html) for additional introductory information.
 
-#### **Table 9.55. General-Purpose Aggregate Functions**
+## **Table 9.55. General-Purpose Aggregate Functions**
 
 | Function | Argument Type\(s\) | Return Type | Partial Mode | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -34,7 +34,7 @@ It should be noted that except for `count`, these functions return a null value 
 
 Aggregate functions which support _Partial Mode_ are eligible to participate in various optimizations, such as parallel aggregation.
 
-#### Note
+## Note
 
 Boolean aggregates `bool_and` and `bool_or` correspond to standard SQL aggregates `every` and `any` or `some`. As for `any` and `some`, it seems that there is an ambiguity built into the standard syntax:
 
@@ -44,7 +44,7 @@ SELECT b1 = ANY((SELECT b2 FROM t2 ...)) FROM t1 ...;
 
 Here `ANY` can be considered either as introducing a subquery, or as being an aggregate function, if the subquery returns one row with a Boolean value. Thus the standard name cannot be given to these aggregates.
 
-#### Note
+## Note
 
 Users accustomed to working with other SQL database management systems might be disappointed by the performance of the `count` aggregate when it is applied to the entire table. A query like:
 
@@ -64,7 +64,7 @@ Beware that this approach can fail if the outer query level contains additional 
 
 [Table 9.56](https://www.postgresql.org/docs/12/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE) shows aggregate functions typically used in statistical analysis. \(These are separated out merely to avoid cluttering the listing of more-commonly-used aggregates.\) Where the description mentions _`N`_, it means the number of input rows for which all the input expressions are non-null. In all cases, null is returned if the computation is meaningless, for example when _`N`_ is zero.
 
-#### **Table 9.56. Aggregate Functions for Statistics**
+## **Table 9.56. Aggregate Functions for Statistics**
 
 | Function | Argument Type | Return Type | Partial Mode | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -89,7 +89,7 @@ Beware that this approach can fail if the outer query level contains additional 
 
 [Table 9.57](https://www.postgresql.org/docs/12/functions-aggregate.html#FUNCTIONS-ORDEREDSET-TABLE) shows some aggregate functions that use the _ordered-set aggregate_ syntax. These functions are sometimes referred to as “inverse distribution” functions.
 
-#### **Table 9.57. Ordered-Set Aggregate Functions**
+## **Table 9.57. Ordered-Set Aggregate Functions**
 
 | Function | Direct Argument Type\(s\) | Aggregated Argument Type\(s\) | Return Type | Partial Mode | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -103,7 +103,7 @@ All the aggregates listed in [Table 9.57](https://www.postgresql.org/docs/12/fun
 
 Each of the aggregates listed in [Table 9.58](https://www.postgresql.org/docs/12/functions-aggregate.html#FUNCTIONS-HYPOTHETICAL-TABLE) is associated with a window function of the same name defined in [Section 9.21](https://www.postgresql.org/docs/12/functions-window.html). In each case, the aggregate result is the value that the associated window function would have returned for the “hypothetical” row constructed from _`args`_, if such a row had been added to the sorted group of rows computed from the _`sorted_args`_.
 
-#### **Table 9.58. Hypothetical-Set Aggregate Functions**
+## **Table 9.58. Hypothetical-Set Aggregate Functions**
 
 | Function | Direct Argument Type\(s\) | Aggregated Argument Type\(s\) | Return Type | Partial Mode | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -114,7 +114,7 @@ Each of the aggregates listed in [Table 9.58](https://www.postgresql.org/docs/12
 
 For each of these hypothetical-set aggregates, the list of direct arguments given in _`args`_ must match the number and types of the aggregated arguments given in _`sorted_args`_. Unlike most built-in aggregates, these aggregates are not strict, that is they do not drop input rows containing nulls. Null values sort according to the rule specified in the `ORDER BY` clause.
 
-#### **Table 9.59. Grouping Operations**
+## **Table 9.59. Grouping Operations**
 
 | Function | Return Type | Description |
 | :--- | :--- | :--- |

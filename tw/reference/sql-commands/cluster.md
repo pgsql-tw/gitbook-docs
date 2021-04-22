@@ -2,14 +2,14 @@
 
 CLUSTER — cluster a table according to an index
 
-### Synopsis
+## Synopsis
 
 ```text
 CLUSTER [VERBOSE] table_name [ USING index_name ]
 CLUSTER [VERBOSE]
 ```
 
-### Description
+## Description
 
 `CLUSTER` instructs PostgreSQL to cluster the table specified by _`table_name`_ based on the index specified by _`index_name`_. The index must already have been defined on _`table_name`_.
 
@@ -21,7 +21,7 @@ When a table is clustered, PostgreSQL remembers which index it was clustered by.
 
 When a table is being clustered, an `ACCESS EXCLUSIVE` lock is acquired on it. This prevents any other database operations \(both reads and writes\) from operating on the table until the `CLUSTER` is finished.
 
-### Parameters
+## Parameters
 
 _`table_name`_
 
@@ -31,7 +31,7 @@ The name of an index.`VERBOSE`
 
 Prints a progress report as each table is clustered.
 
-### Notes
+## Notes
 
 In cases where you are accessing single rows randomly within a table, the actual order of the data in the table is unimportant. However, if you tend to access some data more than others, and there is an index that groups them together, you will benefit from using `CLUSTER`. If you are requesting a range of indexed values from a table, or a single indexed value that has multiple rows that match, `CLUSTER` will help because once the index identifies the table page for the first row that matches, all other rows that match are probably already on the same table page, and so you save disk accesses and speed up the query.
 
@@ -47,7 +47,7 @@ Because the planner records statistics about the ordering of tables, it is advis
 
 Because `CLUSTER` remembers which indexes are clustered, one can cluster the tables one wants clustered manually the first time, then set up a periodic maintenance script that executes `CLUSTER` without any parameters, so that the desired tables are periodically reclustered.
 
-### Examples
+## Examples
 
 Cluster the table `employees` on the basis of its index `employees_ind`:
 
@@ -67,7 +67,7 @@ Cluster all tables in the database that have previously been clustered:
 CLUSTER;
 ```
 
-### Compatibility
+## Compatibility
 
 There is no `CLUSTER` statement in the SQL standard.
 
@@ -79,7 +79,7 @@ CLUSTER index_name ON table_name
 
 is also supported for compatibility with pre-8.3 PostgreSQL versions.
 
-### See Also
+## See Also
 
 [clusterdb](https://www.postgresql.org/docs/10/static/app-clusterdb.html)
 

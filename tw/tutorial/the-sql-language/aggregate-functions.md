@@ -17,10 +17,8 @@ SELECT max(temp_lo) FROM weather;
 
 如果我們想要知道，這個數值是發生在哪一個城市？也許可以試試：
 
-
-
 ```text
-SELECT city FROM weather WHERE temp_lo = max(temp_lo);   
+SELECT city FROM weather WHERE temp_lo = max(temp_lo);
 ```
 
 ```text

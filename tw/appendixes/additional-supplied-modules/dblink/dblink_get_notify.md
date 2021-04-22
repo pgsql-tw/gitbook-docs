@@ -2,28 +2,28 @@
 
 dblink\_get\_notify — retrieve async notifications on a connection
 
-### Synopsis
+## Synopsis
 
 ```text
 dblink_get_notify() returns setof (notify_name text, be_pid int, extra text)
 dblink_get_notify(text connname) returns setof (notify_name text, be_pid int, extra text)
 ```
 
-### Description
+## Description
 
 `dblink_get_notify` retrieves notifications on either the unnamed connection, or on a named connection if specified. To receive notifications via dblink, `LISTEN` must first be issued, using `dblink_exec`. For details see [LISTEN](https://www.postgresql.org/docs/12/sql-listen.html) and [NOTIFY](https://www.postgresql.org/docs/12/sql-notify.html).
 
-### Arguments
+## Arguments
 
 _`connname`_
 
 The name of a named connection to get notifications on.
 
-### Return Value
+## Return Value
 
 Returns `setof (notify_name text, be_pid int, extra text)`, or an empty set if none.
 
-### Examples
+## Examples
 
 ```text
 SELECT dblink_exec('LISTEN virtual');

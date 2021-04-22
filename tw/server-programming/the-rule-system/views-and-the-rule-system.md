@@ -16,7 +16,7 @@ CREATE RULE "_RETURN" AS ON SELECT TO myview DO INSTEAD
 
 because this is exactly what the `CREATE VIEW` command does internally. This has some side effects. One of them is that the information about a view in the PostgreSQL system catalogs is exactly the same as it is for a table. So for the parser, there is absolutely no difference between a table and a view. They are the same thing: relations.
 
-#### 40.2.1. How `SELECT` Rules Work
+## 40.2.1. How `SELECT` Rules Work
 
 Rules `ON SELECT` are applied to all queries as the last step, even if the command given is an `INSERT`, `UPDATE` or `DELETE`. And they have different semantics from rules on the other command types in that they modify the query tree in place instead of creating a new one. So `SELECT` rules are described first.
 
@@ -99,7 +99,7 @@ CREATE VIEW shoe_ready AS
 
 The `CREATE VIEW` command for the `shoelace` view \(which is the simplest one we have\) will create a relation `shoelace` and an entry in `pg_rewrite` that tells that there is a rewrite rule that must be applied whenever the relation `shoelace` is referenced in a query's range table. The rule has no rule qualification \(discussed later, with the non-`SELECT` rules, since `SELECT` rules currently cannot have them\) and it is `INSTEAD`. Note that rule qualifications are not the same as query qualifications. The action of our rule has a query qualification. The action of the rule is one query tree that is a copy of the `SELECT` statement in the view creation command.
 
-#### Note
+## Note
 
 The two extra range table entries for `NEW` and `OLD` that you can see in the `pg_rewrite` entry aren't of interest for `SELECT` rules.
 
@@ -256,7 +256,7 @@ SELECT shoe_ready.shoename, shoe_ready.sh_avail,
 
 It turns out that the planner will collapse this tree into a two-level query tree: the bottommost `SELECT` commands will be “pulled up” into the middle `SELECT` since there's no need to process them separately. But the middle `SELECT` will remain separate from the top, because it contains aggregate functions. If we pulled those up it would change the behavior of the topmost `SELECT`, which we don't want. However, collapsing the query tree is an optimization that the rewrite system doesn't have to concern itself with.
 
-#### 40.2.2. View Rules in Non-`SELECT` Statements
+## 40.2.2. View Rules in Non-`SELECT` Statements
 
 Two details of the query tree aren't touched in the description of view rules above. These are the command type and the result relation. In fact, the command type is not needed by view rules, but the result relation may affect the way in which the query rewriter works, because special care needs to be taken if the result relation is a view.
 
@@ -299,13 +299,13 @@ Now another detail of PostgreSQL enters the stage. Old table rows aren't overwri
 
 Knowing all that, we can simply apply view rules in absolutely the same way to any command. There is no difference.
 
-#### 40.2.3. The Power of Views in PostgreSQL
+## 40.2.3. The Power of Views in PostgreSQL
 
 The above demonstrates how the rule system incorporates view definitions into the original query tree. In the second example, a simple `SELECT` from one view created a final query tree that is a join of 4 tables \(`unit` was used twice with different names\).
 
 The benefit of implementing views with the rule system is, that the planner has all the information about which tables have to be scanned plus the relationships between these tables plus the restrictive qualifications from the views plus the qualifications from the original query in one single query tree. And this is still the situation when the original query is already a join over views. The planner has to decide which is the best path to execute the query, and the more information the planner has, the better this decision can be. And the rule system as implemented in PostgreSQL ensures, that this is all information available about the query up to that point.
 
-#### 40.2.4. Updating a View
+## 40.2.4. Updating a View
 
 What happens if a view is named as the target relation for an `INSERT`, `UPDATE`, or `DELETE`? Doing the substitutions described above would give a query tree in which the result relation points at a subquery range-table entry, which will not work. There are several ways in which PostgreSQL can support the appearance of updating a view, however.
 

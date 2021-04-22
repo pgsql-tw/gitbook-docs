@@ -4,7 +4,7 @@
 
 [Table 9.82](system-administration.md#table-9-82-configuration-settings-functions) 列出了可用於查詢和變更執行階段組態參數的函式。
 
-#### **Table 9.82. Configuration Settings Functions**
+### **Table 9.82. Configuration Settings Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -39,7 +39,7 @@ SELECT set_config('log_statement_stats', 'off', false);
 
 [Table 9.83](system-administration.md#table-9-83-server-signaling-functions) 中列出的功能將系統控制信號發送到其他伺服器程序。預設情況下，這些功能僅限於超級使用者使用，可以在例外情況使用 GRANT 授予其他人存取權限。
 
-#### **Table 9.83. Server Signaling Functions**
+### **Table 9.83. Server Signaling Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -60,7 +60,7 @@ pg\_rotate\_logfile 指示日誌檔案管理器立即切換到新的輸出檔案
 
 The functions shown in [Table 9.84](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-BACKUP-TABLE) assist in making on-line backups. These functions cannot be executed during recovery \(except non-exclusive `pg_start_backup`, non-exclusive `pg_stop_backup`, `pg_is_in_backup`, `pg_backup_start_time` and `pg_wal_lsn_diff`\).
 
-#### **Table 9.84. Backup Control Functions**
+### **Table 9.84. Backup Control Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -120,7 +120,7 @@ For details about proper usage of these functions, see [Section 25.3](https://ww
 
 The functions shown in [Table 9.85](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-RECOVERY-INFO-TABLE) provide information about the current status of the standby. These functions may be executed both during recovery and in normal running.
 
-#### **Table 9.85. Recovery Information Functions**
+### **Table 9.85. Recovery Information Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -131,7 +131,7 @@ The functions shown in [Table 9.85](https://www.postgresql.org/docs/12/functions
 
 The functions shown in [Table 9.86](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-RECOVERY-CONTROL-TABLE) control the progress of recovery. These functions may be executed only during recovery.
 
-#### **Table 9.86. Recovery Control Functions**
+### **Table 9.86. Recovery Control Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -152,7 +152,7 @@ To solve this problem, PostgreSQL allows a transaction to _export_ the snapshot 
 
 Snapshots are exported with the `pg_export_snapshot` function, shown in [Table 9.87](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION-TABLE), and imported with the [SET TRANSACTION](https://www.postgresql.org/docs/12/sql-set-transaction.html) command.
 
-#### **Table 9.87. Snapshot Synchronization Functions**
+### **Table 9.87. Snapshot Synchronization Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -170,7 +170,7 @@ Many of these functions have equivalent commands in the replication protocol; se
 
 The functions described in [Section 9.26.3](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-BACKUP), [Section 9.26.4](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-RECOVERY-CONTROL), and [Section 9.26.5](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION) are also relevant for replication.
 
-#### **Table 9.88. Replication SQL Functions**
+### **Table 9.88. Replication SQL Functions**
 
 | Function | Return Type | Description |
 | :--- | :--- | :--- |
@@ -202,7 +202,7 @@ The functions described in [Section 9.26.3](https://www.postgresql.org/docs/12/f
 
 Table 9.89 中列出的函數用於計算資料庫物件的磁碟空間使用情況。
 
-#### **Table 9.89. Database Object Size Functions**
+### **Table 9.89. Database Object Size Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -241,7 +241,7 @@ pg\_relation\_size 接受資料表、索引或 Toast 資料表的 OID 或名稱�
 
 `pg_size_bytes` can be used to get the size in bytes from a string in human-readable format. The input may have units of bytes, kB, MB, GB or TB, and is parsed case-insensitively. If no units are specified, bytes are assumed.
 
-#### Note
+### Note
 
 The units kB, MB, GB and TB used by the functions `pg_size_pretty` and `pg_size_bytes` are defined using powers of 2 rather than powers of 10, so 1kB is 1024 bytes, 1MB is 10242 = 1048576 bytes, and so on.
 
@@ -251,7 +251,7 @@ If an OID that does not represent an existing object is passed as argument to on
 
 The functions shown in [Table 9.90](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-DBLOCATION) assist in identifying the specific disk files associated with database objects.
 
-#### **Table 9.90. Database Object Location Functions**
+### **Table 9.90. Database Object Location Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -267,7 +267,7 @@ The functions shown in [Table 9.90](https://www.postgresql.org/docs/12/functions
 
 [Table 9.91](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-COLLATION) lists functions used to manage collations.
 
-#### **Table 9.91. Collation Management Functions**
+### **Table 9.91. Collation Management Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -278,7 +278,7 @@ The functions shown in [Table 9.90](https://www.postgresql.org/docs/12/functions
 
 `pg_import_system_collations` adds collations to the system catalog `pg_collation` based on all the locales it finds in the operating system. This is what `initdb` uses; see [Section 23.2.2](https://www.postgresql.org/docs/12/collation.html#COLLATION-MANAGING) for more details. If additional locales are installed into the operating system later on, this function can be run again to add collations for the new locales. Locales that match existing entries in `pg_collation` will be skipped. \(But collation objects based on locales that are no longer present in the operating system are not removed by this function.\) The _`schema`_ parameter would typically be `pg_catalog`, but that is not a requirement; the collations could be installed into some other schema as well. The function returns the number of new collation objects it created.
 
-#### **Table 9.92. Partitioning Information Functions**
+### **Table 9.92. Partitioning Information Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -301,7 +301,7 @@ To check the total size of the data contained in `measurement` table described i
 
 [Table 9.93](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADMIN-INDEX-TABLE) shows the functions available for index maintenance tasks. These functions cannot be executed during recovery. Use of these functions is restricted to superusers and the owner of the given index.
 
-#### **Table 9.93. Index Maintenance Functions**
+### **Table 9.93. Index Maintenance Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -320,7 +320,7 @@ The functions shown in [Table 9.94](https://www.postgresql.org/docs/12/functions
 
 Note that granting users the EXECUTE privilege on `pg_read_file()`, or related functions, allows them the ability to read any file on the server which the database can read and that those reads bypass all in-database privilege checks. This means that, among other things, a user with this access is able to read the contents of the `pg_authid` table where authentication information is contained, as well as read any file in the database. Therefore, granting access to these functions should be carefully considered.
 
-#### **Table 9.94. Generic File Access Functions**
+### **Table 9.94. Generic File Access Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |
@@ -364,7 +364,7 @@ SELECT (pg_stat_file('filename')).modification;
 
 The functions shown in [Table 9.95](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS-TABLE) manage advisory locks. For details about proper use of these functions, see [Section 13.3.5](https://www.postgresql.org/docs/12/explicit-locking.html#ADVISORY-LOCKS).
 
-#### **Table 9.95. Advisory Lock Functions**
+### **Table 9.95. Advisory Lock Functions**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |

@@ -6,7 +6,7 @@ PostgreSQL has the ability to report the progress of certain commands during com
 
 Whenever `CREATE INDEX` or `REINDEX` is running, the `pg_stat_progress_create_index` view will contain one row for each backend that is currently creating indexes. The tables below describe the information that will be reported and provide information about how to interpret it.
 
-#### **Table 27.22. `pg_stat_progress_create_index` View**
+### **Table 27.22. `pg_stat_progress_create_index` View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -27,7 +27,7 @@ Whenever `CREATE INDEX` or `REINDEX` is running, the `pg_stat_progress_create_in
 | `partitions_total` | `bigint` | When creating an index on a partitioned table, this column is set to the total number of partitions on which the index is to be created. |
 | `partitions_done` | `bigint` | When creating an index on a partitioned table, this column is set to the number of partitions on which the index has been completed. |
 
-#### **Table 27.23. CREATE INDEX Phases**
+### **Table 27.23. CREATE INDEX Phases**
 
 | Phase | Description |
 | :--- | :--- |
@@ -46,7 +46,7 @@ Whenever `CREATE INDEX` or `REINDEX` is running, the `pg_stat_progress_create_in
 
 Whenever `VACUUM` is running, the `pg_stat_progress_vacuum` view will contain one row for each backend \(including autovacuum worker processes\) that is currently vacuuming. The tables below describe the information that will be reported and provide information about how to interpret it. Progress for `VACUUM FULL` commands is reported via `pg_stat_progress_cluster` because both `VACUUM FULL` and `CLUSTER` rewrite the table, while regular `VACUUM` only modifies it in place. See [Section 27.4.3](https://www.postgresql.org/docs/12/progress-reporting.html#CLUSTER-PROGRESS-REPORTING).
 
-#### **Table 27.24. `pg_stat_progress_vacuum` View**
+### **Table 27.24. `pg_stat_progress_vacuum` View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -62,7 +62,7 @@ Whenever `VACUUM` is running, the `pg_stat_progress_vacuum` view will contain on
 | `max_dead_tuples` | `bigint` | Number of dead tuples that we can store before needing to perform an index vacuum cycle, based on [maintenance\_work\_mem](https://www.postgresql.org/docs/12/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM). |
 | `num_dead_tuples` | `bigint` | Number of dead tuples collected since the last index vacuum cycle. |
 
-#### **Table 27.25. VACUUM Phases**
+### **Table 27.25. VACUUM Phases**
 
 | Phase | Description |
 | :--- | :--- |
@@ -78,7 +78,7 @@ Whenever `VACUUM` is running, the `pg_stat_progress_vacuum` view will contain on
 
 Whenever `CLUSTER` or `VACUUM FULL` is running, the `pg_stat_progress_cluster` view will contain a row for each backend that is currently running either command. The tables below describe the information that will be reported and provide information about how to interpret it.
 
-#### **Table 27.26. `pg_stat_progress_cluster` View**
+### **Table 27.26. `pg_stat_progress_cluster` View**
 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -95,7 +95,7 @@ Whenever `CLUSTER` or `VACUUM FULL` is running, the `pg_stat_progress_cluster` v
 | `heap_blks_scanned` | `bigint` | Number of heap blocks scanned. This counter only advances when the phase is `seq scanning heap`. |
 | `index_rebuild_count` | `bigint` | Number of indexes rebuilt. This counter only advances when the phase is `rebuilding index`. |
 
-#### **Table 27.27. CLUSTER and VACUUM FULL Phases**
+### **Table 27.27. CLUSTER and VACUUM FULL Phases**
 
 | Phase | Description |
 | :--- | :--- |

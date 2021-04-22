@@ -2,7 +2,7 @@
 
 CREATE CAST — define a new cast
 
-### Synopsis
+## Synopsis
 
 ```text
 CREATE CAST (source_type AS target_type)
@@ -18,7 +18,7 @@ CREATE CAST (source_type AS target_type)
     [ AS ASSIGNMENT | AS IMPLICIT ]
 ```
 
-### Description
+## Description
 
 `CREATE CAST` defines a new cast. A cast specifies how to perform a conversion between two data types. For example,
 
@@ -58,13 +58,13 @@ Now, the catalogs also provide a cast from `numeric` to `integer`. If that cast 
 
 It is wise to be conservative about marking casts as implicit. An overabundance of implicit casting paths can cause PostgreSQL to choose surprising interpretations of commands, or to be unable to resolve commands at all because there are multiple possible interpretations. A good rule of thumb is to make a cast implicitly invokable only for information-preserving transformations between types in the same general type category. For example, the cast from `int2` to `int4` can reasonably be implicit, but the cast from `float8` to `int4` should probably be assignment-only. Cross-type-category casts, such as `text` to `int4`, are best made explicit-only.
 
-#### Note
+### Note
 
 Sometimes it is necessary for usability or standards-compliance reasons to provide multiple implicit casts among a set of types, resulting in ambiguity that cannot be avoided as above. The parser has a fallback heuristic based on _type categories_ and _preferred types_ that can help to provide desired behavior in such cases. See [CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html) for more information.
 
 To be able to create a cast, you must own the source or the target data type and have `USAGE` privilege on the other type. To create a binary-coercible cast, you must be superuser. \(This restriction is made because an erroneous binary-coercible cast conversion can easily crash the server.\)
 
-### Parameters
+## Parameters
 
 _`source_type`_
 
@@ -92,7 +92,7 @@ When a cast has different source and target types and a function that takes more
 
 A cast to or from a domain type currently has no effect. Casting to or from a domain uses the casts associated with its underlying type.
 
-### Notes
+## Notes
 
 Use [DROP CAST](https://www.postgresql.org/docs/10/static/sql-dropcast.html) to remove user-defined casts.
 
@@ -102,15 +102,15 @@ It is normally not necessary to create casts between user-defined types and the 
 
 While not required, it is recommended that you continue to follow this old convention of naming cast implementation functions after the target data type. Many users are used to being able to cast data types using a function-style notation, that is _`typename`_\(_`x`_\). This notation is in fact nothing more nor less than a call of the cast implementation function; it is not specially treated as a cast. If your conversion functions are not named to support this convention then you will have surprised users. Since PostgreSQL allows overloading of the same function name with different argument types, there is no difficulty in having multiple conversion functions from different types that all use the target type's name.
 
-#### Note
+### Note
 
 Actually the preceding paragraph is an oversimplification: there are two cases in which a function-call construct will be treated as a cast request without having matched it to an actual function. If a function call _`name`_\(_`x`_\) does not exactly match any existing function, but _`name`_ is the name of a data type and `pg_cast` provides a binary-coercible cast to this type from the type of _`x`_, then the call will be construed as a binary-coercible cast. This exception is made so that binary-coercible casts can be invoked using functional syntax, even though they lack any function. Likewise, if there is no `pg_cast` entry but the cast would be to or from a string type, the call will be construed as an I/O conversion cast. This exception allows I/O conversion casts to be invoked using functional syntax.
 
-#### Note
+### Note
 
 There is also an exception to the exception: I/O conversion casts from composite types to string types cannot be invoked using functional syntax, but must be written in explicit cast syntax \(either `CAST` or `::` notation\). This exception was added because after the introduction of automatically-provided I/O conversion casts, it was found too easy to accidentally invoke such a cast when a function or column reference was intended.
 
-### Examples
+## Examples
 
 To create an assignment cast from type `bigint` to type `int4` using the function `int4(bigint)`:
 
@@ -120,11 +120,11 @@ CREATE CAST (bigint AS int4) WITH FUNCTION int4(bigint) AS ASSIGNMENT;
 
 \(This cast is already predefined in the system.\)
 
-### Compatibility
+## Compatibility
 
 The `CREATE CAST` command conforms to the SQL standard, except that SQL does not make provisions for binary-coercible types or extra arguments to implementation functions. `AS IMPLICIT` is a PostgreSQL extension, too.
 
-### See Also
+## See Also
 
 [CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html), [CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html), [DROP CAST](https://www.postgresql.org/docs/10/static/sql-dropcast.html)
 

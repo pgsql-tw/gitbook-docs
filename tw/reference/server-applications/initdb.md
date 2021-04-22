@@ -2,11 +2,11 @@
 
 initdb — create a new PostgreSQL database cluster
 
-### Synopsis
+## Synopsis
 
 `initdb` \[_`option`_...\] \[ `--pgdata` \| `-D` \] _`directory`_
 
-### Description
+## Description
 
 `initdb` creates a new PostgreSQL database cluster. A database cluster is a collection of databases that are managed by a single server instance.
 
@@ -26,7 +26,7 @@ The remaining locale categories can be changed later when the server is started.
 
 To alter the default encoding, use the `--encoding`. More details can be found in [Section 23.3](https://www.postgresql.org/docs/current/multibyte.html).
 
-### Options
+## Options
 
 `-A` _`authmethod`_  
 `--auth=`_`authmethod`_
@@ -144,7 +144,7 @@ Print the initdb version and exit.
 
 Show help about initdb command line arguments, and exit.
 
-### Environment
+## Environment
 
 `PGDATA`
 
@@ -156,11 +156,11 @@ Specifies the default time zone of the created database cluster. The value shoul
 
 This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/current/libpq-envars.html)\).
 
-### Notes
+## Notes
 
 `initdb` can also be invoked via `pg_ctl initdb`.
 
-### See Also
+## See Also
 
 [pg\_ctl](https://www.postgresql.org/docs/current/app-pg-ctl.html), [postgres](https://www.postgresql.org/docs/current/app-postgres.html)
 

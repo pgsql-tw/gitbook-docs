@@ -2,7 +2,7 @@
 
 The view `table_constraints` contains all constraints belonging to tables that the current user owns or has some privilege other than `SELECT` on.
 
-#### **Table 36.49. `table_constraints` Columns**
+## **Table 36.49. `table_constraints` Columns**
 
 | Name | Data Type | Description |
 | :--- | :--- | :--- |

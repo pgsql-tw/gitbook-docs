@@ -10,7 +10,7 @@ pg\_stat\_statements 模組提供了一個追踪在伺服器上執行的 SQL 語
 
 此延伸功能收集的統計數據可透過名為 pg\_stat\_statements 的檢視表查詢。對於每個不同的資料庫 ID、使用者 ID和查詢語句 ID（此延伸功能可以追踪的最大不同查詢語句數量），在此檢視表會在一筆資料中呈現。 檢視表的欄位在 Table F.21 中說明。
 
-#### **Table F.21. `pg_stat_statements` Columns**
+### **Table F.21. `pg_stat_statements` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |
@@ -187,8 +187,7 @@ query       | SELECT pg_stat_statements_reset(0,0,0)
 calls       | 1
 total_time  | 0.189497
 rows        | 1
-hit_percent | 
-
+hit_percent |
 ```
 
 ## F.29.5. Authors

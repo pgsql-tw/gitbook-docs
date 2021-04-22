@@ -6,7 +6,7 @@ The view `pg_locks` provides access to information about the locks held by activ
 
 There are several distinct types of lockable objects: whole relations \(e.g., tables\), individual pages of relations, individual tuples of relations, transaction IDs \(both virtual and permanent IDs\), and general database objects \(identified by class OID and object OID, in the same way as in `pg_description` or `pg_depend`\). Also, the right to extend a relation is represented as a separate lockable object. Also, “advisory” locks can be taken on numbers that have user-defined meanings.
 
-#### **Table 51.75. `pg_locks` Columns**
+## **Table 51.75. `pg_locks` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |

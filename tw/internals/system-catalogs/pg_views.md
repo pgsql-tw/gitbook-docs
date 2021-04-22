@@ -2,7 +2,7 @@
 
 檢視表 pg\_views 提供對資料庫中每個檢視表有用的資訊。
 
-#### **Table 51.96. `pg_views` Columns**
+## **Table 51.96. `pg_views` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |

@@ -22,7 +22,7 @@ RFC 7159 允許 JSON 字串包含 \uXXXX 所表示的 Unicode 轉譯序列。在
 
 相反，如下表中所示，JSON 基本型別的輸入格式有一些微小的限制，但並不適用於其相應的 PostgreSQL 資料型別。
 
-#### **Table 8.23. JSON Primitive Types and Corresponding PostgreSQL Types**
+### **Table 8.23. JSON Primitive Types and Corresponding PostgreSQL Types**
 
 | JSON primitive type | PostgreSQL type | Notes |
 | :--- | :--- | :--- |
@@ -247,7 +247,7 @@ SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @@ '$.tags[*] == "qui"';
 SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @@ '$.tags[*] ? (@ == "qui")';
 ```
 
-GIN 索引從 jsonpath 中取出以下形式的語句：`accessors_chain = const`。Accessors chain 可能由 .key，\[\*\] 和 \[index\] 的 Accessor 所組成_。_jsonb\_ops 也支持 _.\*_ 和 .\*\* 的 Accessor。
+GIN 索引從 jsonpath 中取出以下形式的語句：`accessors_chain = const`。Accessors chain 可能由 .key，\[\*\] 和 \[index\] 的 Accessor 所組成_。\_jsonb\_ops 也支持_ .\*\_ 和 .\*\* 的 Accessor。
 
 查詢的另一種方法是利用 containment，例如：
 
@@ -324,7 +324,7 @@ A path expression consists of a sequence of path elements, which can be the foll
 
 For details on using `jsonpath` expressions with SQL/JSON query functions, see [Section 9.15.2](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-SQLJSON-PATH).
 
-#### **Table 8.24. `jsonpath` Variables**
+### **Table 8.24. `jsonpath` Variables**
 
 | Variable | Description |
 | :--- | :--- |
@@ -332,7 +332,7 @@ For details on using `jsonpath` expressions with SQL/JSON query functions, see [
 | `$varname` | A named variable. Its value can be set by the parameter _`vars`_ of several JSON processing functions. See [Table 9.47](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-JSON-PROCESSING-TABLE) and its notes for details. |
 | `@` | A variable representing the result of path evaluation in filter expressions. |
 
-#### **Table 8.25. `jsonpath` Accessors**
+### **Table 8.25. `jsonpath` Accessors**
 
 <table>
   <thead>

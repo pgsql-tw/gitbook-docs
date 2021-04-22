@@ -120,7 +120,7 @@ $$ LANGUAGE plpythonu;
 
 Cursors are automatically disposed of. But if you want to explicitly release all resources held by a cursor, use the `close` method. Once closed, a cursor cannot be fetched from anymore.
 
-#### Tip
+### Tip
 
 Do not confuse objects created by `plpy.cursor` with DB-API cursors as defined by the [Python Database API specification](https://www.python.org/dev/peps/pep-0249/). They don't have anything in common except for the name.
 
@@ -160,6 +160,5 @@ $$ LANGUAGE plpythonu;
 
 Note that because all exceptions from the `plpy.spiexceptions` module inherit from `SPIError`, an `except` clause handling it will catch any database access error.
 
-As an alternative way of handling different error conditions, you can catch the `SPIError` exception and determine the specific error condition inside the `except` block by looking at the `sqlstate` attribute of the exception object. This attribute is a string value containing the “SQLSTATE” error code. This approach provides approximately the same functionality  
-
+As an alternative way of handling different error conditions, you can catch the `SPIError` exception and determine the specific error condition inside the `except` block by looking at the `sqlstate` attribute of the exception object. This attribute is a string value containing the “SQLSTATE” error code. This approach provides approximately the same functionality
 

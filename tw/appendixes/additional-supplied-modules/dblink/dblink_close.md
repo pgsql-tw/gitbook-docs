@@ -2,18 +2,18 @@
 
 dblink\_close — closes a cursor in a remote database
 
-### Synopsis
+## Synopsis
 
 ```text
 dblink_close(text cursorname [, bool fail_on_error]) returns text
 dblink_close(text connname, text cursorname [, bool fail_on_error]) returns text
 ```
 
-### Description
+## Description
 
 `dblink_close` closes a cursor previously opened with `dblink_open`.
 
-### Arguments
+## Arguments
 
 _`connname`_
 
@@ -27,15 +27,15 @@ _`fail_on_error`_
 
 If true \(the default when omitted\) then an error thrown on the remote side of the connection causes an error to also be thrown locally. If false, the remote error is locally reported as a NOTICE, and the function's return value is set to `ERROR`.
 
-### Return Value
+## Return Value
 
 Returns status, either `OK` or `ERROR`.
 
-### Notes
+## Notes
 
 If `dblink_open` started an explicit transaction block, and this is the last remaining open cursor in this connection, `dblink_close` will issue the matching `COMMIT`.
 
-### Examples
+## Examples
 
 ```text
 SELECT dblink_connect('dbname=postgres options=-csearch_path=');

@@ -2,11 +2,11 @@
 
 pg\_standby — supports the creation of a PostgreSQL warm standby server
 
-### Synopsis
+## Synopsis
 
 `pg_standby` \[_`option`_...\] _`archivelocation`_ _`nextwalfile`_ _`walfilepath`_ \[_`restartwalfile`_\]
 
-### Description
+## Description
 
 pg\_standby supports creation of a “warm standby” database server. It is designed to be a production-ready program, as well as a customizable template should you require specific modifications.
 
@@ -30,7 +30,7 @@ In smart failover, the server is brought up after applying all WAL files availab
 
 In fast failover, the server is brought up immediately. Any WAL files in the archive that have not yet been applied will be ignored, and all transactions in those files are lost. To trigger a fast failover, create a trigger file and write the word `fast` into it. pg\_standby can also be configured to execute a fast failover automatically if no new WAL file appears within a defined interval.
 
-### Options
+## Options
 
 pg\_standby accepts the following command-line arguments:`-c`
 
@@ -54,7 +54,7 @@ Set the maximum number of seconds to wait for the next WAL file, after which a f
 
 Show help about pg\_standby command line arguments, and exit.
 
-### Notes
+## Notes
 
 pg\_standby is designed to work with PostgreSQL 8.2 and later.
 
@@ -64,7 +64,7 @@ PostgreSQL 8.4 provides the `recovery_end_command` option. Without this option a
 
 pg\_standby is written in C and has an easy-to-modify source code, with specifically designated sections to modify for your own needs
 
-### Examples
+## Examples
 
 On Linux or Unix systems, you might use:
 
@@ -107,11 +107,11 @@ The `copy` command on Windows sets the final file size before the file is comple
 
 Since the Windows example uses `copy` at both ends, either or both servers might be accessing the archive directory across the network.
 
-### Author
+## Author
 
 Simon Riggs `<`[`simon@2ndquadrant.com`](mailto:simon@2ndquadrant.com)`>`
 
-### See Also
+## See Also
 
 [pg\_archivecleanup](https://www.postgresql.org/docs/10/static/pgarchivecleanup.html)
 

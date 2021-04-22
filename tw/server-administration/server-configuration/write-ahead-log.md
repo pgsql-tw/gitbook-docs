@@ -22,7 +22,7 @@ In `logical` level, the same information is logged as with `replica`, plus infor
 
 In releases prior to 9.6, this parameter also allowed the values `archive` and `hot_standby`. These are still accepted but mapped to `replica`.
 
-#### `fsync` \(`boolean`\)
+### `fsync` \(`boolean`\)
 
 If this parameter is on, the PostgreSQL server will try to make sure that updates are physically written to disk, by issuing `fsync()` system calls or various equivalent methods \(see [wal\_sync\_method](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-WAL-SYNC-METHOD)\). This ensures that the database cluster can recover to a consistent state after an operating system or hardware crash.
 
@@ -36,7 +36,7 @@ In many situations, turning off [synchronous\_commit](https://www.postgresql.org
 
 `fsync` can only be set in the `postgresql.conf` file or on the server command line. If you turn this parameter off, also consider turning off [full\_page\_writes](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-FULL-PAGE-WRITES).
 
-#### `synchronous_commit` \(`enum`\)
+### `synchronous_commit` \(`enum`\)
 
 Specifies whether transaction commit will wait for WAL records to be written to disk before the command returns a “success” indication to the client. Valid values are `on`, `remote_apply`, `remote_write`, `local`, and `off`. The default, and safe, setting is `on`. When `off`, there can be a delay between when success is reported to the client and when the transaction is really guaranteed to be safe against a server crash. \(The maximum delay is three times [wal\_writer\_delay](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-WAL-WRITER-DELAY).\) Unlike [fsync](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-FSYNC), setting this parameter to `off` does not create any risk of database inconsistency: an operating system or database crash might result in some recent allegedly-committed transactions being lost, but the database state will be just the same as if those transactions had been aborted cleanly. So, turning `synchronous_commit` off can be a useful alternative when performance is more important than exact certainty about the durability of a transaction. For more discussion see [Section 29.3](https://www.postgresql.org/docs/12/wal-async-commit.html).
 
@@ -46,7 +46,7 @@ If `synchronous_standby_names` is empty, the settings `on`, `remote_apply`, `rem
 
 This parameter can be changed at any time; the behavior for any one transaction is determined by the setting in effect when it commits. It is therefore possible, and useful, to have some transactions commit synchronously and others asynchronously. For example, to make a single multistatement transaction commit asynchronously when the default is the opposite, issue `SET LOCAL synchronous_commit TO OFF` within the transaction.
 
-#### `wal_sync_method` \(`enum`\)
+### `wal_sync_method` \(`enum`\)
 
 Method used for forcing WAL updates out to disk. If `fsync` is off then this setting is irrelevant, since WAL file updates will not be forced out at all. Possible values are:
 
@@ -58,7 +58,7 @@ Method used for forcing WAL updates out to disk. If `fsync` is off then this set
 
 The `open_`\* options also use `O_DIRECT` if available. Not all of these choices are available on all platforms. The default is the first method in the above list that is supported by the platform, except that `fdatasync` is the default on Linux. The default is not necessarily ideal; it might be necessary to change this setting or other aspects of your system configuration in order to create a crash-safe configuration or achieve optimal performance. These aspects are discussed in [Section 29.1](https://www.postgresql.org/docs/12/wal-reliability.html). This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
-#### `full_page_writes` \(`boolean`\)
+### `full_page_writes` \(`boolean`\)
 
 啟用此參數後，PostgreSQL 伺服器會在檢查點之後對該頁面的首次修改期間將每個磁碟頁面的全部內容寫入 WAL。這是必要的，因為在作業系統當機期間正在進行的頁面寫入可能僅部分完成，從而導致包含新舊資料混合在磁碟頁面之中。通常在 WAL 中所儲存的資料列層級更改資料不足以在當機後還原期間完全還原此類頁面。儲存完整的頁面映像可確保還原正確的頁面，但是這樣做的代價是增加了必須寫入 WAL 的資料量。 （由於 WAL 重放總是從檢查點開始，因此在檢查點之後每頁的第一次更改期間執行此操作就足夠了。也因此，減少全頁寫入成本的一種方法是增加檢查點間隔參數。）
 
@@ -68,7 +68,7 @@ The `open_`\* options also use `O_DIRECT` if available. Not all of these choices
 
 該參數只能在 postgresql.conf 檔案或伺服器命令列中設定。預設為 on。
 
-#### `wal_log_hints` \(`boolean`\)
+### `wal_log_hints` \(`boolean`\)
 
 When this parameter is `on`, the PostgreSQL server writes the entire content of each disk page to WAL during the first modification of that page after a checkpoint, even for non-critical modifications of so-called hint bits.
 
@@ -76,39 +76,39 @@ If data checksums are enabled, hint bit updates are always WAL-logged and this s
 
 This parameter can only be set at server start. The default value is `off`.
 
-#### `wal_compression` \(`boolean`\)
+### `wal_compression` \(`boolean`\)
 
 When this parameter is `on`, the PostgreSQL server compresses a full page image written to WAL when [full\_page\_writes](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-FULL-PAGE-WRITES) is on or during a base backup. A compressed page image will be decompressed during WAL replay. The default value is `off`. Only superusers can change this setting.
 
 Turning this parameter on can reduce the WAL volume without increasing the risk of unrecoverable data corruption, but at the cost of some extra CPU spent on the compression during WAL logging and on the decompression during WAL replay.
 
-#### `wal_buffers` \(`integer`\)
+### `wal_buffers` \(`integer`\)
 
 The amount of shared memory used for WAL data that has not yet been written to disk. The default setting of -1 selects a size equal to 1/32nd \(about 3%\) of [shared\_buffers](https://www.postgresql.org/docs/12/runtime-config-resource.html#GUC-SHARED-BUFFERS), but not less than `64kB` nor more than the size of one WAL segment, typically `16MB`. This value can be set manually if the automatic choice is too large or too small, but any positive value less than `32kB` will be treated as `32kB`. If this value is specified without units, it is taken as WAL blocks, that is `XLOG_BLCKSZ` bytes, typically 8kB. This parameter can only be set at server start.
 
 The contents of the WAL buffers are written out to disk at every transaction commit, so extremely large values are unlikely to provide a significant benefit. However, setting this value to at least a few megabytes can improve write performance on a busy server where many clients are committing at once. The auto-tuning selected by the default setting of -1 should give reasonable results in most cases.
 
-#### `wal_writer_delay` \(`integer`\)
+### `wal_writer_delay` \(`integer`\)
 
 Specifies how often the WAL writer flushes WAL, in time terms. After flushing WAL the writer sleeps for the length of time given by `wal_writer_delay`, unless woken up sooner by an asynchronously committing transaction. If the last flush happened less than `wal_writer_delay` ago and less than `wal_writer_flush_after` worth of WAL has been produced since, then WAL is only written to the operating system, not flushed to disk. If this value is specified without units, it is taken as milliseconds. The default value is 200 milliseconds \(`200ms`\). Note that on many systems, the effective resolution of sleep delays is 10 milliseconds; setting `wal_writer_delay` to a value that is not a multiple of 10 might have the same results as setting it to the next higher multiple of 10. This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
-#### `wal_writer_flush_after` \(`integer`\)
+### `wal_writer_flush_after` \(`integer`\)
 
 Specifies how often the WAL writer flushes WAL, in volume terms. If the last flush happened less than `wal_writer_delay` ago and less than `wal_writer_flush_after` worth of WAL has been produced since, then WAL is only written to the operating system, not flushed to disk. If `wal_writer_flush_after` is set to `0` then WAL data is always flushed immediately. If this value is specified without units, it is taken as WAL blocks, that is `XLOG_BLCKSZ` bytes, typically 8kB. The default is `1MB`. This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
-#### `commit_delay` \(`integer`\)
+### `commit_delay` \(`integer`\)
 
 Setting `commit_delay` adds a time delay before a WAL flush is initiated. This can improve group commit throughput by allowing a larger number of transactions to commit via a single WAL flush, if system load is high enough that additional transactions become ready to commit within the given interval. However, it also increases latency by up to the `commit_delay` for each WAL flush. Because the delay is just wasted if no other transactions become ready to commit, a delay is only performed if at least `commit_siblings` other transactions are active when a flush is about to be initiated. Also, no delays are performed if `fsync` is disabled. If this value is specified without units, it is taken as microseconds. The default `commit_delay` is zero \(no delay\). Only superusers can change this setting.
 
 In PostgreSQL releases prior to 9.3, `commit_delay` behaved differently and was much less effective: it affected only commits, rather than all WAL flushes, and waited for the entire configured delay even if the WAL flush was completed sooner. Beginning in PostgreSQL 9.3, the first process that becomes ready to flush waits for the configured interval, while subsequent processes wait only until the leader completes the flush operation.
 
-#### `commit_siblings` \(`integer`\)
+### `commit_siblings` \(`integer`\)
 
 Minimum number of concurrent open transactions to require before performing the `commit_delay` delay. A larger value makes it more probable that at least one other transaction will become ready to commit during the delay interval. The default is five transactions.
 
 ## 19.5.2. Checkpoints
 
-#### `checkpoint_timeout` \(`integer`\)
+### `checkpoint_timeout` \(`integer`\)
 
 自動 WAL 檢查點之間的最長時間。如果指定的值不帶單位，則以秒為單位。有效範圍是 30 秒至 1 天。預設值為五分鐘（5 分鐘）。增大此參數可能會增加當機回復所需的時間。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
@@ -120,15 +120,15 @@ Specifies the target of checkpoint completion, as a fraction of total time betwe
 
 Whenever more than this amount of data has been written while performing a checkpoint, attempt to force the OS to issue these writes to the underlying storage. Doing so will limit the amount of dirty data in the kernel's page cache, reducing the likelihood of stalls when an `fsync` is issued at the end of the checkpoint, or when the OS writes data back in larger batches in the background. Often that will result in greatly reduced transaction latency, but there also are some cases, especially with workloads that are bigger than [shared\_buffers](https://www.postgresql.org/docs/12/runtime-config-resource.html#GUC-SHARED-BUFFERS), but smaller than the OS's page cache, where performance might degrade. This setting may have no effect on some platforms. If this value is specified without units, it is taken as blocks, that is `BLCKSZ` bytes, typically 8kB. The valid range is between `0`, which disables forced writeback, and `2MB`. The default is `256kB` on Linux, `0` elsewhere. \(If `BLCKSZ` is not 8kB, the default and maximum values scale proportionally to it.\) This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
-#### `checkpoint_warning` \(`integer`\)
+### `checkpoint_warning` \(`integer`\)
 
 Write a message to the server log if checkpoints caused by the filling of WAL segment files happen closer together than this amount of time \(which suggests that `max_wal_size` ought to be raised\). If this value is specified without units, it is taken as seconds. The default is 30 seconds \(`30s`\). Zero disables the warning. No warnings will be generated if `checkpoint_timeout` is less than `checkpoint_warning`. This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
-#### `max_wal_size` \(`integer`\)
+### `max_wal_size` \(`integer`\)
 
 使 WAL 增長到自動 WAL 檢查點之間的最大大小。這是一個軟限制。在特殊情況下，例如重度負載，失敗的 archive\_command 或較高的 wal\_keep\_segments 設定，WAL 大小可能會超過 max\_wal\_size。如果指定的該值不帶單位，則以 MegaByte 為單位。預設值為1 GB。增大此參數可能會增加當機回復所需的時間。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
-#### `min_wal_size` \(`integer`\)
+### `min_wal_size` \(`integer`\)
 
 As long as WAL disk usage stays below this setting, old WAL files are always recycled for future use at a checkpoint, rather than removed. This can be used to ensure that enough WAL space is reserved to handle spikes in WAL usage, for example when running large batch jobs. If this value is specified without units, it is taken as megabytes. The default is 80 MB. This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
