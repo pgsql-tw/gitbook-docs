@@ -443,7 +443,7 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
                Filter: (logdate >= '2008-01-01'::date)
 ```
 
-Some or all of the partitions might use index scans instead of full-table sequential scans, but the point here is that there is no need to scan the older partitions at all to answer this query. When we enable partition pruning, we get a significantly cheaper plan that will deliver the same answer:
+有一部份的分割區可能使用索引掃描而不是全資料表的循序掃描，但是這裡的要點是根本不需要掃描較舊的分區來回應此查詢。啟用 partition pruning 之後，我們將獲得更為簡單的查詢計劃，該計劃能夠提供相同的回應：
 
 ```text
 SET enable_partition_pruning = on;
@@ -455,18 +455,18 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
          Filter: (logdate >= '2008-01-01'::date)
 ```
 
-Note that partition pruning is driven only by the constraints defined implicitly by the partition keys, not by the presence of indexes. Therefore it isn't necessary to define indexes on the key columns. Whether an index needs to be created for a given partition depends on whether you expect that queries that scan the partition will generally scan a large part of the partition or just a small part. An index will be helpful in the latter case but not the former.
+請注意，partition pruning 僅由分割主鍵隱含定義的內容而來，而不會參考索引。因此，不需要在相關欄位上定義索引。是否需要為該分割區建立索引取決於您是否希望掃描分割區的查詢會掃描大部分分割區還是僅掃描一小部分。在後者情況下，索引將有所幫助，但對於前者則無濟於事。
 
 Partition pruning can be performed not only during the planning of a given query, but also during its execution. This is useful as it can allow more partitions to be pruned when clauses contain expressions whose values are not known at query planning time, for example, parameters defined in a `PREPARE` statement, using a value obtained from a subquery, or using a parameterized value on the inner side of a nested loop join. Partition pruning during execution can be performed at any of the following times:
 
 * During initialization of the query plan. Partition pruning can be performed here for parameter values which are known during the initialization phase of execution. Partitions which are pruned during this stage will not show up in the query's `EXPLAIN` or `EXPLAIN ANALYZE`. It is possible to determine the number of partitions which were removed during this phase by observing the “Subplans Removed” property in the `EXPLAIN` output.
 * During actual execution of the query plan. Partition pruning may also be performed here to remove partitions using values which are only known during actual query execution. This includes values from subqueries and values from execution-time parameters such as those from parameterized nested loop joins. Since the value of these parameters may change many times during the execution of the query, partition pruning is performed whenever one of the execution parameters being used by partition pruning changes. Determining if partitions were pruned during this phase requires careful inspection of the `loops` property in the `EXPLAIN ANALYZE` output. Subplans corresponding to different partitions may have different values for it depending on how many times each of them was pruned during execution. Some may be shown as `(never executed)` if they were pruned every time.
 
-Partition pruning can be disabled using the [enable\_partition\_pruning](https://www.postgresql.org/docs/12/runtime-config-query.html#GUC-ENABLE-PARTITION-PRUNING) setting.
+可以使用 [enable\_partition\_pruning](../../server-administration/server-configuration/query-planning.md#enable_partition_pruning-boolean) 設定來停用 partition pruning。
 
-#### Note
-
-Execution-time partition pruning currently only occurs for the `Append` and `MergeAppend` node types. It is not yet implemented for the `ModifyTable` node type, but that is likely to be changed in a future release of PostgreSQL.
+{% hint style="info" %}
+目前僅會在 Append 和 MergeAppend 節點類型上執行 partition pruning。尚未為 ModifyTable 節點類型實作此功能，但是在將來的 PostgreSQL 版本中可能會有所改進。
+{% endhint %}
 
 ## 5.11.5. Partitioning and Constraint Exclusion
 
