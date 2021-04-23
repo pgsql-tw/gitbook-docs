@@ -658,9 +658,9 @@ This formulation will work the same in all versions of PostgreSQL.
 
 ## 37.5.9. SQL Functions Returning `TABLE`
 
-There is another way to declare a function as returning a set, which is to use the syntax `RETURNS TABLE(`_`columns`_\). This is equivalent to using one or more `OUT` parameters plus marking the function as returning `SETOF record` \(or `SETOF` a single output parameter's type, as appropriate\). This notation is specified in recent versions of the SQL standard, and thus may be more portable than using `SETOF`.
+還有一種是將函數宣告為回傳集合的方法，即是使用語法 RETURNS TABLE\(columns\)。 這等同於使用一個或多個 OUT 參數，並會將該函數標記為回傳 SETOF record（或 SETOF，視情況而定為單個輸出參數的類型）。此表示法是在 SQL 標準的最新版本中訂定的，因此，與使用 SETOF 相比，它更容易具有可攜性。
 
-For example, the preceding sum-and-product example could also be done this way:
+例如，前面的「sum-and-product」範例也可以透過以下方式完成：
 
 ```text
 CREATE FUNCTION sum_n_product_with_tab (x int)
@@ -669,7 +669,7 @@ RETURNS TABLE(sum int, product int) AS $$
 $$ LANGUAGE SQL;
 ```
 
-It is not allowed to use explicit `OUT` or `INOUT` parameters with the `RETURNS TABLE` notation — you must put all the output columns in the `TABLE` list.
+不允許使用帶有 RETURNS TABLE 表示法的 OUT 或 INOUT 參數-您必須將所有輸出欄位放在 TABLE 列表之中。
 
 ## 37.5.10. Polymorphic SQL Functions
 
