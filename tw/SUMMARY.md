@@ -661,6 +661,7 @@
     * [51.80. pg\_replication\_slots](internals/system-catalogs/pg_replication_slots.md)
     * [51.82 pg\_roles](internals/system-catalogs/pg_roles.md)
     * [51.85. pg\_settings](internals/system-catalogs/pg_settings.md)
+    * [51.87. pg\_shmem\_allocations](internals/system-catalogs/pg_shmem_allocations.md)
     * [51.88. pg\_stats](internals/system-catalogs/pg_stats.md)
     * [51.90. pg\_tables](internals/system-catalogs/pg_tables.md)
     * [51.93. pg\_user](internals/system-catalogs/pg_user.md)
