@@ -1,8 +1,8 @@
 # 21.5. Default Roles
 
-PostgreSQL provides a set of default roles which provide access to certain, commonly needed, privileged capabilities and information. Administrators can GRANT these roles to users and/or other roles in their environment, providing those users with access to the specified capabilities and information.
+PostgreSQL 提供了一組預設的角色，這些角色提供對某些經常需要的特定權限功能和資訊的存取。資料庫管理員可以將這些角色授予其環境中的其他角色，使這些使用者可以存取或使用指定的功能和資訊。
 
-The default roles are described in [Table 21.1](https://www.postgresql.org/docs/13/default-roles.html#DEFAULT-ROLES-TABLE). Note that the specific permissions for each of the default roles may change in the future as additional capabilities are added. Administrators should monitor the release notes for changes.
+[Table 21.1](default-roles.md#table-21-1-default-roles) 中列出了預設的角色。請注意，隨著其他功能的增加，未來每個預設角色的權限可能也會變更。資料庫管理員應隨時確認說明文件中的內容。
 
 #### **Table 21.1. Default Roles**
 
@@ -17,15 +17,15 @@ The default roles are described in [Table 21.1](https://www.postgresql.org/docs/
 | pg\_write\_server\_files | Allow writing to files in any location the database can access on the server with COPY and other file-access functions. |
 | pg\_execute\_server\_program | Allow executing programs on the database server as the user the database runs as with COPY and other functions which allow executing a server-side program. |
 
-The `pg_monitor`, `pg_read_all_settings`, `pg_read_all_stats` and `pg_stat_scan_tables` roles are intended to allow administrators to easily configure a role for the purpose of monitoring the database server. They grant a set of common privileges allowing the role to read various useful configuration settings, statistics and other system information normally restricted to superusers.
+pg\_monitor、pg\_read\_all\_settings、pg\_read\_all\_stats 和 pg\_stat\_scan\_tables 角色旨在使資料管理員可以輕鬆地配置角色以監控資料庫伺服器。它們授予一組通用的特殊權限，允許角色讀取各種有用的組態配置、統計資訊與其他通常限於超級使用者才能取得的系統資訊。
 
-The `pg_signal_backend` role is intended to allow administrators to enable trusted, but non-superuser, roles to send signals to other backends. Currently this role enables sending of signals for canceling a query on another backend or terminating its session. A user granted this role cannot however send signals to a backend owned by a superuser. See [Section 9.27.2](https://www.postgresql.org/docs/13/functions-admin.html#FUNCTIONS-ADMIN-SIGNAL).
+pg\_signal\_backend 角色旨在允許資料庫管理員啟用受信任的非超級使用者角色，以將 SIGNAL 發送到其他後端程序。目前，此角色可發送 SIGNAL，以取消另一個後端程序上的查詢或終止其連線。但是，被授予此角色的使用者無法將 SIGNAL 發送到超級使用者所擁有的後端程序。詳見[第 9.27.2 節](../../the-sql-language/functions-and-operators/system-administration.md#9-27-2-server-signaling-functions)。
 
-The `pg_read_server_files`, `pg_write_server_files` and `pg_execute_server_program` roles are intended to allow administrators to have trusted, but non-superuser, roles which are able to access files and run programs on the database server as the user the database runs as. As these roles are able to access any file on the server file system, they bypass all database-level permission checks when accessing files directly and they could be used to gain superuser-level access, therefore great care should be taken when granting these roles to users.
+pg\_read\_server\_files、pg\_write\_server\_files 和 pg\_execute\_server\_program 角色旨在允許資料管理員擁有可信任的角色，但非超級使用者角色。這些角色能夠以資料庫執行使用者的身份存取檔案並在資料庫伺服器上執行程序。由於這些角色可以存取伺務器檔案系統上的任何檔案，因此它們在直接存取檔案時會繞過所有資料庫層級的權限檢查，並且它們可用於取得超級使用者層級的存取權限，因此在授予這些角色以使用這些權限時應格外小心。
 
-Care should be taken when granting these roles to ensure they are only used where needed and with the understanding that these roles grant access to privileged information.
+授予這些角色時應格外小心，以確保僅在需要時才使用它們，並應了解這些角色會授予對特權資訊的存取權限。
 
-Administrators can grant access to these roles to users using the [GRANT](https://www.postgresql.org/docs/13/sql-grant.html) command, for example:
+資料庫管理員可以使用 GRANT 指令向使用者授予對這些角色的存取權限，例如：
 
 ```text
 GRANT pg_signal_backend TO admin_user;
