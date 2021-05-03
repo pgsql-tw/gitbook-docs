@@ -586,7 +586,7 @@ SELECT pid, wait_event_type, wait_event FROM pg_stat_activity WHERE wait_event i
 
 ## 27.2.4. `pg_stat_replication`
 
-The `pg_stat_replication` view will contain one row per WAL sender process, showing statistics about replication to that sender's connected standby server. Only directly connected standbys are listed; no information is available about downstream standby servers.
+pg\_stat\_replication 檢視表中的每一筆資料表示每個 WAL 發送者的執行程序，顯示有關複製到該發送者的備用伺服器統計資訊。僅列出直接連接的備用資料庫，不會包含其下游備用伺服器的資訊。
 
 #### **Table 27.14. `pg_stat_replication` View**
 
