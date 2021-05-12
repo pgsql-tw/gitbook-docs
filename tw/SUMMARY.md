@@ -781,6 +781,7 @@
       * [dblink\_build\_sql\_update](appendixes/additional-supplied-modules/dblink/dblink_build_sql_update.md)
     * [F.13. earthdistance](appendixes/additional-supplied-modules/earthdistance.md)
     * [F.14. file\_fdw](appendixes/additional-supplied-modules/file_fdw.md)
+    * [F.24. pg\_buffercache](appendixes/additional-supplied-modules/pg_buffercache.md)
     * [F.29. pg\_stat\_statements](appendixes/additional-supplied-modules/pg_stat_statements.md)
     * [F.30. pgstattuple](appendixes/additional-supplied-modules/pgstattuple.md)
     * [F.31. pg\_trgm](appendixes/additional-supplied-modules/pg_trgm.md)
