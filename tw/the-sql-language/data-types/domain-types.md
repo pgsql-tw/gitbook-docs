@@ -1,8 +1,8 @@
 # 8.18. Domain Types
 
-A _domain_ is a user-defined data type that is based on another _underlying type_. Optionally, it can have constraints that restrict its valid values to a subset of what the underlying type would allow. Otherwise it behaves like the underlying type — for example, any operator or function that can be applied to the underlying type will work on the domain type. The underlying type can be any built-in or user-defined base type, enum type, array type, composite type, range type, or another domain.
+Domain 是基於另一個基本型別的使用者定義資料型別。可以選擇性將其有效值限制為基本型別的子集。否則，它的行為類似於基本型別 — 例如，可以應用於基本型別的任何運算子或函數都將在 domain 型別上以相同的行為運作。基本型別可以是任何內建或其他使用者定義的基本型別、列舉型別、陣列型別、複合型別、範圍型別或其他的 domain。
 
-For example, we could create a domain over integers that accepts only positive integers:
+例如，我們可以整數型別上建立一個 domain，其僅接受正數：
 
 ```text
 CREATE DOMAIN posint AS integer CHECK (VALUE > 0);
@@ -11,7 +11,7 @@ INSERT INTO mytable VALUES(1);   -- works
 INSERT INTO mytable VALUES(-1);  -- fails
 ```
 
-When an operator or function of the underlying type is applied to a domain value, the domain is automatically down-cast to the underlying type. Thus, for example, the result of `mytable.id - 1` is considered to be of type `integer` not `posint`. We could write `(mytable.id - 1)::posint` to cast the result back to `posint`, causing the domain's constraints to be rechecked. In this case, that would result in an error if the expression had been applied to an `id` value of 1. Assigning a value of the underlying type to a field or variable of the domain type is allowed without writing an explicit cast, but the domain's constraints will be checked.
+當基本型別的運算子或函數運作於 domain 的值時，該 domain 會自動向下轉換為基本型別。因此，例如，mytable.id - 1 的結果被認為是整數型別而不是 posint 型別。 我們可以使用 \(mytable.id - 1\)::posint 將結果轉換回 posint，使其重新檢查 domain 的條件。在這種情況下，如果將表示式於 ID 值 1 做運算，則會產生錯誤。可以在不明確寫出強制型別轉換的情況下，將基本型別的值寫入到 domain 型別的欄位或變數，但是將會檢查該 domain 的限制條件。
 
 有關更多資訊，請參閱 [CREATE DOMAIN](../../reference/sql-commands/create-domain.md)。
 
