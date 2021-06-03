@@ -68,17 +68,29 @@ To be able to create a cast, you must own the source or the target data type and
 
 _`source_type`_
 
-The name of the source data type of the cast._`target_type`_
+The name of the source data type of the cast.
 
-The name of the target data type of the cast._`function_name`_\[\(_`argument_type`_ \[, ...\]\)\]
+_`target_type`_
 
-The function used to perform the cast. The function name can be schema-qualified. If it is not, the function will be looked up in the schema search path. The function's result data type must match the target type of the cast. Its arguments are discussed below. If no argument list is specified, the function name must be unique in its schema.`WITHOUT FUNCTION`
+The name of the target data type of the cast.
 
-Indicates that the source type is binary-coercible to the target type, so no function is required to perform the cast.`WITH INOUT`
+_`function_name`_\[\(_`argument_type`_ \[, ...\]\)\]
 
-Indicates that the cast is an I/O conversion cast, performed by invoking the output function of the source data type, and passing the resulting string to the input function of the target data type.`AS ASSIGNMENT`
+The function used to perform the cast. The function name can be schema-qualified. If it is not, the function will be looked up in the schema search path. The function's result data type must match the target type of the cast. Its arguments are discussed below. If no argument list is specified, the function name must be unique in its schema.
 
-Indicates that the cast can be invoked implicitly in assignment contexts.`AS IMPLICIT`
+`WITHOUT FUNCTION`
+
+Indicates that the source type is binary-coercible to the target type, so no function is required to perform the cast.
+
+`WITH INOUT`
+
+Indicates that the cast is an I/O conversion cast, performed by invoking the output function of the source data type, and passing the resulting string to the input function of the target data type.
+
+`AS ASSIGNMENT`
+
+Indicates that the cast can be invoked implicitly in assignment contexts.
+
+`AS IMPLICIT`
 
 Indicates that the cast can be invoked implicitly in any context.
 
