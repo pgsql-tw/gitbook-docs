@@ -28,7 +28,7 @@ SELECT CAST(42 AS float8);
 
 converts the integer constant 42 to type `float8` by invoking a previously specified function, in this case `float8(int4)`. \(If no suitable cast has been defined, the conversion fails.\)
 
-Two types can be _binary coercible_, which means that the conversion can be performed “for free” without invoking any function. This requires that corresponding values use the same internal representation. For instance, the types`text` and `varchar` are binary coercible both ways. Binary coercibility is not necessarily a symmetric relationship. For example, the cast from `xml` to `text` can be performed for free in the present implementation, but the reverse direction requires a function that performs at least a syntax check. \(Two types that are binary coercible both ways are also referred to as binary compatible.\)
+Two types can be _binary coercible_, which means that the conversion can be performed “for free” without invoking any function. This requires that corresponding values use the same internal representation. For instance, the types `text` and `varchar` are binary coercible both ways. Binary coercibility is not necessarily a symmetric relationship. For example, the cast from `xml` to `text` can be performed for free in the present implementation, but the reverse direction requires a function that performs at least a syntax check. \(Two types that are binary coercible both ways are also referred to as binary compatible.\)
 
 You can define a cast as an _I/O conversion cast_ by using the `WITH INOUT` syntax. An I/O conversion cast is performed by invoking the output function of the source data type, and passing the resulting string to the input function of the target data type. In many common cases, this feature avoids the need to write a separate cast function for conversion. An I/O conversion cast acts the same as a regular function-based cast; only the implementation is different.
 
@@ -60,7 +60,7 @@ It is wise to be conservative about marking casts as implicit. An overabundance 
 
 #### Note
 
-Sometimes it is necessary for usability or standards-compliance reasons to provide multiple implicit casts among a set of types, resulting in ambiguity that cannot be avoided as above. The parser has a fallback heuristic based on _type categories_ and _preferred types_ that can help to provide desired behavior in such cases. See [CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html) for more information.
+Sometimes it is necessary for usability or standards-compliance reasons to provide multiple implicit casts among a set of types, resulting in ambiguity that cannot be avoided as above. The parser has a fallback heuristic based on _type categories_ and _preferred types_ that can help to provide desired behavior in such cases. See [CREATE TYPE](https://www.postgresql.org/docs/13/sql-createtype.html) for more information.
 
 To be able to create a cast, you must own the source or the target data type and have `USAGE` privilege on the other type. To create a binary-coercible cast, you must be superuser. \(This restriction is made because an erroneous binary-coercible cast conversion can easily crash the server.\)
 
@@ -94,7 +94,7 @@ A cast to or from a domain type currently has no effect. Casting to or from a do
 
 ### Notes
 
-Use [DROP CAST](https://www.postgresql.org/docs/10/static/sql-dropcast.html) to remove user-defined casts.
+Use [DROP CAST](https://www.postgresql.org/docs/13/sql-dropcast.html) to remove user-defined casts.
 
 Remember that if you want to be able to convert types both ways you need to declare casts both ways explicitly.
 
@@ -126,5 +126,5 @@ The `CREATE CAST` command conforms to the SQL standard, except that SQL does not
 
 ### See Also
 
-[CREATE FUNCTION](https://www.postgresql.org/docs/10/static/sql-createfunction.html), [CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html), [DROP CAST](https://www.postgresql.org/docs/10/static/sql-dropcast.html)
+[CREATE FUNCTION](https://www.postgresql.org/docs/13/sql-createfunction.html), [CREATE TYPE](https://www.postgresql.org/docs/13/sql-createtype.html), [DROP CAST](https://www.postgresql.org/docs/13/sql-dropcast.html)
 
