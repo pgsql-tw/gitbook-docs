@@ -114,11 +114,11 @@ PostgreSQL 將某些類型物件的預設權限授予 PUBLIC。預設情況下�
 
 `TEMP`
 
-Alternative spelling for `TEMPORARY`.
+TEMPORARY 的另一種寫法。
 
 `ALL PRIVILEGES`
 
-Grant all of the privileges available for the object's type. The `PRIVILEGES` key word is optional in PostgreSQL, though it is required by strict SQL.
+授予該物件型別的所有可用權限。PRIVILEGES 關鍵字在 PostgreSQL 中是選擇性的，但它在嚴格的 SQL 中是必要的。
 
 The `FUNCTION` syntax works for plain functions, aggregate functions, and window functions, but not for procedures; use `PROCEDURE` for those. Alternatively, use `ROUTINE` to refer to a function, aggregate function, window function, or procedure regardless of its precise type.
 
@@ -128,7 +128,7 @@ There is also an option to grant privileges on all objects of the same type with
 
 GRANT 指令也可以用於將角色加入成為其他角色的成員。角色的成員意義重大，因為它可以將授予角色的權限也同等授予給每個成員。
 
-If `WITH ADMIN OPTION` is specified, the member can in turn grant membership in the role to others, and revoke membership in the role as well. Without the admin option, ordinary users cannot do that. A role is not considered to hold `WITH ADMIN OPTION` on itself, but it may grant or revoke membership in itself from a database session where the session user matches the role. Database superusers can grant or revoke membership in any role to anyone. Roles having `CREATEROLE` privilege can grant or revoke membership in any role that is not a superuser.
+如果指定了 WITH ADMIN OPTION，則該成員就可以將角色的成員資格再授予其他人，也可以撤銷該角色的成員資格。如果沒有 admin 選項，普通使用者就無法做到上述的行為。 角色不被視為對自身持有 WITH ADMIN OPTION，但它可以從連線使用者與角色匹配的資料庫連線中授予或撤銷其自身的成員資格。資料庫的超級使用者可以向任何人授予或撤銷任何角色的成員資格。具有 CREATEROLE 權限的角色可以授予或撤銷任何非超級使用者角色的成員資格。
 
 If `GRANTED BY` is specified, the grant is recorded as having been done by the specified role. Only database superusers may use this option, except when it names the same role executing the command.
 
