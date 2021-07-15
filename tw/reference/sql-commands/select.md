@@ -15,13 +15,13 @@ SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
     [ FROM from_item [, ...] ]
     [ WHERE condition ]
     [ GROUP BY grouping_element [, ...] ]
-    [ HAVING condition [, ...] ]
+    [ HAVING condition ]
     [ WINDOW window_name AS ( window_definition ) [, ...] ]
     [ { UNION | INTERSECT | EXCEPT } [ ALL | DISTINCT ] select ]
     [ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
     [ LIMIT { count | ALL } ]
     [ OFFSET start [ ROW | ROWS ] ]
-    [ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY ]
+    [ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } { ONLY | WITH TIES } ]
     [ FOR { UPDATE | NO KEY UPDATE | SHARE | KEY SHARE } [ OF table_name [, ...] ] [ NOWAIT | SKIP LOCKED ] [...] ]
 
 where from_item can be one of:
@@ -49,7 +49,7 @@ and grouping_element can be one of:
 
 and with_query is:
 
-    with_query_name [ ( column_name [, ...] ) ] AS ( select | values | insert | update | delete )
+    with_query_name [ ( column_name [, ...] ) ] AS [ [ NOT ] MATERIALIZED ] ( select | values | insert | update | delete )
 
 TABLE [ ONLY ] table_name [ * ]
 ```
@@ -127,9 +127,11 @@ _`with_query_name`_
 
 _`function_name`_
 
-Function calls can appear in the `FROM` clause. \(This is especially useful for functions that return result sets, but any function can be used.\) This acts as though the function's output were created as a temporary table for the duration of this single `SELECT` command. When the optional `WITH ORDINALITY` clause is added to the function call, a new column is appended after all the function's output columns with numbering for each row.
+Function calls can appear in the `FROM` clause. \(This is especially useful for functions that return result sets, but any function can be used.\) This acts as though the function's output were created as a temporary table for the duration of this single `SELECT` command. If the function's result type is composite \(including the case of a function with multiple `OUT` parameters\), each attribute becomes a separate column in the implicit table.
 
-An alias can be provided in the same way as for a table. If an alias is written, a column alias list can also be written to provide substitute names for one or more attributes of the function's composite return type, including the column added by `ORDINALITY` if present.
+When the optional `WITH ORDINALITY` clause is added to the function call, an additional column of type `bigint` will be appended to the function's result column\(s\). This column numbers the rows of the function's result set, starting from 1. By default, this column is named `ordinality`.
+
+An alias can be provided in the same way as for a table. If an alias is written, a column alias list can also be written to provide substitute names for one or more attributes of the function's composite return type, including the ordinality column if present.
 
 Multiple function calls can be combined into a single `FROM`-clause item by surrounding them with `ROWS FROM( ... )`. The output of such an item is the concatenation of the first row from each function, then the second row from each function, etc. If some of the functions produce fewer rows than others, null values are substituted for the missing data, so that the total number of rows returned is always the same as for the function that produced the most rows.
 
@@ -137,9 +139,7 @@ If the function has been defined as returning the `record` data type, then an al
 
 When using the `ROWS FROM( ... )` syntax, if one of the functions requires a column definition list, it's preferred to put the column definition list after the function call inside `ROWS FROM( ... )`. A column definition list can be placed after the `ROWS FROM( ... )` construct only if there's just a single function and no `WITH ORDINALITY` clause.
 
-To use `ORDINALITY` together with a column definition list, you must use the `ROWS FROM( ... )` syntax and put the column definition list inside `ROWS FROM( ... )`.
-
-_`join_type`_
+To use `ORDINALITY` together with a column definition list, you must use the `ROWS FROM( ... )` syntax and put the column definition list inside `ROWS FROM( ... )`._`join_type`_
 
 One of
 
@@ -163,15 +163,11 @@ Conversely, `RIGHT OUTER JOIN` returns all the joined rows, plus one row for eac
 
 _`join_condition`_ is an expression resulting in a value of type `boolean` \(similar to a `WHERE` clause\) that specifies which rows in a join are considered to match.`USING (` _`join_column`_ \[, ...\] \)
 
-A clause of the form `USING ( a, b, ... )` is shorthand for `ON left_table.a = right_table.a AND left_table.b = right_table.b ...`. Also, `USING` implies that only one of each pair of equivalent columns will be included in the join output, not both.
+A clause of the form `USING ( a, b, ... )` is shorthand for `ON left_table.a = right_table.a AND left_table.b = right_table.b ...`. Also, `USING` implies that only one of each pair of equivalent columns will be included in the join output, not both.`NATURAL`
 
-`NATURAL`
+`NATURAL` is shorthand for a `USING` list that mentions all columns in the two tables that have matching names. If there are no common column names, `NATURAL` is equivalent to `ON TRUE`.`LATERAL`
 
-NATURAL 是 USING 列表的簡寫，它表示兩個資料表中具有匹配名稱的所有欄位。如果沒有共同的欄位名稱，則 NATURAL 等於 ON TRUE。
-
-`LATERAL`
-
-The `LATERAL` key word can precede a sub-`SELECT` `FROM` item. This allows the sub-`SELECT` to refer to columns of `FROM` items that appear before it in the `FROM` list. \(Without `LATERAL`, each sub-`SELECT` is evaluated independently and so cannot cross-reference any other `FROM`item.\)
+The `LATERAL` key word can precede a sub-`SELECT` `FROM` item. This allows the sub-`SELECT` to refer to columns of `FROM` items that appear before it in the `FROM` list. \(Without `LATERAL`, each sub-`SELECT` is evaluated independently and so cannot cross-reference any other `FROM` item.\)
 
 `LATERAL` can also precede a function-call `FROM` item, but in this case it is a noise word, because the function expression can refer to earlier `FROM` items in any case.
 
@@ -181,7 +177,7 @@ When a `FROM` item contains `LATERAL` cross-references, evaluation proceeds as f
 
 The column source table\(s\) must be `INNER` or `LEFT` joined to the `LATERAL` item, else there would not be a well-defined set of rows from which to compute each set of rows for the `LATERAL` item. Thus, although a construct such as _`X`_ RIGHT JOIN LATERAL _`Y`_ is syntactically valid, it is not actually allowed for _`Y`_ to reference _`X`_.
 
-### `WHERE` Clause
+#### `WHERE` Clause
 
 The optional `WHERE` clause has the general form
 
@@ -191,7 +187,7 @@ WHERE condition
 
 where _`condition`_ is any expression that evaluates to a result of type `boolean`. Any row that does not satisfy this condition will be eliminated from the output. A row satisfies the condition if it returns true when the actual row values are substituted for any variable references.
 
-### `GROUP BY` Clause
+#### `GROUP BY` Clause
 
 The optional `GROUP BY` clause has the general form
 
@@ -201,17 +197,17 @@ GROUP BY grouping_element [, ...]
 
 `GROUP BY` will condense into a single row all selected rows that share the same values for the grouped expressions. An _`expression`_ used inside a _`grouping_element`_ can be an input column name, or the name or ordinal number of an output column \(`SELECT` list item\), or an arbitrary expression formed from input-column values. In case of ambiguity, a `GROUP BY` name will be interpreted as an input-column name rather than an output column name.
 
-If any of `GROUPING SETS`, `ROLLUP` or `CUBE` are present as grouping elements, then the `GROUP BY` clause as a whole defines some number of independent _`grouping sets`_. The effect of this is equivalent to constructing a `UNION ALL` between subqueries with the individual grouping sets as their `GROUP BY` clauses. For further details on the handling of grouping sets see [Section 7.2.4](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#QUERIES-GROUPING-SETS).
+If any of `GROUPING SETS`, `ROLLUP` or `CUBE` are present as grouping elements, then the `GROUP BY` clause as a whole defines some number of independent _`grouping sets`_. The effect of this is equivalent to constructing a `UNION ALL` between subqueries with the individual grouping sets as their `GROUP BY` clauses. For further details on the handling of grouping sets see [Section 7.2.4](https://www.postgresql.org/docs/13/queries-table-expressions.html#QUERIES-GROUPING-SETS).
 
-Aggregate functions, if any are used, are computed across all rows making up each group, producing a separate value for each group. \(If there are aggregate functions but no `GROUP BY` clause, the query is treated as having a single group comprising all the selected rows.\) The set of rows fed to each aggregate function can be further filtered by attaching a `FILTER` clause to the aggregate function call; see [Section 4.2.7](https://www.postgresql.org/docs/10/static/sql-expressions.html#SYNTAX-AGGREGATES) for more information. When a `FILTER` clause is present, only those rows matching it are included in the input to that aggregate function.
+Aggregate functions, if any are used, are computed across all rows making up each group, producing a separate value for each group. \(If there are aggregate functions but no `GROUP BY` clause, the query is treated as having a single group comprising all the selected rows.\) The set of rows fed to each aggregate function can be further filtered by attaching a `FILTER` clause to the aggregate function call; see [Section 4.2.7](https://www.postgresql.org/docs/13/sql-expressions.html#SYNTAX-AGGREGATES) for more information. When a `FILTER` clause is present, only those rows matching it are included in the input to that aggregate function.
 
 When `GROUP BY` is present, or any aggregate functions are present, it is not valid for the `SELECT` list expressions to refer to ungrouped columns except within aggregate functions or when the ungrouped column is functionally dependent on the grouped columns, since there would otherwise be more than one possible value to return for an ungrouped column. A functional dependency exists if the grouped columns \(or a subset thereof\) are the primary key of the table containing the ungrouped column.
 
-Keep in mind that all aggregate functions are evaluated before evaluating any “scalar” expressions in the `HAVING` clause or `SELECT` list. This means that, for example, a `CASE` expression cannot be used to skip evaluation of an aggregate function; see [Section 4.2.14](https://www.postgresql.org/docs/10/static/sql-expressions.html#SYNTAX-EXPRESS-EVAL).
+Keep in mind that all aggregate functions are evaluated before evaluating any “scalar” expressions in the `HAVING` clause or `SELECT` list. This means that, for example, a `CASE` expression cannot be used to skip evaluation of an aggregate function; see [Section 4.2.14](https://www.postgresql.org/docs/13/sql-expressions.html#SYNTAX-EXPRESS-EVAL).
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified with `GROUP BY`.
 
-### `HAVING` Clause
+#### `HAVING` Clause
 
 The optional `HAVING` clause has the general form
 
@@ -223,11 +219,11 @@ where _`condition`_ is the same as specified for the `WHERE` clause.
 
 `HAVING` eliminates group rows that do not satisfy the condition. `HAVING` is different from `WHERE`: `WHERE` filters individual rows before the application of `GROUP BY`, while `HAVING` filters group rows created by `GROUP BY`. Each column referenced in _`condition`_ must unambiguously reference a grouping column, unless the reference appears within an aggregate function or the ungrouped column is functionally dependent on the grouping columns.
 
-The presence of `HAVING` turns a query into a grouped query even if there is no `GROUP BY` clause. This is the same as what happens when the query contains aggregate functions but no `GROUP BY` clause. All the selected rows are considered to form a single group, and the `SELECT`list and `HAVING` clause can only reference table columns from within aggregate functions. Such a query will emit a single row if the `HAVING` condition is true, zero rows if it is not true.
+The presence of `HAVING` turns a query into a grouped query even if there is no `GROUP BY` clause. This is the same as what happens when the query contains aggregate functions but no `GROUP BY` clause. All the selected rows are considered to form a single group, and the `SELECT` list and `HAVING` clause can only reference table columns from within aggregate functions. Such a query will emit a single row if the `HAVING` condition is true, zero rows if it is not true.
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified with `HAVING`.
 
-### `WINDOW` Clause
+#### `WINDOW` Clause
 
 The optional `WINDOW` clause has the general form
 
@@ -246,44 +242,55 @@ where _`window_name`_ is a name that can be referenced from `OVER` clauses or su
 
 If an _`existing_window_name`_ is specified it must refer to an earlier entry in the `WINDOW` list; the new window copies its partitioning clause from that entry, as well as its ordering clause if any. In this case the new window cannot specify its own `PARTITION BY` clause, and it can specify `ORDER BY` only if the copied window does not have one. The new window always uses its own frame clause; the copied window must not specify a frame clause.
 
-The elements of the `PARTITION BY` list are interpreted in much the same fashion as elements of a [`GROUP BY` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-GROUPBY), except that they are always simple expressions and never the name or number of an output column. Another difference is that these expressions can contain aggregate function calls, which are not allowed in a regular `GROUP BY` clause. They are allowed here because windowing occurs after grouping and aggregation.
+The elements of the `PARTITION BY` list are interpreted in much the same fashion as elements of a [`GROUP BY`](https://www.postgresql.org/docs/13/sql-select.html#SQL-GROUPBY) clause, except that they are always simple expressions and never the name or number of an output column. Another difference is that these expressions can contain aggregate function calls, which are not allowed in a regular `GROUP BY` clause. They are allowed here because windowing occurs after grouping and aggregation.
 
-Similarly, the elements of the `ORDER BY` list are interpreted in much the same fashion as elements of an [`ORDER BY` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-ORDERBY), except that the expressions are always taken as simple expressions and never the name or number of an output column.
+Similarly, the elements of the `ORDER BY` list are interpreted in much the same fashion as elements of a statement-level [`ORDER BY`](https://www.postgresql.org/docs/13/sql-select.html#SQL-ORDERBY) clause, except that the expressions are always taken as simple expressions and never the name or number of an output column.
 
 The optional _`frame_clause`_ defines the _window frame_ for window functions that depend on the frame \(not all do\). The window frame is a set of related rows for each row of the query \(called the _current row_\). The _`frame_clause`_ can be one of
 
 ```text
-{ RANGE | ROWS } frame_start
-{ RANGE | ROWS } BETWEEN frame_start AND frame_end
+{ RANGE | ROWS | GROUPS } frame_start [ frame_exclusion ]
+{ RANGE | ROWS | GROUPS } BETWEEN frame_start AND frame_end [ frame_exclusion ]
 ```
 
 where _`frame_start`_ and _`frame_end`_ can be one of
 
 ```text
 UNBOUNDED PRECEDING
-value PRECEDING
+offset PRECEDING
 CURRENT ROW
-value FOLLOWING
+offset FOLLOWING
 UNBOUNDED FOLLOWING
 ```
 
-If _`frame_end`_ is omitted it defaults to `CURRENT ROW`. Restrictions are that _`frame_start`_ cannot be `UNBOUNDED FOLLOWING`, _`frame_end`_ cannot be `UNBOUNDED PRECEDING`, and the _`frame_end`_ choice cannot appear earlier in the above list than the _`frame_start`_ choice — for example `RANGE BETWEEN CURRENT ROW AND` _`value`_ PRECEDING is not allowed.
+and _`frame_exclusion`_ can be one of
 
-The default framing option is `RANGE UNBOUNDED PRECEDING`, which is the same as `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`; it sets the frame to be all rows from the partition start up through the current row's last peer \(a row that `ORDER BY` considers equivalent to the current row, or all rows if there is no `ORDER BY`\). In general, `UNBOUNDED PRECEDING` means that the frame starts with the first row of the partition, and similarly `UNBOUNDED FOLLOWING` means that the frame ends with the last row of the partition \(regardless of `RANGE` or `ROWS` mode\). In `ROWS` mode, `CURRENT ROW` means that the frame starts or ends with the current row; but in `RANGE` mode it means that the frame starts or ends with the current row's first or last peer in the `ORDER BY` ordering. The _`value`_ `PRECEDING` and _`value`_ `FOLLOWING` cases are currently only allowed in `ROWS` mode. They indicate that the frame starts or ends with the row that many rows before or after the current row. _`value`_ must be an integer expression not containing any variables, aggregate functions, or window functions. The value must not be null or negative; but it can be zero, which selects the current row itself.
+```text
+EXCLUDE CURRENT ROW
+EXCLUDE GROUP
+EXCLUDE TIES
+EXCLUDE NO OTHERS
+```
 
-Beware that the `ROWS` options can produce unpredictable results if the `ORDER BY` ordering does not order the rows uniquely. The `RANGE` options are designed to ensure that rows that are peers in the `ORDER BY` ordering are treated alike; all peer rows will be in the same frame.
+If _`frame_end`_ is omitted it defaults to `CURRENT ROW`. Restrictions are that _`frame_start`_ cannot be `UNBOUNDED FOLLOWING`, _`frame_end`_ cannot be `UNBOUNDED PRECEDING`, and the _`frame_end`_ choice cannot appear earlier in the above list of _`frame_start`_ and _`frame_end`_ options than the _`frame_start`_ choice does — for example `RANGE BETWEEN CURRENT ROW AND` _`offset`_ PRECEDING is not allowed.
 
-The purpose of a `WINDOW` clause is to specify the behavior of _window functions_ appearing in the query's [`SELECT` List](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-SELECT-LIST) or [`ORDER BY` Clause](https://www.postgresql.org/docs/10/static/sql-select.html#SQL-ORDERBY). These functions can reference the `WINDOW` clause entries by name in their `OVER` clauses. A `WINDOW` clause entry does not have to be referenced anywhere, however; if it is not used in the query it is simply ignored. It is possible to use window functions without any `WINDOW` clause at all, since a window function call can specify its window definition directly in its `OVER` clause. However, the `WINDOW` clause saves typing when the same window definition is needed for more than one window function.
+The default framing option is `RANGE UNBOUNDED PRECEDING`, which is the same as `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`; it sets the frame to be all rows from the partition start up through the current row's last _peer_ \(a row that the window's `ORDER BY` clause considers equivalent to the current row; all rows are peers if there is no `ORDER BY`\). In general, `UNBOUNDED PRECEDING` means that the frame starts with the first row of the partition, and similarly `UNBOUNDED FOLLOWING` means that the frame ends with the last row of the partition, regardless of `RANGE`, `ROWS` or `GROUPS` mode. In `ROWS` mode, `CURRENT ROW` means that the frame starts or ends with the current row; but in `RANGE` or `GROUPS` mode it means that the frame starts or ends with the current row's first or last peer in the `ORDER BY` ordering. The _`offset`_ `PRECEDING` and _`offset`_ `FOLLOWING` options vary in meaning depending on the frame mode. In `ROWS` mode, the _`offset`_ is an integer indicating that the frame starts or ends that many rows before or after the current row. In `GROUPS` mode, the _`offset`_ is an integer indicating that the frame starts or ends that many peer groups before or after the current row's peer group, where a _peer group_ is a group of rows that are equivalent according to the window's `ORDER BY` clause. In `RANGE` mode, use of an _`offset`_ option requires that there be exactly one `ORDER BY` column in the window definition. Then the frame contains those rows whose ordering column value is no more than _`offset`_ less than \(for `PRECEDING`\) or more than \(for `FOLLOWING`\) the current row's ordering column value. In these cases the data type of the _`offset`_ expression depends on the data type of the ordering column. For numeric ordering columns it is typically of the same type as the ordering column, but for datetime ordering columns it is an `interval`. In all these cases, the value of the _`offset`_ must be non-null and non-negative. Also, while the _`offset`_ does not have to be a simple constant, it cannot contain variables, aggregate functions, or window functions.
+
+The _`frame_exclusion`_ option allows rows around the current row to be excluded from the frame, even if they would be included according to the frame start and frame end options. `EXCLUDE CURRENT ROW` excludes the current row from the frame. `EXCLUDE GROUP` excludes the current row and its ordering peers from the frame. `EXCLUDE TIES` excludes any peers of the current row from the frame, but not the current row itself. `EXCLUDE NO OTHERS` simply specifies explicitly the default behavior of not excluding the current row or its peers.
+
+Beware that the `ROWS` mode can produce unpredictable results if the `ORDER BY` ordering does not order the rows uniquely. The `RANGE` and `GROUPS` modes are designed to ensure that rows that are peers in the `ORDER BY` ordering are treated alike: all rows of a given peer group will be in the frame or excluded from it.
+
+The purpose of a `WINDOW` clause is to specify the behavior of _window functions_ appearing in the query's [`SELECT` list](https://www.postgresql.org/docs/13/sql-select.html#SQL-SELECT-LIST) or [`ORDER BY`](https://www.postgresql.org/docs/13/sql-select.html#SQL-ORDERBY) clause. These functions can reference the `WINDOW` clause entries by name in their `OVER` clauses. A `WINDOW` clause entry does not have to be referenced anywhere, however; if it is not used in the query it is simply ignored. It is possible to use window functions without any `WINDOW` clause at all, since a window function call can specify its window definition directly in its `OVER` clause. However, the `WINDOW` clause saves typing when the same window definition is needed for more than one window function.
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified with `WINDOW`.
 
-Window functions are described in detail in [Section 3.5](https://www.postgresql.org/docs/10/static/tutorial-window.html), [Section 4.2.8](https://www.postgresql.org/docs/10/static/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS), and [Section 7.2.5](https://www.postgresql.org/docs/10/static/queries-table-expressions.html#QUERIES-WINDOW).
+Window functions are described in detail in [Section 3.5](https://www.postgresql.org/docs/13/tutorial-window.html), [Section 4.2.8](https://www.postgresql.org/docs/13/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS), and [Section 7.2.5](https://www.postgresql.org/docs/13/queries-table-expressions.html#QUERIES-WINDOW).
 
-### `SELECT` List
+#### `SELECT` List
 
 The `SELECT` list \(between the key words `SELECT` and `FROM`\) specifies expressions that form the output rows of the `SELECT` statement. The expressions can \(and usually do\) refer to columns computed in the `FROM` clause.
 
-Just as in a table, every output column of a `SELECT` has a name. In a simple `SELECT` this name is just used to label the column for display, but when the `SELECT` is a sub-query of a larger query, the name is seen by the larger query as the column name of the virtual table produced by the sub-query. To specify the name to use for an output column, write `AS` _`output_name`_ after the column's expression. \(You can omit `AS`, but only if the desired output name does not match any PostgreSQL keyword \(see [Appendix C](https://www.postgresql.org/docs/10/static/sql-keywords-appendix.html)\). For protection against possible future keyword additions, it is recommended that you always either write `AS` or double-quote the output name.\) If you do not specify a column name, a name is chosen automatically by PostgreSQL. If the column's expression is a simple column reference then the chosen name is the same as that column's name. In more complex cases a function or type name may be used, or the system may fall back on a generated name such as `?column?`.
+Just as in a table, every output column of a `SELECT` has a name. In a simple `SELECT` this name is just used to label the column for display, but when the `SELECT` is a sub-query of a larger query, the name is seen by the larger query as the column name of the virtual table produced by the sub-query. To specify the name to use for an output column, write `AS` _`output_name`_ after the column's expression. \(You can omit `AS`, but only if the desired output name does not match any PostgreSQL keyword \(see [Appendix C](https://www.postgresql.org/docs/13/sql-keywords-appendix.html)\). For protection against possible future keyword additions, it is recommended that you always either write `AS` or double-quote the output name.\) If you do not specify a column name, a name is chosen automatically by PostgreSQL. If the column's expression is a simple column reference then the chosen name is the same as that column's name. In more complex cases a function or type name may be used, or the system may fall back on a generated name such as `?column?`.
 
 An output column's name can be used to refer to the column's value in `ORDER BY` and `GROUP BY` clauses, but not in the `WHERE` or `HAVING` clauses; there you must write out the expression instead.
 
@@ -291,11 +298,11 @@ Instead of an expression, `*` can be written in the output list as a shorthand f
 
 According to the SQL standard, the expressions in the output list should be computed before applying `DISTINCT`, `ORDER BY`, or `LIMIT`. This is obviously necessary when using `DISTINCT`, since otherwise it's not clear what values are being made distinct. However, in many cases it is convenient if output expressions are computed after `ORDER BY` and `LIMIT`; particularly if the output list contains any volatile or expensive functions. With that behavior, the order of function evaluations is more intuitive and there will not be evaluations corresponding to rows that never appear in the output. PostgreSQL will effectively evaluate output expressions after sorting and limiting, so long as those expressions are not referenced in `DISTINCT`, `ORDER BY` or `GROUP BY`. \(As a counterexample, `SELECT f(x) FROM tab ORDER BY 1` clearly must evaluate `f(x)` before sorting.\) Output expressions that contain set-returning functions are effectively evaluated after sorting and before limiting, so that `LIMIT` will act to cut off the output from a set-returning function.
 
-### Note
+#### Note
 
 PostgreSQL versions before 9.6 did not provide any guarantees about the timing of evaluation of output expressions versus sorting and limiting; it depended on the form of the chosen query plan.
 
-### `DISTINCT` Clause
+#### `DISTINCT` Clause
 
 If `SELECT DISTINCT` is specified, all duplicate rows are removed from the result set \(one row is kept from each group of duplicates\). `SELECT ALL` specifies the opposite: all rows are kept; that is the default.
 
@@ -313,7 +320,7 @@ The `DISTINCT ON` expression\(s\) must match the leftmost `ORDER BY` expression\
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified with `DISTINCT`.
 
-### `UNION` Clause
+#### `UNION` Clause
 
 The `UNION` clause has this general form:
 
@@ -331,7 +338,7 @@ Multiple `UNION` operators in the same `SELECT` statement are evaluated left to 
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified either for a `UNION` result or for any input of a `UNION`.
 
-### `INTERSECT` Clause
+#### `INTERSECT` Clause
 
 The `INTERSECT` clause has this general form:
 
@@ -349,7 +356,7 @@ Multiple `INTERSECT` operators in the same `SELECT` statement are evaluated left
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified either for an `INTERSECT` result or for any input of an `INTERSECT`.
 
-### `EXCEPT` Clause
+#### `EXCEPT` Clause
 
 The `EXCEPT` clause has this general form:
 
@@ -367,7 +374,7 @@ Multiple `EXCEPT` operators in the same `SELECT` statement are evaluated left to
 
 Currently, `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE` and `FOR KEY SHARE` cannot be specified either for an `EXCEPT` result or for any input of an `EXCEPT`.
 
-### `ORDER BY` Clause
+#### `ORDER BY` Clause
 
 The optional `ORDER BY` clause has this general form:
 
@@ -397,9 +404,9 @@ If `NULLS LAST` is specified, null values sort after all non-null values; if `NU
 
 Note that ordering options apply only to the expression they follow; for example `ORDER BY x, y DESC` does not mean the same thing as `ORDER BY x DESC, y DESC`.
 
-Character-string data is sorted according to the collation that applies to the column being sorted. That can be overridden at need by including a `COLLATE` clause in the _`expression`_, for example `ORDER BY mycolumn COLLATE "en_US"`. For more information see [Section 4.2.10](https://www.postgresql.org/docs/10/static/sql-expressions.html#SQL-SYNTAX-COLLATE-EXPRS) and[Section 23.2](https://www.postgresql.org/docs/10/static/collation.html).
+Character-string data is sorted according to the collation that applies to the column being sorted. That can be overridden at need by including a `COLLATE` clause in the _`expression`_, for example `ORDER BY mycolumn COLLATE "en_US"`. For more information see [Section 4.2.10](https://www.postgresql.org/docs/13/sql-expressions.html#SQL-SYNTAX-COLLATE-EXPRS) and [Section 23.2](https://www.postgresql.org/docs/13/collation.html).
 
-### `LIMIT` Clause
+#### `LIMIT` Clause
 
 The `LIMIT` clause consists of two independent sub-clauses:
 
@@ -408,7 +415,7 @@ LIMIT { count | ALL }
 OFFSET start
 ```
 
-_`count`_ specifies the maximum number of rows to return, while _`start`_ specifies the number of rows to skip before starting to return rows. When both are specified, _`start`_ rows are skipped before starting to count the _`count`_ rows to be returned.
+The parameter _`count`_ specifies the maximum number of rows to return, while _`start`_ specifies the number of rows to skip before starting to return rows. When both are specified, _`start`_ rows are skipped before starting to count the _`count`_ rows to be returned.
 
 If the _`count`_ expression evaluates to NULL, it is treated as `LIMIT ALL`, i.e., no limit. If _`start`_ evaluates to NULL, it is treated the same as `OFFSET 0`.
 
@@ -416,10 +423,10 @@ SQL:2008 introduced a different syntax to achieve the same result, which Postgre
 
 ```text
 OFFSET start { ROW | ROWS }
-FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY
+FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } { ONLY | WITH TIES }
 ```
 
-In this syntax, to write anything except a simple integer constant for _`start`_ or _`count`_, you must write parentheses around it. If _`count`_ is omitted in a `FETCH` clause, it defaults to 1. `ROW` and `ROWS` as well as `FIRST` and `NEXT` are noise words that don't influence the effects of these clauses. According to the standard, the `OFFSET` clause must come before the `FETCH` clause if both are present; but PostgreSQL is laxer and allows either order.
+In this syntax, the _`start`_ or _`count`_ value is required by the standard to be a literal constant, a parameter, or a variable name; as a PostgreSQL extension, other expressions are allowed, but will generally need to be enclosed in parentheses to avoid ambiguity. If _`count`_ is omitted in a `FETCH` clause, it defaults to 1. The `WITH TIES` option is used to return any additional rows that tie for the last place in the result set according to the `ORDER BY` clause; `ORDER BY` is mandatory in this case. `ROW` and `ROWS` as well as `FIRST` and `NEXT` are noise words that don't influence the effects of these clauses. According to the standard, the `OFFSET` clause must come before the `FETCH` clause if both are present; but PostgreSQL is laxer and allows either order.
 
 When using `LIMIT`, it is a good idea to use an `ORDER BY` clause that constrains the result rows into a unique order. Otherwise you will get an unpredictable subset of the query's rows — you might be asking for the tenth through twentieth rows, but tenth through twentieth in what ordering? You don't know what ordering unless you specify `ORDER BY`.
 
@@ -427,7 +434,7 @@ The query planner takes `LIMIT` into account when generating a query plan, so yo
 
 It is even possible for repeated executions of the same `LIMIT` query to return different subsets of the rows of a table, if there is not an `ORDER BY` to enforce selection of a deterministic subset. Again, this is not a bug; determinism of the results is simply not guaranteed in such a case.
 
-### The Locking Clause
+#### The Locking Clause
 
 `FOR UPDATE`, `FOR NO KEY UPDATE`, `FOR SHARE` and `FOR KEY SHARE` are _locking clauses_; they affect how `SELECT` locks rows as they are obtained from the table.
 
@@ -446,9 +453,9 @@ SHARE
 KEY SHARE
 ```
 
-For more information on each row-level lock mode, refer to [Section 13.3.2](https://www.postgresql.org/docs/10/static/explicit-locking.html#LOCKING-ROWS).
+For more information on each row-level lock mode, refer to [Section 13.3.2](https://www.postgresql.org/docs/13/explicit-locking.html#LOCKING-ROWS).
 
-To prevent the operation from waiting for other transactions to commit, use either the `NOWAIT` or `SKIP LOCKED` option. With `NOWAIT`, the statement reports an error, rather than waiting, if a selected row cannot be locked immediately. With `SKIP LOCKED`, any selected rows that cannot be immediately locked are skipped. Skipping locked rows provides an inconsistent view of the data, so this is not suitable for general purpose work, but can be used to avoid lock contention with multiple consumers accessing a queue-like table. Note that `NOWAIT` and `SKIP LOCKED` apply only to the row-level lock\(s\) — the required `ROW SHARE` table-level lock is still taken in the ordinary way \(see [Chapter 13](https://www.postgresql.org/docs/10/static/mvcc.html)\). You can use [LOCK](https://www.postgresql.org/docs/10/static/sql-lock.html) with the `NOWAIT` option first, if you need to acquire the table-level lock without waiting.
+To prevent the operation from waiting for other transactions to commit, use either the `NOWAIT` or `SKIP LOCKED` option. With `NOWAIT`, the statement reports an error, rather than waiting, if a selected row cannot be locked immediately. With `SKIP LOCKED`, any selected rows that cannot be immediately locked are skipped. Skipping locked rows provides an inconsistent view of the data, so this is not suitable for general purpose work, but can be used to avoid lock contention with multiple consumers accessing a queue-like table. Note that `NOWAIT` and `SKIP LOCKED` apply only to the row-level lock\(s\) — the required `ROW SHARE` table-level lock is still taken in the ordinary way \(see [Chapter 13](https://www.postgresql.org/docs/13/mvcc.html)\). You can use [LOCK](https://www.postgresql.org/docs/13/sql-lock.html) with the `NOWAIT` option first, if you need to acquire the table-level lock without waiting.
 
 If specific tables are named in a locking clause, then only rows coming from those tables are locked; any other tables used in the `SELECT` are simply read as usual. A locking clause without a table list affects all tables used in the statement. If a locking clause is applied to a view or sub-query, it affects all tables used in the view or sub-query. However, these clauses do not apply to `WITH` queries referenced by the primary query. If you want row locking to occur within a `WITH` query, specify a locking clause within the `WITH` query.
 
@@ -478,7 +485,7 @@ ROLLBACK TO s;
 
 would fail to preserve the `FOR UPDATE` lock after the `ROLLBACK TO`. This has been fixed in release 9.3.
 
-### Caution
+#### Caution
 
 It is possible for a `SELECT` command running at the `READ COMMITTED` transaction isolation level and using `ORDER BY` and a locking clause to return rows out of order. This is because `ORDER BY` is applied first. The command sorts the result, but might then block trying to obtain a lock on one or more of the rows. Once the `SELECT` unblocks, some of the ordering column values might have been modified, leading to those rows appearing to be out of order \(though they are in order in terms of the original column values\). This can be worked around at need by placing the `FOR UPDATE/SHARE` clause in a sub-query, for example
 
@@ -490,7 +497,7 @@ Note that this will result in locking all rows of `mytable`, whereas `FOR UPDATE
 
 At the `REPEATABLE READ` or `SERIALIZABLE` transaction isolation level this would cause a serialization failure \(with a `SQLSTATE` of `'40001'`\), so there is no possibility of receiving rows out of order under these isolation levels.
 
-### `TABLE` Command
+#### `TABLE` Command
 
 The command
 
@@ -506,9 +513,9 @@ SELECT * FROM name
 
 It can be used as a top-level command or as a space-saving syntax variant in parts of complex queries. Only the `WITH`, `UNION`, `INTERSECT`, `EXCEPT`, `ORDER BY`, `LIMIT`, `OFFSET`, `FETCH` and `FOR` locking clauses can be used with `TABLE`; the `WHERE` clause and any form of aggregation cannot be used.
 
-## 範例
+### Examples
 
-要讓資料表 films 與資料表 distributors 進行交叉查詢的話：
+To join the table `films` with the table `distributors`:
 
 ```text
 SELECT f.title, f.did, d.name, f.date_prod, f.kind
@@ -522,7 +529,7 @@ SELECT f.title, f.did, d.name, f.date_prod, f.kind
  ...
 ```
 
-要在 films 資料表中以 kind 分組，並彙總 len 欄位的話：
+To sum the column `len` of all films and group the results by `kind`:
 
 ```text
 SELECT kind, sum(len) AS total FROM films GROUP BY kind;
@@ -676,7 +683,7 @@ WITH RECURSIVE employee_recursive(distance, employee_name, manager_name) AS (
 SELECT distance, employee_name FROM employee_recursive;
 ```
 
-Notice the typical form of recursive queries: an initial condition, followed by `UNION`, followed by the recursive part of the query. Be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. \(See [Section 7.8](https://www.postgresql.org/docs/current/static/queries-with.html) for more examples.\)
+Notice the typical form of recursive queries: an initial condition, followed by `UNION`, followed by the recursive part of the query. Be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. \(See [Section 7.8](https://www.postgresql.org/docs/13/queries-with.html) for more examples.\)
 
 This example uses `LATERAL` to apply a set-returning function `get_product_names()` for each row of the `manufacturers` table:
 
@@ -692,11 +699,11 @@ SELECT m.name AS mname, pname
 FROM manufacturers m LEFT JOIN LATERAL get_product_names(m.id) pname ON true;
 ```
 
-## Compatibility
+### Compatibility
 
 Of course, the `SELECT` statement is compatible with the SQL standard. But there are some extensions and some missing features.
 
-### Omitted `FROM` Clauses
+#### Omitted `FROM` Clauses
 
 PostgreSQL allows one to omit the `FROM` clause. It has a straightforward use to compute the results of simple expressions:
 
@@ -718,17 +725,17 @@ SELECT distributors.* WHERE distributors.name = 'Westward';
 
 PostgreSQL releases prior to 8.1 would accept queries of this form, and add an implicit entry to the query's `FROM` clause for each table referenced by the query. This is no longer allowed.
 
-### Empty `SELECT` Lists
+#### Empty `SELECT` Lists
 
 The list of output expressions after `SELECT` can be empty, producing a zero-column result table. This is not valid syntax according to the SQL standard. PostgreSQL allows it to be consistent with allowing zero-column tables. However, an empty list is not allowed when `DISTINCT` is used.
 
-### Omitting the `AS` Key Word
+#### Omitting the `AS` Key Word
 
 In the SQL standard, the optional key word `AS` can be omitted before an output column name whenever the new column name is a valid column name \(that is, not the same as any reserved keyword\). PostgreSQL is slightly more restrictive: `AS` is required if the new column name matches any keyword at all, reserved or not. Recommended practice is to use `AS` or double-quote output column names, to prevent any possible conflict against future keyword additions.
 
 In `FROM` items, both the standard and PostgreSQL allow `AS` to be omitted before an alias that is an unreserved keyword. But this is impractical for output column names, because of syntactic ambiguities.
 
-### `ONLY` and Inheritance
+#### `ONLY` and Inheritance
 
 The SQL standard requires parentheses around the table name when writing `ONLY`, for example `SELECT * FROM ONLY (tab1), ONLY (tab2) WHERE ...`. PostgreSQL considers these parentheses to be optional.
 
@@ -736,39 +743,41 @@ PostgreSQL allows a trailing `*` to be written to explicitly specify the non-`ON
 
 \(These points apply equally to all SQL commands supporting the `ONLY` option.\)
 
-### `TABLESAMPLE` Clause Restrictions
+#### `TABLESAMPLE` Clause Restrictions
 
 The `TABLESAMPLE` clause is currently accepted only on regular tables and materialized views. According to the SQL standard it should be possible to apply it to any `FROM` item.
 
-### Function Calls in `FROM`
+#### Function Calls in `FROM`
 
-PostgreSQL allows a function call to be written directly as a member of the `FROM` list. In the SQL standard it would be necessary to wrap such a function call in a sub-`SELECT`; that is, the syntax `FROM`_`func`_\(...\) _`alias`_ is approximately equivalent to `FROM LATERAL (SELECT` _`func`_\(...\)\) _`alias`_. Note that `LATERAL` is considered to be implicit; this is because the standard requires `LATERAL` semantics for an `UNNEST()` item in `FROM`. PostgreSQL treats `UNNEST()` the same as other set-returning functions.
+PostgreSQL allows a function call to be written directly as a member of the `FROM` list. In the SQL standard it would be necessary to wrap such a function call in a sub-`SELECT`; that is, the syntax `FROM` _`func`_\(...\) _`alias`_ is approximately equivalent to `FROM LATERAL (SELECT` _`func`_\(...\)\) _`alias`_. Note that `LATERAL` is considered to be implicit; this is because the standard requires `LATERAL` semantics for an `UNNEST()` item in `FROM`. PostgreSQL treats `UNNEST()` the same as other set-returning functions.
 
-### Namespace Available to `GROUP BY` and `ORDER BY`
+#### Namespace Available to `GROUP BY` and `ORDER BY`
 
 In the SQL-92 standard, an `ORDER BY` clause can only use output column names or numbers, while a `GROUP BY` clause can only use expressions based on input column names. PostgreSQL extends each of these clauses to allow the other choice as well \(but it uses the standard's interpretation if there is ambiguity\). PostgreSQL also allows both clauses to specify arbitrary expressions. Note that names appearing in an expression will always be taken as input-column names, not as output-column names.
 
 SQL:1999 and later use a slightly different definition which is not entirely upward compatible with SQL-92. In most cases, however, PostgreSQL will interpret an `ORDER BY` or `GROUP BY` expression the same way SQL:1999 does.
 
-### Functional Dependencies
+#### Functional Dependencies
 
 PostgreSQL recognizes functional dependency \(allowing columns to be omitted from `GROUP BY`\) only when a table's primary key is included in the `GROUP BY` list. The SQL standard specifies additional conditions that should be recognized.
 
-### `LIMIT` and `OFFSET`
+#### `LIMIT` and `OFFSET`
 
-The clauses `LIMIT` and `OFFSET` are PostgreSQL-specific syntax, also used by MySQL. The SQL:2008 standard has introduced the clauses `OFFSET ... FETCH {FIRST|NEXT} ...` for the same functionality, as shown above in [`LIMIT` Clause](https://www.postgresql.org/docs/current/static/sql-select.html#SQL-LIMIT). This syntax is also used by IBM DB2. \(Applications written for Oracle frequently use a workaround involving the automatically generated `rownum`column, which is not available in PostgreSQL, to implement the effects of these clauses.\)
+The clauses `LIMIT` and `OFFSET` are PostgreSQL-specific syntax, also used by MySQL. The SQL:2008 standard has introduced the clauses `OFFSET ... FETCH {FIRST|NEXT} ...` for the same functionality, as shown above in [LIMIT Clause](https://www.postgresql.org/docs/13/sql-select.html#SQL-LIMIT). This syntax is also used by IBM DB2. \(Applications written for Oracle frequently use a workaround involving the automatically generated `rownum` column, which is not available in PostgreSQL, to implement the effects of these clauses.\)
 
-### `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE`, `FOR KEY SHARE`
+#### `FOR NO KEY UPDATE`, `FOR UPDATE`, `FOR SHARE`, `FOR KEY SHARE`
 
 Although `FOR UPDATE` appears in the SQL standard, the standard allows it only as an option of `DECLARE CURSOR`. PostgreSQL allows it in any `SELECT` query as well as in sub-`SELECT`s, but this is an extension. The `FOR NO KEY UPDATE`, `FOR SHARE` and `FOR KEY SHARE` variants, as well as the `NOWAIT` and `SKIP LOCKED` options, do not appear in the standard.
 
-### Data-Modifying Statements in `WITH`
+#### Data-Modifying Statements in `WITH`
 
 PostgreSQL allows `INSERT`, `UPDATE`, and `DELETE` to be used as `WITH` queries. This is not found in the SQL standard.
 
-### Nonstandard Clauses
+#### Nonstandard Clauses
 
 `DISTINCT ON ( ... )` is an extension of the SQL standard.
 
 `ROWS FROM( ... )` is an extension of the SQL standard.
+
+The `MATERIALIZED` and `NOT MATERIALIZED` options of `WITH` are extensions of the SQL standard.
 
