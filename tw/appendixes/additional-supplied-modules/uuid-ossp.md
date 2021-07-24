@@ -1,12 +1,12 @@
 # F.44. uuid-ossp
 
-The `uuid-ossp` module provides functions to generate universally unique identifiers \(UUIDs\) using one of several standard algorithms. There are also functions to produce certain special UUID constants. This module is only necessary for special requirements beyond what is available in core PostgreSQL. See [Section 9.14](https://www.postgresql.org/docs/13/functions-uuid.html) for built-in ways to generate UUIDs.
+uuid-ossp 模組提供了使用幾種標準演算法來產生 Universally Unique IDentifiers \(UUIDs\) 的功能。還有一些函數可以產生某些特殊的 UUID 常數。此模組僅在 PostgreSQL 中特殊需求時才需要。有關產生 UUID 的內建函數，請參閱[第 9.14 節](../../the-sql-language/functions-and-operators/uuid-functions.md)。
 
-This module is considered “trusted”, that is, it can be installed by non-superusers who have `CREATE` privilege on the current database.
+該模組被認為是「可信任的」，也就是說，它可以由對目前資料庫具有 CREATE 權限的非超級使用者安裝。
 
 ## F.44.1. `uuid-ossp` Functions
 
-[Table F.32](https://www.postgresql.org/docs/13/uuid-ossp.html#UUID-OSSP-FUNCTIONS) shows the functions available to generate UUIDs. The relevant standards ITU-T Rec. X.667, ISO/IEC 9834-8:2005, and RFC 4122 specify four algorithms for generating UUIDs, identified by the version numbers 1, 3, 4, and 5. \(There is no version 2 algorithm.\) Each of these algorithms could be suitable for a different set of applications.
+[Table F.32](uuid-ossp.md#table-f-32-functions-for-uuid-generation) 列出了可用於產生 UUID 的函數。相關標準為 ITU-T Rec. X.667、ISO/IEC 9834-8:2005 和 RFC 4122 所指定的四種用於產生 UUID 的演算法，由標示為版本號 1、3、4 和 5 。（沒有版本 2 。）這些演算法可能適用於不同的應用情境。
 
 #### **Table F.32. Functions for UUID Generation**
 
@@ -24,18 +24,18 @@ This module is considered “trusted”, that is, it can be installed by non-sup
       <td style="text-align:left">
         <p><code>uuid_generate_v1</code> () &#x2192; <code>uuid</code>
         </p>
-        <p>Generates a version 1 UUID. This involves the MAC address of the computer
-          and a time stamp. Note that UUIDs of this kind reveal the identity of the
-          computer that created the identifier and the time at which it did so, which
-          might make it unsuitable for certain security-sensitive applications.</p>
+        <p>&#x7248;&#x672C; 1 UUID&#x3002; &#x9019;&#x6D89;&#x53CA;&#x4E3B;&#x6A5F;&#x7684;
+          MAC &#x4F4D;&#x5740;&#x548C;&#x6642;&#x9593;&#x6233;&#x8A18;&#x3002;&#x8ACB;&#x6CE8;&#x610F;&#xFF0C;&#x6B64;&#x985E;
+          UUID &#x6703;&#x986F;&#x793A;&#x5EFA;&#x7ACB;&#x8B58;&#x5225;&#x7B26;&#x7684;&#x4E3B;&#x6A5F;&#x8EAB;&#x4EFD;&#x53CA;&#x5176;&#x5EFA;&#x7ACB;&#x6642;&#x9593;&#xFF0C;&#x9019;&#x53EF;&#x80FD;&#x4F7F;&#x5176;&#x4E0D;&#x9069;&#x7528;&#x65BC;&#x67D0;&#x4E9B;&#x5C0D;&#x5B89;&#x5168;&#x654F;&#x611F;&#x7684;&#x61C9;&#x7528;&#x60C5;&#x5883;&#x3002;</p>
       </td>
     </tr>
     <tr>
       <td style="text-align:left">
         <p><code>uuid_generate_v1mc</code> () &#x2192; <code>uuid</code>
         </p>
-        <p>Generates a version 1 UUID, but uses a random multicast MAC address instead
-          of the real MAC address of the computer.</p>
+        <p>&#x7522;&#x751F;&#x7248;&#x672C; 1 UUID&#xFF0C;&#x4F46;&#x4F7F;&#x7528;&#x96A8;&#x6A5F;&#x7684;
+          multicast MAC &#x4F4D;&#x5740;&#x800C;&#x4E0D;&#x662F;&#x4E3B;&#x6A5F;&#x7684;&#x771F;&#x5BE6;
+          MAC &#x4F4D;&#x5740;&#x3002;</p>
       </td>
     </tr>
     <tr>
@@ -60,7 +60,7 @@ This module is considered “trusted”, that is, it can be installed by non-sup
       <td style="text-align:left">
         <p><code>uuid_generate_v4</code> () &#x2192; <code>uuid</code>
         </p>
-        <p>Generates a version 4 UUID, which is derived entirely from random numbers.</p>
+        <p>&#x7522;&#x751F;&#x7248;&#x672C; 4 UUID&#xFF0C;&#x5B83;&#x5B8C;&#x5168;&#x4F86;&#x81EA;&#x4E82;&#x6578;&#x3002;</p>
       </td>
     </tr>
     <tr>
@@ -78,7 +78,7 @@ This module is considered “trusted”, that is, it can be installed by non-sup
   </tbody>
 </table>
 
-## **Table F.33. Functions Returning UUID Constants**
+#### **Table F.33. Functions Returning UUID Constants**
 
 <table>
   <thead>
@@ -94,39 +94,43 @@ This module is considered “trusted”, that is, it can be installed by non-sup
       <td style="text-align:left">
         <p><code>uuid_nil</code> () &#x2192; <code>uuid</code>
         </p>
-        <p>Returns a &#x201C;nil&#x201D; UUID constant, which does not occur as a
-          real UUID.</p>
+        <p>&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x300C;nil&#x300D;UUID &#x5E38;&#x6578;&#xFF0C;&#x5B83;&#x4E0D;&#x6703;&#x7522;&#x751F;&#x70BA;&#x771F;&#x6B63;&#x7684;
+          UUID&#x3002;</p>
       </td>
     </tr>
     <tr>
       <td style="text-align:left">
         <p><code>uuid_ns_dns</code> () &#x2192; <code>uuid</code>
         </p>
-        <p>Returns a constant designating the DNS namespace for UUIDs.</p>
+        <p>&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x5E38;&#x6578;&#xFF0C;&#x70BA; UUID
+          &#x6307;&#x5B9A;&#x70BA; DNS &#x7684;&#x547D;&#x540D;&#x7A7A;&#x9593;&#x3002;</p>
       </td>
     </tr>
     <tr>
       <td style="text-align:left">
         <p><code>uuid_ns_url</code> () &#x2192; <code>uuid</code>
         </p>
-        <p>Returns a constant designating the URL namespace for UUIDs.</p>
+        <p>&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x5E38;&#x6578;&#xFF0C;&#x6307;&#x5B9A;
+          UUID &#x70BA; URL &#x7684;&#x547D;&#x540D;&#x7A7A;&#x9593;&#x3002;</p>
       </td>
     </tr>
     <tr>
       <td style="text-align:left">
         <p><code>uuid_ns_oid</code> () &#x2192; <code>uuid</code>
         </p>
-        <p>Returns a constant designating the ISO object identifier (OID) namespace
-          for UUIDs. (This pertains to ASN.1 OIDs, which are unrelated to the OIDs
-          used in PostgreSQL.)</p>
+        <p>&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x5E38;&#x6578;&#xFF0C;&#x70BA; UUID
+          &#x6307;&#x5B9A; ISO &#x7269;&#x4EF6;&#x8B58;&#x5225;&#x7B26;&#x865F; (OID)
+          &#x7684;&#x547D;&#x540D;&#x7A7A;&#x9593;&#x3002; &#xFF08;&#x9019;&#x8207;
+          ASN.1 OID &#x76F8;&#x95DC;&#xFF0C;&#x5B83;&#x8207; PostgreSQL &#x4E2D;&#x4F7F;&#x7528;&#x7684;
+          OID &#x7121;&#x95DC;&#x3002;&#xFF09;</p>
       </td>
     </tr>
     <tr>
       <td style="text-align:left">
         <p><code>uuid_ns_x500</code> () &#x2192; <code>uuid</code>
         </p>
-        <p>Returns a constant designating the X.500 distinguished name (DN) namespace
-          for UUIDs.</p>
+        <p>&#x56DE;&#x50B3;&#x6307;&#x5B9A; UUID &#x70BA; X.500 &#x5C08;&#x6709;&#x540D;&#x7A31;
+          (DN) &#x547D;&#x540D;&#x7A7A;&#x9593;&#x7684;&#x5E38;&#x6578;&#x3002;</p>
       </td>
     </tr>
   </tbody>
@@ -134,7 +138,7 @@ This module is considered “trusted”, that is, it can be installed by non-sup
 
 ## F.44.2. Building `uuid-ossp`
 
-Historically this module depended on the OSSP UUID library, which accounts for the module's name. While the OSSP UUID library can still be found at [http://www.ossp.org/pkg/lib/uuid/](http://www.ossp.org/pkg/lib/uuid/), it is not well maintained, and is becoming increasingly difficult to port to newer platforms. `uuid-ossp` can now be built without the OSSP library on some platforms. On FreeBSD, NetBSD, and some other BSD-derived platforms, suitable UUID creation functions are included in the core `libc` library. On Linux, macOS, and some other platforms, suitable functions are provided in the `libuuid` library, which originally came from the `e2fsprogs` project \(though on modern Linux it is considered part of `util-linux-ng`\). When invoking `configure`, specify `--with-uuid=bsd` to use the BSD functions, or `--with-uuid=e2fs` to use `e2fsprogs`' `libuuid`, or `--with-uuid=ossp` to use the OSSP UUID library. More than one of these libraries might be available on a particular machine, so `configure` does not automatically choose one.
+從歷史上看，這個模組相依於 OSSP UUID 函式庫，它也是模組名稱的由來。雖然 OSSP UUID 庫仍然可以在 [http://www.ossp.org/pkg/lib/uuid/](http://www.ossp.org/pkg/lib/uuid/) 找到，但它沒有得到很好的維護，並且越來越難以移植到更新的平台。uuid-ossp 現在可以在某些平台上在沒有 OSSP 函式庫的情況下編譯。在 FreeBSD、NetBSD 和其他一些 BSD 衍生平台上，核心 libc 函式庫中包含合適的 UUID 建立函數。在 Linux、macOS 和其他一些平台上，libuuid 函式庫中提供了合適的函數，該函式庫最初來自 e2fsprogs 專案（儘管在近代 Linux 上它被認為是 util-linux-ng 的一部分）。呼叫 configure 時，指定 --with-uuid=bsd 使用 BSD 函數，或 --with-uuid=e2fs 使用 e2fsprogs 的 libuuid，或 --with-uuid=ossp 使用 OSSP UUID 函式庫。在某些主機上可能有多種函式庫可用，因此 configure 並不會自動選擇。
 
 ## F.44.3. Author
 
