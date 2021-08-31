@@ -371,7 +371,7 @@
     * [37.29. foreign\_table\_options](client-interfaces/the-information-schema/36.29.-foreign_table_options.md)
     * [37.30. foreign\_tables](client-interfaces/the-information-schema/36.30.-foreign_tables.md)
     * [36.32. key\_column\_usage](client-interfaces/the-information-schema/key_column_usage.md)
-    * [37.32. parameters](client-interfaces/the-information-schema/36.32.-parameters.md)
+    * [36.33. parameters](client-interfaces/the-information-schema/parameters.md)
     * [36.34. referential\_constraints](client-interfaces/the-information-schema/referential_constraints.md)
     * [37.34. role\_column\_grants](client-interfaces/the-information-schema/36.34.-role_column_grants.md)
     * [37.35. role\_routine\_grants](client-interfaces/the-information-schema/36.35.-role_routine_grants.md)
