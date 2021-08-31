@@ -1,8 +1,8 @@
-# 36.49. table\_privileges
+# 36.37. role\_table\_grants
 
-檢視圖 table\_privileges 列出在資料表或檢視表上授權目前查詢的角色相關的所有權限。資料表、授權者和被授權者的每個組合形成一筆資料。
+檢視表 role\_table\_grants 列出會授權者或被授權者為目前查詢的角色的資料表或檢視表所關連的所有權限。更多資訊可以參考在 table\_privileges 裡。此檢視表與 table\_privileges 之間唯一有效的區別是，此檢視表不包含了透過授權給 PUBLIC 的方式使目前角度有權存取的資料表。
 
-#### **Table 36.47. `table_privileges` Columns**
+#### **Table 36.35. `role_table_grants` Columns**
 
 <table>
   <thead>
