@@ -2,7 +2,7 @@
 
 For convenience there are also single letter command-line option switches available for some parameters. They are described in [Table 19.2](https://www.postgresql.org/docs/12/runtime-config-short.html#RUNTIME-CONFIG-SHORT-TABLE). Some of these options exist for historical reasons, and their presence as a single-letter option does not necessarily indicate an endorsement to use the option heavily.
 
-## **Table 19.2. Short Option Key**
+#### **Table 19.2. Short Option Key**
 
 | Short Option | Equivalent |
 | :--- | :--- |

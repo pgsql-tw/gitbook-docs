@@ -173,6 +173,7 @@ CREATE OR REPLACE FUNCTION pair_concat(pair, pair)
 RETURNS pair LANGUAGE SQL
 AS 'SELECT ROW($1.k OPERATOR(pg_catalog.||) $2.k,
                $1.v OPERATOR(pg_catalog.||) $2.v)::@extschema@.pair;';
+
 ```
 
 The control file `pair.control` looks like this:

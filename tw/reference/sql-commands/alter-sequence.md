@@ -2,7 +2,7 @@
 
 ALTER SEQUENCE — change the definition of a sequence generator
 
-## 語法
+### 語法
 
 ```text
 ALTER SEQUENCE [ IF EXISTS ] name
@@ -18,13 +18,13 @@ ALTER SEQUENCE [ IF EXISTS ] name RENAME TO new_name
 ALTER SEQUENCE [ IF EXISTS ] name SET SCHEMA new_schema
 ```
 
-## 說明
+### 說明
 
 ALTER SEQUENCE 變更現有序列産生器的參數。ALTER SEQUENCE 指令中未特別設定的任何參數都會保留其先前的設定。
 
 您必須擁有該序列才能使用 ALTER SEQUENCE。要變更序列的綱要，您還必須對新綱要具有 CREATE 權限。要變更擁有者，您還必須是新擁有角色直接或間接成員，並且該角色必須對序列的綱要具有 CREATE 權限。（這些限制強制要求變更擁有者不會透過刪除和重新建立序列來執行任何操作。但是，超級使用者無論如何都可以變更任何序列的所有權。）
 
-## 參數
+### 參數
 
 _`name`_
 
@@ -93,7 +93,7 @@ _`new_schema`_
 
 序列的新綱要。
 
-## 注意
+### 注意
 
 ALTER SEQUENCE 不會立即影響具有預先分配（快取）序列值的後端（除了目前後端）的 nextval 結果。在注意到變更的序列産生參數之前，它們將使用所有快取的值。目前的後端將立即受到影響。
 
@@ -103,7 +103,7 @@ ALTER SEQUENCE 阻止同時間的 nextval，currval，lastval 和 setval 呼叫�
 
 由於歷史原因，ALTER TABLE 也可以用於序列；但是序列允許的 ALTER TABLE 的語法就只有上面列出的形式。
 
-## 範例
+### 範例
 
 將序列 serial 從 105 重新啟動：
 
@@ -111,11 +111,11 @@ ALTER SEQUENCE 阻止同時間的 nextval，currval，lastval 和 setval 呼叫�
 ALTER SEQUENCE serial RESTART WITH 105;
 ```
 
-## 相容性
+### 相容性
 
 ALTER SEQUENCE 符合 SQL 標準，除了 AS，START WITH，OWNED BY，OWNER TO，RENAME TO 和 SET SCHEMA 子句之外，它們是 PostgreSQL 的延伸功能。
 
-## 參閱
+### 參閱
 
 [CREATE SEQUENCE](create-sequence.md), [DROP SEQUENCE](drop-sequence.md)
 

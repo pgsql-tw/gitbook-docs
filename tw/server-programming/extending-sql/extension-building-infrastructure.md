@@ -114,7 +114,7 @@ The scripts listed in the `ISOLATION` variable are used for tests stressing beha
 
 `TAP_TESTS` enables the use of TAP tests. Data from each run is present in a subdirectory named `tmp_check/`. See also [Section 32.4](https://www.postgresql.org/docs/12/regress-tap.html) for more details.
 
-## Tip
+#### Tip
 
 The easiest way to create the expected files is to create empty files, then do a test run \(which will of course report differences\). Inspect the actual result files found in the `results/` directory \(for tests in `REGRESS`\), or `output_iso/results/` directory \(for tests in `ISOLATION`\), then copy them to `expected/` if they match what you expect from the test.
 

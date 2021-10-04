@@ -2,7 +2,7 @@
 
 CREATE RULE — 定義新的重寫規則
 
-## 語法
+### 語法
 
 ```text
 CREATE [ OR REPLACE ] RULE name AS ON event
@@ -14,7 +14,7 @@ where event can be one of:
     SELECT | INSERT | UPDATE | DELETE
 ```
 
-## 說明
+### 說明
 
 CREATE RULE 定義了套用於指定資料表或檢視表的新規則。CREATE OR REPLACE RULE 將建立新規則，或替換同一個資料表的同名現有規則。
 
@@ -31,7 +31,7 @@ PostgreSQL 規則系統允許人們定義要對資料庫資料表中的插入，
 
 值得考慮的另一個選擇是使用 INSTEAD OF 觸發器（請參閱 [CREATE TRIGGER](create-trigger.md)）代替規則。
 
-## 參數
+### 參數
 
 _`name`_
 
@@ -65,7 +65,7 @@ _`command`_
 
 在條件和指令中，特殊資料表名稱 NEW 和 OLD 可用於引用資料表中的值。NEW 在 ON INSERT 和 ON UPDATE 規則中有效，用於引用要插入或更新的新資料列。OLD 在 ON UPDATE 和 ON DELETE 規則中有效，以引用正在更新或刪除的現有資料列。
 
-## 注意
+### 注意
 
 您必須是資料表的擁有者才能為其建立或變更規則。
 
@@ -97,11 +97,11 @@ UPDATE mytable SET name = 'foo' WHERE id = 42;
 
 在 UPDATE 期間將發送一個 NOTIFY 事件，無論是否存在與條件 id = 42 相符的資料列。這是可能在未來版本中修補的實作限制。
 
-## 相容性
+### 相容性
 
 CREATE RULE 是一個 PostgreSQL 延伸語法，整個查詢語句重寫系統也是。
 
-## 參閱
+### 參閱
 
 [ALTER RULE](alter-rule.md), [DROP RULE](drop-rule.md)
 

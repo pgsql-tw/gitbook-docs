@@ -210,7 +210,7 @@ SELECT (myfunc(x)).* FROM some_table;
 SELECT (myfunc(x)).a, (myfunc(x)).b, (myfunc(x)).c FROM some_table;
 ```
 
-### Tip
+#### Tip
 
 PostgreSQL handles column expansion by actually transforming the first form into the second. So, in this example, `myfunc()` would get invoked three times per row with either syntax. If it's an expensive function you may wish to avoid that, which you can do with a query like:
 
@@ -263,7 +263,7 @@ SELECT c.somefunc FROM inventory_item c;
 
 This equivalence between functional notation and field notation makes it possible to use functions on composite types to implement “computed fields”. An application using the last query above wouldn't need to be directly aware that `somefunc` isn't a real column of the table.
 
-### Tip
+#### Tip
 
 Because of this behavior, it's unwise to give a function that takes a single composite-type argument the same name as any of the fields of that composite type. If there is ambiguity, the field-name interpretation will be chosen if field-name syntax is used, while the function will be chosen if function-call syntax is used. However, PostgreSQL versions before 11 always chose the field-name interpretation, unless the syntax of the call required it to be a function call. One way to force the function interpretation in older versions is to schema-qualify the function name, that is, write _`schema`_._`func`_\(_`compositevalue`_\).
 
@@ -283,7 +283,7 @@ A completely empty field value \(no characters at all between the commas or pare
 
 The composite output routine will put double quotes around field values if they are empty strings or contain parentheses, commas, double quotes, backslashes, or white space. \(Doing so for white space is not essential, but aids legibility.\) Double quotes and backslashes embedded in field values will be doubled.
 
-### Note
+#### Note
 
 Remember that what you write in an SQL command will first be interpreted as a string literal, and then as a composite. This doubles the number of backslashes you need \(assuming escape string syntax is used\). For example, to insert a `text` field containing a double quote and a backslash in a composite value, you'd need to write:
 
@@ -293,7 +293,8 @@ INSERT ... VALUES ('("\"\\")');
 
 The string-literal processor removes one level of backslashes, so that what arrives at the composite-value parser looks like `("\"\\")`. In turn, the string fed to the `text` data type's input routine becomes `"\`. \(If we were working with a data type whose input routine also treated backslashes specially, `bytea` for example, we might need as many as eight backslashes in the command to get one backslash into the stored composite field.\) Dollar quoting \(see [Section 4.1.2.4](https://www.postgresql.org/docs/12/sql-syntax-lexical.html#SQL-SYNTAX-DOLLAR-QUOTING)\) can be used to avoid the need to double backslashes.
 
-### Tip
+#### Tip
 
-The `ROW` constructor syntax is usually easier to work with than the composite-literal syntax when writing composite values in SQL commands. In `ROW`, individual field values are written the same way they would be written when not members of a composite.
+The `ROW` constructor syntax is usually easier to work with than the composite-literal syntax when writing composite values in SQL commands. In `ROW`, individual field values are written the same way they would be written when not members of a composite.  
+
 

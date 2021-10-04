@@ -2,18 +2,18 @@
 
 dblink\_open — opens a cursor in a remote database
 
-## Synopsis
+### Synopsis
 
 ```text
 dblink_open(text cursorname, text sql [, bool fail_on_error]) returns text
 dblink_open(text connname, text cursorname, text sql [, bool fail_on_error]) returns text
 ```
 
-## Description
+### Description
 
 `dblink_open()` opens a cursor in a remote database. The cursor can subsequently be manipulated with `dblink_fetch()` and `dblink_close()`.
 
-## Arguments
+### Arguments
 
 _`connname`_
 
@@ -31,15 +31,15 @@ _`fail_on_error`_
 
 If true \(the default when omitted\) then an error thrown on the remote side of the connection causes an error to also be thrown locally. If false, the remote error is locally reported as a NOTICE, and the function's return value is set to `ERROR`.
 
-## Return Value
+### Return Value
 
 Returns status, either `OK` or `ERROR`.
 
-## Notes
+### Notes
 
 Since a cursor can only persist within a transaction, `dblink_open` starts an explicit transaction block \(`BEGIN`\) on the remote side, if the remote side was not already within a transaction. This transaction will be closed again when the matching `dblink_close` is executed. Note that if you use `dblink_exec` to change data between `dblink_open` and `dblink_close`, and then an error occurs or you use `dblink_disconnect` before `dblink_close`, your change _will be lost_ because the transaction will be aborted.
 
-## Examples
+### Examples
 
 ```text
 SELECT dblink_connect('dbname=postgres options=-csearch_path=');

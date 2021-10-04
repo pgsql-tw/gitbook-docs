@@ -21,7 +21,7 @@ SELECT * FROM pg_attribute
 
 While that doesn't look all that bad by itself, it's still oversimplified. A far more complicated sub-select would be needed to select the right OID if there are multiple tables named `mytable` in different schemas. The `regclass` input converter handles the table lookup according to the schema path setting, and so it does the “right thing” automatically. Similarly, casting a table's OID to `regclass` is handy for symbolic display of a numeric OID.
 
-## **Table 8.26. Object Identifier Types**
+#### **Table 8.26. Object Identifier Types**
 
 | Name | References | Description | Value Example |
 | :--- | :--- | :--- | :--- |
@@ -41,7 +41,7 @@ All of the OID alias types for objects grouped by namespace accept schema-qualif
 
 An additional property of most of the OID alias types is the creation of dependencies. If a constant of one of these types appears in a stored expression \(such as a column default expression or view\), it creates a dependency on the referenced object. For example, if a column has a default expression `nextval('my_seq'::regclass)`, PostgreSQL understands that the default expression depends on the sequence `my_seq`; the system will not let the sequence be dropped without first removing the default expression. `regrole` is the only exception for the property. Constants of this type are not allowed in such expressions.
 
-## Note
+#### Note
 
 The OID alias types do not completely follow transaction isolation rules. The planner also treats them as simple constants, which may result in sub-optimal planning.
 

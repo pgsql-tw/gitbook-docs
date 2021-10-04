@@ -2,7 +2,7 @@
 
 數字型別由兩位數，四位數和八位數整數，四位元組和八位元組的浮點數以及可調式精確度的小數組成。[表格 8.2 ](numeric-types.md#table-8-2-numeric-types)列出了可用的類型。
 
-### **Table 8.2. Numeric Types**
+#### **Table 8.2. Numeric Types**
 
 | Name | Storage Size | Description | Range |
 | :--- | :--- | :--- | :--- |

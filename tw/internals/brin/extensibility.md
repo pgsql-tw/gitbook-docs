@@ -44,7 +44,7 @@ Operator classes that implement completely different semantics are also possible
 
 To write an operator class for a data type that implements a totally ordered set, it is possible to use the minmax support functions alongside the corresponding operators, as shown in [Table 67.2](https://www.postgresql.org/docs/12/brin-extensibility.html#BRIN-EXTENSIBILITY-MINMAX-TABLE). All operator class members \(functions and operators\) are mandatory.
 
-## **Table 67.2. Function and Support Numbers for Minmax Operator Classes**
+#### **Table 67.2. Function and Support Numbers for Minmax Operator Classes**
 
 | Operator class member | Object |
 | :--- | :--- |
@@ -60,7 +60,7 @@ To write an operator class for a data type that implements a totally ordered set
 
 To write an operator class for a complex data type which has values included within another type, it's possible to use the inclusion support functions alongside the corresponding operators, as shown in [Table 67.3](https://www.postgresql.org/docs/12/brin-extensibility.html#BRIN-EXTENSIBILITY-INCLUSION-TABLE). It requires only a single additional function, which can be written in any language. More functions can be defined for additional functionality. All operators are optional. Some operators require other operators, as shown as dependencies on the table.
 
-## **Table 67.3. Function and Support Numbers for Inclusion Operator Classes**
+#### **Table 67.3. Function and Support Numbers for Inclusion Operator Classes**
 
 | Operator class member | Object | Dependency |
 | :--- | :--- | :--- |

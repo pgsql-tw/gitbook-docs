@@ -6,5 +6,6 @@ These popular data structures were originally developed for in-memory usage. In 
 
 Like GiST, SP-GiST is meant to allow the development of custom data types with the appropriate access methods, by an expert in the domain of the data type, rather than a database expert.
 
-Some of the information here is derived from Purdue University's SP-GiST Indexing Project [web site](http://www.cs.purdue.edu/spgist/). The SP-GiST implementation in PostgreSQL is primarily maintained by Teodor Sigaev and Oleg Bartunov, and there is more information on their [web site](http://www.sai.msu.su/~megera/wiki/spgist_dev).
+Some of the information here is derived from Purdue University's SP-GiST Indexing Project [web site](http://www.cs.purdue.edu/spgist/). The SP-GiST implementation in PostgreSQL is primarily maintained by Teodor Sigaev and Oleg Bartunov, and there is more information on their [web site](http://www.sai.msu.su/~megera/wiki/spgist_dev).  
+
 

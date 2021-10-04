@@ -4,7 +4,7 @@ Bit strings are strings of 1's and 0's. They can be used to store or visualize b
 
 `bit` type data must match the length _`n`_ exactly; it is an error to attempt to store shorter or longer bit strings. `bit varying` data is of variable length up to the maximum length _`n`_; longer strings will be rejected. Writing `bit` without a length is equivalent to `bit(1)`, while `bit varying` without a length specification means unlimited length.
 
-## Note
+#### Note
 
 If one explicitly casts a bit-string value to `bit(`_`n`_\), it will be truncated or zero-padded on the right to be exactly _`n`_ bits, without raising an error. Similarly, if one explicitly casts a bit-string value to `bit varying(`_`n`_\), it will be truncated on the right if it is more than _`n`_ bits.
 
@@ -26,6 +26,7 @@ SELECT * FROM test;
 -----+-----
  101 | 00
  100 | 101
+
 ```
 
 A bit string value requires 1 byte for each group of 8 bits, plus 5 or 8 bytes overhead depending on the length of the string \(but long values may be compressed or moved out-of-line, as explained in [Section 8.3](https://www.postgresql.org/docs/12/datatype-character.html) for character strings\).

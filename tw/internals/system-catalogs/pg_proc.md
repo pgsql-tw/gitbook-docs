@@ -8,7 +8,7 @@ description: 版本：11
 
 如果 prokind 指示該項目用於彙總函數，則 pg\_aggregate 中應有相對應的資料列。
 
-## **Table 51.39. `pg_proc` Columns**
+#### **Table 51.39. `pg_proc` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |

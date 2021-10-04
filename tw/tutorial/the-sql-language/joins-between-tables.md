@@ -57,6 +57,8 @@ SELECT *
 
 現在我們要回到前面的問題，把 Hayward 的資料放在輸出的結果之中。我們要在查詢中做的是，掃描資料表 weather，找到有所關連的每一列資料；沒有關連到的資料列，我們要填上「空值」（null）在資料表 cities 相對的欄位之中。這樣的查詢我們稱作「外部交叉查詢」（outer join）。（先前的交叉查詢為「內部交叉查詢」（inner join））。這樣的查詢指令如下所示：
 
+
+
 ```text
 SELECT *
     FROM weather LEFT OUTER JOIN cities ON (weather.city = cities.name);
@@ -76,6 +78,8 @@ SELECT *
 **練習：**也有「右側外部交叉查詢」（right outer join）和「完全外部交叉查詢」（full outer join），試著找出他們都做了些什麼。
 
 我們也可以對同一個資料表做交叉查詢，稱作為「自我交叉查詢」（self join）。接下來的範例，假設我們希望找到所有氣溫範圍的天氣資料。所以我們需要讓 temp\_lo 及 temp\_hi 兩個欄位，和其他的 temp\_lo 及 temp\_high 相比較。我們可以用下列的查詢來符合需求：
+
+
 
 ```text
 SELECT W1.city, W1.temp_lo AS low, W1.temp_hi AS high,

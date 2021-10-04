@@ -2,7 +2,7 @@
 
 The view `referential_constraints` contains all referential \(foreign key\) constraints in the current database. Only those constraints are shown for which the current user has write access to the referencing table \(by way of being the owner or having some privilege other than `SELECT`\).
 
-## **Table 36.32. `referential_constraints` Columns**
+#### **Table 36.32. `referential_constraints` Columns**
 
 | Name | Data Type | Description |
 | :--- | :--- | :--- |

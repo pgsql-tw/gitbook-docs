@@ -7,7 +7,7 @@
 **Table of Contents**
 
 [ABORT](https://www.postgresql.org/docs/current/sql-abort.html) — abort the current transaction  
-_\*\*_[ALTER AGGREGATE](https://www.postgresql.org/docs/current/sql-alteraggregate.html) — change the definition of an aggregate function  
+****[ALTER AGGREGATE](https://www.postgresql.org/docs/current/sql-alteraggregate.html) — change the definition of an aggregate function  
 [ALTER COLLATION](https://www.postgresql.org/docs/current/sql-altercollation.html) — change the definition of a collation  
 [ALTER CONVERSION](https://www.postgresql.org/docs/current/sql-alterconversion.html) — change the definition of a conversion  
 [ALTER DATABASE](https://www.postgresql.org/docs/current/sql-alterdatabase.html) — change a database  
@@ -187,5 +187,6 @@ _\*\*_[ALTER AGGREGATE](https://www.postgresql.org/docs/current/sql-alteraggrega
 [UNLISTEN](https://www.postgresql.org/docs/current/sql-unlisten.html) — stop listening for a notification  
 [UPDATE](https://www.postgresql.org/docs/current/sql-update.html) — update rows of a table  
 [VACUUM](https://www.postgresql.org/docs/current/sql-vacuum.html) — garbage-collect and optionally analyze a database  
-[VALUES](https://www.postgresql.org/docs/current/sql-values.html) — compute a set of rows
+[VALUES](https://www.postgresql.org/docs/current/sql-values.html) — compute a set of rows  
+
 

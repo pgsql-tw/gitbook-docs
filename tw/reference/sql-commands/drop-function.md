@@ -2,7 +2,7 @@
 
 DROP FUNCTION — 移除一個函數
 
-## 語法
+### 語法
 
 ```text
 DROP FUNCTION [ IF EXISTS ] name 
@@ -11,11 +11,11 @@ DROP FUNCTION [ IF EXISTS ] name
               [ CASCADE | RESTRICT ]
 ```
 
-## 說明
+### 說明
 
 DROP FUNCTION 移除現有函數的定義。要執行此命令，使用者必須是該函數的擁有者。必須指定該函數的參數類型，因為可能存在多個具有相同名稱和不同參數列表的不同函數。
 
-## 參數
+### 參數
 
 `IF EXISTS`
 
@@ -45,7 +45,7 @@ _`argtype`_
 
 如果任何物件依賴於它，拒絕移除該函數。這是預設的做法。
 
-## 範例
+### 範例
 
 此指令移除平方根函數：
 
@@ -73,7 +73,7 @@ DROP FUNCTION update_employee_salaries();
 
 它指的是一個零個參數的函數，而第一個變形可以引用具有任意數量參數的函數，包括零個，只要該名稱是唯一的。
 
-## 相容性
+### 相容性
 
 這個指令符合 SQL 標準，並帶有這些 PostgreSQL 的延伸功能：
 
@@ -81,7 +81,7 @@ DROP FUNCTION update_employee_salaries();
 * 具有 IF EXISTS 選項
 * 能夠指定參數模式和名稱
 
-## 參閱
+### 參閱
 
 [CREATE FUNCTION](create-function.md), [ALTER FUNCTION](alter-function.md)
 

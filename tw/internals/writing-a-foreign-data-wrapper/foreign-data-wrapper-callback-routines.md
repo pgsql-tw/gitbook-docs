@@ -4,7 +4,7 @@ The FDW handler function returns a palloc'd `FdwRoutine` struct containing point
 
 The `FdwRoutine` struct type is declared in `src/include/foreign/fdwapi.h`, which see for additional details.
 
-## 56.2.1. FDW Routines for Scanning Foreign Tables
+#### 56.2.1. FDW Routines for Scanning Foreign Tables
 
 ```text
 void
@@ -84,7 +84,7 @@ EndForeignScan(ForeignScanState *node);
 
 End the scan and release resources. It is normally not important to release palloc'd memory, but for example open files and connections to remote servers should be cleaned up.
 
-## 56.2.2. FDW Routines for Scanning Foreign Joins
+#### 56.2.2. FDW Routines for Scanning Foreign Joins
 
 If an FDW supports performing foreign joins remotely \(rather than by fetching both tables' data and doing the join locally\), it should provide this callback function:
 
@@ -106,7 +106,7 @@ If a `ForeignPath` path is chosen for the join, it will represent the entire joi
 
 See [Section 56.4](https://www.postgresql.org/docs/12/fdw-planning.html) for additional information.
 
-## 56.2.3. FDW Routines for Planning Post-Scan/Join Processing
+#### 56.2.3. FDW Routines for Planning Post-Scan/Join Processing
 
 If an FDW supports performing remote post-scan/join processing, such as remote aggregation, it should provide this callback function:
 
@@ -125,7 +125,7 @@ The `stage` parameter identifies which post-scan/join step is currently being co
 
 See [Section 56.4](https://www.postgresql.org/docs/12/fdw-planning.html) for additional information.
 
-## 56.2.4. FDW Routines for Updating Foreign Tables
+#### 56.2.4. FDW Routines for Updating Foreign Tables
 
 If an FDW supports writable foreign tables, it should provide some or all of the following callback functions depending on the needs and capabilities of the FDW:
 
@@ -326,7 +326,7 @@ Clean up following a direct modification on the remote server. It is normally no
 
 If the `EndDirectModify` pointer is set to `NULL`, no attempts to execute a direct modification on the remote server are taken.
 
-## 56.2.5. FDW Routines for Row Locking
+#### 56.2.5. FDW Routines for Row Locking
 
 If an FDW wishes to support _late row locking_ \(as described in [Section 56.5](https://www.postgresql.org/docs/12/fdw-row-locking.html)\), it must provide the following callback functions:
 
@@ -377,7 +377,7 @@ Recheck that a previously-returned tuple still matches the relevant scan and joi
 
 To implement join pushdown, a foreign data wrapper will typically construct an alternative local join plan which is used only for rechecks; this will become the outer subplan of the `ForeignScan`. When a recheck is required, this subplan can be executed and the resulting tuple can be stored in the slot. This plan need not be efficient since no base table will return more than one row; for example, it may implement all joins as nested loops. The function `GetExistingLocalJoinPath` may be used to search existing paths for a suitable local join path, which can be used as the alternative local join plan. `GetExistingLocalJoinPath` searches for an unparameterized path in the path list of the specified join relation. \(If it does not find such a path, it returns NULL, in which case a foreign data wrapper may build the local path by itself or may choose not to create access paths for that join.\)
 
-## 56.2.6. FDW Routines for `EXPLAIN`
+#### 56.2.6. FDW Routines for `EXPLAIN`
 
 ```text
 void
@@ -412,7 +412,7 @@ Print additional `EXPLAIN` output for a direct modification on the remote server
 
 If the `ExplainDirectModify` pointer is set to `NULL`, no additional information is printed during `EXPLAIN`.
 
-## 56.2.7. FDW Routines for `ANALYZE`
+#### 56.2.7. FDW Routines for `ANALYZE`
 
 ```text
 bool
@@ -439,7 +439,7 @@ AcquireSampleRowsFunc(Relation relation,
 
 A random sample of up to _`targrows`_ rows should be collected from the table and stored into the caller-provided _`rows`_ array. The actual number of rows collected must be returned. In addition, store estimates of the total numbers of live and dead rows in the table into the output parameters _`totalrows`_ and _`totaldeadrows`_. \(Set _`totaldeadrows`_ to zero if the FDW does not have any concept of dead rows.\)
 
-## 56.2.8. FDW Routines for `IMPORT FOREIGN SCHEMA`
+#### 56.2.8. FDW Routines for `IMPORT FOREIGN SCHEMA`
 
 ```text
 List *
@@ -456,7 +456,7 @@ The FDW does not have to concern itself with implementing the filtering specifie
 
 If the FDW does not support importing table definitions, the `ImportForeignSchema` pointer can be set to `NULL`.
 
-## 56.2.9. FDW Routines for Parallel Execution
+#### 56.2.9. FDW Routines for Parallel Execution
 
 A `ForeignScan` node can, optionally, support parallel execution. A parallel `ForeignScan` will be executed in multiple processes and must return each row exactly once across all cooperating processes. To do this, processes can coordinate through fixed-size chunks of dynamic shared memory. This shared memory is not guaranteed to be mapped at the same address in every process, so it must not contain pointers. The following functions are all optional, but most are required if parallel execution is to be supported.
 
@@ -508,7 +508,7 @@ ShutdownForeignScan(ForeignScanState *node);
 
 Release resources when it is anticipated the node will not be executed to completion. This is not called in all cases; sometimes, `EndForeignScan` may be called without this function having been called first. Since the DSM segment used by parallel query is destroyed just after this callback is invoked, foreign data wrappers that wish to take some action before the DSM segment goes away should implement this method.
 
-## 56.2.10. FDW Routines for Reparameterization of Paths
+#### 56.2.10. FDW Routines for Reparameterization of Paths
 
 ```text
 List *

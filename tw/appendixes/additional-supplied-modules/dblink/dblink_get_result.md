@@ -2,17 +2,17 @@
 
 dblink\_get\_result — gets an async query result
 
-## Synopsis
+### Synopsis
 
 ```text
 dblink_get_result(text connname [, bool fail_on_error]) returns setof record
 ```
 
-## Description
+### Description
 
 `dblink_get_result` collects the results of an asynchronous query previously sent with `dblink_send_query`. If the query is not already completed, `dblink_get_result` will wait until it is.
 
-## Arguments
+### Arguments
 
 _`connname`_
 
@@ -22,19 +22,19 @@ _`fail_on_error`_
 
 If true \(the default when omitted\) then an error thrown on the remote side of the connection causes an error to also be thrown locally. If false, the remote error is locally reported as a NOTICE, and the function returns no rows.
 
-## Return Value
+### Return Value
 
 For an async query \(that is, a SQL statement returning rows\), the function returns the row\(s\) produced by the query. To use this function, you will need to specify the expected set of columns, as previously discussed for `dblink`.
 
 For an async command \(that is, a SQL statement not returning rows\), the function returns a single row with a single text column containing the command's status string. It is still necessary to specify that the result will have a single text column in the calling `FROM` clause.
 
-## Notes
+### Notes
 
 This function _must_ be called if `dblink_send_query` returned 1. It must be called once for each query sent, and one additional time to obtain an empty set result, before the connection can be used again.
 
 When using `dblink_send_query` and `dblink_get_result`, dblink fetches the entire remote query result before returning any of it to the local query processor. If the query returns a large number of rows, this can result in transient memory bloat in the local session. It may be better to open such a query as a cursor with `dblink_open` and then fetch a manageable number of rows at a time. Alternatively, use plain `dblink()`, which avoids memory bloat by spooling large result sets to disk.
 
-## Examples
+### Examples
 
 ```text
 contrib_regression=# SELECT dblink_connect('dtest1', 'dbname=contrib_regression');

@@ -10,7 +10,7 @@ CREATE TABLE test2 (
 );
 ```
 
-（比如，你將 /dev 目錄儲存在資料庫中......）並經常發出如下查詢：
+（比如，你將 /dev 目錄內容儲存在資料庫中......）並經常發出如下查詢：
 
 ```text
 SELECT name FROM test2 WHERE major = constant AND minor = constant;
@@ -34,5 +34,5 @@ CREATE INDEX test2_mm_idx ON test2 (major, minor);
 
 當然，每個欄位必須與適合索引類型的運算子一起使用；涉及其他運算子的子句將不予考慮。
 
-應謹慎使用多欄位索引。在大多數情況下，單個欄位上的索引就足夠了，節省了空間和時間。除非資料表的使用非常特殊，否則具有三個欄位以上的索引不太可能有用。有關不同索引配置的優點的一些討論，另請參閱[第 11.5 節](combining-multiple-indexes.md)和[第 11.11 節](index-only-scans.md)。
+應謹慎使用多欄位索引。在大多數情況下，單個欄位上的索引就足夠了，節省了空間和時間。除非資料表的使用非常特殊，否則具有三個欄位以上的索引不太可能有用。有關不同索引配置的優點的一些討論，另請參閱[第 11.5 節](combining-multiple-indexes.md)和[第 11.9 節](index-only-scans-and-covering-indexes.md)。
 

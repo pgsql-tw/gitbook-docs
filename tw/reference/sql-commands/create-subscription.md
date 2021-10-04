@@ -2,7 +2,7 @@
 
 CREATE SUBSCRIPTION — 定義一個新的訂閱
 
-## 語法
+### 語法
 
 ```text
 CREATE SUBSCRIPTION subscription_name
@@ -11,7 +11,7 @@ CREATE SUBSCRIPTION subscription_name
     [ WITH ( subscription_parameter [= value] [, ... ] ) ]
 ```
 
-## 說明
+### 說明
 
 CREATE SUBSCRIPTION 為目前資料庫加上一個新的訂閱。訂閱名稱必須與資料庫中任何現有訂閱的名稱相異。
 
@@ -19,9 +19,9 @@ CREATE SUBSCRIPTION 為目前資料庫加上一個新的訂閱。訂閱名稱必
 
 將在運行此指令的交易事務提交時啟動邏輯複寫工作程序以複寫新訂閱的資料。
 
-有關訂閱和邏輯複寫完整的訊息，請參閱[第 31.2 節](../../server-administration/logical-replication/31.2.-ding-yue-subscription.md)和[第 31 章](../../server-administration/logical-replication/)。
+有關訂閱和邏輯複寫完整的訊息，請參閱[第 31.2 節](../../server-administration/logical-replication/subscription.md)和[第 31 章](../../server-administration/logical-replication/)。
 
-## 參數
+### 參數
 
 _`subscription_name`_
 
@@ -73,15 +73,15 @@ _`subscription_name`_
 
 由於此選項設定為 false 時未建立連線，所以資料表未訂閱，而在您啟用訂閱後，將不會複寫任何內容。需要執行 ALTER SUBSCRIPTION ... REFRESH PUBLICATION 才能訂閱資料表。
 
-## 注意
+### 注意
 
-有關如何在訂閱和發佈的服服之間配置存取控制的詳細訊息，請參閱[第 31.7 節](../../server-administration/logical-replication/31.7.-an-quan-xing.md)。
+有關如何在訂閱和發佈的服服之間配置存取控制的詳細訊息，請參閱[第 30.7 節](../../server-administration/logical-replication/security.md)。
 
 建立複寫插槽時（預設行為），CREATE SUBSCRIPTION 不能在交易事務區塊內執行。
 
 建立連線到同一資料庫叢集的訂閱（例如，在同一叢集中的資料庫之間進行複寫或在同一資料庫中進行複寫）只有在複寫插槽未作為同一指令的一部分建立時才會成功。否則，CREATE SUBSCRIPTION 呼叫將失敗。要使其順利運作，請單獨建立複寫插槽（使用函數 pg\_create\_logical\_replication\_slot，套件名稱為 pgoutput），並使用參數 create\_slot = false 建立訂閱。這是一個可能在將來的版本中解除的實作限制。
 
-## 範例
+### 範例
 
 建立遠端伺服器的訂閱，將複寫 mypublication 和 insert\_only 資料表，並在提交時立即開始複寫：
 
@@ -100,11 +100,11 @@ CREATE SUBSCRIPTION mysub
                WITH (enabled = false);
 ```
 
-## 相容性
+### 相容性
 
 CREATE SUBSCRIPTION 是 PostgreSQL 的延伸功能。
 
-## 參閱
+### 參閱
 
 [ALTER SUBSCRIPTION](alter-subscription.md), [DROP SUBSCRIPTION](drop-subscription.md), [CREATE PUBLICATION](create-publication.md), [ALTER PUBLICATION](alter-publication.md)
 

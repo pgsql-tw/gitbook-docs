@@ -6,21 +6,21 @@ description: 版本：11
 
 DROP LANGUAGE — 移除程序語言
 
-## 語法
+### 語法
 
 ```text
 DROP [ PROCEDURAL ] LANGUAGE [ IF EXISTS ] name [ CASCADE | RESTRICT ]
 ```
 
-## 說明
+### 說明
 
 DROP LANGUAGE 移除先前註冊的程序語言定義。您必須是超級使用者或語言的所有者才能使用 DROP LANGUAGE。
 
-### 注意
+#### 注意
 
 從 PostgreSQL 9.1 開始，大多數程序語言都被製作成「extension」，因此，應該使用 [DROP EXTENSION](drop-extension.md) 而不是 DROP LANGUAGE 來移除。
 
-## 參數
+### 參數
 
 `IF EXISTS`
 
@@ -38,7 +38,7 @@ _`name`_
 
 如果任何物件相依於它，則拒絕移除。這是預設選項。
 
-## 範例
+### 範例
 
 此命令會移除程序語言 plsample：
 
@@ -46,11 +46,11 @@ _`name`_
 DROP LANGUAGE plsample;
 ```
 
-## 相容性
+### 相容性
 
 SQL 標準中沒有 DROP LANGUAGE 語句。
 
-## 參閱
+### 參閱
 
 [ALTER LANGUAGE](alter-language.md), [CREATE LANGUAGE](create-language.md)
 

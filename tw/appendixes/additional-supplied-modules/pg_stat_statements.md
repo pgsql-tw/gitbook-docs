@@ -10,37 +10,256 @@ pg\_stat\_statements 模組提供了一個追踪在伺服器上執行的 SQL 語
 
 此延伸功能收集的統計數據可透過名為 pg\_stat\_statements 的檢視表查詢。對於每個不同的資料庫 ID、使用者 ID和查詢語句 ID（此延伸功能可以追踪的最大不同查詢語句數量），在此檢視表會在一筆資料中呈現。 檢視表的欄位在 Table F.21 中說明。
 
-### **Table F.21. `pg_stat_statements` Columns**
+#### **Table F.21. `pg_stat_statements` Columns**
 
-| Name | Type | References | Description |
-| :--- | :--- | :--- | :--- |
-| `userid` | `oid` | [`pg_authid`](https://www.postgresql.org/docs/12/catalog-pg-authid.html).oid | OID of user who executed the statement |
-| `dbid` | `oid` | [`pg_database`](https://www.postgresql.org/docs/12/catalog-pg-database.html).oid | OID of database in which the statement was executed |
-| `queryid` | `bigint` |  | Internal hash code, computed from the statement's parse tree |
-| `query` | `text` |  | Text of a representative statement |
-| `calls` | `bigint` |  | Number of times executed |
-| `total_time` | `double precision` |  | Total time spent in the statement, in milliseconds |
-| `min_time` | `double precision` |  | Minimum time spent in the statement, in milliseconds |
-| `max_time` | `double precision` |  | Maximum time spent in the statement, in milliseconds |
-| `mean_time` | `double precision` |  | Mean time spent in the statement, in milliseconds |
-| `stddev_time` | `double precision` |  | Population standard deviation of time spent in the statement, in milliseconds |
-| `rows` | `bigint` |  | Total number of rows retrieved or affected by the statement |
-| `shared_blks_hit` | `bigint` |  | Total number of shared block cache hits by the statement |
-| `shared_blks_read` | `bigint` |  | Total number of shared blocks read by the statement |
-| `shared_blks_dirtied` | `bigint` |  | Total number of shared blocks dirtied by the statement |
-| `shared_blks_written` | `bigint` |  | Total number of shared blocks written by the statement |
-| `local_blks_hit` | `bigint` |  | Total number of local block cache hits by the statement |
-| `local_blks_read` | `bigint` |  | Total number of local blocks read by the statement |
-| `local_blks_dirtied` | `bigint` |  | Total number of local blocks dirtied by the statement |
-| `local_blks_written` | `bigint` |  | Total number of local blocks written by the statement |
-| `temp_blks_read` | `bigint` |  | Total number of temp blocks read by the statement |
-| `temp_blks_written` | `bigint` |  | Total number of temp blocks written by the statement |
-| `blk_read_time` | `double precision` |  | Total time the statement spent reading blocks, in milliseconds \(if [track\_io\_timing](https://www.postgresql.org/docs/12/runtime-config-statistics.html#GUC-TRACK-IO-TIMING) is enabled, otherwise zero\) |
-| `blk_write_time` | `double precision` |  | Total time the statement spent writing blocks, in milliseconds \(if [track\_io\_timing](https://www.postgresql.org/docs/12/runtime-config-statistics.html#GUC-TRACK-IO-TIMING) is enabled, otherwise zero\) |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">
+        <p>Column Type</p>
+        <p>Description</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">
+        <p><code>userid</code>  <code>oid</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-authid.html"><code>pg_authid</code></a>.<code>oid</code>)</p>
+        <p>OID of user who executed the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>dbid</code>  <code>oid</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-database.html"><code>pg_database</code></a>.<code>oid</code>)</p>
+        <p>OID of database in which the statement was executed</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>queryid</code>  <code>bigint</code>
+        </p>
+        <p>Internal hash code, computed from the statement&apos;s parse tree</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>query</code>  <code>text</code>
+        </p>
+        <p>Text of a representative statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>plans</code>  <code>bigint</code>
+        </p>
+        <p>Number of times the statement was planned (if <code>pg_stat_statements.track_planning</code> is
+          enabled, otherwise zero)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>total_plan_time</code>  <code>double precision</code>
+        </p>
+        <p>Total time spent planning the statement, in milliseconds (if <code>pg_stat_statements.track_planning</code> is
+          enabled, otherwise zero)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>min_plan_time</code>  <code>double precision</code>
+        </p>
+        <p>Minimum time spent planning the statement, in milliseconds (if <code>pg_stat_statements.track_planning</code> is
+          enabled, otherwise zero)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>max_plan_time</code>  <code>double precision</code>
+        </p>
+        <p>Maximum time spent planning the statement, in milliseconds (if <code>pg_stat_statements.track_planning</code> is
+          enabled, otherwise zero)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>mean_plan_time</code>  <code>double precision</code>
+        </p>
+        <p>Mean time spent planning the statement, in milliseconds (if <code>pg_stat_statements.track_planning</code> is
+          enabled, otherwise zero)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>stddev_plan_time</code>  <code>double precision</code>
+        </p>
+        <p>Population standard deviation of time spent planning the statement, in
+          milliseconds (if <code>pg_stat_statements.track_planning</code> is enabled,
+          otherwise zero)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>calls</code>  <code>bigint</code>
+        </p>
+        <p>Number of times the statement was executed</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>total_exec_time</code>  <code>double precision</code>
+        </p>
+        <p>Total time spent executing the statement, in milliseconds</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>min_exec_time</code>  <code>double precision</code>
+        </p>
+        <p>Minimum time spent executing the statement, in milliseconds</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>max_exec_time</code>  <code>double precision</code>
+        </p>
+        <p>Maximum time spent executing the statement, in milliseconds</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>mean_exec_time</code>  <code>double precision</code>
+        </p>
+        <p>Mean time spent executing the statement, in milliseconds</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>stddev_exec_time</code>  <code>double precision</code>
+        </p>
+        <p>Population standard deviation of time spent executing the statement, in
+          milliseconds</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>rows</code>  <code>bigint</code>
+        </p>
+        <p>Total number of rows retrieved or affected by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>shared_blks_hit</code>  <code>bigint</code>
+        </p>
+        <p>Total number of shared block cache hits by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>shared_blks_read</code>  <code>bigint</code>
+        </p>
+        <p>Total number of shared blocks read by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>shared_blks_dirtied</code>  <code>bigint</code>
+        </p>
+        <p>Total number of shared blocks dirtied by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>shared_blks_written</code>  <code>bigint</code>
+        </p>
+        <p>Total number of shared blocks written by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>local_blks_hit</code>  <code>bigint</code>
+        </p>
+        <p>Total number of local block cache hits by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>local_blks_read</code>  <code>bigint</code>
+        </p>
+        <p>Total number of local blocks read by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>local_blks_dirtied</code>  <code>bigint</code>
+        </p>
+        <p>Total number of local blocks dirtied by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>local_blks_written</code>  <code>bigint</code>
+        </p>
+        <p>Total number of local blocks written by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>temp_blks_read</code>  <code>bigint</code>
+        </p>
+        <p>Total number of temp blocks read by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>temp_blks_written</code>  <code>bigint</code>
+        </p>
+        <p>Total number of temp blocks written by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>blk_read_time</code>  <code>double precision</code>
+        </p>
+        <p>Total time the statement spent reading blocks, in milliseconds (if <a href="https://www.postgresql.org/docs/13/runtime-config-statistics.html#GUC-TRACK-IO-TIMING">track_io_timing</a> is
+          enabled, otherwise zero)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>blk_write_time</code>  <code>double precision</code>
+        </p>
+        <p>Total time the statement spent writing blocks, in milliseconds (if <a href="https://www.postgresql.org/docs/13/runtime-config-statistics.html#GUC-TRACK-IO-TIMING">track_io_timing</a> is
+          enabled, otherwise zero)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>wal_records</code>  <code>bigint</code>
+        </p>
+        <p>Total number of WAL records generated by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>wal_fpi</code>  <code>bigint</code>
+        </p>
+        <p>Total number of WAL full page images generated by the statement</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>wal_bytes</code>  <code>numeric</code>
+        </p>
+        <p>Total amount of WAL bytes generated by the statement</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 因為安全因素，僅超級使用者和 pg\_read\_all\_stats 角色成員被允許查看其他使用者所執行的 SQL 語句和 queryid。但是，如果檢視圖已安裝在他們的資料庫中，則其他使用者也可以查看統計內容。
 
-只要有計劃查詢的查詢（即 SELECT、INSERT、UPDATE 和 DELETE）根據內部雜湊計算具有相同的查詢結構，它們就會組合到單筆 pg\_stat\_statements 資料中。通常，如果兩個查詢在語義上等效，即兩個查詢在此意義上是相同的，只是出現在查詢中的常數內容的值除外。 但是，會嚴格地根據資料庫結構維護指令（即所有其他指令）的查詢字串進行比較。
+只要是有**查詢**計劃查詢的查詢（即 SELECT、INSERT、UPDATE 和 DELETE）根據內部雜湊計算具有相同的查詢結構，它們就會組合到單筆 pg\_stat\_statements 資料中。通常，如果兩個查詢在語義上等效，即兩個查詢在此意義上是相同的，只是出現在查詢中的常數內容的值除外。 但是，會嚴格地根據資料庫結構維護指令（即所有其他指令）的查詢字串進行比較。
 
 為了將查詢與其他查詢搭配而忽略了常數內容時，該常數內容會在 pg\_stat\_statements 顯示中替換為參數符號，例如 $1。查詢語句的其餘部分是第一個查詢的內容，該查詢具有與 pg\_stat\_statements 項目關聯的特定 queryid 雜湊值。
 
@@ -55,6 +274,8 @@ As a rule of thumb, `queryid` values can be assumed to be stable and comparable 
 The parameter symbols used to replace constants in representative query texts start from the next number after the highest `$`_`n`_ parameter in the original query text, or `$1` if there was none. It's worth noting that in some cases there may be hidden parameter symbols that affect this numbering. For example, PL/pgSQL uses hidden parameter symbols to insert values of function local variables into queries, so that a PL/pgSQL statement like `SELECT i + 1 INTO j` would have representative text like `SELECT i + $2`.
 
 The representative query texts are kept in an external disk file, and do not consume shared memory. Therefore, even very lengthy query texts can be stored successfully. However, if many long query texts are accumulated, the external file might grow unmanageably large. As a recovery method if that happens, `pg_stat_statements` may choose to discard the query texts, whereupon all existing entries in the `pg_stat_statements` view will show null `query` fields, though the statistics associated with each `queryid` are preserved. If this happens, consider reducing `pg_stat_statements.max` to prevent recurrences.
+
+ plans 和 calls 不一定會完全相等，因為查詢計劃和執行統計資訊會在其各自的執行階段進行更新，並且僅針對成功的操作進行更新。例如，某一條語句已經進行了查詢計劃，但在執行階段卻失敗了，則僅更新其查詢計劃統計資訊。如果由於使用了快取的查詢計劃而跳過了計劃階段，也只會更新其執行階段的統計資訊。
 
 ## F.29.2. Functions
 
@@ -187,7 +408,8 @@ query       | SELECT pg_stat_statements_reset(0,0,0)
 calls       | 1
 total_time  | 0.189497
 rows        | 1
-hit_percent |
+hit_percent | 
+
 ```
 
 ## F.29.5. Authors

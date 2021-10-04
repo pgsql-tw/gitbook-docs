@@ -8,28 +8,28 @@ SQL 定義了一些使用關鍵字而不是逗號分隔參數的字串函數。�
 在 PostgreSQL 8.3 之前的版本中，由於存在從這些資料型別到文字的隱式強制轉換，這些函數也將默默接受幾種非字串資料型別的值。這些強制轉換已被刪除，因為它們經常引起令人驚訝的結果。但是，字串連接運算子（\|\|）仍然接受非字串輸入，只要至少一個輸入為字串型別即可，如 Table 9.9 所示。對於其他情況，如果您需要複製以前的行為，請在查詢語句中明確加入型別轉換。
 {% endhint %}
 
-### **Table 9.9. SQL String Functions and Operators**
+#### **Table 9.9. SQL String Functions and Operators**
 
-| Function | Return Type | Description | Example | Result |  |  |  |  |  |  |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| _`string`_ \` |  | `_`string\`\_ | `text` | String concatenation | \`'Post' |  | 'greSQL'\` | `PostgreSQL` |  |  |
-| _`string`_ \` |  | `_`non-string`_ or _`non-string`_` |  | `_`string\`\_ | `text` | String concatenation with one non-string input | \`'Value: ' |  | 42\` | `Value: 42` |
-| `bit_length(`_`string`_\) | `int` | Number of bits in string | `bit_length('jose')` | `32` |  |  |  |  |  |  |
-| `char_length(`_`string`_\) or `character_length(`_`string`_\) | `int` | Number of characters in string | `char_length('jose')` | `4` |  |  |  |  |  |  |
-| `lower(`_`string`_\) | `text` | Convert string to lower case | `lower('TOM')` | `tom` |  |  |  |  |  |  |
-| `octet_length(`_`string`_\) | `int` | Number of bytes in string | `octet_length('jose')` | `4` |  |  |  |  |  |  |
-| `overlay(`_`string`_ placing _`string`_ from `int` \[for `int`\]\) | `text` | Replace substring | `overlay('Txxxxas' placing 'hom' from 2 for 4)` | `Thomas` |  |  |  |  |  |  |
-| `position(`_`substring`_ in _`string`_\) | `int` | Location of specified substring | `position('om' in 'Thomas')` | `3` |  |  |  |  |  |  |
-| `substring(`_`string`_ \[from `int`\] \[for `int`\]\) | `text` | Extract substring | `substring('Thomas' from 2 for 3)` | `hom` |  |  |  |  |  |  |
-| `substring(`_`string`_ from _`pattern`_\) | `text` | Extract substring matching POSIX regular expression. See [Section 9.7](https://www.postgresql.org/docs/12/functions-matching.html) for more information on pattern matching. | `substring('Thomas' from '...$')` | `mas` |  |  |  |  |  |  |
-| `substring(`_`string`_ from _`pattern`_ for _`escape`_\) | `text` | Extract substring matching SQL regular expression. See [Section 9.7](https://www.postgresql.org/docs/12/functions-matching.html) for more information on pattern matching. | `substring('Thomas' from '%#"o_a#"_' for '#')` | `oma` |  |  |  |  |  |  |
-| \`trim\(\[leading | trailing | both\] \[`_`characters`_\] from _`string\`\_\) | `text` | Remove the longest string containing only characters from _`characters`_ \(a space by default\) from the start, end, or both ends \(`both` is the default\) of _`string`_ | `trim(both 'xyz' from 'yxTomxx')` | `Tom` |  |  |  |  |
-| \`trim\(\[leading | trailing | both\] \[from\]`_`string`_ \[, _`characters\`\_\] \) | `text` | Non-standard syntax for `trim()` | `trim(both from 'yxTomxx', 'xyz')` | `Tom` |  |  |  |  |
-| `upper(`_`string`_\) | `text` | Convert string to upper case | `upper('tom')` | `TOM` |  |  |  |  |  |  |
+| Function | Return Type | Description | Example | Result |
+| :--- | :--- | :--- | :--- | :--- |
+| _`string`_ `||` _`string`_ | `text` | String concatenation | `'Post' || 'greSQL'` | `PostgreSQL` |
+| _`string`_ `||` _`non-string`_ or _`non-string`_ `||` _`string`_ | `text` | String concatenation with one non-string input | `'Value: ' || 42` | `Value: 42` |
+| `bit_length(`_`string`_\) | `int` | Number of bits in string | `bit_length('jose')` | `32` |
+| `char_length(`_`string`_\) or `character_length(`_`string`_\) | `int` | Number of characters in string | `char_length('jose')` | `4` |
+| `lower(`_`string`_\) | `text` | Convert string to lower case | `lower('TOM')` | `tom` |
+| `octet_length(`_`string`_\) | `int` | Number of bytes in string | `octet_length('jose')` | `4` |
+| `overlay(`_`string`_ placing _`string`_ from `int` \[for `int`\]\) | `text` | Replace substring | `overlay('Txxxxas' placing 'hom' from 2 for 4)` | `Thomas` |
+| `position(`_`substring`_ in _`string`_\) | `int` | Location of specified substring | `position('om' in 'Thomas')` | `3` |
+| `substring(`_`string`_ \[from `int`\] \[for `int`\]\) | `text` | Extract substring | `substring('Thomas' from 2 for 3)` | `hom` |
+| `substring(`_`string`_ from _`pattern`_\) | `text` | Extract substring matching POSIX regular expression. See [Section 9.7](https://www.postgresql.org/docs/12/functions-matching.html) for more information on pattern matching. | `substring('Thomas' from '...$')` | `mas` |
+| `substring(`_`string`_ from _`pattern`_ for _`escape`_\) | `text` | Extract substring matching SQL regular expression. See [Section 9.7](https://www.postgresql.org/docs/12/functions-matching.html) for more information on pattern matching. | `substring('Thomas' from '%#"o_a#"_' for '#')` | `oma` |
+| `trim([leading | trailing | both] [`_`characters`_\] from _`string`_\) | `text` | Remove the longest string containing only characters from _`characters`_ \(a space by default\) from the start, end, or both ends \(`both` is the default\) of _`string`_ | `trim(both 'xyz' from 'yxTomxx')` | `Tom` |
+| `trim([leading | trailing | both] [from]` _`string`_ \[, _`characters`_\] \) | `text` | Non-standard syntax for `trim()` | `trim(both from 'yxTomxx', 'xyz')` | `Tom` |
+| `upper(`_`string`_\) | `text` | Convert string to upper case | `upper('tom')` | `TOM` |
 
 其他字串操作的可用函數，在 [Table 9.10](string-functions-and-operators.md#table-9-10-other-string-functions) 中列出。其中一些用於內部實作的SQL標準字符串函數，則在 [Table 9.9](string-functions-and-operators.md#table-9-9-sql-string-functions-and-operators) 中列出。
 
-### **Table 9.10. Other String Functions**
+#### **Table 9.10. Other String Functions**
 
 <table>
   <thead>
@@ -605,7 +605,7 @@ concat、concat\_ws 和 format 函數是動態參數，因此可以將要連接�
 
 另請參閱[第 9.20 節](aggregate-functions.md)中的彙總函數 string\_agg。
 
-### **Table 9.11. Built-in Conversions**
+#### **Table 9.11. Built-in Conversions**
 
 | Conversion Name | Source Encoding | Destination Encoding |
 | :--- | :--- | :--- |
@@ -764,7 +764,7 @@ A string of the form _`n`_$ where _`n`_ is the index of the argument to print. I
 
 Additional options controlling how the format specifier's output is formatted. Currently the only supported flag is a minus sign \(`-`\) which will cause the format specifier's output to be left-justified. This has no effect unless the _`width`_ field is also specified._`width`_ \(optional\)
 
-Specifies the _minimum_ number of characters to use to display the format specifier's output. The output is padded on the left or right \(depending on the `-` flag\) with spaces as needed to fill the width. A too-small width does not cause truncation of the output, but is simply ignored. The width may be specified using any of the following: a positive integer; an asterisk \(`*`\) to use the next function argument as the width; or a string of the form `*`_`n`_$ to use the \_`n`\_th function argument as the width.
+Specifies the _minimum_ number of characters to use to display the format specifier's output. The output is padded on the left or right \(depending on the `-` flag\) with spaces as needed to fill the width. A too-small width does not cause truncation of the output, but is simply ignored. The width may be specified using any of the following: a positive integer; an asterisk \(`*`\) to use the next function argument as the width; or a string of the form `*`_`n`_$ to use the _`n`_th function argument as the width.
 
 If the width comes from a function argument, that argument is consumed before the argument that is used for the format specifier's value. If the width argument is negative, the result is left aligned \(as if the `-` flag had been specified\) within a field of length `abs`\(_`width`_\)._`type`_ \(required\)
 

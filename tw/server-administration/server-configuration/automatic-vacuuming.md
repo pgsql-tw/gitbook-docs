@@ -18,11 +18,15 @@
 
 `autovacuum_naptime` \(`integer`\)
 
-指定在任何資料庫上執行 autovacuum 之間的最小延遲。 在每一輪背景程序檢查資料庫並根據需要為該資料庫中的資料表發出 VACUUM 和 ANALYZE 命令。延遲以秒為單位進行測量，預設值為 1 分鐘（1分鐘）。該參數只能在 postgresql.conf 檔案或伺服器命令行中設定。
+指定在任何資料庫上執行 autovacuum 之間的最小延遲。 在每一輪背景程序檢查資料庫並根據需要為該資料庫中的資料表發出 VACUUM 和 ANALYZE 命令。延遲以秒為單位進行測量，預設值為 1 分鐘。該參數只能在 postgresql.conf 檔案或伺服器命令行中設定。
 
 `autovacuum_vacuum_threshold` \(`integer`\)
 
 指定在任何一個資料表中觸發 VACUUM 所需的更新或刪除 tuple 的最小數目。預設值是 50 個 tuple。此參數只能在 postgresql.conf 檔案或伺服器命令行中設定；但是可以透過變更資料儲存參數來覆寫單個資料表的設定。
+
+`autovacuum_vacuum_insert_threshold` \(`integer`\)
+
+指定在任何一張資料表中觸發 VACUUM 所需的 INSERT tuple 數量。預設值為 1000 個 tuple。如果指定 -1，則 VACUUM 將不會基於 INSERT 數量而被觸發。此參數只能在 postgresql.conf 檔案中或在伺服器命令列上設定；但是可以透過修改資料表儲存參數來覆寫某個特定資料表的設定。
 
 `autovacuum_analyze_threshold` \(`integer`\)
 
@@ -31,6 +35,10 @@
 `autovacuum_vacuum_scale_factor` \(`floating point`\)
 
 決定觸發 VACUUM 時，指定要加到 autovacuum\_vacuum\_threshold 的資料表大小的比例。預設值是0.2（資料表大小的 20％）。此參數只能在 postgresql.conf 檔案或伺服器命令行中設定；但是可以透過變更資料表儲存參數來覆寫單個資料表的設定。
+
+`autovacuum_vacuum_insert_scale_factor` \(`floating point`\)
+
+Specifies a fraction of the table size to add to `autovacuum_vacuum_insert_threshold` when deciding whether to trigger a `VACUUM`. The default is 0.2 \(20% of table size\). This parameter can only be set in the `postgresql.conf` file or on the server command line; but the setting can be overridden for individual tables by changing table storage parameters.
 
 `autovacuum_analyze_scale_factor` \(`floating point`\)
 

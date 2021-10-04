@@ -59,7 +59,7 @@ REFERENCING 選項啟用轉換關連的集合，轉換關連是包含目前 SQL 
 
 SELECT 不會修改任何資料列，因此您無法建立 SELECT 觸發器。規則和檢視表需要除錯以提供可行的解決方案時，就需要 SELECT 觸發器。
 
-有關觸發器的更多訊息，請參閱[第 38 章](../../server-programming/triggers.md)。
+有關觸發器的更多訊息，請參閱[第 38 章](../../server-programming/triggers/)。
 
 ## Parameters
 

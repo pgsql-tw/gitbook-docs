@@ -2,7 +2,7 @@
 
 The usual comparison operators are available, as shown in [Table 9.1](https://www.postgresql.org/docs/12/functions-comparison.html#FUNCTIONS-COMPARISON-OP-TABLE).
 
-## **Table 9.1. Comparison Operators**
+#### **Table 9.1. Comparison Operators**
 
 | Operator | Description |
 | :--- | :--- |
@@ -13,7 +13,7 @@ The usual comparison operators are available, as shown in [Table 9.1](https://ww
 | `=` | equal |
 | `<>` or `!=` | not equal |
 
-## Note
+#### Note
 
 The `!=` operator is converted to `<>` in the parser stage. It is not possible to implement `!=` and `<>` operators that do different things.
 
@@ -21,7 +21,7 @@ Comparison operators are available for all relevant data types. All comparison o
 
 There are also some comparison predicates, as shown in [Table 9.2](https://www.postgresql.org/docs/12/functions-comparison.html#FUNCTIONS-COMPARISON-PRED-TABLE). These behave much like operators, but have special syntax mandated by the SQL standard.
 
-## **Table 9.2. Comparison Predicates**
+#### **Table 9.2. Comparison Predicates**
 
 | Predicate | Description |
 | :--- | :--- |
@@ -93,7 +93,7 @@ expression NOTNULL
 
 Do _not_ write _`expression`_ = NULL because `NULL` is not “equal to” `NULL`. \(The null value represents an unknown value, and it is not known whether two unknown values are equal.\)
 
-## Tip
+#### Tip
 
 Some applications might expect that _`expression`_ = NULL returns true if _`expression`_ evaluates to the null value. It is highly recommended that these applications be modified to comply with the SQL standard. However, if that cannot be done the [transform\_null\_equals](https://www.postgresql.org/docs/12/runtime-config-compatible.html#GUC-TRANSFORM-NULL-EQUALS) configuration variable is available. If it is enabled, PostgreSQL will convert `x = NULL` clauses to `x IS NULL`.
 
@@ -114,7 +114,7 @@ These will always return true or false, never a null value, even when the operan
 
 Some comparison-related functions are also available, as shown in [Table 9.3](https://www.postgresql.org/docs/12/functions-comparison.html#FUNCTIONS-COMPARISON-FUNC-TABLE).
 
-## **Table 9.3. Comparison Functions**
+#### **Table 9.3. Comparison Functions**
 
 | Function | Description | Example | Example Result |
 | :--- | :--- | :--- | :--- |

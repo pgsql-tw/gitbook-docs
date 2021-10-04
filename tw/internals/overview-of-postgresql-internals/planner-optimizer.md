@@ -2,7 +2,7 @@
 
 The task of the _planner/optimizer_ is to create an optimal execution plan. A given SQL query \(and hence, a query tree\) can be actually executed in a wide variety of different ways, each of which will produce the same set of results. If it is computationally feasible, the query optimizer will examine each of these possible execution plans, ultimately selecting the execution plan that is expected to run the fastest.
 
-## Note
+#### Note
 
 In some situations, examining each possible way in which a query can be executed would take an excessive amount of time and memory space. In particular, this occurs when executing queries involving large numbers of join operations. In order to determine a reasonable \(not necessarily optimal\) query plan in a reasonable amount of time, PostgreSQL uses a _Genetic Query Optimizer_ \(see [Chapter 59](https://www.postgresql.org/docs/12/geqo.html)\) when the number of joins exceeds a threshold \(see [geqo\_threshold](https://www.postgresql.org/docs/12/runtime-config-query.html#GUC-GEQO-THRESHOLD)\).
 

@@ -18,7 +18,7 @@ ALTER TABLE [ IF EXISTS ] name
 ALTER TABLE ALL IN TABLESPACE name [ OWNED BY role_name [, ... ] ]
     SET TABLESPACE new_tablespace [ NOWAIT ]
 ALTER TABLE [ IF EXISTS ] name
-    ATTACH PARTITION partition_name FOR VALUES partition_bound_spec
+    ATTACH PARTITION partition_name { FOR VALUES partition_bound_spec | DEFAULT }
 ALTER TABLE [ IF EXISTS ] name
     DETACH PARTITION partition_name
 
@@ -30,6 +30,7 @@ where action is one of:
     ALTER [ COLUMN ] column_name SET DEFAULT expression
     ALTER [ COLUMN ] column_name DROP DEFAULT
     ALTER [ COLUMN ] column_name { SET | DROP } NOT NULL
+    ALTER [ COLUMN ] column_name DROP EXPRESSION [ IF EXISTS ]
     ALTER [ COLUMN ] column_name ADD GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY [ ( sequence_options ) ]
     ALTER [ COLUMN ] column_name { SET GENERATED { ALWAYS | BY DEFAULT } | SET sequence_option | RESTART [ [ WITH ] restart ] } [...]
     ALTER [ COLUMN ] column_name DROP IDENTITY [ IF EXISTS ]
@@ -56,11 +57,10 @@ where action is one of:
     NO FORCE ROW LEVEL SECURITY
     CLUSTER ON index_name
     SET WITHOUT CLUSTER
-    SET WITH OIDS
     SET WITHOUT OIDS
     SET TABLESPACE new_tablespace
     SET { LOGGED | UNLOGGED }
-    SET ( storage_parameter = value [, ... ] )
+    SET ( storage_parameter [= value] [, ... ] )
     RESET ( storage_parameter [, ... ] )
     INHERIT parent_table
     NO INHERIT parent_table
@@ -69,11 +69,54 @@ where action is one of:
     OWNER TO { new_owner | CURRENT_USER | SESSION_USER }
     REPLICA IDENTITY { DEFAULT | USING INDEX index_name | FULL | NOTHING }
 
+and partition_bound_spec is:
+
+IN ( partition_bound_expr [, ...] ) |
+FROM ( { partition_bound_expr | MINVALUE | MAXVALUE } [, ...] )
+  TO ( { partition_bound_expr | MINVALUE | MAXVALUE } [, ...] ) |
+WITH ( MODULUS numeric_literal, REMAINDER numeric_literal )
+
+and column_constraint is:
+
+[ CONSTRAINT constraint_name ]
+{ NOT NULL |
+  NULL |
+  CHECK ( expression ) [ NO INHERIT ] |
+  DEFAULT default_expr |
+  GENERATED ALWAYS AS ( generation_expr ) STORED |
+  GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY [ ( sequence_options ) ] |
+  UNIQUE index_parameters |
+  PRIMARY KEY index_parameters |
+  REFERENCES reftable [ ( refcolumn ) ] [ MATCH FULL | MATCH PARTIAL | MATCH SIMPLE ]
+    [ ON DELETE referential_action ] [ ON UPDATE referential_action ] }
+[ DEFERRABLE | NOT DEFERRABLE ] [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
+
+and table_constraint is:
+
+[ CONSTRAINT constraint_name ]
+{ CHECK ( expression ) [ NO INHERIT ] |
+  UNIQUE ( column_name [, ... ] ) index_parameters |
+  PRIMARY KEY ( column_name [, ... ] ) index_parameters |
+  EXCLUDE [ USING index_method ] ( exclude_element WITH operator [, ... ] ) index_parameters [ WHERE ( predicate ) ] |
+  FOREIGN KEY ( column_name [, ... ] ) REFERENCES reftable [ ( refcolumn [, ... ] ) ]
+    [ MATCH FULL | MATCH PARTIAL | MATCH SIMPLE ] [ ON DELETE referential_action ] [ ON UPDATE referential_action ] }
+[ DEFERRABLE | NOT DEFERRABLE ] [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
+
 and table_constraint_using_index is:
 
     [ CONSTRAINT constraint_name ]
     { UNIQUE | PRIMARY KEY } USING INDEX index_name
     [ DEFERRABLE | NOT DEFERRABLE ] [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
+
+index_parameters in UNIQUE, PRIMARY KEY, and EXCLUDE constraints are:
+
+[ INCLUDE ( column_name [, ... ] ) ]
+[ WITH ( storage_parameter [= value] [, ... ] ) ]
+[ USING INDEX TABLESPACE tablespace_name ]
+
+exclude_element in an EXCLUDE constraint is:
+
+{ column_name | ( expression ) } [ opclass ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ]
 ```
 
 ## 說明
@@ -130,7 +173,7 @@ and table_constraint_using_index is:
 
 `SET STORAGE`
 
-此語法設定欄位的儲存模式。 這將控制此欄位是以內建方式保存還是以輔助 TOAST 方式保存，以及是否應該壓縮資料。PLAIN 必須用於固定長度值（如整數），並且是內建的，未壓縮的。MAIN 用於內建可壓縮資料。EXTERNAL 用於外部未壓縮資料，EXTENDED 用於外部壓縮資料。EXTENDED 是非 PLAIN 儲存的大多數資料型別的預設值。 使用 EXTERNAL 將使得對非常大的字串和 bytea 值進行子字串處理的速度更快，從而增加儲存空間。請注意，SET STORAGE 本身並不會改變資料表中的任何內容，它只是設定在將來的資料表更新期間追求的策略。有關更多訊息，請參閱[第 66.2 節](../../internals/database-physical-storage/toast.md)。
+此語法設定欄位的儲存模式。 這將控制此欄位是以內建方式保存還是以輔助 TOAST 方式保存，以及是否應該壓縮資料。PLAIN 必須用於固定長度值（如整數），並且是內建的，未壓縮的。MAIN 用於內建可壓縮資料。EXTERNAL 用於外部未壓縮資料，EXTENDED 用於外部壓縮資料。EXTENDED 是非 PLAIN 儲存的大多數資料型別的預設值。 使用 EXTERNAL 將使得對非常大的字串和 bytea 值進行子字串處理的速度更快，從而增加儲存空間。請注意，SET STORAGE 本身並不會改變資料表中的任何內容，它只是設定在將來的資料表更新期間追求的策略。有關更多訊息，請參閱[第 68.2 節](../../internals/database-physical-storage/toast.md)。
 
 `ADD` _`table_constraint`_ \[ NOT VALID \]
 
@@ -148,9 +191,9 @@ and table_constraint_using_index is:
 
 執行此命令後，索引由該限制條件「擁有」，就像索引由一般的 ADD PRIMARY KEY 或 ADD UNIQUE 命令建立的一樣。特別要注意是，刪除限制條件會使索引消失。
 
-### 注意
-
+{% hint style="info" %}
 在需要增加新的限制條件情況下，使用現有索引加上約束可能會很有幫助。這種情況下需要加上新限制條件需要很長一段時間但不會阻斷資料表更新。為此，請使用 CREATE INDEX CONCURRENTLY 建立索引，然後使用此語法將其作為官方限制條件進行安裝。請參閱後續的例子。
+{% endhint %}
 
 `ALTER CONSTRAINT`
 
@@ -222,9 +265,9 @@ and table_constraint_using_index is:
 
 SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以下計劃程序的相關參數進行鎖定：effective\_io\_concurrency，parallel\_workers，seq\_page\_cost，random\_page\_cost，n\_distinct 和 n\_distinct\_inherited。
 
-### 注意
-
+{% hint style="info" %}
 雖然 CREATE TABLE 允許在 WITH（storage\_parameter）語法中指定 OIDS，但 ALTER TABLE 不會將 OIDS 視為儲存參數。而是使用 SET WITH OIDS 和 SET WITHOUT OIDS 語法來變更 OID 狀態。
+{% endhint %}
 
 `RESET (` _`storage_parameter`_ \[, ... \] \)
 
@@ -252,7 +295,7 @@ SHARE UPDATE EXCLUSIVE 會針對 fillfactor 和 autovacuum 儲存參數以及以
 
 該子句將資料表、序列、檢視表、具體化檢視表或外部資料表的擁有者變更為指定的使用者。
 
-`REPLICA IDENTITY`
+#### `REPLICA IDENTITY`
 
 此子句變更寫入 WAL 的訊息，以識別更新或刪除的資料列。如果正在使用邏輯複製的話，則此子句不起作用。DEFAULT（非系統資料表的預設值）記錄主鍵欄位的舊值（如果有的話）。USING INDEX 記錄指定索引覆蓋欄位的舊值，它必須是唯一的，不能是部分的，也不可是延遲的，並且只能包含標記為 NOT NULL 的欄位。FULL 記錄行中所有欄位的舊值。 沒有記錄關於舊資料列的訊息。（這是系統資料表的預設值。）在任何情況下，都不記錄舊值，除非至少有一個將記錄的欄位在新舊版本的資料列之間不同。
 

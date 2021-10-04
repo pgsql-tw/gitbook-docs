@@ -2,17 +2,17 @@
 
 DROP SEQUENCE — remove a sequence
 
-## Synopsis
+### Synopsis
 
 ```text
 DROP SEQUENCE [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 ```
 
-## Description
+### Description
 
 `DROP SEQUENCE` removes sequence number generators. A sequence can only be dropped by its owner or a superuser.
 
-## Parameters
+### Parameters
 
 `IF EXISTS`
 
@@ -24,25 +24,24 @@ The name \(optionally schema-qualified\) of a sequence.
 
 `CASCADE`
 
-Automatically drop objects that depend on the sequence, and in turn all objects that depend on those objects \(see [Section 5.13](https://www.postgresql.org/docs/10/static/ddl-depend.html)\).
-
-`RESTRICT`
+Automatically drop objects that depend on the sequence, and in turn all objects that depend on those objects \(see [Section 5.14](https://www.postgresql.org/docs/13/ddl-depend.html)\).`RESTRICT`
 
 Refuse to drop the sequence if any objects depend on it. This is the default.
 
-## Examples
+### 範例
 
-To remove the sequence `serial`:
+要移除序列物件：
 
 ```text
 DROP SEQUENCE serial;
 ```
 
-## Compatibility
+### 相容性
 
-`DROP SEQUENCE` conforms to the SQL standard, except that the standard only allows one sequence to be dropped per command, and apart from the `IF EXISTS` option, which is a PostgreSQL extension.
+DROP SEQUENCE 符合 SQL 標準，但標準僅允許每個指令移除一個序列，包含除了 IF EXISTS 選項（它是 PostgreSQL 加入的功能）外的部份。
 
-## See Also
+### 參閱
 
-[CREATE SEQUENCE](create-sequence.md), [ALTER SEQUENCE](alter-sequence.md)
+[CREATE SEQUENCE](create-sequence.md), [ALTER SEQUENCE](alter-sequence.md)  
+
 

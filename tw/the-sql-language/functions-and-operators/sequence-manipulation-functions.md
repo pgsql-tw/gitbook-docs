@@ -1,4 +1,4 @@
-# 9.16. 序列函式
+# 9.17. 序列函式
 
 This section describes functions for operating on_sequence objects_, also called sequence generators or just sequences. Sequence objects are special single-row tables created with[CREATE SEQUENCE](https://www.postgresql.org/docs/10/static/sql-createsequence.html). Sequence objects are commonly used to generate unique identifiers for rows of a table. The sequence functions, listed in[Table 9.47](https://www.postgresql.org/docs/10/static/functions-sequence.html#functions-sequence-table), provide simple, multiuser-safe methods for obtaining successive sequence values from sequence objects.
 

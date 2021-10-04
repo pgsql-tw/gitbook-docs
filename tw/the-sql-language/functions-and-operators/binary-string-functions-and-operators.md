@@ -4,24 +4,24 @@ This section describes functions and operators for examining and manipulating va
 
 SQL defines some string functions that use key words, rather than commas, to separate arguments. Details are in [Table 9.12](https://www.postgresql.org/docs/12/functions-binarystring.html#FUNCTIONS-BINARYSTRING-SQL). PostgreSQL also provides versions of these functions that use the regular function invocation syntax \(see [Table 9.13](https://www.postgresql.org/docs/12/functions-binarystring.html#FUNCTIONS-BINARYSTRING-OTHER)\).
 
-## Note
+#### Note
 
 The sample results shown on this page assume that the server parameter [`bytea_output`](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-BYTEA-OUTPUT) is set to `escape` \(the traditional PostgreSQL format\).
 
-## **Table 9.12. SQL Binary String Functions and Operators**
+#### **Table 9.12. SQL Binary String Functions and Operators**
 
-| Function | Return Type | Description | Example | Result |  |  |  |  |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| _`string`_ \` |  | `_`string\`\_ | `bytea` | String concatenation | \`'\Post'::bytea |  | '\047gres\000'::bytea\` | `\\Post'gres\000` |
-| `octet_length(`_`string`_\) | `int` | Number of bytes in binary string | `octet_length('jo\000se'::bytea)` | `5` |  |  |  |  |
-| `overlay(`_`string`_ placing _`string`_ from `int` \[for `int`\]\) | `bytea` | Replace substring | `overlay('Th\000omas'::bytea placing '\002\003'::bytea from 2 for 3)` | `T\\002\\003mas` |  |  |  |  |
-| `position(`_`substring`_ in _`string`_\) | `int` | Location of specified substring | `position('\000om'::bytea in 'Th\000omas'::bytea)` | `3` |  |  |  |  |
-| `substring(`_`string`_ \[from `int`\] \[for `int`\]\) | `bytea` | Extract substring | `substring('Th\000omas'::bytea from 2 for 3)` | `h\000o` |  |  |  |  |
-| `trim([both]` _`bytes`_ from _`string`_\) | `bytea` | Remove the longest string containing only bytes appearing in _`bytes`_ from the start and end of _`string`_ | `trim('\000\001'::bytea from '\000Tom\001'::bytea)` | `Tom` |  |  |  |  |
+| Function | Return Type | Description | Example | Result |
+| :--- | :--- | :--- | :--- | :--- |
+| _`string`_ `||` _`string`_ | `bytea` | String concatenation | `'\\Post'::bytea || '\047gres\000'::bytea` | `\\Post'gres\000` |
+| `octet_length(`_`string`_\) | `int` | Number of bytes in binary string | `octet_length('jo\000se'::bytea)` | `5` |
+| `overlay(`_`string`_ placing _`string`_ from `int` \[for `int`\]\) | `bytea` | Replace substring | `overlay('Th\000omas'::bytea placing '\002\003'::bytea from 2 for 3)` | `T\\002\\003mas` |
+| `position(`_`substring`_ in _`string`_\) | `int` | Location of specified substring | `position('\000om'::bytea in 'Th\000omas'::bytea)` | `3` |
+| `substring(`_`string`_ \[from `int`\] \[for `int`\]\) | `bytea` | Extract substring | `substring('Th\000omas'::bytea from 2 for 3)` | `h\000o` |
+| `trim([both]` _`bytes`_ from _`string`_\) | `bytea` | Remove the longest string containing only bytes appearing in _`bytes`_ from the start and end of _`string`_ | `trim('\000\001'::bytea from '\000Tom\001'::bytea)` | `Tom` |
 
 Additional binary string manipulation functions are available and are listed in [Table 9.13](https://www.postgresql.org/docs/12/functions-binarystring.html#FUNCTIONS-BINARYSTRING-OTHER). Some of them are used internally to implement the SQL-standard string functions listed in [Table 9.12](https://www.postgresql.org/docs/12/functions-binarystring.html#FUNCTIONS-BINARYSTRING-SQL).
 
-## **Table 9.13. Other Binary String Functions**
+#### **Table 9.13. Other Binary String Functions**
 
 | Function | Return Type | Description | Example | Result |
 | :--- | :--- | :--- | :--- | :--- |

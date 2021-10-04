@@ -16,7 +16,7 @@ Functions are provided to support input in latitude and longitude \(in degrees\)
 
 The provided functions are shown in [Table F.5](https://www.postgresql.org/docs/12/earthdistance.html#EARTHDISTANCE-CUBE-FUNCTIONS).
 
-### **Table F.5. Cube-Based Earthdistance Functions**
+#### **Table F.5. Cube-Based Earthdistance Functions**
 
 | Function | Returns | Description |
 | :--- | :--- | :--- |
@@ -35,7 +35,7 @@ The second part of the module relies on representing Earth locations as values o
 
 A single operator is provided, shown in [Table F.6](https://www.postgresql.org/docs/12/earthdistance.html#EARTHDISTANCE-POINT-OPERATORS).
 
-### **Table F.6. Point-Based Earthdistance Operators**
+#### **Table F.6. Point-Based Earthdistance Operators**
 
 | Operator | Returns | Description |
 | :--- | :--- | :--- |
@@ -43,5 +43,6 @@ A single operator is provided, shown in [Table F.6](https://www.postgresql.org/d
 
 Note that unlike the `cube`-based part of the module, units are hardwired here: changing the `earth()` function will not affect the results of this operator.
 
-One disadvantage of the longitude/latitude representation is that you need to be careful about the edge conditions near the poles and near +/- 180 degrees of longitude. The `cube`-based representation avoids these discontinuities.
+One disadvantage of the longitude/latitude representation is that you need to be careful about the edge conditions near the poles and near +/- 180 degrees of longitude. The `cube`-based representation avoids these discontinuities.  
+
 

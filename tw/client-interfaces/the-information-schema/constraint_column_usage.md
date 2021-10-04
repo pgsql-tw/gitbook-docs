@@ -2,7 +2,7 @@
 
 The view `constraint_column_usage` identifies all columns in the current database that are used by some constraint. Only those columns are shown that are contained in a table owned by a currently enabled role. For a check constraint, this view identifies the columns that are used in the check expression. For a foreign key constraint, this view identifies the columns that the foreign key references. For a unique or primary key constraint, this view identifies the constrained columns.
 
-## **Table 36.16. `constraint_column_usage` Columns**
+#### **Table 36.16. `constraint_column_usage` Columns**
 
 | Name | Data Type | Description |
 | :--- | :--- | :--- |

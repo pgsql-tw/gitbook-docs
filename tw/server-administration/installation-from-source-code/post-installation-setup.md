@@ -1,6 +1,6 @@
 # 16.5. Post-Installation Setup
 
-## 16.5.1. Shared Libraries
+#### 16.5.1. Shared Libraries
 
 On some systems with shared libraries you need to tell the system how to find the newly installed shared libraries. The systems on which this is _not_ necessary include FreeBSD, HP-UX, Linux, NetBSD, OpenBSD, and Solaris.
 
@@ -46,7 +46,7 @@ If you are on Linux and you have root access, you can run:
 
 instead. Other systems are not known to have an equivalent command.
 
-## 16.5.2. Environment Variables
+#### 16.5.2. Environment Variables
 
 If you installed into `/usr/local/pgsql` or some other location that is not searched for programs by default, you should add `/usr/local/pgsql/bin` \(or whatever you set `--bindir` to in [Step 1](https://www.postgresql.org/docs/10/static/install-procedure.html#CONFIGURE)\) into your `PATH`. Strictly speaking, this is not necessary, but it will make the use of PostgreSQL much more convenient.
 
@@ -70,5 +70,6 @@ MANPATH=/usr/local/pgsql/share/man:$MANPATH
 export MANPATH
 ```
 
-The environment variables `PGHOST` and `PGPORT` specify to client applications the host and port of the database server, overriding the compiled-in defaults. If you are going to run client applications remotely then it is convenient if every user that plans to use the database sets `PGHOST`. This is not required, however; the settings can be communicated via command line options to most client programs.
+The environment variables `PGHOST` and `PGPORT` specify to client applications the host and port of the database server, overriding the compiled-in defaults. If you are going to run client applications remotely then it is convenient if every user that plans to use the database sets `PGHOST`. This is not required, however; the settings can be communicated via command line options to most client programs.  
+
 

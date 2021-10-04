@@ -2,7 +2,7 @@
 
 ALTER SUBSCRIPTION — change the definition of a subscription
 
-## 語法
+### 語法
 
 ```text
 ALTER SUBSCRIPTION name CONNECTION 'conninfo'
@@ -15,13 +15,13 @@ ALTER SUBSCRIPTION name OWNER TO { new_owner | CURRENT_USER | SESSION_USER }
 ALTER SUBSCRIPTION name RENAME TO new_name
 ```
 
-## 說明
+### 說明
 
 ALTER SUBSCRIPTION 可以變更 [CREATE SUBSCRIPTION](create-subscription.md) 中大部分可指定的訂閱屬性。
 
 您必須是該訂閱的擁有者才能使用 ALTER SUBSCRIPTION。要變更擁有者，您必須是新角色的直接或間接成員，而新所有者必須是超級使用者。（目前，訂閱擁有者都必須是超級使用者，因此擁有者檢查將在實作中繞過，但未來這個部份有可能會發生變化。）
 
-## 參數
+### 參數
 
 _`name`_
 
@@ -73,7 +73,7 @@ _`new_name`_
 
 訂閱的新名稱。
 
-## 範例
+### 範例
 
 將訂閱的發佈對象變更為 insert\_only：
 
@@ -87,11 +87,11 @@ ALTER SUBSCRIPTION mysub SET PUBLICATION insert_only;
 ALTER SUBSCRIPTION mysub DISABLE;
 ```
 
-## 相容性
+### 相容性
 
 ALTER SUBSCRIPTION 是 PostgreSQL 的延伸功能。
 
-## 參閱
+### 參閱
 
 [CREATE SUBSCRIPTION](create-subscription.md), [DROP SUBSCRIPTION](drop-subscription.md), [CREATE PUBLICATION](create-publication.md), [ALTER PUBLICATION](alter-publication.md)
 

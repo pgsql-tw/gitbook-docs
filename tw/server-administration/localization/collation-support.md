@@ -2,7 +2,7 @@
 
 The collation feature allows specifying the sort order and character classification behavior of data per-column, or even per-operation. This alleviates the restriction that the `LC_COLLATE` and `LC_CTYPE` settings of a database cannot be changed after its creation.
 
-## 23.2.1. Concepts
+#### 23.2.1. Concepts
 
 Conceptually, every expression of a collatable data type has a collation. \(The built-in collatable data types are `text`, `varchar`, and `char`. User-defined base types can also be marked collatable, and of course a domain over a collatable data type is collatable.\) If the expression is a column reference, the collation of the expression is the defined collation of the column. If the expression is a constant, the collation is the default collation of the data type of the constant. The collation of a more complex expression is derived from the collations of its inputs, as described below.
 
@@ -84,7 +84,7 @@ results in an error, because even though the `||` operator doesn't need to know 
 SELECT * FROM test1 ORDER BY a || b COLLATE "fr_FR";
 ```
 
-## 23.2.2. Managing Collations
+#### 23.2.2. Managing Collations
 
 A collation is an SQL schema object that maps an SQL name to locales provided by libraries installed in the operating system. A collation definition has a _provider_ that specifies which library supplies the locale data. One standard provider name is `libc`, which uses the locales provided by the operating system C library. These are the locales that most tools provided by the operating system use. Another provider is `icu`, which uses the external ICU library. ICU locales can only be used if support for ICU was configured when PostgreSQL was built.
 
@@ -188,7 +188,7 @@ See [Unicode Technical Standard \#35](http://unicode.org/reports/tr35/tr35-colla
 
 Note that while this system allows creating collations that “ignore case” or “ignore accents” or similar \(using the `ks` key\), PostgreSQL does not at the moment allow such collations to act in a truly case- or accent-insensitive manner. Any strings that compare equal according to the collation but are not byte-wise equal will be sorted according to their byte values.
 
-## Note
+#### Note
 
 By design, ICU will accept almost any string as a locale name and match it to the closest locale it can provide, using the fallback procedure described in its documentation. Thus, there will be no direct feedback if a collation specification is composed using features that the given ICU installation does not actually support. It is therefore recommended to create application-level test cases to check that the collation definitions satisfy one's requirements.
 

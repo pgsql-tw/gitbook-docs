@@ -2,20 +2,20 @@
 
 dblink\_connect — opens a persistent connection to a remote database
 
-## Synopsis
+### Synopsis
 
 ```text
 dblink_connect(text connstr) returns text
 dblink_connect(text connname, text connstr) returns text
 ```
 
-## Description
+### Description
 
 `dblink_connect()` establishes a connection to a remote PostgreSQL database. The server and database to be contacted are identified through a standard libpq connection string. Optionally, a name can be assigned to the connection. Multiple named connections can be open at once, but only one unnamed connection is permitted at a time. The connection will persist until closed or until the database session is ended.
 
 The connection string may also be the name of an existing foreign server. It is recommended to use the foreign-data wrapper `dblink_fdw` when defining the foreign server. See the example below, as well as [CREATE SERVER](https://www.postgresql.org/docs/12/sql-createserver.html) and [CREATE USER MAPPING](https://www.postgresql.org/docs/12/sql-createusermapping.html).
 
-## Arguments
+### Arguments
 
 _`connname`_
 
@@ -23,11 +23,11 @@ The name to use for this connection; if omitted, an unnamed connection is opened
 
 libpq-style connection info string, for example `hostaddr=127.0.0.1 port=5432 dbname=mydb user=postgres password=mypasswd options=-csearch_path=`. For details see [Section 33.1.1](https://www.postgresql.org/docs/12/libpq-connect.html#LIBPQ-CONNSTRING). Alternatively, the name of a foreign server.
 
-## Return Value
+### Return Value
 
 Returns status, which is always `OK` \(since any error causes the function to throw an error instead of returning\).
 
-## Notes
+### Notes
 
 If untrusted users have access to a database that has not adopted a [secure schema usage pattern](https://www.postgresql.org/docs/12/ddl-schemas.html#DDL-SCHEMAS-PATTERNS), begin each session by removing publicly-writable schemas from `search_path`. One could, for example, add `options=-csearch_path=` to _`connstr`_. This consideration is not specific to `dblink`; it applies to every interface for executing arbitrary SQL commands.
 
@@ -35,7 +35,7 @@ Only superusers may use `dblink_connect` to create non-password-authenticated co
 
 It is unwise to choose connection names that contain equal signs, as this opens a risk of confusion with connection info strings in other `dblink` functions.
 
-## Examples
+### Examples
 
 ```text
 SELECT dblink_connect('dbname=postgres options=-csearch_path=');

@@ -2,19 +2,19 @@
 
 UNLISTEN — 停止監聽通知
 
-## 語法
+### 語法
 
 ```text
 UNLISTEN { channel | * }
 ```
 
-## 說明
+### 說明
 
 UNLISTEN 用於移除現有已註冊的 NOTIFY 事件。UNLISTEN 取消目前 PostgreSQL 連線的任何現有註冊，名稱為 channel 的通知通道上的監聽器。特殊符號 \* 為取消目前連線已註冊的所有監聽器。
 
 [NOTIFY](notify.md) 包含了對 LISTEN 和 NOTIFY 使用上更廣泛的討論。
 
-## 參數
+### 參數
 
 _`channel`_
 
@@ -24,7 +24,7 @@ _`channel`_
 
 清除此連線目前已註冊的所有監聽。
 
-## 注意
+### 注意
 
 你可以取消你不要監聽的東西；不會出現警告或錯誤。
 
@@ -32,7 +32,7 @@ _`channel`_
 
 已執行 UNLISTEN 的事務無法為兩階段提交做準備。
 
-## 範例
+### 範例
 
 進行註冊：
 
@@ -50,11 +50,11 @@ NOTIFY virtual;
 -- no NOTIFY event is received
 ```
 
-## 相容性
+### 相容性
 
 SQL 標準中沒有 UNLISTEN 指令。
 
-## 參閱
+### 參閱
 
 [LISTEN](listen.md), [NOTIFY](notify.md)
 

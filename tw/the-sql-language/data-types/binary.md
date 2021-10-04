@@ -2,7 +2,7 @@
 
 bytea 資料型別允許儲存位元組字串；詳見 [Table 8.6](binary.md#table-8-6-binary-data-types)。
 
-### **Table 8.6. Binary Data Types**
+#### **Table 8.6. Binary Data Types**
 
 | Name | Storage Size | Description |
 | :--- | :--- | :--- |
@@ -30,7 +30,7 @@ SELECT E'\\xDEADBEEF';
 
 以轉譯格式輸入 bytea 值時，必須轉譯某些值的位元組，也同時可以轉譯所有位元組值。通常，要轉譯位元組，請將其轉換為三位數的八進位值，並在其前面加一個倒斜線（或兩個倒斜線，如果要使用轉譯字串語法將值寫為文字的話）。倒斜線本身（位元組 92）也可以用雙倒斜線表示。[Table 8.7](binary.md#table-8-7-bytea-literal-escaped-octets) 列出了必須轉譯的字元，並在適合的情況下提供了備用轉譯序列。
 
-### **Table 8.7. `bytea` Literal Escaped Octets**
+#### **Table 8.7. `bytea` Literal Escaped Octets**
 
 | Decimal Octet Value | Description | Escaped Input Representation | Example | Output Representation |
 | :--- | :--- | :--- | :--- | :--- |
@@ -41,11 +41,11 @@ SELECT E'\\xDEADBEEF';
 
 轉譯不可列印的位元組的要求因區域設定而異。在某些情況下，你可以放棄他們而不轉譯。請注意，即使看起來有時多於一個字符，[Table 8.7](binary.md#table-8-7-bytea-literal-escaped-octets) 中每個範例的結果也只有一個位元組。
 
-如 Table 8.7 所示，需要多個倒斜線的原因是，作為字串文字編輯的輸入字串必須通過 PostgreSQL 伺服器中的兩個解析階段。每組的第一個倒斜線以字串文字解析器解釋為轉譯字元（假設使用了轉譯字串語法）並因此被消耗，留下該組的第二個倒斜線。（錢字號引用的字串可用於避免此轉譯程序。）然後，bytea 輸入函數將剩餘的倒斜線識別從三位數八進位值開始或轉譯另一個倒斜線。例如，在通過轉譯字串解析器後，作為 E' 001' 傳遞給伺服器的字串文字變為 \001。然後將 \001 發送到 bytea 輸入函數，在該函數中將其轉換為十進制值為 1 的單個位元組。請注意，單引號字元不受 bytea 特殊處理，因此它遵循字串文字的一般規則。（另詳見[第 4.1.2.1 節](../sql-syntax/lexical-structure.md#4-1-2-1-zi-chuan-chang)。）
+如 Table 8.7 所示，需要多個倒斜線的原因是，作為字串文字編輯的輸入字串必須通過 PostgreSQL 伺服器中的兩個解析階段。每組的第一個倒斜線以字串文字解析器解釋為轉譯字元（假設使用了轉譯字串語法）並因此被消耗，留下該組的第二個倒斜線。（錢字號引用的字串可用於避免此轉譯程序。）然後，bytea 輸入函數將剩餘的倒斜線識別從三位數八進位值開始或轉譯另一個倒斜線。例如，在通過轉譯字串解析器後，作為 E'\ 001' 傳遞給伺服器的字串文字變為 \001。然後將 \001 發送到 bytea 輸入函數，在該函數中將其轉換為十進制值為 1 的單個位元組。請注意，單引號字元不受 bytea 特殊處理，因此它遵循字串文字的一般規則。（另詳見[第 4.1.2.1 節](../sql-syntax/lexical-structure.md#4-1-2-1-zi-chuan-chang)。）
 
 bytea 位元組有時在輸出時被轉義。通常，每個「不可列印」的位元組都會轉換為等效的三位數八進位值，並以一個倒斜線開頭。大多數「可列印」位元組由它們在用戶端字元集中的標準來表示。十進位值為 92（倒斜線）的位元組在輸出中會加倍。詳情見 [Table 8.8](binary.md#table-8-8-bytea-output-escaped-octets)。
 
-### **Table 8.8. `bytea` Output Escaped Octets**
+#### **Table 8.8. `bytea` Output Escaped Octets**
 
 | Decimal Octet Value | Description | Escaped Output Representation | Example | Output Result |
 | :--- | :--- | :--- | :--- | :--- |

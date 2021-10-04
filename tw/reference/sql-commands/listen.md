@@ -2,13 +2,13 @@
 
 LISTEN — 監聽某個通知
 
-## 語法
+### 語法
 
 ```text
 LISTEN channel
 ```
 
-## 說明
+### 說明
 
 LISTEN 將目前連線註冊為名為 channel 的通知通道上的監聽器。如果目前連線已註冊為此通知通道的監聽器，則不執行任何操作。
 
@@ -20,19 +20,19 @@ LISTEN 將目前連線註冊為名為 channel 的通知通道上的監聽器。�
 
 [NOTIFY](notify.md) 包含對 LISTEN 及 NOTIFY 使用的更廣泛討論。
 
-## 參數
+### 參數
 
 _`channel`_
 
 通知通道的名稱（任何識別指標）。
 
-## 注意
+### 注意
 
 LISTEN 在事務提交時生效。如果在稍後回復的事務中執行 LISTEN 或 UNLISTEN，則正在監聽的通知通道也不會改變。
 
 已執行 LISTEN 的事務無法為兩階段提交做 prepared。
 
-## 範例
+### 範例
 
 從 psql 配置並執行 listen / notify 指令：
 
@@ -42,11 +42,11 @@ NOTIFY virtual;
 Asynchronous notification "virtual" received from server process with PID 8448.
 ```
 
-## 相容性
+### 相容性
 
 SQL 標準中沒有 LISTEN 語句。
 
-## 參閱
+### 參閱
 
 [NOTIFY](notify.md), [UNLISTEN](unlisten.md)
 

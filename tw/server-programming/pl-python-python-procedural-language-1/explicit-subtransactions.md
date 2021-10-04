@@ -69,7 +69,7 @@ plpy.execute(plan, [result])
 $$ LANGUAGE plpythonu;
 ```
 
-### Note
+#### Note
 
 Although context managers were implemented in Python 2.5, to use the `with` syntax in that version you need to use a [future statement](https://docs.python.org/release/2.5/ref/future.html). Because of implementation details, however, you cannot use future statements in PL/Python functions.
 

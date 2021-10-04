@@ -15,7 +15,7 @@ The parser is defined in the file `gram.y` and consists of a set of _grammar rul
 
 The file `scan.l` is transformed to the C source file `scan.c` using the program flex and `gram.y` is transformed to `gram.c` using bison. After these transformations have taken place a normal C compiler can be used to create the parser. Never make any changes to the generated C files as they will be overwritten the next time flex or bison is called.
 
-### Note
+#### Note
 
 The mentioned transformations and compilations are normally done automatically using the _makefiles_ shipped with the PostgreSQL source distribution.
 
@@ -27,5 +27,6 @@ The parser stage creates a parse tree using only fixed rules about the syntactic
 
 The reason for separating raw parsing from semantic analysis is that system catalog lookups can only be done within a transaction, and we do not wish to start a transaction immediately upon receiving a query string. The raw parsing stage is sufficient to identify the transaction control commands \(`BEGIN`, `ROLLBACK`, etc\), and these can then be correctly executed without any further analysis. Once we know that we are dealing with an actual query \(such as `SELECT` or `UPDATE`\), it is okay to start a transaction if we're not already in one. Only then can the transformation process be invoked.
 
-The query tree created by the transformation process is structurally similar to the raw parse tree in most places, but it has many differences in detail. For example, a `FuncCall` node in the parse tree represents something that looks syntactically like a function call. This might be transformed to either a `FuncExpr` or `Aggref` node depending on whether the referenced name turns out to be an ordinary function or an aggregate function. Also, information about the actual data types of columns and expression results is added to the query tree.
+The query tree created by the transformation process is structurally similar to the raw parse tree in most places, but it has many differences in detail. For example, a `FuncCall` node in the parse tree represents something that looks syntactically like a function call. This might be transformed to either a `FuncExpr` or `Aggref` node depending on whether the referenced name turns out to be an ordinary function or an aggregate function. Also, information about the actual data types of columns and expression results is added to the query tree.  
+
 

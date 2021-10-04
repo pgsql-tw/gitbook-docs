@@ -1,4 +1,4 @@
 # V. 資料庫程式設計
 
-This part is about extending the server functionality with user-defined functions, data types, triggers, etc. These are advanced topics which should probably be approached only after all the other user documentation about PostgreSQL has been understood. Later chapters in this part describe the server-side programming languages available in the PostgreSQL distribution as well as general issues concerning server-side programming languages. It is essential to read at least the earlier sections of [Chapter 37](https://www.postgresql.org/docs/10/static/extend.html) \(covering functions\) before diving into the material about server-side programming languages.
+這部分是關於使用使用者定義的函數、資料型別、觸發器等延伸資料庫功能。這些是進階的主題，只有在理解了有關 PostgreSQL 的所有其他使用文件之後，才適合閱讀這些進階主題。本部分後面的章節描述了 PostgreSQL 發行版中可用的伺服器程序語言，以及有關伺服器程序語言的常見問題。在深入研究伺服器程序語言之前，至少必須閱讀[第 37 章](extending-sql/)的部分（函數介紹）。
 

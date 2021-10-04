@@ -2,7 +2,7 @@
 
 此檢視表 schemata 包含目前資料庫中目前使用者有權限存取的所有 schema（透過成為擁有者或具有某些權限）。
 
-## **Table 36.40. `schemata` Columns**
+#### **Table 36.40. `schemata` Columns**
 
 | Name | Data Type | Description |
 | :--- | :--- | :--- |

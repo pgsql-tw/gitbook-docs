@@ -2,7 +2,7 @@
 
 COMMENT — 定義或變更物件的註解
 
-## 語法
+### 語法
 
 ```text
 COMMENT ON
@@ -57,7 +57,7 @@ where aggregate_signature is:
 [ [ argmode ] [ argname ] argtype [ , ... ] ] ORDER BY [ argmode ] [ argname ] argtype [ , ... ]
 ```
 
-## 說明
+### 說明
 
 COMMENT 儲存有關資料庫物件的註解。
 
@@ -67,7 +67,7 @@ COMMENT 儲存有關資料庫物件的註解。
 
 可以使用psql的 \d 系列指令查看註解。其他使用者界面要檢索註解的話，可以使用 psql 相同內建函數的建置，即 obj\_description，col\_description 和 shobj\_description（請參閱[表格 9.68](../../the-sql-language/functions-and-operators/system-information-functions.md#table-9-68-comment-information-functions)）。
 
-## 參數
+### 參數
 
 _`object_name`_  
 _`relation_name`_._`column_name`_  
@@ -131,11 +131,11 @@ _`text`_
 
 新的註解，寫成字串文字；或 NULL 以刪除註解。
 
-## 注意
+### 注意
 
 目前並沒有用於查看註解的安全機制：連線到資料庫的任何使用者可以看到該資料庫中的所有物件註解。對於資料庫而言，角色和資料表空間等共享物件，註解將以全域儲存，因此連線到叢集中任何資料庫的任何使用者都可以看到共享物件的所有註解。因此，請勿將安全關鍵訊息置於註解中。
 
-## 範例
+### 範例
 
 對資料表 mytable 加上註解：
 
@@ -193,7 +193,7 @@ COMMENT ON TYPE complex IS 'Complex number data type';
 COMMENT ON VIEW my_view IS 'View of departmental costs';
 ```
 
-## 相容性
+### 相容性
 
 SQL 標準中並沒有 COMMENT 指令。
 

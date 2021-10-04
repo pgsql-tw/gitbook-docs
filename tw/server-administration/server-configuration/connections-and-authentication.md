@@ -2,27 +2,27 @@
 
 ## 19.3.1. 連線設定
 
-`listen_addresses` \(`string`\)
+#### `listen_addresses` \(`string`\)
 
 指定伺服器監聽用戶端應用程序連線的 TCP/IP 位址。該值採用逗號分隔的主機名稱或數字 IP 位址列表的形式。特殊項目「\*」對應於所有可用的 IP。項目 0.0.0.0 允許監聽所有 IPv4 位址，還有「::」允許監聽所有 IPv6 位址。如果列表為空，則伺服器根本不監聽任何 IP 接口，在這種情況下，就只能使用 Unix-domain socket 來連接它。預設值是 localhost，它只允許進行本地 TCP/IP loopback 連線。儘管用戶端身份驗證（[第 20 章](../client-authentication/)）允許對誰可以存取伺服器進行細維的控制，但 listen\_addresses 控制哪些 IP 接受連線嘗試，這有助於防止在不安全的網路接口上重複發出惡意的連線請求。此參數只能在伺服器啟動時設定。
 
-`port` \(`integer`\)
+#### `port` \(`integer`\)
 
 伺服器監聽的 TCP 連接埠；預設是 5432。請注意，相同的連接埠號號用於伺服器監聽的所有 IP 地址。此參數只能在伺服器啟動時設定。
 
-`max_connections` \(`integer`\)
+#### `max_connections` \(`integer`\)
 
 決定資料庫伺服器的最大同時連線數。預設值通常為 100 個連線，但如果您的核心設定不支援它（在 initdb 期間確定），則可能會更少。該參數只能在伺服器啟動時設定。
 
 運行備用伺服器時，必須將此參數設定為與主服務器上相同或更高的值。 否則，查詢將不被允許在備用伺服器中使用。
 
-`superuser_reserved_connections` \(`integer`\)
+#### `superuser_reserved_connections` \(`integer`\)
 
 決定為 PostgreSQL 超級使用者連線保留的連線「插槽」的數量。最多 max\_connections 連線可以同時活動。當活動同時連線的數量為 max\_connections 減去 superuser\_reserved\_connections 以上時，新連線將僅接受超級使用者，並且不會接受新的複寫作業連線。
 
 預設值是三個連線。該值必須小於 max\_connections 的值。此參數只能在伺服器啟動時設定。
 
-`unix_socket_directories` \(`string`\)
+#### `unix_socket_directories` \(`string`\)
 
 指定伺服器要監聽來自用戶端應用程序以 Unix-domain socket 連線的目錄。列出由逗號分隔的多個目錄可以建立多個 socket。項目之間的空白會被忽略；如果您需要在名稱中包含空格或逗號，請用雙引號括住目錄名稱。空值表示不監聽任何 Unix-domain socket，在這種情況下，只有 TCP/IP 協定可用於連線到服務器。預設值通常是 /tmp，但可以在編譯時變更。此參數只能在伺服器啟動時設定。
 
@@ -60,7 +60,7 @@
 
 指定 TCP 在發送 Keepalive 訊息給用戶端之後保持連線的秒數。值為 0 時使用系統預設值。此參數僅在支援 TCP\_KEEPIDLE 或等效網路選項的系統上以及在 Windows 上受到支援；在其他系統上，它必須是零。在透過 Unix-domain socket 的連線中，該參數將被忽略並始終為零。
 
-### 注意
+#### 注意
 
 在 Windows 上，值為 0 會將此參數設定為2小時，因為 Windows 不提供讀取系統預設值的方法。
 
@@ -68,7 +68,7 @@
 
 指定用戶端未回應的 TCP 保持活動訊息應重新傳輸的秒數。值為 0 時使用系統預設值。此參數僅在支援 TCP\_KEEPINTVL 或等效網路選項的系統上以及在 Windows 上受到支援；在其他系統上，它必須是零。在透過 Unix-domain socket 的連線中，此參數將被忽略並始終為零。
 
-### 注意
+#### 注意
 
 在 Windows 上，值為 0 會將此參數設定為 1 秒，因為 Windows 不提供讀取系統預設值的方法。
 
@@ -76,15 +76,21 @@
 
 指定在伺服器連線到用戶端之前可能已經失去的 TCP 保持連線的數量。值為 0 時使用系統預設值。此參數僅在支援 TCP\_KEEPCNT 或等效網路選項的系統上受到支持；在其他系統上，它必須是零。在透過 Unix-domain socket 的連線中，此參數將被忽略並始終為零。
 
-### 注意
+#### 注意
 
 此參數在 Windows 上不支援，並且必須為零。
 
 ## 19.3.2. 安全性與認證
 
-`authentication_timeout` \(`integer`\)
+#### `authentication_timeout` \(`integer`\)
 
 以秒為單位設定用戶端身份驗證的最長時間。如果可能的用戶端在這段時間內還沒有完成認證協議，伺服器將會關閉連線。這可以防止掛起的用戶端無限期地佔用連線。預設值是一分鐘。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
+
+#### `password_encryption` \(`enum`\)
+
+在 [CREATE ROLE](../../reference/sql-commands/create-role.md) 或 [ALTER ROLE](../../reference/sql-commands/alter-role.md) 中指定了密碼後，此參數確定用於加密密碼的演算法。預設值為 md5，它將密碼儲存為 MD5 雜湊值（也可以使用 on，作為 md5 的別名）。將此參數設定為 scram-sha-256 將使用 SCRAM-SHA-256 來加密密碼。
+
+請注意，較舊的用戶端程式可能會缺乏對 SCRAM 身份驗證機制的支援，因此不適用於使用 SCRAM-SHA-256 加密的密碼。有關更多詳細資訊，請參閱 [20.5 節](../client-authentication/password-authentication.md)。
 
 `ssl` \(`boolean`\)
 
@@ -176,7 +182,7 @@ HIGH 的 OpenSSL 預設順序有問題，因為它的 3DES 高於 AES128。這�
 
 db\_user\_namespace 會導致用戶端和伺服器的使用者名稱表示方式不同。身份驗證檢查始終使用伺服器的使用者名稱完成，因此必須為伺服器的使用者名稱配置身份驗證方法，而不是用戶端。而 md5 在用戶端和伺服器上均使用使用者名稱作為 salt，所以 md5 不能與 db\_user\_namespace 一起使用。
 
-### 注意
+#### 注意
 
 此功能是一種臨時措施，到找到完整的解決方案的時候，這個選項將被刪除。
 
@@ -196,7 +202,7 @@ Specifies the name of the file containing the SSL server certificate authority \
 
 Specifies the name of the file containing the SSL server certificate. Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `server.crt`.
 
-\(`string`\)
+ \(`string`\)
 
 Specifies the name of the file containing the SSL server certificate revocation list \(CRL\). Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is empty, meaning no CRL file is loaded.
 

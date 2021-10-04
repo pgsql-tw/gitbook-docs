@@ -2,11 +2,11 @@
 
 postgres — PostgreSQL database server
 
-## Synopsis
+### Synopsis
 
 `postgres` \[_`option`_...\]
 
-## Description
+### Description
 
 `postgres` is the PostgreSQL database server. In order for a client application to access a database it connects \(over a network or locally\) to a running `postgres` instance. The `postgres`instance then starts a separate server process to handle the connection.
 
@@ -16,11 +16,11 @@ By default `postgres` starts in the foreground and prints log messages to the st
 
 The `postgres` command can also be called in single-user mode. The primary use for this mode is during bootstrapping by [initdb](https://www.postgresql.org/docs/10/static/app-initdb.html). Sometimes it is used for debugging or disaster recovery; note that running a single-user server is not truly suitable for debugging the server, since no realistic interprocess communication and locking will happen. When invoked in single-user mode from the shell, the user can enter queries and the results will be printed to the screen, but in a form that is more useful for developers than end users. In the single-user mode, the session user will be set to the user with ID 1, and implicit superuser powers are granted to this user. This user does not actually have to exist, so the single-user mode can be used to manually recover from certain kinds of accidental damage to the system catalogs.
 
-## Options
+### Options
 
 `postgres` accepts the following command-line arguments. For a detailed discussion of the options consult [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html). You can save typing most of these options by setting up a configuration file. Some \(safe\) options can also be set from the connecting client in an application-dependent way to apply only for that session. For example, if the environment variable `PGOPTIONS` is set, then libpq-based clients will pass that string to the server, which will interpret it as `postgres` command-line options.
 
-### General Purpose
+#### General Purpose
 
 `-B` _`nbuffers`_
 
@@ -112,7 +112,7 @@ This option dumps out the server's internal configuration variables, description
 
 Show help about postgres command line arguments, and exit.
 
-### Semi-internal Options
+#### Semi-internal Options
 
 The options described here are used mainly for debugging purposes, and in some cases to assist with recovery of severely damaged databases. There should be no reason to use them in a production database setup. They are listed here only for use by PostgreSQL system developers. Furthermore, these options might change or be removed in a future release without notice.
 
@@ -148,7 +148,7 @@ Specifies the version number of the frontend/backend protocol to be used for a p
 
 A delay of this many seconds occurs when a new server process is started, after it conducts the authentication procedure. This is intended to give an opportunity to attach to the server process with a debugger.
 
-### Options for Single-User Mode
+#### Options for Single-User Mode
 
 The following options only apply to the single-user mode \(see [Single-User Mode](https://www.postgresql.org/docs/10/static/app-postgres.html#APP-POSTGRES-SINGLE-USER)\).
 
@@ -172,7 +172,7 @@ Use semicolon followed by two newlines, rather than just newline, as the command
 
 Send all server log output to _`filename`_. This option is only honored when supplied as a command-line option.
 
-## Environment
+### Environment
 
 `PGCLIENTENCODING`
 
@@ -190,7 +190,7 @@ Default value of the [DateStyle](https://www.postgresql.org/docs/10/static/runti
 
 Default port number \(preferably set in the configuration file\)
 
-## Diagnostics
+### Diagnostics
 
 A failure message mentioning `semget` or `shmget` probably indicates you need to configure your kernel to provide adequate shared memory and semaphores. For more discussion see [Section 18.4](https://www.postgresql.org/docs/10/static/kernel-resources.html). You might be able to postpone reconfiguring your kernel by decreasing [shared\_buffers](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-SHARED-BUFFERS) to reduce the shared memory consumption of PostgreSQL, and/or by reducing [max\_connections](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS) to reduce the semaphore consumption.
 
@@ -210,7 +210,7 @@ depending on your system. If you are certain that no conflicting server is runni
 
 A failure message indicating inability to bind to a port might indicate that that port is already in use by some non-PostgreSQL process. You might also get this error if you terminate `postgres` and immediately restart it using the same port; in this case, you must simply wait a few seconds until the operating system closes the port before trying again. Finally, you might get this error if you specify a port number that your operating system considers to be reserved. For example, many versions of Unix consider port numbers under 1024 to be “trusted” and only permit the Unix superuser to access them.
 
-## Notes
+### Notes
 
 The utility command [pg\_ctl](https://www.postgresql.org/docs/10/static/app-pg-ctl.html) can be used to start and shut down the `postgres` server safely and comfortably.
 
@@ -224,11 +224,11 @@ To cancel a running query, send the `SIGINT` signal to the process running that 
 
 The `postgres` server uses `SIGQUIT` to tell subordinate server processes to terminate without normal cleanup. This signal _should not_ be used by users. It is also unwise to send `SIGKILL`to a server process — the main `postgres` process will interpret this as a crash and will force all the sibling processes to quit as part of its standard crash-recovery procedure.
 
-## Bugs
+### Bugs
 
 The `--` options will not work on FreeBSD or OpenBSD. Use `-c` instead. This is a bug in the affected operating systems; a future release of PostgreSQL will provide a workaround if this is not fixed.
 
-## Single-User Mode
+### Single-User Mode
 
 To start a single-user mode server, use a command like
 
@@ -248,7 +248,7 @@ To quit the session, type EOF \(**Control**+**D**, usually\). If you've entered 
 
 Note that the single-user mode server does not provide sophisticated line-editing features \(no command history, for example\). Single-user mode also does not do any background processing, such as automatic checkpoints or replication.
 
-## Examples
+### Examples
 
 To start `postgres` in the background using default values, type:
 
@@ -284,7 +284,8 @@ $ postgres --work-mem=1234
 
 Either form overrides whatever setting might exist for `work_mem` in `postgresql.conf`. Notice that underscores in parameter names can be written as either underscore or dash on the command line. Except for short-term experiments, it's probably better practice to edit the setting in `postgresql.conf` than to rely on a command-line switch to set a parameter.
 
-## See Also
+### See Also
 
-[initdb](https://www.postgresql.org/docs/10/static/app-initdb.html), [pg\_ctl](https://www.postgresql.org/docs/10/static/app-pg-ctl.html)
+[initdb](https://www.postgresql.org/docs/10/static/app-initdb.html), [pg\_ctl](https://www.postgresql.org/docs/10/static/app-pg-ctl.html)  
+
 

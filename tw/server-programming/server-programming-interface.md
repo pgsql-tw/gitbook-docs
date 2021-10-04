@@ -1,4 +1,4 @@
-# 47. Server Programming Interface
+# 46. Server Programming Interface
 
 The _Server Programming Interface_ \(SPI\) gives writers of user-defined C functions the ability to run SQL commands inside their functions. SPI is a set of interface functions to simplify access to the parser, planner, and executor. SPI also does some memory management.
 

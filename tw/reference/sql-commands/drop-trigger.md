@@ -2,17 +2,17 @@
 
 DROP TRIGGER — remove a trigger
 
-## Synopsis
+### Synopsis
 
 ```text
 DROP TRIGGER [ IF EXISTS ] name ON table_name [ CASCADE | RESTRICT ]
 ```
 
-## Description
+### Description
 
 `DROP TRIGGER` removes an existing trigger definition. To execute this command, the current user must be the owner of the table for which the trigger is defined.
 
-## Parameters
+### Parameters
 
 `IF EXISTS`
 
@@ -26,7 +26,7 @@ Automatically drop objects that depend on the trigger, and in turn all objects t
 
 Refuse to drop the trigger if any objects depend on it. This is the default.
 
-## Examples
+### Examples
 
 Destroy the trigger `if_dist_exists` on the table `films`:
 
@@ -34,11 +34,11 @@ Destroy the trigger `if_dist_exists` on the table `films`:
 DROP TRIGGER if_dist_exists ON films;
 ```
 
-## Compatibility
+### Compatibility
 
 The `DROP TRIGGER` statement in PostgreSQL is incompatible with the SQL standard. In the SQL standard, trigger names are not local to tables, so the command is simply `DROP TRIGGER` _`name`_.
 
-## See Also
+### See Also
 
 [CREATE TRIGGER](https://www.postgresql.org/docs/10/static/sql-createtrigger.html)
 

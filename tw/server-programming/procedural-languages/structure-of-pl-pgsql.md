@@ -23,7 +23,7 @@ END [ label ];
 
 Each declaration and each statement within a block is terminated by a semicolon. A block that appears within another block must have a semicolon after `END`, as shown above; however the final `END` that concludes a function body does not require a semicolon.
 
-## Tip
+#### Tip
 
 A common mistake is to write a semicolon immediately after `BEGIN`. This is incorrect and will result in a syntax error.
 
@@ -60,7 +60,7 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-## Note
+#### Note
 
 There is actually a hidden “outer block” surrounding the body of any PL/pgSQL function. This block provides the declarations of the function's parameters \(if any\), as well as some special variables such as `FOUND` \(see [Section 42.5.5](https://www.postgresql.org/docs/12/plpgsql-statements.html#PLPGSQL-STATEMENTS-DIAGNOSTICS)\). The outer block is labeled with the function's name, meaning that parameters and special variables can be qualified with the function's name.
 

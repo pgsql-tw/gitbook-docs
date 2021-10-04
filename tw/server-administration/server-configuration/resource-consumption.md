@@ -38,29 +38,35 @@
 
 指定寫入暫存檔之前內部排序操作和雜湊表使用的記憶體大小。此值預設為 4 MB。請注意，對於複雜的查詢，可能會同時執行多個排序或雜湊作業；在開始將資料寫入暫存檔之前，每個操作都將被允許盡可能使用記憶體。此外，多個連線可以同時進行這些操作。因此，所使用的總記憶體量可能是 work\_mem 值的許多倍；決定值時必須牢記此一事實。排序操作用於 ORDER BY，DISTINCT 和 merge JOIN。雜湊表用於 hash JOIN，hash aggregation 和 IN 子查詢處理。
 
+`hash_mem_multiplier` \(`floating point`\)
+
+Used to compute the maximum amount of memory that hash-based operations can use. The final limit is determined by multiplying `work_mem` by `hash_mem_multiplier`. The default value is 1.0, which makes hash-based operations subject to the same simple `work_mem` maximum as sort-based operations.
+
+Consider increasing `hash_mem_multiplier` in environments where spilling by query operations is a regular occurrence, especially when simply increasing `work_mem` results in memory pressure \(memory pressure typically takes the form of intermittent out of memory errors\). A setting of 1.5 or 2.0 may be effective with mixed workloads. Higher settings in the range of 2.0 - 8.0 or more may be effective in environments where `work_mem` has already been increased to 40MB or more.
+
 `maintenance_work_mem` \(`integer`\)
 
 指定維護操作要使用的最大記憶體大小，例如 VACUUM，CREATE INDEX 和ALTER TABLE ADD FOREIGN KEY。預設為 64 MB。由於資料庫連線一次只能執行其中一個操作，不會有多個同時運行，因此將此值設定為遠大於 work\_mem 是安全的。較大的設定可能會提高清理和恢復資料庫回復的效能。
 
 請注意，當 autovacuum 運行時，最多可以分配 [autovacuum\_max\_workers](automatic-vacuuming.md) 倍的記憶體，因此請注意不要將預設值設定得太高。透過單獨設定 [autovacuum\_work\_mem](resource-consumption.md#19-4-1) 來控制它會有幫助。
 
-`replacement_sort_tuples` \(`integer`\)
-
-當要排序的 tuple 數小於此數時，排序將使用 replacement selection 而不是以 quicksort 産生其第一個輸出，這在記憶體受限的環境中可能很有用。在這種環境中，輸入到較大排序操作的 tuple 具有強大的物理到邏輯關連。請注意，這不包括具有反相關的輸入 tuple。替換選擇算法有可能産生一個不需要合併的長查詢，其中使用預設策略將導致必須合併以產生最終排序輸出的許多輸出資料列。這能更快地完成排序操作。
-
-預設值為 150,000 個 tuple。請注意，較高的值通常不會更有效，並且可能適得其反，因為優先佇列對可用 CPU 緩衝區的大小很敏感，而預設策略使用快取的 oblivious algorithm 運行。此屬性允許預設排序策略自動且透明地有效使用可用的CPU 緩衝區。
-
-將 maintenance\_work\_mem 設定為其預設值通常會防止工具程序命令的外部排序（例如，CREATE INDEX 用於建構 B-tree 索引的排序）使用選擇排序法，除非輸入tuple 非常大。
-
 `autovacuum_work_mem` \(`integer`\)
 
 指定每個 autovacuum 工作程序使用的最大記憶體。它預設為 -1，表示應該使用 [maintenance\_work\_mem](resource-consumption.md#19-4-1) 的值。以其他方式執行時，此設定對 VACUUM 的行為沒有影響。
+
+`logical_decoding_work_mem` \(`integer`\)
+
+Specifies the maximum amount of memory to be used by logical decoding, before some of the decoded changes are written to local disk. This limits the amount of memory used by logical streaming replication connections. It defaults to 64 megabytes \(`64MB`\). Since each replication connection only uses a single buffer of this size, and an installation normally doesn't have many such connections concurrently \(as limited by `max_wal_senders`\), it's safe to set this value significantly higher than `work_mem`, reducing the amount of decoded changes written to disk.
 
 `max_stack_depth` \(`integer`\)
 
 指定伺服器工作堆疊的最大安全深度。此參數的理想設定是核心強制執行的實際堆疊大小限制（由 ulimit -s 或其他等效設定），減去 1 MB 左右的安全範圍。需要安全額度，因為在伺服器的每個程序中都不會檢查堆疊深度，而是僅在關鍵的潛在遞迴程序（例如表示式求值）中檢查。預設設定是 2 MB，這是保守地小，不太可能冒崩潰的風險。但是，它可能太小而無法執行複雜的功能。只有超級使用者才能變更此設定。
 
 將 max\_stack\_depth 設定為高於實際核心限制將意味著失控的遞迴函數可能導致單個後端程序崩潰。在 PostgreSQL 可以確定核心限制的平台上，伺服器不允許將此變數設定為不安全的值。但是，並非所有平台都有提供資訊，因此建議在選擇值時要小心。
+
+`shared_memory_type` \(`enum`\)
+
+Specifies the shared memory implementation that the server should use for the main shared memory region that holds PostgreSQL's shared buffers and other shared data. Possible values are `mmap` \(for anonymous shared memory allocated using `mmap`\), `sysv` \(for System V shared memory allocated via `shmget`\) and `windows` \(for Windows shared memory\). Not all values are supported on all platforms; the first supported option is the default for that platform. The use of the `sysv` option, which is not the default on any platform, is generally discouraged because it typically requires non-default kernel settings to allow for large allocations \(see [Section 18.4.1](https://www.postgresql.org/docs/13/kernel-resources.html#SYSVIPC)\).
 
 `dynamic_shared_memory_type` \(`enum`\)
 
@@ -112,7 +118,7 @@
 
 ### 注意
 
-某些操作可能會持有關鍵的鎖定，因此應盡快完成。在此類操作期間不會發生成本考量的清理延遲。因此，成本可能會遠遠高於指定的限制。為了避免在這種情況下無意義的長延遲，實際延遲計算為 vacuum\_cost\_delay _\_\* cumulative\_balance / vacuum\_cost\_limit，最大為 vacuum\_cost\_delay _\*\_ 4。
+某些操作可能會持有關鍵的鎖定，因此應盡快完成。在此類操作期間不會發生成本考量的清理延遲。因此，成本可能會遠遠高於指定的限制。為了避免在這種情況下無意義的長延遲，實際延遲計算為 vacuum\_cost\_delay _\_\* cumulative\_balance / vacuum\_cost\_limit，最大為 vacuum\_cost\_delay_ \*\_ 4。
 
 ## 19.4.5. 背景寫入程序
 
@@ -138,7 +144,7 @@ bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減�
 
 ## 19.4.6. 非同步作業
 
-`effective_io_concurrency` \(`integer`\)
+#### `effective_io_concurrency` \(`integer`\)
 
 設定 PostgreSQL 期望可以同時執行的磁碟 I/O 操作數。提高此值將增加任何單個 PostgreSQL 連線嘗試同時啟動的 I/O 操作數。允許的範圍是 1 到 1000，或者為零以停用非同步 I/O 要求的使用。目前，此設定僅影響 bitmap heap 掃描。
 
@@ -148,7 +154,13 @@ bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減�
 
 在受支援的系統上預設值為 1，否則為 0。透過設定同名的 tablespace 參數，可以為特定資料表空間中的資料表覆寫此值（請參閱 [ALTER TABLESPACE](../../reference/sql-commands/alter-tablespace.md)）。
 
-`max_worker_processes` \(`integer`\)
+#### `maintenance_io_concurrency` \(`integer`\)
+
+Similar to `effective_io_concurrency`, but used for maintenance work that is done on behalf of many client sessions.
+
+The default is 10 on supported systems, otherwise 0. This value can be overridden for tables in a particular tablespace by setting the tablespace parameter of the same name \(see [ALTER TABLESPACE](https://www.postgresql.org/docs/13/sql-altertablespace.html)\).
+
+#### `max_worker_processes` \(`integer`\)
 
 設定系統可以支援的最大背景程序數量。此參數只能在伺服器啟動時設定。預定值為 8。
 
@@ -156,13 +168,19 @@ bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減�
 
 變更此值時，請考慮同步調整 max\_parallel\_workers 和 max\_parallel\_workers\_per\_gather。
 
-`max_parallel_workers_per_gather` \(`integer`\)
+#### `max_parallel_workers_per_gather` \(`integer`\)
 
 設定單個 Gather 或 Gather Merge 節點可以啟動的最大工作程序數量。同時工作程序取自 max\_worker\_processes 建立的程序池，由 max\_parallel\_workers 限制。請注意，請求的工作程序數量在執行時可能實際上不可用。如果發生這種情況，計劃將以比預期更少的工作程序運行，這可能是低效能的。預設值為 2。將此值設定為 0 將停用平行查詢執行。
 
 請注意，平行查詢可能比非平行查詢消耗的資源要多得多，因為每個工作程序都是一個完全獨立的程序，與其他使用者連線對系統的影響大致相同。在為此設定選擇值時，以及在配置控制資源利用率的其他設定（例如work\_mem）時，應考慮這一點。 諸如 work\_mem 之類的資源限制被單獨應用於每個工作程序，這意味著所有程序的總利用率可能比通常用於任何單個程序的總利用率高得多。例如，使用 4 個工作程序的平行查詢可能會使用高達 5 倍的 CPU 時間、記憶體、I/O 頻寬等作為根本不使用工作程序的查詢。
 
 有關平行查詢的更多訊息，請參閱[第 15 章](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/the-sql-language/15.-ping-hang-cha-xun)。
+
+#### `max_parallel_maintenance_workers` \(`integer`\)
+
+Sets the maximum number of parallel workers that can be started by a single utility command. Currently, the parallel utility commands that support the use of parallel workers are `CREATE INDEX` only when building a B-tree index, and `VACUUM` without `FULL` option. Parallel workers are taken from the pool of processes established by [max\_worker\_processes](https://www.postgresql.org/docs/13/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES), limited by [max\_parallel\_workers](https://www.postgresql.org/docs/13/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS). Note that the requested number of workers may not actually be available at run time. If this occurs, the utility operation will run with fewer workers than expected. The default value is 2. Setting this value to 0 disables the use of parallel workers by utility commands.
+
+Note that parallel utility commands should not consume substantially more memory than equivalent non-parallel operations. This strategy differs from that of parallel query, where resource limits generally apply per worker process. Parallel utility commands treat the resource limit `maintenance_work_mem` as a limit to be applied to the entire utility command, regardless of the number of parallel worker processes. However, parallel utility commands may still consume substantially more CPU resources and I/O bandwidth.
 
 `max_parallel_workers` \(`integer`\)
 

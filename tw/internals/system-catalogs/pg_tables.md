@@ -2,7 +2,7 @@
 
 The view `pg_tables` provides access to useful information about each table in the database.
 
-## **Table 51.91. `pg_tables` Columns**
+#### **Table 51.91. `pg_tables` Columns**
 
 | Name | Type | References | Description |
 | :--- | :--- | :--- | :--- |

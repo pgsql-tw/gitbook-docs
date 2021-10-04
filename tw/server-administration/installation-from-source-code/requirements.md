@@ -38,5 +38,6 @@ If you are building from a Git tree instead of using a released source package, 
 
 If you need to get a GNU package, you can find it at your local GNU mirror site \(see [http://www.gnu.org/order/ftp.html](http://www.gnu.org/order/ftp.html) for a list\) or at [ftp://ftp.gnu.org/gnu/](ftp://ftp.gnu.org/gnu/).
 
-Also check that you have sufficient disk space. You will need about 100 MB for the source tree during compilation and about 20 MB for the installation directory. An empty database cluster takes about 35 MB; databases take about five times the amount of space that a flat text file with the same data would take. If you are going to run the regression tests you will temporarily need up to an extra 150 MB. Use the `df` command to check free disk space.
+Also check that you have sufficient disk space. You will need about 100 MB for the source tree during compilation and about 20 MB for the installation directory. An empty database cluster takes about 35 MB; databases take about five times the amount of space that a flat text file with the same data would take. If you are going to run the regression tests you will temporarily need up to an extra 150 MB. Use the `df` command to check free disk space.  
+
 

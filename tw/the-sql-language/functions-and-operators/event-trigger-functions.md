@@ -1,10 +1,14 @@
-# 9.28. 事件觸發函式
+# 9.29. 事件觸發函式
 
 PostgreSQL provides these helper functions to retrieve information from event triggers.
 
-For more information about event triggers, see [Chapter 39](https://www.postgresql.org/docs/12/event-triggers.html).
+For more information about event triggers, see [Chapter 39](https://www.postgresql.org/docs/13/event-triggers.html).
 
-## 9.28.1. Capturing Changes at Command End
+## 9.29.1. Capturing Changes at Command End
+
+```text
+pg_event_trigger_ddl_commands () → setof record
+```
 
 `pg_event_trigger_ddl_commands` returns a list of DDL commands executed by each user action, when invoked in a function attached to a `ddl_command_end` event trigger. If called in any other context, an error is raised. `pg_event_trigger_ddl_commands` returns one row for each base command executed; some commands that are a single SQL sentence may return more than one row. This function returns the following columns:
 
@@ -12,31 +16,35 @@ For more information about event triggers, see [Chapter 39](https://www.postgres
 | :--- | :--- | :--- |
 | `classid` | `oid` | OID of catalog the object belongs in |
 | `objid` | `oid` | OID of the object itself |
-| `objsubid` | `integer` | Sub-object ID \(e.g. attribute number for a column\) |
+| `objsubid` | `integer` | Sub-object ID \(e.g., attribute number for a column\) |
 | `command_tag` | `text` | Command tag |
 | `object_type` | `text` | Type of the object |
 | `schema_name` | `text` | Name of the schema the object belongs in, if any; otherwise `NULL`. No quoting is applied. |
 | `object_identity` | `text` | Text rendering of the object identity, schema-qualified. Each identifier included in the identity is quoted if necessary. |
-| `in_extension` | `bool` | True if the command is part of an extension script |
+| `in_extension` | `boolean` | True if the command is part of an extension script |
 | `command` | `pg_ddl_command` | A complete representation of the command, in internal format. This cannot be output directly, but it can be passed to other functions to obtain different pieces of information about the command. |
 
-## 9.28.2. Processing Objects Dropped by a DDL Command
+## 9.29.2. Processing Objects Dropped by a DDL Command
 
-`pg_event_trigger_dropped_objects` returns a list of all objects dropped by the command in whose `sql_drop` event it is called. If called in any other context, `pg_event_trigger_dropped_objects` raises an error. `pg_event_trigger_dropped_objects` returns the following columns:
+```text
+pg_event_trigger_dropped_objects () → setof record
+```
+
+`pg_event_trigger_dropped_objects` returns a list of all objects dropped by the command in whose `sql_drop` event it is called. If called in any other context, an error is raised. This function returns the following columns:
 
 | Name | Type | Description |
 | :--- | :--- | :--- |
 | `classid` | `oid` | OID of catalog the object belonged in |
 | `objid` | `oid` | OID of the object itself |
-| `objsubid` | `integer` | Sub-object ID \(e.g. attribute number for a column\) |
-| `original` | `bool` | True if this was one of the root object\(s\) of the deletion |
-| `normal` | `bool` | True if there was a normal dependency relationship in the dependency graph leading to this object |
-| `is_temporary` | `bool` | True if this was a temporary object |
+| `objsubid` | `integer` | Sub-object ID \(e.g., attribute number for a column\) |
+| `original` | `boolean` | True if this was one of the root object\(s\) of the deletion |
+| `normal` | `boolean` | True if there was a normal dependency relationship in the dependency graph leading to this object |
+| `is_temporary` | `boolean` | True if this was a temporary object |
 | `object_type` | `text` | Type of the object |
 | `schema_name` | `text` | Name of the schema the object belonged in, if any; otherwise `NULL`. No quoting is applied. |
 | `object_name` | `text` | Name of the object, if the combination of schema and name can be used as a unique identifier for the object; otherwise `NULL`. No quoting is applied, and name is never schema-qualified. |
 | `object_identity` | `text` | Text rendering of the object identity, schema-qualified. Each identifier included in the identity is quoted if necessary. |
-| `address_names` | `text[]` | An array that, together with `object_type` and `address_args`, can be used by the `pg_get_object_address()` function to recreate the object address in a remote server containing an identically named object of the same kind |
+| `address_names` | `text[]` | An array that, together with `object_type` and `address_args`, can be used by the `pg_get_object_address` function to recreate the object address in a remote server containing an identically named object of the same kind. |
 | `address_args` | `text[]` | Complement for `address_names` |
 
 The `pg_event_trigger_dropped_objects` function can be used in an event trigger like this:
@@ -55,26 +63,49 @@ BEGIN
                      obj.schema_name,
                      obj.object_name,
                      obj.object_identity;
-    END LOOP;
-END
+        END LOOP;
+END;
 $$;
 CREATE EVENT TRIGGER test_event_trigger_for_drops
    ON sql_drop
    EXECUTE FUNCTION test_event_trigger_for_drops();
 ```
 
-## 9.28.3. Handling a Table Rewrite Event
+## 9.29.3. Handling a Table Rewrite Event
 
-The functions shown in [Table 9.96](https://www.postgresql.org/docs/12/functions-event-triggers.html#FUNCTIONS-EVENT-TRIGGER-TABLE-REWRITE) provide information about a table for which a `table_rewrite` event has just been called. If called in any other context, an error is raised.
+The functions shown in [Table 9.98](https://www.postgresql.org/docs/13/functions-event-triggers.html#FUNCTIONS-EVENT-TRIGGER-TABLE-REWRITE) provide information about a table for which a `table_rewrite` event has just been called. If called in any other context, an error is raised.
 
-### **Table 9.96. Table Rewrite Information**
+#### **Table 9.98. Table Rewrite Information Functions**
 
-| Name | Return Type | Description |
-| :--- | :--- | :--- |
-| `pg_event_trigger_table_rewrite_oid()` | `Oid` | The OID of the table about to be rewritten. |
-| `pg_event_trigger_table_rewrite_reason()` | `int` | The reason code\(s\) explaining the reason for rewriting. The exact meaning of the codes is release dependent. |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">
+        <p>Function</p>
+        <p>Description</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">
+        <p><code>pg_event_trigger_table_rewrite_oid</code> () &#x2192; <code>oid</code>
+        </p>
+        <p>Returns the OID of the table about to be rewritten.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>pg_event_trigger_table_rewrite_reason</code> () &#x2192; <code>integer</code>
+        </p>
+        <p>Returns a code explaining the reason(s) for rewriting. The exact meaning
+          of the codes is release dependent.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-The `pg_event_trigger_table_rewrite_oid` function can be used in an event trigger like this:
+These functions can be used in an event trigger like this:
 
 ```text
 CREATE FUNCTION test_event_trigger_table_rewrite_oid()

@@ -5,11 +5,24 @@ VACUUM — 資源回收並且選擇性地重整資料庫
 ## 語法
 
 ```text
-VACUUM [ ( { FULL | FREEZE | VERBOSE | ANALYZE | DISABLE_PAGE_SKIPPING } [, ...] ) ]
-       [ table_name [ (column_name [, ...] ) ] ]
-VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] [ table_name ]
-VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] 
-       ANALYZE [ table_name [ (column_name [, ...] ) ] ]
+VACUUM [ ( option [, ...] ) ] [ table_and_columns [, ...] ]
+VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] [ ANALYZE ] [ table_and_columns [, ...] ]
+
+where option can be one of:
+
+    FULL [ boolean ]
+    FREEZE [ boolean ]
+    VERBOSE [ boolean ]
+    ANALYZE [ boolean ]
+    DISABLE_PAGE_SKIPPING [ boolean ]
+    SKIP_LOCKED [ boolean ]
+    INDEX_CLEANUP [ boolean ]
+    TRUNCATE [ boolean ]
+    PARALLEL integer
+
+and table_and_columns is:
+
+    table_name [ ( column_name [, ...] ) ]
 ```
 
 ## 說明
@@ -20,7 +33,7 @@ VACUUM 回收不再使用的儲存空間。在普通的 PostgreSQL 操作中，�
 
 VACUUM ANALYZE 為每個選定的資料表執行 VACUUM 然後進行 ANALYZE 分析。 這是日常維護腳本的便捷組合形式。有關其處理的更多詳細訊息，請參閱 [ANALYZE](analyze.md)。
 
-普通的 VACUUM（不帶FULL）只是回收空間並使其可供重複使用。由於沒有獲得排他鎖定，此指令的這種形式可以與正常讀取和寫入資料表平行操作。但是，額外的空間不會還回到作業系統（大多數情況下）。它只是保持在同一張資料表內重新使用。VACUUM FULL 會將資料表中的全部內容重寫為新的磁碟檔案，不會遺留額外的空間佔用，可將未使用的空間還回作業系統。這種形式顯然要慢得多，並且在處理每個資料表時需要排它鎖定。
+普通的 VACUUM（不帶FULL）只是回收空間並使其可供重複使用。由於沒有獲得排他鎖定，此指令的這種形式可以與正常讀取和寫入資料表平行操作。但是，額外的空間不會還回到作業系統（大多數情況下）。它只是保持在同一張資料表內重新使用。我們可以利用多個 CPU 來處理索引。此功能稱為平行清理 \(parallel vacuum\)。要停用此功能，可以使用 PARALLEL 選項並將平行工作程序數量指定為零。 VACUUM FULL 會將資料表中的全部內容重寫為新的磁碟檔案，不會遺留額外的空間佔用，可將未使用的空間還回作業系統。這種形式顯然要慢得多，並且在處理每個資料表時需要排它鎖定 \(exclusive lock\)。
 
 當選項列表被括號包圍時，選項可以按任意順序書寫。如果沒有括號，必須按照上面所示的順序指定選項。PostgreSQL 9.0 中加入了括號語法；未使用括號的語法已被棄用。
 
@@ -46,6 +59,30 @@ VACUUM ANALYZE 為每個選定的資料表執行 VACUUM 然後進行 ANALYZE 分
 
 通常情況下，VACUUM 將根據可見性記錄跳過頁面。已知所有 tuple 都被凍結的頁面總是可以被跳過，並且所有 tuple 被知道對所有交易事務都可見的頁面也可能會被跳過，除非執行積極的清理。此外，除了執行積極的清理時，可能會跳過某些頁面以避免等待其他連線完成使用。此選項禁用所有頁面跳轉行為，並且僅用於可見性映射的內容被認為是可疑的，只有在存在導致資料庫損壞的硬體或軟體問題時才會發生。
 
+`SKIP_LOCKED`
+
+Specifies that `VACUUM` should not wait for any conflicting locks to be released when beginning work on a relation: if a relation cannot be locked immediately without waiting, the relation is skipped. Note that even with this option, `VACUUM` may still block when opening the relation's indexes. Additionally, `VACUUM ANALYZE` may still block when acquiring sample rows from partitions, table inheritance children, and some types of foreign tables. Also, while `VACUUM` ordinarily processes all partitions of specified partitioned tables, this option will cause `VACUUM` to skip all partitions if there is a conflicting lock on the partitioned table.
+
+`INDEX_CLEANUP`
+
+Specifies that `VACUUM` should attempt to remove index entries pointing to dead tuples. This is normally the desired behavior and is the default unless the `vacuum_index_cleanup` option has been set to false for the table to be vacuumed. Setting this option to false may be useful when it is necessary to make vacuum run as quickly as possible, for example to avoid imminent transaction ID wraparound \(see [Section 24.1.5](https://www.postgresql.org/docs/13/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND)\). However, if index cleanup is not performed regularly, performance may suffer, because as the table is modified, indexes will accumulate dead tuples and the table itself will accumulate dead line pointers that cannot be removed until index cleanup is completed. This option has no effect for tables that do not have an index and is ignored if the `FULL` option is used.
+
+`TRUNCATE`
+
+Specifies that `VACUUM` should attempt to truncate off any empty pages at the end of the table and allow the disk space for the truncated pages to be returned to the operating system. This is normally the desired behavior and is the default unless the `vacuum_truncate` option has been set to false for the table to be vacuumed. Setting this option to false may be useful to avoid `ACCESS EXCLUSIVE` lock on the table that the truncation requires. This option is ignored if the `FULL` option is used.
+
+`PARALLEL`
+
+Perform index vacuum and index cleanup phases of `VACUUM` in parallel using _`integer`_ background workers \(for the details of each vacuum phase, please refer to [Table 27.37](https://www.postgresql.org/docs/13/progress-reporting.html#VACUUM-PHASES)\). In plain `VACUUM` \(without `FULL`\), if the `PARALLEL` option is omitted, then the number of workers is determined based on the number of indexes on the relation that support parallel vacuum operation and is further limited by [max\_parallel\_maintenance\_workers](https://www.postgresql.org/docs/13/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-MAINTENANCE). An index can participate in parallel vacuum if and only if the size of the index is more than [min\_parallel\_index\_scan\_size](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-MIN-PARALLEL-INDEX-SCAN-SIZE). Please note that it is not guaranteed that the number of parallel workers specified in _`integer`_ will be used during execution. It is possible for a vacuum to run with fewer workers than specified, or even with no workers at all. Only one worker can be used per index. So parallel workers are launched only when there are at least `2` indexes in the table. Workers for vacuum are launched before the start of each phase and exit at the end of the phase. These behaviors might change in a future release. This option can't be used with the `FULL` option.
+
+_`boolean`_
+
+Specifies whether the selected option should be turned on or off. You can write `TRUE`, `ON`, or `1` to enable the option, and `FALSE`, `OFF`, or `0` to disable it. The _`boolean`_ value can also be omitted, in which case `TRUE` is assumed.
+
+_`integer`_
+
+Specifies a non-negative integer value passed to the selected option.
+
 _`table_name`_
 
 要清理的特定資料表名稱（可選擇性加上綱要）。如果省略，則目前資料庫中的所有常態的資料表和具體化檢視表都會被清理。如果指定的資料表是分割資料表，則其所有子分區都將被清理。
@@ -64,7 +101,7 @@ _`column_name`_
 
 VACUUM 不能在交易事務區塊內執行。
 
-對於具有 GIN 索引的資料表，透過將掛起的索引項目移動到主 GIN 索引結構中的適當位置，VACUUM（以任何形式）還是可以完成任何掛起的索引插入。詳情請參閱[第 64.4.1 節](../../internals/gin-indexes/implementation.md#64-4-1-gin-fast-update-technique)。
+對於具有 GIN 索引的資料表，透過將掛起的索引項目移動到主 GIN 索引結構中的適當位置，VACUUM（以任何形式）還是可以完成任何掛起的索引插入。詳情請參閱[第 66.4.1 節](../../internals/gin-indexes/implementation.md#64-4-1-gin-fast-update-technique)。
 
 我們建議經常清理活動產品資料庫（至少每晚）以回收空間。增加或刪除大量資料列後，對受影響的資料表發出 VACUUM ANALYZE 指令會是個好主意。這將使用所有最近更改的結果更新系統目錄，並允許 PostgreSQL 查詢計劃程序在計劃查詢中做出更好的選擇。
 

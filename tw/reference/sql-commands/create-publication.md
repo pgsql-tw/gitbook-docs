@@ -2,7 +2,7 @@
 
 CREATE PUBLICATION — define a new publication
 
-## Synopsis
+### Synopsis
 
 ```text
 CREATE PUBLICATION name
@@ -11,29 +11,45 @@ CREATE PUBLICATION name
     [ WITH ( publication_parameter [= value] [, ... ] ) ]
 ```
 
-## Description
+### Description
 
 `CREATE PUBLICATION` adds a new publication into the current database. The publication name must be distinct from the name of any existing publication in the current database.
 
-A publication is essentially a group of tables whose data changes are intended to be replicated through logical replication. See [Section 31.1](https://www.postgresql.org/docs/10/static/logical-replication-publication.html) for details about how publications fit into the logical replication setup.
+A publication is essentially a group of tables whose data changes are intended to be replicated through logical replication. See [Section 30.1](https://www.postgresql.org/docs/13/logical-replication-publication.html) for details about how publications fit into the logical replication setup.
 
-## Parameters
+### Parameters
 
 _`name`_
 
-The name of the new publication.`FOR TABLE`
+The name of the new publication.
 
-Specifies a list of tables to add to the publication. If `ONLY` is specified before the table name, only that table is added to the publication. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are added. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included.
+`FOR TABLE`
 
-Only persistent base tables can be part of a publication. Temporary tables, unlogged tables, foreign tables, materialized views, regular views, and partitioned tables cannot be part of a publication. To replicate a partitioned table, add the individual partitions to the publication.`FOR ALL TABLES`
+Specifies a list of tables to add to the publication. If `ONLY` is specified before the table name, only that table is added to the publication. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are added. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included. This does not apply to a partitioned table, however. The partitions of a partitioned table are always implicitly considered part of the publication, so they are never explicitly added to the publication.
 
-Marks the publication as one that replicates changes for all tables in the database, including tables created in the future.`WITH (` _`publication_parameter`_ \[= _`value`_\] \[, ... \] \)
+Only persistent base tables and partitioned tables can be part of a publication. Temporary tables, unlogged tables, foreign tables, materialized views, and regular views cannot be part of a publication.
 
-This clause specifies optional parameters for a publication. The following parameters are supported:`publish` \(`string`\)
+When a partitioned table is added to a publication, all of its existing and future partitions are implicitly considered to be part of the publication. So, even operations that are performed directly on a partition are also published via publications that its ancestors are part of.
 
-This parameter determines which DML operations will be published by the new publication to the subscribers. The value is comma-separated list of operations. The allowed operations are `insert`, `update`, and `delete`. The default is to publish all actions, and so the default value for this option is `'insert, update, delete'`.
+`FOR ALL TABLES`
 
-## Notes
+Marks the publication as one that replicates changes for all tables in the database, including tables created in the future.
+
+`WITH (` _`publication_parameter`_ \[= _`value`_\] \[, ... \] \)
+
+This clause specifies optional parameters for a publication. The following parameters are supported:
+
+`publish` \(`string`\)
+
+This parameter determines which DML operations will be published by the new publication to the subscribers. The value is comma-separated list of operations. The allowed operations are `insert`, `update`, `delete`, and `truncate`. The default is to publish all actions, and so the default value for this option is `'insert, update, delete, truncate'`.
+
+`publish_via_partition_root` \(`boolean`\)
+
+This parameter determines whether changes in a partitioned table \(or on its partitions\) contained in the publication will be published using the identity and schema of the partitioned table rather than that of the individual partitions that are actually changed; the latter is the default. Enabling this allows the changes to be replicated into a non-partitioned table or a partitioned table consisting of a different set of partitions.
+
+If this is enabled, `TRUNCATE` operations performed directly on partitions are not replicated.
+
+### Notes
 
 If neither `FOR TABLE` nor `FOR ALL TABLES` is specified, then the publication starts out with an empty set of tables. That is useful if tables are to be added later.
 
@@ -49,9 +65,9 @@ For an `INSERT ... ON CONFLICT` command, the publication will publish the operat
 
 `COPY ... FROM` commands are published as `INSERT` operations.
 
-`TRUNCATE` and DDL operations are not published.
+DDL operations are not published.
 
-## Examples
+### Examples
 
 Create a publication that publishes all changes in two tables:
 
@@ -72,11 +88,11 @@ CREATE PUBLICATION insert_only FOR TABLE mydata
     WITH (publish = 'insert');
 ```
 
-## Compatibility
+### Compatibility
 
 `CREATE PUBLICATION` is a PostgreSQL extension.
 
-## See Also
+### See Also
 
-[ALTER PUBLICATION](https://www.postgresql.org/docs/10/static/sql-alterpublication.html), [DROP PUBLICATION](https://www.postgresql.org/docs/10/static/sql-droppublication.html)
+[ALTER PUBLICATION](alter-publication.md), [DROP PUBLICATION](drop-publication.md)
 

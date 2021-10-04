@@ -8,25 +8,25 @@ PostgreSQL 中的字元集支援允許您將文字以各種字元集（也稱為
 
 [Table 23.1](character-set-support.md#table-23-1-postgresql-character-sets) 顯示了可在 PostgreSQL 中使用的字元集。
 
-### **Table 23.1. PostgreSQL Character Sets**
+#### **Table 23.1. PostgreSQL Character Sets**
 
 | Name | Description | Language | Server? | ICU? | Bytes/Char | Aliases |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `BIG5` | Big Five | Traditional Chinese | No | No | 1-2 | `WIN950`, `Windows950` |
-| `EUC_CN` | Extended UNIX Code-CN | Simplified Chinese | Yes | Yes | 1-3 |  |
-| `EUC_JP` | Extended UNIX Code-JP | Japanese | Yes | Yes | 1-3 |  |
-| `EUC_JIS_2004` | Extended UNIX Code-JP, JIS X 0213 | Japanese | Yes | No | 1-3 |  |
-| `EUC_KR` | Extended UNIX Code-KR | Korean | Yes | Yes | 1-3 |  |
-| `EUC_TW` | Extended UNIX Code-TW | Traditional Chinese, Taiwanese | Yes | Yes | 1-3 |  |
-| `GB18030` | National Standard | Chinese | No | No | 1-4 |  |
+| `EUC_CN` | Extended UNIX Code-CN | Simplified Chinese | Yes | Yes | 1-3 |   |
+| `EUC_JP` | Extended UNIX Code-JP | Japanese | Yes | Yes | 1-3 |   |
+| `EUC_JIS_2004` | Extended UNIX Code-JP, JIS X 0213 | Japanese | Yes | No | 1-3 |   |
+| `EUC_KR` | Extended UNIX Code-KR | Korean | Yes | Yes | 1-3 |   |
+| `EUC_TW` | Extended UNIX Code-TW | Traditional Chinese, Taiwanese | Yes | Yes | 1-3 |   |
+| `GB18030` | National Standard | Chinese | No | No | 1-4 |   |
 | `GBK` | Extended National Standard | Simplified Chinese | No | No | 1-2 | `WIN936`, `Windows936` |
-| `ISO_8859_5` | ISO 8859-5, ECMA 113 | Latin/Cyrillic | Yes | Yes | 1 |  |
-| `ISO_8859_6` | ISO 8859-6, ECMA 114 | Latin/Arabic | Yes | Yes | 1 |  |
-| `ISO_8859_7` | ISO 8859-7, ECMA 118 | Latin/Greek | Yes | Yes | 1 |  |
-| `ISO_8859_8` | ISO 8859-8, ECMA 121 | Latin/Hebrew | Yes | Yes | 1 |  |
-| `JOHAB` | JOHAB | Korean \(Hangul\) | No | No | 1-3 |  |
+| `ISO_8859_5` | ISO 8859-5, ECMA 113 | Latin/Cyrillic | Yes | Yes | 1 |   |
+| `ISO_8859_6` | ISO 8859-6, ECMA 114 | Latin/Arabic | Yes | Yes | 1 |   |
+| `ISO_8859_7` | ISO 8859-7, ECMA 118 | Latin/Greek | Yes | Yes | 1 |   |
+| `ISO_8859_8` | ISO 8859-8, ECMA 121 | Latin/Hebrew | Yes | Yes | 1 |   |
+| `JOHAB` | JOHAB | Korean \(Hangul\) | No | No | 1-3 |   |
 | `KOI8R` | KOI8-R | Cyrillic \(Russian\) | Yes | Yes | 1 | `KOI8` |
-| `KOI8U` | KOI8-U | Cyrillic \(Ukrainian\) | Yes | Yes | 1 |  |
+| `KOI8U` | KOI8-U | Cyrillic \(Ukrainian\) | Yes | Yes | 1 |   |
 | `LATIN1` | ISO 8859-1, ECMA 94 | Western European | Yes | Yes | 1 | `ISO88591` |
 | `LATIN2` | ISO 8859-2, ECMA 94 | Central European | Yes | Yes | 1 | `ISO88592` |
 | `LATIN3` | ISO 8859-3, ECMA 94 | South European | Yes | Yes | 1 | `ISO88593` |
@@ -37,22 +37,22 @@ PostgreSQL 中的字元集支援允許您將文字以各種字元集（也稱為
 | `LATIN8` | ISO 8859-14 | Celtic | Yes | Yes | 1 | `ISO885914` |
 | `LATIN9` | ISO 8859-15 | LATIN1 with Euro and accents | Yes | Yes | 1 | `ISO885915` |
 | `LATIN10` | ISO 8859-16, ASRO SR 14111 | Romanian | Yes | No | 1 | `ISO885916` |
-| `MULE_INTERNAL` | Mule internal code | Multilingual Emacs | Yes | No | 1-4 |  |
+| `MULE_INTERNAL` | Mule internal code | Multilingual Emacs | Yes | No | 1-4 |   |
 | `SJIS` | Shift JIS | Japanese | No | No | 1-2 | `Mskanji`, `ShiftJIS`, `WIN932`, `Windows932` |
-| `SHIFT_JIS_2004` | Shift JIS, JIS X 0213 | Japanese | No | No | 1-2 |  |
-| `SQL_ASCII` | unspecified \(see text\) | _any_ | Yes | No | 1 |  |
+| `SHIFT_JIS_2004` | Shift JIS, JIS X 0213 | Japanese | No | No | 1-2 |   |
+| `SQL_ASCII` | unspecified \(see text\) | _any_ | Yes | No | 1 |   |
 | `UHC` | Unified Hangul Code | Korean | No | No | 1-2 | `WIN949`, `Windows949` |
 | `UTF8` | Unicode, 8-bit | _all_ | Yes | Yes | 1-4 | `Unicode` |
 | `WIN866` | Windows CP866 | Cyrillic | Yes | Yes | 1 | `ALT` |
-| `WIN874` | Windows CP874 | Thai | Yes | No | 1 |  |
-| `WIN1250` | Windows CP1250 | Central European | Yes | Yes | 1 |  |
+| `WIN874` | Windows CP874 | Thai | Yes | No | 1 |   |
+| `WIN1250` | Windows CP1250 | Central European | Yes | Yes | 1 |   |
 | `WIN1251` | Windows CP1251 | Cyrillic | Yes | Yes | 1 | `WIN` |
-| `WIN1252` | Windows CP1252 | Western European | Yes | Yes | 1 |  |
-| `WIN1253` | Windows CP1253 | Greek | Yes | Yes | 1 |  |
-| `WIN1254` | Windows CP1254 | Turkish | Yes | Yes | 1 |  |
-| `WIN1255` | Windows CP1255 | Hebrew | Yes | Yes | 1 |  |
-| `WIN1256` | Windows CP1256 | Arabic | Yes | Yes | 1 |  |
-| `WIN1257` | Windows CP1257 | Baltic | Yes | Yes | 1 |  |
+| `WIN1252` | Windows CP1252 | Western European | Yes | Yes | 1 |   |
+| `WIN1253` | Windows CP1253 | Greek | Yes | Yes | 1 |   |
+| `WIN1254` | Windows CP1254 | Turkish | Yes | Yes | 1 |   |
+| `WIN1255` | Windows CP1255 | Hebrew | Yes | Yes | 1 |   |
+| `WIN1256` | Windows CP1256 | Arabic | Yes | Yes | 1 |   |
+| `WIN1257` | Windows CP1257 | Baltic | Yes | Yes | 1 |   |
 | `WIN1258` | Windows CP1258 | Vietnamese | Yes | Yes | 1 | `ABC`, `TCVN`, `TCVN5712`, `VSCII` |
 
 並非所有用戶端 API 都支援所有列出的字元集。例如，PostgreSQL JDBC 驅動程式就不支援 MULE\_INTERNAL，LATIN6，LATIN8 和 LATIN10。
@@ -109,7 +109,7 @@ $ psql -l
 
 PostgreSQL 支援伺服器和用戶端之間針對某些字元集組合的自動字元集轉換。轉換訊息儲存在 pg\_conversion 系統目錄中。PostgreSQL 帶有一些預先定義的轉換，如 [Table 23.2](character-set-support.md#table-23-2-client-server-character-set-conversions) 所示。您可以使用 SQL 指令 CREATE CONVERSION 建立新的轉換。
 
-### **Table 23.2. Client/Server Character Set Conversions**
+#### **Table 23.2. Client/Server Character Set Conversions**
 
 | Server Character Set | Available Client Character Sets |
 | :--- | :--- |

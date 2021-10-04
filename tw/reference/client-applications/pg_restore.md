@@ -2,11 +2,11 @@
 
 pg\_restore — restore a PostgreSQL database from an archive file created by pg\_dump
 
-## Synopsis
+### Synopsis
 
 `pg_restore` \[_`connection-option`_...\] \[_`option`_...\] \[_`filename`_\]
 
-## Description
+### Description
 
 pg\_restore is a utility for restoring a PostgreSQL database from an archive created by [pg\_dump](https://www.postgresql.org/docs/12/app-pgdump.html) in one of the non-plain-text formats. It will issue the commands necessary to reconstruct the database to the state it was in at the time it was saved. The archive files also allow pg\_restore to be selective about what is restored, or even to reorder the items prior to being restored. The archive files are designed to be portable across architectures.
 
@@ -14,7 +14,7 @@ pg\_restore can operate in two modes. If a database name is specified, pg\_resto
 
 Obviously, pg\_restore cannot restore information that is not present in the archive file. For instance, if the archive was made using the “dump data as `INSERT` commands” option, pg\_restore will not be able to load the data using `COPY` statements.
 
-## Options
+### Options
 
 pg\_restore accepts the following command line arguments._`filename`_
 
@@ -150,15 +150,15 @@ Specify the superuser user name to use when disabling triggers. This is relevant
 
 Restore definition and/or data of only the named table. For this purpose, “table” includes views, materialized views, sequences, and foreign tables. Multiple tables can be selected by writing multiple `-t` switches. This option can be combined with the `-n` option to specify table\(s\) in a particular schema.
 
-### Note
+#### Note
 
 When `-t` is specified, pg\_restore makes no attempt to restore any other database objects that the selected table\(s\) might depend upon. Therefore, there is no guarantee that a specific-table restore into a clean database will succeed.
 
-### Note
+#### Note
 
 This flag does not behave identically to the `-t` flag of pg\_dump. There is not currently any provision for wild-card matching in pg\_restore, nor can you include a schema name within its `-t`. And, while pg\_dump's `-t` flag will also dump subsidiary objects \(such as indexes\) of the selected table\(s\), pg\_restore's `-t` flag does not include such subsidiary objects.
 
-### Note
+#### Note
 
 In versions prior to PostgreSQL 9.6, this flag matched only tables, not any other type of relation.
 
@@ -282,7 +282,7 @@ This option is never essential, since pg\_restore will automatically prompt for 
 
 Specifies a role name to be used to perform the restore. This option causes pg\_restore to issue a `SET ROLE` _`rolename`_ command after connecting to the database. It is useful when the authenticated user \(specified by `-U`\) lacks privileges needed by pg\_restore, but can switch to a role with the required rights. Some installations have a policy against logging in directly as a superuser, and use of this option allows restores to be performed without violating the policy.
 
-## Environment
+### Environment
 
 `PGHOST`  
 `PGOPTIONS`  
@@ -297,11 +297,11 @@ Specifies whether to use color in diagnostic messages. Possible values are `alwa
 
 This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)\). However, it does not read `PGDATABASE` when a database name is not supplied.
 
-## Diagnostics
+### Diagnostics
 
 When a direct database connection is specified using the `-d` option, pg\_restore internally executes SQL statements. If you have problems running pg\_restore, make sure you are able to select information from the database using, for example, [psql](https://www.postgresql.org/docs/12/app-psql.html). Also, any default connection settings and environment variables used by the libpq front-end library will apply.
 
-## Notes
+### Notes
 
 If your installation has any local additions to the `template1` database, be careful to load the output of pg\_restore into a truly empty database; otherwise you are likely to get errors due to duplicate definitions of the added objects. To make an empty database without any local additions, copy from `template0` not `template1`, for example:
 
@@ -318,7 +318,7 @@ See also the [pg\_dump](https://www.postgresql.org/docs/12/app-pgdump.html) docu
 
 Once restored, it is wise to run `ANALYZE` on each restored table so the optimizer has useful statistics; see [Section 24.1.3](https://www.postgresql.org/docs/12/routine-vacuuming.html#VACUUM-FOR-STATISTICS) and [Section 24.1.6](https://www.postgresql.org/docs/12/routine-vacuuming.html#AUTOVACUUM) for more information.
 
-## Examples
+### Examples
 
 Assume we have dumped a database called `mydb` into a custom-format dump file:
 
@@ -393,7 +393,7 @@ could be used as input to pg\_restore and would only restore items 10 and 6, in 
 $ pg_restore -L db.list db.dump
 ```
 
-## 參閱
+### 參閱
 
 [pg\_dump](pg_dump.md), [pg\_dumpall](pg_dumpall.md), [psql](psql.md)
 

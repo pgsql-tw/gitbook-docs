@@ -4,7 +4,7 @@ This section documents additional platform-specific issues regarding the install
 
 Platforms that are not covered here have no known platform-specific installation issues.
 
-## 16.7.1. AIX
+#### 16.7.1. AIX
 
 PostgreSQL works on AIX, but getting it installed properly can be challenging. AIX versions from 4.3.3 to 6.1 are considered supported. You can use GCC or the native IBM compiler `xlc`. In general, using recent versions of AIX and PostgreSQL helps. Check the build farm for up to date information about which versions of AIX are known to work.
 
@@ -67,7 +67,7 @@ Any of the following actions “fix” the problem.
 
   to deactivate searching for IPv6 addresses.
 
-## Warning
+#### Warning
 
 This is really a workaround for problems relating to immaturity of IPv6 support, which improved visibly during the course of AIX 5.3 releases. It has worked with AIX version 5.3, but does not represent an elegant solution to the problem. It has been reported that this workaround is not only unnecessary, but causes problems on AIX 6.1, where IPv6 support has become more mature.
 
@@ -95,7 +95,7 @@ In the case of the `plperl` example, above, check your umask and the permissions
 
 The “ideal” solution for this is to use a 64-bit build of PostgreSQL, but that is not always practical, because systems with 32-bit processors can build, but not run, 64-bit binaries.
 
-If a 32-bit binary is desired, set `LDR_CNTRL` to `MAXDATA=0x`_`n`\_0000000, where 1 &lt;= n &lt;= 8, before starting the PostgreSQL server, and try different values and `postgresql.conf` settings to find a configuration that works satisfactorily. This use of `LDR_CNTRL` tells AIX that you want the server to have `MAXDATA` bytes set aside for the heap, allocated in 256 MB segments. When you find a workable configuration, `ldedit` can be used to modify the binaries so that they default to using the desired heap size. PostgreSQL can also be rebuilt, passing`configure LDFLAGS="-Wl,-bmaxdata:0x`_`n`\_0000000" to achieve the same effect.
+If a 32-bit binary is desired, set `LDR_CNTRL` to `MAXDATA=0x`_`n`_0000000, where 1 &lt;= n &lt;= 8, before starting the PostgreSQL server, and try different values and `postgresql.conf` settings to find a configuration that works satisfactorily. This use of `LDR_CNTRL` tells AIX that you want the server to have `MAXDATA` bytes set aside for the heap, allocated in 256 MB segments. When you find a workable configuration, `ldedit` can be used to modify the binaries so that they default to using the desired heap size. PostgreSQL can also be rebuilt, passing`configure LDFLAGS="-Wl,-bmaxdata:0x`_`n`_0000000" to achieve the same effect.
 
 For a 64-bit build, set `OBJECT_MODE` to 64 and pass `CC="gcc -maix64"` and `LDFLAGS="-Wl,-bbigtoc"` to `configure`. \(Options for `xlc` might differ.\) If you omit the export of `OBJECT_MODE`, your build may fail with linker errors. When `OBJECT_MODE` is set, it tells AIX's build utilities such as `ar`, `as`, and `ld` what type of objects to default to handling.
 
@@ -115,7 +115,7 @@ By default, overcommit of paging space can happen. While we have not seen this o
 
 [_Developing and Porting C and C++ Applications on AIX_](http://www.redbooks.ibm.com/abstracts/sg245674.html?Open). IBM Redbook.
 
-## 16.7.2. Cygwin
+#### 16.7.2. Cygwin
 
 PostgreSQL can be built using Cygwin, a Linux-like environment for Windows, but that method is inferior to the native Windows build \(see [Chapter 17](https://www.postgresql.org/docs/10/static/install-windows.html)\) and running a server under Cygwin is no longer recommended.
 
@@ -137,13 +137,13 @@ When building from source, proceed according to the normal installation procedur
 
 It is possible to install `cygserver` and the PostgreSQL server as Windows NT services. For information on how to do this, please refer to the `README` document included with the PostgreSQL binary package on Cygwin. It is installed in the directory `/usr/share/doc/Cygwin`.
 
-## 16.7.3. HP-UX
+#### 16.7.3. HP-UX
 
 PostgreSQL 7.3+ should work on Series 700/800 PA-RISC machines running HP-UX 10.X or 11.X, given appropriate system patch levels and build tools. At least one developer routinely tests on HP-UX 10.20, and we have reports of successful installations on HP-UX 11.00 and 11.11.
 
 Aside from the PostgreSQL source distribution, you will need GNU make \(HP's make will not do\), and either GCC or HP's full ANSI C compiler. If you intend to build from Git sources rather than a distribution tarball, you will also need Flex \(GNU lex\) and Bison \(GNU yacc\). We also recommend making sure you are fairly up-to-date on HP patches. At a minimum, if you are building 64 bit binaries on HP-UX 11.11 you may need PHSS\_30966 \(11.11\) or a successor patch otherwise `initdb` may hang:
 
-PHSS\_30966 s700\_800 ld\(1\) and linker tools cumulative patch
+PHSS\_30966  s700\_800 ld\(1\) and linker tools cumulative patch
 
 On general principles you should be current on libc and ld/dld patches, as well as compiler patches if you are using HP's C compiler. See HP's support sites such as [ftp://us-ffs.external.hp.com/](ftp://us-ffs.external.hp.com/) for free copies of their latest patches.
 
@@ -153,8 +153,8 @@ If you are building on a PA-RISC 2.0 machine and want the compiled binaries to r
 
 If you are building on a HP-UX Itanium machine, you will need the latest HP ANSI C compiler with its dependent patch or successor patches:
 
-PHSS\_30848 s700\_800 HP C Compiler \(A.05.57\)  
-PHSS\_30849 s700\_800 u2comp/be/plugin library Patch
+PHSS\_30848  s700\_800 HP C Compiler \(A.05.57\)  
+PHSS\_30849  s700\_800 u2comp/be/plugin library Patch
 
 If you have both HP's C compiler and GCC's, then you might want to explicitly select the compiler to use when you run `configure`:
 
@@ -174,7 +174,7 @@ The default install target location is `/usr/local/pgsql`, which you might want 
 
 In the regression tests, there might be some low-order-digit differences in the geometry tests, which vary depending on which compiler and math library versions you use. Any other error is cause for suspicion.
 
-## 16.7.4. MinGW/Native Windows
+#### 16.7.4. MinGW/Native Windows
 
 PostgreSQL for Windows can be built using MinGW, a Unix-like build environment for Microsoft operating systems, or using Microsoft's Visual C++ compiler suite. The MinGW build variant uses the normal build system described in this chapter; the Visual C++ build works completely differently and is described in [Chapter 17](https://www.postgresql.org/docs/10/static/install-windows.html). It is a fully native build and uses no additional software like MinGW. A ready-made installer is available on the main PostgreSQL web site.
 
@@ -188,7 +188,7 @@ After you have everything installed, it is suggested that you run psql under `CM
 
 If PostgreSQL on Windows crashes, it has the ability to generate minidumps that can be used to track down the cause for the crash, similar to core dumps on Unix. These dumps can be read using the Windows Debugger Tools or using Visual Studio. To enable the generation of dumps on Windows, create a subdirectory named `crashdumps` inside the cluster data directory. The dumps will then be written into this directory with a unique name based on the identifier of the crashing process and the current time of the crash.
 
-## 16.7.5. Solaris
+#### 16.7.5. Solaris
 
 PostgreSQL is well-supported on Solaris. The more up to date your operating system, the fewer issues you will experience; details below.
 

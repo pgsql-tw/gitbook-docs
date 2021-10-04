@@ -2,7 +2,7 @@
 
 ALTER DATABASE — change a database
 
-## Synopsis
+### Synopsis
 
 ```text
 ALTER DATABASE name [ [ WITH ] option [ ... ] ]
@@ -25,7 +25,7 @@ ALTER DATABASE name RESET configuration_parameter
 ALTER DATABASE name RESET ALL
 ```
 
-## Description
+### Description
 
 `ALTER DATABASE` changes the attributes of a database.
 
@@ -39,7 +39,7 @@ The fourth form changes the default tablespace of the database. Only the databas
 
 The remaining forms change the session default for a run-time configuration variable for a PostgreSQL database. Whenever a new session is subsequently started in that database, the specified value becomes the session default value. The database-specific default overrides whatever setting is present in `postgresql.conf` or has been received from the `postgres` command line. Only the database owner or a superuser can change the session defaults for a database. Certain variables cannot be set this way, or can only be set by a superuser.
 
-## Parameters
+### Parameters
 
 _`name`_
 
@@ -64,11 +64,11 @@ Set this database's session default for the specified configuration parameter to
 
 See [SET](https://www.postgresql.org/docs/10/static/sql-set.html) and [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html) for more information about allowed parameter names and values.
 
-## Notes
+### Notes
 
 It is also possible to tie a session default to a specific role rather than to a database; see [ALTER ROLE](https://www.postgresql.org/docs/10/static/sql-alterrole.html). Role-specific settings override database-specific ones if there is a conflict.
 
-## Examples
+### Examples
 
 To disable index scans by default in the database `test`:
 
@@ -76,11 +76,11 @@ To disable index scans by default in the database `test`:
 ALTER DATABASE test SET enable_indexscan TO off;
 ```
 
-## Compatibility
+### Compatibility
 
 The `ALTER DATABASE` statement is a PostgreSQL extension.
 
-## See Also
+### See Also
 
 [CREATE DATABASE](https://www.postgresql.org/docs/10/static/sql-createdatabase.html), [DROP DATABASE](https://www.postgresql.org/docs/10/static/sql-dropdatabase.html), [SET](https://www.postgresql.org/docs/10/static/sql-set.html), [CREATE TABLESPACE](https://www.postgresql.org/docs/10/static/sql-createtablespace.html)
 

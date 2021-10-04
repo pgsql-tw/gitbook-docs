@@ -2,18 +2,18 @@
 
 SHOW — 顯示執行時期參數的值
 
-## 語法
+### 語法
 
 ```text
 SHOW name
 SHOW ALL
 ```
 
-## 說明
+### 說明
 
 SHOW 將顯示執行時期參數的目前設定。可以使用 SET 語句、編輯postgresql.conf 組態檔案、透過 PGOPTIONS 環境變數（使用 libpq 或基於 libpq 的應用程式）或啟動 postgres 伺服器時以命令列選項來設定這些變數。詳細訊息請參閱[第 19 章](../../server-administration/server-configuration/)。
 
-## 參數
+### 參數
 
 _`name`_
 
@@ -43,11 +43,11 @@ _`name`_
 
 顯示所有組態參數的值和說明。
 
-## 注意
+### 注意
 
 函數 current\_setting 可以產生相同的輸出；詳見 [9.26 節](../../the-sql-language/functions-and-operators/system-administration.md)。此外， [pg\_settings ](../../internals/system-catalogs/pg_settings.md)系統檢視表也產出相同的資訊。
 
-## 範例
+### 範例
 
 顯示參數 DateStyle 目前的設定：
 
@@ -84,11 +84,11 @@ SHOW ALL;
 (196 rows)
 ```
 
-## 相容性
+### 相容性
 
 SHOW 指令是 PostgreSQL 的延伸功能。
 
-## 參閱
+### 參閱
 
 [SET](set.md), [RESET](reset.md)
 

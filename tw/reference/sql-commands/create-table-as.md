@@ -2,7 +2,7 @@
 
 CREATE TABLE AS — 從查詢結果來定義一個新資料表
 
-## 語法
+### 語法
 
 ```text
 CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ] table_name
@@ -14,13 +14,13 @@ CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXI
     [ WITH [ NO ] DATA ]
 ```
 
-## 說明
+### 說明
 
 CREATE TABLE AS 建立一個資料表並且以 SELECT 指令産生的資料填入。資料表欄位具有與 SELECT 的輸出列表相關聯的名稱與資料型別（除此之外，你也可以透過給予明確欄位來重寫欄位名稱）。
 
 CREATE TABLE AS 與建立檢視表具有一些相似之處，但實際上完全不同：它建立一個新的資料表並僅對該查詢進行一次性運算以填入新資料表。新資料表將不隨查詢來源資料表的後續變更而改變。相比之下，無論何時查詢，檢視資料表都會重新運算其所定義的 SELECT 語句。
 
-## 參數
+### 參數
 
 `GLOBAL` or `LOCAL`
 
@@ -83,13 +83,13 @@ _`query`_
 
 此子句指定是否將查詢産生的資料複製到新資料表中。如果不是，則就只複製資料表結構。預設值是複製資料。
 
-## 注意
+### 注意
 
 此指令在功能上類似於 SELECT INTO，但通常會優先使用這個，因為它不太可能與 SELECT INTO 語法的其他用法混淆。基本上，CREATE TABLE AS 的功能包含了 SELECT INTO 所提供的功能。
 
 CREATE TABLE AS 指令允許使用者明確指定是否應包含 OID。如果未明確指定 OID 的存在，則使用 [default\_with\_oids ](../../server-administration/server-configuration/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md#19-13-1-previous-postgresql-versions)的設定變數。
 
-## 範例
+### 範例
 
 建立一個新的資料表 films\_recent，其中只包含來自資料表 film 的最新項目：
 
@@ -114,7 +114,7 @@ CREATE TEMP TABLE films_recent WITH (OIDS) ON COMMIT DROP AS
   EXECUTE recentfilms('2002-01-01');
 ```
 
-## 相容性
+### 相容性
 
 CREATE TABLE AS 符合 SQL 標準。以下是非標準的延伸功能：
 
@@ -124,7 +124,7 @@ CREATE TABLE AS 符合 SQL 標準。以下是非標準的延伸功能：
 * WITH 子句是一個 PostgreSQL 延伸功能；標準中既沒有儲存參數也沒有 OID。
 * PostgreSQL 資料表空間的概念並不是標準的一部分。因此，TABLESPACE 子句是一個延伸功能。
 
-## See Also
+### See Also
 
 [CREATE MATERIALIZED VIEW](create-materialized-view.md), [CREATE TABLE](create-table.md), [EXECUTE](execute.md), [SELECT](select.md), [SELECT INTO](select-into.md), [VALUES](values.md)
 

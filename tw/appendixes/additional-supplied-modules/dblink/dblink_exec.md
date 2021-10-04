@@ -2,7 +2,7 @@
 
 dblink\_exec — executes a command in a remote database
 
-## Synopsis
+### Synopsis
 
 ```text
 dblink_exec(text connname, text sql [, bool fail_on_error]) returns text
@@ -10,13 +10,13 @@ dblink_exec(text connstr, text sql [, bool fail_on_error]) returns text
 dblink_exec(text sql [, bool fail_on_error]) returns text
 ```
 
-## Description
+### Description
 
 `dblink_exec` executes a command \(that is, any SQL statement that doesn't return rows\) in a remote database.
 
 When two `text` arguments are given, the first one is first looked up as a persistent connection's name; if found, the command is executed on that connection. If not found, the first argument is treated as a connection info string as for `dblink_connect`, and the indicated connection is made just for the duration of this command.
 
-## Arguments
+### Arguments
 
 _`connname`_
 
@@ -34,11 +34,11 @@ _`fail_on_error`_
 
 If true \(the default when omitted\) then an error thrown on the remote side of the connection causes an error to also be thrown locally. If false, the remote error is locally reported as a NOTICE, and the function's return value is set to `ERROR`.
 
-## Return Value
+### Return Value
 
 Returns status, either the command's status string or `ERROR`.
 
-## Examples
+### Examples
 
 ```text
 SELECT dblink_connect('dbname=dblink_test_standby');

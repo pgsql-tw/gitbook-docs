@@ -2,7 +2,7 @@
 
 CREATE DATABASE — 建立一個新的資料庫
 
-## 語法
+### 語法
 
 ```text
 CREATE DATABASE name
@@ -17,7 +17,7 @@ CREATE DATABASE name
            [ IS_TEMPLATE [=] istemplate ] ]
 ```
 
-## 說明
+### 說明
 
 CREATE DATABASE 建立一個新的 PostgreSQL 資料庫。
 
@@ -25,7 +25,7 @@ CREATE DATABASE 建立一個新的 PostgreSQL 資料庫。
 
 預設情況下，將透過複製標準系統資料庫 template1 來建立新的資料庫。可以透過修改 TEMPLATE 名稱來指定不同的樣板。特別是，通過修改 TEMPLATE template0，您可以建立一個僅包含您的 PostgreSQL 版本預定義的標準物件的原始資料庫。如果您希望避免複製可能已添加到 template1 的任何本地物件，這將非常有用。
 
-## 參數
+### 參數
 
 _`name`_
 
@@ -69,7 +69,7 @@ _`istemplate`_
 
 選擇性參數可以按任何順序輸入，而不僅僅是上面說明的順序。
 
-## 注意
+### 注意
 
 不能在交易事務區塊內執行 CREATE DATABASE。
 
@@ -89,7 +89,7 @@ _`istemplate`_
 
 CONNECTION LIMIT 選項僅近乎強制執行：如果兩個新連線幾乎同時開始，當資料庫只剩下一個連線「插槽」時，則兩者都可能會失敗。此外，不會對超級使用者或後台工作程序強制執行此限制。
 
-## 範例
+### 範例
 
 要建立新資料庫：
 
@@ -126,11 +126,11 @@ CREATE DATABASE music2
 
 請注意，區域設定名稱專屬於作業系統，因此上述指令可能無法在其他地方以相同的方式工作。
 
-## 相容性
+### 相容性
 
 SQL 標準中沒有 CREATE DATABASE 語句。資料庫等同於目錄，其建立是實作上定義的。
 
-## 參閱
+### 參閱
 
 [ALTER DATABASE](alter-database.md), [DROP DATABASE](drop-database.md)
 

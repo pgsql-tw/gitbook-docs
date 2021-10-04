@@ -29,7 +29,8 @@ SELECT text 'a' AS "text" UNION SELECT 'b';
 (2 rows)
 ```
 
-在這裡，未知型別文字「b」將被解析為 text 型別。
+在這裡，未知型別文字「b」將被解析為 text 型別。  
+
 
 **Example 10.11. 在簡單 UNION 中的型別解析**
 
@@ -43,7 +44,8 @@ SELECT 1.2 AS "numeric" UNION SELECT 1;
 (2 rows)
 ```
 
-文字 1.2 是數字型別，整數值 1 可以直接轉換為數字，因此使用該型別。
+文字 1.2 是數字型別，整數值 1 可以直接轉換為數字，因此使用該型別。  
+
 
 **Example 10.12. 在轉置 UNION 中的型別轉換**
 
@@ -57,7 +59,8 @@ SELECT 1 AS "real" UNION SELECT CAST('2.2' AS REAL);
 (2 rows)
 ```
 
-這裡，由於型別 real 不能直接轉換為整數，但整數可以直接轉換為實數，因此 union 結果型別被解析為 real。
+這裡，由於型別 real 不能直接轉換為整數，但整數可以直接轉換為實數，因此 union 結果型別被解析為 real。  
+
 
 **Example 10.13. 在巢狀 UNION 中的型別解析**
 
@@ -75,5 +78,9 @@ ERROR:  UNION types text and integer cannot be matched
 
 根據上面給予的規則，內部 UNION 被解析為 text。然後外部 UNION 具有 text 和 integer 型別的輸入，導致觀察的錯誤。可以透過確保最左邊的 UNION 至少具有所需結果型別的一種輸入來解決此問題。
 
-INTERSECT 和 EXCEPT 操作同樣成對處理。然而，本節中描述的其他結構同樣在一套解析步驟中考慮它們的所有輸入。
+INTERSECT 和 EXCEPT 操作同樣成對處理。然而，本節中描述的其他結構同樣在一套解析步驟中考慮它們的所有輸入。  
+  
+
+
+
 

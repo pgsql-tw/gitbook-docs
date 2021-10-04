@@ -24,7 +24,7 @@ PostgreSQL reads the system-wide OpenSSL configuration file. By default, this fi
 
 OpenSSL supports a wide range of ciphers and authentication algorithms, of varying strength. While a list of ciphers can be specified in the OpenSSL configuration file, you can specify ciphers specifically for use by the database server by modifying [ssl\_ciphers](https://www.postgresql.org/docs/12/runtime-config-connection.html#GUC-SSL-CIPHERS) in `postgresql.conf`.
 
-### Note
+#### Note
 
 It is possible to have authentication without encryption overhead by using `NULL-SHA` or `NULL-MD5` ciphers. However, a man-in-the-middle could read and pass communications between client and server. Also, encryption overhead is minimal compared to the overhead of authentication. For these reasons NULL ciphers are not recommended.
 
@@ -48,7 +48,7 @@ The second approach combines any authentication method for `hostssl` entries wit
 
 [Table 18.2](https://www.postgresql.org/docs/12/ssl-tcp.html#SSL-FILE-USAGE) summarizes the files that are relevant to the SSL setup on the server. \(The shown file names are default names. The locally configured names could be different.\)
 
-### **Table 18.2. SSL Server File Usage**
+#### **Table 18.2. SSL Server File Usage**
 
 | File | Contents | Effect |
 | :--- | :--- | :--- |
@@ -61,7 +61,7 @@ The server reads these files at server start and whenever the server configurati
 
 If an error in these files is detected at server start, the server will refuse to start. But if an error is detected during a configuration reload, the files are ignored and the old SSL configuration continues to be used. On Windows systems, if an error in these files is detected at backend start, that backend will be unable to establish an SSL connection. In all these cases, the error condition is reported in the server log.
 
-### 18.9.5. Creating Certificates
+#### 18.9.5. Creating Certificates
 
 To create a simple self-signed certificate for the server, valid for 365 days, use the following OpenSSL command, replacing _`dbhost.yourdomain.com`_ with the server's host name:
 

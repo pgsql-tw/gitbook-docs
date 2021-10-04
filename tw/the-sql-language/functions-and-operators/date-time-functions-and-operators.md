@@ -4,7 +4,7 @@
 
 All the functions and operators described below that take `time` or `timestamp` inputs actually come in two variants: one that takes `time with time zone` or `timestamp with time zone`, and one that takes `time without time zone` or `timestamp without time zone`. For brevity, these variants are not shown separately. Also, the `+` and `*` operators come in commutative pairs \(for example both date + integer and integer + date\); we show only one of each such pair.
 
-### **Table 9.30. Date/Time Operators**
+#### **Table 9.30. Date/Time Operators**
 
 | Operator | Example | Result |
 | :--- | :--- | :--- |
@@ -28,7 +28,7 @@ All the functions and operators described below that take `time` or `timestamp` 
 | `*` | `double precision '3.5' * interval '1 hour'` | `interval '03:30:00'` |
 | `/` | `interval '1 hour' / double precision '1.5'` | `interval '00:40:00'` |
 
-### **Table 9.31. Date/Time Functions**
+#### **Table 9.31. Date/Time Functions**
 
 | Function | Return Type | Description | Example | Result |
 | :--- | :--- | :--- | :--- | :--- |
@@ -321,7 +321,7 @@ SELECT EXTRACT(YEAR FROM TIMESTAMP '2001-02-16 20:38:40');
 Result: 2001
 ```
 
-### Note
+#### Note
 
 When the input value is +/-Infinity, `extract` returns +/-Infinity for monotonically-increasing fields \(`epoch`, `julian`, `year`, `isoyear`, `decade`, `century`, and `millennium`\). For other fields, NULL is returned. PostgreSQL versions before 9.6 returned zero for all cases of infinite input.
 
@@ -397,7 +397,7 @@ Result: 3 days 02:00:00
 
 The `AT TIME ZONE` converts time stamp _without time zone_ to/from time stamp _with time zone_, and _time_ values to different time zones. [Table 9.32](https://www.postgresql.org/docs/12/functions-datetime.html#FUNCTIONS-DATETIME-ZONECONVERT-TABLE) shows its variants.
 
-### **Table 9.32. `AT TIME ZONE` Variants**
+#### **Table 9.32. `AT TIME ZONE` Variants**
 
 | Expression | Return Type | Description |
 | :--- | :--- | :--- |
@@ -465,7 +465,7 @@ Result: 2001-12-23 14:39:53.662522
 
 Since these functions return the start time of the current transaction, their values do not change during the transaction. This is considered a feature: the intent is to allow a single transaction to have a consistent notion of the “current” time, so that multiple modifications within the same transaction bear the same time stamp.
 
-### Note
+#### Note
 
 Other database systems might advance these values more frequently.
 
@@ -489,7 +489,7 @@ SELECT now();
 SELECT TIMESTAMP 'now';  -- incorrect for use with DEFAULT
 ```
 
-### Tip
+#### Tip
 
 You do not want to use the third form when specifying a `DEFAULT` clause while creating a table. The system will convert `now` to a `timestamp` as soon as the constant is parsed, so that when the default value is needed, the time of the table creation would be used! The first two forms will not be evaluated until the default value is used, because they are function calls. Thus they will give the desired behavior of defaulting to the time of row insertion.
 
@@ -511,13 +511,14 @@ SELECT pg_sleep_for('5 minutes');
 SELECT pg_sleep_until('tomorrow 03:00');
 ```
 
-### Note
+#### Note
 
 The effective resolution of the sleep interval is platform-specific; 0.01 seconds is a common value. The sleep delay will be at least as long as specified. It might be longer depending on factors such as server load. In particular, `pg_sleep_until` is not guaranteed to wake up exactly at the specified time, but it will not wake up any earlier.
 
-### Warning
+#### Warning
 
-Make sure that your session does not hold more locks than necessary when calling `pg_sleep` or its variants. Otherwise other sessions might have to wait for your sleeping process, slowing down the entire system.
+Make sure that your session does not hold more locks than necessary when calling `pg_sleep` or its variants. Otherwise other sessions might have to wait for your sleeping process, slowing down the entire system.  
+
 
 [\[7\]](https://www.postgresql.org/docs/12/functions-datetime.html#id-1.5.8.14.12.5.11.16.2.1.1) 60 if leap seconds are implemented by the operating system
 

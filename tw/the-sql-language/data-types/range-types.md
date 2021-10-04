@@ -4,13 +4,13 @@ description: 版本：11
 
 # 8.17. 範圍型別
 
-Range types are data types representing a range of values of some element type \(called the range's _subtype_\). For instance, ranges of `timestamp` might be used to represent the ranges of time that a meeting room is reserved. In this case the data type is `tsrange` \(short for “timestamp range”\), and `timestamp` is the subtype. The subtype must have a total order so that it is well-defined whether element values are within, before, or after a range of values.
+範圍型別\(Range Type\)是表示某種資料型別（稱為範圍的子類型）其元素值為某種範圍的資料型別。例如，時間戳記範圍可用於表示保留會議室的時間範圍。在這種情況下，資料型別為 tsrange（「時間戳記範圍」的縮寫），時間戳記是子型別。子型別必須具有次序性，以便可以很明確地定義元素值是在範圍之內，之前還是之後。
 
-Range types are useful because they represent many element values in a single range value, and because concepts such as overlapping ranges can be expressed clearly. The use of time and date ranges for scheduling purposes is the clearest example; but price ranges, measurement ranges from an instrument, and so forth can also be useful.
+範圍類型之所以有用，是因為它們在某個範圍值中表示許多元素值，並且因為可以清楚地表示諸如重疊範圍之類的概念。將時間和日期範圍用於計劃目的是最明顯的例子；還有像是價格範圍、儀器的測量範圍等等也會有用。
 
 ## 8.17.1. Built-in Range Types
 
-PostgreSQL comes with the following built-in range types:
+PostgreSQL 內建了以下內建範圍型別：
 
 * `int4range` — Range of `integer`
 * `int8range` — Range of `bigint`
@@ -19,7 +19,7 @@ PostgreSQL comes with the following built-in range types:
 * `tstzrange` — Range of `timestamp with time zone`
 * `daterange` — Range of `date`
 
-In addition, you can define your own range types; see [CREATE TYPE](https://www.postgresql.org/docs/12/sql-createtype.html) for more information.
+另外，您也可以定義自己的範圍類型。 有關更多說明，請參閱 [CREATE TYPE](../../reference/sql-commands/create-type.md)。
 
 ## 8.17.2. Examples
 
@@ -44,13 +44,13 @@ SELECT int4range(10, 20) * int4range(15, 25);
 SELECT isempty(numrange(1, 5));
 ```
 
-See [Table 9.53](https://www.postgresql.org/docs/12/functions-range.html#RANGE-OPERATORS-TABLE) and [Table 9.54](https://www.postgresql.org/docs/12/functions-range.html#RANGE-FUNCTIONS-TABLE) for complete lists of operators and functions on range types.
+有關範圍型別的運算子和函數的完整列表，請參閱 [Table 9.53](../functions-and-operators/range-functions-and-operators.md#table-9-53-range-operators) 和 [Table 9.54](../functions-and-operators/range-functions-and-operators.md#table-9-54-range-functions)。
 
 ## 8.17.3. Inclusive and Exclusive Bounds
 
 Every non-empty range has two bounds, the lower bound and the upper bound. All points between these values are included in the range. An inclusive bound means that the boundary point itself is included in the range as well, while an exclusive bound means that the boundary point is not included in the range.
 
-In the text form of a range, an inclusive lower bound is represented by “`[`” while an exclusive lower bound is represented by “`(`”. Likewise, an inclusive upper bound is represented by “`]`”, while an exclusive upper bound is represented by “`)`”. \(See [Section 8.17.5](https://www.postgresql.org/docs/12/rangetypes.html#RANGETYPES-IO) for more details.\)
+In the text form of a range, an inclusive lower bound is represented by “`[`” while an exclusive lower bound is represented by “`(`”. Likewise, an inclusive upper bound is represented by “`]`”, while an exclusive upper bound is represented by “`)`”. \(See [Section 8.17.5](https://www.postgresql.org/docs/13/rangetypes.html#RANGETYPES-IO) for more details.\)
 
 The functions `lower_inc` and `upper_inc` test the inclusivity of the lower and upper bounds of a range value, respectively.
 
@@ -82,9 +82,9 @@ Each bound value can be quoted using `"` \(double quote\) characters. This is ne
 
 Whitespace is allowed before and after the range value, but any whitespace between the parentheses or brackets is taken as part of the lower or upper bound value. \(Depending on the element type, it might or might not be significant.\)
 
-### Note
+#### Note
 
-These rules are very similar to those for writing field values in composite-type literals. See [Section 8.16.6](https://www.postgresql.org/docs/12/rowtypes.html#ROWTYPES-IO-SYNTAX) for additional commentary.
+These rules are very similar to those for writing field values in composite-type literals. See [Section 8.16.6](https://www.postgresql.org/docs/13/rowtypes.html#ROWTYPES-IO-SYNTAX) for additional commentary.
 
 Examples:
 
@@ -167,7 +167,7 @@ CREATE TYPE timerange AS RANGE (
 SELECT '[11:10, 23:00]'::timerange;
 ```
 
-See [CREATE TYPE](https://www.postgresql.org/docs/12/sql-createtype.html) for more information about creating range types.
+See [CREATE TYPE](https://www.postgresql.org/docs/13/sql-createtype.html) for more information about creating range types.
 
 ## 8.17.9. Indexing
 
@@ -177,13 +177,13 @@ GiST and SP-GiST indexes can be created for table columns of range types. For in
 CREATE INDEX reservation_idx ON reservation USING GIST (during);
 ```
 
-A GiST or SP-GiST index can accelerate queries involving these range operators: `=`, `&&`, `<@`, `@>`, `<<`, `>>`, `-|-`, `&<`, and `&>` \(see [Table 9.53](https://www.postgresql.org/docs/12/functions-range.html#RANGE-OPERATORS-TABLE) for more information\).
+A GiST or SP-GiST index can accelerate queries involving these range operators: `=`, `&&`, `<@`, `@>`, `<<`, `>>`, `-|-`, `&<`, and `&>` \(see [Table 9.53](https://www.postgresql.org/docs/13/functions-range.html#RANGE-OPERATORS-TABLE) for more information\).
 
 In addition, B-tree and hash indexes can be created for table columns of range types. For these index types, basically the only useful range operation is equality. There is a B-tree sort ordering defined for range values, with corresponding `<` and `>` operators, but the ordering is rather arbitrary and not usually useful in the real world. Range types' B-tree and hash support is primarily meant to allow sorting and hashing internally in queries, rather than creation of actual indexes.
 
 ## 8.17.10. Constraints on Ranges
 
-While `UNIQUE` is a natural constraint for scalar values, it is usually unsuitable for range types. Instead, an exclusion constraint is often more appropriate \(see [CREATE TABLE ... CONSTRAINT ... EXCLUDE](https://www.postgresql.org/docs/12/sql-createtable.html#SQL-CREATETABLE-EXCLUDE)\). Exclusion constraints allow the specification of constraints such as “non-overlapping” on a range type. For example:
+While `UNIQUE` is a natural constraint for scalar values, it is usually unsuitable for range types. Instead, an exclusion constraint is often more appropriate \(see [CREATE TABLE ... CONSTRAINT ... EXCLUDE](https://www.postgresql.org/docs/13/sql-createtable.html#SQL-CREATETABLE-EXCLUDE)\). Exclusion constraints allow the specification of constraints such as “non-overlapping” on a range type. For example:
 
 ```text
 CREATE TABLE reservation (
@@ -206,7 +206,7 @@ DETAIL:  Key (during)=(["2010-01-01 14:45:00","2010-01-01 15:45:00")) conflicts
 with existing key (during)=(["2010-01-01 11:30:00","2010-01-01 15:00:00")).
 ```
 
-You can use the [`btree_gist`](https://www.postgresql.org/docs/12/btree-gist.html) extension to define exclusion constraints on plain scalar data types, which can then be combined with range exclusions for maximum flexibility. For example, after `btree_gist` is installed, the following constraint will reject overlapping ranges only if the meeting room numbers are equal:
+You can use the [`btree_gist`](https://www.postgresql.org/docs/13/btree-gist.html) extension to define exclusion constraints on plain scalar data types, which can then be combined with range exclusions for maximum flexibility. For example, after `btree_gist` is installed, the following constraint will reject overlapping ranges only if the meeting room numbers are equal:
 
 ```text
 CREATE EXTENSION btree_gist;

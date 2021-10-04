@@ -2,18 +2,18 @@
 
 dblink\_fetch — returns rows from an open cursor in a remote database
 
-## Synopsis
+### Synopsis
 
 ```text
 dblink_fetch(text cursorname, int howmany [, bool fail_on_error]) returns setof record
 dblink_fetch(text connname, text cursorname, int howmany [, bool fail_on_error]) returns setof record
 ```
 
-## Description
+### Description
 
 `dblink_fetch` fetches rows from a cursor previously established by `dblink_open`.
 
-## Arguments
+### Arguments
 
 _`connname`_
 
@@ -31,15 +31,15 @@ _`fail_on_error`_
 
 If true \(the default when omitted\) then an error thrown on the remote side of the connection causes an error to also be thrown locally. If false, the remote error is locally reported as a NOTICE, and the function returns no rows.
 
-## Return Value
+### Return Value
 
 The function returns the row\(s\) fetched from the cursor. To use this function, you will need to specify the expected set of columns, as previously discussed for `dblink`.
 
-## Notes
+### Notes
 
 On a mismatch between the number of return columns specified in the `FROM` clause, and the actual number of columns returned by the remote cursor, an error will be thrown. In this event, the remote cursor is still advanced by as many rows as it would have been if the error had not occurred. The same is true for any other error occurring in the local query after the remote `FETCH` has been done.
 
-## Examples
+### Examples
 
 ```text
 SELECT dblink_connect('dbname=postgres options=-csearch_path=');

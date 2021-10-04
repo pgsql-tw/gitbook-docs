@@ -2,20 +2,20 @@
 
 REFRESH MATERIALIZED VIEW — 更新具體化檢視表（materialized view）的內容
 
-## 語法
+### 語法
 
 ```text
 REFRESH MATERIALIZED VIEW [ CONCURRENTLY ] name
     [ WITH [ NO ] DATA ]
 ```
 
-## 說明
+### 說明
 
 REFRESH MATERIALIZED VIEW 完全更新具體化檢視表的內容。舊的內容將會被丟棄。如果指定了 WITH DATA（預設），則會執行檢視表上的查詢以産生新資料，並且使具體化檢視表處於可掃描查詢的狀態。如果指定了 WITH NO DATA，則不會産生新的資料，並且具體化檢視表將處於不可掃描查詢的狀態。
 
 CONCURRENTLY 和 WITH NO DATA 不能同時使用。
 
-## 參數
+### 參數
 
 `CONCURRENTLY`
 
@@ -31,11 +31,11 @@ _`name`_
 
 要更新的具體化檢視表的名稱（可以加上綱要名稱）。
 
-## 注意
+### 注意
 
 儘管保留了未來 [CLUSTER](cluster.md) 操作的預設索引，但 REFRESH MATERIALIZED VIEW 並不會根據此屬性對産生的資料列進行排序。如果您希望在産生後對資料進行排序，則必須在檢視表的查詢中使用 ORDER BY 子句。
 
-## 範例
+### 範例
 
 此命令將更新名為 order\_summary 的具體化檢視表定義的查詢結果內容，並將其設定為可掃描查詢狀態：
 
@@ -49,11 +49,11 @@ REFRESH MATERIALIZED VIEW order_summary;
 REFRESH MATERIALIZED VIEW annual_statistics_basis WITH NO DATA;
 ```
 
-## 相容性
+### 相容性
 
 `REFRESH MATERIALIZED VIEW` 是 PostgreSQL 的延伸指令。
 
-## 參閱
+### 參閱
 
 [CREATE MATERIALIZED VIEW](create-materialized-view.md), [ALTER MATERIALIZED VIEW](alter-materialized-view.md), [DROP MATERIALIZED VIEW](drop-materialized-view.md)
 

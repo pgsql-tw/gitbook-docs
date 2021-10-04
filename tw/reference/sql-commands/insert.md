@@ -2,7 +2,7 @@
 
 INSERT — 在資料表中建立新的資料
 
-## 語法
+### 語法
 
 ```text
 [ WITH [ RECURSIVE ] with_query [, ...] ]
@@ -27,7 +27,7 @@ and conflict_action is one of:
               [ WHERE condition ]
 ```
 
-## 說明
+### 說明
 
 `INSERT` inserts new rows into a table. One can insert one or more rows specified by value expressions, or zero or more rows resulting from a query.
 
@@ -47,9 +47,9 @@ If a column list is specified, you only need `INSERT` privilege on the listed co
 
 Use of the `RETURNING` clause requires `SELECT` privilege on all columns mentioned in `RETURNING`. If you use the _`query`_ clause to insert rows from a query, you of course need to have `SELECT` privilege on any table or column used in the query.
 
-## Parameters
+### Parameters
 
-### Inserting
+#### Inserting
 
 This section covers parameters that may be used when only inserting new rows. Parameters _exclusively_ used with the `ON CONFLICT` clause are described separately.
 
@@ -105,7 +105,7 @@ _`output_name`_
 
 A name to use for a returned column.
 
-### `ON CONFLICT` Clause
+#### `ON CONFLICT` Clause
 
 選用的 ON CONFLICT 子句指定了遭遇違反唯一性或提供排除約束違反錯誤的替代操作。對於建議插入的每個單獨資料，要就是繼續 INSERT，要就是如果違反了由 conflict\_target 指定的約束條件或索引，則採用替代的 conflict\_action。發生衝突時，CONFLICT DO NOTHING，只是避免插入一筆資料作為其替代操作。ON CONFLICT DO UPDATE 則以替代資料更新現有資料，如果建議插入的資料發生衝突的話。
 
@@ -157,11 +157,11 @@ Note that exclusion constraints are not supported as arbiters with `ON CONFLICT 
 
 Note that it is currently not supported for the `ON CONFLICT DO UPDATE` clause of an `INSERT` applied to a partitioned table to update the partition key of a conflicting row such that it requires the row be moved to a new partition.
 
-### Tip
+#### Tip
 
 It is often preferable to use unique index inference rather than naming a constraint directly using `ON CONFLICT ON CONSTRAINT` _`constraint_name`_. Inference will continue to work correctly when the underlying index is replaced by another more or less equivalent index in an overlapping way, for example when using `CREATE UNIQUE INDEX ... CONCURRENTLY` before dropping the index being replaced.
 
-## Outputs
+### Outputs
 
 On successful completion, an `INSERT` command returns a command tag of the form
 
@@ -173,11 +173,11 @@ The _`count`_ is the number of rows inserted or updated. _`oid`_ is always 0 \(i
 
 If the `INSERT` command contains a `RETURNING` clause, the result will be similar to that of a `SELECT` statement containing the columns and values defined in the `RETURNING` list, computed over the row\(s\) inserted or updated by the command.
 
-## Notes
+### Notes
 
 If the specified table is a partitioned table, each row is routed to the appropriate partition and inserted into it. If the specified table is a partition, an error will occur if one of the input rows violates the partition constraint.
 
-## Examples
+### Examples
 
 Insert a single row into table `films`:
 
@@ -291,11 +291,12 @@ INSERT INTO distributors (did, dname) VALUES (10, 'Conrad International')
     ON CONFLICT (did) WHERE is_active DO NOTHING;
 ```
 
-## Compatibility
+### Compatibility
 
 `INSERT` conforms to the SQL standard, except that the `RETURNING` clause is a PostgreSQL extension, as is the ability to use `WITH` with `INSERT`, and the ability to specify an alternative action with `ON CONFLICT`. Also, the case in which a column name list is omitted, but not all the columns are filled from the `VALUES` clause or _`query`_, is disallowed by the standard.
 
 The SQL standard specifies that `OVERRIDING SYSTEM VALUE` can only be specified if an identity column that is generated always exists. PostgreSQL allows the clause in any case and ignores it if it is not applicable.
 
-Possible limitations of the _`query`_ clause are documented under [SELECT](https://www.postgresql.org/docs/12/sql-select.html).
+Possible limitations of the _`query`_ clause are documented under [SELECT](https://www.postgresql.org/docs/12/sql-select.html).  
+
 

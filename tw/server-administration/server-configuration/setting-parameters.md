@@ -139,5 +139,6 @@ You might instead use this approach to naming the files descriptively:
 02server-foo.conf
 ```
 
-This sort of arrangement gives a unique name for each configuration file variation. This can help eliminate ambiguity when several servers have their configurations all stored in one place, such as in a version control repository. \(Storing database configuration files under version control is another good practice to consider.\)
+This sort of arrangement gives a unique name for each configuration file variation. This can help eliminate ambiguity when several servers have their configurations all stored in one place, such as in a version control repository. \(Storing database configuration files under version control is another good practice to consider.\)  
+
 

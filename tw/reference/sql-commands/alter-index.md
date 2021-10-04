@@ -2,7 +2,7 @@
 
 ALTER INDEX — change the definition of an index
 
-## Synopsis
+### Synopsis
 
 ```text
 ALTER INDEX [ IF EXISTS ] name RENAME TO new_name
@@ -14,7 +14,7 @@ ALTER INDEX ALL IN TABLESPACE name [ OWNED BY role_name [, ... ] ]
     SET TABLESPACE new_tablespace [ NOWAIT ]
 ```
 
-## Description
+### Description
 
 `ALTER INDEX` changes the definition of an existing index. There are several subforms:`RENAME`
 
@@ -28,7 +28,7 @@ This form changes one or more index-method-specific storage parameters for the i
 
 This form resets one or more index-method-specific storage parameters to their defaults. As with `SET`, a `REINDEX` might be needed to update the index entirely.
 
-## Parameters
+### Parameters
 
 `IF EXISTS`
 
@@ -58,7 +58,7 @@ _`value`_
 
 The new value for an index-method-specific storage parameter. This might be a number or a word depending on the parameter.
 
-## Notes
+### Notes
 
 These operations are also possible using [ALTER TABLE](https://www.postgresql.org/docs/current/static/sql-altertable.html). `ALTER INDEX` is in fact just an alias for the forms of `ALTER TABLE` that apply to indexes.
 
@@ -66,7 +66,7 @@ There was formerly an `ALTER INDEX OWNER` variant, but this is now ignored \(wit
 
 Changing any part of a system catalog index is not permitted.
 
-## Examples
+### Examples
 
 To rename an existing index:
 
@@ -87,11 +87,11 @@ ALTER INDEX distributors SET (fillfactor = 75);
 REINDEX INDEX distributors;
 ```
 
-## Compatibility
+### Compatibility
 
 `ALTER INDEX` is a PostgreSQL extension.
 
-## See Also
+### See Also
 
 [CREATE INDEX](https://www.postgresql.org/docs/current/static/sql-createindex.html), [REINDEX](https://www.postgresql.org/docs/current/static/sql-reindex.html)
 

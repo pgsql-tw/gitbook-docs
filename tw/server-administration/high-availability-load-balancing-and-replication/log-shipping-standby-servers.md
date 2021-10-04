@@ -107,19 +107,19 @@ You can retrieve a list of WAL sender processes via the [`pg_stat_replication`](
 
 ## 26.2.6. Replication Slots
 
-Replication slots provide an automated way to ensure that the master does not remove WAL segments until they have been received by all standbys, and that the master does not remove rows which could cause a [recovery conflict](https://www.postgresql.org/docs/10/static/hot-standby.html#HOT-STANDBY-CONFLICT) even when the standby is disconnected.
+Replication slots provide an automated way to ensure that the master does not remove WAL segments until they have been received by all standbys, and that the master does not remove rows which could cause a [recovery conflict](https://www.postgresql.org/docs/13/hot-standby.html#HOT-STANDBY-CONFLICT) even when the standby is disconnected.
 
-In lieu of using replication slots, it is possible to prevent the removal of old WAL segments using [wal\_keep\_segments](https://www.postgresql.org/docs/10/static/runtime-config-replication.html#GUC-WAL-KEEP-SEGMENTS), or by storing the segments in an archive using [archive\_command](https://www.postgresql.org/docs/10/static/runtime-config-wal.html#GUC-ARCHIVE-COMMAND). However, these methods often result in retaining more WAL segments than required, whereas replication slots retain only the number of segments known to be needed. An advantage of these methods is that they bound the space requirement for `pg_wal`; there is currently no way to do this using replication slots.
+In lieu of using replication slots, it is possible to prevent the removal of old WAL segments using [wal\_keep\_size](https://www.postgresql.org/docs/13/runtime-config-replication.html#GUC-WAL-KEEP-SIZE), or by storing the segments in an archive using [archive\_command](https://www.postgresql.org/docs/13/runtime-config-wal.html#GUC-ARCHIVE-COMMAND). However, these methods often result in retaining more WAL segments than required, whereas replication slots retain only the number of segments known to be needed. On the other hand, replication slots can retain so many WAL segments that they fill up the space allocated for `pg_wal`; [max\_slot\_wal\_keep\_size](https://www.postgresql.org/docs/13/runtime-config-replication.html#GUC-MAX-SLOT-WAL-KEEP-SIZE) limits the size of WAL files retained by replication slots.
 
-Similarly, [hot\_standby\_feedback](https://www.postgresql.org/docs/10/static/runtime-config-replication.html#GUC-HOT-STANDBY-FEEDBACK) and [vacuum\_defer\_cleanup\_age](https://www.postgresql.org/docs/10/static/runtime-config-replication.html#GUC-VACUUM-DEFER-CLEANUP-AGE) provide protection against relevant rows being removed by vacuum, but the former provides no protection during any time period when the standby is not connected, and the latter often needs to be set to a high value to provide adequate protection. Replication slots overcome these disadvantages.
+Similarly, [hot\_standby\_feedback](https://www.postgresql.org/docs/13/runtime-config-replication.html#GUC-HOT-STANDBY-FEEDBACK) and [vacuum\_defer\_cleanup\_age](https://www.postgresql.org/docs/13/runtime-config-replication.html#GUC-VACUUM-DEFER-CLEANUP-AGE) provide protection against relevant rows being removed by vacuum, but the former provides no protection during any time period when the standby is not connected, and the latter often needs to be set to a high value to provide adequate protection. Replication slots overcome these disadvantages.
 
 ### **26.2.6.1. Querying and manipulating replication slots**
 
 Each replication slot has a name, which can contain lower-case letters, numbers, and the underscore character.
 
-Existing replication slots and their state can be seen in the [`pg_replication_slots`](https://www.postgresql.org/docs/10/static/view-pg-replication-slots.html) view.
+Existing replication slots and their state can be seen in the [`pg_replication_slots`](https://www.postgresql.org/docs/13/view-pg-replication-slots.html) view.
 
-Slots can be created and dropped either via the streaming replication protocol \(see [Section 52.4](https://www.postgresql.org/docs/10/static/protocol-replication.html)\) or via SQL functions \(see [Section 9.26.6](https://www.postgresql.org/docs/10/static/functions-admin.html#FUNCTIONS-REPLICATION)\).
+Slots can be created and dropped either via the streaming replication protocol \(see [Section 52.4](https://www.postgresql.org/docs/13/protocol-replication.html)\) or via SQL functions \(see [Section 9.27.6](https://www.postgresql.org/docs/13/functions-admin.html#FUNCTIONS-REPLICATION)\).
 
 ### **26.2.6.2. Configuration Example**
 
@@ -131,17 +131,16 @@ postgres=# SELECT * FROM pg_create_physical_replication_slot('node_a_slot');
 -------------+-----
  node_a_slot |
 
-postgres=# SELECT * FROM pg_replication_slots;
-  slot_name  | slot_type | datoid | database | active | xmin | restart_lsn | confirmed_flush_lsn
--------------+-----------+--------+----------+--------+------+-------------+---------------------
- node_a_slot | physical  |        |          | f      |      |             |
+postgres=# SELECT slot_name, slot_type, active FROM pg_replication_slots;
+  slot_name  | slot_type | active 
+-------------+-----------+--------
+ node_a_slot | physical  | f
 (1 row)
 ```
 
-To configure the standby to use this slot, `primary_slot_name` should be configured in the standby's `recovery.conf`. Here is a simple example:
+To configure the standby to use this slot, `primary_slot_name` should be configured on the standby. Here is a simple example:
 
 ```text
-standby_mode = 'on'
 primary_conninfo = 'host=192.168.1.50 port=5432 user=foo password=foopass'
 primary_slot_name = 'node_a_slot'
 ```
@@ -154,13 +153,13 @@ A standby acting as both a receiver and a sender is known as a cascading standby
 
 A cascading standby sends not only WAL records received from the master but also those restored from the archive. So even if the replication connection in some upstream connection is terminated, streaming replication continues downstream for as long as new WAL records are available.
 
-Cascading replication is currently asynchronous. Synchronous replication \(see [Section 26.2.8](https://www.postgresql.org/docs/10/static/warm-standby.html#SYNCHRONOUS-REPLICATION)\) settings have no effect on cascading replication at present.
+Cascading replication is currently asynchronous. Synchronous replication \(see [Section 26.2.8](https://www.postgresql.org/docs/13/warm-standby.html#SYNCHRONOUS-REPLICATION)\) settings have no effect on cascading replication at present.
 
 Hot Standby feedback propagates upstream, whatever the cascaded arrangement.
 
-If an upstream standby server is promoted to become new master, downstream servers will continue to stream from the new master if `recovery_target_timeline` is set to `'latest'`.
+If an upstream standby server is promoted to become new master, downstream servers will continue to stream from the new master if `recovery_target_timeline` is set to `'latest'` \(the default\).
 
-To use cascading replication, set up the cascading standby so that it can accept replication connections \(that is, set [max\_wal\_senders](https://www.postgresql.org/docs/10/static/runtime-config-replication.html#GUC-MAX-WAL-SENDERS) and [hot\_standby](https://www.postgresql.org/docs/10/static/runtime-config-replication.html#GUC-HOT-STANDBY), and configure [host-based authentication](https://www.postgresql.org/docs/10/static/auth-pg-hba-conf.html)\). You will also need to set `primary_conninfo` in the downstream standby to point to the cascading standby.
+To use cascading replication, set up the cascading standby so that it can accept replication connections \(that is, set [max\_wal\_senders](https://www.postgresql.org/docs/13/runtime-config-replication.html#GUC-MAX-WAL-SENDERS) and [hot\_standby](https://www.postgresql.org/docs/13/runtime-config-replication.html#GUC-HOT-STANDBY), and configure [host-based authentication](https://www.postgresql.org/docs/13/auth-pg-hba-conf.html)\). You will also need to set `primary_conninfo` in the downstream standby to point to the cascading standby.
 
 ## 26.2.8. Synchronous Replication
 

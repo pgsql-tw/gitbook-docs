@@ -1,33 +1,266 @@
 # 27.4. Progress Reporting
 
-PostgreSQL has the ability to report the progress of certain commands during command execution. Currently, the only commands which support progress reporting are `CREATE INDEX`, `VACUUM` and `CLUSTER`. This may be expanded in the future.
 
-## 27.4.1. CREATE INDEX Progress Reporting
 
-Whenever `CREATE INDEX` or `REINDEX` is running, the `pg_stat_progress_create_index` view will contain one row for each backend that is currently creating indexes. The tables below describe the information that will be reported and provide information about how to interpret it.
+PostgreSQL has the ability to report the progress of certain commands during command execution. Currently, the only commands which support progress reporting are `ANALYZE`, `CLUSTER`, `CREATE INDEX`, `VACUUM`, and [BASE\_BACKUP](https://www.postgresql.org/docs/current/protocol-replication.html#PROTOCOL-REPLICATION-BASE-BACKUP) \(i.e., replication command that [pg\_basebackup](https://www.postgresql.org/docs/current/app-pgbasebackup.html) issues to take a base backup\). This may be expanded in the future.
 
-### **Table 27.22. `pg_stat_progress_create_index` View**
+## 27.4.1. ANALYZE Progress Reporting
 
-| Column | Type | Description |
-| :--- | :--- | :--- |
-| `pid` | `integer` | Process ID of backend. |
-| `datid` | `oid` | OID of the database to which this backend is connected. |
-| `datname` | `name` | Name of the database to which this backend is connected. |
-| `relid` | `oid` | OID of the table on which the index is being created. |
-| `index_relid` | `oid` | OID of the index being created or reindexed. During a non-concurrent `CREATE INDEX`, this is 0. |
-| `command` | `text` | The command that is running: `CREATE INDEX`, `CREATE INDEX CONCURRENTLY`, `REINDEX`, or `REINDEX CONCURRENTLY`. |
-| `phase` | `text` | Current processing phase of index creation. See [Table 27.23](https://www.postgresql.org/docs/12/progress-reporting.html#CREATE-INDEX-PHASES). |
-| `lockers_total` | `bigint` | Total number of lockers to wait for, when applicable. |
-| `lockers_done` | `bigint` | Number of lockers already waited for. |
-| `current_locker_pid` | `bigint` | Process ID of the locker currently being waited for. |
-| `blocks_total` | `bigint` | Total number of blocks to be processed in the current phase. |
-| `blocks_done` | `bigint` | Number of blocks already processed in the current phase. |
-| `tuples_total` | `bigint` | Total number of tuples to be processed in the current phase. |
-| `tuples_done` | `bigint` | Number of tuples already processed in the current phase. |
-| `partitions_total` | `bigint` | When creating an index on a partitioned table, this column is set to the total number of partitions on which the index is to be created. |
-| `partitions_done` | `bigint` | When creating an index on a partitioned table, this column is set to the number of partitions on which the index has been completed. |
+Whenever `ANALYZE` is running, the `pg_stat_progress_analyze` view will contain a row for each backend that is currently running that command. The tables below describe the information that will be reported and provide information about how to interpret it.
 
-### **Table 27.23. CREATE INDEX Phases**
+#### **Table 27.32. `pg_stat_progress_analyze` View**
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">
+        <p>Column Type</p>
+        <p>Description</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">
+        <p><code>pid</code>  <code>integer</code>
+        </p>
+        <p>Process ID of backend.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>datid</code>  <code>oid</code>
+        </p>
+        <p>OID of the database to which this backend is connected.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>datname</code>  <code>name</code>
+        </p>
+        <p>Name of the database to which this backend is connected.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>relid</code>  <code>oid</code>
+        </p>
+        <p>OID of the table being analyzed.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>phase</code>  <code>text</code>
+        </p>
+        <p>Current processing phase. See <a href="https://www.postgresql.org/docs/current/progress-reporting.html#ANALYZE-PHASES">Table 27.33</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>sample_blks_total</code>  <code>bigint</code>
+        </p>
+        <p>Total number of heap blocks that will be sampled.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>sample_blks_scanned</code>  <code>bigint</code>
+        </p>
+        <p>Number of heap blocks scanned.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>ext_stats_total</code>  <code>bigint</code>
+        </p>
+        <p>Number of extended statistics.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>ext_stats_computed</code>  <code>bigint</code>
+        </p>
+        <p>Number of extended statistics computed. This counter only advances when
+          the phase is <code>computing extended statistics</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>child_tables_total</code>  <code>bigint</code>
+        </p>
+        <p>Number of child tables.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>child_tables_done</code>  <code>bigint</code>
+        </p>
+        <p>Number of child tables scanned. This counter only advances when the phase
+          is <code>acquiring inherited sample rows</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>current_child_table_relid</code>  <code>oid</code>
+        </p>
+        <p>OID of the child table currently being scanned. This field is only valid
+          when the phase is <code>acquiring inherited sample rows</code>.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### **Table 27.33. ANALYZE phases**
+
+| Phase | Description |
+| :--- | :--- |
+| `initializing` | The command is preparing to begin scanning the heap. This phase is expected to be very brief. |
+| `acquiring sample rows` | The command is currently scanning the table given by `relid` to obtain sample rows. |
+| `acquiring inherited sample rows` | The command is currently scanning child tables to obtain sample rows. Columns `child_tables_total`, `child_tables_done`, and `current_child_table_relid` contain the progress information for this phase. |
+| `computing statistics` | The command is computing statistics from the sample rows obtained during the table scan. |
+| `computing extended statistics` | The command is computing extended statistics from the sample rows obtained during the table scan. |
+| `finalizing analyze` | The command is updating `pg_class`. When this phase is completed, `ANALYZE` will end. |
+
+#### Note
+
+Note that when `ANALYZE` is run on a partitioned table, all of its partitions are also recursively analyzed as also mentioned in [ANALYZE](https://www.postgresql.org/docs/current/sql-analyze.html). In that case, `ANALYZE` progress is reported first for the parent table, whereby its inheritance statistics are collected, followed by that for each partition.
+
+## 27.4.2. CREATE INDEX Progress Reporting
+
+每當執行 CREATE INDEX 或 REINDEX 時，pg\_stat\_progress\_create\_index 檢視表的每一行會列出目前正在建立索引的每個後端程序。下表描述了其所回報的資訊，以及有關如何解釋的說明。
+
+#### **Table 27.34. `pg_stat_progress_create_index` View**
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">
+        <p>Column Type</p>
+        <p>Description</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">
+        <p><code>pid</code>  <code>integer</code>
+        </p>
+        <p>Process ID of backend.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>datid</code>  <code>oid</code>
+        </p>
+        <p>OID of the database to which this backend is connected.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>datname</code>  <code>name</code>
+        </p>
+        <p>Name of the database to which this backend is connected.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>relid</code>  <code>oid</code>
+        </p>
+        <p>OID of the table on which the index is being created.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>index_relid</code>  <code>oid</code>
+        </p>
+        <p>OID of the index being created or reindexed. During a non-concurrent <code>CREATE INDEX</code>,
+          this is 0.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>command</code>  <code>text</code>
+        </p>
+        <p>The command that is running: <code>CREATE INDEX</code>, <code>CREATE INDEX CONCURRENTLY</code>, <code>REINDEX</code>,
+          or <code>REINDEX CONCURRENTLY</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>phase</code>  <code>text</code>
+        </p>
+        <p>Current processing phase of index creation. See <a href="https://www.postgresql.org/docs/current/progress-reporting.html#CREATE-INDEX-PHASES">Table 27.35</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>lockers_total</code>  <code>bigint</code>
+        </p>
+        <p>Total number of lockers to wait for, when applicable.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>lockers_done</code>  <code>bigint</code>
+        </p>
+        <p>Number of lockers already waited for.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>current_locker_pid</code>  <code>bigint</code>
+        </p>
+        <p>Process ID of the locker currently being waited for.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>blocks_total</code>  <code>bigint</code>
+        </p>
+        <p>Total number of blocks to be processed in the current phase.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>blocks_done</code>  <code>bigint</code>
+        </p>
+        <p>Number of blocks already processed in the current phase.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>tuples_total</code>  <code>bigint</code>
+        </p>
+        <p>Total number of tuples to be processed in the current phase.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>tuples_done</code>  <code>bigint</code>
+        </p>
+        <p>Number of tuples already processed in the current phase.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>partitions_total</code>  <code>bigint</code>
+        </p>
+        <p>When creating an index on a partitioned table, this column is set to the
+          total number of partitions on which the index is to be created.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>partitions_done</code>  <code>bigint</code>
+        </p>
+        <p>When creating an index on a partitioned table, this column is set to the
+          number of partitions on which the index has been completed.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### **Table 27.35. CREATE INDEX Phases**
 
 | Phase | Description |
 | :--- | :--- |
@@ -42,60 +275,233 @@ Whenever `CREATE INDEX` or `REINDEX` is running, the `pg_stat_progress_create_in
 | `waiting for readers before marking dead` | `REINDEX CONCURRENTLY` is waiting for transactions with read locks on the table to finish, before marking the old index dead. This phase is skipped when not in concurrent mode. Columns `lockers_total`, `lockers_done` and `current_locker_pid` contain the progress information for this phase. |
 | `waiting for readers before dropping` | `REINDEX CONCURRENTLY` is waiting for transactions with read locks on the table to finish, before dropping the old index. This phase is skipped when not in concurrent mode. Columns `lockers_total`, `lockers_done` and `current_locker_pid` contain the progress information for this phase. |
 
-## 27.4.2. VACUUM Progress Reporting
+## 27.4.3. VACUUM Progress Reporting
 
-Whenever `VACUUM` is running, the `pg_stat_progress_vacuum` view will contain one row for each backend \(including autovacuum worker processes\) that is currently vacuuming. The tables below describe the information that will be reported and provide information about how to interpret it. Progress for `VACUUM FULL` commands is reported via `pg_stat_progress_cluster` because both `VACUUM FULL` and `CLUSTER` rewrite the table, while regular `VACUUM` only modifies it in place. See [Section 27.4.3](https://www.postgresql.org/docs/12/progress-reporting.html#CLUSTER-PROGRESS-REPORTING).
+Whenever `VACUUM` is running, the `pg_stat_progress_vacuum` view will contain one row for each backend \(including autovacuum worker processes\) that is currently vacuuming. The tables below describe the information that will be reported and provide information about how to interpret it. Progress for `VACUUM FULL` commands is reported via `pg_stat_progress_cluster` because both `VACUUM FULL` and `CLUSTER` rewrite the table, while regular `VACUUM` only modifies it in place. See [Section 27.4.4](https://www.postgresql.org/docs/current/progress-reporting.html#CLUSTER-PROGRESS-REPORTING).
 
-### **Table 27.24. `pg_stat_progress_vacuum` View**
+#### **Table 27.36. `pg_stat_progress_vacuum` View**
 
-| Column | Type | Description |
-| :--- | :--- | :--- |
-| `pid` | `integer` | Process ID of backend. |
-| `datid` | `oid` | OID of the database to which this backend is connected. |
-| `datname` | `name` | Name of the database to which this backend is connected. |
-| `relid` | `oid` | OID of the table being vacuumed. |
-| `phase` | `text` | Current processing phase of vacuum. See [Table 27.25](https://www.postgresql.org/docs/12/progress-reporting.html#VACUUM-PHASES). |
-| `heap_blks_total` | `bigint` | Total number of heap blocks in the table. This number is reported as of the beginning of the scan; blocks added later will not be \(and need not be\) visited by this `VACUUM`. |
-| `heap_blks_scanned` | `bigint` | Number of heap blocks scanned. Because the [visibility map](https://www.postgresql.org/docs/12/storage-vm.html) is used to optimize scans, some blocks will be skipped without inspection; skipped blocks are included in this total, so that this number will eventually become equal to `heap_blks_total` when the vacuum is complete. This counter only advances when the phase is `scanning heap`. |
-| `heap_blks_vacuumed` | `bigint` | Number of heap blocks vacuumed. Unless the table has no indexes, this counter only advances when the phase is `vacuuming heap`. Blocks that contain no dead tuples are skipped, so the counter may sometimes skip forward in large increments. |
-| `index_vacuum_count` | `bigint` | Number of completed index vacuum cycles. |
-| `max_dead_tuples` | `bigint` | Number of dead tuples that we can store before needing to perform an index vacuum cycle, based on [maintenance\_work\_mem](https://www.postgresql.org/docs/12/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM). |
-| `num_dead_tuples` | `bigint` | Number of dead tuples collected since the last index vacuum cycle. |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">
+        <p>Column Type</p>
+        <p>Description</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">
+        <p><code>pid</code>  <code>integer</code>
+        </p>
+        <p>Process ID of backend.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>datid</code>  <code>oid</code>
+        </p>
+        <p>OID of the database to which this backend is connected.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>datname</code>  <code>name</code>
+        </p>
+        <p>Name of the database to which this backend is connected.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>relid</code>  <code>oid</code>
+        </p>
+        <p>OID of the table being vacuumed.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>phase</code>  <code>text</code>
+        </p>
+        <p>Current processing phase of vacuum. See <a href="https://www.postgresql.org/docs/current/progress-reporting.html#VACUUM-PHASES">Table 27.37</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>heap_blks_total</code>  <code>bigint</code>
+        </p>
+        <p>Total number of heap blocks in the table. This number is reported as of
+          the beginning of the scan; blocks added later will not be (and need not
+          be) visited by this <code>VACUUM</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>heap_blks_scanned</code>  <code>bigint</code>
+        </p>
+        <p>Number of heap blocks scanned. Because the <a href="https://www.postgresql.org/docs/current/storage-vm.html">visibility map</a> is
+          used to optimize scans, some blocks will be skipped without inspection;
+          skipped blocks are included in this total, so that this number will eventually
+          become equal to <code>heap_blks_total</code> when the vacuum is complete.
+          This counter only advances when the phase is <code>scanning heap</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>heap_blks_vacuumed</code>  <code>bigint</code>
+        </p>
+        <p>Number of heap blocks vacuumed. Unless the table has no indexes, this
+          counter only advances when the phase is <code>vacuuming heap</code>. Blocks
+          that contain no dead tuples are skipped, so the counter may sometimes skip
+          forward in large increments.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>index_vacuum_count</code>  <code>bigint</code>
+        </p>
+        <p>Number of completed index vacuum cycles.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>max_dead_tuples</code>  <code>bigint</code>
+        </p>
+        <p>Number of dead tuples that we can store before needing to perform an index
+          vacuum cycle, based on <a href="https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM">maintenance_work_mem</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>num_dead_tuples</code>  <code>bigint</code>
+        </p>
+        <p>Number of dead tuples collected since the last index vacuum cycle.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-### **Table 27.25. VACUUM Phases**
+#### **Table 27.37. VACUUM Phases**
 
 | Phase | Description |
 | :--- | :--- |
 | `initializing` | `VACUUM` is preparing to begin scanning the heap. This phase is expected to be very brief. |
 | `scanning heap` | `VACUUM` is currently scanning the heap. It will prune and defragment each page if required, and possibly perform freezing activity. The `heap_blks_scanned` column can be used to monitor the progress of the scan. |
-| `vacuuming indexes` | `VACUUM` is currently vacuuming the indexes. If a table has any indexes, this will happen at least once per vacuum, after the heap has been completely scanned. It may happen multiple times per vacuum if [maintenance\_work\_mem](https://www.postgresql.org/docs/12/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM) is insufficient to store the number of dead tuples found. |
+| `vacuuming indexes` | `VACUUM` is currently vacuuming the indexes. If a table has any indexes, this will happen at least once per vacuum, after the heap has been completely scanned. It may happen multiple times per vacuum if [maintenance\_work\_mem](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM) is insufficient to store the number of dead tuples found. |
 | `vacuuming heap` | `VACUUM` is currently vacuuming the heap. Vacuuming the heap is distinct from scanning the heap, and occurs after each instance of vacuuming indexes. If `heap_blks_scanned` is less than `heap_blks_total`, the system will return to scanning the heap after this phase is completed; otherwise, it will begin cleaning up indexes after this phase is completed. |
 | `cleaning up indexes` | `VACUUM` is currently cleaning up indexes. This occurs after the heap has been completely scanned and all vacuuming of the indexes and the heap has been completed. |
 | `truncating heap` | `VACUUM` is currently truncating the heap so as to return empty pages at the end of the relation to the operating system. This occurs after cleaning up indexes. |
 | `performing final cleanup` | `VACUUM` is performing final cleanup. During this phase, `VACUUM` will vacuum the free space map, update statistics in `pg_class`, and report statistics to the statistics collector. When this phase is completed, `VACUUM` will end. |
 
-## 27.4.3. CLUSTER Progress Reporting
+## 27.4.4. CLUSTER Progress Reporting
 
 Whenever `CLUSTER` or `VACUUM FULL` is running, the `pg_stat_progress_cluster` view will contain a row for each backend that is currently running either command. The tables below describe the information that will be reported and provide information about how to interpret it.
 
-### **Table 27.26. `pg_stat_progress_cluster` View**
+#### **Table 27.38. `pg_stat_progress_cluster` View**
 
-| Column | Type | Description |
-| :--- | :--- | :--- |
-| `pid` | `integer` | Process ID of backend. |
-| `datid` | `oid` | OID of the database to which this backend is connected. |
-| `datname` | `name` | Name of the database to which this backend is connected. |
-| `relid` | `oid` | OID of the table being clustered. |
-| `command` | `text` | The command that is running. Either `CLUSTER` or `VACUUM FULL`. |
-| `phase` | `text` | Current processing phase. See [Table 27.27](https://www.postgresql.org/docs/12/progress-reporting.html#CLUSTER-PHASES). |
-| `cluster_index_relid` | `oid` | If the table is being scanned using an index, this is the OID of the index being used; otherwise, it is zero. |
-| `heap_tuples_scanned` | `bigint` | Number of heap tuples scanned. This counter only advances when the phase is `seq scanning heap`, `index scanning heap` or `writing new heap`. |
-| `heap_tuples_written` | `bigint` | Number of heap tuples written. This counter only advances when the phase is `seq scanning heap`, `index scanning heap` or `writing new heap`. |
-| `heap_blks_total` | `bigint` | Total number of heap blocks in the table. This number is reported as of the beginning of `seq scanning heap`. |
-| `heap_blks_scanned` | `bigint` | Number of heap blocks scanned. This counter only advances when the phase is `seq scanning heap`. |
-| `index_rebuild_count` | `bigint` | Number of indexes rebuilt. This counter only advances when the phase is `rebuilding index`. |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">
+        <p>Column Type</p>
+        <p>Description</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">
+        <p><code>pid</code>  <code>integer</code>
+        </p>
+        <p>Process ID of backend.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>datid</code>  <code>oid</code>
+        </p>
+        <p>OID of the database to which this backend is connected.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>datname</code>  <code>name</code>
+        </p>
+        <p>Name of the database to which this backend is connected.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>relid</code>  <code>oid</code>
+        </p>
+        <p>OID of the table being clustered.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>command</code>  <code>text</code>
+        </p>
+        <p>The command that is running. Either <code>CLUSTER</code> or <code>VACUUM FULL</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>phase</code>  <code>text</code>
+        </p>
+        <p>Current processing phase. See <a href="https://www.postgresql.org/docs/current/progress-reporting.html#CLUSTER-PHASES">Table 27.39</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>cluster_index_relid</code>  <code>oid</code>
+        </p>
+        <p>If the table is being scanned using an index, this is the OID of the index
+          being used; otherwise, it is zero.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>heap_tuples_scanned</code>  <code>bigint</code>
+        </p>
+        <p>Number of heap tuples scanned. This counter only advances when the phase
+          is <code>seq scanning heap</code>, <code>index scanning heap</code> or <code>writing new heap</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>heap_tuples_written</code>  <code>bigint</code>
+        </p>
+        <p>Number of heap tuples written. This counter only advances when the phase
+          is <code>seq scanning heap</code>, <code>index scanning heap</code> or <code>writing new heap</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>heap_blks_total</code>  <code>bigint</code>
+        </p>
+        <p>Total number of heap blocks in the table. This number is reported as of
+          the beginning of <code>seq scanning heap</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>heap_blks_scanned</code>  <code>bigint</code>
+        </p>
+        <p>Number of heap blocks scanned. This counter only advances when the phase
+          is <code>seq scanning heap</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>index_rebuild_count</code>  <code>bigint</code>
+        </p>
+        <p>Number of indexes rebuilt. This counter only advances when the phase is <code>rebuilding index</code>.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-### **Table 27.27. CLUSTER and VACUUM FULL Phases**
+#### **Table 27.39. CLUSTER and VACUUM FULL Phases**
 
 | Phase | Description |
 | :--- | :--- |
@@ -107,4 +513,83 @@ Whenever `CLUSTER` or `VACUUM FULL` is running, the `pg_stat_progress_cluster` v
 | `swapping relation files` | The command is currently swapping newly-built files into place. |
 | `rebuilding index` | The command is currently rebuilding an index. |
 | `performing final cleanup` | The command is performing final cleanup. When this phase is completed, `CLUSTER` or `VACUUM FULL` will end. |
+
+## 27.4.5. Base Backup Progress Reporting
+
+Whenever an application like pg\_basebackup is taking a base backup, the `pg_stat_progress_basebackup` view will contain a row for each WAL sender process that is currently running the `BASE_BACKUP` replication command and streaming the backup. The tables below describe the information that will be reported and provide information about how to interpret it.
+
+#### **Table 27.40. `pg_stat_progress_basebackup` View**
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">
+        <p>Column Type</p>
+        <p>Description</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">
+        <p><code>pid</code>  <code>integer</code>
+        </p>
+        <p>Process ID of a WAL sender process.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>phase</code>  <code>text</code>
+        </p>
+        <p>Current processing phase. See <a href="https://www.postgresql.org/docs/current/progress-reporting.html#BASEBACKUP-PHASES">Table 27.41</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>backup_total</code>  <code>bigint</code>
+        </p>
+        <p>Total amount of data that will be streamed. This is estimated and reported
+          as of the beginning of <code>streaming database files</code> phase. Note
+          that this is only an approximation since the database may change during <code>streaming database files</code> phase
+          and WAL log may be included in the backup later. This is always the same
+          value as <code>backup_streamed</code> once the amount of data streamed exceeds
+          the estimated total size. If the estimation is disabled in pg_basebackup
+          (i.e., <code>--no-estimate-size</code> option is specified), this is <code>NULL</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>backup_streamed</code>  <code>bigint</code>
+        </p>
+        <p>Amount of data streamed. This counter only advances when the phase is <code>streaming database files</code> or <code>transferring wal files</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>tablespaces_total</code>  <code>bigint</code>
+        </p>
+        <p>Total number of tablespaces that will be streamed.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>tablespaces_streamed</code>  <code>bigint</code>
+        </p>
+        <p>Number of tablespaces streamed. This counter only advances when the phase
+          is <code>streaming database files</code>.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### **Table 27.41. Base backup phases**
+
+| Phase | Description |
+| :--- | :--- |
+| `initializing` | The WAL sender process is preparing to begin the backup. This phase is expected to be very brief. |
+| `waiting for checkpoint to finish` | The WAL sender process is currently performing `pg_start_backup` to prepare to take a base backup, and waiting for the start-of-backup checkpoint to finish. |
+| `estimating backup size` | The WAL sender process is currently estimating the total amount of database files that will be streamed as a base backup. |
+| `streaming database files` | The WAL sender process is currently streaming database files as a base backup. |
+| `waiting for wal archiving to finish` | The WAL sender process is currently performing `pg_stop_backup` to finish the backup, and waiting for all the WAL files required for the base backup to be successfully archived. If either `--wal-method=none` or `--wal-method=stream` is specified in pg\_basebackup, the backup will end when this phase is completed. |
+| `transferring wal files` | The WAL sender process is currently transferring all WAL logs generated during the backup. This phase occurs after `waiting for wal archiving to finish` phase if `--wal-method=fetch` is specified in pg\_basebackup. The backup will end when this phase is completed. |
 

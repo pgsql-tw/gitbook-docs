@@ -22,9 +22,9 @@ DROP TABLE products CASCADE;
 
 幾乎所有 PostgreSQL 的 DROP 指令都支援 CASCADE 的用法。當然，有些自然的關連性是和物件型別有關。你也可以使用 RESTRICT 來取代 CASCADE 的位置，以強制以預設的行為來處理，也就是絕對不會刪去其他相關的物件。
 
-## 注意
-
-根據 SQL 標準，不論是 RESTRICT 或 CASCADE，都必須要在 DROP 指令中明確表示，但沒有任何一套資料庫系統真的這樣設計。不過，都會內定預設行為是 RESTRICT 或 CASCADE，每個資料庫不同。
+{% hint style="info" %}
+根據 SQL 標準，不論是 RESTRICT 或 CASCADE，都必須要在 DROP 指令中明確表示，但沒有任何一套資料庫系統真的這樣設計。不過，都會內定預設行為是 RESTRICT 或 CASCADE，每個資料庫系統的情況可能會不同。
+{% endhint %}
 
 如果 DROP 指令列出了多個物件，CASCADE 只有在這些物件之外還有相依性時才會需要。舉個例子，當執行「DROP TABLE tab1, tab2」時，即使 tab1 與 tab2 之間有外部索引鍵的相依關係，而沒有指定 CASCADE，這個操作也會完成。
 

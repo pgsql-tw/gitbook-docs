@@ -1,2 +1,2 @@
-# 43. PL/pgSQL - SQL Procedural Language
+# 42. PL/pgSQL - SQL Procedural Language
 

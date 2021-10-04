@@ -2,23 +2,23 @@
 
 In addition to the `postgresql.conf` file already mentioned, PostgreSQL uses two other manually-edited configuration files, which control client authentication \(their use is discussed in [Chapter 20](https://www.postgresql.org/docs/10/static/client-authentication.html)\). By default, all three configuration files are stored in the database cluster's data directory. The parameters described in this section allow the configuration files to be placed elsewhere. \(Doing so can ease administration. In particular it is often easier to ensure that the configuration files are properly backed-up when they are kept separate.\)
 
-## `data_directory` \(`string`\)
+#### `data_directory` \(`string`\)
 
 Specifies the directory to use for data storage. This parameter can only be set at server start.
 
-## `config_file` \(`string`\)
+#### `config_file` \(`string`\)
 
 Specifies the main server configuration file \(customarily called `postgresql.conf`\). This parameter can only be set on the `postgres` command line.
 
-## `hba_file` \(`string`\)
+#### `hba_file` \(`string`\)
 
 Specifies the configuration file for host-based authentication \(customarily called `pg_hba.conf`\). This parameter can only be set at server start.
 
-## `ident_file` \(`string`\)
+#### `ident_file` \(`string`\)
 
 Specifies the configuration file for user name mapping \(customarily called `pg_ident.conf`\). This parameter can only be set at server start. See also [Section 20.2](https://www.postgresql.org/docs/10/static/auth-username-maps.html).
 
-## `external_pid_file` \(`string`\)
+#### `external_pid_file` \(`string`\)
 
 Specifies the name of an additional process-ID \(PID\) file that the server should create for use by server administration programs. This parameter can only be set at server start.
 

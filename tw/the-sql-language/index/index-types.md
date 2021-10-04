@@ -25,19 +25,19 @@ CREATE INDEX name ON table USING HASH (column);
 
 GiST 索引不是一種索引，而是一種可以實作許多不同索引策略的基礎結構。因此，可以使用 GiST 索引的特定運算子根據索引策略（運算子類）而變化。例如，PostgreSQL 的標準版本包括幾個二維幾何資料型別的 GiST 運算子類，它們支援使用這些運算子的索引查詢：
 
-| `<<` |  |
-| :--- | :--- |
-| `&<` |  |
-| `&>` |  |
-| `>>` |  |
-| \`&lt;&lt; | \` |
-| \`&&lt; | \` |
-| \` | &&gt;\` |
-| \` | &gt;&gt;\` |
-| `@>` |  |
-| `<@` |  |
-| `~=` |  |
-| `&&` |  |
+| `<<` |
+| :--- |
+| `&<` |
+| `&>` |
+| `>>` |
+| `<<|` |
+| `&<|` |
+| `|&>` |
+| `|>>` |
+| `@>` |
+| `<@` |
+| `~=` |
+| `&&` |
 
 （有關這些運算子的含義，請參閱[第 9.11 節](../functions-and-operators/geometric-functions-and-operators.md)。）標準版本中包含的 GiST 運算子類記錄在 [Table 62.1](../../internals/gist-indexes/built-in-operator-classes.md#table-62-1-built-in-gist-operator-classes) 中。許多其他 GiST 運算子類在 contrib 套件中可用或作為單獨的專案支援。有關更多訊息，請參閱[第 62 章](../../internals/gist-indexes/)。
 

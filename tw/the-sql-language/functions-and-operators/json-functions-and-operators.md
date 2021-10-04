@@ -1,4 +1,4 @@
-# 9.15. JSON 函式及運算子
+# 9.16. JSON 函式及運算子
 
 本節描述的內容為：
 
@@ -7,7 +7,7 @@
 
 要了解有關 SQL/JSON 標準的更多資訊，請參閱 \[[sqltr-19075-6](../../bibliography.md#sqltr-19075-6-sql-technical-report-part-6-sql-support-for-javascript-object-notation-json-first-edition-2017)\]。有關於 PostgreSQL 支援的 JSON 型別的詳細資訊，請參閱[第 8.14 節](../data-types/json-types.md)。
 
-## 9.15.1. Processing and Creating JSON Data
+## 9.16.1. Processing and Creating JSON Data
 
 [Table 9.44](json-functions-and-operators.md#table-9-44-json-and-jsonb-operators) 列出了可用於 JSON 資料型別的運算子（請參閱[第 8.14 節](../data-types/json-types.md)）。
 
@@ -32,20 +32,20 @@ Some further operators also exist only for `jsonb`, as shown in [Table 9.45](htt
 
 #### **Table 9.45. Additional `jsonb` Operators**
 
-| Operator | Right Operand Type | Description | Example |  |  |  |  |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `@>` | `jsonb` | Does the left JSON value contain the right JSON path/value entries at the top level? | `'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb` |  |  |  |  |
-| `<@` | `jsonb` | Are the left JSON path/value entries contained at the top level within the right JSON value? | `'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb` |  |  |  |  |
-| `?` | `text` | Does the _string_ exist as a top-level key within the JSON value? | `'{"a":1, "b":2}'::jsonb ? 'b'` |  |  |  |  |
-| \`? | \` | `text[]` | Do any of these array _strings_ exist as top-level keys? | \`'{"a":1, "b":2, "c":3}'::jsonb ? | array\['b', 'c'\]\` |  |  |
-| `?&` | `text[]` | Do all of these array _strings_ exist as top-level keys? | `'["a", "b"]'::jsonb ?& array['a', 'b']` |  |  |  |  |
-| \` |  | \` | `jsonb` | Concatenate two `jsonb` values into a new `jsonb` value | \`'\["a", "b"\]'::jsonb |  | '\["c", "d"\]'::jsonb\` |
-| `-` | `text` | Delete key/value pair or _string_ element from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b"}'::jsonb - 'a'` |  |  |  |  |
-| `-` | `text[]` | Delete multiple key/value pairs or _string_ elements from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]` |  |  |  |  |
-| `-` | `integer` | Delete the array element with specified index \(Negative integers count from the end\). Throws an error if top level container is not an array. | `'["a", "b"]'::jsonb - 1` |  |  |  |  |
-| `#-` | `text[]` | Delete the field or element with specified path \(for JSON arrays, negative integers count from the end\) | `'["a", {"b":1}]'::jsonb #- '{1,b}'` |  |  |  |  |
-| `@?` | `jsonpath` | Does JSON path return any item for the specified JSON value? | `'{"a":[1,2,3,4,5]}'::jsonb @? '$.a[*] ? (@ > 2)'` |  |  |  |  |
-| `@@` | `jsonpath` | Returns the result of JSON path predicate check for the specified JSON value. Only the first item of the result is taken into account. If the result is not Boolean, then `null` is returned. | `'{"a":[1,2,3,4,5]}'::jsonb @@ '$.a[*] > 2'` |  |  |  |  |
+| Operator | Right Operand Type | Description | Example |
+| :--- | :--- | :--- | :--- |
+| `@>` | `jsonb` | Does the left JSON value contain the right JSON path/value entries at the top level? | `'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb` |
+| `<@` | `jsonb` | Are the left JSON path/value entries contained at the top level within the right JSON value? | `'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb` |
+| `?` | `text` | Does the _string_ exist as a top-level key within the JSON value? | `'{"a":1, "b":2}'::jsonb ? 'b'` |
+| `?|` | `text[]` | Do any of these array _strings_ exist as top-level keys? | `'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']` |
+| `?&` | `text[]` | Do all of these array _strings_ exist as top-level keys? | `'["a", "b"]'::jsonb ?& array['a', 'b']` |
+| `||` | `jsonb` | Concatenate two `jsonb` values into a new `jsonb` value | `'["a", "b"]'::jsonb || '["c", "d"]'::jsonb` |
+| `-` | `text` | Delete key/value pair or _string_ element from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b"}'::jsonb - 'a'` |
+| `-` | `text[]` | Delete multiple key/value pairs or _string_ elements from left operand. Key/value pairs are matched based on their key value. | `'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]` |
+| `-` | `integer` | Delete the array element with specified index \(Negative integers count from the end\). Throws an error if top level container is not an array. | `'["a", "b"]'::jsonb - 1` |
+| `#-` | `text[]` | Delete the field or element with specified path \(for JSON arrays, negative integers count from the end\) | `'["a", {"b":1}]'::jsonb #- '{1,b}'` |
+| `@?` | `jsonpath` | Does JSON path return any item for the specified JSON value? | `'{"a":[1,2,3,4,5]}'::jsonb @? '$.a[*] ? (@ > 2)'` |
+| `@@` | `jsonpath` | Returns the result of JSON path predicate check for the specified JSON value. Only the first item of the result is taken into account. If the result is not Boolean, then `null` is returned. | `'{"a":[1,2,3,4,5]}'::jsonb @@ '$.a[*] > 2'` |
 
 #### Note
 
@@ -598,7 +598,7 @@ If the _`silent`_ argument is specified and has the `true` value, these function
 
 See also [Section 9.20](https://www.postgresql.org/docs/12/functions-aggregate.html) for the aggregate function `json_agg` which aggregates record values as JSON, and the aggregate function `json_object_agg` which aggregates pairs of values into a JSON object, and their `jsonb` equivalents, `jsonb_agg` and `jsonb_object_agg`.
 
-## 9.15.2. The SQL/JSON Path Language
+## 9.16.2. The SQL/JSON Path Language
 
 SQL/JSON path expressions specify the items to be retrieved from the JSON data, similar to XPath expressions used for SQL access to XML. In PostgreSQL, path expressions are implemented as the `jsonpath` data type and can use any elements described in [Section 8.14.6](https://www.postgresql.org/docs/12/datatype-json.html#DATATYPE-JSONPATH).
 
@@ -708,7 +708,7 @@ PostgreSQL's implementation of SQL/JSON path language has the following deviatio
 
 * There are minor differences in the interpretation of regular expression patterns used in `like_regex` filters, as described in [Section 9.15.2.2](https://www.postgresql.org/docs/12/functions-json.html#JSONPATH-REGULAR-EXPRESSIONS).
 
-### **9.15.2.1. Strict And Lax Modes**
+### **9.16.2.1. Strict And Lax Modes**
 
 When you query JSON data, the path expression may not match the actual JSON data structure. An attempt to access a non-existent member of an object or element of an array results in a structural error. SQL/JSON path expressions have two modes of handling structural errors:
 
@@ -732,7 +732,7 @@ In the strict mode, the specified path must exactly match the structure of the q
 'strict $.track.segments[*].location'
 ```
 
-### **9.15.2.2. Regular Expressions**
+### **9.16.2.2. Regular Expressions**
 
 SQL/JSON path expressions allow matching text to a regular expression with the `like_regex` filter. For example, the following SQL/JSON path query would case-insensitively match all strings in an array that start with an English vowel:
 
@@ -750,7 +750,7 @@ Keep in mind that the pattern argument of `like_regex` is a JSON path string lit
 '$ ? (@ like_regex "^\\d+$")'
 ```
 
-### **9.15.2.3. SQL/JSON Path Operators And Methods**
+### **9.16.2.3. SQL/JSON Path Operators And Methods**
 
 [Table 9.48](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-SQLJSON-OP-TABLE) shows the operators and methods available in `jsonpath`. [Table 9.49](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-SQLJSON-FILTER-EX-TABLE) shows the available filter expression elements.
 
@@ -775,23 +775,23 @@ Keep in mind that the pattern argument of `like_regex` is a JSON path string lit
 
 #### **Table 9.49. `jsonpath` Filter Expression Elements**
 
-| Value/Predicate | Description | Example JSON | Example Query | Result |  |  |  |  |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `==` | Equality operator | `[1, 2, 1, 3]` | `$[*] ? (@ == 1)` | `1, 1` |  |  |  |  |
-| `!=` | Non-equality operator | `[1, 2, 1, 3]` | `$[*] ? (@ != 1)` | `2, 3` |  |  |  |  |
-| `<>` | Non-equality operator \(same as `!=`\) | `[1, 2, 1, 3]` | `$[*] ? (@ <> 1)` | `2, 3` |  |  |  |  |
-| `<` | Less-than operator | `[1, 2, 3]` | `$[*] ? (@ < 2)` | `1` |  |  |  |  |
-| `<=` | Less-than-or-equal-to operator | `[1, 2, 3]` | `$[*] ? (@ <= 2)` | `1, 2` |  |  |  |  |
-| `>` | Greater-than operator | `[1, 2, 3]` | `$[*] ? (@ > 2)` | `3` |  |  |  |  |
-| `>=` | Greater-than-or-equal-to operator | `[1, 2, 3]` | `$[*] ? (@ >= 2)` | `2, 3` |  |  |  |  |
-| `true` | Value used to perform comparison with JSON `true` literal | `[{"name": "John", "parent": false}, {"name": "Chris", "parent": true}]` | `$[*] ? (@.parent == true)` | `{"name": "Chris", "parent": true}` |  |  |  |  |
-| `false` | Value used to perform comparison with JSON `false` literal | `[{"name": "John", "parent": false}, {"name": "Chris", "parent": true}]` | `$[*] ? (@.parent == false)` | `{"name": "John", "parent": false}` |  |  |  |  |
-| `null` | Value used to perform comparison with JSON `null` value | `[{"name": "Mary", "job": null}, {"name": "Michael", "job": "driver"}]` | `$[*] ? (@.job == null) .name` | `"Mary"` |  |  |  |  |
-| `&&` | Boolean AND | `[1, 3, 7]` | `$[*] ? (@ > 1 && @ < 5)` | `3` |  |  |  |  |
-| \` |  | \` | Boolean OR | `[1, 3, 7]` | \`$\[\*\] ? \(@ &lt; 1 |  | @ &gt; 5\)\` | `7` |
-| `!` | Boolean NOT | `[1, 3, 7]` | `$[*] ? (!(@ < 5))` | `7` |  |  |  |  |
-| `like_regex` | Tests whether the first operand matches the regular expression given by the second operand, optionally with modifications described by a string of `flag` characters \(see [Section 9.15.2.2](https://www.postgresql.org/docs/12/functions-json.html#JSONPATH-REGULAR-EXPRESSIONS)\) | `["abc", "abd", "aBdC", "abdacb", "babc"]` | `$[*] ? (@ like_regex "^ab.*c" flag "i")` | `"abc", "aBdC", "abdacb"` |  |  |  |  |
-| `starts with` | Tests whether the second operand is an initial substring of the first operand | `["John Smith", "Mary Stone", "Bob Johnson"]` | `$[*] ? (@ starts with "John")` | `"John Smith"` |  |  |  |  |
-| `exists` | Tests whether a path expression matches at least one SQL/JSON item | `{"x": [1, 2], "y": [2, 4]}` | `strict $.* ? (exists (@ ? (@[*] > 2)))` | `2, 4` |  |  |  |  |
-| `is unknown` | Tests whether a Boolean condition is `unknown` | `[-1, 2, 7, "infinity"]` | `$[*] ? ((@ > 0) is unknown)` | `"infinity"` |  |  |  |  |
+| Value/Predicate | Description | Example JSON | Example Query | Result |
+| :--- | :--- | :--- | :--- | :--- |
+| `==` | Equality operator | `[1, 2, 1, 3]` | `$[*] ? (@ == 1)` | `1, 1` |
+| `!=` | Non-equality operator | `[1, 2, 1, 3]` | `$[*] ? (@ != 1)` | `2, 3` |
+| `<>` | Non-equality operator \(same as `!=`\) | `[1, 2, 1, 3]` | `$[*] ? (@ <> 1)` | `2, 3` |
+| `<` | Less-than operator | `[1, 2, 3]` | `$[*] ? (@ < 2)` | `1` |
+| `<=` | Less-than-or-equal-to operator | `[1, 2, 3]` | `$[*] ? (@ <= 2)` | `1, 2` |
+| `>` | Greater-than operator | `[1, 2, 3]` | `$[*] ? (@ > 2)` | `3` |
+| `>=` | Greater-than-or-equal-to operator | `[1, 2, 3]` | `$[*] ? (@ >= 2)` | `2, 3` |
+| `true` | Value used to perform comparison with JSON `true` literal | `[{"name": "John", "parent": false}, {"name": "Chris", "parent": true}]` | `$[*] ? (@.parent == true)` | `{"name": "Chris", "parent": true}` |
+| `false` | Value used to perform comparison with JSON `false` literal | `[{"name": "John", "parent": false}, {"name": "Chris", "parent": true}]` | `$[*] ? (@.parent == false)` | `{"name": "John", "parent": false}` |
+| `null` | Value used to perform comparison with JSON `null` value | `[{"name": "Mary", "job": null}, {"name": "Michael", "job": "driver"}]` | `$[*] ? (@.job == null) .name` | `"Mary"` |
+| `&&` | Boolean AND | `[1, 3, 7]` | `$[*] ? (@ > 1 && @ < 5)` | `3` |
+| `||` | Boolean OR | `[1, 3, 7]` | `$[*] ? (@ < 1 || @ > 5)` | `7` |
+| `!` | Boolean NOT | `[1, 3, 7]` | `$[*] ? (!(@ < 5))` | `7` |
+| `like_regex` | Tests whether the first operand matches the regular expression given by the second operand, optionally with modifications described by a string of `flag` characters \(see [Section 9.15.2.2](https://www.postgresql.org/docs/12/functions-json.html#JSONPATH-REGULAR-EXPRESSIONS)\) | `["abc", "abd", "aBdC", "abdacb", "babc"]` | `$[*] ? (@ like_regex "^ab.*c" flag "i")` | `"abc", "aBdC", "abdacb"` |
+| `starts with` | Tests whether the second operand is an initial substring of the first operand | `["John Smith", "Mary Stone", "Bob Johnson"]` | `$[*] ? (@ starts with "John")` | `"John Smith"` |
+| `exists` | Tests whether a path expression matches at least one SQL/JSON item | `{"x": [1, 2], "y": [2, 4]}` | `strict $.* ? (exists (@ ? (@[*] > 2)))` | `2, 4` |
+| `is unknown` | Tests whether a Boolean condition is `unknown` | `[-1, 2, 7, "infinity"]` | `$[*] ? ((@ > 0) is unknown)` | `"infinity"` |
 

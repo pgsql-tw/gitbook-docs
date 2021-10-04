@@ -2,17 +2,17 @@
 
 DROP OWNED — remove database objects owned by a database role
 
-## Synopsis
+### Synopsis
 
 ```text
 DROP OWNED BY { name | CURRENT_USER | SESSION_USER } [, ...] [ CASCADE | RESTRICT ]
 ```
 
-## Description
+### Description
 
 `DROP OWNED` drops all the objects within the current database that are owned by one of the specified roles. Any privileges granted to the given roles on objects in the current database and on shared objects \(databases, tablespaces\) will also be revoked.
 
-## Parameters
+### Parameters
 
 _`name`_
 
@@ -26,7 +26,7 @@ Automatically drop objects that depend on the affected objects, and in turn all 
 
 Refuse to drop the objects owned by a role if any other database objects depend on one of the affected objects. This is the default.
 
-## Notes
+### Notes
 
 `DROP OWNED` is often used to prepare for the removal of one or more roles. Because `DROP OWNED` only affects the objects in the current database, it is usually necessary to execute this command in each database that contains objects owned by a role that is to be removed.
 
@@ -38,11 +38,11 @@ Databases and tablespaces owned by the role\(s\) will not be removed.
 
 See [Section 21.4](https://www.postgresql.org/docs/10/static/role-removal.html) for more discussion.
 
-## Compatibility
+### Compatibility
 
 The `DROP OWNED` command is a PostgreSQL extension.
 
-## See Also
+### See Also
 
 [REASSIGN OWNED](https://www.postgresql.org/docs/10/static/sql-reassign-owned.html), [DROP ROLE](https://www.postgresql.org/docs/10/static/sql-droprole.html)
 
