@@ -294,7 +294,69 @@ element-1, element-2 ...
 
 Primitive JSON values are compared using the same comparison rules as for the underlying PostgreSQL data type. Strings are compared using the default database collation.
 
-## 8.14.5. 對應轉換
+## 8.14.5. `jsonb` Subscripting
+
+The `jsonb` data type supports array-style subscripting expressions to extract and modify elements. Nested values can be indicated by chaining subscripting expressions, following the same rules as the `path` argument in the `jsonb_set` function. If a `jsonb` value is an array, numeric subscripts start at zero, and negative integers count backwards from the last element of the array. Slice expressions are not supported. The result of a subscripting expression is always of the jsonb data type.
+
+`UPDATE` statements may use subscripting in the `SET` clause to modify `jsonb` values. Subscript paths must be traversable for all affected values insofar as they exist. For instance, the path `val['a']['b']['c']` can be traversed all the way to `c` if every `val`, `val['a']`, and `val['a']['b']` is an object. If any `val['a']` or `val['a']['b']` is not defined, it will be created as an empty object and filled as necessary. However, if any `val` itself or one of the intermediary values is defined as a non-object such as a string, number, or `jsonb` `null`, traversal cannot proceed so an error is raised and the transaction aborted.
+
+An example of subscripting syntax:
+
+```text
+
+-- Extract object value by key
+SELECT ('{"a": 1}'::jsonb)['a'];
+
+-- Extract nested object value by key path
+SELECT ('{"a": {"b": {"c": 1}}}'::jsonb)['a']['b']['c'];
+
+-- Extract array element by index
+SELECT ('[1, "2", null]'::jsonb)[1];
+
+-- Update object value by key. Note the quotes around '1': the assigned
+-- value must be of the jsonb type as well
+UPDATE table_name SET jsonb_field['key'] = '1';
+
+-- This will raise an error if any record's jsonb_field['a']['b'] is something
+-- other than an object. For example, the value {"a": 1} has a numeric value
+-- of the key 'a'.
+UPDATE table_name SET jsonb_field['a']['b']['c'] = '1';
+
+-- Filter records using a WHERE clause with subscripting. Since the result of
+-- subscripting is jsonb, the value we compare it against must also be jsonb.
+-- The double quotes make "value" also a valid jsonb string.
+SELECT * FROM table_name WHERE jsonb_field['key'] = '"value"';
+```
+
+`jsonb` assignment via subscripting handles a few edge cases differently from `jsonb_set`. When a source `jsonb` value is `NULL`, assignment via subscripting will proceed as if it was an empty JSON value of the type \(object or array\) implied by the subscript key:
+
+```text
+-- Where jsonb_field was NULL, it is now {"a": 1}
+UPDATE table_name SET jsonb_field['a'] = '1';
+
+-- Where jsonb_field was NULL, it is now [1]
+UPDATE table_name SET jsonb_field[0] = '1';
+```
+
+If an index is specified for an array containing too few elements, `NULL` elements will be appended until the index is reachable and the value can be set.
+
+```text
+-- Where jsonb_field was [], it is now [null, null, 2];
+-- where jsonb_field was [0], it is now [0, null, 2]
+UPDATE table_name SET jsonb_field[2] = '2';
+```
+
+A `jsonb` value will accept assignments to nonexistent subscript paths as long as the last existing element to be traversed is an object or array, as implied by the corresponding subscript \(the element indicated by the last subscript in the path is not traversed and may be anything\). Nested array and object structures will be created, and in the former case `null`-padded, as specified by the subscript path until the assigned value can be placed.
+
+```text
+-- Where jsonb_field was {}, it is now {'a': [{'b': 1}]}
+UPDATE table_name SET jsonb_field['a'][0]['b'] = '1';
+
+-- Where jsonb_field was [], it is now [null, {'a': 1}]
+UPDATE table_name SET jsonb_field[1]['a'] = '1';
+```
+
+## 8.14.6. 對應轉換
 
 可以使用其他延伸功能來實作針對不同程序語言的 jsonb 型別轉換。
 
@@ -302,7 +364,7 @@ PL/Perl 的延伸功能名稱為 jsonb\_plperl 和 jsonb\_plperlu。如果使用
 
 PL/Python 的延伸功能名稱為 jsonb\_plpythonu，jsonb\_plpython2u 和 jsonb\_plpython3u（有關 PL/Python 的命名約定，請參閱第 45.1 節）。 如果使用它們，則 jsonb 值將適當地對應轉換到 Python 的 dictionary，list 和 scalar。
 
-## 8.14.6. jsonpath Type
+## 8.14.7. jsonpath Type
 
 jsonpath 型別實現了 PostgreSQL 中對 SQL/JSON 路徑語法的支援，以有效地查詢 JSON 資料。它提供以二元運算的形式來使用已解析的 SQL/JSON 路徑表示式，此表示式讓路徑引擎從 JSON 資料檢索的項目取出內容，以供 SQL/JSON 查詢函數進一步處理。
 
