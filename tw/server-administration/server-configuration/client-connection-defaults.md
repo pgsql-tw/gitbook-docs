@@ -1,6 +1,6 @@
-# 19.11. 用戶端連線預設參數
+# 20.11. 用戶端連線預設參數
 
-## 19.11.1. 查詢語句的行為
+## 20.11.1. 查詢語句的行為
 
 #### `search_path`\(`string`\)
 
@@ -38,7 +38,11 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 建立資料庫時也不會使用這個參數。預設情況下，新的資料庫將複製的樣板資料庫，並繼承其資料表空間的設定。
 
-有關於資料表空間的更多資訊，請參閱[第 22.6 節](../managing-databases/tablespaces.md)。
+有關於資料表空間的更多資訊，請參閱[第 23.6 節](../managing-databases/tablespaces.md)。
+
+#### `default_toast_compression` \(`enum`\)
+
+This variable sets the default [TOAST](https://www.postgresql.org/docs/14/storage-toast.html) compression method for values of compressible columns. \(This can be overridden for individual columns by setting the `COMPRESSION` column option in `CREATE TABLE` or `ALTER TABLE`.\) The supported compression methods are `pglz` and \(if PostgreSQL was compiled with `--with-lz4`\) `lz4`. The default is `pglz`.
 
 #### `temp_tablespaces`\(`string`\)
 
@@ -96,9 +100,17 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 #### `idle_in_transaction_session_timeout`\(`integer`\)
 
-如果空閒時間超過指定的持續時間時（以毫秒為單位）未完成的交易將會被終止。這會釋放該連線所持有的任何鎖定，並使連線可以重新使用；也只有 tuple 才能看到這個交易被清除。有關這方面的更多細節，請參閱[第 24.1 節](../routine-database-maintenance-tasks/routine-vacuuming.md)。
+如果空閒時間超過指定的持續時間時（以毫秒為單位）未完成的交易將會被終止。這會釋放該連線所持有的任何鎖定，並使連線可以重新使用；也只有 tuple 才能看到這個交易被清除。有關這方面的更多細節，請參閱[第 25.1 節](../routine-database-maintenance-tasks/routine-vacuuming.md)。
 
 預設值 0 表停用此功能。
+
+#### `idle_session_timeout` \(`integer`\)
+
+終止任何已閒置（也就是等待用戶端查詢中）但不在交易事務中且超過指定時間的連線。 如果此值未指定單位，則以毫秒為單位。0 值（預設值）為停用此功能。
+
+Unlike the case with an open transaction, an idle session without a transaction imposes no large costs on the server, so there is less need to enable this timeout than `idle_in_transaction_session_timeout`.
+
+Be wary of enforcing this timeout on connections made through connection-pooling software or other middleware, as such a layer may not react well to unexpected connection closure. It may be helpful to enable this timeout only for interactive sessions, perhaps by applying it only to particular users.
 
 #### `vacuum_freeze_table_age`\(`integer`\)
 
@@ -150,7 +162,7 @@ SET XML OPTION { DOCUMENT | CONTENT };
 
 設定啟用 fastupdate 時使用的 GIN 排程列表的最大空間。如果列表大於這個最大空間，則透過將其中的項目整批移動到主 GIN 資料結構來清除它。預設值是 4MB。透過更改索引的儲存參數，可以為單個 GIN 索引覆寫此設定。有關更多訊息，請參閱[第 64.4.1 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vii-internals/gin-indexes/644-implementation.md)和[第 64.5 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vii-internals/gin-indexes/645-gin-tips-and-tricks.md)。
 
-## 19.11.2. 語系格式
+## 20.11.2. 語系格式
 
 #### `DateStyle`\(`string`\)
 
@@ -202,7 +214,7 @@ Interval Style 參數也會影響模糊區間輸入的解釋。有關更多訊�
 
 選擇全文檢索的設定，用於那些無法指定語系的全文檢索函數。 更多說明詳見[第12章](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/full-text-search.md)。內建的預設值為 pg\_catalog.simple，但如果可以識別與該語言環境匹配的配置，則 initdb 將使用與所選 lc\_ctype 語言環境相對應的設置來初始化配置設定。
 
-## 19.11.3. 預載共享函式庫
+## 20.11.3. 預載共享函式庫
 
 有幾個設定可用於將共享函式庫預載到伺服器中，以便載入延伸功能並展現性能優勢。例如，設定 '$libdir / mylib' 能將 mylib.so（在某些平台上是 mylib.sl）從安裝的標準函式庫目錄中預載。這些設定之間的差異主要是控制在何時生效，以及需要哪些權限才能更改它們。
 
@@ -242,7 +254,7 @@ PostgreSQL 的程序語言庫可以用這種方式預載，通常語法是 '$lib
 >
 > 在Windows主機上，在伺服器啟動時預載函式庫不會減少啟動每個新伺服器服務所需的時間；每個伺服器服務程將重新加載所有預載函式庫。但是，shared\_preload\_libraries 仍然是有用的，在你的 Windows 主機的 postmaster 啓動時操作所需的函式庫。
 
-## 19.11.4. 其他設定及其預設值
+## 20.11.4. 其他設定及其預設值
 
 #### `dynamic_library_path`\(`string`\)
 

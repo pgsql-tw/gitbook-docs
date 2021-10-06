@@ -204,7 +204,7 @@
     * [19.8. 錯誤回報與日誌記錄](server-administration/server-configuration/error-reporting-and-logging.md)
     * [19.9. 執行階段統計資訊](server-administration/server-configuration/run-time-statistics.md)
     * [19.10. 自動資料庫清理](server-administration/server-configuration/automatic-vacuuming.md)
-    * [19.11. 用戶端連線預設參數](server-administration/server-configuration/client-connection-defaults.md)
+    * [20.11. 用戶端連線預設參數](server-administration/server-configuration/client-connection-defaults.md)
     * [19.12. 交易鎖定管理](server-administration/server-configuration/19.12.-jiao-yi-suo-ding-guan-li.md)
     * [19.13. 版本與平台的相容性](server-administration/server-configuration/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md)
     * [19.14. Error Handling](server-administration/server-configuration/error-handling.md)
