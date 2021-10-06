@@ -130,7 +130,7 @@ B-tree 索引也接受以下參數：
 
 `deduplicate_items` \(`boolean`\)
 
-控制[第 63.4.2 節](../../internals/b-tree-indexes/63.4.-implementation.md#63-4-2-deduplication)中所描述的 B-tree 重複資料刪除技術的使用。設定為 ON 或 OFF 以啟用或停用該機制。（如[第 19.1 節](../../server-administration/server-configuration/setting-parameters.md)所述，允許使用 ON 和 OFF 的其他寫法。）預設值為 ON。
+控制[第 63.4.2 節](../../internals/b-tree-indexes/implementation.md#63-4-2-deduplication)中所描述的 B-tree 重複資料刪除技術的使用。設定為 ON 或 OFF 以啟用或停用該機制。（如[第 19.1 節](../../server-administration/server-configuration/setting-parameters.md)所述，允許使用 ON 和 OFF 的其他寫法。）預設值為 ON。
 
 {% hint style="info" %}
 透過 ALTER INDEX 關閉 deduplicate\_items 可以防止後續的插入觸發重複資料刪除，但是它本身並不會使現有的資料使用標準資料表示形式。

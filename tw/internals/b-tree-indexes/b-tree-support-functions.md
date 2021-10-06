@@ -1,6 +1,6 @@
-# 63.3. B-Tree Support Functions
+# 64.3. B-Tree Support Functions
 
-As shown in [Table 37.9](https://www.postgresql.org/docs/13/xindex.html#XINDEX-BTREE-SUPPORT-TABLE), btree defines one required and four optional support functions. The five user-defined methods are:`order`
+As shown in [Table 38.9](https://www.postgresql.org/docs/14/xindex.html#XINDEX-BTREE-SUPPORT-TABLE), btree defines one required and four optional support functions. The five user-defined methods are:`order`
 
 For each combination of data types that a btree operator family provides comparison operators for, it must provide a comparison support function, registered in `pg_amproc` with support function number 1 and `amproclefttype`/`amprocrighttype` equal to the left and right data types for the comparison \(i.e., the same data types that the matching operators are registered with in `pg_amop`\). The comparison function must take two non-null values _`A`_ and _`B`_ and return an `int32` value that is `<` `0`, `0`, or `>` `0` when _`A`_ `<` _`B`_, _`A`_ `=` _`B`_, or _`A`_ `>` _`B`_, respectively. A null result is disallowed: all values of the data type must be comparable. See `src/backend/access/nbtree/nbtcompare.c` for examples.
 
@@ -8,7 +8,7 @@ If the compared values are of a collatable data type, the appropriate collation 
 
 Optionally, a btree operator family may provide _sort support_ function\(s\), registered under support function number 2. These functions allow implementing comparisons for sorting purposes in a more efficient way than naively calling the comparison support function. The APIs involved in this are defined in `src/include/utils/sortsupport.h`.`in_range`
 
-Optionally, a btree operator family may provide _in\_range_ support function\(s\), registered under support function number 3. These are not used during btree index operations; rather, they extend the semantics of the operator family so that it can support window clauses containing the `RANGE` _`offset`_ `PRECEDING` and `RANGE` _`offset`_ `FOLLOWING` frame bound types \(see [Section 4.2.8](https://www.postgresql.org/docs/13/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)\). Fundamentally, the extra information provided is how to add or subtract an _`offset`_ value in a way that is compatible with the family's data ordering.
+Optionally, a btree operator family may provide _in\_range_ support function\(s\), registered under support function number 3. These are not used during btree index operations; rather, they extend the semantics of the operator family so that it can support window clauses containing the `RANGE` _`offset`_ `PRECEDING` and `RANGE` _`offset`_ `FOLLOWING` frame bound types \(see [Section 4.2.8](https://www.postgresql.org/docs/14/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)\). Fundamentally, the extra information provided is how to add or subtract an _`offset`_ value in a way that is compatible with the family's data ordering.
 
 An `in_range` function must have the signature
 
@@ -61,9 +61,7 @@ Image equality is _almost_ the same condition as simple bitwise equality. There 
 
 The core code is fundamentally unable to deduce anything about the “equality implies image equality” status of an operator class within a multiple-data-type family based on details from other operator classes in the same family. Also, it is not sensible for an operator family to register a cross-type `equalimage` function, and attempting to do so will result in an error. This is because “equality implies image equality” status does not just depend on sorting/equality semantics, which are more or less defined at the operator family level. In general, the semantics that one particular data type implements must be considered separately.
 
-The convention followed by the operator classes included with the core PostgreSQL distribution is to register a stock, generic `equalimage` function. Most operator classes register `btequalimage()`, which indicates that deduplication is safe unconditionally. Operator classes for collatable data types such as `text` register `btvarstrequalimage()`, which indicates that deduplication is safe with deterministic collations. Best practice for third-party extensions is to register their own custom function to retain control.
-
-`options`
+The convention followed by the operator classes included with the core PostgreSQL distribution is to register a stock, generic `equalimage` function. Most operator classes register `btequalimage()`, which indicates that deduplication is safe unconditionally. Operator classes for collatable data types such as `text` register `btvarstrequalimage()`, which indicates that deduplication is safe with deterministic collations. Best practice for third-party extensions is to register their own custom function to retain control.`options`
 
 Optionally, a B-tree operator family may provide `options` \(“operator class specific options”\) support functions, registered under support function number 5. These functions define a set of user-visible parameters that control operator class behavior.
 
@@ -73,7 +71,7 @@ An `options` support function must have the signature
 options(relopts local_relopts *) returns void
 ```
 
-The function is passed a pointer to a _`local_relopts`_ struct, which needs to be filled with a set of operator class specific options. The options can be accessed from other support functions using the `PG_HAS_OPCLASS_OPTIONS()` and `PG_GET_OPCLASS_OPTIONS()` macros.
+The function is passed a pointer to a `local_relopts` struct, which needs to be filled with a set of operator class specific options. The options can be accessed from other support functions using the `PG_HAS_OPCLASS_OPTIONS()` and `PG_GET_OPCLASS_OPTIONS()` macros.
 
 Currently, no B-Tree operator class has an `options` support function. B-tree doesn't allow flexible representation of keys like GiST, SP-GiST, GIN and BRIN do. So, `options` probably doesn't have much application in the current B-tree index access method. Nevertheless, this support function was added to B-tree for uniformity, and will probably find uses during further evolution of B-tree in PostgreSQL.
 
