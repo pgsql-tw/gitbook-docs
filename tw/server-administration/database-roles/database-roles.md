@@ -1,4 +1,4 @@
-# 21.1. Database Roles
+# 22.1. Database Roles
 
 Database roles are conceptually completely separate from operating system users. In practice it might be convenient to maintain a correspondence, but this is not required. Database roles are global across a database cluster installation \(and not per individual database\). To create a role use the [CREATE ROLE](https://www.postgresql.org/docs/12/sql-createrole.html) SQL command:
 

@@ -1,4 +1,4 @@
-# 20. 使用者認證
+# 21. 使用者認證
 
 當用戶端應用程序連線到資料庫伺服器時，它將指定要連線的 PostgreSQL 資料庫使用者名稱，這與以特定使用者身份登入到 Unix 伺服器的方式大致相同。在 SQL 環境中，有效的資料庫使用者名確定資料庫物件的存取權限 - 有關詳細訊息，請參閱[第 21 章](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/server-administration/21.-zi-liao-ku-jiao-se)。因此，限制哪些資料庫使用者可以進行連線是非常重要的。
 

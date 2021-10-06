@@ -1,4 +1,4 @@
-# 21.2. Role Attributes
+# 22.2. Role Attributes
 
 A database role can have a number of attributes that define its privileges and interact with the client authentication system.login privilege
 

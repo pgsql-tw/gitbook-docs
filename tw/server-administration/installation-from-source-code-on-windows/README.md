@@ -1,4 +1,4 @@
-# 17. 用原始碼在 Windows 上安裝
+# 18. 用原始碼在 Windows 上安裝
 
 It is recommended that most users download the binary distribution for Windows, available as a graphical installer package from the PostgreSQL website. Building from source is only intended for people developing PostgreSQL or extensions.
 

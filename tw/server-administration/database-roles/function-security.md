@@ -1,4 +1,4 @@
-# 21.6. Function Security
+# 22.6. Function Security
 
 Functions, triggers and row-level security policies allow users to insert code into the backend server that other users might execute unintentionally. Hence, these mechanisms permit users to “Trojan horse” others with relative ease. The strongest protection is tight control over who can define objects. Where that is infeasible, write queries referring only to objects having trusted owners. Remove from `search_path` the public schema and any other schemas that permit untrusted users to create objects.
 
