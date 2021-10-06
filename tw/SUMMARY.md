@@ -760,7 +760,7 @@
     * [D.2. Unsupported Features](appendixes/d.-sql-xiang-rong-xing/d.2.-unsupported-features.md)
     * [D.3. XML Limits and Conformance to SQL/XML](appendixes/d.-sql-xiang-rong-xing/d.3.-xml-limits-and-conformance-to-sql-xml.md)
   * [E. 版本資訊](appendixes/release-notes/README.md)
-    * [E.1. Release 13.3](appendixes/release-notes/release-13.3.md)
+    * [E.1. Release 14](appendixes/release-notes/release-14.md)
   * [F. 延伸支援模組](appendixes/additional-supplied-modules/README.md)
     * [F.1. adminpack](appendixes/additional-supplied-modules/adminpack.md)
     * [F.2. amcheck](appendixes/additional-supplied-modules/amcheck.md)
