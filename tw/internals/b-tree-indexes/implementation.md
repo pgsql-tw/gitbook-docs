@@ -30,9 +30,9 @@ A duplicate is a leaf page tuple \(a tuple that points to a table row\) where _a
 
 Deduplication works by periodically merging groups of duplicate tuples together, forming a single _posting list_ tuple for each group. The column key value\(s\) only appear once in this representation. This is followed by a sorted array of TIDs that point to rows in the table. This significantly reduces the storage size of indexes where each value \(or each distinct combination of column values\) appears several times on average. The latency of queries can be reduced significantly. Overall query throughput may increase significantly. The overhead of routine index vacuuming may also be reduced significantly.
 
-#### Note
-
-B-Tree deduplication is just as effective with “duplicates” that contain a NULL value, even though NULL values are never equal to each other according to the `=` member of any B-Tree operator class. As far as any part of the implementation that understands the on-disk B-Tree structure is concerned, NULL is just another value from the domain of indexed values.
+{% hint style="info" %}
+B-Tree 的去重複化對於包含 NULL 值的「duplicates」同樣有效，即使根據任何 B-Tree 運算元的 = 成員，NULL 值也永遠不會彼此相等。 就理解磁碟上 B-Tree 結構實作的任何方面來說，NULL 也只是索引值的一個值的內容罷了。
+{% endhint %}
 
 The deduplication process occurs lazily, when a new item is inserted that cannot fit on an existing leaf page, though only when index tuple deletion could not free sufficient space for the new item \(typically deletion is briefly considered and then skipped over\). Unlike GIN posting list tuples, B-Tree posting list tuples do not need to expand every time a new duplicate is inserted; they are merely an alternative physical representation of the original logical contents of the leaf page. This design prioritizes consistent performance with mixed read-write workloads. Most client applications will at least see a moderate performance benefit from using deduplication. Deduplication is enabled by default.
 
