@@ -1,4 +1,4 @@
-# 24.3. Log 檔案維護
+# 25.3. Log 檔案維護
 
 It is a good idea to save the database server's log output somewhere, rather than just discarding it via `/dev/null`. The log output is invaluable when diagnosing problems. However, the log output tends to be voluminous \(especially at higher debug levels\) so you won't want to save it indefinitely. You need to _rotate_ the log files so that new log files are started and old ones removed after a reasonable period of time.
 

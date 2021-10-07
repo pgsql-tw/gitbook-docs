@@ -1,8 +1,8 @@
-# 24.1. 例行性資料清理
+# 25.1. 例行性資料清理
 
 PostgreSQL 資料庫需要定期維護，稱為資料庫清理\(vacuum\)。 對於一裝的執行環境而言，透過 autovacuum 背景程序進行資料庫清理就足夠了，這在 [24.1.6 節](routine-vacuuming.md#24-1-6-the-autovacuum-daemon)中有描述。您可能需要調整其中所描述的自動清除參數，以獲得您的情況的最佳結果。 一些資料庫管理員希望用手動管理的 VACUUM 命令來補充或替換背景程序的活動，這些命令通常根據 cron 或 Task Scheduler 的腳本計劃執行。 要正確設定手動管理的資料庫清理，了解接下來幾小節中討論的問題至關重要。依靠自動清理的管理員可能仍然希望瀏覽這些內容以幫助他們理解和調整自動清理。
 
-## 24.1.1. 資料庫清理的基本概念
+## 25.1.1. 資料庫清理的基本概念
 
 必須以 PostgreSQL [VACUUM](../../reference/sql-commands/vacuum.md) 命令處理每個資料表，原因如下：
 
@@ -17,7 +17,7 @@ VACUUM 有兩種執行方式：標準 VACUUM 和 VACUUM FULL。VACUUM FULL 可�
 
 VACUUM 會產生大量的 I/O流量，這會導致其他正在進行的連線效能較差。有一些配置參數可以調整以減少背景資料庫清理對效能的影響 - 參閱[第 19.4.4 節](../server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay)`。`
 
-## 24.1.2. 回收磁碟空間
+## 25.1.2. 回收磁碟空間
 
 在 PostgreSQL 中，資料列的 UPDATE 或 DELETE 不會立即刪除該資料列的舊版本。這種方法對於獲得多版本平行控制（MVCC，參閱[第 13 章](../../the-sql-language/concurrency-control/)）的好處是必要的：資料列的版本不能被刪除，而其他事務仍然可以看到。 但最終，過時或刪除的資料列版本不再讓任何交易感興趣。它佔用的空間必須被新的資料列重新使用以避免無限增長的磁碟空間需求。這就是透過執行 VACUUM 來完成的。
 
@@ -37,7 +37,7 @@ VACUUM 的標準作法是移除資料表和索引中過時的資料列版本，�
 如果您有一張定期刪除整個內容的資料表，請考慮使用 TRUNCATE 而不是使用 DELETE 和 VACUUM。[TRUNCATE](../../reference/sql-commands/truncate.md) 會立即刪除資料表的全部內容，而不需要後續的 VACUUM 或 VACUUM FULL 來回收現在未使用的磁碟空間。缺點是違反了嚴格的 MVCC 意義。
 {% endhint %}
 
-## 24.1.3. 更新規劃器統計資訊
+## 25.1.3. 更新規劃器統計資訊
 
 PostgreSQL 查詢規劃器依賴於關於表格內容的統計資訊，以便為查詢産生良好的查詢計劃。這些統計資訊由 [ANALYZE](../../reference/sql-commands/analyze.md) 指令收集，該指令可以單獨呼叫，也可以作為 VACUUM 中的選擇性的使用。有足夠準確的統計數據非常重要，糟糕的計劃選擇可能會降低資料庫效能。PostgreSQL 查詢規劃器依賴於關於表格內容的統計資訊，以便為查詢産生良好的查詢計劃。這些統計資訊由 ANALYZE 指令收集，該指令可以單獨呼叫，也可以作為 VACUUM 中的選擇性的使用。有足夠準確的統計數據非常重要，糟糕的計劃選擇可能會降低資料庫效能。
 
@@ -57,13 +57,13 @@ autovacuum 背景程序（如果啟用的話）會在資料表內容發生相當
 autovacuum 背景程序不會為外部資料表發出 ANALYZE 指令，因為它無法確定可能有用的頻率。如果您的查詢需要統計外部資料表的正確計劃，最好在適當的時間表上執行手動管理的 ANALYZE 指令。
 {% endhint %}
 
-## 24.1.4. 更新可見性映射表（Visibility Map）
+## 25.1.4. 更新可見性映射表（Visibility Map）
 
 Vacuum 為每個資料表維護一個[可見性映射表（Visibility Map）](../../internals/database-physical-storage/visibility-map.md)，以追踪哪些頁面包含對所有進行中事務（以及所有未來事務，直到頁面再次被修改）可見的 tuple。這有兩個目的，首先，資料庫清理本身可以在下一次運行中跳過這些頁面，因為沒有什麼要清理的。
 
 其次，它允許 PostgreSQL [僅使用索引](../../the-sql-language/index/index-only-scans-and-covering-indexes.md)來回應某些查詢，而無需參考基本資料表。 由於 PostgreSQL 索引不包含 tuple 的可見性資訊，因此普通的索引掃描會取得每個匹配索引項目的 heap tuple，以檢查目前事務是否應該看到它。另一方面，僅索引掃描首先檢查可見性映射表。如果知道頁面上的所有 tuple 都可見，則可以跳過 heap 取回。這對於可見性映射表可以防止磁碟存取的大型資料集非常有用。可見性映射表遠小於 heap，因此即使 heap 非常大，也可以輕鬆地進行快取。
 
-## 24.1.5. 防止交易事務 ID 重覆
+## 25.1.5. 防止交易事務 ID 重覆
 
 PostgreSQL 的 [MVCC](../../the-sql-language/concurrency-control/introduction.md) 交易事務處理相依於比較交易事務 ID（XID）：插入 XID 大於目前事務的 XID 的資料列版本是「未來」，則目前事務不應該是可見的。但由於事務 ID 的大小有限（32 位元），運行了很長時間（超過 40 億次事務）的叢集將遭受事務 ID 重覆：XID 計數器繞回到零，並且所有突然發生的事務在過去似乎變得是在未來 - 這意味著他們的輸出變得不可見。簡而言之，就是災難性的資料遺失。（實際上資料仍然存在，但如果你無法獲得它，那就沒意義了。）為了避免這種情況，有必要每 20 億次交易至少清理一次每個資料庫中的每個資料表。
 
@@ -121,7 +121,7 @@ HINT:  Stop the postmaster and vacuum that database in single-user mode.
 
 透過手動執行所需的 VACUUM 命令，可以讓管理員在沒有資料遺失的情況下恢復 100 萬個事務安全邊界。但是，由於系統一旦進入安全關閉模式就不會執行命令，唯一的方法是停止伺服器並以單一使用者模式啟動伺服器再執行 VACUUM。在單一使用者模式下不會強制執行關閉。有關使用單一使用者模式的詳細訊息，請參閱 [postgres](../../reference/server-applications/postgres.md) 參考頁面。
 
-### **24.1.5.1. Multixacts and Wraparound**
+### **25.1.5.1. Multixacts and Wraparound**
 
 Multixact ID 用於支援多個事務的資料列鎖定。由於 tuple 標頭中只有有限的空間來儲存鎖定訊息，因此只要有多個事務同時鎖定一個資料列，該訊息就會被編碼為“multiple transaction ID”或簡稱 Multixact ID。 有關哪些事務 ID 包含在任何特定 multixact ID 中的訊息將單獨儲存在 pg\_multixact 目錄中，並且只有 multixact ID 出現在 tuple 標頭中的 xmax 字串中。與事務 ID 一樣，multixact ID 實作為 32 位元計數器和相對應的儲存，所有這些都需要仔細的存續管理，儲存清理和環繞處理。有一個單獨的儲存區域，用於保存每個 multixact 中的成員列表，該列表也使用 32 位元計數器，必須進行管理。
 
@@ -131,7 +131,7 @@ Multixact ID 用於支援多個事務的資料列鎖定。由於 tuple 標頭中
 
 作為安全設備，對於 multixact-age 大於 [autovacuum\_multixact\_freeze\_max\_age](../server-configuration/automatic-vacuuming.md) 的任何資料表，都將進行積極的清理掃描。如果使用的成員儲存空間量超過可定址儲存空間的 50％，那麼對於所有資料表，從具有最早的 multixact-age 的那些開始，也將逐步進行積極的清理掃描。即使名義上停用了 autovacuum，也會發生這兩種積極性掃描。
 
-## 24.1.6. Autovacuum 背景程序
+## 25.1.6. Autovacuum 背景程序
 
 PostgreSQL 有一個選用但強烈推薦的 autovacuum 功能，其目的是自動執行 VACUUM 和 ANALYZE 指令。啟用後，autovacuum 將檢查已插入、更新或刪除大量 tuple 的資料表。這些檢查使用統計資訊收集工具；因此，除非將 [track\_counts](../server-configuration/run-time-statistics.md#19-9-1-query-and-index-statistics-collector) 設定為 true，否則無法使用 autovacuum。在預設配置中，啟用 autovacuuming 並相對應地設定相關的配置參數。
 
