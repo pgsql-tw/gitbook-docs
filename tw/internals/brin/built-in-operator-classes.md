@@ -11,7 +11,7 @@ The _minmax_ operator classes store the minimum and the maximum values appearing
 | `int8_minmax_ops` | `bigint` | `<` `<=` `=` `>=` `>` |  |  |  |  |
 | `bit_minmax_ops` | `bit` | `<` `<=` `=` `>=` `>` |  |  |  |  |
 | `varbit_minmax_ops` | `bit varying` | `<` `<=` `=` `>=` `>` |  |  |  |  |
-| `box_inclusion_ops` | `box` | `<<` `&<` `&&` `&>` `>>` `~=` `@>` `<@` \`&&lt; |  ``&lt;&lt; |  | &gt;&gt; `` | &&gt;\` |
+| `box_inclusion_ops` | `box` | `<<` `&<` `&&` `&>` `>>` `~=` `@>` `<@` \`&&lt; | \`\`&lt;&lt; |  | &gt;&gt; \`\` | &&gt;\` |
 | `bytea_minmax_ops` | `bytea` | `<` `<=` `=` `>=` `>` |  |  |  |  |
 | `bpchar_minmax_ops` | `character` | `<` `<=` `=` `>=` `>` |  |  |  |  |
 | `char_minmax_ops` | `"char"` | `<` `<=` `=` `>=` `>` |  |  |  |  |

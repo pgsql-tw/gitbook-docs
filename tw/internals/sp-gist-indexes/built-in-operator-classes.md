@@ -9,7 +9,7 @@ The core PostgreSQL distribution includes the SP-GiST operator classes shown in 
 | `kd_point_ops` | `point` | `<<` `<@` `<^` `>>` `>^` `~=` |  |  |  |  |
 | `quad_point_ops` | `point` | `<<` `<@` `<^` `>>` `>^` `~=` |  |  |  |  |
 | `range_ops` | any range type | `&&` `&<` `&>` \`- | -```<<`` `<@` `=` `>>` `@>` |  |  |  |
-| `box_ops` | `box` | `<<` `&<` `&&` `&>` `>>` `~=` `@>` `<@` \`&&lt; |  ``&lt;&lt; |  | &gt;&gt; `` | &&gt;\` |
+| `box_ops` | `box` | `<<` `&<` `&&` `&>` `>>` `~=` `@>` `<@` \`&&lt; | \`\`&lt;&lt; |  | &gt;&gt; \`\` | &&gt;\` |
 | `text_ops` | `text` | `<` `<=` `=` `>` `>=` `~<=~` `~<~` `~>=~` `~>~` |  |  |  |  |
 | `inet_ops` | `inet`, `cidr` | `&&` `>>` `>>=` `>` `>=` `<>` `<<` `<<=` `<` `<=` `=` |  |  |  |  |
 

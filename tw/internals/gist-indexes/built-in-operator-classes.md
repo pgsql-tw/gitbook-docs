@@ -6,11 +6,11 @@ The core PostgreSQL distribution includes the GiST operator classes shown in [Ta
 
 | Name | Indexed Data Type | Indexable Operators | Ordering Operators |  |  |  |  |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `box_ops` | `box` | `&&` `&>` `&<` \`&&lt; | ```>>`` `<<` \`&lt;&lt; | ```<@`` `@>` `@` \` | &&gt; `` | &gt;&gt;```~`` `~=` |  |
-| `circle_ops` | `circle` | `&&` `&>` `&<` \`&&lt; | ```>>`` `<<` \`&lt;&lt; | ```<@`` `@>` `@` \` | &&gt; `` | &gt;&gt;```~`` `~=` | `<->` |
+| `box_ops` | `box` | `&&` `&>` `&<` \`&&lt; | ```>>`` `<<` \`&lt;&lt; | ```<@`` `@>` `@` \` | &&gt; \`\` | &gt;&gt;```~`` `~=` |  |
+| `circle_ops` | `circle` | `&&` `&>` `&<` \`&&lt; | ```>>`` `<<` \`&lt;&lt; | ```<@`` `@>` `@` \` | &&gt; \`\` | &gt;&gt;```~`` `~=` | `<->` |
 | `inet_ops` | `inet`, `cidr` | `&&` `>>` `>>=` `>` `>=` `<>` `<<` `<<=` `<` `<=` `=` |  |  |  |  |  |
 | `point_ops` | `point` | `>>` `>^` `<<` `<@` `<@` `<@` `<^` `~=` | `<->` |  |  |  |  |
-| `poly_ops` | `polygon` | `&&` `&>` `&<` \`&&lt; | ```>>`` `<<` \`&lt;&lt; | ```<@`` `@>` `@` \` | &&gt; `` | &gt;&gt;```~`` `~=` | `<->` |
+| `poly_ops` | `polygon` | `&&` `&>` `&<` \`&&lt; | ```>>`` `<<` \`&lt;&lt; | ```<@`` `@>` `@` \` | &&gt; \`\` | &gt;&gt;```~`` `~=` | `<->` |
 | `range_ops` | any range type | `&&` `&>` `&<` `>>` `<<` `<@` \`- | -```=`` `@>` `@>` |  |  |  |  |
 | `tsquery_ops` | `tsquery` | `<@` `@>` |  |  |  |  |  |
 | `tsvector_ops` | `tsvector` | `@@` |  |  |  |  |  |
