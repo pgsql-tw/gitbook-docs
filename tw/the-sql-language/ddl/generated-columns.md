@@ -14,7 +14,7 @@ CREATE TABLE people (
 
 必須指定關鍵字 STORED 來作為自動欄位的儲存型別。相關的詳細說明，請參閱 [CREATE TABLE](../../reference/sql-commands/create-table.md)。
 
-A generated column cannot be written to directly. In `INSERT` or `UPDATE` commands, a value cannot be specified for a generated column, but the keyword `DEFAULT` may be specified.
+自動欄位無法直接寫入資料。在 INSERT 或 UPDATE 命令中，不能為自動欄位指定內容，但可以指定關鍵字 DEFAULT。
 
 Consider the differences between a column with a default and a generated column. The column default is evaluated once when the row is first inserted if no other value was provided; a generated column is updated whenever the row changes and cannot be overridden. A column default may not refer to other columns of the table; a generation expression would normally do so. A column default can use volatile functions, for example `random()` or functions referring to the current time; this is not allowed for generated columns.
 
