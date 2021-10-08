@@ -2,7 +2,7 @@
 
 Generated column \(自動欄位\)是特殊的欄位，它的內容由其他欄位的內容計算得出。相對於資料表來說，就是欄位形態的 View。Generated column 有兩種：stored 和 virtual。 Stored 的自動欄位在寫入（插入或更新）時進行計算，會像正常欄位一樣佔用儲存空間。Virtual 的自動欄位則不佔用任何儲存空間，而是在讀取時會對其進行計算。因此，虛擬的自動欄位類似於檢視表\(view\)，而儲存的自動欄位則類似於具體化檢視表\(materialized view\)（但會自動更新）。 PostgreSQL 目前僅實作了儲存的自動欄位。
 
-To create a generated column, use the `GENERATED ALWAYS AS` clause in `CREATE TABLE`, for example:
+使用 `GENERATED ALWAYS AS` 語法來產生自動欄位，舉例來說：
 
 ```text
 CREATE TABLE people (
@@ -12,13 +12,18 @@ CREATE TABLE people (
 );
 ```
 
-The keyword `STORED` must be specified to choose the stored kind of generated column. See [CREATE TABLE](https://www.postgresql.org/docs/12/sql-createtable.html) for more details.
+務必要加上 `STORED` 關鍵字以寫入自動欄位. 更多細節請參閱 [CREATE TABLE](https://www.postgresql.org/docs/12/sql-createtable.html)
 
-A generated column cannot be written to directly. In `INSERT` or `UPDATE` commands, a value cannot be specified for a generated column, but the keyword `DEFAULT` may be specified.
+使用 `INSERT` 或 `UPDATE` 指令時，不能直接指定內容至自動欄位，但可以使用 `DEFAULT` 關鍵字來設定預設值。
 
-Consider the differences between a column with a default and a generated column. The column default is evaluated once when the row is first inserted if no other value was provided; a generated column is updated whenever the row changes and cannot be overridden. A column default may not refer to other columns of the table; a generation expression would normally do so. A column default can use volatile functions, for example `random()` or functions referring to the current time; this is not allowed for generated columns.
+針對「包含預設值的欄位」及 「自動欄位」進行比較:
 
-Several restrictions apply to the definition of generated columns and tables involving generated columns:
+當資料列第一次被寫入時，如果該欄位沒有提供任何值，將採用預設值寫入; 而自動欄位則是在資料列被更新時，根據其他欄位來產生對應的值，該值無法被覆寫。
+
++ 「包含預設值的欄位」通常不會參考到表格的其他欄位; 而「自動欄位」通常都會參考到其他欄位。
++ 「含預設值的欄位」在設定預設值時可以使用易變函數 \(volatile function\)，舉例來說: `random()` 或者是取得當前時間的函式; 而「自動欄位」則不允許使用。
+
+「自動欄位」和「包含自動欄位的表格」有一些限制：
 
 * 自動欄位的表示式只能使用 immutable 函數，不能使用子查詢或以任何方式引用同筆資料以外的任何內容。
 * 自動欄位的表示式不能引用另一個自動欄位。
