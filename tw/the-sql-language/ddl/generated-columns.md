@@ -12,7 +12,7 @@ CREATE TABLE people (
 );
 ```
 
-The keyword `STORED` must be specified to choose the stored kind of generated column. See [CREATE TABLE](https://www.postgresql.org/docs/12/sql-createtable.html) for more details.
+必須指定關鍵字 STORED 來作為自動欄位的儲存型別。相關的詳細說明，請參閱 [CREATE TABLE](../../reference/sql-commands/create-table.md)。
 
 A generated column cannot be written to directly. In `INSERT` or `UPDATE` commands, a value cannot be specified for a generated column, but the keyword `DEFAULT` may be specified.
 
@@ -26,6 +26,10 @@ Several restrictions apply to the definition of generated columns and tables inv
 * 自動欄位不能有欄位預設值或識別定義。
 * 自動欄位不能是分割區主鍵的一部分。
 * 外部資料表可以具有自動欄位。有關詳細資訊，請參閱 [CREATE FOREIGN TABLE](../../reference/sql-commands/create-foreign-table.md)。
+* For inheritance:
+  * If a parent column is a generated column, a child column must also be a generated column using the same expression. In the definition of the child column, leave off the `GENERATED` clause, as it will be copied from the parent.
+  * In case of multiple inheritance, if one parent column is a generated column, then all parent columns must be generated columns and with the same expression.
+  * If a parent column is not a generated column, a child column may be defined to be a generated column or not.
 
 其他注意事項適用於自動欄位的使用。
 
