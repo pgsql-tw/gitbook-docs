@@ -8,7 +8,9 @@ description: 版本：11
 
 範圍類型之所以有用，是因為它們在某個範圍值中表示許多元素值，並且因為可以清楚地表示諸如重疊範圍之類的概念。將時間和日期範圍用於計劃目的是最明顯的例子；還有像是價格範圍、儀器的測量範圍等等也會有用。
 
-## 8.17.1. Built-in Range Types
+每個範圍型別都有相對應的多範圍型別。多範圍是非連續、非空值、非空範圍的有序列表。大多數範圍運算子也適用於多範圍，並且它們也有一些自己的函數。
+
+## 8.17.1. Built-in Range and Multirange Types
 
 PostgreSQL 內建了以下內建範圍型別：
 
@@ -102,7 +104,7 @@ SELECT '[4,4]'::int4range;
 SELECT '[4,4)'::int4range;
 ```
 
-## 8.17.6. Constructing Ranges
+## 8.17.6. Constructing Ranges and Multiranges
 
 Each range type has a constructor function with the same name as the range type. Using the constructor function is frequently more convenient than writing a range literal constant, since it avoids the need for extra quoting of the bound values. The constructor function accepts two or three arguments. The two-argument form constructs a range in standard form \(lower bound inclusive, upper bound exclusive\), while the three-argument form constructs a range with bounds of the form specified by the third argument. The third argument must be one of the strings “`()`”, “`(]`”, “`[)`”, or “`[]`”. For example:
 
@@ -120,6 +122,14 @@ SELECT int8range(1, 14, '(]');
 
 -- Using NULL for either bound causes the range to be unbounded on that side.
 SELECT numrange(NULL, 2.2);
+```
+
+每個範圍型別還有一個與多範圍型別同名的多範圍建構函數。建構函數可以有零個或多個參數，這些參數都是適當的型別的範圍。 例如：
+
+```text
+SELECT nummultirange();
+SELECT nummultirange(numrange(1.0, 14.0));
+SELECT nummultirange(numrange(1.0, 14.0), numrange(20.0, 25.0));
 ```
 
 ## 8.17.7. Discrete Range Types
