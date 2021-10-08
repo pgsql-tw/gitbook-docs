@@ -2,7 +2,7 @@
 
 pg\_available\_extensions 檢視表列出可以安裝的延伸功能。另請參閱 [pg\_extension](pg_extension.md) 系統目錄，該目錄顯示了目前已安裝的延伸功能。
 
-#### **Table 51.67. `pg_available_extensions` Columns**
+## **Table 51.67. `pg_available_extensions` Columns**
 
 | Name | Type | Description |
 | :--- | :--- | :--- |

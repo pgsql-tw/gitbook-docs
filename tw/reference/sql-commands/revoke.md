@@ -2,7 +2,7 @@
 
 REVOKE — 撤銷存取權限
 
-### 語法
+## 語法
 
 ```text
 REVOKE [ GRANT OPTION FOR ]
@@ -94,7 +94,7 @@ REVOKE [ ADMIN OPTION FOR ]
     [ CASCADE | RESTRICT ]
 ```
 
-### 說明
+## 說明
 
 REVOKE 指令從一個或多個角色撤消先前授予的權限。關鍵字 PUBLIC 指的是所有角色的群組。
 
@@ -110,7 +110,7 @@ REVOKE 指令從一個或多個角色撤消先前授予的權限。關鍵字 PUB
 
 撤消角色中的成員資格時，GRANT OPTION 將被稱為 ADMIN OPTION，但行為類似。另請注意，此指令形式不允許使用 GROUP。
 
-### 注意
+## 注意
 
 使用 [psql](../client-applications/psql.md) 的 \dp 指令顯示在現有資料表和欄位上授予的權限。有關格式的訊息，請參閱 [GRANT](grant.md)。對於非資料表物件，還有其他 \dcommands 可以顯示其權限。
 
@@ -124,7 +124,7 @@ REVOKE 也可以由不是受影響物件的擁有者角色完成，但是是擁�
 
 如果執行 REVOKE 的角色透過多個角色成員資格路徑間接保留權限，則未指定包含角色的角色將用於執行命令。在這種情況下，最佳做法是使用 SET ROLE 成為您要執行 REVOKE 的特定角色。如果不這樣做，可能會導致撤銷您預期權限之外的權限，或者根本未撤消任何權限。
 
-### 範例
+## 範例
 
 在資料表 film 上撤銷 public 的 INSERT 權限：
 
@@ -146,11 +146,11 @@ REVOKE ALL PRIVILEGES ON kinds FROM manuel;
 REVOKE admins FROM joe;
 ```
 
-### 相容性
+## 相容性
 
 [GRANT](grant.md) 指令的相容性說明同樣適用於 REVOKE。根據標準需要指定 RESTRICT 或 CASCADE，但 PostgreSQL 預設採用 RESTRICT。
 
-### 參閱
+## 參閱
 
 [GRANT](grant.md)
 

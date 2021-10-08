@@ -6,7 +6,7 @@ pg\_trgm 模組提供了用於根據 trigram 配對決定包含字母及數字�
 
 trigram 是從字串中提取的一組三個連續字元。我們可以透過計算兩個字串共享的三連詞的數量來衡量它們的相似性。這個簡單的想法對測量許多自然語言中單詞的相似性非常有用。
 
-#### Note
+### Note
 
 `pg_trgm` ignores non-word characters \(non-alphanumerics\) when extracting trigrams from a string. Each word is considered to have two spaces prefixed and one space suffixed when determining the set of trigrams contained in the string. For example, the set of trigrams in the string “`cat`” is “ `c`”, “ `ca`”, “`cat`”, and “`at` ”. The set of trigrams in the string “`foo|bar`” is “ `f`”, “ `fo`”, “`foo`”, “`oo` ”, “ `b`”, “ `ba`”, “`bar`”, and “`ar` ”.
 
@@ -14,7 +14,7 @@ trigram 是從字串中提取的一組三個連續字元。我們可以透過計
 
 The functions provided by the `pg_trgm` module are shown in [Table F.24](https://www.postgresql.org/docs/12/pgtrgm.html#PGTRGM-FUNC-TABLE), the operators in [Table F.25](https://www.postgresql.org/docs/12/pgtrgm.html#PGTRGM-OP-TABLE).
 
-#### **Table F.24. `pg_trgm` Functions**
+### **Table F.24. `pg_trgm` Functions**
 
 | Function | Returns | Description |
 | :--- | :--- | :--- |
@@ -51,7 +51,7 @@ At the same time, `strict_word_similarity(text, text)` selects an extent of word
 
 Thus, the `strict_word_similarity(text, text)` function is useful for finding the similarity to whole words, while `word_similarity(text, text)` is more suitable for finding the similarity for parts of words.
 
-#### **Table F.25. `pg_trgm` Operators**
+### **Table F.25. `pg_trgm` Operators**
 
 | Operator | Returns | Description |
 | :--- | :--- | :--- |
@@ -193,7 +193,7 @@ CREATE INDEX words_idx ON words USING GIN (word gin_trgm_ops);
 
 Now, a `SELECT` query similar to the previous example can be used to suggest spellings for misspelled words in user search terms. A useful extra test is to require that the selected words are also of similar length to the misspelled word.
 
-#### Note
+### Note
 
 Since the `words` table has been generated as a separate, static table, it will need to be periodically regenerated so that it remains reasonably up-to-date with the document collection. Keeping it exactly current is usually unnecessary.
 
@@ -213,6 +213,5 @@ Alexander Korotkov `<`[`a.korotkov@postgrespro.ru`](mailto:a.korotkov@postgrespr
 
 Documentation: Christopher Kings-Lynne
 
-This module is sponsored by Delta-Soft Ltd., Moscow, Russia.  
-
+This module is sponsored by Delta-Soft Ltd., Moscow, Russia.
 

@@ -2,7 +2,7 @@
 
 本節介紹可以回傳多個資料列的函數。此類中使用最廣泛的函數是序列生成函數，如 [Table 9.61](set-returning-functions.md#table-9-61-series-generating-functions)和 [Table 9.62](set-returning-functions.md#table-9-62-subscript-generating-functions) 所述。其他更專門的集合回傳函數在本手冊的其他地方介紹。有關組合多個集合回傳函數的方法，請參見[第 7.2.1.4 節](../queries/7.2.-zi-liao-biao-biao-shi-shi.md#7-2-1-the-from-clause)。
 
-#### **Table 9.61. Series Generating Functions**
+## **Table 9.61. Series Generating Functions**
 
 | Function | Argument Type | Return Type | Description |
 | :--- | :--- | :--- | :--- |
@@ -67,7 +67,7 @@ SELECT * FROM generate_series('2008-03-01 00:00'::timestamp,
 (9 rows)
 ```
 
-#### **Table 9.62. Subscript Generating Functions**
+## **Table 9.62. Subscript Generating Functions**
 
 | Function | Return Type | Description |
 | :--- | :--- | :--- |

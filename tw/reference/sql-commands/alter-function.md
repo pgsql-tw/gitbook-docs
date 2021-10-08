@@ -2,7 +2,7 @@
 
 ALTER FUNCTION — 變更一個函數的定義
 
-### 語法
+## 語法
 
 ```text
 ALTER FUNCTION name [ ( [ [ argmode ] [ argname ] argtype [, ...] ] ) ]
@@ -30,13 +30,13 @@ where action is one of:
     RESET ALL
 ```
 
-### 說明
+## 說明
 
 `ALTER FUNCTION` 變更一個函數的定義。
 
 您必須是函數擁有者才能使用 ALTER FUNCTION 功能。要變更函數的綱要，您還必須具有新綱要的 CREATE 權限。要變更擁有者，您還必須是新擁有角色的直接或間接成員，並且該角色必須對該函數的綱要具有 CREATE 權限。（這些限制強制改變擁有者不會做任何透過刪除和重新建立函數都無法做到的事情，但是超級用戶可以改變任何函數的所有權。）
 
-### 參數
+## 參數
 
 _`name`_
 
@@ -114,7 +114,7 @@ _`value`_
 
 此語法會被忽略，它只為了符合 SQL 標準。
 
-### 範例
+## 範例
 
 要將 integer 型別的函數 sqrt 重新命名為 square\_root：
 
@@ -154,11 +154,11 @@ ALTER FUNCTION check_password(text) RESET search_path;
 
 該函數現在將執行其呼叫者使用的任何搜尋路徑。
 
-### 相容性
+## 相容性
 
 此語法與 SQL 標準中的 ALTER FUNCTION 語法部分相容。標準可以允許修改一個函數的更多屬性，但不能提供重新命名函數、使函數成為 security definer、將配置參數值附加到函數或變更函數的擁有者、綱要或易變性的設定。標準還需要 RESTRICT 關鍵字，這在 PostgreSQL 中是選用的。
 
-### 參閱
+## 參閱
 
 [CREATE FUNCTION](create-function.md), [DROP FUNCTION](drop-function.md)
 

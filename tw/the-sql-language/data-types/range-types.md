@@ -82,7 +82,7 @@ Each bound value can be quoted using `"` \(double quote\) characters. This is ne
 
 Whitespace is allowed before and after the range value, but any whitespace between the parentheses or brackets is taken as part of the lower or upper bound value. \(Depending on the element type, it might or might not be significant.\)
 
-#### Note
+### Note
 
 These rules are very similar to those for writing field values in composite-type literals. See [Section 8.16.6](https://www.postgresql.org/docs/12/rowtypes.html#ROWTYPES-IO-SYNTAX) for additional commentary.
 

@@ -60,7 +60,7 @@
 
 指定 TCP 在發送 Keepalive 訊息給用戶端之後保持連線的秒數。值為 0 時使用系統預設值。此參數僅在支援 TCP\_KEEPIDLE 或等效網路選項的系統上以及在 Windows 上受到支援；在其他系統上，它必須是零。在透過 Unix-domain socket 的連線中，該參數將被忽略並始終為零。
 
-#### 注意
+### 注意
 
 在 Windows 上，值為 0 會將此參數設定為2小時，因為 Windows 不提供讀取系統預設值的方法。
 
@@ -68,7 +68,7 @@
 
 指定用戶端未回應的 TCP 保持活動訊息應重新傳輸的秒數。值為 0 時使用系統預設值。此參數僅在支援 TCP\_KEEPINTVL 或等效網路選項的系統上以及在 Windows 上受到支援；在其他系統上，它必須是零。在透過 Unix-domain socket 的連線中，此參數將被忽略並始終為零。
 
-#### 注意
+### 注意
 
 在 Windows 上，值為 0 會將此參數設定為 1 秒，因為 Windows 不提供讀取系統預設值的方法。
 
@@ -76,7 +76,7 @@
 
 指定在伺服器連線到用戶端之前可能已經失去的 TCP 保持連線的數量。值為 0 時使用系統預設值。此參數僅在支援 TCP\_KEEPCNT 或等效網路選項的系統上受到支持；在其他系統上，它必須是零。在透過 Unix-domain socket 的連線中，此參數將被忽略並始終為零。
 
-#### 注意
+### 注意
 
 此參數在 Windows 上不支援，並且必須為零。
 
@@ -176,7 +176,7 @@ HIGH 的 OpenSSL 預設順序有問題，因為它的 3DES 高於 AES128。這�
 
 db\_user\_namespace 會導致用戶端和伺服器的使用者名稱表示方式不同。身份驗證檢查始終使用伺服器的使用者名稱完成，因此必須為伺服器的使用者名稱配置身份驗證方法，而不是用戶端。而 md5 在用戶端和伺服器上均使用使用者名稱作為 salt，所以 md5 不能與 db\_user\_namespace 一起使用。
 
-#### 注意
+### 注意
 
 此功能是一種臨時措施，到找到完整的解決方案的時候，這個選項將被刪除。
 
@@ -196,7 +196,7 @@ Specifies the name of the file containing the SSL server certificate authority \
 
 Specifies the name of the file containing the SSL server certificate. Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is `server.crt`.
 
- \(`string`\)
+\(`string`\)
 
 Specifies the name of the file containing the SSL server certificate revocation list \(CRL\). Relative paths are relative to the data directory. This parameter can only be set in the `postgresql.conf` file or on the server command line. The default is empty, meaning no CRL file is loaded.
 

@@ -67,7 +67,7 @@ CREATE EVENT TRIGGER test_event_trigger_for_drops
 
 The functions shown in [Table 9.96](https://www.postgresql.org/docs/12/functions-event-triggers.html#FUNCTIONS-EVENT-TRIGGER-TABLE-REWRITE) provide information about a table for which a `table_rewrite` event has just been called. If called in any other context, an error is raised.
 
-#### **Table 9.96. Table Rewrite Information**
+### **Table 9.96. Table Rewrite Information**
 
 | Name | Return Type | Description |
 | :--- | :--- | :--- |

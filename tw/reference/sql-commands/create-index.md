@@ -2,7 +2,7 @@
 
 CREATE INDEX — 定義一個新的索引
 
-### 語法
+## 語法
 
 ```text
 CREATE [ UNIQUE ] INDEX [ CONCURRENTLY ] [ [ IF NOT EXISTS ] name ] ON table_name [ USING method ]
@@ -12,7 +12,7 @@ CREATE [ UNIQUE ] INDEX [ CONCURRENTLY ] [ [ IF NOT EXISTS ] name ] ON table_nam
     [ WHERE predicate ]
 ```
 
-### 說明
+## 說明
 
 CREATE INDEX 在指定關連的指定欄位上建構索引，該索引可以是資料表或具體化檢視表。索引主要用於增強資料庫效能（儘管不恰當的使用會導致效能降低）。
 
@@ -28,7 +28,7 @@ WHERE 子句中使用的表示式只能引用基礎資料表的欄位，但它�
 
 索引定義中使用的所有函數和運算符必須是「immutable」，也就是說，它們的結果必須僅依賴於它們的參數，而不是任何外部影響（例如另一個資料表的內容或目前時間）。此限制可確保明確定義索引的行為。要在索引表示式或 WHERE 子句中使用使用者定義的函數，請記住在建立函數時將該函數標記為 immutable。
 
-### 參數
+## 參數
 
 `UNIQUE`
 
@@ -98,7 +98,7 @@ _`predicate`_
 
 部分索引的限制條件表示式。
 
-#### 索引儲存參數
+### 索引儲存參數
 
 選擇性的 WITH 子句指定索引的儲存參數。每個索引方法都有自己的一組允許的儲存參數。B-tree，hash，GiST 和 SP-GiST 索引方法都接受此參數：
 
@@ -118,7 +118,7 @@ GIN 索引接受不同的參數：
 
 此設定控制[第 64.4.1 節](../../internals/gin-indexes/implementation.md#64-4-1-gin-fast-update-technique)中描述的快速更新技術的運用。它是一個布林參數：ON 啟用快速更新，OFF 停用它。 （如[第 19.1 節](../../server-administration/server-configuration/setting-parameters.md)所述，允許使用 ON 和 OFF 的替代拼寫。）預設為 ON。
 
-#### 提醒
+### 提醒
 
 透過 ALTER INDEX 關閉 fastupdate 可防止將來的插入進入擱置的索引項目列表，但本身不會更新以前的項目。您可能希望 VACUUM 資料表或之後呼叫 gin\_clean\_pending\_list 函數以確保清空擱置列表。
 
@@ -136,7 +136,7 @@ BRIN 索引接受不同的參數：
 
 定義每當在下一個頁面上檢測到插入時是否為前一頁面範圍進行摘要。
 
-#### 同步建立索引
+### 同步建立索引
 
 建立索引可能會干擾資料庫的日常操作。通常，PostgreSQL 會鎖定要對寫入進行索引的資料表，並通過對資料的單次掃描來執行整個索引建構。其他事務仍然可以讀取資料表，但如果它們嘗試插入，更新或刪除資料表中的資料列，它們將被阻擋，直到索引建構完成。如果系統是線上正式資料庫，這可能會產生嚴重影響。非常大的資料表可能需要很長時間才能被編入索引，即使對於較小的資料表，索引建構也可能會鎖定寫入程序，這些時間對於線上正式系統來說是不可接受的。
 
@@ -164,7 +164,7 @@ Indexes:
 
 一般索引建立允許同一資料表上的其他一般索引建立同時執行，但一次只能在一個資料表上進行一個同步索引構立。在這兩種情況下，同時不允許在資料表上進行其他類型的結構變更。另一個區別是可以在事務塊中執行一般的 CREATE INDEX 指令，但 CREATE INDEX CONCURRENTLY 不能。
 
-### 注意
+## 注意
 
 有關何時可以使用索引，何時不使用索引以及哪些特定情況可以使用索引的訊息，請參閱[第 11 章](../../the-sql-language/index/)。
 
@@ -180,7 +180,7 @@ Indexes:
 
 PostgreSQL 的早期版本也有一個 R-tree 索引方法。此方法已被移除，因為它沒有 GiST 方法的顯著優勢。如果指定了 USING rtree，CREATE INDEX 會將其解釋為USING gist，以簡化舊資料庫到 GiST 的轉換。
 
-### 範例
+## 範例
 
 要在資料表中的欄位 title 上建立 B-tree 索引：
 
@@ -241,11 +241,11 @@ SELECT * FROM points
 CREATE INDEX CONCURRENTLY sales_quantity_index ON sales_table (quantity);
 ```
 
-### 相容性
+## 相容性
 
 CREATE INDEX 是 PostgreSQL 延伸語法。SQL 標準中沒有索引的規定。
 
-### 參閱
+## 參閱
 
 [ALTER INDEX](alter-index.md), [DROP INDEX](drop-index.md)
 

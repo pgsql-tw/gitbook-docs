@@ -2,13 +2,13 @@
 
 SET CONSTRAINTS — set constraint check timing for the current transaction
 
-### Synopsis
+## Synopsis
 
 ```text
 SET CONSTRAINTS { ALL | name [, ...] } { DEFERRED | IMMEDIATE }
 ```
 
-### Description
+## Description
 
 `SET CONSTRAINTS` sets the behavior of constraint checking within the current transaction. `IMMEDIATE` constraints are checked at the end of each statement. `DEFERRED` constraints are not checked until transaction commit. Each constraint has its own `IMMEDIATE` or `DEFERRED` mode.
 
@@ -22,14 +22,13 @@ Currently, only `UNIQUE`, `PRIMARY KEY`, `REFERENCES` \(foreign key\), and `EXCL
 
 The firing of triggers that are declared as “constraint triggers” is also controlled by this setting — they fire at the same time that the associated constraint should be checked.
 
-### Notes
+## Notes
 
 Because PostgreSQL does not require constraint names to be unique within a schema \(but only per-table\), it is possible that there is more than one match for a specified constraint name. In this case `SET CONSTRAINTS` will act on all matches. For a non-schema-qualified name, once a match or matches have been found in some schema in the search path, schemas appearing later in the path are not searched.
 
 This command only alters the behavior of constraints within the current transaction. Issuing this outside of a transaction block emits a warning and otherwise has no effect.
 
-### Compatibility
+## Compatibility
 
-This command complies with the behavior defined in the SQL standard, except for the limitation that, in PostgreSQL, it does not apply to `NOT NULL` and `CHECK` constraints. Also, PostgreSQL checks non-deferrable uniqueness constraints immediately, not at end of statement as the standard would suggest.  
-
+This command complies with the behavior defined in the SQL standard, except for the limitation that, in PostgreSQL, it does not apply to `NOT NULL` and `CHECK` constraints. Also, PostgreSQL checks non-deferrable uniqueness constraints immediately, not at end of statement as the standard would suggest.
 

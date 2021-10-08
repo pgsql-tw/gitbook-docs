@@ -2,11 +2,11 @@
 
 pg\_dumpall — extract a PostgreSQL database cluster into a script file
 
-### Synopsis
+## Synopsis
 
 `pg_dumpall` \[_`connection-option`_...\] \[_`option`_...\]
 
-### Description
+## Description
 
 pg\_dumpall is a utility for writing out \(“dumping”\) all PostgreSQL databases of a cluster into one script file. The script file contains SQL commands that can be used as input to [psql](https://www.postgresql.org/docs/12/app-psql.html) to restore the databases. It does this by calling [pg\_dump](https://www.postgresql.org/docs/12/app-pgdump.html) for each database in the cluster. pg\_dumpall also dumps global objects that are common to all databases, that is, database roles and tablespaces. \(pg\_dump does not save these objects.\)
 
@@ -16,7 +16,7 @@ The SQL script will be written to the standard output. Use the `-f`/`--file` opt
 
 pg\_dumpall needs to connect several times to the PostgreSQL server \(once per database\). If you use password authentication it will ask for a password each time. It is convenient to have a `~/.pgpass` file in such cases. See [Section 33.15](https://www.postgresql.org/docs/12/libpq-pgpass.html) for more information.
 
-### Options
+## Options
 
 The following command-line options control the content and format of the output.
 
@@ -229,7 +229,7 @@ Note that the password prompt will occur again for each database to be dumped. U
 
 Specifies a role name to be used to create the dump. This option causes pg\_dumpall to issue a `SET ROLE` _`rolename`_ command after connecting to the database. It is useful when the authenticated user \(specified by `-U`\) lacks privileges needed by pg\_dumpall, but can switch to a role with the required rights. Some installations have a policy against logging in directly as a superuser, and use of this option allows dumps to be made without violating the policy.
 
-### Environment
+## Environment
 
 `PGHOST`  
 `PGOPTIONS`  
@@ -242,7 +242,7 @@ Specifies whether to use color in diagnostic messages. Possible values are `alwa
 
 This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)\).
 
-### Notes
+## Notes
 
 Since pg\_dumpall calls pg\_dump internally, some diagnostic messages will refer to pg\_dump.
 
@@ -254,7 +254,7 @@ The dump script should not be expected to run completely without errors. In part
 
 pg\_dumpall requires all needed tablespace directories to exist before the restore; otherwise, database creation will fail for databases in non-default locations.
 
-### Examples
+## Examples
 
 To dump all databases:
 
@@ -270,7 +270,7 @@ $ psql -f db.out postgres
 
 It is not important to which database you connect here since the script file created by pg\_dumpall will contain the appropriate commands to create and connect to the saved databases. An exception is that if you specified `--clean`, you must connect to the `postgres` database initially; the script will attempt to drop other databases immediately, and that will fail for the database you are connected to.
 
-### 參閱
+## 參閱
 
 參閱 [pg\_dump](pg_dump.md) 以瞭解相關錯誤情況的詳細資訊。
 

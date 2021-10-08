@@ -2,7 +2,7 @@
 
 ALTER TYPE — change the definition of a type
 
-### Synopsis
+## Synopsis
 
 ```text
 ALTER TYPE name action [, ... ]
@@ -20,7 +20,7 @@ where action is one of:
     ALTER ATTRIBUTE attribute_name [ SET DATA ] TYPE data_type [ COLLATE collation ] [ CASCADE | RESTRICT ]
 ```
 
-### Description
+## Description
 
 `ALTER TYPE` changes the definition of an existing type. There are several subforms:`ADD ATTRIBUTE`
 
@@ -46,7 +46,7 @@ The `ADD ATTRIBUTE`, `DROP ATTRIBUTE`, and `ALTER ATTRIBUTE` actions can be comb
 
 You must own the type to use `ALTER TYPE`. To change the schema of a type, you must also have `CREATE` privilege on the new schema. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have `CREATE` privilege on the type's schema. \(These restrictions enforce that altering the owner doesn't do anything you couldn't do by dropping and recreating the type. However, a superuser can alter ownership of any type anyway.\) To add an attribute or alter an attribute type, you must also have `USAGE` privilege on the data type.
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -96,13 +96,13 @@ Automatically propagate the operation to typed tables of the type being altered,
 
 Refuse the operation if the type being altered is the type of a typed table. This is the default.
 
-### Notes
+## Notes
 
 `ALTER TYPE ... ADD VALUE` \(the form that adds a new value to an enum type\) cannot be executed inside a transaction block.
 
 Comparisons involving an added enum value will sometimes be slower than comparisons involving only original members of the enum type. This will usually only occur if `BEFORE` or `AFTER` is used to set the new value's sort position somewhere other than at the end of the list. However, sometimes it will happen even though the new value is added at the end \(this occurs if the OID counter “wrapped around” since the original creation of the enum type\). The slowdown is usually insignificant; but if it matters, optimal performance can be regained by dropping and recreating the enum type, or by dumping and reloading the database.
 
-### Examples
+## Examples
 
 To rename a data type:
 
@@ -140,11 +140,11 @@ To rename an enum value:
 ALTER TYPE colors RENAME VALUE 'purple' TO 'mauve';
 ```
 
-### Compatibility
+## Compatibility
 
 The variants to add and drop attributes are part of the SQL standard; the other variants are PostgreSQL extensions.
 
-### See Also
+## See Also
 
 [CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html), [DROP TYPE](https://www.postgresql.org/docs/10/static/sql-droptype.html)
 

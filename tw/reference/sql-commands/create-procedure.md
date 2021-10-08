@@ -2,7 +2,7 @@
 
 CREATE PROCEDURE — define a new procedure
 
-### Synopsis
+## Synopsis
 
 ```text
 CREATE [ OR REPLACE ] PROCEDURE
@@ -16,7 +16,7 @@ CREATE [ OR REPLACE ] PROCEDURE
   } ...
 ```
 
-### Description
+## Description
 
 `CREATE PROCEDURE` defines a new procedure. `CREATE OR REPLACE PROCEDURE` will either create a new procedure, or replace an existing definition. To be able to define a procedure, the user must have the `USAGE` privilege on the language.
 
@@ -30,7 +30,7 @@ The user that creates the procedure becomes the owner of the procedure.
 
 To be able to create a procedure, you must have `USAGE` privilege on the argument types.
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -96,13 +96,13 @@ This form of the `AS` clause is used for dynamically loadable C language procedu
 
 When repeated `CREATE PROCEDURE` calls refer to the same object file, the file is only loaded once per session. To unload and reload the file \(perhaps during development\), start a new session.
 
-### Notes
+## Notes
 
 See [CREATE FUNCTION](https://www.postgresql.org/docs/11/sql-createfunction.html) for more details on function creation that also apply to procedures.
 
 Use [CALL](https://www.postgresql.org/docs/11/sql-call.html) to execute a procedure.
 
-### Examples
+## Examples
 
 ```text
 CREATE PROCEDURE insert_data(a integer, b integer)
@@ -115,11 +115,11 @@ $$;
 CALL insert_data(1, 2);
 ```
 
-### Compatibility
+## Compatibility
 
 A `CREATE PROCEDURE` command is defined in the SQL standard. The PostgreSQL version is similar but not fully compatible. For details see also [CREATE FUNCTION](https://www.postgresql.org/docs/11/sql-createfunction.html).
 
-### See Also
+## See Also
 
 [ALTER PROCEDURE](https://www.postgresql.org/docs/11/sql-alterprocedure.html), [DROP PROCEDURE](https://www.postgresql.org/docs/11/sql-dropprocedure.html), [CALL](https://www.postgresql.org/docs/11/sql-call.html), [CREATE FUNCTION](https://www.postgresql.org/docs/11/sql-createfunction.html)
 

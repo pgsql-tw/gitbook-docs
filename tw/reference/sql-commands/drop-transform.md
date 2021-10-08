@@ -2,19 +2,19 @@
 
 DROP TRANSFORM — remove a transform
 
-### Synopsis
+## Synopsis
 
 ```text
 DROP TRANSFORM [ IF EXISTS ] FOR type_name LANGUAGE lang_name [ CASCADE | RESTRICT ]
 ```
 
-### Description
+## Description
 
 `DROP TRANSFORM` removes a previously defined transform.
 
 To be able to drop a transform, you must own the type and the language. These are the same privileges that are required to create a transform.
 
-### Parameters
+## Parameters
 
 `IF EXISTS`
 
@@ -36,7 +36,7 @@ Automatically drop objects that depend on the transform, and in turn all objects
 
 Refuse to drop the transform if any objects depend on it. This is the default.
 
-### Examples
+## Examples
 
 To drop the transform for type `hstore` and language `plpythonu`:
 
@@ -44,11 +44,11 @@ To drop the transform for type `hstore` and language `plpythonu`:
 DROP TRANSFORM FOR hstore LANGUAGE plpythonu;
 ```
 
-### Compatibility
+## Compatibility
 
 This form of `DROP TRANSFORM` is a PostgreSQL extension. See [CREATE TRANSFORM](https://www.postgresql.org/docs/10/static/sql-createtransform.html) for details.
 
-### See Also
+## See Also
 
 [CREATE TRANSFORM](https://www.postgresql.org/docs/10/static/sql-createtransform.html)
 

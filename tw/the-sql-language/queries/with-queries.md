@@ -47,7 +47,7 @@ The general form of a recursive `WITH` query is always a _non-recursive term_, t
    1. Evaluate the recursive term, substituting the current contents of the working table for the recursive self-reference. For `UNION` \(but not `UNION ALL`\), discard duplicate rows and rows that duplicate any previous result row. Include all remaining rows in the result of the recursive query, and also place them in a temporary _intermediate table_.
    2. Replace the contents of the working table with the contents of the intermediate table, then empty the intermediate table.
 
-#### Note
+### Note
 
 Strictly speaking, this process is iteration not recursion, but `RECURSIVE` is the terminology chosen by the SQL standards committee.
 
@@ -120,11 +120,11 @@ WITH RECURSIVE search_graph(id, link, data, depth, path, cycle) AS (
 SELECT * FROM search_graph;
 ```
 
-#### Tip
+### Tip
 
 Omit the `ROW()` syntax in the common case where only one field needs to be checked to recognize a cycle. This allows a simple array rather than a composite-type array to be used, gaining efficiency.
 
-#### Tip
+### Tip
 
 The recursive query evaluation algorithm produces its output in breadth-first search order. You can display the results in depth-first search order by making the outer query `ORDER BY` a “path” column constructed in this way.
 

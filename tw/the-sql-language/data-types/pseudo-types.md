@@ -2,7 +2,7 @@
 
 PostgreSQL 型別系統包含許多專用項目，這些項目統稱為概念型別\(pseudo-type\)。概念型別不能用作實際的欄位資料型別，但可以用來宣告函數的參數或結果型別。各個概念型別在於函數的行為不只是對應於簡單地獲取或回傳特定 SQL 資料型別的值的情況下很有用。Table 8.27 列出了現有的概念型別。
 
-#### **Table 8.27. Pseudo-Types**
+## **Table 8.27. Pseudo-Types**
 
 | Name | Description |
 | :--- | :--- |
@@ -30,6 +30,5 @@ Functions coded in C \(whether built-in or dynamically loaded\) can be declared 
 
 Functions coded in procedural languages can use pseudo-types only as allowed by their implementation languages. At present most procedural languages forbid use of a pseudo-type as an argument type, and allow only `void` and `record` as a result type \(plus `trigger` or `event_trigger` when the function is used as a trigger or event trigger\). Some also support polymorphic functions using the types `anyelement`, `anyarray`, `anynonarray`, `anyenum`, and `anyrange`.
 
-The `internal` pseudo-type is used to declare functions that are meant only to be called internally by the database system, and not by direct invocation in an SQL query. If a function has at least one `internal`-type argument then it cannot be called from SQL. To preserve the type safety of this restriction it is important to follow this coding rule: do not create any function that is declared to return `internal` unless it has at least one `internal` argument.  
-
+The `internal` pseudo-type is used to declare functions that are meant only to be called internally by the database system, and not by direct invocation in an SQL query. If a function has at least one `internal`-type argument then it cannot be called from SQL. To preserve the type safety of this restriction it is important to follow this coding rule: do not create any function that is declared to return `internal` unless it has at least one `internal` argument.
 

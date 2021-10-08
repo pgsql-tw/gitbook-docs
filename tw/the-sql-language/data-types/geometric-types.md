@@ -32,7 +32,7 @@ Points are output using the first syntax.
 
 ## 8.8.2. Lines
 
-Lines are represented by the linear equation _`A`_x + _`B`_y + _`C`_ = 0, where _`A`_ and _`B`_ are not both zero. Values of type `line` are input and output in the following form:
+Lines are represented by the linear equation _`A`\_x +_ `B`_y +_ `C` _= 0, where_ `A` _and_ `B`\_ are not both zero. Values of type `line` are input and output in the following form:
 
 ```text
 { A, B, C }

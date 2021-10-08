@@ -15,6 +15,5 @@
 | `extconfig` | `oid[]` | \`\`[`pg_class`](pg_class.md).oid | 延伸功能組態資料表的 regclass OID 陣列，如果沒有，則為 NULL |
 | `extcondition` | `text[]` |  | 延伸功能組態資料表的 WHERE 子句過濾條件陣列，如果沒有，則為 NULL |
 
-請注意，與大多數帶有「namespace」欄位的目錄不同，extnamespace 並不暗指該延伸功能屬於該綱要\(schema\)。延伸功能並不在任何綱要之中。不過 extnamespace 指示包含大多數或所有延伸功能所屬物件的綱要。如果 extrelocatable 為 true，則此綱要實際上必須包含屬於該延伸功能的所有需要綱要的物件。  
-
+請注意，與大多數帶有「namespace」欄位的目錄不同，extnamespace 並不暗指該延伸功能屬於該綱要\(schema\)。延伸功能並不在任何綱要之中。不過 extnamespace 指示包含大多數或所有延伸功能所屬物件的綱要。如果 extrelocatable 為 true，則此綱要實際上必須包含屬於該延伸功能的所有需要綱要的物件。
 

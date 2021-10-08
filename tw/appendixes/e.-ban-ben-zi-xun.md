@@ -9,5 +9,3 @@ A complete list of changes for each release can be obtained by viewing the [Git]
 
 The name appearing next to each item represents the major developer for that item. Of course all changes involve community discussion and patch review, so each item is truly a community effort.
 
-
-

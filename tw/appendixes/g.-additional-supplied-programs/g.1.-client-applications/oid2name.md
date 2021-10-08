@@ -2,21 +2,21 @@
 
 oid2name — resolve OIDs and file nodes in a PostgreSQL data directory
 
-### Synopsis
+## Synopsis
 
 `oid2name` \[_`option`_...\]
 
-### Description
+## Description
 
 oid2name is a utility program that helps administrators to examine the file structure used by PostgreSQL. To make use of it, you need to be familiar with the database file structure, which is described in [Chapter 66](https://www.postgresql.org/docs/10/static/storage.html).
 
-#### Note
+### Note
 
 The name “oid2name” is historical, and is actually rather misleading, since most of the time when you use it, you will really be concerned with tables' filenode numbers \(which are the file names visible in the database directories\). Be sure you understand the difference between table OIDs and table filenodes!
 
 oid2name connects to a target database and extracts OID, filenode, and/or table name information. You can also have it show database OIDs or tablespace OIDs.
 
-### Options
+## Options
 
 oid2name accepts the following command-line arguments:`-f` _`filenode`_
 
@@ -60,11 +60,11 @@ If you don't give any of `-o`, `-f` or `-t`, but do give `-d`, it will list all 
 
 If you don't give `-d` either, it will show a listing of database OIDs. Alternatively you can give `-s` to get a tablespace listing.
 
-### Notes
+## Notes
 
 oid2name requires a running database server with non-corrupt system catalogs. It is therefore of only limited use for recovering from catastrophic database corruption situations.
 
-### Examples
+## Examples
 
 ```text
 $ # what's in this database server, anyway?
@@ -185,7 +185,7 @@ From database "alvherre":
     155156         foo
 ```
 
-### Author
+## Author
 
 B. Palmer `<`[`bpalmer@crimelabs.net`](mailto:bpalmer@crimelabs.net)`>`
 

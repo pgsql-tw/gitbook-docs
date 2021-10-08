@@ -112,7 +112,7 @@
 
 ### 注意
 
-某些操作可能會持有關鍵的鎖定，因此應盡快完成。在此類操作期間不會發生成本考量的清理延遲。因此，成本可能會遠遠高於指定的限制。為了避免在這種情況下無意義的長延遲，實際延遲計算為 vacuum\_cost\_delay _\_\* cumulative\_balance / vacuum\_cost\_limit，最大為 vacuum\_cost\_delay_ \*\_ 4。
+某些操作可能會持有關鍵的鎖定，因此應盡快完成。在此類操作期間不會發生成本考量的清理延遲。因此，成本可能會遠遠高於指定的限制。為了避免在這種情況下無意義的長延遲，實際延遲計算為 vacuum\_cost\_delay _\_\* cumulative\_balance / vacuum\_cost\_limit，最大為 vacuum\_cost\_delay _\*\_ 4。
 
 ## 19.4.5. 背景寫入程序
 

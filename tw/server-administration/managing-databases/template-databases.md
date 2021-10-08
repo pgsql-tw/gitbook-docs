@@ -28,7 +28,7 @@ createdb -T template0 dbname
 
 每個資料庫的 pg\_database 中都存在兩個有用的標記：欄位 datistemplate 和 datallowconn。可以設定 datistemplate 以指示資料庫是否用作 CREATE DATABASE 的樣板。如果設定了此標記，則任何具有 CREATEDB 權限的使用者都可以複製資料庫；如果未設定，則只有超級使用者和資料庫的所有者才能複製它。如果 datallowconn 為 false，則不允許與該資料庫建立新的連線（但僅透過將標記設定為 false，不會終止現有連線）。template0 資料庫通常標記為 datallowconn = false 以防止其修改。template0 和 template1 都應該始終保持 datistemplate = true 標記。
 
-#### 注意
+## 注意
 
 除了名稱 template1 是 CREATE DATABASE 的預設來源資料庫名稱之外，template1 和 template0 沒有任何特殊狀態。例如，可以刪除 template1 並從 template0 重新建立它而不會產生任何不良影響。如果一個人在 template1 中不小心加入了一堆垃圾，那麼這個方案可能是可接受的。（要刪除 template1，必須具有 pg\_database.datistemplate = false。）
 

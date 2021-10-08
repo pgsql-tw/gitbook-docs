@@ -1,10 +1,8 @@
 # 54.1. For the Translator
 
-
-
 PostgreSQL programs \(server and client\) can issue their messages in your favorite language — if the messages have been translated. Creating and maintaining translated message sets needs the help of people who speak their own language well and want to contribute to the PostgreSQL effort. You do not have to be a programmer at all to do this. This section explains how to help.
 
-#### 54.1.1. Requirements
+## 54.1.1. Requirements
 
 We won't judge your language skills — this section is about software tools. Theoretically, you only need a text editor. But this is only in the unlikely event that you do not want to try out your translated messages. When you configure your source tree, be sure to use the `--enable-nls` option. This will also check for the libintl library and the `msgfmt` program, which all end users will need anyway. To try out your work, follow the applicable portions of the installation instructions.
 
@@ -12,7 +10,7 @@ If you want to start a new translation effort or want to do a message catalog me
 
 Your local gettext implementation should come with its own documentation. Some of that is probably duplicated in what follows, but for additional details you should look there.
 
-#### 54.1.2. Concepts
+## 54.1.2. Concepts
 
 The pairs of original \(English\) messages and their \(possibly\) translated equivalents are kept in _message catalogs_, one for each program \(although related programs can share a message catalog\) and for each target language. There are two file formats for message catalogs: The first is the “PO” file \(for Portable Object\), which is a plain text file with special syntax that translators edit. The second is the “MO” file \(for Machine Object\), which is a binary file generated from the respective PO file and is used while the internationalized program is run. Translators do not deal with MO files; in fact hardly anyone does.
 
@@ -45,7 +43,7 @@ The \# character introduces a comment. If whitespace immediately follows the \# 
 
 The \#. style comments are extracted from the source file where the message is used. Possibly the programmer has inserted information for the translator, such as about expected alignment. The \#: comment indicates the exact location\(s\) where the message is used in the source. The translator need not look at the program source, but can if there is doubt about the correct translation. The \#, comments contain flags that describe the message in some way. There are currently two flags: `fuzzy` is set if the message has possibly been outdated because of changes in the program source. The translator can then verify this and possibly remove the fuzzy flag. Note that fuzzy messages are not made available to the end user. The other flag is `c-format`, which indicates that the message is a `printf`-style format template. This means that the translation should also be a format string with the same number and type of placeholders. There are tools that can verify this, which key off the c-format flag.
 
-#### 54.1.3. Creating and Maintaining Message Catalogs
+## 54.1.3. Creating and Maintaining Message Catalogs
 
 OK, so how does one create a “blank” message catalog? First, go into the directory that contains the program whose messages you want to translate. If there is a file `nls.mk`, then this program has been prepared for translation.
 
@@ -73,7 +71,7 @@ make update-po
 
 which will create a new blank message catalog file \(the pot file you started with\) and will merge it with the existing PO files. If the merge algorithm is not sure about a particular message it marks it “fuzzy” as explained above. The new PO file is saved with a `.po.new` extension.
 
-#### 54.1.4. Editing the PO Files
+## 54.1.4. Editing the PO Files
 
 The PO files can be edited with a regular text editor. The translator should only change the area between the quotes after the msgstr directive, add comments, and alter the fuzzy flag. There is \(unsurprisingly\) a PO mode for Emacs, which I find quite useful.
 

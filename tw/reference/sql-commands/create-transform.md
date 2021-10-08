@@ -2,7 +2,7 @@
 
 CREATE TRANSFORM — 定義一個新的轉變
 
-### 語法
+## 語法
 
 ```text
 CREATE [ OR REPLACE ] TRANSFORM FOR type_name LANGUAGE lang_name (
@@ -11,7 +11,7 @@ CREATE [ OR REPLACE ] TRANSFORM FOR type_name LANGUAGE lang_name (
 );
 ```
 
-### 說明
+## 說明
 
 CREATE TRANSFORM 定義一個新的轉換。CREATE OR REPLACE TRANSFORM 將建立新的轉換，或替換現有定義。
 
@@ -26,7 +26,7 @@ Transform 指的是如何讓資料型別為程序語言進行轉換。例如，�
 
 為了能夠建立轉換，您必須擁有該型別的 USAGE 權限，擁有該語言的 USAGE 權限，並且擁有對 from-SQL 和 to-SQL 函數的 EXECUTE 權限（如果已指定）。
 
-### 參數
+## 參數
 
 _`type_name`_
 
@@ -44,11 +44,11 @@ _`to_sql_function_name`_\[\(_`argument_type`_ \[, ...\]\)\]
 
 用於將資料型別從程序語言轉換為 SQL 環境的函數名稱。它必須採用型別為 internal 的一個參數，並回傳作為轉換型別的型別。實際參數值將是特定於語言實作的內容。如果未指定參數列表，則函數名稱在其綱要中必須是唯一的。
 
-### 注意
+## 注意
 
 使用 [DROP TRANSFORM](drop-transform.md) 移除轉換。
 
-### 範例
+## 範例
 
 要為型別 hstore 和語言 plpythonu 建立轉換，首先要建立型別和語言：
 
@@ -83,11 +83,11 @@ CREATE TRANSFORM FOR hstore LANGUAGE plpythonu (
 
 contrib 包含許多提供轉換的延伸套件，可以作為真實範例。
 
-### 相容性
+## 相容性
 
 這種形式的 CREATE TRANSFORM 是 PostgreSQL 延伸功能。SQL 標準中有一個 CREATE TRANSFORM 指令，但它用於使資料型別適應用戶端語言。 PostgreSQL 不支援這種用法。
 
-### 參閱
+## 參閱
 
 [CREATE FUNCTION](create-function.md), [CREATE LANGUAGE](create-language.md), [CREATE TYPE](create-type.md), [DROP TRANSFORM](drop-transform.md)
 

@@ -6,7 +6,7 @@ This view can be helpful for checking whether planned changes in the authenticat
 
 By default, the `pg_hba_file_rules` view can be read only by superusers.
 
-#### **Table 51.73. `pg_hba_file_rules` Columns**
+## **Table 51.73. `pg_hba_file_rules` Columns**
 
 | Name | Type | Description |
 | :--- | :--- | :--- |

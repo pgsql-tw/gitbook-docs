@@ -34,7 +34,7 @@ ssh -L 63333:db.foo.com:5432 joe@shell.foo.com
 
 Note that this way the connection from `shell.foo.com` to `db.foo.com` will not be encrypted by the SSH tunnel. SSH offers quite a few configuration possibilities when the network is restricted in various ways. Please refer to the SSH documentation for details.
 
-#### Tip
+## Tip
 
 Several other applications exist that can provide secure tunnels using a procedure similar in concept to the one just described.
 

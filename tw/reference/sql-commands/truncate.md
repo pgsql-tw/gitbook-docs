@@ -2,18 +2,18 @@
 
 TRUNCATE — 清空一個資料表或一堆資料表
 
-### 語法
+## 語法
 
 ```text
 TRUNCATE [ TABLE ] [ ONLY ] name [ * ] [, ... ]
     [ RESTART IDENTITY | CONTINUE IDENTITY ] [ CASCADE | RESTRICT ]
 ```
 
-### 說明
+## 說明
 
 TRUNCATE 快速移除一堆資料表中的所有資料列。它與每個資料表上的無差別 DELETE 具有相同的效果，但由於它實際上不掃描資料表，因此速度更快。此外，它會立即回收磁碟空間，而不是需要後續的 VACUUM 操作。這對大型資料表非常有用。
 
-### 參數
+## 參數
 
 _`name`_
 
@@ -35,7 +35,7 @@ _`name`_
 
 如果任何資料表具有未在命令中列出的資料表外部鍵引用，則拒絕清空。這是預設值。
 
-### 注意
+## 注意
 
 您必須對資料具有 TRUNCATE 權限才能以 TRUNCATE 清空它。
 
@@ -53,7 +53,7 @@ TRUNCATE 對於資料表中的資料是事務安全的：如果其他的事務�
 
 外部資料表目前不支援 TRUNCATE。這意味著如果指定的資料表具有任何外部的後代資料表，則此指令將會失敗。
 
-### 範例
+## 範例
 
 清空資料表 bigtable 和 fattable：
 
@@ -73,11 +73,11 @@ TRUNCATE bigtable, fattable RESTART IDENTITY;
 TRUNCATE othertable CASCADE;
 ```
 
-### 相容性
+## 相容性
 
 SQL:2008 標準有一個 TRUNCATE 指令，其語法為 TRUNCATE TABLE tablename。子句 CONTINUE IDENTITY / RESTART IDENTITY 也出現在該標準中，但具有略微不同但類似的意義。此指令的某些平行作業行為是由實作定義的，因此應考慮上述註釋，並在必要時與其他實作進行比較。
 
-### 參閱
+## 參閱
 
 [DELETE](delete.md)
 

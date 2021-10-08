@@ -2,7 +2,7 @@
 
 ALTER MATERIALIZED VIEW — change the definition of a materialized view
 
-### Synopsis
+## Synopsis
 
 ```text
 ALTER MATERIALIZED VIEW [ IF EXISTS ] name
@@ -31,7 +31,7 @@ where action is one of:
     OWNER TO { new_owner | CURRENT_USER | SESSION_USER }
 ```
 
-### Description
+## Description
 
 `ALTER MATERIALIZED VIEW` changes various auxiliary properties of an existing materialized view.
 
@@ -41,7 +41,7 @@ The `DEPENDS ON EXTENSION` form marks the materialized view as dependent on an e
 
 The statement subforms and actions available for `ALTER MATERIALIZED VIEW` are a subset of those available for `ALTER TABLE`, and have the same meaning when used for materialized views. See the descriptions for [ALTER TABLE](https://www.postgresql.org/docs/10/static/sql-altertable.html) for details.
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -71,7 +71,7 @@ _`new_schema`_
 
 The new schema for the materialized view.
 
-### Examples
+## Examples
 
 To rename the materialized view `foo` to `bar`:
 
@@ -79,11 +79,11 @@ To rename the materialized view `foo` to `bar`:
 ALTER MATERIALIZED VIEW foo RENAME TO bar;
 ```
 
-### Compatibility
+## Compatibility
 
 `ALTER MATERIALIZED VIEW` is a PostgreSQL extension.
 
-### See Also
+## See Also
 
 [CREATE MATERIALIZED VIEW](create-materialized-view.md), [DROP MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-dropmaterializedview.html), [REFRESH MATERIALIZED VIEW](https://www.postgresql.org/docs/10/static/sql-refreshmaterializedview.html)
 

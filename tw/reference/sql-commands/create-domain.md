@@ -2,7 +2,7 @@
 
 CREATE DOMAIN — define a new domain
 
-### Synopsis
+## Synopsis
 
 ```text
 CREATE DOMAIN name [ AS ] data_type
@@ -16,7 +16,7 @@ where constraint is:
 { NOT NULL | NULL | CHECK (expression) }
 ```
 
-### Description
+## Description
 
 `CREATE DOMAIN` creates a new domain. A domain is essentially a data type with optional constraints \(restrictions on the allowed set of values\). The user who defines a domain becomes its owner.
 
@@ -26,7 +26,7 @@ Domains are useful for abstracting common constraints on fields into a single lo
 
 To be able to create a domain, you must have `USAGE` privilege on the underlying type.
 
-### Parameters
+## Parameters
 
 _`name`_
 
@@ -66,7 +66,7 @@ Currently, `CHECK` expressions cannot contain subqueries nor refer to variables 
 
 When a domain has multiple `CHECK` constraints, they will be tested in alphabetical order by name. \(PostgreSQL versions before 9.5 did not honor any particular firing order for `CHECK` constraints.\)
 
-### Notes
+## Notes
 
 Domain constraints, particularly `NOT NULL`, are checked when converting a value to the domain type. It is possible for a column that is nominally of the domain type to read as null despite there being such a constraint. For example, this can happen in an outer-join query, if the domain column is on the nullable side of the outer join. A more subtle example is
 
@@ -78,7 +78,7 @@ The empty scalar sub-SELECT will produce a null value that is considered to be o
 
 It is very difficult to avoid such problems, because of SQL's general assumption that a null value is a valid value of every data type. Best practice therefore is to design a domain's constraints so that a null value is allowed, and then to apply column `NOT NULL` constraints to columns of the domain type as needed, rather than directly to the domain type.
 
-### Examples
+## Examples
 
 This example creates the `us_postal_code` data type and then uses the type in a table definition. A regular expression test is used to verify that the value looks like a valid US postal code:
 
@@ -99,11 +99,11 @@ CREATE TABLE us_snail_addy (
 );
 ```
 
-### Compatibility
+## Compatibility
 
 The command `CREATE DOMAIN` conforms to the SQL standard.
 
-### See Also
+## See Also
 
 [ALTER DOMAIN](https://www.postgresql.org/docs/10/static/sql-alterdomain.html), [DROP DOMAIN](https://www.postgresql.org/docs/10/static/sql-dropdomain.html)
 

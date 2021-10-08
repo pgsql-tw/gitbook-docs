@@ -10,7 +10,7 @@ This scheme is analogous to the recommendations in [PEP 394](https://www.python.
 
 It depends on the build configuration or the installed packages whether PL/Python for Python 2 or Python 3 or both are available.
 
-#### Tip
+## Tip
 
 The built variant depends on which Python version was found during the installation or which version was explicitly set using the `PYTHON` environment variable; see [Section 16.4](https://www.postgresql.org/docs/12/install-procedure.html). To make both variants of PL/Python available in one installation, the source tree has to be configured and built twice.
 

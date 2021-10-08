@@ -2,7 +2,7 @@
 
 CREATE SEQUENCE — define a new sequence generator
 
-### Synopsis
+## Synopsis
 
 ```text
 CREATE [ TEMPORARY | TEMP ] SEQUENCE [ IF NOT EXISTS ] name
@@ -13,7 +13,7 @@ CREATE [ TEMPORARY | TEMP ] SEQUENCE [ IF NOT EXISTS ] name
     [ OWNED BY { table_name.column_name | NONE } ]
 ```
 
-### Description
+## Description
 
 `CREATE SEQUENCE` creates a new sequence number generator. This involves creating and initializing a new special single-row table with the name _`name`_. The generator will be owned by the user issuing the command.
 
@@ -29,7 +29,7 @@ SELECT * FROM name;
 
 to examine the parameters and current state of a sequence. In particular, the `last_value` field of the sequence shows the last value allocated by any session. \(Of course, this value might be obsolete by the time it's printed, if other sessions are actively doing `nextval` calls.\)
 
-### Parameters
+## Parameters
 
 `TEMPORARY` or `TEMP`
 
@@ -81,7 +81,7 @@ _`column_name`_
 
 The `OWNED BY` option causes the sequence to be associated with a specific table column, such that if that column \(or its whole table\) is dropped, the sequence will be automatically dropped as well. The specified table must have the same owner and be in the same schema as the sequence. `OWNED BY NONE`, the default, specifies that there is no such association.
 
-### Notes
+## Notes
 
 Use `DROP SEQUENCE` to remove a sequence.
 
@@ -95,7 +95,7 @@ Furthermore, although multiple sessions are guaranteed to allocate distinct sequ
 
 Another consideration is that a `setval` executed on such a sequence will not be noticed by other sessions until they have used up any preallocated values they have cached.
 
-### Examples
+## Examples
 
 Create an ascending sequence called `serial`, starting at 101:
 
@@ -138,14 +138,14 @@ SELECT setval('serial', max(id)) FROM distributors;
 END;
 ```
 
-### Compatibility
+## Compatibility
 
 `CREATE SEQUENCE` conforms to the SQL standard, with the following exceptions:
 
 * Obtaining the next value is done using the `nextval()` function instead of the standard's `NEXT VALUE FOR` expression.
 * The `OWNED BY` clause is a PostgreSQL extension.
 
-### See Also
+## See Also
 
 [ALTER SEQUENCE](alter-sequence.md), [DROP SEQUENCE](drop-sequence.md)
 

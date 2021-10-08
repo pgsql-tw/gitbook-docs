@@ -2,14 +2,14 @@
 
 RESET — 將執行時期參數的值還原為預設值
 
-### 語法
+## 語法
 
 ```text
 RESET configuration_parameter
 RESET ALL
 ```
 
-### 說明
+## 說明
 
 RESET 將執行時期參數恢復為其預設值。RESET 另一種寫法是
 
@@ -23,7 +23,7 @@ SET configuration_parameter TO DEFAULT
 
 RESET 的事務行為與 SET 相同：事務回溯將撤消其效果。
 
-### 參數
+## 參數
 
 _`configuration_parameter`_
 
@@ -33,7 +33,7 @@ _`configuration_parameter`_
 
 將所有可設定的執行時期參數重置為預設值。
 
-### 範例
+## 範例
 
 將 timezone 變數設定回其預設值：
 
@@ -41,11 +41,11 @@ _`configuration_parameter`_
 RESET timezone;
 ```
 
-### 相容性
+## 相容性
 
 RESET 是 PostgreSQL 的延伸功能。
 
-### 參閱
+## 參閱
 
 [SET](set.md), [SHOW](show.md)
 

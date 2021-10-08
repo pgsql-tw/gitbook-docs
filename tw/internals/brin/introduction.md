@@ -18,6 +18,5 @@ BRIN 索引將儲存的特定資料，使該索引能夠滿足的特定查詢，
 LOG:  request for BRIN range summarization for index "brin_wi_idx" page 128 was not recorded
 ```
 
-發生這種情況時，該範圍將在資料表的下一次日常 vacuum 期間修正彙總資訊。  
-
+發生這種情況時，該範圍將在資料表的下一次日常 vacuum 期間修正彙總資訊。
 

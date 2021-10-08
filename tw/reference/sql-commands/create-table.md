@@ -6,7 +6,7 @@ description: 版本：11
 
 CREATE TABLE — 建立一個新的資料表
 
-### 語法
+## 語法
 
 ```text
 CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ] table_name ( [
@@ -94,21 +94,21 @@ exclude_element in an EXCLUDE constraint is:
 { column_name | ( expression ) } [ opclass ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ]
 ```
 
-### 說明
+## 說明
 
 CREATE TABLE 將在目前資料庫中建立一個新的，初始化為空的資料表。該資料表將由發出此指令的使用者擁有。
 
 如果加上了綱要名稱（例如，CREATE TABLE myschema.mytable ...），那麼將在指定的綱要中建立資料表。否則，它將在目前綱要中建立。臨時資料表存在於特殊綱要中，因此在建立臨時資料表時無法使用綱要名稱。資料表的名稱必須與同一綱要中的任何其他資料表、序列、索引、檢視表或外部資料表的名稱不同。
 
-CREATE TABLE 會自動建立一個資料型別，表示與資料表的一個資料列對應的複合型別。因此，資料表不能與同一綱要中的任何現有資料型別具有相同的名稱。 可選擇性加上限制條件子句指定新的資料列或更新資料列必須滿足的限制條件才能使其插入或更新操作成功。限制條件是一個 SQL 物件，它有助於以各種方式定義資料表中的有效值集合。 
+CREATE TABLE 會自動建立一個資料型別，表示與資料表的一個資料列對應的複合型別。因此，資料表不能與同一綱要中的任何現有資料型別具有相同的名稱。 可選擇性加上限制條件子句指定新的資料列或更新資料列必須滿足的限制條件才能使其插入或更新操作成功。限制條件是一個 SQL 物件，它有助於以各種方式定義資料表中的有效值集合。
 
-定義限制條件有兩種方法：資料表限制條件和欄位限制條件。欄位限制條件被定義為欄位定義的一部分。資料表限制條件定義不依賴於特定欄位，它可以包含多個欄位。 
+定義限制條件有兩種方法：資料表限制條件和欄位限制條件。欄位限制條件被定義為欄位定義的一部分。資料表限制條件定義不依賴於特定欄位，它可以包含多個欄位。
 
-每個欄位限制條件也可以寫為資料表限制條件；欄位限制條件只是在其限制僅影響一欄位時使用的語法方便。 
+每個欄位限制條件也可以寫為資料表限制條件；欄位限制條件只是在其限制僅影響一欄位時使用的語法方便。
 
 為了能夠建立資料表，您必須分別對所有欄位型別或 OF 子句中的型別具有 USAGE 權限。
 
-### 參數
+## 參數
 
 `TEMPORARY` or `TEMP`
 
@@ -300,7 +300,6 @@ The clauses `ALWAYS` and `BY DEFAULT` determine how the sequence value is given 
 
 The optional _`sequence_options`_ clause can be used to override the options of the sequence. See [CREATE SEQUENCE](https://www.postgresql.org/docs/12/sql-createsequence.html) for details.`UNIQUE` \(column constraint\)
 
-  
 `UNIQUE (` _`column_name`_ \[, ... \] \) \[ INCLUDE \( _`column_name`_ \[, ...\]\) \] \(table constraint\)
 
 The `UNIQUE` constraint specifies that a group of one or more columns of a table can contain only unique values. The behavior of the unique table constraint is the same as that for column constraints, with the additional capability to span multiple columns.
@@ -411,7 +410,7 @@ The _`tablespace_name`_ is the name of the tablespace in which the new table is 
 
 This clause allows selection of the tablespace in which the index associated with a `UNIQUE`, `PRIMARY KEY`, or `EXCLUDE` constraint will be created. If not specified, [default\_tablespace](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-DEFAULT-TABLESPACE) is consulted, or [temp\_tablespaces](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-TEMP-TABLESPACES) if the table is temporary.
 
-#### Storage Parameters
+### Storage Parameters
 
 The `WITH` clause can specify _storage parameters_ for tables, and for indexes associated with a `UNIQUE`, `PRIMARY KEY`, or `EXCLUDE` constraint. Storage parameters for indexes are documented in [CREATE INDEX](https://www.postgresql.org/docs/12/sql-createindex.html). The storage parameters currently available for tables are listed below. For many of these parameters, as shown, there is an additional parameter with the same name prefixed with `toast.`, which controls the behavior of the table's secondary TOAST table, if any \(see [Section 68.2](https://www.postgresql.org/docs/12/storage-toast.html) for more information about TOAST\). If a table parameter value is set and the equivalent `toast.` parameter is not, the TOAST table will use the table's parameter value. Specifying these parameters for partitioned tables is not supported, but you may specify them for individual leaf partitions.
 
@@ -495,7 +494,7 @@ Per-table value for [log\_autovacuum\_min\_duration](https://www.postgresql.org/
 
 Declare the table as an additional catalog table for purposes of logical replication. See [Section 48.6.2](https://www.postgresql.org/docs/12/logicaldecoding-output-plugin.html#LOGICALDECODING-CAPABILITIES) for details. This parameter cannot be set for TOAST tables.
 
-### Notes
+## Notes
 
 PostgreSQL automatically creates an index for each unique constraint and primary key constraint to enforce uniqueness. Thus, it is not necessary to create an index explicitly for primary key columns. \(See [CREATE INDEX](https://www.postgresql.org/docs/12/sql-createindex.html) for more information.\)
 
@@ -503,7 +502,7 @@ Unique constraints and primary keys are not inherited in the current implementat
 
 A table cannot have more than 1600 columns. \(In practice, the effective limit is usually lower because of tuple-length constraints.\)
 
-### Examples
+## Examples
 
 Create table `films` and table `distributors`:
 
@@ -782,11 +781,11 @@ CREATE TABLE cities_partdef
     PARTITION OF cities DEFAULT;
 ```
 
-### 相容性
+## 相容性
 
 The `CREATE TABLE` command conforms to the SQL standard, with exceptions listed below.
 
-#### Temporary Tables
+### Temporary Tables
 
 Although the syntax of `CREATE TEMPORARY TABLE` resembles that of the SQL standard, the effect is not the same. In the standard, temporary tables are defined just once and automatically exist \(starting with empty contents\) in every session that needs them. PostgreSQL instead requires each session to issue its own `CREATE TEMPORARY TABLE` command for each temporary table to be used. This allows different sessions to use the same temporary table name for different purposes, whereas the standard's approach constrains all instances of a given temporary table name to have the same table structure.
 
@@ -798,70 +797,69 @@ For compatibility's sake, PostgreSQL will accept the `GLOBAL` and `LOCAL` keywor
 
 The `ON COMMIT` clause for temporary tables also resembles the SQL standard, but has some differences. If the `ON COMMIT` clause is omitted, SQL specifies that the default behavior is `ON COMMIT DELETE ROWS`. However, the default behavior in PostgreSQL is `ON COMMIT PRESERVE ROWS`. The `ON COMMIT DROP` option does not exist in SQL.
 
-#### Non-Deferred Uniqueness Constraints
+### Non-Deferred Uniqueness Constraints
 
 When a `UNIQUE` or `PRIMARY KEY` constraint is not deferrable, PostgreSQL checks for uniqueness immediately whenever a row is inserted or modified. The SQL standard says that uniqueness should be enforced only at the end of the statement; this makes a difference when, for example, a single command updates multiple key values. To obtain standard-compliant behavior, declare the constraint as `DEFERRABLE` but not deferred \(i.e., `INITIALLY IMMEDIATE`\). Be aware that this can be significantly slower than immediate uniqueness checking.
 
-#### Column Check Constraints
+### Column Check Constraints
 
 The SQL standard says that `CHECK` column constraints can only refer to the column they apply to; only `CHECK` table constraints can refer to multiple columns. PostgreSQL does not enforce this restriction; it treats column and table check constraints alike.
 
-#### `EXCLUDE` Constraint
+### `EXCLUDE` Constraint
 
 The `EXCLUDE` constraint type is a PostgreSQL extension.
 
-#### `NULL` “Constraint”
+### `NULL` “Constraint”
 
 The `NULL` “constraint” \(actually a non-constraint\) is a PostgreSQL extension to the SQL standard that is included for compatibility with some other database systems \(and for symmetry with the `NOT NULL` constraint\). Since it is the default for any column, its presence is simply noise.
 
-#### Constraint Naming
+### Constraint Naming
 
 The SQL standard says that table and domain constraints must have names that are unique across the schema containing the table or domain. PostgreSQL is laxer: it only requires constraint names to be unique across the constraints attached to a particular table or domain. However, this extra freedom does not exist for index-based constraints \(`UNIQUE`, `PRIMARY KEY`, and `EXCLUDE` constraints\), because the associated index is named the same as the constraint, and index names must be unique across all relations within the same schema.
 
 Currently, PostgreSQL does not record names for `NOT NULL` constraints at all, so they are not subject to the uniqueness restriction. This might change in a future release.
 
-#### Inheritance
+### Inheritance
 
 Multiple inheritance via the `INHERITS` clause is a PostgreSQL language extension. SQL:1999 and later define single inheritance using a different syntax and different semantics. SQL:1999-style inheritance is not yet supported by PostgreSQL.
 
-#### Zero-Column Tables
+### Zero-Column Tables
 
 PostgreSQL allows a table of no columns to be created \(for example, `CREATE TABLE foo();`\). This is an extension from the SQL standard, which does not allow zero-column tables. Zero-column tables are not in themselves very useful, but disallowing them creates odd special cases for `ALTER TABLE DROP COLUMN`, so it seems cleaner to ignore this spec restriction.
 
-#### Multiple Identity Columns
+### Multiple Identity Columns
 
 PostgreSQL allows a table to have more than one identity column. The standard specifies that a table can have at most one identity column. This is relaxed mainly to give more flexibility for doing schema changes or migrations. Note that the `INSERT` command supports only one override clause that applies to the entire statement, so having multiple identity columns with different behaviors is not well supported.
 
-#### Generated Columns
+### Generated Columns
 
 The option `STORED` is not standard but is also used by other SQL implementations. The SQL standard does not specify the storage of generated columns.
 
-#### `LIKE` Clause
+### `LIKE` Clause
 
 While a `LIKE` clause exists in the SQL standard, many of the options that PostgreSQL accepts for it are not in the standard, and some of the standard's options are not implemented by PostgreSQL.
 
-#### `WITH` Clause
+### `WITH` Clause
 
 The `WITH` clause is a PostgreSQL extension; storage parameters are not in the standard.
 
-#### Tablespaces
+### Tablespaces
 
 The PostgreSQL concept of tablespaces is not part of the standard. Hence, the clauses `TABLESPACE` and `USING INDEX TABLESPACE` are extensions.
 
-#### Typed Tables
+### Typed Tables
 
 Typed tables implement a subset of the SQL standard. According to the standard, a typed table has columns corresponding to the underlying composite type as well as one other column that is the “self-referencing column”. PostgreSQL does not support self-referencing columns explicitly.
 
-#### `PARTITION BY` Clause
+### `PARTITION BY` Clause
 
 The `PARTITION BY` clause is a PostgreSQL extension.
 
-#### `PARTITION OF` Clause
+### `PARTITION OF` Clause
 
 The `PARTITION OF` clause is a PostgreSQL extension.
 
-### 參閱
+## 參閱
 
-[ALTER TABLE](alter-table.md),[ DROP TABLE](drop-table.md), [CREATE TABLE AS](create-table-as.md), [CREATE TABLESPACE](create-tablespace.md), [CREATE TYPE](create-type.md)  
-
+[ALTER TABLE](alter-table.md),[ DROP TABLE](drop-table.md), [CREATE TABLE AS](create-table-as.md), [CREATE TABLESPACE](create-tablespace.md), [CREATE TYPE](create-type.md)
 

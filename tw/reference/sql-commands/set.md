@@ -2,14 +2,14 @@
 
 SET — 變更執行環境參數
 
-### 語法
+## 語法
 
 ```text
 SET [ SESSION | LOCAL ] configuration_parameter { TO | = } { value | 'value' | DEFAULT }
 SET [ SESSION | LOCAL ] TIME ZONE { timezone | LOCAL | DEFAULT }
 ```
 
-### 說明
+## 說明
 
 SET 指令變更執行環境的配置參數。[第 19 章](../../server-administration/server-configuration/)中列出的許多執行環境參數都可以使用 SET 動態變更。（但有些需要超級使用者權限才能變更，有些參數則是伺服器或連線啟動後無法變更。）SET 僅影響目前連線所使用的值。
 
@@ -24,7 +24,7 @@ SET LOCAL 的效果僅持續到目前事務結束，無論是否已提交。一�
 **注意**  
 在 PostgreSQL 版本 8.0 到 8.2 中，SET LOCAL 的效果將透過釋放較早的 savepoint 或成功退出 PL/pgSQL 例外處理來取消。此行為已被調整，因為它被認為是不直觀的。
 
-### 參數
+## 參數
 
 `SESSION`
 
@@ -91,11 +91,11 @@ Berkeley, California 的時區。
 
 有關時區的更多訊息，請參閱[第 8.5.3 節](../../the-sql-language/data-types/date-time.md#8-5-3-time-zones)。
 
-### 注意
+## 注意
 
 函數 set\_config 提供了等效的功能；詳見 [9.26 節](../../the-sql-language/functions-and-operators/system-administration.md)。此外，也可以更新 [pg\_settings](../../internals/system-catalogs/pg_settings.md) 系統檢視表以執行 SET 的等效操作。
 
-### 範例
+## 範例
 
 設定綱要（schema）搜尋路徑：
 
@@ -121,11 +121,11 @@ SET TIME ZONE 'PST8PDT';
 SET TIME ZONE 'Europe/Rome';
 ```
 
-### 相容性
+## 相容性
 
 SET TIME ZONE 延伸了 SQL 標準所定義的語法。原標準僅允許數字時區語法，而 PostgreSQL 允許更靈活的時區規範。所有其他 SET 功能都是 PostgreSQL 的延伸功能。
 
-### 參閱
+## 參閱
 
 [RESET](reset.md), [SHOW](show.md)
 

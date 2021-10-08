@@ -1,8 +1,6 @@
 # 54.2. For the Programmer
 
-
-
-#### 54.2.1. Mechanics
+## 54.2.1. Mechanics
 
 This section describes how to implement native language support in a program or library that is part of the PostgreSQL distribution. Currently, it only applies to C programs.
 
@@ -60,7 +58,7 @@ This section describes how to implement native language support in a program or 
 
 The build system will automatically take care of building and installing the message catalogs.
 
-#### 54.2.2. Message-Writing Guidelines
+## 54.2.2. Message-Writing Guidelines
 
 Here are some guidelines for writing messages that are easily translatable.
 

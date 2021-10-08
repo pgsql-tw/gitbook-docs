@@ -4,33 +4,33 @@
 
 [Table 9.4](mathematical-functions-and-operators.md#table-9-4-mathematical-operators) 列出了可用的數學運算子。
 
-#### **Table 9.4. Mathematical Operators**
+## **Table 9.4. Mathematical Operators**
 
-| Operator | Description | Example | Result |
-| :--- | :--- | :--- | :--- |
-| `+` | addition | `2 + 3` | `5` |
-| `-` | subtraction | `2 - 3` | `-1` |
-| `*` | multiplication | `2 * 3` | `6` |
-| `/` | division \(integer division truncates the result\) | `4 / 2` | `2` |
-| `%` | modulo \(remainder\) | `5 % 4` | `1` |
-| `^` | exponentiation \(associates left to right\) | `2.0 ^ 3.0` | `8` |
-| `|/` | square root | `|/ 25.0` | `5` |
-| `||/` | cube root | `||/ 27.0` | `3` |
-| `!` | factorial | `5 !` | `120` |
-| `!!` | factorial \(prefix operator\) | `!! 5` | `120` |
-| `@` | absolute value | `@ -5.0` | `5` |
-| `&` | bitwise AND | `91 & 15` | `11` |
-| `|` | bitwise OR | `32 | 3` | `35` |
-| `#` | bitwise XOR | `17 # 5` | `20` |
-| `~` | bitwise NOT | `~1` | `-2` |
-| `<<` | bitwise shift left | `1 << 4` | `16` |
-| `>>` | bitwise shift right | `8 >> 2` | `2` |
+| Operator | Description | Example | Result |  |  |  |  |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `+` | addition | `2 + 3` | `5` |  |  |  |  |
+| `-` | subtraction | `2 - 3` | `-1` |  |  |  |  |
+| `*` | multiplication | `2 * 3` | `6` |  |  |  |  |
+| `/` | division \(integer division truncates the result\) | `4 / 2` | `2` |  |  |  |  |
+| `%` | modulo \(remainder\) | `5 % 4` | `1` |  |  |  |  |
+| `^` | exponentiation \(associates left to right\) | `2.0 ^ 3.0` | `8` |  |  |  |  |
+| \` | /\` | square root | \` | / 25.0\` | `5` |  |  |
+| \` |  | /\` | cube root | \` |  | / 27.0\` | `3` |
+| `!` | factorial | `5 !` | `120` |  |  |  |  |
+| `!!` | factorial \(prefix operator\) | `!! 5` | `120` |  |  |  |  |
+| `@` | absolute value | `@ -5.0` | `5` |  |  |  |  |
+| `&` | bitwise AND | `91 & 15` | `11` |  |  |  |  |
+| \` | \` | bitwise OR | \`32 | 3\` | `35` |  |  |
+| `#` | bitwise XOR | `17 # 5` | `20` |  |  |  |  |
+| `~` | bitwise NOT | `~1` | `-2` |  |  |  |  |
+| `<<` | bitwise shift left | `1 << 4` | `16` |  |  |  |  |
+| `>>` | bitwise shift right | `8 >> 2` | `2` |  |  |  |  |
 
 位元運算子僅適用於整數資料型別，也可用於位元字串型別的位元和位元變化，如 [Table 9.14](bit-string-functions-and-operators.md#table-9-14-bit-string-operators) 所示。
 
 [Table 9.5](mathematical-functions-and-operators.md#table-9-5-mathematical-functions) 列出了可用的數學函數。在該表中，dp 表示雙精確度。這些函數中的許多函數都提供了多種形式，且具有不同的參數型別。除非另有說明，否則函數的任何形式都將回傳與其參數相同的資料型別。使用雙精確度資料的功能主要以主機系統的 C 函式庫實作； 因此，邊界情況下的準確性和行為可能會因主機系統而有所差異。
 
-#### **Table 9.5. Mathematical Functions**
+## **Table 9.5. Mathematical Functions**
 
 | Function | Return Type | Description | Example | Result |
 | :--- | :--- | :--- | :--- | :--- |
@@ -64,7 +64,7 @@
 
 [Table 9.6](https://www.postgresql.org/docs/12/functions-math.html#FUNCTIONS-MATH-RANDOM-TABLE) shows functions for generating random numbers.
 
-#### **Table 9.6. Random Functions**
+## **Table 9.6. Random Functions**
 
 | Function | Return Type | Description |
 | :--- | :--- | :--- |
@@ -75,7 +75,7 @@ The `random()` function uses a simple linear congruential algorithm. It is fast 
 
 [Table 9.7](https://www.postgresql.org/docs/12/functions-math.html#FUNCTIONS-MATH-TRIG-TABLE) shows the available trigonometric functions. All these functions take arguments and return values of type `double precision`. Each of the trigonometric functions comes in two variants, one that measures angles in radians and one that measures angles in degrees.
 
-#### **Table 9.7. Trigonometric Functions**
+## **Table 9.7. Trigonometric Functions**
 
 | Function \(radians\) | Function \(degrees\) | Description |
 | :--- | :--- | :--- |
@@ -88,13 +88,13 @@ The `random()` function uses a simple linear congruential algorithm. It is fast 
 | `sin(`_`x`_\) | `sind(`_`x`_\) | sine |
 | `tan(`_`x`_\) | `tand(`_`x`_\) | tangent |
 
-#### Note
+## Note
 
 Another way to work with angles measured in degrees is to use the unit transformation functions `radians()` and `degrees()` shown earlier. However, using the degree-based trigonometric functions is preferred, as that way avoids round-off error for special cases such as `sind(30)`.
 
 [Table 9.8](https://www.postgresql.org/docs/12/functions-math.html#FUNCTIONS-MATH-HYP-TABLE) shows the available hyperbolic functions. All these functions take arguments and return values of type `double precision`.
 
-#### **Table 9.8. Hyperbolic Functions**
+## **Table 9.8. Hyperbolic Functions**
 
 | Function | Description | Example | Result |
 | :--- | :--- | :--- | :--- |

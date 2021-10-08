@@ -14,7 +14,7 @@ By default, probes are not available, so you will need to explicitly tell the co
 
 A number of standard probes are provided in the source code, as shown in [Table 27.28](https://www.postgresql.org/docs/12/dynamic-trace.html#DTRACE-PROBE-POINT-TABLE); [Table 27.29](https://www.postgresql.org/docs/12/dynamic-trace.html#TYPEDEFS-TABLE) shows the types used in the probes. More probes can certainly be added to enhance PostgreSQL's observability.
 
-#### **Table 27.28. Built-in DTrace Probes**
+### **Table 27.28. Built-in DTrace Probes**
 
 | Name | Parameters | Description |
 | :--- | :--- | :--- |
@@ -74,7 +74,7 @@ A number of standard probes are provided in the source code, as shown in [Table 
 | `lock-wait-done` | `(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, LOCKMODE)` | Probe that fires when a request for a heavyweight lock \(lmgr lock\) has finished waiting \(i.e., has acquired the lock\). The arguments are the same as for `lock-wait-start`. |
 | `deadlock-found` | `()` | Probe that fires when a deadlock is found by the deadlock detector. |
 
-#### **Table 27.29. Defined Types Used in Probe Parameters**
+### **Table 27.29. Defined Types Used in Probe Parameters**
 
 | Type | Definition |
 | :--- | :--- |
@@ -124,7 +124,7 @@ Commit                                         70
 Total time (ns)                        2312105013
 ```
 
-#### Note
+### Note
 
 SystemTap uses a different notation for trace scripts than DTrace does, even though the underlying trace points are compatible. One point worth noting is that at this writing, SystemTap scripts must reference probe names using double underscores in place of hyphens. This is expected to be fixed in future SystemTap releases.
 
@@ -139,7 +139,7 @@ New probes can be defined within the code wherever the developer desires, though
 3. Include `pg_trace.h` if it is not already present in the module\(s\) containing the probe points, and insert `TRACE_POSTGRESQL` probe macros at the desired locations in the source code
 4. Recompile and verify that the new probes are available
 
-**Example:**  Here is an example of how you would add a probe to trace all new transactions by transaction ID.
+**Example:** Here is an example of how you would add a probe to trace all new transactions by transaction ID.
 
 1. Decide that the probe will be named `transaction-start` and requires a parameter of type `LocalTransactionId`
 2. Add the probe definition to `src/backend/utils/probes.d`:

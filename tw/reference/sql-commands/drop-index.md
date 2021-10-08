@@ -2,17 +2,17 @@
 
 DROP INDEX — remove an index
 
-### Synopsis
+## Synopsis
 
 ```text
 DROP INDEX [ CONCURRENTLY ] [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 ```
 
-### Description
+## Description
 
 `DROP INDEX` drops an existing index from the database system. To execute this command you must be the owner of the index.
 
-### Parameters
+## Parameters
 
 `CONCURRENTLY`
 
@@ -36,7 +36,7 @@ Automatically drop objects that depend on the index, and in turn all objects tha
 
 Refuse to drop the index if any objects depend on it. This is the default.
 
-### Examples
+## Examples
 
 This command will remove the index `title_idx`:
 
@@ -44,11 +44,11 @@ This command will remove the index `title_idx`:
 DROP INDEX title_idx;
 ```
 
-### Compatibility
+## Compatibility
 
 `DROP INDEX` is a PostgreSQL language extension. There are no provisions for indexes in the SQL standard.
 
-### See Also
+## See Also
 
 [CREATE INDEX](https://www.postgresql.org/docs/current/static/sql-createindex.html)
 

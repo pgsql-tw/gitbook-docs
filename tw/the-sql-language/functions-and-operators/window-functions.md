@@ -6,7 +6,7 @@ The built-in window functions are listed in [Table 9.60](https://www.postgresql.
 
 In addition to these functions, any built-in or user-defined general-purpose or statistical aggregate \(i.e., not ordered-set or hypothetical-set aggregates\) can be used as a window function; see [Section 9.20](https://www.postgresql.org/docs/12/functions-aggregate.html) for a list of the built-in aggregates. Aggregate functions act as window functions only when an `OVER` clause follows the call; otherwise they act as non-window aggregates and return a single row for the entire set.
 
-#### **Table 9.60. General-Purpose Window Functions**
+## **Table 9.60. General-Purpose Window Functions**
 
 | Function | Return Type | Description |
 | :--- | :--- | :--- |
@@ -28,7 +28,7 @@ Note that `first_value`, `last_value`, and `nth_value` consider only the rows wi
 
 When an aggregate function is used as a window function, it aggregates over the rows within the current row's window frame. An aggregate used with `ORDER BY` and the default window frame definition produces a “running sum” type of behavior, which may or may not be what's wanted. To obtain aggregation over the whole partition, omit `ORDER BY` or use `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING`. Other frame specifications can be used to obtain other effects.
 
-#### Note
+## Note
 
 The SQL standard defines a `RESPECT NULLS` or `IGNORE NULLS` option for `lead`, `lag`, `first_value`, `last_value`, and `nth_value`. This is not implemented in PostgreSQL: the behavior is always the same as the standard's default, namely `RESPECT NULLS`. Likewise, the standard's `FROM FIRST` or `FROM LAST` option for `nth_value` is not implemented: only the default `FROM FIRST` behavior is supported. \(You can achieve the result of `FROM LAST` by reversing the `ORDER BY` ordering.\)
 

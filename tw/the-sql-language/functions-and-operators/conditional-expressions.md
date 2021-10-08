@@ -2,11 +2,11 @@
 
 本節介紹 PostgreSQL 中符合 SQL 標準可用的條件表示式。
 
-#### 提示
+## 提示
 
 如果您的需求超出了這些條件表示式的功能，您可能需要考慮使用功能更強的程序語言編寫 stored procedure。
 
-#### 9.17.1. `CASE`
+## 9.17.1. `CASE`
 
 SQL 中的 CASE 表示式是一種通用的條件表示式，類似於其他程序語言中的 if / else 語句：
 
@@ -82,11 +82,11 @@ CASE 表示式不會計算任何不需要的子表示式來確定結果。例如
 SELECT ... WHERE CASE WHEN x <> 0 THEN y/x > 1.5 ELSE false END;
 ```
 
-#### 注意
+## 注意
 
 如 [4.2.14 節](../sql-syntax/value-expressions.md#4-2-14-expression-evaluation-rules)所述，在不同時候計算表示式的子表示式時會出現各種情況，因此「CASE 只計算必要子表示式」的原則並不是固定的。例如，一個常數 1/0 的子表示式在查詢規畫時通常就會導致一個除以零的錯誤，即使它在 CASE 部分內，在執行時永遠不會被使用。
 
-#### 9.17.2. `COALESCE`
+## 9.17.2. `COALESCE`
 
 ```text
 COALESCE(value [, ...])
@@ -102,7 +102,7 @@ SELECT COALESCE(description, short_description, '(none)') ...
 
 像 CASE 表示式一樣，COALESCE 只計算確定結果所需的參數；也就是說，不會計算第一個非空值參數之後的參數。此 SQL 標準函數提供了與 NVL 和 IFNULL 類似的功能，這些在其他某些資料庫系統中所使用的功能。
 
-#### 9.17.3. `NULLIF`
+## 9.17.3. `NULLIF`
 
 ```text
 NULLIF(value1, value2)
@@ -116,7 +116,7 @@ SELECT NULLIF(value, '(none)') ...
 
 在這個例子中，如果 value 是（none），則回傳 null，否則回傳 value 的值。
 
-#### 9.17.4. `GREATEST` and `LEAST`
+## 9.17.4. `GREATEST` and `LEAST`
 
 ```text
 GREATEST(value [, ...])

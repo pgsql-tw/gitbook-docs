@@ -2,7 +2,7 @@
 
 The following subsections describe the authentication methods in more detail.
 
-#### 20.3.1. Trust Authentication
+## 20.3.1. Trust Authentication
 
 When `trust` authentication is specified, PostgreSQL assumes that anyone who can connect to the server is authorized to access the database with whatever database user name they specify \(even superuser names\). Of course, restrictions made in the `database` and `user` columns still apply. This method should only be used when there is adequate operating-system-level protection on connections to the server.
 
@@ -12,7 +12,7 @@ Setting file-system permissions only helps for Unix-socket connections. Local TC
 
 `trust` authentication is only suitable for TCP/IP connections if you trust every user on every machine that is allowed to connect to the server by the `pg_hba.conf` lines that specify `trust`. It is seldom reasonable to use `trust` for any TCP/IP connections other than those from localhost \(127.0.0.1\).
 
-#### 20.3.2. Password Authentication
+## 20.3.2. Password Authentication
 
 There are several password-based authentication methods. These methods operate similarly but differ in how the users' passwords are stored on the server and how the password provided by a client is sent across the connection.`scram-sha-256`
 
@@ -34,7 +34,7 @@ The availability of the different password-based authentication methods depends 
 
 To upgrade an existing installation from `md5` to `scram-sha-256`, after having ensured that all client libraries in use are new enough to support SCRAM, set `password_encryption = 'scram-sha-256'` in `postgresql.conf`, make all users set new passwords, and change the authentication method specifications in `pg_hba.conf` to `scram-sha-256`.
 
-#### 20.3.3. GSSAPI Authentication
+## 20.3.3. GSSAPI Authentication
 
 GSSAPI is an industry-standard protocol for secure authentication defined in RFC 2743. PostgreSQL supports GSSAPI with Kerberos authentication according to RFC 1964. GSSAPIprovides automatic authentication \(single sign-on\) for systems that support it. The authentication itself is secure, but the data sent over the database connection will be sent unencrypted unless SSL is used.
 
@@ -67,7 +67,7 @@ Allows for mapping between system and database user names. See [Section 20.2](ht
 
 Sets the realm to match user principal names against. If this parameter is set, only users of that realm will be accepted. If it is not set, users of any realm can connect, subject to whatever user name mapping is done.
 
-#### 20.3.4. SSPI Authentication
+## 20.3.4. SSPI Authentication
 
 SSPI is a Windows technology for secure authentication with single sign-on. PostgreSQL will use SSPI in `negotiate` mode, which will use Kerberos when possible and automatically fall back to NTLM in other cases. SSPI authentication only works when both server and client are running Windows, or, on non-Windows platforms, when GSSAPI is available.
 
@@ -89,11 +89,11 @@ Allows for mapping between system and database user names. See [Section 20.2](ht
 
 Sets the realm to match user principal names against. If this parameter is set, only users of that realm will be accepted. If it is not set, users of any realm can connect, subject to whatever user name mapping is done.
 
-#### 20.3.5. Ident Authentication
+## 20.3.5. Ident Authentication
 
 The ident authentication method works by obtaining the client's operating system user name from an ident server and using it as the allowed database user name \(with an optional user name mapping\). This is only supported on TCP/IP connections.
 
-#### Note
+## Note
 
 When ident is specified for a local \(non-TCP/IP\) connection, peer authentication \(see [Section 20.3.6](https://www.postgresql.org/docs/10/static/auth-methods.html#AUTH-PEER)\) will be used instead.
 
@@ -101,17 +101,17 @@ The following configuration options are supported for ident:`map`
 
 Allows for mapping between system and database user names. See [Section 20.2](https://www.postgresql.org/docs/10/static/auth-username-maps.html) for details.
 
-The “Identification Protocol” is described in RFC 1413. Virtually every Unix-like operating system ships with an ident server that listens on TCP port 113 by default. The basic functionality of an ident server is to answer questions like “What user initiated the connection that goes out of your port _`X`_ and connects to my port _`Y`_?”. Since PostgreSQL knows both _`X`_and _`Y`_ when a physical connection is established, it can interrogate the ident server on the host of the connecting client and can theoretically determine the operating system user for any given connection.
+The “Identification Protocol” is described in RFC 1413. Virtually every Unix-like operating system ships with an ident server that listens on TCP port 113 by default. The basic functionality of an ident server is to answer questions like “What user initiated the connection that goes out of your port _`X`_ and connects to my port _`Y`_?”. Since PostgreSQL knows both _`X`\_and_ `Y`\_ when a physical connection is established, it can interrogate the ident server on the host of the connecting client and can theoretically determine the operating system user for any given connection.
 
 The drawback of this procedure is that it depends on the integrity of the client: if the client machine is untrusted or compromised, an attacker could run just about any program on port 113 and return any user name they choose. This authentication method is therefore only appropriate for closed networks where each client machine is under tight control and where the database and system administrators operate in close contact. In other words, you must trust the machine running the ident server. Heed the warning:
 
-|   | The Identification Protocol is not intended as an authorization or access control protocol. |   |
+|  | The Identification Protocol is not intended as an authorization or access control protocol. |  |
 | :--- | :--- | :--- |
-|   | --RFC 1413 |  |
+|  | --RFC 1413 |  |
 
 Some ident servers have a nonstandard option that causes the returned user name to be encrypted, using a key that only the originating machine's administrator knows. This option _must not_ be used when using the ident server with PostgreSQL, since PostgreSQL does not have any way to decrypt the returned string to determine the actual user name.
 
-#### 20.3.6. Peer Authentication
+## 20.3.6. Peer Authentication
 
 The peer authentication method works by obtaining the client's operating system user name from the kernel and using it as the allowed database user name \(with optional user name mapping\). This method is only supported on local connections.
 
@@ -121,7 +121,7 @@ Allows for mapping between system and database user names. See [Section 20.2](ht
 
 Peer authentication is only available on operating systems providing the `getpeereid()` function, the `SO_PEERCRED` socket parameter, or similar mechanisms. Currently that includes Linux, most flavors of BSD including macOS, and Solaris.
 
-#### 20.3.7. LDAP Authentication
+## 20.3.7. LDAP Authentication
 
 This authentication method operates similarly to `password` except that it uses LDAP as the password verification method. LDAP is used only to validate the user name/password pairs. Therefore the user must already exist in the database before LDAP can be used for authentication.
 
@@ -193,11 +193,11 @@ host ... ldap ldapurl="ldap://ldap.example.net/dc=example,dc=net?uid?sub"
 
 Some other software that supports authentication against LDAP uses the same URL format, so it will be easier to share the configuration.
 
-#### Tip
+## Tip
 
 Since LDAP often uses commas and spaces to separate the different parts of a DN, it is often necessary to use double-quoted parameter values when configuring LDAP options, as shown in the examples.
 
-#### 20.3.8. RADIUS Authentication
+## 20.3.8. RADIUS Authentication
 
 This authentication method operates similarly to `password` except that it uses RADIUS as the password verification method. RADIUS is used only to validate the user name/password pairs. Therefore the user must already exist in the database before RADIUS can be used for authentication.
 
@@ -211,7 +211,7 @@ The name or IP addresses of the RADIUS servers to connect to. This parameter is 
 
 The shared secrets used when talking securely to the RADIUS server. This must have exactly the same value on the PostgreSQL and RADIUS servers. It is recommended that this be a string of at least 16 characters. This parameter is required.
 
-#### Note
+## Note
 
 The encryption vector used will only be cryptographically strong if PostgreSQL is built with support for OpenSSL. In other cases, the transmission to the RADIUS server should only be considered obfuscated, not secured, and external security measures should be applied if necessary.`radiusports`
 
@@ -219,7 +219,7 @@ The port number on the RADIUS servers to connect to. If no port is specified, th
 
 The string used as `NAS Identifier` in the RADIUS requests. This parameter can be used as a second parameter identifying for example which database user the user is attempting to authenticate as, which can be used for policy matching on the RADIUS server. If no identifier is specified, the default `postgresql` will be used.
 
-#### 20.3.9. Certificate Authentication
+## 20.3.9. Certificate Authentication
 
 This authentication method uses SSL client certificates to perform authentication. It is therefore only available for SSL connections. When using this authentication method, the server will require that the client provide a valid, trusted certificate. No password prompt will be sent to the client. The `cn` \(Common Name\) attribute of the certificate will be compared to the requested database user name, and if they match the login will be allowed. User name mapping can be used to allow `cn` to be different from the database user name.
 
@@ -229,7 +229,7 @@ Allows for mapping between system and database user names. See [Section 20.2](ht
 
 In a `pg_hba.conf` record specifying certificate authentication, the authentication option `clientcert` is assumed to be `1`, and it cannot be turned off since a client certificate is necessary for this method. What the `cert` method adds to the basic `clientcert` certificate validity test is a check that the `cn` attribute matches the database user name.
 
-#### 20.3.10. PAM Authentication
+## 20.3.10. PAM Authentication
 
 This authentication method operates similarly to `password` except that it uses PAM \(Pluggable Authentication Modules\) as the authentication mechanism. The default PAM service name is `postgresql`. PAM is used only to validate user name/password pairs and optionally the connected remote host name or IP address. Therefore the user must already exist in the database before PAM can be used for authentication. For more information about PAM, please read the [Linux-PAM Page](http://www.kernel.org/pub/linux/libs/pam/).
 
@@ -239,17 +239,17 @@ PAM service name.`pam_use_hostname`
 
 Determines whether the remote IP address or the host name is provided to PAM modules through the `PAM_RHOST` item. By default, the IP address is used. Set this option to 1 to use the resolved host name instead. Host name resolution can lead to login delays. \(Most PAM configurations don't use this information, so it is only necessary to consider this setting if a PAM configuration was specifically created to make use of it.\)
 
-#### Note
+## Note
 
 If PAM is set up to read `/etc/shadow`, authentication will fail because the PostgreSQL server is started by a non-root user. However, this is not an issue when PAM is configured to use LDAP or other authentication methods.
 
-#### 20.3.11. BSD Authentication
+## 20.3.11. BSD Authentication
 
 This authentication method operates similarly to `password` except that it uses BSD Authentication to verify the password. BSD Authentication is used only to validate user name/password pairs. Therefore the user's role must already exist in the database before BSD Authentication can be used for authentication. The BSD Authentication framework is currently only available on OpenBSD.
 
 BSD Authentication in PostgreSQL uses the `auth-postgresql` login type and authenticates with the `postgresql` login class if that's defined in `login.conf`. By default that login class does not exist, and PostgreSQL will use the default login class.
 
-#### Note
+## Note
 
 To use BSD Authentication, the PostgreSQL user account \(that is, the operating system user running the server\) must first be added to the `auth` group. The `auth` group exists by default on OpenBSD systems.
 

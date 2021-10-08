@@ -2,15 +2,15 @@
 
 pg\_test\_timing — measure timing overhead
 
-### Synopsis
+## Synopsis
 
 `pg_test_timing` \[_`option`_...\]
 
-### Description
+## Description
 
 pg\_test\_timing is a tool to measure the timing overhead on your system and confirm that the system time never moves backwards. Systems that are slow to collect timing data can give less accurate `EXPLAIN ANALYZE` results.
 
-### Options
+## Options
 
 pg\_test\_timing accepts the following command-line options:`-d` _`duration`_  
 `--duration=`_`duration`_
@@ -23,9 +23,9 @@ Print the pg\_test\_timing version and exit.`-?`
 
 Show help about pg\_test\_timing command line arguments, and exit.
 
-### Usage
+## Usage
 
-#### Interpreting results
+### Interpreting results
 
 Good results will show most \(&gt;90%\) individual timing calls take less than one microsecond. Average per loop overhead will be even lower, below 100 nanoseconds. This example from an Intel i7-860 system using a TSC clock source shows excellent performance:
 
@@ -43,7 +43,7 @@ Histogram of timing durations:
 
 Note that different units are used for the per loop time than the histogram. The loop can have resolution within a few nanoseconds \(ns\), while the individual timing calls can only resolve down to one microsecond \(us\).
 
-#### Measuring executor timing overhead
+### Measuring executor timing overhead
 
 When the query executor is running a statement using `EXPLAIN ANALYZE`, individual operations are timed as well as showing a summary. The overhead of your system can be checked by counting rows with the psql program:
 
@@ -56,7 +56,7 @@ EXPLAIN ANALYZE SELECT COUNT(*) FROM t;
 
 The i7-860 system measured runs the count query in 9.8 ms while the `EXPLAIN ANALYZE` version takes 16.6 ms, each processing just over 100,000 rows. That 6.8 ms difference means the timing overhead per row is 68 ns, about twice what pg\_test\_timing estimated it would be. Even that relatively small amount of overhead is making the fully timed count statement take almost 70% longer. On more substantial queries, the timing overhead would be less problematic.
 
-#### Changing time sources
+### Changing time sources
 
 On some newer Linux systems, it's possible to change the clock source used to collect timing data at any time. A second example shows the slowdown possible from switching to the slower acpi\_pm time source, on the same system used for the fast results above:
 
@@ -110,7 +110,7 @@ Histogram of timing durations:
     32      0.00000          1
 ```
 
-#### Clock hardware and timing accuracy
+### Clock hardware and timing accuracy
 
 Collecting accurate timing information is normally done on computers using hardware clocks with various levels of accuracy. With some hardware the operating systems can pass the system clock time almost directly to programs. A system clock can also be derived from a chip that simply provides timing interrupts, periodic ticks at some known time interval. In either case, operating system kernels provide a clock source that hides these details. But the accuracy of that clock source and how quickly it can return results varies based on the underlying hardware.
 
@@ -126,7 +126,7 @@ Advanced Configuration and Power Interface \(ACPI\) provides a Power Management 
 
 Timers used on older PC hardware include the 8254 Programmable Interval Timer \(PIT\), the real-time clock \(RTC\), the Advanced Programmable Interrupt Controller \(APIC\) timer, and the Cyclone timer. These timers aim for millisecond resolution.
 
-### See Also
+## See Also
 
 [EXPLAIN](../sql-commands/explain.md)
 

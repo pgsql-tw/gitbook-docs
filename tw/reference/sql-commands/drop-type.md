@@ -2,17 +2,17 @@
 
 DROP TYPE — remove a data type
 
-### Synopsis
+## Synopsis
 
 ```text
 DROP TYPE [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 ```
 
-### Description
+## Description
 
 `DROP TYPE` removes a user-defined data type. Only the owner of a type can remove it.
 
-### Parameters
+## Parameters
 
 `IF EXISTS`
 
@@ -30,7 +30,7 @@ Automatically drop objects that depend on the type \(such as table columns, func
 
 Refuse to drop the type if any objects depend on it. This is the default.
 
-### Examples
+## Examples
 
 To remove the data type `box`:
 
@@ -38,11 +38,11 @@ To remove the data type `box`:
 DROP TYPE box;
 ```
 
-### Compatibility
+## Compatibility
 
 This command is similar to the corresponding command in the SQL standard, apart from the `IF EXISTS` option, which is a PostgreSQL extension. But note that much of the `CREATE TYPE` command and the data type extension mechanisms in PostgreSQL differ from the SQL standard.
 
-### See Also
+## See Also
 
 [ALTER TYPE](https://www.postgresql.org/docs/10/static/sql-altertype.html), [CREATE TYPE](https://www.postgresql.org/docs/10/static/sql-createtype.html)
 

@@ -14,7 +14,7 @@ Certain utility commands, for instance `DROP TABLE`, are forced to commit synchr
 
 If the database crashes during the risk window between an asynchronous commit and the writing of the transaction's WAL records, then changes made during that transaction _will_ be lost. The duration of the risk window is limited because a background process \(the “WAL writer”\) flushes unwritten WAL records to disk every [wal\_writer\_delay](https://www.postgresql.org/docs/12/runtime-config-wal.html#GUC-WAL-WRITER-DELAY) milliseconds. The actual maximum duration of the risk window is three times `wal_writer_delay` because the WAL writer is designed to favor writing whole pages at a time during busy periods.
 
-#### Caution
+## Caution
 
 An immediate-mode shutdown is equivalent to a server crash, and will therefore cause loss of any unflushed asynchronous commits.
 

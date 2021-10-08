@@ -14,7 +14,7 @@ The [pg\_ctl](https://www.postgresql.org/docs/12/app-pg-ctl.html) program provid
 $ kill -INT `head -1 /usr/local/pgsql/data/postmaster.pid`
 ```
 
-#### Important
+## Important
 
 It is best not to use SIGKILL to shut down the server. Doing so will prevent the server from releasing shared memory and semaphores. Furthermore, SIGKILL kills the `postgres` process without letting it relay the signal to its subprocesses, so it might be necessary to kill the individual subprocesses by hand as well.
 
