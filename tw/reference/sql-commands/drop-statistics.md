@@ -6,17 +6,17 @@ description: 版本：11
 
 DROP STATISTICS — remove extended statistics
 
-## Synopsis
+### Synopsis
 
-```text
+```
 DROP STATISTICS [ IF EXISTS ] name [, ...]
 ```
 
-## Description
+### Description
 
-`DROP STATISTICS` removes statistics object\(s\) from the database. Only the statistics object's owner, the schema owner, or a superuser can drop a statistics object.
+`DROP STATISTICS` removes statistics object(s) from the database. Only the statistics object's owner, the schema owner, or a superuser can drop a statistics object.
 
-## Parameters
+### Parameters
 
 `IF EXISTS`
 
@@ -24,23 +24,22 @@ Do not throw an error if the statistics object does not exist. A notice is issue
 
 _`name`_
 
-The name \(optionally schema-qualified\) of the statistics object to drop.
+The name (optionally schema-qualified) of the statistics object to drop.
 
-## Examples
+### Examples
 
 To destroy two statistics objects in different schemas, without failing if they don't exist:
 
-```text
+```
 DROP STATISTICS IF EXISTS
     accounting.users_uid_creation,
     public.grants_user_role;
 ```
 
-## Compatibility
+### Compatibility
 
 There is no `DROP STATISTICS` command in the SQL standard.
 
-## See Also
+### See Also
 
 [ALTER STATISTICS](alter-statistics.md), [CREATE STATISTICS](create-statistics.md)
-

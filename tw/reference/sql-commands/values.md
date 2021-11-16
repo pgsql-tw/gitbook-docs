@@ -2,9 +2,9 @@
 
 VALUES — 産生一組資料列
 
-## 語法
+### 語法
 
-```text
+```
 VALUES ( expression [, ...] ) [, ...]
     [ ORDER BY sort_expression [ ASC | DESC | USING operator ] [, ...] ]
     [ LIMIT { count | ALL } ]
@@ -12,7 +12,7 @@ VALUES ( expression [, ...] ) [, ...]
     [ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY ]
 ```
 
-## 說明
+### 說明
 
 VALUES 由指定值表示式産生資料列或就是一組資料列。它通常用於在更大的指令中産生「常數資料表」，但它也可以單獨使用。
 
@@ -20,7 +20,7 @@ VALUES 由指定值表示式産生資料列或就是一組資料列。它通常�
 
 在較大的指令中，VALUES 在 SELECT 的任何位置在語法上都是被允許的。由於語法將其視為 SELECT，因此可以使用 ORDER BY、LIMIT（或等價的 FETCH FIRST）和 OFFSET 子句以及 VALUES 指令。
 
-## 參數
+### 參數
 
 _`expression`_
 
@@ -42,21 +42,21 @@ _`start`_
 
 在開始回傳資料列之前要跳過的列數。有關詳情，請參閱 [LIMIT 子句](select.md#limit-clause)。
 
-## 注意
+### 注意
 
 應該避免使用大量資料列的 VALUES 列表，因為可能會遇到記憶體不足或效能不佳的情況。在 INSERT 中出現的 VALUES 是一種特殊情況（因為所需的欄位型別可從 INSERT 的目標資料表中得知，而不需要透過掃描 VALUES 列表來推斷），所以它可以處理比其他情況實際可用的更大列表。
 
-## 範例
+### 範例
 
 直接的 VALUES 指令：
 
-```text
+```
 VALUES (1, 'one'), (2, 'two'), (3, 'three');
 ```
 
 這將回傳一個兩個欄位和三個資料列的資料表。它實際上相當於：
 
-```text
+```
 SELECT 1 AS column1, 'one' AS column2
 UNION ALL
 SELECT 2, 'two'
@@ -66,14 +66,14 @@ SELECT 3, 'three';
 
 更通常的情況是，在更大的 SQL 指令中使用 VALUES。INSERT 中最常見的用法是：
 
-```text
+```
 INSERT INTO films (code, title, did, date_prod, kind)
     VALUES ('T_601', 'Yojimbo', 106, '1961-06-16', 'Drama');
 ```
 
 在 INSERT 的指令中，VALUES 列表的項目可以是 DEFAULT，以表示在此應該使用欄位的預設值而不是指定值：
 
-```text
+```
 INSERT INTO films VALUES
     ('UA502', 'Bananas', 105, DEFAULT, 'Comedy', '82 minutes'),
     ('T_601', 'Yojimbo', 106, DEFAULT, 'Drama', DEFAULT);
@@ -81,7 +81,7 @@ INSERT INTO films VALUES
 
 在可能寫入子 SELECT 的地方也可以使用 VALUES，例如在 FROM 子句中：
 
-```text
+```
 SELECT f.*
   FROM films f, (VALUES('MGM', 'Horror'), ('UA', 'Sci-Fi')) AS t (studio, kind)
   WHERE f.studio = t.studio AND f.kind = t.kind;
@@ -95,20 +95,19 @@ UPDATE employees SET salary = salary * v.increase
 
 在 INSERT 中使用 VALUES 時，這些值會全部自動強制轉為相應目標欄位的資料型別。 當它在其他指令部份中使用時，可能需要指定正確的資料型別。如果項目都是引用文字常數，強制第一個項目就足以決定所有的假設型別：
 
-```text
+```
 SELECT * FROM machines
 WHERE ip_address IN (VALUES('192.168.0.1'::inet), ('192.168.0.10'), ('192.168.1.43'));
 ```
 
-### 小技巧
+#### 小技巧
 
 對於簡單的 IN 測試，最好依賴 IN 的 [scalar 列表](../../the-sql-language/functions-and-operators/row-and-array-comparisons.md#9-23-1-in)形式，而不是像上面那樣撰寫 VALUES 查詢。scalar 列表方式只需要更少的寫入，並且通常效能更高。
 
-## 相容性
+### 相容性
 
 VALUES 符合 SQL 標準。LIMIT 和 OFFSET 是 PostgreSQL 的延伸功能；請參閱 [SELECT](select.md) 下的內容。
 
-## 參閱
+### 參閱
 
 [INSERT](insert.md), [SELECT](select.md)
-

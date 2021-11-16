@@ -6,7 +6,7 @@
 
 例如：使用者有一個電話號碼列表，其中一些是私人的，其他的是辦公室助理共享的。使用者可以建構以下內容：
 
-```text
+```
 CREATE TABLE phone_data (person text, phone text, private boolean);
 CREATE VIEW phone_number AS
     SELECT person, CASE WHEN NOT private THEN phone END AS phone
@@ -22,14 +22,14 @@ GRANT SELECT ON phone_number TO assistant;
 
 請注意，雖然檢視表可用於使用上面顯示的技術隱藏某些欄位內容，但除非已設定 security\_barrier 旗標，否則它們不能可靠地用於隱藏未顯示資料列的資料。 例如，以下檢視表不安全：
 
-```text
+```
 CREATE VIEW phone_number AS
     SELECT person, phone FROM phone_data WHERE phone NOT LIKE '412%';
 ```
 
 此檢視表可能看起來很安全，因為規則系統會將來自 phone\_number 的任何 SELECT 重寫為來自 phone\_data 的 SELECT，並增加僅需要電話不以 412 開頭項目的限定條件。但是，如果使用者可以建立自己的函數，則說服計劃程序在 NOT LIKE 表示式之前執行使用者定義的函數並不困難。 例如：
 
-```text
+```
 CREATE FUNCTION tricky(text, text) RETURNS bool AS $$
 BEGIN
     RAISE NOTICE '% => %', $1, $2;
@@ -46,7 +46,7 @@ phone\_data 資料表中的每個人和電話號碼都將以 NOTICE 輸出，因
 
 當檢視表需要提供資料列級安全性時，應將 security\_barrier 屬性套用於檢視表。這可以防止惡意的函數和運算子從資料列傳遞值，直到檢視表完成其工作。例如，如果上面顯示的檢視表是這樣建立，那麼它將是安全的：
 
-```text
+```
 CREATE VIEW phone_number WITH (security_barrier) AS
     SELECT person, phone FROM phone_data WHERE phone NOT LIKE '412%';
 ```
@@ -55,5 +55,4 @@ CREATE VIEW phone_number WITH (security_barrier) AS
 
 在處理沒有副作用的函數時，查詢規劃程序具有更大的靈活性。 這些函數稱為 LEAKPROOF，包括許多簡單的常用運算子，例如許多相等運算子。查詢計劃程序可以安全地允許在查詢執行過程中的任何時候執行此類函數，因為在使用者不可見的資料列上呼叫它們不會洩漏有關不可見資料列的任何信息。此外，不帶參數或未從安全屏障檢視表傳遞任何參數的函數不必標記為 LEAKPROOF 以便向下推，因為它們從不從檢視表接收資料。相反地，根據作為參數接收的值（例如在溢出或除零時拋出錯誤的函數）可能拋出錯誤的函數都不是防漏的，並且可能提供關於不可見資料列的重要信息，如果在安全檢視表的資料列過濾器之前套用。
 
-重要的是要理解即使是使用 security\_barrier 選項建立的檢視圖也只是在有限的意義上是安全的，即不可見 tuple 的內容不會傳遞給可能不安全的函數。使用者可能還有其他方法可以推斷出看不見的資料；例如，他們可以使用 EXPLAIN 查看查詢計劃，或者根據檢視表測量查詢的執行時間。惡意攻擊者可能能夠推斷出有關未見資料量的訊息，甚至可以獲得有關資料分佈或最常見值的一些訊息（因為這些事情可能會影響計劃的執行時間；甚至，因為它們也會被反映出來。在最佳化程序統計中，選擇計劃）。如果關注這些類型的“隱蔽通道（covert channel）”攻擊，則根本不允許對資料進行任何存取。
-
+重要的是要理解即使是使用 security\_barrier 選項建立的檢視圖也只是在有限的意義上是安全的，即不可見 tuple 的內容不會傳遞給可能不安全的函數。使用者可能還有其他方法可以推斷出看不見的資料；例如，他們可以使用 EXPLAIN 查看查詢計劃，或者根據檢視表測量查詢的執行時間。惡意攻擊者可能能夠推斷出有關未見資料量的訊息，甚至可以獲得有關資料分佈或最常見值的一些訊息（因為這些事情可能會影響計劃的執行時間；甚至，因為它們也會被反映出來。在最佳化程序統計中，選擇計劃）。如果關注這些類型的“隱蔽通道（covert channel）”攻擊，則根本不允許對資料進行任何存取。\

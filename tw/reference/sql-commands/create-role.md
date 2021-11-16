@@ -4,7 +4,7 @@ CREATE ROLE — 定義一個新的資料庫角色
 
 ## 語法
 
-```text
+```
 CREATE ROLE name [ [ WITH ] option [ ... ] ]
 
 where option can be:
@@ -17,7 +17,7 @@ where option can be:
     | REPLICATION | NOREPLICATION
     | BYPASSRLS | NOBYPASSRLS
     | CONNECTION LIMIT connlimit
-    | [ ENCRYPTED ] PASSWORD 'password'
+    | [ ENCRYPTED ] PASSWORD 'password' | PASSWORD NULL
     | VALID UNTIL 'timestamp'
     | IN ROLE role_name [, ...]
     | IN GROUP role_name [, ...]
@@ -29,7 +29,7 @@ where option can be:
 
 ## 說明
 
-`CREATE ROLE 將新的角色加到 PostgreSQL 資料庫叢集之中。角色是可以擁有資料庫物件並具有資料庫權限的實體；根據使用方式的不同，角色可以被視為「使用者」、「群組」或是兩者兼具。有關管理使用者和身份驗證的訊息，請參閱`[`第 21 章`](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/server-administration/21.-zi-liao-ku-jiao-se)`和`[`第 20 章`](../../server-administration/client-authentication/)`。 您必須具有 CREATEROLE 權限或成為資料庫的超級使用者才能使用此命令。`
+CREATE ROLE 將新的角色加到 PostgreSQL 資料庫叢集之中。角色是可以擁有資料庫物件並具有資料庫權限的實體；根據使用方式的不同，角色可以被視為「使用者」、「群組」或是兩者兼具。有關管理使用者和身份驗證的訊息，請參閱[第 21 章](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/server-administration/21.-zi-liao-ku-jiao-se)和[第 20 章](../../server-administration/client-authentication/)。 您必須具有 CREATEROLE 權限或成為資料庫的超級使用者才能使用此命令。
 
 請注意，角色是在資料庫叢集等級所定義的，因此在叢集中的所有資料庫中都是有效的。
 
@@ -39,37 +39,37 @@ _`name`_
 
 新角色的名稱。
 
-`SUPERUSER`  
+`SUPERUSER`\
 `NOSUPERUSER`
 
 這個子句決定新角色是否為「超級使用者」，他可以覆寫資料庫中的所有存取限制。超級使用者的狀態很危險，只能在真正需要時才使用。您必須自己成為超級使用者才能建立新的超級使用者。如果未指定，則 NOSUPERUSER 是預設值。
 
-`CREATEDB`  
+`CREATEDB`\
 `NOCREATEDB`
 
 這個子句定義了角色是否可以建立資料庫。如果指定了 CREATEDB，則被定義的角色將被允許建立新的資料庫。指定 NOCREATEDB 則是不允許建立資料庫的角色。如果未指定，則預設為 NOCREATEDB。
 
-`CREATEROLE`  
+`CREATEROLE`\
 `NOCREATEROLE`
 
 這個子句決定是否允許角色建立新角色（即執行CREATE ROLE）。具有CREATEROLE 權限的角色也可以變更和刪除其他角色。如果未指定，則預設為 NOCREATEROLE。
 
-`INHERIT`  
+`INHERIT`\
 `NOINHERIT`
 
 這個子句決定角色是否「繼承」它所屬角色的特權。具有 INHERIT 屬性的角色可以自動使用已授予其直接或間接成員的所有角色的任何資料庫特權。沒有INHERIT，另一個角色的成員資格只能賦予角色設定其他角色的能力；其他角色的權限僅在完成後才可用。如果未指定，INHERIT 是預設值。
 
-`LOGIN`  
+`LOGIN`\
 `NOLOGIN`
 
 這個子句決定是否允許角色登入；也就是說，在用戶端連線期間，角色是否可以作為初始連線的授權名稱。具有 LOGIN 屬性的角色可以被認為是一個使用者。沒有此屬性的角色對於管理資料庫權限很有用，但不是一般認知上的使用者。如果未指定，則除了通過其替代指令 [CREATE USER](create-user.md) 使用 CREATE ROLE 時，NOLOGIN 是預設值。
 
-`REPLICATION`  
+`REPLICATION`\
 `NOREPLICATION`
 
 這個子句確定角色是否是可以進行複製工作的角色。角色必須具有此屬性（或成為超級使用者）才能以複製模式（實體或邏輯複製）連線到伺服器，並且能夠建立或刪除複製單元。具有 REPLICATION 屬性的角色是一個非常高權限的角色，只能用於實際用於複製工作的角色。 如果未指定，則預設為 NOREPLICATION。
 
-`BYPASSRLS`  
+`BYPASSRLS`\
 `NOBYPASSRLS`
 
 這個子句決定角色是否可以繞過每個資料列級安全（RLS）原則檢查。 NOBYPASSRLS 是預設值。請注意，預設情況下，pg\_dump 會將 row\_security 設定為 OFF，以確保資料表中的所有內容都被匯出。如果執行 pg\_dump 的使用者沒有適當的權限，則會回報錯誤。超級使用者和匯出資料表的擁有者總是能夠繞過 RLS。
@@ -78,13 +78,14 @@ _`name`_
 
 如果角色可以登入，則指定該角色可以建立多少個同時連線。-1（預設值）表示沒有限制。請注意，只有正常連線才會計入此限制。預備交易和後端服務連線都不計入此限制。
 
-\[ `ENCRYPTED` \] `PASSWORD` _`password`_
+&#x20;\[ `ENCRYPTED` ] `PASSWORD` '_`password`_'\
+`PASSWORD NULL`
 
-設定角色的密碼。（密碼僅用於具有 LOGIN 屬性的角色，但您可以為沒有密碼的角色定義密碼。）如果您不打算使用密碼驗證，則可以省略此選項。如果未指定密碼，則密碼將設定為 NULL，而該使用者的密碼驗證將始終失敗。可以選擇將空密碼明確寫為PASSWORD NULL。
+設定角色的密碼。（密碼僅用於具有 LOGIN 屬性的角色，但您可以為沒有密碼的角色定義密碼。）如果您不打算使用密碼驗證，則可以省略此選項。如果未指定密碼，則密碼將設定為 NULL，而該使用者的密碼驗證將始終失敗。可以選擇將空密碼明確寫為 `PASSWORD NULL`。
 
-### 提醒
-
+{% hint style="info" %}
 **指定一個空字串也會將密碼設定為 NULL，但 PostgreSQL 版本 10 之前並不是這種情況。在早期版本中，可以使用或不使用空字串，具體取決於身份驗證方法和確切版本，libpq 會拒絕在任何情況下使用它。為避免歧義，應避免指定空字串。**
+{% endhint %}
 
 密碼總是會以加密方式儲存在系統目錄中。ENCRYPTED 關鍵字不起作用，但為了相容性而被接受。加密方法由配置參數 password\_encryption 決定。如果提供的密碼字串已經以 MD5 加密或 SCRAM 加密的格式存在，則無論使用password\_encryption 為何（因為系統無法解密指定的加密密碼字符串，如果以不同的格式對其進行加密的話），它都會按原樣儲存。 這允許在轉存/恢復期間重新載入加密的密碼。
 
@@ -98,7 +99,7 @@ IN ROLE 子句列出一個或多個新角色將立即添加為新成員的現有
 
 `IN GROUP` _`role_name`_
 
-`IN GROUP 是 IN ROLE 的過時選項。`
+IN GROUP 是 IN ROLE 的過時語法。
 
 `ROLE` _`role_name`_
 
@@ -140,13 +141,13 @@ CONNECTION LIMIT 選項只是大略地執行；如果兩個新的連線幾乎同
 
 建立一個可以登入的角色，但不要給它一個密碼：
 
-```text
+```
 CREATE ROLE jonathan LOGIN;
 ```
 
 建立角色同時設定一個密碼：
 
-```text
+```
 CREATE USER davide WITH PASSWORD 'jw8s0F4';
 ```
 
@@ -154,13 +155,13 @@ CREATE USER davide WITH PASSWORD 'jw8s0F4';
 
 使用一個有效的密碼建立一個角色，直到 2004 年底。在 2005 年的第一秒之後，密碼就不再有效。
 
-```text
+```
 CREATE ROLE miriam WITH LOGIN PASSWORD 'jw8s0F4' VALID UNTIL '2005-01-01';
 ```
 
 建立一個可以建立資料庫和管理角色的角色：
 
-```text
+```
 CREATE ROLE admin WITH CREATEDB CREATEROLE;
 ```
 
@@ -168,17 +169,16 @@ CREATE ROLE admin WITH CREATEDB CREATEROLE;
 
 CREATE ROLE 語句在 SQL 標準中，只有簡單的語法標準。
 
-```text
+```
 CREATE ROLE name [ WITH ADMIN role_name ]
 ```
 
 多個初始管理員和 CREATE ROLE 的所有其他選項都是 PostgreSQL 延伸功能。
 
-SQL 標準定義了使用者和角色的概念，且將它們視為不同的概念，並將所有定義使用者的命令留在每個資料庫的實作中。在 PostgreSQL 中，我們選擇將使用者和角色統一為單一類型的實體。因此，角色擁有比標準更多的可選屬性。
+SQL 標準定義了使用者和角色的概念，且將它們視為不同的概念，並將所有定義使用者的命令留在每個資料庫的實作中。在 PostgreSQL 中，我們選擇將使用者和角色統一為單一類型的實體。因此，角色擁有比標準更多的選用屬性。
 
 由 SQL 標準指定的行為最接近於給予使用者 NOINHERIT 屬性，而角色則賦予了 INHERIT 屬性。
 
 ## 參閱
 
 [SET ROLE](set-role.md), [ALTER ROLE](alter-role.md), [DROP ROLE](drop-role.md), [GRANT](grant.md), [REVOKE](revoke.md), [createuser](../client-applications/createuser.md)
-

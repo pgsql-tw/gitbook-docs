@@ -1,12 +1,12 @@
 # B.3. 日期時間設定檔
 
-由於時區縮寫並沒有很好地標準化，PostgreSQL 提供了一種自訂的伺服器接受的縮寫集方法。[timezone\_abbreviations](../../server-administration/server-configuration/client-connection-defaults.md#timezone_abbreviations-string) 運行時參數決定有效的縮寫集。雖然此參數可由任何資料庫使用者變更，但其可能的值受資料庫管理員控制 - 實際上它們是儲存在安裝目錄的 .../share/timezonesets/ 中的組態檔案的名稱。透過增加或變更該目錄中的檔案，管理員可以為時區縮寫設定本地策略。
+由於時區縮寫並沒有很好地標準化，PostgreSQL 提供了一種自訂的伺服器接受的縮寫集方法。[timezone\_abbreviations](../../server-administration/server-configuration/client-connection-defaults.md#timezone\_abbreviations-string) 運行時參數決定有效的縮寫集。雖然此參數可由任何資料庫使用者變更，但其可能的值受資料庫管理員控制 - 實際上它們是儲存在安裝目錄的 .../share/timezonesets/ 中的組態檔案的名稱。透過增加或變更該目錄中的檔案，管理員可以為時區縮寫設定本地策略。
 
 timezone\_abbreviations 可以設定為在 .../share/timezonesets/ 中找到的任何檔案名稱，檔案的名稱需要完全是英文字母的。（禁止 timezone\_abbreviations 中的非英文字母字元可以防止讀取目標目錄之外的檔案，以及讀取編輯器備份檔案和其他無關檔案。）
 
-時區縮寫檔案可以包含空白行和以 \# 開頭的註釋。非註釋行必須具有以下格式之一：
+時區縮寫檔案可以包含空白行和以 # 開頭的註釋。非註釋行必須具有以下格式之一：
 
-```text
+```
 zone_abbreviation offset
 zone_abbreviation offset D
 zone_abbreviation time_zone_name
@@ -18,7 +18,7 @@ zone\_abbreviation 只是定義的縮寫。offset 是一個整數，定義與 UT
 
 或者，可以定義 time\_zone\_name，引用 IANA 時區資料庫中定義的區域名稱。查詢區域的定義以查看該區域中是否正在使用縮寫，如果是，則使用適當的含義 - 即，目前正在確定其值的時間戳記中使用的含義，或者如果當時不是目前使用的話，則使用之前的含義，如果僅在該時間之後使用，則使用最舊的含義。這種行為對於處理其含義歷史變化的縮寫至關重要。還允許根據區域名稱定義縮寫，其中不出現該縮寫；使用縮寫就等於寫出區域名稱。
 
-**小技巧**  
+**小技巧**\
 在定義與 UTC 的偏移量從未改變的縮寫時，偏好使用簡單的整數偏移量，因為這些縮寫比需要查閱時區定義的縮寫要簡單得多。
 
 @INCLUDE 語法允許在 .../share/timezonesets/ 目錄中包含另一個檔案。包含可以嵌套到某個有限的深度。
@@ -29,11 +29,10 @@ zone\_abbreviation 只是定義的縮寫。offset 是一個整數，定義與 UT
 
 出於參考目的，標準安裝還包含 Africa.txt，America.txt 等文件，其中包含有關根據 IANA 時區資料庫已知正在使用的每個時區縮寫的訊息。可以根據需要將這些檔案中找到的區域名稱定義複製並貼到自行定義配置檔案中。請注意，由於名稱中包含了點，因此無法將這些檔案直接引用為 timezone\_abbreviations 設定。
 
-## **注意**
+#### **注意**
 
 如果在讀取時區縮寫集時發生錯誤，則不會應用新值並保留舊值。如果在啟動資料庫時發生錯誤，則啟動失敗。
 
 配置檔案中定義的時區縮寫會覆寫 PostgreSQL 中內建的非時區定義。例如，澳大利亞配置檔案定義了 SAT（南澳大利亞標準時間）。當此檔案有效時，SAT 將不會被識別為星期六的縮寫。
 
 如果您修改 .../share/timezonesets/ 中的檔案，則由您來進行備份 - 正常的資料庫轉存將不包含此目錄。
-

@@ -6,7 +6,7 @@ Recovering from errors caused by database access as described in [Section 45.7.2
 
 Consider a function that implements a transfer between two accounts:
 
-```text
+```
 CREATE FUNCTION transfer_funds() RETURNS void AS $$
 try:
     plpy.execute("UPDATE accounts SET balance = balance - 100 WHERE account_name = 'joe'")
@@ -24,7 +24,7 @@ If the second `UPDATE` statement results in an exception being raised, this func
 
 To avoid such issues, you can wrap your `plpy.execute` calls in an explicit subtransaction. The `plpy` module provides a helper object to manage explicit subtransactions that gets created with the `plpy.subtransaction()` function. Objects created by this function implement the [context manager interface](https://docs.python.org/library/stdtypes.html#context-manager-types). Using explicit subtransactions we can rewrite our function as:
 
-```text
+```
 CREATE FUNCTION transfer_funds2() RETURNS void AS $$
 try:
     with plpy.subtransaction():
@@ -45,7 +45,7 @@ Note that the use of `try/catch` is still required. Otherwise the exception woul
 
 Context managers syntax using the `with` keyword is available by default in Python 2.6. If using PL/Python with an older Python version, it is still possible to use explicit subtransactions, although not as transparently. You can call the subtransaction manager's `__enter__` and `__exit__` functions using the `enter` and `exit` convenience aliases. The example function that transfers funds could be written as:
 
-```text
+```
 CREATE FUNCTION transfer_funds_old() RETURNS void AS $$
 try:
     subxact = plpy.subtransaction()
@@ -69,7 +69,6 @@ plpy.execute(plan, [result])
 $$ LANGUAGE plpythonu;
 ```
 
-### Note
+#### Note
 
 Although context managers were implemented in Python 2.5, to use the `with` syntax in that version you need to use a [future statement](https://docs.python.org/release/2.5/ref/future.html). Because of implementation details, however, you cannot use future statements in PL/Python functions.
-

@@ -2,17 +2,17 @@
 description: 版本：11
 ---
 
-# 9.14. XML 函式
+# 9.15. XML 函式
 
 本節中描述的函數和類函數表示式對 xml 型別的值進行操作。有關 xml 型別的訊息，請查看[第 8.13 節](../data-types/xml-type.md)。這裡不再重複用於轉換為 xml 型別的函數表示式 xmlparse 和 xmlserialize。使用大多數這些函數需要使用 configure --with-libxml 編譯安裝。
 
-## 9.14.1. 産生 XML 內容
+## 9.15.1. 産生 XML 內容
 
 一組函數和類函數的表示式可用於從 SQL 資料産生 XML 內容。因此，它們特別適合將查詢結果格式化為 XML 文件以便在用戶端應用程序中進行處理。
 
-### **9.14.1.1. xmlcomment**
+### **9.15.1.1. xmlcomment**
 
-```text
+```
 xmlcomment(text)
 ```
 
@@ -20,7 +20,7 @@ xmlcomment(text)
 
 例如：
 
-```text
+```
 SELECT xmlcomment('hello');
 
   xmlcomment
@@ -28,9 +28,9 @@ SELECT xmlcomment('hello');
  <!--hello-->
 ```
 
-### **9.14.1.2. xmlconcat**
+### **9.15.1.2. xmlconcat**
 
-```text
+```
 xmlconcat(xml[, ...])
 ```
 
@@ -38,7 +38,7 @@ xmlconcat(xml[, ...])
 
 例如：
 
-```text
+```
 SELECT xmlconcat('<abc/>', '<bar>foo</bar>');
 
       xmlconcat
@@ -50,7 +50,7 @@ XML 宣告（如果存在）組合如下。如果所有參數值具有相同的 
 
 例如：
 
-```text
+```
 SELECT xmlconcat('<?xml version="1.1"?><foo/>', '<?xml version="1.1" standalone="no"?><bar/>');
 
              xmlconcat
@@ -58,9 +58,9 @@ SELECT xmlconcat('<?xml version="1.1"?><foo/>', '<?xml version="1.1" standalone=
  <?xml version="1.1"?><foo/><bar/>
 ```
 
-### **9.14.1.3. xmlelement**
+### **9.15.1.3. xmlelement**
 
-```text
+```
 xmlelement(name name [, xmlattributes(value [AS attname] [, ... ])] [, content, ...])
 ```
 
@@ -68,7 +68,7 @@ xmlelement 表示式産生具有給定名稱、屬性和內容的 XML 元素。
 
 範例：
 
-```text
+```
 SELECT xmlelement(name foo);
 
  xmlelement
@@ -90,7 +90,7 @@ SELECT xmlelement(name foo, xmlattributes(current_date as bar), 'cont', 'ent');
 
 透過用 _xHHHH_ 序列替換有問題的字符來轉譯非有效 XML 名稱的元素和屬性名稱，其中 HHHH 是十六進位表示法中字元的 Unicode 代碼。例如：
 
-```text
+```
 SELECT xmlelement(name "foo$bar", xmlattributes('xyz' as "a&b"));
 
             xmlelement
@@ -100,21 +100,21 @@ SELECT xmlelement(name "foo$bar", xmlattributes('xyz' as "a&b"));
 
 如果屬性值是引用欄位，則無需明確指定屬性名稱，在這種情況下，預設情況下欄位的名稱將用作屬性名稱。在其他情況下，必須為該屬性明確指定名稱。所以這個例子是有效的：
 
-```text
+```
 CREATE TABLE test (a xml, b xml);
 SELECT xmlelement(name test, xmlattributes(a, b)) FROM test;
 ```
 
 但這些不行：
 
-```text
+```
 SELECT xmlelement(name test, xmlattributes('constant'), a, b) FROM test;
 SELECT xmlelement(name test, xmlattributes(func(a, b))) FROM test;
 ```
 
 元素內容（如果已指定）將根據其資料型別進行格式化。如果內容本身是 xml 型別，則可以建構複雜的 XML 文件。例如：
 
-```text
+```
 SELECT xmlelement(name foo, xmlattributes('xyz' as bar),
                             xmlelement(name abc),
                             xmlcomment('test'),
@@ -125,11 +125,11 @@ SELECT xmlelement(name foo, xmlattributes('xyz' as bar),
  <foo bar="xyz"><abc/><!--test--><xyz/></foo>
 ```
 
-其他型別的內容將被格式化為有效的 XML 字元資料。這尤其意味著字符 &lt;、&gt; 和 ＆ 將被轉換為其他形式。二進位資料（資料型別 bytea）將以 base64 或十六進位編碼表示，具體取決於組態參數 xmlbinary 的設定。為了使 SQL 和 PostgreSQL 資料型別與 XML Schema 規範保持一致，預計各種資料型別的特定行為將會各自發展，此時將出現更精確的描述。
+其他型別的內容將被格式化為有效的 XML 字元資料。這尤其意味著字符 <、> 和 ＆ 將被轉換為其他形式。二進位資料（資料型別 bytea）將以 base64 或十六進位編碼表示，具體取決於組態參數 xmlbinary 的設定。為了使 SQL 和 PostgreSQL 資料型別與 XML Schema 規範保持一致，預計各種資料型別的特定行為將會各自發展，此時將出現更精確的描述。
 
-### **9.14.1.4. xmlforest**
+### **9.15.1.4. xmlforest**
 
-```text
+```
 xmlforest(content [AS name] [, ...])
 ```
 
@@ -137,7 +137,7 @@ xmlforest 表示式使用給定的名稱和內容産生元素的 XML 序列。
 
 範例：
 
-```text
+```
 SELECT xmlforest('abc' AS foo, 123 AS bar);
 
           xmlforest
@@ -162,17 +162,17 @@ WHERE table_schema = 'pg_catalog';
 
 請注意，如果 XML 序列由多個元素組成，則它們不是有效的 XML 文件，因此將 xmlforest 表示式包裝在 xmlelement 中可能很有用。
 
-### **9.14.1.5. xmlpi**
+### **9.15.1.5. xmlpi**
 
-```text
+```
 xmlpi(name target [, content])
 ```
 
-xmlpi 表示式建立 XML 處理指令。內容（如果存在）不得包含字元序列 ?&gt;。
+xmlpi 表示式建立 XML 處理指令。內容（如果存在）不得包含字元序列 ?>。
 
 例如：
 
-```text
+```
 SELECT xmlpi(name php, 'echo "hello world";');
 
             xmlpi
@@ -180,15 +180,15 @@ SELECT xmlpi(name php, 'echo "hello world";');
  <?php echo "hello world";?>
 ```
 
-### **9.14.1.6. xmlroot**
+### **9.15.1.6. xmlroot**
 
-```text
+```
 xmlroot(xml, version text | no value [, standalone yes|no|no value])
 ```
 
 xmlroot 表示式改變 XML 值的根節點屬性。如果指定了版本，它將替換根節點的版本宣告中的值；如果指定了獨立設定，則它將替換根節點的獨立宣告中的值。
 
-```text
+```
 SELECT xmlroot(xmlparse(document '<?xml version="1.1"?><content>abc</content>'),
                version '1.0', standalone yes);
 
@@ -198,9 +198,9 @@ SELECT xmlroot(xmlparse(document '<?xml version="1.1"?><content>abc</content>'),
  <content>abc</content>
 ```
 
-### **9.14.1.7. xmlagg**
+### **9.15.1.7. xmlagg**
 
-```text
+```
 xmlagg(xml)
 ```
 
@@ -208,7 +208,7 @@ xmlagg(xml)
 
 例如：
 
-```text
+```
 CREATE TABLE test (y int, x xml);
 INSERT INTO test VALUES (1, '<foo>abc</foo>');
 INSERT INTO test VALUES (2, '<bar/>');
@@ -220,7 +220,7 @@ SELECT xmlagg(x) FROM test;
 
 要確定連接的順序，可以將 ORDER BY 子句加到彙總呼叫中，如第 4.2.7 節中所述。例如：
 
-```text
+```
 SELECT xmlagg(x ORDER BY y DESC) FROM test;
         xmlagg
 ----------------------
@@ -229,28 +229,28 @@ SELECT xmlagg(x ORDER BY y DESC) FROM test;
 
 以前的版本中推薦使用以下非標準方法，在特定情況下可能仍然有用：
 
-```text
+```
 SELECT xmlagg(x) FROM (SELECT * FROM test ORDER BY y DESC) AS tab;
         xmlagg
 ----------------------
  <bar/><foo>abc</foo>
 ```
 
-## 9.14.2. XML Predicates
+## 9.15.2. XML Predicates
 
 本節中描述的表示式用於檢查 xml 的屬性。
 
-### **9.14.2.1. IS DOCUMENT**
+### **9.15.2.1. IS DOCUMENT**
 
-```text
+```
 xml IS DOCUMENT
 ```
 
 如果參數 XML 是正確的 XML 文件，則表示式 IS DOCUMENT 將回傳 true，如果不是（它是內容片段），則回傳 false；如果參數為 null，則回傳 null。有關文件和內容片段之間的區別，請參閱[第 8.13 節](../data-types/xml-type.md)。
 
-### **9.14.2.2. XMLEXISTS**
+### **9.15.2.2. XMLEXISTS**
 
-```text
+```
 XMLEXISTS(text PASSING [BY REF] xml [BY REF])
 ```
 
@@ -258,7 +258,7 @@ XMLEXISTS(text PASSING [BY REF] xml [BY REF])
 
 範例
 
-```text
+```
 SELECT xmlexists('//town[text() = ''Toronto'']' PASSING BY REF '<towns><town>Toronto</town><town>Ottawa</town></towns>');
 
  xmlexists
@@ -269,9 +269,9 @@ SELECT xmlexists('//town[text() = ''Toronto'']' PASSING BY REF '<towns><town>Tor
 
 BY REF 子句在 PostgreSQL 中沒有任何作用，但可以達到 SQL 一致性和與其他實作的相容性。根據 SQL 標準，第一個 BY REF 是必需的，第二個是選擇性的。另請注意，SQL 標準指定 xmlexists 構造將 XQuery 表示式作為第一個參數，但 PostgreSQL 目前僅支持 XPath，它是 XQuery 的子集。
 
-### **9.14.2.3. xml\_is\_well\_formed**
+### **9.15.2.3. xml\_is\_well\_formed**
 
-```text
+```
 xml_is_well_formed(text)
 xml_is_well_formed_document(text)
 xml_is_well_formed_content(text)
@@ -281,7 +281,7 @@ xml_is_well_formed_content(text)
 
 範例：
 
-```text
+```
 SET xmloption TO DOCUMENT;
 SELECT xml_is_well_formed('<>');
  xml_is_well_formed 
@@ -317,13 +317,13 @@ SELECT xml_is_well_formed_document('<pg:foo xmlns:pg="http://postgresql.org/stuf
 
 最後一個範例顯示檢查包括命名空間是否符合。
 
-## 9.14.3. 處理 XML
+## 9.15.3. 處理 XML
 
 為了處理資料型別為 xml 的值，PostgreSQL 提供了 xpath 和 xpath\_exists 函數，它們用於計算 XPath 1.0 表示式和 XMLTABLE 資料表函數。
 
-### **9.14.3.1. xpath**
+### **9.15.3.1. xpath**
 
-```text
+```
 xpath(xpath, xml [, nsarray])
 ```
 
@@ -335,7 +335,7 @@ xpath(xpath, xml [, nsarray])
 
 例如：
 
-```text
+```
 SELECT xpath('/my:a/text()', '<my:a xmlns:my="http://example.com">test</my:a>',
              ARRAY[ARRAY['my', 'http://example.com']]);
 
@@ -347,7 +347,7 @@ SELECT xpath('/my:a/text()', '<my:a xmlns:my="http://example.com">test</my:a>',
 
 要設定預設的（匿名）命名空間，請執行以下操作：
 
-```text
+```
 SELECT xpath('//mydefns:b/text()', '<a xmlns="http://example.com"><b>test</b></a>',
              ARRAY[ARRAY['mydefns', 'http://example.com']]);
 
@@ -357,9 +357,9 @@ SELECT xpath('//mydefns:b/text()', '<a xmlns="http://example.com"><b>test</b></a
 (1 row)
 ```
 
-### **9.14.3.2. xpath\_exists**
+### **9.15.3.2. xpath\_exists**
 
-```text
+```
 xpath_exists(xpath, xml [, nsarray])
 ```
 
@@ -367,7 +367,7 @@ The function `xpath_exists` is a specialized form of the `xpath` function. Inste
 
 Example:
 
-```text
+```
 SELECT xpath_exists('/my:a/text()', '<my:a xmlns:my="http://example.com">test</my:a>',
                      ARRAY[ARRAY['my', 'http://example.com']]);
 
@@ -377,9 +377,9 @@ SELECT xpath_exists('/my:a/text()', '<my:a xmlns:my="http://example.com">test</m
 (1 row)
 ```
 
-### **9.14.3.3. xmltable**
+### **9.15.3.3. xmltable**
 
-```text
+```
 xmltable( [XMLNAMESPACES(namespace uri AS namespace name[, ...]), ]
           row_expression PASSING [BY REF] document_expression [BY REF]
           COLUMNS name { type [PATH column_expression] [DEFAULT default_expression] [NOT NULL | NULL]
@@ -402,7 +402,7 @@ A column marked `FOR ORDINALITY` will be populated with row numbers matching the
 
 The `column_expression` for a column is an XPath expression that is evaluated for each row, relative to the result of the _`row_expression`_, to find the value of the column. If no `column_expression` is given, then the column name is used as an implicit path.
 
-If a column's XPath expression returns multiple elements, an error is raised. If the expression matches an empty tag, the result is an empty string \(not `NULL`\). Any `xsi:nil` attributes are ignored.
+If a column's XPath expression returns multiple elements, an error is raised. If the expression matches an empty tag, the result is an empty string (not `NULL`). Any `xsi:nil` attributes are ignored.
 
 The text body of the XML matched by the _`column_expression`_ is used as the column value. Multiple `text()` nodes within an element are concatenated in order. Any child elements, processing instructions, and comments are ignored, but the text contents of child elements are concatenated to the result. Note that the whitespace-only `text()` node between two non-text elements is preserved, and that leading whitespace on a `text()` node is not flattened.
 
@@ -414,7 +414,7 @@ Unlike regular PostgreSQL functions, _`column_expression`_ and _`default_express
 
 Examples:
 
-```text
+```
 CREATE TABLE xmldata AS SELECT
 xml $$
 <ROWS>
@@ -456,9 +456,9 @@ SELECT xmltable.*
   6 |          3 | Singapore    | SG         |        697 |              | not specified
 ```
 
-The following example shows concatenation of multiple text\(\) nodes, usage of the column name as XPath filter, and the treatment of whitespace, XML comments and processing instructions:
+The following example shows concatenation of multiple text() nodes, usage of the column name as XPath filter, and the treatment of whitespace, XML comments and processing instructions:
 
-```text
+```
 CREATE TABLE xmlelements AS SELECT
 xml $$
   <root>
@@ -475,7 +475,7 @@ SELECT xmltable.*
 
 The following example illustrates how the `XMLNAMESPACES` clause can be used to specify the default namespace, and a list of additional namespaces used in the XML document as well as in the XPath expressions:
 
-```text
+```
 WITH xmldata(data) AS (VALUES ('
 <example xmlns="http://example.com/myns" xmlns:B="http://example.com/b">
  <item foo="1" B:bar="2"/>
@@ -498,11 +498,11 @@ SELECT xmltable.*
 (3 rows)
 ```
 
-## 9.14.4. Mapping Tables to XML
+## 9.15.4. Mapping Tables to XML
 
 The following functions map the contents of relational tables to XML values. They can be thought of as XML export functionality:
 
-```text
+```
 table_to_xml(tbl regclass, nulls boolean, tableforest boolean, targetns text)
 query_to_xml(query text, nulls boolean, tableforest boolean, targetns text)
 cursor_to_xml(cursor refcursor, count int, nulls boolean,
@@ -515,7 +515,7 @@ The return type of each function is `xml`.
 
 If _`tableforest`_ is false, then the resulting XML document looks like this:
 
-```text
+```
 <tablename>
   <row>
     <columnname1>data</columnname1>
@@ -532,7 +532,7 @@ If _`tableforest`_ is false, then the resulting XML document looks like this:
 
 If _`tableforest`_ is true, the result is an XML content fragment that looks like this:
 
-```text
+```
 <tablename>
   <columnname1>data</columnname1>
   <columnname2>data</columnname2>
@@ -553,7 +553,7 @@ The data values are mapped in the same way as described for the function `xmlele
 
 The parameter _`nulls`_ determines whether null values should be included in the output. If true, null values in columns are represented as:
 
-```text
+```
 <columnname xsi:nil="true"/>
 ```
 
@@ -563,7 +563,7 @@ The parameter _`targetns`_ specifies the desired XML namespace of the result. If
 
 The following functions return XML Schema documents describing the mappings performed by the corresponding functions above:
 
-```text
+```
 table_to_xmlschema(tbl regclass, nulls boolean, tableforest boolean, targetns text)
 query_to_xmlschema(query text, nulls boolean, tableforest boolean, targetns text)
 cursor_to_xmlschema(cursor refcursor, nulls boolean, tableforest boolean, targetns text)
@@ -571,16 +571,16 @@ cursor_to_xmlschema(cursor refcursor, nulls boolean, tableforest boolean, target
 
 It is essential that the same parameters are passed in order to obtain matching XML data mappings and XML Schema documents.
 
-The following functions produce XML data mappings and the corresponding XML Schema in one document \(or forest\), linked together. They can be useful where self-contained and self-describing results are wanted:
+The following functions produce XML data mappings and the corresponding XML Schema in one document (or forest), linked together. They can be useful where self-contained and self-describing results are wanted:
 
-```text
+```
 table_to_xml_and_xmlschema(tbl regclass, nulls boolean, tableforest boolean, targetns text)
 query_to_xml_and_xmlschema(query text, nulls boolean, tableforest boolean, targetns text)
 ```
 
 In addition, the following functions are available to produce analogous mappings of entire schemas or the entire current database:
 
-```text
+```
 schema_to_xml(schema name, nulls boolean, tableforest boolean, targetns text)
 schema_to_xmlschema(schema name, nulls boolean, tableforest boolean, targetns text)
 schema_to_xml_and_xmlschema(schema name, nulls boolean, tableforest boolean, targetns text)
@@ -594,7 +594,7 @@ Note that these potentially produce a lot of data, which needs to be built up in
 
 The result of a schema content mapping looks like this:
 
-```text
+```
 <schemaname>
 
 table1-mapping
@@ -610,7 +610,7 @@ where the format of a table mapping depends on the _`tableforest`_ parameter as 
 
 The result of a database content mapping looks like this:
 
-```text
+```
 <dbname>
 
 <schema1name>
@@ -632,7 +632,7 @@ As an example of using the output produced by these functions, [Figure 9.1](http
 
 #### **Figure 9.1. XSLT Stylesheet for Converting SQL/XML Output to HTML**
 
-```text
+```
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -678,4 +678,3 @@ As an example of using the output produced by these functions, [Figure 9.1](http
 
 </xsl:stylesheet>
 ```
-

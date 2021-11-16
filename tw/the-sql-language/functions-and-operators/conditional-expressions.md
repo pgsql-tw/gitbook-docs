@@ -1,16 +1,16 @@
-# 9.17. 條件表示式
+# 9.18. 條件表示式
 
 本節介紹 PostgreSQL 中符合 SQL 標準可用的條件表示式。
 
-## 提示
+#### 提示
 
 如果您的需求超出了這些條件表示式的功能，您可能需要考慮使用功能更強的程序語言編寫 stored procedure。
 
-## 9.17.1. `CASE`
+## 9.18.1. `CASE`
 
 SQL 中的 CASE 表示式是一種通用的條件表示式，類似於其他程序語言中的 if / else 語句：
 
-```text
+```
 CASE WHEN condition THEN result
      [WHEN ...]
      [ELSE result]
@@ -21,7 +21,7 @@ CASE子句可用於任何表示式有效的地方。每個條件都是一個回�
 
 範例：
 
-```text
+```
 SELECT * FROM test;
 
  a
@@ -49,7 +49,7 @@ SELECT a,
 
 CASE 表示式的「簡單」語法是上述一般語法的變形：
 
-```text
+```
 CASE expression
     WHEN value THEN result
     [WHEN ...]
@@ -61,7 +61,7 @@ END
 
 上面的例子可以使用簡單的 CASE 語法來撰寫：
 
-```text
+```
 SELECT a,
        CASE a WHEN 1 THEN 'one'
               WHEN 2 THEN 'two'
@@ -78,23 +78,23 @@ SELECT a,
 
 CASE 表示式不會計算任何不需要的子表示式來確定結果。例如，這是避免除以零例外狀況可能的方法：
 
-```text
+```
 SELECT ... WHERE CASE WHEN x <> 0 THEN y/x > 1.5 ELSE false END;
 ```
 
-## 注意
+#### 注意
 
 如 [4.2.14 節](../sql-syntax/value-expressions.md#4-2-14-expression-evaluation-rules)所述，在不同時候計算表示式的子表示式時會出現各種情況，因此「CASE 只計算必要子表示式」的原則並不是固定的。例如，一個常數 1/0 的子表示式在查詢規畫時通常就會導致一個除以零的錯誤，即使它在 CASE 部分內，在執行時永遠不會被使用。
 
-## 9.17.2. `COALESCE`
+## 9.18.2. `COALESCE`
 
-```text
+```
 COALESCE(value [, ...])
 ```
 
 COALESCE 函數回傳非空值的第一個參數。僅當所有參數都為空值時才回傳空值。當檢索資料要進行顯示時，它通常用於將預認值替換為空值，例如：
 
-```text
+```
 SELECT COALESCE(description, short_description, '(none)') ...
 ```
 
@@ -102,31 +102,30 @@ SELECT COALESCE(description, short_description, '(none)') ...
 
 像 CASE 表示式一樣，COALESCE 只計算確定結果所需的參數；也就是說，不會計算第一個非空值參數之後的參數。此 SQL 標準函數提供了與 NVL 和 IFNULL 類似的功能，這些在其他某些資料庫系統中所使用的功能。
 
-## 9.17.3. `NULLIF`
+## 9.18.3. `NULLIF`
 
-```text
+```
 NULLIF(value1, value2)
 ```
 
 如果 value1 等於 value2，則 NULLIF 函數回傳空值；否則回傳 value1。這可以用來執行上面 COALESCE 範例的逆操作：
 
-```text
+```
 SELECT NULLIF(value, '(none)') ...
 ```
 
 在這個例子中，如果 value 是（none），則回傳 null，否則回傳 value 的值。
 
-## 9.17.4. `GREATEST` and `LEAST`
+## 9.18.4. `GREATEST` and `LEAST`
 
-```text
+```
 GREATEST(value [, ...])
 ```
 
-```text
+```
 LEAST(value [, ...])
 ```
 
 GREATEST 和 LEAST 函數從任意數量的表示式列表中選擇最大值或最小值。表示式必須全部轉換為通用的資料型別，這將成為結果的別型（詳見 [10.5 節](../type-conversion/union-case-and-related-constructs.md)）。列表中的 **NULL 值將會被忽略**。僅當所有表示式求值為 NULL 時，結果才會為 NULL。
 
 請注意，GREATEST 和 LEAST 並不在 SQL 標準中，但卻是一個常見的延伸功能。如果任何參數為 NULL，則其他一些資料庫會使其回傳 NULL，而不是僅在所有參數都為 NULL 時回傳 NULL。
-

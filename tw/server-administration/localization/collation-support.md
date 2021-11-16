@@ -2,9 +2,9 @@
 
 The collation feature allows specifying the sort order and character classification behavior of data per-column, or even per-operation. This alleviates the restriction that the `LC_COLLATE` and `LC_CTYPE` settings of a database cannot be changed after its creation.
 
-## 23.2.1. Concepts
+#### 23.2.1. Concepts
 
-Conceptually, every expression of a collatable data type has a collation. \(The built-in collatable data types are `text`, `varchar`, and `char`. User-defined base types can also be marked collatable, and of course a domain over a collatable data type is collatable.\) If the expression is a column reference, the collation of the expression is the defined collation of the column. If the expression is a constant, the collation is the default collation of the data type of the constant. The collation of a more complex expression is derived from the collations of its inputs, as described below.
+Conceptually, every expression of a collatable data type has a collation. (The built-in collatable data types are `text`, `varchar`, and `char`. User-defined base types can also be marked collatable, and of course a domain over a collatable data type is collatable.) If the expression is a column reference, the collation of the expression is the defined collation of the column. If the expression is a constant, the collation is the default collation of the data type of the constant. The collation of a more complex expression is derived from the collations of its inputs, as described below.
 
 The collation of an expression can be the “default” collation, which means the locale settings defined for the database. It is also possible for an expression's collation to be indeterminate. In such cases, ordering operations and other operations that need to know the collation will fail.
 
@@ -20,7 +20,7 @@ The _collation derivation_ of an expression can be implicit or explicit. This di
 
 For example, consider this table definition:
 
-```text
+```
 CREATE TABLE test1 (
     a text COLLATE "de_DE",
     b text COLLATE "es_ES",
@@ -30,37 +30,37 @@ CREATE TABLE test1 (
 
 Then in
 
-```text
+```
 SELECT a < 'foo' FROM test1;
 ```
 
 the `<` comparison is performed according to `de_DE` rules, because the expression combines an implicitly derived collation with the default collation. But in
 
-```text
+```
 SELECT a < ('foo' COLLATE "fr_FR") FROM test1;
 ```
 
 the comparison is performed using `fr_FR` rules, because the explicit collation derivation overrides the implicit one. Furthermore, given
 
-```text
+```
 SELECT a < b FROM test1;
 ```
 
 the parser cannot determine which collation to apply, since the `a` and `b` columns have conflicting implicit collations. Since the `<` operator does need to know which collation to use, this will result in an error. The error can be resolved by attaching an explicit collation specifier to either input expression, thus:
 
-```text
+```
 SELECT a < b COLLATE "de_DE" FROM test1;
 ```
 
 or equivalently
 
-```text
+```
 SELECT a COLLATE "de_DE" < b FROM test1;
 ```
 
 On the other hand, the structurally similar case
 
-```text
+```
 SELECT a || b FROM test1;
 ```
 
@@ -68,27 +68,27 @@ does not result in an error, because the `||` operator does not care about colla
 
 The collation assigned to a function or operator's combined input expressions is also considered to apply to the function or operator's result, if the function or operator delivers a result of a collatable data type. So, in
 
-```text
+```
 SELECT * FROM test1 ORDER BY a || 'foo';
 ```
 
 the ordering will be done according to `de_DE` rules. But this query:
 
-```text
+```
 SELECT * FROM test1 ORDER BY a || b;
 ```
 
 results in an error, because even though the `||` operator doesn't need to know a collation, the `ORDER BY` clause does. As before, the conflict can be resolved with an explicit collation specifier:
 
-```text
+```
 SELECT * FROM test1 ORDER BY a || b COLLATE "fr_FR";
 ```
 
-## 23.2.2. Managing Collations
+#### 23.2.2. Managing Collations
 
 A collation is an SQL schema object that maps an SQL name to locales provided by libraries installed in the operating system. A collation definition has a _provider_ that specifies which library supplies the locale data. One standard provider name is `libc`, which uses the locales provided by the operating system C library. These are the locales that most tools provided by the operating system use. Another provider is `icu`, which uses the external ICU library. ICU locales can only be used if support for ICU was configured when PostgreSQL was built.
 
-A collation object provided by `libc` maps to a combination of `LC_COLLATE` and `LC_CTYPE` settings, as accepted by the `setlocale()` system library call. \(As the name would suggest, the main purpose of a collation is to set `LC_COLLATE`, which controls the sort order. But it is rarely necessary in practice to have an `LC_CTYPE` setting that is different from `LC_COLLATE`, so it is more convenient to collect these under one concept than to create another infrastructure for setting `LC_CTYPE` per expression.\) Also, a `libc` collation is tied to a character set encoding \(see [Section 23.3](https://www.postgresql.org/docs/10/static/multibyte.html)\). The same collation name may exist for different encodings.
+A collation object provided by `libc` maps to a combination of `LC_COLLATE` and `LC_CTYPE` settings, as accepted by the `setlocale()` system library call. (As the name would suggest, the main purpose of a collation is to set `LC_COLLATE`, which controls the sort order. But it is rarely necessary in practice to have an `LC_CTYPE` setting that is different from `LC_COLLATE`, so it is more convenient to collect these under one concept than to create another infrastructure for setting `LC_CTYPE` per expression.) Also, a `libc` collation is tied to a character set encoding (see [Section 23.3](https://www.postgresql.org/docs/10/static/multibyte.html)). The same collation name may exist for different encodings.
 
 A collation object provided by `icu` maps to a named collator provided by the ICU library. ICU does not support separate “collate” and “ctype” settings, so they are always the same. Also, ICU collations are independent of the encoding, so there is always only one ICU collation of a given name in a database.
 
@@ -100,7 +100,7 @@ Additionally, the SQL standard collation name `ucs_basic` is available for encod
 
 **23.2.2.2. Predefined Collations**
 
-If the operating system provides support for using multiple locales within a single program \(`newlocale` and related functions\), or if support for ICU is configured, then when a database cluster is initialized, `initdb` populates the system catalog `pg_collation` with collations based on all the locales it finds in the operating system at the time.
+If the operating system provides support for using multiple locales within a single program (`newlocale` and related functions), or if support for ICU is configured, then when a database cluster is initialized, `initdb` populates the system catalog `pg_collation` with collations based on all the locales it finds in the operating system at the time.
 
 To inspect the currently available locales, use the query `SELECT * FROM pg_collation`, or the command `\dOS+` in psql.
 
@@ -114,7 +114,7 @@ Within any particular database, only collations that use that database's encodin
 
 PostgreSQL considers distinct collation objects to be incompatible even when they have identical properties. Thus for example,
 
-```text
+```
 SELECT a COLLATE "C" < b COLLATE "POSIX" FROM test1;
 ```
 
@@ -130,11 +130,11 @@ German collation, default variant`de-AT-x-icu`
 
 German collation for Austria, default variant
 
-\(There are also, say, `de-DE-x-icu` or `de-CH-x-icu`, but as of this writing, they are equivalent to `de-x-icu`.\)`und-x-icu` \(for “undefined”\)
+(There are also, say, `de-DE-x-icu` or `de-CH-x-icu`, but as of this writing, they are equivalent to `de-x-icu`.)`und-x-icu` (for “undefined”)
 
 ICU “root” collation. Use this to get a reasonable language-agnostic sort order.
 
-Some \(less frequently used\) encodings are not supported by ICU. When the database encoding is one of these, ICU collation entries in `pg_collation` are ignored. Attempting to use one will draw an error along the lines of “collation "de-x-icu" for encoding "WIN874" does not exist”.
+Some (less frequently used) encodings are not supported by ICU. When the database encoding is one of these, ICU collation entries in `pg_collation` are ignored. Attempting to use one will draw an error along the lines of “collation "de-x-icu" for encoding "WIN874" does not exist”.
 
 **23.2.2.3. Creating New Collation Objects**
 
@@ -146,49 +146,49 @@ The standard and predefined collations are in the schema `pg_catalog`, like all 
 
 New libc collations can be created like this:
 
-```text
+```
 CREATE COLLATION german (provider = libc, locale = 'de_DE');
 ```
 
 The exact values that are acceptable for the `locale` clause in this command depend on the operating system. On Unix-like systems, the command `locale -a` will show a list.
 
-Since the predefined libc collations already include all collations defined in the operating system when the database instance is initialized, it is not often necessary to manually create new ones. Reasons might be if a different naming system is desired \(in which case see also [Section 23.2.2.3.3](https://www.postgresql.org/docs/10/static/collation.html#COLLATION-COPY)\) or if the operating system has been upgraded to provide new locale definitions \(in which case see also [`pg_import_system_collations()`](https://www.postgresql.org/docs/10/static/functions-admin.html#FUNCTIONS-ADMIN-COLLATION)\).
+Since the predefined libc collations already include all collations defined in the operating system when the database instance is initialized, it is not often necessary to manually create new ones. Reasons might be if a different naming system is desired (in which case see also [Section 23.2.2.3.3](https://www.postgresql.org/docs/10/static/collation.html#COLLATION-COPY)) or if the operating system has been upgraded to provide new locale definitions (in which case see also [`pg_import_system_collations()`](https://www.postgresql.org/docs/10/static/functions-admin.html#FUNCTIONS-ADMIN-COLLATION)).
 
 **23.2.2.3.2. ICU collations**
 
 ICU allows collations to be customized beyond the basic language+country set that is preloaded by `initdb`. Users are encouraged to define their own collation objects that make use of these facilities to suit the sorting behavior to their requirements. See [http://userguide.icu-project.org/locale](http://userguide.icu-project.org/locale) and [http://userguide.icu-project.org/collation/api](http://userguide.icu-project.org/collation/api) for information on ICU locale naming. The set of acceptable names and attributes depends on the particular ICU version.
 
-Here are some examples:`CREATE COLLATION "de-u-co-phonebk-x-icu" (provider = icu, locale = 'de-u-co-phonebk');`  
+Here are some examples:`CREATE COLLATION "de-u-co-phonebk-x-icu" (provider = icu, locale = 'de-u-co-phonebk');`\
 `CREATE COLLATION "de-u-co-phonebk-x-icu" (provider = icu, locale = 'de@collation=phonebook');`
 
 German collation with phone book collation type
 
 The first example selects the ICU locale using a “language tag” per BCP 47. The second example uses the traditional ICU-specific locale syntax. The first style is preferred going forward, but it is not supported by older ICU versions.
 
-Note that you can name the collation objects in the SQL environment anything you want. In this example, we follow the naming style that the predefined collations use, which in turn also follow BCP 47, but that is not required for user-defined collations.`CREATE COLLATION "und-u-co-emoji-x-icu" (provider = icu, locale = 'und-u-co-emoji');`  
+Note that you can name the collation objects in the SQL environment anything you want. In this example, we follow the naming style that the predefined collations use, which in turn also follow BCP 47, but that is not required for user-defined collations.`CREATE COLLATION "und-u-co-emoji-x-icu" (provider = icu, locale = 'und-u-co-emoji');`\
 `CREATE COLLATION "und-u-co-emoji-x-icu" (provider = icu, locale = '@collation=emoji');`
 
-Root collation with Emoji collation type, per Unicode Technical Standard \#51
+Root collation with Emoji collation type, per Unicode Technical Standard #51
 
-Observe how in the traditional ICU locale naming system, the root locale is selected by an empty string.`CREATE COLLATION digitslast (provider = icu, locale = 'en-u-kr-latn-digit');`  
+Observe how in the traditional ICU locale naming system, the root locale is selected by an empty string.`CREATE COLLATION digitslast (provider = icu, locale = 'en-u-kr-latn-digit');`\
 `CREATE COLLATION digitslast (provider = icu, locale = 'en@colReorder=latn-digit');`
 
-Sort digits after Latin letters. \(The default is digits before letters.\)`CREATE COLLATION upperfirst (provider = icu, locale = 'en-u-kf-upper');`  
+Sort digits after Latin letters. (The default is digits before letters.)`CREATE COLLATION upperfirst (provider = icu, locale = 'en-u-kf-upper');`\
 `CREATE COLLATION upperfirst (provider = icu, locale = 'en@colCaseFirst=upper');`
 
-Sort upper-case letters before lower-case letters. \(The default is lower-case letters first.\)`CREATE COLLATION special (provider = icu, locale = 'en-u-kf-upper-kr-latn-digit');`  
+Sort upper-case letters before lower-case letters. (The default is lower-case letters first.)`CREATE COLLATION special (provider = icu, locale = 'en-u-kf-upper-kr-latn-digit');`\
 `CREATE COLLATION special (provider = icu, locale = 'en@colCaseFirst=upper;colReorder=latn-digit');`
 
-Combines both of the above options.`CREATE COLLATION numeric (provider = icu, locale = 'en-u-kn-true');`  
+Combines both of the above options.`CREATE COLLATION numeric (provider = icu, locale = 'en-u-kn-true');`\
 `CREATE COLLATION numeric (provider = icu, locale = 'en@colNumeric=yes');`
 
-Numeric ordering, sorts sequences of digits by their numeric value, for example: `A-21` &lt; `A-123` \(also known as natural sort\).
+Numeric ordering, sorts sequences of digits by their numeric value, for example: `A-21` < `A-123` (also known as natural sort).
 
-See [Unicode Technical Standard \#35](http://unicode.org/reports/tr35/tr35-collation.html) and [BCP 47](https://tools.ietf.org/html/bcp47) for details. The list of possible collation types \(`co` subtag\) can be found in the [CLDR repository](http://www.unicode.org/repos/cldr/trunk/common/bcp47/collation.xml). The [ICU Locale Explorer](https://ssl.icu-project.org/icu-bin/locexp) can be used to check the details of a particular locale definition. The examples using the `k*` subtags require at least ICU version 54.
+See [Unicode Technical Standard #35](http://unicode.org/reports/tr35/tr35-collation.html) and [BCP 47](https://tools.ietf.org/html/bcp47) for details. The list of possible collation types (`co` subtag) can be found in the [CLDR repository](http://www.unicode.org/repos/cldr/trunk/common/bcp47/collation.xml). The [ICU Locale Explorer](https://ssl.icu-project.org/icu-bin/locexp) can be used to check the details of a particular locale definition. The examples using the `k*` subtags require at least ICU version 54.
 
-Note that while this system allows creating collations that “ignore case” or “ignore accents” or similar \(using the `ks` key\), PostgreSQL does not at the moment allow such collations to act in a truly case- or accent-insensitive manner. Any strings that compare equal according to the collation but are not byte-wise equal will be sorted according to their byte values.
+Note that while this system allows creating collations that “ignore case” or “ignore accents” or similar (using the `ks` key), PostgreSQL does not at the moment allow such collations to act in a truly case- or accent-insensitive manner. Any strings that compare equal according to the collation but are not byte-wise equal will be sorted according to their byte values.
 
-## Note
+#### Note
 
 By design, ICU will accept almost any string as a locale name and match it to the closest locale it can provide, using the fallback procedure described in its documentation. Thus, there will be no direct feedback if a collation specification is composed using features that the given ICU installation does not actually support. It is therefore recommended to create application-level test cases to check that the collation definitions satisfy one's requirements.
 
@@ -196,8 +196,7 @@ By design, ICU will accept almost any string as a locale name and match it to th
 
 The command [CREATE COLLATION](https://www.postgresql.org/docs/10/static/sql-createcollation.html) can also be used to create a new collation from an existing collation, which can be useful to be able to use operating-system-independent collation names in applications, create compatibility names, or use an ICU-provided collation under a more readable name. For example:
 
-```text
+```
 CREATE COLLATION german FROM "de_DE";
 CREATE COLLATION french FROM "fr-x-icu";
 ```
-

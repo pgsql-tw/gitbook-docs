@@ -44,7 +44,7 @@ A column of a foreign table created using this wrapper can have the following op
 
 `force_not_null`
 
-This is a Boolean option. If true, it specifies that values of the column should not be matched against the null string \(that is, the table-level `null` option\). This has the same effect as listing the column in `COPY`'s `FORCE_NOT_NULL` option.
+This is a Boolean option. If true, it specifies that values of the column should not be matched against the null string (that is, the table-level `null` option). This has the same effect as listing the column in `COPY`'s `FORCE_NOT_NULL` option.
 
 `force_null`
 
@@ -54,29 +54,29 @@ This is a Boolean option. If true, it specifies that values of the column which 
 
 These options can only be specified for a foreign table or its columns, not in the options of the `file_fdw` foreign-data wrapper, nor in the options of a server or user mapping using the wrapper.
 
-Changing table-level options requires being a superuser or having the privileges of the default role `pg_read_server_files` \(to use a filename\) or the default role `pg_execute_server_program` \(to use a program\), for security reasons: only certain users should be able to control which file is read or which program is run. In principle regular users could be allowed to change the other options, but that's not supported at present.
+Changing table-level options requires being a superuser or having the privileges of the default role `pg_read_server_files` (to use a filename) or the default role `pg_execute_server_program` (to use a program), for security reasons: only certain users should be able to control which file is read or which program is run. In principle regular users could be allowed to change the other options, but that's not supported at present.
 
 When specifying the `program` option, keep in mind that the option string is executed by the shell. If you need to pass any arguments to the command that come from an untrusted source, you must be careful to strip or escape any characters that might have special meaning to the shell. For security reasons, it is best to use a fixed command string, or at least avoid passing any user input in it.
 
-For a foreign table using `file_fdw`, `EXPLAIN` shows the name of the file to be read or program to be run. For a file, unless `COSTS OFF` is specified, the file size \(in bytes\) is shown as well.
+For a foreign table using `file_fdw`, `EXPLAIN` shows the name of the file to be read or program to be run. For a file, unless `COSTS OFF` is specified, the file size (in bytes) is shown as well.
 
-## **Example F.1. Create a Foreign Table for PostgreSQL CSV Logs**
+### **Example F.1. Create a Foreign Table for PostgreSQL CSV Logs**
 
 file\_fdw 其中一個明顯的用途是使 PostgreSQL 活動日誌形成查詢方便的資料表。為此，首先必須先產生記錄為 CSV 檔案，在這裡我們將其稱為 pglog.csv。首先，安裝 file\_fdw 延伸套件：
 
-```text
+```
 CREATE EXTENSION file_fdw;
 ```
 
 然後建立一個外部伺服器：
 
-```text
+```
 CREATE SERVER pglog FOREIGN DATA WRAPPER file_fdw;
 ```
 
 現在您可以建外部資料表了。使用 CREATE FOREIGN TABLE 命令，您將需要定義資料表的欄位、CSV 檔案名稱及其格式：
 
-```text
+```
 CREATE FOREIGN TABLE pglog (
   log_time timestamp(3) with time zone,
   user_name text,
@@ -106,4 +106,3 @@ OPTIONS ( filename '/home/josh/data/log/pglog.csv', format 'csv' );
 ```
 
 就是這樣-現在您可以直接查詢日誌了。當然，在正式的運作環境中，您需要定義某種方式來處理日誌檔案的輪轉。
-

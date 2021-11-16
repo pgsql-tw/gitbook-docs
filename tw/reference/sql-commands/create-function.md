@@ -4,7 +4,7 @@ CREATE FUNCTION — 定義一個新函數
 
 ## 語法
 
-```text
+```
 CREATE [ OR REPLACE ] FUNCTION
   name ( [ [ argmode ] [ argname ] argtype [ { DEFAULT | = } default_expr ] [, ...] ] )
     [ RETURNS rettype
@@ -89,7 +89,7 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 該函數實作的程式語言名稱。它可以是 sql、c、internal 或使用者定義的程式語言的名稱，例如，PLPGSQL。將這個名字用單引號括起來，並且需要完全符合大小寫。
 
-`TRANSFORM { FOR TYPEtype_name`} \[, ... \] }
+`TRANSFORM { FOR TYPEtype_name`} \[, ... ] }
 
 對該函數如何套用型別轉換的呼叫列表。在 SQL 型別和特定於語言的資料型別之間進行轉換；請參閱 [CREATE TRANSFORM](create-transform.md)。程序語言實作通常具有內建型別的編碼知識，這些不需要在這裡列出。只是如果程序語言實作不知道如何處理這些資料型別並且沒有提供轉換方式，它將回退到轉換資料型別的預設行為，但這仍然取決於實作的情況而定。
 
@@ -127,8 +127,8 @@ RETURNS TABLE 語法中輸出欄位的資料型別。
 
 `RETURNS NULL ON NULL INPUT` 或 `STRICT` 表示函數每當其任何參數為 null 時就回傳 null。如果指定了該參數，那麼當有 null 參數時，該函數就不會被執行；也就是，會自動假定結果為 null。
 
-`[EXTERNAL] SECURITY INVOKER    
-[EXTERNAL] SECURITY DEFINER`
+`[EXTERNAL] SECURITY INVOKER`\
+`[EXTERNAL] SECURITY DEFINER`
 
 `SECURITY INVOKER` 表示該函數將以呼叫它的使用者權限執行。這是預設的設定。 `SECURITY DEFINER` 指定該功能將以擁有它的使用者權限執行。
 
@@ -192,19 +192,19 @@ PostgreSQL 允許函數多載；也就是說，只要具有不同的輸入參數
 
 如果兩個函數具有相同的名稱和輸入參數型別，則忽略任何 OUT 參數將被視為相同。 因此，像這些聲明就會有衝突：
 
-```text
+```
 CREATE FUNCTION foo(int) ...
 CREATE FUNCTION foo(int, out text) ...
 ```
 
 具有不同參數型別列表的函數在建立時不會被視為衝突，但如果提供了預設值，則它們可能會在使用中發生衝突。 例如下面的例子：
 
-```text
+```
 CREATE FUNCTION foo(int) ...
 CREATE FUNCTION foo(int, int default 42) ...
 ```
 
-呼叫 foo\(10\) 的話會因為不知道應該呼叫哪個函數而失敗。
+呼叫 foo(10) 的話會因為不知道應該呼叫哪個函數而失敗。
 
 ## 注意
 
@@ -218,7 +218,7 @@ CREATE FUNCTION foo(int, int default 42) ...
 
 這裡有一些簡單的例子可以幫助你開始。有關更多訊息和範例，請參閱[第 37.3 節](../../server-programming/extending-sql/user-defined-functions.md)。
 
-```text
+```
 CREATE FUNCTION add(integer, integer) RETURNS integer
     AS 'select $1 + $2;'
     LANGUAGE SQL
@@ -228,7 +228,7 @@ CREATE FUNCTION add(integer, integer) RETURNS integer
 
 將一個整數遞增，在 PL/pgSQL 中使用參數名稱：
 
-```text
+```
 CREATE OR REPLACE FUNCTION increment(i integer) RETURNS integer AS $$
         BEGIN
                 RETURN i + 1;
@@ -238,7 +238,7 @@ $$ LANGUAGE plpgsql;
 
 回傳包含多個輸出參數的結果：
 
-```text
+```
 CREATE FUNCTION dup(in int, out f1 int, out f2 text)
     AS $$ SELECT $1, CAST($1 AS text) || ' is text' $$
     LANGUAGE SQL;
@@ -248,7 +248,7 @@ SELECT * FROM dup(42);
 
 你可以使用明確命名的複合型別更加詳細地完成同樣的事情：
 
-```text
+```
 CREATE TYPE dup_result AS (f1 int, f2 text);
 
 CREATE FUNCTION dup(int) RETURNS dup_result
@@ -260,7 +260,7 @@ SELECT * FROM dup(42);
 
 回傳多個欄位的另一種方法是使用 TABLE 函數：
 
-```text
+```
 CREATE FUNCTION dup(int) RETURNS TABLE(f1 int, f2 text)
     AS $$ SELECT $1, CAST($1 AS text) || ' is text' $$
     LANGUAGE SQL;
@@ -274,7 +274,7 @@ SELECT * FROM dup(42);
 
 由於SECURITY DEFINER函數是以擁有它的用戶的權限執行的，因此需要注意確保該函數不會被濫用。為了安全起見，應設定 search\_path 以排除任何不受信任的使用者可以寫入的 schema。這可以防止惡意使用者建立掩蓋物件的物件（例如資料表、函數和運算元），使得該物件被函數使用。在這方面特別重要的是臨時資料表的 schema，它預設是首先被搜尋的，並且通常允許由任何人寫入。透過強制最後才搜尋臨時 schema 可以得到較為安全的處理。 為此，請將 pg\_temp 作為 search\_path 中的最後一個項目。此函數說明安全的使用情況：
 
-```text
+```
 CREATE FUNCTION check_password(uname TEXT, pass TEXT)
 RETURNS BOOLEAN AS $$
 DECLARE passed BOOLEAN;
@@ -297,7 +297,7 @@ $$  LANGUAGE plpgsql
 
 還有一點需要注意的是，預設情況下，對於新建立的函數，將會把權限授予 PUBLIC（請參閱 [GRANT](grant.md) 以獲取更多訊息）。通常情況下，你只希望將安全定義函數的使用僅限於某些使用者。為此，你必須撤銷預設的 PUBLIC 權限，然後選擇性地授予執行權限。為了避免出現一個破口，使得所有人都可以訪問新功能，可以在一個交易事務中建立它並設定權限。例如：
 
-```text
+```
 BEGIN;
 CREATE FUNCTION check_password(uname TEXT, pass TEXT) ... SECURITY DEFINER;
 REVOKE ALL ON FUNCTION check_password(uname TEXT, pass TEXT) FROM PUBLIC;
@@ -316,4 +316,3 @@ SQL:1999 及其更新的版本中定義了一個 CREATE FUNCTION 指令。與 Po
 ## 延伸閱讀
 
 [ALTER FUNCTION](alter-function.md), [DROP FUNCTION](drop-function.md), [GRANT](grant.md), [LOAD](load.md), [REVOKE](revoke.md)
-

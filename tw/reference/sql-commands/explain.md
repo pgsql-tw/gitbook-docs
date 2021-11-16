@@ -2,9 +2,9 @@
 
 EXPLAIN — 顯示執行計劃的內容
 
-## 語法
+### 語法
 
-```text
+```
 EXPLAIN [ ( option [, ...] ) ] statement
 EXPLAIN [ ANALYZE ] [ VERBOSE ] statement
 
@@ -13,13 +13,15 @@ where option can be one of:
     ANALYZE [ boolean ]
     VERBOSE [ boolean ]
     COSTS [ boolean ]
+    SETTINGS [ boolean ]
     BUFFERS [ boolean ]
+    WAL [ boolean ]
     TIMING [ boolean ]
     SUMMARY [ boolean ]
     FORMAT { TEXT | XML | JSON | YAML }
 ```
 
-## 說明
+### 說明
 
 此命令顯示 PostgreSQL 計劃程序為所提供的查詢語句設計的執行計劃。執行計劃顯示查詢語句如何掃瞄其所引用的資料表 - 通過簡單循序掃描、索引掃描等 - 如果引用了多個資料表，將使用哪些交叉查詢的演算法將每個資料表所需的資料列匯集在一起。
 
@@ -27,11 +29,11 @@ where option can be one of:
 
 ANALYZE 選項讓語句實際執行，而不僅僅是計劃而已。然後將實際運行時的統計資訊加到顯示結果中，包括每個計劃節點中消耗的總耗用時間（以毫秒為單位）以及實際回傳的總資料列數。這對於了解規劃程序的估計是否接近現實非常有用。
 
-### 重點
+#### 重點
 
 請記住，當使用 ANALYZE 選項時，實際上會執行該語句。儘管 EXPLAIN 將丟棄 SELECT 回傳的任何輸出，但該語句的其他副作用將照常發生。如果您希望在 INSERT、UPDATE、DELETE、CREATE TABLE AS 或 EXECUTE 語句上使用 EXPLAIN ANALYZE 而不讓命令影響您的資料，請使用以下方法：
 
-```text
+```
 BEGIN;
 EXPLAIN ANALYZE ...;
 ROLLBACK;
@@ -39,7 +41,7 @@ ROLLBACK;
 
 在未括號的語法中，只有 ANALYZE 和 VERBOSE 選項可以使用，而且也只能依次序使用。在 PostgreSQL 9.0 之前，沒有括號的語法是唯一受支援的語法。預計所有新選項僅在括號語法中受支援。
 
-## 參數
+### 參數
 
 `ANALYZE`
 
@@ -53,9 +55,17 @@ ROLLBACK;
 
 包括有關每個計劃節點的估計啟動和總成本的訊息，以及估計的資料列數和每個資料列的估計寬度。此參數預設為 TRUE。
 
+`SETTINGS`
+
+Include information on configuration parameters. Specifically, include options affecting query planning with value different from the built-in default value. This parameter defaults to `FALSE`.
+
 `BUFFERS`
 
 加入顯示有關緩衝區使用的訊息。具體來說，包括命中、讀取、弄髒和寫入的共享塊的數量，命中、讀取、弄髒和寫入的本地區塊的數量，以及讀取和寫入的臨時區塊的數量。命中意味著避免了讀取，因為在需要時已經在緩衝區中找到了區塊。共享區塊包含來自一般資料表和索引的資料；本地區塊包含臨時資料表和索引的資料；臨時區塊包含用於排序、映射、具體化計劃節點和類似情況的短期工作資料。髒污的區塊數表示此查詢更改的先前未修改的區塊數量；而寫入的區塊數表示在查詢處理期間由該後端從緩衝區中讀出的先前髒污區塊的數量。為上層節點顯示的塊數包括其所有子節點使用的塊數。在文字格式中，僅輸出非零的值。僅當啟用 ANALYZE 時，才能使用此參數。它預設為 FALSE。
+
+`WAL`
+
+Include information on WAL record generation. Specifically, include the number of records, number of full page images (fpi) and amount of WAL bytes generated. In text format, only non-zero values are printed. This parameter may only be used when `ANALYZE` is also enabled. It defaults to `FALSE`.
 
 `TIMING`
 
@@ -77,21 +87,21 @@ _`statement`_
 
 任何 SELECT，INSERT，UPDATE，DELETE，VALUES，EXECUTE，DECLARE，CREATE TABLE AS 或 CREATE MATERIALIZED VIEW AS 語句，您希望查看其執行計劃。
 
-## 輸出
+### 輸出
 
 命令的結果是為語句選擇計劃的文字描述，可選擇使用執行統計訊息加以註釋。[第 14.1 節](../../the-sql-language/performance-tips/using-explain.md)描述了其所提供的訊息。
 
-## 注意
+### 注意
 
-為了使 PostgreSQL 查詢規劃器在優化查詢時做出合理的明智決策，[pg\_statistic](../../internals/system-catalogs/pg_statistic.md) 資料應該是查詢中使用的所有資料表的最新數據。通常，[autovacuum](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon) 背景程序會自動處理。但是如果資料表的內容最近發生了重大變化，您可能需要手動 [ANALYZE](analyze.md) 而不是等待 autovacuum 來趕上變化。
+為了使 PostgreSQL 查詢規劃器在優化查詢時做出合理的明智決策，[pg\_statistic](../../internals/system-catalogs/pg\_statistic.md) 資料應該是查詢中使用的所有資料表的最新數據。通常，[autovacuum](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon) 背景程序會自動處理。但是如果資料表的內容最近發生了重大變化，您可能需要手動 [ANALYZE](analyze.md) 而不是等待 autovacuum 來趕上變化。
 
 為了測量執行計劃中每個節點的執行時成本，EXPLAIN ANALYZE 的目前實作為查詢執行加入了開銷分析。因此，對查詢執行 EXPLAIN ANALYZE 有時會比正常執行查詢花費更長的時間。開銷量取決於查詢的性質以及所使用的平台。最糟糕的情況發生在計劃節點上，這些節點本身每次執行只需要很少的時間，而且在作業系統呼相對較慢以獲取時間的主機上。
 
-## 範例
+### 範例
 
 要顯示具有單個整數欄位和 10000 個資料列的資料表的簡單查詢計劃：
 
-```text
+```
 EXPLAIN SELECT * FROM foo;
 
                        QUERY PLAN
@@ -102,7 +112,7 @@ EXPLAIN SELECT * FROM foo;
 
 這是相同的查詢，使用 JSON 輸出格式：
 
-```text
+```
 EXPLAIN (FORMAT JSON) SELECT * FROM foo;
            QUERY PLAN
 --------------------------------
@@ -124,7 +134,7 @@ EXPLAIN (FORMAT JSON) SELECT * FROM foo;
 
 如果索引存在並且我們使用具有可索引的 WHERE 條件查詢，則 EXPLAIN 可能會顯示不同的計劃：
 
-```text
+```
 EXPLAIN SELECT * FROM foo WHERE i = 4;
 
                          QUERY PLAN
@@ -136,7 +146,7 @@ EXPLAIN SELECT * FROM foo WHERE i = 4;
 
 這是相同的查詢，但是採用 YAML 格式：
 
-```text
+```
 EXPLAIN (FORMAT YAML) SELECT * FROM foo WHERE i='4';
           QUERY PLAN
 -------------------------------
@@ -158,7 +168,7 @@ XML 格式留給讀者練習。
 
 以下是同一計劃，其成本估算被停用：
 
-```text
+```
 EXPLAIN (COSTS FALSE) SELECT * FROM foo WHERE i = 4;
 
         QUERY PLAN
@@ -170,7 +180,7 @@ EXPLAIN (COSTS FALSE) SELECT * FROM foo WHERE i = 4;
 
 以下是使用彙總函數查詢的查詢計劃範例：
 
-```text
+```
 EXPLAIN SELECT sum(i) FROM foo WHERE i < 10;
 
                              QUERY PLAN
@@ -183,7 +193,7 @@ EXPLAIN SELECT sum(i) FROM foo WHERE i < 10;
 
 以下是使用 EXPLAIN EXECUTE 顯示準備好的查詢執行計劃範例：
 
-```text
+```
 PREPARE query(int, int) AS SELECT sum(bar) FROM test
     WHERE id > $1 AND id < $2
     GROUP BY foo;
@@ -203,11 +213,10 @@ EXPLAIN ANALYZE EXECUTE query(100, 200);
 
 當然，此處顯示的具體數字取決於所涉及資料表的實際內容。另請注意，由於計劃程序的改進，PostgreSQL 版本之間的數字甚至選定的查詢策略可能會有所不同。此外，ANALYZE 指令使用隨機採樣來估計數據統計；因此，即使資料表中資料的實際分佈沒有改變，也可能在全新的 ANALYZE 之後改變成本估算。
 
-## 相容性
+### 相容性
 
 SQL 標準中並沒有定義 EXPLAIN 語句。
 
-## 參閱
+### 參閱
 
 [ANALYZE](analyze.md)
-

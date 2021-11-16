@@ -4,7 +4,7 @@ GRANT — 賦予存取權限
 
 ## 語法
 
-```text
+```
 GRANT { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER }
     [, ...] | ALL [ PRIVILEGES ] }
     ON { [ TABLE ] table_name [, ...]
@@ -39,8 +39,8 @@ GRANT { USAGE | ALL [ PRIVILEGES ] }
     TO role_specification [, ...] [ WITH GRANT OPTION ]
 
 GRANT { EXECUTE | ALL [ PRIVILEGES ] }
-    ON { FUNCTION function_name [ ( [ [ argmode ] [ arg_name ] arg_type [, ...] ] ) ] [, ...]
-         | ALL FUNCTIONS IN SCHEMA schema_name [, ...] }
+    ON { { FUNCTION | PROCEDURE | ROUTINE } routine_name [ ( [ [ argmode ] [ arg_name ] arg_type [, ...] ] ) ] [, ...]
+         | ALL { FUNCTIONS | PROCEDURES | ROUTINES } IN SCHEMA schema_name [, ...] }
     TO role_specification [, ...] [ WITH GRANT OPTION ]
 
 GRANT { USAGE | ALL [ PRIVILEGES ] }
@@ -63,14 +63,16 @@ GRANT { USAGE | ALL [ PRIVILEGES ] }
     ON TYPE type_name [, ...]
     TO role_specification [, ...] [ WITH GRANT OPTION ]
 
+GRANT role_name [, ...] TO role_specification [, ...]
+    [ WITH ADMIN OPTION ]
+    [ GRANTED BY role_specification ]
+
 where role_specification can be:
 
     [ GROUP ] role_name
   | PUBLIC
   | CURRENT_USER
   | SESSION_USER
-
-GRANT role_name [, ...] TO role_name [, ...] [ WITH ADMIN OPTION ]
 ```
 
 ## 說明
@@ -93,167 +95,78 @@ GRANT 指令的這個用法為資料庫物件提供了對一個或多個角色�
 
 PostgreSQL 將某些類型物件的預設權限授予 PUBLIC。預設情況下，對資料表、資料表欄位、序列、外部資料封裝、外部伺服器、大型物件、綱要或資料表空間不會授予 PUBLIC 權限。對於其他類型的物件，授予 PUBLIC 的預設權限如下：CONNECT 和 TEMPORARY（建立臨時資料表）資料庫權限；函數的 EXECUTE 權限；以及語言和資料型別（包括 domain）的 USAGE 權限。當然，物件所有者可以撤銷預設和明確授予的權限。（為了最大限度地提高安全性，請在建立物件的同一交易事務中發出 REVOKE；如此就沒有其他用戶可以使用該物件的窗口。）此外，可以使用 [ALTER DEFAULT PRIVILEGES](alter-default-privileges.md) 指令更改這些初始預設權限設定。
 
-The possible privileges are:
+可以設定的權限如下：
 
-`SELECT`
-
-Allows [SELECT](https://www.postgresql.org/docs/10/static/sql-select.html) from any column, or the specific columns listed, of the specified table, view, or sequence. Also allows the use of [COPY](https://www.postgresql.org/docs/10/static/sql-copy.html) TO. This privilege is also needed to reference existing column values in [UPDATE](https://www.postgresql.org/docs/10/static/sql-update.html) or [DELETE](https://www.postgresql.org/docs/10/static/sql-delete.html). For sequences, this privilege also allows the use of the `currval` function. For large objects, this privilege allows the object to be read.
-
-`INSERT`
-
-Allows [INSERT](https://www.postgresql.org/docs/10/static/sql-insert.html) of a new row into the specified table. If specific columns are listed, only those columns may be assigned to in the `INSERT` command \(other columns will therefore receive default values\). Also allows [COPY](https://www.postgresql.org/docs/10/static/sql-copy.html) FROM.
-
-`UPDATE`
-
-Allows [UPDATE](https://www.postgresql.org/docs/10/static/sql-update.html) of any column, or the specific columns listed, of the specified table. \(In practice, any nontrivial `UPDATE` command will require `SELECT` privilege as well, since it must reference table columns to determine which rows to update, and/or to compute new values for columns.\) `SELECT ... FOR UPDATE` and `SELECT ... FOR SHARE` also require this privilege on at least one column, in addition to the `SELECT` privilege. For sequences, this privilege allows the use of the `nextval` and `setval` functions. For large objects, this privilege allows writing or truncating the object.
-
-`DELETE`
-
-Allows [DELETE](https://www.postgresql.org/docs/10/static/sql-delete.html) of a row from the specified table. \(In practice, any nontrivial `DELETE` command will require `SELECT` privilege as well, since it must reference table columns to determine which rows to delete.\)
-
-`TRUNCATE`
-
-Allows [TRUNCATE](https://www.postgresql.org/docs/10/static/sql-truncate.html) on the specified table.
-
-`REFERENCES`
-
-Allows creation of a foreign key constraint referencing the specified table, or specified column\(s\) of the table. \(See the [CREATE TABLE](https://www.postgresql.org/docs/10/static/sql-createtable.html) statement.\)
-
-`TRIGGER`
-
-Allows the creation of a trigger on the specified table. \(See the [CREATE TRIGGER](https://www.postgresql.org/docs/10/static/sql-createtrigger.html) statement.\)
-
-`CREATE`
-
-For databases, allows new schemas and publications to be created within the database.
-
-For schemas, allows new objects to be created within the schema. To rename an existing object, you must own the object _and_ have this privilege for the containing schema.
-
-For tablespaces, allows tables, indexes, and temporary files to be created within the tablespace, and allows databases to be created that have the tablespace as their default tablespace. \(Note that revoking this privilege will not alter the placement of existing objects.\)
-
-`CONNECT`
-
-Allows the user to connect to the specified database. This privilege is checked at connection startup \(in addition to checking any restrictions imposed by `pg_hba.conf`\).
-
-`TEMPORARY`  
-`TEMP`
-
-Allows temporary tables to be created while using the specified database.
-
-`EXECUTE`
-
-Allows the use of the specified function and the use of any operators that are implemented on top of the function. This is the only type of privilege that is applicable to functions. \(This syntax works for aggregate functions, as well.\)
-
+`SELECT`\
+`INSERT`\
+`UPDATE`\
+`DELETE`\
+`TRUNCATE`\
+`REFERENCES`\
+`TRIGGER`\
+`CREATE`\
+`CONNECT`\
+`TEMPORARY`\
+`EXECUTE`\
 `USAGE`
 
-For procedural languages, allows the use of the specified language for the creation of functions in that language. This is the only type of privilege that is applicable to procedural languages.
+個別特定的權限說明，如[第 5.7 節](../../the-sql-language/ddl/privileges.md)中所定義。
 
-For schemas, allows access to objects contained in the specified schema \(assuming that the objects' own privilege requirements are also met\). Essentially this allows the grantee to “look up” objects within the schema. Without this permission, it is still possible to see the object names, e.g. by querying the system tables. Also, after revoking this permission, existing backends might have statements that have previously performed this lookup, so this is not a completely secure way to prevent object access.
+`TEMP`
 
-For sequences, this privilege allows the use of the `currval` and `nextval` functions.
-
-For types and domains, this privilege allows the use of the type or domain in the creation of tables, functions, and other schema objects. \(Note that it does not control general “usage” of the type, such as values of the type appearing in queries. It only prevents objects from being created that depend on the type. The main purpose of the privilege is controlling which users create dependencies on a type, which could prevent the owner from changing the type later.\)
-
-For foreign-data wrappers, this privilege allows creation of new servers using the foreign-data wrapper.
-
-For servers, this privilege allows creation of foreign tables using the server. Grantees may also create, alter, or drop their own user mappings associated with that server.
+TEMPORARY 的另一種寫法。
 
 `ALL PRIVILEGES`
 
-Grant all of the available privileges at once. The `PRIVILEGES` key word is optional in PostgreSQL, though it is required by strict SQL.
+授予該物件型別的所有可用權限。PRIVILEGES 關鍵字在 PostgreSQL 中是選擇性的，但它在嚴格的 SQL 中是必要的。
 
-The privileges required by other commands are listed on the reference page of the respective command.
+The `FUNCTION` syntax works for plain functions, aggregate functions, and window functions, but not for procedures; use `PROCEDURE` for those. Alternatively, use `ROUTINE` to refer to a function, aggregate function, window function, or procedure regardless of its precise type.
 
-### GRANT on Roles
+There is also an option to grant privileges on all objects of the same type within one or more schemas. This functionality is currently supported only for tables, sequences, functions, and procedures. `ALL TABLES` also affects views and foreign tables, just like the specific-object `GRANT` command. `ALL FUNCTIONS` also affects aggregate and window functions, but not procedures, again just like the specific-object `GRANT` command. Use `ALL ROUTINES` to include procedures.
 
-This variant of the `GRANT` command grants membership in a role to one or more other roles. Membership in a role is significant because it conveys the privileges granted to a role to each of its members.
+#### GRANT on Roles
 
-If `WITH ADMIN OPTION` is specified, the member can in turn grant membership in the role to others, and revoke membership in the role as well. Without the admin option, ordinary users cannot do that. A role is not considered to hold `WITH ADMIN OPTION` on itself, but it may grant or revoke membership in itself from a database session where the session user matches the role. Database superusers can grant or revoke membership in any role to anyone. Roles having `CREATEROLE` privilege can grant or revoke membership in any role that is not a superuser.
+GRANT 指令也可以用於將角色加入成為其他角色的成員。角色的成員意義重大，因為它可以將授予角色的權限也同等授予給每個成員。
 
-Unlike the case with privileges, membership in a role cannot be granted to `PUBLIC`. Note also that this form of the command does not allow the noise word `GROUP`.
+如果指定了 WITH ADMIN OPTION，則該成員就可以將角色的成員資格再授予其他人，也可以撤銷該角色的成員資格。如果沒有 admin 選項，普通使用者就無法做到上述的行為。 角色不被視為對自身持有 WITH ADMIN OPTION，但它可以從連線使用者與角色匹配的資料庫連線中授予或撤銷其自身的成員資格。資料庫的超級使用者可以向任何人授予或撤銷任何角色的成員資格。具有 CREATEROLE 權限的角色可以授予或撤銷任何非超級使用者角色的成員資格。
 
-## Notes
+If `GRANTED BY` is specified, the grant is recorded as having been done by the specified role. Only database superusers may use this option, except when it names the same role executing the command.
 
-The [REVOKE](https://www.postgresql.org/docs/10/static/sql-revoke.html) command is used to revoke access privileges.
+Unlike the case with privileges, membership in a role cannot be granted to `PUBLIC`. Note also that this form of the command does not allow the noise word `GROUP` in _`role_specification`_.
+
+### Notes
+
+REVOKE 指令用於撤銷存取權限.
 
 Since PostgreSQL 8.1, the concepts of users and groups have been unified into a single kind of entity called a role. It is therefore no longer necessary to use the keyword `GROUP` to identify whether a grantee is a user or a group. `GROUP` is still allowed in the command, but it is a noise word.
 
 A user may perform `SELECT`, `INSERT`, etc. on a column if they hold that privilege for either the specific column or its whole table. Granting the privilege at the table level and then revoking it for one column will not do what one might wish: the table-level grant is unaffected by a column-level operation.
 
-When a non-owner of an object attempts to `GRANT` privileges on the object, the command will fail outright if the user has no privileges whatsoever on the object. As long as some privilege is available, the command will proceed, but it will grant only those privileges for which the user has grant options. The `GRANT ALL PRIVILEGES` forms will issue a warning message if no grant options are held, while the other forms will issue a warning if grant options for any of the privileges specifically named in the command are not held. \(In principle these statements apply to the object owner as well, but since the owner is always treated as holding all grant options, the cases can never occur.\)
+When a non-owner of an object attempts to `GRANT` privileges on the object, the command will fail outright if the user has no privileges whatsoever on the object. As long as some privilege is available, the command will proceed, but it will grant only those privileges for which the user has grant options. The `GRANT ALL PRIVILEGES` forms will issue a warning message if no grant options are held, while the other forms will issue a warning if grant options for any of the privileges specifically named in the command are not held. (In principle these statements apply to the object owner as well, but since the owner is always treated as holding all grant options, the cases can never occur.)
 
 It should be noted that database superusers can access all objects regardless of object privilege settings. This is comparable to the rights of `root` in a Unix system. As with `root`, it's unwise to operate as a superuser except when absolutely necessary.
 
-If a superuser chooses to issue a `GRANT` or `REVOKE` command, the command is performed as though it were issued by the owner of the affected object. In particular, privileges granted via such a command will appear to have been granted by the object owner. \(For role membership, the membership appears to have been granted by the containing role itself.\)
+If a superuser chooses to issue a `GRANT` or `REVOKE` command, the command is performed as though it were issued by the owner of the affected object. In particular, privileges granted via such a command will appear to have been granted by the object owner. (For role membership, the membership appears to have been granted by the containing role itself.)
 
-`GRANT` and `REVOKE` can also be done by a role that is not the owner of the affected object, but is a member of the role that owns the object, or is a member of a role that holds privileges`WITH GRANT OPTION` on the object. In this case the privileges will be recorded as having been granted by the role that actually owns the object or holds the privileges `WITH GRANT OPTION`. For example, if table `t1` is owned by role `g1`, of which role `u1` is a member, then `u1` can grant privileges on `t1` to `u2`, but those privileges will appear to have been granted directly by `g1`. Any other member of role `g1` could revoke them later.
+`GRANT` and `REVOKE` can also be done by a role that is not the owner of the affected object, but is a member of the role that owns the object, or is a member of a role that holds privileges `WITH GRANT OPTION` on the object. In this case the privileges will be recorded as having been granted by the role that actually owns the object or holds the privileges `WITH GRANT OPTION`. For example, if table `t1` is owned by role `g1`, of which role `u1` is a member, then `u1` can grant privileges on `t1` to `u2`, but those privileges will appear to have been granted directly by `g1`. Any other member of role `g1` could revoke them later.
 
 If the role executing `GRANT` holds the required privileges indirectly via more than one role membership path, it is unspecified which containing role will be recorded as having done the grant. In such cases it is best practice to use `SET ROLE` to become the specific role you want to do the `GRANT` as.
 
 Granting permission on a table does not automatically extend permissions to any sequences used by the table, including sequences tied to `SERIAL` columns. Permissions on sequences must be set separately.
 
-Use [psql](https://www.postgresql.org/docs/10/static/app-psql.html)'s `\dp` command to obtain information about existing privileges for tables and columns. For example:
-
-```text
-=> \dp mytable
-                              Access privileges
- Schema |  Name   | Type  |   Access privileges   | Column access privileges 
---------+---------+-------+-----------------------+--------------------------
- public | mytable | table | miriam=arwdDxt/miriam | col1:
-                          : =r/miriam             :   miriam_rw=rw/miriam
-                          : admin=arw/miriam        
-(1 row)
-```
-
-The entries shown by `\dp` are interpreted thus:
-
-```text
-rolename=xxxx -- privileges granted to a role
-        =xxxx -- privileges granted to PUBLIC
-
-            r -- SELECT ("read")
-            w -- UPDATE ("write")
-            a -- INSERT ("append")
-            d -- DELETE
-            D -- TRUNCATE
-            x -- REFERENCES
-            t -- TRIGGER
-            X -- EXECUTE
-            U -- USAGE
-            C -- CREATE
-            c -- CONNECT
-            T -- TEMPORARY
-      arwdDxt -- ALL PRIVILEGES (for tables, varies for other objects)
-            * -- grant option for preceding privilege
-
-        /yyyy -- role that granted this privilege
-```
-
-The above example display would be seen by user `miriam` after creating table `mytable` and doing:
-
-```text
-GRANT SELECT ON mytable TO PUBLIC;
-GRANT SELECT, UPDATE, INSERT ON mytable TO admin;
-GRANT SELECT (col1), UPDATE (col1) ON mytable TO miriam_rw;
-```
-
-For non-table objects there are other `\d` commands that can display their privileges.
-
-If the “Access privileges” column is empty for a given object, it means the object has default privileges \(that is, its privileges column is null\). Default privileges always include all privileges for the owner, and can include some privileges for `PUBLIC` depending on the object type, as explained above. The first `GRANT` or `REVOKE` on an object will instantiate the default privileges \(producing, for example, `{miriam=arwdDxt/miriam}`\) and then modify them per the specified request. Similarly, entries are shown in “Column access privileges” only for columns with nondefault privileges. \(Note: for this purpose, “default privileges” always means the built-in default privileges for the object's type. An object whose privileges have been affected by an `ALTER DEFAULT PRIVILEGES` command will always be shown with an explicit privilege entry that includes the effects of the `ALTER`.\)
-
-Notice that the owner's implicit grant options are not marked in the access privileges display. A `*` will appear only when grant options have been explicitly granted to someone.
+See [Section 5.7](https://www.postgresql.org/docs/13/ddl-priv.html) for more information about specific privilege types, as well as how to inspect objects' privileges.
 
 ## 範例
 
 把向資料表 film 插入資料的權限授予所有使用者：
 
-```text
+```
 GRANT INSERT ON films TO PUBLIC;
 ```
 
 把所有檢視表 kind 可用的權限授予使用者 manuel：
 
-```text
+```
 GRANT ALL PRIVILEGES ON kinds TO manuel;
 ```
 
@@ -261,7 +174,7 @@ GRANT ALL PRIVILEGES ON kinds TO manuel;
 
 將角色 admin 的成員資格授予使用者 joe：
 
-```text
+```
 GRANT admins TO joe;
 ```
 
@@ -282,4 +195,3 @@ SQL 標準為其他型別的物件提供 USAGE 權限：字元集，排序規則
 ## 參閱
 
 [REVOKE](revoke.md), [ALTER DEFAULT PRIVILEGES](alter-default-privileges.md)
-

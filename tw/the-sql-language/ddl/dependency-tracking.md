@@ -4,7 +4,7 @@
 
 要維護整個資料庫結構的完整性，PostgreSQL 得確保你不能在有關連性的情況下，隨意刪去物件。舉例來說，企圖刪去在 [5.3.5 節](constraints.md#5-3-5-wai-bu-foreign-keys)中，我們所使用過的產品資料表，而訂單資料表與其有相依的關連性，那就會產生如下的錯誤訊息：
 
-```text
+```
 DROP TABLE products;
 
 ERROR:  cannot drop table products because other objects depend on it
@@ -14,7 +14,7 @@ HINT:  Use DROP ... CASCADE to drop the dependent objects too.
 
 這個錯誤訊息包含了很有用的指引：如果你不想要一個個處理其相依關連性，那可以一次刪去他們：
 
-```text
+```
 DROP TABLE products CASCADE;
 ```
 
@@ -22,15 +22,15 @@ DROP TABLE products CASCADE;
 
 幾乎所有 PostgreSQL 的 DROP 指令都支援 CASCADE 的用法。當然，有些自然的關連性是和物件型別有關。你也可以使用 RESTRICT 來取代 CASCADE 的位置，以強制以預設的行為來處理，也就是絕對不會刪去其他相關的物件。
 
-## 注意
-
-根據 SQL 標準，不論是 RESTRICT 或 CASCADE，都必須要在 DROP 指令中明確表示，但沒有任何一套資料庫系統真的這樣設計。不過，都會內定預設行為是 RESTRICT 或 CASCADE，每個資料庫不同。
+{% hint style="info" %}
+根據 SQL 標準，不論是 RESTRICT 或 CASCADE，都必須要在 DROP 指令中明確表示，但沒有任何一套資料庫系統真的這樣設計。不過，都會內定預設行為是 RESTRICT 或 CASCADE，每個資料庫系統的情況可能會不同。
+{% endhint %}
 
 如果 DROP 指令列出了多個物件，CASCADE 只有在這些物件之外還有相依性時才會需要。舉個例子，當執行「DROP TABLE tab1, tab2」時，即使 tab1 與 tab2 之間有外部索引鍵的相依關係，而沒有指定 CASCADE，這個操作也會完成。
 
 對於使用者自訂的函數來說，PostgreSQL 會引用函數的外顯屬性來判斷其相依性，例如函數的參數或輸出型態，但函數內部執行的相依關係就無法追蹤了。舉個列子：
 
-```text
+```
 CREATE TYPE rainbow AS ENUM ('red', 'orange', 'yellow',
                              'green', 'blue', 'purple');
 
@@ -42,4 +42,3 @@ CREATE FUNCTION get_color_note (rainbow) RETURNS text AS
 ```
 
 （參閱 [37.4 節](../../server-programming/extending-sql/user-defined-procedures.md)，瞭解 SQL 語言的函數。）PostgreSQL 會知道 get\_color\_note 函數相依於 rainbow 資料型別：也就是刪去該資料型別時，也會強制要刪去該函數，因為它的參數將不再合法。但 PostgreSQL 就無法發現 get\_color\_note 和 my\_colors 之間的關連性，當該資料表被移除時，此函數並不會跟著被移除。這種情況有好有壞，函數基本上還是合法的，即使內含的資料表不存在的話，頂多就是執行會出錯就是了，只要再建立該名稱的資料表就可以讓這個函數重新正常運作。
-

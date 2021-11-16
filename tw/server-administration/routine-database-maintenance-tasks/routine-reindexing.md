@@ -1,4 +1,4 @@
-# 24.2. 定期重建索引
+# 25.2. 定期重建索引
 
 在某些情況下，使用 [REINDEX](../../reference/sql-commands/reindex.md) 指令或一系列單獨的重建步驟定期重建索引是值得的。
 
@@ -8,5 +8,4 @@
 
 此外，對於 B-tree 索引，新建構的索引比多次更新的索引要快一些，因為邏輯上相鄰的頁面通常在新建構的索引中也是物理上相鄰的。（這種考慮不適用於非 B-tree 索引。）為了提高存取速度，定期重建索引會是值得的。
 
-在所有情況下，REINDEX 都可以很安全，簡單地使用。但由於該指令需要獨占資料表鎖定，因此通常最好使用一系列建立和替換步驟來執行索引重建。使用 CONCURRENTLY 選項支援 [CREATE INDEX](../../reference/sql-commands/create-index.md) 的索引類型可以透過這種方式重新建立。如果成功並且結果索引有效，則可以使用 [ALTER INDEX](../../reference/sql-commands/alter-index.md) 和 [DROP INDEX](../../reference/sql-commands/drop-index.md) 的組合將原始索引替換為新建構的索引。當索引用於強制唯一性或其他約束時，可能需要使用 [ALTER TABLE](../../reference/sql-commands/alter-table.md) 將現有限制條件與新索引強制執行的限制條件交換。 在使用之前仔細檢查這種多步驟重建方法，因為對這些索引透過這種方式重新建立索引可能有些限制，並且必須處理錯誤。
-
+REINDEX 可以在所有情況下安全且輕鬆地使用。此命令預設情況下需要 ACCESS EXCLUSIVE 鎖定，因此通常最好使用其 CONCURRENTLY 選項來執行它，該選項僅需要 SHARE UPDATE EXCLUSIVE 鎖定。

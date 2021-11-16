@@ -2,20 +2,20 @@
 
 數字型別由兩位數，四位數和八位數整數，四位元組和八位元組的浮點數以及可調式精確度的小數組成。[表格 8.2 ](numeric-types.md#table-8-2-numeric-types)列出了可用的類型。
 
-### **Table 8.2. Numeric Types**
+#### **Table 8.2. Numeric Types**
 
-| Name | Storage Size | Description | Range |
-| :--- | :--- | :--- | :--- |
-| `smallint` | 2 bytes | small-range integer | -32768 to +32767 |
-| `integer` | 4 bytes | typical choice for integer | -2147483648 to +2147483647 |
-| `bigint` | 8 bytes | large-range integer | -9223372036854775808 to +9223372036854775807 |
-| `decimal` | variable | user-specified precision, exact | up to 131072 digits before the decimal point; up to 16383 digits after the decimal point |
-| `numeric` | variable | user-specified precision, exact | up to 131072 digits before the decimal point; up to 16383 digits after the decimal point |
-| `real` | 4 bytes | variable-precision, inexact | 6 decimal digits precision |
-| `double precision` | 8 bytes | variable-precision, inexact | 15 decimal digits precision |
-| `smallserial` | 2 bytes | small autoincrementing integer | 1 to 32767 |
-| `serial` | 4 bytes | autoincrementing integer | 1 to 2147483647 |
-| `bigserial` | 8 bytes | large autoincrementing integer | 1 to 9223372036854775807 |
+| Name               | Storage Size | Description                     | Range                                                                                    |
+| ------------------ | ------------ | ------------------------------- | ---------------------------------------------------------------------------------------- |
+| `smallint`         | 2 bytes      | small-range integer             | -32768 to +32767                                                                         |
+| `integer`          | 4 bytes      | typical choice for integer      | -2147483648 to +2147483647                                                               |
+| `bigint`           | 8 bytes      | large-range integer             | -9223372036854775808 to +9223372036854775807                                             |
+| `decimal`          | variable     | user-specified precision, exact | up to 131072 digits before the decimal point; up to 16383 digits after the decimal point |
+| `numeric`          | variable     | user-specified precision, exact | up to 131072 digits before the decimal point; up to 16383 digits after the decimal point |
+| `real`             | 4 bytes      | variable-precision, inexact     | 6 decimal digits precision                                                               |
+| `double precision` | 8 bytes      | variable-precision, inexact     | 15 decimal digits precision                                                              |
+| `smallserial`      | 2 bytes      | small autoincrementing integer  | 1 to 32767                                                                               |
+| `serial`           | 4 bytes      | autoincrementing integer        | 1 to 2147483647                                                                          |
+| `bigserial`        | 8 bytes      | large autoincrementing integer  | 1 to 9223372036854775807                                                                 |
 
 [4.1.2 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/sql-syntax/41-lexical-structure.md)描述了數字型別常數的語法。 數字型別有一整套相應的算術運算元和函數。有關更多訊息，請參閱第 9 章。 以下各節將詳細介紹這些型別。
 
@@ -35,19 +35,19 @@ SQL僅指定整數型別 integer（或 int）、smallint 和 bigint。 型別名
 
 可以配置數字欄位的最大 precision 和最大 scale。要宣告數字型別的欄位，請使用以下語法：
 
-```text
+```
 NUMERIC(precision, scale)
 ```
 
 precision 必須是正值，scale 為零或正值。或是：
 
-```text
+```
 NUMERIC(precision)
 ```
 
 選擇 0 為 scale。這樣使用：
 
-```text
+```
 NUMERIC
 ```
 
@@ -59,7 +59,7 @@ NUMERIC
 
 如果要儲存的小數位數大於欄位所宣告的 scale，則係統會將值四捨五入到宣告所指定的小數位數。然後，如果小數點左邊的位數超過宣告的 precise 減去聲明的 scale 的話，則會產生錯誤。
 
-數字內容的實體儲存不會有任何額外的前導位數或補零。因此，欄位宣告的 precise 和 scale 是最大值，而不是固定的分配。（在這個意義上，數字型別更像是 varchar\(n\) 而不是 char\(n\)。） 實際儲存的要求是每四個十進制數字組加兩個位元組，再加上三到八個位元組的額外配置。
+數字內容的實體儲存不會有任何額外的前導位數或補零。因此，欄位宣告的 precise 和 scale 是最大值，而不是固定的分配。（在這個意義上，數字型別更像是 varchar(n) 而不是 char(n)。） 實際儲存的要求是每四個十進制數字組加兩個位元組，再加上三到八個位元組的額外配置。
 
 除了普通的數值之外，數字型別還允許特殊值 NaN，意思是「不是一個數字」。 NaN 的任何操作都會產生另一個 NaN。在 SQL 指令中將此值作為常數寫入時，必須在其中使用單引號，例如 UPDATE table SET x = 'NaN'。 在輸入時，字串 NaN 識別是不區分大小寫的。
 
@@ -71,7 +71,7 @@ decimal 和 numeric 的型別是相同的。 這兩種型別都是 SQL 標準的
 
 當需要四捨五入時，數字型別會往離零較遠的值調整，而（在大多數機器上）實數和雙精度型別會調整到最接近的偶數。 例如：
 
-```text
+```
 SELECT x,
   round(x::numeric) AS num_round,
   round(x::double precision) AS dbl_round
@@ -107,8 +107,8 @@ FROM generate_series(-3.5, 3.5, 1) as x;
 
 除了普通的數值之外，浮點型別還有幾個特殊的值：
 
-`Infinity`  
-`-Infinity`  
+`Infinity`\
+`-Infinity`\
 `NaN`
 
 這些分別代表 IEEE 754 特殊值「無限大」、「負無限大」和「非數字」。（在浮點數計算不符合 IEEE 754 標準的機器上，這些值可能無法如期運作。）在 SQL 指令中將這些值作為常數寫入時，必須在其放入單引號中，例如 UPDATE table SET x = '-Infinity'。 在輸入時，這些字串識別是不區分大小寫的。
@@ -117,7 +117,7 @@ FROM generate_series(-3.5, 3.5, 1) as x;
 >
 > IEEE 754 規定 NaN 不應與任何其他浮點數值（包括NaN）相等。為了允許浮點值在樹狀索引中排序和使用，PostgreSQL 將 NaN 視為相等或大於所有非 NaN 的數值。
 
-PostgreSQL 也支援 SQL 標準的 float 和 float\(p\) 來表示非精確的數字型別。這裡，p 指的是二進位數字的最小可接受的精確度。PostgreSQL 接受 float\(1\) 到 float\(24\) 選擇視為 real 型別，而 float\(25\) 到 float\(53\) 則視為 double。p 超出允許範圍的話會產生錯誤。沒有指定精確度的浮點數意味著 double。
+PostgreSQL 也支援 SQL 標準的 float 和 float(p) 來表示非精確的數字型別。這裡，p 指的是二進位數字的最小可接受的精確度。PostgreSQL 接受 float(1) 到 float(24) 選擇視為 real 型別，而 float(25) 到 float(53) 則視為 double。p 超出允許範圍的話會產生錯誤。沒有指定精確度的浮點數意味著 double。
 
 > ## 注意
 >
@@ -131,7 +131,7 @@ PostgreSQL 也支援 SQL 標準的 float 和 float\(p\) 來表示非精確的數
 
 資料型別 smallserial、serial 和 bigserial 都不是真正的型別，而僅僅是建立唯一識別欄位（類似於某些其他資料庫所支援的 AUTO\_INCREMENT 屬性）的方便型別語法。以目前的實作方式，請使用：
 
-```text
+```
 CREATE TABLE tablename (
    colname SERIAL
 );
@@ -139,7 +139,7 @@ CREATE TABLE tablename (
 
 相當於以下的指令：
 
-```text
+```
 CREATE SEQUENCE tablename_colname_seq;
 CREATE TABLE tablename (
    colname integer NOT NULL DEFAULT nextval('tablename_colname_seq')
@@ -151,11 +151,10 @@ ALTER SEQUENCE tablename_colname_seq OWNED BY tablename.colname;
 
 > ## 注意
 >
-> smallserial、serial 和 bigserial，被實作來實現序列數字，即使沒有資料列被刪除，在欄位中出現的值在序列中仍可能會有「漏洞」或缺口。即使包含該值的資料列從未成功插入資料表中，從序列中分配的值仍然會用完。例如，如果資料插入的交易回溯了，則可能發生這種情況。有關詳細訊息，請參閱[第 9.16 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/functions-and-operators/916-sequence-manipulation-functions.md)中的 nextval\(\)。
+> smallserial、serial 和 bigserial，被實作來實現序列數字，即使沒有資料列被刪除，在欄位中出現的值在序列中仍可能會有「漏洞」或缺口。即使包含該值的資料列從未成功插入資料表中，從序列中分配的值仍然會用完。例如，如果資料插入的交易回溯了，則可能發生這種情況。有關詳細訊息，請參閱[第 9.16 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/functions-and-operators/916-sequence-manipulation-functions.md)中的 nextval()。
 
 要將序列的下一個值插入到序列欄位中，請指定序列欄位應被分配其預設值。這可以透過從 INSERT 語句中欄位列表中排除欄位或使用DEFAULT關鍵字來完成。
 
 型別名稱 serial 和 serial4 是等價的：都是建立整數（integer）欄位。型別名稱 bigserial 和 serial8 也以相同的方式作用，差別是他們建立一個 bigint 的欄位。如果你預期在資料表的整個生命週期中使用超過 2^31 個標識符，則應使用 bigserial。型別名稱 smallserial 和 serial2 也是以相同的，而除了它們是建立一個 smallint 欄位。
 
 當擁有的欄位被刪除時，為序列欄位創建的序列也將自動刪除。但你可以刪除序列而不刪除欄位，這會強制刪除欄位的預設表示式。
-

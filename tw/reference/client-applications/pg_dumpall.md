@@ -2,98 +2,98 @@
 
 pg\_dumpall — extract a PostgreSQL database cluster into a script file
 
-## Synopsis
+### Synopsis
 
-`pg_dumpall` \[_`connection-option`_...\] \[_`option`_...\]
+`pg_dumpall` \[_`connection-option`_...] \[_`option`_...]
 
-## Description
+### Description
 
-pg\_dumpall is a utility for writing out \(“dumping”\) all PostgreSQL databases of a cluster into one script file. The script file contains SQL commands that can be used as input to [psql](https://www.postgresql.org/docs/12/app-psql.html) to restore the databases. It does this by calling [pg\_dump](https://www.postgresql.org/docs/12/app-pgdump.html) for each database in the cluster. pg\_dumpall also dumps global objects that are common to all databases, that is, database roles and tablespaces. \(pg\_dump does not save these objects.\)
+pg\_dumpall is a utility for writing out (“dumping”) all PostgreSQL databases of a cluster into one script file. The script file contains SQL commands that can be used as input to [psql](https://www.postgresql.org/docs/12/app-psql.html) to restore the databases. It does this by calling [pg\_dump](https://www.postgresql.org/docs/12/app-pgdump.html) for each database in the cluster. pg\_dumpall also dumps global objects that are common to all databases, that is, database roles and tablespaces. (pg\_dump does not save these objects.)
 
 Since pg\_dumpall reads tables from all databases you will most likely have to connect as a database superuser in order to produce a complete dump. Also you will need superuser privileges to execute the saved script in order to be allowed to add roles and create databases.
 
 The SQL script will be written to the standard output. Use the `-f`/`--file` option or shell operators to redirect it into a file.
 
-pg\_dumpall needs to connect several times to the PostgreSQL server \(once per database\). If you use password authentication it will ask for a password each time. It is convenient to have a `~/.pgpass` file in such cases. See [Section 33.15](https://www.postgresql.org/docs/12/libpq-pgpass.html) for more information.
+pg\_dumpall needs to connect several times to the PostgreSQL server (once per database). If you use password authentication it will ask for a password each time. It is convenient to have a `~/.pgpass` file in such cases. See [Section 33.15](https://www.postgresql.org/docs/12/libpq-pgpass.html) for more information.
 
-## Options
+### Options
 
 The following command-line options control the content and format of the output.
 
-`-a`  
+`-a`\
 `--data-only`
 
-Dump only the data, not the schema \(data definitions\).
+Dump only the data, not the schema (data definitions).
 
-`-c`  
+`-c`\
 `--clean`
 
-Include SQL commands to clean \(drop\) databases before recreating them. `DROP` commands for roles and tablespaces are added as well.
+Include SQL commands to clean (drop) databases before recreating them. `DROP` commands for roles and tablespaces are added as well.
 
-`-E` _`encoding`_  
+`-E `_`encoding`_\
 `--encoding=`_`encoding`_
 
-Create the dump in the specified character set encoding. By default, the dump is created in the database encoding. \(Another way to get the same result is to set the `PGCLIENTENCODING` environment variable to the desired dump encoding.\)
+Create the dump in the specified character set encoding. By default, the dump is created in the database encoding. (Another way to get the same result is to set the `PGCLIENTENCODING` environment variable to the desired dump encoding.)
 
-`-f` _`filename`_  
+`-f `_`filename`_\
 `--file=`_`filename`_
 
 Send output to the specified file. If this is omitted, the standard output is used.
 
-`-g`  
+`-g`\
 `--globals-only`
 
-Dump only global objects \(roles and tablespaces\), no databases.
+Dump only global objects (roles and tablespaces), no databases.
 
-`-O`  
+`-O`\
 `--no-owner`
 
-Do not output commands to set ownership of objects to match the original database. By default, pg\_dumpall issues `ALTER OWNER` or `SET SESSION AUTHORIZATION` statements to set ownership of created schema elements. These statements will fail when the script is run unless it is started by a superuser \(or the same user that owns all of the objects in the script\). To make a script that can be restored by any user, but will give that user ownership of all the objects, specify `-O`.
+Do not output commands to set ownership of objects to match the original database. By default, pg\_dumpall issues `ALTER OWNER` or `SET SESSION AUTHORIZATION` statements to set ownership of created schema elements. These statements will fail when the script is run unless it is started by a superuser (or the same user that owns all of the objects in the script). To make a script that can be restored by any user, but will give that user ownership of all the objects, specify `-O`.
 
-`-r`  
+`-r`\
 `--roles-only`
 
 Dump only roles, no databases or tablespaces.
 
-`-s`  
+`-s`\
 `--schema-only`
 
-Dump only the object definitions \(schema\), not data.
+Dump only the object definitions (schema), not data.
 
-`-S` _`username`_  
+`-S `_`username`_\
 `--superuser=`_`username`_
 
-Specify the superuser user name to use when disabling triggers. This is relevant only if `--disable-triggers` is used. \(Usually, it's better to leave this out, and instead start the resulting script as superuser.\)
+Specify the superuser user name to use when disabling triggers. This is relevant only if `--disable-triggers` is used. (Usually, it's better to leave this out, and instead start the resulting script as superuser.)
 
-`-t`  
+`-t`\
 `--tablespaces-only`
 
 Dump only tablespaces, no databases or roles.
 
-`-v`  
+`-v`\
 `--verbose`
 
 Specifies verbose mode. This will cause pg\_dumpall to output start/stop times to the dump file, and progress messages to standard error. It will also enable verbose output in pg\_dump.
 
-`-V`  
+`-V`\
 `--version`
 
 Print the pg\_dumpall version and exit.
 
-`-x`  
-`--no-privileges`  
+`-x`\
+`--no-privileges`\
 `--no-acl`
 
-Prevent dumping of access privileges \(grant/revoke commands\).
+Prevent dumping of access privileges (grant/revoke commands).
 
 `--binary-upgrade`
 
 This option is for use by in-place upgrade utilities. Its use for other purposes is not recommended or supported. The behavior of the option may change in future releases without notice.
 
-`--column-inserts`  
+`--column-inserts`\
 `--attribute-inserts`
 
-Dump data as `INSERT` commands with explicit column names \(`INSERT INTO` _`table`_ \(_`column`_, ...\) VALUES ...\). This will make restoration very slow; it is mainly useful for making dumps that can be loaded into non-PostgreSQL databases.
+Dump data as `INSERT` commands with explicit column names (`INSERT INTO `_`table`_ (_`column`_, ...) VALUES ...). This will make restoration very slow; it is mainly useful for making dumps that can be loaded into non-PostgreSQL databases.
 
 `--disable-dollar-quoting`
 
@@ -111,15 +111,15 @@ Use the specified value of extra\_float\_digits when dumping floating-point data
 
 `--exclude-database=`_`pattern`_
 
-Do not dump databases whose name matches _`pattern`_. Multiple patterns can be excluded by writing multiple `--exclude-database` switches. The _`pattern`_ parameter is interpreted as a pattern according to the same rules used by psql's `\d` commands \(see [Patterns](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS)\), so multiple databases can also be excluded by writing wildcard characters in the pattern. When using wildcards, be careful to quote the pattern if needed to prevent shell wildcard expansion.
+Do not dump databases whose name matches _`pattern`_. Multiple patterns can be excluded by writing multiple `--exclude-database` switches. The _`pattern`_ parameter is interpreted as a pattern according to the same rules used by psql's `\d` commands (see [Patterns](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS)), so multiple databases can also be excluded by writing wildcard characters in the pattern. When using wildcards, be careful to quote the pattern if needed to prevent shell wildcard expansion.
 
 `--if-exists`
 
-Use conditional commands \(i.e. add an `IF EXISTS` clause\) to drop databases and other objects. This option is not valid unless `--clean` is also specified.
+Use conditional commands (i.e. add an `IF EXISTS` clause) to drop databases and other objects. This option is not valid unless `--clean` is also specified.
 
 `--inserts`
 
-Dump data as `INSERT` commands \(rather than `COPY`\). This will make restoration very slow; it is mainly useful for making dumps that can be loaded into non-PostgreSQL databases. Note that the restore might fail altogether if you have rearranged column order. The `--column-inserts` option is safer, though even slower.
+Dump data as `INSERT` commands (rather than `COPY`). This will make restoration very slow; it is mainly useful for making dumps that can be loaded into non-PostgreSQL databases. Note that the restore might fail altogether if you have rearranged column order. The `--column-inserts` option is safer, though even slower.
 
 `--load-via-partition-root`
 
@@ -159,7 +159,7 @@ Do not output commands to create tablespaces nor select tablespaces for objects.
 
 `--no-unlogged-table-data`
 
-Do not dump the contents of unlogged tables. This option has no effect on whether or not the table definitions \(schema\) are dumped; it only suppresses dumping the table data.
+Do not dump the contents of unlogged tables. This option has no effect on whether or not the table definitions (schema) are dumped; it only suppresses dumping the table data.
 
 `--on-conflict-do-nothing`
 
@@ -171,52 +171,52 @@ Force quoting of all identifiers. This option is recommended when dumping a data
 
 `--rows-per-insert=`_`nrows`_
 
-Dump data as `INSERT` commands \(rather than `COPY`\). Controls the maximum number of rows per `INSERT` command. The value specified must be a number greater than zero. Any error during reloading will cause only rows that are part of the problematic `INSERT` to be lost, rather than the entire table contents.
+Dump data as `INSERT` commands (rather than `COPY`). Controls the maximum number of rows per `INSERT` command. The value specified must be a number greater than zero. Any error during reloading will cause only rows that are part of the problematic `INSERT` to be lost, rather than the entire table contents.
 
 `--use-set-session-authorization`
 
 Output SQL-standard `SET SESSION AUTHORIZATION` commands instead of `ALTER OWNER` commands to determine object ownership. This makes the dump more standards compatible, but depending on the history of the objects in the dump, might not restore properly.
 
-`-?`  
+`-?`\
 `--help`
 
 Show help about pg\_dumpall command line arguments, and exit.
 
 The following command-line options control the database connection parameters.
 
-`-d` _`connstr`_  
+`-d `_`connstr`_\
 `--dbname=`_`connstr`_
 
 Specifies parameters used to connect to the server, as a connection string. See [Section 33.1.1](https://www.postgresql.org/docs/12/libpq-connect.html#LIBPQ-CONNSTRING) for more information.
 
 The option is called `--dbname` for consistency with other client applications, but because pg\_dumpall needs to connect to many databases, the database name in the connection string will be ignored. Use the `-l` option to specify the name of the database used for the initial connection, which will dump global objects and discover what other databases should be dumped.
 
-`-h` _`host`_  
+`-h `_`host`_\
 `--host=`_`host`_
 
 Specifies the host name of the machine on which the database server is running. If the value begins with a slash, it is used as the directory for the Unix domain socket. The default is taken from the `PGHOST` environment variable, if set, else a Unix domain socket connection is attempted.
 
-`-l` _`dbname`_  
+`-l `_`dbname`_\
 `--database=`_`dbname`_
 
 Specifies the name of the database to connect to for dumping global objects and discovering what other databases should be dumped. If not specified, the `postgres` database will be used, and if that does not exist, `template1` will be used.
 
-`-p` _`port`_  
+`-p `_`port`_\
 `--port=`_`port`_
 
 Specifies the TCP port or local Unix domain socket file extension on which the server is listening for connections. Defaults to the `PGPORT` environment variable, if set, or a compiled-in default.
 
-`-U` _`username`_  
+`-U `_`username`_\
 `--username=`_`username`_
 
 User name to connect as.
 
-`-w`  
+`-w`\
 `--no-password`
 
 Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a `.pgpass` file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.
 
-`-W`  
+`-W`\
 `--password`
 
 Force pg\_dumpall to prompt for a password before connecting to a database.
@@ -227,26 +227,26 @@ Note that the password prompt will occur again for each database to be dumped. U
 
 `--role=`_`rolename`_
 
-Specifies a role name to be used to create the dump. This option causes pg\_dumpall to issue a `SET ROLE` _`rolename`_ command after connecting to the database. It is useful when the authenticated user \(specified by `-U`\) lacks privileges needed by pg\_dumpall, but can switch to a role with the required rights. Some installations have a policy against logging in directly as a superuser, and use of this option allows dumps to be made without violating the policy.
+Specifies a role name to be used to create the dump. This option causes pg\_dumpall to issue a `SET ROLE` _`rolename`_ command after connecting to the database. It is useful when the authenticated user (specified by `-U`) lacks privileges needed by pg\_dumpall, but can switch to a role with the required rights. Some installations have a policy against logging in directly as a superuser, and use of this option allows dumps to be made without violating the policy.
 
-## Environment
+### Environment
 
-`PGHOST`  
-`PGOPTIONS`  
-`PGPORT`  
+`PGHOST`\
+`PGOPTIONS`\
+`PGPORT`\
 `PGUSER`
 
 Default connection parameters`PG_COLOR`
 
 Specifies whether to use color in diagnostic messages. Possible values are `always`, `auto` and `never`.
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)\).
+This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)).
 
-## Notes
+### Notes
 
 Since pg\_dumpall calls pg\_dump internally, some diagnostic messages will refer to pg\_dump.
 
-The `--clean` option can be useful even when your intention is to restore the dump script into a fresh cluster. Use of `--clean` authorizes the script to drop and re-create the built-in `postgres` and `template1` databases, ensuring that those databases will retain the same properties \(for instance, locale and encoding\) that they had in the source cluster. Without the option, those databases will retain their existing database-level properties, as well as any pre-existing contents.
+The `--clean` option can be useful even when your intention is to restore the dump script into a fresh cluster. Use of `--clean` authorizes the script to drop and re-create the built-in `postgres` and `template1` databases, ensuring that those databases will retain the same properties (for instance, locale and encoding) that they had in the source cluster. Without the option, those databases will retain their existing database-level properties, as well as any pre-existing contents.
 
 Once restored, it is wise to run `ANALYZE` on each database so the optimizer has useful statistics. You can also run `vacuumdb -a -z` to analyze all databases.
 
@@ -254,23 +254,22 @@ The dump script should not be expected to run completely without errors. In part
 
 pg\_dumpall requires all needed tablespace directories to exist before the restore; otherwise, database creation will fail for databases in non-default locations.
 
-## Examples
+### Examples
 
 To dump all databases:
 
-```text
+```
 $ pg_dumpall > db.out
 ```
 
-To reload database\(s\) from this file, you can use:
+To reload database(s) from this file, you can use:
 
-```text
+```
 $ psql -f db.out postgres
 ```
 
 It is not important to which database you connect here since the script file created by pg\_dumpall will contain the appropriate commands to create and connect to the saved databases. An exception is that if you specified `--clean`, you must connect to the `postgres` database initially; the script will attempt to drop other databases immediately, and that will fail for the database you are connected to.
 
-## 參閱
+### 參閱
 
-參閱 [pg\_dump](pg_dump.md) 以瞭解相關錯誤情況的詳細資訊。
-
+參閱 [pg\_dump](pg\_dump.md) 以瞭解相關錯誤情況的詳細資訊。

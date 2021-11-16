@@ -1,12 +1,12 @@
 # 13.3. 鎖定模式
 
-PostgreSQL provides various lock modes to control concurrent access to data in tables. These modes can be used for application-controlled locking in situations where MVCC does not give the desired behavior. Also, most PostgreSQL commands automatically acquire locks of appropriate modes to ensure that referenced tables are not dropped or modified in incompatible ways while the command executes. \(For example, `TRUNCATE` cannot safely be executed concurrently with other operations on the same table, so it obtains an exclusive lock on the table to enforce that.\)
+PostgreSQL provides various lock modes to control concurrent access to data in tables. These modes can be used for application-controlled locking in situations where MVCC does not give the desired behavior. Also, most PostgreSQL commands automatically acquire locks of appropriate modes to ensure that referenced tables are not dropped or modified in incompatible ways while the command executes. (For example, `TRUNCATE` cannot safely be executed concurrently with other operations on the same table, so it obtains an exclusive lock on the table to enforce that.)
 
 To examine a list of the currently outstanding locks in a database server, use the [`pg_locks`](https://www.postgresql.org/docs/12/view-pg-locks.html) system view. For more information on monitoring the status of the lock manager subsystem, refer to [Chapter 27](https://www.postgresql.org/docs/12/monitoring.html).
 
 ## 13.3.1. Table-Level Locks
 
-The list below shows the available lock modes and the contexts in which they are used automatically by PostgreSQL. You can also acquire any of these locks explicitly with the command [LOCK](https://www.postgresql.org/docs/12/sql-lock.html). Remember that all of these lock modes are table-level locks, even if the name contains the word “row”; the names of the lock modes are historical. To some extent the names reflect the typical usage of each lock mode — but the semantics are all the same. The only real difference between one lock mode and another is the set of lock modes with which each conflicts \(see [Table 13.2](https://www.postgresql.org/docs/12/explicit-locking.html#TABLE-LOCK-COMPATIBILITY)\). Two transactions cannot hold locks of conflicting modes on the same table at the same time. \(However, a transaction never conflicts with itself. For example, it might acquire `ACCESS EXCLUSIVE` lock and later acquire `ACCESS SHARE` lock on the same table.\) Non-conflicting lock modes can be held concurrently by many transactions. Notice in particular that some lock modes are self-conflicting \(for example, an `ACCESS EXCLUSIVE` lock cannot be held by more than one transaction at a time\) while others are not self-conflicting \(for example, an `ACCESS SHARE` lock can be held by multiple transactions\).
+The list below shows the available lock modes and the contexts in which they are used automatically by PostgreSQL. You can also acquire any of these locks explicitly with the command [LOCK](https://www.postgresql.org/docs/12/sql-lock.html). Remember that all of these lock modes are table-level locks, even if the name contains the word “row”; the names of the lock modes are historical. To some extent the names reflect the typical usage of each lock mode — but the semantics are all the same. The only real difference between one lock mode and another is the set of lock modes with which each conflicts (see [Table 13.2](https://www.postgresql.org/docs/12/explicit-locking.html#TABLE-LOCK-COMPATIBILITY)). Two transactions cannot hold locks of conflicting modes on the same table at the same time. (However, a transaction never conflicts with itself. For example, it might acquire `ACCESS EXCLUSIVE` lock and later acquire `ACCESS SHARE` lock on the same table.) Non-conflicting lock modes can be held concurrently by many transactions. Notice in particular that some lock modes are self-conflicting (for example, an `ACCESS EXCLUSIVE` lock cannot be held by more than one transaction at a time) while others are not self-conflicting (for example, an `ACCESS SHARE` lock can be held by multiple transactions).
 
 **Table-Level Lock Modes**
 
@@ -14,31 +14,37 @@ The list below shows the available lock modes and the contexts in which they are
 
 Conflicts with the `ACCESS EXCLUSIVE` lock mode only.
 
-The `SELECT` command acquires a lock of this mode on referenced tables. In general, any query that only _reads_ a table and does not modify it will acquire this lock mode.`ROW SHARE`
+The `SELECT` command acquires a lock of this mode on referenced tables. In general, any query that only _reads_ a table and does not modify it will acquire this lock mode.
+
+`ROW SHARE`
 
 Conflicts with the `EXCLUSIVE` and `ACCESS EXCLUSIVE` lock modes.
 
-The `SELECT FOR UPDATE` and `SELECT FOR SHARE` commands acquire a lock of this mode on the target table\(s\) \(in addition to `ACCESS SHARE` locks on any other tables that are referenced but not selected `FOR UPDATE/FOR SHARE`\).`ROW EXCLUSIVE`
+The `SELECT FOR UPDATE` and `SELECT FOR SHARE` commands acquire a lock of this mode on the target table(s) (in addition to `ACCESS SHARE` locks on any other tables that are referenced but not selected `FOR UPDATE/FOR SHARE`).
+
+`ROW EXCLUSIVE`
 
 Conflicts with the `SHARE`, `SHARE ROW EXCLUSIVE`, `EXCLUSIVE`, and `ACCESS EXCLUSIVE` lock modes.
 
-The commands `UPDATE`, `DELETE`, and `INSERT` acquire this lock mode on the target table \(in addition to `ACCESS SHARE` locks on any other referenced tables\). In general, this lock mode will be acquired by any command that _modifies data_ in a table.`SHARE UPDATE EXCLUSIVE`
+The commands `UPDATE`, `DELETE`, and `INSERT` acquire this lock mode on the target table (in addition to `ACCESS SHARE` locks on any other referenced tables). In general, this lock mode will be acquired by any command that _modifies data_ in a table.
 
-Conflicts with the `SHARE UPDATE EXCLUSIVE`, `SHARE`, `SHARE ROW EXCLUSIVE`, `EXCLUSIVE`, and `ACCESS EXCLUSIVE` lock modes. This mode protects a table against concurrent schema changes and `VACUUM` runs.
+`SHARE UPDATE EXCLUSIVE`
 
-Acquired by `VACUUM` \(without `FULL`\), `ANALYZE`, `CREATE INDEX CONCURRENTLY`, `REINDEX CONCURRENTLY`, `CREATE STATISTICS`, and certain `ALTER INDEX` and `ALTER TABLE` variants \(for full details see [ALTER INDEX](https://www.postgresql.org/docs/12/sql-alterindex.html) and [ALTER TABLE](https://www.postgresql.org/docs/12/sql-altertable.html)\).
+與 SHARE UPDATE EXCLUSIVE、SHARE、SHARE ROW EXCLUSIVE，EXCLUSIVE 和 ACCESS EXCLUSIVE 鎖定模式衝突。此模式可防止資料表發生同時間的資料庫結構變更及 VACUUM 執行。
+
+由 VACUUM（非 FULL）取用，ANALYZE，CREATE INDEX CONCURRENTLY、REINDEX CONCURRENTLY、CREATE STATISTICS 以及某些 ALTER INDEX 和 ALTER TABLE 的指令（有關詳細資訊，請參閱 [ALTER INDEX](../../reference/sql-commands/alter-index.md) 和 [ALTER TABLE](../../reference/sql-commands/alter-table.md)）。
 
 `SHARE`
 
 Conflicts with the `ROW EXCLUSIVE`, `SHARE UPDATE EXCLUSIVE`, `SHARE ROW EXCLUSIVE`, `EXCLUSIVE`, and `ACCESS EXCLUSIVE` lock modes. This mode protects a table against concurrent data changes.
 
-Acquired by `CREATE INDEX` \(without `CONCURRENTLY`\).
+Acquired by `CREATE INDEX` (without `CONCURRENTLY`).
 
 `SHARE ROW EXCLUSIVE`
 
 Conflicts with the `ROW EXCLUSIVE`, `SHARE UPDATE EXCLUSIVE`, `SHARE`, `SHARE ROW EXCLUSIVE`, `EXCLUSIVE`, and `ACCESS EXCLUSIVE` lock modes. This mode protects a table against concurrent data changes, and is self-exclusive so that only one session can hold it at a time.
 
-Acquired by `CREATE TRIGGER` and some forms of `ALTER TABLE` \(see [ALTER TABLE](https://www.postgresql.org/docs/12/sql-altertable.html)\).
+Acquired by `CREATE TRIGGER` and some forms of `ALTER TABLE` (see [ALTER TABLE](https://www.postgresql.org/docs/12/sql-altertable.html)).
 
 `EXCLUSIVE`
 
@@ -48,90 +54,90 @@ Acquired by `REFRESH MATERIALIZED VIEW CONCURRENTLY`.
 
 `ACCESS EXCLUSIVE`
 
-Conflicts with locks of all modes \(`ACCESS SHARE`, `ROW SHARE`, `ROW EXCLUSIVE`, `SHARE UPDATE EXCLUSIVE`, `SHARE`, `SHARE ROW EXCLUSIVE`, `EXCLUSIVE`, and `ACCESS EXCLUSIVE`\). This mode guarantees that the holder is the only transaction accessing the table in any way.
+Conflicts with locks of all modes (`ACCESS SHARE`, `ROW SHARE`, `ROW EXCLUSIVE`, `SHARE UPDATE EXCLUSIVE`, `SHARE`, `SHARE ROW EXCLUSIVE`, `EXCLUSIVE`, and `ACCESS EXCLUSIVE`). This mode guarantees that the holder is the only transaction accessing the table in any way.
 
-Acquired by the `DROP TABLE`, `TRUNCATE`, `REINDEX`, `CLUSTER`, `VACUUM FULL`, and `REFRESH MATERIALIZED VIEW` \(without `CONCURRENTLY`\) commands. Many forms of `ALTER INDEX` and `ALTER TABLE` also acquire a lock at this level. This is also the default lock mode for `LOCK TABLE` statements that do not specify a mode explicitly.
+Acquired by the `DROP TABLE`, `TRUNCATE`, `REINDEX`, `CLUSTER`, `VACUUM FULL`, and `REFRESH MATERIALIZED VIEW` (without `CONCURRENTLY`) commands. Many forms of `ALTER INDEX` and `ALTER TABLE` also acquire a lock at this level. This is also the default lock mode for `LOCK TABLE` statements that do not specify a mode explicitly.
 
-### Tip
-
-Only an `ACCESS EXCLUSIVE` lock blocks a `SELECT` \(without `FOR UPDATE/SHARE`\) statement.
+{% hint style="info" %}
+僅 ACCESS EXCLUSIVE 鎖定會阻擋 SELECT（無 FOR UPDATE / SHARE）語句。
+{% endhint %}
 
 Once acquired, a lock is normally held until the end of the transaction. But if a lock is acquired after establishing a savepoint, the lock is released immediately if the savepoint is rolled back to. This is consistent with the principle that `ROLLBACK` cancels all effects of the commands since the savepoint. The same holds for locks acquired within a PL/pgSQL exception block: an error escape from the block releases locks acquired within it.
 
-### **Table 13.2.  Conflicting Lock Modes**
+#### **Table 13.2.  Conflicting Lock Modes**
 
-| Requested Lock Mode | Current Lock Mode |  |  |  |  |  |  |  |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| ACCESS SHARE | ROW SHARE | ROW EXCLUSIVE | SHARE UPDATE EXCLUSIVE | SHARE | SHARE ROW EXCLUSIVE | EXCLUSIVE | ACCESS EXCLUSIVE |  |
-| ACCESS SHARE |  |  |  |  |  |  |  | X |
-| ROW SHARE |  |  |  |  |  |  | X | X |
-| ROW EXCLUSIVE |  |  |  |  | X | X | X | X |
-| SHARE UPDATE EXCLUSIVE |  |  |  | X | X | X | X | X |
-| SHARE |  |  | X | X |  | X | X | X |
-| SHARE ROW EXCLUSIVE |  |  | X | X | X | X | X | X |
-| EXCLUSIVE |  | X | X | X | X | X | X | X |
-| ACCESS EXCLUSIVE | X | X | X | X | X | X | X | X |
+| Requested Lock Mode    | Current Lock Mode |               |                        |       |                     |           |                  |   |
+| ---------------------- | ----------------- | ------------- | ---------------------- | ----- | ------------------- | --------- | ---------------- | - |
+| ACCESS SHARE           | ROW SHARE         | ROW EXCLUSIVE | SHARE UPDATE EXCLUSIVE | SHARE | SHARE ROW EXCLUSIVE | EXCLUSIVE | ACCESS EXCLUSIVE |   |
+| ACCESS SHARE           |                   |               |                        |       |                     |           |                  | X |
+| ROW SHARE              |                   |               |                        |       |                     |           | X                | X |
+| ROW EXCLUSIVE          |                   |               |                        |       | X                   | X         | X                | X |
+| SHARE UPDATE EXCLUSIVE |                   |               |                        | X     | X                   | X         | X                | X |
+| SHARE                  |                   |               | X                      | X     |                     | X         | X                | X |
+| SHARE ROW EXCLUSIVE    |                   |               | X                      | X     | X                   | X         | X                | X |
+| EXCLUSIVE              |                   | X             | X                      | X     | X                   | X         | X                | X |
+| ACCESS EXCLUSIVE       | X                 | X             | X                      | X     | X                   | X         | X                | X |
 
 ## 13.3.2. Row-Level Locks
 
-In addition to table-level locks, there are row-level locks, which are listed as below with the contexts in which they are used automatically by PostgreSQL. See [Table 13.3](https://www.postgresql.org/docs/12/explicit-locking.html#ROW-LOCK-COMPATIBILITY) for a complete table of row-level lock conflicts. Note that a transaction can hold conflicting locks on the same row, even in different subtransactions; but other than that, two transactions can never hold conflicting locks on the same row. Row-level locks do not affect data querying; they block only _writers and lockers_ to the same row. Row-level locks are released at transaction end or during savepoint rollback, just like table-level locks.
+除資料表層級的鎖定外，還有資料列層級的鎖定，下面列出了這些資料列層級的鎖定以及 PostgreSQL 自動使用它們的情形。有關資料列層級鎖衝突的完整列表，請參閱 [Table 13.3](explicit-locking.md#table-13-3-conflicting-row-level-locks)。請注意，即使在不同的子事務中，事務也可以在同一筆資料上上持有相衝突的鎖定。但是除此之外，兩個事務永遠不能在同一筆資料上持有相衝突的鎖定。資料列層級的鎖定不會影響資料查詢。它們只是阻止同一筆資料的寫入和鎖定。資料列層級的鎖定會在事務結束時或在保存點回溯期間釋放，就像資料表層級的鎖定一樣。
 
 **Row-Level Lock Modes**
 
 `FOR UPDATE`
 
-`FOR UPDATE` causes the rows retrieved by the `SELECT` statement to be locked as though for update. This prevents them from being locked, modified or deleted by other transactions until the current transaction ends. That is, other transactions that attempt `UPDATE`, `DELETE`, `SELECT FOR UPDATE`, `SELECT FOR NO KEY UPDATE`, `SELECT FOR SHARE` or `SELECT FOR KEY SHARE` of these rows will be blocked until the current transaction ends; conversely, `SELECT FOR UPDATE` will wait for a concurrent transaction that has run any of those commands on the same row, and will then lock and return the updated row \(or no row, if the row was deleted\). Within a `REPEATABLE READ` or `SERIALIZABLE` transaction, however, an error will be thrown if a row to be locked has changed since the transaction started. For further discussion see [Section 13.4](https://www.postgresql.org/docs/12/applevel-consistency.html).
+FOR UPDATE 會使 SELECT 語句所檢索到的資料被鎖定，就像是要進行更新一樣。這樣可以防止它們被其他事務鎖定，修改或刪除，直到目前的事務結束為止。也就是說，將阻止其他想要嘗試對於這些資料進行 UPDATE，DELETE，SELECT FOR UPDATE，SELECT FOR NO KEY UPDATE，SELECT FOR SHARE 或 SELECT FOR KEY SHARE 的事務，直到目前事務結束為止。相反地，SELECT FOR UPDATE 將等待在同一筆資料上已經執行了以上這些命令的線上事務，然後將鎖定並回傳更新的資料（如果刪除了該筆資料，則不回傳任何資料）。 但是，在 REPEATABLE READ 或 SERIALIZABLE 事務中，如果從事務起始以來要鎖定的資料已被修改，則將引發錯誤。有關更多討論，請參閱[第 13.4 節](data-consistency-checks-at-the-application-level.md)。
 
-The `FOR UPDATE` lock mode is also acquired by any `DELETE` on a row, and also by an `UPDATE` that modifies the values on certain columns. Currently, the set of columns considered for the `UPDATE` case are those that have a unique index on them that can be used in a foreign key \(so partial indexes and expressional indexes are not considered\), but this may change in the future.
+資料列上的任何 DELETE 以及修改某些欄位值的 UPDATE 也會獲取 FOR UPDATE 鎖定模式。目前在UPDATE情況下考慮使用的欄位集合是可以在外部鍵上使用的唯一索引（因此不考慮部分索引和表式式索引），但是將來可能會有所改變。
 
 `FOR NO KEY UPDATE`
 
-Behaves similarly to `FOR UPDATE`, except that the lock acquired is weaker: this lock will not block `SELECT FOR KEY SHARE` commands that attempt to acquire a lock on the same rows. This lock mode is also acquired by any `UPDATE` that does not acquire a `FOR UPDATE` lock.
+行為與 FOR UPDATE 類似，除了獲取的鎖定較弱勢之外：此鎖定不會阻止試圖獲取同一筆資料上鎖定的 SELECT FOR KEY SHARE 指令。任何不會取得 FOR UPDATE 鎖定的 UPDATE 也會取得此鎖定模式。
 
 `FOR SHARE`
 
-Behaves similarly to `FOR NO KEY UPDATE`, except that it acquires a shared lock rather than exclusive lock on each retrieved row. A shared lock blocks other transactions from performing `UPDATE`, `DELETE`, `SELECT FOR UPDATE` or `SELECT FOR NO KEY UPDATE` on these rows, but it does not prevent them from performing `SELECT FOR SHARE` or `SELECT FOR KEY SHARE`.
+行為類似於 FOR NO KEY UPDATE，不同之處在於它在每筆檢索到的資料上取得一個共享鎖定，而不是互斥鎖定。共享鎖定可以阻止其他事務在這些資料上執行 UPDATE，DELETE，SELECT FOR UPDATE 或 SELECT FOR NO KEY UPDATE，但不會阻止它們執行 SELECT FOR SHARE 或 SELECT FOR KEY SHARE。
 
 `FOR KEY SHARE`
 
-Behaves similarly to `FOR SHARE`, except that the lock is weaker: `SELECT FOR UPDATE` is blocked, but not `SELECT FOR NO KEY UPDATE`. A key-shared lock blocks other transactions from performing `DELETE` or any `UPDATE` that changes the key values, but not other `UPDATE`, and neither does it prevent `SELECT FOR NO KEY UPDATE`, `SELECT FOR SHARE`, or `SELECT FOR KEY SHARE`.
+行為與 FOR SHARE 類似，除了鎖定較弱勢之外：SELECT FOR UPDATE 被阻擋，但 SELECT FOR NO KEY UPDATE 不會。 SELECT FOR NO KEY 鎖定會阻止其他事務執行 DELETE 或任何變更鍵值的 UPDATE 操作，但不會阻止其他 UPDATE 操作，也不會阻止 SELECT FOR NO KEY UPDATE，SELECT FOR SHARE 或 SELECT FOR KEY SHARE。
 
-PostgreSQL doesn't remember any information about modified rows in memory, so there is no limit on the number of rows locked at one time. However, locking a row might cause a disk write, e.g., `SELECT FOR UPDATE` modifies selected rows to mark them locked, and so will result in disk writes.
+PostgreSQL 不會去記住記憶體中已修改資料的任何資訊，因此一次鎖定的資料筆數沒有限制。但是，鎖定一筆資料就可能會導致磁碟寫入行為。例如，SELECT FOR UPDATE 會修改所選資料以將其標記為已鎖定，因此將產生磁碟寫入行為。
 
-### **Table 13.3. Conflicting Row-Level Locks**
+#### **Table 13.3. Conflicting Row-Level Locks**
 
-| Requested Lock Mode | Current Lock Mode |  |  |  |
-| :--- | :--- | :--- | :--- | :--- |
-| FOR KEY SHARE | FOR SHARE | FOR NO KEY UPDATE | FOR UPDATE |  |
-| FOR KEY SHARE |  |  |  | X |
-| FOR SHARE |  |  | X | X |
-| FOR NO KEY UPDATE |  | X | X | X |
-| FOR UPDATE | X | X | X | X |
+| Requested Lock Mode | Current Lock Mode |                   |            |   |
+| ------------------- | ----------------- | ----------------- | ---------- | - |
+| FOR KEY SHARE       | FOR SHARE         | FOR NO KEY UPDATE | FOR UPDATE |   |
+| FOR KEY SHARE       |                   |                   |            | X |
+| FOR SHARE           |                   |                   | X          | X |
+| FOR NO KEY UPDATE   |                   | X                 | X          | X |
+| FOR UPDATE          | X                 | X                 | X          | X |
 
 ## 13.3.3. Page-Level Locks
 
-In addition to table and row locks, page-level share/exclusive locks are used to control read/write access to table pages in the shared buffer pool. These locks are released immediately after a row is fetched or updated. Application developers normally need not be concerned with page-level locks, but they are mentioned here for completeness.
+除了資料表和資料列層級的鎖定之外，頁面層級共享/獨占鎖定用於控制對共享緩衝區中資料表頁面的讀寫存取。在取得或更新一筆資料後，就會立即釋放這些鎖定。應用程序開發人員通常不必關心頁面層級的鎖定，但是出於說明完整性的考量，還是在此稍作說明。
 
 ## 13.3.4. Deadlocks
 
-The use of explicit locking can increase the likelihood of _deadlocks_, wherein two \(or more\) transactions each hold locks that the other wants. For example, if transaction 1 acquires an exclusive lock on table A and then tries to acquire an exclusive lock on table B, while transaction 2 has already exclusive-locked table B and now wants an exclusive lock on table A, then neither one can proceed. PostgreSQL automatically detects deadlock situations and resolves them by aborting one of the transactions involved, allowing the other\(s\) to complete. \(Exactly which transaction will be aborted is difficult to predict and should not be relied upon.\)
+The use of explicit locking can increase the likelihood of _deadlocks_, wherein two (or more) transactions each hold locks that the other wants. For example, if transaction 1 acquires an exclusive lock on table A and then tries to acquire an exclusive lock on table B, while transaction 2 has already exclusive-locked table B and now wants an exclusive lock on table A, then neither one can proceed. PostgreSQL automatically detects deadlock situations and resolves them by aborting one of the transactions involved, allowing the other(s) to complete. (Exactly which transaction will be aborted is difficult to predict and should not be relied upon.)
 
-Note that deadlocks can also occur as the result of row-level locks \(and thus, they can occur even if explicit locking is not used\). Consider the case in which two concurrent transactions modify a table. The first transaction executes:
+Note that deadlocks can also occur as the result of row-level locks (and thus, they can occur even if explicit locking is not used). Consider the case in which two concurrent transactions modify a table. The first transaction executes:
 
-```text
+```
 UPDATE accounts SET balance = balance + 100.00 WHERE acctnum = 11111;
 ```
 
 This acquires a row-level lock on the row with the specified account number. Then, the second transaction executes:
 
-```text
+```
 UPDATE accounts SET balance = balance + 100.00 WHERE acctnum = 22222;
 UPDATE accounts SET balance = balance - 100.00 WHERE acctnum = 11111;
 ```
 
 The first `UPDATE` statement successfully acquires a row-level lock on the specified row, so it succeeds in updating that row. However, the second `UPDATE` statement finds that the row it is attempting to update has already been locked, so it waits for the transaction that acquired the lock to complete. Transaction two is now waiting on transaction one to complete before it continues execution. Now, transaction one executes:
 
-```text
+```
 UPDATE accounts SET balance = balance - 100.00 WHERE acctnum = 22222;
 ```
 
@@ -139,7 +145,7 @@ Transaction one attempts to acquire a row-level lock on the specified row, but i
 
 The best defense against deadlocks is generally to avoid them by being certain that all applications using a database acquire locks on multiple objects in a consistent order. In the example above, if both transactions had updated the rows in the same order, no deadlock would have occurred. One should also ensure that the first lock acquired on an object in a transaction is the most restrictive mode that will be needed for that object. If it is not feasible to verify this in advance, then deadlocks can be handled on-the-fly by retrying transactions that abort due to deadlocks.
 
-So long as no deadlock situation is detected, a transaction seeking either a table-level or row-level lock will wait indefinitely for conflicting locks to be released. This means it is a bad idea for applications to hold transactions open for long periods of time \(e.g., while waiting for user input\).
+只要未檢測到死鎖情況，尋求資料表層級或資料列層級鎖定的事務將無限期地等待衝突的鎖定被釋放。 對於應用程序來說，長時間保持事務處於打開狀態（例如，在等待使用者輸入時）不是一件好事。
 
 ## 13.3.5. Advisory Locks
 
@@ -153,7 +159,7 @@ Both advisory locks and regular locks are stored in a shared memory pool whose s
 
 In certain cases using advisory locking methods, especially in queries involving explicit ordering and `LIMIT` clauses, care must be taken to control the locks acquired because of the order in which SQL expressions are evaluated. For example:
 
-```text
+```
 SELECT pg_advisory_lock(id) FROM foo WHERE id = 12345; -- ok
 SELECT pg_advisory_lock(id) FROM foo WHERE id > 12345 LIMIT 100; -- danger!
 SELECT pg_advisory_lock(q.id) FROM
@@ -162,7 +168,6 @@ SELECT pg_advisory_lock(q.id) FROM
 ) q; -- ok
 ```
 
-In the above queries, the second form is dangerous because the `LIMIT` is not guaranteed to be applied before the locking function is executed. This might cause some locks to be acquired that the application was not expecting, and hence would fail to release \(until it ends the session\). From the point of view of the application, such locks would be dangling, although still viewable in `pg_locks`.
+In the above queries, the second form is dangerous because the `LIMIT` is not guaranteed to be applied before the locking function is executed. This might cause some locks to be acquired that the application was not expecting, and hence would fail to release (until it ends the session). From the point of view of the application, such locks would be dangling, although still viewable in `pg_locks`.
 
 The functions provided to manipulate advisory locks are described in [Section 9.26.10](https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS).
-

@@ -1,10 +1,10 @@
-# 21.3. Role Membership
+# 22.3. Role Membership
 
 It is frequently convenient to group users together to ease management of privileges: that way, privileges can be granted to, or revoked from, a group as a whole. In PostgreSQL this is done by creating a role that represents the group, and then granting _membership_ in the group role to individual user roles.
 
 To set up a group role, first create the role:
 
-```text
+```
 CREATE ROLE name;
 ```
 
@@ -12,16 +12,16 @@ Typically a role being used as a group would not have the `LOGIN` attribute, tho
 
 Once the group role exists, you can add and remove members using the [GRANT](https://www.postgresql.org/docs/12/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/12/sql-revoke.html) commands:
 
-```text
+```
 GRANT group_role TO role1, ... ;
 REVOKE group_role FROM role1, ... ;
 ```
 
-You can grant membership to other group roles, too \(since there isn't really any distinction between group roles and non-group roles\). The database will not let you set up circular membership loops. Also, it is not permitted to grant membership in a role to `PUBLIC`.
+You can grant membership to other group roles, too (since there isn't really any distinction between group roles and non-group roles). The database will not let you set up circular membership loops. Also, it is not permitted to grant membership in a role to `PUBLIC`.
 
 The members of a group role can use the privileges of the role in two ways. First, every member of a group can explicitly do [SET ROLE](https://www.postgresql.org/docs/12/sql-set-role.html) to temporarily “become” the group role. In this state, the database session has access to the privileges of the group role rather than the original login role, and any database objects created are considered owned by the group role not the login role. Second, member roles that have the `INHERIT` attribute automatically have use of the privileges of roles of which they are members, including any privileges inherited by those roles. As an example, suppose we have done:
 
-```text
+```
 CREATE ROLE joe LOGIN INHERIT;
 CREATE ROLE admin NOINHERIT;
 CREATE ROLE wheel NOINHERIT;
@@ -31,29 +31,29 @@ GRANT wheel TO admin;
 
 Immediately after connecting as role `joe`, a database session will have use of privileges granted directly to `joe` plus any privileges granted to `admin`, because `joe` “inherits” `admin`'s privileges. However, privileges granted to `wheel` are not available, because even though `joe` is indirectly a member of `wheel`, the membership is via `admin` which has the `NOINHERIT` attribute. After:
 
-```text
+```
 SET ROLE admin;
 ```
 
 the session would have use of only those privileges granted to `admin`, and not those granted to `joe`. After:
 
-```text
+```
 SET ROLE wheel;
 ```
 
 the session would have use of only those privileges granted to `wheel`, and not those granted to either `joe` or `admin`. The original privilege state can be restored with any of:
 
-```text
+```
 SET ROLE joe;
 SET ROLE NONE;
 RESET ROLE;
 ```
 
-## Note
+#### Note
 
 The `SET ROLE` command always allows selecting any role that the original login role is directly or indirectly a member of. Thus, in the above example, it is not necessary to become `admin` before becoming `wheel`.
 
-## Note
+#### Note
 
 In the SQL standard, there is a clear distinction between users and roles, and users do not automatically inherit privileges while roles do. This behavior can be obtained in PostgreSQL by giving roles being used as SQL roles the `INHERIT` attribute, while giving roles being used as SQL users the `NOINHERIT` attribute. However, PostgreSQL defaults to giving all roles the `INHERIT` attribute, for backward compatibility with pre-8.1 releases in which users always had use of permissions granted to groups they were members of.
 
@@ -61,9 +61,8 @@ The role attributes `LOGIN`, `SUPERUSER`, `CREATEDB`, and `CREATEROLE` can be th
 
 To destroy a group role, use [DROP ROLE](https://www.postgresql.org/docs/12/sql-droprole.html):
 
-```text
+```
 DROP ROLE name;
 ```
 
-Any memberships in the group role are automatically revoked \(but the member roles are not otherwise affected\).
-
+Any memberships in the group role are automatically revoked (but the member roles are not otherwise affected).

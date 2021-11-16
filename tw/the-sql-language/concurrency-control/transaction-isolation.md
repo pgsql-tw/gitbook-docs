@@ -1,6 +1,6 @@
 # 13.2. 交易隔離
 
-SQL 標準中定義了四個等級的交易隔離，其中最嚴格的隔離是「Serializable（序列化）」。序列化在標準的描述中，被定義為任意序列化交易的並行操作，都會保證產出與依照某種任意順序一個一個執行它們的效果相同。其他三個等級則是經由現象來定義的，即在不同的並行交易間的互動，這些現象在各個等集中必不能發生。標準中也注意到，基於 Serializable 的定義，這些現象都不可能發生在 Serializable 等級。（這並不難理解 -- 如果交易的影響必須與一個一個執行的結果一致，你怎麼會看到這些因為互動而產生的現象呢？）
+SQL 標準中定義了四個等級的交易隔離，其中最嚴格的隔離是「Serializable（序列化）」。序列化在標準的描述中，被定義為任意序列化交易的並行操作，都會保證產出與依照某種任意順序一個一個執行它們的效果相同。其他三個等級則是經由現象來定義的，即在不同的並行交易間的互動，這些現象在各個等級中必不能發生。標準中也注意到，基於 Serializable 的定義，這些現象都不可能發生在 Serializable 等級。（這並不難理解 -- 如果交易的影響必須與一個一個執行的結果一致，你怎麼會看到這些因為互動而產生的現象呢？）
 
 在不同等級中被禁止的現象是：
 
@@ -16,12 +16,12 @@ SQL 標準以及 PostgreSQL 實作的交易隔離等級，可參閱 Table 13.1�
 
 ### **Table 13.1. 交易隔離等級**
 
-| 隔離等級 | Dirty Read | Nonrepeatable Read | Phantom Read | Serialization Anomaly |
-| :--- | :--- | :--- | :--- | :--- |
-| Read uncommitted | 允許，但 PG 中不會 | 可能 | 可能 | 可能 |
-| Read committed | 不可能 | 可能 | 可能 | 可能 |
-| Repeatable read | 不可能 | 不可能 | 允許，但 PG 中不會 | 可能 |
-| Serializable | 不可能 | 不可能 | 不可能 | 不可能 |
+| 隔離等級             | Dirty Read  | Nonrepeatable Read | Phantom Read | Serialization Anomaly |
+| ---------------- | ----------- | ------------------ | ------------ | --------------------- |
+| Read uncommitted | 允許，但 PG 中不會 | 可能                 | 可能           | 可能                    |
+| Read committed   | 不可能         | 可能                 | 可能           | 可能                    |
+| Repeatable read  | 不可能         | 不可能                | 允許，但 PG 中不會  | 可能                    |
+| Serializable     | 不可能         | 不可能                | 不可能          | 不可能                   |
 
 在 PostgreSQL 當中，你可以要求上述四種交易隔離等級的任何一種，但在 PostgreSQL 內部實際上實作的只有三種隔離等級。舉例來說，PostgreSQL 的 Read Uncommitted 模式跟 Read Committed 的行為很相像，這是因為這是能夠把標準的隔離等級對應到 PostgreSQL 的 MVCC 架構的明智方法。
 
@@ -45,7 +45,7 @@ _Read Committed（提交讀）_ 是 PostgreSQL 預設的隔離等級。當交易
 
 因為上述的規則，對更新的指令來說有可能會看見不一致的快照：它能夠看見其他並行的更新指令對它嘗試要更新的資料列的影響，但它不會看見這些其他指令對資料庫裡的其他資料列的影響。這個行為使得 Read Committed 模式並不適合牽涉到複雜的搜尋條件的指令；然而，它對於比較簡單的案例卻是剛剛好。例如，考慮以下更新銀行餘額的交易：
 
-```text
+```
 BEGIN;
 UPDATE accounts SET balance = balance + 100.00 WHERE acctnum = 12345;
 UPDATE accounts SET balance = balance - 100.00 WHERE acctnum = 7534;
@@ -56,7 +56,7 @@ COMMIT;
 
 其他更複雜的使用狀況，在 Read Committed 模式中可以產生出並非期望的結果。例如考慮一個 `DELETE` 指令，要操作正好從它的限制條件中加入和移除的資料，像是假設 `website` 是一張有兩個資料列的表格，其中 `website.hits` 分別為 `9` 和 `10`：
 
-```text
+```
 BEGIN;
 UPDATE website SET hits = hits + 1;
 -- run from another session:  DELETE FROM website WHERE hits = 10;
@@ -71,7 +71,7 @@ Read Committed 提供的部份交易隔離對很多應用程式來說已經足�
 
 ## 13.2.2. Repeatable Read 隔離等級
 
-_Repeatable Read（重複讀）_ 隔離等級只會看到在交易開始前已經被提交的資料；它永遠不會看見尚未提交的資料或者在交易期間被並行交易提交的變更。（然而，查詢會看見在它自己的交易中前面的更新所造成的影響，即使那些影響尚未被提交。）這是比 SQL 標準對這個隔離等級要求的還要更強的保證，並且能夠預防除了 serialization anomalies 以外所有在[表格 13.1](transaction-isolation.md#MVCC-ISOLEVEL-TABLE)描述的現象。如前所述，這是標準所允許的，因為標準只描述了每個隔離等級一定要提供的 _最小_ 保護。
+_Repeatable Read（重複讀取）_ 隔離等級只會看到在交易開始前已經被提交的資料；它永遠不會看見尚未提交的資料或者在交易期間被並行交易提交的變更。（然而，查詢會看見在它自己的交易中前面的更新所造成的影響，即使那些影響尚未被提交。）這是比 SQL 標準對這個隔離等級要求的還要更強的保證，並且能夠預防除了 serialization anomalies 以外所有在[表格 13.1](transaction-isolation.md#MVCC-ISOLEVEL-TABLE)描述的現象。如前所述，這是標準所允許的，因為標準只描述了每個隔離等級一定要提供的 _最小_ 保護。
 
 這個等級跟 Read Committed 不同的地方在於 Repeatable Read 的交易看見的是在 _交易_ 的第一個非交易控制指令開始時的快照，而不是當前指令開始時的。因此，一個成功的 `SELECT` 指令在 _單一_ 交易之內都會看見相同的資料，例如它們不會看見在它們的交易開始以後其他交易所提交的變更。
 
@@ -79,7 +79,7 @@ _Repeatable Read（重複讀）_ 隔離等級只會看到在交易開始前已�
 
 `UPDATE`、`DELETE`、`SELECT FOR UPDATE`、和 `SELECT FOR SHARE` 指令的行為在搜尋目標資料列時與 `SELECT` 相同：它們將只會找在交易開始之前已經被提交的目標資料列。然而，這些目標資料列有可能在它被搜尋到時，已經被其他並行交易更新（或者刪除、上鎖），此時，Repeatable Read 的交易會等待第一個更新的交易提交或者還原（如果它正在進行中）。如果第一個更新者還原了，那麼它的影響就無效了，Repeatable Read 的交易就可以對原本找到的資料列做更新。但如果第一個更新者提交了（且確實更新或者刪除這個資料列，而非只是鎖定它而已），那麼 Repeatable Read 的交易將會還原並回應以下的訊息。
 
-```text
+```
 ERROR:  could not serialize access due to concurrent update
 ```
 
@@ -91,9 +91,9 @@ ERROR:  could not serialize access due to concurrent update
 
 Repeatable Read 模式提供了嚴格的保證，每個交易會看見完全穩定的資料庫視野。然而，這個視野並不需要跟並行交易的某些依序（一次一個）執行的結果總是維持一致。舉例來說，在這個等級中即使是一個只有讀取的交易，也可能只看見反應一個批次完成的控制紀錄的更新，但卻 _沒_ 看見邏輯上是批次的一部分的一個細節紀錄變更，因為它讀取到的是比較早的控制紀錄的版本。嘗試想要在這個隔離等級的交易下執行商業邏輯時，若沒有謹慎地使用明確的鎖去阻止並行交易的話，可能不會正確地運作。
 
-## 注意
-
+{% hint style="info" %}
 在 PostgreSQL 9.1 以前，一個採用 Serializable 交易隔離等級的要求，會提供跟這裡描述的完全一樣的行為。若想要保持過去的 Serializable 的行為，在現在應該要使用 Repeatable Read。
+{% endhint %}
 
 ## 13.2.3. Serializable 隔離等級
 
@@ -101,7 +101,7 @@ _Serializable（序列化）_ 隔離等級提供了最嚴格的交易隔離。�
 
 舉例來說，考慮有一個表格 `mytab`，一開始有：
 
-```text
+```
  class | value
 -------+-------
      1 |    10
@@ -112,41 +112,40 @@ _Serializable（序列化）_ 隔離等級提供了最嚴格的交易隔離。�
 
 假設有個序列化交易 A 要計算：
 
-```text
+```
 SELECT SUM(value) FROM mytab WHERE class = 1;
 ```
 
 然後將結果（30）作為 `value` 插入為 `class` `= 2` 的新資料列。同時序列化交易 B 並行地計算：
 
-```text
+```
 SELECT SUM(value) FROM mytab WHERE class = 2;
 ```
 
 並且得到結果 300，將它插入為 `class` `= 1` 的新資料列。接著兩個交易嘗試要提交。如果其中任何一個交易是以 Repeatable Read 隔離等級執行的，兩個交易都會被允許提交；但因為並沒有序列的執行順序與這個結果一致，使用 Serializable 的交易將會導致一個交易提交、另一個被還原並回覆這個訊息：
 
-```text
+```
 ERROR:  could not serialize access due to read/write dependencies among transactions
 ```
 
-這是因為如果 A 在 B 之前執行的話，B 的 SUM 函數就會得到 330 的總和而不是 300。然而若是將執行順序反過來的話，A 的 SUM 函數也會有總合數值不同的類似問題。
+This is because if A had executed before B, B would have computed the sum 330, not 300, and similarly the other order would have resulted in a different sum computed by A.
 
-當我們藉由序列化交易來預防 _serialization anomaly_ 的時候，在一個正在進行讀取的交易成功提交之前，任何從持久性使用者資料表所讀取的資料都不該被視為合法的。即使是唯讀的交易也是如此，除非是在讀取時直接視作合法資料的 _deferrable_ 的交易，因為他會一直等到能取得一個確保不被這類問題影響的 snapshot 後才會開始讀取資料。在所有其他的應用情境中，都不應該依賴於稍後被中斷的交易所讀取的資料；取而代之的是．他們應該持續重試整個交易直到成功。
+When relying on Serializable transactions to prevent anomalies, it is important that any data read from a permanent user table not be considered valid until the transaction which read it has successfully committed. This is true even for read-only transactions, except that data read within a _deferrable_ read-only transaction is known to be valid as soon as it is read, because such a transaction waits until it can acquire a snapshot guaranteed to be free from such problems before starting to read any data. In all other cases applications must not depend on results read during a transaction that later aborted; instead, they should retry the transaction until it succeeds.
 
-在 PostgreSQL 中可以使用 _predicate locking_ 確保正確的序列化，當一個交易優先執行時，他將會持有一把特別的鎖，用來決定一個寫入操作何時會對先前其他併發交易中的讀取操作產生影響。這種鎖在 PostgreSQL 中並不會導致任何阻塞或是死鎖的情況，他們主要是用來判斷與標記在進行序列化併發交易時，會導致 serialization anomalies 的特定組合。相對而言，一個 Read Committed 或 Repeatable Read 隔離等級的交易，就可能需要取得一整個資料表的鎖才能確保其資料一致性。然而這可能會阻塞其他想存取那張資料表的使用者，或是在使用 `SELECT FOR UPDATE` 或 `SELECT FOR SHARE` 的指令時阻塞其他交易進行且造成額外的硬碟資料存取。
+To guarantee true serializability PostgreSQL uses _predicate locking_, which means that it keeps locks which allow it to determine when a write would have had an impact on the result of a previous read from a concurrent transaction, had it run first. In PostgreSQL these locks do not cause any blocking and therefore can _not_ play any part in causing a deadlock. They are used to identify and flag dependencies among concurrent Serializable transactions which in certain combinations can lead to serialization anomalies. In contrast, a Read Committed or Repeatable Read transaction which wants to ensure data consistency may need to take out a lock on an entire table, which could block other users attempting to use that table, or it may use `SELECT FOR UPDATE` or `SELECT FOR SHARE` which not only can block other transactions but cause disk access.
 
-就像其他大多數的資料庫系統一樣，PostgreSQL 的 predicate locks 是基於一筆交易所實際訪問的資料的。這將會在 [`pg_locks`](https://www.postgresql.org/docs/10/static/view-pg-locks.html) 系統介面中的 `SIReadLock` 模式下呈現。在一次查詢中所需要的鎖會取決於它採用的執行計畫，同時為了避免追蹤各個鎖的狀態而導致記憶體用罄，他將會傾向於把多個細粒度的鎖（比如 tuple locks） 組合成更粗粒度的鎖（比如 page locks）。而在一筆唯讀的交易中，如果它檢測到已經沒有會導致 serialization anomaly 的衝突時，它可以提前釋放所持有的 SIRead 鎖，而且實際上唯讀的交易往往可以在開始時就這麼做來避免持有任何 predicate locks。但如果你特別請求一筆 `SERIALIZABLE READ ONLY DEFERRABLE` 的交易的話，他仍會持續阻塞直到能確認這種情況為止。（這也是唯一一個 Serializable 交易會阻塞，但 Repeatable Read 交易卻不會的狀況。）從另一方面來說，SIRead 鎖通常需要持有直到交易提交之後，直到所有存取資料相互重疊的讀寫交易都完成為止。
+Predicate locks in PostgreSQL, like in most other database systems, are based on data actually accessed by a transaction. These will show up in the [`pg_locks`](https://www.postgresql.org/docs/10/static/view-pg-locks.html) system view with a `mode` of `SIReadLock`. The particular locks acquired during execution of a query will depend on the plan used by the query, and multiple finer-grained locks (e.g., tuple locks) may be combined into fewer coarser-grained locks (e.g., page locks) during the course of the transaction to prevent exhaustion of the memory used to track the locks. A `READ ONLY`transaction may be able to release its SIRead locks before completion, if it detects that no conflicts can still occur which could lead to a serialization anomaly. In fact, `READ ONLY`transactions will often be able to establish that fact at startup and avoid taking any predicate locks. If you explicitly request a `SERIALIZABLE READ ONLY DEFERRABLE` transaction, it will block until it can establish this fact. (This is the _only_ case where Serializable transactions block but Repeatable Read transactions don't.) On the other hand, SIRead locks often need to be kept past transaction commit, until overlapping read write transactions complete.
 
-一致使用序列化交易可以簡化開發。對於任何成功提交的併發交易的集合，都會有和逐個執行相同的效果，這個保證意味著如果你能證明一筆交易在獨自執行時是正確的，那麼你便可以相信他在任何混雜的序列化交易中也能運作良好，即使你不知道其他交易做了什麼或是使否成功提交也絲毫不影響。對於一個使用這類型技術的環境而言，有一個通用的方法來處理序列化失敗是非常重要的（他通常會返回一個 '40001' 的 SQLSTATE），因為很難去準確的預測哪些交易可能會對相關的資料進行讀寫並進行回滾來預防 serialization anomalies。對於相關資料的讀寫進行監控，以及重啟因為序列化失敗而受影響的交易都需要付出成本，但相對於顯式鎖導致的阻塞以及 `SELECT FOR UPDATE` 或 `SELECT FOR SHARE` 指令來得更平衡些，序列化交易確實是某些環境中追求效能的最佳解。
+Consistent use of Serializable transactions can simplify development. The guarantee that any set of successfully committed concurrent Serializable transactions will have the same effect as if they were run one at a time means that if you can demonstrate that a single transaction, as written, will do the right thing when run by itself, you can have confidence that it will do the right thing in any mix of Serializable transactions, even without any information about what those other transactions might do, or it will not successfully commit. It is important that an environment which uses this technique have a generalized way of handling serialization failures (which always return with a SQLSTATE value of '40001'), because it will be very hard to predict exactly which transactions might contribute to the read/write dependencies and need to be rolled back to prevent serialization anomalies. The monitoring of read/write dependencies has a cost, as does the restart of transactions which are terminated with a serialization failure, but balanced against the cost and blocking involved in use of explicit locks and `SELECT FOR UPDATE` or `SELECT FOR SHARE`, Serializable transactions are the best performance choice for some environments.
 
-在 PostgresSQL 的 Serializable transaction 的隔離等級中，併發的交易只有在能夠證明有一個可產生同樣結果的序列化執行順序時，才會被允許提交，但他仍無法完全避免實際序列化執行時所引發的錯誤。更準確的來說，即使再插入鍵值之前已經明確檢查確認過他並不存在，仍然可能因為序列化交易存取資料的重疊問題，而導致違反 unique constraint 的衝突。這可以透過在插入可能引發衝突的鍵值之前檢查所有的序列化交易來避免。舉例而言，想像有一個應用程式它向使用者索取一個新的鍵值，並預先透過在資料表中選取他來檢查確保他尚未存在，或是直接選擇現有的最大鍵值加上 1 來生成一個新的鍵值。如果有些序列化交易沒有遵循這個協議反而直接插入鍵值的話，可能會回報違反了 unique constraint，即使他在一連串序列化執行的併發交易中不可能發生。
+While PostgreSQL's Serializable transaction isolation level only allows concurrent transactions to commit if it can prove there is a serial order of execution that would produce the same effect, it doesn't always prevent errors from being raised that would not occur in true serial execution. In particular, it is possible to see unique constraint violations caused by conflicts with overlapping Serializable transactions even after explicitly checking that the key isn't present before attempting to insert it. This can be avoided by making sure that _all_ Serializable transactions that insert potentially conflicting keys explicitly check if they can do so first. For example, imagine an application that asks the user for a new key and then checks that it doesn't exist already by trying to select it first, or generates a new key by selecting the maximum existing key and adding one. If some Serializable transactions insert new keys directly without following this protocol, unique constraints violations might be reported even in cases where they could not occur in a serial execution of the concurrent transactions.
 
-若要仰賴序列化交易的併發控制來追求效能最佳化的話，你需要考慮到這些議題：
+For optimal performance when relying on Serializable transactions for concurrency control, these issues should be considered:
 
-* 盡可能將交易宣告為 `READ ONLY` 的
-* 妥善控制使用中的連線數，並在必要時刻使用連線池。這總會是一個重要的效能考量，尤其是在使用序列化交易的工作量繁重的系統中。
-* 別在單一筆交易中安排不必要的事務，以實現簡潔的目的
-* 別讓連線陷入過久的閒置狀態。[idle\_in\_transaction\_session\_timeout](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-IDLE-IN-TRANSACTION-SESSION-TIMEOUT) 這個設定參數可以用來自動斷開閒置的會話。
-* 當有了序列化交易所帶來的隔離與保護後，移除掉不必要的顯式鎖、`SELECT FOR UPDATE`, 和 `SELECT FOR SHARE` 指令。
-* 當 predicate lock 的資料表因為記憶體不足，而被迫把多個 page-level predicate locks 合併成單一個 relation-level predicate lock 時，序列化失敗率可能會因此上升。你可以透過提高 [max\_pred\_locks\_per\_transaction](https://www.postgresql.org/docs/10/static/runtime-config-locks.html#GUC-MAX-PRED-LOCKS-PER-TRANSACTION), [max\_pred\_locks\_per\_relation](https://www.postgresql.org/docs/10/static/runtime-config-locks.html#GUC-MAX-PRED-LOCKS-PER-RELATION), 且/或 [max\_pred\_locks\_per\_page](https://www.postgresql.org/docs/10/static/runtime-config-locks.html#GUC-MAX-PRED-LOCKS-PER-PAGE) 來避免。
-* 線性掃描始終都需要一個 relation-level predicate lock，這可能導致序列化失敗率的上升。透過減少 [random\_page\_cost](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-RANDOM-PAGE-COST) 且/或增加 [cpu\_tuple\_cost](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-CPU-TUPLE-COST) 來鼓勵使用索引掃描可能會有所幫助。記得要在減少交易回滾及重試次數與執行查詢的整題時間變化之間做好權衡。
-
+* Declare transactions as `READ ONLY` when possible.
+* Control the number of active connections, using a connection pool if needed. This is always an important performance consideration, but it can be particularly important in a busy system using Serializable transactions.
+* Don't put more into a single transaction than needed for integrity purposes.
+* Don't leave connections dangling “idle in transaction” longer than necessary. The configuration parameter [idle\_in\_transaction\_session\_timeout](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-IDLE-IN-TRANSACTION-SESSION-TIMEOUT) may be used to automatically disconnect lingering sessions.
+* Eliminate explicit locks, `SELECT FOR UPDATE`, and `SELECT FOR SHARE` where no longer needed due to the protections automatically provided by Serializable transactions.
+* When the system is forced to combine multiple page-level predicate locks into a single relation-level predicate lock because the predicate lock table is short of memory, an increase in the rate of serialization failures may occur. You can avoid this by increasing [max\_pred\_locks\_per\_transaction](https://www.postgresql.org/docs/10/static/runtime-config-locks.html#GUC-MAX-PRED-LOCKS-PER-TRANSACTION), [max\_pred\_locks\_per\_relation](https://www.postgresql.org/docs/10/static/runtime-config-locks.html#GUC-MAX-PRED-LOCKS-PER-RELATION), and/or [max\_pred\_locks\_per\_page](https://www.postgresql.org/docs/10/static/runtime-config-locks.html#GUC-MAX-PRED-LOCKS-PER-PAGE).
+* A sequential scan will always necessitate a relation-level predicate lock. This can result in an increased rate of serialization failures. It may be helpful to encourage the use of index scans by reducing [random\_page\_cost](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-RANDOM-PAGE-COST) and/or increasing [cpu\_tuple\_cost](https://www.postgresql.org/docs/10/static/runtime-config-query.html#GUC-CPU-TUPLE-COST). Be sure to weigh any decrease in transaction rollbacks and restarts against any overall change in query execution time.

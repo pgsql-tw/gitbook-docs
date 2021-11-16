@@ -2,22 +2,26 @@
 
 REINDEX — 重建索引
 
-## 語法
+### 語法
 
-```text
-REINDEX [ ( VERBOSE ) ] { INDEX | TABLE | SCHEMA | DATABASE | SYSTEM } name
+```
+REINDEX [ ( option [, ...] ) ] { INDEX | TABLE | SCHEMA | DATABASE | SYSTEM } [ CONCURRENTLY ] name
+
+where option can be one of:
+
+    VERBOSE
 ```
 
-## 說明
+### 說明
 
 REINDEX 使用索引資料表中所儲存的資料重建索引，替換索引舊的版本。有幾種情況可以使用 REINDEX：
 
 * 索引損壞，不再包含有效的資料。雖然理論上這種情況永遠不會發生，但實際上索引會因程式錯誤或硬體故障而損壞。REINDEX 提供了一種恢復的方法。
 * 索引變得「臃腫」，即它包含許多空或幾乎空的頁面。在某些不常見的存取模式下，PostgreSQL 中 的 B-tree 索引會發生這種情況。REINDEX 提供了一種透過寫入無死頁的索引新版本來減少索引空間消耗的方法。有關更多訊息，請參閱[第 24.2 節](../../server-administration/routine-database-maintenance-tasks/routine-reindexing.md)。
 * 您變更了索引的儲存參數（例如 fillfactor），並希望確保變更能完全生效。
-* 使用 CONCURRENTLY 選項的索引建構失敗，留下「無效」的索引。 這些索引沒用，但使用 REINDEX 重建它們會很方便。請注意，REINDEX 將不執行同步建構。要在不干擾線上查詢的情況下建構索引，您應該刪除索引並重新發出 CREATE INDEX CONCURRENTLY 指令。
+* 使用 CONCURRENTLY 選項的索引建立失敗，留下「invalid」索引的時候。 這些索引沒辦法使用，但使用 REINDEX 重建它們會很方便。請注意，只有 REINDEX INDEX (單獨針對一個索引)的時候才能對無效索引執行平行處理(CONCURRENTLY)。
 
-## 參數
+### 參數
 
 `INDEX`
 
@@ -47,13 +51,13 @@ _`name`_
 
 使用此選項時，PostgreSQL 將重建索引而不會採取任何防止在資料表上進行同時的插入、更新或刪除的鎖定； 而標準索引重建會鎖定資料表上的寫入（但不會影響讀取），直到完成。使用此選項時需要注意一些注意事項—請參閱[同步重建索引](reindex.md#tong-bu-zhong-jian-suo-yin)。
 
-對於臨時資料表，REINDEX 都是以非平行同步\(non-concurrent\)的方式處理，因為其他任何連線都無法存取它們，更何況非平行同步的重新索引的成本更為便宜。
+對於臨時資料表，REINDEX 都是以非平行同步(non-concurrent)的方式處理，因為其他任何連線都無法存取它們，更何況非平行同步的重新索引的成本更為便宜。
 
 `VERBOSE`
 
 在重新索引每個索引時輸出進度報告。
 
-## 注意
+### 注意
 
 如果您懷疑使用者資料表上的索引損壞，您可以使用 REINDEX INDEX 或 REINDEX TABLE 簡單地重建該索引或資料表上的所有索引。
 
@@ -67,9 +71,9 @@ REINDEX 類似於索引的刪除和重新建立，因為索引內容是從頭開
 
 重新索引單個索引或資料表需要成為該索引或資料表的擁有者。重新索引資料庫需要成為資料庫的擁有者（請注意，擁有者因此可以重建其他使用者擁有的資料表索引）。當然，超級使用者總是可以重新索引任何東西。
 
-Reindexing partitioned tables or partitioned indexes is not supported. Each individual partition can be reindexed separately instead.
+不支援直接對分割資料表的父表或分割資料表索引重新編制索引。但每個單獨的子資料表都可以分別重新索引。
 
-### 同步重建索引
+#### 同步重建索引
 
 重建索引可能會干擾資料庫的一般操作。通常來說，PostgreSQL 會鎖定針對寫入操作重建索引的資料表，並透過對資料表的全表掃描來執行整個索引建構。其他交易事務仍然可以讀取資料表，但是如果它們嘗試在資料表中插入，更新或刪除資料，則它們將被暫時阻擋直到索引重建完成。如果系統是線上的正式資料庫，則可能會產生嚴重影響。非常大的資料表可能需要花費數小時才能建立索引，即使對於較小的表，索引重建也可能會將寫入者鎖定在線上系統無法接受的時間之內。
 
@@ -86,7 +90,7 @@ PostgreSQL 支援以最小的寫入鎖定來重建索引。透過指定 REINDEX 
 
 如果在重建索引時出現問題，例如唯一索引中的唯一性衝突，則 REINDEX 命令將失敗，但除現有索引外，還會留下「INVALID」的新索引。該索引出於查詢目的將被忽略，因為它可能不完整。但是它將仍然消耗更新資料的開銷。`psql \d` 命令將回報諸如 INVALID 的索引：
 
-```text
+```
 postgres=# \d tab
        Table "public.tab"
  Column |  Type   | Modifiers
@@ -105,23 +109,23 @@ REINDEX SYSTEM 不支援 CONCURRENTLY，因為不能同時為系統目錄重新�
 
 此外，排除限制條件的索引不能同步重新索引。如果在此命令中直接命名了這樣的索引，則會引發錯誤。如果同時對具有排除限制條件索引的資料表或資料庫重新建立索引，則將跳過這些索引。 （可以在沒有 CONCURRENTLY 選項的情況下重新索引此類索引。）
 
-## 範例
+### 範例
 
 重建單個索引：
 
-```text
+```
 REINDEX INDEX my_index;
 ```
 
 重建資料表 my\_table 上的所有索引：
 
-```text
+```
 REINDEX TABLE my_table;
 ```
 
 重建特定資料庫中的所有索引，而不管系統索引是否有效：
 
-```text
+```
 $ export PGOPTIONS="-P"
 $ psql broken_db
 ...
@@ -131,11 +135,10 @@ broken_db=> \q
 
 重建資料表的索引，而在進行重建索引的過程中，不會阻止任何相關物件的讀寫操作：
 
-```text
+```
 REINDEX TABLE CONCURRENTLY my_broken_table;
 ```
 
-## 相容性
+### 相容性
 
 SQL 標準中沒有 REINDEX 指令。
-

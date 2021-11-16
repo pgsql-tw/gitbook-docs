@@ -2,13 +2,13 @@
 
 NOTIFY — 發起一個通知
 
-## 語法
+### 語法
 
-```text
+```
 NOTIFY channel [ , payload ]
 ```
 
-## 說明
+### 說明
 
 NOTIFY 指令將通知事件與可選擇性的「payload」字串一起發送到每個用戶端應用程序，該客戶端應用程序先前已在目前資料庫中為指定的通道名稱執行了 LISTEN 監聽通道。所有用戶都可以看到通知。
 
@@ -26,7 +26,7 @@ NOTIFY 以某些重要方式與 SQL 事務交互溝通。首先，如果在事�
 
 執行 NOTIFY 的用戶端通常會在同一通知通道上進行監聽。在這種情況下，它將回傳通知事件，就像所有其他監聽連線一樣。根據應用程序邏輯，這可能會導致無用的作業。例如，讀取資料庫的資料表以查詢該連線剛剛寫出的相同更新。透過注意通知連線的伺服器程序 PID（在通知事件消息中提供）是否與自己連線的 PID（可從 libpq 獲得）相同，就能避免這種額外的工作。當它們相同時，通知事件是某個人自己的工作反彈，可以忽略。
 
-## 參數
+### 參數
 
 _`channel`_
 
@@ -36,7 +36,7 @@ _`payload`_
 
 要與通知一起傳送的「payload」字符串。必須將其指定為簡單的字串文字。在預設配置中，它必須少於 8000 個位元組。（如果需要傳遞二進位資料或大量訊息，最好將其放在資料庫的資料表中並發送記錄的指標。）
 
-## 注意
+### 注意
 
 有一個佇列保存已發送但尚未由所有監聽會話處理的通知。如果此佇列已滿，則在提交時呼叫 NOTIFY 的事務將失敗。佇列非常大（標準安裝中為 8GB），應該足夠大，幾乎適用於所有情境。但是，如果連線執行 LISTEN 然後進入事務很長時間，則不會進行清理。一旦佇列半滿，您將在日誌檔案中看到警告，指出阻擋清理的連線。在這種情況下，您應確保此連線結束其當下事務，以便可以繼續進行清理。
 
@@ -44,15 +44,15 @@ _`payload`_
 
 已執行 NOTIFY 的事務無法為兩階段提交做 prepared。
 
-### pg\_notify
+#### pg\_notify
 
-要發送通知，您還可以使用函數 pg\_notify\(text, text\)。此函數將通道名稱作為第一個參數，將有效負載作為第二個參數。如果您需要使用特殊的通道名稱和有效負載，則此功能比 NOTIFY 指令更容易使用。
+要發送通知，您還可以使用函數 pg\_notify(text, text)。此函數將通道名稱作為第一個參數，將有效負載作為第二個參數。如果您需要使用特殊的通道名稱和有效負載，則此功能比 NOTIFY 指令更容易使用。
 
-## 範例
+### 範例
 
 從 psql 配置並執行 listen / notify 指令：
 
-```text
+```
 LISTEN virtual;
 NOTIFY virtual;
 Asynchronous notification "virtual" received from server process with PID 8448.
@@ -64,11 +64,10 @@ SELECT pg_notify('fo' || 'o', 'pay' || 'load');
 Asynchronous notification "foo" with payload "payload" received from server process with PID 14728.
 ```
 
-## 相容性
+### 相容性
 
 SQL 標準中沒有 NOTIFY 語句。
 
-## 參閱
+### 參閱
 
-[LISTEN](listen.md), [UNLISTEN](unlisten.md)
-
+[LISTEN](listen.md), [UNLISTEN](unlisten.md)\

@@ -2,9 +2,9 @@
 
 COMMENT — 定義或變更物件的註解
 
-## 語法
+### 語法
 
-```text
+```
 COMMENT ON
 {
   ACCESS METHOD object_name |
@@ -57,7 +57,7 @@ where aggregate_signature is:
 [ [ argmode ] [ argname ] argtype [ , ... ] ] ORDER BY [ argmode ] [ argname ] argtype [ , ... ]
 ```
 
-## 說明
+### 說明
 
 COMMENT 儲存有關資料庫物件的註解。
 
@@ -67,21 +67,21 @@ COMMENT 儲存有關資料庫物件的註解。
 
 可以使用psql的 \d 系列指令查看註解。其他使用者界面要檢索註解的話，可以使用 psql 相同內建函數的建置，即 obj\_description，col\_description 和 shobj\_description（請參閱[表格 9.68](../../the-sql-language/functions-and-operators/system-information-functions.md#table-9-68-comment-information-functions)）。
 
-## 參數
+### 參數
 
-_`object_name`_  
-_`relation_name`_._`column_name`_  
-_`aggregate_name`_  
-_`constraint_name`_  
-_`function_name`_  
-_`operator_name`_  
-_`policy_name`_  
-_`rule_name`_  
+_`object_name`_\
+_`relation_name`_._`column_name`_\
+_`aggregate_name`_\
+_`constraint_name`_\
+_`function_name`_\
+_`operator_name`_\
+_`policy_name`_\
+_`rule_name`_\
 _`trigger_name`_
 
 要註釋的物件名稱。Table、aggregate、collation、conversion、domain、foreign table、function、index、operator、operator class、sequence、statistics、text search object、type、view 的名稱，並且可以是指定 schema。在對欄位進行註釋時，relation\_name 必須引用資料表、檢視表、複合型別或外部資料表。
 
-_`table_name`_  
+_`table_name`_\
 _`domain_name`_
 
 在 constraint、trigger、rule 或 policy 上建立註釋時，這些參數指定定義該物件的資料表或 domain 名稱。
@@ -110,7 +110,7 @@ _`large_object_oid`_
 
 large object 的 OID。
 
-_`left_type`_  
+_`left_type`_\
 _`right_type`_
 
 運算子參數的資料型別（可加上綱要名稱）。使用 NONE 表示缺少前綴或後綴運算子的參數。
@@ -131,27 +131,27 @@ _`text`_
 
 新的註解，寫成字串文字；或 NULL 以刪除註解。
 
-## 注意
+### 注意
 
 目前並沒有用於查看註解的安全機制：連線到資料庫的任何使用者可以看到該資料庫中的所有物件註解。對於資料庫而言，角色和資料表空間等共享物件，註解將以全域儲存，因此連線到叢集中任何資料庫的任何使用者都可以看到共享物件的所有註解。因此，請勿將安全關鍵訊息置於註解中。
 
-## 範例
+### 範例
 
 對資料表 mytable 加上註解：
 
-```text
+```
 COMMENT ON TABLE mytable IS 'This is my table.';
 ```
 
 再來移除它：
 
-```text
+```
 COMMENT ON TABLE mytable IS NULL;
 ```
 
 更多例子：
 
-```text
+```
 COMMENT ON ACCESS METHOD rtree IS 'R-Tree access method';
 COMMENT ON AGGREGATE my_aggregate (double precision) IS 'Computes sample variance';
 COMMENT ON CAST (text AS int4) IS 'Allow casts from text to int4';
@@ -193,7 +193,6 @@ COMMENT ON TYPE complex IS 'Complex number data type';
 COMMENT ON VIEW my_view IS 'View of departmental costs';
 ```
 
-## 相容性
+### 相容性
 
 SQL 標準中並沒有 COMMENT 指令。
-

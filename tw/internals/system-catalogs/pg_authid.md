@@ -1,39 +1,38 @@
 # 51.8. pg\_authid
 
-目錄 pg\_authid 包含有關資料庫認證識別（角色）的資訊。角色包含「使用者」和「群組」的概念。使用者基本上只是設置了 rolcanlogin 識別的角色。任何角色（無論有或沒有 rolcanlogin）都可以擁有其他角色作為成員；詳見 [pg\_auth\_members](pg_auth_members.md)。
+The catalog `pg_authid` contains information about database authorization identifiers (roles). A role subsumes the concepts of “users” and “groups”. A user is essentially just a role with the `rolcanlogin` flag set. Any role (with or without `rolcanlogin`) can have other roles as members; see [`pg_auth_members`](https://www.postgresql.org/docs/13/catalog-pg-auth-members.html).
 
-由於此目錄包含密碼，因此不得公開讀取。 [pg\_roles](pg_roles.md) 是 pg\_authid 上的一個公開可讀的檢視表，它隱藏了密碼字串。
+Since this catalog contains passwords, it must not be publicly readable. [`pg_roles`](https://www.postgresql.org/docs/13/view-pg-roles.html) is a publicly readable view on `pg_authid` that blanks out the password field.
 
-[第 21 章](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/server-administration/21.-zi-liao-ku-jiao-se)包含有關使用者和權限管理的詳細訊息。
+[Chapter 21](https://www.postgresql.org/docs/13/user-manag.html) contains detailed information about user and privilege management.
 
-由於使用者身份是叢集範圍的，因此 pg\_authid 在叢集的所有資料庫之間共享：每個叢集只有一個 pg\_authid 副本，而不是每個資料庫一個副本。
+Because user identities are cluster-wide, `pg_authid` is shared across all databases of a cluster: there is only one copy of `pg_authid` per cluster, not one per database.
 
-**Table 51.8. `pg_authid` Columns**
+#### **Table 51.8. `pg_authid` Columns**
 
-| Name | Type | Description |
-| :--- | :--- | :--- |
-| `oid` | `oid` | 資料列指標（隱藏屬性；必須明確選擇） |
-| `rolname` | `name` | 角色名稱 |
-| `rolsuper` | `bool` | 角色具有超級使用者權限 |
-| `rolinherit` | `bool` | 角色自動繼承其所屬角色的權限 |
-| `rolcreaterole` | `bool` | 角色可以創造更多角色 |
-| `rolcreatedb` | `bool` | 角色可以建立資料庫 |
-| `rolcanlogin` | `bool` | 角色可以登入。也就是說，此角色可以作為初始連線認證識別 |
-| `rolreplication` | `bool` | 角色是複寫角色。複寫角色可以啟動複寫連線並建立和移除複寫槽。 |
-| `rolbypassrls` | `bool` | 角色繞過每個資料列級別的安全原則，有關詳細訊息，請參閱[第 5.7 節](../../the-sql-language/ddl/row-security-policies.md)。 |
-| `rolconnlimit` | `int4` | 對於可以登入的角色，這將設定此角色可以進行的最大同時連線數。-1 表示沒有限制。 |
-| `rolpassword` | `text` | 密碼（可能是加密的）; 如果沒有則為 null。格式取決於使用的加密形式。 |
-| `rolvaliduntil` | `timestamptz` | 密碼到期時間（僅用於密碼驗證）；如果沒有過期，則回傳 null |
+| <p>Column Type</p><p>Description</p>                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><code>oid</code> <code>oid</code></p><p>Row identifier</p>                                                                                                                                                       |
+| <p><code>rolname</code> <code>name</code></p><p>Role name</p>                                                                                                                                                       |
+| <p><code>rolsuper</code> <code>bool</code></p><p>Role has superuser privileges</p>                                                                                                                                  |
+| <p><code>rolinherit</code> <code>bool</code></p><p>Role automatically inherits privileges of roles it is a member of</p>                                                                                            |
+| <p><code>rolcreaterole</code> <code>bool</code></p><p>Role can create more roles</p>                                                                                                                                |
+| <p><code>rolcreatedb</code> <code>bool</code></p><p>Role can create databases</p>                                                                                                                                   |
+| <p><code>rolcanlogin</code> <code>bool</code></p><p>Role can log in. That is, this role can be given as the initial session authorization identifier</p>                                                            |
+| <p><code>rolreplication</code> <code>bool</code></p><p>Role is a replication role. A replication role can initiate replication connections and create and drop replication slots.</p>                               |
+| <p><code>rolbypassrls</code> <code>bool</code></p><p>Role bypasses every row level security policy, see <a href="https://www.postgresql.org/docs/13/ddl-rowsecurity.html">Section 5.8</a> for more information.</p> |
+| <p><code>rolconnlimit</code> <code>int4</code></p><p>For roles that can log in, this sets maximum number of concurrent connections this role can make. -1 means no limit.</p>                                       |
+| <p><code>rolpassword</code> <code>text</code></p><p>Password (possibly encrypted); null if none. The format depends on the form of encryption used.</p>                                                             |
+| <p><code>rolvaliduntil</code> <code>timestamptz</code></p><p>Password expiry time (only used for password authentication); null if no expiration</p>                                                                |
 
-對於 MD5 加密密碼，rolpassword 欄位將以字串 md5 開頭，之後跟 32 個字元的十六進位 MD5 hash。MD5 hash 將是使用者的密碼連接到他們的使用者名稱。例如，如果使用者 joe 的密碼為 xyzzy，則 PostgreSQL 將儲存 xyzzyjoe 的 md5 hash 值。
+For an MD5 encrypted password, `rolpassword` column will begin with the string `md5` followed by a 32-character hexadecimal MD5 hash. The MD5 hash will be of the user's password concatenated to their user name. For example, if user `joe` has password `xyzzy`, PostgreSQL will store the md5 hash of `xyzzyjoe`.
 
-如果使用 SCRAM-SHA-256 加密密碼，則其格式為：
+If the password is encrypted with SCRAM-SHA-256, it has the format:
 
-```text
+```
 SCRAM-SHA-256$<iteration count>:<salt>$<StoredKey>:<ServerKey>
 ```
 
-其中 salt，StoredKey 和 ServerKey 採用 Base64 編碼格式。此格式與 RFC 5803 指定的格式相同。
+where _`salt`_, _`StoredKey`_ and _`ServerKey`_ are in Base64 encoded format. This format is the same as that specified by RFC 5803.
 
-未遵循這些格式之一的密碼就會被認為是未加密的。
-
+A password that does not follow either of those formats is assumed to be unencrypted.

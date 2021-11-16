@@ -2,17 +2,17 @@
 
 DROP MATERIALIZED VIEW — 移除具體化檢視表
 
-## 語法
+### 語法
 
-```text
+```
 DROP MATERIALIZED VIEW [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 ```
 
-## 說明
+### 說明
 
 DROP MATERIALIZED VIEW 移除現有的具體化檢視表。要執行此指令，您必須是具體化檢視表的擁有者。
 
-## 參數
+### 參數
 
 `IF EXISTS`
 
@@ -30,19 +30,18 @@ _`name`_
 
 如果任何物件相依於它，則拒絕移除具體化檢視表。這是預設值。
 
-## 範例
+### 範例
 
 此指令將移除名為 order\_summary 的具體化檢視表：
 
-```text
+```
 DROP MATERIALIZED VIEW order_summary;
 ```
 
-## 相容性
+### 相容性
 
 DROP MATERIALIZED VIEW 是 PostgreSQL 延伸語法。
 
-## 參閱
+### 參閱
 
 [CREATE MATERIALIZED VIEW](create-materialized-view.md), [ALTER MATERIALIZED VIEW](alter-materialized-view.md), [REFRESH MATERIALIZED VIEW](refresh-materialized-view.md)
-

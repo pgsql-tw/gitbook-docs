@@ -1,18 +1,14 @@
-# 50.1. The Path of a Query
+# 50.1. 處理查詢語句的流程
 
-Here we give a short overview of the stages a query has to pass in order to obtain a result.
+在這裡，我們簡單概述查詢必須經過某些階段才能得到結果。
 
-1. A connection from an application program to the PostgreSQL server has to be established. The application program transmits a query to the server and waits to receive the results sent back by the server.
-2. The _parser stage_ checks the query transmitted by the application program for correct syntax and creates a _query tree_.
-3. The _rewrite system_ takes the query tree created by the parser stage and looks for any _rules_ \(stored in the _system catalogs_\) to apply to the query tree. It performs the transformations given in the _rule bodies_.
+1. 必須建立從應用程式到 PostgreSQL 伺服器的連線。應用程式將查詢語句發送到伺服器，並等待接收伺服器送回的結果。
+2. 查詢解析程序(parser)階段檢查應用程式所發送的查詢語句是否語法正確，並建立查詢樹(query tree)。
+3. 查詢改寫(rewrite)系統採用查詢解析程序階段所建立的查詢樹，查詢要使用於查詢樹的所有規則（記錄在系統目錄中）。它執行規則內容所敘述的改寫轉換方式。\
+   改寫系統的其中一種用途是檢視表(view)的實作。每當針對檢視表（或虛擬資料表）進行查詢時，改寫系統都會將使用者的查詢覆寫為存取檢視表定義中所宣告的基本資料表查詢。
+4.  計劃程序或最佳化程序採用已改寫的查詢樹並建立一個查詢計劃，該計劃將作為執行程序的輸入。
 
-   One application of the rewrite system is in the realization of _views_. Whenever a query against a view \(i.e., a _virtual table_\) is made, the rewrite system rewrites the user's query to a query that accesses the _base tables_ given in the _view definition_ instead.
+    為此，首先建立所有可能產生相同結果的查詢路徑。例如，如果要掃描的關連上有索引，則有兩條掃描路徑。一種可能性是簡單的循序掃描，另一種可能性是使用索引。接下來，估計每條路徑的執行成本，並選擇最便宜的路徑。最便宜的路徑將被產生用於執行者可以使用的完整計劃。
+5. 執行程序以遞迴方式走遍計劃樹並以計劃規劃的方式檢索資料。執行程序利用儲存系統掃描資料關連、執行排序和集合、過濾條件，在最後回傳所產生的資料內容。
 
-4. The _planner/optimizer_ takes the \(rewritten\) query tree and creates a _query plan_ that will be the input to the _executor_.
-
-   It does so by first creating all possible _paths_ leading to the same result. For example if there is an index on a relation to be scanned, there are two paths for the scan. One possibility is a simple sequential scan and the other possibility is to use the index. Next the cost for the execution of each path is estimated and the cheapest path is chosen. The cheapest path is expanded into a complete plan that the executor can use.
-
-5. The executor recursively steps through the _plan tree_ and retrieves rows in the way represented by the plan. The executor makes use of the _storage system_ while scanning relations, performs _sorts_ and _joins_, evaluates _qualifications_ and finally hands back the rows derived.
-
-In the following sections we will cover each of the above listed items in more detail to give a better understanding of PostgreSQL's internal control and data structures.
-
+在以下各節中，我們將更詳細地介紹上述每個項目，以更好地理解 PostgreSQL 的內部控制和資料結構。
