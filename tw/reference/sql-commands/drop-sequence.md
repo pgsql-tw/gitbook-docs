@@ -4,7 +4,7 @@ DROP SEQUENCE — remove a sequence
 
 ### Synopsis
 
-```text
+```
 DROP SEQUENCE [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 ```
 
@@ -20,11 +20,11 @@ Do not throw an error if the sequence does not exist. A notice is issued in this
 
 _`name`_
 
-The name \(optionally schema-qualified\) of a sequence.
+The name (optionally schema-qualified) of a sequence.
 
 `CASCADE`
 
-Automatically drop objects that depend on the sequence, and in turn all objects that depend on those objects \(see [Section 5.14](https://www.postgresql.org/docs/13/ddl-depend.html)\).`RESTRICT`
+Automatically drop objects that depend on the sequence, and in turn all objects that depend on those objects (see [Section 5.14](https://www.postgresql.org/docs/13/ddl-depend.html)).`RESTRICT`
 
 Refuse to drop the sequence if any objects depend on it. This is the default.
 
@@ -32,7 +32,7 @@ Refuse to drop the sequence if any objects depend on it. This is the default.
 
 要移除序列物件：
 
-```text
+```
 DROP SEQUENCE serial;
 ```
 
@@ -42,6 +42,4 @@ DROP SEQUENCE 符合 SQL 標準，但標準僅允許每個指令移除一個序�
 
 ### 參閱
 
-[CREATE SEQUENCE](create-sequence.md), [ALTER SEQUENCE](alter-sequence.md)  
-
-
+[CREATE SEQUENCE](create-sequence.md), [ALTER SEQUENCE](alter-sequence.md)\\

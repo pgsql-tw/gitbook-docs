@@ -8,7 +8,7 @@ COPY — 在檔案和資料表之間複製資料
 
 ## 語法
 
-```text
+```
 COPY table_name [ ( column_name [, ...] ) ]
     FROM { 'filename' | PROGRAM 'command' | STDIN }
     [ [ WITH ] ( option [, ...] ) ]
@@ -101,7 +101,7 @@ _`boolean`_
 
 指定表示空值的字串。 預設值為 text 格式的 N（倒斜線-N）和 CSV 格式的未加引號的空字串。對於不希望將空值與空字串區分開的情況，即使是 text 格式，也可能更喜歡空字串。採用二進位格式時不允許使用此選項。
 
-**注意**  
+**注意**\
 使用 COPY FROM 時，與該字串匹配的任何資料項都將儲存為空值，因此您應確保使用與 COPY TO 相同的字串。
 
 `HEADER`
@@ -136,13 +136,13 @@ _`boolean`_
 
 成功完成後，COPY 命令將回傳命令標記的形式
 
-```text
+```
 COPY count
 ```
 
 計數是複製的資料列數量。
 
-**提醒**  
+**提醒**\
 僅當命令不是 COPY ... TO STDOUT 或等效的 psql 元命令 \copy ... to stdout 時，psql 才會輸出此命令標記。這是為了防止命令標記與剛剛輸出的資料混淆。
 
 ## 注意
@@ -183,32 +183,32 @@ FORCE\_NULL 和 FORCE\_NOT\_NULL 可以在同一個欄位上同時使用。這�
 
 使用文字格式時，讀取或寫入的資料是一個文字檔案，資料表的每筆資料會產生一行。行中的欄位由分隔符號分隔。欄位值本身是每個屬性的資料型別的輸出函數所產生的字串，或輸入函數可接受的字串。使用指定的空字串代替空欄位。如果輸入檔案的任何行包含的欄位比預期的多或少，則 COPY FROM 將引發錯誤。如果指定了 OIDS，則將 OID 讀取或寫入為資料欄位之前的第一欄位。
 
-End of data can be represented by a single line containing just backslash-period \(`\.`\). An end-of-data marker is not necessary when reading from a file, since the end of file serves perfectly well; it is needed only when copying data to or from client applications using pre-3.0 client protocol.
+End of data can be represented by a single line containing just backslash-period (`\.`). An end-of-data marker is not necessary when reading from a file, since the end of file serves perfectly well; it is needed only when copying data to or from client applications using pre-3.0 client protocol.
 
-Backslash characters \(`\`\) can be used in the `COPY` data to quote data characters that might otherwise be taken as row or column delimiters. In particular, the following characters _must_ be preceded by a backslash if they appear as part of a column value: backslash itself, newline, carriage return, and the current delimiter character.
+Backslash characters (`\`) can be used in the `COPY` data to quote data characters that might otherwise be taken as row or column delimiters. In particular, the following characters _must_ be preceded by a backslash if they appear as part of a column value: backslash itself, newline, carriage return, and the current delimiter character.
 
-The specified null string is sent by `COPY TO` without adding any backslashes; conversely, `COPY FROM` matches the input against the null string before removing backslashes. Therefore, a null string such as `\N` cannot be confused with the actual data value `\N` \(which would be represented as `\\N`\).
+The specified null string is sent by `COPY TO` without adding any backslashes; conversely, `COPY FROM` matches the input against the null string before removing backslashes. Therefore, a null string such as  cannot be confused with the actual data value  (which would be represented as `\`).
 
 The following special backslash sequences are recognized by `COPY FROM`:
 
-| Sequence | Represents |
-| :--- | :--- |
-| `\b` | Backspace \(ASCII 8\) |
-| `\f` | Form feed \(ASCII 12\) |
-| `\n` | Newline \(ASCII 10\) |
-| `\r` | Carriage return \(ASCII 13\) |
-| `\t` | Tab \(ASCII 9\) |
-| `\v` | Vertical tab \(ASCII 11\) |
-| `\`_`digits`_ | Backslash followed by one to three octal digits specifies the character with that numeric code |
+| Sequence       | Represents                                                                                     |
+| -------------- | ---------------------------------------------------------------------------------------------- |
+| `\b`           | Backspace (ASCII 8)                                                                            |
+| `\f`           | Form feed (ASCII 12)                                                                           |
+|                | Newline (ASCII 10)                                                                             |
+|                | Carriage return (ASCII 13)                                                                     |
+|                | Tab (ASCII 9)                                                                                  |
+| `\v`           | Vertical tab (ASCII 11)                                                                        |
+| `\`_`digits`_  | Backslash followed by one to three octal digits specifies the character with that numeric code |
 | `\x`_`digits`_ | Backslash `x` followed by one or two hex digits specifies the character with that numeric code |
 
 Presently, `COPY TO` will never emit an octal or hex-digits backslash sequence, but it does use the other sequences listed above for those control characters.
 
-Any other backslashed character that is not mentioned in the above table will be taken to represent itself. However, beware of adding backslashes unnecessarily, since that might accidentally produce a string matching the end-of-data marker \(`\.`\) or the null string \(`\N` by default\). These strings will be recognized before any other backslash processing is done.
+Any other backslashed character that is not mentioned in the above table will be taken to represent itself. However, beware of adding backslashes unnecessarily, since that might accidentally produce a string matching the end-of-data marker (`\.`) or the null string ( by default). These strings will be recognized before any other backslash processing is done.
 
-It is strongly recommended that applications generating `COPY` data convert data newlines and carriage returns to the `\n` and `\r` sequences respectively. At present it is possible to represent a data carriage return by a backslash and carriage return, and to represent a data newline by a backslash and newline. However, these representations might not be accepted in future releases. They are also highly vulnerable to corruption if the `COPY` file is transferred across different machines \(for example, from Unix to Windows or vice versa\).
+It is strongly recommended that applications generating `COPY` data convert data newlines and carriage returns to the  and  sequences respectively. At present it is possible to represent a data carriage return by a backslash and carriage return, and to represent a data newline by a backslash and newline. However, these representations might not be accepted in future releases. They are also highly vulnerable to corruption if the `COPY` file is transferred across different machines (for example, from Unix to Windows or vice versa).
 
-`COPY TO` will terminate each row with a Unix-style newline \(“`\n`”\). Servers running on Microsoft Windows instead output carriage return/newline \(“`\r\n`”\), but only for `COPY` to a server file; for consistency across platforms, `COPY TO STDOUT` always sends “`\n`” regardless of server platform. `COPY FROM` can handle lines ending with newlines, carriage returns, or carriage return/newlines. To reduce the risk of error due to un-backslashed newlines or carriage returns that were meant as data, `COPY FROM` will complain if the line endings in the input are not all alike.
+`COPY TO` will terminate each row with a Unix-style newline (“”). Servers running on Microsoft Windows instead output carriage return/newline (“`\r`”), but only for `COPY` to a server file; for consistency across platforms, `COPY TO STDOUT` always sends “” regardless of server platform. `COPY FROM` can handle lines ending with newlines, carriage returns, or carriage return/newlines. To reduce the risk of error due to un-backslashed newlines or carriage returns that were meant as data, `COPY FROM` will complain if the line endings in the input are not all alike.
 
 ### CSV Format
 
@@ -246,9 +246,9 @@ binary 格式選項使所有資料以二進位格式而不是文字形式儲存/
 
 The file header consists of 15 bytes of fixed fields, followed by a variable-length header extension area. The fixed fields are:Signature
 
-11-byte sequence `PGCOPY\n\377\r\n\0` — note that the zero byte is a required part of the signature. \(The signature is designed to allow easy identification of files that have been munged by a non-8-bit-clean transfer. This signature will be changed by end-of-line-translation filters, dropped zero bytes, dropped high bits, or parity changes.\)Flags field
+11-byte sequence `PGCOPY\n\377\r\n\0` — note that the zero byte is a required part of the signature. (The signature is designed to allow easy identification of files that have been munged by a non-8-bit-clean transfer. This signature will be changed by end-of-line-translation filters, dropped zero bytes, dropped high bits, or parity changes.)Flags field
 
-32-bit integer bit mask to denote important aspects of the file format. Bits are numbered from 0 \(LSB\) to 31 \(MSB\). Note that this field is stored in network byte order \(most significant byte first\), as are all the integer fields used in the file format. Bits 16-31 are reserved to denote critical file format issues; a reader should abort if it finds an unexpected bit set in this range. Bits 0-15 are reserved to signal backwards-compatible format issues; a reader should simply ignore any unexpected bits set in this range. Currently only one flag bit is defined, and the rest must be zero:Bit 16
+32-bit integer bit mask to denote important aspects of the file format. Bits are numbered from 0 (LSB) to 31 (MSB). Note that this field is stored in network byte order (most significant byte first), as are all the integer fields used in the file format. Bits 16-31 are reserved to denote critical file format issues; a reader should abort if it finds an unexpected bit set in this range. Bits 0-15 are reserved to signal backwards-compatible format issues; a reader should simply ignore any unexpected bits set in this range. Currently only one flag bit is defined, and the rest must be zero:Bit 16
 
 if 1, OIDs are included in the data; if 0, notHeader extension area length
 
@@ -256,17 +256,17 @@ if 1, OIDs are included in the data; if 0, notHeader extension area length
 
 The header extension area is envisioned to contain a sequence of self-identifying chunks. The flags field is not intended to tell readers what is in the extension area. Specific design of header extension contents is left for a later release.
 
-This design allows for both backwards-compatible header additions \(add header extension chunks, or set low-order flag bits\) and non-backwards-compatible changes \(set high-order flag bits to signal such changes, and add supporting data to the extension area if needed\).
+This design allows for both backwards-compatible header additions (add header extension chunks, or set low-order flag bits) and non-backwards-compatible changes (set high-order flag bits to signal such changes, and add supporting data to the extension area if needed).
 
 **Tuples**
 
-Each tuple begins with a 16-bit integer count of the number of fields in the tuple. \(Presently, all tuples in a table will have the same count, but that might not always be true.\) Then, repeated for each field in the tuple, there is a 32-bit length word followed by that many bytes of field data. \(The length word does not include itself, and can be zero.\) As a special case, -1 indicates a NULL field value. No value bytes follow in the NULL case.
+Each tuple begins with a 16-bit integer count of the number of fields in the tuple. (Presently, all tuples in a table will have the same count, but that might not always be true.) Then, repeated for each field in the tuple, there is a 32-bit length word followed by that many bytes of field data. (The length word does not include itself, and can be zero.) As a special case, -1 indicates a NULL field value. No value bytes follow in the NULL case.
 
 There is no alignment padding or any other extra data between fields.
 
-Presently, all data values in a binary-format file are assumed to be in binary format \(format code one\). It is anticipated that a future extension might add a header field that allows per-column format codes to be specified.
+Presently, all data values in a binary-format file are assumed to be in binary format (format code one). It is anticipated that a future extension might add a header field that allows per-column format codes to be specified.
 
-To determine the appropriate binary format for the actual tuple data you should consult the PostgreSQL source, in particular the `*send` and `*recv` functions for each column's data type \(typically these functions are found in the `src/backend/utils/adt/` directory of the source distribution\).
+To determine the appropriate binary format for the actual tuple data you should consult the PostgreSQL source, in particular the `*send` and `*recv` functions for each column's data type (typically these functions are found in the `src/backend/utils/adt/` directory of the source distribution).
 
 If OIDs are included in the file, the OID field immediately follows the field-count word. It is a normal field except that it's not included in the field-count. In particular it has a length word — this will allow handling of 4-byte vs. 8-byte OIDs without too much pain, and will allow OIDs to be shown as null if that ever proves desirable.
 
@@ -278,33 +278,33 @@ A reader should report an error if a field-count word is neither -1 nor the expe
 
 ## 範例
 
-以下範例使用破折號「\|」作為欄位分隔符把資料表複製到用戶端：
+以下範例使用破折號「|」作為欄位分隔符把資料表複製到用戶端：
 
-```text
+```
 COPY country TO STDOUT (DELIMITER '|');
 ```
 
 要將檔案中的資料複製到 country 資料表中：
 
-```text
+```
 COPY country FROM '/usr1/proj/bray/sql/country_data';
 ```
 
 要將名稱以「A」開頭的國家複製到檔案中：
 
-```text
+```
 COPY (SELECT * FROM country WHERE country_name LIKE 'A%') TO '/usr1/proj/bray/sql/a_list_countries.copy';
 ```
 
 要複製到壓縮檔案，可以透過外部壓縮程序輸出：
 
-```text
+```
 COPY country TO PROGRAM 'gzip > /usr1/proj/bray/sql/country_data.gz';
 ```
 
 以下是適合從 STDIN 複製到資料表中的資料範例：
 
-```text
+```
 AF      AFGHANISTAN
 AL      ALBANIA
 DZ      ALGERIA
@@ -314,9 +314,9 @@ ZW      ZIMBABWE
 
 請注意，每行上的空白實際上是 tab 字元。
 
-以下是相同的資料，以二進位格式輸出。在透過 Unix 實用工具 od -c 過濾後顯示資料。該資料表有三個欄位；第一個是 char\(2\) 型別，第二個是 text 型別，第三個是 integer 型別。所有行在第三欄位中都具有空值。
+以下是相同的資料，以二進位格式輸出。在透過 Unix 實用工具 od -c 過濾後顯示資料。該資料表有三個欄位；第一個是 char(2) 型別，第二個是 text 型別，第三個是 integer 型別。所有行在第三欄位中都具有空值。
 
-```text
+```
 0000000   P   G   C   O   P   Y  \n 377  \r  \n  \0  \0  \0  \0  \0  \0
 0000020  \0  \0  \0  \0 003  \0  \0  \0 002   A   F  \0  \0  \0 013   A
 0000040   F   G   H   A   N   I   S   T   A   N 377 377 377 377  \0 003
@@ -334,7 +334,7 @@ SQL 標準中沒有 COPY 語句。
 
 在 PostgreSQL 版本 9.0 之前使用了以下語法並且仍然支援：
 
-```text
+```
 COPY table_name [ ( column_name [, ...] ) ]
     FROM { 'filename' | STDIN }
     [ [ WITH ]
@@ -364,7 +364,7 @@ COPY { table_name [ ( column_name [, ...] ) ] | ( query ) }
 
 在 PostgreSQL 版本 7.3 之前使用了以下語法，並且仍然支援：
 
-```text
+```
 COPY [ BINARY ] table_name [ WITH OIDS ]
     FROM { 'filename' | STDIN }
     [ [USING] DELIMITERS 'delimiter' ]
@@ -375,4 +375,3 @@ COPY [ BINARY ] table_name [ WITH OIDS ]
     [ [USING] DELIMITERS 'delimiter' ]
     [ WITH NULL AS 'null string' ]
 ```
-

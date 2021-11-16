@@ -8,7 +8,7 @@ ALTER LANGUAGE — 變更程序語言的宣告
 
 ### 語法
 
-```text
+```
 ALTER [ PROCEDURAL ] LANGUAGE name RENAME TO new_name
 ALTER [ PROCEDURAL ] LANGUAGE name OWNER TO { new_owner | CURRENT_USER | SESSION_USER }
 ```
@@ -37,6 +37,4 @@ SQL 標準中沒有 ALTER LANGUAGE 語句。
 
 ### 參閱
 
-[CREATE LANGUAGE](create-language.md), [DROP LANGUAGE](drop-language.md)  
-
-
+[CREATE LANGUAGE](create-language.md), [DROP LANGUAGE](drop-language.md)\\

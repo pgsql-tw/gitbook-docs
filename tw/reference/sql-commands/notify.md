@@ -4,7 +4,7 @@ NOTIFY — 發起一個通知
 
 ### 語法
 
-```text
+```
 NOTIFY channel [ , payload ]
 ```
 
@@ -46,13 +46,13 @@ _`payload`_
 
 #### pg\_notify
 
-要發送通知，您還可以使用函數 pg\_notify\(text, text\)。此函數將通道名稱作為第一個參數，將有效負載作為第二個參數。如果您需要使用特殊的通道名稱和有效負載，則此功能比 NOTIFY 指令更容易使用。
+要發送通知，您還可以使用函數 pg\_notify(text, text)。此函數將通道名稱作為第一個參數，將有效負載作為第二個參數。如果您需要使用特殊的通道名稱和有效負載，則此功能比 NOTIFY 指令更容易使用。
 
 ### 範例
 
 從 psql 配置並執行 listen / notify 指令：
 
-```text
+```
 LISTEN virtual;
 NOTIFY virtual;
 Asynchronous notification "virtual" received from server process with PID 8448.
@@ -70,6 +70,4 @@ SQL 標準中沒有 NOTIFY 語句。
 
 ### 參閱
 
-[LISTEN](listen.md), [UNLISTEN](unlisten.md)  
-
-
+[LISTEN](listen.md), [UNLISTEN](unlisten.md)\\

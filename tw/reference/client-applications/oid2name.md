@@ -4,7 +4,7 @@ oid2name — resolve OIDs and file nodes in a PostgreSQL data directory
 
 ### Synopsis
 
-`oid2name` \[_`option`_...\]
+`oid2name` \[_`option`_...]
 
 ### Description
 
@@ -12,7 +12,7 @@ oid2name is a utility program that helps administrators to examine the file stru
 
 #### Note
 
-The name “oid2name” is historical, and is actually rather misleading, since most of the time when you use it, you will really be concerned with tables' filenode numbers \(which are the file names visible in the database directories\). Be sure you understand the difference between table OIDs and table filenodes!
+The name “oid2name” is historical, and is actually rather misleading, since most of the time when you use it, you will really be concerned with tables' filenode numbers (which are the file names visible in the database directories). Be sure you understand the difference between table OIDs and table filenodes!
 
 oid2name connects to a target database and extracts OID, filenode, and/or table name information. You can also have it show database OIDs or tablespace OIDs.
 
@@ -20,83 +20,83 @@ oid2name connects to a target database and extracts OID, filenode, and/or table 
 
 oid2name accepts the following command-line arguments:
 
-`-f` _`filenode`_  
+`-f `_`filenode`_\
 `--filenode=`_`filenode`_
 
 show info for table with filenode _`filenode`_.
 
-`-i`  
+`-i`\
 `--indexes`
 
 include indexes and sequences in the listing.
 
-`-o` _`oid`_  
+`-o `_`oid`_\
 `--oid=`_`oid`_
 
 show info for table with OID _`oid`_.
 
-`-q`  
+`-q`\
 `--quiet`
 
-omit headers \(useful for scripting\).
+omit headers (useful for scripting).
 
-`-s`  
+`-s`\
 `--tablespaces`
 
 show tablespace OIDs.
 
-`-S`  
+`-S`\
 `--system-objects`
 
-include system objects \(those in `information_schema`, `pg_toast` and `pg_catalog` schemas\).
+include system objects (those in `information_schema`, `pg_toast` and `pg_catalog` schemas).
 
-`-t` _`tablename_pattern`_  
+`-t `_`tablename_pattern`_\
 `--table=`_`tablename_pattern`_
 
-show info for table\(s\) matching _`tablename_pattern`_.
+show info for table(s) matching _`tablename_pattern`_.
 
-`-V`  
+`-V`\
 `--version`
 
 Print the oid2name version and exit.
 
-`-x`  
+`-x`\
 `--extended`
 
 display more information about each object shown: tablespace name, schema name, and OID.
 
-`-?`  
+`-?`\
 `--help`
 
 Show help about oid2name command line arguments, and exit.
 
 oid2name also accepts the following command-line arguments for connection parameters:
 
-`-d` _`database`_  
+`-d `_`database`_\
 `--dbname=`_`database`_
 
 database to connect to.
 
-`-h` _`host`_  
+`-h `_`host`_\
 `--host=`_`host`_
 
 database server's host.
 
-`-H` _`host`_
+`-H `_`host`_
 
 database server's host. Use of this parameter is _deprecated_ as of PostgreSQL 12.
 
-`-p` _`port`_  
+`-p `_`port`_\
 `--port=`_`port`_
 
 database server's port.
 
-`-U` _`username`_  
+`-U `_`username`_\
 `--username=`_`username`_
 
 user name to connect as.
 
-To display specific tables, select which tables to show by using `-o`, `-f` and/or `-t`. `-o` takes an OID, `-f` takes a filenode, and `-t` takes a table name \(actually, it's a `LIKE` pattern, so you can use things like `foo%`\). You can use as many of these options as you like, and the listing will include all objects matched by any of the options. But note that these options can only show objects in the database given by `-d`.
+To display specific tables, select which tables to show by using `-o`, `-f` and/or `-t`. `-o` takes an OID, `-f` takes a filenode, and `-t` takes a table name (actually, it's a `LIKE` pattern, so you can use things like `foo%`). You can use as many of these options as you like, and the listing will include all objects matched by any of the options. But note that these options can only show objects in the database given by `-d`.
 
 If you don't give any of `-o`, `-f` or `-t`, but do give `-d`, it will list all tables in the database named by `-d`. In this mode, the `-S` and `-i` options control what gets listed.
 
@@ -104,13 +104,13 @@ If you don't give `-d` either, it will show a listing of database OIDs. Alternat
 
 ### Environment
 
-`PGHOST`  
-`PGPORT`  
+`PGHOST`\
+`PGPORT`\
 `PGUSER`
 
 Default connection parameters.
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq \(see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)\).
+This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)).
 
 ### Notes
 
@@ -118,7 +118,7 @@ oid2name requires a running database server with non-corrupt system catalogs. It
 
 ### Examples
 
-```text
+```
 $ # what's in this database server, anyway?
 $ oid2name
 All databases:
@@ -240,4 +240,3 @@ From database "alvherre":
 ### Author
 
 B. Palmer `<`[`bpalmer@crimelabs.net`](mailto:bpalmer@crimelabs.net)`>`
-

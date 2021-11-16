@@ -4,13 +4,13 @@ postgres — PostgreSQL database server
 
 ### Synopsis
 
-`postgres` \[_`option`_...\]
+`postgres` \[_`option`_...]
 
 ### Description
 
-`postgres` is the PostgreSQL database server. In order for a client application to access a database it connects \(over a network or locally\) to a running `postgres` instance. The `postgres`instance then starts a separate server process to handle the connection.
+`postgres` is the PostgreSQL database server. In order for a client application to access a database it connects (over a network or locally) to a running `postgres` instance. The `postgres`instance then starts a separate server process to handle the connection.
 
-One `postgres` instance always manages the data of exactly one database cluster. A database cluster is a collection of databases that is stored at a common file system location \(the “data area”\). More than one `postgres` instance can run on a system at one time, so long as they use different data areas and different communication ports \(see below\). When `postgres`starts it needs to know the location of the data area. The location must be specified by the `-D` option or the `PGDATA` environment variable; there is no default. Typically, `-D` or `PGDATA`points directly to the data area directory created by [initdb](https://www.postgresql.org/docs/10/static/app-initdb.html). Other possible file layouts are discussed in [Section 19.2](https://www.postgresql.org/docs/10/static/runtime-config-file-locations.html).
+One `postgres` instance always manages the data of exactly one database cluster. A database cluster is a collection of databases that is stored at a common file system location (the “data area”). More than one `postgres` instance can run on a system at one time, so long as they use different data areas and different communication ports (see below). When `postgres`starts it needs to know the location of the data area. The location must be specified by the `-D` option or the `PGDATA` environment variable; there is no default. Typically, `-D` or `PGDATA`points directly to the data area directory created by [initdb](https://www.postgresql.org/docs/10/static/app-initdb.html). Other possible file layouts are discussed in [Section 19.2](https://www.postgresql.org/docs/10/static/runtime-config-file-locations.html).
 
 By default `postgres` starts in the foreground and prints log messages to the standard error stream. In practical applications `postgres` should be started as a background process, perhaps at boot time.
 
@@ -18,29 +18,29 @@ The `postgres` command can also be called in single-user mode. The primary use f
 
 ### Options
 
-`postgres` accepts the following command-line arguments. For a detailed discussion of the options consult [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html). You can save typing most of these options by setting up a configuration file. Some \(safe\) options can also be set from the connecting client in an application-dependent way to apply only for that session. For example, if the environment variable `PGOPTIONS` is set, then libpq-based clients will pass that string to the server, which will interpret it as `postgres` command-line options.
+`postgres` accepts the following command-line arguments. For a detailed discussion of the options consult [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html). You can save typing most of these options by setting up a configuration file. Some (safe) options can also be set from the connecting client in an application-dependent way to apply only for that session. For example, if the environment variable `PGOPTIONS` is set, then libpq-based clients will pass that string to the server, which will interpret it as `postgres` command-line options.
 
 #### General Purpose
 
-`-B` _`nbuffers`_
+`-B `_`nbuffers`_
 
 Sets the number of shared buffers for use by the server processes. The default value of this parameter is chosen automatically by initdb. Specifying this option is equivalent to setting the [shared\_buffers](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#GUC-SHARED-BUFFERS) configuration parameter.
 
-`-c` _`name`_=_`value`_
+`-c `_`name`_=_`value`_
 
 Sets a named run-time parameter. The configuration parameters supported by PostgreSQL are described in [Chapter 19](https://www.postgresql.org/docs/10/static/runtime-config.html). Most of the other command line options are in fact short forms of such a parameter assignment. `-c` can appear multiple times to set multiple parameters.
 
-`-C` _`name`_
+`-C `_`name`_
 
-Prints the value of the named run-time parameter, and exits. \(See the `-c` option above for details.\) This can be used on a running server, and returns values from`postgresql.conf`, modified by any parameters supplied in this invocation. It does not reflect parameters supplied when the cluster was started.
+Prints the value of the named run-time parameter, and exits. (See the `-c` option above for details.) This can be used on a running server, and returns values from`postgresql.conf`, modified by any parameters supplied in this invocation. It does not reflect parameters supplied when the cluster was started.
 
 This option is meant for other programs that interact with a server instance, such as [pg\_ctl](https://www.postgresql.org/docs/10/static/app-pg-ctl.html), to query configuration parameter values. User-facing applications should instead use[SHOW](https://www.postgresql.org/docs/10/static/sql-show.html) or the `pg_settings` view.
 
-`-d` _`debug-level`_
+`-d `_`debug-level`_
 
 Sets the debug level. The higher this value is set, the more debugging output is written to the server log. Values are from 1 to 5. It is also possible to pass `-d 0` for a specific session, which will prevent the server log level of the parent `postgres` process from being propagated to this session.
 
-`-D` _`datadir`_
+`-D `_`datadir`_
 
 Specifies the file system location of the database configuration files. See [Section 19.2](https://www.postgresql.org/docs/10/static/runtime-config-file-locations.html) for details.
 
@@ -52,17 +52,17 @@ Sets the default date style to “European”, that is `DMY` ordering of input d
 
 Disables `fsync` calls for improved performance, at the risk of data corruption in the event of a system crash. Specifying this option is equivalent to disabling the [fsync](https://www.postgresql.org/docs/10/static/runtime-config-wal.html#GUC-FSYNC)configuration parameter. Read the detailed documentation before using this!
 
-`-h` _`hostname`_
+`-h `_`hostname`_
 
 Specifies the IP host name or address on which `postgres` is to listen for TCP/IP connections from client applications. The value can also be a comma-separated list of addresses, or `*` to specify listening on all available interfaces. An empty value specifies not listening on any IP addresses, in which case only Unix-domain sockets can be used to connect to the server. Defaults to listening only on localhost. Specifying this option is equivalent to setting the [listen\_addresses](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-LISTEN-ADDRESSES) configuration parameter.
 
 `-i`
 
-Allows remote clients to connect via TCP/IP \(Internet domain\) connections. Without this option, only local connections are accepted. This option is equivalent to setting `listen_addresses` to `*` in `postgresql.conf` or via `-h`.
+Allows remote clients to connect via TCP/IP (Internet domain) connections. Without this option, only local connections are accepted. This option is equivalent to setting `listen_addresses` to `*` in `postgresql.conf` or via `-h`.
 
 This option is deprecated since it does not allow access to the full functionality of [listen\_addresses](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-LISTEN-ADDRESSES). It's usually better to set `listen_addresses` directly.
 
-`-k` _`directory`_
+`-k `_`directory`_
 
 Specifies the directory of the Unix-domain socket on which `postgres` is to listen for connections from client applications. The value can also be a comma-separated list of directories. An empty value specifies not listening on any Unix-domain sockets, in which case only TCP/IP sockets can be used to connect to the server. The default value is normally `/tmp`, but that can be changed at build time. Specifying this option is equivalent to setting the [unix\_socket\_directories](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-UNIX-SOCKET-DIRECTORIES) configuration parameter.
 
@@ -70,21 +70,21 @@ Specifies the directory of the Unix-domain socket on which `postgres` is to list
 
 Enables secure connections using SSL. PostgreSQL must have been compiled with support for SSL for this option to be available. For more information on using SSL, refer to [Section 18.9](https://www.postgresql.org/docs/10/static/ssl-tcp.html).
 
-`-N` _`max-connections`_
+`-N `_`max-connections`_
 
 Sets the maximum number of client connections that this server will accept. The default value of this parameter is chosen automatically by initdb. Specifying this option is equivalent to setting the [max\_connections](https://www.postgresql.org/docs/10/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS) configuration parameter.
 
-`-o` _`extra-options`_
+`-o `_`extra-options`_
 
 The command-line-style arguments specified in _`extra-options`_ are passed to all server processes started by this `postgres` process.
 
-Spaces within _`extra-options`_ are considered to separate arguments, unless escaped with a backslash \(`\`\); write `\\` to represent a literal backslash. Multiple arguments can also be specified via multiple uses of `-o`.
+Spaces within _`extra-options`_ are considered to separate arguments, unless escaped with a backslash (`\`); write `\\` to represent a literal backslash. Multiple arguments can also be specified via multiple uses of `-o`.
 
 The use of this option is obsolete; all command-line options for server processes can be specified directly on the `postgres` command line.
 
-`-p` _`port`_
+`-p `_`port`_
 
-Specifies the TCP/IP port or local Unix domain socket file extension on which `postgres` is to listen for connections from client applications. Defaults to the value of the `PGPORT`environment variable, or if `PGPORT` is not set, then defaults to the value established during compilation \(normally 5432\). If you specify a port other than the default port, then all client applications must specify the same port using either command-line options or `PGPORT`.
+Specifies the TCP/IP port or local Unix domain socket file extension on which `postgres` is to listen for connections from client applications. Defaults to the value of the `PGPORT`environment variable, or if `PGPORT` is not set, then defaults to the value established during compilation (normally 5432). If you specify a port other than the default port, then all client applications must specify the same port using either command-line options or `PGPORT`.
 
 `-s`
 
@@ -94,7 +94,7 @@ Print time information and other statistics at the end of each command. This is 
 
 Specifies the amount of memory to be used by internal sorts and hashes before resorting to temporary disk files. See the description of the `work_mem` configuration parameter in [Section 19.4.1](https://www.postgresql.org/docs/10/static/runtime-config-resource.html#RUNTIME-CONFIG-RESOURCE-MEMORY).
 
-`-V`  
+`-V`\
 `--version`
 
 Print the postgres version and exit.
@@ -107,7 +107,7 @@ Sets a named run-time parameter; a shorter form of `-c`.
 
 This option dumps out the server's internal configuration variables, descriptions, and defaults in tab-delimited `COPY` format. It is designed primarily for use by administration tools.
 
-`-?`  
+`-?`\
 `--help`
 
 Show help about postgres command line arguments, and exit.
@@ -150,7 +150,7 @@ A delay of this many seconds occurs when a new server process is started, after 
 
 #### Options for Single-User Mode
 
-The following options only apply to the single-user mode \(see [Single-User Mode](https://www.postgresql.org/docs/10/static/app-postgres.html#APP-POSTGRES-SINGLE-USER)\).
+The following options only apply to the single-user mode (see [Single-User Mode](https://www.postgresql.org/docs/10/static/app-postgres.html#APP-POSTGRES-SINGLE-USER)).
 
 `--single`
 
@@ -176,7 +176,7 @@ Send all server log output to _`filename`_. This option is only honored when sup
 
 `PGCLIENTENCODING`
 
-Default character encoding used by clients. \(The clients can override this individually.\) This value can also be set in the configuration file.
+Default character encoding used by clients. (The clients can override this individually.) This value can also be set in the configuration file.
 
 `PGDATA`
 
@@ -184,11 +184,11 @@ Default data directory location
 
 `PGDATESTYLE`
 
-Default value of the [DateStyle](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DATESTYLE) run-time parameter. \(The use of this environment variable is deprecated.\)
+Default value of the [DateStyle](https://www.postgresql.org/docs/10/static/runtime-config-client.html#GUC-DATESTYLE) run-time parameter. (The use of this environment variable is deprecated.)
 
 `PGPORT`
 
-Default port number \(preferably set in the configuration file\)
+Default port number (preferably set in the configuration file)
 
 ### Diagnostics
 
@@ -196,13 +196,13 @@ A failure message mentioning `semget` or `shmget` probably indicates you need to
 
 A failure message suggesting that another server is already running should be checked carefully, for example by using the command
 
-```text
+```
 $ ps ax | grep postgres
 ```
 
 or
 
-```text
+```
 $ ps -ef | grep postgres
 ```
 
@@ -214,7 +214,7 @@ A failure message indicating inability to bind to a port might indicate that tha
 
 The utility command [pg\_ctl](https://www.postgresql.org/docs/10/static/app-pg-ctl.html) can be used to start and shut down the `postgres` server safely and comfortably.
 
-If at all possible, _do not_ use `SIGKILL` to kill the main `postgres` server. Doing so will prevent `postgres` from freeing the system resources \(e.g., shared memory and semaphores\) that it holds before terminating. This might cause problems for starting a fresh `postgres` run.
+If at all possible, _do not_ use `SIGKILL` to kill the main `postgres` server. Doing so will prevent `postgres` from freeing the system resources (e.g., shared memory and semaphores) that it holds before terminating. This might cause problems for starting a fresh `postgres` run.
 
 To terminate the `postgres` server normally, the signals `SIGTERM`, `SIGINT`, or `SIGQUIT` can be used. The first will wait for all clients to terminate before quitting, the second will forcefully disconnect all clients, and the third will quit immediately without proper shutdown, resulting in a recovery run during restart.
 
@@ -232,7 +232,7 @@ The `--` options will not work on FreeBSD or OpenBSD. Use `-c` instead. This is 
 
 To start a single-user mode server, use a command like
 
-```text
+```
 postgres --single -D /usr/local/pgsql/data other-options my_database
 ```
 
@@ -244,40 +244,40 @@ But if you use the `-j` command line switch, a single newline does not terminate
 
 In either input mode, if you type a semicolon that is not just before or part of a command entry terminator, it is considered a command separator. When you do type a command entry terminator, the multiple statements you've entered will be executed as a single transaction.
 
-To quit the session, type EOF \(**Control**+**D**, usually\). If you've entered any text since the last command entry terminator, then EOF will be taken as a command entry terminator, and another EOF will be needed to exit.
+To quit the session, type EOF (**Control**+**D**, usually). If you've entered any text since the last command entry terminator, then EOF will be taken as a command entry terminator, and another EOF will be needed to exit.
 
-Note that the single-user mode server does not provide sophisticated line-editing features \(no command history, for example\). Single-user mode also does not do any background processing, such as automatic checkpoints or replication.
+Note that the single-user mode server does not provide sophisticated line-editing features (no command history, for example). Single-user mode also does not do any background processing, such as automatic checkpoints or replication.
 
 ### Examples
 
 To start `postgres` in the background using default values, type:
 
-```text
+```
 $ nohup postgres >logfile 2>&1 </dev/null &
 ```
 
 To start `postgres` with a specific port, e.g. 1234:
 
-```text
+```
 $ postgres -p 1234
 ```
 
 To connect to this server using psql, specify this port with the -p option:
 
-```text
+```
 $ psql -p 1234
 ```
 
 or set the environment variable `PGPORT`:
 
-```text
+```
 $ export PGPORT=1234
 $ psql
 ```
 
 Named run-time parameters can be set in either of these styles:
 
-```text
+```
 $ postgres -c work_mem=1234
 $ postgres --work-mem=1234
 ```
@@ -286,6 +286,4 @@ Either form overrides whatever setting might exist for `work_mem` in `postgresql
 
 ### See Also
 
-[initdb](https://www.postgresql.org/docs/10/static/app-initdb.html), [pg\_ctl](https://www.postgresql.org/docs/10/static/app-pg-ctl.html)  
-
-
+[initdb](https://www.postgresql.org/docs/10/static/app-initdb.html), [pg\_ctl](https://www.postgresql.org/docs/10/static/app-pg-ctl.html)\\

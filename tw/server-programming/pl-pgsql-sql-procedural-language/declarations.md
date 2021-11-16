@@ -1,12 +1,12 @@
 # 42.3. Declarations
 
-All variables used in a block must be declared in the declarations section of the block. \(The only exceptions are that the loop variable of a `FOR` loop iterating over a range of integer values is automatically declared as an integer variable, and likewise the loop variable of a `FOR` loop iterating over a cursor's result is automatically declared as a record variable.\)
+All variables used in a block must be declared in the declarations section of the block. (The only exceptions are that the loop variable of a `FOR` loop iterating over a range of integer values is automatically declared as an integer variable, and likewise the loop variable of a `FOR` loop iterating over a cursor's result is automatically declared as a record variable.)
 
 PL/pgSQL variables can have any SQL data type, such as `integer`, `varchar`, and `char`.
 
 Here are some examples of variable declarations:
 
-```text
+```
 user_id integer;
 quantity numeric(5);
 url varchar;
@@ -17,17 +17,17 @@ arow RECORD;
 
 The general syntax of a variable declaration is:
 
-```text
+```
 name [ CONSTANT ] type [ COLLATE collation_name ] [ NOT NULL ] [ { DEFAULT | := | = } expression ];
 ```
 
-The `DEFAULT` clause, if given, specifies the initial value assigned to the variable when the block is entered. If the `DEFAULT` clause is not given then the variable is initialized to the SQL null value. The `CONSTANT` option prevents the variable from being assigned to after initialization, so that its value will remain constant for the duration of the block. The `COLLATE` option specifies a collation to use for the variable \(see [Section 42.3.6](https://www.postgresql.org/docs/13/plpgsql-declarations.html#PLPGSQL-DECLARATION-COLLATION)\). If `NOT NULL` is specified, an assignment of a null value results in a run-time error. All variables declared as `NOT NULL` must have a nonnull default value specified. Equal \(`=`\) can be used instead of PL/SQL-compliant `:=`.
+The `DEFAULT` clause, if given, specifies the initial value assigned to the variable when the block is entered. If the `DEFAULT` clause is not given then the variable is initialized to the SQL null value. The `CONSTANT` option prevents the variable from being assigned to after initialization, so that its value will remain constant for the duration of the block. The `COLLATE` option specifies a collation to use for the variable (see [Section 42.3.6](https://www.postgresql.org/docs/13/plpgsql-declarations.html#PLPGSQL-DECLARATION-COLLATION)). If `NOT NULL` is specified, an assignment of a null value results in a run-time error. All variables declared as `NOT NULL` must have a nonnull default value specified. Equal (`=`) can be used instead of PL/SQL-compliant `:=`.
 
-A variable's default value is evaluated and assigned to the variable each time the block is entered \(not just once per function call\). So, for example, assigning `now()` to a variable of type `timestamp` causes the variable to have the time of the current function call, not the time when the function was precompiled.
+A variable's default value is evaluated and assigned to the variable each time the block is entered (not just once per function call). So, for example, assigning `now()` to a variable of type `timestamp` causes the variable to have the time of the current function call, not the time when the function was precompiled.
 
 Examples:
 
-```text
+```
 quantity integer DEFAULT 32;
 url varchar := 'http://mysite.com';
 user_id CONSTANT integer := 10;
@@ -39,7 +39,7 @@ Parameters passed to functions are named with the identifiers `$1`, `$2`, etc. O
 
 There are two ways to create an alias. The preferred way is to give a name to the parameter in the `CREATE FUNCTION` command, for example:
 
-```text
+```
 CREATE FUNCTION sales_tax(subtotal real) RETURNS real AS $$
 BEGIN
     RETURN subtotal * 0.06;
@@ -49,13 +49,13 @@ $$ LANGUAGE plpgsql;
 
 The other way is to explicitly declare an alias, using the declaration syntax
 
-```text
+```
 name ALIAS FOR $n;
 ```
 
 The same example in this style looks like:
 
-```text
+```
 CREATE FUNCTION sales_tax(real) RETURNS real AS $$
 DECLARE
     subtotal ALIAS FOR $1;
@@ -67,11 +67,11 @@ $$ LANGUAGE plpgsql;
 
 #### Note
 
-These two examples are not perfectly equivalent. In the first case, `subtotal` could be referenced as `sales_tax.subtotal`, but in the second case it could not. \(Had we attached a label to the inner block, `subtotal` could be qualified with that label, instead.\)
+These two examples are not perfectly equivalent. In the first case, `subtotal` could be referenced as `sales_tax.subtotal`, but in the second case it could not. (Had we attached a label to the inner block, `subtotal` could be qualified with that label, instead.)
 
 Some more examples:
 
-```text
+```
 CREATE FUNCTION instr(varchar, integer) RETURNS integer AS $$
 DECLARE
     v_string ALIAS FOR $1;
@@ -91,7 +91,7 @@ $$ LANGUAGE plpgsql;
 
 When a PL/pgSQL function is declared with output parameters, the output parameters are given `$`_`n`_ names and optional aliases in just the same way as the normal input parameters. An output parameter is effectively a variable that starts out NULL; it should be assigned to during the execution of the function. The final value of the parameter is what is returned. For instance, the sales-tax example could also be done this way:
 
-```text
+```
 CREATE FUNCTION sales_tax(subtotal real, OUT tax real) AS $$
 BEGIN
     tax := subtotal * 0.06;
@@ -103,7 +103,7 @@ Notice that we omitted `RETURNS real` — we could have included it, but it woul
 
 Output parameters are most useful when returning multiple values. A trivial example is:
 
-```text
+```
 CREATE FUNCTION sum_n_product(x int, y int, OUT sum int, OUT prod int) AS $$
 BEGIN
     sum := x + y;
@@ -116,7 +116,7 @@ As discussed in [Section 37.5.4](https://www.postgresql.org/docs/13/xfunc-sql.ht
 
 Another way to declare a PL/pgSQL function is with `RETURNS TABLE`, for example:
 
-```text
+```
 CREATE FUNCTION extended_sales(p_itemno int)
 RETURNS TABLE(quantity int, total numeric) AS $$
 BEGIN
@@ -126,11 +126,11 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-This is exactly equivalent to declaring one or more `OUT` parameters and specifying `RETURNS SETOF` _`sometype`_.
+This is exactly equivalent to declaring one or more `OUT` parameters and specifying `RETURNS SETOF `_`sometype`_.
 
-When the return type of a PL/pgSQL function is declared as a polymorphic type \(see [Section 37.2.5](https://www.postgresql.org/docs/13/extend-type-system.html#EXTEND-TYPES-POLYMORPHIC)\), a special parameter `$0` is created. Its data type is the actual return type of the function, as deduced from the actual input types. This allows the function to access its actual return type as shown in [Section 42.3.3](https://www.postgresql.org/docs/13/plpgsql-declarations.html#PLPGSQL-DECLARATION-TYPE). `$0` is initialized to null and can be modified by the function, so it can be used to hold the return value if desired, though that is not required. `$0` can also be given an alias. For example, this function works on any data type that has a `+` operator:
+When the return type of a PL/pgSQL function is declared as a polymorphic type (see [Section 37.2.5](https://www.postgresql.org/docs/13/extend-type-system.html#EXTEND-TYPES-POLYMORPHIC)), a special parameter `$0` is created. Its data type is the actual return type of the function, as deduced from the actual input types. This allows the function to access its actual return type as shown in [Section 42.3.3](https://www.postgresql.org/docs/13/plpgsql-declarations.html#PLPGSQL-DECLARATION-TYPE). `$0` is initialized to null and can be modified by the function, so it can be used to hold the return value if desired, though that is not required. `$0` can also be given an alias. For example, this function works on any data type that has a `+` operator:
 
-```text
+```
 CREATE FUNCTION add_three_values(v1 anyelement, v2 anyelement, v3 anyelement)
 RETURNS anyelement AS $$
 DECLARE
@@ -144,7 +144,7 @@ $$ LANGUAGE plpgsql;
 
 The same effect can be obtained by declaring one or more output parameters as polymorphic types. In this case the special `$0` parameter is not used; the output parameters themselves serve the same purpose. For example:
 
-```text
+```
 CREATE FUNCTION add_three_values(v1 anyelement, v2 anyelement, v3 anyelement,
                                  OUT sum anyelement)
 AS $$
@@ -156,7 +156,7 @@ $$ LANGUAGE plpgsql;
 
 In practice it might be more useful to declare a polymorphic function using the `anycompatible` family of types, so that automatic promotion of the input arguments to a common type will occur. For example:
 
-```text
+```
 CREATE FUNCTION add_three_values(v1 anycompatible, v2 anycompatible, v3 anycompatible)
 RETURNS anycompatible AS $$
 BEGIN
@@ -167,7 +167,7 @@ $$ LANGUAGE plpgsql;
 
 With this example, a call such as
 
-```text
+```
 SELECT add_three_values(1, 2, 4.7);
 ```
 
@@ -175,7 +175,7 @@ will work, automatically promoting the integer inputs to numeric. The function u
 
 ## 42.3.2. `ALIAS`
 
-```text
+```
 newname ALIAS FOR oldname;
 ```
 
@@ -183,7 +183,7 @@ The `ALIAS` syntax is more general than is suggested in the previous section: yo
 
 Examples:
 
-```text
+```
 DECLARE
   prior ALIAS FOR old;
   updated ALIAS FOR new;
@@ -193,36 +193,36 @@ Since `ALIAS` creates two different ways to name the same object, unrestricted u
 
 ## 42.3.3. Copying Types
 
-```text
+```
 variable%TYPE
 ```
 
 `%TYPE` provides the data type of a variable or table column. You can use this to declare variables that will hold database values. For example, let's say you have a column named `user_id` in your `users` table. To declare a variable with the same data type as `users.user_id` you write:
 
-```text
+```
 user_id users.user_id%TYPE;
 ```
 
-By using `%TYPE` you don't need to know the data type of the structure you are referencing, and most importantly, if the data type of the referenced item changes in the future \(for instance: you change the type of `user_id` from `integer` to `real`\), you might not need to change your function definition.
+By using `%TYPE` you don't need to know the data type of the structure you are referencing, and most importantly, if the data type of the referenced item changes in the future (for instance: you change the type of `user_id` from `integer` to `real`), you might not need to change your function definition.
 
 `%TYPE` is particularly valuable in polymorphic functions, since the data types needed for internal variables can change from one call to the next. Appropriate variables can be created by applying `%TYPE` to the function's arguments or result placeholders.
 
 ## 42.3.4. Row Types
 
-```text
+```
 name table_name%ROWTYPE;
 name composite_type_name;
 ```
 
-A variable of a composite type is called a _row_ variable \(or _row-type_ variable\). Such a variable can hold a whole row of a `SELECT` or `FOR` query result, so long as that query's column set matches the declared type of the variable. The individual fields of the row value are accessed using the usual dot notation, for example `rowvar.field`.
+A variable of a composite type is called a _row_ variable (or _row-type_ variable). Such a variable can hold a whole row of a `SELECT` or `FOR` query result, so long as that query's column set matches the declared type of the variable. The individual fields of the row value are accessed using the usual dot notation, for example `rowvar.field`.
 
-A row variable can be declared to have the same type as the rows of an existing table or view, by using the _`table_name`_`%ROWTYPE` notation; or it can be declared by giving a composite type's name. \(Since every table has an associated composite type of the same name, it actually does not matter in PostgreSQL whether you write `%ROWTYPE` or not. But the form with `%ROWTYPE` is more portable.\)
+A row variable can be declared to have the same type as the rows of an existing table or view, by using the _`table_name`_`%ROWTYPE` notation; or it can be declared by giving a composite type's name. (Since every table has an associated composite type of the same name, it actually does not matter in PostgreSQL whether you write `%ROWTYPE` or not. But the form with `%ROWTYPE` is more portable.)
 
-Parameters to a function can be composite types \(complete table rows\). In that case, the corresponding identifier `$`_`n`_ will be a row variable, and fields can be selected from it, for example `$1.user_id`.
+Parameters to a function can be composite types (complete table rows). In that case, the corresponding identifier `$`_`n`_ will be a row variable, and fields can be selected from it, for example `$1.user_id`.
 
 Here is an example of using composite types. `table1` and `table2` are existing tables having at least the mentioned fields:
 
-```text
+```
 CREATE FUNCTION merge_fields(t_row table1) RETURNS text AS $$
 DECLARE
     t2_row table2%ROWTYPE;
@@ -237,7 +237,7 @@ SELECT merge_fields(t.*) FROM table1 t WHERE ... ;
 
 ## 42.3.5. Record Types
 
-```text
+```
 name RECORD;
 ```
 
@@ -247,9 +247,9 @@ Note that `RECORD` is not a true data type, only a placeholder. One should also 
 
 ## 42.3.6. Collation of PL/pgSQL Variables
 
-When a PL/pgSQL function has one or more parameters of collatable data types, a collation is identified for each function call depending on the collations assigned to the actual arguments, as described in [Section 23.2](https://www.postgresql.org/docs/13/collation.html). If a collation is successfully identified \(i.e., there are no conflicts of implicit collations among the arguments\) then all the collatable parameters are treated as having that collation implicitly. This will affect the behavior of collation-sensitive operations within the function. For example, consider
+When a PL/pgSQL function has one or more parameters of collatable data types, a collation is identified for each function call depending on the collations assigned to the actual arguments, as described in [Section 23.2](https://www.postgresql.org/docs/13/collation.html). If a collation is successfully identified (i.e., there are no conflicts of implicit collations among the arguments) then all the collatable parameters are treated as having that collation implicitly. This will affect the behavior of collation-sensitive operations within the function. For example, consider
 
-```text
+```
 CREATE FUNCTION less_than(a text, b text) RETURNS boolean AS $$
 BEGIN
     RETURN a < b;
@@ -264,7 +264,7 @@ The first use of `less_than` will use the common collation of `text_field_1` and
 
 Furthermore, the identified collation is also assumed as the collation of any local variables that are of collatable types. Thus this function would not work any differently if it were written as
 
-```text
+```
 CREATE FUNCTION less_than(a text, b text) RETURNS boolean AS $$
 DECLARE
     local_a text := a;
@@ -275,11 +275,11 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-If there are no parameters of collatable data types, or no common collation can be identified for them, then parameters and local variables use the default collation of their data type \(which is usually the database's default collation, but could be different for variables of domain types\).
+If there are no parameters of collatable data types, or no common collation can be identified for them, then parameters and local variables use the default collation of their data type (which is usually the database's default collation, but could be different for variables of domain types).
 
 A local variable of a collatable data type can have a different collation associated with it by including the `COLLATE` option in its declaration, for example
 
-```text
+```
 DECLARE
     local_a text COLLATE "en_US";
 ```
@@ -288,7 +288,7 @@ This option overrides the collation that would otherwise be given to the variabl
 
 Also, of course explicit `COLLATE` clauses can be written inside a function if it is desired to force a particular collation to be used in a particular operation. For example,
 
-```text
+```
 CREATE FUNCTION less_than_c(a text, b text) RETURNS boolean AS $$
 BEGIN
     RETURN a < b COLLATE "C";
@@ -297,4 +297,3 @@ $$ LANGUAGE plpgsql;
 ```
 
 This overrides the collations associated with the table columns, parameters, or local variables used in the expression, just as would happen in a plain SQL command.
-

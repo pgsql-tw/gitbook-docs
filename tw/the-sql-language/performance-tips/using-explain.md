@@ -12,7 +12,7 @@ PostgreSQL 會為它收到的每個查詢設計一個查詢計劃。選擇正確
 
 這裡有一個簡單的例子，只是為了顯示輸出的樣子：
 
-```text
+```
 EXPLAIN SELECT * FROM tenk1;
 
                          QUERY PLAN
@@ -35,7 +35,7 @@ EXPLAIN SELECT * FROM tenk1;
 
 回到我們的例子：
 
-```text
+```
 EXPLAIN SELECT * FROM tenk1;
 
                          QUERY PLAN
@@ -45,15 +45,15 @@ EXPLAIN SELECT * FROM tenk1;
 
 這些數字非常直觀。如果你這樣做：
 
-```text
+```
 SELECT relpages, reltuples FROM pg_class WHERE relname = 'tenk1';
 ```
 
-你會發現 tenk1 有 358 個磁碟頁面和 10000 個資料列。估計的成本計算為（磁碟頁讀取  _\*_ [seq\_page\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)）+（資料列掃描 \* [cpu\_tuple\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)）。預設的情況下，seq\_page\_cost 為 1.0，cpu\_tuple\_cost 為 0.01，因此估計成本為（358 \*  __1.0）+（10000 \* 0.01）= 458。
+你會發現 tenk1 有 358 個磁碟頁面和 10000 個資料列。估計的成本計算為（磁碟頁讀取 \_ \* \_[seq\_page\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)）+（資料列掃描 \* [cpu\_tuple\_cost](../../server-administration/server-configuration/query-planning.md#19-7-2-planner-cost-constants)）。預設的情況下，seq\_page\_cost 為 1.0，cpu\_tuple\_cost 為 0.01，因此估計成本為（358 \* \_ \_1.0）+（10000 \* 0.01）= 458。
 
 現在讓我們修改查詢加入 WHERE 條件：
 
-```text
+```
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 7000;
 
                          QUERY PLAN
@@ -68,7 +68,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 7000;
 
 現在，我們加上更多條件限制：
 
-```text
+```
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100;
 
                                   QUERY PLAN
@@ -83,7 +83,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100;
 
 現在讓我們為 WHERE 子句增加另一個條件：
 
-```text
+```
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND stringu1 = 'xxx';
 
                                   QUERY PLAN
@@ -99,7 +99,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND stringu1 = 'xxx';
 
 在某些情況下，規劃程序更喜歡「簡單」的索引掃描計劃：
 
-```text
+```
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 = 42;
 
                                  QUERY PLAN
@@ -112,7 +112,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 = 42;
 
 如果在 WHERE 中引用的幾個欄位上有單獨的索引，則查詢規劃器可能會選擇使用索引的 AND 及 OR 組合：
 
-```text
+```
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000;
 
                                      QUERY PLAN
@@ -130,7 +130,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000;
 
 以下是顯示 LIMIT 效果的範例：
 
-```text
+```
 EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT 2;
 
                                      QUERY PLAN
@@ -145,7 +145,7 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT 2;
 
 讓我們嘗試使用我們一直在討論的欄位來交叉查詢兩個資料表：
 
-```text
+```
 EXPLAIN SELECT *
 FROM tenk1 t1, tenk2 t2
 WHERE t1.unique1 < 10 AND t1.unique2 = t2.unique2;
@@ -161,11 +161,11 @@ WHERE t1.unique1 < 10 AND t1.unique2 = t2.unique2;
          Index Cond: (unique2 = t1.unique2)
 ```
 
-在此計劃中，我們有一個巢狀循環的交叉查詢節點，其中有兩個資料表掃描作為輸入或子節點。節點摘要行的縮進反映了計劃樹狀結構。交叉查詢的第一個或「外部」子節點是一個類似於我們之前看到的 bitmap 掃描。它的成本和行數與我們從SELECT ... WHERE unique1 &lt;10 得到的相同，因為我們在該節點上使用了WHERE 子句 unique1 &lt;10。 t1.unique2 = t2.unique2 子句尚未相關，因此它不會影響外部掃描的行數。巢狀循環交叉查詢節點將為從外部子節點獲取的每一行運行其第二個或“內部”子節點一次。來自當下外部交叉查詢資料列的欄位值可以插入內部掃瞄；在這裡，來自外部交叉查詢資料列的 t1.unique2 值是可用的，因此我們得到一個類似於我們在上面看到的簡單「SELECT ... WHERE t2.unique2 = 常數」的情況。 （估計的成本實際上比上面看到的要低一些，因為在 t2 上重複索引掃描期間預計會發生快取。）然後根據成本確定循環節點的成本。外部交叉查詢掃描，每個外部交叉查詢資料列重複一次內部交叉查詢掃描（此處為10 \* 7.91），加上一點 CPU 時間進行交叉查詢處理。
+在此計劃中，我們有一個巢狀循環的交叉查詢節點，其中有兩個資料表掃描作為輸入或子節點。節點摘要行的縮進反映了計劃樹狀結構。交叉查詢的第一個或「外部」子節點是一個類似於我們之前看到的 bitmap 掃描。它的成本和行數與我們從SELECT ... WHERE unique1 <10 得到的相同，因為我們在該節點上使用了WHERE 子句 unique1 <10。 t1.unique2 = t2.unique2 子句尚未相關，因此它不會影響外部掃描的行數。巢狀循環交叉查詢節點將為從外部子節點獲取的每一行運行其第二個或“內部”子節點一次。來自當下外部交叉查詢資料列的欄位值可以插入內部掃瞄；在這裡，來自外部交叉查詢資料列的 t1.unique2 值是可用的，因此我們得到一個類似於我們在上面看到的簡單「SELECT ... WHERE t2.unique2 = 常數」的情況。 （估計的成本實際上比上面看到的要低一些，因為在 t2 上重複索引掃描期間預計會發生快取。）然後根據成本確定循環節點的成本。外部交叉查詢掃描，每個外部交叉查詢資料列重複一次內部交叉查詢掃描（此處為10 \* 7.91），加上一點 CPU 時間進行交叉查詢處理。
 
 在此範例中，交叉查詢的輸出資料列計數與兩個掃描的資料列計數的乘積相同，但在所有情況下都不是這樣，因為可以有其他 WHERE 子句提及兩個資料表，因此只會用於交叉查詢的節點，不論其他輸入任何掃描。這是一個例子：
 
-```text
+```
 EXPLAIN SELECT *
 FROM tenk1 t1, tenk2 t2
 WHERE t1.unique1 < 10 AND t2.unique2 < 10 AND t1.hundred < t2.hundred;
@@ -183,7 +183,7 @@ WHERE t1.unique1 < 10 AND t2.unique2 < 10 AND t1.hundred < t2.hundred;
                Index Cond: (unique2 < 10)
 ```
 
-條件 t1.hundred &lt; t2.hundred 無法在 tenk2\_unique2 索引中進行測試，因此它套用於 join 節點。這會減少連接節點的估計輸出資料列數，但不會更改任何輸入掃描。
+條件 t1.hundred < t2.hundred 無法在 tenk2\_unique2 索引中進行測試，因此它套用於 join 節點。這會減少連接節點的估計輸出資料列數，但不會更改任何輸入掃描。
 
 請注意，此處規劃程序已選擇透過在其上放置 Materialize 計劃節點來「具體化」交叉查詢的內部關係。這意味著 t2 索引掃描將只執行一次，即使 nested-loop join 節點需要讀取該資料十次，對於來自外部關係的每一筆資料一次。Materialize 節點在讀取資料時將資料保存在記憶體中，然後在每次後續傳遞時從記憶體中回傳資料。
 
@@ -191,7 +191,7 @@ WHERE t1.unique1 < 10 AND t2.unique2 < 10 AND t1.hundred < t2.hundred;
 
 如果我們稍微改變查詢的過濾條件，我們可能會得到一個非常不同的交叉查詢計劃：
 
-```text
+```
 EXPLAIN SELECT *
 FROM tenk1 t1, tenk2 t2
 WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
@@ -212,7 +212,7 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
 
 另一種可能的交叉查詢類型是 merge join，如下所示：
 
-```text
+```
 EXPLAIN SELECT *
 FROM tenk1 t1, onek t2
 WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
@@ -232,7 +232,7 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
 
 查看變形計劃的一種方法是使用[第 19.7.1 節](../../server-administration/server-configuration/query-planning.md#19-7-1-planner-method-configuration)中描述的啟用/禁用旗標強制規劃程予忽略它認為最便宜的策略。（這是一個粗略的工具，但很有用。另請參閱[第 14.3 節](controlling-the-planner-with-explicit-join-clauses.md)。）例如，如果我們不相信循序掃描和排序是在前一個範例中處理資料表 onek 的最佳方法，我們可以嘗試
 
-```text
+```
 SET enable_sort = off;
 
 EXPLAIN SELECT *
@@ -254,7 +254,7 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
 
 可以使用 EXPLAIN 的 ANALYZE 選項檢查計劃員估算的準確性。 使用此選項，EXPLAIN 實際執行查詢，然後顯示每個計劃節點中累積的真實資料列計數和真實執行時間，以及簡單 EXPLAIN 顯示的相同估計值。例如，我們可能得到這樣的結果：
 
-```text
+```
 EXPLAIN ANALYZE SELECT *
 FROM tenk1 t1, tenk2 t2
 WHERE t1.unique1 < 10 AND t1.unique2 = t2.unique2;
@@ -278,7 +278,7 @@ WHERE t1.unique1 < 10 AND t1.unique2 = t2.unique2;
 
 在某些情況下，EXPLAIN ANALYZE 會在計劃節點執行時間和資料列計數之外顯示其他執行統計訊息。例如，Sort 和 Hash 節點提供了額外的訊息：
 
-```text
+```
 EXPLAIN ANALYZE SELECT *
 FROM tenk1 t1, tenk2 t2
 WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2 ORDER BY t1.fivethous;
@@ -305,7 +305,7 @@ Sort 節點顯示使用的排序方法（特別是，排序是在記憶體中還
 
 另一種類型的額外訊息是過濾條件移除的資料列數目：
 
-```text
+```
 EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE ten < 7;
 
                                                QUERY PLAN
@@ -321,7 +321,7 @@ EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE ten < 7;
 
 類似於過濾條件的情況發生在「lossy」索引掃描中。例如，考慮搜尋包含特定點的多邊形：
 
-```text
+```
 EXPLAIN ANALYZE SELECT * FROM polygon_tbl WHERE f1 @> polygon '(0.5,2.0)';
 
                                               QUERY PLAN
@@ -335,7 +335,7 @@ EXPLAIN ANALYZE SELECT * FROM polygon_tbl WHERE f1 @> polygon '(0.5,2.0)';
 
 規劃程序（非常正確地）認為這個樣本資料表太小而無法進行索引掃描，因此我們進行了簡單的循序掃描，其中所有資料列都被過濾條件拒絕。但是如果我們強制使用索引掃描，我們會看到：
 
-```text
+```
 SET enable_seqscan TO off;
 
 EXPLAIN ANALYZE SELECT * FROM polygon_tbl WHERE f1 @> polygon '(0.5,2.0)';
@@ -353,7 +353,7 @@ EXPLAIN ANALYZE SELECT * FROM polygon_tbl WHERE f1 @> polygon '(0.5,2.0)';
 
 EXPLAIN 有一個 BUFFERS 選項，可以與 ANALYZE 一起使用以獲得更多的執行時統計訊息：
 
-```text
+```
 EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000;
 
                                                            QUERY PLAN
@@ -377,7 +377,7 @@ BUFFERS 提供的數字有助於識別查詢的哪些部分是 I/O 密集程度�
 
 請記住，因為 EXPLAIN ANALYZE 實際上執行查詢，所以任何副作用都會照常發生，即使查詢可能輸出的任何結果都被丟棄，有利於輸出 EXPLAIN 數據。如果要在不更改資料表的情況下分析資料修改查詢，可以在之後回溯事務，例如：
 
-```text
+```
 BEGIN;
 
 EXPLAIN ANALYZE UPDATE tenk1 SET hundred = hundred + 1 WHERE unique1 < 100;
@@ -399,7 +399,7 @@ ROLLBACK;
 
 當 UPDATE 或 DELETE 指令影響繼承結構時，輸出可能如下所示：
 
-```text
+```
 EXPLAIN UPDATE parent SET f2 = f2 + 1 WHERE f1 = 101;
                                     QUERY PLAN
 -----------------------------------------------------------------------------------
@@ -426,13 +426,13 @@ EXPLAIN ANALYZE 顯示的執行時間包括執行程序啟動和關閉時間，�
 
 ## 14.1.3. 注意事項
 
-EXPLAIN ANALYZE 測量的執行時間有兩種主要情況可能偏離同一查詢的實際執行。首先，由於沒有輸出資料列傳送到客戶端，因此不包括網路傳輸成本和 I/O 轉換成本。其次，EXPLAIN ANALYZE 增加的測量開銷可能很大，特別是在具有較慢 gettimeofday\(\) 作業系統的機器上。您可以使用 [pg\_test\_timing](../../reference/server-applications/pg_test_timing.md) 工具來衡量系統計時的成本。
+EXPLAIN ANALYZE 測量的執行時間有兩種主要情況可能偏離同一查詢的實際執行。首先，由於沒有輸出資料列傳送到客戶端，因此不包括網路傳輸成本和 I/O 轉換成本。其次，EXPLAIN ANALYZE 增加的測量開銷可能很大，特別是在具有較慢 gettimeofday() 作業系統的機器上。您可以使用 [pg\_test\_timing](../../reference/server-applications/pg\_test\_timing.md) 工具來衡量系統計時的成本。
 
 EXPLAIN 結果不應該推斷到與您實際測試的情況大不相同的情況；例如，不能假設小型資料表上的結果適用於大型資料表。規劃程序的成本估算不是線性的，因此可能會為更大或更小的資料表選擇不同的計劃。一個極端的例子是，在只佔用一個磁碟頁面的資料表上，無論索引是否可用，您幾乎總能獲得循順掃描計劃。規劃程序在任何情況下都會讀取一個磁碟頁面來處理資料表，因此在延伸額外的頁面讀取以查看索引時就沒有任何價值。（我們在上面的 polygon\_tbl 範例中看到了這種情況。）
 
 在某些情況下，實際值和估計值不能很好地對應，但沒有什麼是真正的錯誤。當計劃節點執行由 LIMIT 或類似效果停止時，就會發生這種情況。例如，在我們之前使用的 LIMIT 查詢中，
 
-```text
+```
 EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT 2;
 
                                                           QUERY PLAN
@@ -451,4 +451,3 @@ EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT
 交叉查詢也有測量工具，也可能産生混淆。如果一個輸入耗盡了另一個輸入，並且一個輸入中的下一個鍵值大於另一個輸入的最後一個鍵值，則交叉查詢將停止讀取一個輸入；在這種情況下，不可能再有匹配，因此不需要掃描第一個輸入的其餘部分。這導致不讀取所有下一個子項，結果如 LIMIT 所述。此外，如果外部（第一個）子項包含具有重複鍵值的資料列，則內部（第二個）子項將被備份並重新掃描其與該鍵值匹配資料列的部分。EXPLAIN ANALYZE 計算相同內部資料列的這些重複映射，就好像它們是真正的附加資料列一樣。當存在許多外部重複項時，內部子計劃節點的報告實際資料列數目可能明顯大於內部關連中實際存在的資料列數目。
 
 由於實作限制，BitmapAnd 和 BitmapOr 節點始終將其實際資料列計數回報為零。
-

@@ -4,7 +4,7 @@ CREATE SUBSCRIPTION — 定義一個新的訂閱
 
 ### 語法
 
-```text
+```
 CREATE SUBSCRIPTION subscription_name
     CONNECTION 'conninfo'
     PUBLICATION publication_name [, ...]
@@ -31,33 +31,33 @@ _`subscription_name`_
 
 發佈者的連線字串。有關詳細訊息，請參閱[第 33.1.1 節](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#33-1-1-connection-strings)。
 
-`PUBLICATION` _`publication_name`_
+`PUBLICATION `_`publication_name`_
 
 要訂閱的發佈者的發佈名稱。
 
-`WITH (` _`subscription_parameter`_ \[= _`value`_\] \[, ... \] \)
+`WITH ( `_`subscription_parameter`_ \[= _`value`_] \[, ... ] )
 
 此子句指定訂閱的選用參數。支援以下參數：
 
-`copy_data` \(`boolean`\)
+`copy_data` (`boolean`)
 
 指定複寫開始後是否應複寫正在訂閱的發佈中的現有資料。預設值為 true。
 
-`create_slot` \(`boolean`\)
+`create_slot` (`boolean`)
 
 指定指令是否應在發佈者上建立複寫插槽。預設值為 true。
 
-`enabled` \(`boolean`\)
+`enabled` (`boolean`)
 
 指定訂閱是應該主動複寫，還是應該只是設定而不啟動。預設值為 true。
 
-`slot_name` \(`string`\)
+`slot_name` (`string`)
 
 要使用的複寫插槽的名稱。預設行為是使用插槽名稱的訂閱。
 
 當 slot\_name 設定為 NONE 時，將不會有與該訂閱關聯的複寫插槽。如果稍後手動建立複寫插槽，則可以使用此方法。此類訂閱還必須同時啟用並且將 create\_slot 設定為 false。
 
-`synchronous_commit` \(`enum`\)
+`synchronous_commit` (`enum`)
 
 此參數的值將覆寫 [synchronous\_commit ](../../server-administration/server-configuration/write-ahead-log.md#19-5-1-settings)設定。預設值為 off。
 
@@ -65,7 +65,7 @@ _`subscription_name`_
 
 執行同步邏寫複製時，可能需要使用其他設定。邏輯複寫工作程序向發佈者報告寫入和更新的位置，使用同步複寫時，發佈者將等待實際更新。這意味著在將訂閱用於同步複寫時將訂閱戶的 synchronous\_commit 設定為 off 可能會增加發佈伺服器上 COMMIT 的延遲。在這種情況下，將 synchronous\_commit 設定為 local 或更高的值可能更有利。
 
-`connect` \(`boolean`\)
+`connect` (`boolean`)
 
 指定 CREATE SUBSCRIPTION 是否應該連線到發佈者。將此設定為 false 會將enabled、create\_slot 和 copy\_data 的預設值更改為 false。
 
@@ -85,7 +85,7 @@ _`subscription_name`_
 
 建立遠端伺服器的訂閱，將複寫 mypublication 和 insert\_only 資料表，並在提交時立即開始複寫：
 
-```text
+```
 CREATE SUBSCRIPTION mysub
          CONNECTION 'host=192.168.1.50 port=5432 user=foo dbname=foodb'
         PUBLICATION mypublication, insert_only;
@@ -93,7 +93,7 @@ CREATE SUBSCRIPTION mysub
 
 建立對於遠端伺服器的訂閱，將複寫 insert\_only 資料表，並且在稍後啟用之前不會開始複寫。
 
-```text
+```
 CREATE SUBSCRIPTION mysub
          CONNECTION 'host=192.168.1.50 port=5432 user=foo dbname=foodb'
         PUBLICATION insert_only
@@ -107,4 +107,3 @@ CREATE SUBSCRIPTION 是 PostgreSQL 的延伸功能。
 ### 參閱
 
 [ALTER SUBSCRIPTION](alter-subscription.md), [DROP SUBSCRIPTION](drop-subscription.md), [CREATE PUBLICATION](create-publication.md), [ALTER PUBLICATION](alter-publication.md)
-

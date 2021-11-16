@@ -1,3 +1,7 @@
+---
+description: 版本：11
+---
+
 # 22.3. 樣版資料庫
 
 CREATE DATABASE 實際上是透過複製現有資料庫來作業的。預設情況下，它是複製名為 template1 的標準系統資料庫。因此，該資料庫是製作新資料庫的「樣板」。如果向 template1 新增物件，則會使這些物件複製到隨後建立的使用者資料庫中。此行為可以對資料庫中的標準物件集合進行本地的修改。例如，如果在 template1 中安裝程序語言 PL/Perl，它將自動在使用者資料庫中可用，而在建立這些資料庫時不需要採取任何額外操作。
@@ -8,13 +12,13 @@ CREATE DATABASE 實際上是透過複製現有資料庫來作業的。預設情�
 
 要透過複製 template0 建立資料庫，請使用：
 
-```text
+```
 CREATE DATABASE dbname TEMPLATE template0;
 ```
 
 在 SQL 環境，或：
 
-```text
+```
 createdb -T template0 dbname
 ```
 
@@ -29,4 +33,3 @@ createdb -T template0 dbname
 
 初始化資料庫叢集時也會建立 postgres 資料庫。此資料庫用作連線使用者和應用程序的預設資料庫。它只是 template1 的副本，可以在必要時刪除並重新建立。
 {% endhint %}
-

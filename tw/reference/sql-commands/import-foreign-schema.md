@@ -4,7 +4,7 @@ IMPORT FOREIGN SCHEMA — 從外部伺服器匯入資料表定義
 
 ### 語法
 
-```text
+```
 IMPORT FOREIGN SCHEMA remote_schema
     [ { LIMIT TO | EXCEPT } ( table_name [, ...] ) ]
     FROM SERVER server_name
@@ -26,11 +26,11 @@ _`remote_schema`_
 
 The remote schema to import from. The specific meaning of a remote schema depends on the foreign data wrapper in use.
 
-`LIMIT TO (` _`table_name`_ \[, ...\] \)
+`LIMIT TO ( `_`table_name`_ \[, ...] )
 
 Import only foreign tables matching one of the given table names. Other tables existing in the foreign schema will be ignored.
 
-`EXCEPT (` _`table_name`_ \[, ...\] \)
+`EXCEPT ( `_`table_name`_ \[, ...] )
 
 Exclude specified foreign tables from the import. All tables existing in the foreign schema will be imported except the ones listed here.
 
@@ -42,7 +42,7 @@ _`local_schema`_
 
 The schema in which the imported foreign tables will be created.
 
-`OPTIONS (` _`option`_ '_`value`_' \[, ...\] \)
+`OPTIONS ( `_`option`_ '_`value`_' \[, ...] )
 
 Options to be used during the import. The allowed option names and values are specific to each foreign data wrapper.
 
@@ -50,14 +50,14 @@ Options to be used during the import. The allowed option names and values are sp
 
 從伺服器 film\_server 上的遠端 schema foreign\_films 匯入資料表定義，然後在本機 schema films 中建立外部資料表：
 
-```text
+```
 IMPORT FOREIGN SCHEMA foreign_films
     FROM SERVER film_server INTO films;
 ```
 
 如上所述，但僅導入兩個資料表 actors 和 directors（如果它們存在的話）：
 
-```text
+```
 IMPORT FOREIGN SCHEMA foreign_films LIMIT TO (actors, directors)
     FROM SERVER film_server INTO films;
 ```
@@ -69,4 +69,3 @@ IMPORT FOREIGN SCHEMA 指令符合 SQL 標準，但 OPTIONS 子句是 PostgreSQL
 ### _`參閱`_
 
 [CREATE FOREIGN TABLE](create-foreign-table.md), [CREATE SERVER](create-server.md)
-

@@ -4,9 +4,9 @@ pgbench — 進行 PostgreSQL 效能評估
 
 ## 語法
 
-`pgbench-i`\[`option`...\] \[`dbname`\]
+`pgbench-i`\[`option`...] \[`dbname`]
 
-`pgbench`\[`option`...\] \[`dbname`\]
+`pgbench`\[`option`...] \[`dbname`]
 
 ## 說明
 
@@ -14,7 +14,7 @@ pgbench 是一個簡易型 PostgreSQL 的效能評估工具。它可以重覆執
 
 pgbench 大致上的輸出如下：
 
-```text
+```
 transaction type: <builtin: TPC-B (sort of)>
 
 scaling factor: 10
@@ -31,7 +31,7 @@ tps = 85.296346 (excluding connections establishing)
 
 預設使用的 TPC-B 情境評估需要特定的資料庫結構，它們必須要在測試前先建立好。所以在測試之前，要先以「-i」參數執行初始化資料庫結構。（如果你使用自訂的情境測試，那就不需要進行這個步驟，但你可能需要另外自行建立你所需要的結構。）初始化指令如下：
 
-```text
+```
 pgbench -i [other-options] dbname
 ```
 
@@ -43,7 +43,7 @@ pgbench -i 會建立 4 個表格：pgbench\_accounts、pgbench\_branches、pgben
 
 預設上，「scale factor」設定為 1，所產生的資料筆數如下：
 
-```text
+```
 table                   # of rows
 ---------------------------------
 pgbench_branches        1
@@ -56,7 +56,7 @@ pgbench_history         0
 
 一旦你完成了這個初始化的動作之後，後續的測試就不需要加上 -i 了：
 
-```text
+```
 pgbench [options] dbname
 ```
 
@@ -342,9 +342,9 @@ pgbench 支援使用自訂的情境腳步取代內建的測試腳本（如上所
 
 #### **Table 240. Automatic Variables**
 
-| Variable | Description |
-| :--- | :--- |
-| `scale` | 目前的 scale factor |
+| Variable    | Description          |
+| ----------- | -------------------- |
+| `scale`     | 目前的 scale factor     |
 | `client_id` | 每一個用戶連線的唯一識別資訊（起始為零） |
 
 中繼指令是以倒斜線（\）開頭的指令，一般就到行末結尾，而如果要多行的話，就在行末再加倒斜線。中繼指令的參數是以空白分隔。支援的中繼指令有：
@@ -355,23 +355,23 @@ pgbench 支援使用自訂的情境腳步取代內建的測試腳本（如上所
 
 例如：
 
-```text
+```
 \set ntellers 10 * :scale
 \set aid (1021 * random(1, 100000 * :scale)) % \
            (100000 * :scale) + 1
 ```
 
-`\sleep number`\[ us \| ms \| s \]
+`\sleep number`\[ us | ms | s ]
 
-使腳本執行暫停一段指定的時間，百萬分之一秒（us）、千分之一秒（ms）、或秒\(s）。如果省略單位的話，預設是秒。nubmer 可以是整數常數，或引用其他整數變數的內容。
+使腳本執行暫停一段指定的時間，百萬分之一秒（us）、千分之一秒（ms）、或秒(s）。如果省略單位的話，預設是秒。nubmer 可以是整數常數，或引用其他整數變數的內容。
 
 例如：
 
-```text
+```
 \sleep 10 ms
 ```
 
-`\setshell varname command`\[`argument`... \]
+`\setshell varname command`\[`argument`... ]
 
 設定 varname 的內容是執行另一個命令列指令的結果。該命令列指令必須透過標準輸出回傳整數。
 
@@ -379,17 +379,17 @@ command 和每一個 argument 都可以是文字常數或使用 :variablename �
 
 例如：
 
-```text
+```
 \setshell variable_to_be_assigned command literal_argument :variable ::literal_starting_with_colon
 ```
 
-`\shell command`\[`argument`... \]
+`\shell command`\[`argument`... ]
 
 和 \setshell 一樣，只是不處理回傳值。
 
 例如：
 
-```text
+```
 \shell command literal_argument :variable ::literal_starting_with_colon
 ```
 
@@ -399,28 +399,33 @@ Table 241 是 pgbench 內建，可以在 \set 的函數。
 
 #### **Table 241. pgbench Functions**
 
-| Function | Return Type | Description | Example | Result |
-| :--- | :--- | :--- | :--- | :--- |
-| `abs(a`\) | same as`a` | absolute value | `abs(-17)` | `17` |
-| `debug(a`\) | same as`a` | print`a`_\_tostderr, and return_`a`\_ | `debug(5432.1)` | `5432.1` |
-| `double(i`\) | double | cast to double | `double(5432)` | `5432.0` |
-| `greatest(a`\[,`...`\] \) | double if any\_`a`\_is double, else integer | largest value among arguments | `greatest(5, 4, 3, 2)` | `5` |
-| `int(x`\) | integer | cast to int | `int(5.4 + 3.8)` | `9` |
-| `least(a`\[,`...`\] \) | double if any\_`a`\_is double, else integer | smallest value among arguments | `least(5, 4, 3, 2.1)` | `2.1` |
-| `pi()` | double | value of the constant PI | `pi()` | `3.14159265358979323846` |
-| `random(lb`,`ub`\) | integer | uniformly-distributed random integer in`[lb, ub]` | `random(1, 10)` | an integer between`1`and`10` |
-| `random_exponential(lb`,`ub`,`parameter`\) | integer | exponentially-distributed random integer in`[lb, ub]`, see below | `random_exponential(1, 10, 3.0)` | an integer between`1`and`10` |
-| `random_gaussian(lb`,`ub`,`parameter`\) | integer | Gaussian-distributed random integer in`[lb, ub]`, see below | `random_gaussian(1, 10, 2.5)` | an integer between`1`and`10` |
-| `sqrt(x`\) | double | square root | `sqrt(2.0)` | `1.414213562` |
+| Function                                  | Return Type                                 | Description                                                      | Example                          | Result                       |
+| ----------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------- | -------------------------------- | ---------------------------- |
+| `abs(a`)                                  | same as`a`                                  | absolute value                                                   | `abs(-17)`                       | `17`                         |
+| `debug(a`)                                | same as`a`                                  | print`a`_\_tostderr, and return_`a`\_                            | `debug(5432.1)`                  | `5432.1`                     |
+| `double(i`)                               | double                                      | cast to double                                                   | `double(5432)`                   | `5432.0`                     |
+| `greatest(a`\[,`...`] )                   | double if any\_`a`\_is double, else integer | largest value among arguments                                    | `greatest(5, 4, 3, 2)`           | `5`                          |
+| `int(x`)                                  | integer                                     | cast to int                                                      | `int(5.4 + 3.8)`                 | `9`                          |
+| `least(a`\[,`...`] )                      | double if any\_`a`\_is double, else integer | smallest value among arguments                                   | `least(5, 4, 3, 2.1)`            | `2.1`                        |
+| `pi()`                                    | double                                      | value of the constant PI                                         | `pi()`                           | `3.14159265358979323846`     |
+| `random(lb`,`ub`)                         | integer                                     | uniformly-distributed random integer in`[lb, ub]`                | `random(1, 10)`                  | an integer between`1`and`10` |
+| `random_exponential(lb`,`ub`,`parameter`) | integer                                     | exponentially-distributed random integer in`[lb, ub]`, see below | `random_exponential(1, 10, 3.0)` | an integer between`1`and`10` |
+| `random_gaussian(lb`,`ub`,`parameter`)    | integer                                     | Gaussian-distributed random integer in`[lb, ub]`, see below      | `random_gaussian(1, 10, 2.5)`    | an integer between`1`and`10` |
+| `sqrt(x`)                                 | double                                      | square root                                                      | `sqrt(2.0)`                      | `1.414213562`                |
 
 random 函數使用的是均勻分配亂數，也就是在指定範圍內的數值，都有相等的產生機率。random\_exponential 和 random\_gaussian 則需要額外的參數，來指定精確的分配情況。
 
-* 指數分配，參數控制其分配情況是透過分段一個快速下降的指數分配，投影在指定範圍間的整數而得。精確來說，以下面的式子計算而得： f\(x\) = exp\(-parameter \* \(x - min\) / \(max - min + 1\)\) / \(1 - exp\(-parameter\)\) 區間中某個 i 值的機率為 f\(i\) - f\(i + 1\)。 直覺上，越大的輸入參數，就會越多較小的數值被輸出，而較少的大數值產生。如果參數接近 0 的話，就會很接近均勻分配。一個粗略的概念是，機率最高的 1%，落於靠近最小值的一端，機率大概是百分之（parameter）。此參數必須要是正整數。
-* 高斯分配，指定區間會映射到一個標準常態分配的空間（典型的錐型高斯曲線），分佈於 -parameter 及 +parameter 之間。靠中間的值有更高的選取機率。精確來說，如果 PHI\(x\) 是該常態分配的累計分配函數的話，那麼平均數 mu 就是 \(max + min\) / 2.0，則： f\(x\) = PHI\(2.0 \* parameter \* \(x - mu\) / \(max - min + 1\)\) / \(2.0 \* PHI\(parameter\) - 1\) 在區間中，數值 i 被選取的機率就是：f\(i + 0.5\) - f\(i - 0.5\)。直覺上，parameter 越大，就會有越多中間值被選值，而越小的話，兩側數側被選擇的機率就會增加。約有 67% 的結果會在靠近 1.0 / parameter 中間的值，相對於 0.5 / parameter 近乎在平均值的附近；2.0 / parameter 則是 95% 是靠近中間的值，相對於 1.0 / parameter 近乎在平均值的附近。舉例來說，如果 parameter = 4.0，大概有 67% 的值會來自於中間的四分之一（即 3.0 / 8.0 到 5.0 / 8.0），而 95% 來自於中間的一半（2.0 / 4.0），第二和第三的四分位數之間。以 Box-Muller 轉換的效率來說，parameter 最小值為 2.0。
+* 指數分配，參數控制其分配情況是透過分段一個快速下降的指數分配，投影在指定範圍間的整數而得。精確來說，以下面的式子計算而得：\
+  f(x) = exp(-parameter \* (x - min) / (max - min + 1)) / (1 - exp(-parameter))\
+  區間中某個 i 值的機率為 f(i) - f(i + 1)。\
+  直覺上，越大的輸入參數，就會越多較小的數值被輸出，而較少的大數值產生。如果參數接近 0 的話，就會很接近均勻分配。一個粗略的概念是，機率最高的 1%，落於靠近最小值的一端，機率大概是百分之（parameter）。此參數必須要是正整數。
+* 高斯分配，指定區間會映射到一個標準常態分配的空間（典型的錐型高斯曲線），分佈於 -parameter 及 +parameter 之間。靠中間的值有更高的選取機率。精確來說，如果 PHI(x) 是該常態分配的累計分配函數的話，那麼平均數 mu 就是 (max + min) / 2.0，則：\
+  f(x) = PHI(2.0 \* parameter \* (x - mu) / (max - min + 1)) / (2.0 \* PHI(parameter) - 1)\
+  在區間中，數值 i 被選取的機率就是：f(i + 0.5) - f(i - 0.5)。直覺上，parameter 越大，就會有越多中間值被選值，而越小的話，兩側數側被選擇的機率就會增加。約有 67% 的結果會在靠近 1.0 / parameter 中間的值，相對於 0.5 / parameter 近乎在平均值的附近；2.0 / parameter 則是 95% 是靠近中間的值，相對於 1.0 / parameter 近乎在平均值的附近。舉例來說，如果 parameter = 4.0，大概有 67% 的值會來自於中間的四分之一（即 3.0 / 8.0 到 5.0 / 8.0），而 95% 來自於中間的一半（2.0 / 4.0），第二和第三的四分位數之間。以 Box-Muller 轉換的效率來說，parameter 最小值為 2.0。
 
 下面是內建的 TPC-B like 交易的例子：
 
-```text
+```
 \set aid random(1, 100000 * :scale)
 \set bid random(1, 1 * :scale)
 \set tid random(1, 10 * :scale)
@@ -442,7 +447,7 @@ END;
 
 記錄檔內容格式如下：
 
-```text
+```
 client_id transaction_no time script_no time_epoch time_us [schedule_lag]
 ```
 
@@ -450,7 +455,7 @@ client_id transaction_no time script_no time_epoch time_us [schedule_lag]
 
 這裡是一小段記錄檔案，單一執行緒的結果：
 
-```text
+```
 0 199 2241 0 1175850568 995598
 0 200 2465 0 1175850568 998079
 0 201 2513 0 1175850569 608
@@ -459,7 +464,7 @@ client_id transaction_no time script_no time_epoch time_us [schedule_lag]
 
 另一個例子，使用 --rate=100 及 --latency-limit=5（注意額外的 schedule\_lag 欄位）：
 
-```text
+```
 0 81 4621 0 1412881037 912698 3005
 0 82 6173 0 1412881037 914578 4304
 0 83 skipped 0 1412881037 914578 5217
@@ -477,7 +482,7 @@ client_id transaction_no time script_no time_epoch time_us [schedule_lag]
 
 使用 --aggregate-interval 選項時，會是另一種記錄檔格式：
 
-```text
+```
 interval_start num_transactions sum_latency sum_latency_2 min_latency max_latency [sum_lag sum_lag_2 min_lag max_lag [ skipped ] ]
 ```
 
@@ -485,7 +490,7 @@ interval_start num_transactions sum_latency sum_latency_2 min_latency max_latenc
 
 這裡是一些輸出範例：
 
-```text
+```
 1345828501 5601 1542744 483552416 61 2573
 1345828503 7884 1979812 565806736 60 1479
 1345828505 7208 1979422 567277552 59 1391
@@ -501,7 +506,7 @@ interval_start num_transactions sum_latency sum_latency_2 min_latency max_latenc
 
 以預設的腳本，輸出可能會是像這樣：
 
-```text
+```
 starting vacuum...end.
 transaction type:<builtin: TPC-B (sort of)>
 
@@ -545,4 +550,3 @@ script statistics:
 預設的測試情境對於資料表被使用多久也很敏感：因為資料表變更會產生廢棄的資料列、資料空間。要瞭解這些情況，你必須追蹤更新資料的總數和整理資料表的時間。如果自動整理的功能開啓了，那麼就會在測試時產生無可預知的變化。
 
 pgbench 的其中一項限制就是它自己也可能是瓶頸，在產生大量模擬用戶時。可以採用在多台主機使用多個 pgbench 來解決這個問題，雖然這樣也會帶來一些網路延遲。不過這樣就可以同時執行許多的 pgbench，在多個主機上，對同一個資料庫進行測試。
-

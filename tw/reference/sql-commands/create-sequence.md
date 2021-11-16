@@ -4,7 +4,7 @@ CREATE SEQUENCE — define a new sequence generator
 
 ### Synopsis
 
-```text
+```
 CREATE [ TEMPORARY | TEMP ] SEQUENCE [ IF NOT EXISTS ] name
     [ AS data_type ]
     [ INCREMENT [ BY ] increment ]
@@ -23,17 +23,17 @@ After a sequence is created, you use the functions `nextval`, `currval`, and `se
 
 Although you cannot update a sequence directly, you can use a query like:
 
-```text
+```
 SELECT * FROM name;
 ```
 
-to examine the parameters and current state of a sequence. In particular, the `last_value` field of the sequence shows the last value allocated by any session. \(Of course, this value might be obsolete by the time it's printed, if other sessions are actively doing `nextval` calls.\)
+to examine the parameters and current state of a sequence. In particular, the `last_value` field of the sequence shows the last value allocated by any session. (Of course, this value might be obsolete by the time it's printed, if other sessions are actively doing `nextval` calls.)
 
 ### Parameters
 
 `TEMPORARY` or `TEMP`
 
-If specified, the sequence object is created only for this session, and is automatically dropped on session exit. Existing permanent sequences with the same name are not visible \(in this session\) while the temporary sequence exists, unless they are referenced with schema-qualified names.
+If specified, the sequence object is created only for this session, and is automatically dropped on session exit. Existing permanent sequences with the same name are not visible (in this session) while the temporary sequence exists, unless they are referenced with schema-qualified names.
 
 `IF NOT EXISTS`
 
@@ -41,51 +41,51 @@ Do not throw an error if a relation with the same name already exists. A notice 
 
 _`name`_
 
-The name \(optionally schema-qualified\) of the sequence to be created.
+The name (optionally schema-qualified) of the sequence to be created.
 
 _`data_type`_
 
-The optional clause `AS` _`data_type`_ specifies the data type of the sequence. Valid types are `smallint`, `integer`, and `bigint`. `bigint` is the default. The data type determines the default minimum and maximum values of the sequence.
+The optional clause `AS `_`data_type`_ specifies the data type of the sequence. Valid types are `smallint`, `integer`, and `bigint`. `bigint` is the default. The data type determines the default minimum and maximum values of the sequence.
 
 _`increment`_
 
-The optional clause `INCREMENT BY` _`increment`_ specifies which value is added to the current sequence value to create a new value. A positive value will make an ascending sequence, a negative one a descending sequence. The default value is 1.
+The optional clause `INCREMENT BY `_`increment`_ specifies which value is added to the current sequence value to create a new value. A positive value will make an ascending sequence, a negative one a descending sequence. The default value is 1.
 
-_`minvalue`_  
+_`minvalue`_\
 `NO MINVALUE`
 
-The optional clause `MINVALUE` _`minvalue`_ determines the minimum value a sequence can generate. If this clause is not supplied or `NO MINVALUE` is specified, then defaults will be used. The default for an ascending sequence is 1. The default for a descending sequence is the minimum value of the data type.
+The optional clause `MINVALUE `_`minvalue`_ determines the minimum value a sequence can generate. If this clause is not supplied or `NO MINVALUE` is specified, then defaults will be used. The default for an ascending sequence is 1. The default for a descending sequence is the minimum value of the data type.
 
-_`maxvalue`_  
+_`maxvalue`_\
 `NO MAXVALUE`
 
-The optional clause `MAXVALUE` _`maxvalue`_ determines the maximum value for the sequence. If this clause is not supplied or `NO MAXVALUE` is specified, then default values will be used. The default for an ascending sequence is the maximum value of the data type. The default for a descending sequence is -1.
+The optional clause `MAXVALUE `_`maxvalue`_ determines the maximum value for the sequence. If this clause is not supplied or `NO MAXVALUE` is specified, then default values will be used. The default for an ascending sequence is the maximum value of the data type. The default for a descending sequence is -1.
 
 _`start`_
 
-The optional clause `START WITH` _`start`_ allows the sequence to begin anywhere. The default starting value is _`minvalue`_ for ascending sequences and _`maxvalue`_ for descending ones.
+The optional clause `START WITH `_`start`_ allows the sequence to begin anywhere. The default starting value is _`minvalue`_ for ascending sequences and _`maxvalue`_ for descending ones.
 
 _`cache`_
 
-The optional clause `CACHE` _`cache`_ specifies how many sequence numbers are to be preallocated and stored in memory for faster access. The minimum value is 1 \(only one value can be generated at a time, i.e., no cache\), and this is also the default.
+The optional clause `CACHE `_`cache`_ specifies how many sequence numbers are to be preallocated and stored in memory for faster access. The minimum value is 1 (only one value can be generated at a time, i.e., no cache), and this is also the default.
 
-`CYCLE`  
+`CYCLE`\
 `NO CYCLE`
 
 The `CYCLE` option allows the sequence to wrap around when the _`maxvalue`_ or _`minvalue`_ has been reached by an ascending or descending sequence respectively. If the limit is reached, the next number generated will be the _`minvalue`_ or _`maxvalue`_, respectively.
 
 If `NO CYCLE` is specified, any calls to `nextval` after the sequence has reached its maximum value will return an error. If neither `CYCLE` or `NO CYCLE` are specified, `NO CYCLE` is the default.`OWNED BY` _`table_name`_.
 
-_`column_name`_  
+_`column_name`_\
 `OWNED BY NONE`
 
-The `OWNED BY` option causes the sequence to be associated with a specific table column, such that if that column \(or its whole table\) is dropped, the sequence will be automatically dropped as well. The specified table must have the same owner and be in the same schema as the sequence. `OWNED BY NONE`, the default, specifies that there is no such association.
+The `OWNED BY` option causes the sequence to be associated with a specific table column, such that if that column (or its whole table) is dropped, the sequence will be automatically dropped as well. The specified table must have the same owner and be in the same schema as the sequence. `OWNED BY NONE`, the default, specifies that there is no such association.
 
 ### Notes
 
 Use `DROP SEQUENCE` to remove a sequence.
 
-Sequences are based on `bigint` arithmetic, so the range cannot exceed the range of an eight-byte integer \(-9223372036854775808 to 9223372036854775807\).
+Sequences are based on `bigint` arithmetic, so the range cannot exceed the range of an eight-byte integer (-9223372036854775808 to 9223372036854775807).
 
 Because `nextval` and `setval` calls are never rolled back, sequence objects cannot be used if “gapless” assignment of sequence numbers is needed. It is possible to build gapless assignment by using exclusive locking of a table containing a counter; but this solution is much more expensive than sequence objects, especially if many transactions need sequence numbers concurrently.
 
@@ -99,13 +99,13 @@ Another consideration is that a `setval` executed on such a sequence will not be
 
 Create an ascending sequence called `serial`, starting at 101:
 
-```text
+```
 CREATE SEQUENCE serial START 101;
 ```
 
 Select the next number from this sequence:
 
-```text
+```
 SELECT nextval('serial');
 
  nextval
@@ -115,7 +115,7 @@ SELECT nextval('serial');
 
 Select the next number from this sequence:
 
-```text
+```
 SELECT nextval('serial');
 
  nextval
@@ -125,13 +125,13 @@ SELECT nextval('serial');
 
 Use this sequence in an `INSERT` command:
 
-```text
+```
 INSERT INTO distributors VALUES (nextval('serial'), 'nothing');
 ```
 
 Update the sequence value after a `COPY FROM`:
 
-```text
+```
 BEGIN;
 COPY distributors FROM 'input_file';
 SELECT setval('serial', max(id)) FROM distributors;
@@ -148,4 +148,3 @@ END;
 ### See Also
 
 [ALTER SEQUENCE](alter-sequence.md), [DROP SEQUENCE](drop-sequence.md)
-

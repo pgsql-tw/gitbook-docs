@@ -6,7 +6,7 @@
 
 最簡單的選擇列表是\*，它表示資料表表示式產生的所有欄位。否則，資料列表是逗號分隔的參數表示式列表（如[第 4.2 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/sql-syntax/42-value-expressions.md)中所定義的）。例如，它可能是欄位名稱的列表：
 
-```text
+```
 SELECT a, b, c FROM ...
 ```
 
@@ -14,13 +14,13 @@ SELECT a, b, c FROM ...
 
 如果多個資料表具有相同名稱的欄位，則還必須加上資料表的名稱，如下所示：
 
-```text
+```
 SELECT tbl1.a, tbl2.a, tbl1.b FROM ...
 ```
 
 處理多個資料表時，查詢特定資料表的所有欄位也是可以的：
 
-```text
+```
 SELECT tbl1.*, tbl2.a FROM ...
 ```
 
@@ -32,7 +32,7 @@ SELECT tbl1.*, tbl2.a FROM ...
 
 資料列表中的項目可以被分配用於後續處理的名稱，例如在 ORDER BY 子句中使用或由用戶端應用程序顯示。 例如：
 
-```text
+```
 SELECT a AS value, b + c AS sum FROM ...
 ```
 
@@ -40,19 +40,19 @@ SELECT a AS value, b + c AS sum FROM ...
 
 AS 關鍵字是選用的，但前提是新的欄位名稱不為任何PostgreSQL 關鍵字（請參閱[附錄C](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/viii-appendixes/sql-key-words.md)）。為避免與關鍵字意外撞名，你可以對欄位名稱使用雙引號。例如，VALUE 是一個關鍵字，所以就不能這樣使用：
 
-```text
+```
 SELECT a value, b + c AS sum FROM ...
 ```
 
 但這樣就可以了：
 
-```text
+```
 SELECT a "value", b + c AS sum FROM ...
 ```
 
 為了防止未來可能增加的關鍵字，建議你習慣使用 AS 或總是在欄位名稱使用雙引號。
 
-> ## 注意
+> ### 注意
 >
 > 這裡輸出欄位的命名與 FROM 子句中的命名不同（參閱第 7.2.1.2 節）。可以重新命名相同的欄位兩次，但在資料列表中分配的名稱是將要回傳的名稱。
 
@@ -60,7 +60,7 @@ SELECT a "value", b + c AS sum FROM ...
 
 在處理了資料列表之後，結果資料表可以選擇性地消除重複的資料列。 DISTINCT 關鍵字在 SELECT 之後直接寫入以指定這個動作：
 
-```text
+```
 SELECT DISTINCT select_list ...
 ```
 
@@ -70,11 +70,10 @@ SELECT DISTINCT select_list ...
 
 或者，使用表示式可以指定資料列如何被認為是不同的：
 
-```text
+```
 SELECT DISTINCT ON (expression [, expression ...]) select_list ...
 ```
 
 這裡表示式是一個任意的運算表示式，對所有資料列進行求值運算。所有表示式相等的一組資料列被認為是重複的，並且只有該組的第一個資料列會被保留在輸出中。請注意，集合中的「第一行」是不可預知的，除非查詢按足夠的欄位進行排序，以保證進到 DISTINCT 過濾器的資料列是唯一排序。（在 ORDER BY 排序後才進行 DISTINCT ON 處理。）
 
 DISTINCT ON 子句不是SQL標準的一部分，有時被認為是不好的樣式，因為其結果有潛在的不確定性。透過在 FROM 中智慧地使用 GROUP BY 和子查詢，可以避免這種結構，但這卻往往是最方便的選擇。
-

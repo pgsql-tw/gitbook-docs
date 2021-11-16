@@ -4,7 +4,7 @@ ALTER PUBLICATION — change the definition of a publication
 
 ### Synopsis
 
-```text
+```
 ALTER PUBLICATION name ADD TABLE [ ONLY ] table_name [ * ] [, ...]
 ALTER PUBLICATION name SET TABLE [ ONLY ] table_name [ * ] [, ...]
 ALTER PUBLICATION name DROP TABLE [ ONLY ] table_name [ * ] [, ...]
@@ -33,9 +33,9 @@ The name of an existing publication whose definition is to be altered.
 
 _`table_name`_
 
-Name of an existing table. If `ONLY` is specified before the table name, only that table is affected. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are affected. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included.
+Name of an existing table. If `ONLY` is specified before the table name, only that table is affected. If `ONLY` is not specified, the table and all its descendant tables (if any) are affected. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included.
 
-`SET (` _`publication_parameter`_ \[= _`value`_\] \[, ... \] \)
+`SET ( `_`publication_parameter`_ \[= _`value`_] \[, ... ] )
 
 This clause alters publication parameters originally set by [CREATE PUBLICATION](https://www.postgresql.org/docs/13/sql-createpublication.html). See there for more information.
 
@@ -51,13 +51,13 @@ The new name for the publication.
 
 Change the publication to publish only deletes and updates:
 
-```text
+```
 ALTER PUBLICATION noinsert SET (publish = 'update, delete');
 ```
 
 Add some tables to the publication:
 
-```text
+```
 ALTER PUBLICATION mypublication ADD TABLE users, departments;
 ```
 
@@ -68,4 +68,3 @@ ALTER PUBLICATION mypublication ADD TABLE users, departments;
 ### See Also
 
 [CREATE PUBLICATION](create-publication.md), [DROP PUBLICATION](drop-publication.md), [CREATE SUBSCRIPTION](create-subscription.md), [ALTER SUBSCRIPTION](alter-subscription.md)
-

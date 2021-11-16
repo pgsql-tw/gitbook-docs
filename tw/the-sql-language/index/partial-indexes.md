@@ -4,13 +4,13 @@
 
 使用部分索引的一個主要原因是避免索引常見值。由於搜尋公共值（佔所有資料表的某個比例以上的值）的查詢無論如何都不會使用索引，因此根本不應該將這些資料列保留在索引中。這可以減少索引的大小，將加速那些使用索引的查詢。它還將加速許多資料表的更新操作，因為索引不需要在所有情況下都更新。[範例 11.1](partial-indexes.md#li-11-1-ding-bu-fen-suo-yin-yi-pai-chu-chang-zhi) 顯示了這個想法的可能應用。
 
-## **範例 11.1.** 設定部分索引以排除常見值
+## \*\*範例 11.1. \*\*設定部分索引以排除常見值
 
 假設您將 Web 伺服器存取日誌儲存在資料庫中。大多數存取源自組織的 IP 位址範圍，但有些來自其他地方（例如，撥號連接上的員工）。如果按 IP 搜尋主要用於外部存取，則可能不需要索引與組織的子網對應的 IP 範圍。
 
 假設一個像這樣的資料表：
 
-```text
+```
 CREATE TABLE access_log (
     url varchar,
     client_ip inet,
@@ -20,7 +20,7 @@ CREATE TABLE access_log (
 
 要建立適合我們範例的部分索引，請使用如下的指令：
 
-```text
+```
 CREATE INDEX access_log_client_ip_ix ON access_log (client_ip)
 WHERE NOT (client_ip > inet '192.168.100.0' AND
            client_ip < inet '192.168.100.255');
@@ -28,7 +28,7 @@ WHERE NOT (client_ip > inet '192.168.100.0' AND
 
 可以使用此索引的典型查詢是：
 
-```text
+```
 SELECT *
 FROM access_log
 WHERE url = '/index.html' AND client_ip = inet '212.78.10.32';
@@ -36,14 +36,13 @@ WHERE url = '/index.html' AND client_ip = inet '212.78.10.32';
 
 無法使用此索引的查詢是：
 
-```text
+```
 SELECT *
 FROM access_log
 WHERE client_ip = inet '192.168.100.23';
 ```
 
-觀察到這種部分索引要求預定常見值，因此這種部分索引最好用於靜態的資料分佈。也可以偶爾重新建立索引以調整新的資料分佈，但這會增加維護的工作量。  
-
+觀察到這種部分索引要求預定常見值，因此這種部分索引最好用於靜態的資料分佈。也可以偶爾重新建立索引以調整新的資料分佈，但這會增加維護的工作量。\\
 
 部分索引的另一種可能用途是從典型查詢工作負載不感興趣的索引中排除值；這在[範例 11.2 ](partial-indexes.md#li-11-2-ding-bu-fen-suo-yin-yi-pai-chu-bu-gan-qu-de-zhi)中展示。這俱備與上面列出的相同的優點，但是它防止透過該索引存取「不感興趣」的值，即使索引掃描在該情況下可能是有利的。顯然，為這種情況設定部分索引需要大量的觀察和實驗。
 
@@ -51,20 +50,20 @@ WHERE client_ip = inet '192.168.100.23';
 
 如果您的資料表包含已開票和未開票的訂單，其中未開票的訂單佔據資料表的一小部分，但這些是最常存取的資料列，您可以透過僅在未開票的資料上建立索引來提高效能。建立索引的指令如下所示：
 
-```text
+```
 CREATE INDEX orders_unbilled_index ON orders (order_nr)
     WHERE billed is not true;
 ```
 
 使用此索引的可能查詢是：
 
-```text
+```
 SELECT * FROM orders WHERE billed is not true AND order_nr < 10000;
 ```
 
 但是，索引也可以用於完全不涉及 order\_nr 的查詢中，例如：
 
-```text
+```
 SELECT * FROM orders WHERE billed is not true AND amount > 5000.00;
 ```
 
@@ -72,13 +71,13 @@ SELECT * FROM orders WHERE billed is not true AND amount > 5000.00;
 
 請注意，此查詢無法使用此索引：
 
-```text
+```
 SELECT * FROM orders WHERE order_nr = 3501;
 ```
 
 訂單 3501 可能屬於開票或未開票的訂單。
 
-[範例 11.2](partial-indexes.md#li-11-2-ding-bu-fen-suo-yin-yi-pai-chu-bu-gan-qu-de-zhi) 還說明了索引欄位和條件中使用的欄位不需要匹配。PostgreSQL 支援具有任意條件的部分索引，只要有涉及僅被索引的資料表欄位。但是，請記住，條件必須與應該從索引中受益的查詢中所使用的條件匹配。確切地說，只有當系統能夠識別出查詢的 WHERE 條件在數學上暗示索引的條件時，才能在查詢中使用部分索引。PostgreSQL 沒有複雜的條件證明器，可以識別以不同形式編寫的數學等效表示式。（這樣的一般條件證明器不僅難以創建，而且它可能太慢而無法實際使用。）系統可以識別簡單的不等式含義，例如「x &lt; 1」意味著「x &lt; 2」；或者條件必須與查詢的 WHERE 條件的一部分完全匹配，否則索引將不會被識別為可用。匹配發生在查詢計劃時，而不是在執行時。因此，參數化查詢子句不適用於部分索引。例如，帶參數的準備查詢可能指定「x &lt;？」，這對於參數的所有可能值絕不會暗示「x &lt; 2」。
+[範例 11.2](partial-indexes.md#li-11-2-ding-bu-fen-suo-yin-yi-pai-chu-bu-gan-qu-de-zhi) 還說明了索引欄位和條件中使用的欄位不需要匹配。PostgreSQL 支援具有任意條件的部分索引，只要有涉及僅被索引的資料表欄位。但是，請記住，條件必須與應該從索引中受益的查詢中所使用的條件匹配。確切地說，只有當系統能夠識別出查詢的 WHERE 條件在數學上暗示索引的條件時，才能在查詢中使用部分索引。PostgreSQL 沒有複雜的條件證明器，可以識別以不同形式編寫的數學等效表示式。（這樣的一般條件證明器不僅難以創建，而且它可能太慢而無法實際使用。）系統可以識別簡單的不等式含義，例如「x < 1」意味著「x < 2」；或者條件必須與查詢的 WHERE 條件的一部分完全匹配，否則索引將不會被識別為可用。匹配發生在查詢計劃時，而不是在執行時。因此，參數化查詢子句不適用於部分索引。例如，帶參數的準備查詢可能指定「x <？」，這對於參數的所有可能值絕不會暗示「x < 2」。
 
 部分索引的第三種可能用途不需要在查詢中使用索引。這裡的想法是在資料表的子集上建立唯一索引，如[範例 11.3](partial-indexes.md#li-11-3-ding-bu-fen-wei-yi-suo-yin) 所示。這會強制滿足索引條件資料列之間的唯一性，而不會限制那些不滿足索引條件的資料。
 
@@ -86,7 +85,7 @@ SELECT * FROM orders WHERE order_nr = 3501;
 
 假設我們有一個描述測試結果的資料表。 我們希望確保給定 subject 和 target 組合只有一個「successful」項目，但可能存在任意數量的「unsuccessful」項目。這是一種方法：
 
-```text
+```
 CREATE TABLE tests (
     subject text,
     target text,
@@ -104,5 +103,4 @@ CREATE UNIQUE INDEX tests_success_constraint ON tests (subject, target)
 
 請記住，設定部分索引表示您至少知道查詢計劃程序知道的內容，特別是您知道索引何時可能有利可圖。形成這些知識需要經驗和對 PostgreSQL 中索引如何工作的理解。在大多數情況下，部分索引優於常規索引的優勢會是很小的。
 
-有關部分索引的更多訊息可以在\[ston89b\]，\[olson93\]和\[seshadri95\]中找到。
-
+有關部分索引的更多訊息可以在\[ston89b]，\[olson93]和\[seshadri95]中找到。

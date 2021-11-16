@@ -10,14 +10,12 @@ BRIN 索引將儲存的特定資料，使該索引能夠滿足的特定查詢，
 
 ## 67.1.1. Index Maintenance
 
-在建立的時候，將會掃描所有現有的 heap 頁面，並為每個資料範圍（包括最後可能不完整的範圍）建立一個摘要索引資料。當新的頁面充滿資料時，已經彙總的頁面範圍將會讓彙總資訊被來自新資料的資訊更新。當建立的新頁面不在上一個彙總範圍內時，該範圍就不會自動獲取彙總資訊；這些資料保持未摘要狀態，直到稍後呼叫摘要重整以建立初始摘要。可以使用 brin\_summarize\_range\(regclass, bigint\) 或 brin\_summarize\_new\_values\(regclass\) 函數手動呼叫此程序。 VACUUM 時會自動處理資料表；或透過 autovacuum 執行自動彙總（INSERT 指令時）。（最後一個觸發器預設情況下處於停用狀態，可以使用 autosummarize 參數啟用。）相反地，可以使用 brin\_desummarize\_range\(regclass, bigint\) 函數對範圍進行反彙總，當索引資料不再是一個很效的索引時，此函數會很有用，因為現有值已經變更。
+在建立的時候，將會掃描所有現有的 heap 頁面，並為每個資料範圍（包括最後可能不完整的範圍）建立一個摘要索引資料。當新的頁面充滿資料時，已經彙總的頁面範圍將會讓彙總資訊被來自新資料的資訊更新。當建立的新頁面不在上一個彙總範圍內時，該範圍就不會自動獲取彙總資訊；這些資料保持未摘要狀態，直到稍後呼叫摘要重整以建立初始摘要。可以使用 brin\_summarize\_range(regclass, bigint) 或 brin\_summarize\_new\_values(regclass) 函數手動呼叫此程序。 VACUUM 時會自動處理資料表；或透過 autovacuum 執行自動彙總（INSERT 指令時）。（最後一個觸發器預設情況下處於停用狀態，可以使用 autosummarize 參數啟用。）相反地，可以使用 brin\_desummarize\_range(regclass, bigint) 函數對範圍進行反彙總，當索引資料不再是一個很效的索引時，此函數會很有用，因為現有值已經變更。
 
 啟用 autosummarization 後，每次頁面範圍被填滿時，都會發送一個請求到 autovacuum，以對其執行針對該範圍的目標彙總，該請求將在下一個在同一資料庫上執行的工作程序結束時完成。如果請求佇列已滿，則不會記錄該請求，並且會將訊息發送到伺服器日誌：
 
-```text
+```
 LOG:  request for BRIN range summarization for index "brin_wi_idx" page 128 was not recorded
 ```
 
-發生這種情況時，該範圍將在資料表的下一次日常 vacuum 期間修正彙總資訊。  
-
-
+發生這種情況時，該範圍將在資料表的下一次日常 vacuum 期間修正彙總資訊。\\

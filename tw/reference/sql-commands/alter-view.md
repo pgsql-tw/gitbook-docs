@@ -4,7 +4,7 @@ ALTER VIEW — 變更檢視表的定義
 
 ### 語法
 
-```text
+```
 ALTER VIEW [ IF EXISTS ] name ALTER [ COLUMN ] column_name SET DEFAULT expression
 ALTER VIEW [ IF EXISTS ] name ALTER [ COLUMN ] column_name DROP DEFAULT
 ALTER VIEW [ IF EXISTS ] name OWNER TO { new_owner | CURRENT_USER | SESSION_USER }
@@ -46,16 +46,16 @@ _`new_schema`_
 
 檢視表的新綱要。
 
-`SET (` _`view_option_name`_ \[= _`view_option_value`_\] \[, ... \] \)  
-`RESET (` _`view_option_name`_ \[, ... \] \)
+`SET ( `_`view_option_name`_ \[= _`view_option_value`_] \[, ... ] )\
+`RESET ( `_`view_option_name`_ \[, ... ] )
 
 設定或重設檢視表選項。目前支援的選項包括：
 
-`check_option` \(`string`\)
+`check_option` (`string`)
 
 變更檢視表的檢查選項。值必須是 local 或 cascaded。
 
-`security_barrier` \(`boolean`\)
+`security_barrier` (`boolean`)
 
 變更檢視表的 security-barrier 屬性。該值必須是布林值，也就是 true 或 false。
 
@@ -67,13 +67,13 @@ _`new_schema`_
 
 要將檢視表 foo 重新命名為 bar：
 
-```text
+```
 ALTER VIEW foo RENAME TO bar;
 ```
 
 要將預設欄位值加到可更新檢視表：
 
-```text
+```
 CREATE TABLE base_table (id int, ts timestamptz);
 CREATE VIEW a_view AS SELECT * FROM base_table;
 ALTER VIEW a_view ALTER COLUMN ts SET DEFAULT now();
@@ -88,4 +88,3 @@ ALTER VIEW 是基於 SQL 標準的 PostgreSQL 延伸功能。
 ### 參閱
 
 [CREATE VIEW](create-view.md), [DROP VIEW](drop-view.md)
-

@@ -8,7 +8,7 @@ PostgreSQL 擁有許多內建的資料型別，可以適應許多應用系統。
 
 要建立一個資料表，你可以使用 [CREATE TABLE](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/create-table.md) 指令。這個指令你至少要指定一個名稱給新的資料表，還有每一個欄位的名稱與資料型別。例如：
 
-```text
+```
 CREATE TABLE my_first_table (
     first_column text,
     second_column integer
@@ -19,7 +19,7 @@ CREATE TABLE my_first_table (
 
 當然，前面的例子明顯只是做做樣子而已。一般來說，你會將你的資料表欄位以實際用途來命名，所以我們來看一下更實際的例子：
 
-```text
+```
 CREATE TABLE products (
     product_no integer,
     name text,
@@ -29,7 +29,7 @@ CREATE TABLE products (
 
 （numeric 資料型別可以儲存浮點數，用於典型的貨幣計量。）
 
-> ## 小技巧
+> ### 小技巧
 >
 > 當你建立了許多相關的資料表時，建立最好選擇一個用於命名表格及欄位的規則。舉例來說，有一個規則是使用單數或複數名詞來取名表格，兩者都有些人喜歡使用。
 
@@ -37,7 +37,7 @@ CREATE TABLE products (
 
 如果你不再需要某個資料表，你可以移除它。請使用 [DROP TABLE](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/drop-table.md) 指令，如下所示：
 
-```text
+```
 DROP TABLE my_first_table;
 DROP TABLE products;
 ```
@@ -47,4 +47,3 @@ DROP TABLE products;
 如果你需要變更資料表的結構的話，請參閱本章的 [5.5 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-definition/55-modifying-tables.md)。
 
 到目前為止，你已經可以利用工具建立完整功能的資料表。本章接下來的部份會針對附加的功能介紹，像是確保資料完整性、安全性、或方便性。如果你現在急著要將資料存入你的資料表的話，你可以暫時跳過本章，到[第 6 章](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-manipulation.md)繼續操作。
-
