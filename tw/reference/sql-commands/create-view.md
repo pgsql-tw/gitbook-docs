@@ -4,7 +4,7 @@ CREATE VIEW — 定義一個新的檢視表
 
 ### 語法
 
-```text
+```
 CREATE [ OR REPLACE ] [ TEMP | TEMPORARY ] [ RECURSIVE ] VIEW name [ ( column_name [, ...] ) ]
     [ WITH ( view_option_name [= view_option_value] [, ... ] ) ]
     AS query
@@ -31,13 +31,13 @@ CREATE OR REPLACE VIEW 類似，只是如果已經存在同名的檢視表，則
 
 建立遞迴檢視表。語法：
 
-```text
+```
 CREATE RECURSIVE VIEW [ schema . ] view_name (column_names) AS SELECT ...;
 ```
 
 同等於
 
-```text
+```
 CREATE VIEW [ schema . ] view_name AS WITH RECURSIVE view_name (column_names) AS (SELECT ...) SELECT column_names FROM view_name;
 ```
 
@@ -51,15 +51,15 @@ _`column_name`_
 
 用於檢視表欄位的選擇性名稱列表。如果沒有，則從查詢中推導出欄位名稱。
 
-`WITH (` _`view_option_name`_ \[= _`view_option_value`_\] \[, ... \] \)
+`WITH ( `_`view_option_name`_ \[= _`view_option_value`_] \[, ... ] )
 
 此子句指定檢視表的選擇性參數；支援以下參數：
 
-`check_option` \(`string`\)
+`check_option` (`string`)
 
-此參數可能是 local 或 cascaded，等同於指定 WITH \[CASCADED \| LOCAL\] CHECK OPTION（見下文）。可以使用 ALTER VIEW 在現有檢視表上變更此選項。
+此參數可能是 local 或 cascaded，等同於指定 WITH \[CASCADED | LOCAL] CHECK OPTION（見下文）。可以使用 ALTER VIEW 在現有檢視表上變更此選項。
 
-`security_barrier` \(`boolean`\)
+`security_barrier` (`boolean`)
 
 如果檢視表旨在提供資料列級安全性，則應使用此方法。有關詳細訊息，請參閱[第 40.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)。
 
@@ -89,13 +89,13 @@ CHECK OPTION 可能不適用於 RECURSIVE 檢視表。
 
 請注意，檢視表欄位的名稱和型別會按您希望的方式分配。例如：
 
-```text
+```
 CREATE VIEW vista AS SELECT 'Hello World';
 ```
 
 是不好的形式，因為欄位名稱預設為 ?column?；此外，欄位資料型別預設為 text，可能不是您想要的。在檢視表的結果中，字串的更好形式是這樣的：
 
-```text
+```
 CREATE VIEW vista AS SELECT text 'Hello World' AS hello;
 ```
 
@@ -128,7 +128,7 @@ CREATE VIEW vista AS SELECT text 'Hello World' AS hello;
 
 建立一個包含所有喜劇電影的檢視表：
 
-```text
+```
 CREATE VIEW comedies AS
     SELECT *
     FROM films
@@ -139,7 +139,7 @@ CREATE VIEW comedies AS
 
 使用 LOCAL CHECK OPTION 建立檢視表：
 
-```text
+```
 CREATE VIEW universal_comedies AS
     SELECT *
     FROM comedies
@@ -151,7 +151,7 @@ CREATE VIEW universal_comedies AS
 
 使用 CASCADED CHECK OPTION 建立檢視表：
 
-```text
+```
 CREATE VIEW pg_comedies AS
     SELECT *
     FROM comedies
@@ -163,7 +163,7 @@ CREATE VIEW pg_comedies AS
 
 混合可更新和不可更新欄位建立檢視表：
 
-```text
+```
 CREATE VIEW comedies AS
     SELECT f.*,
            country_code_to_name(f.country_code) AS country,
@@ -178,7 +178,7 @@ CREATE VIEW comedies AS
 
 建立一個包含 1 到 100 之間數字的遞迴檢視表：
 
-```text
+```
 CREATE RECURSIVE VIEW public.nums_1_100 (n) AS
     VALUES (1)
 UNION ALL
@@ -194,4 +194,3 @@ CREATE OR REPLACE VIEW 是 PostgreSQL 語言的延伸功能。臨時檢視表的
 ### 參閱
 
 [ALTER VIEW](alter-view.md), [DROP VIEW](drop-view.md), [CREATE MATERIALIZED VIEW](create-materialized-view.md)
-

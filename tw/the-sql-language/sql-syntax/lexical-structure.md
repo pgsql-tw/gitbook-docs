@@ -6,7 +6,7 @@ SQL 語法包含一連串的命令，命令是由一系列的指示記號所組�
 
 舉個例子，下面就是一個合法（符合語法）的 SQL 輸入：
 
-```text
+```
 SELECT * FROM MY_TABLE;
 UPDATE MY_TABLE SET A = 5;
 INSERT INTO MY_TABLE VALUES (3, 'hi there');
@@ -28,25 +28,25 @@ SQL 識別項與關鍵字必須以英文字母開頭（a - z，也可以是附�
 
 關鍵字和無引號識別項都是不分大小寫的，所以：
 
-```text
+```
 UPDATE MY_TABLE SET A = 5;
 ```
 
 等同於：
 
-```text
+```
 uPDaTE my_TabLE SeT a = 5;
 ```
 
 有一種寫法很常使用，就是把關鍵字用大寫表示，而識別項名稱使用小寫，例如：
 
-```text
+```
 UPDATE my_table SET a = 5;
 ```
 
 第二種要介紹的識別項是，受限制的識別項，或是引號識別項。它的形式就是以雙引號括住的任何字串。受限制的識別項，就一定是識別項，不會是關鍵字。所以，「"select"」就會被識別為名稱為「select」的表格或欄位，而無引號的 select 就會被視為是關鍵字，也可能會產生解譯錯誤，如果剛好用在可能是表格或欄位名稱的位置上的話。使用引號識別項的例子如下：
 
-```text
+```
 UPDATE "my_table" SET "a" = 5;
 ```
 
@@ -54,19 +54,19 @@ UPDATE "my_table" SET "a" = 5;
 
 還有一種變形的引號識別項，允許包含跳脫的形式來表現萬國碼（unicode）。這種變形會以「U&」開頭（U大小寫皆可）緊接在前面的雙引號的前面，不能有任何空白在它們之間，例如：U&"foo"。（注意，這可能會和運算子的 & 產生混淆，但可以在運算子的 & 前後都加上空白來避免這個問題。）在雙引號內，萬國碼字元以跳脫的形式表現，也就是以倒斜線再接 4 位數的 16 進位碼，或倒斜線接一個加號再串一組 6 位數的 16 進位碼。例如，識別項 "data" 可以寫成這樣：
 
-```text
+```
 U&"d\0061t\+000061"
 ```
 
 下面是稍微不簡明的例子是，俄文的＂slon＂（大象），以希伯萊文字母表現：
 
-```text
+```
 U&"\0441\043B\043E\043D"
 ```
 
 如果希望以不同的跳脫字元來代替倒斜線的話，那麼可以雙引號結束後使用 UESCAPE 子句來指定，舉例來說：
 
-```text
+```
 U&"d!0061t!+000061" UESCAPE '!'
 ```
 
@@ -88,20 +88,20 @@ PostgreSQL 中有三種隱含型別的常數：字串、位元字串、和數值
 
 兩個字串常數如果只用空白及至少一個換行符號所分隔的話，那個它們會被連在一起，和寫成一個字串是一樣的。舉例來說：
 
-```text
+```
 SELECT 'foo'
 'bar';
 ```
 
 等同於：
 
-```text
+```
 SELECT 'foobar';
 ```
 
 但如果是這樣：
 
-```text
+```
 SELECT 'foo'      'bar';
 ```
 
@@ -113,18 +113,18 @@ PostgreSQL 也支援跳脫字串常數，這些是 SQL 標準的延伸。跳脫�
 
 **Table 4.1. 倒斜線跳腳字串（Backslash Escape Sequence）**
 
-| **倒斜線跳腳字串** | 字元意義 |
-| :--- | :--- |
-| `\b` | backspace（倒退） |
-| `\f` | form feed（換頁） |
-| `\n` | newline（換行） |
-| `\r` | carriage return（回到行首） |
-| `\t` | tab（定位符號） |
-| `\o`,`\oo`,`\ooo`\(`o`= 0 - 7\) | octal byte value（8 進位值） |
-| `\xh`,`\xhh`\(`h`= 0 - 9, A - F\) | hexadecimal byte value（16 進位值） |
-| `\uxxxx`,`\Uxxxxxxxx`\(`x`= 0 - 9, A - F\) | 16 or 32-bit hexadecimal Unicode character value（16 位元或 32 位元的 16 進位萬國碼字元值） |
+| **倒斜線跳腳字串**                              | 字元意義                                                                        |
+| ---------------------------------------- | --------------------------------------------------------------------------- |
+| `\b`                                     | backspace（倒退）                                                               |
+| `\f`                                     | form feed（換頁）                                                               |
+| `\n`                                     | newline（換行）                                                                 |
+| `\r`                                     | carriage return（回到行首）                                                       |
+| `\t`                                     | tab（定位符號）                                                                   |
+| `\o`,`\oo`,`\ooo`(`o`= 0 - 7)            | octal byte value（8 進位值）                                                     |
+| `\xh`,`\xhh`(`h`= 0 - 9, A - F)          | hexadecimal byte value（16 進位值）                                              |
+| `\uxxxx`,`\Uxxxxxxxx`(`x`= 0 - 9, A - F) | 16 or 32-bit hexadecimal Unicode character value（16 位元或 32 位元的 16 進位萬國碼字元值） |
 
-任何其他接在倒斜線後面的字元都僅以原樣呈現。而如果要包含一個倒斜線的話，就使用連續兩個倒斜線輸入。同樣地，要包含一個單引號的話，可以使用跳脫字串 \' 輸入，也可以用一般連續兩個單引號的方式輸入。
+任何其他接在倒斜線後面的字元都僅以原樣呈現。而如果要包含一個倒斜線的話，就使用連續兩個倒斜線輸入。同樣地，要包含一個單引號的話，可以使用跳脫字串 \\' 輸入，也可以用一般連續兩個單引號的方式輸入。
 
 你需要確保你所使用的 8 進位或 16 進位創建的位元組序列，都是屬於資料庫中合法的字元集。當資料庫編輯是 UTF-8 時，就應該使用萬國碼跳脫寫法，或其他萬國碼的輸入方式，如前 4.1.2.3 中所述。（所謂其他的方式可能是自行組合每一個位元組，但這樣會是相當麻煩的事。）
 
@@ -142,19 +142,19 @@ PostgreSQL 也支援跳脫字串常數，這些是 SQL 標準的延伸。跳脫�
 
 PostgreSQL 也支援其他跳脫字串的語法，可以用來直接輸入任意的萬國碼字元。萬國碼跳脫字串常數是以 U& （U& 或 u& 皆可）開頭，然後緊接著單引號括住的字串，記得中間不能有任何空白，例如：U&'foo'。（注意這可能會混淆到 & 的使用，最好在其他使用 & 作為運算子的指令中，在 & 前後 加上空白字元，以避免這個問題。）在括住的內容裡，萬國碼字元可以使用跳脫字元來指定，也就是使用倒斜線再接一組 4 位數的 16 進位值，或者以倒斜線加上加號再接一組 6 位數的 16 進位值。舉個例子，字串 'data' 也可以寫成：
 
-```text
+```
 U&'d\0061t\+000061'
 ```
 
 下面是稍微不簡明的例子是，俄文的＂slon＂（大象），以希伯萊文字母表現：
 
-```text
+```
 U&'\0441\043B\043E\043D'
 ```
 
 如果希望以不同的跳脫字元來代替倒斜線的話，那麼可以雙引號結束後使用 UESCAPE 子句來指定，舉例來說：
 
-```text
+```
 U&'d!0061t!+000061' UESCAPE '!'
 ```
 
@@ -170,7 +170,7 @@ U&'d!0061t!+000061' UESCAPE '!'
 
 標準的語法用於字串常數的設定很方便的，但如果字串裡有很多單引號或倒斜線，可讀性就很低了，因為它們都必須再連續多一個符號輸入。像這樣的例子，要改善可讀性的話，PostgreSQL 提供了另一個方式，稱作「錢字引號」（dollar quoting），來描述字串常數。錢字引號字串常數包含一個錢字號（$），可省略或多個字元所組成的「標籤」，另一個錢字號，組成字川的任何序列文字，再一個錢字號，與起始的錢字引號同樣的標籤，再一個錢字號。舉例來說，這裡有兩個不同使用錢字引號的方式，但都是「Dianne's horse」
 
-```text
+```
 $$Dianne's horse$$
 $SomeTag$Dianne's horse$SomeTag$
 ```
@@ -179,7 +179,7 @@ $SomeTag$Dianne's horse$SomeTag$
 
 巢狀錢字字串常數是可以的，只要在不同層選擇不同的標籤就好。最常見的用途就是撰寫函數定義。舉例如下：
 
-```text
+```
 $function$
 BEGIN
     RETURN ($1 ~ $q$[\t\r\n\v\\]$q$);
@@ -207,7 +207,7 @@ $function$
 
 數值常數可以以下列語法輸入：
 
-```text
+```
 digits
 digits.[digits][e[+-]digits]
 [digits].digits[e[+-]digits]
@@ -218,18 +218,18 @@ digits.[digits][e[+-]digits]
 
 下面是一些合法數值常數的例子：
 
-42  
-3.5  
-4.  
-.001  
-5e2  
+42\
+3.5\
+4.\
+.001\
+5e2\
 1.925e-3
 
 數值常數如果沒有小數點或指數標記的話，預設就會被假定為整數，32 位元以內的為整數型別（interger），否則就會以 64 位元的大整數型別（bigint）來處理。其次就會宣告為數值型別（numeric）。只要包含小數點或指數標記的數值，都會預設使用數值型別。
 
 預設數值常數的資料型別只是整個型別解析演算法的開端而已。在多數的情況下，各種常數會自動被轉換為最貼近內容的適當型別。不過，如果需要的話，你可以強制指定一個資料型別給該常數。舉例來說，你可以強制以實數型別（real 或 float4）來處理該數值：
 
-```text
+```
 REAL '1.23'  -- string style
 1.23::REAL   -- PostgreSQL (historical) style
 ```
@@ -240,7 +240,7 @@ REAL '1.23'  -- string style
 
 任意型別的常數，可以使用下列的語法來表示：
 
-```text
+```
 type 'string'
 'string'::type
 CAST ( 'string' AS type )
@@ -252,26 +252,27 @@ CAST ( 'string' AS type )
 
 還可以使用函數式的語法來撰寫：
 
-```text
+```
 typename ( 'string' )
 ```
 
 但並非所有的型別都可以使用這個方式，請參閱 [4.2.9 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/sql-syntax/42-value-expressions.md)取得詳細說明。
 
-「::」、CAST\(\)、及函數式語法，也可以用來指定任何表示式在執行中的型別轉換，如同 [4.2.9 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/sql-syntax/42-value-expressions.md)中所描述的。要避免語法上的混淆，「type 'string'」這個語法，只能用在指定簡單的文字常數，另一個限制是，不能用於陣列型別。陣列常數的型別指定，請使用 :: 或 CAST\(\) 的語法。
+「::」、CAST()、及函數式語法，也可以用來指定任何表示式在執行中的型別轉換，如同 [4.2.9 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/sql-syntax/42-value-expressions.md)中所描述的。要避免語法上的混淆，「type 'string'」這個語法，只能用在指定簡單的文字常數，另一個限制是，不能用於陣列型別。陣列常數的型別指定，請使用 :: 或 CAST() 的語法。
 
 ## 4.1.3. 運算子（Operators）
 
 一個運算子最長可以是 NAMEDATALEN - 1（預設為 63 個字元），除了以下的字元之外：
 
-* * \* / &lt;&gt; = ~ ! @ \# % ^ & \| \` ?
+*
+  * \* / <> = \~ ! @ # % ^ & | \` ?
 
 還有一些運算子的限制：
 
 * 「--」和「/\*」都不能出現在運算子裡，因為它們表示註解的開始。
-* 多字元的運算子不能以 + 或 - 結尾，除非名稱裡也包含了下列字元：
+*   多字元的運算子不能以 + 或 - 結尾，除非名稱裡也包含了下列字元：
 
-  ~ ! @ \# % ^ & \| \` ?
+    \~ ! @ # % ^ & | \` ?
 
 舉個例子，@- 可以是合法的運算子，但 \*- 就不合法。這個限制是讓 PostgreSQL 解譯 SQL 語法時，可以不需要在不同的標記間使用空白分隔。
 
@@ -282,8 +283,8 @@ typename ( 'string' )
 有一些字元並不是字母型態，而具有特殊意義，但並非運算子。詳細的說明請參閱相對應的語法說明。本節僅簡要描述這些特殊字元的使用情境。
 
 * 錢字號（$）其後接著數字的話，用來表示函數宣告或預備指令的參數編號。其他的用法還有識別項的一部份，或是錢字引號常數。
-* 小括號（\( \)）一般用來強調表示式並且優先運算。還有某些情況用於表示某些 SQL 指令的部份的必要性。
-* 中括號（\[ \]）用於組成陣列的各個元素。詳情請參閱 [8.15 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-types/815-arrays.md)有關於陣列的內容。
+* 小括號（( )）一般用來強調表示式並且優先運算。還有某些情況用於表示某些 SQL 指令的部份的必要性。
+* 中括號（\[ ]）用於組成陣列的各個元素。詳情請參閱 [8.15 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-types/815-arrays.md)有關於陣列的內容。
 * 逗號（,）用於一般語法上的結構需要，來分隔列表中的單元。
 * 分號（;）表示 SQL 指令的結束。它不能出現在指令中的其他位置，除非是在字串常數當中，或是引號識別項。
 * 冒號（:）用在取得陣列的小項。（參閱 [8.15 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-types/815-arrays.md)）在某些 SQL 分支（篏入式 SQL 之類的）中，冒號用來前置變數名稱。
@@ -294,13 +295,13 @@ typename ( 'string' )
 
 註解是以連續兩個破折號開頭，一直到行結尾的字串。例如：
 
-```text
+```
 -- This is a standard SQL comment
 ```
 
 另外，C 語言的註解語法也可以使用：
 
-```text
+```
 /* multiline comment
  * with nesting: /* nested block comment */
  */
@@ -316,54 +317,53 @@ Table 4.2 列出在 PostgreSQL 中，運算子的運算優先權及運算次序�
 
 你有時候需要加上括號，當遇到二元運算子與一元運算子一起出現時。舉個例子：
 
-```text
+```
 SELECT 5 ! - 6;
 ```
 
 會被解譯為：
 
-```text
+```
 SELECT 5 ! (- 6);
 ```
 
 因為解譯器並不知道實際的情況，所以它可能會搞錯。「!」是一個後置運算子，並非中置運算子。在這個例子中，要以想要的方式進行運算的話，你必須要改寫為：
 
-```text
+```
 SELECT (5 !) - 6;
 ```
 
 這是為了延展性而需要付出的代價。
 
-**Table 4.2. Operator Precedence \(highest to lowest\)**
+**Table 4.2. Operator Precedence (highest to lowest)**
 
-| Operator/Element | Associativity | Description |
-| :--- | :--- | :--- |
-| `.` | left | table/column name separator |
-| `::` | left | PostgreSQL-style typecast |
-| `[]` | left | array element selection |
-| `+-` | right | unary plus, unary minus |
-| `^` | left | exponentiation |
-| `*/%` | left | multiplication, division, modulo |
-| `+-` | left | addition, subtraction |
-| \(any other operator\) | left | all other native and user-defined operators |
-| `BETWEEN / IN / LIKE / ILIKE / SIMILAR` |  | range containment, set membership, string matching |
-| `<>=<=>=<>` |  | comparison operators |
-| `IS / ISNULL/ NOTNULL` |  | `IS TRUE`,`IS FALSE`,`IS NULL`,`IS DISTINCT FROM`, etc |
-| `NOT` | right | logical negation |
-| `AND` | left | logical conjunction |
-| `OR` | left | logical disjunction |
+| Operator/Element                        | Associativity | Description                                            |
+| --------------------------------------- | ------------- | ------------------------------------------------------ |
+| `.`                                     | left          | table/column name separator                            |
+| `::`                                    | left          | PostgreSQL-style typecast                              |
+| `[]`                                    | left          | array element selection                                |
+| `+-`                                    | right         | unary plus, unary minus                                |
+| `^`                                     | left          | exponentiation                                         |
+| `*/%`                                   | left          | multiplication, division, modulo                       |
+| `+-`                                    | left          | addition, subtraction                                  |
+| (any other operator)                    | left          | all other native and user-defined operators            |
+| `BETWEEN / IN / LIKE / ILIKE / SIMILAR` |               | range containment, set membership, string matching     |
+| `<>=<=>=<>`                             |               | comparison operators                                   |
+| `IS / ISNULL/ NOTNULL`                  |               | `IS TRUE`,`IS FALSE`,`IS NULL`,`IS DISTINCT FROM`, etc |
+| `NOT`                                   | right         | logical negation                                       |
+| `AND`                                   | left          | logical conjunction                                    |
+| `OR`                                    | left          | logical disjunction                                    |
 
 注意，使用與內建運算子同名的自訂運算子，運算優先權的規則也會以原規則適用，如同上面的樣子。舉例來說，如果你定義了一個「+」的運算子，用於自訂的資料型態，那麼它就會和內建的「+」擁有相同的運算優先權，而與你的運算內容無關。
 
 當某個結構操作的運算子用於 OPERATOR 語法之中時，如下所示：
 
-```text
+```
 SELECT 3 OPERATOR(pg_catalog.+) 4;
 ```
 
-OPERATOR 建構式被用來為任何運算子，取得如 Table 4.2 中所示的預設運算優先權。不論在 OPERATOR\(\) 中指定什麼運算子，都會回傳 true 的結果。
+OPERATOR 建構式被用來為任何運算子，取得如 Table 4.2 中所示的預設運算優先權。不論在 OPERATOR() 中指定什麼運算子，都會回傳 true 的結果。
 
 ## 注意
 
-PostgreSQL 在 9.5 之前的運算優先權有一些不同。比較特別的是，比較運算子「&lt;= &gt;= &lt;&gt;」是和一般其他運算子是相同等級的；「IS」先前的優先權較高；而「NOT BETWEEN」和相關的建構式行為不一致，使得在某些情況下，「NOT」和「BETWEEN」的優先權不同。這些規則的改變是為了與 SQL 標準有更好的相容性，減少因為等價轉換的不一致處理所造成的困擾。大多數的情況，這些改變並不需要使用習慣的改變，也不會產生沒有運算子的錯誤，而且都可以透過增加括號來解決。然而，有一些極端的情況可能會在沒有錯誤的情況改變其運算行為。如果你很關心這些變化，很擔心這些無聲的錯誤，你可以打開參數 [operator\_precedence\_warning ](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html)來測試你的程式，然後檢查是否有警告被記錄下來。
-
+PostgreSQL 在 9.5 之前的運算優先權有一些不同。比較特別的是，比較運算子「<= >= <>」是和一般其他運算子是相同等級的；「IS」先前的優先權較高；而「NOT BETWEEN」和相關的建構式行為不一致，使得在某些情況下，「NOT」和「BETWEEN」的優先權不同。這些規則的改變是為了與 SQL 標準有更好的相容性，減少因為等價轉換的不一致處理所造成的困擾。大多數的情況，這些改變並不需要使用習慣的改變，也不會產生沒有運算子的錯誤，而且都可以透過增加括號來解決。然而，有一些極端的情況可能會在沒有錯誤的情況改變其運算行為。如果你很關心這些變化，很擔心這些無聲的錯誤，你可以打開參數 [operator\_precedence\_warning ](https://www.postgresql.org/docs/10/static/runtime-config-compatible.html)來測試你的程式，然後檢查是否有警告被記錄下來。

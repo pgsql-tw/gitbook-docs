@@ -4,7 +4,7 @@ CREATE PUBLICATION — define a new publication
 
 ### Synopsis
 
-```text
+```
 CREATE PUBLICATION name
     [ FOR TABLE [ ONLY ] table_name [ * ] [, ...]
       | FOR ALL TABLES ]
@@ -25,7 +25,7 @@ The name of the new publication.
 
 `FOR TABLE`
 
-Specifies a list of tables to add to the publication. If `ONLY` is specified before the table name, only that table is added to the publication. If `ONLY` is not specified, the table and all its descendant tables \(if any\) are added. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included. This does not apply to a partitioned table, however. The partitions of a partitioned table are always implicitly considered part of the publication, so they are never explicitly added to the publication.
+Specifies a list of tables to add to the publication. If `ONLY` is specified before the table name, only that table is added to the publication. If `ONLY` is not specified, the table and all its descendant tables (if any) are added. Optionally, `*` can be specified after the table name to explicitly indicate that descendant tables are included. This does not apply to a partitioned table, however. The partitions of a partitioned table are always implicitly considered part of the publication, so they are never explicitly added to the publication.
 
 Only persistent base tables and partitioned tables can be part of a publication. Temporary tables, unlogged tables, foreign tables, materialized views, and regular views cannot be part of a publication.
 
@@ -35,17 +35,17 @@ When a partitioned table is added to a publication, all of its existing and futu
 
 Marks the publication as one that replicates changes for all tables in the database, including tables created in the future.
 
-`WITH (` _`publication_parameter`_ \[= _`value`_\] \[, ... \] \)
+`WITH ( `_`publication_parameter`_ \[= _`value`_] \[, ... ] )
 
 This clause specifies optional parameters for a publication. The following parameters are supported:
 
-`publish` \(`string`\)
+`publish` (`string`)
 
 This parameter determines which DML operations will be published by the new publication to the subscribers. The value is comma-separated list of operations. The allowed operations are `insert`, `update`, `delete`, and `truncate`. The default is to publish all actions, and so the default value for this option is `'insert, update, delete, truncate'`.
 
-`publish_via_partition_root` \(`boolean`\)
+`publish_via_partition_root` (`boolean`)
 
-This parameter determines whether changes in a partitioned table \(or on its partitions\) contained in the publication will be published using the identity and schema of the partitioned table rather than that of the individual partitions that are actually changed; the latter is the default. Enabling this allows the changes to be replicated into a non-partitioned table or a partitioned table consisting of a different set of partitions.
+This parameter determines whether changes in a partitioned table (or on its partitions) contained in the publication will be published using the identity and schema of the partitioned table rather than that of the individual partitions that are actually changed; the latter is the default. Enabling this allows the changes to be replicated into a non-partitioned table or a partitioned table consisting of a different set of partitions.
 
 If this is enabled, `TRUNCATE` operations performed directly on partitions are not replicated.
 
@@ -55,7 +55,7 @@ If neither `FOR TABLE` nor `FOR ALL TABLES` is specified, then the publication s
 
 The creation of a publication does not start replication. It only defines a grouping and filtering logic for future subscribers.
 
-To create a publication, the invoking user must have the `CREATE` privilege for the current database. \(Of course, superusers bypass this check.\)
+To create a publication, the invoking user must have the `CREATE` privilege for the current database. (Of course, superusers bypass this check.)
 
 To add a table to a publication, the invoking user must have ownership rights on the table. The `FOR ALL TABLES` clause requires the invoking user to be a superuser.
 
@@ -71,19 +71,19 @@ DDL operations are not published.
 
 Create a publication that publishes all changes in two tables:
 
-```text
+```
 CREATE PUBLICATION mypublication FOR TABLE users, departments;
 ```
 
 Create a publication that publishes all changes in all tables:
 
-```text
+```
 CREATE PUBLICATION alltables FOR ALL TABLES;
 ```
 
 Create a publication that only publishes `INSERT` operations in one table:
 
-```text
+```
 CREATE PUBLICATION insert_only FOR TABLE mydata
     WITH (publish = 'insert');
 ```
@@ -95,4 +95,3 @@ CREATE PUBLICATION insert_only FOR TABLE mydata
 ### See Also
 
 [ALTER PUBLICATION](alter-publication.md), [DROP PUBLICATION](drop-publication.md)
-

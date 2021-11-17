@@ -1,6 +1,6 @@
 # 42.6. Control Structures
 
-Control structures are probably the most useful \(and important\) part of PL/pgSQL. With PL/pgSQL's control structures, you can manipulate PostgreSQL data in a very flexible and powerful way.
+Control structures are probably the most useful (and important) part of PL/pgSQL. With PL/pgSQL's control structures, you can manipulate PostgreSQL data in a very flexible and powerful way.
 
 ## 42.6.1. Returning from a Function
 
@@ -8,13 +8,13 @@ There are two commands available that allow you to return data from a function: 
 
 ### **42.6.1.1. RETURN**
 
-```text
+```
 RETURN expression;
 ```
 
 `RETURN` with an expression terminates the function and returns the value of _`expression`_ to the caller. This form is used for PL/pgSQL functions that do not return a set.
 
-In a function that returns a scalar type, the expression's result will automatically be cast into the function's return type as described for assignments. But to return a composite \(row\) value, you must write an expression delivering exactly the requested column set. This may require use of explicit casting.
+In a function that returns a scalar type, the expression's result will automatically be cast into the function's return type as described for assignments. But to return a composite (row) value, you must write an expression delivering exactly the requested column set. This may require use of explicit casting.
 
 If you declared the function with output parameters, write just `RETURN` with no expression. The current values of the output parameter variables will be returned.
 
@@ -24,7 +24,7 @@ The return value of a function cannot be left undefined. If control reaches the 
 
 Some examples:
 
-```text
+```
 -- functions returning a scalar type
 RETURN 1 + 2;
 RETURN scalar_var;
@@ -36,23 +36,23 @@ RETURN (1, 2, 'three'::text);  -- must cast columns to correct types
 
 ### **42.6.1.2. RETURN NEXT And RETURN QUERY**
 
-```text
+```
 RETURN NEXT expression;
 RETURN QUERY query;
 RETURN QUERY EXECUTE command-string [ USING expression [, ... ] ];
 ```
 
-When a PL/pgSQL function is declared to return `SETOF` _`sometype`_, the procedure to follow is slightly different. In that case, the individual items to return are specified by a sequence of `RETURN NEXT` or `RETURN QUERY` commands, and then a final `RETURN` command with no argument is used to indicate that the function has finished executing. `RETURN NEXT` can be used with both scalar and composite data types; with a composite result type, an entire “table” of results will be returned. `RETURN QUERY` appends the results of executing a query to the function's result set. `RETURN NEXT` and `RETURN QUERY` can be freely intermixed in a single set-returning function, in which case their results will be concatenated.
+When a PL/pgSQL function is declared to return `SETOF `_`sometype`_, the procedure to follow is slightly different. In that case, the individual items to return are specified by a sequence of `RETURN NEXT` or `RETURN QUERY` commands, and then a final `RETURN` command with no argument is used to indicate that the function has finished executing. `RETURN NEXT` can be used with both scalar and composite data types; with a composite result type, an entire “table” of results will be returned. `RETURN QUERY` appends the results of executing a query to the function's result set. `RETURN NEXT` and `RETURN QUERY` can be freely intermixed in a single set-returning function, in which case their results will be concatenated.
 
-`RETURN NEXT` and `RETURN QUERY` do not actually return from the function — they simply append zero or more rows to the function's result set. Execution then continues with the next statement in the PL/pgSQL function. As successive `RETURN NEXT` or `RETURN QUERY` commands are executed, the result set is built up. A final `RETURN`, which should have no argument, causes control to exit the function \(or you can just let control reach the end of the function\).
+`RETURN NEXT` and `RETURN QUERY` do not actually return from the function — they simply append zero or more rows to the function's result set. Execution then continues with the next statement in the PL/pgSQL function. As successive `RETURN NEXT` or `RETURN QUERY` commands are executed, the result set is built up. A final `RETURN`, which should have no argument, causes control to exit the function (or you can just let control reach the end of the function).
 
 `RETURN QUERY` has a variant `RETURN QUERY EXECUTE`, which specifies the query to be executed dynamically. Parameter expressions can be inserted into the computed query string via `USING`, in just the same way as in the `EXECUTE` command.
 
-If you declared the function with output parameters, write just `RETURN NEXT` with no expression. On each execution, the current values of the output parameter variable\(s\) will be saved for eventual return as a row of the result. Note that you must declare the function as returning `SETOF record` when there are multiple output parameters, or `SETOF` _`sometype`_ when there is just one output parameter of type _`sometype`_, in order to create a set-returning function with output parameters.
+If you declared the function with output parameters, write just `RETURN NEXT` with no expression. On each execution, the current values of the output parameter variable(s) will be saved for eventual return as a row of the result. Note that you must declare the function as returning `SETOF record` when there are multiple output parameters, or `SETOF `_`sometype`_ when there is just one output parameter of type _`sometype`_, in order to create a set-returning function with output parameters.
 
 Here is an example of a function using `RETURN NEXT`:
 
-```text
+```
 CREATE TABLE foo (fooid INT, foosubid INT, fooname TEXT);
 INSERT INTO foo VALUES (1, 2, 'three');
 INSERT INTO foo VALUES (4, 5, 'six');
@@ -78,7 +78,7 @@ SELECT * FROM get_all_foo();
 
 Here is an example of a function using `RETURN QUERY`:
 
-```text
+```
 CREATE FUNCTION get_available_flightid(date) RETURNS SETOF integer AS
 $BODY$
 BEGIN
@@ -117,7 +117,7 @@ If the procedure has output parameters, the final values of the output parameter
 
 A PL/pgSQL function, procedure, or `DO` block can call a procedure using `CALL`. Output parameters are handled differently from the way that `CALL` works in plain SQL. Each `INOUT` parameter of the procedure must correspond to a variable in the `CALL` statement, and whatever the procedure returns is assigned back to that variable after it returns. For example:
 
-```text
+```
 CREATE PROCEDURE triple(INOUT x int)
 LANGUAGE plpgsql
 AS $$
@@ -150,7 +150,7 @@ and two forms of `CASE`:
 
 ### **42.6.4.1. IF-THEN**
 
-```text
+```
 IF boolean-expression THEN
     statements
 END IF;
@@ -160,7 +160,7 @@ END IF;
 
 Example:
 
-```text
+```
 IF v_user_id <> 0 THEN
     UPDATE users SET email = v_email WHERE user_id = v_user_id;
 END IF;
@@ -168,7 +168,7 @@ END IF;
 
 ### **42.6.4.2. IF-THEN-ELSE**
 
-```text
+```
 IF boolean-expression THEN
     statements
 ELSE
@@ -176,11 +176,11 @@ ELSE
 END IF;
 ```
 
-`IF-THEN-ELSE` statements add to `IF-THEN` by letting you specify an alternative set of statements that should be executed if the condition is not true. \(Note this includes the case where the condition evaluates to NULL.\)
+`IF-THEN-ELSE` statements add to `IF-THEN` by letting you specify an alternative set of statements that should be executed if the condition is not true. (Note this includes the case where the condition evaluates to NULL.)
 
 Examples:
 
-```text
+```
 IF parentid IS NULL OR parentid = ''
 THEN
     RETURN fullname;
@@ -189,7 +189,7 @@ ELSE
 END IF;
 ```
 
-```text
+```
 IF v_count > 0 THEN
     INSERT INTO users_count (count) VALUES (v_count);
     RETURN 't';
@@ -200,7 +200,7 @@ END IF;
 
 ### **42.6.4.3. IF-THEN-ELSIF**
 
-```text
+```
 IF boolean-expression THEN
     statements
 [ ELSIF boolean-expression THEN
@@ -215,11 +215,11 @@ IF boolean-expression THEN
 END IF;
 ```
 
-Sometimes there are more than just two alternatives. `IF-THEN-ELSIF` provides a convenient method of checking several alternatives in turn. The `IF` conditions are tested successively until the first one that is true is found. Then the associated statement\(s\) are executed, after which control passes to the next statement after `END IF`. \(Any subsequent `IF` conditions are _not_ tested.\) If none of the `IF` conditions is true, then the `ELSE` block \(if any\) is executed.
+Sometimes there are more than just two alternatives. `IF-THEN-ELSIF` provides a convenient method of checking several alternatives in turn. The `IF` conditions are tested successively until the first one that is true is found. Then the associated statement(s) are executed, after which control passes to the next statement after `END IF`. (Any subsequent `IF` conditions are _not_ tested.) If none of the `IF` conditions is true, then the `ELSE` block (if any) is executed.
 
 Here is an example:
 
-```text
+```
 IF number = 0 THEN
     result := 'zero';
 ELSIF number > 0 THEN
@@ -236,7 +236,7 @@ The key word `ELSIF` can also be spelled `ELSEIF`.
 
 An alternative way of accomplishing the same task is to nest `IF-THEN-ELSE` statements, as in the following example:
 
-```text
+```
 IF demo_row.sex = 'm' THEN
     pretty_sex := 'man';
 ELSE
@@ -250,7 +250,7 @@ However, this method requires writing a matching `END IF` for each `IF`, so it i
 
 ### **42.6.4.4. Simple CASE**
 
-```text
+```
 CASE search-expression
     WHEN expression [, expression [ ... ]] THEN
       statements
@@ -262,11 +262,11 @@ CASE search-expression
 END CASE;
 ```
 
-The simple form of `CASE` provides conditional execution based on equality of operands. The _`search-expression`_ is evaluated \(once\) and successively compared to each _`expression`_ in the `WHEN` clauses. If a match is found, then the corresponding _`statements`_ are executed, and then control passes to the next statement after `END CASE`. \(Subsequent `WHEN` expressions are not evaluated.\) If no match is found, the `ELSE` _`statements`_ are executed; but if `ELSE` is not present, then a `CASE_NOT_FOUND` exception is raised.
+The simple form of `CASE` provides conditional execution based on equality of operands. The _`search-expression`_ is evaluated (once) and successively compared to each _`expression`_ in the `WHEN` clauses. If a match is found, then the corresponding _`statements`_ are executed, and then control passes to the next statement after `END CASE`. (Subsequent `WHEN` expressions are not evaluated.) If no match is found, the `ELSE` _`statements`_ are executed; but if `ELSE` is not present, then a `CASE_NOT_FOUND` exception is raised.
 
 Here is a simple example:
 
-```text
+```
 CASE x
     WHEN 1, 2 THEN
         msg := 'one or two';
@@ -277,7 +277,7 @@ END CASE;
 
 ### **42.6.4.5. Searched CASE**
 
-```text
+```
 CASE
     WHEN boolean-expression THEN
       statements
@@ -289,11 +289,11 @@ CASE
 END CASE;
 ```
 
-The searched form of `CASE` provides conditional execution based on truth of Boolean expressions. Each `WHEN` clause's _`boolean-expression`_ is evaluated in turn, until one is found that yields `true`. Then the corresponding _`statements`_ are executed, and then control passes to the next statement after `END CASE`. \(Subsequent `WHEN` expressions are not evaluated.\) If no true result is found, the `ELSE` _`statements`_ are executed; but if `ELSE` is not present, then a `CASE_NOT_FOUND` exception is raised.
+The searched form of `CASE` provides conditional execution based on truth of Boolean expressions. Each `WHEN` clause's _`boolean-expression`_ is evaluated in turn, until one is found that yields `true`. Then the corresponding _`statements`_ are executed, and then control passes to the next statement after `END CASE`. (Subsequent `WHEN` expressions are not evaluated.) If no true result is found, the `ELSE` _`statements`_ are executed; but if `ELSE` is not present, then a `CASE_NOT_FOUND` exception is raised.
 
 Here is an example:
 
-```text
+```
 CASE
     WHEN x BETWEEN 0 AND 10 THEN
         msg := 'value is between zero and ten';
@@ -310,7 +310,7 @@ With the `LOOP`, `EXIT`, `CONTINUE`, `WHILE`, `FOR`, and `FOREACH` statements, y
 
 ### **42.6.5.1. LOOP**
 
-```text
+```
 [ <<label>> ]
 LOOP
     statements
@@ -321,7 +321,7 @@ END LOOP [ label ];
 
 ### **42.6.5.2. EXIT**
 
-```text
+```
 EXIT [ label ] [ WHEN boolean-expression ];
 ```
 
@@ -331,11 +331,11 @@ If `WHEN` is specified, the loop exit occurs only if _`boolean-expression`_ is t
 
 `EXIT` can be used with all types of loops; it is not limited to use with unconditional loops.
 
-When used with a `BEGIN` block, `EXIT` passes control to the next statement after the end of the block. Note that a label must be used for this purpose; an unlabeled `EXIT` is never considered to match a `BEGIN` block. \(This is a change from pre-8.4 releases of PostgreSQL, which would allow an unlabeled `EXIT` to match a `BEGIN` block.\)
+When used with a `BEGIN` block, `EXIT` passes control to the next statement after the end of the block. Note that a label must be used for this purpose; an unlabeled `EXIT` is never considered to match a `BEGIN` block. (This is a change from pre-8.4 releases of PostgreSQL, which would allow an unlabeled `EXIT` to match a `BEGIN` block.)
 
 Examples:
 
-```text
+```
 LOOP
     -- some computations
     IF count > 0 THEN
@@ -360,11 +360,11 @@ END;
 
 ### **42.6.5.3. CONTINUE**
 
-```text
+```
 CONTINUE [ label ] [ WHEN boolean-expression ];
 ```
 
-If no _`label`_ is given, the next iteration of the innermost loop is begun. That is, all statements remaining in the loop body are skipped, and control returns to the loop control expression \(if any\) to determine whether another loop iteration is needed. If _`label`_ is present, it specifies the label of the loop whose execution will be continued.
+If no _`label`_ is given, the next iteration of the innermost loop is begun. That is, all statements remaining in the loop body are skipped, and control returns to the loop control expression (if any) to determine whether another loop iteration is needed. If _`label`_ is present, it specifies the label of the loop whose execution will be continued.
 
 If `WHEN` is specified, the next iteration of the loop is begun only if _`boolean-expression`_ is true. Otherwise, control passes to the statement after `CONTINUE`.
 
@@ -372,7 +372,7 @@ If `WHEN` is specified, the next iteration of the loop is begun only if _`boolea
 
 Examples:
 
-```text
+```
 LOOP
     -- some computations
     EXIT WHEN count > 100;
@@ -383,7 +383,7 @@ END LOOP;
 
 ### **42.6.5.4. WHILE**
 
-```text
+```
 [ <<label>> ]
 WHILE boolean-expression LOOP
     statements
@@ -394,7 +394,7 @@ The `WHILE` statement repeats a sequence of statements so long as the _`boolean-
 
 For example:
 
-```text
+```
 WHILE amount_owed > 0 AND gift_certificate_balance > 0 LOOP
     -- some computations here
 END LOOP;
@@ -404,20 +404,20 @@ WHILE NOT done LOOP
 END LOOP;
 ```
 
-### **42.6.5.5. FOR \(Integer Variant\)**
+### **42.6.5.5. FOR (Integer Variant)**
 
-```text
+```
 [ <<label>> ]
 FOR name IN [ REVERSE ] expression .. expression [ BY expression ] LOOP
     statements
 END LOOP [ label ];
 ```
 
-This form of `FOR` creates a loop that iterates over a range of integer values. The variable _`name`_ is automatically defined as type `integer` and exists only inside the loop \(any existing definition of the variable name is ignored within the loop\). The two expressions giving the lower and upper bound of the range are evaluated once when entering the loop. If the `BY` clause isn't specified the iteration step is 1, otherwise it's the value specified in the `BY` clause, which again is evaluated once on loop entry. If `REVERSE` is specified then the step value is subtracted, rather than added, after each iteration.
+This form of `FOR` creates a loop that iterates over a range of integer values. The variable _`name`_ is automatically defined as type `integer` and exists only inside the loop (any existing definition of the variable name is ignored within the loop). The two expressions giving the lower and upper bound of the range are evaluated once when entering the loop. If the `BY` clause isn't specified the iteration step is 1, otherwise it's the value specified in the `BY` clause, which again is evaluated once on loop entry. If `REVERSE` is specified then the step value is subtracted, rather than added, after each iteration.
 
 Some examples of integer `FOR` loops:
 
-```text
+```
 FOR i IN 1..10 LOOP
     -- i will take on the values 1,2,3,4,5,6,7,8,9,10 within the loop
 END LOOP;
@@ -431,7 +431,7 @@ FOR i IN REVERSE 10..1 BY 2 LOOP
 END LOOP;
 ```
 
-If the lower bound is greater than the upper bound \(or less than, in the `REVERSE` case\), the loop body is not executed at all. No error is raised.
+If the lower bound is greater than the upper bound (or less than, in the `REVERSE` case), the loop body is not executed at all. No error is raised.
 
 If a _`label`_ is attached to the `FOR` loop then the integer loop variable can be referenced with a qualified name, using that _`label`_.
 
@@ -439,7 +439,7 @@ If a _`label`_ is attached to the `FOR` loop then the integer loop variable can 
 
 Using a different type of `FOR` loop, you can iterate through the results of a query and manipulate that data accordingly. The syntax is:
 
-```text
+```
 [ <<label>> ]
 FOR target IN query LOOP
     statements
@@ -448,7 +448,7 @@ END LOOP [ label ];
 
 The _`target`_ is a record variable, row variable, or comma-separated list of scalar variables. The _`target`_ is successively assigned each row resulting from the _`query`_ and the loop body is executed for each row. Here is an example:
 
-```text
+```
 CREATE FUNCTION refresh_mviews() RETURNS integer AS $$
 DECLARE
     mviews RECORD;
@@ -488,7 +488,7 @@ PL/pgSQL variables are substituted into the query text, and the query plan is ca
 
 The `FOR-IN-EXECUTE` statement is another way to iterate over rows:
 
-```text
+```
 [ <<label>> ]
 FOR target IN EXECUTE text_expression [ USING expression [, ... ] ] LOOP
     statements
@@ -501,9 +501,9 @@ Another way to specify the query whose results should be iterated through is to 
 
 ## 42.6.7. Looping through Arrays
 
-The `FOREACH` loop is much like a `FOR` loop, but instead of iterating through the rows returned by a SQL query, it iterates through the elements of an array value. \(In general, `FOREACH` is meant for looping through components of a composite-valued expression; variants for looping through composites besides arrays may be added in future.\) The `FOREACH` statement to loop over an array is:
+The `FOREACH` loop is much like a `FOR` loop, but instead of iterating through the rows returned by a SQL query, it iterates through the elements of an array value. (In general, `FOREACH` is meant for looping through components of a composite-valued expression; variants for looping through composites besides arrays may be added in future.) The `FOREACH` statement to loop over an array is:
 
-```text
+```
 [ <<label>> ]
 FOREACH target [ SLICE number ] IN ARRAY expression LOOP
     statements
@@ -512,7 +512,7 @@ END LOOP [ label ];
 
 Without `SLICE`, or if `SLICE 0` is specified, the loop iterates through individual elements of the array produced by evaluating the _`expression`_. The _`target`_ variable is assigned each element value in sequence, and the loop body is executed for each element. Here is an example of looping through the elements of an integer array:
 
-```text
+```
 CREATE FUNCTION sum(int[]) RETURNS int8 AS $$
 DECLARE
   s int8 := 0;
@@ -527,11 +527,11 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-The elements are visited in storage order, regardless of the number of array dimensions. Although the _`target`_ is usually just a single variable, it can be a list of variables when looping through an array of composite values \(records\). In that case, for each array element, the variables are assigned from successive columns of the composite value.
+The elements are visited in storage order, regardless of the number of array dimensions. Although the _`target`_ is usually just a single variable, it can be a list of variables when looping through an array of composite values (records). In that case, for each array element, the variables are assigned from successive columns of the composite value.
 
 With a positive `SLICE` value, `FOREACH` iterates through slices of the array rather than single elements. The `SLICE` value must be an integer constant not larger than the number of dimensions of the array. The _`target`_ variable must be an array, and it receives successive slices of the array value, where each slice is of the number of dimensions specified by `SLICE`. Here is an example of iterating through one-dimensional slices:
 
-```text
+```
 CREATE FUNCTION scan_rows(int[]) RETURNS void AS $$
 DECLARE
   x int[];
@@ -555,7 +555,7 @@ NOTICE:  row = {10,11,12}
 
 By default, any error occurring in a PL/pgSQL function aborts execution of the function, and indeed of the surrounding transaction as well. You can trap errors and recover from them by using a `BEGIN` block with an `EXCEPTION` clause. The syntax is an extension of the normal syntax for a `BEGIN` block:
 
-```text
+```
 [ <<label>> ]
 [ DECLARE
     declarations ]
@@ -572,9 +572,9 @@ END;
 
 If no error occurs, this form of block simply executes all the _`statements`_, and then control passes to the next statement after `END`. But if an error occurs within the _`statements`_, further processing of the _`statements`_ is abandoned, and control passes to the `EXCEPTION` list. The list is searched for the first _`condition`_ matching the error that occurred. If a match is found, the corresponding _`handler_statements`_ are executed, and then control passes to the next statement after `END`. If no match is found, the error propagates out as though the `EXCEPTION` clause were not there at all: the error can be caught by an enclosing block with `EXCEPTION`, or if there is none it aborts processing of the function.
 
-The _`condition`_ names can be any of those shown in [Appendix A](https://www.postgresql.org/docs/13/errcodes-appendix.html). A category name matches any error within its category. The special condition name `OTHERS` matches every error type except `QUERY_CANCELED` and `ASSERT_FAILURE`. \(It is possible, but often unwise, to trap those two error types by name.\) Condition names are not case-sensitive. Also, an error condition can be specified by `SQLSTATE` code; for example these are equivalent:
+The _`condition`_ names can be any of those shown in [Appendix A](https://www.postgresql.org/docs/13/errcodes-appendix.html). A category name matches any error within its category. The special condition name `OTHERS` matches every error type except `QUERY_CANCELED` and `ASSERT_FAILURE`. (It is possible, but often unwise, to trap those two error types by name.) Condition names are not case-sensitive. Also, an error condition can be specified by `SQLSTATE` code; for example these are equivalent:
 
-```text
+```
 WHEN division_by_zero THEN ...
 WHEN SQLSTATE '22012' THEN ...
 ```
@@ -583,7 +583,7 @@ If a new error occurs within the selected _`handler_statements`_, it cannot be c
 
 When an error is caught by an `EXCEPTION` clause, the local variables of the PL/pgSQL function remain as they were when the error occurred, but all changes to persistent database state within the block are rolled back. As an example, consider this fragment:
 
-```text
+```
 INSERT INTO mytab(firstname, lastname) VALUES('Tom', 'Jones');
 BEGIN
     UPDATE mytab SET firstname = 'Joe' WHERE lastname = 'Jones';
@@ -606,7 +606,7 @@ A block containing an `EXCEPTION` clause is significantly more expensive to ente
 
 This example uses exception handling to perform either `UPDATE` or `INSERT`, as appropriate. It is recommended that applications use `INSERT` with `ON CONFLICT DO UPDATE` rather than actually using this pattern. This example serves primarily to illustrate use of PL/pgSQL control flow structures:
 
-```text
+```
 CREATE TABLE db (a INT PRIMARY KEY, b TEXT);
 
 CREATE FUNCTION merge_db(key INT, data TEXT) RETURNS VOID AS
@@ -636,43 +636,43 @@ SELECT merge_db(1, 'david');
 SELECT merge_db(1, 'dennis');
 ```
 
-This coding assumes the `unique_violation` error is caused by the `INSERT`, and not by, say, an `INSERT` in a trigger function on the table. It might also misbehave if there is more than one unique index on the table, since it will retry the operation regardless of which index caused the error. More safety could be had by using the features discussed next to check that the trapped error was the one expected.  
+This coding assumes the `unique_violation` error is caused by the `INSERT`, and not by, say, an `INSERT` in a trigger function on the table. It might also misbehave if there is more than one unique index on the table, since it will retry the operation regardless of which index caused the error. More safety could be had by using the features discussed next to check that the trapped error was the one expected.\
 
 
 ### **42.6.8.1. Obtaining Information About An Error**
 
 Exception handlers frequently need to identify the specific error that occurred. There are two ways to get information about the current exception in PL/pgSQL: special variables and the `GET STACKED DIAGNOSTICS` command.
 
-Within an exception handler, the special variable `SQLSTATE` contains the error code that corresponds to the exception that was raised \(refer to [Table A.1](https://www.postgresql.org/docs/13/errcodes-appendix.html#ERRCODES-TABLE) for a list of possible error codes\). The special variable `SQLERRM` contains the error message associated with the exception. These variables are undefined outside exception handlers.
+Within an exception handler, the special variable `SQLSTATE` contains the error code that corresponds to the exception that was raised (refer to [Table A.1](https://www.postgresql.org/docs/13/errcodes-appendix.html#ERRCODES-TABLE) for a list of possible error codes). The special variable `SQLERRM` contains the error message associated with the exception. These variables are undefined outside exception handlers.
 
 Within an exception handler, one may also retrieve information about the current exception by using the `GET STACKED DIAGNOSTICS` command, which has the form:
 
-```text
+```
 GET STACKED DIAGNOSTICS variable { = | := } item [ , ... ];
 ```
 
-Each _`item`_ is a key word identifying a status value to be assigned to the specified _`variable`_ \(which should be of the right data type to receive it\). The currently available status items are shown in [Table 42.2](https://www.postgresql.org/docs/13/plpgsql-control-structures.html#PLPGSQL-EXCEPTION-DIAGNOSTICS-VALUES).
+Each _`item`_ is a key word identifying a status value to be assigned to the specified _`variable`_ (which should be of the right data type to receive it). The currently available status items are shown in [Table 42.2](https://www.postgresql.org/docs/13/plpgsql-control-structures.html#PLPGSQL-EXCEPTION-DIAGNOSTICS-VALUES).
 
 #### **Table 42.2. Error Diagnostics Items**
 
-| Name | Type | Description |
-| :--- | :--- | :--- |
-| `RETURNED_SQLSTATE` | `text` | the SQLSTATE error code of the exception |
-| `COLUMN_NAME` | `text` | the name of the column related to exception |
-| `CONSTRAINT_NAME` | `text` | the name of the constraint related to exception |
-| `PG_DATATYPE_NAME` | `text` | the name of the data type related to exception |
-| `MESSAGE_TEXT` | `text` | the text of the exception's primary message |
-| `TABLE_NAME` | `text` | the name of the table related to exception |
-| `SCHEMA_NAME` | `text` | the name of the schema related to exception |
-| `PG_EXCEPTION_DETAIL` | `text` | the text of the exception's detail message, if any |
-| `PG_EXCEPTION_HINT` | `text` | the text of the exception's hint message, if any |
-| `PG_EXCEPTION_CONTEXT` | `text` | line\(s\) of text describing the call stack at the time of the exception \(see [Section 42.6.9](https://www.postgresql.org/docs/13/plpgsql-control-structures.html#PLPGSQL-CALL-STACK)\) |
+| Name                   | Type   | Description                                                                                                                                                                          |
+| ---------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `RETURNED_SQLSTATE`    | `text` | the SQLSTATE error code of the exception                                                                                                                                             |
+| `COLUMN_NAME`          | `text` | the name of the column related to exception                                                                                                                                          |
+| `CONSTRAINT_NAME`      | `text` | the name of the constraint related to exception                                                                                                                                      |
+| `PG_DATATYPE_NAME`     | `text` | the name of the data type related to exception                                                                                                                                       |
+| `MESSAGE_TEXT`         | `text` | the text of the exception's primary message                                                                                                                                          |
+| `TABLE_NAME`           | `text` | the name of the table related to exception                                                                                                                                           |
+| `SCHEMA_NAME`          | `text` | the name of the schema related to exception                                                                                                                                          |
+| `PG_EXCEPTION_DETAIL`  | `text` | the text of the exception's detail message, if any                                                                                                                                   |
+| `PG_EXCEPTION_HINT`    | `text` | the text of the exception's hint message, if any                                                                                                                                     |
+| `PG_EXCEPTION_CONTEXT` | `text` | line(s) of text describing the call stack at the time of the exception (see [Section 42.6.9](https://www.postgresql.org/docs/13/plpgsql-control-structures.html#PLPGSQL-CALL-STACK)) |
 
 If the exception did not set a value for an item, an empty string will be returned.
 
 Here is an example:
 
-```text
+```
 DECLARE
   text_var1 text;
   text_var2 text;
@@ -689,9 +689,9 @@ END;
 
 ## 42.6.9. Obtaining Execution Location Information
 
-The `GET DIAGNOSTICS` command, previously described in [Section 42.5.5](https://www.postgresql.org/docs/13/plpgsql-statements.html#PLPGSQL-STATEMENTS-DIAGNOSTICS), retrieves information about current execution state \(whereas the `GET STACKED DIAGNOSTICS` command discussed above reports information about the execution state as of a previous error\). Its `PG_CONTEXT` status item is useful for identifying the current execution location. `PG_CONTEXT` returns a text string with line\(s\) of text describing the call stack. The first line refers to the current function and currently executing `GET DIAGNOSTICS` command. The second and any subsequent lines refer to calling functions further up the call stack. For example:
+The `GET DIAGNOSTICS` command, previously described in [Section 42.5.5](https://www.postgresql.org/docs/13/plpgsql-statements.html#PLPGSQL-STATEMENTS-DIAGNOSTICS), retrieves information about current execution state (whereas the `GET STACKED DIAGNOSTICS` command discussed above reports information about the execution state as of a previous error). Its `PG_CONTEXT` status item is useful for identifying the current execution location. `PG_CONTEXT` returns a text string with line(s) of text describing the call stack. The first line refers to the current function and currently executing `GET DIAGNOSTICS` command. The second and any subsequent lines refer to calling functions further up the call stack. For example:
 
-```text
+```
 CREATE OR REPLACE FUNCTION outer_func() RETURNS integer AS $$
 BEGIN
   RETURN inner_func();
@@ -720,6 +720,4 @@ CONTEXT:  PL/pgSQL function outer_func() line 3 at RETURN
 (1 row)
 ```
 
-`GET STACKED DIAGNOSTICS ... PG_EXCEPTION_CONTEXT` returns the same sort of stack trace, but describing the location at which an error was detected, rather than the current location.  
-
-
+`GET STACKED DIAGNOSTICS ... PG_EXCEPTION_CONTEXT` returns the same sort of stack trace, but describing the location at which an error was detected, rather than the current location.\

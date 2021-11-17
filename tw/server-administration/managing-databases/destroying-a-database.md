@@ -2,7 +2,7 @@
 
 Databases are destroyed with the command [DROP DATABASE](https://www.postgresql.org/docs/13/sql-dropdatabase.html):
 
-```text
+```
 DROP DATABASE name;
 ```
 
@@ -12,10 +12,8 @@ You cannot execute the `DROP DATABASE` command while connected to the victim dat
 
 For convenience, there is also a shell program to drop databases, [dropdb](https://www.postgresql.org/docs/13/app-dropdb.html):
 
-```text
+```
 dropdb dbname
 ```
 
-\(Unlike `createdb`, it is not the default action to drop the database with the current user name.\)  
-
-
+(Unlike `createdb`, it is not the default action to drop the database with the current user name.)\

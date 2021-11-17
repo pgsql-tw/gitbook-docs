@@ -4,7 +4,7 @@ createuser — 定義一個新的 PostgreSQL 使用者帳戶
 
 ### 語法
 
-`createuser` \[_`connection-option`_...\] \[_`option`_...\] \[_`username`_\]
+`createuser` \[_`connection-option`_...] \[_`option`_...] \[_`username`_]
 
 ### 說明
 
@@ -22,42 +22,42 @@ _`username`_
 
 指定要建立的 PostgreSQL 使用者名稱。此名稱必須與此 PostgreSQL 服務中的所有現有角色不同。
 
-`-c` _`number`_  
+`-c `_`number`_\
 `--connection-limit=`_`number`_
 
 設定新使用者的最大連線數。預設為無限制。
 
-`-d`  
+`-d`\
 `--createdb`
 
 將允許新使用者建立資料庫。
 
-`-D`  
+`-D`\
 `--no-createdb`
 
 不允許新使用者建立資料庫。這是預設值。
 
-`-e`  
+`-e`\
 `--echo`
 
 顯示 createuser 産生並發送到伺服器的指令。
 
-`-E`  
+`-E`\
 `--encrypted`
 
 此選項已過時但仍可接受，為了向下相容。
 
-`-g` _`role`_  
+`-g `_`role`_\
 `--role=`_`role`_
 
 表示此角色將作為新成員立即添加到的角色。可以透過加上多個 -g 來指定將此角色添加為成員的多個角色。
 
-`-i`  
+`-i`\
 `--inherit`
 
 新角色將自動繼承其所屬角色的權限。這是預設值。
 
-`-I`  
+`-I`\
 `--no-inherit`
 
 新角色不會自動繼承其所屬角色的權限。
@@ -66,42 +66,42 @@ _`username`_
 
 如果在命令列中未指定使用者名稱，則提示輸入使用者名稱，並且還會提示在命令列中未指定 -d/-D，-r/-R，-s/-S 中的任何選項。（這是 PostgreSQL 9.1 的預設行為。）
 
-`-l`  
+`-l`\
 `--login`
 
 將允許新使用者登入（即，使用者名稱可以用作初始連線使用者）。這是預設值。
 
-`-L`  
+`-L`\
 `--no-login`
 
 將不允許新使用者登入。（沒有登入權限的角色作為管理資料庫權限的作法仍然很有用。）
 
-`-P`  
+`-P`\
 `--pwprompt`
 
 如果有此選項，createuser 將發出新使用者密碼的提示。如果您不打算使用密碼身份驗證，則毌須執行此操作。
 
-`-r`  
+`-r`\
 `--createrole`
 
 將允許新使用者建立新角色（即，此使用者將具有 CREATEROLE 權限）。
 
-`-R`  
+`-R`\
 `--no-createrole`
 
 不允許新使用者建立新角色。這是預設值。
 
-`-s`  
+`-s`\
 `--superuser`
 
 新使用者將是超級使用者。
 
-`-S`  
+`-S`\
 `--no-superuser`
 
 新用戶不是超級用戶。這是預設值。
 
-`-V`  
+`-V`\
 `--version`
 
 輸出 createuser 版本然後退出。
@@ -114,34 +114,34 @@ _`username`_
 
 新使用者將不會有 REPLICATION 權限，這在 [CREATE ROLE](../sql-commands/create-role.md) 的頁面中有更全面的描述。
 
-`-?`  
+`-?`\
 `--help`
 
 顯示有關 createuser 命令列選項的協助資訊，然後退出。
 
 createuser 還接受以下連線參數的命令列選項：
 
-`-h` _`host`_  
+`-h `_`host`_\
 `--host=`_`host`_
 
 指定運行伺服器的主機名稱。如果以斜槓開頭，則將其用作 Unix domain socke 的目錄。
 
-`-p` _`port`_  
+`-p `_`port`_\
 `--port=`_`port`_
 
 指定伺服器正在監聽連線的 TCP 連接埠或本地 Unix domain socket 檔案延伸名稱。
 
-`-U` _`username`_  
+`-U `_`username`_\
 `--username=`_`username`_
 
 要連線的使用者名稱（不是要建立的使用者名稱）。
 
-`-w`  
+`-w`\
 `--no-password`
 
 不要發出密碼提示。如果伺服器需要密碼身份驗證，並且其他方式（例如 .pgpass 檔案）也無法使用密碼，則連線嘗試將會失敗。此選項在沒有使用者輸入密碼的批處理作業和腳本中非常有用。
 
-`-W`  
+`-W`\
 `--password`
 
 強制 createuser 提示輸入密碼（用於連線伺服器，而不是新使用者的密碼）。
@@ -150,8 +150,8 @@ createuser 還接受以下連線參數的命令列選項：
 
 ### 環境變數
 
-`PGHOST`  
-`PGPORT`  
+`PGHOST`\
+`PGPORT`\
 `PGUSER`
 
 預設連線參數
@@ -166,13 +166,13 @@ createuser 還接受以下連線參數的命令列選項：
 
 要在預設的資料庫伺服器上建立使用者 joe：
 
-```text
+```
 $ createuser joe
 ```
 
 要在預設的資料庫伺服器上建立使用者 joe，並提示輸入一些其他的屬性：
 
-```text
+```
 $ createuser --interactive joe
 Shall the new role be a superuser? (y/n) n
 Shall the new role be allowed to create databases? (y/n) n
@@ -181,14 +181,14 @@ Shall the new role be allowed to create more new roles? (y/n) n
 
 要使用主機 eden 上的伺服器（連接埠 5000）建立相同的使用者 joe，並明確指定屬性，屬性請查看基礎指令：
 
-```text
+```
 $ createuser -h eden -p 5000 -S -D -R -e joe
 CREATE ROLE joe NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;
 ```
 
 要以超級使用者身份建立使用者 joe，並立即指定密碼：
 
-```text
+```
 $ createuser -P -s -e joe
 Enter password for new role: xyzzy
 Enter it again: xyzzy
@@ -200,4 +200,3 @@ CREATE ROLE joe PASSWORD 'md5b5f5ba1a423792b526f799ae4eb3d59e' SUPERUSER CREATED
 ### 參閱
 
 [dropuser](dropuser.md), [CREATE ROLE](../sql-commands/create-role.md)
-
