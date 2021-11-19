@@ -40,7 +40,7 @@ CREATE TABLE capitals (
 ) INHERITS (cities);
 ```
 
-在這個例子中，captitals 繼承了 cities 的所有欄位（name, population, altitude）。欄位 name 的資料型別是文字型別（text），是一個 PostgreSQL 內建的資料型別，它允許字串長度是動態的。然後宣告 capitals 另外多一個欄位，state，以呈現它是屬於哪一個州。在 PostgreSQL，一個資料表可以繼承多個其他的資料格。
+在這個例子中，capitals 繼承了 cities 的所有欄位（name, population, altitude）。欄位 name 的資料型別是文字型別（text），是一個 PostgreSQL 內建的資料型別，它允許字串長度是動態的。然後宣告 capitals 另外多一個欄位，state，以呈現它是屬於哪一個州。在 PostgreSQL，一個資料表可以繼承多個其他的資料格。
 
 舉個例子，下面的查詢可以找出所有的城市名稱，包含各州的首都，而其海拔高過於 500 英呎以上：
 
