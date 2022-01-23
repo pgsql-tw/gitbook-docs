@@ -4,7 +4,7 @@
 
 每一個欄位都有一個資料型別。資料型別限制了儲存於該欄位的資料內容，同時也設定了資料儲存的型態，使得該資料可以直接用於計算。舉個例子，一個被宣告為數字型別的欄位，就不能放進任何文字字串，而儲存於此欄位中的資料，可用於數學計算。相反地，一個被宣告為字元字串的欄位，可以儲存任何型能的資料，但就無法用於數學計算了，雖然也有其他操作可以進行字串串接。
 
-PostgreSQL 擁有許多內建的資料型別，可以適應許多應用系統。使用者也可以自訂他們所需的資料型別。大多數內建的資料型別都有顯而易見的名稱與用法，所以我們打算在[第 8 章](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-types.md)再做詳細的說明。有一些常用的資料型別，像是 interger 用於整數，numeric 用於浮點數，text 用於字串，date 則是日期，time 是時間，而 timestamp 則同時包含日期和時間。
+PostgreSQL 擁有許多內建的資料型別，可以適應許多應用系統。使用者也可以自訂他們所需的資料型別。大多數內建的資料型別都有顯而易見的名稱與用法，所以我們打算在[第 8 章](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/data-types.md)再做詳細的說明。有一些常用的資料型別，像是 integer 用於整數，numeric 用於浮點數，text 用於字串，date 則是日期，time 是時間，而 timestamp 則同時包含日期和時間。
 
 要建立一個資料表，你可以使用 [CREATE TABLE](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/vi-reference/i-sql-commands/create-table.md) 指令。這個指令你至少要指定一個名稱給新的資料表，還有每一個欄位的名稱與資料型別。例如：
 
