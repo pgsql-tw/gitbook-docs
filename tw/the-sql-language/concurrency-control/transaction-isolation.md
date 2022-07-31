@@ -128,7 +128,7 @@ SELECT SUM(value) FROM mytab WHERE class = 2;
 ERROR:  could not serialize access due to read/write dependencies among transactions
 ```
 
-This is because if A had executed before B, B would have computed the sum 330, not 300, and similarly the other order would have resulted in a different sum computed by A.
+這是因為如果 A 在 B 之前執行的話，B 會得到結果 330 而非 300；同樣的，其他順序會導致 A 得到不同的結果。
 
 When relying on Serializable transactions to prevent anomalies, it is important that any data read from a permanent user table not be considered valid until the transaction which read it has successfully committed. This is true even for read-only transactions, except that data read within a _deferrable_ read-only transaction is known to be valid as soon as it is read, because such a transaction waits until it can acquire a snapshot guaranteed to be free from such problems before starting to read any data. In all other cases applications must not depend on results read during a transaction that later aborted; instead, they should retry the transaction until it succeeds.
 
