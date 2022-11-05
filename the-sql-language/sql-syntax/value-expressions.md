@@ -297,7 +297,7 @@ frame\_start 的限制是不能使用 UNBOUNDED FOLLOWING，而 frame\_end 不�
 
 窗函數呼叫只限於 SELECT 回傳列表，及 ORDER BY 子句中。
 
-更多窗函數的說明請參閱 [3.5 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/advanced-features/35-window-functions.md)、[9.21 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/functions-and-operators/921-window-functions.md)、及 [7.2.5 節](https://github.com/pgsql-tw/documents/tree/a096b206440e1ac8cdee57e1ae7a74730f0ee146/ii-the-sql-language/queries/72-table-expressions.md)。
+更多窗函數的說明請參閱 [3.5 節](../../tutorial/advanced-features/window-functions)、[9.22 節](../functions-and-operators/window-functions)、及 [7.2.5 節](../queries/table-expressions#7.2.5.-chuang-han-shu-chu-li)。
 
 ## 4.2.9. 型別轉換
 
