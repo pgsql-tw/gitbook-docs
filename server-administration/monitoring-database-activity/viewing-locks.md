@@ -1,4 +1,4 @@
-# 27.3. Viewing Locks
+# 28.3. Viewing Locks
 
 Another useful tool for monitoring database activity is the `pg_locks` system table. It allows the database administrator to view information about the outstanding locks in the lock manager. For example, this capability can be used to:
 
@@ -6,4 +6,4 @@ Another useful tool for monitoring database activity is the `pg_locks` system ta
 * Determine the relation in the current database with the most ungranted locks (which might be a source of contention among database clients).
 * Determine the effect of lock contention on overall database performance, as well as the extent to which contention varies with overall database traffic.
 
-Details of the `pg_locks` view appear in [Section 51.74](https://www.postgresql.org/docs/12/view-pg-locks.html). For more information on locking and managing concurrency with PostgreSQL, refer to [Chapter 13](https://www.postgresql.org/docs/12/mvcc.html).
+Details of the `pg_locks` view appear in [Section 54.12](https://www.postgresql.org/docs/15/view-pg-locks.html). For more information on locking and managing concurrency with PostgreSQL, refer to [Chapter 13](https://www.postgresql.org/docs/15/mvcc.html).
