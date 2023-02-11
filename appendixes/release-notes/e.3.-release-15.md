@@ -2,7 +2,7 @@
 
 **Release date:** 2022-10-13
 
-#### E.3.1. Overview
+## E.3.1. Overview
 
 PostgreSQL 15 contains many new features and enhancements, including:
 
@@ -14,7 +14,7 @@ PostgreSQL 15 contains many new features and enhancements, including:
 
 The above items and other new features of PostgreSQL 15 are explained in more detail in the sections below.
 
-#### E.3.2. Migration to Version 15
+## E.3.2. Migration to Version 15
 
 A dump/restore using [pg\_dumpall](https://www.postgresql.org/docs/15/app-pg-dumpall.html) or use of [pg\_upgrade](https://www.postgresql.org/docs/15/pgupgrade.html) or logical replication is required for those wishing to migrate data from any previous release. See [Section 19.6](https://www.postgresql.org/docs/15/upgrading.html) for general information on migrating to new major releases.
 
@@ -110,11 +110,11 @@ Version 15 contains a number of changes that may affect compatibility with previ
 
     The default is now that custom scan providers are assumed to not support projections; those that do will need to be updated for this release.
 
-#### E.3.3. Changes
+## E.3.3. Changes
 
 Below you will find a detailed account of the changes between PostgreSQL 15 and the previous major release.
 
-**E.3.3.1. Server**
+### **E.3.3.1. Server**
 
 *   Record and check the collation version of each [database](https://www.postgresql.org/docs/15/sql-createdatabase.html) (Peter Eisentraut)
 
@@ -124,7 +124,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
     Previously, only libc-based collations could be selected at the cluster and database levels. ICU collations could only be used via explicit `COLLATE` clauses.
 * Add system view [`pg_ident_file_mappings`](https://www.postgresql.org/docs/15/view-pg-ident-file-mappings.html) to report `pg_ident.conf` information (Julien Rouhaud)
 
-**E.3.3.1.1.** [**Partitioning**](https://www.postgresql.org/docs/15/ddl-partitioning.html)
+#### **E.3.3.1.1.** [**Partitioning**](https://www.postgresql.org/docs/15/ddl-partitioning.html)
 
 *   Improve planning time for queries referencing partitioned tables (David Rowley)
 
@@ -140,7 +140,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     Also prohibit cloned triggers from being renamed.
 
-**E.3.3.1.2. Indexes**
+#### **E.3.3.1.2. Indexes**
 
 *   Allow btree indexes on system and [TOAST](https://www.postgresql.org/docs/15/storage-toast.html) tables to efficiently store duplicates (Peter Geoghegan)
 
@@ -153,14 +153,14 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     Previously these could only use [SP-GiST](https://www.postgresql.org/docs/15/spgist.html) indexes.
 
-**E.3.3.1.3. Optimizer**
+#### **E.3.3.1.3. Optimizer**
 
 *   Allow [extended statistics](https://www.postgresql.org/docs/15/sql-createstatistics.html) to record statistics for a parent with all its children (Tomas Vondra, Justin Pryzby)
 
     Regular statistics already tracked parent and parent-plus-all-children statistics separately.
 * Add server variable [`recursive_worktable_factor`](https://www.postgresql.org/docs/15/runtime-config-query.html#GUC-RECURSIVE-WORKTABLE-FACTOR) to allow the user to specify the expected size of the working table of a [recursive query](https://www.postgresql.org/docs/15/queries-with.html#QUERIES-WITH-RECURSIVE) (Simon Riggs)
 
-**E.3.3.1.4. General Performance**
+#### **E.3.3.1.4. General Performance**
 
 *   Allow hash lookup for [`NOT IN`](https://www.postgresql.org/docs/15/functions-subquery.html#FUNCTIONS-SUBQUERY-NOTIN) clauses with many constants (David Rowley, James Coleman)
 
@@ -184,7 +184,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 * Improve the performance of [window functions](https://www.postgresql.org/docs/15/functions-window.html) that use `row_number()`, `rank()`, `dense_rank()` and `count()` (David Rowley)
 * Improve the performance of spinlocks on high-core-count ARM64 systems (Geoffrey Blake)
 
-**E.3.3.1.5. Monitoring**
+#### **E.3.3.1.5. Monitoring**
 
 *   Enable default logging of checkpoints and slow autovacuum operations (Bharath Rupireddy)
 
@@ -205,7 +205,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     The new wait events are used when calling `archive_command`, `archive_cleanup_command`, `restore_command` and `recovery_end_command`.
 
-**E.3.3.1.6. Privileges**
+#### **E.3.3.1.6. Privileges**
 
 *   Allow table accesses done by a [view](https://www.postgresql.org/docs/15/sql-createview.html) to optionally be controlled by privileges of the view's caller (Christoph Heiss)
 
@@ -226,7 +226,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     Previously this function could only be run by superusers.
 
-**E.3.3.1.7. Server Configuration**
+#### **E.3.3.1.7. Server Configuration**
 
 * Add server variable [`shared_memory_size`](https://www.postgresql.org/docs/15/runtime-config-preset.html#GUC-SHARED-MEMORY-SIZE) to report the size of allocated shared memory (Nathan Bossart)
 *   Add server variable [`shared_memory_size_in_huge_pages`](https://www.postgresql.org/docs/15/runtime-config-preset.html#GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES) to report the number of huge memory pages required (Nathan Bossart)
@@ -242,7 +242,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     Previously runtime-computed values [`data_checksums`](https://www.postgresql.org/docs/15/runtime-config-preset.html#GUC-DATA-CHECKSUMS), [`wal_segment_size`](https://www.postgresql.org/docs/15/runtime-config-preset.html#GUC-WAL-SEGMENT-SIZE), and [`data_directory_mode`](https://www.postgresql.org/docs/15/runtime-config-preset.html#GUC-DATA-DIRECTORY-MODE) would report values that would not be accurate on the running server. However, this does not work on a running server.
 
-**E.3.3.2. Streaming Replication And Recovery**
+### **E.3.3.2. Streaming Replication And Recovery**
 
 * Add support for LZ4 and Zstandard compression of server-side [base backups](https://www.postgresql.org/docs/15/continuous-archiving.html#BACKUP-BASE-BACKUP) (Jeevan Ladhe, Robert Haas)
 *   Run the checkpointer and bgwriter processes during crash recovery (Thomas Munro)
@@ -256,7 +256,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
     Previously, archiving was only done by calling shell commands. The new server variable [`archive_library`](https://www.postgresql.org/docs/15/runtime-config-wal.html#GUC-ARCHIVE-LIBRARY) can be set to specify a library to be called for archiving.
 * No longer require [`IDENTIFY_SYSTEM`](https://www.postgresql.org/docs/15/protocol-replication.html) to be run before `START_REPLICATION` (Jeff Davis)
 
-**E.3.3.2.1.** [**Logical Replication**](https://www.postgresql.org/docs/15/logical-replication.html)
+#### **E.3.3.2.1.** [**Logical Replication**](https://www.postgresql.org/docs/15/logical-replication.html)
 
 *   Allow [publication](https://www.postgresql.org/docs/15/sql-createpublication.html) of all tables in a schema (Vignesh C, Hou Zhijie, Amit Kapila)
 
@@ -288,7 +288,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     In some cases a partition could appear more than once.
 
-**E.3.3.3. Utility Commands**
+### **E.3.3.3. Utility Commands**
 
 *   Add SQL [`MERGE`](https://www.postgresql.org/docs/15/sql-merge.html) command to adjust one table to match another (Simon Riggs, Pavan Deolasee, Álvaro Herrera, Amit Langote)
 
@@ -311,7 +311,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     Previously, if a view or rule contained a reference to a specific column within the result of a composite-returning function, that was not noted as a dependency; the view or rule was only considered to depend on the composite type as a whole. This meant that dropping the individual column would be allowed, causing problems in later use of the view or rule. The column-level dependency is now also noted, so that dropping such a column will be rejected unless the view is changed or dropped.
 
-**E.3.3.4. Data Types**
+### **E.3.3.4. Data Types**
 
 *   Allow the scale of a [`numeric`](https://www.postgresql.org/docs/15/datatype-numeric.html) value to be negative, or greater than its precision (Dean Rasheed, Tom Lane)
 
@@ -322,7 +322,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     Also update from Unicode 5.0 to 14.0.0. There is now an automated way to keep Postgres updated with Unicode releases.
 
-**E.3.3.5. Functions**
+### **E.3.3.5. Functions**
 
 * Add multirange input to [`range_agg()`](https://www.postgresql.org/docs/15/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE) (Paul Jungwirth)
 * Add [`MIN()`](https://www.postgresql.org/docs/15/tutorial-agg.html) and `MAX()` aggregates for the [`xid8`](https://www.postgresql.org/docs/15/datatype-numeric.html#DATATYPE-INT) data type (Ken Kato)
@@ -344,13 +344,13 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     Previously this function reported all temporary schemas as `pg_temp`, but it's misleading to use that for any but the current session's temporary schema.
 
-**E.3.3.6.** [**PL/PgSQL**](https://www.postgresql.org/docs/15/plpgsql.html)
+### **E.3.3.6.** [**PL/PgSQL**](https://www.postgresql.org/docs/15/plpgsql.html)
 
 *   Fix enforcement of PL/pgSQL variable `CONSTANT` markings (Tom Lane)
 
     Previously, a variable could be used as a [`CALL`](https://www.postgresql.org/docs/15/plpgsql-control-structures.html#PLPGSQL-STATEMENTS-CALLING-PROCEDURE) output parameter or refcursor `OPEN` variable despite being marked `CONSTANT`.
 
-**E.3.3.7.** [**Libpq**](https://www.postgresql.org/docs/15/libpq.html)
+### **E.3.3.7.** [**Libpq**](https://www.postgresql.org/docs/15/libpq.html)
 
 * Allow IP address matching against a server certificate's Subject Alternative Name (Jacob Champion)
 * Allow `PQsslAttribute()` to report the SSL library type without requiring a libpq connection (Jacob Champion)
@@ -359,11 +359,11 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
     This allows configured TCP timeouts to apply to query cancel connections.
 * Prevent libpq event callback failures from forcing an error result (Tom Lane)
 
-**E.3.3.8. Client Applications**
+### **E.3.3.8. Client Applications**
 
 * Allow [pgbench](https://www.postgresql.org/docs/15/pgbench.html) to retry after serialization and deadlock failures (Yugo Nagata, Marina Polyakova)
 
-**E.3.3.8.1.** [**psql**](https://www.postgresql.org/docs/15/app-psql.html)
+#### **E.3.3.8.1.** [**psql**](https://www.postgresql.org/docs/15/app-psql.html)
 
 * Improve performance of psql's `\copy` command, by sending data in larger chunks (Heikki Linnakangas)
 *   Add `\dconfig` command to report server variables (Mark Dilger, Tom Lane)
@@ -391,7 +391,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     Remove code that was only used when running with an older server. Commands that do not require any version-specific adjustments compared to 9.2 will still work.
 
-**E.3.3.8.2.** [**pg\_dump**](https://www.postgresql.org/docs/15/app-pgdump.html)
+#### **E.3.3.8.2.** [**pg\_dump**](https://www.postgresql.org/docs/15/app-pgdump.html)
 
 * Make pg\_dump dump `public` schema ownership changes and security labels (Noah Misch)
 *   Improve performance of dumping databases with many objects (Tom Lane)
@@ -401,7 +401,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 * Add dump/restore option `--no-table-access-method` to force restore to only use the default table access method (Justin Pryzby)
 * Limit support of pg\_dump and [pg\_dumpall](https://www.postgresql.org/docs/15/app-pg-dumpall.html) to servers running PostgreSQL 9.2 or later (Tom Lane)
 
-**E.3.3.9. Server Applications**
+### **E.3.3.9. Server Applications**
 
 *   Add new [pg\_basebackup](https://www.postgresql.org/docs/15/app-pgbasebackup.html) option `--target` to control the base backup location (Robert Haas)
 
@@ -422,7 +422,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
     Previously, pg\_receivewal would start based on the WAL file stored in the local archive directory, or at the sending server's current WAL flush location. With this change, if the sending server is running Postgres 15 or later, the local archive directory is empty, and a replication slot is specified, the replication slot's restart point will be used.
 * Add [pg\_rewind](https://www.postgresql.org/docs/15/app-pgrewind.html) option `--config-file` to simplify use when server configuration files are stored outside the data directory (Gunnar Bluth)
 
-**E.3.3.9.1.** [**pg\_upgrade**](https://www.postgresql.org/docs/15/pgupgrade.html)
+#### **E.3.3.9.1.** [**pg\_upgrade**](https://www.postgresql.org/docs/15/pgupgrade.html)
 
 *   Store pg\_upgrade's log and temporary files in a subdirectory of the new cluster called `pg_upgrade_output.d` (Justin Pryzby)
 
@@ -439,7 +439,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
     This is recommended only for testing.
 * Limit support of pg\_upgrade to old servers running PostgreSQL 9.2 or later (Tom Lane)
 
-**E.3.3.9.2.** [**pg\_waldump**](https://www.postgresql.org/docs/15/pgwaldump.html)
+#### **E.3.3.9.2.** [**pg\_waldump**](https://www.postgresql.org/docs/15/pgwaldump.html)
 
 * Allow pg\_waldump output to be filtered by relation file node, block number, fork number, and full page images (David Christensen, Thomas Munro)
 *   Make pg\_waldump report statistics before an interrupted exit (Bharath Rupireddy)
@@ -450,12 +450,12 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     This is enabled by specifying the `--rmgr` option multiple times.
 
-**E.3.3.10. Documentation**
+### **E.3.3.10. Documentation**
 
 * Add documentation for [`pg_encoding_to_char()`](https://www.postgresql.org/docs/15/functions-info.html#FUNCTIONS-INFO-CATALOG-TABLE) and `pg_char_to_encoding()` (Ian Lawrence Barwick)
 * Document the [`^@`](https://www.postgresql.org/docs/15/functions-string.html#FUNCTIONS-STRING-OTHER) starts-with operator (Tom Lane)
 
-**E.3.3.11. Source Code**
+### **E.3.3.11. Source Code**
 
 * Add support for continuous integration testing using cirrus-ci (Andres Freund, Thomas Munro, Melanie Plageman)
 * Add configure option [`--with-zstd`](https://www.postgresql.org/docs/15/install-procedure.html#CONFIGURE-OPTIONS-FEATURES) to enable Zstandard builds (Jeevan Ladhe, Robert Haas, Michael Paquier)
@@ -481,7 +481,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 * Require Perl version 5.8.3 or later (Dagfinn Ilmari Mannsåker)
 * Require Python version 3.2 or later (Andres Freund)
 
-**E.3.3.12. Additional Modules**
+### **E.3.3.12. Additional Modules**
 
 * Allow [amcheck](https://www.postgresql.org/docs/15/amcheck.html) to check sequences (Mark Dilger)
 * Improve amcheck sanity checks for TOAST tables (Mark Dilger)
@@ -500,7 +500,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
     This gives SQL-level output similar to [pg\_waldump](https://www.postgresql.org/docs/15/pgwaldump.html).
 * Indicate the permissive/enforcing state in [sepgsql](https://www.postgresql.org/docs/15/sepgsql.html) log messages (Dave Page)
 
-**E.3.3.12.1.** [**postgres\_fdw**](https://www.postgresql.org/docs/15/postgres-fdw.html)
+#### **E.3.3.12.1.** [**postgres\_fdw**](https://www.postgresql.org/docs/15/postgres-fdw.html)
 
 * Allow postgres\_fdw to push down `CASE` expressions (Alexander Pyhalov)
 *   Add server variable `postgres_fdw.application_name` to control the application name of postgres\_fdw connections (Hayato Kuroda)
@@ -510,7 +510,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     This is enabled with the `CREATE SERVER` option `parallel_commit`.
 
-#### E.3.4. Acknowledgments
+## E.3.4. Acknowledgments
 
 The following individuals (in alphabetical order) have contributed to this release as patch authors, committers, reviewers, testers, or reporters of issues.
 

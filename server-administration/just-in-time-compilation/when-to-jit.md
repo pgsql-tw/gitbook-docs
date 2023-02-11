@@ -1,16 +1,16 @@
-# 32.2. When to JIT?
+# 31.2. When to JIT?
 
 JIT compilation is beneficial primarily for long-running CPU-bound queries. Frequently these will be analytical queries. For short queries the added overhead of performing JIT compilation will often be higher than the time it can save.
 
-To determine whether JIT compilation should be used, the total estimated cost of a query (see [Chapter 75](https://www.postgresql.org/docs/15/planner-stats-details.html) and [Section 20.7.2](https://www.postgresql.org/docs/15/runtime-config-query.html#RUNTIME-CONFIG-QUERY-CONSTANTS)) is used. The estimated cost of the query will be compared with the setting of [jit\_above\_cost](https://www.postgresql.org/docs/15/runtime-config-query.html#GUC-JIT-ABOVE-COST). If the cost is higher, JIT compilation will be performed. Two further decisions are then needed. Firstly, if the estimated cost is more than the setting of [jit\_inline\_above\_cost](https://www.postgresql.org/docs/15/runtime-config-query.html#GUC-JIT-INLINE-ABOVE-COST), short functions and operators used in the query will be inlined. Secondly, if the estimated cost is more than the setting of [jit\_optimize\_above\_cost](https://www.postgresql.org/docs/15/runtime-config-query.html#GUC-JIT-OPTIMIZE-ABOVE-COST), expensive optimizations are applied to improve the generated code. Each of these options increases the JIT compilation overhead, but can reduce query execution time considerably.
+To determine whether JIT compilation should be used, the total estimated cost of a query (see [Chapter 70](https://www.postgresql.org/docs/13/planner-stats-details.html) and [Section 19.7.2](https://www.postgresql.org/docs/13/runtime-config-query.html#RUNTIME-CONFIG-QUERY-CONSTANTS)) is used. The estimated cost of the query will be compared with the setting of [jit\_above\_cost](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-JIT-ABOVE-COST). If the cost is higher, JIT compilation will be performed. Two further decisions are then needed. Firstly, if the estimated cost is more than the setting of [jit\_inline\_above\_cost](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-JIT-INLINE-ABOVE-COST), short functions and operators used in the query will be inlined. Secondly, if the estimated cost is more than the setting of [jit\_optimize\_above\_cost](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-JIT-OPTIMIZE-ABOVE-COST), expensive optimizations are applied to improve the generated code. Each of these options increases the JIT compilation overhead, but can reduce query execution time considerably.
 
-These cost-based decisions will be made at plan time, not execution time. This means that when prepared statements are in use, and a generic plan is used (see [PREPARE](https://www.postgresql.org/docs/15/sql-prepare.html)), the values of the configuration parameters in effect at prepare time control the decisions, not the settings at execution time.
+These cost-based decisions will be made at plan time, not execution time. This means that when prepared statements are in use, and a generic plan is used (see [PREPARE](https://www.postgresql.org/docs/13/sql-prepare.html)), the values of the configuration parameters in effect at prepare time control the decisions, not the settings at execution time.
 
 #### Note
 
-If [jit](https://www.postgresql.org/docs/15/runtime-config-query.html#GUC-JIT) is set to `off`, or if no JIT implementation is available (for example because the server was compiled without `--with-llvm`), JIT will not be performed, even if it would be beneficial based on the above criteria. Setting [jit](https://www.postgresql.org/docs/15/runtime-config-query.html#GUC-JIT) to `off` has effects at both plan and execution time.
+If [jit](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-JIT) is set to `off`, or if no JIT implementation is available (for example because the server was compiled without `--with-llvm`), JIT will not be performed, even if it would be beneficial based on the above criteria. Setting [jit](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-JIT) to `off` has effects at both plan and execution time.
 
-[EXPLAIN](https://www.postgresql.org/docs/15/sql-explain.html) can be used to see whether JIT is used or not. As an example, here is a query that is not using JIT:
+[EXPLAIN](https://www.postgresql.org/docs/13/sql-explain.html) can be used to see whether JIT is used or not. As an example, here is a query that is not using JIT:
 
 ```
 =# EXPLAIN ANALYZE SELECT SUM(relpages) FROM pg_class;
@@ -41,4 +41,4 @@ SET
  Execution Time: 7.416 ms
 ```
 
-As visible here, JIT was used, but inlining and expensive optimization were not. If [jit\_inline\_above\_cost](https://www.postgresql.org/docs/15/runtime-config-query.html#GUC-JIT-INLINE-ABOVE-COST) or [jit\_optimize\_above\_cost](https://www.postgresql.org/docs/15/runtime-config-query.html#GUC-JIT-OPTIMIZE-ABOVE-COST) were also lowered, that would change.
+As visible here, JIT was used, but inlining and expensive optimization were not. If [jit\_inline\_above\_cost](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-JIT-INLINE-ABOVE-COST) or [jit\_optimize\_above\_cost](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-JIT-OPTIMIZE-ABOVE-COST) were also lowered, that would change.

@@ -1,4 +1,8 @@
-# 73.3. TOAST
+---
+description: 版本：11
+---
+
+# 68.2. TOAST
 
 本節概述了 TOAST（The Oversized-Attribute Storage Technique，超大型屬性儲存技術）。
 
