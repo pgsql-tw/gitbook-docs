@@ -4,7 +4,7 @@ PostgreSQL's _cumulative statistics system_ supports collection and reporting of
 
 PostgreSQL also supports reporting dynamic information about exactly what is going on in the system right now, such as the exact command currently being executed by other server processes, and which other connections exist in the system. This facility is independent of the cumulative statistics system.
 
-#### 28.2.1. Statistics Collection Configuration
+## 28.2.1. Statistics Collection Configuration
 
 Since collection of statistics adds some overhead to query execution, the system can be configured to collect or not collect information. This is controlled by configuration parameters that are normally set in `postgresql.conf`. (See [Chapter 20](https://www.postgresql.org/docs/15/runtime-config.html) for details about setting configuration parameters.)
 
@@ -22,7 +22,7 @@ Normally these parameters are set in `postgresql.conf` so that they apply to all
 
 Cumulative statistics are collected in shared memory. Every PostgreSQL process collects statistics locally, then updates the shared data at appropriate intervals. When a server, including a physical replica, shuts down cleanly, a permanent copy of the statistics data is stored in the `pg_stat` subdirectory, so that statistics can be retained across server restarts. In contrast, when starting from an unclean shutdown (e.g., after an immediate shutdown, a server crash, starting from a base backup, and point-in-time recovery), all statistics counters are reset.
 
-#### 28.2.2. Viewing Statistics
+## 28.2.2. Viewing Statistics
 
 Several predefined views, listed in [Table 28.1](https://www.postgresql.org/docs/15/monitoring-stats.html#MONITORING-STATS-DYNAMIC-VIEWS-TABLE), are available to show the current state of the system. There are also several other views, listed in [Table 28.2](https://www.postgresql.org/docs/15/monitoring-stats.html#MONITORING-STATS-VIEWS-TABLE), available to show the accumulated statistics. Alternatively, one can build custom views using the underlying cumulative statistics functions, as discussed in [Section 28.2.24](https://www.postgresql.org/docs/15/monitoring-stats.html#MONITORING-STATS-FUNCTIONS).
 
@@ -34,7 +34,7 @@ A transaction can also see its own statistics (not yet flushed out to the shared
 
 Some of the information in the dynamic statistics views shown in [Table 28.1](https://www.postgresql.org/docs/15/monitoring-stats.html#MONITORING-STATS-DYNAMIC-VIEWS-TABLE) is security restricted. Ordinary users can only see all the information about their own sessions (sessions belonging to a role that they are a member of). In rows about other sessions, many columns will be null. Note, however, that the existence of a session and its general properties such as its sessions user and database are visible to all users. Superusers and roles with privileges of built-in role `pg_read_all_stats` (see also [Section 22.5](https://www.postgresql.org/docs/15/predefined-roles.html)) can see all the information about all sessions.
 
-**Table 28.1. Dynamic Statistics Views**
+#### **Table 28.1. Dynamic Statistics Views**
 
 | View Name                       | Description                                                                                                                                                                                                                                                            |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -52,7 +52,7 @@ Some of the information in the dynamic statistics views shown in [Table 28.1](ht
 | `pg_stat_progress_basebackup`   | One row for each WAL sender process streaming a base backup, showing current progress. See [Section 28.4.5](https://www.postgresql.org/docs/15/progress-reporting.html#BASEBACKUP-PROGRESS-REPORTING).                                                                 |
 | `pg_stat_progress_copy`         | One row for each backend running `COPY`, showing current progress. See [Section 28.4.6](https://www.postgresql.org/docs/15/progress-reporting.html#COPY-PROGRESS-REPORTING).                                                                                           |
 
-**Table 28.2. Collected Statistics Views**
+#### **Table 28.2. Collected Statistics Views**
 
 | View Name                     | Description                                                                                                                                                                                                                                                                          |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -89,11 +89,11 @@ The per-index statistics are particularly useful to determine which indexes are 
 
 The `pg_statio_` views are primarily useful to determine the effectiveness of the buffer cache. When the number of actual disk reads is much smaller than the number of buffer hits, then the cache is satisfying most read requests without invoking a kernel call. However, these statistics do not give the entire story: due to the way in which PostgreSQL handles disk I/O, data that is not in the PostgreSQL buffer cache might still reside in the kernel's I/O cache, and might therefore still be fetched without requiring a physical read. Users interested in obtaining more detailed information on PostgreSQL I/O behavior are advised to use the PostgreSQL statistics views in combination with operating system utilities that allow insight into the kernel's handling of I/O.
 
-#### 28.2.3. `pg_stat_activity`
+## 28.2.3. `pg_stat_activity`
 
 The `pg_stat_activity` view will have one row per server process, showing information related to the current activity of that process.
 
-**Table 28.3. `pg_stat_activity` View**
+#### **Table 28.3. `pg_stat_activity` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -124,7 +124,7 @@ The `pg_stat_activity` view will have one row per server process, showing inform
 
 The `wait_event` and `state` columns are independent. If a backend is in the `active` state, it may or may not be `waiting` on some event. If the state is `active` and `wait_event` is non-null, it means that a query is being executed, but is being blocked somewhere in the system.
 
-**Table 28.4. Wait Event Types**
+#### **Table 28.4. Wait Event Types**
 
 | Wait Event Type | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -138,7 +138,7 @@ The `wait_event` and `state` columns are independent. If a backend is in the `ac
 | `LWLock`        | The server process is waiting for a lightweight lock. Most such locks protect a particular data structure in shared memory. `wait_event` will contain a name identifying the purpose of the lightweight lock. (Some locks have specific names; others are part of a group of locks each with a similar purpose.) See [Table 28.12](https://www.postgresql.org/docs/15/monitoring-stats.html#WAIT-EVENT-LWLOCK-TABLE).                                       |
 | `Timeout`       | The server process is waiting for a timeout to expire. `wait_event` will identify the specific wait point; see [Table 28.13](https://www.postgresql.org/docs/15/monitoring-stats.html#WAIT-EVENT-TIMEOUT-TABLE).                                                                                                                                                                                                                                            |
 
-**Table 28.5. Wait Events of Type `Activity`**
+#### **Table 28.5. Wait Events of Type `Activity`**
 
 | `Activity` Wait Event | Description                                                                           |
 | --------------------- | ------------------------------------------------------------------------------------- |
@@ -155,13 +155,13 @@ The `wait_event` and `state` columns are independent. If a backend is in the `ac
 | `WalSenderMain`       | Waiting in main loop of WAL sender process.                                           |
 | `WalWriterMain`       | Waiting in main loop of WAL writer process.                                           |
 
-**Table 28.6. Wait Events of Type `BufferPin`**
+#### **Table 28.6. Wait Events of Type `BufferPin`**
 
 | `BufferPin` Wait Event | Description                                      |
 | ---------------------- | ------------------------------------------------ |
 | `BufferPin`            | Waiting to acquire an exclusive pin on a buffer. |
 
-**Table 28.7. Wait Events of Type `Client`**
+#### **Table 28.7. Wait Events of Type `Client`**
 
 | `Client` Wait Event       | Description                                                                               |
 | ------------------------- | ----------------------------------------------------------------------------------------- |
@@ -174,13 +174,13 @@ The `wait_event` and `state` columns are independent. If a backend is in the `ac
 | `WalSenderWaitForWAL`     | Waiting for WAL to be flushed in WAL sender process.                                      |
 | `WalSenderWriteData`      | Waiting for any activity when processing replies from WAL receiver in WAL sender process. |
 
-**Table 28.8. Wait Events of Type `Extension`**
+#### **Table 28.8. Wait Events of Type `Extension`**
 
 | `Extension` Wait Event | Description              |
 | ---------------------- | ------------------------ |
 | `Extension`            | Waiting in an extension. |
 
-**Table 28.9. Wait Events of Type `IO`**
+#### **Table 28.9. Wait Events of Type `IO`**
 
 | `IO` Wait Event                | Description                                                                                        |
 | ------------------------------ | -------------------------------------------------------------------------------------------------- |
@@ -256,7 +256,7 @@ The `wait_event` and `state` columns are independent. If a backend is in the `ac
 | `WALSyncMethodAssign`          | Waiting for data to reach durable storage while assigning a new WAL sync method.                   |
 | `WALWrite`                     | Waiting for a write to a WAL file.                                                                 |
 
-**Table 28.10. Wait Events of Type `IPC`**
+#### **Table 28.10. Wait Events of Type `IPC`**
 
 | `IPC` Wait Event             | Description                                                                                                                                  |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -312,7 +312,7 @@ The `wait_event` and `state` columns are independent. If a backend is in the `ac
 | `WalReceiverWaitStart`       | Waiting for startup process to send initial data for streaming replication.                                                                  |
 | `XactGroupUpdate`            | Waiting for the group leader to update transaction status at end of a parallel operation.                                                    |
 
-**Table 28.11. Wait Events of Type `Lock`**
+#### **Table 28.11. Wait Events of Type `Lock`**
 
 | `Lock` Wait Event | Description                                                                    |
 | ----------------- | ------------------------------------------------------------------------------ |
@@ -328,7 +328,7 @@ The `wait_event` and `state` columns are independent. If a backend is in the `ac
 | `userlock`        | Waiting to acquire a user lock.                                                |
 | `virtualxid`      | Waiting to acquire a virtual transaction ID lock.                              |
 
-**Table 28.12. Wait Events of Type `LWLock`**
+#### **Table 28.12. Wait Events of Type `LWLock`**
 
 | `LWLock` Wait Event          | Description                                                                                                                   |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -409,7 +409,7 @@ The `wait_event` and `state` columns are independent. If a backend is in the `ac
 
 Extensions can add `LWLock` types to the list shown in [Table 28.12](https://www.postgresql.org/docs/15/monitoring-stats.html#WAIT-EVENT-LWLOCK-TABLE). In some cases, the name assigned by an extension will not be available in all server processes; so an `LWLock` wait event might be reported as just “`extension`” rather than the extension-assigned name.
 
-**Table 28.13. Wait Events of Type `Timeout`**
+#### **Table 28.13. Wait Events of Type `Timeout`**
 
 | `Timeout` Wait Event            | Description                                                                                            |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------ |
@@ -433,11 +433,11 @@ SELECT pid, wait_event_type, wait_event FROM pg_stat_activity WHERE wait_event i
 (2 rows)
 ```
 
-#### 28.2.4. `pg_stat_replication`
+## 28.2.4. `pg_stat_replication`
 
 The `pg_stat_replication` view will contain one row per WAL sender process, showing statistics about replication to that sender's connected standby server. Only directly connected standbys are listed; no information is available about downstream standby servers.
 
-**Table 28.14. `pg_stat_replication` View**
+#### **Table 28.14. `pg_stat_replication` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -470,11 +470,11 @@ Lag times work automatically for physical replication. Logical decoding plugins 
 
 The reported lag times are not predictions of how long it will take for the standby to catch up with the sending server assuming the current rate of replay. Such a system would show similar times while new WAL is being generated, but would differ when the sender becomes idle. In particular, when the standby has caught up completely, `pg_stat_replication` shows the time taken to write, flush and replay the most recent reported WAL location rather than zero as some users might expect. This is consistent with the goal of measuring synchronous commit and transaction visibility delays for recent write transactions. To reduce confusion for users expecting a different model of lag, the lag columns revert to NULL after a short time on a fully replayed idle system. Monitoring systems should choose whether to represent this as missing data, zero or continue to display the last known value.
 
-#### 28.2.5. `pg_stat_replication_slots`
+## 28.2.5. `pg_stat_replication_slots`
 
 The `pg_stat_replication_slots` view will contain one row per logical replication slot, showing statistics about its usage.
 
-**Table 28.15. `pg_stat_replication_slots` View**
+#### **Table 28.15. `pg_stat_replication_slots` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                   |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -489,11 +489,11 @@ The `pg_stat_replication_slots` view will contain one row per logical replicatio
 | <p><code>total_bytesbigint</code></p><p>Amount of transaction data decoded for sending transactions to the decoding output plugin while decoding changes from WAL for this slot. Note that this includes data that is streamed and/or spilled.</p>                                                                                                                                                                                     |
 | <p><code>stats_reset</code> <code>timestamp with time zone</code></p><p>Time at which these statistics were last reset</p>                                                                                                                                                                                                                                                                                                             |
 
-#### 28.2.6. `pg_stat_wal_receiver`
+## 28.2.6. `pg_stat_wal_receiver`
 
 The `pg_stat_wal_receiver` view will contain only one row, showing statistics about the WAL receiver from that receiver's connected server.
 
-**Table 28.16. `pg_stat_wal_receiver` View**
+#### **Table 28.16. `pg_stat_wal_receiver` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                         |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -513,11 +513,11 @@ The `pg_stat_wal_receiver` view will contain only one row, showing statistics ab
 | <p><code>sender_port</code> <code>integer</code></p><p>Port number of the PostgreSQL instance this WAL receiver is connected to.</p>                                                                                                                                                                                                         |
 | <p><code>conninfo</code> <code>text</code></p><p>Connection string used by this WAL receiver, with security-sensitive fields obfuscated.</p>                                                                                                                                                                                                 |
 
-#### 28.2.7. `pg_stat_recovery_prefetch`
+## 28.2.7. `pg_stat_recovery_prefetch`
 
 The `pg_stat_recovery_prefetch` view will contain only one row. The columns `wal_distance`, `block_distance` and `io_depth` show current values, and the other columns show cumulative counters that can be reset with the `pg_stat_reset_shared` function.
 
-**Table 28.17. `pg_stat_recovery_prefetch` View**
+#### **Table 28.17. `pg_stat_recovery_prefetch` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                     |
 | ---------------------------------------------------------------------------------------------------------------------------------------- |
@@ -532,9 +532,9 @@ The `pg_stat_recovery_prefetch` view will contain only one row. The columns `wal
 | <p><code>block_distance</code> <code>int</code></p><p>How many blocks ahead the prefetcher is looking</p>                                |
 | <p><code>io_depth</code> <code>int</code></p><p>How many prefetches have been initiated but are not yet known to have completed</p>      |
 
-#### 28.2.8. `pg_stat_subscription`
+## 28.2.8. `pg_stat_subscription`
 
-**Table 28.18. `pg_stat_subscription` View**
+#### **Table 28.18. `pg_stat_subscription` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                |
 | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -548,11 +548,11 @@ The `pg_stat_recovery_prefetch` view will contain only one row. The columns `wal
 | <p><code>latest_end_lsn</code> <code>pg_lsn</code></p><p>Last write-ahead log location reported to origin WAL sender</p>                            |
 | <p><code>latest_end_time</code> <code>timestamp with time zone</code></p><p>Time of last write-ahead log location reported to origin WAL sender</p> |
 
-#### 28.2.9. `pg_stat_subscription_stats`
+## 28.2.9. `pg_stat_subscription_stats`
 
 The `pg_stat_subscription_stats` view will contain one row per subscription.
 
-**Table 28.19. `pg_stat_subscription_stats` View**
+#### **Table 28.19. `pg_stat_subscription_stats` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                      |
 | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -562,11 +562,11 @@ The `pg_stat_subscription_stats` view will contain one row per subscription.
 | <p><code>sync_error_count</code> <code>bigint</code></p><p>Number of times an error occurred during the initial table synchronization</p> |
 | <p><code>stats_reset</code> <code>timestamp with time zone</code></p><p>Time at which these statistics were last reset</p>                |
 
-#### 28.2.10. `pg_stat_ssl`
+## 28.2.10. `pg_stat_ssl`
 
 The `pg_stat_ssl` view will contain one row per backend or WAL sender process, showing statistics about SSL usage on this connection. It can be joined to `pg_stat_activity` or `pg_stat_replication` on the `pid` column to get more details about the connection.
 
-**Table 28.20. `pg_stat_ssl` View**
+#### **Table 28.20. `pg_stat_ssl` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                         |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -579,11 +579,11 @@ The `pg_stat_ssl` view will contain one row per backend or WAL sender process, s
 | <p><code>client_serial</code> <code>numeric</code></p><p>Serial number of the client certificate, or NULL if no client certificate was supplied or if SSL is not in use on this connection. The combination of certificate serial number and certificate issuer uniquely identifies a certificate (unless the issuer erroneously reuses serial numbers).</p> |
 | <p><code>issuer_dn</code> <code>text</code></p><p>DN of the issuer of the client certificate, or NULL if no client certificate was supplied or if SSL is not in use on this connection. This field is truncated like <code>client_dn</code>.</p>                                                                                                             |
 
-#### 28.2.11. `pg_stat_gssapi`
+## 28.2.11. `pg_stat_gssapi`
 
 The `pg_stat_gssapi` view will contain one row per backend, showing information about GSSAPI usage on this connection. It can be joined to `pg_stat_activity` or `pg_stat_replication` on the `pid` column to get more details about the connection.
 
-**Table 28.21. `pg_stat_gssapi` View**
+#### **Table 28.21. `pg_stat_gssapi` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                        |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -592,11 +592,11 @@ The `pg_stat_gssapi` view will contain one row per backend, showing information 
 | <p><code>principal</code> <code>text</code></p><p>Principal used to authenticate this connection, or NULL if GSSAPI was not used to authenticate this connection. This field is truncated if the principal is longer than <code>NAMEDATALEN</code> (64 characters in a standard build).</p> |
 | <p><code>encrypted</code> <code>boolean</code></p><p>True if GSSAPI encryption is in use on this connection</p>                                                                                                                                                                             |
 
-#### 28.2.12. `pg_stat_archiver`
+## 28.2.12. `pg_stat_archiver`
 
 The `pg_stat_archiver` view will always have a single row, containing data about the archiver process of the cluster.
 
-**Table 28.22. `pg_stat_archiver` View**
+#### **Table 28.22. `pg_stat_archiver` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                    |
 | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -610,11 +610,11 @@ The `pg_stat_archiver` view will always have a single row, containing data about
 
 Normally, WAL files are archived in order, oldest to newest, but that is not guaranteed, and does not hold under special circumstances like when promoting a standby or after crash recovery. Therefore it is not safe to assume that all files older than `last_archived_wal` have also been successfully archived.
 
-#### 28.2.13. `pg_stat_bgwriter`
+## 28.2.13. `pg_stat_bgwriter`
 
 The `pg_stat_bgwriter` view will always have a single row, containing global data for the cluster.
 
-**Table 28.23. `pg_stat_bgwriter` View**
+#### **Table 28.23. `pg_stat_bgwriter` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                 |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -630,11 +630,11 @@ The `pg_stat_bgwriter` view will always have a single row, containing global dat
 | <p><code>buffers_alloc</code> <code>bigint</code></p><p>Number of buffers allocated</p>                                                                                                                                              |
 | <p><code>stats_reset</code> <code>timestamp with time zone</code></p><p>Time at which these statistics were last reset</p>                                                                                                           |
 
-#### 28.2.14. `pg_stat_wal`
+## 28.2.14. `pg_stat_wal`
 
 The `pg_stat_wal` view will always have a single row, containing data about WAL activity of the cluster.
 
-**Table 28.24. `pg_stat_wal` View**
+#### **Table 28.24. `pg_stat_wal` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -648,11 +648,11 @@ The `pg_stat_wal` view will always have a single row, containing data about WAL 
 | <p><code>wal_sync_time</code> <code>double precision</code></p><p>Total amount of time spent syncing WAL files to disk via <code>issue_xlog_fsync</code> request, in milliseconds (if <code>track_wal_io_timing</code> is enabled, <code>fsync</code> is <code>on</code>, and <code>wal_sync_method</code> is either <code>fdatasync</code>, <code>fsync</code> or <code>fsync_writethrough</code>, otherwise zero).</p>                                                                                                                                                                                                                                               |
 | <p><code>stats_reset</code> <code>timestamp with time zone</code></p><p>Time at which these statistics were last reset</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
-#### 28.2.15. `pg_stat_database`
+## 28.2.15. `pg_stat_database`
 
 The `pg_stat_database` view will contain one row for each database in the cluster, plus one for shared objects, showing database-wide statistics.
 
-**Table 28.25. `pg_stat_database` View**
+#### **Table 28.25. `pg_stat_database` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                  |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -685,11 +685,11 @@ The `pg_stat_database` view will contain one row for each database in the cluste
 | <p><code>sessions_killed</code> <code>bigint</code></p><p>Number of database sessions to this database that were terminated by operator intervention</p>                                                                                                                                                                                                                                                              |
 | <p><code>stats_reset</code> <code>timestamp with time zone</code></p><p>Time at which these statistics were last reset</p>                                                                                                                                                                                                                                                                                            |
 
-#### 28.2.16. `pg_stat_database_conflicts`
+## 28.2.16. `pg_stat_database_conflicts`
 
 The `pg_stat_database_conflicts` view will contain one row per database, showing database-wide statistics about query cancels occurring due to conflicts with recovery on standby servers. This view will only contain information on standby servers, since conflicts do not occur on primary servers.
 
-**Table 28.26. `pg_stat_database_conflicts` View**
+#### **Table 28.26. `pg_stat_database_conflicts` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                 |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -701,11 +701,11 @@ The `pg_stat_database_conflicts` view will contain one row per database, showing
 | <p><code>confl_bufferpin</code> <code>bigint</code></p><p>Number of queries in this database that have been canceled due to pinned buffers</p>       |
 | <p><code>confl_deadlock</code> <code>bigint</code></p><p>Number of queries in this database that have been canceled due to deadlocks</p>             |
 
-#### 28.2.17. `pg_stat_all_tables`
+## 28.2.17. `pg_stat_all_tables`
 
 The `pg_stat_all_tables` view will contain one row for each table in the current database (including TOAST tables), showing statistics about accesses to that specific table. The `pg_stat_user_tables` and `pg_stat_sys_tables` views contain the same information, but filtered to only show user and system tables respectively.
 
-**Table 28.27. `pg_stat_all_tables` View**
+#### **Table 28.27. `pg_stat_all_tables` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                         |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -733,11 +733,11 @@ The `pg_stat_all_tables` view will contain one row for each table in the current
 | <p><code>analyze_count</code> <code>bigint</code></p><p>Number of times this table has been manually analyzed</p>                                                            |
 | <p><code>autoanalyze_count</code> <code>bigint</code></p><p>Number of times this table has been analyzed by the autovacuum daemon</p>                                        |
 
-#### 28.2.18. `pg_stat_all_indexes`
+## 28.2.18. `pg_stat_all_indexes`
 
 The `pg_stat_all_indexes` view will contain one row for each index in the current database, showing statistics about accesses to that specific index. The `pg_stat_user_indexes` and `pg_stat_sys_indexes` views contain the same information, but filtered to only show user and system indexes respectively.
 
-**Table 28.28. `pg_stat_all_indexes` View**
+#### **Table 28.28. `pg_stat_all_indexes` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                 |
 | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -756,11 +756,11 @@ Indexes can be used by simple index scans, “bitmap” index scans, and the opt
 
 The `idx_tup_read` and `idx_tup_fetch` counts can be different even without any use of bitmap scans, because `idx_tup_read` counts index entries retrieved from the index while `idx_tup_fetch` counts live rows fetched from the table. The latter will be less if any dead or not-yet-committed rows are fetched using the index, or if any heap fetches are avoided by means of an index-only scan.
 
-#### 28.2.19. `pg_statio_all_tables`
+## 28.2.19. `pg_statio_all_tables`
 
 The `pg_statio_all_tables` view will contain one row for each table in the current database (including TOAST tables), showing statistics about I/O on that specific table. The `pg_statio_user_tables` and `pg_statio_sys_tables` views contain the same information, but filtered to only show user and system tables respectively.
 
-**Table 28.29. `pg_statio_all_tables` View**
+#### **Table 28.29. `pg_statio_all_tables` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                   |
 | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -776,11 +776,11 @@ The `pg_statio_all_tables` view will contain one row for each table in the curre
 | <p><code>tidx_blks_read</code> <code>bigint</code></p><p>Number of disk blocks read from this table's TOAST table indexes (if any)</p> |
 | <p><code>tidx_blks_hit</code> <code>bigint</code></p><p>Number of buffer hits in this table's TOAST table indexes (if any)</p>         |
 
-#### 28.2.20. `pg_statio_all_indexes`
+## 28.2.20. `pg_statio_all_indexes`
 
 The `pg_statio_all_indexes` view will contain one row for each index in the current database, showing statistics about I/O on that specific index. The `pg_statio_user_indexes` and `pg_statio_sys_indexes` views contain the same information, but filtered to only show user and system indexes respectively.
 
-**Table 28.30. `pg_statio_all_indexes` View**
+#### **Table 28.30. `pg_statio_all_indexes` View**
 
 | <p>Column Type</p><p>Description</p>                                                                   |
 | ------------------------------------------------------------------------------------------------------ |
@@ -792,11 +792,11 @@ The `pg_statio_all_indexes` view will contain one row for each index in the curr
 | <p><code>idx_blks_read</code> <code>bigint</code></p><p>Number of disk blocks read from this index</p> |
 | <p><code>idx_blks_hit</code> <code>bigint</code></p><p>Number of buffer hits in this index</p>         |
 
-#### 28.2.21. `pg_statio_all_sequences`
+## 28.2.21. `pg_statio_all_sequences`
 
 The `pg_statio_all_sequences` view will contain one row for each sequence in the current database, showing statistics about I/O on that specific sequence.
 
-**Table 28.31. `pg_statio_all_sequences` View**
+#### **Table 28.31. `pg_statio_all_sequences` View**
 
 | <p>Column Type</p><p>Description</p>                                                                  |
 | ----------------------------------------------------------------------------------------------------- |
@@ -806,11 +806,11 @@ The `pg_statio_all_sequences` view will contain one row for each sequence in the
 | <p><code>blks_read</code> <code>bigint</code></p><p>Number of disk blocks read from this sequence</p> |
 | <p><code>blks_hit</code> <code>bigint</code></p><p>Number of buffer hits in this sequence</p>         |
 
-#### 28.2.22. `pg_stat_user_functions`
+## 28.2.22. `pg_stat_user_functions`
 
 The `pg_stat_user_functions` view will contain one row for each tracked function, showing statistics about executions of that function. The [track\_functions](https://www.postgresql.org/docs/15/runtime-config-statistics.html#GUC-TRACK-FUNCTIONS) parameter controls exactly which functions are tracked.
 
-**Table 28.32. `pg_stat_user_functions` View**
+#### **Table 28.32. `pg_stat_user_functions` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                    |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -821,11 +821,11 @@ The `pg_stat_user_functions` view will contain one row for each tracked function
 | <p><code>total_time</code> <code>double precision</code></p><p>Total time spent in this function and all other functions called by it, in milliseconds</p>              |
 | <p><code>self_time</code> <code>double precision</code></p><p>Total time spent in this function itself, not including other functions called by it, in milliseconds</p> |
 
-#### 28.2.23. `pg_stat_slru`
+## 28.2.23. `pg_stat_slru`
 
 PostgreSQL accesses certain on-disk information via _SLRU_ (simple least-recently-used) caches. The `pg_stat_slru` view will contain one row for each tracked SLRU cache, showing statistics about access to cached pages.
 
-**Table 28.33. `pg_stat_slru` View**
+#### **Table 28.33. `pg_stat_slru` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                    |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -839,13 +839,13 @@ PostgreSQL accesses certain on-disk information via _SLRU_ (simple least-recentl
 | <p><code>truncates</code> <code>bigint</code></p><p>Number of truncates for this SLRU</p>                                                                                                                                               |
 | <p><code>stats_reset</code> <code>timestamp with time zone</code></p><p>Time at which these statistics were last reset</p>                                                                                                              |
 
-#### 28.2.24. Statistics Functions
+## 28.2.24. Statistics Functions
 
 Other ways of looking at the statistics can be set up by writing queries that use the same underlying statistics access functions used by the standard views shown above. For details such as the functions' names, consult the definitions of the standard views. (For example, in psql you could issue `\d+ pg_stat_activity`.) The access functions for per-database statistics take a database OID as an argument to identify which database to report on. The per-table and per-index functions take a table or index OID. The functions for per-function statistics take a function OID. Note that only tables, indexes, and functions in the current database can be seen with these functions.
 
 Additional functions related to the cumulative statistics system are listed in [Table 28.34](https://www.postgresql.org/docs/15/monitoring-stats.html#MONITORING-STATS-FUNCS-TABLE).
 
-**Table 28.34. Additional Statistics Functions**
+#### **Table 28.34. Additional Statistics Functions**
 
 | <p>Function</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -873,7 +873,7 @@ SELECT pg_stat_get_backend_pid(s.backendid) AS pid,
     FROM (SELECT pg_stat_get_backend_idset() AS backendid) AS s;
 ```
 
-**Table 28.35. Per-Backend Statistics Functions**
+#### **Table 28.35. Per-Backend Statistics Functions**
 
 | <p>Function</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                            |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
