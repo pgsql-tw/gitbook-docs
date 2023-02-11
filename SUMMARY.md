@@ -579,6 +579,7 @@
     * [INSERT](reference/sql-commands/insert.md)
     * [LISTEN](reference/sql-commands/listen.md)
     * [LOAD](reference/sql-commands/load.md)
+    * [MERGE](reference/sql-commands/merge.md)
     * [NOTIFY](reference/sql-commands/notify.md)
     * [PREPARE](reference/sql-commands/prepare.md)
     * [PREPARE TRANSACTION](reference/sql-commands/prepare-transaction.md)
