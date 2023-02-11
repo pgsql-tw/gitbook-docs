@@ -1,8 +1,4 @@
----
-description: 版本：11
----
-
-# 19.6. 複寫（Replication）
+# 20.6. 複寫（Replication）
 
 這些設定控制內建的串流複寫功能行為（請參閱[第 26.2.5 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-5-streaming-replication)）。伺服器指的是主伺服務器或備用伺服器。主伺服器可以發送資料，而備用伺服器始終是複寫資料的接收者。當使用串聯複寫（請參閱[第 26.2.7 節](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-7-cascading-replication)）時，備用伺服器也可以是發送者和接收者。參數主要用於發送和備用伺服器，但某些參數僅在主伺服器上有意義。如果需要，設定是跨群集的，不會産生問題。
 
@@ -77,7 +73,7 @@ FIRST 和 ANY 都不區分大小寫。 如果將這些關鍵字用作備用伺�
 
 #### `vacuum_defer_cleanup_age` (`integer`)
 
-指定 VACUUM 和 HOT 更新將延遲清除過期資料列版本的事務數。預設值為 0 事務，這意味著可以盡快刪除過期資料列的版本。也就是說，只要它們不再對任何開放的事務是可見的。您可能希望在支持熱備用伺服器的主要服務器上將其設定為非零值，如[第 26.5 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md)中所述。這樣可以讓備用資料庫上的查詢有更多時間完成，而不會因過早清理資料列而導致衝突。但是，由於該值是根據主要服務器上所發生的寫入事務的數量來衡量的，因此很難預測備用查詢可用多少額外的寬限時間。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
+指定 VACUUM 和 HOT 更新將延遲清除過期資料列版本的事務數。預設值為 0 事務，這意味著可以盡快刪除過期資料列的版本。也就是說，只要它們不再對任何開放的事務是可見的。您可能希望在支持熱備用伺服器的主要服務器上將其設定為非零值，如[第 26.5 節](../high-availability-load-balancing-and-replication/hot-standby.md)中所述。這樣可以讓備用資料庫上的查詢有更多時間完成，而不會因過早清理資料列而導致衝突。但是，由於該值是根據主要服務器上所發生的寫入事務的數量來衡量的，因此很難預測備用查詢可用多少額外的寬限時間。 此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 您還應該考慮在備用伺服器上設定 hot\_standby\_feedback 作為使用此參數的替代方法。
 
@@ -105,17 +101,17 @@ Specifies a trigger file whose presence ends recovery in the standby. Even if th
 
 #### `hot_standby` (`boolean`)
 
-指定是否可以在回復期間連線和執行查詢，如[第 26.5 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md)中所述。預設值為 on。 此參數只能在伺服器啟動時設定。它僅在歸檔回復或備機模式下有效。
+指定是否可以在回復期間連線和執行查詢，如[第 26.5 節](../high-availability-load-balancing-and-replication/hot-standby.md)中所述。預設值為 on。 此參數只能在伺服器啟動時設定。它僅在歸檔回復或備機模式下有效。
 
 #### `max_standby_archive_delay` (`integer`)
 
-當 Hot Standby 處於啟用狀態時，此參數確定備用伺服器在取消與即將套用的 WAL 項目衝突的備用查詢之前應等待的時間，如[第 26.5.2 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md#26-5-2-handling-query-conflicts)中所述。當從 WAL 歸檔中讀取 WAL 資料時，max\_standby\_archive\_delay 適用（因此不是當下的）。預設值為 30 秒。如果未指定，則單位為毫秒。值 -1 時允許備用資料庫永遠等待衝突查詢完成。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
+當 Hot Standby 處於啟用狀態時，此參數確定備用伺服器在取消與即將套用的 WAL 項目衝突的備用查詢之前應等待的時間，如[第 26.5.2 節](../high-availability-load-balancing-and-replication/hot-standby.md#26-5-2-handling-query-conflicts)中所述。當從 WAL 歸檔中讀取 WAL 資料時，max\_standby\_archive\_delay 適用（因此不是當下的）。預設值為 30 秒。如果未指定，則單位為毫秒。值 -1 時允許備用資料庫永遠等待衝突查詢完成。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 請注意，max\_standby\_archive\_delay 與取消前查詢可以執行的最長時間不同；相反地，它是允許套用任何一個 WAL 資料段的最大總時間。因此，如果一個查詢在 WAL 資料段中導致顯著延遲，則後續衝突查詢將具有更少的寬限時間。
 
 #### `max_standby_streaming_delay` (`integer`)
 
-當 Hot Standby 處於啓用狀態時，此參數決定備用伺服器在取消與即將套用的 WAL 項目衝突的備用查詢之前應等待的時間，如[第 26.5.2 節](../high-availability-load-balancing-and-replication/26.5.-hot-standby.md#26-5-2-handling-query-conflicts)中所述。當透過串流複寫接收 WAL 資料時，套用max\_standby\_streaming\_delay。預設值為 30 秒。如果未指定，則單位為毫秒。值 -1 時允許備用資料庫永遠等待衝突查詢完成。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
+當 Hot Standby 處於啓用狀態時，此參數決定備用伺服器在取消與即將套用的 WAL 項目衝突的備用查詢之前應等待的時間，如[第 26.5.2 節](../high-availability-load-balancing-and-replication/hot-standby.md#26-5-2-handling-query-conflicts)中所述。當透過串流複寫接收 WAL 資料時，套用max\_standby\_streaming\_delay。預設值為 30 秒。如果未指定，則單位為毫秒。值 -1 時允許備用資料庫永遠等待衝突查詢完成。此參數只能在 postgresql.conf 檔案或伺服器命令列中設定。
 
 請注意，max\_standby\_streaming\_delay 與取消前查詢可以執行的最長時間不同；相反地，它是從主伺服器收到 WAL 資料後允許套用的最大總時間。因此，如果一個查詢導致顯著延遲，則後續衝突查詢將具有更少的寬限時間，直到備用伺服器再次趕上。
 

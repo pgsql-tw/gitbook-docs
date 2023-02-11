@@ -1,4 +1,4 @@
-# 22.6. Tablespaces
+# 23.6. Tablespaces
 
 PostgreSQL 中的資料表空間允許資料庫管理者定義檔案系統中可以儲存資料庫物件的檔案的路徑。建立完成後，在建立資料庫物件時可以透過名稱來引用資料表空間。
 
@@ -26,13 +26,13 @@ CREATE TABLESPACE fastspace LOCATION '/ssd1/postgresql/data';
 
 資料表、索引和整個資料庫可以分配給特定的資料表空間。為此，具有給定資料表空間上的 CREATE 權限的使用者必須將資料表空間名稱作為參數傳遞給相關的指令。例如，下面會在資料表空間 space1 中建立一個資料表：
 
-```
+```sql
 CREATE TABLE foo(i int) TABLESPACE space1;
 ```
 
 或者，使用 [default\_tablespace](../server-configuration/client-connection-defaults.md#default\_tablespace-string) 參數：
 
-```
+```sql
 SET default_tablespace = space1;
 CREATE TABLE foo(i int);
 ```
@@ -51,7 +51,7 @@ CREATE TABLE foo(i int);
 
 例如，要確認一組現有的資料表空間，請檢查 [pg\_tablespace](../../internals/system-catalogs/51.54.-pg\_tablespace.md) 系統目錄
 
-```
+```sql
 SELECT spcname FROM pg_tablespace;
 ```
 

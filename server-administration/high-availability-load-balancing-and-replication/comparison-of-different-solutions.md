@@ -1,4 +1,4 @@
-# 26.1. 比較不同的解決方案
+# 27.1. 比較不同的解決方案
 
 #### Shared Disk Failover
 
@@ -14,7 +14,7 @@
 
 透過讀取預寫日誌（WAL）記錄串流，可以使熱備用伺服器保持最新狀態。如果主要伺服器發生故障，則備用資料庫幾乎將包含主要伺服器的所有資料，並且可以迅速成為新的主要資料庫伺服器。這可以是同步或非同步的，不過只能以整個資料庫伺服器為單位來實行。
 
-備用伺服器可以使用基於檔案的日誌傳送（[第 26.2 節](log-shipping-standby-servers.md)）或串流式複寫（請參閱[第 26.2.5 節](log-shipping-standby-servers.md#26-2-5-streaming-replication)）或兩者的結合來實現。有關熱備用伺服器的說明，請參閱[第 26.5 節](26.5.-hot-standby.md)。
+備用伺服器可以使用基於檔案的日誌傳送（[第 26.2 節](log-shipping-standby-servers.md)）或串流式複寫（請參閱[第 26.2.5 節](log-shipping-standby-servers.md#26-2-5-streaming-replication)）或兩者的結合來實現。有關熱備用伺服器的說明，請參閱[第 26.5 節](hot-standby.md)。
 
 #### Logical Replication
 

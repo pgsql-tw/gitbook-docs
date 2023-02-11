@@ -1,6 +1,6 @@
-# 18.2. Creating a Database Cluster
+# 19.2. Creating a Database Cluster
 
-Before you can do anything, you must initialize a database storage area on disk. We call this a _database cluster_. (The SQL standard uses the term catalog cluster.) A database cluster is a collection of databases that is managed by a single instance of a running database server. After initialization, a database cluster will contain a database named `postgres`, which is meant as a default database for use by utilities, users and third party applications. The database server itself does not require the `postgres` database to exist, but many external utility programs assume it exists. Another database created within each cluster during initialization is called `template1`. As the name suggests, this will be used as a template for subsequently created databases; it should not be used for actual work. (See [Chapter 22](https://www.postgresql.org/docs/12/managing-databases.html) for information about creating new databases within a cluster.)
+在您可以做任何事情之前，您必須在磁碟中初始化一個資料庫儲存區域。 我們稱之為數據庫叢集(Database Cluster，SQL 標準術語為 Catalog Cluster）。資料庫叢集是由正在運行的資料庫伺服器的單一個執行實例管理的資料庫集合。 初始化後，資料庫叢集將包含一個名為 postgres 的資料庫，這是供工具程式、資料庫使用者和第三方應用程式所預設的資料庫。 資料庫伺服器本身不需要 postgres 資料庫存在，但許多外部工具會假設它存在。 初始化期間在每個叢集中所建置的另一個資料庫稱為 template1。 顧名思義，這將作為後續建立的資料庫的樣板； 它不應該用於實際的資料作業。 （有關在叢集中建立新資料庫的說明，請參閱[第 23 章](../managing-databases/)。）
 
 In file system terms, a database cluster is a single directory under which all data will be stored. We call this the _data directory_ or _data area_. It is completely up to you where you choose to store your data. There is no default, although locations such as `/usr/local/pgsql/data` or `/var/lib/pgsql/data` are popular. To initialize a database cluster, use the command [initdb](https://www.postgresql.org/docs/12/app-initdb.html), which is installed with PostgreSQL. The desired file system location of your database cluster is indicated by the `-D` option, for example:
 
@@ -20,7 +20,7 @@ Alternatively, you can run `initdb` via the [pg\_ctl](https://www.postgresql.org
 $ pg_ctl -D /usr/local/pgsql/data initdb
 ```
 
-This may be more intuitive if you are using `pg_ctl` for starting and stopping the server (see [Section 18.3](https://www.postgresql.org/docs/12/server-start.html)), so that `pg_ctl` would be the sole command you use for managing the database server instance.
+如果您使用 pg\_ctl 來啟動和停止伺服器（請參閱[第 19.3 節](starting-the-database-server.md)），這相當直覺，因此 pg\_ctl 將是您用於管理資料庫伺服器實例的唯一命令。
 
 `initdb` will attempt to create the directory you specify if it does not already exist. Of course, this will fail if `initdb` does not have permissions to write in the parent directory. It's generally recommendable that the PostgreSQL user own not just the data directory but its parent directory as well, so that this should not be a problem. If the desired parent directory doesn't exist either, you will need to create it first, using root privileges if the grandparent directory isn't writable. So the process might look like this:
 
@@ -37,23 +37,23 @@ Because the data directory contains all the data stored in the database, it is e
 
 Note that enabling or disabling group access on an existing cluster requires the cluster to be shut down and the appropriate mode to be set on all directories and files before restarting PostgreSQL. Otherwise, a mix of modes might exist in the data directory. For clusters that allow access only by the owner, the appropriate modes are `0700` for directories and `0600` for files. For clusters that also allow reads by the group, the appropriate modes are `0750` for directories and `0640` for files.
 
-However, while the directory contents are secure, the default client authentication setup allows any local user to connect to the database and even become the database superuser. If you do not trust other local users, we recommend you use one of `initdb`'s `-W`, `--pwprompt` or `--pwfile` options to assign a password to the database superuser. Also, specify `-A md5` or `-A password` so that the default `trust` authentication mode is not used; or modify the generated `pg_hba.conf` file after running `initdb`, but _before_ you start the server for the first time. (Other reasonable approaches include using `peer` authentication or file system permissions to restrict connections. See [Chapter 20](https://www.postgresql.org/docs/12/client-authentication.html) for more information.)
+However, while the directory contents are secure, the default client authentication setup allows any local user to connect to the database and even become the database superuser. If you do not trust other local users, we recommend you use one of `initdb`'s `-W`, `--pwprompt` or `--pwfile` options to assign a password to the database superuser. Also, specify `-A scram-sha-256` so that the default `trust` authentication mode is not used; or modify the generated `pg_hba.conf` file after running `initdb`, but _before_ you start the server for the first time. (Other reasonable approaches include using `peer` authentication or file system permissions to restrict connections. See [Chapter 21](https://www.postgresql.org/docs/15/client-authentication.html) for more information.)
 
-`initdb` also initializes the default locale for the database cluster. Normally, it will just take the locale settings in the environment and apply them to the initialized database. It is possible to specify a different locale for the database; more information about that can be found in [Section 23.1](https://www.postgresql.org/docs/12/locale.html). The default sort order used within the particular database cluster is set by `initdb`, and while you can create new databases using different sort order, the order used in the template databases that initdb creates cannot be changed without dropping and recreating them. There is also a performance impact for using locales other than `C` or `POSIX`. Therefore, it is important to make this choice correctly the first time.
+`initdb` also initializes the default locale for the database cluster. Normally, it will just take the locale settings in the environment and apply them to the initialized database. It is possible to specify a different locale for the database; more information about that can be found in [Section 24.1](https://www.postgresql.org/docs/15/locale.html). The default sort order used within the particular database cluster is set by `initdb`, and while you can create new databases using different sort order, the order used in the template databases that initdb creates cannot be changed without dropping and recreating them. There is also a performance impact for using locales other than `C` or `POSIX`. Therefore, it is important to make this choice correctly the first time.
 
-`initdb` also sets the default character set encoding for the database cluster. Normally this should be chosen to match the locale setting. For details see [Section 23.3](https://www.postgresql.org/docs/12/multibyte.html).
+`initdb` also sets the default character set encoding for the database cluster. Normally this should be chosen to match the locale setting. For details see [Section 24.3](https://www.postgresql.org/docs/15/multibyte.html).
 
 Non-`C` and non-`POSIX` locales rely on the operating system's collation library for character set ordering. This controls the ordering of keys stored in indexes. For this reason, a cluster cannot switch to an incompatible collation library version, either through snapshot restore, binary streaming replication, a different operating system, or an operating system upgrade.
 
-## 18.2.1. Use of Secondary File Systems
+## 19.2.1. Use of Secondary File Systems
 
 Many installations create their database clusters on file systems (volumes) other than the machine's “root” volume. If you choose to do this, it is not advisable to try to use the secondary volume's topmost directory (mount point) as the data directory. Best practice is to create a directory within the mount-point directory that is owned by the PostgreSQL user, and then create the data directory within that. This avoids permissions problems, particularly for operations such as pg\_upgrade, and it also ensures clean failures if the secondary volume is taken offline.
 
-## 18.2.2. File Systems
+## 19.2.2. File Systems
 
 一般來說，任何具備 POSIX 標準的檔案系統都可以用於 PostgreSQL。 由於各種原因，使用者可能會使用不同的檔案系統，包括供應商支援、效能和熟悉程度。經驗上來說，在所有其他條件都相同的情況下，不應該僅因為切換檔案系統或進行次要的檔案系統配置變更，而期待效能或行為有明顯的改變。
 
-### **18.2.2.1. NFS**
+### **19.2.2.1. NFS**
 
 可以使用 NFS 檔案系統來儲存 PostgreSQL 資料目錄。PostgreSQL 對 NFS 檔案系統並沒有任何特殊的要求，這意味著它假設 NFS 的行為與本地連接的磁碟完全相同。PostgreSQL 不使用已知在NFS上具有非標準行為的任何功能，例如檔案鎖定。
 
