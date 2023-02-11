@@ -6,15 +6,15 @@ A number of probes or trace points are already inserted into the source code. Th
 
 Currently, the [DTrace](https://en.wikipedia.org/wiki/DTrace) utility is supported, which, at the time of this writing, is available on Solaris, macOS, FreeBSD, NetBSD, and Oracle Linux. The [SystemTap](https://sourceware.org/systemtap/) project for Linux provides a DTrace equivalent and can also be used. Supporting other dynamic tracing utilities is theoretically possible by changing the definitions for the macros in `src/include/utils/probes.h`.
 
-#### 28.5.1. Compiling for Dynamic Tracing
+## 28.5.1. Compiling for Dynamic Tracing
 
 By default, probes are not available, so you will need to explicitly tell the configure script to make the probes available in PostgreSQL. To include DTrace support specify `--enable-dtrace` to configure. See [Section 17.4](https://www.postgresql.org/docs/15/install-procedure.html) for further information.
 
-#### 28.5.2. Built-in Probes
+## 28.5.2. Built-in Probes
 
 A number of standard probes are provided in the source code, as shown in [Table 28.47](https://www.postgresql.org/docs/15/dynamic-trace.html#DTRACE-PROBE-POINT-TABLE); [Table 28.48](https://www.postgresql.org/docs/15/dynamic-trace.html#TYPEDEFS-TABLE) shows the types used in the probes. More probes can certainly be added to enhance PostgreSQL's observability.
 
-**Table 28.47. Built-in DTrace Probes**
+#### **Table 28.47. Built-in DTrace Probes**
 
 | Name                           | Parameters                                                                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ------------------------------ | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -74,7 +74,7 @@ A number of standard probes are provided in the source code, as shown in [Table 
 | `lock-wait-done`               | `(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, LOCKMODE)` | Probe that fires when a request for a heavyweight lock (lmgr lock) has finished waiting (i.e., has acquired the lock). The arguments are the same as for `lock-wait-start`.                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `deadlock-found`               | `()`                                                                               | Probe that fires when a deadlock is found by the deadlock detector.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 
-**Table 28.48. Defined Types Used in Probe Parameters**
+#### **Table 28.48. Defined Types Used in Probe Parameters**
 
 | Type                 | Definition      |
 | -------------------- | --------------- |
@@ -86,7 +86,7 @@ A number of standard probes are provided in the source code, as shown in [Table 
 | `ForkNumber`         | `int`           |
 | `bool`               | `unsigned char` |
 
-#### 28.5.3. Using Probes
+## 28.5.3. Using Probes
 
 The example below shows a DTrace script for analyzing transaction counts in the system, as an alternative to snapshotting `pg_stat_database` before and after a performance test:
 
@@ -130,7 +130,7 @@ SystemTap uses a different notation for trace scripts than DTrace does, even tho
 
 You should remember that DTrace scripts need to be carefully written and debugged, otherwise the trace information collected might be meaningless. In most cases where problems are found it is the instrumentation that is at fault, not the underlying system. When discussing information found using dynamic tracing, be sure to enclose the script used to allow that too to be checked and discussed.
 
-#### 28.5.4. Defining New Probes
+## 28.5.4. Defining New Probes
 
 New probes can be defined within the code wherever the developer desires, though this will require a recompilation. Below are the steps for inserting new probes:
 
