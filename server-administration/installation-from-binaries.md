@@ -1,5 +1,5 @@
-# 16. Installation from Binaries
+# 16. 以預編譯套件安裝
 
-PostgreSQL is available in the form of binary packages for most common operating systems today. When available, this is the recommended way to install PostgreSQL for users of the system. Building from source (see [Chapter 17](https://www.postgresql.org/docs/14/installation.html)) is only recommended for people developing PostgreSQL or extensions.
+PostgreSQL 以預編譯套件的形式提供給當今大多數常見的操作系統。如果可用，這是為系統用戶推薦的安裝 PostgreSQL 的方式。以原始碼安裝的方式（請參閱[第 17 章](installation-from-source-code/)）只推薦給開發 PostgreSQL 或擴充套件的朋友.
 
-For an updated list of platforms providing binary packages, please visit the download section on the PostgreSQL website at [https://www.postgresql.org/download/](https://www.postgresql.org/download/) and follow the instructions for the specific platform.
+有關提供預編譯套件的平台更新列表，請參閱 PostgreSQL 網站上的下載頁面，網址為 [https://www.postgresql.org/download/](https://www.postgresql.org/download/)，按照個別平台的說明進行操作。
