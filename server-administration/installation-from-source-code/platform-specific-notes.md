@@ -1,76 +1,16 @@
-# 16.7. 平台相關的注意事項
+# 17.7. 平台相關的注意事項
 
-This section documents additional platform-specific issues regarding the installation and setup of PostgreSQL. Be sure to read the installation instructions, and in particular [Section 16.2](https://www.postgresql.org/docs/10/static/install-requirements.html) as well. Also, check [Chapter 32](https://www.postgresql.org/docs/10/static/regress.html) regarding the interpretation of regression test results.
+本節記錄了有關安裝 PostgreSQL 於其他特定平台的問題。 請務必閱讀安裝說明，尤其是[第 17.2 節](requirements.md)。 另外，也請查閱[第 33 章](../regression-tests/)關於迴歸測試結果的解釋。
 
-Platforms that are not covered here have no known platform-specific installation issues.
+此處未涵蓋的平台皆無法預想其可能的安裝問題。
 
-#### 16.7.1. AIX
+## 17.7.1. AIX
 
-PostgreSQL works on AIX, but getting it installed properly can be challenging. AIX versions from 4.3.3 to 6.1 are considered supported. You can use GCC or the native IBM compiler `xlc`. In general, using recent versions of AIX and PostgreSQL helps. Check the build farm for up to date information about which versions of AIX are known to work.
+您可以使用 GCC 或 IBM 內建編譯器 xlc 在 AIX 上編譯 PostgreSQL。
 
-The minimum recommended fix levels for supported AIX versions are:AIX 4.3.3
+&#x20;PostgreSQL 社群不再測試也不支援 AIX 7.1 之前的版本。
 
-Maintenance Level 11 + post ML11 bundleAIX 5.1
-
-Maintenance Level 9 + post ML9 bundleAIX 5.2
-
-Technology Level 10 Service Pack 3AIX 5.3
-
-Technology Level 7AIX 6.1
-
-Base Level
-
-To check your current fix level, use `oslevel -r` in AIX 4.3.3 to AIX 5.2 ML 7, or `oslevel -s` in later versions.
-
-Use the following `configure` flags in addition to your own if you have installed Readline or libz in `/usr/local`: `--with-includes=/usr/local/include --with-libraries=/usr/local/lib`.
-
-**16.7.1.1. GCC Issues**
-
-On AIX 5.3, there have been some problems getting PostgreSQL to compile and run using GCC.
-
-You will want to use a version of GCC subsequent to 3.3.2, particularly if you use a prepackaged version. We had good success with 4.0.1. Problems with earlier versions seem to have more to do with the way IBM packaged GCC than with actual issues with GCC, so that if you compile GCC yourself, you might well have success with an earlier version of GCC.
-
-**16.7.1.2. Unix-Domain Sockets Broken**
-
-AIX 5.3 has a problem where `sockaddr_storage` is not defined to be large enough. In version 5.3, IBM increased the size of `sockaddr_un`, the address structure for Unix-domain sockets, but did not correspondingly increase the size of `sockaddr_storage`. The result of this is that attempts to use Unix-domain sockets with PostgreSQL lead to libpq overflowing the data structure. TCP/IP connections work OK, but not Unix-domain sockets, which prevents the regression tests from working.
-
-The problem was reported to IBM, and is recorded as bug report PMR29657. If you upgrade to maintenance level 5300-03 or later, that will include this fix. A quick workaround is to alter `_SS_MAXSIZE` to 1025 in `/usr/include/sys/socket.h`. In either case, recompile PostgreSQL once you have the corrected header file.
-
-**16.7.1.3. Internet Address Issues**
-
-PostgreSQL relies on the system's `getaddrinfo` function to parse IP addresses in `listen_addresses`, `pg_hba.conf`, etc. Older versions of AIX have assorted bugs in this function. If you have problems related to these settings, updating to the appropriate AIX fix level shown above should take care of it.
-
-One user reports:
-
-When implementing PostgreSQL version 8.1 on AIX 5.3, we periodically ran into problems where the statistics collector would “mysteriously” not come up successfully. This appears to be the result of unexpected behavior in the IPv6 implementation. It looks like PostgreSQL and IPv6 do not play very well together on AIX 5.3.
-
-Any of the following actions “fix” the problem.
-
-*   Delete the IPv6 address for localhost:
-
-    ```
-    (as root)
-    # ifconfig lo0 inet6 ::1/0 delete
-    ```
-*   Remove IPv6 from net services. The file `/etc/netsvc.conf` on AIX is roughly equivalent to `/etc/nsswitch.conf` on Solaris/Linux. The default, on AIX, is thus:
-
-    ```
-    hosts=local,bind
-    ```
-
-    Replace this with:
-
-    ```
-    hosts=local4,bind4
-    ```
-
-    to deactivate searching for IPv6 addresses.
-
-#### Warning
-
-This is really a workaround for problems relating to immaturity of IPv6 support, which improved visibly during the course of AIX 5.3 releases. It has worked with AIX version 5.3, but does not represent an elegant solution to the problem. It has been reported that this workaround is not only unnecessary, but causes problems on AIX 6.1, where IPv6 support has become more mature.
-
-**16.7.1.4. Memory Management**
+### **17.7.1.1. Memory Management**
 
 AIX can be somewhat peculiar with regards to the way it does memory management. You can have a server with many multiples of gigabytes of RAM free, but still get out of memory or address space errors when running applications. One example is loading of extensions failing with unusual errors. For example, running as the owner of the PostgreSQL installation:
 
@@ -94,110 +34,101 @@ In the case of the `plperl` example, above, check your umask and the permissions
 
 The “ideal” solution for this is to use a 64-bit build of PostgreSQL, but that is not always practical, because systems with 32-bit processors can build, but not run, 64-bit binaries.
 
-If a 32-bit binary is desired, set `LDR_CNTRL` to `MAXDATA=0x`\_`n`_0000000, where 1 <= n <= 8, before starting the PostgreSQL server, and try different values and `postgresql.conf` settings to find a configuration that works satisfactorily. This use of `LDR_CNTRL` tells AIX that you want the server to have `MAXDATA` bytes set aside for the heap, allocated in 256 MB segments. When you find a workable configuration, `ldedit` can be used to modify the binaries so that they default to using the desired heap size. PostgreSQL can also be rebuilt, passing`configure LDFLAGS="-Wl,-bmaxdata:0x`_`n`\_0000000" to achieve the same effect.
+If a 32-bit binary is desired, set `LDR_CNTRL` to `MAXDATA=0x`_`n`_`0000000`, where 1 <= n <= 8, before starting the PostgreSQL server, and try different values and `postgresql.conf` settings to find a configuration that works satisfactorily. This use of `LDR_CNTRL` tells AIX that you want the server to have `MAXDATA` bytes set aside for the heap, allocated in 256 MB segments. When you find a workable configuration, `ldedit` can be used to modify the binaries so that they default to using the desired heap size. PostgreSQL can also be rebuilt, passing `configure LDFLAGS="-Wl,-bmaxdata:0x`_`n`_`0000000"` to achieve the same effect.
 
 For a 64-bit build, set `OBJECT_MODE` to 64 and pass `CC="gcc -maix64"` and `LDFLAGS="-Wl,-bbigtoc"` to `configure`. (Options for `xlc` might differ.) If you omit the export of `OBJECT_MODE`, your build may fail with linker errors. When `OBJECT_MODE` is set, it tells AIX's build utilities such as `ar`, `as`, and `ld` what type of objects to default to handling.
 
 By default, overcommit of paging space can happen. While we have not seen this occur, AIX will kill processes when it runs out of memory and the overcommit is accessed. The closest to this that we have seen is fork failing because the system decided that there was not enough memory for another process. Like many other parts of AIX, the paging space allocation method and out-of-memory kill is configurable on a system- or process-wide basis if this becomes a problem.
 
-**References and Resources**
+## 17.7.2. Cygwin
 
-“[Large Program Support](http://publib.boulder.ibm.com/infocenter/pseries/topic/com.ibm.aix.doc/aixprggd/genprogc/lrg\_prg\_support.htm)”. _AIX Documentation: General Programming Concepts: Writing and Debugging Programs_.
+PostgreSQL 可以使用 Cygwin 建譯，Cygwin 是一種用於 Windows 的類 Linux 環境，但該方法不如原生 Windows 建置（請參閱[第 18 章](../installation-from-source-code-on-windows/)），因此並不推薦在 Cygwin 下執行服務。
 
-“[Program Address Space Overview](http://publib.boulder.ibm.com/infocenter/pseries/topic/com.ibm.aix.doc/aixprggd/genprogc/address\_space.htm)”. _AIX Documentation: General Programming Concepts: Writing and Debugging Programs_.
-
-“[Performance Overview of the Virtual Memory Manager (VMM)](http://publib.boulder.ibm.com/infocenter/pseries/v5r3/topic/com.ibm.aix.doc/aixbman/prftungd/resmgmt2.htm)”. _AIX Documentation: Performance Management Guide_.
-
-“[Page Space Allocation](http://publib.boulder.ibm.com/infocenter/pseries/v5r3/topic/com.ibm.aix.doc/aixbman/prftungd/memperf7.htm)”. _AIX Documentation: Performance Management Guide_.
-
-“[Paging-space thresholds tuning](http://publib.boulder.ibm.com/infocenter/pseries/v5r3/topic/com.ibm.aix.doc/aixbman/prftungd/memperf6.htm)”. _AIX Documentation: Performance Management Guide_.
-
-[_Developing and Porting C and C++ Applications on AIX_](http://www.redbooks.ibm.com/abstracts/sg245674.html?Open). IBM Redbook.
-
-#### 16.7.2. Cygwin
-
-PostgreSQL can be built using Cygwin, a Linux-like environment for Windows, but that method is inferior to the native Windows build (see [Chapter 17](https://www.postgresql.org/docs/10/static/install-windows.html)) and running a server under Cygwin is no longer recommended.
-
-When building from source, proceed according to the normal installation procedure (i.e., `./configure; make`; etc.), noting the following-Cygwin specific differences:
+When building from source, proceed according to the Unix-style installation procedure (i.e., `./configure; make`; etc.), noting the following Cygwin-specific differences:
 
 * Set your path to use the Cygwin bin directory before the Windows utilities. This will help prevent problems with compilation.
 * The `adduser` command is not supported; use the appropriate user management application on Windows NT, 2000, or XP. Otherwise, skip this step.
 * The `su` command is not supported; use ssh to simulate su on Windows NT, 2000, or XP. Otherwise, skip this step.
 * OpenSSL is not supported.
 * Start `cygserver` for shared memory support. To do this, enter the command `/usr/sbin/cygserver &`. This program needs to be running anytime you start the PostgreSQL server or initialize a database cluster (`initdb`). The default `cygserver` configuration may need to be changed (e.g., increase `SEMMNS`) to prevent PostgreSQL from failing due to a lack of system resources.
-* Building might fail on some systems where a locale other than C is in use. To fix this, set the locale to C by doing `export LANG=C.utf8` before building, and then setting it back to the previous setting, after you have installed PostgreSQL.
-*   The parallel regression tests (`make check`) can generate spurious regression test failures due to overflowing the `listen()` backlog queue which causes connection refused errors or hangs. You can limit the number of connections using the make variable`MAX_CONNECTIONS` thus:
+* Building might fail on some systems where a locale other than C is in use. To fix this, set the locale to C by doing `export LANG=C.utf8` before building, and then setting it back to the previous setting after you have installed PostgreSQL.
+*   The parallel regression tests (`make check`) can generate spurious regression test failures due to overflowing the `listen()` backlog queue which causes connection refused errors or hangs. You can limit the number of connections using the make variable `MAX_CONNECTIONS` thus:
 
     ```
     make MAX_CONNECTIONS=5 check
     ```
 
-    (On some systems you can have up to about 10 simultaneous connections).
+    (On some systems you can have up to about 10 simultaneous connections.)
 
 It is possible to install `cygserver` and the PostgreSQL server as Windows NT services. For information on how to do this, please refer to the `README` document included with the PostgreSQL binary package on Cygwin. It is installed in the directory `/usr/share/doc/Cygwin`.
 
-#### 16.7.3. HP-UX
+## 17.7.3. macOS
 
-PostgreSQL 7.3+ should work on Series 700/800 PA-RISC machines running HP-UX 10.X or 11.X, given appropriate system patch levels and build tools. At least one developer routinely tests on HP-UX 10.20, and we have reports of successful installations on HP-UX 11.00 and 11.11.
-
-Aside from the PostgreSQL source distribution, you will need GNU make (HP's make will not do), and either GCC or HP's full ANSI C compiler. If you intend to build from Git sources rather than a distribution tarball, you will also need Flex (GNU lex) and Bison (GNU yacc). We also recommend making sure you are fairly up-to-date on HP patches. At a minimum, if you are building 64 bit binaries on HP-UX 11.11 you may need PHSS\_30966 (11.11) or a successor patch otherwise `initdb` may hang:
-
-PHSS\_30966 s700\_800 ld(1) and linker tools cumulative patch
-
-On general principles you should be current on libc and ld/dld patches, as well as compiler patches if you are using HP's C compiler. See HP's support sites such as [ftp://us-ffs.external.hp.com/](ftp://us-ffs.external.hp.com) for free copies of their latest patches.
-
-If you are building on a PA-RISC 2.0 machine and want to have 64-bit binaries using GCC, you must use a GCC 64-bit version.
-
-If you are building on a PA-RISC 2.0 machine and want the compiled binaries to run on PA-RISC 1.1 machines you will need to specify `+DAportable` in `CFLAGS`.
-
-If you are building on a HP-UX Itanium machine, you will need the latest HP ANSI C compiler with its dependent patch or successor patches:
-
-PHSS\_30848 s700\_800 HP C Compiler (A.05.57)\
-PHSS\_30849 s700\_800 u2comp/be/plugin library Patch
-
-If you have both HP's C compiler and GCC's, then you might want to explicitly select the compiler to use when you run `configure`:
+To build PostgreSQL from source on macOS, you will need to install Apple's command line developer tools, which can be done by issuing
 
 ```
-./configure CC=cc
+xcode-select --install
 ```
 
-for HP's C compiler, or
+(note that this will pop up a GUI dialog window for confirmation). You may or may not wish to also install Xcode.
+
+On recent macOS releases, it's necessary to embed the “sysroot” path in the include switches used to find some system header files. This results in the outputs of the configure script varying depending on which SDK version was used during configure. That shouldn't pose any problem in simple scenarios, but if you are trying to do something like building an extension on a different machine than the server code was built on, you may need to force use of a different sysroot path. To do that, set `PG_SYSROOT`, for example
 
 ```
-./configure CC=gcc
+make PG_SYSROOT=/desired/path all
 ```
 
-for GCC. If you omit this setting, then configure will pick `gcc` if it has a choice.
+To find out the appropriate path on your machine, run
 
-The default install target location is `/usr/local/pgsql`, which you might want to change to something under `/opt`. If so, use the `--prefix` switch to `configure`.
+```
+xcrun --show-sdk-path
+```
 
-In the regression tests, there might be some low-order-digit differences in the geometry tests, which vary depending on which compiler and math library versions you use. Any other error is cause for suspicion.
+Note that building an extension using a different sysroot version than was used to build the core server is not really recommended; in the worst case it could result in hard-to-debug ABI inconsistencies.
 
-#### 16.7.4. MinGW/Native Windows
+You can also select a non-default sysroot path when configuring, by specifying `PG_SYSROOT` to configure:
 
-PostgreSQL for Windows can be built using MinGW, a Unix-like build environment for Microsoft operating systems, or using Microsoft's Visual C++ compiler suite. The MinGW build variant uses the normal build system described in this chapter; the Visual C++ build works completely differently and is described in [Chapter 17](https://www.postgresql.org/docs/10/static/install-windows.html). It is a fully native build and uses no additional software like MinGW. A ready-made installer is available on the main PostgreSQL web site.
+```
+./configure ... PG_SYSROOT=/desired/path
+```
 
-The native Windows port requires a 32 or 64-bit version of Windows 2000 or later. Earlier operating systems do not have sufficient infrastructure (but Cygwin may be used on those). MinGW, the Unix-like build tools, and MSYS, a collection of Unix tools required to run shell scripts like `configure`, can be downloaded from [http://www.mingw.org/](http://www.mingw.org). Neither is required to run the resulting binaries; they are needed only for creating the binaries.
+This would primarily be useful to cross-compile for some other macOS version. There is no guarantee that the resulting executables will run on the current host.
 
-To build 64 bit binaries using MinGW, install the 64 bit tool set from [http://mingw-w64.sourceforge.net/](http://mingw-w64.sourceforge.net), put its bin directory in the `PATH`, and run `configure` with the `--host=x86_64-w64-mingw32` option.
+To suppress the `-isysroot` options altogether, use
+
+```
+./configure ... PG_SYSROOT=none
+```
+
+(any nonexistent pathname will work). This might be useful if you wish to build with a non-Apple compiler, but beware that that case is not tested or supported by the PostgreSQL developers.
+
+macOS's “System Integrity Protection” (SIP) feature breaks `make check`, because it prevents passing the needed setting of `DYLD_LIBRARY_PATH` down to the executables being tested. You can work around that by doing `make install` before `make check`. Most PostgreSQL developers just turn off SIP, though.
+
+## 17.7.4. MinGW/Native Windows
+
+PostgreSQL for Windows 可以使用 MinGW 建置，MinGW 是一種用於 Microsoft 作業系統的類 Unix 執行環境，或是使用 Microsoft 的 Visual C++ 編譯器套件。 MinGW 建置過程使用本章中描述的正常建置系統； Visual C++ 編譯的工作方式則完全不同，將在[第 18 章](../installation-from-source-code-on-windows/)中進行描述。
+
+The native Windows port requires a 32 or 64-bit version of Windows 2000 or later. Earlier operating systems do not have sufficient infrastructure (but Cygwin may be used on those). MinGW, the Unix-like build tools, and MSYS, a collection of Unix tools required to run shell scripts like `configure`, can be downloaded from [http://www.mingw.org/](http://www.mingw.org/). Neither is required to run the resulting binaries; they are needed only for creating the binaries.
+
+To build 64 bit binaries using MinGW, install the 64 bit tool set from [https://mingw-w64.org/](https://mingw-w64.org/), put its bin directory in the `PATH`, and run `configure` with the `--host=x86_64-w64-mingw32` option.
 
 After you have everything installed, it is suggested that you run psql under `CMD.EXE`, as the MSYS console has buffering issues.
 
-**16.7.4.1. Collecting Crash Dumps on Windows**
+**17.7.4.1. Collecting Crash Dumps On Windows**
 
 If PostgreSQL on Windows crashes, it has the ability to generate minidumps that can be used to track down the cause for the crash, similar to core dumps on Unix. These dumps can be read using the Windows Debugger Tools or using Visual Studio. To enable the generation of dumps on Windows, create a subdirectory named `crashdumps` inside the cluster data directory. The dumps will then be written into this directory with a unique name based on the identifier of the crashing process and the current time of the crash.
 
-#### 16.7.5. Solaris
+## 17.7.5. Solaris
 
-PostgreSQL is well-supported on Solaris. The more up to date your operating system, the fewer issues you will experience; details below.
+PostgreSQL is well-supported on Solaris. The more up to date your operating system, the fewer issues you will experience.
 
-**16.7.5.1. Required Tools**
+### **17.7.5.1. Required Tools**
 
-You can build with either GCC or Sun's compiler suite. For better code optimization, Sun's compiler is strongly recommended on the SPARC architecture. We have heard reports of problems when using GCC 2.95.1; GCC 2.95.3 or later is recommended. If you are using Sun's compiler, be careful not to select `/usr/ucb/cc`; use `/opt/SUNWspro/bin/cc`.
+You can build with either GCC or Sun's compiler suite. For better code optimization, Sun's compiler is strongly recommended on the SPARC architecture. If you are using Sun's compiler, be careful not to select `/usr/ucb/cc`; use `/opt/SUNWspro/bin/cc`.
 
-You can download Sun Studio from [http://www.oracle.com/technetwork/server-storage/solarisstudio/downloads/](http://www.oracle.com/technetwork/server-storage/solarisstudio/downloads/). Many of GNU tools are integrated into Solaris 10, or they are present on the Solaris companion CD. If you like packages for older version of Solaris, you can find these tools at [http://www.sunfreeware.com](http://www.sunfreeware.com). If you prefer sources, look at [http://www.gnu.org/order/ftp.html](http://www.gnu.org/order/ftp.html).
+You can download Sun Studio from [https://www.oracle.com/technetwork/server-storage/solarisstudio/downloads/](https://www.oracle.com/technetwork/server-storage/solarisstudio/downloads/). Many GNU tools are integrated into Solaris 10, or they are present on the Solaris companion CD. If you need packages for older versions of Solaris, you can find these tools at [http://www.sunfreeware.com](http://www.sunfreeware.com/). If you prefer sources, look at [https://www.gnu.org/prep/ftp](https://www.gnu.org/prep/ftp).
 
-**16.7.5.2. configure Complains About a Failed Test Program**
+### **17.7.5.2. Configure Complains About A Failed Test Program**
 
 If `configure` complains about a failed test program, this is probably a case of the run-time linker being unable to find some library, probably libz, libreadline or some other non-standard library such as libssl. To point it to the right location, set the `LDFLAGS` environment variable on the `configure` command line, e.g.,
 
@@ -207,31 +138,15 @@ configure ... LDFLAGS="-R /usr/sfw/lib:/opt/sfw/lib:/usr/local/lib"
 
 See the ld man page for more information.
 
-**16.7.5.3. 64-bit Build Sometimes Crashes**
+### **17.7.5.3. Compiling For Optimal Performance**
 
-On Solaris 7 and older, the 64-bit version of libc has a buggy `vsnprintf` routine, which leads to erratic core dumps in PostgreSQL. The simplest known workaround is to force PostgreSQL to use its own version of `vsnprintf` rather than the library copy. To do this, after you run `configure` edit a file produced by `configure`: In `src/Makefile.global`, change the line
+On the SPARC architecture, Sun Studio is strongly recommended for compilation. Try using the `-xO5` optimization flag to generate significantly faster binaries. Do not use any flags that modify behavior of floating-point operations and `errno` processing (e.g., `-fast`).
 
-```
-LIBOBJS =
-```
+If you do not have a reason to use 64-bit binaries on SPARC, prefer the 32-bit version. The 64-bit operations are slower and 64-bit binaries are slower than the 32-bit variants. On the other hand, 32-bit code on the AMD64 CPU family is not native, so 32-bit code is significantly slower on that CPU family.
 
-to read
+### **17.7.5.4. Using DTrace For Tracing PostgreSQL**
 
-```
-LIBOBJS = snprintf.o
-```
-
-(There might be other files already listed in this variable. Order does not matter.) Then build as usual.
-
-**16.7.5.4. Compiling for Optimal Performance**
-
-On the SPARC architecture, Sun Studio is strongly recommended for compilation. Try using the `-xO5` optimization flag to generate significantly faster binaries. Do not use any flags that modify behavior of floating-point operations and `errno` processing (e.g., `-fast`). These flags could raise some nonstandard PostgreSQL behavior for example in the date/time computing.
-
-If you do not have a reason to use 64-bit binaries on SPARC, prefer the 32-bit version. The 64-bit operations are slower and 64-bit binaries are slower than the 32-bit variants. And on other hand, 32-bit code on the AMD64 CPU family is not native, and that is why 32-bit code is significant slower on this CPU family.
-
-**16.7.5.5. Using DTrace for Tracing PostgreSQL**
-
-Yes, using DTrace is possible. See [Section 28.5](https://www.postgresql.org/docs/10/static/dynamic-trace.html) for further information.
+Yes, using DTrace is possible. See [Section 28.5](https://www.postgresql.org/docs/15/dynamic-trace.html) for further information.
 
 If you see the linking of the `postgres` executable abort with an error message like:
 
@@ -245,4 +160,4 @@ collect2: ld returned 1 exit status
 make: *** [postgres] Error 1
 ```
 
-your DTrace installation is too old to handle probes in static functions. You need Solaris 10u4 or newer.
+your DTrace installation is too old to handle probes in static functions. You need Solaris 10u4 or newer to use DTrace.
