@@ -2,11 +2,11 @@
 
 PostgreSQL has the ability to report the progress of certain commands during command execution. Currently, the only commands which support progress reporting are `ANALYZE`, `CLUSTER`, `CREATE INDEX`, `VACUUM`, `COPY`, and [BASE\_BACKUP](https://www.postgresql.org/docs/15/protocol-replication.html#PROTOCOL-REPLICATION-BASE-BACKUP) (i.e., replication command that [pg\_basebackup](https://www.postgresql.org/docs/15/app-pgbasebackup.html) issues to take a base backup). This may be expanded in the future.
 
-#### 28.4.1. ANALYZE Progress Reporting
+## 28.4.1. ANALYZE Progress Reporting
 
 Whenever `ANALYZE` is running, the `pg_stat_progress_analyze` view will contain a row for each backend that is currently running that command. The tables below describe the information that will be reported and provide information about how to interpret it.
 
-**Table 28.36. `pg_stat_progress_analyze` View**
+#### **Table 28.36. `pg_stat_progress_analyze` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                          |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -23,7 +23,7 @@ Whenever `ANALYZE` is running, the `pg_stat_progress_analyze` view will contain 
 | <p><code>child_tables_done</code> <code>bigint</code></p><p>Number of child tables scanned. This counter only advances when the phase is <code>acquiring inherited sample rows</code>.</p>                    |
 | <p><code>current_child_table_relid</code> <code>oid</code></p><p>OID of the child table currently being scanned. This field is only valid when the phase is <code>acquiring inherited sample rows</code>.</p> |
 
-**Table 28.37. ANALYZE Phases**
+#### **Table 28.37. ANALYZE Phases**
 
 | Phase                             | Description                                                                                                                                                                                               |
 | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -38,11 +38,11 @@ Whenever `ANALYZE` is running, the `pg_stat_progress_analyze` view will contain 
 
 Note that when `ANALYZE` is run on a partitioned table, all of its partitions are also recursively analyzed. In that case, `ANALYZE` progress is reported first for the parent table, whereby its inheritance statistics are collected, followed by that for each partition.
 
-#### 28.4.2. CREATE INDEX Progress Reporting
+## 28.4.2. CREATE INDEX Progress Reporting
 
 Whenever `CREATE INDEX` or `REINDEX` is running, the `pg_stat_progress_create_index` view will contain one row for each backend that is currently creating indexes. The tables below describe the information that will be reported and provide information about how to interpret it.
 
-**Table 28.38. `pg_stat_progress_create_index` View**
+#### **Table 28.38. `pg_stat_progress_create_index` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -63,7 +63,7 @@ Whenever `CREATE INDEX` or `REINDEX` is running, the `pg_stat_progress_create_in
 | <p><code>partitions_total</code> <code>bigint</code></p><p>When creating an index on a partitioned table, this column is set to the total number of partitions on which the index is to be created. This field is <code>0</code> during a <code>REINDEX</code>.</p> |
 | <p><code>partitions_done</code> <code>bigint</code></p><p>When creating an index on a partitioned table, this column is set to the number of partitions on which the index has been created. This field is <code>0</code> during a <code>REINDEX</code>.</p>        |
 
-**Table 28.39. CREATE INDEX Phases**
+#### **Table 28.39. CREATE INDEX Phases**
 
 | Phase                                     | Description                                                                                                                                                                                                                                                                                                                                |
 | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -78,11 +78,11 @@ Whenever `CREATE INDEX` or `REINDEX` is running, the `pg_stat_progress_create_in
 | `waiting for readers before marking dead` | `REINDEX CONCURRENTLY` is waiting for transactions with read locks on the table to finish, before marking the old index dead. This phase is skipped when not in concurrent mode. Columns `lockers_total`, `lockers_done` and `current_locker_pid` contain the progress information for this phase.                                         |
 | `waiting for readers before dropping`     | `REINDEX CONCURRENTLY` is waiting for transactions with read locks on the table to finish, before dropping the old index. This phase is skipped when not in concurrent mode. Columns `lockers_total`, `lockers_done` and `current_locker_pid` contain the progress information for this phase.                                             |
 
-#### 28.4.3. VACUUM Progress Reporting
+## 28.4.3. VACUUM Progress Reporting
 
 Whenever `VACUUM` is running, the `pg_stat_progress_vacuum` view will contain one row for each backend (including autovacuum worker processes) that is currently vacuuming. The tables below describe the information that will be reported and provide information about how to interpret it. Progress for `VACUUM FULL` commands is reported via `pg_stat_progress_cluster` because both `VACUUM FULL` and `CLUSTER` rewrite the table, while regular `VACUUM` only modifies it in place. See [Section 28.4.4](https://www.postgresql.org/docs/15/progress-reporting.html#CLUSTER-PROGRESS-REPORTING).
 
-**Table 28.40. `pg_stat_progress_vacuum` View**
+#### **Table 28.40. `pg_stat_progress_vacuum` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -98,7 +98,7 @@ Whenever `VACUUM` is running, the `pg_stat_progress_vacuum` view will contain on
 | <p><code>max_dead_tuples</code> <code>bigint</code></p><p>Number of dead tuples that we can store before needing to perform an index vacuum cycle, based on <a href="https://www.postgresql.org/docs/15/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM">maintenance_work_mem</a>.</p>                                                                                                                                                                                                            |
 | <p><code>num_dead_tuples</code> <code>bigint</code></p><p>Number of dead tuples collected since the last index vacuum cycle.</p>                                                                                                                                                                                                                                                                                                                                                                        |
 
-**Table 28.41. VACUUM Phases**
+## **Table 28.41. VACUUM Phases**
 
 | Phase                      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -110,11 +110,11 @@ Whenever `VACUUM` is running, the `pg_stat_progress_vacuum` view will contain on
 | `truncating heap`          | `VACUUM` is currently truncating the heap so as to return empty pages at the end of the relation to the operating system. This occurs after cleaning up indexes.                                                                                                                                                                                                                                                                                                                                                                                 |
 | `performing final cleanup` | `VACUUM` is performing final cleanup. During this phase, `VACUUM` will vacuum the free space map, update statistics in `pg_class`, and report statistics to the cumulative statistics system. When this phase is completed, `VACUUM` will end.                                                                                                                                                                                                                                                                                                   |
 
-#### 28.4.4. CLUSTER Progress Reporting
+## 28.4.4. CLUSTER Progress Reporting
 
 Whenever `CLUSTER` or `VACUUM FULL` is running, the `pg_stat_progress_cluster` view will contain a row for each backend that is currently running either command. The tables below describe the information that will be reported and provide information about how to interpret it.
 
-**Table 28.42. `pg_stat_progress_cluster` View**
+#### **Table 28.42. `pg_stat_progress_cluster` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                             |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -131,7 +131,7 @@ Whenever `CLUSTER` or `VACUUM FULL` is running, the `pg_stat_progress_cluster` v
 | <p><code>heap_blks_scanned</code> <code>bigint</code></p><p>Number of heap blocks scanned. This counter only advances when the phase is <code>seq scanning heap</code>.</p>                                                                      |
 | <p><code>index_rebuild_count</code> <code>bigint</code></p><p>Number of indexes rebuilt. This counter only advances when the phase is <code>rebuilding index</code>.</p>                                                                         |
 
-**Table 28.43. CLUSTER and VACUUM FULL Phases**
+#### **Table 28.43. CLUSTER and VACUUM FULL Phases**
 
 | Phase                      | Description                                                                                                 |
 | -------------------------- | ----------------------------------------------------------------------------------------------------------- |
@@ -144,11 +144,11 @@ Whenever `CLUSTER` or `VACUUM FULL` is running, the `pg_stat_progress_cluster` v
 | `rebuilding index`         | The command is currently rebuilding an index.                                                               |
 | `performing final cleanup` | The command is performing final cleanup. When this phase is completed, `CLUSTER` or `VACUUM FULL` will end. |
 
-#### 28.4.5. Base Backup Progress Reporting
+## 28.4.5. Base Backup Progress Reporting
 
 Whenever an application like pg\_basebackup is taking a base backup, the `pg_stat_progress_basebackup` view will contain a row for each WAL sender process that is currently running the `BASE_BACKUP` replication command and streaming the backup. The tables below describe the information that will be reported and provide information about how to interpret it.
 
-**Table 28.44. `pg_stat_progress_basebackup` View**
+#### **Table 28.44. `pg_stat_progress_basebackup` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -159,7 +159,7 @@ Whenever an application like pg\_basebackup is taking a base backup, the `pg_sta
 | <p><code>tablespaces_total</code> <code>bigint</code></p><p>Total number of tablespaces that will be streamed.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | <p><code>tablespaces_streamed</code> <code>bigint</code></p><p>Number of tablespaces streamed. This counter only advances when the phase is <code>streaming database files</code>.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
-**Table 28.45. Base Backup Phases**
+#### **Table 28.45. Base Backup Phases**
 
 | Phase                                 | Description                                                                                                                                                                                                                                                                                                                |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -170,11 +170,11 @@ Whenever an application like pg\_basebackup is taking a base backup, the `pg_sta
 | `waiting for wal archiving to finish` | The WAL sender process is currently performing `pg_backup_stop` to finish the backup, and waiting for all the WAL files required for the base backup to be successfully archived. If either `--wal-method=none` or `--wal-method=stream` is specified in pg\_basebackup, the backup will end when this phase is completed. |
 | `transferring wal files`              | The WAL sender process is currently transferring all WAL logs generated during the backup. This phase occurs after `waiting for wal archiving to finish` phase if `--wal-method=fetch` is specified in pg\_basebackup. The backup will end when this phase is completed.                                                   |
 
-#### 28.4.6. COPY Progress Reporting
+## 28.4.6. COPY Progress Reporting
 
 Whenever `COPY` is running, the `pg_stat_progress_copy` view will contain one row for each backend that is currently running a `COPY` command. The table below describes the information that will be reported and provides information about how to interpret it.
 
-**Table 28.46. `pg_stat_progress_copy` View**
+#### **Table 28.46. `pg_stat_progress_copy` View**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                               |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
