@@ -1,8 +1,8 @@
 # MERGE
 
-MERGE — conditionally insert, update, or delete rows of a table
+MERGE — 有條件地 INSERT、UPDATE 或 DELETE 資料
 
-### Synopsis
+### 語法
 
 ```sql
 [ WITH with_query [, ...] ]
@@ -35,9 +35,9 @@ and merge_delete is:
 DELETE
 ```
 
-### Description
+### 說明
 
-`MERGE` performs actions that modify rows in the _`target_table_name`_, using the _`data_source`_. `MERGE` provides a single SQL statement that can conditionally `INSERT`, `UPDATE` or `DELETE` rows, a task that would otherwise require multiple procedural language statements.
+MERGE 使用 data\_source 執行修改 target\_table\_name 中資料的操作。MERGE 提供單個 SQL 語句，便能以指定條件插入、更新或刪除資料，否則這項作業通常需要多個操作程序。
 
 First, the `MERGE` command performs a join from _`data_source`_ to _`target_table_name`_ producing zero or more candidate change rows. For each candidate change row, the status of `MATCHED` or `NOT MATCHED` is set just once, after which `WHEN` clauses are evaluated in the order specified. For each candidate change row, the first clause to evaluate as true is executed. No more than one `WHEN` clause is executed for any candidate change row.
 
@@ -179,9 +179,9 @@ There is no `RETURNING` clause with `MERGE`. Actions of `INSERT`, `UPDATE` and `
 
 When `MERGE` is run concurrently with other commands that modify the target table, the usual transaction isolation rules apply; see [Section 13.2](https://www.postgresql.org/docs/15/transaction-iso.html) for an explanation on the behavior at each isolation level. You may also wish to consider using `INSERT ... ON CONFLICT` as an alternative statement which offers the ability to run an `UPDATE` if a concurrent `INSERT` occurs. There are a variety of differences and restrictions between the two statement types and they are not interchangeable.
 
-### Examples
+### 範例
 
-Perform maintenance on `customer_accounts` based upon new `recent_transactions`.
+根據新的 recent\_transactions 對 customer\_accounts 進行資料維護。
 
 ```sql
 MERGE INTO customer_account ca
@@ -194,7 +194,7 @@ WHEN NOT MATCHED THEN
   VALUES (t.customer_id, t.transaction_value);
 ```
 
-Notice that this would be exactly equivalent to the following statement because the `MATCHED` result does not change during execution.
+請注意，這將完全等同於以下語句，因為 MATCHED 結果在執行期間並不會改變。
 
 ```sql
 MERGE INTO customer_account ca
@@ -207,7 +207,7 @@ WHEN NOT MATCHED THEN
   VALUES (t.customer_id, t.transaction_value);
 ```
 
-Attempt to insert a new stock item along with the quantity of stock. If the item already exists, instead update the stock count of the existing item. Don't allow entries that have zero stock.
+嘗試插入新的庫存項目以及庫存數量。 如果該項目已經存在，則更新現有項目的庫存數量，並且不允許有零庫存的項目。
 
 ```sql
 MERGE INTO wines w
@@ -221,7 +221,7 @@ WHEN MATCHED THEN
   DELETE;
 ```
 
-The `wine_stock_changes` table might be, for example, a temporary table recently loaded into the database.
+在此例中，wine\_stock\_changes 資料表可能是最近加入到資料庫中的臨時資料庫表。
 
 ### Compatibility
 
