@@ -485,7 +485,7 @@
     * [48.7. Logical Decoding Output Writers](server-programming/logical-decoding/logical-decoding-output-writers.md)
     * [48.8. Synchronous Replication Support for Logical Decoding](server-programming/logical-decoding/synchronous-replication-support-for-logical-decoding.md)
   * [50. Replication Progress Tracking](server-programming/replication-progress-tracking.md)
-  * [51. Archive Modules](server-programming/51.-archive-modules/README.md)
+  * [51. Archive Modules](51.-archive-modules.md)
     * [51.1. Initialization Functions](server-programming/51.-archive-modules/51.1.-initialization-functions.md)
     * [51.2. Archive Module Callbacks](server-programming/51.-archive-modules/51.2.-archive-module-callbacks.md)
 * [VI. 參考資訊](reference/README.md)
