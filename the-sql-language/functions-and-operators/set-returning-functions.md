@@ -1,16 +1,15 @@
-# 9.25. 集合回傳函式
+# 9.25. 集合回傳函數
 
-本節介紹可以回傳多個資料列的函數。此類中使用最廣泛的函數是序列生成函數，如 [Table 9.61](set-returning-functions.md#table-9-61-series-generating-functions)和 [Table 9.62](set-returning-functions.md#table-9-62-subscript-generating-functions) 所述。其他更專門的集合回傳函數在本手冊的其他地方介紹。有關組合多個集合回傳函數的方法，請參見[第 7.2.1.4 節](../queries/table-expressions.md#7-2-1-the-from-clause)。
+本節介紹可以回傳多筆資料的函數。 此類中使用最廣泛的函數是序列生成函數，詳見 [Table 9.64](set-returning-functions.md#table-9.64.-series-generating-functions) 和 [Table 9.65](set-returning-functions.md#table-9.65.-subscript-generating-functions)。 還有其他更有用的集合回傳函數也描述在本手冊的其他地方。 請參閱[第 7.2.1.4 節](../queries/table-expressions.md#7.2.1.4.-zi-liao-biao-han-shu)以了解組合多個集合傳回函數的方法。
 
-#### **Table 9.61. Series Generating Functions**
+#### **Table 9.64. Series Generating Functions**
 
-| Function                                                    | Argument Type                             | Return Type                                                                   | Description                    |
-| ----------------------------------------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------ |
-| `generate_series(`_`start`_, _`stop`_)                      | `int`, `bigint` or `numeric`              | `setof int`, `setof bigint`, or `setof numeric` (same as argument type)       | 從 start 到 stop 產生成一系列的值，間隔為 1  |
-| `generate_series(`_`start`_, _`stop`_, _`step`_)            | `int`, `bigint` or `numeric`              | `setof int`, `setof bigint` or `setof numeric` (same as argument type)        | 產生一系列的值，從 start 到 end，間隔為 step |
-| `generate_series(`_`start`_, _`stop`_, _`step`_ `interval`) | `timestamp` or `timestamp with time zone` | `setof timestamp` or `setof timestamp with time zone` (same as argument type) | 產生一系列的值，從 start 到 end，間隔為 step |
+| <p>Function</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><code>generate_series</code> ( <em><code>start</code></em> <code>integer</code>, <em><code>stop</code></em> <code>integer</code> [, <em><code>step</code></em> <code>integer</code> ] ) → <code>setof integer</code></p><p><code>generate_series</code> ( <em><code>start</code></em> <code>bigint</code>, <em><code>stop</code></em> <code>bigint</code> [, <em><code>step</code></em> <code>bigint</code> ] ) → <code>setof bigint</code></p><p><code>generate_series</code> ( <em><code>start</code></em> <code>numeric</code>, <em><code>stop</code></em> <code>numeric</code> [, <em><code>step</code></em> <code>numeric</code> ] ) → <code>setof numeric</code></p><p>Generates a series of values from <em><code>start</code></em> to <em><code>stop</code></em>, with a step size of <em><code>step</code></em>. <em><code>step</code></em> defaults to 1.</p> |
+| <p><code>generate_series</code> ( <em><code>start</code></em> <code>timestamp</code>, <em><code>stop</code></em> <code>timestamp</code>, <em><code>step</code></em> <code>interval</code> ) → <code>setof timestamp</code></p><p><code>generate_series</code> ( <em><code>start</code></em> <code>timestamp with time zone</code>, <em><code>stop</code></em> <code>timestamp with time zone</code>, <em><code>step</code></em> <code>interval</code> ) → <code>setof timestamp with time zone</code></p><p>Generates a series of values from <em><code>start</code></em> to <em><code>stop</code></em>, with a step size of <em><code>step</code></em>.</p>                                                                                                                                                                                                               |
 
-當 step 為正時，如果 start 大於 stop 則回傳零筆資料。相反地，當 step 為負時，如果 start 小於 stop 也回傳零筆資料。NULL 的輸入也回傳零筆資料。 step 為零是錯誤的。以下是一些範例：
+When _`step`_ is positive, zero rows are returned if _`start`_ is greater than _`stop`_. Conversely, when _`step`_ is negative, zero rows are returned if _`start`_ is less than _`stop`_. Zero rows are also returned if any input is `NULL`. It is an error for _`step`_ to be zero. Some examples follow:
 
 ```
 SELECT * FROM generate_series(2,4);
@@ -35,14 +34,14 @@ SELECT * FROM generate_series(4,3);
 (0 rows)
 
 SELECT generate_series(1.1, 4, 1.3);
- generate_series 
+ generate_series
 -----------------
              1.1
              2.4
              3.7
 (3 rows)
 
--- this example relies on the date-plus-integer operator
+-- this example relies on the date-plus-integer operator:
 SELECT current_date + s.a AS dates FROM generate_series(0,14,7) AS s(a);
    dates
 ------------
@@ -53,7 +52,7 @@ SELECT current_date + s.a AS dates FROM generate_series(0,14,7) AS s(a);
 
 SELECT * FROM generate_series('2008-03-01 00:00'::timestamp,
                               '2008-03-04 12:00', '10 hours');
-   generate_series   
+   generate_series
 ---------------------
  2008-03-01 00:00:00
  2008-03-01 10:00:00
@@ -67,19 +66,19 @@ SELECT * FROM generate_series('2008-03-01 00:00'::timestamp,
 (9 rows)
 ```
 
-#### **Table 9.62. Subscript Generating Functions**
+#### **Table 9.65. Subscript Generating Functions**
 
-| Function                                                                    | Return Type | Description                                        |
-| --------------------------------------------------------------------------- | ----------- | -------------------------------------------------- |
-| `generate_subscripts(`_`array anyarray`_, _`dim int`_)                      | `setof int` | 產生成一個包含給定陣列索引的系列內容。                                |
-| `generate_subscripts(`_`array anyarray`_, _`dim int`_, _`reverse boolean`_) | `setof int` | 產生一個包含給定陣列索引的序列內容。當 reverse 為 true 時，將以相反的順序回傳該序列。 |
+| <p>Function</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <p><code>generate_subscripts</code> ( <em><code>array</code></em> <code>anyarray</code>, <em><code>dim</code></em> <code>integer</code> ) → <code>setof integer</code></p><p>Generates a series comprising the valid subscripts of the <em><code>dim</code></em>'th dimension of the given array.</p>                                                                                                                                      |
+| <p><code>generate_subscripts</code> ( <em><code>array</code></em> <code>anyarray</code>, <em><code>dim</code></em> <code>integer</code>, <em><code>reverse</code></em> <code>boolean</code> ) → <code>setof integer</code></p><p>Generates a series comprising the valid subscripts of the <em><code>dim</code></em>'th dimension of the given array. When <em><code>reverse</code></em> is true, returns the series in reverse order.</p> |
 
-generate\_subscripts 是一個很方便的函數，用於為給定陣列的指定維度產成一組有效的索引內容。對於沒有所請求維數的陣列或 NULL 陣列，回傳零筆資料（但是對於 NULL 陣列元素，回傳有效的索引）。以下是一些範例：
+`generate_subscripts` is a convenience function that generates the set of valid subscripts for the specified dimension of the given array. Zero rows are returned for arrays that do not have the requested dimension, or if any input is `NULL`. Some examples follow:
 
 ```
--- basic usage
+-- basic usage:
 SELECT generate_subscripts('{NULL,1,NULL,2}'::int[], 1) AS s;
- s 
+ s
 ---
  1
  2
@@ -88,9 +87,9 @@ SELECT generate_subscripts('{NULL,1,NULL,2}'::int[], 1) AS s;
 (4 rows)
 
 -- presenting an array, the subscript and the subscripted
--- value requires a subquery
+-- value requires a subquery:
 SELECT * FROM arrays;
-         a          
+         a
 --------------------
  {-1,-2}
  {100,200,300}
@@ -107,7 +106,7 @@ FROM (SELECT generate_subscripts(a, 1) AS s, a FROM arrays) foo;
  {100,200,300} |         3 |   300
 (5 rows)
 
--- unnest a 2D array
+-- unnest a 2D array:
 CREATE OR REPLACE FUNCTION unnest2(anyarray)
 RETURNS SETOF anyelement AS $$
 select $1[i][j]
@@ -116,7 +115,7 @@ select $1[i][j]
 $$ LANGUAGE sql IMMUTABLE;
 CREATE FUNCTION
 SELECT * FROM unnest2(ARRAY[[1,2],[3,4]]);
- unnest2 
+ unnest2
 ---------
        1
        2
@@ -125,10 +124,10 @@ SELECT * FROM unnest2(ARRAY[[1,2],[3,4]]);
 (4 rows)
 ```
 
-當 FROM 子句中的函數加上 WITH ORDINALITY 時，一個 bigint 欄位將附加到輸出資料中，該欄位從 1 開始，並針對函數輸出的每一筆資料以 1 遞增。這對集合回傳函數中的 unnest() 特別有用。
+When a function in the `FROM` clause is suffixed by `WITH ORDINALITY`, a `bigint` column is appended to the function's output column(s), which starts from 1 and increments by 1 for each row of the function's output. This is most useful in the case of set returning functions such as `unnest()`.
 
 ```
--- set returning function WITH ORDINALITY
+-- set returning function WITH ORDINALITY:
 SELECT * FROM pg_ls_dir('.') WITH ORDINALITY AS t(ls,n);
        ls        | n
 -----------------+----
@@ -153,3 +152,5 @@ SELECT * FROM pg_ls_dir('.') WITH ORDINALITY AS t(ls,n);
  pg_subtrans     | 19
 (19 rows)
 ```
+
+\

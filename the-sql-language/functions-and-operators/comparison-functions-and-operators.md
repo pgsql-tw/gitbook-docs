@@ -1,46 +1,51 @@
 # 9.2. 比較函式及運算子
 
-The usual comparison operators are available, as shown in [Table 9.1](https://www.postgresql.org/docs/12/functions-comparison.html#FUNCTIONS-COMPARISON-OP-TABLE).
+The usual comparison operators are available, as shown in [Table 9.1](https://www.postgresql.org/docs/15/functions-comparison.html#FUNCTIONS-COMPARISON-OP-TABLE).
 
 #### **Table 9.1. Comparison Operators**
 
-| Operator     | Description              |
-| ------------ | ------------------------ |
-| `<`          | less than                |
-| `>`          | greater than             |
-| `<=`         | less than or equal to    |
-| `>=`         | greater than or equal to |
-| `=`          | equal                    |
-| `<>` or `!=` | not equal                |
+| Operator                                   | Description              |
+| ------------------------------------------ | ------------------------ |
+| _`datatype`_ `<` _`datatype`_ → `boolean`  | Less than                |
+| _`datatype`_ `>` _`datatype`_ → `boolean`  | Greater than             |
+| _`datatype`_ `<=` _`datatype`_ → `boolean` | Less than or equal to    |
+| _`datatype`_ `>=` _`datatype`_ → `boolean` | Greater than or equal to |
+| _`datatype`_ `=` _`datatype`_ → `boolean`  | Equal                    |
+| _`datatype`_ `<>` _`datatype`_ → `boolean` | Not equal                |
+| _`datatype`_ `!=` _`datatype`_ → `boolean` | Not equal                |
 
 #### Note
 
-The `!=` operator is converted to `<>` in the parser stage. It is not possible to implement `!=` and `<>` operators that do different things.
+`<>` is the standard SQL notation for “not equal”. `!=` is an alias, which is converted to `<>` at a very early stage of parsing. Hence, it is not possible to implement `!=` and `<>` operators that do different things.
 
-Comparison operators are available for all relevant data types. All comparison operators are binary operators that return values of type `boolean`; expressions like `1 < 2 < 3` are not valid (because there is no `<` operator to compare a Boolean value with `3`).
+These comparison operators are available for all built-in data types that have a natural ordering, including numeric, string, and date/time types. In addition, arrays, composite types, and ranges can be compared if their component data types are comparable.
 
-There are also some comparison predicates, as shown in [Table 9.2](https://www.postgresql.org/docs/12/functions-comparison.html#FUNCTIONS-COMPARISON-PRED-TABLE). These behave much like operators, but have special syntax mandated by the SQL standard.
+It is usually possible to compare values of related data types as well; for example `integer` `>` `bigint` will work. Some cases of this sort are implemented directly by “cross-type” comparison operators, but if no such operator is available, the parser will coerce the less-general type to the more-general type and apply the latter's comparison operator.
+
+As shown above, all comparison operators are binary operators that return values of type `boolean`. Thus, expressions like `1 < 2 < 3` are not valid (because there is no `<` operator to compare a Boolean value with `3`). Use the `BETWEEN` predicates shown below to perform range tests.
+
+There are also some comparison predicates, as shown in [Table 9.2](https://www.postgresql.org/docs/15/functions-comparison.html#FUNCTIONS-COMPARISON-PRED-TABLE). These behave much like operators, but have special syntax mandated by the SQL standard.
 
 #### **Table 9.2. Comparison Predicates**
 
-| Predicate                                       | Description                                      |
-| ----------------------------------------------- | ------------------------------------------------ |
-| _`a`_ `BETWEEN` _`x`_ `AND` _`y`_               | between                                          |
-| _`a`_ `NOT BETWEEN` _`x`_ `AND` _`y`_           | not between                                      |
-| _`a`_ `BETWEEN SYMMETRIC` _`x`_ `AND` _`y`_     | between, after sorting the comparison values     |
-| _`a`_ `NOT BETWEEN SYMMETRIC` _`x`_ `AND` _`y`_ | not between, after sorting the comparison values |
-| _`a`_ `IS DISTINCT FROM` _`b`_                  | not equal, treating null like an ordinary value  |
-| _`a`_ `IS NOT DISTINCT FROM` _`b`_              | equal, treating null like an ordinary value      |
-| _`expression`_ `IS NULL`                        | is null                                          |
-| _`expression`_ `IS NOT NULL`                    | is not null                                      |
-| _`expression`_ `ISNULL`                         | is null (nonstandard syntax)                     |
-| _`expression`_ `NOTNULL`                        | is not null (nonstandard syntax)                 |
-| _`boolean_expression`_ `IS TRUE`                | is true                                          |
-| _`boolean_expression`_ `IS NOT TRUE`            | is false or unknown                              |
-| _`boolean_expression`_ `IS FALSE`               | is false                                         |
-| _`boolean_expression`_ `IS NOT FALSE`           | is true or unknown                               |
-| _`boolean_expression`_ `IS UNKNOWN`             | is unknown                                       |
-| _`boolean_expression`_ `IS NOT UNKNOWN`         | is true or false                                 |
+| <p>Predicate</p><p>Description</p><p>Example(s)</p>                                                                                                                                                                                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><em><code>datatype</code></em> <code>BETWEEN</code> <em><code>datatype</code></em> <code>AND</code> <em><code>datatype</code></em> → <code>boolean</code></p><p>Between (inclusive of the range endpoints).</p><p><code>2 BETWEEN 1 AND 3</code> → <code>t</code></p><p><code>2 BETWEEN 3 AND 1</code> → <code>f</code></p>                                                     |
+| <p><em><code>datatype</code></em> <code>NOT BETWEEN</code> <em><code>datatype</code></em> <code>AND</code> <em><code>datatype</code></em> → <code>boolean</code></p><p>Not between (the negation of <code>BETWEEN</code>).</p><p><code>2 NOT BETWEEN 1 AND 3</code> → <code>f</code></p>                                                                                           |
+| <p><em><code>datatype</code></em> <code>BETWEEN SYMMETRIC</code> <em><code>datatype</code></em> <code>AND</code> <em><code>datatype</code></em> → <code>boolean</code></p><p>Between, after sorting the two endpoint values.</p><p><code>2 BETWEEN SYMMETRIC 3 AND 1</code> → <code>t</code></p>                                                                                   |
+| <p><em><code>datatype</code></em> <code>NOT BETWEEN SYMMETRIC</code> <em><code>datatype</code></em> <code>AND</code> <em><code>datatype</code></em> → <code>boolean</code></p><p>Not between, after sorting the two endpoint values.</p><p><code>2 NOT BETWEEN SYMMETRIC 3 AND 1</code> → <code>f</code></p>                                                                       |
+| <p><em><code>datatype</code></em> <code>IS DISTINCT FROM</code> <em><code>datatype</code></em> → <code>boolean</code></p><p>Not equal, treating null as a comparable value.</p><p><code>1 IS DISTINCT FROM NULL</code> → <code>t</code> (rather than <code>NULL</code>)</p><p><code>NULL IS DISTINCT FROM NULL</code> → <code>f</code> (rather than <code>NULL</code>)</p>         |
+| <p><em><code>datatype</code></em> <code>IS NOT DISTINCT FROM</code> <em><code>datatype</code></em> → <code>boolean</code></p><p>Equal, treating null as a comparable value.</p><p><code>1 IS NOT DISTINCT FROM NULL</code> → <code>f</code> (rather than <code>NULL</code>)</p><p><code>NULL IS NOT DISTINCT FROM NULL</code> → <code>t</code> (rather than <code>NULL</code>)</p> |
+| <p><em><code>datatype</code></em> <code>IS NULL</code> → <code>boolean</code></p><p>Test whether value is null.</p><p><code>1.5 IS NULL</code> → <code>f</code></p>                                                                                                                                                                                                                |
+| <p><em><code>datatype</code></em> <code>IS NOT NULL</code> → <code>boolean</code></p><p>Test whether value is not null.</p><p><code>'null' IS NOT NULL</code> → <code>t</code></p>                                                                                                                                                                                                 |
+| <p><em><code>datatype</code></em> <code>ISNULL</code> → <code>boolean</code></p><p>Test whether value is null (nonstandard syntax).</p>                                                                                                                                                                                                                                            |
+| <p><em><code>datatype</code></em> <code>NOTNULL</code> → <code>boolean</code></p><p>Test whether value is not null (nonstandard syntax).</p>                                                                                                                                                                                                                                       |
+| <p><code>boolean</code> <code>IS TRUE</code> → <code>boolean</code></p><p>Test whether boolean expression yields true.</p><p><code>true IS TRUE</code> → <code>t</code></p><p><code>NULL::boolean IS TRUE</code> → <code>f</code> (rather than <code>NULL</code>)</p>                                                                                                              |
+| <p><code>boolean</code> <code>IS NOT TRUE</code> → <code>boolean</code></p><p>Test whether boolean expression yields false or unknown.</p><p><code>true IS NOT TRUE</code> → <code>f</code></p><p><code>NULL::boolean IS NOT TRUE</code> → <code>t</code> (rather than <code>NULL</code>)</p>                                                                                      |
+| <p><code>boolean</code> <code>IS FALSE</code> → <code>boolean</code></p><p>Test whether boolean expression yields false.</p><p><code>true IS FALSE</code> → <code>f</code></p><p><code>NULL::boolean IS FALSE</code> → <code>f</code> (rather than <code>NULL</code>)</p>                                                                                                          |
+| <p><code>boolean</code> <code>IS NOT FALSE</code> → <code>boolean</code></p><p>Test whether boolean expression yields true or unknown.</p><p><code>true IS NOT FALSE</code> → <code>t</code></p><p><code>NULL::boolean IS NOT FALSE</code> → <code>t</code> (rather than <code>NULL</code>)</p>                                                                                    |
+| <p><code>boolean</code> <code>IS UNKNOWN</code> → <code>boolean</code></p><p>Test whether boolean expression yields unknown.</p><p><code>true IS UNKNOWN</code> → <code>f</code></p><p><code>NULL::boolean IS UNKNOWN</code> → <code>t</code> (rather than <code>NULL</code>)</p>                                                                                                  |
+| <p><code>boolean</code> <code>IS NOT UNKNOWN</code> → <code>boolean</code></p><p>Test whether boolean expression yields true or false.</p><p><code>true IS NOT UNKNOWN</code> → <code>t</code></p><p><code>NULL::boolean IS NOT UNKNOWN</code> → <code>f</code> (rather than <code>NULL</code>)</p>                                                                                |
 
 The `BETWEEN` predicate simplifies range tests:
 
@@ -54,19 +59,13 @@ is equivalent to
 a >= x AND a <= y
 ```
 
-Notice that `BETWEEN` treats the endpoint values as included in the range. `NOT BETWEEN` does the opposite comparison:
+Notice that `BETWEEN` treats the endpoint values as included in the range. `BETWEEN SYMMETRIC` is like `BETWEEN` except there is no requirement that the argument to the left of `AND` be less than or equal to the argument on the right. If it is not, those two arguments are automatically swapped, so that a nonempty range is always implied.
 
-```
-a NOT BETWEEN x AND y
-```
+The various variants of `BETWEEN` are implemented in terms of the ordinary comparison operators, and therefore will work for any data type(s) that can be compared.
 
-is equivalent to
+#### Note
 
-```
-a < x OR a > y
-```
-
-`BETWEEN SYMMETRIC` is like `BETWEEN` except there is no requirement that the argument to the left of `AND` be less than or equal to the argument on the right. If it is not, those two arguments are automatically swapped, so that a nonempty range is always implied.
+The use of `AND` in the `BETWEEN` syntax creates an ambiguity with the use of `AND` as a logical operator. To resolve this, only a limited set of expression types are allowed as the second argument of a `BETWEEN` clause. If you need to write a more complex sub-expression in `BETWEEN`, write parentheses around the sub-expression.
 
 Ordinary comparison operators yield null (signifying “unknown”), not true or false, when either input is null. For example, `7 = NULL` yields null, as does `7 <> NULL`. When this behavior is not suitable, use the `IS [ NOT ] DISTINCT FROM` predicates:
 
@@ -91,11 +90,11 @@ expression ISNULL
 expression NOTNULL
 ```
 
-Do _not_ write _`expression`_ = NULL because `NULL` is not “equal to” `NULL`. (The null value represents an unknown value, and it is not known whether two unknown values are equal.)
+Do _not_ write _`expression`_` ``= NULL` because `NULL` is not “equal to” `NULL`. (The null value represents an unknown value, and it is not known whether two unknown values are equal.)
 
 #### Tip
 
-Some applications might expect that _`expression`_ = NULL returns true if _`expression`_ evaluates to the null value. It is highly recommended that these applications be modified to comply with the SQL standard. However, if that cannot be done the [transform\_null\_equals](https://www.postgresql.org/docs/12/runtime-config-compatible.html#GUC-TRANSFORM-NULL-EQUALS) configuration variable is available. If it is enabled, PostgreSQL will convert `x = NULL` clauses to `x IS NULL`.
+Some applications might expect that _`expression`_` ``= NULL` returns true if _`expression`_ evaluates to the null value. It is highly recommended that these applications be modified to comply with the SQL standard. However, if that cannot be done the [transform\_null\_equals](https://www.postgresql.org/docs/15/runtime-config-compatible.html#GUC-TRANSFORM-NULL-EQUALS) configuration variable is available. If it is enabled, PostgreSQL will convert `x = NULL` clauses to `x IS NULL`.
 
 If the _`expression`_ is row-valued, then `IS NULL` is true when the row expression itself is null or when all the row's fields are null, while `IS NOT NULL` is true when the row expression itself is non-null and all the row's fields are non-null. Because of this behavior, `IS NULL` and `IS NOT NULL` do not always return inverse results for row-valued expressions; in particular, a row-valued expression that contains both null and non-null fields will return false for both tests. In some cases, it may be preferable to write _`row`_ `IS DISTINCT FROM NULL` or _`row`_ `IS NOT DISTINCT FROM NULL`, which will simply check whether the overall row value is null without any additional tests on the row fields.
 
@@ -112,11 +111,13 @@ boolean_expression IS NOT UNKNOWN
 
 These will always return true or false, never a null value, even when the operand is null. A null input is treated as the logical value “unknown”. Notice that `IS UNKNOWN` and `IS NOT UNKNOWN` are effectively the same as `IS NULL` and `IS NOT NULL`, respectively, except that the input expression must be of Boolean type.
 
-Some comparison-related functions are also available, as shown in [Table 9.3](https://www.postgresql.org/docs/12/functions-comparison.html#FUNCTIONS-COMPARISON-FUNC-TABLE).
+Some comparison-related functions are also available, as shown in [Table 9.3](https://www.postgresql.org/docs/15/functions-comparison.html#FUNCTIONS-COMPARISON-FUNC-TABLE).
 
 #### **Table 9.3. Comparison Functions**
 
-| Function                       | Description                              | Example                    | Example Result |
-| ------------------------------ | ---------------------------------------- | -------------------------- | -------------- |
-| `num_nonnulls(VARIADIC "any")` | returns the number of non-null arguments | `num_nonnulls(1, NULL, 2)` | `2`            |
-| `num_nulls(VARIADIC "any")`    | returns the number of null arguments     | `num_nulls(1, NULL, 2)`    | `1`            |
+| <p>Function</p><p>Description</p><p>Example(s)</p>                                                                                                                                                                |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><code>num_nonnulls</code> ( <code>VARIADIC</code> <code>"any"</code> ) → <code>integer</code></p><p>Returns the number of non-null arguments.</p><p><code>num_nonnulls(1, NULL, 2)</code> → <code>2</code></p> |
+| <p><code>num_nulls</code> ( <code>VARIADIC</code> <code>"any"</code> ) → <code>integer</code></p><p>Returns the number of null arguments.</p><p><code>num_nulls(1, NULL, 2)</code> → <code>1</code></p>           |
+
+\

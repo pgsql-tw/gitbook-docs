@@ -112,7 +112,7 @@
     * [9.22. Window 函式](the-sql-language/functions-and-operators/window-functions.md)
     * [9.23. 子查詢](the-sql-language/functions-and-operators/subquery-expressions.md)
     * [9.24. 資料列與陣列的比較運算](the-sql-language/functions-and-operators/row-and-array-comparisons.md)
-    * [9.25. 集合回傳函式](the-sql-language/functions-and-operators/set-returning-functions.md)
+    * [9.25. 集合回傳函數](the-sql-language/functions-and-operators/set-returning-functions.md)
     * [9.26. 系統資訊函數](the-sql-language/functions-and-operators/system-information-functions.md)
     * [9.27. 系統管理函式](the-sql-language/functions-and-operators/system-administration.md)
     * [9.28. 觸發函式](the-sql-language/functions-and-operators/trigger-functions.md)
