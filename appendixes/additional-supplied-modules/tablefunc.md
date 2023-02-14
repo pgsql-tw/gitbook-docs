@@ -1,8 +1,8 @@
-# F.38. tablefunc
+# F.43. tablefunc
 
 tablefunc 模組內含了回傳資料表（即多筆資料列）的各種函數。這些函數本身很有用，也可以用作設計回傳多筆資料列的 C 函數的範例。
 
-## F.38.1. Functions Provided
+## F.43.1. Functions Provided
 
 [Table F.30](tablefunc.md#table-f-30-tablefunc-functions) 列出了 tablefunc 模組所提供的函數。
 
@@ -17,7 +17,7 @@ tablefunc 模組內含了回傳資料表（即多筆資料列）的各種函數�
 | `crosstab(text sql, int N)`                                                                                                                   | `setof record`               | Obsolete version of `crosstab(text)`. The parameter _`N`_ is now ignored, since the number of value columns is always determined by the calling query                                                        |
 | `connectby(text relname, text keyid_fld, text parent_keyid_fld [, text orderby_fld ], text start_with, int max_depth [, text branch_delim ])` | `setof record`               | Produces a representation of a hierarchical tree structure                                                                                                                                                   |
 
-### **F.38.1.1. Normal\_rand**
+### **F.43.1.1. Normal\_rand**
 
 ```
 normal_rand(int numvals, float8 mean, float8 stddev) returns setof float8
@@ -47,7 +47,7 @@ test=# SELECT * FROM normal_rand(1000, 5, 3);
 (1000 rows)
 ```
 
-### **F.38.1.2. Crosstab(Text)**
+### **F.43.1.2. Crosstab(Text)**
 
 ```
 crosstab(text sql)
@@ -150,7 +150,7 @@ You can avoid always having to write out a `FROM` clause to define the output co
 另請參閱 psql 中的 [\crosstabview](../../reference/client-applications/psql.md#crosstabview-colv-colh-cold-sortcolh) 指令，該指令提供的功能類似於 crosstab()。
 {% endhint %}
 
-### **F.38.1.3. CrosstabN(Text)**
+### **F.43.1.3. CrosstabN(Text)**
 
 ```
 crosstabN(text sql)
@@ -216,7 +216,7 @@ These functions are provided mostly for illustration purposes. You can create yo
       AS '$libdir/tablefunc','crosstab' LANGUAGE C STABLE STRICT;
     ```
 
-### **F.38.1.4. Crosstab(Text, Text)**
+### **F.43.1.4. Crosstab(Text, Text)**
 
 ```
 crosstab(text source_sql, text category_sql)
@@ -346,7 +346,7 @@ AS
 
 You can create predefined functions to avoid having to write out the result column names and types in each query. See the examples in the previous section. The underlying C function for this form of `crosstab` is named `crosstab_hash`.
 
-### **F.38.1.5. Connectby**
+### **F.43.1.5. Connectby**
 
 ```
 connectby(text relname, text keyid_fld, text parent_keyid_fld
@@ -459,6 +459,6 @@ SELECT * FROM connectby('connectby_tree', 'keyid', 'parent_keyid', 'pos', 'row2'
 (6 rows)
 ```
 
-## F.38.2. Author
+## F.43.2. Author
 
 Joe Conway

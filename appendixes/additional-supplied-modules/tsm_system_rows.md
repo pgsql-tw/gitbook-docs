@@ -1,4 +1,4 @@
-# F.41. tsm\_system\_rows
+# F.46. tsm\_system\_rows
 
 tsm\_system\_rows 模組提供資料表抽樣方法 SYSTEM\_ROWS，此方法可在 [SELECT](../../reference/sql-commands/select.md) 指令的 TABLESAMPLE 子句中使用。
 
@@ -8,7 +8,7 @@ tsm\_system\_rows 模組提供資料表抽樣方法 SYSTEM\_ROWS，此方法可�
 
 SYSTEM\_ROWS 不支援 REPEATABLE 子句。
 
-## F.41.1. 範例
+## F.46.1. 範例
 
 使用 SYSTEM\_ROWS 選擇資料表樣本的範例。首先要安裝延伸功能：
 

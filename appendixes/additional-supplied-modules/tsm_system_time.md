@@ -1,4 +1,4 @@
-# F.42. tsm\_system\_time
+# F.47. tsm\_system\_time
 
 tsm\_system\_time 模組提供資料表抽樣方法 SYSTEM\_TIME，此方法可在 [SELECT](../../reference/sql-commands/select.md) 指令的 TABLESAMPLE 子句中使用。
 
@@ -8,7 +8,7 @@ tsm\_system\_time 模組提供資料表抽樣方法 SYSTEM\_TIME，此方法可�
 
 SYSTEM\_ROWS 不支援 REPEATABLE 子句。
 
-## F.42.1. Examples
+## F.47.1. Examples
 
 這是一個使用 SYSTEM\_TIME 選擇資料表樣本的範例。首先要安裝延伸功能：
 
