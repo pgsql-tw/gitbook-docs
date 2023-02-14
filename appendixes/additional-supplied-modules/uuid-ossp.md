@@ -1,12 +1,12 @@
-# F.44. uuid-ossp
+# F.49. uuid-ossp
 
 uuid-ossp 模組提供了使用幾種標準演算法來產生 Universally Unique IDentifiers (UUIDs) 的功能。還有一些函數可以產生某些特殊的 UUID 常數。此模組僅在 PostgreSQL 中特殊需求時才需要。有關產生 UUID 的內建函數，請參閱[第 9.14 節](../../the-sql-language/functions-and-operators/uuid-functions.md)。
 
 該模組被認為是「可信任的」，也就是說，它可以由對目前資料庫具有 CREATE 權限的非超級使用者安裝。
 
-## F.44.1. `uuid-ossp` Functions
+## F.49.1. `uuid-ossp` Functions
 
-[Table F.32](uuid-ossp.md#table-f-32-functions-for-uuid-generation) 列出了可用於產生 UUID 的函數。相關標準為 ITU-T Rec. X.667、ISO/IEC 9834-8:2005 和 RFC 4122 所指定的四種用於產生 UUID 的演算法，由標示為版本號 1、3、4 和 5 。（沒有版本 2 。）這些演算法可能適用於不同的應用情境。
+[Table F.32](uuid-ossp.md#table-f-32-functions-for-uuid-generation) 列出了可用於產生 UUID 的函數。相關標準為 ITU-T Rec. X.667、ISO/IEC 9834-8:2005 和 [RFC 4122](https://tools.ietf.org/html/rfc4122) 所指定的四種用於產生 UUID 的演算法，由標示為版本號 1、3、4 和 5 。（沒有版本 2 。）這些演算法適用於不同的應用情境。
 
 #### **Table F.32. Functions for UUID Generation**
 
@@ -28,10 +28,10 @@ uuid-ossp 模組提供了使用幾種標準演算法來產生 Universally Unique
 | <p><code>uuid_ns_oid</code> () → <code>uuid</code></p><p>回傳一個常數，為 UUID 指定 ISO 物件識別符號 (OID) 的命名空間。 （這與 ASN.1 OID 相關，它與 PostgreSQL 中使用的 OID 無關。）</p> |
 | <p><code>uuid_ns_x500</code> () → <code>uuid</code></p><p>回傳指定 UUID 為 X.500 專有名稱 (DN) 命名空間的常數。</p>                                                 |
 
-## F.44.2. Building `uuid-ossp`
+## F.49.2. Building `uuid-ossp`
 
 從歷史上看，這個模組相依於 OSSP UUID 函式庫，它也是模組名稱的由來。雖然 OSSP UUID 庫仍然可以在 [http://www.ossp.org/pkg/lib/uuid/](http://www.ossp.org/pkg/lib/uuid/) 找到，但它沒有得到很好的維護，並且越來越難以移植到更新的平台。uuid-ossp 現在可以在某些平台上在沒有 OSSP 函式庫的情況下編譯。在 FreeBSD、NetBSD 和其他一些 BSD 衍生平台上，核心 libc 函式庫中包含合適的 UUID 建立函數。在 Linux、macOS 和其他一些平台上，libuuid 函式庫中提供了合適的函數，該函式庫最初來自 e2fsprogs 專案（儘管在近代 Linux 上它被認為是 util-linux-ng 的一部分）。呼叫 configure 時，指定 --with-uuid=bsd 使用 BSD 函數，或 --with-uuid=e2fs 使用 e2fsprogs 的 libuuid，或 --with-uuid=ossp 使用 OSSP UUID 函式庫。在某些主機上可能有多種函式庫可用，因此 configure 並不會自動選擇。
 
-## F.44.3. Author
+## F.49.3. Author
 
 Peter Eisentraut `<`[`peter_e@gmx.net`](mailto:peter\_e@gmx.net)`>`
