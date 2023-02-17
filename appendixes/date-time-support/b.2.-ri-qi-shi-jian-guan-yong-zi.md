@@ -1,4 +1,6 @@
-# B.2. 日期時間慣用字
+# B.3. 日期時間慣用字
+
+[Table B.1](https://www.postgresql.org/docs/current/datetime-keywords.html#DATETIME-MONTH-TABLE) shows the tokens that are recognized as names of months.
 
 **Table B.1. 月份名稱**
 
@@ -17,6 +19,8 @@
 | November  | Nov       |
 | December  | Dec       |
 
+[Table B.2](https://www.postgresql.org/docs/current/datetime-keywords.html#DATETIME-DOW-TABLE) shows the tokens that are recognized as names of days of the week.
+
 **Table B.2. 星期名稱**
 
 | 星期        | 縮寫               |
@@ -28,6 +32,8 @@
 | Thursday  | Thu, Thur, Thurs |
 | Friday    | Fri              |
 | Saturday  | Sat              |
+
+[Table B.3](https://www.postgresql.org/docs/current/datetime-keywords.html#DATETIME-MOD-TABLE) shows the tokens that serve various modifier purposes.
 
 **Table B.3. 日期/時間修飾字**
 
