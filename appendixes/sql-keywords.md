@@ -1,12 +1,12 @@
 # C. SQL 關鍵字
 
-Table C.1 列出了在 SQL 標準和 PostgreSQL 15.2 中作為關鍵字的所有標記。相關說明提供於[第 4.1.1 節](../the-sql-language/sql-syntax/lexical-structure.md#4.1.1.-shi-bie-xiang-identifier-he-guan-jian-zi-keyword)中。 （由於篇幅原因，僅收錄了 SQL 標準的最新兩個版本，以及用於歷史對比的 SQL-92，與其他中間標準版本差異較小。）
+[Table C.1](sql-keywords.md#table-c.1.-sql-key-words) 列出了在 SQL 標準和 PostgreSQL 15.2 中作為關鍵字的所有標記。相關說明提供於[第 4.1.1 節](../the-sql-language/sql-syntax/lexical-structure.md#4.1.1.-shi-bie-xiang-identifier-he-guan-jian-zi-keyword)中。 （由於篇幅原因，僅收錄了 SQL 標準的最新兩個版本，以及用於歷史對比的 SQL-92，與其他中間標準版本差異較小。）
 
 SQL 區分保留(reserved)關鍵字和非保留(non-reserved)關鍵字。 根據標準，只有保留關鍵字才是真正的關鍵字； 他們永遠不允許作為標識字串。 非保留關鍵字則只在特定的用法中有特殊的含義，而在其他用法中可以作為標識字串使用。 大多數非保留關鍵字實際上是 SQL 指定的內建資料表和函數的名稱。非保留關鍵字的概念本質上只是為了聲明在某些用法中增加了一些預先定義的含義。
 
 在 PostgreSQL 解析器中，情況有點複雜。 有幾種不同類別的標記，從永遠不能用作標識字串的標記，到在解析器中絕對沒有特殊地位，但被視為普通標識字串的標記都有。 （後者通常是 SQL 指定的函數。）即使保留關鍵字在 PostgreSQL 中也沒有完全保留，而是可以用作欄位標籤（例如 SELECT 55 AS CHECK 是可以的，儘管 CHECK 是保留關鍵字） .
 
-In [Table C.1](https://www.postgresql.org/docs/current/sql-keywords-appendix.html#KEYWORDS-TABLE) in the column for PostgreSQL we classify as “non-reserved” those key words that are explicitly known to the parser but are allowed as column or table names. Some key words that are otherwise non-reserved cannot be used as function or data type names and are marked accordingly. (Most of these words represent built-in functions or data types with special syntax. The function or type is still available but it cannot be redefined by the user.) Labeled “reserved” are those tokens that are not allowed as column or table names. Some reserved key words are allowable as names for functions or data types; this is also shown in the table. If not so marked, a reserved key word is only allowed as a column label. A blank entry in this column means that the word is treated as an ordinary identifier by PostgreSQL.
+在[Table C.1](sql-keywords.md#table-c.1.-sql-key-words) 的 PostgreSQL 欄位中，我們將解析器明確知道但允許作為欄位名稱或資料表名稱的那些關鍵字分類為“non-reserved”。 一些非保留的關鍵字不能用作函數或資料型別名稱，並相應地進行標記。 （這些詞大多表示具有特殊語法的內建函數或資料型別。函數或型別仍然可用，但使用者不能重新定義。）標記為“reserved”的是那些不允許作為欄位或資料表名稱的標記。 允許一些保留關鍵字作為函數或資料型別的名稱； 這也顯示在表格中。 如果沒有這樣標記，保留關鍵字僅允許作為欄位標籤。 此欄中的空白項目表示該關鍵字被 PostgreSQL 視為普通標識字串。
 
 此外，雖然大多數關鍵字可以直接用作欄位標籤而毋須在它們之前使用 AS（如[第 7.3.2 節](../the-sql-language/queries/select-lists.md#7.3.2.-lan-wei-ming-ming-biao-qian)所述），但有一些關鍵詞需要前導 AS 以避免歧義。 在下表中這些關鍵字會標記為“requires AS”。
 

@@ -767,7 +767,7 @@
     * [B.2. 日期時間慣用字](appendixes/date-time-support/b.2.-ri-qi-shi-jian-guan-yong-zi.md)
     * [B.3. 日期時間設定檔](appendixes/date-time-support/configuration.md)
     * [B.4. 日期時間的沿革](appendixes/date-time-support/b.4.-ri-qi-shi-jian-de-yan-ge.md)
-  * [C. SQL 關鍵字](appendixes/c.-sql-guan-jian-zi.md)
+  * [C. SQL 關鍵字](appendixes/sql-keywords.md)
   * [D. SQL 相容性](appendixes/d.-sql-xiang-rong-xing/README.md)
     * [D.1. Supported Features](appendixes/d.-sql-xiang-rong-xing/supported-features.md)
     * [D.2. Unsupported Features](appendixes/d.-sql-xiang-rong-xing/d.2.-unsupported-features.md)
