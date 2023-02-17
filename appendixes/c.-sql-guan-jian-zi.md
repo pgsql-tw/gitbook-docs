@@ -2,7 +2,7 @@
 
 Table C.1 列出了在 SQL 標準和 PostgreSQL 15.2 中作為關鍵字的所有標記。相關說明提供於[第 4.1.1 節](../the-sql-language/sql-syntax/lexical-structure.md#4.1.1.-shi-bie-xiang-identifier-he-guan-jian-zi-keyword)中。 （由於篇幅原因，僅收錄了 SQL 標準的最新兩個版本，以及用於歷史對比的 SQL-92，與其他中間標準版本差異較小。）
 
-SQL distinguishes between _reserved_ and _non-reserved_ key words. According to the standard, reserved key words are the only real key words; they are never allowed as identifiers. Non-reserved key words only have a special meaning in particular contexts and can be used as identifiers in other contexts. Most non-reserved key words are actually the names of built-in tables and functions specified by SQL. The concept of non-reserved key words essentially only exists to declare that some predefined meaning is attached to a word in some contexts.
+SQL 區分保留(reserved)關鍵字和非保留(non-reserved)關鍵字。 根據標準，只有保留關鍵字才是真正的關鍵字； 他們永遠不允許作為標識字串。 非保留關鍵字則只在特定的用法中有特殊的含義，而在其他用法中可以作為標識字串使用。 大多數非保留關鍵字實際上是 SQL 指定的內建資料表和函數的名稱。非保留關鍵字的概念本質上只是為了聲明在某些用法中增加了一些預先定義的含義。
 
 In the PostgreSQL parser, life is a bit more complicated. There are several different classes of tokens ranging from those that can never be used as an identifier to those that have absolutely no special status in the parser, but are considered ordinary identifiers. (The latter is usually the case for functions specified by SQL.) Even reserved key words are not completely reserved in PostgreSQL, but can be used as column labels (for example, `SELECT 55 AS CHECK`, even though `CHECK` is a reserved key word).
 
