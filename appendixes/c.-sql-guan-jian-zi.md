@@ -8,7 +8,7 @@ In the PostgreSQL parser, life is a bit more complicated. There are several diff
 
 In [Table C.1](https://www.postgresql.org/docs/current/sql-keywords-appendix.html#KEYWORDS-TABLE) in the column for PostgreSQL we classify as “non-reserved” those key words that are explicitly known to the parser but are allowed as column or table names. Some key words that are otherwise non-reserved cannot be used as function or data type names and are marked accordingly. (Most of these words represent built-in functions or data types with special syntax. The function or type is still available but it cannot be redefined by the user.) Labeled “reserved” are those tokens that are not allowed as column or table names. Some reserved key words are allowable as names for functions or data types; this is also shown in the table. If not so marked, a reserved key word is only allowed as a column label. A blank entry in this column means that the word is treated as an ordinary identifier by PostgreSQL.
 
-Furthermore, while most key words can be used as “bare” column labels without writing `AS` before them (as described in [Section 7.3.2](https://www.postgresql.org/docs/current/queries-select-lists.html#QUERIES-COLUMN-LABELS)), there are a few that require a leading `AS` to avoid ambiguity. These are marked in the table as “requires `AS`”.
+此外，雖然大多數關鍵字可以直接用作欄位標籤而毋須在它們之前使用 AS（如[第 7.3.2 節](../the-sql-language/queries/select-lists.md#7.3.2.-lan-wei-ming-ming-biao-qian)所述），但有一些關鍵詞需要前導 AS 以避免歧義。 在下表中這些關鍵字會標記為“requires AS”。
 
 As a general rule, if you get spurious parser errors for commands that use any of the listed key words as an identifier, you should try quoting the identifier to see if the problem goes away.
 
