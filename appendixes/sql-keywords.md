@@ -10,9 +10,9 @@ SQL 區分保留(reserved)關鍵字和非保留(non-reserved)關鍵字。 根據
 
 此外，雖然大多數關鍵字可以直接用作欄位標籤而毋須在它們之前使用 AS（如[第 7.3.2 節](../the-sql-language/queries/select-lists.md#7.3.2.-lan-wei-ming-ming-biao-qian)所述），但有一些關鍵詞需要前導 AS 以避免歧義。 在下表中這些關鍵字會標記為“requires AS”。
 
-As a general rule, if you get spurious parser errors for commands that use any of the listed key words as an identifier, you should try quoting the identifier to see if the problem goes away.
+一般來說，如果使用任何列出的關鍵字作為標識字的命令出現解析錯誤的時候，您應該嘗試將標識字以雙引號括住，再查看問題是否消失。
 
-It is important to understand before studying [Table C.1](https://www.postgresql.org/docs/current/sql-keywords-appendix.html#KEYWORDS-TABLE) that the fact that a key word is not reserved in PostgreSQL does not mean that the feature related to the word is not implemented. Conversely, the presence of a key word does not indicate the existence of a feature.
+在研究 [Table C.1](sql-keywords.md#table-c.1.-sql-key-words) 之前，重要的是要了解，在 PostgreSQL 中沒有保留關鍵字並不意味著沒有實作與該關鍵字相關的功能。 同樣地，關鍵字的存在也不表示其功能的存在。
 
 #### **Table C.1. SQL Key Words**
 
