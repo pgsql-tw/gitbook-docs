@@ -4,6 +4,7 @@
 | ---------- | ----- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
 | B012       |       | Embedded C                                                                                                               |                                                             |
 | B021       |       | Direct SQL                                                                                                               |                                                             |
+| B128       |       | Routine language SQL                                                                                                     |                                                             |
 | E011       | Core  | Numeric data types                                                                                                       |                                                             |
 | E011-01    | Core  | INTEGER and SMALLINT data types                                                                                          |                                                             |
 | E011-02    | Core  | REAL, DOUBLE PRECISION, and FLOAT data types                                                                             |                                                             |
@@ -183,6 +184,7 @@
 | F262       |       | Extended CASE expression                                                                                                 |                                                             |
 | F271       |       | Compound character literals                                                                                              |                                                             |
 | F281       |       | LIKE enhancements                                                                                                        |                                                             |
+| F292       |       | UNIQUE null treatment                                                                                                    | SQL:202x draft                                              |
 | F302       |       | INTERSECT table operator                                                                                                 |                                                             |
 | F302-01    |       | INTERSECT DISTINCT table operator                                                                                        |                                                             |
 | F302-02    |       | INTERSECT ALL table operator                                                                                             |                                                             |
@@ -193,7 +195,11 @@
 | F311-03    | Core  | CREATE VIEW                                                                                                              |                                                             |
 | F311-04    | Core  | CREATE VIEW: WITH CHECK OPTION                                                                                           |                                                             |
 | F311-05    | Core  | GRANT statement                                                                                                          |                                                             |
+| F312       |       | MERGE statement                                                                                                          |                                                             |
+| F313       |       | Enhanced MERGE statement                                                                                                 |                                                             |
+| F314       |       | MERGE statement with DELETE branch                                                                                       |                                                             |
 | F321       |       | User authorization                                                                                                       |                                                             |
+| F341       |       | Usage tables                                                                                                             |                                                             |
 | F361       |       | Subprogram support                                                                                                       |                                                             |
 | F381       |       | Extended schema manipulation                                                                                             |                                                             |
 | F381-01    |       | ALTER TABLE statement: ALTER COLUMN clause                                                                               |                                                             |
@@ -213,6 +219,7 @@
 | F401-02    |       | FULL OUTER JOIN                                                                                                          |                                                             |
 | F401-04    |       | CROSS JOIN                                                                                                               |                                                             |
 | F402       |       | Named column joins for LOBs, arrays, and multisets                                                                       |                                                             |
+| F404       |       | Range variable for common column names                                                                                   |                                                             |
 | F411       |       | Time zone specification                                                                                                  | differences regarding literal interpretation                |
 | F421       |       | National character                                                                                                       |                                                             |
 | F431       |       | Read-only scrollable cursors                                                                                             |                                                             |
@@ -270,6 +277,8 @@
 | F865       |       | \<offset row count> in \<result offset clause>                                                                           |                                                             |
 | F867       |       | FETCH FIRST clause: WITH TIES option                                                                                     |                                                             |
 | S071       |       | SQL paths in function and type name resolution                                                                           |                                                             |
+| S091-01    |       | Arrays of built-in data types                                                                                            |                                                             |
+| S091-03    |       | Array expressions                                                                                                        |                                                             |
 | S092       |       | Arrays of user-defined types                                                                                             |                                                             |
 | S095       |       | Array constructors by query                                                                                              |                                                             |
 | S096       |       | Optional array bounds                                                                                                    |                                                             |
@@ -280,12 +289,14 @@
 | S201-02    |       | Array as result type of functions                                                                                        |                                                             |
 | S211       |       | User-defined cast functions                                                                                              |                                                             |
 | S301       |       | Enhanced UNNEST                                                                                                          |                                                             |
+| S404       |       | TRIM\_ARRAY                                                                                                              |                                                             |
 | T031       |       | BOOLEAN data type                                                                                                        |                                                             |
 | T071       |       | BIGINT data type                                                                                                         |                                                             |
 | T121       |       | WITH (excluding RECURSIVE) in query expression                                                                           |                                                             |
 | T122       |       | WITH (excluding RECURSIVE) in subquery                                                                                   |                                                             |
 | T131       |       | Recursive query                                                                                                          |                                                             |
 | T132       |       | Recursive query in subquery                                                                                              |                                                             |
+| T133       |       | Enhanced cycle mark values                                                                                               | SQL:202x draft                                              |
 | T141       |       | SIMILAR predicate                                                                                                        |                                                             |
 | T151       |       | DISTINCT predicate                                                                                                       |                                                             |
 | T152       |       | DISTINCT predicate with negation                                                                                         |                                                             |
@@ -305,7 +316,6 @@
 | T211-07    |       | TRIGGER privilege                                                                                                        |                                                             |
 | T212       |       | Enhanced trigger capability                                                                                              |                                                             |
 | T213       |       | INSTEAD OF triggers                                                                                                      |                                                             |
-| T231       |       | Sensitive cursors                                                                                                        |                                                             |
 | T241       |       | START TRANSACTION statement                                                                                              |                                                             |
 | T261       |       | Chained transactions                                                                                                     |                                                             |
 | T271       |       | Savepoints                                                                                                               |                                                             |
@@ -316,16 +326,19 @@
 | T321-02    | Core  | User-defined stored procedures with no overloading                                                                       |                                                             |
 | T321-03    | Core  | Function invocation                                                                                                      |                                                             |
 | T321-04    | Core  | CALL statement                                                                                                           |                                                             |
+| T321-05    | Core  | RETURN statement                                                                                                         |                                                             |
 | T321-06    | Core  | ROUTINES view                                                                                                            |                                                             |
 | T321-07    | Core  | PARAMETERS view                                                                                                          |                                                             |
 | T323       |       | Explicit security for external routines                                                                                  |                                                             |
 | T325       |       | Qualified SQL parameter references                                                                                       |                                                             |
 | T331       |       | Basic roles                                                                                                              |                                                             |
+| T332       |       | Extended roles                                                                                                           |                                                             |
 | T341       |       | Overloading of SQL-invoked functions and procedures                                                                      |                                                             |
 | T351       |       | Bracketed SQL comments (/\*...\*/ comments)                                                                              |                                                             |
 | T431       |       | Extended grouping capabilities                                                                                           |                                                             |
 | T432       |       | Nested and concatenated GROUPING SETS                                                                                    |                                                             |
 | T433       |       | Multiargument GROUPING function                                                                                          |                                                             |
+| T434       |       | GROUP BY DISTINCT                                                                                                        |                                                             |
 | T441       |       | ABS and MOD functions                                                                                                    |                                                             |
 | T461       |       | Symmetric BETWEEN predicate                                                                                              |                                                             |
 | T491       |       | LATERAL derived table                                                                                                    |                                                             |

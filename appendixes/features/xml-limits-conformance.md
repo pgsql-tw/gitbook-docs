@@ -32,7 +32,7 @@ For developers familiar with XQuery and XPath 2.0 or later, XPath 1.0 presents a
 * The fundamental type of an XQuery/XPath expression, the `sequence`, which can contain XML nodes, atomic values, or both, does not exist in XPath 1.0. A 1.0 expression can only produce a node-set (containing zero or more XML nodes), or a single atomic value.
 *   Unlike an XQuery/XPath sequence, which can contain any desired items in any desired order, an XPath 1.0 node-set has no guaranteed order and, like any set, does not allow multiple appearances of the same item.
 
-    **Note**
+    #### Note
 
     The libxml2 library does seem to always return node-sets to PostgreSQL with their members in the same relative order they had in the input document. Its documentation does not commit to this behavior, and an XPath 1.0 expression cannot control it.
 * While XQuery/XPath provides all of the types defined in XML Schema and many operators and functions over those types, XPath 1.0 has only node-sets and the three atomic types `boolean`, `double`, and `string`.
@@ -49,13 +49,13 @@ In SQL:2006 and later, both directions of conversion between standard SQL data t
 
 When PostgreSQL maps SQL data values to XML (as in `xmlelement`), or XML to SQL (as in the output columns of `xmltable`), except for a few cases treated specially, PostgreSQL simply assumes that the XML data type's XPath 1.0 string form will be valid as the text-input form of the SQL datatype, and conversely. This rule has the virtue of simplicity while producing, for many data types, results similar to the mappings specified in the standard.
 
-Where interoperability with other systems is a concern, for some data types, it may be necessary to use data type formatting functions (such as those in [Section 9.8](https://www.postgresql.org/docs/13/functions-formatting.html)) explicitly to produce the standard mappings.
+Where interoperability with other systems is a concern, for some data types, it may be necessary to use data type formatting functions (such as those in [Section 9.8](https://www.postgresql.org/docs/current/functions-formatting.html)) explicitly to produce the standard mappings.
 
 ## D.3.2. Incidental Limits of the Implementation
 
 This section concerns limits that are not inherent in the libxml2 library, but apply to the current implementation in PostgreSQL.
 
-### **D.3.2.1. Only BY VALUE Passing Mechanism Is Supported**
+### **D.3.2.1. Only `BY VALUE` Passing Mechanism Is Supported**
 
 The SQL standard defines two _passing mechanisms_ that apply when passing an XML argument from SQL to an XML function or receiving a result: `BY REF`, in which a particular XML value retains its node identity, and `BY VALUE`, in which the content of the XML is passed but node identity is not preserved. A mechanism can be specified before a list of parameters, as the default mechanism for all of them, or after any parameter, to override the default.
 
@@ -72,6 +72,6 @@ PostgreSQL will accept `BY VALUE` or `BY REF` in an `XMLEXISTS` or `XMLTABLE` co
 
 The XPath-based functions support passing one parameter to serve as the XPath expression's context item, but do not support passing additional values to be available to the expression as named parameters.
 
-### **D.3.2.3. No XML(SEQUENCE) Type**
+### **D.3.2.3. No `XML(SEQUENCE)` Type**
 
 The PostgreSQL `xml` data type can only hold a value in `DOCUMENT` or `CONTENT` form. An XQuery/XPath expression context item must be a single XML node or atomic value, but XPath 1.0 further restricts it to be only an XML node, and has no node type allowing `CONTENT`. The upshot is that a well-formed `DOCUMENT` is the only form of XML value that PostgreSQL can supply as an XPath context item.
