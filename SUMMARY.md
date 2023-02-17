@@ -812,7 +812,7 @@
     * [F.30. pgstattuple](appendixes/additional-supplied-modules/pgstattuple.md)
     * [F.31. pg\_trgm](appendixes/additional-supplied-modules/pg\_trgm.md)
     * [F.32. pg\_visibility](appendixes/additional-supplied-modules/pg\_visibility.md)
-    * [F.33. postgres\_fdw](appendixes/additional-supplied-modules/postgres\_fdw.md)
+    * [F.38. postgres\_fdw](appendixes/additional-supplied-modules/postgres\_fdw.md)
     * [F.35. sepgsql](appendixes/additional-supplied-modules/sepgsql.md)
     * [F.43. tablefunc](appendixes/additional-supplied-modules/tablefunc.md)
     * [F.45. test\_decoding](appendixes/additional-supplied-modules/test\_decoding.md)
