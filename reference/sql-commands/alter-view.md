@@ -59,6 +59,10 @@ _`new_schema`_
 
 變更檢視表的 security-barrier 屬性。該值必須是布林值，也就是 true 或 false。
 
+`security_invoker` (`boolean`)
+
+Changes the security-invoker property of the view. The value must be a Boolean value, such as `true` or `false`.
+
 ### 注意
 
 由於歷史因素，ALTER TABLE 也可以用於檢視表；但是檢視表能允許的 ALTER TABLE 的語法就等同於上面所列出的語法。
