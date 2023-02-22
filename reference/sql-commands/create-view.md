@@ -65,9 +65,9 @@ _`column_name`_
 
 `security_invoker` (`boolean`)
 
-This option causes the underlying base relations to be checked against the privileges of the user of the view rather than the view owner. See the notes below for full details.
+此選項會根據檢視表使用者而不是檢視表所有者的權限檢查底層基本關連。相關細節，請參閱下面的說明。
 
-All of the above options can be changed on existing views using [`ALTER VIEW`](https://www.postgresql.org/docs/current/sql-alterview.html).
+可以使用 [ALTER VIEW](alter-view.md) 在現有檢視表上變更以上所有選項。
 
 _`query`_
 
@@ -105,7 +105,17 @@ CREATE VIEW vista AS SELECT 'Hello World';
 CREATE VIEW vista AS SELECT text 'Hello World' AS hello;
 ```
 
-對檢視表中引用的資料表存取權限由檢視表擁有者的權限決定。在某些情況下，這可用於提供對基礎資料表安全但受限制的存取。但是，並非所有檢視表都可以防範篡改；有關詳細訊息，請參閱[第 40.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)。在檢視表中呼叫的函數處理方式與使用檢視表直接從查詢中呼叫的函數相同。因此，檢視表的使用者必須具有呼叫檢視表使用的所有函數權限。
+對檢視表中引用的資料表存取權限由檢視表擁有者的權限決定。在某些情況下，這可用於提供對基礎資料表安全但受限制的存取。但是，並非所有檢視表都可以防範篡改；有關詳細訊息，請參閱[第 41.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)。在檢視表中呼叫的函數處理方式與使用檢視表直接從查詢中呼叫的函數相同。因此，檢視表的使用者必須具有呼叫檢視表使用的所有函數權限。
+
+如果檢視表的 security\_invoker 屬性設定為 true，則對底層基本關連的存取權限由執行查詢的使用者而非檢視表所有者的權限決定。因此，安全的檢視表的使用者必須對該檢視表及其底層基本關連具有相關權限。
+
+If any of the underlying base relations is a security invoker view, it will be treated as if it had been accessed directly from the original query. Thus, a security invoker view will always check its underlying base relations using the permissions of the current user, even if it is accessed from a view without the `security_invoker` property.
+
+If any of the underlying base relations has [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) enabled, then by default, the row-level security policies of the view owner are applied, and access to any additional relations referred to by those policies is determined by the permissions of the view owner. However, if the view has `security_invoker` set to `true`, then the policies and permissions of the invoking user are used instead, as if the base relations had been referenced directly from the query using the view.
+
+Functions called in the view are treated the same as if they had been called directly from the query using the view. Therefore, the user of a view must have permissions to call all functions used by the view. Functions in the view are executed with the privileges of the user executing the query or the function owner, depending on whether the functions are defined as `SECURITY INVOKER` or `SECURITY DEFINER`. Thus, for example, calling `CURRENT_USER` directly in a view will always return the invoking user, not the view owner. This is not affected by the view's `security_invoker` setting, and so a view with `security_invoker` set to `false` is _not_ equivalent to a `SECURITY DEFINER` function and those concepts should not be confused.
+
+The user creating or replacing a view must have `USAGE` privileges on any schemas referred to in the view query, in order to look up the referenced objects in those schemas. Note, however, that this lookup only happens when the view is created or replaced. Therefore, the user of the view only requires the `USAGE` privilege on the schema containing the view, not on the schemas referred to in the view query, even for a security invoker view.
 
 在現有檢視表上使用 CREATE OR REPLACE VIEW 時，僅更改檢視表定義的 SELECT 規則。其他檢視表屬性（包括所有權，權限和非 SELECT 規則）保持不變。您必須擁有檢視表才能替換它（這包括成為擁有角色的成員）。
 
