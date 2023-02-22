@@ -61,7 +61,13 @@ _`column_name`_
 
 `security_barrier` (`boolean`)
 
-如果檢視表旨在提供資料列級安全性，則應使用此方法。有關詳細訊息，請參閱[第 40.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)。
+如果檢視表旨在提供資料列級安全性，則應使用此方法。有關詳細訊息，請參閱[第 41.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)。
+
+`security_invoker` (`boolean`)
+
+This option causes the underlying base relations to be checked against the privileges of the user of the view rather than the view owner. See the notes below for full details.
+
+All of the above options can be changed on existing views using [`ALTER VIEW`](https://www.postgresql.org/docs/current/sql-alterview.html).
 
 _`query`_
 
@@ -122,7 +128,7 @@ CREATE VIEW vista AS SELECT text 'Hello World' AS hello;
 
 預設情況下，不滿足所有這些條件的更複雜檢視表是唯讀的：系統不允許在檢視表上插入，更新或刪除。您可以透過在檢視表上建立 INSTEAD OF 觸發器來獲取可更新檢視表的效果，該觸發器必須將檢視表上的嘗試插入等轉換為對其他資料表的適當操作。有關更多訊息，請參閱 [CREATE TRIGGER](create-trigger.md)。另一種可能性是建立規則（參閱 [CREATE RULE](create-rule.md)），但實際上觸發器更容易理解和正確使用。
 
-請注意，在檢視表上執行插入，更新或刪除的使用者必須在檢視表上具有相對應的插入，更新或刪除權限。此外，檢視表的擁有者必須具有底層基本關連的相關權限，但執行更新的使用者不需要對底層基本關連的任何權限（請參閱[第 40.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)）。
+請注意，在檢視表上執行插入，更新或刪除的使用者必須在檢視表上具有相對應的插入，更新或刪除權限。此外，檢視表的擁有者必須具有底層基本關連的相關權限，但執行更新的使用者不需要對底層基本關連的任何權限（請參閱[第 41.5 節](../../server-programming/the-rule-system/rules-and-privileges.md)）。
 
 ### 範例
 
