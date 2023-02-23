@@ -4,9 +4,9 @@ vacuumdb — 資源回收並重新分析 PostgreSQL 資料庫
 
 ## 語法
 
-`vacuumdb [`_`connection-option`_`...] [`_`option`_`...] [ --table | -t` _`table`_ `[(` _`column`_ `[,...] )] ] ... [`_`dbname`_`]`
+`vacuumdb` \[_`connection-option`_...] \[_`option`_...] \[ `-t` | `--table` _`table`_ \[( _`column`_ \[,...] )] ] ... \[_`dbname`_]
 
-`vacuumdb` \[_`connection-option`_...] \[_`option`_...] `--all` | `-a`
+`vacuumdb` \[_`connection-option`_...] \[_`option`_...] `-a` | `--all`
 
 ## 說明
 
@@ -28,6 +28,14 @@ vacuumdb 接受以下的命令列參數：
 
 指定要清理或分析的資料庫名稱。如果未指定，也未使用 -a（或--all），則從環境變數 PGDATABASE 中取得資料庫名稱。如果都未設定，則使用此連線所使用的使用者名稱。
 
+`--disable-page-skipping`
+
+Disable skipping pages based on the contents of the visibility map.
+
+#### Note
+
+This option is only available for servers running PostgreSQL 9.6 and later.
+
 `-e`\
 `--echo`
 
@@ -43,6 +51,14 @@ vacuumdb 接受以下的命令列參數：
 
 積極地「凍結」資料 tuple。
 
+`--force-index-cleanup`
+
+Always remove index entries pointing to dead tuples.
+
+#### Note
+
+This option is only available for servers running PostgreSQL 12 and later.
+
 `-j` _`njobs`_\
 `--jobs=`_`njobs`_
 
@@ -52,10 +68,71 @@ vacuumdb 將打開與資料庫的 njobs 連線，因此請確保您的 max\_conn
 
 請注意，如果平行處理某些系統目錄，則此選項與 -f（FULL）選項一起使用可能會導致鎖死而失敗。
 
+`--min-mxid-age`` `_`mxid_age`_
+
+Only execute the vacuum or analyze commands on tables with a multixact ID age of at least _`mxid_age`_. This setting is useful for prioritizing tables to process to prevent multixact ID wraparound (see [Section 25.1.5.1](https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-MULTIXACT-WRAPAROUND)).
+
+For the purposes of this option, the multixact ID age of a relation is the greatest of the ages of the main relation and its associated TOAST table, if one exists. Since the commands issued by vacuumdb will also process the TOAST table for the relation if necessary, it does not need to be considered separately.
+
+#### Note
+
+This option is only available for servers running PostgreSQL 9.6 and later.
+
+`--min-xid-age`` `_`xid_age`_
+
+Only execute the vacuum or analyze commands on tables with a transaction ID age of at least _`xid_age`_. This setting is useful for prioritizing tables to process to prevent transaction ID wraparound (see [Section 25.1.5](https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND)).
+
+For the purposes of this option, the transaction ID age of a relation is the greatest of the ages of the main relation and its associated TOAST table, if one exists. Since the commands issued by vacuumdb will also process the TOAST table for the relation if necessary, it does not need to be considered separately.
+
+#### Note
+
+This option is only available for servers running PostgreSQL 9.6 and later.
+
+`--no-index-cleanup`
+
+Do not remove index entries pointing to dead tuples.
+
+#### Note
+
+This option is only available for servers running PostgreSQL 12 and later.
+
+`--no-process-toast`
+
+Skip the TOAST table associated with the table to vacuum, if any.
+
+#### Note
+
+This option is only available for servers running PostgreSQL 14 and later.
+
+`--no-truncate`
+
+Do not truncate empty pages at the end of the table.
+
+#### Note
+
+This option is only available for servers running PostgreSQL 12 and later.
+
+`-P`` `_`parallel_workers`_\
+`--parallel=`_`parallel_workers`_
+
+Specify the number of parallel workers for _parallel vacuum_. This allows the vacuum to leverage multiple CPUs to process indexes. See [VACUUM](https://www.postgresql.org/docs/current/sql-vacuum.html).
+
+#### Note
+
+This option is only available for servers running PostgreSQL 13 and later.
+
 `-q`\
 `--quiet`
 
 不顯示進度訊息。
+
+`--skip-locked`
+
+Skip relations that cannot be immediately locked for processing.
+
+#### Note
+
+This option is only available for servers running PostgreSQL 12 and later.
 
 `-t` _`table`_ \[ (_`column`_ \[,...]) ]\
 `--table=`_`table`_ \[ (_`column`_ \[,...]) ]
@@ -147,7 +224,7 @@ vacuumdb 也在命令列中接受以下連線參數：
 
 ## 注意
 
-vacuumdb 可能需要多次連線到 PostgreSQL 伺服器，而每次都會要求輸入密碼。在這種情況下，有一個 \~/.pgpass 檔案的話會很方便。有關更多訊息，請參閱[第 34.15 節](../../client-interfaces/libpq-c-library/33.15.-mi-ma-dang.md)。
+vacuumdb 可能需要多次連線到 PostgreSQL 伺服器，而每次都會要求輸入密碼。在這種情況下，有一個 \~/.pgpass 檔案的話會很方便。有關更多訊息，請參閱[第 34.16 節](../../client-interfaces/libpq-c-library/33.15.-mi-ma-dang.md)。
 
 ## `範例`
 
