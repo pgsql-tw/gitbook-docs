@@ -224,7 +224,7 @@ vacuumdb 也在命令列中接受以下連線參數：
 
 ## 注意
 
-vacuumdb 可能需要多次連線到 PostgreSQL 伺服器，而每次都會要求輸入密碼。在這種情況下，有一個 \~/.pgpass 檔案的話會很方便。有關更多訊息，請參閱[第 34.16 節](../../client-interfaces/libpq-c-library/33.15.-mi-ma-dang.md)。
+vacuumdb 可能需要多次連線到 PostgreSQL 伺服器，而每次都會要求輸入密碼。在這種情況下，有一個 \~/.pgpass 檔案的話會很方便。有關更多訊息，請參閱[第 34.16 節](../../client-interfaces/libpq-c-library/libpq-pgpass.md)。
 
 ## `範例`
 

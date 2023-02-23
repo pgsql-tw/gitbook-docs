@@ -11,7 +11,7 @@ description: 版本：11
 * `PGPORT` 的行為與 [port](database-connection-control-functions.md#port) 連線參數相同。
 * `PGDATABASE` 的行為與 [dbname](database-connection-control-functions.md#dbname) 連線參數相同。
 * `PGUSER` 的行為與 [user](database-connection-control-functions.md#user) 連線參數相同。
-* `PGPASSWORD` 的行為與 [password](database-connection-control-functions.md#password) 連線參數相同。但由於安全因素，不建議使用此環境變數，因為某些作業系統允許非 root 使用者透過 ps 查看程序環境變數；而是考慮使用密碼檔案（參閱[第 33.15 節](33.15.-mi-ma-dang.md)）。
+* `PGPASSWORD` 的行為與 [password](database-connection-control-functions.md#password) 連線參數相同。但由於安全因素，不建議使用此環境變數，因為某些作業系統允許非 root 使用者透過 ps 查看程序環境變數；而是考慮使用密碼檔案（參閱[第 33.15 節](libpq-pgpass.md)）。
 * `PGPASSFILE` 行為與 [passfile ](database-connection-control-functions.md#34-1-2-parameter-key-words)連線參數相同。
 * `PGSERVICE` behaves the same as the [service](https://www.postgresql.org/docs/10/static/libpq-connect.html#LIBPQ-CONNECT-SERVICE) connection parameter.
 * `PGSERVICEFILE` specifies the name of the per-user connection service file. If not set, it defaults to `~/.pg_service.conf` (see [Section 33.16](https://www.postgresql.org/docs/10/static/libpq-pgservice.html)).
