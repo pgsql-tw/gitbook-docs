@@ -29,7 +29,7 @@ and table_and_columns is:
 
 VACUUM 回收不再使用的儲存空間。在普通的 PostgreSQL 操作中，被刪除或被更新的儲存空間實際上並不會真實在磁碟上刪除；它們會一直存在，直到 VACUUM 完成。因此，必須定期執行 VACUUM，尤其是在經常更新的資料表上。
 
-在沒有參數的情況下，VACUUM 處理目前資料庫中目前使用者有權清理的每個資料表。使用參數的話，VACUUM 就能只處理某個資料表。
+在沒有指定 TABLE 及欄位的情況下，VACUUM 處理目前資料庫中目前使用者有權清理的每個資料表。使用參數的話，VACUUM 就能只處理某個資料表。
 
 VACUUM ANALYZE 為每個選定的資料表執行 VACUUM 然後進行 ANALYZE 分析。 這是日常維護腳本的便捷組合形式。有關其處理的更多詳細訊息，請參閱 [ANALYZE](analyze.md)。
 
@@ -61,11 +61,19 @@ VACUUM ANALYZE 為每個選定的資料表執行 VACUUM 然後進行 ANALYZE 分
 
 `SKIP_LOCKED`
 
-Specifies that `VACUUM` should not wait for any conflicting locks to be released when beginning work on a relation: if a relation cannot be locked immediately without waiting, the relation is skipped. Note that even with this option, `VACUUM` may still block when opening the relation's indexes. Additionally, `VACUUM ANALYZE` may still block when acquiring sample rows from partitions, table inheritance children, and some types of foreign tables. Also, while `VACUUM` ordinarily processes all partitions of specified partitioned tables, this option will cause `VACUUM` to skip all partitions if there is a conflicting lock on the partitioned table.
+指定 VACUUM 在開始處理時不要等待任何關連鎖定被釋放：如果不等待就不能立即鎖定關連，則跳過該關連物件。 請注意，即使使用此選項，VACUUM 在處理關連的索引時仍可能會阻塞。 此外，VACUUM ANALYZE 在從分割區、資料表繼承的子項和某些型態的外部資料表中取得樣本行時仍可能會阻塞。 此外，雖然 VACUUM 通常處理指定分割區資料表的所有分割區，但如果分割區資料表上存在衝突鎖定，此選項將導致 VACUUM 跳過所有分割區。
 
 `INDEX_CLEANUP`
 
-Specifies that `VACUUM` should attempt to remove index entries pointing to dead tuples. This is normally the desired behavior and is the default unless the `vacuum_index_cleanup` option has been set to false for the table to be vacuumed. Setting this option to false may be useful when it is necessary to make vacuum run as quickly as possible, for example to avoid imminent transaction ID wraparound (see [Section 24.1.5](https://www.postgresql.org/docs/13/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND)). However, if index cleanup is not performed regularly, performance may suffer, because as the table is modified, indexes will accumulate dead tuples and the table itself will accumulate dead line pointers that cannot be removed until index cleanup is completed. This option has no effect for tables that do not have an index and is ignored if the `FULL` option is used.
+Normally, `VACUUM` will skip index vacuuming when there are very few dead tuples in the table. The cost of processing all of the table's indexes is expected to greatly exceed the benefit of removing dead index tuples when this happens. This option can be used to force `VACUUM` to process indexes when there are more than zero dead tuples. The default is `AUTO`, which allows `VACUUM` to skip index vacuuming when appropriate. If `INDEX_CLEANUP` is set to `ON`, `VACUUM` will conservatively remove all dead tuples from indexes. This may be useful for backwards compatibility with earlier releases of PostgreSQL where this was the standard behavior.
+
+`INDEX_CLEANUP` can also be set to `OFF` to force `VACUUM` to _always_ skip index vacuuming, even when there are many dead tuples in the table. This may be useful when it is necessary to make `VACUUM` run as quickly as possible to avoid imminent transaction ID wraparound (see [Section 25.1.5](https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND)). However, the wraparound failsafe mechanism controlled by [vacuum\_failsafe\_age](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-VACUUM-FAILSAFE-AGE) will generally trigger automatically to avoid transaction ID wraparound failure, and should be preferred. If index cleanup is not performed regularly, performance may suffer, because as the table is modified indexes will accumulate dead tuples and the table itself will accumulate dead line pointers that cannot be removed until index cleanup is completed.
+
+This option has no effect for tables that have no index and is ignored if the `FULL` option is used. It also has no effect on the transaction ID wraparound failsafe mechanism. When triggered it will skip index vacuuming, even when `INDEX_CLEANUP` is set to `ON`.
+
+`PROCESS_TOAST`
+
+Specifies that `VACUUM` should attempt to process the corresponding `TOAST` table for each relation, if one exists. This is usually the desired behavior and is the default. Setting this option to false may be useful when it is only necessary to vacuum the main relation. This option is required when the `FULL` option is used.
 
 `TRUNCATE`
 
@@ -73,7 +81,7 @@ Specifies that `VACUUM` should attempt to truncate off any empty pages at the en
 
 `PARALLEL`
 
-Perform index vacuum and index cleanup phases of `VACUUM` in parallel using _`integer`_ background workers (for the details of each vacuum phase, please refer to [Table 27.37](https://www.postgresql.org/docs/13/progress-reporting.html#VACUUM-PHASES)). In plain `VACUUM` (without `FULL`), if the `PARALLEL` option is omitted, then the number of workers is determined based on the number of indexes on the relation that support parallel vacuum operation and is further limited by [max\_parallel\_maintenance\_workers](https://www.postgresql.org/docs/13/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-MAINTENANCE). An index can participate in parallel vacuum if and only if the size of the index is more than [min\_parallel\_index\_scan\_size](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-MIN-PARALLEL-INDEX-SCAN-SIZE). Please note that it is not guaranteed that the number of parallel workers specified in _`integer`_ will be used during execution. It is possible for a vacuum to run with fewer workers than specified, or even with no workers at all. Only one worker can be used per index. So parallel workers are launched only when there are at least `2` indexes in the table. Workers for vacuum are launched before the start of each phase and exit at the end of the phase. These behaviors might change in a future release. This option can't be used with the `FULL` option.
+Perform index vacuum and index cleanup phases of `VACUUM` in parallel using _`integer`_ background workers (for the details of each vacuum phase, please refer to [Table 28.41](https://www.postgresql.org/docs/current/progress-reporting.html#VACUUM-PHASES)). The number of workers used to perform the operation is equal to the number of indexes on the relation that support parallel vacuum which is limited by the number of workers specified with `PARALLEL` option if any which is further limited by [max\_parallel\_maintenance\_workers](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-PARALLEL-MAINTENANCE-WORKERS). An index can participate in parallel vacuum if and only if the size of the index is more than [min\_parallel\_index\_scan\_size](https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-MIN-PARALLEL-INDEX-SCAN-SIZE). Please note that it is not guaranteed that the number of parallel workers specified in _`integer`_ will be used during execution. It is possible for a vacuum to run with fewer workers than specified, or even with no workers at all. Only one worker can be used per index. So parallel workers are launched only when there are at least `2` indexes in the table. Workers for vacuum are launched before the start of each phase and exit at the end of the phase. These behaviors might change in a future release. This option can't be used with the `FULL` option.
 
 _`boolean`_
 
@@ -101,15 +109,17 @@ _`column_name`_
 
 VACUUM 不能在交易事務區塊內執行。
 
-對於具有 GIN 索引的資料表，透過將掛起的索引項目移動到主 GIN 索引結構中的適當位置，VACUUM（以任何形式）還是可以完成任何掛起的索引插入。詳情請參閱[第 66.4.1 節](../../internals/gin-indexes/implementation.md#64-4-1-gin-fast-update-technique)。
+對於具有 GIN 索引的資料表，透過將掛起的索引項目移動到主 GIN 索引結構中的適當位置，VACUUM（以任何形式）還是可以完成任何掛起的索引插入。詳情請參閱[第 70.4.1 節](../../internals/gin-indexes/implementation.md#64-4-1-gin-fast-update-technique)。
 
-我們建議經常清理活動產品資料庫（至少每晚）以回收空間。增加或刪除大量資料列後，對受影響的資料表發出 VACUUM ANALYZE 指令會是個好主意。這將使用所有最近更改的結果更新系統目錄，並允許 PostgreSQL 查詢計劃程序在計劃查詢中做出更好的選擇。
+我們建議定期清理所有資料庫以淘汰 dead row。 PostgreSQL 有一個「autovacuum」的功能，可以自動執行日常清理維護。有關自動和手動清理的更多說明，請參閱[第 25.1 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md)。
 
 FULL 選項不推薦於日常使用，但在特殊情況下可能會有用。例如，您刪除或更新了資料表中的大部分資料列，並且希望資料表在物理上縮小以佔用較少的磁碟空間以允許更快的資料表掃描。VACUUM FULL 通常會縮小資料表，而不是簡單的 VACUUM。
 
-VACUUM 會導致 I/O 流量大幅增加，這可能會導致其他連線活動的效能下降。因此，有時建議使用基於成本的清理延遲功能。詳情請參閱[第 19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay)。
+PARALLEL 選項僅用於單純的清理目的。 如果此選項與 ANALYZE 選項一起使用話，則也不會影響 ANALYZE。
 
-PostgreSQL 內含一個「autovacuum」工具，可以自動執行常態的清理維護。有關自動和手動清理的更多訊息，請參閱[第 24.1 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md)。
+VACUUM 會導致 I/O 流量大幅增加，這可能會導致其他連線活動的效能下降。因此，有時建議使用基於成本的清理延遲功能。詳情請參閱[第 20.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay)。
+
+每個執行沒有 FULL 選項的 VACUUM 的後端都可以在 pg\_stat\_progress\_vacuum 檢視表中回報它的進度。 執行 VACUUM FULL 的後端將改為在 pg\_stat\_progress\_cluster 檢視表中回報它們的進度。 有關詳細說明，請參閱[第 28.4.3 節](../../server-administration/monitoring-database-activity/progress-reporting.md#28.4.3.-vacuum-progress-reporting)和[第 28.4.4 節](../../server-administration/monitoring-database-activity/progress-reporting.md#28.4.4.-cluster-progress-reporting)。
 
 ## 範例
 
@@ -125,4 +135,4 @@ SQL 標準中並沒有 VACUUM 語句。
 
 ## 參閱
 
-[vacuumdb](../client-applications/vacuumdb.md), [19.4.4 節](../../server-administration/server-configuration/resource-consumption.md#19-4-4-cost-based-vacuum-delay), [24.1.6 節](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#24-1-6-the-autovacuum-daemon)
+[vacuumdb](../client-applications/vacuumdb.md), [Section 20.4.4](../../server-administration/server-configuration/resource-consumption.md#19.4.4.-cheng-ben-kao-liang-de-vacuum-yan-chi), [Section 25.1.6](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#25.1.6.-autovacuum-bei-jing-cheng-xu), [Section 28.4.3](../../server-administration/monitoring-database-activity/progress-reporting.md#28.4.3.-vacuum-progress-reporting), [Section 28.4.4](../../server-administration/monitoring-database-activity/progress-reporting.md#28.4.4.-cluster-progress-reporting)

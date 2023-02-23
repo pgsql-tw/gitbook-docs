@@ -1,6 +1,6 @@
-# 19.4. 資源配置
+# 20.4. 資源配置
 
-## 19.4.1. 記憶體
+## 20.4.1. 記憶體
 
 `shared_buffers` (`integer`)
 
@@ -72,7 +72,7 @@ Specifies the shared memory implementation that the server should use for the ma
 
 指定伺服器應使用的動態共享記憶體方法。可能的值是 posix（使用 shm\_open 分配的 POSIX 共享記憶體），sysv（透過 shmget 分配的 System V 共享記憶體），windows（Windows 共享記憶體），mmap（使用儲存在資料目錄中的記憶體映射檔案來模擬共享記憶體） ），沒有（停用此功能）。並非所有平台都支援所有值；第一個受支援的選項是該平台的預設選項。通常不鼓勵使用 mmap 選項，這在任何平台上都不是預設選項，因為作業系統可能會將修改後的頁面重複寫回磁碟，從而增加系統 I/O 負載；但是，當 pg\_dynshmem 目錄儲存在 RAM 磁碟上或其他共享記憶體裝置不可用時，它可能對除錯很有用。
 
-## 19.4.2. 磁碟
+## 20.4.2. 磁碟
 
 `temp_file_limit` (`integer`)
 
@@ -80,13 +80,13 @@ Specifies the shared memory implementation that the server should use for the ma
 
 此設定限制了給予 PostgreSQL 程序使用的所有暫存檔在任何時刻能使用的總空間。應該注意的是，用於臨時資料表的磁碟空間與在查詢執行過程中使用的暫存檔不同，並不會計入此限制。
 
-## 19.4.3. 核心資源配置
+## 20.4.3. 核心資源配置
 
 `max_files_per_process` (`integer`)
 
 設定每個伺服器子程序允許的同時最大開啓的檔案數。預設值是 1000 個檔案。如果核心可以確保每個程序的安全限制，則不必擔心此設定。但是在某些平台上（特別是大多數 BSD 系統），如果許多程序都嘗試開啓那麼多檔案，核心將允許單個程序打開比系統實際支援的更多的檔案。如果您發現自己看到“Too many open files”失敗，請嘗試減少此設定。此參數只能在伺服器啟動時設定。
 
-## 19.4.4. 成本考量的 Vacuum 延遲
+## 20.4.4. 成本考量的 Vacuum 延遲
 
 在執行 [VACUUM](../../reference/sql-commands/vacuum.md) 和 [ANALYZE](../../reference/sql-commands/analyze.md) 指令期間，系統會維護一個內部計數器，用於追踪執行的各種 I/O 操作的估計成本。當累計成本達到極限（由 vacuum\_cost\_limit 指定）時，執行操作的過程將在 sleep\_cost\_delay 指定的短時間內休眠。然後它將重置計數器並繼續執行。
 
@@ -120,7 +120,7 @@ Specifies the shared memory implementation that the server should use for the ma
 
 某些操作可能會持有關鍵的鎖定，因此應盡快完成。在此類操作期間不會發生成本考量的清理延遲。因此，成本可能會遠遠高於指定的限制。為了避免在這種情況下無意義的長延遲，實際延遲計算為 vacuum\_cost\_delay \_\_\* cumulative\_balance / vacuum\_cost\_limit，最大為 vacuum\_cost\_delay \_\*\_ 4。
 
-## 19.4.5. 背景寫入程序
+## 20.4.5. 背景寫入程序
 
 有一個單獨的伺服器程序稱為背景寫入程序，其功能是發起「dirty」（新的或修改的）共享緩衝區的寫入。 它會寫入共享緩衝區，因此處理使用者查詢的伺服器程序很少或永遠不需要等待寫入的發生。但是，背景寫入程序確實導致 I/O 負載的整體的淨增加，因為雖然每個檢查點間隔可能只會寫一次 repeatedly-dirtied 頁面，但背景寫入程序可能會發起多次寫入，因為它在同一時間間隔內被變更了。本小節中討論的參數可用於調整適於本地需求的行為。
 
@@ -142,7 +142,7 @@ Specifies the shared memory implementation that the server should use for the ma
 
 bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減少背景寫入程序造成的額外 I/O 負載，但使伺服器程序更有可能必須為自己發出寫入要求，可能造成交互查詢的延遟。
 
-## 19.4.6. 非同步作業
+## 20.4.6. 非同步作業
 
 #### `effective_io_concurrency` (`integer`)
 
