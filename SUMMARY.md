@@ -808,7 +808,7 @@
     * [F.14. file\_fdw](appendixes/additional-supplied-modules/file\_fdw.md)
     * [F.16. hstore](appendixes/additional-supplied-modules/hstore.md)
     * [F.24. pg\_buffercache](appendixes/additional-supplied-modules/pg\_buffercache.md)
-    * [F.26. passwordcheck](appendixes/additional-supplied-modules/passwordcheck.md)
+    * [F.26. passwordcheck](appendixes/additional-supplied-modules/f.26.-passwordcheck.md)
     * [F.29. pg\_stat\_statements](appendixes/additional-supplied-modules/pg\_stat\_statements.md)
     * [F.30. pgstattuple](appendixes/additional-supplied-modules/pgstattuple.md)
     * [F.31. pg\_trgm](appendixes/additional-supplied-modules/pg\_trgm.md)
