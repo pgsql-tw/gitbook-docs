@@ -1,146 +1,202 @@
-# 16.4. 安裝流程
+# 17.4. 安裝流程
 
-## 1. **組態設定**
+1.  **Configuration**
 
-安裝過程的第一步是設定原始碼編譯時所需的選項。這是透過執行 configure 腳本完成的。對於預設安裝而言，只需輸入：
+    The first step of the installation procedure is to configure the source tree for your system and choose the options you would like. This is done by running the `configure` script. For a default installation simply enter:
 
-```
-./configure
-```
+    <pre><code><strong>./configure
+    </strong></code></pre>
 
-此腳本將執行許多測試以確定各種系統相關變數的值，並檢測操作業系統的所有特性，最後將在編譯樹中建立多個檔案以記錄它找到的內容。如果要將編譯目錄分開，也可以在原始碼以外的目錄中執行 configure。此過程也稱為 VPATH 編譯。可以這樣做：
+    This script will run a number of tests to determine values for various system dependent variables and detect any quirks of your operating system, and finally will create several files in the build tree to record what it found.
 
-```
-mkdir build_dir
-cd build_dir
-/path/to/source/tree/configure [options go here]
-make
-```
+    You can also run `configure` in a directory outside the source tree, and then build there, if you want to keep the build directory separate from the original source files. This procedure is called a _VPATH_ build. Here's how:
 
-預設配置將編譯伺服器和工具程式，以及僅需要 C 編譯器的所有用戶端應用程式和介存取介面。預設情況下，所有檔案都將安裝在 /usr/local/pgsql 下。
+    <pre><code><strong>mkdir build_dir
+    </strong><strong>cd build_dir
+    </strong><strong>/path/to/source/tree/configure [options go here]
+    </strong><strong>make
+    </strong></code></pre>
 
-您可以透過提供以下一個或多個命令列選項來自訂編譯的過程：
+    The default configuration will build the server and utilities, as well as all client applications and interfaces that require only a C compiler. All files will be installed under `/usr/local/pgsql` by default.
+
+    You can customize the build and installation process by supplying one or more command line options to `configure`. Typically you would customize the install location, or the set of optional features that are built. `configure` has a large number of options, which are described in [Section 17.4.1](https://www.postgresql.org/docs/current/install-procedure.html#CONFIGURE-OPTIONS).
+
+    Also, `configure` responds to certain environment variables, as described in [Section 17.4.2](https://www.postgresql.org/docs/current/install-procedure.html#CONFIGURE-ENVVARS). These provide additional ways to customize the configuration.
+2.  **Build**
+
+    To start the build, type either of:
+
+    <pre><code><strong>make
+    </strong><strong>make all
+    </strong></code></pre>
+
+    (Remember to use GNU make.) The build will take a few minutes depending on your hardware.
+
+    If you want to build everything that can be built, including the documentation (HTML and man pages), and the additional modules (`contrib`), type instead:
+
+    <pre><code><strong>make world
+    </strong></code></pre>
+
+    If you want to build everything that can be built, including the additional modules (`contrib`), but without the documentation, type instead:
+
+    <pre><code><strong>make world-bin
+    </strong></code></pre>
+
+    If you want to invoke the build from another makefile rather than manually, you must unset `MAKELEVEL` or set it to zero, for instance like this:
+
+    ```
+    build-postgresql:
+            $(MAKE) -C postgresql MAKELEVEL=0 all
+    ```
+
+    Failure to do that can lead to strange error messages, typically about missing header files.
+3.  **Regression Tests**
+
+    If you want to test the newly built server before you install it, you can run the regression tests at this point. The regression tests are a test suite to verify that PostgreSQL runs on your machine in the way the developers expected it to. Type:
+
+    <pre><code><strong>make check
+    </strong></code></pre>
+
+    (This won't work as root; do it as an unprivileged user.) See [Chapter 33](https://www.postgresql.org/docs/current/regress.html) for detailed information about interpreting the test results. You can repeat this test at any later time by issuing the same command.
+4.  **Installing the Files**
+
+    #### Note
+
+    If you are upgrading an existing system be sure to read [Section 19.6](https://www.postgresql.org/docs/current/upgrading.html), which has instructions about upgrading a cluster.
+
+    To install PostgreSQL enter:
+
+    <pre><code><strong>make install
+    </strong></code></pre>
+
+    This will install files into the directories that were specified in [Step 1](https://www.postgresql.org/docs/current/install-procedure.html#CONFIGURE). Make sure that you have appropriate permissions to write into that area. Normally you need to do this step as root. Alternatively, you can create the target directories in advance and arrange for appropriate permissions to be granted.
+
+    To install the documentation (HTML and man pages), enter:
+
+    <pre><code><strong>make install-docs
+    </strong></code></pre>
+
+    If you built the world above, type instead:
+
+    <pre><code><strong>make install-world
+    </strong></code></pre>
+
+    This also installs the documentation.
+
+    If you built the world without the documentation above, type instead:
+
+    <pre><code><strong>make install-world-bin
+    </strong></code></pre>
+
+    You can use `make install-strip` instead of `make install` to strip the executable files and libraries as they are installed. This will save some space. If you built with debugging support, stripping will effectively remove the debugging support, so it should only be done if debugging is no longer needed. `install-strip` tries to do a reasonable job saving space, but it does not have perfect knowledge of how to strip every unneeded byte from an executable file, so if you want to save all the disk space you possibly can, you will have to do manual work.
+
+    The standard installation provides all the header files needed for client application development as well as for server-side program development, such as custom functions or data types written in C.
+
+    **Client-only installation:** If you want to install only the client applications and interface libraries, then you can use these commands:
+
+    <pre><code><strong>make -C src/bin install
+    </strong><strong>make -C src/include install
+    </strong><strong>make -C src/interfaces install
+    </strong><strong>make -C doc install
+    </strong></code></pre>
+
+    `src/bin` has a few binaries for server-only use, but they are small.
+
+**Uninstallation:** To undo the installation use the command `make uninstall`. However, this will not remove any created directories.
+
+**Cleaning:** After the installation you can free disk space by removing the built files from the source tree with the command `make clean`. This will preserve the files made by the `configure` program, so that you can rebuild everything with `make` later on. To reset the source tree to the state in which it was distributed, use `make distclean`. If you are going to build for several platforms within the same source tree you must do this and re-configure for each platform. (Alternatively, use a separate build tree for each platform, so that the source tree remains unmodified.)
+
+If you perform a build and then discover that your `configure` options were wrong, or if you change anything that `configure` investigates (for example, software upgrades), then it's a good idea to do `make distclean` before reconfiguring and rebuilding. Without this, your changes in configuration choices might not propagate everywhere they need to.
+
+## 17.4.1. `configure` Options
+
+`configure`'s command line options are explained below. This list is not exhaustive (use `./configure --help` to get one that is). The options not covered here are meant for advanced use-cases such as cross-compilation, and are documented in the standard Autoconf documentation.
+
+### **17.4.1.1. Installation Locations**
+
+These options control where `make install` will put the files. The `--prefix` option is sufficient for most cases. If you have special needs, you can customize the installation subdirectories with the other options described in this section. Beware however that changing the relative locations of the different subdirectories may render the installation non-relocatable, meaning you won't be able to move it after installation. (The `man` and `doc` locations are not affected by this restriction.) For relocatable installs, you might want to use the `--disable-rpath` option described later.
 
 `--prefix=`_`PREFIX`_
 
-安裝所有檔案到到目錄 PREFIX 下而不是 /usr/local/pgsql。實際檔案將安裝到各個子目錄中；任何檔案都不會直接安裝到 PREFIX 目錄中。
-
-如果您有特殊需求，還可以使用以下選項自訂各個子目錄。但是，如果保留這些預設值，則安裝結果將是可重新配置的，這意味著您可以在安裝後移動目錄。（man 和 doc 路徑不受此影響。）
-
-對於可重新配置的安裝，您可能希望使用 configure 的 --disable-rpath 選項。此外，您需要告訴作業系統如何尋找共享函式庫。
+Install all files under the directory _`PREFIX`_ instead of `/usr/local/pgsql`. The actual files will be installed into various subdirectories; no files will ever be installed directly into the _`PREFIX`_ directory.
 
 `--exec-prefix=`_`EXEC-PREFIX`_
 
-您可以在與 PREFIX 設定的前綴不同的前綴 EXEC-PREFIX 下安裝相依於系統結構的檔案。這對於在主機之間共享與系統結構無關的檔案非常有用。如果省略這一點，則 EXEC-PREFIX 設定為等於 PREFIX，並且相依於系統結構的檔案和獨立檔案都將安裝在同一個樹下，這可能就是您想要的。
+You can install architecture-dependent files under a different prefix, _`EXEC-PREFIX`_, than what _`PREFIX`_ was set to. This can be useful to share architecture-independent files between hosts. If you omit this, then _`EXEC-PREFIX`_ is set equal to _`PREFIX`_ and both architecture-dependent and independent files will be installed under the same tree, which is probably what you want.
 
 `--bindir=`_`DIRECTORY`_
 
-指定可執行程式的目錄。預設值為 EXEC-PREFIX/bin，通常為 /usr/local/pgsql/bin。
+Specifies the directory for executable programs. The default is _`EXEC-PREFIX`_`/bin`, which normally means `/usr/local/pgsql/bin`.
 
 `--sysconfdir=`_`DIRECTORY`_
 
-預設設定各種組態配置檔案的目錄，PREFIX/etc。
+Sets the directory for various configuration files, _`PREFIX`_`/etc` by default.
 
 `--libdir=`_`DIRECTORY`_
 
-設定安裝函式庫和動態模組的位置。預設值為 EXEC-PREFIX/lib。
+Sets the location to install libraries and dynamically loadable modules. The default is _`EXEC-PREFIX`_`/lib`.
 
 `--includedir=`_`DIRECTORY`_
 
-設定安裝 C 和 C++ 標頭檔案的目錄。預設值為 PREFIX/include。
+Sets the directory for installing C and C++ header files. The default is _`PREFIX`_`/include`.
 
 `--datarootdir=`_`DIRECTORY`_
 
-設定各種類型的唯讀資料檔案的根目錄。這僅設定以下某些選項的預設值。預設值為 PREFIX/share。
+Sets the root directory for various types of read-only data files. This only sets the default for some of the following options. The default is _`PREFIX`_`/share`.
 
 `--datadir=`_`DIRECTORY`_
 
-設定安裝好的程式所使用的唯讀資料檔案目錄。預設值為 DATAROOTDIR。請注意，這與放置資料庫檔案的位置無關。
+Sets the directory for read-only data files used by the installed programs. The default is _`DATAROOTDIR`_. Note that this has nothing to do with where your database files will be placed.
 
 `--localedir=`_`DIRECTORY`_
 
-設定用於安裝區域設定資料的目錄，像是訊息翻譯的目錄檔案。預設值為 DATAROOTDIR/locale。
+Sets the directory for installing locale data, in particular message translation catalog files. The default is _`DATAROOTDIR`_`/locale`.
 
 `--mandir=`_`DIRECTORY`_
 
-PostgreSQL 附帶的手冊頁面將安裝在此目錄下的各自 manx 子目錄中。預設值為 DATAROOTDIR/man。
+The man pages that come with PostgreSQL will be installed under this directory, in their respective `man`_`x`_ subdirectories. The default is _`DATAROOTDIR`_`/man`.
 
 `--docdir=`_`DIRECTORY`_
 
-設定安裝文件檔案的根目錄，“man” 頁面除外。這僅設定以下選項的預設值。此選項的預設值為 DARAROOTDIR/doc/postgresql。
+Sets the root directory for installing documentation files, except “man” pages. This only sets the default for the following options. The default value for this option is _`DATAROOTDIR`_`/doc/postgresql`.
 
 `--htmldir=`_`DIRECTORY`_
 
-PostgreSQL 的 HTML 格式文件檔案將安裝在此目錄下。預設值為 DATAROOTDIR。
+The HTML-formatted documentation for PostgreSQL will be installed under this directory. The default is _`DATAROOTDIR`_.
 
-**注意**\
-可以將 PostgreSQL 安裝到共享安裝位置（例如 /usr/local/include），而不會干擾系統其餘部分的命名空間。首先，字串 “/postgresql” 會自動附加到 datadir，sysconfdir 和docdir，除非完全展開的目錄名已包含字串 “postgres” 或 “pgsql”。例如，如果選擇 /usr/local 作為前綴，則檔案將安裝在 /usr/local/doc/postgresql 中，但如果前綴為 /opt/postgres，則它將位於 /opt/postgres/doc 中。用戶端介面的公用 C 標頭檔案安裝在 includedir 中，並且命名空間是清楚的。內部標頭檔案和伺服器標頭檔案安裝在 includedir 下的私有目錄中。有關如何存取其標頭檔案的訊息，請參閱每個介面的文件檔案。最後，如果可以的話，還將在 libdir 下為可動態載入的模組建立一個私有的子目錄。
+#### Note
 
-`--with-extra-version=`_`STRING`_
+Care has been taken to make it possible to install PostgreSQL into shared installation locations (such as `/usr/local/include`) without interfering with the namespace of the rest of the system. First, the string “`/postgresql`” is automatically appended to `datadir`, `sysconfdir`, and `docdir`, unless the fully expanded directory name already contains the string “`postgres`” or “`pgsql`”. For example, if you choose `/usr/local` as prefix, the documentation will be installed in `/usr/local/doc/postgresql`, but if the prefix is `/opt/postgres`, then it will be in `/opt/postgres/doc`. The public C header files of the client interfaces are installed into `includedir` and are namespace-clean. The internal header files and the server header files are installed into private directories under `includedir`. See the documentation of each interface for information about how to access its header files. Finally, a private subdirectory will also be created, if appropriate, under `libdir` for dynamically loadable modules.
 
-將 STRING 附加到 PostgreSQL 版本號。例如，您可以使用此標記來標記從未發布的 Git 快照所編譯的二進位檔案，或者包含帶有額外版本字串的自訂修補程式，例如 git describe 識別字或某個發行套裝的版本號碼。
+### **17.4.1.2. PostgreSQL Features**
 
-`--with-includes=`_`DIRECTORIES`_
+The options described in this section enable building of various PostgreSQL features that are not built by default. Most of these are non-default only because they require additional software, as described in [Section 17.2](https://www.postgresql.org/docs/current/install-requirements.html).
 
-DIRECTORIES 是一個以冒號分隔的目錄列表，它們將加到編譯器搜尋標頭檔案的列表中。如果您在非標準路徑安裝了選擇性套件（例如GNU Readline），則必須使用此選項，並且可能還需要設定相對應的 --with-libraries 選項。
+`--enable-nls[=`_`LANGUAGES`_`]`
 
-例如： `--with-includes=/opt/gnu/include:/usr/sup/include`
+Enables Native Language Support (NLS), that is, the ability to display a program's messages in a language other than English. _`LANGUAGES`_ is an optional space-separated list of codes of the languages that you want supported, for example `--enable-nls='de fr'`. (The intersection between your list and the set of actually provided translations will be computed automatically.) If you do not specify a list, then all available translations are installed.
 
-`--with-libraries=`_`DIRECTORIES`_
-
-DIRECTORIES 是一個以冒號分隔的目錄列表，用於搜尋函式庫。如果您在非標準路徑安裝了某些軟體套件，則可能必須使用此選項（以及相對應的 --with-includes 選項）。
-
-例如： `--with-libraries=/opt/gnu/lib:/usr/sup/lib`
-
-`--enable-nls[=`_`LANGUAGES`_]
-
-啟用內建語言支援（NLS），即以英語以外的語言顯示程式訊息的功能。 LANGUAGES 是您希望支援語言代碼的選擇性空格分隔列表，例如 --enable-nls ='de fr'。（將自動計算列表與實際提供的翻譯集之間的交集。）如果未指定列表，則會安裝所有可用的翻譯。
-
-要使用此選項，您需要實作 Gettext API；如上所述。
-
-`--with-pgport=`_`NUMBER`_
-
-將 NUMBER 設定為伺服器和用戶端的預設連接埠號碼。預設值為 5432。之後可以隨時更改連接埠，但如果在此處指定端口，則伺服器和用戶端都將具有相同的預設編譯，這會非常方便。通常，選擇非預設值的唯一理由是，您打算在同一台機器上執行多個 PostgreSQL 伺服器。
+To use this option, you will need an implementation of the Gettext API.
 
 `--with-perl`
 
-編譯 PL / Perl 伺服器端語言。
+Build the PL/Perl server-side language.
 
 `--with-python`
 
-編譯 PL / Python 伺服器端語言。
+Build the PL/Python server-side language.
 
 `--with-tcl`
 
-編譯 PL / Tcl 伺服器端語言。
+Build the PL/Tcl server-side language.
 
 `--with-tclconfig=`_`DIRECTORY`_
 
-Tcl 安裝檔案 tclConfig.sh，其中包含編譯與 Tcl 介面模組所需的組態資訊。此檔案通常在一個眾所周知的路徑中自動找到，但如果您想使用不同版本的 Tcl，則可以指定搜尋它的目錄。
-
-`--with-gssapi`
-
-Build with support for GSSAPI authentication. On many systems, the GSSAPI (usually a part of the Kerberos installation) system is not installed in a location that is searched by default (e.g.,`/usr/include`, `/usr/lib`), so you must use the options `--with-includes` and `--with-libraries` in addition to this option. `configure` will check for the required header files and libraries to make sure that your GSSAPI installation is sufficient before proceeding.
-
-`--with-krb-srvnam=`_`NAME`_
-
-The default name of the Kerberos service principal used by GSSAPI. `postgres` is the default. There's usually no reason to change this unless you have a Windows environment, in which case it must be set to upper case `POSTGRES`.
-
-`--with-llvm`
-
-Build with support for LLVM based JIT compilation (see [Chapter 32](https://www.postgresql.org/docs/current/static/jit.html)). This requires the LLVM library to be installed. The minimum required version of LLVM is currently 3.9.
-
-`llvm-config` will be used to find the required compilation options. `llvm-config`, and then `llvm-config-$major-$minor` for all supported versions, will be searched on `PATH`. If that would not yield the correct binary, use `LLVM_CONFIG` to specify a path to the correct `llvm-config`. For example
-
-```
-./configure ... --with-llvm LLVM_CONFIG='/path/to/llvm/bin/llvm-config'
-```
-
-LLVM support requires a compatible `clang` compiler (specified, if necessary, using the `CLANG` environment variable), and a working C++ compiler (specified, if necessary, using the `CXX`environment variable).
+Tcl installs the file `tclConfig.sh`, which contains configuration information needed to build modules interfacing to Tcl. This file is normally found automatically at a well-known location, but if you want to use a different version of Tcl you can specify the directory in which to look for `tclConfig.sh`.
 
 `--with-icu`
 
-Build with support for the ICU library. This requires the ICU4C package to be installed. The minimum required version of ICU4C is currently 4.2.
+Build with support for the ICU library, enabling use of ICU collation features (see [Section 24.2](https://www.postgresql.org/docs/current/collation.html)). This requires the ICU4C package to be installed. The minimum required version of ICU4C is currently 4.2.
 
 By default, pkg-config will be used to find the required compilation options. This is supported for ICU4C version 4.6 and later. For older versions, or if pkg-config is not available, the variables `ICU_CFLAGS` and `ICU_LIBS` can be specified to `configure`, like in this example:
 
@@ -148,11 +204,43 @@ By default, pkg-config will be used to find the required compilation options. Th
 ./configure ... --with-icu ICU_CFLAGS='-I/some/where/include' ICU_LIBS='-L/some/where/lib -licui18n -licuuc -licudata'
 ```
 
-(If ICU4C is in the default search path for the compiler, then you still need to specify a nonempty string in order to avoid use of pkg-config, for example, `ICU_CFLAGS=' '`.)
+(If ICU4C is in the default search path for the compiler, then you still need to specify nonempty strings in order to avoid use of pkg-config, for example, `ICU_CFLAGS=' '`.)
+
+`--with-llvm`
+
+Build with support for LLVM based JIT compilation (see [Chapter 32](https://www.postgresql.org/docs/current/jit.html)). This requires the LLVM library to be installed. The minimum required version of LLVM is currently 3.9.
+
+`llvm-config` will be used to find the required compilation options. `llvm-config`, and then `llvm-config-$major-$minor` for all supported versions, will be searched for in your `PATH`. If that would not yield the desired program, use `LLVM_CONFIG` to specify a path to the correct `llvm-config`. For example
+
+```
+./configure ... --with-llvm LLVM_CONFIG='/path/to/llvm/bin/llvm-config'
+```
+
+LLVM support requires a compatible `clang` compiler (specified, if necessary, using the `CLANG` environment variable), and a working C++ compiler (specified, if necessary, using the `CXX` environment variable).
+
+`--with-lz4`
+
+Build with LZ4 compression support.
+
+`--with-zstd`
+
+Build with Zstandard compression support.
+
+`--with-ssl=`_`LIBRARY`_
+
+Build with support for SSL (encrypted) connections. The only _`LIBRARY`_ supported is `openssl`. This requires the OpenSSL package to be installed. `configure` will check for the required header files and libraries to make sure that your OpenSSL installation is sufficient before proceeding.
 
 `--with-openssl`
 
-Build with support for SSL (encrypted) connections. This requires the OpenSSL package to be installed. `configure` will check for the required header files and libraries to make sure that your OpenSSL installation is sufficient before proceeding.
+Obsolete equivalent of `--with-ssl=openssl`.
+
+`--with-gssapi`
+
+Build with support for GSSAPI authentication. On many systems, the GSSAPI system (usually a part of the Kerberos installation) is not installed in a location that is searched by default (e.g., `/usr/include`, `/usr/lib`), so you must use the options `--with-includes` and `--with-libraries` in addition to this option. `configure` will check for the required header files and libraries to make sure that your GSSAPI installation is sufficient before proceeding.
+
+`--with-ldap`
+
+Build with LDAP support for authentication and connection parameter lookup (see [Section 34.18](https://www.postgresql.org/docs/current/libpq-ldap.html) and [Section 21.10](https://www.postgresql.org/docs/current/auth-ldap.html) for more information). On Unix, this requires the OpenLDAP package to be installed. On Windows, the default WinLDAP library is used. `configure` will check for the required header files and libraries to make sure that your OpenLDAP installation is sufficient before proceeding.
 
 `--with-pam`
 
@@ -162,31 +250,19 @@ Build with PAM (Pluggable Authentication Modules) support.
 
 Build with BSD Authentication support. (The BSD Authentication framework is currently only available on OpenBSD.)
 
-`--with-ldap`
-
-Build with LDAP support for authentication and connection parameter lookup (see [Section 34.17](https://www.postgresql.org/docs/current/static/libpq-ldap.html) and [Section 20.10](https://www.postgresql.org/docs/current/static/auth-ldap.html) for more information). On Unix, this requires the OpenLDAP package to be installed. On Windows, the default WinLDAP library is used. `configure` will check for the required header files and libraries to make sure that your OpenLDAP installation is sufficient before proceeding.
-
 `--with-systemd`
 
-Build with support for systemd service notifications. This improves integration if the server binary is started under systemd but has no impact otherwise; see [Section 18.3](https://www.postgresql.org/docs/current/static/server-start.html) for more information. libsystemd and the associated header files need to be installed to be able to use this option.
-
-`--without-readline`
-
-Prevents use of the Readline library (and libedit as well). This option disables command-line editing and history in psql, so it is not recommended.
-
-`--with-libedit-preferred`
-
-Favors the use of the BSD-licensed libedit library rather than GPL-licensed Readline. This option is significant only if you have both libraries installed; the default in that case is to use Readline.
+Build with support for systemd service notifications. This improves integration if the server is started under systemd but has no impact otherwise; see [Section 19.3](https://www.postgresql.org/docs/current/server-start.html) for more information. libsystemd and the associated header files need to be installed to use this option.
 
 `--with-bonjour`
 
-Build with Bonjour support. This requires Bonjour support in your operating system. Recommended on macOS.
+Build with support for Bonjour automatic service discovery. This requires Bonjour support in your operating system. Recommended on macOS.
 
 `--with-uuid=`_`LIBRARY`_
 
-Build the [uuid-ossp](https://www.postgresql.org/docs/current/static/uuid-ossp.html) module (which provides functions to generate UUIDs), using the specified UUID library. _`LIBRARY`_ must be one of:
+Build the [uuid-ossp](https://www.postgresql.org/docs/current/uuid-ossp.html) module (which provides functions to generate UUIDs), using the specified UUID library. _`LIBRARY`_ must be one of:
 
-* `bsd` to use the UUID functions found in FreeBSD, NetBSD, and some other BSD-derived systems
+* `bsd` to use the UUID functions found in FreeBSD and some other BSD-derived systems
 * `e2fs` to use the UUID library created by the `e2fsprogs` project; this library is present in most Linux systems and in macOS, and can be obtained for other platforms as well
 * `ossp` to use the [OSSP UUID library](http://www.ossp.org/pkg/lib/uuid/)
 
@@ -196,43 +272,57 @@ Obsolete equivalent of `--with-uuid=ossp`.
 
 `--with-libxml`
 
-Build with libxml (enables SQL/XML support). Libxml version 2.6.23 or later is required for this feature.
+Build with libxml2, enabling SQL/XML support. Libxml2 version 2.6.23 or later is required for this feature.
 
-Libxml installs a program `xml2-config` that can be used to detect the required compiler and linker options. PostgreSQL will use it automatically if found. To specify a libxml installation at an unusual location, you can either set the environment variable `XML2_CONFIG` to point to the `xml2-config` program belonging to the installation, or use the options `--with-includes` and `--with-libraries`.`--with-libxslt`
+To detect the required compiler and linker options, PostgreSQL will query `pkg-config`, if that is installed and knows about libxml2. Otherwise the program `xml2-config`, which is installed by libxml2, will be used if it is found. Use of `pkg-config` is preferred, because it can deal with multi-architecture installations better.
 
-Use libxslt when building the [xml2](https://www.postgresql.org/docs/current/static/xml2.html) module. xml2 relies on this library to perform XSL transformations of XML.
+To use a libxml2 installation that is in an unusual location, you can set `pkg-config`-related environment variables (see its documentation), or set the environment variable `XML2_CONFIG` to point to the `xml2-config` program belonging to the libxml2 installation, or set the variables `XML2_CFLAGS` and `XML2_LIBS`. (If `pkg-config` is installed, then to override its idea of where libxml2 is you must either set `XML2_CONFIG` or set both `XML2_CFLAGS` and `XML2_LIBS` to nonempty strings.)
 
-`--disable-float4-byval`
+`--with-libxslt`
 
-Disable passing float4 values “by value”, causing them to be passed “by reference” instead. This option costs performance, but may be needed for compatibility with old user-defined functions that are written in C and use the “version 0” calling convention. A better long-term solution is to update any such functions to use the “version 1” calling convention.
+Build with libxslt, enabling the [xml2](https://www.postgresql.org/docs/current/xml2.html) module to perform XSL transformations of XML. `--with-libxml` must be specified as well.
 
-`--disable-float8-byval`
+### **17.4.1.3. Anti-Features**
 
-Disable passing float8 values “by value”, causing them to be passed “by reference” instead. This option costs performance, but may be needed for compatibility with old user-defined functions that are written in C and use the “version 0” calling convention. A better long-term solution is to update any such functions to use the “version 1” calling convention. Note that this option affects not only float8, but also int8 and some related types such as timestamp. On 32-bit platforms, `--disable-float8-byval` is the default and it is not allowed to select `--enable-float8-byval`.
+The options described in this section allow disabling certain PostgreSQL features that are built by default, but which might need to be turned off if the required software or system features are not available. Using these options is not recommended unless really necessary.
 
-`--with-segsize=`_`SEGSIZE`_
+`--without-readline`
 
-Set the _segment size_, in gigabytes. Large tables are divided into multiple operating-system files, each of size equal to the segment size. This avoids problems with file size limits that exist on many platforms. The default segment size, 1 gigabyte, is safe on all supported platforms. If your operating system has “largefile” support (which most do, nowadays), you can use a larger segment size. This can be helpful to reduce the number of file descriptors consumed when working with very large tables. But be careful not to select a value larger than is supported by your platform and the file systems you intend to use. Other tools you might wish to use, such as tar, could also set limits on the usable file size. It is recommended, though not absolutely required, that this value be a power of 2. Note that changing this value requires an initdb.
+Prevents use of the Readline library (and libedit as well). This option disables command-line editing and history in psql.
 
-`--with-blocksize=`_`BLOCKSIZE`_
+`--with-libedit-preferred`
 
-Set the _block size_, in kilobytes. This is the unit of storage and I/O within tables. The default, 8 kilobytes, is suitable for most situations; but other values may be useful in special cases. The value must be a power of 2 between 1 and 32 (kilobytes). Note that changing this value requires an initdb.
+Favors the use of the BSD-licensed libedit library rather than GPL-licensed Readline. This option is significant only if you have both libraries installed; the default in that case is to use Readline.
 
-`--with-wal-blocksize=`_`BLOCKSIZE`_
+`--without-zlib`
 
-Set the _WAL block size_, in kilobytes. This is the unit of storage and I/O within the WAL log. The default, 8 kilobytes, is suitable for most situations; but other values may be useful in special cases. The value must be a power of 2 between 1 and 64 (kilobytes). Note that changing this value requires an initdb.
+Prevents use of the Zlib library. This disables support for compressed archives in pg\_dump and pg\_restore.
 
 `--disable-spinlocks`
 
-Allow the build to succeed even if PostgreSQL has no CPU spinlock support for the platform. The lack of spinlock support will result in poor performance; therefore, this option should only be used if the build aborts and informs you that the platform lacks spinlock support. If this option is required to build PostgreSQL on your platform, please report the problem to the PostgreSQLdevelopers.
+Allow the build to succeed even if PostgreSQL has no CPU spinlock support for the platform. The lack of spinlock support will result in very poor performance; therefore, this option should only be used if the build aborts and informs you that the platform lacks spinlock support. If this option is required to build PostgreSQL on your platform, please report the problem to the PostgreSQL developers.
 
-`--disable-strong-random`
+`--disable-atomics`
 
-Allow the build to succeed even if PostgreSQL has no support for strong random numbers on the platform. A source of random numbers is needed for some authentication protocols, as well as some routines in the [pgcrypto](https://www.postgresql.org/docs/current/static/pgcrypto.html) module. `--disable-strong-random` disables functionality that requires cryptographically strong random numbers, and substitutes a weak pseudo-random-number-generator for the generation of authentication salt values and query cancel keys. It may make authentication less secure.
+Disable use of CPU atomic operations. This option does nothing on platforms that lack such operations. On platforms that do have them, this will result in poor performance. This option is only useful for debugging or making performance comparisons.
 
 `--disable-thread-safety`
 
-Disable the thread-safety of client libraries. This prevents concurrent threads in libpq and ECPG programs from safely controlling their private connection handles.
+Disable the thread-safety of client libraries. This prevents concurrent threads in libpq and ECPG programs from safely controlling their private connection handles. Use this only on platforms with deficient threading support.
+
+### **17.4.1.4. Build Process Details**
+
+`--with-includes=`_`DIRECTORIES`_
+
+_`DIRECTORIES`_ is a colon-separated list of directories that will be added to the list the compiler searches for header files. If you have optional packages (such as GNU Readline) installed in a non-standard location, you have to use this option and probably also the corresponding `--with-libraries` option.
+
+Example: `--with-includes=/opt/gnu/include:/usr/sup/include`.
+
+`--with-libraries=`_`DIRECTORIES`_
+
+_`DIRECTORIES`_ is a colon-separated list of directories to search for libraries. You will probably have to use this option (and the corresponding `--with-includes` option) if you have packages installed in non-standard locations.
+
+Example: `--with-libraries=/opt/gnu/lib:/usr/sup/lib`.
 
 `--with-system-tzdata=`_`DIRECTORY`_
 
@@ -240,37 +330,75 @@ PostgreSQL includes its own time zone database, which it requires for date and t
 
 This option is mainly aimed at binary package distributors who know their target operating system well. The main advantage of using this option is that the PostgreSQL package won't need to be upgraded whenever any of the many local daylight-saving time rules change. Another advantage is that PostgreSQL can be cross-compiled more straightforwardly if the time zone database files do not need to be built during the installation.
 
-`--without-zlib`
+`--with-extra-version=`_`STRING`_
 
-Prevents use of the Zlib library. This disables support for compressed archives in pg\_dump and pg\_restore. This option is only intended for those rare systems where this library is not available.
+Append _`STRING`_ to the PostgreSQL version number. You can use this, for example, to mark binaries built from unreleased Git snapshots or containing custom patches with an extra version string, such as a `git describe` identifier or a distribution package release number.
+
+`--disable-rpath`
+
+Do not mark PostgreSQL's executables to indicate that they should search for shared libraries in the installation's library directory (see `--libdir`). On most platforms, this marking uses an absolute path to the library directory, so that it will be unhelpful if you relocate the installation later. However, you will then need to provide some other way for the executables to find the shared libraries. Typically this requires configuring the operating system's dynamic linker to search the library directory; see [Section 17.5.1](https://www.postgresql.org/docs/current/install-post.html#INSTALL-POST-SHLIBS) for more detail.
+
+### **17.4.1.5. Miscellaneous**
+
+It's fairly common, particularly for test builds, to adjust the default port number with `--with-pgport`. The other options in this section are recommended only for advanced users.
+
+`--with-pgport=`_`NUMBER`_
+
+Set _`NUMBER`_ as the default port number for server and clients. The default is 5432. The port can always be changed later on, but if you specify it here then both server and clients will have the same default compiled in, which can be very convenient. Usually the only good reason to select a non-default value is if you intend to run multiple PostgreSQL servers on the same machine.
+
+`--with-krb-srvnam=`_`NAME`_
+
+The default name of the Kerberos service principal used by GSSAPI. `postgres` is the default. There's usually no reason to change this unless you are building for a Windows environment, in which case it must be set to upper case `POSTGRES`.
+
+`--with-segsize=`_`SEGSIZE`_
+
+Set the _segment size_, in gigabytes. Large tables are divided into multiple operating-system files, each of size equal to the segment size. This avoids problems with file size limits that exist on many platforms. The default segment size, 1 gigabyte, is safe on all supported platforms. If your operating system has “largefile” support (which most do, nowadays), you can use a larger segment size. This can be helpful to reduce the number of file descriptors consumed when working with very large tables. But be careful not to select a value larger than is supported by your platform and the file systems you intend to use. Other tools you might wish to use, such as tar, could also set limits on the usable file size. It is recommended, though not absolutely required, that this value be a power of 2. Note that changing this value breaks on-disk database compatibility, meaning you cannot use `pg_upgrade` to upgrade to a build with a different segment size.
+
+`--with-blocksize=`_`BLOCKSIZE`_
+
+Set the _block size_, in kilobytes. This is the unit of storage and I/O within tables. The default, 8 kilobytes, is suitable for most situations; but other values may be useful in special cases. The value must be a power of 2 between 1 and 32 (kilobytes). Note that changing this value breaks on-disk database compatibility, meaning you cannot use `pg_upgrade` to upgrade to a build with a different block size.
+
+`--with-wal-blocksize=`_`BLOCKSIZE`_
+
+Set the _WAL block size_, in kilobytes. This is the unit of storage and I/O within the WAL log. The default, 8 kilobytes, is suitable for most situations; but other values may be useful in special cases. The value must be a power of 2 between 1 and 64 (kilobytes). Note that changing this value breaks on-disk database compatibility, meaning you cannot use `pg_upgrade` to upgrade to a build with a different WAL block size.
+
+### **17.4.1.6. Developer Options**
+
+Most of the options in this section are only of interest for developing or debugging PostgreSQL. They are not recommended for production builds, except for `--enable-debug`, which can be useful to enable detailed bug reports in the unlucky event that you encounter a bug. On platforms supporting DTrace, `--enable-dtrace` may also be reasonable to use in production.
+
+When building an installation that will be used to develop code inside the server, it is recommended to use at least the options `--enable-debug` and `--enable-cassert`.
 
 `--enable-debug`
 
 Compiles all programs and libraries with debugging symbols. This means that you can run the programs in a debugger to analyze problems. This enlarges the size of the installed executables considerably, and on non-GCC compilers it usually also disables compiler optimization, causing slowdowns. However, having the symbols available is extremely helpful for dealing with any problems that might arise. Currently, this option is recommended for production installations only if you use GCC. But you should always have it on if you are doing development work or running a beta version.
 
-`--enable-coverage`
-
-If using GCC, all programs and libraries are compiled with code coverage testing instrumentation. When run, they generate files in the build directory with code coverage metrics. See[Section 33.5](https://www.postgresql.org/docs/current/static/regress-coverage.html) for more information. This option is for use only with GCC and when doing development work.
-
-`--enable-profiling`
-
-If using GCC, all programs and libraries are compiled so they can be profiled. On backend exit, a subdirectory will be created that contains the `gmon.out` file for use in profiling. This option is for use only with GCC and when doing development work.
-
 `--enable-cassert`
 
 Enables _assertion_ checks in the server, which test for many “cannot happen” conditions. This is invaluable for code development purposes, but the tests can slow down the server significantly. Also, having the tests turned on won't necessarily enhance the stability of your server! The assertion checks are not categorized for severity, and so what might be a relatively harmless bug will still lead to server restarts if it triggers an assertion failure. This option is not recommended for production use, but you should have it on for development work or when running a beta version.
+
+`--enable-tap-tests`
+
+Enable tests using the Perl TAP tools. This requires a Perl installation and the Perl module `IPC::Run`. See [Section 33.4](https://www.postgresql.org/docs/current/regress-tap.html) for more information.
 
 `--enable-depend`
 
 Enables automatic dependency tracking. With this option, the makefiles are set up so that all affected object files will be rebuilt when any header file is changed. This is useful if you are doing development work, but is just wasted overhead if you intend only to compile once and install. At present, this option only works with GCC.
 
+`--enable-coverage`
+
+If using GCC, all programs and libraries are compiled with code coverage testing instrumentation. When run, they generate files in the build directory with code coverage metrics. See [Section 33.5](https://www.postgresql.org/docs/current/regress-coverage.html) for more information. This option is for use only with GCC and when doing development work.
+
+`--enable-profiling`
+
+If using GCC, all programs and libraries are compiled so they can be profiled. On backend exit, a subdirectory will be created that contains the `gmon.out` file containing profile data. This option is for use only with GCC and when doing development work.
+
 `--enable-dtrace`
 
-Compiles PostgreSQL with support for the dynamic tracing tool DTrace. See [Section 28.5](https://www.postgresql.org/docs/current/static/dynamic-trace.html) for more information.
+Compiles PostgreSQL with support for the dynamic tracing tool DTrace. See [Section 28.5](https://www.postgresql.org/docs/current/dynamic-trace.html) for more information.
 
-To point to the `dtrace` program, the environment variable `DTRACE` can be set. This will often be necessary because `dtrace` is typically installed under `/usr/sbin`, which might not be in the path.
+To point to the `dtrace` program, the environment variable `DTRACE` can be set. This will often be necessary because `dtrace` is typically installed under `/usr/sbin`, which might not be in your `PATH`.
 
-Extra command-line options for the `dtrace` program can be specified in the environment variable `DTRACEFLAGS`. On Solaris, to include DTrace support in a 64-bit binary, you must specify `DTRACEFLAGS="-64"` to configure. For example, using the GCC compiler:
+Extra command-line options for the `dtrace` program can be specified in the environment variable `DTRACEFLAGS`. On Solaris, to include DTrace support in a 64-bit binary, you must specify `DTRACEFLAGS="-64"`. For example, using the GCC compiler:
 
 ```
 ./configure CC='gcc -m64' --enable-dtrace DTRACEFLAGS='-64' ...
@@ -282,17 +410,23 @@ Using Sun's compiler:
 ./configure CC='/opt/SUNWspro/bin/cc -xtarget=native64' --enable-dtrace DTRACEFLAGS='-64' ...
 ```
 
-`--enable-tap-tests`
+## 17.4.2. `configure` Environment Variables
 
-Enable tests using the Perl TAP tools. This requires a Perl installation and the Perl module `IPC::Run`. See [Section 33.4](https://www.postgresql.org/docs/current/static/regress-tap.html) for more information.
+In addition to the ordinary command-line options described above, `configure` responds to a number of environment variables. You can specify environment variables on the `configure` command line, for example:
 
-If you prefer a C compiler different from the one `configure` picks, you can set the environment variable `CC` to the program of your choice. By default, `configure` will pick `gcc` if available, else the platform's default (usually `cc`). Similarly, you can override the default compiler flags if needed with the `CFLAGS` variable.
+<pre><code><strong>./configure CC=/opt/bin/gcc CFLAGS='-O2 -pipe'
+</strong></code></pre>
 
-You can specify environment variables on the `configure` command line, for example:
+In this usage an environment variable is little different from a command-line option. You can also set such variables beforehand:
 
-```
-./configure CC=/opt/bin/gcc CFLAGS='-O2 -pipe'
-```
+<pre><code><strong>export CC=/opt/bin/gcc
+</strong><strong>export CFLAGS='-O2 -pipe'
+</strong><strong>./configure
+</strong></code></pre>
+
+This usage can be convenient because many programs' configuration scripts respond to these variables in similar ways.
+
+The most commonly used of these environment variables are `CC` and `CFLAGS`. If you prefer a C compiler different from the one `configure` picks, you can set the variable `CC` to the program of your choice. By default, `configure` will pick `gcc` if available, else the platform's default (usually `cc`). Similarly, you can override the default compiler flags if needed with the `CFLAGS` variable.
 
 Here is a list of the significant variables that can be set in this manner:
 
@@ -310,7 +444,9 @@ options to pass to the C compiler
 
 `CLANG`
 
-path to `clang` program used to process source code for inlining when compiling with `--with-llvmCPP`
+path to `clang` program used to process source code for inlining when compiling with `--with-llvm`
+
+`CPP`
 
 C preprocessor
 
@@ -336,7 +472,9 @@ options to pass to the `dtrace` program
 
 `FLEX`
 
-Flex program`LDFLAGS`
+Flex program
+
+`LDFLAGS`
 
 options to use when linking either executables or shared libraries
 
@@ -350,7 +488,7 @@ additional options for linking shared libraries only
 
 `LLVM_CONFIG`
 
-`llvm-config` program used to locate the LLVM installation.
+`llvm-config` program used to locate the LLVM installation
 
 `MSGFMT`
 
@@ -358,134 +496,33 @@ additional options for linking shared libraries only
 
 `PERL`
 
-Full path name of the Perl interpreter. This will be used to determine the dependencies for building PL/Perl.
+Perl interpreter program. This will be used to determine the dependencies for building PL/Perl. The default is `perl`.
 
 `PYTHON`
 
-Full path name of the Python interpreter. This will be used to determine the dependencies for building PL/Python. Also, whether Python 2 or 3 is specified here (or otherwise implicitly chosen) determines which variant of the PL/Python language becomes available. See [Section 46.1](https://www.postgresql.org/docs/current/static/plpython-python23.html) for more information.
+Python interpreter program. This will be used to determine the dependencies for building PL/Python. If this is not set, the following are probed in this order: `python3 python`.
 
 `TCLSH`
 
-Full path name of the Tcl interpreter. This will be used to determine the dependencies for building PL/Tcl, and it will be substituted into Tcl scripts.
+Tcl interpreter program. This will be used to determine the dependencies for building PL/Tcl. If this is not set, the following are probed in this order: `tclsh tcl tclsh8.6 tclsh86 tclsh8.5 tclsh85 tclsh8.4 tclsh84`.
 
 `XML2_CONFIG`
 
-`xml2-config` program used to locate the libxml installation.
+`xml2-config` program used to locate the libxml2 installation
 
-Sometimes it is useful to add compiler flags after-the-fact to the set that were chosen by `configure`. An important example is that gcc's `-Werror` option cannot be included in the `CFLAGS`passed to `configure`, because it will break many of `configure`'s built-in tests. To add such flags, include them in the `COPT` environment variable while running `make`. The contents of`COPT` are added to both the `CFLAGS` and `LDFLAGS` options set up by `configure`. For example, you could do
+Sometimes it is useful to add compiler flags after-the-fact to the set that were chosen by `configure`. An important example is that gcc's `-Werror` option cannot be included in the `CFLAGS` passed to `configure`, because it will break many of `configure`'s built-in tests. To add such flags, include them in the `COPT` environment variable while running `make`. The contents of `COPT` are added to both the `CFLAGS` and `LDFLAGS` options set up by `configure`. For example, you could do
 
-```
-make COPT='-Werror'
-```
+<pre><code><strong>make COPT='-Werror'
+</strong></code></pre>
 
 or
 
-```
-export COPT='-Werror'
-make
-```
+<pre><code><strong>export COPT='-Werror'
+</strong><strong>make
+</strong></code></pre>
 
-**Note**
+#### Note
 
-When developing code inside the server, it is recommended to use the configure options `--enable-cassert` (which turns on many run-time error checks) and `--enable-debug`(which improves the usefulness of debugging tools).
-
-If using GCC, it is best to build with an optimization level of at least `-O1`, because using no optimization (`-O0`) disables some important compiler warnings (such as the use of uninitialized variables). However, non-zero optimization levels can complicate debugging because stepping through compiled code will usually not match up one-to-one with source code lines. If you get confused while trying to debug optimized code, recompile the specific files of interest with `-O0`. An easy way to do this is by passing an option to make:
-
-`make PROFILE=-O0 file.o`.
+If using GCC, it is best to build with an optimization level of at least `-O1`, because using no optimization (`-O0`) disables some important compiler warnings (such as the use of uninitialized variables). However, non-zero optimization levels can complicate debugging because stepping through compiled code will usually not match up one-to-one with source code lines. If you get confused while trying to debug optimized code, recompile the specific files of interest with `-O0`. An easy way to do this is by passing an option to make: `make PROFILE=-O0 file.o`.
 
 The `COPT` and `PROFILE` environment variables are actually handled identically by the PostgreSQL makefiles. Which to use is a matter of preference, but a common habit among developers is to use `PROFILE` for one-time flag adjustments, while `COPT` might be kept set all the time.
-
-## **2. 編譯**
-
-要開始編譯，請輸入以下任一項：
-
-```
-make
-make all
-```
-
-（請使用GNU make。）編譯將花費一些時間，具體取決於您的硬體。顯示的最後一行應該是：
-
-```
-All of PostgreSQL successfully made. Ready to install.
-```
-
-如果要編譯所有可編譯的內容，包括文件（HTML和手冊頁）以及其他模組（contrib），請輸入：
-
-```
-make world
-```
-
-顯示的最後一行應該是：
-
-```
-PostgreSQL, contrib, and documentation successfully made. Ready to install.
-```
-
-如果要從另一個 makefile 而不是手動呼叫編譯，則必須取消設定 MAKELEVEL 或將其設定為零，例如：
-
-```
-build-postgresql:
-        $(MAKE) -C postgresql MAKELEVEL=0 all
-```
-
-如果不這樣做可能會導致奇怪的錯誤訊息，通常是缺少標頭檔案。
-
-## **3.** 迴歸測試
-
-如果要在安裝之前測試新編譯的伺服器，則可以在此時執行迴歸測試。迴歸測試是一個測試套件，用於驗證 PostgreSQL 是否以開發人員期望的方式在您的主機上執行。輸入：
-
-```
-make check
-```
-
-（這不能以 root 身份運行；請以非特權用戶身份執行。）有關解釋測試結果的詳細訊息，請參閱[第 33 章](https://github.com/pgsql-tw/gitbook-docs/tree/67cc71691219133f37b9a33df9c691a2dd9c2642/tw/server-administration/32.-hui-gui-ce-shi)。您可以在之後透過相同的命令重複此測試。
-
-## **4. Installing the Files**
-
-**Note**
-
-If you are upgrading an existing system be sure to read [Section 18.6](https://www.postgresql.org/docs/current/static/upgrading.html), which has instructions about upgrading a cluster.
-
-To install PostgreSQL enter:
-
-```
-make install
-```
-
-This will install files into the directories that were specified in [Step 1](https://www.postgresql.org/docs/current/static/install-procedure.html#CONFIGURE). Make sure that you have appropriate permissions to write into that area. Normally you need to do this step as root. Alternatively, you can create the target directories in advance and arrange for appropriate permissions to be granted.
-
-To install the documentation (HTML and man pages), enter:
-
-```
-make install-docs
-```
-
-If you built the world above, type instead:
-
-```
-make install-world
-```
-
-This also installs the documentation.
-
-You can use `make install-strip` instead of `make install` to strip the executable files and libraries as they are installed. This will save some space. If you built with debugging support, stripping will effectively remove the debugging support, so it should only be done if debugging is no longer needed. `install-strip` tries to do a reasonable job saving space, but it does not have perfect knowledge of how to strip every unneeded byte from an executable file, so if you want to save all the disk space you possibly can, you will have to do manual work.
-
-The standard installation provides all the header files needed for client application development as well as for server-side program development, such as custom functions or data types written in C. (Prior to PostgreSQL 8.0, a separate `make install-all-headers` command was needed for the latter, but this step has been folded into the standard install.)
-
-**Client-only installation:** If you want to install only the client applications and interface libraries, then you can use these commands:
-
-```
-make -C src/bin install
-make -C src/include install
-make -C src/interfaces install
-make -C doc install
-```
-
-`src/bin` has a few binaries for server-only use, but they are small.
-
-**Uninstallation:** To undo the installation use the command `make uninstall`. However, this will not remove any created directories.
-
-**Cleaning:** After the installation you can free disk space by removing the built files from the source tree with the command `make clean`. This will preserve the files made by the `configure` program, so that you can rebuild everything with `make` later on. To reset the source tree to the state in which it was distributed, use `make distclean`. If you are going to build for several platforms within the same source tree you must do this and re-configure for each platform. (Alternatively, use a separate build tree for each platform, so that the source tree remains unmodified.)
-
-If you perform a build and then discover that your `configure` options were wrong, or if you change anything that `configure` investigates (for example, software upgrades), then it's a good idea to do `make distclean` before reconfiguring and rebuilding. Without this, your changes in configuration choices might not propagate everywhere they need to.
