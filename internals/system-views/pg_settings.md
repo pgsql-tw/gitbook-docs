@@ -1,8 +1,8 @@
-# 51.85. pg\_settings
+# 54.24. pg\_settings
 
 檢視表 pg\_settings 提供對伺服器的執行時參數的存取。它本質上是 [SHOW](../../reference/sql-commands/show.md) 和 [SET ](../../reference/sql-commands/set.md)指令的替代介面。它也提供 SHOW 無法直接獲得的一些資訊存取，例如最小值和最大值。
 
-#### **Table 51.86. `pg_settings` Columns**
+#### **Table 54.24. `pg_settings` Columns**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                         |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -54,6 +54,8 @@
 
 這些設定可以從 postgresql.conf 設定，也可以透過 SET 指令在連線中設定。允許任何使用者變更其連線中所使用的值。僅當未使用 SET 未建立連線專用值時，postgresql.conf 中的變更才會影響現有連線。
 
-有關變更這些參數的各種方法和更多資訊，請參閱[第 19.1 節](../../server-administration/server-configuration/setting-parameters.md)。
+有關變更這些參數的各種方法和更多資訊，請參閱[第 20.1 節](../../server-administration/server-configuration/setting-parameters.md)。
 
 pg\_settings 檢視表無法INSERT 或 DELETE，但可以 UPDATE。套用於一行 pg\_settings 的 UPDATE 相當於對該參數執行 [SET](../../reference/sql-commands/set.md) 指令。此變更僅影響目前連線所使用的值。如果在稍後中止的交易事務中發出 UPDATE，則在回溯事務時 UPDATE 指令的效果會消失。一旦提交了相關的事務，則效果將持續到連線結束，除非被另一個 UPDATE 或 SET 覆蓋。
+
+This view does not display [customized options](https://www.postgresql.org/docs/current/runtime-config-custom.html) unless the extension module that defines them has been loaded by the backend process executing the query (e.g., via a mention in [shared\_preload\_libraries](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-SHARED-PRELOAD-LIBRARIES), a call to a C function in the extension, or the [`LOAD`](https://www.postgresql.org/docs/current/sql-load.html) command). For example, since [archive modules](https://www.postgresql.org/docs/current/archive-modules.html) are normally loaded only by the archiver process not regular sessions, this view will not display any customized options defined by such modules unless special action is taken to load them into the backend process executing the query.

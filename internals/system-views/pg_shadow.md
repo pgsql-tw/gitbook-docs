@@ -4,7 +4,7 @@ The view `pg_shadow` exists for backwards compatibility: it emulates a catalog t
 
 The name stems from the fact that this table should not be readable by the public since it contains passwords. [`pg_user`](https://www.postgresql.org/docs/current/view-pg-user.html) is a publicly readable view on `pg_shadow` that blanks out the password field.
 
-**Table 54.25. `pg_shadow` Columns**
+#### **Table 54.25. `pg_shadow` Columns**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                       |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

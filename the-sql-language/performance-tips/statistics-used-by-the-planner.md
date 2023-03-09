@@ -27,7 +27,7 @@ WHERE relname LIKE 'tenk1%';
 
 由於 WHERE 子句會限制要檢查的資料列，因此大多數查詢僅檢索資料表中的一小部分行。因此，規劃程序需要估計 WHERE 子句的篩選性，即與 WHERE 子句中的每個條件匹配的資料列比率。用於此任務的訊息儲存在 [pg\_statistic](../../internals/system-catalogs/pg\_statistic.md) 系統目錄中。pg\_statistic 中的項目由 ANALYZE 和 VACUUM ANALYZE 指令更新，即使在剛更新時也都是近似值。
 
-除了直接查看 pg\_statistic，最好在手動檢查統計訊息時查看其檢視表 [pg\_stats](../../internals/system-catalogs/pg\_stats.md)。pg\_stats 旨在於更容易閱讀。此外，所有人都可以讀取 pg\_stats，而 pg\_statistic 只能由超級使用者讀取。（這可以防止非特權使用者從統計訊息中學習有關其他人表的內容。pg\_stats 檢視表僅限於顯示目前使用者可以讀取的資料表資訊。）例如，我們可能會這樣做：
+除了直接查看 pg\_statistic，最好在手動檢查統計訊息時查看其檢視表 [pg\_stats](../../internals/system-views/pg\_stats.md)。pg\_stats 旨在於更容易閱讀。此外，所有人都可以讀取 pg\_stats，而 pg\_statistic 只能由超級使用者讀取。（這可以防止非特權使用者從統計訊息中學習有關其他人表的內容。pg\_stats 檢視表僅限於顯示目前使用者可以讀取的資料表資訊。）例如，我們可能會這樣做：
 
 ```
 SELECT attname, inherited, n_distinct,

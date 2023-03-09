@@ -1,10 +1,10 @@
-# 51.87. pg\_shmem\_allocations
+# 54.26. pg\_shmem\_allocations
 
-The `pg_shmem_allocations` view shows allocations made from the server's main shared memory segment. This includes both memory allocated by postgres itself and memory allocated by extensions using the mechanisms detailed in [Section 37.10.10](https://www.postgresql.org/docs/13/xfunc-c.html#XFUNC-SHARED-ADDIN).
+The `pg_shmem_allocations` view shows allocations made from the server's main shared memory segment. This includes both memory allocated by PostgreSQL itself and memory allocated by extensions using the mechanisms detailed in [Section 38.10.10](https://www.postgresql.org/docs/current/xfunc-c.html#XFUNC-SHARED-ADDIN).
 
 Note that this view does not include memory allocated using the dynamic shared memory infrastructure.
 
-#### **Table 51.88. `pg_shmem_allocations` Columns**
+#### **Table 54.26. `pg_shmem_allocations` Columns**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                         |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -15,4 +15,4 @@ Note that this view does not include memory allocated using the dynamic shared m
 
 Anonymous allocations are allocations that have been made with `ShmemAlloc()` directly, rather than via `ShmemInitStruct()` or `ShmemInitHash()`.
 
-By default, the `pg_shmem_allocations` view can be read only by superusers.
+By default, the `pg_shmem_allocations` view can be read only by superusers or roles with privileges of the `pg_read_all_stats` role.

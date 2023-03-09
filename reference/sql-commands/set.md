@@ -93,7 +93,7 @@ Berkeley, California 的時區。
 
 ### 注意
 
-函數 set\_config 提供了等效的功能；詳見 [9.26 節](../../the-sql-language/functions-and-operators/system-administration.md)。此外，也可以更新 [pg\_settings](../../internals/system-catalogs/pg\_settings.md) 系統檢視表以執行 SET 的等效操作。
+函數 set\_config 提供了等效的功能；詳見 [9.26 節](../../the-sql-language/functions-and-operators/system-administration.md)。此外，也可以更新 [pg\_settings](../../internals/system-views/pg\_settings.md) 系統檢視表以執行 SET 的等效操作。
 
 ### 範例
 
