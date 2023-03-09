@@ -1,12 +1,8 @@
----
-description: 版本：11
----
-
-# 37.18. Extension Building Infrastructure
+# 38.18. Extension Building Infrastructure
 
 If you are thinking about distributing your PostgreSQL extension modules, setting up a portable build system for them can be fairly difficult. Therefore the PostgreSQL installation provides a build infrastructure for extensions, called PGXS, so that simple extension modules can be built simply against an already installed server. PGXS is mainly intended for extensions that include C code, although it can be used for pure-SQL extensions too. Note that PGXS is not intended to be a universal build system framework that can be used to build any software interfacing to PostgreSQL; it simply automates common build rules for simple server extension modules. For more complicated packages, you might need to write your own build system.
 
-To use the PGXS infrastructure for your extension, you must write a simple makefile. In the makefile, you need to set some variables and include the global PGXS makefile. Here is an example that builds an extension module named `isbn_issn`, consisting of a shared library containing some C code, an extension control file, a SQL script, an include file (only needed if other modules might need to access the extension functions without going via SQL), and a documentation text file:
+To use the PGXS infrastructure for your extension, you must write a simple makefile. In the makefile, you need to set some variables and include the global PGXS makefile. Here is an example that builds an extension module named `isbn_issn`, consisting of a shared library containing some C code, an extension control file, an SQL script, an include file (only needed if other modules might need to access the extension functions without going via SQL), and a documentation text file:
 
 ```
 MODULES = isbn_issn
@@ -22,69 +18,127 @@ include $(PGXS)
 
 The last three lines should always be the same. Earlier in the file, you assign variables or add custom make rules.
 
-Set one of these three variables to specify what is built:`MODULES`
+Set one of these three variables to specify what is built:
 
-list of shared-library objects to be built from source files with same stem (do not include library suffixes in this list)`MODULE_big`
+`MODULES`
 
-a shared library to build from multiple source files (list object files in `OBJS`)`PROGRAM`
+list of shared-library objects to be built from source files with same stem (do not include library suffixes in this list)
+
+`MODULE_big`
+
+a shared library to build from multiple source files (list object files in `OBJS`)
+
+`PROGRAM`
 
 an executable program to build (list object files in `OBJS`)
 
-The following variables can also be set:`EXTENSION`
+The following variables can also be set:
 
-extension name(s); for each name you must provide an _`extension`_.control file, which will be installed into _`prefix`_/share/extension`MODULEDIR`
+`EXTENSION`
 
-subdirectory of _`prefix`_/share into which DATA and DOCS files should be installed (if not set, default is `extension` if `EXTENSION` is set, or `contrib` if not)`DATA`
+extension name(s); for each name you must provide an _`extension`_`.control` file, which will be installed into _`prefix`_`/share/extension`
 
-random files to install into _`prefix`_/share/$MODULEDIR`DATA_built`
+`MODULEDIR`
 
-random files to install into _`prefix`_/share/$MODULEDIR, which need to be built first`DATA_TSEARCH`
+subdirectory of _`prefix`_`/share` into which DATA and DOCS files should be installed (if not set, default is `extension` if `EXTENSION` is set, or `contrib` if not)
 
-random files to install under _`prefix`_/share/tsearch\_data`DOCS`
+`DATA`
 
-random files to install under _`prefix`_/doc/$MODULEDIR`HEADERS`\
+random files to install into _`prefix`_`/share/$MODULEDIR`
+
+`DATA_built`
+
+random files to install into _`prefix`_`/share/$MODULEDIR`, which need to be built first
+
+`DATA_TSEARCH`
+
+random files to install under _`prefix`_`/share/tsearch_data`
+
+`DOCS`
+
+random files to install under _`prefix`_`/doc/$MODULEDIR`
+
+`HEADERS`\
 `HEADERS_built`
 
-Files to (optionally build and) install under _`prefix`_/include/server/$MODULEDIR/$MODULE\_big.
+Files to (optionally build and) install under _`prefix`_`/include/server/$MODULEDIR/$MODULE_big`.
 
-Unlike `DATA_built`, files in `HEADERS_built` are not removed by the `clean` target; if you want them removed, also add them to `EXTRA_CLEAN` or add your own rules to do it.`HEADERS_$MODULE`\
+Unlike `DATA_built`, files in `HEADERS_built` are not removed by the `clean` target; if you want them removed, also add them to `EXTRA_CLEAN` or add your own rules to do it.
+
+`HEADERS_$MODULE`\
 `HEADERS_built_$MODULE`
 
-Files to install (after building if specified) under _`prefix`_/include/server/$MODULEDIR/$MODULE, where `$MODULE` must be a module name used in `MODULES` or `MODULE_big`.
+Files to install (after building if specified) under _`prefix`_`/include/server/$MODULEDIR/$MODULE`, where `$MODULE` must be a module name used in `MODULES` or `MODULE_big`.
 
 Unlike `DATA_built`, files in `HEADERS_built_$MODULE` are not removed by the `clean` target; if you want them removed, also add them to `EXTRA_CLEAN` or add your own rules to do it.
 
-It is legal to use both variables for the same module, or any combination, unless you have two module names in the `MODULES` list that differ only by the presence of a prefix `built_`, which would cause ambiguity. In that (hopefully unlikely) case, you should use only the `HEADERS_built_$MODULE` variables.`SCRIPTS`
+It is legal to use both variables for the same module, or any combination, unless you have two module names in the `MODULES` list that differ only by the presence of a prefix `built_`, which would cause ambiguity. In that (hopefully unlikely) case, you should use only the `HEADERS_built_$MODULE` variables.
 
-script files (not binaries) to install into _`prefix`_/bin`SCRIPTS_built`
+`SCRIPTS`
 
-script files (not binaries) to install into _`prefix`_/bin, which need to be built first`REGRESS`
+script files (not binaries) to install into _`prefix`_`/bin`
 
-list of regression test cases (without suffix), see below`REGRESS_OPTS`
+`SCRIPTS_built`
 
-additional switches to pass to pg\_regress`ISOLATION`
+script files (not binaries) to install into _`prefix`_`/bin`, which need to be built first
 
-list of isolation test cases, see below for more details`ISOLATION_OPTS`
+`REGRESS`
 
-additional switches to pass to pg\_isolation\_regress`TAP_TESTS`
+list of regression test cases (without suffix), see below
 
-switch defining if TAP tests need to be run, see below`NO_INSTALLCHECK`
+`REGRESS_OPTS`
 
-don't define an `installcheck` target, useful e.g. if tests require special configuration, or don't use pg\_regress`EXTRA_CLEAN`
+additional switches to pass to pg\_regress
 
-extra files to remove in `make cleanPG_CPPFLAGS`
+`ISOLATION`
 
-will be prepended to `CPPFLAGSPG_CFLAGS`
+list of isolation test cases, see below for more details
 
-will be appended to `CFLAGSPG_CXXFLAGS`
+`ISOLATION_OPTS`
 
-will be appended to `CXXFLAGSPG_LDFLAGS`
+additional switches to pass to pg\_isolation\_regress
 
-will be prepended to `LDFLAGSPG_LIBS`
+`TAP_TESTS`
 
-will be added to `PROGRAM` link line`SHLIB_LINK`
+switch defining if TAP tests need to be run, see below
 
-will be added to `MODULE_big` link line`PG_CONFIG`
+`NO_INSTALL`
+
+don't define an `install` target, useful for test modules that don't need their build products to be installed
+
+`NO_INSTALLCHECK`
+
+don't define an `installcheck` target, useful e.g., if tests require special configuration, or don't use pg\_regress
+
+`EXTRA_CLEAN`
+
+extra files to remove in `make clean`
+
+`PG_CPPFLAGS`
+
+will be prepended to `CPPFLAGS`
+
+`PG_CFLAGS`
+
+will be appended to `CFLAGS`
+
+`PG_CXXFLAGS`
+
+will be appended to `CXXFLAGS`
+
+`PG_LDFLAGS`
+
+will be prepended to `LDFLAGS`
+
+`PG_LIBS`
+
+will be added to `PROGRAM` link line
+
+`SHLIB_LINK`
+
+will be added to `MODULE_big` link line
+
+`PG_CONFIG`
 
 path to pg\_config program for the PostgreSQL installation to build against (typically just `pg_config` to use the first one in your `PATH`)
 
@@ -112,7 +166,7 @@ The scripts listed in the `REGRESS` variable are used for regression testing of 
 
 The scripts listed in the `ISOLATION` variable are used for tests stressing behavior of concurrent session with your module, which can be invoked by `make installcheck` after doing `make install`. For this to work you must have a running PostgreSQL server. The script files listed in `ISOLATION` must appear in a subdirectory named `specs/` in your extension's directory. These files must have extension `.spec`, which must not be included in the `ISOLATION` list in the makefile. For each test there should also be a file containing the expected output in a subdirectory named `expected/`, with the same stem and extension `.out`. `make installcheck` executes each test script, and compares the resulting output to the matching expected file. Any differences will be written to the file `output_iso/regression.diffs` in `diff -c` format. Note that trying to run a test that is missing its expected file will be reported as “trouble”, so make sure you have all expected files.
 
-`TAP_TESTS` enables the use of TAP tests. Data from each run is present in a subdirectory named `tmp_check/`. See also [Section 32.4](https://www.postgresql.org/docs/12/regress-tap.html) for more details.
+`TAP_TESTS` enables the use of TAP tests. Data from each run is present in a subdirectory named `tmp_check/`. See also [Section 33.4](https://www.postgresql.org/docs/current/regress-tap.html) for more details.
 
 #### Tip
 

@@ -1,10 +1,6 @@
----
-description: 版本：11
----
+# 38.13. User-defined Types
 
-# 37.13. User-defined Types
-
-As described in [Section 37.2](https://www.postgresql.org/docs/current/extend-type-system.html), PostgreSQL can be extended to support new data types. This section describes how to define new base types, which are data types defined below the level of the SQL language. Creating a new base type requires implementing functions to operate on the type in a low-level language, usually C.
+As described in [Section 38.2](https://www.postgresql.org/docs/current/extend-type-system.html), PostgreSQL can be extended to support new data types. This section describes how to define new base types, which are data types defined below the level of the SQL language. Creating a new base type requires implementing functions to operate on the type in a low-level language, usually C.
 
 The examples in this section can be found in `complex.sql` and `complex.c` in the `src/tutorial` directory of the source distribution. See the `README` file in that directory for instructions about running the examples.
 
@@ -47,6 +43,7 @@ complex_in(PG_FUNCTION_ARGS)
     result->y = y;
     PG_RETURN_POINTER(result);
 }
+
 ```
 
 The output function can simply be:
@@ -63,6 +60,7 @@ complex_out(PG_FUNCTION_ARGS)
     result = psprintf("(%g,%g)", complex->x, complex->y);
     PG_RETURN_CSTRING(result);
 }
+
 ```
 
 You should be careful to make the input and output functions inverses of each other. If you do not, you will have severe problems when you need to dump your data into a file and then read it back in. This is a particularly common problem when floating-point numbers are involved.
@@ -97,6 +95,7 @@ complex_send(PG_FUNCTION_ARGS)
     pq_sendfloat8(&buf, complex->y);
     PG_RETURN_BYTEA_P(pq_endtypsend(&buf));
 }
+
 ```
 
 Once we have written the I/O functions and compiled them into a shared library, we can define the `complex` type in SQL. First we declare it as a shell type:
@@ -150,9 +149,9 @@ If the internal representation of the data type is variable-length, the internal
 
 For further details see the description of the [CREATE TYPE](https://www.postgresql.org/docs/current/sql-createtype.html) command.
 
-## 37.13.1. TOAST Considerations
+## 38.13.1. TOAST Considerations
 
-If the values of your data type vary in size (in internal form), it's usually desirable to make the data type TOAST-able (see [Section 68.2](https://www.postgresql.org/docs/current/storage-toast.html)). You should do this even if the values are always too small to be compressed or stored externally, because TOAST can save space on small data too, by reducing header overhead.
+If the values of your data type vary in size (in internal form), it's usually desirable to make the data type TOAST-able (see [Section 73.2](https://www.postgresql.org/docs/current/storage-toast.html)). You should do this even if the values are always too small to be compressed or stored externally, because TOAST can save space on small data too, by reducing header overhead.
 
 To support TOAST storage, the C functions operating on the data type must always be careful to unpack any toasted values they are handed by using `PG_DETOAST_DATUM`. (This detail is customarily hidden by defining type-specific `GETARG_DATATYPE_P` macros.) Then, when running the `CREATE TYPE` command, specify the internal length as `variable` and select some appropriate storage option other than `plain`.
 
@@ -170,4 +169,4 @@ C functions that know how to work with an expanded representation typically fall
 
 The TOAST infrastructure not only allows regular varlena values to be distinguished from expanded values, but also distinguishes “read-write” and “read-only” pointers to expanded values. C functions that only need to examine an expanded value, or will only change it in safe and non-semantically-visible ways, need not care which type of pointer they receive. C functions that produce a modified version of an input value are allowed to modify an expanded input value in-place if they receive a read-write pointer, but must not modify the input if they receive a read-only pointer; in that case they have to copy the value first, producing a new value to modify. A C function that has constructed a new expanded value should always return a read-write pointer to it. Also, a C function that is modifying a read-write expanded value in-place should take care to leave the value in a sane state if it fails partway through.
 
-For examples of working with expanded values, see the standard array infrastructure, particularly `src/backend/utils/adt/array_expanded.c`.\\
+For examples of working with expanded values, see the standard array infrastructure, particularly `src/backend/utils/adt/array_expanded.c`.
