@@ -1,8 +1,4 @@
----
-description: 版本：11
----
-
-# 37.7. 函數易變性類別
+# 38.7. 函數易變性類別
 
 每個函數都有易變性的分類，可能為 VOLATILE、STABLE 或 IMMUTABLE。如果 CREATE FUNCTION 指令沒有指定類別，則 VOLATILE 是預設值。易變性類別用於是函數最佳化時的依據：
 
@@ -30,4 +26,4 @@ IMMUTABLE 函數中的 SELECT 指令使用相同的快照行為。根據 IMMUTAB
 當一個函數的結果取決於一個配置參數時，一個常見的錯誤是標記一個函數 IMMUTABLE。 例如，一個操縱時間戳記的函數可能具有取決於 [TimeZone](../../server-administration/server-configuration/client-connection-defaults.md#19-11-2-xi-ge-shi) 設定的結果。為了安全起見，這些功能應該標記為 STABLE。
 
 > 注意\
-> PostgreSQL 要求 STABLE 和 IMMUTABLE 函數不能包含 SELECT 以外的 SQL 指令以防止資料修改。（這不是一個完全防彈的要求，因為這些函數仍然可以呼叫修改資料庫的 VOLATILE 函數，如果這樣做，你會發現 STABLE 或 IMMUTABLE 函數並沒有注意到被呼叫函數應用的資料庫更改，因為它們會其快照是隱藏的。）
+> PostgreSQL 要求 STABLE 和 IMMUTABLE 函數不能包含 SELECT 以外的 SQL 指令以防止資料修改。（這不是一個完全嚴格的要求，因為這些函數仍然可以呼叫修改資料庫的 VOLATILE 函數，如果這樣做，你會發現 STABLE 或 IMMUTABLE 函數並沒有注意到被呼叫函數應用的資料庫更改，因為它們會其快照是隱藏的。）
