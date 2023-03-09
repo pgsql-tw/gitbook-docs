@@ -1,6 +1,6 @@
-# 42.2. Structure of PL/pgSQL
+# 43.2. Structure of PL/pgSQL
 
-Functions written in PL/pgSQL are defined to the server by executing [CREATE FUNCTION](https://www.postgresql.org/docs/13/sql-createfunction.html) commands. Such a command would normally look like, say,
+Functions written in PL/pgSQL are defined to the server by executing [CREATE FUNCTION](https://www.postgresql.org/docs/current/sql-createfunction.html) commands. Such a command would normally look like, say,
 
 ```
 CREATE FUNCTION somefunc(integer, text) RETURNS integer
@@ -8,7 +8,7 @@ AS 'function body text'
 LANGUAGE plpgsql;
 ```
 
-The function body is simply a string literal so far as `CREATE FUNCTION` is concerned. It is often helpful to use dollar quoting (see [Section 4.1.2.4](https://www.postgresql.org/docs/13/sql-syntax-lexical.html#SQL-SYNTAX-DOLLAR-QUOTING)) to write the function body, rather than the normal single quote syntax. Without dollar quoting, any single quotes or backslashes in the function body must be escaped by doubling them. Almost all the examples in this chapter use dollar-quoted literals for their function bodies.
+The function body is simply a string literal so far as `CREATE FUNCTION` is concerned. It is often helpful to use dollar quoting (see [Section 4.1.2.4](https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-DOLLAR-QUOTING)) to write the function body, rather than the normal single quote syntax. Without dollar quoting, any single quotes or backslashes in the function body must be escaped by doubling them. Almost all the examples in this chapter use dollar-quoted literals for their function bodies.
 
 PL/pgSQL is a block-structured language. The complete text of a function body must be a _block_. A block is defined as:
 
@@ -62,6 +62,6 @@ $$ LANGUAGE plpgsql;
 
 #### Note
 
-There is actually a hidden “outer block” surrounding the body of any PL/pgSQL function. This block provides the declarations of the function's parameters (if any), as well as some special variables such as `FOUND` (see [Section 42.5.5](https://www.postgresql.org/docs/13/plpgsql-statements.html#PLPGSQL-STATEMENTS-DIAGNOSTICS)). The outer block is labeled with the function's name, meaning that parameters and special variables can be qualified with the function's name.
+There is actually a hidden “outer block” surrounding the body of any PL/pgSQL function. This block provides the declarations of the function's parameters (if any), as well as some special variables such as `FOUND` (see [Section 43.5.5](https://www.postgresql.org/docs/current/plpgsql-statements.html#PLPGSQL-STATEMENTS-DIAGNOSTICS)). The outer block is labeled with the function's name, meaning that parameters and special variables can be qualified with the function's name.
 
-It is important not to confuse the use of `BEGIN`/`END` for grouping statements in PL/pgSQL with the similarly-named SQL commands for transaction control. PL/pgSQL's `BEGIN`/`END` are only for grouping; they do not start or end a transaction. See [Section 42.8](https://www.postgresql.org/docs/13/plpgsql-transactions.html) for information on managing transactions in PL/pgSQL. Also, a block containing an `EXCEPTION` clause effectively forms a subtransaction that can be rolled back without affecting the outer transaction. For more about that see [Section 42.6.8](https://www.postgresql.org/docs/13/plpgsql-control-structures.html#PLPGSQL-ERROR-TRAPPING).\\
+It is important not to confuse the use of `BEGIN`/`END` for grouping statements in PL/pgSQL with the similarly-named SQL commands for transaction control. PL/pgSQL's `BEGIN`/`END` are only for grouping; they do not start or end a transaction. See [Section 43.8](https://www.postgresql.org/docs/current/plpgsql-transactions.html) for information on managing transactions in PL/pgSQL. Also, a block containing an `EXCEPTION` clause effectively forms a subtransaction that can be rolled back without affecting the outer transaction. For more about that see [Section 43.6.8](https://www.postgresql.org/docs/current/plpgsql-control-structures.html#PLPGSQL-ERROR-TRAPPING).

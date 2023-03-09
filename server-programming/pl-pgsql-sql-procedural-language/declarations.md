@@ -1,4 +1,4 @@
-# 42.3. Declarations
+# 43.3. Declarations
 
 All variables used in a block must be declared in the declarations section of the block. (The only exceptions are that the loop variable of a `FOR` loop iterating over a range of integer values is automatically declared as an integer variable, and likewise the loop variable of a `FOR` loop iterating over a cursor's result is automatically declared as a record variable.)
 
@@ -21,7 +21,7 @@ The general syntax of a variable declaration is:
 name [ CONSTANT ] type [ COLLATE collation_name ] [ NOT NULL ] [ { DEFAULT | := | = } expression ];
 ```
 
-The `DEFAULT` clause, if given, specifies the initial value assigned to the variable when the block is entered. If the `DEFAULT` clause is not given then the variable is initialized to the SQL null value. The `CONSTANT` option prevents the variable from being assigned to after initialization, so that its value will remain constant for the duration of the block. The `COLLATE` option specifies a collation to use for the variable (see [Section 42.3.6](https://www.postgresql.org/docs/13/plpgsql-declarations.html#PLPGSQL-DECLARATION-COLLATION)). If `NOT NULL` is specified, an assignment of a null value results in a run-time error. All variables declared as `NOT NULL` must have a nonnull default value specified. Equal (`=`) can be used instead of PL/SQL-compliant `:=`.
+The `DEFAULT` clause, if given, specifies the initial value assigned to the variable when the block is entered. If the `DEFAULT` clause is not given then the variable is initialized to the SQL null value. The `CONSTANT` option prevents the variable from being assigned to after initialization, so that its value will remain constant for the duration of the block. The `COLLATE` option specifies a collation to use for the variable (see [Section 43.3.6](https://www.postgresql.org/docs/current/plpgsql-declarations.html#PLPGSQL-DECLARATION-COLLATION)). If `NOT NULL` is specified, an assignment of a null value results in a run-time error. All variables declared as `NOT NULL` must have a nonnull default value specified. Equal (`=`) can be used instead of PL/SQL-compliant `:=`.
 
 A variable's default value is evaluated and assigned to the variable each time the block is entered (not just once per function call). So, for example, assigning `now()` to a variable of type `timestamp` causes the variable to have the time of the current function call, not the time when the function was precompiled.
 
@@ -30,10 +30,18 @@ Examples:
 ```
 quantity integer DEFAULT 32;
 url varchar := 'http://mysite.com';
-user_id CONSTANT integer := 10;
+transaction_time CONSTANT timestamp with time zone := now();
 ```
 
-## 42.3.1. Declaring Function Parameters
+Once declared, a variable's value can be used in later initialization expressions in the same block, for example:
+
+```
+DECLARE
+  x integer := 1;
+  y integer := x + 1;
+```
+
+## 43.3.1. Declaring Function Parameters
 
 Parameters passed to functions are named with the identifiers `$1`, `$2`, etc. Optionally, aliases can be declared for `$`_`n`_ parameter names for increased readability. Either the alias or the numeric identifier can then be used to refer to the parameter value.
 
@@ -101,6 +109,12 @@ $$ LANGUAGE plpgsql;
 
 Notice that we omitted `RETURNS real` — we could have included it, but it would be redundant.
 
+To call a function with `OUT` parameters, omit the output parameter(s) in the function call:
+
+```
+SELECT sales_tax(100.00);
+```
+
 Output parameters are most useful when returning multiple values. A trivial example is:
 
 ```
@@ -110,9 +124,36 @@ BEGIN
     prod := x * y;
 END;
 $$ LANGUAGE plpgsql;
+
+SELECT * FROM sum_n_product(2, 4);
+ sum | prod
+-----+------
+   6 |    8
 ```
 
-As discussed in [Section 37.5.4](https://www.postgresql.org/docs/13/xfunc-sql.html#XFUNC-OUTPUT-PARAMETERS), this effectively creates an anonymous record type for the function's results. If a `RETURNS` clause is given, it must say `RETURNS record`.
+As discussed in [Section 38.5.4](https://www.postgresql.org/docs/current/xfunc-sql.html#XFUNC-OUTPUT-PARAMETERS), this effectively creates an anonymous record type for the function's results. If a `RETURNS` clause is given, it must say `RETURNS record`.
+
+This also works with procedures, for example:
+
+```
+CREATE PROCEDURE sum_n_product(x int, y int, OUT sum int, OUT prod int) AS $$
+BEGIN
+    sum := x + y;
+    prod := x * y;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+In a call to a procedure, all the parameters must be specified. For output parameters, `NULL` may be specified when calling the procedure from plain SQL:
+
+```
+CALL sum_n_product(2, 4, NULL, NULL);
+ sum | prod
+-----+------
+   6 |    8
+```
+
+However, when calling a procedure from PL/pgSQL, you should instead write a variable for any output parameter; the variable will receive the result of the call. See [Section 43.6.3](https://www.postgresql.org/docs/current/plpgsql-control-structures.html#PLPGSQL-STATEMENTS-CALLING-PROCEDURE) for details.
 
 Another way to declare a PL/pgSQL function is with `RETURNS TABLE`, for example:
 
@@ -128,7 +169,7 @@ $$ LANGUAGE plpgsql;
 
 This is exactly equivalent to declaring one or more `OUT` parameters and specifying `RETURNS SETOF`` `_`sometype`_.
 
-When the return type of a PL/pgSQL function is declared as a polymorphic type (see [Section 37.2.5](https://www.postgresql.org/docs/13/extend-type-system.html#EXTEND-TYPES-POLYMORPHIC)), a special parameter `$0` is created. Its data type is the actual return type of the function, as deduced from the actual input types. This allows the function to access its actual return type as shown in [Section 42.3.3](https://www.postgresql.org/docs/13/plpgsql-declarations.html#PLPGSQL-DECLARATION-TYPE). `$0` is initialized to null and can be modified by the function, so it can be used to hold the return value if desired, though that is not required. `$0` can also be given an alias. For example, this function works on any data type that has a `+` operator:
+When the return type of a PL/pgSQL function is declared as a polymorphic type (see [Section 38.2.5](https://www.postgresql.org/docs/current/extend-type-system.html#EXTEND-TYPES-POLYMORPHIC)), a special parameter `$0` is created. Its data type is the actual return type of the function, as deduced from the actual input types. This allows the function to access its actual return type as shown in [Section 43.3.3](https://www.postgresql.org/docs/current/plpgsql-declarations.html#PLPGSQL-DECLARATION-TYPE). `$0` is initialized to null and can be modified by the function, so it can be used to hold the return value if desired, though that is not required. `$0` can also be given an alias. For example, this function works on any data type that has a `+` operator:
 
 ```
 CREATE FUNCTION add_three_values(v1 anyelement, v2 anyelement, v3 anyelement)
@@ -173,7 +214,7 @@ SELECT add_three_values(1, 2, 4.7);
 
 will work, automatically promoting the integer inputs to numeric. The function using `anyelement` would require you to cast the three inputs to the same type manually.
 
-## 42.3.2. `ALIAS`
+## 43.3.2. `ALIAS`
 
 ```
 newname ALIAS FOR oldname;
@@ -191,7 +232,7 @@ DECLARE
 
 Since `ALIAS` creates two different ways to name the same object, unrestricted use can be confusing. It's best to use it only for the purpose of overriding predetermined names.
 
-## 42.3.3. Copying Types
+## 43.3.3. Copying Types
 
 ```
 variable%TYPE
@@ -207,7 +248,7 @@ By using `%TYPE` you don't need to know the data type of the structure you are r
 
 `%TYPE` is particularly valuable in polymorphic functions, since the data types needed for internal variables can change from one call to the next. Appropriate variables can be created by applying `%TYPE` to the function's arguments or result placeholders.
 
-## 42.3.4. Row Types
+## 43.3.4. Row Types
 
 ```
 name table_name%ROWTYPE;
@@ -235,7 +276,7 @@ $$ LANGUAGE plpgsql;
 SELECT merge_fields(t.*) FROM table1 t WHERE ... ;
 ```
 
-## 42.3.5. Record Types
+## 43.3.5. Record Types
 
 ```
 name RECORD;
@@ -245,9 +286,9 @@ Record variables are similar to row-type variables, but they have no predefined 
 
 Note that `RECORD` is not a true data type, only a placeholder. One should also realize that when a PL/pgSQL function is declared to return type `record`, this is not quite the same concept as a record variable, even though such a function might use a record variable to hold its result. In both cases the actual row structure is unknown when the function is written, but for a function returning `record` the actual structure is determined when the calling query is parsed, whereas a record variable can change its row structure on-the-fly.
 
-## 42.3.6. Collation of PL/pgSQL Variables
+## 43.3.6. Collation of PL/pgSQL Variables
 
-When a PL/pgSQL function has one or more parameters of collatable data types, a collation is identified for each function call depending on the collations assigned to the actual arguments, as described in [Section 23.2](https://www.postgresql.org/docs/13/collation.html). If a collation is successfully identified (i.e., there are no conflicts of implicit collations among the arguments) then all the collatable parameters are treated as having that collation implicitly. This will affect the behavior of collation-sensitive operations within the function. For example, consider
+When a PL/pgSQL function has one or more parameters of collatable data types, a collation is identified for each function call depending on the collations assigned to the actual arguments, as described in [Section 24.2](https://www.postgresql.org/docs/current/collation.html). If a collation is successfully identified (i.e., there are no conflicts of implicit collations among the arguments) then all the collatable parameters are treated as having that collation implicitly. This will affect the behavior of collation-sensitive operations within the function. For example, consider
 
 ```
 CREATE FUNCTION less_than(a text, b text) RETURNS boolean AS $$

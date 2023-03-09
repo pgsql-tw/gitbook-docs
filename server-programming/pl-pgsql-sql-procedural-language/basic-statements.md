@@ -1,8 +1,4 @@
----
-description: 版本：11
----
-
-# 42.5. 基本語法
+# 43.5. 基本語法
 
 In this section and the following ones, we describe all the statement types that are explicitly understood by PL/pgSQL. Anything not recognized as one of these statement types is presumed to be an SQL command and is sent to the main database engine to execute, as described in [Section 42.5.2](https://www.postgresql.org/docs/13/plpgsql-statements.html#PLPGSQL-STATEMENTS-SQL-NORESULT) and [Section 42.5.3](https://www.postgresql.org/docs/13/plpgsql-statements.html#PLPGSQL-STATEMENTS-SQL-ONEROW).
 
