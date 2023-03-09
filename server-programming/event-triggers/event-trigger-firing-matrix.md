@@ -1,8 +1,8 @@
-# 39.2. Event Trigger Firing Matrix
+# 40.2. Event Trigger Firing Matrix
 
-[Table 39.1](https://www.postgresql.org/docs/13/event-trigger-matrix.html#EVENT-TRIGGER-BY-COMMAND-TAG) lists all commands for which event triggers are supported.
+[Table 40.1](event-trigger-firing-matrix.md#table-40.1.-event-trigger-support-by-command-tag) 列出支援事件觸發器的所有指令。
 
-#### **Table 39.1. Event Trigger Support by Command Tag**
+#### **Table 40.1. Event Trigger Support by Command Tag**
 
 | Command Tag                        | `ddl_​command_​start` | `ddl_​command_​end` | `sql_​drop` | `table_​rewrite` | Notes                  |
 | ---------------------------------- | --------------------- | ------------------- | ----------- | ---------------- | ---------------------- |
@@ -17,13 +17,14 @@
 | `ALTER FUNCTION`                   | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER LANGUAGE`                   | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER LARGE OBJECT`               | `X`                   | `X`                 | `-`         | `-`              |                        |
-| `ALTER MATERIALIZED VIEW`          | `X`                   | `X`                 | `-`         | `-`              |                        |
+| `ALTER MATERIALIZED VIEW`          | `X`                   | `X`                 | `-`         | `X`              |                        |
 | `ALTER OPERATOR`                   | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER OPERATOR CLASS`             | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER OPERATOR FAMILY`            | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER POLICY`                     | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER PROCEDURE`                  | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER PUBLICATION`                | `X`                   | `X`                 | `-`         | `-`              |                        |
+| `ALTER ROUTINE`                    | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER SCHEMA`                     | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER SEQUENCE`                   | `X`                   | `X`                 | `-`         | `-`              |                        |
 | `ALTER SERVER`                     | `X`                   | `X`                 | `-`         | `-`              |                        |
@@ -94,6 +95,7 @@
 | `DROP POLICY`                      | `X`                   | `X`                 | `X`         | `-`              |                        |
 | `DROP PROCEDURE`                   | `X`                   | `X`                 | `X`         | `-`              |                        |
 | `DROP PUBLICATION`                 | `X`                   | `X`                 | `X`         | `-`              |                        |
+| `DROP ROUTINE`                     | `X`                   | `X`                 | `X`         | `-`              |                        |
 | `DROP RULE`                        | `X`                   | `X`                 | `X`         | `-`              |                        |
 | `DROP SCHEMA`                      | `X`                   | `X`                 | `X`         | `-`              |                        |
 | `DROP SEQUENCE`                    | `X`                   | `X`                 | `X`         | `-`              |                        |
