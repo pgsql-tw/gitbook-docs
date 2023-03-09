@@ -1,13 +1,13 @@
-# 45.2. PL/Python Functions
+# 46.1. PL/Python Functions
 
-Functions in PL/Python are declared via the standard [CREATE FUNCTION](https://www.postgresql.org/docs/12/sql-createfunction.html) syntax:
+Functions in PL/Python are declared via the standard [CREATE FUNCTION](https://www.postgresql.org/docs/15/sql-createfunction.html) syntax:
 
 ```
 CREATE FUNCTION funcname (argument-list)
   RETURNS return-type
 AS $$
   # PL/Python function body
-$$ LANGUAGE plpythonu;
+$$ LANGUAGE plpython3u;
 ```
 
 The body of a function is simply a Python script. When the function is called, its arguments are passed as elements of the list `args`; named arguments are also passed as ordinary variables to the Python script. Use of named arguments is usually more readable. The result is returned from the Python code in the usual way, with `return` or `yield` (in case of a result-set statement). If you do not provide a return value, Python returns the default `None`. PL/Python translates Python's `None` into the SQL null value. In a procedure, the result from the Python code must be `None` (typically achieved by ending the procedure without a `return` statement or by using a `return` statement without argument); otherwise, an error will be raised.
@@ -21,7 +21,7 @@ AS $$
   if a > b:
     return a
   return b
-$$ LANGUAGE plpythonu;
+$$ LANGUAGE plpython3u;
 ```
 
 The Python code that is given as the body of the function definition is transformed into a Python function. For example, the above results in:
@@ -43,7 +43,7 @@ CREATE FUNCTION pystrip(x text)
 AS $$
   x = x.strip()  # error
   return x
-$$ LANGUAGE plpythonu;
+$$ LANGUAGE plpython3u;
 ```
 
 because assigning to `x` makes `x` a local variable for the entire block, and so the `x` on the right-hand side of the assignment refers to a not-yet-assigned local variable `x`, not the PL/Python function parameter. Using the `global` statement, this can be made to work:
@@ -55,7 +55,7 @@ AS $$
   global x
   x = x.strip()  # ok now
   return x
-$$ LANGUAGE plpythonu;
+$$ LANGUAGE plpython3u;
 ```
 
 But it is advisable not to rely on this implementation detail of PL/Python. It is better to treat the function parameters as read-only.
