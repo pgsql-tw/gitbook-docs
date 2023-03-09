@@ -45,7 +45,7 @@ _`name`_
 
 ### 注意
 
-函數 current\_setting 可以產生相同的輸出；詳見 [9.26 節](../../the-sql-language/functions-and-operators/system-administration.md)。此外， [pg\_settings ](../../internals/system-views/pg\_settings.md)系統檢視表也產出相同的資訊。
+函數 current\_setting 可以產生相同的輸出；詳見 [9.26 節](../../the-sql-language/functions-and-operators/system-administration.md)。此外， [pg\_settings ](../../internals/system-catalogs/pg\_settings.md)系統檢視表也產出相同的資訊。
 
 ### 範例
 

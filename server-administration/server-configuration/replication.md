@@ -22,7 +22,7 @@
 
 #### `max_slot_wal_keep_size` (`integer`)
 
-指定在檢查點時間允許[複寫槽(replication slots)](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-6-replication-slots)保留在 pg\_wal 目錄中的 WAL 檔案最大大小。如果 max\_slot\_wal\_keep\_size 為 -1（預設值），則複寫槽可能會保留無限數量的 WAL 檔案。否則，如果複寫槽的 restart\_lsn 落後於目前 LSN 超過設定大小，就會刪除所需的 WAL 檔案，使用該複寫槽的備用資料庫可能就不再能夠繼續複寫。您可以在 [pg\_replication\_slots](../../internals/system-views/pg\_replication\_slots.md) 中看到複寫槽的 WAL 可用性。
+指定在檢查點時間允許[複寫槽(replication slots)](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#26-2-6-replication-slots)保留在 pg\_wal 目錄中的 WAL 檔案最大大小。如果 max\_slot\_wal\_keep\_size 為 -1（預設值），則複寫槽可能會保留無限數量的 WAL 檔案。否則，如果複寫槽的 restart\_lsn 落後於目前 LSN 超過設定大小，就會刪除所需的 WAL 檔案，使用該複寫槽的備用資料庫可能就不再能夠繼續複寫。您可以在 [pg\_replication\_slots](../../internals/system-catalogs/pg\_replication\_slots.md) 中看到複寫槽的 WAL 可用性。
 
 #### `wal_sender_timeout` (`integer`)
 
