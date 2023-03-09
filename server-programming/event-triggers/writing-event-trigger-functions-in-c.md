@@ -1,4 +1,4 @@
-# 39.3. Writing Event Trigger Functions in C
+# 40.3. Writing Event Trigger Functions in C
 
 This section describes the low-level details of the interface to an event trigger function. This information is only needed when writing event trigger functions in C. If you are using a higher-level language then these details are handled for you. In most cases you should consider using a procedural language before writing your event triggers in C. The documentation of each procedural language explains how to write an event trigger in that language.
 
@@ -30,13 +30,21 @@ typedef struct EventTriggerData
 } EventTriggerData;
 ```
 
-where the members are defined as follows:`type`
+where the members are defined as follows:
 
-Always `T_EventTriggerData`.`event`
+`type`
 
-Describes the event for which the function is called, one of `"ddl_command_start"`, `"ddl_command_end"`, `"sql_drop"`, `"table_rewrite"`. See [Section 39.1](https://www.postgresql.org/docs/13/event-trigger-definition.html) for the meaning of these events.`parsetree`
+Always `T_EventTriggerData`.
 
-A pointer to the parse tree of the command. Check the PostgreSQL source code for details. The parse tree structure is subject to change without notice.`tag`
+`event`
+
+描述呼叫函數的事件，“ddl\_command\_start”、“ddl\_command\_end”、“sql\_drop”、“table\_rewrite”之一。 有關這些事件的含義，請參閱[第 40.1 節](overview-of-event-trigger-behavior.md)。
+
+`parsetree`
+
+A pointer to the parse tree of the command. Check the PostgreSQL source code for details. The parse tree structure is subject to change without notice.
+
+`tag`
 
 The command tag associated with the event for which the event trigger is run, for example `"CREATE FUNCTION"`.
 

@@ -1,8 +1,8 @@
-# 39.4. A Complete Event Trigger Example
+# 40.4. A Complete Event Trigger Example
 
 Here is a very simple example of an event trigger function written in C. (Examples of triggers written in procedural languages can be found in the documentation of the procedural languages.)
 
-The function `noddl` raises an exception each time it is called. The event trigger definition associated the function with the `ddl_command_start` event. The effect is that all DDL commands (with the exceptions mentioned in [Section 39.1](https://www.postgresql.org/docs/13/event-trigger-definition.html)) are prevented from running.
+The function `noddl` raises an exception each time it is called. The event trigger definition associated the function with the `ddl_command_start` event. The effect is that all DDL commands (with the exceptions mentioned in [Section 40.1](https://www.postgresql.org/docs/current/event-trigger-definition.html)) are prevented from running.
 
 This is the source code of the trigger function:
 
@@ -26,14 +26,15 @@ noddl(PG_FUNCTION_ARGS)
     trigdata = (EventTriggerData *) fcinfo->context;
 
     ereport(ERROR,
-        (errcode(ERRCODE_INSUFFICIENT_PRIVILEGE),
-                 errmsg("command \"%s\" denied", trigdata->tag)));
+            (errcode(ERRCODE_INSUFFICIENT_PRIVILEGE),
+             errmsg("command \"%s\" denied",
+                    GetCommandTagName(trigdata->tag))));
 
     PG_RETURN_NULL();
 }
 ```
 
-After you have compiled the source code (see [Section 37.10.5](https://www.postgresql.org/docs/13/xfunc-c.html#DFUNC)), declare the function and the triggers:
+After you have compiled the source code (see [Section 38.10.5](https://www.postgresql.org/docs/current/xfunc-c.html#DFUNC)), declare the function and the triggers:
 
 ```
 CREATE FUNCTION noddl() RETURNS event_trigger
