@@ -1,12 +1,12 @@
-# 42.6. Control Structures
+# 43.6. Control Structures
 
 Control structures are probably the most useful (and important) part of PL/pgSQL. With PL/pgSQL's control structures, you can manipulate PostgreSQL data in a very flexible and powerful way.
 
-## 42.6.1. Returning from a Function
+## 43.6.1. Returning from a Function
 
 There are two commands available that allow you to return data from a function: `RETURN` and `RETURN NEXT`.
 
-### **42.6.1.1. RETURN**
+### **43.6.1.1. `RETURN`**
 
 ```
 RETURN expression;
@@ -34,7 +34,7 @@ RETURN composite_type_var;
 RETURN (1, 2, 'three'::text);  -- must cast columns to correct types
 ```
 
-### **42.6.1.2. RETURN NEXT And RETURN QUERY**
+### **43.6.1.2. `RETURN NEXT` And `RETURN QUERY`**
 
 ```
 RETURN NEXT expression;
@@ -69,7 +69,7 @@ BEGIN
         RETURN NEXT r; -- return current row of SELECT
     END LOOP;
     RETURN;
-END
+END;
 $BODY$
 LANGUAGE plpgsql;
 
@@ -94,7 +94,7 @@ BEGIN
     END IF;
 
     RETURN;
- END
+ END;
 $BODY$
 LANGUAGE plpgsql;
 
@@ -105,17 +105,17 @@ SELECT * FROM get_available_flightid(CURRENT_DATE);
 
 #### Note
 
-The current implementation of `RETURN NEXT` and `RETURN QUERY` stores the entire result set before returning from the function, as discussed above. That means that if a PL/pgSQL function produces a very large result set, performance might be poor: data will be written to disk to avoid memory exhaustion, but the function itself will not return until the entire result set has been generated. A future version of PL/pgSQL might allow users to define set-returning functions that do not have this limitation. Currently, the point at which data begins being written to disk is controlled by the [work\_mem](https://www.postgresql.org/docs/13/runtime-config-resource.html#GUC-WORK-MEM) configuration variable. Administrators who have sufficient memory to store larger result sets in memory should consider increasing this parameter.
+The current implementation of `RETURN NEXT` and `RETURN QUERY` stores the entire result set before returning from the function, as discussed above. That means that if a PL/pgSQL function produces a very large result set, performance might be poor: data will be written to disk to avoid memory exhaustion, but the function itself will not return until the entire result set has been generated. A future version of PL/pgSQL might allow users to define set-returning functions that do not have this limitation. Currently, the point at which data begins being written to disk is controlled by the [work\_mem](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-WORK-MEM) configuration variable. Administrators who have sufficient memory to store larger result sets in memory should consider increasing this parameter.
 
-## 42.6.2. Returning from a Procedure
+## 43.6.2. Returning from a Procedure
 
 A procedure does not have a return value. A procedure can therefore end without a `RETURN` statement. If you wish to use a `RETURN` statement to exit the code early, write just `RETURN` with no expression.
 
 If the procedure has output parameters, the final values of the output parameter variables will be returned to the caller.
 
-## 42.6.3. Calling a Procedure
+## 43.6.3. Calling a Procedure
 
-A PL/pgSQL function, procedure, or `DO` block can call a procedure using `CALL`. Output parameters are handled differently from the way that `CALL` works in plain SQL. Each `INOUT` parameter of the procedure must correspond to a variable in the `CALL` statement, and whatever the procedure returns is assigned back to that variable after it returns. For example:
+A PL/pgSQL function, procedure, or `DO` block can call a procedure using `CALL`. Output parameters are handled differently from the way that `CALL` works in plain SQL. Each `OUT` or `INOUT` parameter of the procedure must correspond to a variable in the `CALL` statement, and whatever the procedure returns is assigned back to that variable after it returns. For example:
 
 ```
 CREATE PROCEDURE triple(INOUT x int)
@@ -131,11 +131,13 @@ DECLARE myvar int := 5;
 BEGIN
   CALL triple(myvar);
   RAISE NOTICE 'myvar = %', myvar;  -- prints 15
-END
+END;
 $$;
 ```
 
-## 42.6.4. Conditionals
+The variable corresponding to an output parameter can be a simple variable or a field of a composite-type variable. Currently, it cannot be an element of an array.
+
+## 43.6.4. Conditionals
 
 `IF` and `CASE` statements let you execute alternative commands based on certain conditions. PL/pgSQL has three forms of `IF`:
 
@@ -148,7 +150,7 @@ and two forms of `CASE`:
 * `CASE ... WHEN ... THEN ... ELSE ... END CASE`
 * `CASE WHEN ... THEN ... ELSE ... END CASE`
 
-### **42.6.4.1. IF-THEN**
+### **43.6.4.1. `IF-THEN`**
 
 ```
 IF boolean-expression THEN
@@ -166,7 +168,7 @@ IF v_user_id <> 0 THEN
 END IF;
 ```
 
-### **42.6.4.2. IF-THEN-ELSE**
+### **43.6.4.2. `IF-THEN-ELSE`**
 
 ```
 IF boolean-expression THEN
@@ -198,7 +200,7 @@ ELSE
 END IF;
 ```
 
-### **42.6.4.3. IF-THEN-ELSIF**
+### **43.6.4.3. `IF-THEN-ELSIF`**
 
 ```
 IF boolean-expression THEN
@@ -248,7 +250,7 @@ END IF;
 
 However, this method requires writing a matching `END IF` for each `IF`, so it is much more cumbersome than using `ELSIF` when there are many alternatives.
 
-### **42.6.4.4. Simple CASE**
+### **43.6.4.4. Simple `CASE`**
 
 ```
 CASE search-expression
@@ -275,7 +277,7 @@ CASE x
 END CASE;
 ```
 
-### **42.6.4.5. Searched CASE**
+### **43.6.4.5. Searched `CASE`**
 
 ```
 CASE
@@ -304,11 +306,11 @@ END CASE;
 
 This form of `CASE` is entirely equivalent to `IF-THEN-ELSIF`, except for the rule that reaching an omitted `ELSE` clause results in an error rather than doing nothing.
 
-## 42.6.5. Simple Loops
+## 43.6.5. Simple Loops
 
 With the `LOOP`, `EXIT`, `CONTINUE`, `WHILE`, `FOR`, and `FOREACH` statements, you can arrange for your PL/pgSQL function to repeat a series of commands.
 
-### **42.6.5.1. LOOP**
+### **43.6.5.1. `LOOP`**
 
 ```
 [ <<label>> ]
@@ -319,7 +321,7 @@ END LOOP [ label ];
 
 `LOOP` defines an unconditional loop that is repeated indefinitely until terminated by an `EXIT` or `RETURN` statement. The optional _`label`_ can be used by `EXIT` and `CONTINUE` statements within nested loops to specify which loop those statements refer to.
 
-### **42.6.5.2. EXIT**
+### **43.6.5.2. `EXIT`**
 
 ```
 EXIT [ label ] [ WHEN boolean-expression ];
@@ -358,7 +360,7 @@ BEGIN
 END;
 ```
 
-### **42.6.5.3. CONTINUE**
+### **43.6.5.3. `CONTINUE`**
 
 ```
 CONTINUE [ label ] [ WHEN boolean-expression ];
@@ -381,7 +383,7 @@ LOOP
 END LOOP;
 ```
 
-### **42.6.5.4. WHILE**
+### **43.6.5.4. `WHILE`**
 
 ```
 [ <<label>> ]
@@ -404,7 +406,7 @@ WHILE NOT done LOOP
 END LOOP;
 ```
 
-### **42.6.5.5. FOR (Integer Variant)**
+### **43.6.5.5. `FOR` (Integer Variant)**
 
 ```
 [ <<label>> ]
@@ -435,7 +437,7 @@ If the lower bound is greater than the upper bound (or less than, in the `REVERS
 
 If a _`label`_ is attached to the `FOR` loop then the integer loop variable can be referenced with a qualified name, using that _`label`_.
 
-## 42.6.6. Looping through Query Results
+## 43.6.6. Looping through Query Results
 
 Using a different type of `FOR` loop, you can iterate through the results of a query and manipulate that data accordingly. The syntax is:
 
@@ -484,7 +486,7 @@ If the loop is terminated by an `EXIT` statement, the last assigned row value is
 
 The _`query`_ used in this type of `FOR` statement can be any SQL command that returns rows to the caller: `SELECT` is the most common case, but you can also use `INSERT`, `UPDATE`, or `DELETE` with a `RETURNING` clause. Some utility commands such as `EXPLAIN` will work too.
 
-PL/pgSQL variables are substituted into the query text, and the query plan is cached for possible re-use, as discussed in detail in [Section 42.11.1](https://www.postgresql.org/docs/13/plpgsql-implementation.html#PLPGSQL-VAR-SUBST) and [Section 42.11.2](https://www.postgresql.org/docs/13/plpgsql-implementation.html#PLPGSQL-PLAN-CACHING).
+PL/pgSQL variables are replaced by query parameters, and the query plan is cached for possible re-use, as discussed in detail in [Section 43.11.1](https://www.postgresql.org/docs/current/plpgsql-implementation.html#PLPGSQL-VAR-SUBST) and [Section 43.11.2](https://www.postgresql.org/docs/current/plpgsql-implementation.html#PLPGSQL-PLAN-CACHING).
 
 The `FOR-IN-EXECUTE` statement is another way to iterate over rows:
 
@@ -497,11 +499,11 @@ END LOOP [ label ];
 
 This is like the previous form, except that the source query is specified as a string expression, which is evaluated and replanned on each entry to the `FOR` loop. This allows the programmer to choose the speed of a preplanned query or the flexibility of a dynamic query, just as with a plain `EXECUTE` statement. As with `EXECUTE`, parameter values can be inserted into the dynamic command via `USING`.
 
-Another way to specify the query whose results should be iterated through is to declare it as a cursor. This is described in [Section 42.7.4](https://www.postgresql.org/docs/13/plpgsql-cursors.html#PLPGSQL-CURSOR-FOR-LOOP).
+Another way to specify the query whose results should be iterated through is to declare it as a cursor. This is described in [Section 43.7.4](https://www.postgresql.org/docs/current/plpgsql-cursors.html#PLPGSQL-CURSOR-FOR-LOOP).
 
-## 42.6.7. Looping through Arrays
+## 43.6.7. Looping through Arrays
 
-The `FOREACH` loop is much like a `FOR` loop, but instead of iterating through the rows returned by a SQL query, it iterates through the elements of an array value. (In general, `FOREACH` is meant for looping through components of a composite-valued expression; variants for looping through composites besides arrays may be added in future.) The `FOREACH` statement to loop over an array is:
+The `FOREACH` loop is much like a `FOR` loop, but instead of iterating through the rows returned by an SQL query, it iterates through the elements of an array value. (In general, `FOREACH` is meant for looping through components of a composite-valued expression; variants for looping through composites besides arrays may be added in future.) The `FOREACH` statement to loop over an array is:
 
 ```
 [ <<label>> ]
@@ -551,9 +553,9 @@ NOTICE:  row = {7,8,9}
 NOTICE:  row = {10,11,12}
 ```
 
-## 42.6.8. Trapping Errors
+## 43.6.8. Trapping Errors
 
-By default, any error occurring in a PL/pgSQL function aborts execution of the function, and indeed of the surrounding transaction as well. You can trap errors and recover from them by using a `BEGIN` block with an `EXCEPTION` clause. The syntax is an extension of the normal syntax for a `BEGIN` block:
+By default, any error occurring in a PL/pgSQL function aborts execution of the function and the surrounding transaction. You can trap errors and recover from them by using a `BEGIN` block with an `EXCEPTION` clause. The syntax is an extension of the normal syntax for a `BEGIN` block:
 
 ```
 [ <<label>> ]
@@ -572,7 +574,7 @@ END;
 
 If no error occurs, this form of block simply executes all the _`statements`_, and then control passes to the next statement after `END`. But if an error occurs within the _`statements`_, further processing of the _`statements`_ is abandoned, and control passes to the `EXCEPTION` list. The list is searched for the first _`condition`_ matching the error that occurred. If a match is found, the corresponding _`handler_statements`_ are executed, and then control passes to the next statement after `END`. If no match is found, the error propagates out as though the `EXCEPTION` clause were not there at all: the error can be caught by an enclosing block with `EXCEPTION`, or if there is none it aborts processing of the function.
 
-The _`condition`_ names can be any of those shown in [Appendix A](https://www.postgresql.org/docs/13/errcodes-appendix.html). A category name matches any error within its category. The special condition name `OTHERS` matches every error type except `QUERY_CANCELED` and `ASSERT_FAILURE`. (It is possible, but often unwise, to trap those two error types by name.) Condition names are not case-sensitive. Also, an error condition can be specified by `SQLSTATE` code; for example these are equivalent:
+The _`condition`_ names can be any of those shown in [Appendix A](https://www.postgresql.org/docs/current/errcodes-appendix.html). A category name matches any error within its category. The special condition name `OTHERS` matches every error type except `QUERY_CANCELED` and `ASSERT_FAILURE`. (It is possible, but often unwise, to trap those two error types by name.) Condition names are not case-sensitive. Also, an error condition can be specified by `SQLSTATE` code; for example these are equivalent:
 
 ```
 WHEN division_by_zero THEN ...
@@ -602,7 +604,7 @@ When control reaches the assignment to `y`, it will fail with a `division_by_zer
 
 A block containing an `EXCEPTION` clause is significantly more expensive to enter and exit than a block without one. Therefore, don't use `EXCEPTION` without need.
 
-### **Example 42.2. Exceptions with `UPDATE`/`INSERT`**
+**Example 43.2. Exceptions with `UPDATE`/`INSERT`**
 
 This example uses exception handling to perform either `UPDATE` or `INSERT`, as appropriate. It is recommended that applications use `INSERT` with `ON CONFLICT DO UPDATE` rather than actually using this pattern. This example serves primarily to illustrate use of PL/pgSQL control flow structures:
 
@@ -636,13 +638,16 @@ SELECT merge_db(1, 'david');
 SELECT merge_db(1, 'dennis');
 ```
 
-This coding assumes the `unique_violation` error is caused by the `INSERT`, and not by, say, an `INSERT` in a trigger function on the table. It might also misbehave if there is more than one unique index on the table, since it will retry the operation regardless of which index caused the error. More safety could be had by using the features discussed next to check that the trapped error was the one expected.\\
+This coding assumes the `unique_violation` error is caused by the `INSERT`, and not by, say, an `INSERT` in a trigger function on the table. It might also misbehave if there is more than one unique index on the table, since it will retry the operation regardless of which index caused the error. More safety could be had by using the features discussed next to check that the trapped error was the one expected.
 
-### **42.6.8.1. Obtaining Information About An Error**
+\
+
+
+### **43.6.8.1. Obtaining Information About An Error**
 
 Exception handlers frequently need to identify the specific error that occurred. There are two ways to get information about the current exception in PL/pgSQL: special variables and the `GET STACKED DIAGNOSTICS` command.
 
-Within an exception handler, the special variable `SQLSTATE` contains the error code that corresponds to the exception that was raised (refer to [Table A.1](https://www.postgresql.org/docs/13/errcodes-appendix.html#ERRCODES-TABLE) for a list of possible error codes). The special variable `SQLERRM` contains the error message associated with the exception. These variables are undefined outside exception handlers.
+Within an exception handler, the special variable `SQLSTATE` contains the error code that corresponds to the exception that was raised (refer to [Table A.1](https://www.postgresql.org/docs/current/errcodes-appendix.html#ERRCODES-TABLE) for a list of possible error codes). The special variable `SQLERRM` contains the error message associated with the exception. These variables are undefined outside exception handlers.
 
 Within an exception handler, one may also retrieve information about the current exception by using the `GET STACKED DIAGNOSTICS` command, which has the form:
 
@@ -650,22 +655,22 @@ Within an exception handler, one may also retrieve information about the current
 GET STACKED DIAGNOSTICS variable { = | := } item [ , ... ];
 ```
 
-Each _`item`_ is a key word identifying a status value to be assigned to the specified _`variable`_ (which should be of the right data type to receive it). The currently available status items are shown in [Table 42.2](https://www.postgresql.org/docs/13/plpgsql-control-structures.html#PLPGSQL-EXCEPTION-DIAGNOSTICS-VALUES).
+Each _`item`_ is a key word identifying a status value to be assigned to the specified _`variable`_ (which should be of the right data type to receive it). The currently available status items are shown in [Table 43.2](https://www.postgresql.org/docs/current/plpgsql-control-structures.html#PLPGSQL-EXCEPTION-DIAGNOSTICS-VALUES).
 
-#### **Table 42.2. Error Diagnostics Items**
+#### **Table 43.2. Error Diagnostics Items**
 
-| Name                   | Type   | Description                                                                                                                                                                          |
-| ---------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `RETURNED_SQLSTATE`    | `text` | the SQLSTATE error code of the exception                                                                                                                                             |
-| `COLUMN_NAME`          | `text` | the name of the column related to exception                                                                                                                                          |
-| `CONSTRAINT_NAME`      | `text` | the name of the constraint related to exception                                                                                                                                      |
-| `PG_DATATYPE_NAME`     | `text` | the name of the data type related to exception                                                                                                                                       |
-| `MESSAGE_TEXT`         | `text` | the text of the exception's primary message                                                                                                                                          |
-| `TABLE_NAME`           | `text` | the name of the table related to exception                                                                                                                                           |
-| `SCHEMA_NAME`          | `text` | the name of the schema related to exception                                                                                                                                          |
-| `PG_EXCEPTION_DETAIL`  | `text` | the text of the exception's detail message, if any                                                                                                                                   |
-| `PG_EXCEPTION_HINT`    | `text` | the text of the exception's hint message, if any                                                                                                                                     |
-| `PG_EXCEPTION_CONTEXT` | `text` | line(s) of text describing the call stack at the time of the exception (see [Section 42.6.9](https://www.postgresql.org/docs/13/plpgsql-control-structures.html#PLPGSQL-CALL-STACK)) |
+| Name                   | Type   | Description                                                                                                                                                                               |
+| ---------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RETURNED_SQLSTATE`    | `text` | the SQLSTATE error code of the exception                                                                                                                                                  |
+| `COLUMN_NAME`          | `text` | the name of the column related to exception                                                                                                                                               |
+| `CONSTRAINT_NAME`      | `text` | the name of the constraint related to exception                                                                                                                                           |
+| `PG_DATATYPE_NAME`     | `text` | the name of the data type related to exception                                                                                                                                            |
+| `MESSAGE_TEXT`         | `text` | the text of the exception's primary message                                                                                                                                               |
+| `TABLE_NAME`           | `text` | the name of the table related to exception                                                                                                                                                |
+| `SCHEMA_NAME`          | `text` | the name of the schema related to exception                                                                                                                                               |
+| `PG_EXCEPTION_DETAIL`  | `text` | the text of the exception's detail message, if any                                                                                                                                        |
+| `PG_EXCEPTION_HINT`    | `text` | the text of the exception's hint message, if any                                                                                                                                          |
+| `PG_EXCEPTION_CONTEXT` | `text` | line(s) of text describing the call stack at the time of the exception (see [Section 43.6.9](https://www.postgresql.org/docs/current/plpgsql-control-structures.html#PLPGSQL-CALL-STACK)) |
 
 If the exception did not set a value for an item, an empty string will be returned.
 
@@ -686,9 +691,9 @@ EXCEPTION WHEN OTHERS THEN
 END;
 ```
 
-## 42.6.9. Obtaining Execution Location Information
+## 43.6.9. Obtaining Execution Location Information
 
-The `GET DIAGNOSTICS` command, previously described in [Section 42.5.5](https://www.postgresql.org/docs/13/plpgsql-statements.html#PLPGSQL-STATEMENTS-DIAGNOSTICS), retrieves information about current execution state (whereas the `GET STACKED DIAGNOSTICS` command discussed above reports information about the execution state as of a previous error). Its `PG_CONTEXT` status item is useful for identifying the current execution location. `PG_CONTEXT` returns a text string with line(s) of text describing the call stack. The first line refers to the current function and currently executing `GET DIAGNOSTICS` command. The second and any subsequent lines refer to calling functions further up the call stack. For example:
+The `GET DIAGNOSTICS` command, previously described in [Section 43.5.5](https://www.postgresql.org/docs/current/plpgsql-statements.html#PLPGSQL-STATEMENTS-DIAGNOSTICS), retrieves information about current execution state (whereas the `GET STACKED DIAGNOSTICS` command discussed above reports information about the execution state as of a previous error). Its `PG_CONTEXT` status item is useful for identifying the current execution location. `PG_CONTEXT` returns a text string with line(s) of text describing the call stack. The first line refers to the current function and currently executing `GET DIAGNOSTICS` command. The second and any subsequent lines refer to calling functions further up the call stack. For example:
 
 ```
 CREATE OR REPLACE FUNCTION outer_func() RETURNS integer AS $$
@@ -719,4 +724,4 @@ CONTEXT:  PL/pgSQL function outer_func() line 3 at RETURN
 (1 row)
 ```
 
-`GET STACKED DIAGNOSTICS ... PG_EXCEPTION_CONTEXT` returns the same sort of stack trace, but describing the location at which an error was detected, rather than the current location.\\
+`GET STACKED DIAGNOSTICS ... PG_EXCEPTION_CONTEXT` returns the same sort of stack trace, but describing the location at which an error was detected, rather than the current location.
