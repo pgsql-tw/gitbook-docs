@@ -1,6 +1,6 @@
-# 45.5. Anonymous Code Blocks
+# 46.4. Anonymous Code Blocks
 
-PL/Python 還支援使用 [DO](../../reference/sql-commands/do.md) 語句呼叫的暱名代碼：
+PL/Python 還支援使用 [DO](../../reference/sql-commands/do.md) 語句呼叫的匿名程式：
 
 ```
 DO $$
