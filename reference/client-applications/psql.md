@@ -46,9 +46,9 @@ echo '\x \\ SELECT * FROM foo;' | psql
 
 (`\\` is the separator meta-command.)
 
-Each SQL command string passed to `-c` is sent to the server as a single request. Because of this, the server executes it as a single transaction even if the string contains multiple SQL commands, unless there are explicit `BEGIN`/`COMMIT` commands included in the string to divide it into multiple transactions. (See [Section 52.2.2.1](https://www.postgresql.org/docs/12/protocol-flow.html#PROTOCOL-FLOW-MULTI-STATEMENT) for more details about how the server handles multi-query strings.) Also, psql only prints the result of the last SQL command in the string. This is different from the behavior when the same string is read from a file or fed to psql's standard input, because then psql sends each SQL command separately.
+Each SQL command string passed to `-c` is sent to the server as a single request. Because of this, the server executes it as a single transaction even if the string contains multiple SQL commands, unless there are explicit `BEGIN`/`COMMIT` commands included in the string to divide it into multiple transactions. (See [Section 55.2.2.1](https://www.postgresql.org/docs/current/protocol-flow.html#PROTOCOL-FLOW-MULTI-STATEMENT) for more details about how the server handles multi-query strings.)
 
-Because of this behavior, putting more than one SQL command in a single `-c` string often has unexpected results. It's better to use repeated `-c` commands or feed multiple commands to psql's standard input, either using echo as illustrated above, or via a shell here-document, for example:
+If having several commands executed in one transaction is not desired, use repeated `-c` commands or feed multiple commands to psql's standard input, either using echo as illustrated above, or via a shell here-document, for example:
 
 ```
 psql <<EOF
@@ -112,7 +112,7 @@ When this option is used, psql will connect to the database `postgres`, unless a
 `-L`` `_`filename`_\
 `--log-file=`_`filename`_
 
-Write all query output into file _`filename`_, in addition to the normal output destination.
+除了正常的輸出目標之外，還將所有查詢輸出寫入檔名。
 
 `-n`\
 `--no-readline`
@@ -137,7 +137,7 @@ Specifies printing options, in the style of `\pset`. Note that here you have to 
 `-q`\
 `--quiet`
 
-Specifies that psql should do its work quietly. By default, it prints welcome messages and various informational output. If this option is used, none of this happens. This is useful with the `-c` option. This is equivalent to setting the variable `QUIET` to `on`.
+指定 psql 應靜默地執行其工作。默認情況下，它列印歡迎消息和各種信息輸出。如果使用此選項，則不會發生任何情況。這對於 -c 選項很有用。這等效於將變數 QUIET 設置為 on。
 
 `-R`` `_`separator`_\
 `--record-separator=`_`separator`_
@@ -152,7 +152,7 @@ Run in single-step mode. That means the user is prompted before each command is 
 `-S`\
 `--single-line`
 
-Runs in single-line mode where a newline terminates an SQL command, as a semicolon does.
+在單行模式下運行，其中換行符終止 SQL 命令，就像分號一樣。
 
 {% hint style="info" %}
 堅持使用此模式的人可以使用，但不一定鼓勵您使用它。特別是，如果您在一行指令上混合使用 SQL 和快捷指令的話，則對於經驗不足的使用者，執行的次序可能會搞不清楚。
@@ -233,7 +233,7 @@ Show help about psql and exit. The optional _`topic`_ parameter (defaulting to `
 
 ### Exit Status
 
-psql returns 0 to the shell if it finished normally, 1 if a fatal error of its own occurs (e.g. out of memory, file not found), 2 if the connection to the server went bad and the session was not interactive, and 3 if an error occurred in a script and the variable `ON_ERROR_STOP` was set.
+如果 psql 正常完成，則向shell傳回 0，如果發生自己的致命錯誤（例如，記憶體不足、找不到檔），則返回 1，如果與伺服器的連接斷開且會話不交互，則返回 2，如果腳本中發生錯誤並且設置了變數 ON\_ERROR\_STOP，則返回 3。
 
 ### Usage
 
@@ -241,7 +241,7 @@ psql returns 0 to the shell if it finished normally, 1 if a fatal error of its o
 
 psql is a regular PostgreSQL client application. In order to connect to a database you need to know the name of your target database, the host name and port number of the server, and what user name you want to connect as. psql can be told about those parameters via command line options, namely `-d`, `-h`, `-p`, and `-U` respectively. If an argument is found that does not belong to any option it will be interpreted as the database name (or the user name, if the database name is already given). Not all of these options are required; there are useful defaults. If you omit the host name, psql will connect via a Unix-domain socket to a server on the local host, or via TCP/IP to `localhost` on machines that don't have Unix-domain sockets. The default port number is determined at compile time. Since the database server uses the same default, you will not have to specify the port in most cases. The default user name is your operating-system user name, as is the default database name. Note that you cannot just connect to any database under any user name. Your database administrator should have informed you about your access rights.
 
-When the defaults aren't quite right, you can save yourself some typing by setting the environment variables `PGDATABASE`, `PGHOST`, `PGPORT` and/or `PGUSER` to appropriate values. (For additional environment variables, see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html).) It is also convenient to have a `~/.pgpass` file to avoid regularly having to type in passwords. See [Section 33.15](https://www.postgresql.org/docs/12/libpq-pgpass.html) for more information.
+When the defaults aren't quite right, you can save yourself some typing by setting the environment variables `PGDATABASE`, `PGHOST`, `PGPORT` and/or `PGUSER` to appropriate values. (For additional environment variables, see [Section 34.15](https://www.postgresql.org/docs/current/libpq-envars.html).) It is also convenient to have a `~/.pgpass` file to avoid regularly having to type in passwords. See [Section 34.16](https://www.postgresql.org/docs/current/libpq-pgpass.html) for more information.
 
 An alternative way to specify connection parameters is in a _`conninfo`_ string or a URI, which is used instead of a database name. This mechanism give you very wide control over the connection. For example:
 

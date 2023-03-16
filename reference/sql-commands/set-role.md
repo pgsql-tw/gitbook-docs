@@ -4,7 +4,7 @@ SET ROLE — 設定目前連線的目前使用者識別
 
 ### 語法
 
-```
+```sql
 SET [ SESSION | LOCAL ] ROLE role_name
 SET [ SESSION | LOCAL ] ROLE NONE
 RESET ROLE
