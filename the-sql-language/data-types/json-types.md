@@ -81,7 +81,7 @@ SELECT '{"reading": 1.230e-5}'::json, '{"reading": 1.230e-5}'::jsonb;
 
 但是，jsonb 將保留小數尾巴的數字零，如在本範例中所示，即使它們在語義上無意義（例如，相等運算），也是如此。
 
-有關可用於建構和處理 JSON 內容的內建函數和運算子的列表，請參閱[第 9.15 節](../functions-and-operators/json-functions-and-operators.md)。
+有關可用於建構和處理 JSON 內容的內建函數和運算子的列表，請參閱[第 9.16 節](../functions-and-operators/json-functions-and-operators.md)。
 
 ## 8.14.2. 設計 JSON 文件結構
 
