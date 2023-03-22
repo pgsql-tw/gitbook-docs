@@ -375,15 +375,15 @@ SQL / JSON 路徑 predicate 和運算子的語義基本遵循 SQL 標準。同�
 
 SQL/JSON 路徑表示式通常以 SQL 字串文字形式寫在 SQL 查詢中，因此它必須用單引號引起來，並且值中所需的任何單引號都必須加倍（請參閱[第 4.1.2.1 節](../sql-syntax/lexical-structure.md#4-1-2-1-zi-chuan-chang-shu)）。某些形式的路徑表示式需要在其中包含字串文字。這些嵌入的字串文字遵循 JavaScript/ECMAScript 約定：它們必須用雙引號引起來，並且在其中可以使用反斜線轉譯符號來表示，否則很難輸入的字元。特別地，在嵌入式字串文字中寫雙引號的方式是 \\"，而寫反斜線本身則必須寫成 \。其他特殊的反斜線序列包括在 JSON 字串中識別的那些：\b，\f，\n，\r，\t，\v 用於各種 ASCII 控制字元，\uNNNN 用於其 4 進位數字代碼標識的 Unicode 字元。反斜線語法還包括 JSON 不允許的兩種情況：\xNN 僅用兩個十六進位數字編寫的字元代碼，而 \u {N ...} 用於用 1 至 6 個十六進位數字編寫的字元代碼。
 
-A path expression consists of a sequence of path elements, which can be the following:
+A path expression consists of a sequence of path elements, which can be any of the following:
 
 * Path literals of JSON primitive types: Unicode text, numeric, true, false, or null.
-* Path variables listed in [Table 8.24](https://www.postgresql.org/docs/12/datatype-json.html#TYPE-JSONPATH-VARIABLES).
-* Accessor operators listed in [Table 8.25](https://www.postgresql.org/docs/12/datatype-json.html#TYPE-JSONPATH-ACCESSORS).
-* `jsonpath` operators and methods listed in [Section 9.15.2.3](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-SQLJSON-PATH-OPERATORS)
+* Path variables listed in [Table 8.24](https://www.postgresql.org/docs/current/datatype-json.html#TYPE-JSONPATH-VARIABLES).
+* Accessor operators listed in [Table 8.25](https://www.postgresql.org/docs/current/datatype-json.html#TYPE-JSONPATH-ACCESSORS).
+* `jsonpath` operators and methods listed in [Section 9.16.2.2](https://www.postgresql.org/docs/current/functions-json.html#FUNCTIONS-SQLJSON-PATH-OPERATORS).
 * Parentheses, which can be used to provide filter expressions or define the order of path evaluation.
 
-For details on using `jsonpath` expressions with SQL/JSON query functions, see [Section 9.15.2](https://www.postgresql.org/docs/12/functions-json.html#FUNCTIONS-SQLJSON-PATH).
+For details on using `jsonpath` expressions with SQL/JSON query functions, see [Section 9.16.2](https://www.postgresql.org/docs/current/functions-json.html#FUNCTIONS-SQLJSON-PATH).
 
 #### **Table 8.24. `jsonpath` Variables**
 
