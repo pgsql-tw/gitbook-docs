@@ -1,10 +1,10 @@
-# 66.5. GIN 小巧技
+# 70.5. GIN 小技巧
 
 Create vs. insert
 
 由於可能為每個項目插入了許多索引鍵，因此插入 GIN 索引可能會很慢。因此，對於批次插入表格，建議在完成批次插入後刪除 GIN 索引並重新建立。
 
-從 PostgreSQL 8.4 開始，由於使用了延遲索引，因此此建議不太必要（詳見[第 66.4.1 節](implementation.md#64-4-1-gin-kuai-su-geng-xin-ji)）。但對於非常大的更新，還是最好刪除並重新建立索引。
+從 PostgreSQL 8.4 開始，由於使用了延遲索引，因此此建議不太必要（詳見[第 70.4.1 節](implementation.md#64-4-1-gin-kuai-su-geng-xin-ji)）。但對於非常大的更新，還是最好刪除並重新建立索引。
 
 [maintenance\_work\_mem](../../server-administration/server-configuration/resource-consumption.md#19-4-1-memory)
 
