@@ -37,9 +37,9 @@ PostgreSQL 內建支援以下形式的分割方式：
 
 分割區本身也可以定義為分割資料表，從而形成子分割區。儘管所有分割區都必須與其分割區的父親具有相同的欄位，但是分割區可以擁有自己的索引、限制條件和預設值，與其他分割區的索引、限制條件和預設值不同。有關建立分割區表和分割區的更多詳細說明，請參閱 [CREATE TABLE](../../reference/sql-commands/create-table.md)。
 
-It is not possible to turn a regular table into a partitioned table or vice versa. However, it is possible to add an existing regular or partitioned table as a partition of a partitioned table, or remove a partition from a partitioned table turning it into a standalone table; this can simplify and speed up many maintenance processes. See [ALTER TABLE](https://www.postgresql.org/docs/13/sql-altertable.html) to learn more about the `ATTACH PARTITION` and `DETACH PARTITION` sub-commands.
+不可能將一張常規的資料表轉換成一個分割過的資料表，反之亦然。但是，是有可能新增一個既有的常規或是分割過的資料表，作為一個分割資料表的分割區；或是從一個分割過的資料表刪除一個分割區，將它轉換成獨立的資料表。這樣可以簡化和加速維護的程序。請參閱 [ALTER TABLE](https://www.postgresql.org/docs/13/sql-altertable.html) 學習更多關於 `ATTACH PARTITION` 和 `DETACH PARTITION` 次命令.
 
-Partitions can also be foreign tables, although they have some limitations that normal tables do not; see [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/13/sql-createforeigntable.html) for more information.
+分割區也可以是外部資料表，儘管這些資料表有一些一般資料表沒有的限制。更多的資訊請參閱 [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/13/sql-createforeigntable.html).
 
 ### **5.11.2.1. Example**
 
