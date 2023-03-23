@@ -1,5 +1,5 @@
-# 64.1. Introduction
+# 67.1. Introduction
 
-PostgreSQL includes an implementation of the standard btree (multi-way balanced tree) index data structure. Any data type that can be sorted into a well-defined linear order can be indexed by a btree index. The only limitation is that an index entry cannot exceed approximately one-third of a page (after TOAST compression, if applicable).
+PostgreSQL 實作了標準 btree（多向平衡樹）索引資料結構。任何可以按明確定義的線性順序排序的資料型別都可以透過 btree 索引進行索引。唯一的限制是索引數目不能超過頁面的大約三分之一（如果有 TOAST 壓縮的話，指的是壓縮後的大小）。
 
-Because each btree operator class imposes a sort order on its data type, btree operator classes (or, really, operator families) have come to be used as PostgreSQL's general representation and understanding of sorting semantics. Therefore, they've acquired some features that go beyond what would be needed just to support btree indexes, and parts of the system that are quite distant from the btree AM make use of them.
+因為每個 btree 運算子類對其資料型別強加排序順序，所以 btree 運算子類（或者，實際上，運算子家族）已經被用作 PostgreSQL 對排序的一般表示和理解。 因此，他們獲得了一些超出僅支持 btree 索引所需的功能，並且系統中與 btree AM 相距甚遠的部分使用了它們。
