@@ -1,6 +1,6 @@
 # 8.14. JSON 型別
 
-JSON 資料型別用於儲存 [RFC 7159](https://tools.ietf.org/html/rfc7159) 中所規範的 JSON（JavaScript Object Notation）資料。此類資料也可以儲存為 text，但是 JSON 資料型別的優點是可以根據 JSON 規則強制讓每個儲存的值必須是有效的值 。對於這些資料型別中儲存的資料，還提供了各種特定於 JSON 的函數和運算子。 另請參閱[第 9.15 節](../functions-and-operators/json-functions-and-operators.md)。
+JSON 資料型別用於儲存 [RFC 7159](https://tools.ietf.org/html/rfc7159) 中所規範的 JSON（JavaScript Object Notation）資料。此類資料也可以儲存為 text，但是 JSON 資料型別的優點是可以根據 JSON 規則強制讓每個儲存的值必須是有效的值 。對於這些資料型別中儲存的資料，還提供了各種特定於 JSON 的函數和運算子。 另請參閱[第 9.16 節](../functions-and-operators/json-functions-and-operators.md)。
 
 PostgreSQL 提供了兩種儲存 JSON 資料的型別：json 和 jsonb。為了對這些資料型別實作有效的查詢機制，PostgreSQL 還提供了 [8.14.6 節](json-types.md#8-14-6-jsonpath-type)中所描述的 jsonpath 資料型別。
 
