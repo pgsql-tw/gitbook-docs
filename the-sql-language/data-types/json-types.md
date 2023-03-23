@@ -361,7 +361,9 @@ UPDATE table_name SET jsonb_field[1]['a'] = '1';
 
 PL/Perl 的延伸功能名稱為 jsonb\_plperl 和 jsonb\_plperlu。如果使用它們，則 jsonb 的值將視情況對應轉換為到 Perl 的 array、hash 和 scalar。
 
-PL/Python 的延伸功能名稱為 jsonb\_plpythonu，jsonb\_plpython2u 和 jsonb\_plpython3u（有關 PL/Python 的命名約定，請參閱第 45.1 節）。 如果使用它們，則 jsonb 值將適當地對應轉換到 Python 的 dictionary，list 和 scalar。
+PL/Python 的延伸功能名稱為 jsonb\_plpython3u。使用的時候，jsonb 值將適當地對應轉換到 Python 的 dictionary，list 和 scalar。
+
+在這些延伸功能中，jsonb\_plperl 是「trusted」，也就是說，它可以由對目前資料庫具有 CREATE 權限的非超級使用者自行安裝。其餘的需要超級使用者權限才能安裝。
 
 ## 8.14.7. jsonpath Type
 
