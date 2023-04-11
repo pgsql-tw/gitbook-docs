@@ -681,6 +681,8 @@
     * [54.26. pg\_shmem\_allocations](internals/system-views/pg\_shmem\_allocations.md)
     * [54.27. pg\_stats](internals/system-views/pg\_stats.md)
     * [54.30. pg\_tables](internals/system-views/pg\_tables.md)
+    * [54.31. pg\_timezone\_abbrevs](internals/54.-system-views/pg\_timezone\_abbrevs.md)
+    * [54.32. pg\_timezone\_names](internals/54.-system-views/pg\_timezone\_names.md)
     * [54.33. pg\_user](internals/system-catalogs/pg\_user.md)
     * [54.35. pg\_views](internals/system-views/pg\_views.md)
   * [55. Frontend/Backend Protocol](internals/52.-frontend-backend-protocol/README.md)
