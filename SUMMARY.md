@@ -628,6 +628,7 @@
     * [pg\_archivecleanup](reference/server-applications/pg\_archivecleanup.md)
     * [pg\_ctl](reference/server-applications/pg\_ctl.md)
     * [pg\_standby](reference/server-applications/pg\_standby.md)
+    * [pg\_test\_fsync](reference/server-applications/pg\_test\_fsync.md)
     * [pg\_test\_timing](reference/server-applications/pg\_test\_timing.md)
     * [pg\_upgrade](reference/server-applications/pg\_upgrade.md)
     * [postgres](reference/server-applications/postgres.md)
