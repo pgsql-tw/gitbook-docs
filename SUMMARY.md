@@ -150,7 +150,7 @@
     * [12.9. GIN 及 GiST 索引型別](the-sql-language/12.-quan-wen-jian-suo/12.9.-gin-ji-gist-suo-yin-xing-bie.md)
     * [12.10. psql支援](the-sql-language/12.-quan-wen-jian-suo/12.10.-psql-zhi-yuan.md)
     * [12.11. 功能限制](the-sql-language/12.-quan-wen-jian-suo/12.11.-gong-neng-xian-zhi.md)
-  * [13. 一致性管理（MVCC）](the-sql-language/concurrency-control/README.md)
+  * [13. 一致性管理（Concurrency Control）](the-sql-language/concurrency-control/README.md)
     * [13.1. 簡介](the-sql-language/concurrency-control/introduction.md)
     * [13.2. 交易隔離](the-sql-language/concurrency-control/transaction-isolation.md)
     * [13.3. 鎖定模式](the-sql-language/concurrency-control/explicit-locking.md)
