@@ -157,7 +157,7 @@
     * [13.4. 在應用端檢視資料一致性](the-sql-language/concurrency-control/data-consistency-checks-at-the-application-level.md)
     * [13.5. Serialization Failure Handling](the-sql-language/concurrency-control/mvcc-serialization-failure-handling.md)
     * [13.6. 特別提醒](the-sql-language/concurrency-control/caveats.md)
-    * [13.6. 鎖定與索引](the-sql-language/concurrency-control/locking-and-indexes.md)
+    * [13.7. 鎖定與索引](the-sql-language/concurrency-control/locking-and-indexes.md)
   * [14. 效能技巧](the-sql-language/performance-tips/README.md)
     * [14.1. 善用 EXPLAIN](the-sql-language/performance-tips/using-explain.md)
     * [14.2. 統計資訊](the-sql-language/performance-tips/statistics-used-by-the-planner.md)
