@@ -143,7 +143,7 @@ UPDATE accounts SET balance = balance - 100.00 WHERE acctnum = 22222;
 
 Transaction one attempts to acquire a row-level lock on the specified row, but it cannot: transaction two already holds such a lock. So it waits for transaction two to complete. Thus, transaction one is blocked on transaction two, and transaction two is blocked on transaction one: a deadlock condition. PostgreSQL will detect this situation and abort one of the transactions.
 
-The best defense against deadlocks is generally to avoid them by being certain that all applications using a database acquire locks on multiple objects in a consistent order. In the example above, if both transactions had updated the rows in the same order, no deadlock would have occurred. One should also ensure that the first lock acquired on an object in a transaction is the most restrictive mode that will be needed for that object. If it is not feasible to verify this in advance, then deadlocks can be handled on-the-fly by retrying transactions that abort due to deadlocks.
+防止 Deadlock 的最佳方法通常是透過確保所有使用資料庫的應用程序均以一致的順序取得多個物件上的 Lock 來避免 Deadlock。在上面的範例中，如果兩個交易事務都以相同的順序更新資料，就不會發生 Deadlock。進一步來說，還應確保在交易事務中對物件取得的第一個 Lock 是該物件所需限制性最強的鎖定模式。如果無法提前驗證這一點的話，則可以透過重跑因 Deadlock 而中止的交易事務來即時處理 Deadlock。
 
 只要未檢測到死鎖情況，尋求資料表層級或資料列層級鎖定的事務將無限期地等待衝突的鎖定被釋放。 對於應用程序來說，長時間保持事務處於打開狀態（例如，在等待使用者輸入時）不是一件好事。
 
