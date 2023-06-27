@@ -12,4 +12,4 @@
 
 使用 [CREATE PUBLICATION](../../reference/sql-commands/create-publication.md) 指令建立發佈，稍後可以使用相應的命令變更或移除發佈。
 
-可以使用 [ALTER PUBLICATION](../../reference/sql-commands/alter-publication.md) 動態加入和移除單個資料表。ADD TABLE 和 DROP TABLE 操作都是交易安全的；所以一旦交易事務提交後，資料表就會在正確的快照上，並且啟動或停止複寫。
+可以使用 [ALTER PUBLICATION](../../reference/sql-commands/alter-publication.md) 動態加入和移除單個資料表。ADD TABLE 和 DROP TABLE 操作都是交易安全的；所以一旦交易事務提交後，資料表就會啟動或停止複寫，並且維持正確的交易快照。
