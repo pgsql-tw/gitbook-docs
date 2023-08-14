@@ -97,9 +97,13 @@ Random access to mechanical disk storage is normally much more expensive than fo
 
 If you believe a 90% cache rate is an incorrect assumption for your workload, you can increase random\_page\_cost to better reflect the true cost of random storage reads. Correspondingly, if your data is likely to be completely in cache, such as when the database is smaller than the total server memory, decreasing random\_page\_cost can be appropriate. Storage that has a low random read cost relative to sequential, e.g. solid-state drives, might also be better modeled with a lower value for random\_page\_cost.
 
-#### Tip
+####
 
-Although the system will let you set `random_page_cost` to less than `seq_page_cost`, it is not physically sensible to do so. However, setting them equal makes sense if the database is entirely cached in RAM, since in that case there is no penalty for touching pages out of sequence. Also, in a heavily-cached database you should lower both values relative to the CPU parameters, since the cost of fetching a page already in RAM is much smaller than it would normally be.
+{% hint style="info" %}
+儘管系統會允許您將 random\_page\_cost 設定值小於 seq\_page\_cost，但這樣做在物理上是不合理的。然而，如果資料庫完全儲存在 RAM 之中，則將它們設定為相等是有意義的；因為在這種情況下，不按順序讀取頁面也不會受到懲罰。此外，在高容量記憶體的資料庫中，您應該相對於 CPU 參數降低這兩個設定值，因為取得 RAM 中已存在的頁面的成本比通常要小得多。
+{% endhint %}
+
+
 
 #### `cpu_tuple_cost` (`floating point`)
 
