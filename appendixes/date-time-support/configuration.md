@@ -42,4 +42,3 @@ zone\_abbreviation 只是定義的縮寫。offset 是一個整數，定義與 UT
 如果您修改 .../share/timezonesets/ 中的檔案，則由您來進行備份 - 正常的資料庫轉存將不包含此目錄。
 {% endhint %}
 
-****

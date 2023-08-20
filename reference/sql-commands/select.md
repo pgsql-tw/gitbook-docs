@@ -147,7 +147,7 @@ An alias can be provided in the same way as for a table. If an alias is written,
 
 Multiple function calls can be combined into a single `FROM`-clause item by surrounding them with `ROWS FROM( ... )`. The output of such an item is the concatenation of the first row from each function, then the second row from each function, etc. If some of the functions produce fewer rows than others, null values are substituted for the missing data, so that the total number of rows returned is always the same as for the function that produced the most rows.
 
-If the function has been defined as returning the `record` data type, then an alias or the key word `AS` must be present, followed by a column definition list in the form `(`` `_`column_name`_` ```` `_`data_type`_` ``[, ... ])`. The column definition list must match the actual number and types of columns returned by the function.
+If the function has been defined as returning the `record` data type, then an alias or the key word `AS` must be present, followed by a column definition list in the form `(`` `_`column_name`_ _`data_type`_` ``[, ... ])`. The column definition list must match the actual number and types of columns returned by the function.
 
 When using the `ROWS FROM( ... )` syntax, if one of the functions requires a column definition list, it's preferred to put the column definition list after the function call inside `ROWS FROM( ... )`. A column definition list can be placed after the `ROWS FROM( ... )` construct only if there's just a single function and no `WITH ORDINALITY` clause.
 
