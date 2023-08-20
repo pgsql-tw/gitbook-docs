@@ -1,8 +1,8 @@
-# 36.4. administrable\_role\_authorizations
+# 37.4. administrable\_role\_authorizations
 
 The view `administrable_role_authorizations` identifies all roles that the current user has the admin option for.
 
-#### **Table 36.2. `administrable_role_authorizations` Columns**
+**Table 37.2. `administrable_role_authorizations` Columns**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                       |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

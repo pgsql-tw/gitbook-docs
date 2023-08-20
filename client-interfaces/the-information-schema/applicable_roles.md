@@ -1,8 +1,8 @@
-# 36.5. applicable\_roles
+# 37.5. applicable\_roles
 
 The view `applicable_roles` identifies all roles whose privileges the current user can use. This means there is some chain of role grants from the current user to the role in question. The current user itself is also an applicable role. The set of applicable roles is generally used for permission checking.
 
-#### **Table 36.3. `applicable_roles` Columns**
+#### **Table 37.3. `applicable_roles` Columns**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                       |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
