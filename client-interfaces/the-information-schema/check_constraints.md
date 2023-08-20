@@ -1,8 +1,8 @@
-# 36.9. check\_constraints
+# 37.9. check\_constraints
 
 The view `check_constraints` contains all check constraints, either defined on a table or on a domain, that are owned by a currently enabled role. (The owner of the table or domain is the owner of the constraint.)
 
-#### **Table 36.7. `check_constraints` Columns**
+#### **Table 37.7. `check_constraints` Columns**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                  |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- |

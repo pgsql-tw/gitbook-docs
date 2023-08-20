@@ -1,8 +1,8 @@
-# 36.6. attributes
+# 37.7. attributes
 
 The view `attributes` contains information about the attributes of composite data types defined in the database. (Note that the view does not give information about table columns, which are sometimes called attributes in PostgreSQL contexts.) Only those attributes are shown that the current user has access to (by way of being the owner of or having some privilege on the type).
 
-#### **Table 36.4. `attributes` Columns**
+#### **Table 37.4. `attributes` Columns**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -38,4 +38,4 @@ The view `attributes` contains information about the attributes of composite dat
 | <p><code>dtd_identifier</code> <code>sql_identifier</code></p><p>An identifier of the data type descriptor of the column, unique among the data type descriptors pertaining to the table. This is mainly useful for joining with other instances of such identifiers. (The specific format of the identifier is not defined and not guaranteed to remain the same in future versions.)</p>                                                                                                        |
 | <p><code>is_derived_reference_attribute</code> <code>yes_or_no</code></p><p>Applies to a feature not available in PostgreSQL</p>                                                                                                                                                                                                                                                                                                                                                                  |
 
-See also under [Section 36.17](https://www.postgresql.org/docs/13/infoschema-columns.html), a similarly structured view, for further information on some of the columns.
+See also under [Section 37.17](https://www.postgresql.org/docs/current/infoschema-columns.html), a similarly structured view, for further information on some of the columns.

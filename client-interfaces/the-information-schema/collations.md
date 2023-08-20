@@ -1,8 +1,8 @@
-# 36.10. collations
+# 37.10. collations
 
 The view `collations` contains the collations available in the current database.
 
-#### **Table 36.8. `collations` Columns**
+#### **Table 37.8. `collations` Columns**
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                    |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
