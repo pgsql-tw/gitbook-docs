@@ -4,4 +4,4 @@ PostgreSQL採用了一種“每個使用者一個程序”的客戶端/伺服器
 
 客戶端程序可以是任何理解 PostgreSQL 協定的程式，該協定說明在[第 55 章](../52.-frontend-backend-protocol/)中。許多客戶端是基於 C 語言函式庫 libpq，但也有一些是獨立實作該協定的程式，例如 Java 的 JDBC 驅動程式。
 
-Once a connection is established, the client process can send a query to the backend process it's connected to. The query is transmitted using plain text, i.e., there is no parsing done in the client. The backend process parses the query, creates an _execution plan_, executes the plan, and returns the retrieved rows to the client by transmitting them over the established connection.
+只要連線建立之後，該客戶端就能夠送查詢到對應的後端程序。查詢會以明文的方式傳送過去，客戶端不需要做解析的操作。而對應的後端程序會解析該查詢並建立一個執行計畫(execution plan)，接著執行該計畫並透過對應的連線回傳查詢到的每筆(row)資料。
