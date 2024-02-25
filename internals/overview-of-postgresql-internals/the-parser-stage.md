@@ -25,10 +25,4 @@ flex 程式將檔案 `scan.l` 轉換成 `scan.c` C 語言檔案，`bison` 將檔
 
 對於 bison 或是 `gram.y` 中的語法規則的介紹超出了本文件的教學範圍。有許多相關的書本或是文件都在介紹 flex 和 bison。建議在學習 `gram.y` 中的語法前，先了解 bison 的相關原理，才不會很難理解。
 
-## 52.3.2. Transformation Process
-
-The parser stage creates a parse tree using only fixed rules about the syntactic structure of SQL. It does not make any lookups in the system catalogs, so there is no possibility to understand the detailed semantics of the requested operations. After the parser completes, the _transformation process_ takes the tree handed back by the parser as input and does the semantic interpretation needed to understand which tables, functions, and operators are referenced by the query. The data structure that is built to represent this information is called the _query tree_.
-
-The reason for separating raw parsing from semantic analysis is that system catalog lookups can only be done within a transaction, and we do not wish to start a transaction immediately upon receiving a query string. The raw parsing stage is sufficient to identify the transaction control commands (`BEGIN`, `ROLLBACK`, etc), and these can then be correctly executed without any further analysis. Once we know that we are dealing with an actual query (such as `SELECT` or `UPDATE`), it is okay to start a transaction if we're not already in one. Only then can the transformation process be invoked.
-
-The query tree created by the transformation process is structurally similar to the raw parse tree in most places, but it has many differences in detail. For example, a `FuncCall` node in the parse tree represents something that looks syntactically like a function call. This might be transformed to either a `FuncExpr` or `Aggref` node depending on whether the referenced name turns out to be an ordinary function or an aggregate function. Also, information about the actual data types of columns and expression results is added to the query tree.\\
+## 52.3.2.&#x20;
