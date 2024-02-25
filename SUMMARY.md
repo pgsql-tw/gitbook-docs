@@ -639,7 +639,7 @@
   * [52. PostgreSQL 的內部架構](internals/overview-of-postgresql-internals/README.md)
     * [52.1. 處理查詢語句的流程](internals/overview-of-postgresql-internals/the-path-of-a-query.md)
     * [52.2. 連線是如何被建立的](internals/overview-of-postgresql-internals/how-connections-are-established.md)
-    * [52.3. The Parser Stage](internals/overview-of-postgresql-internals/the-parser-stage.md)
+    * [52.3. 解析器階段](internals/overview-of-postgresql-internals/the-parser-stage.md)
     * [52.4. The PostgreSQL Rule System](internals/overview-of-postgresql-internals/50.4.-the-postgresql-rule-system.md)
     * [52.5. Planner/Optimizer](internals/overview-of-postgresql-internals/planner-optimizer.md)
     * [52.6. Executor](internals/overview-of-postgresql-internals/executor.md)

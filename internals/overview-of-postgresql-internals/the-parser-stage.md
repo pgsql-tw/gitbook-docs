@@ -1,27 +1,31 @@
-# 52.3. The Parser Stage
+---
+description: 解析器階段
+---
 
-The _parser stage_ consists of two parts:
+# 52.3. 解析器階段
 
-* The _parser_ defined in `gram.y` and `scan.l` is built using the Unix tools bison and flex.
-* The _transformation process_ does modifications and augmentations to the data structures returned by the parser.
+解析器階段由兩部分組合：
 
-## 50.3.1. Parser
+* 解析器是透過 Unix 工具 bison 跟 flex  實作出來的並定義在 gram.y 和 scan.l 中。
+* 轉換處理(transformation process) 負責將解析器產生出來的資料結構進行修改和加強。
 
-The parser has to check the query string (which arrives as plain text) for valid syntax. If the syntax is correct a _parse tree_ is built up and handed back; otherwise an error is returned. The parser and lexer are implemented using the well-known Unix tools bison and flex.
+## 52.3.1. 解析器
 
-The _lexer_ is defined in the file `scan.l` and is responsible for recognizing _identifiers_, the _SQL key words_ etc. For every key word or identifier that is found, a _token_ is generated and handed to the parser.
+語法解析器必須檢查送過來的明文查詢字串是否語法正確。如果語法正確會建立一個解析樹( parser tree)並回傳，否則將回傳一個錯誤。語法解析器與詞法解析器是透過著名的 Unix 工具 bison 跟 flex 實作的。
 
-The parser is defined in the file `gram.y` and consists of a set of _grammar rules_ and _actions_ that are executed whenever a rule is fired. The code of the actions (which is actually C code) is used to build up the parse tree.
+詞法解析器定義在 `scan.l 檔案裡，負責解析 identifiers、SQL keywords 等等。對於每一個找到的 identifier、keyword 會產生一個 token 並回傳給語法解析器。`
 
-The file `scan.l` is transformed to the C source file `scan.c` using the program flex and `gram.y` is transformed to `gram.c` using bison. After these transformations have taken place a normal C compiler can be used to create the parser. Never make any changes to the generated C files as they will be overwritten the next time flex or bison is called.
+語法解析器定義在 `gram.y` 檔案裡由一組 `grammer rules` 和 `actions` 所組成，每當滿足一個 rule 的時候就會觸發對應的 action (由 C 語言實作) 並建立出對應的解析樹。
 
-#### Note
+flex 程式將檔案 `scan.l` 轉換成 `scan.c` C 語言檔案，`bison` 將檔案 `gram.y` 轉換成 `gram.c` C 語言檔案。轉換結束後，C 編譯器就能編譯這些檔案並建立解析器。不應該對這些產生出來的 C 檔案做任何修改，因為每次 flex 或 bison 都會改寫這些檔案。
 
-The mentioned transformations and compilations are normally done automatically using the _makefiles_ shipped with the PostgreSQL source distribution.
+#### 註記
 
-A detailed description of bison or the grammar rules given in `gram.y` would be beyond the scope of this paper. There are many books and documents dealing with flex and bison. You should be familiar with bison before you start to study the grammar given in `gram.y` otherwise you won't understand what happens there.
+> 前面提到的轉換和編譯是由定義在 PostgreSQL source code 內的 makefiles 所執行。
 
-## 50.3.2. Transformation Process
+對於 bison 或是 `gram.y` 中的語法規則的介紹超出了本文件的教學範圍。有許多相關的書本或是文件都在介紹 flex 和 bison。建議在學習 `gram.y` 中的語法前，先了解 bison 的相關原理，才不會很難理解。
+
+## 52.3.2. Transformation Process
 
 The parser stage creates a parse tree using only fixed rules about the syntactic structure of SQL. It does not make any lookups in the system catalogs, so there is no possibility to understand the detailed semantics of the requested operations. After the parser completes, the _transformation process_ takes the tree handed back by the parser as input and does the semantic interpretation needed to understand which tables, functions, and operators are referenced by the query. The data structure that is built to represent this information is called the _query tree_.
 
