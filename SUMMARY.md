@@ -74,7 +74,7 @@
     * [8.6. 布林型別](the-sql-language/data-types/boolean-type.md)
     * [8.7. 列舉型別](the-sql-language/data-types/enumerated-types.md)
     * [8.8. 幾何資訊型別](the-sql-language/data-types/geometric-types.md)
-    * [8.9. 網路資訊型別](the-sql-language/data-types/network-address-types.md)
+    * [8.9. 網路位址型別](the-sql-language/data-types/network-address-types.md)
     * [8.10. 位元字串型別](the-sql-language/data-types/bit-string-types.md)
     * [8.11. 全文檢索型別](the-sql-language/data-types/text-search-types.md)
     * [8.12. UUID 型別](the-sql-language/data-types/uuid-type.md)
