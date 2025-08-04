@@ -1,6 +1,6 @@
 # 26.2. 檔案系統層級備份
 
-另一種備份策略是直接複製 PostgreSQL 用於資料儲存的資料庫中檔案。[第 19.2 節](../server-setup-and-operation/creating-a-database-cluster.md)介紹了這些檔案的位置。您可以使用自己喜歡的任何方法進行檔案系統備份。例如：
+另一種備份策略是直接複製 PostgreSQL 用於資料儲存的資料庫中檔案。[第 19.2 節](../server-setup-and-operation/creating-cluster.md)介紹了這些檔案的位置。您可以使用自己喜歡的任何方法進行檔案系統備份。例如：
 
 ```
 tar -cf backup.tar /usr/local/pgsql/data
