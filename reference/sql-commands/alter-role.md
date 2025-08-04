@@ -92,7 +92,7 @@ _`database_name`_
 應在其中設定組態變數的資料庫名稱。
 
 _`configuration_parameter`_\
-_`value`_
+&#xNAN;_`value`_
 
 將使指定組態參數覆寫此角色的連線預設值。如果 value 為 DEFAULT，或者等效地使用 RESET，則會移除特定於角色的組態參數，因此該角色將在新連線中繼承系統範圍的預設設定。使用 RESET ALL 清除所有特定於角色的設定。SET FROM CURRENT 將連線當下參數值保存為特定於角色的值。如果指定了 IN DATABASE，則僅為給定角色和資料庫設定或移除組態參數。
 
@@ -148,7 +148,7 @@ ALTER ROLE miriam CREATEROLE CREATEDB;
 ALTER ROLE worker_bee SET maintenance_work_mem = 100000;
 ```
 
-為 [client\_min\_messages ](../../server-administration/server-configuration/error-reporting-and-logging.md#client\_min\_messages-enum)參數指定一個非預設的，特定於某資料庫的設定：
+為 [client\_min\_messages ](../../server-administration/server-configuration/error-reporting-and-logging.md#client_min_messages-enum)參數指定一個非預設的，特定於某資料庫的設定：
 
 ```
 ALTER ROLE fred IN DATABASE devel SET client_min_messages = DEBUG;

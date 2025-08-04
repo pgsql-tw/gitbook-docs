@@ -104,7 +104,7 @@ CALLED ON NULL INPUT 變更此函數，以便在其某些或全部參數為空�
 變更由 set-returning 函數回傳的估計資料列數。有關更多訊息，請參閱 [CREATE FUNCTION](create-function.md)。
 
 _`configuration_parameter`_\
-_`value`_
+&#xNAN;_`value`_
 
 呼叫函數時，增加或變更要對配置參數進行的指定方式。 如果值為 DEFAULT，或者等價地使用 RESET，那麼函數本地配置將被刪除，以便該函數執行其環境中存在的值。使用 RESET ALL 清除所有功能本地配置。SET FROM CURRENT 將執行 ALTER FUNCTION 時當下參數的值保存為輸入函數時所要應用的值。
 

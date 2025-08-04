@@ -70,19 +70,19 @@ COMMENT 儲存有關資料庫物件的註解。
 ### 參數
 
 _`object_name`_\
-_`relation_name`_._`column_name`_\
-_`aggregate_name`_\
-_`constraint_name`_\
-_`function_name`_\
-_`operator_name`_\
-_`policy_name`_\
-_`rule_name`_\
-_`trigger_name`_
+&#xNAN;_`relation_name`_._`column_name`_\
+&#xNAN;_`aggregate_name`_\
+&#xNAN;_`constraint_name`_\
+&#xNAN;_`function_name`_\
+&#xNAN;_`operator_name`_\
+&#xNAN;_`policy_name`_\
+&#xNAN;_`rule_name`_\
+&#xNAN;_`trigger_name`_
 
 要註釋的物件名稱。Table、aggregate、collation、conversion、domain、foreign table、function、index、operator、operator class、sequence、statistics、text search object、type、view 的名稱，並且可以是指定 schema。在對欄位進行註釋時，relation\_name 必須引用資料表、檢視表、複合型別或外部資料表。
 
 _`table_name`_\
-_`domain_name`_
+&#xNAN;_`domain_name`_
 
 在 constraint、trigger、rule 或 policy 上建立註釋時，這些參數指定定義該物件的資料表或 domain 名稱。
 
@@ -111,7 +111,7 @@ _`large_object_oid`_
 large object 的 OID。
 
 _`left_type`_\
-_`right_type`_
+&#xNAN;_`right_type`_
 
 運算子參數的資料型別（可加上綱要名稱）。使用 NONE 表示缺少前綴或後綴運算子的參數。
 

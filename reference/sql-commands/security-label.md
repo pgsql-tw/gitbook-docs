@@ -49,11 +49,11 @@ register\_label\_provider 並不是 SQL 函數；只能從載入到後端的 C �
 ### Parameters
 
 _`object_name`_\
-_`table_name.column_name`_\
-_`aggregate_name`_\
-_`function_name`_\
-_`procedure_name`_\
-_`routine_name`_
+&#xNAN;_`table_name.column_name`_\
+&#xNAN;_`aggregate_name`_\
+&#xNAN;_`function_name`_\
+&#xNAN;_`procedure_name`_\
+&#xNAN;_`routine_name`_
 
 The name of the object to be labeled. Names of tables, aggregates, domains, foreign tables, functions, procedures, routines, sequences, types, and views can be schema-qualified.
 

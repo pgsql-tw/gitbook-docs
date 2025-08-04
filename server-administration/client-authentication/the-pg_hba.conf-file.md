@@ -78,7 +78,7 @@ If a host name is specified (anything that is not an IP address range or a speci
 {% endhint %}
 
 _`IP-address`_\
-_`IP-mask`_
+&#xNAN;_`IP-mask`_
 
 These two fields can be used as an alternative to the _`IP-address`_`/`_`mask-length`_ notation. Instead of specifying the mask length, the actual mask is specified in a separate column. For example, `255.0.0.0` represents an IPv4 CIDR mask length of 8, and `255.255.255.255`represents a CIDR mask length of 32.
 
@@ -160,7 +160,7 @@ The `pg_hba.conf` file is read on start-up and when the main server process rece
 前面的宣告在 Microsoft Windows 上是不正確的：在 Windows，pg\_hba.conf 檔案中的任何變更都會在後續的新連線立即適用。
 {% endhint %}
 
-系統檢視表 [pg\_hba\_file\_rules](../../internals/system-catalogs/pg\_hba\_file\_rules.md) 有助於預先測試對 pg\_hba.conf 檔案的變更，或者在檔案載入未達到預期效果時診斷問題。檢視表中帶有非空白錯誤欄位會指示檔案相應規則項目中的問題。
+系統檢視表 [pg\_hba\_file\_rules](../../internals/system-catalogs/pg_hba_file_rules.md) 有助於預先測試對 pg\_hba.conf 檔案的變更，或者在檔案載入未達到預期效果時診斷問題。檢視表中帶有非空白錯誤欄位會指示檔案相應規則項目中的問題。
 
 {% hint style="info" %}
 要連線到特定的資料庫，使用者不僅必須通過 pg\_hba.conf 檢查，而且必須具有資料庫的 CONNECT 權限。如果您希望限制哪些使用者可以連接到哪些資料庫，通常比設定 pg\_hba.conf 項目更容易，透過授權/撤銷 CONNECT 權限來控制。

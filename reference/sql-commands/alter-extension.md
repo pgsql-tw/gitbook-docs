@@ -87,11 +87,11 @@ _`new_schema`_
 The new schema for the extension.
 
 _`object_name`_\
-_`aggregate_name`_\
-_`function_name`_\
-_`operator_name`_\
-_`procedure_name`_\
-_`routine_name`_
+&#xNAN;_`aggregate_name`_\
+&#xNAN;_`function_name`_\
+&#xNAN;_`operator_name`_\
+&#xNAN;_`procedure_name`_\
+&#xNAN;_`routine_name`_
 
 The name of an object to be added to or removed from the extension. Names of tables, aggregates, domains, foreign tables, functions, operators, operator classes, operator families, procedures, routines, sequences, text search objects, types, and views can be schema-qualified.
 
@@ -116,7 +116,7 @@ _`argtype`_
 The data type of a function, procedure, or aggregate argument.
 
 _`left_type`_\
-_`right_type`_
+&#xNAN;_`right_type`_
 
 The data type(s) of the operator's arguments (optionally schema-qualified). Write `NONE` for the missing argument of a prefix or postfix operator.
 

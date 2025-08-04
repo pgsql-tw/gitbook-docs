@@ -74,7 +74,7 @@ The key word `EXTERNAL` is allowed for SQL conformance, but it is optional since
 A `SECURITY DEFINER` procedure cannot execute transaction control statements (for example, `COMMIT` and `ROLLBACK`, depending on the language).
 
 _`configuration_parameter`_\
-_`value`_
+&#xNAN;_`value`_
 
 The `SET` clause causes the specified configuration parameter to be set to the specified value when the procedure is entered, and then restored to its prior value when the procedure exits. `SET FROM CURRENT` saves the value of the parameter that is current when `CREATE PROCEDURE` is executed as the value to be applied when the procedure is entered.
 
