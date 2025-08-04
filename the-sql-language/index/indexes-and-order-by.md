@@ -6,7 +6,7 @@
 
 預設情況下，B-tree 索引按升羃儲存其項目，最後為空。這樣産生的索引是 x 欄位上索引的正向掃描，產生的輸出滿足 ORDER BY x（或者更詳細，ORDER BY x ASC NULLS LAST）。也可以向後掃描，產生滿足 ORDER BY x DESC 的輸出（或者更詳細地說，ORDER BY x DESC NULLS FIRST，因為 NULLS FIRST 是ORDER BY DESC 的預設值）。
 
-您可以透過在建笠索引時包含選項 ASC，DESC，NULLS FIRST 或 NULLS LAST來調整 B-tree 索引的順序；例如：
+您可以透過在建立索引時包含選項 ASC，DESC，NULLS FIRST 或 NULLS LAST來調整 B-tree 索引的順序；例如：
 
 ```
 CREATE INDEX test2_info_nulls_low ON test2 (info NULLS FIRST);
