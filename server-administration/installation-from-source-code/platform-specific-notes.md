@@ -42,7 +42,7 @@ By default, overcommit of paging space can happen. While we have not seen this o
 
 ## 17.7.2. Cygwin
 
-PostgreSQL 可以使用 Cygwin 建譯，Cygwin 是一種用於 Windows 的類 Linux 環境，但該方法不如原生 Windows 建置（請參閱[第 18 章](../runtime/)），因此並不推薦在 Cygwin 下執行服務。
+PostgreSQL 可以使用 Cygwin 建譯，Cygwin 是一種用於 Windows 的類 Linux 環境，但該方法不如原生 Windows 建置（請參閱[第 18 章](../installation-from-source-code-on-windows/)），因此並不推薦在 Cygwin 下執行服務。
 
 When building from source, proceed according to the Unix-style installation procedure (i.e., `./configure; make`; etc.), noting the following Cygwin-specific differences:
 
@@ -106,7 +106,7 @@ macOS's “System Integrity Protection” (SIP) feature breaks `make check`, bec
 
 ## 17.7.4. MinGW/Native Windows
 
-PostgreSQL for Windows 可以使用 MinGW 建置，MinGW 是一種用於 Microsoft 作業系統的類 Unix 執行環境，或是使用 Microsoft 的 Visual C++ 編譯器套件。 MinGW 建置過程使用本章中描述的正常建置系統； Visual C++ 編譯的工作方式則完全不同，將在[第 18 章](../runtime/)中進行描述。
+PostgreSQL for Windows 可以使用 MinGW 建置，MinGW 是一種用於 Microsoft 作業系統的類 Unix 執行環境，或是使用 Microsoft 的 Visual C++ 編譯器套件。 MinGW 建置過程使用本章中描述的正常建置系統； Visual C++ 編譯的工作方式則完全不同，將在[第 18 章](../installation-from-source-code-on-windows/)中進行描述。
 
 The native Windows port requires a 32 or 64-bit version of Windows 2000 or later. Earlier operating systems do not have sufficient infrastructure (but Cygwin may be used on those). MinGW, the Unix-like build tools, and MSYS, a collection of Unix tools required to run shell scripts like `configure`, can be downloaded from [http://www.mingw.org/](http://www.mingw.org/). Neither is required to run the resulting binaries; they are needed only for creating the binaries.
 
