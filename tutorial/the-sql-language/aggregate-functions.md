@@ -22,7 +22,7 @@ SELECT city FROM weather WHERE temp_lo = max(temp_lo);
 ```
 
 ```
-WRONG
+⚠️ WRONG
 ```
 
 不過，這行不通，因為 max 不能使用在 WHERE 條件式當中。（會有這樣的限制，是因為 WHERE 條件式目的是要判斷有哪些資料列的資料應該被彙總計算，所以很明顯地，這件事必須要在彙整計算前發生，這就產生了矛盾。）所以，像本例的查詢一般會使用子查詢（subquery）來取得適當的結果：
