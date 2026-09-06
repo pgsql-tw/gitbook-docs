@@ -52,7 +52,7 @@
     * [5.13. Foreign Data #](the-sql-language/ddl/ddl-foreign-data.md)
     * [5.14. Other Database Objects #](the-sql-language/ddl/ddl-others.md)
     * [5.15. Dependency Tracking #](the-sql-language/ddl/ddl-depend.md)
-  * [Chapter 6. Data Manipulation](the-sql-language/dml/README.md)
+  * [第 6 章：資料操作](the-sql-language/dml/README.md)
     * [6.1. Inserting Data #](the-sql-language/dml/dml-insert.md)
     * [6.2. Updating Data #](the-sql-language/dml/dml-update.md)
     * [6.3. Deleting Data #](the-sql-language/dml/dml-delete.md)
