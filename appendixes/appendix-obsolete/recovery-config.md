@@ -17,9 +17,7 @@ PostgreSQL 11 及更早版本使用名為
 
 若存在 `recovery.conf`，伺服器將無法啟動。
 
-PostgreSQL 15 及更早版本具有
-`promote_trigger_file`, or
-`trigger_file` before 12.
+PostgreSQL 15 及更早版本具有 `promote_trigger_file` 設定；在 PostgreSQL 12 之前，該設定名稱為 `trigger_file`。
 請改用 `pg_ctl promote` 或呼叫
 `pg_promote()` 來提升待命伺服器。
 
@@ -30,4 +28,4 @@ PostgreSQL 15 及更早版本具有
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/recovery-config.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/recovery-config.html)（原文版本：18.6；核對日期：2026-09-06）
