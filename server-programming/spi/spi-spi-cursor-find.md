@@ -2,9 +2,9 @@
 
 ## SPI_cursor_find
 
-SPI_cursor_find — find an existing cursor by name
+SPI_cursor_find — 依名稱尋找既有游標
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,37 +13,29 @@ Portal SPI_cursor_find(const char * name)
 
 <a id="id-1.8.12.8.23.5"></a>
 
-## Description
+## 說明
 
-`SPI_cursor_find` finds an existing portal by
-name. This is primarily useful to resolve a cursor name returned
-as text by some other function.
+`SPI_cursor_find` 會依名稱尋找既有的 portal。這主要用於解析其他函式以文字回傳的游標名稱。
 
 <a id="id-1.8.12.8.23.6"></a>
 
-## Arguments
+## 引數
 
 `const char * name`
-:   name of the portal
+:   portal 的名稱
 
 <a id="id-1.8.12.8.23.7"></a>
 
-## Return Value
+## 回傳值
 
-pointer to the portal with the specified name, or
-`NULL` if none was found
+指向指定名稱之 portal 的指標；若找不到則回傳 `NULL`。
 
 <a id="id-1.8.12.8.23.8"></a>
 
-## Notes
+## 注意事項
 
-Beware that this function can return a `Portal` object
-that does not have cursor-like properties; for example it might not
-return tuples. If you simply pass the `Portal` pointer
-to other SPI functions, they can defend themselves against such
-cases, but caution is appropriate when directly inspecting
-the `Portal`.
+請注意，此函式可能回傳不具游標特性的 `Portal` 物件，例如它可能不會回傳資料列。若只是將 `Portal` 指標傳給其他 SPI 函式，這些函式能自行處理此類情況；但直接檢查 `Portal` 時仍應謹慎。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-find.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-find.html)（原文版本：18.6；核對日期：2026-09-07）
