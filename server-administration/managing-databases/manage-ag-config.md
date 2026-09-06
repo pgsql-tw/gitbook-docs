@@ -1,31 +1,16 @@
-## 22.4. Database Configuration [#](#MANAGE-AG-CONFIG)
+## 22.4. 資料庫設定 [#](#MANAGE-AG-CONFIG)
 
-Recall from [Chapter 19](../runtime-config/README.md) that the
-PostgreSQL server provides a large number of
-run-time configuration variables. You can set database-specific
-default values for many of these settings.
+如[第 19 章](../runtime-config/README.md)所述，PostgreSQL 伺服器提供許多執行時期設定變數。其中許多設定都可以指定個別資料庫的預設值。
 
-For example, if for some reason you want to disable the
-GEQO optimizer for a given database, you'd
-ordinarily have to either disable it for all databases or make sure
-that every connecting client is careful to issue `SET geqo
-TO off`. To make this setting the default within a particular
-database, you can execute the command:
+例如，若基於某種原因，想為某個資料庫停用 GEQO 最佳化器，通常必須對所有資料庫都停用它，或確保每個連線的用戶端都確實執行 `SET geqo TO off`。若要讓此設定成為特定資料庫的預設值，可以執行：
 
 ```
 
 ALTER DATABASE mydb SET geqo TO off;
 ```
 
-This will save the setting (but not set it immediately). In
-subsequent connections to this database it will appear as though
-`SET geqo TO off;` had been executed just before the
-session started.
-Note that users can still alter this setting during their sessions; it
-will only be the default. To undo any such setting, use
-`ALTER DATABASE dbname RESET
-varname`.
+這會儲存設定（但不會立即套用）。之後連線至此資料庫時，效果就如同在工作階段開始前執行了 `SET geqo TO off;`。請注意，使用者仍可在工作階段中變更此設定；它只是預設值。若要取消這類設定，請使用 `ALTER DATABASE dbname RESET varname`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/manage-ag-config.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/manage-ag-config.html)（原文版本：18.6；核對日期：2026-09-07）
