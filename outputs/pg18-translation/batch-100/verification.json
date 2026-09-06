@@ -1,0 +1,602 @@
+[
+  {
+    "page": "appendixes/release/release-prior.md",
+    "source": "https://www.postgresql.org/docs/18/release-prior.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/plpython/plpython-python23.md",
+    "source": "https://www.postgresql.org/docs/18/plpython-python23.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "tutorial/tutorial-start/README.md",
+    "source": "https://www.postgresql.org/docs/18/tutorial-start.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/source/README.md",
+    "source": "https://www.postgresql.org/docs/18/source.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "tutorial/tutorial-advanced/README.md",
+    "source": "https://www.postgresql.org/docs/18/tutorial-advanced.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/plpython/plpython-do.md",
+    "source": "https://www.postgresql.org/docs/18/plpython-do.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "tutorial/tutorial-advanced/tutorial-conclusion.md",
+    "source": "https://www.postgresql.org/docs/18/tutorial-conclusion.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/extend/xfunc-pl.md",
+    "source": "https://www.postgresql.org/docs/18/xfunc-pl.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/transactions/README.md",
+    "source": "https://www.postgresql.org/docs/18/transactions.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/bki/bki-example.md",
+    "source": "https://www.postgresql.org/docs/18/bki-example.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/pltcl/pltcl-data.md",
+    "source": "https://www.postgresql.org/docs/18/pltcl-data.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/sourcerepo/README.md",
+    "source": "https://www.postgresql.org/docs/18/sourcerepo.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/storage/storage-init.md",
+    "source": "https://www.postgresql.org/docs/18/storage-init.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/external-projects/README.md",
+    "source": "https://www.postgresql.org/docs/18/external-projects.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "tutorial/tutorial-sql/README.md",
+    "source": "https://www.postgresql.org/docs/18/tutorial-sql.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-start-transaction.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-start-transaction.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/geqo/geqo-biblio.md",
+    "source": "https://www.postgresql.org/docs/18/geqo-biblio.html",
+    "source_word_match": 0.8809523809523809,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-pfree.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-pfree.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/docguide/docguide-build-meson.md",
+    "source": "https://www.postgresql.org/docs/18/docguide-build-meson.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "reference/sql-commands/sql-dropuser.md",
+    "source": "https://www.postgresql.org/docs/18/sql-dropuser.html",
+    "source_word_match": 0.9690721649484536,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/plpython/plpython-sharing.md",
+    "source": "https://www.postgresql.org/docs/18/plpython-sharing.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/wal/README.md",
+    "source": "https://www.postgresql.org/docs/18/wal.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "client-interfaces/ecpg/ecpg-oracle-compat.md",
+    "source": "https://www.postgresql.org/docs/18/ecpg-oracle-compat.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/contrib-prog/contrib-prog-client.md",
+    "source": "https://www.postgresql.org/docs/18/contrib-prog-client.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-cursor-close.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-cursor-close.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-getrelname.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-getrelname.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/contrib/contrib-dblink-get-connections.md",
+    "source": "https://www.postgresql.org/docs/18/contrib-dblink-get-connections.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-freeplan.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-freeplan.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/plperl/plperl-data.md",
+    "source": "https://www.postgresql.org/docs/18/plperl-data.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/nls/README.md",
+    "source": "https://www.postgresql.org/docs/18/nls.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/install-binaries/README.md",
+    "source": "https://www.postgresql.org/docs/18/install-binaries.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "the-sql-language/ddl/ddl-others.md",
+    "source": "https://www.postgresql.org/docs/18/ddl-others.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-getnspname.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-getnspname.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-gettypeid.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-gettypeid.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/external-projects/external-extensions.md",
+    "source": "https://www.postgresql.org/docs/18/external-extensions.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/managing-databases/README.md",
+    "source": "https://www.postgresql.org/docs/18/managing-databases.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/installation/install-getsource.md",
+    "source": "https://www.postgresql.org/docs/18/install-getsource.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/logicaldecoding/logicaldecoding-catalogs.md",
+    "source": "https://www.postgresql.org/docs/18/logicaldecoding-catalogs.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-getargcount.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-getargcount.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "reference/sql-commands/sql-alterrule.md",
+    "source": "https://www.postgresql.org/docs/18/sql-alterrule.html",
+    "source_word_match": 0.9878542510121457,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-finish.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-finish.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-fname.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-fname.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "tutorial/tutorial-sql/tutorial-update.md",
+    "source": "https://www.postgresql.org/docs/18/tutorial-update.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-gettype.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-gettype.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/storage/README.md",
+    "source": "https://www.postgresql.org/docs/18/storage.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/client-authentication/auth-peer.md",
+    "source": "https://www.postgresql.org/docs/18/auth-peer.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/jit/README.md",
+    "source": "https://www.postgresql.org/docs/18/jit.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-realloc.md",
+    "source": "https://www.postgresql.org/docs/18/spi-realloc.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-cursor-move.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-cursor-move.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "tutorial/tutorial-advanced/tutorial-advanced-intro.md",
+    "source": "https://www.postgresql.org/docs/18/tutorial-advanced-intro.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-copytuple.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-copytuple.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/bki/bki-format.md",
+    "source": "https://www.postgresql.org/docs/18/bki-format.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "preface/notation.md",
+    "source": "https://www.postgresql.org/docs/18/notation.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/transactions/two-phase.md",
+    "source": "https://www.postgresql.org/docs/18/two-phase.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/external-projects/external-pl.md",
+    "source": "https://www.postgresql.org/docs/18/external-pl.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/runtime/postgres-user.md",
+    "source": "https://www.postgresql.org/docs/18/postgres-user.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/docguide/docguide-docbook.md",
+    "source": "https://www.postgresql.org/docs/18/docguide-docbook.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "tutorial/tutorial-sql/tutorial-delete.md",
+    "source": "https://www.postgresql.org/docs/18/tutorial-delete.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/contrib-prog/README.md",
+    "source": "https://www.postgresql.org/docs/18/contrib-prog.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-rollback.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-rollback.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-cursor-fetch.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-cursor-fetch.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/plperl/plperl-event-triggers.md",
+    "source": "https://www.postgresql.org/docs/18/plperl-event-triggers.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "reference/sql-commands/sql-deallocate.md",
+    "source": "https://www.postgresql.org/docs/18/sql-deallocate.html",
+    "source_word_match": 0.9828571428571429,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/client-authentication/auth-bsd.md",
+    "source": "https://www.postgresql.org/docs/18/auth-bsd.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/logical-replication/logical-replication-quick-setup.md",
+    "source": "https://www.postgresql.org/docs/18/logical-replication-quick-setup.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-keepplan.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-keepplan.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-getargtypeid.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-getargtypeid.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "tutorial/tutorial-advanced/tutorial-views.md",
+    "source": "https://www.postgresql.org/docs/18/tutorial-views.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/contrib/contrib-dblink-disconnect.md",
+    "source": "https://www.postgresql.org/docs/18/contrib-dblink-disconnect.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "the-sql-language/textsearch/textsearch-limitations.md",
+    "source": "https://www.postgresql.org/docs/18/textsearch-limitations.html",
+    "source_word_match": 0.9966996699669967,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-cursor-find.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-cursor-find.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/pltcl/README.md",
+    "source": "https://www.postgresql.org/docs/18/pltcl.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/pltcl/pltcl-event-trigger.md",
+    "source": "https://www.postgresql.org/docs/18/pltcl-event-trigger.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/plpython/plpython-transactions.md",
+    "source": "https://www.postgresql.org/docs/18/plpython-transactions.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/pltcl/pltcl-transactions.md",
+    "source": "https://www.postgresql.org/docs/18/pltcl-transactions.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/runtime/event-log-registration.md",
+    "source": "https://www.postgresql.org/docs/18/event-log-registration.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "reference/sql-commands/sql-alterlanguage.md",
+    "source": "https://www.postgresql.org/docs/18/sql-alterlanguage.html",
+    "source_word_match": 0.9852216748768473,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/managing-databases/manage-ag-dropdb.md",
+    "source": "https://www.postgresql.org/docs/18/manage-ag-dropdb.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/plpython/plpython-envar.md",
+    "source": "https://www.postgresql.org/docs/18/plpython-envar.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/external-projects/external-interfaces.md",
+    "source": "https://www.postgresql.org/docs/18/external-interfaces.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-unregister-relation.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-unregister-relation.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "the-sql-language/indexes/indexes-collations.md",
+    "source": "https://www.postgresql.org/docs/18/indexes-collations.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "appendixes/contrib/contrib-dblink-cancel-query.md",
+    "source": "https://www.postgresql.org/docs/18/contrib-dblink-cancel-query.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-fnumber.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-fnumber.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "reference/sql-commands/sql-creategroup.md",
+    "source": "https://www.postgresql.org/docs/18/sql-creategroup.html",
+    "source_word_match": 0.9818181818181818,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/pltcl/pltcl-procnames.md",
+    "source": "https://www.postgresql.org/docs/18/pltcl-procnames.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/jit/jit-configuration.md",
+    "source": "https://www.postgresql.org/docs/18/jit-configuration.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "reference/sql-commands/sql-droppublication.md",
+    "source": "https://www.postgresql.org/docs/18/sql-droppublication.html",
+    "source_word_match": 0.9702970297029703,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/runtime-config/runtime-config-custom.md",
+    "source": "https://www.postgresql.org/docs/18/runtime-config-custom.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/managing-databases/manage-ag-config.md",
+    "source": "https://www.postgresql.org/docs/18/manage-ag-config.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/bki/bki-structure.md",
+    "source": "https://www.postgresql.org/docs/18/bki-structure.html",
+    "source_word_match": 0.9641693811074918,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "client-interfaces/largeobjects/lo-intro.md",
+    "source": "https://www.postgresql.org/docs/18/lo-intro.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/user-manag/perm-functions.md",
+    "source": "https://www.postgresql.org/docs/18/perm-functions.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "reference/sql-commands/sql-alterlargeobject.md",
+    "source": "https://www.postgresql.org/docs/18/sql-alterlargeobject.html",
+    "source_word_match": 0.9875518672199171,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "reference/sql-commands/sql-altertsparser.md",
+    "source": "https://www.postgresql.org/docs/18/sql-altertsparser.html",
+    "source_word_match": 0.9877551020408163,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/backup-manifest-format/backup-manifest-wal-ranges.md",
+    "source": "https://www.postgresql.org/docs/18/backup-manifest-wal-ranges.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "internals/wal-for-extensions/README.md",
+    "source": "https://www.postgresql.org/docs/18/wal-for-extensions.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/spi/spi-spi-commit.md",
+    "source": "https://www.postgresql.org/docs/18/spi-spi-commit.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-administration/monitoring/monitoring-locks.md",
+    "source": "https://www.postgresql.org/docs/18/monitoring-locks.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  },
+  {
+    "page": "server-programming/triggers/README.md",
+    "source": "https://www.postgresql.org/docs/18/triggers.html",
+    "source_word_match": 1.0,
+    "code_anchors_links_headings": "passed"
+  }
+]

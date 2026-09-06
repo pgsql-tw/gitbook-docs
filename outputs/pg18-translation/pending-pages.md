@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1009 頁。
+待譯頁面：1008 頁。
 
 ## 根目錄
 
@@ -1002,7 +1002,7 @@
 - [x] `server-programming/spi/spi-spi-unregister-relation.md` — SPI_unregister_relation
 - [ ] `server-programming/spi/spi-transaction.md` — 45.4. Transaction Management #
 - [ ] `server-programming/spi/spi-visibility.md` — 45.5. Visibility of Data Changes #
-- [ ] `server-programming/triggers/README.md` — Chapter 37. Triggers
+- [x] `server-programming/triggers/README.md` — 第 37 章 觸發器
 - [ ] `server-programming/triggers/trigger-datachanges.md` — 37.2. Visibility of Data Changes #
 - [ ] `server-programming/triggers/trigger-definition.md` — 37.1. Overview of Trigger Behavior #
 - [ ] `server-programming/triggers/trigger-example.md` — 37.4. A Complete Trigger Example #

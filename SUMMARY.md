@@ -454,7 +454,7 @@
     * [36.16. Interfacing Extensions to Indexes #](server-programming/extend/xindex.md)
     * [36.17. Packaging Related Objects into an Extension #](server-programming/extend/extend-extensions.md)
     * [36.18. Extension Building Infrastructure #](server-programming/extend/extend-pgxs.md)
-  * [Chapter 37. Triggers](server-programming/triggers/README.md)
+  * [第 37 章 觸發器](server-programming/triggers/README.md)
     * [37.1. Overview of Trigger Behavior #](server-programming/triggers/trigger-definition.md)
     * [37.2. Visibility of Data Changes #](server-programming/triggers/trigger-datachanges.md)
     * [37.3. Writing Trigger Functions in C #](server-programming/triggers/trigger-interface.md)
