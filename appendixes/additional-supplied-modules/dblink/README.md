@@ -1,4 +1,4 @@
-# F.10. dblink
+# F.12. dblink
 
 dblink 模組可以讓你從資料庫連線中再連線到其他 PostgreSQL 資料庫。
 

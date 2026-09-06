@@ -1,4 +1,4 @@
-# F.24. pg\_buffercache
+# F.27. pg\_buffercache
 
 pg\_buffercache 延伸功能提供了一個即時檢查共享緩衝區配置情況的方法。
 
@@ -6,7 +6,7 @@ pg\_buffercache 延伸功能提供了一個即時檢查共享緩衝區配置情�
 
 預設情況下，僅限於超級使用者和 pg\_monitor 角色的成員使用。也可以使用 GRANT 將存取權限授予其他角色。
 
-## F.24.1. The `pg_buffercache` View
+## F.27.1. The `pg_buffercache` View
 
 [Table F.15](pg\_buffercache.md#table-f-15-pg\_buffercache-columns) 中列出了此檢視表的欄位定義。
 
@@ -30,7 +30,7 @@ Because the cache is shared by all the databases, there will normally be pages f
 
 Since buffer manager locks are not taken to copy the buffer state data that the view will display, accessing `pg_buffercache` view has less impact on normal buffer activity but it doesn't provide a consistent set of results across all buffers. However, we ensure that the information of each buffer is self-consistent.
 
-## F.24.2. Sample Output
+## F.27.2. Sample Output
 
 ```
 regression=# SELECT n.nspname, c.relname, count(*) AS buffers
@@ -58,7 +58,7 @@ regression=# SELECT n.nspname, c.relname, count(*) AS buffers
 (10 rows)
 ```
 
-## F.24.3. Authors
+## F.27.3. Authors
 
 Mark Kirkwood `<`[`markir@paradise.net.nz`](mailto:markir@paradise.net.nz)`>`
 

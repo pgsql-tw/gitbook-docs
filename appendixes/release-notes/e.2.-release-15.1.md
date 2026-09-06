@@ -1,16 +1,16 @@
-# E.2. Release 15.1
+# E.19. Release 15.1
 
 **Release date:** 2022-11-10
 
 This release contains a variety of fixes from 15.0. For information about new features in major release 15, see [Section E.3](https://www.postgresql.org/docs/15/release-15.html).
 
-## E.2.1. Migration to Version 15.1
+## E.19.1. Migration to Version 15.1
 
 A dump/restore is not required for those running 15.X.
 
 However, if you regularly create and drop tables exceeding 1GB, see the first changelog entry below.
 
-## E.2.2. Changes
+## E.19.2. Changes
 
 *   Fix failure to remove non-first segments of large tables (Tom Lane)
 

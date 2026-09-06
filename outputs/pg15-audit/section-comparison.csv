@@ -1,0 +1,966 @@
+﻿chapter,official,url,local,local_title,match
+1. 入門指南,1.1. Installation,https://www.postgresql.org/docs/15/tutorial-install.html,tutorial/getting-started/installation.md,1.1. 安裝,title/path
+1. 入門指南,1.2. Architectural Fundamentals,https://www.postgresql.org/docs/15/tutorial-arch.html,tutorial/getting-started/architectural-fundamentals.md,1.2. 基礎架構,title/path
+1. 入門指南,1.3. Creating a Database,https://www.postgresql.org/docs/15/tutorial-createdb.html,tutorial/getting-started/creating-a-database.md,1.3. 建立一個資料庫,title/path
+1. 入門指南,1.4. Accessing a Database,https://www.postgresql.org/docs/15/tutorial-accessdb.html,tutorial/getting-started/accessing-a-database.md,1.4. 存取一個資料庫,title/path
+2. SQL 查詢語言,2.1. Introduction,https://www.postgresql.org/docs/15/tutorial-sql-intro.html,tutorial/the-sql-language/introduction.md,2.1. 簡介,title/path
+2. SQL 查詢語言,2.2. Concepts,https://www.postgresql.org/docs/15/tutorial-concepts.html,tutorial/the-sql-language/concepts.md,2.2. 概念,title/path
+2. SQL 查詢語言,2.3. Creating a New Table,https://www.postgresql.org/docs/15/tutorial-table.html,tutorial/the-sql-language/creating-a-new-table.md,2.3. 創建一個新的資料表,title/path
+2. SQL 查詢語言,2.4. Populating a Table With Rows,https://www.postgresql.org/docs/15/tutorial-populate.html,tutorial/the-sql-language/populating-a-table-with-rows.md,2.4. 資料列是資料表的組成單位,title/path
+2. SQL 查詢語言,2.5. Querying a Table,https://www.postgresql.org/docs/15/tutorial-select.html,tutorial/the-sql-language/querying-a-table.md,2.5. 資料表的查詢,title/path
+2. SQL 查詢語言,2.6. Joins Between Tables,https://www.postgresql.org/docs/15/tutorial-join.html,tutorial/the-sql-language/joins-between-tables.md,2.6. 交叉查詢,title/path
+2. SQL 查詢語言,2.7. Aggregate Functions,https://www.postgresql.org/docs/15/tutorial-agg.html,tutorial/the-sql-language/aggregate-functions.md,2.7. 彙總查詢,title/path
+2. SQL 查詢語言,2.8. Updates,https://www.postgresql.org/docs/15/tutorial-update.html,tutorial/the-sql-language/updates.md,2.8. 更新資料,title/path
+2. SQL 查詢語言,2.9. Deletions,https://www.postgresql.org/docs/15/tutorial-delete.html,tutorial/the-sql-language/deletions.md,2.9. 刪除資料,title/path
+3. 先進功能,3.1. Introduction,https://www.postgresql.org/docs/15/tutorial-advanced-intro.html,tutorial/advanced-features/introduction.md,3.1. 簡介,title/path
+3. 先進功能,3.2. Views,https://www.postgresql.org/docs/15/tutorial-views.html,tutorial/advanced-features/views.md,3.2. 檢視表（View）,title/path
+3. 先進功能,3.3. Foreign Keys,https://www.postgresql.org/docs/15/tutorial-fk.html,tutorial/advanced-features/foreign-keys.md,3.3. 外部索引鍵,title/path
+3. 先進功能,3.4. Transactions,https://www.postgresql.org/docs/15/tutorial-transactions.html,tutorial/advanced-features/transactions.md,3.4. 交易安全,title/path
+3. 先進功能,3.5. Window Functions,https://www.postgresql.org/docs/15/tutorial-window.html,tutorial/advanced-features/window-functions.md,3.5. 窗函數,title/path
+3. 先進功能,3.6. Inheritance,https://www.postgresql.org/docs/15/tutorial-inheritance.html,tutorial/advanced-features/inheritance.md,3.6. 繼承,title/path
+3. 先進功能,3.7. Conclusion,https://www.postgresql.org/docs/15/tutorial-conclusion.html,tutorial/advanced-features/conclusion.md,3.7. 結論,title/path
+4. SQL 語法,4.1. Lexical Structure,https://www.postgresql.org/docs/15/sql-syntax-lexical.html,the-sql-language/sql-syntax/lexical-structure.md,4.1. 語法結構,title/path
+4. SQL 語法,4.2. Value Expressions,https://www.postgresql.org/docs/15/sql-expressions.html,the-sql-language/sql-syntax/value-expressions.md,4.2. 參數表示式,title/path
+4. SQL 語法,4.3. Calling Functions,https://www.postgresql.org/docs/15/sql-syntax-calling-funcs.html,the-sql-language/sql-syntax/4.3.-han-shu-hu-jiao.md,4.3. 函數呼叫,number-only-review
+5. 定義資料結構,5.1. Table Basics,https://www.postgresql.org/docs/15/ddl-basics.html,the-sql-language/ddl/table-basics.md,5.1. 認識資料表,title/path
+5. 定義資料結構,5.2. Default Values,https://www.postgresql.org/docs/15/ddl-default.html,the-sql-language/ddl/default-values.md,5.2. 預設值,title/path
+5. 定義資料結構,5.3. Generated Columns,https://www.postgresql.org/docs/15/ddl-generated-columns.html,the-sql-language/ddl/generated-columns.md,5.3. Generated Columns,title/path
+5. 定義資料結構,5.4. Constraints,https://www.postgresql.org/docs/15/ddl-constraints.html,the-sql-language/ddl/constraints.md,5.4. 限制條件,title/path
+5. 定義資料結構,5.5. System Columns,https://www.postgresql.org/docs/15/ddl-system-columns.html,the-sql-language/ddl/system-columns.md,5.5. 系統欄位,title/path
+5. 定義資料結構,5.6. Modifying Tables,https://www.postgresql.org/docs/15/ddl-alter.html,the-sql-language/ddl/modifying-tables.md,5.6. 表格變更,title/path
+5. 定義資料結構,5.7. Privileges,https://www.postgresql.org/docs/15/ddl-priv.html,the-sql-language/ddl/privileges.md,5.7. 權限,title/path
+5. 定義資料結構,5.8. Row Security Policies,https://www.postgresql.org/docs/15/ddl-rowsecurity.html,the-sql-language/ddl/row-security-policies.md,5.8. 資料列安全原則,title/path
+5. 定義資料結構,5.9. Schemas,https://www.postgresql.org/docs/15/ddl-schemas.html,the-sql-language/ddl/schemas.md,5.9. Schemas,title/path
+5. 定義資料結構,5.10. Inheritance,https://www.postgresql.org/docs/15/ddl-inherit.html,the-sql-language/ddl/inheritance.md,5.10. 繼承,title/path
+5. 定義資料結構,5.11. Table Partitioning,https://www.postgresql.org/docs/15/ddl-partitioning.html,the-sql-language/ddl/table-partitioning.md,5.11. 分割資料表,title/path
+5. 定義資料結構,5.12. Foreign Data,https://www.postgresql.org/docs/15/ddl-foreign-data.html,the-sql-language/ddl/foreign-data.md,5.12. 外部資料,title/path
+5. 定義資料結構,5.13. Other Database Objects,https://www.postgresql.org/docs/15/ddl-others.html,the-sql-language/ddl/other-database-objects.md,5.13. 其他資料庫物件,title/path
+5. 定義資料結構,5.14. Dependency Tracking,https://www.postgresql.org/docs/15/ddl-depend.html,the-sql-language/ddl/dependency-tracking.md,5.14. 相依性追蹤,title/path
+6. 資料處理,6.4. Returning Data from Modified Rows,https://www.postgresql.org/docs/15/dml-returning.html,the-sql-language/data-manipulation/returning-data-from-modified-rows.md,6.4. 修改並回傳資料,title/path
+6. 資料處理,6.1. Inserting Data,https://www.postgresql.org/docs/15/dml-insert.html,the-sql-language/data-manipulation/6.1.-xin-zeng-zi-liao.md,6.1. 新增資料,number-only-review
+6. 資料處理,6.2. Updating Data,https://www.postgresql.org/docs/15/dml-update.html,the-sql-language/data-manipulation/6.2.-geng-xin-zi-liao.md,6.2. 更新資料,number-only-review
+6. 資料處理,6.3. Deleting Data,https://www.postgresql.org/docs/15/dml-delete.html,the-sql-language/data-manipulation/6.3.-shan-chu-zi-liao.md,6.3. 刪除資料,number-only-review
+7. 資料查詢,7.1. Overview,https://www.postgresql.org/docs/15/queries-overview.html,the-sql-language/queries/overview.md,7.1. 概觀,title/path
+7. 資料查詢,7.2. Table Expressions,https://www.postgresql.org/docs/15/queries-table-expressions.html,the-sql-language/queries/table-expressions.md,7.2. 資料表表示式,title/path
+7. 資料查詢,7.3. Select Lists,https://www.postgresql.org/docs/15/queries-select-lists.html,the-sql-language/queries/select-lists.md,7.3. 取得資料列表,title/path
+7. 資料查詢,7.6. LIMIT and OFFSET,https://www.postgresql.org/docs/15/queries-limit.html,the-sql-language/queries/limit-and-offset.md,7.6. LIMIT 和 OFFSET,title/path
+7. 資料查詢,7.7. VALUES Lists,https://www.postgresql.org/docs/15/queries-values.html,the-sql-language/queries/values-lists.md,7.7. VALUES 列舉資料,title/path
+7. 資料查詢,"7.4. Combining Queries (UNION, INTERSECT, EXCEPT)",https://www.postgresql.org/docs/15/queries-union.html,the-sql-language/queries/combining-queries.md,7.4. 合併查詢結果,number-only-review
+7. 資料查詢,7.5. Sorting Rows (ORDER BY),https://www.postgresql.org/docs/15/queries-order.html,the-sql-language/queries/sorting-rows.md,7.5. 資料排序,number-only-review
+7. 資料查詢,7.8. WITH Queries (Common Table Expressions),https://www.postgresql.org/docs/15/queries-with.html,,,unmapped-review
+8. 資料型別,8.1. Numeric Types,https://www.postgresql.org/docs/15/datatype-numeric.html,the-sql-language/data-types/numeric-types.md,8.1. 數字型別,title/path
+8. 資料型別,8.2. Monetary Types,https://www.postgresql.org/docs/15/datatype-money.html,the-sql-language/data-types/monetary-types.md,8.2. 貨幣型別,title/path
+8. 資料型別,8.3. Character Types,https://www.postgresql.org/docs/15/datatype-character.html,the-sql-language/data-types/character-types.md,8.3. 字串型別,title/path
+8. 資料型別,8.6. Boolean Type,https://www.postgresql.org/docs/15/datatype-boolean.html,the-sql-language/data-types/boolean-type.md,8.6. 布林型別,title/path
+8. 資料型別,8.7. Enumerated Types,https://www.postgresql.org/docs/15/datatype-enum.html,the-sql-language/data-types/enumerated-types.md,8.7. 列舉型別,title/path
+8. 資料型別,8.8. Geometric Types,https://www.postgresql.org/docs/15/datatype-geometric.html,the-sql-language/data-types/geometric-types.md,8.8. 地理資訊型別,title/path
+8. 資料型別,8.9. Network Address Types,https://www.postgresql.org/docs/15/datatype-net-types.html,the-sql-language/data-types/network-address-types.md,8.9. 網路資訊型別,title/path
+8. 資料型別,8.10. Bit String Types,https://www.postgresql.org/docs/15/datatype-bit.html,the-sql-language/data-types/bit-string-types.md,8.10. 位元字串型別,title/path
+8. 資料型別,8.11. Text Search Types,https://www.postgresql.org/docs/15/datatype-textsearch.html,the-sql-language/data-types/text-search-types.md,8.11. 全文檢索型別,title/path
+8. 資料型別,8.12. UUID Type,https://www.postgresql.org/docs/15/datatype-uuid.html,the-sql-language/data-types/uuid-type.md,8.12. UUID 型別,title/path
+8. 資料型別,8.13. XML Type,https://www.postgresql.org/docs/15/datatype-xml.html,the-sql-language/data-types/xml-type.md,8.13. XML 型別,title/path
+8. 資料型別,8.14. JSON Types,https://www.postgresql.org/docs/15/datatype-json.html,the-sql-language/data-types/json-types.md,8.14. JSON 型別,title/path
+8. 資料型別,8.15. Arrays,https://www.postgresql.org/docs/15/arrays.html,the-sql-language/data-types/arrays.md,8.15. 陣列,title/path
+8. 資料型別,8.16. Composite Types,https://www.postgresql.org/docs/15/rowtypes.html,the-sql-language/data-types/composite-types.md,8.16. 複合型別,title/path
+8. 資料型別,8.17. Range Types,https://www.postgresql.org/docs/15/rangetypes.html,the-sql-language/data-types/range-types.md,8.17. 範圍型別,title/path
+8. 資料型別,8.18. Domain Types,https://www.postgresql.org/docs/15/domains.html,the-sql-language/data-types/domain-types.md,8.18. Domain Types,title/path
+8. 資料型別,8.19. Object Identifier Types,https://www.postgresql.org/docs/15/datatype-oid.html,the-sql-language/data-types/object-identifier-types.md,8.19. 物件指標型別,title/path
+8. 資料型別,8.20. pg_lsn Type,https://www.postgresql.org/docs/15/datatype-pg-lsn.html,the-sql-language/data-types/pg_lsn-type.md,8.20. pg_lsn 型別,title/path
+8. 資料型別,8.21. Pseudo-Types,https://www.postgresql.org/docs/15/datatype-pseudo.html,the-sql-language/data-types/pseudo-types.md,8.21. 概念型別,title/path
+8. 資料型別,8.4. Binary Data Types,https://www.postgresql.org/docs/15/datatype-binary.html,the-sql-language/data-types/binary.md,8.4. 位元組型別（bytea）,number-only-review
+8. 資料型別,8.5. Date/Time Types,https://www.postgresql.org/docs/15/datatype-datetime.html,the-sql-language/data-types/date-time.md,8.5. 日期時間型別,number-only-review
+9. 函式及運算子,9.1. Logical Operators,https://www.postgresql.org/docs/15/functions-logical.html,the-sql-language/functions-and-operators/logical-operators.md,9.1. 邏輯運算子,title/path
+9. 函式及運算子,9.2. Comparison Functions and Operators,https://www.postgresql.org/docs/15/functions-comparison.html,the-sql-language/functions-and-operators/comparison-functions-and-operators.md,9.2. 比較函式及運算子,title/path
+9. 函式及運算子,9.3. Mathematical Functions and Operators,https://www.postgresql.org/docs/15/functions-math.html,the-sql-language/functions-and-operators/mathematical-functions-and-operators.md,9.3. 數學函式及運算子,title/path
+9. 函式及運算子,9.4. String Functions and Operators,https://www.postgresql.org/docs/15/functions-string.html,the-sql-language/functions-and-operators/string-functions-and-operators.md,9.4. 字串函式及運算子,title/path
+9. 函式及運算子,9.5. Binary String Functions and Operators,https://www.postgresql.org/docs/15/functions-binarystring.html,the-sql-language/functions-and-operators/binary-string-functions-and-operators.md,9.5. 位元字串函式及運算子,title/path
+9. 函式及運算子,9.6. Bit String Functions and Operators,https://www.postgresql.org/docs/15/functions-bitstring.html,the-sql-language/functions-and-operators/bit-string-functions-and-operators.md,9.6. 二元字串函式及運算子,title/path
+9. 函式及運算子,9.7. Pattern Matching,https://www.postgresql.org/docs/15/functions-matching.html,the-sql-language/functions-and-operators/pattern-matching.md,9.7. 特徵比對,title/path
+9. 函式及運算子,9.8. Data Type Formatting Functions,https://www.postgresql.org/docs/15/functions-formatting.html,the-sql-language/functions-and-operators/data-type-formatting-functions.md,9.8. 型別轉換函式,title/path
+9. 函式及運算子,9.9. Date/Time Functions and Operators,https://www.postgresql.org/docs/15/functions-datetime.html,the-sql-language/functions-and-operators/date-time-functions-and-operators.md,9.9 日期時間函式及運算子,title/path
+9. 函式及運算子,9.10. Enum Support Functions,https://www.postgresql.org/docs/15/functions-enum.html,the-sql-language/functions-and-operators/enum-support-functions.md,9.10. 列舉型別函式,title/path
+9. 函式及運算子,9.11. Geometric Functions and Operators,https://www.postgresql.org/docs/15/functions-geometry.html,the-sql-language/functions-and-operators/geometric-functions-and-operators.md,9.11. 地理資訊函式及運算子,title/path
+9. 函式及運算子,9.12. Network Address Functions and Operators,https://www.postgresql.org/docs/15/functions-net.html,the-sql-language/functions-and-operators/network-address-functions-and-operators.md,9.12. 網路位址函式及運算子,title/path
+9. 函式及運算子,9.13. Text Search Functions and Operators,https://www.postgresql.org/docs/15/functions-textsearch.html,the-sql-language/functions-and-operators/text-search-functions-and-operators.md,9.13. 文字檢索函式及運算子,title/path
+9. 函式及運算子,9.14. UUID Functions,https://www.postgresql.org/docs/15/functions-uuid.html,the-sql-language/functions-and-operators/uuid-functions.md,9.14. UUID Functions,title/path
+9. 函式及運算子,9.16. JSON Functions and Operators,https://www.postgresql.org/docs/15/functions-json.html,the-sql-language/functions-and-operators/json-functions-and-operators.md,9.16. JSON 函式及運算子,title/path
+9. 函式及運算子,9.17. Sequence Manipulation Functions,https://www.postgresql.org/docs/15/functions-sequence.html,the-sql-language/functions-and-operators/sequence-manipulation-functions.md,9.17. 序列函式,title/path
+9. 函式及運算子,9.18. Conditional Expressions,https://www.postgresql.org/docs/15/functions-conditional.html,the-sql-language/functions-and-operators/conditional-expressions.md,9.18. 條件表示式,title/path
+9. 函式及運算子,9.19. Array Functions and Operators,https://www.postgresql.org/docs/15/functions-array.html,the-sql-language/functions-and-operators/array-functions-and-operators.md,9.19. 陣列函式及運算子,title/path
+9. 函式及運算子,9.21. Aggregate Functions,https://www.postgresql.org/docs/15/functions-aggregate.html,the-sql-language/functions-and-operators/aggregate-functions.md,9.21. 彙總函數,title/path
+9. 函式及運算子,9.22. Window Functions,https://www.postgresql.org/docs/15/functions-window.html,the-sql-language/functions-and-operators/window-functions.md,9.22. Window 函式,title/path
+9. 函式及運算子,9.23. Subquery Expressions,https://www.postgresql.org/docs/15/functions-subquery.html,the-sql-language/functions-and-operators/subquery-expressions.md,9.23. 子查詢,title/path
+9. 函式及運算子,9.24. Row and Array Comparisons,https://www.postgresql.org/docs/15/functions-comparisons.html,the-sql-language/functions-and-operators/row-and-array-comparisons.md,9.24. 資料列與陣列的比較運算,title/path
+9. 函式及運算子,9.25. Set Returning Functions,https://www.postgresql.org/docs/15/functions-srf.html,the-sql-language/functions-and-operators/set-returning-functions.md,9.25. 集合回傳函數,title/path
+9. 函式及運算子,9.28. Trigger Functions,https://www.postgresql.org/docs/15/functions-trigger.html,the-sql-language/functions-and-operators/trigger-functions.md,9.28. 觸發函式,title/path
+9. 函式及運算子,9.29. Event Trigger Functions,https://www.postgresql.org/docs/15/functions-event-triggers.html,the-sql-language/functions-and-operators/event-trigger-functions.md,9.29. 事件觸發函式,title/path
+9. 函式及運算子,9.30. Statistics Information Functions,https://www.postgresql.org/docs/15/functions-statistics.html,the-sql-language/functions-and-operators/statistics-information-functions.md,9.30. Statistics Information Functions,title/path
+9. 函式及運算子,9.15. XML Functions,https://www.postgresql.org/docs/15/functions-xml.html,the-sql-language/functions-and-operators/xml.md,9.15. XML 函式,number-only-review
+9. 函式及運算子,9.20. Range/Multirange Functions and Operators,https://www.postgresql.org/docs/15/functions-range.html,the-sql-language/functions-and-operators/range-functions-and-operators.md,9.20. 範圍函式及運算子,number-only-review
+9. 函式及運算子,9.26. System Information Functions and Operators,https://www.postgresql.org/docs/15/functions-info.html,the-sql-language/functions-and-operators/system-information-functions.md,9.26. 系統資訊函數,number-only-review
+9. 函式及運算子,9.27. System Administration Functions,https://www.postgresql.org/docs/15/functions-admin.html,the-sql-language/functions-and-operators/system-administration.md,9.27. 系統管理函式,number-only-review
+10. 型別轉換,10.4. Value Storage,https://www.postgresql.org/docs/15/typeconv-query.html,the-sql-language/type-conversion/value-storage.md,10.4. 資料儲存轉換規則,title/path
+10. 型別轉換,"10.5. UNION, CASE, and Related Constructs",https://www.postgresql.org/docs/15/typeconv-union-case.html,the-sql-language/type-conversion/union-case-and-related-constructs.md,10.5. UNION、CASE 等相關結構,title/path
+10. 型別轉換,10.1. Overview,https://www.postgresql.org/docs/15/typeconv-overview.html,the-sql-language/type-conversion/10.1.-gai-guan.md,10.1. 概觀,number-only-review
+10. 型別轉換,10.2. Operators,https://www.postgresql.org/docs/15/typeconv-oper.html,the-sql-language/type-conversion/10.2.-yun-suan-zi.md,10.2. 運算子,number-only-review
+10. 型別轉換,10.3. Functions,https://www.postgresql.org/docs/15/typeconv-func.html,the-sql-language/type-conversion/10.3.-han-shi.md,10.3. 函式,number-only-review
+10. 型別轉換,10.6. SELECT Output Columns,https://www.postgresql.org/docs/15/typeconv-select.html,the-sql-language/type-conversion/10.6.-select-shu-chu-gui-ze.md,10.6. SELECT 輸出規則,number-only-review
+11. 索引（Index）,11.1. Introduction,https://www.postgresql.org/docs/15/indexes-intro.html,the-sql-language/index/introduction.md,11.1. 簡介,title/path
+11. 索引（Index）,11.2. Index Types,https://www.postgresql.org/docs/15/indexes-types.html,the-sql-language/index/index-types.md,11.2. 索引型別,title/path
+11. 索引（Index）,11.3. Multicolumn Indexes,https://www.postgresql.org/docs/15/indexes-multicolumn.html,the-sql-language/index/multicolumn-indexes.md,11.3. 多欄位索引,title/path
+11. 索引（Index）,11.4. Indexes and ORDER BY,https://www.postgresql.org/docs/15/indexes-ordering.html,the-sql-language/index/indexes-and-order-by.md,11.4. 索引與 ORDER BY,title/path
+11. 索引（Index）,11.5. Combining Multiple Indexes,https://www.postgresql.org/docs/15/indexes-bitmap-scans.html,the-sql-language/index/combining-multiple-indexes.md,11.5. 善用多個索引,title/path
+11. 索引（Index）,11.6. Unique Indexes,https://www.postgresql.org/docs/15/indexes-unique.html,the-sql-language/index/unique-indexes.md,11.6. 唯一值索引,title/path
+11. 索引（Index）,11.7. Indexes on Expressions,https://www.postgresql.org/docs/15/indexes-expressional.html,the-sql-language/index/indexes-on-expressions.md,11.7. 表示式索引,title/path
+11. 索引（Index）,11.8. Partial Indexes,https://www.postgresql.org/docs/15/indexes-partial.html,the-sql-language/index/partial-indexes.md,11.8. 部份索引（partial index）,title/path
+11. 索引（Index）,11.9. Index-Only Scans and Covering Indexes,https://www.postgresql.org/docs/15/indexes-index-only-scans.html,the-sql-language/index/index-only-scans-and-covering-indexes.md,11.9. Index-Only Scans and Covering Indexes,title/path
+11. 索引（Index）,11.10. Operator Classes and Operator Families,https://www.postgresql.org/docs/15/indexes-opclass.html,the-sql-language/index/operator-classes-and-operator-families.md,11.10. 運算子物件及家族,title/path
+11. 索引（Index）,11.11. Indexes and Collations,https://www.postgresql.org/docs/15/indexes-collations.html,the-sql-language/index/indexes-and-collations.md,11.11. 索引與排序規則,title/path
+11. 索引（Index）,11.12. Examining Index Usage,https://www.postgresql.org/docs/15/indexes-examine.html,the-sql-language/index/examining-index-usage.md,11.12. 檢查索引運用,title/path
+12. 全文檢索,12.1. Introduction,https://www.postgresql.org/docs/15/textsearch-intro.html,the-sql-language/12.-quan-wen-jian-suo/12.1.-jian-jie.md,12.1. 簡介,number-only-review
+12. 全文檢索,12.2. Tables and Indexes,https://www.postgresql.org/docs/15/textsearch-tables.html,the-sql-language/12.-quan-wen-jian-suo/12.2.-cha-xun-yu-suo-yin.md,12.2. 查詢與索引,number-only-review
+12. 全文檢索,12.3. Controlling Text Search,https://www.postgresql.org/docs/15/textsearch-controls.html,the-sql-language/12.-quan-wen-jian-suo/12.3.-xi-bu-kong-zhi.md,12.3. 細部控制,number-only-review
+12. 全文檢索,12.4. Additional Features,https://www.postgresql.org/docs/15/textsearch-features.html,the-sql-language/12.-quan-wen-jian-suo/12.4.-yan-shen-gong-neng.md,12.4. 延伸功能,number-only-review
+12. 全文檢索,12.5. Parsers,https://www.postgresql.org/docs/15/textsearch-parsers.html,the-sql-language/12.-quan-wen-jian-suo/12.5.-duan-ci.md,12.5. 斷詞,number-only-review
+12. 全文檢索,12.6. Dictionaries,https://www.postgresql.org/docs/15/textsearch-dictionaries.html,the-sql-language/12.-quan-wen-jian-suo/12.6.-zi-dian.md,12.6. 字典,number-only-review
+12. 全文檢索,12.7. Configuration Example,https://www.postgresql.org/docs/15/textsearch-configuration.html,the-sql-language/12.-quan-wen-jian-suo/12.7.-zu-tai-fan-li.md,12.7. 組態範例,number-only-review
+12. 全文檢索,12.8. Testing and Debugging Text Search,https://www.postgresql.org/docs/15/textsearch-debugging.html,the-sql-language/12.-quan-wen-jian-suo/12.8.-ce-shi-yu-chu-cuo.md,12.8. 測試與除錯,number-only-review
+12. 全文檢索,12.9. Preferred Index Types for Text Search,https://www.postgresql.org/docs/15/textsearch-indexes.html,the-sql-language/12.-quan-wen-jian-suo/12.9.-gin-ji-gist-suo-yin-xing-bie.md,12.9. GIN 及 GiST 索引型別,number-only-review
+12. 全文檢索,12.10. psql Support,https://www.postgresql.org/docs/15/textsearch-psql.html,the-sql-language/12.-quan-wen-jian-suo/12.10.-psql-zhi-yuan.md,12.10. psql支援,number-only-review
+12. 全文檢索,12.11. Limitations,https://www.postgresql.org/docs/15/textsearch-limitations.html,the-sql-language/12.-quan-wen-jian-suo/12.11.-gong-neng-xian-zhi.md,12.11. 功能限制,number-only-review
+13. 一致性管理（Concurrency Control）,13.1. Introduction,https://www.postgresql.org/docs/15/mvcc-intro.html,the-sql-language/concurrency-control/introduction.md,13.1. 簡介,title/path
+13. 一致性管理（Concurrency Control）,13.2. Transaction Isolation,https://www.postgresql.org/docs/15/transaction-iso.html,the-sql-language/concurrency-control/transaction-isolation.md,13.2. 交易隔離,title/path
+13. 一致性管理（Concurrency Control）,13.3. Explicit Locking,https://www.postgresql.org/docs/15/explicit-locking.html,the-sql-language/concurrency-control/explicit-locking.md,13.3. 鎖定模式,title/path
+13. 一致性管理（Concurrency Control）,13.4. Data Consistency Checks at the Application Level,https://www.postgresql.org/docs/15/applevel-consistency.html,the-sql-language/concurrency-control/data-consistency-checks-at-the-application-level.md,13.4. 在應用端檢視資料一致性,title/path
+13. 一致性管理（Concurrency Control）,13.5. Serialization Failure Handling,https://www.postgresql.org/docs/15/mvcc-serialization-failure-handling.html,the-sql-language/concurrency-control/mvcc-serialization-failure-handling.md,13.5. Serialization Failure Handling,title/path
+13. 一致性管理（Concurrency Control）,13.6. Caveats,https://www.postgresql.org/docs/15/mvcc-caveats.html,the-sql-language/concurrency-control/caveats.md,13.6. 特別提醒,title/path
+13. 一致性管理（Concurrency Control）,13.7. Locking and Indexes,https://www.postgresql.org/docs/15/locking-indexes.html,the-sql-language/concurrency-control/locking-and-indexes.md,13.7. 鎖定與索引,title/path
+14. 效能技巧,14.1. Using EXPLAIN,https://www.postgresql.org/docs/15/using-explain.html,the-sql-language/performance-tips/using-explain.md,14.1. 善用 EXPLAIN,title/path
+14. 效能技巧,14.2. Statistics Used by the Planner,https://www.postgresql.org/docs/15/planner-stats.html,the-sql-language/performance-tips/statistics-used-by-the-planner.md,14.2. 統計資訊,title/path
+14. 效能技巧,14.3. Controlling the Planner with Explicit JOIN Clauses,https://www.postgresql.org/docs/15/explicit-joins.html,the-sql-language/performance-tips/controlling-the-planner-with-explicit-join-clauses.md,14.3. 使用確切的 JOIN 方式,title/path
+14. 效能技巧,14.4. Populating a Database,https://www.postgresql.org/docs/15/populate.html,the-sql-language/performance-tips/populating-a-database.md,14.4. 快速建立資料庫內容,title/path
+14. 效能技巧,14.5. Non-Durable Settings,https://www.postgresql.org/docs/15/non-durability.html,the-sql-language/performance-tips/non-durable-settings.md,14.5. 風險性彈性設定,title/path
+15. 平行查詢,15.1. How Parallel Query Works,https://www.postgresql.org/docs/15/how-parallel-query-works.html,the-sql-language/parallel-query/how-parallel-query-works.md,15.1. 如何運作？,title/path
+15. 平行查詢,15.2. When Can Parallel Query Be Used?,https://www.postgresql.org/docs/15/when-can-parallel-query-be-used.html,the-sql-language/parallel-query/when-can-parallel-query-be-used.md,15.2. 啓用時機？,title/path
+15. 平行查詢,15.3. Parallel Plans,https://www.postgresql.org/docs/15/parallel-plans.html,the-sql-language/parallel-query/parallel-plans.md,15.3. 平行查詢計畫,title/path
+15. 平行查詢,15.4. Parallel Safety,https://www.postgresql.org/docs/15/parallel-safety.html,the-sql-language/parallel-query/parallel-safety.md,15.4. 平行查詢的安全性,title/path
+17. 以原始碼安裝,17.1. Short Version,https://www.postgresql.org/docs/15/install-short.html,server-administration/installation-from-source-code/short-version.md,17.1. 簡要步驟,title/path
+17. 以原始碼安裝,17.2. Requirements,https://www.postgresql.org/docs/15/install-requirements.html,server-administration/installation-from-source-code/requirements.md,17.2. 環境需求,title/path
+17. 以原始碼安裝,17.3. Getting the Source,https://www.postgresql.org/docs/15/install-getsource.html,server-administration/installation-from-source-code/getting-the-source.md,17.3. Getting The Source,title/path
+17. 以原始碼安裝,17.4. Installation Procedure,https://www.postgresql.org/docs/15/install-procedure.html,server-administration/installation-from-source-code/installation-procedure.md,17.4. 安裝流程,title/path
+17. 以原始碼安裝,17.5. Post-Installation Setup,https://www.postgresql.org/docs/15/install-post.html,server-administration/installation-from-source-code/post-installation-setup.md,17.5. Post-Installation Setup,title/path
+17. 以原始碼安裝,17.6. Supported Platforms,https://www.postgresql.org/docs/15/supported-platforms.html,server-administration/installation-from-source-code/supported-platforms.md,17.6. Supported Platforms,title/path
+17. 以原始碼安裝,17.7. Platform-Specific Notes,https://www.postgresql.org/docs/15/installation-platform-notes.html,server-administration/installation-from-source-code/platform-specific-notes.md,17.7. 平台相關的注意事項,title/path
+18. 以原始碼在 Windows 上安裝,18.1. Building with Visual C++ or the Microsoft Windows SDK,https://www.postgresql.org/docs/15/install-windows-full.html,server-administration/installation-from-source-code-on-windows/17.1.-building-with-visual-c++-or-the-microsoft-windows-sdk.md,18.1. Building with Visual C++ or the Microsoft Windows SDK,title/path
+19. 服務配置與維運,19.2. Creating a Database Cluster,https://www.postgresql.org/docs/15/creating-cluster.html,server-administration/server-setup-and-operation/creating-a-database-cluster.md,19.2. Creating a Database Cluster,title/path
+19. 服務配置與維運,19.3. Starting the Database Server,https://www.postgresql.org/docs/15/server-start.html,server-administration/server-setup-and-operation/starting-the-database-server.md,19.3. Starting the Database Server,title/path
+19. 服務配置與維運,19.4. Managing Kernel Resources,https://www.postgresql.org/docs/15/kernel-resources.html,server-administration/server-setup-and-operation/managing-kernel-resources.md,19.4. 核心資源管理,title/path
+19. 服務配置與維運,19.5. Shutting Down the Server,https://www.postgresql.org/docs/15/server-shutdown.html,server-administration/server-setup-and-operation/shutting-down-the-server.md,19.5. Shutting Down the Server,title/path
+19. 服務配置與維運,19.6. Upgrading a PostgreSQL Cluster,https://www.postgresql.org/docs/15/upgrading.html,server-administration/server-setup-and-operation/18.6.-upgrading-a-postgresql-cluster.md,19.6. Upgrading a PostgreSQL Cluster,title/path
+19. 服務配置與維運,19.7. Preventing Server Spoofing,https://www.postgresql.org/docs/15/preventing-server-spoofing.html,server-administration/server-setup-and-operation/preventing-server-spoofing.md,19.7. Preventing Server Spoofing,title/path
+19. 服務配置與維運,19.8. Encryption Options,https://www.postgresql.org/docs/15/encryption-options.html,server-administration/server-setup-and-operation/encryption-options.md,19.8. Encryption Options,title/path
+19. 服務配置與維運,19.9. Secure TCP/IP Connections with SSL,https://www.postgresql.org/docs/15/ssl-tcp.html,server-administration/server-setup-and-operation/secure-tcp-ip-connections-with-ssl.md,19.9. Secure TCP/IP Connections with SSL,title/path
+19. 服務配置與維運,19.10. Secure TCP/IP Connections with GSSAPI Encryption,https://www.postgresql.org/docs/15/gssapi-enc.html,server-administration/server-setup-and-operation/secure-tcp-ip-connections-with-gssapi-encryption.md,19.10. Secure TCP/IP Connections with GSSAPI Encryption,title/path
+19. 服務配置與維運,19.11. Secure TCP/IP Connections with SSH Tunnels,https://www.postgresql.org/docs/15/ssh-tunnels.html,server-administration/server-setup-and-operation/secure-tcp-ip-connections-with-ssh-tunnels.md,19.11. Secure TCP/IP Connections with SSH Tunnels,title/path
+19. 服務配置與維運,19.1. The PostgreSQL User Account,https://www.postgresql.org/docs/15/postgres-user.html,server-administration/server-setup-and-operation/18.1.-postgresql-shi-yong-zhe-zhang-hao.md,19.1. PostgreSQL 使用者帳號,number-only-review
+19. 服務配置與維運,19.12. Registering Event Log on Windows,https://www.postgresql.org/docs/15/event-log-registration.html,server-administration/server-setup-and-operation/18.11.-zai-windows-zhu-ce-shi-jian-ri-zhi.md,19.12. 在 Windows 註冊事件日誌,number-only-review
+20. 服務組態設定,20.1. Setting Parameters,https://www.postgresql.org/docs/15/config-setting.html,server-administration/server-configuration/setting-parameters.md,20.1. Setting Parameters,title/path
+20. 服務組態設定,20.2. File Locations,https://www.postgresql.org/docs/15/runtime-config-file-locations.html,server-administration/server-configuration/file-locations.md,20.2. File Locations,title/path
+20. 服務組態設定,20.3. Connections and Authentication,https://www.postgresql.org/docs/15/runtime-config-connection.html,server-administration/server-configuration/connections-and-authentication.md,20.3. 連線與認證,title/path
+20. 服務組態設定,20.4. Resource Consumption,https://www.postgresql.org/docs/15/runtime-config-resource.html,server-administration/server-configuration/resource-consumption.md,20.4. 資源配置,title/path
+20. 服務組態設定,20.5. Write Ahead Log,https://www.postgresql.org/docs/15/runtime-config-wal.html,server-administration/server-configuration/write-ahead-log.md,20.5. Write Ahead Log,title/path
+20. 服務組態設定,20.6. Replication,https://www.postgresql.org/docs/15/runtime-config-replication.html,server-administration/server-configuration/replication.md,20.6. 複寫（Replication）,title/path
+20. 服務組態設定,20.7. Query Planning,https://www.postgresql.org/docs/15/runtime-config-query.html,server-administration/server-configuration/query-planning.md,20.7. 查詢規畫,title/path
+20. 服務組態設定,20.8. Error Reporting and Logging,https://www.postgresql.org/docs/15/runtime-config-logging.html,server-administration/server-configuration/error-reporting-and-logging.md,20.8. 錯誤回報與日誌記錄,title/path
+20. 服務組態設定,20.9. Run-time Statistics,https://www.postgresql.org/docs/15/runtime-config-statistics.html,server-administration/server-configuration/run-time-statistics.md,20.9. 執行階段統計資訊,title/path
+20. 服務組態設定,20.10. Automatic Vacuuming,https://www.postgresql.org/docs/15/runtime-config-autovacuum.html,server-administration/server-configuration/automatic-vacuuming.md,20.10. 自動資料庫清理,title/path
+20. 服務組態設定,20.11. Client Connection Defaults,https://www.postgresql.org/docs/15/runtime-config-client.html,server-administration/server-configuration/client-connection-defaults.md,20.11. 用戶端連線預設參數,title/path
+20. 服務組態設定,20.14. Error Handling,https://www.postgresql.org/docs/15/runtime-config-error-handling.html,server-administration/server-configuration/error-handling.md,20.14. Error Handling,title/path
+20. 服務組態設定,20.16. Customized Options,https://www.postgresql.org/docs/15/runtime-config-custom.html,server-administration/server-configuration/customized-options.md,20.16. Customized Options,title/path
+20. 服務組態設定,20.17. Developer Options,https://www.postgresql.org/docs/15/runtime-config-developer.html,server-administration/server-configuration/developer-options.md,20.17. Developer Options,title/path
+20. 服務組態設定,20.18. Short Options,https://www.postgresql.org/docs/15/runtime-config-short.html,server-administration/server-configuration/short-options.md,20.18. Short Options,title/path
+20. 服務組態設定,20.12. Lock Management,https://www.postgresql.org/docs/15/runtime-config-locks.html,server-administration/server-configuration/19.12.-jiao-yi-suo-ding-guan-li.md,20.12. 交易鎖定管理,number-only-review
+20. 服務組態設定,20.13. Version and Platform Compatibility,https://www.postgresql.org/docs/15/runtime-config-compatible.html,server-administration/server-configuration/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md,20.13. 版本與平台的相容性,number-only-review
+20. 服務組態設定,20.15. Preset Options,https://www.postgresql.org/docs/15/runtime-config-preset.html,server-administration/server-configuration/19.15.-yu-xian-pei-zhi-de-can-shu.md,20.15. 預先配置的參數,number-only-review
+21. 使用者認證,21.1. The pg_hba.conf File,https://www.postgresql.org/docs/15/auth-pg-hba-conf.html,server-administration/client-authentication/the-pg_hba.conf-file.md,21.1. 設定檔：pg_hba.conf,title/path
+21. 使用者認證,21.2. User Name Maps,https://www.postgresql.org/docs/15/auth-username-maps.html,server-administration/client-authentication/user-name-maps.md,21.2. User Name Maps,title/path
+21. 使用者認證,21.3. Authentication Methods,https://www.postgresql.org/docs/15/auth-methods.html,server-administration/client-authentication/authentication-methods.md,21.3. Authentication Methods,title/path
+21. 使用者認證,21.4. Trust Authentication,https://www.postgresql.org/docs/15/auth-trust.html,server-administration/client-authentication/trust-authentication.md,21.4. Trust Authentication,title/path
+21. 使用者認證,21.5. Password Authentication,https://www.postgresql.org/docs/15/auth-password.html,server-administration/client-authentication/password-authentication.md,21.5. Password Authentication,title/path
+21. 使用者認證,21.6. GSSAPI Authentication,https://www.postgresql.org/docs/15/gssapi-auth.html,server-administration/client-authentication/gssapi-authentication.md,21.6. GSSAPI Authentication,title/path
+21. 使用者認證,21.7. SSPI Authentication,https://www.postgresql.org/docs/15/sspi-auth.html,server-administration/client-authentication/sspi-authentication.md,21.7. SSPI Authentication,title/path
+21. 使用者認證,21.8. Ident Authentication,https://www.postgresql.org/docs/15/auth-ident.html,server-administration/client-authentication/ident-authentication.md,21.8. Ident Authentication,title/path
+21. 使用者認證,21.9. Peer Authentication,https://www.postgresql.org/docs/15/auth-peer.html,server-administration/client-authentication/peer-authentication.md,21.9. Peer Authentication,title/path
+21. 使用者認證,21.10. LDAP Authentication,https://www.postgresql.org/docs/15/auth-ldap.html,server-administration/client-authentication/ldap-authentication.md,21.10. LDAP Authentication,title/path
+21. 使用者認證,21.11. RADIUS Authentication,https://www.postgresql.org/docs/15/auth-radius.html,server-administration/client-authentication/radius-authentication.md,21.11. RADIUS Authentication,title/path
+21. 使用者認證,21.12. Certificate Authentication,https://www.postgresql.org/docs/15/auth-cert.html,server-administration/client-authentication/certificate-authentication.md,21.12. Certificate Authentication,title/path
+21. 使用者認證,21.13. PAM Authentication,https://www.postgresql.org/docs/15/auth-pam.html,server-administration/client-authentication/pam-authentication.md,21.13. PAM Authentication,title/path
+21. 使用者認證,21.14. BSD Authentication,https://www.postgresql.org/docs/15/auth-bsd.html,server-administration/client-authentication/21.14.-bsd-authentication.md,21.14. BSD Authentication,title/path
+21. 使用者認證,21.15. Authentication Problems,https://www.postgresql.org/docs/15/client-authentication-problems.html,server-administration/client-authentication/21.15.-authentication-problems.md,21.15. Authentication Problems,title/path
+22. 資料庫角色,22.1. Database Roles,https://www.postgresql.org/docs/15/database-roles.html,server-administration/database-roles/database-roles.md,22.1. Database Roles,title/path
+22. 資料庫角色,22.2. Role Attributes,https://www.postgresql.org/docs/15/role-attributes.html,server-administration/database-roles/role-attributes.md,22.2. Role Attributes,title/path
+22. 資料庫角色,22.3. Role Membership,https://www.postgresql.org/docs/15/role-membership.html,server-administration/database-roles/role-membership.md,22.3. Role Membership,title/path
+22. 資料庫角色,22.4. Dropping Roles,https://www.postgresql.org/docs/15/role-removal.html,server-administration/database-roles/dropping-roles.md,22.4. 移除角色,title/path
+22. 資料庫角色,22.6. Function Security,https://www.postgresql.org/docs/15/perm-functions.html,server-administration/database-roles/function-security.md,22.6. Function Security,title/path
+22. 資料庫角色,22.5. Predefined Roles,https://www.postgresql.org/docs/15/predefined-roles.html,,,unmapped-review
+23. 管理資料庫,23.1. Overview,https://www.postgresql.org/docs/15/manage-ag-overview.html,server-administration/managing-databases/overview.md,23.1. Overview,title/path
+23. 管理資料庫,23.2. Creating a Database,https://www.postgresql.org/docs/15/manage-ag-createdb.html,server-administration/managing-databases/creating-a-database.md,23.2. Creating a Database,title/path
+23. 管理資料庫,23.3. Template Databases,https://www.postgresql.org/docs/15/manage-ag-templatedbs.html,server-administration/managing-databases/template-databases.md,23.3. 樣版資料庫,title/path
+23. 管理資料庫,23.4. Database Configuration,https://www.postgresql.org/docs/15/manage-ag-config.html,server-administration/managing-databases/database-configuration.md,23.4. Database Configuration,title/path
+23. 管理資料庫,23.5. Destroying a Database,https://www.postgresql.org/docs/15/manage-ag-dropdb.html,server-administration/managing-databases/destroying-a-database.md,23.5. Destroying a Database,title/path
+23. 管理資料庫,23.6. Tablespaces,https://www.postgresql.org/docs/15/manage-ag-tablespaces.html,server-administration/managing-databases/tablespaces.md,23.6. Tablespaces,title/path
+24. 語系,24.1. Locale Support,https://www.postgresql.org/docs/15/locale.html,server-administration/localization/locale-support.md,24.1. 語系支援,title/path
+24. 語系,24.2. Collation Support,https://www.postgresql.org/docs/15/collation.html,server-administration/localization/collation-support.md,24.2. Collation Support,title/path
+24. 語系,24.3. Character Set Support,https://www.postgresql.org/docs/15/multibyte.html,server-administration/localization/character-set-support.md,24.3. 字元集支援,title/path
+25. 例行性資料庫維護工作,25.1. Routine Vacuuming,https://www.postgresql.org/docs/15/routine-vacuuming.html,server-administration/routine-database-maintenance-tasks/routine-vacuuming.md,25.1. 例行性資料清理,title/path
+25. 例行性資料庫維護工作,25.2. Routine Reindexing,https://www.postgresql.org/docs/15/routine-reindex.html,server-administration/routine-database-maintenance-tasks/routine-reindexing.md,25.2. 定期重建索引,title/path
+25. 例行性資料庫維護工作,25.3. Log File Maintenance,https://www.postgresql.org/docs/15/logfile-maintenance.html,server-administration/routine-database-maintenance-tasks/log-file-maintenance.md,25.3. Log 檔案維護,title/path
+26. 備份及還原,26.1. SQL Dump,https://www.postgresql.org/docs/15/backup-dump.html,server-administration/backup-and-restore/sql-dump.md,26.1. SQL Dump,title/path
+26. 備份及還原,26.2. File System Level Backup,https://www.postgresql.org/docs/15/backup-file.html,server-administration/backup-and-restore/file-system-level-backup.md,26.2. 檔案系統層級備份,title/path
+26. 備份及還原,26.3. Continuous Archiving and Point-in-Time Recovery (PITR),https://www.postgresql.org/docs/15/continuous-archiving.html,server-administration/backup-and-restore/continuous-archiving-and-point-in-time-recovery-pitr.md,26.3. 持續封存及 Point-in-Time Recovery (PITR),title/path
+"27. High Availability, Load Balancing, and Replication",27.1. Comparison of Different Solutions,https://www.postgresql.org/docs/15/different-replication-solutions.html,server-administration/high-availability-load-balancing-and-replication/comparison-of-different-solutions.md,27.1. 比較不同的解決方案,title/path
+"27. High Availability, Load Balancing, and Replication",27.2. Log-Shipping Standby Servers,https://www.postgresql.org/docs/15/warm-standby.html,server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md,27.2. 日誌轉送備用伺服器 Log-Shipping Standby Servers,title/path
+"27. High Availability, Load Balancing, and Replication",27.3. Failover,https://www.postgresql.org/docs/15/warm-standby-failover.html,server-administration/high-availability-load-balancing-and-replication/failover.md,27.3. Failover,title/path
+"27. High Availability, Load Balancing, and Replication",27.4. Hot Standby,https://www.postgresql.org/docs/15/hot-standby.html,server-administration/high-availability-load-balancing-and-replication/hot-standby.md,27.4. Hot Standby,title/path
+28. 監控資料庫活動,28.1. Standard Unix Tools,https://www.postgresql.org/docs/15/monitoring-ps.html,server-administration/monitoring-database-activity/standard-unix-tools.md,28.1. 標準的 Unix 工具,title/path
+28. 監控資料庫活動,28.3. Viewing Locks,https://www.postgresql.org/docs/15/monitoring-locks.html,server-administration/monitoring-database-activity/viewing-locks.md,28.3. Viewing Locks,title/path
+28. 監控資料庫活動,28.4. Progress Reporting,https://www.postgresql.org/docs/15/progress-reporting.html,server-administration/monitoring-database-activity/progress-reporting.md,28.4. Progress Reporting,title/path
+28. 監控資料庫活動,28.5. Dynamic Tracing,https://www.postgresql.org/docs/15/dynamic-trace.html,server-administration/monitoring-database-activity/dynamic-tracing.md,28.5. Dynamic Tracing,title/path
+28. 監控資料庫活動,28.2. The Cumulative Statistics System,https://www.postgresql.org/docs/15/monitoring-stats.html,server-administration/monitoring-database-activity/the-statistics-collector.md,28.2. 統計資訊收集器,number-only-review
+29. 監控磁碟使用情況,29.1. Determining Disk Usage,https://www.postgresql.org/docs/15/disk-usage.html,server-administration/monitoring-disk-usage/determining-disk-usage.md,29.1. 瞭解磁碟使用情形,title/path
+29. 監控磁碟使用情況,29.2. Disk Full Failure,https://www.postgresql.org/docs/15/disk-full.html,server-administration/monitoring-disk-usage/disk-full-failure.md,29.2. 磁碟空間不足錯誤,title/path
+30. 高可靠度及預寫日誌,30.1. Reliability,https://www.postgresql.org/docs/15/wal-reliability.html,server-administration/reliability-and-the-write-ahead-log/reliability.md,30.1. 可靠度,title/path
+30. 高可靠度及預寫日誌,30.2. Data Checksums,https://www.postgresql.org/docs/15/checksums.html,server-administration/reliability-and-the-write-ahead-log/30.2.-data-checksums.md,30.2. Data Checksums,title/path
+30. 高可靠度及預寫日誌,30.3. Write-Ahead Logging (WAL),https://www.postgresql.org/docs/15/wal-intro.html,server-administration/reliability-and-the-write-ahead-log/write-ahead-logging-wal.md,30.3. Write-Ahead Logging（WAL）,title/path
+30. 高可靠度及預寫日誌,30.4. Asynchronous Commit,https://www.postgresql.org/docs/15/wal-async-commit.html,server-administration/reliability-and-the-write-ahead-log/asynchronous-commit.md,30.4. Asynchronous Commit,title/path
+30. 高可靠度及預寫日誌,30.5. WAL Configuration,https://www.postgresql.org/docs/15/wal-configuration.html,server-administration/reliability-and-the-write-ahead-log/wal-configuration.md,30.5. WAL Configuration,title/path
+30. 高可靠度及預寫日誌,30.6. WAL Internals,https://www.postgresql.org/docs/15/wal-internals.html,server-administration/reliability-and-the-write-ahead-log/wal-internals.md,30.6. WAL Internals,title/path
+31. 邏輯複寫（Logical Replication）,31.1. Publication,https://www.postgresql.org/docs/15/logical-replication-publication.html,server-administration/logical-replication/publication.md,31.1. 發佈（Publication）,title/path
+31. 邏輯複寫（Logical Replication）,31.2. Subscription,https://www.postgresql.org/docs/15/logical-replication-subscription.html,server-administration/logical-replication/subscription.md,31.2. 訂閱（Subscription）,title/path
+31. 邏輯複寫（Logical Replication）,31.3. Row Filters,https://www.postgresql.org/docs/15/logical-replication-row-filter.html,server-administration/logical-replication/31.3.-row-filters.md,31.3. Row Filters,title/path
+31. 邏輯複寫（Logical Replication）,31.4. Column Lists,https://www.postgresql.org/docs/15/logical-replication-col-lists.html,server-administration/logical-replication/31.4.-column-lists.md,31.4. Column Lists,title/path
+31. 邏輯複寫（Logical Replication）,31.5. Conflicts,https://www.postgresql.org/docs/15/logical-replication-conflicts.html,server-administration/logical-replication/conflicts.md,31.5. 衝突處理,title/path
+31. 邏輯複寫（Logical Replication）,31.6. Restrictions,https://www.postgresql.org/docs/15/logical-replication-restrictions.html,server-administration/logical-replication/restrictions.md,31.6. 限制,title/path
+31. 邏輯複寫（Logical Replication）,31.7. Architecture,https://www.postgresql.org/docs/15/logical-replication-architecture.html,server-administration/logical-replication/architecture.md,31.7. 架構,title/path
+31. 邏輯複寫（Logical Replication）,31.8. Monitoring,https://www.postgresql.org/docs/15/logical-replication-monitoring.html,server-administration/logical-replication/monitoring.md,31.8. 監控,title/path
+31. 邏輯複寫（Logical Replication）,31.9. Security,https://www.postgresql.org/docs/15/logical-replication-security.html,server-administration/logical-replication/security.md,31.9. 安全性,title/path
+31. 邏輯複寫（Logical Replication）,31.10. Configuration Settings,https://www.postgresql.org/docs/15/logical-replication-config.html,server-administration/logical-replication/configuration-settings.md,31.10. 系統設定,title/path
+31. 邏輯複寫（Logical Replication）,31.11. Quick Setup,https://www.postgresql.org/docs/15/logical-replication-quick-setup.html,server-administration/logical-replication/quick-setup.md,31.11. 快速設定,title/path
+32. Just-in-Time Compilation（JIT）,32.1. What Is JIT compilation?,https://www.postgresql.org/docs/15/jit-reason.html,server-administration/just-in-time-compilation/what-is-jit-compilation.md,32.1. What is JIT compilation?,title/path
+32. Just-in-Time Compilation（JIT）,32.2. When to JIT?,https://www.postgresql.org/docs/15/jit-decision.html,server-administration/just-in-time-compilation/when-to-jit.md,32.2. When to JIT?,title/path
+32. Just-in-Time Compilation（JIT）,32.3. Configuration,https://www.postgresql.org/docs/15/jit-configuration.html,server-administration/just-in-time-compilation/configuration.md,32.3. Configuration,title/path
+32. Just-in-Time Compilation（JIT）,32.4. Extensibility,https://www.postgresql.org/docs/15/jit-extensibility.html,server-administration/just-in-time-compilation/extensibility.md,32.4. Extensibility,title/path
+33. 迴歸測試,33.1. Running the Tests,https://www.postgresql.org/docs/15/regress-run.html,server-administration/regression-tests/32.1.-running-the-tests.md,33.1. Running the Tests,title/path
+33. 迴歸測試,33.2. Test Evaluation,https://www.postgresql.org/docs/15/regress-evaluation.html,server-administration/regression-tests/32.2.-test-evaluation.md,33.2. Test Evaluation,title/path
+33. 迴歸測試,33.3. Variant Comparison Files,https://www.postgresql.org/docs/15/regress-variant.html,server-administration/regression-tests/32.3.-variant-comparison-files.md,33.3. Variant Comparison Files,title/path
+33. 迴歸測試,33.4. TAP Tests,https://www.postgresql.org/docs/15/regress-tap.html,server-administration/regression-tests/32.4.-tap-tests.md,33.4. TAP Tests,title/path
+33. 迴歸測試,33.5. Test Coverage Examination,https://www.postgresql.org/docs/15/regress-coverage.html,server-administration/regression-tests/32.5.-test-coverage-examination.md,33.5. Test Coverage Examination,title/path
+34. libpq - C Library,34.1. Database Connection Control Functions,https://www.postgresql.org/docs/15/libpq-connect.html,client-interfaces/libpq-c-library/database-connection-control-functions.md,33.1. 資料庫連線控制函數,title/path
+34. libpq - C Library,34.2. Connection Status Functions,https://www.postgresql.org/docs/15/libpq-status.html,client-interfaces/libpq-c-library/connection-status-functions.md,33.2. 連線狀態函數,title/path
+34. libpq - C Library,34.3. Command Execution Functions,https://www.postgresql.org/docs/15/libpq-exec.html,client-interfaces/libpq-c-library/connection-status-functions-2.md,33.3. Command Execution Functions,title/path
+34. libpq - C Library,34.4. Asynchronous Command Processing,https://www.postgresql.org/docs/15/libpq-async.html,client-interfaces/libpq-c-library/asynchronous-command-processing.md,33.4. Asynchronous Command Processing,title/path
+34. libpq - C Library,34.6. Retrieving Query Results Row-by-Row,https://www.postgresql.org/docs/15/libpq-single-row-mode.html,client-interfaces/libpq-c-library/retrieving-query-results-row-by-row.md,33.5. Retrieving Query Results Row-By-Row,title/path
+34. libpq - C Library,34.7. Canceling Queries in Progress,https://www.postgresql.org/docs/15/libpq-cancel.html,client-interfaces/libpq-c-library/33.6.-canceling-queries-in-progress.md,33.6. Canceling Queries in Progress,title/path
+34. libpq - C Library,34.8. The Fast-Path Interface,https://www.postgresql.org/docs/15/libpq-fastpath.html,client-interfaces/libpq-c-library/33.7.-the-fast-path-interface.md,33.7. The Fast-Path Interface,title/path
+34. libpq - C Library,34.9. Asynchronous Notification,https://www.postgresql.org/docs/15/libpq-notify.html,client-interfaces/libpq-c-library/33.8.-asynchronous-notification.md,33.8. Asynchronous Notification,title/path
+34. libpq - C Library,34.10. Functions Associated with the COPY Command,https://www.postgresql.org/docs/15/libpq-copy.html,client-interfaces/libpq-c-library/33.9.-functions-associated-with-the-copy-command.md,33.9. Functions Associated with the COPY Command,title/path
+34. libpq - C Library,34.11. Control Functions,https://www.postgresql.org/docs/15/libpq-control.html,client-interfaces/libpq-c-library/control-functions.md,33.10. Control Functions,title/path
+34. libpq - C Library,34.12. Miscellaneous Functions,https://www.postgresql.org/docs/15/libpq-misc.html,client-interfaces/libpq-c-library/33.11.-miscellaneous-functions.md,33.11. Miscellaneous Functions,title/path
+34. libpq - C Library,34.13. Notice Processing,https://www.postgresql.org/docs/15/libpq-notice-processing.html,client-interfaces/libpq-c-library/33.12.-notice-processing.md,33.12. Notice Processing,title/path
+34. libpq - C Library,34.14. Event System,https://www.postgresql.org/docs/15/libpq-events.html,client-interfaces/libpq-c-library/33.13.-event-system.md,33.13. Event System,title/path
+34. libpq - C Library,34.15. Environment Variables,https://www.postgresql.org/docs/15/libpq-envars.html,client-interfaces/libpq-c-library/environment-variables.md,33.14. 環境變數,title/path
+34. libpq - C Library,34.17. The Connection Service File,https://www.postgresql.org/docs/15/libpq-pgservice.html,client-interfaces/libpq-c-library/33.16.-the-connection-service-file.md,33.16. The Connection Service File,title/path
+34. libpq - C Library,34.18. LDAP Lookup of Connection Parameters,https://www.postgresql.org/docs/15/libpq-ldap.html,client-interfaces/libpq-c-library/33.17.-ldap-lookup-of-connection-parameters.md,33.17. LDAP Lookup of Connection Parameters,title/path
+34. libpq - C Library,34.19. SSL Support,https://www.postgresql.org/docs/15/libpq-ssl.html,client-interfaces/libpq-c-library/33.18.-ssl-support.md,33.18. SSL Support,title/path
+34. libpq - C Library,34.20. Behavior in Threaded Programs,https://www.postgresql.org/docs/15/libpq-threading.html,client-interfaces/libpq-c-library/33.19.-behavior-in-threaded-programs.md,33.19. Behavior in Threaded Programs,title/path
+34. libpq - C Library,34.21. Building libpq Programs,https://www.postgresql.org/docs/15/libpq-build.html,client-interfaces/libpq-c-library/33.20.-building-libpq-programs.md,33.20. Building libpq Programs,title/path
+34. libpq - C Library,34.22. Example Programs,https://www.postgresql.org/docs/15/libpq-example.html,client-interfaces/libpq-c-library/example-programs.md,33.21. Example Programs,title/path
+34. libpq - C Library,34.5. Pipeline Mode,https://www.postgresql.org/docs/15/libpq-pipeline-mode.html,,,unmapped-review
+34. libpq - C Library,34.16. The Password File,https://www.postgresql.org/docs/15/libpq-pgpass.html,client-interfaces/libpq-c-library/libpq-pgpass.md,34.16. 密碼檔,number-only-review
+35. Large Objects,35.1. Introduction,https://www.postgresql.org/docs/15/lo-intro.html,client-interfaces/34.-large-objects/34.1.-introduction.md,35.1. Introduction,title/path
+35. Large Objects,35.2. Implementation Features,https://www.postgresql.org/docs/15/lo-implementation.html,client-interfaces/34.-large-objects/34.2.-implementation-features.md,35.2. Implementation Features,title/path
+35. Large Objects,35.3. Client Interfaces,https://www.postgresql.org/docs/15/lo-interfaces.html,client-interfaces/34.-large-objects/34.3.-client-interfaces.md,35.3. Client Interfaces,title/path
+35. Large Objects,35.4. Server-Side Functions,https://www.postgresql.org/docs/15/lo-funcs.html,client-interfaces/34.-large-objects/34.4.-server-side-functions.md,35.4. Server-side Functions,title/path
+35. Large Objects,35.5. Example Program,https://www.postgresql.org/docs/15/lo-examplesect.html,client-interfaces/34.-large-objects/34.5.-example-program.md,35.5. Example Program,title/path
+36. ECPG - Embedded SQL in C,36.1. The Concept,https://www.postgresql.org/docs/15/ecpg-concept.html,client-interfaces/ecpg-embedded-sql-in-c/the-concept.md,35.1. The Concept,title/path
+36. ECPG - Embedded SQL in C,36.2. Managing Database Connections,https://www.postgresql.org/docs/15/ecpg-connect.html,client-interfaces/ecpg-embedded-sql-in-c/35.2.-managing-database-connections.md,35.2. Managing Database Connections,title/path
+36. ECPG - Embedded SQL in C,36.3. Running SQL Commands,https://www.postgresql.org/docs/15/ecpg-commands.html,client-interfaces/ecpg-embedded-sql-in-c/35.3.-running-sql-commands.md,35.3. Running SQL Commands,title/path
+36. ECPG - Embedded SQL in C,36.4. Using Host Variables,https://www.postgresql.org/docs/15/ecpg-variables.html,client-interfaces/ecpg-embedded-sql-in-c/35.4.-using-host-variables.md,35.4. Using Host Variables,title/path
+36. ECPG - Embedded SQL in C,36.5. Dynamic SQL,https://www.postgresql.org/docs/15/ecpg-dynamic.html,client-interfaces/ecpg-embedded-sql-in-c/35.5.-dynamic-sql.md,35.5. Dynamic SQL,title/path
+36. ECPG - Embedded SQL in C,36.6. pgtypes Library,https://www.postgresql.org/docs/15/ecpg-pgtypes.html,client-interfaces/ecpg-embedded-sql-in-c/35.6.-pgtypes-library.md,35.6. pgtypes Library,title/path
+36. ECPG - Embedded SQL in C,36.7. Using Descriptor Areas,https://www.postgresql.org/docs/15/ecpg-descriptors.html,client-interfaces/ecpg-embedded-sql-in-c/35.7.-using-descriptor-areas.md,35.7. Using Descriptor Areas,title/path
+36. ECPG - Embedded SQL in C,36.8. Error Handling,https://www.postgresql.org/docs/15/ecpg-errors.html,client-interfaces/ecpg-embedded-sql-in-c/35.8.-error-handling.md,35.8. Error Handling,title/path
+36. ECPG - Embedded SQL in C,36.9. Preprocessor Directives,https://www.postgresql.org/docs/15/ecpg-preproc.html,client-interfaces/ecpg-embedded-sql-in-c/35.9.-preprocessor-directives.md,35.9. Preprocessor Directives,title/path
+36. ECPG - Embedded SQL in C,36.10. Processing Embedded SQL Programs,https://www.postgresql.org/docs/15/ecpg-process.html,client-interfaces/ecpg-embedded-sql-in-c/35.10.-processing-embedded-sql-programs.md,35.10. Processing Embedded SQL Programs,title/path
+36. ECPG - Embedded SQL in C,36.11. Library Functions,https://www.postgresql.org/docs/15/ecpg-library.html,client-interfaces/ecpg-embedded-sql-in-c/35.11.-library-functions.md,35.11. Library Functions,title/path
+36. ECPG - Embedded SQL in C,36.12. Large Objects,https://www.postgresql.org/docs/15/ecpg-lo.html,client-interfaces/ecpg-embedded-sql-in-c/35.12.-large-objects.md,35.12. Large Objects,title/path
+36. ECPG - Embedded SQL in C,36.13. C++ Applications,https://www.postgresql.org/docs/15/ecpg-cpp.html,client-interfaces/ecpg-embedded-sql-in-c/35.13.-c++-applications.md,35.13. C++ Applications,title/path
+36. ECPG - Embedded SQL in C,36.14. Embedded SQL Commands,https://www.postgresql.org/docs/15/ecpg-sql-commands.html,client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands.md,35.14. Embedded SQL Commands,title/path
+36. ECPG - Embedded SQL in C,36.15. Informix Compatibility Mode,https://www.postgresql.org/docs/15/ecpg-informix-compat.html,client-interfaces/ecpg-embedded-sql-in-c/35.15.-informix-compatibility-mode.md,35.15. Informix Compatibility Mode,title/path
+36. ECPG - Embedded SQL in C,36.17. Internals,https://www.postgresql.org/docs/15/ecpg-develop.html,client-interfaces/ecpg-embedded-sql-in-c/35.16.-internals.md,35.16. Internals,title/path
+36. ECPG - Embedded SQL in C,36.16. Oracle Compatibility Mode,https://www.postgresql.org/docs/15/ecpg-oracle-compat.html,,,unmapped-review
+37. The Information Schema,37.1. The Schema,https://www.postgresql.org/docs/15/infoschema-schema.html,client-interfaces/the-information-schema/the-schema.md,37.1. The Schema,title/path
+37. The Information Schema,37.2. Data Types,https://www.postgresql.org/docs/15/infoschema-datatypes.html,client-interfaces/the-information-schema/data-types.md,37.2. Data Types,title/path
+37. The Information Schema,37.3. information_schema_catalog_name,https://www.postgresql.org/docs/15/infoschema-information-schema-catalog-name.html,client-interfaces/the-information-schema/information_schema_catalog_name.md,37.3. information_schema_catalog_name,title/path
+37. The Information Schema,37.4. administrable_role_​authorizations,https://www.postgresql.org/docs/15/infoschema-administrable-role-authorizations.html,client-interfaces/the-information-schema/administrable_role_authorizations.md,37.4. administrable_role_authorizations,title/path
+37. The Information Schema,37.5. applicable_roles,https://www.postgresql.org/docs/15/infoschema-applicable-roles.html,client-interfaces/the-information-schema/applicable_roles.md,37.5. applicable_roles,title/path
+37. The Information Schema,37.6. attributes,https://www.postgresql.org/docs/15/infoschema-attributes.html,client-interfaces/the-information-schema/attributes.md,37.7. attributes,title/path
+37. The Information Schema,37.7. character_sets,https://www.postgresql.org/docs/15/infoschema-character-sets.html,client-interfaces/the-information-schema/character_sets.md,37.7. character_sets,title/path
+37. The Information Schema,37.8. check_constraint_routine_usage,https://www.postgresql.org/docs/15/infoschema-check-constraint-routine-usage.html,client-interfaces/the-information-schema/check_constraint_routine_usage.md,37.8. check_constraint_routine_usage,title/path
+37. The Information Schema,37.9. check_constraints,https://www.postgresql.org/docs/15/infoschema-check-constraints.html,client-interfaces/the-information-schema/check_constraints.md,37.9. check_constraints,title/path
+37. The Information Schema,37.10. collations,https://www.postgresql.org/docs/15/infoschema-collations.html,client-interfaces/the-information-schema/collations.md,37.10. collations,title/path
+37. The Information Schema,37.11. collation_character_set_​applicability,https://www.postgresql.org/docs/15/infoschema-collation-character-set-applicab.html,client-interfaces/the-information-schema/collation_character_set_applicability.md,37.11. collation_character_set_applicability,title/path
+37. The Information Schema,37.12. column_column_usage,https://www.postgresql.org/docs/15/infoschema-column-column-usage.html,client-interfaces/the-information-schema/column_column_usage.md,37.12. column_column_usage,title/path
+37. The Information Schema,37.13. column_domain_usage,https://www.postgresql.org/docs/15/infoschema-column-domain-usage.html,client-interfaces/the-information-schema/36.12.-column_domain_usage.md,37.13. column_domain_usage,title/path
+37. The Information Schema,37.14. column_options,https://www.postgresql.org/docs/15/infoschema-column-options.html,client-interfaces/the-information-schema/column_options.md,37.14. column_options,title/path
+37. The Information Schema,37.15. column_privileges,https://www.postgresql.org/docs/15/infoschema-column-privileges.html,client-interfaces/the-information-schema/column_privileges.md,37.15. column_privileges,title/path
+37. The Information Schema,37.16. column_udt_usage,https://www.postgresql.org/docs/15/infoschema-column-udt-usage.html,client-interfaces/the-information-schema/column_udt_usage.md,37.16. column_udt_usage,title/path
+37. The Information Schema,37.17. columns,https://www.postgresql.org/docs/15/infoschema-columns.html,client-interfaces/the-information-schema/columns.md,37.17. columns,title/path
+37. The Information Schema,37.18. constraint_column_usage,https://www.postgresql.org/docs/15/infoschema-constraint-column-usage.html,client-interfaces/the-information-schema/constraint_column_usage.md,37.18. constraint_column_usage,title/path
+37. The Information Schema,37.19. constraint_table_usage,https://www.postgresql.org/docs/15/infoschema-constraint-table-usage.html,client-interfaces/the-information-schema/constraint_table_usage.md,37.19. constraint_table_usage,title/path
+37. The Information Schema,37.20. data_type_privileges,https://www.postgresql.org/docs/15/infoschema-data-type-privileges.html,client-interfaces/the-information-schema/data_type_privileges.md,37.20. data_type_privileges,title/path
+37. The Information Schema,37.21. domain_constraints,https://www.postgresql.org/docs/15/infoschema-domain-constraints.html,client-interfaces/the-information-schema/domain_constraints.md,37.21. domain_constraints,title/path
+37. The Information Schema,37.22. domain_udt_usage,https://www.postgresql.org/docs/15/infoschema-domain-udt-usage.html,client-interfaces/the-information-schema/36.21.-domain_udt_usage.md,37.21. domain_udt_usage,title/path
+37. The Information Schema,37.23. domains,https://www.postgresql.org/docs/15/infoschema-domains.html,client-interfaces/the-information-schema/36.22.-domains.md,37.22. domains,title/path
+37. The Information Schema,37.24. element_types,https://www.postgresql.org/docs/15/infoschema-element-types.html,client-interfaces/the-information-schema/36.23.-element_types.md,37.23. element_types,title/path
+37. The Information Schema,37.25. enabled_roles,https://www.postgresql.org/docs/15/infoschema-enabled-roles.html,client-interfaces/the-information-schema/36.24.-enabled_roles.md,37.24. enabled_roles,title/path
+37. The Information Schema,37.26. foreign_data_wrapper_options,https://www.postgresql.org/docs/15/infoschema-foreign-data-wrapper-options.html,client-interfaces/the-information-schema/36.25.-foreign_data_wrapper_options.md,37.25. foreign_data_wrapper_options,title/path
+37. The Information Schema,37.27. foreign_data_wrappers,https://www.postgresql.org/docs/15/infoschema-foreign-data-wrappers.html,client-interfaces/the-information-schema/36.26.-foreign_data_wrappers.md,37.26. foreign_data_wrappers,title/path
+37. The Information Schema,37.28. foreign_server_options,https://www.postgresql.org/docs/15/infoschema-foreign-server-options.html,client-interfaces/the-information-schema/36.27.-foreign_server_options.md,37.27. foreign_server_options,title/path
+37. The Information Schema,37.29. foreign_servers,https://www.postgresql.org/docs/15/infoschema-foreign-servers.html,client-interfaces/the-information-schema/36.28.-foreign_servers.md,37.28. foreign_servers,title/path
+37. The Information Schema,37.30. foreign_table_options,https://www.postgresql.org/docs/15/infoschema-foreign-table-options.html,client-interfaces/the-information-schema/36.29.-foreign_table_options.md,37.29. foreign_table_options,title/path
+37. The Information Schema,37.31. foreign_tables,https://www.postgresql.org/docs/15/infoschema-foreign-tables.html,client-interfaces/the-information-schema/36.30.-foreign_tables.md,37.30. foreign_tables,title/path
+37. The Information Schema,37.32. key_column_usage,https://www.postgresql.org/docs/15/infoschema-key-column-usage.html,client-interfaces/the-information-schema/key_column_usage.md,36.32. key_column_usage,title/path
+37. The Information Schema,37.33. parameters,https://www.postgresql.org/docs/15/infoschema-parameters.html,client-interfaces/the-information-schema/parameters.md,37.33. parameters,title/path
+37. The Information Schema,37.34. referential_constraints,https://www.postgresql.org/docs/15/infoschema-referential-constraints.html,client-interfaces/the-information-schema/referential_constraints.md,36.34. referential_constraints,title/path
+37. The Information Schema,37.35. role_column_grants,https://www.postgresql.org/docs/15/infoschema-role-column-grants.html,client-interfaces/the-information-schema/36.34.-role_column_grants.md,37.34. role_column_grants,title/path
+37. The Information Schema,37.36. role_routine_grants,https://www.postgresql.org/docs/15/infoschema-role-routine-grants.html,client-interfaces/the-information-schema/36.35.-role_routine_grants.md,37.35. role_routine_grants,title/path
+37. The Information Schema,37.37. role_table_grants,https://www.postgresql.org/docs/15/infoschema-role-table-grants.html,client-interfaces/the-information-schema/role_table_grants.md,37.37. role_table_grants,title/path
+37. The Information Schema,37.38. role_udt_grants,https://www.postgresql.org/docs/15/infoschema-role-udt-grants.html,client-interfaces/the-information-schema/role_udt_grants.md,37.38. role_udt_grants,title/path
+37. The Information Schema,37.39. role_usage_grants,https://www.postgresql.org/docs/15/infoschema-role-usage-grants.html,client-interfaces/the-information-schema/role_usage_grants.md,37.39. role_usage_grants,title/path
+37. The Information Schema,37.40. routine_column_usage,https://www.postgresql.org/docs/15/infoschema-routine-column-usage.html,client-interfaces/the-information-schema/routine_column_usage.md,37.40. routine_column_usage,title/path
+37. The Information Schema,37.41. routine_privileges,https://www.postgresql.org/docs/15/infoschema-routine-privileges.html,client-interfaces/the-information-schema/routine_privileges.md,37.41. routine_privileges,title/path
+37. The Information Schema,37.45. routines,https://www.postgresql.org/docs/15/infoschema-routines.html,client-interfaces/the-information-schema/36.40.-routines.md,37.45. routines,title/path
+37. The Information Schema,37.46. schemata,https://www.postgresql.org/docs/15/infoschema-schemata.html,client-interfaces/the-information-schema/schemata.md,37.46. schemata,title/path
+37. The Information Schema,37.47. sequences,https://www.postgresql.org/docs/15/infoschema-sequences.html,client-interfaces/the-information-schema/36.42.-sequences.md,37.47. sequences,title/path
+37. The Information Schema,37.48. sql_features,https://www.postgresql.org/docs/15/infoschema-sql-features.html,client-interfaces/the-information-schema/36.43.-sql_features.md,37.48. sql_features,title/path
+37. The Information Schema,37.49. sql_implementation_info,https://www.postgresql.org/docs/15/infoschema-sql-implementation-info.html,client-interfaces/the-information-schema/36.44.-sql_implementation_info.md,37.49. sql_implementation_info,title/path
+37. The Information Schema,37.50. sql_parts,https://www.postgresql.org/docs/15/infoschema-sql-parts.html,client-interfaces/the-information-schema/36.47.-sql_parts.md,37.50. sql_parts,title/path
+37. The Information Schema,37.51. sql_sizing,https://www.postgresql.org/docs/15/infoschema-sql-sizing.html,client-interfaces/the-information-schema/36.48.-sql_sizing.md,37.51. sql_sizing,title/path
+37. The Information Schema,37.52. table_constraints,https://www.postgresql.org/docs/15/infoschema-table-constraints.html,client-interfaces/the-information-schema/table_constraints.md,36.51. table_constraints,title/path
+37. The Information Schema,37.53. table_privileges,https://www.postgresql.org/docs/15/infoschema-table-privileges.html,client-interfaces/the-information-schema/36.51.-table_privileges.md,36.49. table_privileges,title/path
+37. The Information Schema,37.54. tables,https://www.postgresql.org/docs/15/infoschema-tables.html,client-interfaces/the-information-schema/36.52.-tables.md,37.52. tables,title/path
+37. The Information Schema,37.55. transforms,https://www.postgresql.org/docs/15/infoschema-transforms.html,client-interfaces/the-information-schema/36.53.-transforms.md,37.53. transforms,title/path
+37. The Information Schema,37.56. triggered_update_columns,https://www.postgresql.org/docs/15/infoschema-triggered-update-columns.html,client-interfaces/the-information-schema/36.54.-triggered_update_columns.md,37.54. triggered_update_columns,title/path
+37. The Information Schema,37.57. triggers,https://www.postgresql.org/docs/15/infoschema-triggers.html,client-interfaces/the-information-schema/36.55.-triggers.md,37.55. triggers,title/path
+37. The Information Schema,37.58. udt_privileges,https://www.postgresql.org/docs/15/infoschema-udt-privileges.html,client-interfaces/the-information-schema/36.56.-udt_privileges.md,37.56. udt_privileges,title/path
+37. The Information Schema,37.59. usage_privileges,https://www.postgresql.org/docs/15/infoschema-usage-privileges.html,client-interfaces/the-information-schema/36.57.-usage_privileges.md,37.57. usage_privileges,title/path
+37. The Information Schema,37.60. user_defined_types,https://www.postgresql.org/docs/15/infoschema-user-defined-types.html,client-interfaces/the-information-schema/36.58.-user_defined_types.md,37.58. user_defined_types,title/path
+37. The Information Schema,37.61. user_mapping_options,https://www.postgresql.org/docs/15/infoschema-user-mapping-options.html,client-interfaces/the-information-schema/36.59.-user_mapping_options.md,37.59. user_mapping_options,title/path
+37. The Information Schema,37.62. user_mappings,https://www.postgresql.org/docs/15/infoschema-user-mappings.html,client-interfaces/the-information-schema/36.60.-user_mappings.md,37.60. user_mappings,title/path
+37. The Information Schema,37.63. view_column_usage,https://www.postgresql.org/docs/15/infoschema-view-column-usage.html,client-interfaces/the-information-schema/view_column_usage.md,37.63. view_column_usage,title/path
+37. The Information Schema,37.64. view_routine_usage,https://www.postgresql.org/docs/15/infoschema-view-routine-usage.html,client-interfaces/the-information-schema/view_routine_usage.md,37.64. view_routine_usage,title/path
+37. The Information Schema,37.65. view_table_usage,https://www.postgresql.org/docs/15/infoschema-view-table-usage.html,client-interfaces/the-information-schema/view_table_usage.md,37.65. view_table_usage,title/path
+37. The Information Schema,37.66. views,https://www.postgresql.org/docs/15/infoschema-views.html,client-interfaces/the-information-schema/views.md,37.66. views,title/path
+37. The Information Schema,37.42. routine_routine_usage,https://www.postgresql.org/docs/15/infoschema-routine-routine-usage.html,,,unmapped-review
+37. The Information Schema,37.43. routine_sequence_usage,https://www.postgresql.org/docs/15/infoschema-routine-sequence-usage.html,,,unmapped-review
+37. The Information Schema,37.44. routine_table_usage,https://www.postgresql.org/docs/15/infoschema-routine-table-usage.html,,,unmapped-review
+38. SQL 延伸功能,38.1. How Extensibility Works,https://www.postgresql.org/docs/15/extend-how.html,server-programming/extending-sql/37.1.-how-extensibility-works.md,38.1. How Extensibility Works,title/path
+38. SQL 延伸功能,38.2. The PostgreSQL Type System,https://www.postgresql.org/docs/15/extend-type-system.html,server-programming/extending-sql/37.2.-the-postgresql-type-system.md,38.2. The PostgreSQL Type System,title/path
+38. SQL 延伸功能,38.3. User-Defined Functions,https://www.postgresql.org/docs/15/xfunc.html,server-programming/extending-sql/user-defined-functions.md,38.3. 使用者自訂函數,title/path
+38. SQL 延伸功能,38.4. User-Defined Procedures,https://www.postgresql.org/docs/15/xproc.html,server-programming/extending-sql/user-defined-procedures.md,38.4. User-defined Procedures,title/path
+38. SQL 延伸功能,38.5. Query Language (SQL) Functions,https://www.postgresql.org/docs/15/xfunc-sql.html,server-programming/extending-sql/query-language-sql-functions.md,38.5. Query Language (SQL) Functions,title/path
+38. SQL 延伸功能,38.6. Function Overloading,https://www.postgresql.org/docs/15/xfunc-overload.html,server-programming/extending-sql/function-overloading.md,38.6. Function Overloading,title/path
+38. SQL 延伸功能,38.7. Function Volatility Categories,https://www.postgresql.org/docs/15/xfunc-volatility.html,server-programming/extending-sql/function-volatility-categories.md,38.7. 函數易變性類別,title/path
+38. SQL 延伸功能,38.8. Procedural Language Functions,https://www.postgresql.org/docs/15/xfunc-pl.html,server-programming/extending-sql/procedural-language-functions.md,38.8. Procedural Language Functions,title/path
+38. SQL 延伸功能,38.9. Internal Functions,https://www.postgresql.org/docs/15/xfunc-internal.html,server-programming/extending-sql/internal-functions.md,38.9. Internal Functions,title/path
+38. SQL 延伸功能,38.10. C-Language Functions,https://www.postgresql.org/docs/15/xfunc-c.html,server-programming/extending-sql/c-language-functions.md,38.10. C-Language Functions,title/path
+38. SQL 延伸功能,38.11. Function Optimization Information,https://www.postgresql.org/docs/15/xfunc-optimization.html,server-programming/extending-sql/function-optimization-information.md,38.11. Function Optimization Information,title/path
+38. SQL 延伸功能,38.12. User-Defined Aggregates,https://www.postgresql.org/docs/15/xaggr.html,server-programming/extending-sql/user-defined-aggregates.md,38.12. User-defined Aggregates,title/path
+38. SQL 延伸功能,38.13. User-Defined Types,https://www.postgresql.org/docs/15/xtypes.html,server-programming/extending-sql/user-defined-types.md,38.13. User-defined Types,title/path
+38. SQL 延伸功能,38.14. User-Defined Operators,https://www.postgresql.org/docs/15/xoper.html,server-programming/extending-sql/user-defined-operators.md,38.14. User-defined Operators,title/path
+38. SQL 延伸功能,38.15. Operator Optimization Information,https://www.postgresql.org/docs/15/xoper-optimization.html,server-programming/extending-sql/operator-optimization-information.md,38.15. Operator Optimization Information,title/path
+38. SQL 延伸功能,38.16. Interfacing Extensions to Indexes,https://www.postgresql.org/docs/15/xindex.html,server-programming/extending-sql/interfacing-extensions-to-indexes.md,38.16. Interfacing Extensions To Indexes,title/path
+38. SQL 延伸功能,38.17. Packaging Related Objects into an Extension,https://www.postgresql.org/docs/15/extend-extensions.html,server-programming/extending-sql/packaging-related-objects-into-an-extension.md,38.17. 封裝相關物件到延伸功能中,title/path
+38. SQL 延伸功能,38.18. Extension Building Infrastructure,https://www.postgresql.org/docs/15/extend-pgxs.html,server-programming/extending-sql/extension-building-infrastructure.md,38.18. Extension Building Infrastructure,title/path
+39. Triggers,39.1. Overview of Trigger Behavior,https://www.postgresql.org/docs/15/trigger-definition.html,server-programming/triggers/overview-of-trigger-behavior.md,39.1. Overview of Trigger Behavior,title/path
+39. Triggers,39.2. Visibility of Data Changes,https://www.postgresql.org/docs/15/trigger-datachanges.html,server-programming/triggers/visibility-of-data-changes.md,39.2. Visibility of Data Changes,title/path
+39. Triggers,39.3. Writing Trigger Functions in C,https://www.postgresql.org/docs/15/trigger-interface.html,server-programming/triggers/writing-trigger-functions-in-c.md,39.3. Writing Trigger Functions in C,title/path
+39. Triggers,39.4. A Complete Trigger Example,https://www.postgresql.org/docs/15/trigger-example.html,server-programming/triggers/a-complete-trigger-example.md,39.4. A Complete Trigger Example,title/path
+40. Event Triggers (事件觸發),40.1. Overview of Event Trigger Behavior,https://www.postgresql.org/docs/15/event-trigger-definition.html,server-programming/event-triggers/overview-of-event-trigger-behavior.md,40.1. Overview of Event Trigger Behavior,title/path
+40. Event Triggers (事件觸發),40.2. Event Trigger Firing Matrix,https://www.postgresql.org/docs/15/event-trigger-matrix.html,server-programming/event-triggers/event-trigger-firing-matrix.md,40.2. Event Trigger Firing Matrix,title/path
+40. Event Triggers (事件觸發),40.3. Writing Event Trigger Functions in C,https://www.postgresql.org/docs/15/event-trigger-interface.html,server-programming/event-triggers/writing-event-trigger-functions-in-c.md,40.3. Writing Event Trigger Functions in C,title/path
+40. Event Triggers (事件觸發),40.4. A Complete Event Trigger Example,https://www.postgresql.org/docs/15/event-trigger-example.html,server-programming/event-triggers/a-complete-event-trigger-example.md,40.4. A Complete Event Trigger Example,title/path
+40. Event Triggers (事件觸發),40.5. A Table Rewrite Event Trigger Example,https://www.postgresql.org/docs/15/event-trigger-table-rewrite-example.html,,,unmapped-review
+41. 規則系統,41.1. The Query Tree,https://www.postgresql.org/docs/15/querytree.html,server-programming/the-rule-system/the-query-tree.md,41.1. The Query Tree,title/path
+41. 規則系統,41.2. Views and the Rule System,https://www.postgresql.org/docs/15/rules-views.html,server-programming/the-rule-system/views-and-the-rule-system.md,41.2. Views and the Rule System,title/path
+41. 規則系統,41.3. Materialized Views,https://www.postgresql.org/docs/15/rules-materializedviews.html,server-programming/the-rule-system/materialized-views.md,41.3. Materialized Views,title/path
+41. 規則系統,"41.4. Rules on INSERT, UPDATE, and DELETE",https://www.postgresql.org/docs/15/rules-update.html,server-programming/the-rule-system/rules-on-insert-update-and-delete.md,"41.4. Rules on INSERT, UPDATE, and DELETE",title/path
+41. 規則系統,41.5. Rules and Privileges,https://www.postgresql.org/docs/15/rules-privileges.html,server-programming/the-rule-system/rules-and-privileges.md,41.5. 規則及權限,title/path
+41. 規則系統,41.6. Rules and Command Status,https://www.postgresql.org/docs/15/rules-status.html,server-programming/the-rule-system/rules-and-command-status.md,41.6. Rules and Command Status,title/path
+41. 規則系統,41.7. Rules Versus Triggers,https://www.postgresql.org/docs/15/rules-triggers.html,server-programming/the-rule-system/rules-versus-triggers.md,41.7. Rules Versus Triggers,title/path
+42. Procedural Languages（程序語言）,42.1. Installing Procedural Languages,https://www.postgresql.org/docs/15/xplang-install.html,server-programming/procedural-languages/installing-procedural-languages.md,42.1. Installing Procedural Languages,title/path
+43. PL/pgSQL - SQL Procedural Language,43.1. Overview,https://www.postgresql.org/docs/15/plpgsql-overview.html,server-programming/pl-pgsql-sql-procedural-language/overview.md,43.1. Overview,title/path
+43. PL/pgSQL - SQL Procedural Language,43.2. Structure of PL/pgSQL,https://www.postgresql.org/docs/15/plpgsql-structure.html,server-programming/pl-pgsql-sql-procedural-language/structure-of-pl-pgsql.md,43.2. Structure of PL/pgSQL,title/path
+43. PL/pgSQL - SQL Procedural Language,43.3. Declarations,https://www.postgresql.org/docs/15/plpgsql-declarations.html,server-programming/pl-pgsql-sql-procedural-language/declarations.md,43.3. Declarations,title/path
+43. PL/pgSQL - SQL Procedural Language,43.4. Expressions,https://www.postgresql.org/docs/15/plpgsql-expressions.html,server-programming/pl-pgsql-sql-procedural-language/expressions.md,43.4. Expressions,title/path
+43. PL/pgSQL - SQL Procedural Language,43.5. Basic Statements,https://www.postgresql.org/docs/15/plpgsql-statements.html,server-programming/pl-pgsql-sql-procedural-language/basic-statements.md,43.5. 基本語法,title/path
+43. PL/pgSQL - SQL Procedural Language,43.6. Control Structures,https://www.postgresql.org/docs/15/plpgsql-control-structures.html,server-programming/pl-pgsql-sql-procedural-language/control-structures.md,43.6. Control Structures,title/path
+43. PL/pgSQL - SQL Procedural Language,43.7. Cursors,https://www.postgresql.org/docs/15/plpgsql-cursors.html,server-programming/pl-pgsql-sql-procedural-language/43.7.-cursors.md,43.7. Cursors,title/path
+43. PL/pgSQL - SQL Procedural Language,43.8. Transaction Management,https://www.postgresql.org/docs/15/plpgsql-transactions.html,server-programming/pl-pgsql-sql-procedural-language/43.8.-transaction-management.md,43.8. Transaction Management,title/path
+43. PL/pgSQL - SQL Procedural Language,43.9. Errors and Messages,https://www.postgresql.org/docs/15/plpgsql-errors-and-messages.html,server-programming/pl-pgsql-sql-procedural-language/43.9.-errors-and-messages.md,43.9. Errors and Messages,title/path
+43. PL/pgSQL - SQL Procedural Language,43.10. Trigger Functions,https://www.postgresql.org/docs/15/plpgsql-trigger.html,server-programming/pl-pgsql-sql-procedural-language/43.10.-trigger-functions.md,43.10. Trigger Functions,title/path
+43. PL/pgSQL - SQL Procedural Language,43.11. PL/pgSQL under the Hood,https://www.postgresql.org/docs/15/plpgsql-implementation.html,server-programming/pl-pgsql-sql-procedural-language/43.11.-pl-pgsql-under-the-hood.md,43.11. PL/pgSQL under the Hood,title/path
+43. PL/pgSQL - SQL Procedural Language,43.12. Tips for Developing in PL/pgSQL,https://www.postgresql.org/docs/15/plpgsql-development-tips.html,server-programming/pl-pgsql-sql-procedural-language/43.12.-tips-for-developing-in-pl-pgsql.md,43.12. Tips for Developing in PL/pgSQL,title/path
+43. PL/pgSQL - SQL Procedural Language,43.13. Porting from Oracle PL/SQL,https://www.postgresql.org/docs/15/plpgsql-porting.html,server-programming/pl-pgsql-sql-procedural-language/43.13.-porting-from-oracle-pl-sql.md,43.13. Porting from Oracle PL/SQL,title/path
+44. PL/Tcl - Tcl Procedural Language,44.1. Overview,https://www.postgresql.org/docs/15/pltcl-overview.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.2. PL/Tcl Functions and Arguments,https://www.postgresql.org/docs/15/pltcl-functions.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.3. Data Values in PL/Tcl,https://www.postgresql.org/docs/15/pltcl-data.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.4. Global Data in PL/Tcl,https://www.postgresql.org/docs/15/pltcl-global.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.5. Database Access from PL/Tcl,https://www.postgresql.org/docs/15/pltcl-dbaccess.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.6. Trigger Functions in PL/Tcl,https://www.postgresql.org/docs/15/pltcl-trigger.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.7. Event Trigger Functions in PL/Tcl,https://www.postgresql.org/docs/15/pltcl-event-trigger.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.8. Error Handling in PL/Tcl,https://www.postgresql.org/docs/15/pltcl-error-handling.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.9. Explicit Subtransactions in PL/Tcl,https://www.postgresql.org/docs/15/pltcl-subtransactions.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.10. Transaction Management,https://www.postgresql.org/docs/15/pltcl-transactions.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.11. PL/Tcl Configuration,https://www.postgresql.org/docs/15/pltcl-config.html,,,unmapped-review
+44. PL/Tcl - Tcl Procedural Language,44.12. Tcl Procedure Names,https://www.postgresql.org/docs/15/pltcl-procnames.html,,,unmapped-review
+45. PL/Perl — Perl Procedural Language,45.1. PL/Perl Functions and Arguments,https://www.postgresql.org/docs/15/plperl-funcs.html,,,unmapped-review
+45. PL/Perl — Perl Procedural Language,45.2. Data Values in PL/Perl,https://www.postgresql.org/docs/15/plperl-data.html,,,unmapped-review
+45. PL/Perl — Perl Procedural Language,45.3. Built-in Functions,https://www.postgresql.org/docs/15/plperl-builtins.html,,,unmapped-review
+45. PL/Perl — Perl Procedural Language,45.4. Global Values in PL/Perl,https://www.postgresql.org/docs/15/plperl-global.html,,,unmapped-review
+45. PL/Perl — Perl Procedural Language,45.5. Trusted and Untrusted PL/Perl,https://www.postgresql.org/docs/15/plperl-trusted.html,,,unmapped-review
+45. PL/Perl — Perl Procedural Language,45.6. PL/Perl Triggers,https://www.postgresql.org/docs/15/plperl-triggers.html,,,unmapped-review
+45. PL/Perl — Perl Procedural Language,45.7. PL/Perl Event Triggers,https://www.postgresql.org/docs/15/plperl-event-triggers.html,,,unmapped-review
+45. PL/Perl — Perl Procedural Language,45.8. PL/Perl Under the Hood,https://www.postgresql.org/docs/15/plperl-under-the-hood.html,,,unmapped-review
+46. PL/Python - Python Procedural Language,46.1. PL/Python Functions,https://www.postgresql.org/docs/15/plpython-funcs.html,server-programming/pl-python-python-procedural-language-1/pl-python-functions.md,46.1. PL/Python Functions,title/path
+46. PL/Python - Python Procedural Language,46.2. Data Values,https://www.postgresql.org/docs/15/plpython-data.html,server-programming/pl-python-python-procedural-language-1/data-values.md,46.2. Data Values,title/path
+46. PL/Python - Python Procedural Language,46.3. Sharing Data,https://www.postgresql.org/docs/15/plpython-sharing.html,server-programming/pl-python-python-procedural-language-1/sharing-data.md,46.3. Sharing Data,title/path
+46. PL/Python - Python Procedural Language,46.4. Anonymous Code Blocks,https://www.postgresql.org/docs/15/plpython-do.html,server-programming/pl-python-python-procedural-language-1/anonymous-code-blocks.md,46.4. Anonymous Code Blocks,title/path
+46. PL/Python - Python Procedural Language,46.5. Trigger Functions,https://www.postgresql.org/docs/15/plpython-trigger.html,server-programming/pl-python-python-procedural-language-1/trigger-functions.md,46.5. Trigger Functions,title/path
+46. PL/Python - Python Procedural Language,46.6. Database Access,https://www.postgresql.org/docs/15/plpython-database.html,server-programming/pl-python-python-procedural-language-1/database-access.md,46.6. Database Access,title/path
+46. PL/Python - Python Procedural Language,46.7. Explicit Subtransactions,https://www.postgresql.org/docs/15/plpython-subtransaction.html,server-programming/pl-python-python-procedural-language-1/explicit-subtransactions.md,46.7. Explicit Subtransactions,title/path
+46. PL/Python - Python Procedural Language,46.8. Transaction Management,https://www.postgresql.org/docs/15/plpython-transactions.html,server-programming/pl-python-python-procedural-language-1/transaction-management.md,46.8. Transaction Management,title/path
+46. PL/Python - Python Procedural Language,46.9. Utility Functions,https://www.postgresql.org/docs/15/plpython-util.html,server-programming/pl-python-python-procedural-language-1/utility-functions.md,46.9. Utility Functions,title/path
+46. PL/Python - Python Procedural Language,46.10. Python 2 vs. Python 3,https://www.postgresql.org/docs/15/plpython-python23.html,server-programming/pl-python-python-procedural-language-1/python-2-vs.-python-3.md,46.10. Python 2 vs. Python 3,title/path
+46. PL/Python - Python Procedural Language,46.11. Environment Variables,https://www.postgresql.org/docs/15/plpython-envar.html,server-programming/pl-python-python-procedural-language-1/environment-variables.md,46.11. Environment Variables,title/path
+47. Server Programming Interface,47.1. Interface Functions,https://www.postgresql.org/docs/15/spi-interface.html,,,unmapped-review
+47. Server Programming Interface,47.2. Interface Support Functions,https://www.postgresql.org/docs/15/spi-interface-support.html,,,unmapped-review
+47. Server Programming Interface,47.3. Memory Management,https://www.postgresql.org/docs/15/spi-memory.html,,,unmapped-review
+47. Server Programming Interface,47.4. Transaction Management,https://www.postgresql.org/docs/15/spi-transaction.html,,,unmapped-review
+47. Server Programming Interface,47.5. Visibility of Data Changes,https://www.postgresql.org/docs/15/spi-visibility.html,,,unmapped-review
+47. Server Programming Interface,47.6. Examples,https://www.postgresql.org/docs/15/spi-examples.html,,,unmapped-review
+49. Logical Decoding,49.1. Logical Decoding Examples,https://www.postgresql.org/docs/15/logicaldecoding-example.html,server-programming/logical-decoding/logical-decoding-examples.md,48.1. Logical Decoding Examples,title/path
+49. Logical Decoding,49.2. Logical Decoding Concepts,https://www.postgresql.org/docs/15/logicaldecoding-explanation.html,server-programming/logical-decoding/logical-decoding-concepts.md,48.2. Logical Decoding Concepts,title/path
+49. Logical Decoding,49.3. Streaming Replication Protocol Interface,https://www.postgresql.org/docs/15/logicaldecoding-walsender.html,server-programming/logical-decoding/streaming-replication-protocol-interface.md,48.3. Streaming Replication Protocol Interface,title/path
+49. Logical Decoding,49.4. Logical Decoding SQL Interface,https://www.postgresql.org/docs/15/logicaldecoding-sql.html,server-programming/logical-decoding/logical-decoding-sql-interface.md,48.4. Logical Decoding SQL Interface,title/path
+49. Logical Decoding,49.5. System Catalogs Related to Logical Decoding,https://www.postgresql.org/docs/15/logicaldecoding-catalogs.html,server-programming/logical-decoding/system-catalogs-related-to-logical-decoding.md,48.5. System Catalogs Related to Logical Decoding,title/path
+49. Logical Decoding,49.6. Logical Decoding Output Plugins,https://www.postgresql.org/docs/15/logicaldecoding-output-plugin.html,server-programming/logical-decoding/logical-decoding-output-plugins.md,48.6. Logical Decoding Output Plugins,title/path
+49. Logical Decoding,49.7. Logical Decoding Output Writers,https://www.postgresql.org/docs/15/logicaldecoding-writer.html,server-programming/logical-decoding/logical-decoding-output-writers.md,48.7. Logical Decoding Output Writers,title/path
+49. Logical Decoding,49.8. Synchronous Replication Support for Logical Decoding,https://www.postgresql.org/docs/15/logicaldecoding-synchronous.html,server-programming/logical-decoding/synchronous-replication-support-for-logical-decoding.md,48.8. Synchronous Replication Support for Logical Decoding,title/path
+49. Logical Decoding,49.9. Streaming of Large Transactions for Logical Decoding,https://www.postgresql.org/docs/15/logicaldecoding-streaming.html,,,unmapped-review
+49. Logical Decoding,49.10. Two-phase Commit Support for Logical Decoding,https://www.postgresql.org/docs/15/logicaldecoding-two-phase-commits.html,,,unmapped-review
+51. Archive Modules,51.1. Initialization Functions,https://www.postgresql.org/docs/15/archive-module-init.html,server-programming/51.-archive-modules/51.1.-initialization-functions.md,51.1. Initialization Functions,title/path
+51. Archive Modules,51.2. Archive Module Callbacks,https://www.postgresql.org/docs/15/archive-module-callbacks.html,server-programming/51.-archive-modules/51.2.-archive-module-callbacks.md,51.2. Archive Module Callbacks,title/path
+52. PostgreSQL 的內部架構,52.1. The Path of a Query,https://www.postgresql.org/docs/15/query-path.html,internals/overview-of-postgresql-internals/the-path-of-a-query.md,52.1. 處理查詢語句的流程,title/path
+52. PostgreSQL 的內部架構,52.2. How Connections Are Established,https://www.postgresql.org/docs/15/connect-estab.html,internals/overview-of-postgresql-internals/how-connections-are-established.md,52.2. How Connections Are Established,title/path
+52. PostgreSQL 的內部架構,52.3. The Parser Stage,https://www.postgresql.org/docs/15/parser-stage.html,internals/overview-of-postgresql-internals/the-parser-stage.md,52.3. The Parser Stage,title/path
+52. PostgreSQL 的內部架構,52.4. The PostgreSQL Rule System,https://www.postgresql.org/docs/15/rule-system.html,internals/overview-of-postgresql-internals/50.4.-the-postgresql-rule-system.md,52.4. The PostgreSQL Rule System,title/path
+52. PostgreSQL 的內部架構,52.5. Planner/Optimizer,https://www.postgresql.org/docs/15/planner-optimizer.html,internals/overview-of-postgresql-internals/planner-optimizer.md,52.5. Planner/Optimizer,title/path
+52. PostgreSQL 的內部架構,52.6. Executor,https://www.postgresql.org/docs/15/executor.html,internals/overview-of-postgresql-internals/executor.md,52.6. Executor,title/path
+53. 系統資訊目錄,53.3. pg_am,https://www.postgresql.org/docs/15/catalog-pg-am.html,internals/system-catalogs/pg_am.md,51.3. pg_am,title/path
+53. 系統資訊目錄,53.7. pg_attribute,https://www.postgresql.org/docs/15/catalog-pg-attribute.html,internals/system-catalogs/pg_attribute.md,51.7. pg_attribute,title/path
+53. 系統資訊目錄,53.8. pg_authid,https://www.postgresql.org/docs/15/catalog-pg-authid.html,internals/system-catalogs/pg_authid.md,51.8. pg_authid,title/path
+53. 系統資訊目錄,53.9. pg_auth_members,https://www.postgresql.org/docs/15/catalog-pg-auth-members.html,internals/system-catalogs/pg_auth_members.md,51.9. pg_auth_members,title/path
+53. 系統資訊目錄,53.10. pg_cast,https://www.postgresql.org/docs/15/catalog-pg-cast.html,internals/system-catalogs/pg_cast.md,51.10. pg_cast,title/path
+53. 系統資訊目錄,53.11. pg_class,https://www.postgresql.org/docs/15/catalog-pg-class.html,internals/system-catalogs/pg_class.md,51.11 pg_class,title/path
+53. 系統資訊目錄,53.12. pg_collation,https://www.postgresql.org/docs/15/catalog-pg-collation.html,internals/system-catalogs/pg_collation.md,51.12. pg_collation,title/path
+53. 系統資訊目錄,53.13. pg_constraint,https://www.postgresql.org/docs/15/catalog-pg-constraint.html,internals/system-catalogs/pg_constraint.md,51.13. pg_constraint,title/path
+53. 系統資訊目錄,53.15. pg_database,https://www.postgresql.org/docs/15/catalog-pg-database.html,internals/system-catalogs/pg_database.md,51.15 pg_database,title/path
+53. 系統資訊目錄,53.21. pg_event_trigger,https://www.postgresql.org/docs/15/catalog-pg-event-trigger.html,internals/system-catalogs/pg_event_trigger.md,51.21. pg_event_trigger,title/path
+53. 系統資訊目錄,53.22. pg_extension,https://www.postgresql.org/docs/15/catalog-pg-extension.html,internals/system-catalogs/pg_extension.md,51.22. pg_extension,title/path
+53. 系統資訊目錄,53.26. pg_index,https://www.postgresql.org/docs/15/catalog-pg-index.html,internals/system-catalogs/pg_index.md,51.26 pg_index,title/path
+53. 系統資訊目錄,53.29. pg_language,https://www.postgresql.org/docs/15/catalog-pg-language.html,internals/system-catalogs/pg_language.md,51.29. pg_language,title/path
+53. 系統資訊目錄,53.32. pg_namespace,https://www.postgresql.org/docs/15/catalog-pg-namespace.html,internals/system-catalogs/pg_namespace.md,51.32. pg_namespace,title/path
+53. 系統資訊目錄,53.33. pg_opclass,https://www.postgresql.org/docs/15/catalog-pg-opclass.html,internals/system-catalogs/pg_opclass.md,51.33. pg_opclass,title/path
+53. 系統資訊目錄,53.38. pg_policy,https://www.postgresql.org/docs/15/catalog-pg-policy.html,internals/system-catalogs/pg_policy.md,51.38. pg_policy,title/path
+53. 系統資訊目錄,53.39. pg_proc,https://www.postgresql.org/docs/15/catalog-pg-proc.html,internals/system-catalogs/pg_proc.md,51.39. pg_proc,title/path
+53. 系統資訊目錄,53.45. pg_rewrite,https://www.postgresql.org/docs/15/catalog-pg-rewrite.html,internals/system-catalogs/51.44.-pg_rewrite.md,51.44. pg_rewrite,title/path
+53. 系統資訊目錄,53.51. pg_statistic,https://www.postgresql.org/docs/15/catalog-pg-statistic.html,internals/system-catalogs/pg_statistic.md,51.49. pg_statistic,title/path
+53. 系統資訊目錄,53.52. pg_statistic_ext,https://www.postgresql.org/docs/15/catalog-pg-statistic-ext.html,internals/system-catalogs/pg_statistic_ext.md,51.50. pg_statistic_ext,title/path
+53. 系統資訊目錄,53.54. pg_subscription,https://www.postgresql.org/docs/15/catalog-pg-subscription.html,internals/system-catalogs/pg_subscription.md,51.52. pg_subscription,title/path
+53. 系統資訊目錄,53.55. pg_subscription_rel,https://www.postgresql.org/docs/15/catalog-pg-subscription-rel.html,internals/system-catalogs/pg_subscription_rel.md,51.53. pg_subscription_rel,title/path
+53. 系統資訊目錄,53.56. pg_tablespace,https://www.postgresql.org/docs/15/catalog-pg-tablespace.html,internals/system-catalogs/51.54.-pg_tablespace.md,51.54. pg_tablespace,title/path
+53. 系統資訊目錄,53.58. pg_trigger,https://www.postgresql.org/docs/15/catalog-pg-trigger.html,internals/system-catalogs/51.56.-pg_trigger.md,51.56. pg_trigger,title/path
+53. 系統資訊目錄,53.64. pg_type,https://www.postgresql.org/docs/15/catalog-pg-type.html,internals/system-catalogs/pg_type.md,51.62. pg_type,title/path
+53. 系統資訊目錄,53.1. Overview,https://www.postgresql.org/docs/15/catalogs-overview.html,,,unmapped-review
+53. 系統資訊目錄,53.2. pg_aggregate,https://www.postgresql.org/docs/15/catalog-pg-aggregate.html,,,unmapped-review
+53. 系統資訊目錄,53.4. pg_amop,https://www.postgresql.org/docs/15/catalog-pg-amop.html,,,unmapped-review
+53. 系統資訊目錄,53.5. pg_amproc,https://www.postgresql.org/docs/15/catalog-pg-amproc.html,,,unmapped-review
+53. 系統資訊目錄,53.6. pg_attrdef,https://www.postgresql.org/docs/15/catalog-pg-attrdef.html,,,unmapped-review
+53. 系統資訊目錄,53.14. pg_conversion,https://www.postgresql.org/docs/15/catalog-pg-conversion.html,,,unmapped-review
+53. 系統資訊目錄,53.16. pg_db_role_setting,https://www.postgresql.org/docs/15/catalog-pg-db-role-setting.html,,,unmapped-review
+53. 系統資訊目錄,53.17. pg_default_acl,https://www.postgresql.org/docs/15/catalog-pg-default-acl.html,,,unmapped-review
+53. 系統資訊目錄,53.18. pg_depend,https://www.postgresql.org/docs/15/catalog-pg-depend.html,,,unmapped-review
+53. 系統資訊目錄,53.19. pg_description,https://www.postgresql.org/docs/15/catalog-pg-description.html,,,unmapped-review
+53. 系統資訊目錄,53.20. pg_enum,https://www.postgresql.org/docs/15/catalog-pg-enum.html,,,unmapped-review
+53. 系統資訊目錄,53.23. pg_foreign_data_wrapper,https://www.postgresql.org/docs/15/catalog-pg-foreign-data-wrapper.html,,,unmapped-review
+53. 系統資訊目錄,53.24. pg_foreign_server,https://www.postgresql.org/docs/15/catalog-pg-foreign-server.html,,,unmapped-review
+53. 系統資訊目錄,53.25. pg_foreign_table,https://www.postgresql.org/docs/15/catalog-pg-foreign-table.html,,,unmapped-review
+53. 系統資訊目錄,53.27. pg_inherits,https://www.postgresql.org/docs/15/catalog-pg-inherits.html,,,unmapped-review
+53. 系統資訊目錄,53.28. pg_init_privs,https://www.postgresql.org/docs/15/catalog-pg-init-privs.html,,,unmapped-review
+53. 系統資訊目錄,53.30. pg_largeobject,https://www.postgresql.org/docs/15/catalog-pg-largeobject.html,,,unmapped-review
+53. 系統資訊目錄,53.31. pg_largeobject_metadata,https://www.postgresql.org/docs/15/catalog-pg-largeobject-metadata.html,,,unmapped-review
+53. 系統資訊目錄,53.34. pg_operator,https://www.postgresql.org/docs/15/catalog-pg-operator.html,,,unmapped-review
+53. 系統資訊目錄,53.35. pg_opfamily,https://www.postgresql.org/docs/15/catalog-pg-opfamily.html,,,unmapped-review
+53. 系統資訊目錄,53.36. pg_parameter_acl,https://www.postgresql.org/docs/15/catalog-pg-parameter-acl.html,,,unmapped-review
+53. 系統資訊目錄,53.37. pg_partitioned_table,https://www.postgresql.org/docs/15/catalog-pg-partitioned-table.html,,,unmapped-review
+53. 系統資訊目錄,53.40. pg_publication,https://www.postgresql.org/docs/15/catalog-pg-publication.html,,,unmapped-review
+53. 系統資訊目錄,53.41. pg_publication_namespace,https://www.postgresql.org/docs/15/catalog-pg-publication-namespace.html,,,unmapped-review
+53. 系統資訊目錄,53.42. pg_publication_rel,https://www.postgresql.org/docs/15/catalog-pg-publication-rel.html,,,unmapped-review
+53. 系統資訊目錄,53.43. pg_range,https://www.postgresql.org/docs/15/catalog-pg-range.html,,,unmapped-review
+53. 系統資訊目錄,53.44. pg_replication_origin,https://www.postgresql.org/docs/15/catalog-pg-replication-origin.html,,,unmapped-review
+53. 系統資訊目錄,53.46. pg_seclabel,https://www.postgresql.org/docs/15/catalog-pg-seclabel.html,,,unmapped-review
+53. 系統資訊目錄,53.47. pg_sequence,https://www.postgresql.org/docs/15/catalog-pg-sequence.html,,,unmapped-review
+53. 系統資訊目錄,53.48. pg_shdepend,https://www.postgresql.org/docs/15/catalog-pg-shdepend.html,,,unmapped-review
+53. 系統資訊目錄,53.49. pg_shdescription,https://www.postgresql.org/docs/15/catalog-pg-shdescription.html,,,unmapped-review
+53. 系統資訊目錄,53.50. pg_shseclabel,https://www.postgresql.org/docs/15/catalog-pg-shseclabel.html,,,unmapped-review
+53. 系統資訊目錄,53.53. pg_statistic_ext_data,https://www.postgresql.org/docs/15/catalog-pg-statistic-ext-data.html,,,unmapped-review
+53. 系統資訊目錄,53.57. pg_transform,https://www.postgresql.org/docs/15/catalog-pg-transform.html,,,unmapped-review
+53. 系統資訊目錄,53.59. pg_ts_config,https://www.postgresql.org/docs/15/catalog-pg-ts-config.html,,,unmapped-review
+53. 系統資訊目錄,53.60. pg_ts_config_map,https://www.postgresql.org/docs/15/catalog-pg-ts-config-map.html,,,unmapped-review
+53. 系統資訊目錄,53.61. pg_ts_dict,https://www.postgresql.org/docs/15/catalog-pg-ts-dict.html,,,unmapped-review
+53. 系統資訊目錄,53.62. pg_ts_parser,https://www.postgresql.org/docs/15/catalog-pg-ts-parser.html,,,unmapped-review
+53. 系統資訊目錄,53.63. pg_ts_template,https://www.postgresql.org/docs/15/catalog-pg-ts-template.html,,,unmapped-review
+53. 系統資訊目錄,53.65. pg_user_mapping,https://www.postgresql.org/docs/15/catalog-pg-user-mapping.html,,,unmapped-review
+54. System Views,54.1. Overview,https://www.postgresql.org/docs/15/views-overview.html,internals/system-views/overview.md,54.1. Overview,title/path
+54. System Views,54.19. pg_replication_slots,https://www.postgresql.org/docs/15/view-pg-replication-slots.html,internals/system-views/pg_replication_slots.md,54.19. pg_replication_slots,title/path
+54. System Views,54.20. pg_roles,https://www.postgresql.org/docs/15/view-pg-roles.html,internals/system-views/pg_roles.md,54.20 pg_roles,title/path
+54. System Views,54.24. pg_settings,https://www.postgresql.org/docs/15/view-pg-settings.html,internals/system-views/pg_settings.md,54.24. pg_settings,title/path
+54. System Views,54.25. pg_shadow,https://www.postgresql.org/docs/15/view-pg-shadow.html,internals/system-views/pg_shadow.md,54.25. pg_shadow,title/path
+54. System Views,54.26. pg_shmem_allocations,https://www.postgresql.org/docs/15/view-pg-shmem-allocations.html,internals/system-views/pg_shmem_allocations.md,54.26. pg_shmem_allocations,title/path
+54. System Views,54.27. pg_stats,https://www.postgresql.org/docs/15/view-pg-stats.html,internals/system-views/pg_stats.md,54.27. pg_stats,title/path
+54. System Views,54.30. pg_tables,https://www.postgresql.org/docs/15/view-pg-tables.html,internals/system-views/pg_tables.md,54.30. pg_tables,title/path
+54. System Views,54.31. pg_timezone_abbrevs,https://www.postgresql.org/docs/15/view-pg-timezone-abbrevs.html,internals/54.-system-views/pg_timezone_abbrevs.md,54.31. pg_timezone_abbrevs,title/path
+54. System Views,54.32. pg_timezone_names,https://www.postgresql.org/docs/15/view-pg-timezone-names.html,internals/54.-system-views/pg_timezone_names.md,54.32. pg_timezone_names,title/path
+54. System Views,54.33. pg_user,https://www.postgresql.org/docs/15/view-pg-user.html,internals/system-catalogs/pg_user.md,54.33. pg_user,title/path
+54. System Views,54.35. pg_views,https://www.postgresql.org/docs/15/view-pg-views.html,internals/system-views/pg_views.md,54.35. pg_views,title/path
+54. System Views,54.2. pg_available_extensions,https://www.postgresql.org/docs/15/view-pg-available-extensions.html,internals/system-catalogs/pg_available_extensions.md,51.66. pg_available_extensions,other-chapter-review
+54. System Views,54.3. pg_available_extension_versions,https://www.postgresql.org/docs/15/view-pg-available-extension-versions.html,internals/system-catalogs/pg_available_extension_versions.md,51.67. pg_available_extension_versions,other-chapter-review
+54. System Views,54.4. pg_backend_memory_contexts,https://www.postgresql.org/docs/15/view-pg-backend-memory-contexts.html,,,unmapped-review
+54. System Views,54.5. pg_config,https://www.postgresql.org/docs/15/view-pg-config.html,,,unmapped-review
+54. System Views,54.6. pg_cursors,https://www.postgresql.org/docs/15/view-pg-cursors.html,,,unmapped-review
+54. System Views,54.7. pg_file_settings,https://www.postgresql.org/docs/15/view-pg-file-settings.html,,,unmapped-review
+54. System Views,54.8. pg_group,https://www.postgresql.org/docs/15/view-pg-group.html,,,unmapped-review
+54. System Views,54.9. pg_hba_file_rules,https://www.postgresql.org/docs/15/view-pg-hba-file-rules.html,internals/system-catalogs/pg_hba_file_rules.md,51.71. pg_hba_file_rules,other-chapter-review
+54. System Views,54.10. pg_ident_file_mappings,https://www.postgresql.org/docs/15/view-pg-ident-file-mappings.html,,,unmapped-review
+54. System Views,54.11. pg_indexes,https://www.postgresql.org/docs/15/view-pg-indexes.html,internals/system-catalogs/pg_indexes.md,51.72. pg_indexes,other-chapter-review
+54. System Views,54.12. pg_locks,https://www.postgresql.org/docs/15/view-pg-locks.html,internals/system-catalogs/pg_locks.md,51.73. pg_locks,other-chapter-review
+54. System Views,54.13. pg_matviews,https://www.postgresql.org/docs/15/view-pg-matviews.html,,,unmapped-review
+54. System Views,54.14. pg_policies,https://www.postgresql.org/docs/15/view-pg-policies.html,,,unmapped-review
+54. System Views,54.15. pg_prepared_statements,https://www.postgresql.org/docs/15/view-pg-prepared-statements.html,,,unmapped-review
+54. System Views,54.16. pg_prepared_xacts,https://www.postgresql.org/docs/15/view-pg-prepared-xacts.html,internals/system-catalogs/pg_prepared_xacts.md,51.77. pg_prepared_xacts,other-chapter-review
+54. System Views,54.17. pg_publication_tables,https://www.postgresql.org/docs/15/view-pg-publication-tables.html,,,unmapped-review
+54. System Views,54.18. pg_replication_origin_status,https://www.postgresql.org/docs/15/view-pg-replication-origin-status.html,internals/system-catalogs/51.79.-pg_replication_origin_status.md,51.79. pg_replication_origin_status,other-chapter-review
+54. System Views,54.21. pg_rules,https://www.postgresql.org/docs/15/view-pg-rules.html,,,unmapped-review
+54. System Views,54.22. pg_seclabels,https://www.postgresql.org/docs/15/view-pg-seclabels.html,,,unmapped-review
+54. System Views,54.23. pg_sequences,https://www.postgresql.org/docs/15/view-pg-sequences.html,,,unmapped-review
+54. System Views,54.28. pg_stats_ext,https://www.postgresql.org/docs/15/view-pg-stats-ext.html,,,unmapped-review
+54. System Views,54.29. pg_stats_ext_exprs,https://www.postgresql.org/docs/15/view-pg-stats-ext-exprs.html,,,unmapped-review
+54. System Views,54.34. pg_user_mappings,https://www.postgresql.org/docs/15/view-pg-user-mappings.html,,,unmapped-review
+55. Frontend/Backend Protocol,55.1. Overview,https://www.postgresql.org/docs/15/protocol-overview.html,internals/52.-frontend-backend-protocol/overview.md,52.1. Overview,title/path
+55. Frontend/Backend Protocol,55.2. Message Flow,https://www.postgresql.org/docs/15/protocol-flow.html,internals/52.-frontend-backend-protocol/52.2.-message-flow.md,52.2. Message Flow,title/path
+55. Frontend/Backend Protocol,55.3. SASL Authentication,https://www.postgresql.org/docs/15/sasl-authentication.html,internals/52.-frontend-backend-protocol/52.3.-sasl-authentication.md,52.3. SASL Authentication,title/path
+55. Frontend/Backend Protocol,55.4. Streaming Replication Protocol,https://www.postgresql.org/docs/15/protocol-replication.html,internals/52.-frontend-backend-protocol/streaming-replication-protocol.md,52.4. Streaming Replication Protocol,title/path
+55. Frontend/Backend Protocol,55.5. Logical Streaming Replication Protocol,https://www.postgresql.org/docs/15/protocol-logical-replication.html,internals/52.-frontend-backend-protocol/52.5.-logical-streaming-replication-protocol.md,52.5. Logical Streaming Replication Protocol,title/path
+55. Frontend/Backend Protocol,55.6. Message Data Types,https://www.postgresql.org/docs/15/protocol-message-types.html,internals/52.-frontend-backend-protocol/52.6.-message-data-types.md,52.6. Message Data Types,title/path
+55. Frontend/Backend Protocol,55.7. Message Formats,https://www.postgresql.org/docs/15/protocol-message-formats.html,internals/52.-frontend-backend-protocol/52.7.-message-formats.md,52.7. Message Formats,title/path
+55. Frontend/Backend Protocol,55.8. Error and Notice Message Fields,https://www.postgresql.org/docs/15/protocol-error-fields.html,internals/52.-frontend-backend-protocol/52.8.-error-and-notice-message-fields.md,52.8. Error and Notice Message Fields,title/path
+55. Frontend/Backend Protocol,55.9. Logical Replication Message Formats,https://www.postgresql.org/docs/15/protocol-logicalrep-message-formats.html,internals/52.-frontend-backend-protocol/52.9.-logical-replication-message-formats.md,52.9. Logical Replication Message Formats,title/path
+55. Frontend/Backend Protocol,55.10. Summary of Changes since Protocol 2.0,https://www.postgresql.org/docs/15/protocol-changes.html,internals/52.-frontend-backend-protocol/52.10.-summary-of-changes-since-protocol-2.0.md,52.10. Summary of Changes since Protocol 2.0,title/path
+56. PostgreSQL 程式撰寫慣例,56.1. Formatting,https://www.postgresql.org/docs/15/source-format.html,internals/postgresql-coding-conventions/54.1.-formatting.md,53.1. Formatting,title/path
+56. PostgreSQL 程式撰寫慣例,56.2. Reporting Errors Within the Server,https://www.postgresql.org/docs/15/error-message-reporting.html,internals/postgresql-coding-conventions/54.2.-reporting-errors-within-the-server.md,53.2. Reporting Errors Within the Server,title/path
+56. PostgreSQL 程式撰寫慣例,56.3. Error Message Style Guide,https://www.postgresql.org/docs/15/error-style-guide.html,internals/postgresql-coding-conventions/54.3.-error-message-style-guide.md,53.3. Error Message Style Guide,title/path
+56. PostgreSQL 程式撰寫慣例,56.4. Miscellaneous Coding Conventions,https://www.postgresql.org/docs/15/source-conventions.html,internals/postgresql-coding-conventions/54.4.-miscellaneous-coding-conventions.md,53.4. Miscellaneous Coding Conventions,title/path
+57. Native Language Support,57.1. For the Translator,https://www.postgresql.org/docs/15/nls-translator.html,internals/native-language-support/for-the-translator.md,54.1. For the Translator,title/path
+57. Native Language Support,57.2. For the Programmer,https://www.postgresql.org/docs/15/nls-programmer.html,internals/native-language-support/for-the-programmer.md,54.2. For the Programmer,title/path
+59. Writing a Foreign Data Wrapper,59.1. Foreign Data Wrapper Functions,https://www.postgresql.org/docs/15/fdw-functions.html,internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-functions.md,56.1. Foreign Data Wrapper Functions,title/path
+59. Writing a Foreign Data Wrapper,59.2. Foreign Data Wrapper Callback Routines,https://www.postgresql.org/docs/15/fdw-callbacks.html,internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-callback-routines.md,56.2. Foreign Data Wrapper Callback Routines,title/path
+59. Writing a Foreign Data Wrapper,59.3. Foreign Data Wrapper Helper Functions,https://www.postgresql.org/docs/15/fdw-helpers.html,internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-helper-functions.md,56.3. Foreign Data Wrapper Helper Functions,title/path
+59. Writing a Foreign Data Wrapper,59.4. Foreign Data Wrapper Query Planning,https://www.postgresql.org/docs/15/fdw-planning.html,internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-query-planning.md,56.4. Foreign Data Wrapper Query Planning,title/path
+59. Writing a Foreign Data Wrapper,59.5. Row Locking in Foreign Data Wrappers,https://www.postgresql.org/docs/15/fdw-row-locking.html,internals/writing-a-foreign-data-wrapper/row-locking-in-foreign-data-wrappers.md,56.5. Row Locking in Foreign Data Wrappers,title/path
+60. Writing a Table Sampling Method,60.1. Sampling Method Support Functions,https://www.postgresql.org/docs/15/tablesample-support-functions.html,,,unmapped-review
+61. Writing a Custom Scan Provider,61.1. Creating Custom Scan Paths,https://www.postgresql.org/docs/15/custom-scan-path.html,,,unmapped-review
+61. Writing a Custom Scan Provider,61.2. Creating Custom Scan Plans,https://www.postgresql.org/docs/15/custom-scan-plan.html,,,unmapped-review
+61. Writing a Custom Scan Provider,61.3. Executing Custom Scans,https://www.postgresql.org/docs/15/custom-scan-execution.html,,,unmapped-review
+62. Genetic Query Optimizer,62.1. Query Handling as a Complex Optimization Problem,https://www.postgresql.org/docs/15/geqo-intro.html,internals/genetic-query-optimizer/query-handling-as-a-complex-optimization-problem.md,59.1. Query Handling as a Complex Optimization Problem,title/path
+62. Genetic Query Optimizer,62.2. Genetic Algorithms,https://www.postgresql.org/docs/15/geqo-intro2.html,internals/genetic-query-optimizer/genetic-algorithms.md,59.2. Genetic Algorithms,title/path
+62. Genetic Query Optimizer,62.3. Genetic Query Optimization (GEQO) in PostgreSQL,https://www.postgresql.org/docs/15/geqo-pg-intro.html,internals/genetic-query-optimizer/genetic-query-optimization-geqo-in-postgresql.md,59.3. Genetic Query Optimization (GEQO) in PostgreSQL,title/path
+62. Genetic Query Optimizer,62.4. Further Reading,https://www.postgresql.org/docs/15/geqo-biblio.html,internals/genetic-query-optimizer/further-reading.md,59.4. Further Reading,title/path
+64. Index Access Method Interface Definition,64.1. Basic API Structure for Indexes,https://www.postgresql.org/docs/15/index-api.html,,,unmapped-review
+64. Index Access Method Interface Definition,64.2. Index Access Method Functions,https://www.postgresql.org/docs/15/index-functions.html,,,unmapped-review
+64. Index Access Method Interface Definition,64.3. Index Scanning,https://www.postgresql.org/docs/15/index-scanning.html,,,unmapped-review
+64. Index Access Method Interface Definition,64.4. Index Locking Considerations,https://www.postgresql.org/docs/15/index-locking.html,,,unmapped-review
+64. Index Access Method Interface Definition,64.5. Index Uniqueness Checks,https://www.postgresql.org/docs/15/index-unique-checks.html,,,unmapped-review
+64. Index Access Method Interface Definition,64.6. Index Cost Estimation Functions,https://www.postgresql.org/docs/15/index-cost-estimation.html,,,unmapped-review
+67. B-Tree Indexes,67.1. Introduction,https://www.postgresql.org/docs/15/btree-intro.html,internals/b-tree-indexes/introduction.md,67.1. Introduction,title/path
+67. B-Tree Indexes,67.2. Behavior of B-Tree Operator Classes,https://www.postgresql.org/docs/15/btree-behavior.html,internals/b-tree-indexes/behavior-of-b-tree-operator-classes.md,67.2. Behavior of B-Tree Operator Classes,title/path
+67. B-Tree Indexes,67.3. B-Tree Support Functions,https://www.postgresql.org/docs/15/btree-support-funcs.html,internals/b-tree-indexes/b-tree-support-functions.md,67.3. B-Tree Support Functions,title/path
+67. B-Tree Indexes,67.4. Implementation,https://www.postgresql.org/docs/15/btree-implementation.html,internals/b-tree-indexes/implementation.md,67.4. Implementation,title/path
+68. GiST Indexes,68.1. Introduction,https://www.postgresql.org/docs/15/gist-intro.html,internals/gist-indexes/introduction.md,64.1. Introduction,title/path
+68. GiST Indexes,68.2. Built-in Operator Classes,https://www.postgresql.org/docs/15/gist-builtin-opclasses.html,internals/gist-indexes/built-in-operator-classes.md,64.2. Built-in Operator Classes,title/path
+68. GiST Indexes,68.3. Extensibility,https://www.postgresql.org/docs/15/gist-extensibility.html,internals/gist-indexes/extensibility.md,64.3. Extensibility,title/path
+68. GiST Indexes,68.4. Implementation,https://www.postgresql.org/docs/15/gist-implementation.html,internals/gist-indexes/implementation.md,64.4. Implementation,title/path
+68. GiST Indexes,68.5. Examples,https://www.postgresql.org/docs/15/gist-examples.html,internals/gist-indexes/examples.md,64.5. Examples,title/path
+69. SP-GiST Indexes,69.1. Introduction,https://www.postgresql.org/docs/15/spgist-intro.html,internals/sp-gist-indexes/introduction.md,65.1. Introduction,title/path
+69. SP-GiST Indexes,69.2. Built-in Operator Classes,https://www.postgresql.org/docs/15/spgist-builtin-opclasses.html,internals/sp-gist-indexes/built-in-operator-classes.md,65.2. Built-in Operator Classes,title/path
+69. SP-GiST Indexes,69.3. Extensibility,https://www.postgresql.org/docs/15/spgist-extensibility.html,internals/sp-gist-indexes/extensibility.md,65.3. Extensibility,title/path
+69. SP-GiST Indexes,69.4. Implementation,https://www.postgresql.org/docs/15/spgist-implementation.html,internals/sp-gist-indexes/implementation.md,65.4. Implementation,title/path
+69. SP-GiST Indexes,69.5. Examples,https://www.postgresql.org/docs/15/spgist-examples.html,internals/sp-gist-indexes/examples.md,65.5. Examples,title/path
+70. GIN 索引,70.1. Introduction,https://www.postgresql.org/docs/15/gin-intro.html,internals/gin-indexes/introduction.md,70.1. 簡介,title/path
+70. GIN 索引,70.2. Built-in Operator Classes,https://www.postgresql.org/docs/15/gin-builtin-opclasses.html,internals/gin-indexes/built-in-operator-classes.md,70.2. 內建運算子類,title/path
+70. GIN 索引,70.3. Extensibility,https://www.postgresql.org/docs/15/gin-extensibility.html,internals/gin-indexes/extensibility.md,70.3. 延伸介面,title/path
+70. GIN 索引,70.4. Implementation,https://www.postgresql.org/docs/15/gin-implementation.html,internals/gin-indexes/implementation.md,70.4. 實作說明,title/path
+70. GIN 索引,70.5. GIN Tips and Tricks,https://www.postgresql.org/docs/15/gin-tips.html,internals/gin-indexes/gin-tips-and-tricks.md,70.5. GIN 小技巧,title/path
+70. GIN 索引,70.6. Limitations,https://www.postgresql.org/docs/15/gin-limit.html,internals/gin-indexes/limitations.md,70.6. 限制,title/path
+70. GIN 索引,70.7. Examples,https://www.postgresql.org/docs/15/gin-examples.html,internals/gin-indexes/examples.md,70.7. 範例,title/path
+71. BRIN Indexes,71.1. Introduction,https://www.postgresql.org/docs/15/brin-intro.html,internals/brin/introduction.md,67.1. Introduction,title/path
+71. BRIN Indexes,71.2. Built-in Operator Classes,https://www.postgresql.org/docs/15/brin-builtin-opclasses.html,internals/brin/built-in-operator-classes.md,67.2. Built-in Operator Classes,title/path
+71. BRIN Indexes,71.3. Extensibility,https://www.postgresql.org/docs/15/brin-extensibility.html,internals/brin/extensibility.md,67.3. Extensibility,title/path
+72. Hash Indexes,72.1. Overview,https://www.postgresql.org/docs/15/hash-intro.html,,,unmapped-review
+72. Hash Indexes,72.2. Implementation,https://www.postgresql.org/docs/15/hash-implementation.html,,,unmapped-review
+73. 資料庫實體儲存格式,73.1. Database File Layout,https://www.postgresql.org/docs/15/storage-file-layout.html,internals/database-physical-storage/database-file-layout.md,73.1. Database File Layout,title/path
+73. 資料庫實體儲存格式,73.2. TOAST,https://www.postgresql.org/docs/15/storage-toast.html,internals/database-physical-storage/toast.md,73.3. TOAST,title/path
+73. 資料庫實體儲存格式,73.3. Free Space Map,https://www.postgresql.org/docs/15/storage-fsm.html,internals/database-physical-storage/free-space-map.md,68.3. Free Space Map,title/path
+73. 資料庫實體儲存格式,73.4. Visibility Map,https://www.postgresql.org/docs/15/storage-vm.html,internals/database-physical-storage/visibility-map.md,68.4 可視性映射表（Visibility Map）,title/path
+73. 資料庫實體儲存格式,73.5. The Initialization Fork,https://www.postgresql.org/docs/15/storage-init.html,internals/database-physical-storage/the-initialization-fork.md,68.5. The Initialization Fork,title/path
+73. 資料庫實體儲存格式,73.6. Database Page Layout,https://www.postgresql.org/docs/15/storage-page-layout.html,internals/database-physical-storage/database-page-layout.md,68.6. Database Page Layout,title/path
+73. 資料庫實體儲存格式,73.7. Heap-Only Tuples (HOT),https://www.postgresql.org/docs/15/storage-hot.html,,,unmapped-review
+74. System Catalog Declarations and Initial Contents,74.1. System Catalog Declaration Rules,https://www.postgresql.org/docs/15/system-catalog-declarations.html,,,unmapped-review
+74. System Catalog Declarations and Initial Contents,74.2. System Catalog Initial Data,https://www.postgresql.org/docs/15/system-catalog-initial-data.html,,,unmapped-review
+74. System Catalog Declarations and Initial Contents,74.3. BKI File Format,https://www.postgresql.org/docs/15/bki-format.html,,,unmapped-review
+74. System Catalog Declarations and Initial Contents,74.4. BKI Commands,https://www.postgresql.org/docs/15/bki-commands.html,,,unmapped-review
+74. System Catalog Declarations and Initial Contents,74.5. Structure of the Bootstrap BKI File,https://www.postgresql.org/docs/15/bki-structure.html,,,unmapped-review
+74. System Catalog Declarations and Initial Contents,74.6. BKI Example,https://www.postgresql.org/docs/15/bki-example.html,,,unmapped-review
+75. 查詢計畫如何使用統計資訊,75.1. Row Estimation Examples,https://www.postgresql.org/docs/15/row-estimation-examples.html,internals/how-the-planner-uses-statistics/row-estimation-examples.md,70.1. Row Estimation Examples,title/path
+75. 查詢計畫如何使用統計資訊,75.2. Multivariate Statistics Examples,https://www.postgresql.org/docs/15/multivariate-statistics-examples.html,internals/how-the-planner-uses-statistics/multivariate-statistics-examples.md,70.2. 多元統計資訊範例,title/path
+75. 查詢計畫如何使用統計資訊,75.3. Planner Statistics and Security,https://www.postgresql.org/docs/15/planner-stats-security.html,internals/how-the-planner-uses-statistics/planner-statistics-and-security.md,70.3. Planner Statistics and Security,title/path
+76. Backup Manifest Format,76.1. Backup Manifest Top-level Object,https://www.postgresql.org/docs/15/backup-manifest-toplevel.html,,,unmapped-review
+76. Backup Manifest Format,76.2. Backup Manifest File Object,https://www.postgresql.org/docs/15/backup-manifest-files.html,,,unmapped-review
+76. Backup Manifest Format,76.3. Backup Manifest WAL Range Object,https://www.postgresql.org/docs/15/backup-manifest-wal-ranges.html,,,unmapped-review
+B. 日期時間格式支援,B.2. Handling of Invalid or Ambiguous Timestamps,https://www.postgresql.org/docs/15/datetime-invalid-input.html,appendixes/date-time-support/b.2.-handling-of-invalid-or-ambiguous-timestamps.md,B.2. Handling of Invalid or Ambiguous Timestamps,title/path
+B. 日期時間格式支援,B.5. POSIX Time Zone Specifications,https://www.postgresql.org/docs/15/datetime-posix-timezone-specs.html,appendixes/date-time-support/b.5.-posix-time-zone-specifications.md,B.5. POSIX Time Zone Specifications,title/path
+B. 日期時間格式支援,B.7. Julian Dates,https://www.postgresql.org/docs/15/datetime-julian-dates.html,appendixes/date-time-support/b.7.-julian-dates.md,B.7. Julian Dates,title/path
+B. 日期時間格式支援,B.1. Date/Time Input Interpretation,https://www.postgresql.org/docs/15/datetime-input-rules.html,appendixes/date-time-support/b.1.-ri-qi-shi-jian-jie-yi-liu-cheng.md,B.1. 日期時間解譯流程,number-only-review
+B. 日期時間格式支援,B.3. Date/Time Key Words,https://www.postgresql.org/docs/15/datetime-keywords.html,appendixes/date-time-support/b.2.-ri-qi-shi-jian-guan-yong-zi.md,B.3. 日期時間慣用字,number-only-review
+B. 日期時間格式支援,B.4. Date/Time Configuration Files,https://www.postgresql.org/docs/15/datetime-config-files.html,appendixes/date-time-support/configuration.md,B.4. 日期時間設定檔,number-only-review
+B. 日期時間格式支援,B.6. History of Units,https://www.postgresql.org/docs/15/datetime-units-history.html,appendixes/date-time-support/datetime-units-history.md,B.6. 日期時間的沿革,number-only-review
+D. SQL 相容性,D.1. Supported Features,https://www.postgresql.org/docs/15/features-sql-standard.html,appendixes/d.-sql-xiang-rong-xing/supported-features.md,D.1. Supported Features,title/path
+D. SQL 相容性,D.2. Unsupported Features,https://www.postgresql.org/docs/15/unsupported-features-sql-standard.html,appendixes/d.-sql-xiang-rong-xing/d.2.-unsupported-features.md,D.2. Unsupported Features,title/path
+D. SQL 相容性,D.3. XML Limits and Conformance to SQL/XML,https://www.postgresql.org/docs/15/xml-limits-conformance.html,appendixes/d.-sql-xiang-rong-xing/d.3.-xml-limits-and-conformance-to-sql-xml.md,D.3. XML Limits and Conformance to SQL/XML,title/path
+E. 版本資訊,E.18. Release 15.2,https://www.postgresql.org/docs/15/release-15-2.html,appendixes/release-notes/e.1.-release-15.2.md,E.1. Release 15.2,title/path
+E. 版本資訊,E.19. Release 15.1,https://www.postgresql.org/docs/15/release-15-1.html,appendixes/release-notes/e.2.-release-15.1.md,E.2. Release 15.1,title/path
+E. 版本資訊,E.20. Release 15,https://www.postgresql.org/docs/15/release-15.html,appendixes/release-notes/e.3.-release-15.md,E.3. Release 15,title/path
+E. 版本資訊,E.21. Prior Releases,https://www.postgresql.org/docs/15/release-prior.html,appendixes/release-notes/e.4.-prior-releases.md,E.4. Prior Releases,title/path
+E. 版本資訊,E.1. Release 15.19,https://www.postgresql.org/docs/15/release-15-19.html,,,unmapped-review
+E. 版本資訊,E.2. Release 15.18,https://www.postgresql.org/docs/15/release-15-18.html,,,unmapped-review
+E. 版本資訊,E.3. Release 15.17,https://www.postgresql.org/docs/15/release-15-17.html,,,unmapped-review
+E. 版本資訊,E.4. Release 15.16,https://www.postgresql.org/docs/15/release-15-16.html,,,unmapped-review
+E. 版本資訊,E.5. Release 15.15,https://www.postgresql.org/docs/15/release-15-15.html,,,unmapped-review
+E. 版本資訊,E.6. Release 15.14,https://www.postgresql.org/docs/15/release-15-14.html,,,unmapped-review
+E. 版本資訊,E.7. Release 15.13,https://www.postgresql.org/docs/15/release-15-13.html,,,unmapped-review
+E. 版本資訊,E.8. Release 15.12,https://www.postgresql.org/docs/15/release-15-12.html,,,unmapped-review
+E. 版本資訊,E.9. Release 15.11,https://www.postgresql.org/docs/15/release-15-11.html,,,unmapped-review
+E. 版本資訊,E.10. Release 15.10,https://www.postgresql.org/docs/15/release-15-10.html,,,unmapped-review
+E. 版本資訊,E.11. Release 15.9,https://www.postgresql.org/docs/15/release-15-9.html,,,unmapped-review
+E. 版本資訊,E.12. Release 15.8,https://www.postgresql.org/docs/15/release-15-8.html,,,unmapped-review
+E. 版本資訊,E.13. Release 15.7,https://www.postgresql.org/docs/15/release-15-7.html,,,unmapped-review
+E. 版本資訊,E.14. Release 15.6,https://www.postgresql.org/docs/15/release-15-6.html,,,unmapped-review
+E. 版本資訊,E.15. Release 15.5,https://www.postgresql.org/docs/15/release-15-5.html,,,unmapped-review
+E. 版本資訊,E.16. Release 15.4,https://www.postgresql.org/docs/15/release-15-4.html,,,unmapped-review
+E. 版本資訊,E.17. Release 15.3,https://www.postgresql.org/docs/15/release-15-3.html,,,unmapped-review
+F. 延伸支援模組,F.1. adminpack,https://www.postgresql.org/docs/15/adminpack.html,appendixes/additional-supplied-modules/adminpack.md,F.1. adminpack,title/path
+F. 延伸支援模組,F.2. amcheck,https://www.postgresql.org/docs/15/amcheck.html,appendixes/additional-supplied-modules/amcheck.md,F.2. amcheck,title/path
+F. 延伸支援模組,F.3. auth_delay,https://www.postgresql.org/docs/15/auth-delay.html,appendixes/additional-supplied-modules/auth_delay.md,F.3. auth_delay,title/path
+F. 延伸支援模組,F.4. auto_explain,https://www.postgresql.org/docs/15/auto-explain.html,appendixes/additional-supplied-modules/auto_explain.md,F.4. auto_explain,title/path
+F. 延伸支援模組,F.7. bloom,https://www.postgresql.org/docs/15/bloom.html,appendixes/additional-supplied-modules/bloom.md,F.5. bloom,title/path
+F. 延伸支援模組,F.8. btree_gin,https://www.postgresql.org/docs/15/btree-gin.html,appendixes/additional-supplied-modules/btree_gin.md,F.6. btree_gin,title/path
+F. 延伸支援模組,F.12. dblink,https://www.postgresql.org/docs/15/dblink.html,appendixes/additional-supplied-modules/dblink/README.md,F.10. dblink,title/path
+F. 延伸支援模組,F.15. earthdistance,https://www.postgresql.org/docs/15/earthdistance.html,appendixes/additional-supplied-modules/earthdistance.md,F.13. earthdistance,title/path
+F. 延伸支援模組,F.16. file_fdw,https://www.postgresql.org/docs/15/file-fdw.html,appendixes/additional-supplied-modules/file_fdw.md,F.14. file_fdw,title/path
+F. 延伸支援模組,F.18. hstore,https://www.postgresql.org/docs/15/hstore.html,appendixes/additional-supplied-modules/hstore.md,F.16. hstore,title/path
+F. 延伸支援模組,F.26. passwordcheck,https://www.postgresql.org/docs/15/passwordcheck.html,appendixes/additional-supplied-modules/f.26.-passwordcheck.md,F.26. passwordcheck,title/path
+F. 延伸支援模組,F.27. pg_buffercache,https://www.postgresql.org/docs/15/pgbuffercache.html,appendixes/additional-supplied-modules/pg_buffercache.md,F.24. pg_buffercache,title/path
+F. 延伸支援模組,F.32. pg_stat_statements,https://www.postgresql.org/docs/15/pgstatstatements.html,appendixes/additional-supplied-modules/pg_stat_statements.md,F.29. pg_stat_statements,title/path
+F. 延伸支援模組,F.33. pgstattuple,https://www.postgresql.org/docs/15/pgstattuple.html,appendixes/additional-supplied-modules/pgstattuple.md,F.30. pgstattuple,title/path
+F. 延伸支援模組,F.35. pg_trgm,https://www.postgresql.org/docs/15/pgtrgm.html,appendixes/additional-supplied-modules/pg_trgm.md,F.31. pg_trgm,title/path
+F. 延伸支援模組,F.36. pg_visibility,https://www.postgresql.org/docs/15/pgvisibility.html,appendixes/additional-supplied-modules/pg_visibility.md,F.32. pg_visibility,title/path
+F. 延伸支援模組,F.38. postgres_fdw,https://www.postgresql.org/docs/15/postgres-fdw.html,appendixes/additional-supplied-modules/postgres_fdw.md,F.38. postgres_fdw,title/path
+F. 延伸支援模組,F.40. sepgsql,https://www.postgresql.org/docs/15/sepgsql.html,appendixes/additional-supplied-modules/sepgsql.md,F.35. sepgsql,title/path
+F. 延伸支援模組,F.43. tablefunc,https://www.postgresql.org/docs/15/tablefunc.html,appendixes/additional-supplied-modules/tablefunc.md,F.43. tablefunc,title/path
+F. 延伸支援模組,F.45. test_decoding,https://www.postgresql.org/docs/15/test-decoding.html,appendixes/additional-supplied-modules/test_decoding.md,F.45. test_decoding,title/path
+F. 延伸支援模組,F.46. tsm_system_rows,https://www.postgresql.org/docs/15/tsm-system-rows.html,appendixes/additional-supplied-modules/tsm_system_rows.md,F.46. tsm_system_rows,title/path
+F. 延伸支援模組,F.47. tsm_system_time,https://www.postgresql.org/docs/15/tsm-system-time.html,appendixes/additional-supplied-modules/tsm_system_time.md,F.47. tsm_system_time,title/path
+F. 延伸支援模組,F.49. uuid-ossp,https://www.postgresql.org/docs/15/uuid-ossp.html,appendixes/additional-supplied-modules/uuid-ossp.md,F.49. uuid-ossp,title/path
+F. 延伸支援模組,F.5. basebackup_to_shell,https://www.postgresql.org/docs/15/basebackup-to-shell.html,,,unmapped-review
+F. 延伸支援模組,F.6. basic_archive,https://www.postgresql.org/docs/15/basic-archive.html,,,unmapped-review
+F. 延伸支援模組,F.9. btree_gist,https://www.postgresql.org/docs/15/btree-gist.html,,,unmapped-review
+F. 延伸支援模組,F.10. citext,https://www.postgresql.org/docs/15/citext.html,,,unmapped-review
+F. 延伸支援模組,F.11. cube,https://www.postgresql.org/docs/15/cube.html,,,unmapped-review
+F. 延伸支援模組,F.13. dict_int,https://www.postgresql.org/docs/15/dict-int.html,,,unmapped-review
+F. 延伸支援模組,F.14. dict_xsyn,https://www.postgresql.org/docs/15/dict-xsyn.html,,,unmapped-review
+F. 延伸支援模組,F.17. fuzzystrmatch,https://www.postgresql.org/docs/15/fuzzystrmatch.html,,,unmapped-review
+F. 延伸支援模組,F.19. intagg,https://www.postgresql.org/docs/15/intagg.html,,,unmapped-review
+F. 延伸支援模組,F.20. intarray,https://www.postgresql.org/docs/15/intarray.html,,,unmapped-review
+F. 延伸支援模組,F.21. isn,https://www.postgresql.org/docs/15/isn.html,,,unmapped-review
+F. 延伸支援模組,F.22. lo,https://www.postgresql.org/docs/15/lo.html,,,unmapped-review
+F. 延伸支援模組,F.23. ltree,https://www.postgresql.org/docs/15/ltree.html,,,unmapped-review
+F. 延伸支援模組,F.24. old_snapshot,https://www.postgresql.org/docs/15/oldsnapshot.html,,,unmapped-review
+F. 延伸支援模組,F.25. pageinspect,https://www.postgresql.org/docs/15/pageinspect.html,,,unmapped-review
+F. 延伸支援模組,F.28. pgcrypto,https://www.postgresql.org/docs/15/pgcrypto.html,,,unmapped-review
+F. 延伸支援模組,F.29. pg_freespacemap,https://www.postgresql.org/docs/15/pgfreespacemap.html,,,unmapped-review
+F. 延伸支援模組,F.30. pg_prewarm,https://www.postgresql.org/docs/15/pgprewarm.html,,,unmapped-review
+F. 延伸支援模組,F.31. pgrowlocks,https://www.postgresql.org/docs/15/pgrowlocks.html,,,unmapped-review
+F. 延伸支援模組,F.34. pg_surgery,https://www.postgresql.org/docs/15/pgsurgery.html,,,unmapped-review
+F. 延伸支援模組,F.37. pg_walinspect,https://www.postgresql.org/docs/15/pgwalinspect.html,,,unmapped-review
+F. 延伸支援模組,F.39. seg,https://www.postgresql.org/docs/15/seg.html,,,unmapped-review
+F. 延伸支援模組,F.41. spi,https://www.postgresql.org/docs/15/contrib-spi.html,,,unmapped-review
+F. 延伸支援模組,F.42. sslinfo,https://www.postgresql.org/docs/15/sslinfo.html,,,unmapped-review
+F. 延伸支援模組,F.44. tcn,https://www.postgresql.org/docs/15/tcn.html,,,unmapped-review
+F. 延伸支援模組,F.48. unaccent,https://www.postgresql.org/docs/15/unaccent.html,,,unmapped-review
+F. 延伸支援模組,F.50. xml2,https://www.postgresql.org/docs/15/xml2.html,,,unmapped-review
+G. Additional Supplied Programs,G.1. Client Applications,https://www.postgresql.org/docs/15/contrib-prog-client.html,appendixes/additional-supplied-programs/client-applications/README.md,G.1. Client Applications,title/path
+G. Additional Supplied Programs,G.2. Server Applications,https://www.postgresql.org/docs/15/contrib-prog-server.html,appendixes/additional-supplied-programs/server-applications/README.md,G.2. Server Applications,title/path
+H. 外部專案,H.2. Administration Tools,https://www.postgresql.org/docs/15/external-admin-tools.html,appendixes/h.-wai-bu-zhuan-an/h.2.-administration-tools.md,H.2. Administration Tools,title/path
+H. 外部專案,H.3. Procedural Languages,https://www.postgresql.org/docs/15/external-pl.html,appendixes/h.-wai-bu-zhuan-an/h.3.-procedural-languages.md,H.3. Procedural Languages,title/path
+H. 外部專案,H.4. Extensions,https://www.postgresql.org/docs/15/external-extensions.html,appendixes/h.-wai-bu-zhuan-an/h.4.-extensions.md,H.4. Extensions,title/path
+H. 外部專案,H.1. Client Interfaces,https://www.postgresql.org/docs/15/external-interfaces.html,appendixes/h.-wai-bu-zhuan-an/h.1.-yong-hu-duan-jie-mian.md,H.1. 用戶端介面,number-only-review
+I. The Source Code Repository,I.1. Getting the Source via Git,https://www.postgresql.org/docs/15/git.html,appendixes/the-source-code-repository/getting-the-source-via-git.md,I.1. Getting The Source via Git,title/path
+J. 文件取得,J.1. DocBook,https://www.postgresql.org/docs/15/docguide-docbook.html,appendixes/docguide/j.1.-docbook.md,J.1. DocBook,title/path
+J. 文件取得,J.2. Tool Sets,https://www.postgresql.org/docs/15/docguide-toolsets.html,appendixes/docguide/j.2.-tool-sets.md,J.2. Tool Sets,title/path
+J. 文件取得,J.3. Building the Documentation,https://www.postgresql.org/docs/15/docguide-build.html,appendixes/docguide/j.3.-building-the-documentation.md,J.3. Building the Documentation,title/path
+J. 文件取得,J.4. Documentation Authoring,https://www.postgresql.org/docs/15/docguide-authoring.html,appendixes/docguide/j.4.-documentation-authoring.md,J.4. Documentation Authoring,title/path
+J. 文件取得,J.5. Style Guide,https://www.postgresql.org/docs/15/docguide-style.html,appendixes/docguide/j.5.-style-guide.md,J.5. Style Guide,title/path
+N. 色彩支援,N.1. When Color is Used,https://www.postgresql.org/docs/15/color-when.html,appendixes/color-support/when-color-is-used.md,N.1. When Color is Used,title/path
+N. 色彩支援,N.2. Configuring the Colors,https://www.postgresql.org/docs/15/color-which.html,appendixes/color-support/configuring-the-colors.md,N.2. Configuring the Colors,title/path
+O. Obsolete or Renamed Features,O.1. recovery.conf file merged into postgresql.conf,https://www.postgresql.org/docs/15/recovery-config.html,,,unmapped-review
+O. Obsolete or Renamed Features,O.2. Default Roles Renamed to Predefined Roles,https://www.postgresql.org/docs/15/default-roles.html,,,unmapped-review
+O. Obsolete or Renamed Features,O.3. pg_xlogdump renamed to pg_waldump,https://www.postgresql.org/docs/15/pgxlogdump.html,,,unmapped-review
+O. Obsolete or Renamed Features,O.4. pg_resetxlog renamed to pg_resetwal,https://www.postgresql.org/docs/15/app-pgresetxlog.html,,,unmapped-review
+O. Obsolete or Renamed Features,O.5. pg_receivexlog renamed to pg_receivewal,https://www.postgresql.org/docs/15/app-pgreceivexlog.html,,,unmapped-review
+sql-commands.html,ABORT,https://www.postgresql.org/docs/15/sql-abort.html,,,unmapped-review
+sql-commands.html,ALTER AGGREGATE,https://www.postgresql.org/docs/15/sql-alteraggregate.html,,,unmapped-review
+sql-commands.html,ALTER COLLATION,https://www.postgresql.org/docs/15/sql-altercollation.html,,,unmapped-review
+sql-commands.html,ALTER CONVERSION,https://www.postgresql.org/docs/15/sql-alterconversion.html,,,unmapped-review
+sql-commands.html,ALTER DATABASE,https://www.postgresql.org/docs/15/sql-alterdatabase.html,reference/sql-commands/alter-database.md,ALTER DATABASE,title/path
+sql-commands.html,ALTER DEFAULT PRIVILEGES,https://www.postgresql.org/docs/15/sql-alterdefaultprivileges.html,reference/sql-commands/alter-default-privileges.md,ALTER DEFAULT PRIVILEGES,title/path
+sql-commands.html,ALTER DOMAIN,https://www.postgresql.org/docs/15/sql-alterdomain.html,,,unmapped-review
+sql-commands.html,ALTER EVENT TRIGGER,https://www.postgresql.org/docs/15/sql-altereventtrigger.html,,,unmapped-review
+sql-commands.html,ALTER EXTENSION,https://www.postgresql.org/docs/15/sql-alterextension.html,reference/sql-commands/alter-extension.md,ALTER EXTENSION,title/path
+sql-commands.html,ALTER FOREIGN DATA WRAPPER,https://www.postgresql.org/docs/15/sql-alterforeigndatawrapper.html,,,unmapped-review
+sql-commands.html,ALTER FOREIGN TABLE,https://www.postgresql.org/docs/15/sql-alterforeigntable.html,,,unmapped-review
+sql-commands.html,ALTER FUNCTION,https://www.postgresql.org/docs/15/sql-alterfunction.html,reference/sql-commands/alter-function.md,ALTER FUNCTION,title/path
+sql-commands.html,ALTER GROUP,https://www.postgresql.org/docs/15/sql-altergroup.html,,,unmapped-review
+sql-commands.html,ALTER INDEX,https://www.postgresql.org/docs/15/sql-alterindex.html,reference/sql-commands/alter-index.md,ALTER INDEX,title/path
+sql-commands.html,ALTER LANGUAGE,https://www.postgresql.org/docs/15/sql-alterlanguage.html,reference/sql-commands/alter-language.md,ALTER LANGUAGE,title/path
+sql-commands.html,ALTER LARGE OBJECT,https://www.postgresql.org/docs/15/sql-alterlargeobject.html,,,unmapped-review
+sql-commands.html,ALTER MATERIALIZED VIEW,https://www.postgresql.org/docs/15/sql-altermaterializedview.html,reference/sql-commands/alter-materialized-view.md,ALTER MATERIALIZED VIEW,title/path
+sql-commands.html,ALTER OPERATOR,https://www.postgresql.org/docs/15/sql-alteroperator.html,,,unmapped-review
+sql-commands.html,ALTER OPERATOR CLASS,https://www.postgresql.org/docs/15/sql-alteropclass.html,,,unmapped-review
+sql-commands.html,ALTER OPERATOR FAMILY,https://www.postgresql.org/docs/15/sql-alteropfamily.html,,,unmapped-review
+sql-commands.html,ALTER POLICY,https://www.postgresql.org/docs/15/sql-alterpolicy.html,reference/sql-commands/alter-policy.md,ALTER POLICY,title/path
+sql-commands.html,ALTER PROCEDURE,https://www.postgresql.org/docs/15/sql-alterprocedure.html,,,unmapped-review
+sql-commands.html,ALTER PUBLICATION,https://www.postgresql.org/docs/15/sql-alterpublication.html,reference/sql-commands/alter-publication.md,ALTER PUBLICATION,title/path
+sql-commands.html,ALTER ROLE,https://www.postgresql.org/docs/15/sql-alterrole.html,reference/sql-commands/alter-role.md,ALTER ROLE,title/path
+sql-commands.html,ALTER ROUTINE,https://www.postgresql.org/docs/15/sql-alterroutine.html,,,unmapped-review
+sql-commands.html,ALTER RULE,https://www.postgresql.org/docs/15/sql-alterrule.html,reference/sql-commands/alter-rule.md,ALTER RULE,title/path
+sql-commands.html,ALTER SCHEMA,https://www.postgresql.org/docs/15/sql-alterschema.html,reference/sql-commands/alter-schema.md,ALTER SCHEMA,title/path
+sql-commands.html,ALTER SEQUENCE,https://www.postgresql.org/docs/15/sql-altersequence.html,reference/sql-commands/alter-sequence.md,ALTER SEQUENCE,title/path
+sql-commands.html,ALTER SERVER,https://www.postgresql.org/docs/15/sql-alterserver.html,,,unmapped-review
+sql-commands.html,ALTER STATISTICS,https://www.postgresql.org/docs/15/sql-alterstatistics.html,reference/sql-commands/alter-statistics.md,ALTER STATISTICS,title/path
+sql-commands.html,ALTER SUBSCRIPTION,https://www.postgresql.org/docs/15/sql-altersubscription.html,reference/sql-commands/alter-subscription.md,ALTER SUBSCRIPTION,title/path
+sql-commands.html,ALTER SYSTEM,https://www.postgresql.org/docs/15/sql-altersystem.html,reference/sql-commands/alter-system.md,ALTER SYSTEM,title/path
+sql-commands.html,ALTER TABLE,https://www.postgresql.org/docs/15/sql-altertable.html,reference/sql-commands/alter-table.md,ALTER TABLE,title/path
+sql-commands.html,ALTER TABLESPACE,https://www.postgresql.org/docs/15/sql-altertablespace.html,reference/sql-commands/alter-tablespace.md,ALTER TABLESPACE,title/path
+sql-commands.html,ALTER TEXT SEARCH CONFIGURATION,https://www.postgresql.org/docs/15/sql-altertsconfig.html,,,unmapped-review
+sql-commands.html,ALTER TEXT SEARCH DICTIONARY,https://www.postgresql.org/docs/15/sql-altertsdictionary.html,,,unmapped-review
+sql-commands.html,ALTER TEXT SEARCH PARSER,https://www.postgresql.org/docs/15/sql-altertsparser.html,,,unmapped-review
+sql-commands.html,ALTER TEXT SEARCH TEMPLATE,https://www.postgresql.org/docs/15/sql-altertstemplate.html,,,unmapped-review
+sql-commands.html,ALTER TRIGGER,https://www.postgresql.org/docs/15/sql-altertrigger.html,reference/sql-commands/alter-trigger.md,ALTER TRIGGER,title/path
+sql-commands.html,ALTER TYPE,https://www.postgresql.org/docs/15/sql-altertype.html,reference/sql-commands/alter-type.md,ALTER TYPE,title/path
+sql-commands.html,ALTER USER,https://www.postgresql.org/docs/15/sql-alteruser.html,reference/sql-commands/alter-user.md,ALTER USER,title/path
+sql-commands.html,ALTER USER MAPPING,https://www.postgresql.org/docs/15/sql-alterusermapping.html,,,unmapped-review
+sql-commands.html,ALTER VIEW,https://www.postgresql.org/docs/15/sql-alterview.html,reference/sql-commands/alter-view.md,ALTER VIEW,title/path
+sql-commands.html,ANALYZE,https://www.postgresql.org/docs/15/sql-analyze.html,reference/sql-commands/analyze.md,ANALYZE,title/path
+sql-commands.html,BEGIN,https://www.postgresql.org/docs/15/sql-begin.html,,,unmapped-review
+sql-commands.html,CALL,https://www.postgresql.org/docs/15/sql-call.html,,,unmapped-review
+sql-commands.html,CHECKPOINT,https://www.postgresql.org/docs/15/sql-checkpoint.html,,,unmapped-review
+sql-commands.html,CLOSE,https://www.postgresql.org/docs/15/sql-close.html,,,unmapped-review
+sql-commands.html,CLUSTER,https://www.postgresql.org/docs/15/sql-cluster.html,reference/sql-commands/cluster.md,CLUSTER,title/path
+sql-commands.html,COMMENT,https://www.postgresql.org/docs/15/sql-comment.html,reference/sql-commands/comment.md,COMMENT,title/path
+sql-commands.html,COMMIT,https://www.postgresql.org/docs/15/sql-commit.html,,,unmapped-review
+sql-commands.html,COMMIT PREPARED,https://www.postgresql.org/docs/15/sql-commit-prepared.html,reference/sql-commands/commit-prepared.md,COMMIT PREPARED,title/path
+sql-commands.html,COPY,https://www.postgresql.org/docs/15/sql-copy.html,reference/sql-commands/copy.md,COPY,title/path
+sql-commands.html,CREATE ACCESS METHOD,https://www.postgresql.org/docs/15/sql-create-access-method.html,reference/sql-commands/create-access-method.md,CREATE ACCESS METHOD,title/path
+sql-commands.html,CREATE AGGREGATE,https://www.postgresql.org/docs/15/sql-createaggregate.html,,,unmapped-review
+sql-commands.html,CREATE CAST,https://www.postgresql.org/docs/15/sql-createcast.html,reference/sql-commands/create-cast.md,CREATE CAST,title/path
+sql-commands.html,CREATE COLLATION,https://www.postgresql.org/docs/15/sql-createcollation.html,,,unmapped-review
+sql-commands.html,CREATE CONVERSION,https://www.postgresql.org/docs/15/sql-createconversion.html,,,unmapped-review
+sql-commands.html,CREATE DATABASE,https://www.postgresql.org/docs/15/sql-createdatabase.html,reference/sql-commands/create-database.md,CREATE DATABASE,title/path
+sql-commands.html,CREATE DOMAIN,https://www.postgresql.org/docs/15/sql-createdomain.html,reference/sql-commands/create-domain.md,CREATE DOMAIN,title/path
+sql-commands.html,CREATE EVENT TRIGGER,https://www.postgresql.org/docs/15/sql-createeventtrigger.html,reference/sql-commands/create-event-trigger.md,CREATE EVENT TRIGGER,title/path
+sql-commands.html,CREATE EXTENSION,https://www.postgresql.org/docs/15/sql-createextension.html,reference/sql-commands/create-extension.md,CREATE EXTENSION,title/path
+sql-commands.html,CREATE FOREIGN DATA WRAPPER,https://www.postgresql.org/docs/15/sql-createforeigndatawrapper.html,reference/sql-commands/create-foreign-data-wrapper.md,CREATE FOREIGN DATA WRAPPER,title/path
+sql-commands.html,CREATE FOREIGN TABLE,https://www.postgresql.org/docs/15/sql-createforeigntable.html,reference/sql-commands/create-foreign-table.md,CREATE FOREIGN TABLE,title/path
+sql-commands.html,CREATE FUNCTION,https://www.postgresql.org/docs/15/sql-createfunction.html,reference/sql-commands/create-function.md,CREATE FUNCTION,title/path
+sql-commands.html,CREATE GROUP,https://www.postgresql.org/docs/15/sql-creategroup.html,,,unmapped-review
+sql-commands.html,CREATE INDEX,https://www.postgresql.org/docs/15/sql-createindex.html,reference/sql-commands/create-index.md,CREATE INDEX,title/path
+sql-commands.html,CREATE LANGUAGE,https://www.postgresql.org/docs/15/sql-createlanguage.html,reference/sql-commands/create-language.md,CREATE LANGUAGE,title/path
+sql-commands.html,CREATE MATERIALIZED VIEW,https://www.postgresql.org/docs/15/sql-creatematerializedview.html,reference/sql-commands/create-materialized-view.md,CREATE MATERIALIZED VIEW,title/path
+sql-commands.html,CREATE OPERATOR,https://www.postgresql.org/docs/15/sql-createoperator.html,,,unmapped-review
+sql-commands.html,CREATE OPERATOR CLASS,https://www.postgresql.org/docs/15/sql-createopclass.html,,,unmapped-review
+sql-commands.html,CREATE OPERATOR FAMILY,https://www.postgresql.org/docs/15/sql-createopfamily.html,,,unmapped-review
+sql-commands.html,CREATE POLICY,https://www.postgresql.org/docs/15/sql-createpolicy.html,reference/sql-commands/create-policy.md,CREATE POLICY,title/path
+sql-commands.html,CREATE PROCEDURE,https://www.postgresql.org/docs/15/sql-createprocedure.html,reference/sql-commands/create-procedure.md,CREATE PROCEDURE,title/path
+sql-commands.html,CREATE PUBLICATION,https://www.postgresql.org/docs/15/sql-createpublication.html,reference/sql-commands/create-publication.md,CREATE PUBLICATION,title/path
+sql-commands.html,CREATE ROLE,https://www.postgresql.org/docs/15/sql-createrole.html,reference/sql-commands/create-role.md,CREATE ROLE,title/path
+sql-commands.html,CREATE RULE,https://www.postgresql.org/docs/15/sql-createrule.html,reference/sql-commands/create-rule.md,CREATE RULE,title/path
+sql-commands.html,CREATE SCHEMA,https://www.postgresql.org/docs/15/sql-createschema.html,reference/sql-commands/create-schema.md,CREATE SCHEMA,title/path
+sql-commands.html,CREATE SEQUENCE,https://www.postgresql.org/docs/15/sql-createsequence.html,reference/sql-commands/create-sequence.md,CREATE SEQUENCE,title/path
+sql-commands.html,CREATE SERVER,https://www.postgresql.org/docs/15/sql-createserver.html,reference/sql-commands/create-server.md,CREATE SERVER,title/path
+sql-commands.html,CREATE STATISTICS,https://www.postgresql.org/docs/15/sql-createstatistics.html,reference/sql-commands/create-statistics.md,CREATE STATISTICS,title/path
+sql-commands.html,CREATE SUBSCRIPTION,https://www.postgresql.org/docs/15/sql-createsubscription.html,reference/sql-commands/create-subscription.md,CREATE SUBSCRIPTION,title/path
+sql-commands.html,CREATE TABLE,https://www.postgresql.org/docs/15/sql-createtable.html,reference/sql-commands/create-table.md,CREATE TABLE,title/path
+sql-commands.html,CREATE TABLE AS,https://www.postgresql.org/docs/15/sql-createtableas.html,reference/sql-commands/create-table-as.md,CREATE TABLE AS,title/path
+sql-commands.html,CREATE TABLESPACE,https://www.postgresql.org/docs/15/sql-createtablespace.html,reference/sql-commands/create-tablespace.md,CREATE TABLESPACE,title/path
+sql-commands.html,CREATE TEXT SEARCH CONFIGURATION,https://www.postgresql.org/docs/15/sql-createtsconfig.html,,,unmapped-review
+sql-commands.html,CREATE TEXT SEARCH DICTIONARY,https://www.postgresql.org/docs/15/sql-createtsdictionary.html,,,unmapped-review
+sql-commands.html,CREATE TEXT SEARCH PARSER,https://www.postgresql.org/docs/15/sql-createtsparser.html,,,unmapped-review
+sql-commands.html,CREATE TEXT SEARCH TEMPLATE,https://www.postgresql.org/docs/15/sql-createtstemplate.html,,,unmapped-review
+sql-commands.html,CREATE TRANSFORM,https://www.postgresql.org/docs/15/sql-createtransform.html,reference/sql-commands/create-transform.md,CREATE TRANSFORM,title/path
+sql-commands.html,CREATE TRIGGER,https://www.postgresql.org/docs/15/sql-createtrigger.html,reference/sql-commands/create-trigger.md,CREATE TRIGGER,title/path
+sql-commands.html,CREATE TYPE,https://www.postgresql.org/docs/15/sql-createtype.html,reference/sql-commands/create-type.md,CREATE TYPE,title/path
+sql-commands.html,CREATE USER,https://www.postgresql.org/docs/15/sql-createuser.html,reference/sql-commands/create-user.md,CREATE USER,title/path
+sql-commands.html,CREATE USER MAPPING,https://www.postgresql.org/docs/15/sql-createusermapping.html,reference/sql-commands/create-user-mapping.md,CREATE USER MAPPING,title/path
+sql-commands.html,CREATE VIEW,https://www.postgresql.org/docs/15/sql-createview.html,reference/sql-commands/create-view.md,CREATE VIEW,title/path
+sql-commands.html,DEALLOCATE,https://www.postgresql.org/docs/15/sql-deallocate.html,reference/sql-commands/deallocate.md,DEALLOCATE,title/path
+sql-commands.html,DECLARE,https://www.postgresql.org/docs/15/sql-declare.html,,,unmapped-review
+sql-commands.html,DELETE,https://www.postgresql.org/docs/15/sql-delete.html,reference/sql-commands/delete.md,DELETE,title/path
+sql-commands.html,DISCARD,https://www.postgresql.org/docs/15/sql-discard.html,,,unmapped-review
+sql-commands.html,DO,https://www.postgresql.org/docs/15/sql-do.html,reference/sql-commands/do.md,DO,title/path
+sql-commands.html,DROP ACCESS METHOD,https://www.postgresql.org/docs/15/sql-drop-access-method.html,reference/sql-commands/drop-access-method.md,DROP ACCESS METHOD,title/path
+sql-commands.html,DROP AGGREGATE,https://www.postgresql.org/docs/15/sql-dropaggregate.html,,,unmapped-review
+sql-commands.html,DROP CAST,https://www.postgresql.org/docs/15/sql-dropcast.html,,,unmapped-review
+sql-commands.html,DROP COLLATION,https://www.postgresql.org/docs/15/sql-dropcollation.html,,,unmapped-review
+sql-commands.html,DROP CONVERSION,https://www.postgresql.org/docs/15/sql-dropconversion.html,,,unmapped-review
+sql-commands.html,DROP DATABASE,https://www.postgresql.org/docs/15/sql-dropdatabase.html,reference/sql-commands/drop-database.md,DROP DATABASE,title/path
+sql-commands.html,DROP DOMAIN,https://www.postgresql.org/docs/15/sql-dropdomain.html,,,unmapped-review
+sql-commands.html,DROP EVENT TRIGGER,https://www.postgresql.org/docs/15/sql-dropeventtrigger.html,,,unmapped-review
+sql-commands.html,DROP EXTENSION,https://www.postgresql.org/docs/15/sql-dropextension.html,reference/sql-commands/drop-extension.md,DROP EXTENSION,title/path
+sql-commands.html,DROP FOREIGN DATA WRAPPER,https://www.postgresql.org/docs/15/sql-dropforeigndatawrapper.html,,,unmapped-review
+sql-commands.html,DROP FOREIGN TABLE,https://www.postgresql.org/docs/15/sql-dropforeigntable.html,,,unmapped-review
+sql-commands.html,DROP FUNCTION,https://www.postgresql.org/docs/15/sql-dropfunction.html,reference/sql-commands/drop-function.md,DROP FUNCTION,title/path
+sql-commands.html,DROP GROUP,https://www.postgresql.org/docs/15/sql-dropgroup.html,,,unmapped-review
+sql-commands.html,DROP INDEX,https://www.postgresql.org/docs/15/sql-dropindex.html,reference/sql-commands/drop-index.md,DROP INDEX,title/path
+sql-commands.html,DROP LANGUAGE,https://www.postgresql.org/docs/15/sql-droplanguage.html,reference/sql-commands/drop-language.md,DROP LANGUAGE,title/path
+sql-commands.html,DROP MATERIALIZED VIEW,https://www.postgresql.org/docs/15/sql-dropmaterializedview.html,reference/sql-commands/drop-materialized-view.md,DROP MATERIALIZED VIEW,title/path
+sql-commands.html,DROP OPERATOR,https://www.postgresql.org/docs/15/sql-dropoperator.html,,,unmapped-review
+sql-commands.html,DROP OPERATOR CLASS,https://www.postgresql.org/docs/15/sql-dropopclass.html,,,unmapped-review
+sql-commands.html,DROP OPERATOR FAMILY,https://www.postgresql.org/docs/15/sql-dropopfamily.html,,,unmapped-review
+sql-commands.html,DROP OWNED,https://www.postgresql.org/docs/15/sql-drop-owned.html,reference/sql-commands/drop-owned.md,DROP OWNED,title/path
+sql-commands.html,DROP POLICY,https://www.postgresql.org/docs/15/sql-droppolicy.html,reference/sql-commands/drop-policy.md,DROP POLICY,title/path
+sql-commands.html,DROP PROCEDURE,https://www.postgresql.org/docs/15/sql-dropprocedure.html,,,unmapped-review
+sql-commands.html,DROP PUBLICATION,https://www.postgresql.org/docs/15/sql-droppublication.html,reference/sql-commands/drop-publication.md,DROP PUBLICATION,title/path
+sql-commands.html,DROP ROLE,https://www.postgresql.org/docs/15/sql-droprole.html,reference/sql-commands/drop-role.md,DROP ROLE,title/path
+sql-commands.html,DROP ROUTINE,https://www.postgresql.org/docs/15/sql-droproutine.html,,,unmapped-review
+sql-commands.html,DROP RULE,https://www.postgresql.org/docs/15/sql-droprule.html,reference/sql-commands/drop-rule.md,DROP RULE,title/path
+sql-commands.html,DROP SCHEMA,https://www.postgresql.org/docs/15/sql-dropschema.html,reference/sql-commands/drop-schema.md,DROP SCHEMA,title/path
+sql-commands.html,DROP SEQUENCE,https://www.postgresql.org/docs/15/sql-dropsequence.html,reference/sql-commands/drop-sequence.md,DROP SEQUENCE,title/path
+sql-commands.html,DROP SERVER,https://www.postgresql.org/docs/15/sql-dropserver.html,,,unmapped-review
+sql-commands.html,DROP STATISTICS,https://www.postgresql.org/docs/15/sql-dropstatistics.html,reference/sql-commands/drop-statistics.md,DROP STATISTICS,title/path
+sql-commands.html,DROP SUBSCRIPTION,https://www.postgresql.org/docs/15/sql-dropsubscription.html,reference/sql-commands/drop-subscription.md,DROP SUBSCRIPTION,title/path
+sql-commands.html,DROP TABLE,https://www.postgresql.org/docs/15/sql-droptable.html,reference/sql-commands/drop-table.md,DROP TABLE,title/path
+sql-commands.html,DROP TABLESPACE,https://www.postgresql.org/docs/15/sql-droptablespace.html,reference/sql-commands/drop-tablespace.md,DROP TABLESPACE,title/path
+sql-commands.html,DROP TEXT SEARCH CONFIGURATION,https://www.postgresql.org/docs/15/sql-droptsconfig.html,,,unmapped-review
+sql-commands.html,DROP TEXT SEARCH DICTIONARY,https://www.postgresql.org/docs/15/sql-droptsdictionary.html,,,unmapped-review
+sql-commands.html,DROP TEXT SEARCH PARSER,https://www.postgresql.org/docs/15/sql-droptsparser.html,,,unmapped-review
+sql-commands.html,DROP TEXT SEARCH TEMPLATE,https://www.postgresql.org/docs/15/sql-droptstemplate.html,,,unmapped-review
+sql-commands.html,DROP TRANSFORM,https://www.postgresql.org/docs/15/sql-droptransform.html,reference/sql-commands/drop-transform.md,DROP TRANSFORM,title/path
+sql-commands.html,DROP TRIGGER,https://www.postgresql.org/docs/15/sql-droptrigger.html,reference/sql-commands/drop-trigger.md,DROP TRIGGER,title/path
+sql-commands.html,DROP TYPE,https://www.postgresql.org/docs/15/sql-droptype.html,reference/sql-commands/drop-type.md,DROP TYPE,title/path
+sql-commands.html,DROP USER,https://www.postgresql.org/docs/15/sql-dropuser.html,reference/sql-commands/drop-user.md,DROP USER,title/path
+sql-commands.html,DROP USER MAPPING,https://www.postgresql.org/docs/15/sql-dropusermapping.html,,,unmapped-review
+sql-commands.html,DROP VIEW,https://www.postgresql.org/docs/15/sql-dropview.html,reference/sql-commands/drop-view.md,DROP VIEW,title/path
+sql-commands.html,END,https://www.postgresql.org/docs/15/sql-end.html,,,unmapped-review
+sql-commands.html,EXECUTE,https://www.postgresql.org/docs/15/sql-execute.html,reference/sql-commands/execute.md,EXECUTE,title/path
+sql-commands.html,EXPLAIN,https://www.postgresql.org/docs/15/sql-explain.html,reference/sql-commands/explain.md,EXPLAIN,title/path
+sql-commands.html,FETCH,https://www.postgresql.org/docs/15/sql-fetch.html,,,unmapped-review
+sql-commands.html,GRANT,https://www.postgresql.org/docs/15/sql-grant.html,reference/sql-commands/grant.md,GRANT,title/path
+sql-commands.html,IMPORT FOREIGN SCHEMA,https://www.postgresql.org/docs/15/sql-importforeignschema.html,reference/sql-commands/import-foreign-schema.md,IMPORT FOREIGN SCHEMA,title/path
+sql-commands.html,INSERT,https://www.postgresql.org/docs/15/sql-insert.html,reference/sql-commands/insert.md,INSERT,title/path
+sql-commands.html,LISTEN,https://www.postgresql.org/docs/15/sql-listen.html,reference/sql-commands/listen.md,LISTEN,title/path
+sql-commands.html,LOAD,https://www.postgresql.org/docs/15/sql-load.html,reference/sql-commands/load.md,LOAD,title/path
+sql-commands.html,LOCK,https://www.postgresql.org/docs/15/sql-lock.html,,,unmapped-review
+sql-commands.html,MERGE,https://www.postgresql.org/docs/15/sql-merge.html,reference/sql-commands/merge.md,MERGE,title/path
+sql-commands.html,MOVE,https://www.postgresql.org/docs/15/sql-move.html,,,unmapped-review
+sql-commands.html,NOTIFY,https://www.postgresql.org/docs/15/sql-notify.html,reference/sql-commands/notify.md,NOTIFY,title/path
+sql-commands.html,PREPARE,https://www.postgresql.org/docs/15/sql-prepare.html,reference/sql-commands/prepare.md,PREPARE,title/path
+sql-commands.html,PREPARE TRANSACTION,https://www.postgresql.org/docs/15/sql-prepare-transaction.html,reference/sql-commands/prepare-transaction.md,PREPARE TRANSACTION,title/path
+sql-commands.html,REASSIGN OWNED,https://www.postgresql.org/docs/15/sql-reassign-owned.html,reference/sql-commands/reassign-owned.md,REASSIGN OWNED,title/path
+sql-commands.html,REFRESH MATERIALIZED VIEW,https://www.postgresql.org/docs/15/sql-refreshmaterializedview.html,reference/sql-commands/refresh-materialized-view.md,REFRESH MATERIALIZED VIEW,title/path
+sql-commands.html,REINDEX,https://www.postgresql.org/docs/15/sql-reindex.html,reference/sql-commands/reindex.md,REINDEX,title/path
+sql-commands.html,RELEASE SAVEPOINT,https://www.postgresql.org/docs/15/sql-release-savepoint.html,,,unmapped-review
+sql-commands.html,RESET,https://www.postgresql.org/docs/15/sql-reset.html,reference/sql-commands/reset.md,RESET,title/path
+sql-commands.html,REVOKE,https://www.postgresql.org/docs/15/sql-revoke.html,reference/sql-commands/revoke.md,REVOKE,title/path
+sql-commands.html,ROLLBACK,https://www.postgresql.org/docs/15/sql-rollback.html,,,unmapped-review
+sql-commands.html,ROLLBACK PREPARED,https://www.postgresql.org/docs/15/sql-rollback-prepared.html,reference/sql-commands/rollback-prepared.md,ROLLBACK PREPARED,title/path
+sql-commands.html,ROLLBACK TO SAVEPOINT,https://www.postgresql.org/docs/15/sql-rollback-to.html,,,unmapped-review
+sql-commands.html,SAVEPOINT,https://www.postgresql.org/docs/15/sql-savepoint.html,,,unmapped-review
+sql-commands.html,SECURITY LABEL,https://www.postgresql.org/docs/15/sql-security-label.html,reference/sql-commands/security-label.md,SECURITY LABEL,title/path
+sql-commands.html,SELECT,https://www.postgresql.org/docs/15/sql-select.html,reference/sql-commands/select.md,SELECT,title/path
+sql-commands.html,SELECT INTO,https://www.postgresql.org/docs/15/sql-selectinto.html,reference/sql-commands/select-into.md,SELECT INTO,title/path
+sql-commands.html,SET,https://www.postgresql.org/docs/15/sql-set.html,reference/sql-commands/set.md,SET,title/path
+sql-commands.html,SET CONSTRAINTS,https://www.postgresql.org/docs/15/sql-set-constraints.html,reference/sql-commands/set-constraints.md,SET CONSTRAINTS,title/path
+sql-commands.html,SET ROLE,https://www.postgresql.org/docs/15/sql-set-role.html,reference/sql-commands/set-role.md,SET ROLE,title/path
+sql-commands.html,SET SESSION AUTHORIZATION,https://www.postgresql.org/docs/15/sql-set-session-authorization.html,reference/sql-commands/set-session-authorization.md,SET SESSION AUTHORIZATION,title/path
+sql-commands.html,SET TRANSACTION,https://www.postgresql.org/docs/15/sql-set-transaction.html,reference/sql-commands/set-transaction.md,SET TRANSACTION,title/path
+sql-commands.html,SHOW,https://www.postgresql.org/docs/15/sql-show.html,reference/sql-commands/show.md,SHOW,title/path
+sql-commands.html,START TRANSACTION,https://www.postgresql.org/docs/15/sql-start-transaction.html,,,unmapped-review
+sql-commands.html,TRUNCATE,https://www.postgresql.org/docs/15/sql-truncate.html,reference/sql-commands/truncate.md,TRUNCATE,title/path
+sql-commands.html,UNLISTEN,https://www.postgresql.org/docs/15/sql-unlisten.html,reference/sql-commands/unlisten.md,UNLISTEN,title/path
+sql-commands.html,UPDATE,https://www.postgresql.org/docs/15/sql-update.html,reference/sql-commands/update.md,UPDATE,title/path
+sql-commands.html,VACUUM,https://www.postgresql.org/docs/15/sql-vacuum.html,reference/sql-commands/vacuum.md,VACUUM,title/path
+sql-commands.html,VALUES,https://www.postgresql.org/docs/15/sql-values.html,reference/sql-commands/values.md,VALUES,title/path
+reference-client.html,clusterdb,https://www.postgresql.org/docs/15/app-clusterdb.html,,,unmapped-review
+reference-client.html,createdb,https://www.postgresql.org/docs/15/app-createdb.html,reference/client-applications/createdb.md,createdb,title/path
+reference-client.html,createuser,https://www.postgresql.org/docs/15/app-createuser.html,reference/client-applications/createuser.md,createuser,title/path
+reference-client.html,dropdb,https://www.postgresql.org/docs/15/app-dropdb.html,reference/client-applications/dropdb.md,dropdb,title/path
+reference-client.html,dropuser,https://www.postgresql.org/docs/15/app-dropuser.html,reference/client-applications/dropuser.md,dropuser,title/path
+reference-client.html,ecpg,https://www.postgresql.org/docs/15/app-ecpg.html,,,unmapped-review
+reference-client.html,pg_amcheck,https://www.postgresql.org/docs/15/app-pgamcheck.html,,,unmapped-review
+reference-client.html,pg_basebackup,https://www.postgresql.org/docs/15/app-pgbasebackup.html,reference/client-applications/pg_basebackup.md,pg_basebackup,title/path
+reference-client.html,pgbench,https://www.postgresql.org/docs/15/pgbench.html,reference/client-applications/pgbench.md,pgbench,title/path
+reference-client.html,pg_config,https://www.postgresql.org/docs/15/app-pgconfig.html,,,unmapped-review
+reference-client.html,pg_dump,https://www.postgresql.org/docs/15/app-pgdump.html,reference/client-applications/pg_dump.md,pg_dump,title/path
+reference-client.html,pg_dumpall,https://www.postgresql.org/docs/15/app-pg-dumpall.html,reference/client-applications/pg_dumpall.md,pg_dumpall,title/path
+reference-client.html,pg_isready,https://www.postgresql.org/docs/15/app-pg-isready.html,reference/client-applications/pg_isready.md,pg_isready,title/path
+reference-client.html,pg_receivewal,https://www.postgresql.org/docs/15/app-pgreceivewal.html,reference/client-applications/pg_receivewal.md,pg_receivewal,title/path
+reference-client.html,pg_recvlogical,https://www.postgresql.org/docs/15/app-pgrecvlogical.html,reference/client-applications/pg_recvlogical.md,pg_recvlogical,title/path
+reference-client.html,pg_restore,https://www.postgresql.org/docs/15/app-pgrestore.html,reference/client-applications/pg_restore.md,pg_restore,title/path
+reference-client.html,pg_verifybackup,https://www.postgresql.org/docs/15/app-pgverifybackup.html,reference/client-applications/pg_verifybackup.md,pg_verifybackup,title/path
+reference-client.html,psql,https://www.postgresql.org/docs/15/app-psql.html,reference/client-applications/psql.md,psql,title/path
+reference-client.html,reindexdb,https://www.postgresql.org/docs/15/app-reindexdb.html,,,unmapped-review
+reference-client.html,vacuumdb,https://www.postgresql.org/docs/15/app-vacuumdb.html,reference/client-applications/vacuumdb.md,vacuumdb,title/path
+reference-server.html,initdb,https://www.postgresql.org/docs/15/app-initdb.html,reference/server-applications/initdb.md,initdb,title/path
+reference-server.html,pg_archivecleanup,https://www.postgresql.org/docs/15/pgarchivecleanup.html,reference/server-applications/pg_archivecleanup.md,pg_archivecleanup,title/path
+reference-server.html,pg_checksums,https://www.postgresql.org/docs/15/app-pgchecksums.html,,,unmapped-review
+reference-server.html,pg_controldata,https://www.postgresql.org/docs/15/app-pgcontroldata.html,,,unmapped-review
+reference-server.html,pg_ctl,https://www.postgresql.org/docs/15/app-pg-ctl.html,reference/server-applications/pg_ctl.md,pg_ctl,title/path
+reference-server.html,pg_resetwal,https://www.postgresql.org/docs/15/app-pgresetwal.html,,,unmapped-review
+reference-server.html,pg_rewind,https://www.postgresql.org/docs/15/app-pgrewind.html,,,unmapped-review
+reference-server.html,pg_test_fsync,https://www.postgresql.org/docs/15/pgtestfsync.html,reference/server-applications/pg_test_fsync.md,pg_test_fsync,title/path
+reference-server.html,pg_test_timing,https://www.postgresql.org/docs/15/pgtesttiming.html,reference/server-applications/pg_test_timing.md,pg_test_timing,title/path
+reference-server.html,pg_upgrade,https://www.postgresql.org/docs/15/pgupgrade.html,reference/server-applications/pg_upgrade.md,pg_upgrade,title/path
+reference-server.html,pg_waldump,https://www.postgresql.org/docs/15/pgwaldump.html,,,unmapped-review
+reference-server.html,postgres,https://www.postgresql.org/docs/15/app-postgres.html,reference/server-applications/postgres.md,postgres,title/path
+reference-server.html,postmaster,https://www.postgresql.org/docs/15/app-postmaster.html,,,unmapped-review

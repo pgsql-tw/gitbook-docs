@@ -1,4 +1,4 @@
-# F.14. file\_fdw
+# F.16. file\_fdw
 
 file\_fdw 模組提供了外部資料封裝器 file\_fdw，可用於存取伺服器檔案系統中的資料檔案，或在伺服器上執行某個程序並取得其輸出。資料檔案或程序輸出必須採用可由 COPY FROM 讀取的格式；有關詳細資訊，請參閱 [COPY](../../reference/sql-commands/copy.md)。目前對資料檔案的存取只有讀取的功能。
 

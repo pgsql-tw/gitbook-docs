@@ -1,4 +1,4 @@
-# F.35. sepgsql
+# F.40. sepgsql
 
 `sepgsql` is a loadable module that supports label-based mandatory access control (MAC) based on SELinux security policy.
 
@@ -6,7 +6,7 @@
 
 The current implementation has significant limitations, and does not enforce mandatory access control for all actions. See [Section F.35.7](https://www.postgresql.org/docs/12/sepgsql.html#SEPGSQL-LIMITATIONS).
 
-## F.35.1. Overview
+## F.40.1. Overview
 
 This module integrates with SELinux to provide an additional layer of security checking above and beyond what is normally provided by PostgreSQL. From the perspective of SELinux, this module allows PostgreSQL to function as a user-space object manager. Each table or function access initiated by a DML query will be checked against the system security policy. This check is in addition to the usual SQL permissions checking performed by PostgreSQL.
 
@@ -14,7 +14,7 @@ SELinux access control decisions are made using security labels, which are repre
 
 The [SECURITY LABEL](https://www.postgresql.org/docs/12/sql-security-label.html) statement allows assignment of a security label to a database object.
 
-## F.35.2. Installation
+## F.40.2. Installation
 
 `sepgsql` can only be used on Linux 2.6.28 or higher with SELinux enabled. It is not available on any other platform. You will also need libselinux 2.1.10 or higher and selinux-policy 3.9.13 or higher (although some distributions may backport the necessary rules into older policy versions).
 
@@ -67,7 +67,7 @@ These messages are harmless and should be ignored.
 
 If the installation process completes without error, you can now start the server normally.
 
-## F.35.3. Regression Tests
+## F.40.3. Regression Tests
 
 Due to the nature of SELinux, running the regression tests for `sepgsql` requires several extra configuration steps, some of which must be done as root. The regression tests will not be run by an ordinary `make check` or `make installcheck` command; you must set up the configuration and then invoke the test script manually. The tests must be run in the `contrib/sepgsql` directory of a configured PostgreSQL build tree. Although they require a build tree, the tests are designed to be executed against an installed server, that is they are comparable to `make installcheck` not `make check`.
 
@@ -120,7 +120,7 @@ You might prefer to remove the `sepgsql-regtest` policy entirely:
 $ sudo semodule -r sepgsql-regtest
 ```
 
-## F.35.4. GUC Parameters
+## F.40.4. GUC Parameters
 
 `sepgsql.permissive` (`boolean`)
 
@@ -134,7 +134,7 @@ The security policy of SELinux also has rules to control whether or not particul
 
 This parameter forces all possible logging to be turned on, regardless of the system policy.
 
-## F.35.5. Features
+## F.40.5. Features
 
 ### **F.35.5.1. Controlled Object Classes**
 
@@ -259,7 +259,7 @@ A combination of dynamic domain transition and trusted procedure enables an inte
 
 We reject the [LOAD](https://www.postgresql.org/docs/12/sql-load.html) command across the board, because any module loaded could easily circumvent security policy enforcement.
 
-## F.35.6. Sepgsql Functions
+## F.40.6. Sepgsql Functions
 
 [Table F.29](https://www.postgresql.org/docs/12/sepgsql.html#SEPGSQL-FUNCTIONS-TABLE) shows the available functions.
 
@@ -272,7 +272,7 @@ We reject the [LOAD](https://www.postgresql.org/docs/12/sql-load.html) command a
 | `sepgsql_mcstrans_out(text) returns text` | Translates the given raw MLS/MCS range into qualified format if the mcstrans daemon is running.                                                                                                  |
 | `sepgsql_restorecon(text) returns bool`   | Sets up initial security labels for all objects within the current database. The argument may be NULL, or the name of a specfile to be used as alternative of the system default.                |
 
-## F.35.7. Limitations
+## F.40.7. Limitations
 
 Data Definition Language (DDL) Permissions
 
@@ -284,7 +284,7 @@ PostgreSQL supports row-level access, but `sepgsql` does not.Covert channels
 
 `sepgsql` does not try to hide the existence of a certain object, even if the user is not allowed to reference it. For example, we can infer the existence of an invisible object as a result of primary key conflicts, foreign key violations, and so on, even if we cannot obtain the contents of the object. The existence of a top secret table cannot be hidden; we only hope to conceal its contents.
 
-## F.35.8. External Resources
+## F.40.8. External Resources
 
 [SE-PostgreSQL Introduction](https://wiki.postgresql.org/wiki/SEPostgreSQL)
 
@@ -294,6 +294,6 @@ This document provides a wide spectrum of knowledge to administer SELinux on you
 
 This document answers frequently asked questions about SELinux. It focuses primarily on Fedora, but is not limited to Fedora.
 
-## F.35.9. Author
+## F.40.9. Author
 
 KaiGai Kohei `<`[`kaigai@ak.jp.nec.com`](mailto:kaigai@ak.jp.nec.com)`>`

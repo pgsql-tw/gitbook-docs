@@ -1,4 +1,4 @@
-# 65.4. Implementation
+# 69.4. Implementation
 
 This section covers implementation details and other tricks that are useful for implementers of SP-GiST operator classes to know.
 

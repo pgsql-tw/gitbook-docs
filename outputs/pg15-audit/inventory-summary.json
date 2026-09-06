@@ -1,0 +1,73 @@
+{
+  "entries": 859,
+  "unique_paths": 859,
+  "statuses": {
+    "chinese-review": 237,
+    "heading-only-container": 11,
+    "mixed-review": 128,
+    "no-chinese-prose": 422,
+    "heading-only-leaf": 61
+  },
+  "unlisted_markdown": [
+    "internals/system-catalogs/pg_replication_slots.md",
+    "internals/system-catalogs/pg_roles.md",
+    "internals/system-catalogs/pg_settings.md",
+    "internals/system-catalogs/pg_shmem_allocations.md"
+  ],
+  "parts": {
+    "簡介": {
+      "chinese-review": 1
+    },
+    "前言": {
+      "chinese-review": 6
+    },
+    "I. 新手教學": {
+      "chinese-review": 23,
+      "heading-only-container": 1
+    },
+    "II. SQL 查詢語言": {
+      "chinese-review": 61,
+      "mixed-review": 25,
+      "no-chinese-prose": 51,
+      "heading-only-container": 1
+    },
+    "III. 系統管理": {
+      "chinese-review": 41,
+      "mixed-review": 24,
+      "no-chinese-prose": 65
+    },
+    "IV. 用戶端介面": {
+      "chinese-review": 4,
+      "mixed-review": 6,
+      "no-chinese-prose": 47,
+      "heading-only-leaf": 53
+    },
+    "V. 資料庫程式設計": {
+      "chinese-review": 16,
+      "no-chinese-prose": 64,
+      "mixed-review": 2,
+      "heading-only-container": 1
+    },
+    "VI. 參考資訊": {
+      "chinese-review": 48,
+      "no-chinese-prose": 54,
+      "mixed-review": 41
+    },
+    "VII. 資料庫進階": {
+      "chinese-review": 21,
+      "mixed-review": 14,
+      "no-chinese-prose": 84,
+      "heading-only-leaf": 8,
+      "heading-only-container": 7
+    },
+    "VIII. 附錄": {
+      "heading-only-container": 1,
+      "mixed-review": 16,
+      "chinese-review": 16,
+      "no-chinese-prose": 56
+    },
+    "參考書目": {
+      "no-chinese-prose": 1
+    }
+  }
+}

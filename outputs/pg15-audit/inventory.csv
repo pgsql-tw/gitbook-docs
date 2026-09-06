@@ -1,0 +1,860 @@
+﻿line,level,part,chapter,title,path,exists,has_children,body_chars,han_chars,latin_words,english_blocks,status,source_versions
+3,0,簡介,簡介,簡介,README.md,True,False,447,185,16,0,chinese-review,current
+4,0,前言,前言,前言,preface/README.md,True,True,670,339,24,0,chinese-review,
+5,1,前言,1. 什麼是 PostgreSQL？,1. 什麼是 PostgreSQL？,preface/01_intro-whatis.md,True,False,657,221,35,0,chinese-review,
+6,1,前言,2. PostgreSQL 沿革,2. PostgreSQL 沿革,preface/02_history.md,True,False,2614,1147,110,0,chinese-review,current
+7,1,前言,3. 慣例,3. 慣例,preface/03_notation.md,True,False,401,248,6,0,chinese-review,
+8,1,前言,4. 其他參考資訊,4. 其他參考資訊,preface/04_resources.md,True,False,648,281,11,0,chinese-review,
+9,1,前言,5. 問題回報指南,5. 問題回報指南,preface/05_bug-reporting.md,True,False,4989,3132,88,0,chinese-review,
+10,0,I. 新手教學,I. 新手教學,I. 新手教學,tutorial/README.md,True,True,371,210,14,0,chinese-review,
+11,1,I. 新手教學,1. 入門指南,1. 入門指南,tutorial/getting-started/README.md,True,True,251,58,15,0,chinese-review,
+12,2,I. 新手教學,1. 入門指南,1.1. 安裝,tutorial/getting-started/installation.md,True,False,612,417,15,0,chinese-review,
+13,2,I. 新手教學,1. 入門指南,1.2. 基礎架構,tutorial/getting-started/architectural-fundamentals.md,True,False,680,506,13,0,chinese-review,
+14,2,I. 新手教學,1. 入門指南,1.3. 建立一個資料庫,tutorial/getting-started/creating-a-database.md,True,False,2096,992,27,0,chinese-review,
+15,2,I. 新手教學,1. 入門指南,1.4. 存取一個資料庫,tutorial/getting-started/accessing-a-database.md,True,False,1409,544,33,0,chinese-review,
+16,1,I. 新手教學,2. SQL 查詢語言,2. SQL 查詢語言,tutorial/the-sql-language/README.md,True,True,67,61,0,0,chinese-review,
+17,2,I. 新手教學,2. SQL 查詢語言,2.1. 簡介,tutorial/the-sql-language/introduction.md,True,False,682,296,33,0,chinese-review,
+18,2,I. 新手教學,2. SQL 查詢語言,2.2. 概念,tutorial/the-sql-language/concepts.md,True,False,378,287,9,0,chinese-review,
+19,2,I. 新手教學,2. SQL 查詢語言,2.3. 創建一個新的資料表,tutorial/the-sql-language/creating-a-new-table.md,True,False,1119,468,24,0,chinese-review,
+20,2,I. 新手教學,2. SQL 查詢語言,2.4. 資料列是資料表的組成單位,tutorial/the-sql-language/populating-a-table-with-rows.md,True,False,1064,422,20,0,chinese-review,
+21,2,I. 新手教學,2. SQL 查詢語言,2.5. 資料表的查詢,tutorial/the-sql-language/querying-a-table.md,True,False,2155,432,22,0,chinese-review,
+22,2,I. 新手教學,2. SQL 查詢語言,2.6. 交叉查詢,tutorial/the-sql-language/joins-between-tables.md,True,False,3338,1058,37,0,chinese-review,
+23,2,I. 新手教學,2. SQL 查詢語言,2.7. 彙總查詢,tutorial/the-sql-language/aggregate-functions.md,True,False,1854,689,37,0,chinese-review,
+24,2,I. 新手教學,2. SQL 查詢語言,2.8. 更新資料,tutorial/the-sql-language/updates.md,True,False,514,65,1,0,chinese-review,
+25,2,I. 新手教學,2. SQL 查詢語言,2.9. 刪除資料,tutorial/the-sql-language/deletions.md,True,False,549,142,4,0,chinese-review,
+26,1,I. 新手教學,3. 先進功能,3. 先進功能,tutorial/advanced-features/README.md,True,True,0,0,0,0,heading-only-container,
+27,2,I. 新手教學,3. 先進功能,3.1. 簡介,tutorial/advanced-features/introduction.md,True,False,305,161,15,0,chinese-review,
+28,2,I. 新手教學,3. 先進功能,3.2. 檢視表（View）,tutorial/advanced-features/views.md,True,False,429,223,2,0,chinese-review,
+29,2,I. 新手教學,3. 先進功能,3.3. 外部索引鍵,tutorial/advanced-features/foreign-keys.md,True,False,949,265,16,0,chinese-review,
+30,2,I. 新手教學,3. 先進功能,3.4. 交易安全,tutorial/advanced-features/transactions.md,True,False,2834,1530,37,0,chinese-review,
+31,2,I. 新手教學,3. 先進功能,3.5. 窗函數,tutorial/advanced-features/window-functions.md,True,False,4380,1234,111,0,chinese-review,
+32,2,I. 新手教學,3. 先進功能,3.6. 繼承,tutorial/advanced-features/inheritance.md,True,False,1634,399,28,0,chinese-review,
+33,2,I. 新手教學,3. 先進功能,3.7. 結論,tutorial/advanced-features/conclusion.md,True,False,152,85,3,0,chinese-review,
+34,0,II. SQL 查詢語言,II. SQL 查詢語言,II. SQL 查詢語言,the-sql-language/README.md,True,True,596,304,8,0,chinese-review,
+35,1,II. SQL 查詢語言,4. SQL 語法,4. SQL 語法,the-sql-language/sql-syntax/README.md,True,True,134,94,5,0,chinese-review,
+36,2,II. SQL 查詢語言,4. SQL 語法,4.1. 語法結構,the-sql-language/sql-syntax/lexical-structure.md,True,False,13958,5702,234,1,mixed-review,10
+37,2,II. SQL 查詢語言,4. SQL 語法,4.2. 參數表示式,the-sql-language/sql-syntax/value-expressions.md,True,False,21556,6681,790,6,mixed-review,
+38,2,II. SQL 查詢語言,4. SQL 語法,4.3. 函數呼叫,the-sql-language/sql-syntax/4.3.-han-shu-hu-jiao.md,True,False,2521,742,31,0,chinese-review,
+39,1,II. SQL 查詢語言,5. 定義資料結構,5. 定義資料結構,the-sql-language/ddl/README.md,True,True,156,137,1,0,chinese-review,
+40,2,II. SQL 查詢語言,5. 定義資料結構,5.1. 認識資料表,the-sql-language/ddl/table-basics.md,True,False,2629,1094,27,0,chinese-review,
+41,2,II. SQL 查詢語言,5. 定義資料結構,5.2. 預設值,the-sql-language/ddl/default-values.md,True,False,1150,294,6,0,chinese-review,
+42,2,II. SQL 查詢語言,5. 定義資料結構,5.3. Generated Columns,the-sql-language/ddl/generated-columns.md,True,False,2277,498,222,1,mixed-review,
+43,2,II. SQL 查詢語言,5. 定義資料結構,5.4. 限制條件,the-sql-language/ddl/constraints.md,True,False,8429,3267,85,0,chinese-review,
+44,2,II. SQL 查詢語言,5. 定義資料結構,5.5. 系統欄位,the-sql-language/ddl/system-columns.md,True,False,1930,1023,31,0,chinese-review,
+45,2,II. SQL 查詢語言,5. 定義資料結構,5.6. 表格變更,the-sql-language/ddl/modifying-tables.md,True,False,2853,1212,21,0,chinese-review,
+46,2,II. SQL 查詢語言,5. 定義資料結構,5.7. 權限,the-sql-language/ddl/privileges.md,True,False,1654,597,33,0,chinese-review,
+47,2,II. SQL 查詢語言,5. 定義資料結構,5.8. 資料列安全原則,the-sql-language/ddl/row-security-policies.md,True,False,10960,2174,92,0,chinese-review,
+48,2,II. SQL 查詢語言,5. 定義資料結構,5.9. Schemas,the-sql-language/ddl/schemas.md,True,False,4953,2620,108,0,chinese-review,
+49,2,II. SQL 查詢語言,5. 定義資料結構,5.10. 繼承,the-sql-language/ddl/inheritance.md,True,False,6175,2324,101,0,chinese-review,
+50,2,II. SQL 查詢語言,5. 定義資料結構,5.11. 分割資料表,the-sql-language/ddl/table-partitioning.md,True,False,36200,1880,3786,54,mixed-review,"12,13"
+51,2,II. SQL 查詢語言,5. 定義資料結構,5.12. 外部資料,the-sql-language/ddl/foreign-data.md,True,False,1393,433,28,0,chinese-review,
+52,2,II. SQL 查詢語言,5. 定義資料結構,5.13. 其他資料庫物件,the-sql-language/ddl/other-database-objects.md,True,False,189,134,2,0,chinese-review,
+53,2,II. SQL 查詢語言,5. 定義資料結構,5.14. 相依性追蹤,the-sql-language/ddl/dependency-tracking.md,True,False,1890,753,43,0,chinese-review,
+54,1,II. SQL 查詢語言,6. 資料處理,6. 資料處理,the-sql-language/data-manipulation/README.md,True,True,88,82,0,0,chinese-review,
+55,2,II. SQL 查詢語言,6. 資料處理,6.1. 新增資料,the-sql-language/data-manipulation/6.1.-xin-zeng-zi-liao.md,True,False,2130,528,5,0,chinese-review,
+56,2,II. SQL 查詢語言,6. 資料處理,6.2. 更新資料,the-sql-language/data-manipulation/6.2.-geng-xin-zi-liao.md,True,False,1247,650,12,0,chinese-review,
+57,2,II. SQL 查詢語言,6. 資料處理,6.3. 刪除資料,the-sql-language/data-manipulation/6.3.-shan-chu-zi-liao.md,True,False,534,277,2,0,chinese-review,
+58,2,II. SQL 查詢語言,6. 資料處理,6.4. 修改並回傳資料,the-sql-language/data-manipulation/returning-data-from-modified-rows.md,True,False,1095,364,35,0,chinese-review,
+59,1,II. SQL 查詢語言,7. 資料查詢,7. 資料查詢,the-sql-language/queries/README.md,True,True,55,52,0,0,chinese-review,
+60,2,II. SQL 查詢語言,7. 資料查詢,7.1. 概觀,the-sql-language/queries/overview.md,True,False,908,394,11,0,chinese-review,
+61,2,II. SQL 查詢語言,7. 資料查詢,7.2. 資料表表示式,the-sql-language/queries/table-expressions.md,True,False,18939,5632,32,0,chinese-review,13
+62,2,II. SQL 查詢語言,7. 資料查詢,7.3. 取得資料列表,the-sql-language/queries/select-lists.md,True,False,2225,1047,29,0,chinese-review,
+63,2,II. SQL 查詢語言,7. 資料查詢,7.4. 合併查詢結果,the-sql-language/queries/combining-queries.md,True,False,808,273,10,0,chinese-review,
+64,2,II. SQL 查詢語言,7. 資料查詢,7.5. 資料排序,the-sql-language/queries/sorting-rows.md,True,False,1289,574,33,0,chinese-review,
+65,2,II. SQL 查詢語言,7. 資料查詢,7.6. LIMIT 和 OFFSET,the-sql-language/queries/limit-and-offset.md,True,False,796,412,32,0,chinese-review,
+66,2,II. SQL 查詢語言,7. 資料查詢,7.7. VALUES 列舉資料,the-sql-language/queries/values-lists.md,True,False,1225,341,15,0,chinese-review,
+67,2,II. SQL 查詢語言,7. 資料查詢,7.8. WITH Querys（Common Table Expressions）,the-sql-language/queries/with-queries.md,True,False,14893,200,1654,29,mixed-review,12
+68,1,II. SQL 查詢語言,8. 資料型別,8. 資料型別,the-sql-language/data-types/README.md,True,True,6218,239,211,1,mixed-review,
+69,2,II. SQL 查詢語言,8. 資料型別,8.1. 數字型別,the-sql-language/data-types/numeric-types.md,True,False,7370,2338,217,1,mixed-review,
+70,2,II. SQL 查詢語言,8. 資料型別,8.2. 貨幣型別,the-sql-language/data-types/monetary-types.md,True,False,1109,325,28,0,chinese-review,
+71,2,II. SQL 查詢語言,8. 資料型別,8.3. 字串型別,the-sql-language/data-types/character-types.md,True,False,3261,1071,99,0,chinese-review,
+72,2,II. SQL 查詢語言,8. 資料型別,8.4. 位元組型別（bytea）,the-sql-language/data-types/binary.md,True,False,3772,1280,133,2,mixed-review,
+73,2,II. SQL 查詢語言,8. 資料型別,8.5. 日期時間型別,the-sql-language/data-types/date-time.md,True,False,28896,1435,2371,38,mixed-review,"10,current"
+74,2,II. SQL 查詢語言,8. 資料型別,8.6. 布林型別,the-sql-language/data-types/boolean-type.md,True,False,1011,106,59,0,chinese-review,
+75,2,II. SQL 查詢語言,8. 資料型別,8.7. 列舉型別,the-sql-language/data-types/enumerated-types.md,True,False,3544,0,283,6,no-chinese-prose,12
+76,2,II. SQL 查詢語言,8. 資料型別,8.8. 地理資訊型別,the-sql-language/data-types/geometric-types.md,True,False,5010,0,485,10,no-chinese-prose,10
+77,2,II. SQL 查詢語言,8. 資料型別,8.9. 網路資訊型別,the-sql-language/data-types/network-address-types.md,True,False,7945,0,721,12,no-chinese-prose,12
+78,2,II. SQL 查詢語言,8. 資料型別,8.10. 位元字串型別,the-sql-language/data-types/bit-string-types.md,True,False,1831,0,191,5,no-chinese-prose,12
+79,2,II. SQL 查詢語言,8. 資料型別,8.11. 全文檢索型別,the-sql-language/data-types/text-search-types.md,True,False,6040,0,514,12,no-chinese-prose,12
+80,2,II. SQL 查詢語言,8. 資料型別,8.12. UUID 型別,the-sql-language/data-types/uuid-type.md,True,False,823,285,30,0,chinese-review,
+81,2,II. SQL 查詢語言,8. 資料型別,8.13. XML 型別,the-sql-language/data-types/xml-type.md,True,False,6423,0,901,13,no-chinese-prose,12
+82,2,II. SQL 查詢語言,8. 資料型別,8.14. JSON 型別,the-sql-language/data-types/json-types.md,True,False,28216,3426,1377,14,mixed-review,"12,current"
+83,2,II. SQL 查詢語言,8. 資料型別,8.15. 陣列,the-sql-language/data-types/arrays.md,True,False,21001,0,2205,43,no-chinese-prose,12
+84,2,II. SQL 查詢語言,8. 資料型別,8.16. 複合型別,the-sql-language/data-types/composite-types.md,True,False,16555,0,1966,37,no-chinese-prose,12
+85,2,II. SQL 查詢語言,8. 資料型別,8.17. 範圍型別,the-sql-language/data-types/range-types.md,True,False,14910,390,1568,22,mixed-review,13
+86,2,II. SQL 查詢語言,8. 資料型別,8.18. Domain Types,the-sql-language/data-types/domain-types.md,True,False,715,304,25,0,chinese-review,
+87,2,II. SQL 查詢語言,8. 資料型別,8.19. 物件指標型別,the-sql-language/data-types/object-identifier-types.md,True,False,5480,0,564,12,no-chinese-prose,12
+88,2,II. SQL 查詢語言,8. 資料型別,8.20. pg_lsn 型別,the-sql-language/data-types/pg_lsn-type.md,True,False,518,47,67,1,mixed-review,
+89,2,II. SQL 查詢語言,8. 資料型別,8.21. 概念型別,the-sql-language/data-types/pseudo-types.md,True,False,6813,109,363,4,mixed-review,12
+90,1,II. SQL 查詢語言,9. 函式及運算子,9. 函式及運算子,the-sql-language/functions-and-operators/README.md,True,True,681,203,61,2,mixed-review,
+91,2,II. SQL 查詢語言,9. 函式及運算子,9.1. 邏輯運算子,the-sql-language/functions-and-operators/logical-operators.md,True,False,800,89,52,1,mixed-review,
+92,2,II. SQL 查詢語言,9. 函式及運算子,9.2. 比較函式及運算子,the-sql-language/functions-and-operators/comparison-functions-and-operators.md,True,False,13871,0,1358,17,no-chinese-prose,15
+93,2,II. SQL 查詢語言,9. 函式及運算子,9.3. 數學函式及運算子,the-sql-language/functions-and-operators/mathematical-functions-and-operators.md,True,False,20030,225,523,5,mixed-review,12
+94,2,II. SQL 查詢語言,9. 函式及運算子,9.4. 字串函式及運算子,the-sql-language/functions-and-operators/string-functions-and-operators.md,True,False,53594,517,1530,8,mixed-review,12
+95,2,II. SQL 查詢語言,9. 函式及運算子,9.5. 位元字串函式及運算子,the-sql-language/functions-and-operators/binary-string-functions-and-operators.md,True,False,11244,0,325,6,no-chinese-prose,12
+96,2,II. SQL 查詢語言,9. 函式及運算子,9.6. 二元字串函式及運算子,the-sql-language/functions-and-operators/bit-string-functions-and-operators.md,True,False,2058,0,183,4,no-chinese-prose,12
+97,2,II. SQL 查詢語言,9. 函式及運算子,9.7. 特徵比對,the-sql-language/functions-and-operators/pattern-matching.md,True,False,51703,277,5124,81,mixed-review,11
+98,2,II. SQL 查詢語言,9. 函式及運算子,9.8. 型別轉換函式,the-sql-language/functions-and-operators/data-type-formatting-functions.md,True,False,27375,353,1880,14,mixed-review,12
+99,2,II. SQL 查詢語言,9. 函式及運算子,9.9 日期時間函式及運算子,the-sql-language/functions-and-operators/date-time-functions-and-operators.md,True,False,42217,0,2320,32,no-chinese-prose,12
+100,2,II. SQL 查詢語言,9. 函式及運算子,9.10. 列舉型別函式,the-sql-language/functions-and-operators/enum-support-functions.md,True,False,4370,0,198,3,no-chinese-prose,10
+101,2,II. SQL 查詢語言,9. 函式及運算子,9.11. 地理資訊函式及運算子,the-sql-language/functions-and-operators/geometric-functions-and-operators.md,True,False,13902,0,411,6,no-chinese-prose,10
+102,2,II. SQL 查詢語言,9. 函式及運算子,9.12. 網路位址函式及運算子,the-sql-language/functions-and-operators/network-address-functions-and-operators.md,True,False,9227,0,417,9,no-chinese-prose,10
+103,2,II. SQL 查詢語言,9. 函式及運算子,9.13. 文字檢索函式及運算子,the-sql-language/functions-and-operators/text-search-functions-and-operators.md,True,False,20212,0,360,7,no-chinese-prose,10
+104,2,II. SQL 查詢語言,9. 函式及運算子,9.14. UUID Functions,the-sql-language/functions-and-operators/uuid-functions.md,True,False,341,84,25,0,chinese-review,
+105,2,II. SQL 查詢語言,9. 函式及運算子,9.15. XML 函式,the-sql-language/functions-and-operators/xml.md,True,False,21934,1714,1288,26,mixed-review,10
+106,2,II. SQL 查詢語言,9. 函式及運算子,9.16. JSON 函式及運算子,the-sql-language/functions-and-operators/json-functions-and-operators.md,True,False,142300,0,6797,43,no-chinese-prose,current
+107,2,II. SQL 查詢語言,9. 函式及運算子,9.17. 序列函式,the-sql-language/functions-and-operators/sequence-manipulation-functions.md,True,False,7316,0,810,13,no-chinese-prose,10
+108,2,II. SQL 查詢語言,9. 函式及運算子,9.18. 條件表示式,the-sql-language/functions-and-operators/conditional-expressions.md,True,False,2480,825,77,0,chinese-review,
+109,2,II. SQL 查詢語言,9. 函式及運算子,9.19. 陣列函式及運算子,the-sql-language/functions-and-operators/array-functions-and-operators.md,True,False,14731,0,631,9,no-chinese-prose,10
+110,2,II. SQL 查詢語言,9. 函式及運算子,9.20. 範圍函式及運算子,the-sql-language/functions-and-operators/range-functions-and-operators.md,True,False,8864,0,652,4,no-chinese-prose,13
+111,2,II. SQL 查詢語言,9. 函式及運算子,9.21. 彙總函數,the-sql-language/functions-and-operators/aggregate-functions.md,True,False,36587,0,2774,18,no-chinese-prose,13
+112,2,II. SQL 查詢語言,9. 函式及運算子,9.22. Window 函式,the-sql-language/functions-and-operators/window-functions.md,True,False,12616,0,868,8,no-chinese-prose,13
+113,2,II. SQL 查詢語言,9. 函式及運算子,9.23. 子查詢,the-sql-language/functions-and-operators/subquery-expressions.md,True,False,9512,0,1345,20,no-chinese-prose,13
+114,2,II. SQL 查詢語言,9. 函式及運算子,9.24. 資料列與陣列的比較運算,the-sql-language/functions-and-operators/row-and-array-comparisons.md,True,False,3497,1734,101,0,chinese-review,
+115,2,II. SQL 查詢語言,9. 函式及運算子,9.25. 集合回傳函數,the-sql-language/functions-and-operators/set-returning-functions.md,True,False,8956,83,475,5,mixed-review,
+116,2,II. SQL 查詢語言,9. 函式及運算子,9.26. 系統資訊函數,the-sql-language/functions-and-operators/system-information-functions.md,True,False,70627,0,4918,70,no-chinese-prose,12
+117,2,II. SQL 查詢語言,9. 函式及運算子,9.27. 系統管理函式,the-sql-language/functions-and-operators/system-administration.md,True,False,143265,0,7866,33,no-chinese-prose,13
+118,2,II. SQL 查詢語言,9. 函式及運算子,9.28. 觸發函式,the-sql-language/functions-and-operators/trigger-functions.md,True,False,2965,679,98,0,chinese-review,
+119,2,II. SQL 查詢語言,9. 函式及運算子,9.29. 事件觸發函式,the-sql-language/functions-and-operators/event-trigger-functions.md,True,False,9479,0,446,6,no-chinese-prose,13
+120,2,II. SQL 查詢語言,9. 函式及運算子,9.30. Statistics Information Functions,the-sql-language/functions-and-operators/statistics-information-functions.md,True,False,1088,0,75,1,no-chinese-prose,
+121,1,II. SQL 查詢語言,10. 型別轉換,10. 型別轉換,the-sql-language/type-conversion/README.md,True,True,788,0,96,3,no-chinese-prose,10
+122,2,II. SQL 查詢語言,10. 型別轉換,10.1. 概觀,the-sql-language/type-conversion/10.1.-gai-guan.md,True,False,4589,0,607,10,no-chinese-prose,10
+123,2,II. SQL 查詢語言,10. 型別轉換,10.2. 運算子,the-sql-language/type-conversion/10.2.-yun-suan-zi.md,True,False,10009,0,1261,14,no-chinese-prose,10
+124,2,II. SQL 查詢語言,10. 型別轉換,10.3. 函式,the-sql-language/type-conversion/10.3.-han-shi.md,True,False,7833,0,1067,7,no-chinese-prose,10
+125,2,II. SQL 查詢語言,10. 型別轉換,10.4. 資料儲存轉換規則,the-sql-language/type-conversion/value-storage.md,True,False,2378,0,305,2,no-chinese-prose,11
+126,2,II. SQL 查詢語言,10. 型別轉換,10.5. UNION、CASE 等相關結構,the-sql-language/type-conversion/union-case-and-related-constructs.md,True,False,1595,668,41,0,chinese-review,
+127,2,II. SQL 查詢語言,10. 型別轉換,10.6. SELECT 輸出規則,the-sql-language/type-conversion/10.6.-select-shu-chu-gui-ze.md,True,False,1056,0,149,4,no-chinese-prose,
+128,1,II. SQL 查詢語言,11. 索引（Index）,11. 索引（Index）,the-sql-language/index/README.md,True,True,76,72,0,0,chinese-review,
+129,2,II. SQL 查詢語言,11. 索引（Index）,11.1. 簡介,the-sql-language/index/introduction.md,True,False,1222,739,23,0,chinese-review,
+130,2,II. SQL 查詢語言,11. 索引（Index）,11.2. 索引型別,the-sql-language/index/index-types.md,True,False,3120,1105,183,0,chinese-review,
+131,2,II. SQL 查詢語言,11. 索引（Index）,11.3. 多欄位索引,the-sql-language/index/multicolumn-indexes.md,True,False,1435,786,36,0,chinese-review,
+132,2,II. SQL 查詢語言,11. 索引（Index）,11.4. 索引與 ORDER BY,the-sql-language/index/indexes-and-order-by.md,True,False,1157,559,63,0,chinese-review,
+133,2,II. SQL 查詢語言,11. 索引（Index）,11.5. 善用多個索引,the-sql-language/index/combining-multiple-indexes.md,True,False,1165,831,25,0,chinese-review,
+134,2,II. SQL 查詢語言,11. 索引（Index）,11.6. 唯一值索引,the-sql-language/index/unique-indexes.md,True,False,314,202,2,0,chinese-review,
+135,2,II. SQL 查詢語言,11. 索引（Index）,11.7. 表示式索引,the-sql-language/index/indexes-on-expressions.md,True,False,837,409,9,0,chinese-review,
+136,2,II. SQL 查詢語言,11. 索引（Index）,11.8. 部份索引（partial index）,the-sql-language/index/partial-indexes.md,True,False,3070,1467,75,0,chinese-review,
+137,2,II. SQL 查詢語言,11. 索引（Index）,11.9. Index-Only Scans and Covering Indexes,the-sql-language/index/index-only-scans-and-covering-indexes.md,True,False,7407,1048,855,12,mixed-review,13
+138,2,II. SQL 查詢語言,11. 索引（Index）,11.10. 運算子物件及家族,the-sql-language/index/operator-classes-and-operator-families.md,True,False,2125,679,21,0,chinese-review,
+139,2,II. SQL 查詢語言,11. 索引（Index）,11.11. 索引與排序規則,the-sql-language/index/indexes-and-collations.md,True,False,533,155,1,0,chinese-review,
+140,2,II. SQL 查詢語言,11. 索引（Index）,11.12. 檢查索引運用,the-sql-language/index/examining-index-usage.md,True,False,1873,900,87,0,chinese-review,
+141,1,II. SQL 查詢語言,12. 全文檢索,12. 全文檢索,the-sql-language/12.-quan-wen-jian-suo/README.md,True,True,0,0,0,0,heading-only-container,
+142,2,II. SQL 查詢語言,12. 全文檢索,12.1. 簡介,the-sql-language/12.-quan-wen-jian-suo/12.1.-jian-jie.md,True,False,13897,0,1638,23,no-chinese-prose,10
+143,2,II. SQL 查詢語言,12. 全文檢索,12.2. 查詢與索引,the-sql-language/12.-quan-wen-jian-suo/12.2.-cha-xun-yu-suo-yin.md,True,False,5515,0,557,11,no-chinese-prose,10
+144,2,II. SQL 查詢語言,12. 全文檢索,12.3. 細部控制,the-sql-language/12.-quan-wen-jian-suo/12.3.-xi-bu-kong-zhi.md,True,False,17669,0,1649,26,no-chinese-prose,10
+145,2,II. SQL 查詢語言,12. 全文檢索,12.4. 延伸功能,the-sql-language/12.-quan-wen-jian-suo/12.4.-yan-shen-gong-neng.md,True,False,13097,0,1186,20,no-chinese-prose,10
+146,2,II. SQL 查詢語言,12. 全文檢索,12.5. 斷詞,the-sql-language/12.-quan-wen-jian-suo/12.5.-duan-ci.md,True,False,5756,0,323,6,no-chinese-prose,10
+147,2,II. SQL 查詢語言,12. 全文檢索,12.6. 字典,the-sql-language/12.-quan-wen-jian-suo/12.6.-zi-dian.md,True,False,22377,0,2258,42,no-chinese-prose,10
+148,2,II. SQL 查詢語言,12. 全文檢索,12.7. 組態範例,the-sql-language/12.-quan-wen-jian-suo/12.7.-zu-tai-fan-li.md,True,False,2960,0,216,2,no-chinese-prose,10
+149,2,II. SQL 查詢語言,12. 全文檢索,12.8. 測試與除錯,the-sql-language/12.-quan-wen-jian-suo/12.8.-ce-shi-yu-chu-cuo.md,True,False,9782,0,441,9,no-chinese-prose,10
+150,2,II. SQL 查詢語言,12. 全文檢索,12.9. GIN 及 GiST 索引型別,the-sql-language/12.-quan-wen-jian-suo/12.9.-gin-ji-gist-suo-yin-xing-bie.md,True,False,2762,0,390,6,no-chinese-prose,10
+151,2,II. SQL 查詢語言,12. 全文檢索,12.10. psql支援,the-sql-language/12.-quan-wen-jian-suo/12.10.-psql-zhi-yuan.md,True,False,5787,0,88,1,no-chinese-prose,
+152,2,II. SQL 查詢語言,12. 全文檢索,12.11. 功能限制,the-sql-language/12.-quan-wen-jian-suo/12.11.-gong-neng-xian-zhi.md,True,False,848,0,106,2,no-chinese-prose,
+153,1,II. SQL 查詢語言,13. 一致性管理（Concurrency Control）,13. 一致性管理（Concurrency Control）,the-sql-language/concurrency-control/README.md,True,True,112,96,1,0,chinese-review,
+154,2,II. SQL 查詢語言,13. 一致性管理（Concurrency Control）,13.1. 簡介,the-sql-language/concurrency-control/introduction.md,True,False,587,397,18,0,chinese-review,
+155,2,II. SQL 查詢語言,13. 一致性管理（Concurrency Control）,13.2. 交易隔離,the-sql-language/concurrency-control/transaction-isolation.md,True,False,14717,3259,1122,7,mixed-review,"10,current"
+156,2,II. SQL 查詢語言,13. 一致性管理（Concurrency Control）,13.3. 鎖定模式,the-sql-language/concurrency-control/explicit-locking.md,True,False,15735,1285,1572,22,mixed-review,12
+157,2,II. SQL 查詢語言,13. 一致性管理（Concurrency Control）,13.4. 在應用端檢視資料一致性,the-sql-language/concurrency-control/data-consistency-checks-at-the-application-level.md,True,False,6102,0,873,10,no-chinese-prose,11
+158,2,II. SQL 查詢語言,13. 一致性管理（Concurrency Control）,13.5. Serialization Failure Handling,the-sql-language/concurrency-control/mvcc-serialization-failure-handling.md,True,False,2238,0,317,4,no-chinese-prose,
+159,2,II. SQL 查詢語言,13. 一致性管理（Concurrency Control）,13.6. 特別提醒,the-sql-language/concurrency-control/caveats.md,True,False,674,338,38,0,chinese-review,
+160,2,II. SQL 查詢語言,13. 一致性管理（Concurrency Control）,13.7. 鎖定與索引,the-sql-language/concurrency-control/locking-and-indexes.md,True,False,583,357,27,0,chinese-review,
+161,1,II. SQL 查詢語言,14. 效能技巧,14. 效能技巧,the-sql-language/performance-tips/README.md,True,True,78,62,1,0,chinese-review,
+162,2,II. SQL 查詢語言,14. 效能技巧,14.1. 善用 EXPLAIN,the-sql-language/performance-tips/using-explain.md,True,False,21927,5602,237,0,chinese-review,
+163,2,II. SQL 查詢語言,14. 效能技巧,14.2. 統計資訊,the-sql-language/performance-tips/statistics-used-by-the-planner.md,True,False,6239,2305,114,0,chinese-review,
+164,2,II. SQL 查詢語言,14. 效能技巧,14.3. 使用確切的 JOIN 方式,the-sql-language/performance-tips/controlling-the-planner-with-explicit-join-clauses.md,True,False,7099,0,946,16,no-chinese-prose,10
+165,2,II. SQL 查詢語言,14. 效能技巧,14.4. 快速建立資料庫內容,the-sql-language/performance-tips/populating-a-database.md,True,False,10383,0,1389,20,no-chinese-prose,12
+166,2,II. SQL 查詢語言,14. 效能技巧,14.5. 風險性彈性設定,the-sql-language/performance-tips/non-durable-settings.md,True,False,1093,352,73,0,chinese-review,
+167,1,II. SQL 查詢語言,15. 平行查詢,15. 平行查詢,the-sql-language/parallel-query/README.md,True,True,272,240,2,0,chinese-review,
+168,2,II. SQL 查詢語言,15. 平行查詢,15.1. 如何運作？,the-sql-language/parallel-query/how-parallel-query-works.md,True,False,1662,735,37,0,chinese-review,
+169,2,II. SQL 查詢語言,15. 平行查詢,15.2. 啓用時機？,the-sql-language/parallel-query/when-can-parallel-query-be-used.md,True,False,4139,0,531,7,no-chinese-prose,13
+170,2,II. SQL 查詢語言,15. 平行查詢,15.3. 平行查詢計畫,the-sql-language/parallel-query/parallel-plans.md,True,False,7307,490,979,9,mixed-review,12
+171,2,II. SQL 查詢語言,15. 平行查詢,15.4. 平行查詢的安全性,the-sql-language/parallel-query/parallel-safety.md,True,False,4334,0,597,7,no-chinese-prose,12
+172,0,III. 系統管理,III. 系統管理,III. 系統管理,server-administration/README.md,True,True,403,276,10,0,chinese-review,
+173,1,III. 系統管理,16. 以預編譯套件安裝,16. 以預編譯套件安裝,server-administration/installation-from-binaries.md,True,False,288,114,8,0,chinese-review,
+174,1,III. 系統管理,17. 以原始碼安裝,17. 以原始碼安裝,server-administration/installation-from-source-code/README.md,True,True,78,48,3,0,chinese-review,
+175,2,III. 系統管理,17. 以原始碼安裝,17.1. 簡要步驟,server-administration/installation-from-source-code/short-version.md,True,False,346,15,0,0,chinese-review,
+176,2,III. 系統管理,17. 以原始碼安裝,17.2. 環境需求,server-administration/installation-from-source-code/requirements.md,True,False,6666,95,957,9,mixed-review,15
+177,2,III. 系統管理,17. 以原始碼安裝,17.3. Getting The Source,server-administration/installation-from-source-code/getting-the-source.md,True,False,726,0,76,2,no-chinese-prose,current
+178,2,III. 系統管理,17. 以原始碼安裝,17.4. 安裝流程,server-administration/installation-from-source-code/installation-procedure.md,True,False,33581,0,4362,80,no-chinese-prose,current
+179,2,III. 系統管理,17. 以原始碼安裝,17.5. Post-Installation Setup,server-administration/installation-from-source-code/post-installation-setup.md,True,False,3347,0,390,8,no-chinese-prose,10
+180,2,III. 系統管理,17. 以原始碼安裝,17.6. Supported Platforms,server-administration/installation-from-source-code/supported-platforms.md,True,False,2080,0,288,4,no-chinese-prose,10
+181,2,III. 系統管理,17. 以原始碼安裝,17.7. 平台相關的注意事項,server-administration/installation-from-source-code/platform-specific-notes.md,True,False,12019,215,1558,28,mixed-review,15
+182,1,III. 系統管理,18. 以原始碼在 Windows 上安裝,18. 以原始碼在 Windows 上安裝,server-administration/installation-from-source-code-on-windows/README.md,True,True,1454,129,178,4,mixed-review,
+183,2,III. 系統管理,18. 以原始碼在 Windows 上安裝,18.1. Building with Visual C++ or the Microsoft Windows SDK,server-administration/installation-from-source-code-on-windows/17.1.-building-with-visual-c++-or-the-microsoft-windows-sdk.md,True,False,12658,0,1613,27,no-chinese-prose,15
+184,1,III. 系統管理,19. 服務配置與維運,19. 服務配置與維運,server-administration/server-setup-and-operation/README.md,True,True,28,27,0,0,chinese-review,
+185,2,III. 系統管理,19. 服務配置與維運,19.1. PostgreSQL 使用者帳號,server-administration/server-setup-and-operation/18.1.-postgresql-shi-yong-zhe-zhang-hao.md,True,False,241,171,6,0,chinese-review,
+186,2,III. 系統管理,19. 服務配置與維運,19.2. Creating a Database Cluster,server-administration/server-setup-and-operation/creating-a-database-cluster.md,True,False,6908,876,797,11,mixed-review,"12,15"
+187,2,III. 系統管理,19. 服務配置與維運,19.3. Starting the Database Server,server-administration/server-setup-and-operation/starting-the-database-server.md,True,False,9440,0,1007,20,no-chinese-prose,12
+188,2,III. 系統管理,19. 服務配置與維運,19.4. 核心資源管理,server-administration/server-setup-and-operation/managing-kernel-resources.md,True,False,27976,0,3366,57,no-chinese-prose,10
+189,2,III. 系統管理,19. 服務配置與維運,19.5. Shutting Down the Server,server-administration/server-setup-and-operation/shutting-down-the-server.md,True,False,2713,0,385,7,no-chinese-prose,12
+190,2,III. 系統管理,19. 服務配置與維運,19.6. Upgrading a PostgreSQL Cluster,server-administration/server-setup-and-operation/18.6.-upgrading-a-postgresql-cluster.md,True,False,8363,0,1115,20,no-chinese-prose,12
+191,2,III. 系統管理,19. 服務配置與維運,19.7. Preventing Server Spoofing,server-administration/server-setup-and-operation/preventing-server-spoofing.md,True,False,2488,0,297,6,no-chinese-prose,12
+192,2,III. 系統管理,19. 服務配置與維運,19.8. Encryption Options,server-administration/server-setup-and-operation/encryption-options.md,True,False,4054,0,603,10,no-chinese-prose,12
+193,2,III. 系統管理,19. 服務配置與維運,19.9. Secure TCP/IP Connections with SSL,server-administration/server-setup-and-operation/secure-tcp-ip-connections-with-ssl.md,True,False,13621,0,1382,28,no-chinese-prose,12
+194,2,III. 系統管理,19. 服務配置與維運,19.10. Secure TCP/IP Connections with GSSAPI Encryption,server-administration/server-setup-and-operation/secure-tcp-ip-connections-with-gssapi-encryption.md,True,False,1106,0,142,3,no-chinese-prose,12
+195,2,III. 系統管理,19. 服務配置與維運,19.11. Secure TCP/IP Connections with SSH Tunnels,server-administration/server-setup-and-operation/secure-tcp-ip-connections-with-ssh-tunnels.md,True,False,2638,0,401,8,no-chinese-prose,
+196,2,III. 系統管理,19. 服務配置與維運,19.12. 在 Windows 註冊事件日誌,server-administration/server-setup-and-operation/18.11.-zai-windows-zhu-ce-shi-jian-ri-zhi.md,True,False,601,118,25,0,chinese-review,
+197,1,III. 系統管理,20. 服務組態設定,20. 服務組態設定,server-administration/server-configuration/README.md,True,True,61,57,0,0,chinese-review,
+198,2,III. 系統管理,20. 服務組態設定,20.1. Setting Parameters,server-administration/server-configuration/setting-parameters.md,True,False,12450,0,1568,27,no-chinese-prose,10
+199,2,III. 系統管理,20. 服務組態設定,20.2. File Locations,server-administration/server-configuration/file-locations.md,True,False,2748,0,365,7,no-chinese-prose,current
+200,2,III. 系統管理,20. 服務組態設定,20.3. 連線與認證,server-administration/server-configuration/connections-and-authentication.md,True,False,12820,3100,1135,17,mixed-review,
+201,2,III. 系統管理,20. 服務組態設定,20.4. 資源配置,server-administration/server-configuration/resource-consumption.md,True,False,12769,4931,689,7,mixed-review,13
+202,2,III. 系統管理,20. 服務組態設定,20.5. Write Ahead Log,server-administration/server-configuration/write-ahead-log.md,True,False,31236,591,4033,61,mixed-review,12
+203,2,III. 系統管理,20. 服務組態設定,20.6. 複寫（Replication）,server-administration/server-configuration/replication.md,True,False,14695,2946,1515,18,mixed-review,"10,13"
+204,2,III. 系統管理,20. 服務組態設定,20.7. 查詢規畫,server-administration/server-configuration/query-planning.md,True,False,15096,1426,1864,31,mixed-review,10
+205,2,III. 系統管理,20. 服務組態設定,20.8. 錯誤回報與日誌記錄,server-administration/server-configuration/error-reporting-and-logging.md,True,False,13819,5722,465,0,chinese-review,
+206,2,III. 系統管理,20. 服務組態設定,20.9. 執行階段統計資訊,server-administration/server-configuration/run-time-statistics.md,True,False,1677,703,50,0,chinese-review,
+207,2,III. 系統管理,20. 服務組態設定,20.10. 自動資料庫清理,server-administration/server-configuration/automatic-vacuuming.md,True,False,4040,1414,193,1,mixed-review,
+208,2,III. 系統管理,20. 服務組態設定,20.11. 用戶端連線預設參數,server-administration/server-configuration/client-connection-defaults.md,True,False,16206,5680,690,6,mixed-review,"10,14"
+209,2,III. 系統管理,20. 服務組態設定,20.12. 交易鎖定管理,server-administration/server-configuration/19.12.-jiao-yi-suo-ding-guan-li.md,True,False,1634,853,59,0,chinese-review,
+210,2,III. 系統管理,20. 服務組態設定,20.13. 版本與平台的相容性,server-administration/server-configuration/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md,True,False,5908,0,771,13,no-chinese-prose,15
+211,2,III. 系統管理,20. 服務組態設定,20.14. Error Handling,server-administration/server-configuration/error-handling.md,True,False,2979,0,495,7,no-chinese-prose,
+212,2,III. 系統管理,20. 服務組態設定,20.15. 預先配置的參數,server-administration/server-configuration/19.15.-yu-xian-pei-zhi-de-can-shu.md,True,False,4195,0,459,13,no-chinese-prose,10
+213,2,III. 系統管理,20. 服務組態設定,20.16. Customized Options,server-administration/server-configuration/customized-options.md,True,False,898,0,138,3,no-chinese-prose,
+214,2,III. 系統管理,20. 服務組態設定,20.17. Developer Options,server-administration/server-configuration/developer-options.md,True,False,10288,0,1262,18,no-chinese-prose,12
+215,2,III. 系統管理,20. 服務組態設定,20.18. Short Options,server-administration/server-configuration/short-options.md,True,False,5474,0,49,1,no-chinese-prose,12
+216,1,III. 系統管理,21. 使用者認證,21. 使用者認證,server-administration/client-authentication/README.md,True,True,692,438,7,0,chinese-review,
+217,2,III. 系統管理,21. 使用者認證,21.1. 設定檔：pg_hba.conf,server-administration/client-authentication/the-pg_hba.conf-file.md,True,False,12925,1875,1073,15,mixed-review,10
+218,2,III. 系統管理,21. 使用者認證,21.2. User Name Maps,server-administration/client-authentication/user-name-maps.md,True,False,4433,125,529,8,mixed-review,current
+219,2,III. 系統管理,21. 使用者認證,21.3. Authentication Methods,server-administration/client-authentication/authentication-methods.md,True,False,2407,0,237,2,no-chinese-prose,13
+220,2,III. 系統管理,21. 使用者認證,21.4. Trust Authentication,server-administration/client-authentication/trust-authentication.md,True,False,1727,0,225,4,no-chinese-prose,13
+221,2,III. 系統管理,21. 使用者認證,21.5. Password Authentication,server-administration/client-authentication/password-authentication.md,True,False,3929,0,494,8,no-chinese-prose,current
+222,2,III. 系統管理,21. 使用者認證,21.6. GSSAPI Authentication,server-administration/client-authentication/gssapi-authentication.md,True,False,5601,0,697,11,no-chinese-prose,13
+223,2,III. 系統管理,21. 使用者認證,21.7. SSPI Authentication,server-administration/client-authentication/sspi-authentication.md,True,False,2869,0,393,8,no-chinese-prose,13
+224,2,III. 系統管理,21. 使用者認證,21.8. Ident Authentication,server-administration/client-authentication/ident-authentication.md,True,False,2398,0,317,4,no-chinese-prose,13
+225,2,III. 系統管理,21. 使用者認證,21.9. Peer Authentication,server-administration/client-authentication/peer-authentication.md,True,False,698,0,88,2,no-chinese-prose,13
+226,2,III. 系統管理,21. 使用者認證,21.10. LDAP Authentication,server-administration/client-authentication/ldap-authentication.md,True,False,7595,0,1020,20,no-chinese-prose,
+227,2,III. 系統管理,21. 使用者認證,21.11. RADIUS Authentication,server-administration/client-authentication/radius-authentication.md,True,False,2899,0,423,8,no-chinese-prose,
+228,2,III. 系統管理,21. 使用者認證,21.12. Certificate Authentication,server-administration/client-authentication/certificate-authentication.md,True,False,416,252,21,0,chinese-review,
+229,2,III. 系統管理,21. 使用者認證,21.13. PAM Authentication,server-administration/client-authentication/pam-authentication.md,True,False,1288,0,190,3,no-chinese-prose,
+230,2,III. 系統管理,21. 使用者認證,21.14. BSD Authentication,server-administration/client-authentication/21.14.-bsd-authentication.md,True,False,884,0,121,3,no-chinese-prose,
+231,2,III. 系統管理,21. 使用者認證,21.15. Authentication Problems,server-administration/client-authentication/21.15.-authentication-problems.md,True,False,1422,0,184,4,no-chinese-prose,
+232,1,III. 系統管理,22. 資料庫角色,22. 資料庫角色,server-administration/database-roles/README.md,True,True,351,248,7,0,chinese-review,
+233,2,III. 系統管理,22. 資料庫角色,22.1. Database Roles,server-administration/database-roles/database-roles.md,True,False,3014,0,379,6,no-chinese-prose,12
+234,2,III. 系統管理,22. 資料庫角色,22.2. Role Attributes,server-administration/database-roles/role-attributes.md,True,False,3727,0,476,11,no-chinese-prose,12
+235,2,III. 系統管理,22. 資料庫角色,22.3. Role Membership,server-administration/database-roles/role-membership.md,True,False,4158,0,534,8,no-chinese-prose,12
+236,2,III. 系統管理,22. 資料庫角色,22.4. 移除角色,server-administration/database-roles/dropping-roles.md,True,False,1120,556,41,0,chinese-review,
+237,2,III. 系統管理,22. 資料庫角色,22.5. Default Roles,server-administration/database-roles/default-roles.md,True,False,7950,0,630,8,no-chinese-prose,14
+238,2,III. 系統管理,22. 資料庫角色,22.6. Function Security,server-administration/database-roles/function-security.md,True,False,1017,0,147,2,no-chinese-prose,
+239,1,III. 系統管理,23. 管理資料庫,23. 管理資料庫,server-administration/managing-databases/README.md,True,True,93,70,2,0,chinese-review,
+240,2,III. 系統管理,23. 管理資料庫,23.1. Overview,server-administration/managing-databases/overview.md,True,False,3244,0,390,5,no-chinese-prose,15
+241,2,III. 系統管理,23. 管理資料庫,23.2. Creating a Database,server-administration/managing-databases/creating-a-database.md,True,False,3087,0,363,6,no-chinese-prose,15
+242,2,III. 系統管理,23. 管理資料庫,23.3. 樣版資料庫,server-administration/managing-databases/template-databases.md,True,False,1692,829,36,0,chinese-review,
+243,2,III. 系統管理,23. 管理資料庫,23.4. Database Configuration,server-administration/managing-databases/database-configuration.md,True,False,996,0,130,3,no-chinese-prose,15
+244,2,III. 系統管理,23. 管理資料庫,23.5. Destroying a Database,server-administration/managing-databases/destroying-a-database.md,True,False,868,0,101,2,no-chinese-prose,13
+245,2,III. 系統管理,23. 管理資料庫,23.6. Tablespaces,server-administration/managing-databases/tablespaces.md,True,False,2757,1431,80,0,chinese-review,
+246,1,III. 系統管理,24. 語系,24. 語系,server-administration/localization/README.md,True,True,250,132,11,0,chinese-review,
+247,2,III. 系統管理,24. 語系,24.1. 語系支援,server-administration/localization/locale-support.md,True,False,6335,1750,555,6,mixed-review,15
+248,2,III. 系統管理,24. 語系,24.2. Collation Support,server-administration/localization/collation-support.md,True,False,19712,0,2389,39,no-chinese-prose,15
+249,2,III. 系統管理,24. 語系,24.3. 字元集支援,server-administration/localization/character-set-support.md,True,False,95536,1374,561,5,mixed-review,15
+250,1,III. 系統管理,25. 例行性資料庫維護工作,25. 例行性資料庫維護工作,server-administration/routine-database-maintenance-tasks/README.md,True,True,703,350,27,0,chinese-review,
+251,2,III. 系統管理,25. 例行性資料庫維護工作,25.1. 例行性資料清理,server-administration/routine-database-maintenance-tasks/routine-vacuuming.md,True,False,13872,6363,571,0,chinese-review,
+252,2,III. 系統管理,25. 例行性資料庫維護工作,25.2. 定期重建索引,server-administration/routine-database-maintenance-tasks/routine-reindexing.md,True,False,527,336,18,0,chinese-review,
+253,2,III. 系統管理,25. 例行性資料庫維護工作,25.3. Log 檔案維護,server-administration/routine-database-maintenance-tasks/log-file-maintenance.md,True,False,3611,446,464,7,mixed-review,
+254,1,III. 系統管理,26. 備份及還原,26. 備份及還原,server-administration/backup-and-restore/README.md,True,True,156,104,4,0,chinese-review,
+255,2,III. 系統管理,26. 備份及還原,26.1. SQL Dump,server-administration/backup-and-restore/sql-dump.md,True,False,9836,0,1315,24,no-chinese-prose,15
+256,2,III. 系統管理,26. 備份及還原,26.2. 檔案系統層級備份,server-administration/backup-and-restore/file-system-level-backup.md,True,False,1840,1092,70,0,chinese-review,
+257,2,III. 系統管理,26. 備份及還原,26.3. 持續封存及 Point-in-Time Recovery (PITR),server-administration/backup-and-restore/continuous-archiving-and-point-in-time-recovery-pitr.md,True,False,34271,4245,4087,49,mixed-review,12
+258,1,III. 系統管理,"27. High Availability, Load Balancing, and Replication","27. High Availability, Load Balancing, and Replication",server-administration/high-availability-load-balancing-and-replication/README.md,True,True,1038,856,6,0,chinese-review,
+259,2,III. 系統管理,"27. High Availability, Load Balancing, and Replication",27.1. 比較不同的解決方案,server-administration/high-availability-load-balancing-and-replication/comparison-of-different-solutions.md,True,False,7665,1084,644,8,mixed-review,13
+260,2,III. 系統管理,"27. High Availability, Load Balancing, and Replication",27.2. 日誌轉送備用伺服器 Log-Shipping Standby Servers,server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md,True,False,30917,1418,3700,58,mixed-review,"10,13"
+261,2,III. 系統管理,"27. High Availability, Load Balancing, and Replication",27.3. Failover,server-administration/high-availability-load-balancing-and-replication/failover.md,True,False,2433,345,305,4,mixed-review,12
+262,2,III. 系統管理,"27. High Availability, Load Balancing, and Replication",27.4. Hot Standby,server-administration/high-availability-load-balancing-and-replication/hot-standby.md,True,False,28586,0,3749,52,no-chinese-prose,15
+263,1,III. 系統管理,28. 監控資料庫活動,28. 監控資料庫活動,server-administration/monitoring-database-activity/README.md,True,True,325,131,22,0,chinese-review,
+264,2,III. 系統管理,28. 監控資料庫活動,28.1. 標準的 Unix 工具,server-administration/monitoring-database-activity/standard-unix-tools.md,True,False,3676,0,350,5,no-chinese-prose,15
+265,2,III. 系統管理,28. 監控資料庫活動,28.2. 統計資訊收集器,server-administration/monitoring-database-activity/the-statistics-collector.md,True,False,181897,0,11295,68,no-chinese-prose,15
+266,2,III. 系統管理,28. 監控資料庫活動,28.3. Viewing Locks,server-administration/monitoring-database-activity/viewing-locks.md,True,False,986,0,128,3,no-chinese-prose,15
+267,2,III. 系統管理,28. 監控資料庫活動,28.4. Progress Reporting,server-administration/monitoring-database-activity/progress-reporting.md,True,False,45424,0,2637,19,no-chinese-prose,15
+268,2,III. 系統管理,28. 監控資料庫活動,28.5. Dynamic Tracing,server-administration/monitoring-database-activity/dynamic-tracing.md,True,False,46778,0,2149,14,no-chinese-prose,15
+269,1,III. 系統管理,29. 監控磁碟使用情況,29. 監控磁碟使用情況,server-administration/monitoring-disk-usage/README.md,True,True,33,20,1,0,chinese-review,
+270,2,III. 系統管理,29. 監控磁碟使用情況,29.1. 瞭解磁碟使用情形,server-administration/monitoring-disk-usage/determining-disk-usage.md,True,False,1985,401,48,0,chinese-review,
+271,2,III. 系統管理,29. 監控磁碟使用情況,29.2. 磁碟空間不足錯誤,server-administration/monitoring-disk-usage/disk-full-failure.md,True,False,377,261,5,0,chinese-review,
+272,1,III. 系統管理,30. 高可靠度及預寫日誌,30. 高可靠度及預寫日誌,server-administration/reliability-and-the-write-ahead-log/README.md,True,True,46,23,4,0,chinese-review,
+273,2,III. 系統管理,30. 高可靠度及預寫日誌,30.1. 可靠度,server-administration/reliability-and-the-write-ahead-log/reliability.md,True,False,7904,200,1084,10,mixed-review,12
+274,2,III. 系統管理,30. 高可靠度及預寫日誌,30.2. Data Checksums,server-administration/reliability-and-the-write-ahead-log/30.2.-data-checksums.md,True,False,1445,0,172,5,no-chinese-prose,15
+275,2,III. 系統管理,30. 高可靠度及預寫日誌,30.3. Write-Ahead Logging（WAL）,server-administration/reliability-and-the-write-ahead-log/write-ahead-logging-wal.md,True,False,1990,205,270,3,mixed-review,12
+276,2,III. 系統管理,30. 高可靠度及預寫日誌,30.4. Asynchronous Commit,server-administration/reliability-and-the-write-ahead-log/asynchronous-commit.md,True,False,4225,382,515,6,mixed-review,12
+277,2,III. 系統管理,30. 高可靠度及預寫日誌,30.5. WAL Configuration,server-administration/reliability-and-the-write-ahead-log/wal-configuration.md,True,False,14995,0,2006,17,no-chinese-prose,12
+278,2,III. 系統管理,30. 高可靠度及預寫日誌,30.6. WAL Internals,server-administration/reliability-and-the-write-ahead-log/wal-internals.md,True,False,3500,0,514,7,no-chinese-prose,12
+279,1,III. 系統管理,31. 邏輯複寫（Logical Replication）,31. 邏輯複寫（Logical Replication）,server-administration/logical-replication/README.md,True,True,810,550,19,0,chinese-review,
+280,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.1. 發佈（Publication）,server-administration/logical-replication/publication.md,True,False,1206,624,60,0,chinese-review,
+281,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.2. 訂閱（Subscription）,server-administration/logical-replication/subscription.md,True,False,6160,1033,271,3,mixed-review,current
+282,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.3. Row Filters,server-administration/logical-replication/31.3.-row-filters.md,True,False,14527,0,1027,23,no-chinese-prose,15
+283,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.4. Column Lists,server-administration/logical-replication/31.4.-column-lists.md,True,False,5652,0,509,11,no-chinese-prose,15
+284,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.5. 衝突處理,server-administration/logical-replication/conflicts.md,True,False,536,232,22,0,chinese-review,
+285,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.6. 限制,server-administration/logical-replication/restrictions.md,True,False,1234,721,34,0,chinese-review,
+286,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.7. 架構,server-administration/logical-replication/architecture.md,True,False,934,493,39,0,chinese-review,
+287,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.8. 監控,server-administration/logical-replication/monitoring.md,True,False,567,188,37,0,chinese-review,
+288,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.9. 安全性,server-administration/logical-replication/security.md,True,False,343,252,7,0,chinese-review,
+289,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.10. 系統設定,server-administration/logical-replication/configuration-settings.md,True,False,443,187,10,0,chinese-review,
+290,2,III. 系統管理,31. 邏輯複寫（Logical Replication）,31.11. 快速設定,server-administration/logical-replication/quick-setup.md,True,False,443,123,6,0,chinese-review,
+291,1,III. 系統管理,32. Just-in-Time Compilation（JIT）,32. Just-in-Time Compilation（JIT）,server-administration/just-in-time-compilation/README.md,True,True,36,22,1,0,chinese-review,
+292,2,III. 系統管理,32. Just-in-Time Compilation（JIT）,32.1. What is JIT compilation?,server-administration/just-in-time-compilation/what-is-jit-compilation.md,True,False,2319,0,280,6,no-chinese-prose,15
+293,2,III. 系統管理,32. Just-in-Time Compilation（JIT）,32.2. When to JIT?,server-administration/just-in-time-compilation/when-to-jit.md,True,False,4120,0,325,7,no-chinese-prose,15
+294,2,III. 系統管理,32. Just-in-Time Compilation（JIT）,32.3. Configuration,server-administration/just-in-time-compilation/configuration.md,True,False,1108,0,69,1,no-chinese-prose,15
+295,2,III. 系統管理,32. Just-in-Time Compilation（JIT）,32.4. Extensibility,server-administration/just-in-time-compilation/extensibility.md,True,False,1919,0,210,4,no-chinese-prose,15
+296,1,III. 系統管理,33. 迴歸測試,33. 迴歸測試,server-administration/regression-tests/README.md,True,True,87,33,6,0,chinese-review,
+297,2,III. 系統管理,33. 迴歸測試,33.1. Running the Tests,server-administration/regression-tests/32.1.-running-the-tests.md,True,False,10336,0,1307,27,no-chinese-prose,15
+298,2,III. 系統管理,33. 迴歸測試,33.2. Test Evaluation,server-administration/regression-tests/32.2.-test-evaluation.md,True,False,7452,0,1054,19,no-chinese-prose,15
+299,2,III. 系統管理,33. 迴歸測試,33.3. Variant Comparison Files,server-administration/regression-tests/32.3.-variant-comparison-files.md,True,False,3393,0,475,8,no-chinese-prose,
+300,2,III. 系統管理,33. 迴歸測試,33.4. TAP Tests,server-administration/regression-tests/32.4.-tap-tests.md,True,False,1721,0,226,5,no-chinese-prose,
+301,2,III. 系統管理,33. 迴歸測試,33.5. Test Coverage Examination,server-administration/regression-tests/32.5.-test-coverage-examination.md,True,False,1280,0,161,4,no-chinese-prose,
+302,0,IV. 用戶端介面,IV. 用戶端介面,IV. 用戶端介面,client-interfaces/README.md,True,True,274,126,6,0,chinese-review,
+303,1,IV. 用戶端介面,34. libpq - C Library,34. libpq - C Library,client-interfaces/libpq-c-library/README.md,True,True,502,200,33,0,chinese-review,
+304,2,IV. 用戶端介面,34. libpq - C Library,33.1. 資料庫連線控制函數,client-interfaces/libpq-c-library/database-connection-control-functions.md,True,False,47217,341,5274,99,mixed-review,13
+305,2,IV. 用戶端介面,34. libpq - C Library,33.2. 連線狀態函數,client-interfaces/libpq-c-library/connection-status-functions.md,True,False,7836,1370,554,8,mixed-review,
+306,2,IV. 用戶端介面,34. libpq - C Library,33.3. Command Execution Functions,client-interfaces/libpq-c-library/connection-status-functions-2.md,True,False,40909,0,4937,98,no-chinese-prose,10
+307,2,IV. 用戶端介面,34. libpq - C Library,33.4. Asynchronous Command Processing,client-interfaces/libpq-c-library/asynchronous-command-processing.md,True,False,11704,0,1360,26,no-chinese-prose,10
+308,2,IV. 用戶端介面,34. libpq - C Library,33.5. Retrieving Query Results Row-By-Row,client-interfaces/libpq-c-library/retrieving-query-results-row-by-row.md,True,False,2577,0,350,4,no-chinese-prose,10
+309,2,IV. 用戶端介面,34. libpq - C Library,33.6. Canceling Queries in Progress,client-interfaces/libpq-c-library/33.6.-canceling-queries-in-progress.md,True,False,0,0,0,0,heading-only-leaf,
+310,2,IV. 用戶端介面,34. libpq - C Library,33.7. The Fast-Path Interface,client-interfaces/libpq-c-library/33.7.-the-fast-path-interface.md,True,False,0,0,0,0,heading-only-leaf,
+311,2,IV. 用戶端介面,34. libpq - C Library,33.8. Asynchronous Notification,client-interfaces/libpq-c-library/33.8.-asynchronous-notification.md,True,False,0,0,0,0,heading-only-leaf,
+312,2,IV. 用戶端介面,34. libpq - C Library,33.9. Functions Associated with the COPY Command,client-interfaces/libpq-c-library/33.9.-functions-associated-with-the-copy-command.md,True,False,0,0,0,0,heading-only-leaf,
+313,2,IV. 用戶端介面,34. libpq - C Library,33.10. Control Functions,client-interfaces/libpq-c-library/control-functions.md,True,False,3369,0,333,5,no-chinese-prose,
+314,2,IV. 用戶端介面,34. libpq - C Library,33.11. Miscellaneous Functions,client-interfaces/libpq-c-library/33.11.-miscellaneous-functions.md,True,False,0,0,0,0,heading-only-leaf,
+315,2,IV. 用戶端介面,34. libpq - C Library,33.12. Notice Processing,client-interfaces/libpq-c-library/33.12.-notice-processing.md,True,False,0,0,0,0,heading-only-leaf,
+316,2,IV. 用戶端介面,34. libpq - C Library,33.13. Event System,client-interfaces/libpq-c-library/33.13.-event-system.md,True,False,0,0,0,0,heading-only-leaf,
+317,2,IV. 用戶端介面,34. libpq - C Library,33.14. 環境變數,client-interfaces/libpq-c-library/environment-variables.md,True,False,4409,404,258,0,chinese-review,10
+318,2,IV. 用戶端介面,34. libpq - C Library,34.16. 密碼檔,client-interfaces/libpq-c-library/libpq-pgpass.md,True,False,721,385,23,0,chinese-review,
+319,2,IV. 用戶端介面,34. libpq - C Library,33.16. The Connection Service File,client-interfaces/libpq-c-library/33.16.-the-connection-service-file.md,True,False,0,0,0,0,heading-only-leaf,
+320,2,IV. 用戶端介面,34. libpq - C Library,33.17. LDAP Lookup of Connection Parameters,client-interfaces/libpq-c-library/33.17.-ldap-lookup-of-connection-parameters.md,True,False,0,0,0,0,heading-only-leaf,
+321,2,IV. 用戶端介面,34. libpq - C Library,33.18. SSL Support,client-interfaces/libpq-c-library/33.18.-ssl-support.md,True,False,0,0,0,0,heading-only-leaf,
+322,2,IV. 用戶端介面,34. libpq - C Library,33.19. Behavior in Threaded Programs,client-interfaces/libpq-c-library/33.19.-behavior-in-threaded-programs.md,True,False,0,0,0,0,heading-only-leaf,
+323,2,IV. 用戶端介面,34. libpq - C Library,33.20. Building libpq Programs,client-interfaces/libpq-c-library/33.20.-building-libpq-programs.md,True,False,0,0,0,0,heading-only-leaf,
+324,2,IV. 用戶端介面,34. libpq - C Library,33.21. Example Programs,client-interfaces/libpq-c-library/example-programs.md,True,False,14502,0,27,0,no-chinese-prose,
+325,1,IV. 用戶端介面,35. Large Objects,35. Large Objects,client-interfaces/34.-large-objects/README.md,True,True,668,0,96,2,no-chinese-prose,
+326,2,IV. 用戶端介面,35. Large Objects,35.1. Introduction,client-interfaces/34.-large-objects/34.1.-introduction.md,True,False,0,0,0,0,heading-only-leaf,
+327,2,IV. 用戶端介面,35. Large Objects,35.2. Implementation Features,client-interfaces/34.-large-objects/34.2.-implementation-features.md,True,False,0,0,0,0,heading-only-leaf,
+328,2,IV. 用戶端介面,35. Large Objects,35.3. Client Interfaces,client-interfaces/34.-large-objects/34.3.-client-interfaces.md,True,False,0,0,0,0,heading-only-leaf,
+329,2,IV. 用戶端介面,35. Large Objects,35.4. Server-side Functions,client-interfaces/34.-large-objects/34.4.-server-side-functions.md,True,False,0,0,0,0,heading-only-leaf,
+330,2,IV. 用戶端介面,35. Large Objects,35.5. Example Program,client-interfaces/34.-large-objects/34.5.-example-program.md,True,False,0,0,0,0,heading-only-leaf,
+331,1,IV. 用戶端介面,36. ECPG - Embedded SQL in C,36. ECPG - Embedded SQL in C,client-interfaces/ecpg-embedded-sql-in-c/README.md,True,True,491,0,66,2,no-chinese-prose,
+332,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.1. The Concept,client-interfaces/ecpg-embedded-sql-in-c/the-concept.md,True,False,1981,0,290,4,no-chinese-prose,13
+333,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.2. Managing Database Connections,client-interfaces/ecpg-embedded-sql-in-c/35.2.-managing-database-connections.md,True,False,0,0,0,0,heading-only-leaf,
+334,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.3. Running SQL Commands,client-interfaces/ecpg-embedded-sql-in-c/35.3.-running-sql-commands.md,True,False,0,0,0,0,heading-only-leaf,
+335,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.4. Using Host Variables,client-interfaces/ecpg-embedded-sql-in-c/35.4.-using-host-variables.md,True,False,0,0,0,0,heading-only-leaf,
+336,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.5. Dynamic SQL,client-interfaces/ecpg-embedded-sql-in-c/35.5.-dynamic-sql.md,True,False,0,0,0,0,heading-only-leaf,
+337,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.6. pgtypes Library,client-interfaces/ecpg-embedded-sql-in-c/35.6.-pgtypes-library.md,True,False,0,0,0,0,heading-only-leaf,
+338,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.7. Using Descriptor Areas,client-interfaces/ecpg-embedded-sql-in-c/35.7.-using-descriptor-areas.md,True,False,0,0,0,0,heading-only-leaf,
+339,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.8. Error Handling,client-interfaces/ecpg-embedded-sql-in-c/35.8.-error-handling.md,True,False,0,0,0,0,heading-only-leaf,
+340,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.9. Preprocessor Directives,client-interfaces/ecpg-embedded-sql-in-c/35.9.-preprocessor-directives.md,True,False,0,0,0,0,heading-only-leaf,
+341,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.10. Processing Embedded SQL Programs,client-interfaces/ecpg-embedded-sql-in-c/35.10.-processing-embedded-sql-programs.md,True,False,0,0,0,0,heading-only-leaf,
+342,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.11. Library Functions,client-interfaces/ecpg-embedded-sql-in-c/35.11.-library-functions.md,True,False,0,0,0,0,heading-only-leaf,
+343,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.12. Large Objects,client-interfaces/ecpg-embedded-sql-in-c/35.12.-large-objects.md,True,False,0,0,0,0,heading-only-leaf,
+344,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.13. C++ Applications,client-interfaces/ecpg-embedded-sql-in-c/35.13.-c++-applications.md,True,False,0,0,0,0,heading-only-leaf,
+345,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.14. Embedded SQL Commands,client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands.md,True,False,0,0,0,0,heading-only-leaf,
+346,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.15. Informix Compatibility Mode,client-interfaces/ecpg-embedded-sql-in-c/35.15.-informix-compatibility-mode.md,True,False,0,0,0,0,heading-only-leaf,
+347,2,IV. 用戶端介面,36. ECPG - Embedded SQL in C,35.16. Internals,client-interfaces/ecpg-embedded-sql-in-c/35.16.-internals.md,True,False,0,0,0,0,heading-only-leaf,
+348,1,IV. 用戶端介面,37. The Information Schema,37. The Information Schema,client-interfaces/the-information-schema/README.md,True,True,985,162,94,1,mixed-review,
+349,2,IV. 用戶端介面,37. The Information Schema,37.1. The Schema,client-interfaces/the-information-schema/the-schema.md,True,False,676,0,113,2,no-chinese-prose,
+350,2,IV. 用戶端介面,37. The Information Schema,37.2. Data Types,client-interfaces/the-information-schema/data-types.md,True,False,1087,0,149,3,no-chinese-prose,
+351,2,IV. 用戶端介面,37. The Information Schema,37.3. information_schema_catalog_name,client-interfaces/the-information-schema/information_schema_catalog_name.md,True,False,564,0,38,1,no-chinese-prose,
+352,2,IV. 用戶端介面,37. The Information Schema,37.4. administrable_role_authorizations,client-interfaces/the-information-schema/administrable_role_authorizations.md,True,False,1210,0,64,1,no-chinese-prose,
+353,2,IV. 用戶端介面,37. The Information Schema,37.5. applicable_roles,client-interfaces/the-information-schema/applicable_roles.md,True,False,1345,0,112,2,no-chinese-prose,
+354,2,IV. 用戶端介面,37. The Information Schema,37.7. attributes,client-interfaces/the-information-schema/attributes.md,True,False,16595,0,872,2,no-chinese-prose,current
+355,2,IV. 用戶端介面,37. The Information Schema,37.7. character_sets,client-interfaces/the-information-schema/character_sets.md,True,False,5071,0,385,5,no-chinese-prose,
+356,2,IV. 用戶端介面,37. The Information Schema,37.8. check_constraint_routine_usage,client-interfaces/the-information-schema/check_constraint_routine_usage.md,True,False,2026,0,103,2,no-chinese-prose,current
+357,2,IV. 用戶端介面,37. The Information Schema,37.9. check_constraints,client-interfaces/the-information-schema/check_constraints.md,True,False,1140,0,81,2,no-chinese-prose,
+358,2,IV. 用戶端介面,37. The Information Schema,37.10. collations,client-interfaces/the-information-schema/collations.md,True,False,1115,0,68,1,no-chinese-prose,
+359,2,IV. 用戶端介面,37. The Information Schema,37.11. collation_character_set_applicability,client-interfaces/the-information-schema/collation_character_set_applicability.md,True,False,1686,0,118,2,no-chinese-prose,current
+360,2,IV. 用戶端介面,37. The Information Schema,37.12. column_column_usage,client-interfaces/the-information-schema/column_column_usage.md,True,False,1188,0,85,2,no-chinese-prose,
+361,2,IV. 用戶端介面,37. The Information Schema,37.13. column_domain_usage,client-interfaces/the-information-schema/36.12.-column_domain_usage.md,True,False,1493,0,105,2,no-chinese-prose,
+362,2,IV. 用戶端介面,37. The Information Schema,37.14. column_options,client-interfaces/the-information-schema/column_options.md,True,False,1485,0,105,2,no-chinese-prose,
+363,2,IV. 用戶端介面,37. The Information Schema,37.15. column_privileges,client-interfaces/the-information-schema/column_privileges.md,True,False,2292,0,186,3,no-chinese-prose,
+364,2,IV. 用戶端介面,37. The Information Schema,37.16. column_udt_usage,client-interfaces/the-information-schema/column_udt_usage.md,True,False,2231,0,154,2,no-chinese-prose,current
+365,2,IV. 用戶端介面,37. The Information Schema,37.17. columns,client-interfaces/the-information-schema/columns.md,True,False,25040,0,1399,3,no-chinese-prose,
+366,2,IV. 用戶端介面,37. The Information Schema,37.18. constraint_column_usage,client-interfaces/the-information-schema/constraint_column_usage.md,True,False,2326,0,190,2,no-chinese-prose,
+367,2,IV. 用戶端介面,37. The Information Schema,37.19. constraint_table_usage,client-interfaces/the-information-schema/constraint_table_usage.md,True,False,1999,0,176,2,no-chinese-prose,
+368,2,IV. 用戶端介面,37. The Information Schema,37.20. data_type_privileges,client-interfaces/the-information-schema/data_type_privileges.md,True,False,3434,0,241,2,no-chinese-prose,
+369,2,IV. 用戶端介面,37. The Information Schema,37.21. domain_constraints,client-interfaces/the-information-schema/domain_constraints.md,True,False,1955,0,149,2,no-chinese-prose,
+370,2,IV. 用戶端介面,37. The Information Schema,37.21. domain_udt_usage,client-interfaces/the-information-schema/36.21.-domain_udt_usage.md,True,False,0,0,0,0,heading-only-leaf,
+371,2,IV. 用戶端介面,37. The Information Schema,37.22. domains,client-interfaces/the-information-schema/36.22.-domains.md,True,False,0,0,0,0,heading-only-leaf,
+372,2,IV. 用戶端介面,37. The Information Schema,37.23. element_types,client-interfaces/the-information-schema/36.23.-element_types.md,True,False,0,0,0,0,heading-only-leaf,
+373,2,IV. 用戶端介面,37. The Information Schema,37.24. enabled_roles,client-interfaces/the-information-schema/36.24.-enabled_roles.md,True,False,0,0,0,0,heading-only-leaf,
+374,2,IV. 用戶端介面,37. The Information Schema,37.25. foreign_data_wrapper_options,client-interfaces/the-information-schema/36.25.-foreign_data_wrapper_options.md,True,False,0,0,0,0,heading-only-leaf,
+375,2,IV. 用戶端介面,37. The Information Schema,37.26. foreign_data_wrappers,client-interfaces/the-information-schema/36.26.-foreign_data_wrappers.md,True,False,0,0,0,0,heading-only-leaf,
+376,2,IV. 用戶端介面,37. The Information Schema,37.27. foreign_server_options,client-interfaces/the-information-schema/36.27.-foreign_server_options.md,True,False,0,0,0,0,heading-only-leaf,
+377,2,IV. 用戶端介面,37. The Information Schema,37.28. foreign_servers,client-interfaces/the-information-schema/36.28.-foreign_servers.md,True,False,0,0,0,0,heading-only-leaf,
+378,2,IV. 用戶端介面,37. The Information Schema,37.29. foreign_table_options,client-interfaces/the-information-schema/36.29.-foreign_table_options.md,True,False,0,0,0,0,heading-only-leaf,
+379,2,IV. 用戶端介面,37. The Information Schema,37.30. foreign_tables,client-interfaces/the-information-schema/36.30.-foreign_tables.md,True,False,0,0,0,0,heading-only-leaf,
+380,2,IV. 用戶端介面,37. The Information Schema,36.32. key_column_usage,client-interfaces/the-information-schema/key_column_usage.md,True,False,2270,69,126,1,mixed-review,
+381,2,IV. 用戶端介面,37. The Information Schema,37.33. parameters,client-interfaces/the-information-schema/parameters.md,True,False,13467,0,623,2,no-chinese-prose,current
+382,2,IV. 用戶端介面,37. The Information Schema,36.34. referential_constraints,client-interfaces/the-information-schema/referential_constraints.md,True,False,2467,0,145,2,no-chinese-prose,
+383,2,IV. 用戶端介面,37. The Information Schema,37.34. role_column_grants,client-interfaces/the-information-schema/36.34.-role_column_grants.md,True,False,0,0,0,0,heading-only-leaf,
+384,2,IV. 用戶端介面,37. The Information Schema,37.35. role_routine_grants,client-interfaces/the-information-schema/36.35.-role_routine_grants.md,True,False,0,0,0,0,heading-only-leaf,
+385,2,IV. 用戶端介面,37. The Information Schema,37.37. role_table_grants,client-interfaces/the-information-schema/role_table_grants.md,True,False,4033,88,171,1,mixed-review,
+386,2,IV. 用戶端介面,37. The Information Schema,37.38. role_udt_grants,client-interfaces/the-information-schema/role_udt_grants.md,True,False,1789,0,168,2,no-chinese-prose,
+387,2,IV. 用戶端介面,37. The Information Schema,37.39. role_usage_grants,client-interfaces/the-information-schema/role_usage_grants.md,True,False,2489,0,177,2,no-chinese-prose,
+388,2,IV. 用戶端介面,37. The Information Schema,37.40. routine_column_usage,client-interfaces/the-information-schema/routine_column_usage.md,True,False,2902,0,176,2,no-chinese-prose,current
+389,2,IV. 用戶端介面,37. The Information Schema,37.41. routine_privileges,client-interfaces/the-information-schema/routine_privileges.md,True,False,2948,0,173,2,no-chinese-prose,current
+390,2,IV. 用戶端介面,37. The Information Schema,37.45. routines,client-interfaces/the-information-schema/36.40.-routines.md,True,False,34913,0,1392,2,no-chinese-prose,
+391,2,IV. 用戶端介面,37. The Information Schema,37.46. schemata,client-interfaces/the-information-schema/schemata.md,True,False,1543,0,110,2,no-chinese-prose,
+392,2,IV. 用戶端介面,37. The Information Schema,37.47. sequences,client-interfaces/the-information-schema/36.42.-sequences.md,True,False,5737,0,280,3,no-chinese-prose,
+393,2,IV. 用戶端介面,37. The Information Schema,37.48. sql_features,client-interfaces/the-information-schema/36.43.-sql_features.md,True,False,1936,0,146,2,no-chinese-prose,current
+394,2,IV. 用戶端介面,37. The Information Schema,37.49. sql_implementation_info,client-interfaces/the-information-schema/36.44.-sql_implementation_info.md,True,False,1829,0,149,2,no-chinese-prose,
+395,2,IV. 用戶端介面,37. The Information Schema,37.50. sql_parts,client-interfaces/the-information-schema/36.47.-sql_parts.md,True,False,1423,0,102,1,no-chinese-prose,
+396,2,IV. 用戶端介面,37. The Information Schema,37.51. sql_sizing,client-interfaces/the-information-schema/36.48.-sql_sizing.md,True,False,1869,0,133,2,no-chinese-prose,
+397,2,IV. 用戶端介面,37. The Information Schema,36.51. table_constraints,client-interfaces/the-information-schema/table_constraints.md,True,False,1661,0,103,2,no-chinese-prose,
+398,2,IV. 用戶端介面,37. The Information Schema,36.49. table_privileges,client-interfaces/the-information-schema/36.51.-table_privileges.md,True,False,3947,52,168,1,mixed-review,
+399,2,IV. 用戶端介面,37. The Information Schema,37.52. tables,client-interfaces/the-information-schema/36.52.-tables.md,True,False,0,0,0,0,heading-only-leaf,
+400,2,IV. 用戶端介面,37. The Information Schema,37.53. transforms,client-interfaces/the-information-schema/36.53.-transforms.md,True,False,0,0,0,0,heading-only-leaf,
+401,2,IV. 用戶端介面,37. The Information Schema,37.54. triggered_update_columns,client-interfaces/the-information-schema/36.54.-triggered_update_columns.md,True,False,0,0,0,0,heading-only-leaf,
+402,2,IV. 用戶端介面,37. The Information Schema,37.55. triggers,client-interfaces/the-information-schema/36.55.-triggers.md,True,False,0,0,0,0,heading-only-leaf,
+403,2,IV. 用戶端介面,37. The Information Schema,37.56. udt_privileges,client-interfaces/the-information-schema/36.56.-udt_privileges.md,True,False,0,0,0,0,heading-only-leaf,
+404,2,IV. 用戶端介面,37. The Information Schema,37.57. usage_privileges,client-interfaces/the-information-schema/36.57.-usage_privileges.md,True,False,0,0,0,0,heading-only-leaf,
+405,2,IV. 用戶端介面,37. The Information Schema,37.58. user_defined_types,client-interfaces/the-information-schema/36.58.-user_defined_types.md,True,False,0,0,0,0,heading-only-leaf,
+406,2,IV. 用戶端介面,37. The Information Schema,37.59. user_mapping_options,client-interfaces/the-information-schema/36.59.-user_mapping_options.md,True,False,0,0,0,0,heading-only-leaf,
+407,2,IV. 用戶端介面,37. The Information Schema,37.60. user_mappings,client-interfaces/the-information-schema/36.60.-user_mappings.md,True,False,0,0,0,0,heading-only-leaf,
+408,2,IV. 用戶端介面,37. The Information Schema,37.63. view_column_usage,client-interfaces/the-information-schema/view_column_usage.md,True,False,2102,0,168,2,no-chinese-prose,
+409,2,IV. 用戶端介面,37. The Information Schema,37.64. view_routine_usage,client-interfaces/the-information-schema/view_routine_usage.md,True,False,2084,0,114,2,no-chinese-prose,current
+410,2,IV. 用戶端介面,37. The Information Schema,37.65. view_table_usage,client-interfaces/the-information-schema/view_table_usage.md,True,False,1710,0,138,2,no-chinese-prose,
+411,2,IV. 用戶端介面,37. The Information Schema,37.66. views,client-interfaces/the-information-schema/views.md,True,False,2660,0,249,2,no-chinese-prose,
+412,0,V. 資料庫程式設計,V. 資料庫程式設計,V. 資料庫程式設計,server-programming/README.md,True,True,197,139,4,0,chinese-review,
+413,1,V. 資料庫程式設計,38. SQL 延伸功能,38. SQL 延伸功能,server-programming/extending-sql/README.md,True,True,457,64,43,0,chinese-review,
+414,2,V. 資料庫程式設計,38. SQL 延伸功能,38.1. How Extensibility Works,server-programming/extending-sql/37.1.-how-extensibility-works.md,True,False,1480,0,230,2,no-chinese-prose,
+415,2,V. 資料庫程式設計,38. SQL 延伸功能,38.2. The PostgreSQL Type System,server-programming/extending-sql/37.2.-the-postgresql-type-system.md,True,False,12848,0,1540,23,no-chinese-prose,current
+416,2,V. 資料庫程式設計,38. SQL 延伸功能,38.3. 使用者自訂函數,server-programming/extending-sql/user-defined-functions.md,True,False,654,264,41,0,chinese-review,
+417,2,V. 資料庫程式設計,38. SQL 延伸功能,38.4. User-defined Procedures,server-programming/extending-sql/user-defined-procedures.md,True,False,1561,0,176,3,no-chinese-prose,current
+418,2,V. 資料庫程式設計,38. SQL 延伸功能,38.5. Query Language (SQL) Functions,server-programming/extending-sql/query-language-sql-functions.md,True,False,36542,0,3844,72,no-chinese-prose,current
+419,2,V. 資料庫程式設計,38. SQL 延伸功能,38.6. Function Overloading,server-programming/extending-sql/function-overloading.md,True,False,3067,0,399,5,no-chinese-prose,current
+420,2,V. 資料庫程式設計,38. SQL 延伸功能,38.7. 函數易變性類別,server-programming/extending-sql/function-volatility-categories.md,True,False,1974,1168,69,0,chinese-review,
+421,2,V. 資料庫程式設計,38. SQL 延伸功能,38.8. Procedural Language Functions,server-programming/extending-sql/procedural-language-functions.md,True,False,152,79,6,0,chinese-review,
+422,2,V. 資料庫程式設計,38. SQL 延伸功能,38.9. Internal Functions,server-programming/extending-sql/internal-functions.md,True,False,1146,0,140,2,no-chinese-prose,current
+423,2,V. 資料庫程式設計,38. SQL 延伸功能,38.10. C-Language Functions,server-programming/extending-sql/c-language-functions.md,True,False,51466,0,4981,74,no-chinese-prose,current
+424,2,V. 資料庫程式設計,38. SQL 延伸功能,38.11. Function Optimization Information,server-programming/extending-sql/function-optimization-information.md,True,False,4596,0,653,9,no-chinese-prose,current
+425,2,V. 資料庫程式設計,38. SQL 延伸功能,38.12. User-defined Aggregates,server-programming/extending-sql/user-defined-aggregates.md,True,False,23530,0,3084,40,no-chinese-prose,current
+426,2,V. 資料庫程式設計,38. SQL 延伸功能,38.13. User-defined Types,server-programming/extending-sql/user-defined-types.md,True,False,11770,0,1434,20,no-chinese-prose,current
+427,2,V. 資料庫程式設計,38. SQL 延伸功能,38.14. User-defined Operators,server-programming/extending-sql/user-defined-operators.md,True,False,1822,0,213,4,no-chinese-prose,current
+428,2,V. 資料庫程式設計,38. SQL 延伸功能,38.15. Operator Optimization Information,server-programming/extending-sql/operator-optimization-information.md,True,False,15221,0,2239,35,no-chinese-prose,15
+429,2,V. 資料庫程式設計,38. SQL 延伸功能,38.16. Interfacing Extensions To Indexes,server-programming/extending-sql/interfacing-extensions-to-indexes.md,True,False,42694,0,4636,66,no-chinese-prose,14
+430,2,V. 資料庫程式設計,38. SQL 延伸功能,38.17. 封裝相關物件到延伸功能中,server-programming/extending-sql/packaging-related-objects-into-an-extension.md,True,False,30910,0,4028,63,no-chinese-prose,current
+431,2,V. 資料庫程式設計,38. SQL 延伸功能,38.18. Extension Building Infrastructure,server-programming/extending-sql/extension-building-infrastructure.md,True,False,8648,0,1091,16,no-chinese-prose,current
+432,1,V. 資料庫程式設計,39. Triggers,39. Triggers,server-programming/triggers/README.md,True,True,395,142,31,0,chinese-review,
+433,2,V. 資料庫程式設計,39. Triggers,39.1. Overview of Trigger Behavior,server-programming/triggers/overview-of-trigger-behavior.md,True,False,13576,0,1986,22,no-chinese-prose,13
+434,2,V. 資料庫程式設計,39. Triggers,39.2. Visibility of Data Changes,server-programming/triggers/visibility-of-data-changes.md,True,False,1905,0,267,4,no-chinese-prose,current
+435,2,V. 資料庫程式設計,39. Triggers,39.3. Writing Trigger Functions in C,server-programming/triggers/writing-trigger-functions-in-c.md,True,False,6303,0,660,11,no-chinese-prose,13
+436,2,V. 資料庫程式設計,39. Triggers,39.4. A Complete Trigger Example,server-programming/triggers/a-complete-trigger-example.md,True,False,4838,0,112,2,no-chinese-prose,13
+437,1,V. 資料庫程式設計,40. Event Triggers (事件觸發),40. Event Triggers (事件觸發),server-programming/event-triggers/README.md,True,True,191,123,6,0,chinese-review,
+438,2,V. 資料庫程式設計,40. Event Triggers (事件觸發),40.1. Overview of Event Trigger Behavior,server-programming/event-triggers/overview-of-event-trigger-behavior.md,True,False,3769,0,480,9,no-chinese-prose,current
+439,2,V. 資料庫程式設計,40. Event Triggers (事件觸發),40.2. Event Trigger Firing Matrix,server-programming/event-triggers/event-trigger-firing-matrix.md,True,False,16271,14,32,0,chinese-review,
+440,2,V. 資料庫程式設計,40. Event Triggers (事件觸發),40.3. Writing Event Trigger Functions in C,server-programming/event-triggers/writing-event-trigger-functions-in-c.md,True,False,2143,25,240,4,mixed-review,
+441,2,V. 資料庫程式設計,40. Event Triggers (事件觸發),40.4. A Complete Event Trigger Example,server-programming/event-triggers/a-complete-event-trigger-example.md,True,False,2283,0,157,3,no-chinese-prose,current
+442,1,V. 資料庫程式設計,41. 規則系統,41. 規則系統,server-programming/the-rule-system/README.md,True,True,331,198,8,0,chinese-review,
+443,2,V. 資料庫程式設計,41. 規則系統,41.1. The Query Tree,server-programming/the-rule-system/the-query-tree.md,True,False,6099,0,955,17,no-chinese-prose,10
+444,2,V. 資料庫程式設計,41. 規則系統,41.2. Views and the Rule System,server-programming/the-rule-system/views-and-the-rule-system.md,True,False,19859,0,2045,32,no-chinese-prose,10
+445,2,V. 資料庫程式設計,41. 規則系統,41.3. Materialized Views,server-programming/the-rule-system/materialized-views.md,True,False,5691,0,381,8,no-chinese-prose,
+446,2,V. 資料庫程式設計,41. 規則系統,"41.4. Rules on INSERT, UPDATE, and DELETE",server-programming/the-rule-system/rules-on-insert-update-and-delete.md,True,False,24367,0,1952,41,no-chinese-prose,
+447,2,V. 資料庫程式設計,41. 規則系統,41.5. 規則及權限,server-programming/the-rule-system/rules-and-privileges.md,True,False,3148,1733,48,0,chinese-review,
+448,2,V. 資料庫程式設計,41. 規則系統,41.6. Rules and Command Status,server-programming/the-rule-system/rules-and-command-status.md,True,False,1410,0,229,3,no-chinese-prose,
+449,2,V. 資料庫程式設計,41. 規則系統,41.7. Rules Versus Triggers,server-programming/the-rule-system/rules-versus-triggers.md,True,False,5709,0,697,13,no-chinese-prose,
+450,1,V. 資料庫程式設計,42. Procedural Languages（程序語言）,42. Procedural Languages（程序語言）,server-programming/procedural-languages/README.md,True,True,859,283,35,0,chinese-review,
+451,2,V. 資料庫程式設計,42. Procedural Languages（程序語言）,42.1. Installing Procedural Languages,server-programming/procedural-languages/installing-procedural-languages.md,True,False,5410,0,611,9,no-chinese-prose,current
+452,1,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43. PL/pgSQL - SQL Procedural Language,server-programming/pl-pgsql-sql-procedural-language/README.md,True,True,0,0,0,0,heading-only-container,
+453,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.1. Overview,server-programming/pl-pgsql-sql-procedural-language/overview.md,True,False,4534,0,617,14,no-chinese-prose,current
+454,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.2. Structure of PL/pgSQL,server-programming/pl-pgsql-sql-procedural-language/structure-of-pl-pgsql.md,True,False,4179,0,453,9,no-chinese-prose,current
+455,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.3. Declarations,server-programming/pl-pgsql-sql-procedural-language/declarations.md,True,False,14785,0,1566,31,no-chinese-prose,current
+456,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.4. Expressions,server-programming/pl-pgsql-sql-procedural-language/expressions.md,True,False,2006,0,239,5,no-chinese-prose,current
+457,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.5. 基本語法,server-programming/pl-pgsql-sql-procedural-language/basic-statements.md,True,False,24082,0,2774,51,no-chinese-prose,current
+458,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.6. Control Structures,server-programming/pl-pgsql-sql-procedural-language/control-structures.md,True,False,31975,0,2825,56,no-chinese-prose,current
+459,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.7. Cursors,server-programming/pl-pgsql-sql-procedural-language/43.7.-cursors.md,True,False,13717,0,1627,25,no-chinese-prose,current
+460,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.8. Transaction Management,server-programming/pl-pgsql-sql-procedural-language/43.8.-transaction-management.md,True,False,2485,0,253,4,no-chinese-prose,
+461,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.9. Errors and Messages,server-programming/pl-pgsql-sql-procedural-language/43.9.-errors-and-messages.md,True,False,5851,0,656,14,no-chinese-prose,current
+462,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.10. Trigger Functions,server-programming/pl-pgsql-sql-procedural-language/43.10.-trigger-functions.md,True,False,20007,0,1317,21,no-chinese-prose,current
+463,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.11. PL/pgSQL under the Hood,server-programming/pl-pgsql-sql-procedural-language/43.11.-pl-pgsql-under-the-hood.md,True,False,11607,0,1503,25,no-chinese-prose,current
+464,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.12. Tips for Developing in PL/pgSQL,server-programming/pl-pgsql-sql-procedural-language/43.12.-tips-for-developing-in-pl-pgsql.md,True,False,7961,0,807,12,no-chinese-prose,current
+465,2,V. 資料庫程式設計,43. PL/pgSQL - SQL Procedural Language,43.13. Porting from Oracle PL/SQL,server-programming/pl-pgsql-sql-procedural-language/43.13.-porting-from-oracle-pl-sql.md,True,False,18357,0,1090,13,no-chinese-prose,current
+466,1,V. 資料庫程式設計,44. PL/Tcl - Tcl Procedural Language,44. PL/Tcl - Tcl Procedural Language,server-programming/pl-tcl-tcl-procedural-language.md,True,False,62,24,5,0,chinese-review,
+467,1,V. 資料庫程式設計,45. PL/Perl — Perl Procedural Language,45. PL/Perl — Perl Procedural Language,server-programming/pl-perl-perl-procedural-language.md,True,False,925,0,122,2,no-chinese-prose,13
+468,1,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46. PL/Python - Python Procedural Language,server-programming/pl-python-python-procedural-language-1/README.md,True,True,963,103,111,1,mixed-review,
+469,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.1. PL/Python Functions,server-programming/pl-python-python-procedural-language-1/pl-python-functions.md,True,False,2551,0,298,5,no-chinese-prose,15
+470,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.2. Data Values,server-programming/pl-python-python-procedural-language-1/data-values.md,True,False,9446,0,895,16,no-chinese-prose,15
+471,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.3. Sharing Data,server-programming/pl-python-python-procedural-language-1/sharing-data.md,True,False,168,112,6,0,chinese-review,
+472,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.4. Anonymous Code Blocks,server-programming/pl-python-python-procedural-language-1/anonymous-code-blocks.md,True,False,171,54,8,0,chinese-review,
+473,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.5. Trigger Functions,server-programming/pl-python-python-procedural-language-1/trigger-functions.md,True,False,1212,0,135,2,no-chinese-prose,
+474,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.6. Database Access,server-programming/pl-python-python-procedural-language-1/database-access.md,True,False,8764,0,867,19,no-chinese-prose,15
+475,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.7. Explicit Subtransactions,server-programming/pl-python-python-procedural-language-1/explicit-subtransactions.md,True,False,2986,0,262,4,no-chinese-prose,15
+476,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.8. Transaction Management,server-programming/pl-python-python-procedural-language-1/transaction-management.md,True,False,887,0,91,1,no-chinese-prose,
+477,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.9. Utility Functions,server-programming/pl-python-python-procedural-language-1/utility-functions.md,True,False,3159,0,190,4,no-chinese-prose,15
+478,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.10. Python 2 vs. Python 3,server-programming/pl-python-python-procedural-language-1/python-2-vs.-python-3.md,True,False,83,18,6,0,chinese-review,
+479,2,V. 資料庫程式設計,46. PL/Python - Python Procedural Language,46.11. Environment Variables,server-programming/pl-python-python-procedural-language-1/environment-variables.md,True,False,926,0,115,2,no-chinese-prose,
+480,1,V. 資料庫程式設計,47. Server Programming Interface,47. Server Programming Interface,server-programming/server-programming-interface.md,True,False,1303,0,192,4,no-chinese-prose,
+481,1,V. 資料庫程式設計,48. Background Worker Processes,48. Background Worker Processes,server-programming/background-worker-processes.md,True,False,11329,0,1382,21,no-chinese-prose,13
+482,1,V. 資料庫程式設計,49. Logical Decoding,49. Logical Decoding,server-programming/logical-decoding/README.md,True,True,663,263,41,0,chinese-review,
+483,2,V. 資料庫程式設計,49. Logical Decoding,48.1. Logical Decoding Examples,server-programming/logical-decoding/logical-decoding-examples.md,True,False,5256,0,89,2,no-chinese-prose,13
+484,2,V. 資料庫程式設計,49. Logical Decoding,48.2. Logical Decoding Concepts,server-programming/logical-decoding/logical-decoding-concepts.md,True,False,4318,0,583,11,no-chinese-prose,13
+485,2,V. 資料庫程式設計,49. Logical Decoding,48.3. Streaming Replication Protocol Interface,server-programming/logical-decoding/streaming-replication-protocol-interface.md,True,False,691,0,56,1,no-chinese-prose,13
+486,2,V. 資料庫程式設計,49. Logical Decoding,48.4. Logical Decoding SQL Interface,server-programming/logical-decoding/logical-decoding-sql-interface.md,True,False,497,0,44,1,no-chinese-prose,13
+487,2,V. 資料庫程式設計,49. Logical Decoding,48.5. System Catalogs Related to Logical Decoding,server-programming/logical-decoding/system-catalogs-related-to-logical-decoding.md,True,False,408,0,28,1,no-chinese-prose,13
+488,2,V. 資料庫程式設計,49. Logical Decoding,48.6. Logical Decoding Output Plugins,server-programming/logical-decoding/logical-decoding-output-plugins.md,True,False,11036,0,1063,25,no-chinese-prose,13
+489,2,V. 資料庫程式設計,49. Logical Decoding,48.7. Logical Decoding Output Writers,server-programming/logical-decoding/logical-decoding-output-writers.md,True,False,388,0,38,1,no-chinese-prose,13
+490,2,V. 資料庫程式設計,49. Logical Decoding,48.8. Synchronous Replication Support for Logical Decoding,server-programming/logical-decoding/synchronous-replication-support-for-logical-decoding.md,True,False,953,0,90,2,no-chinese-prose,13
+491,1,V. 資料庫程式設計,50. Replication Progress Tracking,50. Replication Progress Tracking,server-programming/replication-progress-tracking.md,True,False,4061,0,434,6,no-chinese-prose,13
+492,1,V. 資料庫程式設計,51. Archive Modules,51. Archive Modules,51.-archive-modules.md,True,True,1432,0,134,3,no-chinese-prose,15
+493,2,V. 資料庫程式設計,51. Archive Modules,51.1. Initialization Functions,server-programming/51.-archive-modules/51.1.-initialization-functions.md,True,False,914,0,81,1,no-chinese-prose,current
+494,2,V. 資料庫程式設計,51. Archive Modules,51.2. Archive Module Callbacks,server-programming/51.-archive-modules/51.2.-archive-module-callbacks.md,True,False,1823,0,217,5,no-chinese-prose,current
+495,0,VI. 參考資訊,VI. 參考資訊,VI. 參考資訊,reference/README.md,True,True,132,104,2,0,chinese-review,
+496,1,VI. 參考資訊,I. SQL 指令,I. SQL 指令,reference/sql-commands/README.md,True,True,20261,66,1222,0,chinese-review,15
+497,2,VI. 參考資訊,I. SQL 指令,ALTER DATABASE,reference/sql-commands/alter-database.md,True,False,4403,0,481,8,no-chinese-prose,10
+498,2,VI. 參考資訊,I. SQL 指令,ALTER DEFAULT PRIVILEGES,reference/sql-commands/alter-default-privileges.md,True,False,3589,650,63,0,chinese-review,
+499,2,VI. 參考資訊,I. SQL 指令,ALTER EXTENSION,reference/sql-commands/alter-extension.md,True,False,4347,355,272,5,mixed-review,
+500,2,VI. 參考資訊,I. SQL 指令,ALTER FUNCTION,reference/sql-commands/alter-function.md,True,False,3750,923,115,0,chinese-review,
+501,2,VI. 參考資訊,I. SQL 指令,ALTER INDEX,reference/sql-commands/alter-index.md,True,False,4136,0,446,7,no-chinese-prose,current
+502,2,VI. 參考資訊,I. SQL 指令,ALTER LANGUAGE,reference/sql-commands/alter-language.md,True,False,441,83,19,0,chinese-review,
+503,2,VI. 參考資訊,I. SQL 指令,ALTER MATERIALIZED VIEW,reference/sql-commands/alter-materialized-view.md,True,False,3084,0,235,3,no-chinese-prose,10
+504,2,VI. 參考資訊,I. SQL 指令,ALTER POLICY,reference/sql-commands/alter-policy.md,True,False,1405,287,29,0,chinese-review,
+505,2,VI. 參考資訊,I. SQL 指令,ALTER PUBLICATION,reference/sql-commands/alter-publication.md,True,False,2977,0,305,5,no-chinese-prose,13
+506,2,VI. 參考資訊,I. SQL 指令,ALTER ROLE,reference/sql-commands/alter-role.md,True,False,4239,1181,144,0,chinese-review,
+507,2,VI. 參考資訊,I. SQL 指令,ALTER RULE,reference/sql-commands/alter-rule.md,True,False,436,124,19,0,chinese-review,
+508,2,VI. 參考資訊,I. SQL 指令,ALTER SCHEMA,reference/sql-commands/alter-schema.md,True,False,907,0,115,2,no-chinese-prose,
+509,2,VI. 參考資訊,I. SQL 指令,ALTER SEQUENCE,reference/sql-commands/alter-sequence.md,True,False,3027,1122,119,0,chinese-review,
+510,2,VI. 參考資訊,I. SQL 指令,ALTER STATISTICS,reference/sql-commands/alter-statistics.md,True,False,2100,0,230,3,no-chinese-prose,13
+511,2,VI. 參考資訊,I. SQL 指令,ALTER SUBSCRIPTION,reference/sql-commands/alter-subscription.md,True,False,2150,457,72,1,mixed-review,
+512,2,VI. 參考資訊,I. SQL 指令,ALTER SYSTEM,reference/sql-commands/alter-system.md,True,False,1439,382,82,0,chinese-review,
+513,2,VI. 參考資訊,I. SQL 指令,ALTER TABLE,reference/sql-commands/alter-table.md,True,False,21407,7593,511,0,chinese-review,
+514,2,VI. 參考資訊,I. SQL 指令,ALTER TABLESPACE,reference/sql-commands/alter-tablespace.md,True,False,1186,288,36,0,chinese-review,
+515,2,VI. 參考資訊,I. SQL 指令,ALTER TRIGGER,reference/sql-commands/alter-trigger.md,True,False,1530,0,163,2,no-chinese-prose,10
+516,2,VI. 參考資訊,I. SQL 指令,ALTER TYPE,reference/sql-commands/alter-type.md,True,False,5879,0,719,9,no-chinese-prose,10
+517,2,VI. 參考資訊,I. SQL 指令,ALTER USER,reference/sql-commands/alter-user.md,True,False,1109,38,18,0,chinese-review,
+518,2,VI. 參考資訊,I. SQL 指令,ALTER VIEW,reference/sql-commands/alter-view.md,True,False,2041,444,58,0,chinese-review,
+519,2,VI. 參考資訊,I. SQL 指令,ANALYZE,reference/sql-commands/analyze.md,True,False,2905,1437,131,1,mixed-review,
+520,2,VI. 參考資訊,I. SQL 指令,CLUSTER,reference/sql-commands/cluster.md,True,False,4952,0,666,12,no-chinese-prose,10
+521,2,VI. 參考資訊,I. SQL 指令,COMMENT,reference/sql-commands/comment.md,True,False,6198,688,71,0,chinese-review,
+522,2,VI. 參考資訊,I. SQL 指令,COMMIT PREPARED,reference/sql-commands/commit-prepared.md,True,False,1288,0,134,2,no-chinese-prose,13
+523,2,VI. 參考資訊,I. SQL 指令,COPY,reference/sql-commands/copy.md,True,False,16940,3766,1298,19,mixed-review,
+524,2,VI. 參考資訊,I. SQL 指令,CREATE ACCESS METHOD,reference/sql-commands/create-access-method.md,True,False,1707,0,160,1,no-chinese-prose,13
+525,2,VI. 參考資訊,I. SQL 指令,CREATE CAST,reference/sql-commands/create-cast.md,True,False,11813,0,1641,24,no-chinese-prose,13
+526,2,VI. 參考資訊,I. SQL 指令,CREATE DATABASE,reference/sql-commands/create-database.md,True,False,3553,1423,101,0,chinese-review,
+527,2,VI. 參考資訊,I. SQL 指令,CREATE EVENT TRIGGER,reference/sql-commands/create-event-trigger.md,True,False,2676,0,252,5,no-chinese-prose,13
+528,2,VI. 參考資訊,I. SQL 指令,CREATE EXTENSION,reference/sql-commands/create-extension.md,True,False,5075,364,579,10,mixed-review,current
+529,2,VI. 參考資訊,I. SQL 指令,CREATE FOREIGN TABLE,reference/sql-commands/create-foreign-table.md,True,False,8370,0,914,18,no-chinese-prose,10
+530,2,VI. 參考資訊,I. SQL 指令,CREATE FOREIGN DATA WRAPPER,reference/sql-commands/create-foreign-data-wrapper.md,True,False,3521,0,375,6,no-chinese-prose,13
+531,2,VI. 參考資訊,I. SQL 指令,CREATE FUNCTION,reference/sql-commands/create-function.md,True,False,10486,3976,288,0,chinese-review,
+532,2,VI. 參考資訊,I. SQL 指令,CREATE INDEX,reference/sql-commands/create-index.md,True,False,14573,3343,1166,11,mixed-review,13
+533,2,VI. 參考資訊,I. SQL 指令,CREATE LANGUAGE,reference/sql-commands/create-language.md,True,False,3496,1541,124,1,mixed-review,
+534,2,VI. 參考資訊,I. SQL 指令,CREATE MATERIALIZED VIEW,reference/sql-commands/create-materialized-view.md,True,False,1716,388,90,1,mixed-review,
+535,2,VI. 參考資訊,I. SQL 指令,CREATE DOMAIN,reference/sql-commands/create-domain.md,True,False,4988,0,629,12,no-chinese-prose,10
+536,2,VI. 參考資訊,I. SQL 指令,CREATE POLICY,reference/sql-commands/create-policy.md,True,False,11159,3141,298,1,mixed-review,"10,devel"
+537,2,VI. 參考資訊,I. SQL 指令,CREATE PROCEDURE,reference/sql-commands/create-procedure.md,True,False,8115,0,957,21,no-chinese-prose,11
+538,2,VI. 參考資訊,I. SQL 指令,CREATE PUBLICATION,reference/sql-commands/create-publication.md,True,False,4741,0,570,13,no-chinese-prose,13
+539,2,VI. 參考資訊,I. SQL 指令,CREATE ROLE,reference/sql-commands/create-role.md,True,False,5396,2228,164,1,mixed-review,
+540,2,VI. 參考資訊,I. SQL 指令,CREATE RULE,reference/sql-commands/create-rule.md,True,False,3143,1334,137,0,chinese-review,
+541,2,VI. 參考資訊,I. SQL 指令,CREATE SCHEMA,reference/sql-commands/create-schema.md,True,False,4443,0,497,11,no-chinese-prose,
+542,2,VI. 參考資訊,I. SQL 指令,CREATE SEQUENCE,reference/sql-commands/create-sequence.md,True,False,7899,0,959,19,no-chinese-prose,10
+543,2,VI. 參考資訊,I. SQL 指令,CREATE SERVER,reference/sql-commands/create-server.md,True,False,2693,0,251,4,no-chinese-prose,10
+544,2,VI. 參考資訊,I. SQL 指令,CREATE STATISTICS,reference/sql-commands/create-statistics.md,True,False,2428,701,57,0,chinese-review,
+545,2,VI. 參考資訊,I. SQL 指令,CREATE SUBSCRIPTION,reference/sql-commands/create-subscription.md,True,False,2949,869,106,1,mixed-review,
+546,2,VI. 參考資訊,I. SQL 指令,CREATE TABLE,reference/sql-commands/create-table.md,True,False,58428,1301,5981,110,mixed-review,"12,13"
+547,2,VI. 參考資訊,I. SQL 指令,CREATE TABLE AS,reference/sql-commands/create-table-as.md,True,False,3562,999,192,1,mixed-review,
+548,2,VI. 參考資訊,I. SQL 指令,CREATE TABLESPACE,reference/sql-commands/create-tablespace.md,True,False,1855,492,88,1,mixed-review,
+549,2,VI. 參考資訊,I. SQL 指令,CREATE TRANSFORM,reference/sql-commands/create-transform.md,True,False,2153,683,72,1,mixed-review,
+550,2,VI. 參考資訊,I. SQL 指令,CREATE TRIGGER,reference/sql-commands/create-trigger.md,True,False,15908,1221,1691,28,mixed-review,10
+551,2,VI. 參考資訊,I. SQL 指令,CREATE TYPE,reference/sql-commands/create-type.md,True,False,22866,1610,2658,28,mixed-review,12
+552,2,VI. 參考資訊,I. SQL 指令,CREATE USER,reference/sql-commands/create-user.md,True,False,789,39,11,0,chinese-review,
+553,2,VI. 參考資訊,I. SQL 指令,CREATE USER MAPPING,reference/sql-commands/create-user-mapping.md,True,False,2226,0,241,5,no-chinese-prose,10
+554,2,VI. 參考資訊,I. SQL 指令,CREATE VIEW,reference/sql-commands/create-view.md,True,False,8230,2544,534,4,mixed-review,current
+555,2,VI. 參考資訊,I. SQL 指令,DEALLOCATE,reference/sql-commands/deallocate.md,True,False,751,0,68,1,no-chinese-prose,13
+556,2,VI. 參考資訊,I. SQL 指令,DELETE,reference/sql-commands/delete.md,True,False,5581,0,624,14,no-chinese-prose,10
+557,2,VI. 參考資訊,I. SQL 指令,DO,reference/sql-commands/do.md,True,False,843,243,20,0,chinese-review,
+558,2,VI. 參考資訊,I. SQL 指令,DROP ACCESS METHOD,reference/sql-commands/drop-access-method.md,True,False,946,0,98,1,no-chinese-prose,13
+559,2,VI. 參考資訊,I. SQL 指令,DROP DATABASE,reference/sql-commands/drop-database.md,True,False,1078,0,132,2,no-chinese-prose,10
+560,2,VI. 參考資訊,I. SQL 指令,DROP EXTENSION,reference/sql-commands/drop-extension.md,True,False,1270,0,157,3,no-chinese-prose,11
+561,2,VI. 參考資訊,I. SQL 指令,DROP FUNCTION,reference/sql-commands/drop-function.md,True,False,1288,465,39,0,chinese-review,
+562,2,VI. 參考資訊,I. SQL 指令,DROP INDEX,reference/sql-commands/drop-index.md,True,False,1687,0,202,4,no-chinese-prose,current
+563,2,VI. 參考資訊,I. SQL 指令,DROP LANGUAGE,reference/sql-commands/drop-language.md,True,False,696,191,37,0,chinese-review,
+564,2,VI. 參考資訊,I. SQL 指令,DROP MATERIALIZED VIEW,reference/sql-commands/drop-materialized-view.md,True,False,738,181,40,1,mixed-review,
+565,2,VI. 參考資訊,I. SQL 指令,DROP OWNED,reference/sql-commands/drop-owned.md,True,False,1901,0,223,5,no-chinese-prose,10
+566,2,VI. 參考資訊,I. SQL 指令,DROP POLICY,reference/sql-commands/drop-policy.md,True,False,1166,0,128,1,no-chinese-prose,devel
+567,2,VI. 參考資訊,I. SQL 指令,DROP PUBLICATION,reference/sql-commands/drop-publication.md,True,False,724,0,74,0,no-chinese-prose,
+568,2,VI. 參考資訊,I. SQL 指令,DROP ROLE,reference/sql-commands/drop-role.md,True,False,847,338,49,0,chinese-review,
+569,2,VI. 參考資訊,I. SQL 指令,DROP RULE,reference/sql-commands/drop-rule.md,True,False,544,144,26,0,chinese-review,
+570,2,VI. 參考資訊,I. SQL 指令,DROP SCHEMA,reference/sql-commands/drop-schema.md,True,False,1317,0,170,3,no-chinese-prose,10
+571,2,VI. 參考資訊,I. SQL 指令,DROP SEQUENCE,reference/sql-commands/drop-sequence.md,True,False,886,44,93,1,mixed-review,13
+572,2,VI. 參考資訊,I. SQL 指令,DROP STATISTICS,reference/sql-commands/drop-statistics.md,True,False,805,0,86,1,no-chinese-prose,
+573,2,VI. 參考資訊,I. SQL 指令,DROP SUBSCRIPTION,reference/sql-commands/drop-subscription.md,True,False,935,334,41,0,chinese-review,
+574,2,VI. 參考資訊,I. SQL 指令,DROP TABLE,reference/sql-commands/drop-table.md,True,False,799,304,38,0,chinese-review,
+575,2,VI. 參考資訊,I. SQL 指令,DROP TABLESPACE,reference/sql-commands/drop-tablespace.md,True,False,653,209,34,0,chinese-review,
+576,2,VI. 參考資訊,I. SQL 指令,DROP TRANSFORM,reference/sql-commands/drop-transform.md,True,False,1231,0,123,2,no-chinese-prose,10
+577,2,VI. 參考資訊,I. SQL 指令,DROP TRIGGER,reference/sql-commands/drop-trigger.md,True,False,1202,0,136,3,no-chinese-prose,10
+578,2,VI. 參考資訊,I. SQL 指令,DROP TYPE,reference/sql-commands/drop-type.md,True,False,1192,0,137,2,no-chinese-prose,10
+579,2,VI. 參考資訊,I. SQL 指令,DROP USER,reference/sql-commands/drop-user.md,True,False,198,35,18,0,chinese-review,
+580,2,VI. 參考資訊,I. SQL 指令,DROP VIEW,reference/sql-commands/drop-view.md,True,False,555,182,27,0,chinese-review,
+581,2,VI. 參考資訊,I. SQL 指令,EXECUTE,reference/sql-commands/execute.md,True,False,1789,0,198,4,no-chinese-prose,10
+582,2,VI. 參考資訊,I. SQL 指令,EXPLAIN,reference/sql-commands/explain.md,True,False,6640,1885,178,2,mixed-review,
+583,2,VI. 參考資訊,I. SQL 指令,GRANT,reference/sql-commands/grant.md,True,False,9586,1435,756,12,mixed-review,13
+584,2,VI. 參考資訊,I. SQL 指令,IMPORT FOREIGN SCHEMA,reference/sql-commands/import-foreign-schema.md,True,False,1802,258,140,4,mixed-review,
+585,2,VI. 參考資訊,I. SQL 指令,INSERT,reference/sql-commands/insert.md,True,False,18146,134,1854,41,mixed-review,12
+586,2,VI. 參考資訊,I. SQL 指令,LISTEN,reference/sql-commands/listen.md,True,False,896,394,35,0,chinese-review,
+587,2,VI. 參考資訊,I. SQL 指令,LOAD,reference/sql-commands/load.md,True,False,681,268,37,0,chinese-review,
+588,2,VI. 參考資訊,I. SQL 指令,MERGE,reference/sql-commands/merge.md,True,False,13911,171,1597,34,mixed-review,15
+589,2,VI. 參考資訊,I. SQL 指令,NOTIFY,reference/sql-commands/notify.md,True,False,2516,1399,53,0,chinese-review,
+590,2,VI. 參考資訊,I. SQL 指令,PREPARE,reference/sql-commands/prepare.md,True,False,7402,0,946,13,no-chinese-prose,13
+591,2,VI. 參考資訊,I. SQL 指令,PREPARE TRANSACTION,reference/sql-commands/prepare-transaction.md,True,False,4497,0,530,10,no-chinese-prose,13
+592,2,VI. 參考資訊,I. SQL 指令,REASSIGN OWNED,reference/sql-commands/reassign-owned.md,True,False,1774,0,186,4,no-chinese-prose,10
+593,2,VI. 參考資訊,I. SQL 指令,REFRESH MATERIALIZED VIEW,reference/sql-commands/refresh-materialized-view.md,True,False,1265,505,52,1,mixed-review,
+594,2,VI. 參考資訊,I. SQL 指令,REINDEX,reference/sql-commands/reindex.md,True,False,5705,2411,325,1,mixed-review,
+595,2,VI. 參考資訊,I. SQL 指令,RESET,reference/sql-commands/reset.md,True,False,701,255,29,0,chinese-review,
+596,2,VI. 參考資訊,I. SQL 指令,REVOKE,reference/sql-commands/revoke.md,True,False,5129,1282,74,0,chinese-review,
+597,2,VI. 參考資訊,I. SQL 指令,ROLLBACK PREPARED,reference/sql-commands/rollback-prepared.md,True,False,1307,0,139,2,no-chinese-prose,13
+598,2,VI. 參考資訊,I. SQL 指令,SECURITY LABEL,reference/sql-commands/security-label.md,True,False,3174,301,204,4,mixed-review,
+599,2,VI. 參考資訊,I. SQL 指令,SELECT,reference/sql-commands/select.md,True,False,64927,320,7679,119,mixed-review,current
+600,2,VI. 參考資訊,I. SQL 指令,SELECT INTO,reference/sql-commands/select-into.md,True,False,2032,351,103,0,chinese-review,
+601,2,VI. 參考資訊,I. SQL 指令,SET,reference/sql-commands/set.md,True,False,2790,945,131,0,chinese-review,
+602,2,VI. 參考資訊,I. SQL 指令,SET CONSTRAINTS,reference/sql-commands/set-constraints.md,True,False,3137,0,409,9,no-chinese-prose,
+603,2,VI. 參考資訊,I. SQL 指令,SET ROLE,reference/sql-commands/set-role.md,True,False,1419,510,68,0,chinese-review,
+604,2,VI. 參考資訊,I. SQL 指令,SET SESSION AUTHORIZATION,reference/sql-commands/set-session-authorization.md,True,False,1196,417,39,0,chinese-review,
+605,2,VI. 參考資訊,I. SQL 指令,SET TRANSACTION,reference/sql-commands/set-transaction.md,True,False,3602,1185,161,0,chinese-review,
+606,2,VI. 參考資訊,I. SQL 指令,SHOW,reference/sql-commands/show.md,True,False,1610,350,47,0,chinese-review,
+607,2,VI. 參考資訊,I. SQL 指令,TRUNCATE,reference/sql-commands/truncate.md,True,False,2167,1016,72,0,chinese-review,
+608,2,VI. 參考資訊,I. SQL 指令,UNLISTEN,reference/sql-commands/unlisten.md,True,False,673,181,23,0,chinese-review,
+609,2,VI. 參考資訊,I. SQL 指令,UPDATE,reference/sql-commands/update.md,True,False,10282,132,1145,23,mixed-review,10
+610,2,VI. 參考資訊,I. SQL 指令,VACUUM,reference/sql-commands/vacuum.md,True,False,8923,1628,813,8,mixed-review,current
+611,2,VI. 參考資訊,I. SQL 指令,VALUES,reference/sql-commands/values.md,True,False,2952,801,109,0,chinese-review,
+612,1,VI. 參考資訊,II. PostgreSQL 用戶端工具,II. PostgreSQL 用戶端工具,reference/client-applications/README.md,True,True,185,159,1,0,chinese-review,
+613,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,createdb,reference/client-applications/createdb.md,True,False,5398,0,582,12,no-chinese-prose,10
+614,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,createuser,reference/client-applications/createuser.md,True,False,3407,1217,77,0,chinese-review,
+615,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,dropdb,reference/client-applications/dropdb.md,True,False,3609,0,386,6,no-chinese-prose,10
+616,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,dropuser,reference/client-applications/dropuser.md,True,False,1808,628,67,0,chinese-review,
+617,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,oid2name,reference/client-applications/oid2name.md,True,False,6988,0,390,7,no-chinese-prose,12
+618,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,pgbench,reference/client-applications/pgbench.md,True,False,17082,5144,332,1,mixed-review,
+619,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,pg_basebackup,reference/client-applications/pg_basebackup.md,True,False,16741,802,2127,38,mixed-review,12
+620,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,pg_dump,reference/client-applications/pg_dump.md,True,False,30400,1401,3815,74,mixed-review,11
+621,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,pg_dumpall,reference/client-applications/pg_dumpall.md,True,False,15510,16,2049,39,mixed-review,12
+622,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,pg_isready,reference/client-applications/pg_isready.md,True,False,2868,0,312,7,no-chinese-prose,13
+623,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,pg_receivewal,reference/client-applications/pg_receivewal.md,True,False,9624,0,1165,19,no-chinese-prose,13
+624,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,pg_recvlogical,reference/client-applications/pg_recvlogical.md,True,False,7347,0,842,17,no-chinese-prose,13
+625,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,pg_restore,reference/client-applications/pg_restore.md,True,False,19792,0,2495,47,no-chinese-prose,12
+626,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,pg_verifybackup,reference/client-applications/pg_verifybackup.md,True,False,6741,0,894,12,no-chinese-prose,
+627,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,psql,reference/client-applications/psql.md,True,False,106837,387,2449,44,mixed-review,"12,current"
+628,2,VI. 參考資訊,II. PostgreSQL 用戶端工具,vacuumdb,reference/client-applications/vacuumdb.md,True,False,5728,1058,438,5,mixed-review,current
+629,1,VI. 參考資訊,III. PostgreSQL 伺服器應用程式,III. PostgreSQL 伺服器應用程式,reference/server-applications/README.md,True,True,1823,62,108,0,chinese-review,current
+630,2,VI. 參考資訊,III. PostgreSQL 伺服器應用程式,initdb,reference/server-applications/initdb.md,True,False,8009,706,868,13,mixed-review,current
+631,2,VI. 參考資訊,III. PostgreSQL 伺服器應用程式,pg_archivecleanup,reference/server-applications/pg_archivecleanup.md,True,False,3826,49,406,6,mixed-review,12
+632,2,VI. 參考資訊,III. PostgreSQL 伺服器應用程式,pg_ctl,reference/server-applications/pg_ctl.md,True,False,11940,164,1435,27,mixed-review,13
+633,2,VI. 參考資訊,III. PostgreSQL 伺服器應用程式,pg_standby,reference/server-applications/pg_standby.md,True,False,7673,0,973,19,no-chinese-prose,12
+634,2,VI. 參考資訊,III. PostgreSQL 伺服器應用程式,pg_test_fsync,reference/server-applications/pg_test_fsync.md,True,False,1763,0,206,3,no-chinese-prose,current
+635,2,VI. 參考資訊,III. PostgreSQL 伺服器應用程式,pg_test_timing,reference/server-applications/pg_test_timing.md,True,False,7663,0,914,17,no-chinese-prose,
+636,2,VI. 參考資訊,III. PostgreSQL 伺服器應用程式,pg_upgrade,reference/server-applications/pg_upgrade.md,True,False,18763,1013,2163,24,mixed-review,13
+637,2,VI. 參考資訊,III. PostgreSQL 伺服器應用程式,postgres,reference/server-applications/postgres.md,True,False,20104,0,2545,51,no-chinese-prose,10
+638,0,VII. 資料庫進階,VII. 資料庫進階,VII. 資料庫進階,internals/README.md,True,True,31,18,1,0,chinese-review,
+639,1,VII. 資料庫進階,52. PostgreSQL 的內部架構,52. PostgreSQL 的內部架構,internals/overview-of-postgresql-internals/README.md,True,True,611,114,58,1,mixed-review,
+640,2,VII. 資料庫進階,52. PostgreSQL 的內部架構,52.1. 處理查詢語句的流程,internals/overview-of-postgresql-internals/the-path-of-a-query.md,True,False,627,495,7,0,chinese-review,
+641,2,VII. 資料庫進階,52. PostgreSQL 的內部架構,52.2. How Connections Are Established,internals/overview-of-postgresql-internals/how-connections-are-established.md,True,False,825,255,72,1,mixed-review,
+642,2,VII. 資料庫進階,52. PostgreSQL 的內部架構,52.3. The Parser Stage,internals/overview-of-postgresql-internals/the-parser-stage.md,True,False,3524,0,529,9,no-chinese-prose,
+643,2,VII. 資料庫進階,52. PostgreSQL 的內部架構,52.4. The PostgreSQL Rule System,internals/overview-of-postgresql-internals/50.4.-the-postgresql-rule-system.md,True,False,1103,0,148,2,no-chinese-prose,12
+644,2,VII. 資料庫進階,52. PostgreSQL 的內部架構,52.5. Planner/Optimizer,internals/overview-of-postgresql-internals/planner-optimizer.md,True,False,5665,0,836,10,no-chinese-prose,12
+645,2,VII. 資料庫進階,52. PostgreSQL 的內部架構,52.6. Executor,internals/overview-of-postgresql-internals/executor.md,True,False,3284,0,537,5,no-chinese-prose,
+646,1,VII. 資料庫進階,53. 系統資訊目錄,53. 系統資訊目錄,internals/system-catalogs/README.md,True,True,291,203,8,0,chinese-review,
+647,2,VII. 資料庫進階,53. 系統資訊目錄,51.3. pg_am,internals/system-catalogs/pg_am.md,True,False,2589,0,146,3,no-chinese-prose,current
+648,2,VII. 資料庫進階,53. 系統資訊目錄,51.7. pg_attribute,internals/system-catalogs/pg_attribute.md,True,False,15906,0,508,3,no-chinese-prose,10
+649,2,VII. 資料庫進階,53. 系統資訊目錄,51.8. pg_authid,internals/system-catalogs/pg_authid.md,True,False,4606,0,369,5,no-chinese-prose,13
+650,2,VII. 資料庫進階,53. 系統資訊目錄,51.9. pg_auth_members,internals/system-catalogs/pg_auth_members.md,True,False,801,117,24,0,chinese-review,
+651,2,VII. 資料庫進階,53. 系統資訊目錄,51.10. pg_cast,internals/system-catalogs/pg_cast.md,True,False,4407,158,362,4,mixed-review,13
+652,2,VII. 資料庫進階,53. 系統資訊目錄,51.11 pg_class,internals/system-catalogs/pg_class.md,True,False,16611,0,1026,3,no-chinese-prose,13
+653,2,VII. 資料庫進階,53. 系統資訊目錄,51.12. pg_collation,internals/system-catalogs/pg_collation.md,True,False,4951,0,273,4,no-chinese-prose,10
+654,2,VII. 資料庫進階,53. 系統資訊目錄,51.13. pg_constraint,internals/system-catalogs/pg_constraint.md,True,False,9199,0,452,4,no-chinese-prose,10
+655,2,VII. 資料庫進階,53. 系統資訊目錄,51.15 pg_database,internals/system-catalogs/pg_database.md,True,False,3725,472,60,0,chinese-review,
+656,2,VII. 資料庫進階,53. 系統資訊目錄,51.21. pg_event_trigger,internals/system-catalogs/pg_event_trigger.md,True,False,3994,0,144,1,no-chinese-prose,13
+657,2,VII. 資料庫進階,53. 系統資訊目錄,51.22. pg_extension,internals/system-catalogs/pg_extension.md,True,False,1553,239,39,0,chinese-review,
+658,2,VII. 資料庫進階,53. 系統資訊目錄,51.26 pg_index,internals/system-catalogs/pg_index.md,True,False,13769,0,640,1,no-chinese-prose,13
+659,2,VII. 資料庫進階,53. 系統資訊目錄,51.29. pg_language,internals/system-catalogs/pg_language.md,True,False,2268,320,58,0,chinese-review,
+660,2,VII. 資料庫進階,53. 系統資訊目錄,51.32. pg_namespace,internals/system-catalogs/pg_namespace.md,True,False,1151,7,76,1,mixed-review,
+661,2,VII. 資料庫進階,53. 系統資訊目錄,51.33. pg_opclass,internals/system-catalogs/pg_opclass.md,True,False,2907,0,181,3,no-chinese-prose,10
+662,2,VII. 資料庫進階,53. 系統資訊目錄,51.38. pg_policy,internals/system-catalogs/pg_policy.md,True,False,2890,0,162,2,no-chinese-prose,10
+663,2,VII. 資料庫進階,53. 系統資訊目錄,51.39. pg_proc,internals/system-catalogs/pg_proc.md,True,False,19436,145,648,1,mixed-review,11
+664,2,VII. 資料庫進階,53. 系統資訊目錄,51.44. pg_rewrite,internals/system-catalogs/51.44.-pg_rewrite.md,True,False,4398,0,106,1,no-chinese-prose,10
+665,2,VII. 資料庫進階,53. 系統資訊目錄,51.49. pg_statistic,internals/system-catalogs/pg_statistic.md,True,False,8858,0,666,6,no-chinese-prose,13
+666,2,VII. 資料庫進階,53. 系統資訊目錄,51.50. pg_statistic_ext,internals/system-catalogs/pg_statistic_ext.md,True,False,6222,0,266,2,no-chinese-prose,13
+667,2,VII. 資料庫進階,53. 系統資訊目錄,51.52. pg_subscription,internals/system-catalogs/pg_subscription.md,True,False,3450,101,157,1,mixed-review,13
+668,2,VII. 資料庫進階,53. 系統資訊目錄,51.53. pg_subscription_rel,internals/system-catalogs/pg_subscription_rel.md,True,False,1458,53,82,1,mixed-review,13
+669,2,VII. 資料庫進階,53. 系統資訊目錄,51.54. pg_tablespace,internals/system-catalogs/51.54.-pg_tablespace.md,True,False,2001,0,106,3,no-chinese-prose,13
+670,2,VII. 資料庫進階,53. 系統資訊目錄,51.56. pg_trigger,internals/system-catalogs/51.56.-pg_trigger.md,True,False,9940,0,281,3,no-chinese-prose,10
+671,2,VII. 資料庫進階,53. 系統資訊目錄,51.62. pg_type,internals/system-catalogs/pg_type.md,True,False,34943,0,984,4,no-chinese-prose,10
+672,2,VII. 資料庫進階,53. 系統資訊目錄,51.66. pg_available_extensions,internals/system-catalogs/pg_available_extensions.md,True,False,507,94,12,0,chinese-review,
+673,2,VII. 資料庫進階,53. 系統資訊目錄,51.67. pg_available_extension_versions,internals/system-catalogs/pg_available_extension_versions.md,True,False,832,180,13,0,chinese-review,
+674,2,VII. 資料庫進階,53. 系統資訊目錄,51.71. pg_hba_file_rules,internals/system-catalogs/pg_hba_file_rules.md,True,False,2868,19,247,3,mixed-review,
+675,2,VII. 資料庫進階,53. 系統資訊目錄,51.72. pg_indexes,internals/system-catalogs/pg_indexes.md,True,False,1609,17,101,1,mixed-review,
+676,2,VII. 資料庫進階,53. 系統資訊目錄,51.73. pg_locks,internals/system-catalogs/pg_locks.md,True,False,14332,387,1168,11,mixed-review,13
+677,2,VII. 資料庫進階,53. 系統資訊目錄,51.77. pg_prepared_xacts,internals/system-catalogs/pg_prepared_xacts.md,True,False,2493,0,173,2,no-chinese-prose,13
+678,2,VII. 資料庫進階,53. 系統資訊目錄,51.79. pg_replication_origin_status,internals/system-catalogs/51.79.-pg_replication_origin_status.md,True,False,2076,0,67,2,no-chinese-prose,10
+679,1,VII. 資料庫進階,54. System Views,54. System Views,internals/54.-system-views.md,True,True,1014,0,116,3,no-chinese-prose,current
+680,2,VII. 資料庫進階,54. System Views,54.1. Overview,internals/system-views/overview.md,True,False,7254,0,132,2,no-chinese-prose,current
+681,2,VII. 資料庫進階,54. System Views,54.19. pg_replication_slots,internals/system-views/pg_replication_slots.md,True,False,17478,0,568,2,no-chinese-prose,current
+682,2,VII. 資料庫進階,54. System Views,54.20 pg_roles,internals/system-views/pg_roles.md,True,False,2926,289,30,0,chinese-review,
+683,2,VII. 資料庫進階,54. System Views,54.24. pg_settings,internals/system-views/pg_settings.md,True,False,5549,1085,270,1,mixed-review,current
+684,2,VII. 資料庫進階,54. System Views,54.25. pg_shadow,internals/system-views/pg_shadow.md,True,False,3343,0,189,3,no-chinese-prose,current
+685,2,VII. 資料庫進階,54. System Views,54.26. pg_shmem_allocations,internals/system-views/pg_shmem_allocations.md,True,False,2823,0,186,2,no-chinese-prose,current
+686,2,VII. 資料庫進階,54. System Views,54.27. pg_stats,internals/system-views/pg_stats.md,True,False,10358,0,585,4,no-chinese-prose,current
+687,2,VII. 資料庫進階,54. System Views,54.30. pg_tables,internals/system-views/pg_tables.md,True,False,2775,0,136,1,no-chinese-prose,current
+688,2,VII. 資料庫進階,54. System Views,54.31. pg_timezone_abbrevs,internals/54.-system-views/pg_timezone_abbrevs.md,True,False,1192,0,100,3,no-chinese-prose,current
+689,2,VII. 資料庫進階,54. System Views,54.32. pg_timezone_names,internals/54.-system-views/pg_timezone_names.md,True,False,1324,0,117,2,no-chinese-prose,current
+690,2,VII. 資料庫進階,54. System Views,54.33. pg_user,internals/system-catalogs/pg_user.md,True,False,2659,0,142,2,no-chinese-prose,current
+691,2,VII. 資料庫進階,54. System Views,54.35. pg_views,internals/system-views/pg_views.md,True,False,1443,0,63,1,no-chinese-prose,15
+692,1,VII. 資料庫進階,55. Frontend/Backend Protocol,55. Frontend/Backend Protocol,internals/52.-frontend-backend-protocol/README.md,True,True,1179,0,167,3,no-chinese-prose,
+693,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.1. Overview,internals/52.-frontend-backend-protocol/overview.md,True,False,5914,0,894,13,no-chinese-prose,
+694,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.2. Message Flow,internals/52.-frontend-backend-protocol/52.2.-message-flow.md,True,False,0,0,0,0,heading-only-leaf,
+695,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.3. SASL Authentication,internals/52.-frontend-backend-protocol/52.3.-sasl-authentication.md,True,False,0,0,0,0,heading-only-leaf,
+696,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.4. Streaming Replication Protocol,internals/52.-frontend-backend-protocol/streaming-replication-protocol.md,True,False,18369,0,2431,40,no-chinese-prose,13
+697,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.5. Logical Streaming Replication Protocol,internals/52.-frontend-backend-protocol/52.5.-logical-streaming-replication-protocol.md,True,False,2572,0,358,7,no-chinese-prose,10
+698,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.6. Message Data Types,internals/52.-frontend-backend-protocol/52.6.-message-data-types.md,True,False,0,0,0,0,heading-only-leaf,
+699,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.7. Message Formats,internals/52.-frontend-backend-protocol/52.7.-message-formats.md,True,False,0,0,0,0,heading-only-leaf,
+700,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.8. Error and Notice Message Fields,internals/52.-frontend-backend-protocol/52.8.-error-and-notice-message-fields.md,True,False,0,0,0,0,heading-only-leaf,
+701,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.9. Logical Replication Message Formats,internals/52.-frontend-backend-protocol/52.9.-logical-replication-message-formats.md,True,False,0,0,0,0,heading-only-leaf,
+702,2,VII. 資料庫進階,55. Frontend/Backend Protocol,52.10. Summary of Changes since Protocol 2.0,internals/52.-frontend-backend-protocol/52.10.-summary-of-changes-since-protocol-2.0.md,True,False,0,0,0,0,heading-only-leaf,
+703,1,VII. 資料庫進階,56. PostgreSQL 程式撰寫慣例,56. PostgreSQL 程式撰寫慣例,internals/postgresql-coding-conventions/README.md,True,True,0,0,0,0,heading-only-container,
+704,2,VII. 資料庫進階,56. PostgreSQL 程式撰寫慣例,53.1. Formatting,internals/postgresql-coding-conventions/54.1.-formatting.md,True,False,1951,0,285,7,no-chinese-prose,
+705,2,VII. 資料庫進階,56. PostgreSQL 程式撰寫慣例,53.2. Reporting Errors Within the Server,internals/postgresql-coding-conventions/54.2.-reporting-errors-within-the-server.md,True,False,10580,0,1257,9,no-chinese-prose,11
+706,2,VII. 資料庫進階,56. PostgreSQL 程式撰寫慣例,53.3. Error Message Style Guide,internals/postgresql-coding-conventions/54.3.-error-message-style-guide.md,True,False,9914,0,1428,30,no-chinese-prose,11
+707,2,VII. 資料庫進階,56. PostgreSQL 程式撰寫慣例,53.4. Miscellaneous Coding Conventions,internals/postgresql-coding-conventions/54.4.-miscellaneous-coding-conventions.md,True,False,3420,0,430,12,no-chinese-prose,
+708,1,VII. 資料庫進階,57. Native Language Support,57. Native Language Support,internals/native-language-support/README.md,True,True,0,0,0,0,heading-only-container,
+709,2,VII. 資料庫進階,57. Native Language Support,54.1. For the Translator,internals/native-language-support/for-the-translator.md,True,False,9018,0,1347,18,no-chinese-prose,12
+710,2,VII. 資料庫進階,57. Native Language Support,54.2. For the Programmer,internals/native-language-support/for-the-programmer.md,True,False,5382,0,671,10,no-chinese-prose,
+711,1,VII. 資料庫進階,58. 撰寫程序語言的處理程序,58. 撰寫程序語言的處理程序,internals/writing-a-procedural-language-handler.md,True,False,6877,824,661,7,mixed-review,12
+712,1,VII. 資料庫進階,59. Writing a Foreign Data Wrapper,59. Writing a Foreign Data Wrapper,internals/writing-a-foreign-data-wrapper/README.md,True,True,995,0,144,3,no-chinese-prose,12
+713,2,VII. 資料庫進階,59. Writing a Foreign Data Wrapper,56.1. Foreign Data Wrapper Functions,internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-functions.md,True,False,1630,0,213,3,no-chinese-prose,12
+714,2,VII. 資料庫進階,59. Writing a Foreign Data Wrapper,56.2. Foreign Data Wrapper Callback Routines,internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-callback-routines.md,True,False,43583,0,5350,87,no-chinese-prose,12
+715,2,VII. 資料庫進階,59. Writing a Foreign Data Wrapper,56.3. Foreign Data Wrapper Helper Functions,internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-helper-functions.md,True,False,3412,0,389,10,no-chinese-prose,
+716,2,VII. 資料庫進階,59. Writing a Foreign Data Wrapper,56.4. Foreign Data Wrapper Query Planning,internals/writing-a-foreign-data-wrapper/foreign-data-wrapper-query-planning.md,True,False,10058,0,1374,16,no-chinese-prose,12
+717,2,VII. 資料庫進階,59. Writing a Foreign Data Wrapper,56.5. Row Locking in Foreign Data Wrappers,internals/writing-a-foreign-data-wrapper/row-locking-in-foreign-data-wrappers.md,True,False,4931,0,675,7,no-chinese-prose,12
+718,1,VII. 資料庫進階,60. Writing a Table Sampling Method,60. Writing a Table Sampling Method,internals/60.-writing-a-table-sampling-method.md,True,False,2668,0,349,6,no-chinese-prose,15
+719,1,VII. 資料庫進階,61. Writing a Custom Scan Provider,61. Writing a Custom Scan Provider,internals/61.-writing-a-custom-scan-provider.md,True,False,1163,0,177,2,no-chinese-prose,15
+720,1,VII. 資料庫進階,62. Genetic Query Optimizer,62. Genetic Query Optimizer,internals/genetic-query-optimizer/README.md,True,True,200,0,26,1,no-chinese-prose,
+721,2,VII. 資料庫進階,62. Genetic Query Optimizer,59.1. Query Handling as a Complex Optimization Problem,internals/genetic-query-optimizer/query-handling-as-a-complex-optimization-problem.md,True,False,1544,0,229,4,no-chinese-prose,
+722,2,VII. 資料庫進階,62. Genetic Query Optimizer,59.2. Genetic Algorithms,internals/genetic-query-optimizer/genetic-algorithms.md,True,False,2173,0,154,4,no-chinese-prose,
+723,2,VII. 資料庫進階,62. Genetic Query Optimizer,59.3. Genetic Query Optimization (GEQO) in PostgreSQL,internals/genetic-query-optimizer/genetic-query-optimization-geqo-in-postgresql.md,True,False,4371,0,634,8,no-chinese-prose,12
+724,2,VII. 資料庫進階,62. Genetic Query Optimizer,59.4. Further Reading,internals/genetic-query-optimizer/further-reading.md,True,False,506,0,39,1,no-chinese-prose,12
+725,1,VII. 資料庫進階,63. Table Access Method Interface Definition,63. Table Access Method Interface Definition,internals/table-access-method-interface-definition.md,True,False,4152,0,506,8,no-chinese-prose,current
+726,1,VII. 資料庫進階,64. Index Access Method Interface Definition,64. Index Access Method Interface Definition,internals/index-access-method-interface-definition.md,True,False,1991,0,301,3,no-chinese-prose,13
+727,1,VII. 資料庫進階,65. Generic WAL Records,65. Generic WAL Records,internals/generic-wal-records.md,True,False,4013,0,570,4,no-chinese-prose,
+728,1,VII. 資料庫進階,66. Custom WAL Resource Managers,66. Custom WAL Resource Managers,internals/66.-custom-wal-resource-managers.md,True,False,3598,0,197,6,no-chinese-prose,15
+729,1,VII. 資料庫進階,67. B-Tree Indexes,67. B-Tree Indexes,internals/b-tree-indexes/README.md,True,True,0,0,0,0,heading-only-container,
+730,2,VII. 資料庫進階,67. B-Tree Indexes,67.1. Introduction,internals/b-tree-indexes/introduction.md,True,False,272,178,10,0,chinese-review,
+731,2,VII. 資料庫進階,67. B-Tree Indexes,67.2. Behavior of B-Tree Operator Classes,internals/b-tree-indexes/behavior-of-b-tree-operator-classes.md,True,False,3647,0,489,7,no-chinese-prose,current
+732,2,VII. 資料庫進階,67. B-Tree Indexes,67.3. B-Tree Support Functions,internals/b-tree-indexes/b-tree-support-functions.md,True,False,10048,0,1232,21,no-chinese-prose,current
+733,2,VII. 資料庫進階,67. B-Tree Indexes,67.4. Implementation,internals/b-tree-indexes/implementation.md,True,False,11817,0,1706,20,no-chinese-prose,current
+734,1,VII. 資料庫進階,68. GiST Indexes,68. GiST Indexes,internals/gist-indexes/README.md,True,True,0,0,0,0,heading-only-container,
+735,2,VII. 資料庫進階,68. GiST Indexes,64.1. Introduction,internals/gist-indexes/introduction.md,True,False,977,0,123,3,no-chinese-prose,
+736,2,VII. 資料庫進階,68. GiST Indexes,64.2. Built-in Operator Classes,internals/gist-indexes/built-in-operator-classes.md,True,False,1960,0,60,2,no-chinese-prose,12
+737,2,VII. 資料庫進階,68. GiST Indexes,64.3. Extensibility,internals/gist-indexes/extensibility.md,True,False,21301,0,2088,31,no-chinese-prose,
+738,2,VII. 資料庫進階,68. GiST Indexes,64.4. Implementation,internals/gist-indexes/implementation.md,True,False,1542,0,237,3,no-chinese-prose,12
+739,2,VII. 資料庫進階,68. GiST Indexes,64.5. Examples,internals/gist-indexes/examples.md,True,False,754,0,87,1,no-chinese-prose,
+740,1,VII. 資料庫進階,69. SP-GiST Indexes,69. SP-GiST Indexes,internals/sp-gist-indexes/README.md,True,True,0,0,0,0,heading-only-container,
+741,2,VII. 資料庫進階,69. SP-GiST Indexes,65.1. Introduction,internals/sp-gist-indexes/introduction.md,True,False,1557,0,241,4,no-chinese-prose,
+742,2,VII. 資料庫進階,69. SP-GiST Indexes,65.2. Built-in Operator Classes,internals/sp-gist-indexes/built-in-operator-classes.md,True,False,1310,0,50,1,no-chinese-prose,10
+743,2,VII. 資料庫進階,69. SP-GiST Indexes,65.3. Extensibility,internals/sp-gist-indexes/extensibility.md,True,False,23646,0,2584,29,no-chinese-prose,10
+744,2,VII. 資料庫進階,69. SP-GiST Indexes,65.4. Implementation,internals/sp-gist-indexes/implementation.md,True,False,4095,0,649,9,no-chinese-prose,10
+745,2,VII. 資料庫進階,69. SP-GiST Indexes,65.5. Examples,internals/sp-gist-indexes/examples.md,True,False,318,0,25,1,no-chinese-prose,10
+746,1,VII. 資料庫進階,70. GIN 索引,70. GIN 索引,internals/gin-indexes/README.md,True,True,0,0,0,0,heading-only-container,
+747,2,VII. 資料庫進階,70. GIN 索引,70.1. 簡介,internals/gin-indexes/introduction.md,True,False,653,380,32,0,chinese-review,
+748,2,VII. 資料庫進階,70. GIN 索引,70.2. 內建運算子類,internals/gin-indexes/built-in-operator-classes.md,True,False,1191,86,34,0,chinese-review,
+749,2,VII. 資料庫進階,70. GIN 索引,70.3. 延伸介面,internals/gin-indexes/extensibility.md,True,False,11452,0,1579,21,no-chinese-prose,current
+750,2,VII. 資料庫進階,70. GIN 索引,70.4. 實作說明,internals/gin-indexes/implementation.md,True,False,1376,733,59,0,chinese-review,
+751,2,VII. 資料庫進階,70. GIN 索引,70.5. GIN 小技巧,internals/gin-indexes/gin-tips-and-tricks.md,True,False,1388,596,67,0,chinese-review,
+752,2,VII. 資料庫進階,70. GIN 索引,70.6. 限制,internals/gin-indexes/limitations.md,True,False,164,84,8,0,chinese-review,
+753,2,VII. 資料庫進階,70. GIN 索引,70.7. 範例,internals/gin-indexes/examples.md,True,False,362,34,37,0,chinese-review,
+754,1,VII. 資料庫進階,71. BRIN Indexes,71. BRIN Indexes,internals/brin/README.md,True,True,0,0,0,0,heading-only-container,
+755,2,VII. 資料庫進階,71. BRIN Indexes,67.1. Introduction,internals/brin/introduction.md,True,False,1408,907,28,0,chinese-review,
+756,2,VII. 資料庫進階,71. BRIN Indexes,67.2. Built-in Operator Classes,internals/brin/built-in-operator-classes.md,True,False,4482,0,52,1,no-chinese-prose,12
+757,2,VII. 資料庫進階,71. BRIN Indexes,67.3. Extensibility,internals/brin/extensibility.md,True,False,10021,0,984,15,no-chinese-prose,12
+758,1,VII. 資料庫進階,72. Hash Indexes,72. Hash Indexes,internals/72.-hash-indexes.md,True,False,0,0,0,0,heading-only-leaf,
+759,1,VII. 資料庫進階,73. 資料庫實體儲存格式,73. 資料庫實體儲存格式,internals/database-physical-storage/README.md,True,True,30,17,1,0,chinese-review,
+760,2,VII. 資料庫進階,73. 資料庫實體儲存格式,73.1. Database File Layout,internals/database-physical-storage/database-file-layout.md,True,False,15279,0,999,12,no-chinese-prose,12
+761,2,VII. 資料庫進階,73. 資料庫實體儲存格式,73.3. TOAST,internals/database-physical-storage/toast.md,True,False,6972,2041,681,5,mixed-review,
+762,2,VII. 資料庫進階,73. 資料庫實體儲存格式,68.3. Free Space Map,internals/database-physical-storage/free-space-map.md,True,False,1243,0,196,4,no-chinese-prose,12
+763,2,VII. 資料庫進階,73. 資料庫實體儲存格式,68.4 可視性映射表（Visibility Map）,internals/database-physical-storage/visibility-map.md,True,False,599,352,22,0,chinese-review,
+764,2,VII. 資料庫進階,73. 資料庫實體儲存格式,68.5. The Initialization Fork,internals/database-physical-storage/the-initialization-fork.md,True,False,358,0,61,1,no-chinese-prose,
+765,2,VII. 資料庫進階,73. 資料庫實體儲存格式,68.6. Database Page Layout,internals/database-physical-storage/database-page-layout.md,True,False,10385,0,1224,14,no-chinese-prose,12
+766,1,VII. 資料庫進階,74. System Catalog Declarations and Initial Contents,74. System Catalog Declarations and Initial Contents,internals/system-catalog-declarations-and-initial-contents.md,True,False,2885,0,428,6,no-chinese-prose,
+767,1,VII. 資料庫進階,75. 查詢計畫如何使用統計資訊,75. 查詢計畫如何使用統計資訊,internals/how-the-planner-uses-statistics/README.md,True,True,295,136,19,0,chinese-review,
+768,2,VII. 資料庫進階,75. 查詢計畫如何使用統計資訊,70.1. Row Estimation Examples,internals/how-the-planner-uses-statistics/row-estimation-examples.md,True,False,14448,0,1370,23,no-chinese-prose,13
+769,2,VII. 資料庫進階,75. 查詢計畫如何使用統計資訊,70.2. 多元統計資訊範例,internals/how-the-planner-uses-statistics/multivariate-statistics-examples.md,True,False,8585,247,524,10,mixed-review,
+770,2,VII. 資料庫進階,75. 查詢計畫如何使用統計資訊,70.3. Planner Statistics and Security,internals/how-the-planner-uses-statistics/planner-statistics-and-security.md,True,False,2700,0,424,5,no-chinese-prose,
+771,1,VII. 資料庫進階,76. Backup Manifest Format,76. Backup Manifest Format,internals/71.-backup-manifest-format.md,True,False,859,0,116,2,no-chinese-prose,13
+772,0,VIII. 附錄,VIII. 附錄,VIII. 附錄,appendixes/README.md,True,True,0,0,0,0,heading-only-container,
+773,1,VIII. 附錄,A. PostgreSQL 錯誤代碼,A. PostgreSQL 錯誤代碼,appendixes/postgresql-error-codes.md,True,False,42375,500,227,1,mixed-review,
+774,1,VIII. 附錄,B. 日期時間格式支援,B. 日期時間格式支援,appendixes/date-time-support/README.md,True,True,138,114,1,0,chinese-review,
+775,2,VIII. 附錄,B. 日期時間格式支援,B.1. 日期時間解譯流程,appendixes/date-time-support/b.1.-ri-qi-shi-jian-jie-yi-liu-cheng.md,True,False,1224,668,32,0,chinese-review,
+776,2,VIII. 附錄,B. 日期時間格式支援,B.2. Handling of Invalid or Ambiguous Timestamps,appendixes/date-time-support/b.2.-handling-of-invalid-or-ambiguous-timestamps.md,True,False,2491,0,312,6,no-chinese-prose,current
+777,2,VIII. 附錄,B. 日期時間格式支援,B.3. 日期時間慣用字,appendixes/date-time-support/b.2.-ri-qi-shi-jian-guan-yong-zi.md,True,False,1574,58,82,0,chinese-review,current
+778,2,VIII. 附錄,B. 日期時間格式支援,B.4. 日期時間設定檔,appendixes/date-time-support/configuration.md,True,False,1814,958,40,0,chinese-review,
+779,2,VIII. 附錄,B. 日期時間格式支援,B.5. POSIX Time Zone Specifications,appendixes/date-time-support/b.5.-posix-time-zone-specifications.md,True,False,5589,0,808,13,no-chinese-prose,current
+780,2,VIII. 附錄,B. 日期時間格式支援,B.6. 日期時間的沿革,appendixes/date-time-support/datetime-units-history.md,True,False,4483,0,614,10,no-chinese-prose,10
+781,2,VIII. 附錄,B. 日期時間格式支援,B.7. Julian Dates,appendixes/date-time-support/b.7.-julian-dates.md,True,False,1857,0,209,4,no-chinese-prose,
+782,1,VIII. 附錄,C. SQL 關鍵字,C. SQL 關鍵字,appendixes/sql-keywords.md,True,False,123834,718,3522,1,mixed-review,
+783,1,VIII. 附錄,D. SQL 相容性,D. SQL 相容性,appendixes/d.-sql-xiang-rong-xing/README.md,True,True,3826,0,570,10,no-chinese-prose,
+784,2,VIII. 附錄,D. SQL 相容性,D.1. Supported Features,appendixes/d.-sql-xiang-rong-xing/supported-features.md,True,False,86943,0,1914,1,no-chinese-prose,
+785,2,VIII. 附錄,D. SQL 相容性,D.2. Unsupported Features,appendixes/d.-sql-xiang-rong-xing/d.2.-unsupported-features.md,True,False,61329,37,1371,1,mixed-review,
+786,2,VIII. 附錄,D. SQL 相容性,D.3. XML Limits and Conformance to SQL/XML,appendixes/d.-sql-xiang-rong-xing/d.3.-xml-limits-and-conformance-to-sql-xml.md,True,False,8403,0,1165,18,no-chinese-prose,current
+787,1,VIII. 附錄,E. 版本資訊,E. 版本資訊,appendixes/release-notes/README.md,True,True,1015,0,135,3,no-chinese-prose,15
+788,2,VIII. 附錄,E. 版本資訊,E.1. Release 15.2,appendixes/release-notes/e.1.-release-15.2.md,True,False,16308,0,2293,46,no-chinese-prose,15
+789,2,VIII. 附錄,E. 版本資訊,E.2. Release 15.1,appendixes/release-notes/e.2.-release-15.1.md,True,False,8658,0,1208,23,no-chinese-prose,15
+790,2,VIII. 附錄,E. 版本資訊,E.3. Release 15,appendixes/release-notes/e.3.-release-15.md,True,False,58974,0,5270,101,no-chinese-prose,15
+791,2,VIII. 附錄,E. 版本資訊,E.4. Prior Releases,appendixes/release-notes/e.4.-prior-releases.md,True,False,143,0,10,0,no-chinese-prose,release
+792,1,VIII. 附錄,F. 延伸支援模組,F. 延伸支援模組,appendixes/additional-supplied-modules/README.md,True,True,2805,164,364,7,mixed-review,current
+793,2,VIII. 附錄,F. 延伸支援模組,F.1. adminpack,appendixes/additional-supplied-modules/adminpack.md,True,False,3835,272,317,4,mixed-review,
+794,2,VIII. 附錄,F. 延伸支援模組,F.2. amcheck,appendixes/additional-supplied-modules/amcheck.md,True,False,12356,43,1406,22,mixed-review,13
+795,2,VIII. 附錄,F. 延伸支援模組,F.3. auth_delay,appendixes/additional-supplied-modules/auth_delay.md,True,False,656,103,46,0,chinese-review,
+796,2,VIII. 附錄,F. 延伸支援模組,F.4. auto_explain,appendixes/additional-supplied-modules/auto_explain.md,True,False,4297,1140,107,0,chinese-review,
+797,2,VIII. 附錄,F. 延伸支援模組,F.5. bloom,appendixes/additional-supplied-modules/bloom.md,True,False,6386,643,246,4,mixed-review,
+798,2,VIII. 附錄,F. 延伸支援模組,F.6. btree_gin,appendixes/additional-supplied-modules/btree_gin.md,True,False,1074,131,44,0,chinese-review,
+799,2,VIII. 附錄,F. 延伸支援模組,F.10. dblink,appendixes/additional-supplied-modules/dblink/README.md,True,True,112,51,5,0,chinese-review,
+800,3,VIII. 附錄,F. 延伸支援模組,dblink_connect,appendixes/additional-supplied-modules/dblink/dblink_connect.md,True,False,4187,0,247,4,no-chinese-prose,12
+801,3,VIII. 附錄,F. 延伸支援模組,dblink_connect_u,appendixes/additional-supplied-modules/dblink/dblink_connect_u.md,True,False,1430,0,176,1,no-chinese-prose,
+802,3,VIII. 附錄,F. 延伸支援模組,dblink_disconnect,appendixes/additional-supplied-modules/dblink/dblink_disconnect.md,True,False,663,0,47,0,no-chinese-prose,
+803,3,VIII. 附錄,F. 延伸支援模組,dblink,appendixes/additional-supplied-modules/dblink/dblink.md,True,False,4796,0,368,5,no-chinese-prose,
+804,3,VIII. 附錄,F. 延伸支援模組,dblink_exec,appendixes/additional-supplied-modules/dblink/dblink_exec.md,True,False,2087,0,158,2,no-chinese-prose,
+805,3,VIII. 附錄,F. 延伸支援模組,dblink_open,appendixes/additional-supplied-modules/dblink/dblink_open.md,True,False,1695,0,164,2,no-chinese-prose,
+806,3,VIII. 附錄,F. 延伸支援模組,dblink_fetch,appendixes/additional-supplied-modules/dblink/dblink_fetch.md,True,False,2557,0,210,4,no-chinese-prose,
+807,3,VIII. 附錄,F. 延伸支援模組,dblink_close,appendixes/additional-supplied-modules/dblink/dblink_close.md,True,False,1209,0,100,2,no-chinese-prose,
+808,3,VIII. 附錄,F. 延伸支援模組,dblink_get_connections,appendixes/additional-supplied-modules/dblink/dblink_get_connections.md,True,False,336,0,31,0,no-chinese-prose,
+809,3,VIII. 附錄,F. 延伸支援模組,dblink_error_message,appendixes/additional-supplied-modules/dblink/dblink_error_message.md,True,False,785,0,85,1,no-chinese-prose,
+810,3,VIII. 附錄,F. 延伸支援模組,dblink_send_query,appendixes/additional-supplied-modules/dblink/dblink_send_query.md,True,False,489,150,6,0,chinese-review,
+811,3,VIII. 附錄,F. 延伸支援模組,dblink_is_busy,appendixes/additional-supplied-modules/dblink/dblink_is_busy.md,True,False,422,0,45,1,no-chinese-prose,
+812,3,VIII. 附錄,F. 延伸支援模組,dblink_get_notify,appendixes/additional-supplied-modules/dblink/dblink_get_notify.md,True,False,1109,0,51,1,no-chinese-prose,12
+813,3,VIII. 附錄,F. 延伸支援模組,dblink_get_result,appendixes/additional-supplied-modules/dblink/dblink_get_result.md,True,False,3256,0,260,6,no-chinese-prose,
+814,3,VIII. 附錄,F. 延伸支援模組,dblink_cancel_query,appendixes/additional-supplied-modules/dblink/dblink_cancel_query.md,True,False,701,0,87,1,no-chinese-prose,
+815,3,VIII. 附錄,F. 延伸支援模組,dblink_get_pkey,appendixes/additional-supplied-modules/dblink/dblink_get_pkey.md,True,False,1191,0,118,4,no-chinese-prose,
+816,3,VIII. 附錄,F. 延伸支援模組,dblink_build_sql_insert,appendixes/additional-supplied-modules/dblink/dblink_build_sql_insert.md,True,False,2275,0,246,5,no-chinese-prose,
+817,3,VIII. 附錄,F. 延伸支援模組,dblink_build_sql_delete,appendixes/additional-supplied-modules/dblink/dblink_build_sql_delete.md,True,False,1730,0,165,4,no-chinese-prose,
+818,3,VIII. 附錄,F. 延伸支援模組,dblink_build_sql_update,appendixes/additional-supplied-modules/dblink/dblink_build_sql_update.md,True,False,2498,0,275,5,no-chinese-prose,
+819,2,VIII. 附錄,F. 延伸支援模組,F.13. earthdistance,appendixes/additional-supplied-modules/earthdistance.md,True,False,6506,0,544,10,no-chinese-prose,12
+820,2,VIII. 附錄,F. 延伸支援模組,F.14. file_fdw,appendixes/additional-supplied-modules/file_fdw.md,True,False,4485,243,493,9,mixed-review,
+821,2,VIII. 附錄,F. 延伸支援模組,F.16. hstore,appendixes/additional-supplied-modules/hstore.md,True,False,25947,0,1861,19,no-chinese-prose,14
+822,2,VIII. 附錄,F. 延伸支援模組,F.24. pg_buffercache,appendixes/additional-supplied-modules/pg_buffercache.md,True,False,4989,117,298,4,mixed-review,13
+823,2,VIII. 附錄,F. 延伸支援模組,F.26. passwordcheck,appendixes/additional-supplied-modules/f.26.-passwordcheck.md,True,False,930,378,41,0,chinese-review,
+824,2,VIII. 附錄,F. 延伸支援模組,F.29. pg_stat_statements,appendixes/additional-supplied-modules/pg_stat_statements.md,True,False,19783,1273,1084,7,mixed-review,13
+825,2,VIII. 附錄,F. 延伸支援模組,F.30. pgstattuple,appendixes/additional-supplied-modules/pgstattuple.md,True,False,9662,124,751,17,mixed-review,13
+826,2,VIII. 附錄,F. 延伸支援模組,F.31. pg_trgm,appendixes/additional-supplied-modules/pg_trgm.md,True,False,15121,126,1264,22,mixed-review,12
+827,2,VIII. 附錄,F. 延伸支援模組,F.32. pg_visibility,appendixes/additional-supplied-modules/pg_visibility.md,True,False,4150,0,527,11,no-chinese-prose,
+828,2,VIII. 附錄,F. 延伸支援模組,F.38. postgres_fdw,appendixes/additional-supplied-modules/postgres_fdw.md,True,False,31874,668,3792,63,mixed-review,current
+829,2,VIII. 附錄,F. 延伸支援模組,F.35. sepgsql,appendixes/additional-supplied-modules/sepgsql.md,True,False,22318,0,2477,43,no-chinese-prose,12
+830,2,VIII. 附錄,F. 延伸支援模組,F.43. tablefunc,appendixes/additional-supplied-modules/tablefunc.md,True,False,23760,80,1656,31,mixed-review,
+831,2,VIII. 附錄,F. 延伸支援模組,F.45. test_decoding,appendixes/additional-supplied-modules/test_decoding.md,True,False,1008,0,57,1,no-chinese-prose,
+832,2,VIII. 附錄,F. 延伸支援模組,F.46. tsm_system_rows,appendixes/additional-supplied-modules/tsm_system_rows.md,True,False,558,233,16,0,chinese-review,
+833,2,VIII. 附錄,F. 延伸支援模組,F.47. tsm_system_time,appendixes/additional-supplied-modules/tsm_system_time.md,True,False,613,268,17,0,chinese-review,
+834,2,VIII. 附錄,F. 延伸支援模組,F.49. uuid-ossp,appendixes/additional-supplied-modules/uuid-ossp.md,True,False,6251,715,211,0,chinese-review,
+835,1,VIII. 附錄,G. Additional Supplied Programs,G. Additional Supplied Programs,appendixes/additional-supplied-programs/README.md,True,True,579,0,74,2,no-chinese-prose,10
+836,2,VIII. 附錄,G. Additional Supplied Programs,G.1. Client Applications,appendixes/additional-supplied-programs/client-applications/README.md,True,True,599,0,54,1,no-chinese-prose,10
+837,3,VIII. 附錄,G. Additional Supplied Programs,oid2name,appendixes/additional-supplied-programs/client-applications/oid2name.md,True,False,6472,0,370,7,no-chinese-prose,10
+838,3,VIII. 附錄,G. Additional Supplied Programs,vacuumlo,appendixes/additional-supplied-programs/client-applications/vacuumlo.md,True,False,2811,0,365,6,no-chinese-prose,10
+839,2,VIII. 附錄,G. Additional Supplied Programs,G.2. Server Applications,appendixes/additional-supplied-programs/server-applications/README.md,True,True,338,0,37,1,no-chinese-prose,10
+840,3,VIII. 附錄,G. Additional Supplied Programs,pg_standby,appendixes/additional-supplied-programs/server-applications/pg_standby.md,True,False,7732,0,971,19,no-chinese-prose,10
+841,1,VIII. 附錄,H. 外部專案,H. 外部專案,appendixes/h.-wai-bu-zhuan-an/README.md,True,True,74,49,1,0,chinese-review,
+842,2,VIII. 附錄,H. 外部專案,H.1. 用戶端介面,appendixes/h.-wai-bu-zhuan-an/h.1.-yong-hu-duan-jie-mian.md,True,False,2840,0,163,3,no-chinese-prose,10
+843,2,VIII. 附錄,H. 外部專案,H.2. Administration Tools,appendixes/h.-wai-bu-zhuan-an/h.2.-administration-tools.md,True,False,183,0,23,1,no-chinese-prose,
+844,2,VIII. 附錄,H. 外部專案,H.3. Procedural Languages,appendixes/h.-wai-bu-zhuan-an/h.3.-procedural-languages.md,True,False,1563,0,95,1,no-chinese-prose,10
+845,2,VIII. 附錄,H. 外部專案,H.4. Extensions,appendixes/h.-wai-bu-zhuan-an/h.4.-extensions.md,True,False,628,0,71,1,no-chinese-prose,10
+846,1,VIII. 附錄,I. The Source Code Repository,I. The Source Code Repository,appendixes/the-source-code-repository/README.md,True,True,776,0,97,2,no-chinese-prose,10
+847,2,VIII. 附錄,I. The Source Code Repository,I.1. Getting The Source via Git,appendixes/the-source-code-repository/getting-the-source-via-git.md,True,False,1332,0,178,4,no-chinese-prose,
+848,1,VIII. 附錄,J. 文件取得,J. 文件取得,appendixes/docguide/README.md,True,True,506,0,68,2,no-chinese-prose,
+849,2,VIII. 附錄,J. 文件取得,J.1. DocBook,appendixes/docguide/j.1.-docbook.md,True,False,981,0,119,2,no-chinese-prose,
+850,2,VIII. 附錄,J. 文件取得,J.2. Tool Sets,appendixes/docguide/j.2.-tool-sets.md,True,False,4011,0,501,8,no-chinese-prose,
+851,2,VIII. 附錄,J. 文件取得,J.3. Building the Documentation,appendixes/docguide/j.3.-building-the-documentation.md,True,False,3045,0,432,9,no-chinese-prose,"15,current"
+852,2,VIII. 附錄,J. 文件取得,J.4. Documentation Authoring,appendixes/docguide/j.4.-documentation-authoring.md,True,False,858,0,125,3,no-chinese-prose,
+853,2,VIII. 附錄,J. 文件取得,J.5. Style Guide,appendixes/docguide/j.5.-style-guide.md,True,False,3759,0,567,11,no-chinese-prose,
+854,1,VIII. 附錄,K. PostgreSQL Limits,K. PostgreSQL Limits,appendixes/postgresql-limits.md,True,False,3051,304,128,1,mixed-review,
+855,1,VIII. 附錄,L. 縮寫字,L. 縮寫字,appendixes/acronyms.md,True,False,7079,21,357,0,chinese-review,13
+856,1,VIII. 附錄,M. Glossary,M. Glossary,appendixes/glossary.md,True,False,51132,0,4326,91,no-chinese-prose,13
+857,1,VIII. 附錄,N. 色彩支援,N. 色彩支援,appendixes/color-support/README.md,True,True,44,31,1,0,chinese-review,
+858,2,VIII. 附錄,N. 色彩支援,N.1. When Color is Used,appendixes/color-support/when-color-is-used.md,True,False,273,0,41,1,no-chinese-prose,
+859,2,VIII. 附錄,N. 色彩支援,N.2. Configuring the Colors,appendixes/color-support/configuring-the-colors.md,True,False,811,22,100,1,mixed-review,
+860,1,VIII. 附錄,O. Obsolete or Renamed Features,O. Obsolete or Renamed Features,appendixes/o.-obsolete-or-renamed-features.md,True,False,304,0,44,1,no-chinese-prose,
+861,0,參考書目,參考書目,參考書目,bibliography.md,True,False,272,0,33,1,no-chinese-prose,

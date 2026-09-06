@@ -1,4 +1,4 @@
-# 48.1. Logical Decoding Examples
+# 49.1. Logical Decoding Examples
 
 The following example demonstrates controlling logical decoding using the SQL interface.
 

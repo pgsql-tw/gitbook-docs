@@ -1,4 +1,4 @@
-# 48. Logical Decoding
+# 49. Logical Decoding
 
 PostgreSQL 提供了將 SQL 執行的資料變更串流傳輸到外部資料庫的基礎結構。此功能可用於多種目的，包括了複寫解決方案和稽核需求。
 

@@ -1,10 +1,10 @@
-# F.16. hstore
+# F.18. hstore
 
 This module implements the `hstore` data type for storing sets of key/value pairs within a single PostgreSQL value. This can be useful in various scenarios, such as rows with many attributes that are rarely examined, or semi-structured data. Keys and values are simply text strings.
 
 This module is considered “trusted”, that is, it can be installed by non-superusers who have `CREATE` privilege on the current database.
 
-## F.16.1. `hstore` External Representation
+## F.18.1. `hstore` External Representation
 
 The text representation of an `hstore`, used for input and output, includes zero or more _`key`_ `=>` _`value`_ pairs separated by commas. Some examples:
 
@@ -39,7 +39,7 @@ Keep in mind that the `hstore` text format, when used for input, applies _before
 
 On output, double quotes always surround keys and values, even when it's not strictly necessary.
 
-## F.16.2. `hstore` Operators and Functions
+## F.18.2. `hstore` Operators and Functions
 
 The operators provided by the `hstore` module are shown in [Table F.7](https://www.postgresql.org/docs/14/hstore.html#HSTORE-OP-TABLE), the functions in [Table F.8](https://www.postgresql.org/docs/14/hstore.html#HSTORE-FUNC-TABLE).
 
@@ -110,7 +110,7 @@ SELECT h FROM mytable;
 
 A subscripted fetch returns `NULL` if the subscript is `NULL` or that key does not exist in the `hstore`. (Thus, a subscripted fetch is not greatly different from the `->` operator.) A subscripted update fails if the subscript is `NULL`; otherwise, it replaces the value for that key, adding an entry to the `hstore` if the key does not already exist.
 
-## F.16.3. Indexes
+## F.18.3. Indexes
 
 `hstore` has GiST and GIN index support for the `@>`, `?`, `?&` and `?|` operators. For example:
 
@@ -136,7 +136,7 @@ CREATE INDEX hidx ON testhstore USING BTREE (h);
 CREATE INDEX hidx ON testhstore USING HASH (h);
 ```
 
-## F.16.4. Examples
+## F.18.4. Examples
 
 Add a key, or update an existing key with a new value:
 
@@ -201,7 +201,7 @@ SELECT (r).* FROM (SELECT t #= '"col3"=>"baz"' AS r FROM test t) s;
 (1 row)
 ```
 
-## F.16.5. Statistics
+## F.18.5. Statistics
 
 The `hstore` type, because of its intrinsic liberality, could contain a lot of different keys. Checking for valid keys is the task of the application. The following examples demonstrate several techniques for checking keys and obtaining statistics.
 
@@ -238,7 +238,7 @@ SELECT key, count(*) FROM
 ...................
 ```
 
-## F.16.6. Compatibility
+## F.18.6. Compatibility
 
 As of PostgreSQL 9.0, `hstore` uses a different internal representation than previous versions. This presents no obstacle for dump/restore upgrades since the text representation (used in the dump) is unchanged.
 
@@ -256,7 +256,7 @@ ALTER TABLE tablename ALTER hstorecol TYPE hstore USING hstorecol || '';
 
 The `ALTER TABLE` method requires an `ACCESS EXCLUSIVE` lock on the table, but does not result in bloating the table with old row versions.
 
-## F.16.7. Transforms
+## F.18.7. Transforms
 
 Additional extensions are available that implement transforms for the `hstore` type for the languages PL/Perl and PL/Python. The extensions for PL/Perl are called `hstore_plperl` and `hstore_plperlu`, for trusted and untrusted PL/Perl. If you install these transforms and specify them when creating a function, `hstore` values are mapped to Perl hashes. The extensions for PL/Python are called `hstore_plpythonu`, `hstore_plpython2u`, and `hstore_plpython3u` (see [Section 46.1](https://www.postgresql.org/docs/14/plpython-python23.html) for the PL/Python naming convention). If you use them, `hstore` values are mapped to Python dictionaries.
 
@@ -264,7 +264,7 @@ Additional extensions are available that implement transforms for the `hstore` t
 
 It is strongly recommended that the transform extensions be installed in the same schema as `hstore`. Otherwise there are installation-time security hazards if a transform extension's schema contains objects defined by a hostile user.
 
-## F.16.8. Authors
+## F.18.8. Authors
 
 Oleg Bartunov `<`[`oleg@sai.msu.su`](mailto:oleg@sai.msu.su)`>`, Moscow, Moscow University, Russia
 

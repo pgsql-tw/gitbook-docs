@@ -1,0 +1,11 @@
+{
+  "summary_entries": 1169,
+  "new_pages": 310,
+  "filled_pages": 72,
+  "heading_only_changes": 117,
+  "relocated_entries": 7,
+  "imported_local_links_verified": 1444,
+  "external_links_preserved": 1616,
+  "preserved_pages_verified": 666,
+  "checks": "Source text, code, table contents and anchors; SUMMARY reachability, hierarchy and uniqueness; local links and fragments; unchanged-page hashes."
+}

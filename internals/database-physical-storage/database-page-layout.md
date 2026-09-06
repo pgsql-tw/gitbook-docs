@@ -1,4 +1,4 @@
-# 68.6. Database Page Layout
+# 73.6. Database Page Layout
 
 This section provides an overview of the page format used within PostgreSQL tables and indexes.[\[15\]](https://www.postgresql.org/docs/12/storage-page-layout.html#ftn.id-1.10.21.8.2.2) Sequences and TOAST tables are formatted just like a regular table.
 
@@ -47,7 +47,7 @@ The final section is the “special section” which can contain anything the ac
 
 ![](../../.gitbook/assets/68.6.pagelayout.png)
 
-## 68.6.1. Table Row Layout
+## 73.6.1. Table Row Layout
 
 All table rows are structured in the same way. There is a fixed-size header (occupying 23 bytes on most machines), followed by an optional null bitmap, an optional object ID field, and the user data. The header is detailed in [Table 68.4](https://www.postgresql.org/docs/12/storage-page-layout.html#HEAPTUPLEHEADERDATA-TABLE). The actual user data (columns of the row) begins at the offset indicated by `t_hoff`, which must always be a multiple of the MAXALIGN distance for the platform. The null bitmap is only present if the _HEAP\_HASNULL_ bit is set in `t_infomask`. If it is present it begins just after the fixed header and occupies enough bytes to have one bit per data column (that is, the number of bits that equals the attribute count in `t_infomask2`). In this list of bits, a 1 bit indicates not-null, a 0 bit is a null. When the bitmap is not present, all columns are assumed not-null. The object ID is only present if the _HEAP\_HASOID\_OLD_ bit is set in `t_infomask`. If present, it appears just before the `t_hoff` boundary. Any padding needed to make `t_hoff` a MAXALIGN multiple will appear between the null bitmap and the object ID. (This in turn ensures that the object ID is suitably aligned.)
 

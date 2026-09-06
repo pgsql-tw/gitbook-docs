@@ -1,10 +1,10 @@
-# F.13. earthdistance
+# F.15. earthdistance
 
 The `earthdistance` module provides two different approaches to calculating great circle distances on the surface of the Earth. The one described first depends on the `cube` module (which _must_ be installed before `earthdistance` can be installed). The second one is based on the built-in `point` data type, using longitude and latitude for the coordinates.
 
 In this module, the Earth is assumed to be perfectly spherical. (If that's too inaccurate for you, you might want to look at the [PostGIS](http://postgis.net) project.)
 
-## F.13.1. Cube-Based Earth Distances
+## F.15.1. Cube-Based Earth Distances
 
 Data is stored in cubes that are points (both corners are the same) using 3 coordinates representing the x, y, and z distance from the center of the Earth. A domain `earth` over `cube` is provided, which includes constraint checks that the value meets these restrictions and is reasonably close to the actual surface of the Earth.
 
@@ -29,7 +29,7 @@ The provided functions are shown in [Table F.5](https://www.postgresql.org/docs/
 | `earth_distance(earth, earth)` | `float8` | Returns the great circle distance between two points on the surface of the Earth.                                                                                                                                                                                                                                  |
 | `earth_box(earth, float8)`     | `cube`   | Returns a box suitable for an indexed search using the cube `@>` operator for points within a given great circle distance of a location. Some points in this box are further than the specified great circle distance from the location, so a second check using `earth_distance` should be included in the query. |
 
-## F.13.2. Point-Based Earth Distances
+## F.15.2. Point-Based Earth Distances
 
 The second part of the module relies on representing Earth locations as values of type `point`, in which the first component is taken to represent longitude in degrees, and the second component is taken to represent latitude in degrees. Points are taken as (longitude, latitude) and not vice versa because longitude is closer to the intuitive idea of x-axis and latitude to y-axis.
 

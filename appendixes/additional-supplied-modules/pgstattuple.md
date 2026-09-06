@@ -1,10 +1,10 @@
-# F.30. pgstattuple
+# F.33. pgstattuple
 
 pgstattuple 模組提供各種函數來取得 tuple 層級的統計資訊。
 
 由於這些函數會回傳詳細的 page-level 資訊，因此預設是限制存取的。 預設情況下，只有角色 pg\_stat\_scan\_tables 具有 EXECUTE 權限。超級使用者當然可以繞過此限制。安裝此延伸功能後，使用者可以發出 GRANT 指令來授予函數的權限，以允許其他人執行它們。但是，最好還是將這些使用者加到 pg\_stat\_scan\_tables 角色群組之中。
 
-## F.30.1. Functions
+## F.33.1. Functions
 
 `pgstattuple(regclass) returns record`
 
@@ -184,6 +184,6 @@ For pages that cannot be skipped, it scans each tuple, recording its presence an
 
 In the above output, the free space figures may not match the `pgstattuple` output exactly, because the free space map gives us an exact figure, but is not guaranteed to be accurate to the byte.
 
-## F.30.2. Authors
+## F.33.2. Authors
 
 Tatsuo Ishii, Satoshi Nagayasu and Abhijit Menon-Sen

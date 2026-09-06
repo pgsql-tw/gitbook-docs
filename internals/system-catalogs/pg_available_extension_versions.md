@@ -1,4 +1,4 @@
-# 51.67. pg\_available\_extension\_versions
+# 54.3. pg\_available\_extension\_versions
 
 pg\_available\_extension\_versions 檢視圖列出可用於安裝的特定延伸功能版本。另請參閱 [pg\_extension](pg\_extension.md) 目錄，該目錄列出了目前已安裝的延伸功能。
 

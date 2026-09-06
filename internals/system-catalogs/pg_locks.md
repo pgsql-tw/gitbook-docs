@@ -1,4 +1,4 @@
-# 51.73. pg\_locks
+# 54.12. pg\_locks
 
 The view `pg_locks` provides access to information about the locks held by active processes within the database server. See [Chapter 13](https://www.postgresql.org/docs/13/mvcc.html) for more discussion of locking.
 

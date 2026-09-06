@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 33.1. 資料庫連線控制函數
+# 34.1. 資料庫連線控制函數
 
 The following functions deal with making a connection to a PostgreSQL backend server. An application program can have several backend connections open at one time. (One reason to do that is to access more than one database.) Each connection is represented by a `PGconn` object, which is obtained from the function [`PQconnectdb`](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-PQCONNECTDB), [`PQconnectdbParams`](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-PQCONNECTDBPARAMS), or [`PQsetdbLogin`](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-PQSETDBLOGIN). Note that these functions will always return a non-null object pointer, unless perhaps there is too little memory even to allocate the `PGconn` object. The [`PQstatus`](https://www.postgresql.org/docs/13/libpq-status.html#LIBPQ-PQSTATUS) function should be called to check the return value for a successful connection before queries are sent via the connection object.
 
@@ -322,7 +322,7 @@ The callback _must not_ escape normal flow control with exceptions, `longjmp(...
 PQsslKeyPassHook_OpenSSL_type PQgetSSLKeyPassHook_OpenSSL(void);
 ```
 
-## 33.1.1. Connection Strings
+## 34.1.1. Connection Strings
 
 Several libpq functions parse a user-specified string to obtain connection parameters. There are two accepted formats for these strings: plain keyword/value strings and URIs. URIs generally follow [RFC 3986](https://tools.ietf.org/html/rfc3986), except that multi-host connection strings are allowed as further described below.
 
@@ -412,7 +412,7 @@ It is possible to specify multiple host components, each with an optional port c
 
 如果使用密碼檔，您可以為不同的主機設定不同的密碼。對於列表中的每個主機，所有其他連線選項都相同；例如，不可能為不同的主機指定不同的使用者名稱。
 
-## 33.1.2. Parameter Key Words
+## 34.1.2. Parameter Key Words
 
 The currently recognized parameter key words are:
 

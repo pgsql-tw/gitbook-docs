@@ -1,4 +1,4 @@
-# F.29. pg\_stat\_statements
+# F.32. pg\_stat\_statements
 
 pg\_stat\_statements 模組提供了一個追踪在伺服器上執行的 SQL 語句統計資訊方法。
 
@@ -6,7 +6,7 @@ pg\_stat\_statements 模組提供了一個追踪在伺服器上執行的 SQL 語
 
 載入 pg\_stat\_statements 後，它將追踪伺服器所有資料庫的統計資訊。 為了存取和處理這些統計資訊，此模組提供了一個檢視表 pg\_stat\_statements 以及工具程序函數 pg\_stat\_statements\_reset 和 pg\_stat\_statements。這些不是全域可用的，但可以使用 `CREATE EXTENSION pg_stat_statements` 為特定資料庫啟用。
 
-## F.29.1. The `pg_stat_statements` View
+## F.32.1. The `pg_stat_statements` View
 
 此延伸功能收集的統計數據可透過名為 pg\_stat\_statements 的檢視表查詢。對於每個不同的資料庫 ID、使用者 ID和查詢語句 ID（此延伸功能可以追踪的最大不同查詢語句數量），在此檢視表會在一筆資料中呈現。 檢視表的欄位在 Table F.21 中說明。
 
@@ -67,7 +67,7 @@ The representative query texts are kept in an external disk file, and do not con
 
 plans 和 calls 不一定會完全相等，因為查詢計劃和執行統計資訊會在其各自的執行階段進行更新，並且僅針對成功的操作進行更新。例如，某一條語句已經進行了查詢計劃，但在執行階段卻失敗了，則僅更新其查詢計劃統計資訊。如果由於使用了快取的查詢計劃而跳過了計劃階段，也只會更新其執行階段的統計資訊。
 
-## F.29.2. Functions
+## F.32.2. Functions
 
 `pg_stat_statements_reset(userid Oid, dbid Oid, queryid bigint) returns void`
 
@@ -77,7 +77,7 @@ pg\_stat\_statements\_reset 會移除到目前為止由 pg\_stat\_statements 收
 
 pg\_stat\_statements 檢視表是根據也稱為 pg\_stat\_statements 的函數定義的。用戶端可以直接呼叫 pg\_stat\_statements 函數，並透過指定showtext := false 可以省略查詢字串（即，對應於檢視圖查詢欄位的 OUT 參數將回傳 null）。此功能旨在支持可能希望避免重複獲取長度不確定的查詢字串成本的外部工具。這樣的工具可以代替暫存每個項目本身觀察到的第一個查詢字串，因為 pg\_stat\_statements 本身就是這樣做的，然後僅根據需要檢索查詢字串。由於伺服器將查詢字串儲存在檔案中，因此此方法可以減少用於重複檢查 pg\_stat\_statements 資料的實際 I/O 成本。
 
-## F.29.3. Configuration Parameters
+## F.32.3. Configuration Parameters
 
 `pg_stat_statements.max` (`integer`)
 
@@ -107,7 +107,7 @@ pg_stat_statements.max = 10000
 pg_stat_statements.track = all
 ```
 
-## F.29.4. Sample Output
+## F.32.4. Sample Output
 
 ```
 bench=# SELECT pg_stat_statements_reset();
@@ -201,6 +201,6 @@ rows        | 1
 hit_percent | 
 ```
 
-## F.29.5. Authors
+## F.32.5. Authors
 
 Takahiro Itagaki `<`[`itagaki.takahiro@oss.ntt.co.jp`](mailto:itagaki.takahiro@oss.ntt.co.jp)`>`. Query normalization added by Peter Geoghegan `<`[`peter@2ndquadrant.com`](mailto:peter@2ndquadrant.com)`>`.

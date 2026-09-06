@@ -1,4 +1,4 @@
-# 51.52. pg\_subscription
+# 53.54. pg\_subscription
 
 目錄 pg\_subscription 包含所有現有訂閱的邏輯複寫。有關邏輯複寫的相關資訊，請參閱[第 30 章](../../server-administration/logical-replication/)。
 

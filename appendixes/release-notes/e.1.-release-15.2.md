@@ -1,16 +1,16 @@
-# E.1. Release 15.2
+# E.18. Release 15.2
 
 **Release date:** 2023-02-09
 
 This release contains a variety of fixes from 15.1. For information about new features in major release 15, see [Section E.3](https://www.postgresql.org/docs/15/release-15.html).
 
-## E.1.1. Migration to Version 15.2
+## E.18.1. Migration to Version 15.2
 
 A dump/restore is not required for those running 15.X.
 
 However, if you are upgrading from a version earlier than 15.1, see [Section E.2](https://www.postgresql.org/docs/15/release-15-1.html).
 
-## E.1.2. Changes
+## E.18.2. Changes
 
 *   libpq can leak memory contents after GSSAPI transport encryption initiation fails (Jacob Champion)
 

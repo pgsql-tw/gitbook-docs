@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 51.39. pg\_proc
+# 53.39. pg\_proc
 
 目錄 pg\_proc 儲存有關函數、程序函數、彙總函數和窗函數（或統稱為 routines）的資訊。 有關更多資訊，請參閱 [CREATE FUNCTION](../../reference/sql-commands/create-function.md)，[CREATE PROCEDURE](../../reference/sql-commands/create-procedure.md) 和[第 37.3 節](../../server-programming/extending-sql/user-defined-functions.md)。
 

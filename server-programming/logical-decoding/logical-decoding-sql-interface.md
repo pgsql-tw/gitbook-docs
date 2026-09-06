@@ -1,4 +1,4 @@
-# 48.4. Logical Decoding SQL Interface
+# 49.4. Logical Decoding SQL Interface
 
 See [Section 9.27.6](https://www.postgresql.org/docs/13/functions-admin.html#FUNCTIONS-REPLICATION) for detailed documentation on the SQL-level API for interacting with logical decoding.
 

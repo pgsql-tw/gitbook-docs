@@ -1,0 +1,53 @@
+<a id="SPI-SPI-CURSOR-OPEN-WITH-PARAMLIST"></a><a id="id-1.8.12.8.21.1"></a>
+
+# SPI_cursor_open_with_paramlist
+
+SPI_cursor_open_with_paramlist — set up a cursor using parameters
+
+## Synopsis
+
+```
+
+Portal SPI_cursor_open_with_paramlist(const char *name,
+                                      SPIPlanPtr plan,
+                                      ParamListInfo params,
+                                      bool read_only)
+```
+
+<a id="id-1.8.12.8.21.5"></a>
+
+## Description
+
+`SPI_cursor_open_with_paramlist` sets up a cursor (internally, a portal) that will execute a statement prepared by `SPI_prepare`. This function is equivalent to `SPI_cursor_open` except that information about the parameter values to be passed to the query is presented differently. The `ParamListInfo` representation can be convenient for passing down values that are already available in that format. It also supports use of dynamic parameter sets via hook functions specified in `ParamListInfo`.
+
+The passed-in parameter data will be copied into the cursor's portal, so it can be freed while the cursor still exists.
+
+<a id="id-1.8.12.8.21.6"></a>
+
+## Arguments
+
+<code class="literal">const char &#42; <em class="parameter"><code>name</code></em></code>
+
+name for portal, or `NULL` to let the system select a name
+
+<code class="literal">SPIPlanPtr <em class="parameter"><code>plan</code></em></code>
+
+prepared statement (returned by `SPI_prepare`)
+
+<code class="literal">ParamListInfo <em class="parameter"><code>params</code></em></code>
+
+data structure containing parameter types and values; NULL if none
+
+<code class="literal">bool <em class="parameter"><code>read&#95;only</code></em></code>
+
+`true` for read-only execution
+
+<a id="id-1.8.12.8.21.7"></a>
+
+## Return Value
+
+Pointer to portal containing the cursor. Note there is no error return convention; any error will be reported via `elog`.
+
+---
+
+原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-cursor-open-with-paramlist.html)（英文原文，待翻譯）

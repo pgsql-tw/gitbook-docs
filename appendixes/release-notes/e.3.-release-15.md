@@ -1,8 +1,8 @@
-# E.3. Release 15
+# E.20. Release 15
 
 **Release date:** 2022-10-13
 
-## E.3.1. Overview
+## E.20.1. Overview
 
 PostgreSQL 15 contains many new features and enhancements, including:
 
@@ -14,7 +14,7 @@ PostgreSQL 15 contains many new features and enhancements, including:
 
 The above items and other new features of PostgreSQL 15 are explained in more detail in the sections below.
 
-## E.3.2. Migration to Version 15
+## E.20.2. Migration to Version 15
 
 A dump/restore using [pg\_dumpall](https://www.postgresql.org/docs/15/app-pg-dumpall.html) or use of [pg\_upgrade](https://www.postgresql.org/docs/15/pgupgrade.html) or logical replication is required for those wishing to migrate data from any previous release. See [Section 19.6](https://www.postgresql.org/docs/15/upgrading.html) for general information on migrating to new major releases.
 
@@ -110,7 +110,7 @@ Version 15 contains a number of changes that may affect compatibility with previ
 
     The default is now that custom scan providers are assumed to not support projections; those that do will need to be updated for this release.
 
-## E.3.3. Changes
+## E.20.3. Changes
 
 Below you will find a detailed account of the changes between PostgreSQL 15 and the previous major release.
 
@@ -510,7 +510,7 @@ Below you will find a detailed account of the changes between PostgreSQL 15 and 
 
     This is enabled with the `CREATE SERVER` option `parallel_commit`.
 
-## E.3.4. Acknowledgments
+## E.20.4. Acknowledgments
 
 The following individuals (in alphabetical order) have contributed to this release as patch authors, committers, reviewers, testers, or reporters of issues.
 

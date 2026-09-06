@@ -1,4 +1,4 @@
-# 51.53. pg\_subscription\_rel
+# 53.55. pg\_subscription\_rel
 
 目錄 pg\_subscription\_rel 包含每個訂閱中每個複寫關係的狀態。這是多對多的關連情況。
 

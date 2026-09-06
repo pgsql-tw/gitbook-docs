@@ -1,0 +1,3010 @@
+{
+  "version": "15.19",
+  "date": "2026-09-06T07:47:46.620619+00:00",
+  "changes": [
+    {
+      "path": "tutorial/advanced-features/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/tutorial-advanced.html",
+      "sha256": "5e2bc89e8e5902951e6b3371a8b52bcd26ee6fdda327ebf3a11a8745c90d1cc6"
+    },
+    {
+      "path": "the-sql-language/12.-quan-wen-jian-suo/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/textsearch.html",
+      "sha256": "3da1434614c1ac5858ed6c8f1d87078c168b3c189660e4a85dd645e5344e6b8a"
+    },
+    {
+      "path": "client-interfaces/34.-large-objects/README.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/largeobjects.html",
+      "sha256": "16714d51914d263f5a81a470780f7c6381023b7517f0167450500a6aa5e03690"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/README.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/ecpg.html",
+      "sha256": "bf036df65e992a5add473341356e4d4f0d167466a1976209295505dc6e7d610d"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/README.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/information-schema.html",
+      "sha256": "ca349b979aefc53b3aa831c317c845cec7cbfddda1fca41ef7c7f1f2deab34c8"
+    },
+    {
+      "path": "server-programming/pl-pgsql-sql-procedural-language/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/plpgsql.html",
+      "sha256": "c6ddae5283bbced31b40dd66c38c81a74a6ec052a3e1042ef2f966c3b0b401e4"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/pltcl.html",
+      "sha256": "2928ef79637a7481aea233b29065f0fbe51245edcaef9ac11a82921bcf5d3baf"
+    },
+    {
+      "path": "server-programming/pl-perl-perl-procedural-language.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/plperl.html",
+      "sha256": "5c39acc583d43e010efc73d9e281ed5908be4fff35edcb141f9481e13b5e6699"
+    },
+    {
+      "path": "server-programming/server-programming-interface.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/spi.html",
+      "sha256": "0ce936596a5dc7bf0ed243cc138891fd1b6bc1b9bb76f668ea3a92711a9eda68"
+    },
+    {
+      "path": "server-programming/logical-decoding/README.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding.html",
+      "sha256": "30fb8d920ab5a0fa0665b5d3683e02c2f31f024380e1a217a111f567a4be1c4d"
+    },
+    {
+      "path": "internals/system-catalogs/README.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalogs.html",
+      "sha256": "2c1c86935ead858f7be9874ac94370a3bf375d3b6110761ad4449389b82c5cb1"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/README.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/protocol.html",
+      "sha256": "2513c4e117a3c3757058007583e643ec27ee45b7a876a6d91e67290422c681b1"
+    },
+    {
+      "path": "internals/postgresql-coding-conventions/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/source.html",
+      "sha256": "2f393aa3639d8dbbdee6a5938f69bf040d6719f2b2eae6760d50e2b6e04de968"
+    },
+    {
+      "path": "internals/native-language-support/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/nls.html",
+      "sha256": "9e58ceb16fd2658ef6e3134b53c2e16163f5ec7b61851e1e44860ea49fa294a7"
+    },
+    {
+      "path": "internals/index-access-method-interface-definition.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/indexam.html",
+      "sha256": "da235437b7824a581895db29291ecec61bc31ae957dbc71969635f2045989085"
+    },
+    {
+      "path": "internals/b-tree-indexes/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/btree.html",
+      "sha256": "510ebca5a5faab24cf8646b50cc0453efde36e1b960a6175ca3e479534e89219"
+    },
+    {
+      "path": "internals/gist-indexes/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/gist.html",
+      "sha256": "2f538fc5e061d2c451bc682860c9fe1aae22cc62411c8bd9745f102323357018"
+    },
+    {
+      "path": "internals/sp-gist-indexes/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/spgist.html",
+      "sha256": "f65982974f453065361b90deea81a5f878186dea1d5bc9fe2b5d4c041b1c4790"
+    },
+    {
+      "path": "internals/gin-indexes/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/gin.html",
+      "sha256": "9686bff3539cf0c02ef2d5d76295ffc1c87b75a309e56e7c66f37a919b3f305d"
+    },
+    {
+      "path": "internals/brin/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/brin.html",
+      "sha256": "3ebed7ebaf86b7c49c6bfa3af30046066478217d1df40032c5a3ccd7b5815c4d"
+    },
+    {
+      "path": "internals/72.-hash-indexes.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/hash-index.html",
+      "sha256": "f9c03cd2a46ed2d2dd06b964ae54649619593bebcc03d5756dc99d6edaa481c5"
+    },
+    {
+      "path": "internals/database-physical-storage/README.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/storage.html",
+      "sha256": "c4cb2806bedc72128a88600a44b7a0ce9599a3a746728b9d99d2206498d15070"
+    },
+    {
+      "path": "internals/system-catalog-declarations-and-initial-contents.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/bki.html",
+      "sha256": "8fd962ba5bce0a53340d6a3d624c578752708a086b03f3848600dbc2ceeea905"
+    },
+    {
+      "path": "internals/71.-backup-manifest-format.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/backup-manifest-format.html",
+      "sha256": "0b946059caf8e47bfa58107296d35ab6d57188951d9949faaac7e87c0548b1d6"
+    },
+    {
+      "path": "appendixes/README.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/appendixes.html",
+      "sha256": "d076a923d2fb41fccb446045310370fbc1f82b57c2072ca56344eb222d383184"
+    },
+    {
+      "path": "appendixes/o.-obsolete-or-renamed-features/recovery-config.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/recovery-config.html",
+      "sha256": "3459c7622365e47abee3dec183589401777eb47e1848f4a87e12e07efbb4d48b"
+    },
+    {
+      "path": "appendixes/o.-obsolete-or-renamed-features/default-roles.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/default-roles.html",
+      "sha256": "af0fc4c434fb2dd8d2250c653c84784de7f79a1fe374ef5476537ea25771befc"
+    },
+    {
+      "path": "appendixes/o.-obsolete-or-renamed-features/pgxlogdump.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pgxlogdump.html",
+      "sha256": "dd361e59817f48ea497998118685188ef641d901883cf772f8d4cfcf37c5ccfb"
+    },
+    {
+      "path": "appendixes/o.-obsolete-or-renamed-features/app-pgresetxlog.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-pgresetxlog.html",
+      "sha256": "8fa7223ffae69565b559e1acbcf11029dd30060615f2cbd4df5d1db709d62dd3"
+    },
+    {
+      "path": "appendixes/o.-obsolete-or-renamed-features/app-pgreceivexlog.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-pgreceivexlog.html",
+      "sha256": "5ece487dcc03082c5450eeff298f9b6212ddafc12d80b04ce5cda07232113670"
+    },
+    {
+      "path": "internals/71.-backup-manifest-format/backup-manifest-toplevel.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/backup-manifest-toplevel.html",
+      "sha256": "c2d38e2e44e5b7f42f355d708f49d093e908152dc19c964a9ace40a15b561fda"
+    },
+    {
+      "path": "internals/71.-backup-manifest-format/backup-manifest-files.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/backup-manifest-files.html",
+      "sha256": "925b93f493e4367e92b6d82c1d16243cc58be74fb0c76ac1ea179618fb52b5a4"
+    },
+    {
+      "path": "internals/71.-backup-manifest-format/backup-manifest-wal-ranges.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/backup-manifest-wal-ranges.html",
+      "sha256": "7fb90a632b395513242f994ce8a630e6b8fbdd8de3ecc07a991f0d3354b8aec6"
+    },
+    {
+      "path": "internals/system-catalog-declarations-and-initial-contents/system-catalog-declarations.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/system-catalog-declarations.html",
+      "sha256": "fea2e7b8265dd01bc7af2fe185c3bd123fd4b4c82c7861c5fb1b0aab17ec8702"
+    },
+    {
+      "path": "internals/system-catalog-declarations-and-initial-contents/system-catalog-initial-data.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/system-catalog-initial-data.html",
+      "sha256": "d24e857be7f4c5aeba5cc5381def5cd9eb5e598105b946089df066269b986ef3"
+    },
+    {
+      "path": "internals/system-catalog-declarations-and-initial-contents/bki-format.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/bki-format.html",
+      "sha256": "5ccbaa3859c6f9fbc51b012d7421d8899d4747b60f51d595b719242b7099a768"
+    },
+    {
+      "path": "internals/system-catalog-declarations-and-initial-contents/bki-commands.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/bki-commands.html",
+      "sha256": "e4af4b3371daa209000eec8dbf1d8f58cd8f0f1655d9be1d070ea3aef5987f0c"
+    },
+    {
+      "path": "internals/system-catalog-declarations-and-initial-contents/bki-structure.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/bki-structure.html",
+      "sha256": "3d9c0852627992e76456ca9daa102ab2f393d03e865e0ea2e2a3c2925d4b3824"
+    },
+    {
+      "path": "internals/system-catalog-declarations-and-initial-contents/bki-example.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/bki-example.html",
+      "sha256": "9316f3fb83a7e4ca1e012187d102981feea8d60038376fdccace3299ae896fbc"
+    },
+    {
+      "path": "internals/brin/introduction.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/brin-intro.html",
+      "sha256": "79465d04e03aa261fe707a84ad41ddb374957c3007c5c1f12916bcc378a9fc7a"
+    },
+    {
+      "path": "internals/brin/built-in-operator-classes.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/brin-builtin-opclasses.html",
+      "sha256": "b5449153b156d320091e42f207494542bb5810367bbe95cdc0e15177e0ea9722"
+    },
+    {
+      "path": "internals/brin/extensibility.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/brin-extensibility.html",
+      "sha256": "9a844e32e4d551d305b2b21735319e778fe81137de179cccd63c1c91b368efe4"
+    },
+    {
+      "path": "internals/system-catalogs/catalogs-overview.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalogs-overview.html",
+      "sha256": "0883f9afdff429433f063ed9c3f5e48cec020e688e8605171d836e587c7f5303"
+    },
+    {
+      "path": "internals/system-catalogs/pg_aggregate.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-aggregate.html",
+      "sha256": "ee8a300b377d1df46be439d166eb207cdf39fb1e5dd92faff9814a4921e6d192"
+    },
+    {
+      "path": "internals/system-catalogs/pg_am.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-am.html",
+      "sha256": "bedb8a6480be1d61dcb709559912077823196bee94d335886d71c072b4424cc1"
+    },
+    {
+      "path": "internals/system-catalogs/pg_amop.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-amop.html",
+      "sha256": "23d1fb3fa34fc91c996557a66aea37a43b8be292a0f89df3c2da1dcadd3fbb66"
+    },
+    {
+      "path": "internals/system-catalogs/pg_amproc.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-amproc.html",
+      "sha256": "7cffc68277dd8c4eb7b007a55740b2b28a4db5b2f13afdefb9000fb49e7b7f26"
+    },
+    {
+      "path": "internals/system-catalogs/pg_attrdef.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-attrdef.html",
+      "sha256": "75533b55724610b58d7decdd2d037162d4873d60073a6edacb3e06180786e47b"
+    },
+    {
+      "path": "internals/system-catalogs/pg_attribute.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-attribute.html",
+      "sha256": "bca005253b0000d48d5648aa8df132829c49285d4cec7a2d433a1a4b68534862"
+    },
+    {
+      "path": "internals/system-catalogs/pg_authid.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-authid.html",
+      "sha256": "0bf0165adf1124853be5a6191e7b493e2a072daee334fd687586630edc80e79e"
+    },
+    {
+      "path": "internals/system-catalogs/pg_auth_members.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-auth-members.html",
+      "sha256": "5946d12cf55a0d12b6ab9edfdbbd924baafa3659a6c3259d562569c07fcf6120"
+    },
+    {
+      "path": "internals/system-catalogs/pg_cast.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-cast.html",
+      "sha256": "b52cb0d6153b7caac335e785fb75b0491a19a30eb940b172d06f271bd2d1d3ca"
+    },
+    {
+      "path": "internals/system-catalogs/pg_class.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-class.html",
+      "sha256": "bded6244f995d154af22e195d8b5e6fb371c0e7d3bd8f0e1cdf02a957344747d"
+    },
+    {
+      "path": "internals/system-catalogs/pg_collation.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-collation.html",
+      "sha256": "ecb1001322b5ad1daea248db2020e2def029280f755d95576f1926b69ef77f56"
+    },
+    {
+      "path": "internals/system-catalogs/pg_constraint.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-constraint.html",
+      "sha256": "ee7dc8cf8768340f717990f5154f629cb1eaa274b0750a9e75cc5489b1d33595"
+    },
+    {
+      "path": "internals/system-catalogs/pg_conversion.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-conversion.html",
+      "sha256": "d34a784d31a1e06023530bfbd154f58bf5311f265ba940c42162e7db4e2699cc"
+    },
+    {
+      "path": "internals/system-catalogs/pg_database.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-database.html",
+      "sha256": "3d814fcf7822c484c3116cbbedef2539f8c8a2ec650f52b73101ac9a459acb80"
+    },
+    {
+      "path": "internals/system-catalogs/pg_db_role_setting.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-db-role-setting.html",
+      "sha256": "db02b444127d53943a851a7971c008e3d0df96d196cf95797f77e274b4034ddd"
+    },
+    {
+      "path": "internals/system-catalogs/pg_default_acl.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-default-acl.html",
+      "sha256": "46ee3c68142279ca29232a6573943c053bedc4baaf24efd75b456b1461a7ebb3"
+    },
+    {
+      "path": "internals/system-catalogs/pg_depend.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-depend.html",
+      "sha256": "a042a351305831faf45e330a204e97b63ee1a02b2e707975e499cbd69f395647"
+    },
+    {
+      "path": "internals/system-catalogs/pg_description.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-description.html",
+      "sha256": "9bdbe5e8c16147f10c8592c88e41d1b95b4135a218ca381dda36f9b705640c2e"
+    },
+    {
+      "path": "internals/system-catalogs/pg_enum.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-enum.html",
+      "sha256": "53c09367f490c1361b33b8ee7bb62c813a4315e286fc8bfe7a81774491407c18"
+    },
+    {
+      "path": "internals/system-catalogs/pg_event_trigger.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-event-trigger.html",
+      "sha256": "9da0b2bf58072ba322172d077311570d5ce292a020473e071f8b8ee5774fa367"
+    },
+    {
+      "path": "internals/system-catalogs/pg_extension.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-extension.html",
+      "sha256": "037be5e59241095a7136f3ff87c236ed83772f2909e1da28ebc183ffac1d1618"
+    },
+    {
+      "path": "internals/system-catalogs/pg_foreign_data_wrapper.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-foreign-data-wrapper.html",
+      "sha256": "6c1352e8e9fa5c91d65f7c2636589c596924219f7367c8c0190b933e5edfbd22"
+    },
+    {
+      "path": "internals/system-catalogs/pg_foreign_server.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-foreign-server.html",
+      "sha256": "a6dcd65cdf984bc488a0e44e8fd25d9d3e68fdd302375aa115d68f22674f8bdb"
+    },
+    {
+      "path": "internals/system-catalogs/pg_foreign_table.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-foreign-table.html",
+      "sha256": "fb551fd18dbd815f43e3c7df284f84fc559d3f0d246e620afa0988fd5034225d"
+    },
+    {
+      "path": "internals/system-catalogs/pg_index.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-index.html",
+      "sha256": "a27c38fc11287735f44f6d5eb082ca0d6d70d791d98debce510b2760c5758770"
+    },
+    {
+      "path": "internals/system-catalogs/pg_inherits.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-inherits.html",
+      "sha256": "a667aef2d1b73447bc20075f6a059426dfc8a64721f8c0f49df2810b6b32d8ce"
+    },
+    {
+      "path": "internals/system-catalogs/pg_init_privs.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-init-privs.html",
+      "sha256": "36728938ff7b7ce4becbbdc1ae01ce1ee54c3599a40ce367a735873e48cb5678"
+    },
+    {
+      "path": "internals/system-catalogs/pg_language.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-language.html",
+      "sha256": "92979273c405d6db478272b82d23ec7c1f71186fe960603d1a93b358d978bd33"
+    },
+    {
+      "path": "internals/system-catalogs/pg_largeobject.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-largeobject.html",
+      "sha256": "af4d010e8a19d1877e07059750f4cf8bff989fc2eaebabf5f339233368464a31"
+    },
+    {
+      "path": "internals/system-catalogs/pg_largeobject_metadata.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-largeobject-metadata.html",
+      "sha256": "6139e0706f36b50ea2dd303b206a91672f8dd07ae3a5a53a3c4dff389bfd8e0e"
+    },
+    {
+      "path": "internals/system-catalogs/pg_namespace.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-namespace.html",
+      "sha256": "6f3df2a6733734f7947aba05e2335bd2b273f7d91d1e12a38e72f6a1f19c2ef0"
+    },
+    {
+      "path": "internals/system-catalogs/pg_opclass.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-opclass.html",
+      "sha256": "44c3bf3d92f99c65489009cd7e665f0b141fc9226161ada66930f9ffe9e4e2ee"
+    },
+    {
+      "path": "internals/system-catalogs/pg_operator.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-operator.html",
+      "sha256": "b893b393495a9d81816fe985fd797cc8b6dc5fe970131b4b6688deec6ab985d7"
+    },
+    {
+      "path": "internals/system-catalogs/pg_opfamily.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-opfamily.html",
+      "sha256": "bbe58cc32dee3c95c745a8289b408291431abd53661178b12fe2a2f5ec3880db"
+    },
+    {
+      "path": "internals/system-catalogs/pg_parameter_acl.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-parameter-acl.html",
+      "sha256": "c48ac12924efdcf206faab2d547d6f013a56e78b42aa784967dd5356527bb423"
+    },
+    {
+      "path": "internals/system-catalogs/pg_partitioned_table.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-partitioned-table.html",
+      "sha256": "44be19a2db77fb24d787cbce72642f830d242ee7379749661c939cb90a0fdc5c"
+    },
+    {
+      "path": "internals/system-catalogs/pg_policy.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-policy.html",
+      "sha256": "d5b1682498af75f678c6f8fb621cf514109f30e972f692c019a181b6479a1624"
+    },
+    {
+      "path": "internals/system-catalogs/pg_proc.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-proc.html",
+      "sha256": "175cd4be5bcbc339f79b69ea79767caf0d7edf786eda786bc39dccb79ef004c0"
+    },
+    {
+      "path": "internals/system-catalogs/pg_publication.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-publication.html",
+      "sha256": "663d1339acfd1f2169bbeeaac4b8f751044d4ace76e5536442f4a4d0d8227e61"
+    },
+    {
+      "path": "internals/system-catalogs/pg_publication_namespace.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-publication-namespace.html",
+      "sha256": "30de24a7a561e238981e56c7765af169ca85dd2caa2c66d4e0e15ab8749b5ea0"
+    },
+    {
+      "path": "internals/system-catalogs/pg_publication_rel.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-publication-rel.html",
+      "sha256": "9fd43caa0d28ea3036a638c85aadb05fdf46a920ef9157b2a5dfaf953e16483e"
+    },
+    {
+      "path": "internals/system-catalogs/pg_range.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-range.html",
+      "sha256": "8dbd64375bbde84bcd39bcb270b62386a016427f1623b590023927d3dab0f7e0"
+    },
+    {
+      "path": "internals/system-catalogs/pg_replication_origin.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-replication-origin.html",
+      "sha256": "f0db443b446b524418948ba25d3de1fd8983ed110670e862c3e442a5071263dd"
+    },
+    {
+      "path": "internals/system-catalogs/51.44.-pg_rewrite.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-rewrite.html",
+      "sha256": "e57d83db787e7add74a77031b3c3cf9119d0233b144696db9b2613334591b18c"
+    },
+    {
+      "path": "internals/system-catalogs/pg_seclabel.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-seclabel.html",
+      "sha256": "bd557b5db7d994904d207a762003ad06f4f3757106016829ffbe40fd99592755"
+    },
+    {
+      "path": "internals/system-catalogs/pg_sequence.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-sequence.html",
+      "sha256": "97ae49041318b37b76021c270552d3e9989927f005e318c9c9c608bf43f6f52b"
+    },
+    {
+      "path": "internals/system-catalogs/pg_shdepend.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-shdepend.html",
+      "sha256": "5f8703bd94d8628ae628b8a55cb49057a5f27a212f7ecce574fd3f1de71acbb5"
+    },
+    {
+      "path": "internals/system-catalogs/pg_shdescription.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-shdescription.html",
+      "sha256": "2e73d52f3e2efd3849a9ec92bb0bf6aaacf981cd33901b6a8990d3f011cf0884"
+    },
+    {
+      "path": "internals/system-catalogs/pg_shseclabel.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-shseclabel.html",
+      "sha256": "487639418a0d8ef9af327f9ed0e96626529473041845eec3b489a5cedfc1e373"
+    },
+    {
+      "path": "internals/system-catalogs/pg_statistic.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-statistic.html",
+      "sha256": "1e8eedad416d59405d364b82596d7b19dab6b97645322cb9b39f90e71bd1eeac"
+    },
+    {
+      "path": "internals/system-catalogs/pg_statistic_ext.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-statistic-ext.html",
+      "sha256": "31f1debf249dd3b317117179debbdc8ed89884df9c9ddc4e29efc60703ef1a94"
+    },
+    {
+      "path": "internals/system-catalogs/pg_statistic_ext_data.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-statistic-ext-data.html",
+      "sha256": "555b7e361bfe63ec0a387177ee76e6968c27c88bd8ab9c33a5de9ecdb9e6f8c7"
+    },
+    {
+      "path": "internals/system-catalogs/pg_subscription.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-subscription.html",
+      "sha256": "b64d36eeb32c59870a5a1b3b8c3815426bbeda243513113a96ab7f2923779054"
+    },
+    {
+      "path": "internals/system-catalogs/pg_subscription_rel.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-subscription-rel.html",
+      "sha256": "8b97d5f68197d6122ad04f6658d727c9a51b667db77055e53c95b3228ccf1100"
+    },
+    {
+      "path": "internals/system-catalogs/51.54.-pg_tablespace.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-tablespace.html",
+      "sha256": "9e94bcb4185d8673cb44f43def905bd9a8eb4a4901c453313b3a76c2a6d4039e"
+    },
+    {
+      "path": "internals/system-catalogs/pg_transform.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-transform.html",
+      "sha256": "cdf4f775caaf1378d9e3c65b00c2ff3094ebe0298158c9a893d6ace35040587c"
+    },
+    {
+      "path": "internals/system-catalogs/51.56.-pg_trigger.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-trigger.html",
+      "sha256": "48188aa8bb7b8c8a1d9d3c3fb8ce1b12fb7a3f018980e261ce75c6603c1bb8e5"
+    },
+    {
+      "path": "internals/system-catalogs/pg_ts_config.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-ts-config.html",
+      "sha256": "1bf9e386ee0b263e7038e832e86359adf6ee5e4da34b3296a630d0e0cefe39e7"
+    },
+    {
+      "path": "internals/system-catalogs/pg_ts_config_map.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-ts-config-map.html",
+      "sha256": "1f670451dba73fc6db2f8106175bace1f8ae6a716c8169598a26938a82a69ee9"
+    },
+    {
+      "path": "internals/system-catalogs/pg_ts_dict.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-ts-dict.html",
+      "sha256": "97350310f513834f95eb5c79872985fb50152f01b1e4869fd665b1be70274369"
+    },
+    {
+      "path": "internals/system-catalogs/pg_ts_parser.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-ts-parser.html",
+      "sha256": "1d4334bec9e21d906653f0cd3dd5d9a402a619b87ed798176f7256ebbf3bb8a1"
+    },
+    {
+      "path": "internals/system-catalogs/pg_ts_template.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-ts-template.html",
+      "sha256": "6bcded4b78d01a2473681e321a5008e03facd623c23c31577ec6fb20bf003f56"
+    },
+    {
+      "path": "internals/system-catalogs/pg_type.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-type.html",
+      "sha256": "719312509a5ca498e40a4fc7288e93446371c6c589efaeb3749ab529fcc2265c"
+    },
+    {
+      "path": "internals/system-catalogs/pg_user_mapping.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/catalog-pg-user-mapping.html",
+      "sha256": "050e5ea08d9728800cb374ada966cfc46921f0559187b5250727e9221538002d"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/basebackup_to_shell.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/basebackup-to-shell.html",
+      "sha256": "846f1cd36bc2e0d9c7d75516723723e9c527b77ed2256dcf6e9ac79b70fc2be7"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/basic_archive.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/basic-archive.html",
+      "sha256": "0d8e37f163acba11b19a7ca87c80ff27cfd33da79bf621774b75a4c051b0cf75"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/bloom.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/bloom.html",
+      "sha256": "ae8a272d2dde0082c624090c0938ba1c69ba680d1241e75292163907384d1e83"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/btree_gin.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/btree-gin.html",
+      "sha256": "3d9bdd8379d21b92701533757ce2aabfc643b1ee157b0a618866349461d9f8c4"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/btree_gist.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/btree-gist.html",
+      "sha256": "93a8708274c35129e21997b9ae1f9bb1b57a1c2b9469780a28ce0810291327f4"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/citext.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/citext.html",
+      "sha256": "92b5aa72f3c0b46b9652233cc2401de3741cdaba2b19045e3955ec165cc31ea7"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/cube.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/cube.html",
+      "sha256": "4efb9b8cbd792dd3e11cad017efb39b0ee06f4262f35fd5335f257a103614364"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/dblink/README.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/dblink.html",
+      "sha256": "fcdc14bdb691c12b05b8775ecc943d0b8e716876c482da60e611cfe501c36481"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/dict_int.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/dict-int.html",
+      "sha256": "0eae793b9f6f4f74643f93064893798406b3e8b2a01111dd3aa58e880f7b6638"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/dict_xsyn.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/dict-xsyn.html",
+      "sha256": "db41bd7c60dbd1a0602cf694bb4e6038197977ce70cb1336ceec8c1c4e780acb"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/earthdistance.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/earthdistance.html",
+      "sha256": "061f299e16007ef71efc21cb0e3341a3426e536e27b8aa29cd38b2d6edcf9fe8"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/file_fdw.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/file-fdw.html",
+      "sha256": "b2f6f22ed7e3e433bd6228c6839883309e40e358192ffadabf9d961259183b18"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/fuzzystrmatch.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/fuzzystrmatch.html",
+      "sha256": "d3758b38aa05896137d38fdce445a56350d3b5e4a4fb3ba2e3a4e41b17065d99"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/hstore.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/hstore.html",
+      "sha256": "7875c1728bc4f39e92489bab1570e3873e4f1312cb0b62263aec75f30e3c6bdf"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/intagg.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/intagg.html",
+      "sha256": "8b7fb6959cd4e424d2be3bd51aaa0e94c7b2030491e0a69d6d8bd0f598da5050"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/intarray.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/intarray.html",
+      "sha256": "38d2850d02acba81bd4e85addcdca13ec3cff0f8564b885b7fd8c7f5dda606b0"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/isn.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/isn.html",
+      "sha256": "646a7856dbdd7c62a8c75943baf1e7af21554224d97f59e281f56c1ba7a34afc"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/lo.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/lo.html",
+      "sha256": "1898cb1e9a44585c7ea49332ca02afdebefa7237de1fe001043c1c5a89fb96e9"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/ltree.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ltree.html",
+      "sha256": "9980575d06e24c2286678544d5a316e4198dd8904bc03988fc487998c7067dd1"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/old_snapshot.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/oldsnapshot.html",
+      "sha256": "893eda3766aeb53b7a286ff75c272ea48d14a4808f32b9ba59736ec47fdd9bec"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pageinspect.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pageinspect.html",
+      "sha256": "046d1d07242ba6c7574cceb7289c5cf850888681dd3fd7ae4eb9584eb426c6b9"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pg_buffercache.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/pgbuffercache.html",
+      "sha256": "0936dc61dc74e6d19c30c7ce6d96483dc9324965c27fcb8891e45776c37849ab"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pgcrypto.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pgcrypto.html",
+      "sha256": "7d5774c3f8743b42c955d1e63ac6542e9a5f231bc05b490fe6d761438d29b4ad"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pg_freespacemap.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pgfreespacemap.html",
+      "sha256": "e416b4eff360e0dc00d448499adf6d72db7454bc7a4abd5d0770444d50128ec7"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pg_prewarm.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pgprewarm.html",
+      "sha256": "dfeb07ca38ea5911389ade8812b94ff9263e10b3e4d89a5f7e48f31019b2ec33"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pgrowlocks.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pgrowlocks.html",
+      "sha256": "f237376cfbbb11f3aeb14b01ab3f29b2b04d1f9c8cc67a3754baf0566b4cd697"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pg_stat_statements.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/pgstatstatements.html",
+      "sha256": "5a607a0a57af86bef3fa051ac58cf4f4bb20b1fcb02ac0ab7e116746d348ae2b"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pgstattuple.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/pgstattuple.html",
+      "sha256": "f87890fba8d0209dddbb84260000009f9a607070240f1fc0cefc0f81e0107b90"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pg_surgery.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pgsurgery.html",
+      "sha256": "6832958b7537fa9d11c566ecea5fa212bab912a52b79bb003954c0ea17982f25"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pg_trgm.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/pgtrgm.html",
+      "sha256": "6eacf0fa200af11435200bc6c138df33ad09da05504bf98510011267f94da435"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pg_visibility.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/pgvisibility.html",
+      "sha256": "cc76fb99726c401ad05e9dbb667fb213eebe28a0936d1477d9a1f4c4a735a1f4"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/pg_walinspect.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pgwalinspect.html",
+      "sha256": "23e78d12dce9017d51d93ba9ecc5d9aca2dcd8fc3093ecdf45c9345ceaff2b22"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/seg.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/seg.html",
+      "sha256": "f0debe2f2bd7ef17b1f503040c1db4776f90667a09cdac114115aa67efc87daf"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/sepgsql.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/sepgsql.html",
+      "sha256": "b56893e8822a0e3e1a3942bbec6f33bfaca4d4609107ea44be45e09b96b98ec2"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/spi.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/contrib-spi.html",
+      "sha256": "b544cf40dba1d4761adc5af56fc85fa36fd85f88b5de9887b0d01b27f9e2d50a"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/sslinfo.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sslinfo.html",
+      "sha256": "48e84ea1c0d18e6074e059366ff2957006a4a93d601b44fa946df9b878833029"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/tcn.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/tcn.html",
+      "sha256": "acf34bc191ff87290192401f354018fa56c256615c437ac2dccca71e48397f54"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/test_decoding.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/test-decoding.html",
+      "sha256": "317feafe601f01f9f12e5d51222e085afb266c8f338c30e83ebec0a49c6d1e97"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/unaccent.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/unaccent.html",
+      "sha256": "415998b3736cbac367e92286818a5630b2974dc36446adefda9770b83a320a58"
+    },
+    {
+      "path": "appendixes/additional-supplied-modules/xml2.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/xml2.html",
+      "sha256": "c0d019386eaf5f23f3e3dd492a65324b03bb6c696c93287ba50ce624c7e4a178"
+    },
+    {
+      "path": "internals/61.-writing-a-custom-scan-provider/custom-scan-path.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/custom-scan-path.html",
+      "sha256": "9c93bbfe51cee46ef5011a95ce765a0873f3c46b435736a33edaaf69b6c201ac"
+    },
+    {
+      "path": "internals/61.-writing-a-custom-scan-provider/custom-scan-plan.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/custom-scan-plan.html",
+      "sha256": "57215aa88a68fb89682eb67625150cdc7e4a70bd597658157ee579d486ae9279"
+    },
+    {
+      "path": "internals/61.-writing-a-custom-scan-provider/custom-scan-execution.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/custom-scan-execution.html",
+      "sha256": "d7ec1ece246bfd1e7167fff9b5ad7fbaa0dc286b6296919a02192c447c238887"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/the-concept.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/ecpg-concept.html",
+      "sha256": "38135e13a75a1aa5a45449eb984ff198ca7d9089253e8cf673268aee6ee55626"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.2.-managing-database-connections.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-connect.html",
+      "sha256": "682d05a75c761cdcd9967119ec352aed8e42255fb5606ff141bfde825dfb4be3"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.3.-running-sql-commands.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-commands.html",
+      "sha256": "6b7f4aa2bd12ab343a0d86265c5e45b3f0aab2a5ace3714a0aa92cd2e50eb220"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.4.-using-host-variables.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-variables.html",
+      "sha256": "76422bde35c483363aed90c636c8254b2cbbad0899f143fdbf1ac5745c78e89e"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.5.-dynamic-sql.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-dynamic.html",
+      "sha256": "12ddddfeadff7b9f6cb04f786adc92c7e41c9ca5faaa09cfbe09000882a58ba3"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.6.-pgtypes-library.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-pgtypes.html",
+      "sha256": "e061b0572d3de7a06ece8d84d64a256f2b4f938009e4d1374763a846a875660d"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.7.-using-descriptor-areas.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-descriptors.html",
+      "sha256": "ad139ae223dffa5eef56415eaba05af70446fb4783f1b5c9797cbb38ce59d951"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.8.-error-handling.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-errors.html",
+      "sha256": "d59cfa25059f81753f3ecba4e48afbd12a5a1e9fea85c32aeb5cb907d44f2f4a"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.9.-preprocessor-directives.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-preproc.html",
+      "sha256": "8f8dacd9f5f58a58bf710234c07e130262d87a31844c1e806c57d149f74dbb55"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.10.-processing-embedded-sql-programs.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-process.html",
+      "sha256": "38d4e3a8c0ec30f1cf655df17a04d27431d1012e6038d9245d72b3743b5fc54b"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.11.-library-functions.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-library.html",
+      "sha256": "bf345054fd83320bc176a068138126664216c9a4de0f22573898af8477d3c717"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.12.-large-objects.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-lo.html",
+      "sha256": "0a285ba7ac5be806cbca25796a254b856c2b55d78f401181be468985f66f31ea"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.13.-c++-applications.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-cpp.html",
+      "sha256": "0d3ecaba17abdcf25bfa6a0839845edb75427a09ee0e5d767fd162f42f41b376"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-commands.html",
+      "sha256": "d45f1ec8847bf4b130c013b9d34c870421c395bbe9dc074dff36cec05602eda2"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-allocate-descriptor.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-allocate-descriptor.html",
+      "sha256": "023f146df7b5c9734885a4a39aebf89086761cd4ed7b3b9c3c7e272aaf2bb1d1"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-connect.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-connect.html",
+      "sha256": "36af2021ef5a59c34cf8ad319e5b9bb790bd039402b09ee90741e862bd5ca955"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-deallocate-descriptor.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-deallocate-descriptor.html",
+      "sha256": "906a47072b4014eb99b3a0292c27aa9b589da9463bd4c2259b387c9b1c7740d7"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-declare.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-declare.html",
+      "sha256": "68122c58a94d5c6c4b9ceb1a9c7bacbfdafdd454ceeb93c47657fd101eeb34ef"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-declare-statement.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-declare-statement.html",
+      "sha256": "d64ecabe05b6e41eb11378dae78db3bf41364f39e379a66d0a11bac4f37cbc61"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-describe.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-describe.html",
+      "sha256": "13062200ad6a323f3634e1828b6c9f0a892ea7834578f9f604d270ed8eaa29bb"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-disconnect.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-disconnect.html",
+      "sha256": "2e8666af25857c43dc3b9c75c250a81b61727ee7f8de7dfbd5545728d7cc4648"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-execute-immediate.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-execute-immediate.html",
+      "sha256": "04f1a0b5ca22bac79e836c97669dd564ff37ce60a48c37dc73a1ffe7f3b8a78d"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-get-descriptor.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-get-descriptor.html",
+      "sha256": "ff7ee82c6703dd7d52958d7c593c58caca5e9a1c09a8c1c4cf0eda9049f31859"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-open.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-open.html",
+      "sha256": "0d13e476f0a70a02f6e95f8b3095418dc1ff6e97268da9f71bbb817e153082e1"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-prepare.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-prepare.html",
+      "sha256": "805da7e7bbe9226cfe1c9070af4c620d37c6f9d6c7102983a885f142c0489ac9"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-set-autocommit.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-set-autocommit.html",
+      "sha256": "bf6613e2ee82f2bf5ecd5fa766798a842410229af0c8c3718757360b8a26972d"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-set-connection.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-set-connection.html",
+      "sha256": "2ab40b0e131250470c5924baff6bd86dd1c154954e4b31497c2dbc6675d5497c"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-set-descriptor.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-set-descriptor.html",
+      "sha256": "753570c64a31d8ff7831f68c9354818cf0a65debdeb323fee83a54a1e9eee430"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-type.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-type.html",
+      "sha256": "f2c6e4ac253b836ba7ca51bb07eaef4866cbb048ebabd4afbeb29ea960f6fd7a"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-var.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-var.html",
+      "sha256": "ca6f355e0bed2396ecb1e34c8c81fc829ee083f1081e3d84f577ac52e33c44b3"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-whenever.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-sql-whenever.html",
+      "sha256": "3aaa8b20b81b373a29b025b61945635db1895eeae5d218400fce6824e90b7991"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.15.-informix-compatibility-mode.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-informix-compat.html",
+      "sha256": "ff923637da5cca69001590171d2347af0f4e0e0928c872057ad5d69ce5616236"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/ecpg-oracle-compat.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/ecpg-oracle-compat.html",
+      "sha256": "789618a06527a560af2a7f01bb4ca483221d3b7d026ff99fe2209af713ddcf4e"
+    },
+    {
+      "path": "client-interfaces/ecpg-embedded-sql-in-c/35.16.-internals.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/ecpg-develop.html",
+      "sha256": "f6b2a387bf4eeeae2d7c9514546c8dcdf20cfecc0964634762e838b3ad2dd62c"
+    },
+    {
+      "path": "server-programming/event-triggers/event-trigger-table-rewrite-example.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/event-trigger-table-rewrite-example.html",
+      "sha256": "1c276b8201e90a650489a1f189499149dfdd449e67bc42bebd4da72646aa0145"
+    },
+    {
+      "path": "internals/gin-indexes/introduction.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/gin-intro.html",
+      "sha256": "49fa0354381c888f55d2d5847f17f3824e784dc0fa861703bf3a8641d99c6c7f"
+    },
+    {
+      "path": "internals/gin-indexes/limitations.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/gin-limit.html",
+      "sha256": "dbd977ccbfa8620441c7bf628d7c3f5e20a282b0a678103a372d81a0454c299d"
+    },
+    {
+      "path": "internals/gist-indexes/introduction.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/gist-intro.html",
+      "sha256": "79f2d30573c177d8d438d5ace2769a6c003a6fae4caa80937788ee33ce12be8f"
+    },
+    {
+      "path": "internals/gist-indexes/built-in-operator-classes.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/gist-builtin-opclasses.html",
+      "sha256": "2be14263421661d316dbf5fbb07a4ce9f18de6e4840d5c40909f0b056ace338a"
+    },
+    {
+      "path": "internals/gist-indexes/extensibility.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/gist-extensibility.html",
+      "sha256": "e86e6e601de90714260d8cbda548f0b3ab4915aaa0dec7a060a4ec26f435af63"
+    },
+    {
+      "path": "internals/gist-indexes/implementation.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/gist-implementation.html",
+      "sha256": "2443adaa4cea6ba7f92f4edbb79053f0bee872ce79d907a5439bf0c2acaa7132"
+    },
+    {
+      "path": "internals/gist-indexes/examples.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/gist-examples.html",
+      "sha256": "6d47429ddc000b024726f9ec9eb2dcd1e8f95955aff5559316ae5ffc71427192"
+    },
+    {
+      "path": "internals/72.-hash-indexes/hash-intro.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/hash-intro.html",
+      "sha256": "61a7dbd54bab19e42e07d97e874e1a0bc29ceb46e43dc085ebc08c2eb0c87452"
+    },
+    {
+      "path": "internals/72.-hash-indexes/hash-implementation.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/hash-implementation.html",
+      "sha256": "34da8bee8bd4baeaaa43e1dc59b6d85002a540c246c723987fe6eaf0035aabc0"
+    },
+    {
+      "path": "internals/index-access-method-interface-definition/index-api.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/index-api.html",
+      "sha256": "cdbe6e0c2053c93f4bc4cecc5141d3f0319fd61586542caef6d4db3ade170674"
+    },
+    {
+      "path": "internals/index-access-method-interface-definition/index-functions.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/index-functions.html",
+      "sha256": "bdeb935711c4ffb9e7f293a3324243c4ec7a022a19862f25a11b36b0ca9f223f"
+    },
+    {
+      "path": "internals/index-access-method-interface-definition/index-scanning.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/index-scanning.html",
+      "sha256": "f92ff5067f6a65400788e5918e7a6b1e8b05623a2a64e01e2b4f1a7718775686"
+    },
+    {
+      "path": "internals/index-access-method-interface-definition/index-locking.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/index-locking.html",
+      "sha256": "e4c731cce0fa0bb65939d4399ebf5a3e7175cc06783e6245a1f7e02caae5201f"
+    },
+    {
+      "path": "internals/index-access-method-interface-definition/index-unique-checks.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/index-unique-checks.html",
+      "sha256": "8c1c4bc08cd56a0fc528445228c468ee3576f3bcffd48318580bb09baaf28a5a"
+    },
+    {
+      "path": "internals/index-access-method-interface-definition/index-cost-estimation.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/index-cost-estimation.html",
+      "sha256": "207b7ce207a6ed978bf09aa46987d94d75e9444b5d40066a93e0fe10b66d7fb2"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/the-schema.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/infoschema-schema.html",
+      "sha256": "abb4f901ee828c89853cbbff57b15323ea14378e316fb3889c548317087d54d2"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/data-types.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/infoschema-datatypes.html",
+      "sha256": "fff62ea9c9b751505ccfa9cb6f32f8f5531c7a4d963a7fbe1960c68266bfaa21"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/attributes.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/infoschema-attributes.html",
+      "sha256": "233dcfa9911e9d882a7171a91571428328eb4c0cc0ebbf98c2d200635e322e8d"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.21.-domain_udt_usage.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-domain-udt-usage.html",
+      "sha256": "08f2837965fbdab958b07c0071f7d5b38a39e1ce5f582a9966f49cc6cc2904cb"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.22.-domains.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-domains.html",
+      "sha256": "7b74344c841260f23222f1f7120d6f08ace6033c721fed53b532cdc4c197ca18"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.23.-element_types.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-element-types.html",
+      "sha256": "6b98f6c4ef7ee19fb377d655b020177b2347209d3b3fa8802da77e40622a27df"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.24.-enabled_roles.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-enabled-roles.html",
+      "sha256": "b1c8d2ef2ddaac031de845959da8b5a051701ff29c808f61d834649ca8d2a25d"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.25.-foreign_data_wrapper_options.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-foreign-data-wrapper-options.html",
+      "sha256": "9013f3ac86f2ede3444fe82294a4683e9d8a5b36543524ebe547dffe2d113226"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.26.-foreign_data_wrappers.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-foreign-data-wrappers.html",
+      "sha256": "e89e47e2be6c0f0c4a1debf662d80896cfc99b4eab89e778887589d0b66b7dc9"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.27.-foreign_server_options.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-foreign-server-options.html",
+      "sha256": "731e4ca15dc6bda15e3557b46bf003e812682c9e6d377aaf3c843014c8e4b387"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.28.-foreign_servers.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-foreign-servers.html",
+      "sha256": "4cdc74db89f2887825cba02a8891846dd585bd4f9224224f35198ce4870a130c"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.29.-foreign_table_options.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-foreign-table-options.html",
+      "sha256": "49dd8f6e75a85966d3a7202101d300450e2951cc881e4810e2850679a786af61"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.30.-foreign_tables.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-foreign-tables.html",
+      "sha256": "d4d8828b689b32c3de8e3b454e029e4c1a216710e1ecb443243067cdc11e2159"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/key_column_usage.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/infoschema-key-column-usage.html",
+      "sha256": "a34f7be534bb78555cdba1d9aba68d36c680b5a1cc6d2a5af98f05d3f9171e8e"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/referential_constraints.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/infoschema-referential-constraints.html",
+      "sha256": "86b2d38a364f18f4e0f78144780c2ec1124a923e553cdda55f7ee2155a7ff250"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.34.-role_column_grants.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-role-column-grants.html",
+      "sha256": "15eb13f8bc50ea22b846f0c72b612a7e35d0102e4baffea80f3ef8cbe7a73a9e"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.35.-role_routine_grants.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-role-routine-grants.html",
+      "sha256": "58f42a49febffc41f87a13320422ca45fbd47a0d02cae4357de04e40bf6ec756"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/routine_routine_usage.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/infoschema-routine-routine-usage.html",
+      "sha256": "0dd1fba3c710dcdd9b217834936564114a730b1c191e88c6823feb513a4d389a"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/routine_sequence_usage.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/infoschema-routine-sequence-usage.html",
+      "sha256": "385a95ee9f92c38ee6e71c7a7cfac05fc28fff10166e52cf6e6725da6a11ced6"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/routine_table_usage.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/infoschema-routine-table-usage.html",
+      "sha256": "81e7b586da1e2f6edc8d5eb6d64aec96d2bf69043df6a10c71c4f40de51764df"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/table_constraints.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/infoschema-table-constraints.html",
+      "sha256": "ca4de5148cfa755e404124b157931be2c8c14333f6e818d5033f90fff2e57a3a"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.51.-table_privileges.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/infoschema-table-privileges.html",
+      "sha256": "a4c1c0148baa47dbeea018203d94708fad956659093d281d5bafccd6d3d4a15b"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.52.-tables.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-tables.html",
+      "sha256": "c46e4c5ae71e2ebfccca0254b5498748e3e9f420ee45b83465cc8ab5533a9162"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.53.-transforms.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-transforms.html",
+      "sha256": "2a6464cc4ad2a7b32dee02cf5e3c20c5ef094d6ebc959366eac658785b9cc018"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.54.-triggered_update_columns.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-triggered-update-columns.html",
+      "sha256": "19bb287c6b48f2427ee352a682efdab320ec1271d5321b9b6e0d83e32e49ffce"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.55.-triggers.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-triggers.html",
+      "sha256": "8da67eb1efc7a56cb507e11d0ccf8aad5c167cd63b8c2b378ca0ee52fd0c577d"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.56.-udt_privileges.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-udt-privileges.html",
+      "sha256": "1d624da2322c12493f4c8dfe5e2fa7fecce9b303405c6e3d91b8c70b23ffd8f6"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.57.-usage_privileges.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-usage-privileges.html",
+      "sha256": "ec04c237f6efb0a23a561fbb58385a0660b4dad945695b457805652971cc4153"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.58.-user_defined_types.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-user-defined-types.html",
+      "sha256": "cccc9d4a264b9b0dc18902fd9aa54261e423a82be61d07f98200e342373b2c25"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.59.-user_mapping_options.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-user-mapping-options.html",
+      "sha256": "f380f42144ece3e28c346be9c97b7984b5d75987058d8a898cfffca4d6c3d4d1"
+    },
+    {
+      "path": "client-interfaces/the-information-schema/36.60.-user_mappings.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/infoschema-user-mappings.html",
+      "sha256": "2a004d2a560780c71af0d583dc9d81d6f16251688c52c8eeba324314dca1ad51"
+    },
+    {
+      "path": "client-interfaces/34.-large-objects/34.1.-introduction.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/lo-intro.html",
+      "sha256": "045c7fd7eef27fb72e3d5387535dbb5c172187a7598acab2706c27982731815a"
+    },
+    {
+      "path": "client-interfaces/34.-large-objects/34.2.-implementation-features.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/lo-implementation.html",
+      "sha256": "57e62ba37a74e65fd74838bc6fd5c96623778ede2653d77e8390fed340518800"
+    },
+    {
+      "path": "client-interfaces/34.-large-objects/34.3.-client-interfaces.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/lo-interfaces.html",
+      "sha256": "d038ac0e381c4bb074bea5514c5f12e8f918b99cc4a8f1e2179d24998dfdf42b"
+    },
+    {
+      "path": "client-interfaces/34.-large-objects/34.4.-server-side-functions.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/lo-funcs.html",
+      "sha256": "27beb5fcf4363f6b9f9b999eff67358c04d841c1ccc669983e889c7a3ffeb03d"
+    },
+    {
+      "path": "client-interfaces/34.-large-objects/34.5.-example-program.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/lo-examplesect.html",
+      "sha256": "7884e681657ca35fa6938560351f39e4eeaf511db8e2a3cd1f908fca309c3d9a"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/database-connection-control-functions.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/libpq-connect.html",
+      "sha256": "051a5a9cb0a020750809205067610a547ae3c3287acd0b26c35fca21c6cff220"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/connection-status-functions.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/libpq-status.html",
+      "sha256": "1914765485cd9761f88a3e0484213e100d2b9027815913a7d28c233ce14ea78a"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/connection-status-functions-2.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/libpq-exec.html",
+      "sha256": "ee680f26a3ef6ed01eb8a08fc6ef798578314019cee54cb6baaf50f927c2f673"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/asynchronous-command-processing.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/libpq-async.html",
+      "sha256": "de9fb01e206ede8399518acbbf243d46398bee5ee08aa99d68c1776abddad700"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/libpq-pipeline-mode.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/libpq-pipeline-mode.html",
+      "sha256": "ab9f76a20c06234e91d859588ee06129ac894e85db9c79c09e5b02e2cac2a5de"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/retrieving-query-results-row-by-row.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/libpq-single-row-mode.html",
+      "sha256": "8e8e7365ff15d0feb6ce0a06096611cdd7454463599c1c1e435ac6975d5e0973"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.6.-canceling-queries-in-progress.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-cancel.html",
+      "sha256": "ba5c67bed5c3caecaa09f1c87acf69c4c15c426d8d695d9a72b1d6893bc10400"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.7.-the-fast-path-interface.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-fastpath.html",
+      "sha256": "22d503cb027147dd35a7996e1533382c2d5cafe7e5fa948968f8970d4674ea0a"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.8.-asynchronous-notification.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-notify.html",
+      "sha256": "719bd38d2ffbd89f5f132b114a7cc61e8c2b8dd52f1f65b413b9465b6ad32fb9"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.9.-functions-associated-with-the-copy-command.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-copy.html",
+      "sha256": "8b2105ceee44b18ac206698e1cb9844b91e279382fc0f63a15e45275cf867312"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/control-functions.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/libpq-control.html",
+      "sha256": "b027531a2b8f0113357cea687f1c88d26917e8c8057cbed1c982d5f13e0e5644"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.11.-miscellaneous-functions.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-misc.html",
+      "sha256": "65c45a77d6ee3384270dd37f03444ad583e94a19251d9cf06156f8e978a15107"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.12.-notice-processing.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-notice-processing.html",
+      "sha256": "0c7cf34fd49d215c40788066272856f36bdf694b11d66188bd281d2d3104994b"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.13.-event-system.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-events.html",
+      "sha256": "c06f2d6023a8c923cc7e85e4702785777eaef78a355e895a9d75fac32b11358e"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/environment-variables.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/libpq-envars.html",
+      "sha256": "808d9df18d4635b74f028c4226c828720212e63f90735d640292c45c2c0d998d"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/libpq-pgpass.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/libpq-pgpass.html",
+      "sha256": "1c6c62cd114d2c62b44cd6dc93a2358fdf4a109f27843bf438ee6ff32731e045"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.16.-the-connection-service-file.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-pgservice.html",
+      "sha256": "2b655860dc9c3cfeefe2f3ead7cf869f4df9d89cfb9dbbab566e1308f915697c"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.17.-ldap-lookup-of-connection-parameters.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-ldap.html",
+      "sha256": "8239bf654355822daa026e6710a070ebbb789abf6e980914bcf81059fed0d2f4"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.18.-ssl-support.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-ssl.html",
+      "sha256": "f360ef98554c4f759c55c40ae5bbdf4a1c3b1f2f7ee73f17c4858b98416090c4"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.19.-behavior-in-threaded-programs.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-threading.html",
+      "sha256": "4b102ef93679f7f7c0a0a10a847eb4b42c52258d5c46c09fb1ede18ca379f25c"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/33.20.-building-libpq-programs.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/libpq-build.html",
+      "sha256": "47dcf2b037a5c09bf250da280396f3fbe4905e2dc978311fb21de141b3ca4527"
+    },
+    {
+      "path": "client-interfaces/libpq-c-library/example-programs.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/libpq-example.html",
+      "sha256": "78e20562991c5ceccc3e4063d98e3945e2538fe1d3b422cb3ca3e54d4508cb67"
+    },
+    {
+      "path": "server-programming/logical-decoding/logical-decoding-examples.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-example.html",
+      "sha256": "bc702aca393d564c3d40520f8f67ace38ec323c890c6b056efe5c42bb1c12439"
+    },
+    {
+      "path": "server-programming/logical-decoding/logical-decoding-concepts.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-explanation.html",
+      "sha256": "2a8b0824bd7266e1196f149a5b1ed28fa76d7a0a43cc285e86137eee9f2059c5"
+    },
+    {
+      "path": "server-programming/logical-decoding/streaming-replication-protocol-interface.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-walsender.html",
+      "sha256": "9a7562e350420c6b3df94eef1eff82a35d0cc9d318a750b3818cec409f7f97f1"
+    },
+    {
+      "path": "server-programming/logical-decoding/logical-decoding-sql-interface.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-sql.html",
+      "sha256": "6889fc68619077eeeab9b881a6681ba8da1b21213fb28ade364a2ae86187d6bc"
+    },
+    {
+      "path": "server-programming/logical-decoding/system-catalogs-related-to-logical-decoding.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-catalogs.html",
+      "sha256": "ece248c2199b42dad780efed564ee656a4eb47e5d446d5d5ea1d59f1c87a9078"
+    },
+    {
+      "path": "server-programming/logical-decoding/logical-decoding-output-plugins.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-output-plugin.html",
+      "sha256": "9e0e42e763f5adb4373f682bbe5997831977edc4f4159d9a7c24dd19c24c4312"
+    },
+    {
+      "path": "server-programming/logical-decoding/logical-decoding-output-writers.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-writer.html",
+      "sha256": "79a84d34e359b742e147d190d75750d456e1dba61738cfdac7158400b4857a93"
+    },
+    {
+      "path": "server-programming/logical-decoding/synchronous-replication-support-for-logical-decoding.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-synchronous.html",
+      "sha256": "6d04f45b4d3e575fed556f81b804917c5d7f81a32fdd1cea0a8b8cb2aea0bd54"
+    },
+    {
+      "path": "server-programming/logical-decoding/logicaldecoding-streaming.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-streaming.html",
+      "sha256": "09d4f2edfb545eced4ab0a1fc88a631a5995ac99c8646d629814b9463985b02f"
+    },
+    {
+      "path": "server-programming/logical-decoding/logicaldecoding-two-phase-commits.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/logicaldecoding-two-phase-commits.html",
+      "sha256": "ae9ba8aea48936f94f97efd7755a779d1f931ec33fa333e8634f00c1703455bc"
+    },
+    {
+      "path": "internals/native-language-support/for-the-translator.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/nls-translator.html",
+      "sha256": "96d049ba693fc889c1830ca06f931704bd91ed5e757c9ba1eb38d9362ca7f885"
+    },
+    {
+      "path": "internals/native-language-support/for-the-programmer.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/nls-programmer.html",
+      "sha256": "727a56542647f48a5e4463842d75a5199c7e84a54341b6d1176d9a1756d64506"
+    },
+    {
+      "path": "server-programming/pl-perl-perl-procedural-language/plperl-funcs.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/plperl-funcs.html",
+      "sha256": "e4c1f10e6796ca683fced7161def7c2a9e7c2c834e4e5288ad5b4ebe7f26692a"
+    },
+    {
+      "path": "server-programming/pl-perl-perl-procedural-language/plperl-data.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/plperl-data.html",
+      "sha256": "bb2901b34d91d1118f2dc27be4570c05f418d08b606c771a699de590deabcdfd"
+    },
+    {
+      "path": "server-programming/pl-perl-perl-procedural-language/plperl-builtins.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/plperl-builtins.html",
+      "sha256": "460f3339e4bafedea7ed5b71b014c30f570de96bab228566c5a7a73ab4834d65"
+    },
+    {
+      "path": "server-programming/pl-perl-perl-procedural-language/plperl-global.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/plperl-global.html",
+      "sha256": "11d6fa79cb6af1b47ec1548834ba0924f2b955a98b7da92046215e850196d05e"
+    },
+    {
+      "path": "server-programming/pl-perl-perl-procedural-language/plperl-trusted.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/plperl-trusted.html",
+      "sha256": "449d6f7985146edb376c3f6b09b26b74f8e4a639b0c3f2f7967af6ffdf3c44fa"
+    },
+    {
+      "path": "server-programming/pl-perl-perl-procedural-language/plperl-triggers.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/plperl-triggers.html",
+      "sha256": "6038ac9d0f32954b4d8c77c24bb74cbe0ed9985a16ddf3546ea7aba86e794adf"
+    },
+    {
+      "path": "server-programming/pl-perl-perl-procedural-language/plperl-event-triggers.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/plperl-event-triggers.html",
+      "sha256": "8da11dbd1a2b912b56a7c1e53ff910cbbd2256f9d0deb1cad815ac6f6ab485c1"
+    },
+    {
+      "path": "server-programming/pl-perl-perl-procedural-language/plperl-under-the-hood.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/plperl-under-the-hood.html",
+      "sha256": "6bba8a75096409d58605b1c8d8fb7a870842d1eb44349179de7916cab0656ba3"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-overview.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-overview.html",
+      "sha256": "492be4cf971f60e5728902b87f264f1373cfef8f0e5590f9e5da4e590d7a5c98"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-functions.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-functions.html",
+      "sha256": "135fd71cab8b520fa426e0708c55698d929486217e405cbc1a2dac77feb07e75"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-data.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-data.html",
+      "sha256": "f5da6f2ebfc425d7cf1c72b8631b9abe5a3e31fe7cc01249944edf1088285a7f"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-global.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-global.html",
+      "sha256": "3dc0852f59e84c770dc3e82442ebcd7f38c09fe69efe74aac3f7bc063e05d72c"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-dbaccess.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-dbaccess.html",
+      "sha256": "55b439ecaf6f9ed0046ab43734a6a0223bb38a77e64ee655046efee76d0ce0f8"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-trigger.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-trigger.html",
+      "sha256": "334fc01c739c3934e12188ccd704bd9393c09723f1aaaed4fde96b15cd1692f4"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-event-trigger.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-event-trigger.html",
+      "sha256": "3b84115ef4377af73f66f321ba1fdbb059f0d2d6f717906f4a6790c578983324"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-error-handling.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-error-handling.html",
+      "sha256": "9ada70238a8f8e8a29f051d03b1ab20d478cee74865ed9607a8c45bcd3cb9694"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-subtransactions.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-subtransactions.html",
+      "sha256": "ea22d02fc7c3f944acfde2c4ba846573a630388f5b190207ec684835e3f6f506"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-transactions.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-transactions.html",
+      "sha256": "45184ee9060aef8c326c4086a10cb22c65908ddfaf28d1c7d690c70894134e38"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-config.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-config.html",
+      "sha256": "33a445fa06c53b48c78edecaf1f9e1a1e60d3a800192c991715c3ab1430b3d1d"
+    },
+    {
+      "path": "server-programming/pl-tcl-tcl-procedural-language/pltcl-procnames.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pltcl-procnames.html",
+      "sha256": "e7248d4c78b8752862f9406eed45b12a47cb4dc072f49cfd06c9f2609cc09ab4"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/overview.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/protocol-overview.html",
+      "sha256": "5d361ca67727c0d2cc296f3f0385e30654ec71e6497623ec6f007a47a9cee8bd"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/52.2.-message-flow.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/protocol-flow.html",
+      "sha256": "9a458f24f9eee8d6d5e02ac67b2b816f80928fb12b429efbb02f496461550a70"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/52.3.-sasl-authentication.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/sasl-authentication.html",
+      "sha256": "ad1ded7b51cb9bf0198b101abde3da2b72a00e134719685e553143702f8c00e0"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/streaming-replication-protocol.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/protocol-replication.html",
+      "sha256": "b1526a2e9f243c7af6492efedeb949453f648c8855adf4c8c21e40404c287d67"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/52.5.-logical-streaming-replication-protocol.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/protocol-logical-replication.html",
+      "sha256": "8d0f6b2ff3754524771149a0b23d462f61e3ed6cf1c574086188953d5f68fe9f"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/52.6.-message-data-types.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/protocol-message-types.html",
+      "sha256": "527ff2c5e8e2aa40456638e45767353da1a2bf4f6c2ad5590009a4b60d239bc5"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/52.7.-message-formats.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/protocol-message-formats.html",
+      "sha256": "e24194d9ce05138d7b4f04ca1ab9641a68720e3e8eb2445a09d71dee2540ea1a"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/52.8.-error-and-notice-message-fields.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/protocol-error-fields.html",
+      "sha256": "336a0116c36bd3a9c21c96c15b9a06cee3f02c33c02507bdc96bf9373bb0d1a8"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/52.9.-logical-replication-message-formats.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/protocol-logicalrep-message-formats.html",
+      "sha256": "0d1b172d0c6223523b935ff5d7a2ab129fcc47f4fbdbbdf38912538aa83872b8"
+    },
+    {
+      "path": "internals/52.-frontend-backend-protocol/52.10.-summary-of-changes-since-protocol-2.0.md",
+      "action": "fill-empty",
+      "source": "https://www.postgresql.org/docs/15/protocol-changes.html",
+      "sha256": "9e4caa7f885147de63def0e134c3d420850b269875547cfc5d08bba674e4b49d"
+    },
+    {
+      "path": "reference/client-applications/clusterdb.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-clusterdb.html",
+      "sha256": "106279b13ef1da71b660e1133ee4611961f72f777462a05557273f19df415275"
+    },
+    {
+      "path": "reference/client-applications/ecpg.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-ecpg.html",
+      "sha256": "456d4f0191ba84fef0ae99e412fb70d88593b1492dc5fca4e6a52c68b8aa3415"
+    },
+    {
+      "path": "reference/client-applications/pg_amcheck.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-pgamcheck.html",
+      "sha256": "d708e99b3fe864ea2a5de8c6bda257e4175a4c3ba3ffed6b10769512a933b2da"
+    },
+    {
+      "path": "reference/client-applications/pg_config.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-pgconfig.html",
+      "sha256": "ef28cd04be63f70b33ef18fb8c9ca53391c21c5b08a08d3a4801e570e9311e59"
+    },
+    {
+      "path": "reference/client-applications/reindexdb.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-reindexdb.html",
+      "sha256": "f8c46e6d67ccd96cc4bc117489e9e0feb4870fd5987d17d0ab89645471f2bb1d"
+    },
+    {
+      "path": "reference/server-applications/pg_checksums.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-pgchecksums.html",
+      "sha256": "65209aa76a4fc6740827beeece06e4ff3b387100c19056f8cf6cdf043ea3f9b2"
+    },
+    {
+      "path": "reference/server-applications/pg_controldata.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-pgcontroldata.html",
+      "sha256": "846119bec9c76daf6b07d81118e2db5e8e4f90d7c22cbe24bfe6c7086f2c63b2"
+    },
+    {
+      "path": "reference/server-applications/pg_resetwal.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-pgresetwal.html",
+      "sha256": "9ad5d20ecf9cfbbd3ac9759a5a9107b5680a96ee7910d25cd9bbdcf3467bd51f"
+    },
+    {
+      "path": "reference/server-applications/pg_rewind.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-pgrewind.html",
+      "sha256": "9b993a9e3c48771d27a4e3a0e16a67268ebfeab06ac24dc56928ee771566c0d4"
+    },
+    {
+      "path": "reference/server-applications/pg_waldump.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/pgwaldump.html",
+      "sha256": "9220a577b1f4a80525d1a9a0744c84c9b1c75a6cd85f875403db8fa0b22e894b"
+    },
+    {
+      "path": "reference/server-applications/postmaster.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/app-postmaster.html",
+      "sha256": "bb34c41d4143646c7ae596c3d5d33da1f46f9b2a481f57785e9cf11bf648462a"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-19.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-19.html",
+      "sha256": "cf3ec61317e5c8f81a24ea71ae319601e46446d2ceaafc7fced87898dfc044bf"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-18.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-18.html",
+      "sha256": "f0d6f1b2f33dbfa2dc525e84fbdcbb4a2ccfea7b434a3174e9f3f09efa291176"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-17.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-17.html",
+      "sha256": "d9da607c1bfa1465dde3b766bf544314d024bb8f37ebca2179fe76f7954b0e60"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-16.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-16.html",
+      "sha256": "2c8dfb1a61dd849c4dd00c45dd0945c4c410d6f7abdd5005d608bbd07e6cc4a7"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-15.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-15.html",
+      "sha256": "fe196f58613a9593801524881738475f4772eda39fb03c426b5277087d14f87c"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-14.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-14.html",
+      "sha256": "22cdf38fd16a3f6d5a4a0cb6c4b4f000d9a9095841fbe2987f80f57ca008ffcf"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-13.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-13.html",
+      "sha256": "da90acf6439f1c36ec8332c3d4cab7a49c7c56d30119ee46235254eab7f38ad5"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-12.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-12.html",
+      "sha256": "09c4f92f819cbfcace9d268b6cde0e034ab9707a2769d5c67d4287ca85bc5a38"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-11.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-11.html",
+      "sha256": "6466af297650b1ae6962457ace321399e3b3c0e4ecac3098a5760a487ac23004"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-10.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-10.html",
+      "sha256": "1d0abc7019caf78d6525df57fcf28d2f18a5c3baeb4d26559b6d02adda56fdcc"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-9.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-9.html",
+      "sha256": "90323577591aebaf94904c793e9bd98189c8866ba73aba5a6a723efd46bf30d8"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-8.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-8.html",
+      "sha256": "5447eaf3752ff2694fd800f03279dfa20c17c0511bc334fe9e1feaef4719e020"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-7.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-7.html",
+      "sha256": "e82afce5893610ebbd4034a1f2f6ce73157036a85e5fca94e7fe8b692eaabb7c"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-6.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-6.html",
+      "sha256": "d03c460b8f378c77710b2d1bba3726820a115a4e69313c49667741f7268f23a3"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-5.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-5.html",
+      "sha256": "46e34181f17464fe50062f3c6dfb68c8c62fe2866676dd5f67afd4dbe7326373"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-4.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-4.html",
+      "sha256": "a9aa726539e74b26057b59543789dfe58eaec06104d5752da06fb0c8aad29ff8"
+    },
+    {
+      "path": "appendixes/release-notes/release-15-3.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/release-15-3.html",
+      "sha256": "0f7709f719e635a06f99d9562d222e1e1660f9e7b8245c17144d42fe4ea13cbc"
+    },
+    {
+      "path": "appendixes/release-notes/e.1.-release-15.2.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/release-15-2.html",
+      "sha256": "c518ad23f10a5f327f450c80ef2705c2b6aba2527329d19c8cdbd04502e76408"
+    },
+    {
+      "path": "appendixes/release-notes/e.2.-release-15.1.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/release-15-1.html",
+      "sha256": "3e02c2afd1b79e3f3e7d5d3144822b7eb74d85e47cda2c01cb054a0e4a07468d"
+    },
+    {
+      "path": "appendixes/release-notes/e.3.-release-15.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/release-15.html",
+      "sha256": "4024723b24e7925eeaac92e396050c5042ccf28e2cbe064627b241e2307171f2"
+    },
+    {
+      "path": "appendixes/release-notes/e.4.-prior-releases.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/release-prior.html",
+      "sha256": "466bb462c51aa8c352e8a3ca8d19ec5b24e365ac31cce0f5119b86f14d1bcb53"
+    },
+    {
+      "path": "internals/postgresql-coding-conventions/54.1.-formatting.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/source-format.html",
+      "sha256": "9078f2b5ee059863b19f3bcc464a4fcbd9265506791189161ef295a236e597d5"
+    },
+    {
+      "path": "internals/postgresql-coding-conventions/54.2.-reporting-errors-within-the-server.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/error-message-reporting.html",
+      "sha256": "1e377aa963510a589276725e0744c0375ba081559adfd73a81f7eb6a479dffd5"
+    },
+    {
+      "path": "internals/postgresql-coding-conventions/54.3.-error-message-style-guide.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/error-style-guide.html",
+      "sha256": "e34bc0c78dae17c1a73111f0fcc21fe35c7da6a9ac0cc4cfc20d014980a5d599"
+    },
+    {
+      "path": "internals/postgresql-coding-conventions/54.4.-miscellaneous-coding-conventions.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/source-conventions.html",
+      "sha256": "f27548d96b46d7f0f0335f84b93cfe160a8a8133d5febf25d19f73815a71827d"
+    },
+    {
+      "path": "internals/sp-gist-indexes/introduction.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/spgist-intro.html",
+      "sha256": "f9a5be1399be20020c92b13b7f9a572d7a0bc9b3d653fbc8f5f6c6d44a239410"
+    },
+    {
+      "path": "internals/sp-gist-indexes/built-in-operator-classes.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/spgist-builtin-opclasses.html",
+      "sha256": "2835be4fac4910f4a7d433fdd30dea6cf1ab28167a95b71fa975518c8c64fa92"
+    },
+    {
+      "path": "internals/sp-gist-indexes/extensibility.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/spgist-extensibility.html",
+      "sha256": "c043fd436a4330f953375946b76f503336602a5725d22f7229b99490a41fd84b"
+    },
+    {
+      "path": "internals/sp-gist-indexes/implementation.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/spgist-implementation.html",
+      "sha256": "0afe8b1292e05982d23cd7b787c9f9238a80d978a7a6ccebc87170635afd283c"
+    },
+    {
+      "path": "internals/sp-gist-indexes/examples.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/spgist-examples.html",
+      "sha256": "a6a6ceb7c6af88c44a92ea1cdc06c2aff54aa760f182016ff0f33c586fbbbb25"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-interface.html",
+      "sha256": "1bbd58070630feeaa5d12d21522e06ad2ea8f243c974b6046d9fb85d30688673"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-connect.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-connect.html",
+      "sha256": "71436c3e303159f4fa53d828418b66824ada23ab350b0d6e5bc9a0793b1a9725"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-finish.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-finish.html",
+      "sha256": "a07393ea80cc52c84ef8eaa924cb0ec78e0c01eb09334797c2d1033173da63b4"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-execute.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-execute.html",
+      "sha256": "ae529b5402f7b3bd62507570a4255c2b5bb6b781aa6dab1c993b7c6d2051256c"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-exec.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-exec.html",
+      "sha256": "0c1d2dc16689e7f95d15b430462e72a8868fd949c460fcaa6af392caca5d36d7"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-execute-extended.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-execute-extended.html",
+      "sha256": "45a9bd9cd22d5d13bc645d6b3fd4fca3e1fa00a5bdceb613d7dd21e324adbdb3"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-execute-with-args.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-execute-with-args.html",
+      "sha256": "6ea15e398298850b5d7935d4cf265e9a3646af6c1b627f9c7eb15f4e85c56d24"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-prepare.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-prepare.html",
+      "sha256": "58279329ccaef471b96baab3fbba42dbf3e45413f6fa7636e65717d35e220035"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-prepare-cursor.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-prepare-cursor.html",
+      "sha256": "2889b9ef760c1e807cac57140cc11dbaa0aa939435e015a6d7c0f70f2a7bddf6"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-prepare-extended.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-prepare-extended.html",
+      "sha256": "5230338e2772e7d072138c1e3b44d5c7711ae2263bfb2317890a3f36cb90c499"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-prepare-params.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-prepare-params.html",
+      "sha256": "3e9ca29aaf3418bb91444f39ea4d922043978b15973f6562449d6e37048b7a36"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-getargcount.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-getargcount.html",
+      "sha256": "289725fb915f683fac56c92ac0c67997080546e5baf3a8f9bc73ad81fa9ddf77"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-getargtypeid.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-getargtypeid.html",
+      "sha256": "41be6c0e2c81fd68cf64607cb0db4b57692c6eae86e40b61b3659d01f3daedda"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-is-cursor-plan.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-is-cursor-plan.html",
+      "sha256": "a756810ac4b6a56650cf41f765d1585f35b1780a0af1e26cc66c3293d4e44e9a"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-execute-plan.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-execute-plan.html",
+      "sha256": "0f063e201136c54914b3ad0f67db7229523937ef1dd272f8a941104d47f576c1"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-execute-plan-extended.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-execute-plan-extended.html",
+      "sha256": "b810ad964166bda4791ebf713f81c695d2c35ad3c3066c45531ea1b3eb3708cf"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-execute-plan-with-paramlist.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-execute-plan-with-paramlist.html",
+      "sha256": "c939b90498c83fa8fbb7ec972e9cc7a9e240e6ac01386cd132b9ca84fc606e4a"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-execp.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-execp.html",
+      "sha256": "8952366c847540eb2fd01e50ea74c06c8f2082e6be7109142b7fdbd0adb5fc20"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-cursor-open.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-cursor-open.html",
+      "sha256": "5fd2b8dcb6684ea361a3e69a0274feea1cf115665d8ff66f2a420a4b3780ee33"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-cursor-open-with-args.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-cursor-open-with-args.html",
+      "sha256": "804cd255fb65fc4c7b8cd646c9fb08347e40aed270910076aac0b37f610847fa"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-cursor-open-with-paramlist.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-cursor-open-with-paramlist.html",
+      "sha256": "14f48435d7c6cb4c197945eacd225e310b2bd16ecd055130220287554ec2bb50"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-cursor-parse-open.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-cursor-parse-open.html",
+      "sha256": "84d51995eef51fb21c81b382ba8bcfc6169b1733cbfe6b39b4a699e5965f440b"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-cursor-find.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-cursor-find.html",
+      "sha256": "f88a113313ae19decfecbb71c2884c3c07909d788491ed500ed2682462d5c58c"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-cursor-fetch.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-cursor-fetch.html",
+      "sha256": "ce0707dbba7810b6b8429b3309ea2c77e1b0a636d9d18d7da19fbc30a8434b81"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-cursor-move.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-cursor-move.html",
+      "sha256": "d348c22a996916caed639460d379137dc3fa53c65d502e85e7d29fd4b53b3e84"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-scroll-cursor-fetch.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-scroll-cursor-fetch.html",
+      "sha256": "7e45a5791f58b0236a65eb09cb6cda3f0cfcdea33fe188dc7299fd03ffdbe342"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-scroll-cursor-move.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-scroll-cursor-move.html",
+      "sha256": "73a3d9597f151b5632c7feedcd8e61b636c716f64857e01bc30ebc7de9941bfe"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-cursor-close.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-cursor-close.html",
+      "sha256": "8130cdaf5d0ab0366f322efd51ab93a42fc7368e4a794dd5797bfb36788adb68"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-keepplan.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-keepplan.html",
+      "sha256": "d2ffcaa67f6540f01c0514b8a2dc19da9ef57d421681d157403db8c139f21fe3"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-saveplan.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-saveplan.html",
+      "sha256": "ccbdfa867eeb7fc85e395a168163bbb3d8df80a32aef2207561ec723a66acf1b"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-register-relation.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-register-relation.html",
+      "sha256": "a4d72518446258be4c647f1623e1ebd21bc69bf3a7f88ec13f976f9463119afb"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-unregister-relation.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-unregister-relation.html",
+      "sha256": "dd9b8bf30a873d7565fa9473f9910dc7c7e533b973b67f7492a315ded17cac88"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface/spi-spi-register-trigger-data.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-register-trigger-data.html",
+      "sha256": "46de012019693aacba9439880fe84e518cab82ae6d22aac2eac84316e460a89b"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-interface-support.html",
+      "sha256": "470791c945424a25e243f192a96db36e439d1c3e1eba491329c1adc181991763"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support/spi-spi-fname.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-fname.html",
+      "sha256": "5afb0c1344fa2c2ed7ce880a423d1e5f199218475fd03c6acdbde665b88b2ba6"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support/spi-spi-fnumber.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-fnumber.html",
+      "sha256": "d2c8038523c1dceb2251188f9535e2a644a6a5e4313c533255bb99e2d8db46f5"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support/spi-spi-getvalue.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-getvalue.html",
+      "sha256": "00e8e27b748aa2694f090088b782d82c2e315178916c1eaf524a227faf4e1ed8"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support/spi-spi-getbinval.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-getbinval.html",
+      "sha256": "a0628550e1212eb81e11794fbf04344990de5c16bf5c638ce36f43d5df226b06"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support/spi-spi-gettype.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-gettype.html",
+      "sha256": "329897de775d4b4183f9cfae28f69f96628c15779d589f887dd2695aa7db913c"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support/spi-spi-gettypeid.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-gettypeid.html",
+      "sha256": "4e4324e469d9afc6337718c32d245cdecca46d977c223fe27c53f335e37183f9"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support/spi-spi-getrelname.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-getrelname.html",
+      "sha256": "05bf2cd7a2c9ca56bb82fc7ff8209b123a9144753b200fd4e82f0053b43201da"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support/spi-spi-getnspname.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-getnspname.html",
+      "sha256": "411381c16d4ea5a7a8a5b79d697dcbdcb425561c89042b5d5b82df00363af202"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-interface-support/spi-spi-result-code-string.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-result-code-string.html",
+      "sha256": "924071307bf64fb329307204861e34b31a902bfc3e85fbb6a5b6ffc8868fd138"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-memory.html",
+      "sha256": "9f235cbbf78c636ebf74ed051947f399ead01cd2ec2b7074813cd71fa74a7fc8"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory/spi-spi-palloc.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-palloc.html",
+      "sha256": "8fc8caeeef12bf0a820ce27abbf7185ae85fa2a6d04be6dc40ffb6fe38ce2fc3"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory/spi-realloc.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-realloc.html",
+      "sha256": "8d90151906a82fbe6eee45cfeafebdd13c1f852b57455bab4e4bfbc16eb0f679"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory/spi-spi-pfree.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-pfree.html",
+      "sha256": "b666bf44c9eabd6f5b1ccc305bfbc887f0985b2075a58751bff6c40e37ff728a"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory/spi-spi-copytuple.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-copytuple.html",
+      "sha256": "4c12299bf96554109fbbc225ce39a1ea25c6ef573d1b90948b2c1300a9ff8c0c"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory/spi-spi-returntuple.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-returntuple.html",
+      "sha256": "5753e7892c35b775aea29a7bf6dab6b31bb6d0aeb579946d4874642da352f40e"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory/spi-spi-modifytuple.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-modifytuple.html",
+      "sha256": "7203f07d64a8f55243523688847e71d2ac289015f2509a8e31ee2fd084a713f8"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory/spi-spi-freetuple.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-freetuple.html",
+      "sha256": "91a7caf28cf59adefcd197de1544d0d7be9d031629f7c38a9cdb6fdd911fe5c0"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory/spi-spi-freetupletable.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-freetupletable.html",
+      "sha256": "d3acc85e259f7ab64ae1a447dd695e39c3749aaa7791aee444594b1e395f6567"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-memory/spi-spi-freeplan.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-freeplan.html",
+      "sha256": "9f222ef18e9f296e6fe5cc0e3c3eaaa2587beeb4cf0d503a9edd86411280c86e"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-transaction.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-transaction.html",
+      "sha256": "55fe4b1587f5a340e51a4fd7a9b47d3285c5468dfe111b95786f9a634ee37687"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-transaction/spi-spi-commit.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-commit.html",
+      "sha256": "0107928df641615bfade90d0a0c29251c5702c3b4ac8809e292cdfb9acc05007"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-transaction/spi-spi-rollback.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-rollback.html",
+      "sha256": "6ed78a4bd07d06087fd85cc7a5fdfb7c6baa440b9a334c9adf95c6d69e443d41"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-transaction/spi-spi-start-transaction.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-spi-start-transaction.html",
+      "sha256": "295c4ec4244b86861722869650d6f53c788fdd5e8016148087607d7951e73e5c"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-visibility.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-visibility.html",
+      "sha256": "50a4f8c1a6517617cdf66e40b764bc5cb92c28ad143e58df86690622bbb9c8d0"
+    },
+    {
+      "path": "server-programming/server-programming-interface/spi-examples.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/spi-examples.html",
+      "sha256": "7266aa4301d866eb2e833e31cd406df6147003a62c7e8bc2fc85772f1fad227e"
+    },
+    {
+      "path": "reference/sql-commands/abort.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-abort.html",
+      "sha256": "5433b2a5718848874cb86dab65a2a5bab6b9430ef8098756b13f819ddbc5f3f0"
+    },
+    {
+      "path": "reference/sql-commands/alter-aggregate.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alteraggregate.html",
+      "sha256": "f12c531e87b70d949ce79c29112509ac7b28935172f0286f2aa16a6c1172a199"
+    },
+    {
+      "path": "reference/sql-commands/alter-collation.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-altercollation.html",
+      "sha256": "533d2fca9a008089fa5a9883a568cf668a95e73e1959a2207b95e047e17b1048"
+    },
+    {
+      "path": "reference/sql-commands/alter-conversion.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alterconversion.html",
+      "sha256": "2494f6ef6ff9a69dddc202a6025deb1f00e23f9785407375664a55c201dfa119"
+    },
+    {
+      "path": "reference/sql-commands/alter-domain.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alterdomain.html",
+      "sha256": "319e0ac7b03508d41d57dacce855fdf51085a95b8b245e19e51287c8c02d1a60"
+    },
+    {
+      "path": "reference/sql-commands/alter-event-trigger.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-altereventtrigger.html",
+      "sha256": "513429bfaf4c259aad890a5d387f5336e7569814654fbc339ac7a73732e7fc23"
+    },
+    {
+      "path": "reference/sql-commands/alter-foreign-data-wrapper.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alterforeigndatawrapper.html",
+      "sha256": "2e030b57a5f801a940736275a6376f984c72b625b917ba1ee1fb9059f8a2a689"
+    },
+    {
+      "path": "reference/sql-commands/alter-foreign-table.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alterforeigntable.html",
+      "sha256": "f7a173db69b3a2c4f1fc52879af026dc369616323b7c8b50bb864c579038878d"
+    },
+    {
+      "path": "reference/sql-commands/alter-group.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-altergroup.html",
+      "sha256": "c9b144e1411b06a967ba79eeea851ecfccbced248017e4d14001ba24c10501d7"
+    },
+    {
+      "path": "reference/sql-commands/alter-large-object.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alterlargeobject.html",
+      "sha256": "5a40af13b9fc905b958bf8d03a8e057c1e068c5b5291bc9c68bd4bf000ea2887"
+    },
+    {
+      "path": "reference/sql-commands/alter-operator.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alteroperator.html",
+      "sha256": "eb6228e1cc15723dbd89822f9448a650925880dfc81bc5e087bc5dc1f7cbb394"
+    },
+    {
+      "path": "reference/sql-commands/alter-operator-class.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alteropclass.html",
+      "sha256": "4590888a41db72bf70c92cb53691bcae7f3e9208671bc48f1472e8ba196b2b90"
+    },
+    {
+      "path": "reference/sql-commands/alter-operator-family.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alteropfamily.html",
+      "sha256": "8bd93774767360a4a552698a5deab0c06089e6c777a3395412c8ad6c8ff425ff"
+    },
+    {
+      "path": "reference/sql-commands/alter-procedure.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alterprocedure.html",
+      "sha256": "ed6190d9778307f84dc68b987118d75f05a267115eeeb799bedc2d1f6e632360"
+    },
+    {
+      "path": "reference/sql-commands/alter-routine.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alterroutine.html",
+      "sha256": "da33cf12a0ddbdb6a8ead6b0a42cda7e090e025e738bf165c0e7121bcf88a254"
+    },
+    {
+      "path": "reference/sql-commands/alter-server.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alterserver.html",
+      "sha256": "5b18e1ad8e95a7bd2bc64e98ae59cc9275cd6273eabfc111baa2918a81f4eb55"
+    },
+    {
+      "path": "reference/sql-commands/alter-text-search-configuration.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-altertsconfig.html",
+      "sha256": "8d58eff7b5ddedfbb5377597b07051522875efe1b09a14dc34dedac1601794e4"
+    },
+    {
+      "path": "reference/sql-commands/alter-text-search-dictionary.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-altertsdictionary.html",
+      "sha256": "3072190bb863ffc86aa3c1ee821b9479fc1ec1562bddff115e2a1f5237109c9c"
+    },
+    {
+      "path": "reference/sql-commands/alter-text-search-parser.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-altertsparser.html",
+      "sha256": "6437efb18ec0e60084a15a8c3277b78f4ff6450cfe5cd1531a6fb94617f4c703"
+    },
+    {
+      "path": "reference/sql-commands/alter-text-search-template.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-altertstemplate.html",
+      "sha256": "e0b8da9f6484782168380ed4c50f966bb2f3a2d320993149b34ce4bad7bc3c12"
+    },
+    {
+      "path": "reference/sql-commands/alter-user-mapping.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-alterusermapping.html",
+      "sha256": "b7b18d116a0f37119d26eefbe12e50419d7952474ce74a36c71e7aaa09aceb09"
+    },
+    {
+      "path": "reference/sql-commands/begin.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-begin.html",
+      "sha256": "6a6c488bd5ec626ee48195283f47495d28fff2ab7f14346537b75858d44d6398"
+    },
+    {
+      "path": "reference/sql-commands/call.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-call.html",
+      "sha256": "67deffeabb723ac62613d7385dd099b40be0a08a9d655b8a4e5ac0fa6140459f"
+    },
+    {
+      "path": "reference/sql-commands/checkpoint.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-checkpoint.html",
+      "sha256": "65bd34d5fbdbbcd3cee86dfd6a498e9a66f50889cddf31ab0431fc7ac69f0cad"
+    },
+    {
+      "path": "reference/sql-commands/close.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-close.html",
+      "sha256": "774e569944e9afed0153d613bd0483e18d54790c1c200ac63d6305212a6fd2a2"
+    },
+    {
+      "path": "reference/sql-commands/commit.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-commit.html",
+      "sha256": "2a7495180aad6ad5f646356265928b9ac09bd2f4acdc2cb4d0124d2a58745e4b"
+    },
+    {
+      "path": "reference/sql-commands/create-aggregate.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createaggregate.html",
+      "sha256": "560a4c2e65735c4274918ca08b67d6069d020d648beaa841bbd48f731f30e51d"
+    },
+    {
+      "path": "reference/sql-commands/create-collation.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createcollation.html",
+      "sha256": "52c1779fbd42dee6d9c6ddb7d700043cb5676754158521b79698deb2deffd12f"
+    },
+    {
+      "path": "reference/sql-commands/create-conversion.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createconversion.html",
+      "sha256": "70e2f89428dba211fd0d20431a9e1e9f93a8a21f541ad51a127e9575e2ba8591"
+    },
+    {
+      "path": "reference/sql-commands/create-group.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-creategroup.html",
+      "sha256": "231dfe9cdafd7632dd0d179aa8f91d48df23563ce329deeaa5a41f86d580dcf8"
+    },
+    {
+      "path": "reference/sql-commands/create-operator.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createoperator.html",
+      "sha256": "bb29f3759a1764f11b59f14ac59bff47590669fd1710382678fe6d059091922d"
+    },
+    {
+      "path": "reference/sql-commands/create-operator-class.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createopclass.html",
+      "sha256": "3f28bbe90f1b5690fe48d222d7ef03cbb7e0b4291847ddef0ab52dd607bdf409"
+    },
+    {
+      "path": "reference/sql-commands/create-operator-family.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createopfamily.html",
+      "sha256": "65e6ef7d4dde0838ebdb3ca7c5a37488372cff2843368d956e6844a7505b0342"
+    },
+    {
+      "path": "reference/sql-commands/create-text-search-configuration.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createtsconfig.html",
+      "sha256": "5f84f18698242824dd82d874722c3ef72147bf97e0875200fc64ba10a242a6b6"
+    },
+    {
+      "path": "reference/sql-commands/create-text-search-dictionary.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createtsdictionary.html",
+      "sha256": "754e5b77502cb11b4a8375b8d08639db0c84301fd4efe21efb1adcb4afb9ee82"
+    },
+    {
+      "path": "reference/sql-commands/create-text-search-parser.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createtsparser.html",
+      "sha256": "c836b623e01c3c5a7e1484bc2009938f811dca742f3dcaf68b1b6e42b65d8ce1"
+    },
+    {
+      "path": "reference/sql-commands/create-text-search-template.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-createtstemplate.html",
+      "sha256": "297ca9ac8360190c733fde7de393e9123ed93dc9066b4da67a82e9c5e22eff08"
+    },
+    {
+      "path": "reference/sql-commands/declare.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-declare.html",
+      "sha256": "b89e0818d906ecc7850cef3c5d8bbadbe74c3906a43094bed1e6f9ec2a5da1bf"
+    },
+    {
+      "path": "reference/sql-commands/discard.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-discard.html",
+      "sha256": "3fbaf5482be8f2f1729cf97b94292a030f9c8e64ca6ff796e576420acd0290a6"
+    },
+    {
+      "path": "reference/sql-commands/drop-aggregate.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropaggregate.html",
+      "sha256": "f2334cce4d63e2b9b39c44012cfc5b55cb2a76324156a3350a8569352adaa5f4"
+    },
+    {
+      "path": "reference/sql-commands/drop-cast.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropcast.html",
+      "sha256": "14ddb77f3dea34e2dba633c51b15c29d634dbac6e46f39c60efa56ae027968e3"
+    },
+    {
+      "path": "reference/sql-commands/drop-collation.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropcollation.html",
+      "sha256": "ca1965345b296546fc918413194ba81bd1ffa917427362017461366dab38ff84"
+    },
+    {
+      "path": "reference/sql-commands/drop-conversion.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropconversion.html",
+      "sha256": "5448d8cae15e1a0efbb30d37ff213d569b8d12e8103edaa04d56e8d6c995989d"
+    },
+    {
+      "path": "reference/sql-commands/drop-domain.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropdomain.html",
+      "sha256": "4199647dc805ea74891fb9d726dc0753f9c34c5f1cfcba4c5cd33d6025332e9e"
+    },
+    {
+      "path": "reference/sql-commands/drop-event-trigger.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropeventtrigger.html",
+      "sha256": "5cc58bf8b407ce887049342ac7f31904bf794b4dc1cb24734587db1bbad1390e"
+    },
+    {
+      "path": "reference/sql-commands/drop-foreign-data-wrapper.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropforeigndatawrapper.html",
+      "sha256": "5308174df555da807d36a6317cd4281b45e12b939bc784b76f1328cb193fff55"
+    },
+    {
+      "path": "reference/sql-commands/drop-foreign-table.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropforeigntable.html",
+      "sha256": "d36efccf09a896df1c65702ac17f79db31e1407b4501ffbce4e68a75f1c2d72c"
+    },
+    {
+      "path": "reference/sql-commands/drop-group.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropgroup.html",
+      "sha256": "a60a52d9739266ab2a8bd72795575a0e9fa1ca488ade61eae2145ff283e3f482"
+    },
+    {
+      "path": "reference/sql-commands/drop-operator.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropoperator.html",
+      "sha256": "4ec7429ea97f228099749918b9d3b2ca2d5e576465356111b18b0ec796b2e08c"
+    },
+    {
+      "path": "reference/sql-commands/drop-operator-class.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropopclass.html",
+      "sha256": "f77a393787c13f55e304ee39f9d362047da2394e9994b78f9cb98bc386fada55"
+    },
+    {
+      "path": "reference/sql-commands/drop-operator-family.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropopfamily.html",
+      "sha256": "43e3f2fd1d547ec036d7149051bee8f87187c5a9cfe185dc4b869e9eedf9f737"
+    },
+    {
+      "path": "reference/sql-commands/drop-procedure.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropprocedure.html",
+      "sha256": "8a4af623e855448768beea16a60ae10c523e2153cf6401cfb2e26ea5e5ddd90a"
+    },
+    {
+      "path": "reference/sql-commands/drop-routine.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-droproutine.html",
+      "sha256": "79a6645a0fcac8cf9ad5d387c48c45c9128c8f770589bcb4e122ab9bf653586c"
+    },
+    {
+      "path": "reference/sql-commands/drop-server.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropserver.html",
+      "sha256": "311871bec67a4d49e9d08b3ea169b493da70b174a001eb4714294c5a6523e7f6"
+    },
+    {
+      "path": "reference/sql-commands/drop-text-search-configuration.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-droptsconfig.html",
+      "sha256": "1caa63b81c1b529c7ee09587faa759624c4673a87cddaf700d9cb8e92bfba85f"
+    },
+    {
+      "path": "reference/sql-commands/drop-text-search-dictionary.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-droptsdictionary.html",
+      "sha256": "4a13d9cac69e792c6c4c77a81b3010f08190fccacf6c136ebbd1c036932cd3dd"
+    },
+    {
+      "path": "reference/sql-commands/drop-text-search-parser.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-droptsparser.html",
+      "sha256": "1d0b3cfa3e628962720715e1f63e557cb9ee00e68c3ae0f51695c7d2ab1c729d"
+    },
+    {
+      "path": "reference/sql-commands/drop-text-search-template.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-droptstemplate.html",
+      "sha256": "de06fd2f84700f6fc23918644c28ea70526fa558a03b33cc39e25a61fad600d7"
+    },
+    {
+      "path": "reference/sql-commands/drop-user-mapping.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-dropusermapping.html",
+      "sha256": "e77208e264094cb26860d2c0f91989d5cd9e6b53578525c877014f38a5aba0e0"
+    },
+    {
+      "path": "reference/sql-commands/end.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-end.html",
+      "sha256": "3ba246801867ecdba920268fd8f3340d7c9a12f056c976b3f6032ba752bb31eb"
+    },
+    {
+      "path": "reference/sql-commands/fetch.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-fetch.html",
+      "sha256": "d518033fda95eca76fee2a69b36097be02af636a3a2bcf793d915f45972889a4"
+    },
+    {
+      "path": "reference/sql-commands/lock.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-lock.html",
+      "sha256": "47fe46ed63dfa2f2a0b41f976bb76039d5383ff041bb66b06d6f8c1066f9b153"
+    },
+    {
+      "path": "reference/sql-commands/move.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-move.html",
+      "sha256": "d50b5988c39b0963a1f608bef9800179b74116d56c730a0e26ff3b2ec1e8b920"
+    },
+    {
+      "path": "reference/sql-commands/release-savepoint.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-release-savepoint.html",
+      "sha256": "f6298d356c52d3fbb9fbe4254f2a853bff9b11945fc606957b685264d4bc9b88"
+    },
+    {
+      "path": "reference/sql-commands/rollback.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-rollback.html",
+      "sha256": "5f905f153b5ef16efae9ae0a5702163c1b4207c48d8619e73e106c436a5d220c"
+    },
+    {
+      "path": "reference/sql-commands/rollback-to-savepoint.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-rollback-to.html",
+      "sha256": "df5d077834fef0b53cece45635b74e3b99b04330204a2000f2b14f20670e1609"
+    },
+    {
+      "path": "reference/sql-commands/savepoint.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-savepoint.html",
+      "sha256": "744c3095097830cd935e8dbe77863c7db2c11997179eeb0f3f26493ccfd731e2"
+    },
+    {
+      "path": "reference/sql-commands/start-transaction.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/sql-start-transaction.html",
+      "sha256": "2233b9b5bb2e26beb5f53a2763950d98473f2ece586e95eee8bfe26877b5d17f"
+    },
+    {
+      "path": "internals/database-physical-storage/database-file-layout.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/storage-file-layout.html",
+      "sha256": "e5a61c1c7d1d4d19d6ea85c736ae41860ad7a855bb7beaa5e430f25f906de7a1"
+    },
+    {
+      "path": "internals/database-physical-storage/toast.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/storage-toast.html",
+      "sha256": "b0f75cb78f5bf444de3540f3bbfd7afd2e3957da67156b11f4e0885bd5478bba"
+    },
+    {
+      "path": "internals/database-physical-storage/free-space-map.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/storage-fsm.html",
+      "sha256": "f85f2ba588c23128dcde331eb6409e9d7bca7bd80268d01d98c4791631ab273f"
+    },
+    {
+      "path": "internals/database-physical-storage/visibility-map.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/storage-vm.html",
+      "sha256": "8406e84d52a3396e33da8b66d6ea30198fedf35874aadd253b3aa33b921d0665"
+    },
+    {
+      "path": "internals/database-physical-storage/the-initialization-fork.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/storage-init.html",
+      "sha256": "e8c3cd3b4387030c78181d57dcadacf4e76a8bd5676290318274ed74d4feae9f"
+    },
+    {
+      "path": "internals/database-physical-storage/database-page-layout.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/storage-page-layout.html",
+      "sha256": "47258bfe75d92b7805fae05f1a7c5ccfe46715b567a57ac0382218832bf774db"
+    },
+    {
+      "path": "internals/database-physical-storage/storage-hot.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/storage-hot.html",
+      "sha256": "f5065a2cc681794088f954f9203cdb0fdda718182d2ec2735cf9fcab52ba826a"
+    },
+    {
+      "path": "internals/60.-writing-a-table-sampling-method/tablesample-support-functions.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/tablesample-support-functions.html",
+      "sha256": "45b6b95240e87cfc52886c1bd3e3a6b6c7dd9880b8c42bb85cfe1a2b4ef002ae"
+    },
+    {
+      "path": "internals/system-catalogs/pg_available_extensions.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/view-pg-available-extensions.html",
+      "sha256": "51110ff965eff50b4bcef25360e582328cf7d5bb7e22e2c70564801450782e2a"
+    },
+    {
+      "path": "internals/system-catalogs/pg_available_extension_versions.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/view-pg-available-extension-versions.html",
+      "sha256": "224db430515995bd69b73cfc7f27a61ea6a636f3ac03fc271dd7e8b52ccc4d65"
+    },
+    {
+      "path": "internals/system-views/pg_backend_memory_contexts.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-backend-memory-contexts.html",
+      "sha256": "5a4836bc34b102330e20334c6080a4a2adf1d3caed9d3d66c4aa8de0ddfcf67d"
+    },
+    {
+      "path": "internals/system-views/pg_config.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-config.html",
+      "sha256": "5b99b2b6cc5a0291e03aee2cc5d777e48bfae8b662194f567f640171fc9b58c1"
+    },
+    {
+      "path": "internals/system-views/pg_cursors.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-cursors.html",
+      "sha256": "39a0e874660efb16836e38b9be81a9a9a5099a4e6d6614bb2912ea5eef8b2a84"
+    },
+    {
+      "path": "internals/system-views/pg_file_settings.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-file-settings.html",
+      "sha256": "c887694e9b6a421ee834029d6da3922b96d67752f8dc92d351fc75ec3a412a33"
+    },
+    {
+      "path": "internals/system-views/pg_group.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-group.html",
+      "sha256": "845eb0bc3938a159818ce1115b348b712180f29d6304d3c916a634ae9ce549d2"
+    },
+    {
+      "path": "internals/system-catalogs/pg_hba_file_rules.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/view-pg-hba-file-rules.html",
+      "sha256": "6d7f0a5b970e763332e20ef904cb6a2acae55ec3a75d555e701ca746f967677f"
+    },
+    {
+      "path": "internals/system-views/pg_ident_file_mappings.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-ident-file-mappings.html",
+      "sha256": "24f3e4c8ace41f4914af4ce686cabbd001bf4a445a85e137ad510c71fdd66959"
+    },
+    {
+      "path": "internals/system-catalogs/pg_indexes.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/view-pg-indexes.html",
+      "sha256": "e85b9fc42b1cc1bbc137937aaa54d1f14c8546399b1989ad0ac80014a54a2b93"
+    },
+    {
+      "path": "internals/system-catalogs/pg_locks.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/view-pg-locks.html",
+      "sha256": "205539e7285ab62a92d764f252116cdfd32719d96786456bd6196d9f2eb73189"
+    },
+    {
+      "path": "internals/system-views/pg_matviews.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-matviews.html",
+      "sha256": "7cb1fda6c43d9604e8803e5604753bfd24bdf79094a01d9dedd86e57d0e7eb1d"
+    },
+    {
+      "path": "internals/system-views/pg_policies.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-policies.html",
+      "sha256": "4b228f7178a5a4d01fe4e467e962ac1ec1b1e3cc47ccd26fec449c7b6dbcdda7"
+    },
+    {
+      "path": "internals/system-views/pg_prepared_statements.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-prepared-statements.html",
+      "sha256": "fbb12611624be4ce3589ce0660f02afc1cf833c37d46cbb0874d9341b7ed5dc9"
+    },
+    {
+      "path": "internals/system-catalogs/pg_prepared_xacts.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/view-pg-prepared-xacts.html",
+      "sha256": "a234c5aa0fb4e73553010f06db99db26f73b055f34c141f85923f66110be3f17"
+    },
+    {
+      "path": "internals/system-views/pg_publication_tables.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-publication-tables.html",
+      "sha256": "dc1ebcc7b1570fe1c1a6e2177254b6df8628c6410eff26e86e9a97fe818d56c9"
+    },
+    {
+      "path": "internals/system-catalogs/51.79.-pg_replication_origin_status.md",
+      "action": "heading-number-only",
+      "source": "https://www.postgresql.org/docs/15/view-pg-replication-origin-status.html",
+      "sha256": "66dbe32c189c7b20631564c84363eff88415265a1ddbf2190d93bfd39e643871"
+    },
+    {
+      "path": "internals/system-views/pg_rules.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-rules.html",
+      "sha256": "70018ad7a30dd64c55694288f244f9581cd1b278f97ad942dc01e509825f4448"
+    },
+    {
+      "path": "internals/system-views/pg_seclabels.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-seclabels.html",
+      "sha256": "01fbb97f81730c32034d9d95f00f8e82df638b8f83cb1a78a75644559183b2c1"
+    },
+    {
+      "path": "internals/system-views/pg_sequences.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-sequences.html",
+      "sha256": "6bb225ad7b6dc2764995c74c0593afe883a7ea9789e5f0cc114acf339e74dbd1"
+    },
+    {
+      "path": "internals/system-views/pg_stats_ext.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-stats-ext.html",
+      "sha256": "8a0507fc1f3d6349eb7a397128b757483723ec1321d7b31a6a7da97a5b15de28"
+    },
+    {
+      "path": "internals/system-views/pg_stats_ext_exprs.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-stats-ext-exprs.html",
+      "sha256": "c97976ba1b65f4b8d49eb77674f37bd82ac25e500911df9dc573883fbad00f05"
+    },
+    {
+      "path": "internals/system-views/pg_user_mappings.md",
+      "action": "new",
+      "source": "https://www.postgresql.org/docs/15/view-pg-user-mappings.html",
+      "sha256": "e8ead485d3b514750b4de1cb60058eece8aed1d60266bcf8f9c7f82f47489efb"
+    }
+  ],
+  "relocated_summary_entries": [
+    "internals/system-catalogs/pg_available_extensions.md",
+    "internals/system-catalogs/pg_available_extension_versions.md",
+    "internals/system-catalogs/pg_hba_file_rules.md",
+    "internals/system-catalogs/pg_indexes.md",
+    "internals/system-catalogs/pg_locks.md",
+    "internals/system-catalogs/pg_prepared_xacts.md",
+    "internals/system-catalogs/51.79.-pg_replication_origin_status.md"
+  ],
+  "summary_sha256": "017f530e6feb5af8c57b265b7d82b915e387c1f8ddc367bec9893f259082116a"
+}

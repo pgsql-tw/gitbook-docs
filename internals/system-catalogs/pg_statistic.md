@@ -1,4 +1,4 @@
-# 51.49. pg\_statistic
+# 53.51. pg\_statistic
 
 The catalog `pg_statistic` stores statistical data about the contents of the database. Entries are created by [ANALYZE](https://www.postgresql.org/docs/13/sql-analyze.html) and subsequently used by the query planner. Note that all the statistical data is inherently approximate, even assuming that it is up-to-date.
 

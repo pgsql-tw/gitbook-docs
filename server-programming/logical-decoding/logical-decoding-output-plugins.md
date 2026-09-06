@@ -1,8 +1,8 @@
-# 48.6. Logical Decoding Output Plugins
+# 49.6. Logical Decoding Output Plugins
 
 An example output plugin can be found in the [`contrib/test_decoding`](https://www.postgresql.org/docs/13/test-decoding.html) subdirectory of the PostgreSQL source tree.
 
-## 48.6.1. Initialization Function
+## 49.6.1. Initialization Function
 
 An output plugin is loaded by dynamically loading a shared library with the output plugin's name as the library base name. The normal library search path is used to locate the library. To provide the required output plugin callbacks and to indicate that the library is actually an output plugin it needs to provide a function named `_PG_output_plugin_init`. This function is passed a struct that needs to be filled with the callback function pointers for individual actions.
 
@@ -24,7 +24,7 @@ typedef void (*LogicalOutputPluginInit) (struct OutputPluginCallbacks *cb);
 
 The `begin_cb`, `change_cb` and `commit_cb` callbacks are required, while `startup_cb`, `filter_by_origin_cb`, `truncate_cb`, and `shutdown_cb` are optional. If `truncate_cb` is not set but a `TRUNCATE` is to be decoded, the action will be ignored.
 
-## 48.6.2. Capabilities
+## 49.6.2. Capabilities
 
 To decode, format and output changes, output plugins can use most of the backend's normal infrastructure, including calling output functions. Read only access to relations is permitted as long as only relations are accessed that either have been created by `initdb` in the `pg_catalog` schema, or have been marked as user provided catalog tables using
 
@@ -35,11 +35,11 @@ CREATE TABLE another_catalog_table(data text) WITH (user_catalog_table = true);
 
 Any actions leading to transaction ID assignment are prohibited. That, among others, includes writing to tables, performing DDL changes, and calling `pg_current_xact_id()`.
 
-## 48.6.3. Output Modes
+## 49.6.3. Output Modes
 
 Output plugin callbacks can pass data to the consumer in nearly arbitrary formats. For some use cases, like viewing the changes via SQL, returning data in a data type that can contain arbitrary data (e.g., `bytea`) is cumbersome. If the output plugin only outputs textual data in the server's encoding, it can declare that by setting `OutputPluginOptions.output_type` to `OUTPUT_PLUGIN_TEXTUAL_OUTPUT` instead of `OUTPUT_PLUGIN_BINARY_OUTPUT` in the [startup callback](https://www.postgresql.org/docs/13/logicaldecoding-output-plugin.html#LOGICALDECODING-OUTPUT-PLUGIN-STARTUP). In that case, all the data has to be in the server's encoding so that a `text` datum can contain it. This is checked in assertion-enabled builds.
 
-## 48.6.4. Output Plugin Callbacks
+## 49.6.4. Output Plugin Callbacks
 
 An output plugin gets notified about changes that are happening via various callbacks it needs to provide.
 
@@ -164,7 +164,7 @@ The _`txn`_ parameter contains meta information about the transaction, like the 
 
 Extra care should be taken to ensure that the prefix the output plugin considers interesting is unique. Using name of the extension or the output plugin itself is often a good choice.
 
-## 48.6.5. Functions for Producing Output
+## 49.6.5. Functions for Producing Output
 
 To actually produce output, output plugins can write data to the `StringInfo` output buffer in `ctx->out` when inside the `begin_cb`, `commit_cb`, or `change_cb` callbacks. Before writing to the output buffer, `OutputPluginPrepareWrite(ctx, last_write)` has to be called, and after finishing writing to the buffer, `OutputPluginWrite(ctx, last_write)` has to be called to perform the write. The _`last_write`_ indicates whether a particular write was the callback's last write.
 

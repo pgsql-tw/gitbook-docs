@@ -1,4 +1,4 @@
-# 48.3. Streaming Replication Protocol Interface
+# 49.3. Streaming Replication Protocol Interface
 
 The commands
 

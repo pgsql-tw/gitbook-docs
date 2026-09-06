@@ -1,4 +1,4 @@
-# 51.72. pg\_indexes
+# 54.11. pg\_indexes
 
 檢視表 pg\_indexes 提供資料庫中每一個索引的資訊。
 

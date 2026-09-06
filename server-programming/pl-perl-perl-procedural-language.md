@@ -1,4 +1,4 @@
-# 44. PL/Perl — Perl Procedural Language
+# 45. PL/Perl — Perl Procedural Language
 
 PL/Perl is a loadable procedural language that enables you to write PostgreSQL functions in the [Perl programming language](https://www.perl.org).
 

@@ -1,4 +1,4 @@
-# F.5. bloom
+# F.7. bloom
 
 Bloom 提供了一種基於 [**Bloom fliters**](https://en.wikipedia.org/wiki/Bloom\_filter) 索引方法。
 
@@ -8,7 +8,7 @@ Signature 是索引屬性的失真表示，因此很容易誤報。也就是說�
 
 當資料表具有許多屬性並且查詢測試它們的任意組合時，這種類型的索引最有用。傳統的 btree 索引會比 Bloom 索引快，但是它可能需要許多 btree 索引來支援所有可能的查詢，而其中一個查詢只需要一個 Bloom 索引。但是請注意，bloom 索引僅支援相等查詢，而 btree 索引也可以用於不相等和範圍查詢。
 
-## F.5.1. 參數
+## F.7.1. 參數
 
 Bloom 索引的 WITH 子句接受以下參數：
 
@@ -20,7 +20,7 @@ Bloom 索引的 WITH 子句接受以下參數：
 
 每個索引欄位產成的位元數。每個參數的名稱指的是它控制的索引欄位的編號。預設值為 2 位元，最大值為 4095。實際未使用的索引欄位的參數將被忽略。
 
-## F.5.2. Examples
+## F.7.2. Examples
 
 This is an example of creating a bloom index:
 
@@ -128,7 +128,7 @@ Bloom is better than btree in handling this type of search:
 
 儘管此查詢的執行速度比使用單個索引的查詢快得多，但我們在索引大小上付出了很大的代價。每個單欄位 btree 索引佔用 214 MB，因此所需的總空間超過 1.2GB，是 Bloom 索引使用的空間 8 倍以上。
 
-## F.5.3. Operator Class Interface
+## F.7.3. Operator Class Interface
 
 An operator class for bloom indexes requires only a hash function for the indexed data type and an equality operator for searching. This example shows the operator class definition for the `text` data type:
 
@@ -139,14 +139,14 @@ DEFAULT FOR TYPE text USING bloom AS
     FUNCTION    1   hashtext(text);
 ```
 
-## F.5.4. Limitations
+## F.7.4. Limitations
 
 * Only operator classes for `int4` and `text` are included with the module.
 * Only the `=` operator is supported for search. But it is possible to add support for arrays with union and intersection operations in the future.
 * `bloom` access method doesn't support `UNIQUE` indexes.
 * `bloom` access method doesn't support searching for `NULL` values.
 
-## F.5.5. Authors
+## F.7.5. Authors
 
 Teodor Sigaev `<`[`teodor@postgrespro.ru`](mailto:teodor@postgrespro.ru)`>`, Postgres Professional, Moscow, Russia
 

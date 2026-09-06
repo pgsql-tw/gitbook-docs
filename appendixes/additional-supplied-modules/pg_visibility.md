@@ -1,4 +1,4 @@
-# F.32. pg\_visibility
+# F.36. pg\_visibility
 
 The `pg_visibility` module provides a means for examining the visibility map (VM) and page-level visibility information of a table. It also provides functions to check the integrity of a visibility map and to force it to be rebuilt.
 
@@ -6,7 +6,7 @@ Three different bits are used to store information about page-level visibility. 
 
 Functions that display information about `PD_ALL_VISIBLE` bits are much more costly than those that only consult the visibility map, because they must read the relation's data blocks rather than only the (much smaller) visibility map. Functions that check the relation's data blocks are similarly expensive.
 
-## F.32.1. Functions
+## F.36.1. Functions
 
 `pg_visibility_map(relation regclass, blkno bigint, all_visible OUT boolean, all_frozen OUT boolean) returns record`
 
@@ -28,6 +28,6 @@ Truncates the visibility map for the given relation. This function is useful if 
 
 By default, these functions are executable only by superusers and members of the `pg_stat_scan_tables` role, with the exception of `pg_truncate_visibility_map(relation regclass)` which can only be executed by superusers.
 
-## F.32.2. Author
+## F.36.2. Author
 
 Robert Haas `<`[`rhaas@postgresql.org`](mailto:rhaas@postgresql.org)`>`

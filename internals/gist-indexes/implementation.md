@@ -1,6 +1,6 @@
-# 64.4. Implementation
+# 68.4. Implementation
 
-## 64.4.1. GiST Buffering Build
+## 68.4.1. GiST Buffering Build
 
 Building large GiST indexes by simply inserting all the tuples tends to be slow, because if the index tuples are scattered across the index and the index is large enough to not fit in cache, the insertions need to perform a lot of random I/O. Beginning in version 9.2, PostgreSQL supports a more efficient method to build GiST indexes based on buffering, which can dramatically reduce the number of random I/Os needed for non-ordered data sets. For well-ordered data sets the benefit is smaller or non-existent, because only a small number of pages receive new tuples at a time, and those pages fit in cache even if the index as whole does not.
 

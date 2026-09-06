@@ -1,4 +1,4 @@
-# 51.66. pg\_available\_extensions
+# 54.2. pg\_available\_extensions
 
 pg\_available\_extensions 檢視表列出可以安裝的延伸功能。另請參閱 [pg\_extension](pg\_extension.md) 系統目錄，該目錄顯示了目前已安裝的延伸功能。
 

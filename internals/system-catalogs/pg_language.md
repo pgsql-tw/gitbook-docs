@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 51.29. pg\_language
+# 53.29. pg\_language
 
 目錄 pg\_language 註冊了可以撰寫函數或 stored procedure 的語言。有關語言處理程序的更多訊息，請參閱 [CREATE LANGUAGE](../../reference/sql-commands/create-language.md) 和[第 41 章](../../server-programming/the-rule-system/)。
 

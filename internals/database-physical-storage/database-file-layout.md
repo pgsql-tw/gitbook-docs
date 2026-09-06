@@ -1,4 +1,4 @@
-# 68.1. Database File Layout
+# 73.1. Database File Layout
 
 This section describes the storage format at the level of files and directories.
 

@@ -1,4 +1,4 @@
-# 37.7. attributes
+# 37.6. attributes
 
 The view `attributes` contains information about the attributes of composite data types defined in the database. (Note that the view does not give information about table columns, which are sometimes called attributes in PostgreSQL contexts.) Only those attributes are shown that the current user has access to (by way of being the owner of or having some privilege on the type).
 

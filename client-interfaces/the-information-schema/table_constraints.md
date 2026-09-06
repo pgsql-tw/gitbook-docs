@@ -1,4 +1,4 @@
-# 36.51. table\_constraints
+# 37.52. table\_constraints
 
 The view `table_constraints` contains all constraints belonging to tables that the current user owns or has some privilege other than `SELECT` on.
 

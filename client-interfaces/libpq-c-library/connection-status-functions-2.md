@@ -1,8 +1,8 @@
-# 33.3. Command Execution Functions
+# 34.3. Command Execution Functions
 
 Once a connection to a database server has been successfully established, the functions described here are used to perform SQL queries and commands.
 
-## 33.3.1. Main Functions
+## 34.3.1. Main Functions
 
 `PQexec`
 
@@ -249,7 +249,7 @@ void PQclear(PGresult *res);
 
 You can keep a `PGresult` object around for as long as you need it; it does not go away when you issue a new command, nor even if you close the connection. To get rid of it, you must call `PQclear`. Failure to do this will result in memory leaks in your application.
 
-## 33.3.2. Retrieving Query Result Information
+## 34.3.2. Retrieving Query Result Information
 
 These functions are used to extract information from a `PGresult` object that represents a successful query result (that is, one that has status `PGRES_TUPLES_OK` or `PGRES_SINGLE_TUPLE`). They can also be used to extract information from a successful Describe operation: a Describe's result has all the same column information that actual execution of the query would provide, but it has zero rows. For objects with other status values, these functions will act as though the result has zero rows and zero columns.`PQntuples`
 
@@ -443,7 +443,7 @@ typedef struct
 
 This function was formerly used by psql to print query results, but this is no longer the case. Note that it assumes all the data is in text format.
 
-## 33.3.3. Retrieving Other Result Information
+## 34.3.3. Retrieving Other Result Information
 
 These functions are used to extract other information from `PGresult` objects.`PQcmdStatus`
 
@@ -477,7 +477,7 @@ This function is deprecated in favor of `PQoidValue` and is not thread-safe. It 
 char *PQoidStatus(const PGresult *res);
 ```
 
-## 33.3.4. Escaping Strings for Inclusion in SQL Commands
+## 34.3.4. Escaping Strings for Inclusion in SQL Commands
 
 `PQescapeLiteral`
 

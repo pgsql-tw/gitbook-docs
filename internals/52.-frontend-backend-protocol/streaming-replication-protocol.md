@@ -1,4 +1,4 @@
-# 52.4. Streaming Replication Protocol
+# 55.4. Streaming Replication Protocol
 
 To initiate streaming replication, the frontend sends the `replication` parameter in the startup message. A Boolean value of `true` (or `on`, `yes`, `1`) tells the backend to go into physical replication walsender mode, wherein a small set of replication commands, shown below, can be issued instead of SQL statements.
 

@@ -1,8 +1,8 @@
-# F.31. pg\_trgm
+# F.35. pg\_trgm
 
 pg\_trgm 模組提供了用於根據 trigram 配對決定包含字母及數字文字內容相似性的函數和運算子，以及支援快速搜索相似字串的索引運算子類。
 
-## F.31.1. Trigram (or Trigraph) Concepts
+## F.35.1. Trigram (or Trigraph) Concepts
 
 trigram 是從字串中提取的一組三個連續字元。我們可以透過計算兩個字串共享的三連詞的數量來衡量它們的相似性。這個簡單的想法對測量許多自然語言中單詞的相似性非常有用。
 
@@ -10,7 +10,7 @@ trigram 是從字串中提取的一組三個連續字元。我們可以透過計
 
 `pg_trgm` ignores non-word characters (non-alphanumerics) when extracting trigrams from a string. Each word is considered to have two spaces prefixed and one space suffixed when determining the set of trigrams contained in the string. For example, the set of trigrams in the string “`cat`” is “ `c`”, “ `ca`”, “`cat`”, and “`at` ”. The set of trigrams in the string “`foo|bar`” is “ `f`”, “ `fo`”, “`foo`”, “`oo` ”, “ `b`”, “ `ba`”, “`bar`”, and “`ar` ”.
 
-## F.31.2. Functions and Operators
+## F.35.2. Functions and Operators
 
 The functions provided by the `pg_trgm` module are shown in [Table F.24](https://www.postgresql.org/docs/12/pgtrgm.html#PGTRGM-FUNC-TABLE), the operators in [Table F.25](https://www.postgresql.org/docs/12/pgtrgm.html#PGTRGM-OP-TABLE).
 
@@ -66,7 +66,7 @@ Thus, the `strict_word_similarity(text, text)` function is useful for finding th
 | `text` `<<<->` `text` | `real`    | Returns the “distance” between the arguments, that is one minus the `strict_word_similarity()` value.                                                                                                                                                                                                           |
 | `text` `<->>>` `text` | `real`    | Commutator of the `<<<->` operator.                                                                                                                                                                                                                                                                             |
 
-## F.31.3. GUC Parameters
+## F.35.3. GUC Parameters
 
 `pg_trgm.similarity_threshold` (`real`)
 
@@ -76,7 +76,7 @@ Sets the current word similarity threshold that is used by the `<%` and `%>` ope
 
 Sets the current strict word similarity threshold that is used by the `<<%` and `%>>` operators. The threshold must be between 0 and 1 (default is 0.5).
 
-## F.31.4. Index Support
+## F.35.4. Index Support
 
 The `pg_trgm` module provides GiST and GIN index operator classes that allow you to create an index over a text column for the purpose of very fast similarity searches. These index types support the above-described similarity operators, and additionally support trigram-based index searches for `LIKE`, `ILIKE`, `~` and `~*` queries. (These indexes do not support equality nor simple comparison operators, so you may need a regular B-tree index too.)
 
@@ -172,7 +172,7 @@ For both `LIKE` and regular-expression searches, keep in mind that a pattern wit
 
 The choice between GiST and GIN indexing depends on the relative performance characteristics of GiST and GIN, which are discussed elsewhere.
 
-## F.31.5. Text Search Integration
+## F.35.5. Text Search Integration
 
 Trigram matching is a very useful tool when used in conjunction with a full text index. In particular it can help to recognize misspelled input words that will not be matched directly by the full text search mechanism.
 
@@ -197,13 +197,13 @@ Now, a `SELECT` query similar to the previous example can be used to suggest spe
 
 Since the `words` table has been generated as a separate, static table, it will need to be periodically regenerated so that it remains reasonably up-to-date with the document collection. Keeping it exactly current is usually unnecessary.
 
-## F.31.6. References
+## F.35.6. References
 
 GiST Development Site [http://www.sai.msu.su/\~megera/postgres/gist/](http://www.sai.msu.su/\~megera/postgres/gist/)
 
 Tsearch2 Development Site [http://www.sai.msu.su/\~megera/postgres/gist/tsearch/V2/](http://www.sai.msu.su/\~megera/postgres/gist/tsearch/V2/)
 
-## F.31.7. Authors
+## F.35.7. Authors
 
 Oleg Bartunov `<`[`oleg@sai.msu.su`](mailto:oleg@sai.msu.su)`>`, Moscow, Moscow University, Russia
 

@@ -2,7 +2,7 @@
 description: 版本：11
 ---
 
-# 51.32. pg\_namespace
+# 53.32. pg\_namespace
 
 The catalog `pg_namespace` stores namespaces. A namespace is the structure underlying SQL schemas: each namespace can have a separate collection of relations, types, etc. without name conflicts.
 

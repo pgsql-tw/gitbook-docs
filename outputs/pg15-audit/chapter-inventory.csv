@@ -1,0 +1,100 @@
+﻿chapter,path,pages,heading-only-leaf,heading-only-container,no-chinese-prose,mixed-review,chinese-review
+1. 什麼是 PostgreSQL？,preface/01_intro-whatis.md,1,0,0,0,0,1
+2. PostgreSQL 沿革,preface/02_history.md,1,0,0,0,0,1
+3. 慣例,preface/03_notation.md,1,0,0,0,0,1
+4. 其他參考資訊,preface/04_resources.md,1,0,0,0,0,1
+5. 問題回報指南,preface/05_bug-reporting.md,1,0,0,0,0,1
+1. 入門指南,tutorial/getting-started/README.md,5,0,0,0,0,5
+2. SQL 查詢語言,tutorial/the-sql-language/README.md,10,0,0,0,0,10
+3. 先進功能,tutorial/advanced-features/README.md,8,0,1,0,0,7
+4. SQL 語法,the-sql-language/sql-syntax/README.md,4,0,0,0,2,2
+5. 定義資料結構,the-sql-language/ddl/README.md,15,0,0,0,2,13
+6. 資料處理,the-sql-language/data-manipulation/README.md,5,0,0,0,0,5
+7. 資料查詢,the-sql-language/queries/README.md,9,0,0,0,1,8
+8. 資料型別,the-sql-language/data-types/README.md,22,0,0,9,8,5
+9. 函式及運算子,the-sql-language/functions-and-operators/README.md,31,0,0,19,8,4
+10. 型別轉換,the-sql-language/type-conversion/README.md,7,0,0,6,0,1
+11. 索引（Index）,the-sql-language/index/README.md,13,0,0,0,1,12
+12. 全文檢索,the-sql-language/12.-quan-wen-jian-suo/README.md,12,0,1,11,0,0
+13. 一致性管理（Concurrency Control）,the-sql-language/concurrency-control/README.md,8,0,0,2,2,4
+14. 效能技巧,the-sql-language/performance-tips/README.md,6,0,0,2,0,4
+15. 平行查詢,the-sql-language/parallel-query/README.md,5,0,0,2,1,2
+16. 以預編譯套件安裝,server-administration/installation-from-binaries.md,1,0,0,0,0,1
+17. 以原始碼安裝,server-administration/installation-from-source-code/README.md,8,0,0,4,2,2
+18. 以原始碼在 Windows 上安裝,server-administration/installation-from-source-code-on-windows/README.md,2,0,0,1,1,0
+19. 服務配置與維運,server-administration/server-setup-and-operation/README.md,13,0,0,9,1,3
+20. 服務組態設定,server-administration/server-configuration/README.md,19,0,0,8,7,4
+21. 使用者認證,server-administration/client-authentication/README.md,16,0,0,12,2,2
+22. 資料庫角色,server-administration/database-roles/README.md,7,0,0,5,0,2
+23. 管理資料庫,server-administration/managing-databases/README.md,7,0,0,4,0,3
+24. 語系,server-administration/localization/README.md,4,0,0,1,2,1
+25. 例行性資料庫維護工作,server-administration/routine-database-maintenance-tasks/README.md,4,0,0,0,1,3
+26. 備份及還原,server-administration/backup-and-restore/README.md,4,0,0,1,1,2
+"27. High Availability, Load Balancing, and Replication",server-administration/high-availability-load-balancing-and-replication/README.md,5,0,0,1,3,1
+28. 監控資料庫活動,server-administration/monitoring-database-activity/README.md,6,0,0,5,0,1
+29. 監控磁碟使用情況,server-administration/monitoring-disk-usage/README.md,3,0,0,0,0,3
+30. 高可靠度及預寫日誌,server-administration/reliability-and-the-write-ahead-log/README.md,7,0,0,3,3,1
+31. 邏輯複寫（Logical Replication）,server-administration/logical-replication/README.md,12,0,0,2,1,9
+32. Just-in-Time Compilation（JIT）,server-administration/just-in-time-compilation/README.md,5,0,0,4,0,1
+33. 迴歸測試,server-administration/regression-tests/README.md,6,0,0,5,0,1
+34. libpq - C Library,client-interfaces/libpq-c-library/README.md,22,12,0,5,2,3
+35. Large Objects,client-interfaces/34.-large-objects/README.md,6,5,0,1,0,0
+36. ECPG - Embedded SQL in C,client-interfaces/ecpg-embedded-sql-in-c/README.md,17,15,0,2,0,0
+37. The Information Schema,client-interfaces/the-information-schema/README.md,64,21,0,39,4,0
+38. SQL 延伸功能,server-programming/extending-sql/README.md,19,0,0,15,0,4
+39. Triggers,server-programming/triggers/README.md,5,0,0,4,0,1
+40. Event Triggers (事件觸發),server-programming/event-triggers/README.md,5,0,0,2,1,2
+41. 規則系統,server-programming/the-rule-system/README.md,8,0,0,6,0,2
+42. Procedural Languages（程序語言）,server-programming/procedural-languages/README.md,2,0,0,1,0,1
+43. PL/pgSQL - SQL Procedural Language,server-programming/pl-pgsql-sql-procedural-language/README.md,14,0,1,13,0,0
+44. PL/Tcl - Tcl Procedural Language,server-programming/pl-tcl-tcl-procedural-language.md,1,0,0,0,0,1
+45. PL/Perl — Perl Procedural Language,server-programming/pl-perl-perl-procedural-language.md,1,0,0,1,0,0
+46. PL/Python - Python Procedural Language,server-programming/pl-python-python-procedural-language-1/README.md,12,0,0,8,1,3
+47. Server Programming Interface,server-programming/server-programming-interface.md,1,0,0,1,0,0
+48. Background Worker Processes,server-programming/background-worker-processes.md,1,0,0,1,0,0
+49. Logical Decoding,server-programming/logical-decoding/README.md,9,0,0,8,0,1
+50. Replication Progress Tracking,server-programming/replication-progress-tracking.md,1,0,0,1,0,0
+51. Archive Modules,51.-archive-modules.md,3,0,0,3,0,0
+I. SQL 指令,reference/sql-commands/README.md,116,0,0,42,31,43
+II. PostgreSQL 用戶端工具,reference/client-applications/README.md,17,0,0,8,6,3
+III. PostgreSQL 伺服器應用程式,reference/server-applications/README.md,9,0,0,4,4,1
+52. PostgreSQL 的內部架構,internals/overview-of-postgresql-internals/README.md,7,0,0,4,2,1
+53. 系統資訊目錄,internals/system-catalogs/README.md,33,0,0,18,8,7
+54. System Views,internals/54.-system-views.md,13,0,0,11,1,1
+55. Frontend/Backend Protocol,internals/52.-frontend-backend-protocol/README.md,11,7,0,4,0,0
+56. PostgreSQL 程式撰寫慣例,internals/postgresql-coding-conventions/README.md,5,0,1,4,0,0
+57. Native Language Support,internals/native-language-support/README.md,3,0,1,2,0,0
+58. 撰寫程序語言的處理程序,internals/writing-a-procedural-language-handler.md,1,0,0,0,1,0
+59. Writing a Foreign Data Wrapper,internals/writing-a-foreign-data-wrapper/README.md,6,0,0,6,0,0
+60. Writing a Table Sampling Method,internals/60.-writing-a-table-sampling-method.md,1,0,0,1,0,0
+61. Writing a Custom Scan Provider,internals/61.-writing-a-custom-scan-provider.md,1,0,0,1,0,0
+62. Genetic Query Optimizer,internals/genetic-query-optimizer/README.md,5,0,0,5,0,0
+63. Table Access Method Interface Definition,internals/table-access-method-interface-definition.md,1,0,0,1,0,0
+64. Index Access Method Interface Definition,internals/index-access-method-interface-definition.md,1,0,0,1,0,0
+65. Generic WAL Records,internals/generic-wal-records.md,1,0,0,1,0,0
+66. Custom WAL Resource Managers,internals/66.-custom-wal-resource-managers.md,1,0,0,1,0,0
+67. B-Tree Indexes,internals/b-tree-indexes/README.md,5,0,1,3,0,1
+68. GiST Indexes,internals/gist-indexes/README.md,6,0,1,5,0,0
+69. SP-GiST Indexes,internals/sp-gist-indexes/README.md,6,0,1,5,0,0
+70. GIN 索引,internals/gin-indexes/README.md,8,0,1,1,0,6
+71. BRIN Indexes,internals/brin/README.md,4,0,1,2,0,1
+72. Hash Indexes,internals/72.-hash-indexes.md,1,1,0,0,0,0
+73. 資料庫實體儲存格式,internals/database-physical-storage/README.md,7,0,0,4,1,2
+74. System Catalog Declarations and Initial Contents,internals/system-catalog-declarations-and-initial-contents.md,1,0,0,1,0,0
+75. 查詢計畫如何使用統計資訊,internals/how-the-planner-uses-statistics/README.md,4,0,0,2,1,1
+76. Backup Manifest Format,internals/71.-backup-manifest-format.md,1,0,0,1,0,0
+A. PostgreSQL 錯誤代碼,appendixes/postgresql-error-codes.md,1,0,0,0,1,0
+B. 日期時間格式支援,appendixes/date-time-support/README.md,8,0,0,4,0,4
+C. SQL 關鍵字,appendixes/sql-keywords.md,1,0,0,0,1,0
+D. SQL 相容性,appendixes/d.-sql-xiang-rong-xing/README.md,4,0,0,3,1,0
+E. 版本資訊,appendixes/release-notes/README.md,5,0,0,5,0,0
+F. 延伸支援模組,appendixes/additional-supplied-modules/README.md,43,0,0,23,11,9
+G. Additional Supplied Programs,appendixes/additional-supplied-programs/README.md,6,0,0,6,0,0
+H. 外部專案,appendixes/h.-wai-bu-zhuan-an/README.md,5,0,0,4,0,1
+I. The Source Code Repository,appendixes/the-source-code-repository/README.md,2,0,0,2,0,0
+J. 文件取得,appendixes/docguide/README.md,6,0,0,6,0,0
+K. PostgreSQL Limits,appendixes/postgresql-limits.md,1,0,0,0,1,0
+L. 縮寫字,appendixes/acronyms.md,1,0,0,0,0,1
+M. Glossary,appendixes/glossary.md,1,0,0,1,0,0
+N. 色彩支援,appendixes/color-support/README.md,3,0,0,1,1,1
+O. Obsolete or Renamed Features,appendixes/o.-obsolete-or-renamed-features.md,1,0,0,1,0,0

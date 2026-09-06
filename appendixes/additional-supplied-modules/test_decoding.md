@@ -1,4 +1,4 @@
-# F.40. test\_decoding
+# F.45. test\_decoding
 
 `test_decoding` is an example of a logical decoding output plugin. It doesn't do anything especially useful, but can serve as a starting point for developing your own output plugin.
 

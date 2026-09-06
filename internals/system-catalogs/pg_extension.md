@@ -1,4 +1,4 @@
-# 51.22. pg\_extension
+# 53.22. pg\_extension
 
 目錄 pg\_extension 儲存有關已安裝延伸功能的資訊。有關延伸功能的詳細資訊，請參閱[第 37.17 節](../../server-programming/extending-sql/packaging-related-objects-into-an-extension.md)。
 

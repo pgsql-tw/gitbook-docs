@@ -1,4 +1,4 @@
-# 61. Index Access Method Interface Definition
+# 64. Index Access Method Interface Definition
 
 This chapter defines the interface between the core PostgreSQL system and _index access methods_, which manage individual index types. The core system knows nothing about indexes beyond what is specified here, so it is possible to develop entirely new index types by writing add-on code.
 

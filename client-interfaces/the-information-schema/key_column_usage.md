@@ -1,4 +1,4 @@
-# 36.32. key\_column\_usage
+# 37.32. key\_column\_usage
 
 檢視表 key\_column\_usage 列出目前資料庫中受到某些唯一、主鍵或外部鍵限制的所有欄位。此檢視表中不包括 check constraints。僅顯示目前使用者可以透過成為擁有者或具有某些權限存取的那些欄位。
 

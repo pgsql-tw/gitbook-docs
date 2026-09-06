@@ -1,4 +1,4 @@
-# 51.77. pg\_prepared\_xacts
+# 54.16. pg\_prepared\_xacts
 
 The view `pg_prepared_xacts` displays information about transactions that are currently prepared for two-phase commit (see [PREPARE TRANSACTION](https://www.postgresql.org/docs/13/sql-prepare-transaction.html) for details).
 

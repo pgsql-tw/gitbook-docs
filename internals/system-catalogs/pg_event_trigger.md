@@ -1,4 +1,4 @@
-# 51.21. pg\_event\_trigger
+# 53.21. pg\_event\_trigger
 
 The catalog `pg_event_trigger` stores event triggers. See [Chapter 39](https://www.postgresql.org/docs/13/event-triggers.html) for more information.
 
