@@ -1043,7 +1043,7 @@
     * [E.4. Release 18.2 #](appendixes/release/release-18-2.md)
     * [E.5. Release 18.1 #](appendixes/release/release-18-1.md)
     * [E.6. Release 18 #](appendixes/release/release-18.md)
-    * [E.7. Prior Releases #](appendixes/release/release-prior.md)
+    * [E.7. 舊版本](appendixes/release/release-prior.md)
   * [Appendix F. Additional Supplied Modules and Extensions](appendixes/contrib/README.md)
     * [F.1. amcheck — tools to verify table and index consistency #](appendixes/contrib/amcheck.md)
     * [F.2. `auth_delay` — 驗證失敗時暫停 #](appendixes/contrib/auth-delay.md)
