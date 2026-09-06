@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1092 頁。
+待譯頁面：1091 頁。
 
 ## 根目錄
 
@@ -363,7 +363,7 @@
 - [ ] `internals/fdwhandler/fdw-planning.md` — 58.4. Foreign Data Wrapper Query Planning #
 - [ ] `internals/fdwhandler/fdw-row-locking.md` — 58.5. Row Locking in Foreign Data Wrappers #
 - [x] `internals/geqo/README.md` — Chapter 61. Genetic Query Optimizer
-- [ ] `internals/geqo/geqo-biblio.md` — 61.4. Further Reading #
+- [x] `internals/geqo/geqo-biblio.md` — 61.4. 延伸閱讀
 - [ ] `internals/geqo/geqo-intro.md` — 61.1. Query Handling as a Complex Optimization Problem #
 - [ ] `internals/geqo/geqo-intro2.md` — 61.2. Genetic Algorithms #
 - [ ] `internals/geqo/geqo-pg-intro.md` — 61.3. Genetic Query Optimization ( GEQO ) in PostgreSQL #
