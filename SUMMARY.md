@@ -1124,7 +1124,7 @@
     * [H.2. Administration Tools #](appendixes/external-projects/external-admin-tools.md)
     * [H.3. Procedural Languages #](appendixes/external-projects/external-pl.md)
     * [H.4. Extensions #](appendixes/external-projects/external-extensions.md)
-  * [Appendix I. The Source Code Repository](appendixes/sourcerepo/README.md)
+  * [附錄 I. 原始碼儲存庫](appendixes/sourcerepo/README.md)
     * [I.1. Getting the Source via Git #](appendixes/sourcerepo/git.md)
   * [Appendix J. Documentation](appendixes/docguide/README.md)
     * [J.1. DocBook #](appendixes/docguide/docguide-docbook.md)
