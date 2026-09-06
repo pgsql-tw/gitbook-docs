@@ -172,7 +172,7 @@
     * [15.3. Parallel Plans #](the-sql-language/parallel-query/parallel-plans.md)
     * [15.4. Parallel Safety #](the-sql-language/parallel-query/parallel-safety.md)
 * [Part III. Server Administration](server-administration/README.md)
-  * [Chapter 16. Installation from Binaries](server-administration/install-binaries/README.md)
+  * [第 16 章 從二進位套件安裝](server-administration/install-binaries/README.md)
   * [Chapter 17. Installation from Source Code](server-administration/installation/README.md)
     * [17.1. Requirements #](server-administration/installation/install-requirements.md)
     * [17.2. Getting the Source #](server-administration/installation/install-getsource.md)
