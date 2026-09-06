@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1126 頁。
+待譯頁面：1125 頁。
 
 ## 根目錄
 
@@ -53,7 +53,7 @@
 - [ ] `appendixes/contrib/contrib-dblink-get-notify.md` — dblink_get_notify
 - [ ] `appendixes/contrib/contrib-dblink-get-pkey.md` — dblink_get_pkey
 - [ ] `appendixes/contrib/contrib-dblink-get-result.md` — dblink_get_result
-- [ ] `appendixes/contrib/contrib-dblink-is-busy.md` — dblink_is_busy
+- [x] `appendixes/contrib/contrib-dblink-is-busy.md` — dblink_is_busy
 - [ ] `appendixes/contrib/contrib-dblink-open.md` — dblink_open
 - [ ] `appendixes/contrib/contrib-dblink-send-query.md` — dblink_send_query
 - [ ] `appendixes/contrib/contrib-spi.md` — F.41. spi — Server Programming Interface features/examples #
