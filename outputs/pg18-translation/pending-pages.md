@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1128 頁。
+待譯頁面：1127 頁。
 
 ## 根目錄
 
@@ -81,7 +81,7 @@
 - [ ] `appendixes/contrib/pgrowlocks.md` — F.31. pgrowlocks — show a table's row locking information #
 - [ ] `appendixes/contrib/pgstatstatements.md` — F.32. pg_stat_statements — track statistics of SQL planning and execution #
 - [ ] `appendixes/contrib/pgstattuple.md` — F.33. pgstattuple — obtain tuple-level statistics #
-- [ ] `appendixes/contrib/pgsurgery.md` — F.34. pg_surgery — perform low-level surgery on relation data #
+- [x] `appendixes/contrib/pgsurgery.md` — F.34. pg_surgery — perform low-level surgery on relation data #
 - [ ] `appendixes/contrib/pgtrgm.md` — F.35. pg_trgm — support for similarity of text using trigram matching #
 - [ ] `appendixes/contrib/pgvisibility.md` — F.36. pg_visibility — visibility map information and utilities #
 - [ ] `appendixes/contrib/pgwalinspect.md` — F.37. pg_walinspect — low-level WAL inspection #

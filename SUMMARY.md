@@ -1097,7 +1097,7 @@
     * [F.31. pgrowlocks — show a table's row locking information #](appendixes/contrib/pgrowlocks.md)
     * [F.32. pg_stat_statements — track statistics of SQL planning and execution #](appendixes/contrib/pgstatstatements.md)
     * [F.33. pgstattuple — obtain tuple-level statistics #](appendixes/contrib/pgstattuple.md)
-    * [F.34. pg_surgery — perform low-level surgery on relation data #](appendixes/contrib/pgsurgery.md)
+    * [F.34. `pg_surgery` — 對關聯資料執行低階修復 #](appendixes/contrib/pgsurgery.md)
     * [F.35. pg_trgm — support for similarity of text using trigram matching #](appendixes/contrib/pgtrgm.md)
     * [F.36. pg_visibility — visibility map information and utilities #](appendixes/contrib/pgvisibility.md)
     * [F.37. pg_walinspect — low-level WAL inspection #](appendixes/contrib/pgwalinspect.md)

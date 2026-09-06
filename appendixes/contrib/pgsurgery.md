@@ -1,29 +1,19 @@
-## F.34. pg_surgery — perform low-level surgery on relation data [#](#PGSURGERY)
+## F.34. `pg_surgery` — 對關聯資料執行低階修復 [#](#PGSURGERY)
 
-[F.34.1. Functions](pgsurgery.md#PGSURGERY-FUNCS)
+[F.34.1. 函式](pgsurgery.md#PGSURGERY-FUNCS)
 
-[F.34.2. Authors](pgsurgery.md#PGSURGERY-AUTHORS)
+[F.34.2. 作者](pgsurgery.md#PGSURGERY-AUTHORS)
 
 <a id="id-1.11.7.44.2"></a>
 
-The `pg_surgery` module provides various functions to
-perform surgery on a damaged relation. These functions are unsafe by design
-and using them may corrupt (or further corrupt) your database. For example,
-these functions can easily be used to make a table inconsistent with its
-own indexes, to cause `UNIQUE` or
-`FOREIGN KEY` constraint violations, or even to make
-tuples visible which, when read, will cause a database server crash.
-They should be used with great caution and only as a last resort.
+`pg_surgery` 模組提供多種函式，可修復受損的關聯。這些函式在設計上並不安全，使用它們可能損毀（或進一步損毀）資料庫。例如，這些函式很容易使資料表與其索引不一致、導致 `UNIQUE` 或 `FOREIGN KEY` 限制條件違規，甚至使讀取時會造成資料庫伺服器當機的 tuple 變得可見。應極為謹慎地使用它們，且只應作為最後手段。
 
 <a id="PGSURGERY-FUNCS"></a>
 
-### F.34.1. Functions [#](#PGSURGERY-FUNCS)
+### F.34.1. 函式 [#](#PGSURGERY-FUNCS)
 
 `heap_force_kill(regclass, tid[]) returns void`
-:   `heap_force_kill` marks “used” line
-    pointers as “dead” without examining the tuples. The
-    intended use of this function is to forcibly remove tuples that are not
-    otherwise accessible. For example:
+:   `heap_force_kill` 不檢查 tuple，便將「已使用」的行指標標記為「死亡」。此函式的用途是強制移除其他方式無法存取的 tuple。例如：
 
     ```
 
@@ -42,12 +32,7 @@ They should be used with great caution and only as a last resort.
     ```
 
 `heap_force_freeze(regclass, tid[]) returns void`
-:   `heap_force_freeze` marks tuples as frozen without
-    examining the tuple data. The intended use of this function is to
-    make accessible tuples which are inaccessible due to corrupted
-    visibility information, or which prevent the table from being
-    successfully vacuumed due to corrupted visibility information.
-    For example:
+:   `heap_force_freeze` 不檢查 tuple 資料，便將 tuple 標記為凍結。此函式的用途是讓因可見性資訊損毀而無法存取的 tuple 可被存取，或讓因可見性資訊損毀而無法成功執行清理的資料表得以清理。例如：
 
     ```
 
@@ -76,10 +61,10 @@ They should be used with great caution and only as a last resort.
 
 <a id="PGSURGERY-AUTHORS"></a>
 
-### F.34.2. Authors [#](#PGSURGERY-AUTHORS)
+### F.34.2. 作者 [#](#PGSURGERY-AUTHORS)
 
 Ashutosh Sharma `<ashu.coek88@gmail.com>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgsurgery.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgsurgery.html)（原文版本：18.6；核對日期：2026-09-06）
