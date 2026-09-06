@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1061 頁。
+待譯頁面：1060 頁。
 
 ## 根目錄
 
@@ -947,7 +947,7 @@
 - [ ] `server-programming/spi/spi-interface-support.md` — 45.2. Interface Support Functions #
 - [ ] `server-programming/spi/spi-interface.md` — 45.1. Interface Functions #
 - [ ] `server-programming/spi/spi-memory.md` — 45.3. Memory Management #
-- [ ] `server-programming/spi/spi-realloc.md` — SPI_repalloc
+- [x] `server-programming/spi/spi-realloc.md` — SPI_repalloc
 - [ ] `server-programming/spi/spi-spi-commit.md` — SPI_commit
 - [ ] `server-programming/spi/spi-spi-connect.md` — SPI_connect
 - [ ] `server-programming/spi/spi-spi-copytuple.md` — SPI_copytuple
