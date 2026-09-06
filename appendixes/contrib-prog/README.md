@@ -1,27 +1,18 @@
-## Appendix G. Additional Supplied Programs
+## 附錄 G. 額外提供的程式
 
-**Table of Contents**
+**目錄**
 
-[G.1. Client Applications](contrib-prog-client.md)
-:   [oid2name](oid2name.md) — resolve OIDs and file nodes in a PostgreSQL data directory
+[G.1. 用戶端應用程式](contrib-prog-client.md)
+:   [oid2name](oid2name.md) — 解析 PostgreSQL 資料目錄中的 OID 與檔案節點
 
-    [vacuumlo](vacuumlo.md) — remove orphaned large objects from a PostgreSQL database
+    [vacuumlo](vacuumlo.md) — 從 PostgreSQL 資料庫移除孤立的大型物件
 
-[G.2. Server Applications](contrib-prog-server.md)
+[G.2. 伺服器應用程式](contrib-prog-server.md)
 
-This appendix and the previous one contain information regarding the modules that
-can be found in the `contrib` directory of the
-PostgreSQL distribution. See [Appendix F](../contrib/README.md) for
-more information about the `contrib` section in general and
-server extensions and plug-ins found in `contrib`
-specifically.
+本附錄與前一附錄介紹 PostgreSQL 發行版 `contrib` 目錄中的模組。關於 `contrib` 的一般資訊，以及其中伺服器擴充套件與外掛程式的詳細資訊，請參閱[附錄 F](../contrib/README.md)。
 
-This appendix covers utility programs found in `contrib`.
-Once installed, either from source or a packaging system, they are found in
-the `bin` directory of the
-PostgreSQL installation and can be used like any
-other program.
+本附錄介紹 `contrib` 中的工具程式。無論是從原始碼或套件系統安裝，安裝完成後都可在 PostgreSQL 安裝位置的 `bin` 目錄中找到，並像其他程式一樣使用。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-prog.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-prog.html)（原文版本：18.6；核對日期：2026-09-07）

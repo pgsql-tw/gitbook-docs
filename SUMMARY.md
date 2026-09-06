@@ -1114,7 +1114,7 @@
     * [F.48. unaccent — a text search dictionary which removes diacritics #](appendixes/contrib/unaccent.md)
     * [F.49. uuid-ossp — a UUID generator #](appendixes/contrib/uuid-ossp.md)
     * [F.50. xml2 — XPath querying and XSLT functionality #](appendixes/contrib/xml2.md)
-  * [Appendix G. Additional Supplied Programs](appendixes/contrib-prog/README.md)
+  * [附錄 G. 額外提供的程式](appendixes/contrib-prog/README.md)
     * [G.1. 用戶端應用程式](appendixes/contrib-prog/contrib-prog-client.md)
       * [oid2name](appendixes/contrib-prog/oid2name.md)
       * [vacuumlo](appendixes/contrib-prog/vacuumlo.md)
