@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1040 頁。
+待譯頁面：1039 頁。
 
 ## 根目錄
 
@@ -44,7 +44,7 @@
 - [ ] `appendixes/contrib/contrib-dblink-close.md` — dblink_close
 - [ ] `appendixes/contrib/contrib-dblink-connect-u.md` — dblink_connect_u
 - [ ] `appendixes/contrib/contrib-dblink-connect.md` — dblink_connect
-- [ ] `appendixes/contrib/contrib-dblink-disconnect.md` — dblink_disconnect
+- [x] `appendixes/contrib/contrib-dblink-disconnect.md` — dblink_disconnect
 - [ ] `appendixes/contrib/contrib-dblink-error-message.md` — dblink_error_message
 - [ ] `appendixes/contrib/contrib-dblink-exec.md` — dblink_exec
 - [ ] `appendixes/contrib/contrib-dblink-fetch.md` — dblink_fetch
