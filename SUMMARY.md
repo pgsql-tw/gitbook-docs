@@ -521,7 +521,7 @@
     * [44.7. Explicit Subtransactions #](server-programming/plpython/plpython-subtransaction.md)
     * [44.8. Transaction Management #](server-programming/plpython/plpython-transactions.md)
     * [44.9. Utility Functions #](server-programming/plpython/plpython-util.md)
-    * [44.10. Python 2 vs. Python 3 #](server-programming/plpython/plpython-python23.md)
+    * [44.10. Python 2 與 Python 3](server-programming/plpython/plpython-python23.md)
     * [44.11. Environment Variables #](server-programming/plpython/plpython-envar.md)
   * [Chapter 45. Server Programming Interface](server-programming/spi/README.md)
     * [45.1. Interface Functions #](server-programming/spi/spi-interface.md)
