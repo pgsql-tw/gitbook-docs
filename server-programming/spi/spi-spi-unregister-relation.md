@@ -2,9 +2,9 @@
 
 ## SPI_unregister_relation
 
-SPI_unregister_relation — remove an ephemeral named relation from the registry
+SPI_unregister_relation — 從登錄表移除暫時具名關聯
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,40 +13,37 @@ int SPI_unregister_relation(const char * name)
 
 <a id="id-1.8.12.8.32.6"></a>
 
-## Description
+## 說明
 
-`SPI_unregister_relation` removes an ephemeral named
-relation from the registry for the current connection.
+`SPI_unregister_relation` 會從目前連線的登錄表移除暫時具名關聯。
 
 <a id="id-1.8.12.8.32.7"></a>
 
-## Arguments
+## 引數
 
 `const char * name`
-:   the relation registry entry name
+:   關聯在登錄表中的項目名稱
 
 <a id="id-1.8.12.8.32.8"></a>
 
-## Return Value
+## 回傳值
 
-If the execution of the command was successful then the following
-(nonnegative) value will be returned:
+若命令執行成功，會回傳下列非負值：
 
 `SPI_OK_REL_UNREGISTER`
-:   if the tuplestore has been successfully removed from the registry
+:   已成功從登錄表移除 tuplestore
 
-On error, one of the following negative values is returned:
+發生錯誤時，會回傳下列其中一個負值：
 
 `SPI_ERROR_ARGUMENT`
-:   if *`name`* is `NULL`
+:   *`name`* 為 `NULL`
 
 `SPI_ERROR_UNCONNECTED`
-:   if called from an unconnected C function
+:   從尚未連線的 C 函式呼叫
 
 `SPI_ERROR_REL_NOT_FOUND`
-:   if *`name`* is not found in the registry for the
-    current connection
+:   在目前連線的登錄表中找不到 *`name`*
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-unregister-relation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-unregister-relation.html)（原文版本：18.6；核對日期：2026-09-07）

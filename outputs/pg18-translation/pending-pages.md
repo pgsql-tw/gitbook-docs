@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1028 頁。
+待譯頁面：1027 頁。
 
 ## 根目錄
 
@@ -999,7 +999,7 @@
 - [ ] `server-programming/spi/spi-spi-scroll-cursor-fetch.md` — SPI_scroll_cursor_fetch
 - [ ] `server-programming/spi/spi-spi-scroll-cursor-move.md` — SPI_scroll_cursor_move
 - [x] `server-programming/spi/spi-spi-start-transaction.md` — SPI_start_transaction
-- [ ] `server-programming/spi/spi-spi-unregister-relation.md` — SPI_unregister_relation
+- [x] `server-programming/spi/spi-spi-unregister-relation.md` — SPI_unregister_relation
 - [ ] `server-programming/spi/spi-transaction.md` — 45.4. Transaction Management #
 - [ ] `server-programming/spi/spi-visibility.md` — 45.5. Visibility of Data Changes #
 - [ ] `server-programming/triggers/README.md` — Chapter 37. Triggers
