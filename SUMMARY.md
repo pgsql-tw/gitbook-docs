@@ -880,7 +880,7 @@
     * [52.44. pg_replication_origin #](internals/catalogs/catalog-pg-replication-origin.md)
     * [52.45. pg_rewrite #](internals/catalogs/catalog-pg-rewrite.md)
     * [52.46. pg_seclabel #](internals/catalogs/catalog-pg-seclabel.md)
-    * [52.47. pg_sequence #](internals/catalogs/catalog-pg-sequence.md)
+    * [52.47. `pg_sequence` #](internals/catalogs/catalog-pg-sequence.md)
     * [52.48. pg_shdepend #](internals/catalogs/catalog-pg-shdepend.md)
     * [52.49. pg_shdescription #](internals/catalogs/catalog-pg-shdescription.md)
     * [52.50. pg_shseclabel #](internals/catalogs/catalog-pg-shseclabel.md)
