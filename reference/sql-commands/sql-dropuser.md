@@ -2,9 +2,9 @@
 
 ## DROP USER
 
-DROP USER — remove a database role
+DROP USER — 移除資料庫角色
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,25 +13,22 @@ DROP USER [ IF EXISTS ] name [, ...]
 
 <a id="id-1.9.3.143.5"></a>
 
-## Description
+## 說明
 
-`DROP USER` is simply an alternate spelling of
-[`DROP ROLE`](sql-droprole.md).
+`DROP USER` 只是 [`DROP ROLE`](sql-droprole.md) 的另一種寫法。
 
 <a id="id-1.9.3.143.6"></a>
 
-## Compatibility
+## 相容性
 
-The `DROP USER` statement is a
-PostgreSQL extension. The SQL standard
-leaves the definition of users to the implementation.
+`DROP USER` 陳述式是 PostgreSQL 的擴充功能。SQL 標準將使用者的定義方式留給各實作決定。
 
 <a id="id-1.9.3.143.7"></a>
 
-## See Also
+## 另請參閱
 
 [DROP ROLE](sql-droprole.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropuser.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropuser.html)（原文版本：18.6；核對日期：2026-09-07）
