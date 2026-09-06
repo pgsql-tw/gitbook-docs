@@ -1137,7 +1137,7 @@
   * [Appendix L. Acronyms](appendixes/acronyms/README.md)
   * [Appendix M. Glossary](appendixes/glossary/README.md)
   * [附錄 N. 色彩支援](appendixes/color/README.md)
-    * [N.1. When Color is Used #](appendixes/color/color-when.md)
+    * [N.1. 何時使用色彩 #](appendixes/color/color-when.md)
     * [N.2. Configuring the Colors #](appendixes/color/color-which.md)
   * [附錄 O. 已淘汰或改名的功能](appendixes/appendix-obsolete/README.md)
     * [O.1. `recovery.conf` 檔案已併入 `postgresql.conf` #](appendixes/appendix-obsolete/recovery-config.md)

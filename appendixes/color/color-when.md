@@ -1,14 +1,11 @@
-## N.1. When Color is Used [#](#COLOR-WHEN)
+## N.1. 何時使用色彩 [#](#COLOR-WHEN)
 
-To use colorized output, set the environment variable
-`PG_COLOR`<a id="id-1.11.15.4.2.2"></a>
-as follows:
+若要使用彩色輸出，請依下列方式設定環境變數 `PG_COLOR`<a id="id-1.11.15.4.2.2"></a>：
 
-1. If the value is `always`, then color is used.
-2. If the value is `auto` and the standard error stream
-   is associated with a terminal device, then color is used.
-3. Otherwise, color is not used.
+1. 值為 `always` 時，使用色彩。
+2. 值為 `auto`，且標準錯誤串流連接至終端機裝置時，使用色彩。
+3. 其他情況不使用色彩。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/color-when.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/color-when.html)（原文版本：18.6；核對日期：2026-09-06）
