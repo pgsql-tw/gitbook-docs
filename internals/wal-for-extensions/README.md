@@ -1,28 +1,17 @@
-## Chapter 64. Write Ahead Logging for Extensions
+## 第 64 章 擴充套件的預寫式日誌
 
-**Table of Contents**
+**目錄**
 
-[64.1. Generic WAL Records](generic-wal.md)
+[64.1. 通用 WAL 記錄](generic-wal.md)
 
-[64.2. Custom WAL Resource Managers](custom-rmgr.md)
+[64.2. 自訂 WAL 資源管理器](custom-rmgr.md)
 
-Certain extensions, principally extensions that implement custom access
-methods, may need to perform write-ahead logging in order to ensure
-crash-safety. PostgreSQL provides two ways
-for extensions to achieve this goal.
+某些擴充套件，主要是實作自訂存取方法的擴充套件，可能需要使用預寫式日誌，以確保當機時的安全性。PostgreSQL 提供兩種方式來達成此目標。
 
-First, extensions can choose to use [generic
-WAL](generic-wal.md), a special type of WAL record which describes changes to pages
-in a generic way. This method is simple to implement and does not require
-that an extension library be loaded in order to apply the records. However,
-generic WAL records will be ignored when performing logical decoding.
+第一種方式是使用[通用 WAL](generic-wal.md)，這是一種以通用方式描述頁面變更的特殊 WAL 記錄。此方法容易實作，而且套用記錄時不需要載入擴充套件程式庫。不過，執行邏輯解碼時會忽略通用 WAL 記錄。
 
-Second, extensions can choose to use a [custom
-resource manager](custom-rmgr.md). This method is more flexible, supports logical
-decoding, and can sometimes generate much smaller write-ahead log records
-than would be possible with generic WAL. However, it is more complex for an
-extension to implement.
+第二種方式是使用[自訂資源管理器](custom-rmgr.md)。此方法更有彈性，支援邏輯解碼，有時能產生比通用 WAL 小得多的預寫式日誌記錄。不過，擴充套件的實作也會更複雜。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-for-extensions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-for-extensions.html)（原文版本：18.6；核對日期：2026-09-07）
