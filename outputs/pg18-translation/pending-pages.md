@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1051 頁。
+待譯頁面：1050 頁。
 
 ## 根目錄
 
@@ -1167,7 +1167,7 @@
 - [x] `tutorial/tutorial-sql/README.md` — 第 2 章 SQL 語言
 - [ ] `tutorial/tutorial-sql/tutorial-agg.md` — 2.7. Aggregate Functions #
 - [ ] `tutorial/tutorial-sql/tutorial-concepts.md` — 2.2. Concepts #
-- [ ] `tutorial/tutorial-sql/tutorial-delete.md` — 2.9. Deletions #
+- [x] `tutorial/tutorial-sql/tutorial-delete.md` — 2.9. 刪除
 - [ ] `tutorial/tutorial-sql/tutorial-join.md` — 2.6. Joins Between Tables #
 - [ ] `tutorial/tutorial-sql/tutorial-populate.md` — 2.4. Populating a Table With Rows #
 - [ ] `tutorial/tutorial-sql/tutorial-select.md` — 2.5. Querying a Table #
