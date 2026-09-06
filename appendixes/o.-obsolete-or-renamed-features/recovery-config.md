@@ -1,19 +1,19 @@
 <a id="RECOVERY-CONFIG"></a>
 
-# O.1. recovery.conf file merged into postgresql.conf
+# O.1. recovery.conf 檔案併入 postgresql.conf
 
 <a id="id-1.11.16.3.2"></a>
 
-PostgreSQL 11 and below used a configuration file named `recovery.conf` <a id="id-1.11.16.3.3.2"></a> to manage replicas and standbys. Support for this file was removed in PostgreSQL 12. See [the release notes for PostgreSQL 12](../release-notes/e.4.-prior-releases.md) for details on this change.
+PostgreSQL 11 及更早版本使用名為 `recovery.conf` 的設定檔 <a id="id-1.11.16.3.3.2"></a> 管理複本與備援伺服器。PostgreSQL 12 已移除對此檔案的支援。關於這項變更的詳細資訊，請參閱 [PostgreSQL 12 發布說明](../release-notes/e.4.-prior-releases.md)。
 
-On PostgreSQL 12 and above, [archive recovery, streaming replication, and PITR](../../server-administration/backup-and-restore/continuous-archiving-and-point-in-time-recovery-pitr.md) are configured using [normal server configuration parameters](../../server-administration/server-configuration/replication.md#RUNTIME-CONFIG-REPLICATION-STANDBY). These are set in `postgresql.conf` or via [ALTER SYSTEM](../../reference/sql-commands/alter-system.md) like any other parameter.
+在 PostgreSQL 12 及更新版本中，[封存復原、串流複寫及 PITR](../../server-administration/backup-and-restore/continuous-archiving-and-point-in-time-recovery-pitr.md) 使用[一般伺服器設定參數](../../server-administration/server-configuration/replication.md#RUNTIME-CONFIG-REPLICATION-STANDBY)設定。這些參數與其他參數相同，可在 `postgresql.conf` 中設定，或透過 [ALTER SYSTEM](../../reference/sql-commands/alter-system.md) 設定。
 
-The server will not start if a `recovery.conf` exists.
+若 `recovery.conf` 存在，伺服器將無法啟動。
 
-The `trigger_file` <a id="id-1.11.16.3.6.2"></a> setting has been renamed to [promote_trigger_file](../../server-administration/server-configuration/replication.md#GUC-PROMOTE-TRIGGER-FILE).
+`trigger_file` <a id="id-1.11.16.3.6.2"></a> 設定已更名為 [promote_trigger_file](../../server-administration/server-configuration/replication.md#GUC-PROMOTE-TRIGGER-FILE)。
 
-The `standby_mode` <a id="id-1.11.16.3.7.2"></a> setting has been removed. A `standby.signal` file in the data directory is used instead. See [Standby Server Operation](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#STANDBY-SERVER-OPERATION) for details.
+`standby_mode` <a id="id-1.11.16.3.7.2"></a> 設定已移除，改為在資料目錄中使用 `standby.signal` 檔案。詳細資訊請參閱[備援伺服器操作](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#STANDBY-SERVER-OPERATION)。
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](recovery-config.md)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/recovery-config.html)

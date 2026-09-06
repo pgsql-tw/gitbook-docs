@@ -4,15 +4,15 @@
 
 <a id="id-1.11.7.53.2"></a><a id="id-1.11.7.53.3"></a>
 
-The `tcn` module provides a trigger function that notifies listeners of changes to any table on which it is attached. It must be used as an `AFTER` trigger `FOR EACH ROW`.
+`tcn` 模組提供一個觸發程序函式，用於通知接聽者其所附加的任何資料表發生變更。它必須作為 `AFTER` 觸發程序並使用 `FOR EACH ROW`。
 
-This module is considered “trusted”, that is, it can be installed by non-superusers who have `CREATE` privilege on the current database.
+此模組被視為「受信任」，也就是說，對目前資料庫具有 `CREATE` 權限的非超級使用者可以安裝它。
 
-Only one parameter may be supplied to the function in a `CREATE TRIGGER` statement, and that is optional. If supplied it will be used for the channel name for the notifications. If omitted `tcn` will be used for the channel name.
+在 `CREATE TRIGGER` 陳述式中，此函式最多只能提供一個可選參數。若提供，該參數將作為通知的頻道名稱；若省略，則使用 `tcn` 作為頻道名稱。
 
-The payload of the notifications consists of the table name, a letter to indicate which type of operation was performed, and column name/value pairs for primary key columns. Each part is separated from the next by a comma. For ease of parsing using regular expressions, table and column names are always wrapped in double quotes, and data values are always wrapped in single quotes. Embedded quotes are doubled.
+通知的酬載由資料表名稱、表示執行作業類型的字母，以及主鍵欄位的欄位名稱／值配對所組成。各部分以逗號分隔。為便於使用正規表示式剖析，資料表和欄位名稱一律以雙引號括住，資料值一律以單引號括住；內嵌的引號會重複一次。
 
-A brief example of using the extension follows.
+以下為使用此擴充功能的簡短範例。
 
 ```
 
@@ -48,4 +48,4 @@ Asynchronous notification "tcn" with payload ""tcndata",D,"a"='1',"b"='2012-12-2
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](tcn.md)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/tcn.html)

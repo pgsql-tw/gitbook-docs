@@ -2,21 +2,21 @@
 
 # F.34. pg_surgery
 
-[F.34.1. Functions](#id-1.11.7.43.4)
+[F.34.1. 函式](#id-1.11.7.43.4)
 
-[F.34.2. Authors](#id-1.11.7.43.5)
+[F.34.2. 作者](#id-1.11.7.43.5)
 
 <a id="id-1.11.7.43.2"></a>
 
-The `pg_surgery` module provides various functions to perform surgery on a damaged relation. These functions are unsafe by design and using them may corrupt (or further corrupt) your database. For example, these functions can easily be used to make a table inconsistent with its own indexes, to cause `UNIQUE` or `FOREIGN KEY` constraint violations, or even to make tuples visible which, when read, will cause a database server crash. They should be used with great caution and only as a last resort.
+`pg_surgery` 模組提供多種函式，可對受損的關聯進行修復。這些函式在設計上並不安全，使用它們可能損壞（或進一步損壞）資料庫。例如，這些函式很容易使資料表與自身索引不一致、造成 `UNIQUE` 或 `FOREIGN KEY` 限制條件違規，甚至讓讀取時會造成資料庫伺服器當機的資料列變得可見。只能極度謹慎地使用它們，並且僅能作為最後手段。
 
 <a id="id-1.11.7.43.4"></a>
 
-## F.34.1. Functions
+## F.34.1. 函式
 
 `heap_force_kill(regclass, tid[]) returns void`
 
-`heap_force_kill` marks “used” line pointers as “dead” without examining the tuples. The intended use of this function is to forcibly remove tuples that are not otherwise accessible. For example:
+`heap_force_kill` 不檢查資料列內容，便將「已使用」的行指標標記為「已死亡」。此函式的用途是強制移除無法透過其他方式存取的資料列。例如：
 
 ```
 
@@ -36,7 +36,7 @@ test=# select * from t1 where ctid = '(0, 1)';
 
 `heap_force_freeze(regclass, tid[]) returns void`
 
-`heap_force_freeze` marks tuples as frozen without examining the tuple data. The intended use of this function is to make accessible tuples which are inaccessible due to corrupted visibility information, or which prevent the table from being successfully vacuumed due to corrupted visibility information. For example:
+`heap_force_freeze` 不檢查資料列內容，便將資料列標記為已凍結。此函式的用途是讓因可見性資訊損壞而無法存取的資料列得以存取，或讓因可見性資訊損壞而無法成功執行清理的資料表得以清理。例如：
 
 ```
 
@@ -65,10 +65,10 @@ test=# select ctid from t1 where xmin = 2;
 
 <a id="id-1.11.7.43.5"></a>
 
-## F.34.2. Authors
+## F.34.2. 作者
 
 Ashutosh Sharma <code class="email">&lt;<a class="email" href="mailto:ashu.coek88@gmail.com">ashu.coek88@gmail.com</a>&gt;</code>
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](pg_surgery.md)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pgsurgery.html)

@@ -1,0 +1,377 @@
+# 待翻譯頁面清單
+
+依 PostgreSQL 15.19 匯入頁面的中英文文字比例產生。程式碼、HTML 標籤、連結文字不列入統計；此清單是翻譯排程，不是內容正確性或版本審校的判定。
+
+待譯頁面：357。每一頁完成翻譯後，重新執行本程式以更新清單。
+
+## appendixes
+
+- [ ] `appendixes/release-notes/release-15-12.md` — E.8. Release 15.12（約 161 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-17.md` — E.3. Release 15.17（約 246 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/dict_xsyn.md` — F.14. dict_xsyn（約 251 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/pgrowlocks.md` — F.31. pgrowlocks（約 253 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/btree_gist.md` — F.9. btree_gist（約 254 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/intagg.md` — F.19. intagg（約 342 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-10.md` — E.10. Release 15.10（約 367 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/pg_walinspect.md` — F.37. pg_walinspect（約 386 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/fuzzystrmatch.md` — F.17. fuzzystrmatch（約 399 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/pg_prewarm.md` — F.30. pg_prewarm（約 438 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/unaccent.md` — F.48. unaccent（約 450 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/sslinfo.md` — F.42. sslinfo（約 491 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/spi.md` — F.41. spi（約 666 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/citext.md` — F.10. citext（約 818 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/intarray.md` — F.20. intarray（約 826 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/isn.md` — F.21. isn（約 848 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/seg.md` — F.39. seg（約 1022 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/xml2.md` — F.50. xml2（約 1108 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/pageinspect.md` — F.25. pageinspect（約 1156 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/cube.md` — F.11. cube（約 1206 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-13.md` — E.7. Release 15.13（約 1313 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/ltree.md` — F.23. ltree（約 1341 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-4.md` — E.16. Release 15.4（約 1785 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-16.md` — E.4. Release 15.16（約 1819 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-11.md` — E.9. Release 15.11（約 2023 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-18.md` — E.2. Release 15.18（約 2028 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-7.md` — E.13. Release 15.7（約 2073 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-15.md` — E.5. Release 15.15（約 2091 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-8.md` — E.12. Release 15.8（約 2099 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-6.md` — E.14. Release 15.6（約 2305 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-5.md` — E.15. Release 15.5（約 2365 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-9.md` — E.11. Release 15.9（約 2402 個英文字詞）
+- [ ] `appendixes/additional-supplied-modules/pgcrypto.md` — F.28. pgcrypto（約 2546 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-14.md` — E.6. Release 15.14（約 2624 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-3.md` — E.17. Release 15.3（約 3032 個英文字詞）
+- [ ] `appendixes/release-notes/release-15-19.md` — E.1. Release 15.19（約 4223 個英文字詞）
+
+## client-interfaces
+
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-var.md` — VAR（約 39 個英文字詞）
+- [ ] `client-interfaces/34.-large-objects/34.5.-example-program.md` — 35.5. Example Program（約 52 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-deallocate-descriptor.md` — DEALLOCATE DESCRIPTOR（約 52 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-set-connection.md` — SET CONNECTION（約 54 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-set-autocommit.md` — SET AUTOCOMMIT（約 64 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-allocate-descriptor.md` — ALLOCATE DESCRIPTOR（約 69 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-disconnect.md` — DISCONNECT（約 71 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-type.md` — TYPE（約 72 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.27.-foreign_server_options.md` — 37.28. foreign_server_options（約 73 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/ecpg-oracle-compat.md` — 36.16. Oracle Compatibility Mode（約 75 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-whenever.md` — WHENEVER（約 78 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.25.-foreign_data_wrapper_options.md` — 37.26. foreign_data_wrapper_options（約 78 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-describe.md` — DESCRIBE（約 79 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.29.-foreign_table_options.md` — 37.30. foreign_table_options（約 80 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.60.-user_mappings.md` — 37.62. user_mappings（約 86 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.30.-foreign_tables.md` — 37.31. foreign_tables（約 90 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.26.-foreign_data_wrappers.md` — 37.27. foreign_data_wrappers（約 91 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.24.-enabled_roles.md` — 37.25. enabled_roles（約 99 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.21.-domain_udt_usage.md` — 37.22. domain_udt_usage（約 102 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.56.-udt_privileges.md` — 37.58. udt_privileges（約 105 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.12.-large-objects.md` — 36.12. Large Objects（約 115 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.28.-foreign_servers.md` — 37.29. foreign_servers（約 115 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-open.md` — OPEN（約 122 個英文字詞）
+- [ ] `client-interfaces/34.-large-objects/34.1.-introduction.md` — 35.1. Introduction（約 124 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands.md` — 36.14. Embedded SQL Commands（約 124 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.54.-triggered_update_columns.md` — 37.56. triggered_update_columns（約 130 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/routine_table_usage.md` — 37.44. routine_table_usage（約 131 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.34.-role_column_grants.md` — 37.35. role_column_grants（約 137 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.53.-transforms.md` — 37.55. transforms（約 143 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-declare.md` — DECLARE（約 145 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.59.-user_mapping_options.md` — 37.61. user_mapping_options（約 145 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-set-descriptor.md` — SET DESCRIPTOR（約 150 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.35.-role_routine_grants.md` — 37.36. role_routine_grants（約 154 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/routine_sequence_usage.md` — 37.43. routine_sequence_usage（約 158 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-declare-statement.md` — DECLARE STATEMENT（約 159 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-execute-immediate.md` — EXECUTE IMMEDIATE（約 176 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.57.-usage_privileges.md` — 37.59. usage_privileges（約 179 個英文字詞）
+- [ ] `client-interfaces/34.-large-objects/34.2.-implementation-features.md` — 35.2. Implementation Features（約 187 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.52.-tables.md` — 37.54. tables（約 197 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-prepare.md` — PREPARE（約 202 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/routine_routine_usage.md` — 37.42. routine_routine_usage（約 204 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.17.-ldap-lookup-of-connection-parameters.md` — 34.18. LDAP Lookup of Connection Parameters（約 213 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-connect.md` — CONNECT（約 217 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.19.-behavior-in-threaded-programs.md` — 34.20. Behavior in Threaded Programs（約 232 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-get-descriptor.md` — GET DESCRIPTOR（約 259 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.5.-dynamic-sql.md` — 36.5. Dynamic SQL（約 262 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.16.-the-connection-service-file.md` — 34.17. The Connection Service File（約 272 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.11.-library-functions.md` — 36.11. Library Functions（約 276 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.10.-processing-embedded-sql-programs.md` — 36.10. Processing Embedded SQL Programs（約 289 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.20.-building-libpq-programs.md` — 34.21. Building libpq Programs（約 293 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.58.-user_defined_types.md` — 37.60. user_defined_types（約 302 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.6.-canceling-queries-in-progress.md` — 34.7. Canceling Queries in Progress（約 312 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.8.-asynchronous-notification.md` — 34.9. Asynchronous Notification（約 326 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.12.-notice-processing.md` — 34.13. Notice Processing（約 370 個英文字詞）
+- [ ] `client-interfaces/34.-large-objects/34.4.-server-side-functions.md` — 35.4. Server-Side Functions（約 414 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.55.-triggers.md` — 37.57. triggers（約 433 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.16.-internals.md` — 36.17. Internals（約 457 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.3.-running-sql-commands.md` — 36.3. Running SQL Commands（約 460 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.7.-the-fast-path-interface.md` — 34.8. The Fast-Path Interface（約 467 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.13.-c++-applications.md` — 36.13. C++ Applications（約 478 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.9.-preprocessor-directives.md` — 36.9. Preprocessor Directives（約 509 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.23.-element_types.md` — 37.24. element_types（約 567 個英文字詞）
+- [ ] `client-interfaces/the-information-schema/36.22.-domains.md` — 37.23. domains（約 651 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.2.-managing-database-connections.md` — 36.2. Managing Database Connections（約 776 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.11.-miscellaneous-functions.md` — 34.12. Miscellaneous Functions（約 1157 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.13.-event-system.md` — 34.14. Event System（約 1286 個英文字詞）
+- [ ] `client-interfaces/34.-large-objects/34.3.-client-interfaces.md` — 35.3. Client Interfaces（約 1398 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.7.-using-descriptor-areas.md` — 36.7. Using Descriptor Areas（約 1649 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.8.-error-handling.md` — 36.8. Error Handling（約 1710 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.9.-functions-associated-with-the-copy-command.md` — 34.10. Functions Associated with the COPY Command（約 1731 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/libpq-pipeline-mode.md` — 34.5. Pipeline Mode（約 1814 個英文字詞）
+- [ ] `client-interfaces/libpq-c-library/33.18.-ssl-support.md` — 34.19. SSL Support（約 1913 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.4.-using-host-variables.md` — 36.4. Using Host Variables（約 2682 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.6.-pgtypes-library.md` — 36.6. pgtypes Library（約 3253 個英文字詞）
+- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.15.-informix-compatibility-mode.md` — 36.15. Informix Compatibility Mode（約 3466 個英文字詞）
+
+## internals
+
+- [ ] `internals/system-catalog-declarations-and-initial-contents/bki-example.md` — 74.6. BKI Example（約 28 個英文字詞）
+- [ ] `internals/system-catalogs/pg_publication_namespace.md` — 53.41. pg_publication_namespace（約 44 個英文字詞）
+- [ ] `internals/system-catalogs/pg_largeobject_metadata.md` — 53.31. pg_largeobject_metadata（約 45 個英文字詞）
+- [ ] `internals/system-views/pg_rules.md` — 54.21. pg_rules（約 68 個英文字詞）
+- [ ] `internals/system-catalogs/pg_replication_origin.md` — 53.44. pg_replication_origin（約 69 個英文字詞）
+- [ ] `internals/system-catalogs/pg_attrdef.md` — 53.6. pg_attrdef（約 76 個英文字詞）
+- [ ] `internals/system-catalogs/pg_user_mapping.md` — 53.65. pg_user_mapping（約 78 個英文字詞）
+- [ ] `internals/system-views/pg_config.md` — 54.5. pg_config（約 79 個英文字詞）
+- [ ] `internals/system-catalogs/pg_foreign_table.md` — 53.25. pg_foreign_table（約 81 個英文字詞）
+- [ ] `internals/system-catalogs/pg_parameter_acl.md` — 53.36. pg_parameter_acl（約 81 個英文字詞）
+- [ ] `internals/system-views/pg_group.md` — 54.8. pg_group（約 82 個英文字詞）
+- [ ] `internals/system-catalogs/pg_sequence.md` — 53.47. pg_sequence（約 85 個英文字詞）
+- [ ] `internals/system-catalogs/pg_conversion.md` — 53.14. pg_conversion（約 88 個英文字詞）
+- [ ] `internals/system-catalogs/pg_ts_config_map.md` — 53.60. pg_ts_config_map（約 90 個英文字詞）
+- [ ] `internals/system-views/pg_matviews.md` — 54.13. pg_matviews（約 92 個英文字詞）
+- [ ] `internals/system-catalogs/pg_foreign_server.md` — 53.24. pg_foreign_server（約 99 個英文字詞）
+- [ ] `internals/system-catalogs/pg_ts_template.md` — 53.63. pg_ts_template（約 100 個英文字詞）
+- [ ] `internals/system-catalogs/pg_db_role_setting.md` — 53.16. pg_db_role_setting（約 101 個英文字詞）
+- [ ] `internals/system-catalogs/pg_shdescription.md` — 53.49. pg_shdescription（約 106 個英文字詞）
+- [ ] `internals/system-catalogs/pg_ts_config.md` — 53.59. pg_ts_config（約 109 個英文字詞）
+- [ ] `internals/system-views/pg_publication_tables.md` — 54.17. pg_publication_tables（約 109 個英文字詞）
+- [ ] `internals/system-views/pg_policies.md` — 54.14. pg_policies（約 116 個英文字詞）
+- [ ] `internals/system-catalogs/pg_publication_rel.md` — 53.42. pg_publication_rel（約 117 個英文字詞）
+- [ ] `internals/system-views/pg_backend_memory_contexts.md` — 54.4. pg_backend_memory_contexts（約 117 個英文字詞）
+- [ ] `internals/system-catalogs/pg_shseclabel.md` — 53.50. pg_shseclabel（約 118 個英文字詞）
+- [ ] `internals/system-catalog-declarations-and-initial-contents/bki-structure.md` — 74.5. Structure of the Bootstrap BKI File（約 121 個英文字詞）
+- [ ] `internals/system-catalog-declarations-and-initial-contents/bki-format.md` — 74.3. BKI File Format（約 123 個英文字詞）
+- [ ] `internals/system-catalogs/pg_transform.md` — 53.57. pg_transform（約 124 個英文字詞）
+- [ ] `internals/system-catalogs/pg_inherits.md` — 53.27. pg_inherits（約 128 個英文字詞）
+- [ ] `internals/system-catalogs/pg_seclabel.md` — 53.46. pg_seclabel（約 128 個英文字詞）
+- [ ] `internals/system-catalogs/pg_description.md` — 53.19. pg_description（約 129 個英文字詞）
+- [ ] `internals/system-catalogs/pg_ts_dict.md` — 53.61. pg_ts_dict（約 133 個英文字詞）
+- [ ] `internals/system-catalogs/pg_ts_parser.md` — 53.62. pg_ts_parser（約 136 個英文字詞）
+- [ ] `internals/system-catalogs/pg_publication.md` — 53.40. pg_publication（約 141 個英文字詞）
+- [ ] `internals/system-catalogs/pg_foreign_data_wrapper.md` — 53.23. pg_foreign_data_wrapper（約 142 個英文字詞）
+- [ ] `internals/system-catalogs/pg_opfamily.md` — 53.35. pg_opfamily（約 143 個英文字詞）
+- [ ] `internals/system-catalogs/pg_amproc.md` — 53.5. pg_amproc（約 149 個英文字詞）
+- [ ] `internals/system-views/pg_seclabels.md` — 54.22. pg_seclabels（約 149 個英文字詞）
+- [ ] `internals/system-views/pg_sequences.md` — 54.23. pg_sequences（約 149 個英文字詞）
+- [ ] `internals/71.-backup-manifest-format/backup-manifest-wal-ranges.md` — 76.3. Backup Manifest WAL Range Object（約 154 個英文字詞）
+- [ ] `internals/system-views/pg_user_mappings.md` — 54.34. pg_user_mappings（約 161 個英文字詞）
+- [ ] `internals/system-views/pg_ident_file_mappings.md` — 54.10. pg_ident_file_mappings（約 164 個英文字詞）
+- [ ] `internals/system-catalogs/pg_range.md` — 53.43. pg_range（約 171 個英文字詞）
+- [ ] `internals/system-catalogs/pg_operator.md` — 53.34. pg_operator（約 175 個英文字詞）
+- [ ] `internals/71.-backup-manifest-format/backup-manifest-toplevel.md` — 76.1. Backup Manifest Top-level Object（約 180 個英文字詞）
+- [ ] `internals/52.-frontend-backend-protocol/52.6.-message-data-types.md` — 55.6. Message Data Types（約 190 個英文字詞）
+- [ ] `internals/system-catalogs/pg_default_acl.md` — 53.17. pg_default_acl（約 192 個英文字詞）
+- [ ] `internals/system-catalogs/pg_statistic_ext_data.md` — 53.53. pg_statistic_ext_data（約 199 個英文字詞）
+- [ ] `internals/system-views/pg_prepared_statements.md` — 54.15. pg_prepared_statements（約 204 個英文字詞）
+- [ ] `internals/system-catalogs/pg_enum.md` — 53.20. pg_enum（約 209 個英文字詞）
+- [ ] `internals/system-catalogs/pg_largeobject.md` — 53.30. pg_largeobject（約 209 個英文字詞）
+- [ ] `internals/system-views/pg_cursors.md` — 54.6. pg_cursors（約 211 個英文字詞）
+- [ ] `internals/system-catalogs/pg_init_privs.md` — 53.28. pg_init_privs（約 226 個英文字詞）
+- [ ] `internals/system-catalogs/pg_partitioned_table.md` — 53.37. pg_partitioned_table（約 233 個英文字詞）
+- [ ] `internals/database-physical-storage/storage-hot.md` — 73.7. Heap-Only Tuples (HOT)（約 236 個英文字詞）
+- [ ] `internals/71.-backup-manifest-format/backup-manifest-files.md` — 76.2. Backup Manifest File Object（約 243 個英文字詞）
+- [ ] `internals/system-catalogs/catalogs-overview.md` — 53.1. Overview（約 304 個英文字詞）
+- [ ] `internals/72.-hash-indexes/hash-implementation.md` — 72.2. Implementation（約 316 個英文字詞）
+- [ ] `internals/system-views/pg_file_settings.md` — 54.7. pg_file_settings（約 320 個英文字詞）
+- [ ] `internals/61.-writing-a-custom-scan-provider/custom-scan-plan.md` — 61.2. Creating Custom Scan Plans（約 336 個英文字詞）
+- [ ] `internals/system-catalogs/pg_shdepend.md` — 53.48. pg_shdepend（約 355 個英文字詞）
+- [ ] `internals/system-catalogs/pg_amop.md` — 53.4. pg_amop（約 360 個英文字詞）
+- [ ] `internals/system-catalog-declarations-and-initial-contents/bki-commands.md` — 74.4. BKI Commands（約 372 個英文字詞）
+- [ ] `internals/system-views/pg_stats_ext.md` — 54.28. pg_stats_ext（約 399 個英文字詞）
+- [ ] `internals/61.-writing-a-custom-scan-provider/custom-scan-path.md` — 61.1. Creating Custom Scan Paths（約 441 個英文字詞）
+- [ ] `internals/system-catalogs/pg_aggregate.md` — 53.2. pg_aggregate（約 474 個英文字詞）
+- [ ] `internals/52.-frontend-backend-protocol/52.10.-summary-of-changes-since-protocol-2.0.md` — 55.10. Summary of Changes since Protocol 2.0（約 512 個英文字詞）
+- [ ] `internals/system-catalog-declarations-and-initial-contents/system-catalog-declarations.md` — 74.1. System Catalog Declaration Rules（約 518 個英文字詞）
+- [ ] `internals/61.-writing-a-custom-scan-provider/custom-scan-execution.md` — 61.3. Executing Custom Scans（約 556 個英文字詞）
+- [ ] `internals/system-views/pg_stats_ext_exprs.md` — 54.29. pg_stats_ext_exprs（約 563 個英文字詞）
+- [ ] `internals/52.-frontend-backend-protocol/52.8.-error-and-notice-message-fields.md` — 55.8. Error and Notice Message Fields（約 625 個英文字詞）
+- [ ] `internals/72.-hash-indexes/hash-intro.md` — 72.1. Overview（約 663 個英文字詞）
+- [ ] `internals/index-access-method-interface-definition/index-locking.md` — 64.4. Index Locking Considerations（約 707 個英文字詞）
+- [ ] `internals/52.-frontend-backend-protocol/52.3.-sasl-authentication.md` — 55.3. SASL Authentication（約 719 個英文字詞）
+- [ ] `internals/index-access-method-interface-definition/index-cost-estimation.md` — 64.6. Index Cost Estimation Functions（約 745 個英文字詞）
+- [ ] `internals/index-access-method-interface-definition/index-api.md` — 64.1. Basic API Structure for Indexes（約 751 個英文字詞）
+- [ ] `internals/index-access-method-interface-definition/index-unique-checks.md` — 64.5. Index Uniqueness Checks（約 860 個英文字詞）
+- [ ] `internals/60.-writing-a-table-sampling-method/tablesample-support-functions.md` — 60.1. Sampling Method Support Functions（約 863 個英文字詞）
+- [ ] `internals/index-access-method-interface-definition/index-scanning.md` — 64.3. Index Scanning（約 954 個英文字詞）
+- [ ] `internals/system-catalogs/pg_depend.md` — 53.18. pg_depend（約 988 個英文字詞）
+- [ ] `internals/52.-frontend-backend-protocol/52.9.-logical-replication-message-formats.md` — 55.9. Logical Replication Message Formats（約 1326 個英文字詞）
+- [ ] `internals/system-catalog-declarations-and-initial-contents/system-catalog-initial-data.md` — 74.2. System Catalog Initial Data（約 2073 個英文字詞）
+- [ ] `internals/index-access-method-interface-definition/index-functions.md` — 64.2. Index Access Method Functions（約 2698 個英文字詞）
+- [ ] `internals/52.-frontend-backend-protocol/52.7.-message-formats.md` — 55.7. Message Formats（約 3259 個英文字詞）
+- [ ] `internals/52.-frontend-backend-protocol/52.2.-message-flow.md` — 55.2. Message Flow（約 6952 個英文字詞）
+
+## reference
+
+- [ ] `reference/server-applications/postmaster.md` — postmaster（約 14 個英文字詞）
+- [ ] `reference/sql-commands/drop-group.md` — DROP GROUP（約 25 個英文字詞）
+- [ ] `reference/sql-commands/create-group.md` — CREATE GROUP（約 26 個英文字詞）
+- [ ] `reference/sql-commands/alter-text-search-parser.md` — ALTER TEXT SEARCH PARSER（約 85 個英文字詞）
+- [ ] `reference/sql-commands/alter-text-search-template.md` — ALTER TEXT SEARCH TEMPLATE（約 85 個英文字詞）
+- [ ] `reference/sql-commands/move.md` — MOVE（約 89 個英文字詞）
+- [ ] `reference/sql-commands/alter-large-object.md` — ALTER LARGE OBJECT（約 99 個英文字詞）
+- [ ] `reference/sql-commands/alter-routine.md` — ALTER ROUTINE（約 99 個英文字詞）
+- [ ] `reference/sql-commands/alter-event-trigger.md` — ALTER EVENT TRIGGER（約 101 個英文字詞）
+- [ ] `reference/sql-commands/drop-conversion.md` — DROP CONVERSION（約 102 個英文字詞）
+- [ ] `reference/sql-commands/rollback.md` — ROLLBACK（約 103 個英文字詞）
+- [ ] `reference/sql-commands/drop-domain.md` — DROP DOMAIN（約 107 個英文字詞）
+- [ ] `reference/sql-commands/drop-event-trigger.md` — DROP EVENT TRIGGER（約 109 個英文字詞）
+- [ ] `reference/sql-commands/drop-collation.md` — DROP COLLATION（約 112 個英文字詞）
+- [ ] `reference/sql-commands/drop-server.md` — DROP SERVER（約 113 個英文字詞）
+- [ ] `reference/sql-commands/drop-cast.md` — DROP CAST（約 115 個英文字詞）
+- [ ] `reference/sql-commands/commit.md` — COMMIT（約 116 個英文字詞）
+- [ ] `reference/sql-commands/abort.md` — ABORT（約 117 個英文字詞）
+- [ ] `reference/sql-commands/checkpoint.md` — CHECKPOINT（約 118 個英文字詞）
+- [ ] `reference/server-applications/pg_controldata.md` — pg_controldata（約 119 個英文字詞）
+- [ ] `reference/sql-commands/end.md` — END（約 121 個英文字詞）
+- [ ] `reference/sql-commands/drop-foreign-data-wrapper.md` — DROP FOREIGN DATA WRAPPER（約 129 個英文字詞）
+- [ ] `reference/sql-commands/drop-foreign-table.md` — DROP FOREIGN TABLE（約 134 個英文字詞）
+- [ ] `reference/sql-commands/drop-user-mapping.md` — DROP USER MAPPING（約 136 個英文字詞）
+- [ ] `reference/sql-commands/alter-conversion.md` — ALTER CONVERSION（約 138 個英文字詞）
+- [ ] `reference/sql-commands/drop-text-search-parser.md` — DROP TEXT SEARCH PARSER（約 141 個英文字詞）
+- [ ] `reference/sql-commands/drop-text-search-template.md` — DROP TEXT SEARCH TEMPLATE（約 141 個英文字詞）
+- [ ] `reference/sql-commands/discard.md` — DISCARD（約 145 個英文字詞）
+- [ ] `reference/sql-commands/drop-text-search-dictionary.md` — DROP TEXT SEARCH DICTIONARY（約 145 個英文字詞）
+- [ ] `reference/sql-commands/drop-text-search-configuration.md` — DROP TEXT SEARCH CONFIGURATION（約 147 個英文字詞）
+- [ ] `reference/sql-commands/start-transaction.md` — START TRANSACTION（約 147 個英文字詞）
+- [ ] `reference/sql-commands/alter-operator-class.md` — ALTER OPERATOR CLASS（約 151 個英文字詞）
+- [ ] `reference/sql-commands/drop-operator.md` — DROP OPERATOR（約 156 個英文字詞）
+- [ ] `reference/sql-commands/close.md` — CLOSE（約 170 個英文字詞）
+- [ ] `reference/sql-commands/alter-group.md` — ALTER GROUP（約 181 個英文字詞）
+- [ ] `reference/sql-commands/release-savepoint.md` — RELEASE SAVEPOINT（約 184 個英文字詞）
+- [ ] `reference/sql-commands/drop-operator-family.md` — DROP OPERATOR FAMILY（約 201 個英文字詞）
+- [ ] `reference/sql-commands/alter-operator.md` — ALTER OPERATOR（約 202 個英文字詞）
+- [ ] `reference/sql-commands/call.md` — CALL（約 202 個英文字詞）
+- [ ] `reference/sql-commands/alter-user-mapping.md` — ALTER USER MAPPING（約 205 個英文字詞）
+- [ ] `reference/sql-commands/alter-server.md` — ALTER SERVER（約 207 個英文字詞）
+- [ ] `reference/sql-commands/create-text-search-configuration.md` — CREATE TEXT SEARCH CONFIGURATION（約 211 個英文字詞）
+- [ ] `reference/sql-commands/create-text-search-dictionary.md` — CREATE TEXT SEARCH DICTIONARY（約 214 個英文字詞）
+- [ ] `reference/sql-commands/drop-routine.md` — DROP ROUTINE（約 232 個英文字詞）
+- [ ] `reference/sql-commands/savepoint.md` — SAVEPOINT（約 237 個英文字詞）
+- [ ] `reference/sql-commands/drop-aggregate.md` — DROP AGGREGATE（約 243 個英文字詞）
+- [ ] `reference/sql-commands/drop-operator-class.md` — DROP OPERATOR CLASS（約 249 個英文字詞）
+- [ ] `reference/sql-commands/create-text-search-template.md` — CREATE TEXT SEARCH TEMPLATE（約 253 個英文字詞）
+- [ ] `reference/sql-commands/alter-text-search-dictionary.md` — ALTER TEXT SEARCH DICTIONARY（約 257 個英文字詞）
+- [ ] `reference/sql-commands/create-operator-family.md` — CREATE OPERATOR FAMILY（約 261 個英文字詞）
+- [ ] `reference/sql-commands/create-text-search-parser.md` — CREATE TEXT SEARCH PARSER（約 266 個英文字詞）
+- [ ] `reference/sql-commands/begin.md` — BEGIN（約 277 個英文字詞）
+- [ ] `reference/sql-commands/rollback-to-savepoint.md` — ROLLBACK TO SAVEPOINT（約 290 個英文字詞）
+- [ ] `reference/sql-commands/create-conversion.md` — CREATE CONVERSION（約 291 個英文字詞）
+- [ ] `reference/sql-commands/alter-text-search-configuration.md` — ALTER TEXT SEARCH CONFIGURATION（約 305 個英文字詞）
+- [ ] `reference/sql-commands/alter-foreign-data-wrapper.md` — ALTER FOREIGN DATA WRAPPER（約 330 個英文字詞）
+- [ ] `reference/sql-commands/alter-aggregate.md` — ALTER AGGREGATE（約 342 個英文字詞）
+- [ ] `reference/server-applications/pg_checksums.md` — pg_checksums（約 414 個英文字詞）
+- [ ] `reference/sql-commands/alter-collation.md` — ALTER COLLATION（約 456 個英文字詞）
+- [ ] `reference/sql-commands/drop-procedure.md` — DROP PROCEDURE（約 483 個英文字詞）
+- [ ] `reference/client-applications/ecpg.md` — ecpg（約 505 個英文字詞）
+- [ ] `reference/client-applications/pg_config.md` — pg_config（約 516 個英文字詞）
+- [ ] `reference/sql-commands/create-collation.md` — CREATE COLLATION（約 517 個英文字詞）
+- [ ] `reference/client-applications/clusterdb.md` — clusterdb（約 529 個英文字詞）
+- [ ] `reference/sql-commands/create-operator.md` — CREATE OPERATOR（約 530 個英文字詞）
+- [ ] `reference/sql-commands/alter-procedure.md` — ALTER PROCEDURE（約 552 個英文字詞）
+- [ ] `reference/server-applications/pg_waldump.md` — pg_waldump（約 627 個英文字詞）
+- [ ] `reference/sql-commands/alter-domain.md` — ALTER DOMAIN（約 659 個英文字詞）
+- [ ] `reference/client-applications/reindexdb.md` — reindexdb（約 669 個英文字詞）
+- [ ] `reference/sql-commands/fetch.md` — FETCH（約 756 個英文字詞）
+- [ ] `reference/sql-commands/alter-operator-family.md` — ALTER OPERATOR FAMILY（約 813 個英文字詞）
+- [ ] `reference/sql-commands/lock.md` — LOCK（約 851 個英文字詞）
+- [ ] `reference/sql-commands/create-operator-class.md` — CREATE OPERATOR CLASS（約 867 個英文字詞）
+- [ ] `reference/sql-commands/alter-foreign-table.md` — ALTER FOREIGN TABLE（約 1165 個英文字詞）
+- [ ] `reference/sql-commands/declare.md` — DECLARE（約 1179 個英文字詞）
+- [ ] `reference/server-applications/pg_resetwal.md` — pg_resetwal（約 1266 個英文字詞）
+- [ ] `reference/server-applications/pg_rewind.md` — pg_rewind（約 1401 個英文字詞）
+- [ ] `reference/client-applications/pg_amcheck.md` — pg_amcheck（約 1528 個英文字詞）
+- [ ] `reference/sql-commands/create-aggregate.md` — CREATE AGGREGATE（約 3140 個英文字詞）
+
+## server-programming
+
+- [ ] `server-programming/event-triggers/event-trigger-table-rewrite-example.md` — 40.5. A Table Rewrite Event Trigger Example（約 30 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-transaction/spi-spi-start-transaction.md` — SPI_start_transaction（約 32 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory/spi-spi-freeplan.md` — SPI_freeplan（約 34 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support/spi-spi-result-code-string.md` — SPI_result_code_string（約 35 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory/spi-spi-pfree.md` — SPI_pfree（約 41 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory/spi-spi-freetuple.md` — SPI_freetuple（約 42 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-cursor-close.md` — SPI_cursor_close（約 43 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-exec.md` — SPI_exec（約 43 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support/spi-spi-getrelname.md` — SPI_getrelname（約 47 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-getargcount.md` — SPI_getargcount（約 52 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory/spi-spi-palloc.md` — SPI_palloc（約 52 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support/spi-spi-gettypeid.md` — SPI_gettypeid（約 55 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support/spi-spi-getnspname.md` — SPI_getnspname（約 57 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-data.md` — 44.3. Data Values in PL/Tcl（約 60 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support/spi-spi-fname.md` — SPI_fname（約 65 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-cursor-move.md` — SPI_cursor_move（約 65 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support/spi-spi-gettype.md` — SPI_gettype（約 69 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-finish.md` — SPI_finish（約 69 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory/spi-realloc.md` — SPI_repalloc（約 71 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-cursor-fetch.md` — SPI_cursor_fetch（約 74 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory/spi-spi-copytuple.md` — SPI_copytuple（約 76 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-examples.md` — 47.6. Examples（約 80 個英文字詞）
+- [ ] `server-programming/pl-perl-perl-procedural-language/plperl-data.md` — 45.2. Data Values in PL/Perl（約 82 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-transaction/spi-spi-rollback.md` — SPI_rollback（約 87 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support/spi-spi-getvalue.md` — SPI_getvalue（約 89 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-unregister-relation.md` — SPI_unregister_relation（約 90 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-getargtypeid.md` — SPI_getargtypeid（約 91 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-keepplan.md` — SPI_keepplan（約 91 個英文字詞）
+- [ ] `server-programming/pl-perl-perl-procedural-language/plperl-event-triggers.md` — 45.7. PL/Perl Event Triggers（約 92 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-connect.md` — SPI_connect（約 93 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-prepare-params.md` — SPI_prepare_params（約 93 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-scroll-cursor-fetch.md` — SPI_scroll_cursor_fetch（約 94 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-procnames.md` — 44.12. Tcl Procedure Names（約 97 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-transactions.md` — 44.10. Transaction Management（約 97 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-cursor-find.md` — SPI_cursor_find（約 99 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-event-trigger.md` — 44.7. Event Trigger Functions in PL/Tcl（約 100 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support/spi-spi-fnumber.md` — SPI_fnumber（約 103 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-register-relation.md` — SPI_register_relation（約 106 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-scroll-cursor-move.md` — SPI_scroll_cursor_move（約 106 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support.md` — 47.2. Interface Support Functions（約 108 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-transaction/spi-spi-commit.md` — SPI_commit（約 113 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface-support/spi-spi-getbinval.md` — SPI_getbinval（約 114 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-prepare-cursor.md` — SPI_prepare_cursor（約 115 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory/spi-spi-returntuple.md` — SPI_returntuple（約 117 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-execute-plan-with-paramlist.md` — SPI_execute_plan_with_paramlist（約 123 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-is-cursor-plan.md` — SPI_is_cursor_plan（約 125 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-register-trigger-data.md` — SPI_register_trigger_data（約 127 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-saveplan.md` — SPI_saveplan（約 132 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory/spi-spi-freetupletable.md` — SPI_freetuptable（約 141 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-cursor-open-with-paramlist.md` — SPI_cursor_open_with_paramlist（約 150 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-execp.md` — SPI_execp（約 152 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-prepare-extended.md` — SPI_prepare_extended（約 161 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-transaction.md` — 47.4. Transaction Management（約 162 個英文字詞）
+- [ ] `server-programming/pl-perl-perl-procedural-language/plperl-triggers.md` — 45.6. PL/Perl Triggers（約 181 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface.md` — 47.1. Interface Functions（約 189 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-execute-plan.md` — SPI_execute_plan（約 198 個英文字詞）
+- [ ] `server-programming/pl-perl-perl-procedural-language/plperl-global.md` — 45.4. Global Values in PL/Perl（約 202 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-visibility.md` — 47.5. Visibility of Data Changes（約 222 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-config.md` — 44.11. PL/Tcl Configuration（約 244 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-cursor-parse-open.md` — SPI_cursor_parse_open（約 260 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-cursor-open.md` — SPI_cursor_open（約 268 個英文字詞）
+- [ ] `server-programming/logical-decoding/logicaldecoding-two-phase-commits.md` — 49.10. Two-phase Commit Support for Logical Decoding（約 270 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-subtransactions.md` — 44.9. Explicit Subtransactions in PL/Tcl（約 273 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-cursor-open-with-args.md` — SPI_cursor_open_with_args（約 291 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory/spi-spi-modifytuple.md` — SPI_modifytuple（約 291 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-execute-with-args.md` — SPI_execute_with_args（約 300 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-error-handling.md` — 44.8. Error Handling in PL/Tcl（約 304 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-overview.md` — 44.1. Overview（約 314 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-global.md` — 44.4. Global Data in PL/Tcl（約 342 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-memory.md` — 47.3. Memory Management（約 365 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-execute-extended.md` — SPI_execute_extended（約 372 個英文字詞）
+- [ ] `server-programming/logical-decoding/logicaldecoding-streaming.md` — 49.9. Streaming of Large Transactions for Logical Decoding（約 383 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-execute-plan-extended.md` — SPI_execute_plan_extended（約 383 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-functions.md` — 44.2. PL/Tcl Functions and Arguments（約 396 個英文字詞）
+- [ ] `server-programming/pl-perl-perl-procedural-language/plperl-trusted.md` — 45.5. Trusted and Untrusted PL/Perl（約 477 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-prepare.md` — SPI_prepare（約 534 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-trigger.md` — 44.6. Trigger Functions in PL/Tcl（約 561 個英文字詞）
+- [ ] `server-programming/pl-perl-perl-procedural-language/plperl-under-the-hood.md` — 45.8. PL/Perl Under the Hood（約 615 個英文字詞）
+- [ ] `server-programming/server-programming-interface/spi-interface/spi-spi-execute.md` — SPI_execute（約 716 個英文字詞）
+- [ ] `server-programming/pl-tcl-tcl-procedural-language/pltcl-dbaccess.md` — 44.5. Database Access from PL/Tcl（約 943 個英文字詞）
+- [ ] `server-programming/pl-perl-perl-procedural-language/plperl-builtins.md` — 45.3. Built-in Functions（約 991 個英文字詞）
+- [ ] `server-programming/pl-perl-perl-procedural-language/plperl-funcs.md` — 45.1. PL/Perl Functions and Arguments（約 1044 個英文字詞）
