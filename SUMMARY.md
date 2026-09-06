@@ -182,7 +182,7 @@
     * [17.6. Supported Platforms #](server-administration/installation/supported-platforms.md)
     * [17.7. Platform-Specific Notes #](server-administration/installation/installation-platform-notes.md)
   * [Chapter 18. Server Setup and Operation](server-administration/runtime/README.md)
-    * [18.1. The PostgreSQL User Account #](server-administration/runtime/postgres-user.md)
+    * [18.1. PostgreSQL 使用者帳號](server-administration/runtime/postgres-user.md)
     * [18.2. Creating a Database Cluster #](server-administration/runtime/creating-cluster.md)
     * [18.3. Starting the Database Server #](server-administration/runtime/server-start.md)
     * [18.4. Managing Kernel Resources #](server-administration/runtime/kernel-resources.md)

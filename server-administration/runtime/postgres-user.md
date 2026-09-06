@@ -1,25 +1,13 @@
-## 18.1. The PostgreSQL User Account [#](#POSTGRES-USER)
+## 18.1. PostgreSQL 使用者帳號 [#](#POSTGRES-USER)
 
 <a id="id-1.6.5.4.2"></a>
 
-As with any server daemon that is accessible to the outside world,
-it is advisable to run PostgreSQL under a
-separate user account. This user account should only own the data
-that is managed by the server, and should not be shared with other
-daemons. (For example, using the user `nobody` is a bad
-idea.) In particular, it is advisable that this user account not own
-the PostgreSQL executable files, to ensure
-that a compromised server process could not modify those executables.
+如同任何可由外界存取的伺服器背景程式，建議以獨立的使用者帳號執行 PostgreSQL。此帳號應只擁有伺服器所管理的資料，且不應與其他背景程式共用。（例如，使用 `nobody` 使用者並不恰當。）尤其建議此帳號不要擁有 PostgreSQL 執行檔，以確保遭入侵的伺服器程序無法修改這些執行檔。
 
-Pre-packaged versions of PostgreSQL will
-typically create a suitable user account automatically during
-package installation.
+預先封裝的 PostgreSQL 版本通常會在安裝套件時自動建立適當的使用者帳號。
 
-To add a Unix user account to your system, look for a command
-`useradd` or `adduser`. The user
-name postgres is often used, and is assumed
-throughout this book, but you can use another name if you like.
+若要在系統中新增 Unix 使用者帳號，請找尋 `useradd` 或 `adduser` 命令。常用的使用者名稱是 postgres，本書也都以此名稱為例，但你可以自行選用其他名稱。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/postgres-user.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/postgres-user.html)（原文版本：18.6；核對日期：2026-09-07）

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1053 頁。
+待譯頁面：1052 頁。
 
 ## 根目錄
 
@@ -816,7 +816,7 @@
 - [ ] `server-administration/runtime/event-log-registration.md` — 18.12. Registering Event Log on Windows #
 - [ ] `server-administration/runtime/gssapi-enc.md` — 18.10. Secure TCP/IP Connections with GSSAPI Encryption #
 - [ ] `server-administration/runtime/kernel-resources.md` — 18.4. Managing Kernel Resources #
-- [ ] `server-administration/runtime/postgres-user.md` — 18.1. The PostgreSQL User Account #
+- [x] `server-administration/runtime/postgres-user.md` — 18.1. PostgreSQL 使用者帳號
 - [ ] `server-administration/runtime/preventing-server-spoofing.md` — 18.7. Preventing Server Spoofing #
 - [ ] `server-administration/runtime/server-shutdown.md` — 18.5. Shutting Down the Server #
 - [ ] `server-administration/runtime/server-start.md` — 18.3. Starting the Database Server #
