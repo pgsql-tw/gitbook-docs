@@ -1,10 +1,6 @@
-## 68.6. BKI Example [#](#BKI-EXAMPLE)
+## 68.6. BKI 範例 [#](#BKI-EXAMPLE)
 
-The following sequence of commands will create the table
-`test_table` with OID 420, having three columns
-`oid`, `cola` and `colb`
-of type `oid`, `int4` and `text`,
-respectively, and insert two rows into the table:
+以下命令序列會建立 OID 為 420 的資料表 `test_table`，其中包含 `oid`、`cola` 和 `colb` 三個欄位，型別分別為 `oid`、`int4` 和 `text`，並在資料表中插入兩筆資料列：
 
 ```
 
@@ -17,4 +13,4 @@ close test_table
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bki-example.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bki-example.html)（原文版本：18.6；核對日期：2026-09-07）

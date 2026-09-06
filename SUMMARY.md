@@ -1012,7 +1012,7 @@
     * [68.3. BKI File Format #](internals/bki/bki-format.md)
     * [68.4. BKI Commands #](internals/bki/bki-commands.md)
     * [68.5. Structure of the Bootstrap BKI File #](internals/bki/bki-structure.md)
-    * [68.6. BKI Example #](internals/bki/bki-example.md)
+    * [68.6. BKI 範例](internals/bki/bki-example.md)
   * [Chapter 69. How the Planner Uses Statistics](internals/planner-stats-details/README.md)
     * [69.1. Row Estimation Examples #](internals/planner-stats-details/row-estimation-examples.md)
     * [69.2. Multivariate Statistics Examples #](internals/planner-stats-details/multivariate-statistics-examples.md)

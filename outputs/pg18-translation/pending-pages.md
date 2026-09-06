@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1099 頁。
+待譯頁面：1098 頁。
 
 ## 根目錄
 
@@ -281,7 +281,7 @@
 - [ ] `internals/backup-manifest-format/backup-manifest-wal-ranges.md` — 70.3. Backup Manifest WAL Range Object #
 - [ ] `internals/bki/README.md` — Chapter 68. System Catalog Declarations and Initial Contents
 - [ ] `internals/bki/bki-commands.md` — 68.4. BKI Commands #
-- [ ] `internals/bki/bki-example.md` — 68.6. BKI Example #
+- [x] `internals/bki/bki-example.md` — 68.6. BKI 範例
 - [ ] `internals/bki/bki-format.md` — 68.3. BKI File Format #
 - [ ] `internals/bki/bki-structure.md` — 68.5. Structure of the Bootstrap BKI File #
 - [ ] `internals/bki/system-catalog-declarations.md` — 68.1. System Catalog Declaration Rules #
