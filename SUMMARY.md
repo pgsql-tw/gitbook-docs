@@ -1001,7 +1001,7 @@
     * [66.5. The Initialization Fork #](internals/storage/storage-init.md)
     * [66.6. Database Page Layout #](internals/storage/storage-page-layout.md)
     * [66.7. Heap-Only Tuples ( HOT ) #](internals/storage/storage-hot.md)
-  * [Chapter 67. Transaction Processing](internals/transactions/README.md)
+  * [第 67 章 交易處理](internals/transactions/README.md)
     * [67.1. Transactions and Identifiers #](internals/transactions/transaction-id.md)
     * [67.2. Transactions and Locking #](internals/transactions/xact-locking.md)
     * [67.3. Subtransactions #](internals/transactions/subxacts.md)

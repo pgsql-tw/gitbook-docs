@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1100 頁。
+待譯頁面：1099 頁。
 
 ## 根目錄
 
@@ -423,7 +423,7 @@
 - [ ] `internals/tableam/README.md` — Chapter 62. Table Access Method Interface Definition
 - [ ] `internals/tablesample-method/README.md` — Chapter 59. Writing a Table Sampling Method
 - [ ] `internals/tablesample-method/tablesample-support-functions.md` — 59.1. Sampling Method Support Functions #
-- [ ] `internals/transactions/README.md` — Chapter 67. Transaction Processing
+- [x] `internals/transactions/README.md` — 第 67 章 交易處理
 - [ ] `internals/transactions/subxacts.md` — 67.3. Subtransactions #
 - [ ] `internals/transactions/transaction-id.md` — 67.1. Transactions and Identifiers #
 - [ ] `internals/transactions/two-phase.md` — 67.4. Two-Phase Transactions #
