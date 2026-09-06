@@ -1138,7 +1138,7 @@
   * [Appendix M. Glossary](appendixes/glossary/README.md)
   * [附錄 N. 色彩支援](appendixes/color/README.md)
     * [N.1. 何時使用色彩 #](appendixes/color/color-when.md)
-    * [N.2. Configuring the Colors #](appendixes/color/color-which.md)
+    * [N.2. 設定色彩 #](appendixes/color/color-which.md)
   * [附錄 O. 已淘汰或改名的功能](appendixes/appendix-obsolete/README.md)
     * [O.1. `recovery.conf` 檔案已併入 `postgresql.conf` #](appendixes/appendix-obsolete/recovery-config.md)
     * [O.2. 預設角色已改名為預先定義角色 #](appendixes/appendix-obsolete/default-roles.md)
