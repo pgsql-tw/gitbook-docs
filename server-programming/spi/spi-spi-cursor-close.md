@@ -2,9 +2,9 @@
 
 ## SPI_cursor_close
 
-SPI_cursor_close — close a cursor
+SPI_cursor_close — 關閉游標
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,22 +13,19 @@ void SPI_cursor_close(Portal portal)
 
 <a id="id-1.8.12.8.28.5"></a>
 
-## Description
+## 說明
 
-`SPI_cursor_close` closes a previously created
-cursor and releases its portal storage.
+`SPI_cursor_close` 會關閉先前建立的游標，並釋放其 portal 的儲存空間。
 
-All open cursors are closed automatically at the end of a
-transaction. `SPI_cursor_close` need only be
-invoked if it is desirable to release resources sooner.
+交易結束時，所有開啟的游標都會自動關閉。只有在希望提早釋放資源時，才需要呼叫 `SPI_cursor_close`。
 
 <a id="id-1.8.12.8.28.6"></a>
 
-## Arguments
+## 引數
 
 `Portal portal`
-:   portal containing the cursor
+:   包含游標的 portal
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-close.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-close.html)（原文版本：18.6；核對日期：2026-09-07）
