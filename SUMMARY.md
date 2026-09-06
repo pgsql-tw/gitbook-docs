@@ -1048,7 +1048,7 @@
     * [F.1. amcheck — tools to verify table and index consistency #](appendixes/contrib/amcheck.md)
     * [F.2. `auth_delay` — 驗證失敗時暫停 #](appendixes/contrib/auth-delay.md)
     * [F.3. auto_explain — log execution plans of slow queries #](appendixes/contrib/auto-explain.md)
-    * [F.4. basebackup_to_shell — example "shell" pg_basebackup module #](appendixes/contrib/basebackup-to-shell.md)
+    * [F.4. `basebackup_to_shell` — 「shell」`pg_basebackup` 模組範例 #](appendixes/contrib/basebackup-to-shell.md)
     * [F.5. `basic_archive` — WAL 封存模組範例 #](appendixes/contrib/basic-archive.md)
     * [F.6. bloom — bloom filter index access method #](appendixes/contrib/bloom.md)
     * [F.7. btree_gin — GIN operator classes with B-tree behavior #](appendixes/contrib/btree-gin.md)
