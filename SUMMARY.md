@@ -151,7 +151,7 @@
     * [12.8. Testing and Debugging Text Search #](the-sql-language/textsearch/textsearch-debugging.md)
     * [12.9. Preferred Index Types for Text Search #](the-sql-language/textsearch/textsearch-indexes.md)
     * [12.10. psql Support #](the-sql-language/textsearch/textsearch-psql.md)
-    * [12.11. Limitations #](the-sql-language/textsearch/textsearch-limitations.md)
+    * [12.11. 限制](the-sql-language/textsearch/textsearch-limitations.md)
   * [Chapter 13. Concurrency Control](the-sql-language/mvcc/README.md)
     * [13.1. Introduction #](the-sql-language/mvcc/mvcc-intro.md)
     * [13.2. Transaction Isolation #](the-sql-language/mvcc/transaction-iso.md)

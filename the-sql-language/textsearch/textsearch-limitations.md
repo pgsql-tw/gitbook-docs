@@ -1,31 +1,19 @@
-## 12.11. Limitations [#](#TEXTSEARCH-LIMITATIONS)
+## 12.11. 限制 [#](#TEXTSEARCH-LIMITATIONS)
 
-The current limitations of PostgreSQL's
-text search features are:
+PostgreSQL 文字搜尋功能目前有下列限制：
 
-* The length of each lexeme must be less than 2 kilobytes
-* The length of a `tsvector` (lexemes + positions) must be
-  less than 1 megabyte
-* The number of lexemes must be less than
-  264
-* Position values in `tsvector` must be greater than 0 and
-  no more than 16,383
-* The match distance in a `<N>`
-  (FOLLOWED BY) `tsquery` operator cannot be more than
-  16,384
-* No more than 256 positions per lexeme
-* The number of nodes (lexemes + operators) in a `tsquery`
-  must be less than 32,768
+* 每個詞素（lexeme）的長度必須小於 2 KB。
+* `tsvector` 的長度（詞素加上位置）必須小於 1 MB。
+* 詞素數量必須小於 2<sup>64</sup>。
+* `tsvector` 中的位置值必須大於 0，且不超過 16,383。
+* `tsquery` 的 `<N>`（FOLLOWED BY）運算子所指定的比對距離不得超過 16,384。
+* 每個詞素最多可有 256 個位置。
+* `tsquery` 中的節點數量（詞素加上運算子）必須小於 32,768。
 
-For comparison, the PostgreSQL 8.1 documentation
-contained 10,441 unique words, a total of 335,420 words, and the most
-frequent word “postgresql” was mentioned 6,127 times in 655
-documents.
+作為比較，PostgreSQL 8.1 文件包含 10,441 個不重複單字，總計 335,420 個單字；最常出現的單字「postgresql」在 655 份文件中共出現 6,127 次。
 
-Another example — the PostgreSQL mailing
-list archives contained 910,989 unique words with 57,491,343 lexemes in
-461,020 messages.
+另一個例子是 PostgreSQL 郵件論壇封存，其中 461,020 封訊息包含 910,989 個不重複單字，共計 57,491,343 個詞素。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-limitations.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-limitations.html)（原文版本：18.6；核對日期：2026-09-07）
