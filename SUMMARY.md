@@ -954,7 +954,7 @@
     * [55.2. Reporting Errors Within the Server #](internals/source/error-message-reporting.md)
     * [55.3. Error Message Style Guide #](internals/source/error-style-guide.md)
     * [55.4. Miscellaneous Coding Conventions #](internals/source/source-conventions.md)
-  * [Chapter 56. Native Language Support](internals/nls/README.md)
+  * [第 56 章 母語支援](internals/nls/README.md)
     * [56.1. For the Translator #](internals/nls/nls-translator.md)
     * [56.2. For the Programmer #](internals/nls/nls-programmer.md)
   * [Chapter 57. Writing a Procedural Language Handler](internals/plhandler/README.md)

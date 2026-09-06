@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1079 頁。
+待譯頁面：1078 頁。
 
 ## 根目錄
 
@@ -381,7 +381,7 @@
 - [ ] `internals/indextypes/gist.md` — 65.2. GiST Indexes #
 - [ ] `internals/indextypes/hash-index.md` — 65.6. Hash Indexes #
 - [ ] `internals/indextypes/spgist.md` — 65.3. SP-GiST Indexes #
-- [ ] `internals/nls/README.md` — Chapter 56. Native Language Support
+- [x] `internals/nls/README.md` — 第 56 章 母語支援
 - [ ] `internals/nls/nls-programmer.md` — 56.2. For the Programmer #
 - [ ] `internals/nls/nls-translator.md` — 56.1. For the Translator #
 - [ ] `internals/overview/README.md` — Chapter 51. Overview of PostgreSQL Internals
