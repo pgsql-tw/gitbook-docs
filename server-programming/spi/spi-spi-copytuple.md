@@ -2,9 +2,9 @@
 
 ## SPI_copytuple
 
-SPI_copytuple — make a copy of a row in the upper executor context
+SPI_copytuple — 在上層執行器記憶體環境中複製資料列
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,31 +13,25 @@ HeapTuple SPI_copytuple(HeapTuple row)
 
 <a id="id-1.8.12.10.9.5"></a>
 
-## Description
+## 說明
 
-`SPI_copytuple` makes a copy of a row in the
-upper executor context. This is normally used to return a modified
-row from a trigger. In a function declared to return a composite
-type, use `SPI_returntuple` instead.
+`SPI_copytuple` 會在上層執行器記憶體環境中建立資料列的副本。這通常用於從觸發器回傳修改後的資料列。在宣告為回傳複合型別的函式中，請改用 `SPI_returntuple`。
 
-This function can only be used while connected to SPI.
-Otherwise, it returns NULL and sets `SPI_result` to
-`SPI_ERROR_UNCONNECTED`.
+此函式只能在已連線至 SPI 時使用。否則會回傳 NULL，並將 `SPI_result` 設為 `SPI_ERROR_UNCONNECTED`。
 
 <a id="id-1.8.12.10.9.6"></a>
 
-## Arguments
+## 引數
 
 `HeapTuple row`
-:   row to be copied
+:   要複製的資料列
 
 <a id="id-1.8.12.10.9.7"></a>
 
-## Return Value
+## 回傳值
 
-the copied row, or `NULL` on error
-(see `SPI_result` for an error indication)
+複製後的資料列；發生錯誤時回傳 `NULL`（錯誤資訊請查看 `SPI_result`）。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-copytuple.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-copytuple.html)（原文版本：18.6；核對日期：2026-09-07）
