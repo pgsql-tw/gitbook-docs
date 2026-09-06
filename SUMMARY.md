@@ -591,7 +591,7 @@
     * [47.4. Logical Decoding SQL Interface #](server-programming/logicaldecoding/logicaldecoding-sql.md)
     * [47.5. System Catalogs Related to Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-catalogs.md)
     * [47.6. Logical Decoding Output Plugins #](server-programming/logicaldecoding/logicaldecoding-output-plugin.md)
-    * [47.7. Logical Decoding Output Writers #](server-programming/logicaldecoding/logicaldecoding-writer.md)
+    * [47.7. 邏輯解碼輸出寫入器 #](server-programming/logicaldecoding/logicaldecoding-writer.md)
     * [47.8. Synchronous Replication Support for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-synchronous.md)
     * [47.9. Streaming of Large Transactions for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-streaming.md)
     * [47.10. Two-phase Commit Support for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md)
