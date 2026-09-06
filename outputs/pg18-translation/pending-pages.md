@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1077 頁。
+待譯頁面：1076 頁。
 
 ## 根目錄
 
@@ -1045,7 +1045,7 @@
 - [ ] `the-sql-language/ddl/ddl-generated-columns.md` — 5.4. Generated Columns #
 - [ ] `the-sql-language/ddl/ddl-identity-columns.md` — 5.3. Identity Columns #
 - [ ] `the-sql-language/ddl/ddl-inherit.md` — 5.11. Inheritance #
-- [ ] `the-sql-language/ddl/ddl-others.md` — 5.14. Other Database Objects #
+- [x] `the-sql-language/ddl/ddl-others.md` — 5.14. 其他資料庫物件
 - [ ] `the-sql-language/ddl/ddl-partitioning.md` — 5.12. Table Partitioning #
 - [ ] `the-sql-language/ddl/ddl-priv.md` — 5.8. Privileges #
 - [ ] `the-sql-language/ddl/ddl-rowsecurity.md` — 5.9. Row Security Policies #

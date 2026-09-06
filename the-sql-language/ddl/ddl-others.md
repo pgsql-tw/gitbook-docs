@@ -1,20 +1,14 @@
-## 5.14. Other Database Objects [#](#DDL-OTHERS)
+## 5.14. 其他資料庫物件 [#](#DDL-OTHERS)
 
-Tables are the central objects in a relational database structure,
-because they hold your data. But they are not the only objects
-that exist in a database. Many other kinds of objects can be
-created to make the use and management of the data more efficient
-or convenient. They are not discussed in this chapter, but we give
-you a list here so that you are aware of what is possible:
+資料表是關聯式資料庫結構的核心物件，因為它們儲存你的資料。但資料庫中的物件不只有資料表。你還可以建立許多其他種類的物件，讓資料的使用與管理更有效率或更方便。本章不討論這些物件，但在此列出清單，讓你瞭解有哪些可能：
 
-* Views
-* Functions, procedures, and operators
-* Data types and domains
-* Triggers and rewrite rules
+* 檢視表
+* 函式、程序與運算子
+* 資料型別與值域
+* 觸發器與重寫規則
 
-Detailed information on
-these topics appears in [Part V](../../server-programming/README.md).
+這些主題的詳細資訊見[第 V 部分](../../server-programming/README.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-others.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-others.html)（原文版本：18.6；核對日期：2026-09-07）
