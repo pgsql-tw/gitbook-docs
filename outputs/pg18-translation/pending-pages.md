@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1115 頁。
+待譯頁面：1114 頁。
 
 ## 根目錄
 
@@ -879,7 +879,7 @@
 - [ ] `server-programming/logicaldecoding/logicaldecoding-streaming.md` — 47.9. Streaming of Large Transactions for Logical Decoding #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-synchronous.md` — 47.8. Synchronous Replication Support for Logical Decoding #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md` — 47.10. Two-phase Commit Support for Logical Decoding #
-- [ ] `server-programming/logicaldecoding/logicaldecoding-walsender.md` — 47.3. Streaming Replication Protocol Interface #
+- [x] `server-programming/logicaldecoding/logicaldecoding-walsender.md` — 47.3. Streaming Replication Protocol Interface #
 - [x] `server-programming/logicaldecoding/logicaldecoding-writer.md` — 47.7. Logical Decoding Output Writers #
 - [ ] `server-programming/oauth-validators/README.md` — Chapter 50. OAuth Validator Modules
 - [ ] `server-programming/oauth-validators/oauth-validator-callbacks.md` — 50.3. OAuth Validator Callbacks #
