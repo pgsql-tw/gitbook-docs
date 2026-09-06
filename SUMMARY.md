@@ -1144,5 +1144,5 @@
     * [O.2. Default Roles Renamed to Predefined Roles #](appendixes/appendix-obsolete/default-roles.md)
     * [O.3. pg_xlogdump renamed to pg_waldump #](appendixes/appendix-obsolete/pgxlogdump.md)
     * [O.4. pg_resetxlog renamed to pg_resetwal #](appendixes/appendix-obsolete/app-pgresetxlog.md)
-    * [O.5. pg_receivexlog renamed to pg_receivewal #](appendixes/appendix-obsolete/app-pgreceivexlog.md)
+    * [O.5. `pg_receivexlog` 已改名為 `pg_receivewal` #](appendixes/appendix-obsolete/app-pgreceivexlog.md)
 * [參考書目](bibliography.md)

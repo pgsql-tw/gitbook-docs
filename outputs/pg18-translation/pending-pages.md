@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1144 頁。
+待譯頁面：1143 頁。
 
 ## 根目錄
 
@@ -14,7 +14,7 @@
 - [ ] `appendixes/README.md` — Part VIII. Appendixes
 - [ ] `appendixes/acronyms/README.md` — Appendix L. Acronyms
 - [ ] `appendixes/appendix-obsolete/README.md` — Appendix O. Obsolete or Renamed Features
-- [ ] `appendixes/appendix-obsolete/app-pgreceivexlog.md` — O.5. pg_receivexlog renamed to pg_receivewal #
+- [x] `appendixes/appendix-obsolete/app-pgreceivexlog.md` — O.5. pg_receivexlog renamed to pg_receivewal #
 - [ ] `appendixes/appendix-obsolete/app-pgresetxlog.md` — O.4. pg_resetxlog renamed to pg_resetwal #
 - [ ] `appendixes/appendix-obsolete/default-roles.md` — O.2. Default Roles Renamed to Predefined Roles #
 - [ ] `appendixes/appendix-obsolete/pgxlogdump.md` — O.3. pg_xlogdump renamed to pg_waldump #
