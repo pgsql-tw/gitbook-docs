@@ -11,4 +11,4 @@ PostgreSQL 9.6 及更早版本提供名為
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgresetxlog.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgresetxlog.html)（原文版本：18.6；核對日期：2026-09-06）
