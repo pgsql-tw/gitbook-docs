@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1010 頁。
+待譯頁面：1009 頁。
 
 ## 根目錄
 
@@ -781,7 +781,7 @@
 - [ ] `server-administration/monitoring/README.md` — Chapter 27. Monitoring Database Activity
 - [ ] `server-administration/monitoring/diskusage.md` — 27.6. Monitoring Disk Usage #
 - [ ] `server-administration/monitoring/dynamic-trace.md` — 27.5. Dynamic Tracing #
-- [ ] `server-administration/monitoring/monitoring-locks.md` — 27.3. Viewing Locks #
+- [x] `server-administration/monitoring/monitoring-locks.md` — 27.3. 檢視鎖定
 - [ ] `server-administration/monitoring/monitoring-ps.md` — 27.1. Standard Unix Tools #
 - [ ] `server-administration/monitoring/monitoring-stats.md` — 27.2. The Cumulative Statistics System #
 - [ ] `server-administration/monitoring/progress-reporting.md` — 27.4. Progress Reporting #

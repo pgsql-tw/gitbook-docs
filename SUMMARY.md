@@ -264,7 +264,7 @@
   * [Chapter 27. Monitoring Database Activity](server-administration/monitoring/README.md)
     * [27.1. Standard Unix Tools #](server-administration/monitoring/monitoring-ps.md)
     * [27.2. The Cumulative Statistics System #](server-administration/monitoring/monitoring-stats.md)
-    * [27.3. Viewing Locks #](server-administration/monitoring/monitoring-locks.md)
+    * [27.3. 檢視鎖定](server-administration/monitoring/monitoring-locks.md)
     * [27.4. Progress Reporting #](server-administration/monitoring/progress-reporting.md)
     * [27.5. Dynamic Tracing #](server-administration/monitoring/dynamic-trace.md)
     * [27.6. Monitoring Disk Usage #](server-administration/monitoring/diskusage.md)
