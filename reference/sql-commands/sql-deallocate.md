@@ -2,9 +2,9 @@
 
 ## DEALLOCATE
 
-DEALLOCATE — deallocate a prepared statement
+DEALLOCATE — 釋放預備陳述式
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,40 +13,37 @@ DEALLOCATE [ PREPARE ] { name | ALL }
 
 <a id="id-1.9.3.98.6"></a>
 
-## Description
+## 說明
 
-`DEALLOCATE` is used to deallocate a previously
-prepared SQL statement. If you do not explicitly deallocate a
-prepared statement, it is deallocated when the session ends.
+`DEALLOCATE` 用來釋放先前準備的 SQL 陳述式。若未明確釋放預備陳述式，它會在工作階段結束時釋放。
 
-For more information on prepared statements, see [PREPARE](sql-prepare.md).
+預備陳述式的更多資訊，請參閱 [PREPARE](sql-prepare.md)。
 
 <a id="id-1.9.3.98.7"></a>
 
-## Parameters
+## 參數
 
 `PREPARE`
-:   This key word is ignored.
+:   此關鍵字會被忽略。
 
 *`name`*
-:   The name of the prepared statement to deallocate.
+:   要釋放的預備陳述式名稱。
 
 `ALL`
-:   Deallocate all prepared statements.
+:   釋放所有預備陳述式。
 
 <a id="id-1.9.3.98.8"></a>
 
-## Compatibility
+## 相容性
 
-The SQL standard includes a `DEALLOCATE`
-statement, but it is only for use in embedded SQL.
+SQL 標準包含 `DEALLOCATE` 陳述式，但僅供嵌入式 SQL 使用。
 
 <a id="id-1.9.3.98.9"></a>
 
-## See Also
+## 另請參閱
 
 [EXECUTE](sql-execute.md), [PREPARE](sql-prepare.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-deallocate.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-deallocate.html)（原文版本：18.6；核對日期：2026-09-07）
