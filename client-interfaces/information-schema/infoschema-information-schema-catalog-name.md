@@ -23,4 +23,4 @@
 
 ---
 
-【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-information-schema-catalog-name.html)】
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-information-schema-catalog-name.html)（原文版本：18.6；核對日期：2026-09-06）
