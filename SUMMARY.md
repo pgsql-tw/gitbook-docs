@@ -293,7 +293,7 @@
   * [第 30 章 即時編譯（JIT）](server-administration/jit/README.md)
     * [30.1. What Is JIT compilation? #](server-administration/jit/jit-reason.md)
     * [30.2. When to JIT ? #](server-administration/jit/jit-decision.md)
-    * [30.3. Configuration #](server-administration/jit/jit-configuration.md)
+    * [30.3. 設定](server-administration/jit/jit-configuration.md)
     * [30.4. Extensibility #](server-administration/jit/jit-extensibility.md)
   * [Chapter 31. Regression Tests](server-administration/regress/README.md)
     * [31.1. Running the Tests #](server-administration/regress/regress-run.md)

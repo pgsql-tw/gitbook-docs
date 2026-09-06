@@ -1,20 +1,11 @@
-## 30.3. Configuration [#](#JIT-CONFIGURATION)
+## 30.3. 設定 [#](#JIT-CONFIGURATION)
 
-The configuration variable
-[jit](../runtime-config/runtime-config-query.md#GUC-JIT) determines whether JIT
-compilation is enabled or disabled.
-If it is enabled, the configuration variables
-[jit_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-ABOVE-COST), [jit_inline_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-INLINE-ABOVE-COST), and [jit_optimize_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-OPTIMIZE-ABOVE-COST) determine
-whether JIT compilation is performed for a query,
-and how much effort is spent doing so.
+設定變數 [jit](../runtime-config/runtime-config-query.md#GUC-JIT) 決定是否啟用 JIT 編譯。啟用後，設定變數 [jit_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-ABOVE-COST)、[jit_inline_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-INLINE-ABOVE-COST) 與 [jit_optimize_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-OPTIMIZE-ABOVE-COST)，會決定是否對查詢進行 JIT 編譯，以及投入多少編譯工作。
 
-[jit_provider](../runtime-config/runtime-config-client.md#GUC-JIT-PROVIDER) determines which JIT
-implementation is used. It is rarely required to be changed. See [Section 30.4.2](jit-extensibility.md#JIT-PLUGGABLE).
+[jit_provider](../runtime-config/runtime-config-client.md#GUC-JIT-PROVIDER) 決定使用哪個 JIT 實作，通常不需要變更。請參閱[第 30.4.2 節](jit-extensibility.md#JIT-PLUGGABLE)。
 
-For development and debugging purposes a few additional configuration
-parameters exist, as described in
-[Section 19.17](../runtime-config/runtime-config-developer.md).
+另有一些供開發與除錯使用的設定參數，詳見[第 19.17 節](../runtime-config/runtime-config-developer.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/jit-configuration.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/jit-configuration.html)（原文版本：18.6；核對日期：2026-09-07）
