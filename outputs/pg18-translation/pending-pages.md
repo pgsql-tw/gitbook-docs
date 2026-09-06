@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1106 頁。
+待譯頁面：1105 頁。
 
 ## 根目錄
 
@@ -1174,7 +1174,7 @@
 - [ ] `tutorial/tutorial-sql/tutorial-sql-intro.md` — 2.1. Introduction #
 - [ ] `tutorial/tutorial-sql/tutorial-table.md` — 2.3. Creating a New Table #
 - [ ] `tutorial/tutorial-sql/tutorial-update.md` — 2.8. Updates #
-- [ ] `tutorial/tutorial-start/README.md` — Chapter 1. Getting Started
+- [x] `tutorial/tutorial-start/README.md` — 第 1 章 入門
 - [ ] `tutorial/tutorial-start/tutorial-accessdb.md` — 1.4. Accessing a Database #
 - [ ] `tutorial/tutorial-start/tutorial-arch.md` — 1.2. Architectural Fundamentals #
 - [ ] `tutorial/tutorial-start/tutorial-createdb.md` — 1.3. Creating a Database #

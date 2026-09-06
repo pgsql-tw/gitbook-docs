@@ -8,7 +8,7 @@
   * [4. Further Information #](preface/resources.md)
   * [5. Bug Reporting Guidelines #](preface/bug-reporting.md)
 * [Part I. Tutorial](tutorial/README.md)
-  * [Chapter 1. Getting Started](tutorial/tutorial-start/README.md)
+  * [第 1 章 入門](tutorial/tutorial-start/README.md)
     * [1.1. Installation #](tutorial/tutorial-start/tutorial-install.md)
     * [1.2. Architectural Fundamentals #](tutorial/tutorial-start/tutorial-arch.md)
     * [1.3. Creating a Database #](tutorial/tutorial-start/tutorial-createdb.md)
