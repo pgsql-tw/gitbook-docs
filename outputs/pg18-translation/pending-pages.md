@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1081 頁。
+待譯頁面：1080 頁。
 
 ## 根目錄
 
@@ -970,7 +970,7 @@
 - [ ] `server-programming/spi/spi-spi-finish.md` — SPI_finish
 - [ ] `server-programming/spi/spi-spi-fname.md` — SPI_fname
 - [ ] `server-programming/spi/spi-spi-fnumber.md` — SPI_fnumber
-- [ ] `server-programming/spi/spi-spi-freeplan.md` — SPI_freeplan
+- [x] `server-programming/spi/spi-spi-freeplan.md` — SPI_freeplan
 - [x] `server-programming/spi/spi-spi-freetuple.md` — SPI_freetuple
 - [ ] `server-programming/spi/spi-spi-freetupletable.md` — SPI_freetuptable
 - [ ] `server-programming/spi/spi-spi-getargcount.md` — SPI_getargcount
