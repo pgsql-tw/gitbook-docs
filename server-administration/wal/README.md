@@ -1,24 +1,22 @@
-## Chapter 28. Reliability and the Write-Ahead Log
+## 第 28 章 可靠性與預寫式日誌
 
-**Table of Contents**
+**目錄**
 
-[28.1. Reliability](wal-reliability.md)
+[28.1. 可靠性](wal-reliability.md)
 
-[28.2. Data Checksums](checksums.md)
-:   [28.2.1. Off-line Enabling of Checksums](checksums.md#CHECKSUMS-OFFLINE-ENABLE-DISABLE)
+[28.2. 資料檢查碼](checksums.md)
+:   [28.2.1. 離線啟用檢查碼](checksums.md#CHECKSUMS-OFFLINE-ENABLE-DISABLE)
 
-[28.3. Write-Ahead Logging (WAL)](wal-intro.md)
+[28.3. 預寫式日誌（WAL）](wal-intro.md)
 
-[28.4. Asynchronous Commit](wal-async-commit.md)
+[28.4. 非同步提交](wal-async-commit.md)
 
-[28.5. WAL Configuration](wal-configuration.md)
+[28.5. WAL 設定](wal-configuration.md)
 
-[28.6. WAL Internals](wal-internals.md)
+[28.6. WAL 內部實作](wal-internals.md)
 
-This chapter explains how to control the reliability of
-PostgreSQL, including details about the
-Write-Ahead Log.
+本章說明如何控制 PostgreSQL 的可靠性，並介紹預寫式日誌的細節。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal.html)（原文版本：18.6；核對日期：2026-09-07）

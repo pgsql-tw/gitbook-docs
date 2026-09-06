@@ -268,7 +268,7 @@
     * [27.4. Progress Reporting #](server-administration/monitoring/progress-reporting.md)
     * [27.5. Dynamic Tracing #](server-administration/monitoring/dynamic-trace.md)
     * [27.6. Monitoring Disk Usage #](server-administration/monitoring/diskusage.md)
-  * [Chapter 28. Reliability and the Write-Ahead Log](server-administration/wal/README.md)
+  * [第 28 章 可靠性與預寫式日誌](server-administration/wal/README.md)
     * [28.1. Reliability #](server-administration/wal/wal-reliability.md)
     * [28.2. Data Checksums #](server-administration/wal/checksums.md)
     * [28.3. Write-Ahead Logging ( WAL ) #](server-administration/wal/wal-intro.md)
