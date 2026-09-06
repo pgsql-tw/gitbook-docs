@@ -242,7 +242,7 @@
     * [22.2. Creating a Database #](server-administration/managing-databases/manage-ag-createdb.md)
     * [22.3. Template Databases #](server-administration/managing-databases/manage-ag-templatedbs.md)
     * [22.4. Database Configuration #](server-administration/managing-databases/manage-ag-config.md)
-    * [22.5. Destroying a Database #](server-administration/managing-databases/manage-ag-dropdb.md)
+    * [22.5. 刪除資料庫](server-administration/managing-databases/manage-ag-dropdb.md)
     * [22.6. Tablespaces #](server-administration/managing-databases/manage-ag-tablespaces.md)
   * [Chapter 23. Localization](server-administration/charset/README.md)
     * [23.1. Locale Support #](server-administration/charset/locale.md)
