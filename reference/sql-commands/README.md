@@ -1,373 +1,384 @@
-# I. SQL 指令
+# SQL Commands
 
-本部分包含 PostgreSQL 支援的 SQL 指令的參考訊息。一般而言，「SQL」是指語言；內容包含了有關各標準的一致性和相容性。
+---
 
-連結將會連結至 PostgreSQL 官方使用手冊，本手冊連結請使用左側目錄。
+<a id="id-1.9.3.2"></a>
+
+This part contains reference information for the
+SQL commands supported by
+PostgreSQL. By “SQL” the
+language in general is meant; information about the standards
+conformance and compatibility of each command can be found on the
+respective reference page.
 
 **Table of Contents**
 
-[ABORT](https://www.postgresql.org/docs/15/sql-abort.html) — abort the current transaction
+[ABORT](sql-abort.md) — abort the current transaction
 
-[ALTER AGGREGATE](https://www.postgresql.org/docs/15/sql-alteraggregate.html) — change the definition of an aggregate function
+[ALTER AGGREGATE](sql-alteraggregate.md) — change the definition of an aggregate function
 
-[ALTER COLLATION](https://www.postgresql.org/docs/15/sql-altercollation.html) — change the definition of a collation
+[ALTER COLLATION](sql-altercollation.md) — change the definition of a collation
 
-[ALTER CONVERSION](https://www.postgresql.org/docs/15/sql-alterconversion.html) — change the definition of a conversion
+[ALTER CONVERSION](sql-alterconversion.md) — change the definition of a conversion
 
-[ALTER DATABASE](https://www.postgresql.org/docs/15/sql-alterdatabase.html) — change a database
+[ALTER DATABASE](sql-alterdatabase.md) — change a database
 
-[ALTER DEFAULT PRIVILEGES](https://www.postgresql.org/docs/15/sql-alterdefaultprivileges.html) — define default access privileges
+[ALTER DEFAULT PRIVILEGES](sql-alterdefaultprivileges.md) — define default access privileges
 
-[ALTER DOMAIN](https://www.postgresql.org/docs/15/sql-alterdomain.html) — change the definition of a domain
+[ALTER DOMAIN](sql-alterdomain.md) — change the definition of a domain
 
-[ALTER EVENT TRIGGER](https://www.postgresql.org/docs/15/sql-altereventtrigger.html) — change the definition of an event trigger
+[ALTER EVENT TRIGGER](sql-altereventtrigger.md) — change the definition of an event trigger
 
-[ALTER EXTENSION](https://www.postgresql.org/docs/15/sql-alterextension.html) — change the definition of an extension
+[ALTER EXTENSION](sql-alterextension.md) — change the definition of an extension
 
-[ALTER FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/15/sql-alterforeigndatawrapper.html) — change the definition of a foreign-data wrapper
+[ALTER FOREIGN DATA WRAPPER](sql-alterforeigndatawrapper.md) — change the definition of a foreign-data wrapper
 
-[ALTER FOREIGN TABLE](https://www.postgresql.org/docs/15/sql-alterforeigntable.html) — change the definition of a foreign table
+[ALTER FOREIGN TABLE](sql-alterforeigntable.md) — change the definition of a foreign table
 
-[ALTER FUNCTION](https://www.postgresql.org/docs/15/sql-alterfunction.html) — change the definition of a function
+[ALTER FUNCTION](sql-alterfunction.md) — change the definition of a function
 
-[ALTER GROUP](https://www.postgresql.org/docs/15/sql-altergroup.html) — change role name or membership
+[ALTER GROUP](sql-altergroup.md) — change role name or membership
 
-[ALTER INDEX](https://www.postgresql.org/docs/15/sql-alterindex.html) — change the definition of an index
+[ALTER INDEX](sql-alterindex.md) — change the definition of an index
 
-[ALTER LANGUAGE](https://www.postgresql.org/docs/15/sql-alterlanguage.html) — change the definition of a procedural language
+[ALTER LANGUAGE](sql-alterlanguage.md) — change the definition of a procedural language
 
-[ALTER LARGE OBJECT](https://www.postgresql.org/docs/15/sql-alterlargeobject.html) — change the definition of a large object
+[ALTER LARGE OBJECT](sql-alterlargeobject.md) — change the definition of a large object
 
-[ALTER MATERIALIZED VIEW](https://www.postgresql.org/docs/15/sql-altermaterializedview.html) — change the definition of a materialized view
+[ALTER MATERIALIZED VIEW](sql-altermaterializedview.md) — change the definition of a materialized view
 
-[ALTER OPERATOR](https://www.postgresql.org/docs/15/sql-alteroperator.html) — change the definition of an operator
+[ALTER OPERATOR](sql-alteroperator.md) — change the definition of an operator
 
-[ALTER OPERATOR CLASS](https://www.postgresql.org/docs/15/sql-alteropclass.html) — change the definition of an operator class
+[ALTER OPERATOR CLASS](sql-alteropclass.md) — change the definition of an operator class
 
-[ALTER OPERATOR FAMILY](https://www.postgresql.org/docs/15/sql-alteropfamily.html) — change the definition of an operator family
+[ALTER OPERATOR FAMILY](sql-alteropfamily.md) — change the definition of an operator family
 
-[ALTER POLICY](https://www.postgresql.org/docs/15/sql-alterpolicy.html) — change the definition of a row-level security policy
+[ALTER POLICY](sql-alterpolicy.md) — change the definition of a row-level security policy
 
-[ALTER PROCEDURE](https://www.postgresql.org/docs/15/sql-alterprocedure.html) — change the definition of a procedure
+[ALTER PROCEDURE](sql-alterprocedure.md) — change the definition of a procedure
 
-[ALTER PUBLICATION](https://www.postgresql.org/docs/15/sql-alterpublication.html) — change the definition of a publication
+[ALTER PUBLICATION](sql-alterpublication.md) — change the definition of a publication
 
-[ALTER ROLE](https://www.postgresql.org/docs/15/sql-alterrole.html) — change a database role
+[ALTER ROLE](sql-alterrole.md) — change a database role
 
-[ALTER ROUTINE](https://www.postgresql.org/docs/15/sql-alterroutine.html) — change the definition of a routine
+[ALTER ROUTINE](sql-alterroutine.md) — change the definition of a routine
 
-[ALTER RULE](https://www.postgresql.org/docs/15/sql-alterrule.html) — change the definition of a rule
+[ALTER RULE](sql-alterrule.md) — change the definition of a rule
 
-[ALTER SCHEMA](https://www.postgresql.org/docs/15/sql-alterschema.html) — change the definition of a schema
+[ALTER SCHEMA](sql-alterschema.md) — change the definition of a schema
 
-[ALTER SEQUENCE](https://www.postgresql.org/docs/15/sql-altersequence.html) — change the definition of a sequence generator
+[ALTER SEQUENCE](sql-altersequence.md) — change the definition of a sequence generator
 
-[ALTER SERVER](https://www.postgresql.org/docs/15/sql-alterserver.html) — change the definition of a foreign server
+[ALTER SERVER](sql-alterserver.md) — change the definition of a foreign server
 
-[ALTER STATISTICS](https://www.postgresql.org/docs/15/sql-alterstatistics.html) — change the definition of an extended statistics object
+[ALTER STATISTICS](sql-alterstatistics.md) — change the definition of an extended statistics object
 
-[ALTER SUBSCRIPTION](https://www.postgresql.org/docs/15/sql-altersubscription.html) — change the definition of a subscription
+[ALTER SUBSCRIPTION](sql-altersubscription.md) — change the definition of a subscription
 
-[ALTER SYSTEM](https://www.postgresql.org/docs/15/sql-altersystem.html) — change a server configuration parameter
+[ALTER SYSTEM](sql-altersystem.md) — change a server configuration parameter
 
-[ALTER TABLE](https://www.postgresql.org/docs/15/sql-altertable.html) — change the definition of a table
+[ALTER TABLE](sql-altertable.md) — change the definition of a table
 
-[ALTER TABLESPACE](https://www.postgresql.org/docs/15/sql-altertablespace.html) — change the definition of a tablespace
+[ALTER TABLESPACE](sql-altertablespace.md) — change the definition of a tablespace
 
-[ALTER TEXT SEARCH CONFIGURATION](https://www.postgresql.org/docs/15/sql-altertsconfig.html) — change the definition of a text search configuration
+[ALTER TEXT SEARCH CONFIGURATION](sql-altertsconfig.md) — change the definition of a text search configuration
 
-[ALTER TEXT SEARCH DICTIONARY](https://www.postgresql.org/docs/15/sql-altertsdictionary.html) — change the definition of a text search dictionary
+[ALTER TEXT SEARCH DICTIONARY](sql-altertsdictionary.md) — change the definition of a text search dictionary
 
-[ALTER TEXT SEARCH PARSER](https://www.postgresql.org/docs/15/sql-altertsparser.html) — change the definition of a text search parser
+[ALTER TEXT SEARCH PARSER](sql-altertsparser.md) — change the definition of a text search parser
 
-[ALTER TEXT SEARCH TEMPLATE](https://www.postgresql.org/docs/15/sql-altertstemplate.html) — change the definition of a text search template
+[ALTER TEXT SEARCH TEMPLATE](sql-altertstemplate.md) — change the definition of a text search template
 
-[ALTER TRIGGER](https://www.postgresql.org/docs/15/sql-altertrigger.html) — change the definition of a trigger
+[ALTER TRIGGER](sql-altertrigger.md) — change the definition of a trigger
 
-[ALTER TYPE](https://www.postgresql.org/docs/15/sql-altertype.html) — change the definition of a type
+[ALTER TYPE](sql-altertype.md) — change the definition of a type
 
-[ALTER USER](https://www.postgresql.org/docs/15/sql-alteruser.html) — change a database role
+[ALTER USER](sql-alteruser.md) — change a database role
 
-[ALTER USER MAPPING](https://www.postgresql.org/docs/15/sql-alterusermapping.html) — change the definition of a user mapping
+[ALTER USER MAPPING](sql-alterusermapping.md) — change the definition of a user mapping
 
-[ALTER VIEW](https://www.postgresql.org/docs/15/sql-alterview.html) — change the definition of a view
+[ALTER VIEW](sql-alterview.md) — change the definition of a view
 
-[ANALYZE](https://www.postgresql.org/docs/15/sql-analyze.html) — collect statistics about a database
+[ANALYZE](sql-analyze.md) — collect statistics about a database
 
-[BEGIN](https://www.postgresql.org/docs/15/sql-begin.html) — start a transaction block
+[BEGIN](sql-begin.md) — start a transaction block
 
-[CALL](https://www.postgresql.org/docs/15/sql-call.html) — invoke a procedure
+[CALL](sql-call.md) — invoke a procedure
 
-[CHECKPOINT](https://www.postgresql.org/docs/15/sql-checkpoint.html) — force a write-ahead log checkpoint
+[CHECKPOINT](sql-checkpoint.md) — force a write-ahead log checkpoint
 
-[CLOSE](https://www.postgresql.org/docs/15/sql-close.html) — close a cursor
+[CLOSE](sql-close.md) — close a cursor
 
-[CLUSTER](https://www.postgresql.org/docs/15/sql-cluster.html) — cluster a table according to an index
+[CLUSTER](sql-cluster.md) — cluster a table according to an index
 
-[COMMENT](https://www.postgresql.org/docs/15/sql-comment.html) — define or change the comment of an object
+[COMMENT](sql-comment.md) — define or change the comment of an object
 
-[COMMIT](https://www.postgresql.org/docs/15/sql-commit.html) — commit the current transaction
+[COMMIT](sql-commit.md) — commit the current transaction
 
-[COMMIT PREPARED](https://www.postgresql.org/docs/15/sql-commit-prepared.html) — commit a transaction that was earlier prepared for two-phase commit
+[COMMIT PREPARED](sql-commit-prepared.md) — commit a transaction that was earlier prepared for two-phase commit
 
-[COPY](https://www.postgresql.org/docs/15/sql-copy.html) — copy data between a file and a table
+[COPY](sql-copy.md) — copy data between a file and a table
 
-[CREATE ACCESS METHOD](https://www.postgresql.org/docs/15/sql-create-access-method.html) — define a new access method
+[CREATE ACCESS METHOD](sql-create-access-method.md) — define a new access method
 
-[CREATE AGGREGATE](https://www.postgresql.org/docs/15/sql-createaggregate.html) — define a new aggregate function
+[CREATE AGGREGATE](sql-createaggregate.md) — define a new aggregate function
 
-[CREATE CAST](https://www.postgresql.org/docs/15/sql-createcast.html) — define a new cast
+[CREATE CAST](sql-createcast.md) — define a new cast
 
-[CREATE COLLATION](https://www.postgresql.org/docs/15/sql-createcollation.html) — define a new collation
+[CREATE COLLATION](sql-createcollation.md) — define a new collation
 
-[CREATE CONVERSION](https://www.postgresql.org/docs/15/sql-createconversion.html) — define a new encoding conversion
+[CREATE CONVERSION](sql-createconversion.md) — define a new encoding conversion
 
-[CREATE DATABASE](https://www.postgresql.org/docs/15/sql-createdatabase.html) — create a new database
+[CREATE DATABASE](sql-createdatabase.md) — create a new database
 
-[CREATE DOMAIN](https://www.postgresql.org/docs/15/sql-createdomain.html) — define a new domain
+[CREATE DOMAIN](sql-createdomain.md) — define a new domain
 
-[CREATE EVENT TRIGGER](https://www.postgresql.org/docs/15/sql-createeventtrigger.html) — define a new event trigger
+[CREATE EVENT TRIGGER](sql-createeventtrigger.md) — define a new event trigger
 
-[CREATE EXTENSION](https://www.postgresql.org/docs/15/sql-createextension.html) — install an extension
+[CREATE EXTENSION](sql-createextension.md) — install an extension
 
-[CREATE FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/15/sql-createforeigndatawrapper.html) — define a new foreign-data wrapper
+[CREATE FOREIGN DATA WRAPPER](sql-createforeigndatawrapper.md) — define a new foreign-data wrapper
 
-[CREATE FOREIGN TABLE](https://www.postgresql.org/docs/15/sql-createforeigntable.html) — define a new foreign table
+[CREATE FOREIGN TABLE](sql-createforeigntable.md) — define a new foreign table
 
-[CREATE FUNCTION](https://www.postgresql.org/docs/15/sql-createfunction.html) — define a new function
+[CREATE FUNCTION](sql-createfunction.md) — define a new function
 
-[CREATE GROUP](https://www.postgresql.org/docs/15/sql-creategroup.html) — define a new database role
+[CREATE GROUP](sql-creategroup.md) — define a new database role
 
-[CREATE INDEX](https://www.postgresql.org/docs/15/sql-createindex.html) — define a new index
+[CREATE INDEX](sql-createindex.md) — define a new index
 
-[CREATE LANGUAGE](https://www.postgresql.org/docs/15/sql-createlanguage.html) — define a new procedural language
+[CREATE LANGUAGE](sql-createlanguage.md) — define a new procedural language
 
-[CREATE MATERIALIZED VIEW](https://www.postgresql.org/docs/15/sql-creatematerializedview.html) — define a new materialized view
+[CREATE MATERIALIZED VIEW](sql-creatematerializedview.md) — define a new materialized view
 
-[CREATE OPERATOR](https://www.postgresql.org/docs/15/sql-createoperator.html) — define a new operator
+[CREATE OPERATOR](sql-createoperator.md) — define a new operator
 
-[CREATE OPERATOR CLASS](https://www.postgresql.org/docs/15/sql-createopclass.html) — define a new operator class
+[CREATE OPERATOR CLASS](sql-createopclass.md) — define a new operator class
 
-[CREATE OPERATOR FAMILY](https://www.postgresql.org/docs/15/sql-createopfamily.html) — define a new operator family
+[CREATE OPERATOR FAMILY](sql-createopfamily.md) — define a new operator family
 
-[CREATE POLICY](https://www.postgresql.org/docs/15/sql-createpolicy.html) — define a new row-level security policy for a table
+[CREATE POLICY](sql-createpolicy.md) — define a new row-level security policy for a table
 
-[CREATE PROCEDURE](https://www.postgresql.org/docs/15/sql-createprocedure.html) — define a new procedure
+[CREATE PROCEDURE](sql-createprocedure.md) — define a new procedure
 
-[CREATE PUBLICATION](https://www.postgresql.org/docs/15/sql-createpublication.html) — define a new publication
+[CREATE PUBLICATION](sql-createpublication.md) — define a new publication
 
-[CREATE ROLE](https://www.postgresql.org/docs/15/sql-createrole.html) — define a new database role
+[CREATE ROLE](sql-createrole.md) — define a new database role
 
-[CREATE RULE](https://www.postgresql.org/docs/15/sql-createrule.html) — define a new rewrite rule
+[CREATE RULE](sql-createrule.md) — define a new rewrite rule
 
-[CREATE SCHEMA](https://www.postgresql.org/docs/15/sql-createschema.html) — define a new schema
+[CREATE SCHEMA](sql-createschema.md) — define a new schema
 
-[CREATE SEQUENCE](https://www.postgresql.org/docs/15/sql-createsequence.html) — define a new sequence generator
+[CREATE SEQUENCE](sql-createsequence.md) — define a new sequence generator
 
-[CREATE SERVER](https://www.postgresql.org/docs/15/sql-createserver.html) — define a new foreign server
+[CREATE SERVER](sql-createserver.md) — define a new foreign server
 
-[CREATE STATISTICS](https://www.postgresql.org/docs/15/sql-createstatistics.html) — define extended statistics
+[CREATE STATISTICS](sql-createstatistics.md) — define extended statistics
 
-[CREATE SUBSCRIPTION](https://www.postgresql.org/docs/15/sql-createsubscription.html) — define a new subscription
+[CREATE SUBSCRIPTION](sql-createsubscription.md) — define a new subscription
 
-[CREATE TABLE](https://www.postgresql.org/docs/15/sql-createtable.html) — define a new table
+[CREATE TABLE](sql-createtable.md) — define a new table
 
-[CREATE TABLE AS](https://www.postgresql.org/docs/15/sql-createtableas.html) — define a new table from the results of a query
+[CREATE TABLE AS](sql-createtableas.md) — define a new table from the results of a query
 
-[CREATE TABLESPACE](https://www.postgresql.org/docs/15/sql-createtablespace.html) — define a new tablespace
+[CREATE TABLESPACE](sql-createtablespace.md) — define a new tablespace
 
-[CREATE TEXT SEARCH CONFIGURATION](https://www.postgresql.org/docs/15/sql-createtsconfig.html) — define a new text search configuration
+[CREATE TEXT SEARCH CONFIGURATION](sql-createtsconfig.md) — define a new text search configuration
 
-[CREATE TEXT SEARCH DICTIONARY](https://www.postgresql.org/docs/15/sql-createtsdictionary.html) — define a new text search dictionary
+[CREATE TEXT SEARCH DICTIONARY](sql-createtsdictionary.md) — define a new text search dictionary
 
-[CREATE TEXT SEARCH PARSER](https://www.postgresql.org/docs/15/sql-createtsparser.html) — define a new text search parser
+[CREATE TEXT SEARCH PARSER](sql-createtsparser.md) — define a new text search parser
 
-[CREATE TEXT SEARCH TEMPLATE](https://www.postgresql.org/docs/15/sql-createtstemplate.html) — define a new text search template
+[CREATE TEXT SEARCH TEMPLATE](sql-createtstemplate.md) — define a new text search template
 
-[CREATE TRANSFORM](https://www.postgresql.org/docs/15/sql-createtransform.html) — define a new transform
+[CREATE TRANSFORM](sql-createtransform.md) — define a new transform
 
-[CREATE TRIGGER](https://www.postgresql.org/docs/15/sql-createtrigger.html) — define a new trigger
+[CREATE TRIGGER](sql-createtrigger.md) — define a new trigger
 
-[CREATE TYPE](https://www.postgresql.org/docs/15/sql-createtype.html) — define a new data type
+[CREATE TYPE](sql-createtype.md) — define a new data type
 
-[CREATE USER](https://www.postgresql.org/docs/15/sql-createuser.html) — define a new database role
+[CREATE USER](sql-createuser.md) — define a new database role
 
-[CREATE USER MAPPING](https://www.postgresql.org/docs/15/sql-createusermapping.html) — define a new mapping of a user to a foreign server
+[CREATE USER MAPPING](sql-createusermapping.md) — define a new mapping of a user to a foreign server
 
-[CREATE VIEW](https://www.postgresql.org/docs/15/sql-createview.html) — define a new view
+[CREATE VIEW](sql-createview.md) — define a new view
 
-[DEALLOCATE](https://www.postgresql.org/docs/15/sql-deallocate.html) — deallocate a prepared statement
+[DEALLOCATE](sql-deallocate.md) — deallocate a prepared statement
 
-[DECLARE](https://www.postgresql.org/docs/15/sql-declare.html) — define a cursor
+[DECLARE](sql-declare.md) — define a cursor
 
-[DELETE](https://www.postgresql.org/docs/15/sql-delete.html) — delete rows of a table
+[DELETE](sql-delete.md) — delete rows of a table
 
-[DISCARD](https://www.postgresql.org/docs/15/sql-discard.html) — discard session state
+[DISCARD](sql-discard.md) — discard session state
 
-[DO](https://www.postgresql.org/docs/15/sql-do.html) — execute an anonymous code block
+[DO](sql-do.md) — execute an anonymous code block
 
-[DROP ACCESS METHOD](https://www.postgresql.org/docs/15/sql-drop-access-method.html) — remove an access method
+[DROP ACCESS METHOD](sql-drop-access-method.md) — remove an access method
 
-[DROP AGGREGATE](https://www.postgresql.org/docs/15/sql-dropaggregate.html) — remove an aggregate function
+[DROP AGGREGATE](sql-dropaggregate.md) — remove an aggregate function
 
-[DROP CAST](https://www.postgresql.org/docs/15/sql-dropcast.html) — remove a cast
+[DROP CAST](sql-dropcast.md) — remove a cast
 
-[DROP COLLATION](https://www.postgresql.org/docs/15/sql-dropcollation.html) — remove a collation
+[DROP COLLATION](sql-dropcollation.md) — remove a collation
 
-[DROP CONVERSION](https://www.postgresql.org/docs/15/sql-dropconversion.html) — remove a conversion
+[DROP CONVERSION](sql-dropconversion.md) — remove a conversion
 
-[DROP DATABASE](https://www.postgresql.org/docs/15/sql-dropdatabase.html) — remove a database
+[DROP DATABASE](sql-dropdatabase.md) — remove a database
 
-[DROP DOMAIN](https://www.postgresql.org/docs/15/sql-dropdomain.html) — remove a domain
+[DROP DOMAIN](sql-dropdomain.md) — remove a domain
 
-[DROP EVENT TRIGGER](https://www.postgresql.org/docs/15/sql-dropeventtrigger.html) — remove an event trigger
+[DROP EVENT TRIGGER](sql-dropeventtrigger.md) — remove an event trigger
 
-[DROP EXTENSION](https://www.postgresql.org/docs/15/sql-dropextension.html) — remove an extension
+[DROP EXTENSION](sql-dropextension.md) — remove an extension
 
-[DROP FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/15/sql-dropforeigndatawrapper.html) — remove a foreign-data wrapper
+[DROP FOREIGN DATA WRAPPER](sql-dropforeigndatawrapper.md) — remove a foreign-data wrapper
 
-[DROP FOREIGN TABLE](https://www.postgresql.org/docs/15/sql-dropforeigntable.html) — remove a foreign table
+[DROP FOREIGN TABLE](sql-dropforeigntable.md) — remove a foreign table
 
-[DROP FUNCTION](https://www.postgresql.org/docs/15/sql-dropfunction.html) — remove a function
+[DROP FUNCTION](sql-dropfunction.md) — remove a function
 
-[DROP GROUP](https://www.postgresql.org/docs/15/sql-dropgroup.html) — remove a database role
+[DROP GROUP](sql-dropgroup.md) — remove a database role
 
-[DROP INDEX](https://www.postgresql.org/docs/15/sql-dropindex.html) — remove an index
+[DROP INDEX](sql-dropindex.md) — remove an index
 
-[DROP LANGUAGE](https://www.postgresql.org/docs/15/sql-droplanguage.html) — remove a procedural language
+[DROP LANGUAGE](sql-droplanguage.md) — remove a procedural language
 
-[DROP MATERIALIZED VIEW](https://www.postgresql.org/docs/15/sql-dropmaterializedview.html) — remove a materialized view
+[DROP MATERIALIZED VIEW](sql-dropmaterializedview.md) — remove a materialized view
 
-[DROP OPERATOR](https://www.postgresql.org/docs/15/sql-dropoperator.html) — remove an operator
+[DROP OPERATOR](sql-dropoperator.md) — remove an operator
 
-[DROP OPERATOR CLASS](https://www.postgresql.org/docs/15/sql-dropopclass.html) — remove an operator class
+[DROP OPERATOR CLASS](sql-dropopclass.md) — remove an operator class
 
-[DROP OPERATOR FAMILY](https://www.postgresql.org/docs/15/sql-dropopfamily.html) — remove an operator family
+[DROP OPERATOR FAMILY](sql-dropopfamily.md) — remove an operator family
 
-[DROP OWNED](https://www.postgresql.org/docs/15/sql-drop-owned.html) — remove database objects owned by a database role
+[DROP OWNED](sql-drop-owned.md) — remove database objects owned by a database role
 
-[DROP POLICY](https://www.postgresql.org/docs/15/sql-droppolicy.html) — remove a row-level security policy from a table
+[DROP POLICY](sql-droppolicy.md) — remove a row-level security policy from a table
 
-[DROP PROCEDURE](https://www.postgresql.org/docs/15/sql-dropprocedure.html) — remove a procedure
+[DROP PROCEDURE](sql-dropprocedure.md) — remove a procedure
 
-[DROP PUBLICATION](https://www.postgresql.org/docs/15/sql-droppublication.html) — remove a publication
+[DROP PUBLICATION](sql-droppublication.md) — remove a publication
 
-[DROP ROLE](https://www.postgresql.org/docs/15/sql-droprole.html) — remove a database role
+[DROP ROLE](sql-droprole.md) — remove a database role
 
-[DROP ROUTINE](https://www.postgresql.org/docs/15/sql-droproutine.html) — remove a routine
+[DROP ROUTINE](sql-droproutine.md) — remove a routine
 
-[DROP RULE](https://www.postgresql.org/docs/15/sql-droprule.html) — remove a rewrite rule
+[DROP RULE](sql-droprule.md) — remove a rewrite rule
 
-[DROP SCHEMA](https://www.postgresql.org/docs/15/sql-dropschema.html) — remove a schema
+[DROP SCHEMA](sql-dropschema.md) — remove a schema
 
-[DROP SEQUENCE](https://www.postgresql.org/docs/15/sql-dropsequence.html) — remove a sequence
+[DROP SEQUENCE](sql-dropsequence.md) — remove a sequence
 
-[DROP SERVER](https://www.postgresql.org/docs/15/sql-dropserver.html) — remove a foreign server descriptor
+[DROP SERVER](sql-dropserver.md) — remove a foreign server descriptor
 
-[DROP STATISTICS](https://www.postgresql.org/docs/15/sql-dropstatistics.html) — remove extended statistics
+[DROP STATISTICS](sql-dropstatistics.md) — remove extended statistics
 
-[DROP SUBSCRIPTION](https://www.postgresql.org/docs/15/sql-dropsubscription.html) — remove a subscription
+[DROP SUBSCRIPTION](sql-dropsubscription.md) — remove a subscription
 
-[DROP TABLE](https://www.postgresql.org/docs/15/sql-droptable.html) — remove a table
+[DROP TABLE](sql-droptable.md) — remove a table
 
-[DROP TABLESPACE](https://www.postgresql.org/docs/15/sql-droptablespace.html) — remove a tablespace
+[DROP TABLESPACE](sql-droptablespace.md) — remove a tablespace
 
-[DROP TEXT SEARCH CONFIGURATION](https://www.postgresql.org/docs/15/sql-droptsconfig.html) — remove a text search configuration
+[DROP TEXT SEARCH CONFIGURATION](sql-droptsconfig.md) — remove a text search configuration
 
-[DROP TEXT SEARCH DICTIONARY](https://www.postgresql.org/docs/15/sql-droptsdictionary.html) — remove a text search dictionary
+[DROP TEXT SEARCH DICTIONARY](sql-droptsdictionary.md) — remove a text search dictionary
 
-[DROP TEXT SEARCH PARSER](https://www.postgresql.org/docs/15/sql-droptsparser.html) — remove a text search parser
+[DROP TEXT SEARCH PARSER](sql-droptsparser.md) — remove a text search parser
 
-[DROP TEXT SEARCH TEMPLATE](https://www.postgresql.org/docs/15/sql-droptstemplate.html) — remove a text search template
+[DROP TEXT SEARCH TEMPLATE](sql-droptstemplate.md) — remove a text search template
 
-[DROP TRANSFORM](https://www.postgresql.org/docs/15/sql-droptransform.html) — remove a transform
+[DROP TRANSFORM](sql-droptransform.md) — remove a transform
 
-[DROP TRIGGER](https://www.postgresql.org/docs/15/sql-droptrigger.html) — remove a trigger
+[DROP TRIGGER](sql-droptrigger.md) — remove a trigger
 
-[DROP TYPE](https://www.postgresql.org/docs/15/sql-droptype.html) — remove a data type
+[DROP TYPE](sql-droptype.md) — remove a data type
 
-[DROP USER](https://www.postgresql.org/docs/15/sql-dropuser.html) — remove a database role
+[DROP USER](sql-dropuser.md) — remove a database role
 
-[DROP USER MAPPING](https://www.postgresql.org/docs/15/sql-dropusermapping.html) — remove a user mapping for a foreign server
+[DROP USER MAPPING](sql-dropusermapping.md) — remove a user mapping for a foreign server
 
-[DROP VIEW](https://www.postgresql.org/docs/15/sql-dropview.html) — remove a view
+[DROP VIEW](sql-dropview.md) — remove a view
 
-[END](https://www.postgresql.org/docs/15/sql-end.html) — commit the current transaction
+[END](sql-end.md) — commit the current transaction
 
-[EXECUTE](https://www.postgresql.org/docs/15/sql-execute.html) — execute a prepared statement
+[EXECUTE](sql-execute.md) — execute a prepared statement
 
-[EXPLAIN](https://www.postgresql.org/docs/15/sql-explain.html) — show the execution plan of a statement
+[EXPLAIN](sql-explain.md) — show the execution plan of a statement
 
-[FETCH](https://www.postgresql.org/docs/15/sql-fetch.html) — retrieve rows from a query using a cursor
+[FETCH](sql-fetch.md) — retrieve rows from a query using a cursor
 
-[GRANT](https://www.postgresql.org/docs/15/sql-grant.html) — define access privileges
+[GRANT](sql-grant.md) — define access privileges
 
-[IMPORT FOREIGN SCHEMA](https://www.postgresql.org/docs/15/sql-importforeignschema.html) — import table definitions from a foreign server
+[IMPORT FOREIGN SCHEMA](sql-importforeignschema.md) — import table definitions from a foreign server
 
-[INSERT](https://www.postgresql.org/docs/15/sql-insert.html) — create new rows in a table
+[INSERT](sql-insert.md) — create new rows in a table
 
-[LISTEN](https://www.postgresql.org/docs/15/sql-listen.html) — listen for a notification
+[LISTEN](sql-listen.md) — listen for a notification
 
-[LOAD](https://www.postgresql.org/docs/15/sql-load.html) — load a shared library file
+[LOAD](sql-load.md) — load a shared library file
 
-[LOCK](https://www.postgresql.org/docs/15/sql-lock.html) — lock a table
+[LOCK](sql-lock.md) — lock a table
 
-[MERGE](https://www.postgresql.org/docs/15/sql-merge.html) — conditionally insert, update, or delete rows of a table
+[MERGE](sql-merge.md) — conditionally insert, update, or delete rows of a table
 
-[MOVE](https://www.postgresql.org/docs/15/sql-move.html) — position a cursor
+[MOVE](sql-move.md) — position a cursor
 
-[NOTIFY](https://www.postgresql.org/docs/15/sql-notify.html) — generate a notification
+[NOTIFY](sql-notify.md) — generate a notification
 
-[PREPARE](https://www.postgresql.org/docs/15/sql-prepare.html) — prepare a statement for execution
+[PREPARE](sql-prepare.md) — prepare a statement for execution
 
-[PREPARE TRANSACTION](https://www.postgresql.org/docs/15/sql-prepare-transaction.html) — prepare the current transaction for two-phase commit
+[PREPARE TRANSACTION](sql-prepare-transaction.md) — prepare the current transaction for two-phase commit
 
-[REASSIGN OWNED](https://www.postgresql.org/docs/15/sql-reassign-owned.html) — change the ownership of database objects owned by a database role
+[REASSIGN OWNED](sql-reassign-owned.md) — change the ownership of database objects owned by a database role
 
-[REFRESH MATERIALIZED VIEW](https://www.postgresql.org/docs/15/sql-refreshmaterializedview.html) — replace the contents of a materialized view
+[REFRESH MATERIALIZED VIEW](sql-refreshmaterializedview.md) — replace the contents of a materialized view
 
-[REINDEX](https://www.postgresql.org/docs/15/sql-reindex.html) — rebuild indexes
+[REINDEX](sql-reindex.md) — rebuild indexes
 
-[RELEASE SAVEPOINT](https://www.postgresql.org/docs/15/sql-release-savepoint.html) — destroy a previously defined savepoint
+[RELEASE SAVEPOINT](sql-release-savepoint.md) — release a previously defined savepoint
 
-[RESET](https://www.postgresql.org/docs/15/sql-reset.html) — restore the value of a run-time parameter to the default value
+[RESET](sql-reset.md) — restore the value of a run-time parameter to the default value
 
-[REVOKE](https://www.postgresql.org/docs/15/sql-revoke.html) — remove access privileges
+[REVOKE](sql-revoke.md) — remove access privileges
 
-[ROLLBACK](https://www.postgresql.org/docs/15/sql-rollback.html) — abort the current transaction
+[ROLLBACK](sql-rollback.md) — abort the current transaction
 
-[ROLLBACK PREPARED](https://www.postgresql.org/docs/15/sql-rollback-prepared.html) — cancel a transaction that was earlier prepared for two-phase commit
+[ROLLBACK PREPARED](sql-rollback-prepared.md) — cancel a transaction that was earlier prepared for two-phase commit
 
-[ROLLBACK TO SAVEPOINT](https://www.postgresql.org/docs/15/sql-rollback-to.html) — roll back to a savepoint
+[ROLLBACK TO SAVEPOINT](sql-rollback-to.md) — roll back to a savepoint
 
-[SAVEPOINT](https://www.postgresql.org/docs/15/sql-savepoint.html) — define a new savepoint within the current transaction
+[SAVEPOINT](sql-savepoint.md) — define a new savepoint within the current transaction
 
-[SECURITY LABEL](https://www.postgresql.org/docs/15/sql-security-label.html) — define or change a security label applied to an object
+[SECURITY LABEL](sql-security-label.md) — define or change a security label applied to an object
 
-[SELECT](https://www.postgresql.org/docs/15/sql-select.html) — retrieve rows from a table or view
+[SELECT](sql-select.md) — retrieve rows from a table or view
 
-[SELECT INTO](https://www.postgresql.org/docs/15/sql-selectinto.html) — define a new table from the results of a query
+[SELECT INTO](sql-selectinto.md) — define a new table from the results of a query
 
-[SET](https://www.postgresql.org/docs/15/sql-set.html) — change a run-time parameter
+[SET](sql-set.md) — change a run-time parameter
 
-[SET CONSTRAINTS](https://www.postgresql.org/docs/15/sql-set-constraints.html) — set constraint check timing for the current transaction
+[SET CONSTRAINTS](sql-set-constraints.md) — set constraint check timing for the current transaction
 
-[SET ROLE](https://www.postgresql.org/docs/15/sql-set-role.html) — set the current user identifier of the current session
+[SET ROLE](sql-set-role.md) — set the current user identifier of the current session
 
-[SET SESSION AUTHORIZATION](https://www.postgresql.org/docs/15/sql-set-session-authorization.html) — set the session user identifier and the current user identifier of the current session
+[SET SESSION AUTHORIZATION](sql-set-session-authorization.md) — set the session user identifier and the current user identifier of the current session
 
-[SET TRANSACTION](https://www.postgresql.org/docs/15/sql-set-transaction.html) — set the characteristics of the current transaction
+[SET TRANSACTION](sql-set-transaction.md) — set the characteristics of the current transaction
 
-[SHOW](https://www.postgresql.org/docs/15/sql-show.html) — show the value of a run-time parameter
+[SHOW](sql-show.md) — show the value of a run-time parameter
 
-[START TRANSACTION](https://www.postgresql.org/docs/15/sql-start-transaction.html) — start a transaction block
+[START TRANSACTION](sql-start-transaction.md) — start a transaction block
 
-[TRUNCATE](https://www.postgresql.org/docs/15/sql-truncate.html) — empty a table or set of tables
+[TRUNCATE](sql-truncate.md) — empty a table or set of tables
 
-[UNLISTEN](https://www.postgresql.org/docs/15/sql-unlisten.html) — stop listening for a notification
+[UNLISTEN](sql-unlisten.md) — stop listening for a notification
 
-[UPDATE](https://www.postgresql.org/docs/15/sql-update.html) — update rows of a table
+[UPDATE](sql-update.md) — update rows of a table
 
-[VACUUM](https://www.postgresql.org/docs/15/sql-vacuum.html) — garbage-collect and optionally analyze a database
+[VACUUM](sql-vacuum.md) — garbage-collect and optionally analyze a database
 
-[VALUES](https://www.postgresql.org/docs/15/sql-values.html) — compute a set of rows
+[VALUES](sql-values.md) — compute a set of rows
+
+---
+
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-commands.html)（英文原文，待翻譯）

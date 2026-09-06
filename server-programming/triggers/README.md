@@ -1,5 +1,33 @@
-# 39. Triggers
+## Chapter 37. Triggers
 
-本章提供有關撰寫觸發器(Trigger)函數的基本資訊。觸發器函數可以用大多數可用的程序語言撰寫，包括PL/pgSQL（[第 43 章](../pl-pgsql-sql-procedural-language/)），PL/Tcl（[第 44 章](../pl-tcl-tcl-procedural-language.md)），PL/Perl（[第 45 章](../pl-perl-perl-procedural-language.md)）和 PL/Python（[第 46 章](../pl-python-python-procedural-language-1/)）。閱讀本章後，您可以查閱您所偏好的程序語言的章節，以瞭解使用其中撰寫觸發器時的特定語言詳細資訊。
+**Table of Contents**
 
-也可以用 C 撰寫觸發器函數，儘管大多數人發現使用其中一種過程語言更容易。目前無法用純 SQL 函數語言編寫觸發器函數。
+[37.1. Overview of Trigger Behavior](trigger-definition.md)
+
+[37.2. Visibility of Data Changes](trigger-datachanges.md)
+
+[37.3. Writing Trigger Functions in C](trigger-interface.md)
+
+[37.4. A Complete Trigger Example](trigger-example.md)
+
+<a id="id-1.8.4.2"></a>
+
+This chapter provides general information about writing trigger functions.
+Trigger functions can be written in most of the available procedural
+languages, including
+PL/pgSQL ([Chapter 41](../plpgsql/README.md)),
+PL/Tcl ([Chapter 42](../pltcl/README.md)),
+PL/Perl ([Chapter 43](../plperl/README.md)), and
+PL/Python ([Chapter 44](../plpython/README.md)).
+After reading this chapter, you should consult the chapter for
+your favorite procedural language to find out the language-specific
+details of writing a trigger in it.
+
+It is also possible to write a trigger function in C, although
+most people find it easier to use one of the procedural languages.
+It is not currently possible to write a trigger function in the
+plain SQL function language.
+
+---
+
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/triggers.html)（英文原文，待翻譯）

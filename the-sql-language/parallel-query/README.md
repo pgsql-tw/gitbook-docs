@@ -1,3 +1,40 @@
-# 15. 平行查詢
+## Chapter 15. Parallel Query
 
-PostgreSQL 可以設計平行運算的查詢計劃，利用多個 CPU 來更快地回應查詢。此功能稱為平行查詢。許多查詢無法從平行查詢中受益，或者是由於目前實作的限制，或者因為沒有比序列查詢計劃可以想到更快的查詢計劃。但是，對於可以受益的查詢，平行查詢的加速通常非常重要。使用平行查詢時，許多查詢的執行速度可能會提高兩倍以上，並且某些查詢的執行速度可能會提高四倍甚至更多。涉及大量資料但只向使用者回傳少量資料列的查詢通常會受益最多。本章解釋了一些關於平行查詢如何工作的細節，以及在哪些情況下可以使用這些細節，以便希望使用它的使用者可以理解期望的內容。
+**Table of Contents**
+
+[15.1. How Parallel Query Works](how-parallel-query-works.md)
+
+[15.2. When Can Parallel Query Be Used?](when-can-parallel-query-be-used.md)
+
+[15.3. Parallel Plans](parallel-plans.md)
+:   [15.3.1. Parallel Scans](parallel-plans.md#PARALLEL-SCANS)
+
+    [15.3.2. Parallel Joins](parallel-plans.md#PARALLEL-JOINS)
+
+    [15.3.3. Parallel Aggregation](parallel-plans.md#PARALLEL-AGGREGATION)
+
+    [15.3.4. Parallel Append](parallel-plans.md#PARALLEL-APPEND)
+
+    [15.3.5. Parallel Plan Tips](parallel-plans.md#PARALLEL-PLAN-TIPS)
+
+[15.4. Parallel Safety](parallel-safety.md)
+:   [15.4.1. Parallel Labeling for Functions and Aggregates](parallel-safety.md#PARALLEL-LABELING)
+
+<a id="id-1.5.14.2"></a>
+
+PostgreSQL can devise query plans that can leverage
+multiple CPUs in order to answer queries faster. This feature is known
+as parallel query. Many queries cannot benefit from parallel query, either
+due to limitations of the current implementation or because there is no
+imaginable query plan that is any faster than the serial query plan.
+However, for queries that can benefit, the speedup from parallel query
+is often very significant. Many queries can run more than twice as fast
+when using parallel query, and some queries can run four times faster or
+even more. Queries that touch a large amount of data but return only a
+few rows to the user will typically benefit most. This chapter explains
+some details of how parallel query works and in which situations it can be
+used so that users who wish to make use of it can understand what to expect.
+
+---
+
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/parallel-query.html)（英文原文，待翻譯）

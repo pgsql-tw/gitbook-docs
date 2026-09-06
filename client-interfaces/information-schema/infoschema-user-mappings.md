@@ -1,0 +1,41 @@
+## 35.62. `user_mappings` [#](#INFOSCHEMA-USER-MAPPINGS)
+
+The view `user_mappings` contains all user
+mappings defined in the current database. Only those user mappings
+are shown where the current user has access to the corresponding
+foreign server (by way of being the owner or having some
+privilege).
+
+<a id="id-1.7.6.66.3"></a>
+
+**Table 35.60. `user_mappings` Columns**
+
+<table border="1" class="table" summary="user_mappings Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       Column Type
+      </p>
+<p>
+       Description
+      </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
+<code class="structfield">authorization_identifier</code> <code class="type">sql_identifier</code>
+</p>
+<p>
+       Name of the user being mapped,
+       or <code class="literal">PUBLIC</code> if the mapping is public
+      </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
+<code class="structfield">foreign_server_catalog</code> <code class="type">sql_identifier</code>
+</p>
+<p>
+       Name of the database that the foreign server used by this
+       mapping is defined in (always the current database)
+      </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
+<code class="structfield">foreign_server_name</code> <code class="type">sql_identifier</code>
+</p>
+<p>
+       Name of the foreign server used by this mapping
+      </p></td></tr></tbody></table>
+
+<br>
+
+---
+
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-user-mappings.html)（英文原文，待翻譯）

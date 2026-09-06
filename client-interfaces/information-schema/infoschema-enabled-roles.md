@@ -1,0 +1,39 @@
+## 35.25. `enabled_roles` [#](#INFOSCHEMA-ENABLED-ROLES)
+
+The view `enabled_roles` identifies the currently
+“enabled roles”. The enabled roles are recursively
+defined as the current user together with all roles that have been
+granted to the enabled roles with automatic inheritance. In other
+words, these are all roles that the current user has direct or
+indirect, automatically inheriting membership in.
+<a id="id-1.7.6.29.2.3"></a>
+<a id="id-1.7.6.29.2.4"></a>
+
+For permission checking, the set of “applicable roles”
+is applied, which can be broader than the set of enabled roles. So
+generally, it is better to use the view
+`applicable_roles` instead of this one; See
+[Section 35.5](infoschema-applicable-roles.md) for details on
+`applicable_roles` view.
+
+<a id="id-1.7.6.29.4"></a>
+
+**Table 35.23. `enabled_roles` Columns**
+
+<table border="1" class="table" summary="enabled_roles Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       Column Type
+      </p>
+<p>
+       Description
+      </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
+<code class="structfield">role_name</code> <code class="type">sql_identifier</code>
+</p>
+<p>
+       Name of a role
+      </p></td></tr></tbody></table>
+
+<br>
+
+---
+
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-enabled-roles.html)（英文原文，待翻譯）

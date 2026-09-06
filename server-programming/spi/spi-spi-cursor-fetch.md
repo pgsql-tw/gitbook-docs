@@ -1,0 +1,53 @@
+<a id="id-1.8.12.8.24.1"></a>
+
+## SPI_cursor_fetch
+
+SPI_cursor_fetch — fetch some rows from a cursor
+
+## Synopsis
+
+```
+
+void SPI_cursor_fetch(Portal portal, bool forward, long count)
+```
+
+<a id="id-1.8.12.8.24.5"></a>
+
+## Description
+
+`SPI_cursor_fetch` fetches some rows from a
+cursor. This is equivalent to a subset of the SQL command
+`FETCH` (see `SPI_scroll_cursor_fetch`
+for more functionality).
+
+<a id="id-1.8.12.8.24.6"></a>
+
+## Arguments
+
+`Portal portal`
+:   portal containing the cursor
+
+`bool forward`
+:   true for fetch forward, false for fetch backward
+
+`long count`
+:   maximum number of rows to fetch
+
+<a id="id-1.8.12.8.24.7"></a>
+
+## Return Value
+
+`SPI_processed` and
+`SPI_tuptable` are set as in
+`SPI_execute` if successful.
+
+<a id="id-1.8.12.8.24.8"></a>
+
+## Notes
+
+Fetching backward may fail if the cursor's plan was not created
+with the `CURSOR_OPT_SCROLL` option.
+
+---
+
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-fetch.html)（英文原文，待翻譯）
