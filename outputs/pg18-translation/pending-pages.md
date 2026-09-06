@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1063 頁。
+待譯頁面：1062 頁。
 
 ## 根目錄
 
@@ -725,7 +725,7 @@
 - [ ] `server-administration/client-authentication/auth-oauth.md` — 20.15. OAuth Authorization/Authentication #
 - [ ] `server-administration/client-authentication/auth-pam.md` — 20.13. PAM Authentication #
 - [ ] `server-administration/client-authentication/auth-password.md` — 20.5. Password Authentication #
-- [ ] `server-administration/client-authentication/auth-peer.md` — 20.9. Peer Authentication #
+- [x] `server-administration/client-authentication/auth-peer.md` — 20.9. Peer 驗證
 - [ ] `server-administration/client-authentication/auth-pg-hba-conf.md` — 20.1. The pg_hba.conf File #
 - [ ] `server-administration/client-authentication/auth-radius.md` — 20.11. RADIUS Authentication #
 - [ ] `server-administration/client-authentication/auth-trust.md` — 20.4. Trust Authentication #

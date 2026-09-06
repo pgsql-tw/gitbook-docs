@@ -222,7 +222,7 @@
     * [20.6. GSSAPI Authentication #](server-administration/client-authentication/gssapi-auth.md)
     * [20.7. SSPI Authentication #](server-administration/client-authentication/sspi-auth.md)
     * [20.8. Ident Authentication #](server-administration/client-authentication/auth-ident.md)
-    * [20.9. Peer Authentication #](server-administration/client-authentication/auth-peer.md)
+    * [20.9. Peer 驗證](server-administration/client-authentication/auth-peer.md)
     * [20.10. LDAP Authentication #](server-administration/client-authentication/auth-ldap.md)
     * [20.11. RADIUS Authentication #](server-administration/client-authentication/auth-radius.md)
     * [20.12. Certificate Authentication #](server-administration/client-authentication/auth-cert.md)

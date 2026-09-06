@@ -1,26 +1,16 @@
-## 20.9. Peer Authentication [#](#AUTH-PEER)
+## 20.9. Peer 驗證 [#](#AUTH-PEER)
 
 <a id="id-1.6.7.16.2"></a>
 
-The peer authentication method works by obtaining the client's
-operating system user name from the kernel and using it as the
-allowed database user name (with optional user name mapping). This
-method is only supported on local connections.
+Peer 驗證方法會從核心取得用戶端的作業系統使用者名稱，並將其作為允許使用的資料庫使用者名稱（可選擇套用使用者名稱對應）。此方法僅支援本機連線。
 
-The following configuration options are supported for `peer`:
+`peer` 支援下列設定選項：
 
 `map`
-:   Allows for mapping between system and database user names. See
-    [Section 20.2](auth-username-maps.md) for details.
+:   允許系統使用者名稱與資料庫使用者名稱之間的對應。詳見[第 20.2 節](auth-username-maps.md)。
 
-Peer authentication is only available on operating systems providing
-the `getpeereid()` function, the `SO_PEERCRED`
-socket parameter, or similar mechanisms. Currently that includes
-Linux,
-most flavors of BSD including
-macOS,
-and Solaris.
+Peer 驗證僅適用於提供 `getpeereid()` 函式、`SO_PEERCRED` socket 參數或類似機制的作業系統。目前包括 Linux、多數 BSD 系統（含 macOS）及 Solaris。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-peer.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-peer.html)（原文版本：18.6；核對日期：2026-09-07）
