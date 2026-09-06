@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1024 頁。
+待譯頁面：1023 頁。
 
 ## 根目錄
 
@@ -586,7 +586,7 @@
 - [ ] `reference/sql-commands/sql-createforeigndatawrapper.md` — CREATE FOREIGN DATA WRAPPER
 - [ ] `reference/sql-commands/sql-createforeigntable.md` — CREATE FOREIGN TABLE
 - [ ] `reference/sql-commands/sql-createfunction.md` — CREATE FUNCTION
-- [ ] `reference/sql-commands/sql-creategroup.md` — CREATE GROUP
+- [x] `reference/sql-commands/sql-creategroup.md` — CREATE GROUP
 - [ ] `reference/sql-commands/sql-createindex.md` — CREATE INDEX
 - [ ] `reference/sql-commands/sql-createlanguage.md` — CREATE LANGUAGE
 - [ ] `reference/sql-commands/sql-creatematerializedview.md` — CREATE MATERIALIZED VIEW
