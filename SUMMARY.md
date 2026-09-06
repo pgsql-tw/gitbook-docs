@@ -1145,4 +1145,4 @@
     * [O.3. pg_xlogdump renamed to pg_waldump #](appendixes/appendix-obsolete/pgxlogdump.md)
     * [O.4. pg_resetxlog renamed to pg_resetwal #](appendixes/appendix-obsolete/app-pgresetxlog.md)
     * [O.5. pg_receivexlog renamed to pg_receivewal #](appendixes/appendix-obsolete/app-pgreceivexlog.md)
-* [Bibliography](bibliography.md)
+* [參考書目](bibliography.md)

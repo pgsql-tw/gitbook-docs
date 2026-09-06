@@ -1,16 +1,12 @@
-# Bibliography
+# 參考書目
 
-Selected references and readings for SQL
-and PostgreSQL.
+以下精選了 SQL 與 PostgreSQL 的參考資料及延伸讀物。
 
-Some white papers and technical reports from the original
-POSTGRES development team
-are available at the University of California, Berkeley, Computer Science
-Department [web site](https://dsf.berkeley.edu/papers/).
+最初的 POSTGRES 開發團隊所撰寫的部分白皮書與技術報告，可於加州大學柏克萊分校資訊科學系的[網站](https://dsf.berkeley.edu/papers/)取得。
 
 <a id="id-1.12.4"></a>
 
-### SQL Reference Books
+### SQL 參考書籍
 
 <a id="BOWMAN01"></a>
 
@@ -43,7 +39,7 @@ Notation (JSON). First Edition. 2017.
 
 <a id="id-1.12.5"></a>
 
-### PostgreSQL-specific Documentation
+### PostgreSQL 專門文件
 
 <a id="SIM98"></a>
 
@@ -61,7 +57,7 @@ optimizer](https://dsf.berkeley.edu/papers/UCB-MS-zfong.pdf)*. Zelaine Fong. Uni
 
 <a id="id-1.12.6"></a>
 
-### Proceedings and Articles
+### 會議論文與文章
 
 <a id="BERENSON95"></a>
 
@@ -135,4 +131,4 @@ Rules, Procedures, Caching and Views in Database Systems](https://dsf.berkeley.e
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/biblio.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/biblio.html)（原文版本：18.6；核對日期：2026-09-06）
