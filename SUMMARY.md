@@ -492,7 +492,7 @@
   * [Chapter 42. PL/Tcl — Tcl Procedural Language](server-programming/pltcl/README.md)
     * [42.1. Overview #](server-programming/pltcl/pltcl-overview.md)
     * [42.2. PL/Tcl Functions and Arguments #](server-programming/pltcl/pltcl-functions.md)
-    * [42.3. Data Values in PL/Tcl #](server-programming/pltcl/pltcl-data.md)
+    * [42.3. PL/Tcl 中的資料值](server-programming/pltcl/pltcl-data.md)
     * [42.4. Global Data in PL/Tcl #](server-programming/pltcl/pltcl-global.md)
     * [42.5. Database Access from PL/Tcl #](server-programming/pltcl/pltcl-dbaccess.md)
     * [42.6. Trigger Functions in PL/Tcl #](server-programming/pltcl/pltcl-trigger.md)
