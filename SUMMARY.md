@@ -327,7 +327,7 @@
     * [32.22. Building libpq Programs #](client-interfaces/libpq/libpq-build.md)
     * [32.23. Example Programs #](client-interfaces/libpq/libpq-example.md)
   * [Chapter 33. Large Objects](client-interfaces/largeobjects/README.md)
-    * [33.1. Introduction #](client-interfaces/largeobjects/lo-intro.md)
+    * [33.1. 簡介](client-interfaces/largeobjects/lo-intro.md)
     * [33.2. Implementation Features #](client-interfaces/largeobjects/lo-implementation.md)
     * [33.3. Client Interfaces #](client-interfaces/largeobjects/lo-interfaces.md)
     * [33.4. Server-Side Functions #](client-interfaces/largeobjects/lo-funcs.md)
