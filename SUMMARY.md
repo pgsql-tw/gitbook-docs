@@ -499,7 +499,7 @@
     * [42.7. PL/Tcl 中的事件觸發器函式](server-programming/pltcl/pltcl-event-trigger.md)
     * [42.8. Error Handling in PL/Tcl #](server-programming/pltcl/pltcl-error-handling.md)
     * [42.9. Explicit Subtransactions in PL/Tcl #](server-programming/pltcl/pltcl-subtransactions.md)
-    * [42.10. Transaction Management #](server-programming/pltcl/pltcl-transactions.md)
+    * [42.10. 交易管理](server-programming/pltcl/pltcl-transactions.md)
     * [42.11. PL/Tcl Configuration #](server-programming/pltcl/pltcl-config.md)
     * [42.12. Tcl Procedure Names #](server-programming/pltcl/pltcl-procnames.md)
   * [Chapter 43. PL/Perl — Perl Procedural Language](server-programming/plperl/README.md)

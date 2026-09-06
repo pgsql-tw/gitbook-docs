@@ -1,17 +1,8 @@
-## 42.10. Transaction Management [#](#PLTCL-TRANSACTIONS)
+## 42.10. 交易管理 [#](#PLTCL-TRANSACTIONS)
 
-In a procedure called from the top level or an anonymous code block
-(`DO` command) called from the top level it is possible
-to control transactions. To commit the current transaction, call the
-`commit` command. To roll back the current transaction,
-call the `rollback` command. (Note that it is not
-possible to run the SQL commands `COMMIT` or
-`ROLLBACK` via `spi_exec` or similar.
-It has to be done using these functions.) After a transaction is ended,
-a new transaction is automatically started, so there is no separate
-command for that.
+從最上層呼叫的程序或匿名程式碼區塊（`DO` 命令）可以控制交易。呼叫 `commit` 命令可提交目前的交易，呼叫 `rollback` 命令可回復目前的交易。（請注意，不能透過 `spi_exec` 或類似方式執行 SQL 命令 `COMMIT` 或 `ROLLBACK`，必須使用這些函式。）交易結束後會自動開始新交易，因此沒有另外提供用來開始交易的命令。
 
-Here is an example:
+以下是一個範例：
 
 ```
 
@@ -31,8 +22,8 @@ $$;
 CALL transaction_test1();
 ```
 
-Transactions cannot be ended when an explicit subtransaction is active.
+當明確建立的子交易仍在進行時，不能結束交易。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pltcl-transactions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pltcl-transactions.html)（原文版本：18.6；核對日期：2026-09-07）
