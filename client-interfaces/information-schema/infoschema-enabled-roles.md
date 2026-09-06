@@ -1,39 +1,33 @@
-## 35.25. `enabled_roles` [#](#INFOSCHEMA-ENABLED-ROLES)
+## 35.25. `enabled_roles` [#](#INFOSCHEMA-ENABLED-ROLES)
 
-The view `enabled_roles` identifies the currently
-“enabled roles”. The enabled roles are recursively
-defined as the current user together with all roles that have been
-granted to the enabled roles with automatic inheritance. In other
-words, these are all roles that the current user has direct or
-indirect, automatically inheriting membership in.
+檢視表 `enabled_roles` 列出目前「已啟用的角色」。已啟用的角色會以遞迴方式
+定義為目前使用者，以及所有已透過自動繼承授與已啟用角色的角色。換言之，這些是
+目前使用者直接或間接具有自動繼承成員資格的所有角色。
 <a id="id-1.7.6.29.2.3"></a>
 <a id="id-1.7.6.29.2.4"></a>
 
-For permission checking, the set of “applicable roles”
-is applied, which can be broader than the set of enabled roles. So
-generally, it is better to use the view
-`applicable_roles` instead of this one; See
-[Section 35.5](infoschema-applicable-roles.md) for details on
-`applicable_roles` view.
+權限檢查使用的是「適用角色」集合，其範圍可能比已啟用角色集合更廣。因此通常
+建議使用檢視表 `applicable_roles`，而非此檢視表；`applicable_roles` 檢視表的
+詳細資訊請參閱[第 35.5 節](infoschema-applicable-roles.md)。
 
 <a id="id-1.7.6.29.4"></a>
 
-**Table 35.23. `enabled_roles` Columns**
+**表 35.23. `enabled_roles` 欄位**
 
-<table border="1" class="table" summary="enabled_roles Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="enabled_roles 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">role_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of a role
+       角色名稱
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-enabled-roles.html)（英文原文，待翻譯）
+【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-enabled-roles.html)】

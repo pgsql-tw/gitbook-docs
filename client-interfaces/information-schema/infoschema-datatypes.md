@@ -1,39 +1,31 @@
-## 35.2. Data Types [#](#INFOSCHEMA-DATATYPES)
+## 35.2. 資料型別 [#](#INFOSCHEMA-DATATYPES)
 
-The columns of the information schema views use special data types
-that are defined in the information schema. These are defined as
-simple domains over ordinary built-in types. You should not use
-these types for work outside the information schema, but your
-applications must be prepared for them if they select from the
-information schema.
+資訊結構描述檢視表的欄位使用在資訊結構描述中定義的特殊資料型別。這些型別
+定義為一般內建型別上的簡單 domain。請勿將這些型別用於資訊結構描述以外的工作；
+不過，若應用程式會從資訊結構描述選取資料，就必須能處理它們。
 
-These types are:
+這些型別如下：
 
 `cardinal_number`
-:   A nonnegative integer.
+:   非負整數。
 
 `character_data`
-:   A character string (without specific maximum length).
+:   字串（沒有指定最大長度）。
 
 `sql_identifier`
-:   A character string. This type is used for SQL identifiers, the
-    type `character_data` is used for any other kind of
-    text data.
+:   字串。此型別用於 SQL 識別字；`character_data` 型別則用於其他任何種類的
+    文字資料。
 
 `time_stamp`
-:   A domain over the type `timestamp with time zone`
+:   `timestamp with time zone` 型別上的 domain。
 
 `yes_or_no`
-:   A character string domain that contains
-    either `YES` or `NO`. This
-    is used to represent Boolean (true/false) data in the
-    information schema. (The information schema was invented
-    before the type `boolean` was added to the SQL
-    standard, so this convention is necessary to keep the
-    information schema backward compatible.)
+:   可包含 `YES` 或 `NO` 的字串 domain。此型別用於表示資訊結構描述中的
+    Boolean（true/false）資料。（資訊結構描述在 SQL 標準加入 `boolean`
+    型別之前就已制定，因此必須使用這項慣例以維持向後相容。）
 
-Every column in the information schema has one of these five types.
+資訊結構描述中的每個欄位都使用這五種型別之一。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-datatypes.html)（英文原文，待翻譯）
+【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-datatypes.html)】
