@@ -489,7 +489,7 @@
     * [41.11. PL/pgSQL under the Hood #](server-programming/plpgsql/plpgsql-implementation.md)
     * [41.12. Tips for Developing in PL/pgSQL #](server-programming/plpgsql/plpgsql-development-tips.md)
     * [41.13. Porting from Oracle PL/SQL #](server-programming/plpgsql/plpgsql-porting.md)
-  * [Chapter 42. PL/Tcl — Tcl Procedural Language](server-programming/pltcl/README.md)
+  * [第 42 章 PL/Tcl — Tcl 程序語言](server-programming/pltcl/README.md)
     * [42.1. Overview #](server-programming/pltcl/pltcl-overview.md)
     * [42.2. PL/Tcl Functions and Arguments #](server-programming/pltcl/pltcl-functions.md)
     * [42.3. PL/Tcl 中的資料值](server-programming/pltcl/pltcl-data.md)
