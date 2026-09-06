@@ -2,9 +2,9 @@
 
 ## SPI_finish
 
-SPI_finish — disconnect a C function from the SPI manager
+SPI_finish — 中斷 C 函式與 SPI 管理器的連線
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,25 +13,20 @@ int SPI_finish(void)
 
 <a id="id-1.8.12.8.3.5"></a>
 
-## Description
+## 說明
 
-`SPI_finish` closes an existing connection to
-the SPI manager. You must call this function after completing the
-SPI operations needed during your C function's current invocation.
-You do not need to worry about making this happen, however, if you
-abort the transaction via `elog(ERROR)`. In that
-case SPI will clean itself up automatically.
+`SPI_finish` 會關閉與 SPI 管理器的既有連線。在 C 函式本次呼叫所需的 SPI 操作完成後，必須呼叫此函式。不過，若透過 `elog(ERROR)` 中止交易，則不必另外確保呼叫此函式；在這種情況下，SPI 會自動清理。
 
 <a id="id-1.8.12.8.3.6"></a>
 
-## Return Value
+## 回傳值
 
 `SPI_OK_FINISH`
-:   if properly disconnected
+:   已正確中斷連線
 
 `SPI_ERROR_UNCONNECTED`
-:   if called from an unconnected C function
+:   從尚未連線的 C 函式呼叫
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-finish.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-finish.html)（原文版本：18.6；核對日期：2026-09-07）
