@@ -1,0 +1,2 @@
+# 71. BRIN Indexes
+
