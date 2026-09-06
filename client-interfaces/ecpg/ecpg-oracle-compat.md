@@ -1,18 +1,13 @@
-## 34.16. Oracle Compatibility Mode [#](#ECPG-ORACLE-COMPAT)
+## 34.16. Oracle 相容模式 [#](#ECPG-ORACLE-COMPAT)
 
-`ecpg` can be run in a so-called *Oracle
-compatibility mode*. If this mode is active, it tries to
-behave as if it were Oracle Pro\*C.
+`ecpg` 可以在所謂的 *Oracle 相容模式*下執行。啟用此模式時，它會嘗試採用與 Oracle Pro\*C 相同的行為。
 
-Specifically, this mode changes `ecpg` in three ways:
+具體而言，此模式會在三個方面改變 `ecpg` 的行為：
 
-* Pad character arrays receiving character string types with
-  trailing spaces to the specified length
-* Zero byte terminate these character arrays, and set the indicator
-  variable if truncation occurs
-* Set the null indicator to `-1` when character
-  arrays receive empty character string types
+* 字元陣列接收字串型別時，在尾端補上空白，直到指定長度。
+* 以零位元組終止這些字元陣列，並在發生截斷時設定指示變數。
+* 字元陣列接收空字串型別時，將空值指示變數設為 `-1`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-oracle-compat.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-oracle-compat.html)（原文版本：18.6；核對日期：2026-09-07）

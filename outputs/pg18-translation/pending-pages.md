@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1086 頁。
+待譯頁面：1085 頁。
 
 ## 根目錄
 
@@ -151,7 +151,7 @@
 - [ ] `client-interfaces/ecpg/ecpg-informix-compat.md` — 34.15. Informix Compatibility Mode #
 - [ ] `client-interfaces/ecpg/ecpg-library.md` — 34.11. Library Functions #
 - [ ] `client-interfaces/ecpg/ecpg-lo.md` — 34.12. Large Objects #
-- [ ] `client-interfaces/ecpg/ecpg-oracle-compat.md` — 34.16. Oracle Compatibility Mode #
+- [x] `client-interfaces/ecpg/ecpg-oracle-compat.md` — 34.16. Oracle 相容模式
 - [ ] `client-interfaces/ecpg/ecpg-pgtypes.md` — 34.6. pgtypes Library #
 - [ ] `client-interfaces/ecpg/ecpg-preproc.md` — 34.9. Preprocessor Directives #
 - [ ] `client-interfaces/ecpg/ecpg-process.md` — 34.10. Processing Embedded SQL Programs #
