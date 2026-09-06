@@ -2,9 +2,9 @@
 
 ## DROP ACCESS METHOD
 
-DROP ACCESS METHOD — remove an access method
+DROP ACCESS METHOD — 移除存取方法
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,37 +13,31 @@ DROP ACCESS METHOD [ IF EXISTS ] name [ CASCADE | RESTRICT ]
 
 <a id="id-1.9.3.103.5"></a>
 
-## Description
+## 說明
 
-`DROP ACCESS METHOD` removes an existing access method.
-Only superusers can drop access methods.
+`DROP ACCESS METHOD` 移除既有存取方法。只有超級使用者可移除存取方法。
 
 <a id="id-1.9.3.103.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the access method does not exist.
-    A notice is issued in this case.
+:   存取方法不存在時不發生錯誤，並發出 notice。
 
 *`name`*
-:   The name of an existing access method.
+:   既有存取方法的名稱。
 
 `CASCADE`
-:   Automatically drop objects that depend on the access method
-    (such as operator classes, operator families, and indexes),
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除依賴該存取方法的物件（例如運算子類別、運算子家族和索引），以及依賴這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the access method if any objects depend on it.
-    This is the default.
+:   若有任何物件依賴該存取方法，拒絕移除。這是預設行為。
 
 <a id="id-1.9.3.103.7"></a>
 
-## Examples
+## 範例
 
-Drop the access method `heptree`:
+移除存取方法 `heptree`：
 
 ```
 
@@ -52,17 +46,16 @@ DROP ACCESS METHOD heptree;
 
 <a id="id-1.9.3.103.8"></a>
 
-## Compatibility
+## 相容性
 
-`DROP ACCESS METHOD` is a
-PostgreSQL extension.
+`DROP ACCESS METHOD` 是 PostgreSQL 擴充功能。
 
 <a id="id-1.9.3.103.9"></a>
 
-## See Also
+## 參閱
 
 [CREATE ACCESS METHOD](sql-create-access-method.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-drop-access-method.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-drop-access-method.html)（原文版本：18.6；核對日期：2026-09-06）
