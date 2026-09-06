@@ -2,9 +2,9 @@
 
 ## SPI_prepare_params
 
-SPI_prepare_params — prepare a statement, without executing it yet
+SPI_prepare_params — 準備陳述式，但尚不執行
 
-## Synopsis
+## 語法
 
 ```
 
@@ -16,40 +16,34 @@ SPIPlanPtr SPI_prepare_params(const char * command,
 
 <a id="id-1.8.12.8.11.5"></a>
 
-## Description
+## 說明
 
-`SPI_prepare_params` creates and returns a prepared
-statement for the specified command, but doesn't execute the command.
-This function is equivalent to `SPI_prepare_cursor`,
-with the addition that the caller can specify parser hook functions
-to control the parsing of external parameter references.
+`SPI_prepare_params` 為指定命令建立並回傳已準備的陳述式，但不執行該命令。此函式等同於 `SPI_prepare_cursor`，但呼叫端還可指定剖析器掛鉤函式，以控制外部參數參照的剖析。
 
-This function is now deprecated in favor
-of `SPI_prepare_extended`.
+此函式現已棄用，請改用 `SPI_prepare_extended`。
 
 <a id="id-1.8.12.8.11.6"></a>
 
-## Arguments
+## 引數
 
 `const char * command`
-:   command string
+:   命令字串
 
 `ParserSetupHook parserSetup`
-:   Parser hook setup function
+:   剖析器掛鉤設定函式
 
 `void * parserSetupArg`
-:   pass-through argument for *`parserSetup`*
+:   傳遞給 *`parserSetup`* 的引數
 
 `int cursorOptions`
-:   integer bit mask of cursor options; zero produces default behavior
+:   游標選項的整數位元遮罩；零代表預設行為
 
 <a id="id-1.8.12.8.11.7"></a>
 
-## Return Value
+## 回傳值
 
-`SPI_prepare_params` has the same return conventions as
-`SPI_prepare`.
+`SPI_prepare_params` 使用與 `SPI_prepare` 相同的回傳慣例。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-prepare-params.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-prepare-params.html)（原文版本：18.6；核對日期：2026-09-06）
