@@ -1,13 +1,9 @@
-## O.2. Default Roles Renamed to Predefined Roles [#](#DEFAULT-ROLES)
+## O.2. 預設角色已改名為預先定義角色 [#](#DEFAULT-ROLES)
 
 <a id="id-1.11.16.4.2"></a>
 
-PostgreSQL 13 and below used the term “Default Roles”. However, as these
-roles are not able to actually be changed and are installed as part of the
-system at initialization time, the more appropriate term to use is “Predefined Roles”.
-See [Section 21.5](../../server-administration/user-manag/predefined-roles.md) for current documentation regarding
-Predefined Roles, and [the release notes for
-PostgreSQL 14](../release/release-prior.md) for details on this change.
+PostgreSQL 13 及更早版本使用「預設角色」（Default Roles）一詞。然而，這些角色實際上無法變更，且會在系統初始化時隨系統一併安裝，因此較恰當的名稱是「預先定義角色」（Predefined Roles）。
+關於預先定義角色的現行文件請參閱[第 21.5 節](../../server-administration/user-manag/predefined-roles.md)；關於此變更的詳細資訊請參閱 [PostgreSQL 14 的發行說明](../release/release-prior.md)。
 
 ---
 

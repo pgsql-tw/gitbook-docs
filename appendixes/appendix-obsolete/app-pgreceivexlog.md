@@ -1,14 +1,13 @@
-## O.5. `pg_receivexlog` renamed to `pg_receivewal` [#](#APP-PGRECEIVEXLOG)
+## O.5. `pg_receivexlog` 已改名為 `pg_receivewal` [#](#APP-PGRECEIVEXLOG)
 
 <a id="id-1.11.16.7.2"></a>
 
-PostgreSQL 9.6 and below provided a command named
-`pg_receivexlog`
+PostgreSQL 9.6 及更早版本提供名為
+`pg_receivexlog` 的命令
 <a id="id-1.11.16.7.3.2"></a>
-to fetch write-ahead-log (WAL) files. This command was renamed to `pg_receivewal`, see
-[pg_receivewal](../../reference/reference-client/app-pgreceivewal.md) for documentation of `pg_receivewal` and see
-[the release notes for PostgreSQL 10](../release/release-prior.md) for details
-on this change.
+用於擷取預先寫入日誌（WAL）檔案。此命令已改名為 `pg_receivewal`；`pg_receivewal` 的文件請參閱
+[pg_receivewal](../../reference/reference-client/app-pgreceivewal.md)，此變更的詳細資訊請參閱
+[PostgreSQL 10 的發行說明](../release/release-prior.md)。
 
 ---
 

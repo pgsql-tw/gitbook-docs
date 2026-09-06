@@ -1,8 +1,8 @@
 ## SET CONNECTION
 
-SET CONNECTION — select a database connection
+SET CONNECTION — 選取資料庫連線
 
-## Synopsis
+## 語法
 
 ```
 
@@ -11,29 +11,26 @@ SET CONNECTION [ TO | = ] connection_name
 
 <a id="id-1.7.5.20.15.3"></a>
 
-## Description
+## 說明
 
-`SET CONNECTION` sets the “current”
-database connection, which is the one that all commands use
-unless overridden.
+`SET CONNECTION` 設定「目前」資料庫連線；除非另有指定，所有命令都使用此連線。
 
 <a id="id-1.7.5.20.15.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-SET-CONNECTION-CONNECTION-NAME"></a>
 
 *`connection_name`* [#](#ECPG-SQL-SET-CONNECTION-CONNECTION-NAME)
-:   A database connection name established by
-    the `CONNECT` command.
+:   由 `CONNECT` 命令建立的資料庫連線名稱。
 <a id="ECPG-SQL-SET-CONNECTION-CURRENT"></a>
 
 `CURRENT` [#](#ECPG-SQL-SET-CONNECTION-CURRENT)
-:   Set the connection to the current connection (thus, nothing happens).
+:   將連線設為目前連線（因此不會發生任何變化）。
 
 <a id="id-1.7.5.20.15.5"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -43,13 +40,13 @@ EXEC SQL SET CONNECTION = con1;
 
 <a id="id-1.7.5.20.15.6"></a>
 
-## Compatibility
+## 相容性
 
-`SET CONNECTION` is specified in the SQL standard.
+SQL 標準規定了 `SET CONNECTION`。
 
 <a id="id-1.7.5.20.15.7"></a>
 
-## See Also
+## 另請參閱
 
 [CONNECT](ecpg-sql-connect.md), [DISCONNECT](ecpg-sql-disconnect.md)
 

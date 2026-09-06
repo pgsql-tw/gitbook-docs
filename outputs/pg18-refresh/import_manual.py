@@ -170,13 +170,32 @@ def build():
         target = STAGE / node["path"]
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(page_markdown(page, node, nodes), encoding="utf-8")
+    children = {p: [] for p in nodes}
+    roots = []
+    for p, n in nodes.items():
+        if n["parent"] in children:
+            children[n["parent"]].append(p)
+        else:
+            roots.append(p)
+    for group in children.values():
+        group.sort(key=lambda p: nodes[p]["path"])
+    roots.sort(key=lambda p: nodes[p]["path"])
     lines = ["# Table of contents", ""]
-    # The source tree retains upstream parent relations in its directories.
-    # A flat, path-sorted summary avoids treating generated cross-reference
-    # navigation as a hierarchy edge.
-    for p in sorted(nodes, key=lambda p: nodes[p]["path"]):
+    emitted = set()
+    def emit(p, depth, ancestors=()):
+        if p in ancestors:
+            raise SystemExit(f"navigation cycle: {' -> '.join(ancestors + (p,))}")
+        if p in emitted:
+            return
+        emitted.add(p)
         n = nodes[p]
-        lines.append(f'* [{n["title"]}]({n["path"]})')
+        lines.append("  " * depth + f'* [{n["title"]}]({n["path"]})')
+        for child in children[p]:
+            emit(child, depth + 1, ancestors + (p,))
+    for p in roots:
+        emit(p, 0)
+    if len(emitted) != len(nodes):
+        raise SystemExit(f"unemitted navigation nodes: {len(nodes) - len(emitted)}")
     (STAGE / "SUMMARY.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     report = {"version": "18.6", "retrieved": "2026-09-06", "source": BASE,
               "pages": len(nodes), "stage": str(STAGE),

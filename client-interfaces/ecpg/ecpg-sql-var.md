@@ -1,8 +1,8 @@
 ## VAR
 
-VAR — define a variable
+VAR — 定義變數
 
-## Synopsis
+## 語法
 
 ```
 
@@ -11,28 +11,26 @@ VAR varname IS ctype
 
 <a id="id-1.7.5.20.18.3"></a>
 
-## Description
+## 說明
 
-The `VAR` command assigns a new C data type
-to a host variable. The host variable must be previously
-declared in a declare section.
+`VAR` 命令會將新的 C 資料型別指派給主機變數。主機變數必須事先在宣告區段中宣告。
 
 <a id="id-1.7.5.20.18.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-VAR-VARNAME"></a>
 
 *`varname`* [#](#ECPG-SQL-VAR-VARNAME)
-:   A C variable name.
+:   C 變數名稱。
 <a id="ECPG-SQL-VAR-CTYPE"></a>
 
 *`ctype`* [#](#ECPG-SQL-VAR-CTYPE)
-:   A C type specification.
+:   C 型別規格。
 
 <a id="id-1.7.5.20.18.5"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -44,9 +42,9 @@ EXEC SQL VAR a IS int;
 
 <a id="id-1.7.5.20.18.6"></a>
 
-## Compatibility
+## 相容性
 
-The `VAR` command is a PostgreSQL extension.
+`VAR` 命令是 PostgreSQL 擴充功能。
 
 ---
 
