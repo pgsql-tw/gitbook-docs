@@ -2,9 +2,9 @@
 
 ## SPI_cursor_fetch
 
-SPI_cursor_fetch — fetch some rows from a cursor
+SPI_cursor_fetch — 從游標擷取若干資料列
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,41 +13,35 @@ void SPI_cursor_fetch(Portal portal, bool forward, long count)
 
 <a id="id-1.8.12.8.24.5"></a>
 
-## Description
+## 說明
 
-`SPI_cursor_fetch` fetches some rows from a
-cursor. This is equivalent to a subset of the SQL command
-`FETCH` (see `SPI_scroll_cursor_fetch`
-for more functionality).
+`SPI_cursor_fetch` 會從游標擷取若干資料列。這相當於 SQL 命令 `FETCH` 的部分功能（更多功能請參閱 `SPI_scroll_cursor_fetch`）。
 
 <a id="id-1.8.12.8.24.6"></a>
 
-## Arguments
+## 引數
 
 `Portal portal`
-:   portal containing the cursor
+:   包含游標的 portal
 
 `bool forward`
-:   true for fetch forward, false for fetch backward
+:   true 表示向前擷取，false 表示向後擷取
 
 `long count`
-:   maximum number of rows to fetch
+:   最多擷取的資料列數
 
 <a id="id-1.8.12.8.24.7"></a>
 
-## Return Value
+## 回傳值
 
-`SPI_processed` and
-`SPI_tuptable` are set as in
-`SPI_execute` if successful.
+成功時，`SPI_processed` 與 `SPI_tuptable` 的設定方式與 `SPI_execute` 相同。
 
 <a id="id-1.8.12.8.24.8"></a>
 
-## Notes
+## 注意事項
 
-Fetching backward may fail if the cursor's plan was not created
-with the `CURSOR_OPT_SCROLL` option.
+若建立游標的計畫時未使用 `CURSOR_OPT_SCROLL` 選項，向後擷取可能會失敗。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-fetch.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-fetch.html)（原文版本：18.6；核對日期：2026-09-07）
