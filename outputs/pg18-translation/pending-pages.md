@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1141 頁。
+待譯頁面：1140 頁。
 
 ## 根目錄
 
@@ -17,7 +17,7 @@
 - [x] `appendixes/appendix-obsolete/app-pgreceivexlog.md` — O.5. pg_receivexlog renamed to pg_receivewal #
 - [x] `appendixes/appendix-obsolete/app-pgresetxlog.md` — O.4. pg_resetxlog renamed to pg_resetwal #
 - [x] `appendixes/appendix-obsolete/default-roles.md` — O.2. Default Roles Renamed to Predefined Roles #
-- [ ] `appendixes/appendix-obsolete/pgxlogdump.md` — O.3. pg_xlogdump renamed to pg_waldump #
+- [x] `appendixes/appendix-obsolete/pgxlogdump.md` — O.3. pg_xlogdump renamed to pg_waldump #
 - [ ] `appendixes/appendix-obsolete/recovery-config.md` — O.1. recovery.conf file merged into postgresql.conf #
 - [ ] `appendixes/color/README.md` — Appendix N. Color Support
 - [ ] `appendixes/color/color-when.md` — N.1. When Color is Used #
