@@ -1,8 +1,8 @@
 ## OPEN
 
-OPEN — open a dynamic cursor
+OPEN — 開啟動態游標
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,40 +13,30 @@ OPEN cursor_name USING SQL DESCRIPTOR descriptor_name
 
 <a id="id-1.7.5.20.12.3"></a>
 
-## Description
+## 說明
 
-`OPEN` opens a cursor and optionally binds
-actual values to the placeholders in the cursor's declaration.
-The cursor must previously have been declared with
-the `DECLARE` command. The execution
-of `OPEN` causes the query to start executing on
-the server.
+`OPEN` 開啟游標，並可選擇將實際值繫結至游標宣告中的預留位置。游標必須事先以 `DECLARE` 命令宣告。執行 `OPEN` 會使查詢開始在伺服器上執行。
 
 <a id="id-1.7.5.20.12.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-OPEN-CURSOR-NAME"></a>
 
 *`cursor_name`* [#](#ECPG-SQL-OPEN-CURSOR-NAME)
-:   The name of the cursor to be opened. This can be an SQL
-    identifier or a host variable.
+:   要開啟的游標名稱。可以是 SQL 識別字或主機變數。
 <a id="ECPG-SQL-OPEN-VALUE"></a>
 
 *`value`* [#](#ECPG-SQL-OPEN-VALUE)
-:   A value to be bound to a placeholder in the cursor. This can
-    be an SQL constant, a host variable, or a host variable with
-    indicator.
+:   要繫結至游標預留位置的值。可以是 SQL 常數、主機變數，或含指標的主機變數。
 <a id="ECPG-SQL-OPEN-DESCRIPTOR-NAME"></a>
 
 *`descriptor_name`* [#](#ECPG-SQL-OPEN-DESCRIPTOR-NAME)
-:   The name of a descriptor containing values to be bound to the
-    placeholders in the cursor. This can be an SQL identifier or
-    a host variable.
+:   含有要繫結至游標預留位置之值的描述區名稱。可以是 SQL 識別字或主機變數。
 
 <a id="id-1.7.5.20.12.5"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -58,13 +48,13 @@ EXEC SQL OPEN :curname1;
 
 <a id="id-1.7.5.20.12.6"></a>
 
-## Compatibility
+## 相容性
 
-`OPEN` is specified in the SQL standard.
+SQL 標準規定了 `OPEN`。
 
 <a id="id-1.7.5.20.12.7"></a>
 
-## See Also
+## 另請參閱
 
 [DECLARE](ecpg-sql-declare.md), [CLOSE](../../reference/sql-commands/sql-close.md)
 

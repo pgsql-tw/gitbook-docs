@@ -1,8 +1,8 @@
 ## DISCONNECT
 
-DISCONNECT — terminate a database connection
+DISCONNECT — 結束資料庫連線
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,36 +13,30 @@ DISCONNECT ALL
 
 <a id="id-1.7.5.20.9.3"></a>
 
-## Description
+## 說明
 
-`DISCONNECT` closes a connection (or all
-connections) to the database.
+`DISCONNECT` 關閉資料庫的一個連線（或所有連線）。
 
 <a id="id-1.7.5.20.9.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-DISCONNECT-CONNECTION-NAME"></a>
 
 *`connection_name`* [#](#ECPG-SQL-DISCONNECT-CONNECTION-NAME)
-:   A database connection name established by
-    the `CONNECT` command.
+:   由 `CONNECT` 命令建立的資料庫連線名稱。
 <a id="ECPG-SQL-DISCONNECT-CURRENT"></a>
 
 `CURRENT` [#](#ECPG-SQL-DISCONNECT-CURRENT)
-:   Close the “current” connection, which is either
-    the most recently opened connection, or the connection set by
-    the `SET CONNECTION` command. This is also
-    the default if no argument is given to
-    the `DISCONNECT` command.
+:   關閉「目前」連線；它是最近開啟的連線，或由 `SET CONNECTION` 命令設定的連線。若未向 `DISCONNECT` 命令提供引數，這也是預設值。
 <a id="ECPG-SQL-DISCONNECT-ALL"></a>
 
 `ALL` [#](#ECPG-SQL-DISCONNECT-ALL)
-:   Close all open connections.
+:   關閉所有已開啟的連線。
 
 <a id="id-1.7.5.20.9.5"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -62,13 +56,13 @@ main(void)
 
 <a id="id-1.7.5.20.9.6"></a>
 
-## Compatibility
+## 相容性
 
-`DISCONNECT` is specified in the SQL standard.
+SQL 標準規定了 `DISCONNECT`。
 
 <a id="id-1.7.5.20.9.7"></a>
 
-## See Also
+## 另請參閱
 
 [CONNECT](ecpg-sql-connect.md), [SET CONNECTION](ecpg-sql-set-connection.md)
 

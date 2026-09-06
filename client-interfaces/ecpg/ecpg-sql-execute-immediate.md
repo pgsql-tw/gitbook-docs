@@ -1,8 +1,8 @@
 ## EXECUTE IMMEDIATE
 
-EXECUTE IMMEDIATE — dynamically prepare and execute a statement
+EXECUTE IMMEDIATE — 動態備妥並執行陳述式
 
-## Synopsis
+## 語法
 
 ```
 
@@ -11,49 +11,32 @@ EXECUTE IMMEDIATE string
 
 <a id="id-1.7.5.20.10.3"></a>
 
-## Description
+## 說明
 
-`EXECUTE IMMEDIATE` immediately prepares and
-executes a dynamically specified SQL statement, without
-retrieving result rows.
+`EXECUTE IMMEDIATE` 立即備妥並執行動態指定的 SQL 陳述式，但不擷取結果資料列。
 
 <a id="id-1.7.5.20.10.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-EXECUTE-IMMEDIATE-STRING"></a>
 
 *`string`* [#](#ECPG-SQL-EXECUTE-IMMEDIATE-STRING)
-:   A literal string or a host variable containing the SQL
-    statement to be executed.
+:   包含要執行 SQL 陳述式的字串常值或主機變數。
 
 <a id="id-1.7.5.20.10.5"></a>
 
-## Notes
+## 注意事項
 
-In typical usage, the *`string`* is a host
-variable reference to a string containing a dynamically-constructed
-SQL statement. The case of a literal string is not very useful;
-you might as well just write the SQL statement directly, without
-the extra typing of `EXECUTE IMMEDIATE`.
+一般使用時，*`string`* 是指向含有動態建構 SQL 陳述式之字串的主機變數參照。字串常值的情況用途不大；不如直接寫 SQL 陳述式，無須額外輸入 `EXECUTE IMMEDIATE`。
 
-If you do use a literal string, keep in mind that any double quotes
-you might wish to include in the SQL statement must be written as
-octal escapes (`\042`) not the usual C
-idiom `\"`. This is because the string is inside
-an `EXEC SQL` section, so the ECPG lexer parses it
-according to SQL rules not C rules. Any embedded backslashes will
-later be handled according to C rules; but `\"`
-causes an immediate syntax error because it is seen as ending the
-literal.
+若確實使用字串常值，請注意想在 SQL 陳述式中加入的任何雙引號，都必須寫成八進位跳脫字元（`\042`），而不是一般 C 慣用的 `\"`。這是因為該字串位於 `EXEC SQL` 區段內，ECPG 詞法分析器會依 SQL 規則而非 C 規則解析它。任何內嵌反斜線稍後仍會依 C 規則處理；但 `\"` 會被視為結束常值，立即造成語法錯誤。
 
 <a id="id-1.7.5.20.10.6"></a>
 
-## Examples
+## 範例
 
-Here is an example that executes an `INSERT`
-statement using `EXECUTE IMMEDIATE` and a host
-variable named `command`:
+以下範例使用 `EXECUTE IMMEDIATE` 及名為 `command` 的主機變數執行 `INSERT` 陳述式：
 
 ```
 
@@ -63,9 +46,9 @@ EXEC SQL EXECUTE IMMEDIATE :command;
 
 <a id="id-1.7.5.20.10.7"></a>
 
-## Compatibility
+## 相容性
 
-`EXECUTE IMMEDIATE` is specified in the SQL standard.
+SQL 標準規定了 `EXECUTE IMMEDIATE`。
 
 ---
 

@@ -1,8 +1,8 @@
 ## DESCRIBE
 
-DESCRIBE — obtain information about a prepared statement or result set
+DESCRIBE — 取得備妥陳述式或結果集的資訊
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,34 +13,30 @@ DESCRIBE [ OUTPUT ] prepared_name INTO sqlda_name
 
 <a id="id-1.7.5.20.8.3"></a>
 
-## Description
+## 說明
 
-`DESCRIBE` retrieves metadata information about
-the result columns contained in a prepared statement, without
-actually fetching a row.
+`DESCRIBE` 取得備妥陳述式所含結果欄位的中繼資料資訊，而不會實際擷取資料列。
 
 <a id="id-1.7.5.20.8.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-DESCRIBE-PREPARED-NAME"></a>
 
 *`prepared_name`* [#](#ECPG-SQL-DESCRIBE-PREPARED-NAME)
-:   The name of a prepared statement. This can be an SQL
-    identifier or a host variable.
+:   備妥陳述式的名稱。可以是 SQL 識別字或主機變數。
 <a id="ECPG-SQL-DESCRIBE-DESCRIPTOR-NAME"></a>
 
 *`descriptor_name`* [#](#ECPG-SQL-DESCRIBE-DESCRIPTOR-NAME)
-:   A descriptor name. It is case sensitive. It can be an SQL
-    identifier or a host variable.
+:   描述區名稱，區分大小寫。可以是 SQL 識別字或主機變數。
 <a id="ECPG-SQL-DESCRIBE-SQLDA-NAME"></a>
 
 *`sqlda_name`* [#](#ECPG-SQL-DESCRIBE-SQLDA-NAME)
-:   The name of an SQLDA variable.
+:   SQLDA 變數名稱。
 
 <a id="id-1.7.5.20.8.5"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -53,13 +49,13 @@ EXEC SQL DEALLOCATE DESCRIPTOR mydesc;
 
 <a id="id-1.7.5.20.8.6"></a>
 
-## Compatibility
+## 相容性
 
-`DESCRIBE` is specified in the SQL standard.
+SQL 標準規定了 `DESCRIBE`。
 
 <a id="id-1.7.5.20.8.7"></a>
 
-## See Also
+## 另請參閱
 
 [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md), [GET DESCRIPTOR](ecpg-sql-get-descriptor.md)
 

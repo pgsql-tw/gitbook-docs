@@ -1,8 +1,8 @@
 ## SET DESCRIPTOR
 
-SET DESCRIPTOR — set information in an SQL descriptor area
+SET DESCRIPTOR — 在 SQL 描述區設定資訊
 
-## Synopsis
+## 語法
 
 ```
 
@@ -12,51 +12,40 @@ SET DESCRIPTOR descriptor_name VALUE number descriptor_item = value [, ...]
 
 <a id="id-1.7.5.20.16.3"></a>
 
-## Description
+## 說明
 
-`SET DESCRIPTOR` populates an SQL descriptor
-area with values. The descriptor area is then typically used to
-bind parameters in a prepared query execution.
+`SET DESCRIPTOR` 使用值填入 SQL 描述區。描述區通常隨後用於在執行備妥查詢時繫結參數。
 
-This command has two forms: The first form applies to the
-descriptor “header”, which is independent of a
-particular datum. The second form assigns values to particular
-datums, identified by number.
+此命令有兩種形式：第一種套用至與特定資料值無關的描述區「標頭」；第二種則為以編號識別的特定資料值指派值。
 
 <a id="id-1.7.5.20.16.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-NAME"></a>
 
 *`descriptor_name`* [#](#ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-NAME)
-:   A descriptor name.
+:   描述區名稱。
 <a id="ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-HEADER-ITEM"></a>
 
 *`descriptor_header_item`* [#](#ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-HEADER-ITEM)
-:   A token identifying which header information item to set.
-    Only `COUNT`, to set the number of descriptor
-    items, is currently supported.
+:   用來識別要設定哪個標頭資訊項目的符記。目前只支援用於設定描述區項目數量的 `COUNT`。
 <a id="ECPG-SQL-SET-DESCRIPTOR-NUMBER"></a>
 
 *`number`* [#](#ECPG-SQL-SET-DESCRIPTOR-NUMBER)
-:   The number of the descriptor item to set. The count starts at
-    1.
+:   要設定的描述區項目編號。計數從 1 開始。
 <a id="ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-ITEM"></a>
 
 *`descriptor_item`* [#](#ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-ITEM)
-:   A token identifying which item of information to set in the
-    descriptor. See [Section 34.7.1](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS) for a
-    list of supported items.
+:   用來識別要在描述區中設定哪個資訊項目的符記。支援項目清單請參閱[第 34.7.1 節](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)。
 <a id="ECPG-SQL-SET-DESCRIPTOR-VALUE"></a>
 
 *`value`* [#](#ECPG-SQL-SET-DESCRIPTOR-VALUE)
-:   A value to store into the descriptor item. This can be an SQL
-    constant or a host variable.
+:   要儲存至描述區項目的值。可以是 SQL 常數或主機變數。
 
 <a id="id-1.7.5.20.16.5"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -69,13 +58,13 @@ EXEC SQL SET DESCRIPTOR indesc VALUE 2 INDICATOR = :val2null, DATA = :val2;
 
 <a id="id-1.7.5.20.16.6"></a>
 
-## Compatibility
+## 相容性
 
-`SET DESCRIPTOR` is specified in the SQL standard.
+SQL 標準規定了 `SET DESCRIPTOR`。
 
 <a id="id-1.7.5.20.16.7"></a>
 
-## See Also
+## 另請參閱
 
 [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md), [GET DESCRIPTOR](ecpg-sql-get-descriptor.md)
 
