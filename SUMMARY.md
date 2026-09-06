@@ -23,7 +23,7 @@
     * [2.7. Aggregate Functions #](tutorial/tutorial-sql/tutorial-agg.md)
     * [2.8. Updates #](tutorial/tutorial-sql/tutorial-update.md)
     * [2.9. Deletions #](tutorial/tutorial-sql/tutorial-delete.md)
-  * [Chapter 3. Advanced Features](tutorial/tutorial-advanced/README.md)
+  * [第 3 章 進階功能](tutorial/tutorial-advanced/README.md)
     * [3.1. Introduction #](tutorial/tutorial-advanced/tutorial-advanced-intro.md)
     * [3.2. Views #](tutorial/tutorial-advanced/tutorial-views.md)
     * [3.3. Foreign Keys #](tutorial/tutorial-advanced/tutorial-fk.md)

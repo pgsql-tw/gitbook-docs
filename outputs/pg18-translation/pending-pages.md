@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1104 頁。
+待譯頁面：1103 頁。
 
 ## 根目錄
 
@@ -1156,7 +1156,7 @@
 ## tutorial
 
 - [ ] `tutorial/README.md` — Part I. Tutorial
-- [ ] `tutorial/tutorial-advanced/README.md` — Chapter 3. Advanced Features
+- [x] `tutorial/tutorial-advanced/README.md` — 第 3 章 進階功能
 - [ ] `tutorial/tutorial-advanced/tutorial-advanced-intro.md` — 3.1. Introduction #
 - [ ] `tutorial/tutorial-advanced/tutorial-conclusion.md` — 3.7. Conclusion #
 - [ ] `tutorial/tutorial-advanced/tutorial-fk.md` — 3.3. Foreign Keys #
