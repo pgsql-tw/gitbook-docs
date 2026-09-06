@@ -290,7 +290,7 @@
     * [29.12. Configuration Settings #](server-administration/logical-replication/logical-replication-config.md)
     * [29.13. Upgrade #](server-administration/logical-replication/logical-replication-upgrade.md)
     * [29.14. Quick Setup #](server-administration/logical-replication/logical-replication-quick-setup.md)
-  * [Chapter 30. Just-in-Time Compilation ( JIT )](server-administration/jit/README.md)
+  * [第 30 章 即時編譯（JIT）](server-administration/jit/README.md)
     * [30.1. What Is JIT compilation? #](server-administration/jit/jit-reason.md)
     * [30.2. When to JIT ? #](server-administration/jit/jit-decision.md)
     * [30.3. Configuration #](server-administration/jit/jit-configuration.md)

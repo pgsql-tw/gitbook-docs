@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1062 頁。
+待譯頁面：1061 頁。
 
 ## 根目錄
 
@@ -747,7 +747,7 @@
 - [ ] `server-administration/installation/install-requirements.md` — 17.1. Requirements #
 - [ ] `server-administration/installation/installation-platform-notes.md` — 17.7. Platform-Specific Notes #
 - [ ] `server-administration/installation/supported-platforms.md` — 17.6. Supported Platforms #
-- [ ] `server-administration/jit/README.md` — Chapter 30. Just-in-Time Compilation ( JIT )
+- [x] `server-administration/jit/README.md` — 第 30 章 即時編譯（JIT）
 - [ ] `server-administration/jit/jit-configuration.md` — 30.3. Configuration #
 - [ ] `server-administration/jit/jit-decision.md` — 30.2. When to JIT ? #
 - [ ] `server-administration/jit/jit-extensibility.md` — 30.4. Extensibility #
