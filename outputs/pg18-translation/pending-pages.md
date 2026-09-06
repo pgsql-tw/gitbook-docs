@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1085 頁。
+待譯頁面：1084 頁。
 
 ## 根目錄
 
@@ -23,7 +23,7 @@
 - [x] `appendixes/color/color-when.md` — N.1. When Color is Used #
 - [x] `appendixes/color/color-which.md` — N.2. Configuring the Colors #
 - [ ] `appendixes/contrib-prog/README.md` — Appendix G. Additional Supplied Programs
-- [ ] `appendixes/contrib-prog/contrib-prog-client.md` — G.1. Client Applications #
+- [x] `appendixes/contrib-prog/contrib-prog-client.md` — G.1. 用戶端應用程式
 - [ ] `appendixes/contrib-prog/contrib-prog-server.md` — G.2. Server Applications #
 - [ ] `appendixes/contrib-prog/oid2name.md` — oid2name
 - [ ] `appendixes/contrib-prog/vacuumlo.md` — vacuumlo
