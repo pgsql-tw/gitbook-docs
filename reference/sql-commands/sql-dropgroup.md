@@ -2,9 +2,9 @@
 
 ## DROP GROUP
 
-DROP GROUP — remove a database role
+DROP GROUP — 移除資料庫角色
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,23 +13,22 @@ DROP GROUP [ IF EXISTS ] name [, ...]
 
 <a id="id-1.9.3.115.5"></a>
 
-## Description
+## 說明
 
-`DROP GROUP` is now an alias for
-[`DROP ROLE`](sql-droprole.md).
+`DROP GROUP` 現在是 [`DROP ROLE`](sql-droprole.md) 的別名。
 
 <a id="id-1.9.3.115.6"></a>
 
-## Compatibility
+## 相容性
 
-There is no `DROP GROUP` statement in the SQL standard.
+SQL 標準沒有 `DROP GROUP` 陳述式。
 
 <a id="id-1.9.3.115.7"></a>
 
-## See Also
+## 參閱
 
 [DROP ROLE](sql-droprole.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropgroup.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropgroup.html)（原文版本：18.6；核對日期：2026-09-06）
