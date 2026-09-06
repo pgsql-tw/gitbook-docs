@@ -1,28 +1,18 @@
-## 70.3. Backup Manifest WAL Range Object [#](#BACKUP-MANIFEST-WAL-RANGES)
+## 70.3. 備份清單的 WAL 範圍物件 [#](#BACKUP-MANIFEST-WAL-RANGES)
 
-The object which describes a WAL range always has three keys:
+描述 WAL 範圍的物件固定有三個鍵：
 
 `Timeline`
-:   The timeline for this range of WAL records, as an integer.
+:   此範圍 WAL 記錄所屬的時間軸，以整數表示。
 
 `Start-LSN`
-:   The LSN at which replay must begin on the indicated timeline in order to
-    make use of this backup. The LSN is stored in the format normally used
-    by PostgreSQL; that is, it is a string
-    consisting of two strings of hexadecimal characters, each with a length
-    of between 1 and 8, separated by a slash.
+:   使用此備份時，在指定時間軸上必須開始重播的 LSN。LSN 採用 PostgreSQL 一般使用的格式儲存：由兩段長度各為 1 到 8 的十六進位字元字串組成，中間以斜線分隔。
 
 `End-LSN`
-:   The earliest LSN at which replay on the indicated timeline may end when
-    making use of this backup. This is stored in the same format as
-    `Start-LSN`.
+:   使用此備份時，在指定時間軸上最早可以結束重播的 LSN。儲存格式與 `Start-LSN` 相同。
 
-Ordinarily, there will be only a single WAL range. However, if a backup is
-taken from a standby which switches timelines during the backup due to an
-upstream promotion, it is possible for multiple ranges to be present, each
-with a different timeline. There will never be multiple WAL ranges present
-for the same timeline.
+通常只會有一個 WAL 範圍。不過，若從備用伺服器取得備份，而該伺服器在備份期間因上游伺服器升級為主要伺服器而切換時間軸，就可能存在多個範圍，每個範圍屬於不同時間軸。同一時間軸絕不會出現多個 WAL 範圍。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-manifest-wal-ranges.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-manifest-wal-ranges.html)（原文版本：18.6；核對日期：2026-09-07）
