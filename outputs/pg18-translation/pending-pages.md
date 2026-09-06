@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1094 頁。
+待譯頁面：1093 頁。
 
 ## 根目錄
 
@@ -1164,7 +1164,7 @@
 - [ ] `tutorial/tutorial-advanced/tutorial-transactions.md` — 3.4. Transactions #
 - [ ] `tutorial/tutorial-advanced/tutorial-views.md` — 3.2. Views #
 - [ ] `tutorial/tutorial-advanced/tutorial-window.md` — 3.5. Window Functions #
-- [ ] `tutorial/tutorial-sql/README.md` — Chapter 2. The SQL Language
+- [x] `tutorial/tutorial-sql/README.md` — 第 2 章 SQL 語言
 - [ ] `tutorial/tutorial-sql/tutorial-agg.md` — 2.7. Aggregate Functions #
 - [ ] `tutorial/tutorial-sql/tutorial-concepts.md` — 2.2. Concepts #
 - [ ] `tutorial/tutorial-sql/tutorial-delete.md` — 2.9. Deletions #
