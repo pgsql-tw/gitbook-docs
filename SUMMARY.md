@@ -1122,7 +1122,7 @@
   * [附錄 H. 外部專案](appendixes/external-projects/README.md)
     * [H.1. Client Interfaces #](appendixes/external-projects/external-interfaces.md)
     * [H.2. Administration Tools #](appendixes/external-projects/external-admin-tools.md)
-    * [H.3. Procedural Languages #](appendixes/external-projects/external-pl.md)
+    * [H.3. 程序語言](appendixes/external-projects/external-pl.md)
     * [H.4. 擴充套件](appendixes/external-projects/external-extensions.md)
   * [附錄 I. 原始碼儲存庫](appendixes/sourcerepo/README.md)
     * [I.1. Getting the Source via Git #](appendixes/sourcerepo/git.md)
