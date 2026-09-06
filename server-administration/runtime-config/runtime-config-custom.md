@@ -1,24 +1,11 @@
-## 19.16. Customized Options [#](#RUNTIME-CONFIG-CUSTOM)
+## 19.16. 自訂選項 [#](#RUNTIME-CONFIG-CUSTOM)
 
-This feature was designed to allow parameters not normally known to
-PostgreSQL to be added by add-on modules
-(such as procedural languages). This allows extension modules to be
-configured in the standard ways.
+此功能讓附加模組（例如程序語言）能新增 PostgreSQL 原本不認得的參數，使擴充模組也能透過標準方式設定。
 
-Custom options have two-part names: an extension name, then a dot, then
-the parameter name proper, much like qualified names in SQL. An example
-is `plpgsql.variable_conflict`.
+自訂選項的名稱由兩部分組成：擴充套件名稱、句點，再接上參數本身的名稱，類似 SQL 中的限定名稱。例如 `plpgsql.variable_conflict`。
 
-Because custom options may need to be set in processes that have not
-loaded the relevant extension module, PostgreSQL
-will accept a setting for any two-part parameter name. Such variables
-are treated as placeholders and have no function until the module that
-defines them is loaded. When an extension module is loaded, it will add
-its variable definitions and convert any placeholder values according to
-those definitions. If there are any unrecognized placeholders
-that begin with its extension name, warnings are issued and those
-placeholders are removed.
+由於可能需要在尚未載入相關擴充模組的程序中設定自訂選項，PostgreSQL 會接受任何兩部分參數名稱的設定。這類變數會視為預留位置，在定義它們的模組載入之前不具任何功能。擴充模組載入時，會加入其變數定義，並依照定義轉換既有預留位置的值。若仍有以該擴充套件名稱開頭、但無法辨識的預留位置，則會發出警告並移除它們。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-custom.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-custom.html)（原文版本：18.6；核對日期：2026-09-07）

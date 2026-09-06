@@ -210,7 +210,7 @@
     * [19.13. Version and Platform Compatibility #](server-administration/runtime-config/runtime-config-compatible.md)
     * [19.14. Error Handling #](server-administration/runtime-config/runtime-config-error-handling.md)
     * [19.15. Preset Options #](server-administration/runtime-config/runtime-config-preset.md)
-    * [19.16. Customized Options #](server-administration/runtime-config/runtime-config-custom.md)
+    * [19.16. 自訂選項](server-administration/runtime-config/runtime-config-custom.md)
     * [19.17. Developer Options #](server-administration/runtime-config/runtime-config-developer.md)
     * [19.18. Short Options #](server-administration/runtime-config/runtime-config-short.md)
   * [Chapter 20. Client Authentication](server-administration/client-authentication/README.md)

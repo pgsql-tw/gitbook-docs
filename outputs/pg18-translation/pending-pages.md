@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1020 頁。
+待譯頁面：1019 頁。
 
 ## 根目錄
 
@@ -796,7 +796,7 @@
 - [ ] `server-administration/runtime-config/runtime-config-client.md` — 19.11. Client Connection Defaults #
 - [ ] `server-administration/runtime-config/runtime-config-compatible.md` — 19.13. Version and Platform Compatibility #
 - [ ] `server-administration/runtime-config/runtime-config-connection.md` — 19.3. Connections and Authentication #
-- [ ] `server-administration/runtime-config/runtime-config-custom.md` — 19.16. Customized Options #
+- [x] `server-administration/runtime-config/runtime-config-custom.md` — 19.16. 自訂選項
 - [ ] `server-administration/runtime-config/runtime-config-developer.md` — 19.17. Developer Options #
 - [ ] `server-administration/runtime-config/runtime-config-error-handling.md` — 19.14. Error Handling #
 - [ ] `server-administration/runtime-config/runtime-config-file-locations.md` — 19.2. File Locations #
