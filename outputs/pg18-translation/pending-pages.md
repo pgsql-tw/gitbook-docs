@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1018 頁。
+待譯頁面：1017 頁。
 
 ## 根目錄
 
@@ -283,7 +283,7 @@
 - [ ] `internals/bki/bki-commands.md` — 68.4. BKI Commands #
 - [x] `internals/bki/bki-example.md` — 68.6. BKI 範例
 - [x] `internals/bki/bki-format.md` — 68.3. BKI 檔案格式
-- [ ] `internals/bki/bki-structure.md` — 68.5. Structure of the Bootstrap BKI File #
+- [x] `internals/bki/bki-structure.md` — 68.5. 啟動初始化 BKI 檔案的結構
 - [ ] `internals/bki/system-catalog-declarations.md` — 68.1. System Catalog Declaration Rules #
 - [ ] `internals/bki/system-catalog-initial-data.md` — 68.2. System Catalog Initial Data #
 - [ ] `internals/catalogs/README.md` — Chapter 52. System Catalogs

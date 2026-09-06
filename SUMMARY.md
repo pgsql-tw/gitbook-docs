@@ -1011,7 +1011,7 @@
     * [68.2. System Catalog Initial Data #](internals/bki/system-catalog-initial-data.md)
     * [68.3. BKI 檔案格式](internals/bki/bki-format.md)
     * [68.4. BKI Commands #](internals/bki/bki-commands.md)
-    * [68.5. Structure of the Bootstrap BKI File #](internals/bki/bki-structure.md)
+    * [68.5. 啟動初始化 BKI 檔案的結構](internals/bki/bki-structure.md)
     * [68.6. BKI 範例](internals/bki/bki-example.md)
   * [Chapter 69. How the Planner Uses Statistics](internals/planner-stats-details/README.md)
     * [69.1. Row Estimation Examples #](internals/planner-stats-details/row-estimation-examples.md)
