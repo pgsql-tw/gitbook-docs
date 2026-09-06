@@ -2,9 +2,9 @@
 
 ## ALTER RULE
 
-ALTER RULE — change the definition of a rule
+ALTER RULE — 變更規則的定義
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,33 +13,30 @@ ALTER RULE name ON table_name RENAME TO new_name
 
 <a id="id-1.9.3.28.5"></a>
 
-## Description
+## 說明
 
-`ALTER RULE` changes properties of an existing
-rule. Currently, the only available action is to change the rule's name.
+`ALTER RULE` 會變更既有規則的屬性。目前唯一可用的動作是變更規則名稱。
 
-To use `ALTER RULE`, you must own the table or view that
-the rule applies to.
+若要使用 `ALTER RULE`，你必須擁有該規則所套用的資料表或檢視表。
 
 <a id="id-1.9.3.28.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of an existing rule to alter.
+:   要修改的既有規則名稱。
 
 *`table_name`*
-:   The name (optionally schema-qualified) of the table or view that the
-    rule applies to.
+:   規則所套用的資料表或檢視表名稱（可加上 schema 名稱限定）。
 
 *`new_name`*
-:   The new name for the rule.
+:   規則的新名稱。
 
 <a id="id-1.9.3.28.7"></a>
 
-## Examples
+## 範例
 
-To rename an existing rule:
+重新命名既有規則：
 
 ```
 
@@ -48,18 +45,16 @@ ALTER RULE notify_all ON emp RENAME TO notify_me;
 
 <a id="id-1.9.3.28.8"></a>
 
-## Compatibility
+## 相容性
 
-`ALTER RULE` is a
-PostgreSQL language extension, as is the
-entire query rewrite system.
+`ALTER RULE` 與整個查詢重寫系統一樣，都是 PostgreSQL 的語言擴充功能。
 
 <a id="id-1.9.3.28.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE RULE](sql-createrule.md), [DROP RULE](sql-droprule.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterrule.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterrule.html)（原文版本：18.6；核對日期：2026-09-07）

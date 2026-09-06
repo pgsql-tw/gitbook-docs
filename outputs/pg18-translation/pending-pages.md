@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1069 頁。
+待譯頁面：1068 頁。
 
 ## 根目錄
 
@@ -546,7 +546,7 @@
 - [ ] `reference/sql-commands/sql-alterpublication.md` — ALTER PUBLICATION
 - [ ] `reference/sql-commands/sql-alterrole.md` — ALTER ROLE
 - [ ] `reference/sql-commands/sql-alterroutine.md` — ALTER ROUTINE
-- [ ] `reference/sql-commands/sql-alterrule.md` — ALTER RULE
+- [x] `reference/sql-commands/sql-alterrule.md` — ALTER RULE
 - [ ] `reference/sql-commands/sql-alterschema.md` — ALTER SCHEMA
 - [ ] `reference/sql-commands/sql-altersequence.md` — ALTER SEQUENCE
 - [ ] `reference/sql-commands/sql-alterserver.md` — ALTER SERVER
