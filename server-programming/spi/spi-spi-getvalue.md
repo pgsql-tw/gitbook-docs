@@ -2,9 +2,9 @@
 
 ## SPI_getvalue
 
-SPI_getvalue — return the string value of the specified column
+SPI_getvalue — 傳回指定欄位的字串值
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,40 +13,31 @@ char * SPI_getvalue(HeapTuple row, TupleDesc rowdesc, int colnumber)
 
 <a id="id-1.8.12.9.6.5"></a>
 
-## Description
+## 說明
 
-`SPI_getvalue` returns the string representation
-of the value of the specified column.
+`SPI_getvalue` 傳回指定欄位值的字串表示法。
 
-The result is returned in memory allocated using
-`palloc`. (You can use
-`pfree` to release the memory when you don't
-need it anymore.)
+結果會在使用 `palloc` 配置的記憶體中傳回。（不再需要時，可使用 `pfree` 釋放記憶體。）
 
 <a id="id-1.8.12.9.6.6"></a>
 
-## Arguments
+## 引數
 
 `HeapTuple row`
-:   input row to be examined
+:   要檢查的輸入資料列
 
 `TupleDesc rowdesc`
-:   input row description
+:   輸入資料列描述
 
 `int colnumber`
-:   column number (count starts at 1)
+:   欄位編號（從 1 開始計數）
 
 <a id="id-1.8.12.9.6.7"></a>
 
-## Return Value
+## 回傳值
 
-Column value, or `NULL` if the column is null,
-*`colnumber`* is out of range
-(`SPI_result` is set to
-`SPI_ERROR_NOATTRIBUTE`), or no output function is
-available (`SPI_result` is set to
-`SPI_ERROR_NOOUTFUNC`).
+欄位值；若欄位為 null、*`colnumber`* 超出範圍（`SPI_result` 設為 `SPI_ERROR_NOATTRIBUTE`），或沒有可用的輸出函式（`SPI_result` 設為 `SPI_ERROR_NOOUTFUNC`），則回傳 `NULL`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-getvalue.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-getvalue.html)（原文版本：18.6；核對日期：2026-09-07）
