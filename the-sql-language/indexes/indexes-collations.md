@@ -1,9 +1,8 @@
-## 11.11. Indexes and Collations [#](#INDEXES-COLLATIONS)
+## 11.11. 索引與定序 [#](#INDEXES-COLLATIONS)
 
-An index can support only one collation per index column.
-If multiple collations are of interest, multiple indexes may be needed.
+每個索引欄位只能支援一種定序。如果需要多種定序，可能必須建立多個索引。
 
-Consider these statements:
+考慮下列陳述式：
 
 ```
 
@@ -15,25 +14,21 @@ CREATE TABLE test1c (
 CREATE INDEX test1c_content_index ON test1c (content);
 ```
 
-The index automatically uses the collation of the
-underlying column. So a query of the form
+索引會自動使用底層欄位的定序。因此，下列形式的查詢：
 
 ```
 
 SELECT * FROM test1c WHERE content > constant;
 ```
 
-could use the index, because the comparison will by default use the
-collation of the column. However, this index cannot accelerate queries
-that involve some other collation. So if queries of the form, say,
+可以使用此索引，因為比較運算預設會使用欄位的定序。不過，此索引無法加速涉及其他定序的查詢。例如，如果也需要下列形式的查詢：
 
 ```
 
 SELECT * FROM test1c WHERE content > constant COLLATE "y";
 ```
 
-are also of interest, an additional index could be created that supports
-the `"y"` collation, like this:
+就可以另外建立支援 `"y"` 定序的索引，如下所示：
 
 ```
 
@@ -42,4 +37,4 @@ CREATE INDEX test1c_content_y_index ON test1c (content COLLATE "y");
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-collations.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-collations.html)（原文版本：18.6；核對日期：2026-09-07）
