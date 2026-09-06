@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1073 頁。
+待譯頁面：1072 頁。
 
 ## 根目錄
 
@@ -771,7 +771,7 @@
 - [ ] `server-administration/maintenance/logfile-maintenance.md` — 24.3. Log File Maintenance #
 - [ ] `server-administration/maintenance/routine-reindex.md` — 24.2. Routine Reindexing #
 - [ ] `server-administration/maintenance/routine-vacuuming.md` — 24.1. Routine Vacuuming #
-- [ ] `server-administration/managing-databases/README.md` — Chapter 22. Managing Databases
+- [x] `server-administration/managing-databases/README.md` — 第 22 章 管理資料庫
 - [ ] `server-administration/managing-databases/manage-ag-config.md` — 22.4. Database Configuration #
 - [ ] `server-administration/managing-databases/manage-ag-createdb.md` — 22.2. Creating a Database #
 - [ ] `server-administration/managing-databases/manage-ag-dropdb.md` — 22.5. Destroying a Database #

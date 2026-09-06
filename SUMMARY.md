@@ -237,7 +237,7 @@
     * [21.4. Dropping Roles #](server-administration/user-manag/role-removal.md)
     * [21.5. Predefined Roles #](server-administration/user-manag/predefined-roles.md)
     * [21.6. Function Security #](server-administration/user-manag/perm-functions.md)
-  * [Chapter 22. Managing Databases](server-administration/managing-databases/README.md)
+  * [第 22 章 管理資料庫](server-administration/managing-databases/README.md)
     * [22.1. Overview #](server-administration/managing-databases/manage-ag-overview.md)
     * [22.2. Creating a Database #](server-administration/managing-databases/manage-ag-createdb.md)
     * [22.3. Template Databases #](server-administration/managing-databases/manage-ag-templatedbs.md)
