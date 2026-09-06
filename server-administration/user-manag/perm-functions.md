@@ -1,25 +1,9 @@
-## 21.6. Function Security [#](#PERM-FUNCTIONS)
+## 21.6. 函式安全性 [#](#PERM-FUNCTIONS)
 
-Functions, triggers and row-level security policies allow users to insert
-code into the backend server that other users might execute
-unintentionally. Hence, these mechanisms permit users to “Trojan
-horse” others with relative ease. The strongest protection is tight
-control over who can define objects. Where that is infeasible, write
-queries referring only to objects having trusted owners. Remove
-from `search_path` any schemas that permit untrusted users
-to create objects.
+函式、觸發器與資料列層級安全性原則，讓使用者可以將程式碼放入後端伺服器，而其他使用者可能在不知情的情況下執行它。因此，這些機制讓使用者相對容易以「特洛伊木馬」攻擊他人。最強的防護是嚴格控制誰能定義物件。若無法做到，撰寫查詢時就應只參照擁有者可信任的物件。請從 `search_path` 移除所有允許不受信任使用者建立物件的 schema。
 
-Functions run inside the backend
-server process with the operating system permissions of the
-database server daemon. If the programming language
-used for the function allows unchecked memory accesses, it is
-possible to change the server's internal data structures.
-Hence, among many other things, such functions can circumvent any
-system access controls. Function languages that allow such access
-are considered “untrusted”, and
-PostgreSQL allows only superusers to
-create functions written in those languages.
+函式在後端伺服器程序內執行，使用資料庫伺服器背景程式的作業系統權限。如果撰寫函式的程式語言允許未經檢查的記憶體存取，就可能變更伺服器的內部資料結構。因此，這類函式除了能進行許多其他操作之外，還能繞過任何系統存取控制。允許這種存取的函式語言被視為「不受信任」，PostgreSQL 只允許超級使用者建立以這些語言撰寫的函式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/perm-functions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/perm-functions.html)（原文版本：18.6；核對日期：2026-09-07）

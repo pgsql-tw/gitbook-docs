@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1016 頁。
+待譯頁面：1015 頁。
 
 ## 根目錄
 
@@ -825,7 +825,7 @@
 - [ ] `server-administration/runtime/upgrading.md` — 18.6. Upgrading a PostgreSQL Cluster #
 - [ ] `server-administration/user-manag/README.md` — Chapter 21. Database Roles
 - [ ] `server-administration/user-manag/database-roles.md` — 21.1. Database Roles #
-- [ ] `server-administration/user-manag/perm-functions.md` — 21.6. Function Security #
+- [x] `server-administration/user-manag/perm-functions.md` — 21.6. 函式安全性
 - [ ] `server-administration/user-manag/predefined-roles.md` — 21.5. Predefined Roles #
 - [ ] `server-administration/user-manag/role-attributes.md` — 21.2. Role Attributes #
 - [ ] `server-administration/user-manag/role-membership.md` — 21.3. Role Membership #
