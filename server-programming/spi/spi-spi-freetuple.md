@@ -2,9 +2,9 @@
 
 ## SPI_freetuple
 
-SPI_freetuple — free a row allocated in the upper executor context
+SPI_freetuple — 釋放於上層執行器環境配置的資料列
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,22 +13,19 @@ void SPI_freetuple(HeapTuple row)
 
 <a id="id-1.8.12.10.12.5"></a>
 
-## Description
+## 說明
 
-`SPI_freetuple` frees a row previously allocated
-in the upper executor context.
+`SPI_freetuple` 釋放先前於上層執行器環境配置的資料列。
 
-This function is no longer different from plain
-`heap_freetuple`. It's kept just for backward
-compatibility of existing code.
+此函式已與單純的 `heap_freetuple` 沒有差異，僅為既有程式碼的向後相容性保留。
 
 <a id="id-1.8.12.10.12.6"></a>
 
-## Arguments
+## 引數
 
 `HeapTuple row`
-:   row to free
+:   要釋放的資料列
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-freetuple.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-freetuple.html)（原文版本：18.6；核對日期：2026-09-06）
