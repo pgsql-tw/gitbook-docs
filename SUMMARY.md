@@ -1136,7 +1136,7 @@
   * [Appendix K. PostgreSQL Limits](appendixes/limits/README.md)
   * [Appendix L. Acronyms](appendixes/acronyms/README.md)
   * [Appendix M. Glossary](appendixes/glossary/README.md)
-  * [Appendix N. Color Support](appendixes/color/README.md)
+  * [附錄 N. 色彩支援](appendixes/color/README.md)
     * [N.1. When Color is Used #](appendixes/color/color-when.md)
     * [N.2. Configuring the Colors #](appendixes/color/color-which.md)
   * [附錄 O. 已淘汰或改名的功能](appendixes/appendix-obsolete/README.md)
