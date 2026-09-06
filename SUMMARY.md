@@ -1058,7 +1058,7 @@
     * [F.11. dblink — connect to other PostgreSQL databases #](appendixes/contrib/dblink.md)
       * [dblink_build_sql_delete](appendixes/contrib/contrib-dblink-build-sql-delete.md)
       * [dblink_build_sql_insert](appendixes/contrib/contrib-dblink-build-sql-insert.md)
-      * [dblink_build_sql_update](appendixes/contrib/contrib-dblink-build-sql-update.md)
+      * [`dblink_build_sql_update`](appendixes/contrib/contrib-dblink-build-sql-update.md)
       * [dblink_cancel_query](appendixes/contrib/contrib-dblink-cancel-query.md)
       * [dblink_close](appendixes/contrib/contrib-dblink-close.md)
       * [dblink_connect_u](appendixes/contrib/contrib-dblink-connect-u.md)

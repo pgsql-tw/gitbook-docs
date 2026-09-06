@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1130 頁。
+待譯頁面：1129 頁。
 
 ## 根目錄
 
@@ -39,7 +39,7 @@
 - [ ] `appendixes/contrib/citext.md` — F.9. citext — a case-insensitive character string type #
 - [ ] `appendixes/contrib/contrib-dblink-build-sql-delete.md` — dblink_build_sql_delete
 - [ ] `appendixes/contrib/contrib-dblink-build-sql-insert.md` — dblink_build_sql_insert
-- [ ] `appendixes/contrib/contrib-dblink-build-sql-update.md` — dblink_build_sql_update
+- [x] `appendixes/contrib/contrib-dblink-build-sql-update.md` — dblink_build_sql_update
 - [ ] `appendixes/contrib/contrib-dblink-cancel-query.md` — dblink_cancel_query
 - [ ] `appendixes/contrib/contrib-dblink-close.md` — dblink_close
 - [ ] `appendixes/contrib/contrib-dblink-connect-u.md` — dblink_connect_u
