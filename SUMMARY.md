@@ -4,7 +4,7 @@
 * [Preface](preface/README.md)
   * [1. What Is PostgreSQL ? #](preface/intro-whatis.md)
   * [2. A Brief History of PostgreSQL #](preface/history.md)
-  * [3. Conventions #](preface/notation.md)
+  * [3. 慣例](preface/notation.md)
   * [4. Further Information #](preface/resources.md)
   * [5. Bug Reporting Guidelines #](preface/bug-reporting.md)
 * [Part I. Tutorial](tutorial/README.md)

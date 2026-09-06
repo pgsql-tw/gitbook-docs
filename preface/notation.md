@@ -1,25 +1,11 @@
-## 3. Conventions [#](#NOTATION)
+## 3. 慣例 [#](#NOTATION)
 
-The following conventions are used in the synopsis of a command:
-brackets (`[` and `]`) indicate
-optional parts. Braces
-(`{` and `}`) and vertical lines
-(`|`) indicate that you must choose one
-alternative. Dots (`...`) mean that the preceding element
-can be repeated. All other symbols, including parentheses, should be
-taken literally.
+命令語法概要採用下列慣例：方括號（`[` 與 `]`）表示可選部分。大括號（`{` 與 `}`）和垂直線（`|`）表示必須從選項中擇一。刪節號（`...`）表示前面的元素可以重複。其他所有符號（包括圓括號）都應按字面輸入。
 
-Where it enhances the clarity, SQL commands are preceded by the
-prompt `=>`, and shell commands are preceded by the
-prompt `$`. Normally, prompts are not shown, though.
+在有助於閱讀時，SQL 命令前會加上提示符號 `=>`，shell 命令前則加上提示符號 `$`。不過，通常不會顯示提示符號。
 
-An *administrator* is generally a person who is
-in charge of installing and running the server. A *user*
-could be anyone who is using, or wants to use, any part of the
-PostgreSQL system. These terms should not
-be interpreted too narrowly; this book does not have fixed
-presumptions about system administration procedures.
+*管理者*通常是負責安裝與執行伺服器的人。*使用者*可以是正在使用或想使用 PostgreSQL 系統任何部分的任何人。不應過度限縮這些用語的意義；本書對系統管理程序並無固定的預設立場。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/notation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/notation.html)（原文版本：18.6；核對日期：2026-09-07）
