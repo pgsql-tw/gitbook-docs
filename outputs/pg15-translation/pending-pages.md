@@ -2,7 +2,7 @@
 
 依 PostgreSQL 15.19 匯入頁面的中英文文字比例產生。程式碼、HTML 標籤、連結文字不列入統計；此清單是翻譯排程，不是內容正確性或版本審校的判定。
 
-待譯頁面：357。每一頁完成翻譯後，重新執行本程式以更新清單。
+待譯頁面：347。每一頁完成翻譯後，重新執行本程式以更新清單。
 
 ## appendixes
 
@@ -45,16 +45,6 @@
 
 ## client-interfaces
 
-- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-var.md` — VAR（約 39 個英文字詞）
-- [ ] `client-interfaces/34.-large-objects/34.5.-example-program.md` — 35.5. Example Program（約 52 個英文字詞）
-- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-deallocate-descriptor.md` — DEALLOCATE DESCRIPTOR（約 52 個英文字詞）
-- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-set-connection.md` — SET CONNECTION（約 54 個英文字詞）
-- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-set-autocommit.md` — SET AUTOCOMMIT（約 64 個英文字詞）
-- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-allocate-descriptor.md` — ALLOCATE DESCRIPTOR（約 69 個英文字詞）
-- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-disconnect.md` — DISCONNECT（約 71 個英文字詞）
-- [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-type.md` — TYPE（約 72 個英文字詞）
-- [ ] `client-interfaces/the-information-schema/36.27.-foreign_server_options.md` — 37.28. foreign_server_options（約 73 個英文字詞）
-- [ ] `client-interfaces/ecpg-embedded-sql-in-c/ecpg-oracle-compat.md` — 36.16. Oracle Compatibility Mode（約 75 個英文字詞）
 - [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-whenever.md` — WHENEVER（約 78 個英文字詞）
 - [ ] `client-interfaces/the-information-schema/36.25.-foreign_data_wrapper_options.md` — 37.26. foreign_data_wrapper_options（約 78 個英文字詞）
 - [ ] `client-interfaces/ecpg-embedded-sql-in-c/35.14.-embedded-sql-commands/ecpg-sql-describe.md` — DESCRIBE（約 79 個英文字詞）

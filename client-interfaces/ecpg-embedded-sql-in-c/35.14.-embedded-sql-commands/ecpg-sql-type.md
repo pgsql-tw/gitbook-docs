@@ -2,9 +2,9 @@
 
 # TYPE
 
-TYPE — define a new data type
+TYPE — 定義新的資料型別
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,27 +13,27 @@ TYPE type_name IS ctype
 
 <a id="id-1.7.5.20.17.3"></a>
 
-## Description
+## 說明
 
-The `TYPE` command defines a new C type. It is equivalent to putting a `typedef` into a declare section.
+`TYPE` 命令定義新的 C 型別。它等同於在宣告區段中放入 `typedef`。
 
-This command is only recognized when `ecpg` is run with the `-c` option.
+只有以 `-c` 選項執行 `ecpg` 時，才會識別此命令。
 
 <a id="id-1.7.5.20.17.4"></a>
 
-## Parameters
+## 參數
 
 <em class="replaceable"><code>type&#95;name</code></em>
 
-The name for the new type. It must be a valid C type name.
+新型別的名稱，必須是有效的 C 型別名稱。
 
 <em class="replaceable"><code>ctype</code></em>
 
-A C type specification.
+C 型別規格。
 
 <a id="id-1.7.5.20.17.5"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -58,7 +58,7 @@ EXEC SQL TYPE str IS varchar[BUFFERSIZ];
 EXEC SQL TYPE string IS char[11];
 ```
 
-Here is an example program that uses `EXEC SQL TYPE`:
+以下是使用 `EXEC SQL TYPE` 的範例程式：
 
 ```
 
@@ -102,7 +102,7 @@ EXEC SQL END DECLARE SECTION;
 }
 ```
 
-The output from this program looks like this:
+此程式的輸出如下：
 
 ```
 
@@ -114,10 +114,10 @@ t_ind.i_ind = 0
 
 <a id="id-1.7.5.20.17.6"></a>
 
-## Compatibility
+## 相容性
 
-The `TYPE` command is a PostgreSQL extension.
+`TYPE` 命令是 PostgreSQL 擴充功能。
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](ecpg-sql-type.md)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/ecpg-sql-type.html)
