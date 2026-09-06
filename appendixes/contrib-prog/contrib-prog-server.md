@@ -1,10 +1,7 @@
-## G.2. Server Applications [#](#CONTRIB-PROG-SERVER)
+## G.2. 伺服器應用程式 [#](#CONTRIB-PROG-SERVER)
 
-Some applications run on the PostgreSQL server
-itself. Currently, no such applications are included in the
-`contrib` directory. See also [PostgreSQL Server Applications](../../reference/reference-server/README.md) for information about server applications that
-are part of the core PostgreSQL distribution.
+有些應用程式會在 PostgreSQL 伺服器本身執行。目前 `contrib` 目錄未包含這類應用程式。核心 PostgreSQL 發行版中伺服器應用程式的資訊，請另參閱 [PostgreSQL Server Applications](../../reference/reference-server/README.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-prog-server.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-prog-server.html)（原文版本：18.6；核對日期：2026-09-06）
