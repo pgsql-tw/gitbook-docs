@@ -1,43 +1,40 @@
-## 34.14. Embedded SQL Commands [#](#ECPG-SQL-COMMANDS)
+## 34.14. 嵌入式 SQL 命令 [#](#ECPG-SQL-COMMANDS)
 
-[ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md) — allocate an SQL descriptor area
+[ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md) — 配置 SQL 描述區
 
-[CONNECT](ecpg-sql-connect.md) — establish a database connection
+[CONNECT](ecpg-sql-connect.md) — 建立資料庫連線
 
-[DEALLOCATE DESCRIPTOR](ecpg-sql-deallocate-descriptor.md) — deallocate an SQL descriptor area
+[DEALLOCATE DESCRIPTOR](ecpg-sql-deallocate-descriptor.md) — 釋放 SQL 描述區
 
-[DECLARE](ecpg-sql-declare.md) — define a cursor
+[DECLARE](ecpg-sql-declare.md) — 定義游標
 
-[DECLARE STATEMENT](ecpg-sql-declare-statement.md) — declare SQL statement identifier
+[DECLARE STATEMENT](ecpg-sql-declare-statement.md) — 宣告 SQL 陳述式識別字
 
-[DESCRIBE](ecpg-sql-describe.md) — obtain information about a prepared statement or result set
+[DESCRIBE](ecpg-sql-describe.md) — 取得備妥陳述式或結果集的資訊
 
-[DISCONNECT](ecpg-sql-disconnect.md) — terminate a database connection
+[DISCONNECT](ecpg-sql-disconnect.md) — 結束資料庫連線
 
-[EXECUTE IMMEDIATE](ecpg-sql-execute-immediate.md) — dynamically prepare and execute a statement
+[EXECUTE IMMEDIATE](ecpg-sql-execute-immediate.md) — 動態備妥並執行陳述式
 
-[GET DESCRIPTOR](ecpg-sql-get-descriptor.md) — get information from an SQL descriptor area
+[GET DESCRIPTOR](ecpg-sql-get-descriptor.md) — 從 SQL 描述區取得資訊
 
-[OPEN](ecpg-sql-open.md) — open a dynamic cursor
+[OPEN](ecpg-sql-open.md) — 開啟動態游標
 
-[PREPARE](ecpg-sql-prepare.md) — prepare a statement for execution
+[PREPARE](ecpg-sql-prepare.md) — 備妥要執行的陳述式
 
-[SET AUTOCOMMIT](ecpg-sql-set-autocommit.md) — set the autocommit behavior of the current session
+[SET AUTOCOMMIT](ecpg-sql-set-autocommit.md) — 設定目前工作階段的自動提交行為
 
-[SET CONNECTION](ecpg-sql-set-connection.md) — select a database connection
+[SET CONNECTION](ecpg-sql-set-connection.md) — 選取資料庫連線
 
-[SET DESCRIPTOR](ecpg-sql-set-descriptor.md) — set information in an SQL descriptor area
+[SET DESCRIPTOR](ecpg-sql-set-descriptor.md) — 在 SQL 描述區設定資訊
 
-[TYPE](ecpg-sql-type.md) — define a new data type
+[TYPE](ecpg-sql-type.md) — 定義新的資料型別
 
-[VAR](ecpg-sql-var.md) — define a variable
+[VAR](ecpg-sql-var.md) — 定義變數
 
-[WHENEVER](ecpg-sql-whenever.md) — specify the action to be taken when an SQL statement causes a specific class condition to be raised
+[WHENEVER](ecpg-sql-whenever.md) — 指定 SQL 陳述式引發特定類別條件時要採取的動作
 
-This section describes all SQL commands that are specific to
-embedded SQL. Also refer to the SQL commands listed
-in [SQL Commands](../../reference/sql-commands/README.md), which can also be used in
-embedded SQL, unless stated otherwise.
+本節說明所有嵌入式 SQL 特有的 SQL 命令。除非另有說明，也請參閱[SQL 命令](../../reference/sql-commands/README.md)列出的命令；它們同樣可用於嵌入式 SQL。
 
 ---
 

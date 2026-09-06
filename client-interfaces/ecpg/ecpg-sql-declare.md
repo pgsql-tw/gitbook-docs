@@ -1,8 +1,8 @@
 ## DECLARE
 
-DECLARE — define a cursor
+DECLARE — 定義游標
 
-## Synopsis
+## 語法
 
 ```
 
@@ -12,47 +12,34 @@ DECLARE cursor_name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ] CU
 
 <a id="id-1.7.5.20.6.3"></a>
 
-## Description
+## 說明
 
-`DECLARE` declares a cursor for iterating over
-the result set of a prepared statement. This command has
-slightly different semantics from the direct SQL
-command `DECLARE`: Whereas the latter executes a
-query and prepares the result set for retrieval, this embedded
-SQL command merely declares a name as a “loop
-variable” for iterating over the result set of a query;
-the actual execution happens when the cursor is opened with
-the `OPEN` command.
+`DECLARE` 宣告游標，以走訪備妥陳述式的結果集。此命令與直接 SQL 命令 `DECLARE` 的語意稍有不同：後者會執行查詢並準備結果集以供擷取；此嵌入式 SQL 命令只會宣告一個名稱作為走訪查詢結果集的「迴圈變數」，實際執行會在以 `OPEN` 命令開啟游標時發生。
 
 <a id="id-1.7.5.20.6.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-DECLARE-CURSOR-NAME"></a>
 
 *`cursor_name`* [#](#ECPG-SQL-DECLARE-CURSOR-NAME)
-:   A cursor name, case sensitive. This can be an SQL identifier
-    or a host variable.
+:   游標名稱，區分大小寫。可以是 SQL 識別字或主機變數。
 <a id="ECPG-SQL-DECLARE-PREPARED-NAME"></a>
 
 *`prepared_name`* [#](#ECPG-SQL-DECLARE-PREPARED-NAME)
-:   The name of a prepared query, either as an SQL identifier or a
-    host variable.
+:   備妥查詢的名稱，可以是 SQL 識別字或主機變數。
 <a id="ECPG-SQL-DECLARE-QUERY"></a>
 
 *`query`* [#](#ECPG-SQL-DECLARE-QUERY)
-:   A [SELECT](../../reference/sql-commands/sql-select.md) or
-    [VALUES](../../reference/sql-commands/sql-values.md) command which will provide the
-    rows to be returned by the cursor.
+:   提供游標要傳回資料列的 [SELECT](../../reference/sql-commands/sql-select.md) 或 [VALUES](../../reference/sql-commands/sql-values.md) 命令。
 
-For the meaning of the cursor options,
-see [DECLARE](../../reference/sql-commands/sql-declare.md).
+游標選項的意義請參閱 [DECLARE](../../reference/sql-commands/sql-declare.md)。
 
 <a id="id-1.7.5.20.6.5"></a>
 
-## Examples
+## 範例
 
-Examples declaring a cursor for a query:
+以下範例為查詢宣告游標：
 
 ```
 
@@ -61,7 +48,7 @@ EXEC SQL DECLARE C CURSOR FOR SELECT Item1 FROM T;
 EXEC SQL DECLARE cur1 CURSOR FOR SELECT version();
 ```
 
-An example declaring a cursor for a prepared statement:
+以下範例為備妥陳述式宣告游標：
 
 ```
 
@@ -71,13 +58,13 @@ EXEC SQL DECLARE cur1 CURSOR FOR stmt1;
 
 <a id="id-1.7.5.20.6.6"></a>
 
-## Compatibility
+## 相容性
 
-`DECLARE` is specified in the SQL standard.
+SQL 標準規定了 `DECLARE`。
 
 <a id="id-1.7.5.20.6.7"></a>
 
-## See Also
+## 另請參閱
 
 [OPEN](ecpg-sql-open.md), [CLOSE](../../reference/sql-commands/sql-close.md), [DECLARE](../../reference/sql-commands/sql-declare.md)
 

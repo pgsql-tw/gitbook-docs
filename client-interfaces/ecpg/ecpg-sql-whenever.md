@@ -1,8 +1,8 @@
 ## WHENEVER
 
-WHENEVER — specify the action to be taken when an SQL statement causes a specific class condition to be raised
+WHENEVER — 指定 SQL 陳述式引發特定類別條件時要採取的動作
 
-## Synopsis
+## 語法
 
 ```
 
@@ -11,21 +11,19 @@ WHENEVER { NOT FOUND | SQLERROR | SQLWARNING } action
 
 <a id="id-1.7.5.20.19.3"></a>
 
-## Description
+## 說明
 
-Define a behavior which is called on the special cases (Rows not
-found, SQL warnings or errors) in the result of SQL execution.
+定義 SQL 執行結果出現特殊情況（找不到資料列、SQL 警告或錯誤）時要呼叫的行為。
 
 <a id="id-1.7.5.20.19.4"></a>
 
-## Parameters
+## 參數
 
-See [Section 34.8.1](ecpg-errors.md#ECPG-WHENEVER) for a description of the
-parameters.
+參數說明請參閱[第 34.8.1 節](ecpg-errors.md#ECPG-WHENEVER)。
 
 <a id="id-1.7.5.20.19.5"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -43,8 +41,7 @@ EXEC SQL WHENEVER SQLERROR GOTO error_label;
 EXEC SQL WHENEVER SQLERROR STOP;
 ```
 
-A typical application is the use of `WHENEVER NOT FOUND
-BREAK` to handle looping through result sets:
+典型用途是使用 `WHENEVER NOT FOUND BREAK` 處理走訪結果集的迴圈：
 
 ```
 
@@ -78,10 +75,9 @@ main(void)
 
 <a id="id-1.7.5.20.19.6"></a>
 
-## Compatibility
+## 相容性
 
-`WHENEVER` is specified in the SQL standard, but
-most of the actions are PostgreSQL extensions.
+SQL 標準規定了 `WHENEVER`，但多數動作都是 PostgreSQL 擴充功能。
 
 ---
 
