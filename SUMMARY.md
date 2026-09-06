@@ -522,7 +522,7 @@
     * [44.8. 交易管理](server-programming/plpython/plpython-transactions.md)
     * [44.9. Utility Functions #](server-programming/plpython/plpython-util.md)
     * [44.10. Python 2 與 Python 3](server-programming/plpython/plpython-python23.md)
-    * [44.11. Environment Variables #](server-programming/plpython/plpython-envar.md)
+    * [44.11. 環境變數](server-programming/plpython/plpython-envar.md)
   * [Chapter 45. Server Programming Interface](server-programming/spi/README.md)
     * [45.1. Interface Functions #](server-programming/spi/spi-interface.md)
       * [SPI_connect](server-programming/spi/spi-spi-connect.md)

@@ -1,13 +1,6 @@
-## 44.11. Environment Variables [#](#PLPYTHON-ENVAR)
+## 44.11. 環境變數 [#](#PLPYTHON-ENVAR)
 
-Some of the environment variables that are accepted by the Python
-interpreter can also be used to affect PL/Python behavior. They
-would need to be set in the environment of the main PostgreSQL
-server process, for example in a start script. The available
-environment variables depend on the version of Python; see the
-Python documentation for details. At the time of this writing, the
-following environment variables have an affect on PL/Python,
-assuming an adequate Python version:
+Python 直譯器接受的部分環境變數，也能用來影響 PL/Python 的行為。這些變數必須設於 PostgreSQL 主伺服器程序的環境中，例如在啟動指令碼內設定。可用的環境變數取決於 Python 版本；詳情請參閱 Python 文件。在撰寫本文時，若 Python 版本適當，下列環境變數會影響 PL/Python：
 
 * `PYTHONHOME`
 * `PYTHONPATH`
@@ -21,11 +14,8 @@ assuming an adequate Python version:
 * `PYTHONUSERBASE`
 * `PYTHONHASHSEED`
 
-(It appears to be a Python implementation detail beyond the control
-of PL/Python that some of the environment variables listed on
-the `python` man page are only effective in a
-command-line interpreter and not an embedded Python interpreter.)
+（`python` 手冊頁列出的部分環境變數，只對命令列直譯器有效，對嵌入式 Python 直譯器無效；這似乎是 Python 的實作細節，超出 PL/Python 的控制範圍。）
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpython-envar.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpython-envar.html)（原文版本：18.6；核對日期：2026-09-07）
