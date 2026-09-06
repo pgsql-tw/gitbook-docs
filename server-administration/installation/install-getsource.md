@@ -1,26 +1,16 @@
-## 17.2. Getting the Source [#](#INSTALL-GETSOURCE)
+## 17.2. 取得原始碼 [#](#INSTALL-GETSOURCE)
 
-The PostgreSQL source code for released versions
-can be obtained from the download section of our website:
-<https://www.postgresql.org/ftp/source/>.
-Download the
-`postgresql-version.tar.gz`
-or `postgresql-version.tar.bz2`
-file you're interested in, then unpack it:
+已發行版本的 PostgreSQL 原始碼可從我們網站的下載區取得：<https://www.postgresql.org/ftp/source/>。下載所需版本的 `postgresql-version.tar.gz` 或 `postgresql-version.tar.bz2` 檔案，然後解壓縮：
 
 ```
 
 tar xf postgresql-version.tar.bz2
 ```
 
-This will create a directory
-`postgresql-version` under
-the current directory with the PostgreSQL sources.
-Change into that directory for the rest of the installation procedure.
+這會在目前目錄下建立 `postgresql-version` 目錄，其中包含 PostgreSQL 原始碼。接下來的安裝程序都請在該目錄中執行。
 
-Alternatively, you can use the Git version control system; see
-[Section I.1](../../appendixes/sourcerepo/git.md) for more information.
+你也可以使用 Git 版本控制系統；更多資訊請參閱[第 I.1 節](../../appendixes/sourcerepo/git.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/install-getsource.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/install-getsource.html)（原文版本：18.6；核對日期：2026-09-07）

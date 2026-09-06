@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1072 頁。
+待譯頁面：1071 頁。
 
 ## 根目錄
 
@@ -740,7 +740,7 @@
 - [ ] `server-administration/high-availability/warm-standby.md` — 26.2. Log-Shipping Standby Servers #
 - [x] `server-administration/install-binaries/README.md` — 第 16 章 從二進位套件安裝
 - [ ] `server-administration/installation/README.md` — Chapter 17. Installation from Source Code
-- [ ] `server-administration/installation/install-getsource.md` — 17.2. Getting the Source #
+- [x] `server-administration/installation/install-getsource.md` — 17.2. 取得原始碼
 - [ ] `server-administration/installation/install-make.md` — 17.3. Building and Installation with Autoconf and Make #
 - [ ] `server-administration/installation/install-meson.md` — 17.4. Building and Installation with Meson #
 - [ ] `server-administration/installation/install-post.md` — 17.5. Post-Installation Setup #

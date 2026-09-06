@@ -175,7 +175,7 @@
   * [第 16 章 從二進位套件安裝](server-administration/install-binaries/README.md)
   * [Chapter 17. Installation from Source Code](server-administration/installation/README.md)
     * [17.1. Requirements #](server-administration/installation/install-requirements.md)
-    * [17.2. Getting the Source #](server-administration/installation/install-getsource.md)
+    * [17.2. 取得原始碼](server-administration/installation/install-getsource.md)
     * [17.3. Building and Installation with Autoconf and Make #](server-administration/installation/install-make.md)
     * [17.4. Building and Installation with Meson #](server-administration/installation/install-meson.md)
     * [17.5. Post-Installation Setup #](server-administration/installation/install-post.md)
