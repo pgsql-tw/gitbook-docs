@@ -30,7 +30,7 @@
     * [3.4. Transactions #](tutorial/tutorial-advanced/tutorial-transactions.md)
     * [3.5. Window Functions #](tutorial/tutorial-advanced/tutorial-window.md)
     * [3.6. Inheritance #](tutorial/tutorial-advanced/tutorial-inheritance.md)
-    * [3.7. Conclusion #](tutorial/tutorial-advanced/tutorial-conclusion.md)
+    * [3.7. 結語](tutorial/tutorial-advanced/tutorial-conclusion.md)
 * [Part II. The SQL Language](the-sql-language/README.md)
   * [Chapter 4. SQL Syntax](the-sql-language/sql-syntax/README.md)
     * [4.1. Lexical Structure #](the-sql-language/sql-syntax/sql-syntax-lexical.md)
