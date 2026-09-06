@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1036 頁。
+待譯頁面：1035 頁。
 
 ## 根目錄
 
@@ -925,7 +925,7 @@
 - [x] `server-programming/pltcl/pltcl-data.md` — 42.3. PL/Tcl 中的資料值
 - [ ] `server-programming/pltcl/pltcl-dbaccess.md` — 42.5. Database Access from PL/Tcl #
 - [ ] `server-programming/pltcl/pltcl-error-handling.md` — 42.8. Error Handling in PL/Tcl #
-- [ ] `server-programming/pltcl/pltcl-event-trigger.md` — 42.7. Event Trigger Functions in PL/Tcl #
+- [x] `server-programming/pltcl/pltcl-event-trigger.md` — 42.7. PL/Tcl 中的事件觸發器函式
 - [ ] `server-programming/pltcl/pltcl-functions.md` — 42.2. PL/Tcl Functions and Arguments #
 - [ ] `server-programming/pltcl/pltcl-global.md` — 42.4. Global Data in PL/Tcl #
 - [ ] `server-programming/pltcl/pltcl-overview.md` — 42.1. Overview #

@@ -1,26 +1,20 @@
-## 42.7. Event Trigger Functions in PL/Tcl [#](#PLTCL-EVENT-TRIGGER)
+## 42.7. PL/Tcl 中的事件觸發器函式 [#](#PLTCL-EVENT-TRIGGER)
 
 <a id="id-1.8.9.11.2"></a>
 
-Event trigger functions can be written in PL/Tcl.
-PostgreSQL requires that a function that is
-to be called as an event trigger must be declared as a function with no
-arguments and a return type of `event_trigger`.
+事件觸發器函式可以用 PL/Tcl 撰寫。PostgreSQL 要求作為事件觸發器呼叫的函式，必須宣告為不帶引數且回傳型別為 `event_trigger` 的函式。
 
-The information from the trigger manager is passed to the function body
-in the following variables:
+觸發器管理器的資訊會透過下列變數傳入函式主體：
 
 `$TG_event`
-:   The name of the event the trigger is fired for.
+:   引發此觸發器的事件名稱。
 
 `$TG_tag`
-:   The command tag for which the trigger is fired.
+:   引發此觸發器的命令標籤。
 
-The return value of the trigger function is ignored.
+觸發器函式的回傳值會被忽略。
 
-Here's a little example event trigger function that simply raises
-a `NOTICE` message each time a supported command is
-executed:
+以下是一個簡單的事件觸發器函式範例，每次執行受支援的命令時，都會發出一則 `NOTICE` 訊息：
 
 ```
 
@@ -33,4 +27,4 @@ CREATE EVENT TRIGGER tcl_a_snitch ON ddl_command_start EXECUTE FUNCTION tclsnitc
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pltcl-event-trigger.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pltcl-event-trigger.html)（原文版本：18.6；核對日期：2026-09-07）
