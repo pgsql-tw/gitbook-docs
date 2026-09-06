@@ -1046,7 +1046,7 @@
     * [E.7. Prior Releases #](appendixes/release/release-prior.md)
   * [Appendix F. Additional Supplied Modules and Extensions](appendixes/contrib/README.md)
     * [F.1. amcheck — tools to verify table and index consistency #](appendixes/contrib/amcheck.md)
-    * [F.2. auth_delay — pause on authentication failure #](appendixes/contrib/auth-delay.md)
+    * [F.2. `auth_delay` — 驗證失敗時暫停 #](appendixes/contrib/auth-delay.md)
     * [F.3. auto_explain — log execution plans of slow queries #](appendixes/contrib/auto-explain.md)
     * [F.4. basebackup_to_shell — example "shell" pg_basebackup module #](appendixes/contrib/basebackup-to-shell.md)
     * [F.5. basic_archive — an example WAL archive module #](appendixes/contrib/basic-archive.md)

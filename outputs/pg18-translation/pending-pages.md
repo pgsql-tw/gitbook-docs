@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1135 頁。
+待譯頁面：1134 頁。
 
 ## 根目錄
 
@@ -29,7 +29,7 @@
 - [ ] `appendixes/contrib-prog/vacuumlo.md` — vacuumlo
 - [ ] `appendixes/contrib/README.md` — Appendix F. Additional Supplied Modules and Extensions
 - [ ] `appendixes/contrib/amcheck.md` — F.1. amcheck — tools to verify table and index consistency #
-- [ ] `appendixes/contrib/auth-delay.md` — F.2. auth_delay — pause on authentication failure #
+- [x] `appendixes/contrib/auth-delay.md` — F.2. auth_delay — pause on authentication failure #
 - [ ] `appendixes/contrib/auto-explain.md` — F.3. auto_explain — log execution plans of slow queries #
 - [ ] `appendixes/contrib/basebackup-to-shell.md` — F.4. basebackup_to_shell — example "shell" pg_basebackup module #
 - [ ] `appendixes/contrib/basic-archive.md` — F.5. basic_archive — an example WAL archive module #
