@@ -1,22 +1,11 @@
-## 68.3. BKI File Format [#](#BKI-FORMAT)
+## 68.3. BKI 檔案格式 [#](#BKI-FORMAT)
 
-This section describes how the PostgreSQL
-backend interprets BKI files. This description
-will be easier to understand if the `postgres.bki`
-file is at hand as an example.
+本節說明 PostgreSQL 後端如何解讀 BKI 檔案。若手邊有 `postgres.bki` 檔案作為範例，會更容易理解以下說明。
 
-BKI input consists of a sequence of commands. Commands are made up
-of a number of tokens, depending on the syntax of the command.
-Tokens are usually separated by whitespace, but need not be if
-there is no ambiguity. There is no special command separator; the
-next token that syntactically cannot belong to the preceding
-command starts a new one. (Usually you would put a new command on
-a new line, for clarity.) Tokens can be certain key words, special
-characters (parentheses, commas, etc.), identifiers, numbers, or
-single-quoted strings. Everything is case sensitive.
+BKI 輸入由一連串命令組成。每個命令依其語法，由若干詞元組成。詞元通常以空白分隔，但在沒有歧義時也可以不分隔。命令之間沒有特殊的分隔符號；下一個在語法上無法屬於前一命令的詞元，就是新命令的開頭。（為了清楚起見，通常會將新命令放在新的一行。）詞元可以是特定關鍵字、特殊字元（括號、逗號等）、識別名稱、數字或以單引號括住的字串。所有內容都區分大小寫。
 
-Lines starting with `#` are ignored.
+以 `#` 開頭的行會被忽略。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bki-format.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bki-format.html)（原文版本：18.6；核對日期：2026-09-07）

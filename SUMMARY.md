@@ -1009,7 +1009,7 @@
   * [Chapter 68. System Catalog Declarations and Initial Contents](internals/bki/README.md)
     * [68.1. System Catalog Declaration Rules #](internals/bki/system-catalog-declarations.md)
     * [68.2. System Catalog Initial Data #](internals/bki/system-catalog-initial-data.md)
-    * [68.3. BKI File Format #](internals/bki/bki-format.md)
+    * [68.3. BKI 檔案格式](internals/bki/bki-format.md)
     * [68.4. BKI Commands #](internals/bki/bki-commands.md)
     * [68.5. Structure of the Bootstrap BKI File #](internals/bki/bki-structure.md)
     * [68.6. BKI 範例](internals/bki/bki-example.md)
