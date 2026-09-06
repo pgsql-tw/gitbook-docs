@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1047 頁。
+待譯頁面：1046 頁。
 
 ## 根目錄
 
@@ -888,7 +888,7 @@
 - [ ] `server-programming/plperl/README.md` — Chapter 43. PL/Perl — Perl Procedural Language
 - [ ] `server-programming/plperl/plperl-builtins.md` — 43.3. Built-in Functions #
 - [x] `server-programming/plperl/plperl-data.md` — 43.2. PL/Perl 中的資料值
-- [ ] `server-programming/plperl/plperl-event-triggers.md` — 43.7. PL/Perl Event Triggers #
+- [x] `server-programming/plperl/plperl-event-triggers.md` — 43.7. PL/Perl 事件觸發器
 - [ ] `server-programming/plperl/plperl-funcs.md` — 43.1. PL/Perl Functions and Arguments #
 - [ ] `server-programming/plperl/plperl-global.md` — 43.4. Global Values in PL/Perl #
 - [ ] `server-programming/plperl/plperl-triggers.md` — 43.6. PL/Perl Triggers #

@@ -509,7 +509,7 @@
     * [43.4. Global Values in PL/Perl #](server-programming/plperl/plperl-global.md)
     * [43.5. Trusted and Untrusted PL/Perl #](server-programming/plperl/plperl-trusted.md)
     * [43.6. PL/Perl Triggers #](server-programming/plperl/plperl-triggers.md)
-    * [43.7. PL/Perl Event Triggers #](server-programming/plperl/plperl-event-triggers.md)
+    * [43.7. PL/Perl 事件觸發器](server-programming/plperl/plperl-event-triggers.md)
     * [43.8. PL/Perl Under the Hood #](server-programming/plperl/plperl-under-the-hood.md)
   * [Chapter 44. PL/Python — Python Procedural Language](server-programming/plpython/README.md)
     * [44.1. PL/Python Functions #](server-programming/plpython/plpython-funcs.md)

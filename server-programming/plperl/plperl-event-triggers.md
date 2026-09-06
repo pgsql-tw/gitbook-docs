@@ -1,21 +1,16 @@
-## 43.7. PL/Perl Event Triggers [#](#PLPERL-EVENT-TRIGGERS)
+## 43.7. PL/Perl 事件觸發器 [#](#PLPERL-EVENT-TRIGGERS)
 
-PL/Perl can be used to write event trigger functions. In an event trigger
-function, the hash reference `$_TD` contains information
-about the current trigger event. `$_TD` is a global variable,
-which gets a separate local value for each invocation of the trigger. The
-fields of the `$_TD` hash reference are:
+PL/Perl 可用來撰寫事件觸發器函式。在事件觸發器函式中，雜湊參照 `$_TD` 包含目前觸發事件的資訊。`$_TD` 是全域變數，但每次呼叫觸發器時都會取得獨立的區域值。`$_TD` 雜湊參照的欄位如下：
 
 `$_TD->{event}`
-:   The name of the event the trigger is fired for.
+:   引發此觸發器的事件名稱。
 
 `$_TD->{tag}`
-:   The command tag for which the trigger is fired.
+:   引發此觸發器的命令標籤。
 
-The return value of the trigger function is ignored.
+觸發器函式的回傳值會被忽略。
 
-Here is an example of an event trigger function, illustrating some of the
-above:
+以下事件觸發器函式範例示範了上述部分功能：
 
 ```
 
@@ -30,4 +25,4 @@ CREATE EVENT TRIGGER perl_a_snitch
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-event-triggers.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-event-triggers.html)（原文版本：18.6；核對日期：2026-09-07）
