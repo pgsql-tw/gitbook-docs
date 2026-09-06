@@ -2,10 +2,9 @@
 
 ## SPI_getargcount
 
-SPI_getargcount — return the number of arguments needed by a statement
-prepared by `SPI_prepare`
+SPI_getargcount — 回傳由 `SPI_prepare` 準備的陳述式所需的引數數量
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,27 +13,23 @@ int SPI_getargcount(SPIPlanPtr plan)
 
 <a id="id-1.8.12.8.12.5"></a>
 
-## Description
+## 說明
 
-`SPI_getargcount` returns the number of arguments needed
-to execute a statement prepared by `SPI_prepare`.
+`SPI_getargcount` 會回傳執行由 `SPI_prepare` 準備的陳述式所需的引數數量。
 
 <a id="id-1.8.12.8.12.6"></a>
 
-## Arguments
+## 引數
 
 `SPIPlanPtr plan`
-:   prepared statement (returned by `SPI_prepare`)
+:   預備陳述式（由 `SPI_prepare` 回傳）
 
 <a id="id-1.8.12.8.12.7"></a>
 
-## Return Value
+## 回傳值
 
-The count of expected arguments for the *`plan`*.
-If the *`plan`* is `NULL` or invalid,
-`SPI_result` is set to `SPI_ERROR_ARGUMENT`
-and -1 is returned.
+*`plan`* 預期的引數數量。若 *`plan`* 為 `NULL` 或無效，則將 `SPI_result` 設為 `SPI_ERROR_ARGUMENT`，並回傳 -1。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-getargcount.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-getargcount.html)（原文版本：18.6；核對日期：2026-09-07）
