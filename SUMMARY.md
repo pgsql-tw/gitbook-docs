@@ -227,7 +227,7 @@
     * [20.11. RADIUS Authentication #](server-administration/client-authentication/auth-radius.md)
     * [20.12. Certificate Authentication #](server-administration/client-authentication/auth-cert.md)
     * [20.13. PAM Authentication #](server-administration/client-authentication/auth-pam.md)
-    * [20.14. BSD Authentication #](server-administration/client-authentication/auth-bsd.md)
+    * [20.14. BSD 驗證](server-administration/client-authentication/auth-bsd.md)
     * [20.15. OAuth Authorization/Authentication #](server-administration/client-authentication/auth-oauth.md)
     * [20.16. Authentication Problems #](server-administration/client-authentication/client-authentication-problems.md)
   * [Chapter 21. Database Roles](server-administration/user-manag/README.md)
