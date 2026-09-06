@@ -2,9 +2,9 @@
 
 ## SPI_getrelname
 
-SPI_getrelname — return the name of the specified relation
+SPI_getrelname — 回傳指定關聯的名稱
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,25 +13,23 @@ char * SPI_getrelname(Relation rel)
 
 <a id="id-1.8.12.9.10.5"></a>
 
-## Description
+## 說明
 
-`SPI_getrelname` returns a copy of the name of the
-specified relation. (You can use `pfree` to
-release the copy of the name when you don't need it anymore.)
+`SPI_getrelname` 會回傳指定關聯名稱的副本。（不再需要此名稱副本時，可以使用 `pfree` 釋放。）
 
 <a id="id-1.8.12.9.10.6"></a>
 
-## Arguments
+## 引數
 
 `Relation rel`
-:   input relation
+:   輸入關聯
 
 <a id="id-1.8.12.9.10.7"></a>
 
-## Return Value
+## 回傳值
 
-The name of the specified relation.
+指定關聯的名稱。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-getrelname.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-getrelname.html)（原文版本：18.6；核對日期：2026-09-07）
