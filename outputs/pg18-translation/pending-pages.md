@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1134 頁。
+待譯頁面：1133 頁。
 
 ## 根目錄
 
@@ -32,7 +32,7 @@
 - [x] `appendixes/contrib/auth-delay.md` — F.2. auth_delay — pause on authentication failure #
 - [ ] `appendixes/contrib/auto-explain.md` — F.3. auto_explain — log execution plans of slow queries #
 - [ ] `appendixes/contrib/basebackup-to-shell.md` — F.4. basebackup_to_shell — example "shell" pg_basebackup module #
-- [ ] `appendixes/contrib/basic-archive.md` — F.5. basic_archive — an example WAL archive module #
+- [x] `appendixes/contrib/basic-archive.md` — F.5. basic_archive — an example WAL archive module #
 - [ ] `appendixes/contrib/bloom.md` — F.6. bloom — bloom filter index access method #
 - [ ] `appendixes/contrib/btree-gin.md` — F.7. btree_gin — GIN operator classes with B-tree behavior #
 - [ ] `appendixes/contrib/btree-gist.md` — F.8. btree_gist — GiST operator classes with B-tree behavior #
