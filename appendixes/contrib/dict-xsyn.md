@@ -1,60 +1,42 @@
-## F.13. dict_xsyn — example synonym full-text search dictionary [#](#DICT-XSYN)
+## F.13. `dict_xsyn` — 同義詞全文檢索字典範例 [#](#DICT-XSYN)
 
-[F.13.1. Configuration](dict-xsyn.md#DICT-XSYN-CONFIG)
+[F.13.1. 設定](dict-xsyn.md#DICT-XSYN-CONFIG)
 
-[F.13.2. Usage](dict-xsyn.md#DICT-XSYN-USAGE)
+[F.13.2. 使用方式](dict-xsyn.md#DICT-XSYN-USAGE)
 
 <a id="id-1.11.7.23.2"></a>
 
-`dict_xsyn` (Extended Synonym Dictionary) is an example of an
-add-on dictionary template for full-text search. This dictionary type
-replaces words with groups of their synonyms, and so makes it possible to
-search for a word using any of its synonyms.
+`dict_xsyn`（Extended Synonym Dictionary）是全文檢索附加字典範本的範例。此字典型別會以同義詞群組取代詞彙，因此可使用任一同義詞搜尋該詞彙。
 
 <a id="DICT-XSYN-CONFIG"></a>
 
-### F.13.1. Configuration [#](#DICT-XSYN-CONFIG)
+### F.13.1. 設定 [#](#DICT-XSYN-CONFIG)
 
-A `dict_xsyn` dictionary accepts the following options:
+`dict_xsyn` 字典接受下列選項：
 
-* `matchorig` controls whether the original word is accepted by
-  the dictionary. Default is `true`.
-* `matchsynonyms` controls whether the synonyms are
-  accepted by the dictionary. Default is `false`.
-* `keeporig` controls whether the original word is included in
-  the dictionary's output. Default is `true`.
-* `keepsynonyms` controls whether the synonyms are included in
-  the dictionary's output. Default is `true`.
-* `rules` is the base name of the file containing the list of
-  synonyms. This file must be stored in
-  `$SHAREDIR/tsearch_data/` (where `$SHAREDIR` means
-  the PostgreSQL installation's shared-data directory).
-  Its name must end in `.rules` (which is not to be included in
-  the `rules` parameter).
+* `matchorig` 控制字典是否接受原始詞彙。預設值為 `true`。
+* `matchsynonyms` 控制字典是否接受同義詞。預設值為 `false`。
+* `keeporig` 控制字典輸出是否包含原始詞彙。預設值為 `true`。
+* `keepsynonyms` 控制字典輸出是否包含同義詞。預設值為 `true`。
+* `rules` 是包含同義詞清單之檔案的基底名稱。此檔案必須存放於 `$SHAREDIR/tsearch_data/`（其中 `$SHAREDIR` 是 PostgreSQL 安裝的共享資料目錄）。檔名必須以 `.rules` 結尾（但不得將此副檔名包含在 `rules` 參數中）。
 
-The rules file has the following format:
+規則檔案具有下列格式：
 
-* Each line represents a group of synonyms for a single word, which is
-  given first on the line. Synonyms are separated by whitespace, thus:
+* 每一行代表一個詞彙的同義詞群組，該詞彙位於行首。同義詞以空白字元分隔，如下：
 
   ```
 
   word syn1 syn2 syn3
   ```
-* The sharp (`#`) sign is a comment delimiter. It may appear at
-  any position in a line. The rest of the line will be skipped.
+* 井字號（`#`）是註解分隔符，可出現在行中的任何位置。該行其餘內容會被略過。
 
-Look at `xsyn_sample.rules`, which is installed in
-`$SHAREDIR/tsearch_data/`, for an example.
+請參考安裝於 `$SHAREDIR/tsearch_data/` 的 `xsyn_sample.rules` 範例。
 
 <a id="DICT-XSYN-USAGE"></a>
 
-### F.13.2. Usage [#](#DICT-XSYN-USAGE)
+### F.13.2. 使用方式 [#](#DICT-XSYN-USAGE)
 
-Installing the `dict_xsyn` extension creates a text search
-template `xsyn_template` and a dictionary `xsyn`
-based on it, with default parameters. You can alter the
-parameters, for example
+安裝 `dict_xsyn` 擴充功能會以預設參數建立全文檢索範本 `xsyn_template` 與基於該範本的字典 `xsyn`。你可以變更這些參數，例如：
 
 ```
 
@@ -62,9 +44,9 @@ mydb# ALTER TEXT SEARCH DICTIONARY xsyn (RULES='my_rules', KEEPORIG=false);
 ALTER TEXT SEARCH DICTIONARY
 ```
 
-or create new dictionaries based on the template.
+也可以基於該範本建立新的字典。
 
-To test the dictionary, you can try
+若要測試此字典，可以嘗試：
 
 ```
 
@@ -98,9 +80,7 @@ mydb=# SELECT ts_lexize('xsyn', 'syn1');
  {word}
 ```
 
-Real-world usage will involve including it in a text search
-configuration as described in [Chapter 12](../../the-sql-language/textsearch/README.md).
-That might look like this:
+實際使用時，會如[第 12 章](../../the-sql-language/textsearch/README.md)所述，將它納入全文檢索設定。範例如下：
 
 ```
 
@@ -110,4 +90,4 @@ ALTER TEXT SEARCH CONFIGURATION english
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/dict-xsyn.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/dict-xsyn.html)（原文版本：18.6；核對日期：2026-09-06）
