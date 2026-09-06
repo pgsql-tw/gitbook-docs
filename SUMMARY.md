@@ -1141,7 +1141,7 @@
     * [N.2. Configuring the Colors #](appendixes/color/color-which.md)
   * [Appendix O. Obsolete or Renamed Features](appendixes/appendix-obsolete/README.md)
     * [O.1. recovery.conf file merged into postgresql.conf #](appendixes/appendix-obsolete/recovery-config.md)
-    * [O.2. Default Roles Renamed to Predefined Roles #](appendixes/appendix-obsolete/default-roles.md)
+    * [O.2. 預設角色已改名為預先定義角色 #](appendixes/appendix-obsolete/default-roles.md)
     * [O.3. pg_xlogdump renamed to pg_waldump #](appendixes/appendix-obsolete/pgxlogdump.md)
     * [O.4. `pg_resetxlog` 已改名為 `pg_resetwal` #](appendixes/appendix-obsolete/app-pgresetxlog.md)
     * [O.5. `pg_receivexlog` 已改名為 `pg_receivewal` #](appendixes/appendix-obsolete/app-pgreceivexlog.md)

@@ -7,4 +7,4 @@ PostgreSQL 13 及更早版本使用「預設角色」（Default Roles）一詞�
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/default-roles.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/default-roles.html)（原文版本：18.6；核對日期：2026-09-06）
