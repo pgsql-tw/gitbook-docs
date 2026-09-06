@@ -2,9 +2,9 @@
 
 ## SPI_gettype
 
-SPI_gettype — return the data type name of the specified column
+SPI_gettype — 回傳指定欄位的資料型別名稱
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,30 +13,26 @@ char * SPI_gettype(TupleDesc rowdesc, int colnumber)
 
 <a id="id-1.8.12.9.8.5"></a>
 
-## Description
+## 說明
 
-`SPI_gettype` returns a copy of the data type name of the
-specified column. (You can use `pfree` to
-release the copy of the name when you don't need it anymore.)
+`SPI_gettype` 會回傳指定欄位之資料型別名稱的副本。（不再需要此名稱副本時，可以使用 `pfree` 釋放。）
 
 <a id="id-1.8.12.9.8.6"></a>
 
-## Arguments
+## 引數
 
 `TupleDesc rowdesc`
-:   input row description
+:   輸入資料列的描述資訊
 
 `int colnumber`
-:   column number (count starts at 1)
+:   欄位編號（從 1 開始計算）
 
 <a id="id-1.8.12.9.8.7"></a>
 
-## Return Value
+## 回傳值
 
-The data type name of the specified column, or
-`NULL` on error. `SPI_result` is
-set to `SPI_ERROR_NOATTRIBUTE` on error.
+指定欄位的資料型別名稱；發生錯誤時回傳 `NULL`。發生錯誤時，`SPI_result` 會設為 `SPI_ERROR_NOATTRIBUTE`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-gettype.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-gettype.html)（原文版本：18.6；核對日期：2026-09-07）
