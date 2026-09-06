@@ -1,21 +1,16 @@
-## J.4. Building the Documentation with Meson [#](#DOCGUIDE-BUILD-MESON)
+## J.4. 使用 Meson 建置文件 [#](#DOCGUIDE-BUILD-MESON)
 
-To build the documentation using Meson, change to the
-`build` directory before running one of these commands,
-or add `-C build` to the command.
+使用 Meson 建置文件時，請先切換至 `build` 目錄再執行以下命令，或在命令中加上 `-C build`。
 
-To build just the HTML version of the documentation:
+若只要建置 HTML 版本的文件：
 
 ```
 
 build$ ninja html
 ```
 
-For a list of other documentation targets see
-[Section 17.4.4.3](../../server-administration/installation/install-meson.md#TARGETS-MESON-DOCUMENTATION).
-The output appears in the
-subdirectory `build/doc/src/sgml`.
+其他文件建置目標的清單，請參閱[第 17.4.4.3 節](../../server-administration/installation/install-meson.md#TARGETS-MESON-DOCUMENTATION)。輸出會位於 `build/doc/src/sgml` 子目錄。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/docguide-build-meson.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/docguide-build-meson.html)（原文版本：18.6；核對日期：2026-09-07）

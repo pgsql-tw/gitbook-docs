@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1090 頁。
+待譯頁面：1089 頁。
 
 ## 根目錄
 
@@ -107,7 +107,7 @@
 - [ ] `appendixes/datetime-appendix/datetime-units-history.md` — B.6. History of Units #
 - [ ] `appendixes/docguide/README.md` — Appendix J. Documentation
 - [ ] `appendixes/docguide/docguide-authoring.md` — J.5. Documentation Authoring #
-- [ ] `appendixes/docguide/docguide-build-meson.md` — J.4. Building the Documentation with Meson #
+- [x] `appendixes/docguide/docguide-build-meson.md` — J.4. 使用 Meson 建置文件
 - [ ] `appendixes/docguide/docguide-build.md` — J.3. Building the Documentation with Make #
 - [ ] `appendixes/docguide/docguide-docbook.md` — J.1. DocBook #
 - [ ] `appendixes/docguide/docguide-style.md` — J.6. Style Guide #
