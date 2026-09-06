@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1113 頁。
+待譯頁面：1108 頁。
 
 ## 根目錄
 
@@ -362,7 +362,7 @@
 - [ ] `internals/fdwhandler/fdw-helpers.md` — 58.3. Foreign Data Wrapper Helper Functions #
 - [ ] `internals/fdwhandler/fdw-planning.md` — 58.4. Foreign Data Wrapper Query Planning #
 - [ ] `internals/fdwhandler/fdw-row-locking.md` — 58.5. Row Locking in Foreign Data Wrappers #
-- [ ] `internals/geqo/README.md` — Chapter 61. Genetic Query Optimizer
+- [x] `internals/geqo/README.md` — Chapter 61. Genetic Query Optimizer
 - [ ] `internals/geqo/geqo-biblio.md` — 61.4. Further Reading #
 - [ ] `internals/geqo/geqo-intro.md` — 61.1. Query Handling as a Complex Optimization Problem #
 - [ ] `internals/geqo/geqo-intro2.md` — 61.2. Genetic Algorithms #
@@ -427,7 +427,7 @@
 - [ ] `internals/transactions/subxacts.md` — 67.3. Subtransactions #
 - [ ] `internals/transactions/transaction-id.md` — 67.1. Transactions and Identifiers #
 - [ ] `internals/transactions/two-phase.md` — 67.4. Two-Phase Transactions #
-- [ ] `internals/transactions/xact-locking.md` — 67.2. Transactions and Locking #
+- [x] `internals/transactions/xact-locking.md` — 67.2. Transactions and Locking #
 - [ ] `internals/views/README.md` — Chapter 53. System Views
 - [ ] `internals/views/view-pg-aios.md` — 53.2. pg_aios #
 - [ ] `internals/views/view-pg-available-extension-versions.md` — 53.4. pg_available_extension_versions #
@@ -634,7 +634,7 @@
 - [ ] `reference/sql-commands/sql-dropforeigndatawrapper.md` — DROP FOREIGN DATA WRAPPER
 - [ ] `reference/sql-commands/sql-dropforeigntable.md` — DROP FOREIGN TABLE
 - [ ] `reference/sql-commands/sql-dropfunction.md` — DROP FUNCTION
-- [ ] `reference/sql-commands/sql-dropgroup.md` — DROP GROUP
+- [x] `reference/sql-commands/sql-dropgroup.md` — DROP GROUP
 - [ ] `reference/sql-commands/sql-dropindex.md` — DROP INDEX
 - [ ] `reference/sql-commands/sql-droplanguage.md` — DROP LANGUAGE
 - [ ] `reference/sql-commands/sql-dropmaterializedview.md` — DROP MATERIALIZED VIEW
@@ -875,7 +875,7 @@
 - [ ] `server-programming/logicaldecoding/logicaldecoding-example.md` — 47.1. Logical Decoding Examples #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-explanation.md` — 47.2. Logical Decoding Concepts #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-output-plugin.md` — 47.6. Logical Decoding Output Plugins #
-- [ ] `server-programming/logicaldecoding/logicaldecoding-sql.md` — 47.4. Logical Decoding SQL Interface #
+- [x] `server-programming/logicaldecoding/logicaldecoding-sql.md` — 47.4. Logical Decoding SQL Interface #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-streaming.md` — 47.9. Streaming of Large Transactions for Logical Decoding #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-synchronous.md` — 47.8. Synchronous Replication Support for Logical Decoding #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md` — 47.10. Two-phase Commit Support for Logical Decoding #
@@ -959,7 +959,7 @@
 - [ ] `server-programming/spi/spi-spi-cursor-open-with-paramlist.md` — SPI_cursor_open_with_paramlist
 - [ ] `server-programming/spi/spi-spi-cursor-open.md` — SPI_cursor_open
 - [ ] `server-programming/spi/spi-spi-cursor-parse-open.md` — SPI_cursor_parse_open
-- [ ] `server-programming/spi/spi-spi-exec.md` — SPI_exec
+- [x] `server-programming/spi/spi-spi-exec.md` — SPI_exec
 - [ ] `server-programming/spi/spi-spi-execp.md` — SPI_execp
 - [ ] `server-programming/spi/spi-spi-execute-extended.md` — SPI_execute_extended
 - [ ] `server-programming/spi/spi-spi-execute-plan-extended.md` — SPI_execute_plan_extended
