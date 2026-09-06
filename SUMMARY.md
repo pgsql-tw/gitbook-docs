@@ -589,7 +589,7 @@
     * [47.2. Logical Decoding Concepts #](server-programming/logicaldecoding/logicaldecoding-explanation.md)
     * [47.3. 串流複寫協定介面 #](server-programming/logicaldecoding/logicaldecoding-walsender.md)
     * [47.4. Logical Decoding SQL Interface #](server-programming/logicaldecoding/logicaldecoding-sql.md)
-    * [47.5. System Catalogs Related to Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-catalogs.md)
+    * [47.5. 與邏輯解碼相關的系統目錄](server-programming/logicaldecoding/logicaldecoding-catalogs.md)
     * [47.6. Logical Decoding Output Plugins #](server-programming/logicaldecoding/logicaldecoding-output-plugin.md)
     * [47.7. 邏輯解碼輸出寫入器 #](server-programming/logicaldecoding/logicaldecoding-writer.md)
     * [47.8. Synchronous Replication Support for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-synchronous.md)
