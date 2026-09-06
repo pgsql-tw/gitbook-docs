@@ -2,9 +2,9 @@
 
 ## SPI_result_code_string
 
-SPI_result_code_string — return error code as string
+SPI_result_code_string — 將錯誤碼作為字串傳回
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,25 +13,23 @@ const char * SPI_result_code_string(int code);
 
 <a id="id-1.8.12.9.12.5"></a>
 
-## Description
+## 說明
 
-`SPI_result_code_string` returns a string representation
-of the result code returned by various SPI functions or stored
-in `SPI_result`.
+`SPI_result_code_string` 傳回各種 SPI 函式所傳回或儲存於 `SPI_result` 的結果碼字串表示法。
 
 <a id="id-1.8.12.9.12.6"></a>
 
-## Arguments
+## 引數
 
 `int code`
-:   result code
+:   結果碼
 
 <a id="id-1.8.12.9.12.7"></a>
 
-## Return Value
+## 回傳值
 
-A string representation of the result code.
+結果碼的字串表示法。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-result-code-string.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-result-code-string.html)（原文版本：18.6；核對日期：2026-09-06）
