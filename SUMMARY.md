@@ -504,7 +504,7 @@
     * [42.12. Tcl Procedure Names #](server-programming/pltcl/pltcl-procnames.md)
   * [Chapter 43. PL/Perl — Perl Procedural Language](server-programming/plperl/README.md)
     * [43.1. PL/Perl Functions and Arguments #](server-programming/plperl/plperl-funcs.md)
-    * [43.2. Data Values in PL/Perl #](server-programming/plperl/plperl-data.md)
+    * [43.2. PL/Perl 中的資料值](server-programming/plperl/plperl-data.md)
     * [43.3. Built-in Functions #](server-programming/plperl/plperl-builtins.md)
     * [43.4. Global Values in PL/Perl #](server-programming/plperl/plperl-global.md)
     * [43.5. Trusted and Untrusted PL/Perl #](server-programming/plperl/plperl-trusted.md)
