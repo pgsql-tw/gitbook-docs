@@ -1120,7 +1120,7 @@
       * [vacuumlo](appendixes/contrib-prog/vacuumlo.md)
     * [G.2. Server Applications #](appendixes/contrib-prog/contrib-prog-server.md)
   * [附錄 H. 外部專案](appendixes/external-projects/README.md)
-    * [H.1. Client Interfaces #](appendixes/external-projects/external-interfaces.md)
+    * [H.1. 用戶端介面](appendixes/external-projects/external-interfaces.md)
     * [H.2. Administration Tools #](appendixes/external-projects/external-admin-tools.md)
     * [H.3. 程序語言](appendixes/external-projects/external-pl.md)
     * [H.4. 擴充套件](appendixes/external-projects/external-extensions.md)
