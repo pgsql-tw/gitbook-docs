@@ -2,9 +2,9 @@
 
 ## SPI_exec
 
-SPI_exec — execute a read/write command
+SPI_exec — 執行讀取／寫入命令
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,30 +13,26 @@ int SPI_exec(const char * command, long count)
 
 <a id="id-1.8.12.8.5.5"></a>
 
-## Description
+## 說明
 
-`SPI_exec` is the same as
-`SPI_execute`, with the latter's
-*`read_only`* parameter always taken as
-`false`.
+`SPI_exec` 與 `SPI_execute` 相同，但後者的 *`read_only`* 參數一律採用 `false`。
 
 <a id="id-1.8.12.8.5.6"></a>
 
-## Arguments
+## 引數
 
 `const char * command`
-:   string containing command to execute
+:   包含要執行命令的字串
 
 `long count`
-:   maximum number of rows to return,
-    or `0` for no limit
+:   要回傳的最大資料列數；`0` 表示不限
 
 <a id="id-1.8.12.8.5.7"></a>
 
-## Return Value
+## 回傳值
 
-See `SPI_execute`.
+請參閱 `SPI_execute`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-exec.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-exec.html)（原文版本：18.6；核對日期：2026-09-06）
