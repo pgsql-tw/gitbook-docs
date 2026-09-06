@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1125 頁。
+待譯頁面：1124 頁。
 
 ## 根目錄
 
@@ -1027,7 +1027,7 @@
 - [ ] `the-sql-language/datatype/datatype-net-types.md` — 8.9. Network Address Types #
 - [ ] `the-sql-language/datatype/datatype-numeric.md` — 8.1. Numeric Types #
 - [ ] `the-sql-language/datatype/datatype-oid.md` — 8.19. Object Identifier Types #
-- [ ] `the-sql-language/datatype/datatype-pg-lsn.md` — 8.20. pg_lsn Type #
+- [x] `the-sql-language/datatype/datatype-pg-lsn.md` — 8.20. pg_lsn Type #
 - [ ] `the-sql-language/datatype/datatype-pseudo.md` — 8.21. Pseudo-Types #
 - [ ] `the-sql-language/datatype/datatype-textsearch.md` — 8.11. Text Search Types #
 - [ ] `the-sql-language/datatype/datatype-uuid.md` — 8.12. UUID Type #

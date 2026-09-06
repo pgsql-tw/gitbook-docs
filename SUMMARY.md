@@ -86,7 +86,7 @@
     * [8.17. Range Types #](the-sql-language/datatype/rangetypes.md)
     * [8.18. Domain Types #](the-sql-language/datatype/domains.md)
     * [8.19. Object Identifier Types #](the-sql-language/datatype/datatype-oid.md)
-    * [8.20. pg_lsn Type #](the-sql-language/datatype/datatype-pg-lsn.md)
+    * [8.20. `pg_lsn` 型別 #](the-sql-language/datatype/datatype-pg-lsn.md)
     * [8.21. Pseudo-Types #](the-sql-language/datatype/datatype-pseudo.md)
   * [Chapter 9. Functions and Operators](the-sql-language/functions/README.md)
     * [9.1. Logical Operators #](the-sql-language/functions/functions-logical.md)
