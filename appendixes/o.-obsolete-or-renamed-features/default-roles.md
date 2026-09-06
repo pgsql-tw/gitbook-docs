@@ -8,4 +8,4 @@ PostgreSQL 13 and below used the term “Default Roles”. However, as these rol
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/default-roles.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](default-roles.md)（英文原文，待翻譯）

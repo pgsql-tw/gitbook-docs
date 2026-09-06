@@ -62,4 +62,4 @@ Objects which have initial privileges set by initdb will have entries where `pri
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-init-privs.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_init_privs.md)（英文原文，待翻譯）

@@ -28,4 +28,4 @@ These functions can only be executed if the SPI connection has been set as nonat
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-commit.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-commit.md)（英文原文，待翻譯）

@@ -1,6 +1,6 @@
 # 8.9. 網路資訊型別
 
-PostgreSQL offers data types to store IPv4, IPv6, and MAC addresses, as shown in [Table 8.21](https://www.postgresql.org/docs/12/datatype-net-types.html#DATATYPE-NET-TYPES-TABLE). It is better to use these types instead of plain text types to store network addresses, because these types offer input error checking and specialized operators and functions (see [Section 9.12](https://www.postgresql.org/docs/12/functions-net.html)).
+PostgreSQL offers data types to store IPv4, IPv6, and MAC addresses, as shown in [Table 8.21](network-address-types.md#DATATYPE-NET-TYPES-TABLE). It is better to use these types instead of plain text types to store network addresses, because these types offer input error checking and specialized operators and functions (see [Section 9.12](../functions-and-operators/network-address-functions-and-operators.md)).
 
 #### **Table 8.21. Network Address Types**
 
@@ -23,7 +23,7 @@ The input format for this type is _`address/y`_ where _`address`_ is an IPv4 or 
 
 The `cidr` type holds an IPv4 or IPv6 network specification. Input and output formats follow Classless Internet Domain Routing conventions. The format for specifying networks is _`address/y`_ where _`address`_ is the network represented as an IPv4 or IPv6 address, and _`y`_ is the number of bits in the netmask. If _`y`_ is omitted, it is calculated using assumptions from the older classful network numbering system, except it will be at least large enough to include all of the octets written in the input. It is an error to specify a network address that has bits set to the right of the specified netmask.
 
-[Table 8.22](https://www.postgresql.org/docs/12/datatype-net-types.html#DATATYPE-NET-CIDR-TABLE) shows some examples.
+[Table 8.22](network-address-types.md#DATATYPE-NET-CIDR-TABLE) shows some examples.
 
 #### **Table 8.22. `cidr` Type Input Examples**
 

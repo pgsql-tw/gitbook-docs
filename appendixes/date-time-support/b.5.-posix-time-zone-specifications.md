@@ -16,7 +16,7 @@ STD offset [ DST [ dstoffset ] [ , rule ] ]
 * _`dstoffset`_ is the daylight-savings offset from UTC. This field is typically omitted, since it defaults to one hour less than the standard-time _`offset`_, which is usually the right thing.
 * _`rule`_ defines the rule for when daylight savings is in effect, as described below.
 
-In this syntax, a zone abbreviation can be a string of letters, such as `EST`, or an arbitrary string surrounded by angle brackets, such as `<UTC-05>`. Note that the zone abbreviations given here are only used for output, and even then only in some timestamp output formats. The zone abbreviations recognized in timestamp input are determined as explained in [Section B.4](https://www.postgresql.org/docs/current/datetime-config-files.html).
+In this syntax, a zone abbreviation can be a string of letters, such as `EST`, or an arbitrary string surrounded by angle brackets, such as `<UTC-05>`. Note that the zone abbreviations given here are only used for output, and even then only in some timestamp output formats. The zone abbreviations recognized in timestamp input are determined as explained in [Section B.4](configuration.md).
 
 The offset fields specify the hours, and optionally minutes and seconds, difference from UTC. They have the format _`hh`_\[`:`_`mm`_\[`:`_`ss`_]] optionally with a leading sign (`+` or `-`). The positive sign is used for zones _west_ of Greenwich. (Note that this is the opposite of the ISO-8601 sign convention used elsewhere in PostgreSQL.) _`hh`_ can have one or two digits; _`mm`_ and _`ss`_ (if used) must have two.
 

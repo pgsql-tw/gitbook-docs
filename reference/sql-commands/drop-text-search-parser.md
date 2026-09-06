@@ -64,4 +64,4 @@ There is no `DROP TEXT SEARCH PARSER` statement in the SQL standard.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-droptsparser.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](drop-text-search-parser.md)（英文原文，待翻譯）

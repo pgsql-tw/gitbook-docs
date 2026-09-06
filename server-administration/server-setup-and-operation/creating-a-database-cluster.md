@@ -2,7 +2,7 @@
 
 在您可以做任何事情之前，您必須在磁碟中初始化一個資料庫儲存區域。 我們稱之為數據庫叢集(Database Cluster，SQL 標準術語為 Catalog Cluster）。資料庫叢集是由正在運行的資料庫伺服器的單一個執行實例管理的資料庫集合。 初始化後，資料庫叢集將包含一個名為 postgres 的資料庫，這是供工具程式、資料庫使用者和第三方應用程式所預設的資料庫。 資料庫伺服器本身不需要 postgres 資料庫存在，但許多外部工具會假設它存在。 初始化期間在每個叢集中所建置的另一個資料庫稱為 template1。 顧名思義，這將作為後續建立的資料庫的樣板； 它不應該用於實際的資料作業。 （有關在叢集中建立新資料庫的說明，請參閱[第 23 章](../managing-databases/)。）
 
-In file system terms, a database cluster is a single directory under which all data will be stored. We call this the _data directory_ or _data area_. It is completely up to you where you choose to store your data. There is no default, although locations such as `/usr/local/pgsql/data` or `/var/lib/pgsql/data` are popular. To initialize a database cluster, use the command [initdb](https://www.postgresql.org/docs/12/app-initdb.html), which is installed with PostgreSQL. The desired file system location of your database cluster is indicated by the `-D` option, for example:
+In file system terms, a database cluster is a single directory under which all data will be stored. We call this the _data directory_ or _data area_. It is completely up to you where you choose to store your data. There is no default, although locations such as `/usr/local/pgsql/data` or `/var/lib/pgsql/data` are popular. To initialize a database cluster, use the command [initdb](../../reference/server-applications/initdb.md), which is installed with PostgreSQL. The desired file system location of your database cluster is indicated by the `-D` option, for example:
 
 ```
 $ initdb -D /usr/local/pgsql/data
@@ -14,7 +14,7 @@ Note that you must execute this command while logged into the PostgreSQL user ac
 
 As an alternative to the `-D` option, you can set the environment variable `PGDATA`.
 
-Alternatively, you can run `initdb` via the [pg\_ctl](https://www.postgresql.org/docs/12/app-pg-ctl.html) program like so:
+Alternatively, you can run `initdb` via the [pg\_ctl](../../reference/server-applications/pg_ctl.md) program like so:
 
 ```
 $ pg_ctl -D /usr/local/pgsql/data initdb
@@ -37,11 +37,11 @@ Because the data directory contains all the data stored in the database, it is e
 
 Note that enabling or disabling group access on an existing cluster requires the cluster to be shut down and the appropriate mode to be set on all directories and files before restarting PostgreSQL. Otherwise, a mix of modes might exist in the data directory. For clusters that allow access only by the owner, the appropriate modes are `0700` for directories and `0600` for files. For clusters that also allow reads by the group, the appropriate modes are `0750` for directories and `0640` for files.
 
-However, while the directory contents are secure, the default client authentication setup allows any local user to connect to the database and even become the database superuser. If you do not trust other local users, we recommend you use one of `initdb`'s `-W`, `--pwprompt` or `--pwfile` options to assign a password to the database superuser. Also, specify `-A scram-sha-256` so that the default `trust` authentication mode is not used; or modify the generated `pg_hba.conf` file after running `initdb`, but _before_ you start the server for the first time. (Other reasonable approaches include using `peer` authentication or file system permissions to restrict connections. See [Chapter 21](https://www.postgresql.org/docs/15/client-authentication.html) for more information.)
+However, while the directory contents are secure, the default client authentication setup allows any local user to connect to the database and even become the database superuser. If you do not trust other local users, we recommend you use one of `initdb`'s `-W`, `--pwprompt` or `--pwfile` options to assign a password to the database superuser. Also, specify `-A scram-sha-256` so that the default `trust` authentication mode is not used; or modify the generated `pg_hba.conf` file after running `initdb`, but _before_ you start the server for the first time. (Other reasonable approaches include using `peer` authentication or file system permissions to restrict connections. See [Chapter 21](../client-authentication/README.md) for more information.)
 
-`initdb` also initializes the default locale for the database cluster. Normally, it will just take the locale settings in the environment and apply them to the initialized database. It is possible to specify a different locale for the database; more information about that can be found in [Section 24.1](https://www.postgresql.org/docs/15/locale.html). The default sort order used within the particular database cluster is set by `initdb`, and while you can create new databases using different sort order, the order used in the template databases that initdb creates cannot be changed without dropping and recreating them. There is also a performance impact for using locales other than `C` or `POSIX`. Therefore, it is important to make this choice correctly the first time.
+`initdb` also initializes the default locale for the database cluster. Normally, it will just take the locale settings in the environment and apply them to the initialized database. It is possible to specify a different locale for the database; more information about that can be found in [Section 24.1](../localization/locale-support.md). The default sort order used within the particular database cluster is set by `initdb`, and while you can create new databases using different sort order, the order used in the template databases that initdb creates cannot be changed without dropping and recreating them. There is also a performance impact for using locales other than `C` or `POSIX`. Therefore, it is important to make this choice correctly the first time.
 
-`initdb` also sets the default character set encoding for the database cluster. Normally this should be chosen to match the locale setting. For details see [Section 24.3](https://www.postgresql.org/docs/15/multibyte.html).
+`initdb` also sets the default character set encoding for the database cluster. Normally this should be chosen to match the locale setting. For details see [Section 24.3](../localization/character-set-support.md).
 
 Non-`C` and non-`POSIX` locales rely on the operating system's collation library for character set ordering. This controls the ordering of keys stored in indexes. For this reason, a cluster cannot switch to an incompatible collation library version, either through snapshot restore, binary streaming replication, a different operating system, or an operating system upgrade.
 

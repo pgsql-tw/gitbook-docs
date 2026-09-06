@@ -10,4 +10,4 @@ If you execute SQL commands in your trigger function, and these commands access 
 
 If your trigger function is written in any of the standard procedural languages, then the above statements apply only if the function is declared `VOLATILE`. Functions that are declared `STABLE` or `IMMUTABLE` will not see changes made by the calling command in any case.
 
-Further information about data visibility rules can be found in [Section 47.5](https://www.postgresql.org/docs/current/spi-visibility.html). The example in [Section 39.4](https://www.postgresql.org/docs/current/trigger-example.html) contains a demonstration of these rules.
+Further information about data visibility rules can be found in [Section 47.5](../server-programming-interface/spi-visibility.md). The example in [Section 39.4](a-complete-trigger-example.md) contains a demonstration of these rules.

@@ -55,7 +55,7 @@ Before PostgreSQL had the `INCLUDE` feature, people sometimes made covering inde
 CREATE INDEX tab_x_y ON tab(x, y);
 ```
 
-even though they had no intention of ever using `y` as part of a `WHERE` clause. This works fine as long as the extra columns are trailing columns; making them be leading columns is unwise for the reasons explained in [Section 11.3](https://www.postgresql.org/docs/13/indexes-multicolumn.html). However, this method doesn't support the case where you want the index to enforce uniqueness on the key column(s).
+even though they had no intention of ever using `y` as part of a `WHERE` clause. This works fine as long as the extra columns are trailing columns; making them be leading columns is unwise for the reasons explained in [Section 11.3](multicolumn-indexes.md). However, this method doesn't support the case where you want the index to enforce uniqueness on the key column(s).
 
 _Suffix truncation_ always removes non-key columns from upper B-Tree levels. As payload columns, they are never used to guide index scans. The truncation process also removes one or more trailing key column(s) when the remaining prefix of key column(s) happens to be sufficient to describe tuples on the lowest B-Tree level. In practice, covering indexes without an `INCLUDE` clause often avoid storing columns that are effectively payload in the upper levels. However, explicitly defining payload columns as non-key columns _reliably_ keeps the tuples in upper levels small.
 
@@ -73,7 +73,7 @@ CREATE INDEX tab_f_x ON tab (f(x)) INCLUDE (x);
 
 An additional caveat, if the goal is to avoid recalculating `f(x)`, is that the planner won't necessarily match uses of `f(x)` that aren't in indexable `WHERE` clauses to the index column. It will usually get this right in simple queries such as shown above, but not in queries that involve joins. These deficiencies may be remedied in future versions of PostgreSQL.
 
-Partial indexes also have interesting interactions with index-only scans. Consider the partial index shown in [Example 11.3](https://www.postgresql.org/docs/13/indexes-partial.html#INDEXES-PARTIAL-EX3):
+Partial indexes also have interesting interactions with index-only scans. Consider the partial index shown in [Example 11.3](partial-indexes.md#INDEXES-PARTIAL-EX3):
 
 ```
 CREATE UNIQUE INDEX tests_success_constraint ON tests (subject, target)

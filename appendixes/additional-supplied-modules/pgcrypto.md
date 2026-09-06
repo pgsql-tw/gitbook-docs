@@ -831,4 +831,4 @@ Marko Kreen <code class="email">&lt;<a class="email" href="mailto:markokr@gmail.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pgcrypto.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pgcrypto.md)（英文原文，待翻譯）

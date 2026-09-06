@@ -12,7 +12,7 @@
 
 [68.4. Implementation](implementation.md)
 
-[68.4.1. GiST Index Build Methods](https://www.postgresql.org/docs/15/gist-implementation.html#GIST-BUFFERING-BUILD)
+[68.4.1. GiST Index Build Methods](implementation.md#GIST-BUFFERING-BUILD)
 
 [68.5. Examples](examples.md)
 
@@ -20,4 +20,4 @@
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/gist.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](README.md)（英文原文，待翻譯）

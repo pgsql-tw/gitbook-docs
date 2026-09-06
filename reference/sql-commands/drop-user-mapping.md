@@ -60,4 +60,4 @@ DROP USER MAPPING IF EXISTS FOR bob SERVER foo;
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-dropusermapping.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](drop-user-mapping.md)（英文原文，待翻譯）

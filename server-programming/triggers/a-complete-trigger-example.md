@@ -89,7 +89,7 @@ trigf(PG_FUNCTION_ARGS)
 }
 ```
 
-After you have compiled the source code (see [Section 37.10.5](https://www.postgresql.org/docs/13/xfunc-c.html#DFUNC)), declare the function and the triggers:
+After you have compiled the source code (see [Section 37.10.5](../extending-sql/c-language-functions.md#DFUNC)), declare the function and the triggers:
 
 ```
 CREATE FUNCTION trigf() RETURNS trigger
@@ -170,4 +170,4 @@ DELETE 2
 (0 rows)
 ```
 
-There are more complex examples in `src/test/regress/regress.c` and in [spi](https://www.postgresql.org/docs/13/contrib-spi.html).
+There are more complex examples in `src/test/regress/regress.c` and in [spi](../../appendixes/additional-supplied-modules/spi.md).

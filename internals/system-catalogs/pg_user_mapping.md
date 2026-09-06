@@ -52,4 +52,4 @@ The catalog `pg_user_mapping` stores the mappings from local user to remote. Acc
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-user-mapping.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_user_mapping.md)（英文原文，待翻譯）

@@ -8,7 +8,7 @@
 
 | <p>Column Type</p><p>Description</p>                                                                                                                                                                                  |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <p><code>srsubid</code> <code>oid</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-subscription.html"><code>pg_subscription</code></a>.<code>oid</code>)</p><p>Reference to subscription</p> |
-| <p><code>srrelid</code> <code>oid</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-class.html"><code>pg_class</code></a>.<code>oid</code>)</p><p>Reference to relation</p>                   |
+| <p><code>srsubid</code> <code>oid</code> (references <a href="pg_subscription.md"><code>pg_subscription</code></a>.<code>oid</code>)</p><p>Reference to subscription</p> |
+| <p><code>srrelid</code> <code>oid</code> (references <a href="pg_class.md"><code>pg_class</code></a>.<code>oid</code>)</p><p>Reference to relation</p>                   |
 | <p><code>srsubstate</code> <code>char</code></p><p>State code: <code>i</code> = initialize, <code>d</code> = data is being copied, <code>s</code> = synchronized, <code>r</code> = ready (normal replication)</p>     |
 | <p><code>srsublsn</code> <code>pg_lsn</code></p><p>Remote LSN of the state change used for synchronization coordination when in <code>s</code> or <code>r</code> states, otherwise null</p>                           |

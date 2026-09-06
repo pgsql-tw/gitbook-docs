@@ -24,7 +24,7 @@ To commit a prepared transaction, you must be either the same user that executed
 
 This command cannot be executed inside a transaction block. The prepared transaction is committed immediately.
 
-All currently available prepared transactions are listed in the [`pg_prepared_xacts`](https://www.postgresql.org/docs/13/view-pg-prepared-xacts.html) system view.
+All currently available prepared transactions are listed in the [`pg_prepared_xacts`](../../internals/system-catalogs/pg_prepared_xacts.md) system view.
 
 ### Examples
 
@@ -40,4 +40,4 @@ COMMIT PREPARED 'foobar';
 
 ### See Also
 
-[PREPARE TRANSACTION](https://www.postgresql.org/docs/13/sql-prepare-transaction.html), [ROLLBACK PREPARED](https://www.postgresql.org/docs/13/sql-rollback-prepared.html)
+[PREPARE TRANSACTION](prepare-transaction.md), [ROLLBACK PREPARED](rollback-prepared.md)

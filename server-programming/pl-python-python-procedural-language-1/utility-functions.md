@@ -11,7 +11,7 @@ The `plpy` module also provides the functions
 | `plpy.error(`_`msg, **kwargs`_`)`   |
 | `plpy.fatal(`_`msg, **kwargs`_`)`   |
 
-`plpy.error` and `plpy.fatal` actually raise a Python exception which, if uncaught, propagates out to the calling query, causing the current transaction or subtransaction to be aborted. `raise plpy.Error(`_`msg`_`)` and `raise plpy.Fatal(`_`msg`_`)` are equivalent to calling `plpy.error(`_`msg`_`)` and `plpy.fatal(`_`msg`_`)`, respectively but the `raise` form does not allow passing keyword arguments. The other functions only generate messages of different priority levels. Whether messages of a particular priority are reported to the client, written to the server log, or both is controlled by the [log\_min\_messages](https://www.postgresql.org/docs/15/runtime-config-logging.html#GUC-LOG-MIN-MESSAGES) and [client\_min\_messages](https://www.postgresql.org/docs/15/runtime-config-client.html#GUC-CLIENT-MIN-MESSAGES) configuration variables. See [Chapter 20](https://www.postgresql.org/docs/15/runtime-config.html) for more information.
+`plpy.error` and `plpy.fatal` actually raise a Python exception which, if uncaught, propagates out to the calling query, causing the current transaction or subtransaction to be aborted. `raise plpy.Error(`_`msg`_`)` and `raise plpy.Fatal(`_`msg`_`)` are equivalent to calling `plpy.error(`_`msg`_`)` and `plpy.fatal(`_`msg`_`)`, respectively but the `raise` form does not allow passing keyword arguments. The other functions only generate messages of different priority levels. Whether messages of a particular priority are reported to the client, written to the server log, or both is controlled by the [log\_min\_messages](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-LOG-MIN-MESSAGES) and [client\_min\_messages](../../server-administration/server-configuration/client-connection-defaults.md#GUC-CLIENT-MIN-MESSAGES) configuration variables. See [Chapter 20](../../server-administration/server-configuration/README.md) for more information.
 
 The _`msg`_ argument is given as a positional argument. For backward compatibility, more than one positional argument can be given. In that case, the string representation of the tuple of positional arguments becomes the message reported to the client.
 
@@ -46,7 +46,7 @@ CONTEXT:  Traceback (most recent call last):
 PL/Python function "raise_custom_exception"
 ```
 
-Another set of utility functions are `plpy.quote_literal(`_`string`_`)`, `plpy.quote_nullable(`_`string`_`)`, and `plpy.quote_ident(`_`string`_`)`. They are equivalent to the built-in quoting functions described in [Section 9.4](https://www.postgresql.org/docs/15/functions-string.html). They are useful when constructing ad-hoc queries. A PL/Python equivalent of dynamic SQL from [Example 43.1](https://www.postgresql.org/docs/15/plpgsql-statements.html#PLPGSQL-QUOTE-LITERAL-EXAMPLE) would be:
+Another set of utility functions are `plpy.quote_literal(`_`string`_`)`, `plpy.quote_nullable(`_`string`_`)`, and `plpy.quote_ident(`_`string`_`)`. They are equivalent to the built-in quoting functions described in [Section 9.4](../../the-sql-language/functions-and-operators/string-functions-and-operators.md). They are useful when constructing ad-hoc queries. A PL/Python equivalent of dynamic SQL from [Example 43.1](../pl-pgsql-sql-procedural-language/basic-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE) would be:
 
 ```
 plpy.execute("UPDATE tbl SET %s = %s WHERE key = %s" % (

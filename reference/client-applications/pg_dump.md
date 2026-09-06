@@ -114,7 +114,7 @@ pg\_dump 將打開 njobs + 1 個到資料庫的連線，因此請確保您的 [m
 `-n` _`schema`_\
 `--schema=`_`schema`_
 
-Dump only schemas matching _`schema`_; this selects both the schema itself, and all its contained objects. When this option is not specified, all non-system schemas in the target database will be dumped. Multiple schemas can be selected by writing multiple `-n` switches. Also, the _`schema`_ parameter is interpreted as a pattern according to the same rules used by psql's `\d` commands (see [Patterns](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-PATTERNS)), so multiple schemas can also be selected by writing wildcard characters in the pattern. When using wildcards, be careful to quote the pattern if needed to prevent the shell from expanding the wildcards; see [Examples](https://www.postgresql.org/docs/11/app-pgdump.html#PG-DUMP-EXAMPLES).
+Dump only schemas matching _`schema`_; this selects both the schema itself, and all its contained objects. When this option is not specified, all non-system schemas in the target database will be dumped. Multiple schemas can be selected by writing multiple `-n` switches. Also, the _`schema`_ parameter is interpreted as a pattern according to the same rules used by psql's `\d` commands (see [Patterns](psql.md#APP-PSQL-PATTERNS)), so multiple schemas can also be selected by writing wildcard characters in the pattern. When using wildcards, be careful to quote the pattern if needed to prevent the shell from expanding the wildcards; see [Examples](pg_dump.md#PG-DUMP-EXAMPLES).
 
 ### Note
 
@@ -228,7 +228,7 @@ This option is only meaningful for the plain-text format. For the archive format
 
 `--enable-row-security`
 
-This option is relevant only when dumping the contents of a table which has row security. By default, pg\_dump will set [row\_security](https://www.postgresql.org/docs/11/runtime-config-client.html#GUC-ROW-SECURITY) to off, to ensure that all data is dumped from the table. If the user does not have sufficient privileges to bypass row security, then an error is thrown. This parameter instructs pg\_dump to set [row\_security](https://www.postgresql.org/docs/11/runtime-config-client.html#GUC-ROW-SECURITY) to on instead, allowing the user to dump the parts of the contents of the table that they have access to.
+This option is relevant only when dumping the contents of a table which has row security. By default, pg\_dump will set [row\_security](../../server-administration/server-configuration/client-connection-defaults.md#GUC-ROW-SECURITY) to off, to ensure that all data is dumped from the table. If the user does not have sufficient privileges to bypass row security, then an error is thrown. This parameter instructs pg\_dump to set [row\_security](../../server-administration/server-configuration/client-connection-defaults.md#GUC-ROW-SECURITY) to on instead, allowing the user to dump the parts of the contents of the table that they have access to.
 
 Note that if you use this option currently, you probably also want the dump be in `INSERT` format, as the `COPY FROM` during restore does not support row security.
 
@@ -302,7 +302,7 @@ The data section contains actual table data, large-object contents, and sequence
 
 `--serializable-deferrable`
 
-Use a `serializable` transaction for the dump, to ensure that the snapshot used is consistent with later database states; but do this by waiting for a point in the transaction stream at which no anomalies can be present, so that there isn't a risk of the dump failing or causing other transactions to roll back with a `serialization_failure`. See [Chapter 13](https://www.postgresql.org/docs/11/mvcc.html) for more information about transaction isolation and concurrency control.
+Use a `serializable` transaction for the dump, to ensure that the snapshot used is consistent with later database states; but do this by waiting for a point in the transaction stream at which no anomalies can be present, so that there isn't a risk of the dump failing or causing other transactions to roll back with a `serialization_failure`. See [Chapter 13](../../the-sql-language/concurrency-control/README.md) for more information about transaction isolation and concurrency control.
 
 This option is not beneficial for a dump which is intended only for disaster recovery. It could be useful for a dump used to load a copy of the database for reporting or other read-only load sharing while the original database continues to be updated. Without it the dump may reflect a state which is not consistent with any serial execution of the transactions eventually committed. For example, if batch processing techniques are used, a batch may show as closed in the dump without all of the items which are in the batch appearing.
 
@@ -310,9 +310,9 @@ This option will make no difference if there are no read-write transactions acti
 
 `--snapshot=`_`snapshotname`_
 
-Use the specified synchronized snapshot when making a dump of the database (see [Table 9.82](https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION-TABLE) for more details).
+Use the specified synchronized snapshot when making a dump of the database (see [Table 9.82](../../the-sql-language/functions-and-operators/system-administration.md#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION-TABLE) for more details).
 
-This option is useful when needing to synchronize the dump with a logical replication slot (see [Chapter 49](https://www.postgresql.org/docs/11/logicaldecoding.html)) or with a concurrent session.
+This option is useful when needing to synchronize the dump with a logical replication slot (see [Chapter 49](../../server-programming/logical-decoding/README.md)) or with a concurrent session.
 
 In the case of a parallel dump, the snapshot name defined by this option is used rather than taking a new snapshot.
 
@@ -338,7 +338,7 @@ The following command-line options control the database connection parameters.
 
 Specifies the name of the database to connect to. This is equivalent to specifying _`dbname`_ as the first non-option argument on the command line.
 
-If this parameter contains an `=` sign or starts with a valid URI prefix (`postgresql://` or `postgres://`), it is treated as a _`conninfo`_ string. See [Section 34.1](https://www.postgresql.org/docs/11/libpq-connect.html) for more information.`-`
+If this parameter contains an `=` sign or starts with a valid URI prefix (`postgresql://` or `postgres://`), it is treated as a _`conninfo`_ string. See [Section 34.1](../../client-interfaces/libpq-c-library/database-connection-control-functions.md) for more information.`-`
 
 `h` _`host`_\
 `--host=`_`host`_
@@ -381,11 +381,11 @@ Specifies a role name to be used to create the dump. This option causes pg\_dump
 
 Default connection parameters.
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 34.14](https://www.postgresql.org/docs/11/libpq-envars.html)).
+This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 34.14](../../client-interfaces/libpq-c-library/environment-variables.md)).
 
 ## Diagnostics
 
-pg\_dump internally executes `SELECT` statements. If you have problems running pg\_dump, make sure you are able to select information from the database using, for example, [psql](https://www.postgresql.org/docs/11/app-psql.html). Also, any default connection settings and environment variables used by the libpq front-end library will apply.
+pg\_dump internally executes `SELECT` statements. If you have problems running pg\_dump, make sure you are able to select information from the database using, for example, [psql](psql.md). Also, any default connection settings and environment variables used by the libpq front-end library will apply.
 
 The database activity of pg\_dump is normally collected by the statistics collector. If this is undesirable, you can set parameter `track_counts` to false via `PGOPTIONS` or the `ALTER USER` command.
 
@@ -399,7 +399,7 @@ CREATE DATABASE foo WITH TEMPLATE template0;
 
 When a data-only dump is chosen and the option `--disable-triggers` is used, pg\_dump emits commands to disable triggers on user tables before inserting the data, and then commands to re-enable them after the data has been inserted. If the restore is stopped in the middle, the system catalogs might be left in the wrong state.
 
-The dump file produced by pg\_dump does not contain the statistics used by the optimizer to make query planning decisions. Therefore, it is wise to run `ANALYZE` after restoring from a dump file to ensure optimal performance; see [Section 24.1.3](https://www.postgresql.org/docs/11/routine-vacuuming.html#VACUUM-FOR-STATISTICS) and [Section 24.1.6](https://www.postgresql.org/docs/11/routine-vacuuming.html#AUTOVACUUM) for more information.
+The dump file produced by pg\_dump does not contain the statistics used by the optimizer to make query planning decisions. Therefore, it is wise to run `ANALYZE` after restoring from a dump file to ensure optimal performance; see [Section 24.1.3](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#VACUUM-FOR-STATISTICS) and [Section 24.1.6](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#AUTOVACUUM) for more information.
 
 Because pg\_dump is used to transfer data to newer versions of PostgreSQL, the output of pg\_dump can be expected to load into PostgreSQL server versions newer than pg\_dump's version. pg\_dumpcan also dump from PostgreSQL servers older than its own version. (Currently, servers back to version 8.0 are supported.) However, pg\_dump cannot dump from PostgreSQL servers newer than its own major version; it will refuse to even try, rather than risk making an invalid dump. Also, it is not guaranteed that pg\_dump's output can be loaded into a server of an older major version — not even if the dump was taken from a server of that version. Loading a dump file into an older server may require manual editing of the dump file to remove syntax not understood by the older server. Use of the `--quote-all-identifiers` option is recommended in cross-version cases, as it can prevent problems arising from varying reserved-word lists in different PostgreSQL versions.
 
@@ -479,7 +479,7 @@ To dump all database objects except for tables whose names begin with `ts_`:
 $ pg_dump -T 'ts_*' mydb > db.sql
 ```
 
-To specify an upper-case or mixed-case name in `-t` and related switches, you need to double-quote the name; else it will be folded to lower case (see [Patterns](https://www.postgresql.org/docs/11/app-psql.html#APP-PSQL-PATTERNS)). But double quotes are special to the shell, so in turn they must be quoted. Thus, to dump a single table with a mixed-case name, you need something like
+To specify an upper-case or mixed-case name in `-t` and related switches, you need to double-quote the name; else it will be folded to lower case (see [Patterns](psql.md#APP-PSQL-PATTERNS)). But double quotes are special to the shell, so in turn they must be quoted. Thus, to dump a single table with a mixed-case name, you need something like
 
 ```
 $ pg_dump -t "\"MixedCaseName\"" mydb > mytab.sql

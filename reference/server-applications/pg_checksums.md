@@ -88,4 +88,4 @@ If pg_checksums is aborted or killed while enabling or disabling checksums, the 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/app-pgchecksums.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_checksums.md)（英文原文，待翻譯）

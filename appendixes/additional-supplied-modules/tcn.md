@@ -48,4 +48,4 @@ Asynchronous notification "tcn" with payload ""tcndata",D,"a"='1',"b"='2012-12-2
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/tcn.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](tcn.md)（英文原文，待翻譯）

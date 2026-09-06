@@ -1,6 +1,6 @@
 # 46.7. Explicit Subtransactions
 
-Recovering from errors caused by database access as described in [Section 46.6.2](https://www.postgresql.org/docs/15/plpython-database.html#PLPYTHON-TRAPPING) can lead to an undesirable situation where some operations succeed before one of them fails, and after recovering from that error the data is left in an inconsistent state. PL/Python offers a solution to this problem in the form of explicit subtransactions.
+Recovering from errors caused by database access as described in [Section 46.6.2](database-access.md#PLPYTHON-TRAPPING) can lead to an undesirable situation where some operations succeed before one of them fails, and after recovering from that error the data is left in an inconsistent state. PL/Python offers a solution to this problem in the form of explicit subtransactions.
 
 ## 46.7.1. Subtransaction Context Managers
 

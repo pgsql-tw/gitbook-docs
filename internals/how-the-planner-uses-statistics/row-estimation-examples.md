@@ -12,7 +12,7 @@ EXPLAIN SELECT * FROM tenk1;
  Seq Scan on tenk1  (cost=0.00..458.00 rows=10000 width=244)
 ```
 
-How the planner determines the cardinality of `tenk1` is covered in [Section 14.2](https://www.postgresql.org/docs/13/planner-stats.html), but is repeated here for completeness. The number of pages and rows is looked up in `pg_class`:
+How the planner determines the cardinality of `tenk1` is covered in [Section 14.2](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md), but is repeated here for completeness. The number of pages and rows is looked up in `pg_class`:
 
 ```
 SELECT relpages, reltuples FROM pg_class WHERE relname = 'tenk1';

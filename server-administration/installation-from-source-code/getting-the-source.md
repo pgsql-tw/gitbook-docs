@@ -7,4 +7,4 @@ The PostgreSQL source code for released versions can be obtained from the downlo
 
 This will create a directory `postgresql-`_`version`_ under the current directory with the PostgreSQL sources. Change into that directory for the rest of the installation procedure.
 
-Alternatively, you can use the Git version control system; see [Section I.1](https://www.postgresql.org/docs/current/git.html) for more information.
+Alternatively, you can use the Git version control system; see [Section I.1](../../appendixes/the-source-code-repository/getting-the-source-via-git.md) for more information.

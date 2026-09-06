@@ -26,4 +26,4 @@ All functions described in this section can be used by both connected and unconn
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-interface-support.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-interface-support.md)（英文原文，待翻譯）

@@ -71,4 +71,4 @@ This command conforms to the SQL standard. The standard specifies that the key w
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-release-savepoint.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](release-savepoint.md)（英文原文，待翻譯）

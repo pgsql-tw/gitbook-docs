@@ -119,4 +119,4 @@ Tatsuo Ishii
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pgrowlocks.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pgrowlocks.md)（英文原文，待翻譯）

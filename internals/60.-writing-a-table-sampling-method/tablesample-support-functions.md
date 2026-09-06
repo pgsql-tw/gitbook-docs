@@ -82,4 +82,4 @@ End the scan and release resources. It is normally not important to release pall
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/tablesample-support-functions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](tablesample-support-functions.md)（英文原文，待翻譯）

@@ -2,7 +2,7 @@
 
 All operations on a foreign table are handled through its foreign data wrapper, which consists of a set of functions that the core server calls. The foreign data wrapper is responsible for fetching data from the remote data source and returning it to the PostgreSQL executor. If updating foreign tables is to be supported, the wrapper must handle that, too. This chapter outlines how to write a new foreign data wrapper.
 
-The foreign data wrappers included in the standard distribution are good references when trying to write your own. Look into the `contrib` subdirectory of the source tree. The [CREATE FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/12/sql-createforeigndatawrapper.html) reference page also has some useful details.
+The foreign data wrappers included in the standard distribution are good references when trying to write your own. Look into the `contrib` subdirectory of the source tree. The [CREATE FOREIGN DATA WRAPPER](../../reference/sql-commands/create-foreign-data-wrapper.md) reference page also has some useful details.
 
 #### Note
 

@@ -64,4 +64,4 @@ Note that when an ACL entry in another catalog is null, it is taken to represent
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-default-acl.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_default_acl.md)（英文原文，待翻譯）

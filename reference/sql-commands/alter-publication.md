@@ -19,7 +19,7 @@ The command `ALTER PUBLICATION` can change the attributes of a publication.
 
 The first three variants change which tables are part of the publication. The `SET TABLE` clause will replace the list of tables in the publication with the specified one. The `ADD TABLE` and `DROP TABLE` clauses will add and remove one or more tables from the publication. Note that adding tables to a publication that is already subscribed to will require a `ALTER SUBSCRIPTION ... REFRESH PUBLICATION` action on the subscribing side in order to become effective.
 
-The fourth variant of this command listed in the synopsis can change all of the publication properties specified in [CREATE PUBLICATION](https://www.postgresql.org/docs/13/sql-createpublication.html). Properties not mentioned in the command retain their previous settings.
+The fourth variant of this command listed in the synopsis can change all of the publication properties specified in [CREATE PUBLICATION](create-publication.md). Properties not mentioned in the command retain their previous settings.
 
 The remaining variants change the owner and the name of the publication.
 
@@ -37,7 +37,7 @@ Name of an existing table. If `ONLY` is specified before the table name, only th
 
 `SET (`` `_`publication_parameter`_ \[= _`value`_] \[, ... ] )
 
-This clause alters publication parameters originally set by [CREATE PUBLICATION](https://www.postgresql.org/docs/13/sql-createpublication.html). See there for more information.
+This clause alters publication parameters originally set by [CREATE PUBLICATION](create-publication.md). See there for more information.
 
 _`new_owner`_
 

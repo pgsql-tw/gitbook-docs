@@ -62,7 +62,7 @@ The name of the language that the procedure is implemented in. It can be `sql`, 
 
 `TRANSFORM { FOR TYPE`` `_`type_name`_ } \[, ... ] }
 
-Lists which transforms a call to the procedure should apply. Transforms convert between SQL types and language-specific data types; see [CREATE TRANSFORM](https://www.postgresql.org/docs/11/sql-createtransform.html). Procedural language implementations usually have hardcoded knowledge of the built-in types, so those don't need to be listed here. If a procedural language implementation does not know how to handle a type and no transform is supplied, it will fall back to a default behavior for converting data types, but this depends on the implementation.
+Lists which transforms a call to the procedure should apply. Transforms convert between SQL types and language-specific data types; see [CREATE TRANSFORM](create-transform.md). Procedural language implementations usually have hardcoded knowledge of the built-in types, so those don't need to be listed here. If a procedural language implementation does not know how to handle a type and no transform is supplied, it will fall back to a default behavior for converting data types, but this depends on the implementation.
 
 `[EXTERNAL] SECURITY INVOKER`\
 `[EXTERNAL] SECURITY DEFINER`
@@ -82,25 +82,25 @@ If a `SET` clause is attached to a procedure, then the effects of a `SET LOCAL` 
 
 If a `SET` clause is attached to a procedure, then that procedure cannot execute transaction control statements (for example, `COMMIT` and `ROLLBACK`, depending on the language).
 
-See [SET](https://www.postgresql.org/docs/11/sql-set.html) and [Chapter 19](https://www.postgresql.org/docs/11/runtime-config.html) for more information about allowed parameter names and values.
+See [SET](set.md) and [Chapter 19](../../server-administration/server-configuration/README.md) for more information about allowed parameter names and values.
 
 _`definition`_
 
 A string constant defining the procedure; the meaning depends on the language. It can be an internal procedure name, the path to an object file, an SQL command, or text in a procedural language.
 
-It is often helpful to use dollar quoting (see [Section 4.1.2.4](https://www.postgresql.org/docs/11/sql-syntax-lexical.html#SQL-SYNTAX-DOLLAR-QUOTING)) to write the procedure definition string, rather than the normal single quote syntax. Without dollar quoting, any single quotes or backslashes in the procedure definition must be escaped by doubling them.
+It is often helpful to use dollar quoting (see [Section 4.1.2.4](../../the-sql-language/sql-syntax/lexical-structure.md#SQL-SYNTAX-DOLLAR-QUOTING)) to write the procedure definition string, rather than the normal single quote syntax. Without dollar quoting, any single quotes or backslashes in the procedure definition must be escaped by doubling them.
 
 _`obj_file`_, _`link_symbol`_
 
-This form of the `AS` clause is used for dynamically loadable C language procedures when the procedure name in the C language source code is not the same as the name of the SQL procedure. The string _`obj_file`_ is the name of the shared library file containing the compiled C procedure, and is interpreted as for the [LOAD](https://www.postgresql.org/docs/11/sql-load.html) command. The string _`link_symbol`_ is the procedure's link symbol, that is, the name of the procedure in the C language source code. If the link symbol is omitted, it is assumed to be the same as the name of the SQL procedure being defined.
+This form of the `AS` clause is used for dynamically loadable C language procedures when the procedure name in the C language source code is not the same as the name of the SQL procedure. The string _`obj_file`_ is the name of the shared library file containing the compiled C procedure, and is interpreted as for the [LOAD](load.md) command. The string _`link_symbol`_ is the procedure's link symbol, that is, the name of the procedure in the C language source code. If the link symbol is omitted, it is assumed to be the same as the name of the SQL procedure being defined.
 
 When repeated `CREATE PROCEDURE` calls refer to the same object file, the file is only loaded once per session. To unload and reload the file (perhaps during development), start a new session.
 
 ### Notes
 
-See [CREATE FUNCTION](https://www.postgresql.org/docs/11/sql-createfunction.html) for more details on function creation that also apply to procedures.
+See [CREATE FUNCTION](create-function.md) for more details on function creation that also apply to procedures.
 
-Use [CALL](https://www.postgresql.org/docs/11/sql-call.html) to execute a procedure.
+Use [CALL](call.md) to execute a procedure.
 
 ### Examples
 
@@ -117,8 +117,8 @@ CALL insert_data(1, 2);
 
 ### Compatibility
 
-A `CREATE PROCEDURE` command is defined in the SQL standard. The PostgreSQL version is similar but not fully compatible. For details see also [CREATE FUNCTION](https://www.postgresql.org/docs/11/sql-createfunction.html).
+A `CREATE PROCEDURE` command is defined in the SQL standard. The PostgreSQL version is similar but not fully compatible. For details see also [CREATE FUNCTION](create-function.md).
 
 ### See Also
 
-[ALTER PROCEDURE](https://www.postgresql.org/docs/11/sql-alterprocedure.html), [DROP PROCEDURE](https://www.postgresql.org/docs/11/sql-dropprocedure.html), [CALL](https://www.postgresql.org/docs/11/sql-call.html), [CREATE FUNCTION](https://www.postgresql.org/docs/11/sql-createfunction.html)
+[ALTER PROCEDURE](alter-procedure.md), [DROP PROCEDURE](drop-procedure.md), [CALL](call.md), [CREATE FUNCTION](create-function.md)

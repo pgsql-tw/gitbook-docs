@@ -42,7 +42,7 @@ search\_path 的內容必須是逗號分隔的 schema 名稱列表。任何非�
 
 #### `default_toast_compression` (`enum`)
 
-This variable sets the default [TOAST](https://www.postgresql.org/docs/14/storage-toast.html) compression method for values of compressible columns. (This can be overridden for individual columns by setting the `COMPRESSION` column option in `CREATE TABLE` or `ALTER TABLE`.) The supported compression methods are `pglz` and (if PostgreSQL was compiled with `--with-lz4`) `lz4`. The default is `pglz`.
+This variable sets the default [TOAST](../../internals/database-physical-storage/toast.md) compression method for values of compressible columns. (This can be overridden for individual columns by setting the `COMPRESSION` column option in `CREATE TABLE` or `ALTER TABLE`.) The supported compression methods are `pglz` and (if PostgreSQL was compiled with `--with-lz4`) `lz4`. The default is `pglz`.
 
 #### `temp_tablespaces`(`string`)
 

@@ -35,13 +35,13 @@ The `NULL` keyword is case-insensitive. Double-quote the `NULL` to treat it as t
 
 #### Note
 
-Keep in mind that the `hstore` text format, when used for input, applies _before_ any required quoting or escaping. If you are passing an `hstore` literal via a parameter, then no additional processing is needed. But if you're passing it as a quoted literal constant, then any single-quote characters and (depending on the setting of the `standard_conforming_strings` configuration parameter) backslash characters need to be escaped correctly. See [Section 4.1.2.1](https://www.postgresql.org/docs/14/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS) for more on the handling of string constants.
+Keep in mind that the `hstore` text format, when used for input, applies _before_ any required quoting or escaping. If you are passing an `hstore` literal via a parameter, then no additional processing is needed. But if you're passing it as a quoted literal constant, then any single-quote characters and (depending on the setting of the `standard_conforming_strings` configuration parameter) backslash characters need to be escaped correctly. See [Section 4.1.2.1](../../the-sql-language/sql-syntax/lexical-structure.md#SQL-SYNTAX-STRINGS) for more on the handling of string constants.
 
 On output, double quotes always surround keys and values, even when it's not strictly necessary.
 
 ## F.18.2. `hstore` Operators and Functions
 
-The operators provided by the `hstore` module are shown in [Table F.7](https://www.postgresql.org/docs/14/hstore.html#HSTORE-OP-TABLE), the functions in [Table F.8](https://www.postgresql.org/docs/14/hstore.html#HSTORE-FUNC-TABLE).
+The operators provided by the `hstore` module are shown in [Table F.7](hstore.md#HSTORE-OP-TABLE), the functions in [Table F.8](hstore.md#HSTORE-FUNC-TABLE).
 
 #### **Table F.7. `hstore` Operators**
 
@@ -258,7 +258,7 @@ The `ALTER TABLE` method requires an `ACCESS EXCLUSIVE` lock on the table, but d
 
 ## F.18.7. Transforms
 
-Additional extensions are available that implement transforms for the `hstore` type for the languages PL/Perl and PL/Python. The extensions for PL/Perl are called `hstore_plperl` and `hstore_plperlu`, for trusted and untrusted PL/Perl. If you install these transforms and specify them when creating a function, `hstore` values are mapped to Perl hashes. The extensions for PL/Python are called `hstore_plpythonu`, `hstore_plpython2u`, and `hstore_plpython3u` (see [Section 46.1](https://www.postgresql.org/docs/14/plpython-python23.html) for the PL/Python naming convention). If you use them, `hstore` values are mapped to Python dictionaries.
+Additional extensions are available that implement transforms for the `hstore` type for the languages PL/Perl and PL/Python. The extensions for PL/Perl are called `hstore_plperl` and `hstore_plperlu`, for trusted and untrusted PL/Perl. If you install these transforms and specify them when creating a function, `hstore` values are mapped to Perl hashes. The extensions for PL/Python are called `hstore_plpythonu`, `hstore_plpython2u`, and `hstore_plpython3u` (see [Section 46.1](../../server-programming/pl-python-python-procedural-language-1/python-2-vs.-python-3.md) for the PL/Python naming convention). If you use them, `hstore` values are mapped to Python dictionaries.
 
 #### Caution
 

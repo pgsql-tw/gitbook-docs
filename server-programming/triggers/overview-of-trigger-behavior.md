@@ -8,7 +8,7 @@ On views, triggers can be defined to execute instead of `INSERT`, `UPDATE`, or `
 
 The trigger function must be defined before the trigger itself can be created. The trigger function must be declared as a function taking no arguments and returning type `trigger`. (The trigger function receives its input through a specially-passed `TriggerData` structure, not in the form of ordinary function arguments.)
 
-Once a suitable trigger function has been created, the trigger is established with [CREATE TRIGGER](https://www.postgresql.org/docs/13/sql-createtrigger.html). The same trigger function can be used for multiple triggers.
+Once a suitable trigger function has been created, the trigger is established with [CREATE TRIGGER](../../reference/sql-commands/create-trigger.md). The same trigger function can be used for multiple triggers.
 
 PostgreSQL offers both _per-row_ triggers and _per-statement_ triggers. With a per-row trigger, the trigger function is invoked once for each row that is affected by the statement that fired the trigger. In contrast, a per-statement trigger is invoked only once when an appropriate statement is executed, regardless of the number of rows affected by that statement. In particular, a statement that affects zero rows will still result in the execution of any applicable per-statement triggers. These two types of triggers are sometimes called _row-level_ triggers and _statement-level_ triggers, respectively. Triggers on `TRUNCATE` may only be defined at statement level, not per-row.
 

@@ -49,4 +49,4 @@ In most cases, `SPI_keepplan` is preferred to this function, since it accomplish
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-saveplan.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-saveplan.md)（英文原文，待翻譯）

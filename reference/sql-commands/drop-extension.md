@@ -26,7 +26,7 @@ The name of an installed extension.
 
 `CASCADE`
 
-Automatically drop objects that depend on the extension, and in turn all objects that depend on those objects (see [Section 5.13](https://www.postgresql.org/docs/11/ddl-depend.html)).
+Automatically drop objects that depend on the extension, and in turn all objects that depend on those objects (see [Section 5.13](../../the-sql-language/ddl/dependency-tracking.md)).
 
 `RESTRICT`
 

@@ -49,7 +49,7 @@ In SQL:2006 and later, both directions of conversion between standard SQL data t
 
 When PostgreSQL maps SQL data values to XML (as in `xmlelement`), or XML to SQL (as in the output columns of `xmltable`), except for a few cases treated specially, PostgreSQL simply assumes that the XML data type's XPath 1.0 string form will be valid as the text-input form of the SQL datatype, and conversely. This rule has the virtue of simplicity while producing, for many data types, results similar to the mappings specified in the standard.
 
-Where interoperability with other systems is a concern, for some data types, it may be necessary to use data type formatting functions (such as those in [Section 9.8](https://www.postgresql.org/docs/current/functions-formatting.html)) explicitly to produce the standard mappings.
+Where interoperability with other systems is a concern, for some data types, it may be necessary to use data type formatting functions (such as those in [Section 9.8](../../the-sql-language/functions-and-operators/data-type-formatting-functions.md)) explicitly to produce the standard mappings.
 
 ## D.3.2. Incidental Limits of the Implementation
 

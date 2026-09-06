@@ -65,7 +65,7 @@ The name (optionally schema-qualified) of the source table, view, or transition 
 
 _`source_query`_
 
-A query (`SELECT` statement or `VALUES` statement) that supplies the rows to be merged into the _`target_table_name`_. Refer to the [SELECT](https://www.postgresql.org/docs/15/sql-select.html) statement or [VALUES](https://www.postgresql.org/docs/15/sql-values.html) statement for a description of the syntax.
+A query (`SELECT` statement or `VALUES` statement) that supplies the rows to be merged into the _`target_table_name`_. Refer to the [SELECT](select.md) statement or [VALUES](values.md) statement for a description of the syntax.
 
 _`source_alias`_
 
@@ -113,7 +113,7 @@ Neither a table name nor a `WHERE` clause are allowed.
 
 _`merge_delete`_
 
-Specifies a `DELETE` action that deletes the current row of the _`target_table_name`_. Do not include the table name or any other clauses, as you would normally do with a [DELETE](https://www.postgresql.org/docs/15/sql-delete.html) command.
+Specifies a `DELETE` action that deletes the current row of the _`target_table_name`_. Do not include the table name or any other clauses, as you would normally do with a [DELETE](delete.md) command.
 
 _`column_name`_
 
@@ -141,7 +141,7 @@ Set the column to its default value (which will be `NULL` if no specific default
 
 _`with_query`_
 
-The `WITH` clause allows you to specify one or more subqueries that can be referenced by name in the `MERGE` query. See [Section 7.8](https://www.postgresql.org/docs/15/queries-with.html) and [SELECT](https://www.postgresql.org/docs/15/sql-select.html) for details.
+The `WITH` clause allows you to specify one or more subqueries that can be referenced by name in the `MERGE` query. See [Section 7.8](../../the-sql-language/queries/with-queries.md) and [SELECT](select.md) for details.
 
 ### Outputs
 
@@ -177,7 +177,7 @@ The order in which rows are generated from the data source is indeterminate by d
 
 There is no `RETURNING` clause with `MERGE`. Actions of `INSERT`, `UPDATE` and `DELETE` cannot contain `RETURNING` or `WITH` clauses.
 
-When `MERGE` is run concurrently with other commands that modify the target table, the usual transaction isolation rules apply; see [Section 13.2](https://www.postgresql.org/docs/15/transaction-iso.html) for an explanation on the behavior at each isolation level. You may also wish to consider using `INSERT ... ON CONFLICT` as an alternative statement which offers the ability to run an `UPDATE` if a concurrent `INSERT` occurs. There are a variety of differences and restrictions between the two statement types and they are not interchangeable.
+When `MERGE` is run concurrently with other commands that modify the target table, the usual transaction isolation rules apply; see [Section 13.2](../../the-sql-language/concurrency-control/transaction-isolation.md) for an explanation on the behavior at each isolation level. You may also wish to consider using `INSERT ... ON CONFLICT` as an alternative statement which offers the ability to run an `UPDATE` if a concurrent `INSERT` occurs. There are a variety of differences and restrictions between the two statement types and they are not interchangeable.
 
 ### 範例
 

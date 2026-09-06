@@ -46,4 +46,4 @@ The catalog `pg_foreign_table` contains auxiliary information about foreign tabl
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-foreign-table.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_foreign_table.md)（英文原文，待翻譯）

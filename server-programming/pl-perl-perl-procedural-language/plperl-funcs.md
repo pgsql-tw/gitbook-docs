@@ -33,7 +33,7 @@ An anonymous code block receives no arguments, and whatever value it might retur
 
 The use of named nested subroutines is dangerous in Perl, especially if they refer to lexical variables in the enclosing scope. Because a PL/Perl function is wrapped in a subroutine, any named subroutine you place inside one will be nested. In general, it is far safer to create anonymous subroutines which you call via a coderef. For more information, see the entries for `Variable "%s" will not stay shared` and `Variable "%s" is not available` in the perldiag man page, or search the Internet for “perl nested named subroutine”.
 
-The syntax of the `CREATE FUNCTION` command requires the function body to be written as a string constant. It is usually most convenient to use dollar quoting (see [Section 4.1.2.4](https://www.postgresql.org/docs/15/sql-syntax-lexical.html#SQL-SYNTAX-DOLLAR-QUOTING)) for the string constant. If you choose to use escape string syntax `E''`, you must double any single quote marks (`'`) and backslashes (`\`) used in the body of the function (see [Section 4.1.2.1](https://www.postgresql.org/docs/15/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS)).
+The syntax of the `CREATE FUNCTION` command requires the function body to be written as a string constant. It is usually most convenient to use dollar quoting (see [Section 4.1.2.4](../../the-sql-language/sql-syntax/lexical-structure.md#SQL-SYNTAX-DOLLAR-QUOTING)) for the string constant. If you choose to use escape string syntax `E''`, you must double any single quote marks (`'`) and backslashes (`\`) used in the body of the function (see [Section 4.1.2.1](../../the-sql-language/sql-syntax/lexical-structure.md#SQL-SYNTAX-STRINGS)).
 
 Arguments and results are handled as in any other Perl subroutine: arguments are passed in `@_`, and a result value is returned with `return` or as the last expression evaluated in the function.
 
@@ -237,4 +237,4 @@ The `feature` pragma is also available to `use` if your Perl is version 5.10.0 o
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/plperl-funcs.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](plperl-funcs.md)（英文原文，待翻譯）

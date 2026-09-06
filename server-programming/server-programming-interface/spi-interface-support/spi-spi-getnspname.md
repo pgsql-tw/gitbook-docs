@@ -33,4 +33,4 @@ The name of the specified relation's namespace.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-getnspname.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-getnspname.md)（英文原文，待翻譯）

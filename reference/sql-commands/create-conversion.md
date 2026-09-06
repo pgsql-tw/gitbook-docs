@@ -97,4 +97,4 @@ CREATE CONVERSION myconv FOR 'UTF8' TO 'LATIN1' FROM myfunc;
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-createconversion.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](create-conversion.md)（英文原文，待翻譯）

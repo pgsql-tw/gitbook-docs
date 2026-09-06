@@ -95,4 +95,4 @@ There is no `ALTER TEXT SEARCH CONFIGURATION` statement in the SQL standard.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-altertsconfig.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](alter-text-search-configuration.md)（英文原文，待翻譯）

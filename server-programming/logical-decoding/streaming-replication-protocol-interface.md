@@ -6,6 +6,6 @@ The commands
 * `DROP_REPLICATION_SLOT`` `_`slot_name`_ \[ `WAIT` ]
 * `START_REPLICATION SLOT`` `_`slot_name`_ LOGICAL ...
 
-are used to create, drop, and stream changes from a replication slot, respectively. These commands are only available over a replication connection; they cannot be used via SQL. See [Section 52.4](https://www.postgresql.org/docs/13/protocol-replication.html) for details on these commands.
+are used to create, drop, and stream changes from a replication slot, respectively. These commands are only available over a replication connection; they cannot be used via SQL. See [Section 52.4](../../internals/52.-frontend-backend-protocol/streaming-replication-protocol.md) for details on these commands.
 
-The command [pg\_recvlogical](https://www.postgresql.org/docs/13/app-pgrecvlogical.html) can be used to control logical decoding over a streaming replication connection. (It uses these commands internally.)
+The command [pg\_recvlogical](../../reference/client-applications/pg_recvlogical.md) can be used to control logical decoding over a streaming replication connection. (It uses these commands internally.)

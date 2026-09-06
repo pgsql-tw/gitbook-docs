@@ -15,7 +15,7 @@ pg\_isready is a utility for checking the connection status of a PostgreSQL data
 `-d`` `_`dbname`_\
 `--dbname=`_`dbname`_
 
-Specifies the name of the database to connect to. The _`dbname`_ can be a [connection string](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNSTRING). If so, connection string parameters will override any conflicting command line options.
+Specifies the name of the database to connect to. The _`dbname`_ can be a [connection string](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING). If so, connection string parameters will override any conflicting command line options.
 
 `-h`` `_`hostname`_\
 `--host=`_`hostname`_
@@ -58,7 +58,7 @@ pg\_isready returns `0` to the shell if the server is accepting connections norm
 
 ### Environment
 
-`pg_isready`, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](https://www.postgresql.org/docs/13/libpq-envars.html)).
+`pg_isready`, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](../../client-interfaces/libpq-c-library/environment-variables.md)).
 
 The environment variable `PG_COLOR` specifies whether to use color in diagnostic messages. Possible values are `always`, `auto` and `never`.
 

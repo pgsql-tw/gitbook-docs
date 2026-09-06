@@ -165,7 +165,7 @@ Values are stored internally as 64-bit floating point numbers. This means that n
 
 
 
-In addition to the above operators, the usual comparison operators shown in [Table 9.1](https://www.postgresql.org/docs/15/functions-comparison.html#FUNCTIONS-COMPARISON-OP-TABLE) are available for type `cube`. These operators first compare the first coordinates, and if those are equal, compare the second coordinates, etc. They exist mainly to support the b-tree index operator class for `cube`, which can be useful for example if you would like a UNIQUE constraint on a `cube` column. Otherwise, this ordering is not of much practical use.
+In addition to the above operators, the usual comparison operators shown in [Table 9.1](../../the-sql-language/functions-and-operators/comparison-functions-and-operators.md#FUNCTIONS-COMPARISON-OP-TABLE) are available for type `cube`. These operators first compare the first coordinates, and if those are equal, compare the second coordinates, etc. They exist mainly to support the b-tree index operator class for `cube`, which can be useful for example if you would like a UNIQUE constraint on a `cube` column. Otherwise, this ordering is not of much practical use.
 
 The `cube` module also provides a GiST index operator class for `cube` values. A `cube` GiST index can be used to search for values using the `=`, `&&`, `@>`, and `<@` operators in `WHERE` clauses.
 
@@ -386,4 +386,4 @@ Additional updates were made by Joshua Reich <code class="email">&lt;<a class="e
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/cube.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](cube.md)（英文原文，待翻譯）

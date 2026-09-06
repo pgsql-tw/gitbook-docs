@@ -8,4 +8,4 @@ If this behavior is inconvenient for a particular case, it can be improved by us
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/plperl-data.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](plperl-data.md)（英文原文，待翻譯）

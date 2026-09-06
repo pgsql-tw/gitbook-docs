@@ -73,4 +73,4 @@ This callback is called while converting a path parameterized by the top-most pa
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/custom-scan-path.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](custom-scan-path.md)（英文原文，待翻譯）

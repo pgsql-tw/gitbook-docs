@@ -50,4 +50,4 @@ Unlike most system catalogs, `pg_shdescription` is shared across all databases o
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-shdescription.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_shdescription.md)（英文原文，待翻譯）

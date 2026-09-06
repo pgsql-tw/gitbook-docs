@@ -106,7 +106,7 @@ COMMUTATOR = OPERATOR(myschema.===) ,
 
 Refer to [Section 38.14](../../server-programming/extending-sql/user-defined-operators.md) for further information.
 
-It is not possible to specify an operator's lexical precedence in `CREATE OPERATOR`, because the parser's precedence behavior is hard-wired. See [Section 4.1.6](https://www.postgresql.org/docs/15/sql-syntax-lexical.html#SQL-PRECEDENCE) for precedence details.
+It is not possible to specify an operator's lexical precedence in `CREATE OPERATOR`, because the parser's precedence behavior is hard-wired. See [Section 4.1.6](../../the-sql-language/sql-syntax/lexical-structure.md#SQL-PRECEDENCE) for precedence details.
 
 The obsolete options `SORT1`, `SORT2`, `LTCMP`, and `GTCMP` were formerly used to specify the names of sort operators associated with a merge-joinable operator. This is no longer necessary, since information about associated operators is found by looking at B-tree operator families instead. If one of these options is given, it is ignored except for implicitly setting `MERGES` true.
 
@@ -146,4 +146,4 @@ CREATE OPERATOR === (
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-createoperator.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](create-operator.md)（英文原文，待翻譯）

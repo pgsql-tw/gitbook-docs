@@ -92,4 +92,4 @@ There is no `ALTER OPERATOR` statement in the SQL standard.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-alteroperator.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](alter-operator.md)（英文原文，待翻譯）

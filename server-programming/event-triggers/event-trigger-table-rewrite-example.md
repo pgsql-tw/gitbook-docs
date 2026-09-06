@@ -51,4 +51,4 @@ CREATE EVENT TRIGGER no_rewrite_allowed
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/event-trigger-table-rewrite-example.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](event-trigger-table-rewrite-example.md)（英文原文，待翻譯）

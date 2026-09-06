@@ -118,4 +118,4 @@ The catalog `pg_operator` stores information about operators. See [CREATE OPERAT
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-operator.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_operator.md)（英文原文，待翻譯）

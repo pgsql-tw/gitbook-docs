@@ -86,4 +86,4 @@ SELECT right, count(right) FROM
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/intagg.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](intagg.md)（英文原文，待翻譯）

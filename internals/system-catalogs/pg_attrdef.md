@@ -52,4 +52,4 @@ The catalog `pg_attrdef` stores column default values. The main information abou
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-attrdef.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_attrdef.md)（英文原文，待翻譯）

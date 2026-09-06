@@ -50,4 +50,4 @@ EXEC SQL ALLOCATE DESCRIPTOR mydesc;
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/ecpg-sql-allocate-descriptor.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](ecpg-sql-allocate-descriptor.md)（英文原文，待翻譯）

@@ -2,7 +2,7 @@
 
 PostgreSQL provides these helper functions to retrieve information from event triggers.
 
-For more information about event triggers, see [Chapter 39](https://www.postgresql.org/docs/13/event-triggers.html).
+For more information about event triggers, see [Chapter 39](../../server-programming/event-triggers/README.md).
 
 ## 9.29.1. Capturing Changes at Command End
 
@@ -73,7 +73,7 @@ CREATE EVENT TRIGGER test_event_trigger_for_drops
 
 ## 9.29.3. Handling a Table Rewrite Event
 
-The functions shown in [Table 9.98](https://www.postgresql.org/docs/13/functions-event-triggers.html#FUNCTIONS-EVENT-TRIGGER-TABLE-REWRITE) provide information about a table for which a `table_rewrite` event has just been called. If called in any other context, an error is raised.
+The functions shown in [Table 9.98](event-trigger-functions.md#FUNCTIONS-EVENT-TRIGGER-TABLE-REWRITE) provide information about a table for which a `table_rewrite` event has just been called. If called in any other context, an error is raised.
 
 #### **Table 9.98. Table Rewrite Information Functions**
 

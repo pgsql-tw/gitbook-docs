@@ -351,4 +351,4 @@ Also, if you are upgrading from a version earlier than 15.14, see [Section E.6]
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/release-15-19.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](release-15-19.md)（英文原文，待翻譯）

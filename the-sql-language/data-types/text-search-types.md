@@ -1,10 +1,10 @@
 # 8.11. 全文檢索型別
 
-PostgreSQL provides two data types that are designed to support full text search, which is the activity of searching through a collection of natural-language _documents_ to locate those that best match a _query_. The `tsvector` type represents a document in a form optimized for text search; the `tsquery` type similarly represents a text query. [Chapter 12](https://www.postgresql.org/docs/12/textsearch.html) provides a detailed explanation of this facility, and [Section 9.13](https://www.postgresql.org/docs/12/functions-textsearch.html) summarizes the related functions and operators.
+PostgreSQL provides two data types that are designed to support full text search, which is the activity of searching through a collection of natural-language _documents_ to locate those that best match a _query_. The `tsvector` type represents a document in a form optimized for text search; the `tsquery` type similarly represents a text query. [Chapter 12](../12.-quan-wen-jian-suo/README.md) provides a detailed explanation of this facility, and [Section 9.13](../functions-and-operators/text-search-functions-and-operators.md) summarizes the related functions and operators.
 
 ## 8.11.1. `tsvector`
 
-A `tsvector` value is a sorted list of distinct _lexemes_, which are words that have been _normalized_ to merge different variants of the same word (see [Chapter 12](https://www.postgresql.org/docs/12/textsearch.html) for details). Sorting and duplicate-elimination are done automatically during input, as shown in this example:
+A `tsvector` value is a sorted list of distinct _lexemes_, which are words that have been _normalized_ to merge different variants of the same word (see [Chapter 12](../12.-quan-wen-jian-suo/README.md) for details). Sorting and duplicate-elimination are done automatically during input, as shown in this example:
 
 ```
 SELECT 'a fat cat sat on a mat and ate a fat rat'::tsvector;
@@ -71,7 +71,7 @@ SELECT to_tsvector('english', 'The Fat Rats');
  'fat':2 'rat':3
 ```
 
-Again, see [Chapter 12](https://www.postgresql.org/docs/12/textsearch.html) for more detail.
+Again, see [Chapter 12](../12.-quan-wen-jian-suo/README.md) for more detail.
 
 ## 8.11.2. `tsquery`
 

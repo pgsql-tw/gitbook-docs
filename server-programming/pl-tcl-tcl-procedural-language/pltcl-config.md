@@ -24,4 +24,4 @@ This parameter is exactly like `pltcl.start_proc`, except that it applies to PL/
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pltcl-config.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pltcl-config.md)（英文原文，待翻譯）

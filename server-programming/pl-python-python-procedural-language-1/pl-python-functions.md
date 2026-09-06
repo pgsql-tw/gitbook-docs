@@ -1,6 +1,6 @@
 # 46.1. PL/Python Functions
 
-Functions in PL/Python are declared via the standard [CREATE FUNCTION](https://www.postgresql.org/docs/15/sql-createfunction.html) syntax:
+Functions in PL/Python are declared via the standard [CREATE FUNCTION](../../reference/sql-commands/create-function.md) syntax:
 
 ```
 CREATE FUNCTION funcname (argument-list)

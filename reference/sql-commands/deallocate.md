@@ -12,7 +12,7 @@ DEALLOCATE [ PREPARE ] { name | ALL }
 
 `DEALLOCATE` is used to deallocate a previously prepared SQL statement. If you do not explicitly deallocate a prepared statement, it is deallocated when the session ends.
 
-For more information on prepared statements, see [PREPARE](https://www.postgresql.org/docs/13/sql-prepare.html).
+For more information on prepared statements, see [PREPARE](prepare.md).
 
 ### Parameters
 
@@ -34,4 +34,4 @@ The SQL standard includes a `DEALLOCATE` statement, but it is only for use in em
 
 ### See Also
 
-[EXECUTE](https://www.postgresql.org/docs/13/sql-execute.html), [PREPARE](https://www.postgresql.org/docs/13/sql-prepare.html)
+[EXECUTE](execute.md), [PREPARE](prepare.md)

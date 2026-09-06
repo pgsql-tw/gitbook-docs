@@ -116,4 +116,4 @@ This command conforms to the SQL standard, with these PostgreSQL extensions:
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-dropprocedure.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](drop-procedure.md)（英文原文，待翻譯）

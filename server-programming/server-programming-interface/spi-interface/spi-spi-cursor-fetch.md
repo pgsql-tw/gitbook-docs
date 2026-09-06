@@ -47,4 +47,4 @@ Fetching backward may fail if the cursor's plan was not created with the `CURSOR
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-cursor-fetch.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-cursor-fetch.md)（英文原文，待翻譯）

@@ -23,7 +23,7 @@ PostgreSQL 格式化函數提供了一套功能強大的工具，用於將各種
 
 在 to\_char 輸出樣版字串中，基於給予值識別並替換為某些格式資料的某些樣式。 非樣板的任何文字都將被逐字複製。同樣地，在輸入樣板字串（用於其他功能）中，樣板標識輸入資料字串要提供的值。如果樣板字串中存在不是樣板的字串，則只需跳過輸入資料字串中的相對應字元（無論它們是否等於樣板字串字元）。
 
-[Table 9.25](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-DATETIME-TABLE) shows the template patterns available for formatting date and time values.
+[Table 9.25](data-type-formatting-functions.md#FUNCTIONS-FORMATTING-DATETIME-TABLE) shows the template patterns available for formatting date and time values.
 
 #### **Table 9.25. Template Patterns for Date/Time Formatting**
 
@@ -82,7 +82,7 @@ PostgreSQL 格式化函數提供了一套功能強大的工具，用於將各種
 | `TZM`                            | time-zone minutes                                                                                |
 | `OF`                             | time-zone offset from UTC (only supported in `to_char`)                                          |
 
-Modifiers can be applied to any template pattern to alter its behavior. For example, `FMMonth` is the `Month` pattern with the `FM` modifier. [Table 9.26](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-DATETIMEMOD-TABLE) shows the modifier patterns for date/time formatting.
+Modifiers can be applied to any template pattern to alter its behavior. For example, `FMMonth` is the `Month` pattern with the `FM` modifier. [Table 9.26](data-type-formatting-functions.md#FUNCTIONS-FORMATTING-DATETIMEMOD-TABLE) shows the modifier patterns for date/time formatting.
 
 #### **Table 9.26. Template Pattern Modifiers for Date/Time Formatting**
 
@@ -92,7 +92,7 @@ Modifiers can be applied to any template pattern to alter its behavior. For exam
 | `TH` suffix | upper case ordinal number suffix                                                                                                                      | `DDTH`, e.g., `12TH` |
 | `th` suffix | lower case ordinal number suffix                                                                                                                      | `DDth`, e.g., `12th` |
 | `FX` prefix | fixed format global option (see usage notes)                                                                                                          | `FX Month DD Day`    |
-| `TM` prefix | translation mode (print localized day and month names based on [lc\_time](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-LC-TIME)) | `TMMonth`            |
+| `TM` prefix | translation mode (print localized day and month names based on [lc\_time](../../server-administration/server-configuration/client-connection-defaults.md#GUC-LC-TIME)) | `TMMonth`            |
 | `SP` suffix | spell mode (not implemented)                                                                                                                          | `DDSP`               |
 
 Usage notes for date/time formatting:
@@ -123,14 +123,14 @@ Usage notes for date/time formatting:
 
     **Caution**
 
-    While `to_date` will reject a mixture of Gregorian and ISO week-numbering date fields, `to_char` will not, since output format specifications like `YYYY-MM-DD (IYYY-IDDD)` can be useful. But avoid writing something like `IYYY-MM-DD`; that would yield surprising results near the start of the year. (See [Section 9.9.1](https://www.postgresql.org/docs/12/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT) for more information.)
+    While `to_date` will reject a mixture of Gregorian and ISO week-numbering date fields, `to_char` will not, since output format specifications like `YYYY-MM-DD (IYYY-IDDD)` can be useful. But avoid writing something like `IYYY-MM-DD`; that would yield surprising results near the start of the year. (See [Section 9.9.1](date-time-functions-and-operators.md#FUNCTIONS-DATETIME-EXTRACT) for more information.)
 *   In `to_timestamp`, millisecond (`MS`) or microsecond (`US`) fields are used as the seconds digits after the decimal point. For example `to_timestamp('12.3', 'SS.MS')` is not 3 milliseconds, but 300, because the conversion treats it as 12 + 0.3 seconds. So, for the format `SS.MS`, the input values `12.3`, `12.30`, and `12.300` specify the same number of milliseconds. To get three milliseconds, one must write `12.003`, which the conversion treats as 12 + 0.003 = 12.003 seconds.
 
     Here is a more complex example: `to_timestamp('15:12:02.020.001230', 'HH24:MI:SS.MS.US')` is 15 hours, 12 minutes, and 2 seconds + 20 milliseconds + 1230 microseconds = 2.021230 seconds.
 * `to_char(..., 'ID')`'s day of the week numbering matches the `extract(isodow from ...)` function, but `to_char(..., 'D')`'s does not match `extract(dow from ...)`'s day numbering.
 * `to_char(interval)` formats `HH` and `HH12` as shown on a 12-hour clock, for example zero hours and 36 hours both output as `12`, while `HH24` outputs the full hour value, which can exceed 23 in an `interval` value.
 
-[Table 9.27](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-NUMERIC-TABLE) shows the template patterns available for formatting numeric values.
+[Table 9.27](data-type-formatting-functions.md#FUNCTIONS-FORMATTING-NUMERIC-TABLE) shows the template patterns available for formatting numeric values.
 
 #### **Table 9.27. Template Patterns for Numeric Formatting**
 
@@ -156,7 +156,7 @@ Usage notes for date/time formatting:
 Usage notes for numeric formatting:
 
 * `0` specifies a digit position that will always be printed, even if it contains a leading/trailing zero. `9` also specifies a digit position, but if it is a leading zero then it will be replaced by a space, while if it is a trailing zero and fill mode is specified then it will be deleted. (For `to_number()`, these two pattern characters are equivalent.)
-* The pattern characters `S`, `L`, `D`, and `G` represent the sign, currency symbol, decimal point, and thousands separator characters defined by the current locale (see [lc\_monetary](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-LC-MONETARY) and [lc\_numeric](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-LC-NUMERIC)). The pattern characters period and comma represent those exact characters, with the meanings of decimal point and thousands separator, regardless of locale.
+* The pattern characters `S`, `L`, `D`, and `G` represent the sign, currency symbol, decimal point, and thousands separator characters defined by the current locale (see [lc\_monetary](../../server-administration/server-configuration/client-connection-defaults.md#GUC-LC-MONETARY) and [lc\_numeric](../../server-administration/server-configuration/client-connection-defaults.md#GUC-LC-NUMERIC)). The pattern characters period and comma represent those exact characters, with the meanings of decimal point and thousands separator, regardless of locale.
 * If no explicit provision is made for a sign in `to_char()`'s pattern, one column will be reserved for the sign, and it will be anchored to (appear just left of) the number. If `S` appears just left of some `9`'s, it will likewise be anchored to the number.
 * A sign formatted using `SG`, `PL`, or `MI` is not anchored to the number; for example, `to_char(-12, 'MI9999')` produces `'- 12'` but `to_char(-12, 'S9999')` produces `' -12'`. (The Oracle implementation does not allow the use of `MI` before `9`, but rather requires that `9` precede `MI`.)
 * `TH` does not convert values less than zero and does not convert fractional numbers.
@@ -165,7 +165,7 @@ Usage notes for numeric formatting:
 * `V` with `to_char` multiplies the input values by `10^`_`n`_, where _`n`_ is the number of digits following `V`. `V` with `to_number` divides in a similar manner. `to_char` and `to_number` do not support the use of `V` combined with a decimal point (e.g., `99.9V99` is not allowed).
 * `EEEE` (scientific notation) cannot be used in combination with any of the other formatting patterns or modifiers other than digit and decimal point patterns, and must be at the end of the format string (e.g., `9.99EEEE` is a valid pattern).
 
-Certain modifiers can be applied to any template pattern to alter its behavior. For example, `FM99.99` is the `99.99` pattern with the `FM` modifier. [Table 9.28](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-NUMERICMOD-TABLE) shows the modifier patterns for numeric formatting.
+Certain modifiers can be applied to any template pattern to alter its behavior. For example, `FM99.99` is the `99.99` pattern with the `FM` modifier. [Table 9.28](data-type-formatting-functions.md#FUNCTIONS-FORMATTING-NUMERICMOD-TABLE) shows the modifier patterns for numeric formatting.
 
 #### **Table 9.28. Template Pattern Modifiers for Numeric Formatting**
 
@@ -175,7 +175,7 @@ Certain modifiers can be applied to any template pattern to alter its behavior. 
 | `TH` suffix | upper case ordinal number suffix                        | `999TH`   |
 | `th` suffix | lower case ordinal number suffix                        | `999th`   |
 
-[Table 9.29](https://www.postgresql.org/docs/12/functions-formatting.html#FUNCTIONS-FORMATTING-EXAMPLES-TABLE) shows some examples of the use of the `to_char` function.
+[Table 9.29](data-type-formatting-functions.md#FUNCTIONS-FORMATTING-EXAMPLES-TABLE) shows some examples of the use of the `to_char` function.
 
 #### **Table 9.29. `to_char` Examples**
 

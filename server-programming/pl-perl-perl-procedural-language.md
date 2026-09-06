@@ -12,4 +12,4 @@ If a language is installed into `template1`, all subsequently created databases 
 
 #### Note
 
-Users of source packages must specially enable the build of PL/Perl during the installation process. (Refer to [Chapter 16](https://www.postgresql.org/docs/13/installation.html) for more information.) Users of binary packages might find PL/Perl in a separate subpackage.
+Users of source packages must specially enable the build of PL/Perl during the installation process. (Refer to [Chapter 16](../server-administration/installation-from-source-code/README.md) for more information.) Users of binary packages might find PL/Perl in a separate subpackage.

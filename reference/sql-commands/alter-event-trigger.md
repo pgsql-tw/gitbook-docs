@@ -40,7 +40,7 @@ The new name of the event trigger.
 
 `DISABLE`/`ENABLE [ REPLICA | ALWAYS ]`
 
-These forms configure the firing of event triggers. A disabled trigger is still known to the system, but is not executed when its triggering event occurs. See also [session_replication_role](https://www.postgresql.org/docs/15/runtime-config-client.html#GUC-SESSION-REPLICATION-ROLE).
+These forms configure the firing of event triggers. A disabled trigger is still known to the system, but is not executed when its triggering event occurs. See also [session_replication_role](../../server-administration/server-configuration/client-connection-defaults.md#GUC-SESSION-REPLICATION-ROLE).
 
 <a id="SQL-ALTERVENTTRIGGER-COMPATIBILITY"></a>
 
@@ -56,4 +56,4 @@ There is no `ALTER EVENT TRIGGER` statement in the SQL standard.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-altereventtrigger.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](alter-event-trigger.md)（英文原文，待翻譯）

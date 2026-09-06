@@ -120,8 +120,8 @@ The view `pg_stats_ext` provides access to information about each extended stati
 
 
 
-The maximum number of entries in the array fields can be controlled on a column-by-column basis using the [`ALTER TABLE SET STATISTICS`](../../reference/sql-commands/alter-table.md) command, or globally by setting the [default_statistics_target](https://www.postgresql.org/docs/15/runtime-config-query.html#GUC-DEFAULT-STATISTICS-TARGET) run-time parameter.
+The maximum number of entries in the array fields can be controlled on a column-by-column basis using the [`ALTER TABLE SET STATISTICS`](../../reference/sql-commands/alter-table.md) command, or globally by setting the [default_statistics_target](../../server-administration/server-configuration/query-planning.md#GUC-DEFAULT-STATISTICS-TARGET) run-time parameter.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/view-pg-stats-ext.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_stats_ext.md)（英文原文，待翻譯）

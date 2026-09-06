@@ -51,7 +51,7 @@ pointer to an array containing the OIDs of the data types of the parameters
 
 If no parameters are defined, a generic plan will be created at the first use of `SPI_execute_plan`, and used for all subsequent executions as well. If there are parameters, the first few uses of `SPI_execute_plan` will generate custom plans that are specific to the supplied parameter values. After enough uses of the same prepared statement, `SPI_execute_plan` will build a generic plan, and if that is not too much more expensive than the custom plans, it will start using the generic plan instead of re-planning each time. If this default behavior is unsuitable, you can alter it by passing the `CURSOR_OPT_GENERIC_PLAN` or `CURSOR_OPT_CUSTOM_PLAN` flag to `SPI_prepare_cursor`, to force use of generic or custom plans respectively.
 
-Although the main point of a prepared statement is to avoid repeated parse analysis and planning of the statement, PostgreSQL will force re-analysis and re-planning of the statement before using it whenever database objects used in the statement have undergone definitional (DDL) changes since the previous use of the prepared statement. Also, if the value of [search_path](https://www.postgresql.org/docs/15/runtime-config-client.html#GUC-SEARCH-PATH) changes from one use to the next, the statement will be re-parsed using the new `search_path`. (This latter behavior is new as of PostgreSQL 9.3.) See [PREPARE](../../../reference/sql-commands/prepare.md) for more information about the behavior of prepared statements.
+Although the main point of a prepared statement is to avoid repeated parse analysis and planning of the statement, PostgreSQL will force re-analysis and re-planning of the statement before using it whenever database objects used in the statement have undergone definitional (DDL) changes since the previous use of the prepared statement. Also, if the value of [search_path](../../../server-administration/server-configuration/client-connection-defaults.md#GUC-SEARCH-PATH) changes from one use to the next, the statement will be re-parsed using the new `search_path`. (This latter behavior is new as of PostgreSQL 9.3.) See [PREPARE](../../../reference/sql-commands/prepare.md) for more information about the behavior of prepared statements.
 
 This function should only be called from a connected C function.
 
@@ -61,4 +61,4 @@ The name `SPIPlanPtr` is somewhat historical, since the data structure no longer
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-prepare.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-prepare.md)（英文原文，待翻譯）

@@ -60,7 +60,7 @@ This constant is a two-dimensional, 3-by-3 array consisting of three subarrays o
 
 To set an element of an array constant to NULL, write `NULL` for the element value. (Any upper- or lower-case variant of `NULL` will do.) If you want an actual string value “NULL”, you must put double quotes around it.
 
-(These kinds of array constants are actually only a special case of the generic type constants discussed in [Section 4.1.2.7](https://www.postgresql.org/docs/12/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS-GENERIC). The constant is initially treated as a string and passed to the array input conversion routine. An explicit type specification might be necessary.)
+(These kinds of array constants are actually only a special case of the generic type constants discussed in [Section 4.1.2.7](../sql-syntax/lexical-structure.md#SQL-SYNTAX-CONSTANTS-GENERIC). The constant is initially treated as a string and passed to the array input conversion routine. An explicit type specification might be necessary.)
 
 Now we can show some `INSERT` statements:
 
@@ -111,7 +111,7 @@ INSERT INTO sal_emp
     ARRAY[['breakfast', 'consulting'], ['meeting', 'lunch']]);
 ```
 
-Notice that the array elements are ordinary SQL constants or expressions; for instance, string literals are single quoted, instead of double quoted as they would be in an array literal. The `ARRAY` constructor syntax is discussed in more detail in [Section 4.2.12](https://www.postgresql.org/docs/12/sql-expressions.html#SQL-SYNTAX-ARRAY-CONSTRUCTORS).
+Notice that the array elements are ordinary SQL constants or expressions; for instance, string literals are single quoted, instead of double quoted as they would be in an array literal. The `ARRAY` constructor syntax is discussed in more detail in [Section 4.2.12](../sql-syntax/value-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS).
 
 ## 8.15.3. Accessing Arrays
 
@@ -395,7 +395,7 @@ SELECT * FROM sal_emp WHERE pay_by_quarter[1] = 10000 OR
                             pay_by_quarter[4] = 10000;
 ```
 
-However, this quickly becomes tedious for large arrays, and is not helpful if the size of the array is unknown. An alternative method is described in [Section 9.23](https://www.postgresql.org/docs/12/functions-comparisons.html). The above query could be replaced by:
+However, this quickly becomes tedious for large arrays, and is not helpful if the size of the array is unknown. An alternative method is described in [Section 9.23](../functions-and-operators/row-and-array-comparisons.md). The above query could be replaced by:
 
 ```
 SELECT * FROM sal_emp WHERE 10000 = ANY (pay_by_quarter);
@@ -417,7 +417,7 @@ SELECT * FROM
  WHERE pay_by_quarter[s] = 10000;
 ```
 
-This function is described in [Table 9.62](https://www.postgresql.org/docs/12/functions-srf.html#FUNCTIONS-SRF-SUBSCRIPTS).
+This function is described in [Table 9.62](../functions-and-operators/set-returning-functions.md#FUNCTIONS-SRF-SUBSCRIPTS).
 
 You can also search an array using the `&&` operator, which checks whether the left operand overlaps with the right operand. For instance:
 
@@ -425,7 +425,7 @@ You can also search an array using the `&&` operator, which checks whether the l
 SELECT * FROM sal_emp WHERE pay_by_quarter && ARRAY[10000];
 ```
 
-This and other array operators are further described in [Section 9.18](https://www.postgresql.org/docs/12/functions-array.html). It can be accelerated by an appropriate index, as described in [Section 11.2](https://www.postgresql.org/docs/12/indexes-types.html).
+This and other array operators are further described in [Section 9.18](../functions-and-operators/array-functions-and-operators.md). It can be accelerated by an appropriate index, as described in [Section 11.2](../index/index-types.md).
 
 You can also search for specific values in an array using the `array_position` and `array_positions` functions. The former returns the subscript of the first occurrence of a value in an array; the latter returns an array with the subscripts of all occurrences of the value in the array. For example:
 
@@ -465,7 +465,7 @@ SELECT f1[1][-2][3] AS e1, f1[1][-1][5] AS e2
 
 The array output routine will include explicit dimensions in its result only when there are one or more lower bounds different from one.
 
-If the value written for an element is `NULL` (in any case variant), the element is taken to be NULL. The presence of any quotes or backslashes disables this and allows the literal string value “NULL” to be entered. Also, for backward compatibility with pre-8.2 versions of PostgreSQL, the [array\_nulls](https://www.postgresql.org/docs/12/runtime-config-compatible.html#GUC-ARRAY-NULLS) configuration parameter can be turned `off` to suppress recognition of `NULL` as a NULL.
+If the value written for an element is `NULL` (in any case variant), the element is taken to be NULL. The presence of any quotes or backslashes disables this and allows the literal string value “NULL” to be entered. Also, for backward compatibility with pre-8.2 versions of PostgreSQL, the [array\_nulls](../../server-administration/server-configuration/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md#GUC-ARRAY-NULLS) configuration parameter can be turned `off` to suppress recognition of `NULL` as a NULL.
 
 As shown previously, when writing an array value you can use double quotes around any individual array element. You _must_ do so if the element value would otherwise confuse the array-value parser. For example, elements containing curly braces, commas (or the data type's delimiter character), double quotes, backslashes, or leading or trailing whitespace must be double-quoted. Empty strings and strings matching the word `NULL` must be quoted, too. To put a double quote or backslash in a quoted array element value, precede it with a backslash. Alternatively, you can avoid quotes and use backslash-escaping to protect all data characters that would otherwise be taken as array syntax.
 
@@ -473,4 +473,4 @@ You can add whitespace before a left brace or after a right brace. You can also 
 
 #### Tip
 
-The `ARRAY` constructor syntax (see [Section 4.2.12](https://www.postgresql.org/docs/12/sql-expressions.html#SQL-SYNTAX-ARRAY-CONSTRUCTORS)) is often easier to work with than the array-literal syntax when writing array values in SQL commands. In `ARRAY`, individual element values are written the same way they would be written when not members of an array.\\
+The `ARRAY` constructor syntax (see [Section 4.2.12](../sql-syntax/value-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)) is often easier to work with than the array-literal syntax when writing array values in SQL commands. In `ARRAY`, individual element values are written the same way they would be written when not members of an array.\\

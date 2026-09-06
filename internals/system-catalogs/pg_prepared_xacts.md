@@ -1,6 +1,6 @@
 # 54.16. pg\_prepared\_xacts
 
-The view `pg_prepared_xacts` displays information about transactions that are currently prepared for two-phase commit (see [PREPARE TRANSACTION](https://www.postgresql.org/docs/13/sql-prepare-transaction.html) for details).
+The view `pg_prepared_xacts` displays information about transactions that are currently prepared for two-phase commit (see [PREPARE TRANSACTION](../../reference/sql-commands/prepare-transaction.md) for details).
 
 `pg_prepared_xacts` contains one row per prepared transaction. An entry is removed when the transaction is committed or rolled back.
 
@@ -11,7 +11,7 @@ The view `pg_prepared_xacts` displays information about transactions that are cu
 | <p><code>transaction</code> <code>xid</code></p><p>Numeric transaction identifier of the prepared transaction</p>                                                                                                                                    |
 | <p><code>gid</code> <code>text</code></p><p>Global transaction identifier that was assigned to the transaction</p>                                                                                                                                   |
 | <p><code>prepared</code> <code>timestamptz</code></p><p>Time at which the transaction was prepared for commit</p>                                                                                                                                    |
-| <p><code>owner</code> <code>name</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-authid.html"><code>pg_authid</code></a>.<code>rolname</code>)</p><p>Name of the user that executed the transaction</p>                    |
-| <p><code>database</code> <code>name</code> (references <a href="https://www.postgresql.org/docs/13/catalog-pg-database.html"><code>pg_database</code></a>.<code>datname</code>)</p><p>Name of the database in which the transaction was executed</p> |
+| <p><code>owner</code> <code>name</code> (references <a href="pg_authid.md"><code>pg_authid</code></a>.<code>rolname</code>)</p><p>Name of the user that executed the transaction</p>                    |
+| <p><code>database</code> <code>name</code> (references <a href="pg_database.md"><code>pg_database</code></a>.<code>datname</code>)</p><p>Name of the database in which the transaction was executed</p> |
 
 When the `pg_prepared_xacts` view is accessed, the internal transaction manager data structures are momentarily locked, and a copy is made for the view to display. This ensures that the view produces a consistent set of results, while not blocking normal operations longer than necessary. Nonetheless there could be some impact on database performance if this view is frequently accessed.

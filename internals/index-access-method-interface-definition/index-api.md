@@ -94,4 +94,4 @@ The `amcaninclude` flag indicates whether the access method supports “included
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/index-api.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](index-api.md)（英文原文，待翻譯）

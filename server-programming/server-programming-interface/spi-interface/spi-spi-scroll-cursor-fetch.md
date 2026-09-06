@@ -50,4 +50,4 @@ Direction values other than `FETCH_FORWARD` may fail if the cursor's plan was no
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-scroll-cursor-fetch.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-scroll-cursor-fetch.md)（英文原文，待翻譯）

@@ -94,4 +94,4 @@ An entry's `amopmethod` must match the `opfmethod` of its containing operator fa
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-amop.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_amop.md)（英文原文，待翻譯）

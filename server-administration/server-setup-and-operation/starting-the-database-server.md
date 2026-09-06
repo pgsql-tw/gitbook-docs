@@ -14,11 +14,11 @@ Normally it is better to start `postgres` in the background. For this, use the u
 $ postgres -D /usr/local/pgsql/data >logfile 2>&1 &
 ```
 
-It is important to store the server's stdout and stderr output somewhere, as shown above. It will help for auditing purposes and to diagnose problems. (See [Section 24.3](https://www.postgresql.org/docs/12/logfile-maintenance.html) for a more thorough discussion of log file handling.)
+It is important to store the server's stdout and stderr output somewhere, as shown above. It will help for auditing purposes and to diagnose problems. (See [Section 24.3](../routine-database-maintenance-tasks/log-file-maintenance.md) for a more thorough discussion of log file handling.)
 
-The `postgres` program also takes a number of other command-line options. For more information, see the [postgres](https://www.postgresql.org/docs/12/app-postgres.html) reference page and [Chapter 19](https://www.postgresql.org/docs/12/runtime-config.html) below.
+The `postgres` program also takes a number of other command-line options. For more information, see the [postgres](../../reference/server-applications/postgres.md) reference page and [Chapter 19](../server-configuration/README.md) below.
 
-This shell syntax can get tedious quickly. Therefore the wrapper program [pg\_ctl](https://www.postgresql.org/docs/12/app-pg-ctl.html) is provided to simplify some tasks. For example:
+This shell syntax can get tedious quickly. Therefore the wrapper program [pg\_ctl](../../reference/server-applications/pg_ctl.md) is provided to simplify some tasks. For example:
 
 ```
 pg_ctl start -l logfile
@@ -113,7 +113,7 @@ FATAL:  could not create shared memory segment: Invalid argument
 DETAIL:  Failed system call was shmget(key=5440001, size=4011376640, 03600).
 ```
 
-probably means your kernel's limit on the size of shared memory is smaller than the work area PostgreSQL is trying to create (4011376640 bytes in this example). Or it could mean that you do not have System-V-style shared memory support configured into your kernel at all. As a temporary workaround, you can try starting the server with a smaller-than-normal number of buffers ([shared\_buffers](https://www.postgresql.org/docs/12/runtime-config-resource.html#GUC-SHARED-BUFFERS)). You will eventually want to reconfigure your kernel to increase the allowed shared memory size. You might also see this message when trying to start multiple servers on the same machine, if their total space requested exceeds the kernel limit.
+probably means your kernel's limit on the size of shared memory is smaller than the work area PostgreSQL is trying to create (4011376640 bytes in this example). Or it could mean that you do not have System-V-style shared memory support configured into your kernel at all. As a temporary workaround, you can try starting the server with a smaller-than-normal number of buffers ([shared\_buffers](../server-configuration/resource-consumption.md#GUC-SHARED-BUFFERS)). You will eventually want to reconfigure your kernel to increase the allowed shared memory size. You might also see this message when trying to start multiple servers on the same machine, if their total space requested exceeds the kernel limit.
 
 An error like:
 
@@ -122,11 +122,11 @@ FATAL:  could not create semaphores: No space left on device
 DETAIL:  Failed system call was semget(5440126, 17, 03600).
 ```
 
-does _not_ mean you've run out of disk space. It means your kernel's limit on the number of System V semaphores is smaller than the number PostgreSQL wants to create. As above, you might be able to work around the problem by starting the server with a reduced number of allowed connections ([max\_connections](https://www.postgresql.org/docs/12/runtime-config-connection.html#GUC-MAX-CONNECTIONS)), but you'll eventually want to increase the kernel limit.
+does _not_ mean you've run out of disk space. It means your kernel's limit on the number of System V semaphores is smaller than the number PostgreSQL wants to create. As above, you might be able to work around the problem by starting the server with a reduced number of allowed connections ([max\_connections](../server-configuration/connections-and-authentication.md#GUC-MAX-CONNECTIONS)), but you'll eventually want to increase the kernel limit.
 
 If you get an “illegal system call” error, it is likely that shared memory or semaphores are not supported in your kernel at all. In that case your only option is to reconfigure the kernel to enable these features.
 
-Details about configuring System V IPC facilities are given in [Section 18.4.1](https://www.postgresql.org/docs/12/kernel-resources.html#SYSVIPC).
+Details about configuring System V IPC facilities are given in [Section 18.4.1](managing-kernel-resources.md#SYSVIPC).
 
 ## 18.3.2. Client Connection Problems
 
@@ -148,4 +148,4 @@ psql: could not connect to server: No such file or directory
         connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
 ```
 
-The last line is useful in verifying that the client is trying to connect to the right place. If there is in fact no server running there, the kernel error message will typically be either `Connection refused` or `No such file or directory`, as illustrated. (It is important to realize that `Connection refused` in this context does _not_ mean that the server got your connection request and rejected it. That case will produce a different message, as shown in [Section 20.15](https://www.postgresql.org/docs/12/client-authentication-problems.html).) Other error messages such as `Connection timed out` might indicate more fundamental problems, like lack of network connectivity.
+The last line is useful in verifying that the client is trying to connect to the right place. If there is in fact no server running there, the kernel error message will typically be either `Connection refused` or `No such file or directory`, as illustrated. (It is important to realize that `Connection refused` in this context does _not_ mean that the server got your connection request and rejected it. That case will produce a different message, as shown in [Section 20.15](../client-authentication/21.15.-authentication-problems.md).) Other error messages such as `Connection timed out` might indicate more fundamental problems, like lack of network connectivity.

@@ -10,9 +10,9 @@
 
 <a id="id-1.11.7.15.2"></a>
 
-`basic_archive` is an example of an archive module. This module copies completed WAL segment files to the specified directory. This may not be especially useful, but it can serve as a starting point for developing your own archive module. For more information about archive modules, see [Chapter 51](../../51.-archive-modules.md).
+`basic_archive` 是一個封存模組範例。此模組會將已完成的 WAL 段檔案複製到指定目錄。它未必特別實用，但可作為開發自訂封存模組的起點。關於封存模組的詳細資訊，請參閱[第 51 章](../../51.-archive-modules.md)。
 
-In order to function, this module must be loaded via [archive_library](https://www.postgresql.org/docs/15/runtime-config-wal.html#GUC-ARCHIVE-LIBRARY), and [archive_mode](https://www.postgresql.org/docs/15/runtime-config-wal.html#GUC-ARCHIVE-MODE) must be enabled.
+若要運作，必須透過 [archive_library](../../server-administration/server-configuration/write-ahead-log.md#GUC-ARCHIVE-LIBRARY) 載入此模組，並啟用 [archive_mode](../../server-administration/server-configuration/write-ahead-log.md#GUC-ARCHIVE-MODE)。
 
 <a id="id-1.11.7.15.5"></a>
 
@@ -20,9 +20,9 @@ In order to function, this module must be loaded via [archive_library](https://w
 
 `basic_archive.archive_directory` (`string`) <a id="id-1.11.7.15.5.2.1.1.3"></a>
 
-The directory where the server should copy WAL segment files. This directory must already exist. The default is an empty string, which effectively halts WAL archiving, but if [archive_mode](https://www.postgresql.org/docs/15/runtime-config-wal.html#GUC-ARCHIVE-MODE) is enabled, the server will accumulate WAL segment files in the expectation that a value will soon be provided.
+伺服器應複製 WAL 段檔案到此目錄。此目錄必須事先存在。預設值為空字串，實際上會停止 WAL 封存；不過若已啟用 [archive_mode](../../server-administration/server-configuration/write-ahead-log.md#GUC-ARCHIVE-MODE)，伺服器會累積 WAL 段檔案，等待你提供設定值。
 
-These parameters must be set in `postgresql.conf`. Typical usage might be:
+這些參數必須在 `postgresql.conf` 中設定。典型用法如下：
 
 ```
 
@@ -36,7 +36,7 @@ basic_archive.archive_directory = '/path/to/archive/directory'
 
 ## F.6.2. Notes
 
-Server crashes may leave temporary files with the prefix `archtemp` in the archive directory. It is recommended to delete such files before restarting the server after a crash. It is safe to remove such files while the server is running as long as they are unrelated to any archiving still in progress, but users should use extra caution when doing so.
+伺服器當機時，可能在封存目錄留下以 `archtemp` 為前綴的暫存檔。建議在當機後重新啟動伺服器之前刪除這些檔案。伺服器運作期間也可以安全地移除它們，前提是它們與任何正在進行的封存無關；不過操作時仍應格外謹慎。
 
 <a id="id-1.11.7.15.7"></a>
 
@@ -46,4 +46,4 @@ Nathan Bossart
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/basic-archive.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/basic-archive.html)

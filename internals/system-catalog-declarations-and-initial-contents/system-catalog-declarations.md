@@ -14,4 +14,4 @@ A few of the catalogs are so fundamental that they can't even be created by the 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/system-catalog-declarations.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](system-catalog-declarations.md)（英文原文，待翻譯）

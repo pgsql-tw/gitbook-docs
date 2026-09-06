@@ -134,4 +134,4 @@ pg_waldump cannot read WAL files with suffix `.partial`. If those files need to 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pgwaldump.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_waldump.md)（英文原文，待翻譯）

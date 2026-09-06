@@ -2,13 +2,13 @@
 
 SSPI is a Windows technology for secure authentication with single sign-on. PostgreSQL will use SSPI in `negotiate` mode, which will use Kerberos when possible and automatically fall back to NTLM in other cases. SSPI authentication only works when both server and client are running Windows, or, on non-Windows platforms, when GSSAPI is available.
 
-When using Kerberos authentication, SSPI works the same way GSSAPI does; see [Section 20.6](https://www.postgresql.org/docs/13/gssapi-auth.html) for details.
+When using Kerberos authentication, SSPI works the same way GSSAPI does; see [Section 20.6](gssapi-authentication.md) for details.
 
 The following configuration options are supported for SSPI:
 
 `include_realm`
 
-If set to 0, the realm name from the authenticated user principal is stripped off before being passed through the user name mapping ([Section 20.2](https://www.postgresql.org/docs/13/auth-username-maps.html)). This is discouraged and is primarily available for backwards compatibility, as it is not secure in multi-realm environments unless `krb_realm` is also used. It is recommended to leave `include_realm` set to the default (1) and to provide an explicit mapping in `pg_ident.conf` to convert principal names to PostgreSQL user names.
+If set to 0, the realm name from the authenticated user principal is stripped off before being passed through the user name mapping ([Section 20.2](user-name-maps.md)). This is discouraged and is primarily available for backwards compatibility, as it is not secure in multi-realm environments unless `krb_realm` is also used. It is recommended to leave `include_realm` set to the default (1) and to provide an explicit mapping in `pg_ident.conf` to convert principal names to PostgreSQL user names.
 
 `compat_realm`
 
@@ -24,7 +24,7 @@ Note that libpq uses the SAM-compatible name if no explicit user name is specifi
 
 `map`
 
-Allows for mapping between system and database user names. See [Section 20.2](https://www.postgresql.org/docs/13/auth-username-maps.html) for details. For a SSPI/Kerberos principal, such as `username@EXAMPLE.COM` (or, less commonly, `username/hostbased@EXAMPLE.COM`), the user name used for mapping is `username@EXAMPLE.COM` (or `username/hostbased@EXAMPLE.COM`, respectively), unless `include_realm` has been set to 0, in which case `username` (or `username/hostbased`) is what is seen as the system user name when mapping.
+Allows for mapping between system and database user names. See [Section 20.2](user-name-maps.md) for details. For a SSPI/Kerberos principal, such as `username@EXAMPLE.COM` (or, less commonly, `username/hostbased@EXAMPLE.COM`), the user name used for mapping is `username@EXAMPLE.COM` (or `username/hostbased@EXAMPLE.COM`, respectively), unless `include_realm` has been set to 0, in which case `username` (or `username/hostbased`) is what is seen as the system user name when mapping.
 
 `krb_realm`
 

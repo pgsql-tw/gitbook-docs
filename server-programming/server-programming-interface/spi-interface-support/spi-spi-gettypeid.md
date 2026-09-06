@@ -37,4 +37,4 @@ The OID of the data type of the specified column or `InvalidOid` on error. On er
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-gettypeid.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-gettypeid.md)（英文原文，待翻譯）

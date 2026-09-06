@@ -31,4 +31,4 @@ There is no `DROP GROUP` statement in the SQL standard.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-dropgroup.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](drop-group.md)（英文原文，待翻譯）

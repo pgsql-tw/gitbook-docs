@@ -46,7 +46,7 @@ init 或 initdb 模式將建立一個新的 PostgreSQL 資料庫叢集，也就�
 
 `promote` mode commands the standby server that is running in the specified data directory to end standby mode and begin read-write operations.
 
-`logrotate` mode rotates the server log file. For details on how to use this mode with external log rotation tools, see [Section 24.3](https://www.postgresql.org/docs/13/logfile-maintenance.html).
+`logrotate` mode rotates the server log file. For details on how to use this mode with external log rotation tools, see [Section 24.3](../../server-administration/routine-database-maintenance-tasks/log-file-maintenance.md).
 
 `kill` mode sends a signal to a specified process. This is primarily valuable on Microsoft Windows which does not have a built-in kill command. Use `--help` to see a list of supported signal names.
 
@@ -140,7 +140,7 @@ If an option is specified that is valid, but not relevant to the selected operat
 
 `-e`` `_`source`_
 
-Name of the event source for pg\_ctl to use for logging to the event log when running as a Windows service. The default is `PostgreSQL`. Note that this only controls messages sent from pg\_ctl itself; once started, the server will use the event source specified by its [event\_source](https://www.postgresql.org/docs/13/runtime-config-logging.html#GUC-EVENT-SOURCE) parameter. Should the server fail very early in startup, before that parameter has been set, it might also log using the default event source name `PostgreSQL`.
+Name of the event source for pg\_ctl to use for logging to the event log when running as a Windows service. The default is `PostgreSQL`. Note that this only controls messages sent from pg\_ctl itself; once started, the server will use the event source specified by its [event\_source](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-EVENT-SOURCE) parameter. Should the server fail very early in startup, before that parameter has been set, it might also log using the default event source name `PostgreSQL`.
 
 `-N`` `_`servicename`_
 
@@ -170,9 +170,9 @@ Default data directory location.
 
 Most `pg_ctl` modes require knowing the data directory location; therefore, the `-D` option is required unless `PGDATA` is set.
 
-`pg_ctl`, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](https://www.postgresql.org/docs/13/libpq-envars.html)).
+`pg_ctl`, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](../../client-interfaces/libpq-c-library/environment-variables.md)).
 
-For additional variables that affect the server, see [postgres](https://www.postgresql.org/docs/13/app-postgres.html).
+For additional variables that affect the server, see [postgres](postgres.md).
 
 ### Files
 

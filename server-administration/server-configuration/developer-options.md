@@ -20,11 +20,11 @@ The amount of time to delay just after a new server process is forked, before it
 
 `trace_notify` (`boolean`)
 
-Generates a great amount of debugging output for the `LISTEN` and `NOTIFY` commands. [client\_min\_messages](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-CLIENT-MIN-MESSAGES) or [log\_min\_messages](https://www.postgresql.org/docs/12/runtime-config-logging.html#GUC-LOG-MIN-MESSAGES) must be `DEBUG1` or lower to send this output to the client or server logs, respectively.
+Generates a great amount of debugging output for the `LISTEN` and `NOTIFY` commands. [client\_min\_messages](client-connection-defaults.md#GUC-CLIENT-MIN-MESSAGES) or [log\_min\_messages](error-reporting-and-logging.md#GUC-LOG-MIN-MESSAGES) must be `DEBUG1` or lower to send this output to the client or server logs, respectively.
 
 `trace_recovery_messages` (`enum`)
 
-Enables logging of recovery-related debugging output that otherwise would not be logged. This parameter allows the user to override the normal setting of [log\_min\_messages](https://www.postgresql.org/docs/12/runtime-config-logging.html#GUC-LOG-MIN-MESSAGES), but only for specific messages. This is intended for use in debugging Hot Standby. Valid values are `DEBUG5`, `DEBUG4`, `DEBUG3`, `DEBUG2`, `DEBUG1`, and `LOG`. The default, `LOG`, does not affect logging decisions at all. The other values cause recovery-related debug messages of that priority or higher to be logged as though they had `LOG` priority; for common settings of `log_min_messages` this results in unconditionally sending them to the server log. This parameter can only be set in the `postgresql.conf` file or on the server command line.
+Enables logging of recovery-related debugging output that otherwise would not be logged. This parameter allows the user to override the normal setting of [log\_min\_messages](error-reporting-and-logging.md#GUC-LOG-MIN-MESSAGES), but only for specific messages. This is intended for use in debugging Hot Standby. Valid values are `DEBUG5`, `DEBUG4`, `DEBUG3`, `DEBUG2`, `DEBUG1`, and `LOG`. The default, `LOG`, does not affect logging decisions at all. The other values cause recovery-related debug messages of that priority or higher to be logged as though they had `LOG` priority; for common settings of `log_min_messages` this results in unconditionally sending them to the server log. This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
 `trace_sort` (`boolean`)
 
@@ -99,7 +99,7 @@ If on, emit WAL-related debugging output. This parameter is only available if th
 
 `ignore_checksum_failure` (`boolean`)
 
-Only has effect if [data checksums](https://www.postgresql.org/docs/12/app-initdb.html#APP-INITDB-DATA-CHECKSUMS) are enabled.
+Only has effect if [data checksums](../../reference/server-applications/initdb.md#APP-INITDB-DATA-CHECKSUMS) are enabled.
 
 Detection of a checksum failure during a read normally causes PostgreSQL to report an error, aborting the current transaction. Setting `ignore_checksum_failure` to on causes the system to ignore the failure (but still report a warning), and continue processing. This behavior may _cause crashes, propagate or hide corruption, or other serious problems_. However, it may allow you to get past the error and retrieve undamaged tuples that might still be present in the table if the block header is still sane. If the header is corrupt an error will be reported even if this option is enabled. The default setting is `off`, and it can only be changed by a superuser.
 
@@ -113,11 +113,11 @@ If LLVM has the required functionality, register generated functions with GDB. T
 
 `jit_dump_bitcode` (`boolean`)
 
-Writes the generated LLVM IR out to the file system, inside [data\_directory](https://www.postgresql.org/docs/12/runtime-config-file-locations.html#GUC-DATA-DIRECTORY). This is only useful for working on the internals of the JIT implementation. The default setting is `off`. This parameter can only be changed by a superuser.
+Writes the generated LLVM IR out to the file system, inside [data\_directory](file-locations.md#GUC-DATA-DIRECTORY). This is only useful for working on the internals of the JIT implementation. The default setting is `off`. This parameter can only be changed by a superuser.
 
 `jit_expressions` (`boolean`)
 
-Determines whether expressions are JIT compiled, when JIT compilation is activated (see [Section 31.2](https://www.postgresql.org/docs/12/jit-decision.html)). The default is `on`.
+Determines whether expressions are JIT compiled, when JIT compilation is activated (see [Section 31.2](../just-in-time-compilation/when-to-jit.md)). The default is `on`.
 
 `jit_profiling_support` (`boolean`)
 
@@ -125,4 +125,4 @@ If LLVM has the required functionality, emit the data needed to allow perf to pr
 
 `jit_tuple_deforming` (`boolean`)
 
-Determines whether tuple deforming is JIT compiled, when JIT compilation is activated (see [Section 31.2](https://www.postgresql.org/docs/12/jit-decision.html)). The default is `on`.
+Determines whether tuple deforming is JIT compiled, when JIT compilation is activated (see [Section 31.2](../just-in-time-compilation/when-to-jit.md)). The default is `on`.

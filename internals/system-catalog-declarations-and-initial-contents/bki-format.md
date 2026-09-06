@@ -10,4 +10,4 @@ Lines starting with `#` are ignored.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/bki-format.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](bki-format.md)（英文原文，待翻譯）

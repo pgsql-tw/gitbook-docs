@@ -40,4 +40,4 @@ Fill in the indices that have previously been declared.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/bki-commands.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](bki-commands.md)（英文原文，待翻譯）

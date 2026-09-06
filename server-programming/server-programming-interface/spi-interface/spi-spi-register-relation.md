@@ -51,4 +51,4 @@ if the name specified in the `name` field of <em class="parameter"><code>enr</co
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-register-relation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-register-relation.md)（英文原文，待翻譯）

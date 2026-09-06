@@ -78,4 +78,4 @@ Incidentally, the `BEGIN` key word is used for a different purpose in embedded S
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-begin.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](begin.md)（英文原文，待翻譯）

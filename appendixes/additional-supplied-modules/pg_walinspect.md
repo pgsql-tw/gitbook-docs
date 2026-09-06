@@ -16,7 +16,7 @@ All the functions of this module will try to find the first valid WAL record tha
 
 ## Note
 
-Some functions, such as <code class="function"><a class="link" href="https://www.postgresql.org/docs/15/functions-admin.html#PG-LOGICAL-EMIT-MESSAGE">pg&#95;logical&#95;emit&#95;message</a></code>, return the LSN <em>after</em> the record just inserted. Therefore, if you pass that LSN as <em class="replaceable"><code>in&#95;lsn</code></em> or <em class="replaceable"><code>start&#95;lsn</code></em> to one of these functions, it will return the <em>next</em> record.
+Some functions, such as <code class="function"><a class="link" href="../../the-sql-language/functions-and-operators/system-administration.md#PG-LOGICAL-EMIT-MESSAGE">pg&#95;logical&#95;emit&#95;message</a></code>, return the LSN <em>after</em> the record just inserted. Therefore, if you pass that LSN as <em class="replaceable"><code>in&#95;lsn</code></em> or <em class="replaceable"><code>start&#95;lsn</code></em> to one of these functions, it will return the <em>next</em> record.
 
 By default, use of these functions is restricted to superusers and members of the `pg_read_server_files` role. Access may be granted by superusers to others using `GRANT`.
 
@@ -104,4 +104,4 @@ Bharath Rupireddy <code class="email">&lt;<a class="email" href="mailto:bharath.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pgwalinspect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_walinspect.md)（英文原文，待翻譯）

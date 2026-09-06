@@ -23,11 +23,11 @@ postgres\_fdw 模組提供了外部資料封裝器 postgres\_fdw，可用於存�
 
 ### **F.38.1.1. Connection Options**
 
-A foreign server using the `postgres_fdw` foreign data wrapper can have the same options that libpq accepts in connection strings, as described in [Section 34.1.2](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS), except that these options are not allowed or have special handling:
+A foreign server using the `postgres_fdw` foreign data wrapper can have the same options that libpq accepts in connection strings, as described in [Section 34.1.2](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-PARAMKEYWORDS), except that these options are not allowed or have special handling:
 
 * `user`, `password` and `sslpassword` (specify these in a user mapping, instead, or use a service file)
 * `client_encoding` (this is automatically set from the local server encoding)
-* `application_name` - this may appear in _either or both_ a connection and [postgres\_fdw.application\_name](https://www.postgresql.org/docs/current/postgres-fdw.html#GUC-PGFDW-APPLICATION-NAME). If both are present, `postgres_fdw.application_name` overrides the connection setting. Unlike libpq, `postgres_fdw` allows `application_name` to include “escape sequences”. See [postgres\_fdw.application\_name](https://www.postgresql.org/docs/current/postgres-fdw.html#GUC-PGFDW-APPLICATION-NAME) for details.
+* `application_name` - this may appear in _either or both_ a connection and [postgres\_fdw.application\_name](postgres_fdw.md#GUC-PGFDW-APPLICATION-NAME). If both are present, `postgres_fdw.application_name` overrides the connection setting. Unlike libpq, `postgres_fdw` allows `application_name` to include “escape sequences”. See [postgres\_fdw.application\_name](postgres_fdw.md#GUC-PGFDW-APPLICATION-NAME) for details.
 * `fallback_application_name` (always set to `postgres_fdw`)
 * `sslkey` and `sslcert` - these may appear in _either or both_ a connection and a user mapping. If both are present, the user mapping setting overrides the connection setting.
 
@@ -78,7 +78,7 @@ This option, which can be specified for a foreign server, is a floating point va
 
 This option, which can be specified for a foreign server, is a floating point value that is used as extra cost per-tuple for foreign-table scans on that server. This represents the additional overhead of data transfer between servers. You might increase or decrease this number to reflect higher or lower network delay to the remote server. The default value is `0.01`.
 
-When `use_remote_estimate` is true, `postgres_fdw` obtains row count and cost estimates from the remote server and then adds `fdw_startup_cost` and `fdw_tuple_cost` to the cost estimates. When `use_remote_estimate` is false, `postgres_fdw` performs local row count and cost estimation and then adds `fdw_startup_cost` and `fdw_tuple_cost` to the cost estimates. This local estimation is unlikely to be very accurate unless local copies of the remote table's statistics are available. Running [ANALYZE](https://www.postgresql.org/docs/current/sql-analyze.html) on the foreign table is the way to update the local statistics; this will perform a scan of the remote table and then calculate and store statistics just as though the table were local. Keeping local statistics can be a useful way to reduce per-query planning overhead for a remote table — but if the remote table is frequently updated, the local statistics will soon be obsolete.
+When `use_remote_estimate` is true, `postgres_fdw` obtains row count and cost estimates from the remote server and then adds `fdw_startup_cost` and `fdw_tuple_cost` to the cost estimates. When `use_remote_estimate` is false, `postgres_fdw` performs local row count and cost estimation and then adds `fdw_startup_cost` and `fdw_tuple_cost` to the cost estimates. This local estimation is unlikely to be very accurate unless local copies of the remote table's statistics are available. Running [ANALYZE](../../reference/sql-commands/analyze.md) on the foreign table is the way to update the local statistics; this will perform a scan of the remote table and then calculate and store statistics just as though the table were local. Keeping local statistics can be a useful way to reduce per-query planning overhead for a remote table — but if the remote table is frequently updated, the local statistics will soon be obsolete.
 
 ### **F.38.1.4. Remote Execution Options**
 
@@ -146,7 +146,7 @@ Of course, if the remote table is not in fact truncatable, an error would occur 
 
 ### **F.38.1.9. Importing Options**
 
-`postgres_fdw` is able to import foreign table definitions using [IMPORT FOREIGN SCHEMA](https://www.postgresql.org/docs/current/sql-importforeignschema.html). This command creates foreign table definitions on the local server that match tables or views present on the remote server. If the remote tables to be imported have columns of user-defined data types, the local server must have compatible types of the same names.
+`postgres_fdw` is able to import foreign table definitions using [IMPORT FOREIGN SCHEMA](../../reference/sql-commands/import-foreign-schema.md). This command creates foreign table definitions on the local server that match tables or views present on the remote server. If the remote tables to be imported have columns of user-defined data types, the local server must have compatible types of the same names.
 
 Importing behavior can be customized with the following options (given in the `IMPORT FOREIGN SCHEMA` command):
 
@@ -168,9 +168,9 @@ This option controls whether column `GENERATED` expressions are included in the 
 
 This option controls whether column `NOT NULL` constraints are included in the definitions of foreign tables imported from a foreign server. The default is `true`.
 
-Note that constraints other than `NOT NULL` will never be imported from the remote tables. Although PostgreSQL does support check constraints on foreign tables, there is no provision for importing them automatically, because of the risk that a constraint expression could evaluate differently on the local and remote servers. Any such inconsistency in the behavior of a check constraint could lead to hard-to-detect errors in query optimization. So if you wish to import check constraints, you must do so manually, and you should verify the semantics of each one carefully. For more detail about the treatment of check constraints on foreign tables, see [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/current/sql-createforeigntable.html).
+Note that constraints other than `NOT NULL` will never be imported from the remote tables. Although PostgreSQL does support check constraints on foreign tables, there is no provision for importing them automatically, because of the risk that a constraint expression could evaluate differently on the local and remote servers. Any such inconsistency in the behavior of a check constraint could lead to hard-to-detect errors in query optimization. So if you wish to import check constraints, you must do so manually, and you should verify the semantics of each one carefully. For more detail about the treatment of check constraints on foreign tables, see [CREATE FOREIGN TABLE](../../reference/sql-commands/create-foreign-table.md).
 
-Tables or foreign tables which are partitions of some other table are imported only when they are explicitly specified in `LIMIT TO` clause. Otherwise they are automatically excluded from [IMPORT FOREIGN SCHEMA](https://www.postgresql.org/docs/current/sql-importforeignschema.html). Since all data can be accessed through the partitioned table which is the root of the partitioning hierarchy, importing only partitioned tables should allow access to all the data without creating extra objects.
+Tables or foreign tables which are partitions of some other table are imported only when they are explicitly specified in `LIMIT TO` clause. Otherwise they are automatically excluded from [IMPORT FOREIGN SCHEMA](../../reference/sql-commands/import-foreign-schema.md). Since all data can be accessed through the partitioned table which is the root of the partitioning hierarchy, importing only partitioned tables should allow access to all the data without creating extra objects.
 
 ### **F.38.1.10. Connection Management Options**
 
@@ -242,14 +242,14 @@ The query that is actually sent to the remote server for execution can be examin
 
 ## F.38.6. Remote Query Execution Environment
 
-In the remote sessions opened by `postgres_fdw`, the [search\_path](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-SEARCH-PATH) parameter is set to just `pg_catalog`, so that only built-in objects are visible without schema qualification. This is not an issue for queries generated by `postgres_fdw` itself, because it always supplies such qualification. However, this can pose a hazard for functions that are executed on the remote server via triggers or rules on remote tables. For example, if a remote table is actually a view, any functions used in that view will be executed with the restricted search path. It is recommended to schema-qualify all names in such functions, or else attach `SET search_path` options (see [CREATE FUNCTION](https://www.postgresql.org/docs/current/sql-createfunction.html)) to such functions to establish their expected search path environment.
+In the remote sessions opened by `postgres_fdw`, the [search\_path](../../server-administration/server-configuration/client-connection-defaults.md#GUC-SEARCH-PATH) parameter is set to just `pg_catalog`, so that only built-in objects are visible without schema qualification. This is not an issue for queries generated by `postgres_fdw` itself, because it always supplies such qualification. However, this can pose a hazard for functions that are executed on the remote server via triggers or rules on remote tables. For example, if a remote table is actually a view, any functions used in that view will be executed with the restricted search path. It is recommended to schema-qualify all names in such functions, or else attach `SET search_path` options (see [CREATE FUNCTION](../../reference/sql-commands/create-function.md)) to such functions to establish their expected search path environment.
 
 `postgres_fdw` likewise establishes remote session settings for various parameters:
 
-* [TimeZone](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-TIMEZONE) is set to `UTC`
-* [DateStyle](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-DATESTYLE) is set to `ISO`
-* [IntervalStyle](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-INTERVALSTYLE) is set to `postgres`
-* [extra\_float\_digits](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-EXTRA-FLOAT-DIGITS) is set to `3` for remote servers 9.0 and newer and is set to `2` for older versions
+* [TimeZone](../../server-administration/server-configuration/client-connection-defaults.md#GUC-TIMEZONE) is set to `UTC`
+* [DateStyle](../../server-administration/server-configuration/client-connection-defaults.md#GUC-DATESTYLE) is set to `ISO`
+* [IntervalStyle](../../server-administration/server-configuration/client-connection-defaults.md#GUC-INTERVALSTYLE) is set to `postgres`
+* [extra\_float\_digits](../../server-administration/server-configuration/client-connection-defaults.md#GUC-EXTRA-FLOAT-DIGITS) is set to `3` for remote servers 9.0 and newer and is set to `2` for older versions
 
 These are less likely to be problematic than `search_path`, but can be handled with function `SET` options if the need arises.
 
@@ -263,17 +263,17 @@ It is _not_ recommended that you override this behavior by changing the session-
 
 `postgres_fdw.application_name` (`string`)
 
-Specifies a value for [application\_name](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-APPLICATION-NAME) configuration parameter used when `postgres_fdw` establishes a connection to a foreign server. This overrides `application_name` option of the server object. Note that change of this parameter doesn't affect any existing connections until they are re-established.
+Specifies a value for [application\_name](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-APPLICATION-NAME) configuration parameter used when `postgres_fdw` establishes a connection to a foreign server. This overrides `application_name` option of the server object. Note that change of this parameter doesn't affect any existing connections until they are re-established.
 
-`postgres_fdw.application_name` can be any string of any length and contain even non-ASCII characters. However when it's passed to and used as `application_name` in a foreign server, note that it will be truncated to less than `NAMEDATALEN` characters and anything other than printable ASCII characters will be replaced with question marks (`?`). See [application\_name](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-APPLICATION-NAME) for details.
+`postgres_fdw.application_name` can be any string of any length and contain even non-ASCII characters. However when it's passed to and used as `application_name` in a foreign server, note that it will be truncated to less than `NAMEDATALEN` characters and anything other than printable ASCII characters will be replaced with question marks (`?`). See [application\_name](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-APPLICATION-NAME) for details.
 
 `%` characters begin “escape sequences” that are replaced with status information as outlined below. Unrecognized escapes are ignored. Other characters are copied straight to the application name. Note that it's not allowed to specify a plus/minus sign or a numeric literal after the `%` and before the option, for alignment and padding.
 
 | Escape | Effect                                                                                                                                                    |
 | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `%a`   | Application name on local server                                                                                                                          |
-| `%c`   | Session ID on local server (see [log\_line\_prefix](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-LINE-PREFIX) for details) |
-| `%C`   | Cluster name on local server (see [cluster\_name](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-CLUSTER-NAME) for details)      |
+| `%c`   | Session ID on local server (see [log\_line\_prefix](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-LOG-LINE-PREFIX) for details) |
+| `%C`   | Cluster name on local server (see [cluster\_name](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-CLUSTER-NAME) for details)      |
 | `%u`   | User name on local server                                                                                                                                 |
 | `%d`   | Database name on local server                                                                                                                             |
 | `%p`   | Process ID of backend on local server                                                                                                                     |
@@ -289,7 +289,7 @@ Here is an example of creating a foreign table with `postgres_fdw`. First instal
 CREATE EXTENSION postgres_fdw;
 ```
 
-Then create a foreign server using [CREATE SERVER](https://www.postgresql.org/docs/current/sql-createserver.html). In this example we wish to connect to a PostgreSQL server on host `192.83.123.89` listening on port `5432`. The database to which the connection is made is named `foreign_db` on the remote server:
+Then create a foreign server using [CREATE SERVER](../../reference/sql-commands/create-server.md). In this example we wish to connect to a PostgreSQL server on host `192.83.123.89` listening on port `5432`. The database to which the connection is made is named `foreign_db` on the remote server:
 
 ```
 CREATE SERVER foreign_server
@@ -297,7 +297,7 @@ CREATE SERVER foreign_server
         OPTIONS (host '192.83.123.89', port '5432', dbname 'foreign_db');
 ```
 
-A user mapping, defined with [CREATE USER MAPPING](https://www.postgresql.org/docs/current/sql-createusermapping.html), is needed as well to identify the role that will be used on the remote server:
+A user mapping, defined with [CREATE USER MAPPING](../../reference/sql-commands/create-user-mapping.md), is needed as well to identify the role that will be used on the remote server:
 
 ```
 CREATE USER MAPPING FOR local_user
@@ -305,7 +305,7 @@ CREATE USER MAPPING FOR local_user
         OPTIONS (user 'foreign_user', password 'password');
 ```
 
-Now it is possible to create a foreign table with [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/current/sql-createforeigntable.html). In this example we wish to access the table named `some_schema.some_table` on the remote server. The local name for it will be `foreign_table`:
+Now it is possible to create a foreign table with [CREATE FOREIGN TABLE](../../reference/sql-commands/create-foreign-table.md). In this example we wish to access the table named `some_schema.some_table` on the remote server. The local name for it will be `foreign_table`:
 
 ```
 CREATE FOREIGN TABLE foreign_table (
@@ -316,7 +316,7 @@ CREATE FOREIGN TABLE foreign_table (
         OPTIONS (schema_name 'some_schema', table_name 'some_table');
 ```
 
-It's essential that the data types and other properties of the columns declared in `CREATE FOREIGN TABLE` match the actual remote table. Column names must match as well, unless you attach `column_name` options to the individual columns to show how they are named in the remote table. In many cases, use of [`IMPORT FOREIGN SCHEMA`](https://www.postgresql.org/docs/current/sql-importforeignschema.html) is preferable to constructing foreign table definitions manually.
+It's essential that the data types and other properties of the columns declared in `CREATE FOREIGN TABLE` match the actual remote table. Column names must match as well, unless you attach `column_name` options to the individual columns to show how they are named in the remote table. In many cases, use of [`IMPORT FOREIGN SCHEMA`](../../reference/sql-commands/import-foreign-schema.md) is preferable to constructing foreign table definitions manually.
 
 ## F.38.10. Author
 

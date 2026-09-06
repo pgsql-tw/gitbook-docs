@@ -193,7 +193,7 @@ While the input strings `now`, `today`, `tomorrow`, and `yesterday` are fine to 
 
 ## 8.5.2. Date/Time Output
 
-The output format of the date/time types can be set to one of the four styles ISO 8601, SQL (Ingres), traditional POSTGRES (Unix date format), or German. The default is the ISO format. (The SQL standard requires the use of the ISO 8601 format. The name of the “SQL” output format is a historical accident.) [Table 8.14](https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-DATETIME-OUTPUT-TABLE) shows examples of each output style. The output of the `date` and `time` types is generally only the date or time part in accordance with the given examples. However, the POSTGRES style outputs date-only values in ISO format.
+The output format of the date/time types can be set to one of the four styles ISO 8601, SQL (Ingres), traditional POSTGRES (Unix date format), or German. The default is the ISO format. (The SQL standard requires the use of the ISO 8601 format. The name of the “SQL” output format is a historical accident.) [Table 8.14](date-time.md#DATATYPE-DATETIME-OUTPUT-TABLE) shows examples of each output style. The output of the `date` and `time` types is generally only the date or time part in accordance with the given examples. However, the POSTGRES style outputs date-only values in ISO format.
 
 **Table 8.14. Date/Time Output Styles**
 
@@ -208,7 +208,7 @@ The output format of the date/time types can be set to one of the four styles IS
 
 ISO 8601 specifies the use of uppercase letter `T` to separate the date and time. PostgreSQL accepts that format on input, but on output it uses a space rather than `T`, as shown above. This is for readability and for consistency with [RFC 3339](https://tools.ietf.org/html/rfc3339) as well as some other database systems.
 
-In the SQL and POSTGRES styles, day appears before month if DMY field ordering has been specified, otherwise month appears before day. (See [Section 8.5.1](https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-DATETIME-INPUT) for how this setting also affects interpretation of input values.) [Table 8.15](https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-DATETIME-OUTPUT2-TABLE) shows examples.
+In the SQL and POSTGRES styles, day appears before month if DMY field ordering has been specified, otherwise month appears before day. (See [Section 8.5.1](date-time.md#DATATYPE-DATETIME-INPUT) for how this setting also affects interpretation of input values.) [Table 8.15](date-time.md#DATATYPE-DATETIME-OUTPUT2-TABLE) shows examples.
 
 **Table 8.15. Date Order Conventions**
 
@@ -220,9 +220,9 @@ In the SQL and POSTGRES styles, day appears before month if DMY field ordering h
 
 In the ISO style, the time zone is always shown as a signed numeric offset from UTC, with positive sign used for zones east of Greenwich. The offset will be shown as _`hh`_ (hours only) if it is an integral number of hours, else as _`hh`_:_`mm`_ if it is an integral number of minutes, else as _`hh`_:_`mm`_:_`ss`_. (The third case is not possible with any modern time zone standard, but it can appear when working with timestamps that predate the adoption of standardized time zones.) In the other date styles, the time zone is shown as an alphabetic abbreviation if one is in common use in the current zone. Otherwise it appears as a signed numeric offset in ISO 8601 basic format (_`hh`_ or _`hhmm`_).
 
-The date/time style can be selected by the user using the `SET datestyle` command, the [DateStyle](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-DATESTYLE) parameter in the `postgresql.conf` configuration file, or the `PGDATESTYLE` environment variable on the server or client.
+The date/time style can be selected by the user using the `SET datestyle` command, the [DateStyle](../../server-administration/server-configuration/client-connection-defaults.md#GUC-DATESTYLE) parameter in the `postgresql.conf` configuration file, or the `PGDATESTYLE` environment variable on the server or client.
 
-The formatting function `to_char` (see [Section 9.8](https://www.postgresql.org/docs/current/functions-formatting.html)) is also available as a more flexible way to format date/time output.
+The formatting function `to_char` (see [Section 9.8](../functions-and-operators/data-type-formatting-functions.md)) is also available as a more flexible way to format date/time output.
 
 ## 8.5.3. Time Zones
 
@@ -235,13 +235,13 @@ PostgreSQL endeavors to be compatible with the SQL standard definitions for typi
 
 To address these difficulties, we recommend using date/time types that contain both date and time when using time zones. We do _not_ recommend using the type `time with time zone` (though it is supported by PostgreSQL for legacy applications and for compliance with the SQL standard). PostgreSQL assumes your local time zone for any type containing only date or time.
 
-All timezone-aware dates and times are stored internally in UTC. They are converted to local time in the zone specified by the [TimeZone](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-TIMEZONE) configuration parameter before being displayed to the client.
+All timezone-aware dates and times are stored internally in UTC. They are converted to local time in the zone specified by the [TimeZone](../../server-administration/server-configuration/client-connection-defaults.md#GUC-TIMEZONE) configuration parameter before being displayed to the client.
 
 PostgreSQL allows you to specify time zones in three different forms:
 
-* A full time zone name, for example `America/New_York`. The recognized time zone names are listed in the `pg_timezone_names` view (see [Section 54.32](https://www.postgresql.org/docs/current/view-pg-timezone-names.html)). PostgreSQL uses the widely-used IANA time zone data for this purpose, so the same time zone names are also recognized by other software.
-* A time zone abbreviation, for example `PST`. Such a specification merely defines a particular offset from UTC, in contrast to full time zone names which can imply a set of daylight savings transition rules as well. The recognized abbreviations are listed in the `pg_timezone_abbrevs` view (see [Section 54.31](https://www.postgresql.org/docs/current/view-pg-timezone-abbrevs.html)). You cannot set the configuration parameters [TimeZone](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-TIMEZONE) or [log\_timezone](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-TIMEZONE) to a time zone abbreviation, but you can use abbreviations in date/time input values and with the `AT TIME ZONE` operator.
-* In addition to the timezone names and abbreviations, PostgreSQL will accept POSIX-style time zone specifications, as described in [Section B.5](https://www.postgresql.org/docs/current/datetime-posix-timezone-specs.html). This option is not normally preferable to using a named time zone, but it may be necessary if no suitable IANA time zone entry is available.
+* A full time zone name, for example `America/New_York`. The recognized time zone names are listed in the `pg_timezone_names` view (see [Section 54.32](../../internals/54.-system-views/pg_timezone_names.md)). PostgreSQL uses the widely-used IANA time zone data for this purpose, so the same time zone names are also recognized by other software.
+* A time zone abbreviation, for example `PST`. Such a specification merely defines a particular offset from UTC, in contrast to full time zone names which can imply a set of daylight savings transition rules as well. The recognized abbreviations are listed in the `pg_timezone_abbrevs` view (see [Section 54.31](../../internals/54.-system-views/pg_timezone_abbrevs.md)). You cannot set the configuration parameters [TimeZone](../../server-administration/server-configuration/client-connection-defaults.md#GUC-TIMEZONE) or [log\_timezone](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-LOG-TIMEZONE) to a time zone abbreviation, but you can use abbreviations in date/time input values and with the `AT TIME ZONE` operator.
+* In addition to the timezone names and abbreviations, PostgreSQL will accept POSIX-style time zone specifications, as described in [Section B.5](../../appendixes/date-time-support/b.5.-posix-time-zone-specifications.md). This option is not normally preferable to using a named time zone, but it may be necessary if no suitable IANA time zone entry is available.
 
 In short, this is the difference between abbreviations and full names: abbreviations represent a specific offset from UTC, whereas many of the full names imply a local daylight-savings time rule, and so have two possible UTC offsets. As an example, `2014-06-04 12:00 America/New_York` represents noon local time in New York, which for this particular date was Eastern Daylight Time (UTC-4). So `2014-06-04 12:00 EDT` specifies that same time instant. But `2014-06-04 12:00 EST` specifies noon Eastern Standard Time (UTC-5), regardless of whether daylight savings was nominally in effect on that date.
 
@@ -249,9 +249,9 @@ To complicate matters, some jurisdictions have used the same timezone abbreviati
 
 In all cases, timezone names and abbreviations are recognized case-insensitively. (This is a change from PostgreSQL versions prior to 8.2, which were case-sensitive in some contexts but not others.)
 
-Neither timezone names nor abbreviations are hard-wired into the server; they are obtained from configuration files stored under `.../share/timezone/` and `.../share/timezonesets/` of the installation directory (see [Section B.4](https://www.postgresql.org/docs/current/datetime-config-files.html)).
+Neither timezone names nor abbreviations are hard-wired into the server; they are obtained from configuration files stored under `.../share/timezone/` and `.../share/timezonesets/` of the installation directory (see [Section B.4](../../appendixes/date-time-support/configuration.md)).
 
-The [TimeZone](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-TIMEZONE) configuration parameter can be set in the file `postgresql.conf`, or in any of the other standard ways described in [Chapter 20](https://www.postgresql.org/docs/current/runtime-config.html). There are also some special ways to set it:
+The [TimeZone](../../server-administration/server-configuration/client-connection-defaults.md#GUC-TIMEZONE) configuration parameter can be set in the file `postgresql.conf`, or in any of the other standard ways described in [Chapter 20](../../server-administration/server-configuration/README.md). There are also some special ways to set it:
 
 * The SQL command `SET TIME ZONE` sets the time zone for the session. This is an alternative spelling of `SET TIMEZONE TO` with a more SQL-spec-compatible syntax.
 * The `PGTZ` environment variable is used by libpq clients to send a `SET TIME ZONE` command to the server upon connection.
@@ -264,7 +264,7 @@ The [TimeZone](https://www.postgresql.org/docs/current/runtime-config-client.htm
 [@] quantity unit [quantity unit...] [direction]
 ```
 
-where _`quantity`_ is a number (possibly signed); _`unit`_ is `microsecond`, `millisecond`, `second`, `minute`, `hour`, `day`, `week`, `month`, `year`, `decade`, `century`, `millennium`, or abbreviations or plurals of these units; _`direction`_ can be `ago` or empty. The at sign (`@`) is optional noise. The amounts of the different units are implicitly added with appropriate sign accounting. `ago` negates all the fields. This syntax is also used for interval output, if [IntervalStyle](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-INTERVALSTYLE) is set to `postgres_verbose`.
+where _`quantity`_ is a number (possibly signed); _`unit`_ is `microsecond`, `millisecond`, `second`, `minute`, `hour`, `day`, `week`, `month`, `year`, `decade`, `century`, `millennium`, or abbreviations or plurals of these units; _`direction`_ can be `ago` or empty. The at sign (`@`) is optional noise. The amounts of the different units are implicitly added with appropriate sign accounting. `ago` negates all the fields. This syntax is also used for interval output, if [IntervalStyle](../../server-administration/server-configuration/client-connection-defaults.md#GUC-INTERVALSTYLE) is set to `postgres_verbose`.
 
 Quantities of days, hours, minutes, and seconds can be specified without explicit unit markings. For example, `'1 12:59:10'` is read the same as `'1 day 12 hours 59 min 10 sec'`. Also, a combination of years and months can be specified with a dash; for example `'200-10'` is read the same as `'200 years 10 months'`. (These shorter forms are in fact the only ones allowed by the SQL standard, and are used for output when `IntervalStyle` is set to `sql_standard`.)
 
@@ -274,7 +274,7 @@ Interval values can also be written as ISO 8601 time intervals, using either the
 P quantity unit [ quantity unit ...] [ T [ quantity unit ...]]
 ```
 
-The string must start with a `P`, and may include a `T` that introduces the time-of-day units. The available unit abbreviations are given in [Table 8.16](https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-INTERVAL-ISO8601-UNITS). Units may be omitted, and may be specified in any order, but units smaller than a day must appear after `T`. In particular, the meaning of `M` depends on whether it is before or after `T`.
+The string must start with a `P`, and may include a `T` that introduces the time-of-day units. The available unit abbreviations are given in [Table 8.16](date-time.md#DATATYPE-INTERVAL-ISO8601-UNITS). Units may be omitted, and may be specified in any order, but units smaller than a day must appear after `T`. In particular, the meaning of `M` depends on whether it is before or after `T`.
 
 **Table 8.16. ISO 8601 Interval Unit Abbreviations**
 
@@ -302,7 +302,7 @@ According to the SQL standard all fields of an interval value must have the same
 
 Field values can have fractional parts: for example, `'1.5 weeks'` or `'01:02:03.45'`. However, because interval internally stores only three integer units (months, days, microseconds), fractional units must be spilled to smaller units. Fractional parts of units greater than months are rounded to be an integer number of months, e.g. `'1.5 years'` becomes `'1 year 6 mons'`. Fractional parts of weeks and days are computed to be an integer number of days and microseconds, assuming 30 days per month and 24 hours per day, e.g., `'1.75 months'` becomes `1 mon 22 days 12:00:00`. Only seconds will ever be shown as fractional on output.
 
-[Table 8.17](https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-INTERVAL-INPUT-EXAMPLES) shows some examples of valid `interval` input.
+[Table 8.17](date-time.md#DATATYPE-INTERVAL-INPUT-EXAMPLES) shows some examples of valid `interval` input.
 
 #### **Table 8.17. Interval Input**
 
@@ -332,11 +332,11 @@ Functions `justify_days` and `justify_hours` are available for adjusting days an
 
 ## 8.5.5. Interval Output
 
-The output format of the interval type can be set to one of the four styles `sql_standard`, `postgres`, `postgres_verbose`, or `iso_8601`, using the command `SET intervalstyle`. The default is the `postgres` format. [Table 8.18](https://www.postgresql.org/docs/current/datatype-datetime.html#INTERVAL-STYLE-OUTPUT-TABLE) shows examples of each output style.
+The output format of the interval type can be set to one of the four styles `sql_standard`, `postgres`, `postgres_verbose`, or `iso_8601`, using the command `SET intervalstyle`. The default is the `postgres` format. [Table 8.18](date-time.md#INTERVAL-STYLE-OUTPUT-TABLE) shows examples of each output style.
 
 The `sql_standard` style produces output that conforms to the SQL standard's specification for interval literal strings, if the interval value meets the standard's restrictions (either year-month only or day-time only, with no mixing of positive and negative components). Otherwise the output looks like a standard year-month literal string followed by a day-time literal string, with explicit signs added to disambiguate mixed-sign intervals.
 
-The output of the `postgres` style matches the output of PostgreSQL releases prior to 8.4 when the [DateStyle](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-DATESTYLE) parameter was set to `ISO`.
+The output of the `postgres` style matches the output of PostgreSQL releases prior to 8.4 when the [DateStyle](../../server-administration/server-configuration/client-connection-defaults.md#GUC-DATESTYLE) parameter was set to `ISO`.
 
 The output of the `postgres_verbose` style matches the output of PostgreSQL releases prior to 8.4 when the `DateStyle` parameter was set to non-`ISO` output.
 

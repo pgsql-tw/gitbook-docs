@@ -85,15 +85,15 @@ FIRST 和 ANY 都不區分大小寫。 如果將這些關鍵字用作備用伺�
 
 #### `primary_conninfo` (`string`)
 
-Specifies a connection string to be used for the standby server to connect with a sending server. This string is in the format described in [Section 33.1.1](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNSTRING). If any option is unspecified in this string, then the corresponding environment variable (see [Section 33.14](https://www.postgresql.org/docs/13/libpq-envars.html)) is checked. If the environment variable is not set either, then defaults are used.
+Specifies a connection string to be used for the standby server to connect with a sending server. This string is in the format described in [Section 33.1.1](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING). If any option is unspecified in this string, then the corresponding environment variable (see [Section 33.14](../../client-interfaces/libpq-c-library/environment-variables.md)) is checked. If the environment variable is not set either, then defaults are used.
 
-The connection string should specify the host name (or address) of the sending server, as well as the port number if it is not the same as the standby server's default. Also specify a user name corresponding to a suitably-privileged role on the sending server (see [Section 26.2.5.1](https://www.postgresql.org/docs/13/warm-standby.html#STREAMING-REPLICATION-AUTHENTICATION)). A password needs to be provided too, if the sender demands password authentication. It can be provided in the `primary_conninfo` string, or in a separate `~/.pgpass` file on the standby server (use `replication` as the database name). Do not specify a database name in the `primary_conninfo` string.
+The connection string should specify the host name (or address) of the sending server, as well as the port number if it is not the same as the standby server's default. Also specify a user name corresponding to a suitably-privileged role on the sending server (see [Section 26.2.5.1](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#STREAMING-REPLICATION-AUTHENTICATION)). A password needs to be provided too, if the sender demands password authentication. It can be provided in the `primary_conninfo` string, or in a separate `~/.pgpass` file on the standby server (use `replication` as the database name). Do not specify a database name in the `primary_conninfo` string.
 
 This parameter can only be set in the `postgresql.conf` file or on the server command line. If this parameter is changed while the WAL receiver process is running, that process is signaled to shut down and expected to restart with the new setting (except if `primary_conninfo` is an empty string). This setting has no effect if the server is not in standby mode.
 
 #### `primary_slot_name` (`string`)
 
-Optionally specifies an existing replication slot to be used when connecting to the sending server via streaming replication to control resource removal on the upstream node (see [Section 26.2.6](https://www.postgresql.org/docs/13/warm-standby.html#STREAMING-REPLICATION-SLOTS)). This parameter can only be set in the `postgresql.conf` file or on the server command line. If this parameter is changed while the WAL receiver process is running, that process is signaled to shut down and expected to restart with the new setting. This setting has no effect if `primary_conninfo` is not set or the server is not in standby mode.
+Optionally specifies an existing replication slot to be used when connecting to the sending server via streaming replication to control resource removal on the upstream node (see [Section 26.2.6](../high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#STREAMING-REPLICATION-SLOTS)). This parameter can only be set in the `postgresql.conf` file or on the server command line. If this parameter is changed while the WAL receiver process is running, that process is signaled to shut down and expected to restart with the new setting. This setting has no effect if `primary_conninfo` is not set or the server is not in standby mode.
 
 `promote_trigger_file` (`string`)
 
@@ -117,7 +117,7 @@ Specifies a trigger file whose presence ends recovery in the standby. Even if th
 
 #### `wal_receiver_create_temp_slot` (`boolean`)
 
-Specifies whether the WAL receiver process should create a temporary replication slot on the remote instance when no permanent replication slot to use has been configured (using [primary\_slot\_name](https://www.postgresql.org/docs/13/runtime-config-replication.html#GUC-PRIMARY-SLOT-NAME)). The default is off. This parameter can only be set in the `postgresql.conf` file or on the server command line. If this parameter is changed while the WAL receiver process is running, that process is signaled to shut down and expected to restart with the new setting.
+Specifies whether the WAL receiver process should create a temporary replication slot on the remote instance when no permanent replication slot to use has been configured (using [primary\_slot\_name](replication.md#GUC-PRIMARY-SLOT-NAME)). The default is off. This parameter can only be set in the `postgresql.conf` file or on the server command line. If this parameter is changed while the WAL receiver process is running, that process is signaled to shut down and expected to restart with the new setting.
 
 #### `wal_receiver_status_interval` (`integer`)
 

@@ -1,6 +1,6 @@
 # 37.11. collation\_character\_set\_applicability
 
-The view `collation_character_set_applicability` identifies which character set the available collations are applicable to. In PostgreSQL, there is only one character set per database (see explanation in [Section 37.7](https://www.postgresql.org/docs/current/infoschema-character-sets.html)), so this view does not provide much useful information.
+The view `collation_character_set_applicability` identifies which character set the available collations are applicable to. In PostgreSQL, there is only one character set per database (see explanation in [Section 37.7](character_sets.md)), so this view does not provide much useful information.
 
 #### **Table 37.9. `collation_character_set_applicability` Columns**
 

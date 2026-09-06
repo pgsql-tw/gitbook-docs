@@ -68,4 +68,4 @@ Like [`pg_statistic`](pg_statistic.md), `pg_statistic_ext_data` should not be re
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-statistic-ext-data.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_statistic_ext_data.md)（英文原文，待翻譯）

@@ -48,4 +48,4 @@ Unlike most system catalogs, `pg_db_role_setting` is shared across all databases
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-db-role-setting.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_db_role_setting.md)（英文原文，待翻譯）

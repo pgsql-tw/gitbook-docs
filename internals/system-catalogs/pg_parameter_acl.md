@@ -48,4 +48,4 @@ Unlike most system catalogs, `pg_parameter_acl` is shared across all databases o
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-parameter-acl.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_parameter_acl.md)（英文原文，待翻譯）

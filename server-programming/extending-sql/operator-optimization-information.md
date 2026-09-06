@@ -4,7 +4,7 @@ A PostgreSQL operator definition can include several optional clauses that tell 
 
 Additional optimization clauses might be added in future versions of PostgreSQL. The ones described here are all the ones that release 15.2 understands.
 
-It is also possible to attach a planner support function to the function that underlies an operator, providing another way of telling the system about the behavior of the operator. See [Section 38.11](https://www.postgresql.org/docs/15/xfunc-optimization.html) for more information.
+It is also possible to attach a planner support function to the function that underlies an operator, providing another way of telling the system about the behavior of the operator. See [Section 38.11](function-optimization-information.md) for more information.
 
 ## 38.15.1. `COMMUTATOR`
 

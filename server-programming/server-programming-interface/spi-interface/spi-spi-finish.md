@@ -31,4 +31,4 @@ if called from an unconnected C function
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-finish.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-finish.md)（英文原文，待翻譯）

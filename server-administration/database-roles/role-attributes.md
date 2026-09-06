@@ -21,13 +21,13 @@ A role must explicitly be given permission to initiate streaming replication (ex
 
 A password is only significant if the client authentication method requires the user to supply a password when connecting to the database. The `password` and `md5` authentication methods make use of passwords. Database passwords are separate from operating system passwords. Specify a password upon role creation with `CREATE ROLE`` `_`name`_ PASSWORD '_`string`_'.
 
-A role's attributes can be modified after creation with `ALTER ROLE`. See the reference pages for the [CREATE ROLE](https://www.postgresql.org/docs/12/sql-createrole.html) and [ALTER ROLE](https://www.postgresql.org/docs/12/sql-alterrole.html) commands for details.
+A role's attributes can be modified after creation with `ALTER ROLE`. See the reference pages for the [CREATE ROLE](../../reference/sql-commands/create-role.md) and [ALTER ROLE](../../reference/sql-commands/alter-role.md) commands for details.
 
 #### Tip
 
 It is good practice to create a role that has the `CREATEDB` and `CREATEROLE` privileges, but is not a superuser, and then use this role for all routine management of databases and roles. This approach avoids the dangers of operating as a superuser for tasks that do not really require it.
 
-A role can also have role-specific defaults for many of the run-time configuration settings described in [Chapter 19](https://www.postgresql.org/docs/12/runtime-config.html). For example, if for some reason you want to disable index scans (hint: not a good idea) anytime you connect, you can use:
+A role can also have role-specific defaults for many of the run-time configuration settings described in [Chapter 19](../server-configuration/README.md). For example, if for some reason you want to disable index scans (hint: not a good idea) anytime you connect, you can use:
 
 ```
 ALTER ROLE myname SET enable_indexscan TO off;

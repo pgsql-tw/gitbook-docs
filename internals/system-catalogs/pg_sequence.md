@@ -76,4 +76,4 @@ The catalog `pg_sequence` contains information about sequences. Some of the info
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-sequence.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_sequence.md)（英文原文，待翻譯）

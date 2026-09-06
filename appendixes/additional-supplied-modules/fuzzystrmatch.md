@@ -166,4 +166,4 @@ test=# SELECT dmetaphone('gumbo');
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/fuzzystrmatch.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](fuzzystrmatch.md)（英文原文，待翻譯）

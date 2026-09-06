@@ -46,4 +46,4 @@ The catalog `pg_publication_namespace` contains the mapping between schemas and 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-publication-namespace.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_publication_namespace.md)（英文原文，待翻譯）

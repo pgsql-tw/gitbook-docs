@@ -14,7 +14,7 @@ This package has applications to astronomical databases as well. Astronomers wil
 
 Functions are provided to support input in latitude and longitude (in degrees), to support output of latitude and longitude, to calculate the great circle distance between two points and to easily specify a bounding box usable for index searches.
 
-The provided functions are shown in [Table F.5](https://www.postgresql.org/docs/12/earthdistance.html#EARTHDISTANCE-CUBE-FUNCTIONS).
+The provided functions are shown in [Table F.5](earthdistance.md#EARTHDISTANCE-CUBE-FUNCTIONS).
 
 #### **Table F.5. Cube-Based Earthdistance Functions**
 
@@ -33,7 +33,7 @@ The provided functions are shown in [Table F.5](https://www.postgresql.org/docs/
 
 The second part of the module relies on representing Earth locations as values of type `point`, in which the first component is taken to represent longitude in degrees, and the second component is taken to represent latitude in degrees. Points are taken as (longitude, latitude) and not vice versa because longitude is closer to the intuitive idea of x-axis and latitude to y-axis.
 
-A single operator is provided, shown in [Table F.6](https://www.postgresql.org/docs/12/earthdistance.html#EARTHDISTANCE-POINT-OPERATORS).
+A single operator is provided, shown in [Table F.6](earthdistance.md#EARTHDISTANCE-POINT-OPERATORS).
 
 #### **Table F.6. Point-Based Earthdistance Operators**
 

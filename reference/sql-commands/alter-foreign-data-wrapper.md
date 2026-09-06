@@ -96,4 +96,4 @@ ALTER FOREIGN DATA WRAPPER dbi VALIDATOR bob.myvalidator;
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-alterforeigndatawrapper.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](alter-foreign-data-wrapper.md)（英文原文，待翻譯）

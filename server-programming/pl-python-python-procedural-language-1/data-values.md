@@ -27,7 +27,7 @@ Note that logical mismatches between the declared PostgreSQL return type and the
 
 ## 46.2.2. Null, None
 
-If an SQL null value is passed to a function, the argument value will appear as `None` in Python. For example, the function definition of `pymax` shown in [Section 46.1](https://www.postgresql.org/docs/15/plpython-funcs.html) will return the wrong answer for null inputs. We could add `STRICT` to the function definition to make PostgreSQL do something more reasonable: if a null value is passed, the function will not be called at all, but will just return a null result automatically. Alternatively, we could check for null inputs in the function body:
+If an SQL null value is passed to a function, the argument value will appear as `None` in Python. For example, the function definition of `pymax` shown in [Section 46.1](pl-python-functions.md) will return the wrong answer for null inputs. We could add `STRICT` to the function definition to make PostgreSQL do something more reasonable: if a null value is passed, the function will not be called at all, but will just return a null result automatically. Alternatively, we could check for null inputs in the function body:
 
 ```
 CREATE FUNCTION pymax (a integer, b integer)

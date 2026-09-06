@@ -49,4 +49,4 @@ See `SPI_execute_plan`.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-execp.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-execp.md)（英文原文，待翻譯）

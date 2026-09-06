@@ -70,7 +70,7 @@ vacuumdb 將打開與資料庫的 njobs 連線，因此請確保您的 max\_conn
 
 `--min-mxid-age`` `_`mxid_age`_
 
-Only execute the vacuum or analyze commands on tables with a multixact ID age of at least _`mxid_age`_. This setting is useful for prioritizing tables to process to prevent multixact ID wraparound (see [Section 25.1.5.1](https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-MULTIXACT-WRAPAROUND)).
+Only execute the vacuum or analyze commands on tables with a multixact ID age of at least _`mxid_age`_. This setting is useful for prioritizing tables to process to prevent multixact ID wraparound (see [Section 25.1.5.1](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND)).
 
 For the purposes of this option, the multixact ID age of a relation is the greatest of the ages of the main relation and its associated TOAST table, if one exists. Since the commands issued by vacuumdb will also process the TOAST table for the relation if necessary, it does not need to be considered separately.
 
@@ -80,7 +80,7 @@ This option is only available for servers running PostgreSQL 9.6 and later.
 
 `--min-xid-age`` `_`xid_age`_
 
-Only execute the vacuum or analyze commands on tables with a transaction ID age of at least _`xid_age`_. This setting is useful for prioritizing tables to process to prevent transaction ID wraparound (see [Section 25.1.5](https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND)).
+Only execute the vacuum or analyze commands on tables with a transaction ID age of at least _`xid_age`_. This setting is useful for prioritizing tables to process to prevent transaction ID wraparound (see [Section 25.1.5](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)).
 
 For the purposes of this option, the transaction ID age of a relation is the greatest of the ages of the main relation and its associated TOAST table, if one exists. Since the commands issued by vacuumdb will also process the TOAST table for the relation if necessary, it does not need to be considered separately.
 
@@ -115,7 +115,7 @@ This option is only available for servers running PostgreSQL 12 and later.
 `-P`` `_`parallel_workers`_\
 `--parallel=`_`parallel_workers`_
 
-Specify the number of parallel workers for _parallel vacuum_. This allows the vacuum to leverage multiple CPUs to process indexes. See [VACUUM](https://www.postgresql.org/docs/current/sql-vacuum.html).
+Specify the number of parallel workers for _parallel vacuum_. This allows the vacuum to leverage multiple CPUs to process indexes. See [VACUUM](../sql-commands/vacuum.md).
 
 #### Note
 

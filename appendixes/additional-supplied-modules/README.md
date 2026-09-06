@@ -36,4 +36,4 @@ For all these modules, `CREATE EXTENSION` must be run by a database superuser, u
 
 Many modules allow you to install their objects in a schema of your choice. To do that, add `SCHEMA`` `_`schema_name`_ to the `CREATE EXTENSION` command. By default, the objects will be placed in your current creation target schema, which in turn defaults to `public`.
 
-Note, however, that some of these modules are not “extensions” in this sense, but are loaded into the server in some other way, for instance by way of [shared\_preload\_libraries](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-SHARED-PRELOAD-LIBRARIES). See the documentation of each module for details.
+Note, however, that some of these modules are not “extensions” in this sense, but are loaded into the server in some other way, for instance by way of [shared\_preload\_libraries](../../server-administration/server-configuration/client-connection-defaults.md#GUC-SHARED-PRELOAD-LIBRARIES). See the documentation of each module for details.

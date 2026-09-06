@@ -42,7 +42,7 @@ Use the `CONCURRENTLY` option. See [REINDEX](../sql-commands/reindex.md), where 
 
 <code class="option">&#91;<span class="optional">-d</span>&#93; <em class="replaceable"><code>dbname</code></em></code><br><code class="option">&#91;<span class="optional">--dbname=</span>&#93;<em class="replaceable"><code>dbname</code></em></code>
 
-Specifies the name of the database to be reindexed, when `-a`/`--all` is not used. If this is not specified, the database name is read from the environment variable `PGDATABASE`. If that is not set, the user name specified for the connection is used. The <em class="replaceable"><code>dbname</code></em> can be a [connection string](https://www.postgresql.org/docs/15/libpq-connect.html#LIBPQ-CONNSTRING). If so, connection string parameters will override any conflicting command line options.
+Specifies the name of the database to be reindexed, when `-a`/`--all` is not used. If this is not specified, the database name is read from the environment variable `PGDATABASE`. If that is not set, the user name specified for the connection is used. The <em class="replaceable"><code>dbname</code></em> can be a [connection string](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING). If so, connection string parameters will override any conflicting command line options.
 
 `-e`<br>`--echo`
 
@@ -56,7 +56,7 @@ Recreate <em class="replaceable"><code>index</code></em> only. Multiple indexes 
 
 Execute the reindex commands in parallel by running <em class="replaceable"><code>njobs</code></em> commands simultaneously. This option may reduce the processing time but it also increases the load on the database server.
 
-reindexdb will open <em class="replaceable"><code>njobs</code></em> connections to the database, so make sure your [max_connections](https://www.postgresql.org/docs/15/runtime-config-connection.html#GUC-MAX-CONNECTIONS) setting is high enough to accommodate all connections.
+reindexdb will open <em class="replaceable"><code>njobs</code></em> connections to the database, so make sure your [max_connections](../../server-administration/server-configuration/connections-and-authentication.md#GUC-MAX-CONNECTIONS) setting is high enough to accommodate all connections.
 
 Note that this option is incompatible with the `--index` and `--system` options.
 
@@ -118,7 +118,7 @@ This option is never essential, since reindexdb will automatically prompt for a 
 
 <code class="option">--maintenance-db=<em class="replaceable"><code>dbname</code></em></code>
 
-When the `-a`/`--all` is used, connect to this database to gather the list of databases to reindex. If not specified, the `postgres` database will be used, or if that does not exist, `template1` will be used. This can be a [connection string](https://www.postgresql.org/docs/15/libpq-connect.html#LIBPQ-CONNSTRING). If so, connection string parameters will override any conflicting command line options. Also, connection string parameters other than the database name itself will be re-used when connecting to other databases.
+When the `-a`/`--all` is used, connect to this database to gather the list of databases to reindex. If not specified, the `postgres` database will be used, or if that does not exist, `template1` will be used. This can be a [connection string](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING). If so, connection string parameters will override any conflicting command line options. Also, connection string parameters other than the database name itself will be re-used when connecting to other databases.
 
 <a id="id-1.9.4.21.7"></a>
 
@@ -172,4 +172,4 @@ $ reindexdb --table=foo --index=bar abcd
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/app-reindexdb.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](reindexdb.md)（英文原文，待翻譯）

@@ -14,4 +14,4 @@ The bucket splitting algorithms to expand the hash index are too complex to be w
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/hash-implementation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](hash-implementation.md)（英文原文，待翻譯）

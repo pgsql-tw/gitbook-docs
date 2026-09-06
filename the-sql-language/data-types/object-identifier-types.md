@@ -1,6 +1,6 @@
 # 8.19. 物件指標型別
 
-Object identifiers (OIDs) are used internally by PostgreSQL as primary keys for various system tables. Type `oid` represents an object identifier. There are also several alias types for `oid`: `regproc`, `regprocedure`, `regoper`, `regoperator`, `regclass`, `regtype`, `regrole`, `regnamespace`, `regconfig`, and `regdictionary`. [Table 8.26](https://www.postgresql.org/docs/12/datatype-oid.html#DATATYPE-OID-TABLE) shows an overview.
+Object identifiers (OIDs) are used internally by PostgreSQL as primary keys for various system tables. Type `oid` represents an object identifier. There are also several alias types for `oid`: `regproc`, `regprocedure`, `regoper`, `regoperator`, `regclass`, `regtype`, `regrole`, `regnamespace`, `regconfig`, and `regdictionary`. [Table 8.26](object-identifier-types.md#DATATYPE-OID-TABLE) shows an overview.
 
 The `oid` type is currently implemented as an unsigned four-byte integer. Therefore, it is not large enough to provide database-wide uniqueness in large databases, or even in large individual tables.
 
@@ -51,4 +51,4 @@ A third identifier type used by the system is `cid`, or command identifier. This
 
 A final identifier type used by the system is `tid`, or tuple identifier (row identifier). This is the data type of the system column `ctid`. A tuple ID is a pair (block number, tuple index within block) that identifies the physical location of the row within its table.
 
-(The system columns are further explained in [Section 5.5](https://www.postgresql.org/docs/12/ddl-system-columns.html).)
+(The system columns are further explained in [Section 5.5](../ddl/system-columns.md).)

@@ -16,7 +16,7 @@ ASCII
 
 BKI
 
-[Backend Interface](https://www.postgresql.org/docs/13/bki.html)
+[Backend Interface](../internals/system-catalog-declarations-and-initial-contents.md)
 
 CA
 
@@ -40,7 +40,7 @@ CSV
 
 CTE
 
-[Common Table Expression](https://www.postgresql.org/docs/13/queries-with.html)
+[Common Table Expression](../the-sql-language/queries/with-queries.md)
 
 CVE
 
@@ -72,7 +72,7 @@ DST
 
 ECPG
 
-[Embedded C for PostgreSQL](https://www.postgresql.org/docs/13/ecpg.html)
+[Embedded C for PostgreSQL](../client-interfaces/ecpg-embedded-sql-in-c/README.md)
 
 ESQL
 
@@ -84,19 +84,19 @@ FAQ
 
 FSM
 
-[Free Space Map](https://www.postgresql.org/docs/13/storage-fsm.html)
+[Free Space Map](../internals/database-physical-storage/free-space-map.md)
 
 GEQO
 
-[Genetic Query Optimizer](https://www.postgresql.org/docs/13/geqo.html)
+[Genetic Query Optimizer](../internals/genetic-query-optimizer/README.md)
 
 GIN
 
-[Generalized Inverted Index](https://www.postgresql.org/docs/13/gin.html)
+[Generalized Inverted Index](../internals/gin-indexes/README.md)
 
 GiST
 
-[Generalized Search Tree](https://www.postgresql.org/docs/13/gist.html)
+[Generalized Search Tree](../internals/gist-indexes/README.md)
 
 Git
 
@@ -112,11 +112,11 @@ GSSAPI
 
 GUC
 
-[Grand Unified Configuration](https://www.postgresql.org/docs/13/config-setting.html), the PostgreSQL subsystem that handles server configuration
+[Grand Unified Configuration](../server-administration/server-configuration/setting-parameters.md), the PostgreSQL subsystem that handles server configuration
 
 HBA
 
-[Host-Based Authentication](https://www.postgresql.org/docs/13/auth-pg-hba-conf.html)
+[Host-Based Authentication](../server-administration/client-authentication/the-pg_hba.conf-file.md)
 
 HOT
 
@@ -160,7 +160,7 @@ LDAP
 
 LSN
 
-Log Sequence Number, see [`pg_lsn`](https://www.postgresql.org/docs/13/datatype-pg-lsn.html) and [WAL Internals](https://www.postgresql.org/docs/13/wal-internals.html).
+Log Sequence Number, see [`pg_lsn`](../the-sql-language/data-types/pg_lsn-type.md) and [WAL Internals](../server-administration/reliability-and-the-write-ahead-log/wal-internals.md).
 
 MSVC
 
@@ -168,7 +168,7 @@ MSVC
 
 MVCC
 
-[Multi-Version Concurrency Control](https://www.postgresql.org/docs/13/mvcc.html)
+[Multi-Version Concurrency Control](../the-sql-language/concurrency-control/README.md)
 
 NLS
 
@@ -180,7 +180,7 @@ ODBC
 
 OID
 
-[Object Identifier](https://www.postgresql.org/docs/13/datatype-oid.html)
+[Object Identifier](../the-sql-language/data-types/object-identifier-types.md)
 
 OLAP
 
@@ -204,7 +204,7 @@ PGSQL
 
 PGXS
 
-[PostgreSQL Extension System](https://www.postgresql.org/docs/13/extend-pgxs.html)
+[PostgreSQL Extension System](../server-programming/extending-sql/extension-building-infrastructure.md)
 
 PID
 
@@ -212,11 +212,11 @@ PID
 
 PITR
 
-[Point-In-Time Recovery](https://www.postgresql.org/docs/13/continuous-archiving.html) (Continuous Archiving)
+[Point-In-Time Recovery](../server-administration/backup-and-restore/continuous-archiving-and-point-in-time-recovery-pitr.md) (Continuous Archiving)
 
 PL
 
-[Procedural Languages (server-side)](https://www.postgresql.org/docs/13/server-programming.html)
+[Procedural Languages (server-side)](../server-programming/README.md)
 
 POSIX
 
@@ -236,11 +236,11 @@ SGML
 
 SPI
 
-[Server Programming Interface](https://www.postgresql.org/docs/13/spi.html)
+[Server Programming Interface](../server-programming/server-programming-interface.md)
 
 SP-GiST
 
-[Space-Partitioned Generalized Search Tree](https://www.postgresql.org/docs/13/spgist.html)
+[Space-Partitioned Generalized Search Tree](../internals/sp-gist-indexes/README.md)
 
 SQL
 
@@ -248,7 +248,7 @@ SQL
 
 SRF
 
-[Set-Returning Function](https://www.postgresql.org/docs/13/xfunc-c.html#XFUNC-C-RETURN-SET)
+[Set-Returning Function](../server-programming/extending-sql/c-language-functions.md#XFUNC-C-RETURN-SET)
 
 SSH
 
@@ -272,11 +272,11 @@ TCP/IP
 
 TID
 
-[Tuple Identifier](https://www.postgresql.org/docs/13/datatype-oid.html)
+[Tuple Identifier](../the-sql-language/data-types/object-identifier-types.md)
 
 TOAST
 
-[The Oversized-Attribute Storage Technique](https://www.postgresql.org/docs/13/storage-toast.html)
+[The Oversized-Attribute Storage Technique](../internals/database-physical-storage/toast.md)
 
 TPC
 
@@ -300,15 +300,15 @@ UTF8
 
 UUID
 
-[Universally Unique Identifier](https://www.postgresql.org/docs/13/datatype-uuid.html)
+[Universally Unique Identifier](../the-sql-language/data-types/uuid-type.md)
 
 WAL
 
-[Write-Ahead Log](https://www.postgresql.org/docs/13/wal.html)
+[Write-Ahead Log](../server-administration/reliability-and-the-write-ahead-log/README.md)
 
 XID
 
-[Transaction Identifier](https://www.postgresql.org/docs/13/datatype-oid.html)
+[Transaction Identifier](../the-sql-language/data-types/object-identifier-types.md)
 
 XML
 

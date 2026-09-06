@@ -10,7 +10,7 @@ pg\_standby — supports the creation of a PostgreSQL warm standby server
 
 pg\_standby supports creation of a “warm standby” database server. It is designed to be a production-ready program, as well as a customizable template should you require specific modifications.
 
-pg\_standby is designed to be a waiting `restore_command`, which is needed to turn a standard archive recovery into a warm standby operation. Other configuration is required as well, all of which is described in the main server manual (see [Section 26.2](https://www.postgresql.org/docs/12/warm-standby.html)).
+pg\_standby is designed to be a waiting `restore_command`, which is needed to turn a standard archive recovery into a warm standby operation. Other configuration is required as well, all of which is described in the main server manual (see [Section 26.2](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md)).
 
 To configure a standby server to use pg\_standby, put this into its `postgresql.conf` configuration file:
 
@@ -52,7 +52,7 @@ Set the maximum number of times to retry the copy command if it fails (default 3
 
 `-s` _`sleeptime`_
 
-Set the number of seconds (up to 60, default 5) to sleep between tests to see if the WAL file to be restored is available in the archive yet. The default setting is not necessarily recommended; consult [Section 26.2](https://www.postgresql.org/docs/12/warm-standby.html) for discussion.
+Set the number of seconds (up to 60, default 5) to sleep between tests to see if the WAL file to be restored is available in the archive yet. The default setting is not necessarily recommended; consult [Section 26.2](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md) for discussion.
 
 `-t` _`triggerfile`_
 
@@ -65,7 +65,7 @@ Print the pg\_standby version and exit.
 
 `-w` _`maxwaittime`_
 
-Set the maximum number of seconds to wait for the next WAL file, after which a fast failover will be performed. A setting of zero (the default) means wait forever. The default setting is not necessarily recommended; consult [Section 26.2](https://www.postgresql.org/docs/12/warm-standby.html) for discussion.
+Set the maximum number of seconds to wait for the next WAL file, after which a fast failover will be performed. A setting of zero (the default) means wait forever. The default setting is not necessarily recommended; consult [Section 26.2](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md) for discussion.
 
 `-?`\
 `--help`

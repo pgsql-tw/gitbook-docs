@@ -13,7 +13,7 @@ CREATE EVENT TRIGGER name
 
 ### Description
 
-`CREATE EVENT TRIGGER` creates a new event trigger. Whenever the designated event occurs and the `WHEN` condition associated with the trigger, if any, is satisfied, the trigger function will be executed. For a general introduction to event triggers, see [Chapter 39](https://www.postgresql.org/docs/13/event-triggers.html). The user who creates an event trigger becomes its owner.
+`CREATE EVENT TRIGGER` creates a new event trigger. Whenever the designated event occurs and the `WHEN` condition associated with the trigger, if any, is satisfied, the trigger function will be executed. For a general introduction to event triggers, see [Chapter 39](../../server-programming/event-triggers/README.md). The user who creates an event trigger becomes its owner.
 
 ### Parameters
 
@@ -21,7 +21,7 @@ _`name`_
 
 The name to give the new trigger. This name must be unique within the database._`event`_
 
-The name of the event that triggers a call to the given function. See [Section 39.1](https://www.postgresql.org/docs/13/event-trigger-definition.html) for more information on event names._`filter_variable`_
+The name of the event that triggers a call to the given function. See [Section 39.1](../../server-programming/event-triggers/overview-of-event-trigger-behavior.md) for more information on event names._`filter_variable`_
 
 The name of a variable used to filter events. This makes it possible to restrict the firing of the trigger to a subset of the cases in which it is supported. Currently the only supported _`filter_variable`_ is `TAG`._`filter_value`_
 
@@ -35,11 +35,11 @@ In the syntax of `CREATE EVENT TRIGGER`, the keywords `FUNCTION` and `PROCEDURE`
 
 Only superusers can create event triggers.
 
-Event triggers are disabled in single-user mode (see [postgres](https://www.postgresql.org/docs/13/app-postgres.html)). If an erroneous event trigger disables the database so much that you can't even drop the trigger, restart in single-user mode and you'll be able to do that.
+Event triggers are disabled in single-user mode (see [postgres](../server-applications/postgres.md)). If an erroneous event trigger disables the database so much that you can't even drop the trigger, restart in single-user mode and you'll be able to do that.
 
 ### Examples
 
-Forbid the execution of any [DDL](https://www.postgresql.org/docs/13/ddl.html) command:
+Forbid the execution of any [DDL](../../the-sql-language/ddl/README.md) command:
 
 ```
 CREATE OR REPLACE FUNCTION abort_any_command()
@@ -61,4 +61,4 @@ There is no `CREATE EVENT TRIGGER` statement in the SQL standard.
 
 ### See Also
 
-[ALTER EVENT TRIGGER](https://www.postgresql.org/docs/13/sql-altereventtrigger.html), [DROP EVENT TRIGGER](https://www.postgresql.org/docs/13/sql-dropeventtrigger.html), [CREATE FUNCTION](https://www.postgresql.org/docs/13/sql-createfunction.html)
+[ALTER EVENT TRIGGER](alter-event-trigger.md), [DROP EVENT TRIGGER](drop-event-trigger.md), [CREATE FUNCTION](create-function.md)

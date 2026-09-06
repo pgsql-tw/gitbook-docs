@@ -14,8 +14,8 @@ In such cases, heap-only tuples provide two optimizations:
 * New index entries are not needed to represent updated rows.
 * Old versions of updated rows can be completely removed during normal operation, including `SELECT`s, instead of requiring periodic vacuum operations. (This is possible because indexes do not reference their [page item identifiers](database-page-layout.md).)
 
-In summary, heap-only tuple updates can only be created if columns used by indexes are not updated. You can increase the likelihood of sufficient page space for HOT updates by decreasing a table's [`fillfactor`](https://www.postgresql.org/docs/15/sql-createtable.html#RELOPTION-FILLFACTOR). If you don't, HOT updates will still happen because new rows will naturally migrate to new pages and existing pages with sufficient free space for new row versions. The system view [pg_stat_all_tables](https://www.postgresql.org/docs/15/monitoring-stats.html#MONITORING-PG-STAT-ALL-TABLES-VIEW) allows monitoring of the occurrence of HOT and non-HOT updates.
+In summary, heap-only tuple updates can only be created if columns used by indexes are not updated. You can increase the likelihood of sufficient page space for HOT updates by decreasing a table's [`fillfactor`](../../reference/sql-commands/create-table.md#RELOPTION-FILLFACTOR). If you don't, HOT updates will still happen because new rows will naturally migrate to new pages and existing pages with sufficient free space for new row versions. The system view [pg_stat_all_tables](../../server-administration/monitoring-database-activity/the-statistics-collector.md#MONITORING-PG-STAT-ALL-TABLES-VIEW) allows monitoring of the occurrence of HOT and non-HOT updates.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/storage-hot.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](storage-hot.md)（英文原文，待翻譯）

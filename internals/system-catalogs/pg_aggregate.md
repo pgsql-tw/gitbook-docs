@@ -164,4 +164,4 @@ New aggregate functions are registered with the [`CREATE AGGREGATE`](../../refer
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-aggregate.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_aggregate.md)（英文原文，待翻譯）

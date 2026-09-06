@@ -24,7 +24,7 @@ free_space         | 8932
 free_percent       | 1.95
 ```
 
-The output columns are described in [Table F.22](https://www.postgresql.org/docs/13/pgstattuple.html#PGSTATTUPLE-COLUMNS).
+The output columns are described in [Table F.22](pgstattuple.md#PGSTATTUPLE-COLUMNS).
 
 #### **Table F.22. `pgstattuple` Output Columns**
 
@@ -159,7 +159,7 @@ approx_free_space    | 11996
 approx_free_percent  | 2.09
 ```
 
-The output columns are described in [Table F.23](https://www.postgresql.org/docs/13/pgstattuple.html#PGSTATAPPROX-COLUMNS).
+The output columns are described in [Table F.23](pgstattuple.md#PGSTATAPPROX-COLUMNS).
 
 Whereas `pgstattuple` always performs a full-table scan and returns an exact count of live and dead tuples (and their sizes) and free space, `pgstattuple_approx` tries to avoid the full-table scan and returns exact dead tuple statistics along with an approximation of the number and size of live tuples and free space.
 

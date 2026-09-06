@@ -20,7 +20,7 @@ Only ordinary and toast table relations, materialized views, sequences, and btre
 
 If `dbname` is specified, it should be the name of a single database to check, and no other database selection options should be present. Otherwise, if any database selection options are present, all matching databases will be checked. If no such options are present, the default database will be checked. Database selection options include `--all`, `--database` and `--exclude-database`. They also include `--relation`, `--exclude-relation`, `--table`, `--exclude-table`, `--index`, and `--exclude-index`, but only when such options are used with a three-part pattern (e.g. `mydb*.myschema*.myrel*`). Finally, they include `--schema` and `--exclude-schema` when such options are used with a two-part pattern (e.g. `mydb*.myschema*`).
 
-<em class="replaceable"><code>dbname</code></em> can also be a [connection string](https://www.postgresql.org/docs/15/libpq-connect.html#LIBPQ-CONNSTRING).
+<em class="replaceable"><code>dbname</code></em> can also be a [connection string](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING).
 
 <a id="id-1.9.4.9.6"></a>
 
@@ -34,39 +34,39 @@ Check all databases, except for any excluded via `--exclude-database`.
 
 <code class="option">-d <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--database=<em class="replaceable"><code>pattern</code></em></code>
 
-Check databases matching the specified [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS), except for any excluded by `--exclude-database`. This option can be specified more than once.
+Check databases matching the specified [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS), except for any excluded by `--exclude-database`. This option can be specified more than once.
 
 <code class="option">-D <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--exclude-database=<em class="replaceable"><code>pattern</code></em></code>
 
-Exclude databases matching the given [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS). This option can be specified more than once.
+Exclude databases matching the given [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS). This option can be specified more than once.
 
 <code class="option">-i <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--index=<em class="replaceable"><code>pattern</code></em></code>
 
-Check indexes matching the specified [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS), unless they are otherwise excluded. This option can be specified more than once.
+Check indexes matching the specified [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS), unless they are otherwise excluded. This option can be specified more than once.
 
 This is similar to the `--relation` option, except that it applies only to indexes, not to other relation types.
 
 <code class="option">-I <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--exclude-index=<em class="replaceable"><code>pattern</code></em></code>
 
-Exclude indexes matching the specified [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS). This option can be specified more than once.
+Exclude indexes matching the specified [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS). This option can be specified more than once.
 
 This is similar to the `--exclude-relation` option, except that it applies only to indexes, not other relation types.
 
 <code class="option">-r <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--relation=<em class="replaceable"><code>pattern</code></em></code>
 
-Check relations matching the specified [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS), unless they are otherwise excluded. This option can be specified more than once.
+Check relations matching the specified [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS), unless they are otherwise excluded. This option can be specified more than once.
 
 Patterns may be unqualified, e.g. `myrel*`, or they may be schema-qualified, e.g. `myschema*.myrel*` or database-qualified and schema-qualified, e.g. `mydb*.myschema*.myrel*`. A database-qualified pattern will add matching databases to the list of databases to be checked.
 
 <code class="option">-R <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--exclude-relation=<em class="replaceable"><code>pattern</code></em></code>
 
-Exclude relations matching the specified [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS). This option can be specified more than once.
+Exclude relations matching the specified [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS). This option can be specified more than once.
 
-As with `--relation`, the [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS) may be unqualified, schema-qualified, or database- and schema-qualified.
+As with `--relation`, the [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS) may be unqualified, schema-qualified, or database- and schema-qualified.
 
 <code class="option">-s <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--schema=<em class="replaceable"><code>pattern</code></em></code>
 
-Check tables and indexes in schemas matching the specified [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS), unless they are otherwise excluded. This option can be specified more than once.
+Check tables and indexes in schemas matching the specified [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS), unless they are otherwise excluded. This option can be specified more than once.
 
 To select only tables in schemas matching a particular pattern, consider using something like `--table=SCHEMAPAT.* --no-dependent-indexes`. To select only indexes, consider using something like `--index=SCHEMAPAT.*`.
 
@@ -74,19 +74,19 @@ A schema pattern may be database-qualified. For example, you may write `--schema
 
 <code class="option">-S <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--exclude-schema=<em class="replaceable"><code>pattern</code></em></code>
 
-Exclude tables and indexes in schemas matching the specified [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS). This option can be specified more than once.
+Exclude tables and indexes in schemas matching the specified [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS). This option can be specified more than once.
 
 As with `--schema`, the pattern may be database-qualified.
 
 <code class="option">-t <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--table=<em class="replaceable"><code>pattern</code></em></code>
 
-Check tables matching the specified [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS), unless they are otherwise excluded. This option can be specified more than once.
+Check tables matching the specified [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS), unless they are otherwise excluded. This option can be specified more than once.
 
 This is similar to the `--relation` option, except that it applies only to tables, materialized views, and sequences, not to indexes.
 
 <code class="option">-T <em class="replaceable"><code>pattern</code></em></code><br><code class="option">--exclude-table=<em class="replaceable"><code>pattern</code></em></code>
 
-Exclude tables matching the specified [<em class="replaceable"><code>pattern</code></em>](https://www.postgresql.org/docs/15/app-psql.html#APP-PSQL-PATTERNS). This option can be specified more than once.
+Exclude tables matching the specified [<em class="replaceable"><code>pattern</code></em>](psql.md#APP-PSQL-PATTERNS). This option can be specified more than once.
 
 This is similar to the `--exclude-relation` option, except that it applies only to tables, materialized views, and sequences, not to indexes.
 
@@ -180,7 +180,7 @@ This option is never essential, since pg_amcheck will automatically prompt for a
 
 <code class="option">--maintenance-db=<em class="replaceable"><code>dbname</code></em></code>
 
-Specifies a database or [connection string](https://www.postgresql.org/docs/15/libpq-connect.html#LIBPQ-CONNSTRING) to be used to discover the list of databases to be checked. If neither `--all` nor any option including a database pattern is used, no such connection is required and this option does nothing. Otherwise, any connection string parameters other than the database name which are included in the value for this option will also be used when connecting to the databases being checked. If this option is omitted, the default is `postgres` or, if that fails, `template1`.
+Specifies a database or [connection string](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING) to be used to discover the list of databases to be checked. If neither `--all` nor any option including a database pattern is used, no such connection is required and this option does nothing. Otherwise, any connection string parameters other than the database name which are included in the value for this option will also be used when connecting to the databases being checked. If this option is omitted, the default is `postgres` or, if that fails, `template1`.
 
 Other options are also available:
 
@@ -230,4 +230,4 @@ pg_amcheck is designed to work with PostgreSQL 14.0 and later.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/app-pgamcheck.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_amcheck.md)（英文原文，待翻譯）

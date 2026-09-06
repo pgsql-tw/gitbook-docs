@@ -70,7 +70,7 @@ test_pub=# INSERT INTO t3 VALUES (1, 'i'), (2, 'ii'), (3, 'iii');
 INSERT 0 3
 ```
 
-Create publications for the tables. The publications `pub2` and `pub3a` disallow some `publish` operations. The publication `pub3b` has a row filter (see [Section 31.3](https://www.postgresql.org/docs/current/logical-replication-row-filter.html)).
+Create publications for the tables. The publications `pub2` and `pub3a` disallow some `publish` operations. The publication `pub3b` has a row filter (see [Section 31.3](31.3.-row-filters.md)).
 
 ```
 test_pub=# CREATE PUBLICATION pub1 FOR TABLE t1;

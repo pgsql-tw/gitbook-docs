@@ -171,4 +171,4 @@ All SPI query-execution functions set both `SPI_processed` and `SPI_tuptable` (j
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-execute.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-execute.md)（英文原文，待翻譯）

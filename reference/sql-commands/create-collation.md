@@ -79,7 +79,7 @@ The name of an existing collation to copy. The new collation will have the same 
 
 Use `DROP COLLATION` to remove user-defined collations.
 
-See [Section 24.2.2.3](https://www.postgresql.org/docs/15/collation.html#COLLATION-CREATE) for more information on how to create collations.
+See [Section 24.2.2.3](../../server-administration/localization/collation-support.md#COLLATION-CREATE) for more information on how to create collations.
 
 When using the `libc` collation provider, the locale must be applicable to the current database encoding. See [CREATE DATABASE](create-database.md) for the precise rules.
 
@@ -124,4 +124,4 @@ There is a `CREATE COLLATION` statement in the SQL standard, but it is limited t
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-createcollation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](create-collation.md)（英文原文，待翻譯）

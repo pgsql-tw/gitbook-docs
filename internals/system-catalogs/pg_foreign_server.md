@@ -76,4 +76,4 @@ The catalog `pg_foreign_server` stores foreign server definitions. A foreign ser
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-foreign-server.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_foreign_server.md)（英文原文，待翻譯）

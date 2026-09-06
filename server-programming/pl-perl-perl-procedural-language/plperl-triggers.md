@@ -93,4 +93,4 @@ CREATE TRIGGER test_valid_id_trig
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/plperl-triggers.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](plperl-triggers.md)（英文原文，待翻譯）

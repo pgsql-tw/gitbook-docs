@@ -87,4 +87,4 @@ The SQL standard specifies that the key word `SAVEPOINT` is mandatory, but Postg
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-rollback-to.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](rollback-to-savepoint.md)（英文原文，待翻譯）

@@ -242,4 +242,4 @@ The forms `ADD`, `DROP`, and `SET DATA TYPE` conform with the SQL standard. The 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-alterforeigntable.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](alter-foreign-table.md)（英文原文，待翻譯）

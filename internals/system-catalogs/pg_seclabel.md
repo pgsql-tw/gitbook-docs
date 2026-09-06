@@ -60,4 +60,4 @@ See also [`pg_shseclabel`](pg_shseclabel.md), which performs a similar function 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-seclabel.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_seclabel.md)（英文原文，待翻譯）

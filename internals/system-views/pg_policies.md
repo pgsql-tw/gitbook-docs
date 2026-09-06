@@ -76,4 +76,4 @@ The view `pg_policies` provides access to useful information about each row-leve
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/view-pg-policies.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_policies.md)（英文原文，待翻譯）

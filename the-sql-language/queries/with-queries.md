@@ -215,7 +215,7 @@ This query effectively moves rows from `products` to `products_log`. The `DELETE
 
 A fine point of the above example is that the `WITH` clause is attached to the `INSERT`, not the sub-`SELECT` within the `INSERT`. This is necessary because data-modifying statements are only allowed in `WITH` clauses that are attached to the top-level statement. However, normal `WITH` visibility rules apply, so it is possible to refer to the `WITH` statement's output from the sub-`SELECT`.
 
-Data-modifying statements in `WITH` usually have `RETURNING` clauses (see [Section 6.4](https://www.postgresql.org/docs/12/dml-returning.html)), as shown in the example above. It is the output of the `RETURNING` clause, _not_ the target table of the data-modifying statement, that forms the temporary table that can be referred to by the rest of the query. If a data-modifying statement in `WITH` lacks a `RETURNING` clause, then it forms no temporary table and cannot be referred to in the rest of the query. Such a statement will be executed nonetheless. A not-particularly-useful example is:
+Data-modifying statements in `WITH` usually have `RETURNING` clauses (see [Section 6.4](../data-manipulation/returning-data-from-modified-rows.md)), as shown in the example above. It is the output of the `RETURNING` clause, _not_ the target table of the data-modifying statement, that forms the temporary table that can be referred to by the rest of the query. If a data-modifying statement in `WITH` lacks a `RETURNING` clause, then it forms no temporary table and cannot be referred to in the rest of the query. Such a statement will be executed nonetheless. A not-particularly-useful example is:
 
 ```
 WITH t AS (
@@ -244,7 +244,7 @@ This query would remove all direct and indirect subparts of a product.
 
 Data-modifying statements in `WITH` are executed exactly once, and always to completion, independently of whether the primary query reads all (or indeed any) of their output. Notice that this is different from the rule for `SELECT` in `WITH`: as stated in the previous section, execution of a `SELECT` is carried only as far as the primary query demands its output.
 
-The sub-statements in `WITH` are executed concurrently with each other and with the main query. Therefore, when using data-modifying statements in `WITH`, the order in which the specified updates actually happen is unpredictable. All the statements are executed with the same _snapshot_ (see [Chapter 13](https://www.postgresql.org/docs/12/mvcc.html)), so they cannot “see” one another's effects on the target tables. This alleviates the effects of the unpredictability of the actual order of row updates, and means that `RETURNING` data is the only way to communicate changes between different `WITH` sub-statements and the main query. An example of this is that in
+The sub-statements in `WITH` are executed concurrently with each other and with the main query. Therefore, when using data-modifying statements in `WITH`, the order in which the specified updates actually happen is unpredictable. All the statements are executed with the same _snapshot_ (see [Chapter 13](../concurrency-control/README.md)), so they cannot “see” one another's effects on the target tables. This alleviates the effects of the unpredictability of the actual order of row updates, and means that `RETURNING` data is the only way to communicate changes between different `WITH` sub-statements and the main query. An example of this is that in
 
 ```
 WITH t AS (

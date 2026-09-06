@@ -1,6 +1,6 @@
 # 49.6. Logical Decoding Output Plugins
 
-An example output plugin can be found in the [`contrib/test_decoding`](https://www.postgresql.org/docs/13/test-decoding.html) subdirectory of the PostgreSQL source tree.
+An example output plugin can be found in the [`contrib/test_decoding`](../../appendixes/additional-supplied-modules/test_decoding.md) subdirectory of the PostgreSQL source tree.
 
 ## 49.6.1. Initialization Function
 
@@ -37,7 +37,7 @@ Any actions leading to transaction ID assignment are prohibited. That, among oth
 
 ## 49.6.3. Output Modes
 
-Output plugin callbacks can pass data to the consumer in nearly arbitrary formats. For some use cases, like viewing the changes via SQL, returning data in a data type that can contain arbitrary data (e.g., `bytea`) is cumbersome. If the output plugin only outputs textual data in the server's encoding, it can declare that by setting `OutputPluginOptions.output_type` to `OUTPUT_PLUGIN_TEXTUAL_OUTPUT` instead of `OUTPUT_PLUGIN_BINARY_OUTPUT` in the [startup callback](https://www.postgresql.org/docs/13/logicaldecoding-output-plugin.html#LOGICALDECODING-OUTPUT-PLUGIN-STARTUP). In that case, all the data has to be in the server's encoding so that a `text` datum can contain it. This is checked in assertion-enabled builds.
+Output plugin callbacks can pass data to the consumer in nearly arbitrary formats. For some use cases, like viewing the changes via SQL, returning data in a data type that can contain arbitrary data (e.g., `bytea`) is cumbersome. If the output plugin only outputs textual data in the server's encoding, it can declare that by setting `OutputPluginOptions.output_type` to `OUTPUT_PLUGIN_TEXTUAL_OUTPUT` instead of `OUTPUT_PLUGIN_BINARY_OUTPUT` in the [startup callback](logical-decoding-output-plugins.md#LOGICALDECODING-OUTPUT-PLUGIN-STARTUP). In that case, all the data has to be in the server's encoding so that a `text` datum can contain it. This is checked in assertion-enabled builds.
 
 ## 49.6.4. Output Plugin Callbacks
 
@@ -69,7 +69,7 @@ typedef struct OutputPluginOptions
 } OutputPluginOptions;
 ```
 
-`output_type` has to either be set to `OUTPUT_PLUGIN_TEXTUAL_OUTPUT` or `OUTPUT_PLUGIN_BINARY_OUTPUT`. See also [Section 48.6.3](https://www.postgresql.org/docs/13/logicaldecoding-output-plugin.html#LOGICALDECODING-OUTPUT-MODE). If `receive_rewrites` is true, the output plugin will also be called for changes made by heap rewrites during certain DDL operations. These are of interest to plugins that handle DDL replication, but they require special handling.
+`output_type` has to either be set to `OUTPUT_PLUGIN_TEXTUAL_OUTPUT` or `OUTPUT_PLUGIN_BINARY_OUTPUT`. See also [Section 48.6.3](logical-decoding-output-plugins.md#LOGICALDECODING-OUTPUT-MODE). If `receive_rewrites` is true, the output plugin will also be called for changes made by heap rewrites during certain DDL operations. These are of interest to plugins that handle DDL replication, but they require special handling.
 
 The startup callback should validate the options present in `ctx->output_plugin_options`. If the output plugin needs to have a state, it can use `ctx->output_plugin_private` to store it.
 
@@ -117,7 +117,7 @@ The _`ctx`_ and _`txn`_ parameters have the same contents as for the `begin_cb` 
 
 #### Note
 
-Only changes in user defined tables that are not unlogged (see [`UNLOGGED`](https://www.postgresql.org/docs/13/sql-createtable.html#SQL-CREATETABLE-UNLOGGED)) and not temporary (see [`TEMPORARY` or `TEMP`](https://www.postgresql.org/docs/13/sql-createtable.html#SQL-CREATETABLE-TEMPORARY)) can be extracted using logical decoding.
+Only changes in user defined tables that are not unlogged (see [`UNLOGGED`](../../reference/sql-commands/create-table.md#SQL-CREATETABLE-UNLOGGED)) and not temporary (see [`TEMPORARY` or `TEMP`](../../reference/sql-commands/create-table.md#SQL-CREATETABLE-TEMPORARY)) can be extracted using logical decoding.
 
 ### **48.6.4.6. Truncate Callback**
 
@@ -131,7 +131,7 @@ typedef void (*LogicalDecodeTruncateCB) (struct LogicalDecodingContext *ctx,
                                          ReorderBufferChange *change);
 ```
 
-The parameters are analogous to the `change_cb` callback. However, because `TRUNCATE` actions on tables connected by foreign keys need to be executed together, this callback receives an array of relations instead of just a single one. See the description of the [TRUNCATE](https://www.postgresql.org/docs/13/sql-truncate.html) statement for details.
+The parameters are analogous to the `change_cb` callback. However, because `TRUNCATE` actions on tables connected by foreign keys need to be executed together, this callback receives an array of relations instead of just a single one. See the description of the [TRUNCATE](../../reference/sql-commands/truncate.md) statement for details.
 
 ### **48.6.4.7. Origin Filter Callback**
 

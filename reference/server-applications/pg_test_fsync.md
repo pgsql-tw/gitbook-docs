@@ -8,7 +8,7 @@ pg\_test\_fsync — determine fastest `wal_sync_method` for PostgreSQL
 
 ### Description
 
-pg\_test\_fsync is intended to give you a reasonable idea of what the fastest [wal\_sync\_method](https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-WAL-SYNC-METHOD) is on your specific system, as well as supplying diagnostic information in the event of an identified I/O problem. However, differences shown by pg\_test\_fsync might not make any significant difference in real database throughput, especially since many database servers are not speed-limited by their write-ahead logs. pg\_test\_fsync reports average file sync operation time in microseconds for each `wal_sync_method`, which can also be used to inform efforts to optimize the value of [commit\_delay](https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-COMMIT-DELAY).
+pg\_test\_fsync is intended to give you a reasonable idea of what the fastest [wal\_sync\_method](../../server-administration/server-configuration/write-ahead-log.md#GUC-WAL-SYNC-METHOD) is on your specific system, as well as supplying diagnostic information in the event of an identified I/O problem. However, differences shown by pg\_test\_fsync might not make any significant difference in real database throughput, especially since many database servers are not speed-limited by their write-ahead logs. pg\_test\_fsync reports average file sync operation time in microseconds for each `wal_sync_method`, which can also be used to inform efforts to optimize the value of [commit\_delay](../../server-administration/server-configuration/write-ahead-log.md#GUC-COMMIT-DELAY).
 
 ### Options
 

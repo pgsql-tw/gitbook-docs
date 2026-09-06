@@ -50,13 +50,13 @@ The catalog `pg_conversion` describes encoding conversion functions. See [CREATE
 <tr>
 <td class="catalog_table_entry">
 <p class="column_definition"><code class="structfield">conforencoding</code> <code class="type">int4</code></p>
-<p>Source encoding ID (<a class="link" href="https://www.postgresql.org/docs/15/functions-info.html#PG-ENCODING-TO-CHAR"><code class="function">pg_encoding_to_char()</code></a> can translate this number to the encoding name)</p>
+<p>Source encoding ID (<a class="link" href="../../the-sql-language/functions-and-operators/system-information-functions.md#PG-ENCODING-TO-CHAR"><code class="function">pg_encoding_to_char()</code></a> can translate this number to the encoding name)</p>
 </td>
 </tr>
 <tr>
 <td class="catalog_table_entry">
 <p class="column_definition"><code class="structfield">contoencoding</code> <code class="type">int4</code></p>
-<p>Destination encoding ID (<a class="link" href="https://www.postgresql.org/docs/15/functions-info.html#PG-ENCODING-TO-CHAR"><code class="function">pg_encoding_to_char()</code></a> can translate this number to the encoding name)</p>
+<p>Destination encoding ID (<a class="link" href="../../the-sql-language/functions-and-operators/system-information-functions.md#PG-ENCODING-TO-CHAR"><code class="function">pg_encoding_to_char()</code></a> can translate this number to the encoding name)</p>
 </td>
 </tr>
 <tr>
@@ -76,4 +76,4 @@ The catalog `pg_conversion` describes encoding conversion functions. See [CREATE
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-conversion.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_conversion.md)（英文原文，待翻譯）

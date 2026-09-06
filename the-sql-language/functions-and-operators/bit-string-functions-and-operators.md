@@ -1,6 +1,6 @@
 # 9.6. 二元字串函式及運算子
 
-This section describes functions and operators for examining and manipulating bit strings, that is values of the types `bit` and `bit varying`. Aside from the usual comparison operators, the operators shown in [Table 9.14](https://www.postgresql.org/docs/12/functions-bitstring.html#FUNCTIONS-BIT-STRING-OP-TABLE) can be used. Bit string operands of `&`, `|`, and `#` must be of equal length. When bit shifting, the original length of the string is preserved, as shown in the examples.
+This section describes functions and operators for examining and manipulating bit strings, that is values of the types `bit` and `bit varying`. Aside from the usual comparison operators, the operators shown in [Table 9.14](bit-string-functions-and-operators.md#FUNCTIONS-BIT-STRING-OP-TABLE) can be used. Bit string operands of `&`, `|`, and `#` must be of equal length. When bit shifting, the original length of the string is preserved, as shown in the examples.
 
 #### **Table 9.14. Bit String Operators**
 

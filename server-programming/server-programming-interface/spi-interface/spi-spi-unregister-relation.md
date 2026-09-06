@@ -51,4 +51,4 @@ if <em class="parameter"><code>name</code></em> is not found in the registry for
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-unregister-relation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-unregister-relation.md)（英文原文，待翻譯）

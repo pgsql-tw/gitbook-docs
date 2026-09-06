@@ -235,7 +235,7 @@ CALL transaction_test1();
 
 <code class="literal"><code class="function">elog(<em class="replaceable"><code>level</code></em>, <em class="replaceable"><code>msg</code></em>)</code></code> <a id="id-1.8.10.11.3.2.1.1.2"></a>
 
-Emit a log or error message. Possible levels are `DEBUG`, `LOG`, `INFO`, `NOTICE`, `WARNING`, and `ERROR`. `ERROR` raises an error condition; if this is not trapped by the surrounding Perl code, the error propagates out to the calling query, causing the current transaction or subtransaction to be aborted. This is effectively the same as the Perl `die` command. The other levels only generate messages of different priority levels. Whether messages of a particular priority are reported to the client, written to the server log, or both is controlled by the [log_min_messages](https://www.postgresql.org/docs/15/runtime-config-logging.html#GUC-LOG-MIN-MESSAGES) and [client_min_messages](https://www.postgresql.org/docs/15/runtime-config-client.html#GUC-CLIENT-MIN-MESSAGES) configuration variables. See [Chapter 20](../../server-administration/server-configuration/README.md) for more information.
+Emit a log or error message. Possible levels are `DEBUG`, `LOG`, `INFO`, `NOTICE`, `WARNING`, and `ERROR`. `ERROR` raises an error condition; if this is not trapped by the surrounding Perl code, the error propagates out to the calling query, causing the current transaction or subtransaction to be aborted. This is effectively the same as the Perl `die` command. The other levels only generate messages of different priority levels. Whether messages of a particular priority are reported to the client, written to the server log, or both is controlled by the [log_min_messages](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-LOG-MIN-MESSAGES) and [client_min_messages](../../server-administration/server-configuration/client-connection-defaults.md#GUC-CLIENT-MIN-MESSAGES) configuration variables. See [Chapter 20](../../server-administration/server-configuration/README.md) for more information.
 
 <code class="literal"><code class="function">quote&#95;literal(<em class="replaceable"><code>string</code></em>)</code></code> <a id="id-1.8.10.11.3.2.2.1.2"></a>
 
@@ -259,7 +259,7 @@ Return the `bytea` encoded form of the binary data contents of the given string.
 
 <code class="literal"><code class="function">encode&#95;array&#95;literal(<em class="replaceable"><code>array</code></em>)</code></code> <a id="id-1.8.10.11.3.2.7.1.2"></a><br> <code class="literal"><code class="function">encode&#95;array&#95;literal(<em class="replaceable"><code>array</code></em>, <em class="replaceable"><code>delimiter</code></em>)</code></code>
 
-Returns the contents of the referenced array as a string in array literal format (see [Section 8.15.2](https://www.postgresql.org/docs/15/arrays.html#ARRAYS-INPUT)). Returns the argument value unaltered if it's not a reference to an array. The delimiter used between elements of the array literal defaults to "`,` " if a delimiter is not specified or is undef.
+Returns the contents of the referenced array as a string in array literal format (see [Section 8.15.2](../../the-sql-language/data-types/arrays.md#ARRAYS-INPUT)). Returns the argument value unaltered if it's not a reference to an array. The delimiter used between elements of the array literal defaults to "`,` " if a delimiter is not specified or is undef.
 
 <code class="literal"><code class="function">encode&#95;typed&#95;literal(<em class="replaceable"><code>value</code></em>, <em class="replaceable"><code>typename</code></em>)</code></code> <a id="id-1.8.10.11.3.2.8.1.2"></a>
 
@@ -267,7 +267,7 @@ Converts a Perl variable to the value of the data type passed as a second argume
 
 <code class="literal"><code class="function">encode&#95;array&#95;constructor(<em class="replaceable"><code>array</code></em>)</code></code> <a id="id-1.8.10.11.3.2.9.1.2"></a>
 
-Returns the contents of the referenced array as a string in array constructor format (see [Section 4.2.12](https://www.postgresql.org/docs/15/sql-expressions.html#SQL-SYNTAX-ARRAY-CONSTRUCTORS)). Individual values are quoted using `quote_nullable`. Returns the argument value, quoted using `quote_nullable`, if it's not a reference to an array.
+Returns the contents of the referenced array as a string in array constructor format (see [Section 4.2.12](../../the-sql-language/sql-syntax/value-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)). Individual values are quoted using `quote_nullable`. Returns the argument value, quoted using `quote_nullable`, if it's not a reference to an array.
 
 <code class="literal"><code class="function">looks&#95;like&#95;number(<em class="replaceable"><code>string</code></em>)</code></code> <a id="id-1.8.10.11.3.2.10.1.2"></a>
 
@@ -279,4 +279,4 @@ Returns a true value if the given argument may be treated as an array reference,
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/plperl-builtins.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](plperl-builtins.md)（英文原文，待翻譯）

@@ -65,4 +65,4 @@ EXEC SQL EXECUTE foo USING SQL DESCRIPTOR indesc INTO SQL DESCRIPTOR outdesc;
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/ecpg-sql-prepare.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](ecpg-sql-prepare.md)（英文原文，待翻譯）

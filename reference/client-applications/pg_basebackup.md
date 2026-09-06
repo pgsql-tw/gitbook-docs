@@ -97,14 +97,14 @@ Don't include write-ahead log in the backup.
 `f`\
 `fetch`
 
-The write-ahead log files are collected at the end of the backup. Therefore, it is necessary for the [wal\_keep\_segments](https://www.postgresql.org/docs/12/runtime-config-replication.html#GUC-WAL-KEEP-SEGMENTS) parameter to be set high enough that the log is not removed before the end of the backup. If the log has been rotated when it's time to transfer it, the backup will fail and be unusable.
+The write-ahead log files are collected at the end of the backup. Therefore, it is necessary for the [wal\_keep\_segments](../../server-administration/server-configuration/replication.md#GUC-WAL-KEEP-SEGMENTS) parameter to be set high enough that the log is not removed before the end of the backup. If the log has been rotated when it's time to transfer it, the backup will fail and be unusable.
 
 When tar format mode is used, the write-ahead log files will be written to the `base.tar` file.
 
 `s`\
 `stream`
 
-Stream the write-ahead log while the backup is created. This will open a second connection to the server and start streaming the write-ahead log in parallel while running the backup. Therefore, it will use up two connections configured by the [max\_wal\_senders](https://www.postgresql.org/docs/12/runtime-config-replication.html#GUC-MAX-WAL-SENDERS) parameter. As long as the client can keep up with write-ahead log received, using this mode requires no extra write-ahead logs to be saved on the master.
+Stream the write-ahead log while the backup is created. This will open a second connection to the server and start streaming the write-ahead log in parallel while running the backup. Therefore, it will use up two connections configured by the [max\_wal\_senders](../../server-administration/server-configuration/replication.md#GUC-MAX-WAL-SENDERS) parameter. As long as the client can keep up with write-ahead log received, using this mode requires no extra write-ahead logs to be saved on the master.
 
 When tar format mode is used, the write-ahead log files will be written to a separate file named `pg_wal.tar` (if the server is a version earlier than 10, the file will be named `pg_xlog.tar`).
 
@@ -125,7 +125,7 @@ The following command-line options control the generation of the backup and the 
 `-c`` `_`fast|spread`_\
 `--checkpoint=`_`fast|spread`_
 
-Sets checkpoint mode to fast (immediate) or spread (default) (see [Section 25.3.3](https://www.postgresql.org/docs/12/continuous-archiving.html#BACKUP-LOWLEVEL-BASE-BACKUP)).
+Sets checkpoint mode to fast (immediate) or spread (default) (see [Section 25.3.3](../../server-administration/backup-and-restore/continuous-archiving-and-point-in-time-recovery-pitr.md#BACKUP-LOWLEVEL-BASE-BACKUP)).
 
 `-C`\
 `--create-slot`
@@ -159,7 +159,7 @@ When this is enabled, the backup will start by enumerating the size of the entir
 `-S`` `_`slotname`_\
 `--slot=`_`slotname`_
 
-This option can only be used together with `-X stream`. It causes the WAL streaming to use the specified replication slot. If the base backup is intended to be used as a streaming replication standby using replication slots, it should then use the same replication slot name in [primary\_slot\_name](https://www.postgresql.org/docs/12/runtime-config-replication.html#GUC-PRIMARY-SLOT-NAME). That way, it is ensured that the server does not remove any necessary WAL data in the time between the end of the base backup and the start of streaming replication.
+This option can only be used together with `-X stream`. It causes the WAL streaming to use the specified replication slot. If the base backup is intended to be used as a streaming replication standby using replication slots, it should then use the same replication slot name in [primary\_slot\_name](../../server-administration/server-configuration/replication.md#GUC-PRIMARY-SLOT-NAME). That way, it is ensured that the server does not remove any necessary WAL data in the time between the end of the base backup and the start of streaming replication.
 
 The specified replication slot has to exist unless the option `-C` is also used.
 
@@ -182,14 +182,14 @@ The main purpose of this option is to allow taking a base backup when the server
 
 Disables verification of checksums, if they are enabled on the server the base backup is taken from.
 
-By default, checksums are verified and checksum failures will result in a non-zero exit status. However, the base backup will not be removed in such a case, as if the `--no-clean` option had been used. Checksum verifications failures will also be reported in the [pg\_stat\_database](https://www.postgresql.org/docs/12/monitoring-stats.html#PG-STAT-DATABASE-VIEW) view.
+By default, checksums are verified and checksum failures will result in a non-zero exit status. However, the base backup will not be removed in such a case, as if the `--no-clean` option had been used. Checksum verifications failures will also be reported in the [pg\_stat\_database](../../server-administration/monitoring-database-activity/the-statistics-collector.md#PG-STAT-DATABASE-VIEW) view.
 
 The following command-line options control the database connection parameters.
 
 `-d`` `_`connstr`_\
 `--dbname=`_`connstr`_
 
-Specifies parameters used to connect to the server, as a connection string. See [Section 33.1.1](https://www.postgresql.org/docs/12/libpq-connect.html#LIBPQ-CONNSTRING) for more information.
+Specifies parameters used to connect to the server, as a connection string. See [Section 33.1.1](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING) for more information.
 
 The option is called `--dbname` for consistency with other client applications, but because pg\_basebackup doesn't connect to any particular database in the cluster, database name in the connection string will be ignored.
 

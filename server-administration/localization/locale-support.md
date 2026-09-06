@@ -62,7 +62,7 @@ Locales can be selected in different scopes depending on requirements. The above
 1. As explained above, the environment of the operating system provides the defaults for the locales of a newly initialized database cluster. In many cases, this is enough: If the operating system is configured for the desired language/territory, then PostgreSQL will by default also behave according to that locale.
 2. As shown above, command-line options for `initdb` specify the locale settings for a newly initialized database cluster. Use this if the operating system does not have the locale configuration you want for your database system.
 3. A locale can be selected separately for each database. The SQL command `CREATE DATABASE` and its command-line equivalent `createdb` have options for that. Use this for example if a database cluster houses databases for multiple tenants with different requirements.
-4. Locale settings can be made for individual table columns. This uses an SQL object called _collation_ and is explained in [Section 24.2](https://www.postgresql.org/docs/15/collation.html). Use this for example to sort data in different languages or customize the sort order of a particular table.
+4. Locale settings can be made for individual table columns. This uses an SQL object called _collation_ and is explained in [Section 24.2](collation-support.md). Use this for example to sort data in different languages or customize the sort order of a particular table.
 5. Finally, locales can be selected for an individual query. Again, this uses SQL collation objects. This could be used to change the sort order based on run-time choices or for ad-hoc experimentation.
 
 ## 24.1.4. Locale Providers

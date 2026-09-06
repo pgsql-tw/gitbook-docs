@@ -32,4 +32,4 @@ Specifies whether to use color in diagnostic messages. Possible values are `alwa
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/app-pgcontroldata.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_controldata.md)（英文原文，待翻譯）

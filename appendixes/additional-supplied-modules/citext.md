@@ -18,7 +18,7 @@ The `citext` module provides a case-insensitive character string type, `citext`.
 
 ## Tip
 
-Consider using <em class="firstterm">nondeterministic collations</em> (see [Section 24.2.2.4](https://www.postgresql.org/docs/15/collation.html#COLLATION-NONDETERMINISTIC)) instead of this module. They can be used for case-insensitive comparisons, accent-insensitive comparisons, and other combinations, and they handle more Unicode special cases correctly.
+Consider using <em class="firstterm">nondeterministic collations</em> (see [Section 24.2.2.4](../../server-administration/localization/collation-support.md#COLLATION-NONDETERMINISTIC)) instead of this module. They can be used for case-insensitive comparisons, accent-insensitive comparisons, and other combinations, and they handle more Unicode special cases correctly.
 
 This module is considered “trusted”, that is, it can be installed by non-superusers who have `CREATE` privilege on the current database.
 
@@ -108,4 +108,4 @@ Inspired by the original `citext` module by Donald Fraser.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/citext.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](citext.md)（英文原文，待翻譯）

@@ -24,7 +24,7 @@ The name of an existing access method.
 
 `CASCADE`
 
-Automatically drop objects that depend on the access method (such as operator classes, operator families, and indexes), and in turn all objects that depend on those objects (see [Section 5.14](https://www.postgresql.org/docs/13/ddl-depend.html)).
+Automatically drop objects that depend on the access method (such as operator classes, operator families, and indexes), and in turn all objects that depend on those objects (see [Section 5.14](../../the-sql-language/ddl/dependency-tracking.md)).
 
 `RESTRICT`
 
@@ -44,4 +44,4 @@ DROP ACCESS METHOD heptree;
 
 ### See Also
 
-[CREATE ACCESS METHOD](https://www.postgresql.org/docs/13/sql-create-access-method.html)
+[CREATE ACCESS METHOD](create-access-method.md)

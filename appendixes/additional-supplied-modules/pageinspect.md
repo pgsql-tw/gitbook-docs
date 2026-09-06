@@ -220,7 +220,7 @@ In an internal page (not shown), the block number part of `ctid` is a “downlin
 
 Note that the first item on any non-rightmost page (any page with a non-zero value in the `btpo_next` field) is the page's “high key”, meaning its `data` serves as an upper bound on all items appearing on the page, while its `ctid` field does not point to another block. Also, on internal pages, the first real data item (the first item that is not a high key) reliably has every column truncated away, leaving no actual value in its `data` field. Such an item does have a valid downlink in its `ctid` field, however.
 
-For more details about the structure of B-tree indexes, see [Section 67.4.1](https://www.postgresql.org/docs/15/btree-implementation.html#BTREE-STRUCTURE). For more details about deduplication and posting lists, see [Section 67.4.3](https://www.postgresql.org/docs/15/btree-implementation.html#BTREE-DEDUPLICATION).
+For more details about the structure of B-tree indexes, see [Section 67.4.1](../../internals/b-tree-indexes/implementation.md#BTREE-STRUCTURE). For more details about deduplication and posting lists, see [Section 67.4.3](../../internals/b-tree-indexes/implementation.md#BTREE-DEDUPLICATION).
 
 `bt_page_items(page bytea) returns setof record` <a id="id-1.11.7.34.6.2.4.1.2"></a>
 
@@ -521,4 +521,4 @@ mapp      | {65}
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pageinspect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pageinspect.md)（英文原文，待翻譯）

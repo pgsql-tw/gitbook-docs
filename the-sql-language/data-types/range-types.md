@@ -52,7 +52,7 @@ SELECT isempty(numrange(1, 5));
 
 Every non-empty range has two bounds, the lower bound and the upper bound. All points between these values are included in the range. An inclusive bound means that the boundary point itself is included in the range as well, while an exclusive bound means that the boundary point is not included in the range.
 
-In the text form of a range, an inclusive lower bound is represented by “`[`” while an exclusive lower bound is represented by “`(`”. Likewise, an inclusive upper bound is represented by “`]`”, while an exclusive upper bound is represented by “`)`”. (See [Section 8.17.5](https://www.postgresql.org/docs/13/rangetypes.html#RANGETYPES-IO) for more details.)
+In the text form of a range, an inclusive lower bound is represented by “`[`” while an exclusive lower bound is represented by “`(`”. Likewise, an inclusive upper bound is represented by “`]`”, while an exclusive upper bound is represented by “`)`”. (See [Section 8.17.5](range-types.md#RANGETYPES-IO) for more details.)
 
 The functions `lower_inc` and `upper_inc` test the inclusivity of the lower and upper bounds of a range value, respectively.
 
@@ -86,7 +86,7 @@ Whitespace is allowed before and after the range value, but any whitespace betwe
 
 #### Note
 
-These rules are very similar to those for writing field values in composite-type literals. See [Section 8.16.6](https://www.postgresql.org/docs/13/rowtypes.html#ROWTYPES-IO-SYNTAX) for additional commentary.
+These rules are very similar to those for writing field values in composite-type literals. See [Section 8.16.6](composite-types.md#ROWTYPES-IO-SYNTAX) for additional commentary.
 
 Examples:
 
@@ -177,7 +177,7 @@ CREATE TYPE timerange AS RANGE (
 SELECT '[11:10, 23:00]'::timerange;
 ```
 
-See [CREATE TYPE](https://www.postgresql.org/docs/13/sql-createtype.html) for more information about creating range types.
+See [CREATE TYPE](../../reference/sql-commands/create-type.md) for more information about creating range types.
 
 ## 8.17.9. Indexing
 
@@ -187,13 +187,13 @@ GiST and SP-GiST indexes can be created for table columns of range types. For in
 CREATE INDEX reservation_idx ON reservation USING GIST (during);
 ```
 
-A GiST or SP-GiST index can accelerate queries involving these range operators: `=`, `&&`, `<@`, `@>`, `<<`, `>>`, `-|-`, `&<`, and `&>` (see [Table 9.53](https://www.postgresql.org/docs/13/functions-range.html#RANGE-OPERATORS-TABLE) for more information).
+A GiST or SP-GiST index can accelerate queries involving these range operators: `=`, `&&`, `<@`, `@>`, `<<`, `>>`, `-|-`, `&<`, and `&>` (see [Table 9.53](../functions-and-operators/range-functions-and-operators.md#RANGE-OPERATORS-TABLE) for more information).
 
 In addition, B-tree and hash indexes can be created for table columns of range types. For these index types, basically the only useful range operation is equality. There is a B-tree sort ordering defined for range values, with corresponding `<` and `>` operators, but the ordering is rather arbitrary and not usually useful in the real world. Range types' B-tree and hash support is primarily meant to allow sorting and hashing internally in queries, rather than creation of actual indexes.
 
 ## 8.17.10. Constraints on Ranges
 
-While `UNIQUE` is a natural constraint for scalar values, it is usually unsuitable for range types. Instead, an exclusion constraint is often more appropriate (see [CREATE TABLE ... CONSTRAINT ... EXCLUDE](https://www.postgresql.org/docs/13/sql-createtable.html#SQL-CREATETABLE-EXCLUDE)). Exclusion constraints allow the specification of constraints such as “non-overlapping” on a range type. For example:
+While `UNIQUE` is a natural constraint for scalar values, it is usually unsuitable for range types. Instead, an exclusion constraint is often more appropriate (see [CREATE TABLE ... CONSTRAINT ... EXCLUDE](../../reference/sql-commands/create-table.md#SQL-CREATETABLE-EXCLUDE)). Exclusion constraints allow the specification of constraints such as “non-overlapping” on a range type. For example:
 
 ```
 CREATE TABLE reservation (
@@ -216,7 +216,7 @@ DETAIL:  Key (during)=(["2010-01-01 14:45:00","2010-01-01 15:45:00")) conflicts
 with existing key (during)=(["2010-01-01 11:30:00","2010-01-01 15:00:00")).
 ```
 
-You can use the [`btree_gist`](https://www.postgresql.org/docs/13/btree-gist.html) extension to define exclusion constraints on plain scalar data types, which can then be combined with range exclusions for maximum flexibility. For example, after `btree_gist` is installed, the following constraint will reject overlapping ranges only if the meeting room numbers are equal:
+You can use the [`btree_gist`](../../appendixes/additional-supplied-modules/btree_gist.md) extension to define exclusion constraints on plain scalar data types, which can then be combined with range exclusions for maximum flexibility. For example, after `btree_gist` is installed, the following constraint will reject overlapping ranges only if the meeting room numbers are equal:
 
 ```
 CREATE EXTENSION btree_gist;

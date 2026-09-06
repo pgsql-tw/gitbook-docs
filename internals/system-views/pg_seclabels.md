@@ -76,4 +76,4 @@ The view `pg_seclabels` provides information about security labels. It as an eas
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/view-pg-seclabels.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_seclabels.md)（英文原文，待翻譯）

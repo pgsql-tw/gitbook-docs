@@ -146,4 +146,4 @@ EXEC SQL END DECLARE SECTION;
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/ecpg-sql-connect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](ecpg-sql-connect.md)（英文原文，待翻譯）

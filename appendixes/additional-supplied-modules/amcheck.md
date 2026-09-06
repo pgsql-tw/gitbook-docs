@@ -4,7 +4,7 @@ amcheck 模塊提供的功能是讓你可以驗證關連結構邏輯的一致性
 
 The functions verify various _invariants_ in the structure of the representation of particular relations. The correctness of the access method functions behind index scans and other important operations relies on these invariants always holding. For example, certain functions verify, among other things, that all B-Tree pages have items in “logical” order (e.g., for B-Tree indexes on `text`, index tuples should be in collated lexical order). If that particular invariant somehow fails to hold, we can expect binary searches on the affected page to incorrectly guide index scans, resulting in wrong answers to SQL queries.
 
-Verification is performed using the same procedures as those used by index scans themselves, which may be user-defined operator class code. For example, B-Tree index verification relies on comparisons made with one or more B-Tree support function 1 routines. See [Section 37.16.3](https://www.postgresql.org/docs/13/xindex.html#XINDEX-SUPPORT) for details of operator class support functions.
+Verification is performed using the same procedures as those used by index scans themselves, which may be user-defined operator class code. For example, B-Tree index verification relies on comparisons made with one or more B-Tree support function 1 routines. See [Section 37.16.3](../../server-programming/extending-sql/interfacing-extensions-to-indexes.md#XINDEX-SUPPORT) for details of operator class support functions.
 
 `amcheck` functions may only be used by superusers.
 
@@ -76,19 +76,19 @@ The summarizing structure is bound in size by `maintenance_work_mem`. In order t
 
 ## F.2.3. Using `amcheck` Effectively
 
-`amcheck` can be effective at detecting various types of failure modes that [data page checksums](https://www.postgresql.org/docs/13/app-initdb.html#APP-INITDB-DATA-CHECKSUMS) will always fail to catch. These include:
+`amcheck` can be effective at detecting various types of failure modes that [data page checksums](../../reference/server-applications/initdb.md#APP-INITDB-DATA-CHECKSUMS) will always fail to catch. These include:
 
 *   Structural inconsistencies caused by incorrect operator class implementations.
 
     This includes issues caused by the comparison rules of operating system collations changing. Comparisons of datums of a collatable type like `text` must be immutable (just as all comparisons used for B-Tree index scans must be immutable), which implies that operating system collation rules must never change. Though rare, updates to operating system collation rules can cause these issues. More commonly, an inconsistency in the collation order between a master server and a standby server is implicated, possibly because the _major_ operating system version in use is inconsistent. Such inconsistencies will generally only arise on standby servers, and so can generally only be detected on standby servers.
 
-    If a problem like this arises, it may not affect each individual index that is ordered using an affected collation, simply because _indexed_ values might happen to have the same absolute ordering regardless of the behavioral inconsistency. See [Section 23.1](https://www.postgresql.org/docs/13/locale.html) and [Section 23.2](https://www.postgresql.org/docs/13/collation.html) for further details about how PostgreSQL uses operating system locales and collations.
+    If a problem like this arises, it may not affect each individual index that is ordered using an affected collation, simply because _indexed_ values might happen to have the same absolute ordering regardless of the behavioral inconsistency. See [Section 23.1](../../server-administration/localization/locale-support.md) and [Section 23.2](../../server-administration/localization/collation-support.md) for further details about how PostgreSQL uses operating system locales and collations.
 *   Structural inconsistencies between indexes and the heap relations that are indexed (when _`heapallindexed`_ verification is performed).
 
     There is no cross-checking of indexes against their heap relation during normal operation. Symptoms of heap corruption can be subtle.
 *   Corruption caused by hypothetical undiscovered bugs in the underlying PostgreSQL access method code, sort code, or transaction management code.
 
-    Automatic verification of the structural integrity of indexes plays a role in the general testing of new or proposed PostgreSQL features that could plausibly allow a logical inconsistency to be introduced. Verification of table structure and associated visibility and transaction status information plays a similar role. One obvious testing strategy is to call `amcheck` functions continuously when running the standard regression tests. See [Section 32.1](https://www.postgresql.org/docs/13/regress-run.html) for details on running the tests.
+    Automatic verification of the structural integrity of indexes plays a role in the general testing of new or proposed PostgreSQL features that could plausibly allow a logical inconsistency to be introduced. Verification of table structure and associated visibility and transaction status information plays a similar role. One obvious testing strategy is to call `amcheck` functions continuously when running the standard regression tests. See [Section 32.1](../../server-administration/regression-tests/32.1.-running-the-tests.md) for details on running the tests.
 *   File system or storage subsystem faults where checksums happen to simply not be enabled.
 
     Note that `amcheck` examines a page as represented in some shared memory buffer at the time of verification if there is only a shared buffer hit when accessing the block. Consequently, `amcheck` does not necessarily examine data read from the file system at the time of verification. Note that when checksums are enabled, `amcheck` may raise an error due to a checksum failure when a corrupt block is read into a buffer.
@@ -104,4 +104,4 @@ In general, `amcheck` can only prove the presence of corruption; it cannot prove
 
 No error concerning corruption raised by `amcheck` should ever be a false positive. `amcheck` raises errors in the event of conditions that, by definition, should never happen, and so careful analysis of `amcheck` errors is often required.
 
-There is no general method of repairing problems that `amcheck` detects. An explanation for the root cause of an invariant violation should be sought. [pageinspect](https://www.postgresql.org/docs/13/pageinspect.html) may play a useful role in diagnosing corruption that `amcheck` detects. A `REINDEX` may not be effective in repairing corruption.
+There is no general method of repairing problems that `amcheck` detects. An explanation for the root cause of an invariant violation should be sought. [pageinspect](pageinspect.md) may play a useful role in diagnosing corruption that `amcheck` detects. A `REINDEX` may not be effective in repairing corruption.

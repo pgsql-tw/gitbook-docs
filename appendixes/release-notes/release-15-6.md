@@ -187,4 +187,4 @@ Also, if you are upgrading from a version earlier than 15.5, see [Section E.15]
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/release-15-6.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](release-15-6.md)（英文原文，待翻譯）

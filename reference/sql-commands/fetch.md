@@ -44,7 +44,7 @@ The forms using `FORWARD` and `BACKWARD` retrieve the indicated number of rows m
 
 ### Note
 
-This page describes usage of cursors at the SQL command level. If you are trying to use cursors inside a PL/pgSQL function, the rules are different — see [Section 43.7.3](https://www.postgresql.org/docs/15/plpgsql-cursors.html#PLPGSQL-CURSOR-USING).
+This page describes usage of cursors at the SQL command level. If you are trying to use cursors inside a PL/pgSQL function, the rules are different — see [Section 43.7.3](../../server-programming/pl-pgsql-sql-procedural-language/43.7.-cursors.md#PLPGSQL-CURSOR-USING).
 
 <a id="id-1.9.3.149.7"></a>
 
@@ -195,4 +195,4 @@ The SQL standard allows only `FROM` preceding the cursor name; the option to use
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-fetch.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](fetch.md)（英文原文，待翻譯）

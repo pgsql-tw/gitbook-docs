@@ -66,4 +66,4 @@ The command `ROLLBACK` conforms to the SQL standard. The form `ROLLBACK TRANSACT
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-rollback.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](rollback.md)（英文原文，待翻譯）

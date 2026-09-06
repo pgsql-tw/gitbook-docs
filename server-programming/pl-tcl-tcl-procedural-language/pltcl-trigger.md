@@ -88,4 +88,4 @@ Notice that the trigger function itself does not know the column name; that's su
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pltcl-trigger.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pltcl-trigger.md)（英文原文，待翻譯）

@@ -2,11 +2,11 @@
 
 This section describes functions and operators for examining and manipulating values of type `bytea`.
 
-SQL defines some string functions that use key words, rather than commas, to separate arguments. Details are in [Table 9.12](https://www.postgresql.org/docs/12/functions-binarystring.html#FUNCTIONS-BINARYSTRING-SQL). PostgreSQL also provides versions of these functions that use the regular function invocation syntax (see [Table 9.13](https://www.postgresql.org/docs/12/functions-binarystring.html#FUNCTIONS-BINARYSTRING-OTHER)).
+SQL defines some string functions that use key words, rather than commas, to separate arguments. Details are in [Table 9.12](binary-string-functions-and-operators.md#FUNCTIONS-BINARYSTRING-SQL). PostgreSQL also provides versions of these functions that use the regular function invocation syntax (see [Table 9.13](binary-string-functions-and-operators.md#FUNCTIONS-BINARYSTRING-OTHER)).
 
 #### Note
 
-The sample results shown on this page assume that the server parameter [`bytea_output`](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-BYTEA-OUTPUT) is set to `escape` (the traditional PostgreSQL format).
+The sample results shown on this page assume that the server parameter [`bytea_output`](../../server-administration/server-configuration/client-connection-defaults.md#GUC-BYTEA-OUTPUT) is set to `escape` (the traditional PostgreSQL format).
 
 #### **Table 9.12. SQL Binary String Functions and Operators**
 
@@ -19,7 +19,7 @@ The sample results shown on this page assume that the server parameter [`bytea_o
 | `substring(`_`string`_ \[from `int`] \[for `int`])               | `bytea`     | Extract substring                                                                                           | `substring('Th\000omas'::bytea from 2 for 3)`                         | `h\000o`          |
 | `trim([both]`` `_`bytes`_ from _`string`_)                       | `bytea`     | Remove the longest string containing only bytes appearing in _`bytes`_ from the start and end of _`string`_ | `trim('\000\001'::bytea from '\000Tom\001'::bytea)`                   | `Tom`             |
 
-Additional binary string manipulation functions are available and are listed in [Table 9.13](https://www.postgresql.org/docs/12/functions-binarystring.html#FUNCTIONS-BINARYSTRING-OTHER). Some of them are used internally to implement the SQL-standard string functions listed in [Table 9.12](https://www.postgresql.org/docs/12/functions-binarystring.html#FUNCTIONS-BINARYSTRING-SQL).
+Additional binary string manipulation functions are available and are listed in [Table 9.13](binary-string-functions-and-operators.md#FUNCTIONS-BINARYSTRING-OTHER). Some of them are used internally to implement the SQL-standard string functions listed in [Table 9.12](binary-string-functions-and-operators.md#FUNCTIONS-BINARYSTRING-SQL).
 
 #### **Table 9.13. Other Binary String Functions**
 
@@ -43,4 +43,4 @@ Additional binary string manipulation functions are available and are listed in 
 
 Note that for historic reasons, the function `md5` returns a hex-encoded value of type `text` whereas the SHA-2 functions return type `bytea`. Use the functions `encode` and `decode` to convert between the two, for example `encode(sha256('abc'), 'hex')` to get a hex-encoded text representation.
 
-See also the aggregate function `string_agg` in [Section 9.20](https://www.postgresql.org/docs/12/functions-aggregate.html) and the large object functions in [Section 34.4](https://www.postgresql.org/docs/12/lo-funcs.html).
+See also the aggregate function `string_agg` in [Section 9.20](aggregate-functions.md) and the large object functions in [Section 34.4](../../client-interfaces/34.-large-objects/34.4.-server-side-functions.md).

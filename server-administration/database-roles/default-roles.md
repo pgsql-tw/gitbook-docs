@@ -2,7 +2,7 @@
 
 PostgreSQL provides a set of predefined roles that provide access to certain, commonly needed, privileged capabilities and information. Administrators (including roles that have the `CREATEROLE` privilege) can `GRANT` these roles to users and/or other roles in their environment, providing those users with access to the specified capabilities and information.
 
-The predefined roles are described in [Table 22.1](https://www.postgresql.org/docs/14/predefined-roles.html#PREDEFINED-ROLES-TABLE). Note that the specific permissions for each of the roles may change in the future as additional capabilities are added. Administrators should monitor the release notes for changes.
+The predefined roles are described in [Table 22.1](default-roles.md#PREDEFINED-ROLES-TABLE). Note that the specific permissions for each of the roles may change in the future as additional capabilities are added. Administrators should monitor the release notes for changes.
 
 **Table 22.1. Predefined Roles**
 
@@ -24,13 +24,13 @@ The `pg_monitor`, `pg_read_all_settings`, `pg_read_all_stats` and `pg_stat_scan_
 
 The `pg_database_owner` role has one implicit, situation-dependent member, namely the owner of the current database. The role conveys no rights at first. Like any role, it can own objects or receive grants of access privileges. Consequently, once `pg_database_owner` has rights within a template database, each owner of a database instantiated from that template will exercise those rights. `pg_database_owner` cannot be a member of any role, and it cannot have non-implicit members.
 
-The `pg_signal_backend` role is intended to allow administrators to enable trusted, but non-superuser, roles to send signals to other backends. Currently this role enables sending of signals for canceling a query on another backend or terminating its session. A user granted this role cannot however send signals to a backend owned by a superuser. See [Section 9.27.2](https://www.postgresql.org/docs/14/functions-admin.html#FUNCTIONS-ADMIN-SIGNAL).
+The `pg_signal_backend` role is intended to allow administrators to enable trusted, but non-superuser, roles to send signals to other backends. Currently this role enables sending of signals for canceling a query on another backend or terminating its session. A user granted this role cannot however send signals to a backend owned by a superuser. See [Section 9.27.2](../../the-sql-language/functions-and-operators/system-administration.md#FUNCTIONS-ADMIN-SIGNAL).
 
 The `pg_read_server_files`, `pg_write_server_files` and `pg_execute_server_program` roles are intended to allow administrators to have trusted, but non-superuser, roles which are able to access files and run programs on the database server as the user the database runs as. As these roles are able to access any file on the server file system, they bypass all database-level permission checks when accessing files directly and they could be used to gain superuser-level access, therefore great care should be taken when granting these roles to users.
 
 Care should be taken when granting these roles to ensure they are only used where needed and with the understanding that these roles grant access to privileged information.
 
-Administrators can grant access to these roles to users using the [`GRANT`](https://www.postgresql.org/docs/14/sql-grant.html) command, for example:
+Administrators can grant access to these roles to users using the [`GRANT`](../../reference/sql-commands/grant.md) command, for example:
 
 ```
 GRANT pg_signal_backend TO admin_user;

@@ -20,4 +20,4 @@ The next section contains an example that illustrates the application of these r
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-visibility.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-visibility.md)（英文原文，待翻譯）

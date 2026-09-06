@@ -24,7 +24,7 @@ To roll back a prepared transaction, you must be either the same user that execu
 
 This command cannot be executed inside a transaction block. The prepared transaction is rolled back immediately.
 
-All currently available prepared transactions are listed in the [`pg_prepared_xacts`](https://www.postgresql.org/docs/13/view-pg-prepared-xacts.html) system view.
+All currently available prepared transactions are listed in the [`pg_prepared_xacts`](../../internals/system-catalogs/pg_prepared_xacts.md) system view.
 
 ### Examples
 
@@ -40,4 +40,4 @@ ROLLBACK PREPARED 'foobar';
 
 ### See Also
 
-[PREPARE TRANSACTION](https://www.postgresql.org/docs/13/sql-prepare-transaction.html), [COMMIT PREPARED](https://www.postgresql.org/docs/13/sql-commit-prepared.html)
+[PREPARE TRANSACTION](prepare-transaction.md), [COMMIT PREPARED](commit-prepared.md)

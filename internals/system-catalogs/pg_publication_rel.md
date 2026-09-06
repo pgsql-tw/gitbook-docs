@@ -58,4 +58,4 @@ The catalog `pg_publication_rel` contains the mapping between relations and publ
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-publication-rel.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_publication_rel.md)（英文原文，待翻譯）

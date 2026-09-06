@@ -62,7 +62,7 @@ The user performing the lock on the view must have the corresponding privilege o
 
 `LOCK TABLE` is useless outside a transaction block: the lock would remain held only to the completion of the statement. Therefore PostgreSQL reports an error if `LOCK` is used outside a transaction block. Use [`BEGIN`](begin.md) and [`COMMIT`](commit.md) (or [`ROLLBACK`](rollback.md)) to define a transaction block.
 
-`LOCK TABLE` only deals with table-level locks, and so the mode names involving `ROW` are all misnomers. These mode names should generally be read as indicating the intention of the user to acquire row-level locks within the locked table. Also, `ROW EXCLUSIVE` mode is a shareable table lock. Keep in mind that all the lock modes have identical semantics so far as `LOCK TABLE` is concerned, differing only in the rules about which modes conflict with which. For information on how to acquire an actual row-level lock, see [Section 13.3.2](https://www.postgresql.org/docs/15/explicit-locking.html#LOCKING-ROWS) and [The Locking Clause](https://www.postgresql.org/docs/15/sql-select.html#SQL-FOR-UPDATE-SHARE) in the [SELECT](select.md) documentation.
+`LOCK TABLE` only deals with table-level locks, and so the mode names involving `ROW` are all misnomers. These mode names should generally be read as indicating the intention of the user to acquire row-level locks within the locked table. Also, `ROW EXCLUSIVE` mode is a shareable table lock. Keep in mind that all the lock modes have identical semantics so far as `LOCK TABLE` is concerned, differing only in the rules about which modes conflict with which. For information on how to acquire an actual row-level lock, see [Section 13.3.2](../../the-sql-language/concurrency-control/explicit-locking.md#LOCKING-ROWS) and [The Locking Clause](select.md#SQL-FOR-UPDATE-SHARE) in the [SELECT](select.md) documentation.
 
 <a id="id-1.9.3.155.8"></a>
 
@@ -104,4 +104,4 @@ Except for `ACCESS SHARE`, `ACCESS EXCLUSIVE`, and `SHARE UPDATE EXCLUSIVE` lock
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-lock.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](lock.md)（英文原文，待翻譯）

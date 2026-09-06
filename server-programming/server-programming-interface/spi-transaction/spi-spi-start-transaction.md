@@ -19,4 +19,4 @@ void SPI_start_transaction(void)
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-start-transaction.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-start-transaction.md)（英文原文，待翻譯）

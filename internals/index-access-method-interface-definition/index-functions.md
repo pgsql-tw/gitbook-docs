@@ -248,4 +248,4 @@ This function, if implemented, will be called when a parallel index scan must be
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/index-functions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](index-functions.md)（英文原文，待翻譯）

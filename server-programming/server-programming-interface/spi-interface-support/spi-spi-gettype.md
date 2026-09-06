@@ -37,4 +37,4 @@ The data type name of the specified column, or `NULL` on error. `SPI_result` is 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-gettype.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-gettype.md)（英文原文，待翻譯）

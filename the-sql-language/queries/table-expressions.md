@@ -357,7 +357,7 @@ SELECT *
     WHERE proname LIKE 'bytea%';
 ```
 
-[dblink函數](https://www.postgresql.org/docs/13/contrib-dblink-function.html)（[dblink模組](https://docs.postgresql.tw/appendixes/additional-supplied-modules/dblink)的一部分）執行遠端查詢。它宣告返回`record`，因為它可以用於任何種類的查詢。實際的欄位集合必須被指定在調用的查詢以便讓解析器知道，舉例來說，`*`應該擴展成什麼。
+[dblink函數](../../appendixes/additional-supplied-modules/dblink/dblink.md)（[dblink模組](https://docs.postgresql.tw/appendixes/additional-supplied-modules/dblink)的一部分）執行遠端查詢。它宣告返回`record`，因為它可以用於任何種類的查詢。實際的欄位集合必須被指定在調用的查詢以便讓解析器知道，舉例來說，`*`應該擴展成什麼。
 
 ### **7.2.1.5. LATERAL子查詢**
 

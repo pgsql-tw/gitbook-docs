@@ -88,4 +88,4 @@ By default, the `pg_backend_memory_contexts` view can be read only by superusers
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/view-pg-backend-memory-contexts.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_backend_memory_contexts.md)（英文原文，待翻譯）

@@ -4,13 +4,13 @@ The ident authentication method works by obtaining the client's operating system
 
 #### Note
 
-When ident is specified for a local (non-TCP/IP) connection, peer authentication (see [Section 20.9](https://www.postgresql.org/docs/13/auth-peer.html)) will be used instead.
+When ident is specified for a local (non-TCP/IP) connection, peer authentication (see [Section 20.9](peer-authentication.md)) will be used instead.
 
 The following configuration options are supported for ident:
 
 `map`
 
-Allows for mapping between system and database user names. See [Section 20.2](https://www.postgresql.org/docs/13/auth-username-maps.html) for details.
+Allows for mapping between system and database user names. See [Section 20.2](user-name-maps.md) for details.
 
 The “Identification Protocol” is described in RFC 1413. Virtually every Unix-like operating system ships with an ident server that listens on TCP port 113 by default. The basic functionality of an ident server is to answer questions like “What user initiated the connection that goes out of your port _`X`_ and connects to my port _`Y`_?”. Since PostgreSQL knows both _`X`_ and _`Y`_ when a physical connection is established, it can interrogate the ident server on the host of the connecting client and can theoretically determine the operating system user for any given connection.
 

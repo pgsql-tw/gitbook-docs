@@ -71,4 +71,4 @@ EXEC SQL SET DESCRIPTOR indesc VALUE 2 INDICATOR = :val2null, DATA = :val2;
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/ecpg-sql-set-descriptor.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](ecpg-sql-set-descriptor.md)（英文原文，待翻譯）

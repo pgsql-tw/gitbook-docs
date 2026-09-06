@@ -2,13 +2,13 @@
 
 **Release date:** 2023-02-09
 
-This release contains a variety of fixes from 15.1. For information about new features in major release 15, see [Section E.3](https://www.postgresql.org/docs/15/release-15.html).
+This release contains a variety of fixes from 15.1. For information about new features in major release 15, see [Section E.3](e.3.-release-15.md).
 
 ## E.18.1. Migration to Version 15.2
 
 A dump/restore is not required for those running 15.X.
 
-However, if you are upgrading from a version earlier than 15.1, see [Section E.2](https://www.postgresql.org/docs/15/release-15-1.html).
+However, if you are upgrading from a version earlier than 15.1, see [Section E.2](e.2.-release-15.1.md).
 
 ## E.18.2. Changes
 

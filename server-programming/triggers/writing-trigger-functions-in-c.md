@@ -109,6 +109,6 @@ As an example, to determine whether a column with attribute number `attnum` (1-b
 
 For triggers other than `UPDATE` triggers, this will be `NULL`.
 
-To allow queries issued through SPI to reference transition tables, see [SPI\_register\_trigger\_data](https://www.postgresql.org/docs/13/spi-spi-register-trigger-data.html).
+To allow queries issued through SPI to reference transition tables, see [SPI\_register\_trigger\_data](../server-programming-interface/spi-interface/spi-spi-register-trigger-data.md).
 
 A trigger function must return either a `HeapTuple` pointer or a `NULL` pointer (_not_ an SQL null value, that is, do not set _`isNull`_ true). Be careful to return either `tg_trigtuple` or `tg_newtuple`, as appropriate, if you don't want to modify the row being operated on.

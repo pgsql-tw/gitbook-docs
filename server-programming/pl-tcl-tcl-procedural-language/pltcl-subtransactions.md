@@ -50,4 +50,4 @@ A rollback of an explicit subtransaction occurs on any error reported by the con
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pltcl-subtransactions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pltcl-subtransactions.md)（英文原文，待翻譯）

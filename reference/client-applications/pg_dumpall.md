@@ -8,13 +8,13 @@ pg\_dumpall — extract a PostgreSQL database cluster into a script file
 
 ### Description
 
-pg\_dumpall is a utility for writing out (“dumping”) all PostgreSQL databases of a cluster into one script file. The script file contains SQL commands that can be used as input to [psql](https://www.postgresql.org/docs/12/app-psql.html) to restore the databases. It does this by calling [pg\_dump](https://www.postgresql.org/docs/12/app-pgdump.html) for each database in the cluster. pg\_dumpall also dumps global objects that are common to all databases, that is, database roles and tablespaces. (pg\_dump does not save these objects.)
+pg\_dumpall is a utility for writing out (“dumping”) all PostgreSQL databases of a cluster into one script file. The script file contains SQL commands that can be used as input to [psql](psql.md) to restore the databases. It does this by calling [pg\_dump](pg_dump.md) for each database in the cluster. pg\_dumpall also dumps global objects that are common to all databases, that is, database roles and tablespaces. (pg\_dump does not save these objects.)
 
 Since pg\_dumpall reads tables from all databases you will most likely have to connect as a database superuser in order to produce a complete dump. Also you will need superuser privileges to execute the saved script in order to be allowed to add roles and create databases.
 
 The SQL script will be written to the standard output. Use the `-f`/`--file` option or shell operators to redirect it into a file.
 
-pg\_dumpall needs to connect several times to the PostgreSQL server (once per database). If you use password authentication it will ask for a password each time. It is convenient to have a `~/.pgpass` file in such cases. See [Section 33.15](https://www.postgresql.org/docs/12/libpq-pgpass.html) for more information.
+pg\_dumpall needs to connect several times to the PostgreSQL server (once per database). If you use password authentication it will ask for a password each time. It is convenient to have a `~/.pgpass` file in such cases. See [Section 33.15](../../client-interfaces/libpq-c-library/libpq-pgpass.md) for more information.
 
 ### Options
 
@@ -111,7 +111,7 @@ Use the specified value of extra\_float\_digits when dumping floating-point data
 
 `--exclude-database=`_`pattern`_
 
-Do not dump databases whose name matches _`pattern`_. Multiple patterns can be excluded by writing multiple `--exclude-database` switches. The _`pattern`_ parameter is interpreted as a pattern according to the same rules used by psql's `\d` commands (see [Patterns](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS)), so multiple databases can also be excluded by writing wildcard characters in the pattern. When using wildcards, be careful to quote the pattern if needed to prevent shell wildcard expansion.
+Do not dump databases whose name matches _`pattern`_. Multiple patterns can be excluded by writing multiple `--exclude-database` switches. The _`pattern`_ parameter is interpreted as a pattern according to the same rules used by psql's `\d` commands (see [Patterns](psql.md#APP-PSQL-PATTERNS)), so multiple databases can also be excluded by writing wildcard characters in the pattern. When using wildcards, be careful to quote the pattern if needed to prevent shell wildcard expansion.
 
 `--if-exists`
 
@@ -187,7 +187,7 @@ The following command-line options control the database connection parameters.
 `-d`` `_`connstr`_\
 `--dbname=`_`connstr`_
 
-Specifies parameters used to connect to the server, as a connection string. See [Section 33.1.1](https://www.postgresql.org/docs/12/libpq-connect.html#LIBPQ-CONNSTRING) for more information.
+Specifies parameters used to connect to the server, as a connection string. See [Section 33.1.1](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING) for more information.
 
 The option is called `--dbname` for consistency with other client applications, but because pg\_dumpall needs to connect to many databases, the database name in the connection string will be ignored. Use the `-l` option to specify the name of the database used for the initial connection, which will dump global objects and discover what other databases should be dumped.
 
@@ -240,7 +240,7 @@ Default connection parameters`PG_COLOR`
 
 Specifies whether to use color in diagnostic messages. Possible values are `always`, `auto` and `never`.
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)).
+This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](../../client-interfaces/libpq-c-library/environment-variables.md)).
 
 ### Notes
 

@@ -53,4 +53,4 @@ EXEC SQL EXECUTE IMMEDIATE :command;
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/ecpg-sql-execute-immediate.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](ecpg-sql-execute-immediate.md)（英文原文，待翻譯）

@@ -26,13 +26,13 @@ To issue pipelines, the application must switch the connection into pipeline mod
 
 ## Note
 
-It is best to use pipeline mode with libpq in [non-blocking mode](https://www.postgresql.org/docs/15/libpq-async.html#LIBPQ-PQSETNONBLOCKING). If used in blocking mode it is possible for a client/server deadlock to occur. [<a id="id-1.7.3.12.9.3.1.3"></a><sup>[15]</sup>](#ftn.id-1.7.3.12.9.3.1.3)
+It is best to use pipeline mode with libpq in [non-blocking mode](asynchronous-command-processing.md#LIBPQ-PQSETNONBLOCKING). If used in blocking mode it is possible for a client/server deadlock to occur. [<a id="id-1.7.3.12.9.3.1.3"></a><sup>[15]</sup>](#ftn.id-1.7.3.12.9.3.1.3)
 
 <a id="LIBPQ-PIPELINE-SENDING"></a>
 
 ### 34.5.1.1. Issuing Queries
 
-After entering pipeline mode, the application dispatches requests using [`PQsendQueryParams`](https://www.postgresql.org/docs/15/libpq-async.html#LIBPQ-PQSENDQUERYPARAMS) or its prepared-query sibling [`PQsendQueryPrepared`](https://www.postgresql.org/docs/15/libpq-async.html#LIBPQ-PQSENDQUERYPREPARED). These requests are queued on the client-side until flushed to the server; this occurs when [`PQpipelineSync`](#LIBPQ-PQPIPELINESYNC) is used to establish a synchronization point in the pipeline, or when [`PQflush`](https://www.postgresql.org/docs/15/libpq-async.html#LIBPQ-PQFLUSH) is called. The functions [`PQsendPrepare`](https://www.postgresql.org/docs/15/libpq-async.html#LIBPQ-PQSENDPREPARE), [`PQsendDescribePrepared`](https://www.postgresql.org/docs/15/libpq-async.html#LIBPQ-PQSENDDESCRIBEPREPARED), and [`PQsendDescribePortal`](https://www.postgresql.org/docs/15/libpq-async.html#LIBPQ-PQSENDDESCRIBEPORTAL) also work in pipeline mode. Result processing is described below.
+After entering pipeline mode, the application dispatches requests using [`PQsendQueryParams`](asynchronous-command-processing.md#LIBPQ-PQSENDQUERYPARAMS) or its prepared-query sibling [`PQsendQueryPrepared`](asynchronous-command-processing.md#LIBPQ-PQSENDQUERYPREPARED). These requests are queued on the client-side until flushed to the server; this occurs when [`PQpipelineSync`](#LIBPQ-PQPIPELINESYNC) is used to establish a synchronization point in the pipeline, or when [`PQflush`](asynchronous-command-processing.md#LIBPQ-PQFLUSH) is called. The functions [`PQsendPrepare`](asynchronous-command-processing.md#LIBPQ-PQSENDPREPARE), [`PQsendDescribePrepared`](asynchronous-command-processing.md#LIBPQ-PQSENDDESCRIBEPREPARED), and [`PQsendDescribePortal`](asynchronous-command-processing.md#LIBPQ-PQSENDDESCRIBEPORTAL) also work in pipeline mode. Result processing is described below.
 
 The server executes statements, and returns results, in the order the client sends them. The server will begin executing the commands in the pipeline immediately, not waiting for the end of the pipeline. Note that results are buffered on the server side; the server flushes that buffer when a synchronization point is established with `PQpipelineSync`, or when `PQsendFlushRequest` is called. If any statement encounters an error, the server aborts the current transaction and does not execute any subsequent command in the queue until the next synchronization point; a `PGRES_PIPELINE_ABORTED` result is produced for each such command. (This remains true even if the commands in the pipeline would rollback the transaction.) Query processing resumes after the synchronization point.
 
@@ -131,7 +131,7 @@ Causes a connection to exit pipeline mode if it is currently in pipeline mode wi
 int PQexitPipelineMode(PGconn *conn);
 ```
 
-Returns 1 for success. Returns 1 and takes no action if not in pipeline mode. If the current statement isn't finished processing, or `PQgetResult` has not been called to collect results from all previously sent query, returns 0 (in which case, use [`PQerrorMessage`](https://www.postgresql.org/docs/15/libpq-status.html#LIBPQ-PQERRORMESSAGE) to get more information about the failure).
+Returns 1 for success. Returns 1 and takes no action if not in pipeline mode. If the current statement isn't finished processing, or `PQgetResult` has not been called to collect results from all previously sent query, returns 0 (in which case, use [`PQerrorMessage`](connection-status-functions.md#LIBPQ-PQERRORMESSAGE) to get more information about the failure).
 
 <a id="LIBPQ-PQPIPELINESYNC"></a>
 
@@ -203,4 +203,4 @@ Pipelining is less useful, and more complex, when a single pipeline contains mul
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/libpq-pipeline-mode.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](libpq-pipeline-mode.md)（英文原文，待翻譯）

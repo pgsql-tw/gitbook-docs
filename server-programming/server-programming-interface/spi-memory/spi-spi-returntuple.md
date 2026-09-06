@@ -41,4 +41,4 @@ descriptor for row (pass the same descriptor each time for most effective cachin
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-returntuple.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-returntuple.md)（英文原文，待翻譯）

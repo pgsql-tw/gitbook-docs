@@ -146,7 +146,7 @@ If you do not have a reason to use 64-bit binaries on SPARC, prefer the 32-bit v
 
 ### **17.7.5.4. Using DTrace For Tracing PostgreSQL**
 
-Yes, using DTrace is possible. See [Section 28.5](https://www.postgresql.org/docs/15/dynamic-trace.html) for further information.
+Yes, using DTrace is possible. See [Section 28.5](../monitoring-database-activity/dynamic-tracing.md) for further information.
 
 If you see the linking of the `postgres` executable abort with an error message like:
 

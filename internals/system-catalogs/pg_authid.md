@@ -1,10 +1,10 @@
 # 53.8. pg\_authid
 
-The catalog `pg_authid` contains information about database authorization identifiers (roles). A role subsumes the concepts of “users” and “groups”. A user is essentially just a role with the `rolcanlogin` flag set. Any role (with or without `rolcanlogin`) can have other roles as members; see [`pg_auth_members`](https://www.postgresql.org/docs/13/catalog-pg-auth-members.html).
+The catalog `pg_authid` contains information about database authorization identifiers (roles). A role subsumes the concepts of “users” and “groups”. A user is essentially just a role with the `rolcanlogin` flag set. Any role (with or without `rolcanlogin`) can have other roles as members; see [`pg_auth_members`](pg_auth_members.md).
 
-Since this catalog contains passwords, it must not be publicly readable. [`pg_roles`](https://www.postgresql.org/docs/13/view-pg-roles.html) is a publicly readable view on `pg_authid` that blanks out the password field.
+Since this catalog contains passwords, it must not be publicly readable. [`pg_roles`](../system-views/pg_roles.md) is a publicly readable view on `pg_authid` that blanks out the password field.
 
-[Chapter 21](https://www.postgresql.org/docs/13/user-manag.html) contains detailed information about user and privilege management.
+[Chapter 21](../../server-administration/database-roles/README.md) contains detailed information about user and privilege management.
 
 Because user identities are cluster-wide, `pg_authid` is shared across all databases of a cluster: there is only one copy of `pg_authid` per cluster, not one per database.
 
@@ -20,7 +20,7 @@ Because user identities are cluster-wide, `pg_authid` is shared across all datab
 | <p><code>rolcreatedb</code> <code>bool</code></p><p>Role can create databases</p>                                                                                                                                   |
 | <p><code>rolcanlogin</code> <code>bool</code></p><p>Role can log in. That is, this role can be given as the initial session authorization identifier</p>                                                            |
 | <p><code>rolreplication</code> <code>bool</code></p><p>Role is a replication role. A replication role can initiate replication connections and create and drop replication slots.</p>                               |
-| <p><code>rolbypassrls</code> <code>bool</code></p><p>Role bypasses every row level security policy, see <a href="https://www.postgresql.org/docs/13/ddl-rowsecurity.html">Section 5.8</a> for more information.</p> |
+| <p><code>rolbypassrls</code> <code>bool</code></p><p>Role bypasses every row level security policy, see <a href="../../the-sql-language/ddl/row-security-policies.md">Section 5.8</a> for more information.</p> |
 | <p><code>rolconnlimit</code> <code>int4</code></p><p>For roles that can log in, this sets maximum number of concurrent connections this role can make. -1 means no limit.</p>                                       |
 | <p><code>rolpassword</code> <code>text</code></p><p>Password (possibly encrypted); null if none. The format depends on the form of encryption used.</p>                                                             |
 | <p><code>rolvaliduntil</code> <code>timestamptz</code></p><p>Password expiry time (only used for password authentication); null if no expiration</p>                                                                |

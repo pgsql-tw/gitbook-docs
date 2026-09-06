@@ -28,7 +28,7 @@ Now this is fine for PostgreSQL-specific applications, but standard code using J
 
 The `lo` module allows fixing this by attaching a trigger to tables that contain LO reference columns. The trigger essentially just does a `lo_unlink` whenever you delete or modify a value referencing a large object. When you use this trigger, you are assuming that there is only one database reference to any large object that is referenced in a trigger-controlled column!
 
-The module also provides a data type `lo`, which is really just a [domain](https://www.postgresql.org/docs/15/glossary.html#GLOSSARY-DOMAIN) over the `oid` type. This is useful for differentiating database columns that hold large object references from those that are OIDs of other things. You don't have to use the `lo` type to use the trigger, but it may be convenient to use it to keep track of which columns in your database represent large objects that you are managing with the trigger. It is also rumored that the ODBC driver gets confused if you don't use `lo` for BLOB columns.
+The module also provides a data type `lo`, which is really just a [domain](../glossary.md#GLOSSARY-DOMAIN) over the `oid` type. This is useful for differentiating database columns that hold large object references from those that are OIDs of other things. You don't have to use the `lo` type to use the trigger, but it may be convenient to use it to keep track of which columns in your database represent large objects that you are managing with the trigger. It is also rumored that the ODBC driver gets confused if you don't use `lo` for BLOB columns.
 
 <a id="id-1.11.7.31.6"></a>
 
@@ -65,4 +65,4 @@ Peter Mount <code class="email">&lt;<a class="email" href="mailto:peter@retep.or
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/lo.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](lo.md)（英文原文，待翻譯）

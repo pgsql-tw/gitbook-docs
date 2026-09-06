@@ -33,7 +33,7 @@ Any modules loaded by `plperl.on_init`, either directly or indirectly, will be a
 DO 'elog(WARNING, join ", ", sort keys %INC)' LANGUAGE plperl;
 ```
 
-Initialization will happen in the postmaster if the `plperl` library is included in [shared_preload_libraries](https://www.postgresql.org/docs/15/runtime-config-client.html#GUC-SHARED-PRELOAD-LIBRARIES), in which case extra consideration should be given to the risk of destabilizing the postmaster. The principal reason for making use of this feature is that Perl modules loaded by `plperl.on_init` need be loaded only at postmaster start, and will be instantly available without loading overhead in individual database sessions. However, keep in mind that the overhead is avoided only for the first Perl interpreter used by a database session — either PL/PerlU, or PL/Perl for the first SQL role that calls a PL/Perl function. Any additional Perl interpreters created in a database session will have to execute `plperl.on_init` afresh. Also, on Windows there will be no savings whatsoever from preloading, since the Perl interpreter created in the postmaster process does not propagate to child processes.
+Initialization will happen in the postmaster if the `plperl` library is included in [shared_preload_libraries](../../server-administration/server-configuration/client-connection-defaults.md#GUC-SHARED-PRELOAD-LIBRARIES), in which case extra consideration should be given to the risk of destabilizing the postmaster. The principal reason for making use of this feature is that Perl modules loaded by `plperl.on_init` need be loaded only at postmaster start, and will be instantly available without loading overhead in individual database sessions. However, keep in mind that the overhead is avoided only for the first Perl interpreter used by a database session — either PL/PerlU, or PL/Perl for the first SQL role that calls a PL/Perl function. Any additional Perl interpreters created in a database session will have to execute `plperl.on_init` afresh. Also, on Windows there will be no savings whatsoever from preloading, since the Perl interpreter created in the postmaster process does not propagate to child processes.
 
 This parameter can only be set in the `postgresql.conf` file or on the server command line.
 
@@ -68,4 +68,4 @@ The following features are currently missing from PL/Perl, but they would make w
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/plperl-under-the-hood.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](plperl-under-the-hood.md)（英文原文，待翻譯）

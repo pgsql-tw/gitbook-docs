@@ -66,4 +66,4 @@ CLOSE liahona;
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-close.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](close.md)（英文原文，待翻譯）

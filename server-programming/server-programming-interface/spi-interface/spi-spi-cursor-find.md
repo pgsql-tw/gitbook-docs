@@ -39,4 +39,4 @@ Beware that this function can return a `Portal` object that does not have cursor
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-cursor-find.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-cursor-find.md)（英文原文，待翻譯）

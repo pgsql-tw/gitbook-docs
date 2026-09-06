@@ -30,4 +30,4 @@ if {[catch { spi_exec $sql_command }]} {
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pltcl-error-handling.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pltcl-error-handling.md)（英文原文，待翻譯）

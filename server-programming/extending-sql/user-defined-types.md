@@ -1,6 +1,6 @@
 # 38.13. User-defined Types
 
-As described in [Section 38.2](https://www.postgresql.org/docs/current/extend-type-system.html), PostgreSQL can be extended to support new data types. This section describes how to define new base types, which are data types defined below the level of the SQL language. Creating a new base type requires implementing functions to operate on the type in a low-level language, usually C.
+As described in [Section 38.2](37.2.-the-postgresql-type-system.md), PostgreSQL can be extended to support new data types. This section describes how to define new base types, which are data types defined below the level of the SQL language. Creating a new base type requires implementing functions to operate on the type in a low-level language, usually C.
 
 The examples in this section can be found in `complex.sql` and `complex.c` in the `src/tutorial` directory of the source distribution. See the `README` file in that directory for instructions about running the examples.
 
@@ -147,11 +147,11 @@ Once the data type exists, we can declare additional functions to provide useful
 
 If the internal representation of the data type is variable-length, the internal representation must follow the standard layout for variable-length data: the first four bytes must be a `char[4]` field which is never accessed directly (customarily named `vl_len_`). You must use the `SET_VARSIZE()` macro to store the total size of the datum (including the length field itself) in this field and `VARSIZE()` to retrieve it. (These macros exist because the length field may be encoded depending on platform.)
 
-For further details see the description of the [CREATE TYPE](https://www.postgresql.org/docs/current/sql-createtype.html) command.
+For further details see the description of the [CREATE TYPE](../../reference/sql-commands/create-type.md) command.
 
 ## 38.13.1. TOAST Considerations
 
-If the values of your data type vary in size (in internal form), it's usually desirable to make the data type TOAST-able (see [Section 73.2](https://www.postgresql.org/docs/current/storage-toast.html)). You should do this even if the values are always too small to be compressed or stored externally, because TOAST can save space on small data too, by reducing header overhead.
+If the values of your data type vary in size (in internal form), it's usually desirable to make the data type TOAST-able (see [Section 73.2](../../internals/database-physical-storage/toast.md)). You should do this even if the values are always too small to be compressed or stored externally, because TOAST can save space on small data too, by reducing header overhead.
 
 To support TOAST storage, the C functions operating on the data type must always be careful to unpack any toasted values they are handed by using `PG_DETOAST_DATUM`. (This detail is customarily hidden by defining type-specific `GETARG_DATATYPE_P` macros.) Then, when running the `CREATE TYPE` command, specify the internal length as `variable` and select some appropriate storage option other than `plain`.
 

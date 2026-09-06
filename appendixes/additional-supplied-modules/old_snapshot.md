@@ -6,7 +6,7 @@
 
 <a id="id-1.11.7.33.2"></a>
 
-The `old_snapshot` module allows inspection of the server state that is used to implement [old_snapshot_threshold](https://www.postgresql.org/docs/15/runtime-config-resource.html#GUC-OLD-SNAPSHOT-THRESHOLD).
+The `old_snapshot` module allows inspection of the server state that is used to implement [old_snapshot_threshold](../../server-administration/server-configuration/resource-consumption.md#GUC-OLD-SNAPSHOT-THRESHOLD).
 
 <a id="id-1.11.7.33.4"></a>
 
@@ -18,4 +18,4 @@ Returns all of the entries in the server's timestamp to XID mapping. Each entry 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/oldsnapshot.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](old_snapshot.md)（英文原文，待翻譯）

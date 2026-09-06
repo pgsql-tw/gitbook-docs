@@ -33,4 +33,4 @@ The count of expected arguments for the <em class="parameter"><code>plan</code><
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-getargcount.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-getargcount.md)（英文原文，待翻譯）

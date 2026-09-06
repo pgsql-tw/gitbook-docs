@@ -1,6 +1,6 @@
 # 67.3. B-Tree Support Functions
 
-As shown in [Table 38.9](https://www.postgresql.org/docs/current/xindex.html#XINDEX-BTREE-SUPPORT-TABLE), btree defines one required and four optional support functions. The five user-defined methods are:
+As shown in [Table 38.9](../../server-programming/extending-sql/interfacing-extensions-to-indexes.md#XINDEX-BTREE-SUPPORT-TABLE), btree defines one required and four optional support functions. The five user-defined methods are:
 
 `order`
 
@@ -14,7 +14,7 @@ Optionally, a btree operator family may provide _sort support_ function(s), regi
 
 `in_range`
 
-Optionally, a btree operator family may provide _in\_range_ support function(s), registered under support function number 3. These are not used during btree index operations; rather, they extend the semantics of the operator family so that it can support window clauses containing the `RANGE` _`offset`_ `PRECEDING` and `RANGE` _`offset`_ `FOLLOWING` frame bound types (see [Section 4.2.8](https://www.postgresql.org/docs/current/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)). Fundamentally, the extra information provided is how to add or subtract an _`offset`_ value in a way that is compatible with the family's data ordering.
+Optionally, a btree operator family may provide _in\_range_ support function(s), registered under support function number 3. These are not used during btree index operations; rather, they extend the semantics of the operator family so that it can support window clauses containing the `RANGE` _`offset`_ `PRECEDING` and `RANGE` _`offset`_ `FOLLOWING` frame bound types (see [Section 4.2.8](../../the-sql-language/sql-syntax/value-expressions.md#SYNTAX-WINDOW-FUNCTIONS)). Fundamentally, the extra information provided is how to add or subtract an _`offset`_ value in a way that is compatible with the family's data ordering.
 
 An `in_range` function must have the signature
 

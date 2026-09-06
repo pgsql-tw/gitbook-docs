@@ -67,4 +67,4 @@ If a background worker sends asynchronous notifications with the `NOTIFY` comman
 
 The `src/test/modules/worker_spi` module contains a working example, which demonstrates some useful techniques.
 
-The maximum number of registered background workers is limited by [max\_worker\_processes](https://www.postgresql.org/docs/13/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES).
+The maximum number of registered background workers is limited by [max\_worker\_processes](../server-administration/server-configuration/resource-consumption.md#GUC-MAX-WORKER-PROCESSES).

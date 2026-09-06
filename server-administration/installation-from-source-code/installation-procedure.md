@@ -19,9 +19,9 @@
 
     The default configuration will build the server and utilities, as well as all client applications and interfaces that require only a C compiler. All files will be installed under `/usr/local/pgsql` by default.
 
-    You can customize the build and installation process by supplying one or more command line options to `configure`. Typically you would customize the install location, or the set of optional features that are built. `configure` has a large number of options, which are described in [Section 17.4.1](https://www.postgresql.org/docs/current/install-procedure.html#CONFIGURE-OPTIONS).
+    You can customize the build and installation process by supplying one or more command line options to `configure`. Typically you would customize the install location, or the set of optional features that are built. `configure` has a large number of options, which are described in [Section 17.4.1](installation-procedure.md#CONFIGURE-OPTIONS).
 
-    Also, `configure` responds to certain environment variables, as described in [Section 17.4.2](https://www.postgresql.org/docs/current/install-procedure.html#CONFIGURE-ENVVARS). These provide additional ways to customize the configuration.
+    Also, `configure` responds to certain environment variables, as described in [Section 17.4.2](installation-procedure.md#CONFIGURE-ENVVARS). These provide additional ways to customize the configuration.
 2.  **Build**
 
     To start the build, type either of:
@@ -57,19 +57,19 @@
     <pre><code><strong>make check
     </strong></code></pre>
 
-    (This won't work as root; do it as an unprivileged user.) See [Chapter 33](https://www.postgresql.org/docs/current/regress.html) for detailed information about interpreting the test results. You can repeat this test at any later time by issuing the same command.
+    (This won't work as root; do it as an unprivileged user.) See [Chapter 33](../regression-tests/README.md) for detailed information about interpreting the test results. You can repeat this test at any later time by issuing the same command.
 4.  **Installing the Files**
 
     #### Note
 
-    If you are upgrading an existing system be sure to read [Section 19.6](https://www.postgresql.org/docs/current/upgrading.html), which has instructions about upgrading a cluster.
+    If you are upgrading an existing system be sure to read [Section 19.6](../server-setup-and-operation/18.6.-upgrading-a-postgresql-cluster.md), which has instructions about upgrading a cluster.
 
     To install PostgreSQL enter:
 
     <pre><code><strong>make install
     </strong></code></pre>
 
-    This will install files into the directories that were specified in [Step 1](https://www.postgresql.org/docs/current/install-procedure.html#CONFIGURE). Make sure that you have appropriate permissions to write into that area. Normally you need to do this step as root. Alternatively, you can create the target directories in advance and arrange for appropriate permissions to be granted.
+    This will install files into the directories that were specified in [Step 1](installation-procedure.md#CONFIGURE). Make sure that you have appropriate permissions to write into that area. Normally you need to do this step as root. Alternatively, you can create the target directories in advance and arrange for appropriate permissions to be granted.
 
     To install the documentation (HTML and man pages), enter:
 
@@ -170,7 +170,7 @@ Care has been taken to make it possible to install PostgreSQL into shared instal
 
 ### **17.4.1.2. PostgreSQL Features**
 
-The options described in this section enable building of various PostgreSQL features that are not built by default. Most of these are non-default only because they require additional software, as described in [Section 17.2](https://www.postgresql.org/docs/current/install-requirements.html).
+The options described in this section enable building of various PostgreSQL features that are not built by default. Most of these are non-default only because they require additional software, as described in [Section 17.2](requirements.md).
 
 `--enable-nls[=`_`LANGUAGES`_`]`
 
@@ -196,7 +196,7 @@ Tcl installs the file `tclConfig.sh`, which contains configuration information n
 
 `--with-icu`
 
-Build with support for the ICU library, enabling use of ICU collation features (see [Section 24.2](https://www.postgresql.org/docs/current/collation.html)). This requires the ICU4C package to be installed. The minimum required version of ICU4C is currently 4.2.
+Build with support for the ICU library, enabling use of ICU collation features (see [Section 24.2](../localization/collation-support.md)). This requires the ICU4C package to be installed. The minimum required version of ICU4C is currently 4.2.
 
 By default, pkg-config will be used to find the required compilation options. This is supported for ICU4C version 4.6 and later. For older versions, or if pkg-config is not available, the variables `ICU_CFLAGS` and `ICU_LIBS` can be specified to `configure`, like in this example:
 
@@ -208,7 +208,7 @@ By default, pkg-config will be used to find the required compilation options. Th
 
 `--with-llvm`
 
-Build with support for LLVM based JIT compilation (see [Chapter 32](https://www.postgresql.org/docs/current/jit.html)). This requires the LLVM library to be installed. The minimum required version of LLVM is currently 3.9.
+Build with support for LLVM based JIT compilation (see [Chapter 32](../just-in-time-compilation/README.md)). This requires the LLVM library to be installed. The minimum required version of LLVM is currently 3.9.
 
 `llvm-config` will be used to find the required compilation options. `llvm-config`, and then `llvm-config-$major-$minor` for all supported versions, will be searched for in your `PATH`. If that would not yield the desired program, use `LLVM_CONFIG` to specify a path to the correct `llvm-config`. For example
 
@@ -240,7 +240,7 @@ Build with support for GSSAPI authentication. On many systems, the GSSAPI system
 
 `--with-ldap`
 
-Build with LDAP support for authentication and connection parameter lookup (see [Section 34.18](https://www.postgresql.org/docs/current/libpq-ldap.html) and [Section 21.10](https://www.postgresql.org/docs/current/auth-ldap.html) for more information). On Unix, this requires the OpenLDAP package to be installed. On Windows, the default WinLDAP library is used. `configure` will check for the required header files and libraries to make sure that your OpenLDAP installation is sufficient before proceeding.
+Build with LDAP support for authentication and connection parameter lookup (see [Section 34.18](../../client-interfaces/libpq-c-library/33.17.-ldap-lookup-of-connection-parameters.md) and [Section 21.10](../client-authentication/ldap-authentication.md) for more information). On Unix, this requires the OpenLDAP package to be installed. On Windows, the default WinLDAP library is used. `configure` will check for the required header files and libraries to make sure that your OpenLDAP installation is sufficient before proceeding.
 
 `--with-pam`
 
@@ -252,7 +252,7 @@ Build with BSD Authentication support. (The BSD Authentication framework is curr
 
 `--with-systemd`
 
-Build with support for systemd service notifications. This improves integration if the server is started under systemd but has no impact otherwise; see [Section 19.3](https://www.postgresql.org/docs/current/server-start.html) for more information. libsystemd and the associated header files need to be installed to use this option.
+Build with support for systemd service notifications. This improves integration if the server is started under systemd but has no impact otherwise; see [Section 19.3](../server-setup-and-operation/starting-the-database-server.md) for more information. libsystemd and the associated header files need to be installed to use this option.
 
 `--with-bonjour`
 
@@ -260,7 +260,7 @@ Build with support for Bonjour automatic service discovery. This requires Bonjou
 
 `--with-uuid=`_`LIBRARY`_
 
-Build the [uuid-ossp](https://www.postgresql.org/docs/current/uuid-ossp.html) module (which provides functions to generate UUIDs), using the specified UUID library. _`LIBRARY`_ must be one of:
+Build the [uuid-ossp](../../appendixes/additional-supplied-modules/uuid-ossp.md) module (which provides functions to generate UUIDs), using the specified UUID library. _`LIBRARY`_ must be one of:
 
 * `bsd` to use the UUID functions found in FreeBSD and some other BSD-derived systems
 * `e2fs` to use the UUID library created by the `e2fsprogs` project; this library is present in most Linux systems and in macOS, and can be obtained for other platforms as well
@@ -280,7 +280,7 @@ To use a libxml2 installation that is in an unusual location, you can set `pkg-c
 
 `--with-libxslt`
 
-Build with libxslt, enabling the [xml2](https://www.postgresql.org/docs/current/xml2.html) module to perform XSL transformations of XML. `--with-libxml` must be specified as well.
+Build with libxslt, enabling the [xml2](../../appendixes/additional-supplied-modules/xml2.md) module to perform XSL transformations of XML. `--with-libxml` must be specified as well.
 
 ### **17.4.1.3. Anti-Features**
 
@@ -336,7 +336,7 @@ Append _`STRING`_ to the PostgreSQL version number. You can use this, for exampl
 
 `--disable-rpath`
 
-Do not mark PostgreSQL's executables to indicate that they should search for shared libraries in the installation's library directory (see `--libdir`). On most platforms, this marking uses an absolute path to the library directory, so that it will be unhelpful if you relocate the installation later. However, you will then need to provide some other way for the executables to find the shared libraries. Typically this requires configuring the operating system's dynamic linker to search the library directory; see [Section 17.5.1](https://www.postgresql.org/docs/current/install-post.html#INSTALL-POST-SHLIBS) for more detail.
+Do not mark PostgreSQL's executables to indicate that they should search for shared libraries in the installation's library directory (see `--libdir`). On most platforms, this marking uses an absolute path to the library directory, so that it will be unhelpful if you relocate the installation later. However, you will then need to provide some other way for the executables to find the shared libraries. Typically this requires configuring the operating system's dynamic linker to search the library directory; see [Section 17.5.1](post-installation-setup.md#INSTALL-POST-SHLIBS) for more detail.
 
 ### **17.4.1.5. Miscellaneous**
 
@@ -378,7 +378,7 @@ Enables _assertion_ checks in the server, which test for many â€œcannot happenâ€
 
 `--enable-tap-tests`
 
-Enable tests using the Perl TAP tools. This requires a Perl installation and the Perl module `IPC::Run`. See [Section 33.4](https://www.postgresql.org/docs/current/regress-tap.html) for more information.
+Enable tests using the Perl TAP tools. This requires a Perl installation and the Perl module `IPC::Run`. See [Section 33.4](../regression-tests/32.4.-tap-tests.md) for more information.
 
 `--enable-depend`
 
@@ -386,7 +386,7 @@ Enables automatic dependency tracking. With this option, the makefiles are set u
 
 `--enable-coverage`
 
-If using GCC, all programs and libraries are compiled with code coverage testing instrumentation. When run, they generate files in the build directory with code coverage metrics. See [Section 33.5](https://www.postgresql.org/docs/current/regress-coverage.html) for more information. This option is for use only with GCC and when doing development work.
+If using GCC, all programs and libraries are compiled with code coverage testing instrumentation. When run, they generate files in the build directory with code coverage metrics. See [Section 33.5](../regression-tests/32.5.-test-coverage-examination.md) for more information. This option is for use only with GCC and when doing development work.
 
 `--enable-profiling`
 
@@ -394,7 +394,7 @@ If using GCC, all programs and libraries are compiled so they can be profiled. O
 
 `--enable-dtrace`
 
-Compiles PostgreSQL with support for the dynamic tracing tool DTrace. See [Section 28.5](https://www.postgresql.org/docs/current/dynamic-trace.html) for more information.
+Compiles PostgreSQL with support for the dynamic tracing tool DTrace. See [Section 28.5](../monitoring-database-activity/dynamic-tracing.md) for more information.
 
 To point to the `dtrace` program, the environment variable `DTRACE` can be set. This will often be necessary because `dtrace` is typically installed under `/usr/sbin`, which might not be in your `PATH`.
 

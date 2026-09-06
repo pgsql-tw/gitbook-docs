@@ -66,7 +66,7 @@ Specifies the maximum amount of memory to be used by logical decoding, before so
 
 `shared_memory_type` (`enum`)
 
-Specifies the shared memory implementation that the server should use for the main shared memory region that holds PostgreSQL's shared buffers and other shared data. Possible values are `mmap` (for anonymous shared memory allocated using `mmap`), `sysv` (for System V shared memory allocated via `shmget`) and `windows` (for Windows shared memory). Not all values are supported on all platforms; the first supported option is the default for that platform. The use of the `sysv` option, which is not the default on any platform, is generally discouraged because it typically requires non-default kernel settings to allow for large allocations (see [Section 18.4.1](https://www.postgresql.org/docs/13/kernel-resources.html#SYSVIPC)).
+Specifies the shared memory implementation that the server should use for the main shared memory region that holds PostgreSQL's shared buffers and other shared data. Possible values are `mmap` (for anonymous shared memory allocated using `mmap`), `sysv` (for System V shared memory allocated via `shmget`) and `windows` (for Windows shared memory). Not all values are supported on all platforms; the first supported option is the default for that platform. The use of the `sysv` option, which is not the default on any platform, is generally discouraged because it typically requires non-default kernel settings to allow for large allocations (see [Section 18.4.1](../server-setup-and-operation/managing-kernel-resources.md#SYSVIPC)).
 
 `dynamic_shared_memory_type` (`enum`)
 
@@ -158,7 +158,7 @@ bgwriter\_lru\_maxpages 和 bgwriter\_lru\_multiplier 設定較小值可以減�
 
 Similar to `effective_io_concurrency`, but used for maintenance work that is done on behalf of many client sessions.
 
-The default is 10 on supported systems, otherwise 0. This value can be overridden for tables in a particular tablespace by setting the tablespace parameter of the same name (see [ALTER TABLESPACE](https://www.postgresql.org/docs/13/sql-altertablespace.html)).
+The default is 10 on supported systems, otherwise 0. This value can be overridden for tables in a particular tablespace by setting the tablespace parameter of the same name (see [ALTER TABLESPACE](../../reference/sql-commands/alter-tablespace.md)).
 
 #### `max_worker_processes` (`integer`)
 
@@ -178,7 +178,7 @@ The default is 10 on supported systems, otherwise 0. This value can be overridde
 
 #### `max_parallel_maintenance_workers` (`integer`)
 
-Sets the maximum number of parallel workers that can be started by a single utility command. Currently, the parallel utility commands that support the use of parallel workers are `CREATE INDEX` only when building a B-tree index, and `VACUUM` without `FULL` option. Parallel workers are taken from the pool of processes established by [max\_worker\_processes](https://www.postgresql.org/docs/13/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES), limited by [max\_parallel\_workers](https://www.postgresql.org/docs/13/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS). Note that the requested number of workers may not actually be available at run time. If this occurs, the utility operation will run with fewer workers than expected. The default value is 2. Setting this value to 0 disables the use of parallel workers by utility commands.
+Sets the maximum number of parallel workers that can be started by a single utility command. Currently, the parallel utility commands that support the use of parallel workers are `CREATE INDEX` only when building a B-tree index, and `VACUUM` without `FULL` option. Parallel workers are taken from the pool of processes established by [max\_worker\_processes](resource-consumption.md#GUC-MAX-WORKER-PROCESSES), limited by [max\_parallel\_workers](resource-consumption.md#GUC-MAX-PARALLEL-WORKERS). Note that the requested number of workers may not actually be available at run time. If this occurs, the utility operation will run with fewer workers than expected. The default value is 2. Setting this value to 0 disables the use of parallel workers by utility commands.
 
 Note that parallel utility commands should not consume substantially more memory than equivalent non-parallel operations. This strategy differs from that of parallel query, where resource limits generally apply per worker process. Parallel utility commands treat the resource limit `maintenance_work_mem` as a limit to be applied to the entire utility command, regardless of the number of parallel worker processes. However, parallel utility commands may still consume substantially more CPU resources and I/O bandwidth.
 

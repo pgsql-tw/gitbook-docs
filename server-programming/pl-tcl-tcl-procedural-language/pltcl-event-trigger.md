@@ -31,4 +31,4 @@ CREATE EVENT TRIGGER tcl_a_snitch ON ddl_command_start EXECUTE FUNCTION tclsnitc
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pltcl-event-trigger.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pltcl-event-trigger.md)（英文原文，待翻譯）

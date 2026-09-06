@@ -15,7 +15,7 @@ CREATE PUBLICATION name
 
 `CREATE PUBLICATION` adds a new publication into the current database. The publication name must be distinct from the name of any existing publication in the current database.
 
-A publication is essentially a group of tables whose data changes are intended to be replicated through logical replication. See [Section 30.1](https://www.postgresql.org/docs/13/logical-replication-publication.html) for details about how publications fit into the logical replication setup.
+A publication is essentially a group of tables whose data changes are intended to be replicated through logical replication. See [Section 30.1](../../server-administration/logical-replication/publication.md) for details about how publications fit into the logical replication setup.
 
 ### Parameters
 

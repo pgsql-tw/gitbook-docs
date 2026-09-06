@@ -14,4 +14,4 @@ It is not generally safe and sensible to start and end transactions in arbitrary
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-transaction.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-transaction.md)（英文原文，待翻譯）

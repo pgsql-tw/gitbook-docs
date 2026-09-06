@@ -62,4 +62,4 @@ This command conforms to the SQL standard, except for the `IF EXISTS` option, wh
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-dropdomain.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](drop-domain.md)（英文原文，待翻譯）

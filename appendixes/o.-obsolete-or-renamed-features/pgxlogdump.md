@@ -8,4 +8,4 @@ PostgreSQL 9.6 and below provided a command named `pg_xlogdump` <a id="id-1.11.1
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pgxlogdump.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pgxlogdump.md)（英文原文，待翻譯）

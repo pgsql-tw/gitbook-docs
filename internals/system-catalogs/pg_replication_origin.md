@@ -42,4 +42,4 @@ Unlike most system catalogs, `pg_replication_origin` is shared across all databa
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-replication-origin.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_replication_origin.md)（英文原文，待翻譯）

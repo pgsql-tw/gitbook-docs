@@ -28,4 +28,4 @@ Transactions cannot be ended when an explicit subtransaction is active.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pltcl-transactions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pltcl-transactions.md)（英文原文，待翻譯）

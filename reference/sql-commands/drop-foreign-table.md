@@ -62,4 +62,4 @@ This command conforms to ISO/IEC 9075-9 (SQL/MED), except that the standard only
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-dropforeigntable.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](drop-foreign-table.md)（英文原文，待翻譯）

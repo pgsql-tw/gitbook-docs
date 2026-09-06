@@ -72,4 +72,4 @@ Note, however, that the SQL/MED functionality as a whole is not yet conforming.
 
 ### See Also
 
-[ALTER FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/13/sql-alterforeigndatawrapper.html), [DROP FOREIGN DATA WRAPPER](https://www.postgresql.org/docs/13/sql-dropforeigndatawrapper.html), [CREATE SERVER](https://www.postgresql.org/docs/13/sql-createserver.html), [CREATE USER MAPPING](https://www.postgresql.org/docs/13/sql-createusermapping.html), [CREATE FOREIGN TABLE](https://www.postgresql.org/docs/13/sql-createforeigntable.html)
+[ALTER FOREIGN DATA WRAPPER](alter-foreign-data-wrapper.md), [DROP FOREIGN DATA WRAPPER](drop-foreign-data-wrapper.md), [CREATE SERVER](create-server.md), [CREATE USER MAPPING](create-user-mapping.md), [CREATE FOREIGN TABLE](create-foreign-table.md)

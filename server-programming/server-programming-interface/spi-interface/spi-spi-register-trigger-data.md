@@ -51,4 +51,4 @@ if the name of any trigger data transient relation is already registered for thi
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-register-trigger-data.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-register-trigger-data.md)（英文原文，待翻譯）

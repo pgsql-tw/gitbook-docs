@@ -62,7 +62,7 @@
 | `width_bucket(`_`operand`_ `numeric`, _`b1`_ `numeric`, _`b2`_ `numeric`, _`count`_ `int`) | `int`                    | return the bucket number to which _`operand`_ would be assigned in a histogram having _`count`_ equal-width buckets spanning the range _`b1`_ to _`b2`_; returns `0` or _`count`_+1 for an input outside the range                                                                  | `width_bucket(5.35, 0.024, 10.06, 5)`                                         | `3`                 |
 | `width_bucket(`_`operand`_ `anyelement`, _`thresholds`_ `anyarray`)                        | `int`                    | return the bucket number to which _`operand`_ would be assigned given an array listing the lower bounds of the buckets; returns `0` for an input less than the first lower bound; the _`thresholds`_ array _must be sorted_, smallest first, or unexpected results will be obtained | `width_bucket(now(), array['yesterday', 'today', 'tomorrow']::timestamptz[])` | `2`                 |
 
-[Table 9.6](https://www.postgresql.org/docs/12/functions-math.html#FUNCTIONS-MATH-RANDOM-TABLE) shows functions for generating random numbers.
+[Table 9.6](mathematical-functions-and-operators.md#FUNCTIONS-MATH-RANDOM-TABLE) shows functions for generating random numbers.
 
 #### **Table 9.6. Random Functions**
 
@@ -71,9 +71,9 @@
 | `random()`    | `dp`        | random value in the range 0.0 <= x < 1.0                                         |
 | `setseed(dp`) | `void`      | set seed for subsequent `random()` calls (value between -1.0 and 1.0, inclusive) |
 
-The `random()` function uses a simple linear congruential algorithm. It is fast but not suitable for cryptographic applications; see the [pgcrypto](https://www.postgresql.org/docs/12/pgcrypto.html) module for a more secure alternative. If `setseed()` is called, the results of subsequent `random()` calls in the current session are repeatable by re-issuing `setseed()` with the same argument.
+The `random()` function uses a simple linear congruential algorithm. It is fast but not suitable for cryptographic applications; see the [pgcrypto](../../appendixes/additional-supplied-modules/pgcrypto.md) module for a more secure alternative. If `setseed()` is called, the results of subsequent `random()` calls in the current session are repeatable by re-issuing `setseed()` with the same argument.
 
-[Table 9.7](https://www.postgresql.org/docs/12/functions-math.html#FUNCTIONS-MATH-TRIG-TABLE) shows the available trigonometric functions. All these functions take arguments and return values of type `double precision`. Each of the trigonometric functions comes in two variants, one that measures angles in radians and one that measures angles in degrees.
+[Table 9.7](mathematical-functions-and-operators.md#FUNCTIONS-MATH-TRIG-TABLE) shows the available trigonometric functions. All these functions take arguments and return values of type `double precision`. Each of the trigonometric functions comes in two variants, one that measures angles in radians and one that measures angles in degrees.
 
 #### **Table 9.7. Trigonometric Functions**
 
@@ -92,7 +92,7 @@ The `random()` function uses a simple linear congruential algorithm. It is fast 
 
 Another way to work with angles measured in degrees is to use the unit transformation functions `radians()` and `degrees()` shown earlier. However, using the degree-based trigonometric functions is preferred, as that way avoids round-off error for special cases such as `sind(30)`.
 
-[Table 9.8](https://www.postgresql.org/docs/12/functions-math.html#FUNCTIONS-MATH-HYP-TABLE) shows the available hyperbolic functions. All these functions take arguments and return values of type `double precision`.
+[Table 9.8](mathematical-functions-and-operators.md#FUNCTIONS-MATH-HYP-TABLE) shows the available hyperbolic functions. All these functions take arguments and return values of type `double precision`.
 
 #### **Table 9.8. Hyperbolic Functions**
 

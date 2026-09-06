@@ -74,4 +74,4 @@ When <em class="parameter"><code>options-&gt;dest</code></em> is NULL, `SPI_proc
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-execute-extended.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-execute-extended.md)（英文原文，待翻譯）

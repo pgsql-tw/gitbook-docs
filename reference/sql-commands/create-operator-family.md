@@ -51,4 +51,4 @@ The name of the index method this operator family is for.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-createopfamily.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](create-operator-family.md)（英文原文，待翻譯）

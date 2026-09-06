@@ -2,7 +2,7 @@
 
 **Release date:** 2022-11-10
 
-This release contains a variety of fixes from 15.0. For information about new features in major release 15, see [Section E.3](https://www.postgresql.org/docs/15/release-15.html).
+This release contains a variety of fixes from 15.0. For information about new features in major release 15, see [Section E.3](e.3.-release-15.md).
 
 ## E.19.1. Migration to Version 15.1
 

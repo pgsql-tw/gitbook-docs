@@ -235,7 +235,7 @@ The `seg` module includes a GiST index operator class for `seg` values. The oper
 
 
 
-In addition to the above operators, the usual comparison operators shown in [Table 9.1](https://www.postgresql.org/docs/15/functions-comparison.html#FUNCTIONS-COMPARISON-OP-TABLE) are available for type `seg`. These operators first compare (a) to (c), and if these are equal, compare (b) to (d). That results in reasonably good sorting in most cases, which is useful if you want to use ORDER BY with this type.
+In addition to the above operators, the usual comparison operators shown in [Table 9.1](../../the-sql-language/functions-and-operators/comparison-functions-and-operators.md#FUNCTIONS-COMPARISON-OP-TABLE) are available for type `seg`. These operators first compare (a) to (c), and if these are equal, compare (b) to (d). That results in reasonably good sorting in most cases, which is useful if you want to use ORDER BY with this type.
 
 <a id="id-1.11.7.48.9"></a>
 
@@ -265,4 +265,4 @@ My thanks are primarily to Prof. Joe Hellerstein (<https://dsf.berkeley.edu/jmh/
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/seg.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](seg.md)（英文原文，待翻譯）

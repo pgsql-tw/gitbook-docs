@@ -10,7 +10,7 @@
 
 <a id="id-1.11.7.39.2"></a>
 
-The `pg_prewarm` module provides a convenient way to load relation data into either the operating system buffer cache or the PostgreSQL buffer cache. Prewarming can be performed manually using the `pg_prewarm` function, or can be performed automatically by including `pg_prewarm` in [shared_preload_libraries](https://www.postgresql.org/docs/15/runtime-config-client.html#GUC-SHARED-PRELOAD-LIBRARIES). In the latter case, the system will run a background worker which periodically records the contents of shared buffers in a file called `autoprewarm.blocks` and will, using 2 background workers, reload those same blocks after a restart.
+The `pg_prewarm` module provides a convenient way to load relation data into either the operating system buffer cache or the PostgreSQL buffer cache. Prewarming can be performed manually using the `pg_prewarm` function, or can be performed automatically by including `pg_prewarm` in [shared_preload_libraries](../../server-administration/server-configuration/client-connection-defaults.md#GUC-SHARED-PRELOAD-LIBRARIES). In the latter case, the system will run a background worker which periodically records the contents of shared buffers in a file called `autoprewarm.blocks` and will, using 2 background workers, reload those same blocks after a restart.
 
 <a id="id-1.11.7.39.4"></a>
 
@@ -74,4 +74,4 @@ Robert Haas <code class="email">&lt;<a class="email" href="mailto:rhaas@postgres
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pgprewarm.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_prewarm.md)（英文原文，待翻譯）

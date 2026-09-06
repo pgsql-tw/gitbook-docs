@@ -1,8 +1,8 @@
 # 9.26. 系統資訊函數
 
-[Table 9.63](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-SESSION-TABLE) shows several functions that extract session and system information.
+[Table 9.63](system-information-functions.md#FUNCTIONS-INFO-SESSION-TABLE) shows several functions that extract session and system information.
 
-In addition to the functions listed in this section, there are a number of functions related to the statistics system that also provide system information. See [Section 27.2.2](https://www.postgresql.org/docs/12/monitoring-stats.html#MONITORING-STATS-VIEWS) for more information.
+In addition to the functions listed in this section, there are a number of functions related to the statistics system that also provide system information. See [Section 27.2.2](../../server-administration/monitoring-database-activity/the-statistics-collector.md#MONITORING-STATS-VIEWS) for more information.
 
 #### **Table 9.63. Session Information Functions**
 
@@ -25,7 +25,7 @@ In addition to the functions listed in this section, there are a number of funct
 | `pg_current_logfile([text`])          | `text`                     | Primary log file name, or log in the requested format, currently in use by the logging collector                                                                                                                               |
 | `pg_my_temp_schema()`                 | `oid`                      | OID of session's temporary schema, or 0 if none                                                                                                                                                                                |
 | `pg_is_other_temp_schema(oid`)        | `boolean`                  | is schema another session's temporary schema?                                                                                                                                                                                  |
-| `pg_jit_available()`                  | `boolean`                  | is a JIT compiler extension available (see [Chapter 31](https://www.postgresql.org/docs/12/jit.html)) and the [jit](https://www.postgresql.org/docs/12/runtime-config-query.html#GUC-JIT) configuration parameter set to `on`. |
+| `pg_jit_available()`                  | `boolean`                  | is a JIT compiler extension available (see [Chapter 31](../../server-administration/just-in-time-compilation/README.md)) and the [jit](../../server-administration/server-configuration/query-planning.md#GUC-JIT) configuration parameter set to `on`. |
 | `pg_listening_channels()`             | `setof text`               | channel names that the session is currently listening on                                                                                                                                                                       |
 | `pg_notification_queue_usage()`       | `double`                   | fraction of the asynchronous notification queue currently occupied (0-1)                                                                                                                                                       |
 | `pg_postmaster_start_time()`          | `timestamp with time zone` | server start time                                                                                                                                                                                                              |
@@ -33,13 +33,13 @@ In addition to the functions listed in this section, there are a number of funct
 | `pg_trigger_depth()`                  | `int`                      | current nesting level of PostgreSQL triggers (0 if not called, directly or indirectly, from inside a trigger)                                                                                                                  |
 | `session_user`                        | `name`                     | session user name                                                                                                                                                                                                              |
 | `user`                                | `name`                     | equivalent to `current_user`                                                                                                                                                                                                   |
-| `version()`                           | `text`                     | PostgreSQL version information. See also [server\_version\_num](https://www.postgresql.org/docs/12/runtime-config-preset.html#GUC-SERVER-VERSION-NUM) for a machine-readable version.                                          |
+| `version()`                           | `text`                     | PostgreSQL version information. See also [server\_version\_num](../../server-administration/server-configuration/19.15.-yu-xian-pei-zhi-de-can-shu.md#GUC-SERVER-VERSION-NUM) for a machine-readable version.                                          |
 
 #### Note
 
 `current_catalog`, `current_role`, `current_schema`, `current_user`, `session_user`, and `user` have special syntactic status in SQL: they must be called without trailing parentheses. (In PostgreSQL, parentheses can optionally be used with `current_schema`, but not with the others.)
 
-The `session_user` is normally the user who initiated the current database connection; but superusers can change this setting with [SET SESSION AUTHORIZATION](https://www.postgresql.org/docs/12/sql-set-session-authorization.html). The `current_user` is the user identifier that is applicable for permission checking. Normally it is equal to the session user, but it can be changed with [SET ROLE](https://www.postgresql.org/docs/12/sql-set-role.html). It also changes during the execution of functions with the attribute `SECURITY DEFINER`. In Unix parlance, the session user is the “real user” and the current user is the “effective user”. `current_role` and `user` are synonyms for `current_user`. (The SQL standard draws a distinction between `current_role` and `current_user`, but PostgreSQL does not, since it unifies users and roles into a single kind of entity.)
+The `session_user` is normally the user who initiated the current database connection; but superusers can change this setting with [SET SESSION AUTHORIZATION](../../reference/sql-commands/set-session-authorization.md). The `current_user` is the user identifier that is applicable for permission checking. Normally it is equal to the session user, but it can be changed with [SET ROLE](../../reference/sql-commands/set-role.md). It also changes during the execution of functions with the attribute `SECURITY DEFINER`. In Unix parlance, the session user is the “real user” and the current user is the “effective user”. `current_role` and `user` are synonyms for `current_user`. (The SQL standard draws a distinction between `current_role` and `current_user`, but PostgreSQL does not, since it unifies users and roles into a single kind of entity.)
 
 `current_schema` returns the name of the schema that is first in the search path (or a null value if the search path is empty). This is the schema that will be used for any tables or other named objects that are created without specifying a target schema. `current_schemas(boolean)` returns an array of the names of all schemas presently in the search path. The Boolean option determines whether or not implicitly included system schemas such as `pg_catalog` are included in the returned search path.
 
@@ -57,19 +57,19 @@ SET search_path TO schema [, schema, ...]
 
 `pg_conf_load_time` returns the `timestamp with time zone` when the server configuration files were last loaded. (If the current session was alive at the time, this will be the time when the session itself re-read the configuration files, so the reading will vary a little in different sessions. Otherwise it is the time when the postmaster process re-read the configuration files.)
 
-`pg_current_logfile` returns, as `text`, the path of the log file(s) currently in use by the logging collector. The path includes the [log\_directory](https://www.postgresql.org/docs/12/runtime-config-logging.html#GUC-LOG-DIRECTORY) directory and the log file name. Log collection must be enabled or the return value is `NULL`. When multiple log files exist, each in a different format, `pg_current_logfile` called without arguments returns the path of the file having the first format found in the ordered list: stderr, csvlog. `NULL` is returned when no log file has any of these formats. To request a specific file format supply, as `text`, either csvlog or stderr as the value of the optional parameter. The return value is `NULL` when the log format requested is not a configured [log\_destination](https://www.postgresql.org/docs/12/runtime-config-logging.html#GUC-LOG-DESTINATION). The `pg_current_logfile` reflects the contents of the `current_logfiles` file.
+`pg_current_logfile` returns, as `text`, the path of the log file(s) currently in use by the logging collector. The path includes the [log\_directory](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-LOG-DIRECTORY) directory and the log file name. Log collection must be enabled or the return value is `NULL`. When multiple log files exist, each in a different format, `pg_current_logfile` called without arguments returns the path of the file having the first format found in the ordered list: stderr, csvlog. `NULL` is returned when no log file has any of these formats. To request a specific file format supply, as `text`, either csvlog or stderr as the value of the optional parameter. The return value is `NULL` when the log format requested is not a configured [log\_destination](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-LOG-DESTINATION). The `pg_current_logfile` reflects the contents of the `current_logfiles` file.
 
 `pg_my_temp_schema` returns the OID of the current session's temporary schema, or zero if it has none (because it has not created any temporary tables). `pg_is_other_temp_schema` returns true if the given OID is the OID of another session's temporary schema. (This can be useful, for example, to exclude other sessions' temporary tables from a catalog display.)
 
-`pg_listening_channels` returns a set of names of asynchronous notification channels that the current session is listening to. `pg_notification_queue_usage` returns the fraction of the total available space for notifications currently occupied by notifications that are waiting to be processed, as a `double` in the range 0-1. See [LISTEN](https://www.postgresql.org/docs/12/sql-listen.html) and [NOTIFY](https://www.postgresql.org/docs/12/sql-notify.html) for more information.
+`pg_listening_channels` returns a set of names of asynchronous notification channels that the current session is listening to. `pg_notification_queue_usage` returns the fraction of the total available space for notifications currently occupied by notifications that are waiting to be processed, as a `double` in the range 0-1. See [LISTEN](../../reference/sql-commands/listen.md) and [NOTIFY](../../reference/sql-commands/notify.md) for more information.
 
 `pg_postmaster_start_time` returns the `timestamp with time zone` when the server started.
 
-`pg_safe_snapshot_blocking_pids` returns an array of the process IDs of the sessions that are blocking the server process with the specified process ID from acquiring a safe snapshot, or an empty array if there is no such server process or it is not blocked. A session running a `SERIALIZABLE` transaction blocks a `SERIALIZABLE READ ONLY DEFERRABLE` transaction from acquiring a snapshot until the latter determines that it is safe to avoid taking any predicate locks. See [Section 13.2.3](https://www.postgresql.org/docs/12/transaction-iso.html#XACT-SERIALIZABLE) for more information about serializable and deferrable transactions. Frequent calls to this function could have some impact on database performance, because it needs access to the predicate lock manager's shared state for a short time.
+`pg_safe_snapshot_blocking_pids` returns an array of the process IDs of the sessions that are blocking the server process with the specified process ID from acquiring a safe snapshot, or an empty array if there is no such server process or it is not blocked. A session running a `SERIALIZABLE` transaction blocks a `SERIALIZABLE READ ONLY DEFERRABLE` transaction from acquiring a snapshot until the latter determines that it is safe to avoid taking any predicate locks. See [Section 13.2.3](../concurrency-control/transaction-isolation.md#XACT-SERIALIZABLE) for more information about serializable and deferrable transactions. Frequent calls to this function could have some impact on database performance, because it needs access to the predicate lock manager's shared state for a short time.
 
-`version` returns a string describing the PostgreSQL server's version. You can also get this information from [server\_version](https://www.postgresql.org/docs/12/runtime-config-preset.html#GUC-SERVER-VERSION) or for a machine-readable version, [server\_version\_num](https://www.postgresql.org/docs/12/runtime-config-preset.html#GUC-SERVER-VERSION-NUM). Software developers should use `server_version_num` (available since 8.2) or [`PQserverVersion`](https://www.postgresql.org/docs/12/libpq-status.html#LIBPQ-PQSERVERVERSION) instead of parsing the text version.
+`version` returns a string describing the PostgreSQL server's version. You can also get this information from [server\_version](../../server-administration/server-configuration/19.15.-yu-xian-pei-zhi-de-can-shu.md#GUC-SERVER-VERSION) or for a machine-readable version, [server\_version\_num](../../server-administration/server-configuration/19.15.-yu-xian-pei-zhi-de-can-shu.md#GUC-SERVER-VERSION-NUM). Software developers should use `server_version_num` (available since 8.2) or [`PQserverVersion`](../../client-interfaces/libpq-c-library/connection-status-functions.md#LIBPQ-PQSERVERVERSION) instead of parsing the text version.
 
-[Table 9.64](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-ACCESS-TABLE) lists functions that allow the user to query object access privileges programmatically. See [Section 5.7](https://www.postgresql.org/docs/12/ddl-priv.html) for more information about privileges.
+[Table 9.64](system-information-functions.md#FUNCTIONS-INFO-ACCESS-TABLE) lists functions that allow the user to query object access privileges programmatically. See [Section 5.7](../ddl/privileges.md) for more information about privileges.
 
 #### **Table 9.64. Access Privilege Inquiry Functions**
 
@@ -118,7 +118,7 @@ SELECT has_table_privilege('joe', 'mytable', 'INSERT, SELECT WITH GRANT OPTION')
 
 `has_database_privilege` checks whether a user can access a database in a particular way. Its argument possibilities are analogous to `has_table_privilege`. The desired access privilege type must evaluate to some combination of `CREATE`, `CONNECT`, `TEMPORARY`, or `TEMP` (which is equivalent to `TEMPORARY`).
 
-`has_function_privilege` checks whether a user can access a function in a particular way. Its argument possibilities are analogous to `has_table_privilege`. When specifying a function by a text string rather than by OID, the allowed input is the same as for the `regprocedure` data type (see [Section 8.19](https://www.postgresql.org/docs/12/datatype-oid.html)). The desired access privilege type must evaluate to `EXECUTE`. An example is:
+`has_function_privilege` checks whether a user can access a function in a particular way. Its argument possibilities are analogous to `has_table_privilege`. When specifying a function by a text string rather than by OID, the allowed input is the same as for the `regprocedure` data type (see [Section 8.19](../data-types/object-identifier-types.md)). The desired access privilege type must evaluate to `EXECUTE`. An example is:
 
 ```
 SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
@@ -134,13 +134,13 @@ SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
 
 `has_tablespace_privilege` checks whether a user can access a tablespace in a particular way. Its argument possibilities are analogous to `has_table_privilege`. The desired access privilege type must evaluate to `CREATE`.
 
-`has_type_privilege` checks whether a user can access a type in a particular way. Its argument possibilities are analogous to `has_table_privilege`. When specifying a type by a text string rather than by OID, the allowed input is the same as for the `regtype` data type (see [Section 8.19](https://www.postgresql.org/docs/12/datatype-oid.html)). The desired access privilege type must evaluate to `USAGE`.
+`has_type_privilege` checks whether a user can access a type in a particular way. Its argument possibilities are analogous to `has_table_privilege`. When specifying a type by a text string rather than by OID, the allowed input is the same as for the `regtype` data type (see [Section 8.19](../data-types/object-identifier-types.md)). The desired access privilege type must evaluate to `USAGE`.
 
 `pg_has_role` checks whether a user can access a role in a particular way. Its argument possibilities are analogous to `has_table_privilege`, except that `public` is not allowed as a user name. The desired access privilege type must evaluate to some combination of `MEMBER` or `USAGE`. `MEMBER` denotes direct or indirect membership in the role (that is, the right to do `SET ROLE`), while `USAGE` denotes whether the privileges of the role are immediately available without doing `SET ROLE`.
 
 `row_security_active` checks whether row level security is active for the specified table in the context of the `current_user` and environment. The table can be specified by name or by OID.
 
-[Table 9.65](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-ACLITEM-OP-TABLE) shows the operators available for the `aclitem` type, which is the catalog representation of access privileges. See [Section 5.7](https://www.postgresql.org/docs/12/ddl-priv.html) for information about how to read access privilege values.
+[Table 9.65](system-information-functions.md#FUNCTIONS-ACLITEM-OP-TABLE) shows the operators available for the `aclitem` type, which is the catalog representation of access privileges. See [Section 5.7](../ddl/privileges.md) for information about how to read access privilege values.
 
 #### **Table 9.65. `aclitem` Operators**
 
@@ -150,7 +150,7 @@ SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
 | `@>`     | contains element | `'{calvin=r*w/hobbes,hobbes=r*w*/postgres}'::aclitem[] @> 'calvin=r*w/hobbes'::aclitem` | `t`    |
 | `~`      | contains element | `'{calvin=r*w/hobbes,hobbes=r*w*/postgres}'::aclitem[] ~ 'calvin=r*w/hobbes'::aclitem`  | `t`    |
 
-[Table 9.66](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-ACLITEM-FN-TABLE) shows some additional functions to manage the `aclitem` type.
+[Table 9.66](system-information-functions.md#FUNCTIONS-ACLITEM-FN-TABLE) shows some additional functions to manage the `aclitem` type.
 
 #### **Table 9.66. `aclitem` Functions**
 
@@ -160,11 +160,11 @@ SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
 | `aclexplode`(_`aclitem[]`_)                                           | `setof record` | get `aclitem` array as tuples                                            |
 | `makeaclitem`(_`grantee`_, _`grantor`_, _`privilege`_, _`grantable`_) | `aclitem`      | build an `aclitem` from input                                            |
 
-`acldefault` returns the built-in default access privileges for an object of type _`type`_ belonging to role _`ownerId`_. These represent the access privileges that will be assumed when an object's ACL entry is null. (The default access privileges are described in [Section 5.7](https://www.postgresql.org/docs/12/ddl-priv.html).) The _`type`_ parameter is a `CHAR`: write 'c' for `COLUMN`, 'r' for `TABLE` and table-like objects, 's' for `SEQUENCE`, 'd' for `DATABASE`, 'f' for `FUNCTION` or `PROCEDURE`, 'l' for `LANGUAGE`, 'L' for `LARGE OBJECT`, 'n' for `SCHEMA`, 't' for `TABLESPACE`, 'F' for `FOREIGN DATA WRAPPER`, 'S' for `FOREIGN SERVER`, or 'T' for `TYPE` or `DOMAIN`.
+`acldefault` returns the built-in default access privileges for an object of type _`type`_ belonging to role _`ownerId`_. These represent the access privileges that will be assumed when an object's ACL entry is null. (The default access privileges are described in [Section 5.7](../ddl/privileges.md).) The _`type`_ parameter is a `CHAR`: write 'c' for `COLUMN`, 'r' for `TABLE` and table-like objects, 's' for `SEQUENCE`, 'd' for `DATABASE`, 'f' for `FUNCTION` or `PROCEDURE`, 'l' for `LANGUAGE`, 'L' for `LARGE OBJECT`, 'n' for `SCHEMA`, 't' for `TABLESPACE`, 'F' for `FOREIGN DATA WRAPPER`, 'S' for `FOREIGN SERVER`, or 'T' for `TYPE` or `DOMAIN`.
 
 `aclexplode` returns an `aclitem` array as a set of rows. Output columns are grantor `oid`, grantee `oid` (`0` for `PUBLIC`), granted privilege as `text` (`SELECT`, ...) and whether the privilege is grantable as `boolean`. `makeaclitem` performs the inverse operation.
 
-[Table 9.67](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-SCHEMA-TABLE) shows functions that determine whether a certain object is _visible_ in the current schema search path. For example, a table is said to be visible if its containing schema is in the search path and no table of the same name appears earlier in the search path. This is equivalent to the statement that the table can be referenced by name without explicit schema qualification. To list the names of all visible tables:
+[Table 9.67](system-information-functions.md#FUNCTIONS-INFO-SCHEMA-TABLE) shows functions that determine whether a certain object is _visible_ in the current schema search path. For example, a table is said to be visible if its containing schema is in the search path and no table of the same name appears earlier in the search path. This is equivalent to the statement that the table can be referenced by name without explicit schema qualification. To list the names of all visible tables:
 
 ```
 SELECT relname FROM pg_class WHERE pg_table_is_visible(oid);
@@ -198,7 +198,7 @@ SELECT pg_type_is_visible('myschema.widget'::regtype);
 
 Note that it would not make much sense to test a non-schema-qualified type name in this way — if the name can be recognized at all, it must be visible.
 
-[Table 9.68](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-CATALOG-TABLE) lists functions that extract information from the system catalogs.
+[Table 9.68](system-information-functions.md#FUNCTIONS-INFO-CATALOG-TABLE) lists functions that extract information from the system catalogs.
 
 #### **Table 9.68. System Catalog Information Functions**
 
@@ -253,7 +253,7 @@ Note that it would not make much sense to test a non-schema-qualified type name 
 
 `pg_get_functiondef` returns a complete `CREATE OR REPLACE FUNCTION` statement for a function. `pg_get_function_arguments` returns the argument list of a function, in the form it would need to appear in within `CREATE FUNCTION`. `pg_get_function_result` similarly returns the appropriate `RETURNS` clause for the function. `pg_get_function_identity_arguments` returns the argument list necessary to identify a function, in the form it would need to appear in within `ALTER FUNCTION`, for instance. This form omits default values.
 
-`pg_get_serial_sequence` returns the name of the sequence associated with a column, or NULL if no sequence is associated with the column. If the column is an identity column, the associated sequence is the sequence internally created for the identity column. For columns created using one of the serial types (`serial`, `smallserial`, `bigserial`), it is the sequence created for that serial column definition. In the latter case, this association can be modified or removed with `ALTER SEQUENCE OWNED BY`. (The function probably should have been called `pg_get_owned_sequence`; its current name reflects the fact that it has typically been used with `serial` or `bigserial` columns.) The first input parameter is a table name with optional schema, and the second parameter is a column name. Because the first parameter is potentially a schema and table, it is not treated as a double-quoted identifier, meaning it is lower cased by default, while the second parameter, being just a column name, is treated as double-quoted and has its case preserved. The function returns a value suitably formatted for passing to sequence functions (see [Section 9.16](https://www.postgresql.org/docs/12/functions-sequence.html)). A typical use is in reading the current value of a sequence for an identity or serial column, for example:
+`pg_get_serial_sequence` returns the name of the sequence associated with a column, or NULL if no sequence is associated with the column. If the column is an identity column, the associated sequence is the sequence internally created for the identity column. For columns created using one of the serial types (`serial`, `smallserial`, `bigserial`), it is the sequence created for that serial column definition. In the latter case, this association can be modified or removed with `ALTER SEQUENCE OWNED BY`. (The function probably should have been called `pg_get_owned_sequence`; its current name reflects the fact that it has typically been used with `serial` or `bigserial` columns.) The first input parameter is a table name with optional schema, and the second parameter is a column name. Because the first parameter is potentially a schema and table, it is not treated as a double-quoted identifier, meaning it is lower cased by default, while the second parameter, being just a column name, is treated as double-quoted and has its case preserved. The function returns a value suitably formatted for passing to sequence functions (see [Section 9.16](sequence-manipulation-functions.md)). A typical use is in reading the current value of a sequence for an identity or serial column, for example:
 
 ```
 SELECT currval(pg_get_serial_sequence('sometable', 'id'));
@@ -261,7 +261,7 @@ SELECT currval(pg_get_serial_sequence('sometable', 'id'));
 
 `pg_get_userbyid` extracts a role's name given its OID.
 
-`pg_index_column_has_property`, `pg_index_has_property`, and `pg_indexam_has_property` return whether the specified index column, index, or index access method possesses the named property. `NULL` is returned if the property name is not known or does not apply to the particular object, or if the OID or column number does not identify a valid object. Refer to [Table 9.69](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-INDEX-COLUMN-PROPS) for column properties, [Table 9.70](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-INDEX-PROPS) for index properties, and [Table 9.71](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-INDEXAM-PROPS) for access method properties. (Note that extension access methods can define additional property names for their indexes.)
+`pg_index_column_has_property`, `pg_index_has_property`, and `pg_indexam_has_property` return whether the specified index column, index, or index access method possesses the named property. `NULL` is returned if the property name is not known or does not apply to the particular object, or if the OID or column number does not identify a valid object. Refer to [Table 9.69](system-information-functions.md#FUNCTIONS-INFO-INDEX-COLUMN-PROPS) for column properties, [Table 9.70](system-information-functions.md#FUNCTIONS-INFO-INDEX-PROPS) for index properties, and [Table 9.71](system-information-functions.md#FUNCTIONS-INFO-INDEXAM-PROPS) for access method properties. (Note that extension access methods can define additional property names for their indexes.)
 
 #### **Table 9.69. Index Column Properties**
 
@@ -300,7 +300,7 @@ SELECT currval(pg_get_serial_sequence('sometable', 'id'));
 
 `pg_tablespace_databases` allows a tablespace to be examined. It returns the set of OIDs of databases that have objects stored in the tablespace. If this function returns any rows, the tablespace is not empty and cannot be dropped. To display the specific objects populating the tablespace, you will need to connect to the databases identified by `pg_tablespace_databases` and query their `pg_class` catalogs.
 
-`pg_typeof` returns the OID of the data type of the value that is passed to it. This can be helpful for troubleshooting or dynamically constructing SQL queries. The function is declared as returning `regtype`, which is an OID alias type (see [Section 8.19](https://www.postgresql.org/docs/12/datatype-oid.html)); this means that it is the same as an OID for comparison purposes but displays as a type name. For example:
+`pg_typeof` returns the OID of the data type of the value that is passed to it. This can be helpful for troubleshooting or dynamically constructing SQL queries. The function is declared as returning `regtype`, which is an OID alias type (see [Section 8.19](../data-types/object-identifier-types.md)); this means that it is the same as an OID for comparison purposes but displays as a type name. For example:
 
 ```
 SELECT pg_typeof(33);
@@ -337,7 +337,7 @@ The value might be quoted and schema-qualified. If no collation is derived for t
 
 The `to_regclass`, `to_regproc`, `to_regprocedure`, `to_regoper`, `to_regoperator`, `to_regtype`, `to_regnamespace`, and `to_regrole` functions translate relation, function, operator, type, schema, and role names (given as `text`) to objects of type `regclass`, `regproc`, `regprocedure`, `regoper`, `regoperator`, `regtype`, `regnamespace`, and `regrole` respectively. These functions differ from a cast from text in that they don't accept a numeric OID, and that they return null rather than throwing an error if the name is not found (or, for `to_regproc` and `to_regoper`, if the given name matches multiple objects).
 
-[Table 9.72](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-OBJECT-TABLE) lists functions related to database object identification and addressing.
+[Table 9.72](system-information-functions.md#FUNCTIONS-INFO-OBJECT-TABLE) lists functions related to database object identification and addressing.
 
 #### **Table 9.72. Object Information and Addressing Functions**
 
@@ -356,7 +356,7 @@ The `to_regclass`, `to_regproc`, `to_regprocedure`, `to_regoper`, `to_regoperato
 
 `pg_get_object_address` returns a row containing enough information to uniquely identify the database object specified by its type and object name and argument arrays. The returned values are the ones that would be used in system catalogs such as `pg_depend` and can be passed to other system functions such as `pg_identify_object` or `pg_describe_object`. _`classid`_ is the OID of the system catalog containing the object; _`objid`_ is the OID of the object itself, and _`objsubid`_ is the sub-object ID, or zero if none. This function is the inverse of `pg_identify_object_as_address`.
 
-The functions shown in [Table 9.73](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-INFO-COMMENT-TABLE) extract comments previously stored with the [COMMENT](https://www.postgresql.org/docs/12/sql-comment.html) command. A null value is returned if no comment could be found for the specified parameters.
+The functions shown in [Table 9.73](system-information-functions.md#FUNCTIONS-INFO-COMMENT-TABLE) extract comments previously stored with the [COMMENT](../../reference/sql-commands/comment.md) command. A null value is returned if no comment could be found for the specified parameters.
 
 **Table 9.73. Comment Information Functions**
 
@@ -373,7 +373,7 @@ The two-parameter form of `obj_description` returns the comment for a database o
 
 `shobj_description` is used just like `obj_description` except it is used for retrieving comments on shared objects. Some system catalogs are global to all databases within each cluster, and the descriptions for objects in them are stored globally as well.
 
-The functions shown in [Table 9.74](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-TXID-SNAPSHOT) provide server transaction information in an exportable form. The main use of these functions is to determine which transactions were committed between two snapshots.
+The functions shown in [Table 9.74](system-information-functions.md#FUNCTIONS-TXID-SNAPSHOT) provide server transaction information in an exportable form. The main use of these functions is to determine which transactions were committed between two snapshots.
 
 **Table 9.74. Transaction IDs and Snapshots**
 
@@ -388,7 +388,7 @@ The functions shown in [Table 9.74](https://www.postgresql.org/docs/12/functions
 | `txid_visible_in_snapshot(`_`bigint`_, _`txid_snapshot`_) | `boolean`       | is transaction ID visible in snapshot? (do not use with subtransaction ids)                                                 |
 | `txid_status(`_`bigint`_)                                 | `text`          | report the status of the given transaction: `committed`, `aborted`, `in progress`, or null if the transaction ID is too old |
 
-The internal transaction ID type (`xid`) is 32 bits wide and wraps around every 4 billion transactions. However, these functions export a 64-bit format that is extended with an “epoch” counter so it will not wrap around during the life of an installation. The data type used by these functions, `txid_snapshot`, stores information about transaction ID visibility at a particular moment in time. Its components are described in [Table 9.75](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-TXID-SNAPSHOT-PARTS).
+The internal transaction ID type (`xid`) is 32 bits wide and wraps around every 4 billion transactions. However, these functions export a 64-bit format that is extended with an “epoch” counter so it will not wrap around during the life of an installation. The data type used by these functions, `txid_snapshot`, stores information about transaction ID visibility at a particular moment in time. Its components are described in [Table 9.75](system-information-functions.md#FUNCTIONS-TXID-SNAPSHOT-PARTS).
 
 **Table 9.75. Snapshot Components**
 
@@ -400,9 +400,9 @@ The internal transaction ID type (`xid`) is 32 bits wide and wraps around every 
 
 `txid_snapshot`'s textual representation is _`xmin`_:_`xmax`_:_`xip_list`_. For example `10:20:10,14,15` means `xmin=10, xmax=20, xip_list=10, 14, 15`.
 
-`txid_status(bigint)` reports the commit status of a recent transaction. Applications may use it to determine whether a transaction committed or aborted when the application and database server become disconnected while a `COMMIT` is in progress. The status of a transaction will be reported as either `in progress`, `committed`, or `aborted`, provided that the transaction is recent enough that the system retains the commit status of that transaction. If is old enough that no references to that transaction survive in the system and the commit status information has been discarded, this function will return NULL. Note that prepared transactions are reported as `in progress`; applications must check [`pg_prepared_xacts`](https://www.postgresql.org/docs/12/view-pg-prepared-xacts.html) if they need to determine whether the txid is a prepared transaction.
+`txid_status(bigint)` reports the commit status of a recent transaction. Applications may use it to determine whether a transaction committed or aborted when the application and database server become disconnected while a `COMMIT` is in progress. The status of a transaction will be reported as either `in progress`, `committed`, or `aborted`, provided that the transaction is recent enough that the system retains the commit status of that transaction. If is old enough that no references to that transaction survive in the system and the commit status information has been discarded, this function will return NULL. Note that prepared transactions are reported as `in progress`; applications must check [`pg_prepared_xacts`](../../internals/system-catalogs/pg_prepared_xacts.md) if they need to determine whether the txid is a prepared transaction.
 
-The functions shown in [Table 9.76](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-COMMIT-TIMESTAMP) provide information about transactions that have been already committed. These functions mainly provide information about when the transactions were committed. They only provide useful data when [track\_commit\_timestamp](https://www.postgresql.org/docs/12/runtime-config-replication.html#GUC-TRACK-COMMIT-TIMESTAMP) configuration option is enabled and only for transactions that were committed after it was enabled.
+The functions shown in [Table 9.76](system-information-functions.md#FUNCTIONS-COMMIT-TIMESTAMP) provide information about transactions that have been already committed. These functions mainly provide information about when the transactions were committed. They only provide useful data when [track\_commit\_timestamp](../../server-administration/server-configuration/replication.md#GUC-TRACK-COMMIT-TIMESTAMP) configuration option is enabled and only for transactions that were committed after it was enabled.
 
 **Table 9.76. Committed Transaction Information**
 
@@ -411,7 +411,7 @@ The functions shown in [Table 9.76](https://www.postgresql.org/docs/12/functions
 | `pg_xact_commit_timestamp(`_`xid`_) | `timestamp with time zone`                              | get commit timestamp of a transaction                                   |
 | `pg_last_committed_xact()`          | _`xid`_ `xid`, _`timestamp`_ `timestamp with time zone` | get transaction ID and commit timestamp of latest committed transaction |
 
-The functions shown in [Table 9.77](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-CONTROLDATA) print information initialized during `initdb`, such as the catalog version. They also show information about write-ahead logging and checkpoint processing. This information is cluster-wide, and not specific to any one database. They provide most of the same information, from the same source, as [pg\_controldata](https://www.postgresql.org/docs/12/app-pgcontroldata.html), although in a form better suited to SQL functions.
+The functions shown in [Table 9.77](system-information-functions.md#FUNCTIONS-CONTROLDATA) print information initialized during `initdb`, such as the catalog version. They also show information about write-ahead logging and checkpoint processing. This information is cluster-wide, and not specific to any one database. They provide most of the same information, from the same source, as [pg\_controldata](../../reference/server-applications/pg_controldata.md), although in a form better suited to SQL functions.
 
 **Table 9.77. Control Data Functions**
 
@@ -422,7 +422,7 @@ The functions shown in [Table 9.77](https://www.postgresql.org/docs/12/functions
 | `pg_control_init()`       | `record`    | Returns information about cluster initialization state. |
 | `pg_control_recovery()`   | `record`    | Returns information about recovery state.               |
 
-`pg_control_checkpoint` returns a record, shown in [Table 9.78](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-PG-CONTROL-CHECKPOINT)
+`pg_control_checkpoint` returns a record, shown in [Table 9.78](system-information-functions.md#FUNCTIONS-PG-CONTROL-CHECKPOINT)
 
 **Table 9.78. `pg_control_checkpoint` Columns**
 
@@ -447,7 +447,7 @@ The functions shown in [Table 9.77](https://www.postgresql.org/docs/12/functions
 | `newest_commit_ts_xid` | `xid`                      |
 | `checkpoint_time`      | `timestamp with time zone` |
 
-`pg_control_system` returns a record, shown in [Table 9.79](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-PG-CONTROL-SYSTEM)
+`pg_control_system` returns a record, shown in [Table 9.79](system-information-functions.md#FUNCTIONS-PG-CONTROL-SYSTEM)
 
 **Table 9.79. `pg_control_system` Columns**
 
@@ -458,7 +458,7 @@ The functions shown in [Table 9.77](https://www.postgresql.org/docs/12/functions
 | `system_identifier`        | `bigint`                   |
 | `pg_control_last_modified` | `timestamp with time zone` |
 
-`pg_control_init` returns a record, shown in [Table 9.80](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-PG-CONTROL-INIT)
+`pg_control_init` returns a record, shown in [Table 9.80](system-information-functions.md#FUNCTIONS-PG-CONTROL-INIT)
 
 **Table 9.80. `pg_control_init` Columns**
 
@@ -477,7 +477,7 @@ The functions shown in [Table 9.77](https://www.postgresql.org/docs/12/functions
 | `float8_pass_by_value`       | `boolean` |
 | `data_page_checksum_version` | `integer` |
 
-`pg_control_recovery` returns a record, shown in [Table 9.81](https://www.postgresql.org/docs/12/functions-info.html#FUNCTIONS-PG-CONTROL-RECOVERY)
+`pg_control_recovery` returns a record, shown in [Table 9.81](system-information-functions.md#FUNCTIONS-PG-CONTROL-RECOVERY)
 
 **Table 9.81. `pg_control_recovery` Columns**
 

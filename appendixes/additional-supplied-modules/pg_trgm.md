@@ -12,7 +12,7 @@ trigram 是從字串中提取的一組三個連續字元。我們可以透過計
 
 ## F.35.2. Functions and Operators
 
-The functions provided by the `pg_trgm` module are shown in [Table F.24](https://www.postgresql.org/docs/12/pgtrgm.html#PGTRGM-FUNC-TABLE), the operators in [Table F.25](https://www.postgresql.org/docs/12/pgtrgm.html#PGTRGM-OP-TABLE).
+The functions provided by the `pg_trgm` module are shown in [Table F.24](pg_trgm.md#PGTRGM-FUNC-TABLE), the operators in [Table F.25](pg_trgm.md#PGTRGM-OP-TABLE).
 
 #### **Table F.24. `pg_trgm` Functions**
 

@@ -98,4 +98,4 @@ As in the `pg_depend` catalog, most objects created during initdb are considered
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-shdepend.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_shdepend.md)（英文原文，待翻譯）

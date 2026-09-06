@@ -63,7 +63,7 @@ execq(PG_FUNCTION_ARGS)
 }
 ```
 
-This is how you declare the function after having compiled it into a shared library (details are in [Section 38.10.5](https://www.postgresql.org/docs/15/xfunc-c.html#DFUNC).):
+This is how you declare the function after having compiled it into a shared library (details are in [Section 38.10.5](../extending-sql/c-language-functions.md#DFUNC).):
 
 ```
 
@@ -169,4 +169,4 @@ INSERT 0 2
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-examples.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-examples.md)（英文原文，待翻譯）

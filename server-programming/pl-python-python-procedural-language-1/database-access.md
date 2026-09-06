@@ -75,9 +75,9 @@ Alternatively, you can call the `execute` method on the plan object:
 rv = plan.execute(["name"], 5)
 ```
 
-Query parameters and result row fields are converted between PostgreSQL and Python data types as described in [Section 46.2](https://www.postgresql.org/docs/15/plpython-data.html).
+Query parameters and result row fields are converted between PostgreSQL and Python data types as described in [Section 46.2](data-values.md).
 
-When you prepare a plan using the PL/Python module it is automatically saved. Read the SPI documentation ([Chapter 47](https://www.postgresql.org/docs/15/spi.html)) for a description of what this means. In order to make effective use of this across function calls one needs to use one of the persistent storage dictionaries `SD` or `GD` (see [Section 46.3](https://www.postgresql.org/docs/15/plpython-sharing.html)). For example:
+When you prepare a plan using the PL/Python module it is automatically saved. Read the SPI documentation ([Chapter 47](../server-programming-interface.md)) for a description of what this means. In order to make effective use of this across function calls one needs to use one of the persistent storage dictionaries `SD` or `GD` (see [Section 46.3](sharing-data.md)). For example:
 
 ```
 CREATE FUNCTION usesavedplan() RETURNS trigger AS $$
@@ -151,7 +151,7 @@ CREATE FUNCTION try_adding_joe() RETURNS text AS $$
 $$ LANGUAGE plpython3u;
 ```
 
-The actual class of the exception being raised corresponds to the specific condition that caused the error. Refer to [Table A.1](https://www.postgresql.org/docs/15/errcodes-appendix.html#ERRCODES-TABLE) for a list of possible conditions. The module `plpy.spiexceptions` defines an exception class for each PostgreSQL condition, deriving their names from the condition name. For instance, `division_by_zero` becomes `DivisionByZero`, `unique_violation` becomes `UniqueViolation`, `fdw_error` becomes `FdwError`, and so on. Each of these exception classes inherits from `SPIError`. This separation makes it easier to handle specific errors, for instance:
+The actual class of the exception being raised corresponds to the specific condition that caused the error. Refer to [Table A.1](../../appendixes/postgresql-error-codes.md#ERRCODES-TABLE) for a list of possible conditions. The module `plpy.spiexceptions` defines an exception class for each PostgreSQL condition, deriving their names from the condition name. For instance, `division_by_zero` becomes `DivisionByZero`, `unique_violation` becomes `UniqueViolation`, `fdw_error` becomes `FdwError`, and so on. Each of these exception classes inherits from `SPIError`. This separation makes it easier to handle specific errors, for instance:
 
 ```
 CREATE FUNCTION insert_fraction(numerator int, denominator int) RETURNS text AS $$

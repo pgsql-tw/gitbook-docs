@@ -45,7 +45,7 @@ To call a function (not a procedure), use `SELECT` instead.
 
 If `CALL` is executed in a transaction block, then the called procedure cannot execute transaction control statements. Transaction control statements are only allowed if `CALL` is executed in its own transaction.
 
-PL/pgSQL handles output parameters in `CALL` commands differently; see [Section 43.6.3](https://www.postgresql.org/docs/15/plpgsql-control-structures.html#PLPGSQL-STATEMENTS-CALLING-PROCEDURE).
+PL/pgSQL handles output parameters in `CALL` commands differently; see [Section 43.6.3](../../server-programming/pl-pgsql-sql-procedural-language/control-structures.md#PLPGSQL-STATEMENTS-CALLING-PROCEDURE).
 
 <a id="id-1.9.3.48.8"></a>
 
@@ -70,4 +70,4 @@ CALL do_db_maintenance();
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-call.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](call.md)（英文原文，待翻譯）

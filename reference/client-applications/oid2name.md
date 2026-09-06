@@ -8,7 +8,7 @@ oid2name — resolve OIDs and file nodes in a PostgreSQL data directory
 
 ### Description
 
-oid2name is a utility program that helps administrators to examine the file structure used by PostgreSQL. To make use of it, you need to be familiar with the database file structure, which is described in [Chapter 68](https://www.postgresql.org/docs/12/storage.html).
+oid2name is a utility program that helps administrators to examine the file structure used by PostgreSQL. To make use of it, you need to be familiar with the database file structure, which is described in [Chapter 68](../../internals/database-physical-storage/README.md).
 
 #### Note
 
@@ -110,7 +110,7 @@ If you don't give `-d` either, it will show a listing of database OIDs. Alternat
 
 Default connection parameters.
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)).
+This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](../../client-interfaces/libpq-c-library/environment-variables.md)).
 
 ### Notes
 

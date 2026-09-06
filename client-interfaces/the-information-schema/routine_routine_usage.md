@@ -64,4 +64,4 @@ Note that the entries for both functions in the view refer to the “specific”
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/infoschema-routine-routine-usage.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](routine_routine_usage.md)（英文原文，待翻譯）

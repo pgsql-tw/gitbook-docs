@@ -154,7 +154,7 @@ If the role executing `GRANT` holds the required privileges indirectly via more 
 
 Granting permission on a table does not automatically extend permissions to any sequences used by the table, including sequences tied to `SERIAL` columns. Permissions on sequences must be set separately.
 
-See [Section 5.7](https://www.postgresql.org/docs/13/ddl-priv.html) for more information about specific privilege types, as well as how to inspect objects' privileges.
+See [Section 5.7](../../the-sql-language/ddl/privileges.md) for more information about specific privilege types, as well as how to inspect objects' privileges.
 
 ## 範例
 

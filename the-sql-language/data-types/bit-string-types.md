@@ -8,7 +8,7 @@ Bit strings are strings of 1's and 0's. They can be used to store or visualize b
 
 If one explicitly casts a bit-string value to `bit(`_`n`_), it will be truncated or zero-padded on the right to be exactly _`n`_ bits, without raising an error. Similarly, if one explicitly casts a bit-string value to `bit varying(`_`n`_), it will be truncated on the right if it is more than _`n`_ bits.
 
-Refer to [Section 4.1.2.5](https://www.postgresql.org/docs/12/sql-syntax-lexical.html#SQL-SYNTAX-BIT-STRINGS) for information about the syntax of bit string constants. Bit-logical operators and string manipulation functions are available; see [Section 9.6](https://www.postgresql.org/docs/12/functions-bitstring.html).
+Refer to [Section 4.1.2.5](../sql-syntax/lexical-structure.md#SQL-SYNTAX-BIT-STRINGS) for information about the syntax of bit string constants. Bit-logical operators and string manipulation functions are available; see [Section 9.6](../functions-and-operators/bit-string-functions-and-operators.md).
 
 **Example 8.3. Using the Bit String Types**
 
@@ -28,4 +28,4 @@ SELECT * FROM test;
  100 | 101
 ```
 
-A bit string value requires 1 byte for each group of 8 bits, plus 5 or 8 bytes overhead depending on the length of the string (but long values may be compressed or moved out-of-line, as explained in [Section 8.3](https://www.postgresql.org/docs/12/datatype-character.html) for character strings).
+A bit string value requires 1 byte for each group of 8 bits, plus 5 or 8 bytes overhead depending on the length of the string (but long values may be compressed or moved out-of-line, as explained in [Section 8.3](character-types.md) for character strings).

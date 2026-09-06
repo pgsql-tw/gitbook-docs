@@ -20,4 +20,4 @@ Ordinarily, there will be only a single WAL range. However, if a backup is taken
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/backup-manifest-wal-ranges.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](backup-manifest-wal-ranges.md)（英文原文，待翻譯）

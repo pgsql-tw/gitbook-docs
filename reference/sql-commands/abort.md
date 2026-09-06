@@ -62,4 +62,4 @@ This command is a PostgreSQL extension present for historical reasons. `ROLLBACK
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-abort.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](abort.md)（英文原文，待翻譯）

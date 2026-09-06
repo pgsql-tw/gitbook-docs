@@ -14,4 +14,4 @@ The shared object code for the PL/Tcl and PL/TclU call handlers is automatically
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/pltcl-overview.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pltcl-overview.md)（英文原文，待翻譯）

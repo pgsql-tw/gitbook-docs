@@ -26,4 +26,4 @@ The expansion occurs in the foreground, which could increase execution time for 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/hash-intro.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](hash-intro.md)（英文原文，待翻譯）

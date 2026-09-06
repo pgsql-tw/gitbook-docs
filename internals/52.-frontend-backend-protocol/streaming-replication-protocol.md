@@ -12,9 +12,9 @@ For the purpose of testing replication commands, you can make a replication conn
 psql "dbname=postgres replication=database" -c "IDENTIFY_SYSTEM;"
 ```
 
-However, it is often more useful to use [pg\_receivewal](https://www.postgresql.org/docs/13/app-pgreceivewal.html) (for physical replication) or [pg\_recvlogical](https://www.postgresql.org/docs/13/app-pgrecvlogical.html) (for logical replication).
+However, it is often more useful to use [pg\_receivewal](../../reference/client-applications/pg_receivewal.md) (for physical replication) or [pg\_recvlogical](../../reference/client-applications/pg_recvlogical.md) (for logical replication).
 
-Replication commands are logged in the server log when [log\_replication\_commands](https://www.postgresql.org/docs/13/runtime-config-logging.html#GUC-LOG-REPLICATION-COMMANDS) is enabled.
+Replication commands are logged in the server log when [log\_replication\_commands](../../server-administration/server-configuration/error-reporting-and-logging.md#GUC-LOG-REPLICATION-COMMANDS) is enabled.
 
 The commands accepted in replication mode are:
 
@@ -40,11 +40,11 @@ Database connected to or null.
 
 `SHOW` _`name`_
 
-Requests the server to send the current setting of a run-time parameter. This is similar to the SQL command [SHOW](https://www.postgresql.org/docs/13/sql-show.html).
+Requests the server to send the current setting of a run-time parameter. This is similar to the SQL command [SHOW](../../reference/sql-commands/show.md).
 
 _`name`_
 
-The name of a run-time parameter. Available parameters are documented in [Chapter 19](https://www.postgresql.org/docs/13/runtime-config.html).
+The name of a run-time parameter. Available parameters are documented in [Chapter 19](../../server-administration/server-configuration/README.md).
 
 `TIMELINE_HISTORY` _`tli`_
 
@@ -60,15 +60,15 @@ Contents of the timeline history file.
 
 `CREATE_REPLICATION_SLOT` _`slot_name`_ \[ `TEMPORARY` ] { `PHYSICAL` \[ `RESERVE_WAL` ] | `LOGICAL` _`output_plugin`_ \[ `EXPORT_SNAPSHOT` | `NOEXPORT_SNAPSHOT` | `USE_SNAPSHOT` ] }
 
-Create a physical or logical replication slot. See [Section 26.2.6](https://www.postgresql.org/docs/13/warm-standby.html#STREAMING-REPLICATION-SLOTS) for more about replication slots.
+Create a physical or logical replication slot. See [Section 26.2.6](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#STREAMING-REPLICATION-SLOTS) for more about replication slots.
 
 _`slot_name`_
 
-The name of the slot to create. Must be a valid replication slot name (see [Section 26.2.6.1](https://www.postgresql.org/docs/13/warm-standby.html#STREAMING-REPLICATION-SLOTS-MANIPULATION)).
+The name of the slot to create. Must be a valid replication slot name (see [Section 26.2.6.1](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#STREAMING-REPLICATION-SLOTS-MANIPULATION)).
 
 _`output_plugin`_
 
-The name of the output plugin used for logical decoding (see [Section 48.6](https://www.postgresql.org/docs/13/logicaldecoding-output-plugin.html)).
+The name of the output plugin used for logical decoding (see [Section 48.6](../../server-programming/logical-decoding/logical-decoding-output-plugins.md)).
 
 `TEMPORARY`
 
@@ -212,7 +212,7 @@ This option causes the command to wait if the slot is active until it becomes in
 
 Instructs the server to start streaming a base backup. The system will automatically be put in backup mode before the backup is started, and taken out of it when the backup is complete. The following options are accepted:`LABEL` _`'label'`_
 
-Sets the label of the backup. If none is specified, a backup label of `base backup` will be used. The quoting rules for the label are the same as a standard SQL string with [standard\_conforming\_strings](https://www.postgresql.org/docs/13/runtime-config-compatible.html#GUC-STANDARD-CONFORMING-STRINGS) turned on.`PROGRESS`
+Sets the label of the backup. If none is specified, a backup label of `base backup` will be used. The quoting rules for the label are the same as a standard SQL string with [standard\_conforming\_strings](../../server-administration/server-configuration/19.13.-ban-ben-yu-ping-tai-de-xiang-rong-xing.md#GUC-STANDARD-CONFORMING-STRINGS) turned on.`PROGRESS`
 
 Request information required to generate a progress report. This will send back an approximate size in the header of each tablespace, which can be used to calculate how far along the stream is done. This is calculated by enumerating all the file sizes once before the transfer is even started, and might as such have a negative impact on the performance. In particular, it might take longer before the first data is streamed. Since the database files can change during the backup, the size is only approximate and might both grow and shrink between the time of approximation and the sending of the actual files.`FAST`
 

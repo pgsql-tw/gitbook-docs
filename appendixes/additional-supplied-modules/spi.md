@@ -24,13 +24,13 @@ Each of the groups of functions described below is provided as a separately-inst
 
 ## Note
 
-`refint` requires a [secure schema usage pattern](https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS) and data types where the equality operator is named `=`.
+`refint` requires a [secure schema usage pattern](../../the-sql-language/ddl/schemas.md#DDL-SCHEMAS-PATTERNS) and data types where the equality operator is named `=`.
 
 `check_primary_key()` checks the referencing table. To use, create a `BEFORE INSERT OR UPDATE` trigger using this function on a table referencing another table. Specify as the trigger arguments: the referencing table's column name(s) which form the foreign key, the referenced table name, and the column names in the referenced table which form the primary/unique key. To handle multiple foreign keys, create a trigger for each reference.
 
 ## Note
 
-The <em>referenced</em> table name and column name arguments to `check_primary_key()` are copied as-is into internally generated SQL statements and therefore must be double-quoted by the user as necessary in the `CREATE TRIGGER` command. See [Section 4.1.1](https://www.postgresql.org/docs/15/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS) for more information about quoting SQL identifiers. Conversely, the <em>referencing</em> table column name arguments should not be double quoted. See the following mock example of proper use of `check_primary_key()`:
+The <em>referenced</em> table name and column name arguments to `check_primary_key()` are copied as-is into internally generated SQL statements and therefore must be double-quoted by the user as necessary in the `CREATE TRIGGER` command. See [Section 4.1.1](../../the-sql-language/sql-syntax/lexical-structure.md#SQL-SYNTAX-IDENTIFIERS) for more information about quoting SQL identifiers. Conversely, the <em>referencing</em> table column name arguments should not be double quoted. See the following mock example of proper use of `check_primary_key()`:
 
 ```
 
@@ -48,7 +48,7 @@ check_primary_key (
 
 ## Note
 
-The <em>referencing</em> table name and column name arguments to `check_foreign_key()` are copied as-is into internally generated SQL statements and therefore must be double-quoted by the user as necessary in the `CREATE TRIGGER` command. See [Section 4.1.1](https://www.postgresql.org/docs/15/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS) for more information about quoting SQL identifiers. Conversely, the <em>referenced</em> table column name arguments should not be double quoted. See the following mock example of proper use of `check_foreign_key()`:
+The <em>referencing</em> table name and column name arguments to `check_foreign_key()` are copied as-is into internally generated SQL statements and therefore must be double-quoted by the user as necessary in the `CREATE TRIGGER` command. See [Section 4.1.1](../../the-sql-language/sql-syntax/lexical-structure.md#SQL-SYNTAX-IDENTIFIERS) for more information about quoting SQL identifiers. Conversely, the <em>referenced</em> table column name arguments should not be double quoted. See the following mock example of proper use of `check_foreign_key()`:
 
 ```
 
@@ -98,4 +98,4 @@ There is an example in `moddatetime.example`.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/contrib-spi.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi.md)（英文原文，待翻譯）

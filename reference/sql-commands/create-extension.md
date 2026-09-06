@@ -49,9 +49,9 @@ Automatically install any extensions that this extension depends on that are not
 
 ### 註解
 
-Before you can use `CREATE EXTENSION` to load an extension into a database, the extension's supporting files must be installed. Information about installing the extensions supplied with PostgreSQL can be found in [Additional Supplied Modules](https://www.postgresql.org/docs/current/contrib.html).
+Before you can use `CREATE EXTENSION` to load an extension into a database, the extension's supporting files must be installed. Information about installing the extensions supplied with PostgreSQL can be found in [Additional Supplied Modules](../../appendixes/additional-supplied-modules/README.md).
 
-The extensions currently available for loading can be identified from the [`pg_available_extensions`](https://www.postgresql.org/docs/current/view-pg-available-extensions.html) or [`pg_available_extension_versions`](https://www.postgresql.org/docs/current/view-pg-available-extension-versions.html) system views.
+The extensions currently available for loading can be identified from the [`pg_available_extensions`](../../internals/system-catalogs/pg_available_extensions.md) or [`pg_available_extension_versions`](../../internals/system-catalogs/pg_available_extension_versions.md) system views.
 
 ####
 

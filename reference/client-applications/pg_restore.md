@@ -8,7 +8,7 @@ pg\_restore — restore a PostgreSQL database from an archive file created by pg
 
 ### Description
 
-pg\_restore is a utility for restoring a PostgreSQL database from an archive created by [pg\_dump](https://www.postgresql.org/docs/12/app-pgdump.html) in one of the non-plain-text formats. It will issue the commands necessary to reconstruct the database to the state it was in at the time it was saved. The archive files also allow pg\_restore to be selective about what is restored, or even to reorder the items prior to being restored. The archive files are designed to be portable across architectures.
+pg\_restore is a utility for restoring a PostgreSQL database from an archive created by [pg\_dump](pg_dump.md) in one of the non-plain-text formats. It will issue the commands necessary to reconstruct the database to the state it was in at the time it was saved. The archive files also allow pg\_restore to be selective about what is restored, or even to reorder the items prior to being restored. The archive files are designed to be portable across architectures.
 
 pg\_restore can operate in two modes. If a database name is specified, pg\_restore connects to that database and restores archive contents directly into the database. Otherwise, a script containing the SQL commands necessary to rebuild the database is created and written to a file or standard output. This script output is equivalent to the plain text output format of pg\_dump. Some of the options controlling the output are therefore analogous to pg\_dump options.
 
@@ -196,7 +196,7 @@ Presently, the commands emitted for `--disable-triggers` must be done as superus
 
 `--enable-row-security`
 
-This option is relevant only when restoring the contents of a table which has row security. By default, pg\_restore will set [row\_security](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-ROW-SECURITY) to off, to ensure that all data is restored in to the table. If the user does not have sufficient privileges to bypass row security, then an error is thrown. This parameter instructs pg\_restore to set [row\_security](https://www.postgresql.org/docs/12/runtime-config-client.html#GUC-ROW-SECURITY) to on instead, allowing the user to attempt to restore the contents of the table with row security enabled. This might still fail if the user does not have the right to insert the rows from the dump into the table.
+This option is relevant only when restoring the contents of a table which has row security. By default, pg\_restore will set [row\_security](../../server-administration/server-configuration/client-connection-defaults.md#GUC-ROW-SECURITY) to off, to ensure that all data is restored in to the table. If the user does not have sufficient privileges to bypass row security, then an error is thrown. This parameter instructs pg\_restore to set [row\_security](../../server-administration/server-configuration/client-connection-defaults.md#GUC-ROW-SECURITY) to on instead, allowing the user to attempt to restore the contents of the table with row security enabled. This might still fail if the user does not have the right to insert the rows from the dump into the table.
 
 Note that this option currently also requires the dump be in `INSERT` format, as `COPY FROM` does not support row security.
 
@@ -295,11 +295,11 @@ Default connection parameters
 
 Specifies whether to use color in diagnostic messages. Possible values are `always`, `auto` and `never`.
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)). However, it does not read `PGDATABASE` when a database name is not supplied.
+This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](../../client-interfaces/libpq-c-library/environment-variables.md)). However, it does not read `PGDATABASE` when a database name is not supplied.
 
 ### Diagnostics
 
-When a direct database connection is specified using the `-d` option, pg\_restore internally executes SQL statements. If you have problems running pg\_restore, make sure you are able to select information from the database using, for example, [psql](https://www.postgresql.org/docs/12/app-psql.html). Also, any default connection settings and environment variables used by the libpq front-end library will apply.
+When a direct database connection is specified using the `-d` option, pg\_restore internally executes SQL statements. If you have problems running pg\_restore, make sure you are able to select information from the database using, for example, [psql](psql.md). Also, any default connection settings and environment variables used by the libpq front-end library will apply.
 
 ### Notes
 
@@ -314,9 +314,9 @@ The limitations of pg\_restore are detailed below.
 * When restoring data to a pre-existing table and the option `--disable-triggers` is used, pg\_restore emits commands to disable triggers on user tables before inserting the data, then emits commands to re-enable them after the data has been inserted. If the restore is stopped in the middle, the system catalogs might be left in the wrong state.
 * pg\_restore cannot restore large objects selectively; for instance, only those for a specific table. If an archive contains large objects, then all large objects will be restored, or none of them if they are excluded via `-L`, `-t`, or other options.
 
-See also the [pg\_dump](https://www.postgresql.org/docs/12/app-pgdump.html) documentation for details on limitations of pg\_dump.
+See also the [pg\_dump](pg_dump.md) documentation for details on limitations of pg\_dump.
 
-Once restored, it is wise to run `ANALYZE` on each restored table so the optimizer has useful statistics; see [Section 24.1.3](https://www.postgresql.org/docs/12/routine-vacuuming.html#VACUUM-FOR-STATISTICS) and [Section 24.1.6](https://www.postgresql.org/docs/12/routine-vacuuming.html#AUTOVACUUM) for more information.
+Once restored, it is wise to run `ANALYZE` on each restored table so the optimizer has useful statistics; see [Section 24.1.3](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#VACUUM-FOR-STATISTICS) and [Section 24.1.6](../../server-administration/routine-database-maintenance-tasks/routine-vacuuming.md#AUTOVACUUM) for more information.
 
 ### Examples
 

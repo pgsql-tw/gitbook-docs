@@ -15,8 +15,8 @@ Optionally the output plugin can define filtering rules via `filter_prepare_cb` 
 The users that want to decode prepared transactions need to be careful about below mentioned points:
 
 * If the prepared transaction has locked [user] catalog tables exclusively then decoding prepare can block till the main transaction is committed.
-* The logical replication solution that builds distributed two phase commit using this feature can deadlock if the prepared transaction has locked [user] catalog tables exclusively. To avoid this users must refrain from having locks on catalog tables (e.g. explicit `LOCK` command) in such transactions. See [Section 49.8.2](https://www.postgresql.org/docs/15/logicaldecoding-synchronous.html#LOGICALDECODING-SYNCHRONOUS-CAVEATS) for the details.
+* The logical replication solution that builds distributed two phase commit using this feature can deadlock if the prepared transaction has locked [user] catalog tables exclusively. To avoid this users must refrain from having locks on catalog tables (e.g. explicit `LOCK` command) in such transactions. See [Section 49.8.2](synchronous-replication-support-for-logical-decoding.md#LOGICALDECODING-SYNCHRONOUS-CAVEATS) for the details.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/logicaldecoding-two-phase-commits.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](logicaldecoding-two-phase-commits.md)（英文原文，待翻譯）

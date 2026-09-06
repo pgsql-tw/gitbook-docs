@@ -80,4 +80,4 @@ The view `routine_table_usage` is meant to identify all tables that are used by 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/infoschema-routine-table-usage.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](routine_table_usage.md)（英文原文，待翻譯）

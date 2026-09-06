@@ -56,4 +56,4 @@ The `pg_rules` view excludes the `ON SELECT` rules of views and materialized vie
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/view-pg-rules.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_rules.md)（英文原文，待翻譯）

@@ -60,7 +60,7 @@ It is wise to be conservative about marking casts as implicit. An overabundance 
 
 #### Note
 
-Sometimes it is necessary for usability or standards-compliance reasons to provide multiple implicit casts among a set of types, resulting in ambiguity that cannot be avoided as above. The parser has a fallback heuristic based on _type categories_ and _preferred types_ that can help to provide desired behavior in such cases. See [CREATE TYPE](https://www.postgresql.org/docs/13/sql-createtype.html) for more information.
+Sometimes it is necessary for usability or standards-compliance reasons to provide multiple implicit casts among a set of types, resulting in ambiguity that cannot be avoided as above. The parser has a fallback heuristic based on _type categories_ and _preferred types_ that can help to provide desired behavior in such cases. See [CREATE TYPE](create-type.md) for more information.
 
 To be able to create a cast, you must own the source or the target data type and have `USAGE` privilege on the other type. To create a binary-coercible cast, you must be superuser. (This restriction is made because an erroneous binary-coercible cast conversion can easily crash the server.)
 
@@ -106,7 +106,7 @@ A cast to or from a domain type currently has no effect. Casting to or from a do
 
 ### Notes
 
-Use [DROP CAST](https://www.postgresql.org/docs/13/sql-dropcast.html) to remove user-defined casts.
+Use [DROP CAST](drop-cast.md) to remove user-defined casts.
 
 Remember that if you want to be able to convert types both ways you need to declare casts both ways explicitly.
 
@@ -138,4 +138,4 @@ The `CREATE CAST` command conforms to the SQL standard, except that SQL does not
 
 ### See Also
 
-[CREATE FUNCTION](https://www.postgresql.org/docs/13/sql-createfunction.html), [CREATE TYPE](https://www.postgresql.org/docs/13/sql-createtype.html), [DROP CAST](https://www.postgresql.org/docs/13/sql-dropcast.html)
+[CREATE FUNCTION](create-function.md), [CREATE TYPE](create-type.md), [DROP CAST](drop-cast.md)

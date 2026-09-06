@@ -10,7 +10,7 @@ CREATE ROLE name;
 
 Typically a role being used as a group would not have the `LOGIN` attribute, though you can set it if you wish.
 
-Once the group role exists, you can add and remove members using the [GRANT](https://www.postgresql.org/docs/12/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/12/sql-revoke.html) commands:
+Once the group role exists, you can add and remove members using the [GRANT](../../reference/sql-commands/grant.md) and [REVOKE](../../reference/sql-commands/revoke.md) commands:
 
 ```
 GRANT group_role TO role1, ... ;
@@ -19,7 +19,7 @@ REVOKE group_role FROM role1, ... ;
 
 You can grant membership to other group roles, too (since there isn't really any distinction between group roles and non-group roles). The database will not let you set up circular membership loops. Also, it is not permitted to grant membership in a role to `PUBLIC`.
 
-The members of a group role can use the privileges of the role in two ways. First, every member of a group can explicitly do [SET ROLE](https://www.postgresql.org/docs/12/sql-set-role.html) to temporarily “become” the group role. In this state, the database session has access to the privileges of the group role rather than the original login role, and any database objects created are considered owned by the group role not the login role. Second, member roles that have the `INHERIT` attribute automatically have use of the privileges of roles of which they are members, including any privileges inherited by those roles. As an example, suppose we have done:
+The members of a group role can use the privileges of the role in two ways. First, every member of a group can explicitly do [SET ROLE](../../reference/sql-commands/set-role.md) to temporarily “become” the group role. In this state, the database session has access to the privileges of the group role rather than the original login role, and any database objects created are considered owned by the group role not the login role. Second, member roles that have the `INHERIT` attribute automatically have use of the privileges of roles of which they are members, including any privileges inherited by those roles. As an example, suppose we have done:
 
 ```
 CREATE ROLE joe LOGIN INHERIT;
@@ -59,7 +59,7 @@ In the SQL standard, there is a clear distinction between users and roles, and u
 
 The role attributes `LOGIN`, `SUPERUSER`, `CREATEDB`, and `CREATEROLE` can be thought of as special privileges, but they are never inherited as ordinary privileges on database objects are. You must actually `SET ROLE` to a specific role having one of these attributes in order to make use of the attribute. Continuing the above example, we might choose to grant `CREATEDB` and `CREATEROLE` to the `admin` role. Then a session connecting as role `joe` would not have these privileges immediately, only after doing `SET ROLE admin`.
 
-To destroy a group role, use [DROP ROLE](https://www.postgresql.org/docs/12/sql-droprole.html):
+To destroy a group role, use [DROP ROLE](../../reference/sql-commands/drop-role.md):
 
 ```
 DROP ROLE name;

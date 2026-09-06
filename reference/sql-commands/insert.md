@@ -37,7 +37,7 @@ Each column not present in the explicit or implicit column list will be filled w
 
 If the expression for any column is not of the correct data type, automatic type conversion will be attempted.
 
-`ON CONFLICT` can be used to specify an alternative action to raising a unique constraint or exclusion constraint violation error. (See [`ON CONFLICT` Clause](https://www.postgresql.org/docs/12/sql-insert.html#SQL-ON-CONFLICT) below.)
+`ON CONFLICT` can be used to specify an alternative action to raising a unique constraint or exclusion constraint violation error. (See [`ON CONFLICT` Clause](insert.md#SQL-ON-CONFLICT) below.)
 
 The optional `RETURNING` clause causes `INSERT` to compute and return value(s) based on each row actually inserted (or updated, if an `ON CONFLICT DO UPDATE` clause was used). This is primarily useful for obtaining values that were supplied by defaults, such as a serial sequence number. However, any expression using the table's columns is allowed. The syntax of the `RETURNING` list is identical to that of the output list of `SELECT`. Only rows that were successfully inserted or updated will be returned. For example, if a row was locked but not updated because an `ON CONFLICT DO UPDATE ... WHERE` clause _`condition`_ was not satisfied, the row will not be returned.
 
@@ -55,7 +55,7 @@ This section covers parameters that may be used when only inserting new rows. Pa
 
 _`with_query`_
 
-The `WITH` clause allows you to specify one or more subqueries that can be referenced by name in the `INSERT` query. See [Section 7.8](https://www.postgresql.org/docs/12/queries-with.html) and [SELECT](https://www.postgresql.org/docs/12/sql-select.html) for details.
+The `WITH` clause allows you to specify one or more subqueries that can be referenced by name in the `INSERT` query. See [Section 7.8](../../the-sql-language/queries/with-queries.md) and [SELECT](select.md) for details.
 
 It is possible for the _`query`_ (`SELECT` statement) to also contain a `WITH` clause. In such a case both sets of _`with_query`_ can be referenced within the _`query`_, but the second one takes precedence since it is more closely nested.
 
@@ -95,7 +95,7 @@ The corresponding column will be filled with its default value.
 
 _`query`_
 
-A query (`SELECT` statement) that supplies the rows to be inserted. Refer to the [SELECT](https://www.postgresql.org/docs/12/sql-select.html) statement for a description of the syntax.
+A query (`SELECT` statement) that supplies the rows to be inserted. Refer to the [SELECT](select.md) statement for a description of the syntax.
 
 _`output_expression`_
 
@@ -297,4 +297,4 @@ INSERT INTO distributors (did, dname) VALUES (10, 'Conrad International')
 
 The SQL standard specifies that `OVERRIDING SYSTEM VALUE` can only be specified if an identity column that is generated always exists. PostgreSQL allows the clause in any case and ignores it if it is not applicable.
 
-Possible limitations of the _`query`_ clause are documented under [SELECT](https://www.postgresql.org/docs/12/sql-select.html).\\
+Possible limitations of the _`query`_ clause are documented under [SELECT](select.md).\\

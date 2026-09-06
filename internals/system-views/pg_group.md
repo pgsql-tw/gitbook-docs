@@ -46,4 +46,4 @@ The view `pg_group` exists for backwards compatibility: it emulates a catalog th
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/view-pg-group.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_group.md)（英文原文，待翻譯）

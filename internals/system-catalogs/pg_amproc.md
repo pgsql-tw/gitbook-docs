@@ -68,4 +68,4 @@ The usual interpretation of the `amproclefttype` and `amprocrighttype` fields is
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-amproc.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_amproc.md)（英文原文，待翻譯）

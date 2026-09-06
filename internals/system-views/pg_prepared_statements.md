@@ -76,4 +76,4 @@ The `pg_prepared_statements` view is read-only.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/view-pg-prepared-statements.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_prepared_statements.md)（英文原文，待翻譯）

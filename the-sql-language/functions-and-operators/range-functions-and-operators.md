@@ -1,8 +1,8 @@
 # 9.20. 範圍函式及運算子
 
-See [Section 8.17](https://www.postgresql.org/docs/13/rangetypes.html) for an overview of range types.
+See [Section 8.17](../data-types/range-types.md) for an overview of range types.
 
-[Table 9.53](https://www.postgresql.org/docs/13/functions-range.html#RANGE-OPERATORS-TABLE) shows the specialized operators available for range types. In addition to those, the usual comparison operators shown in [Table 9.1](https://www.postgresql.org/docs/13/functions-comparison.html#FUNCTIONS-COMPARISON-OP-TABLE) are available for range types. The comparison operators order first by the range lower bounds, and only if those are equal do they compare the upper bounds. This does not usually result in a useful overall ordering, but the operators are provided to allow unique indexes to be constructed on ranges.
+[Table 9.53](range-functions-and-operators.md#RANGE-OPERATORS-TABLE) shows the specialized operators available for range types. In addition to those, the usual comparison operators shown in [Table 9.1](comparison-functions-and-operators.md#FUNCTIONS-COMPARISON-OP-TABLE) are available for range types. The comparison operators order first by the range lower bounds, and only if those are equal do they compare the upper bounds. This does not usually result in a useful overall ordering, but the operators are provided to allow unique indexes to be constructed on ranges.
 
 #### **Table 9.53. Range Operators**
 
@@ -24,7 +24,7 @@ See [Section 8.17](https://www.postgresql.org/docs/13/rangetypes.html) for an ov
 
 The left-of/right-of/adjacent operators always return false when an empty range is involved; that is, an empty range is not considered to be either before or after any other range.
 
-[Table 9.54](https://www.postgresql.org/docs/13/functions-range.html#RANGE-FUNCTIONS-TABLE) shows the functions available for use with range types.
+[Table 9.54](range-functions-and-operators.md#RANGE-FUNCTIONS-TABLE) shows the functions available for use with range types.
 
 #### **Table 9.54. Range Functions**
 

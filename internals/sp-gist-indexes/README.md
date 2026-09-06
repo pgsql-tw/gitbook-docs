@@ -12,11 +12,11 @@
 
 [69.4. Implementation](implementation.md)
 
-[69.4.1. SP-GiST Limits](https://www.postgresql.org/docs/15/spgist-implementation.html#SPGIST-LIMITS)
+[69.4.1. SP-GiST Limits](implementation.md#SPGIST-LIMITS)
 
-[69.4.2. SP-GiST Without Node Labels](https://www.postgresql.org/docs/15/spgist-implementation.html#SPGIST-NULL-LABELS)
+[69.4.2. SP-GiST Without Node Labels](implementation.md#SPGIST-NULL-LABELS)
 
-[69.4.3. “All-the-Same” Inner Tuples](https://www.postgresql.org/docs/15/spgist-implementation.html#SPGIST-ALL-THE-SAME)
+[69.4.3. “All-the-Same” Inner Tuples](implementation.md#SPGIST-ALL-THE-SAME)
 
 [69.5. Examples](examples.md)
 
@@ -24,4 +24,4 @@
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spgist.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](README.md)（英文原文，待翻譯）

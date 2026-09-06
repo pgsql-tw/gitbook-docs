@@ -283,4 +283,4 @@ Most system catalogs are copied from the template database during database creat
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalogs-overview.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](catalogs-overview.md)（英文原文，待翻譯）

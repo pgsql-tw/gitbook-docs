@@ -4,7 +4,7 @@ Enumerated (enum) types are data types that comprise a static, ordered set of va
 
 ## 8.7.1. Declaration of Enumerated Types
 
-Enum types are created using the [CREATE TYPE](https://www.postgresql.org/docs/12/sql-createtype.html) command, for example:
+Enum types are created using the [CREATE TYPE](../../reference/sql-commands/create-type.md) command, for example:
 
 ```
 CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
@@ -91,8 +91,8 @@ SELECT person.name, holidays.num_weeks FROM person, holidays
 
 Enum labels are case sensitive, so `'happy'` is not the same as `'HAPPY'`. White space in the labels is significant too.
 
-Although enum types are primarily intended for static sets of values, there is support for adding new values to an existing enum type, and for renaming values (see [ALTER TYPE](https://www.postgresql.org/docs/12/sql-altertype.html)). Existing values cannot be removed from an enum type, nor can the sort ordering of such values be changed, short of dropping and re-creating the enum type.
+Although enum types are primarily intended for static sets of values, there is support for adding new values to an existing enum type, and for renaming values (see [ALTER TYPE](../../reference/sql-commands/alter-type.md)). Existing values cannot be removed from an enum type, nor can the sort ordering of such values be changed, short of dropping and re-creating the enum type.
 
 An enum value occupies four bytes on disk. The length of an enum value's textual label is limited by the `NAMEDATALEN` setting compiled into PostgreSQL; in standard builds this means at most 63 bytes.
 
-The translations from internal enum values to textual labels are kept in the system catalog [`pg_enum`](https://www.postgresql.org/docs/12/catalog-pg-enum.html). Querying this catalog directly can be useful.
+The translations from internal enum values to textual labels are kept in the system catalog [`pg_enum`](../../internals/system-catalogs/pg_enum.md). Querying this catalog directly can be useful.

@@ -46,7 +46,7 @@ echo '\x \\ SELECT * FROM foo;' | psql
 
 (`\\` is the separator meta-command.)
 
-Each SQL command string passed to `-c` is sent to the server as a single request. Because of this, the server executes it as a single transaction even if the string contains multiple SQL commands, unless there are explicit `BEGIN`/`COMMIT` commands included in the string to divide it into multiple transactions. (See [Section 55.2.2.1](https://www.postgresql.org/docs/current/protocol-flow.html#PROTOCOL-FLOW-MULTI-STATEMENT) for more details about how the server handles multi-query strings.)
+Each SQL command string passed to `-c` is sent to the server as a single request. Because of this, the server executes it as a single transaction even if the string contains multiple SQL commands, unless there are explicit `BEGIN`/`COMMIT` commands included in the string to divide it into multiple transactions. (See [Section 55.2.2.1](../../internals/52.-frontend-backend-protocol/52.2.-message-flow.md#PROTOCOL-FLOW-MULTI-STATEMENT) for more details about how the server handles multi-query strings.)
 
 If having several commands executed in one transaction is not desired, use repeated `-c` commands or feed multiple commands to psql's standard input, either using echo as illustrated above, or via a shell here-document, for example:
 
@@ -66,7 +66,7 @@ Switches to CSV (Comma-Separated Values) output mode. This is equivalent to `\ps
 
 Specifies the name of the database to connect to. This is equivalent to specifying _`dbname`_ as the first non-option argument on the command line.
 
-If this parameter contains an `=` sign or starts with a valid URI prefix (`postgresql://` or `postgres://`), it is treated as a _`conninfo`_ string. See [Section 33.1.1](https://www.postgresql.org/docs/12/libpq-connect.html#LIBPQ-CONNSTRING) for more information.
+If this parameter contains an `=` sign or starts with a valid URI prefix (`postgresql://` or `postgres://`), it is treated as a _`conninfo`_ string. See [Section 33.1.1](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING) for more information.
 
 `-e`\
 `--echo-queries`
@@ -241,7 +241,7 @@ Show help about psql and exit. The optional _`topic`_ parameter (defaulting to `
 
 psql is a regular PostgreSQL client application. In order to connect to a database you need to know the name of your target database, the host name and port number of the server, and what user name you want to connect as. psql can be told about those parameters via command line options, namely `-d`, `-h`, `-p`, and `-U` respectively. If an argument is found that does not belong to any option it will be interpreted as the database name (or the user name, if the database name is already given). Not all of these options are required; there are useful defaults. If you omit the host name, psql will connect via a Unix-domain socket to a server on the local host, or via TCP/IP to `localhost` on machines that don't have Unix-domain sockets. The default port number is determined at compile time. Since the database server uses the same default, you will not have to specify the port in most cases. The default user name is your operating-system user name, as is the default database name. Note that you cannot just connect to any database under any user name. Your database administrator should have informed you about your access rights.
 
-When the defaults aren't quite right, you can save yourself some typing by setting the environment variables `PGDATABASE`, `PGHOST`, `PGPORT` and/or `PGUSER` to appropriate values. (For additional environment variables, see [Section 34.15](https://www.postgresql.org/docs/current/libpq-envars.html).) It is also convenient to have a `~/.pgpass` file to avoid regularly having to type in passwords. See [Section 34.16](https://www.postgresql.org/docs/current/libpq-pgpass.html) for more information.
+When the defaults aren't quite right, you can save yourself some typing by setting the environment variables `PGDATABASE`, `PGHOST`, `PGPORT` and/or `PGUSER` to appropriate values. (For additional environment variables, see [Section 34.15](../../client-interfaces/libpq-c-library/environment-variables.md).) It is also convenient to have a `~/.pgpass` file to avoid regularly having to type in passwords. See [Section 34.16](../../client-interfaces/libpq-c-library/libpq-pgpass.md) for more information.
 
 An alternative way to specify connection parameters is in a _`conninfo`_ string or a URI, which is used instead of a database name. This mechanism give you very wide control over the connection. For example:
 
@@ -250,7 +250,7 @@ $ psql "service=myservice sslmode=require"
 $ psql postgresql://dbmaster:5433/mydb?sslmode=require
 ```
 
-This way you can also use LDAP for connection parameter lookup as described in [Section 33.17](https://www.postgresql.org/docs/12/libpq-ldap.html). See [Section 33.1.2](https://www.postgresql.org/docs/12/libpq-connect.html#LIBPQ-PARAMKEYWORDS) for more information on all the available connection options.
+This way you can also use LDAP for connection parameter lookup as described in [Section 33.17](../../client-interfaces/libpq-c-library/33.17.-ldap-lookup-of-connection-parameters.md). See [Section 33.1.2](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-PARAMKEYWORDS) for more information on all the available connection options.
 
 If the connection could not be made for any reason (e.g., insufficient privileges, server is not running on the targeted host, etc.), psql will return an error and terminate.
 
@@ -270,9 +270,9 @@ testdb=>
 
 At the prompt, the user can type in SQL commands. Ordinarily, input lines are sent to the server when a command-terminating semicolon is reached. An end of line does not terminate a command. Thus commands can be spread over several lines for clarity. If the command was sent and executed without error, the results of the command are displayed on the screen.
 
-If untrusted users have access to a database that has not adopted a [secure schema usage pattern](https://www.postgresql.org/docs/12/ddl-schemas.html#DDL-SCHEMAS-PATTERNS), begin your session by removing publicly-writable schemas from `search_path`. One can add `options=-csearch_path=` to the connection string or issue `SELECT pg_catalog.set_config('search_path', '', false)` before other SQL commands. This consideration is not specific to psql; it applies to every interface for executing arbitrary SQL commands.
+If untrusted users have access to a database that has not adopted a [secure schema usage pattern](../../the-sql-language/ddl/schemas.md#DDL-SCHEMAS-PATTERNS), begin your session by removing publicly-writable schemas from `search_path`. One can add `options=-csearch_path=` to the connection string or issue `SELECT pg_catalog.set_config('search_path', '', false)` before other SQL commands. This consideration is not specific to psql; it applies to every interface for executing arbitrary SQL commands.
 
-Whenever a command is executed, psql also polls for asynchronous notification events generated by [LISTEN](https://www.postgresql.org/docs/12/sql-listen.html) and [NOTIFY](https://www.postgresql.org/docs/12/sql-notify.html).
+Whenever a command is executed, psql also polls for asynchronous notification events generated by [LISTEN](../sql-commands/listen.md) and [NOTIFY](../sql-commands/notify.md).
 
 While C-style block comments are passed to the server for processing and removal, SQL-standard comments are removed by psql.
 
@@ -284,7 +284,7 @@ The format of a psql command is the backslash, followed immediately by a command
 
 To include whitespace in an argument you can quote it with single quotes. To include a single quote in an argument, write two single quotes within single-quoted text. Anything contained in single quotes is furthermore subject to C-like substitutions for  (new line),  (tab), `\b` (backspace),  (carriage return), `\f` (form feed), `\`_`digits`_ (octal), and `\x`_`digits`_ (hexadecimal). A backslash preceding any other character within single-quoted text quotes that single character, whatever it is.
 
-If an unquoted colon (`:`) followed by a psql variable name appears within an argument, it is replaced by the variable's value, as described in [SQL Interpolation](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-INTERPOLATION). The forms `:'`_`variable_name`_' and `:"`_`variable_name`_" described there work as well. The `:{?`_`variable_name`_} syntax allows testing whether a variable is defined. It is substituted by TRUE or FALSE. Escaping the colon with a backslash protects it from substitution.
+If an unquoted colon (`:`) followed by a psql variable name appears within an argument, it is replaced by the variable's value, as described in [SQL Interpolation](psql.md#APP-PSQL-INTERPOLATION). The forms `:'`_`variable_name`_' and `:"`_`variable_name`_" described there work as well. The `:{?`_`variable_name`_} syntax allows testing whether a variable is defined. It is substituted by TRUE or FALSE. Escaping the colon with a backslash protects it from substitution.
 
 Within an argument, text that is enclosed in backquotes (`` ` ``) is taken as a command line that is passed to the shell. The output of the command (with any trailing newline removed) replaces the backquoted text. Within the text enclosed in backquotes, no special quoting or other processing occurs, except that appearances of `:`_`variable_name`_ where _`variable_name`_ is a psql variable name are replaced by the variable's value. Also, appearances of `:'`_`variable_name`_' are replaced by the variable's value suitably quoted to become a single shell command argument. (The latter form is almost always preferable, unless you are very sure of what is in the variable.) Because carriage return and line feed characters cannot be safely quoted on all platforms, the `:'`_`variable_name`_' form prints an error message and does not substitute the variable value when such characters appear in the value.
 
@@ -300,7 +300,7 @@ The following meta-commands are defined:
 
 If the current table output format is unaligned, it is switched to aligned. If it is not unaligned, it is set to unaligned. This command is kept for backwards compatibility. See `\pset` for a more general solution.`\c` or `\connect [ -reuse-previous=`_`on|off`_ ] \[ _`dbname`_ \[ _`username`_ ] \[ _`host`_ ] \[ _`port`_ ] | _`conninfo`_ ]
 
-Establishes a new connection to a PostgreSQL server. The connection parameters to use can be specified either using a positional syntax, or using _`conninfo`_ connection strings as detailed in [Section 33.1.1](https://www.postgresql.org/docs/12/libpq-connect.html#LIBPQ-CONNSTRING).
+Establishes a new connection to a PostgreSQL server. The connection parameters to use can be specified either using a positional syntax, or using _`conninfo`_ connection strings as detailed in [Section 33.1.1](../../client-interfaces/libpq-c-library/database-connection-control-functions.md#LIBPQ-CONNSTRING).
 
 Where the command omits database name, user, host, or port, the new connection can reuse values from the previous connection. By default, values from the previous connection are reused except when processing a _`conninfo`_ string. Passing a first argument of `-reuse-previous=on` or `-reuse-previous=off` overrides that default. When the command neither specifies nor reuses a particular parameter, the libpq default is used. Specifying any of _`dbname`_, _`username`_, _`host`_ or _`port`_ as `-` is equivalent to omitting that parameter. If `hostaddr` was specified in the original connection's `conninfo`, that address is reused for the new connection (disregarding any other host specification).
 
@@ -331,13 +331,13 @@ Outputs information about the current database connection.
 
 #### `\copy {`` `_`table`_ \[ ( _`column_list`_ ) ] | ( _`query`_ ) } { `from` | `to` } { _`'filename'`_ | program _`'command'`_ | stdin | stdout | pstdin | pstdout } \[ \[ with ] ( _`option`_ \[, ...] ) ]
 
-Performs a frontend (client) copy. This is an operation that runs an SQL [COPY](https://www.postgresql.org/docs/12/sql-copy.html) command, but instead of the server reading or writing the specified file, psql reads or writes the file and routes the data between the server and the local file system. This means that file accessibility and privileges are those of the local user, not the server, and no SQL superuser privileges are required.
+Performs a frontend (client) copy. This is an operation that runs an SQL [COPY](../sql-commands/copy.md) command, but instead of the server reading or writing the specified file, psql reads or writes the file and routes the data between the server and the local file system. This means that file accessibility and privileges are those of the local user, not the server, and no SQL superuser privileges are required.
 
 When `program` is specified, _`command`_ is executed by psql and the data passed from or to _`command`_ is routed between the server and the client. Again, the execution privileges are those of the local user, not the server, and no SQL superuser privileges are required.
 
 For `\copy ... from stdin`, data rows are read from the same source that issued the command, continuing until `\.` is read or the stream reaches EOF. This option is useful for populating tables in-line within a SQL script file. For `\copy ... to stdout`, output is sent to the same place as psql command output, and the `COPY`` `_`count`_ command status is not printed (since it might be confused with a data row). To read/write psql's standard input or output regardless of the current command source or `\o` option, write `from pstdin` or `to pstdout`.
 
-The syntax of this command is similar to that of the SQL [COPY](https://www.postgresql.org/docs/12/sql-copy.html) command. All options other than the data source/destination are as specified for [COPY](https://www.postgresql.org/docs/12/sql-copy.html). Because of this, special parsing rules apply to the `\copy` meta-command. Unlike most other meta-commands, the entire remainder of the line is always taken to be the arguments of `\copy`, and neither variable interpolation nor backquote expansion are performed in the arguments.
+The syntax of this command is similar to that of the SQL [COPY](../sql-commands/copy.md) command. All options other than the data source/destination are as specified for [COPY](../sql-commands/copy.md). Because of this, special parsing rules apply to the `\copy` meta-command. Unlike most other meta-commands, the entire remainder of the line is always taken to be the arguments of `\copy`, and neither variable interpolation nor backquote expansion are performed in the arguments.
 
 {% hint style="info" %}
 獲得與 \copy ... to 相同結果的另一種方法是使用 SQL COPY ... TO STDOUT 指令並在最後以 \g filename 或 \g | program 來結束它。與 \copy 不同，此方法允許指令跨越多行。同樣地，可以使用變數插值和 backquote 擴展。
@@ -363,13 +363,13 @@ The horizontal header, displayed as the first row, contains the values found in 
 
 Inside the crosstab grid, for each distinct value `x` of _`colH`_ and each distinct value `y` of _`colV`_, the cell located at the intersection `(x,y)` contains the value of the `colD` column in the query result row for which the value of _`colH`_ is `x` and the value of _`colV`_ is `y`. If there is no such row, the cell is empty. If there are multiple such rows, an error is reported.
 
-#### `\d[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\d[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
-For each relation (table, view, materialized view, index, sequence, or foreign table) or composite type matching the _`pattern`_, show all columns, their types, the tablespace (if not the default) and any special attributes such as `NOT NULL` or defaults. Associated indexes, constraints, rules, and triggers are also shown. For foreign tables, the associated foreign server is shown as well. (“Matching the pattern” is defined in [Patterns](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) below.)
+For each relation (table, view, materialized view, index, sequence, or foreign table) or composite type matching the _`pattern`_, show all columns, their types, the tablespace (if not the default) and any special attributes such as `NOT NULL` or defaults. Associated indexes, constraints, rules, and triggers are also shown. For foreign tables, the associated foreign server is shown as well. (“Matching the pattern” is defined in [Patterns](psql.md#APP-PSQL-PATTERNS) below.)
 
 For some types of relation, `\d` shows additional information for each column: column values for sequences, indexed expressions for indexes, and foreign data wrapper options for foreign tables.
 
-The command form `\d+` is identical, except that more information is displayed: any comments associated with the columns of the table are shown, as is the presence of OIDs in the table, the view definition if the relation is a view, a non-default [replica identity](https://www.postgresql.org/docs/12/sql-altertable.html#SQL-CREATETABLE-REPLICA-IDENTITY) setting.
+The command form `\d+` is identical, except that more information is displayed: any comments associated with the columns of the table are shown, as is the presence of OIDs in the table, the view definition if the relation is a view, a non-default [replica identity](../sql-commands/alter-table.md#SQL-CREATETABLE-REPLICA-IDENTITY) setting.
 
 By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects.
 
@@ -377,70 +377,70 @@ By default, only user-created objects are shown; supply a pattern or the `S` mod
 
 If `\d` is used without a _`pattern`_ argument, it is equivalent to `\dtvmsE` which will show a list of all visible tables, views, materialized views, sequences and foreign tables. This is purely a convenience measure.
 
-#### `\da[S] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\da[S] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists aggregate functions, together with their return type and the data types they operate on. If _`pattern`_ is specified, only aggregates whose names match the pattern are shown. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects.
 
-#### `\dA[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dA[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists access methods. If _`pattern`_ is specified, only access methods whose names match the pattern are shown. If `+` is appended to the command name, each access method is listed with its associated handler function and description.
 
-#### `\db[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\db[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists tablespaces. If _`pattern`_ is specified, only tablespaces whose names match the pattern are shown. If `+` is appended to the command name, each tablespace is listed with its associated options, on-disk size, permissions and description.
 
-#### `\dc[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dc[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists conversions between character-set encodings. If _`pattern`_ is specified, only conversions whose names match the pattern are listed. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If `+` is appended to the command name, each object is listed with its associated description.
 
-#### `\dC[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dC[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists type casts. If _`pattern`_ is specified, only casts whose source or target types match the pattern are listed. If `+` is appended to the command name, each object is listed with its associated description.
 
-#### `\dd[S] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dd[S] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Shows the descriptions of objects of type `constraint`, `operator class`, `operator family`, `rule`, and `trigger`. All other comments may be viewed by the respective backslash commands for those object types.
 
 `\dd` displays descriptions for objects matching the _`pattern`_, or of visible objects of the appropriate type if no argument is given. But in either case, only objects that have a description are listed. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects.
 
-Descriptions for objects can be created with the [COMMENT](https://www.postgresql.org/docs/12/sql-comment.html) SQL command.
+Descriptions for objects can be created with the [COMMENT](../sql-commands/comment.md) SQL command.
 
-#### `\dD[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dD[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
-Lists domains. If _`pattern`_ is specified, only domains whose names match the pattern are shown. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If `+` is appended to the command name, each object is listed with its associated permissions and description.`\ddp [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+Lists domains. If _`pattern`_ is specified, only domains whose names match the pattern are shown. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If `+` is appended to the command name, each object is listed with its associated permissions and description.`\ddp [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists default access privilege settings. An entry is shown for each role (and schema, if applicable) for which the default privilege settings have been changed from the built-in defaults. If _`pattern`_ is specified, only entries whose role name or schema name matches the pattern are listed.
 
-The [ALTER DEFAULT PRIVILEGES](https://www.postgresql.org/docs/12/sql-alterdefaultprivileges.html) command is used to set default access privileges. The meaning of the privilege display is explained in [Section 5.7](https://www.postgresql.org/docs/12/ddl-priv.html).
+The [ALTER DEFAULT PRIVILEGES](../sql-commands/alter-default-privileges.md) command is used to set default access privileges. The meaning of the privilege display is explained in [Section 5.7](../../the-sql-language/ddl/privileges.md).
 
-`\dE[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]\
-`\di[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]\
-`\dm[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]\
-`\ds[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]\
-`\dt[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]\
-`\dv[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\dE[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]\
+`\di[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]\
+`\dm[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]\
+`\ds[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]\
+`\dt[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]\
+`\dv[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 In this group of commands, the letters `E`, `i`, `m`, `s`, `t`, and `v` stand for foreign table, index, materialized view, sequence, table, and view, respectively. You can specify any or all of these letters, in any order, to obtain a listing of objects of these types. For example, `\dit` lists indexes and tables. If `+` is appended to the command name, each object is listed with its physical size on disk and its associated description, if any. If _`pattern`_ is specified, only objects whose names match the pattern are listed. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects.
 
-#### `\des[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\des[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists foreign servers (mnemonic: “external servers”). If _`pattern`_ is specified, only those servers whose name matches the pattern are listed. If the form `\des+` is used, a full description of each server is shown, including the server's access privileges, type, version, options, and description.
 
-#### `\det[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\det[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists foreign tables (mnemonic: “external tables”). If _`pattern`_ is specified, only entries whose table name or schema name matches the pattern are listed. If the form `\det+` is used, generic options and the foreign table description are also displayed.
 
-#### `\deu[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\deu[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists user mappings (mnemonic: “external users”). If _`pattern`_ is specified, only those mappings whose user names match the pattern are listed. If the form `\deu+` is used, additional information about each mapping is shown.
 
 #### Caution
 
-`\deu+` might also display the user name and password of the remote user, so care should be taken not to disclose them.`\dew[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\deu+` might also display the user name and password of the remote user, so care should be taken not to disclose them.`\dew[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists foreign-data wrappers (mnemonic: “external wrappers”). If _`pattern`_ is specified, only those foreign-data wrappers whose name matches the pattern are listed. If the form `\dew+` is used, the access privileges, options, and description of the foreign-data wrapper are also shown.
 
-`df[anptwS+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`df[anptwS+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists functions, together with their result data types, argument data types, and function types, which are classified as “agg” (aggregate), “normal”, “procedure”, “trigger”, or “window”. To display only functions of specific type(s), add the corresponding letters `a`, `n`, `p`, `t`, or `w` to the command. If _`pattern`_ is specified, only functions whose names match the pattern are shown. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If the form `\df+` is used, additional information about each function is shown, including volatility, parallel safety, owner, security classification, access privileges, language, source code and description.
 
@@ -448,51 +448,51 @@ Lists functions, together with their result data types, argument data types, and
 
 To look up functions taking arguments or returning values of a specific data type, use your pager's search capability to scroll through the `\df` output.
 
-#### `\dF[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dF[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists text search configurations. If _`pattern`_ is specified, only configurations whose names match the pattern are shown. If the form `\dF+` is used, a full description of each configuration is shown, including the underlying text search parser and the dictionary list for each parser token type.
 
-#### `\dFd[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dFd[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists text search dictionaries. If _`pattern`_ is specified, only dictionaries whose names match the pattern are shown. If the form `\dFd+` is used, additional information is shown about each selected dictionary, including the underlying text search template and the option values.
 
-#### `\dFp[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dFp[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists text search parsers. If _`pattern`_ is specified, only parsers whose names match the pattern are shown. If the form `\dFp+` is used, a full description of each parser is shown, including the underlying functions and the list of recognized token types.
 
-#### `\dFt[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dFt[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists text search templates. If _`pattern`_ is specified, only templates whose names match the pattern are shown. If the form `\dFt+` is used, additional information is shown about each template, including the underlying function names.
 
-#### `\dg[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dg[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists database roles. (Since the concepts of “users” and “groups” have been unified into “roles”, this command is now equivalent to `\du`.) By default, only user-created roles are shown; supply the `S` modifier to include system roles. If _`pattern`_ is specified, only those roles whose names match the pattern are listed. If the form `\dg+` is used, additional information is shown about each role; currently this adds the comment for each role.`\dl`
 
 This is an alias for `\lo_list`, which shows a list of large objects.
 
-#### `\dL[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dL[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists procedural languages. If _`pattern`_ is specified, only languages whose names match the pattern are listed. By default, only user-created languages are shown; supply the `S` modifier to include system objects. If `+` is appended to the command name, each language is listed with its call handler, validator, access privileges, and whether it is a system object.
 
-#### `\dn[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+#### `\dn[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists schemas (namespaces). If _`pattern`_ is specified, only schemas whose names match the pattern are listed. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If `+` is appended to the command name, each object is listed with its associated permissions and description, if any.
 
-`\do[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\do[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists operators with their operand and result types. If _`pattern`_ is specified, only operators whose names match the pattern are listed. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If `+` is appended to the command name, additional information about each operator is shown, currently just the name of the underlying function.
 
-`\dO[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\dO[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists collations. If _`pattern`_ is specified, only collations whose names match the pattern are listed. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects. If `+` is appended to the command name, each collation is listed with its associated description, if any. Note that only collations usable with the current database's encoding are shown, so the results may vary in different databases of the same installation.
 
-`\dp [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\dp [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists tables, views and sequences with their associated access privileges. If _`pattern`_ is specified, only tables, views and sequences whose names match the pattern are listed.
 
-The [GRANT](https://www.postgresql.org/docs/12/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/12/sql-revoke.html) commands are used to set access privileges. The meaning of the privilege display is explained in [Section 5.7](https://www.postgresql.org/docs/12/ddl-priv.html).
+The [GRANT](../sql-commands/grant.md) and [REVOKE](../sql-commands/revoke.md) commands are used to set access privileges. The meaning of the privilege display is explained in [Section 5.7](../../the-sql-language/ddl/privileges.md).
 
-`\dP[itn+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\dP[itn+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists partitioned relations. If _`pattern`_ is specified, only entries whose name matches the pattern are listed. The modifiers `t` (tables) and `i` (indexes) can be appended to the command, filtering the kind of relations to list. By default, partitioned tables and indexes are listed.
 
@@ -500,33 +500,33 @@ If the modifier `n` (“nested”) is used, or a pattern is specified, then non-
 
 If `+` is appended to the command name, the sum of the sizes of each relation's partitions is also displayed, along with the relation's description. If `n` is combined with `+`, two sizes are shown: one including the total size of directly-attached leaf partitions, and another showing the total size of all partitions, including indirectly attached sub-partitions.
 
-`\drds [` [_`role-pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) \[ [_`database-pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ] ]
+`\drds [` [_`role-pattern`_](psql.md#APP-PSQL-PATTERNS) \[ [_`database-pattern`_](psql.md#APP-PSQL-PATTERNS) ] ]
 
 Lists defined configuration settings. These settings can be role-specific, database-specific, or both. _`role-pattern`_ and _`database-pattern`_ are used to select specific roles and databases to list, respectively. If omitted, or if `*` is specified, all settings are listed, including those not role-specific or database-specific, respectively.
 
-The [ALTER ROLE](https://www.postgresql.org/docs/12/sql-alterrole.html) and [ALTER DATABASE](https://www.postgresql.org/docs/12/sql-alterdatabase.html) commands are used to define per-role and per-database configuration settings.
+The [ALTER ROLE](../sql-commands/alter-role.md) and [ALTER DATABASE](../sql-commands/alter-database.md) commands are used to define per-role and per-database configuration settings.
 
-`\dRp[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\dRp[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists replication publications. If _`pattern`_ is specified, only those publications whose names match the pattern are listed. If `+` is appended to the command name, the tables associated with each publication are shown as well.
 
-`\dRs[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\dRs[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists replication subscriptions. If _`pattern`_ is specified, only those subscriptions whose names match the pattern are listed. If `+` is appended to the command name, additional properties of the subscriptions are shown.
 
-`\dT[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\dT[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists data types. If _`pattern`_ is specified, only types whose names match the pattern are listed. If `+` is appended to the command name, each type is listed with its internal name and size, its allowed values if it is an `enum` type, and its associated permissions. By default, only user-created objects are shown; supply a pattern or the `S` modifier to include system objects.
 
-`\du[S+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\du[S+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists database roles. (Since the concepts of “users” and “groups” have been unified into “roles”, this command is now equivalent to `\dg`.) By default, only user-created roles are shown; supply the `S` modifier to include system roles. If _`pattern`_ is specified, only those roles whose names match the pattern are listed. If the form `\du+` is used, additional information is shown about each role; currently this adds the comment for each role.
 
-`\dx[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\dx[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists installed extensions. If _`pattern`_ is specified, only those extensions whose names match the pattern are listed. If the form `\dx+` is used, all the objects belonging to each matching extension are listed.
 
-`\dy[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\dy[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists event triggers. If _`pattern`_ is specified, only those event triggers whose names match the pattern are listed. If `+` is appended to the command name, each object is listed with its associated description.
 
@@ -540,7 +540,7 @@ If a line number is specified, psql will position the cursor on the specified li
 
 #### Tip
 
-See under [Environment](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-ENVIRONMENT) for how to configure and customize your editor.`\echo`` `_`text`_ \[ ... ]
+See under [Environment](psql.md#APP-PSQL-ENVIRONMENT) for how to configure and customize your editor.`\echo`` `_`text`_ \[ ... ]
 
 Prints the arguments to the standard output, separated by one space and followed by a newline. This can be useful to intersperse information in the output of scripts. For example:
 
@@ -567,7 +567,7 @@ Unlike most other meta-commands, the entire remainder of the line is always take
 
 #### Tip
 
-See under [Environment](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-ENVIRONMENT) for how to configure and customize your editor.
+See under [Environment](psql.md#APP-PSQL-ENVIRONMENT) for how to configure and customize your editor.
 
 `\encoding [`` `_`encoding`_ ]
 
@@ -628,7 +628,7 @@ If the current query buffer is empty, the most recently sent query is re-execute
 
 `\gset [`` `_`prefix`_ ]
 
-Sends the current query buffer to the server and stores the query's output into psql variables (see [Variables](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-VARIABLES)). The query to be executed must return exactly one row. Each column of the row is stored into a separate variable, named the same as the column. For example:
+Sends the current query buffer to the server and stores the query's output into psql variables (see [Variables](psql.md#APP-PSQL-VARIABLES)). The query to be executed must return exactly one row. Each column of the row is stored into a separate variable, named the same as the column. For example:
 
 ```
 => SELECT 'hello' AS var1, 10 AS var2
@@ -721,7 +721,7 @@ SELECT
 
 The `\ir` command is similar to `\i`, but resolves relative file names differently. When executing in interactive mode, the two commands behave identically. However, when invoked from a script, `\ir` interprets file names relative to the directory in which the script is located, rather than the current working directory.
 
-`\l[+]` or `\list[+] [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+`\l[+]` or `\list[+] [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 List the databases in the server and show their names, owners, character set encodings, and access privileges. If _`pattern`_ is specified, only databases whose names match the pattern are listed. If `+` is appended to the command name, database sizes, default tablespaces, and descriptions are also displayed. (Size information is only available for databases that the current user can connect to.)
 
@@ -847,7 +847,7 @@ Sets the column drawing style for the `unicode` line style to one of `single` or
 
 Sets the header drawing style for the `unicode` line style to one of `single` or `double`.
 
-Illustrations of how these different formats look can be seen in the [Examples](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-EXAMPLES) section.
+Illustrations of how these different formats look can be seen in the [Examples](psql.md#APP-PSQL-EXAMPLES) section.
 
 #### Tip
 
@@ -865,13 +865,13 @@ Sets the psql variable _`name`_ to _`value`_, or if more than one value is given
 
 `\set` without any arguments displays the names and values of all currently-set psql variables.
 
-Valid variable names can contain letters, digits, and underscores. See the section [Variables](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-VARIABLES) below for details. Variable names are case-sensitive.
+Valid variable names can contain letters, digits, and underscores. See the section [Variables](psql.md#APP-PSQL-VARIABLES) below for details. Variable names are case-sensitive.
 
-Certain variables are special, in that they control psql's behavior or are automatically set to reflect connection state. These variables are documented in [Variables](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-VARIABLES), below.
+Certain variables are special, in that they control psql's behavior or are automatically set to reflect connection state. These variables are documented in [Variables](psql.md#APP-PSQL-VARIABLES), below.
 
 #### Note
 
-This command is unrelated to the SQL command [SET](https://www.postgresql.org/docs/12/sql-set.html).`\setenv`` `_`name`_ \[ _`value`_ ]
+This command is unrelated to the SQL command [SET](../sql-commands/set.md).`\setenv`` `_`name`_ \[ _`value`_ ]
 
 Sets the environment variable _`name`_ to _`value`_, or if the _`value`_ is not supplied, unsets the environment variable. Example:
 
@@ -904,7 +904,7 @@ With a parameter, turns displaying of how long each SQL statement takes on or of
 
 Unsets (deletes) the psql variable _`name`_.
 
-Most variables that control psql's behavior cannot be unset; instead, an `\unset` command is interpreted as setting them to their default values. See [Variables](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-VARIABLES), below.`\w` or `\write` _`filename`_\
+Most variables that control psql's behavior cannot be unset; instead, an `\unset` command is interpreted as setting them to their default values. See [Variables](psql.md#APP-PSQL-VARIABLES), below.`\w` or `\write` _`filename`_\
 `\w` or `\write` `|`_`command`_
 
 Writes the current query buffer to the file _`filename`_ or pipes it to the shell command _`command`_. If the current query buffer is empty, the most recently executed query is written instead.
@@ -915,7 +915,7 @@ Repeatedly execute the current query buffer (as `\g` does) until interrupted or 
 
 If the current query buffer is empty, the most recently sent query is re-executed instead.`\x [`` `_`on`_ | _`off`_ | _`auto`_ ]
 
-Sets or toggles expanded table formatting mode. As such it is equivalent to `\pset expanded`.`\z [` [_`pattern`_](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PATTERNS) ]
+Sets or toggles expanded table formatting mode. As such it is equivalent to `\pset expanded`.`\z [` [_`pattern`_](psql.md#APP-PSQL-PATTERNS) ]
 
 Lists tables, views and sequences with their associated access privileges. If a _`pattern`_ is specified, only tables, views and sequences whose names match the pattern are listed.
 
@@ -941,7 +941,7 @@ will result in the three SQL commands being individually sent to the server, wit
 select 1\; select 2\; select 3;
 ```
 
-results in sending the three SQL commands to the server in a single request, when the non-backslashed semicolon is reached. The server executes such a request as a single transaction, unless there are explicit `BEGIN`/`COMMIT` commands included in the string to divide it into multiple transactions. (See [Section 52.2.2.1](https://www.postgresql.org/docs/12/protocol-flow.html#PROTOCOL-FLOW-MULTI-STATEMENT) for more details about how the server handles multi-query strings.) psql prints only the last query result it receives for each request; in this example, although all three `SELECT`s are indeed executed, psql only prints the `3`.
+results in sending the three SQL commands to the server in a single request, when the non-backslashed semicolon is reached. The server executes such a request as a single transaction, unless there are explicit `BEGIN`/`COMMIT` commands included in the string to divide it into multiple transactions. (See [Section 52.2.2.1](../../internals/52.-frontend-backend-protocol/52.2.-message-flow.md#PROTOCOL-FLOW-MULTI-STATEMENT) for more details about how the server handles multi-query strings.) psql prints only the last query result it receives for each request; in this example, although all three `SELECT`s are indeed executed, psql only prints the `3`.
 
 **Patterns**
 
@@ -953,7 +953,7 @@ Within a pattern, `*` matches any sequence of characters (including no character
 
 A pattern that contains a dot (`.`) is interpreted as a schema name pattern followed by an object name pattern. For example, `\dt foo*.*bar*` displays all tables whose table name includes `bar` that are in schemas whose schema name starts with `foo`. When no dot appears, then the pattern matches only objects that are visible in the current schema search path. Again, a dot within double quotes loses its special meaning and is matched literally.
 
-Advanced users can use regular-expression notations such as character classes, for example `[0-9]` to match any digit. All regular expression special characters work as specified in [Section 9.7.3](https://www.postgresql.org/docs/12/functions-matching.html#FUNCTIONS-POSIX-REGEXP), except for `.` which is taken as a separator as mentioned above, `*` which is translated to the regular-expression notation `.*`, `?` which is translated to `.`, and `$` which is matched literally. You can emulate these pattern characters at need by writing `?` for `.`, `(`_`R`_+|) for _`R`_\*, or `(`_`R`_|) for _`R`_?. `$` is not needed as a regular-expression character since the pattern must match the whole name, unlike the usual interpretation of regular expressions (in other words, `$` is automatically appended to your pattern). Write `*` at the beginning and/or end if you don't wish the pattern to be anchored. Note that within double quotes, all regular expression special characters lose their special meanings and are matched literally. Also, the regular expression special characters are matched literally in operator name patterns (i.e., the argument of `\do`).
+Advanced users can use regular-expression notations such as character classes, for example `[0-9]` to match any digit. All regular expression special characters work as specified in [Section 9.7.3](../../the-sql-language/functions-and-operators/pattern-matching.md#FUNCTIONS-POSIX-REGEXP), except for `.` which is taken as a separator as mentioned above, `*` which is translated to the regular-expression notation `.*`, `?` which is translated to `.`, and `$` which is matched literally. You can emulate these pattern characters at need by writing `?` for `.`, `(`_`R`_+|) for _`R`_\*, or `(`_`R`_|) for _`R`_?. `$` is not needed as a regular-expression character since the pattern must match the whole name, unlike the usual interpretation of regular expressions (in other words, `$` is automatically appended to your pattern). Write `*` at the beginning and/or end if you don't wish the pattern to be anchored. Note that within double quotes, all regular expression special characters lose their special meanings and are matched literally. Also, the regular expression special characters are matched literally in operator name patterns (i.e., the argument of `\do`).
 
 #### Advanced Features
 
@@ -974,7 +974,7 @@ testdb=> \echo :foo
 bar
 ```
 
-This works in both regular SQL commands and meta-commands; there is more detail in [SQL Interpolation](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-INTERPOLATION), below.
+This works in both regular SQL commands and meta-commands; there is more detail in [SQL Interpolation](psql.md#APP-PSQL-INTERPOLATION), below.
 
 If you call `\set` without a second argument, the variable is set to an empty-string value. To unset (i.e., delete) a variable, use the command `\unset`. To show the values of all variables, call `\set` without any argument.
 
@@ -1063,7 +1063,7 @@ The database server port to which you are currently connected. This is set every
 `PROMPT2`\
 `PROMPT3`
 
-These specify what the prompts psql issues should look like. See [Prompting](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-PROMPTING) below.`QUIET`
+These specify what the prompts psql issues should look like. See [Prompting](psql.md#APP-PSQL-PROMPTING) below.`QUIET`
 
 Setting this variable to `on` is equivalent to the command line option `-q`. It is probably not too useful in interactive mode.`ROW_COUNT`
 
@@ -1078,7 +1078,7 @@ Setting this variable to `on` is equivalent to the command line option `-S`.`SIN
 
 Setting this variable to `on` is equivalent to the command line option `-s`.`SQLSTATE`
 
-The error code (see [Appendix A](https://www.postgresql.org/docs/12/errcodes-appendix.html)) associated with the last SQL query's failure, or `00000` if it succeeded.`USER`
+The error code (see [Appendix A](../../appendixes/postgresql-error-codes.md)) associated with the last SQL query's failure, or `00000` if it succeeded.`USER`
 
 The database user you are currently connected as. This is set every time you connect to a database (including program start-up), but can be changed or unset.`VERBOSITY`
 
@@ -1153,7 +1153,7 @@ The line number inside the current statement, starting from `1`.`%`_`digits`_
 
 The character with the indicated octal code is substituted.`%:`_`name`_`:`
 
-The value of the psql variable _`name`_. See the section [Variables](https://www.postgresql.org/docs/12/app-psql.html#APP-PSQL-VARIABLES) for details.`` %` ``_`command`_`` ` ``
+The value of the psql variable _`name`_. See the section [Variables](psql.md#APP-PSQL-VARIABLES) for details.`` %` ``_`command`_`` ` ``
 
 The output of _`command`_, similar to ordinary “back-tick” substitution.`%[` ... `%]`
 
@@ -1192,7 +1192,7 @@ If `\pset columns` is zero, controls the width for the `wrapped` format and widt
 `PGPORT`\
 `PGUSER`
 
-Default connection parameters (see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)).`PG_COLOR`
+Default connection parameters (see [Section 33.14](../../client-interfaces/libpq-c-library/environment-variables.md)).`PG_COLOR`
 
 Specifies whether to use color in diagnostics messages. Possible values are `always`, `auto`, `never`.`PSQL_EDITOR`\
 `EDITOR`\
@@ -1220,7 +1220,7 @@ Command executed by the `\!` command.`TMPDIR`
 
 Directory for storing temporary files. The default is `/tmp`.
 
-This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](https://www.postgresql.org/docs/12/libpq-envars.html)).
+This utility, like most other PostgreSQL utilities, also uses the environment variables supported by libpq (see [Section 33.14](../../client-interfaces/libpq-c-library/environment-variables.md)).
 
 ### Files
 

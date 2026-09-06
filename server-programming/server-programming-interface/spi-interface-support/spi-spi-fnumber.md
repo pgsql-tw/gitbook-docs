@@ -39,4 +39,4 @@ Column number (count starts at 1 for user-defined columns), or `SPI_ERROR_NOATTR
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-fnumber.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-fnumber.md)（英文原文，待翻譯）

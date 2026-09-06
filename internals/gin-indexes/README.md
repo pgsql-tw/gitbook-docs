@@ -12,9 +12,9 @@
 
 [70.4. Implementation](implementation.md)
 
-[70.4.1. GIN Fast Update Technique](https://www.postgresql.org/docs/15/gin-implementation.html#GIN-FAST-UPDATE)
+[70.4.1. GIN Fast Update Technique](implementation.md#GIN-FAST-UPDATE)
 
-[70.4.2. Partial Match Algorithm](https://www.postgresql.org/docs/15/gin-implementation.html#GIN-PARTIAL-MATCH)
+[70.4.2. Partial Match Algorithm](implementation.md#GIN-PARTIAL-MATCH)
 
 [70.5. GIN Tips and Tricks](gin-tips-and-tricks.md)
 
@@ -26,4 +26,4 @@
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/gin.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](README.md)（英文原文，待翻譯）

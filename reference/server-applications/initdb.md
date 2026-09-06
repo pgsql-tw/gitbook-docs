@@ -61,7 +61,7 @@ Allows users in the same group as the cluster owner to read all cluster files cr
 `-k`\
 `--data-checksums`
 
-Use checksums on data pages to help detect corruption by the I/O system that would otherwise be silent. Enabling checksums may incur a noticeable performance penalty. If set, checksums are calculated for all objects, in all databases. All checksum failures will be reported in the [pg\_stat\_database](https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-DATABASE-VIEW) view.
+Use checksums on data pages to help detect corruption by the I/O system that would otherwise be silent. Enabling checksums may incur a noticeable performance penalty. If set, checksums are calculated for all objects, in all databases. All checksum failures will be reported in the [pg\_stat\_database](../../server-administration/monitoring-database-activity/the-statistics-collector.md#PG-STAT-DATABASE-VIEW) view.
 
 `--locale=`_`locale`_
 
@@ -95,7 +95,7 @@ Safely write all database files to disk and exit. This does not perform any of t
 `-T`` `_`config`_\
 `--text-search-config=`_`config`_
 
-Sets the default text search configuration. See [default\_text\_search\_config](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-DEFAULT-TEXT-SEARCH-CONFIG) for further information.
+Sets the default text search configuration. See [default\_text\_search\_config](../../server-administration/server-configuration/client-connection-defaults.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG) for further information.
 
 `-U`` `_`username`_\
 `--username=`_`username`_

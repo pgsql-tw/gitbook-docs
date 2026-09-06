@@ -10,7 +10,7 @@ Operator classes can be grouped into _operator families_ to show the relationshi
 
 ## 38.16.1. Index Methods and Operator Classes
 
-The `pg_am` table contains one row for every index method (internally known as access method). Support for regular access to tables is built into PostgreSQL, but all index methods are described in `pg_am`. It is possible to add a new index access method by writing the necessary code and then creating an entry in `pg_am` — but that is beyond the scope of this chapter (see [Chapter 62](https://www.postgresql.org/docs/14/indexam.html)).
+The `pg_am` table contains one row for every index method (internally known as access method). Support for regular access to tables is built into PostgreSQL, but all index methods are described in `pg_am`. It is possible to add a new index access method by writing the necessary code and then creating an entry in `pg_am` — but that is beyond the scope of this chapter (see [Chapter 62](../../internals/index-access-method-interface-definition.md)).
 
 The routines for an index method do not directly know anything about the data types that the index method will operate on. Instead, an _operator class_ identifies the set of operations that the index method needs to use to work with a particular data type. Operator classes are so called because one thing they specify is the set of `WHERE`-clause operators that can be used with an index (i.e., can be converted into an index-scan qualification). An operator class can also specify some _support function_ that are needed by the internal operations of the index method, but do not directly correspond to any `WHERE`-clause operator that can be used with the index.
 
@@ -22,7 +22,7 @@ The same operator class name can be used for several different index methods (fo
 
 The operators associated with an operator class are identified by “strategy numbers”, which serve to identify the semantics of each operator within the context of its operator class. For example, B-trees impose a strict ordering on keys, lesser to greater, and so operators like “less than” and “greater than or equal to” are interesting with respect to a B-tree. Because PostgreSQL allows the user to define operators, PostgreSQL cannot look at the name of an operator (e.g., `<` or `>=`) and tell what kind of comparison it is. Instead, the index method defines a set of “strategies”, which can be thought of as generalized operators. Each operator class specifies which actual operator corresponds to each strategy for a particular data type and interpretation of the index semantics.
 
-The B-tree index method defines five strategies, shown in [Table 38.3](https://www.postgresql.org/docs/14/xindex.html#XINDEX-BTREE-STRAT-TABLE).
+The B-tree index method defines five strategies, shown in [Table 38.3](interfacing-extensions-to-indexes.md#XINDEX-BTREE-STRAT-TABLE).
 
 #### **Table 38.3. B-Tree Strategies**
 
@@ -34,7 +34,7 @@ The B-tree index method defines five strategies, shown in [Table 38.3](https://w
 | greater than or equal | 4               |
 | greater than          | 5               |
 
-Hash indexes support only equality comparisons, and so they use only one strategy, shown in [Table 38.4](https://www.postgresql.org/docs/14/xindex.html#XINDEX-HASH-STRAT-TABLE).
+Hash indexes support only equality comparisons, and so they use only one strategy, shown in [Table 38.4](interfacing-extensions-to-indexes.md#XINDEX-HASH-STRAT-TABLE).
 
 #### **Table 38.4. Hash Strategies**
 
@@ -42,7 +42,7 @@ Hash indexes support only equality comparisons, and so they use only one strateg
 | --------- | --------------- |
 | equal     | 1               |
 
-GiST indexes are more flexible: they do not have a fixed set of strategies at all. Instead, the “consistency” support routine of each particular GiST operator class interprets the strategy numbers however it likes. As an example, several of the built-in GiST index operator classes index two-dimensional geometric objects, providing the “R-tree” strategies shown in [Table 38.5](https://www.postgresql.org/docs/14/xindex.html#XINDEX-RTREE-STRAT-TABLE). Four of these are true two-dimensional tests (overlaps, same, contains, contained by); four of them consider only the X direction; and the other four provide the same tests in the Y direction.
+GiST indexes are more flexible: they do not have a fixed set of strategies at all. Instead, the “consistency” support routine of each particular GiST operator class interprets the strategy numbers however it likes. As an example, several of the built-in GiST index operator classes index two-dimensional geometric objects, providing the “R-tree” strategies shown in [Table 38.5](interfacing-extensions-to-indexes.md#XINDEX-RTREE-STRAT-TABLE). Four of these are true two-dimensional tests (overlaps, same, contains, contained by); four of them consider only the X direction; and the other four provide the same tests in the Y direction.
 
 #### **Table 38.5. GiST Two-Dimensional “R-tree” Strategies**
 
@@ -61,7 +61,7 @@ GiST indexes are more flexible: they do not have a fixed set of strategies at al
 | strictly above              | 11              |
 | does not extend below       | 12              |
 
-SP-GiST indexes are similar to GiST indexes in flexibility: they don't have a fixed set of strategies. Instead the support routines of each operator class interpret the strategy numbers according to the operator class's definition. As an example, the strategy numbers used by the built-in operator classes for points are shown in [Table 38.6](https://www.postgresql.org/docs/14/xindex.html#XINDEX-SPGIST-POINT-STRAT-TABLE).
+SP-GiST indexes are similar to GiST indexes in flexibility: they don't have a fixed set of strategies. Instead the support routines of each operator class interpret the strategy numbers according to the operator class's definition. As an example, the strategy numbers used by the built-in operator classes for points are shown in [Table 38.6](interfacing-extensions-to-indexes.md#XINDEX-SPGIST-POINT-STRAT-TABLE).
 
 #### **Table 38.6. SP-GiST Point Strategies**
 
@@ -74,7 +74,7 @@ SP-GiST indexes are similar to GiST indexes in flexibility: they don't have a fi
 | strictly below    | 10              |
 | strictly above    | 11              |
 
-GIN indexes are similar to GiST and SP-GiST indexes, in that they don't have a fixed set of strategies either. Instead the support routines of each operator class interpret the strategy numbers according to the operator class's definition. As an example, the strategy numbers used by the built-in operator class for arrays are shown in [Table 38.7](https://www.postgresql.org/docs/14/xindex.html#XINDEX-GIN-ARRAY-STRAT-TABLE).
+GIN indexes are similar to GiST and SP-GiST indexes, in that they don't have a fixed set of strategies either. Instead the support routines of each operator class interpret the strategy numbers according to the operator class's definition. As an example, the strategy numbers used by the built-in operator class for arrays are shown in [Table 38.7](interfacing-extensions-to-indexes.md#XINDEX-GIN-ARRAY-STRAT-TABLE).
 
 #### **Table 38.7. GIN Array Strategies**
 
@@ -85,7 +85,7 @@ GIN indexes are similar to GiST and SP-GiST indexes, in that they don't have a f
 | is contained by | 3               |
 | equal           | 4               |
 
-BRIN indexes are similar to GiST, SP-GiST and GIN indexes in that they don't have a fixed set of strategies either. Instead the support routines of each operator class interpret the strategy numbers according to the operator class's definition. As an example, the strategy numbers used by the built-in `Minmax` operator classes are shown in [Table 38.8](https://www.postgresql.org/docs/14/xindex.html#XINDEX-BRIN-MINMAX-STRAT-TABLE).
+BRIN indexes are similar to GiST, SP-GiST and GIN indexes in that they don't have a fixed set of strategies either. Instead the support routines of each operator class interpret the strategy numbers according to the operator class's definition. As an example, the strategy numbers used by the built-in `Minmax` operator classes are shown in [Table 38.8](interfacing-extensions-to-indexes.md#XINDEX-BRIN-MINMAX-STRAT-TABLE).
 
 #### **Table 38.8. BRIN Minmax Strategies**
 
@@ -97,7 +97,7 @@ BRIN indexes are similar to GiST, SP-GiST and GIN indexes in that they don't hav
 | greater than or equal | 4               |
 | greater than          | 5               |
 
-Notice that all the operators listed above return Boolean values. In practice, all operators defined as index method search operators must return type `boolean`, since they must appear at the top level of a `WHERE` clause to be used with an index. (Some index access methods also support _ordering operators_, which typically don't return Boolean values; that feature is discussed in [Section 38.16.7](https://www.postgresql.org/docs/14/xindex.html#XINDEX-ORDERING-OPS).)
+Notice that all the operators listed above return Boolean values. In practice, all operators defined as index method search operators must return type `boolean`, since they must appear at the top level of a `WHERE` clause to be used with an index. (Some index access methods also support _ordering operators_, which typically don't return Boolean values; that feature is discussed in [Section 38.16.7](interfacing-extensions-to-indexes.md#XINDEX-ORDERING-OPS).)
 
 ## 38.16.3. Index Method Support Routines
 
@@ -107,7 +107,7 @@ Just as with strategies, the operator class identifies which specific functions 
 
 Additionally, some opclasses allow users to specify parameters which control their behavior. Each builtin index access method has an optional `options` support function, which defines a set of opclass-specific parameters.
 
-B-trees require a comparison support function, and allow four additional support functions to be supplied at the operator class author's option, as shown in [Table 38.9](https://www.postgresql.org/docs/14/xindex.html#XINDEX-BTREE-SUPPORT-TABLE). The requirements for these support functions are explained further in [Section 64.3](https://www.postgresql.org/docs/14/btree-support-funcs.html).
+B-trees require a comparison support function, and allow four additional support functions to be supplied at the operator class author's option, as shown in [Table 38.9](interfacing-extensions-to-indexes.md#XINDEX-BTREE-SUPPORT-TABLE). The requirements for these support functions are explained further in [Section 64.3](../../internals/b-tree-indexes/b-tree-support-functions.md).
 
 #### **Table 38.9. B-Tree Support Functions**
 
@@ -119,7 +119,7 @@ B-trees require a comparison support function, and allow four additional support
 | Determine if it is safe for indexes that use the operator class to apply the btree deduplication optimization (optional)                                               | 4              |
 | Defines a set of options that are specific to this operator class (optional)                                                                                           | 5              |
 
-Hash indexes require one support function, and allow two additional ones to be supplied at the operator class author's option, as shown in [Table 38.10](https://www.postgresql.org/docs/14/xindex.html#XINDEX-HASH-SUPPORT-TABLE).
+Hash indexes require one support function, and allow two additional ones to be supplied at the operator class author's option, as shown in [Table 38.10](interfacing-extensions-to-indexes.md#XINDEX-HASH-SUPPORT-TABLE).
 
 #### **Table 38.10. Hash Support Functions**
 
@@ -129,7 +129,7 @@ Hash indexes require one support function, and allow two additional ones to be s
 | Compute the 64-bit hash value for a key given a 64-bit salt; if the salt is 0, the low 32 bits of the result must match the value that would have been computed by function 1 (optional) | 2              |
 | Defines a set of options that are specific to this operator class (optional)                                                                                                             | 3              |
 
-GiST indexes have ten support functions, three of which are optional, as shown in [Table 38.11](https://www.postgresql.org/docs/14/xindex.html#XINDEX-GIST-SUPPORT-TABLE). (For more information see [Chapter 65](https://www.postgresql.org/docs/14/gist.html).)
+GiST indexes have ten support functions, three of which are optional, as shown in [Table 38.11](interfacing-extensions-to-indexes.md#XINDEX-GIST-SUPPORT-TABLE). (For more information see [Chapter 65](../../internals/gist-indexes/README.md).)
 
 #### **Table 38.11. GiST Support Functions**
 
@@ -146,7 +146,7 @@ GiST indexes have ten support functions, three of which are optional, as shown i
 | `fetch`      | compute original representation of a compressed key for index-only scans (optional)                              | 9              |
 | `options`    | Defines a set of options that are specific to this operator class (optional)                                     | 10             |
 
-SP-GiST indexes have six support functions, one of which is optional, as shown in [Table 38.12](https://www.postgresql.org/docs/14/xindex.html#XINDEX-SPGIST-SUPPORT-TABLE). (For more information see [Chapter 66](https://www.postgresql.org/docs/14/spgist.html).)
+SP-GiST indexes have six support functions, one of which is optional, as shown in [Table 38.12](interfacing-extensions-to-indexes.md#XINDEX-SPGIST-SUPPORT-TABLE). (For more information see [Chapter 66](../../internals/sp-gist-indexes/README.md).)
 
 #### **Table 38.12. SP-GiST Support Functions**
 
@@ -159,7 +159,7 @@ SP-GiST indexes have six support functions, one of which is optional, as shown i
 | `leaf_consistent`  | determine whether key satisfies the query qualifier                          | 5              |
 | `options`          | Defines a set of options that are specific to this operator class (optional) | 6              |
 
-GIN indexes have seven support functions, four of which are optional, as shown in [Table 38.13](https://www.postgresql.org/docs/14/xindex.html#XINDEX-GIN-SUPPORT-TABLE). (For more information see [Chapter 67](https://www.postgresql.org/docs/14/gin.html).)
+GIN indexes have seven support functions, four of which are optional, as shown in [Table 38.13](interfacing-extensions-to-indexes.md#XINDEX-GIN-SUPPORT-TABLE). (For more information see [Chapter 67](../../internals/gin-indexes/README.md).)
 
 #### **Table 38.13. GIN Support Functions**
 
@@ -173,7 +173,7 @@ GIN indexes have seven support functions, four of which are optional, as shown i
 | `triConsistent`  | determine whether value matches query condition (ternary variant) (optional if support function 4 is present)                                                                                                                             | 6              |
 | `options`        | Defines a set of options that are specific to this operator class (optional)                                                                                                                                                              | 7              |
 
-BRIN indexes have five basic support functions, one of which is optional, as shown in [Table 38.14](https://www.postgresql.org/docs/14/xindex.html#XINDEX-BRIN-SUPPORT-TABLE). Some versions of the basic functions require additional support functions to be provided. (For more information see [Section 68.3](https://www.postgresql.org/docs/14/brin-extensibility.html).)
+BRIN indexes have five basic support functions, one of which is optional, as shown in [Table 38.14](interfacing-extensions-to-indexes.md#XINDEX-BRIN-SUPPORT-TABLE). Some versions of the basic functions require additional support functions to be provided. (For more information see [Section 68.3](../../internals/brin/extensibility.md).)
 
 #### **Table 38.14. BRIN Support Functions**
 
@@ -189,7 +189,7 @@ Unlike search operators, support functions return whichever data type the partic
 
 ## 38.16.4. An Example
 
-Now that we have seen the ideas, here is the promised example of creating a new operator class. (You can find a working copy of this example in `src/tutorial/complex.c` and `src/tutorial/complex.sql` in the source distribution.) The operator class encapsulates operators that sort complex numbers in absolute value order, so we choose the name `complex_abs_ops`. First, we need a set of operators. The procedure for defining operators was discussed in [Section 38.14](https://www.postgresql.org/docs/14/xoper.html). For an operator class on B-trees, the operators we require are:
+Now that we have seen the ideas, here is the promised example of creating a new operator class. (You can find a working copy of this example in `src/tutorial/complex.c` and `src/tutorial/complex.sql` in the source distribution.) The operator class encapsulates operators that sort complex numbers in absolute value order, so we choose the name `complex_abs_ops`. First, we need a set of operators. The procedure for defining operators was discussed in [Section 38.14](user-defined-operators.md). For an operator class on B-trees, the operators we require are:
 
 * absolute-value less-than (strategy 1)
 * absolute-value less-than-or-equal (strategy 2)
@@ -399,7 +399,7 @@ ALTER OPERATOR FAMILY integer_ops USING btree ADD
 
 Notice that this definition “overloads” the operator strategy and support function numbers: each number occurs multiple times within the family. This is allowed so long as each instance of a particular number has distinct input data types. The instances that have both input types equal to an operator class's input type are the primary operators and support functions for that operator class, and in most cases should be declared as part of the operator class rather than as loose members of the family.
 
-In a B-tree operator family, all the operators in the family must sort compatibly, as is specified in detail in [Section 64.2](https://www.postgresql.org/docs/14/btree-behavior.html). For each operator in the family there must be a support function having the same two input data types as the operator. It is recommended that a family be complete, i.e., for each combination of data types, all operators are included. Each operator class should include just the non-cross-type operators and support function for its data type.
+In a B-tree operator family, all the operators in the family must sort compatibly, as is specified in detail in [Section 64.2](../../internals/b-tree-indexes/behavior-of-b-tree-operator-classes.md). For each operator in the family there must be a support function having the same two input data types as the operator. It is recommended that a family be complete, i.e., for each combination of data types, all operators are included. Each operator class should include just the non-cross-type operators and support function for its data type.
 
 To build a multiple-data-type hash operator family, compatible hash support functions must be created for each data type supported by the family. Here compatibility means that the functions are guaranteed to return the same hash code for any two values that are considered equal by the family's equality operators, even when the values are of different types. This is usually difficult to accomplish when the types have different physical representations, but it can be done in some cases. Furthermore, casting a value from one data type represented in the operator family to another data type also represented in the operator family via an implicit or binary coercion cast must not change the computed hash value. Notice that there is only one support function per data type, not one per equality operator. It is recommended that a family be complete, i.e., provide an equality operator for each combination of data types. Each operator class should include just the non-cross-type equality operator and the support function for its data type.
 
@@ -435,7 +435,7 @@ Alternatively, specifying the class's greater-than operator in `USING` selects a
 
 Comparison of arrays of a user-defined type also relies on the semantics defined by the type's default B-tree operator class. If there is no default B-tree operator class, but there is a default hash operator class, then array equality is supported, but not ordering comparisons.
 
-Another SQL feature that requires even more data-type-specific knowledge is the `RANGE` _`offset`_ `PRECEDING`/`FOLLOWING` framing option for window functions (see [Section 4.2.8](https://www.postgresql.org/docs/14/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)). For a query such as
+Another SQL feature that requires even more data-type-specific knowledge is the `RANGE` _`offset`_ `PRECEDING`/`FOLLOWING` framing option for window functions (see [Section 4.2.8](../../the-sql-language/sql-syntax/value-expressions.md#SYNTAX-WINDOW-FUNCTIONS)). For a query such as
 
 ```
 SELECT sum(x) OVER (ORDER BY x RANGE BETWEEN 5 PRECEDING AND 10 FOLLOWING)

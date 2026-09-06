@@ -82,4 +82,4 @@ The catalog `pg_publication` contains all publications created in the database. 
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-publication.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_publication.md)（英文原文，待翻譯）

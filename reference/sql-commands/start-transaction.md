@@ -49,4 +49,4 @@ See also the compatibility section of [SET TRANSACTION](set-transaction.md).
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/sql-start-transaction.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](start-transaction.md)（英文原文，待翻譯）

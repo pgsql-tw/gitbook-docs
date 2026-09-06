@@ -22,4 +22,4 @@ This key is always present on the last line of the backup manifest file. The ass
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/backup-manifest-toplevel.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](backup-manifest-toplevel.md)（英文原文，待翻譯）

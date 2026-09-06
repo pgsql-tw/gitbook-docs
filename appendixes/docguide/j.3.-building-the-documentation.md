@@ -55,7 +55,7 @@ Other XSL-FO processors can also be used manually, but the automated build proce
 
 ## J.3.4. Plain Text Files
 
-The installation instructions are also distributed as plain text, in case they are needed in a situation where better reading tools are not available. The `INSTALL` file corresponds to [Chapter 17](https://www.postgresql.org/docs/15/installation.html), with some minor changes to account for the different context. To recreate the file, change to the directory `doc/src/sgml` and enter **`make INSTALL`**. Building text output requires Pandoc version 1.13 or newer as an additional build tool.
+The installation instructions are also distributed as plain text, in case they are needed in a situation where better reading tools are not available. The `INSTALL` file corresponds to [Chapter 17](../../server-administration/installation-from-source-code/README.md), with some minor changes to account for the different context. To recreate the file, change to the directory `doc/src/sgml` and enter **`make INSTALL`**. Building text output requires Pandoc version 1.13 or newer as an additional build tool.
 
 In the past, the release notes and regression testing instructions were also distributed as plain text, but this practice has been discontinued.
 

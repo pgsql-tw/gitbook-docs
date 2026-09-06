@@ -8,4 +8,4 @@ PostgreSQL 9.6 and below provided a command named `pg_resetxlog` <a id="id-1.11.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/app-pgresetxlog.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](app-pgresetxlog.md)（英文原文，待翻譯）

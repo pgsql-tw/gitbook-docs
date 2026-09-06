@@ -44,4 +44,4 @@ on error
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-connect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-connect.md)（英文原文，待翻譯）

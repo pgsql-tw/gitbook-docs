@@ -78,4 +78,4 @@ The `pg_cursors` view is read-only.
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/view-pg-cursors.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_cursors.md)（英文原文，待翻譯）

@@ -37,4 +37,4 @@ The type OID of the argument at the given index. If the <em class="parameter"><c
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-getargtypeid.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-getargtypeid.md)（英文原文，待翻譯）

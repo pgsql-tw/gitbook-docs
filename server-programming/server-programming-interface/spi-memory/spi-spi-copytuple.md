@@ -35,4 +35,4 @@ the copied row, or `NULL` on error (see `SPI_result` for an error indication)
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/spi-spi-copytuple.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](spi-spi-copytuple.md)（英文原文，待翻譯）

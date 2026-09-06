@@ -113,4 +113,4 @@ cc -o prog1 prog1.o -L/usr/local/pgsql/lib -lecpg
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/app-ecpg.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](ecpg.md)（英文原文，待翻譯）

@@ -41,7 +41,7 @@ The new schema for the statistics object.
 
 _`new_target`_
 
-The statistic-gathering target for this statistics object for subsequent [ANALYZE](https://www.postgresql.org/docs/13/sql-analyze.html) operations. The target can be set in the range 0 to 10000; alternatively, set it to -1 to revert to using the maximum of the statistics target of the referenced columns, if set, or the system default statistics target ([default\_statistics\_target](https://www.postgresql.org/docs/13/runtime-config-query.html#GUC-DEFAULT-STATISTICS-TARGET)). For more information on the use of statistics by the PostgreSQL query planner, refer to [Section 14.2](https://www.postgresql.org/docs/13/planner-stats.html).
+The statistic-gathering target for this statistics object for subsequent [ANALYZE](analyze.md) operations. The target can be set in the range 0 to 10000; alternatively, set it to -1 to revert to using the maximum of the statistics target of the referenced columns, if set, or the system default statistics target ([default\_statistics\_target](../../server-administration/server-configuration/query-planning.md#GUC-DEFAULT-STATISTICS-TARGET)). For more information on the use of statistics by the PostgreSQL query planner, refer to [Section 14.2](../../the-sql-language/performance-tips/statistics-used-by-the-planner.md).
 
 ### Compatibility
 

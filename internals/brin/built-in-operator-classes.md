@@ -1,6 +1,6 @@
 # 71.2. Built-in Operator Classes
 
-The core PostgreSQL distribution includes the BRIN operator classes shown in [Table 67.1](https://www.postgresql.org/docs/12/brin-builtin-opclasses.html#BRIN-BUILTIN-OPCLASSES-TABLE).
+The core PostgreSQL distribution includes the BRIN operator classes shown in [Table 67.1](built-in-operator-classes.md#BRIN-BUILTIN-OPCLASSES-TABLE).
 
 The _minmax_ operator classes store the minimum and the maximum values appearing in the indexed column within the range. The _inclusion_ operator classes store a value which includes the values in the indexed column within the range.
 

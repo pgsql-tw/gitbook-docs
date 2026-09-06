@@ -2,7 +2,7 @@
 
 The following example demonstrates controlling logical decoding using the SQL interface.
 
-Before you can use logical decoding, you must set [wal\_level](https://www.postgresql.org/docs/13/runtime-config-wal.html#GUC-WAL-LEVEL) to `logical` and [max\_replication\_slots](https://www.postgresql.org/docs/13/runtime-config-replication.html#GUC-MAX-REPLICATION-SLOTS) to at least 1. Then, you should connect to the target database (in the example below, `postgres`) as a superuser.
+Before you can use logical decoding, you must set [wal\_level](../../server-administration/server-configuration/write-ahead-log.md#GUC-WAL-LEVEL) to `logical` and [max\_replication\_slots](../../server-administration/server-configuration/replication.md#GUC-MAX-REPLICATION-SLOTS) to at least 1. Then, you should connect to the target database (in the example below, `postgres`) as a superuser.
 
 ```
 postgres=# -- Create a slot named 'regression_slot' using the output plugin 'test_decoding'
@@ -94,7 +94,7 @@ postgres=# SELECT pg_drop_replication_slot('regression_slot');
 (1 row)
 ```
 
-The following example shows how logical decoding is controlled over the streaming replication protocol, using the program [pg\_recvlogical](https://www.postgresql.org/docs/13/app-pgrecvlogical.html) included in the PostgreSQL distribution. This requires that client authentication is set up to allow replication connections (see [Section 26.2.5.1](https://www.postgresql.org/docs/13/warm-standby.html#STREAMING-REPLICATION-AUTHENTICATION)) and that `max_wal_senders` is set sufficiently high to allow an additional connection.
+The following example shows how logical decoding is controlled over the streaming replication protocol, using the program [pg\_recvlogical](../../reference/client-applications/pg_recvlogical.md) included in the PostgreSQL distribution. This requires that client authentication is set up to allow replication connections (see [Section 26.2.5.1](../../server-administration/high-availability-load-balancing-and-replication/log-shipping-standby-servers.md#STREAMING-REPLICATION-AUTHENTICATION)) and that `max_wal_senders` is set sufficiently high to allow an additional connection.
 
 ```
 $ pg_recvlogical -d postgres --slot=test --create-slot

@@ -58,4 +58,4 @@ The catalog `pg_transform` stores information about transforms, which are a mech
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/catalog-pg-transform.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](pg_transform.md)（英文原文，待翻譯）

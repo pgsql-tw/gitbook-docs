@@ -110,4 +110,4 @@ Examples of cost estimator functions can be found in `src/backend/utils/adt/self
 
 ---
 
-原文：[PostgreSQL 15.19 Documentation](https://www.postgresql.org/docs/15/index-cost-estimation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 15.19 Documentation](index-cost-estimation.md)（英文原文，待翻譯）
