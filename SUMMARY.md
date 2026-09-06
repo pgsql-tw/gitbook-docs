@@ -21,7 +21,7 @@
     * [2.5. Querying a Table #](tutorial/tutorial-sql/tutorial-select.md)
     * [2.6. Joins Between Tables #](tutorial/tutorial-sql/tutorial-join.md)
     * [2.7. Aggregate Functions #](tutorial/tutorial-sql/tutorial-agg.md)
-    * [2.8. Updates #](tutorial/tutorial-sql/tutorial-update.md)
+    * [2.8. 更新](tutorial/tutorial-sql/tutorial-update.md)
     * [2.9. Deletions #](tutorial/tutorial-sql/tutorial-delete.md)
   * [第 3 章 進階功能](tutorial/tutorial-advanced/README.md)
     * [3.1. Introduction #](tutorial/tutorial-advanced/tutorial-advanced-intro.md)

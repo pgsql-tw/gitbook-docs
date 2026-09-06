@@ -1,12 +1,8 @@
-## 2.8. Updates [#](#TUTORIAL-UPDATE)
+## 2.8. 更新 [#](#TUTORIAL-UPDATE)
 
 <a id="id-1.4.4.9.2"></a>
 
-You can update existing rows using the
-`UPDATE` command.
-Suppose you discover the temperature readings are
-all off by 2 degrees after November 28. You can correct the
-data as follows:
+你可以使用 `UPDATE` 命令更新既有資料列。假設你發現 11 月 28 日之後的溫度讀數都偏差了 2 度，可以如下修正資料：
 
 ```
 
@@ -15,7 +11,7 @@ UPDATE weather
     WHERE date > '1994-11-28';
 ```
 
-Look at the new state of the data:
+查看更新後的資料狀態：
 
 ```
 
@@ -31,4 +27,4 @@ SELECT * FROM weather;
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-update.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-update.html)（原文版本：18.6；核對日期：2026-09-07）
