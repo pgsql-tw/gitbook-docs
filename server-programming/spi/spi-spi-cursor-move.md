@@ -2,9 +2,9 @@
 
 ## SPI_cursor_move
 
-SPI_cursor_move — move a cursor
+SPI_cursor_move — 移動游標
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,33 +13,29 @@ void SPI_cursor_move(Portal portal, bool forward, long count)
 
 <a id="id-1.8.12.8.25.5"></a>
 
-## Description
+## 說明
 
-`SPI_cursor_move` skips over some number of rows
-in a cursor. This is equivalent to a subset of the SQL command
-`MOVE` (see `SPI_scroll_cursor_move`
-for more functionality).
+`SPI_cursor_move` 會略過游標中的若干資料列。這相當於 SQL 命令 `MOVE` 的部分功能（更多功能請參閱 `SPI_scroll_cursor_move`）。
 
 <a id="id-1.8.12.8.25.6"></a>
 
-## Arguments
+## 引數
 
 `Portal portal`
-:   portal containing the cursor
+:   包含游標的 portal
 
 `bool forward`
-:   true for move forward, false for move backward
+:   true 表示向前移動，false 表示向後移動
 
 `long count`
-:   maximum number of rows to move
+:   最多移動的資料列數
 
 <a id="id-1.8.12.8.25.7"></a>
 
-## Notes
+## 注意事項
 
-Moving backward may fail if the cursor's plan was not created
-with the `CURSOR_OPT_SCROLL` option.
+若建立游標的計畫時未使用 `CURSOR_OPT_SCROLL` 選項，向後移動可能會失敗。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-move.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-move.html)（原文版本：18.6；核對日期：2026-09-07）
