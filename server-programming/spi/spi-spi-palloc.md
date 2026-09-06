@@ -2,9 +2,9 @@
 
 ## SPI_palloc
 
-SPI_palloc — allocate memory in the upper executor context
+SPI_palloc — 在上層執行器環境配置記憶體
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,27 +13,25 @@ void * SPI_palloc(Size size)
 
 <a id="id-1.8.12.10.6.5"></a>
 
-## Description
+## 說明
 
-`SPI_palloc` allocates memory in the upper
-executor context.
+`SPI_palloc` 在上層執行器環境配置記憶體。
 
-This function can only be used while connected to SPI.
-Otherwise, it throws an error.
+此函式只能在連線至 SPI 時使用，否則會發生錯誤。
 
 <a id="id-1.8.12.10.6.6"></a>
 
-## Arguments
+## 引數
 
 `Size size`
-:   size in bytes of storage to allocate
+:   要配置之儲存空間的位元組大小
 
 <a id="id-1.8.12.10.6.7"></a>
 
-## Return Value
+## 回傳值
 
-pointer to new storage space of the specified size
+指向指定大小的新儲存空間的指標
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-palloc.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-palloc.html)（原文版本：18.6；核對日期：2026-09-06）
