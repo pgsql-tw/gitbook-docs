@@ -2,11 +2,11 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1146 頁。
+待譯頁面：1145 頁。
 
 ## 根目錄
 
-- [ ] `README.md` — PostgreSQL 18.6 Documentation
+- [x] `README.md` — PostgreSQL 18.6 Documentation
 - [ ] `bibliography.md` — Bibliography
 
 ## appendixes

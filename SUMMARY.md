@@ -1,6 +1,6 @@
 # Table of contents
 
-* [PostgreSQL 18.6 Documentation](README.md)
+* [簡介](README.md)
 * [Preface](preface/README.md)
   * [1. What Is PostgreSQL ? #](preface/intro-whatis.md)
   * [2. A Brief History of PostgreSQL #](preface/history.md)
