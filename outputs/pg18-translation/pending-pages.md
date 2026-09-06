@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1033 頁。
+待譯頁面：1032 頁。
 
 ## 根目錄
 
@@ -813,7 +813,7 @@
 - [ ] `server-administration/runtime/README.md` — Chapter 18. Server Setup and Operation
 - [ ] `server-administration/runtime/creating-cluster.md` — 18.2. Creating a Database Cluster #
 - [ ] `server-administration/runtime/encryption-options.md` — 18.8. Encryption Options #
-- [ ] `server-administration/runtime/event-log-registration.md` — 18.12. Registering Event Log on Windows #
+- [x] `server-administration/runtime/event-log-registration.md` — 18.12. 在 Windows 註冊事件日誌
 - [ ] `server-administration/runtime/gssapi-enc.md` — 18.10. Secure TCP/IP Connections with GSSAPI Encryption #
 - [ ] `server-administration/runtime/kernel-resources.md` — 18.4. Managing Kernel Resources #
 - [x] `server-administration/runtime/postgres-user.md` — 18.1. PostgreSQL 使用者帳號

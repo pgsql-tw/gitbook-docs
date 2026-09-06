@@ -193,7 +193,7 @@
     * [18.9. Secure TCP/IP Connections with SSL #](server-administration/runtime/ssl-tcp.md)
     * [18.10. Secure TCP/IP Connections with GSSAPI Encryption #](server-administration/runtime/gssapi-enc.md)
     * [18.11. Secure TCP/IP Connections with SSH Tunnels #](server-administration/runtime/ssh-tunnels.md)
-    * [18.12. Registering Event Log on Windows #](server-administration/runtime/event-log-registration.md)
+    * [18.12. 在 Windows 註冊事件日誌](server-administration/runtime/event-log-registration.md)
   * [Chapter 19. Server Configuration](server-administration/runtime-config/README.md)
     * [19.1. Setting Parameters #](server-administration/runtime-config/config-setting.md)
     * [19.2. File Locations #](server-administration/runtime-config/runtime-config-file-locations.md)
