@@ -15,7 +15,7 @@ const char * SPI_result_code_string(int code);
 
 ## 說明
 
-`SPI_result_code_string` 傳回各種 SPI 函式所傳回或儲存於 `SPI_result` 的結果碼字串表示法。
+`SPI_result_code_string` 會傳回各種 SPI 函式所傳回，或儲存於 `SPI_result` 中的結果碼字串表示形式。
 
 <a id="id-1.8.12.9.12.6"></a>
 
@@ -28,8 +28,8 @@ const char * SPI_result_code_string(int code);
 
 ## 回傳值
 
-結果碼的字串表示法。
+結果碼的字串表示形式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-result-code-string.html)（原文版本：18.6；核對日期：2026-09-06）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-result-code-string.html)（原文版本：18.6；核對日期：2026-09-10）

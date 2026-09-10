@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1006 頁。
+待譯頁面：1005 頁。
 
 ## 根目錄
 
@@ -992,7 +992,7 @@
 - [ ] `server-programming/spi/spi-spi-prepare.md` — SPI_prepare
 - [ ] `server-programming/spi/spi-spi-register-relation.md` — SPI_register_relation
 - [x] `server-programming/spi/spi-spi-register-trigger-data.md` — SPI_register_trigger_data
-- [ ] `server-programming/spi/spi-spi-result-code-string.md` — SPI_result_code_string
+- [x] `server-programming/spi/spi-spi-result-code-string.md` — SPI_result_code_string
 - [ ] `server-programming/spi/spi-spi-returntuple.md` — SPI_returntuple
 - [x] `server-programming/spi/spi-spi-rollback.md` — SPI_rollback
 - [ ] `server-programming/spi/spi-spi-saveplan.md` — SPI_saveplan
