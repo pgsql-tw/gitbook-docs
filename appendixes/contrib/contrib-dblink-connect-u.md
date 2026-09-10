@@ -2,9 +2,9 @@
 
 ## dblink_connect_u
 
-dblink_connect_u — opens a persistent connection to a remote database, insecurely
+dblink_connect_u — 以不安全的方式開啟至遠端資料庫的持續連線
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,32 +14,14 @@ dblink_connect_u(text connname, text connstr) returns text
 
 <a id="id-1.11.7.21.8.5"></a>
 
-## Description
+## 說明
 
-`dblink_connect_u()` is identical to
-`dblink_connect()`, except that it will allow non-superusers
-to connect using any authentication method.
+`dblink_connect_u()` 與 `dblink_connect()` 相同，但它允許非超級使用者使用任何驗證方法連線。
 
-If the remote server selects an authentication method that does not
-involve a password, then impersonation and subsequent escalation of
-privileges can occur, because the session will appear to have
-originated from the user as which the local PostgreSQL
-server runs. Also, even if the remote server does demand a password,
-it is possible for the password to be supplied from the server
-environment, such as a `~/.pgpass` file belonging to the
-server's user. This opens not only a risk of impersonation, but the
-possibility of exposing a password to an untrustworthy remote server.
-Therefore, `dblink_connect_u()` is initially
-installed with all privileges revoked from `PUBLIC`,
-making it un-callable except by superusers. In some situations
-it may be appropriate to grant `EXECUTE` permission for
-`dblink_connect_u()` to specific users who are considered
-trustworthy, but this should be done with care. It is also recommended
-that any `~/.pgpass` file belonging to the server's user
-*not* contain any records specifying a wildcard host name.
+若遠端伺服器選取不涉及密碼的驗證方法，就可能發生身分冒充與後續權限提升，因為工作階段看似源自執行本機 PostgreSQL 伺服器的使用者。即使遠端伺服器要求密碼，也可能從伺服器環境供應密碼，例如屬於伺服器使用者的 `~/.pgpass` 檔案。這不僅有身分冒充風險，也可能將密碼暴露給不可信任的遠端伺服器。因此，`dblink_connect_u()` 初始安裝時會撤銷 `PUBLIC` 的所有權限，讓它除了超級使用者外無法被呼叫。某些情況下，將 `dblink_connect_u()` 的 `EXECUTE` 權限授與被視為可信任的特定使用者可能合適，但應謹慎執行。同時建議伺服器使用者的任何 `~/.pgpass` 檔案*不要*包含指定萬用字元主機名稱的任何記錄。
 
-For further details see `dblink_connect()`.
+進一步詳細資訊請參閱 `dblink_connect()`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-connect-u.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-connect-u.html)
