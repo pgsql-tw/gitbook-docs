@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1004 頁。
+待譯頁面：1003 頁。
 
 ## 根目錄
 
@@ -219,7 +219,7 @@
 - [ ] `client-interfaces/information-schema/infoschema-routine-sequence-usage.md` — 35.43. routine_sequence_usage #
 - [ ] `client-interfaces/information-schema/infoschema-routine-table-usage.md` — 35.44. routine_table_usage #
 - [ ] `client-interfaces/information-schema/infoschema-routines.md` — 35.45. routines #
-- [ ] `client-interfaces/information-schema/infoschema-schema.md` — 35.1. The Schema #
+- [x] `client-interfaces/information-schema/infoschema-schema.md` — 35.1. 資訊結構描述
 - [ ] `client-interfaces/information-schema/infoschema-schemata.md` — 35.46. schemata #
 - [ ] `client-interfaces/information-schema/infoschema-sequences.md` — 35.47. sequences #
 - [ ] `client-interfaces/information-schema/infoschema-sql-features.md` — 35.48. sql_features #
