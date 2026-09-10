@@ -2,9 +2,9 @@
 
 ## dblink_get_result
 
-dblink_get_result — gets an async query result
+dblink_get_result — 取得非同步查詢結果
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,64 +13,50 @@ dblink_get_result(text connname [, bool fail_on_error]) returns setof record
 
 <a id="id-1.11.7.21.20.5"></a>
 
-## Description
+## 說明
 
-`dblink_get_result` collects the results of an
-asynchronous query previously sent with `dblink_send_query`.
-If the query is not already completed, `dblink_get_result`
-will wait until it is.
+`dblink_get_result` 收集先前以 `dblink_send_query` 傳送之非同步查詢的
+結果。若查詢尚未完成，`dblink_get_result` 會等待至其完成。
 
 <a id="id-1.11.7.21.20.6"></a>
 
-## Arguments
+## 引數
 
 *`connname`*
-:   Name of the connection to use.
+:   要使用的連線名稱。
 
 *`fail_on_error`*
-:   If true (the default when omitted) then an error thrown on the
-    remote side of the connection causes an error to also be thrown
-    locally. If false, the remote error is locally reported as a NOTICE,
-    and the function returns no rows.
+:   若為 true（省略時的預設值），連線遠端引發的錯誤也會在本端引發
+    錯誤。若為 false，遠端錯誤會在本端以 NOTICE 回報，且此函式不傳回
+    資料列。
 
 <a id="id-1.11.7.21.20.7"></a>
 
-## Return Value
+## 傳回值
 
-For an async query (that is, an SQL statement returning rows),
-the function returns the row(s) produced by the query. To use this
-function, you will need to specify the expected set of columns,
-as previously discussed for `dblink`.
+對於非同步查詢（亦即傳回資料列的 SQL 陳述式），此函式會傳回查詢產生的
+資料列。使用此函式時，你必須如 `dblink` 先前所述，指定預期的欄位集合。
 
-For an async command (that is, an SQL statement not returning rows),
-the function returns a single row with a single text column containing
-the command's status string. It is still necessary to specify that
-the result will have a single text column in the calling `FROM`
-clause.
+對於非同步命令（亦即不傳回資料列的 SQL 陳述式），此函式傳回單一資料列，
+其中包含一個存有命令狀態字串的 text 欄位。仍須在呼叫的 `FROM` 子句中
+指定結果將有單一 text 欄位。
 
 <a id="id-1.11.7.21.20.8"></a>
 
-## Notes
+## 注意事項
 
-This function *must* be called if
-`dblink_send_query` returned 1.
-It must be called once for each query
-sent, and one additional time to obtain an empty set result,
-before the connection can be used again.
+若 `dblink_send_query` 傳回 1，*必須*呼叫此函式。每個已傳送的查詢都必須
+呼叫一次，並額外呼叫一次以取得空集合結果，之後才可再次使用該連線。
 
-When using `dblink_send_query` and
-`dblink_get_result`, dblink fetches the entire
-remote query result before returning any of it to the local query
-processor. If the query returns a large number of rows, this can result
-in transient memory bloat in the local session. It may be better to open
-such a query as a cursor with `dblink_open` and then fetch a
-manageable number of rows at a time. Alternatively, use plain
-`dblink()`, which avoids memory bloat by spooling large result
-sets to disk.
+使用 `dblink_send_query` 和 `dblink_get_result` 時，dblink 會先擷取完整的
+遠端查詢結果，才將其中任何部分傳回本端查詢處理器。若查詢傳回大量資料列，
+可能導致本端 session 暫時出現記憶體膨脹。較好的作法可能是使用
+`dblink_open` 將此類查詢開啟為游標，之後每次擷取可管理數量的資料列。
+或者可使用一般的 `dblink()`，它會將大型結果集暫存至磁碟，以避免記憶體膨脹。
 
 <a id="id-1.11.7.21.20.9"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -132,4 +118,4 @@ contrib_regression=# SELECT * FROM dblink_get_result('dtest1') AS t1(f1 int, f2 
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-get-result.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-get-result.html)
