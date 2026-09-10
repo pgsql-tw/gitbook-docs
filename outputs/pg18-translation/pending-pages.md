@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：927 頁。
+待譯頁面：926 頁。
 
 ## 根目錄
 
@@ -56,7 +56,7 @@
 - [x] `appendixes/contrib/contrib-dblink-is-busy.md` — dblink_is_busy
 - [x] `appendixes/contrib/contrib-dblink-open.md` — dblink_open
 - [x] `appendixes/contrib/contrib-dblink-send-query.md` — dblink_send_query — 將非同步查詢傳送至遠端資料庫
-- [ ] `appendixes/contrib/contrib-spi.md` — F.41. spi — Server Programming Interface features/examples #
+- [x] `appendixes/contrib/contrib-spi.md` — F.41. spi — Server Programming Interface 功能與範例 #
 - [ ] `appendixes/contrib/cube.md` — F.10. cube — a multi-dimensional cube data type #
 - [ ] `appendixes/contrib/dblink.md` — F.11. dblink — connect to other PostgreSQL databases #
 - [x] `appendixes/contrib/dict-int.md` — F.12. dict_int — example full-text search dictionary for integers #
