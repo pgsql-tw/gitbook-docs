@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：959 頁。
+待譯頁面：958 頁。
 
 ## 根目錄
 
@@ -433,7 +433,7 @@
 - [ ] `internals/views/view-pg-available-extension-versions.md` — 53.4. pg_available_extension_versions #
 - [ ] `internals/views/view-pg-available-extensions.md` — 53.3. pg_available_extensions #
 - [ ] `internals/views/view-pg-backend-memory-contexts.md` — 53.5. pg_backend_memory_contexts #
-- [ ] `internals/views/view-pg-config.md` — 53.6. pg_config #
+- [x] `internals/views/view-pg-config.md` — 53.6. `pg_config`
 - [ ] `internals/views/view-pg-cursors.md` — 53.7. pg_cursors #
 - [ ] `internals/views/view-pg-file-settings.md` — 53.8. pg_file_settings #
 - [x] `internals/views/view-pg-group.md` — 53.9. pg_group #
