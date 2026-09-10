@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：949 頁。
+待譯頁面：948 頁。
 
 ## 根目錄
 
@@ -12,7 +12,7 @@
 ## appendixes
 
 - [x] `appendixes/README.md` — 第八部分：附錄
-- [ ] `appendixes/acronyms/README.md` — Appendix L. Acronyms
+- [x] `appendixes/acronyms/README.md` — 附錄 L：縮寫
 - [x] `appendixes/appendix-obsolete/README.md` — Appendix O. Obsolete or Renamed Features
 - [x] `appendixes/appendix-obsolete/app-pgreceivexlog.md` — O.5. pg_receivexlog renamed to pg_receivewal #
 - [x] `appendixes/appendix-obsolete/app-pgresetxlog.md` — O.4. pg_resetxlog renamed to pg_resetwal #

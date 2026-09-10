@@ -1,316 +1,269 @@
-## Appendix L. Acronyms
+## 附錄 L：縮寫
 
-This is a list of acronyms commonly used in the PostgreSQL
-documentation and in discussions about PostgreSQL.
+這是 PostgreSQL 文件及 PostgreSQL 相關討論中常用縮寫的清單。
 
 AIO
-:   [Asynchronous I/O](../glossary/README.md#GLOSSARY-AIO)
+:   [非同步 I/O](../glossary/README.md#GLOSSARY-AIO)
 
 ACL
-:   [Access Control List](https://en.wikipedia.org/wiki/Access-control_list)
+:   [存取控制清單](https://en.wikipedia.org/wiki/Access-control_list)
 
 AM
-:   [Access Method](../glossary/README.md#GLOSSARY-AM)
+:   [存取方法](../glossary/README.md#GLOSSARY-AM)
 
 ANSI
-:   [American National Standards Institute](https://en.wikipedia.org/wiki/American_National_Standards_Institute)
+:   [美國國家標準協會](https://en.wikipedia.org/wiki/American_National_Standards_Institute)
 
 API
-:   [Application Programming Interface](https://en.wikipedia.org/wiki/API)
+:   [應用程式設計介面](https://en.wikipedia.org/wiki/API)
 
 ASCII
-:   [American Standard
-    Code for Information Interchange](https://en.wikipedia.org/wiki/ASCII)
+:   [美國資訊交換標準碼](https://en.wikipedia.org/wiki/ASCII)
 
 BKI
-:   [Backend Interface](../../internals/bki/README.md)
+:   [後端介面](../../internals/bki/README.md)
 
 CA
-:   [Certificate Authority](https://en.wikipedia.org/wiki/Certificate_authority)
+:   [憑證授權單位](https://en.wikipedia.org/wiki/Certificate_authority)
 
 CIDR
-:   [Classless
-    Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)
+:   [無類別網域間路由](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)
 
 CPAN
-:   [Comprehensive Perl Archive Network](https://www.cpan.org/)
+:   [綜合 Perl 封存網路](https://www.cpan.org/)
 
 CRL
-:   [Certificate
-    Revocation List](https://en.wikipedia.org/wiki/Certificate_revocation_list)
+:   [憑證撤銷清單](https://en.wikipedia.org/wiki/Certificate_revocation_list)
 
 CSV
-:   [Comma
-    Separated Values](https://en.wikipedia.org/wiki/Comma-separated_values)
+:   [逗號分隔值](https://en.wikipedia.org/wiki/Comma-separated_values)
 
 CTE
-:   [Common Table Expression](../../the-sql-language/queries/queries-with.md)
+:   [通用資料表運算式](../../the-sql-language/queries/queries-with.md)
 
 CVE
-:   [Common Vulnerabilities and Exposures](https://cve.mitre.org/)
+:   [通用弱點與揭露](https://cve.mitre.org/)
 
 DBA
-:   [Database
-    Administrator](https://en.wikipedia.org/wiki/Database_administrator)
+:   [資料庫管理員](https://en.wikipedia.org/wiki/Database_administrator)
 
 DBI
-:   [Database Interface (Perl)](https://dbi.perl.org/)
+:   [資料庫介面（Perl）](https://dbi.perl.org/)
 
 DBMS
-:   [Database Management
-    System](https://en.wikipedia.org/wiki/Database#Database_management_system)
+:   [資料庫管理系統](https://en.wikipedia.org/wiki/Database#Database_management_system)
 
 DDL
-:   [Data
-    Definition Language](https://en.wikipedia.org/wiki/Data_definition_language), SQL commands such as `CREATE
-    TABLE`, `ALTER USER`
+:   [資料定義語言](https://en.wikipedia.org/wiki/Data_definition_language)，例如 `CREATE TABLE`、`ALTER USER` 等 SQL 指令
 
 DML
-:   [Data
-    Manipulation Language](https://en.wikipedia.org/wiki/Data_manipulation_language), SQL commands such as `INSERT`,
-    `UPDATE`, `DELETE`
+:   [資料操作語言](https://en.wikipedia.org/wiki/Data_manipulation_language)，例如 `INSERT`、`UPDATE`、`DELETE` 等 SQL 指令
 
 DST
-:   [Daylight
-    Saving Time](https://en.wikipedia.org/wiki/Daylight_saving_time)
+:   [日光節約時間](https://en.wikipedia.org/wiki/Daylight_saving_time)
 
 ECPG
-:   [Embedded C for PostgreSQL](../../client-interfaces/ecpg/README.md)
+:   [PostgreSQL 嵌入式 C](../../client-interfaces/ecpg/README.md)
 
 ESQL
-:   [Embedded
-    SQL](https://en.wikipedia.org/wiki/Embedded_SQL)
+:   [嵌入式 SQL](https://en.wikipedia.org/wiki/Embedded_SQL)
 
 FAQ
-:   [Frequently Asked
-    Questions](https://en.wikipedia.org/wiki/FAQ)
+:   [常見問題](https://en.wikipedia.org/wiki/FAQ)
 
 FSM
-:   [Free Space Map](../../internals/storage/storage-fsm.md)
+:   [可用空間對應表](../../internals/storage/storage-fsm.md)
 
 GEQO
-:   [Genetic Query Optimizer](../../internals/geqo/README.md)
+:   [遺傳式查詢最佳化工具](../../internals/geqo/README.md)
 
 GIN
-:   [Generalized Inverted Index](../../internals/indextypes/gin.md)
+:   [通用反向索引](../../internals/indextypes/gin.md)
 
 GiST
-:   [Generalized Search Tree](../../internals/indextypes/gist.md)
+:   [通用搜尋樹](../../internals/indextypes/gist.md)
 
 Git
 :   [Git](https://en.wikipedia.org/wiki/Git)
 
 GMT
-:   [Greenwich Mean Time](https://en.wikipedia.org/wiki/Greenwich_Mean_Time)
+:   [格林威治平均時間](https://en.wikipedia.org/wiki/Greenwich_Mean_Time)
 
 GSSAPI
-:   [Generic
-    Security Services Application Programming Interface](https://en.wikipedia.org/wiki/Generic_Security_Services_Application_Program_Interface)
+:   [通用安全服務應用程式設計介面](https://en.wikipedia.org/wiki/Generic_Security_Services_Application_Program_Interface)
 
 GUC
-:   [Grand Unified Configuration](../../server-administration/runtime-config/config-setting.md),
-    the PostgreSQL subsystem that handles server configuration
+:   [大一統設定](../../server-administration/runtime-config/config-setting.md)，即處理 PostgreSQL 伺服器設定的子系統
 
 HBA
-:   [Host-Based Authentication](../../server-administration/client-authentication/auth-pg-hba-conf.md)
+:   [以主機為基礎的驗證](../../server-administration/client-authentication/auth-pg-hba-conf.md)
 
 HOT
-:   [Heap-Only Tuples](../../internals/storage/storage-hot.md)
+:   [僅堆積 tuple](../../internals/storage/storage-hot.md)
 
 IEC
-:   [International
-    Electrotechnical Commission](https://en.wikipedia.org/wiki/International_Electrotechnical_Commission)
+:   [國際電工委員會](https://en.wikipedia.org/wiki/International_Electrotechnical_Commission)
 
 IEEE
-:   [Institute of Electrical and
-    Electronics Engineers](https://standards.ieee.org/)
+:   [電氣電子工程師學會](https://standards.ieee.org/)
 
 IPC
-:   [Inter-Process
-    Communication](https://en.wikipedia.org/wiki/Inter-process_communication)
+:   [行程間通訊](https://en.wikipedia.org/wiki/Inter-process_communication)
 
 I/O
-:   [Input/Output](../glossary/README.md#GLOSSARY-IO)
+:   [輸入／輸出](../glossary/README.md#GLOSSARY-IO)
 
 ISO
-:   [International Organization for
-    Standardization](https://www.iso.org/home.html)
+:   [國際標準化組織](https://www.iso.org/home.html)
 
 ISSN
-:   [International Standard
-    Serial Number](https://en.wikipedia.org/wiki/ISSN)
+:   [國際標準期刊號](https://en.wikipedia.org/wiki/ISSN)
 
 JDBC
-:   [Java
-    Database Connectivity](https://en.wikipedia.org/wiki/Java_Database_Connectivity)
+:   [Java 資料庫連線](https://en.wikipedia.org/wiki/Java_Database_Connectivity)
 
 JIT
-:   [Just-in-Time
-    compilation](https://en.wikipedia.org/wiki/Just-in-time_compilation)
+:   [即時編譯](https://en.wikipedia.org/wiki/Just-in-time_compilation)
 
 JSON
-:   [JavaScript Object Notation](https://www.json.org)
+:   [JavaScript 物件表示法](https://www.json.org)
 
 LDAP
-:   [Lightweight
-    Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol)
+:   [輕量目錄存取協定](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol)
 
 LSN
-:   [*[Log Sequence Number](../glossary/README.md#GLOSSARY-LOG-SEQUENCE-NUMBER)*](../glossary/README.md#GLOSSARY-LOG-SEQUENCE-NUMBER)
+:   [*[日誌序號](../glossary/README.md#GLOSSARY-LOG-SEQUENCE-NUMBER)*](../glossary/README.md#GLOSSARY-LOG-SEQUENCE-NUMBER)
 
 MCF
-:   Most Common Frequency, that is the frequency associated with some
-    Most Common Value
+:   最常見頻率，也就是與某個最常見值相關的頻率
 
 MCV
-:   Most Common Value, one of the values appearing most often within a
-    particular table column
+:   最常見值，即某個資料表欄位中出現頻率最高的值之一
 
 MITM
-:   [Man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)
+:   [中間人攻擊](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)
 
 MSVC
-:   [Microsoft
-    Visual C](https://en.wikipedia.org/wiki/Microsoft_Visual_C%2B%2B)
+:   [Microsoft Visual C](https://en.wikipedia.org/wiki/Microsoft_Visual_C%2B%2B)
 
 MVCC
-:   [Multi-Version Concurrency Control](../../the-sql-language/mvcc/README.md)
+:   [多版本並行控制](../../the-sql-language/mvcc/README.md)
 
 NLS
-:   [National
-    Language Support](https://en.wikipedia.org/wiki/Internationalization_and_localization)
+:   [國家語言支援](https://en.wikipedia.org/wiki/Internationalization_and_localization)
 
 ODBC
-:   [Open
-    Database Connectivity](https://en.wikipedia.org/wiki/Open_Database_Connectivity)
+:   [開放式資料庫連線](https://en.wikipedia.org/wiki/Open_Database_Connectivity)
 
 OID
-:   [Object Identifier](../../the-sql-language/datatype/datatype-oid.md)
+:   [物件識別碼](../../the-sql-language/datatype/datatype-oid.md)
 
 OLAP
-:   [Online Analytical
-    Processing](https://en.wikipedia.org/wiki/Online_analytical_processing)
+:   [線上分析處理](https://en.wikipedia.org/wiki/Online_analytical_processing)
 
 OLTP
-:   [Online Transaction
-    Processing](https://en.wikipedia.org/wiki/Online_transaction_processing)
+:   [線上交易處理](https://en.wikipedia.org/wiki/Online_transaction_processing)
 
 ORDBMS
-:   [Object-Relational
-    Database Management System](https://en.wikipedia.org/wiki/Object%E2%80%93relational_database)
+:   [物件關聯式資料庫管理系統](https://en.wikipedia.org/wiki/Object%E2%80%93relational_database)
 
 PAM
-:   [Pluggable
-    Authentication Modules](https://en.wikipedia.org/wiki/Pluggable_authentication_module)
+:   [可插拔驗證模組](https://en.wikipedia.org/wiki/Pluggable_authentication_module)
 
 PGSQL
 :   [PostgreSQL](../../README.md)
 
 PGXS
-:   [PostgreSQL Extension System](../../server-programming/extend/extend-pgxs.md)
+:   [PostgreSQL 擴充功能系統](../../server-programming/extend/extend-pgxs.md)
 
 PID
-:   [Process Identifier](https://en.wikipedia.org/wiki/Process_identifier)
+:   [行程識別碼](https://en.wikipedia.org/wiki/Process_identifier)
 
 PITR
-:   [Point-In-Time
-    Recovery](../../server-administration/backup/continuous-archiving.md) (Continuous Archiving)
+:   [時間點復原](../../server-administration/backup/continuous-archiving.md)（持續封存）
 
 PL
-:   [Procedural Languages (server-side)](../../server-programming/README.md)
+:   [程序語言（伺服器端）](../../server-programming/README.md)
 
 POSIX
-:   [Portable Operating
-    System Interface](https://en.wikipedia.org/wiki/POSIX)
+:   [可攜式作業系統介面](https://en.wikipedia.org/wiki/POSIX)
 
 RDBMS
-:   [Relational
-    Database Management System](https://en.wikipedia.org/wiki/Relational_database#RDBMS)
+:   [關聯式資料庫管理系統](https://en.wikipedia.org/wiki/Relational_database#RDBMS)
 
 RFC
-:   [Request For
-    Comments](https://en.wikipedia.org/wiki/Request_for_Comments)
+:   [徵求意見稿](https://en.wikipedia.org/wiki/Request_for_Comments)
 
 SGML
-:   [Standard Generalized
-    Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language)
+:   [標準通用標記語言](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language)
 
 SNI
-:   [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication),
+:   [伺服器名稱指示](https://en.wikipedia.org/wiki/Server_Name_Indication)，
     [RFC 6066](https://datatracker.ietf.org/doc/html/rfc6066#section-3)
 
 SPI
-:   [Server Programming Interface](../../server-programming/spi/README.md)
+:   [伺服器程式設計介面](../../server-programming/spi/README.md)
 
 SP-GiST
-:   [Space-Partitioned Generalized Search Tree](../../internals/indextypes/spgist.md)
+:   [空間分割通用搜尋樹](../../internals/indextypes/spgist.md)
 
 SQL
-:   [Structured Query Language](https://en.wikipedia.org/wiki/SQL)
+:   [結構化查詢語言](https://en.wikipedia.org/wiki/SQL)
 
 SRF
-:   [Set-Returning Function](../../server-programming/extend/xfunc-c.md#XFUNC-C-RETURN-SET)
+:   [傳回集合的函式](../../server-programming/extend/xfunc-c.md#XFUNC-C-RETURN-SET)
 
 SSH
-:   [Secure
-    Shell](https://en.wikipedia.org/wiki/Secure_Shell)
+:   [安全 Shell](https://en.wikipedia.org/wiki/Secure_Shell)
 
 SSL
-:   [Secure Sockets Layer](https://en.wikipedia.org/wiki/Transport_Layer_Security#SSL_1.0,_2.0,_and_3.0)
+:   [安全通訊端層](https://en.wikipedia.org/wiki/Transport_Layer_Security#SSL_1.0,_2.0,_and_3.0)
 
 SSPI
-:   [Security
-    Support Provider Interface](https://msdn.microsoft.com/en-us/library/aa380493%28VS.85%29.aspx)
+:   [安全性支援提供者介面](https://msdn.microsoft.com/en-us/library/aa380493%28VS.85%29.aspx)
 
 SYSV
 :   [Unix System V](https://en.wikipedia.org/wiki/UNIX_System_V)
 
 TCP/IP
-:   [Transmission
-    Control Protocol (TCP) / Internet Protocol (IP)](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)
+:   [傳輸控制協定（TCP）／網際網路協定（IP）](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)
 
 TID
-:   [Tuple Identifier](../../the-sql-language/datatype/datatype-oid.md)
+:   [tuple 識別碼](../../the-sql-language/datatype/datatype-oid.md)
 
 TLS
-:   [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security)
+:   [傳輸層安全性](https://en.wikipedia.org/wiki/Transport_Layer_Security)
 
 TOAST
-:   [The Oversized-Attribute Storage Technique](../../internals/storage/storage-toast.md)
+:   [大型屬性儲存技術](../../internals/storage/storage-toast.md)
 
 TPC
-:   [Transaction Processing
-    Performance Council](http://www.tpc.org/)
+:   [交易處理效能委員會](http://www.tpc.org/)
 
 URL
-:   [Uniform Resource
-    Locator](https://en.wikipedia.org/wiki/URL)
+:   [統一資源定位器](https://en.wikipedia.org/wiki/URL)
 
 UTC
-:   [Coordinated
-    Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)
+:   [協調世界時](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)
 
 UTF
-:   [Unicode Transformation
-    Format](https://www.unicode.org/)
+:   [Unicode 轉換格式](https://www.unicode.org/)
 
 UTF8
-:   [Eight-Bit Unicode
-    Transformation Format](https://en.wikipedia.org/wiki/UTF-8)
+:   [八位元 Unicode 轉換格式](https://en.wikipedia.org/wiki/UTF-8)
 
 UUID
-:   [Universally Unique Identifier](../../the-sql-language/datatype/datatype-uuid.md)
+:   [通用唯一識別碼](../../the-sql-language/datatype/datatype-uuid.md)
 
 WAL
-:   [Write-Ahead Log](../../server-administration/wal/README.md)
+:   [預寫式日誌](../../server-administration/wal/README.md)
 
 XID
-:   [Transaction Identifier](../../the-sql-language/datatype/datatype-oid.md)
+:   [交易識別碼](../../the-sql-language/datatype/datatype-oid.md)
 
 XML
-:   [Extensible Markup
-    Language](https://en.wikipedia.org/wiki/XML)
+:   [可延伸標記語言](https://en.wikipedia.org/wiki/XML)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/acronyms.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/acronyms.html)
