@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：998 頁。
+待譯頁面：997 頁。
 
 ## 根目錄
 
@@ -155,7 +155,7 @@
 - [ ] `client-interfaces/ecpg/ecpg-pgtypes.md` — 34.6. pgtypes Library #
 - [ ] `client-interfaces/ecpg/ecpg-preproc.md` — 34.9. Preprocessor Directives #
 - [ ] `client-interfaces/ecpg/ecpg-process.md` — 34.10. Processing Embedded SQL Programs #
-- [ ] `client-interfaces/ecpg/ecpg-sql-allocate-descriptor.md` — ALLOCATE DESCRIPTOR
+- [x] `client-interfaces/ecpg/ecpg-sql-allocate-descriptor.md` — ALLOCATE DESCRIPTOR — 配置 SQL 描述區
 - [ ] `client-interfaces/ecpg/ecpg-sql-commands.md` — 34.14. Embedded SQL Commands #
 - [ ] `client-interfaces/ecpg/ecpg-sql-connect.md` — CONNECT
 - [x] `client-interfaces/ecpg/ecpg-sql-deallocate-descriptor.md` — DEALLOCATE DESCRIPTOR — 釋放 SQL 描述區

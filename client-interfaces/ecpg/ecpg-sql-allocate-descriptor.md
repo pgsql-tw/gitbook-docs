@@ -13,7 +13,7 @@ ALLOCATE DESCRIPTOR name
 
 ## 說明
 
-`ALLOCATE DESCRIPTOR` 配置新的具名 SQL 描述區，可用於 PostgreSQL 伺服器與主機程式之間交換資料。
+`ALLOCATE DESCRIPTOR` 會配置新的具名 SQL 描述區，用於 PostgreSQL 伺服器與主機程式之間交換資料。
 
 使用完畢後，應使用 `DEALLOCATE DESCRIPTOR` 命令釋放描述區。
 
@@ -49,4 +49,4 @@ SQL 標準規定了 `ALLOCATE DESCRIPTOR`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-allocate-descriptor.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-allocate-descriptor.html)（原文版本：18.6；核對日期：2026-09-10）
