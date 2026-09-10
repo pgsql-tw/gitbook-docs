@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：994 頁。
+待譯頁面：993 頁。
 
 ## 根目錄
 
@@ -97,7 +97,7 @@
 - [ ] `appendixes/contrib/unaccent.md` — F.48. unaccent — a text search dictionary which removes diacritics #
 - [ ] `appendixes/contrib/uuid-ossp.md` — F.49. uuid-ossp — a UUID generator #
 - [ ] `appendixes/contrib/xml2.md` — F.50. xml2 — XPath querying and XSLT functionality #
-- [ ] `appendixes/datetime-appendix/README.md` — Appendix B. Date/Time Support
+- [x] `appendixes/datetime-appendix/README.md` — 附錄 B. 日期／時間支援
 - [ ] `appendixes/datetime-appendix/datetime-config-files.md` — B.4. Date/Time Configuration Files #
 - [ ] `appendixes/datetime-appendix/datetime-input-rules.md` — B.1. Date/Time Input Interpretation #
 - [ ] `appendixes/datetime-appendix/datetime-invalid-input.md` — B.2. Handling of Invalid or Ambiguous Timestamps #
