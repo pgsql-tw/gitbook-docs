@@ -557,7 +557,7 @@
       * [SPI_scroll_cursor_fetch](server-programming/spi/spi-spi-scroll-cursor-fetch.md)
       * [SPI_scroll_cursor_move](server-programming/spi/spi-spi-scroll-cursor-move.md)
       * [SPI_unregister_relation](server-programming/spi/spi-spi-unregister-relation.md)
-    * [45.2. Interface Support Functions #](server-programming/spi/spi-interface-support.md)
+    * [45.2. 介面支援函式](server-programming/spi/spi-interface-support.md)
       * [SPI_fname](server-programming/spi/spi-spi-fname.md)
       * [SPI_fnumber](server-programming/spi/spi-spi-fnumber.md)
       * [SPI_getbinval](server-programming/spi/spi-spi-getbinval.md)
