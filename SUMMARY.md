@@ -126,7 +126,7 @@
     * [10.3. Functions #](the-sql-language/typeconv/typeconv-func.md)
     * [10.4. Value Storage #](the-sql-language/typeconv/typeconv-query.md)
     * [10.5. UNION , CASE , and Related Constructs #](the-sql-language/typeconv/typeconv-union-case.md)
-    * [10.6. SELECT Output Columns #](the-sql-language/typeconv/typeconv-select.md)
+    * [10.6. SELECT 輸出欄位](the-sql-language/typeconv/typeconv-select.md)
   * [Chapter 11. Indexes](the-sql-language/indexes/README.md)
     * [11.1. Introduction #](the-sql-language/indexes/indexes-intro.md)
     * [11.2. Index Types #](the-sql-language/indexes/indexes-types.md)

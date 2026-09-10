@@ -1,38 +1,24 @@
-## 10.6. `SELECT` Output Columns [#](#TYPECONV-SELECT)
+## 10.6. `SELECT` 輸出欄位 [#](#TYPECONV-SELECT)
 
 <a id="id-1.5.9.11.2"></a>
 
-The rules given in the preceding sections will result in assignment
-of non-`unknown` data types to all expressions in an SQL query,
-except for unspecified-type literals that appear as simple output
-columns of a `SELECT` command. For example, in
+前幾節所述的規則會為 SQL 查詢中的所有運算式指派非 `unknown` 資料型別，但不包括以 `SELECT` 命令簡單輸出欄位出現的未指定型別字面值。例如，在
 
 ```
 
 SELECT 'Hello World';
 ```
 
-there is nothing to identify what type the string literal should be
-taken as. In this situation PostgreSQL will fall back
-to resolving the literal's type as `text`.
+沒有資訊可判定字串字面值應採用何種型別。在此情況下，PostgreSQL 會將字面值的型別解析為 `text`。
 
-When the `SELECT` is one arm of a `UNION`
-(or `INTERSECT` or `EXCEPT`) construct, or when it
-appears within `INSERT ... SELECT`, this rule is not applied
-since rules given in preceding sections take precedence. The type of an
-unspecified-type literal can be taken from the other `UNION` arm
-in the first case, or from the destination column in the second case.
+當 `SELECT` 是 `UNION`（或 `INTERSECT` 或 `EXCEPT`）結構的一個分支，或出現在 `INSERT ... SELECT` 內時，這項規則不適用，因為前幾節的規則具有優先權。第一種情況下，未指定型別字面值可從另一個 `UNION` 分支取得型別；第二種情況則從目標欄位取得型別。
 
-`RETURNING` lists are treated the same as `SELECT`
-output lists for this purpose.
+在此目的下，`RETURNING` 清單與 `SELECT` 輸出清單採相同處理方式。
 
-### Note
+### 注意
 
-Prior to PostgreSQL 10, this rule did not exist, and
-unspecified-type literals in a `SELECT` output list were
-left as type `unknown`. That had assorted bad consequences,
-so it's been changed.
+在 PostgreSQL 10 之前，這項規則不存在，`SELECT` 輸出清單中的未指定型別字面值會保留為 `unknown` 型別。這會造成各種不良後果，因此已變更此行為。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/typeconv-select.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/typeconv-select.html)（原文版本：18.6；核對日期：2026-09-10）
