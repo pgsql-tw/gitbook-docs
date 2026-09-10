@@ -444,7 +444,7 @@
     * [36.6. Function Overloading #](server-programming/extend/xfunc-overload.md)
     * [36.7. Function Volatility Categories #](server-programming/extend/xfunc-volatility.md)
     * [36.8. 程序語言函式](server-programming/extend/xfunc-pl.md)
-    * [36.9. Internal Functions #](server-programming/extend/xfunc-internal.md)
+    * [36.9. 內部函式](server-programming/extend/xfunc-internal.md)
     * [36.10. C-Language Functions #](server-programming/extend/xfunc-c.md)
     * [36.11. Function Optimization Information #](server-programming/extend/xfunc-optimization.md)
     * [36.12. User-Defined Aggregates #](server-programming/extend/xaggr.md)
