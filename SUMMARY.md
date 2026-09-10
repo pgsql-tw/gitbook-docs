@@ -630,7 +630,7 @@
     * [initdb](reference/reference-server/app-initdb.md)
     * [pg_ctl](reference/reference-server/app-pg-ctl.md)
     * [pg_checksums](reference/reference-server/app-pgchecksums.md)
-    * [pg_controldata](reference/reference-server/app-pgcontroldata.md)
+    * [pg_controldata — 顯示 PostgreSQL 資料庫叢集的控制資訊](reference/reference-server/app-pgcontroldata.md)
     * [pg_createsubscriber](reference/reference-server/app-pgcreatesubscriber.md)
     * [pg_resetwal](reference/reference-server/app-pgresetwal.md)
     * [pg_rewind](reference/reference-server/app-pgrewind.md)
