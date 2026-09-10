@@ -1,31 +1,15 @@
-## 66.3. Free Space Map [#](#STORAGE-FSM)
+## 66.3. 可用空間對應表 [#](#STORAGE-FSM)
 
 <a id="id-1.10.18.5.2"></a><a id="id-1.10.18.5.3"></a>
 
-Each heap and index relation, except for hash indexes, has a Free Space Map
-(FSM) to keep track of available space in the relation.
-It's stored alongside the main relation data in a separate relation fork,
-named after the filenode number of the relation, plus a `_fsm`
-suffix. For example, if the filenode of a relation is 12345, the
-FSM is stored in a file called
-`12345_fsm`, in the same directory as the main relation file.
+除雜湊索引外，每個堆積與索引關聯都有可用空間對應表（FSM），用來追蹤關聯中的可用空間。它會與主要關聯資料一同儲存在獨立關聯 fork 中，名稱為關聯的 filenode 編號加上 `_fsm` 後綴。例如，關聯 filenode 為 12345 時，FSM 儲存在與主要關聯檔案相同目錄的 `12345_fsm` 檔案。
 
-The Free Space Map is organized as a tree of FSM pages. The
-bottom level FSM pages store the free space available on each
-heap (or index) page, using one byte to represent each such page. The upper
-levels aggregate information from the lower levels.
+可用空間對應表組織為 FSM 頁面的樹。最底層 FSM 頁面會儲存每個堆積（或索引）頁面可用的空間，每個頁面以一個位元組表示；上層則彙總下層資訊。
 
-Within each FSM page is a binary tree, stored in an array with
-one byte per node. Each leaf node represents a heap page, or a lower level
-FSM page. In each non-leaf node, the higher of its children's
-values is stored. The maximum value in the leaf nodes is therefore stored
-at the root.
+每個 FSM 頁面內有一個二元樹，以陣列儲存且每個節點一個位元組。每個葉節點代表堆積頁面或下層 FSM 頁面；非葉節點儲存其子節點較高的值，因此根節點會儲存葉節點中的最大值。
 
-See `src/backend/storage/freespace/README` for more details on
-how the FSM is structured, and how it's updated and searched.
-The [pg_freespacemap](../../appendixes/contrib/pgfreespacemap.md) module
-can be used to examine the information stored in free space maps.
+FSM 的結構、更新與搜尋細節請參閱 `src/backend/storage/freespace/README`。可使用 [pg_freespacemap](../../appendixes/contrib/pgfreespacemap.md) 模組檢查可用空間對應表中的資訊。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/storage-fsm.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/storage-fsm.html)（原文版本：18.6；核對日期：2026-09-11）
