@@ -2,10 +2,9 @@
 
 ## SPI_freetuptable
 
-SPI_freetuptable — free a row set created by `SPI_execute` or a similar
-function
+SPI_freetuptable — 釋放由 `SPI_execute` 或類似函式建立的資料列集
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,34 +13,21 @@ void SPI_freetuptable(SPITupleTable * tuptable)
 
 <a id="id-1.8.12.10.13.5"></a>
 
-## Description
+## 說明
 
-`SPI_freetuptable` frees a row set created by a
-prior SPI command execution function, such as
-`SPI_execute`. Therefore, this function is often called
-with the global variable `SPI_tuptable` as
-argument.
+`SPI_freetuptable` 會釋放先前由 `SPI_execute` 等 SPI 命令執行函式建立的資料列集。因此，此函式常以全域變數 `SPI_tuptable` 作為引數呼叫。
 
-This function is useful if an SPI-using C function needs to execute
-multiple commands and does not want to keep the results of earlier
-commands around until it ends. Note that any unfreed row sets will
-be freed anyway at `SPI_finish`.
-Also, if a subtransaction is started and then aborted within execution
-of an SPI-using C function, SPI automatically frees any row sets created while
-the subtransaction was running.
+若使用 SPI 的 C 函式需要執行多個命令，且不想保留先前命令的結果直到結束，此函式便很有用。任何未釋放的資料列集都會在 `SPI_finish` 時釋放。此外，若使用 SPI 的 C 函式執行期間啟動後又中止子交易，SPI 會自動釋放子交易執行時建立的資料列集。
 
-Beginning in PostgreSQL 9.3,
-`SPI_freetuptable` contains guard logic to protect
-against duplicate deletion requests for the same row set. In previous
-releases, duplicate deletions would lead to crashes.
+自 PostgreSQL 9.3 起，`SPI_freetuptable` 包含保護邏輯，以防對相同資料列集重複要求刪除。較舊版本中，重複刪除會導致當機。
 
 <a id="id-1.8.12.10.13.6"></a>
 
-## Arguments
+## 引數
 
 `SPITupleTable * tuptable`
-:   pointer to row set to free, or NULL to do nothing
+:   指向要釋放資料列集的指標；為 NULL 時不執行任何動作。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-freetupletable.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-freetupletable.html)（原文版本：18.6；核對日期：2026-09-10）
