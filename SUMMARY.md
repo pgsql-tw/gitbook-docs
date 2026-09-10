@@ -747,7 +747,7 @@
     * [DROP AGGREGATE](reference/sql-commands/sql-dropaggregate.md)
     * [DROP CAST — 移除型別轉換](reference/sql-commands/sql-dropcast.md)
     * [DROP COLLATION](reference/sql-commands/sql-dropcollation.md)
-    * [DROP CONVERSION](reference/sql-commands/sql-dropconversion.md)
+    * [DROP CONVERSION — 移除轉換](reference/sql-commands/sql-dropconversion.md)
     * [DROP DATABASE](reference/sql-commands/sql-dropdatabase.md)
     * [DROP DOMAIN — 移除 domain](reference/sql-commands/sql-dropdomain.md)
     * [DROP EVENT TRIGGER](reference/sql-commands/sql-dropeventtrigger.md)

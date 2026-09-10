@@ -2,9 +2,9 @@
 
 ## DROP CONVERSION
 
-DROP CONVERSION — remove a conversion
+DROP CONVERSION — 移除轉換
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,32 +13,28 @@ DROP CONVERSION [ IF EXISTS ] name [ CASCADE | RESTRICT ]
 
 <a id="SQL-DROPCONVERSION-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-`DROP CONVERSION` removes a previously defined conversion.
-To be able to drop a conversion, you must own the conversion.
+`DROP CONVERSION` 會移除先前定義的轉換。若要移除轉換，你必須擁有該轉換。
 
 <a id="id-1.9.3.107.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the conversion does not exist.
-    A notice is issued in this case.
+:   轉換不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name of the conversion. The conversion name can be
-    schema-qualified.
+:   轉換名稱。轉換名稱可使用 schema 限定。
 
 `CASCADE`<br>`RESTRICT`
-:   These key words do not have any effect, since there are no
-    dependencies on conversions.
+:   這些關鍵字沒有作用，因為轉換沒有相依性。
 
 <a id="SQL-DROPCONVERSION-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-To drop the conversion named `myname`:
+若要移除名為 `myname` 的轉換：
 
 ```
 
@@ -47,20 +43,16 @@ DROP CONVERSION myname;
 
 <a id="SQL-DROPCONVERSION-COMPAT"></a>
 
-## Compatibility
+## 相容性
 
-There is no `DROP CONVERSION` statement in the SQL
-standard, but a `DROP TRANSLATION` statement that
-goes along with the `CREATE TRANSLATION` statement
-that is similar to the `CREATE CONVERSION`
-statement in PostgreSQL.
+SQL 標準中沒有 `DROP CONVERSION` 陳述式，但有與 `CREATE TRANSLATION` 陳述式搭配的 `DROP TRANSLATION` 陳述式；它類似 PostgreSQL 的 `CREATE CONVERSION` 陳述式。
 
 <a id="id-1.9.3.107.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER CONVERSION](sql-alterconversion.md), [CREATE CONVERSION](sql-createconversion.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropconversion.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropconversion.html)（原文版本：18.6；核對日期：2026-09-11）
