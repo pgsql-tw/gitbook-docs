@@ -577,7 +577,7 @@
       * [SPI_palloc](server-programming/spi/spi-spi-palloc.md)
       * [SPI_pfree](server-programming/spi/spi-spi-pfree.md)
       * [SPI_returntuple](server-programming/spi/spi-spi-returntuple.md)
-    * [45.4. Transaction Management #](server-programming/spi/spi-transaction.md)
+    * [45.4. 交易管理](server-programming/spi/spi-transaction.md)
       * [SPI_commit](server-programming/spi/spi-spi-commit.md)
       * [SPI_rollback](server-programming/spi/spi-spi-rollback.md)
       * [SPI_start_transaction](server-programming/spi/spi-spi-start-transaction.md)
