@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：948 頁。
+待譯頁面：947 頁。
 
 ## 根目錄
 
@@ -25,7 +25,7 @@
 - [x] `appendixes/contrib-prog/README.md` — 附錄 G. 額外提供的程式
 - [x] `appendixes/contrib-prog/contrib-prog-client.md` — G.1. 用戶端應用程式
 - [x] `appendixes/contrib-prog/contrib-prog-server.md` — G.2. 伺服器應用程式
-- [ ] `appendixes/contrib-prog/oid2name.md` — oid2name
+- [x] `appendixes/contrib-prog/oid2name.md` — oid2name
 - [ ] `appendixes/contrib-prog/vacuumlo.md` — vacuumlo
 - [ ] `appendixes/contrib/README.md` — Appendix F. Additional Supplied Modules and Extensions
 - [ ] `appendixes/contrib/amcheck.md` — F.1. amcheck — tools to verify table and index consistency #

@@ -2,9 +2,9 @@
 
 ## oid2name
 
-oid2name — resolve OIDs and file nodes in a PostgreSQL data directory
+oid2name — 解析 PostgreSQL 資料目錄中的 OID 與檔案節點
 
-## Synopsis
+## 語法
 
 <a id="id-1.11.8.4.3.4.1"></a>
 
@@ -12,132 +12,95 @@ oid2name — resolve OIDs and file nodes in a PostgreSQL data directory
 
 <a id="id-1.11.8.4.3.5"></a>
 
-## Description
+## 說明
 
-oid2name is a utility program that helps administrators to
-examine the file structure used by PostgreSQL. To make use of it, you need
-to be familiar with the database file structure, which is described in
-[Chapter 66](../../internals/storage/README.md).
+oid2name 是協助管理員檢查 PostgreSQL 所使用檔案結構的工具程式。若要使用它，必須熟悉[第 66 章](../../internals/storage/README.md)所述的資料庫檔案結構。
 
-### Note
+### 注意
 
-The name “oid2name” is historical, and is actually rather
-misleading, since most of the time when you use it, you will really
-be concerned with tables' filenode numbers (which are the file names
-visible in the database directories). Be sure you understand the
-difference between table OIDs and table filenodes!
+「oid2name」這個名稱源自歷史，實際上相當容易誤導；因為多數使用情況真正關注的是資料表的檔案節點編號（亦即資料庫目錄中可見的檔名）。請務必瞭解資料表 OID 與資料表檔案節點之間的差異！
 
-oid2name connects to a target database and
-extracts OID, filenode, and/or table name information. You can also have
-it show database OIDs or tablespace OIDs.
+oid2name 會連線至目標資料庫並擷取 OID、檔案節點及／或資料表名稱資訊。它也可顯示資料庫 OID 或資料表空間 OID。
 
 <a id="id-1.11.8.4.3.6"></a>
 
-## Options
+## 選項
 
-oid2name accepts the following command-line arguments:
+oid2name 接受下列命令列引數：
 
 `-f filenode`<br>`--filenode=filenode`
-:   show info for table with filenode *`filenode`*.
+:   顯示檔案節點為 *`filenode`* 的資料表資訊。
 
 `-i`<br>`--indexes`
-:   include indexes and sequences in the listing.
+:   在清單中包括索引與序列。
 
 `-o oid`<br>`--oid=oid`
-:   show info for table with OID *`oid`*.
+:   顯示 OID 為 *`oid`* 的資料表資訊。
 
 `-q`<br>`--quiet`
-:   omit headers (useful for scripting).
+:   省略標頭（適合用於指令碼）。
 
 `-s`<br>`--tablespaces`
-:   show tablespace OIDs.
+:   顯示資料表空間 OID。
 
 `-S`<br>`--system-objects`
-:   include system objects (those in
-    `information_schema`, `pg_toast`
-    and `pg_catalog` schemas).
+:   包括系統物件（位於 `information_schema`、`pg_toast` 與 `pg_catalog` schema 中的物件）。
 
 `-t tablename_pattern`<br>`--table=tablename_pattern`
-:   show info for table(s) matching *`tablename_pattern`*.
+:   顯示符合 *`tablename_pattern`* 的資料表資訊。
 
 `-V`<br>`--version`
-:   Print the oid2name version and exit.
+:   顯示 oid2name 版本後結束。
 
 `-x`<br>`--extended`
-:   display more information about each object shown: tablespace name,
-    schema name, and OID.
+:   顯示每個列出物件的更多資訊：資料表空間名稱、schema 名稱與 OID。
 
 `-?`<br>`--help`
-:   Show help about oid2name command line
-    arguments, and exit.
+:   顯示 oid2name 命令列引數的說明後結束。
 
-oid2name also accepts the following command-line
-arguments for connection parameters:
+oid2name 也接受下列連線參數的命令列引數：
 
 `-d database`<br>`--dbname=database`
-:   database to connect to.
+:   要連線的資料庫。
 
 `-h host`<br>`--host=host`
-:   database server's host.
+:   資料庫伺服器主機。
 
 `-H host`
-:   database server's host. Use of this parameter is
-    *deprecated* as of
-    PostgreSQL 12.
+:   資料庫伺服器主機。此參數自 PostgreSQL 12 起已*淘汰*。
 
 `-p port`<br>`--port=port`
-:   database server's port.
+:   資料庫伺服器連接埠。
 
 `-U username`<br>`--username=username`
-:   user name to connect as.
+:   用於連線的使用者名稱。
 
-To display specific tables, select which tables to show by
-using `-o`, `-f` and/or `-t`.
-`-o` takes an OID,
-`-f` takes a filenode,
-and `-t` takes a table name (actually, it's a `LIKE`
-pattern, so you can use things like `foo%`).
-You can use as many
-of these options as you like, and the listing will include all objects
-matched by any of the options. But note that these options can only
-show objects in the database given by `-d`.
+若要顯示特定資料表，請用 `-o`、`-f` 及／或 `-t` 選取要顯示的資料表。`-o` 接受 OID，`-f` 接受檔案節點，`-t` 接受資料表名稱（實際上是 `LIKE` 模式，因此可使用 `foo%` 等模式）。這些選項可任意重複使用，清單會包括符合任何選項的所有物件。不過請注意，這些選項只能顯示由 `-d` 指定之資料庫中的物件。
 
-If you don't give any of `-o`, `-f` or `-t`,
-but do give `-d`, it will list all tables in the database
-named by `-d`. In this mode, the `-S` and
-`-i` options control what gets listed.
+如果未指定 `-o`、`-f` 或 `-t`，但指定了 `-d`，它會列出 `-d` 所指定資料庫中的所有資料表。在此模式中，`-S` 與 `-i` 選項控制要列出的內容。
 
-If you don't give `-d` either, it will show a listing of database
-OIDs. Alternatively you can give `-s` to get a tablespace
-listing.
+如果也未指定 `-d`，它會顯示資料庫 OID 清單。或者可指定 `-s` 以取得資料表空間清單。
 
 <a id="id-1.11.8.4.3.7"></a>
 
-## Environment
+## 環境
 
 `PGHOST`<br>`PGPORT`<br>`PGUSER`
-:   Default connection parameters.
+:   預設連線參數。
 
-This utility, like most other PostgreSQL
-utilities, also uses the environment variables supported by
-libpq (see [Section 32.15](../../client-interfaces/libpq/libpq-envars.md)).
+此工具與大多數其他 PostgreSQL 工具一樣，也會使用 libpq 支援的環境變數（請參閱[第 32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。
 
-The environment variable `PG_COLOR` specifies whether to use
-color in diagnostic messages. Possible values are
-`always`, `auto` and
-`never`.
+環境變數 `PG_COLOR` 指定是否在診斷訊息中使用色彩。可用值為 `always`、`auto` 與 `never`。
 
 <a id="id-1.11.8.4.3.8"></a>
 
-## Notes
+## 注意事項
 
-oid2name requires a running database server with
-non-corrupt system catalogs. It is therefore of only limited use
-for recovering from catastrophic database corruption situations.
+oid2name 需要正在執行且系統目錄未毀損的資料庫伺服器。因此，對於從災難性資料庫毀損情況中復原，它的用途有限。
 
 <a id="id-1.11.8.4.3.9"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -261,10 +224,10 @@ From database "alvherre":
 
 <a id="id-1.11.8.4.3.10"></a>
 
-## Author
+## 作者
 
 B. Palmer `<bpalmer@crimelabs.net>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/oid2name.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/oid2name.html)
