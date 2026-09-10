@@ -2,9 +2,9 @@
 
 ## DROP RULE
 
-DROP RULE — remove a rewrite rule
+DROP RULE — 移除重寫規則
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,39 +13,34 @@ DROP RULE [ IF EXISTS ] name ON table_name [ CASCADE | RESTRICT ]
 
 <a id="id-1.9.3.128.5"></a>
 
-## Description
+## 說明
 
-`DROP RULE` drops a rewrite rule.
+`DROP RULE` 會移除重寫規則。
 
 <a id="id-1.9.3.128.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the rule does not exist. A notice is issued
-    in this case.
+:   規則不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name of the rule to drop.
+:   要移除的規則名稱。
 
 *`table_name`*
-:   The name (optionally schema-qualified) of the table or view that
-    the rule applies to.
+:   套用該規則的資料表或檢視表名稱（可選擇以 schema 限定）。
 
 `CASCADE`
-:   Automatically drop objects that depend on the rule,
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於該規則的物件，以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the rule if any objects depend on it. This is
-    the default.
+:   若有物件相依於規則則拒絕移除。這是預設行為。
 
 <a id="id-1.9.3.128.7"></a>
 
-## Examples
+## 範例
 
-To drop the rewrite rule `newrule`:
+若要移除重寫規則 `newrule`：
 
 ```
 
@@ -54,18 +49,16 @@ DROP RULE newrule ON mytable;
 
 <a id="id-1.9.3.128.8"></a>
 
-## Compatibility
+## 相容性
 
-`DROP RULE` is a
-PostgreSQL language extension, as is the
-entire query rewrite system.
+`DROP RULE` 是 PostgreSQL 語言擴充功能，如同整個查詢重寫系統。
 
 <a id="id-1.9.3.128.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE RULE](sql-createrule.md), [ALTER RULE](sql-alterrule.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droprule.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droprule.html)（原文版本：18.6；核對日期：2026-09-10）
