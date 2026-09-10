@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：993 頁。
+待譯頁面：992 頁。
 
 ## 根目錄
 
@@ -559,7 +559,7 @@
 - [ ] `reference/sql-commands/sql-altertsconfig.md` — ALTER TEXT SEARCH CONFIGURATION
 - [ ] `reference/sql-commands/sql-altertsdictionary.md` — ALTER TEXT SEARCH DICTIONARY
 - [x] `reference/sql-commands/sql-altertsparser.md` — ALTER TEXT SEARCH PARSER
-- [ ] `reference/sql-commands/sql-altertstemplate.md` — ALTER TEXT SEARCH TEMPLATE
+- [x] `reference/sql-commands/sql-altertstemplate.md` — ALTER TEXT SEARCH TEMPLATE — 變更文本搜尋模板的定義
 - [ ] `reference/sql-commands/sql-altertype.md` — ALTER TYPE
 - [ ] `reference/sql-commands/sql-alteruser.md` — ALTER USER
 - [ ] `reference/sql-commands/sql-alterusermapping.md` — ALTER USER MAPPING

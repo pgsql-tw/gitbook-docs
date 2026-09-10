@@ -680,7 +680,7 @@
     * [ALTER TEXT SEARCH CONFIGURATION](reference/sql-commands/sql-altertsconfig.md)
     * [ALTER TEXT SEARCH DICTIONARY](reference/sql-commands/sql-altertsdictionary.md)
     * [ALTER TEXT SEARCH PARSER](reference/sql-commands/sql-altertsparser.md)
-    * [ALTER TEXT SEARCH TEMPLATE](reference/sql-commands/sql-altertstemplate.md)
+      * [ALTER TEXT SEARCH TEMPLATE — 變更文本搜尋模板的定義](reference/sql-commands/sql-altertstemplate.md)
     * [ALTER TYPE](reference/sql-commands/sql-altertype.md)
     * [ALTER USER](reference/sql-commands/sql-alteruser.md)
     * [ALTER USER MAPPING](reference/sql-commands/sql-alterusermapping.md)
