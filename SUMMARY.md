@@ -1054,7 +1054,7 @@
     * [F.7. btree_gin — 具有 B-tree 行為的 GIN 運算子類別](appendixes/contrib/btree-gin.md)
     * [F.8. btree_gist — 具有 B-tree 行為的 GiST 運算子類別](appendixes/contrib/btree-gist.md)
     * [F.9. citext — 不區分大小寫的字元字串型別](appendixes/contrib/citext.md)
-    * [F.10. cube — a multi-dimensional cube data type #](appendixes/contrib/cube.md)
+    * [F.10. cube — 多維 cube 資料型別 #](appendixes/contrib/cube.md)
     * [F.11. dblink — connect to other PostgreSQL databases #](appendixes/contrib/dblink.md)
       * [dblink_build_sql_delete](appendixes/contrib/contrib-dblink-build-sql-delete.md)
       * [dblink_build_sql_insert](appendixes/contrib/contrib-dblink-build-sql-insert.md)

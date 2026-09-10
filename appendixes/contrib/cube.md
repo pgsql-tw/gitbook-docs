@@ -1,210 +1,184 @@
-## F.10. cube — a multi-dimensional cube data type [#](#CUBE)
+## F.10. cube — 多維 cube 資料型別 [#](#CUBE)
 
-[F.10.1. Syntax](cube.md#CUBE-SYNTAX)
+[F.10.1. 語法](cube.md#CUBE-SYNTAX)
 
-[F.10.2. Precision](cube.md#CUBE-PRECISION)
+[F.10.2. 精確度](cube.md#CUBE-PRECISION)
 
-[F.10.3. Usage](cube.md#CUBE-USAGE)
+[F.10.3. 用法](cube.md#CUBE-USAGE)
 
-[F.10.4. Defaults](cube.md#CUBE-DEFAULTS)
+[F.10.4. 預設值](cube.md#CUBE-DEFAULTS)
 
-[F.10.5. Notes](cube.md#CUBE-NOTES)
+[F.10.5. 注意事項](cube.md#CUBE-NOTES)
 
-[F.10.6. Credits](cube.md#CUBE-CREDITS)
+[F.10.6. 致謝](cube.md#CUBE-CREDITS)
 
 <a id="id-1.11.7.20.2"></a>
 
-This module implements a data type `cube` for
-representing multidimensional cubes.
+此模組實作 `cube` 資料型別，用來表示多維 cube。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組視為「受信任」，亦即具有目前資料庫 `CREATE` 權限的非 superuser 也可
+安裝它。
 
 <a id="CUBE-SYNTAX"></a>
 
-### F.10.1. Syntax [#](#CUBE-SYNTAX)
+### F.10.1. 語法 [#](#CUBE-SYNTAX)
 
-[Table F.1](cube.md#CUBE-REPR-TABLE) shows the valid external
-representations for the `cube`
-type. *`x`*, *`y`*, etc. denote
-floating-point numbers.
+[表 F.1](cube.md#CUBE-REPR-TABLE) 顯示 `cube` 型別有效的外部表示法。*`x`*、
+*`y`* 等表示浮點數。
 
 <a id="CUBE-REPR-TABLE"></a>
 
-**Table F.1. Cube External Representations**
+**表 F.1. Cube 外部表示法**
 
-<table border="1" class="table" summary="Cube External Representations"><colgroup><col/><col/></colgroup><thead><tr><th>External Syntax</th><th>Meaning</th></tr></thead><tbody><tr><td><code class="literal"><em class="replaceable"><code>x</code></em></code></td><td>A one-dimensional point
-       (or, zero-length one-dimensional interval)
-      </td></tr><tr><td><code class="literal">(<em class="replaceable"><code>x</code></em>)</code></td><td>Same as above</td></tr><tr><td><code class="literal"><em class="replaceable"><code>x1</code></em>,<em class="replaceable"><code>x2</code></em>,...,<em class="replaceable"><code>xn</code></em></code></td><td>A point in n-dimensional space, represented internally as a
-      zero-volume cube
-      </td></tr><tr><td><code class="literal">(<em class="replaceable"><code>x1</code></em>,<em class="replaceable"><code>x2</code></em>,...,<em class="replaceable"><code>xn</code></em>)</code></td><td>Same as above</td></tr><tr><td><code class="literal">(<em class="replaceable"><code>x</code></em>),(<em class="replaceable"><code>y</code></em>)</code></td><td>A one-dimensional interval starting at <em class="replaceable"><code>x</code></em> and ending at <em class="replaceable"><code>y</code></em> or vice versa; the
-       order does not matter
-      </td></tr><tr><td><code class="literal">[(<em class="replaceable"><code>x</code></em>),(<em class="replaceable"><code>y</code></em>)]</code></td><td>Same as above</td></tr><tr><td><code class="literal">(<em class="replaceable"><code>x1</code></em>,...,<em class="replaceable"><code>xn</code></em>),(<em class="replaceable"><code>y1</code></em>,...,<em class="replaceable"><code>yn</code></em>)</code></td><td>An n-dimensional cube represented by a pair of its diagonally
-       opposite corners
-      </td></tr><tr><td><code class="literal">[(<em class="replaceable"><code>x1</code></em>,...,<em class="replaceable"><code>xn</code></em>),(<em class="replaceable"><code>y1</code></em>,...,<em class="replaceable"><code>yn</code></em>)]</code></td><td>Same as above</td></tr></tbody></table>
+<table border="1" class="table" summary="Cube 外部表示法"><colgroup><col/><col/></colgroup><thead><tr><th>外部語法</th><th>意義</th></tr></thead><tbody><tr><td><code class="literal"><em class="replaceable"><code>x</code></em></code></td><td>一維點
+       （或長度為零的一維區間）
+      </td></tr><tr><td><code class="literal">(<em class="replaceable"><code>x</code></em>)</code></td><td>同上</td></tr><tr><td><code class="literal"><em class="replaceable"><code>x1</code></em>,<em class="replaceable"><code>x2</code></em>,...,<em class="replaceable"><code>xn</code></em></code></td><td>n 維空間中的點，在內部表示為
+      體積為零的 cube
+      </td></tr><tr><td><code class="literal">(<em class="replaceable"><code>x1</code></em>,<em class="replaceable"><code>x2</code></em>,...,<em class="replaceable"><code>xn</code></em>)</code></td><td>同上</td></tr><tr><td><code class="literal">(<em class="replaceable"><code>x</code></em>),(<em class="replaceable"><code>y</code></em>)</code></td><td>從 <em class="replaceable"><code>x</code></em> 開始到 <em class="replaceable"><code>y</code></em> 結束的一維區間，或反向亦可；
+       順序不重要
+      </td></tr><tr><td><code class="literal">[(<em class="replaceable"><code>x</code></em>),(<em class="replaceable"><code>y</code></em>)]</code></td><td>同上</td></tr><tr><td><code class="literal">(<em class="replaceable"><code>x1</code></em>,...,<em class="replaceable"><code>xn</code></em>),(<em class="replaceable"><code>y1</code></em>,...,<em class="replaceable"><code>yn</code></em>)</code></td><td>由一對對角表示的 n 維 cube
+      </td></tr><tr><td><code class="literal">[(<em class="replaceable"><code>x1</code></em>,...,<em class="replaceable"><code>xn</code></em>),(<em class="replaceable"><code>y1</code></em>,...,<em class="replaceable"><code>yn</code></em>)]</code></td><td>同上</td></tr></tbody></table>
 
 <br>
 
-It does not matter which order the opposite corners of a cube are
-entered in. The `cube` functions
-automatically swap values if needed to create a uniform
-“lower left — upper right” internal representation.
-When the corners coincide, `cube` stores only one corner
-along with an “is point” flag to avoid wasting space.
+輸入 cube 對角的順序不重要。`cube` 函式會在需要時自動交換值，以建立統一的
+「左下 — 右上」內部表示法。角點重合時，`cube` 僅儲存一個角點及「is point」
+旗標，避免浪費空間。
 
-White space is ignored on input, so
-`[(x),(y)]` is the same as
-`[ ( x ), ( y ) ]`.
+輸入時會忽略空白，因此 `[(x),(y)]` 與 `[ ( x ), ( y ) ]` 相同。
 
 <a id="CUBE-PRECISION"></a>
 
-### F.10.2. Precision [#](#CUBE-PRECISION)
+### F.10.2. 精確度 [#](#CUBE-PRECISION)
 
-Values are stored internally as 64-bit floating point numbers. This means
-that numbers with more than about 16 significant digits will be truncated.
+值在內部以 64 位元浮點數儲存。因此，具有超過約 16 位有效數字的數值會被截斷。
 
 <a id="CUBE-USAGE"></a>
 
-### F.10.3. Usage [#](#CUBE-USAGE)
+### F.10.3. 用法 [#](#CUBE-USAGE)
 
-[Table F.2](cube.md#CUBE-OPERATORS-TABLE) shows the specialized operators
-provided for type `cube`.
+[表 F.2](cube.md#CUBE-OPERATORS-TABLE) 顯示為 `cube` 型別提供的專用運算子。
 
 <a id="CUBE-OPERATORS-TABLE"></a>
 
-**Table F.2. Cube Operators**
+**表 F.2. Cube 運算子**
 
-<table border="1" class="table" summary="Cube Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+<table border="1" class="table" summary="Cube 運算子"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">cube</code> <code class="literal">&amp;&amp;</code> <code class="type">cube</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Do the cubes overlap?
+        兩個 cube 是否重疊？
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">cube</code> <code class="literal">@&gt;</code> <code class="type">cube</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does the first cube contain the second?
+        第一個 cube 是否包含第二個？
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">cube</code> <code class="literal">&lt;@</code> <code class="type">cube</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Is the first cube contained in the second?
+        第一個 cube 是否包含於第二個？
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">cube</code> <code class="literal">-&gt;</code> <code class="type">integer</code>
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Extracts the <em class="parameter"><code>n</code></em>-th coordinate of the cube
-        (counting from 1).
+        擷取 cube 的第 <em class="parameter"><code>n</code></em> 個座標
+        （從 1 開始計數）。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">cube</code> <code class="literal">~&gt;</code> <code class="type">integer</code>
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Extracts the <em class="parameter"><code>n</code></em>-th coordinate of the cube,
-        counting in the following way: <em class="parameter"><code>n</code></em> = 2
-        * <em class="parameter"><code>k</code></em> - 1 means lower bound
-        of <em class="parameter"><code>k</code></em>-th dimension, <em class="parameter"><code>n</code></em> = 2
-        * <em class="parameter"><code>k</code></em> means upper bound of
-        <em class="parameter"><code>k</code></em>-th dimension.  Negative
-        <em class="parameter"><code>n</code></em> denotes the inverse value of the corresponding
-        positive coordinate.  This operator is designed for KNN-GiST support.
+        擷取 cube 的第 <em class="parameter"><code>n</code></em> 個座標，
+        計數方式如下：<em class="parameter"><code>n</code></em> = 2
+        * <em class="parameter"><code>k</code></em> - 1 表示第 <em class="parameter"><code>k</code></em> 維的
+        下界，<em class="parameter"><code>n</code></em> = 2 * <em class="parameter"><code>k</code></em>
+        表示第 <em class="parameter"><code>k</code></em> 維的上界。負的
+        <em class="parameter"><code>n</code></em> 表示相應正座標的反值。此運算子設計用於支援 KNN-GiST。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">cube</code> <code class="literal">&lt;-&gt;</code> <code class="type">cube</code>
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Computes the Euclidean distance between the two cubes.
+        計算兩個 cube 之間的歐幾里得距離。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">cube</code> <code class="literal">&lt;#&gt;</code> <code class="type">cube</code>
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Computes the taxicab (L-1 metric) distance between the two cubes.
+        計算兩個 cube 之間的計程車（L-1 度量）距離。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">cube</code> <code class="literal">&lt;=&gt;</code> <code class="type">cube</code>
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Computes the Chebyshev (L-inf metric) distance between the two cubes.
+        計算兩個 cube 之間的 Chebyshev（L-inf 度量）距離。
        </p></td></tr></tbody></table>
 
 <br>
 
-In addition to the above operators, the usual comparison
-operators shown in [Table 9.1](../../the-sql-language/functions/functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) are
-available for type `cube`. These
-operators first compare the first coordinates, and if those are equal,
-compare the second coordinates, etc. They exist mainly to support the
-b-tree index operator class for `cube`, which can be useful for
-example if you would like a UNIQUE constraint on a `cube` column.
-Otherwise, this ordering is not of much practical use.
+除了上述運算子外，`cube` 型別也可使用[表 9.1](../../the-sql-language/functions/functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE)
+所示的一般比較運算子。這些運算子會先比較第一個座標，若相等再比較第二個
+座標，依此類推。它們主要用於支援 `cube` 的 B-tree 索引運算子類別；例如，
+你想要在 `cube` 欄位上建立 UNIQUE 限制條件時可能有用。除此之外，此排序沒有
+太多實務用途。
 
-The `cube` module also provides a GiST index operator class for
-`cube` values.
-A `cube` GiST index can be used to search for values using the
-`=`, `&&`, `@>`, and
-`<@` operators in `WHERE` clauses.
+`cube` 模組也為 `cube` 值提供 GiST 索引運算子類別。`cube` GiST 索引可用於
+在 `WHERE` 子句中，以 `=`、`&&`、`@>` 和 `<@` 運算子搜尋值。
 
-In addition, a `cube` GiST index can be used to find nearest
-neighbors using the metric operators
-`<->`, `<#>`, and
-`<=>` in `ORDER BY` clauses.
-For example, the nearest neighbor of the 3-D point (0.5, 0.5, 0.5)
-could be found efficiently with:
+此外，`cube` GiST 索引可在 `ORDER BY` 子句中使用度量運算子 `<->`、`<#>`
+和 `<=>` 尋找最近鄰。例如，可用下列方式有效找出三維點 (0.5, 0.5, 0.5)
+的最近鄰：
 
 ```
 
 SELECT c FROM test ORDER BY c <-> cube(array[0.5,0.5,0.5]) LIMIT 1;
 ```
 
-The `~>` operator can also be used in this way to
-efficiently retrieve the first few values sorted by a selected coordinate.
-For example, to get the first few cubes ordered by the first coordinate
-(lower left corner) ascending one could use the following query:
+`~>` 運算子也能以此方式，依選定座標排序並有效擷取前幾個值。例如，若要
+依第一個座標（左下角）遞增順序取得前幾個 cube，可使用下列查詢：
 
 ```
 
 SELECT c FROM test ORDER BY c ~> 1 LIMIT 5;
 ```
 
-And to get 2-D cubes ordered by the first coordinate of the upper right
-corner descending:
+若要依右上角的第一個座標遞減順序取得二維 cube：
 
 ```
 
 SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
 ```
 
-[Table F.3](cube.md#CUBE-FUNCTIONS-TABLE) shows the available functions.
+[表 F.3](cube.md#CUBE-FUNCTIONS-TABLE) 顯示可用函式。
 
 <a id="CUBE-FUNCTIONS-TABLE"></a>
 
-**Table F.3. Cube Functions**
+**表 F.3. Cube 函式**
 
-<table border="1" class="table" summary="Cube Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+<table border="1" class="table" summary="Cube 函式"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">cube</code> ( <code class="type">float8</code> )
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Makes a one dimensional cube with both coordinates the same.
+        建立兩個座標相同的一維 cube。
        </p>
 <p>
 <code class="literal">cube(1)</code>
@@ -214,7 +188,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Makes a one dimensional cube.
+        建立一維 cube。
        </p>
 <p>
 <code class="literal">cube(1, 2)</code>
@@ -224,7 +198,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Makes a zero-volume cube using the coordinates defined by the array.
+        使用陣列定義的座標建立體積為零的 cube。
        </p>
 <p>
 <code class="literal">cube(ARRAY[1,2,3])</code>
@@ -234,8 +208,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Makes a cube with upper right and lower left coordinates as defined by
-        the two arrays, which must be of the same length.
+        以兩個陣列所定義的右上與左下座標建立 cube；兩個陣列的長度必須相同。
        </p>
 <p>
 <code class="literal">cube(ARRAY[1,2], ARRAY[3,4])</code>
@@ -245,9 +218,8 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Makes a new cube by adding a dimension on to an existing cube,
-        with the same values for both endpoints of the new coordinate.  This
-        is useful for building cubes piece by piece from calculated values.
+        對既有 cube 加入一個維度以建立新 cube，新增座標的兩個端點值相同。這可用於
+        依計算所得的值逐步建立 cube。
        </p>
 <p>
 <code class="literal">cube('(1,2),(3,4)'::cube, 5)</code>
@@ -257,8 +229,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Makes a new cube by adding a dimension on to an existing cube. This is
-        useful for building cubes piece by piece from calculated values.
+        對既有 cube 加入一個維度以建立新 cube。這可用於依計算所得的值逐步建立 cube。
        </p>
 <p>
 <code class="literal">cube('(1,2),(3,4)'::cube, 5, 6)</code>
@@ -268,7 +239,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of dimensions of the cube.
+        傳回 cube 的維度數。
        </p>
 <p>
 <code class="literal">cube_dim('(1,2),(3,4)')</code>
@@ -278,8 +249,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Returns the <em class="parameter"><code>n</code></em>-th coordinate value for the lower
-        left corner of the cube.
+        傳回 cube 左下角的第 <em class="parameter"><code>n</code></em> 個座標值。
        </p>
 <p>
 <code class="literal">cube_ll_coord('(1,2),(3,4)', 2)</code>
@@ -289,8 +259,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Returns the <em class="parameter"><code>n</code></em>-th coordinate value for the
-        upper right corner of the cube.
+        傳回 cube 右上角的第 <em class="parameter"><code>n</code></em> 個座標值。
        </p>
 <p>
 <code class="literal">cube_ur_coord('(1,2),(3,4)', 2)</code>
@@ -300,8 +269,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Returns true if the cube is a point, that is,
-        the two defining corners are the same.
+        若 cube 是點（亦即定義它的兩個角點相同）則傳回 true。
        </p>
 <p>
 <code class="literal">cube_is_point(cube(1,1))</code>
@@ -311,8 +279,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Returns the distance between two cubes. If both
-        cubes are points, this is the normal distance function.
+        傳回兩個 cube 之間的距離。若兩個 cube 都是點，這就是一般距離函式。
        </p>
 <p>
 <code class="literal">cube_distance('(1,2)', '(3,4)')</code>
@@ -322,10 +289,8 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Makes a new cube from an existing cube, using a list of
-        dimension indexes from an array. Can be used to extract the endpoints
-        of a single dimension, or to drop dimensions, or to reorder them as
-        desired.
+        使用陣列中的維度索引清單，從既有 cube 建立新 cube。可用於擷取單一維度的
+        端點、移除維度，或依需要重新排序維度。
        </p>
 <p>
 <code class="literal">cube_subset(cube('(1,3,5),(6,7,8)'), ARRAY[2])</code>
@@ -339,7 +304,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Produces the union of two cubes.
+        產生兩個 cube 的聯集。
        </p>
 <p>
 <code class="literal">cube_union('(1,2)', '(3,4)')</code>
@@ -349,7 +314,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Produces the intersection of two cubes.
+        產生兩個 cube 的交集。
        </p>
 <p>
 <code class="literal">cube_inter('(1,2)', '(3,4)')</code>
@@ -359,21 +324,15 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Increases the size of the cube by the specified
-        radius <em class="parameter"><code>r</code></em> in at least <em class="parameter"><code>n</code></em>
-        dimensions.  If the radius is negative the cube is shrunk instead.
-        All defined dimensions are changed by the
-        radius <em class="parameter"><code>r</code></em>.  Lower-left coordinates are decreased
-        by <em class="parameter"><code>r</code></em> and upper-right coordinates are increased
-        by <em class="parameter"><code>r</code></em>.  If a lower-left coordinate is increased
-        to more than the corresponding upper-right coordinate (this can only
-        happen when <em class="parameter"><code>r</code></em> &lt; 0) than both coordinates are
-        set to their average.  If <em class="parameter"><code>n</code></em> is greater than the
-        number of defined dimensions and the cube is being enlarged
-        (<em class="parameter"><code>r</code></em> &gt; 0), then extra dimensions are added to
-        make <em class="parameter"><code>n</code></em> altogether; 0 is used as the initial
-        value for the extra coordinates.  This function is useful for creating
-        bounding boxes around a point for searching for nearby points.
+        在至少 <em class="parameter"><code>n</code></em> 個維度中，以指定半徑
+        <em class="parameter"><code>r</code></em> 增加 cube 的大小。半徑為負時則縮小 cube。
+        所有已定義維度都會依半徑 <em class="parameter"><code>r</code></em> 變更：左下座標減去
+        <em class="parameter"><code>r</code></em>，右上座標加上 <em class="parameter"><code>r</code></em>。
+        若左下座標增大至超過對應的右上座標（此情況僅會在 <em class="parameter"><code>r</code></em> &lt; 0 時發生），
+        兩個座標都設為其平均值。若 <em class="parameter"><code>n</code></em> 大於已定義維度數，且正在
+        擴大 cube（<em class="parameter"><code>r</code></em> &gt; 0），則會新增維度使總數成為
+        <em class="parameter"><code>n</code></em>；額外座標的初始值為 0。此函式可用於建立點周圍的
+        邊界方框，以搜尋鄰近點。
        </p>
 <p>
 <code class="literal">cube_enlarge('(1,2),(3,4)', 0.5, 3)</code>
@@ -384,9 +343,9 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
 
 <a id="CUBE-DEFAULTS"></a>
 
-### F.10.4. Defaults [#](#CUBE-DEFAULTS)
+### F.10.4. 預設值 [#](#CUBE-DEFAULTS)
 
-This union:
+下列聯集：
 
 ```
 
@@ -397,7 +356,7 @@ cube_union
 (1 row)
 ```
 
-does not contradict common sense, neither does the intersection:
+符合直覺；下列交集也同樣如此：
 
 ```
 
@@ -408,10 +367,8 @@ cube_inter
 (1 row)
 ```
 
-In all binary operations on differently-dimensioned cubes,
-the lower-dimensional one is assumed to be a Cartesian projection, i. e., having zeroes
-in place of coordinates omitted in the string representation. The above
-examples are equivalent to:
+對於維度不同的 cube 執行所有二元運算時，會將維度較低者視為笛卡兒投影，
+亦即字串表示法中省略的座標位置為零。以上範例等同於：
 
 ```
 
@@ -419,10 +376,8 @@ cube_union('(0,5,2),(2,3,1)','(0,0,0),(0,0,0)');
 cube_inter('(0,-1),(1,1)','(-2,0),(2,0)');
 ```
 
-The following containment predicate uses the point syntax,
-while in fact the second argument is internally represented by a box.
-This syntax makes it unnecessary to define a separate point type
-and functions for (box,point) predicates.
+下列包含述詞使用點的語法，而第二個引數實際上在內部表示為方框。此語法使得
+無須為 (box, point) 述詞另行定義點型別與函式。
 
 ```
 
@@ -435,41 +390,33 @@ t
 
 <a id="CUBE-NOTES"></a>
 
-### F.10.5. Notes [#](#CUBE-NOTES)
+### F.10.5. 注意事項 [#](#CUBE-NOTES)
 
-For examples of usage, see the regression test `sql/cube.sql`.
+用法範例請參閱回歸測試 `sql/cube.sql`。
 
-To make it harder for people to break things, there
-is a limit of 100 on the number of dimensions of cubes. This is set
-in `cubedata.h` if you need something bigger.
+為了降低不慎破壞的可能性，cube 的維度數上限為 100。若需要更大的上限，可在
+`cubedata.h` 設定。
 
 <a id="CUBE-CREDITS"></a>
 
-### F.10.6. Credits [#](#CUBE-CREDITS)
+### F.10.6. 致謝 [#](#CUBE-CREDITS)
 
-Original author: Gene Selkov, Jr. `<selkovjr@mcs.anl.gov>`,
-Mathematics and Computer Science Division, Argonne National Laboratory.
+原作者：Gene Selkov, Jr. `<selkovjr@mcs.anl.gov>`，Argonne National Laboratory
+數學與電腦科學部門。
 
-My thanks are primarily to Prof. Joe Hellerstein
-(<https://dsf.berkeley.edu/jmh/>) for elucidating the
-gist of the GiST (<http://gist.cs.berkeley.edu/>), and
-to his former student Andy Dong for his example written for Illustra.
-I am also grateful to all Postgres developers, present and past, for
-enabling myself to create my own world and live undisturbed in it. And I
-would like to acknowledge my gratitude to Argonne Lab and to the
-U.S. Department of Energy for the years of faithful support of my database
-research.
+我主要感謝 Joe Hellerstein 教授（<https://dsf.berkeley.edu/jmh/>）闡明 GiST
+（<http://gist.cs.berkeley.edu/>）的要旨，以及其前學生 Andy Dong 為 Illustra
+撰寫的範例。我也感謝所有現任及過去的 Postgres 開發者，讓我得以創造並安居
+於自己的世界。並感謝 Argonne Lab 與 U.S. Department of Energy 多年來對我
+資料庫研究的持續支持。
 
-Minor updates to this package were made by Bruno Wolff III
-`<bruno@wolff.to>` in August/September of 2002. These include
-changing the precision from single precision to double precision and adding
-some new functions.
+Bruno Wolff III `<bruno@wolff.to>` 在 2002 年 8／9 月對此套件進行小幅更新，
+包括將精確度從單精度改為雙精度，並新增一些函式。
 
-Additional updates were made by Joshua Reich `<josh@root.net>` in
-July 2006. These include `cube(float8[], float8[])` and
-cleaning up the code to use the V1 call protocol instead of the deprecated
-V0 protocol.
+Joshua Reich `<josh@root.net>` 在 2006 年 7 月進行額外更新，包括
+`cube(float8[], float8[])`，以及清理程式碼以改用 V1 呼叫協定，而非已棄用的
+V0 協定。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/cube.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/cube.html)
