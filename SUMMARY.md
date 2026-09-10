@@ -225,7 +225,7 @@
     * [20.9. Peer 驗證](server-administration/client-authentication/auth-peer.md)
     * [20.10. LDAP Authentication #](server-administration/client-authentication/auth-ldap.md)
     * [20.11. RADIUS Authentication #](server-administration/client-authentication/auth-radius.md)
-    * [20.12. Certificate Authentication #](server-administration/client-authentication/auth-cert.md)
+    * [20.12. 憑證驗證](server-administration/client-authentication/auth-cert.md)
     * [20.13. PAM Authentication #](server-administration/client-authentication/auth-pam.md)
     * [20.14. BSD 驗證](server-administration/client-authentication/auth-bsd.md)
     * [20.15. OAuth Authorization/Authentication #](server-administration/client-authentication/auth-oauth.md)
