@@ -133,7 +133,7 @@
     * [11.3. Multicolumn Indexes #](the-sql-language/indexes/indexes-multicolumn.md)
     * [11.4. Indexes and ORDER BY #](the-sql-language/indexes/indexes-ordering.md)
     * [11.5. Combining Multiple Indexes #](the-sql-language/indexes/indexes-bitmap-scans.md)
-    * [11.6. Unique Indexes #](the-sql-language/indexes/indexes-unique.md)
+    * [11.6. 唯一值索引](the-sql-language/indexes/indexes-unique.md)
     * [11.7. Indexes on Expressions #](the-sql-language/indexes/indexes-expressional.md)
     * [11.8. Partial Indexes #](the-sql-language/indexes/indexes-partial.md)
     * [11.9. Index-Only Scans and Covering Indexes #](the-sql-language/indexes/indexes-index-only-scans.md)
