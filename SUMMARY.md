@@ -55,7 +55,7 @@
   * [第 6 章：資料操作](the-sql-language/dml/README.md)
     * [6.1. Inserting Data #](the-sql-language/dml/dml-insert.md)
     * [6.2. Updating Data #](the-sql-language/dml/dml-update.md)
-    * [6.3. Deleting Data #](the-sql-language/dml/dml-delete.md)
+    * [6.3. 刪除資料](the-sql-language/dml/dml-delete.md)
     * [6.4. Returning Data from Modified Rows #](the-sql-language/dml/dml-returning.md)
   * [Chapter 7. Queries](the-sql-language/queries/README.md)
     * [7.1. Overview #](the-sql-language/queries/queries-overview.md)
