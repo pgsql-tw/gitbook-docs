@@ -13,7 +13,7 @@ SET CONNECTION [ TO | = ] connection_name
 
 ## 說明
 
-`SET CONNECTION` 設定「目前」資料庫連線；除非另有指定，所有命令都使用此連線。
+`SET CONNECTION` 會設定「目前」資料庫連線；除非另有指定，所有命令都使用此連線。
 
 <a id="id-1.7.5.20.15.4"></a>
 
@@ -26,7 +26,7 @@ SET CONNECTION [ TO | = ] connection_name
 <a id="ECPG-SQL-SET-CONNECTION-CURRENT"></a>
 
 `CURRENT` [#](#ECPG-SQL-SET-CONNECTION-CURRENT)
-:   將連線設為目前連線（因此不會發生任何變化）。
+:   將目前連線設為目前連線（因此不會發生任何變更）。
 
 <a id="id-1.7.5.20.15.5"></a>
 
@@ -52,4 +52,4 @@ SQL 標準規定了 `SET CONNECTION`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-set-connection.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-set-connection.html)（原文版本：18.6；核對日期：2026-09-10）
