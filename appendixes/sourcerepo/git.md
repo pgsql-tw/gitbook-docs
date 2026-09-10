@@ -1,41 +1,29 @@
-## I.1. Getting the Source via Git [#](#GIT)
+## I.1. 透過 Git 取得原始碼 [#](#GIT)
 
-With Git you will make a copy of the entire code repository
-on your local machine, so you will have access to all history and branches
-offline. This is the fastest and most flexible way to develop or test
-patches.
+使用 Git 時，你會在本機建立整個程式碼儲存庫的副本，因此可離線存取所有歷史紀錄與分支。這是開發或測試修補程式最快且最有彈性的方式。
 
 <a id="id-1.11.10.4.3"></a>
 
 **Git**
 
-1. You will need an installed version of Git, which you can
-   get from <https://git-scm.com>. Many systems already
-   have a recent version of Git installed by default, or
-   available in their package distribution system.
-2. To begin using the Git repository, make a clone of the official mirror:
+1. 你需要安裝 Git，可從 <https://git-scm.com> 取得。許多系統預設已安裝較新的 Git 版本，或可在其套件發行系統中取得。
+2. 若要開始使用 Git 儲存庫，請複製官方鏡像：
 
    ```
 
    git clone https://git.postgresql.org/git/postgresql.git
    ```
 
-   This will copy the full repository to your local machine, so it may take
-   a while to complete, especially if you have a slow Internet connection.
-   The files will be placed in a new subdirectory `postgresql` of
-   your current directory.
-3. Whenever you want to get the latest updates in the system, `cd`
-   into the repository, and run:
+   這會將完整儲存庫複製到本機，因此可能需要一些時間，尤其是在網際網路連線較慢時。檔案會放在目前目錄下的新子目錄 `postgresql` 中。
+3. 每當你要取得系統的最新更新時，請 `cd` 至儲存庫並執行：
 
    ```
 
    git fetch
    ```
 
-Git can do a lot more things than just fetch the source. For
-more information, consult the Git man pages, or see the
-website at <https://git-scm.com>.
+Git 能做的不只取得原始碼。詳細資訊請參閱 Git man page，或造訪 <https://git-scm.com>。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/git.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/git.html)（原文版本：18.6；核對日期：2026-09-10）
