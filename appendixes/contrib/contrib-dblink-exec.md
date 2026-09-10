@@ -2,9 +2,9 @@
 
 ## dblink_exec
 
-dblink_exec — executes a command in a remote database
+dblink_exec — 在遠端資料庫中執行指令
 
-## Synopsis
+## 語法
 
 ```
 
@@ -15,49 +15,37 @@ dblink_exec(text sql [, bool fail_on_error]) returns text
 
 <a id="id-1.11.7.21.11.5"></a>
 
-## Description
+## 說明
 
-`dblink_exec` executes a command (that is, any SQL statement
-that doesn't return rows) in a remote database.
+`dblink_exec` 在遠端資料庫中執行指令（亦即不傳回資料列的任何 SQL 陳述式）。
 
-When two `text` arguments are given, the first one is first
-looked up as a persistent connection's name; if found, the command
-is executed on that connection. If not found, the first argument
-is treated as a connection info string as for `dblink_connect`,
-and the indicated connection is made just for the duration of this command.
+提供兩個 `text` 引數時，第一個引數會先作為持續連線名稱查詢；若找到，指令會在該連線上執行。若找不到，第一個引數會如 `dblink_connect` 一樣被視為連線資訊字串，且只會在此指令期間建立所指連線。
 
 <a id="id-1.11.7.21.11.6"></a>
 
-## Arguments
+## 引數
 
 *`connname`*
-:   Name of the connection to use; omit this parameter to use the
-    unnamed connection.
+:   要使用的連線名稱；省略此參數可使用未命名連線。
 
 *`connstr`*
-:   A connection info string, as previously described for
-    `dblink_connect`.
+:   如同先前 `dblink_connect` 所述的連線資訊字串。
 
 *`sql`*
-:   The SQL command that you wish to execute in the remote database,
-    for example
-    `insert into foo values(0, 'a', '{"a0","b0","c0"}')`.
+:   要在遠端資料庫執行的 SQL 指令，例如 `insert into foo values(0, 'a', '{"a0","b0","c0"}')`。
 
 *`fail_on_error`*
-:   If true (the default when omitted) then an error thrown on the
-    remote side of the connection causes an error to also be thrown
-    locally. If false, the remote error is locally reported as a NOTICE,
-    and the function's return value is set to `ERROR`.
+:   若為 true（省略時的預設值），連線遠端引發的錯誤也會在本機引發錯誤。若為 false，遠端錯誤會在本機回報為 NOTICE，且函式傳回值設為 `ERROR`。
 
 <a id="id-1.11.7.21.11.7"></a>
 
-## Return Value
+## 傳回值
 
-Returns status, either the command's status string or `ERROR`.
+傳回狀態，為指令的狀態字串或 `ERROR`。
 
 <a id="id-1.11.7.21.11.8"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -97,4 +85,4 @@ DETAIL:  ERROR:  null value in column "relnamespace" violates not-null constrain
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-exec.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-exec.html)
