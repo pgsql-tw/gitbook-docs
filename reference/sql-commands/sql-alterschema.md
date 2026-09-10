@@ -2,9 +2,9 @@
 
 ## ALTER SCHEMA
 
-ALTER SCHEMA — change the definition of a schema
+ALTER SCHEMA — 變更 schema 的定義
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,46 +14,37 @@ ALTER SCHEMA name OWNER TO { new_owner | CURRENT_ROLE | CURRENT_USER | SESSION_U
 
 <a id="id-1.9.3.29.5"></a>
 
-## Description
+## 說明
 
-`ALTER SCHEMA` changes the definition of a schema.
+`ALTER SCHEMA` 會變更 schema 的定義。
 
-You must own the schema to use `ALTER SCHEMA`.
-To rename a schema you must also have the
-`CREATE` privilege for the database.
-To alter the owner, you must be able to `SET ROLE` to the
-new owning role, and that role must have the
-`CREATE` privilege for the database.
-(Note that superusers have all these privileges automatically.)
+你必須擁有該 schema 才能使用 `ALTER SCHEMA`。若要重新命名 schema，你也必須擁有資料庫的 `CREATE` 權限。若要變更擁有者，你必須能對新的擁有者角色執行 `SET ROLE`，且該角色必須擁有資料庫的 `CREATE` 權限。（超級使用者自動擁有所有這些權限。）
 
 <a id="id-1.9.3.29.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of an existing schema.
+:   現有 schema 的名稱。
 
 *`new_name`*
-:   The new name of the schema. The new name cannot
-    begin with `pg_`, as such names
-    are reserved for system schemas.
+:   schema 的新名稱。新名稱不能以 `pg_` 開頭，因為此類名稱保留給系統 schema。
 
 *`new_owner`*
-:   The new owner of the schema.
+:   schema 的新擁有者。
 
 <a id="id-1.9.3.29.7"></a>
 
-## Compatibility
+## 相容性
 
-There is no `ALTER SCHEMA` statement in the SQL
-standard.
+SQL 標準中沒有 `ALTER SCHEMA` 陳述式。
 
 <a id="id-1.9.3.29.8"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE SCHEMA](sql-createschema.md), [DROP SCHEMA](sql-dropschema.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterschema.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterschema.html)（原文版本：18.6；核對日期：2026-09-10）
