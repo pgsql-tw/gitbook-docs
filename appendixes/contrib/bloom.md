@@ -1,63 +1,42 @@
-## F.6. bloom — bloom filter index access method [#](#BLOOM)
+## F.6. bloom — Bloom 篩選器索引存取方法 [#](#BLOOM)
 
-[F.6.1. Parameters](bloom.md#BLOOM-PARAMETERS)
+[F.6.1. 參數](bloom.md#BLOOM-PARAMETERS)
 
-[F.6.2. Examples](bloom.md#BLOOM-EXAMPLES)
+[F.6.2. 範例](bloom.md#BLOOM-EXAMPLES)
 
-[F.6.3. Operator Class Interface](bloom.md#BLOOM-OPERATOR-CLASS-INTERFACE)
+[F.6.3. 運算子類別介面](bloom.md#BLOOM-OPERATOR-CLASS-INTERFACE)
 
-[F.6.4. Limitations](bloom.md#BLOOM-LIMITATIONS)
+[F.6.4. 限制](bloom.md#BLOOM-LIMITATIONS)
 
-[F.6.5. Authors](bloom.md#BLOOM-AUTHORS)
+[F.6.5. 作者](bloom.md#BLOOM-AUTHORS)
 
 <a id="id-1.11.7.16.2"></a>
 
-`bloom` provides an index access method based on
-[Bloom filters](https://en.wikipedia.org/wiki/Bloom_filter).
+`bloom` 提供以 [Bloom 篩選器](https://en.wikipedia.org/wiki/Bloom_filter)為基礎的索引存取方法。
 
-A Bloom filter is a space-efficient data structure that is used to test
-whether an element is a member of a set. In the case of an index access
-method, it allows fast exclusion of non-matching tuples via signatures
-whose size is determined at index creation.
+Bloom 篩選器是用於測試元素是否為集合成員的空間效率資料結構。用於索引存取方法時，它會透過建立索引時決定大小的簽章，快速排除不相符的 tuple。
 
-A signature is a lossy representation of the indexed attribute(s), and as
-such is prone to reporting false positives; that is, it may be reported
-that an element is in the set, when it is not. So index search results
-must always be rechecked using the actual attribute values from the heap
-entry. Larger signatures reduce the odds of a false positive and thus
-reduce the number of useless heap visits, but of course also make the index
-larger and hence slower to scan.
+簽章是已建立索引屬性的有損表示法，因此容易產生誤判；也就是說，可能會回報元素在集合中，但實際並非如此。因此，索引搜尋結果必須一律使用堆積項目中的實際屬性值重新檢查。較大的簽章可降低誤判機率，進而減少無用的堆積存取次數，但也會使索引更大、掃描速度更慢。
 
-This type of index is most useful when a table has many attributes and
-queries test arbitrary combinations of them. A traditional btree index is
-faster than a bloom index, but it can require many btree indexes to support
-all possible queries where one needs only a single bloom index. Note
-however that bloom indexes only support equality queries, whereas btree
-indexes can also perform inequality and range searches.
+當資料表有許多屬性且查詢測試其任意組合時，此類索引最有用。傳統 btree 索引比 bloom 索引快，但要支援所有可能的查詢，可能需要許多 btree 索引，而只需單一 bloom 索引即可。請注意，bloom 索引只支援等值查詢；btree 索引還可進行不等式與範圍搜尋。
 
 <a id="BLOOM-PARAMETERS"></a>
 
-### F.6.1. Parameters [#](#BLOOM-PARAMETERS)
+### F.6.1. 參數 [#](#BLOOM-PARAMETERS)
 
-A `bloom` index accepts the following parameters in its
-`WITH` clause:
+`bloom` 索引在其 `WITH` 子句中接受下列參數：
 
 `length`
-:   Length of each signature (index entry) in bits. It is rounded up to the
-    nearest multiple of `16`. The default is
-    `80` bits and the maximum is `4096`.
+:   每個簽章（索引項目）的長度，單位為位元。會向上取整至最接近的 `16` 倍數。預設為 `80` 位元，最大為 `4096`。
 
 `col1 — col32`
-:   Number of bits generated for each index column. Each parameter's name
-    refers to the number of the index column that it controls. The default
-    is `2` bits and the maximum is `4095`.
-    Parameters for index columns not actually used are ignored.
+:   為每個索引欄位產生的位元數。每個參數名稱都指向其控制的索引欄位編號。預設為 `2` 位元，最大為 `4095`。實際未使用的索引欄位參數會被忽略。
 
 <a id="BLOOM-EXAMPLES"></a>
 
-### F.6.2. Examples [#](#BLOOM-EXAMPLES)
+### F.6.2. 範例 [#](#BLOOM-EXAMPLES)
 
-This is an example of creating a bloom index:
+以下是建立 bloom 索引的範例：
 
 ```
 
@@ -65,14 +44,9 @@ CREATE INDEX bloomidx ON tbloom USING bloom (i1,i2,i3)
        WITH (length=80, col1=2, col2=2, col3=4);
 ```
 
-The index is created with a signature length of 80 bits, with attributes
-i1 and i2 mapped to 2 bits, and attribute i3 mapped to 4 bits. We could
-have omitted the `length`, `col1`,
-and `col2` specifications since those have the default values.
+此索引的簽章長度為 80 位元，屬性 i1 與 i2 各對應至 2 位元，屬性 i3 對應至 4 位元。可省略 `length`、`col1` 與 `col2` 規格，因為它們使用預設值。
 
-Here is a more complete example of bloom index definition and usage, as
-well as a comparison with equivalent btree indexes. The bloom index is
-considerably smaller than the btree index, and can perform better.
+以下是更完整的 bloom 索引定義與使用範例，並與等效 btree 索引比較。bloom 索引遠小於 btree 索引，且效能可能更好。
 
 ```
 
@@ -89,7 +63,7 @@ considerably smaller than the btree index, and can perform better.
 SELECT 10000000
 ```
 
-A sequential scan over this large table takes a long time:
+對此大型資料表進行循序掃描需要很長時間：
 
 ```
 
@@ -105,8 +79,7 @@ A sequential scan over this large table takes a long time:
 (6 rows)
 ```
 
-Even with the btree index defined the result will still be a
-sequential scan:
+即使已定義 btree 索引，結果仍會是循序掃描：
 
 ```
 
@@ -129,8 +102,7 @@ CREATE INDEX
 (6 rows)
 ```
 
-Having the bloom index defined on the table is better than btree in
-handling this type of search:
+在資料表上定義 bloom 索引，處理此類搜尋時比 btree 更好：
 
 ```
 
@@ -158,10 +130,7 @@ CREATE INDEX
 (11 rows)
 ```
 
-Now, the main problem with the btree search is that btree is inefficient
-when the search conditions do not constrain the leading index column(s).
-A better strategy for btree is to create a separate index on each column.
-Then the planner will choose something like this:
+現在，btree 搜尋的主要問題在於，搜尋條件未限制前導索引欄位時，btree 效率不佳。對 btree 而言，更好的策略是為每個欄位建立獨立索引。規劃器接著會選擇如下的計畫：
 
 ```
 
@@ -198,18 +167,13 @@ CREATE INDEX
 (15 rows)
 ```
 
-Although this query runs much faster than with either of the single
-indexes, we pay a penalty in index size. Each of the single-column
-btree indexes occupies 88.5 MB, so the total space needed is 531 MB,
-over three times the space used by the bloom index.
+雖然此查詢執行速度遠快於使用任一單一索引，但索引大小會付出代價。每個單欄位 btree 索引占用 88.5 MB，因此總共需要 531 MB，是 bloom 索引所用空間的三倍以上。
 
 <a id="BLOOM-OPERATOR-CLASS-INTERFACE"></a>
 
-### F.6.3. Operator Class Interface [#](#BLOOM-OPERATOR-CLASS-INTERFACE)
+### F.6.3. 運算子類別介面 [#](#BLOOM-OPERATOR-CLASS-INTERFACE)
 
-An operator class for bloom indexes requires only a hash function for the
-indexed data type and an equality operator for searching. This example
-shows the operator class definition for the `text` data type:
+bloom 索引的運算子類別只需要已建立索引資料型別的雜湊函式，以及用於搜尋的等值運算子。此範例顯示 `text` 資料型別的運算子類別定義：
 
 ```
 
@@ -221,31 +185,26 @@ DEFAULT FOR TYPE text USING bloom AS
 
 <a id="BLOOM-LIMITATIONS"></a>
 
-### F.6.4. Limitations [#](#BLOOM-LIMITATIONS)
+### F.6.4. 限制 [#](#BLOOM-LIMITATIONS)
 
-* Only operator classes for `int4` and `text` are
-  included with the module.
-* Only the `=` operator is supported for search. But
-  it is possible to add support for arrays with union and intersection
-  operations in the future.
-* `bloom` access method doesn't support
-  `UNIQUE` indexes.
-* `bloom` access method doesn't support searching for
-  `NULL` values.
+* 模組只包括 `int4` 與 `text` 的運算子類別。
+* 搜尋只支援 `=` 運算子，但未來可能新增使用聯集與交集運算的陣列支援。
+* `bloom` 存取方法不支援 `UNIQUE` 索引。
+* `bloom` 存取方法不支援搜尋 `NULL` 值。
 
 <a id="BLOOM-AUTHORS"></a>
 
-### F.6.5. Authors [#](#BLOOM-AUTHORS)
+### F.6.5. 作者 [#](#BLOOM-AUTHORS)
 
 Teodor Sigaev `<teodor@postgrespro.ru>`,
-Postgres Professional, Moscow, Russia
+俄羅斯莫斯科 Postgres Professional
 
 Alexander Korotkov `<a.korotkov@postgrespro.ru>`,
-Postgres Professional, Moscow, Russia
+俄羅斯莫斯科 Postgres Professional
 
 Oleg Bartunov `<obartunov@postgrespro.ru>`,
-Postgres Professional, Moscow, Russia
+俄羅斯莫斯科 Postgres Professional
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bloom.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bloom.html)

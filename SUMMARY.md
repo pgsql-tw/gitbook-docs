@@ -1050,7 +1050,7 @@
     * [F.3. auto_explain — 記錄慢速查詢的執行計畫](appendixes/contrib/auto-explain.md)
     * [F.4. `basebackup_to_shell` — 「shell」`pg_basebackup` 模組範例 #](appendixes/contrib/basebackup-to-shell.md)
     * [F.5. `basic_archive` — WAL 封存模組範例 #](appendixes/contrib/basic-archive.md)
-    * [F.6. bloom — bloom filter index access method #](appendixes/contrib/bloom.md)
+    * [F.6. bloom — Bloom 篩選器索引存取方法](appendixes/contrib/bloom.md)
     * [F.7. btree_gin — GIN operator classes with B-tree behavior #](appendixes/contrib/btree-gin.md)
     * [F.8. btree_gist — GiST operator classes with B-tree behavior #](appendixes/contrib/btree-gist.md)
     * [F.9. citext — a case-insensitive character string type #](appendixes/contrib/citext.md)
