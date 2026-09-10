@@ -597,7 +597,7 @@
     * [47.10. Two-phase Commit Support for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md)
   * [Chapter 48. Replication Progress Tracking](server-programming/replication-origins/README.md)
   * [Chapter 49. Archive Modules](server-programming/archive-modules/README.md)
-    * [49.1. Initialization Functions #](server-programming/archive-modules/archive-module-init.md)
+    * [49.1. 初始化函式](server-programming/archive-modules/archive-module-init.md)
     * [49.2. Archive Module Callbacks #](server-programming/archive-modules/archive-module-callbacks.md)
   * [Chapter 50. OAuth Validator Modules](server-programming/oauth-validators/README.md)
     * [50.1. Safely Designing a Validator Module #](server-programming/oauth-validators/oauth-validator-design.md)
