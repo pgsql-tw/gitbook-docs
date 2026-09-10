@@ -5,6 +5,7 @@
 - 起始待譯頁數：950
 - 已選風格：技術直述；依 `postgresql-tw-translation` skill 及其 `references/style.md` 執行。
 - 提交規則：每完成一個 Markdown 頁面，連同必要的 `SUMMARY.md` 與待譯清單更新，各自建立一筆 Git commit。
+- 續跑任務：`postgresql-18`（目前對話的 heartbeat，自動每 5 分鐘續跑）。
 
 ## 續跑規則
 
