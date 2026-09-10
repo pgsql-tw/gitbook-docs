@@ -1064,7 +1064,7 @@
       * [dblink_connect_u](appendixes/contrib/contrib-dblink-connect-u.md)
       * [dblink_connect](appendixes/contrib/contrib-dblink-connect.md)
       * [dblink_disconnect](appendixes/contrib/contrib-dblink-disconnect.md)
-      * [dblink_error_message](appendixes/contrib/contrib-dblink-error-message.md)
+      * [dblink_error_message — 取得具名連線上的最新錯誤訊息](appendixes/contrib/contrib-dblink-error-message.md)
       * [dblink_exec](appendixes/contrib/contrib-dblink-exec.md)
       * [dblink_fetch](appendixes/contrib/contrib-dblink-fetch.md)
       * [dblink](appendixes/contrib/contrib-dblink-function.md)
