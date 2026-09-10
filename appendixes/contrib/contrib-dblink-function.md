@@ -2,9 +2,9 @@
 
 ## dblink
 
-dblink — executes a query in a remote database
+dblink — 在遠端資料庫執行查詢
 
-## Synopsis
+## 語法
 
 ```
 
@@ -15,50 +15,39 @@ dblink(text sql [, bool fail_on_error]) returns setof record
 
 <a id="id-1.11.7.21.10.5"></a>
 
-## Description
+## 說明
 
-`dblink` executes a query (usually a `SELECT`,
-but it can be any SQL statement that returns rows) in a remote database.
+`dblink` 在遠端資料庫執行查詢（通常為 `SELECT`，但也可以是任何會傳回資料列的 SQL 陳述式）。
 
-When two `text` arguments are given, the first one is first
-looked up as a persistent connection's name; if found, the command
-is executed on that connection. If not found, the first argument
-is treated as a connection info string as for `dblink_connect`,
-and the indicated connection is made just for the duration of this command.
+提供兩個 `text` 引數時，會先將第一個引數查找為持續連線的名稱；若找到，
+便在該連線上執行命令。若找不到，第一個引數會如同 `dblink_connect` 一樣
+視為連線資訊字串，並且僅在執行此命令期間建立指定的連線。
 
 <a id="id-1.11.7.21.10.6"></a>
 
-## Arguments
+## 引數
 
 *`connname`*
-:   Name of the connection to use; omit this parameter to use the
-    unnamed connection.
+:   要使用的連線名稱；省略此引數時使用未命名連線。
 
 *`connstr`*
-:   A connection info string, as previously described for
-    `dblink_connect`.
+:   連線資訊字串，如 `dblink_connect` 先前所述。
 
 *`sql`*
-:   The SQL query that you wish to execute in the remote database,
-    for example `select * from foo`.
+:   要在遠端資料庫執行的 SQL 查詢，例如 `select * from foo`。
 
 *`fail_on_error`*
-:   If true (the default when omitted) then an error thrown on the
-    remote side of the connection causes an error to also be thrown
-    locally. If false, the remote error is locally reported as a NOTICE,
-    and the function returns no rows.
+:   若為 true（省略時的預設值），連線遠端引發的錯誤也會在本端引發
+    錯誤。若為 false，遠端錯誤會在本端以 NOTICE 回報，且此函式不傳回
+    資料列。
 
 <a id="id-1.11.7.21.10.7"></a>
 
-## Return Value
+## 傳回值
 
-The function returns the row(s) produced by the query. Since
-`dblink` can be used with any query, it is declared
-to return `record`, rather than specifying any particular
-set of columns. This means that you must specify the expected
-set of columns in the calling query — otherwise
-PostgreSQL would not know what to expect.
-Here is an example:
+此函式傳回查詢產生的資料列。由於 `dblink` 可以搭配任何查詢使用，
+因此它宣告傳回 `record`，而非指定特定的欄位集合。這表示你必須在呼叫
+查詢中指定預期的欄位集合，否則 PostgreSQL 不知道應預期什麼。範例如下：
 
 ```
 
@@ -69,29 +58,20 @@ SELECT *
     WHERE proname LIKE 'bytea%';
 ```
 
-The “alias” part of the `FROM` clause must
-specify the column names and types that the function will return.
-(Specifying column names in an alias is actually standard SQL
-syntax, but specifying column types is a PostgreSQL
-extension.) This allows the system to understand what
-`*` should expand to, and what `proname`
-in the `WHERE` clause refers to, in advance of trying
-to execute the function. At run time, an error will be thrown
-if the actual query result from the remote database does not
-have the same number of columns shown in the `FROM` clause.
-The column names need not match, however, and `dblink`
-does not insist on exact type matches either. It will succeed
-so long as the returned data strings are valid input for the
-column type declared in the `FROM` clause.
+`FROM` 子句的「別名」部分必須指定函式將傳回的欄位名稱及型別。（在別名中
+指定欄位名稱其實是標準 SQL 語法，但指定欄位型別是 PostgreSQL 的擴充。）
+這讓系統在嘗試執行函式前，能瞭解 `*` 應展開為何者，以及 `WHERE` 子句中
+的 `proname` 指涉何者。執行時，若遠端資料庫的實際查詢結果不具有 `FROM`
+子句所列的相同欄位數，便會引發錯誤。不過欄位名稱不必相符，`dblink` 也不
+要求型別完全相符；只要傳回的資料字串是 `FROM` 子句所宣告欄位型別的有效輸入，
+就會成功。
 
 <a id="id-1.11.7.21.10.8"></a>
 
-## Notes
+## 注意事項
 
-A convenient way to use `dblink` with predetermined
-queries is to create a view.
-This allows the column type information to be buried in the view,
-instead of having to spell it out in every query. For example,
+若要將 `dblink` 搭配預先確定的查詢使用，方便的方法是建立檢視表。這可將
+欄位型別資訊隱藏在檢視表中，而不必在每個查詢中明確寫出。例如：
 
 ```
 
@@ -106,7 +86,7 @@ SELECT * FROM myremote_pg_proc WHERE proname LIKE 'bytea%';
 
 <a id="id-1.11.7.21.10.9"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -182,4 +162,4 @@ SELECT * FROM dblink('myconn', 'select proname, prosrc from pg_proc')
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-function.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-function.html)
