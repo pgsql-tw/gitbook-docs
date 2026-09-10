@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1001 頁。
+待譯頁面：1000 頁。
 
 ## 根目錄
 
@@ -980,7 +980,7 @@
 - [x] `server-programming/spi/spi-spi-getrelname.md` — SPI_getrelname
 - [x] `server-programming/spi/spi-spi-gettype.md` — SPI_gettype
 - [x] `server-programming/spi/spi-spi-gettypeid.md` — SPI_gettypeid
-- [ ] `server-programming/spi/spi-spi-getvalue.md` — SPI_getvalue
+- [x] `server-programming/spi/spi-spi-getvalue.md` — SPI_getvalue
 - [ ] `server-programming/spi/spi-spi-is-cursor-plan.md` — SPI_is_cursor_plan
 - [x] `server-programming/spi/spi-spi-keepplan.md` — SPI_keepplan
 - [ ] `server-programming/spi/spi-spi-modifytuple.md` — SPI_modifytuple
