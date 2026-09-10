@@ -1,38 +1,30 @@
-## Chapter 10. Type Conversion
+## 第 10 章 型別轉換
 
-**Table of Contents**
+**目錄**
 
-[10.1. Overview](typeconv-overview.md)
+[10.1. 概觀](typeconv-overview.md)
 
-[10.2. Operators](typeconv-oper.md)
+[10.2. 運算子](typeconv-oper.md)
 
-[10.3. Functions](typeconv-func.md)
+[10.3. 函式](typeconv-func.md)
 
-[10.4. Value Storage](typeconv-query.md)
+[10.4. 值的儲存](typeconv-query.md)
 
-[10.5. `UNION`, `CASE`, and Related Constructs](typeconv-union-case.md)
+[10.5. `UNION`、`CASE` 與相關結構](typeconv-union-case.md)
 
-[10.6. `SELECT` Output Columns](typeconv-select.md)
+[10.6. `SELECT` 輸出欄位](typeconv-select.md)
 
 <a id="id-1.5.9.2"></a>
 
-SQL statements can, intentionally or not, require
-the mixing of different data types in the same expression.
-PostgreSQL has extensive facilities for
-evaluating mixed-type expressions.
+SQL 陳述式可能有意或無意地要求在同一個運算式中混用不同資料型別。
+PostgreSQL 提供廣泛的功能來評估混合型別的運算式。
 
-In many cases a user does not need
-to understand the details of the type conversion mechanism.
-However, implicit conversions done by PostgreSQL
-can affect the results of a query. When necessary, these results
-can be tailored by using *explicit* type conversion.
+許多情況下，使用者不需要瞭解型別轉換機制的細節。然而，PostgreSQL 所執行的
+隱含型別轉換可能影響查詢結果。必要時，可以使用*明確*型別轉換來調整這些結果。
 
-This chapter introduces the PostgreSQL
-type conversion mechanisms and conventions.
-Refer to the relevant sections in [Chapter 8](../datatype/README.md) and [Chapter 9](../functions/README.md)
-for more information on specific data types and allowed functions and
-operators.
+本章介紹 PostgreSQL 的型別轉換機制與慣例。特定資料型別及允許使用的函式和
+運算子，請參閱[第 8 章](../datatype/README.md)與[第 9 章](../functions/README.md)的相關小節。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/typeconv.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/typeconv.html)（原文版本：18.6；核對日期：2026-09-10）

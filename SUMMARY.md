@@ -120,7 +120,7 @@
     * [9.29. Trigger Functions #](the-sql-language/functions/functions-trigger.md)
     * [9.30. Event Trigger Functions #](the-sql-language/functions/functions-event-triggers.md)
     * [9.31. Statistics Information Functions #](the-sql-language/functions/functions-statistics.md)
-  * [Chapter 10. Type Conversion](the-sql-language/typeconv/README.md)
+  * [第 10 章 型別轉換](the-sql-language/typeconv/README.md)
     * [10.1. Overview #](the-sql-language/typeconv/typeconv-overview.md)
     * [10.2. Operators #](the-sql-language/typeconv/typeconv-oper.md)
     * [10.3. Functions #](the-sql-language/typeconv/typeconv-func.md)
