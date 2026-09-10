@@ -1017,7 +1017,7 @@
     * [69.1. Row Estimation Examples #](internals/planner-stats-details/row-estimation-examples.md)
     * [69.2. Multivariate Statistics Examples #](internals/planner-stats-details/multivariate-statistics-examples.md)
     * [69.3. Planner Statistics and Security #](internals/planner-stats-details/planner-stats-security.md)
-  * [Chapter 70. Backup Manifest Format](internals/backup-manifest-format/README.md)
+  * [第 70 章 備份清單格式](internals/backup-manifest-format/README.md)
     * [70.1. Backup Manifest Top-level Object #](internals/backup-manifest-format/backup-manifest-toplevel.md)
     * [70.2. Backup Manifest File Object #](internals/backup-manifest-format/backup-manifest-files.md)
     * [70.3. 備份清單的 WAL 範圍物件](internals/backup-manifest-format/backup-manifest-wal-ranges.md)

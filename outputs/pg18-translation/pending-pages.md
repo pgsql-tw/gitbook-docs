@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：986 頁。
+待譯頁面：985 頁。
 
 ## 根目錄
 
@@ -275,7 +275,7 @@
 ## internals
 
 - [ ] `internals/README.md` — Part VII. Internals
-- [ ] `internals/backup-manifest-format/README.md` — Chapter 70. Backup Manifest Format
+- [x] `internals/backup-manifest-format/README.md` — 第 70 章 備份清單格式
 - [ ] `internals/backup-manifest-format/backup-manifest-files.md` — 70.2. Backup Manifest File Object #
 - [ ] `internals/backup-manifest-format/backup-manifest-toplevel.md` — 70.1. Backup Manifest Top-level Object #
 - [x] `internals/backup-manifest-format/backup-manifest-wal-ranges.md` — 70.3. 備份清單的 WAL 範圍物件
