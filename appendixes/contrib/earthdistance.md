@@ -1,193 +1,156 @@
-## F.14. earthdistance — calculate great-circle distances [#](#EARTHDISTANCE)
+## F.14. earthdistance — 計算大圓距離 [#](#EARTHDISTANCE)
 
-[F.14.1. Cube-Based Earth Distances](earthdistance.md#EARTHDISTANCE-CUBE-BASED)
+[F.14.1. 以 Cube 為基礎的地球距離](earthdistance.md#EARTHDISTANCE-CUBE-BASED)
 
-[F.14.2. Point-Based Earth Distances](earthdistance.md#EARTHDISTANCE-POINT-BASED)
+[F.14.2. 以 Point 為基礎的地球距離](earthdistance.md#EARTHDISTANCE-POINT-BASED)
 
 <a id="id-1.11.7.24.2"></a>
 
-The `earthdistance` module provides two different approaches to
-calculating great circle distances on the surface of the Earth. The one
-described first depends on the `cube` module.
-The second one is based on the built-in `point` data type,
-using longitude and latitude for the coordinates.
+`earthdistance` 模組提供兩種計算地球表面大圓距離的方法。第一種方法依賴
+`cube` 模組；第二種方法以內建 `point` 資料型別為基礎，使用經度與緯度作為
+座標。
 
-In this module, the Earth is assumed to be perfectly spherical.
-(If that's too inaccurate for you, you might want to look at the
-[PostGIS](https://postgis.net/)
-project.)
+此模組假定地球為完美球體。（若這對你而言不夠精確，可能想參考
+[PostGIS](https://postgis.net/) 專案。）
 
-The `cube` module must be installed
-before `earthdistance` can be installed
-(although you can use the `CASCADE` option
-of `CREATE EXTENSION` to install both in one command).
+必須先安裝 `cube` 模組，才能安裝 `earthdistance`（不過可使用
+`CREATE EXTENSION` 的 `CASCADE` 選項，在一個命令中安裝兩者）。
 
-### Caution
+### 注意
 
-It is strongly recommended that `earthdistance`
-and `cube` be installed in the same schema, and that
-that schema be one for which CREATE privilege has not been and will not
-be granted to any untrusted users.
-Otherwise there are installation-time security hazards
-if `earthdistance`'s schema contains objects defined
-by a hostile user.
-Furthermore, when using `earthdistance`'s functions
-after installation, the entire search path should contain only trusted
-schemas.
+強烈建議將 `earthdistance` 與 `cube` 安裝至相同 schema，且該 schema 未曾且不會
+授予任何不受信任使用者 CREATE 權限。否則，若 `earthdistance` 的 schema 含有
+惡意使用者定義的物件，安裝時會有安全性風險。此外，安裝後使用
+`earthdistance` 函式時，整個搜尋路徑應只包含受信任的 schema。
 
 <a id="EARTHDISTANCE-CUBE-BASED"></a>
 
-### F.14.1. Cube-Based Earth Distances [#](#EARTHDISTANCE-CUBE-BASED)
+### F.14.1. 以 Cube 為基礎的地球距離 [#](#EARTHDISTANCE-CUBE-BASED)
 
-Data is stored in cubes that are points (both corners are the same) using 3
-coordinates representing the x, y, and z distance from the center of the
-Earth. A [*[domain](../glossary/README.md#GLOSSARY-DOMAIN)*](../glossary/README.md#GLOSSARY-DOMAIN)
-`earth` over type `cube` is provided, which
-includes constraint checks that the value meets these restrictions and
-is reasonably close to the actual surface of the Earth.
+資料會以 point cube（兩個角點相同）儲存，使用三個座標表示與地球中心的 x、y、z
+距離。模組提供建置於 `cube` 型別上的 [*[domain](../glossary/README.md#GLOSSARY-DOMAIN)*](../glossary/README.md#GLOSSARY-DOMAIN)
+`earth`，其中包含限制條件檢查，以確保值符合這些限制且合理接近地球的實際表面。
 
-The radius of the Earth is obtained from the `earth()`
-function. It is given in meters. But by changing this one function you can
-change the module to use some other units, or to use a different value of
-the radius that you feel is more appropriate.
+地球半徑由 `earth()` 函式取得，單位為公尺。但只要變更這一個函式，即可讓模組
+使用其他單位，或使用你認為較適當的不同半徑值。
 
-This package has applications to astronomical databases as well.
-Astronomers will probably want to change `earth()` to return a
-radius of `180/pi()` so that distances are in degrees.
+此套件也可用於天文資料庫。天文學家可能會想讓 `earth()` 傳回 `180/pi()` 的
+半徑，使距離單位成為度。
 
-Functions are provided to support input in latitude and longitude (in
-degrees), to support output of latitude and longitude, to calculate
-the great circle distance between two points and to easily specify a
-bounding box usable for index searches.
+提供的函式支援以緯度與經度（度）輸入、輸出緯度與經度、計算兩點之間的大圓距離，
+以及方便地指定可用於索引搜尋的邊界方框。
 
 The provided functions are shown
-in [Table F.4](earthdistance.md#EARTHDISTANCE-CUBE-FUNCTIONS).
+如[表 F.4](earthdistance.md#EARTHDISTANCE-CUBE-FUNCTIONS) 所示。
 
 <a id="EARTHDISTANCE-CUBE-FUNCTIONS"></a>
 
-**Table F.4. Cube-Based Earthdistance Functions**
+**表 F.4. 以 Cube 為基礎的 Earthdistance 函式**
 
 <table border="1" class="table" summary="Cube-Based Earthdistance Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.24.7.7.2.2.1.1.1.1"></a>
 <code class="function">earth</code> ()
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Returns the assumed radius of the Earth.
+        傳回假定的地球半徑。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.24.7.7.2.2.2.1.1.1"></a>
 <code class="function">sec_to_gc</code> ( <code class="type">float8</code> )
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Converts the normal straight line
-        (secant) distance between two points on the surface of the Earth
-        to the great circle distance between them.
+        將地球表面兩點間的一般直線（割線）距離轉換為兩點間的大圓距離。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.24.7.7.2.2.3.1.1.1"></a>
 <code class="function">gc_to_sec</code> ( <code class="type">float8</code> )
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Converts the great circle distance between two points on the
-        surface of the Earth to the normal straight line (secant) distance
-        between them.
+        將地球表面兩點間的大圓距離轉換為兩點間的一般直線（割線）距離。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.24.7.7.2.2.4.1.1.1"></a>
 <code class="function">ll_to_earth</code> ( <code class="type">float8</code>, <code class="type">float8</code> )
         → <code class="returnvalue">earth</code>
 </p>
 <p>
-        Returns the location of a point on the surface of the Earth given
-        its latitude (argument 1) and longitude (argument 2) in degrees.
+        根據點的緯度（引數 1）及經度（引數 2）度數，傳回其在地球表面的位置。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.24.7.7.2.2.5.1.1.1"></a>
 <code class="function">latitude</code> ( <code class="type">earth</code> )
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Returns the latitude in degrees of a point on the surface of the
-        Earth.
+        傳回地球表面上一點的緯度（度）。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.24.7.7.2.2.6.1.1.1"></a>
 <code class="function">longitude</code> ( <code class="type">earth</code> )
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Returns the longitude in degrees of a point on the surface of the
-        Earth.
+        傳回地球表面上一點的經度（度）。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.24.7.7.2.2.7.1.1.1"></a>
 <code class="function">earth_distance</code> ( <code class="type">earth</code>, <code class="type">earth</code> )
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Returns the great circle distance between two points on the
-        surface of the Earth.
+        傳回地球表面兩點之間的大圓距離。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.24.7.7.2.2.8.1.1.1"></a>
 <code class="function">earth_box</code> ( <code class="type">earth</code>, <code class="type">float8</code> )
         → <code class="returnvalue">cube</code>
 </p>
 <p>
-        Returns a box suitable for an indexed search using the <code class="type">cube</code>
+        傳回適合索引搜尋的方框，可使用 <code class="type">cube</code>
 <code class="literal">@&gt;</code>
-        operator for points within a given great circle distance of a location.
-        Some points in this box are further than the specified great circle
-        distance from the location, so a second check using
-        <code class="function">earth_distance</code> should be included in the query.
+        運算子尋找與某位置相隔指定大圓距離內的點。此方框中的某些點與該位置
+        相隔的距離會超過指定大圓距離，因此查詢中應包含使用
+        <code class="function">earth_distance</code> 的第二次檢查。
        </p></td></tr></tbody></table>
 
 <br>
 
 <a id="EARTHDISTANCE-POINT-BASED"></a>
 
-### F.14.2. Point-Based Earth Distances [#](#EARTHDISTANCE-POINT-BASED)
+### F.14.2. 以 Point 為基礎的地球距離 [#](#EARTHDISTANCE-POINT-BASED)
 
-The second part of the module relies on representing Earth locations as
-values of type `point`, in which the first component is taken to
-represent longitude in degrees, and the second component is taken to
-represent latitude in degrees. Points are taken as (longitude, latitude)
-and not vice versa because longitude is closer to the intuitive idea of
-x-axis and latitude to y-axis.
+模組的第二部分將地球位置表示為 `point` 型別的值，其中第一個分量表示度數的
+經度，第二個分量表示度數的緯度。點採用 (經度, 緯度)，而非相反順序，因為
+經度較接近 x 軸、緯度較接近 y 軸的直觀概念。
 
-A single operator is provided, shown
-in [Table F.5](earthdistance.md#EARTHDISTANCE-POINT-OPERATORS).
+提供一個運算子，如[表 F.5](earthdistance.md#EARTHDISTANCE-POINT-OPERATORS) 所示。
 
 <a id="EARTHDISTANCE-POINT-OPERATORS"></a>
 
-**Table F.5. Point-Based Earthdistance Operators**
+**表 F.5. 以 Point 為基礎的 Earthdistance 運算子**
 
 <table border="1" class="table" summary="Point-Based Earthdistance Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">point</code> <code class="literal">&lt;@&gt;</code> <code class="type">point</code>
         → <code class="returnvalue">float8</code>
 </p>
 <p>
-        Computes the distance in statute miles between
-        two points on the Earth's surface.
+        計算地球表面兩點之間的法定英里距離。
        </p></td></tr></tbody></table>
 
 <br>
 
-Note that unlike the `cube`-based part of the module, units
-are hardwired here: changing the `earth()` function will
-not affect the results of this operator.
+請注意，與模組以 `cube` 為基礎的部分不同，這裡的單位是固定的；變更 `earth()`
+函式不會影響此運算子的結果。
 
-One disadvantage of the longitude/latitude representation is that
-you need to be careful about the edge conditions near the poles
-and near +/- 180 degrees of longitude. The `cube`-based
-representation avoids these discontinuities.
+經度／緯度表示法的一項缺點是，必須留意接近極點與經度 +/- 180 度時的邊界
+條件。以 `cube` 為基礎的表示法可避免這些不連續性。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/earthdistance.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/earthdistance.html)

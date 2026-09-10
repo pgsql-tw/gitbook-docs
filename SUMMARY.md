@@ -1077,7 +1077,7 @@
       * [dblink_send_query](appendixes/contrib/contrib-dblink-send-query.md)
     * [F.12. `dict_int` — 整數全文檢索字典範例 #](appendixes/contrib/dict-int.md)
     * [F.13. `dict_xsyn` — 同義詞全文檢索字典範例 #](appendixes/contrib/dict-xsyn.md)
-    * [F.14. earthdistance — calculate great-circle distances #](appendixes/contrib/earthdistance.md)
+    * [F.14. earthdistance — 計算大圓距離 #](appendixes/contrib/earthdistance.md)
     * [F.15. file_fdw — access data files in the server's file system #](appendixes/contrib/file-fdw.md)
     * [F.16. fuzzystrmatch — determine string similarities and distance #](appendixes/contrib/fuzzystrmatch.md)
     * [F.17. hstore — hstore key/value datatype #](appendixes/contrib/hstore.md)

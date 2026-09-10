@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：924 頁。
+待譯頁面：923 頁。
 
 ## 根目錄
 
@@ -61,7 +61,7 @@
 - [x] `appendixes/contrib/dblink.md` — F.11. dblink — 連線至其他 PostgreSQL 資料庫 #
 - [x] `appendixes/contrib/dict-int.md` — F.12. dict_int — example full-text search dictionary for integers #
 - [x] `appendixes/contrib/dict-xsyn.md` — F.13. dict_xsyn — example synonym full-text search dictionary #
-- [ ] `appendixes/contrib/earthdistance.md` — F.14. earthdistance — calculate great-circle distances #
+- [x] `appendixes/contrib/earthdistance.md` — F.14. earthdistance — 計算大圓距離 #
 - [ ] `appendixes/contrib/file-fdw.md` — F.15. file_fdw — access data files in the server's file system #
 - [ ] `appendixes/contrib/fuzzystrmatch.md` — F.16. fuzzystrmatch — determine string similarities and distance #
 - [ ] `appendixes/contrib/hstore.md` — F.17. hstore — hstore key/value datatype #
