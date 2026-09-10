@@ -2,9 +2,9 @@
 
 ## SPI_connect
 
-SPI_connect, SPI_connect_ext — connect a C function to the SPI manager
+SPI_connect、SPI_connect_ext — 將 C 函式連線至 SPI 管理器
 
-## Synopsis
+## 語法
 
 ```
 
@@ -18,40 +18,26 @@ int SPI_connect_ext(int options)
 
 <a id="id-1.8.12.8.2.6"></a>
 
-## Description
+## 說明
 
-`SPI_connect` opens a connection from a
-C function invocation to the SPI manager. You must call this
-function if you want to execute commands through SPI. Some utility
-SPI functions can be called from unconnected C functions.
+`SPI_connect` 會從 C 函式呼叫開啟至 SPI 管理器的連線。若要透過 SPI 執行命令，必須呼叫此函式。某些公用 SPI 函式可從未連線的 C 函式呼叫。
 
-`SPI_connect_ext` does the same but has an argument that
-allows passing option flags. Currently, the following option values are
-available:
+`SPI_connect_ext` 的功能相同，但具有可傳入選項旗標的引數。目前可使用下列選項值：
 
 `SPI_OPT_NONATOMIC`
-:   Sets the SPI connection to be *nonatomic*, which
-    means that transaction control calls (`SPI_commit`,
-    `SPI_rollback`) are allowed. Otherwise,
-    calling those functions will result in an immediate error.
+:   將 SPI 連線設為*非原子性*，因此允許交易控制呼叫（`SPI_commit`、`SPI_rollback`）；否則呼叫這些函式會立即發生錯誤。
 
-`SPI_connect()` is equivalent to
-`SPI_connect_ext(0)`.
+`SPI_connect()` 等同於 `SPI_connect_ext(0)`。
 
 <a id="id-1.8.12.8.2.7"></a>
 
-## Return Value
+## 回傳值
 
 `SPI_OK_CONNECT`
-:   on success
+:   成功時。
 
-The fact that these functions return `int`
-not `void` is historical. All failure cases are reported
-via `ereport` or `elog`.
-(In versions before PostgreSQL v10,
-some but not all failures would be reported with a result value
-of `SPI_ERROR_CONNECT`.)
+這些函式傳回 `int` 而非 `void` 是歷史因素。所有失敗情況會透過 `ereport` 或 `elog` 回報。（在 PostgreSQL v10 之前，部分但非所有失敗情況會以 `SPI_ERROR_CONNECT` 結果值回報。）
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-connect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-connect.html)（原文版本：18.6；核對日期：2026-09-11）
