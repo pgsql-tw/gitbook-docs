@@ -1,7 +1,7 @@
 ## 35.25. `enabled_roles` [#](#INFOSCHEMA-ENABLED-ROLES)
 
-檢視表 `enabled_roles` 列出目前「已啟用的角色」。已啟用的角色會以遞迴方式
-定義為目前使用者，以及所有已透過自動繼承授與已啟用角色的角色。換言之，這些是
+檢視表 `enabled_roles` 列出目前「已啟用的角色」。它會以遞迴方式將已啟用的角色
+定義為目前使用者，以及所有透過自動繼承授與已啟用角色的角色。換言之，這些是
 目前使用者直接或間接具有自動繼承成員資格的所有角色。
 <a id="id-1.7.6.29.2.3"></a>
 <a id="id-1.7.6.29.2.4"></a>
@@ -30,4 +30,4 @@
 
 ---
 
-【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-enabled-roles.html)】
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-enabled-roles.html)（原文版本：18.6；核對日期：2026-09-10）

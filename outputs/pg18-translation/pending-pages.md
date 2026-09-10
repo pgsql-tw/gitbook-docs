@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：984 頁。
+待譯頁面：983 頁。
 
 ## 根目錄
 
@@ -197,7 +197,7 @@
 - [ ] `client-interfaces/information-schema/infoschema-domain-udt-usage.md` — 35.22. domain_udt_usage #
 - [ ] `client-interfaces/information-schema/infoschema-domains.md` — 35.23. domains #
 - [ ] `client-interfaces/information-schema/infoschema-element-types.md` — 35.24. element_types #
-- [ ] `client-interfaces/information-schema/infoschema-enabled-roles.md` — 35.25. enabled_roles #
+- [x] `client-interfaces/information-schema/infoschema-enabled-roles.md` — 35.25. `enabled_roles`
 - [ ] `client-interfaces/information-schema/infoschema-foreign-data-wrapper-options.md` — 35.26. foreign_data_wrapper_options #
 - [ ] `client-interfaces/information-schema/infoschema-foreign-data-wrappers.md` — 35.27. foreign_data_wrappers #
 - [ ] `client-interfaces/information-schema/infoschema-foreign-server-options.md` — 35.28. foreign_server_options #
