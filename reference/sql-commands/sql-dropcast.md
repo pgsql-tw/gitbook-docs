@@ -2,9 +2,9 @@
 
 ## DROP CAST
 
-DROP CAST — remove a cast
+DROP CAST — 移除型別轉換
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,37 +13,33 @@ DROP CAST [ IF EXISTS ] (source_type AS target_type) [ CASCADE | RESTRICT ]
 
 <a id="SQL-DROPCAST-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-`DROP CAST` removes a previously defined cast.
+`DROP CAST` 會移除先前定義的型別轉換。
 
-To be able to drop a cast, you must own the source or the target
-data type. These are the same privileges that are required to
-create a cast.
+若要移除型別轉換，你必須擁有來源或目標資料型別。這與建立型別轉換所需的權限相同。
 
 <a id="id-1.9.3.105.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the cast does not exist. A notice is issued
-    in this case.
+:   型別轉換不存在時不會擲出錯誤；此情況會發出 notice。
 
 *`source_type`*
-:   The name of the source data type of the cast.
+:   型別轉換的來源資料型別名稱。
 
 *`target_type`*
-:   The name of the target data type of the cast.
+:   型別轉換的目標資料型別名稱。
 
 `CASCADE`<br>`RESTRICT`
-:   These key words do not have any effect, since there are no
-    dependencies on casts.
+:   這些關鍵字沒有作用，因為型別轉換沒有相依性。
 
 <a id="SQL-DROPCAST-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-To drop the cast from type `text` to type `int`:
+若要移除從型別 `text` 到型別 `int` 的型別轉換：
 
 ```
 
@@ -52,16 +48,16 @@ DROP CAST (text AS int);
 
 <a id="SQL-DROPCAST-COMPAT"></a>
 
-## Compatibility
+## 相容性
 
-The `DROP CAST` command conforms to the SQL standard.
+`DROP CAST` 命令符合 SQL 標準。
 
 <a id="id-1.9.3.105.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE CAST](sql-createcast.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropcast.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropcast.html)（原文版本：18.6；核對日期：2026-09-10）
