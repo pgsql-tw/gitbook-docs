@@ -2,9 +2,9 @@
 
 ## dblink_fetch
 
-dblink_fetch — returns rows from an open cursor in a remote database
+dblink_fetch — 從遠端資料庫的已開啟游標傳回資料列
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,55 +14,47 @@ dblink_fetch(text connname, text cursorname, int howmany [, bool fail_on_error])
 
 <a id="id-1.11.7.21.13.5"></a>
 
-## Description
+## 說明
 
-`dblink_fetch` fetches rows from a cursor previously
-established by `dblink_open`.
+`dblink_fetch` 從先前由 `dblink_open` 建立的游標擷取資料列。
 
 <a id="id-1.11.7.21.13.6"></a>
 
-## Arguments
+## 引數
 
 *`connname`*
-:   Name of the connection to use; omit this parameter to use the
-    unnamed connection.
+:   要使用的連線名稱；省略此引數時使用未命名連線。
 
 *`cursorname`*
-:   The name of the cursor to fetch from.
+:   要從中擷取資料的游標名稱。
 
 *`howmany`*
-:   The maximum number of rows to retrieve. The next *`howmany`*
-    rows are fetched, starting at the current cursor position, moving
-    forward. Once the cursor has reached its end, no more rows are produced.
+:   要擷取的最大資料列數。從目前的游標位置開始，向前擷取接下來的
+    *`howmany`* 筆資料列。游標到達結尾後，不再產生任何資料列。
 
 *`fail_on_error`*
-:   If true (the default when omitted) then an error thrown on the
-    remote side of the connection causes an error to also be thrown
-    locally. If false, the remote error is locally reported as a NOTICE,
-    and the function returns no rows.
+:   若為 true（省略時的預設值），連線遠端引發的錯誤也會在本端引發
+    錯誤。若為 false，遠端錯誤會在本端以 NOTICE 回報，且此函式不傳回
+    資料列。
 
 <a id="id-1.11.7.21.13.7"></a>
 
-## Return Value
+## 傳回值
 
-The function returns the row(s) fetched from the cursor. To use this
-function, you will need to specify the expected set of columns,
-as previously discussed for `dblink`.
+此函式傳回從游標擷取的資料列。使用此函式時，你必須如 `dblink`
+先前所述，指定預期的欄位集合。
 
 <a id="id-1.11.7.21.13.8"></a>
 
-## Notes
+## 注意事項
 
-On a mismatch between the number of return columns specified in the
-`FROM` clause, and the actual number of columns returned by the
-remote cursor, an error will be thrown. In this event, the remote cursor
-is still advanced by as many rows as it would have been if the error had
-not occurred. The same is true for any other error occurring in the local
-query after the remote `FETCH` has been done.
+若 `FROM` 子句指定的傳回欄位數與遠端游標實際傳回的欄位數不符，便會引發
+錯誤。即使如此，遠端游標仍會向前推進，推進的資料列數與未發生該錯誤時
+相同。遠端 `FETCH` 完成後，本端查詢發生的任何其他錯誤也同樣如此。
 
 <a id="id-1.11.7.21.13.9"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -113,4 +105,4 @@ SELECT * FROM dblink_fetch('foo', 5) AS (funcname name, source text);
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-fetch.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-fetch.html)
