@@ -1021,7 +1021,7 @@
     * [70.1. Backup Manifest Top-level Object #](internals/backup-manifest-format/backup-manifest-toplevel.md)
     * [70.2. Backup Manifest File Object #](internals/backup-manifest-format/backup-manifest-files.md)
     * [70.3. 備份清單的 WAL 範圍物件](internals/backup-manifest-format/backup-manifest-wal-ranges.md)
-* [Part VIII. Appendixes](appendixes/README.md)
+* [第八部分：附錄](appendixes/README.md)
   * [Appendix A. PostgreSQL Error Codes](appendixes/errcodes-appendix/README.md)
   * [附錄 B. 日期／時間支援](appendixes/datetime-appendix/README.md)
     * [B.1. Date/Time Input Interpretation #](appendixes/datetime-appendix/datetime-input-rules.md)
