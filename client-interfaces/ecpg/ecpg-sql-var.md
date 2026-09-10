@@ -13,7 +13,7 @@ VAR varname IS ctype
 
 ## 說明
 
-`VAR` 命令會將新的 C 資料型別指派給主機變數。主機變數必須事先在宣告區段中宣告。
+`VAR` 命令會為主機變數指定新的 C 資料型別。主機變數必須事先在宣告區段中宣告。
 
 <a id="id-1.7.5.20.18.4"></a>
 
@@ -34,9 +34,9 @@ VAR varname IS ctype
 
 ```
 
-Exec sql begin declare section;
+EXEC SQL BEGIN DECLARE SECTION;
 short a;
-exec sql end declare section;
+EXEC SQL END DECLARE SECTION;
 EXEC SQL VAR a IS int;
 ```
 
@@ -48,4 +48,4 @@ EXEC SQL VAR a IS int;
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-var.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-var.html)（原文版本：18.6；核對日期：2026-09-10）
