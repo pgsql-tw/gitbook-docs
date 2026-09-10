@@ -750,7 +750,7 @@
     * [DROP CONVERSION — 移除轉換](reference/sql-commands/sql-dropconversion.md)
     * [DROP DATABASE](reference/sql-commands/sql-dropdatabase.md)
     * [DROP DOMAIN — 移除 domain](reference/sql-commands/sql-dropdomain.md)
-    * [DROP EVENT TRIGGER](reference/sql-commands/sql-dropeventtrigger.md)
+    * [DROP EVENT TRIGGER — 移除事件觸發器](reference/sql-commands/sql-dropeventtrigger.md)
     * [DROP EXTENSION](reference/sql-commands/sql-dropextension.md)
     * [DROP FOREIGN DATA WRAPPER](reference/sql-commands/sql-dropforeigndatawrapper.md)
     * [DROP FOREIGN TABLE](reference/sql-commands/sql-dropforeigntable.md)

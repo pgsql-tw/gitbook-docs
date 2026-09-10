@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：954 頁。
+待譯頁面：953 頁。
 
 ## 根目錄
 
@@ -629,7 +629,7 @@
 - [x] `reference/sql-commands/sql-dropconversion.md` — DROP CONVERSION — 移除轉換
 - [ ] `reference/sql-commands/sql-dropdatabase.md` — DROP DATABASE
 - [x] `reference/sql-commands/sql-dropdomain.md` — DROP DOMAIN — 移除 domain
-- [ ] `reference/sql-commands/sql-dropeventtrigger.md` — DROP EVENT TRIGGER
+- [x] `reference/sql-commands/sql-dropeventtrigger.md` — DROP EVENT TRIGGER — 移除事件觸發器
 - [ ] `reference/sql-commands/sql-dropextension.md` — DROP EXTENSION
 - [ ] `reference/sql-commands/sql-dropforeigndatawrapper.md` — DROP FOREIGN DATA WRAPPER
 - [ ] `reference/sql-commands/sql-dropforeigntable.md` — DROP FOREIGN TABLE
