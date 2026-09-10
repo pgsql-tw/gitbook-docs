@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：960 頁。
+待譯頁面：959 頁。
 
 ## 根目錄
 
@@ -823,7 +823,7 @@
 - [ ] `server-administration/runtime/ssh-tunnels.md` — 18.11. Secure TCP/IP Connections with SSH Tunnels #
 - [ ] `server-administration/runtime/ssl-tcp.md` — 18.9. Secure TCP/IP Connections with SSL #
 - [ ] `server-administration/runtime/upgrading.md` — 18.6. Upgrading a PostgreSQL Cluster #
-- [ ] `server-administration/user-manag/README.md` — Chapter 21. Database Roles
+- [x] `server-administration/user-manag/README.md` — 第 21 章 資料庫角色
 - [ ] `server-administration/user-manag/database-roles.md` — 21.1. Database Roles #
 - [x] `server-administration/user-manag/perm-functions.md` — 21.6. 函式安全性
 - [ ] `server-administration/user-manag/predefined-roles.md` — 21.5. Predefined Roles #
