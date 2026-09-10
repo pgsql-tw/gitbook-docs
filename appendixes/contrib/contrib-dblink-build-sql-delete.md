@@ -2,10 +2,9 @@
 
 ## dblink_build_sql_delete
 
-dblink_build_sql_delete — builds a DELETE statement using supplied values for primary
-key field values
+dblink_build_sql_delete — 使用提供的主鍵欄位值建立 DELETE 陳述式
 
-## Synopsis
+## 語法
 
 ```
 
@@ -17,56 +16,41 @@ dblink_build_sql_delete(text relname,
 
 <a id="id-1.11.7.21.24.5"></a>
 
-## Description
+## 說明
 
-`dblink_build_sql_delete` can be useful in doing selective
-replication of a local table to a remote database. It builds an SQL
-`DELETE` command that will delete the row with the given
-primary key values.
+`dblink_build_sql_delete` 可用於將本機資料表選擇性複寫至遠端資料庫。它會建立 SQL `DELETE` 指令，刪除具有指定主鍵值的資料列。
 
 <a id="id-1.11.7.21.24.6"></a>
 
-## Arguments
+## 引數
 
 *`relname`*
-:   Name of a local relation, for example `foo` or
-    `myschema.mytab`. Include double quotes if the
-    name is mixed-case or contains special characters, for
-    example `"FooBar"`; without quotes, the string
-    will be folded to lower case.
+:   本機關聯名稱，例如 `foo` 或 `myschema.mytab`。若名稱混用大小寫或包含特殊字元，請加上雙引號，例如 `"FooBar"`；若未加引號，字串會摺疊為小寫。
 
 *`primary_key_attnums`*
-:   Attribute numbers (1-based) of the primary key fields,
-    for example `1 2`.
+:   主鍵欄位的屬性編號（從 1 開始），例如 `1 2`。
 
 *`num_primary_key_atts`*
-:   The number of primary key fields.
+:   主鍵欄位數量。
 
 *`tgt_pk_att_vals_array`*
-:   Values of the primary key fields to be used in the resulting
-    `DELETE` command. Each field is represented in text form.
+:   產生的 `DELETE` 指令中要使用的主鍵欄位值。每個欄位都以文字形式表示。
 
 <a id="id-1.11.7.21.24.7"></a>
 
-## Return Value
+## 傳回值
 
-Returns the requested SQL statement as text.
+以文字形式傳回所要求的 SQL 陳述式。
 
 <a id="id-1.11.7.21.24.8"></a>
 
-## Notes
+## 注意事項
 
-As of PostgreSQL 9.0, the attribute numbers in
-*`primary_key_attnums`* are interpreted as logical
-column numbers, corresponding to the column's position in
-`SELECT * FROM relname`. Previous versions interpreted the
-numbers as physical column positions. There is a difference if any
-column(s) to the left of the indicated column have been dropped during
-the lifetime of the table.
+自 PostgreSQL 9.0 起，*`primary_key_attnums`* 中的屬性編號會解讀為邏輯欄位編號，對應至欄位在 `SELECT * FROM relname` 中的位置。先前版本將此編號解讀為實體欄位位置。若資料表生命週期中已刪除所指欄位左側的任何欄位，兩者會有所不同。
 
 <a id="id-1.11.7.21.24.9"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -79,4 +63,4 @@ SELECT dblink_build_sql_delete('"MyFoo"', '1 2', 2, '{"1", "b"}');
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-build-sql-delete.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-build-sql-delete.html)

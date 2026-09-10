@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：939 頁。
+待譯頁面：938 頁。
 
 ## 根目錄
 
@@ -37,7 +37,7 @@
 - [x] `appendixes/contrib/btree-gin.md` — F.7. btree_gin — 具有 B-tree 行為的 GIN 運算子類別
 - [x] `appendixes/contrib/btree-gist.md` — F.8. btree_gist — 具有 B-tree 行為的 GiST 運算子類別
 - [x] `appendixes/contrib/citext.md` — F.9. citext — 不區分大小寫的字元字串型別
-- [ ] `appendixes/contrib/contrib-dblink-build-sql-delete.md` — dblink_build_sql_delete
+- [x] `appendixes/contrib/contrib-dblink-build-sql-delete.md` — dblink_build_sql_delete
 - [ ] `appendixes/contrib/contrib-dblink-build-sql-insert.md` — dblink_build_sql_insert
 - [x] `appendixes/contrib/contrib-dblink-build-sql-update.md` — dblink_build_sql_update
 - [x] `appendixes/contrib/contrib-dblink-cancel-query.md` — dblink_cancel_query
