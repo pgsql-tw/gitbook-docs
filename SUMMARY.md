@@ -771,7 +771,7 @@
     * [DROP SCHEMA](reference/sql-commands/sql-dropschema.md)
     * [DROP SEQUENCE](reference/sql-commands/sql-dropsequence.md)
     * [DROP SERVER](reference/sql-commands/sql-dropserver.md)
-    * [DROP STATISTICS](reference/sql-commands/sql-dropstatistics.md)
+    * [DROP STATISTICS — 移除擴充統計資訊](reference/sql-commands/sql-dropstatistics.md)
     * [DROP SUBSCRIPTION](reference/sql-commands/sql-dropsubscription.md)
     * [DROP TABLE](reference/sql-commands/sql-droptable.md)
     * [DROP TABLESPACE](reference/sql-commands/sql-droptablespace.md)

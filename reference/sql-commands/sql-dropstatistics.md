@@ -2,9 +2,9 @@
 
 ## DROP STATISTICS
 
-DROP STATISTICS — remove extended statistics
+DROP STATISTICS — 移除擴充統計資訊
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,33 +13,28 @@ DROP STATISTICS [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 
 <a id="id-1.9.3.132.5"></a>
 
-## Description
+## 說明
 
-`DROP STATISTICS` removes statistics object(s) from the
-database. Only the statistics object's owner, the schema owner, or a
-superuser can drop a statistics object.
+`DROP STATISTICS` 會從資料庫移除統計資訊物件。只有統計資訊物件擁有者、schema 擁有者或超級使用者可以移除統計資訊物件。
 
 <a id="id-1.9.3.132.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the statistics object does not exist. A notice
-    is issued in this case.
+:   統計資訊物件不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name (optionally schema-qualified) of the statistics object to drop.
+:   要移除統計資訊物件的名稱（可選擇以 schema 限定）。
 
 `CASCADE`<br>`RESTRICT`
-:   These key words do not have any effect, since there are no dependencies
-    on statistics.
+:   這些關鍵字沒有作用，因為統計資訊沒有相依性。
 
 <a id="id-1.9.3.132.7"></a>
 
-## Examples
+## 範例
 
-To destroy two statistics objects in different schemas, without failing
-if they don't exist:
+若要銷毀兩個不同 schema 中的統計資訊物件，且在物件不存在時不失敗：
 
 ```
 
@@ -50,16 +45,16 @@ DROP STATISTICS IF EXISTS
 
 <a id="id-1.9.3.132.8"></a>
 
-## Compatibility
+## 相容性
 
-There is no `DROP STATISTICS` command in the SQL standard.
+SQL 標準中沒有 `DROP STATISTICS` 命令。
 
 <a id="id-1.9.3.132.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER STATISTICS](sql-alterstatistics.md), [CREATE STATISTICS](sql-createstatistics.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropstatistics.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropstatistics.html)（原文版本：18.6；核對日期：2026-09-10）
