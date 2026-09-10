@@ -1,62 +1,28 @@
-## F.8. btree_gist — GiST operator classes with B-tree behavior [#](#BTREE-GIST)
+## F.8. btree_gist — 具有 B-tree 行為的 GiST 運算子類別 [#](#BTREE-GIST)
 
-[F.8.1. Example Usage](btree-gist.md#BTREE-GIST-EXAMPLE-USAGE)
+[F.8.1. 使用範例](btree-gist.md#BTREE-GIST-EXAMPLE-USAGE)
 
-[F.8.2. Authors](btree-gist.md#BTREE-GIST-AUTHORS)
+[F.8.2. 作者](btree-gist.md#BTREE-GIST-AUTHORS)
 
 <a id="id-1.11.7.18.2"></a>
 
-`btree_gist` provides GiST index operator classes that
-implement B-tree equivalent behavior for the data types
-`int2`, `int4`, `int8`, `float4`,
-`float8`, `numeric`, `timestamp with time zone`,
-`timestamp without time zone`, `time with time zone`,
-`time without time zone`, `date`, `interval`,
-`oid`, `money`, `char`,
-`varchar`, `text`, `bytea`, `bit`,
-`varbit`, `macaddr`, `macaddr8`, `inet`,
-`cidr`, `uuid`, `bool` and all `enum` types.
+`btree_gist` 提供 GiST 索引運算子類別，為下列資料型別實作等同於 B-tree 的行為：`int2`、`int4`、`int8`、`float4`、`float8`、`numeric`、`timestamp with time zone`、`timestamp without time zone`、`time with time zone`、`time without time zone`、`date`、`interval`、`oid`、`money`、`char`、`varchar`、`text`、`bytea`、`bit`、`varbit`、`macaddr`、`macaddr8`、`inet`、`cidr`、`uuid`、`bool` 及所有 `enum` 型別。
 
-In general, these operator classes will not outperform the equivalent
-standard B-tree index methods, and they lack one major feature of the
-standard B-tree code: the ability to enforce uniqueness. However,
-they provide some other features that are not available with a B-tree
-index, as described below. Also, these operator classes are useful
-when a multicolumn GiST index is needed, wherein some of the columns
-are of data types that are only indexable with GiST but other columns
-are just simple data types. Lastly, these operator classes are useful for
-GiST testing and as a base for developing other GiST operator classes.
+一般而言，這些運算子類別不會優於等效的標準 B-tree 索引方法，且缺少標準 B-tree 程式碼的一項主要功能：強制唯一性的能力。不過，如下所述，它們提供一些 B-tree 索引沒有的其他功能。此外，當需要多欄位 GiST 索引，而其中部分欄位的資料型別只能使用 GiST 建立索引，其他欄位則只是簡單資料型別時，這些運算子類別很有用。最後，它們也適用於 GiST 測試，以及作為開發其他 GiST 運算子類別的基礎。
 
-In addition to the typical B-tree search operators, `btree_gist`
-also provides index support for `<>` (“not
-equals”). This may be useful in combination with an
-[exclusion constraint](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-EXCLUDE),
-as described below.
+除了典型 B-tree 搜尋運算子外，`btree_gist` 也為 `<>`（「不等於」）提供索引支援。如後文所述，這可能適合與[排除限制條件](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-EXCLUDE)搭配使用。
 
-Also, for data types for which there is a natural distance metric,
-`btree_gist` defines a distance operator `<->`,
-and provides GiST index support for nearest-neighbor searches using
-this operator. Distance operators are provided for
-`int2`, `int4`, `int8`, `float4`,
-`float8`, `timestamp with time zone`,
-`timestamp without time zone`,
-`time without time zone`, `date`, `interval`,
-`oid`, and `money`.
+此外，對於具有自然距離度量的資料型別，`btree_gist` 定義距離運算子 `<->`，並為使用此運算子的最近鄰搜尋提供 GiST 索引支援。`int2`、`int4`、`int8`、`float4`、`float8`、`timestamp with time zone`、`timestamp without time zone`、`time without time zone`、`date`、`interval`、`oid` 與 `money` 都提供距離運算子。
 
-By default `btree_gist` builds GiST index with
-`sortsupport` in *sorted* mode. This usually results in
-much faster index built speed. It is still possible to revert to buffered built strategy
-by using the `buffering` parameter when creating the index.
+預設情況下，`btree_gist` 會以*已排序*模式使用 `sortsupport` 建置 GiST 索引，通常可大幅加快索引建置速度。建立索引時仍可使用 `buffering` 參數，改回緩衝式建置策略。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組被視為「受信任」，也就是可由在目前資料庫中具有 `CREATE` 權限的非超級使用者安裝。
 
 <a id="BTREE-GIST-EXAMPLE-USAGE"></a>
 
-### F.8.1. Example Usage [#](#BTREE-GIST-EXAMPLE-USAGE)
+### F.8.1. 使用範例 [#](#BTREE-GIST-EXAMPLE-USAGE)
 
-Simple example using `btree_gist` instead of `btree`:
+使用 `btree_gist` 取代 `btree` 的簡單範例：
 
 ```
 
@@ -69,9 +35,7 @@ SELECT * FROM test WHERE a < 10;
 SELECT *, a <-> 42 AS dist FROM test ORDER BY a <-> 42 LIMIT 10;
 ```
 
-Use an [exclusion
-constraint](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-EXCLUDE) to enforce the rule that a cage at a zoo
-can contain only one kind of animal:
+使用[排除限制條件](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-EXCLUDE)，強制動物園中的一個籠子只能容納一種動物：
 
 ```
 
@@ -94,15 +58,13 @@ INSERT 0 1
 
 <a id="BTREE-GIST-AUTHORS"></a>
 
-### F.8.2. Authors [#](#BTREE-GIST-AUTHORS)
+### F.8.2. 作者 [#](#BTREE-GIST-AUTHORS)
 
 Teodor Sigaev (`<teodor@stack.net>`),
 Oleg Bartunov (`<oleg@sai.msu.su>`),
 Janko Richter (`<jankorichter@yahoo.de>`), and
-Paul Jungwirth (`<pj@illuminatedcomputing.com>`). See
-<http://www.sai.msu.su/~megera/postgres/gist/>
-for additional information.
+Paul Jungwirth（`<pj@illuminatedcomputing.com>`）。其他資訊請參閱 <http://www.sai.msu.su/~megera/postgres/gist/>。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/btree-gist.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/btree-gist.html)

@@ -1052,7 +1052,7 @@
     * [F.5. `basic_archive` — WAL 封存模組範例 #](appendixes/contrib/basic-archive.md)
     * [F.6. bloom — Bloom 篩選器索引存取方法](appendixes/contrib/bloom.md)
     * [F.7. btree_gin — 具有 B-tree 行為的 GIN 運算子類別](appendixes/contrib/btree-gin.md)
-    * [F.8. btree_gist — GiST operator classes with B-tree behavior #](appendixes/contrib/btree-gist.md)
+    * [F.8. btree_gist — 具有 B-tree 行為的 GiST 運算子類別](appendixes/contrib/btree-gist.md)
     * [F.9. citext — a case-insensitive character string type #](appendixes/contrib/citext.md)
     * [F.10. cube — a multi-dimensional cube data type #](appendixes/contrib/cube.md)
     * [F.11. dblink — connect to other PostgreSQL databases #](appendixes/contrib/dblink.md)

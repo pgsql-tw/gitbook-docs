@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：941 頁。
+待譯頁面：940 頁。
 
 ## 根目錄
 
@@ -35,7 +35,7 @@
 - [x] `appendixes/contrib/basic-archive.md` — F.5. basic_archive — an example WAL archive module #
 - [x] `appendixes/contrib/bloom.md` — F.6. bloom — Bloom 篩選器索引存取方法
 - [x] `appendixes/contrib/btree-gin.md` — F.7. btree_gin — 具有 B-tree 行為的 GIN 運算子類別
-- [ ] `appendixes/contrib/btree-gist.md` — F.8. btree_gist — GiST operator classes with B-tree behavior #
+- [x] `appendixes/contrib/btree-gist.md` — F.8. btree_gist — 具有 B-tree 行為的 GiST 運算子類別
 - [ ] `appendixes/contrib/citext.md` — F.9. citext — a case-insensitive character string type #
 - [ ] `appendixes/contrib/contrib-dblink-build-sql-delete.md` — dblink_build_sql_delete
 - [ ] `appendixes/contrib/contrib-dblink-build-sql-insert.md` — dblink_build_sql_insert
