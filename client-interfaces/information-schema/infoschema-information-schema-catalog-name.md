@@ -1,7 +1,7 @@
 ## 35.3. `information_schema_catalog_name` [#](#INFOSCHEMA-INFORMATION-SCHEMA-CATALOG-NAME)
 
-`information_schema_catalog_name` 是一個資料表，其中一律只有一列和一個欄位，
-內容是目前資料庫的名稱（在 SQL 術語中稱為目前目錄）。
+`information_schema_catalog_name` 是一個恆有一個資料列與一個欄位的資料表；其內容為
+目前資料庫的名稱（在 SQL 術語中稱為目前目錄）。
 
 <a id="id-1.7.6.7.3"></a>
 
@@ -23,4 +23,4 @@
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-information-schema-catalog-name.html)（原文版本：18.6；核對日期：2026-09-06）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-information-schema-catalog-name.html)（原文版本：18.6；核對日期：2026-09-10）

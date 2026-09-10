@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：1000 頁。
+待譯頁面：999 頁。
 
 ## 根目錄
 
@@ -204,7 +204,7 @@
 - [ ] `client-interfaces/information-schema/infoschema-foreign-servers.md` — 35.29. foreign_servers #
 - [ ] `client-interfaces/information-schema/infoschema-foreign-table-options.md` — 35.30. foreign_table_options #
 - [ ] `client-interfaces/information-schema/infoschema-foreign-tables.md` — 35.31. foreign_tables #
-- [ ] `client-interfaces/information-schema/infoschema-information-schema-catalog-name.md` — 35.3. information_schema_catalog_name #
+- [x] `client-interfaces/information-schema/infoschema-information-schema-catalog-name.md` — 35.3. `information_schema_catalog_name`
 - [ ] `client-interfaces/information-schema/infoschema-key-column-usage.md` — 35.32. key_column_usage #
 - [ ] `client-interfaces/information-schema/infoschema-parameters.md` — 35.33. parameters #
 - [ ] `client-interfaces/information-schema/infoschema-referential-constraints.md` — 35.34. referential_constraints #
