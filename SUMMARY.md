@@ -749,7 +749,7 @@
     * [DROP COLLATION](reference/sql-commands/sql-dropcollation.md)
     * [DROP CONVERSION](reference/sql-commands/sql-dropconversion.md)
     * [DROP DATABASE](reference/sql-commands/sql-dropdatabase.md)
-    * [DROP DOMAIN](reference/sql-commands/sql-dropdomain.md)
+    * [DROP DOMAIN — 移除 domain](reference/sql-commands/sql-dropdomain.md)
     * [DROP EVENT TRIGGER](reference/sql-commands/sql-dropeventtrigger.md)
     * [DROP EXTENSION](reference/sql-commands/sql-dropextension.md)
     * [DROP FOREIGN DATA WRAPPER](reference/sql-commands/sql-dropforeigndatawrapper.md)
