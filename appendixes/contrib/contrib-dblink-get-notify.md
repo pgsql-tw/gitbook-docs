@@ -2,9 +2,9 @@
 
 ## dblink_get_notify
 
-dblink_get_notify — retrieve async notifications on a connection
+dblink_get_notify — 擷取連線上的非同步通知
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,30 +14,28 @@ dblink_get_notify(text connname) returns setof (notify_name text, be_pid int, ex
 
 <a id="id-1.11.7.21.19.5"></a>
 
-## Description
+## 說明
 
-`dblink_get_notify` retrieves notifications on either
-the unnamed connection, or on a named connection if specified.
-To receive notifications via dblink, `LISTEN` must
-first be issued, using `dblink_exec`.
-For details see [LISTEN](../../reference/sql-commands/sql-listen.md) and [NOTIFY](../../reference/sql-commands/sql-notify.md).
+`dblink_get_notify` 從未命名連線，或指定的具名連線擷取通知。若要透過
+dblink 接收通知，必須先使用 `dblink_exec` 發出 `LISTEN`。詳情請參閱
+[LISTEN](../../reference/sql-commands/sql-listen.md) 和 [NOTIFY](../../reference/sql-commands/sql-notify.md)。
 
 <a id="id-1.11.7.21.19.6"></a>
 
-## Arguments
+## 引數
 
 *`connname`*
-:   The name of a named connection to get notifications on.
+:   要從中取得通知的具名連線名稱。
 
 <a id="id-1.11.7.21.19.7"></a>
 
-## Return Value
+## 傳回值
 
-Returns `setof (notify_name text, be_pid int, extra text)`, or an empty set if none.
+傳回 `setof (notify_name text, be_pid int, extra text)`；若沒有通知則傳回空集合。
 
 <a id="id-1.11.7.21.19.8"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -64,4 +62,4 @@ SELECT * FROM dblink_get_notify();
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-get-notify.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-get-notify.html)
