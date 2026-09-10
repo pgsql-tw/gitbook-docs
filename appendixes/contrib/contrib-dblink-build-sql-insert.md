@@ -2,11 +2,9 @@
 
 ## dblink_build_sql_insert
 
-dblink_build_sql_insert —
-builds an INSERT statement using a local tuple, replacing the
-primary key field values with alternative supplied values
+dblink_build_sql_insert — 使用本機 tuple 建立 INSERT 陳述式，並以提供的替代值取代主鍵欄位值
 
-## Synopsis
+## 語法
 
 ```
 
@@ -19,65 +17,44 @@ dblink_build_sql_insert(text relname,
 
 <a id="id-1.11.7.21.23.5"></a>
 
-## Description
+## 說明
 
-`dblink_build_sql_insert` can be useful in doing selective
-replication of a local table to a remote database. It selects a row
-from the local table based on primary key, and then builds an SQL
-`INSERT` command that will duplicate that row, but with
-the primary key values replaced by the values in the last argument.
-(To make an exact copy of the row, just specify the same values for
-the last two arguments.)
+`dblink_build_sql_insert` 可用於將本機資料表選擇性複寫至遠端資料庫。它會依主鍵從本機資料表選取一列，接著建立複製該資料列的 SQL `INSERT` 指令，但以最後一個引數中的值取代主鍵值。（若要精確複製資料列，只要為最後兩個引數指定相同值。）
 
 <a id="id-1.11.7.21.23.6"></a>
 
-## Arguments
+## 引數
 
 *`relname`*
-:   Name of a local relation, for example `foo` or
-    `myschema.mytab`. Include double quotes if the
-    name is mixed-case or contains special characters, for
-    example `"FooBar"`; without quotes, the string
-    will be folded to lower case.
+:   本機關聯名稱，例如 `foo` 或 `myschema.mytab`。若名稱混用大小寫或包含特殊字元，請加上雙引號，例如 `"FooBar"`；若未加引號，字串會摺疊為小寫。
 
 *`primary_key_attnums`*
-:   Attribute numbers (1-based) of the primary key fields,
-    for example `1 2`.
+:   主鍵欄位的屬性編號（從 1 開始），例如 `1 2`。
 
 *`num_primary_key_atts`*
-:   The number of primary key fields.
+:   主鍵欄位數量。
 
 *`src_pk_att_vals_array`*
-:   Values of the primary key fields to be used to look up the
-    local tuple. Each field is represented in text form.
-    An error is thrown if there is no local row with these
-    primary key values.
+:   用來查詢本機 tuple 的主鍵欄位值。每個欄位都以文字形式表示。若沒有具有這些主鍵值的本機資料列，會引發錯誤。
 
 *`tgt_pk_att_vals_array`*
-:   Values of the primary key fields to be placed in the resulting
-    `INSERT` command. Each field is represented in text form.
+:   置入產生之 `INSERT` 指令的主鍵欄位值。每個欄位都以文字形式表示。
 
 <a id="id-1.11.7.21.23.7"></a>
 
-## Return Value
+## 傳回值
 
-Returns the requested SQL statement as text.
+以文字形式傳回所要求的 SQL 陳述式。
 
 <a id="id-1.11.7.21.23.8"></a>
 
-## Notes
+## 注意事項
 
-As of PostgreSQL 9.0, the attribute numbers in
-*`primary_key_attnums`* are interpreted as logical
-column numbers, corresponding to the column's position in
-`SELECT * FROM relname`. Previous versions interpreted the
-numbers as physical column positions. There is a difference if any
-column(s) to the left of the indicated column have been dropped during
-the lifetime of the table.
+自 PostgreSQL 9.0 起，*`primary_key_attnums`* 中的屬性編號會解讀為邏輯欄位編號，對應至欄位在 `SELECT * FROM relname` 中的位置。先前版本將此編號解讀為實體欄位位置。若資料表生命週期中已刪除所指欄位左側的任何欄位，兩者會有所不同。
 
 <a id="id-1.11.7.21.23.9"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -90,4 +67,4 @@ SELECT dblink_build_sql_insert('foo', '1 2', 2, '{"1", "a"}', '{"1", "b''a"}');
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-build-sql-insert.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-build-sql-insert.html)
