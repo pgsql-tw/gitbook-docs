@@ -2,9 +2,9 @@
 
 ## SPI_register_relation
 
-SPI_register_relation — make an ephemeral named relation available by name in SPI queries
+SPI_register_relation — 讓 SPI 查詢可依名稱使用暫時具名關聯
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,42 +13,37 @@ int SPI_register_relation(EphemeralNamedRelation enr)
 
 <a id="id-1.8.12.8.31.6"></a>
 
-## Description
+## 說明
 
-`SPI_register_relation` makes an ephemeral named
-relation, with associated information, available to queries planned and
-executed through the current SPI connection.
+`SPI_register_relation` 會讓目前 SPI 連線規劃及執行的查詢，可使用暫時具名關聯及其相關資訊。
 
 <a id="id-1.8.12.8.31.7"></a>
 
-## Arguments
+## 引數
 
 `EphemeralNamedRelation enr`
-:   the ephemeral named relation registry entry
+:   暫時具名關聯登錄項目。
 
 <a id="id-1.8.12.8.31.8"></a>
 
-## Return Value
+## 回傳值
 
-If the execution of the command was successful then the following
-(nonnegative) value will be returned:
+命令成功執行時會傳回下列非負值：
 
 `SPI_OK_REL_REGISTER`
-:   if the relation has been successfully registered by name
+:   關聯已依名稱成功登錄。
 
-On error, one of the following negative values is returned:
+發生錯誤時會傳回下列其中一個負值：
 
 `SPI_ERROR_ARGUMENT`
-:   if *`enr`* is `NULL` or its
-    `name` field is `NULL`
+:   *`enr`* 或其 `name` 欄位為 `NULL`。
 
 `SPI_ERROR_UNCONNECTED`
-:   if called from an unconnected C function
+:   從未連線的 C 函式呼叫。
 
 `SPI_ERROR_REL_DUPLICATE`
-:   if the name specified in the `name` field of
-    *`enr`* is already registered for this connection
+:   *`enr`* 的 `name` 欄位指定名稱已為此連線登錄。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-register-relation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-register-relation.html)（原文版本：18.6；核對日期：2026-09-10）
