@@ -371,7 +371,7 @@
     * [35.1. The Schema #](client-interfaces/information-schema/infoschema-schema.md)
     * [35.2. Data Types #](client-interfaces/information-schema/infoschema-datatypes.md)
     * [35.3. information_schema_catalog_name #](client-interfaces/information-schema/infoschema-information-schema-catalog-name.md)
-    * [35.4. administrable_role_​authorizations #](client-interfaces/information-schema/infoschema-administrable-role-authorizations.md)
+    * [35.4. administrable_role_authorizations](client-interfaces/information-schema/infoschema-administrable-role-authorizations.md)
     * [35.5. applicable_roles #](client-interfaces/information-schema/infoschema-applicable-roles.md)
     * [35.6. attributes #](client-interfaces/information-schema/infoschema-attributes.md)
     * [35.7. character_sets #](client-interfaces/information-schema/infoschema-character-sets.md)
