@@ -2,9 +2,9 @@
 
 ## dblink_open
 
-dblink_open — opens a cursor in a remote database
+dblink_open — 在遠端資料庫開啟游標
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,58 +14,48 @@ dblink_open(text connname, text cursorname, text sql [, bool fail_on_error]) ret
 
 <a id="id-1.11.7.21.12.5"></a>
 
-## Description
+## 說明
 
-`dblink_open()` opens a cursor in a remote database.
-The cursor can subsequently be manipulated with
-`dblink_fetch()` and `dblink_close()`.
+`dblink_open()` 在遠端資料庫開啟游標。之後可使用 `dblink_fetch()` 和
+`dblink_close()` 操作該游標。
 
 <a id="id-1.11.7.21.12.6"></a>
 
-## Arguments
+## 引數
 
 *`connname`*
-:   Name of the connection to use; omit this parameter to use the
-    unnamed connection.
+:   要使用的連線名稱；省略此引數時使用未命名連線。
 
 *`cursorname`*
-:   The name to assign to this cursor.
+:   要指派給此游標的名稱。
 
 *`sql`*
-:   The `SELECT` statement that you wish to execute in the remote
-    database, for example `select * from pg_class`.
+:   要在遠端資料庫執行的 `SELECT` 陳述式，例如 `select * from pg_class`。
 
 *`fail_on_error`*
-:   If true (the default when omitted) then an error thrown on the
-    remote side of the connection causes an error to also be thrown
-    locally. If false, the remote error is locally reported as a NOTICE,
-    and the function's return value is set to `ERROR`.
+:   若為 true（省略時的預設值），連線遠端引發的錯誤也會在本端引發
+    錯誤。若為 false，遠端錯誤會在本端以 NOTICE 回報，且函式的傳回值會
+    設為 `ERROR`。
 
 <a id="id-1.11.7.21.12.7"></a>
 
-## Return Value
+## 傳回值
 
-Returns status, either `OK` or `ERROR`.
+傳回狀態，為 `OK` 或 `ERROR`。
 
 <a id="id-1.11.7.21.12.8"></a>
 
-## Notes
+## 注意事項
 
-Since a cursor can only persist within a transaction,
-`dblink_open` starts an explicit transaction block
-(`BEGIN`) on the remote side, if the remote side was
-not already within a transaction. This transaction will be
-closed again when the matching `dblink_close` is
-executed. Note that if
-you use `dblink_exec` to change data between
-`dblink_open` and `dblink_close`,
-and then an error occurs or you use `dblink_disconnect` before
-`dblink_close`, your change *will be
-lost* because the transaction will be aborted.
+由於游標只能在交易內持續存在，若遠端尚未位於交易中，`dblink_open` 會在
+遠端啟動明確的交易區塊（`BEGIN`）。執行相對應的 `dblink_close` 時，會再次
+關閉此交易。請注意，若你在 `dblink_open` 與 `dblink_close` 之間使用
+`dblink_exec` 變更資料，然後發生錯誤或在 `dblink_close` 前使用
+`dblink_disconnect`，交易會被中止，因而*遺失*你的變更。
 
 <a id="id-1.11.7.21.12.9"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -84,4 +74,4 @@ SELECT dblink_open('foo', 'select proname, prosrc from pg_proc');
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-open.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-open.html)
