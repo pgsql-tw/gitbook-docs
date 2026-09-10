@@ -830,7 +830,7 @@
     * [51.1. The Path of a Query #](internals/overview/query-path.md)
     * [51.2. How Connections Are Established #](internals/overview/connect-estab.md)
     * [51.3. The Parser Stage #](internals/overview/parser-stage.md)
-    * [51.4. The PostgreSQL Rule System #](internals/overview/rule-system.md)
+    * [51.4. PostgreSQL 規則系統](internals/overview/rule-system.md)
     * [51.5. Planner/Optimizer #](internals/overview/planner-optimizer.md)
     * [51.6. Executor #](internals/overview/executor.md)
   * [Chapter 52. System Catalogs](internals/catalogs/README.md)

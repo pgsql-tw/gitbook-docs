@@ -1,30 +1,13 @@
-## 51.4. The PostgreSQL Rule System [#](#RULE-SYSTEM)
+## 51.4. PostgreSQL 規則系統 [#](#RULE-SYSTEM)
 
-PostgreSQL supports a powerful
-*rule system* for the specification
-of *views* and ambiguous *view updates*.
-Originally the PostgreSQL
-rule system consisted of two implementations:
+PostgreSQL 支援強大的*規則系統*，可用來定義*檢視表*與模稜兩可的*檢視表更新*。
+最初 PostgreSQL 規則系統有兩種實作：
 
-* The first one worked using *row level* processing and was
-  implemented deep in the *executor*. The rule system was
-  called whenever an individual row had been accessed. This
-  implementation was removed in 1995 when the last official release
-  of the Berkeley Postgres project was
-  transformed into Postgres95.
-* The second implementation of the rule system is a technique
-  called *query rewriting*.
-  The *rewrite system* is a module
-  that exists between the *parser stage* and the
-  *planner/optimizer*. This technique is still implemented.
+* 第一種使用*資料列層級*處理，並深植於*執行器*中。每當存取個別資料列時，規則系統便會被呼叫。這項實作在 1995 年 Berkeley Postgres 專案的最後一個正式版本轉為 Postgres95 時移除。
+* 第二種規則系統實作是一種稱為*查詢重寫*的技術。*重寫系統*是一個位於*剖析器階段*與*規劃器／最佳化器*之間的模組，至今仍在實作中。
 
-The query rewriter is discussed in some detail in
-[Chapter 39](../../server-programming/rules/README.md), so there is no need to cover it here.
-We will only point out that both the input and the output of the
-rewriter are query trees, that is, there is no change in the
-representation or level of semantic detail in the trees. Rewriting
-can be thought of as a form of macro expansion.
+[第 39 章](../../server-programming/rules/README.md)已詳細討論查詢重寫器，因此此處不再說明。我們僅指出，重寫器的輸入與輸出都是查詢樹；也就是說，樹的表示法與語意細節層級不會改變。重寫可視為一種巨集展開。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rule-system.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rule-system.html)（原文版本：18.6；核對日期：2026-09-10）
