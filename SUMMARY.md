@@ -1045,7 +1045,7 @@
     * [E.6. Release 18 #](appendixes/release/release-18.md)
     * [E.7. 舊版本](appendixes/release/release-prior.md)
   * [附錄 F：額外提供的模組與擴充功能](appendixes/contrib/README.md)
-    * [F.1. amcheck — tools to verify table and index consistency #](appendixes/contrib/amcheck.md)
+    * [F.1. amcheck — 驗證資料表與索引一致性的工具](appendixes/contrib/amcheck.md)
     * [F.2. `auth_delay` — 驗證失敗時暫停 #](appendixes/contrib/auth-delay.md)
     * [F.3. auto_explain — log execution plans of slow queries #](appendixes/contrib/auto-explain.md)
     * [F.4. `basebackup_to_shell` — 「shell」`pg_basebackup` 模組範例 #](appendixes/contrib/basebackup-to-shell.md)
