@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：944 頁。
+待譯頁面：943 頁。
 
 ## 根目錄
 
@@ -30,7 +30,7 @@
 - [x] `appendixes/contrib/README.md` — 附錄 F：額外提供的模組與擴充功能
 - [x] `appendixes/contrib/amcheck.md` — F.1. amcheck — 驗證資料表與索引一致性的工具
 - [x] `appendixes/contrib/auth-delay.md` — F.2. auth_delay — pause on authentication failure #
-- [ ] `appendixes/contrib/auto-explain.md` — F.3. auto_explain — log execution plans of slow queries #
+- [x] `appendixes/contrib/auto-explain.md` — F.3. auto_explain — 記錄慢速查詢的執行計畫
 - [x] `appendixes/contrib/basebackup-to-shell.md` — F.4. basebackup_to_shell — example "shell" pg_basebackup module #
 - [x] `appendixes/contrib/basic-archive.md` — F.5. basic_archive — an example WAL archive module #
 - [ ] `appendixes/contrib/bloom.md` — F.6. bloom — bloom filter index access method #

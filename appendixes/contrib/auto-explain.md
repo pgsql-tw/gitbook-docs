@@ -1,175 +1,88 @@
-## F.3. auto_explain — log execution plans of slow queries [#](#AUTO-EXPLAIN)
+## F.3. auto_explain — 記錄慢速查詢的執行計畫 [#](#AUTO-EXPLAIN)
 
-[F.3.1. Configuration Parameters](auto-explain.md#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS)
+[F.3.1. 設定參數](auto-explain.md#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS)
 
-[F.3.2. Example](auto-explain.md#AUTO-EXPLAIN-EXAMPLE)
+[F.3.2. 範例](auto-explain.md#AUTO-EXPLAIN-EXAMPLE)
 
-[F.3.3. Author](auto-explain.md#AUTO-EXPLAIN-AUTHOR)
+[F.3.3. 作者](auto-explain.md#AUTO-EXPLAIN-AUTHOR)
 
 <a id="id-1.11.7.13.2"></a>
 
-The `auto_explain` module provides a means for
-logging execution plans of slow statements automatically, without
-having to run [EXPLAIN](../../reference/sql-commands/sql-explain.md)
-by hand. This is especially helpful for tracking down un-optimized queries
-in large applications.
+`auto_explain` 模組可自動記錄慢速陳述式的執行計畫，無須手動執行 [EXPLAIN](../../reference/sql-commands/sql-explain.md)。這對於找出大型應用程式中未最佳化的查詢特別有幫助。
 
-The module provides no SQL-accessible functions. To use it, simply
-load it into the server. You can load it into an individual session:
+此模組不提供可透過 SQL 存取的函式。若要使用它，只要將其載入伺服器。你可以將它載入個別工作階段：
 
 ```
 
 LOAD 'auto_explain';
 ```
 
-(You must be superuser to do that.) More typical usage is to preload
-it into some or all sessions by including `auto_explain` in
-[session_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES) or
-[shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) in
-`postgresql.conf`. Then you can track unexpectedly slow queries
-no matter when they happen. Of course there is a price in overhead for
-that.
+（這需要超級使用者權限。）更典型的用法是，在 `postgresql.conf` 的 [session_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES) 或 [shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) 中加入 `auto_explain`，以便將其預先載入部分或所有工作階段。如此即可追蹤隨時發生的非預期慢速查詢；當然，這會帶來額外負擔。
 
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS"></a>
 
-### F.3.1. Configuration Parameters [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS)
+### F.3.1. 設定參數 [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS)
 
-There are several configuration parameters that control the behavior of
-`auto_explain`. Note that the default behavior is
-to do nothing, so you must set at least
-`auto_explain.log_min_duration` if you want any results.
+有數個設定參數可控制 `auto_explain` 的行為。請注意，預設行為是不執行任何動作；若要取得任何結果，至少必須設定 `auto_explain.log_min_duration`。
 
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-MIN-DURATION"></a>
 
 `auto_explain.log_min_duration` (`integer`) <a id="id-1.11.7.13.5.3.1.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-MIN-DURATION)
-:   `auto_explain.log_min_duration` is the minimum statement
-    execution time, in milliseconds, that will cause the statement's plan to
-    be logged. Setting this to `0` logs all plans.
-    `-1` (the default) disables logging of plans. For
-    example, if you set it to `250ms` then all statements
-    that run 250ms or longer will be logged. Only superusers can change this
-    setting.
+:   `auto_explain.log_min_duration` 是觸發記錄陳述式計畫所需的最短陳述式執行時間（以毫秒為單位）。設為 `0` 會記錄所有計畫。`-1`（預設）會停用計畫記錄。例如，設為 `250ms` 時，執行 250 毫秒以上的所有陳述式都會被記錄。只有超級使用者能變更此設定。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-PARAMETER-MAX-LENGTH"></a>
 
 `auto_explain.log_parameter_max_length` (`integer`) <a id="id-1.11.7.13.5.3.2.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-PARAMETER-MAX-LENGTH)
-:   `auto_explain.log_parameter_max_length` controls the
-    logging of query parameter values. A value of `-1` (the
-    default) logs the parameter values in full. `0` disables
-    logging of parameter values. A value greater than zero truncates each
-    parameter value to that many bytes. Only superusers can change this
-    setting.
+:   `auto_explain.log_parameter_max_length` 控制查詢參數值的記錄。`-1`（預設）會完整記錄參數值；`0` 停用參數值記錄；大於零的值會將每個參數值截斷至該位元組數。只有超級使用者能變更此設定。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-ANALYZE"></a>
 
 `auto_explain.log_analyze` (`boolean`) <a id="id-1.11.7.13.5.3.3.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-ANALYZE)
-:   `auto_explain.log_analyze` causes `EXPLAIN ANALYZE`
-    output, rather than just `EXPLAIN` output, to be printed
-    when an execution plan is logged. This parameter is off by default.
-    Only superusers can change this setting.
+:   `auto_explain.log_analyze` 使記錄執行計畫時輸出 `EXPLAIN ANALYZE`，而非僅輸出 `EXPLAIN`。此參數預設為關閉，且只有超級使用者能變更。
 
-    ### Note
+    ### 注意
 
-    When this parameter is on, per-plan-node timing occurs for all
-    statements executed, whether or not they run long enough to actually
-    get logged. This can have an extremely negative impact on performance.
-    Turning off `auto_explain.log_timing` ameliorates the
-    performance cost, at the price of obtaining less information.
+    啟用此參數時，所有已執行陳述式都會執行每個計畫節點的計時，不論是否長到實際被記錄。這可能對效能造成極大負面影響。關閉 `auto_explain.log_timing` 可減輕效能成本，但會取得較少資訊。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-BUFFERS"></a>
 
 `auto_explain.log_buffers` (`boolean`) <a id="id-1.11.7.13.5.3.4.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-BUFFERS)
-:   `auto_explain.log_buffers` controls whether buffer
-    usage statistics are printed when an execution plan is logged; it's
-    equivalent to the `BUFFERS` option of `EXPLAIN`.
-    This parameter has no effect
-    unless `auto_explain.log_analyze` is enabled.
-    This parameter is off by default.
-    Only superusers can change this setting.
+:   `auto_explain.log_buffers` 控制記錄執行計畫時是否輸出緩衝區使用統計資訊；它等同於 `EXPLAIN` 的 `BUFFERS` 選項。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為關閉，且只有超級使用者能變更。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-WAL"></a>
 
 `auto_explain.log_wal` (`boolean`) <a id="id-1.11.7.13.5.3.5.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-WAL)
-:   `auto_explain.log_wal` controls whether WAL
-    usage statistics are printed when an execution plan is logged; it's
-    equivalent to the `WAL` option of `EXPLAIN`.
-    This parameter has no effect
-    unless `auto_explain.log_analyze` is enabled.
-    This parameter is off by default.
-    Only superusers can change this setting.
+:   `auto_explain.log_wal` 控制記錄執行計畫時是否輸出 WAL 使用統計資訊；它等同於 `EXPLAIN` 的 `WAL` 選項。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為關閉，且只有超級使用者能變更。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-TIMING"></a>
 
 `auto_explain.log_timing` (`boolean`) <a id="id-1.11.7.13.5.3.6.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-TIMING)
-:   `auto_explain.log_timing` controls whether per-node
-    timing information is printed when an execution plan is logged; it's
-    equivalent to the `TIMING` option of `EXPLAIN`.
-    The overhead of repeatedly reading the system clock can slow down
-    queries significantly on some systems, so it may be useful to set this
-    parameter to off when only actual row counts, and not exact times, are
-    needed.
-    This parameter has no effect
-    unless `auto_explain.log_analyze` is enabled.
-    This parameter is on by default.
-    Only superusers can change this setting.
+:   `auto_explain.log_timing` 控制記錄執行計畫時是否輸出每個節點的計時資訊；它等同於 `EXPLAIN` 的 `TIMING` 選項。在某些系統上，重複讀取系統時鐘的額外負擔可能顯著降低查詢速度，因此若只需要實際資料列計數而不需要精確時間，關閉此參數可能有用。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為開啟，且只有超級使用者能變更。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-TRIGGERS"></a>
 
 `auto_explain.log_triggers` (`boolean`) <a id="id-1.11.7.13.5.3.7.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-TRIGGERS)
-:   `auto_explain.log_triggers` causes trigger
-    execution statistics to be included when an execution plan is logged.
-    This parameter has no effect
-    unless `auto_explain.log_analyze` is enabled.
-    This parameter is off by default.
-    Only superusers can change this setting.
+:   `auto_explain.log_triggers` 使記錄執行計畫時包含觸發程序執行統計資訊。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為關閉，且只有超級使用者能變更。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-VERBOSE"></a>
 
 `auto_explain.log_verbose` (`boolean`) <a id="id-1.11.7.13.5.3.8.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-VERBOSE)
-:   `auto_explain.log_verbose` controls whether verbose
-    details are printed when an execution plan is logged; it's
-    equivalent to the `VERBOSE` option of `EXPLAIN`.
-    This parameter is off by default.
-    Only superusers can change this setting.
+:   `auto_explain.log_verbose` 控制記錄執行計畫時是否輸出詳細資訊；它等同於 `EXPLAIN` 的 `VERBOSE` 選項。預設為關閉，且只有超級使用者能變更。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-SETTINGS"></a>
 
 `auto_explain.log_settings` (`boolean`) <a id="id-1.11.7.13.5.3.9.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-SETTINGS)
-:   `auto_explain.log_settings` controls whether information
-    about modified configuration options is printed when an execution plan is logged.
-    Only options affecting query planning with value different from the built-in
-    default value are included in the output. This parameter is off by default.
-    Only superusers can change this setting.
+:   `auto_explain.log_settings` 控制記錄執行計畫時是否輸出已修改設定選項的資訊。輸出只包括影響查詢規劃且值不同於內建預設值的選項。此參數預設為關閉，且只有超級使用者能變更。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-FORMAT"></a>
 
 `auto_explain.log_format` (`enum`) <a id="id-1.11.7.13.5.3.10.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-FORMAT)
-:   `auto_explain.log_format` selects the
-    `EXPLAIN` output format to be used.
-    The allowed values are `text`, `xml`,
-    `json`, and `yaml`. The default is text.
-    Only superusers can change this setting.
+:   `auto_explain.log_format` 選取要使用的 `EXPLAIN` 輸出格式。允許的值為 `text`、`xml`、`json` 與 `yaml`，預設為 text。只有超級使用者能變更此設定。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-LEVEL"></a>
 
 `auto_explain.log_level` (`enum`) <a id="id-1.11.7.13.5.3.11.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-LEVEL)
-:   `auto_explain.log_level` selects the log level at which
-    auto_explain will log the query plan.
-    Valid values are `DEBUG5`, `DEBUG4`,
-    `DEBUG3`, `DEBUG2`,
-    `DEBUG1`, `INFO`,
-    `NOTICE`, `WARNING`,
-    and `LOG`. The default is `LOG`.
-    Only superusers can change this setting.
+:   `auto_explain.log_level` 選取 auto_explain 記錄查詢計畫時使用的日誌層級。有效值為 `DEBUG5`、`DEBUG4`、`DEBUG3`、`DEBUG2`、`DEBUG1`、`INFO`、`NOTICE`、`WARNING` 及 `LOG`，預設為 `LOG`。只有超級使用者能變更此設定。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-NESTED-STATEMENTS"></a>
 
 `auto_explain.log_nested_statements` (`boolean`) <a id="id-1.11.7.13.5.3.12.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-NESTED-STATEMENTS)
-:   `auto_explain.log_nested_statements` causes nested
-    statements (statements executed inside a function) to be considered
-    for logging. When it is off, only top-level query plans are logged. This
-    parameter is off by default. Only superusers can change this setting.
+:   `auto_explain.log_nested_statements` 使巢狀陳述式（在函式內執行的陳述式）也納入記錄考量。關閉時只記錄最上層查詢計畫。此參數預設為關閉，且只有超級使用者能變更。
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-SAMPLE-RATE"></a>
 
 `auto_explain.sample_rate` (`real`) <a id="id-1.11.7.13.5.3.13.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-SAMPLE-RATE)
-:   `auto_explain.sample_rate` causes auto_explain to only
-    explain a fraction of the statements in each session. The default is 1,
-    meaning explain all the queries. In case of nested statements, either all
-    will be explained or none. Only superusers can change this setting.
+:   `auto_explain.sample_rate` 使 auto_explain 只對每個工作階段中的部分陳述式執行 explain。預設為 1，表示 explain 所有查詢。對巢狀陳述式而言，要麼全部 explain，要麼完全不執行。只有超級使用者能變更此設定。
 
-In ordinary usage, these parameters are set
-in `postgresql.conf`, although superusers can alter them
-on-the-fly within their own sessions.
-Typical usage might be:
+一般使用時，這些參數會設定在 `postgresql.conf` 中，但超級使用者可在自己的工作階段中即時變更。典型用法如下：
 
 ```
 
@@ -181,7 +94,7 @@ auto_explain.log_min_duration = '3s'
 
 <a id="AUTO-EXPLAIN-EXAMPLE"></a>
 
-### F.3.2. Example [#](#AUTO-EXPLAIN-EXAMPLE)
+### F.3.2. 範例 [#](#AUTO-EXPLAIN-EXAMPLE)
 
 ```
 
@@ -193,7 +106,7 @@ postgres=# SELECT count(*)
            WHERE oid = indrelid AND indisunique;
 ```
 
-This might produce log output such as:
+這可能產生如下的日誌輸出：
 
 ```
 
@@ -213,10 +126,10 @@ LOG:  duration: 3.651 ms  plan:
 
 <a id="AUTO-EXPLAIN-AUTHOR"></a>
 
-### F.3.3. Author [#](#AUTO-EXPLAIN-AUTHOR)
+### F.3.3. 作者 [#](#AUTO-EXPLAIN-AUTHOR)
 
 Takahiro Itagaki `<itagaki.takahiro@oss.ntt.co.jp>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auto-explain.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auto-explain.html)
