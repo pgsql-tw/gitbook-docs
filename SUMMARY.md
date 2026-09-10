@@ -1131,7 +1131,7 @@
     * [J.2. Tool Sets #](appendixes/docguide/docguide-toolsets.md)
     * [J.3. Building the Documentation with Make #](appendixes/docguide/docguide-build.md)
     * [J.4. 使用 Meson 建置文件](appendixes/docguide/docguide-build-meson.md)
-    * [J.5. Documentation Authoring #](appendixes/docguide/docguide-authoring.md)
+    * [J.5. 文件撰寫](appendixes/docguide/docguide-authoring.md)
     * [J.6. Style Guide #](appendixes/docguide/docguide-style.md)
   * [Appendix K. PostgreSQL Limits](appendixes/limits/README.md)
   * [Appendix L. Acronyms](appendixes/acronyms/README.md)
