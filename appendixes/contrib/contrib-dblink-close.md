@@ -2,9 +2,9 @@
 
 ## dblink_close
 
-dblink_close — closes a cursor in a remote database
+dblink_close — 關閉遠端資料庫中的游標
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,45 +14,38 @@ dblink_close(text connname, text cursorname [, bool fail_on_error]) returns text
 
 <a id="id-1.11.7.21.14.5"></a>
 
-## Description
+## 說明
 
-`dblink_close` closes a cursor previously opened with
-`dblink_open`.
+`dblink_close` 關閉先前以 `dblink_open` 開啟的游標。
 
 <a id="id-1.11.7.21.14.6"></a>
 
-## Arguments
+## 引數
 
 *`connname`*
-:   Name of the connection to use; omit this parameter to use the
-    unnamed connection.
+:   要使用的連線名稱；省略此參數可使用未命名連線。
 
 *`cursorname`*
-:   The name of the cursor to close.
+:   要關閉的游標名稱。
 
 *`fail_on_error`*
-:   If true (the default when omitted) then an error thrown on the
-    remote side of the connection causes an error to also be thrown
-    locally. If false, the remote error is locally reported as a NOTICE,
-    and the function's return value is set to `ERROR`.
+:   若為 true（省略時的預設值），連線遠端引發的錯誤也會在本機引發錯誤。若為 false，遠端錯誤會在本機回報為 NOTICE，且函式傳回值設為 `ERROR`。
 
 <a id="id-1.11.7.21.14.7"></a>
 
-## Return Value
+## 傳回值
 
-Returns status, either `OK` or `ERROR`.
+傳回狀態，為 `OK` 或 `ERROR`。
 
 <a id="id-1.11.7.21.14.8"></a>
 
-## Notes
+## 注意事項
 
-If `dblink_open` started an explicit transaction block,
-and this is the last remaining open cursor in this connection,
-`dblink_close` will issue the matching `COMMIT`.
+若 `dblink_open` 啟動明確交易區塊，且這是此連線上最後一個仍開啟的游標，`dblink_close` 會發出相對應的 `COMMIT`。
 
 <a id="id-1.11.7.21.14.9"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -77,4 +70,4 @@ SELECT dblink_close('foo');
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-close.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/contrib-dblink-close.html)
