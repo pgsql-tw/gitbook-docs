@@ -18,7 +18,7 @@
     * [2.2. 概念](tutorial/tutorial-sql/tutorial-concepts.md)
     * [2.3. 建立新資料表 #](tutorial/tutorial-sql/tutorial-table.md)
     * [2.4. 將資料列加入資料表 #](tutorial/tutorial-sql/tutorial-populate.md)
-    * [2.5. Querying a Table #](tutorial/tutorial-sql/tutorial-select.md)
+    * [2.5. 查詢資料表 #](tutorial/tutorial-sql/tutorial-select.md)
     * [2.6. Joins Between Tables #](tutorial/tutorial-sql/tutorial-join.md)
     * [2.7. Aggregate Functions #](tutorial/tutorial-sql/tutorial-agg.md)
     * [2.8. 更新](tutorial/tutorial-sql/tutorial-update.md)

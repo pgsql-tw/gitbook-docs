@@ -1,32 +1,26 @@
-## 2.5. Querying a Table [#](#TUTORIAL-SELECT)
+<a id="TUTORIAL-SELECT"></a>
+
+## 2.5. 查詢資料表 [#](#TUTORIAL-SELECT)
 
 <a id="id-1.4.4.6.2.1"></a>
 <a id="id-1.4.4.6.2.2"></a>
-To retrieve data from a table, the table is
-*queried*. An SQL
-`SELECT` statement is used to do this. The
-statement is divided into a select list (the part that lists the
-columns to be returned), a table list (the part that lists the
-tables from which to retrieve the data), and an optional
-qualification (the part that specifies any restrictions). For
-example, to retrieve all the rows of table
-`weather`, type:
+要從資料表取出資料，就要*查詢*該資料表。這項工作使用 SQL 的 `SELECT` 陳述式來完成。這個陳述式分成選取清單（列出要回傳哪些欄位的部分）、資料表清單（列出要從哪些資料表取出資料的部分），以及選用的限定條件（指定任何限制的部分）。舉例來說，要取出資料表 `weather` 的所有資料列，請輸入：
 
 ```
 
 SELECT * FROM weather;
 ```
 
-Here `*` is a shorthand for “all columns”.
+這裡的 `*` 是「所有欄位」的簡寫。
 [<a id="id-1.4.4.6.2.10"></a>[2]](#ftn.id-1.4.4.6.2.10)
-So the same result would be had with:
+因此，下列查詢也會得到相同的結果：
 
 ```
 
 SELECT city, temp_lo, temp_hi, prcp, date FROM weather;
 ```
 
-The output should be:
+輸出應該是：
 
 ```
 
@@ -38,15 +32,14 @@ The output should be:
 (3 rows)
 ```
 
-You can write expressions, not just simple column references, in the
-select list. For example, you can do:
+選取清單中不只能寫單純的欄位參照，也可以寫運算式。例如，你可以這樣做：
 
 ```
 
 SELECT city, (temp_hi+temp_lo)/2 AS temp_avg, date FROM weather;
 ```
 
-This should give:
+這應該會得到：
 
 ```
 
@@ -58,17 +51,9 @@ This should give:
 (3 rows)
 ```
 
-Notice how the `AS` clause is used to relabel the
-output column. (The `AS` clause is optional.)
+請注意這裡如何使用 `AS` 子句為輸出欄位重新命名。（`AS` 子句可以省略。）
 
-A query can be “qualified” by adding a `WHERE`
-clause that specifies which rows are wanted. The `WHERE`
-clause contains a Boolean (truth value) expression, and only rows for
-which the Boolean expression is true are returned. The usual
-Boolean operators (`AND`,
-`OR`, and `NOT`) are allowed in
-the qualification. For example, the following
-retrieves the weather of San Francisco on rainy days:
+查詢可以加上 `WHERE` 子句來「限定」要取得哪些資料列。`WHERE` 子句包含一個布林（真值）運算式，只有布林運算式為真的資料列才會被回傳。限定條件中可以使用一般的布林運算子（`AND`、`OR` 與 `NOT`）。例如，下列查詢會取出舊金山下雨日子的天氣：
 
 ```
 
@@ -76,7 +61,7 @@ SELECT * FROM weather
     WHERE city = 'San Francisco' AND prcp > 0.0;
 ```
 
-Result:
+結果：
 
 ```
 
@@ -87,8 +72,7 @@ Result:
 ```
 
 <a id="id-1.4.4.6.5.1"></a>
-You can request that the results of a query
-be returned in sorted order:
+你可以要求查詢結果依排序後的順序回傳：
 
 ```
 
@@ -105,9 +89,7 @@ SELECT * FROM weather
  San Francisco |      46 |      50 | 0.25 | 1994-11-27
 ```
 
-In this example, the sort order isn't fully specified, and so you
-might get the San Francisco rows in either order. But you'd always
-get the results shown above if you do:
+在這個例子中，排序順序並沒有完全指定，因此舊金山的兩筆資料列可能以任一順序出現。但如果你這樣寫，就一定會得到上面所示的結果：
 
 ```
 
@@ -117,8 +99,7 @@ SELECT * FROM weather
 
 <a id="id-1.4.4.6.6.1"></a>
 <a id="id-1.4.4.6.6.2"></a>
-You can request that duplicate rows be removed from the result of
-a query:
+你可以要求從查詢結果中移除重複的資料列：
 
 ```
 
@@ -135,9 +116,7 @@ SELECT DISTINCT city
 (2 rows)
 ```
 
-Here again, the result row ordering might vary.
-You can ensure consistent results by using `DISTINCT` and
-`ORDER BY` together:
+同樣地，結果資料列的順序可能會有所不同。你可以同時使用 `DISTINCT` 與 `ORDER BY` 來確保結果一致：
 [<a id="id-1.4.4.6.6.7"></a>[3]](#ftn.id-1.4.4.6.6.7)
 
 ```
@@ -154,21 +133,13 @@ SELECT DISTINCT city
 <a id="ftn.id-1.4.4.6.2.10"></a>
 
 [[2]](#id-1.4.4.6.2.10) 
-While `SELECT *` is useful for off-the-cuff
-queries, it is widely considered bad style in production code,
-since adding a column to the table would change the results.
+雖然 `SELECT *` 對臨時查詢很方便，但在正式環境的程式碼中，一般認為這是不好的寫法，因為在資料表中新增欄位就會改變查詢結果。
 
 <a id="ftn.id-1.4.4.6.6.7"></a>
 
 [[3]](#id-1.4.4.6.6.7) 
-In some database systems, including older versions of
-PostgreSQL, the implementation of
-`DISTINCT` automatically orders the rows and
-so `ORDER BY` is unnecessary. But this is not
-required by the SQL standard, and current
-PostgreSQL does not guarantee that
-`DISTINCT` causes the rows to be ordered.
+在某些資料庫系統中（包括舊版的 PostgreSQL），`DISTINCT` 的實作會自動將資料列排序，因此不需要 `ORDER BY`。但 SQL 標準並未要求這一點，而且目前的 PostgreSQL 並不保證 `DISTINCT` 會讓資料列依序排列。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-select.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-select.html)（原文版本：18.6；核對日期：2026-09-11）
