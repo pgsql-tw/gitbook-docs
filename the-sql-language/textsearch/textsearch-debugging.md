@@ -1,22 +1,20 @@
-## 12.8. Testing and Debugging Text Search [#](#TEXTSEARCH-DEBUGGING)
+<a id="TEXTSEARCH-DEBUGGING"></a>
 
-[12.8.1. Configuration Testing](textsearch-debugging.md#TEXTSEARCH-CONFIGURATION-TESTING)
+## 12.8. 測試與除錯文字搜尋 [#](#TEXTSEARCH-DEBUGGING)
 
-[12.8.2. Parser Testing](textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING)
+[12.8.1. 設定測試](textsearch-debugging.md#TEXTSEARCH-CONFIGURATION-TESTING)
 
-[12.8.3. Dictionary Testing](textsearch-debugging.md#TEXTSEARCH-DICTIONARY-TESTING)
+[12.8.2. 剖析器測試](textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING)
 
-The behavior of a custom text search configuration can easily become
-confusing. The functions described
-in this section are useful for testing text search objects. You can
-test a complete configuration, or test parsers and dictionaries separately.
+[12.8.3. 字典測試](textsearch-debugging.md#TEXTSEARCH-DICTIONARY-TESTING)
+
+自訂文字搜尋設定的行為很容易變得令人困惑。本節所述的函式可用來測試文字搜尋物件。你可以測試完整的設定，也可以分別測試剖析器與字典。
 
 <a id="TEXTSEARCH-CONFIGURATION-TESTING"></a>
 
-### 12.8.1. Configuration Testing [#](#TEXTSEARCH-CONFIGURATION-TESTING)
+### 12.8.1. 設定測試 [#](#TEXTSEARCH-CONFIGURATION-TESTING)
 
-The function `ts_debug` allows easy testing of a
-text search configuration.
+`ts_debug` 函式可以讓你輕鬆測試文字搜尋設定。
 
 <a id="id-1.5.11.11.3.3"></a>
 
@@ -32,30 +30,18 @@ ts_debug([ config regconfig, ] document text,
          returns setof record
 ```
 
-`ts_debug` displays information about every token of
-*`document`* as produced by the
-parser and processed by the configured dictionaries. It uses the
-configuration specified by *`config`*,
-or `default_text_search_config` if that argument is
-omitted.
+`ts_debug` 會顯示 *`document`* 中每個語彙單元的資訊，這些語彙單元由剖析器產生，並經過所設定的字典處理。它會使用 *`config`* 所指定的設定；如果省略該參數，則使用 `default_text_search_config`。
 
-`ts_debug` returns one row for each token identified in the text
-by the parser. The columns returned are
+`ts_debug` 會為剖析器在文字中識別出的每個語彙單元回傳一筆資料列。回傳的欄位有
 
-* *`alias`* `text` — short name of the token type
-* *`description`* `text` — description of the
-  token type
-* *`token`* `text` — text of the token
-* *`dictionaries`* `regdictionary[]` — the
-  dictionaries selected by the configuration for this token type
-* *`dictionary`* `regdictionary` — the dictionary
-  that recognized the token, or `NULL` if none did
-* *`lexemes`* `text[]` — the lexeme(s) produced
-  by the dictionary that recognized the token, or `NULL` if
-  none did; an empty array (`{}`) means it was recognized as a
-  stop word
+* *`alias`* `text`：語彙單元類型的簡稱
+* *`description`* `text`：語彙單元類型的說明
+* *`token`* `text`：語彙單元的文字
+* *`dictionaries`* `regdictionary[]`：設定為此語彙單元類型所選定的字典
+* *`dictionary`* `regdictionary`：辨識出該語彙單元的字典；如果沒有任何字典辨識出來，則為 `NULL`
+* *`lexemes`* `text[]`：辨識出該語彙單元的字典所產生的詞素；如果沒有任何字典辨識出來，則為 `NULL`；空陣列（`{}`）表示它被辨識為停用詞
 
-Here is a simple example:
+以下是一個簡單的範例：
 
 ```
 
@@ -88,9 +74,7 @@ SELECT * FROM ts_debug('english', 'a fat  cat sat on a mat - it ate a fat rats')
  asciiword | Word, all ASCII | rats  | {english_stem} | english_stem | {rat}
 ```
 
-For a more extensive demonstration, we
-first create a `public.english` configuration and
-Ispell dictionary for the English language:
+為了進行更完整的示範，我們先為英文建立一個 `public.english` 設定與 Ispell 字典：
 
 ```
 
@@ -119,26 +103,11 @@ SELECT * FROM ts_debug('public.english', 'The Brightest supernovaes');
  asciiword | Word, all ASCII | supernovaes | {english_ispell,english_stem} | english_stem   | {supernova}
 ```
 
-In this example, the word `Brightest` was recognized by the
-parser as an `ASCII word` (alias `asciiword`).
-For this token type the dictionary list is
-`english_ispell` and
-`english_stem`. The word was recognized by
-`english_ispell`, which reduced it to the noun
-`bright`. The word `supernovaes` is
-unknown to the `english_ispell` dictionary so it
-was passed to the next dictionary, and, fortunately, was recognized (in
-fact, `english_stem` is a Snowball dictionary which
-recognizes everything; that is why it was placed at the end of the
-dictionary list).
+在這個範例中，剖析器將單字 `Brightest` 辨識為 `ASCII word`（別名 `asciiword`）。這個語彙單元類型的字典清單是 `english_ispell` 與 `english_stem`。這個單字被 `english_ispell` 辨識出來，並被簡化為名詞 `bright`。單字 `supernovaes` 對 `english_ispell` 字典而言是未知的，因此它被傳給下一個字典，而且幸運地被辨識出來（事實上，`english_stem` 是一個能辨識所有內容的 Snowball 字典；這就是它被放在字典清單最後的原因）。
 
-The word `The` was recognized by the
-`english_ispell` dictionary as a stop word ([Section 12.6.1](textsearch-dictionaries.md#TEXTSEARCH-STOPWORDS)) and will not be indexed.
-The spaces are discarded too, since the configuration provides no
-dictionaries at all for them.
+單字 `The` 被 `english_ispell` 字典辨識為停用詞（[第 12.6.1 節](textsearch-dictionaries.md#TEXTSEARCH-STOPWORDS)），因此不會被建立索引。空白也會被捨棄，因為設定完全沒有為它們提供任何字典。
 
-You can reduce the width of the output by explicitly specifying which columns
-you want to see:
+你可以明確指定想要查看的欄位，以縮減輸出的寬度：
 
 ```
 
@@ -155,9 +124,9 @@ FROM ts_debug('public.english', 'The Brightest supernovaes');
 
 <a id="TEXTSEARCH-PARSER-TESTING"></a>
 
-### 12.8.2. Parser Testing [#](#TEXTSEARCH-PARSER-TESTING)
+### 12.8.2. 剖析器測試 [#](#TEXTSEARCH-PARSER-TESTING)
 
-The following functions allow direct testing of a text search parser.
+下列函式可以直接測試文字搜尋剖析器。
 
 <a id="id-1.5.11.11.4.3"></a>
 
@@ -169,11 +138,7 @@ ts_parse(parser_oid oid, document text,
          OUT tokid integer, OUT token text) returns setof record
 ```
 
-`ts_parse` parses the given *`document`*
-and returns a series of records, one for each token produced by
-parsing. Each record includes a `tokid` showing the
-assigned token type and a `token` which is the text of the
-token. For example:
+`ts_parse` 會剖析給定的 *`document`*，並回傳一系列紀錄，剖析所產生的每個語彙單元各對應一筆。每筆紀錄都包含一個 `tokid`，表示所指派的語彙單元類型，以及一個 `token`，也就是該語彙單元的文字。例如：
 
 ```
 
@@ -198,12 +163,7 @@ ts_token_type(parser_oid oid, OUT tokid integer,
               OUT alias text, OUT description text) returns setof record
 ```
 
-`ts_token_type` returns a table which describes each type of
-token the specified parser can recognize. For each token type, the table
-gives the integer `tokid` that the parser uses to label a
-token of that type, the `alias` that names the token type
-in configuration commands, and a short `description`. For
-example:
+`ts_token_type` 會回傳一個資料表，描述指定的剖析器能夠辨識的每一種語彙單元類型。對於每一種語彙單元類型，這個資料表會提供剖析器用來標記該類型語彙單元的整數 `tokid`、在設定指令中用來稱呼該語彙單元類型的 `alias`，以及一段簡短的 `description`。例如：
 
 ```
 
@@ -237,9 +197,9 @@ SELECT * FROM ts_token_type('default');
 
 <a id="TEXTSEARCH-DICTIONARY-TESTING"></a>
 
-### 12.8.3. Dictionary Testing [#](#TEXTSEARCH-DICTIONARY-TESTING)
+### 12.8.3. 字典測試 [#](#TEXTSEARCH-DICTIONARY-TESTING)
 
-The `ts_lexize` function facilitates dictionary testing.
+`ts_lexize` 函式可以協助測試字典。
 
 <a id="id-1.5.11.11.5.3"></a>
 
@@ -248,13 +208,9 @@ The `ts_lexize` function facilitates dictionary testing.
 ts_lexize(dict regdictionary, token text) returns text[]
 ```
 
-`ts_lexize` returns an array of lexemes if the input
-*`token`* is known to the dictionary,
-or an empty array if the token
-is known to the dictionary but it is a stop word, or
-`NULL` if it is an unknown word.
+如果字典認得輸入的 *`token`*，`ts_lexize` 會回傳詞素陣列；如果字典認得該語彙單元但它是停用詞，則回傳空陣列；如果是未知的單字，則回傳 `NULL`。
 
-Examples:
+範例：
 
 ```
 
@@ -269,11 +225,9 @@ SELECT ts_lexize('english_stem', 'a');
  {}
 ```
 
-### Note
+### 注意
 
-The `ts_lexize` function expects a single
-*token*, not text. Here is a case
-where this can be confusing:
+`ts_lexize` 函式預期的是單一個*語彙單元*，而不是文字。以下是一個可能造成混淆的例子：
 
 ```
 
@@ -283,11 +237,7 @@ SELECT ts_lexize('thesaurus_astro', 'supernovae stars') is null;
  t
 ```
 
-The thesaurus dictionary `thesaurus_astro` does know the
-phrase `supernovae stars`, but `ts_lexize`
-fails since it does not parse the input text but treats it as a single
-token. Use `plainto_tsquery` or `to_tsvector` to
-test thesaurus dictionaries, for example:
+同義詞庫字典 `thesaurus_astro` 確實認得片語 `supernovae stars`，但 `ts_lexize` 會失敗，因為它不會剖析輸入文字，而是將它視為單一語彙單元。請使用 `plainto_tsquery` 或 `to_tsvector` 來測試同義詞庫字典，例如：
 
 ```
 
@@ -299,4 +249,4 @@ SELECT plainto_tsquery('supernovae stars');
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-debugging.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-debugging.html)（原文版本：18.6；核對日期：2026-09-11）

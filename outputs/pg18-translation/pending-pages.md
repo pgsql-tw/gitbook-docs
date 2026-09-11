@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：866 頁。
+待譯頁面：865 頁。
 
 ## 根目錄
 
@@ -1136,7 +1136,7 @@
 - [x] `the-sql-language/textsearch/README.md` — 第 12 章 全文檢索
 - [x] `the-sql-language/textsearch/textsearch-configuration.md` — 12.7. 設定範例 #
 - [x] `the-sql-language/textsearch/textsearch-controls.md` — 12.3. 控制文字搜尋 #
-- [ ] `the-sql-language/textsearch/textsearch-debugging.md` — 12.8. Testing and Debugging Text Search #
+- [x] `the-sql-language/textsearch/textsearch-debugging.md` — 12.8. 測試與除錯文字搜尋 #
 - [ ] `the-sql-language/textsearch/textsearch-dictionaries.md` — 12.6. Dictionaries #
 - [ ] `the-sql-language/textsearch/textsearch-features.md` — 12.4. Additional Features #
 - [ ] `the-sql-language/textsearch/textsearch-indexes.md` — 12.9. Preferred Index Types for Text Search #
