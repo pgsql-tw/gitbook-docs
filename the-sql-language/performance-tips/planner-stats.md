@@ -1,25 +1,18 @@
-## 14.2. Statistics Used by the Planner [#](#PLANNER-STATS)
+<a id="PLANNER-STATS"></a>
 
-[14.2.1. Single-Column Statistics](planner-stats.md#PLANNER-STATS-SINGLE-COLUMN)
+## 14.2. 規劃器使用的統計資訊 [#](#PLANNER-STATS)
 
-[14.2.2. Extended Statistics](planner-stats.md#PLANNER-STATS-EXTENDED)
+[14.2.1. 單一欄位統計資訊](planner-stats.md#PLANNER-STATS-SINGLE-COLUMN)
+
+[14.2.2. 擴充統計資訊](planner-stats.md#PLANNER-STATS-EXTENDED)
 
 <a id="id-1.5.13.5.2"></a><a id="PLANNER-STATS-SINGLE-COLUMN"></a>
 
-### 14.2.1. Single-Column Statistics [#](#PLANNER-STATS-SINGLE-COLUMN)
+### 14.2.1. 單一欄位統計資訊 [#](#PLANNER-STATS-SINGLE-COLUMN)
 
-As we saw in the previous section, the query planner needs to estimate
-the number of rows retrieved by a query in order to make good choices
-of query plans. This section provides a quick look at the statistics
-that the system uses for these estimates.
+如同我們在上一節所看到的，查詢規劃器需要估計查詢會取得的資料列數量，才能對查詢計畫做出良好的選擇。本節將簡要介紹系統用來進行這些估計的統計資訊。
 
-One component of the statistics is the total number of entries in
-each table and index, as well as the number of disk blocks occupied
-by each table and index. This information is kept in the table
-[`pg_class`](../../internals/catalogs/catalog-pg-class.md),
-in the columns `reltuples` and
-`relpages`. We can look at it with
-queries similar to this one:
+統計資訊的其中一個組成部分，是每個資料表與索引中的項目總數，以及每個資料表與索引所占用的磁碟區塊數。這些資訊保存在資料表 [`pg_class`](../../internals/catalogs/catalog-pg-class.md) 的 `reltuples` 與 `relpages` 欄位中。我們可以用類似下面的查詢來查看它：
 
 ```
 
@@ -37,53 +30,17 @@ WHERE relname LIKE 'tenk1%';
 (5 rows)
 ```
 
-Here we can see that `tenk1` contains 10000
-rows, as do its indexes, but the indexes are (unsurprisingly) much
-smaller than the table.
+在這裡我們可以看到，`tenk1` 包含 10000 筆資料列，它的索引也是如此，但索引（不出所料）比資料表小得多。
 
-For efficiency reasons, `reltuples`
-and `relpages` are not updated on-the-fly,
-and so they usually contain somewhat out-of-date values.
-They are updated by `VACUUM`, `ANALYZE`, and a
-few DDL commands such as `CREATE INDEX`. A `VACUUM`
-or `ANALYZE` operation that does not scan the entire table
-(which is commonly the case) will incrementally update the
-`reltuples` count on the basis of the part
-of the table it did scan, resulting in an approximate value.
-In any case, the planner
-will scale the values it finds in `pg_class`
-to match the current physical table size, thus obtaining a closer
-approximation.
+基於效率考量，`reltuples` 與 `relpages` 不會即時更新，因此它們通常包含有些過時的值。它們會由 `VACUUM`、`ANALYZE` 以及少數 DDL 命令（例如 `CREATE INDEX`）更新。沒有掃描整個資料表的 `VACUUM` 或 `ANALYZE` 操作（這是常見的情況），會根據它所掃描的那部分資料表逐步更新 `reltuples` 計數，因此得到的是近似值。無論如何，規劃器都會依照目前資料表的實體大小，按比例調整它在 `pg_class` 中找到的值，從而得到更接近的近似值。
 
 <a id="id-1.5.13.5.3.5"></a>
 
-Most queries retrieve only a fraction of the rows in a table, due
-to `WHERE` clauses that restrict the rows to be
-examined. The planner thus needs to make an estimate of the
-*selectivity* of `WHERE` clauses, that is,
-the fraction of rows that match each condition in the
-`WHERE` clause. The information used for this task is
-stored in the
-[`pg_statistic`](../../internals/catalogs/catalog-pg-statistic.md)
-system catalog. Entries in `pg_statistic`
-are updated by the `ANALYZE` and `VACUUM
-ANALYZE` commands, and are always approximate even when freshly
-updated.
+由於 `WHERE` 子句會限制要檢查的資料列，大多數查詢只會取得資料表中一部分的資料列。因此，規劃器需要估計 `WHERE` 子句的*選擇率*（selectivity），也就是符合 `WHERE` 子句中每個條件之資料列所占的比例。用於這項工作的資訊，儲存在 [`pg_statistic`](../../internals/catalogs/catalog-pg-statistic.md) 系統目錄中。`pg_statistic` 中的項目由 `ANALYZE` 與 `VACUUM ANALYZE` 命令更新，而且即使剛更新過，也一律是近似值。
 
 <a id="id-1.5.13.5.3.7"></a>
 
-Rather than look at `pg_statistic` directly,
-it's better to look at its view
-[`pg_stats`](../../internals/views/view-pg-stats.md)
-when examining the statistics manually. `pg_stats`
-is designed to be more easily readable. Furthermore,
-`pg_stats` is readable by all, whereas
-`pg_statistic` is only readable by a superuser.
-(This prevents unprivileged users from learning something about
-the contents of other people's tables from the statistics. The
-`pg_stats` view is restricted to show only
-rows about tables that the current user can read.)
-For example, we might do:
+手動檢查統計資訊時，與其直接查看 `pg_statistic`，不如查看它的視圖 [`pg_stats`](../../internals/views/view-pg-stats.md)。`pg_stats` 的設計比較容易閱讀。此外，`pg_stats` 所有人都可以讀取，而 `pg_statistic` 只有超級使用者可以讀取。（這可以防止沒有權限的使用者從統計資訊中得知其他人資料表的內容。`pg_stats` 視圖只會顯示目前使用者可以讀取之資料表的相關資料列。）例如，我們可以這樣做：
 
 ```
 
@@ -121,112 +78,39 @@ WHERE tablename = 'road';
 (4 rows)
 ```
 
-Note that two rows are displayed for the same column, one corresponding
-to the complete inheritance hierarchy starting at the
-`road` table (`inherited`=`t`),
-and another one including only the `road` table itself
-(`inherited`=`f`).
-(For brevity, we have only shown the first ten most-common values for
-the `name` column.)
+請注意，同一個欄位顯示了兩筆資料列，一筆對應從 `road` 資料表開始的完整繼承階層（`inherited`=`t`），另一筆則只包含 `road` 資料表本身（`inherited`=`f`）。（為了簡潔起見，我們只顯示了 `name` 欄位的前十個最常見值。）
 
-The amount of information stored in `pg_statistic`
-by `ANALYZE`, in particular the maximum number of entries in the
-`most_common_vals` and `histogram_bounds`
-arrays for each column, can be set on a
-column-by-column basis using the `ALTER TABLE SET STATISTICS`
-command, or globally by setting the
-[default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET) configuration variable.
-The default limit is presently 100 entries. Raising the limit
-might allow more accurate planner estimates to be made, particularly for
-columns with irregular data distributions, at the price of consuming
-more space in `pg_statistic` and slightly more
-time to compute the estimates. Conversely, a lower limit might be
-sufficient for columns with simple data distributions.
+`ANALYZE` 儲存在 `pg_statistic` 中的資訊量，特別是每個欄位的 `most_common_vals` 與 `histogram_bounds` 陣列中的最大項目數，可以使用 `ALTER TABLE SET STATISTICS` 命令逐欄設定，或藉由設定組態變數 [default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET) 進行全域設定。目前預設的上限是 100 個項目。提高上限也許能讓規劃器做出更準確的估計，特別是對於資料分布不規則的欄位，代價則是在 `pg_statistic` 中占用更多空間，並稍微多花一些時間計算估計值。相反地，對於資料分布單純的欄位，較低的上限可能就已足夠。
 
-Further details about the planner's use of statistics can be found in
-[Chapter 69](../../internals/planner-stats-details/README.md).
+關於規劃器如何使用統計資訊的更多細節，請參閱[第 69 章](../../internals/planner-stats-details/README.md)。
 
 <a id="PLANNER-STATS-EXTENDED"></a>
 
-### 14.2.2. Extended Statistics [#](#PLANNER-STATS-EXTENDED)
+### 14.2.2. 擴充統計資訊 [#](#PLANNER-STATS-EXTENDED)
 
 <a id="id-1.5.13.5.4.2"></a><a id="id-1.5.13.5.4.3"></a><a id="id-1.5.13.5.4.4"></a><a id="id-1.5.13.5.4.5"></a>
 
-It is common to see slow queries running bad execution plans because
-multiple columns used in the query clauses are correlated.
-The planner normally assumes that multiple conditions
-are independent of each other,
-an assumption that does not hold when column values are correlated.
-Regular statistics, because of their per-individual-column nature,
-cannot capture any knowledge about cross-column correlation.
-However, PostgreSQL has the ability to compute
-*multivariate statistics*, which can capture
-such information.
+由於查詢子句中使用的多個欄位彼此相關，而使慢速查詢採用了不好的執行計畫，是很常見的情況。規劃器通常會假設多個條件彼此獨立，但當欄位值彼此相關時，這個假設就不成立。一般的統計資訊由於是針對個別欄位的，因此無法掌握任何關於跨欄位相關性的知識。不過，PostgreSQL 能夠計算*多變量統計資訊*（multivariate statistics），可以掌握這類資訊。
 
-Because the number of possible column combinations is very large,
-it's impractical to compute multivariate statistics automatically.
-Instead, *extended statistics objects*, more often
-called just *statistics objects*, can be created to instruct
-the server to obtain statistics across interesting sets of columns.
+由於可能的欄位組合數量非常龐大，自動計算多變量統計資訊並不切實際。取而代之的是，可以建立*擴充統計資訊物件*（extended statistics object，更常直接稱為*統計資訊物件*），指示伺服器針對感興趣的欄位集合取得跨欄位的統計資訊。
 
-Statistics objects are created using the
-[`CREATE STATISTICS`](../../reference/sql-commands/sql-createstatistics.md) command.
-Creation of such an object merely creates a catalog entry expressing
-interest in the statistics. Actual data collection is performed
-by `ANALYZE` (either a manual command, or background
-auto-analyze). The collected values can be examined in the
-[`pg_statistic_ext_data`](../../internals/catalogs/catalog-pg-statistic-ext-data.md)
-catalog.
+統計資訊物件是使用 [`CREATE STATISTICS`](../../reference/sql-commands/sql-createstatistics.md) 命令建立的。建立這樣的物件，只是在系統目錄中建立一個表示對該統計資訊感興趣的項目。實際的資料收集由 `ANALYZE`（手動命令或背景的自動分析）執行。收集到的值可以在 [`pg_statistic_ext_data`](../../internals/catalogs/catalog-pg-statistic-ext-data.md) 系統目錄中查看。
 
-`ANALYZE` computes extended statistics based on the same
-sample of table rows that it takes for computing regular single-column
-statistics. Since the sample size is increased by increasing the
-statistics target for the table or any of its columns (as described in
-the previous section), a larger statistics target will normally result in
-more accurate extended statistics, as well as more time spent calculating
-them.
+`ANALYZE` 計算擴充統計資訊時，所依據的資料表資料列樣本，與它計算一般單一欄位統計資訊時所取的樣本相同。由於提高資料表或其任一欄位的統計目標（如上一節所述）會增加樣本大小，因此較大的統計目標通常會產生更準確的擴充統計資訊，但計算它們所花的時間也會更多。
 
-The following subsections describe the kinds of extended statistics
-that are currently supported.
+下列小節說明目前支援的擴充統計資訊種類。
 
 <a id="PLANNER-STATS-EXTENDED-FUNCTIONAL-DEPS"></a>
 
-#### 14.2.2.1. Functional Dependencies [#](#PLANNER-STATS-EXTENDED-FUNCTIONAL-DEPS)
+#### 14.2.2.1. 函數相依性 [#](#PLANNER-STATS-EXTENDED-FUNCTIONAL-DEPS)
 
-The simplest kind of extended statistics tracks *functional
-dependencies*, a concept used in definitions of database normal forms.
-We say that column `b` is functionally dependent on
-column `a` if knowledge of the value of
-`a` is sufficient to determine the value
-of `b`, that is there are no two rows having the same value
-of `a` but different values of `b`.
-In a fully normalized database, functional dependencies should exist
-only on primary keys and superkeys. However, in practice many data sets
-are not fully normalized for various reasons; intentional
-denormalization for performance reasons is a common example.
-Even in a fully normalized database, there may be partial correlation
-between some columns, which can be expressed as partial functional
-dependency.
+最簡單的一種擴充統計資訊會追蹤*函數相依性*（functional dependency），這是在定義資料庫正規形式時所使用的概念。如果知道 `a` 的值就足以決定 `b` 的值，也就是說，不存在兩筆 `a` 值相同但 `b` 值不同的資料列，我們就說欄位 `b` 函數相依於欄位 `a`。在完全正規化的資料庫中，函數相依性應該只存在於主鍵與超鍵上。不過在實務上，許多資料集由於各種原因並未完全正規化；為了效能而刻意反正規化就是常見的例子。即使在完全正規化的資料庫中，某些欄位之間也可能存在部分相關性，這可以表示為部分函數相依性。
 
-The existence of functional dependencies directly affects the accuracy
-of estimates in certain queries. If a query contains conditions on
-both the independent and the dependent column(s), the
-conditions on the dependent columns do not further reduce the result
-size; but without knowledge of the functional dependency, the query
-planner will assume that the conditions are independent, resulting
-in underestimating the result size.
+函數相依性的存在，會直接影響某些查詢中估計的準確度。如果查詢同時包含對獨立欄位與相依欄位的條件，那麼相依欄位上的條件並不會進一步縮小結果的大小；但如果不知道這項函數相依性，查詢規劃器就會假設這些條件彼此獨立，導致低估結果的大小。
 
-To inform the planner about functional dependencies, `ANALYZE`
-can collect measurements of cross-column dependency. Assessing the
-degree of dependency between all sets of columns would be prohibitively
-expensive, so data collection is limited to those groups of columns
-appearing together in a statistics object defined with
-the `dependencies` option. It is advisable to create
-`dependencies` statistics only for column groups that are
-strongly correlated, to avoid unnecessary overhead in both
-`ANALYZE` and later query planning.
+為了讓規劃器得知函數相依性，`ANALYZE` 可以收集跨欄位相依性的量測值。評估所有欄位集合之間的相依程度會耗費過高的成本，因此資料收集只限於一起出現在以 `dependencies` 選項定義之統計資訊物件中的那些欄位群組。建議只為高度相關的欄位群組建立 `dependencies` 統計資訊，以避免在 `ANALYZE` 與之後的查詢規劃中產生不必要的額外負擔。
 
-Here is an example of collecting functional-dependency statistics:
+以下是收集函數相依性統計資訊的範例：
 
 ```
 
@@ -243,76 +127,43 @@ SELECT stxname, stxkeys, stxddependencies
 (1 row)
 ```
 
-Here it can be seen that column 1 (zip code) fully determines column
-5 (city) so the coefficient is 1.0, while city only determines zip code
-about 42% of the time, meaning that there are many cities (58%) that are
-represented by more than a single ZIP code.
+在這裡可以看到，第 1 欄（郵遞區號）完全決定了第 5 欄（城市），因此係數為 1.0；而城市只有大約 42% 的時候能決定郵遞區號，這表示有許多城市（58%）是以不只一個郵遞區號來表示的。
 
-When computing the selectivity for a query involving functionally
-dependent columns, the planner adjusts the per-condition selectivity
-estimates using the dependency coefficients so as not to produce
-an underestimate.
+計算涉及函數相依欄位之查詢的選擇率時，規劃器會使用相依係數來調整每個條件的選擇率估計值，以免產生低估。
 
 <a id="PLANNER-STATS-EXTENDED-FUNCTIONAL-DEPS-LIMITS"></a>
 
-##### 14.2.2.1.1. Limitations of Functional Dependencies [#](#PLANNER-STATS-EXTENDED-FUNCTIONAL-DEPS-LIMITS)
+##### 14.2.2.1.1. 函數相依性的限制 [#](#PLANNER-STATS-EXTENDED-FUNCTIONAL-DEPS-LIMITS)
 
-Functional dependencies are currently only applied when considering
-simple equality conditions that compare columns to constant values,
-and `IN` clauses with constant values.
-They are not used to improve estimates for equality conditions
-comparing two columns or comparing a column to an expression, nor for
-range clauses, `LIKE` or any other type of condition.
+目前，函數相依性只會在考量將欄位與常數值比較的簡單相等條件，以及帶有常數值的 `IN` 子句時套用。它們不會用來改善比較兩個欄位或比較欄位與運算式之相等條件的估計，也不會用於範圍子句、`LIKE` 或任何其他類型的條件。
 
-When estimating with functional dependencies, the planner assumes that
-conditions on the involved columns are compatible and hence redundant.
-If they are incompatible, the correct estimate would be zero rows, but
-that possibility is not considered. For example, given a query like
+使用函數相依性進行估計時，規劃器會假設相關欄位上的條件是相容的，因此是多餘的。如果它們不相容，正確的估計應該是零筆資料列，但這種可能性並不會被考慮。例如，給定下面這樣的查詢
 
 ```
 
 SELECT * FROM zipcodes WHERE city = 'San Francisco' AND zip = '94105';
 ```
 
-the planner will disregard the `city` clause as not
-changing the selectivity, which is correct. However, it will make
-the same assumption about
+規劃器會忽略 `city` 子句，認為它不會改變選擇率，這是正確的。然而，它對下面這個查詢也會做出相同的假設
 
 ```
 
 SELECT * FROM zipcodes WHERE city = 'San Francisco' AND zip = '90210';
 ```
 
-even though there will really be zero rows satisfying this query.
-Functional dependency statistics do not provide enough information
-to conclude that, however.
+即使實際上沒有任何資料列能滿足這個查詢。不過，函數相依性統計資訊並未提供足夠的資訊來得出這個結論。
 
-In many practical situations, this assumption is usually satisfied;
-for example, there might be a GUI in the application that only allows
-selecting compatible city and ZIP code values to use in a query.
-But if that's not the case, functional dependencies may not be a viable
-option.
+在許多實際情況下，這個假設通常都能滿足；例如，應用程式中可能有一個 GUI，只允許選取相容的城市與郵遞區號值來用於查詢。但如果不是這樣，函數相依性可能就不是可行的選擇。
 
 <a id="PLANNER-STATS-EXTENDED-N-DISTINCT-COUNTS"></a>
 
-#### 14.2.2.2. Multivariate N-Distinct Counts [#](#PLANNER-STATS-EXTENDED-N-DISTINCT-COUNTS)
+#### 14.2.2.2. 多變量相異值計數 [#](#PLANNER-STATS-EXTENDED-N-DISTINCT-COUNTS)
 
-Single-column statistics store the number of distinct values in each
-column. Estimates of the number of distinct values when combining more
-than one column (for example, for `GROUP BY a, b`) are
-frequently wrong when the planner only has single-column statistical
-data, causing it to select bad plans.
+單一欄位統計資訊會儲存每個欄位中相異值的數量。當規劃器只有單一欄位的統計資料時，對於組合多個欄位時的相異值數量估計（例如用於 `GROUP BY a, b`）往往是錯誤的，導致它選擇不好的計畫。
 
-To improve such estimates, `ANALYZE` can collect n-distinct
-statistics for groups of columns. As before, it's impractical to do
-this for every possible column grouping, so data is collected only for
-those groups of columns appearing together in a statistics object
-defined with the `ndistinct` option. Data will be collected
-for each possible combination of two or more columns from the set of
-listed columns.
+為了改善這類估計，`ANALYZE` 可以收集欄位群組的相異值（n-distinct）統計資訊。和前面一樣，對每一種可能的欄位分組都這麼做並不切實際，因此只會為一起出現在以 `ndistinct` 選項定義之統計資訊物件中的欄位群組收集資料。資料會針對所列欄位集合中，由兩個或更多欄位組成的每一種可能組合進行收集。
 
-Continuing the previous example, the n-distinct counts in a
-table of ZIP codes might look like the following:
+延續前面的範例，郵遞區號資料表中的相異值計數可能如下所示：
 
 ```
 
@@ -329,39 +180,19 @@ nd | {"1, 2": 33178, "1, 5": 33178, "2, 5": 27435, "1, 2, 5": 33178}
 (1 row)
 ```
 
-This indicates that there are three combinations of columns that
-have 33178 distinct values: ZIP code and state; ZIP code and city;
-and ZIP code, city and state (the fact that they are all equal is
-expected given that ZIP code alone is unique in this table). On the
-other hand, the combination of city and state has only 27435 distinct
-values.
+這表示有三種欄位組合具有 33178 個相異值：郵遞區號與州；郵遞區號與城市；以及郵遞區號、城市與州（由於在這個資料表中郵遞區號本身就是唯一的，因此它們全都相等是預料中的事）。另一方面，城市與州的組合只有 27435 個相異值。
 
-It's advisable to create `ndistinct` statistics objects only
-on combinations of columns that are actually used for grouping, and
-for which misestimation of the number of groups is resulting in bad
-plans. Otherwise, the `ANALYZE` cycles are just wasted.
+建議只在實際用於分組、而且群組數量的錯誤估計會導致不好計畫的欄位組合上，建立 `ndistinct` 統計資訊物件。否則，`ANALYZE` 的運算只是白白浪費。
 
 <a id="PLANNER-STATS-EXTENDED-MCV-LISTS"></a>
 
-#### 14.2.2.3. Multivariate MCV Lists [#](#PLANNER-STATS-EXTENDED-MCV-LISTS)
+#### 14.2.2.3. 多變量 MCV 清單 [#](#PLANNER-STATS-EXTENDED-MCV-LISTS)
 
-Another type of statistic stored for each column are most-common value
-lists. This allows very accurate estimates for individual columns, but
-may result in significant misestimates for queries with conditions on
-multiple columns.
+為每個欄位儲存的另一種統計資訊是最常見值（most-common value）清單。這可以為個別欄位提供非常準確的估計，但對於在多個欄位上帶有條件的查詢，可能會造成顯著的錯誤估計。
 
-To improve such estimates, `ANALYZE` can collect MCV
-lists on combinations of columns. Similarly to functional dependencies
-and n-distinct coefficients, it's impractical to do this for every
-possible column grouping. Even more so in this case, as the MCV list
-(unlike functional dependencies and n-distinct coefficients) does store
-the common column values. So data is collected only for those groups
-of columns appearing together in a statistics object defined with the
-`mcv` option.
+為了改善這類估計，`ANALYZE` 可以收集欄位組合上的 MCV 清單。與函數相依性及相異值係數類似，對每一種可能的欄位分組都這麼做並不切實際。在這種情況下更是如此，因為 MCV 清單（不同於函數相依性與相異值係數）確實會儲存常見的欄位值。因此，只會為一起出現在以 `mcv` 選項定義之統計資訊物件中的欄位群組收集資料。
 
-Continuing the previous example, the MCV list for a table of ZIP codes
-might look like the following (unlike for simpler types of statistics,
-a function is required for inspection of MCV contents):
+延續前面的範例，郵遞區號資料表的 MCV 清單可能如下所示（與較簡單的統計資訊類型不同，檢視 MCV 內容需要使用函式）：
 
 ```
 
@@ -388,18 +219,10 @@ SELECT m.* FROM pg_statistic_ext join pg_statistic_ext_data on (oid = stxoid),
 (99 rows)
 ```
 
-This indicates that the most common combination of city and state is
-Washington in DC, with actual frequency (in the sample) about 0.35%.
-The base frequency of the combination (as computed from the simple
-per-column frequencies) is only 0.0027%, resulting in two orders of
-magnitude under-estimates.
+這表示最常見的城市與州組合是 DC 的 Washington，其實際頻率（在樣本中）大約是 0.35%。而該組合的基本頻率（由簡單的各欄位頻率計算而得）只有 0.0027%，導致低估了兩個數量級。
 
-It's advisable to create MCV statistics objects only
-on combinations of columns that are actually used in conditions together,
-and for which misestimation of the number of groups is resulting in bad
-plans. Otherwise, the `ANALYZE` and planning cycles
-are just wasted.
+建議只在實際一起用於條件中、而且群組數量的錯誤估計會導致不好計畫的欄位組合上，建立 MCV 統計資訊物件。否則，`ANALYZE` 與規劃的運算只是白白浪費。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/planner-stats.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/planner-stats.html)（原文版本：18.6；核對日期：2026-09-11）
