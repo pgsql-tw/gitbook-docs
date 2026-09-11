@@ -7,7 +7,7 @@
   * [3. 慣例](preface/notation.md)
   * [4. Further Information #](preface/resources.md)
   * [5. Bug Reporting Guidelines #](preface/bug-reporting.md)
-* [Part I. Tutorial](tutorial/README.md)
+* [第一部分：教學](tutorial/README.md)
   * [第 1 章 入門](tutorial/tutorial-start/README.md)
     * [1.1. 安裝 #](tutorial/tutorial-start/tutorial-install.md)
     * [1.2. 架構基礎 #](tutorial/tutorial-start/tutorial-arch.md)
