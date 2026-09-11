@@ -1,39 +1,22 @@
-## 4.3. Calling Functions [#](#SQL-SYNTAX-CALLING-FUNCS)
+<a id="SQL-SYNTAX-CALLING-FUNCS"></a>
 
-[4.3.1. Using Positional Notation](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-POSITIONAL)
+## 4.3. 呼叫函式 [#](#SQL-SYNTAX-CALLING-FUNCS)
 
-[4.3.2. Using Named Notation](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-NAMED)
+[4.3.1. 使用位置表示法](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-POSITIONAL)
 
-[4.3.3. Using Mixed Notation](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-MIXED)
+[4.3.2. 使用具名表示法](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-NAMED)
+
+[4.3.3. 使用混合表示法](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-MIXED)
 
 <a id="id-1.5.3.7.2"></a>
 
-PostgreSQL allows functions that have named
-parameters to be called using either *positional* or
-*named* notation. Named notation is especially
-useful for functions that have a large number of parameters, since it
-makes the associations between parameters and actual arguments more
-explicit and reliable.
-In positional notation, a function call is written with
-its argument values in the same order as they are defined in the function
-declaration. In named notation, the arguments are matched to the
-function parameters by name and can be written in any order.
-For each notation, also consider the effect of function argument types,
-documented in [Section 10.3](../typeconv/typeconv-func.md).
+PostgreSQL 允許使用*位置*（positional）表示法或*具名*（named）表示法來呼叫具有具名參數的函式。具名表示法對於參數很多的函式特別有用，因為它能讓參數與實際引數之間的對應關係更明確、更可靠。使用位置表示法時，函式呼叫中的引數值要依照函式宣告中定義的順序撰寫。使用具名表示法時，引數會依名稱與函式參數對應，因此可以用任何順序撰寫。無論使用哪一種表示法，也請考量函式引數型別的影響，相關說明請參閱[第 10.3 節](../typeconv/typeconv-func.md)。
 
-In either notation, parameters that have default values given in the
-function declaration need not be written in the call at all. But this
-is particularly useful in named notation, since any combination of
-parameters can be omitted; while in positional notation parameters can
-only be omitted from right to left.
+無論使用哪一種表示法，在函式宣告中具有預設值的參數，在呼叫時都可以完全不寫。不過這在具名表示法中特別有用，因為可以省略任何參數組合；而在位置表示法中，參數只能從右到左省略。
 
-PostgreSQL also supports
-*mixed* notation, which combines positional and
-named notation. In this case, positional parameters are written first
-and named parameters appear after them.
+PostgreSQL 也支援*混合*（mixed）表示法，結合了位置表示法與具名表示法。在這種情況下，要先寫位置參數，具名參數則出現在其後。
 
-The following examples will illustrate the usage of all three
-notations, using the following function definition:
+以下範例會使用下列函式定義，說明這三種表示法的用法：
 
 ```
 
@@ -49,24 +32,15 @@ $$
 LANGUAGE SQL IMMUTABLE STRICT;
 ```
 
-Function `concat_lower_or_upper` has two mandatory
-parameters, `a` and `b`. Additionally
-there is one optional parameter `uppercase` which defaults
-to `false`. The `a` and
-`b` inputs will be concatenated, and forced to either
-upper or lower case depending on the `uppercase`
-parameter. The remaining details of this function
-definition are not important here (see [Chapter 36](../../server-programming/extend/README.md) for
-more information).
+函式 `concat_lower_or_upper` 有兩個必要參數 `a` 與 `b`。另外還有一個選用參數 `uppercase`，其預設值為 `false`。輸入的 `a` 與 `b` 會被串接起來，並依 `uppercase` 參數強制轉為大寫或小寫。這個函式定義的其餘細節在此並不重要（更多資訊請參閱[第 36 章](../../server-programming/extend/README.md)）。
 
 <a id="SQL-SYNTAX-CALLING-FUNCS-POSITIONAL"></a>
 
-### 4.3.1. Using Positional Notation [#](#SQL-SYNTAX-CALLING-FUNCS-POSITIONAL)
+### 4.3.1. 使用位置表示法 [#](#SQL-SYNTAX-CALLING-FUNCS-POSITIONAL)
 
 <a id="id-1.5.3.7.7.2"></a>
 
-Positional notation is the traditional mechanism for passing arguments
-to functions in PostgreSQL. An example is:
+位置表示法是 PostgreSQL 中傳遞引數給函式的傳統機制。範例如下：
 
 ```
 
@@ -77,9 +51,7 @@ SELECT concat_lower_or_upper('Hello', 'World', true);
 (1 row)
 ```
 
-All arguments are specified in order. The result is upper case since
-`uppercase` is specified as `true`.
-Another example is:
+所有引數都依序指定。由於 `uppercase` 被指定為 `true`，結果會是大寫。另一個範例如下：
 
 ```
 
@@ -90,20 +62,15 @@ SELECT concat_lower_or_upper('Hello', 'World');
 (1 row)
 ```
 
-Here, the `uppercase` parameter is omitted, so it
-receives its default value of `false`, resulting in
-lower case output. In positional notation, arguments can be omitted
-from right to left so long as they have defaults.
+這裡省略了 `uppercase` 參數，因此它會使用預設值 `false`，輸出結果為小寫。在位置表示法中，只要引數有預設值，就可以從右到左省略。
 
 <a id="SQL-SYNTAX-CALLING-FUNCS-NAMED"></a>
 
-### 4.3.2. Using Named Notation [#](#SQL-SYNTAX-CALLING-FUNCS-NAMED)
+### 4.3.2. 使用具名表示法 [#](#SQL-SYNTAX-CALLING-FUNCS-NAMED)
 
 <a id="id-1.5.3.7.8.2"></a>
 
-In named notation, each argument's name is specified using
-`=>` to separate it from the argument expression.
-For example:
+在具名表示法中，每個引數的名稱都要指定，並使用 `=>` 將名稱與引數運算式分隔開來。例如：
 
 ```
 
@@ -114,10 +81,7 @@ SELECT concat_lower_or_upper(a => 'Hello', b => 'World');
 (1 row)
 ```
 
-Again, the argument `uppercase` was omitted
-so it is set to `false` implicitly. One advantage of
-using named notation is that the arguments may be specified in any
-order, for example:
+同樣地，這裡省略了引數 `uppercase`，因此它會被隱含地設為 `false`。使用具名表示法的一個優點是，引數可以用任何順序指定，例如：
 
 ```
 
@@ -134,7 +98,7 @@ SELECT concat_lower_or_upper(a => 'Hello', uppercase => true, b => 'World');
 (1 row)
 ```
 
-An older syntax based on ":=" is supported for backward compatibility:
+為了向後相容，也支援以「:=」為基礎的舊語法：
 
 ```
 
@@ -147,13 +111,11 @@ SELECT concat_lower_or_upper(a := 'Hello', uppercase := true, b := 'World');
 
 <a id="SQL-SYNTAX-CALLING-FUNCS-MIXED"></a>
 
-### 4.3.3. Using Mixed Notation [#](#SQL-SYNTAX-CALLING-FUNCS-MIXED)
+### 4.3.3. 使用混合表示法 [#](#SQL-SYNTAX-CALLING-FUNCS-MIXED)
 
 <a id="id-1.5.3.7.9.2"></a>
 
-The mixed notation combines positional and named notation. However, as
-already mentioned, named arguments cannot precede positional arguments.
-For example:
+混合表示法結合了位置表示法與具名表示法。不過，如前所述，具名引數不能出現在位置引數之前。例如：
 
 ```
 
@@ -164,19 +126,12 @@ SELECT concat_lower_or_upper('Hello', 'World', uppercase => true);
 (1 row)
 ```
 
-In the above query, the arguments `a` and
-`b` are specified positionally, while
-`uppercase` is specified by name. In this example,
-that adds little except documentation. With a more complex function
-having numerous parameters that have default values, named or mixed
-notation can save a great deal of writing and reduce chances for error.
+在上面的查詢中，引數 `a` 與 `b` 是以位置方式指定的，而 `uppercase` 則是以名稱指定的。在這個例子中，這樣做除了具有說明作用之外沒有太大好處。但對於有許多具預設值參數的複雜函式，具名或混合表示法可以省下大量的撰寫工作，並減少出錯的機會。
 
-### Note
+### 注意
 
-Named and mixed call notations currently cannot be used when calling an
-aggregate function (but they do work when an aggregate function is used
-as a window function).
+目前在呼叫彙總函式時，無法使用具名與混合的呼叫表示法（但當彙總函式作為 window 函式使用時則可以）。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-syntax-calling-funcs.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-syntax-calling-funcs.html)（原文版本：18.6；核對日期：2026-09-11）
