@@ -1,37 +1,25 @@
-## 1.4. Accessing a Database [#](#TUTORIAL-ACCESSDB)
+<a id="TUTORIAL-ACCESSDB"></a>
+
+## 1.4. 存取資料庫 [#](#TUTORIAL-ACCESSDB)
 
 <a id="id-1.4.3.5.2"></a>
 
-Once you have created a database, you can access it by:
+建立資料庫之後，你可以透過下列方式存取它：
 
-* Running the PostgreSQL interactive
-  terminal program, called *psql*, which allows you
-  to interactively enter, edit, and execute
-  SQL commands.
-* Using an existing graphical frontend tool like
-  pgAdmin or an office suite with
-  ODBC or JDBC support to create and manipulate a
-  database. These possibilities are not covered in this
-  tutorial.
-* Writing a custom application, using one of the several
-  available language bindings. These possibilities are discussed
-  further in [Part IV](../../client-interfaces/README.md).
+* 執行 PostgreSQL 的互動式終端程式 *psql*，讓你以互動方式輸入、編輯並執行 SQL 指令。
+* 使用現有的圖形化前端工具，例如 pgAdmin，或支援 ODBC 或 JDBC 的辦公室套裝軟體，來建立與操作資料庫。本教學不會介紹這些方式。
+* 使用現有的多種程式語言繫結之一，撰寫自訂的應用程式。這些方式會在[第四部分](../../client-interfaces/README.md)進一步說明。
 
-You probably want to start up `psql` to try
-the examples in this tutorial. It can be activated for the
-`mydb` database by typing the command:
+你大概會想啟動 `psql` 來試試本教學中的範例。要對 `mydb` 資料庫啟動它，請輸入下列指令：
 
 ```
 
 $ psql mydb
 ```
 
-If you do not supply the database name then it will default to your
-user account name. You already discovered this scheme in the
-previous section using `createdb`.
+如果沒有提供資料庫名稱，預設會使用你的使用者帳號名稱。你在上一節使用 `createdb` 時已經見過這個規則。
 
-In `psql`, you will be greeted with the following
-message:
+在 `psql` 中，你會看到下列歡迎訊息：
 
 ```
 
@@ -42,29 +30,18 @@ mydb=>
 ```
 
 <a id="id-1.4.3.5.4.3"></a>
-The last line could also be:
+最後一行也可能是：
 
 ```
 
 mydb=#
 ```
 
-That would mean you are a database superuser, which is most likely
-the case if you installed the PostgreSQL instance
-yourself. Being a superuser means that you are not subject to
-access controls. For the purposes of this tutorial that is not
-important.
+這表示你是資料庫超級使用者；如果 PostgreSQL 執行個體是你自行安裝的，情況多半如此。身為超級使用者，你不受存取控制的限制。就本教學而言，這一點並不重要。
 
-If you encounter problems starting `psql`
-then go back to the previous section. The diagnostics of
-`createdb` and `psql` are
-similar, and if the former worked the latter should work as well.
+如果你啟動 `psql` 時遇到問題，請回到上一節。`createdb` 與 `psql` 的診斷方式相似，如果前者可以運作，後者應該也可以。
 
-The last line printed out by `psql` is the
-prompt, and it indicates that `psql` is listening
-to you and that you can type SQL queries into a
-work space maintained by `psql`. Try out these
-commands:
+`psql` 印出的最後一行是提示字元，表示 `psql` 正在等待你的輸入，你可以在 `psql` 維護的工作區中輸入 SQL 查詢。請試試下列指令：
 <a id="id-1.4.3.5.6.5"></a>
 
 ```
@@ -88,33 +65,22 @@ mydb=> SELECT 2 + 2;
 (1 row)
 ```
 
-The `psql` program has a number of internal
-commands that are not SQL commands. They begin with the backslash
-character, “`\`”.
-For example,
-you can get help on the syntax of various
-PostgreSQL SQL
-commands by typing:
+`psql` 程式有一些不屬於 SQL 指令的內部指令，它們以反斜線字元「`\`」開頭。舉例來說，你可以輸入下列指令，取得各種 PostgreSQL SQL 指令語法的說明：
 
 ```
 
 mydb=> \h
 ```
 
-To get out of `psql`, type:
+要離開 `psql`，請輸入：
 
 ```
 
 mydb=> \q
 ```
 
-and `psql` will quit and return you to your
-command shell. (For more internal commands, type
-`\?` at the `psql` prompt.) The
-full capabilities of `psql` are documented in
-[psql](../../reference/reference-client/app-psql.md). In this tutorial we will not use these
-features explicitly, but you can use them yourself when it is helpful.
+`psql` 就會結束，並讓你回到命令列 shell。（要查看更多內部指令，請在 `psql` 提示字元下輸入 `\?`。）`psql` 的完整功能記載於 [psql](../../reference/reference-client/app-psql.md)。本教學不會明確使用這些功能，但你可以在需要時自行運用。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-accessdb.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-accessdb.html)（原文版本：18.6；核對日期：2026-09-11）
