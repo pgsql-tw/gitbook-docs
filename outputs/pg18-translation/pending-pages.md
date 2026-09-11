@@ -67,7 +67,7 @@
 - [x] `appendixes/contrib/hstore.md` — F.17. hstore — hstore 鍵／值資料型別 #
 - [x] `appendixes/contrib/intagg.md` — F.18. intagg — 整數聚合器與列舉器 #
 - [x] `appendixes/contrib/intarray.md` — F.19. intarray — 操作整數陣列 #
-- [ ] `appendixes/contrib/isn.md` — F.20. isn — data types for international standard numbers (ISBN, EAN, UPC, etc.) #
+- [x] `appendixes/contrib/isn.md` — F.20. isn — 國際標準號碼的資料型別（ISBN、EAN、UPC 等） #
 - [ ] `appendixes/contrib/lo.md` — F.21. lo — manage large objects #
 - [ ] `appendixes/contrib/ltree.md` — F.22. ltree — hierarchical tree-like data type #
 - [ ] `appendixes/contrib/pageinspect.md` — F.23. pageinspect — low-level inspection of database pages #
