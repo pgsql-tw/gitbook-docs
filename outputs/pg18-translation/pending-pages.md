@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：880 頁。
+待譯頁面：879 頁。
 
 ## 根目錄
 
@@ -1121,7 +1121,7 @@
 - [x] `the-sql-language/performance-tips/populate.md` — 14.4. 填入資料庫 #
 - [x] `the-sql-language/performance-tips/using-explain.md` — 14.1. 使用 `EXPLAIN` #
 - [x] `the-sql-language/queries/README.md` — 第 7 章 查詢
-- [ ] `the-sql-language/queries/queries-limit.md` — 7.6. LIMIT and OFFSET #
+- [x] `the-sql-language/queries/queries-limit.md` — 7.6. `LIMIT` 與 `OFFSET` #
 - [ ] `the-sql-language/queries/queries-order.md` — 7.5. Sorting Rows ( ORDER BY ) #
 - [ ] `the-sql-language/queries/queries-overview.md` — 7.1. Overview #
 - [ ] `the-sql-language/queries/queries-select-lists.md` — 7.3. Select Lists #
