@@ -1,8 +1,8 @@
-﻿# PostgreSQL 18 待翻譯頁面清單
+# PostgreSQL 18 待翻譯頁面清單
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：851 頁。
+待譯頁面：850 頁。
 
 ## 根目錄
 
@@ -71,7 +71,7 @@
 - [x] `appendixes/contrib/lo.md` — F.21. lo — 管理大型物件 #
 - [x] `appendixes/contrib/ltree.md` — F.22. ltree — 階層式樹狀資料型別
 - [ ] `appendixes/contrib/pageinspect.md` — F.23. pageinspect — low-level inspection of database pages #
-- [ ] `appendixes/contrib/passwordcheck.md` — F.24. passwordcheck — verify password strength #
+- [x] `appendixes/contrib/passwordcheck.md` — F.24. passwordcheck — 驗證密碼強度 #
 - [ ] `appendixes/contrib/pgbuffercache.md` — F.25. pg_buffercache — inspect PostgreSQL buffer cache state #
 - [ ] `appendixes/contrib/pgcrypto.md` — F.26. pgcrypto — cryptographic functions #
 - [ ] `appendixes/contrib/pgfreespacemap.md` — F.27. pg_freespacemap — examine the free space map #
