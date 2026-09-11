@@ -1,41 +1,15 @@
-## 1.1. Installation [#](#TUTORIAL-INSTALL)
+<a id="TUTORIAL-INSTALL"></a>
 
-Before you can use PostgreSQL you need
-to install it, of course. It is possible that
-PostgreSQL is already installed at your
-site, either because it was included in your operating system
-distribution or because the system administrator already installed
-it. If that is the case, you should obtain information from the
-operating system documentation or your system administrator about
-how to access PostgreSQL.
+## 1.1. 安裝 [#](#TUTORIAL-INSTALL)
 
-If you are not sure whether PostgreSQL
-is already available or whether you can use it for your
-experimentation then you can install it yourself. Doing so is not
-hard and it can be a good exercise.
-PostgreSQL can be installed by any
-unprivileged user; no superuser (root)
-access is required.
+使用 PostgreSQL 之前，當然必須先安裝它。PostgreSQL 可能已經安裝在你的環境中，原因可能是你的作業系統發行版本已內含 PostgreSQL，或是系統管理員已經安裝過。若是如此，請參閱作業系統文件或詢問系統管理員，以瞭解如何存取 PostgreSQL。
 
-If you are installing PostgreSQL
-yourself, then refer to [Chapter 17](../../server-administration/installation/README.md)
-for instructions on installation, and return to
-this guide when the installation is complete. Be sure to follow
-closely the section about setting up the appropriate environment
-variables.
+如果你不確定 PostgreSQL 是否已經可用，或不確定能否用它來做實驗，可以自行安裝。自行安裝並不困難，也是很好的練習。任何不具特殊權限的一般使用者都可以安裝 PostgreSQL，不需要超級使用者（root）權限。
 
-If your site administrator has not set things up in the default
-way, you might have some more work to do. For example, if the
-database server machine is a remote machine, you will need to set
-the `PGHOST` environment variable to the name of the
-database server machine. The environment variable
-`PGPORT` might also have to be set. The bottom line is
-this: if you try to start an application program and it complains
-that it cannot connect to the database, you should consult your
-site administrator or, if that is you, the documentation to make
-sure that your environment is properly set up. If you did not
-understand the preceding paragraph then read the next section.
+如果你要自行安裝 PostgreSQL，請參閱[第 17 章](../../server-administration/installation/README.md)的安裝說明，安裝完成後再回到本指南。請務必確實依照其中設定適當環境變數的小節操作。
+
+如果你所在環境的管理員沒有以預設方式設定，你可能還需要做一些額外的工作。舉例來說，如果資料庫伺服器是一台遠端主機，你需要將環境變數 `PGHOST` 設為資料庫伺服器主機的名稱，也可能需要設定環境變數 `PGPORT`。總而言之：如果你嘗試啟動應用程式時，它回報無法連線到資料庫，請洽詢你的環境管理員；如果管理員就是你自己，請查閱文件，確認你的環境已正確設定。如果你看不懂上一段的內容，請閱讀下一節。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-install.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-install.html)（原文版本：18.6；核對日期：2026-09-11）
