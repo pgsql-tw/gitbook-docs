@@ -1,28 +1,22 @@
-## 12.3. Controlling Text Search [#](#TEXTSEARCH-CONTROLS)
+<a id="TEXTSEARCH-CONTROLS"></a>
 
-[12.3.1. Parsing Documents](textsearch-controls.md#TEXTSEARCH-PARSING-DOCUMENTS)
+## 12.3. 控制文字搜尋 [#](#TEXTSEARCH-CONTROLS)
 
-[12.3.2. Parsing Queries](textsearch-controls.md#TEXTSEARCH-PARSING-QUERIES)
+[12.3.1. 剖析文件](textsearch-controls.md#TEXTSEARCH-PARSING-DOCUMENTS)
 
-[12.3.3. Ranking Search Results](textsearch-controls.md#TEXTSEARCH-RANKING)
+[12.3.2. 剖析查詢](textsearch-controls.md#TEXTSEARCH-PARSING-QUERIES)
 
-[12.3.4. Highlighting Results](textsearch-controls.md#TEXTSEARCH-HEADLINE)
+[12.3.3. 搜尋結果排名](textsearch-controls.md#TEXTSEARCH-RANKING)
 
-To implement full text searching there must be a function to create a
-`tsvector` from a document and a `tsquery` from a
-user query. Also, we need to return results in a useful order, so we need
-a function that compares documents with respect to their relevance to
-the query. It's also important to be able to display the results nicely.
-PostgreSQL provides support for all of these
-functions.
+[12.3.4. 標示搜尋結果](textsearch-controls.md#TEXTSEARCH-HEADLINE)
+
+要實作全文檢索，必須有一個函式能從文件建立 `tsvector`，並從使用者的查詢建立 `tsquery`。此外，我們需要以有用的順序回傳結果，因此需要一個函式來依文件與查詢的相關程度比較文件。能夠將結果美觀地呈現出來也很重要。PostgreSQL 對上述所有功能都提供了支援。
 
 <a id="TEXTSEARCH-PARSING-DOCUMENTS"></a>
 
-### 12.3.1. Parsing Documents [#](#TEXTSEARCH-PARSING-DOCUMENTS)
+### 12.3.1. 剖析文件 [#](#TEXTSEARCH-PARSING-DOCUMENTS)
 
-PostgreSQL provides the
-function `to_tsvector` for converting a document to
-the `tsvector` data type.
+PostgreSQL 提供了 `to_tsvector` 函式，可將文件轉換為 `tsvector` 資料型別。
 
 <a id="id-1.5.11.6.3.3"></a>
 
@@ -31,12 +25,7 @@ the `tsvector` data type.
 to_tsvector([ config regconfig, ] document text) returns tsvector
 ```
 
-`to_tsvector` parses a textual document into tokens,
-reduces the tokens to lexemes, and returns a `tsvector` which
-lists the lexemes together with their positions in the document.
-The document is processed according to the specified or default
-text search configuration.
-Here is a simple example:
+`to_tsvector` 會將文字文件剖析為語彙單元，將語彙單元簡化為詞素，並回傳一個 `tsvector`，列出這些詞素及其在文件中的位置。文件會依指定的或預設的文字搜尋設定處理。以下是一個簡單的範例：
 
 ```
 
@@ -46,50 +35,13 @@ SELECT to_tsvector('english', 'a fat  cat sat on a mat - it ate a fat rats');
  'ate':9 'cat':3 'fat':2,11 'mat':7 'rat':12 'sat':4
 ```
 
-In the example above we see that the resulting `tsvector` does not
-contain the words `a`, `on`, or
-`it`, the word `rats` became
-`rat`, and the punctuation sign `-` was
-ignored.
+在上面的範例中，我們可以看到產生的 `tsvector` 並不包含單字 `a`、`on` 或 `it`，單字 `rats` 變成了 `rat`，而標點符號 `-` 則被忽略。
 
-The `to_tsvector` function internally calls a parser
-which breaks the document text into tokens and assigns a type to
-each token. For each token, a list of
-dictionaries ([Section 12.6](textsearch-dictionaries.md)) is consulted,
-where the list can vary depending on the token type. The first dictionary
-that *recognizes* the token emits one or more normalized
-*lexemes* to represent the token. For example,
-`rats` became `rat` because one of the
-dictionaries recognized that the word `rats` is a plural
-form of `rat`. Some words are recognized as
-*stop words* ([Section 12.6.1](textsearch-dictionaries.md#TEXTSEARCH-STOPWORDS)), which
-causes them to be ignored since they occur too frequently to be useful in
-searching. In our example these are
-`a`, `on`, and `it`.
-If no dictionary in the list recognizes the token then it is also ignored.
-In this example that happened to the punctuation sign `-`
-because there are in fact no dictionaries assigned for its token type
-(`Space symbols`), meaning space tokens will never be
-indexed. The choices of parser, dictionaries and which types of tokens to
-index are determined by the selected text search configuration ([Section 12.7](textsearch-configuration.md)). It is possible to have
-many different configurations in the same database, and predefined
-configurations are available for various languages. In our example
-we used the default configuration `english` for the
-English language.
+`to_tsvector` 函式在內部會呼叫一個剖析器，將文件文字切分為語彙單元，並為每個語彙單元指派一種類型。對每個語彙單元，會查詢一份字典清單（[第 12.6 節](textsearch-dictionaries.md)），而這份清單會依語彙單元類型而有所不同。第一個*辨識出*該語彙單元的字典，會產生一個或多個正規化的*詞素*來代表該語彙單元。例如，`rats` 之所以變成 `rat`，是因為其中一個字典辨識出單字 `rats` 是 `rat` 的複數形式。有些單字會被辨識為*停用詞*（[第 12.6.1 節](textsearch-dictionaries.md#TEXTSEARCH-STOPWORDS)），因為它們出現得太頻繁，對搜尋沒有用處，所以會被忽略。在我們的範例中，這些單字是 `a`、`on` 與 `it`。如果清單中沒有任何字典辨識出該語彙單元，它也會被忽略。在這個範例中，標點符號 `-` 就是如此，因為實際上並沒有為它的語彙單元類型（`Space symbols`）指派任何字典，這表示空白類的語彙單元永遠不會被建立索引。剖析器、字典，以及要為哪些類型的語彙單元建立索引，都是由所選的文字搜尋設定（[第 12.7 節](textsearch-configuration.md)）決定的。同一個資料庫中可以有許多不同的設定，而且各種語言都有預先定義的設定可用。在我們的範例中，使用的是英文的預設設定 `english`。
 
-The function `setweight` can be used to label the
-entries of a `tsvector` with a given *weight*,
-where a weight is one of the letters `A`, `B`,
-`C`, or `D`.
-This is typically used to mark entries coming from
-different parts of a document, such as title versus body. Later, this
-information can be used for ranking of search results.
+`setweight` 函式可以用給定的*權重*（weight）標記 `tsvector` 的項目，權重是字母 `A`、`B`、`C` 或 `D` 之一。這通常用來標記來自文件不同部分的項目，例如標題與內文。之後，這項資訊可以用於搜尋結果的排名。
 
-Because `to_tsvector`(`NULL`) will
-return `NULL`, it is recommended to use
-`coalesce` whenever a field might be null.
-Here is the recommended method for creating
-a `tsvector` from a structured document:
+由於 `to_tsvector`(`NULL`) 會回傳 `NULL`，因此只要欄位可能為 null，就建議使用 `coalesce`。以下是從結構化文件建立 `tsvector` 的建議方法：
 
 ```
 
@@ -100,28 +52,13 @@ UPDATE tt SET ti =
     setweight(to_tsvector(coalesce(body,'')), 'D');
 ```
 
-Here we have used `setweight` to label the source
-of each lexeme in the finished `tsvector`, and then merged
-the labeled `tsvector` values using the `tsvector`
-concatenation operator `||`. ([Section 12.4.1](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR) gives details about these
-operations.)
+這裡我們使用 `setweight` 標記完成的 `tsvector` 中每個詞素的來源，然後使用 `tsvector` 串接運算子 `||` 合併這些已標記的 `tsvector` 值。（[第 12.4.1 節](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR)會詳細說明這些運算。）
 
 <a id="TEXTSEARCH-PARSING-QUERIES"></a>
 
-### 12.3.2. Parsing Queries [#](#TEXTSEARCH-PARSING-QUERIES)
+### 12.3.2. 剖析查詢 [#](#TEXTSEARCH-PARSING-QUERIES)
 
-PostgreSQL provides the
-functions `to_tsquery`,
-`plainto_tsquery`,
-`phraseto_tsquery` and
-`websearch_to_tsquery`
-for converting a query to the `tsquery` data type.
-`to_tsquery` offers access to more features
-than either `plainto_tsquery` or
-`phraseto_tsquery`, but it is less forgiving about its
-input. `websearch_to_tsquery` is a simplified version
-of `to_tsquery` with an alternative syntax, similar
-to the one used by web search engines.
+PostgreSQL 提供了 `to_tsquery`、`plainto_tsquery`、`phraseto_tsquery` 與 `websearch_to_tsquery` 函式，可將查詢轉換為 `tsquery` 資料型別。`to_tsquery` 比 `plainto_tsquery` 或 `phraseto_tsquery` 提供更多功能，但對輸入的要求也比較嚴格。`websearch_to_tsquery` 是 `to_tsquery` 的簡化版本，採用另一種類似網頁搜尋引擎所使用的語法。
 
 <a id="id-1.5.11.6.4.3"></a>
 
@@ -130,18 +67,7 @@ to the one used by web search engines.
 to_tsquery([ config regconfig, ] querytext text) returns tsquery
 ```
 
-`to_tsquery` creates a `tsquery` value from
-*`querytext`*, which must consist of single tokens
-separated by the `tsquery` operators `&` (AND),
-`|` (OR), `!` (NOT), and
-`<->` (FOLLOWED BY), possibly grouped
-using parentheses. In other words, the input to
-`to_tsquery` must already follow the general rules for
-`tsquery` input, as described in [Section 8.11.2](../datatype/datatype-textsearch.md#DATATYPE-TSQUERY). The difference is that while basic
-`tsquery` input takes the tokens at face value,
-`to_tsquery` normalizes each token into a lexeme using
-the specified or default configuration, and discards any tokens that are
-stop words according to the configuration. For example:
+`to_tsquery` 會從 *`querytext`* 建立 `tsquery` 值，其內容必須由單一語彙單元組成，並以 `tsquery` 運算子 `&`（AND）、`|`（OR）、`!`（NOT）與 `<->`（FOLLOWED BY）分隔，也可以用括號分組。換句話說，`to_tsquery` 的輸入必須已經遵循[第 8.11.2 節](../datatype/datatype-textsearch.md#DATATYPE-TSQUERY)所述的 `tsquery` 輸入一般規則。差別在於，基本的 `tsquery` 輸入會按字面接受語彙單元，而 `to_tsquery` 則會使用指定的或預設的設定將每個語彙單元正規化為詞素，並依該設定捨棄屬於停用詞的語彙單元。例如：
 
 ```
 
@@ -151,9 +77,7 @@ SELECT to_tsquery('english', 'The & Fat & Rats');
  'fat' & 'rat'
 ```
 
-As in basic `tsquery` input, weight(s) can be attached to each
-lexeme to restrict it to match only `tsvector` lexemes of those
-weight(s). For example:
+和基本的 `tsquery` 輸入一樣，可以為每個詞素附加權重，限制它只比對具有這些權重的 `tsvector` 詞素。例如：
 
 ```
 
@@ -163,7 +87,7 @@ SELECT to_tsquery('english', 'Fat | Rats:AB');
  'fat' | 'rat':AB
 ```
 
-Also, `*` can be attached to a lexeme to specify prefix matching:
+此外，也可以在詞素後附加 `*` 來指定前綴比對：
 
 ```
 
@@ -173,14 +97,10 @@ SELECT to_tsquery('supern:*A & star:A*B');
  'supern':*A & 'star':*AB
 ```
 
-Such a lexeme will match any word in a `tsvector` that begins
-with the given string.
+這樣的詞素會比對 `tsvector` 中任何以給定字串開頭的單字。
 
-`to_tsquery` can also accept single-quoted
-phrases. This is primarily useful when the configuration includes a
-thesaurus dictionary that may trigger on such phrases.
-In the example below, a thesaurus contains the rule `supernovae
-stars : sn`:
+`to_tsquery` 也可以接受以單引號括住的片語。這主要在設定中包含可能由這類片語觸發的同義詞庫字典時有用。在下面的範例中，同義詞庫包含規則 `supernovae
+stars : sn`：
 
 ```
 
@@ -190,9 +110,7 @@ SELECT to_tsquery('''supernovae stars'' & !crab');
  'sn' & !'crab'
 ```
 
-Without quotes, `to_tsquery` will generate a syntax
-error for tokens that are not separated by an AND, OR, or FOLLOWED BY
-operator.
+如果沒有引號，`to_tsquery` 對於沒有以 AND、OR 或 FOLLOWED BY 運算子分隔的語彙單元，會產生語法錯誤。
 
 <a id="id-1.5.11.6.4.7"></a>
 
@@ -201,13 +119,9 @@ operator.
 plainto_tsquery([ config regconfig, ] querytext text) returns tsquery
 ```
 
-`plainto_tsquery` transforms the unformatted text
-*`querytext`* to a `tsquery` value.
-The text is parsed and normalized much as for `to_tsvector`,
-then the `&` (AND) `tsquery` operator is
-inserted between surviving words.
+`plainto_tsquery` 會將未格式化的文字 *`querytext`* 轉換為 `tsquery` 值。文字的剖析與正規化方式與 `to_tsvector` 大致相同，然後在保留下來的單字之間插入 `&`（AND）`tsquery` 運算子。
 
-Example:
+範例：
 
 ```
 
@@ -217,9 +131,7 @@ SELECT plainto_tsquery('english', 'The Fat Rats');
  'fat' & 'rat'
 ```
 
-Note that `plainto_tsquery` will not
-recognize `tsquery` operators, weight labels,
-or prefix-match labels in its input:
+請注意，`plainto_tsquery` 不會辨識輸入中的 `tsquery` 運算子、權重標籤或前綴比對標籤：
 
 ```
 
@@ -229,7 +141,7 @@ SELECT plainto_tsquery('english', 'The Fat & Rats:C');
  'fat' & 'rat' & 'c'
 ```
 
-Here, all the input punctuation was discarded.
+這裡所有輸入的標點符號都被捨棄了。
 
 <a id="id-1.5.11.6.4.11"></a>
 
@@ -238,17 +150,9 @@ Here, all the input punctuation was discarded.
 phraseto_tsquery([ config regconfig, ] querytext text) returns tsquery
 ```
 
-`phraseto_tsquery` behaves much like
-`plainto_tsquery`, except that it inserts
-the `<->` (FOLLOWED BY) operator between
-surviving words instead of the `&` (AND) operator.
-Also, stop words are not simply discarded, but are accounted for by
-inserting `<N>` operators rather
-than `<->` operators. This function is useful
-when searching for exact lexeme sequences, since the FOLLOWED BY
-operators check lexeme order not just the presence of all the lexemes.
+`phraseto_tsquery` 的行為與 `plainto_tsquery` 大致相同，差別在於它會在保留下來的單字之間插入 `<->`（FOLLOWED BY）運算子，而不是 `&`（AND）運算子。此外，停用詞並不是單純被捨棄，而是以插入 `<N>` 運算子（而非 `<->` 運算子）的方式納入考量。這個函式在搜尋確切的詞素序列時很有用，因為 FOLLOWED BY 運算子檢查的是詞素的順序，而不只是所有詞素是否都存在。
 
-Example:
+範例：
 
 ```
 
@@ -258,10 +162,7 @@ SELECT phraseto_tsquery('english', 'The Fat Rats');
  'fat' <-> 'rat'
 ```
 
-Like `plainto_tsquery`, the
-`phraseto_tsquery` function will not
-recognize `tsquery` operators, weight labels,
-or prefix-match labels in its input:
+和 `plainto_tsquery` 一樣，`phraseto_tsquery` 函式不會辨識輸入中的 `tsquery` 運算子、權重標籤或前綴比對標籤：
 
 ```
 
@@ -276,34 +177,16 @@ SELECT phraseto_tsquery('english', 'The Fat & Rats:C');
 websearch_to_tsquery([ config regconfig, ] querytext text) returns tsquery
 ```
 
-`websearch_to_tsquery` creates a `tsquery`
-value from *`querytext`* using an alternative
-syntax in which simple unformatted text is a valid query.
-Unlike `plainto_tsquery`
-and `phraseto_tsquery`, it also recognizes certain
-operators. Moreover, this function will never raise syntax errors,
-which makes it possible to use raw user-supplied input for search.
-The following syntax is supported:
+`websearch_to_tsquery` 會使用另一種語法，從 *`querytext`* 建立 `tsquery` 值；在這種語法中，簡單的未格式化文字就是有效的查詢。與 `plainto_tsquery` 和 `phraseto_tsquery` 不同，它也會辨識某些運算子。此外，這個函式永遠不會產生語法錯誤，因此可以直接使用使用者提供的原始輸入進行搜尋。支援下列語法：
 
-* `unquoted text`: text not inside quote marks will be
-  converted to terms separated by `&` operators, as
-  if processed by `plainto_tsquery`.
-* `"quoted text"`: text inside quote marks will be
-  converted to terms separated by `<->`
-  operators, as if processed by `phraseto_tsquery`.
-* `OR`: the word “or” will be converted to
-  the `|` operator.
-* `-`: a dash will be converted to
-  the `!` operator.
+* `unquoted text`：不在引號內的文字，會被轉換為以 `&` 運算子分隔的搜尋詞，如同經過 `plainto_tsquery` 處理。
+* `"quoted text"`：引號內的文字，會被轉換為以 `<->` 運算子分隔的搜尋詞，如同經過 `phraseto_tsquery` 處理。
+* `OR`：單字「or」會被轉換為 `|` 運算子。
+* `-`：破折號會被轉換為 `!` 運算子。
 
-Other punctuation is ignored. So
-like `plainto_tsquery`
-and `phraseto_tsquery`,
-the `websearch_to_tsquery` function will not
-recognize `tsquery` operators, weight labels, or prefix-match
-labels in its input.
+其他標點符號會被忽略。因此，和 `plainto_tsquery` 與 `phraseto_tsquery` 一樣，`websearch_to_tsquery` 函式不會辨識輸入中的 `tsquery` 運算子、權重標籤或前綴比對標籤。
 
-Examples:
+範例：
 
 ```
 
@@ -340,96 +223,51 @@ SELECT websearch_to_tsquery('english', '""" )( dummy \\ query <->');
 
 <a id="TEXTSEARCH-RANKING"></a>
 
-### 12.3.3. Ranking Search Results [#](#TEXTSEARCH-RANKING)
+### 12.3.3. 搜尋結果排名 [#](#TEXTSEARCH-RANKING)
 
-Ranking attempts to measure how relevant documents are to a particular
-query, so that when there are many matches the most relevant ones can be
-shown first. PostgreSQL provides two
-predefined ranking functions, which take into account lexical, proximity,
-and structural information; that is, they consider how often the query
-terms appear in the document, how close together the terms are in the
-document, and how important is the part of the document where they occur.
-However, the concept of relevancy is vague and very application-specific.
-Different applications might require additional information for ranking,
-e.g., document modification time. The built-in ranking functions are only
-examples. You can write your own ranking functions and/or combine their
-results with additional factors to fit your specific needs.
+排名嘗試衡量文件與特定查詢的相關程度，以便在相符項目很多時，先顯示最相關的項目。PostgreSQL 提供了兩個預先定義的排名函式，它們會考量詞彙、鄰近度與結構資訊；也就是說，它們會考量查詢詞在文件中出現的頻率、這些詞在文件中彼此的距離，以及它們所出現之文件部分的重要性。不過，相關性的概念很模糊，而且與應用高度相關。不同的應用可能需要額外的資訊來排名，例如文件的修改時間。內建的排名函式只是範例。你可以撰寫自己的排名函式，或將它們的結果與其他因素結合，以符合特定的需求。
 
-The two ranking functions currently available are:
+目前可用的兩個排名函式是：
 
 <a id="id-1.5.11.6.5.3.1.1.1.1"></a> `ts_rank([ weights float4[], ] vector tsvector, query tsquery [, normalization integer ]) returns float4`
-:   Ranks vectors based on the frequency of their matching lexemes.
+:   依據相符詞素的出現頻率為向量排名。
 
 <a id="id-1.5.11.6.5.3.1.2.1.1"></a> `ts_rank_cd([ weights float4[], ] vector tsvector, query tsquery [, normalization integer ]) returns float4`
-:   This function computes the *cover density*
-    ranking for the given document vector and query, as described in
-    Clarke, Cormack, and Tudhope's "Relevance Ranking for One to Three
-    Term Queries" in the journal "Information Processing and Management",
-    1999. Cover density is similar to `ts_rank` ranking
-    except that the proximity of matching lexemes to each other is
-    taken into consideration.
+:   這個函式會為給定的文件向量與查詢計算*覆蓋密度*（cover density）排名，其方法見 Clarke、Cormack 與 Tudhope 於 1999 年發表在期刊「Information Processing and Management」上的「Relevance Ranking for One to Three Term Queries」。覆蓋密度與 `ts_rank` 排名類似，差別在於它會考量相符詞素彼此之間的鄰近程度。
 
-    This function requires lexeme positional information to perform
-    its calculation. Therefore, it ignores any “stripped”
-    lexemes in the `tsvector`. If there are no unstripped
-    lexemes in the input, the result will be zero. (See [Section 12.4.1](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR) for more information
-    about the `strip` function and positional information
-    in `tsvector`s.)
+    這個函式需要詞素的位置資訊才能進行計算。因此，它會忽略 `tsvector` 中任何已「移除位置資訊」（stripped）的詞素。如果輸入中沒有保留位置資訊的詞素，結果將為零。（關於 `strip` 函式與 `tsvector` 中的位置資訊，詳情請參閱[第 12.4.1 節](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR)。）
 
-For both these functions,
-the optional *`weights`*
-argument offers the ability to weigh word instances more or less
-heavily depending on how they are labeled. The weight arrays specify
-how heavily to weigh each category of word, in the order:
+對這兩個函式而言，選用的 *`weights`* 參數可以依單字的標記方式，加重或減輕單字出現次數的權重。權重陣列依下列順序指定各類單字的權重：
 
 ```
 
 {D-weight, C-weight, B-weight, A-weight}
 ```
 
-If no *`weights`* are provided,
-then these defaults are used:
+如果沒有提供 *`weights`*，就會使用下列預設值：
 
 ```
 
 {0.1, 0.2, 0.4, 1.0}
 ```
 
-Typically weights are used to mark words from special areas of the
-document, like the title or an initial abstract, so they can be
-treated with more or less importance than words in the document body.
+權重通常用來標記來自文件特殊區域的單字，例如標題或開頭的摘要，讓它們與文件內文中的單字相比，受到較高或較低的重視。
 
-Since a longer document has a greater chance of containing a query term
-it is reasonable to take into account document size, e.g., a hundred-word
-document with five instances of a search word is probably more relevant
-than a thousand-word document with five instances. Both ranking functions
-take an integer *`normalization`* option that
-specifies whether and how a document's length should impact its rank.
-The integer option controls several behaviors, so it is a bit mask:
-you can specify one or more behaviors using
-`|` (for example, `2|4`).
+由於較長的文件包含查詢詞的機會較大，將文件大小納入考量是合理的；例如，一份一百字的文件中出現五次搜尋詞，很可能比一份一千字的文件中出現五次更相關。兩個排名函式都接受一個整數 *`normalization`* 選項，指定文件長度是否以及如何影響其排名。這個整數選項控制多種行為，因此它是一個位元遮罩：你可以使用 `|` 指定一種或多種行為（例如 `2|4`）。
 
-* 0 (the default) ignores the document length
-* 1 divides the rank by 1 + the logarithm of the document length
-* 2 divides the rank by the document length
-* 4 divides the rank by the mean harmonic distance between extents
-  (this is implemented only by `ts_rank_cd`)
-* 8 divides the rank by the number of unique words in document
-* 16 divides the rank by 1 + the logarithm of the number
-  of unique words in document
-* 32 divides the rank by itself + 1
+* 0（預設值）忽略文件長度
+* 1 將排名除以 1 加上文件長度的對數
+* 2 將排名除以文件長度
+* 4 將排名除以各範圍（extent）之間的平均調和距離（只有 `ts_rank_cd` 實作了這一項）
+* 8 將排名除以文件中不重複單字的數量
+* 16 將排名除以 1 加上文件中不重複單字數量的對數
+* 32 將排名除以其自身加 1
 
-If more than one flag bit is specified, the transformations are
-applied in the order listed.
+如果指定了多個旗標位元，轉換會依上列順序套用。
 
-It is important to note that the ranking functions do not use any global
-information, so it is impossible to produce a fair normalization to 1% or
-100% as sometimes desired. Normalization option 32
-(`rank/(rank+1)`) can be applied to scale all ranks
-into the range zero to one, but of course this is just a cosmetic change;
-it will not affect the ordering of the search results.
+請務必注意，排名函式不會使用任何全域資訊，因此不可能產生有時會希望得到的、正規化到 1% 或 100% 的公平結果。可以套用正規化選項 32（`rank/(rank+1)`），將所有排名縮放到零到一的範圍內，但這當然只是外觀上的改變，並不會影響搜尋結果的順序。
 
-Here is an example that selects only the ten highest-ranked matches:
+以下範例只選出排名最高的十個相符項目：
 
 ```
 
@@ -452,7 +290,7 @@ LIMIT 10;
  Weak Lensing Distorts the Universe            | 0.818218
 ```
 
-This is the same example using normalized ranking:
+以下是使用正規化排名的相同範例：
 
 ```
 
@@ -475,20 +313,13 @@ LIMIT 10;
  Weak Lensing Distorts the Universe            | 0.450010798361481
 ```
 
-Ranking can be expensive since it requires consulting the
-`tsvector` of each matching document, which can be I/O bound and
-therefore slow. Unfortunately, it is almost impossible to avoid since
-practical queries often result in large numbers of matches.
+排名的成本可能很高，因為它需要查詢每一份相符文件的 `tsvector`，這可能受限於 I/O 而變得緩慢。遺憾的是，這幾乎無法避免，因為實際的查詢往往會產生大量相符項目。
 
 <a id="TEXTSEARCH-HEADLINE"></a>
 
-### 12.3.4. Highlighting Results [#](#TEXTSEARCH-HEADLINE)
+### 12.3.4. 標示搜尋結果 [#](#TEXTSEARCH-HEADLINE)
 
-To present search results it is ideal to show a part of each document and
-how it is related to the query. Usually, search engines show fragments of
-the document with marked search terms. PostgreSQL
-provides a function `ts_headline` that
-implements this functionality.
+呈現搜尋結果時，理想的做法是顯示每份文件的一部分，以及它與查詢的關聯。搜尋引擎通常會顯示文件的片段，並標示出搜尋詞。PostgreSQL 提供了 `ts_headline` 函式來實作這項功能。
 
 <a id="id-1.5.11.6.6.3"></a>
 
@@ -497,80 +328,26 @@ implements this functionality.
 ts_headline([ config regconfig, ] document text, query tsquery [, options text ]) returns text
 ```
 
-`ts_headline` accepts a document along
-with a query, and returns an excerpt from
-the document in which terms from the query are highlighted.
-Specifically, the function will use the query to select relevant
-text fragments, and then highlight all words that appear in the query,
-even if those word positions do not match the query's restrictions. The
-configuration to be used to parse the document can be specified by
-*`config`*; if *`config`*
-is omitted, the
-`default_text_search_config` configuration is used.
+`ts_headline` 接受一份文件與一個查詢，並回傳文件的摘錄，其中查詢中的詞會被標示出來。具體而言，這個函式會使用查詢選出相關的文字片段，然後標示所有出現在查詢中的單字，即使這些單字的位置不符合查詢的限制也一樣。用來剖析文件的設定可以由 *`config`* 指定；如果省略 *`config`*，就會使用 `default_text_search_config` 設定。
 
-If an *`options`* string is specified it must
-consist of a comma-separated list of one or more
-*`option`*`=`*`value`* pairs.
-The available options are:
+如果指定了 *`options`* 字串，它必須由一個或多個以逗號分隔的 *`option`*`=`*`value`* 配對組成。可用的選項有：
 
-* `MaxWords`, `MinWords` (integers):
-  these numbers determine the longest and shortest headlines to output.
-  The default values are 35 and 15.
-* `ShortWord` (integer): words of this length or less
-  will be dropped at the start and end of a headline, unless they are
-  query terms. The default value of three eliminates common English
-  articles.
-* `HighlightAll` (boolean): if
-  `true` the whole document will be used as the
-  headline, ignoring the preceding three parameters. The default
-  is `false`.
-* `MaxFragments` (integer): maximum number of text
-  fragments to display. The default value of zero selects a
-  non-fragment-based headline generation method. A value greater
-  than zero selects fragment-based headline generation (see below).
-* `StartSel`, `StopSel` (strings):
-  the strings with which to delimit query words appearing in the
-  document, to distinguish them from other excerpted words. The
-  default values are “`<b>`” and
-  “`</b>`”, which can be suitable
-  for HTML output (but see the warning below).
-* `FragmentDelimiter` (string): When more than one
-  fragment is displayed, the fragments will be separated by this string.
-  The default is “ `...` ”.
+* `MaxWords`、`MinWords`（整數）：這兩個數字決定輸出摘要的最長與最短長度。預設值分別是 35 與 15。
+* `ShortWord`（整數）：長度小於或等於這個值的單字，如果不是查詢詞，會在摘要的開頭與結尾被捨棄。預設值 3 可以排除常見的英文冠詞。
+* `HighlightAll`（布林值）：如果為 `true`，會將整份文件當作摘要，並忽略前面三個參數。預設值是 `false`。
+* `MaxFragments`（整數）：要顯示的文字片段數量上限。預設值 0 會選用不以片段為基礎的摘要產生方式。大於零的值會選用以片段為基礎的摘要產生方式（見下文）。
+* `StartSel`、`StopSel`（字串）：用來界定文件中出現之查詢單字的字串，以便將它們與其他摘錄的單字區分開來。預設值是「`<b>`」與「`</b>`」，適用於 HTML 輸出（但請參閱下方的警告）。
+* `FragmentDelimiter`（字串）：顯示多個片段時，片段之間會以這個字串分隔。預設值是「 `...` 」。
 
-### Warning: Cross-site Scripting (XSS) Safety
+### 警告：跨網站指令碼（XSS）安全性
 
-The output from `ts_headline` is not guaranteed to
-be safe for direct inclusion in web pages. When
-`HighlightAll` is `false` (the
-default), some simple XML tags are removed from the document, but this
-is not guaranteed to remove all HTML markup. Therefore, this does not
-provide an effective defense against attacks such as cross-site
-scripting (XSS) attacks, when working with untrusted input. To guard
-against such attacks, all HTML markup should be removed from the input
-document, or an HTML sanitizer should be used on the output.
+`ts_headline` 的輸出並不保證可以安全地直接放入網頁中。當 `HighlightAll` 為 `false`（預設值）時，會從文件中移除一些簡單的 XML 標籤，但並不保證能移除所有 HTML 標記。因此，在處理不受信任的輸入時，這並不能有效防禦跨網站指令碼（XSS）等攻擊。要防範這類攻擊，應該從輸入文件中移除所有 HTML 標記，或是對輸出使用 HTML 清理工具（sanitizer）。
 
-These option names are recognized case-insensitively.
-You must double-quote string values if they contain spaces or commas.
+這些選項名稱不區分大小寫。如果字串值包含空白或逗號，就必須以雙引號括住。
 
-In non-fragment-based headline
-generation, `ts_headline` locates matches for the
-given *`query`* and chooses a
-single one to display, preferring matches that have more query words
-within the allowed headline length.
-In fragment-based headline generation, `ts_headline`
-locates the query matches and splits each match
-into “fragments” of no more than `MaxWords`
-words each, preferring fragments with more query words, and when
-possible “stretching” fragments to include surrounding
-words. The fragment-based mode is thus more useful when the query
-matches span large sections of the document, or when it's desirable to
-display multiple matches.
-In either mode, if no query matches can be identified, then a single
-fragment of the first `MinWords` words in the document
-will be displayed.
+在不以片段為基礎的摘要產生方式中，`ts_headline` 會找出與給定 *`query`* 相符的項目，並選出其中一個來顯示，優先選擇在允許的摘要長度內包含較多查詢單字的相符項目。在以片段為基礎的摘要產生方式中，`ts_headline` 會找出查詢的相符項目，並將每個相符項目切分為每段不超過 `MaxWords` 個單字的「片段」，優先選擇包含較多查詢單字的片段，並在可能時「延伸」片段以納入周圍的單字。因此，當查詢的相符項目橫跨文件的大範圍區段，或希望顯示多個相符項目時，以片段為基礎的模式會比較有用。無論是哪一種模式，如果找不到任何查詢相符項目，都會顯示由文件前 `MinWords` 個單字組成的單一片段。
 
-For example:
+例如：
 
 ```
 
@@ -599,10 +376,8 @@ occurrences to display in the result.',
  many times ... ranking of the <<search>> matches to decide
 ```
 
-`ts_headline` uses the original document, not a
-`tsvector` summary, so it can be slow and should be used with
-care.
+`ts_headline` 使用的是原始文件，而不是 `tsvector` 摘要，因此它可能會很慢，應謹慎使用。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-controls.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-controls.html)（原文版本：18.6；核對日期：2026-09-11）
