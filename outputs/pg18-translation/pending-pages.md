@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：877 頁。
+待譯頁面：876 頁。
 
 ## 根目錄
 
@@ -1124,7 +1124,7 @@
 - [x] `the-sql-language/queries/queries-limit.md` — 7.6. `LIMIT` 與 `OFFSET` #
 - [x] `the-sql-language/queries/queries-order.md` — 7.5. 排序資料列（`ORDER BY`） #
 - [x] `the-sql-language/queries/queries-overview.md` — 7.1. 概觀 #
-- [ ] `the-sql-language/queries/queries-select-lists.md` — 7.3. Select Lists #
+- [x] `the-sql-language/queries/queries-select-lists.md` — 7.3. 選取清單 #
 - [ ] `the-sql-language/queries/queries-table-expressions.md` — 7.2. Table Expressions #
 - [ ] `the-sql-language/queries/queries-union.md` — 7.4. Combining Queries ( UNION , INTERSECT , EXCEPT ) #
 - [ ] `the-sql-language/queries/queries-values.md` — 7.7. VALUES Lists #
