@@ -65,7 +65,7 @@
 - [x] `appendixes/contrib/file-fdw.md` — F.15. file_fdw — 存取伺服器檔案系統中的資料檔案 #
 - [x] `appendixes/contrib/fuzzystrmatch.md` — F.16. fuzzystrmatch — 判定字串相似性與距離 #
 - [x] `appendixes/contrib/hstore.md` — F.17. hstore — hstore 鍵／值資料型別 #
-- [ ] `appendixes/contrib/intagg.md` — F.18. intagg — integer aggregator and enumerator #
+- [x] `appendixes/contrib/intagg.md` — F.18. intagg — 整數聚合器與列舉器 #
 - [ ] `appendixes/contrib/intarray.md` — F.19. intarray — manipulate arrays of integers #
 - [ ] `appendixes/contrib/isn.md` — F.20. isn — data types for international standard numbers (ISBN, EAN, UPC, etc.) #
 - [ ] `appendixes/contrib/lo.md` — F.21. lo — manage large objects #
