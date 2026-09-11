@@ -160,7 +160,7 @@
     * [13.5. 序列化失敗的處理 #](the-sql-language/mvcc/mvcc-serialization-failure-handling.md)
     * [13.6. 注意事項 #](the-sql-language/mvcc/mvcc-caveats.md)
     * [13.7. 鎖定與索引 #](the-sql-language/mvcc/locking-indexes.md)
-  * [Chapter 14. Performance Tips](the-sql-language/performance-tips/README.md)
+  * [第 14 章 效能提示](the-sql-language/performance-tips/README.md)
     * [14.1. Using EXPLAIN #](the-sql-language/performance-tips/using-explain.md)
     * [14.2. Statistics Used by the Planner #](the-sql-language/performance-tips/planner-stats.md)
     * [14.3. Controlling the Planner with Explicit JOIN Clauses #](the-sql-language/performance-tips/explicit-joins.md)
