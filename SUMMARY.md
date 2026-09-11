@@ -147,7 +147,7 @@
     * [12.4. Additional Features #](the-sql-language/textsearch/textsearch-features.md)
     * [12.5. Parsers #](the-sql-language/textsearch/textsearch-parsers.md)
     * [12.6. Dictionaries #](the-sql-language/textsearch/textsearch-dictionaries.md)
-    * [12.7. Configuration Example #](the-sql-language/textsearch/textsearch-configuration.md)
+    * [12.7. 設定範例 #](the-sql-language/textsearch/textsearch-configuration.md)
     * [12.8. Testing and Debugging Text Search #](the-sql-language/textsearch/textsearch-debugging.md)
     * [12.9. Preferred Index Types for Text Search #](the-sql-language/textsearch/textsearch-indexes.md)
     * [12.10. psql Support #](the-sql-language/textsearch/textsearch-psql.md)

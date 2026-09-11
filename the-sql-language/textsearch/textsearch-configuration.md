@@ -1,37 +1,19 @@
-## 12.7. Configuration Example [#](#TEXTSEARCH-CONFIGURATION)
+<a id="TEXTSEARCH-CONFIGURATION"></a>
 
-A text search configuration specifies all options necessary to transform a
-document into a `tsvector`: the parser to use to break text
-into tokens, and the dictionaries to use to transform each token into a
-lexeme. Every call of
-`to_tsvector` or `to_tsquery`
-needs a text search configuration to perform its processing.
-The configuration parameter
-[default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG)
-specifies the name of the default configuration, which is the
-one used by text search functions if an explicit configuration
-parameter is omitted.
-It can be set in `postgresql.conf`, or set for an
-individual session using the `SET` command.
+## 12.7. 設定範例 [#](#TEXTSEARCH-CONFIGURATION)
 
-Several predefined text search configurations are available, and
-you can create custom configurations easily. To facilitate management
-of text search objects, a set of SQL commands
-is available, and there are several psql commands that display information
-about text search objects ([Section 12.10](textsearch-psql.md)).
+文字搜尋設定指定了將文件轉換為 `tsvector` 所需的所有選項：用來將文字切分為語彙單元的剖析器，以及用來將每個語彙單元轉換為詞素的字典。每次呼叫 `to_tsvector` 或 `to_tsquery` 時，都需要一個文字搜尋設定來進行處理。設定參數 [default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG) 指定預設設定的名稱，當文字搜尋函式省略明確的設定參數時，就會使用這個設定。它可以在 `postgresql.conf` 中設定，也可以使用 `SET` 指令為個別工作階段設定。
 
-As an example we will create a configuration
-`pg`, starting by duplicating the built-in
-`english` configuration:
+系統提供了數個預先定義的文字搜尋設定，你也可以輕鬆建立自訂的設定。為了方便管理文字搜尋物件，系統提供了一組 SQL 指令，另外也有數個 psql 指令可以顯示文字搜尋物件的資訊（[第 12.10 節](textsearch-psql.md)）。
+
+我們以建立一個名為 `pg` 的設定為例，首先複製內建的 `english` 設定：
 
 ```
 
 CREATE TEXT SEARCH CONFIGURATION public.pg ( COPY = pg_catalog.english );
 ```
 
-We will use a PostgreSQL-specific synonym list
-and store it in `$SHAREDIR/tsearch_data/pg_dict.syn`.
-The file contents look like:
+我們將使用一份 PostgreSQL 專用的同義詞清單，並將它儲存在 `$SHAREDIR/tsearch_data/pg_dict.syn`。檔案內容如下：
 
 ```
 
@@ -40,7 +22,7 @@ pgsql       pg
 postgresql  pg
 ```
 
-We define the synonym dictionary like this:
+我們像這樣定義同義詞字典：
 
 ```
 
@@ -50,8 +32,7 @@ CREATE TEXT SEARCH DICTIONARY pg_dict (
 );
 ```
 
-Next we register the Ispell dictionary
-`english_ispell`, which has its own configuration files:
+接著註冊 Ispell 字典 `english_ispell`，它有自己的設定檔：
 
 ```
 
@@ -63,8 +44,7 @@ CREATE TEXT SEARCH DICTIONARY english_ispell (
 );
 ```
 
-Now we can set up the mappings for words in configuration
-`pg`:
+現在我們可以在設定 `pg` 中設定單字的對應：
 
 ```
 
@@ -74,8 +54,7 @@ ALTER TEXT SEARCH CONFIGURATION pg
     WITH pg_dict, english_ispell, english_stem;
 ```
 
-We choose not to index or search some token types that the built-in
-configuration does handle:
+我們選擇不為某些內建設定會處理的語彙單元類型建立索引或進行搜尋：
 
 ```
 
@@ -83,7 +62,7 @@ ALTER TEXT SEARCH CONFIGURATION pg
     DROP MAPPING FOR email, url, url_path, sfloat, float;
 ```
 
-Now we can test our configuration:
+現在我們可以測試這個設定：
 
 ```
 
@@ -94,8 +73,7 @@ version of our software.
 ');
 ```
 
-The next step is to set the session to use the new configuration, which was
-created in the `public` schema:
+下一步是設定工作階段，讓它使用這個建立在 `public` schema 中的新設定：
 
 ```
 
@@ -116,4 +94,4 @@ SHOW default_text_search_config;
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-configuration.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-configuration.html)（原文版本：18.6；核對日期：2026-09-11）

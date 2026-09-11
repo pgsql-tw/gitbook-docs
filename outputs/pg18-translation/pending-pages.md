@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：868 頁。
+待譯頁面：867 頁。
 
 ## 根目錄
 
@@ -1134,7 +1134,7 @@
 - [x] `the-sql-language/sql-syntax/sql-syntax-calling-funcs.md` — 4.3. 呼叫函式 #
 - [x] `the-sql-language/sql-syntax/sql-syntax-lexical.md` — 4.1. 詞彙結構 #
 - [x] `the-sql-language/textsearch/README.md` — 第 12 章 全文檢索
-- [ ] `the-sql-language/textsearch/textsearch-configuration.md` — 12.7. Configuration Example #
+- [x] `the-sql-language/textsearch/textsearch-configuration.md` — 12.7. 設定範例 #
 - [ ] `the-sql-language/textsearch/textsearch-controls.md` — 12.3. Controlling Text Search #
 - [ ] `the-sql-language/textsearch/textsearch-debugging.md` — 12.8. Testing and Debugging Text Search #
 - [ ] `the-sql-language/textsearch/textsearch-dictionaries.md` — 12.6. Dictionaries #
