@@ -61,7 +61,7 @@
     * [7.1. 概觀 #](the-sql-language/queries/queries-overview.md)
     * [7.2. Table Expressions #](the-sql-language/queries/queries-table-expressions.md)
     * [7.3. 選取清單 #](the-sql-language/queries/queries-select-lists.md)
-    * [7.4. Combining Queries ( UNION , INTERSECT , EXCEPT ) #](the-sql-language/queries/queries-union.md)
+    * [7.4. 組合查詢（`UNION`、`INTERSECT`、`EXCEPT`） #](the-sql-language/queries/queries-union.md)
     * [7.5. 排序資料列（`ORDER BY`） #](the-sql-language/queries/queries-order.md)
     * [7.6. `LIMIT` 與 `OFFSET` #](the-sql-language/queries/queries-limit.md)
     * [7.7. VALUES Lists #](the-sql-language/queries/queries-values.md)

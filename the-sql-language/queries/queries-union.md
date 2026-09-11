@@ -1,9 +1,10 @@
-## 7.4. Combining Queries (`UNION`, `INTERSECT`, `EXCEPT`) [#](#QUERIES-UNION)
+<a id="QUERIES-UNION"></a>
+
+## 7.4. 組合查詢（`UNION`、`INTERSECT`、`EXCEPT`） [#](#QUERIES-UNION)
 
 <a id="id-1.5.6.8.2"></a><a id="id-1.5.6.8.3"></a><a id="id-1.5.6.8.4"></a><a id="id-1.5.6.8.5"></a><a id="id-1.5.6.8.6"></a><a id="id-1.5.6.8.7"></a><a id="id-1.5.6.8.8"></a>
 
-The results of two queries can be combined using the set operations
-union, intersection, and difference. The syntax is
+兩個查詢的結果可以使用聯集、交集與差集等集合運算組合起來。語法是
 
 ```
 
@@ -12,87 +13,59 @@ query1 INTERSECT [ALL] query2
 query1 EXCEPT [ALL] query2
 ```
 
-where *`query1`* and
-*`query2`* are queries that can use any of
-the features discussed up to this point.
+其中 *`query1`* 與 *`query2`* 是可以使用到目前為止所討論之任何功能的查詢。
 
-`UNION` effectively appends the result of
-*`query2`* to the result of
-*`query1`* (although there is no guarantee
-that this is the order in which the rows are actually returned).
-Furthermore, it eliminates duplicate rows from its result, in the same
-way as `DISTINCT`, unless `UNION ALL` is used.
+`UNION` 實際上是將 *`query2`* 的結果附加到 *`query1`* 的結果之後（但並不保證資料列實際上是以這個順序回傳的）。此外，除非使用 `UNION ALL`，否則它會以與 `DISTINCT` 相同的方式，從結果中排除重複的資料列。
 
-`INTERSECT` returns all rows that are both in the result
-of *`query1`* and in the result of
-*`query2`*. Duplicate rows are eliminated
-unless `INTERSECT ALL` is used.
+`INTERSECT` 會回傳同時出現在 *`query1`* 結果與 *`query2`* 結果中的所有資料列。除非使用 `INTERSECT ALL`，否則會排除重複的資料列。
 
-`EXCEPT` returns all rows that are in the result of
-*`query1`* but not in the result of
-*`query2`*. (This is sometimes called the
-*difference* between two queries.) Again, duplicates
-are eliminated unless `EXCEPT ALL` is used.
+`EXCEPT` 會回傳出現在 *`query1`* 結果中、但不在 *`query2`* 結果中的所有資料列。（這有時稱為兩個查詢的*差集*（difference）。）同樣地，除非使用 `EXCEPT ALL`，否則會排除重複的資料列。
 
-In order to calculate the union, intersection, or difference of two
-queries, the two queries must be “union compatible”,
-which means that they return the same number of columns and
-the corresponding columns have compatible data types, as
-described in [Section 10.5](../typeconv/typeconv-union-case.md).
+要計算兩個查詢的聯集、交集或差集，這兩個查詢必須是「聯集相容」（union compatible）的，也就是說，它們回傳相同數量的欄位，而且對應的欄位具有相容的資料型別，如[第 10.5 節](../typeconv/typeconv-union-case.md)所述。
 
-Set operations can be combined, for example
+集合運算可以組合使用，例如
 
 ```
 
 query1 UNION query2 EXCEPT query3
 ```
 
-which is equivalent to
+這等同於
 
 ```
 
 (query1 UNION query2) EXCEPT query3
 ```
 
-As shown here, you can use parentheses to control the order of
-evaluation. Without parentheses, `UNION`
-and `EXCEPT` associate left-to-right,
-but `INTERSECT` binds more tightly than those two
-operators. Thus
+如這裡所示，你可以使用括號來控制求值的順序。沒有括號時，`UNION` 與 `EXCEPT` 是由左至右結合的，但 `INTERSECT` 的結合力比這兩個運算子強。因此
 
 ```
 
 query1 UNION query2 INTERSECT query3
 ```
 
-means
+的意思是
 
 ```
 
 query1 UNION (query2 INTERSECT query3)
 ```
 
-You can also surround an individual *`query`*
-with parentheses. This is important if
-the *`query`* needs to use any of the clauses
-discussed in following sections, such as `LIMIT`.
-Without parentheses, you'll get a syntax error, or else the clause will
-be understood as applying to the output of the set operation rather
-than one of its inputs. For example,
+你也可以用括號括住個別的 *`query`*。如果 *`query`* 需要使用後續各節所討論的任何子句（例如 `LIMIT`），這一點就很重要。沒有括號的話，你會得到語法錯誤，否則該子句會被理解為套用在集合運算的輸出上，而不是其中一個輸入上。例如，
 
 ```
 
 SELECT a FROM b UNION SELECT x FROM y LIMIT 10
 ```
 
-is accepted, but it means
+是可以接受的，但它的意思是
 
 ```
 
 (SELECT a FROM b UNION SELECT x FROM y) LIMIT 10
 ```
 
-not
+而不是
 
 ```
 
@@ -101,4 +74,4 @@ SELECT a FROM b UNION (SELECT x FROM y LIMIT 10)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/queries-union.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/queries-union.html)（原文版本：18.6；核對日期：2026-09-11）
