@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：873 頁。
+待譯頁面：872 頁。
 
 ## 根目錄
 
@@ -1129,7 +1129,7 @@
 - [x] `the-sql-language/queries/queries-union.md` — 7.4. 組合查詢（`UNION`、`INTERSECT`、`EXCEPT`） #
 - [x] `the-sql-language/queries/queries-values.md` — 7.7. `VALUES` 清單 #
 - [x] `the-sql-language/queries/queries-with.md` — 7.8. `WITH` 查詢（通用資料表運算式） #
-- [ ] `the-sql-language/sql-syntax/README.md` — Chapter 4. SQL Syntax
+- [x] `the-sql-language/sql-syntax/README.md` — 第 4 章 SQL 語法
 - [ ] `the-sql-language/sql-syntax/sql-expressions.md` — 4.2. Value Expressions #
 - [ ] `the-sql-language/sql-syntax/sql-syntax-calling-funcs.md` — 4.3. Calling Functions #
 - [ ] `the-sql-language/sql-syntax/sql-syntax-lexical.md` — 4.1. Lexical Structure #
