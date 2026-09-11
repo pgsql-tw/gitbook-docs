@@ -155,7 +155,7 @@
   * [第 13 章 並行控制](the-sql-language/mvcc/README.md)
     * [13.1. Introduction #](the-sql-language/mvcc/mvcc-intro.md)
     * [13.2. Transaction Isolation #](the-sql-language/mvcc/transaction-iso.md)
-    * [13.3. Explicit Locking #](the-sql-language/mvcc/explicit-locking.md)
+    * [13.3. 明確鎖定 #](the-sql-language/mvcc/explicit-locking.md)
     * [13.4. 應用程式層級的資料一致性檢查 #](the-sql-language/mvcc/applevel-consistency.md)
     * [13.5. Serialization Failure Handling #](the-sql-language/mvcc/mvcc-serialization-failure-handling.md)
     * [13.6. Caveats #](the-sql-language/mvcc/mvcc-caveats.md)
