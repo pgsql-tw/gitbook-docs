@@ -157,7 +157,7 @@
     * [13.2. Transaction Isolation #](the-sql-language/mvcc/transaction-iso.md)
     * [13.3. 明確鎖定 #](the-sql-language/mvcc/explicit-locking.md)
     * [13.4. 應用程式層級的資料一致性檢查 #](the-sql-language/mvcc/applevel-consistency.md)
-    * [13.5. Serialization Failure Handling #](the-sql-language/mvcc/mvcc-serialization-failure-handling.md)
+    * [13.5. 序列化失敗的處理 #](the-sql-language/mvcc/mvcc-serialization-failure-handling.md)
     * [13.6. 注意事項 #](the-sql-language/mvcc/mvcc-caveats.md)
     * [13.7. 鎖定與索引 #](the-sql-language/mvcc/locking-indexes.md)
   * [Chapter 14. Performance Tips](the-sql-language/performance-tips/README.md)

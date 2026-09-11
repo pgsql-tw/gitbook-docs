@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：894 頁。
+待譯頁面：893 頁。
 
 ## 根目錄
 
@@ -1107,7 +1107,7 @@
 - [x] `the-sql-language/mvcc/locking-indexes.md` — 13.7. 鎖定與索引 #
 - [x] `the-sql-language/mvcc/mvcc-caveats.md` — 13.6. 注意事項 #
 - [x] `the-sql-language/mvcc/mvcc-intro.md` — 13.1. 簡介 #
-- [ ] `the-sql-language/mvcc/mvcc-serialization-failure-handling.md` — 13.5. Serialization Failure Handling #
+- [x] `the-sql-language/mvcc/mvcc-serialization-failure-handling.md` — 13.5. 序列化失敗的處理 #
 - [ ] `the-sql-language/mvcc/transaction-iso.md` — 13.2. Transaction Isolation #
 - [ ] `the-sql-language/parallel-query/README.md` — Chapter 15. Parallel Query
 - [ ] `the-sql-language/parallel-query/how-parallel-query-works.md` — 15.1. How Parallel Query Works #
