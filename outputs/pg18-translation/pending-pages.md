@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：856 頁。
+待譯頁面：855 頁。
 
 ## 根目錄
 
@@ -1151,7 +1151,7 @@
 - [x] `the-sql-language/typeconv/typeconv-overview.md` — 10.1. 概觀 #
 - [x] `the-sql-language/typeconv/typeconv-query.md` — 10.4. 值的儲存 #
 - [x] `the-sql-language/typeconv/typeconv-select.md` — 10.6. `SELECT` 輸出欄位
-- [ ] `the-sql-language/typeconv/typeconv-union-case.md` — 10.5. UNION , CASE , and Related Constructs #
+- [x] `the-sql-language/typeconv/typeconv-union-case.md` — 10.5. `UNION`、`CASE` 與相關結構 #
 
 ## tutorial
 

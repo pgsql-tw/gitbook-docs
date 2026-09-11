@@ -125,7 +125,7 @@
     * [10.2. 運算子 #](the-sql-language/typeconv/typeconv-oper.md)
     * [10.3. 函式 #](the-sql-language/typeconv/typeconv-func.md)
     * [10.4. 值的儲存 #](the-sql-language/typeconv/typeconv-query.md)
-    * [10.5. UNION , CASE , and Related Constructs #](the-sql-language/typeconv/typeconv-union-case.md)
+    * [10.5. `UNION`、`CASE` 與相關結構 #](the-sql-language/typeconv/typeconv-union-case.md)
     * [10.6. SELECT 輸出欄位](the-sql-language/typeconv/typeconv-select.md)
   * [Chapter 11. Indexes](the-sql-language/indexes/README.md)
     * [11.1. Introduction #](the-sql-language/indexes/indexes-intro.md)
