@@ -62,7 +62,7 @@
 - [x] `appendixes/contrib/dict-int.md` — F.12. dict_int — example full-text search dictionary for integers #
 - [x] `appendixes/contrib/dict-xsyn.md` — F.13. dict_xsyn — example synonym full-text search dictionary #
 - [x] `appendixes/contrib/earthdistance.md` — F.14. earthdistance — 計算大圓距離 #
-- [ ] `appendixes/contrib/file-fdw.md` — F.15. file_fdw — access data files in the server's file system #
+- [x] `appendixes/contrib/file-fdw.md` — F.15. file_fdw — 存取伺服器檔案系統中的資料檔案 #
 - [ ] `appendixes/contrib/fuzzystrmatch.md` — F.16. fuzzystrmatch — determine string similarities and distance #
 - [ ] `appendixes/contrib/hstore.md` — F.17. hstore — hstore key/value datatype #
 - [ ] `appendixes/contrib/intagg.md` — F.18. intagg — integer aggregator and enumerator #

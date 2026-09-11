@@ -1,151 +1,100 @@
-## F.15. file_fdw — access data files in the server's file system [#](#FILE-FDW)
+## F.15. file_fdw — 存取伺服器檔案系統中的資料檔案 [#](#FILE-FDW)
 
 <a id="id-1.11.7.25.2"></a>
 
-The `file_fdw` module provides the foreign-data wrapper
-`file_fdw`, which can be used to access data
-files in the server's file system, or to execute programs on the server
-and read their output. The data file or program output must be in a format
-that can be read by `COPY FROM`;
-see [COPY](../../reference/sql-commands/sql-copy.md) for details.
-Access to data files is currently read-only.
+`file_fdw` 模組提供外部資料包裝器
+`file_fdw`，可用來存取伺服器檔案系統中的資料檔案，或在伺服器上執行程式並讀取其輸出。資料檔案或程式輸出必須採用
+`COPY FROM` 可讀取的格式；詳細資訊請參閱 [COPY](../../reference/sql-commands/sql-copy.md)。目前對資料檔案的存取僅限讀取。
 
-A foreign table created using this wrapper can have the following options:
+使用此包裝器建立的外部資料表可設定下列選項：
 
 `filename`
-:   Specifies the file to be read. Relative paths are relative to the
-    data directory.
-    Either `filename` or `program` must be
-    specified, but not both.
+:   指定要讀取的檔案。相對路徑是相對於資料目錄。
+    必須指定 `filename` 或 `program` 其中之一，但不可同時指定兩者。
 
 `program`
-:   Specifies the command to be executed. The standard output of this
-    command will be read as though `COPY FROM PROGRAM` were used.
-    Either `program` or `filename` must be
-    specified, but not both.
+:   指定要執行的命令。系統會如同使用 `COPY FROM PROGRAM` 一般讀取此命令的標準輸出。
+    必須指定 `program` 或 `filename` 其中之一，但不可同時指定兩者。
 
 `format`
-:   Specifies the data format,
-    the same as `COPY`'s `FORMAT` option.
+:   指定資料格式，等同於 `COPY` 的 `FORMAT` 選項。
 
 `header`
-:   Specifies whether the data has a header line,
-    the same as `COPY`'s `HEADER` option.
+:   指定資料是否含有標頭列，等同於 `COPY` 的 `HEADER` 選項。
 
 `delimiter`
-:   Specifies the data delimiter character,
-    the same as `COPY`'s `DELIMITER` option.
+:   指定資料的分隔字元，等同於 `COPY` 的 `DELIMITER` 選項。
 
 `quote`
-:   Specifies the data quote character,
-    the same as `COPY`'s `QUOTE` option.
+:   指定資料的引號字元，等同於 `COPY` 的 `QUOTE` 選項。
 
 `escape`
-:   Specifies the data escape character,
-    the same as `COPY`'s `ESCAPE` option.
+:   指定資料的逸出字元，等同於 `COPY` 的 `ESCAPE` 選項。
 
 `null`
-:   Specifies the data null string,
-    the same as `COPY`'s `NULL` option.
+:   指定資料的 NULL 字串，等同於 `COPY` 的 `NULL` 選項。
 
 `default`
-:   Specifies the string that represents a default value,
-    the same as `COPY`'s `DEFAULT` option.
+:   指定代表預設值的字串，等同於 `COPY` 的 `DEFAULT` 選項。
 
 `encoding`
-:   Specifies the data encoding,
-    the same as `COPY`'s `ENCODING` option.
+:   指定資料編碼，等同於 `COPY` 的 `ENCODING` 選項。
 
 `on_error`
-:   Specifies how to behave when encountering an error converting a column's
-    input value into its data type,
-    the same as `COPY`'s `ON_ERROR` option.
+:   指定將欄位輸入值轉換為其資料型別時遇到錯誤的處理方式，等同於 `COPY` 的 `ON_ERROR` 選項。
 
 `reject_limit`
-:   Specifies the maximum number of errors tolerated while converting a column's
-    input value to its data type, the same as `COPY`'s
-    `REJECT_LIMIT` option.
+:   指定將欄位輸入值轉換為其資料型別時可容許的最大錯誤數，等同於 `COPY` 的
+    `REJECT_LIMIT` 選項。
 
 `log_verbosity`
-:   Specifies the amount of messages emitted by `file_fdw`,
-    the same as `COPY`'s `LOG_VERBOSITY` option.
+:   指定 `file_fdw` 發出的訊息量，等同於 `COPY` 的 `LOG_VERBOSITY` 選項。
 
-Note that while `COPY` allows options such as `HEADER`
-to be specified without a corresponding value, the foreign table option
-syntax requires a value to be present in all cases. To activate
-`COPY` options typically written without a value, you can pass
-the value TRUE, since all such options are Booleans.
+請注意，雖然 `COPY` 允許指定如 `HEADER` 這類沒有對應值的選項，外部資料表的選項語法在所有情況下都必須提供值。若要啟用通常不寫值的
+`COPY` 選項，可傳入值 TRUE，因為所有這類選項都是布林值。
 
-A column of a foreign table created using this wrapper can have the
-following options:
+使用此包裝器建立的外部資料表之欄位可設定下列選項：
 
 `force_not_null`
-:   This is a Boolean option. If true, it specifies that values of the
-    column should not be matched against the null string (that is, the
-    table-level `null` option). This has the same effect
-    as listing the column in `COPY`'s
-    `FORCE_NOT_NULL` option.
+:   這是布林選項。若為 true，表示不應將該欄位的值與 NULL 字串（亦即資料表層級的
+    `null` 選項）比對。這與在 `COPY` 的 `FORCE_NOT_NULL` 選項中列出該欄位具有相同效果。
 
 `force_null`
-:   This is a Boolean option. If true, it specifies that values of the
-    column which match the null string are returned as `NULL`
-    even if the value is quoted. Without this option, only unquoted
-    values matching the null string are returned as `NULL`.
-    This has the same effect as listing the column in
-    `COPY`'s `FORCE_NULL` option.
+:   這是布林選項。若為 true，與 NULL 字串相符的欄位值即使被加上引號，也會傳回為 `NULL`。
+    沒有此選項時，只有未加引號且與 NULL 字串相符的值會傳回為 `NULL`。
+    這與在 `COPY` 的 `FORCE_NULL` 選項中列出該欄位具有相同效果。
 
-`COPY`'s `FORCE_QUOTE` option is
-currently not supported by `file_fdw`.
+`file_fdw` 目前不支援 `COPY` 的 `FORCE_QUOTE` 選項。
 
-These options can only be specified for a foreign table or its columns, not
-in the options of the `file_fdw` foreign-data wrapper, nor in the
-options of a server or user mapping using the wrapper.
+這些選項只能為外部資料表或其欄位指定，不可在 `file_fdw` 外部資料包裝器的選項中指定，也不可在使用此包裝器的伺服器或使用者對應選項中指定。
 
-Changing table-level options requires being a superuser or having the privileges
-of the role `pg_read_server_files` (to use a filename) or
-the role `pg_execute_server_program` (to use a program),
-for security reasons: only certain users should be able to control which file is
-read or which program is run. In principle regular users could be allowed to
-change the other options, but that's not supported at present.
+基於安全理由，變更資料表層級的選項需要是超級使用者，或具有角色
+`pg_read_server_files`（使用檔名時）或角色 `pg_execute_server_program`（使用程式時）的權限：只有特定使用者應能控制讀取哪個檔案或執行哪個程式。原則上可以允許一般使用者變更其他選項，但目前尚未支援。
 
-When specifying the `program` option, keep in mind that the option
-string is executed by the shell. If you need to pass any arguments to the
-command that come from an untrusted source, you must be careful to strip or
-escape any characters that might have special meaning to the shell.
-For security reasons, it is best to use a fixed command string, or at least
-avoid passing any user input in it.
+指定 `program` 選項時，請記得選項字串會由 shell 執行。若需將來自不受信任來源的任何引數傳給命令，必須謹慎移除或逸出可能對 shell 具有特殊意義的字元。基於安全理由，最好使用固定的命令字串，或至少避免在其中傳入任何使用者輸入。
 
-For a foreign table using `file_fdw`, `EXPLAIN` shows
-the name of the file to be read or program to be run.
-For a file, unless `COSTS OFF` is
-specified, the file size (in bytes) is shown as well.
+對使用 `file_fdw` 的外部資料表，`EXPLAIN` 會顯示要讀取的檔案名稱或要執行的程式。對檔案而言，除非指定
+`COSTS OFF`，也會顯示檔案大小（位元組）。
 
 <a id="id-1.11.7.25.14"></a>
 
-**Example F.1. Create a Foreign Table for PostgreSQL CSV Logs**
+**範例 F.1. 為 PostgreSQL CSV 日誌建立外部資料表**
 
-One of the obvious uses for `file_fdw` is to make
-the PostgreSQL activity log available as a table for querying. To
-do this, first you must be [logging to a CSV file,](../../server-administration/runtime-config/runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)
-which here we
-will call `pglog.csv`. First, install `file_fdw`
-as an extension:
+`file_fdw` 的一個明顯用途，是將 PostgreSQL 活動日誌以可查詢的資料表形式提供。為此，您必須先[記錄至 CSV 檔案](../../server-administration/runtime-config/runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)，此處將其稱為 `pglog.csv`。首先，將 `file_fdw` 安裝為擴充功能：
 
 ```
 
 CREATE EXTENSION file_fdw;
 ```
 
-Then create a foreign server:
+接著建立外部伺服器：
 
 ```
 
 CREATE SERVER pglog FOREIGN DATA WRAPPER file_fdw;
 ```
 
-Now you are ready to create the foreign data table. Using the
-`CREATE FOREIGN TABLE` command, you will need to define
-the columns for the table, the CSV file name, and its format:
+現在可以建立外部資料表。使用 `CREATE FOREIGN TABLE` 命令時，必須定義資料表欄位、CSV 檔案名稱及其格式：
 
 ```
 
@@ -180,15 +129,13 @@ CREATE FOREIGN TABLE pglog (
 OPTIONS ( filename 'log/pglog.csv', format 'csv' );
 ```
 
-That's it — now you can query your log directly. In production, of
-course, you would need to define some way to deal with log rotation.
+至此即可直接查詢日誌。當然，在正式環境中，還必須定義處理日誌輪替的方式。
 
 <br><a id="id-1.11.7.25.15"></a>
 
-**Example F.2. Create a Foreign Table with an Option on a Column**
+**範例 F.2. 建立在欄位上設定選項的外部資料表**
 
-To set the `force_null` option for a column, use the
-`OPTIONS` keyword.
+若要為欄位設定 `force_null` 選項，請使用 `OPTIONS` 關鍵字。
 
 ```
 
@@ -204,4 +151,4 @@ OPTIONS ( filename 'films/db.csv', format 'csv' );
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/file-fdw.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/file-fdw.html)
