@@ -161,7 +161,7 @@
     * [13.6. 注意事項 #](the-sql-language/mvcc/mvcc-caveats.md)
     * [13.7. 鎖定與索引 #](the-sql-language/mvcc/locking-indexes.md)
   * [第 14 章 效能提示](the-sql-language/performance-tips/README.md)
-    * [14.1. Using EXPLAIN #](the-sql-language/performance-tips/using-explain.md)
+    * [14.1. 使用 `EXPLAIN` #](the-sql-language/performance-tips/using-explain.md)
     * [14.2. 規劃器使用的統計資訊 #](the-sql-language/performance-tips/planner-stats.md)
     * [14.3. 以明確的 `JOIN` 子句控制規劃器 #](the-sql-language/performance-tips/explicit-joins.md)
     * [14.4. 填入資料庫 #](the-sql-language/performance-tips/populate.md)

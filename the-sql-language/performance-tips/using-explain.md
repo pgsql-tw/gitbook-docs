@@ -1,62 +1,28 @@
-## 14.1. Using `EXPLAIN` [#](#USING-EXPLAIN)
+<a id="USING-EXPLAIN"></a>
 
-[14.1.1. `EXPLAIN` Basics](using-explain.md#USING-EXPLAIN-BASICS)
+## 14.1. 使用 `EXPLAIN` [#](#USING-EXPLAIN)
+
+[14.1.1. `EXPLAIN` 基礎](using-explain.md#USING-EXPLAIN-BASICS)
 
 [14.1.2. `EXPLAIN ANALYZE`](using-explain.md#USING-EXPLAIN-ANALYZE)
 
-[14.1.3. Caveats](using-explain.md#USING-EXPLAIN-CAVEATS)
+[14.1.3. 注意事項](using-explain.md#USING-EXPLAIN-CAVEATS)
 
 <a id="id-1.5.13.4.2"></a><a id="id-1.5.13.4.3"></a>
 
-PostgreSQL devises a *query
-plan* for each query it receives. Choosing the right
-plan to match the query structure and the properties of the data
-is absolutely critical for good performance, so the system includes
-a complex *planner* that tries to choose good plans.
-You can use the [`EXPLAIN`](../../reference/sql-commands/sql-explain.md) command
-to see what query plan the planner creates for any query.
-Plan-reading is an art that requires some experience to master,
-but this section attempts to cover the basics.
+PostgreSQL 會為它收到的每個查詢擬定一個*查詢計畫*（query plan）。選擇與查詢結構及資料特性相符的正確計畫，對良好的效能至關重要，因此系統包含了一個複雜的*規劃器*（planner），試圖選出好的計畫。你可以使用 [`EXPLAIN`](../../reference/sql-commands/sql-explain.md) 命令，查看規劃器為任何查詢建立了什麼樣的查詢計畫。解讀計畫是一門需要一些經驗才能掌握的藝術，但本節會試著介紹基礎知識。
 
-Examples in this section are drawn from the regression test database
-after doing a `VACUUM ANALYZE`, using v18 development sources.
-You should be able to get similar results if you try the examples
-yourself, but your estimated costs and row counts might vary slightly
-because `ANALYZE`'s statistics are random samples rather
-than exact, and because costs are inherently somewhat platform-dependent.
+本節中的範例取自執行過 `VACUUM ANALYZE` 之後的迴歸測試資料庫，使用的是 v18 的開發版原始碼。如果你自己嘗試這些範例，應該能得到類似的結果，但估計的成本與資料列數可能會略有不同，因為 `ANALYZE` 的統計資訊是隨機取樣而非精確值，而且成本本質上多少與平台相關。
 
-The examples use `EXPLAIN`'s default “text” output
-format, which is compact and convenient for humans to read.
-If you want to feed `EXPLAIN`'s output to a program for further
-analysis, you should use one of its machine-readable output formats
-(XML, JSON, or YAML) instead.
+這些範例使用 `EXPLAIN` 預設的「text」輸出格式，這種格式精簡，便於人類閱讀。如果你想將 `EXPLAIN` 的輸出交給程式做進一步分析，應該改用它的其中一種機器可讀輸出格式（XML、JSON 或 YAML）。
 
 <a id="USING-EXPLAIN-BASICS"></a>
 
-### 14.1.1. `EXPLAIN` Basics [#](#USING-EXPLAIN-BASICS)
+### 14.1.1. `EXPLAIN` 基礎 [#](#USING-EXPLAIN-BASICS)
 
-The structure of a query plan is a tree of *plan nodes*.
-Nodes at the bottom level of the tree are scan nodes: they return raw rows
-from a table. There are different types of scan nodes for different
-table access methods: sequential scans, index scans, and bitmap index
-scans. There are also non-table row sources, such as `VALUES`
-clauses and set-returning functions in `FROM`, which have their
-own scan node types.
-If the query requires joining, aggregation, sorting, or other
-operations on the raw rows, then there will be additional nodes
-above the scan nodes to perform these operations. Again,
-there is usually more than one possible way to do these operations,
-so different node types can appear here too. The output
-of `EXPLAIN` has one line for each node in the plan
-tree, showing the basic node type plus the cost estimates that the planner
-made for the execution of that plan node. Additional lines might appear,
-indented from the node's summary line,
-to show additional properties of the node.
-The very first line (the summary line for the topmost
-node) has the estimated total execution cost for the plan; it is this
-number that the planner seeks to minimize.
+查詢計畫的結構是一棵由*計畫節點*（plan node）組成的樹。樹最底層的節點是掃描節點：它們從資料表回傳原始的資料列。不同的資料表存取方法有不同類型的掃描節點：循序掃描、索引掃描與點陣圖索引掃描。此外也有非資料表的資料列來源，例如 `VALUES` 子句與 `FROM` 中的集合回傳函式，它們有自己的掃描節點類型。如果查詢需要對原始資料列進行聯結、彙總、排序或其他操作，那麼在掃描節點之上就會有額外的節點來執行這些操作。同樣地，執行這些操作的方式通常不只一種，因此這裡也可能出現不同的節點類型。`EXPLAIN` 的輸出中，計畫樹的每個節點各占一行，顯示基本的節點類型，以及規劃器為執行該計畫節點所做的成本估計。可能還會出現額外的幾行，從節點的摘要行縮排，用來顯示節點的其他屬性。最開頭的第一行（最上層節點的摘要行）是該計畫估計的總執行成本；規劃器試圖最小化的正是這個數字。
 
-Here is a trivial example, just to show what the output looks like:
+以下是一個非常簡單的範例，只是為了展示輸出的樣子：
 
 ```
 
@@ -67,47 +33,20 @@ EXPLAIN SELECT * FROM tenk1;
  Seq Scan on tenk1  (cost=0.00..445.00 rows=10000 width=244)
 ```
 
-Since this query has no `WHERE` clause, it must scan all the
-rows of the table, so the planner has chosen to use a simple sequential
-scan plan. The numbers that are quoted in parentheses are (left
-to right):
+由於這個查詢沒有 `WHERE` 子句，它必須掃描資料表中的所有資料列，因此規劃器選擇使用簡單的循序掃描計畫。括號中列出的數字（由左至右）分別是：
 
-* Estimated start-up cost. This is the time expended before the output
-  phase can begin, e.g., time to do the sorting in a sort node.
-* Estimated total cost. This is stated on the assumption that the plan
-  node is run to completion, i.e., all available rows are retrieved.
-  In practice a node's parent node might stop short of reading all
-  available rows (see the `LIMIT` example below).
-* Estimated number of rows output by this plan node. Again, the node
-  is assumed to be run to completion.
-* Estimated average width of rows output by this plan node (in bytes).
+* 估計的啟動成本。這是在輸出階段能夠開始之前所花費的時間，例如在排序節點中進行排序的時間。
+* 估計的總成本。這是在假設計畫節點會執行到完成（也就是取得所有可用的資料列）的前提下所得出的。實際上，節點的上層節點可能會在讀取完所有可用資料列之前就停止（請參閱下面的 `LIMIT` 範例）。
+* 估計這個計畫節點輸出的資料列數。同樣地，這是假設節點會執行到完成。
+* 估計這個計畫節點輸出之資料列的平均寬度（以位元組為單位）。
 
-The costs are measured in arbitrary units determined by the planner's
-cost parameters (see [Section 19.7.2](../../server-administration/runtime-config/runtime-config-query.md#RUNTIME-CONFIG-QUERY-CONSTANTS)).
-Traditional practice is to measure the costs in units of disk page
-fetches; that is, [seq_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-SEQ-PAGE-COST) is conventionally
-set to `1.0` and the other cost parameters are set relative
-to that. The examples in this section are run with the default cost
-parameters.
+成本是以由規劃器成本參數所決定的任意單位來衡量的（請參閱[第 19.7.2 節](../../server-administration/runtime-config/runtime-config-query.md#RUNTIME-CONFIG-QUERY-CONSTANTS)）。傳統的做法是以磁碟頁面擷取次數為單位來衡量成本；也就是說，[seq_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-SEQ-PAGE-COST) 慣例上設為 `1.0`，而其他成本參數則相對於它來設定。本節中的範例都是使用預設的成本參數執行的。
 
-It's important to understand that the cost of an upper-level node includes
-the cost of all its child nodes. It's also important to realize that
-the cost only reflects things that the planner cares about.
-In particular, the cost does not consider the time spent to convert
-output values to text form or to transmit them to the client, which
-could be important factors in the real elapsed time; but the planner
-ignores those costs because it cannot change them by altering the
-plan. (Every correct plan will output the same row set, we trust.)
+重要的是要了解，上層節點的成本包含了其所有子節點的成本。同樣重要的是要明白，成本只反映規劃器在意的事情。特別是，成本並未考慮將輸出值轉換為文字形式或傳送給用戶端所花費的時間，而這些可能是實際經過時間中的重要因素；但規劃器會忽略這些成本，因為它無法藉由改變計畫來改變它們。（我們相信，每個正確的計畫都會輸出相同的資料列集合。）
 
-The `rows` value is a little tricky because it is
-not the number of rows processed or scanned by the
-plan node, but rather the number emitted by the node. This is often
-less than the number scanned, as a result of filtering by any
-`WHERE`-clause conditions that are being applied at the node.
-Ideally the top-level rows estimate will approximate the number of rows
-actually returned, updated, or deleted by the query.
+`rows` 值有點微妙，因為它不是計畫節點處理或掃描的資料列數，而是該節點輸出的資料列數。由於在該節點上套用的任何 `WHERE` 子句條件會進行過濾，這個數字通常會少於掃描的資料列數。理想情況下，最上層的資料列數估計會接近查詢實際回傳、更新或刪除的資料列數。
 
-Returning to our example:
+回到我們的範例：
 
 ```
 
@@ -118,21 +57,16 @@ EXPLAIN SELECT * FROM tenk1;
  Seq Scan on tenk1  (cost=0.00..445.00 rows=10000 width=244)
 ```
 
-These numbers are derived very straightforwardly. If you do:
+這些數字的推導方式非常直接。如果你執行：
 
 ```
 
 SELECT relpages, reltuples FROM pg_class WHERE relname = 'tenk1';
 ```
 
-you will find that `tenk1` has 345 disk
-pages and 10000 rows. The estimated cost is computed as (disk pages read \*
-[seq_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-SEQ-PAGE-COST)) + (rows scanned \*
-[cpu_tuple_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-CPU-TUPLE-COST)). By default,
-`seq_page_cost` is 1.0 and `cpu_tuple_cost` is 0.01,
-so the estimated cost is (345 \* 1.0) + (10000 \* 0.01) = 445.
+你會發現 `tenk1` 有 345 個磁碟頁面與 10000 筆資料列。估計的成本計算方式為（讀取的磁碟頁面數 \* [seq_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-SEQ-PAGE-COST)）+（掃描的資料列數 \* [cpu_tuple_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-CPU-TUPLE-COST)）。預設情況下，`seq_page_cost` 為 1.0，`cpu_tuple_cost` 為 0.01，因此估計的成本為 (345 \* 1.0) + (10000 \* 0.01) = 445。
 
-Now let's modify the query to add a `WHERE` condition:
+現在，讓我們修改查詢，加上一個 `WHERE` 條件：
 
 ```
 
@@ -144,25 +78,11 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 7000;
    Filter: (unique1 < 7000)
 ```
 
-Notice that the `EXPLAIN` output shows the `WHERE`
-clause being applied as a “filter” condition attached to the Seq
-Scan plan node. This means that
-the plan node checks the condition for each row it scans, and outputs
-only the ones that pass the condition.
-The estimate of output rows has been reduced because of the
-`WHERE` clause.
-However, the scan will still have to visit all 10000 rows, so the cost
-hasn't decreased; in fact it has gone up a bit (by 10000 \* [cpu_operator_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-CPU-OPERATOR-COST), to be exact) to reflect the extra CPU
-time spent checking the `WHERE` condition.
+請注意，`EXPLAIN` 的輸出顯示 `WHERE` 子句被當作附加在 Seq Scan 計畫節點上的「filter」（過濾）條件套用。這表示該計畫節點會對它掃描的每一筆資料列檢查這個條件，並只輸出通過條件的資料列。由於 `WHERE` 子句的關係，輸出資料列數的估計減少了。不過，掃描仍然必須走訪全部 10000 筆資料列，因此成本並沒有降低；事實上，成本還略微上升了（確切地說，增加了 10000 \* [cpu_operator_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-CPU-OPERATOR-COST)），以反映檢查 `WHERE` 條件所花費的額外 CPU 時間。
 
-The actual number of rows this query would select is 7000, but the `rows`
-estimate is only approximate. If you try to duplicate this experiment,
-you may well get a slightly different estimate; moreover, it can
-change after each `ANALYZE` command, because the
-statistics produced by `ANALYZE` are taken from a
-randomized sample of the table.
+這個查詢實際會選取的資料列數是 7000，但 `rows` 估計只是近似值。如果你試著重現這個實驗，很可能會得到略有不同的估計值；此外，它在每次執行 `ANALYZE` 命令之後都可能改變，因為 `ANALYZE` 所產生的統計資訊取自資料表的隨機樣本。
 
-Now, let's make the condition more restrictive:
+現在，讓我們把條件設得更嚴格：
 
 ```
 
@@ -176,19 +96,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100;
          Index Cond: (unique1 < 100)
 ```
 
-Here the planner has decided to use a two-step plan: the child plan
-node visits an index to find the locations of rows matching the index
-condition, and then the upper plan node actually fetches those rows
-from the table itself. Fetching rows separately is much more
-expensive than reading them sequentially, but because not all the pages
-of the table have to be visited, this is still cheaper than a sequential
-scan. (The reason for using two plan levels is that the upper plan
-node sorts the row locations identified by the index into physical order
-before reading them, to minimize the cost of separate fetches.
-The “bitmap” mentioned in the node names is the mechanism that
-does the sorting.)
+在這裡，規劃器決定使用兩步驟的計畫：子計畫節點會走訪索引，找出符合索引條件之資料列的位置，然後上層計畫節點再實際從資料表本身擷取這些資料列。個別擷取資料列比循序讀取它們要昂貴得多，但由於不需要走訪資料表的所有頁面，這仍然比循序掃描便宜。（使用兩個計畫層級的原因是，上層計畫節點會先將索引所找出的資料列位置依實體順序排序，然後再讀取它們，以將個別擷取的成本降到最低。節點名稱中提到的「bitmap」（點陣圖），就是進行這項排序的機制。）
 
-Now let's add another condition to the `WHERE` clause:
+現在，讓我們在 `WHERE` 子句中再加上一個條件：
 
 ```
 
@@ -203,15 +113,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND stringu1 = 'xxx';
          Index Cond: (unique1 < 100)
 ```
 
-The added condition `stringu1 = 'xxx'` reduces the
-output row count estimate, but not the cost because we still have to visit
-the same set of rows. That's because the `stringu1` clause
-cannot be applied as an index condition, since this index is only on
-the `unique1` column. Instead it is applied as a filter on
-the rows retrieved using the index. Thus the cost has actually gone up
-slightly to reflect this extra checking.
+新增的條件 `stringu1 = 'xxx'` 降低了輸出資料列數的估計，但沒有降低成本，因為我們仍然必須走訪相同的資料列集合。這是因為 `stringu1` 子句無法作為索引條件套用，因為這個索引只建立在 `unique1` 欄位上。取而代之的是，它會被當作過濾條件，套用在使用索引取得的資料列上。因此，成本實際上略微上升，以反映這項額外的檢查。
 
-In some cases the planner will prefer a “simple” index scan plan:
+在某些情況下，規劃器會偏好「簡單的」索引掃描計畫：
 
 ```
 
@@ -223,20 +127,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 = 42;
    Index Cond: (unique1 = 42)
 ```
 
-In this type of plan the table rows are fetched in index order, which
-makes them even more expensive to read, but there are so few that the
-extra cost of sorting the row locations is not worth it. You'll most
-often see this plan type for queries that fetch just a single row. It's
-also often used for queries that have an `ORDER BY` condition
-that matches the index order, because then no extra sorting step is needed
-to satisfy the `ORDER BY`. In this example, adding
-`ORDER BY unique1` would use the same plan because the
-index already implicitly provides the requested ordering.
+在這種計畫中，資料表的資料列是依索引順序擷取的，這使得讀取它們的成本更高，但由於資料列非常少，不值得為排序資料列位置付出額外的成本。你最常在只擷取單一資料列的查詢中看到這種計畫類型。它也經常用於具有與索引順序相符之 `ORDER BY` 條件的查詢，因為這樣就不需要額外的排序步驟來滿足 `ORDER BY`。在這個範例中，加上 `ORDER BY unique1` 會使用相同的計畫，因為索引本身已經隱含地提供了所要求的順序。
 
-The planner may implement an `ORDER BY` clause in several
-ways. The above example shows that such an ordering clause may be
-implemented implicitly. The planner may also add an explicit
-`Sort` step:
+規劃器可能會以數種方式實作 `ORDER BY` 子句。上面的範例顯示，這樣的排序子句可以隱含地實作。規劃器也可能加入明確的 `Sort` 步驟：
 
 ```
 
@@ -249,9 +142,7 @@ EXPLAIN SELECT * FROM tenk1 ORDER BY unique1;
    ->  Seq Scan on tenk1  (cost=0.00..445.00 rows=10000 width=244)
 ```
 
-If a part of the plan guarantees an ordering on a prefix of the
-required sort keys, then the planner may instead decide to use an
-`Incremental Sort` step:
+如果計畫中的某個部分保證了所需排序鍵之前綴的順序，規劃器可能會改為決定使用 `Incremental Sort`（遞增排序）步驟：
 
 ```
 
@@ -266,16 +157,9 @@ EXPLAIN SELECT * FROM tenk1 ORDER BY hundred, ten LIMIT 100;
          ->  Index Scan using tenk1_hundred on tenk1  (cost=0.29..1574.20 rows=10000 width=244)
 ```
 
-Compared to regular sorts, sorting incrementally allows returning tuples
-before the entire result set has been sorted, which particularly enables
-optimizations with `LIMIT` queries. It may also reduce
-memory usage and the likelihood of spilling sorts to disk, but it comes at
-the cost of the increased overhead of splitting the result set into multiple
-sorting batches.
+與一般排序相比，遞增排序允許在整個結果集排序完成之前就回傳 tuple，這特別能夠讓 `LIMIT` 查詢進行最佳化。它也可能降低記憶體用量，以及排序溢出到磁碟的可能性，但代價是將結果集拆分成多個排序批次所增加的額外負擔。
 
-If there are separate indexes on several of the columns referenced
-in `WHERE`, the planner might choose to use an AND or OR
-combination of the indexes:
+如果在 `WHERE` 中參照的數個欄位上各有獨立的索引，規劃器可能會選擇使用這些索引的 AND 或 OR 組合：
 
 ```
 
@@ -292,12 +176,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000;
                Index Cond: (unique2 > 9000)
 ```
 
-But this requires visiting both indexes, so it's not necessarily a win
-compared to using just one index and treating the other condition as
-a filter. If you vary the ranges involved you'll see the plan change
-accordingly.
+但這需要走訪兩個索引，因此與只使用一個索引、並將另一個條件當作過濾條件相比，不一定比較划算。如果你改變所涉及的範圍，就會看到計畫隨之改變。
 
-Here is an example showing the effects of `LIMIT`:
+以下是一個展示 `LIMIT` 效果的範例：
 
 ```
 
@@ -311,18 +192,9 @@ EXPLAIN SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT 2;
          Filter: (unique1 < 100)
 ```
 
-This is the same query as above, but we added a `LIMIT` so that
-not all the rows need be retrieved, and the planner changed its mind about
-what to do. Notice that the total cost and row count of the Index Scan
-node are shown as if it were run to completion. However, the Limit node
-is expected to stop after retrieving only a fifth of those rows, so its
-total cost is only a fifth as much, and that's the actual estimated cost
-of the query. This plan is preferred over adding a Limit node to the
-previous plan because the Limit could not avoid paying the startup cost
-of the bitmap scan, so the total cost would be something over 25 units
-with that approach.
+這與上面的查詢相同，但我們加上了 `LIMIT`，因此不需要取得所有的資料列，於是規劃器改變了它的做法。請注意，Index Scan 節點的總成本與資料列數，是以假設它會執行到完成的方式顯示的。不過，Limit 節點預期在只取得其中五分之一的資料列之後就會停止，因此它的總成本只有五分之一，而這才是該查詢實際的估計成本。之所以偏好這個計畫，而不是在前一個計畫上加一個 Limit 節點，是因為 Limit 無法避免支付點陣圖掃描的啟動成本，因此採用那種做法的總成本會超過 25 個單位。
 
-Let's try joining two tables, using the columns we have been discussing:
+讓我們試著使用我們一直在討論的欄位來聯結兩個資料表：
 
 ```
 
@@ -341,34 +213,9 @@ WHERE t1.unique1 < 10 AND t1.unique2 = t2.unique2;
          Index Cond: (unique2 = t1.unique2)
 ```
 
-In this plan, we have a nested-loop join node with two table scans as
-inputs, or children. The indentation of the node summary lines reflects
-the plan tree structure. The join's first, or “outer”, child
-is a bitmap scan similar to those we saw before. Its cost and row count
-are the same as we'd get from `SELECT ... WHERE unique1 < 10`
-because we are
-applying the `WHERE` clause `unique1 < 10`
-at that node.
-The `t1.unique2 = t2.unique2` clause is not relevant yet,
-so it doesn't affect the row count of the outer scan. The nested-loop
-join node will run its second,
-or “inner” child once for each row obtained from the outer child.
-Column values from the current outer row can be plugged into the inner
-scan; here, the `t1.unique2` value from the outer row is available,
-so we get a plan and costs similar to what we saw above for a simple
-`SELECT ... WHERE t2.unique2 = constant` case.
-(The estimated cost is actually a bit lower than what was seen above,
-as a result of caching that's expected to occur during the repeated
-index scans on `t2`.) The
-costs of the loop node are then set on the basis of the cost of the outer
-scan, plus one repetition of the inner scan for each outer row (10 \* 7.90,
-here), plus a little CPU time for join processing.
+在這個計畫中，有一個巢狀迴圈聯結節點，它以兩個資料表掃描作為輸入，也就是子節點。節點摘要行的縮排反映了計畫樹的結構。聯結的第一個子節點，也就是「外部」（outer）子節點，是一個與我們之前看過的類似的點陣圖掃描。它的成本與資料列數，與我們從 `SELECT ... WHERE unique1 < 10` 所得到的相同，因為我們在該節點上套用了 `WHERE` 子句 `unique1 < 10`。`t1.unique2 = t2.unique2` 子句在這時還不相關，因此不會影響外部掃描的資料列數。巢狀迴圈聯結節點會對從外部子節點取得的每一筆資料列，各執行一次它的第二個子節點，也就是「內部」（inner）子節點。目前外部資料列的欄位值可以代入內部掃描；在這裡，可以使用外部資料列的 `t1.unique2` 值，因此我們得到的計畫與成本，類似於上面看到的簡單 `SELECT ... WHERE t2.unique2 = constant` 情況。（由於預期在重複對 `t2` 進行索引掃描時會發生快取，估計的成本實際上比上面看到的略低一些。）接著，迴圈節點的成本是根據外部掃描的成本，加上每一筆外部資料列各重複一次內部掃描的成本（這裡是 10 \* 7.90），再加上一點用於聯結處理的 CPU 時間來設定的。
 
-In this example the join's output row count is the same as the product
-of the two scans' row counts, but that's not true in all cases because
-there can be additional `WHERE` clauses that mention both tables
-and so can only be applied at the join point, not to either input scan.
-Here's an example:
+在這個範例中，聯結的輸出資料列數與兩個掃描之資料列數的乘積相同，但並非所有情況都是如此，因為可能還有其他同時提及兩個資料表的 `WHERE` 子句，這些子句只能在聯結點套用，而無法套用到任一個輸入掃描上。以下是一個範例：
 
 ```
 
@@ -389,29 +236,13 @@ WHERE t1.unique1 < 10 AND t2.unique2 < 10 AND t1.hundred < t2.hundred;
                Index Cond: (unique2 < 10)
 ```
 
-The condition `t1.hundred < t2.hundred` can't be
-tested in the `tenk2_unique2` index, so it's applied at the
-join node. This reduces the estimated output row count of the join node,
-but does not change either input scan.
+條件 `t1.hundred < t2.hundred` 無法在 `tenk2_unique2` 索引中檢驗，因此它會在聯結節點上套用。這降低了聯結節點估計的輸出資料列數，但不會改變任何一個輸入掃描。
 
-Notice that here the planner has chosen to “materialize” the inner
-relation of the join, by putting a Materialize plan node atop it. This
-means that the `t2` index scan will be done just once, even
-though the nested-loop join node needs to read that data ten times, once
-for each row from the outer relation. The Materialize node saves the data
-in memory as it's read, and then returns the data from memory on each
-subsequent pass.
+請注意，這裡的規劃器選擇了將聯結的內部關聯「實體化」（materialize），方法是在其上方放置一個 Materialize 計畫節點。這表示 `t2` 的索引掃描只會執行一次，即使巢狀迴圈聯結節點需要讀取該資料十次（外部關聯的每一筆資料列各一次）。Materialize 節點會在讀取資料時將它保存在記憶體中，然後在之後的每一輪都從記憶體回傳資料。
 
-When dealing with outer joins, you might see join plan nodes with both
-“Join Filter” and plain “Filter” conditions attached.
-Join Filter conditions come from the outer join's `ON` clause,
-so a row that fails the Join Filter condition could still get emitted as
-a null-extended row. But a plain Filter condition is applied after the
-outer-join rules and so acts to remove rows unconditionally. In an inner
-join there is no semantic difference between these types of filters.
+處理外部聯結時，你可能會看到同時附加了「Join Filter」與一般「Filter」條件的聯結計畫節點。Join Filter 條件來自外部聯結的 `ON` 子句，因此不符合 Join Filter 條件的資料列，仍然可能被當作以 null 延伸的資料列輸出。但一般的 Filter 條件是在外部聯結規則之後才套用的，因此會無條件地移除資料列。在內部聯結中，這兩種過濾條件在語意上沒有差別。
 
-If we change the query's selectivity a bit, we might get a very different
-join plan:
+如果我們稍微改變查詢的選擇率，可能會得到非常不同的聯結計畫：
 
 ```
 
@@ -431,15 +262,9 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
                      Index Cond: (unique1 < 100)
 ```
 
-Here, the planner has chosen to use a hash join, in which rows of one
-table are entered into an in-memory hash table, after which the other
-table is scanned and the hash table is probed for matches to each row.
-Again note how the indentation reflects the plan structure: the bitmap
-scan on `tenk1` is the input to the Hash node, which constructs
-the hash table. That's then returned to the Hash Join node, which reads
-rows from its outer child plan and searches the hash table for each one.
+在這裡，規劃器選擇使用雜湊聯結，也就是將一個資料表的資料列放入記憶體中的雜湊表，然後掃描另一個資料表，並針對每一筆資料列在雜湊表中探查相符的項目。同樣請注意縮排如何反映計畫結構：對 `tenk1` 的點陣圖掃描是 Hash 節點的輸入，Hash 節點會建構雜湊表。雜湊表接著會回傳給 Hash Join 節點，該節點會從它的外部子計畫讀取資料列，並針對每一筆資料列搜尋雜湊表。
 
-Another possible type of join is a merge join, illustrated here:
+另一種可能的聯結類型是合併聯結，如下所示：
 
 ```
 
@@ -456,19 +281,9 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
    ->  Index Scan using onek_unique2 on onek t2  (cost=0.28..166.28 rows=1000 width=244)
 ```
 
-Merge join requires its input data to be sorted on the join keys. In this
-example each input is sorted by using an index scan to visit the rows
-in the correct order; but a sequential scan and sort could also be used.
-(Sequential-scan-and-sort frequently beats an index scan for sorting many rows,
-because of the nonsequential disk access required by the index scan.)
+合併聯結要求其輸入資料依聯結鍵排序。在這個範例中，每個輸入都是藉由使用索引掃描、依正確的順序走訪資料列來排序的；但也可以使用循序掃描加排序。（在排序大量資料列時，循序掃描加排序往往勝過索引掃描，因為索引掃描需要非循序的磁碟存取。）
 
-One way to look at variant plans is to force the planner to disregard
-whatever strategy it thought was the cheapest, using the enable/disable
-flags described in [Section 19.7.1](../../server-administration/runtime-config/runtime-config-query.md#RUNTIME-CONFIG-QUERY-ENABLE).
-(This is a crude tool, but useful. See
-also [Section 14.3](explicit-joins.md).)
-For example, if we're unconvinced that merge join is the best join
-type for the previous example, we could try
+查看替代計畫的一種方法，是使用[第 19.7.1 節](../../server-administration/runtime-config/runtime-config-query.md#RUNTIME-CONFIG-QUERY-ENABLE)所述的啟用／停用旗標，強制規劃器捨棄它認為最便宜的策略。（這是一個粗略但有用的工具。另請參閱[第 14.3 節](explicit-joins.md)。）例如，如果我們不確定合併聯結是否是上一個範例的最佳聯結類型，可以嘗試
 
 ```
 
@@ -490,18 +305,9 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
                      Index Cond: (unique1 < 100)
 ```
 
-which shows that the planner thinks that hash join would be nearly 50%
-more expensive than merge join for this case.
-Of course, the next question is whether it's right about that.
-We can investigate that using `EXPLAIN ANALYZE`, as
-discussed [below](using-explain.md#USING-EXPLAIN-ANALYZE).
+這顯示出規劃器認為，在這種情況下雜湊聯結的成本會比合併聯結高出將近 50%。當然，接下來的問題是它的判斷是否正確。我們可以使用 `EXPLAIN ANALYZE` 來調查這一點，如[下面](using-explain.md#USING-EXPLAIN-ANALYZE)所述。
 
-When using the enable/disable flags to disable plan node types, many of
-the flags only discourage the use of the corresponding plan node and don't
-outright disallow the planner's ability to use the plan node type. This
-is by design so that the planner still maintains the ability to form a
-plan for a given query. When the resulting plan contains a disabled node,
-the `EXPLAIN` output will indicate this fact.
+使用啟用／停用旗標來停用計畫節點類型時，許多旗標只會抑制對應計畫節點的使用，而不會完全禁止規劃器使用該計畫節點類型。這是刻意的設計，讓規劃器仍然保有為給定查詢產生計畫的能力。當產生的計畫包含已停用的節點時，`EXPLAIN` 的輸出會指出這個事實。
 
 ```
 
@@ -514,15 +320,10 @@ EXPLAIN SELECT * FROM unit;
    Disabled: true
 ```
 
-Because the `unit` table has no indexes, there is no
-other means to read the table data, so the sequential scan is the only
-option available to the query planner.
+由於 `unit` 資料表沒有任何索引，沒有其他方法可以讀取該資料表的資料，因此循序掃描是查詢規劃器唯一可用的選項。
 
 <a id="id-1.5.13.4.7.31.1"></a>
-Some query plans involve *subplans*, which arise
-from sub-`SELECT`s in the original query. Such
-queries can sometimes be transformed into ordinary join plans, but
-when they cannot be, we get plans like:
+有些查詢計畫涉及*子計畫*（subplan），它們源自原始查詢中的子 `SELECT`。這類查詢有時可以轉換為一般的聯結計畫，但當無法轉換時，我們會得到像這樣的計畫：
 
 ```
 
@@ -541,21 +342,10 @@ WHERE t.ten < ALL (SELECT o.ten FROM onek o WHERE o.four = t.four);
            Filter: (o.four = t.four)
 ```
 
-This rather artificial example serves to illustrate a couple of
-points: values from the outer plan level can be passed down into a
-subplan (here, `t.four` is passed down) and the
-results of the sub-select are available to the outer plan. Those
-result values are shown by `EXPLAIN` with notations
-like
-`(subplan_name).colN`,
-which refers to the *`N`*'th output column of
-the sub-`SELECT`.
+這個相當刻意的範例是為了說明幾個要點：外部計畫層級的值可以向下傳入子計畫（這裡傳入的是 `t.four`），而子查詢的結果可供外部計畫使用。`EXPLAIN` 會以類似 `(subplan_name).colN` 的表示法顯示這些結果值，它指的是子 `SELECT` 的第 *`N`* 個輸出欄位。
 
 <a id="id-1.5.13.4.7.32.1"></a>
-In the example above, the `ALL` operator runs the
-subplan again for each row of the outer query (which accounts for the
-high estimated cost). Some queries can use a *hashed
-subplan* to avoid that:
+在上面的範例中，`ALL` 運算子會針對外部查詢的每一筆資料列再次執行子計畫（這也是估計成本很高的原因）。有些查詢可以使用*雜湊子計畫*（hashed subplan）來避免這種情況：
 
 ```
 
@@ -572,17 +362,10 @@ WHERE t.unique1 NOT IN (SELECT o.unique1 FROM onek o);
 (4 rows)
 ```
 
-Here, the subplan is run a single time and its output is loaded into
-an in-memory hash table, which is then probed by the
-outer `ANY` operator. This requires that the
-sub-`SELECT` not reference any variables of the outer
-query, and that the `ANY`'s comparison operator be
-amenable to hashing.
+在這裡，子計畫只會執行一次，其輸出會被載入記憶體中的雜湊表，然後由外部的 `ANY` 運算子進行探查。這要求子 `SELECT` 不參照外部查詢的任何變數，而且 `ANY` 的比較運算子必須適合進行雜湊。
 
 <a id="id-1.5.13.4.7.33.1"></a>
-If, in addition to not referencing any variables of the outer query,
-the sub-`SELECT` cannot return more than one row,
-it may instead be implemented as an *initplan*:
+如果子 `SELECT` 除了不參照外部查詢的任何變數之外，也不會回傳超過一筆資料列，那麼它可能會改以*初始計畫*（initplan）來實作：
 
 ```
 
@@ -599,23 +382,13 @@ FROM tenk1 t1 WHERE t1.ten = (SELECT (random() * 10)::integer);
            Output: ((random() * '10'::double precision))::integer
 ```
 
-An initplan is run only once per execution of the outer plan, and its
-results are saved for re-use in later rows of the outer plan. So in
-this example `random()` is evaluated only once and
-all the values of `t1.ten` are compared to the same
-randomly-chosen integer. That's quite different from what would
-happen without the sub-`SELECT` construct.
+初始計畫在外部計畫每次執行時只會執行一次，其結果會被保存下來，供外部計畫之後的資料列重複使用。因此在這個範例中，`random()` 只會被評估一次，而 `t1.ten` 的所有值都會與同一個隨機選出的整數比較。這與沒有使用子 `SELECT` 結構時會發生的情況大不相同。
 
 <a id="USING-EXPLAIN-ANALYZE"></a>
 
-### 14.1.2. `EXPLAIN ANALYZE` [#](#USING-EXPLAIN-ANALYZE)
+### 14.1.2. `EXPLAIN ANALYZE` [#](#USING-EXPLAIN-ANALYZE)
 
-It is possible to check the accuracy of the planner's estimates
-by using `EXPLAIN`'s `ANALYZE` option. With this
-option, `EXPLAIN` actually executes the query, and then displays
-the true row counts and true run time accumulated within each plan node,
-along with the same estimates that a plain `EXPLAIN`
-shows. For example, we might get a result like this:
+使用 `EXPLAIN` 的 `ANALYZE` 選項，可以檢查規劃器估計的準確度。使用這個選項時，`EXPLAIN` 會實際執行查詢，然後顯示每個計畫節點中累計的真實資料列數與真實執行時間，以及一般 `EXPLAIN` 所顯示的相同估計值。例如，我們可能會得到像這樣的結果：
 
 ```
 
@@ -645,27 +418,11 @@ WHERE t1.unique1 < 10 AND t1.unique2 = t2.unique2;
  Execution Time: 0.073 ms
 ```
 
-Note that the “actual time” values are in milliseconds of
-real time, whereas the `cost` estimates are expressed in
-arbitrary units; so they are unlikely to match up.
-The thing that's usually most important to look for is whether the
-estimated row counts are reasonably close to reality. In this example
-the estimates were all dead-on, but that's quite unusual in practice.
+請注意，「actual time」（實際時間）的值是以實際時間的毫秒為單位，而 `cost` 估計值則以任意單位表示；因此它們不太可能相符。通常最需要注意的是，估計的資料列數是否合理地接近實際情況。在這個範例中，估計值全都完全正確，但這在實務上相當少見。
 
-In some query plans, it is possible for a subplan node to be executed more
-than once. For example, the inner index scan will be executed once per
-outer row in the above nested-loop plan. In such cases, the
-`loops` value reports the
-total number of executions of the node, and the actual time and rows
-values shown are averages per-execution. This is done to make the numbers
-comparable with the way that the cost estimates are shown. Multiply by
-the `loops` value to get the total time actually spent in
-the node. In the above example, we spent a total of 0.030 milliseconds
-executing the index scans on `tenk2`.
+在某些查詢計畫中，子計畫節點有可能被執行不只一次。例如，在上面的巢狀迴圈計畫中，內部的索引掃描會針對每一筆外部資料列各執行一次。在這種情況下，`loops` 值會回報該節點的總執行次數，而所顯示的實際時間與資料列值則是每次執行的平均值。這樣做是為了讓這些數字能與成本估計的顯示方式相互比較。將它們乘以 `loops` 值，就能得到實際花在該節點上的總時間。在上面的範例中，我們總共花了 0.030 毫秒執行對 `tenk2` 的索引掃描。
 
-In some cases `EXPLAIN ANALYZE` shows additional execution
-statistics beyond the plan node execution times and row counts.
-For example, Sort and Hash nodes provide extra information:
+在某些情況下，`EXPLAIN ANALYZE` 除了計畫節點的執行時間與資料列數之外，還會顯示額外的執行統計資訊。例如，Sort 與 Hash 節點會提供額外的資訊：
 
 ```
 
@@ -701,17 +458,9 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2 ORDER BY t1.fivethous;
  Execution Time: 3.036 ms
 ```
 
-The Sort node shows the sort method used (in particular, whether the sort
-was in-memory or on-disk) and the amount of memory or disk space needed.
-The Hash node shows the number of hash buckets and batches as well as the
-peak amount of memory used for the hash table. (If the number of batches
-exceeds one, there will also be disk space usage involved, but that is not
-shown.)
+Sort 節點會顯示所使用的排序方法（特別是排序是在記憶體中還是在磁碟上進行），以及所需的記憶體或磁碟空間量。Hash 節點會顯示雜湊桶與批次的數量，以及雜湊表所使用的記憶體峰值。（如果批次數量超過一個，也會涉及磁碟空間的使用，但這不會顯示出來。）
 
-Index Scan nodes (as well as Bitmap Index Scan and Index-Only Scan nodes)
-show an “Index Searches” line that reports the total number
-of searches across *all* node
-executions/`loops`:
+Index Scan 節點（以及 Bitmap Index Scan 與 Index-Only Scan 節點）會顯示一行「Index Searches」（索引搜尋），回報在該節點*所有*執行次數／`loops` 中的索引搜尋總次數：
 
 ```
 
@@ -730,12 +479,7 @@ EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE thousand IN (1, 500, 700, 999);
  Execution Time: 0.034 ms
 ```
 
-Here we see a Bitmap Index Scan node that needed 4 separate index
-searches. The scan had to search the index from the
-`tenk1_thous_tenthous` index root page once per
-`integer` value from the predicate's `IN`
-construct. However, the number of index searches often won't have such a
-simple correspondence to the query predicate:
+在這裡，我們看到一個需要 4 次個別索引搜尋的 Bitmap Index Scan 節點。對於述詞的 `IN` 結構中的每一個 `integer` 值，這個掃描都必須從 `tenk1_thous_tenthous` 索引的根頁面搜尋一次索引。不過，索引搜尋的次數往往不會與查詢述詞有如此簡單的對應關係：
 
 ```
 
@@ -754,15 +498,9 @@ EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE thousand IN (1, 2, 3, 4);
  Execution Time: 0.026 ms
 ```
 
-This variant of our `IN` query performed only 1 index
-search. It spent less time traversing the index (compared to the original
-query) because its `IN` construct uses values matching
-index tuples stored next to each other, on the same
-`tenk1_thous_tenthous` index leaf page.
+我們這個 `IN` 查詢的變化形式只執行了 1 次索引搜尋。它走訪索引所花的時間（與原本的查詢相比）較少，因為它的 `IN` 結構所使用的值，對應到的索引 tuple 彼此相鄰地儲存在同一個 `tenk1_thous_tenthous` 索引葉頁面上。
 
-The “Index Searches” line is also useful with B-tree index
-scans that apply the *skip scan* optimization to
-more efficiently traverse through an index:
+對於套用*跳躍掃描*（skip scan）最佳化、以更有效率地走訪索引的 B-tree 索引掃描，「Index Searches」這一行也很有用：
 
 ```
 
@@ -778,22 +516,9 @@ EXPLAIN ANALYZE SELECT four, unique1 FROM tenk1 WHERE four BETWEEN 1 AND 3 AND u
  Execution Time: 0.012 ms
 ```
 
-Here we see an Index-Only Scan node using
-`tenk1_four_unique1_idx`, a multi-column index on the
-`tenk1` table's `four` and
-`unique1` columns. The scan performs 3 searches
-that each read a single index leaf page:
-“`four = 1 AND unique1 = 42`”,
-“`four = 2 AND unique1 = 42`”, and
-“`four = 3 AND unique1 = 42`”. This index
-is generally a good target for skip scan, since, as discussed in
-[Section 11.3](../indexes/indexes-multicolumn.md), its leading column (the
-`four` column) contains only 4 distinct values,
-while its second/final column (the `unique1`
-column) contains many distinct values.
+在這裡，我們看到一個使用 `tenk1_four_unique1_idx` 的 Index-Only Scan 節點，這是建立在 `tenk1` 資料表之 `four` 與 `unique1` 欄位上的多欄位索引。這個掃描執行了 3 次搜尋，每次各讀取一個索引葉頁面：「`four = 1 AND unique1 = 42`」、「`four = 2 AND unique1 = 42`」與「`four = 3 AND unique1 = 42`」。這個索引一般而言是跳躍掃描的良好對象，因為如[第 11.3 節](../indexes/indexes-multicolumn.md)所述，它的前導欄位（`four` 欄位）只包含 4 個相異值，而它的第二個／最後一個欄位（`unique1` 欄位）則包含許多相異值。
 
-Another type of extra information is the number of rows removed by a
-filter condition:
+另一種額外資訊，是被過濾條件移除的資料列數：
 
 ```
 
@@ -809,14 +534,9 @@ EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE ten < 7;
  Execution Time: 2.145 ms
 ```
 
-These counts can be particularly valuable for filter conditions applied at
-join nodes. The “Rows Removed” line only appears when at least
-one scanned row, or potential join pair in the case of a join node,
-is rejected by the filter condition.
+對於在聯結節點上套用的過濾條件，這些計數可能特別有價值。只有在至少有一筆被掃描的資料列（或在聯結節點的情況下，至少有一個可能的聯結配對）被過濾條件排除時，才會出現「Rows Removed」這一行。
 
-A case similar to filter conditions occurs with “lossy”
-index scans. For example, consider this search for polygons containing a
-specific point:
+與過濾條件類似的情況，也會發生在「有損」（lossy）的索引掃描中。例如，考慮下面這個搜尋包含特定點之多邊形的查詢：
 
 ```
 
@@ -832,10 +552,7 @@ EXPLAIN ANALYZE SELECT * FROM polygon_tbl WHERE f1 @> polygon '(0.5,2.0)';
  Execution Time: 0.033 ms
 ```
 
-The planner thinks (quite correctly) that this sample table is too small
-to bother with an index scan, so we have a plain sequential scan in which
-all the rows got rejected by the filter condition. But if we force an
-index scan to be used, we see:
+規劃器認為（相當正確地）這個範例資料表太小，不值得使用索引掃描，因此我們得到一個簡單的循序掃描，其中所有的資料列都被過濾條件排除了。但如果我們強制使用索引掃描，會看到：
 
 ```
 
@@ -854,20 +571,9 @@ EXPLAIN ANALYZE SELECT * FROM polygon_tbl WHERE f1 @> polygon '(0.5,2.0)';
  Execution Time: 0.098 ms
 ```
 
-Here we can see that the index returned one candidate row, which was
-then rejected by a recheck of the index condition. This happens because a
-GiST index is “lossy” for polygon containment tests: it actually
-returns the rows with polygons that overlap the target, and then we have
-to do the exact containment test on those rows.
+在這裡我們可以看到，索引回傳了一筆候選資料列，接著它在重新檢查索引條件時被排除了。之所以會這樣，是因為對於多邊形包含測試，GiST 索引是「有損」的：它實際上會回傳多邊形與目標重疊的資料列，然後我們必須對這些資料列進行精確的包含測試。
 
-`EXPLAIN` has a `BUFFERS` option which
-provides additional detail about I/O operations performed during the
-planning and execution of the given query. The buffer numbers displayed
-show the count of the non-distinct buffers hit, read, dirtied, and written
-for the given node and all of its child nodes. The
-`ANALYZE` option implicitly enables the
-`BUFFERS` option. If this
-is undesired, `BUFFERS` may be explicitly disabled:
+`EXPLAIN` 有一個 `BUFFERS` 選項，可以提供在規劃與執行給定查詢期間所進行之 I/O 操作的額外細節。所顯示的緩衝區數字，是給定節點及其所有子節點命中、讀取、弄髒與寫入的緩衝區計數（不排除重複）。`ANALYZE` 選項會隱含地啟用 `BUFFERS` 選項。如果不希望這樣，可以明確地停用 `BUFFERS`：
 
 ```
 
@@ -889,12 +595,7 @@ EXPLAIN (ANALYZE, BUFFERS OFF) SELECT * FROM tenk1 WHERE unique1 < 100 AND uniqu
  Execution Time: 0.143 ms
 ```
 
-Keep in mind that because `EXPLAIN ANALYZE` actually
-runs the query, any side-effects will happen as usual, even though
-whatever results the query might output are discarded in favor of
-printing the `EXPLAIN` data. If you want to analyze a
-data-modifying query without changing your tables, you can
-roll the command back afterwards, for example:
+請記住，由於 `EXPLAIN ANALYZE` 會實際執行查詢，任何副作用都會照常發生，即使查詢可能輸出的任何結果都會被捨棄，改為印出 `EXPLAIN` 的資料。如果你想分析一個修改資料的查詢，又不想改變你的資料表，可以在事後回復該命令，例如：
 
 ```
 
@@ -919,24 +620,9 @@ EXPLAIN ANALYZE UPDATE tenk1 SET hundred = hundred + 1 WHERE unique1 < 100;
 ROLLBACK;
 ```
 
-As seen in this example, when the query is an `INSERT`,
-`UPDATE`, `DELETE`, or
-`MERGE` command, the actual work of
-applying the table changes is done by a top-level Insert, Update,
-Delete, or Merge plan node. The plan nodes underneath this node perform
-the work of locating the old rows and/or computing the new data.
-So above, we see the same sort of bitmap table scan we've seen already,
-and its output is fed to an Update node that stores the updated rows.
-It's worth noting that although the data-modifying node can take a
-considerable amount of run time (here, it's consuming the lion's share
-of the time), the planner does not currently add anything to the cost
-estimates to account for that work. That's because the work to be done is
-the same for every correct query plan, so it doesn't affect planning
-decisions.
+如這個範例所示，當查詢是 `INSERT`、`UPDATE`、`DELETE` 或 `MERGE` 命令時，套用資料表變更的實際工作，是由最上層的 Insert、Update、Delete 或 Merge 計畫節點完成的。這個節點底下的計畫節點負責找出舊的資料列和／或計算新的資料。因此在上面，我們看到的是與先前相同類型的點陣圖資料表掃描，而它的輸出會傳給一個儲存更新後資料列的 Update 節點。值得注意的是，雖然修改資料的節點可能會花費相當多的執行時間（在這裡，它占用了大部分的時間），但規劃器目前並不會在成本估計中加入任何東西來計入這項工作。這是因為對於每個正確的查詢計畫，要做的工作都是相同的，因此不會影響規劃決策。
 
-When an `UPDATE`, `DELETE`, or
-`MERGE` command affects a partitioned table or
-inheritance hierarchy, the output might look like this:
+當 `UPDATE`、`DELETE` 或 `MERGE` 命令影響到分割資料表或繼承階層時，輸出可能如下所示：
 
 ```
 
@@ -957,71 +643,23 @@ EXPLAIN UPDATE gtest_parent SET f1 = CURRENT_DATE WHERE f2 = 101;
                Filter: (f2 = 101)
 ```
 
-In this example the Update node needs to consider three child tables,
-but not the originally-mentioned partitioned table (since that never
-stores any data). So there are three input
-scanning subplans, one per table. For clarity, the Update node is
-annotated to show the specific target tables that will be updated, in the
-same order as the corresponding subplans.
+在這個範例中，Update 節點需要考慮三個子資料表，但不需要考慮原本提到的分割資料表（因為它從不儲存任何資料）。因此有三個輸入掃描子計畫，每個資料表各一個。為了清楚起見，Update 節點會加上註記，依照與對應子計畫相同的順序，顯示將被更新的具體目標資料表。
 
-The `Planning time` shown by `EXPLAIN
-ANALYZE` is the time it took to generate the query plan from the
-parsed query and optimize it. It does not include parsing or rewriting.
+`EXPLAIN ANALYZE` 所顯示的 `Planning time`，是從剖析後的查詢產生查詢計畫並將其最佳化所花費的時間。它不包括剖析或改寫的時間。
 
-The `Execution time` shown by `EXPLAIN
-ANALYZE` includes executor start-up and shut-down time, as well
-as the time to run any triggers that are fired, but it does not include
-parsing, rewriting, or planning time.
-Time spent executing `BEFORE` triggers, if any, is included in
-the time for the related Insert, Update, or Delete node; but time
-spent executing `AFTER` triggers is not counted there because
-`AFTER` triggers are fired after completion of the whole plan.
-The total time spent in each trigger
-(either `BEFORE` or `AFTER`) is also shown separately.
-Note that deferred constraint triggers will not be executed
-until end of transaction and are thus not considered at all by
-`EXPLAIN ANALYZE`.
+`EXPLAIN ANALYZE` 所顯示的 `Execution time`，包括執行器的啟動與關閉時間，以及執行任何被觸發之觸發程序的時間，但不包括剖析、改寫或規劃的時間。執行 `BEFORE` 觸發程序（如果有的話）所花費的時間，會計入相關的 Insert、Update 或 Delete 節點的時間中；但執行 `AFTER` 觸發程序所花費的時間不會計入其中，因為 `AFTER` 觸發程序是在整個計畫完成之後才觸發的。每個觸發程序（無論是 `BEFORE` 還是 `AFTER`）所花費的總時間，也會另外顯示。請注意，延遲的限制條件觸發程序要到交易結束時才會執行，因此 `EXPLAIN ANALYZE` 完全不會將它們納入考量。
 
-The time shown for the top-level node does not include any time needed
-to convert the query's output data into displayable form or to send it
-to the client. While `EXPLAIN ANALYZE` will never
-send the data to the client, it can be told to convert the query's
-output data to displayable form and measure the time needed for that,
-by specifying the `SERIALIZE` option. That time will
-be shown separately, and it's also included in the
-total `Execution time`.
+最上層節點所顯示的時間，不包括將查詢的輸出資料轉換為可顯示形式，或將其傳送給用戶端所需的任何時間。雖然 `EXPLAIN ANALYZE` 永遠不會將資料傳送給用戶端，但可以藉由指定 `SERIALIZE` 選項，要求它將查詢的輸出資料轉換為可顯示的形式，並量測所需的時間。該時間會另外顯示，而且也會包含在總 `Execution time` 中。
 
 <a id="USING-EXPLAIN-CAVEATS"></a>
 
-### 14.1.3. Caveats [#](#USING-EXPLAIN-CAVEATS)
+### 14.1.3. 注意事項 [#](#USING-EXPLAIN-CAVEATS)
 
-There are two significant ways in which run times measured by
-`EXPLAIN ANALYZE` can deviate from normal execution of
-the same query. First, since no output rows are delivered to the client,
-network transmission costs are not included. I/O conversion costs are
-not included either unless `SERIALIZE` is specified.
-Second, the measurement overhead added by `EXPLAIN
-ANALYZE` can be significant, especially on machines with slow
-`gettimeofday()` operating-system calls. You can use the
-[pg_test_timing](../../reference/reference-server/pgtesttiming.md) tool to measure the overhead of timing
-on your system.
+`EXPLAIN ANALYZE` 量測到的執行時間，可能在兩個重要方面偏離同一個查詢的正常執行。第一，由於沒有任何輸出資料列傳送給用戶端，因此不包括網路傳輸成本。除非指定了 `SERIALIZE`，否則也不包括 I/O 轉換成本。第二，`EXPLAIN ANALYZE` 所增加的量測額外負擔可能相當可觀，特別是在 `gettimeofday()` 作業系統呼叫很慢的機器上。你可以使用 [pg_test_timing](../../reference/reference-server/pgtesttiming.md) 工具，量測你系統上計時的額外負擔。
 
-`EXPLAIN` results should not be extrapolated to situations
-much different from the one you are actually testing; for example,
-results on a toy-sized table cannot be assumed to apply to large tables.
-The planner's cost estimates are not linear and so it might choose
-a different plan for a larger or smaller table. An extreme example
-is that on a table that only occupies one disk page, you'll nearly
-always get a sequential scan plan whether indexes are available or not.
-The planner realizes that it's going to take one disk page read to
-process the table in any case, so there's no value in expending additional
-page reads to look at an index. (We saw this happening in the
-`polygon_tbl` example above.)
+不應將 `EXPLAIN` 的結果外推到與你實際測試的情況相差甚遠的情況；例如，不能假設在玩具大小之資料表上的結果也適用於大型資料表。規劃器的成本估計並非線性的，因此對於較大或較小的資料表，它可能會選擇不同的計畫。一個極端的例子是，在只占用一個磁碟頁面的資料表上，無論是否有可用的索引，你幾乎總是會得到循序掃描計畫。規劃器明白，無論如何處理該資料表都需要讀取一個磁碟頁面，因此花費額外的頁面讀取去查看索引並沒有價值。（我們在上面的 `polygon_tbl` 範例中看到了這種情況。）
 
-There are cases in which the actual and estimated values won't match up
-well, but nothing is really wrong. One such case occurs when
-plan node execution is stopped short by a `LIMIT` or similar
-effect. For example, in the `LIMIT` query we used before,
+在某些情況下，實際值與估計值不太相符，但其實並沒有任何問題。其中一種情況，是計畫節點的執行因 `LIMIT` 或類似的效果而提前停止。例如，在我們先前使用的 `LIMIT` 查詢中，
 
 ```
 
@@ -1041,41 +679,14 @@ EXPLAIN ANALYZE SELECT * FROM tenk1 WHERE unique1 < 100 AND unique2 > 9000 LIMIT
  Execution Time: 0.086 ms
 ```
 
-the estimated cost and row count for the Index Scan node are shown as
-though it were run to completion. But in reality the Limit node stopped
-requesting rows after it got two, so the actual row count is only 2 and
-the run time is less than the cost estimate would suggest. This is not
-an estimation error, only a discrepancy in the way the estimates and true
-values are displayed.
+Index Scan 節點估計的成本與資料列數，是以假設它會執行到完成的方式顯示的。但實際上，Limit 節點在取得兩筆資料列之後就停止要求資料列了，因此實際的資料列數只有 2，而執行時間也比成本估計所暗示的少。這不是估計錯誤，只是估計值與真實值的顯示方式有所差異。
 
-Merge joins also have measurement artifacts that can confuse the unwary.
-A merge join will stop reading one input if it's exhausted the other input
-and the next key value in the one input is greater than the last key value
-of the other input; in such a case there can be no more matches and so no
-need to scan the rest of the first input. This results in not reading all
-of one child, with results like those mentioned for `LIMIT`.
-Also, if the outer (first) child contains rows with duplicate key values,
-the inner (second) child is backed up and rescanned for the portion of its
-rows matching that key value. `EXPLAIN ANALYZE` counts these
-repeated emissions of the same inner rows as if they were real additional
-rows. When there are many outer duplicates, the reported actual row count
-for the inner child plan node can be significantly larger than the number
-of rows that are actually in the inner relation.
+合併聯結也有一些可能讓不留意的人感到困惑的量測假象。如果合併聯結已經讀完其中一個輸入，而另一個輸入中的下一個鍵值大於前一個輸入的最後一個鍵值，它就會停止讀取該輸入；在這種情況下，不可能再有相符的項目，因此不需要掃描第一個輸入的其餘部分。這會導致沒有讀取某個子節點的全部內容，產生的結果就如同 `LIMIT` 所提到的那樣。此外，如果外部（第一個）子節點包含具有重複鍵值的資料列，內部（第二個）子節點就會倒回並重新掃描其資料列中與該鍵值相符的部分。`EXPLAIN ANALYZE` 會將這些重複輸出的相同內部資料列，當作真正額外的資料列來計算。當外部有許多重複值時，內部子計畫節點所回報的實際資料列數，可能會明顯大於內部關聯中實際存在的資料列數。
 
-BitmapAnd and BitmapOr nodes always report their actual row counts as zero,
-due to implementation limitations.
+由於實作上的限制，BitmapAnd 與 BitmapOr 節點回報的實際資料列數一律為零。
 
-Normally, `EXPLAIN` will display every plan node
-created by the planner. However, there are cases where the executor
-can determine that certain nodes need not be executed because they
-cannot produce any rows, based on parameter values that were not
-available at planning time. (Currently this can only happen for child
-nodes of an Append or MergeAppend node that is scanning a partitioned
-table.) When this happens, those plan nodes are omitted from
-the `EXPLAIN` output and a `Subplans
-Removed: N` annotation appears
-instead.
+通常，`EXPLAIN` 會顯示規劃器所建立的每一個計畫節點。不過，在某些情況下，執行器可以根據在規劃時尚無法取得的參數值，判斷某些節點由於不可能產生任何資料列而不需要執行。（目前這只會發生在正在掃描分割資料表之 Append 或 MergeAppend 節點的子節點上。）發生這種情況時，這些計畫節點會從 `EXPLAIN` 的輸出中省略，並改為出現 `Subplans Removed: N` 註記。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/using-explain.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/using-explain.html)（原文版本：18.6；核對日期：2026-09-11）

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：882 頁。
+待譯頁面：881 頁。
 
 ## 根目錄
 
@@ -1119,7 +1119,7 @@
 - [x] `the-sql-language/performance-tips/non-durability.md` — 14.5. 非持久性設定 #
 - [x] `the-sql-language/performance-tips/planner-stats.md` — 14.2. 規劃器使用的統計資訊 #
 - [x] `the-sql-language/performance-tips/populate.md` — 14.4. 填入資料庫 #
-- [ ] `the-sql-language/performance-tips/using-explain.md` — 14.1. Using EXPLAIN #
+- [x] `the-sql-language/performance-tips/using-explain.md` — 14.1. 使用 `EXPLAIN` #
 - [ ] `the-sql-language/queries/README.md` — Chapter 7. Queries
 - [ ] `the-sql-language/queries/queries-limit.md` — 7.6. LIMIT and OFFSET #
 - [ ] `the-sql-language/queries/queries-order.md` — 7.5. Sorting Rows ( ORDER BY ) #
