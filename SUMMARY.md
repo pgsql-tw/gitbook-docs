@@ -16,7 +16,7 @@
   * [第 2 章 SQL 語言](tutorial/tutorial-sql/README.md)
     * [2.1. 簡介 #](tutorial/tutorial-sql/tutorial-sql-intro.md)
     * [2.2. 概念](tutorial/tutorial-sql/tutorial-concepts.md)
-    * [2.3. Creating a New Table #](tutorial/tutorial-sql/tutorial-table.md)
+    * [2.3. 建立新資料表 #](tutorial/tutorial-sql/tutorial-table.md)
     * [2.4. Populating a Table With Rows #](tutorial/tutorial-sql/tutorial-populate.md)
     * [2.5. Querying a Table #](tutorial/tutorial-sql/tutorial-select.md)
     * [2.6. Joins Between Tables #](tutorial/tutorial-sql/tutorial-join.md)
