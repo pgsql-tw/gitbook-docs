@@ -1,21 +1,17 @@
-## 12.10. psql Support [#](#TEXTSEARCH-PSQL)
+<a id="TEXTSEARCH-PSQL"></a>
 
-Information about text search configuration objects can be obtained
-in psql using a set of commands:
+## 12.10. psql 支援 [#](#TEXTSEARCH-PSQL)
+
+在 psql 中，可以使用一組指令取得文字搜尋設定物件的資訊：
 
 ```
 
 \dF{d,p,t}[+] [PATTERN]
 ```
 
-An optional `+` produces more details.
+選用的 `+` 會顯示更多細節。
 
-The optional parameter *`PATTERN`* can be the name of
-a text search object, optionally schema-qualified. If
-*`PATTERN`* is omitted then information about all
-visible objects will be displayed. *`PATTERN`* can be a
-regular expression and can provide *separate* patterns
-for the schema and object names. The following examples illustrate this:
+選用的參數 *`PATTERN`* 可以是文字搜尋物件的名稱，也可以加上 schema 限定。如果省略 *`PATTERN`*，就會顯示所有可見物件的資訊。*`PATTERN`* 可以是正規表示式，並且可以為 schema 名稱與物件名稱提供*各自*的樣式。以下範例說明了這一點：
 
 ```
 
@@ -36,12 +32,12 @@ for the schema and object names. The following examples illustrate this:
  public   | fulltext_cfg |
 ```
 
-The available commands are:
+可用的指令有：
 
 `\dF[+] [PATTERN]`
-:   List text search configurations (add `+` for more detail).
+:   列出文字搜尋設定（加上 `+` 可顯示更多細節）。
 
-    ```
+```
 
     => \dF russian
                 List of text search configurations
@@ -76,9 +72,9 @@ The available commands are:
     ```
 
 `\dFd[+] [PATTERN]`
-:   List text search dictionaries (add `+` for more detail).
+:   列出文字搜尋字典（加上 `+` 可顯示更多細節）。
 
-    ```
+```
 
     => \dFd
                                  List of text search dictionaries
@@ -117,9 +113,9 @@ The available commands are:
     ```
 
 `\dFp[+] [PATTERN]`
-:   List text search parsers (add `+` for more detail).
+:   列出文字搜尋剖析器（加上 `+` 可顯示更多細節）。
 
-    ```
+```
 
     => \dFp
             List of text search parsers
@@ -166,9 +162,9 @@ The available commands are:
     ```
 
 `\dFt[+] [PATTERN]`
-:   List text search templates (add `+` for more detail).
+:   列出文字搜尋範本（加上 `+` 可顯示更多細節）。
 
-    ```
+```
 
     => \dFt
                                List of text search templates
@@ -183,4 +179,4 @@ The available commands are:
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-psql.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-psql.html)（原文版本：18.6；核對日期：2026-09-11）
