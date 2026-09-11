@@ -64,7 +64,7 @@
     * [7.4. 組合查詢（`UNION`、`INTERSECT`、`EXCEPT`） #](the-sql-language/queries/queries-union.md)
     * [7.5. 排序資料列（`ORDER BY`） #](the-sql-language/queries/queries-order.md)
     * [7.6. `LIMIT` 與 `OFFSET` #](the-sql-language/queries/queries-limit.md)
-    * [7.7. VALUES Lists #](the-sql-language/queries/queries-values.md)
+    * [7.7. `VALUES` 清單 #](the-sql-language/queries/queries-values.md)
     * [7.8. WITH Queries (Common Table Expressions) #](the-sql-language/queries/queries-with.md)
   * [Chapter 8. Data Types](the-sql-language/datatype/README.md)
     * [8.1. Numeric Types #](the-sql-language/datatype/datatype-numeric.md)

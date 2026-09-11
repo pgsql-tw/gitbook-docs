@@ -1,32 +1,26 @@
-## 7.7. `VALUES` Lists [#](#QUERIES-VALUES)
+<a id="QUERIES-VALUES"></a>
+
+## 7.7. `VALUES` 清單 [#](#QUERIES-VALUES)
 
 <a id="id-1.5.6.11.2"></a>
 
-`VALUES` provides a way to generate a “constant table”
-that can be used in a query without having to actually create and populate
-a table on-disk. The syntax is
+`VALUES` 提供了一種產生「常數資料表」的方式，可以在查詢中使用，而不必實際在磁碟上建立並填入資料表。語法是
 
 ```
 
 VALUES ( expression [, ...] ) [, ...]
 ```
 
-Each parenthesized list of expressions generates a row in the table.
-The lists must all have the same number of elements (i.e., the number
-of columns in the table), and corresponding entries in each list must
-have compatible data types. The actual data type assigned to each column
-of the result is determined using the same rules as for `UNION`
-(see [Section 10.5](../typeconv/typeconv-union-case.md)).
+每個以括號括住的運算式清單都會在資料表中產生一筆資料列。所有清單的元素數量都必須相同（也就是資料表的欄位數），而且各清單中對應的項目必須具有相容的資料型別。指派給結果中每個欄位的實際資料型別，是依與 `UNION` 相同的規則決定的（請參閱[第 10.5 節](../typeconv/typeconv-union-case.md)）。
 
-As an example:
+例如：
 
 ```
 
 VALUES (1, 'one'), (2, 'two'), (3, 'three');
 ```
 
-will return a table of two columns and three rows. It's effectively
-equivalent to:
+會回傳一個兩個欄位、三筆資料列的資料表。它實際上等同於：
 
 ```
 
@@ -37,12 +31,7 @@ UNION ALL
 SELECT 3, 'three';
 ```
 
-By default, PostgreSQL assigns the names
-`column1`, `column2`, etc. to the columns of a
-`VALUES` table. The column names are not specified by the
-SQL standard and different database systems do it differently, so
-it's usually better to override the default names with a table alias
-list, like this:
+預設情況下，PostgreSQL 會將名稱 `column1`、`column2` 等等指派給 `VALUES` 資料表的欄位。SQL 標準並未規定這些欄位名稱，不同的資料庫系統有不同的做法，因此通常最好以資料表別名清單覆寫預設名稱，像這樣：
 
 ```
 
@@ -55,23 +44,17 @@ list, like this:
 (3 rows)
 ```
 
-Syntactically, `VALUES` followed by expression lists is
-treated as equivalent to:
+在語法上，後面接著運算式清單的 `VALUES` 會被視為等同於：
 
 ```
 
 SELECT select_list FROM table_expression
 ```
 
-and can appear anywhere a `SELECT` can. For example, you can
-use it as part of a `UNION`, or attach a
-*`sort_specification`* (`ORDER BY`,
-`LIMIT`, and/or `OFFSET`) to it. `VALUES`
-is most commonly used as the data source in an `INSERT` command,
-and next most commonly as a subquery.
+並且可以出現在任何可以使用 `SELECT` 的地方。例如，你可以將它作為 `UNION` 的一部分使用，或為它附加 *`sort_specification`*（`ORDER BY`、`LIMIT` 與／或 `OFFSET`）。`VALUES` 最常用作 `INSERT` 指令的資料來源，其次則是作為子查詢。
 
-For more information see [VALUES](../../reference/sql-commands/sql-values.md).
+更多資訊請參閱 [VALUES](../../reference/sql-commands/sql-values.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/queries-values.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/queries-values.html)（原文版本：18.6；核對日期：2026-09-11）
