@@ -1,22 +1,12 @@
-## 3.3. Foreign Keys [#](#TUTORIAL-FK)
+<a id="TUTORIAL-FK"></a>
+
+## 3.3. 外部索引鍵 [#](#TUTORIAL-FK)
 
 <a id="id-1.4.5.4.2"></a><a id="id-1.4.5.4.3"></a>
 
-Recall the `weather` and
-`cities` tables from [Chapter 2](../tutorial-sql/README.md). Consider the following problem: You
-want to make sure that no one can insert rows in the
-`weather` table that do not have a matching
-entry in the `cities` table. This is called
-maintaining the *referential integrity* of
-your data. In simplistic database systems this would be
-implemented (if at all) by first looking at the
-`cities` table to check if a matching record
-exists, and then inserting or rejecting the new
-`weather` records. This approach has a
-number of problems and is very inconvenient, so
-PostgreSQL can do this for you.
+回想[第 2 章](../tutorial-sql/README.md)中的 `weather` 與 `cities` 資料表。考慮下列問題：你想確保沒有人能在 `weather` 資料表中插入於 `cities` 資料表裡找不到相符項目的資料列。這稱為維護資料的*參照完整性*（referential integrity）。在簡單的資料庫系統中，這項功能（如果有實作的話）會先查看 `cities` 資料表，檢查是否存在相符的記錄，再決定插入或拒絕新的 `weather` 記錄。這種做法有不少問題，而且非常不方便，因此 PostgreSQL 可以替你處理這件事。
 
-The new declaration of the tables would look like this:
+新的資料表宣告會像這樣：
 
 ```
 
@@ -34,7 +24,7 @@ CREATE TABLE weather (
 );
 ```
 
-Now try inserting an invalid record:
+現在試著插入一筆無效的記錄：
 
 ```
 
@@ -47,13 +37,8 @@ ERROR:  insert or update on table "weather" violates foreign key constraint "wea
 DETAIL:  Key (city)=(Berkeley) is not present in table "cities".
 ```
 
-The behavior of foreign keys can be finely tuned to your
-application. We will not go beyond this simple example in this
-tutorial, but just refer you to [Chapter 5](../../the-sql-language/ddl/README.md)
-for more information. Making correct use of
-foreign keys will definitely improve the quality of your database
-applications, so you are strongly encouraged to learn about them.
+外部索引鍵的行為可以依你的應用程式精細調整。本教學不會超出這個簡單範例的範圍，更多資訊請參閱[第 5 章](../../the-sql-language/ddl/README.md)。正確使用外部索引鍵一定能提升資料庫應用程式的品質，因此強烈建議你深入瞭解。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-fk.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-fk.html)（原文版本：18.6；核對日期：2026-09-11）

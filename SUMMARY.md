@@ -26,7 +26,7 @@
   * [第 3 章 進階功能](tutorial/tutorial-advanced/README.md)
     * [3.1. 簡介](tutorial/tutorial-advanced/tutorial-advanced-intro.md)
     * [3.2. 檢視表](tutorial/tutorial-advanced/tutorial-views.md)
-    * [3.3. Foreign Keys #](tutorial/tutorial-advanced/tutorial-fk.md)
+    * [3.3. 外部索引鍵 #](tutorial/tutorial-advanced/tutorial-fk.md)
     * [3.4. Transactions #](tutorial/tutorial-advanced/tutorial-transactions.md)
     * [3.5. Window Functions #](tutorial/tutorial-advanced/tutorial-window.md)
     * [3.6. Inheritance #](tutorial/tutorial-advanced/tutorial-inheritance.md)
