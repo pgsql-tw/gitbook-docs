@@ -1,0 +1,5 @@
+# 協作執行期狀態：只存在本機，不進 Git（協定本身 PROTOCOL.md 仍受追蹤）
+/status/
+/claims/
+/inbox/
+/messages/
