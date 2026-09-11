@@ -1,42 +1,15 @@
-## 13.1. Introduction [#](#MVCC-INTRO)
+<a id="MVCC-INTRO"></a>
+
+## 13.1. 簡介 [#](#MVCC-INTRO)
 
 <a id="id-1.5.12.4.2"></a><a id="id-1.5.12.4.3"></a><a id="id-1.5.12.4.4"></a><a id="id-1.5.12.4.5"></a>
 
-PostgreSQL provides a rich set of tools
-for developers to manage concurrent access to data. Internally,
-data consistency is maintained by using a multiversion
-model (Multiversion Concurrency Control, MVCC).
-This means that each SQL statement sees
-a snapshot of data (a *database version*)
-as it was some
-time ago, regardless of the current state of the underlying data.
-This prevents statements from viewing inconsistent data produced
-by concurrent transactions performing updates on the same
-data rows, providing *transaction isolation*
-for each database session. MVCC, by eschewing
-the locking methodologies of traditional database systems,
-minimizes lock contention in order to allow for reasonable
-performance in multiuser environments.
+PostgreSQL 為開發人員提供了一套豐富的工具，用來管理對資料的並行存取。在內部，資料一致性是透過多版本模型（多版本並行控制，Multiversion Concurrency Control，MVCC）來維持的。這表示每個 SQL 陳述式看到的，是資料在一段時間之前的快照（一個*資料庫版本*），而不論底層資料目前的狀態為何。這可以防止陳述式看到因並行交易對相同資料列進行更新而產生的不一致資料，為每個資料庫工作階段提供*交易隔離*（transaction isolation）。MVCC 避開了傳統資料庫系統的鎖定方法，將鎖定競爭降到最低，以便在多使用者環境中提供合理的效能。
 
-The main advantage of using the MVCC model of
-concurrency control rather than locking is that in
-MVCC locks acquired for querying (reading) data
-do not conflict with locks acquired for writing data, and so
-reading never blocks writing and writing never blocks reading.
-PostgreSQL maintains this guarantee
-even when providing the strictest level of transaction
-isolation through the use of an innovative *Serializable
-Snapshot Isolation* (SSI) level.
+使用 MVCC 模型而非鎖定來進行並行控制的主要優點是，在 MVCC 中，為了查詢（讀取）資料而取得的鎖定，不會與為了寫入資料而取得的鎖定衝突，因此讀取永遠不會阻擋寫入，寫入也永遠不會阻擋讀取。即使在透過創新的*可序列化快照隔離*（Serializable Snapshot Isolation，SSI）等級提供最嚴格的交易隔離等級時，PostgreSQL 仍然維持這項保證。
 
-Table- and row-level locking facilities are also available in
-PostgreSQL for applications which don't
-generally need full transaction isolation and prefer to explicitly
-manage particular points of conflict. However, proper
-use of MVCC will generally provide better
-performance than locks. In addition, application-defined advisory
-locks provide a mechanism for acquiring locks that are not tied
-to a single transaction.
+對於一般不需要完整交易隔離、而偏好明確管理特定衝突點的應用程式，PostgreSQL 也提供了資料表層級與資料列層級的鎖定功能。不過，適當地使用 MVCC 通常能提供比鎖定更好的效能。此外，應用程式定義的諮詢鎖定（advisory lock）提供了一種取得不與單一交易綁定之鎖定的機制。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/mvcc-intro.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/mvcc-intro.html)（原文版本：18.6；核對日期：2026-09-11）
