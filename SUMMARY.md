@@ -165,7 +165,7 @@
     * [14.2. Statistics Used by the Planner #](the-sql-language/performance-tips/planner-stats.md)
     * [14.3. 以明確的 `JOIN` 子句控制規劃器 #](the-sql-language/performance-tips/explicit-joins.md)
     * [14.4. Populating a Database #](the-sql-language/performance-tips/populate.md)
-    * [14.5. Non-Durable Settings #](the-sql-language/performance-tips/non-durability.md)
+    * [14.5. 非持久性設定 #](the-sql-language/performance-tips/non-durability.md)
   * [第 15 章 平行查詢](the-sql-language/parallel-query/README.md)
     * [15.1. 平行查詢的運作方式 #](the-sql-language/parallel-query/how-parallel-query-works.md)
     * [15.2. 何時可以使用平行查詢？ #](the-sql-language/parallel-query/when-can-parallel-query-be-used.md)
