@@ -62,7 +62,7 @@
     * [7.2. Table Expressions #](the-sql-language/queries/queries-table-expressions.md)
     * [7.3. Select Lists #](the-sql-language/queries/queries-select-lists.md)
     * [7.4. Combining Queries ( UNION , INTERSECT , EXCEPT ) #](the-sql-language/queries/queries-union.md)
-    * [7.5. Sorting Rows ( ORDER BY ) #](the-sql-language/queries/queries-order.md)
+    * [7.5. 排序資料列（`ORDER BY`） #](the-sql-language/queries/queries-order.md)
     * [7.6. `LIMIT` 與 `OFFSET` #](the-sql-language/queries/queries-limit.md)
     * [7.7. VALUES Lists #](the-sql-language/queries/queries-values.md)
     * [7.8. WITH Queries (Common Table Expressions) #](the-sql-language/queries/queries-with.md)
