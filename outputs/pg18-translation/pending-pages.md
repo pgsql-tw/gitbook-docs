@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：923 頁。
+待譯頁面：915 頁。
 
 ## 根目錄
 
@@ -69,7 +69,7 @@
 - [x] `appendixes/contrib/intarray.md` — F.19. intarray — 操作整數陣列 #
 - [x] `appendixes/contrib/isn.md` — F.20. isn — 國際標準號碼的資料型別（ISBN、EAN、UPC 等） #
 - [x] `appendixes/contrib/lo.md` — F.21. lo — 管理大型物件 #
-- [ ] `appendixes/contrib/ltree.md` — F.22. ltree — hierarchical tree-like data type #
+- [x] `appendixes/contrib/ltree.md` — F.22. ltree — 階層式樹狀資料型別
 - [ ] `appendixes/contrib/pageinspect.md` — F.23. pageinspect — low-level inspection of database pages #
 - [ ] `appendixes/contrib/passwordcheck.md` — F.24. passwordcheck — verify password strength #
 - [ ] `appendixes/contrib/pgbuffercache.md` — F.25. pg_buffercache — inspect PostgreSQL buffer cache state #

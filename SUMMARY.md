@@ -1085,7 +1085,7 @@
     * [F.19. intarray — 操作整數陣列 #](appendixes/contrib/intarray.md)
     * [F.20. isn — 國際標準號碼的資料型別（ISBN、EAN、UPC 等） #](appendixes/contrib/isn.md)
     * [F.21. lo — 管理大型物件 #](appendixes/contrib/lo.md)
-    * [F.22. ltree — hierarchical tree-like data type #](appendixes/contrib/ltree.md)
+    * [F.22. ltree — 階層式樹狀資料型別](appendixes/contrib/ltree.md)
     * [F.23. pageinspect — low-level inspection of database pages #](appendixes/contrib/pageinspect.md)
     * [F.24. passwordcheck — verify password strength #](appendixes/contrib/passwordcheck.md)
     * [F.25. pg_buffercache — inspect PostgreSQL buffer cache state #](appendixes/contrib/pgbuffercache.md)
