@@ -1,37 +1,13 @@
-## 13.6. Caveats [#](#MVCC-CAVEATS)
+<a id="MVCC-CAVEATS"></a>
 
-Some DDL commands, currently only [`TRUNCATE`](../../reference/sql-commands/sql-truncate.md) and the
-table-rewriting forms of [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md), are not
-MVCC-safe. This means that after the truncation or rewrite commits, the
-table will appear empty to concurrent transactions, if they are using a
-snapshot taken before the DDL command committed. This will only be an
-issue for a transaction that did not access the table in question
-before the DDL command started — any transaction that has done so
-would hold at least an `ACCESS SHARE` table lock,
-which would block the DDL command until that transaction completes.
-So these commands will not cause any apparent inconsistency in the
-table contents for successive queries on the target table, but they
-could cause visible inconsistency between the contents of the target
-table and other tables in the database.
+## 13.6. 注意事項 [#](#MVCC-CAVEATS)
 
-Support for the Serializable transaction isolation level has not yet
-been added to hot standby replication targets (described in
-[Section 26.4](../../server-administration/high-availability/hot-standby.md)). The strictest isolation level currently
-supported in hot standby mode is Repeatable Read. While performing all
-permanent database writes within Serializable transactions on the
-primary will ensure that all standbys will eventually reach a consistent
-state, a Repeatable Read transaction run on the standby can sometimes
-see a transient state that is inconsistent with any serial execution
-of the transactions on the primary.
+有些 DDL 指令（目前只有 [`TRUNCATE`](../../reference/sql-commands/sql-truncate.md) 與會重寫資料表的 [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 形式）並不是 MVCC 安全的。這表示在截斷或重寫提交之後，如果並行交易使用的是在該 DDL 指令提交之前所取得的快照，資料表對它們而言會顯示為空的。這只會對在 DDL 指令開始之前沒有存取過該資料表的交易造成問題；任何存取過該資料表的交易，至少都會持有一個 `ACCESS SHARE` 資料表鎖定，而這會阻擋 DDL 指令，直到該交易完成為止。因此，這些指令不會讓對目標資料表的連續查詢看到任何明顯的資料表內容不一致，但可能會造成目標資料表與資料庫中其他資料表的內容之間出現可見的不一致。
 
-Internal access to the system catalogs is not done using the isolation
-level of the current transaction. This means that newly created database
-objects such as tables are visible to concurrent Repeatable Read and
-Serializable transactions, even though the rows they contain are not. In
-contrast, queries that explicitly examine the system catalogs don't see
-rows representing concurrently created database objects, in the higher
-isolation levels.
+熱備援（hot standby）複寫目標（說明見[第 26.4 節](../../server-administration/high-availability/hot-standby.md)）尚未支援 Serializable 交易隔離等級。目前在熱備援模式下支援的最嚴格隔離等級是 Repeatable Read。雖然在主要伺服器上將所有永久性的資料庫寫入都放在 Serializable 交易中執行，可以確保所有備援伺服器最終都會達到一致的狀態，但在備援伺服器上執行的 Repeatable Read 交易，有時可能會看到與主要伺服器上交易的任何循序執行都不一致的暫時狀態。
+
+對系統目錄的內部存取並不會使用目前交易的隔離等級。這表示新建立的資料庫物件（例如資料表），對並行的 Repeatable Read 與 Serializable 交易而言是可見的，即使它們所包含的資料列並不可見。相對地，在較高的隔離等級下，明確檢查系統目錄的查詢不會看到代表並行建立之資料庫物件的資料列。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/mvcc-caveats.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/mvcc-caveats.html)（原文版本：18.6；核對日期：2026-09-11）
