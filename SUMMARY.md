@@ -29,7 +29,7 @@
     * [3.3. 外部索引鍵 #](tutorial/tutorial-advanced/tutorial-fk.md)
     * [3.4. 交易 #](tutorial/tutorial-advanced/tutorial-transactions.md)
     * [3.5. Window 函式 #](tutorial/tutorial-advanced/tutorial-window.md)
-    * [3.6. Inheritance #](tutorial/tutorial-advanced/tutorial-inheritance.md)
+    * [3.6. 繼承 #](tutorial/tutorial-advanced/tutorial-inheritance.md)
     * [3.7. 結語](tutorial/tutorial-advanced/tutorial-conclusion.md)
 * [Part II. The SQL Language](the-sql-language/README.md)
   * [Chapter 4. SQL Syntax](the-sql-language/sql-syntax/README.md)

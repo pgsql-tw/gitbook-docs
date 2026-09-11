@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：902 頁。
+待譯頁面：901 頁。
 
 ## 根目錄
 
@@ -1160,7 +1160,7 @@
 - [x] `tutorial/tutorial-advanced/tutorial-advanced-intro.md` — 3.1. 簡介
 - [x] `tutorial/tutorial-advanced/tutorial-conclusion.md` — 3.7. 結語
 - [x] `tutorial/tutorial-advanced/tutorial-fk.md` — 3.3. 外部索引鍵 #
-- [ ] `tutorial/tutorial-advanced/tutorial-inheritance.md` — 3.6. Inheritance #
+- [x] `tutorial/tutorial-advanced/tutorial-inheritance.md` — 3.6. 繼承 #
 - [x] `tutorial/tutorial-advanced/tutorial-transactions.md` — 3.4. 交易 #
 - [x] `tutorial/tutorial-advanced/tutorial-views.md` — 3.2. 檢視表
 - [x] `tutorial/tutorial-advanced/tutorial-window.md` — 3.5. Window 函式 #
