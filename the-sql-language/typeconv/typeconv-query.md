@@ -1,39 +1,22 @@
-## 10.4. Value Storage [#](#TYPECONV-QUERY)
+<a id="TYPECONV-QUERY"></a>
 
-Values to be inserted into a table are converted to the destination
-column's data type according to the
-following steps.
+## 10.4. 值的儲存 [#](#TYPECONV-QUERY)
+
+要插入資料表的值，會依下列步驟轉換為目標欄位的資料型別。
 
 <a id="id-1.5.9.9.3"></a>
 
-**Value Storage Type Conversion**
+**值儲存的型別轉換**
 
-1. Check for an exact match with the target.
-2. Otherwise, try to convert the expression to the target type. This is possible
-   if an *assignment cast* between the two types is registered in the
-   `pg_cast` catalog (see [CREATE CAST](../../reference/sql-commands/sql-createcast.md)).
-   Alternatively, if the expression is an unknown-type literal, the contents of
-   the literal string will be fed to the input conversion routine for the target
-   type.
-3. Check to see if there is a sizing cast for the target type. A sizing
-   cast is a cast from that type to itself. If one is found in the
-   `pg_cast` catalog, apply it to the expression before storing
-   into the destination column. The implementation function for such a cast
-   always takes an extra parameter of type `integer`, which receives
-   the destination column's `atttypmod` value (typically its
-   declared length, although the interpretation of `atttypmod`
-   varies for different data types), and it may take a third `boolean`
-   parameter that says whether the cast is explicit or implicit. The cast
-   function
-   is responsible for applying any length-dependent semantics such as size
-   checking or truncation.
+1. 檢查是否與目標完全相符。
+2. 否則，嘗試將運算式轉換為目標型別。如果 `pg_cast` 系統目錄中登記了這兩個型別之間的*指派轉換*（assignment cast），就可以進行轉換（請參閱 [CREATE CAST](../../reference/sql-commands/sql-createcast.md)）。另外，如果運算式是型別未知的字面值，則會將該字面值字串的內容交給目標型別的輸入轉換程序處理。
+3. 檢查目標型別是否有大小調整轉換（sizing cast）。大小調整轉換是從該型別轉換為自身的型別轉換。如果在 `pg_cast` 系統目錄中找到，就會在存入目標欄位之前，將它套用到運算式上。這類型別轉換的實作函式一定會多接收一個 `integer` 型別的參數，用來接收目標欄位的 `atttypmod` 值（通常是宣告的長度，不過 `atttypmod` 的解讀方式因資料型別而異），也可能接收第三個 `boolean` 參數，表示這次轉換是明確轉換還是隱含轉換。轉換函式負責套用任何與長度相關的語意，例如檢查大小或截斷。
 
 <a id="id-1.5.9.9.4"></a>
 
-**Example 10.9. `character` Storage Type Conversion**
+**範例 10.9. `character` 儲存的型別轉換**
 
-For a target column declared as `character(20)` the following
-statement shows that the stored value is sized correctly:
+對於宣告為 `character(20)` 的目標欄位，下列陳述式顯示儲存的值會被調整成正確的大小：
 
 ```
 
@@ -47,21 +30,10 @@ SELECT v, octet_length(v) FROM vv;
 (1 row)
 ```
 
-What has really happened here is that the two unknown literals are resolved
-to `text` by default, allowing the `||` operator
-to be resolved as `text` concatenation. Then the `text`
-result of the operator is converted to `bpchar` (“blank-padded
-char”, the internal name of the `character` data type) to match the target
-column type. (Since the conversion from `text` to
-`bpchar` is binary-coercible, this conversion does
-not insert any real function call.) Finally, the sizing function
-`bpchar(bpchar, integer, boolean)` is found in the system catalog
-and applied to the operator's result and the stored column length. This
-type-specific function performs the required length check and addition of
-padding spaces.
+這裡實際發生的事情是：兩個未知型別的字面值預設會被解析為 `text`，使得 `||` 運算子可以解析為 `text` 串接。接著，運算子的 `text` 結果會被轉換為 `bpchar`（「blank-padded char」，即 `character` 資料型別的內部名稱），以符合目標欄位的型別。（由於從 `text` 轉換為 `bpchar` 是二進位相容的，這項轉換並不會插入任何實際的函式呼叫。）最後，系統會在系統目錄中找到大小調整函式 `bpchar(bpchar, integer, boolean)`，並將它套用到運算子的結果與所儲存的欄位長度上。這個特定於型別的函式會執行必要的長度檢查，並補上填充空白。
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/typeconv-query.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/typeconv-query.html)（原文版本：18.6；核對日期：2026-09-11）
