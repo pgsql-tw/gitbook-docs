@@ -34,7 +34,7 @@
 * [Part II. The SQL Language](the-sql-language/README.md)
   * [第 4 章 SQL 語法](the-sql-language/sql-syntax/README.md)
     * [4.1. Lexical Structure #](the-sql-language/sql-syntax/sql-syntax-lexical.md)
-    * [4.2. Value Expressions #](the-sql-language/sql-syntax/sql-expressions.md)
+    * [4.2. 值運算式 #](the-sql-language/sql-syntax/sql-expressions.md)
     * [4.3. Calling Functions #](the-sql-language/sql-syntax/sql-syntax-calling-funcs.md)
   * [Chapter 5. Data Definition](the-sql-language/ddl/README.md)
     * [5.1. Table Basics #](the-sql-language/ddl/ddl-basics.md)
