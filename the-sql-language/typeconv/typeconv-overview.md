@@ -1,21 +1,10 @@
-## 10.1. Overview [#](#TYPECONV-OVERVIEW)
+<a id="TYPECONV-OVERVIEW"></a>
 
-SQL is a strongly typed language. That is, every data item
-has an associated data type which determines its behavior and allowed usage.
-PostgreSQL has an extensible type system that is
-more general and flexible than other SQL implementations.
-Hence, most type conversion behavior in PostgreSQL
-is governed by general rules rather than by ad hoc
-heuristics. This allows the use of mixed-type expressions even with
-user-defined types.
+## 10.1. 概觀 [#](#TYPECONV-OVERVIEW)
 
-The PostgreSQL scanner/parser divides lexical
-elements into five fundamental categories: integers, non-integer numbers,
-strings, identifiers, and key words. Constants of most non-numeric types are
-first classified as strings. The SQL language definition
-allows specifying type names with strings, and this mechanism can be used in
-PostgreSQL to start the parser down the correct
-path. For example, the query:
+SQL 是強型別語言。也就是說，每個資料項目都有一個對應的資料型別，決定它的行為與可用的方式。PostgreSQL 擁有可擴充的型別系統，比其他 SQL 實作更為通用且有彈性。因此，PostgreSQL 中大多數的型別轉換行為都是由通用規則決定，而不是由臨時性的經驗法則決定。這使得即使是使用者自訂型別，也能用在混合型別的運算式中。
+
+PostgreSQL 的掃描器／剖析器會將詞彙元素分成五個基本類別：整數、非整數的數值、字串、識別字與關鍵字。大多數非數值型別的常數，一開始都會先被歸類為字串。SQL 語言的定義允許以字串指定型別名稱，而 PostgreSQL 可以利用這個機制，讓剖析器從一開始就走在正確的路徑上。例如，下列查詢：
 
 ```
 
@@ -27,83 +16,34 @@ SELECT text 'Origin' AS "label", point '(0,0)' AS "value";
 (1 row)
 ```
 
-has two literal constants, of type `text` and `point`.
-If a type is not specified for a string literal, then the placeholder type
-`unknown` is assigned initially, to be resolved in later
-stages as described below.
+包含兩個字面常數，型別分別為 `text` 與 `point`。如果沒有為字串字面值指定型別，一開始會先指派預留位置型別 `unknown`，並在稍後的階段依下文所述加以解析。
 
-There are four fundamental SQL constructs requiring
-distinct type conversion rules in the PostgreSQL
-parser:
+在 PostgreSQL 剖析器中，有四種基本的 SQL 結構需要各自的型別轉換規則：
 
-Function calls
-:   Much of the PostgreSQL type system is built around a
-    rich set of functions. Functions can have one or more arguments.
-    Since PostgreSQL permits function
-    overloading, the function name alone does not uniquely identify the function
-    to be called; the parser must select the right function based on the data
-    types of the supplied arguments.
+函式呼叫
+:   PostgreSQL 型別系統的大部分是建立在一組豐富的函式之上。函式可以有一個或多個參數。由於 PostgreSQL 允許函式多載，單憑函式名稱無法唯一識別要呼叫的函式；剖析器必須依據所提供參數的資料型別來選擇正確的函式。
 
-Operators
-:   PostgreSQL allows expressions with
-    prefix (one-argument) operators,
-    as well as infix (two-argument) operators. Like functions, operators can
-    be overloaded, so the same problem of selecting the right operator
-    exists.
+運算子
+:   PostgreSQL 允許在運算式中使用前置（單一參數）運算子與中置（兩個參數）運算子。與函式一樣，運算子也可以多載，因此同樣有選擇正確運算子的問題。
 
-Value Storage
-:   SQL `INSERT` and `UPDATE` statements place the results of
-    expressions into a table. The expressions in the statement must be matched up
-    with, and perhaps converted to, the types of the target columns.
+值的儲存
+:   SQL 的 `INSERT` 與 `UPDATE` 陳述式會將運算式的結果放入資料表。陳述式中的運算式必須與目標欄位的型別相符，也可能需要轉換成目標欄位的型別。
 
-`UNION`, `CASE`, and related constructs
-:   Since all query results from a unionized `SELECT` statement
-    must appear in a single set of columns, the types of the results of each
-    `SELECT` clause must be matched up and converted to a uniform set.
-    Similarly, the result expressions of a `CASE` construct must be
-    converted to a common type so that the `CASE` expression as a whole
-    has a known output type. Some other constructs, such
-    as `ARRAY[]` and the `GREATEST`
-    and `LEAST` functions, likewise require determination of a
-    common type for several subexpressions.
+`UNION`、`CASE` 與相關結構
+:   由於以 union 組合的 `SELECT` 陳述式，其所有查詢結果都必須出現在同一組欄位中，因此每個 `SELECT` 子句的結果型別必須相互比對，並轉換成一致的型別組合。同樣地，`CASE` 結構的結果運算式也必須轉換成共同的型別，使整個 `CASE` 運算式具有已知的輸出型別。其他一些結構，例如 `ARRAY[]` 以及 `GREATEST` 與 `LEAST` 函式，也同樣需要為多個子運算式決定共同的型別。
 
-The system catalogs store information about which conversions, or
-*casts*, exist between which data types, and how to
-perform those conversions. Additional casts can be added by the user
-with the [CREATE CAST](../../reference/sql-commands/sql-createcast.md)
-command. (This is usually
-done in conjunction with defining new data types. The set of casts
-between built-in types has been carefully crafted and is best not
-altered.)
+系統目錄會儲存哪些資料型別之間存在哪些轉換（也就是*型別轉換*，cast），以及如何執行這些轉換的資訊。使用者可以用 [CREATE CAST](../../reference/sql-commands/sql-createcast.md) 指令加入額外的型別轉換。（這通常是在定義新資料型別時一併進行。內建型別之間的型別轉換集合經過仔細設計，最好不要更動。）
 
 <a id="id-1.5.9.6.6"></a>
 
-An additional heuristic provided by the parser allows improved determination
-of the proper casting behavior among groups of types that have implicit casts.
-Data types are divided into several basic *type
-categories*, including `boolean`, `numeric`,
-`string`, `bitstring`, `datetime`,
-`timespan`, `geometric`, `network`, and
-user-defined. (For a list see [Table 52.65](../../internals/catalogs/catalog-pg-type.md#CATALOG-TYPCATEGORY-TABLE);
-but note it is also possible to create custom type categories.) Within each
-category there can be one or more *preferred types*, which
-are preferred when there is a choice of possible types. With careful selection
-of preferred types and available implicit casts, it is possible to ensure that
-ambiguous expressions (those with multiple candidate parsing solutions) can be
-resolved in a useful way.
+剖析器還提供了一種額外的經驗法則，能在具有隱含轉換的型別群組之間，更準確地判定適當的轉換行為。資料型別被分成數個基本的*型別類別*（type category），包括 `boolean`、`numeric`、`string`、`bitstring`、`datetime`、`timespan`、`geometric`、`network`，以及使用者自訂類別。（完整清單請參閱[表 52.65](../../internals/catalogs/catalog-pg-type.md#CATALOG-TYPCATEGORY-TABLE)；但請注意，也可以建立自訂的型別類別。）每個類別中可以有一個或多個*優先型別*（preferred type），在有多種可能的型別可以選擇時會優先採用。只要謹慎選擇優先型別與可用的隱含轉換，就能確保有歧義的運算式（有多種候選剖析方式的運算式）以有用的方式解析。
 
-All type conversion rules are designed with several principles in mind:
+所有型別轉換規則的設計都考量了以下幾項原則：
 
-* Implicit conversions should never have surprising or unpredictable outcomes.
-* There should be no extra overhead in the parser or executor
-  if a query does not need implicit type conversion.
-  That is, if a query is well-formed and the types already match, then the query should execute
-  without spending extra time in the parser and without introducing unnecessary implicit conversion
-  calls in the query.
-* Additionally, if a query usually requires an implicit conversion for a function, and
-  if then the user defines a new function with the correct argument types, the parser
-  should use this new function and no longer do implicit conversion to use the old function.
+* 隱含轉換絕不應該產生令人意外或無法預期的結果。
+* 如果查詢不需要隱含型別轉換，剖析器或執行器就不應該產生額外的負擔。也就是說，如果查詢的寫法正確且型別已經相符，查詢執行時就不應在剖析器中花費額外時間，也不應在查詢中引入不必要的隱含轉換呼叫。
+* 此外，如果某個查詢原本需要對某個函式進行隱含轉換，而之後使用者定義了一個參數型別正確的新函式，剖析器就應該改用這個新函式，不再為了使用舊函式而進行隱含轉換。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/typeconv-overview.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/typeconv-overview.html)（原文版本：18.6；核對日期：2026-09-11）
