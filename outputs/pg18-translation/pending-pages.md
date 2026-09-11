@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：911 頁。
+待譯頁面：910 頁。
 
 ## 根目錄
 
@@ -1171,7 +1171,7 @@
 - [ ] `tutorial/tutorial-sql/tutorial-join.md` — 2.6. Joins Between Tables #
 - [ ] `tutorial/tutorial-sql/tutorial-populate.md` — 2.4. Populating a Table With Rows #
 - [ ] `tutorial/tutorial-sql/tutorial-select.md` — 2.5. Querying a Table #
-- [ ] `tutorial/tutorial-sql/tutorial-sql-intro.md` — 2.1. Introduction #
+- [x] `tutorial/tutorial-sql/tutorial-sql-intro.md` — 2.1. 簡介 #
 - [ ] `tutorial/tutorial-sql/tutorial-table.md` — 2.3. Creating a New Table #
 - [x] `tutorial/tutorial-sql/tutorial-update.md` — 2.8. 更新
 - [x] `tutorial/tutorial-start/README.md` — 第 1 章 入門
