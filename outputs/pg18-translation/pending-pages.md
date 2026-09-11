@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：860 頁。
+待譯頁面：859 頁。
 
 ## 根目錄
 
@@ -1146,7 +1146,7 @@
 - [ ] `the-sql-language/textsearch/textsearch-psql.md` — 12.10. psql Support #
 - [x] `the-sql-language/textsearch/textsearch-tables.md` — 12.2. 資料表與索引 #
 - [x] `the-sql-language/typeconv/README.md` — 第 10 章 型別轉換
-- [ ] `the-sql-language/typeconv/typeconv-func.md` — 10.3. Functions #
+- [x] `the-sql-language/typeconv/typeconv-func.md` — 10.3. 函式 #
 - [ ] `the-sql-language/typeconv/typeconv-oper.md` — 10.2. Operators #
 - [ ] `the-sql-language/typeconv/typeconv-overview.md` — 10.1. Overview #
 - [ ] `the-sql-language/typeconv/typeconv-query.md` — 10.4. Value Storage #

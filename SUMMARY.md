@@ -123,7 +123,7 @@
   * [第 10 章 型別轉換](the-sql-language/typeconv/README.md)
     * [10.1. Overview #](the-sql-language/typeconv/typeconv-overview.md)
     * [10.2. Operators #](the-sql-language/typeconv/typeconv-oper.md)
-    * [10.3. Functions #](the-sql-language/typeconv/typeconv-func.md)
+    * [10.3. 函式 #](the-sql-language/typeconv/typeconv-func.md)
     * [10.4. Value Storage #](the-sql-language/typeconv/typeconv-query.md)
     * [10.5. UNION , CASE , and Related Constructs #](the-sql-language/typeconv/typeconv-union-case.md)
     * [10.6. SELECT 輸出欄位](the-sql-language/typeconv/typeconv-select.md)
