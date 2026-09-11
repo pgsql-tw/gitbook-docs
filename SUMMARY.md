@@ -149,7 +149,7 @@
     * [12.6. 字典 #](the-sql-language/textsearch/textsearch-dictionaries.md)
     * [12.7. 設定範例 #](the-sql-language/textsearch/textsearch-configuration.md)
     * [12.8. 測試與除錯文字搜尋 #](the-sql-language/textsearch/textsearch-debugging.md)
-    * [12.9. Preferred Index Types for Text Search #](the-sql-language/textsearch/textsearch-indexes.md)
+    * [12.9. 文字搜尋的建議索引型別 #](the-sql-language/textsearch/textsearch-indexes.md)
     * [12.10. psql Support #](the-sql-language/textsearch/textsearch-psql.md)
     * [12.11. 限制](the-sql-language/textsearch/textsearch-limitations.md)
   * [第 13 章 並行控制](the-sql-language/mvcc/README.md)
