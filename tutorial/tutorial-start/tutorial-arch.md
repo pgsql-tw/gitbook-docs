@@ -1,49 +1,20 @@
-## 1.2. Architectural Fundamentals [#](#TUTORIAL-ARCH)
+<a id="TUTORIAL-ARCH"></a>
 
-Before we proceed, you should understand the basic
-PostgreSQL system architecture.
-Understanding how the parts of
-PostgreSQL interact will make this
-chapter somewhat clearer.
+## 1.2. 架構基礎 [#](#TUTORIAL-ARCH)
 
-In database jargon, PostgreSQL uses a
-client/server model. A PostgreSQL
-session consists of the following cooperating processes
-(programs):
+在繼續之前，你應該先瞭解 PostgreSQL 的基本系統架構。瞭解 PostgreSQL 各個部分如何互動，會讓本章的內容更容易理解。
 
-* A server process, which manages the database files, accepts
-  connections to the database from client applications, and
-  performs database actions on behalf of the clients. The
-  database server program is called
-  `postgres`.
+以資料庫術語來說，PostgreSQL 採用用戶端／伺服器（client/server）模型。一個 PostgreSQL 工作階段（session）由下列相互協作的程序（程式）組成：
+
+* 伺服器程序：負責管理資料庫檔案、接受用戶端應用程式對資料庫的連線，並代表用戶端執行資料庫操作。資料庫伺服器程式名為
+  `postgres`。
   <a id="id-1.4.3.3.3.3.1.1.2"></a>
-* The user's client (frontend) application that wants to perform
-  database operations. Client applications can be very diverse
-  in nature: a client could be a text-oriented tool, a graphical
-  application, a web server that accesses the database to
-  display web pages, or a specialized database maintenance tool.
-  Some client applications are supplied with the
-  PostgreSQL distribution; most are
-  developed by users.
+* 使用者用來執行資料庫操作的用戶端（前端）應用程式。用戶端應用程式的性質可能差異很大：可以是文字介面工具、圖形介面應用程式、存取資料庫以顯示網頁的 Web 伺服器，或專用的資料庫維護工具。部分用戶端應用程式隨 PostgreSQL 發行版本提供，大多數則由使用者自行開發。
 
-As is typical of client/server applications, the client and the
-server can be on different hosts. In that case they communicate
-over a TCP/IP network connection. You should keep this in mind,
-because the files that can be accessed on a client machine might
-not be accessible (or might only be accessible using a different
-file name) on the database server machine.
+如同一般的用戶端／伺服器應用程式，用戶端與伺服器可以位於不同的主機上，此時兩者透過 TCP/IP 網路連線通訊。請記住這一點，因為在用戶端機器上可以存取的檔案，在資料庫伺服器機器上可能無法存取（或只能以不同的檔名存取）。
 
-The PostgreSQL server can handle
-multiple concurrent connections from clients. To achieve this it
-starts (“forks”) a new process for each connection.
-From that point on, the client and the new server process
-communicate without intervention by the original
-`postgres` process. Thus, the
-supervisor server process is always running, waiting for
-client connections, whereas client and associated server processes
-come and go. (All of this is of course invisible to the user. We
-only mention it here for completeness.)
+PostgreSQL 伺服器可以同時處理來自用戶端的多個連線。為此，它會為每個連線啟動（「fork」）一個新的程序。從那時起，用戶端與新的伺服器程序直接通訊，不需要原本的 `postgres` 程序介入。因此，監督用的伺服器程序會一直執行並等待用戶端連線，而用戶端與其對應的伺服器程序則會隨連線出現與結束。（當然，這一切對使用者而言都是不可見的，這裡只是為了完整說明而提及。）
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-arch.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-arch.html)（原文版本：18.6；核對日期：2026-09-11）

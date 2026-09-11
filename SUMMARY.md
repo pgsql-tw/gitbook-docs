@@ -10,7 +10,7 @@
 * [Part I. Tutorial](tutorial/README.md)
   * [第 1 章 入門](tutorial/tutorial-start/README.md)
     * [1.1. 安裝 #](tutorial/tutorial-start/tutorial-install.md)
-    * [1.2. Architectural Fundamentals #](tutorial/tutorial-start/tutorial-arch.md)
+    * [1.2. 架構基礎 #](tutorial/tutorial-start/tutorial-arch.md)
     * [1.3. 建立資料庫 #](tutorial/tutorial-start/tutorial-createdb.md)
     * [1.4. Accessing a Database #](tutorial/tutorial-start/tutorial-accessdb.md)
   * [第 2 章 SQL 語言](tutorial/tutorial-sql/README.md)
