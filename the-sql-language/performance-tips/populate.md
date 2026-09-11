@@ -1,251 +1,105 @@
-## 14.4. Populating a Database [#](#POPULATE)
+<a id="POPULATE"></a>
 
-[14.4.1. Disable Autocommit](populate.md#DISABLE-AUTOCOMMIT)
+## 14.4. 填入資料庫 [#](#POPULATE)
 
-[14.4.2. Use `COPY`](populate.md#POPULATE-COPY-FROM)
+[14.4.1. 停用自動提交](populate.md#DISABLE-AUTOCOMMIT)
 
-[14.4.3. Remove Indexes](populate.md#POPULATE-RM-INDEXES)
+[14.4.2. 使用 `COPY`](populate.md#POPULATE-COPY-FROM)
 
-[14.4.4. Remove Foreign Key Constraints](populate.md#POPULATE-RM-FKEYS)
+[14.4.3. 移除索引](populate.md#POPULATE-RM-INDEXES)
 
-[14.4.5. Increase `maintenance_work_mem`](populate.md#POPULATE-WORK-MEM)
+[14.4.4. 移除外鍵限制條件](populate.md#POPULATE-RM-FKEYS)
 
-[14.4.6. Increase `max_wal_size`](populate.md#POPULATE-MAX-WAL-SIZE)
+[14.4.5. 增加 `maintenance_work_mem`](populate.md#POPULATE-WORK-MEM)
 
-[14.4.7. Disable WAL Archival and Streaming Replication](populate.md#POPULATE-PITR)
+[14.4.6. 增加 `max_wal_size`](populate.md#POPULATE-MAX-WAL-SIZE)
 
-[14.4.8. Run `ANALYZE` Afterwards](populate.md#POPULATE-ANALYZE)
+[14.4.7. 停用 WAL 封存與串流複寫](populate.md#POPULATE-PITR)
 
-[14.4.9. Some Notes about pg_dump](populate.md#POPULATE-PG-DUMP)
+[14.4.8. 事後執行 `ANALYZE`](populate.md#POPULATE-ANALYZE)
 
-One might need to insert a large amount of data when first populating
-a database. This section contains some suggestions on how to make
-this process as efficient as possible.
+[14.4.9. 關於 pg_dump 的一些說明](populate.md#POPULATE-PG-DUMP)
+
+初次填入資料庫時，可能需要插入大量資料。本節提供一些建議，說明如何讓這個過程盡可能有效率。
 
 <a id="DISABLE-AUTOCOMMIT"></a>
 
-### 14.4.1. Disable Autocommit [#](#DISABLE-AUTOCOMMIT)
+### 14.4.1. 停用自動提交 [#](#DISABLE-AUTOCOMMIT)
 
 <a id="id-1.5.13.7.3.2"></a>
 
-When using multiple `INSERT`s, turn off autocommit and just do
-one commit at the end. (In plain
-SQL, this means issuing `BEGIN` at the start and
-`COMMIT` at the end. Some client libraries might
-do this behind your back, in which case you need to make sure the
-library does it when you want it done.) If you allow each
-insertion to be committed separately,
-PostgreSQL is doing a lot of work for
-each row that is added. An additional benefit of doing all
-insertions in one transaction is that if the insertion of one row
-were to fail then the insertion of all rows inserted up to that
-point would be rolled back, so you won't be stuck with partially
-loaded data.
+使用多個 `INSERT` 時，請關閉自動提交，只在最後進行一次提交。（在一般 SQL 中，這表示在開頭發出 `BEGIN`，並在結尾發出 `COMMIT`。有些用戶端函式庫可能會在背後替你這麼做，在這種情況下，你需要確認函式庫會在你希望的時機這麼做。）如果你讓每一次插入都分別提交，PostgreSQL 就要為每一筆新增的資料列做很多工作。在單一交易中完成所有插入還有一個額外的好處：如果某一筆資料列插入失敗，那麼到那時為止已插入的所有資料列都會被回復，因此你不會卡在只載入了一部分資料的狀態。
 
 <a id="POPULATE-COPY-FROM"></a>
 
-### 14.4.2. Use `COPY` [#](#POPULATE-COPY-FROM)
+### 14.4.2. 使用 `COPY` [#](#POPULATE-COPY-FROM)
 
-Use [`COPY`](../../reference/sql-commands/sql-copy.md) to load
-all the rows in one command, instead of using a series of
-`INSERT` commands. The `COPY`
-command is optimized for loading large numbers of rows; it is less
-flexible than `INSERT`, but incurs significantly
-less overhead for large data loads. Since `COPY`
-is a single command, there is no need to disable autocommit if you
-use this method to populate a table.
+請使用 [`COPY`](../../reference/sql-commands/sql-copy.md) 以單一命令載入所有資料列，而不要使用一連串的 `INSERT` 命令。`COPY` 命令針對載入大量資料列做了最佳化；它不如 `INSERT` 靈活，但在大量載入資料時，額外負擔明顯少得多。由於 `COPY` 是單一命令，如果你使用這種方法填入資料表，就不需要停用自動提交。
 
-If you cannot use `COPY`, it might help to use [`PREPARE`](../../reference/sql-commands/sql-prepare.md) to create a
-prepared `INSERT` statement, and then use
-`EXECUTE` as many times as required. This avoids
-some of the overhead of repeatedly parsing and planning
-`INSERT`. Different interfaces provide this facility
-in different ways; look for “prepared statements” in the interface
-documentation.
+如果你無法使用 `COPY`，使用 [`PREPARE`](../../reference/sql-commands/sql-prepare.md) 建立一個預備好的 `INSERT` 陳述式，然後依需要多次使用 `EXECUTE`，可能會有所幫助。這可以避免重複剖析與規劃 `INSERT` 的部分額外負擔。不同的介面以不同的方式提供這項功能；請在介面的說明文件中尋找「預備陳述式」（prepared statements）。
 
-Note that loading a large number of rows using
-`COPY` is almost always faster than using
-`INSERT`, even if `PREPARE` is used and
-multiple insertions are batched into a single transaction.
+請注意，即使使用了 `PREPARE`，並將多次插入批次處理在單一交易中，使用 `COPY` 載入大量資料列幾乎總是比使用 `INSERT` 快。
 
-`COPY` is fastest when used within the same
-transaction as an earlier `CREATE TABLE` or
-`TRUNCATE` command. In such cases no WAL
-needs to be written, because in case of an error, the files
-containing the newly loaded data will be removed anyway.
-However, this consideration only applies when
-[wal_level](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL) is `minimal`
-as all commands must write WAL otherwise.
+當 `COPY` 與先前的 `CREATE TABLE` 或 `TRUNCATE` 命令在同一個交易中使用時，速度最快。在這種情況下不需要寫入任何 WAL，因為萬一發生錯誤，包含新載入資料的檔案無論如何都會被移除。不過，這項考量只在 [wal_level](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL) 為 `minimal` 時才適用，因為在其他情況下，所有命令都必須寫入 WAL。
 
 <a id="POPULATE-RM-INDEXES"></a>
 
-### 14.4.3. Remove Indexes [#](#POPULATE-RM-INDEXES)
+### 14.4.3. 移除索引 [#](#POPULATE-RM-INDEXES)
 
-If you are loading a freshly created table, the fastest method is to
-create the table, bulk load the table's data using
-`COPY`, then create any indexes needed for the
-table. Creating an index on pre-existing data is quicker than
-updating it incrementally as each row is loaded.
+如果你要載入的是新建立的資料表，最快的方法是先建立資料表，使用 `COPY` 大量載入該資料表的資料，然後再為該資料表建立所需的索引。在既有資料上建立索引，比在載入每一筆資料列時逐步更新索引來得快。
 
-If you are adding large amounts of data to an existing table,
-it might be a win to drop the indexes,
-load the table, and then recreate the indexes. Of course, the
-database performance for other users might suffer
-during the time the indexes are missing. One should also think
-twice before dropping a unique index, since the error checking
-afforded by the unique constraint will be lost while the index is
-missing.
+如果你要將大量資料加入現有的資料表中，先刪除索引、載入資料表，然後再重新建立索引，可能會比較划算。當然，在索引不存在的這段期間，其他使用者的資料庫效能可能會受到影響。刪除唯一索引之前也應該三思，因為在索引不存在期間，唯一限制條件所提供的錯誤檢查也會失效。
 
 <a id="POPULATE-RM-FKEYS"></a>
 
-### 14.4.4. Remove Foreign Key Constraints [#](#POPULATE-RM-FKEYS)
+### 14.4.4. 移除外鍵限制條件 [#](#POPULATE-RM-FKEYS)
 
-Just as with indexes, a foreign key constraint can be checked
-“in bulk” more efficiently than row-by-row. So it might be
-useful to drop foreign key constraints, load data, and re-create
-the constraints. Again, there is a trade-off between data load
-speed and loss of error checking while the constraint is missing.
+就像索引一樣，「整批」檢查外鍵限制條件，會比逐筆資料列檢查更有效率。因此，先刪除外鍵限制條件、載入資料，再重新建立限制條件，可能會很有用。同樣地，這需要在資料載入速度與限制條件不存在期間失去錯誤檢查之間取捨。
 
-What's more, when you load data into a table with existing foreign key
-constraints, each new row requires an entry in the server's list of
-pending trigger events (since it is the firing of a trigger that checks
-the row's foreign key constraint). Loading many millions of rows can
-cause the trigger event queue to overflow available memory, leading to
-intolerable swapping or even outright failure of the command. Therefore
-it may be *necessary*, not just desirable, to drop and re-apply
-foreign keys when loading large amounts of data. If temporarily removing
-the constraint isn't acceptable, the only other recourse may be to split
-up the load operation into smaller transactions.
+此外，當你將資料載入到已有外鍵限制條件的資料表時，每一筆新資料列都需要在伺服器的待處理觸發程序事件清單中占用一個項目（因為檢查資料列之外鍵限制條件的，正是觸發程序的觸發）。載入數百萬筆資料列可能會使觸發程序事件佇列超出可用記憶體，導致無法忍受的置換，甚至讓命令直接失敗。因此，在載入大量資料時，刪除並重新套用外鍵可能是*必要的*，而不只是比較理想而已。如果無法接受暫時移除限制條件，那麼唯一的替代辦法可能就是將載入操作拆分成較小的交易。
 
 <a id="POPULATE-WORK-MEM"></a>
 
-### 14.4.5. Increase `maintenance_work_mem` [#](#POPULATE-WORK-MEM)
+### 14.4.5. 增加 `maintenance_work_mem` [#](#POPULATE-WORK-MEM)
 
-Temporarily increasing the [maintenance_work_mem](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAINTENANCE-WORK-MEM)
-configuration variable when loading large amounts of data can
-lead to improved performance. This will help to speed up `CREATE
-INDEX` commands and `ALTER TABLE ADD FOREIGN KEY` commands.
-It won't do much for `COPY` itself, so this advice is
-only useful when you are using one or both of the above techniques.
+在載入大量資料時暫時增加組態變數 [maintenance_work_mem](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAINTENANCE-WORK-MEM)，可以提升效能。這有助於加快 `CREATE INDEX` 命令與 `ALTER TABLE ADD FOREIGN KEY` 命令。它對 `COPY` 本身並沒有太大幫助，因此這項建議只在你使用上述其中一種或兩種技巧時才有用。
 
 <a id="POPULATE-MAX-WAL-SIZE"></a>
 
-### 14.4.6. Increase `max_wal_size` [#](#POPULATE-MAX-WAL-SIZE)
+### 14.4.6. 增加 `max_wal_size` [#](#POPULATE-MAX-WAL-SIZE)
 
-Temporarily increasing the [max_wal_size](../../server-administration/runtime-config/runtime-config-wal.md#GUC-MAX-WAL-SIZE)
-configuration variable can also
-make large data loads faster. This is because loading a large
-amount of data into PostgreSQL will
-cause checkpoints to occur more often than the normal checkpoint
-frequency (specified by the `checkpoint_timeout`
-configuration variable). Whenever a checkpoint occurs, all dirty
-pages must be flushed to disk. By increasing
-`max_wal_size` temporarily during bulk
-data loads, the number of checkpoints that are required can be
-reduced.
+暫時增加組態變數 [max_wal_size](../../server-administration/runtime-config/runtime-config-wal.md#GUC-MAX-WAL-SIZE)，也可以讓大量資料的載入更快。這是因為將大量資料載入 PostgreSQL，會使檢查點比正常的檢查點頻率（由組態變數 `checkpoint_timeout` 指定）更頻繁地發生。每當發生檢查點時，所有髒頁都必須排清到磁碟。在大量載入資料期間暫時增加 `max_wal_size`，就可以減少所需的檢查點數量。
 
 <a id="POPULATE-PITR"></a>
 
-### 14.4.7. Disable WAL Archival and Streaming Replication [#](#POPULATE-PITR)
+### 14.4.7. 停用 WAL 封存與串流複寫 [#](#POPULATE-PITR)
 
-When loading large amounts of data into an installation that uses
-WAL archiving or streaming replication, it might be faster to take a
-new base backup after the load has completed than to process a large
-amount of incremental WAL data. To prevent incremental WAL logging
-while loading, disable archiving and streaming replication, by setting
-[wal_level](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL) to `minimal`,
-[archive_mode](../../server-administration/runtime-config/runtime-config-wal.md#GUC-ARCHIVE-MODE) to `off`, and
-[max_wal_senders](../../server-administration/runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS) to zero.
-But note that changing these settings requires a server restart,
-and makes any base backups taken before unavailable for archive
-recovery and standby server, which may lead to data loss.
+將大量資料載入到使用 WAL 封存或串流複寫的系統時，在載入完成之後建立新的基礎備份，可能會比處理大量的增量 WAL 資料更快。為了避免在載入期間記錄增量 WAL，請停用封存與串流複寫，方法是將 [wal_level](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL) 設為 `minimal`、將 [archive_mode](../../server-administration/runtime-config/runtime-config-wal.md#GUC-ARCHIVE-MODE) 設為 `off`，並將 [max_wal_senders](../../server-administration/runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS) 設為零。但請注意，變更這些設定需要重新啟動伺服器，而且會使先前建立的所有基礎備份都無法用於封存復原與備援伺服器，這可能導致資料遺失。
 
-Aside from avoiding the time for the archiver or WAL sender to process the
-WAL data, doing this will actually make certain commands faster, because
-they do not to write WAL at all if `wal_level`
-is `minimal` and the current subtransaction (or top-level
-transaction) created or truncated the table or index they change. (They
-can guarantee crash safety more cheaply by doing
-an `fsync` at the end than by writing WAL.)
+除了省下封存程序或 WAL 傳送程序處理 WAL 資料的時間之外，這麼做實際上還會讓某些命令更快，因為如果 `wal_level` 為 `minimal`，而且目前的子交易（或最上層交易）建立或截斷了這些命令所變更的資料表或索引，它們就完全不需要寫入 WAL。（它們可以在最後執行一次 `fsync`，以比寫入 WAL 更低的成本保證當機安全性。）
 
 <a id="POPULATE-ANALYZE"></a>
 
-### 14.4.8. Run `ANALYZE` Afterwards [#](#POPULATE-ANALYZE)
+### 14.4.8. 事後執行 `ANALYZE` [#](#POPULATE-ANALYZE)
 
-Whenever you have significantly altered the distribution of data
-within a table, running [`ANALYZE`](../../reference/sql-commands/sql-analyze.md) is strongly recommended. This
-includes bulk loading large amounts of data into the table. Running
-`ANALYZE` (or `VACUUM ANALYZE`)
-ensures that the planner has up-to-date statistics about the
-table. With no statistics or obsolete statistics, the planner might
-make poor decisions during query planning, leading to poor
-performance on any tables with inaccurate or nonexistent
-statistics. Note that if the autovacuum daemon is enabled, it might
-run `ANALYZE` automatically; see
-[Section 24.1.3](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)
-and [Section 24.1.6](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM) for more information.
+每當你大幅改變了資料表中的資料分布時，強烈建議執行 [`ANALYZE`](../../reference/sql-commands/sql-analyze.md)。這包括將大量資料批次載入資料表的情況。執行 `ANALYZE`（或 `VACUUM ANALYZE`）可以確保規劃器擁有關於該資料表的最新統計資訊。如果沒有統計資訊或統計資訊已經過時，規劃器在規劃查詢時可能會做出不好的決策，導致任何統計資訊不準確或不存在的資料表效能不佳。請注意，如果啟用了 autovacuum 常駐程式，它可能會自動執行 `ANALYZE`；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
 
 <a id="POPULATE-PG-DUMP"></a>
 
-### 14.4.9. Some Notes about pg_dump [#](#POPULATE-PG-DUMP)
+### 14.4.9. 關於 pg_dump 的一些說明 [#](#POPULATE-PG-DUMP)
 
-Dump scripts generated by pg_dump automatically apply
-several, but not all, of the above guidelines. To restore a
-pg_dump dump as quickly as possible, you need to
-do a few extra things manually. (Note that these points apply while
-*restoring* a dump, not while *creating* it.
-The same points apply whether loading a text dump with
-psql or using pg_restore to load
-from a pg_dump archive file.)
+pg_dump 產生的傾印指令碼會自動套用上述準則中的幾項，但不是全部。要盡可能快速地還原 pg_dump 的傾印，你需要手動做一些額外的事情。（請注意，這些要點適用於*還原*傾印時，而不是*建立*傾印時。無論是使用 psql 載入文字格式的傾印，還是使用 pg_restore 從 pg_dump 封存檔載入，都適用相同的要點。）
 
-By default, pg_dump uses `COPY`, and when
-it is generating a complete schema-and-data dump, it is careful to
-load data before creating indexes and foreign keys. So in this case
-several guidelines are handled automatically. What is left
-for you to do is to:
+預設情況下，pg_dump 會使用 `COPY`，而且在產生完整的綱要與資料傾印時，它會小心地先載入資料，再建立索引與外鍵。因此在這種情況下，有幾項準則會自動處理。剩下需要你做的是：
 
-* Set appropriate (i.e., larger than normal) values for
-  `maintenance_work_mem` and
-  `max_wal_size`.
-* If using WAL archiving or streaming replication, consider disabling
-  them during the restore. To do that, set `archive_mode`
-  to `off`,
-  `wal_level` to `minimal`, and
-  `max_wal_senders` to zero before loading the dump.
-  Afterwards, set them back to the right values and take a fresh
-  base backup.
-* Experiment with the parallel dump and restore modes of both
-  pg_dump and pg_restore and find the
-  optimal number of concurrent jobs to use. Dumping and restoring in
-  parallel by means of the `-j` option should give you a
-  significantly higher performance over the serial mode.
-* Consider whether the whole dump should be restored as a single
-  transaction. To do that, pass the `-1` or
-  `--single-transaction` command-line option to
-  psql or pg_restore. When using this
-  mode, even the smallest of errors will rollback the entire restore,
-  possibly discarding many hours of processing. Depending on how
-  interrelated the data is, that might seem preferable to manual cleanup,
-  or not. `COPY` commands will run fastest if you use a single
-  transaction and have WAL archiving turned off.
-* If multiple CPUs are available in the database server, consider using
-  pg_restore's `--jobs` option. This
-  allows concurrent data loading and index creation.
-* Run `ANALYZE` afterwards.
+* 為 `maintenance_work_mem` 與 `max_wal_size` 設定適當的值（也就是比平常更大的值）。
+* 如果使用 WAL 封存或串流複寫，請考慮在還原期間停用它們。要這麼做，請在載入傾印之前，將 `archive_mode` 設為 `off`、將 `wal_level` 設為 `minimal`，並將 `max_wal_senders` 設為零。之後，再將它們設回正確的值，並建立新的基礎備份。
+* 實驗 pg_dump 與 pg_restore 的平行傾印與還原模式，找出最佳的並行工作數量。藉由 `-j` 選項平行傾印與還原，應該能獲得比序列模式明顯更高的效能。
+* 考慮是否應將整個傾印作為單一交易還原。要這麼做，請將 `-1` 或 `--single-transaction` 命令列選項傳給 psql 或 pg_restore。使用這個模式時，即使是最小的錯誤也會回復整個還原作業，可能會捨棄好幾個小時的處理成果。視資料之間的關聯程度而定，這可能比手動清理更可取，也可能不是。如果你使用單一交易並關閉 WAL 封存，`COPY` 命令會執行得最快。
+* 如果資料庫伺服器上有多顆 CPU 可用，請考慮使用 pg_restore 的 `--jobs` 選項。這可以讓資料載入與索引建立並行進行。
+* 事後執行 `ANALYZE`。
 
-A data-only dump will still use `COPY`, but it does not
-drop or recreate indexes, and it does not normally touch foreign
-keys.
-[<a id="id-1.5.13.7.11.4.2"></a>[14]](#ftn.id-1.5.13.7.11.4.2)
-So when loading a data-only dump, it is up to you to drop and recreate
-indexes and foreign keys if you wish to use those techniques.
-It's still useful to increase `max_wal_size`
-while loading the data, but don't bother increasing
-`maintenance_work_mem`; rather, you'd do that while
-manually recreating indexes and foreign keys afterwards.
-And don't forget to `ANALYZE` when you're done; see
-[Section 24.1.3](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)
-and [Section 24.1.6](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM) for more information.
+只含資料的傾印仍然會使用 `COPY`，但它不會刪除或重新建立索引，而且通常也不會處理外鍵。[<a id="id-1.5.13.7.11.4.2"></a>[14]](#ftn.id-1.5.13.7.11.4.2) 因此，載入只含資料的傾印時，如果你想使用這些技巧，就要自行刪除並重新建立索引與外鍵。在載入資料時增加 `max_wal_size` 仍然有用，但不必增加 `maintenance_work_mem`；你應該在事後手動重新建立索引與外鍵時再這麼做。完成之後，別忘了執行 `ANALYZE`；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
 
 <br>
 
@@ -254,11 +108,8 @@ and [Section 24.1.6](../../server-administration/maintenance/routine-vacuuming.
 <a id="ftn.id-1.5.13.7.11.4.2"></a>
 
 [[14]](#id-1.5.13.7.11.4.2) 
-You can get the effect of disabling foreign keys by using
-the `--disable-triggers` option — but realize that
-that eliminates, rather than just postpones, foreign key
-validation, and so it is possible to insert bad data if you use it.
+你可以使用 `--disable-triggers` 選項來達到停用外鍵的效果——但要了解，這會取消外鍵驗證，而不只是延後驗證，因此如果使用它，就有可能插入不良的資料。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/populate.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/populate.html)（原文版本：18.6；核對日期：2026-09-11）
