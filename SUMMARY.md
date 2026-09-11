@@ -1080,7 +1080,7 @@
     * [F.14. earthdistance — 計算大圓距離 #](appendixes/contrib/earthdistance.md)
     * [F.15. file_fdw — 存取伺服器檔案系統中的資料檔案 #](appendixes/contrib/file-fdw.md)
     * [F.16. fuzzystrmatch — 判定字串相似性與距離 #](appendixes/contrib/fuzzystrmatch.md)
-    * [F.17. hstore — hstore key/value datatype #](appendixes/contrib/hstore.md)
+    * [F.17. hstore — hstore 鍵／值資料型別 #](appendixes/contrib/hstore.md)
     * [F.18. intagg — integer aggregator and enumerator #](appendixes/contrib/intagg.md)
     * [F.19. intarray — manipulate arrays of integers #](appendixes/contrib/intarray.md)
     * [F.20. isn — data types for international standard numbers (ISBN, EAN, UPC, etc.) #](appendixes/contrib/isn.md)
