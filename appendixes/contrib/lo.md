@@ -1,65 +1,38 @@
-## F.21. lo — manage large objects [#](#LO)
+## F.21. lo — 管理大型物件 [#](#LO)
 
-[F.21.1. Rationale](lo.md#LO-RATIONALE)
+[F.21.1. 原理](lo.md#LO-RATIONALE)
 
-[F.21.2. How to Use It](lo.md#LO-HOW-TO-USE)
+[F.21.2. 使用方式](lo.md#LO-HOW-TO-USE)
 
-[F.21.3. Limitations](lo.md#LO-LIMITATIONS)
+[F.21.3. 限制](lo.md#LO-LIMITATIONS)
 
-[F.21.4. Author](lo.md#LO-AUTHOR)
+[F.21.4. 作者](lo.md#LO-AUTHOR)
 
 <a id="id-1.11.7.31.2"></a>
 
-The `lo` module provides support for managing Large Objects
-(also called LOs or BLOBs). This includes a data type `lo`
-and a trigger `lo_manage`.
+`lo` 模組支援管理大型物件（Large Objects，也稱為 LO 或 BLOB）。它包含資料型別 `lo` 與觸發程序 `lo_manage`。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組被視為「受信任」，亦即具有目前資料庫 `CREATE` 權限的非超級使用者可以安裝它。
 
 <a id="LO-RATIONALE"></a>
 
-### F.21.1. Rationale [#](#LO-RATIONALE)
+### F.21.1. 原理 [#](#LO-RATIONALE)
 
-One of the problems with the JDBC driver (and this affects the ODBC driver
-also), is that the specification assumes that references to BLOBs (Binary
-Large OBjects) are stored within a table, and if that entry is changed, the
-associated BLOB is deleted from the database.
+JDBC 驅動程式的一項問題（也會影響 ODBC 驅動程式）是，規範假定 BLOB（Binary Large OBject，大型二進位物件）的參照儲存在資料表中，且若該項目變更，關聯的 BLOB 會從資料庫刪除。
 
-As PostgreSQL stands, this doesn't occur. Large objects
-are treated as objects in their own right; a table entry can reference a
-large object by OID, but there can be multiple table entries referencing
-the same large object OID, so the system doesn't delete the large object
-just because you change or remove one such entry.
+在 PostgreSQL 中，這不會發生。大型物件會被視為獨立物件；一個資料表項目可透過 OID 參照大型物件，但可能有多個資料表項目參照相同大型物件 OID，因此系統不會僅因變更或移除其中一個項目就刪除大型物件。
 
-Now this is fine for PostgreSQL-specific applications, but
-standard code using JDBC or ODBC won't delete the objects, resulting in
-orphan objects — objects that are not referenced by anything, and
-simply occupy disk space.
+這對 PostgreSQL 專用應用程式沒有問題，但使用 JDBC 或 ODBC 的標準程式碼不會刪除這些物件，因而產生孤立物件——未被任何項目參照、只占用磁碟空間的物件。
 
-The `lo` module allows fixing this by attaching a trigger
-to tables that contain LO reference columns. The trigger essentially just
-does a `lo_unlink` whenever you delete or modify a value
-referencing a large object. When you use this trigger, you are assuming
-that there is only one database reference to any large object that is
-referenced in a trigger-controlled column!
+`lo` 模組可透過將觸發程序附加到含有 LO 參照欄位的資料表來解決此問題。每當刪除或修改參照大型物件的值時，觸發程序實質上只會執行 `lo_unlink`。使用此觸發程序時，您假定觸發程序控制欄位所參照的每個大型物件僅有一個資料庫參照！
 
-The module also provides a data type `lo`, which is really just
-a [*[domain](../glossary/README.md#GLOSSARY-DOMAIN)*](../glossary/README.md#GLOSSARY-DOMAIN) over
-the `oid` type. This is useful for differentiating
-database columns that hold large object references from those that are
-OIDs of other things. You don't have to use the `lo` type to
-use the trigger, but it may be convenient to use it to keep track of which
-columns in your database represent large objects that you are managing with
-the trigger. It is also rumored that the ODBC driver gets confused if you
-don't use `lo` for BLOB columns.
+此模組也提供資料型別 `lo`，它實際上只是 `oid` 型別上的[網域](../glossary/README.md#GLOSSARY-DOMAIN)。這有助於區分持有大型物件參照的資料庫欄位與持有其他物件 OID 的欄位。使用觸發程序不必使用 `lo` 型別，但用它來追蹤資料庫中哪些欄位表示由觸發程序管理的大型物件可能較方便。據說若未對 BLOB 欄位使用 `lo`，ODBC 驅動程式也會發生混淆。
 
 <a id="LO-HOW-TO-USE"></a>
 
-### F.21.2. How to Use It [#](#LO-HOW-TO-USE)
+### F.21.2. 使用方式 [#](#LO-HOW-TO-USE)
 
-Here's a simple example of usage:
+以下是簡單的使用範例：
 
 ```
 
@@ -69,39 +42,25 @@ CREATE TRIGGER t_raster BEFORE UPDATE OR DELETE ON image
     FOR EACH ROW EXECUTE FUNCTION lo_manage(raster);
 ```
 
-For each column that will contain unique references to large objects,
-create a `BEFORE UPDATE OR DELETE` trigger, and give the column
-name as the sole trigger argument. You can also restrict the trigger
-to only execute on updates to the column by using `BEFORE UPDATE
-OF` *`column_name`*.
-If you need multiple `lo`
-columns in the same table, create a separate trigger for each one,
-remembering to give a different name to each trigger on the same table.
+對每個將包含大型物件唯一參照的欄位，建立一個 `BEFORE UPDATE OR DELETE` 觸發程序，並將欄位名稱作為唯一的觸發程序引數。也可使用 `BEFORE UPDATE OF` *`column_name`*，限制觸發程序僅在更新該欄位時執行。若同一資料表需要多個 `lo` 欄位，請為每個欄位建立個別觸發程序，並記得為同一資料表上的每個觸發程序指定不同名稱。
 
 <a id="LO-LIMITATIONS"></a>
 
-### F.21.3. Limitations [#](#LO-LIMITATIONS)
+### F.21.3. 限制 [#](#LO-LIMITATIONS)
 
-* Dropping a table will still orphan any objects it contains, as the trigger
-  is not executed. You can avoid this by preceding the `DROP
-  TABLE` with `DELETE FROM table`.
+* 捨棄資料表時，由於不會執行觸發程序，其中包含的物件仍會成為孤立物件。可在 `DROP TABLE` 前執行 `DELETE FROM table` 避免此情況。
 
-  `TRUNCATE` has the same hazard.
+  `TRUNCATE` 也有相同的風險。
 
-  If you already have, or suspect you have, orphaned large objects, see the
-  [vacuumlo](../contrib-prog/vacuumlo.md) module to help
-  you clean them up. It's a good idea to run vacuumlo
-  occasionally as a back-stop to the `lo_manage` trigger.
-* Some frontends may create their own tables, and will not create the
-  associated trigger(s). Also, users may not remember (or know) to create
-  the triggers.
+  若已有或懷疑有孤立大型物件，請參閱 [vacuumlo](../contrib-prog/vacuumlo.md) 模組以協助清理。偶爾執行 vacuumlo 作為 `lo_manage` 觸發程序的後備措施是個好主意。
+* 某些前端可能會建立自己的資料表，卻不會建立關聯的觸發程序。此外，使用者可能不記得（或不知道）要建立觸發程序。
 
 <a id="LO-AUTHOR"></a>
 
-### F.21.4. Author [#](#LO-AUTHOR)
+### F.21.4. 作者 [#](#LO-AUTHOR)
 
 Peter Mount `<peter@retep.org.uk>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/lo.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/lo.html)
