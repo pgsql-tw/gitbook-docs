@@ -145,7 +145,7 @@
     * [12.2. Tables and Indexes #](the-sql-language/textsearch/textsearch-tables.md)
     * [12.3. 控制文字搜尋 #](the-sql-language/textsearch/textsearch-controls.md)
     * [12.4. Additional Features #](the-sql-language/textsearch/textsearch-features.md)
-    * [12.5. Parsers #](the-sql-language/textsearch/textsearch-parsers.md)
+    * [12.5. 剖析器 #](the-sql-language/textsearch/textsearch-parsers.md)
     * [12.6. 字典 #](the-sql-language/textsearch/textsearch-dictionaries.md)
     * [12.7. 設定範例 #](the-sql-language/textsearch/textsearch-configuration.md)
     * [12.8. 測試與除錯文字搜尋 #](the-sql-language/textsearch/textsearch-debugging.md)
