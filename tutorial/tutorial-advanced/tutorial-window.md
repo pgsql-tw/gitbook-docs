@@ -1,18 +1,12 @@
-## 3.5. Window Functions [#](#TUTORIAL-WINDOW)
+<a id="TUTORIAL-WINDOW"></a>
+
+## 3.5. Window 函式 [#](#TUTORIAL-WINDOW)
 
 <a id="id-1.4.5.6.2"></a>
 
-A *window function* performs a calculation across a set of
-table rows that are somehow related to the current row. This is comparable
-to the type of calculation that can be done with an aggregate function.
-However, window functions do not cause rows to become grouped into a single
-output row like non-window aggregate calls would. Instead, the
-rows retain their separate identities. Behind the scenes, the window
-function is able to access more than just the current row of the query
-result.
+*Window 函式*（window function）會對一組與目前資料列有某種關聯的資料表資料列進行計算。這類似於彙總函式所能進行的計算。不過，window 函式不會像非 window 的彙總函式呼叫那樣，把資料列分組成單一輸出資料列；各資料列仍保有各自的獨立身分。在幕後，window 函式能夠存取的不只是查詢結果中的目前資料列。
 
-Here is an example that shows how to compare each employee's salary
-with the average salary in his or her department:
+以下範例說明如何將每位員工的薪資與其所屬部門的平均薪資相比較：
 
 ```
 
@@ -36,29 +30,11 @@ SELECT depname, empno, salary, avg(salary) OVER (PARTITION BY depname) FROM emps
 (10 rows)
 ```
 
-The first three output columns come directly from the table
-`empsalary`, and there is one output row for each row in the
-table. The fourth column represents an average taken across all the table
-rows that have the same `depname` value as the current row.
-(This actually is the same function as the non-window `avg`
-aggregate, but the `OVER` clause causes it to be
-treated as a window function and computed across the window frame.)
+前三個輸出欄位直接來自資料表 `empsalary`，資料表中的每一筆資料列都對應一筆輸出資料列。第四個欄位代表所有與目前資料列具有相同 `depname` 值的資料表資料列的平均值。（這其實與非 window 的 `avg` 彙總函式是同一個函式，但 `OVER` 子句讓它被當作 window 函式處理，並在視窗框架上進行計算。）
 
-A window function call always contains an `OVER` clause
-directly following the window function's name and argument(s). This is what
-syntactically distinguishes it from a normal function or non-window
-aggregate. The `OVER` clause determines exactly how the
-rows of the query are split up for processing by the window function.
-The `PARTITION BY` clause within `OVER`
-divides the rows into groups, or partitions, that share the same
-values of the `PARTITION BY` expression(s). For each row,
-the window function is computed across the rows that fall into the
-same partition as the current row.
+Window 函式呼叫一定會在函式名稱與參數之後緊接著 `OVER` 子句。這就是它在語法上與一般函式或非 window 彙總函式的區別。`OVER` 子句精確決定了查詢的資料列要如何切分，以供 window 函式處理。`OVER` 中的 `PARTITION BY` 子句會將資料列分成若干組，也就是分割區（partition），同一分割區中的資料列具有相同的 `PARTITION BY` 運算式值。對每一筆資料列而言，window 函式會在與目前資料列屬於同一分割區的資料列上進行計算。
 
-You can also control the order in which rows are processed by
-window functions using `ORDER BY` within `OVER`.
-(The window `ORDER BY` does not even have to match the
-order in which the rows are output.) Here is an example:
+你也可以在 `OVER` 中使用 `ORDER BY`，控制 window 函式處理資料列的順序。（window 的 `ORDER BY` 甚至不必與資料列的輸出順序相同。）範例如下：
 
 ```
 
@@ -84,38 +60,16 @@ FROM empsalary;
 (10 rows)
 ```
 
-As shown here, the `row_number` window function
-assigns sequential numbers to the rows within each partition,
-in the order defined by the `ORDER BY` clause
-(with tied rows numbered in an unspecified order).
-`row_number` needs no explicit parameter,
-because its behavior
-is entirely determined by the `OVER` clause.
+如這裡所示，`row_number` window 函式會依 `ORDER BY` 子句定義的順序，為每個分割區中的資料列依序編號（同值的資料列以未指定的順序編號）。`row_number` 不需要明確的參數，因為它的行為完全由 `OVER` 子句決定。
 
-The rows considered by a window function are those of the “virtual
-table” produced by the query's `FROM` clause as filtered by its
-`WHERE`, `GROUP BY`, and `HAVING` clauses
-if any. For example, a row removed because it does not meet the
-`WHERE` condition is not seen by any window function.
-A query can contain multiple window functions that slice up the data
-in different ways using different `OVER` clauses, but
-they all act on the same collection of rows defined by this virtual table.
+Window 函式所處理的資料列，是查詢的 `FROM` 子句所產生的「虛擬資料表」中的資料列，並經過查詢中 `WHERE`、`GROUP BY` 與 `HAVING` 子句（如果有的話）的篩選。例如，因不符合 `WHERE` 條件而被移除的資料列，任何 window 函式都看不到。一個查詢可以包含多個 window 函式，各自使用不同的 `OVER` 子句以不同方式切分資料，但它們都作用於這個虛擬資料表所定義的同一組資料列。
 
-We already saw that `ORDER BY` can be omitted if the ordering
-of rows is not important. It is also possible to omit `PARTITION
-BY`, in which case there is a single partition containing all rows.
+我們已經看過，如果資料列的順序不重要，可以省略 `ORDER BY`。也可以省略 `PARTITION
+BY`，此時會只有一個包含所有資料列的分割區。
 
-There is another important concept associated with window functions:
-for each row, there is a set of rows within its partition called its
-*window frame*. Some window functions act only
-on the rows of the window frame, rather than of the whole partition.
-By default, if `ORDER BY` is supplied then the frame consists of
-all rows from the start of the partition up through the current row, plus
-any following rows that are equal to the current row according to the
-`ORDER BY` clause. When `ORDER BY` is omitted the
-default frame consists of all rows in the partition.
+與 window 函式相關的另一個重要概念是：對每一筆資料列而言，其所屬分割區中有一組資料列稱為它的*視窗框架*（window frame）。有些 window 函式只作用於視窗框架中的資料列，而不是整個分割區。預設情況下，如果有提供 `ORDER BY`，框架會包含從分割區開頭直到目前資料列的所有資料列，再加上依 `ORDER BY` 子句與目前資料列相等的任何後續資料列。省略 `ORDER BY` 時，預設框架會包含分割區中的所有資料列。
 [<a id="id-1.4.5.6.9.5"></a>[5]](#ftn.id-1.4.5.6.9.5)
-Here is an example using `sum`:
+以下是使用 `sum` 的範例：
 
 ```
 
@@ -139,12 +93,7 @@ SELECT salary, sum(salary) OVER () FROM empsalary;
 (10 rows)
 ```
 
-Above, since there is no `ORDER BY` in the `OVER`
-clause, the window frame is the same as the partition, which for lack of
-`PARTITION BY` is the whole table; in other words each sum is
-taken over the whole table and so we get the same result for each output
-row. But if we add an `ORDER BY` clause, we get very different
-results:
+上例中，由於 `OVER` 子句中沒有 `ORDER BY`，視窗框架與分割區相同；又因為沒有 `PARTITION BY`，分割區就是整個資料表。換句話說，每個總和都是對整個資料表計算，所以每一筆輸出資料列都得到相同的結果。但如果我們加上 `ORDER BY` 子句，就會得到截然不同的結果：
 
 ```
 
@@ -168,21 +117,11 @@ SELECT salary, sum(salary) OVER (ORDER BY salary) FROM empsalary;
 (10 rows)
 ```
 
-Here the sum is taken from the first (lowest) salary up through the
-current one, including any duplicates of the current one (notice the
-results for the duplicated salaries).
+這裡的總和是從第一筆（最低的）薪資一路累加到目前這筆，並包含與目前這筆重複的薪資（請留意重複薪資的結果）。
 
-Window functions are permitted only in the `SELECT` list
-and the `ORDER BY` clause of the query. They are forbidden
-elsewhere, such as in `GROUP BY`, `HAVING`
-and `WHERE` clauses. This is because they logically
-execute after the processing of those clauses. Also, window functions
-execute after non-window aggregate functions. This means it is valid to
-include an aggregate function call in the arguments of a window function,
-but not vice versa.
+Window 函式只能用在查詢的 `SELECT` 清單與 `ORDER BY` 子句中，在其他地方則禁止使用，例如 `GROUP BY`、`HAVING` 與 `WHERE` 子句。這是因為在邏輯上，window 函式是在這些子句處理完之後才執行。此外，window 函式會在非 window 的彙總函式之後執行。這表示在 window 函式的參數中呼叫彙總函式是有效的，反之則不行。
 
-If there is a need to filter or group rows after the window calculations
-are performed, you can use a sub-select. For example:
+如果需要在 window 計算完成之後再篩選或分組資料列，可以使用子查詢（sub-select）。例如：
 
 ```
 
@@ -195,16 +134,9 @@ FROM
 WHERE pos < 3;
 ```
 
-The above query only shows the rows from the inner query having
-`row_number` less than 3 (that is, the first
-two rows for each department).
+上面的查詢只會顯示內層查詢中 `row_number` 小於 3 的資料列（也就是每個部門的前兩筆資料列）。
 
-When a query involves multiple window functions, it is possible to write
-out each one with a separate `OVER` clause, but this is
-duplicative and error-prone if the same windowing behavior is wanted
-for several functions. Instead, each windowing behavior can be named
-in a `WINDOW` clause and then referenced in `OVER`.
-For example:
+當查詢涉及多個 window 函式時，可以為每個函式分別寫出 `OVER` 子句；但如果多個函式需要相同的視窗行為，這樣寫既重複又容易出錯。取而代之的做法是，在 `WINDOW` 子句中為每種視窗行為命名，再於 `OVER` 中參照。例如：
 
 ```
 
@@ -213,11 +145,7 @@ SELECT sum(salary) OVER w, avg(salary) OVER w
   WINDOW w AS (PARTITION BY depname ORDER BY salary DESC);
 ```
 
-More details about window functions can be found in
-[Section 4.2.8](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS),
-[Section 9.22](../../the-sql-language/functions/functions-window.md),
-[Section 7.2.5](../../the-sql-language/queries/queries-table-expressions.md#QUERIES-WINDOW), and the
-[SELECT](../../reference/sql-commands/sql-select.md) reference page.
+關於 window 函式的更多細節，請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)、[第 9.22 節](../../the-sql-language/functions/functions-window.md)、[第 7.2.5 節](../../the-sql-language/queries/queries-table-expressions.md#QUERIES-WINDOW)以及 [SELECT](../../reference/sql-commands/sql-select.md) 參考頁面。
 
 <br>
 
@@ -226,10 +154,8 @@ More details about window functions can be found in
 <a id="ftn.id-1.4.5.6.9.5"></a>
 
 [[5]](#id-1.4.5.6.9.5) 
-There are options to define the window frame in other ways, but
-this tutorial does not cover them. See
-[Section 4.2.8](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS) for details.
+還有其他定義視窗框架的選項，但本教學不會介紹。詳情請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-window.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tutorial-window.html)（原文版本：18.6；核對日期：2026-09-11）
