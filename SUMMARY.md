@@ -167,7 +167,7 @@
     * [14.4. Populating a Database #](the-sql-language/performance-tips/populate.md)
     * [14.5. Non-Durable Settings #](the-sql-language/performance-tips/non-durability.md)
   * [第 15 章 平行查詢](the-sql-language/parallel-query/README.md)
-    * [15.1. How Parallel Query Works #](the-sql-language/parallel-query/how-parallel-query-works.md)
+    * [15.1. 平行查詢的運作方式 #](the-sql-language/parallel-query/how-parallel-query-works.md)
     * [15.2. When Can Parallel Query Be Used? #](the-sql-language/parallel-query/when-can-parallel-query-be-used.md)
     * [15.3. Parallel Plans #](the-sql-language/parallel-query/parallel-plans.md)
     * [15.4. Parallel Safety #](the-sql-language/parallel-query/parallel-safety.md)

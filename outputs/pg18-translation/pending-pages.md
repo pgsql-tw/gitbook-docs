@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：891 頁。
+待譯頁面：890 頁。
 
 ## 根目錄
 
@@ -1110,7 +1110,7 @@
 - [x] `the-sql-language/mvcc/mvcc-serialization-failure-handling.md` — 13.5. 序列化失敗的處理 #
 - [x] `the-sql-language/mvcc/transaction-iso.md` — 13.2. 交易隔離 #
 - [x] `the-sql-language/parallel-query/README.md` — 第 15 章 平行查詢
-- [ ] `the-sql-language/parallel-query/how-parallel-query-works.md` — 15.1. How Parallel Query Works #
+- [x] `the-sql-language/parallel-query/how-parallel-query-works.md` — 15.1. 平行查詢的運作方式 #
 - [ ] `the-sql-language/parallel-query/parallel-plans.md` — 15.3. Parallel Plans #
 - [ ] `the-sql-language/parallel-query/parallel-safety.md` — 15.4. Parallel Safety #
 - [ ] `the-sql-language/parallel-query/when-can-parallel-query-be-used.md` — 15.2. When Can Parallel Query Be Used? #
