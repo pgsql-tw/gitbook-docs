@@ -159,7 +159,7 @@
     * [13.4. 應用程式層級的資料一致性檢查 #](the-sql-language/mvcc/applevel-consistency.md)
     * [13.5. Serialization Failure Handling #](the-sql-language/mvcc/mvcc-serialization-failure-handling.md)
     * [13.6. Caveats #](the-sql-language/mvcc/mvcc-caveats.md)
-    * [13.7. Locking and Indexes #](the-sql-language/mvcc/locking-indexes.md)
+    * [13.7. 鎖定與索引 #](the-sql-language/mvcc/locking-indexes.md)
   * [Chapter 14. Performance Tips](the-sql-language/performance-tips/README.md)
     * [14.1. Using EXPLAIN #](the-sql-language/performance-tips/using-explain.md)
     * [14.2. Statistics Used by the Planner #](the-sql-language/performance-tips/planner-stats.md)

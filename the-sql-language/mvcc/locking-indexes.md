@@ -1,42 +1,22 @@
-## 13.7. Locking and Indexes [#](#LOCKING-INDEXES)
+<a id="LOCKING-INDEXES"></a>
+
+## 13.7. 鎖定與索引 [#](#LOCKING-INDEXES)
 
 <a id="id-1.5.12.10.2"></a>
 
-Though PostgreSQL
-provides nonblocking read/write access to table
-data, nonblocking read/write access is not currently offered for every
-index access method implemented
-in PostgreSQL.
-The various index types are handled as follows:
+雖然 PostgreSQL 為資料表資料提供非阻擋式的讀寫存取，但目前並不是 PostgreSQL 中實作的每一種索引存取方法都提供非阻擋式的讀寫存取。各種索引類型的處理方式如下：
 
-B-tree, GiST and SP-GiST indexes
-:   Short-term share/exclusive page-level locks are used for
-    read/write access. Locks are released immediately after each
-    index row is fetched or inserted. These index types provide
-    the highest concurrency without deadlock conditions.
+B-tree、GiST 與 SP-GiST 索引
+:   讀寫存取會使用短期的共享／排他頁面層級鎖定。每一筆索引資料列被取出或插入之後，鎖定就會立即釋放。這些索引類型提供最高的並行性，而且不會發生死結。
 
-Hash indexes
-:   Share/exclusive hash-bucket-level locks are used for read/write
-    access. Locks are released after the whole bucket is processed.
-    Bucket-level locks provide better concurrency than index-level
-    ones, but deadlock is possible since the locks are held longer
-    than one index operation.
+雜湊索引
+:   讀寫存取會使用共享／排他的雜湊桶層級鎖定。整個雜湊桶處理完之後才會釋放鎖定。雜湊桶層級的鎖定比索引層級的鎖定提供更好的並行性，但由於鎖定持有的時間比一次索引操作更長，因此可能發生死結。
 
-GIN indexes
-:   Short-term share/exclusive page-level locks are used for
-    read/write access. Locks are released immediately after each
-    index row is fetched or inserted. But note that insertion of a
-    GIN-indexed value usually produces several index key insertions
-    per row, so GIN might do substantial work for a single value's
-    insertion.
+GIN 索引
+:   讀寫存取會使用短期的共享／排他頁面層級鎖定。每一筆索引資料列被取出或插入之後，鎖定就會立即釋放。但請注意，插入一個以 GIN 建立索引的值，通常會為每一筆資料列產生多次索引鍵的插入，因此 GIN 可能會為單一值的插入做相當多的工作。
 
-Currently, B-tree indexes offer the best performance for concurrent
-applications; since they also have more features than hash
-indexes, they are the recommended index type for concurrent
-applications that need to index scalar data. When dealing with
-non-scalar data, B-trees are not useful, and GiST, SP-GiST or GIN
-indexes should be used instead.
+目前，B-tree 索引為並行應用程式提供最佳的效能；由於它們也比雜湊索引具備更多功能，因此是需要為純量資料建立索引之並行應用程式的建議索引類型。處理非純量資料時，B-tree 並不適用，應改用 GiST、SP-GiST 或 GIN 索引。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/locking-indexes.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/locking-indexes.html)（原文版本：18.6；核對日期：2026-09-11）
