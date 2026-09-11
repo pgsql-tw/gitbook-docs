@@ -1,20 +1,18 @@
-## 12.2. Tables and Indexes [#](#TEXTSEARCH-TABLES)
+<a id="TEXTSEARCH-TABLES"></a>
 
-[12.2.1. Searching a Table](textsearch-tables.md#TEXTSEARCH-TABLES-SEARCH)
+## 12.2. 資料表與索引 [#](#TEXTSEARCH-TABLES)
 
-[12.2.2. Creating Indexes](textsearch-tables.md#TEXTSEARCH-TABLES-INDEX)
+[12.2.1. 搜尋資料表](textsearch-tables.md#TEXTSEARCH-TABLES-SEARCH)
 
-The examples in the previous section illustrated full text matching using
-simple constant strings. This section shows how to search table data,
-optionally using indexes.
+[12.2.2. 建立索引](textsearch-tables.md#TEXTSEARCH-TABLES-INDEX)
+
+前一節的範例是以簡單的常數字串說明全文比對。本節說明如何搜尋資料表中的資料，並可選擇使用索引。
 
 <a id="TEXTSEARCH-TABLES-SEARCH"></a>
 
-### 12.2.1. Searching a Table [#](#TEXTSEARCH-TABLES-SEARCH)
+### 12.2.1. 搜尋資料表 [#](#TEXTSEARCH-TABLES-SEARCH)
 
-It is possible to do a full text search without an index. A simple query
-to print the `title` of each row that contains the word
-`friend` in its `body` field is:
+不使用索引也可以進行全文檢索。以下是一個簡單的查詢，會印出 `body` 欄位中包含單字 `friend` 的每一筆資料列的 `title`：
 
 ```
 
@@ -23,13 +21,9 @@ FROM pgweb
 WHERE to_tsvector('english', body) @@ to_tsquery('english', 'friend');
 ```
 
-This will also find related words such as `friends`
-and `friendly`, since all these are reduced to the same
-normalized lexeme.
+這也會找到相關的單字，例如 `friends` 與 `friendly`，因為它們都會被簡化為相同的正規化詞素。
 
-The query above specifies that the `english` configuration
-is to be used to parse and normalize the strings. Alternatively we
-could omit the configuration parameters:
+上面的查詢指定要使用 `english` 設定來剖析與正規化字串。我們也可以省略設定參數：
 
 ```
 
@@ -38,11 +32,9 @@ FROM pgweb
 WHERE to_tsvector(body) @@ to_tsquery('friend');
 ```
 
-This query will use the configuration set by [default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG).
+這個查詢會使用 [default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG) 所設定的設定。
 
-A more complex example is to
-select the ten most recent documents that contain `create` and
-`table` in the `title` or `body`:
+一個比較複雜的例子，是選出 `title` 或 `body` 中包含 `create` 與 `table` 的十份最新文件：
 
 ```
 
@@ -53,74 +45,44 @@ ORDER BY last_mod_date DESC
 LIMIT 10;
 ```
 
-For clarity we omitted the `coalesce` function calls
-which would be needed to find rows that contain `NULL`
-in one of the two fields.
+為了清楚起見，我們省略了 `coalesce` 函式呼叫；如果要找出兩個欄位之一包含 `NULL` 的資料列，就會需要它們。
 
-Although these queries will work without an index, most applications
-will find this approach too slow, except perhaps for occasional ad-hoc
-searches. Practical use of text searching usually requires creating
-an index.
+雖然這些查詢不使用索引也能運作，但大多數應用程式會發現這種做法太慢，也許只有偶爾進行的臨時搜尋例外。實際運用文字搜尋時，通常需要建立索引。
 
 <a id="TEXTSEARCH-TABLES-INDEX"></a>
 
-### 12.2.2. Creating Indexes [#](#TEXTSEARCH-TABLES-INDEX)
+### 12.2.2. 建立索引 [#](#TEXTSEARCH-TABLES-INDEX)
 
-We can create a GIN index ([Section 12.9](textsearch-indexes.md)) to speed up text searches:
+我們可以建立 GIN 索引（[第 12.9 節](textsearch-indexes.md)）來加速文字搜尋：
 
 ```
 
 CREATE INDEX pgweb_idx ON pgweb USING GIN (to_tsvector('english', body));
 ```
 
-Notice that the 2-argument version of `to_tsvector` is
-used. Only text search functions that specify a configuration name can
-be used in expression indexes ([Section 11.7](../indexes/indexes-expressional.md)).
-This is because the index contents must be unaffected by [default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG). If they were affected, the
-index contents might be inconsistent because different entries could
-contain `tsvector`s that were created with different text search
-configurations, and there would be no way to guess which was which. It
-would be impossible to dump and restore such an index correctly.
+請注意這裡使用的是兩個參數版本的 `to_tsvector`。只有指定了設定名稱的文字搜尋函式，才能用在運算式索引（[第 11.7 節](../indexes/indexes-expressional.md)）中。這是因為索引內容必須不受 [default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG) 影響。如果會受到影響，索引內容就可能不一致，因為不同的項目可能包含以不同文字搜尋設定建立的 `tsvector`，而且無從判斷哪個項目是哪個設定建立的。這樣的索引也不可能被正確地傾印與還原。
 
-Because the two-argument version of `to_tsvector` was
-used in the index above, only a query reference that uses the 2-argument
-version of `to_tsvector` with the same configuration
-name will use that index. That is, `WHERE
-to_tsvector('english', body) @@ 'a & b'` can use the index,
-but `WHERE to_tsvector(body) @@ 'a & b'` cannot.
-This ensures that an index will be used only with the same configuration
-used to create the index entries.
+由於上面的索引使用的是兩個參數版本的 `to_tsvector`，只有使用相同設定名稱之兩個參數版本 `to_tsvector` 的查詢參照，才會使用該索引。也就是說，`WHERE
+to_tsvector('english', body) @@ 'a & b'` 可以使用該索引，
+但 `WHERE to_tsvector(body) @@ 'a & b'` 則不行。這可確保索引只會在與建立索引項目時相同的設定下使用。
 
-It is possible to set up more complex expression indexes wherein the
-configuration name is specified by another column, e.g.:
+也可以設定更複雜的運算式索引，由另一個欄位指定設定名稱，例如：
 
 ```
 
 CREATE INDEX pgweb_idx ON pgweb USING GIN (to_tsvector(config_name, body));
 ```
 
-where `config_name` is a column in the `pgweb`
-table. This allows mixed configurations in the same index while
-recording which configuration was used for each index entry. This
-would be useful, for example, if the document collection contained
-documents in different languages. Again,
-queries that are meant to use the index must be phrased to match, e.g.,
-`WHERE to_tsvector(config_name, body) @@ 'a & b'`.
+其中 `config_name` 是 `pgweb` 資料表中的一個欄位。這讓同一個索引中可以混合使用不同的設定，同時記錄每個索引項目所使用的設定。例如，如果文件集合中包含不同語言的文件，這就會很有用。同樣地，要使用該索引的查詢也必須寫成相符的形式，例如 `WHERE to_tsvector(config_name, body) @@ 'a & b'`。
 
-Indexes can even concatenate columns:
+索引甚至可以串接多個欄位：
 
 ```
 
 CREATE INDEX pgweb_idx ON pgweb USING GIN (to_tsvector('english', title || ' ' || body));
 ```
 
-Another approach is to create a separate `tsvector` column
-to hold the output of `to_tsvector`. To keep this
-column automatically up to date with its source data, use a stored
-generated column. This example is a
-concatenation of `title` and `body`,
-using `coalesce` to ensure that one field will still be
-indexed when the other is `NULL`:
+另一種做法是建立一個獨立的 `tsvector` 欄位來保存 `to_tsvector` 的輸出。若要讓這個欄位隨來源資料自動保持最新，請使用儲存式產生欄位（stored generated column）。這個範例串接了 `title` 與 `body`，並使用 `coalesce` 確保在其中一個欄位為 `NULL` 時，另一個欄位仍會被建立索引：
 
 ```
 
@@ -129,14 +91,14 @@ ALTER TABLE pgweb
                GENERATED ALWAYS AS (to_tsvector('english', coalesce(title, '') || ' ' || coalesce(body, ''))) STORED;
 ```
 
-Then we create a GIN index to speed up the search:
+接著我們建立一個 GIN 索引來加速搜尋：
 
 ```
 
 CREATE INDEX textsearch_idx ON pgweb USING GIN (textsearchable_index_col);
 ```
 
-Now we are ready to perform a fast full text search:
+現在我們就可以進行快速的全文檢索了：
 
 ```
 
@@ -147,17 +109,8 @@ ORDER BY last_mod_date DESC
 LIMIT 10;
 ```
 
-One advantage of the separate-column approach over an expression index
-is that it is not necessary to explicitly specify the text search
-configuration in queries in order to make use of the index. As shown
-in the example above, the query can depend on
-`default_text_search_config`. Another advantage is that
-searches will be faster, since it will not be necessary to redo the
-`to_tsvector` calls to verify index matches. (This is more
-important when using a GiST index than a GIN index; see [Section 12.9](textsearch-indexes.md).) The expression-index approach is
-simpler to set up, however, and it requires less disk space since the
-`tsvector` representation is not stored explicitly.
+與運算式索引相比，獨立欄位做法的一個優點是，不需要在查詢中明確指定文字搜尋設定就能使用索引。如上例所示，查詢可以依賴 `default_text_search_config`。另一個優點是搜尋會比較快，因為不需要重新呼叫 `to_tsvector` 來驗證索引相符的結果。（這在使用 GiST 索引時比使用 GIN 索引時更重要；請參閱[第 12.9 節](textsearch-indexes.md)。）不過，運算式索引的做法設定起來比較簡單，而且由於沒有明確儲存 `tsvector` 表示法，所需的磁碟空間也比較少。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-tables.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/textsearch-tables.html)（原文版本：18.6；核對日期：2026-09-11）

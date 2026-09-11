@@ -142,7 +142,7 @@
     * [11.12. Examining Index Usage #](the-sql-language/indexes/indexes-examine.md)
   * [第 12 章 全文檢索](the-sql-language/textsearch/README.md)
     * [12.1. 簡介 #](the-sql-language/textsearch/textsearch-intro.md)
-    * [12.2. Tables and Indexes #](the-sql-language/textsearch/textsearch-tables.md)
+    * [12.2. 資料表與索引 #](the-sql-language/textsearch/textsearch-tables.md)
     * [12.3. 控制文字搜尋 #](the-sql-language/textsearch/textsearch-controls.md)
     * [12.4. Additional Features #](the-sql-language/textsearch/textsearch-features.md)
     * [12.5. 剖析器 #](the-sql-language/textsearch/textsearch-parsers.md)
