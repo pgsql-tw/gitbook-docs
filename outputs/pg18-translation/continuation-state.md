@@ -6,7 +6,7 @@
 - 已選風格：技術直述；依 `postgresql-tw-translation` skill 及其 `references/style.md` 執行。
 - 提交規則：每完成一個 Markdown 頁面，連同必要的 `SUMMARY.md` 與待譯清單更新，各自建立一筆 Git commit。
 - 續跑任務：`postgresql-18`（heartbeat 已暫停，避免與控制器重複寫入）。
-- 目前限制：2026-09-11 實測 `codex login status` 顯示 Not logged in；無人值守 CLI 尚未能端到端驗證。
+- 權限差異：2026-09-11 沙箱內 `codex login status` 顯示 Not logged in，但經核准在沙箱外顯示 Logged in using ChatGPT；不能直接判定帳號未登入。
 
 ## 續跑規則
 
@@ -20,6 +20,7 @@
 - 審查雜湊：`e6e5fde4c3915e673ea349ba39ee21213f4d1eac8522ec118af96c1ee1cc9951`（UTF-8、換行正規化為 LF）。
 - 提交由 `scripts/translation_controller.py finalize` 執行；以 Git 中的 `Translation-Page-SHA256` trailer 及 runtime 狀態確認，不以此文字宣告代替 commit。
 - 全量待譯：915 頁；本次只測試 ltree，不自動領取下一頁。
+- 驗證：22 項故障注入通過；真實 CLI 隔離重播已走過候選、驗收攔截與立即修復續跑，詳見 `ltree-controller-verification.md`。隔離候選未經語意核准，沒有自動提交。
 
 ## 控制器規則（取代原提示詞看門狗）
 
@@ -30,4 +31,4 @@
 - 每頁只提交頁面及必要追蹤檔。commit 後狀態尚未保存就中斷時，以 trailer 對帳，避免重複提交。
 - 尚未部署跨頁佇列、自動語意審查或背景通知轉送；不得宣稱全量自動翻譯正在運作。
 
-恢復全量執行前，先完成 CLI 登入與真實工作者端到端驗證，再測試連續三頁。本次暫停是明確記錄的登入阻礙及測試範圍限制，不是全量完成。
+恢復全量執行前，先在可使用既有登入的核准執行環境完成真實工作者端到端驗證，再測試連續三頁。本次暫停是執行環境與測試範圍限制，不是全量完成。

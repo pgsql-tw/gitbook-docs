@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "remaining", "summary"],
+  "properties": {
+    "status": {"type": "string", "enum": ["partial", "candidate_complete", "blocked"]},
+    "remaining": {"type": "array", "items": {"type": "string"}},
+    "summary": {"type": "string"}
+  }
+}
