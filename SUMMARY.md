@@ -129,7 +129,7 @@
     * [10.6. SELECT 輸出欄位](the-sql-language/typeconv/typeconv-select.md)
   * [Chapter 11. Indexes](the-sql-language/indexes/README.md)
     * [11.1. Introduction #](the-sql-language/indexes/indexes-intro.md)
-    * [11.2. Index Types #](the-sql-language/indexes/indexes-types.md)
+    * [11.2. 索引類型 #](the-sql-language/indexes/indexes-types.md)
     * [11.3. Multicolumn Indexes #](the-sql-language/indexes/indexes-multicolumn.md)
     * [11.4. Indexes and ORDER BY #](the-sql-language/indexes/indexes-ordering.md)
     * [11.5. Combining Multiple Indexes #](the-sql-language/indexes/indexes-bitmap-scans.md)

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：901 頁。
+待譯頁面：900 頁。
 
 ## 根目錄
 
@@ -1099,7 +1099,7 @@
 - [ ] `the-sql-language/indexes/indexes-opclass.md` — 11.10. Operator Classes and Operator Families #
 - [ ] `the-sql-language/indexes/indexes-ordering.md` — 11.4. Indexes and ORDER BY #
 - [ ] `the-sql-language/indexes/indexes-partial.md` — 11.8. Partial Indexes #
-- [ ] `the-sql-language/indexes/indexes-types.md` — 11.2. Index Types #
+- [x] `the-sql-language/indexes/indexes-types.md` — 11.2. 索引類型 #
 - [x] `the-sql-language/indexes/indexes-unique.md` — 11.6. 唯一值索引
 - [ ] `the-sql-language/mvcc/README.md` — Chapter 13. Concurrency Control
 - [ ] `the-sql-language/mvcc/applevel-consistency.md` — 13.4. Data Consistency Checks at the Application Level #
