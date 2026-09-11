@@ -163,7 +163,7 @@
   * [第 14 章 效能提示](the-sql-language/performance-tips/README.md)
     * [14.1. Using EXPLAIN #](the-sql-language/performance-tips/using-explain.md)
     * [14.2. Statistics Used by the Planner #](the-sql-language/performance-tips/planner-stats.md)
-    * [14.3. Controlling the Planner with Explicit JOIN Clauses #](the-sql-language/performance-tips/explicit-joins.md)
+    * [14.3. 以明確的 `JOIN` 子句控制規劃器 #](the-sql-language/performance-tips/explicit-joins.md)
     * [14.4. Populating a Database #](the-sql-language/performance-tips/populate.md)
     * [14.5. Non-Durable Settings #](the-sql-language/performance-tips/non-durability.md)
   * [第 15 章 平行查詢](the-sql-language/parallel-query/README.md)

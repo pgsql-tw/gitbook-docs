@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：886 頁。
+待譯頁面：885 頁。
 
 ## 根目錄
 
@@ -1115,7 +1115,7 @@
 - [x] `the-sql-language/parallel-query/parallel-safety.md` — 15.4. 平行安全性 #
 - [x] `the-sql-language/parallel-query/when-can-parallel-query-be-used.md` — 15.2. 何時可以使用平行查詢？ #
 - [x] `the-sql-language/performance-tips/README.md` — 第 14 章 效能提示
-- [ ] `the-sql-language/performance-tips/explicit-joins.md` — 14.3. Controlling the Planner with Explicit JOIN Clauses #
+- [x] `the-sql-language/performance-tips/explicit-joins.md` — 14.3. 以明確的 `JOIN` 子句控制規劃器 #
 - [ ] `the-sql-language/performance-tips/non-durability.md` — 14.5. Non-Durable Settings #
 - [ ] `the-sql-language/performance-tips/planner-stats.md` — 14.2. Statistics Used by the Planner #
 - [ ] `the-sql-language/performance-tips/populate.md` — 14.4. Populating a Database #
