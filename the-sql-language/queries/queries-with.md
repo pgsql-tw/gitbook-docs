@@ -1,32 +1,24 @@
-## 7.8. `WITH` Queries (Common Table Expressions) [#](#QUERIES-WITH)
+<a id="QUERIES-WITH"></a>
 
-[7.8.1. `SELECT` in `WITH`](queries-with.md#QUERIES-WITH-SELECT)
+## 7.8. `WITH` 查詢（通用資料表運算式） [#](#QUERIES-WITH)
 
-[7.8.2. Recursive Queries](queries-with.md#QUERIES-WITH-RECURSIVE)
+[7.8.1. `WITH` 中的 `SELECT`](queries-with.md#QUERIES-WITH-SELECT)
 
-[7.8.3. Common Table Expression Materialization](queries-with.md#QUERIES-WITH-CTE-MATERIALIZATION)
+[7.8.2. 遞迴查詢](queries-with.md#QUERIES-WITH-RECURSIVE)
 
-[7.8.4. Data-Modifying Statements in `WITH`](queries-with.md#QUERIES-WITH-MODIFYING)
+[7.8.3. 通用資料表運算式的具體化](queries-with.md#QUERIES-WITH-CTE-MATERIALIZATION)
+
+[7.8.4. `WITH` 中的資料修改陳述式](queries-with.md#QUERIES-WITH-MODIFYING)
 
 <a id="id-1.5.6.12.2"></a><a id="id-1.5.6.12.3"></a>
 
-`WITH` provides a way to write auxiliary statements for use in a
-larger query. These statements, which are often referred to as Common
-Table Expressions or CTEs, can be thought of as defining
-temporary tables that exist just for one query. Each auxiliary statement
-in a `WITH` clause can be a `SELECT`,
-`INSERT`, `UPDATE`, `DELETE`,
-or `MERGE`; and the
-`WITH` clause itself is attached to a primary statement that can
-also be a `SELECT`, `INSERT`, `UPDATE`,
-`DELETE`, or `MERGE`.
+`WITH` 提供了一種撰寫輔助陳述式的方式，供較大的查詢使用。這些陳述式通常稱為通用資料表運算式（Common Table Expression，CTE），可以把它們想成是定義了只為單一查詢而存在的暫存資料表。`WITH` 子句中的每個輔助陳述式可以是 `SELECT`、`INSERT`、`UPDATE`、`DELETE` 或 `MERGE`；而 `WITH` 子句本身則附加在一個主要陳述式上，該陳述式同樣可以是 `SELECT`、`INSERT`、`UPDATE`、`DELETE` 或 `MERGE`。
 
 <a id="QUERIES-WITH-SELECT"></a>
 
-### 7.8.1. `SELECT` in `WITH` [#](#QUERIES-WITH-SELECT)
+### 7.8.1. `WITH` 中的 `SELECT` [#](#QUERIES-WITH-SELECT)
 
-The basic value of `SELECT` in `WITH` is to
-break down complicated queries into simpler parts. An example is:
+在 `WITH` 中使用 `SELECT` 的基本價值，在於將複雜的查詢拆解為較簡單的部分。例如：
 
 ```
 
@@ -48,27 +40,14 @@ WHERE region IN (SELECT region FROM top_regions)
 GROUP BY region, product;
 ```
 
-which displays per-product sales totals in only the top sales regions.
-The `WITH` clause defines two auxiliary statements named
-`regional_sales` and `top_regions`,
-where the output of `regional_sales` is used in
-`top_regions` and the output of `top_regions`
-is used in the primary `SELECT` query.
-This example could have been written without `WITH`,
-but we'd have needed two levels of nested sub-`SELECT`s. It's a bit
-easier to follow this way.
+這會只顯示銷售額最高的地區中，各產品的銷售總額。`WITH` 子句定義了兩個名為 `regional_sales` 與 `top_regions` 的輔助陳述式，其中 `regional_sales` 的輸出用在 `top_regions` 中，而 `top_regions` 的輸出則用在主要的 `SELECT` 查詢中。這個範例也可以不用 `WITH` 撰寫，但那樣就需要兩層巢狀的子 `SELECT`。以這種方式撰寫會比較容易理解一些。
 
 <a id="QUERIES-WITH-RECURSIVE"></a>
 
-### 7.8.2. Recursive Queries [#](#QUERIES-WITH-RECURSIVE)
+### 7.8.2. 遞迴查詢 [#](#QUERIES-WITH-RECURSIVE)
 
 <a id="id-1.5.6.12.6.2.1"></a>
-The optional `RECURSIVE` modifier changes `WITH`
-from a mere syntactic convenience into a feature that accomplishes
-things not otherwise possible in standard SQL. Using
-`RECURSIVE`, a `WITH` query can refer to its own
-output. A very simple example is this query to sum the integers from 1
-through 100:
+選用的 `RECURSIVE` 修飾詞，讓 `WITH` 從單純的語法便利，變成一項能完成標準 SQL 中原本無法做到之事的功能。使用 `RECURSIVE` 時，`WITH` 查詢可以參照自己的輸出。一個非常簡單的範例，是下面這個計算 1 到 100 整數總和的查詢：
 
 ```
 
@@ -80,46 +59,25 @@ WITH RECURSIVE t(n) AS (
 SELECT sum(n) FROM t;
 ```
 
-The general form of a recursive `WITH` query is always a
-*non-recursive term*, then `UNION` (or
-`UNION ALL`), then a
-*recursive term*, where only the recursive term can contain
-a reference to the query's own output. Such a query is executed as
-follows:
+遞迴 `WITH` 查詢的一般形式，一律是先有一個*非遞迴項*（non-recursive term），接著是 `UNION`（或 `UNION ALL`），然後是一個*遞迴項*（recursive term），其中只有遞迴項可以包含對查詢自身輸出的參照。這樣的查詢會依下列方式執行：
 
 <a id="id-1.5.6.12.6.3"></a>
 
-**Recursive Query Evaluation**
+**遞迴查詢的求值**
 
-1. Evaluate the non-recursive term. For `UNION` (but not
-   `UNION ALL`), discard duplicate rows. Include all remaining
-   rows in the result of the recursive query, and also place them in a
-   temporary *working table*.
-2. So long as the working table is not empty, repeat these steps:
+1. 對非遞迴項求值。如果是 `UNION`（而不是 `UNION ALL`），就捨棄重複的資料列。將其餘的所有資料列納入遞迴查詢的結果中，同時也放入一個暫時的*工作資料表*（working table）。
+2. 只要工作資料表不是空的，就重複下列步驟：
 
-   1. Evaluate the recursive term, substituting the current contents of
-      the working table for the recursive self-reference.
-      For `UNION` (but not `UNION ALL`), discard
-      duplicate rows and rows that duplicate any previous result row.
-      Include all remaining rows in the result of the recursive query, and
-      also place them in a temporary *intermediate table*.
-   2. Replace the contents of the working table with the contents of the
-      intermediate table, then empty the intermediate table.
+   1. 對遞迴項求值，並以工作資料表目前的內容取代遞迴的自我參照。如果是 `UNION`（而不是 `UNION ALL`），就捨棄重複的資料列，以及與先前任何結果資料列重複的資料列。將其餘的所有資料列納入遞迴查詢的結果中，同時也放入一個暫時的*中間資料表*（intermediate table）。
+   2. 以中間資料表的內容取代工作資料表的內容，然後清空中間資料表。
 
-### Note
+### 注意
 
-While `RECURSIVE` allows queries to be specified
-recursively, internally such queries are evaluated iteratively.
+雖然 `RECURSIVE` 允許以遞迴方式指定查詢，但在內部，這類查詢是以迭代方式求值的。
 
-In the example above, the working table has just a single row in each step,
-and it takes on the values from 1 through 100 in successive steps. In
-the 100th step, there is no output because of the `WHERE`
-clause, and so the query terminates.
+在上面的範例中，工作資料表在每一步都只有一筆資料列，並在連續的步驟中依序取得 1 到 100 的值。在第 100 步時，由於 `WHERE` 子句的關係沒有任何輸出，因此查詢就結束了。
 
-Recursive queries are typically used to deal with hierarchical or
-tree-structured data. A useful example is this query to find all the
-direct and indirect sub-parts of a product, given only a table that
-shows immediate inclusions:
+遞迴查詢通常用來處理階層式或樹狀結構的資料。一個實用的範例，是在只有一個顯示直接包含關係之資料表的情況下，找出某產品所有直接與間接子零件的查詢：
 
 ```
 
@@ -137,20 +95,11 @@ GROUP BY sub_part
 
 <a id="QUERIES-WITH-SEARCH"></a>
 
-#### 7.8.2.1. Search Order [#](#QUERIES-WITH-SEARCH)
+#### 7.8.2.1. 搜尋順序 [#](#QUERIES-WITH-SEARCH)
 
-When computing a tree traversal using a recursive query, you might want to
-order the results in either depth-first or breadth-first order. This can
-be done by computing an ordering column alongside the other data columns
-and using that to sort the results at the end. Note that this does not
-actually control in which order the query evaluation visits the rows; that
-is as always in SQL implementation-dependent. This approach merely
-provides a convenient way to order the results afterwards.
+使用遞迴查詢計算樹狀結構的走訪時，你可能會想以深度優先或廣度優先的順序排列結果。做法是在其他資料欄位之外，再計算一個排序欄位，並在最後用它來排序結果。請注意，這實際上並不會控制查詢求值時走訪資料列的順序；與 SQL 中的一切一樣，那取決於實作。這種做法只是提供一種方便的方式，在事後排列結果。
 
-To create a depth-first order, we compute for each result row an array of
-rows that we have visited so far. For example, consider the following
-query that searches a table `tree` using a
-`link` field:
+要產生深度優先的順序，我們為每一筆結果資料列計算一個陣列，記錄到目前為止已走訪過的資料列。例如，考慮下面這個使用 `link` 欄位搜尋資料表 `tree` 的查詢：
 
 ```
 
@@ -165,7 +114,7 @@ WITH RECURSIVE search_tree(id, link, data) AS (
 SELECT * FROM search_tree;
 ```
 
-To add depth-first ordering information, you can write this:
+要加入深度優先的排序資訊，可以這樣寫：
 
 ```
 
@@ -180,9 +129,7 @@ WITH RECURSIVE search_tree(id, link, data, path) AS (
 SELECT * FROM search_tree ORDER BY path;
 ```
 
-In the general case where more than one field needs to be used to identify
-a row, use an array of rows. For example, if we needed to track fields
-`f1` and `f2`:
+在需要使用多個欄位才能識別一筆資料列的一般情況下，請使用資料列的陣列。例如，如果我們需要追蹤欄位 `f1` 與 `f2`：
 
 ```
 
@@ -197,14 +144,11 @@ WITH RECURSIVE search_tree(id, link, data, path) AS (
 SELECT * FROM search_tree ORDER BY path;
 ```
 
-### Tip
+### 提示
 
-Omit the `ROW()` syntax in the common case where only one
-field needs to be tracked. This allows a simple array rather than a
-composite-type array to be used, gaining efficiency.
+在只需要追蹤一個欄位的常見情況下，請省略 `ROW()` 語法。這樣就可以使用簡單的陣列，而不是複合型別的陣列，進而提升效率。
 
-To create a breadth-first order, you can add a column that tracks the depth
-of the search, for example:
+要產生廣度優先的順序，可以加入一個追蹤搜尋深度的欄位，例如：
 
 ```
 
@@ -219,18 +163,13 @@ WITH RECURSIVE search_tree(id, link, data, depth) AS (
 SELECT * FROM search_tree ORDER BY depth;
 ```
 
-To get a stable sort, add data columns as secondary sorting columns.
+要得到穩定的排序，請將資料欄位加入作為次要的排序欄位。
 
-### Tip
+### 提示
 
-The recursive query evaluation algorithm produces its output in
-breadth-first search order. However, this is an implementation detail and
-it is perhaps unsound to rely on it. The order of the rows within each
-level is certainly undefined, so some explicit ordering might be desired
-in any case.
+遞迴查詢的求值演算法會以廣度優先搜尋的順序產生輸出。不過，這是實作細節，依賴它或許並不妥當。每一層中資料列的順序肯定是未定義的，因此無論如何可能都會需要某種明確的排序。
 
-There is built-in syntax to compute a depth- or breadth-first sort column.
-For example:
+系統有內建的語法可以計算深度優先或廣度優先的排序欄位。例如：
 
 ```
 
@@ -255,28 +194,13 @@ WITH RECURSIVE search_tree(id, link, data) AS (
 SELECT * FROM search_tree ORDER BY ordercol;
 ```
 
-This syntax is internally expanded to something similar to the above
-hand-written forms. The `SEARCH` clause specifies whether
-depth- or breadth first search is wanted, the list of columns to track for
-sorting, and a column name that will contain the result data that can be
-used for sorting. That column will implicitly be added to the output rows
-of the CTE.
+這種語法在內部會被展開成類似上述手寫形式的內容。`SEARCH` 子句指定要進行深度優先還是廣度優先搜尋、要追蹤以供排序的欄位清單，以及一個將包含可用於排序之結果資料的欄位名稱。該欄位會被隱含地加入 CTE 的輸出資料列中。
 
 <a id="QUERIES-WITH-CYCLE"></a>
 
-#### 7.8.2.2. Cycle Detection [#](#QUERIES-WITH-CYCLE)
+#### 7.8.2.2. 循環偵測 [#](#QUERIES-WITH-CYCLE)
 
-When working with recursive queries it is important to be sure that
-the recursive part of the query will eventually return no tuples,
-or else the query will loop indefinitely. Sometimes, using
-`UNION` instead of `UNION ALL` can accomplish this
-by discarding rows that duplicate previous output rows. However, often a
-cycle does not involve output rows that are completely duplicate: it may be
-necessary to check just one or a few fields to see if the same point has
-been reached before. The standard method for handling such situations is
-to compute an array of the already-visited values. For example, consider again
-the following query that searches a table `graph` using a
-`link` field:
+使用遞迴查詢時，重要的是要確保查詢的遞迴部分最終不會再回傳任何 tuple，否則查詢會無限迴圈下去。有時候，使用 `UNION` 取代 `UNION ALL`，捨棄與先前輸出資料列重複的資料列，就能做到這一點。不過，循環往往並不涉及完全重複的輸出資料列：可能只需要檢查一個或幾個欄位，就能判斷是否曾經到達過同一個點。處理這類情況的標準方法，是計算一個由已走訪過之值組成的陣列。例如，再次考慮下面這個使用 `link` 欄位搜尋資料表 `graph` 的查詢：
 
 ```
 
@@ -291,12 +215,7 @@ WITH RECURSIVE search_graph(id, link, data, depth) AS (
 SELECT * FROM search_graph;
 ```
 
-This query will loop if the `link` relationships contain
-cycles. Because we require a “depth” output, just changing
-`UNION ALL` to `UNION` would not eliminate the looping.
-Instead we need to recognize whether we have reached the same row again
-while following a particular path of links. We add two columns
-`is_cycle` and `path` to the loop-prone query:
+如果 `link` 關係中包含循環，這個查詢就會陷入迴圈。由於我們需要「depth」輸出，單純將 `UNION ALL` 改為 `UNION` 並不能消除迴圈。我們需要的是，在沿著特定的連結路徑前進時，能夠辨識是否再次到達了同一筆資料列。我們在這個容易陷入迴圈的查詢中加入兩個欄位 `is_cycle` 與 `path`：
 
 ```
 
@@ -315,12 +234,9 @@ WITH RECURSIVE search_graph(id, link, data, depth, is_cycle, path) AS (
 SELECT * FROM search_graph;
 ```
 
-Aside from preventing cycles, the array value is often useful in its own
-right as representing the “path” taken to reach any particular row.
+除了防止循環之外，這個陣列值本身也常常很有用，因為它代表了到達任何特定資料列所經過的「路徑」。
 
-In the general case where more than one field needs to be checked to
-recognize a cycle, use an array of rows. For example, if we needed to
-compare fields `f1` and `f2`:
+在需要檢查多個欄位才能辨識循環的一般情況下，請使用資料列的陣列。例如，如果我們需要比較欄位 `f1` 與 `f2`：
 
 ```
 
@@ -339,14 +255,11 @@ WITH RECURSIVE search_graph(id, link, data, depth, is_cycle, path) AS (
 SELECT * FROM search_graph;
 ```
 
-### Tip
+### 提示
 
-Omit the `ROW()` syntax in the common case where only one field
-needs to be checked to recognize a cycle. This allows a simple array
-rather than a composite-type array to be used, gaining efficiency.
+在只需要檢查一個欄位就能辨識循環的常見情況下，請省略 `ROW()` 語法。這樣就可以使用簡單的陣列，而不是複合型別的陣列，進而提升效率。
 
-There is built-in syntax to simplify cycle detection. The above query can
-also be written like this:
+系統有內建的語法可以簡化循環偵測。上面的查詢也可以寫成這樣：
 
 ```
 
@@ -361,28 +274,13 @@ WITH RECURSIVE search_graph(id, link, data, depth) AS (
 SELECT * FROM search_graph;
 ```
 
-and it will be internally rewritten to the above form. The
-`CYCLE` clause specifies first the list of columns to
-track for cycle detection, then a column name that will show whether a
-cycle has been detected, and finally the name of another column that will track the
-path. The cycle and path columns will implicitly be added to the output
-rows of the CTE.
+它在內部會被改寫成上面的形式。`CYCLE` 子句依序指定要追蹤以偵測循環的欄位清單、一個顯示是否偵測到循環的欄位名稱，以及最後另一個用來追蹤路徑的欄位名稱。循環欄位與路徑欄位會被隱含地加入 CTE 的輸出資料列中。
 
-### Tip
+### 提示
 
-The cycle path column is computed in the same way as the depth-first
-ordering column show in the previous section. A query can have both a
-`SEARCH` and a `CYCLE` clause, but a
-depth-first search specification and a cycle detection specification would
-create redundant computations, so it's more efficient to just use the
-`CYCLE` clause and order by the path column. If
-breadth-first ordering is wanted, then specifying both
-`SEARCH` and `CYCLE` can be useful.
+循環路徑欄位的計算方式，與上一節所示的深度優先排序欄位相同。一個查詢可以同時有 `SEARCH` 與 `CYCLE` 子句，但深度優先搜尋規格與循環偵測規格會造成重複的計算，因此只使用 `CYCLE` 子句並依路徑欄位排序會比較有效率。如果需要廣度優先的順序，那麼同時指定 `SEARCH` 與 `CYCLE` 就可能有用。
 
-A helpful trick for testing queries
-when you are not certain if they might loop is to place a `LIMIT`
-in the parent query. For example, this query would loop forever without
-the `LIMIT`:
+在不確定查詢是否可能陷入迴圈時，一個有用的測試技巧是在上層查詢中加上 `LIMIT`。例如，如果沒有 `LIMIT`，下面這個查詢就會永遠迴圈下去：
 
 ```
 
@@ -394,53 +292,17 @@ WITH RECURSIVE t(n) AS (
 SELECT n FROM t LIMIT 100;
 ```
 
-This works because PostgreSQL's implementation
-evaluates only as many rows of a `WITH` query as are actually
-fetched by the parent query. Using this trick in production is not
-recommended, because other systems might work differently. Also, it
-usually won't work if you make the outer query sort the recursive query's
-results or join them to some other table, because in such cases the
-outer query will usually try to fetch all of the `WITH` query's
-output anyway.
+這之所以可行，是因為 PostgreSQL 的實作只會對 `WITH` 查詢求值上層查詢實際取出的資料列數量。不建議在正式環境中使用這個技巧，因為其他系統的運作方式可能不同。此外，如果讓外層查詢對遞迴查詢的結果排序，或將它們與其他資料表聯結，這個技巧通常就不會奏效，因為在這些情況下，外層查詢通常無論如何都會試圖取出 `WITH` 查詢的所有輸出。
 
 <a id="QUERIES-WITH-CTE-MATERIALIZATION"></a>
 
-### 7.8.3. Common Table Expression Materialization [#](#QUERIES-WITH-CTE-MATERIALIZATION)
+### 7.8.3. 通用資料表運算式的具體化 [#](#QUERIES-WITH-CTE-MATERIALIZATION)
 
-A useful property of `WITH` queries is that they are
-normally evaluated only once per execution of the parent query, even if
-they are referred to more than once by the parent query or
-sibling `WITH` queries.
-Thus, expensive calculations that are needed in multiple places can be
-placed within a `WITH` query to avoid redundant work. Another
-possible application is to prevent unwanted multiple evaluations of
-functions with side-effects.
-However, the other side of this coin is that the optimizer is not able to
-push restrictions from the parent query down into a multiply-referenced
-`WITH` query, since that might affect all uses of the
-`WITH` query's output when it should affect only one.
-The multiply-referenced `WITH` query will be
-evaluated as written, without suppression of rows that the parent query
-might discard afterwards. (But, as mentioned above, evaluation might stop
-early if the reference(s) to the query demand only a limited number of
-rows.)
+`WITH` 查詢的一個實用特性是，即使上層查詢或同層的 `WITH` 查詢多次參照它，在上層查詢的每次執行中，它通常也只會求值一次。因此，需要在多處使用的高成本計算，可以放在 `WITH` 查詢中，以避免重複的工作。另一個可能的應用，是防止具有副作用的函式被不必要地多次求值。不過，這件事的另一面是，最佳化器無法將上層查詢的限制條件下推到被多次參照的 `WITH` 查詢中，因為那可能會影響 `WITH` 查詢輸出的所有用途，而它原本應該只影響其中一個。被多次參照的 `WITH` 查詢會照原本的寫法求值，而不會抑制上層查詢之後可能會捨棄的資料列。（但如上所述，如果對該查詢的參照只需要有限數量的資料列，求值可能會提早停止。）
 
-However, if a `WITH` query is non-recursive and
-side-effect-free (that is, it is a `SELECT` containing
-no volatile functions) then it can be folded into the parent query,
-allowing joint optimization of the two query levels. By default, this
-happens if the parent query references the `WITH` query
-just once, but not if it references the `WITH` query
-more than once. You can override that decision by
-specifying `MATERIALIZED` to force separate calculation
-of the `WITH` query, or by specifying `NOT
-MATERIALIZED` to force it to be merged into the parent query.
-The latter choice risks duplicate computation of
-the `WITH` query, but it can still give a net savings if
-each usage of the `WITH` query needs only a small part
-of the `WITH` query's full output.
+不過，如果 `WITH` 查詢是非遞迴且沒有副作用的（也就是說，它是不包含 volatile 函式的 `SELECT`），就可以將它摺疊進上層查詢中，讓兩個查詢層級能夠一起最佳化。預設情況下，如果上層查詢只參照 `WITH` 查詢一次，就會這麼做；但如果上層查詢參照 `WITH` 查詢不只一次，則不會。你可以指定 `MATERIALIZED` 強制分開計算 `WITH` 查詢，或指定 `NOT MATERIALIZED` 強制將它合併到上層查詢中，以覆寫這項決定。後一種選擇有重複計算 `WITH` 查詢的風險，但如果每次使用 `WITH` 查詢時只需要 `WITH` 查詢完整輸出的一小部分，整體上仍然可能有所節省。
 
-A simple example of these rules is
+這些規則的一個簡單範例是
 
 ```
 
@@ -450,17 +312,14 @@ WITH w AS (
 SELECT * FROM w WHERE key = 123;
 ```
 
-This `WITH` query will be folded, producing the same
-execution plan as
+這個 `WITH` 查詢會被摺疊，產生與下列查詢相同的執行計畫
 
 ```
 
 SELECT * FROM big_table WHERE key = 123;
 ```
 
-In particular, if there's an index on `key`,
-it will probably be used to fetch just the rows having `key =
-123`. On the other hand, in
+特別是，如果 `key` 上有索引，就很可能會使用它來只取出 `key = 123` 的資料列。另一方面，在
 
 ```
 
@@ -471,10 +330,7 @@ SELECT * FROM w AS w1 JOIN w AS w2 ON w1.key = w2.ref
 WHERE w2.key = 123;
 ```
 
-the `WITH` query will be materialized, producing a
-temporary copy of `big_table` that is then
-joined with itself — without benefit of any index. This query
-will be executed much more efficiently if written as
+中，`WITH` 查詢會被具體化，產生一份 `big_table` 的暫時副本，然後與自身聯結，完全無法受益於任何索引。如果寫成下面這樣，這個查詢的執行效率會高得多
 
 ```
 
@@ -485,11 +341,9 @@ SELECT * FROM w AS w1 JOIN w AS w2 ON w1.key = w2.ref
 WHERE w2.key = 123;
 ```
 
-so that the parent query's restrictions can be applied directly
-to scans of `big_table`.
+這樣上層查詢的限制條件就可以直接套用在對 `big_table` 的掃描上。
 
-An example where `NOT MATERIALIZED` could be
-undesirable is
+以下是一個 `NOT MATERIALIZED` 可能不理想的範例
 
 ```
 
@@ -499,26 +353,15 @@ WITH w AS (
 SELECT * FROM w AS w1 JOIN w AS w2 ON w1.f = w2.f;
 ```
 
-Here, materialization of the `WITH` query ensures
-that `very_expensive_function` is evaluated only
-once per table row, not twice.
+在這裡，將 `WITH` 查詢具體化可以確保 `very_expensive_function` 對每一筆資料表資料列只求值一次，而不是兩次。
 
-The examples above only show `WITH` being used with
-`SELECT`, but it can be attached in the same way to
-`INSERT`, `UPDATE`,
-`DELETE`, or `MERGE`.
-In each case it effectively provides temporary table(s) that can
-be referred to in the main command.
+上面的範例只顯示 `WITH` 與 `SELECT` 一起使用，但它也可以用相同的方式附加到 `INSERT`、`UPDATE`、`DELETE` 或 `MERGE` 上。在每一種情況下，它實際上都提供了可以在主要指令中參照的暫存資料表。
 
 <a id="QUERIES-WITH-MODIFYING"></a>
 
-### 7.8.4. Data-Modifying Statements in `WITH` [#](#QUERIES-WITH-MODIFYING)
+### 7.8.4. `WITH` 中的資料修改陳述式 [#](#QUERIES-WITH-MODIFYING)
 
-You can use data-modifying statements (`INSERT`,
-`UPDATE`, `DELETE`, or
-`MERGE`) in `WITH`. This
-allows you to perform several different operations in the same query.
-An example is:
+你可以在 `WITH` 中使用資料修改陳述式（`INSERT`、`UPDATE`、`DELETE` 或 `MERGE`）。這讓你可以在同一個查詢中執行多種不同的操作。例如：
 
 ```
 
@@ -533,31 +376,11 @@ INSERT INTO products_log
 SELECT * FROM moved_rows;
 ```
 
-This query effectively moves rows from `products` to
-`products_log`. The `DELETE` in `WITH`
-deletes the specified rows from `products`, returning their
-contents by means of its `RETURNING` clause; and then the
-primary query reads that output and inserts it into
-`products_log`.
+這個查詢實際上會將資料列從 `products` 搬移到 `products_log`。`WITH` 中的 `DELETE` 會從 `products` 刪除指定的資料列，並透過它的 `RETURNING` 子句回傳這些資料列的內容；接著主要查詢會讀取該輸出，並將它插入 `products_log`。
 
-A fine point of the above example is that the `WITH` clause is
-attached to the `INSERT`, not the sub-`SELECT` within
-the `INSERT`. This is necessary because data-modifying
-statements are only allowed in `WITH` clauses that are attached
-to the top-level statement. However, normal `WITH` visibility
-rules apply, so it is possible to refer to the `WITH`
-statement's output from the sub-`SELECT`.
+上面這個範例的一個細節是，`WITH` 子句是附加在 `INSERT` 上，而不是 `INSERT` 中的子 `SELECT` 上。這是必要的，因為資料修改陳述式只允許出現在附加於最上層陳述式的 `WITH` 子句中。不過，一般的 `WITH` 可見性規則仍然適用，因此可以從子 `SELECT` 參照 `WITH` 陳述式的輸出。
 
-Data-modifying statements in `WITH` usually have
-`RETURNING` clauses (see [Section 6.4](../dml/dml-returning.md)),
-as shown in the example above.
-It is the output of the `RETURNING` clause, *not* the
-target table of the data-modifying statement, that forms the temporary
-table that can be referred to by the rest of the query. If a
-data-modifying statement in `WITH` lacks a `RETURNING`
-clause, then it forms no temporary table and cannot be referred to in
-the rest of the query. Such a statement will be executed nonetheless.
-A not-particularly-useful example is:
+如上面的範例所示，`WITH` 中的資料修改陳述式通常會有 `RETURNING` 子句（請參閱[第 6.4 節](../dml/dml-returning.md)）。形成可供查詢其餘部分參照之暫存資料表的，是 `RETURNING` 子句的輸出，*而不是*資料修改陳述式的目標資料表。如果 `WITH` 中的資料修改陳述式沒有 `RETURNING` 子句，它就不會形成暫存資料表，也無法在查詢的其餘部分中被參照。不過，這樣的陳述式仍然會被執行。一個不太有用的範例是：
 
 ```
 
@@ -567,13 +390,9 @@ WITH t AS (
 DELETE FROM bar;
 ```
 
-This example would remove all rows from tables `foo` and
-`bar`. The number of affected rows reported to the client
-would only include rows removed from `bar`.
+這個範例會移除資料表 `foo` 與 `bar` 中的所有資料列。回報給用戶端的受影響資料列數，只會包含從 `bar` 移除的資料列。
 
-Recursive self-references in data-modifying statements are not
-allowed. In some cases it is possible to work around this limitation by
-referring to the output of a recursive `WITH`, for example:
+資料修改陳述式中不允許遞迴的自我參照。在某些情況下，可以透過參照遞迴 `WITH` 的輸出來繞過這項限制，例如：
 
 ```
 
@@ -588,25 +407,11 @@ DELETE FROM parts
   WHERE part IN (SELECT part FROM included_parts);
 ```
 
-This query would remove all direct and indirect subparts of a product.
+這個查詢會移除某個產品所有直接與間接的子零件。
 
-Data-modifying statements in `WITH` are executed exactly once,
-and always to completion, independently of whether the primary query
-reads all (or indeed any) of their output. Notice that this is different
-from the rule for `SELECT` in `WITH`: as stated in the
-previous section, execution of a `SELECT` is carried only as far
-as the primary query demands its output.
+`WITH` 中的資料修改陳述式只會執行一次，而且一定會執行到完成，無論主要查詢是否讀取了它們的全部（甚至任何）輸出。請注意，這與 `WITH` 中 `SELECT` 的規則不同：如上一節所述，`SELECT` 的執行只會進行到主要查詢需要其輸出的程度為止。
 
-The sub-statements in `WITH` are executed concurrently with
-each other and with the main query. Therefore, when using data-modifying
-statements in `WITH`, the order in which the specified updates
-actually happen is unpredictable. All the statements are executed with
-the same *snapshot* (see [Chapter 13](../mvcc/README.md)), so they
-cannot “see” one another's effects on the target tables. This
-alleviates the effects of the unpredictability of the actual order of row
-updates, and means that `RETURNING` data is the only way to
-communicate changes between different `WITH` sub-statements and
-the main query. An example of this is that in
+`WITH` 中的子陳述式會彼此並行執行，也會與主要查詢並行執行。因此，在 `WITH` 中使用資料修改陳述式時，指定的更新實際發生的順序是無法預測的。所有陳述式都以相同的*快照*（snapshot）執行（請參閱[第 13 章](../mvcc/README.md)），因此它們無法「看到」彼此對目標資料表所造成的影響。這減輕了資料列更新實際順序不可預測所帶來的影響，也表示 `RETURNING` 資料是在不同的 `WITH` 子陳述式與主要查詢之間傳遞變更的唯一方式。舉例來說，在
 
 ```
 
@@ -617,8 +422,7 @@ WITH t AS (
 SELECT * FROM products;
 ```
 
-the outer `SELECT` would return the original prices before the
-action of the `UPDATE`, while in
+中，外層的 `SELECT` 會回傳 `UPDATE` 動作之前的原始價格；而在
 
 ```
 
@@ -629,22 +433,12 @@ WITH t AS (
 SELECT * FROM t;
 ```
 
-the outer `SELECT` would return the updated data.
+中，外層的 `SELECT` 則會回傳更新後的資料。
 
-Trying to update the same row twice in a single statement is not
-supported. Only one of the modifications takes place, but it is not easy
-(and sometimes not possible) to reliably predict which one. This also
-applies to deleting a row that was already updated in the same statement:
-only the update is performed. Therefore you should generally avoid trying
-to modify a single row twice in a single statement. In particular avoid
-writing `WITH` sub-statements that could affect the same rows
-changed by the main statement or a sibling sub-statement. The effects
-of such a statement will not be predictable.
+不支援在單一陳述式中更新同一筆資料列兩次。只有其中一項修改會生效，但要可靠地預測是哪一項並不容易（有時甚至不可能）。這也適用於刪除在同一個陳述式中已經更新過的資料列：只會執行更新。因此，一般而言，應該避免在單一陳述式中修改同一筆資料列兩次。特別是，避免撰寫可能影響到主要陳述式或同層子陳述式所變更之相同資料列的 `WITH` 子陳述式。這種陳述式的效果將無法預測。
 
-At present, any table used as the target of a data-modifying statement in
-`WITH` must not have a conditional rule, nor an `ALSO`
-rule, nor an `INSTEAD` rule that expands to multiple statements.
+目前，在 `WITH` 中作為資料修改陳述式目標的任何資料表，都不能有條件式規則、`ALSO` 規則，或展開為多個陳述式的 `INSTEAD` 規則。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/queries-with.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/queries-with.html)（原文版本：18.6；核對日期：2026-09-11）

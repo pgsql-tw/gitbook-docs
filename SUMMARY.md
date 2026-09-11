@@ -65,7 +65,7 @@
     * [7.5. 排序資料列（`ORDER BY`） #](the-sql-language/queries/queries-order.md)
     * [7.6. `LIMIT` 與 `OFFSET` #](the-sql-language/queries/queries-limit.md)
     * [7.7. `VALUES` 清單 #](the-sql-language/queries/queries-values.md)
-    * [7.8. WITH Queries (Common Table Expressions) #](the-sql-language/queries/queries-with.md)
+    * [7.8. `WITH` 查詢（通用資料表運算式） #](the-sql-language/queries/queries-with.md)
   * [Chapter 8. Data Types](the-sql-language/datatype/README.md)
     * [8.1. Numeric Types #](the-sql-language/datatype/datatype-numeric.md)
     * [8.2. Monetary Types #](the-sql-language/datatype/datatype-money.md)
