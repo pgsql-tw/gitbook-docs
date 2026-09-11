@@ -1,59 +1,50 @@
-## F.19. intarray — manipulate arrays of integers [#](#INTARRAY)
+## F.19. intarray — 操作整數陣列 [#](#INTARRAY)
 
-[F.19.1. `intarray` Functions and Operators](intarray.md#INTARRAY-FUNCS-OPS)
+[F.19.1. `intarray` 函式與運算子](intarray.md#INTARRAY-FUNCS-OPS)
 
-[F.19.2. Index Support](intarray.md#INTARRAY-INDEX)
+[F.19.2. 索引支援](intarray.md#INTARRAY-INDEX)
 
-[F.19.3. Example](intarray.md#INTARRAY-EXAMPLE)
+[F.19.3. 範例](intarray.md#INTARRAY-EXAMPLE)
 
-[F.19.4. Benchmark](intarray.md#INTARRAY-BENCHMARK)
+[F.19.4. 效能測試](intarray.md#INTARRAY-BENCHMARK)
 
-[F.19.5. Authors](intarray.md#INTARRAY-AUTHORS)
+[F.19.5. 作者](intarray.md#INTARRAY-AUTHORS)
 
 <a id="id-1.11.7.29.2"></a>
 
-The `intarray` module provides a number of useful functions
-and operators for manipulating null-free arrays of integers.
-There is also support for indexed searches using some of the operators.
+`intarray` 模組提供數個實用函式與運算子，用於操作不含 NULL 的整數陣列。部分運算子也支援使用索引進行搜尋。
 
-All of these operations will throw an error if a supplied array contains any
-NULL elements.
+若提供的陣列含有任何 NULL 元素，所有這些操作都會引發錯誤。
 
-Many of these operations are only sensible for one-dimensional arrays.
-Although they will accept input arrays of more dimensions, the data is
-treated as though it were a linear array in storage order.
+許多操作只對一維陣列有意義。雖然它們接受較多維度的輸入陣列，但資料會依儲存順序視為線性陣列處理。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組被視為「受信任」，亦即具有目前資料庫 `CREATE` 權限的非超級使用者可以安裝它。
 
 <a id="INTARRAY-FUNCS-OPS"></a>
 
-### F.19.1. `intarray` Functions and Operators [#](#INTARRAY-FUNCS-OPS)
+### F.19.1. `intarray` 函式與運算子 [#](#INTARRAY-FUNCS-OPS)
 
-The functions provided by the `intarray` module
-are shown in [Table F.8](intarray.md#INTARRAY-FUNC-TABLE), the operators
-in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
+`intarray` 模組提供的函式列於[表 F.8](intarray.md#INTARRAY-FUNC-TABLE)，運算子列於[表 F.9](intarray.md#INTARRAY-OP-TABLE)。
 
 <a id="INTARRAY-FUNC-TABLE"></a>
 
-**Table F.8. `intarray` Functions**
+**表 F.8. `intarray` 函式**
 
 <table border="1" class="table" summary="intarray Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.29.7.3.2.2.1.1.1.1"></a>
 <code class="function">icount</code> ( <code class="type">integer[]</code> )
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of elements in the array.
+        傳回陣列中的元素數量。
        </p>
 <p>
 <code class="literal">icount('{1,2,3}'::integer[])</code>
@@ -64,9 +55,7 @@ in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Sorts the array in either ascending or descending order.
-        <em class="parameter"><code>dir</code></em> must be <code class="literal">asc</code>
-        or <code class="literal">desc</code>.
+        以遞增或遞減順序排序陣列。<em class="parameter"><code>dir</code></em> 必須是 <code class="literal">asc</code> 或 <code class="literal">desc</code>。
        </p>
 <p>
 <code class="literal">sort('{1,3,2}'::integer[], 'desc')</code>
@@ -81,7 +70,7 @@ in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Sorts in ascending order.
+        以遞增順序排序。
        </p>
 <p>
 <code class="literal">sort(array[11,77,44])</code>
@@ -92,7 +81,7 @@ in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Sorts in descending order.
+        以遞減順序排序。
        </p>
 <p>
 <code class="literal">sort_desc(array[11,77,44])</code>
@@ -103,8 +92,7 @@ in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Removes adjacent duplicates.
-        Often used with <code class="function">sort</code> to remove all duplicates.
+        移除相鄰的重複項目。常與 <code class="function">sort</code> 搭配使用，以移除所有重複項目。
        </p>
 <p>
 <code class="literal">uniq('{1,2,2,3,1,1}'::integer[])</code>
@@ -119,8 +107,7 @@ in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns index of the first array element
-        matching <em class="parameter"><code>item</code></em>, or 0 if no match.
+        傳回第一個符合 <em class="parameter"><code>item</code></em> 的陣列元素索引；若沒有符合項目則傳回 0。
        </p>
 <p>
 <code class="literal">idx(array[11,22,33,22,11], 22)</code>
@@ -131,9 +118,7 @@ in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Extracts the portion of the array starting at
-        position <em class="parameter"><code>start</code></em>, with <em class="parameter"><code>len</code></em>
-        elements.
+        擷取從位置 <em class="parameter"><code>start</code></em> 開始、含有 <em class="parameter"><code>len</code></em> 個元素的陣列部分。
        </p>
 <p>
 <code class="literal">subarray('{1,2,3,2,1}'::integer[], 2, 3)</code>
@@ -143,8 +128,7 @@ in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Extracts the portion of the array starting at
-        position <em class="parameter"><code>start</code></em>.
+        擷取從位置 <em class="parameter"><code>start</code></em> 開始的陣列部分。
        </p>
 <p>
 <code class="literal">subarray('{1,2,3,2,1}'::integer[], 2)</code>
@@ -155,7 +139,7 @@ in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Makes a single-element array.
+        建立單一元素陣列。
        </p>
 <p>
 <code class="literal">intset(42)</code>
@@ -164,163 +148,124 @@ in [Table F.9](intarray.md#INTARRAY-OP-TABLE).
 
 <br><a id="INTARRAY-OP-TABLE"></a>
 
-**Table F.9. `intarray` Operators**
+**表 F.9. `intarray` 運算子**
 
 <table border="1" class="table" summary="intarray Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">&amp;&amp;</code> <code class="type">integer[]</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Do arrays overlap (have at least one element in common)?
+        陣列是否重疊（至少有一個共同元素）？
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">@&gt;</code> <code class="type">integer[]</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does left array contain right array?
+        左側陣列是否包含右側陣列？
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">&lt;@</code> <code class="type">integer[]</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Is left array contained in right array?
+        左側陣列是否包含於右側陣列？
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type"></code> <code class="literal">#</code> <code class="type">integer[]</code>
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of elements in the array.
+        傳回陣列中的元素數量。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">#</code> <code class="type">integer</code>
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns index of the first array element
-        matching the right argument, or 0 if no match.
-        (Same as <code class="function">idx</code> function.)
+        傳回第一個符合右側引數的陣列元素索引；若沒有符合項目則傳回 0。（與 <code class="function">idx</code> 函式相同。）
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">+</code> <code class="type">integer</code>
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Adds element to end of array.
+        將元素新增至陣列末端。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">+</code> <code class="type">integer[]</code>
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Concatenates the arrays.
+        串接陣列。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">-</code> <code class="type">integer</code>
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Removes entries matching the right argument from the array.
+        從陣列移除符合右側引數的項目。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">-</code> <code class="type">integer[]</code>
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Removes elements of the right array from the left array.
+        從左側陣列移除右側陣列的元素。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">|</code> <code class="type">integer</code>
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Computes the union of the arguments.
+        計算引數的聯集。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">|</code> <code class="type">integer[]</code>
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Computes the union of the arguments.
+        計算引數的聯集。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">&amp;</code> <code class="type">integer[]</code>
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Computes the intersection of the arguments.
+        計算引數的交集。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">integer[]</code> <code class="literal">@@</code> <code class="type">query_int</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does array satisfy query?  (see below)
+        陣列是否滿足查詢？（見下文）
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">query_int</code> <code class="literal">~~</code> <code class="type">integer[]</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does array satisfy query?  (commutator of <code class="literal">@@</code>)
+        陣列是否滿足查詢？（<code class="literal">@@</code> 的交換子）
        </p></td></tr></tbody></table>
 
 <br>
 
-The operators `&&`, `@>` and
-`<@` are equivalent to PostgreSQL's built-in
-operators of the same names, except that they work only on integer arrays
-that do not contain nulls, while the built-in operators work for any array
-type. This restriction makes them faster than the built-in operators
-in many cases.
+`&&`、`@>` 與 `<@` 運算子等同於 PostgreSQL 同名內建運算子，但它們僅可處理不含 NULL 的整數陣列，而內建運算子可處理任何陣列型別。這項限制使它們在許多情況下比內建運算子更快。
 
-The `@@` and `~~` operators test whether an array
-satisfies a *query*, which is expressed as a value of a
-specialized data type `query_int`. A *query*
-consists of integer values that are checked against the elements of
-the array, possibly combined using the operators `&`
-(AND), `|` (OR), and `!` (NOT). Parentheses
-can be used as needed. For example,
-the query `1&(2|3)` matches arrays that contain 1
-and also contain either 2 or 3.
+`@@` 與 `~~` 運算子測試陣列是否滿足*查詢*；查詢以專用資料型別 `query_int` 的值表示。*查詢*由要與陣列元素比對的整數值組成，可能使用 `&`（AND）、`|`（OR）與 `!`（NOT）運算子組合。可視需要使用括號。例如，查詢 `1&(2|3)` 符合包含 1 且包含 2 或 3 其中之一的陣列。
 
 <a id="INTARRAY-INDEX"></a>
 
-### F.19.2. Index Support [#](#INTARRAY-INDEX)
+### F.19.2. 索引支援 [#](#INTARRAY-INDEX)
 
-`intarray` provides index support for the
-`&&`, `@>`,
-and `@@` operators, as well as regular array equality.
+`intarray` 為 `&&`、`@>` 與 `@@` 運算子及一般陣列相等比較提供索引支援。
 
-Two parameterized GiST index operator classes are provided:
-`gist__int_ops` (used by default) is suitable for
-small- to medium-size data sets, while
-`gist__intbig_ops` uses a larger signature and is more
-suitable for indexing large data sets (i.e., columns containing
-a large number of distinct array values).
-The implementation uses an RD-tree data structure with
-built-in lossy compression.
+提供兩個參數化 GiST 索引運算子類別：`gist__int_ops`（預設使用）適用於小型至中型資料集，而 `gist__intbig_ops` 使用較大的簽章，較適合為大型資料集（亦即含有大量相異陣列值的欄位）建立索引。實作使用內建有失壓縮的 RD-tree 資料結構。
 
-`gist__int_ops` approximates an integer set as an array of
-integer ranges. Its optional integer parameter `numranges`
-determines the maximum number of ranges in
-one index key. The default value of `numranges` is 100.
-Valid values are between 1 and 253. Using larger arrays as GiST index
-keys leads to a more precise search (scanning a smaller fraction of the index and
-fewer heap pages), at the cost of a larger index.
+`gist__int_ops` 會將整數集合近似為整數範圍的陣列。其可選整數參數 `numranges` 決定一個索引鍵中的最大範圍數。`numranges` 預設值為 100。有效值介於 1 至 253 之間。使用較大的陣列作為 GiST 索引鍵可帶來更精確的搜尋（掃描較小比例的索引與較少的堆積頁面），代價是索引較大。
 
-`gist__intbig_ops` approximates an integer set as a bitmap
-signature. Its optional integer parameter `siglen`
-determines the signature length in bytes.
-The default signature length is 16 bytes. Valid values of signature length
-are between 1 and 2024 bytes. Longer signatures lead to a more precise
-search (scanning a smaller fraction of the index and fewer heap pages), at
-the cost of a larger index.
+`gist__intbig_ops` 會將整數集合近似為點陣圖簽章。其可選整數參數 `siglen` 決定簽章長度（以位元組計）。預設簽章長度為 16 位元組。有效的簽章長度介於 1 至 2024 位元組之間。較長的簽章可帶來更精確的搜尋（掃描較小比例的索引與較少的堆積頁面），代價是索引較大。
 
-There is also a non-default GIN operator class
-`gin__int_ops`, which supports these operators as well
-as `<@`.
+另有非預設的 GIN 運算子類別 `gin__int_ops`，它除了支援這些運算子外，也支援 `<@`。
 
-The choice between GiST and GIN indexing depends on the relative
-performance characteristics of GiST and GIN, which are discussed elsewhere.
+GiST 與 GIN 索引之間的選擇，取決於其他章節所討論的兩者相對效能特性。
 
 <a id="INTARRAY-EXAMPLE"></a>
 
-### F.19.3. Example [#](#INTARRAY-EXAMPLE)
+### F.19.3. 範例 [#](#INTARRAY-EXAMPLE)
 
 ```
 
@@ -342,12 +287,9 @@ SELECT message.mid FROM message WHERE message.sections @@ '1&2'::query_int;
 
 <a id="INTARRAY-BENCHMARK"></a>
 
-### F.19.4. Benchmark [#](#INTARRAY-BENCHMARK)
+### F.19.4. 效能測試 [#](#INTARRAY-BENCHMARK)
 
-The source directory `contrib/intarray/bench` contains a
-benchmark test suite, which can be run against an installed
-PostgreSQL server. (It also requires `DBD::Pg`
-to be installed.) To run:
+原始碼目錄 `contrib/intarray/bench` 包含效能測試套件，可針對已安裝的 PostgreSQL 伺服器執行。（它也需要安裝 `DBD::Pg`。）執行方式如下：
 
 ```
 
@@ -358,19 +300,14 @@ psql -c "CREATE EXTENSION intarray" TEST
 ./bench.pl
 ```
 
-The `bench.pl` script has numerous options, which
-are displayed when it is run without any arguments.
+`bench.pl` 指令碼具有許多選項；在不帶任何引數執行時會顯示這些選項。
 
 <a id="INTARRAY-AUTHORS"></a>
 
-### F.19.5. Authors [#](#INTARRAY-AUTHORS)
+### F.19.5. 作者 [#](#INTARRAY-AUTHORS)
 
-All work was done by Teodor Sigaev (`<teodor@sigaev.ru>`) and
-Oleg Bartunov (`<oleg@sai.msu.su>`). See
-<http://www.sai.msu.su/~megera/postgres/gist/> for
-additional information. Andrey Oktyabrski did a great work on adding new
-functions and operations.
+所有工作由 Teodor Sigaev（`<teodor@sigaev.ru>`）與 Oleg Bartunov（`<oleg@sai.msu.su>`）完成。詳細資訊請參閱 <http://www.sai.msu.su/~megera/postgres/gist/>。Andrey Oktyabrski 對新增函式與操作做出了重要貢獻。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/intarray.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/intarray.html)

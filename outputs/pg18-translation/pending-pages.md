@@ -66,7 +66,7 @@
 - [x] `appendixes/contrib/fuzzystrmatch.md` — F.16. fuzzystrmatch — 判定字串相似性與距離 #
 - [x] `appendixes/contrib/hstore.md` — F.17. hstore — hstore 鍵／值資料型別 #
 - [x] `appendixes/contrib/intagg.md` — F.18. intagg — 整數聚合器與列舉器 #
-- [ ] `appendixes/contrib/intarray.md` — F.19. intarray — manipulate arrays of integers #
+- [x] `appendixes/contrib/intarray.md` — F.19. intarray — 操作整數陣列 #
 - [ ] `appendixes/contrib/isn.md` — F.20. isn — data types for international standard numbers (ISBN, EAN, UPC, etc.) #
 - [ ] `appendixes/contrib/lo.md` — F.21. lo — manage large objects #
 - [ ] `appendixes/contrib/ltree.md` — F.22. ltree — hierarchical tree-like data type #
