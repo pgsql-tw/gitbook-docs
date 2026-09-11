@@ -1,87 +1,32 @@
-## 15.4. Parallel Safety [#](#PARALLEL-SAFETY)
+<a id="PARALLEL-SAFETY"></a>
 
-[15.4.1. Parallel Labeling for Functions and Aggregates](parallel-safety.md#PARALLEL-LABELING)
+## 15.4. 平行安全性 [#](#PARALLEL-SAFETY)
 
-The planner classifies operations involved in a query as either
-*parallel safe*, *parallel restricted*,
-or *parallel unsafe*. A parallel safe operation is one that
-does not conflict with the use of parallel query. A parallel restricted
-operation is one that cannot be performed in a parallel worker, but that
-can be performed in the leader while parallel query is in use. Therefore,
-parallel restricted operations can never occur below a `Gather`
-or `Gather Merge` node, but can occur elsewhere in a plan that
-contains such a node. A parallel unsafe operation is one that cannot
-be performed while parallel query is in use, not even in the leader.
-When a query contains anything that is parallel unsafe, parallel query
-is completely disabled for that query.
+[15.4.1. 函式與彙總函式的平行標記](parallel-safety.md#PARALLEL-LABELING)
 
-The following operations are always parallel restricted:
+規劃器會將查詢中涉及的操作分類為*平行安全*（parallel safe）、*平行受限*（parallel restricted）或*平行不安全*（parallel unsafe）。平行安全的操作是與使用平行查詢不衝突的操作。平行受限的操作是不能在平行工作程序中執行，但在使用平行查詢時可以在領導程序中執行的操作。因此，平行受限的操作永遠不會出現在 `Gather` 或 `Gather Merge` 節點之下，但可以出現在包含這類節點之計畫的其他位置。平行不安全的操作則是在使用平行查詢時完全不能執行的操作，即使在領導程序中也不行。當查詢包含任何平行不安全的內容時，該查詢就會完全停用平行查詢。
 
-* Scans of common table expressions (CTEs).
-* Scans of temporary tables.
-* Scans of foreign tables, unless the foreign data wrapper has
-  an `IsForeignScanParallelSafe` API that indicates otherwise.
-* Plan nodes that reference a correlated `SubPlan`.
+下列操作一律是平行受限的：
+
+* 掃描通用資料表運算式（CTE）。
+* 掃描暫存資料表。
+* 掃描外部資料表，除非外部資料包裝器（foreign data wrapper）有 `IsForeignScanParallelSafe` API 指出並非如此。
+* 參照相關 `SubPlan` 的計畫節點。
 
 <a id="PARALLEL-LABELING"></a>
 
-### 15.4.1. Parallel Labeling for Functions and Aggregates [#](#PARALLEL-LABELING)
+### 15.4.1. 函式與彙總函式的平行標記 [#](#PARALLEL-LABELING)
 
-The planner cannot automatically determine whether a user-defined
-function or aggregate is parallel safe, parallel restricted, or parallel
-unsafe, because this would require predicting every operation that the
-function could possibly perform. In general, this is equivalent to the
-Halting Problem and therefore impossible. Even for simple functions
-where it could conceivably be done, we do not try, since this would be expensive
-and error-prone. Instead, all user-defined functions are assumed to
-be parallel unsafe unless otherwise marked. When using
-[CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) or
-[ALTER FUNCTION](../../reference/sql-commands/sql-alterfunction.md), markings can be set by specifying
-`PARALLEL SAFE`, `PARALLEL RESTRICTED`, or
-`PARALLEL UNSAFE` as appropriate. When using
-[CREATE AGGREGATE](../../reference/sql-commands/sql-createaggregate.md), the
-`PARALLEL` option can be specified with `SAFE`,
-`RESTRICTED`, or `UNSAFE` as the corresponding value.
+規劃器無法自動判定使用者自訂的函式或彙總函式是平行安全、平行受限還是平行不安全的，因為這需要預測函式可能執行的每一項操作。一般而言，這等同於停機問題（Halting Problem），因此是不可能的。即使對於可以想像能夠判定的簡單函式，我們也不會嘗試，因為這樣做的成本很高而且容易出錯。取而代之的是，除非另有標記，所有使用者自訂的函式都會被假定為平行不安全。使用 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) 或 [ALTER FUNCTION](../../reference/sql-commands/sql-alterfunction.md) 時，可以視情況指定 `PARALLEL SAFE`、`PARALLEL RESTRICTED` 或 `PARALLEL UNSAFE` 來設定標記。使用 [CREATE AGGREGATE](../../reference/sql-commands/sql-createaggregate.md) 時，可以為 `PARALLEL` 選項指定對應的值 `SAFE`、`RESTRICTED` 或 `UNSAFE`。
 
-Functions and aggregates must be marked `PARALLEL UNSAFE`
-if they write to the database, change the transaction state (other than by
-using a subtransaction for error recovery), access sequences, or make
-persistent changes to
-settings. Similarly, functions must be marked `PARALLEL
-RESTRICTED` if they access temporary tables, client connection state,
-cursors, prepared statements, or miscellaneous backend-local state that
-the system cannot synchronize across workers. For example,
-`setseed` and `random` are parallel restricted for
-this last reason.
+如果函式與彙總函式會寫入資料庫、改變交易狀態（使用子交易進行錯誤復原的情況除外）、存取序列（sequence），或對設定進行持久性的變更，就必須標記為 `PARALLEL UNSAFE`。同樣地，如果函式會存取暫存資料表、用戶端連線狀態、游標、預備陳述式，或系統無法在工作程序之間同步的其他後端本地狀態，就必須標記為 `PARALLEL RESTRICTED`。例如，`setseed` 與 `random` 就是因為最後這個原因而屬於平行受限。
 
-In general, if a function is labeled as being safe when it is restricted or
-unsafe, or if it is labeled as being restricted when it is in fact unsafe,
-it may throw errors or produce wrong answers when used in a parallel query.
-C-language functions could in theory exhibit totally undefined behavior if
-mislabeled, since there is no way for the system to protect itself against
-arbitrary C code, but in most likely cases the result will be no worse than
-for any other function. If in doubt, it is probably best to label functions
-as `UNSAFE`.
+一般而言，如果函式實際上是受限或不安全的，卻被標記為安全；或者實際上是不安全的，卻被標記為受限，那麼在平行查詢中使用時，它可能會拋出錯誤或產生錯誤的答案。如果 C 語言函式被錯誤標記，理論上可能會表現出完全未定義的行為，因為系統無法防範任意的 C 程式碼；但在最可能的情況下，結果並不會比任何其他函式更糟。如果有疑慮，最好將函式標記為 `UNSAFE`。
 
-If a function executed within a parallel worker acquires locks that are
-not held by the leader, for example by querying a table not referenced in
-the query, those locks will be released at worker exit, not end of
-transaction. If you write a function that does this, and this behavior
-difference is important to you, mark such functions as
-`PARALLEL RESTRICTED`
-to ensure that they execute only in the leader.
+如果在平行工作程序中執行的函式取得了領導程序並未持有的鎖定（例如查詢了查詢中未參照的資料表），這些鎖定會在工作程序結束時釋放，而不是在交易結束時釋放。如果你撰寫的函式會這樣做，而這種行為差異對你很重要，請將這類函式標記為 `PARALLEL RESTRICTED`，以確保它們只在領導程序中執行。
 
-Note that the query planner does not consider deferring the evaluation of
-parallel-restricted functions or aggregates involved in the query in
-order to obtain a superior plan. So, for example, if a `WHERE`
-clause applied to a particular table is parallel restricted, the query
-planner will not consider performing a scan of that table in the parallel
-portion of a plan. In some cases, it would be
-possible (and perhaps even efficient) to include the scan of that table in
-the parallel portion of the query and defer the evaluation of the
-`WHERE` clause so that it happens above the `Gather`
-node. However, the planner does not do this.
+請注意，查詢規劃器不會為了取得更好的計畫，而考慮延後查詢中所涉及之平行受限函式或彙總函式的求值。因此，例如，如果套用在某個資料表上的 `WHERE` 子句是平行受限的，查詢規劃器就不會考慮在計畫的平行部分中掃描該資料表。在某些情況下，將該資料表的掃描納入查詢的平行部分，並延後 `WHERE` 子句的求值，讓它發生在 `Gather` 節點之上，是可能的（甚至可能很有效率）。不過，規劃器並不會這樣做。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/parallel-safety.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/parallel-safety.html)（原文版本：18.6；核對日期：2026-09-11）
