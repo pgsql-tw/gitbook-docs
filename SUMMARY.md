@@ -89,7 +89,7 @@
     * [8.20. `pg_lsn` 型別 #](the-sql-language/datatype/datatype-pg-lsn.md)
     * [8.21. Pseudo-Types #](the-sql-language/datatype/datatype-pseudo.md)
   * [第 9 章 函式與運算子](the-sql-language/functions/README.md)
-    * [9.1. Logical Operators #](the-sql-language/functions/functions-logical.md)
+    * [9.1. 邏輯運算子 #](the-sql-language/functions/functions-logical.md)
     * [9.2. 比較函式與運算子 #](the-sql-language/functions/functions-comparison.md)
     * [9.3. Mathematical Functions and Operators #](the-sql-language/functions/functions-math.md)
     * [9.4. String Functions and Operators #](the-sql-language/functions/functions-string.md)
