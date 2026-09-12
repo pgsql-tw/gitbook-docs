@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：831 頁。
+待譯頁面：830 頁。
 
 ## 根目錄
 
@@ -1070,7 +1070,7 @@
 - [x] `the-sql-language/functions/functions-event-triggers.md` — 9.30. 事件觸發程序函式 #
 - [x] `the-sql-language/functions/functions-formatting.md` — 9.8. 資料型別格式化函式 #
 - [x] `the-sql-language/functions/functions-geometry.md` — 9.11. 幾何函式與運算子 #
-- [ ] `the-sql-language/functions/functions-info.md` — 9.27. System Information Functions and Operators #
+- [x] `the-sql-language/functions/functions-info.md` — 9.27. 系統資訊函式與運算子 #
 - [ ] `the-sql-language/functions/functions-json.md` — 9.16. JSON Functions and Operators #
 - [ ] `the-sql-language/functions/functions-logical.md` — 9.1. Logical Operators #
 - [ ] `the-sql-language/functions/functions-matching.md` — 9.7. Pattern Matching #
