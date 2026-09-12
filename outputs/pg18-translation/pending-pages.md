@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：817 頁。
+待譯頁面：816 頁。
 
 ## 根目錄
 
@@ -1084,7 +1084,7 @@
 - [x] `the-sql-language/functions/functions-string.md` — 9.4. 字串函式與運算子 #
 - [x] `the-sql-language/functions/functions-subquery.md` — 9.24. 子查詢運算式 #
 - [x] `the-sql-language/functions/functions-textsearch.md` — 9.13. 文字搜尋函式與運算子 #
-- [ ] `the-sql-language/functions/functions-trigger.md` — 9.29. Trigger Functions #
+- [x] `the-sql-language/functions/functions-trigger.md` — 9.29. 觸發程序函式 #
 - [ ] `the-sql-language/functions/functions-uuid.md` — 9.14. UUID Functions #
 - [ ] `the-sql-language/functions/functions-window.md` — 9.22. Window Functions #
 - [ ] `the-sql-language/functions/functions-xml.md` — 9.15. XML Functions #

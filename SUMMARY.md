@@ -117,7 +117,7 @@
     * [9.26. 集合回傳函式 #](the-sql-language/functions/functions-srf.md)
     * [9.27. 系統資訊函式與運算子 #](the-sql-language/functions/functions-info.md)
     * [9.28. 系統管理函式 #](the-sql-language/functions/functions-admin.md)
-    * [9.29. Trigger Functions #](the-sql-language/functions/functions-trigger.md)
+    * [9.29. 觸發程序函式 #](the-sql-language/functions/functions-trigger.md)
     * [9.30. 事件觸發程序函式 #](the-sql-language/functions/functions-event-triggers.md)
     * [9.31. 統計資訊函式 #](the-sql-language/functions/functions-statistics.md)
   * [第 10 章 型別轉換](the-sql-language/typeconv/README.md)
