@@ -110,7 +110,7 @@
     * [9.19. 陣列函式與運算子 #](the-sql-language/functions/functions-array.md)
     * [9.20. 範圍／多重範圍函式與運算子 #](the-sql-language/functions/functions-range.md)
     * [9.21. 彙總函式 #](the-sql-language/functions/functions-aggregate.md)
-    * [9.22. Window Functions #](the-sql-language/functions/functions-window.md)
+    * [9.22. Window 函式 #](the-sql-language/functions/functions-window.md)
     * [9.23. 合併支援函式 #](the-sql-language/functions/functions-merge-support.md)
     * [9.24. 子查詢運算式 #](the-sql-language/functions/functions-subquery.md)
     * [9.25. 資料列與陣列比較 #](the-sql-language/functions/functions-comparisons.md)
