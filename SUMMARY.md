@@ -108,7 +108,7 @@
     * [9.17. Sequence Manipulation Functions #](the-sql-language/functions/functions-sequence.md)
     * [9.18. 條件運算式 #](the-sql-language/functions/functions-conditional.md)
     * [9.19. 陣列函式與運算子 #](the-sql-language/functions/functions-array.md)
-    * [9.20. Range/Multirange Functions and Operators #](the-sql-language/functions/functions-range.md)
+    * [9.20. 範圍／多重範圍函式與運算子 #](the-sql-language/functions/functions-range.md)
     * [9.21. 彙總函式 #](the-sql-language/functions/functions-aggregate.md)
     * [9.22. Window Functions #](the-sql-language/functions/functions-window.md)
     * [9.23. 合併支援函式 #](the-sql-language/functions/functions-merge-support.md)
