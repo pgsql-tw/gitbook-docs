@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：814 頁。
+待譯頁面：813 頁。
 
 ## 根目錄
 
@@ -1087,7 +1087,7 @@
 - [x] `the-sql-language/functions/functions-trigger.md` — 9.29. 觸發程序函式 #
 - [x] `the-sql-language/functions/functions-uuid.md` — 9.14. UUID 函式 #
 - [x] `the-sql-language/functions/functions-window.md` — 9.22. Window 函式 #
-- [ ] `the-sql-language/functions/functions-xml.md` — 9.15. XML Functions #
+- [x] `the-sql-language/functions/functions-xml.md` — 9.15. XML 函式 #
 - [ ] `the-sql-language/indexes/README.md` — Chapter 11. Indexes
 - [ ] `the-sql-language/indexes/indexes-bitmap-scans.md` — 11.5. Combining Multiple Indexes #
 - [x] `the-sql-language/indexes/indexes-collations.md` — 11.11. 索引與定序
