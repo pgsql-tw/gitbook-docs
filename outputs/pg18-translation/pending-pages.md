@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：833 頁。
+待譯頁面：832 頁。
 
 ## 根目錄
 
@@ -1068,7 +1068,7 @@
 - [x] `the-sql-language/functions/functions-datetime.md` — 9.9. 日期／時間函式與運算子 #
 - [x] `the-sql-language/functions/functions-enum.md` — 9.10. 列舉支援函式 #
 - [x] `the-sql-language/functions/functions-event-triggers.md` — 9.30. 事件觸發程序函式 #
-- [ ] `the-sql-language/functions/functions-formatting.md` — 9.8. Data Type Formatting Functions #
+- [x] `the-sql-language/functions/functions-formatting.md` — 9.8. 資料型別格式化函式 #
 - [ ] `the-sql-language/functions/functions-geometry.md` — 9.11. Geometric Functions and Operators #
 - [ ] `the-sql-language/functions/functions-info.md` — 9.27. System Information Functions and Operators #
 - [ ] `the-sql-language/functions/functions-json.md` — 9.16. JSON Functions and Operators #
