@@ -101,7 +101,7 @@
     * [9.10. 列舉支援函式 #](the-sql-language/functions/functions-enum.md)
     * [9.11. 幾何函式與運算子 #](the-sql-language/functions/functions-geometry.md)
     * [9.12. 網路位址函式與運算子 #](the-sql-language/functions/functions-net.md)
-    * [9.13. Text Search Functions and Operators #](the-sql-language/functions/functions-textsearch.md)
+    * [9.13. 文字搜尋函式與運算子 #](the-sql-language/functions/functions-textsearch.md)
     * [9.14. UUID Functions #](the-sql-language/functions/functions-uuid.md)
     * [9.15. XML Functions #](the-sql-language/functions/functions-xml.md)
     * [9.16. JSON 函式與運算子 #](the-sql-language/functions/functions-json.md)

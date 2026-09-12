@@ -1,27 +1,23 @@
-## 9.13. Text Search Functions and Operators [#](#FUNCTIONS-TEXTSEARCH)
+<a id="FUNCTIONS-TEXTSEARCH"></a>
+
+## 9.13. 文字搜尋函式與運算子 [#](#FUNCTIONS-TEXTSEARCH)
 
 <a id="id-1.5.8.19.2"></a><a id="id-1.5.8.19.3"></a>
 
-[Table 9.42](functions-textsearch.md#TEXTSEARCH-OPERATORS-TABLE),
-[Table 9.43](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-TABLE) and
-[Table 9.44](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-DEBUG-TABLE)
-summarize the functions and operators that are provided
-for full text searching. See [Chapter 12](../textsearch/README.md) for a detailed
-explanation of PostgreSQL's text search
-facility.
+[表 9.42](functions-textsearch.md#TEXTSEARCH-OPERATORS-TABLE)、[表 9.43](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-TABLE) 與[表 9.44](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-DEBUG-TABLE) 彙整了為全文檢索所提供的函式與運算子。關於 PostgreSQL 文字搜尋功能的詳細說明，請參閱[第 12 章](../textsearch/README.md)。
 
 <a id="TEXTSEARCH-OPERATORS-TABLE"></a>
 
-**Table 9.42. Text Search Operators**
+**表 9.42. 文字搜尋運算子**
 
 <table border="1" class="table" summary="Text Search Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">tsvector</code> <code class="literal">@@</code> <code class="type">tsquery</code>
         → <code class="returnvalue">boolean</code>
@@ -31,8 +27,7 @@ facility.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does <code class="type">tsvector</code> match <code class="type">tsquery</code>?
-        (The arguments can be given in either order.)
+        <code class="type">tsvector</code> 是否與 <code class="type">tsquery</code> 相符？（引數可以用任何順序給定。）
        </p>
 <p>
 <code class="literal">to_tsvector('fat cats ate rats') @@ to_tsquery('cat &amp; rat')</code>
@@ -42,8 +37,7 @@ facility.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does text string, after implicit invocation
-        of <code class="function">to_tsvector()</code>, match <code class="type">tsquery</code>?
+        文字字串在隱含地呼叫 <code class="function">to_tsvector()</code> 之後，是否與 <code class="type">tsquery</code> 相符？
        </p>
 <p>
 <code class="literal">'fat cats ate rats' @@ to_tsquery('cat &amp; rat')</code>
@@ -53,9 +47,7 @@ facility.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Concatenates two <code class="type">tsvector</code>s.  If both inputs contain
-        lexeme positions, the second input's positions are adjusted
-        accordingly.
+        串接兩個 <code class="type">tsvector</code>。如果兩個輸入都包含詞素位置，第二個輸入的位置會相應地調整。
        </p>
 <p>
 <code class="literal">'a:1 b:2'::tsvector || 'c:1 d:2 b:3'::tsvector</code>
@@ -65,8 +57,7 @@ facility.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        ANDs two <code class="type">tsquery</code>s together, producing a query that
-        matches documents that match both input queries.
+        將兩個 <code class="type">tsquery</code> 以 AND 結合，產生一個與同時符合兩個輸入查詢之文件相符的查詢。
        </p>
 <p>
 <code class="literal">'fat | rat'::tsquery &amp;&amp; 'cat'::tsquery</code>
@@ -76,8 +67,7 @@ facility.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        ORs two <code class="type">tsquery</code>s together, producing a query that
-        matches documents that match either input query.
+        將兩個 <code class="type">tsquery</code> 以 OR 結合，產生一個與符合任一輸入查詢之文件相符的查詢。
        </p>
 <p>
 <code class="literal">'fat | rat'::tsquery || 'cat'::tsquery</code>
@@ -87,8 +77,7 @@ facility.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Negates a <code class="type">tsquery</code>, producing a query that matches
-        documents that do not match the input query.
+        否定一個 <code class="type">tsquery</code>，產生一個與不符合輸入查詢之文件相符的查詢。
        </p>
 <p>
 <code class="literal">!! 'cat'::tsquery</code>
@@ -98,8 +87,7 @@ facility.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Constructs a phrase query, which matches if the two input queries
-        match at successive lexemes.
+        建構一個片語查詢，當兩個輸入查詢在連續的詞素上相符時，它就相符。
        </p>
 <p>
 <code class="literal">to_tsquery('fat') &lt;-&gt; to_tsquery('rat')</code>
@@ -109,9 +97,7 @@ facility.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does first <code class="type">tsquery</code> contain the second?  (This considers
-        only whether all the lexemes appearing in one query appear in the
-        other, ignoring the combining operators.)
+        第一個 <code class="type">tsquery</code> 是否包含第二個？（這只考慮出現在一個查詢中的所有詞素是否都出現在另一個查詢中，而忽略組合運算子。）
        </p>
 <p>
 <code class="literal">'cat'::tsquery @&gt; 'cat &amp; rat'::tsquery</code>
@@ -121,9 +107,7 @@ facility.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Is first <code class="type">tsquery</code> contained in the second?  (This
-        considers only whether all the lexemes appearing in one query appear
-        in the other, ignoring the combining operators.)
+        第一個 <code class="type">tsquery</code> 是否被第二個包含？（這只考慮出現在一個查詢中的所有詞素是否都出現在另一個查詢中，而忽略組合運算子。）
        </p>
 <p>
 <code class="literal">'cat'::tsquery &lt;@ 'cat &amp; rat'::tsquery</code>
@@ -136,35 +120,27 @@ facility.
 
 <br>
 
-In addition to these specialized operators, the usual comparison
-operators shown in [Table 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) are
-available for types `tsvector` and `tsquery`.
-These are not very
-useful for text searching but allow, for example, unique indexes to be
-built on columns of these types.
+除了這些特殊運算子之外，`tsvector` 與 `tsquery` 型別也可以使用[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子。這些運算子對文字搜尋不是很有用，但它們讓你可以在這些型別的欄位上建立唯一索引等等。
 
 <a id="TEXTSEARCH-FUNCTIONS-TABLE"></a>
 
-**Table 9.43. Text Search Functions**
+**表 9.43. 文字搜尋函式**
 
 <table border="1" class="table" summary="Text Search Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.19.7.2.2.1.1.1.1"></a>
 <code class="function">array_to_tsvector</code> ( <code class="type">text[]</code> )
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Converts an array of text strings to a <code class="type">tsvector</code>.
-        The given strings are used as lexemes as-is, without further
-        processing.  Array elements must not be empty strings
-        or <code class="literal">NULL</code>.
+        將文字字串陣列轉換為 <code class="type">tsvector</code>。給定的字串會原樣用作詞素，不做進一步處理。陣列元素不得為空字串或 <code class="literal">NULL</code>。
        </p>
 <p>
 <code class="literal">array_to_tsvector('{fat,cat,rat}'::text[])</code>
@@ -175,8 +151,7 @@ built on columns of these types.
         → <code class="returnvalue">regconfig</code>
 </p>
 <p>
-        Returns the OID of the current default text search configuration
-        (as set by <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG">default_text_search_config</a>).
+        回傳目前預設文字搜尋組態（由 <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG">default_text_search_config</a> 設定）的 OID。
        </p>
 <p>
 <code class="literal">get_current_ts_config()</code>
@@ -187,7 +162,7 @@ built on columns of these types.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of lexemes in the <code class="type">tsvector</code>.
+        回傳 <code class="type">tsvector</code> 中的詞素數量。
        </p>
 <p>
 <code class="literal">length('fat:2,4 cat:3 rat:5A'::tsvector)</code>
@@ -198,8 +173,7 @@ built on columns of these types.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of lexemes plus operators in
-        the <code class="type">tsquery</code>.
+        回傳 <code class="type">tsquery</code> 中的詞素數量加上運算子數量。
        </p>
 <p>
 <code class="literal">numnode('(fat &amp; rat) | cat'::tsquery)</code>
@@ -212,10 +186,7 @@ built on columns of these types.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Converts text to a <code class="type">tsquery</code>, normalizing words according to
-        the specified or default configuration.  Any punctuation in the string
-        is ignored (it does not determine query operators).  The resulting
-        query matches documents containing all non-stopwords in the text.
+        將文字轉換為 <code class="type">tsquery</code>，並依照指定的或預設的組態將單字正規化。字串中的任何標點符號都會被忽略（它不會決定查詢運算子）。產生的查詢會與包含該文字中所有非停用詞的文件相符。
        </p>
 <p>
 <code class="literal">plainto_tsquery('english', 'The Fat Rats')</code>
@@ -228,10 +199,7 @@ built on columns of these types.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Converts text to a <code class="type">tsquery</code>, normalizing words according to
-        the specified or default configuration.  Any punctuation in the string
-        is ignored (it does not determine query operators).  The resulting
-        query matches phrases containing all non-stopwords in the text.
+        將文字轉換為 <code class="type">tsquery</code>，並依照指定的或預設的組態將單字正規化。字串中的任何標點符號都會被忽略（它不會決定查詢運算子）。產生的查詢會與包含該文字中所有非停用詞的片語相符。
        </p>
 <p>
 <code class="literal">phraseto_tsquery('english', 'The Fat Rats')</code>
@@ -248,12 +216,7 @@ built on columns of these types.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Converts text to a <code class="type">tsquery</code>, normalizing words according
-        to the specified or default configuration.  Quoted word sequences are
-        converted to phrase tests.  The word <span class="quote">“<span class="quote">or</span>”</span> is understood
-        as producing an OR operator, and a dash produces a NOT operator;
-        other punctuation is ignored.
-        This approximates the behavior of some common web search tools.
+        將文字轉換為 <code class="type">tsquery</code>，並依照指定的或預設的組態將單字正規化。加上引號的單字序列會被轉換為片語測試。單字<span class="quote">“<span class="quote">or</span>”</span>會被理解為產生 OR 運算子，而破折號會產生 NOT 運算子；其他標點符號則會被忽略。這近似於一些常見網路搜尋工具的行為。
        </p>
 <p>
 <code class="literal">websearch_to_tsquery('english', '"fat rat" or cat dog')</code>
@@ -264,9 +227,7 @@ built on columns of these types.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Produces a representation of the indexable portion of
-        a <code class="type">tsquery</code>.  A result that is empty or
-        just <code class="literal">T</code> indicates a non-indexable query.
+        產生 <code class="type">tsquery</code> 中可索引部分的表示。結果為空或只有 <code class="literal">T</code> 時，表示該查詢無法使用索引。
        </p>
 <p>
 <code class="literal">querytree('foo &amp; ! bar'::tsquery)</code>
@@ -277,8 +238,7 @@ built on columns of these types.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Assigns the specified <em class="parameter"><code>weight</code></em> to each element
-        of the <em class="parameter"><code>vector</code></em>.
+        將指定的 <em class="parameter"><code>weight</code></em> 指派給 <em class="parameter"><code>vector</code></em> 的每個元素。
        </p>
 <p>
 <code class="literal">setweight('fat:2,4 cat:3 rat:5B'::tsvector, 'A')</code>
@@ -289,12 +249,7 @@ built on columns of these types.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Assigns the specified <em class="parameter"><code>weight</code></em> to elements
-        of the <em class="parameter"><code>vector</code></em> that are listed
-        in <em class="parameter"><code>lexemes</code></em>.
-        The strings in <em class="parameter"><code>lexemes</code></em> are taken as lexemes
-        as-is, without further processing.  Strings that do not match any
-        lexeme in <em class="parameter"><code>vector</code></em> are ignored.
+        將指定的 <em class="parameter"><code>weight</code></em> 指派給 <em class="parameter"><code>vector</code></em> 中列在 <em class="parameter"><code>lexemes</code></em> 裡的元素。<em class="parameter"><code>lexemes</code></em> 中的字串會原樣作為詞素，不做進一步處理。與 <em class="parameter"><code>vector</code></em> 中任何詞素都不相符的字串會被忽略。
        </p>
 <p>
 <code class="literal">setweight('fat:2,4 cat:3 rat:5,6B'::tsvector, 'A', '{cat,rat}')</code>
@@ -305,7 +260,7 @@ built on columns of these types.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Removes positions and weights from the <code class="type">tsvector</code>.
+        從 <code class="type">tsvector</code> 中移除位置與權重。
        </p>
 <p>
 <code class="literal">strip('fat:2,4 cat:3 rat:5A'::tsvector)</code>
@@ -318,9 +273,7 @@ built on columns of these types.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Converts text to a <code class="type">tsquery</code>, normalizing words according to
-        the specified or default configuration.  The words must be combined
-        by valid <code class="type">tsquery</code> operators.
+        將文字轉換為 <code class="type">tsquery</code>，並依照指定的或預設的組態將單字正規化。單字必須以有效的 <code class="type">tsquery</code> 運算子組合。
        </p>
 <p>
 <code class="literal">to_tsquery('english', 'The &amp; Fat &amp; Rats')</code>
@@ -333,9 +286,7 @@ built on columns of these types.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Converts text to a <code class="type">tsvector</code>, normalizing words according
-        to the specified or default configuration.  Position information is
-        included in the result.
+        將文字轉換為 <code class="type">tsvector</code>，並依照指定的或預設的組態將單字正規化。結果中會包含位置資訊。
        </p>
 <p>
 <code class="literal">to_tsvector('english', 'The Fat Rats')</code>
@@ -353,14 +304,7 @@ built on columns of these types.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Converts each string value in the JSON document to
-        a <code class="type">tsvector</code>, normalizing words according to the specified
-        or default configuration.  The results are then concatenated in
-        document order to produce the output.  Position information is
-        generated as though one stopword exists between each pair of string
-        values.  (Beware that <span class="quote">“<span class="quote">document order</span>”</span> of the fields of a
-        JSON object is implementation-dependent when the input
-        is <code class="type">jsonb</code>; observe the difference in the examples.)
+        將 JSON 文件中的每個字串值轉換為 <code class="type">tsvector</code>，並依照指定的或預設的組態將單字正規化。接著依文件順序串接這些結果以產生輸出。產生位置資訊時，就好像每一對字串值之間存在一個停用詞。（請注意，當輸入為 <code class="type">jsonb</code> 時，JSON 物件之欄位的<span class="quote">“<span class="quote">文件順序</span>”</span>取決於實作；請留意範例中的差異。）
        </p>
 <p>
 <code class="literal">to_tsvector('english', '{"aa": "The Fat Rats", "b": "dog"}'::json)</code>
@@ -386,24 +330,7 @@ built on columns of these types.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Selects each item in the JSON document that is requested by
-        the <em class="parameter"><code>filter</code></em> and converts each one to
-        a <code class="type">tsvector</code>, normalizing words according to the specified
-        or default configuration.  The results are then concatenated in
-        document order to produce the output.  Position information is
-        generated as though one stopword exists between each pair of selected
-        items.  (Beware that <span class="quote">“<span class="quote">document order</span>”</span> of the fields of a
-        JSON object is implementation-dependent when the input
-        is <code class="type">jsonb</code>.)
-        The <em class="parameter"><code>filter</code></em> must be a <code class="type">jsonb</code>
-        array containing zero or more of these keywords:
-        <code class="literal">"string"</code> (to include all string values),
-        <code class="literal">"numeric"</code> (to include all numeric values),
-        <code class="literal">"boolean"</code> (to include all boolean values),
-        <code class="literal">"key"</code> (to include all keys), or
-        <code class="literal">"all"</code> (to include all the above).
-        As a special case, the <em class="parameter"><code>filter</code></em> can also be a
-        simple JSON value that is one of these keywords.
+        選取 JSON 文件中 <em class="parameter"><code>filter</code></em> 所要求的每個項目，並將每個項目轉換為 <code class="type">tsvector</code>，依照指定的或預設的組態將單字正規化。接著依文件順序串接這些結果以產生輸出。產生位置資訊時，就好像每一對選取的項目之間存在一個停用詞。（請注意，當輸入為 <code class="type">jsonb</code> 時，JSON 物件之欄位的<span class="quote">“<span class="quote">文件順序</span>”</span>取決於實作。）<em class="parameter"><code>filter</code></em> 必須是一個 <code class="type">jsonb</code> 陣列，包含零個或多個下列關鍵字：<code class="literal">"string"</code>（包含所有字串值）、<code class="literal">"numeric"</code>（包含所有數值）、<code class="literal">"boolean"</code>（包含所有布林值）、<code class="literal">"key"</code>（包含所有鍵），或 <code class="literal">"all"</code>（包含以上全部）。作為特例，<em class="parameter"><code>filter</code></em> 也可以是屬於這些關鍵字之一的簡單 JSON 值。
        </p>
 <p>
 <code class="literal">json_to_tsvector('english', '{"a": "The Fat Rats", "b": 123}'::json, '["string", "numeric"]')</code>
@@ -418,10 +345,7 @@ built on columns of these types.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Removes any occurrence of the given <em class="parameter"><code>lexeme</code></em>
-        from the <em class="parameter"><code>vector</code></em>.
-        The <em class="parameter"><code>lexeme</code></em> string is treated as a lexeme as-is,
-        without further processing.
+        將所有出現的給定 <em class="parameter"><code>lexeme</code></em> 從 <em class="parameter"><code>vector</code></em> 中移除。<em class="parameter"><code>lexeme</code></em> 字串會原樣視為詞素，不做進一步處理。
        </p>
 <p>
 <code class="literal">ts_delete('fat:2,4 cat:3 rat:5A'::tsvector, 'fat')</code>
@@ -431,12 +355,7 @@ built on columns of these types.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Removes any occurrences of the lexemes
-        in <em class="parameter"><code>lexemes</code></em>
-        from the <em class="parameter"><code>vector</code></em>.
-        The strings in <em class="parameter"><code>lexemes</code></em> are taken as lexemes
-        as-is, without further processing.  Strings that do not match any
-        lexeme in <em class="parameter"><code>vector</code></em> are ignored.
+        將出現於 <em class="parameter"><code>lexemes</code></em> 中的詞素全部從 <em class="parameter"><code>vector</code></em> 中移除。<em class="parameter"><code>lexemes</code></em> 中的字串會原樣作為詞素，不做進一步處理。與 <em class="parameter"><code>vector</code></em> 中任何詞素都不相符的字串會被忽略。
        </p>
 <p>
 <code class="literal">ts_delete('fat:2,4 cat:3 rat:5A'::tsvector, ARRAY['fat','rat'])</code>
@@ -447,8 +366,7 @@ built on columns of these types.
         → <code class="returnvalue">tsvector</code>
 </p>
 <p>
-        Selects only elements with the given <em class="parameter"><code>weights</code></em>
-        from the <em class="parameter"><code>vector</code></em>.
+        只選取具有給定 <em class="parameter"><code>weights</code></em> 的 <em class="parameter"><code>vector</code></em> 元素。
        </p>
 <p>
 <code class="literal">ts_filter('fat:2,4 cat:3b,7c rat:5A'::tsvector, '{a,b}')</code>
@@ -463,14 +381,7 @@ built on columns of these types.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Displays, in an abbreviated form, the match(es) for
-        the <em class="parameter"><code>query</code></em> in
-        the <em class="parameter"><code>document</code></em>, which must be raw text not
-        a <code class="type">tsvector</code>.  Words in the document are normalized
-        according to the specified or default configuration before matching to
-        the query.  Use of this function is discussed in
-        <a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-HEADLINE">Section 12.3.4</a>, which also describes the
-        available <em class="parameter"><code>options</code></em>.
+        以縮略的形式顯示 <em class="parameter"><code>query</code></em> 在 <em class="parameter"><code>document</code></em> 中的相符之處，其中文件必須是原始文字，而不是 <code class="type">tsvector</code>。文件中的單字在與查詢比對之前，會依照指定的或預設的組態進行正規化。這個函式的用法在<a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-HEADLINE">第 12.3.4 節</a>中討論，該節也說明了可用的 <em class="parameter"><code>options</code></em>。
        </p>
 <p>
 <code class="literal">ts_headline('The fat cat ate the rat.', 'cat')</code>
@@ -492,10 +403,7 @@ built on columns of these types.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Displays, in an abbreviated form, match(es) for
-        the <em class="parameter"><code>query</code></em> that occur in string values
-        within the JSON <em class="parameter"><code>document</code></em>.
-        See <a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-HEADLINE">Section 12.3.4</a> for more details.
+        以縮略的形式顯示 <em class="parameter"><code>query</code></em> 在 JSON <em class="parameter"><code>document</code></em> 之字串值中的相符之處。更多細節請參閱<a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-HEADLINE">第 12.3.4 節</a>。
        </p>
 <p>
 <code class="literal">ts_headline('{"cat":"raining cats and dogs"}'::jsonb, 'cat')</code>
@@ -510,10 +418,7 @@ built on columns of these types.
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Computes a score showing how well
-        the <em class="parameter"><code>vector</code></em> matches
-        the <em class="parameter"><code>query</code></em>.  See
-        <a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-RANKING">Section 12.3.3</a> for details.
+        計算一個分數，顯示 <em class="parameter"><code>vector</code></em> 與 <em class="parameter"><code>query</code></em> 的相符程度。詳情請參閱<a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-RANKING">第 12.3.3 節</a>。
        </p>
 <p>
 <code class="literal">ts_rank(to_tsvector('raining cats and dogs'), 'cat')</code>
@@ -528,10 +433,7 @@ built on columns of these types.
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Computes a score showing how well
-        the <em class="parameter"><code>vector</code></em> matches
-        the <em class="parameter"><code>query</code></em>, using a cover density
-        algorithm.  See <a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-RANKING">Section 12.3.3</a> for details.
+        使用涵蓋密度（cover density）演算法，計算一個分數，顯示 <em class="parameter"><code>vector</code></em> 與 <em class="parameter"><code>query</code></em> 的相符程度。詳情請參閱<a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-RANKING">第 12.3.3 節</a>。
        </p>
 <p>
 <code class="literal">ts_rank_cd(to_tsvector('raining cats and dogs'), 'cat')</code>
@@ -544,10 +446,7 @@ built on columns of these types.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Replaces occurrences of <em class="parameter"><code>target</code></em>
-        with <em class="parameter"><code>substitute</code></em>
-        within the <em class="parameter"><code>query</code></em>.
-        See <a class="xref" href="../textsearch/textsearch-features.md#TEXTSEARCH-QUERY-REWRITING">Section 12.4.2.1</a> for details.
+        將出現的 <em class="parameter"><code>target</code></em> 替換為 <em class="parameter"><code>substitute</code></em>，替換範圍限於 <em class="parameter"><code>query</code></em> 之內。詳情請參閱<a class="xref" href="../textsearch/textsearch-features.md#TEXTSEARCH-QUERY-REWRITING">第 12.4.2.1 節</a>。
        </p>
 <p>
 <code class="literal">ts_rewrite('a &amp; b'::tsquery, 'a'::tsquery, 'foo|bar'::tsquery)</code>
@@ -558,10 +457,7 @@ built on columns of these types.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Replaces portions of the <em class="parameter"><code>query</code></em> according to
-        target(s) and substitute(s) obtained by executing
-        a <code class="command">SELECT</code> command.
-        See <a class="xref" href="../textsearch/textsearch-features.md#TEXTSEARCH-QUERY-REWRITING">Section 12.4.2.1</a> for details.
+        替換 <em class="parameter"><code>query</code></em> 的部分內容，依據的是執行 <code class="command">SELECT</code> 命令所取得的目標與替代項目。詳情請參閱<a class="xref" href="../textsearch/textsearch-features.md#TEXTSEARCH-QUERY-REWRITING">第 12.4.2.1 節</a>。
        </p>
 <p>
 <code class="literal">SELECT ts_rewrite('a &amp; b'::tsquery, 'SELECT t,s FROM aliases')</code>
@@ -572,10 +468,7 @@ built on columns of these types.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Constructs a phrase query that searches
-        for matches of <em class="parameter"><code>query1</code></em>
-        and <em class="parameter"><code>query2</code></em> at successive lexemes (same
-        as <code class="literal">&lt;-&gt;</code> operator).
+        建構一個片語查詢，搜尋 <em class="parameter"><code>query1</code></em> 與 <em class="parameter"><code>query2</code></em> 在連續詞素上的相符（與 <code class="literal">&lt;-&gt;</code> 運算子相同）。
        </p>
 <p>
 <code class="literal">tsquery_phrase(to_tsquery('fat'), to_tsquery('cat'))</code>
@@ -585,10 +478,7 @@ built on columns of these types.
         → <code class="returnvalue">tsquery</code>
 </p>
 <p>
-        Constructs a phrase query that searches
-        for matches of <em class="parameter"><code>query1</code></em> and
-        <em class="parameter"><code>query2</code></em> that occur exactly
-        <em class="parameter"><code>distance</code></em> lexemes apart.
+        建構一個片語查詢，搜尋 <em class="parameter"><code>query1</code></em> 與 <em class="parameter"><code>query2</code></em> 恰好相隔 <em class="parameter"><code>distance</code></em> 個詞素出現的相符。
        </p>
 <p>
 <code class="literal">tsquery_phrase(to_tsquery('fat'), to_tsquery('cat'), 10)</code>
@@ -599,7 +489,7 @@ built on columns of these types.
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        Converts a <code class="type">tsvector</code> to an array of lexemes.
+        將 <code class="type">tsvector</code> 轉換為詞素陣列。
        </p>
 <p>
 <code class="literal">tsvector_to_array('fat:2,4 cat:3 rat:5A'::tsvector)</code>
@@ -613,7 +503,7 @@ built on columns of these types.
         <em class="parameter"><code>weights</code></em> <code class="type">text</code> )
        </p>
 <p>
-        Expands a <code class="type">tsvector</code> into a set of rows, one per lexeme.
+        將 <code class="type">tsvector</code> 展開成一組資料列，每個詞素一筆。
        </p>
 <p>
 <code class="literal">select * from unnest('cat:3 fat:2,4 rat:5A'::tsvector)</code>
@@ -629,31 +519,24 @@ built on columns of these types.
 
 <br>
 
-### Note
+### 注意
 
-All the text search functions that accept an optional `regconfig`
-argument will use the configuration specified by
-[default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG)
-when that argument is omitted.
+所有接受選用 `regconfig` 引數的文字搜尋函式，在省略該引數時，都會使用 [default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG) 所指定的組態。
 
-The functions in
-[Table 9.44](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-DEBUG-TABLE)
-are listed separately because they are not usually used in everyday text
-searching operations. They are primarily helpful for development and
-debugging of new text search configurations.
+[表 9.44](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-DEBUG-TABLE) 中的函式之所以另外列出，是因為它們通常不會用在日常的文字搜尋操作中。它們主要有助於開發與除錯新的文字搜尋組態。
 
 <a id="TEXTSEARCH-FUNCTIONS-DEBUG-TABLE"></a>
 
-**Table 9.44. Text Search Debugging Functions**
+**表 9.44. 文字搜尋除錯函式**
 
 <table border="1" class="table" summary="Text Search Debugging Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.19.10.2.2.1.1.1.1"></a>
 <code class="function">ts_debug</code> (
@@ -668,11 +551,7 @@ debugging of new text search configurations.
         <em class="parameter"><code>lexemes</code></em> <code class="type">text[]</code> )
        </p>
 <p>
-        Extracts and normalizes tokens from
-        the <em class="parameter"><code>document</code></em> according to the specified or
-        default text search configuration, and returns information about how
-        each token was processed.
-        See <a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-CONFIGURATION-TESTING">Section 12.8.1</a> for details.
+        依照指定的或預設的文字搜尋組態，從 <em class="parameter"><code>document</code></em> 中擷取並正規化語彙單元，並回傳每個語彙單元如何被處理的資訊。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-CONFIGURATION-TESTING">第 12.8.1 節</a>。
        </p>
 <p>
 <code class="literal">ts_debug('english', 'The Brightest supernovaes')</code>
@@ -683,10 +562,7 @@ debugging of new text search configurations.
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        Returns an array of replacement lexemes if the input token is known to
-        the dictionary, or an empty array if the token is known to the
-        dictionary but it is a stop word, or NULL if it is not a known word.
-        See <a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-DICTIONARY-TESTING">Section 12.8.3</a> for details.
+        如果字典認得輸入的語彙單元，就回傳替換詞素的陣列；如果字典認得該語彙單元但它是停用詞，就回傳空陣列；如果它不是已知的單字，則回傳 NULL。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-DICTIONARY-TESTING">第 12.8.3 節</a>。
        </p>
 <p>
 <code class="literal">ts_lexize('english_stem', 'stars')</code>
@@ -700,9 +576,7 @@ debugging of new text search configurations.
         <em class="parameter"><code>token</code></em> <code class="type">text</code> )
        </p>
 <p>
-        Extracts tokens from the <em class="parameter"><code>document</code></em> using the
-        named parser.
-        See <a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">Section 12.8.2</a> for details.
+        使用指定名稱的剖析器，從 <em class="parameter"><code>document</code></em> 中擷取語彙單元。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">第 12.8.2 節</a>。
        </p>
 <p>
 <code class="literal">ts_parse('default', 'foo - bar')</code>
@@ -715,9 +589,7 @@ debugging of new text search configurations.
         <em class="parameter"><code>token</code></em> <code class="type">text</code> )
        </p>
 <p>
-        Extracts tokens from the <em class="parameter"><code>document</code></em> using a
-        parser specified by OID.
-        See <a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">Section 12.8.2</a> for details.
+        使用以 OID 指定的剖析器，從 <em class="parameter"><code>document</code></em> 中擷取語彙單元。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">第 12.8.2 節</a>。
        </p>
 <p>
 <code class="literal">ts_parse(3722, 'foo - bar')</code>
@@ -731,9 +603,7 @@ debugging of new text search configurations.
         <em class="parameter"><code>description</code></em> <code class="type">text</code> )
        </p>
 <p>
-        Returns a table that describes each type of token the named parser can
-        recognize.
-        See <a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">Section 12.8.2</a> for details.
+        回傳一個資料表，描述指定名稱的剖析器能夠辨識的每一種語彙單元類型。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">第 12.8.2 節</a>。
        </p>
 <p>
 <code class="literal">ts_token_type('default')</code>
@@ -746,9 +616,7 @@ debugging of new text search configurations.
         <em class="parameter"><code>description</code></em> <code class="type">text</code> )
        </p>
 <p>
-        Returns a table that describes each type of token a parser specified
-        by OID can recognize.
-        See <a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">Section 12.8.2</a> for details.
+        回傳一個資料表，描述以 OID 指定的剖析器能夠辨識的每一種語彙單元類型。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">第 12.8.2 節</a>。
        </p>
 <p>
 <code class="literal">ts_token_type(3722)</code>
@@ -763,10 +631,7 @@ debugging of new text search configurations.
         <em class="parameter"><code>nentry</code></em> <code class="type">integer</code> )
        </p>
 <p>
-        Executes the <em class="parameter"><code>sqlquery</code></em>, which must return a
-        single <code class="type">tsvector</code> column, and returns statistics about each
-        distinct lexeme contained in the data.
-        See <a class="xref" href="../textsearch/textsearch-features.md#TEXTSEARCH-STATISTICS">Section 12.4.4</a> for details.
+        執行 <em class="parameter"><code>sqlquery</code></em>（它必須回傳單一 <code class="type">tsvector</code> 欄位），並回傳資料中所包含之每個相異詞素的統計資訊。詳情請參閱<a class="xref" href="../textsearch/textsearch-features.md#TEXTSEARCH-STATISTICS">第 12.4.4 節</a>。
        </p>
 <p>
 <code class="literal">ts_stat('SELECT vector FROM apod')</code>
@@ -777,4 +642,4 @@ debugging of new text search configurations.
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-textsearch.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-textsearch.html)（原文版本：18.6；核對日期：2026-09-11）
