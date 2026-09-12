@@ -111,7 +111,7 @@
     * [9.20. Range/Multirange Functions and Operators #](the-sql-language/functions/functions-range.md)
     * [9.21. 彙總函式 #](the-sql-language/functions/functions-aggregate.md)
     * [9.22. Window Functions #](the-sql-language/functions/functions-window.md)
-    * [9.23. Merge Support Functions #](the-sql-language/functions/functions-merge-support.md)
+    * [9.23. 合併支援函式 #](the-sql-language/functions/functions-merge-support.md)
     * [9.24. Subquery Expressions #](the-sql-language/functions/functions-subquery.md)
     * [9.25. 資料列與陣列比較 #](the-sql-language/functions/functions-comparisons.md)
     * [9.26. Set Returning Functions #](the-sql-language/functions/functions-srf.md)

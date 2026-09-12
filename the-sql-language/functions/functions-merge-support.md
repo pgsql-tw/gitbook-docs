@@ -1,35 +1,32 @@
-## 9.23. Merge Support Functions [#](#FUNCTIONS-MERGE-SUPPORT)
+<a id="FUNCTIONS-MERGE-SUPPORT"></a>
+
+## 9.23. 合併支援函式 [#](#FUNCTIONS-MERGE-SUPPORT)
 
 <a id="id-1.5.8.29.2"></a>
 
-PostgreSQL includes one merge support function
-that may be used in the `RETURNING` list of a
-[MERGE](../../reference/sql-commands/sql-merge.md) command to identify the action taken for each
-row; see [Table 9.68](functions-merge-support.md#FUNCTIONS-MERGE-SUPPORT-TABLE).
+PostgreSQL 包含一個合併支援函式，可以在 [MERGE](../../reference/sql-commands/sql-merge.md) 命令的 `RETURNING` 清單中使用，用來識別對每一筆資料列所採取的動作；請參閱[表 9.68](functions-merge-support.md#FUNCTIONS-MERGE-SUPPORT-TABLE)。
 
 <a id="FUNCTIONS-MERGE-SUPPORT-TABLE"></a>
 
-**Table 9.68. Merge Support Functions**
+**表 9.68. 合併支援函式**
 
 <table border="1" class="table" summary="Merge Support Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-       Function
+       函式
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="func_table_entry" id="MERGE-ACTION"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.29.4.2.2.1.1.1.1"></a>
 <code class="function">merge_action</code> ( )
        → <code class="returnvalue">text</code>
 </p>
 <p>
-       Returns the merge action command executed for the current row.  This
-       will be <code class="literal">'INSERT'</code>, <code class="literal">'UPDATE'</code>, or
-       <code class="literal">'DELETE'</code>.
+       回傳對目前資料列所執行的合併動作命令。其值會是 <code class="literal">'INSERT'</code>、<code class="literal">'UPDATE'</code> 或 <code class="literal">'DELETE'</code>。
       </p></td></tr></tbody></table>
 
 <br>
 
-Example:
+範例：
 
 ```
 
@@ -51,10 +48,8 @@ MERGE INTO products p
  INSERT       |       1003 | t        |       10
 ```
 
-Note that this function can only be used in the `RETURNING`
-list of a `MERGE` command. It is an error to use it in any
-other part of a query.
+請注意，這個函式只能在 `MERGE` 命令的 `RETURNING` 清單中使用。在查詢的任何其他部分使用它都是錯誤。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-merge-support.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-merge-support.html)（原文版本：18.6；核對日期：2026-09-11）
