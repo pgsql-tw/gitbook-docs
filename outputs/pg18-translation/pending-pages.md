@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：850 頁。
+待譯頁面：849 頁。
 
 ## 根目錄
 
@@ -1049,7 +1049,7 @@
 - [ ] `the-sql-language/ddl/ddl-partitioning.md` — 5.12. Table Partitioning #
 - [ ] `the-sql-language/ddl/ddl-priv.md` — 5.8. Privileges #
 - [ ] `the-sql-language/ddl/ddl-rowsecurity.md` — 5.9. Row Security Policies #
-- [ ] `the-sql-language/ddl/ddl-schemas.md` — 5.10. Schemas #
+- [x] `the-sql-language/ddl/ddl-schemas.md` — 5.10. 綱要 #
 - [ ] `the-sql-language/ddl/ddl-system-columns.md` — 5.6. System Columns #
 - [x] `the-sql-language/dml/README.md` — Chapter 6. Data Manipulation
 - [x] `the-sql-language/dml/dml-delete.md` — 6.3. 刪除資料

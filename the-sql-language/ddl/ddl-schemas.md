@@ -1,70 +1,46 @@
-## 5.10. Schemas [#](#DDL-SCHEMAS)
+<a id="DDL-SCHEMAS"></a>
 
-[5.10.1. Creating a Schema](ddl-schemas.md#DDL-SCHEMAS-CREATE)
+## 5.10. 綱要 [#](#DDL-SCHEMAS)
 
-[5.10.2. The Public Schema](ddl-schemas.md#DDL-SCHEMAS-PUBLIC)
+[5.10.1. 建立綱要](ddl-schemas.md#DDL-SCHEMAS-CREATE)
 
-[5.10.3. The Schema Search Path](ddl-schemas.md#DDL-SCHEMAS-PATH)
+[5.10.2. public 綱要](ddl-schemas.md#DDL-SCHEMAS-PUBLIC)
 
-[5.10.4. Schemas and Privileges](ddl-schemas.md#DDL-SCHEMAS-PRIV)
+[5.10.3. 綱要搜尋路徑](ddl-schemas.md#DDL-SCHEMAS-PATH)
 
-[5.10.5. The System Catalog Schema](ddl-schemas.md#DDL-SCHEMAS-CATALOG)
+[5.10.4. 綱要與權限](ddl-schemas.md#DDL-SCHEMAS-PRIV)
 
-[5.10.6. Usage Patterns](ddl-schemas.md#DDL-SCHEMAS-PATTERNS)
+[5.10.5. 系統目錄綱要](ddl-schemas.md#DDL-SCHEMAS-CATALOG)
 
-[5.10.7. Portability](ddl-schemas.md#DDL-SCHEMAS-PORTABILITY)
+[5.10.6. 使用模式](ddl-schemas.md#DDL-SCHEMAS-PATTERNS)
+
+[5.10.7. 可攜性](ddl-schemas.md#DDL-SCHEMAS-PORTABILITY)
 
 <a id="id-1.5.4.12.2"></a>
 
-A PostgreSQL database cluster contains
-one or more named databases. Roles and a few other object types are
-shared across the entire cluster. A client connection to the server
-can only access data in a single database, the one specified in the
-connection request.
+一個 PostgreSQL 資料庫叢集包含一個或多個具名的資料庫。角色與其他少數幾種物件類型是在整個叢集中共用的。用戶端與伺服器的連線只能存取單一資料庫中的資料，也就是連線要求中所指定的那個資料庫。
 
-### Note
+### 注意
 
-Users of a cluster do not necessarily have the privilege to access every
-database in the cluster. Sharing of role names means that there
-cannot be different roles named, say, `joe` in two databases
-in the same cluster; but the system can be configured to allow
-`joe` access to only some of the databases.
+叢集的使用者不一定有權限存取叢集中的每一個資料庫。角色名稱是共用的，這表示在同一個叢集中，不能在兩個資料庫中各有一個名為（比方說）`joe` 的不同角色；但可以將系統設定成只允許 `joe` 存取其中部分資料庫。
 
-A database contains one or more named *schemas*, which
-in turn contain tables. Schemas also contain other kinds of named
-objects, including data types, functions, and operators. Within one
-schema, two objects of the same type cannot have the same name.
-Furthermore, tables, sequences, indexes, views, materialized views, and
-foreign tables share the same namespace, so that, for example, an index and
-a table must have different names if they are in the same schema. The same
-object name can be used in different schemas without conflict; for
-example, both `schema1` and `myschema` can
-contain tables named `mytable`. Unlike databases,
-schemas are not rigidly separated: a user can access objects in any
-of the schemas in the database they are connected to, if they have
-privileges to do so.
+一個資料庫包含一個或多個具名的*綱要*（schema），而綱要又包含資料表。綱要也包含其他種類的具名物件，包括資料型別、函式與運算子。在同一個綱要中，兩個相同類型的物件不能有相同的名稱。此外，資料表、序列、索引、檢視表、具體化檢視表與外部資料表共用同一個命名空間，因此，例如同一個綱要中的索引與資料表必須有不同的名稱。相同的物件名稱可以在不同的綱要中使用而不會衝突；例如，`schema1` 與 `myschema` 都可以包含名為 `mytable` 的資料表。與資料庫不同，綱要之間並非嚴格隔離：使用者只要有權限，就可以存取其所連線之資料庫中任何綱要內的物件。
 
-There are several reasons why one might want to use schemas:
+想要使用綱要的理由有好幾個：
 
-* To allow many users to use one database without interfering with
-  each other.
-* To organize database objects into logical groups to make them
-  more manageable.
-* Third-party applications can be put into separate schemas so
-  they do not collide with the names of other objects.
+* 讓許多使用者可以使用同一個資料庫而不會互相干擾。
+* 將資料庫物件組織成邏輯群組，使它們更容易管理。
+* 可以把第三方應用程式放在各自獨立的綱要中，以免與其他物件的名稱衝突。
 
-Schemas are analogous to directories at the operating system level,
-except that schemas cannot be nested.
+綱要類似於作業系統層級的目錄，只是綱要不能巢狀。
 
 <a id="DDL-SCHEMAS-CREATE"></a>
 
-### 5.10.1. Creating a Schema [#](#DDL-SCHEMAS-CREATE)
+### 5.10.1. 建立綱要 [#](#DDL-SCHEMAS-CREATE)
 
 <a id="id-1.5.4.12.7.2"></a>
 
-To create a schema, use the [CREATE SCHEMA](../../reference/sql-commands/sql-createschema.md)
-command. Give the schema a name
-of your choice. For example:
+要建立綱要，請使用 [CREATE SCHEMA](../../reference/sql-commands/sql-createschema.md) 命令，並為綱要取一個你選擇的名稱。例如：
 
 ```
 
@@ -73,33 +49,25 @@ CREATE SCHEMA myschema;
 
 <a id="id-1.5.4.12.7.4"></a><a id="id-1.5.4.12.7.5"></a>
 
-To create or access objects in a schema, write a
-*qualified name* consisting of the schema name and
-table name separated by a dot:
+要在綱要中建立或存取物件，請寫出由綱要名稱與資料表名稱組成、中間以點分隔的*限定名稱*（qualified name）：
 
 ```
 
 schema.table
 ```
 
-This works anywhere a table name is expected, including the table
-modification commands and the data access commands discussed in
-the following chapters.
-(For brevity we will speak of tables only, but the same ideas apply
-to other kinds of named objects, such as types and functions.)
+凡是預期出現資料表名稱的地方都可以這樣寫，包括後續各章所討論的資料表修改命令與資料存取命令。（為了簡潔起見，我們只談資料表，但同樣的概念也適用於其他種類的具名物件，例如型別與函式。）
 
-Actually, the even more general syntax
+實際上，也可以使用更一般的語法
 
 ```
 
 database.schema.table
 ```
 
-can be used too, but at present this is just for pro forma
-compliance with the SQL standard. If you write a database name,
-it must be the same as the database you are connected to.
+但目前這只是為了形式上符合 SQL 標準。如果你寫出資料庫名稱，它必須與你所連線的資料庫相同。
 
-So to create a table in the new schema, use:
+因此，要在新綱要中建立資料表，請使用：
 
 ```
 
@@ -110,56 +78,47 @@ CREATE TABLE myschema.mytable (
 
 <a id="id-1.5.4.12.7.9"></a>
 
-To drop a schema if it's empty (all objects in it have been
-dropped), use:
+要刪除空的綱要（其中所有物件都已被刪除），請使用：
 
 ```
 
 DROP SCHEMA myschema;
 ```
 
-To drop a schema including all contained objects, use:
+要刪除綱要以及其中包含的所有物件，請使用：
 
 ```
 
 DROP SCHEMA myschema CASCADE;
 ```
 
-See [Section 5.15](ddl-depend.md) for a description of the general
-mechanism behind this.
+其背後的一般機制，請參閱[第 5.15 節](ddl-depend.md)的說明。
 
-Often you will want to create a schema owned by someone else
-(since this is one of the ways to restrict the activities of your
-users to well-defined namespaces). The syntax for that is:
+你常常會想建立一個由其他人擁有的綱要（因為這是將使用者的活動限制在明確定義之命名空間中的方法之一）。其語法為：
 
 ```
 
 CREATE SCHEMA schema_name AUTHORIZATION user_name;
 ```
 
-You can even omit the schema name, in which case the schema name
-will be the same as the user name. See [Section 5.10.6](ddl-schemas.md#DDL-SCHEMAS-PATTERNS) for how this can be useful.
+你甚至可以省略綱要名稱，在這種情況下，綱要名稱會與使用者名稱相同。關於這樣做有什麼用處，請參閱[第 5.10.6 節](ddl-schemas.md#DDL-SCHEMAS-PATTERNS)。
 
-Schema names beginning with `pg_` are reserved for
-system purposes and cannot be created by users.
+以 `pg_` 開頭的綱要名稱保留給系統使用，使用者無法建立。
 
 <a id="DDL-SCHEMAS-PUBLIC"></a>
 
-### 5.10.2. The Public Schema [#](#DDL-SCHEMAS-PUBLIC)
+### 5.10.2. public 綱要 [#](#DDL-SCHEMAS-PUBLIC)
 
 <a id="id-1.5.4.12.8.2"></a>
 
-In the previous sections we created tables without specifying any
-schema names. By default such tables (and other objects) are
-automatically put into a schema named “public”. Every new
-database contains such a schema. Thus, the following are equivalent:
+在前面各節中，我們建立資料表時並未指定任何綱要名稱。預設情況下，這類資料表（以及其他物件）會自動放入一個名為「public」的綱要中。每個新的資料庫都包含這樣一個綱要。因此，下面兩者是等價的：
 
 ```
 
 CREATE TABLE products ( ... );
 ```
 
-and:
+以及：
 
 ```
 
@@ -168,49 +127,28 @@ CREATE TABLE public.products ( ... );
 
 <a id="DDL-SCHEMAS-PATH"></a>
 
-### 5.10.3. The Schema Search Path [#](#DDL-SCHEMAS-PATH)
+### 5.10.3. 綱要搜尋路徑 [#](#DDL-SCHEMAS-PATH)
 
 <a id="id-1.5.4.12.9.2"></a><a id="id-1.5.4.12.9.3"></a><a id="id-1.5.4.12.9.4"></a>
 
-Qualified names are tedious to write, and it's often best not to
-wire a particular schema name into applications anyway. Therefore
-tables are often referred to by *unqualified names*,
-which consist of just the table name. The system determines which table
-is meant by following a *search path*, which is a list
-of schemas to look in. The first matching table in the search path
-is taken to be the one wanted. If there is no match in the search
-path, an error is reported, even if matching table names exist
-in other schemas in the database.
+限定名稱寫起來很繁瑣，而且無論如何，最好不要把特定的綱要名稱寫死在應用程式中。因此，資料表常常以*非限定名稱*（unqualified name）來參照，也就是只有資料表名稱。系統會依照*搜尋路徑*（search path）來判斷指的是哪一個資料表；搜尋路徑是一份要查找的綱要清單。搜尋路徑中第一個相符的資料表，就會被當作想要的那個資料表。如果在搜尋路徑中找不到相符的項目，就會回報錯誤，即使資料庫的其他綱要中存在名稱相符的資料表也一樣。
 
-The ability to create like-named objects in different schemas complicates
-writing a query that references precisely the same objects every time. It
-also opens up the potential for users to change the behavior of other
-users' queries, maliciously or accidentally. Due to the prevalence of
-unqualified names in queries and their use
-in PostgreSQL internals, adding a schema
-to `search_path` effectively trusts all users having
-`CREATE` privilege on that schema. When you run an
-ordinary query, a malicious user able to create objects in a schema of
-your search path can take control and execute arbitrary SQL functions as
-though you executed them.
+能夠在不同的綱要中建立同名的物件，使得撰寫每次都能精確參照相同物件的查詢變得更複雜。它也讓使用者有可能惡意或意外地改變其他使用者之查詢的行為。由於非限定名稱在查詢中普遍存在，而且在 PostgreSQL 內部也會用到，將某個綱要加入 `search_path`，實際上就等於信任所有在該綱要上擁有 `CREATE` 權限的使用者。當你執行一般的查詢時，能夠在你搜尋路徑中某個綱要內建立物件的惡意使用者，就可以取得控制權，並執行任意的 SQL 函式，就好像是你執行的一樣。
 
 <a id="id-1.5.4.12.9.7"></a>
 
-The first schema named in the search path is called the current schema.
-Aside from being the first schema searched, it is also the schema in
-which new tables will be created if the `CREATE TABLE`
-command does not specify a schema name.
+搜尋路徑中列出的第一個綱要稱為目前綱要（current schema）。它除了是第一個被搜尋的綱要之外，也是當 `CREATE TABLE` 命令沒有指定綱要名稱時，新資料表會被建立在其中的綱要。
 
 <a id="id-1.5.4.12.9.9"></a>
 
-To show the current search path, use the following command:
+要顯示目前的搜尋路徑，請使用下列命令：
 
 ```
 
 SHOW search_path;
 ```
 
-In the default setup this returns:
+在預設設定下，這會回傳：
 
 ```
 
@@ -219,223 +157,104 @@ In the default setup this returns:
  "$user", public
 ```
 
-The first element specifies that a schema with the same name as
-the current user is to be searched. If no such schema exists,
-the entry is ignored. The second element refers to the
-public schema that we have seen already.
+第一個元素指定要搜尋與目前使用者同名的綱要。如果這樣的綱要不存在，這個項目就會被忽略。第二個元素指的是我們已經看過的 public 綱要。
 
-The first schema in the search path that exists is the default
-location for creating new objects. That is the reason that by
-default objects are created in the public schema. When objects
-are referenced in any other context without schema qualification
-(table modification, data modification, or query commands) the
-search path is traversed until a matching object is found.
-Therefore, in the default configuration, any unqualified access
-again can only refer to the public schema.
+搜尋路徑中第一個存在的綱要，是建立新物件的預設位置。這就是物件預設會建立在 public 綱要中的原因。當物件在任何其他情境下（資料表修改、資料修改或查詢命令）不加綱要限定地被參照時，會走訪搜尋路徑，直到找到相符的物件為止。因此，在預設設定下，任何非限定的存取同樣只能參照到 public 綱要。
 
-To put our new schema in the path, we use:
+要把我們的新綱要放入路徑中，我們使用：
 
 ```
 
 SET search_path TO myschema,public;
 ```
 
-(We omit the `$user` here because we have no
-immediate need for it.) And then we can access the table without
-schema qualification:
+（這裡省略 `$user`，因為我們目前還不需要它。）然後我們就可以不加綱要限定地存取該資料表：
 
 ```
 
 DROP TABLE mytable;
 ```
 
-Also, since `myschema` is the first element in
-the path, new objects would by default be created in it.
+此外，由於 `myschema` 是路徑中的第一個元素，新物件預設就會建立在其中。
 
-We could also have written:
+我們也可以寫成：
 
 ```
 
 SET search_path TO myschema;
 ```
 
-Then we no longer have access to the public schema without
-explicit qualification. There is nothing special about the public
-schema except that it exists by default. It can be dropped, too.
+這樣一來，如果沒有明確限定，我們就無法再存取 public 綱要了。public 綱要除了預設存在之外，並沒有什麼特別之處。它也可以被刪除。
 
-See also [Section 9.27](../functions/functions-info.md) for other ways to manipulate
-the schema search path.
+關於操作綱要搜尋路徑的其他方法，另請參閱[第 9.27 節](../functions/functions-info.md)。
 
-The search path works in the same way for data type names, function names,
-and operator names as it does for table names. Data type and function
-names can be qualified in exactly the same way as table names. If you
-need to write a qualified operator name in an expression, there is a
-special provision: you must write
+搜尋路徑對資料型別名稱、函式名稱與運算子名稱的作用方式，與對資料表名稱相同。資料型別與函式的名稱可以用與資料表名稱完全相同的方式限定。如果你需要在運算式中寫出限定的運算子名稱，有一項特別的規定：你必須寫成
 
 ```
 
 OPERATOR(schema.operator)
 ```
 
-This is needed to avoid syntactic ambiguity. An example is:
+這是為了避免語法上的歧義。例如：
 
 ```
 
 SELECT 3 OPERATOR(pg_catalog.+) 4;
 ```
 
-In practice one usually relies on the search path for operators,
-so as not to have to write anything so ugly as that.
+在實務上，通常會依賴搜尋路徑來找到運算子，以免必須寫出那麼難看的東西。
 
 <a id="DDL-SCHEMAS-PRIV"></a>
 
-### 5.10.4. Schemas and Privileges [#](#DDL-SCHEMAS-PRIV)
+### 5.10.4. 綱要與權限 [#](#DDL-SCHEMAS-PRIV)
 
 <a id="id-1.5.4.12.10.2"></a>
 
-By default, users cannot access any objects in schemas they do not
-own. To allow that, the owner of the schema must grant the
-`USAGE` privilege on the schema. By default, everyone
-has that privilege on the schema `public`. To allow
-users to make use of the objects in a schema, additional privileges might
-need to be granted, as appropriate for the object.
+預設情況下，使用者無法存取不屬於自己之綱要中的任何物件。要允許這麼做，綱要的擁有者必須授予該綱要的 `USAGE` 權限。預設情況下，每個人都擁有 `public` 綱要上的這項權限。為了讓使用者能夠使用綱要中的物件，可能還需要依物件的情況授予其他權限。
 
-A user can also be allowed to create objects in someone else's schema. To
-allow that, the `CREATE` privilege on the schema needs to
-be granted. In databases upgraded from
-PostgreSQL 14 or earlier, everyone has that
-privilege on the schema `public`.
-Some [usage patterns](ddl-schemas.md#DDL-SCHEMAS-PATTERNS) call for
-revoking that privilege:
+也可以允許使用者在其他人的綱要中建立物件。要允許這麼做，需要授予該綱要的 `CREATE` 權限。在從 PostgreSQL 14 或更早版本升級而來的資料庫中，每個人都擁有 `public` 綱要上的這項權限。有些[使用模式](ddl-schemas.md#DDL-SCHEMAS-PATTERNS)需要撤銷這項權限：
 
 ```
 
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 ```
 
-(The first “public” is the schema, the second
-“public” means “every user”. In the
-first sense it is an identifier, in the second sense it is a
-key word, hence the different capitalization; recall the
-guidelines from [Section 4.1.1](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS).)
+（第一個「public」是綱要，第二個「public」表示「每個使用者」。在第一種意義下它是識別符號，在第二種意義下它是關鍵字，因此大小寫不同；請回想[第 4.1.1 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)中的準則。）
 
 <a id="DDL-SCHEMAS-CATALOG"></a>
 
-### 5.10.5. The System Catalog Schema [#](#DDL-SCHEMAS-CATALOG)
+### 5.10.5. 系統目錄綱要 [#](#DDL-SCHEMAS-CATALOG)
 
 <a id="id-1.5.4.12.11.2"></a>
 
-In addition to `public` and user-created schemas, each
-database contains a `pg_catalog` schema, which contains
-the system tables and all the built-in data types, functions, and
-operators. `pg_catalog` is always effectively part of
-the search path. If it is not named explicitly in the path then
-it is implicitly searched *before* searching the path's
-schemas. This ensures that built-in names will always be
-findable. However, you can explicitly place
-`pg_catalog` at the end of your search path if you
-prefer to have user-defined names override built-in names.
+除了 `public` 與使用者建立的綱要之外，每個資料庫還包含一個 `pg_catalog` 綱要，其中包含系統資料表以及所有內建的資料型別、函式與運算子。`pg_catalog` 實際上一定是搜尋路徑的一部分。如果路徑中沒有明確列出它，它就會在搜尋路徑中的綱要*之前*被隱含地搜尋。這確保了內建名稱永遠都能被找到。不過，如果你偏好讓使用者自訂的名稱覆寫內建名稱，可以明確地把 `pg_catalog` 放在搜尋路徑的最後面。
 
-Since system table names begin with `pg_`, it is best to
-avoid such names to ensure that you won't suffer a conflict if some
-future version defines a system table named the same as your
-table. (With the default search path, an unqualified reference to
-your table name would then be resolved as the system table instead.)
-System tables will continue to follow the convention of having
-names beginning with `pg_`, so that they will not
-conflict with unqualified user-table names so long as users avoid
-the `pg_` prefix.
+由於系統資料表的名稱都以 `pg_` 開頭，最好避免使用這樣的名稱，以確保萬一未來某個版本定義了與你的資料表同名的系統資料表時，不會發生衝突。（在預設的搜尋路徑下，對你資料表名稱的非限定參照，屆時就會被解析為那個系統資料表。）系統資料表會繼續遵循名稱以 `pg_` 開頭的慣例，因此只要使用者避開 `pg_` 前綴，它們就不會與非限定的使用者資料表名稱衝突。
 
 <a id="DDL-SCHEMAS-PATTERNS"></a>
 
-### 5.10.6. Usage Patterns [#](#DDL-SCHEMAS-PATTERNS)
+### 5.10.6. 使用模式 [#](#DDL-SCHEMAS-PATTERNS)
 
-Schemas can be used to organize your data in many ways.
-A *secure schema usage pattern* prevents untrusted
-users from changing the behavior of other users' queries. When a database
-does not use a secure schema usage pattern, users wishing to securely
-query that database would take protective action at the beginning of each
-session. Specifically, they would begin each session by
-setting `search_path` to the empty string or otherwise
-removing schemas that are writable by non-superusers
-from `search_path`. There are a few usage patterns
-easily supported by the default configuration:
+綱要可以用許多方式來組織你的資料。*安全的綱要使用模式*（secure schema usage pattern）可以防止不受信任的使用者改變其他使用者之查詢的行為。當資料庫沒有採用安全的綱要使用模式時，想要安全地查詢該資料庫的使用者，就必須在每個工作階段開始時採取保護措施。具體來說，他們會在每個工作階段一開始，將 `search_path` 設為空字串，或以其他方式將非超級使用者可寫入的綱要從 `search_path` 中移除。預設設定可以輕鬆支援幾種使用模式：
 
-* Constrain ordinary users to user-private schemas.
-  To implement this pattern, first ensure that no schemas have
-  public `CREATE` privileges. Then, for every user
-  needing to create non-temporary objects, create a schema with the
-  same name as that user, for example
-  `CREATE SCHEMA alice AUTHORIZATION alice`.
-  (Recall that the default search path starts
-  with `$user`, which resolves to the user
-  name. Therefore, if each user has a separate schema, they access
-  their own schemas by default.) This pattern is a secure schema
-  usage pattern unless an untrusted user is the database owner or
-  has been granted `ADMIN OPTION` on a relevant role,
-  in which case no secure schema usage pattern exists.
+* 將一般使用者限制在使用者私有的綱要中。要實作這個模式，首先確保沒有任何綱要具有公開的 `CREATE` 權限。接著，為每個需要建立非暫時物件的使用者，建立一個與該使用者同名的綱要，例如 `CREATE SCHEMA alice AUTHORIZATION alice`。（回想一下，預設的搜尋路徑以 `$user` 開頭，而它會解析為使用者名稱。因此，如果每個使用者都有各自的綱要，他們預設就會存取自己的綱要。）這個模式是安全的綱要使用模式，除非不受信任的使用者是資料庫擁有者，或已被授予相關角色的 `ADMIN OPTION`；在這種情況下，不存在任何安全的綱要使用模式。
 
-  In PostgreSQL 15 and later, the default
-  configuration supports this usage pattern. In prior versions, or
-  when using a database that has been upgraded from a prior version,
-  you will need to remove the public `CREATE`
-  privilege from the `public` schema (issue
-  `REVOKE CREATE ON SCHEMA public FROM PUBLIC`).
-  Then consider auditing the `public` schema for
-  objects named like objects in schema `pg_catalog`.
-* Remove the public schema from the default search path, by modifying
-  [`postgresql.conf`](../../server-administration/runtime-config/config-setting.md#CONFIG-SETTING-CONFIGURATION-FILE)
-  or by issuing `ALTER ROLE ALL SET search_path =
-  "$user"`. Then, grant privileges to create in the public
-  schema. Only qualified names will choose public schema objects. While
-  qualified table references are fine, calls to functions in the public
-  schema [will be unsafe or
-  unreliable](../typeconv/typeconv-func.md). If you create functions or extensions in the public
-  schema, use the first pattern instead. Otherwise, like the first
-  pattern, this is secure unless an untrusted user is the database owner
-  or has been granted `ADMIN OPTION` on a relevant role.
-* Keep the default search path, and grant privileges to create in the
-  public schema. All users access the public schema implicitly. This
-  simulates the situation where schemas are not available at all, giving
-  a smooth transition from the non-schema-aware world. However, this is
-  never a secure pattern. It is acceptable only when the database has a
-  single user or a few mutually-trusting users. In databases upgraded
-  from PostgreSQL 14 or earlier, this is the
-  default.
+  在 PostgreSQL 15 及之後的版本中，預設設定就支援這個使用模式。在較早的版本中，或者在使用從較早版本升級而來的資料庫時，你需要從 `public` 綱要移除公開的 `CREATE` 權限（執行 `REVOKE CREATE ON SCHEMA public FROM PUBLIC`）。然後考慮稽核 `public` 綱要中是否有與 `pg_catalog` 綱要中之物件同名的物件。
+* 修改 [`postgresql.conf`](../../server-administration/runtime-config/config-setting.md#CONFIG-SETTING-CONFIGURATION-FILE) 或執行 `ALTER ROLE ALL SET search_path = "$user"`，將 public 綱要從預設的搜尋路徑中移除。接著，授予在 public 綱要中建立物件的權限。只有限定名稱才會選用 public 綱要中的物件。雖然限定的資料表參照沒有問題，但呼叫 public 綱要中的函式[會是不安全或不可靠的](../typeconv/typeconv-func.md)。如果你在 public 綱要中建立函式或擴充功能，請改用第一種模式。除此之外，就像第一種模式一樣，這種模式是安全的，除非不受信任的使用者是資料庫擁有者，或已被授予相關角色的 `ADMIN OPTION`。
+* 保留預設的搜尋路徑，並授予在 public 綱要中建立物件的權限。所有使用者都會隱含地存取 public 綱要。這模擬了完全沒有綱要可用的情況，讓你可以從不支援綱要的環境平順地過渡。不過，這永遠不會是安全的模式。只有當資料庫只有單一使用者，或只有少數幾位互相信任的使用者時，才可以接受。在從 PostgreSQL 14 或更早版本升級而來的資料庫中，這是預設的模式。
 
-For any pattern, to install shared applications (tables to be used by
-everyone, additional functions provided by third parties, etc.), put them
-into separate schemas. Remember to grant appropriate privileges to allow
-the other users to access them. Users can then refer to these additional
-objects by qualifying the names with a schema name, or they can put the
-additional schemas into their search path, as they choose.
+無論採用哪種模式，要安裝共用的應用程式（每個人都會使用的資料表、第三方提供的額外函式等等）時，都請把它們放在獨立的綱要中。記得授予適當的權限，讓其他使用者可以存取它們。使用者接著可以用綱要名稱限定這些額外物件的名稱來參照它們，或者依自己的選擇，將這些額外的綱要放入自己的搜尋路徑中。
 
 <a id="DDL-SCHEMAS-PORTABILITY"></a>
 
-### 5.10.7. Portability [#](#DDL-SCHEMAS-PORTABILITY)
+### 5.10.7. 可攜性 [#](#DDL-SCHEMAS-PORTABILITY)
 
-In the SQL standard, the notion of objects in the same schema
-being owned by different users does not exist. Moreover, some
-implementations do not allow you to create schemas that have a
-different name than their owner. In fact, the concepts of schema
-and user are nearly equivalent in a database system that
-implements only the basic schema support specified in the
-standard. Therefore, many users consider qualified names to
-really consist of
-`user_name.table_name`.
-This is how PostgreSQL will effectively
-behave if you create a per-user schema for every user.
+在 SQL 標準中，並不存在同一個綱要中的物件由不同使用者擁有的概念。此外，有些實作不允許你建立與其擁有者名稱不同的綱要。事實上，在只實作了標準所規定之基本綱要支援的資料庫系統中，綱要與使用者的概念幾乎是等價的。因此，許多使用者認為限定名稱實際上是由 `user_name.table_name` 組成的。如果你為每個使用者各建立一個專屬的綱要，PostgreSQL 實際上就會以這種方式運作。
 
-Also, there is no concept of a `public` schema in the
-SQL standard. For maximum conformance to the standard, you should
-not use the `public` schema.
+此外，SQL 標準中也沒有 `public` 綱要的概念。為了最大程度地符合標準，你不應該使用 `public` 綱要。
 
-Of course, some SQL database systems might not implement schemas
-at all, or provide namespace support by allowing (possibly
-limited) cross-database access. If you need to work with those
-systems, then maximum portability would be achieved by not using
-schemas at all.
+當然，有些 SQL 資料庫系統可能完全沒有實作綱要，或是藉由允許（可能有限制的）跨資料庫存取來提供命名空間支援。如果你需要與這些系統搭配使用，那麼完全不使用綱要，就能達到最大的可攜性。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-schemas.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-schemas.html)（原文版本：18.6；核對日期：2026-09-11）
