@@ -1,39 +1,32 @@
-## 9.5. Binary String Functions and Operators [#](#FUNCTIONS-BINARYSTRING)
+<a id="FUNCTIONS-BINARYSTRING"></a>
+
+## 9.5. 二進位字串函式與運算子 [#](#FUNCTIONS-BINARYSTRING)
 
 <a id="id-1.5.8.11.2"></a>
 
-This section describes functions and operators for examining and
-manipulating binary strings, that is values of type `bytea`.
-Many of these are equivalent, in purpose and syntax, to the
-text-string functions described in the previous section.
+本節說明用於檢查與操作二進位字串（也就是 `bytea` 型別的值）的函式與運算子。其中許多函式在用途與語法上，都等同於前一節所說明的文字字串函式。
 
-SQL defines some string functions that use
-key words, rather than commas, to separate
-arguments. Details are in
-[Table 9.11](functions-binarystring.md#FUNCTIONS-BINARYSTRING-SQL).
-PostgreSQL also provides versions of these functions
-that use the regular function invocation syntax
-(see [Table 9.12](functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER)).
+SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。詳情請見[表 9.11](functions-binarystring.md#FUNCTIONS-BINARYSTRING-SQL)。PostgreSQL 也提供了這些函式使用一般函式呼叫語法的版本（請參閱[表 9.12](functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER)）。
 
 <a id="FUNCTIONS-BINARYSTRING-SQL"></a>
 
-**Table 9.11. SQL Binary String Functions and Operators**
+**表 9.11. SQL 二進位字串函式與運算子**
 
 <table border="1" class="table" summary="SQL Binary String Functions and Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function/Operator
+        函式／運算子
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.11.5.2.2.1.1.1.1"></a>
 <code class="type">bytea</code> <code class="literal">||</code> <code class="type">bytea</code>
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Concatenates the two binary strings.
+        串接兩個二進位字串。
        </p>
 <p>
 <code class="literal">'\x123456'::bytea || '\x789a00bcde'::bytea</code>
@@ -44,8 +37,7 @@ that use the regular function invocation syntax
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns number of bits in the binary string (8
-        times the <code class="function">octet_length</code>).
+        回傳二進位字串中的位元數（<code class="function">octet_length</code> 的 8 倍）。
        </p>
 <p>
 <code class="literal">bit_length('\x123456'::bytea)</code>
@@ -57,9 +49,7 @@ that use the regular function invocation syntax
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Removes the longest string containing only bytes appearing in
-        <em class="parameter"><code>bytesremoved</code></em> from the start and end of
-        <em class="parameter"><code>bytes</code></em>.
+        將只由 <em class="parameter"><code>bytesremoved</code></em> 中出現之位元組組成的最長字串，從 <em class="parameter"><code>bytes</code></em> 的開頭與結尾移除。
        </p>
 <p>
 <code class="literal">btrim('\x1234567890'::bytea, '\x9012'::bytea)</code>
@@ -71,9 +61,7 @@ that use the regular function invocation syntax
          → <code class="returnvalue">bytea</code>
 </p>
 <p>
-         Removes the longest string containing only bytes appearing in
-         <em class="parameter"><code>bytesremoved</code></em> from the start of
-         <em class="parameter"><code>bytes</code></em>.
+         將只由 <em class="parameter"><code>bytesremoved</code></em> 中出現之位元組組成的最長字串，從 <em class="parameter"><code>bytes</code></em> 的開頭移除。
         </p>
 <p>
 <code class="literal">ltrim('\x1234567890'::bytea, '\x9012'::bytea)</code>
@@ -84,7 +72,7 @@ that use the regular function invocation syntax
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns number of bytes in the binary string.
+        回傳二進位字串中的位元組數。
        </p>
 <p>
 <code class="literal">octet_length('\x123456'::bytea)</code>
@@ -95,12 +83,7 @@ that use the regular function invocation syntax
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Replaces the substring of <em class="parameter"><code>bytes</code></em> that starts at
-        the <em class="parameter"><code>start</code></em>'th byte and extends
-        for <em class="parameter"><code>count</code></em> bytes
-        with <em class="parameter"><code>newsubstring</code></em>.
-        If <em class="parameter"><code>count</code></em> is omitted, it defaults to the length
-        of <em class="parameter"><code>newsubstring</code></em>.
+        將 <em class="parameter"><code>bytes</code></em> 中從第 <em class="parameter"><code>start</code></em> 個位元組開始、延伸 <em class="parameter"><code>count</code></em> 個位元組的子字串，替換為 <em class="parameter"><code>newsubstring</code></em>。如果省略 <em class="parameter"><code>count</code></em>，預設為 <em class="parameter"><code>newsubstring</code></em> 的長度。
        </p>
 <p>
 <code class="literal">overlay('\x1234567890'::bytea placing '\002\003'::bytea from 2 for 3)</code>
@@ -111,9 +94,7 @@ that use the regular function invocation syntax
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns first starting index of the specified
-        <em class="parameter"><code>substring</code></em> within
-        <em class="parameter"><code>bytes</code></em>, or zero if it's not present.
+        回傳指定的 <em class="parameter"><code>substring</code></em> 在 <em class="parameter"><code>bytes</code></em> 中第一次出現的起始索引；如果不存在則回傳零。
        </p>
 <p>
 <code class="literal">position('\x5678'::bytea in '\x1234567890'::bytea)</code>
@@ -125,9 +106,7 @@ that use the regular function invocation syntax
          → <code class="returnvalue">bytea</code>
 </p>
 <p>
-         Removes the longest string containing only bytes appearing in
-         <em class="parameter"><code>bytesremoved</code></em> from the end of
-         <em class="parameter"><code>bytes</code></em>.
+         將只由 <em class="parameter"><code>bytesremoved</code></em> 中出現之位元組組成的最長字串，從 <em class="parameter"><code>bytes</code></em> 的結尾移除。
         </p>
 <p>
 <code class="literal">rtrim('\x1234567890'::bytea, '\x9012'::bytea)</code>
@@ -138,11 +117,7 @@ that use the regular function invocation syntax
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Extracts the substring of <em class="parameter"><code>bytes</code></em> starting at
-        the <em class="parameter"><code>start</code></em>'th byte if that is specified,
-        and stopping after <em class="parameter"><code>count</code></em> bytes if that is
-        specified.  Provide at least one of <em class="parameter"><code>start</code></em>
-        and <em class="parameter"><code>count</code></em>.
+        擷取 <em class="parameter"><code>bytes</code></em> 的子字串：如果有指定，就從第 <em class="parameter"><code>start</code></em> 個位元組開始；如果有指定，就在 <em class="parameter"><code>count</code></em> 個位元組之後停止。<em class="parameter"><code>start</code></em> 與 <em class="parameter"><code>count</code></em> 至少要提供其中一個。
        </p>
 <p>
 <code class="literal">substring('\x1234567890'::bytea from 3 for 2)</code>
@@ -155,10 +130,7 @@ that use the regular function invocation syntax
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Removes the longest string containing only bytes appearing in
-        <em class="parameter"><code>bytesremoved</code></em> from the start,
-        end, or both ends (<code class="literal">BOTH</code> is the default)
-        of <em class="parameter"><code>bytes</code></em>.
+        將只由 <em class="parameter"><code>bytesremoved</code></em> 中出現之位元組組成的最長字串，從開頭、結尾或兩端（預設為 <code class="literal">BOTH</code>）移除，處理的對象是 <em class="parameter"><code>bytes</code></em>。
        </p>
 <p>
 <code class="literal">trim('\x9012'::bytea from '\x1234567890'::bytea)</code>
@@ -170,7 +142,7 @@ that use the regular function invocation syntax
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        This is a non-standard syntax for <code class="function">trim()</code>.
+        這是 <code class="function">trim()</code> 的非標準語法。
        </p>
 <p>
 <code class="literal">trim(both from '\x1234567890'::bytea, '\x9012'::bytea)</code>
@@ -179,23 +151,20 @@ that use the regular function invocation syntax
 
 <br>
 
-Additional binary string manipulation functions are available and
-are listed in [Table 9.12](functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER). Some
-of them are used internally to implement the
-SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#FUNCTIONS-BINARYSTRING-SQL).
+另外還有其他二進位字串操作函式可用，列於[表 9.12](functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER)。其中有些在內部用來實作[表 9.11](functions-binarystring.md#FUNCTIONS-BINARYSTRING-SQL) 所列的 SQL 標準字串函式。
 
 <a id="FUNCTIONS-BINARYSTRING-OTHER"></a>
 
-**Table 9.12. Other Binary String Functions**
+**表 9.12. 其他二進位字串函式**
 
 <table border="1" class="table" summary="Other Binary String Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.11.7.2.2.1.1.1.1"></a>
 <a class="indexterm" id="id-1.5.8.11.7.2.2.1.1.1.2"></a>
@@ -203,8 +172,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bigint</code>
 </p>
 <p>
-        Returns the number of bits set in the binary string (also known as
-        <span class="quote">“<span class="quote">popcount</span>”</span>).
+        回傳二進位字串中被設定的位元數（也稱為 <span class="quote">“<span class="quote">popcount</span>”</span>）。
        </p>
 <p>
 <code class="literal">bit_count('\x1234567890'::bytea)</code>
@@ -215,7 +183,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bigint</code>
 </p>
 <p>
-        Computes the CRC-32 value of the binary string.
+        計算二進位字串的 CRC-32 值。
        </p>
 <p>
 <code class="literal">crc32('abc'::bytea)</code>
@@ -226,7 +194,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bigint</code>
 </p>
 <p>
-        Computes the CRC-32C value of the binary string.
+        計算二進位字串的 CRC-32C 值。
        </p>
 <p>
 <code class="literal">crc32c('abc'::bytea)</code>
@@ -238,8 +206,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Extracts <a class="link" href="functions-binarystring.md#FUNCTIONS-ZEROBASED-NOTE">n'th</a> bit
-        from binary string.
+        從二進位字串中擷取<a class="link" href="functions-binarystring.md#FUNCTIONS-ZEROBASED-NOTE">第 n 個</a>位元。
        </p>
 <p>
 <code class="literal">get_bit('\x1234567890'::bytea, 30)</code>
@@ -251,8 +218,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Extracts <a class="link" href="functions-binarystring.md#FUNCTIONS-ZEROBASED-NOTE">n'th</a> byte
-        from binary string.
+        從二進位字串中擷取<a class="link" href="functions-binarystring.md#FUNCTIONS-ZEROBASED-NOTE">第 n 個</a>位元組。
        </p>
 <p>
 <code class="literal">get_byte('\x1234567890'::bytea, 4)</code>
@@ -265,7 +231,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of bytes in the binary string.
+        回傳二進位字串中的位元組數。
        </p>
 <p>
 <code class="literal">length('\x1234567890'::bytea)</code>
@@ -276,8 +242,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of characters in the binary string, assuming
-        that it is text in the given <em class="parameter"><code>encoding</code></em>.
+        假設二進位字串是以給定 <em class="parameter"><code>encoding</code></em> 編碼的文字，回傳其中的字元數。
        </p>
 <p>
 <code class="literal">length('jose'::bytea, 'UTF8')</code>
@@ -288,8 +253,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Computes the MD5 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">hash</a> of
-        the binary string, with the result written in hexadecimal.
+        計算二進位字串的 MD5 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">雜湊值</a>，結果以十六進位表示。
        </p>
 <p>
 <code class="literal">md5('Th\000omas'::bytea)</code>
@@ -300,7 +264,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Reverses the order of the bytes in the binary string.
+        反轉二進位字串中位元組的順序。
        </p>
 <p>
 <code class="literal">reverse('\xabcd'::bytea)</code>
@@ -313,8 +277,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Sets <a class="link" href="functions-binarystring.md#FUNCTIONS-ZEROBASED-NOTE">n'th</a> bit in
-        binary string to <em class="parameter"><code>newvalue</code></em>.
+        將二進位字串中的<a class="link" href="functions-binarystring.md#FUNCTIONS-ZEROBASED-NOTE">第 n 個</a>位元設為 <em class="parameter"><code>newvalue</code></em>。
        </p>
 <p>
 <code class="literal">set_bit('\x1234567890'::bytea, 30, 0)</code>
@@ -327,8 +290,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Sets <a class="link" href="functions-binarystring.md#FUNCTIONS-ZEROBASED-NOTE">n'th</a> byte in
-        binary string to <em class="parameter"><code>newvalue</code></em>.
+        將二進位字串中的<a class="link" href="functions-binarystring.md#FUNCTIONS-ZEROBASED-NOTE">第 n 個</a>位元組設為 <em class="parameter"><code>newvalue</code></em>。
        </p>
 <p>
 <code class="literal">set_byte('\x1234567890'::bytea, 4, 64)</code>
@@ -339,8 +301,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Computes the SHA-224 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">hash</a>
-        of the binary string.
+        計算二進位字串的 SHA-224 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">雜湊值</a>。
        </p>
 <p>
 <code class="literal">sha224('abc'::bytea)</code>
@@ -351,8 +312,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Computes the SHA-256 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">hash</a>
-        of the binary string.
+        計算二進位字串的 SHA-256 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">雜湊值</a>。
        </p>
 <p>
 <code class="literal">sha256('abc'::bytea)</code>
@@ -363,8 +323,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Computes the SHA-384 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">hash</a>
-        of the binary string.
+        計算二進位字串的 SHA-384 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">雜湊值</a>。
        </p>
 <p>
 <code class="literal">sha384('abc'::bytea)</code>
@@ -375,8 +334,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Computes the SHA-512 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">hash</a>
-        of the binary string.
+        計算二進位字串的 SHA-512 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">雜湊值</a>。
        </p>
 <p>
 <code class="literal">sha512('abc'::bytea)</code>
@@ -387,13 +345,7 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Extracts the substring of <em class="parameter"><code>bytes</code></em> starting at
-        the <em class="parameter"><code>start</code></em>'th byte,
-        and extending for <em class="parameter"><code>count</code></em> bytes if that is
-        specified.  (Same
-        as <code class="literal">substring(<em class="parameter"><code>bytes</code></em>
-        from <em class="parameter"><code>start</code></em>
-        for <em class="parameter"><code>count</code></em>)</code>.)
+        擷取 <em class="parameter"><code>bytes</code></em> 從第 <em class="parameter"><code>start</code></em> 個位元組開始的子字串；如果有指定，則延伸 <em class="parameter"><code>count</code></em> 個位元組。（與 <code class="literal">substring(<em class="parameter"><code>bytes</code></em> from <em class="parameter"><code>start</code></em> for <em class="parameter"><code>count</code></em>)</code> 相同。）
        </p>
 <p>
 <code class="literal">substr('\x1234567890'::bytea, 3, 2)</code>
@@ -402,47 +354,28 @@ SQL-standard string functions listed in [Table 9.11](functions-binarystring.md#
 
 <br><a id="FUNCTIONS-ZEROBASED-NOTE"></a>
 
-Functions `get_byte` and `set_byte`
-number the first byte of a binary string as byte 0.
-Functions `get_bit` and `set_bit`
-number bits from the right within each byte; for example bit 0 is the least
-significant bit of the first byte, and bit 15 is the most significant bit
-of the second byte.
+函式 `get_byte` 與 `set_byte` 將二進位字串的第一個位元組編號為第 0 個位元組。函式 `get_bit` 與 `set_bit` 在每個位元組內從右邊開始為位元編號；例如，第 0 個位元是第一個位元組的最低有效位元，而第 15 個位元是第二個位元組的最高有效位元。
 
 <a id="FUNCTIONS-HASH-NOTE"></a>
 
-For historical reasons, the function `md5`
-returns a hex-encoded value of type `text` whereas the SHA-2
-functions return type `bytea`. Use the functions
-[`encode`](functions-binarystring.md#FUNCTION-ENCODE)
-and [`decode`](functions-binarystring.md#FUNCTION-DECODE) to
-convert between the two. For example write `encode(sha256('abc'),
-'hex')` to get a hex-encoded text representation,
-or `decode(md5('abc'), 'hex')` to get
-a `bytea` value.
+基於歷史原因，函式 `md5` 回傳的是以十六進位編碼的 `text` 型別值，而 SHA-2 函式回傳的則是 `bytea` 型別。請使用函式 [`encode`](functions-binarystring.md#FUNCTION-ENCODE) 與 [`decode`](functions-binarystring.md#FUNCTION-DECODE) 在兩者之間轉換。例如，寫成 `encode(sha256('abc'), 'hex')` 可以得到十六進位編碼的文字表示，寫成 `decode(md5('abc'), 'hex')` 則可以得到 `bytea` 值。
 
 <a id="id-1.5.8.11.10.1"></a>
 <a id="id-1.5.8.11.10.2"></a>
-Functions for converting strings between different character sets
-(encodings), and for representing arbitrary binary data in textual
-form, are shown in
-[Table 9.13](functions-binarystring.md#FUNCTIONS-BINARYSTRING-CONVERSIONS). For these
-functions, an argument or result of type `text` is expressed
-in the database's default encoding, while arguments or results of
-type `bytea` are in an encoding named by another argument.
+用於在不同字元集（編碼）之間轉換字串，以及以文字形式表示任意二進位資料的函式，列於[表 9.13](functions-binarystring.md#FUNCTIONS-BINARYSTRING-CONVERSIONS)。對於這些函式，`text` 型別的引數或結果是以資料庫的預設編碼表示，而 `bytea` 型別的引數或結果則是以另一個引數所指定的編碼表示。
 
 <a id="FUNCTIONS-BINARYSTRING-CONVERSIONS"></a>
 
-**Table 9.13. Text/Binary String Conversion Functions**
+**表 9.13. 文字／二進位字串轉換函式**
 
 <table border="1" class="table" summary="Text/Binary String Conversion Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-       Function
+       函式
       </p>
 <p>
-       Description
+       說明
       </p>
 <p>
-       Example(s)
+       範例
       </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.11.11.2.2.1.1.1.1"></a>
 <code class="function">convert</code> ( <em class="parameter"><code>bytes</code></em> <code class="type">bytea</code>,
@@ -451,11 +384,7 @@ type `bytea` are in an encoding named by another argument.
        → <code class="returnvalue">bytea</code>
 </p>
 <p>
-       Converts a binary string representing text in
-       encoding <em class="parameter"><code>src_encoding</code></em>
-       to a binary string in encoding <em class="parameter"><code>dest_encoding</code></em>
-       (see <a class="xref" href="../../server-administration/charset/multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED">Section 23.3.4</a> for
-       available conversions).
+       將代表以 <em class="parameter"><code>src_encoding</code></em> 編碼之文字的二進位字串，轉換為以 <em class="parameter"><code>dest_encoding</code></em> 編碼的二進位字串（可用的轉換請參閱<a class="xref" href="../../server-administration/charset/multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED">第 23.3.4 節</a>）。
       </p>
 <p>
 <code class="literal">convert('text_in_utf8', 'UTF8', 'LATIN1')</code>
@@ -467,11 +396,7 @@ type `bytea` are in an encoding named by another argument.
        → <code class="returnvalue">text</code>
 </p>
 <p>
-       Converts a binary string representing text in
-       encoding <em class="parameter"><code>src_encoding</code></em>
-       to <code class="type">text</code> in the database encoding
-       (see <a class="xref" href="../../server-administration/charset/multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED">Section 23.3.4</a> for
-       available conversions).
+       將代表以 <em class="parameter"><code>src_encoding</code></em> 編碼之文字的二進位字串，轉換為資料庫編碼的 <code class="type">text</code>（可用的轉換請參閱<a class="xref" href="../../server-administration/charset/multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED">第 23.3.4 節</a>）。
       </p>
 <p>
 <code class="literal">convert_from('text_in_utf8', 'UTF8')</code>
@@ -483,10 +408,7 @@ type `bytea` are in an encoding named by another argument.
        → <code class="returnvalue">bytea</code>
 </p>
 <p>
-       Converts a <code class="type">text</code> string (in the database encoding) to a
-       binary string encoded in encoding <em class="parameter"><code>dest_encoding</code></em>
-       (see <a class="xref" href="../../server-administration/charset/multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED">Section 23.3.4</a> for
-       available conversions).
+       將 <code class="type">text</code> 字串（資料庫編碼）轉換為以 <em class="parameter"><code>dest_encoding</code></em> 編碼的二進位字串（可用的轉換請參閱<a class="xref" href="../../server-administration/charset/multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED">第 23.3.4 節</a>）。
       </p>
 <p>
 <code class="literal">convert_to('some_text', 'UTF8')</code>
@@ -498,11 +420,7 @@ type `bytea` are in an encoding named by another argument.
        → <code class="returnvalue">text</code>
 </p>
 <p>
-       Encodes binary data into a textual representation; supported
-       <em class="parameter"><code>format</code></em> values are:
-       <a class="link" href="functions-binarystring.md#ENCODE-FORMAT-BASE64"><code class="literal">base64</code></a>,
-       <a class="link" href="functions-binarystring.md#ENCODE-FORMAT-ESCAPE"><code class="literal">escape</code></a>,
-       <a class="link" href="functions-binarystring.md#ENCODE-FORMAT-HEX"><code class="literal">hex</code></a>.
+       將二進位資料編碼為文字表示；支援的 <em class="parameter"><code>format</code></em> 值為：<a class="link" href="functions-binarystring.md#ENCODE-FORMAT-BASE64"><code class="literal">base64</code></a>、<a class="link" href="functions-binarystring.md#ENCODE-FORMAT-ESCAPE"><code class="literal">escape</code></a>、<a class="link" href="functions-binarystring.md#ENCODE-FORMAT-HEX"><code class="literal">hex</code></a>。
       </p>
 <p>
 <code class="literal">encode('123\000\001', 'base64')</code>
@@ -514,9 +432,7 @@ type `bytea` are in an encoding named by another argument.
        → <code class="returnvalue">bytea</code>
 </p>
 <p>
-       Decodes binary data from a textual representation; supported
-       <em class="parameter"><code>format</code></em> values are the same as
-       for <code class="function">encode</code>.
+       從文字表示解碼二進位資料；支援的 <em class="parameter"><code>format</code></em> 值與 <code class="function">encode</code> 相同。
       </p>
 <p>
 <code class="literal">decode('MTIzAAE=', 'base64')</code>
@@ -525,53 +441,22 @@ type `bytea` are in an encoding named by another argument.
 
 <br>
 
-The `encode` and `decode`
-functions support the following textual formats:
+`encode` 與 `decode` 函式支援下列文字格式：
 
 <a id="ENCODE-FORMAT-BASE64"></a>
 
 base64 <a id="id-1.5.8.11.12.3.1.1.1"></a> [#](#ENCODE-FORMAT-BASE64)
-:   The `base64` format is that
-    of [RFC
-    2045 Section 6.8](https://datatracker.ietf.org/doc/html/rfc2045#section-6.8). As per the RFC, encoded lines are
-    broken at 76 characters. However instead of the MIME CRLF
-    end-of-line marker, only a newline is used for end-of-line.
-    The `decode` function ignores carriage-return,
-    newline, space, and tab characters. Otherwise, an error is
-    raised when `decode` is supplied invalid
-    base64 data — including when trailing padding is incorrect.
+:   `base64` 格式即 [RFC 2045 第 6.8 節](https://datatracker.ietf.org/doc/html/rfc2045#section-6.8)所定義的格式。依照該 RFC，編碼後的行會在 76 個字元處斷行。不過，行尾只使用換行字元，而不是 MIME 的 CRLF 行尾標記。`decode` 函式會忽略歸位字元、換行字元、空白與 tab 字元。除此之外，當提供給 `decode` 的 base64 資料無效時——包括尾端填補不正確的情況——就會引發錯誤。
 <a id="ENCODE-FORMAT-ESCAPE"></a>
 
 escape <a id="id-1.5.8.11.12.3.2.1.1"></a> [#](#ENCODE-FORMAT-ESCAPE)
-:   The `escape` format converts zero bytes and
-    bytes with the high bit set into octal escape sequences
-    (`\`*`nnn`*), and it doubles
-    backslashes. Other byte values are represented literally.
-    The `decode` function will raise an error if a
-    backslash is not followed by either a second backslash or three
-    octal digits; it accepts other byte values unchanged.
+:   `escape` 格式會將零位元組以及最高位元已設定的位元組轉換為八進位跳脫序列（`\`*`nnn`*），並將反斜線重複。其他的位元組值則按字面表示。如果反斜線後面接的既不是第二個反斜線，也不是三個八進位數字，`decode` 函式就會引發錯誤；其他的位元組值則原樣接受。
 <a id="ENCODE-FORMAT-HEX"></a>
 
 hex <a id="id-1.5.8.11.12.3.3.1.1"></a> [#](#ENCODE-FORMAT-HEX)
-:   The `hex` format represents each 4 bits of
-    data as one hexadecimal digit, `0`
-    through `f`, writing the higher-order digit of
-    each byte first. The `encode` function outputs
-    the `a`-`f` hex digits in lower
-    case. Because the smallest unit of data is 8 bits, there are
-    always an even number of characters returned
-    by `encode`.
-    The `decode` function
-    accepts the `a`-`f` characters in
-    either upper or lower case. An error is raised
-    when `decode` is given invalid hex data
-    — including when given an odd number of characters.
+:   `hex` 格式將每 4 個位元的資料表示為一個十六進位數字（`0` 到 `f`），並先寫出每個位元組的高位數字。`encode` 函式會以小寫輸出 `a`-`f` 的十六進位數字。由於最小的資料單位是 8 個位元，`encode` 回傳的字元數一定是偶數。`decode` 函式接受大寫或小寫的 `a`-`f` 字元。當提供給 `decode` 的十六進位資料無效時——包括提供了奇數個字元的情況——就會引發錯誤。
 
-In addition, it is possible to cast integral values to and from type
-`bytea`. Casting an integer to `bytea` produces
-2, 4, or 8 bytes, depending on the width of the integer type. The result
-is the two's complement representation of the integer, with the most
-significant byte first. Some examples:
+此外，整數值可以與 `bytea` 型別互相轉換。將整數轉換為 `bytea` 會產生 2、4 或 8 個位元組，取決於整數型別的寬度。結果是該整數的二補數表示，最高有效位元組在前。一些範例：
 
 ```
 
@@ -582,13 +467,10 @@ cast(-1234 as bytea)           \xfffffb2e
 '\x8000'::bytea::integer       32768
 ```
 
-Casting a `bytea` to an integer will raise an error if the
-length of the `bytea` exceeds the width of the integer type.
+如果 `bytea` 的長度超過整數型別的寬度，將 `bytea` 轉換為整數就會引發錯誤。
 
-See also the aggregate function `string_agg` in
-[Section 9.21](functions-aggregate.md) and the large object functions
-in [Section 33.4](../../client-interfaces/largeobjects/lo-funcs.md).
+另請參閱[第 9.21 節](functions-aggregate.md)中的彙總函式 `string_agg`，以及[第 33.4 節](../../client-interfaces/largeobjects/lo-funcs.md)中的大型物件函式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-binarystring.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-binarystring.html)（原文版本：18.6；核對日期：2026-09-11）

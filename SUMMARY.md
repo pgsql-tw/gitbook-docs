@@ -93,7 +93,7 @@
     * [9.2. Comparison Functions and Operators #](the-sql-language/functions/functions-comparison.md)
     * [9.3. Mathematical Functions and Operators #](the-sql-language/functions/functions-math.md)
     * [9.4. String Functions and Operators #](the-sql-language/functions/functions-string.md)
-    * [9.5. Binary String Functions and Operators #](the-sql-language/functions/functions-binarystring.md)
+    * [9.5. 二進位字串函式與運算子 #](the-sql-language/functions/functions-binarystring.md)
     * [9.6. Bit String Functions and Operators #](the-sql-language/functions/functions-bitstring.md)
     * [9.7. Pattern Matching #](the-sql-language/functions/functions-matching.md)
     * [9.8. Data Type Formatting Functions #](the-sql-language/functions/functions-formatting.md)
