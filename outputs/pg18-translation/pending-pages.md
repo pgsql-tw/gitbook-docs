@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：827 頁。
+待譯頁面：826 頁。
 
 ## 根目錄
 
@@ -1074,7 +1074,7 @@
 - [x] `the-sql-language/functions/functions-json.md` — 9.16. JSON 函式與運算子 #
 - [x] `the-sql-language/functions/functions-logical.md` — 9.1. 邏輯運算子 #
 - [x] `the-sql-language/functions/functions-matching.md` — 9.7. 模式比對 #
-- [ ] `the-sql-language/functions/functions-math.md` — 9.3. Mathematical Functions and Operators #
+- [x] `the-sql-language/functions/functions-math.md` — 9.3. 數學函式與運算子 #
 - [ ] `the-sql-language/functions/functions-merge-support.md` — 9.23. Merge Support Functions #
 - [ ] `the-sql-language/functions/functions-net.md` — 9.12. Network Address Functions and Operators #
 - [ ] `the-sql-language/functions/functions-range.md` — 9.20. Range/Multirange Functions and Operators #

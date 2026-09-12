@@ -1,44 +1,29 @@
-## 9.3. Mathematical Functions and Operators [#](#FUNCTIONS-MATH)
+<a id="FUNCTIONS-MATH"></a>
 
-Mathematical operators are provided for many
-PostgreSQL types. For types without
-standard mathematical conventions
-(e.g., date/time types) we
-describe the actual behavior in subsequent sections.
+## 9.3. 數學函式與運算子 [#](#FUNCTIONS-MATH)
 
-[Table 9.4](functions-math.md#FUNCTIONS-MATH-OP-TABLE) shows the mathematical
-operators that are available for the standard numeric types.
-Unless otherwise noted, operators shown as
-accepting *`numeric_type`* are available for all
-the types `smallint`, `integer`,
-`bigint`, `numeric`, `real`,
-and `double precision`.
-Operators shown as accepting *`integral_type`*
-are available for the types `smallint`, `integer`,
-and `bigint`.
-Except where noted, each form of an operator returns the same data type
-as its argument(s). Calls involving multiple argument data types, such
-as `integer` `+` `numeric`,
-are resolved by using the type appearing later in these lists.
+許多 PostgreSQL 型別都提供了數學運算子。對於沒有標準數學慣例的型別（例如日期／時間型別），我們會在後續各節中說明實際的行為。
+
+[表 9.4](functions-math.md#FUNCTIONS-MATH-OP-TABLE) 列出了可用於標準數值型別的數學運算子。除非另有註明，顯示為接受 *`numeric_type`* 的運算子，適用於 `smallint`、`integer`、`bigint`、`numeric`、`real` 與 `double precision` 等所有型別。顯示為接受 *`integral_type`* 的運算子，適用於 `smallint`、`integer` 與 `bigint` 型別。除非另有註明，運算子的每種形式都回傳與其引數相同的資料型別。涉及多種引數資料型別的呼叫，例如 `integer` `+` `numeric`，會使用在這些清單中排在較後面的型別來解析。
 
 <a id="FUNCTIONS-MATH-OP-TABLE"></a>
 
-**Table 9.4. Mathematical Operators**
+**表 9.4. 數學運算子**
 
 <table border="1" class="table" summary="Mathematical Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <em class="replaceable"><code>numeric_type</code></em> <code class="literal">+</code> <em class="replaceable"><code>numeric_type</code></em>
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Addition
+        加法
        </p>
 <p>
 <code class="literal">2 + 3</code>
@@ -48,7 +33,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Unary plus (no operation)
+        單元加號（不做任何運算）
        </p>
 <p>
 <code class="literal">+ 3.5</code>
@@ -58,7 +43,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Subtraction
+        減法
        </p>
 <p>
 <code class="literal">2 - 3</code>
@@ -68,7 +53,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Negation
+        取負
        </p>
 <p>
 <code class="literal">- (-4)</code>
@@ -78,7 +63,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Multiplication
+        乘法
        </p>
 <p>
 <code class="literal">2 * 3</code>
@@ -88,8 +73,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Division (for integral types, division truncates the result towards
-        zero)
+        除法（對於整數型別，除法會將結果朝零截斷）
        </p>
 <p>
 <code class="literal">5.0 / 2</code>
@@ -107,8 +91,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Modulo (remainder); available for <code class="type">smallint</code>,
-        <code class="type">integer</code>, <code class="type">bigint</code>, and <code class="type">numeric</code>
+        模數（餘數）；適用於 <code class="type">smallint</code>、<code class="type">integer</code>、<code class="type">bigint</code> 與 <code class="type">numeric</code>
 </p>
 <p>
 <code class="literal">5 % 4</code>
@@ -122,15 +105,14 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Exponentiation
+        指數運算
        </p>
 <p>
 <code class="literal">2 ^ 3</code>
         → <code class="returnvalue">8</code>
 </p>
 <p>
-        Unlike typical mathematical practice, multiple uses of
-        <code class="literal">^</code> will associate left to right by default:
+        與一般的數學慣例不同，多次使用 <code class="literal">^</code> 時，預設會由左至右結合：
        </p>
 <p>
 <code class="literal">2 ^ 3 ^ 3</code>
@@ -144,7 +126,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Square root
+        平方根
        </p>
 <p>
 <code class="literal">|/ 25.0</code>
@@ -154,7 +136,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Cube root
+        立方根
        </p>
 <p>
 <code class="literal">||/ 64.0</code>
@@ -164,7 +146,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Absolute value
+        絕對值
        </p>
 <p>
 <code class="literal">@ -5.0</code>
@@ -174,7 +156,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>integral_type</code></em></code>
 </p>
 <p>
-        Bitwise AND
+        位元 AND
        </p>
 <p>
 <code class="literal">91 &amp; 15</code>
@@ -184,7 +166,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>integral_type</code></em></code>
 </p>
 <p>
-        Bitwise OR
+        位元 OR
        </p>
 <p>
 <code class="literal">32 | 3</code>
@@ -194,7 +176,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>integral_type</code></em></code>
 </p>
 <p>
-        Bitwise exclusive OR
+        位元互斥 OR
        </p>
 <p>
 <code class="literal">17 # 5</code>
@@ -204,7 +186,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>integral_type</code></em></code>
 </p>
 <p>
-        Bitwise NOT
+        位元 NOT
        </p>
 <p>
 <code class="literal">~1</code>
@@ -214,7 +196,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>integral_type</code></em></code>
 </p>
 <p>
-        Bitwise shift left
+        位元左移
        </p>
 <p>
 <code class="literal">1 &lt;&lt; 4</code>
@@ -224,7 +206,7 @@ are resolved by using the type appearing later in these lists.
         → <code class="returnvalue"><em class="replaceable"><code>integral_type</code></em></code>
 </p>
 <p>
-        Bitwise shift right
+        位元右移
        </p>
 <p>
 <code class="literal">8 &gt;&gt; 2</code>
@@ -233,36 +215,27 @@ are resolved by using the type appearing later in these lists.
 
 <br>
 
-[Table 9.5](functions-math.md#FUNCTIONS-MATH-FUNC-TABLE) shows the available
-mathematical functions.
-Many of these functions are provided in multiple forms with different
-argument types.
-Except where noted, any given form of a function returns the same
-data type as its argument(s); cross-type cases are resolved in the
-same way as explained above for operators.
-The functions working with `double precision` data are mostly
-implemented on top of the host system's C library; accuracy and behavior in
-boundary cases can therefore vary depending on the host system.
+[表 9.5](functions-math.md#FUNCTIONS-MATH-FUNC-TABLE) 列出了可用的數學函式。這些函式中有許多都以具有不同引數型別的多種形式提供。除非另有註明，函式的任何一種形式都回傳與其引數相同的資料型別；跨型別的情況，會以與上面運算子相同的方式解析。處理 `double precision` 資料的函式，大多是以主機系統的 C 函式庫為基礎實作的；因此，精確度以及在邊界情況下的行為，可能會依主機系統而有所不同。
 
 <a id="FUNCTIONS-MATH-FUNC-TABLE"></a>
 
-**Table 9.5. Mathematical Functions**
+**表 9.5. 數學函式**
 
 <table border="1" class="table" summary="Mathematical Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.9.6.2.2.1.1.1.1"></a>
 <code class="function">abs</code> ( <em class="replaceable"><code>numeric_type</code></em> )
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Absolute value
+        絕對值
        </p>
 <p>
 <code class="literal">abs(-17.4)</code>
@@ -273,7 +246,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Cube root
+        立方根
        </p>
 <p>
 <code class="literal">cbrt(64.0)</code>
@@ -288,7 +261,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Nearest integer greater than or equal to argument
+        大於或等於引數的最接近整數
        </p>
 <p>
 <code class="literal">ceil(42.2)</code>
@@ -307,8 +280,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Nearest integer greater than or equal to argument (same
-        as <code class="function">ceil</code>)
+        大於或等於引數的最接近整數（與 <code class="function">ceil</code> 相同）
        </p>
 <p>
 <code class="literal">ceiling(95.3)</code>
@@ -319,7 +291,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Converts radians to degrees
+        將弧度轉換為度數
        </p>
 <p>
 <code class="literal">degrees(0.5)</code>
@@ -331,8 +303,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">numeric</code>
 </p>
 <p>
-        Integer quotient of <em class="parameter"><code>y</code></em>/<em class="parameter"><code>x</code></em>
-        (truncates towards zero)
+        <em class="parameter"><code>y</code></em>/<em class="parameter"><code>x</code></em> 的整數商（朝零截斷）
        </p>
 <p>
 <code class="literal">div(9, 4)</code>
@@ -343,7 +314,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Error function
+        誤差函數
        </p>
 <p>
 <code class="literal">erf(1.0)</code>
@@ -354,8 +325,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Complementary error function (<code class="literal">1 - erf(x)</code>, without
-        loss of precision for large inputs)
+        互補誤差函數（<code class="literal">1 - erf(x)</code>，對於大的輸入不會損失精度）
        </p>
 <p>
 <code class="literal">erfc(1.0)</code>
@@ -370,7 +340,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Exponential (<code class="literal">e</code> raised to the given power)
+        指數（<code class="literal">e</code> 的給定次方）
        </p>
 <p>
 <code class="literal">exp(1.0)</code>
@@ -381,7 +351,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">numeric</code>
 </p>
 <p>
-        Factorial
+        階乘
        </p>
 <p>
 <code class="literal">factorial(5)</code>
@@ -396,7 +366,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Nearest integer less than or equal to argument
+        小於或等於引數的最接近整數
        </p>
 <p>
 <code class="literal">floor(42.8)</code>
@@ -411,7 +381,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Gamma function
+        伽瑪函數
        </p>
 <p>
 <code class="literal">gamma(0.5)</code>
@@ -426,10 +396,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Greatest common divisor (the largest positive number that divides both
-        inputs with no remainder); returns <code class="literal">0</code> if both inputs
-        are zero; available for <code class="type">integer</code>, <code class="type">bigint</code>,
-        and <code class="type">numeric</code>
+        最大公因數（能整除兩個輸入而沒有餘數的最大正數）；如果兩個輸入都是零，則回傳 <code class="literal">0</code>；適用於 <code class="type">integer</code>、<code class="type">bigint</code> 與 <code class="type">numeric</code>
 </p>
 <p>
 <code class="literal">gcd(1071, 462)</code>
@@ -440,10 +407,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Least common multiple (the smallest strictly positive number that is
-        an integral multiple of both inputs); returns <code class="literal">0</code> if
-        either input is zero; available for <code class="type">integer</code>,
-        <code class="type">bigint</code>, and <code class="type">numeric</code>
+        最小公倍數（同時是兩個輸入之整數倍的最小嚴格正數）；如果任一輸入為零，則回傳 <code class="literal">0</code>；適用於 <code class="type">integer</code>、<code class="type">bigint</code> 與 <code class="type">numeric</code>
 </p>
 <p>
 <code class="literal">lcm(1071, 462)</code>
@@ -454,7 +418,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Natural logarithm of the absolute value of the gamma function
+        伽瑪函數絕對值的自然對數
        </p>
 <p>
 <code class="literal">lgamma(1000)</code>
@@ -469,7 +433,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Natural logarithm
+        自然對數
        </p>
 <p>
 <code class="literal">ln(2.0)</code>
@@ -484,7 +448,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Base 10 logarithm
+        以 10 為底的對數
        </p>
 <p>
 <code class="literal">log(100)</code>
@@ -499,7 +463,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Base 10 logarithm (same as <code class="function">log</code>)
+        以 10 為底的對數（與 <code class="function">log</code> 相同）
        </p>
 <p>
 <code class="literal">log10(1000)</code>
@@ -510,7 +474,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">numeric</code>
 </p>
 <p>
-        Logarithm of <em class="parameter"><code>x</code></em> to base <em class="parameter"><code>b</code></em>
+        <em class="parameter"><code>x</code></em> 以 <em class="parameter"><code>b</code></em> 為底的對數
 </p>
 <p>
 <code class="literal">log(2.0, 64.0)</code>
@@ -521,8 +485,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Minimum scale (number of fractional decimal digits) needed
-        to represent the supplied value precisely
+        精確表示所提供的值所需的最小小數位數（scale）
        </p>
 <p>
 <code class="literal">min_scale(8.4100)</code>
@@ -534,9 +497,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue"><em class="replaceable"><code>numeric_type</code></em></code>
 </p>
 <p>
-        Remainder of <em class="parameter"><code>y</code></em>/<em class="parameter"><code>x</code></em>;
-        available for <code class="type">smallint</code>, <code class="type">integer</code>,
-        <code class="type">bigint</code>, and <code class="type">numeric</code>
+        <em class="parameter"><code>y</code></em>/<em class="parameter"><code>x</code></em> 的餘數；適用於 <code class="type">smallint</code>、<code class="type">integer</code>、<code class="type">bigint</code> 與 <code class="type">numeric</code>
 </p>
 <p>
 <code class="literal">mod(9, 4)</code>
@@ -547,7 +508,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Approximate value of <span class="symbol_font">π</span>
+        <span class="symbol_font">π</span> 的近似值
 </p>
 <p>
 <code class="literal">pi()</code>
@@ -564,7 +525,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-<em class="parameter"><code>a</code></em> raised to the power of <em class="parameter"><code>b</code></em>
+<em class="parameter"><code>a</code></em> 的 <em class="parameter"><code>b</code></em> 次方
 </p>
 <p>
 <code class="literal">power(9, 3)</code>
@@ -575,7 +536,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Converts degrees to radians
+        將度數轉換為弧度
        </p>
 <p>
 <code class="literal">radians(45.0)</code>
@@ -590,10 +551,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Rounds to nearest integer.  For <code class="type">numeric</code>, ties are
-        broken by rounding away from zero.  For <code class="type">double precision</code>,
-        the tie-breaking behavior is platform dependent, but
-        <span class="quote">“<span class="quote">round to nearest even</span>”</span> is the most common rule.
+        四捨五入到最接近的整數。對於 <code class="type">numeric</code>，恰好在中間的值會以遠離零的方向捨入。對於 <code class="type">double precision</code>，中間值的處理方式取決於平台，但<span class="quote">“<span class="quote">捨入到最接近的偶數</span>”</span>是最常見的規則。
        </p>
 <p>
 <code class="literal">round(42.4)</code>
@@ -603,8 +561,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">numeric</code>
 </p>
 <p>
-        Rounds <em class="parameter"><code>v</code></em> to <em class="parameter"><code>s</code></em> decimal
-        places.  Ties are broken by rounding away from zero.
+        將 <em class="parameter"><code>v</code></em> 四捨五入到小數點後 <em class="parameter"><code>s</code></em> 位。恰好在中間的值會以遠離零的方向捨入。
        </p>
 <p>
 <code class="literal">round(42.4382, 2)</code>
@@ -619,7 +576,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Scale of the argument (the number of decimal digits in the fractional part)
+        引數的小數位數（scale，即小數部分的十進位位數）
        </p>
 <p>
 <code class="literal">scale(8.4100)</code>
@@ -634,7 +591,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Sign of the argument (-1, 0, or +1)
+        引數的正負號（-1、0 或 +1）
        </p>
 <p>
 <code class="literal">sign(-8.4)</code>
@@ -649,7 +606,7 @@ boundary cases can therefore vary depending on the host system.
          → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Square root
+        平方根
        </p>
 <p>
 <code class="literal">sqrt(2)</code>
@@ -660,8 +617,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">numeric</code>
 </p>
 <p>
-        Reduces the value's scale (number of fractional decimal digits) by
-        removing trailing zeroes
+        藉由移除尾端的零，減少值的小數位數（scale）
        </p>
 <p>
 <code class="literal">trim_scale(8.4100)</code>
@@ -676,7 +632,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Truncates to integer (towards zero)
+        截斷為整數（朝零截斷）
        </p>
 <p>
 <code class="literal">trunc(42.8)</code>
@@ -690,8 +646,7 @@ boundary cases can therefore vary depending on the host system.
        → <code class="returnvalue">numeric</code>
 </p>
 <p>
-        Truncates <em class="parameter"><code>v</code></em> to <em class="parameter"><code>s</code></em>
-        decimal places
+        將 <em class="parameter"><code>v</code></em> 截斷到小數點後 <em class="parameter"><code>s</code></em> 位
        </p>
 <p>
 <code class="literal">trunc(42.4382, 2)</code>
@@ -706,19 +661,7 @@ boundary cases can therefore vary depending on the host system.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of the bucket in
-        which <em class="parameter"><code>operand</code></em> falls in a histogram
-        having <em class="parameter"><code>count</code></em> equal-width buckets spanning the
-        range <em class="parameter"><code>low</code></em> to <em class="parameter"><code>high</code></em>.
-        The buckets have inclusive lower bounds and exclusive upper bounds.
-        Returns <code class="literal">0</code> for an input less
-        than <em class="parameter"><code>low</code></em>,
-        or <code class="literal"><em class="parameter"><code>count</code></em>+1</code> for an input
-        greater than or equal to <em class="parameter"><code>high</code></em>.
-        If <em class="parameter"><code>low</code></em> &gt; <em class="parameter"><code>high</code></em>,
-        the behavior is mirror-reversed, with bucket <code class="literal">1</code>
-        now being the one just below <em class="parameter"><code>low</code></em>, and the
-        inclusive bounds now being on the upper side.
+        回傳 <em class="parameter"><code>operand</code></em> 在一個具有 <em class="parameter"><code>count</code></em> 個等寬桶、範圍從 <em class="parameter"><code>low</code></em> 到 <em class="parameter"><code>high</code></em> 的直方圖中所落入之桶的編號。這些桶的下界是包含的，上界則不包含。回傳值為 <code class="literal">0</code> 表示輸入小於 <em class="parameter"><code>low</code></em>，為 <code class="literal"><em class="parameter"><code>count</code></em>+1</code> 則表示輸入大於或等於 <em class="parameter"><code>high</code></em>。如果 <em class="parameter"><code>low</code></em> &gt; <em class="parameter"><code>high</code></em>，行為會鏡像反轉：桶 <code class="literal">1</code> 變成正好位於 <em class="parameter"><code>low</code></em> 之下的桶，而包含的界限則改為在上側。
        </p>
 <p>
 <code class="literal">width_bucket(5.35, 0.024, 10.06, 5)</code>
@@ -732,15 +675,7 @@ boundary cases can therefore vary depending on the host system.
        → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of the bucket in
-        which <em class="parameter"><code>operand</code></em> falls given an array listing the
-        inclusive lower bounds of the buckets.
-        Returns <code class="literal">0</code> for an input less than the first lower
-        bound.  <em class="parameter"><code>operand</code></em> and the array elements can be
-        of any type having standard comparison operators.
-        The <em class="parameter"><code>thresholds</code></em> array <span class="emphasis"><em>must be
-        sorted</em></span>, smallest first, or unexpected results will be
-        obtained.
+        給定一個列出各桶之包含下界的陣列，回傳 <em class="parameter"><code>operand</code></em> 所落入之桶的編號。當輸入小於第一個下界時回傳 <code class="literal">0</code>。<em class="parameter"><code>operand</code></em> 與陣列元素可以是任何具有標準比較運算子的型別。<em class="parameter"><code>thresholds</code></em> 陣列<span class="emphasis"><em>必須依由小到大的順序排序</em></span>，否則會得到非預期的結果。
        </p>
 <p>
 <code class="literal">width_bucket(now(), array['yesterday', 'today', 'tomorrow']::timestamptz[])</code>
@@ -749,28 +684,27 @@ boundary cases can therefore vary depending on the host system.
 
 <br>
 
-[Table 9.6](functions-math.md#FUNCTIONS-MATH-RANDOM-TABLE) shows functions for
-generating random numbers.
+[表 9.6](functions-math.md#FUNCTIONS-MATH-RANDOM-TABLE) 列出了用於產生隨機數的函式。
 
 <a id="FUNCTIONS-MATH-RANDOM-TABLE"></a>
 
-**Table 9.6. Random Functions**
+**表 9.6. 隨機函式**
 
 <table border="1" class="table" summary="Random Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.9.8.2.2.1.1.1.1"></a>
 <code class="function">random</code> ( )
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Returns a random value in the range 0.0 &lt;= x &lt; 1.0
+        回傳範圍在 0.0 &lt;= x &lt; 1.0 之間的隨機值
        </p>
 <p>
 <code class="literal">random()</code>
@@ -789,11 +723,7 @@ generating random numbers.
         → <code class="returnvalue">numeric</code>
 </p>
 <p>
-        Returns a random value in the range
-        <em class="parameter"><code>min</code></em> &lt;= x &lt;= <em class="parameter"><code>max</code></em>.
-        For type <code class="type">numeric</code>, the result will have the same number of
-        fractional decimal digits as <em class="parameter"><code>min</code></em> or
-        <em class="parameter"><code>max</code></em>, whichever has more.
+        回傳範圍在 <em class="parameter"><code>min</code></em> &lt;= x &lt;= <em class="parameter"><code>max</code></em> 之間的隨機值。對於 <code class="type">numeric</code> 型別，結果的小數位數會與 <em class="parameter"><code>min</code></em> 或 <em class="parameter"><code>max</code></em> 中小數位數較多者相同。
        </p>
 <p>
 <code class="literal">random(1, 10)</code>
@@ -810,9 +740,7 @@ generating random numbers.
          → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Returns a random value from the normal distribution with the given
-        parameters; <em class="parameter"><code>mean</code></em> defaults to 0.0
-        and <em class="parameter"><code>stddev</code></em> defaults to 1.0
+        回傳依給定參數之常態分布的隨機值；<em class="parameter"><code>mean</code></em> 預設為 0.0，<em class="parameter"><code>stddev</code></em> 預設為 1.0
        </p>
 <p>
 <code class="literal">random_normal(0.0, 1.0)</code>
@@ -823,9 +751,7 @@ generating random numbers.
         → <code class="returnvalue">void</code>
 </p>
 <p>
-        Sets the seed for subsequent <code class="literal">random()</code> and
-        <code class="literal">random_normal()</code> calls;
-        argument must be between -1.0 and 1.0, inclusive
+        為後續的 <code class="literal">random()</code> 與 <code class="literal">random_normal()</code> 呼叫設定種子；引數必須介於 -1.0 與 1.0 之間（含）
        </p>
 <p>
 <code class="literal">setseed(0.12345)</code>
@@ -833,44 +759,29 @@ generating random numbers.
 
 <br>
 
-The `random()` and `random_normal()`
-functions listed in [Table 9.6](functions-math.md#FUNCTIONS-MATH-RANDOM-TABLE) use a
-deterministic pseudo-random number generator.
-It is fast but not suitable for cryptographic
-applications; see the [pgcrypto](../../appendixes/contrib/pgcrypto.md) module for a more
-secure alternative.
-If `setseed()` is called, the series of results of
-subsequent calls to these functions in the current session
-can be repeated by re-issuing `setseed()` with the same
-argument.
-Without any prior `setseed()` call in the same
-session, the first call to any of these functions obtains a seed
-from a platform-dependent source of random bits.
+[表 9.6](functions-math.md#FUNCTIONS-MATH-RANDOM-TABLE) 所列的 `random()` 與 `random_normal()` 函式，使用的是確定性的虛擬隨機數產生器。它的速度很快，但不適合用於密碼學應用；更安全的替代方案請參閱 [pgcrypto](../../appendixes/contrib/pgcrypto.md) 模組。如果呼叫了 `setseed()`，那麼只要以相同的引數再次執行 `setseed()`，就可以重現目前工作階段中後續呼叫這些函式所得到的結果序列。如果在同一個工作階段中事先沒有呼叫過 `setseed()`，第一次呼叫這些函式中的任何一個時，會從與平台相關的隨機位元來源取得種子。
 
-[Table 9.7](functions-math.md#FUNCTIONS-MATH-TRIG-TABLE) shows the
-available trigonometric functions. Each of these functions comes in
-two variants, one that measures angles in radians and one that
-measures angles in degrees.
+[表 9.7](functions-math.md#FUNCTIONS-MATH-TRIG-TABLE) 列出了可用的三角函數。每個函式都有兩種變化形式，一種以弧度量測角度，另一種以度數量測角度。
 
 <a id="FUNCTIONS-MATH-TRIG-TABLE"></a>
 
-**Table 9.7. Trigonometric Functions**
+**表 9.7. 三角函數**
 
 <table border="1" class="table" summary="Trigonometric Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.9.11.2.2.1.1.1.1"></a>
 <code class="function">acos</code> ( <code class="type">double precision</code> )
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse cosine, result in radians
+        反餘弦，結果以弧度表示
        </p>
 <p>
 <code class="literal">acos(1)</code>
@@ -881,7 +792,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse cosine, result in degrees
+        反餘弦，結果以度數表示
        </p>
 <p>
 <code class="literal">acosd(0.5)</code>
@@ -892,7 +803,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse sine, result in radians
+        反正弦，結果以弧度表示
        </p>
 <p>
 <code class="literal">asin(1)</code>
@@ -903,7 +814,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse sine, result in degrees
+        反正弦，結果以度數表示
        </p>
 <p>
 <code class="literal">asind(0.5)</code>
@@ -914,7 +825,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse tangent, result in radians
+        反正切，結果以弧度表示
        </p>
 <p>
 <code class="literal">atan(1)</code>
@@ -925,7 +836,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse tangent, result in degrees
+        反正切，結果以度數表示
        </p>
 <p>
 <code class="literal">atand(1)</code>
@@ -937,9 +848,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse tangent of
-        <em class="parameter"><code>y</code></em>/<em class="parameter"><code>x</code></em>,
-        result in radians
+        <em class="parameter"><code>y</code></em>/<em class="parameter"><code>x</code></em> 的反正切，結果以弧度表示
        </p>
 <p>
 <code class="literal">atan2(1, 0)</code>
@@ -951,9 +860,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse tangent of
-        <em class="parameter"><code>y</code></em>/<em class="parameter"><code>x</code></em>,
-        result in degrees
+        <em class="parameter"><code>y</code></em>/<em class="parameter"><code>x</code></em> 的反正切，結果以度數表示
        </p>
 <p>
 <code class="literal">atan2d(1, 0)</code>
@@ -964,7 +871,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Cosine, argument in radians
+        餘弦，引數以弧度表示
        </p>
 <p>
 <code class="literal">cos(0)</code>
@@ -975,7 +882,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Cosine, argument in degrees
+        餘弦，引數以度數表示
        </p>
 <p>
 <code class="literal">cosd(60)</code>
@@ -986,7 +893,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Cotangent, argument in radians
+        餘切，引數以弧度表示
        </p>
 <p>
 <code class="literal">cot(0.5)</code>
@@ -997,7 +904,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Cotangent, argument in degrees
+        餘切，引數以度數表示
        </p>
 <p>
 <code class="literal">cotd(45)</code>
@@ -1008,7 +915,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Sine, argument in radians
+        正弦，引數以弧度表示
        </p>
 <p>
 <code class="literal">sin(1)</code>
@@ -1019,7 +926,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Sine, argument in degrees
+        正弦，引數以度數表示
        </p>
 <p>
 <code class="literal">sind(30)</code>
@@ -1030,7 +937,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Tangent, argument in radians
+        正切，引數以弧度表示
        </p>
 <p>
 <code class="literal">tan(1)</code>
@@ -1041,7 +948,7 @@ measures angles in degrees.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Tangent, argument in degrees
+        正切，引數以度數表示
        </p>
 <p>
 <code class="literal">tand(45)</code>
@@ -1050,37 +957,31 @@ measures angles in degrees.
 
 <br>
 
-### Note
+### 注意
 
-Another way to work with angles measured in degrees is to use the unit
-transformation functions `radians()`
-and `degrees()` shown earlier.
-However, using the degree-based trigonometric functions is preferred,
-as that way avoids round-off error for special cases such
-as `sind(30)`.
+處理以度數量測之角度的另一種方式，是使用前面所列的單位轉換函式 `radians()` 與 `degrees()`。不過，建議使用以度數為基礎的三角函數，因為這樣可以避免在 `sind(30)` 這類特殊情況下的捨入誤差。
 
-[Table 9.8](functions-math.md#FUNCTIONS-MATH-HYP-TABLE) shows the
-available hyperbolic functions.
+[表 9.8](functions-math.md#FUNCTIONS-MATH-HYP-TABLE) 列出了可用的雙曲函數。
 
 <a id="FUNCTIONS-MATH-HYP-TABLE"></a>
 
-**Table 9.8. Hyperbolic Functions**
+**表 9.8. 雙曲函數**
 
 <table border="1" class="table" summary="Hyperbolic Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.9.14.2.2.1.1.1.1"></a>
 <code class="function">sinh</code> ( <code class="type">double precision</code> )
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Hyperbolic sine
+        雙曲正弦
        </p>
 <p>
 <code class="literal">sinh(1)</code>
@@ -1091,7 +992,7 @@ available hyperbolic functions.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Hyperbolic cosine
+        雙曲餘弦
        </p>
 <p>
 <code class="literal">cosh(0)</code>
@@ -1102,7 +1003,7 @@ available hyperbolic functions.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Hyperbolic tangent
+        雙曲正切
        </p>
 <p>
 <code class="literal">tanh(1)</code>
@@ -1113,7 +1014,7 @@ available hyperbolic functions.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse hyperbolic sine
+        反雙曲正弦
        </p>
 <p>
 <code class="literal">asinh(1)</code>
@@ -1124,7 +1025,7 @@ available hyperbolic functions.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse hyperbolic cosine
+        反雙曲餘弦
        </p>
 <p>
 <code class="literal">acosh(1)</code>
@@ -1135,7 +1036,7 @@ available hyperbolic functions.
         → <code class="returnvalue">double precision</code>
 </p>
 <p>
-        Inverse hyperbolic tangent
+        反雙曲正切
        </p>
 <p>
 <code class="literal">atanh(0.5)</code>
@@ -1146,4 +1047,4 @@ available hyperbolic functions.
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-math.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-math.html)（原文版本：18.6；核對日期：2026-09-11）

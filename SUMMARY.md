@@ -91,7 +91,7 @@
   * [第 9 章 函式與運算子](the-sql-language/functions/README.md)
     * [9.1. 邏輯運算子 #](the-sql-language/functions/functions-logical.md)
     * [9.2. 比較函式與運算子 #](the-sql-language/functions/functions-comparison.md)
-    * [9.3. Mathematical Functions and Operators #](the-sql-language/functions/functions-math.md)
+    * [9.3. 數學函式與運算子 #](the-sql-language/functions/functions-math.md)
     * [9.4. String Functions and Operators #](the-sql-language/functions/functions-string.md)
     * [9.5. 二進位字串函式與運算子 #](the-sql-language/functions/functions-binarystring.md)
     * [9.6. 位元字串函式與運算子 #](the-sql-language/functions/functions-bitstring.md)
