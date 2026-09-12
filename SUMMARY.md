@@ -113,7 +113,7 @@
     * [9.22. Window Functions #](the-sql-language/functions/functions-window.md)
     * [9.23. Merge Support Functions #](the-sql-language/functions/functions-merge-support.md)
     * [9.24. Subquery Expressions #](the-sql-language/functions/functions-subquery.md)
-    * [9.25. Row and Array Comparisons #](the-sql-language/functions/functions-comparisons.md)
+    * [9.25. 資料列與陣列比較 #](the-sql-language/functions/functions-comparisons.md)
     * [9.26. Set Returning Functions #](the-sql-language/functions/functions-srf.md)
     * [9.27. System Information Functions and Operators #](the-sql-language/functions/functions-info.md)
     * [9.28. 系統管理函式 #](the-sql-language/functions/functions-admin.md)
