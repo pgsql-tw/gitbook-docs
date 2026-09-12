@@ -1,34 +1,29 @@
-## 9.6. Bit String Functions and Operators [#](#FUNCTIONS-BITSTRING)
+<a id="FUNCTIONS-BITSTRING"></a>
+
+## 9.6. 位元字串函式與運算子 [#](#FUNCTIONS-BITSTRING)
 
 <a id="id-1.5.8.12.2"></a>
 
-This section describes functions and operators for examining and
-manipulating bit strings, that is values of the types
-`bit` and `bit varying`. (While only
-type `bit` is mentioned in these tables, values of
-type `bit varying` can be used interchangeably.)
-Bit strings support the usual comparison operators shown in
-[Table 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE), as well as the
-operators shown in [Table 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-TABLE).
+本節說明用於檢查與操作位元字串的函式與運算子，也就是 `bit` 與 `bit varying` 型別的值。（雖然這些表格中只提到 `bit` 型別，但 `bit varying` 型別的值也可以互換使用。）位元字串支援[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子，以及[表 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-TABLE) 所列的運算子。
 
 <a id="FUNCTIONS-BIT-STRING-OP-TABLE"></a>
 
-**Table 9.14. Bit String Operators**
+**表 9.14. 位元字串運算子**
 
 <table border="1" class="table" summary="Bit String Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">bit</code> <code class="literal">||</code> <code class="type">bit</code>
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Concatenation
+        串接
        </p>
 <p>
 <code class="literal">B'10001' || B'011'</code>
@@ -38,7 +33,7 @@ operators shown in [Table 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Bitwise AND (inputs must be of equal length)
+        位元 AND（輸入必須等長）
        </p>
 <p>
 <code class="literal">B'10001' &amp; B'01101'</code>
@@ -48,7 +43,7 @@ operators shown in [Table 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Bitwise OR (inputs must be of equal length)
+        位元 OR（輸入必須等長）
        </p>
 <p>
 <code class="literal">B'10001' | B'01101'</code>
@@ -58,7 +53,7 @@ operators shown in [Table 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Bitwise exclusive OR (inputs must be of equal length)
+        位元互斥 OR（輸入必須等長）
        </p>
 <p>
 <code class="literal">B'10001' # B'01101'</code>
@@ -68,7 +63,7 @@ operators shown in [Table 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Bitwise NOT
+        位元 NOT
        </p>
 <p>
 <code class="literal">~ B'10001'</code>
@@ -78,8 +73,7 @@ operators shown in [Table 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Bitwise shift left
-        (string length is preserved)
+        位元左移（字串長度保持不變）
        </p>
 <p>
 <code class="literal">B'10001' &lt;&lt; 3</code>
@@ -89,8 +83,7 @@ operators shown in [Table 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Bitwise shift right
-        (string length is preserved)
+        位元右移（字串長度保持不變）
        </p>
 <p>
 <code class="literal">B'10001' &gt;&gt; 2</code>
@@ -99,29 +92,27 @@ operators shown in [Table 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-
 
 <br>
 
-Some of the functions available for binary strings are also available
-for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-STRING-TABLE).
+有些可用於二進位字串的函式，也可以用於位元字串，如[表 9.15](functions-bitstring.md#FUNCTIONS-BIT-STRING-TABLE) 所示。
 
 <a id="FUNCTIONS-BIT-STRING-TABLE"></a>
 
-**Table 9.15. Bit String Functions**
+**表 9.15. 位元字串函式**
 
 <table border="1" class="table" summary="Bit String Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.12.6.2.2.1.1.1.1"></a>
 <code class="function">bit_count</code> ( <code class="type">bit</code> )
         → <code class="returnvalue">bigint</code>
 </p>
 <p>
-        Returns the number of bits set in the bit string (also known as
-        <span class="quote">“<span class="quote">popcount</span>”</span>).
+        回傳位元字串中被設定的位元數（也稱為 <span class="quote">“<span class="quote">popcount</span>”</span>）。
        </p>
 <p>
 <code class="literal">bit_count(B'10111')</code>
@@ -132,7 +123,7 @@ for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns number of bits in the bit string.
+        回傳位元字串中的位元數。
        </p>
 <p>
 <code class="literal">bit_length(B'10111')</code>
@@ -144,7 +135,7 @@ for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns number of bits in the bit string.
+        回傳位元字串中的位元數。
        </p>
 <p>
 <code class="literal">length(B'10111')</code>
@@ -155,7 +146,7 @@ for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns number of bytes in the bit string.
+        回傳位元字串中的位元組數。
        </p>
 <p>
 <code class="literal">octet_length(B'1011111011')</code>
@@ -166,12 +157,7 @@ for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Replaces the substring of <em class="parameter"><code>bits</code></em> that starts at
-        the <em class="parameter"><code>start</code></em>'th bit and extends
-        for <em class="parameter"><code>count</code></em> bits
-        with <em class="parameter"><code>newsubstring</code></em>.
-        If <em class="parameter"><code>count</code></em> is omitted, it defaults to the length
-        of <em class="parameter"><code>newsubstring</code></em>.
+        將 <em class="parameter"><code>bits</code></em> 中從第 <em class="parameter"><code>start</code></em> 個位元開始、延伸 <em class="parameter"><code>count</code></em> 個位元的子字串，替換為 <em class="parameter"><code>newsubstring</code></em>。如果省略 <em class="parameter"><code>count</code></em>，預設為 <em class="parameter"><code>newsubstring</code></em> 的長度。
        </p>
 <p>
 <code class="literal">overlay(B'01010101010101010' placing B'11111' from 2 for 3)</code>
@@ -182,8 +168,7 @@ for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns first starting index of the specified <em class="parameter"><code>substring</code></em>
-        within <em class="parameter"><code>bits</code></em>, or zero if it's not present.
+        回傳指定的 <em class="parameter"><code>substring</code></em> 在 <em class="parameter"><code>bits</code></em> 中第一次出現的起始索引；如果不存在則回傳零。
        </p>
 <p>
 <code class="literal">position(B'010' in B'000001101011')</code>
@@ -194,11 +179,7 @@ for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Extracts the substring of <em class="parameter"><code>bits</code></em> starting at
-        the <em class="parameter"><code>start</code></em>'th bit if that is specified,
-        and stopping after <em class="parameter"><code>count</code></em> bits if that is
-        specified.  Provide at least one of <em class="parameter"><code>start</code></em>
-        and <em class="parameter"><code>count</code></em>.
+        擷取 <em class="parameter"><code>bits</code></em> 的子字串：如果有指定，就從第 <em class="parameter"><code>start</code></em> 個位元開始；如果有指定，就在 <em class="parameter"><code>count</code></em> 個位元之後停止。<em class="parameter"><code>start</code></em> 與 <em class="parameter"><code>count</code></em> 至少要提供其中一個。
        </p>
 <p>
 <code class="literal">substring(B'110010111111' from 3 for 2)</code>
@@ -210,8 +191,7 @@ for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Extracts <em class="parameter"><code>n</code></em>'th bit
-        from bit string; the first (leftmost) bit is bit 0.
+        從位元字串中擷取第 <em class="parameter"><code>n</code></em> 個位元；第一個（最左邊的）位元是第 0 個位元。
        </p>
 <p>
 <code class="literal">get_bit(B'101010101010101010', 6)</code>
@@ -224,9 +204,7 @@ for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-
         → <code class="returnvalue">bit</code>
 </p>
 <p>
-        Sets <em class="parameter"><code>n</code></em>'th bit in
-        bit string to <em class="parameter"><code>newvalue</code></em>;
-        the first (leftmost) bit is bit 0.
+        將位元字串中的第 <em class="parameter"><code>n</code></em> 個位元設為 <em class="parameter"><code>newvalue</code></em>；第一個（最左邊的）位元是第 0 個位元。
        </p>
 <p>
 <code class="literal">set_bit(B'101010101010101010', 6, 0)</code>
@@ -235,12 +213,7 @@ for bit strings, as shown in [Table 9.15](functions-bitstring.md#FUNCTIONS-BIT-
 
 <br>
 
-In addition, it is possible to cast integral values to and from type
-`bit`.
-Casting an integer to `bit(n)` copies the rightmost
-`n` bits. Casting an integer to a bit string width wider
-than the integer itself will sign-extend on the left.
-Some examples:
+此外，整數值可以與 `bit` 型別互相轉換。將整數轉換為 `bit(n)` 時，會複製最右邊的 `n` 個位元。將整數轉換為比整數本身更寬的位元字串時，會在左邊進行符號延伸。一些範例：
 
 ```
 
@@ -250,10 +223,8 @@ cast(-44 as bit(12))           111111010100
 '1110'::bit(4)::integer        14
 ```
 
-Note that casting to just “bit” means casting to
-`bit(1)`, and so will deliver only the least significant
-bit of the integer.
+請注意，只轉換為「bit」表示轉換為 `bit(1)`，因此只會得到整數的最低有效位元。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-bitstring.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-bitstring.html)（原文版本：18.6；核對日期：2026-09-11）
