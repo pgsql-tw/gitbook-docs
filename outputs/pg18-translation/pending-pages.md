@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：845 頁。
+待譯頁面：844 頁。
 
 ## 根目錄
 
@@ -1056,7 +1056,7 @@
 - [x] `the-sql-language/dml/dml-insert.md` — 6.1. 插入資料 #
 - [x] `the-sql-language/dml/dml-returning.md` — 6.4. 從修改的資料列回傳資料 #
 - [x] `the-sql-language/dml/dml-update.md` — 6.2. 更新資料 #
-- [ ] `the-sql-language/functions/README.md` — Chapter 9. Functions and Operators
+- [x] `the-sql-language/functions/README.md` — 第 9 章 函式與運算子
 - [ ] `the-sql-language/functions/functions-admin.md` — 9.28. System Administration Functions #
 - [ ] `the-sql-language/functions/functions-aggregate.md` — 9.21. Aggregate Functions #
 - [ ] `the-sql-language/functions/functions-array.md` — 9.19. Array Functions and Operators #
