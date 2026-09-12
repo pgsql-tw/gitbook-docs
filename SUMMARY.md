@@ -116,7 +116,7 @@
     * [9.25. Row and Array Comparisons #](the-sql-language/functions/functions-comparisons.md)
     * [9.26. Set Returning Functions #](the-sql-language/functions/functions-srf.md)
     * [9.27. System Information Functions and Operators #](the-sql-language/functions/functions-info.md)
-    * [9.28. System Administration Functions #](the-sql-language/functions/functions-admin.md)
+    * [9.28. 系統管理函式 #](the-sql-language/functions/functions-admin.md)
     * [9.29. Trigger Functions #](the-sql-language/functions/functions-trigger.md)
     * [9.30. Event Trigger Functions #](the-sql-language/functions/functions-event-triggers.md)
     * [9.31. Statistics Information Functions #](the-sql-language/functions/functions-statistics.md)
