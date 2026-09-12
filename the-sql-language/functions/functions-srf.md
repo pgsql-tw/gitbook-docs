@@ -1,24 +1,20 @@
-## 9.26. Set Returning Functions [#](#FUNCTIONS-SRF)
+<a id="FUNCTIONS-SRF"></a>
+
+## 9.26. 集合回傳函式 [#](#FUNCTIONS-SRF)
 
 <a id="id-1.5.8.32.2"></a>
 
-This section describes functions that possibly return more than one row.
-The most widely used functions in this class are series generating
-functions, as detailed in [Table 9.69](functions-srf.md#FUNCTIONS-SRF-SERIES) and
-[Table 9.70](functions-srf.md#FUNCTIONS-SRF-SUBSCRIPTS). Other, more specialized
-set-returning functions are described elsewhere in this manual.
-See [Section 7.2.1.4](../queries/queries-table-expressions.md#QUERIES-TABLEFUNCTIONS) for ways to combine multiple
-set-returning functions.
+本節說明可能回傳不只一筆資料列的函式。這類函式中使用最廣泛的是序列產生函式，詳見[表 9.69](functions-srf.md#FUNCTIONS-SRF-SERIES) 與[表 9.70](functions-srf.md#FUNCTIONS-SRF-SUBSCRIPTS)。其他更專門的集合回傳函式，則在本手冊的其他地方說明。關於組合多個集合回傳函式的方法，請參閱[第 7.2.1.4 節](../queries/queries-table-expressions.md#QUERIES-TABLEFUNCTIONS)。
 
 <a id="FUNCTIONS-SRF-SERIES"></a>
 
-**Table 9.69. Series Generating Functions**
+**表 9.69. 序列產生函式**
 
 <table border="1" class="table" summary="Series Generating Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.32.4.2.2.1.1.1.1"></a>
 <code class="function">generate_series</code> ( <em class="parameter"><code>start</code></em> <code class="type">integer</code>, <em class="parameter"><code>stop</code></em> <code class="type">integer</code> [<span class="optional">, <em class="parameter"><code>step</code></em> <code class="type">integer</code> </span>] )
@@ -33,10 +29,7 @@ set-returning functions.
         → <code class="returnvalue">setof numeric</code>
 </p>
 <p>
-        Generates a series of values from <em class="parameter"><code>start</code></em>
-        to <em class="parameter"><code>stop</code></em>, with a step size
-        of <em class="parameter"><code>step</code></em>.  <em class="parameter"><code>step</code></em>
-        defaults to 1.
+        產生從 <em class="parameter"><code>start</code></em> 到 <em class="parameter"><code>stop</code></em>、步長為 <em class="parameter"><code>step</code></em> 的一系列值。<em class="parameter"><code>step</code></em> 預設為 1。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">generate_series</code> ( <em class="parameter"><code>start</code></em> <code class="type">timestamp</code>, <em class="parameter"><code>stop</code></em> <code class="type">timestamp</code>, <em class="parameter"><code>step</code></em> <code class="type">interval</code> )
         → <code class="returnvalue">setof timestamp</code>
@@ -46,24 +39,12 @@ set-returning functions.
         → <code class="returnvalue">setof timestamp with time zone</code>
 </p>
 <p>
-        Generates a series of values from <em class="parameter"><code>start</code></em>
-        to <em class="parameter"><code>stop</code></em>, with a step size
-        of <em class="parameter"><code>step</code></em>.
-        In the timezone-aware form, times of day and daylight-savings
-        adjustments are computed according to the time zone named by
-        the <em class="parameter"><code>timezone</code></em> argument, or the current
-        <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE">TimeZone</a> setting if that is omitted.
+        產生從 <em class="parameter"><code>start</code></em> 到 <em class="parameter"><code>stop</code></em>、步長為 <em class="parameter"><code>step</code></em> 的一系列值。在考量時區的形式中，一天中的時間與日光節約時間的調整，會依照 <em class="parameter"><code>timezone</code></em> 引數所指定的時區計算；如果省略該引數，則依照目前的 <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE">TimeZone</a> 設定計算。
        </p></td></tr></tbody></table>
 
 <br>
 
-When *`step`* is positive, zero rows are returned if
-*`start`* is greater than *`stop`*.
-Conversely, when *`step`* is negative, zero rows are
-returned if *`start`* is less than *`stop`*.
-Zero rows are also returned if any input is `NULL`.
-It is an error
-for *`step`* to be zero. Some examples follow:
+當 *`step`* 為正數時，如果 *`start`* 大於 *`stop`*，就會回傳零筆資料列。反之，當 *`step`* 為負數時，如果 *`start`* 小於 *`stop`*，就會回傳零筆資料列。如果任何輸入為 `NULL`，也會回傳零筆資料列。*`step`* 為零是錯誤。以下是一些範例：
 
 ```
 
@@ -142,40 +123,31 @@ SELECT * FROM generate_series('2001-10-22 00:00 -04:00'::timestamptz,
 
 <a id="FUNCTIONS-SRF-SUBSCRIPTS"></a>
 
-**Table 9.70. Subscript Generating Functions**
+**表 9.70. 下標產生函式**
 
 <table border="1" class="table" summary="Subscript Generating Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.32.6.2.2.1.1.1.1"></a>
 <code class="function">generate_subscripts</code> ( <em class="parameter"><code>array</code></em> <code class="type">anyarray</code>, <em class="parameter"><code>dim</code></em> <code class="type">integer</code> )
         → <code class="returnvalue">setof integer</code>
 </p>
 <p>
-        Generates a series comprising the valid subscripts of
-        the <em class="parameter"><code>dim</code></em>'th dimension of the given array.
+        產生由給定陣列第 <em class="parameter"><code>dim</code></em> 維之有效下標所組成的序列。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">generate_subscripts</code> ( <em class="parameter"><code>array</code></em> <code class="type">anyarray</code>, <em class="parameter"><code>dim</code></em> <code class="type">integer</code>,  <em class="parameter"><code>reverse</code></em> <code class="type">boolean</code> )
         → <code class="returnvalue">setof integer</code>
 </p>
 <p>
-        Generates a series comprising the valid subscripts of
-        the <em class="parameter"><code>dim</code></em>'th dimension of the given array.
-        When <em class="parameter"><code>reverse</code></em> is true, returns the series in
-        reverse order.
+        產生由給定陣列第 <em class="parameter"><code>dim</code></em> 維之有效下標所組成的序列。當 <em class="parameter"><code>reverse</code></em> 為 true 時，以相反的順序回傳該序列。
        </p></td></tr></tbody></table>
 
 <br>
 
-`generate_subscripts` is a convenience function that generates
-the set of valid subscripts for the specified dimension of the given
-array.
-Zero rows are returned for arrays that do not have the requested dimension,
-or if any input is `NULL`.
-Some examples follow:
+`generate_subscripts` 是一個方便的函式，會為給定陣列的指定維度產生有效下標的集合。對於沒有所要求維度的陣列，或是任何輸入為 `NULL` 時，會回傳零筆資料列。以下是一些範例：
 
 ```
 
@@ -229,12 +201,7 @@ SELECT * FROM unnest2(ARRAY[[1,2],[3,4]]);
 
 <a id="id-1.5.8.32.8"></a>
 
-When a function in the `FROM` clause is suffixed
-by `WITH ORDINALITY`, a `bigint` column is
-appended to the function's output column(s), which starts from 1 and
-increments by 1 for each row of the function's output.
-This is most useful in the case of set returning
-functions such as `unnest()`.
+當 `FROM` 子句中的函式後面加上 `WITH ORDINALITY` 時，函式的輸出欄位後面會附加一個 `bigint` 欄位，它從 1 開始，函式輸出的每一筆資料列遞增 1。這對於 `unnest()` 這類集合回傳函式最為有用。
 
 ```
 
@@ -266,4 +233,4 @@ SELECT * FROM pg_ls_dir('.') WITH ORDINALITY AS t(ls,n);
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-srf.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-srf.html)（原文版本：18.6；核對日期：2026-09-11）
