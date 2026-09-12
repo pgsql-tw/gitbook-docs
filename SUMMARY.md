@@ -139,7 +139,7 @@
     * [11.9. Index-Only Scans and Covering Indexes #](the-sql-language/indexes/indexes-index-only-scans.md)
     * [11.10. Operator Classes and Operator Families #](the-sql-language/indexes/indexes-opclass.md)
     * [11.11. 索引與定序](the-sql-language/indexes/indexes-collations.md)
-    * [11.12. Examining Index Usage #](the-sql-language/indexes/indexes-examine.md)
+    * [11.12. 檢查索引的使用情形 #](the-sql-language/indexes/indexes-examine.md)
   * [第 12 章 全文檢索](the-sql-language/textsearch/README.md)
     * [12.1. 簡介 #](the-sql-language/textsearch/textsearch-intro.md)
     * [12.2. 資料表與索引 #](the-sql-language/textsearch/textsearch-tables.md)
