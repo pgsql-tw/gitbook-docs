@@ -1,10 +1,8 @@
-## 9.10. Enum Support Functions [#](#FUNCTIONS-ENUM)
+<a id="FUNCTIONS-ENUM"></a>
 
-For enum types (described in [Section 8.7](../datatype/datatype-enum.md)),
-there are several functions that allow cleaner programming without
-hard-coding particular values of an enum type.
-These are listed in [Table 9.35](functions-enum.md#FUNCTIONS-ENUM-TABLE). The examples
-assume an enum type created as:
+## 9.10. 列舉支援函式 [#](#FUNCTIONS-ENUM)
+
+對於列舉型別（說明於[第 8.7 節](../datatype/datatype-enum.md)），有幾個函式可以讓程式寫得更簡潔，而不必把列舉型別的特定值寫死在程式中。這些函式列於[表 9.35](functions-enum.md#FUNCTIONS-ENUM-TABLE)。範例假設有一個如下建立的列舉型別：
 
 ```
 
@@ -13,23 +11,23 @@ CREATE TYPE rainbow AS ENUM ('red', 'orange', 'yellow', 'green', 'blue', 'purple
 
 <a id="FUNCTIONS-ENUM-TABLE"></a>
 
-**Table 9.35. Enum Support Functions**
+**表 9.35. 列舉支援函式**
 
 <table border="1" class="table" summary="Enum Support Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.16.3.2.2.1.1.1.1"></a>
 <code class="function">enum_first</code> ( <code class="type">anyenum</code> )
         → <code class="returnvalue">anyenum</code>
 </p>
 <p>
-        Returns the first value of the input enum type.
+        回傳輸入列舉型別的第一個值。
        </p>
 <p>
 <code class="literal">enum_first(null::rainbow)</code>
@@ -40,7 +38,7 @@ CREATE TYPE rainbow AS ENUM ('red', 'orange', 'yellow', 'green', 'blue', 'purple
         → <code class="returnvalue">anyenum</code>
 </p>
 <p>
-        Returns the last value of the input enum type.
+        回傳輸入列舉型別的最後一個值。
        </p>
 <p>
 <code class="literal">enum_last(null::rainbow)</code>
@@ -51,7 +49,7 @@ CREATE TYPE rainbow AS ENUM ('red', 'orange', 'yellow', 'green', 'blue', 'purple
         → <code class="returnvalue">anyarray</code>
 </p>
 <p>
-        Returns all values of the input enum type in an ordered array.
+        以有序陣列的形式回傳輸入列舉型別的所有值。
        </p>
 <p>
 <code class="literal">enum_range(null::rainbow)</code>
@@ -61,12 +59,7 @@ CREATE TYPE rainbow AS ENUM ('red', 'orange', 'yellow', 'green', 'blue', 'purple
         → <code class="returnvalue">anyarray</code>
 </p>
 <p>
-        Returns the range between the two given enum values, as an ordered
-        array. The values must be from the same enum type. If the first
-        parameter is null, the result will start with the first value of
-        the enum type.
-        If the second parameter is null, the result will end with the last
-        value of the enum type.
+        以有序陣列的形式回傳兩個給定列舉值之間的範圍。這兩個值必須來自同一個列舉型別。如果第一個參數為 null，結果會從該列舉型別的第一個值開始。如果第二個參數為 null，結果會在該列舉型別的最後一個值結束。
        </p>
 <p>
 <code class="literal">enum_range('orange'::rainbow, 'green'::rainbow)</code>
@@ -83,13 +76,8 @@ CREATE TYPE rainbow AS ENUM ('red', 'orange', 'yellow', 'green', 'blue', 'purple
 
 <br>
 
-Notice that except for the two-argument form of `enum_range`,
-these functions disregard the specific value passed to them; they care
-only about its declared data type. Either null or a specific value of
-the type can be passed, with the same result. It is more common to
-apply these functions to a table column or function argument than to
-a hardwired type name as used in the examples.
+請注意，除了雙引數形式的 `enum_range` 之外，這些函式都不理會傳給它們的具體值；它們只在意其宣告的資料型別。傳入 null 或該型別的特定值都可以，結果相同。比起像範例中那樣套用在寫死的型別名稱上，更常見的做法是將這些函式套用到資料表欄位或函式引數上。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-enum.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-enum.html)（原文版本：18.6；核對日期：2026-09-11）
