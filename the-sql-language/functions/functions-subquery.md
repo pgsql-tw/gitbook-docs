@@ -1,4 +1,6 @@
-## 9.24. Subquery Expressions [#](#FUNCTIONS-SUBQUERY)
+<a id="FUNCTIONS-SUBQUERY"></a>
+
+## 9.24. 子查詢運算式 [#](#FUNCTIONS-SUBQUERY)
 
 [9.24.1. `EXISTS`](functions-subquery.md#FUNCTIONS-SUBQUERY-EXISTS)
 
@@ -10,50 +12,30 @@
 
 [9.24.5. `ALL`](functions-subquery.md#FUNCTIONS-SUBQUERY-ALL)
 
-[9.24.6. Single-Row Comparison](functions-subquery.md#FUNCTIONS-SUBQUERY-SINGLE-ROW-COMP)
+[9.24.6. 單列比較](functions-subquery.md#FUNCTIONS-SUBQUERY-SINGLE-ROW-COMP)
 
 <a id="id-1.5.8.30.2"></a><a id="id-1.5.8.30.3"></a><a id="id-1.5.8.30.4"></a><a id="id-1.5.8.30.5"></a><a id="id-1.5.8.30.6"></a><a id="id-1.5.8.30.7"></a><a id="id-1.5.8.30.8"></a>
 
-This section describes the SQL-compliant subquery
-expressions available in PostgreSQL.
-All of the expression forms documented in this section return
-Boolean (true/false) results.
+本節說明 PostgreSQL 中可用的、符合 SQL 標準的子查詢運算式。本節所記載的所有運算式形式，都會回傳布林（true／false）結果。
 
 <a id="FUNCTIONS-SUBQUERY-EXISTS"></a>
 
-### 9.24.1. `EXISTS` [#](#FUNCTIONS-SUBQUERY-EXISTS)
+### 9.24.1. `EXISTS` [#](#FUNCTIONS-SUBQUERY-EXISTS)
 
 ```
 
 EXISTS (subquery)
 ```
 
-The argument of `EXISTS` is an arbitrary `SELECT` statement,
-or *subquery*. The
-subquery is evaluated to determine whether it returns any rows.
-If it returns at least one row, the result of `EXISTS` is
-“true”; if the subquery returns no rows, the result of `EXISTS`
-is “false”.
+`EXISTS` 的引數是任意的 `SELECT` 陳述式，也就是*子查詢*（subquery）。系統會評估子查詢，以判斷它是否回傳任何資料列。如果它至少回傳一筆資料列，`EXISTS` 的結果就是「true」；如果子查詢沒有回傳任何資料列，`EXISTS` 的結果就是「false」。
 
-The subquery can refer to variables from the surrounding query,
-which will act as constants during any one evaluation of the subquery.
+子查詢可以參照外圍查詢的變數，在子查詢的每一次評估中，這些變數都會作為常數。
 
-The subquery will generally only be executed long enough to determine
-whether at least one row is returned, not all the way to completion.
-It is unwise to write a subquery that has side effects (such as
-calling sequence functions); whether the side effects occur
-might be unpredictable.
+子查詢通常只會執行到足以判斷是否至少回傳一筆資料列為止，而不會一路執行到完成。撰寫具有副作用（例如呼叫序列函式）的子查詢是不明智的；副作用是否會發生可能無法預測。
 
-Since the result depends only on whether any rows are returned,
-and not on the contents of those rows, the output list of the
-subquery is normally unimportant. A common coding convention is
-to write all `EXISTS` tests in the form
-`EXISTS(SELECT 1 WHERE ...)`. There are exceptions to
-this rule however, such as subqueries that use `INTERSECT`.
+由於結果只取決於是否回傳任何資料列，而不取決於這些資料列的內容，因此子查詢的輸出清單通常並不重要。一種常見的撰寫慣例，是將所有 `EXISTS` 測試寫成 `EXISTS(SELECT 1 WHERE ...)` 的形式。不過這項規則也有例外，例如使用 `INTERSECT` 的子查詢。
 
-This simple example is like an inner join on `col2`, but
-it produces at most one output row for each `tab1` row,
-even if there are several matching `tab2` rows:
+這個簡單的範例類似於在 `col2` 上的內部聯結，但即使有好幾筆相符的 `tab2` 資料列，它對每一筆 `tab1` 資料列最多也只會產生一筆輸出資料列：
 
 ```
 
@@ -64,103 +46,55 @@ WHERE EXISTS (SELECT 1 FROM tab2 WHERE col2 = tab1.col2);
 
 <a id="FUNCTIONS-SUBQUERY-IN"></a>
 
-### 9.24.2. `IN` [#](#FUNCTIONS-SUBQUERY-IN)
+### 9.24.2. `IN` [#](#FUNCTIONS-SUBQUERY-IN)
 
 ```
 
 expression IN (subquery)
 ```
 
-The right-hand side is a parenthesized
-subquery, which must return exactly one column. The left-hand expression
-is evaluated and compared to each row of the subquery result.
-The result of `IN` is “true” if any equal subquery row is found.
-The result is “false” if no equal row is found (including the
-case where the subquery returns no rows).
+右側是一個加上括號的子查詢，它必須正好回傳一個欄位。左側運算式會被評估，並與子查詢結果的每一筆資料列比較。如果找到任何相等的子查詢資料列，`IN` 的結果就是「true」。如果沒有找到相等的資料列（包括子查詢沒有回傳任何資料列的情況），結果就是「false」。
 
-Note that if the left-hand expression yields null, or if there are
-no equal right-hand values and at least one right-hand row yields
-null, the result of the `IN` construct will be null, not false.
-This is in accordance with SQL's normal rules for Boolean combinations
-of null values.
+請注意，如果左側運算式產生 null，或者右側沒有相等的值且至少有一筆右側資料列產生 null，`IN` 結構的結果就會是 null，而不是 false。這符合 SQL 對 null 值進行布林組合的一般規則。
 
-As with `EXISTS`, it's unwise to assume that the subquery will
-be evaluated completely.
+與 `EXISTS` 一樣，假設子查詢會被完整地評估是不明智的。
 
 ```
 
 row_constructor IN (subquery)
 ```
 
-The left-hand side of this form of `IN` is a row constructor,
-as described in [Section 4.2.13](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS).
-The right-hand side is a parenthesized
-subquery, which must return exactly as many columns as there are
-expressions in the left-hand row. The left-hand expressions are
-evaluated and compared row-wise to each row of the subquery result.
-The result of `IN` is “true” if any equal subquery row is found.
-The result is “false” if no equal row is found (including the
-case where the subquery returns no rows).
+這種形式的 `IN` 的左側是一個資料列建構子，如[第 4.2.13 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)所述。右側是一個加上括號的子查詢，它回傳的欄位數必須與左側資料列中的運算式數量完全相同。左側的運算式會被評估，並逐列與子查詢結果的每一筆資料列比較。如果找到任何相等的子查詢資料列，`IN` 的結果就是「true」。如果沒有找到相等的資料列（包括子查詢沒有回傳任何資料列的情況），結果就是「false」。
 
-As usual, null values in the rows are combined per
-the normal rules of SQL Boolean expressions. Two rows are considered
-equal if all their corresponding members are non-null and equal; the rows
-are unequal if any corresponding members are non-null and unequal;
-otherwise the result of that row comparison is unknown (null).
-If all the per-row results are either unequal or null, with at least one
-null, then the result of `IN` is null.
+和平常一樣，資料列中的 null 值會依照 SQL 布林運算式的一般規則組合。如果兩筆資料列所有對應的成員都非 null 且相等，它們就被視為相等；如果有任何對應的成員非 null 且不相等，它們就不相等；否則該資料列比較的結果是未知（null）。如果所有逐列的結果都是不相等或 null，且至少有一個 null，那麼 `IN` 的結果就是 null。
 
 <a id="FUNCTIONS-SUBQUERY-NOTIN"></a>
 
-### 9.24.3. `NOT IN` [#](#FUNCTIONS-SUBQUERY-NOTIN)
+### 9.24.3. `NOT IN` [#](#FUNCTIONS-SUBQUERY-NOTIN)
 
 ```
 
 expression NOT IN (subquery)
 ```
 
-The right-hand side is a parenthesized
-subquery, which must return exactly one column. The left-hand expression
-is evaluated and compared to each row of the subquery result.
-The result of `NOT IN` is “true” if only unequal subquery rows
-are found (including the case where the subquery returns no rows).
-The result is “false” if any equal row is found.
+右側是一個加上括號的子查詢，它必須正好回傳一個欄位。左側運算式會被評估，並與子查詢結果的每一筆資料列比較。如果只找到不相等的子查詢資料列（包括子查詢沒有回傳任何資料列的情況），`NOT IN` 的結果就是「true」。如果找到任何相等的資料列，結果就是「false」。
 
-Note that if the left-hand expression yields null, or if there are
-no equal right-hand values and at least one right-hand row yields
-null, the result of the `NOT IN` construct will be null, not true.
-This is in accordance with SQL's normal rules for Boolean combinations
-of null values.
+請注意，如果左側運算式產生 null，或者右側沒有相等的值且至少有一筆右側資料列產生 null，`NOT IN` 結構的結果就會是 null，而不是 true。這符合 SQL 對 null 值進行布林組合的一般規則。
 
-As with `EXISTS`, it's unwise to assume that the subquery will
-be evaluated completely.
+與 `EXISTS` 一樣，假設子查詢會被完整地評估是不明智的。
 
 ```
 
 row_constructor NOT IN (subquery)
 ```
 
-The left-hand side of this form of `NOT IN` is a row constructor,
-as described in [Section 4.2.13](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS).
-The right-hand side is a parenthesized
-subquery, which must return exactly as many columns as there are
-expressions in the left-hand row. The left-hand expressions are
-evaluated and compared row-wise to each row of the subquery result.
-The result of `NOT IN` is “true” if only unequal subquery rows
-are found (including the case where the subquery returns no rows).
-The result is “false” if any equal row is found.
+這種形式的 `NOT IN` 的左側是一個資料列建構子，如[第 4.2.13 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)所述。右側是一個加上括號的子查詢，它回傳的欄位數必須與左側資料列中的運算式數量完全相同。左側的運算式會被評估，並逐列與子查詢結果的每一筆資料列比較。如果只找到不相等的子查詢資料列（包括子查詢沒有回傳任何資料列的情況），`NOT IN` 的結果就是「true」。如果找到任何相等的資料列，結果就是「false」。
 
-As usual, null values in the rows are combined per
-the normal rules of SQL Boolean expressions. Two rows are considered
-equal if all their corresponding members are non-null and equal; the rows
-are unequal if any corresponding members are non-null and unequal;
-otherwise the result of that row comparison is unknown (null).
-If all the per-row results are either unequal or null, with at least one
-null, then the result of `NOT IN` is null.
+和平常一樣，資料列中的 null 值會依照 SQL 布林運算式的一般規則組合。如果兩筆資料列所有對應的成員都非 null 且相等，它們就被視為相等；如果有任何對應的成員非 null 且不相等，它們就不相等；否則該資料列比較的結果是未知（null）。如果所有逐列的結果都是不相等或 null，且至少有一個 null，那麼 `NOT IN` 的結果就是 null。
 
 <a id="FUNCTIONS-SUBQUERY-ANY-SOME"></a>
 
-### 9.24.4. `ANY`/`SOME` [#](#FUNCTIONS-SUBQUERY-ANY-SOME)
+### 9.24.4. `ANY`/`SOME` [#](#FUNCTIONS-SUBQUERY-ANY-SOME)
 
 ```
 
@@ -168,26 +102,13 @@ expression operator ANY (subquery)
 expression operator SOME (subquery)
 ```
 
-The right-hand side is a parenthesized
-subquery, which must return exactly one column. The left-hand expression
-is evaluated and compared to each row of the subquery result using the
-given *`operator`*, which must yield a Boolean
-result.
-The result of `ANY` is “true” if any true result is obtained.
-The result is “false” if no true result is found (including the
-case where the subquery returns no rows).
+右側是一個加上括號的子查詢，它必須正好回傳一個欄位。左側運算式會被評估，並使用給定的 *`operator`* 與子查詢結果的每一筆資料列比較，而該運算子必須產生布林結果。如果得到任何 true 結果，`ANY` 的結果就是「true」。如果沒有找到任何 true 結果（包括子查詢沒有回傳任何資料列的情況），結果就是「false」。
 
-`SOME` is a synonym for `ANY`.
-`IN` is equivalent to `= ANY`.
+`SOME` 是 `ANY` 的同義詞。`IN` 等價於 `= ANY`。
 
-Note that if there are no successes and at least one right-hand row yields
-null for the operator's result, the result of the `ANY` construct
-will be null, not false.
-This is in accordance with SQL's normal rules for Boolean combinations
-of null values.
+請注意，如果沒有任何成功的比較，而且至少有一筆右側資料列使運算子的結果為 null，`ANY` 結構的結果就會是 null，而不是 false。這符合 SQL 對 null 值進行布林組合的一般規則。
 
-As with `EXISTS`, it's unwise to assume that the subquery will
-be evaluated completely.
+與 `EXISTS` 一樣，假設子查詢會被完整地評估是不明智的。
 
 ```
 
@@ -195,75 +116,37 @@ row_constructor operator ANY (subquery)
 row_constructor operator SOME (subquery)
 ```
 
-The left-hand side of this form of `ANY` is a row constructor,
-as described in [Section 4.2.13](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS).
-The right-hand side is a parenthesized
-subquery, which must return exactly as many columns as there are
-expressions in the left-hand row. The left-hand expressions are
-evaluated and compared row-wise to each row of the subquery result,
-using the given *`operator`*.
-The result of `ANY` is “true” if the comparison
-returns true for any subquery row.
-The result is “false” if the comparison returns false for every
-subquery row (including the case where the subquery returns no
-rows).
-The result is NULL if no comparison with a subquery row returns true,
-and at least one comparison returns NULL.
+這種形式的 `ANY` 的左側是一個資料列建構子，如[第 4.2.13 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)所述。右側是一個加上括號的子查詢，它回傳的欄位數必須與左側資料列中的運算式數量完全相同。左側的運算式會被評估，並使用給定的 *`operator`* 逐列與子查詢結果的每一筆資料列比較。如果比較對任何一筆子查詢資料列回傳 true，`ANY` 的結果就是「true」。如果比較對每一筆子查詢資料列都回傳 false（包括子查詢沒有回傳任何資料列的情況），結果就是「false」。如果與子查詢資料列的比較都沒有回傳 true，而且至少有一次比較回傳 NULL，結果就是 NULL。
 
-See [Section 9.25.5](functions-comparisons.md#ROW-WISE-COMPARISON) for details about the meaning
-of a row constructor comparison.
+關於資料列建構子比較之意義的細節，請參閱[第 9.25.5 節](functions-comparisons.md#ROW-WISE-COMPARISON)。
 
 <a id="FUNCTIONS-SUBQUERY-ALL"></a>
 
-### 9.24.5. `ALL` [#](#FUNCTIONS-SUBQUERY-ALL)
+### 9.24.5. `ALL` [#](#FUNCTIONS-SUBQUERY-ALL)
 
 ```
 
 expression operator ALL (subquery)
 ```
 
-The right-hand side is a parenthesized
-subquery, which must return exactly one column. The left-hand expression
-is evaluated and compared to each row of the subquery result using the
-given *`operator`*, which must yield a Boolean
-result.
-The result of `ALL` is “true” if all rows yield true
-(including the case where the subquery returns no rows).
-The result is “false” if any false result is found.
-The result is NULL if no comparison with a subquery row returns false,
-and at least one comparison returns NULL.
+右側是一個加上括號的子查詢，它必須正好回傳一個欄位。左側運算式會被評估，並使用給定的 *`operator`* 與子查詢結果的每一筆資料列比較，而該運算子必須產生布林結果。如果所有資料列都產生 true（包括子查詢沒有回傳任何資料列的情況），`ALL` 的結果就是「true」。如果發現任何 false 結果，結果就是「false」。如果與子查詢資料列的比較都沒有回傳 false，而且至少有一次比較回傳 NULL，結果就是 NULL。
 
-`NOT IN` is equivalent to `<> ALL`.
+`NOT IN` 等價於 `<> ALL`。
 
-As with `EXISTS`, it's unwise to assume that the subquery will
-be evaluated completely.
+與 `EXISTS` 一樣，假設子查詢會被完整地評估是不明智的。
 
 ```
 
 row_constructor operator ALL (subquery)
 ```
 
-The left-hand side of this form of `ALL` is a row constructor,
-as described in [Section 4.2.13](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS).
-The right-hand side is a parenthesized
-subquery, which must return exactly as many columns as there are
-expressions in the left-hand row. The left-hand expressions are
-evaluated and compared row-wise to each row of the subquery result,
-using the given *`operator`*.
-The result of `ALL` is “true” if the comparison
-returns true for all subquery rows (including the
-case where the subquery returns no rows).
-The result is “false” if the comparison returns false for any
-subquery row.
-The result is NULL if no comparison with a subquery row returns false,
-and at least one comparison returns NULL.
+這種形式的 `ALL` 的左側是一個資料列建構子，如[第 4.2.13 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)所述。右側是一個加上括號的子查詢，它回傳的欄位數必須與左側資料列中的運算式數量完全相同。左側的運算式會被評估，並使用給定的 *`operator`* 逐列與子查詢結果的每一筆資料列比較。如果比較對所有子查詢資料列都回傳 true（包括子查詢沒有回傳任何資料列的情況），`ALL` 的結果就是「true」。如果比較對任何一筆子查詢資料列回傳 false，結果就是「false」。如果與子查詢資料列的比較都沒有回傳 false，而且至少有一次比較回傳 NULL，結果就是 NULL。
 
-See [Section 9.25.5](functions-comparisons.md#ROW-WISE-COMPARISON) for details about the meaning
-of a row constructor comparison.
+關於資料列建構子比較之意義的細節，請參閱[第 9.25.5 節](functions-comparisons.md#ROW-WISE-COMPARISON)。
 
 <a id="FUNCTIONS-SUBQUERY-SINGLE-ROW-COMP"></a>
 
-### 9.24.6. Single-Row Comparison [#](#FUNCTIONS-SUBQUERY-SINGLE-ROW-COMP)
+### 9.24.6. 單列比較 [#](#FUNCTIONS-SUBQUERY-SINGLE-ROW-COMP)
 
 <a id="id-1.5.8.30.15.2"></a>
 
@@ -272,17 +155,10 @@ of a row constructor comparison.
 row_constructor operator (subquery)
 ```
 
-The left-hand side is a row constructor,
-as described in [Section 4.2.13](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS).
-The right-hand side is a parenthesized subquery, which must return exactly
-as many columns as there are expressions in the left-hand row. Furthermore,
-the subquery cannot return more than one row. (If it returns zero rows,
-the result is taken to be null.) The left-hand side is evaluated and
-compared row-wise to the single subquery result row.
+左側是一個資料列建構子，如[第 4.2.13 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)所述。右側是一個加上括號的子查詢，它回傳的欄位數必須與左側資料列中的運算式數量完全相同。此外，子查詢回傳的資料列不能超過一筆。（如果它回傳零筆資料列，結果就視為 null。）左側會被評估，並逐列與子查詢的單一結果資料列比較。
 
-See [Section 9.25.5](functions-comparisons.md#ROW-WISE-COMPARISON) for details about the meaning
-of a row constructor comparison.
+關於資料列建構子比較之意義的細節，請參閱[第 9.25.5 節](functions-comparisons.md#ROW-WISE-COMPARISON)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-subquery.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-subquery.html)（原文版本：18.6；核對日期：2026-09-11）

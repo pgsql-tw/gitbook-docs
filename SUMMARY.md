@@ -112,7 +112,7 @@
     * [9.21. 彙總函式 #](the-sql-language/functions/functions-aggregate.md)
     * [9.22. Window Functions #](the-sql-language/functions/functions-window.md)
     * [9.23. 合併支援函式 #](the-sql-language/functions/functions-merge-support.md)
-    * [9.24. Subquery Expressions #](the-sql-language/functions/functions-subquery.md)
+    * [9.24. 子查詢運算式 #](the-sql-language/functions/functions-subquery.md)
     * [9.25. 資料列與陣列比較 #](the-sql-language/functions/functions-comparisons.md)
     * [9.26. 集合回傳函式 #](the-sql-language/functions/functions-srf.md)
     * [9.27. 系統資訊函式與運算子 #](the-sql-language/functions/functions-info.md)
