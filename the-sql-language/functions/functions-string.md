@@ -1,52 +1,36 @@
-## 9.4. String Functions and Operators [#](#FUNCTIONS-STRING)
+<a id="FUNCTIONS-STRING"></a>
+
+## 9.4. 字串函式與運算子 [#](#FUNCTIONS-STRING)
 
 [9.4.1. `format`](functions-string.md#FUNCTIONS-STRING-FORMAT)
 
-This section describes functions and operators for examining and
-manipulating string values. Strings in this context include values
-of the types `character`, `character varying`,
-and `text`. Except where noted, these functions and operators
-are declared to accept and return type `text`. They will
-interchangeably accept `character varying` arguments.
-Values of type `character` will be converted
-to `text` before the function or operator is applied, resulting
-in stripping any trailing spaces in the `character` value.
+本節說明用於檢查與操作字串值的函式與運算子。在這裡，字串包括 `character`、`character varying` 與 `text` 型別的值。除非另有註明，這些函式與運算子都宣告為接受並回傳 `text` 型別。它們也可以同樣地接受 `character varying` 引數。`character` 型別的值在套用函式或運算子之前，會先被轉換為 `text`，因而會去除 `character` 值中所有的尾端空白。
 
-SQL defines some string functions that use
-key words, rather than commas, to separate
-arguments. Details are in
-[Table 9.9](functions-string.md#FUNCTIONS-STRING-SQL).
-PostgreSQL also provides versions of these functions
-that use the regular function invocation syntax
-(see [Table 9.10](functions-string.md#FUNCTIONS-STRING-OTHER)).
+SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。詳情請見[表 9.9](functions-string.md#FUNCTIONS-STRING-SQL)。PostgreSQL 也提供了這些函式使用一般函式呼叫語法的版本（請參閱[表 9.10](functions-string.md#FUNCTIONS-STRING-OTHER)）。
 
-### Note
+### 注意
 
-The string concatenation operator (`||`) will accept
-non-string input, so long as at least one input is of string type, as shown
-in [Table 9.9](functions-string.md#FUNCTIONS-STRING-SQL). For other cases, inserting an
-explicit coercion to `text` can be used to have non-string input
-accepted.
+只要至少有一個輸入是字串型別，字串串接運算子（`||`）就會接受非字串的輸入，如[表 9.9](functions-string.md#FUNCTIONS-STRING-SQL) 所示。在其他情況下，可以插入明確轉換為 `text` 的強制轉換，讓非字串輸入被接受。
 
 <a id="FUNCTIONS-STRING-SQL"></a>
 
-**Table 9.9. SQL String Functions and Operators**
+**表 9.9. SQL 字串函式與運算子**
 
 <table border="1" class="table" summary="SQL String Functions and Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function/Operator
+        函式／運算子
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.10.5.2.2.1.1.1.1"></a>
 <code class="type">text</code> <code class="literal">||</code> <code class="type">text</code>
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Concatenates the two strings.
+        串接兩個字串。
        </p>
 <p>
 <code class="literal">'Post' || 'greSQL'</code>
@@ -60,11 +44,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the non-string input to text, then concatenates the two
-        strings.  (The non-string input cannot be of an array type, because
-        that would create ambiguity with the array <code class="literal">||</code>
-        operators.  If you want to concatenate an array's text equivalent,
-        cast it to <code class="type">text</code> explicitly.)
+        將非字串的輸入轉換為文字，然後串接兩個字串。（非字串的輸入不能是陣列型別，因為那會與陣列的 <code class="literal">||</code> 運算子產生歧義。如果你想串接陣列的文字表示，請明確地將它轉換為 <code class="type">text</code>。）
        </p>
 <p>
 <code class="literal">'Value: ' || 42</code>
@@ -76,9 +56,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Removes the longest string containing only characters
-        in <em class="parameter"><code>characters</code></em> (a space by default)
-        from the start and end of <em class="parameter"><code>string</code></em>.
+        將只由 <em class="parameter"><code>characters</code></em>（預設為空白）中的字元組成的最長字串，從 <em class="parameter"><code>string</code></em> 的開頭與結尾移除。
        </p>
 <p>
 <code class="literal">btrim('xyxtrimyyx', 'xyz')</code>
@@ -90,13 +68,7 @@ accepted.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Checks whether the string is in the specified Unicode normalization
-        form.  The optional <em class="parameter"><code>form</code></em> key word specifies the
-        form: <code class="literal">NFC</code> (the default), <code class="literal">NFD</code>,
-        <code class="literal">NFKC</code>, or <code class="literal">NFKD</code>.  This expression can
-        only be used when the server encoding is <code class="literal">UTF8</code>.  Note
-        that checking for normalization using this expression is often faster
-        than normalizing possibly already normalized strings.
+        檢查字串是否為指定的 Unicode 正規化形式。選用的 <em class="parameter"><code>form</code></em> 關鍵字指定形式：<code class="literal">NFC</code>（預設值）、<code class="literal">NFD</code>、<code class="literal">NFKC</code> 或 <code class="literal">NFKD</code>。只有在伺服器編碼為 <code class="literal">UTF8</code> 時才能使用這個運算式。請注意，使用這個運算式檢查正規化，通常比對可能已經正規化的字串進行正規化更快。
        </p>
 <p>
 <code class="literal">U&amp;'\0061\0308bc' IS NFD NORMALIZED</code>
@@ -107,8 +79,7 @@ accepted.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns number of bits in the string (8
-        times the <code class="function">octet_length</code>).
+        回傳字串中的位元數（<code class="function">octet_length</code> 的 8 倍）。
        </p>
 <p>
 <code class="literal">bit_length('jose')</code>
@@ -126,7 +97,7 @@ accepted.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns number of characters in the string.
+        回傳字串中的字元數。
        </p>
 <p>
 <code class="literal">char_length('josé')</code>
@@ -137,8 +108,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the string to all lower case, according to the rules of the
-        database's locale.
+        依照資料庫語系的規則，將字串全部轉換為小寫。
        </p>
 <p>
 <code class="literal">lower('TOM')</code>
@@ -151,11 +121,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extends the <em class="parameter"><code>string</code></em> to length
-        <em class="parameter"><code>length</code></em> by prepending the characters
-        <em class="parameter"><code>fill</code></em> (a space by default).  If the
-        <em class="parameter"><code>string</code></em> is already longer than
-        <em class="parameter"><code>length</code></em> then it is truncated (on the right).
+        將 <em class="parameter"><code>string</code></em> 延伸到長度 <em class="parameter"><code>length</code></em>，方法是在前面加上字元 <em class="parameter"><code>fill</code></em>（預設為空白）。如果 <em class="parameter"><code>string</code></em> 已經比 <em class="parameter"><code>length</code></em> 長，就會將它截斷（從右邊）。
        </p>
 <p>
 <code class="literal">lpad('hi', 5, 'xy')</code>
@@ -167,9 +133,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Removes the longest string containing only characters in
-        <em class="parameter"><code>characters</code></em> (a space by default) from the start of
-        <em class="parameter"><code>string</code></em>.
+        將只由 <em class="parameter"><code>characters</code></em>（預設為空白）中的字元組成的最長字串，從 <em class="parameter"><code>string</code></em> 的開頭移除。
        </p>
 <p>
 <code class="literal">ltrim('zzzytest', 'xyz')</code>
@@ -182,12 +146,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the string to the specified Unicode
-        normalization form.  The optional <em class="parameter"><code>form</code></em> key word
-        specifies the form: <code class="literal">NFC</code> (the default),
-        <code class="literal">NFD</code>, <code class="literal">NFKC</code>, or
-        <code class="literal">NFKD</code>.  This function can only be used when the
-        server encoding is <code class="literal">UTF8</code>.
+        將字串轉換為指定的 Unicode 正規化形式。選用的 <em class="parameter"><code>form</code></em> 關鍵字指定形式：<code class="literal">NFC</code>（預設值）、<code class="literal">NFD</code>、<code class="literal">NFKC</code> 或 <code class="literal">NFKD</code>。只有在伺服器編碼為 <code class="literal">UTF8</code> 時才能使用這個函式。
        </p>
 <p>
 <code class="literal">normalize(U&amp;'\0061\0308bc', NFC)</code>
@@ -198,20 +157,17 @@ accepted.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns number of bytes in the string.
+        回傳字串中的位元組數。
        </p>
 <p>
-<code class="literal">octet_length('josé')</code>
-        → <code class="returnvalue">5</code> (if server encoding is UTF8)
+<code class="literal">octet_length('josé')</code> → <code class="returnvalue">5</code>（若伺服器編碼為 UTF8）
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.10.5.2.2.12.1.1.1"></a>
 <code class="function">octet_length</code> ( <code class="type">character</code> )
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns number of bytes in the string.  Since this version of the
-        function accepts type <code class="type">character</code> directly, it will not
-        strip trailing spaces.
+        回傳字串中的位元組數。由於這個版本的函式直接接受 <code class="type">character</code> 型別，它不會去除尾端空白。
        </p>
 <p>
 <code class="literal">octet_length('abc '::character(4))</code>
@@ -222,12 +178,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Replaces the substring of <em class="parameter"><code>string</code></em> that starts at
-        the <em class="parameter"><code>start</code></em>'th character and extends
-        for <em class="parameter"><code>count</code></em> characters
-        with <em class="parameter"><code>newsubstring</code></em>.
-        If <em class="parameter"><code>count</code></em> is omitted, it defaults to the length
-        of <em class="parameter"><code>newsubstring</code></em>.
+        將 <em class="parameter"><code>string</code></em> 中從第 <em class="parameter"><code>start</code></em> 個字元開始、延伸 <em class="parameter"><code>count</code></em> 個字元的子字串，替換為 <em class="parameter"><code>newsubstring</code></em>。如果省略 <em class="parameter"><code>count</code></em>，預設為 <em class="parameter"><code>newsubstring</code></em> 的長度。
        </p>
 <p>
 <code class="literal">overlay('Txxxxas' placing 'hom' from 2 for 4)</code>
@@ -238,9 +189,7 @@ accepted.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns first starting index of the specified
-        <em class="parameter"><code>substring</code></em> within
-        <em class="parameter"><code>string</code></em>, or zero if it's not present.
+        回傳指定的 <em class="parameter"><code>substring</code></em> 在 <em class="parameter"><code>string</code></em> 中第一次出現的起始索引；如果不存在則回傳零。
        </p>
 <p>
 <code class="literal">position('om' in 'Thomas')</code>
@@ -253,11 +202,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extends the <em class="parameter"><code>string</code></em> to length
-        <em class="parameter"><code>length</code></em> by appending the characters
-        <em class="parameter"><code>fill</code></em> (a space by default).  If the
-        <em class="parameter"><code>string</code></em> is already longer than
-        <em class="parameter"><code>length</code></em> then it is truncated.
+        將 <em class="parameter"><code>string</code></em> 延伸到長度 <em class="parameter"><code>length</code></em>，方法是在後面加上字元 <em class="parameter"><code>fill</code></em>（預設為空白）。如果 <em class="parameter"><code>string</code></em> 已經比 <em class="parameter"><code>length</code></em> 長，就會將它截斷。
        </p>
 <p>
 <code class="literal">rpad('hi', 5, 'xy')</code>
@@ -269,9 +214,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Removes the longest string containing only characters in
-        <em class="parameter"><code>characters</code></em> (a space by default) from the end of
-        <em class="parameter"><code>string</code></em>.
+        將只由 <em class="parameter"><code>characters</code></em>（預設為空白）中的字元組成的最長字串，從 <em class="parameter"><code>string</code></em> 的結尾移除。
        </p>
 <p>
 <code class="literal">rtrim('testxxzx', 'xyz')</code>
@@ -282,11 +225,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extracts the substring of <em class="parameter"><code>string</code></em> starting at
-        the <em class="parameter"><code>start</code></em>'th character if that is specified,
-        and stopping after <em class="parameter"><code>count</code></em> characters if that is
-        specified.  Provide at least one of <em class="parameter"><code>start</code></em>
-        and <em class="parameter"><code>count</code></em>.
+        擷取 <em class="parameter"><code>string</code></em> 的子字串：如果有指定，就從第 <em class="parameter"><code>start</code></em> 個字元開始；如果有指定，就在 <em class="parameter"><code>count</code></em> 個字元之後停止。<em class="parameter"><code>start</code></em> 與 <em class="parameter"><code>count</code></em> 至少要提供其中一個。
        </p>
 <p>
 <code class="literal">substring('Thomas' from 2 for 3)</code>
@@ -304,8 +243,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extracts the first substring matching POSIX regular expression; see
-        <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        擷取第一個符合 POSIX 正規表示式的子字串；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">substring('Thomas' from '...$')</code>
@@ -319,10 +257,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extracts the first substring matching <acronym class="acronym">SQL</acronym> regular expression;
-        see <a class="xref" href="functions-matching.md#FUNCTIONS-SIMILARTO-REGEXP">Section 9.7.2</a>.  The first form has
-        been specified since SQL:2003; the second form was only in SQL:1999
-        and should be considered obsolete.
+        擷取第一個符合 <acronym class="acronym">SQL</acronym> 正規表示式的子字串；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-SIMILARTO-REGEXP">第 9.7.2 節</a>。第一種形式自 SQL:2003 起即已規定；第二種形式只存在於 SQL:1999，應視為已過時。
        </p>
 <p>
 <code class="literal">substring('Thomas' similar '%#"o_a#"_' escape '#')</code>
@@ -335,10 +270,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Removes the longest string containing only characters in
-        <em class="parameter"><code>characters</code></em> (a space by default) from the
-        start, end, or both ends (<code class="literal">BOTH</code> is the default)
-        of <em class="parameter"><code>string</code></em>.
+        將只由 <em class="parameter"><code>characters</code></em>（預設為空白）中的字元組成的最長字串，從開頭、結尾或兩端（預設為 <code class="literal">BOTH</code>）移除，處理的對象是 <em class="parameter"><code>string</code></em>。
        </p>
 <p>
 <code class="literal">trim(both 'xyz' from 'yxTomxx')</code>
@@ -350,7 +282,7 @@ accepted.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        This is a non-standard syntax for <code class="function">trim()</code>.
+        這是 <code class="function">trim()</code> 的非標準語法。
        </p>
 <p>
 <code class="literal">trim(both from 'yxTomxx', 'xyz')</code>
@@ -361,18 +293,14 @@ accepted.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Returns <code class="literal">true</code> if all characters in the string are
-        assigned Unicode codepoints; <code class="literal">false</code> otherwise. This
-        function can only be used when the server encoding is
-        <code class="literal">UTF8</code>.
+        如果字串中的所有字元都是已指派的 Unicode 碼位，就回傳 <code class="literal">true</code>；否則回傳 <code class="literal">false</code>。只有在伺服器編碼為 <code class="literal">UTF8</code> 時才能使用這個函式。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.10.5.2.2.23.1.1.1"></a>
 <code class="function">upper</code> ( <code class="type">text</code> )
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the string to all upper case, according to the rules of the
-        database's locale.
+        依照資料庫語系的規則，將字串全部轉換為大寫。
        </p>
 <p>
 <code class="literal">upper('tom')</code>
@@ -381,35 +309,27 @@ accepted.
 
 <br>
 
-Additional string manipulation functions and operators are available
-and are listed in [Table 9.10](functions-string.md#FUNCTIONS-STRING-OTHER). (Some of
-these are used internally to implement
-the SQL-standard string functions listed in
-[Table 9.9](functions-string.md#FUNCTIONS-STRING-SQL).)
-There are also pattern-matching operators, which are described in
-[Section 9.7](functions-matching.md), and operators for full-text
-search, which are described in [Chapter 12](../textsearch/README.md).
+另外還有其他字串操作函式與運算子可用，列於[表 9.10](functions-string.md#FUNCTIONS-STRING-OTHER)。（其中有些在內部用來實作[表 9.9](functions-string.md#FUNCTIONS-STRING-SQL) 所列的 SQL 標準字串函式。）此外還有模式比對運算子，說明於[第 9.7 節](functions-matching.md)；以及用於全文檢索的運算子，說明於[第 12 章](../textsearch/README.md)。
 
 <a id="FUNCTIONS-STRING-OTHER"></a>
 
-**Table 9.10. Other String Functions and Operators**
+**表 9.10. 其他字串函式與運算子**
 
 <table border="1" class="table" summary="Other String Functions and Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function/Operator
+        函式／運算子
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.10.7.2.2.1.1.1.1"></a>
 <code class="type">text</code> <code class="literal">^@</code> <code class="type">text</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Returns true if the first string starts with the second string
-        (equivalent to the <code class="function">starts_with()</code> function).
+        如果第一個字串以第二個字串開頭，就回傳 true（等同於 <code class="function">starts_with()</code> 函式）。
        </p>
 <p>
 <code class="literal">'alphabet' ^@ 'alph'</code>
@@ -420,10 +340,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the numeric code of the first character of the argument.
-        In <acronym class="acronym">UTF8</acronym> encoding, returns the Unicode code point
-        of the character.  In other multibyte encodings, the argument must
-        be an <acronym class="acronym">ASCII</acronym> character.
+        回傳引數第一個字元的數值代碼。在 <acronym class="acronym">UTF8</acronym> 編碼中，回傳該字元的 Unicode 碼位。在其他多位元組編碼中，引數必須是 <acronym class="acronym">ASCII</acronym> 字元。
        </p>
 <p>
 <code class="literal">ascii('x')</code>
@@ -434,11 +351,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns the character with the given code. In <acronym class="acronym">UTF8</acronym>
-        encoding the argument is treated as a Unicode code point. In other
-        multibyte encodings the argument must designate
-        an <acronym class="acronym">ASCII</acronym> character.  <code class="literal">chr(0)</code> is
-        disallowed because text data types cannot store that character.
+        回傳具有指定代碼的字元。在 <acronym class="acronym">UTF8</acronym> 編碼中，引數被視為 Unicode 碼位。在其他多位元組編碼中，引數必須指定一個 <acronym class="acronym">ASCII</acronym> 字元。不允許使用 <code class="literal">chr(0)</code>，因為文字資料型別無法儲存該字元。
       </p>
 <p>
 <code class="literal">chr(65)</code>
@@ -450,8 +363,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Concatenates the text representations of all the arguments.
-        NULL arguments are ignored.
+        串接所有引數的文字表示。NULL 引數會被忽略。
        </p>
 <p>
 <code class="literal">concat('abcde', 2, NULL, 22)</code>
@@ -464,9 +376,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Concatenates all but the first argument, with separators. The first
-        argument is used as the separator string, and should not be NULL.
-        Other NULL arguments are ignored.
+        以分隔符號串接除了第一個引數之外的所有引數。第一個引數用作分隔字串，不應為 NULL。其他的 NULL 引數會被忽略。
        </p>
 <p>
 <code class="literal">concat_ws(',', 'abcde', 2, NULL, 22)</code>
@@ -478,9 +388,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-         Formats arguments according to a format string;
-         see <a class="xref" href="functions-string.md#FUNCTIONS-STRING-FORMAT">Section 9.4.1</a>.
-         This function is similar to the C function <code class="function">sprintf</code>.
+         依照格式字串格式化引數；請參閱<a class="xref" href="functions-string.md#FUNCTIONS-STRING-FORMAT">第 9.4.1 節</a>。這個函式類似於 C 函式 <code class="function">sprintf</code>。
        </p>
 <p>
 <code class="literal">format('Hello %s, %1$s', 'World')</code>
@@ -491,9 +399,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the first letter of each word to upper case and the
-        rest to lower case. Words are sequences of alphanumeric
-        characters separated by non-alphanumeric characters.
+        將每個單字的第一個字母轉換為大寫，其餘轉換為小寫。單字是由非英數字元分隔的英數字元序列。
        </p>
 <p>
 <code class="literal">initcap('hi THOMAS')</code>
@@ -504,31 +410,19 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Performs case folding of the input string according to the collation.
-        Case folding is similar to case conversion, but the purpose of case
-        folding is to facilitate case-insensitive matching of strings,
-        whereas the purpose of case conversion is to convert to a particular
-        cased form.  This function can only be used when the server encoding
-        is <code class="literal">UTF8</code>.
+        依照定序對輸入字串進行大小寫摺疊（case folding）。大小寫摺疊類似於大小寫轉換，但大小寫摺疊的目的是便於進行不區分大小寫的字串比對，而大小寫轉換的目的則是轉換成特定的大小寫形式。只有在伺服器編碼為 <code class="literal">UTF8</code> 時才能使用這個函式。
        </p>
 <p>
-        Ordinarily, case folding simply converts to lowercase, but there may
-        be exceptions depending on the collation.  For instance, some
-        characters have more than two lowercase variants, or fold to uppercase.
+        一般而言，大小寫摺疊只是轉換成小寫，但視定序而定可能會有例外。例如，有些字元有兩種以上的小寫變體，或者會摺疊成大寫。
        </p>
 <p>
-        Case folding may change the length of the string.  For instance, in
-        the <code class="literal">PG_UNICODE_FAST</code> collation, <code class="literal">ß</code>
-        (U+00DF) folds to <code class="literal">ss</code>.
+        大小寫摺疊可能會改變字串的長度。例如，在 <code class="literal">PG_UNICODE_FAST</code> 定序中，<code class="literal">ß</code>（U+00DF）會摺疊成 <code class="literal">ss</code>。
        </p>
 <p>
-<code class="function">casefold</code> can be used for Unicode Default Caseless
-        Matching.  It does not always preserve the normalized form of the
-        input string (see <a class="xref" href="functions-string.md#FUNCTION-NORMALIZE">normalize</a>).
+<code class="function">casefold</code> 可用於 Unicode 預設無大小寫比對（Default Caseless Matching）。它不一定會保留輸入字串的正規化形式（請參閱 <a class="xref" href="functions-string.md#FUNCTION-NORMALIZE">normalize</a>）。
        </p>
 <p>
-        The <code class="literal">libc</code> provider doesn't support case folding, so
-        <code class="function">casefold</code> is identical to <a class="xref" href="functions-string.md#FUNCTION-LOWER">lower</a>.
+        <code class="literal">libc</code> 提供者不支援大小寫摺疊，因此 <code class="function">casefold</code> 與 <a class="xref" href="functions-string.md#FUNCTION-LOWER">lower</a> 相同。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.10.7.2.2.9.1.1.1"></a>
 <code class="function">left</code> ( <em class="parameter"><code>string</code></em> <code class="type">text</code>,
@@ -536,9 +430,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns first <em class="parameter"><code>n</code></em> characters in the
-        string, or when <em class="parameter"><code>n</code></em> is negative, returns
-        all but last |<em class="parameter"><code>n</code></em>| characters.
+        回傳字串的前 <em class="parameter"><code>n</code></em> 個字元；當 <em class="parameter"><code>n</code></em> 為負數時，回傳除了最後 |<em class="parameter"><code>n</code></em>| 個字元之外的所有字元。
        </p>
 <p>
 <code class="literal">left('abcde', 2)</code>
@@ -549,7 +441,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of characters in the string.
+        回傳字串中的字元數。
        </p>
 <p>
 <code class="literal">length('jose')</code>
@@ -560,8 +452,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Computes the MD5 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">hash</a> of
-        the argument, with the result written in hexadecimal.
+        計算引數的 MD5 <a class="link" href="functions-binarystring.md#FUNCTIONS-HASH-NOTE">雜湊值</a>，結果以十六進位表示。
        </p>
 <p>
 <code class="literal">md5('abc')</code>
@@ -573,14 +464,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        Splits <em class="parameter"><code>qualified_identifier</code></em> into an array of
-        identifiers, removing any quoting of individual identifiers.  By
-        default, extra characters after the last identifier are considered an
-        error; but if the second parameter is <code class="literal">false</code>, then such
-        extra characters are ignored. (This behavior is useful for parsing
-        names for objects like functions.) Note that this function does not
-        truncate over-length identifiers. If you want truncation you can cast
-        the result to <code class="type">name[]</code>.
+        將 <em class="parameter"><code>qualified_identifier</code></em> 拆分成識別符號陣列，並移除個別識別符號的所有引號。預設情況下，最後一個識別符號之後的額外字元會被視為錯誤；但如果第二個參數為 <code class="literal">false</code>，這類額外字元就會被忽略。（這種行為對於剖析函式等物件的名稱很有用。）請注意，這個函式不會截斷過長的識別符號。如果你想要截斷，可以將結果轉換為 <code class="type">name[]</code>。
        </p>
 <p>
 <code class="literal">parse_ident('"SomeSchema".someTable')</code>
@@ -591,7 +475,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">name</code>
 </p>
 <p>
-        Returns current client encoding name.
+        回傳目前用戶端編碼的名稱。
        </p>
 <p>
 <code class="literal">pg_client_encoding()</code>
@@ -602,12 +486,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns the given string suitably quoted to be used as an identifier
-        in an <acronym class="acronym">SQL</acronym> statement string.
-        Quotes are added only if necessary (i.e., if the string contains
-        non-identifier characters or would be case-folded).
-        Embedded quotes are properly doubled.
-        See also <a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE">Example 41.1</a>.
+        回傳適當加上引號、可在 <acronym class="acronym">SQL</acronym> 陳述式字串中用作識別符號的給定字串。只有在必要時（也就是字串包含非識別符號字元，或會被大小寫摺疊時）才會加上引號。內嵌的引號會被正確地重複。另請參閱<a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE">範例 41.1</a>。
        </p>
 <p>
 <code class="literal">quote_ident('Foo bar')</code>
@@ -618,13 +497,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns the given string suitably quoted to be used as a string literal
-        in an <acronym class="acronym">SQL</acronym> statement string.
-        Embedded single-quotes and backslashes are properly doubled.
-        Note that <code class="function">quote_literal</code> returns null on null
-        input; if the argument might be null,
-        <code class="function">quote_nullable</code> is often more suitable.
-        See also <a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE">Example 41.1</a>.
+        回傳適當加上引號、可在 <acronym class="acronym">SQL</acronym> 陳述式字串中用作字串字面值的給定字串。內嵌的單引號與反斜線會被正確地重複。請注意，<code class="function">quote_literal</code> 在輸入為 null 時會回傳 null；如果引數可能為 null，<code class="function">quote_nullable</code> 通常更合適。另請參閱<a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE">範例 41.1</a>。
        </p>
 <p>
 <code class="literal">quote_literal(E'O\'Reilly')</code>
@@ -634,8 +507,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the given value to text and then quotes it as a literal.
-        Embedded single-quotes and backslashes are properly doubled.
+        將給定的值轉換為文字，然後將它加上引號作為字面值。內嵌的單引號與反斜線會被正確地重複。
        </p>
 <p>
 <code class="literal">quote_literal(42.5)</code>
@@ -646,11 +518,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns the given string suitably quoted to be used as a string literal
-        in an <acronym class="acronym">SQL</acronym> statement string; or, if the argument
-        is null, returns <code class="literal">NULL</code>.
-        Embedded single-quotes and backslashes are properly doubled.
-        See also <a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE">Example 41.1</a>.
+        回傳適當加上引號、可在 <acronym class="acronym">SQL</acronym> 陳述式字串中用作字串字面值的給定字串；或者，如果引數為 null，則回傳 <code class="literal">NULL</code>。內嵌的單引號與反斜線會被正確地重複。另請參閱<a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE">範例 41.1</a>。
        </p>
 <p>
 <code class="literal">quote_nullable(NULL)</code>
@@ -660,9 +528,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the given value to text and then quotes it as a literal;
-        or, if the argument is null, returns <code class="literal">NULL</code>.
-        Embedded single-quotes and backslashes are properly doubled.
+        將給定的值轉換為文字，然後將它加上引號作為字面值；或者，如果引數為 null，則回傳 <code class="literal">NULL</code>。內嵌的單引號與反斜線會被正確地重複。
        </p>
 <p>
 <code class="literal">quote_nullable(42.5)</code>
@@ -675,10 +541,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of times the POSIX regular
-        expression <em class="parameter"><code>pattern</code></em> matches in
-        the <em class="parameter"><code>string</code></em>; see
-        <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        回傳 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 在 <em class="parameter"><code>string</code></em> 中相符的次數；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_count('123456789012', '\d\d\d', 2)</code>
@@ -694,10 +557,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the position within <em class="parameter"><code>string</code></em> where
-        the <em class="parameter"><code>N</code></em>'th match of the POSIX regular
-        expression <em class="parameter"><code>pattern</code></em> occurs, or zero if there is
-        no such match; see <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        回傳在 <em class="parameter"><code>string</code></em> 中第 <em class="parameter"><code>N</code></em> 次與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 相符之處的位置；如果沒有這樣的相符則回傳零；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_instr('ABCDEF', 'c(.)(..)', 1, 1, 0, 'i')</code>
@@ -713,10 +573,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Checks whether a match of the POSIX regular
-        expression <em class="parameter"><code>pattern</code></em> occurs
-        within <em class="parameter"><code>string</code></em>; see
-        <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        檢查 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 是否在 <em class="parameter"><code>string</code></em> 中有相符的項目；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_like('Hello World', 'world$', 'i')</code>
@@ -727,10 +584,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        Returns substrings within the first match of the POSIX regular
-        expression <em class="parameter"><code>pattern</code></em> to
-        the <em class="parameter"><code>string</code></em>; see
-        <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        回傳 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 與 <em class="parameter"><code>string</code></em> 第一次相符之內的子字串；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_match('foobarbequebaz', '(bar)(beque)')</code>
@@ -741,11 +595,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">setof text[]</code>
 </p>
 <p>
-        Returns substrings within the first match of the POSIX regular
-        expression <em class="parameter"><code>pattern</code></em> to
-        the <em class="parameter"><code>string</code></em>, or substrings within all
-        such matches if the <code class="literal">g</code> flag is used;
-        see <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        回傳 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 與 <em class="parameter"><code>string</code></em> 第一次相符之內的子字串；如果使用了 <code class="literal">g</code> 旗標，則回傳所有這類相符之內的子字串；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_matches('foobarbequebaz', 'ba.', 'g')</code>
@@ -761,10 +611,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Replaces the substring that is the first match to the POSIX
-        regular expression <em class="parameter"><code>pattern</code></em>, or all such
-        matches if the <code class="literal">g</code> flag is used; see
-        <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        替換與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 第一次相符的子字串；如果使用了 <code class="literal">g</code> 旗標，則替換所有這類相符；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_replace('Thomas', '.[mN]a.', 'M')</code>
@@ -777,13 +624,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Replaces the substring that is the <em class="parameter"><code>N</code></em>'th
-        match to the POSIX regular expression <em class="parameter"><code>pattern</code></em>,
-        or all such matches if <em class="parameter"><code>N</code></em> is zero, with the
-        search beginning at the <em class="parameter"><code>start</code></em>'th character
-        of <em class="parameter"><code>string</code></em>.  If <em class="parameter"><code>N</code></em> is
-        omitted, it defaults to 1.  See
-        <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        替換第 <em class="parameter"><code>N</code></em> 次與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 相符的子字串；如果 <em class="parameter"><code>N</code></em> 為零，則替換所有這類相符；並從第 <em class="parameter"><code>start</code></em> 個字元開始搜尋 <em class="parameter"><code>string</code></em>。如果省略 <em class="parameter"><code>N</code></em>，預設為 1。請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_replace('Thomas', '.', 'X', 3, 2)</code>
@@ -798,9 +639,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        Splits <em class="parameter"><code>string</code></em> using a POSIX regular
-        expression as the delimiter, producing an array of results; see
-        <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        使用 POSIX 正規表示式作為分隔符號來拆分 <em class="parameter"><code>string</code></em>，產生一個結果陣列；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_split_to_array('hello world', '\s+')</code>
@@ -811,9 +650,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">setof text</code>
 </p>
 <p>
-        Splits <em class="parameter"><code>string</code></em> using a POSIX regular
-        expression as the delimiter, producing a set of results; see
-        <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        使用 POSIX 正規表示式作為分隔符號來拆分 <em class="parameter"><code>string</code></em>，產生一個結果集合；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_split_to_table('hello world', '\s+')</code>
@@ -832,11 +669,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns the substring within <em class="parameter"><code>string</code></em> that
-        matches the <em class="parameter"><code>N</code></em>'th occurrence of the POSIX
-        regular expression <em class="parameter"><code>pattern</code></em>,
-        or <code class="literal">NULL</code> if there is no such match; see
-        <a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">Section 9.7.3</a>.
+        回傳 <em class="parameter"><code>string</code></em> 中第 <em class="parameter"><code>N</code></em> 個與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 相符的子字串；如果沒有這樣的相符，則回傳 <code class="literal">NULL</code>；請參閱<a class="xref" href="functions-matching.md#FUNCTIONS-POSIX-REGEXP">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_substr('ABCDEF', 'c(.)(..)', 1, 1, 'i')</code>
@@ -851,8 +684,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Repeats <em class="parameter"><code>string</code></em> the specified
-        <em class="parameter"><code>number</code></em> of times.
+        將 <em class="parameter"><code>string</code></em> 重複指定的 <em class="parameter"><code>number</code></em> 次。
        </p>
 <p>
 <code class="literal">repeat('Pg', 4)</code>
@@ -865,9 +697,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Replaces all occurrences in <em class="parameter"><code>string</code></em> of
-        substring <em class="parameter"><code>from</code></em> with
-        substring <em class="parameter"><code>to</code></em>.
+        將 <em class="parameter"><code>string</code></em> 中所有出現的子字串 <em class="parameter"><code>from</code></em> 替換為子字串 <em class="parameter"><code>to</code></em>。
        </p>
 <p>
 <code class="literal">replace('abcdefabcdef', 'cd', 'XX')</code>
@@ -878,7 +708,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Reverses the order of the characters in the string.
+        反轉字串中字元的順序。
        </p>
 <p>
 <code class="literal">reverse('abcde')</code>
@@ -890,9 +720,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns last <em class="parameter"><code>n</code></em> characters in the string,
-        or when <em class="parameter"><code>n</code></em> is negative, returns all but
-        first |<em class="parameter"><code>n</code></em>| characters.
+        回傳字串的最後 <em class="parameter"><code>n</code></em> 個字元；當 <em class="parameter"><code>n</code></em> 為負數時，回傳除了最前面 |<em class="parameter"><code>n</code></em>| 個字元之外的所有字元。
        </p>
 <p>
 <code class="literal">right('abcde', 2)</code>
@@ -905,11 +733,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Splits <em class="parameter"><code>string</code></em> at occurrences
-        of <em class="parameter"><code>delimiter</code></em> and returns
-        the <em class="parameter"><code>n</code></em>'th field (counting from one),
-        or when <em class="parameter"><code>n</code></em> is negative, returns
-        the |<em class="parameter"><code>n</code></em>|'th-from-last field.
+        將 <em class="parameter"><code>string</code></em> 在 <em class="parameter"><code>delimiter</code></em> 出現的位置拆分，並回傳第 <em class="parameter"><code>n</code></em> 個欄位（從一開始計算）；當 <em class="parameter"><code>n</code></em> 為負數時，回傳倒數第 |<em class="parameter"><code>n</code></em>| 個欄位。
        </p>
 <p>
 <code class="literal">split_part('abc~@~def~@~ghi', '~@~', 2)</code>
@@ -924,8 +748,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Returns true if <em class="parameter"><code>string</code></em> starts
-        with <em class="parameter"><code>prefix</code></em>.
+        如果 <em class="parameter"><code>string</code></em> 以 <em class="parameter"><code>prefix</code></em> 開頭，就回傳 true。
        </p>
 <p>
 <code class="literal">starts_with('alphabet', 'alph')</code>
@@ -936,18 +759,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        Splits the <em class="parameter"><code>string</code></em> at occurrences
-        of <em class="parameter"><code>delimiter</code></em> and forms the resulting fields
-        into a <code class="type">text</code> array.
-        If <em class="parameter"><code>delimiter</code></em> is <code class="literal">NULL</code>,
-        each character in the <em class="parameter"><code>string</code></em> will become a
-        separate element in the array.
-        If <em class="parameter"><code>delimiter</code></em> is an empty string, then
-        the <em class="parameter"><code>string</code></em> is treated as a single field.
-        If <em class="parameter"><code>null_string</code></em> is supplied and is
-        not <code class="literal">NULL</code>, fields matching that string are
-        replaced by <code class="literal">NULL</code>.
-        See also <a class="link" href="functions-array.md#FUNCTION-ARRAY-TO-STRING"><code class="function">array_to_string</code></a>.
+        將 <em class="parameter"><code>string</code></em> 在 <em class="parameter"><code>delimiter</code></em> 出現的位置拆分，並將產生的欄位組成一個 <code class="type">text</code> 陣列。如果 <em class="parameter"><code>delimiter</code></em> 為 <code class="literal">NULL</code>，<em class="parameter"><code>string</code></em> 中的每個字元都會成為陣列中的一個獨立元素。如果 <em class="parameter"><code>delimiter</code></em> 是空字串，<em class="parameter"><code>string</code></em> 會被視為單一欄位。如果提供了 <em class="parameter"><code>null_string</code></em> 且其值不是 <code class="literal">NULL</code>，與該字串相符的欄位會被替換為 <code class="literal">NULL</code>。另請參閱 <a class="link" href="functions-array.md#FUNCTION-ARRAY-TO-STRING"><code class="function">array_to_string</code></a>。
        </p>
 <p>
 <code class="literal">string_to_array('xx~~yy~~zz', '~~', 'yy')</code>
@@ -958,17 +770,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">setof text</code>
 </p>
 <p>
-        Splits the <em class="parameter"><code>string</code></em> at occurrences
-        of <em class="parameter"><code>delimiter</code></em> and returns the resulting fields
-        as a set of <code class="type">text</code> rows.
-        If <em class="parameter"><code>delimiter</code></em> is <code class="literal">NULL</code>,
-        each character in the <em class="parameter"><code>string</code></em> will become a
-        separate row of the result.
-        If <em class="parameter"><code>delimiter</code></em> is an empty string, then
-        the <em class="parameter"><code>string</code></em> is treated as a single field.
-        If <em class="parameter"><code>null_string</code></em> is supplied and is
-        not <code class="literal">NULL</code>, fields matching that string are
-        replaced by <code class="literal">NULL</code>.
+        將 <em class="parameter"><code>string</code></em> 在 <em class="parameter"><code>delimiter</code></em> 出現的位置拆分，並將產生的欄位以一組 <code class="type">text</code> 資料列的形式回傳。如果 <em class="parameter"><code>delimiter</code></em> 為 <code class="literal">NULL</code>，<em class="parameter"><code>string</code></em> 中的每個字元都會成為結果中的一筆獨立資料列。如果 <em class="parameter"><code>delimiter</code></em> 是空字串，<em class="parameter"><code>string</code></em> 會被視為單一欄位。如果提供了 <em class="parameter"><code>null_string</code></em> 且其值不是 <code class="literal">NULL</code>，與該字串相符的欄位會被替換為 <code class="literal">NULL</code>。
        </p>
 <p>
 <code class="literal">string_to_table('xx~^~yy~^~zz', '~^~', 'yy')</code>
@@ -984,11 +786,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns first starting index of the specified <em class="parameter"><code>substring</code></em>
-        within <em class="parameter"><code>string</code></em>, or zero if it's not present.
-        (Same as <code class="literal">position(<em class="parameter"><code>substring</code></em> in
-        <em class="parameter"><code>string</code></em>)</code>, but note the reversed
-        argument order.)
+        回傳指定的 <em class="parameter"><code>substring</code></em> 在 <em class="parameter"><code>string</code></em> 中第一次出現的起始索引；如果不存在則回傳零。（與 <code class="literal">position(<em class="parameter"><code>substring</code></em> in <em class="parameter"><code>string</code></em>)</code> 相同，但請注意引數順序相反。）
        </p>
 <p>
 <code class="literal">strpos('high', 'ig')</code>
@@ -999,13 +797,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extracts the substring of <em class="parameter"><code>string</code></em> starting at
-        the <em class="parameter"><code>start</code></em>'th character,
-        and extending for <em class="parameter"><code>count</code></em> characters if that is
-        specified.  (Same
-        as <code class="literal">substring(<em class="parameter"><code>string</code></em>
-        from <em class="parameter"><code>start</code></em>
-        for <em class="parameter"><code>count</code></em>)</code>.)
+        擷取 <em class="parameter"><code>string</code></em> 從第 <em class="parameter"><code>start</code></em> 個字元開始的子字串；如果有指定，則延伸 <em class="parameter"><code>count</code></em> 個字元。（與 <code class="literal">substring(<em class="parameter"><code>string</code></em> from <em class="parameter"><code>start</code></em> for <em class="parameter"><code>count</code></em>)</code> 相同。）
        </p>
 <p>
 <code class="literal">substr('alphabet', 3)</code>
@@ -1030,16 +822,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts <em class="parameter"><code>string</code></em> to <acronym class="acronym">ASCII</acronym>
-        from another encoding, which may be identified by name or number.
-        If <em class="parameter"><code>encoding</code></em> is omitted the database encoding
-        is assumed (which in practice is the only useful case).
-        The conversion consists primarily of dropping accents.
-        Conversion is only supported
-        from <code class="literal">LATIN1</code>, <code class="literal">LATIN2</code>,
-        <code class="literal">LATIN9</code>, and <code class="literal">WIN1250</code> encodings.
-        (See the <a class="xref" href="../../appendixes/contrib/unaccent.md">unaccent</a> module for another, more flexible
-        solution.)
+        將 <em class="parameter"><code>string</code></em> 從另一種編碼轉換為 <acronym class="acronym">ASCII</acronym>，來源編碼可以用名稱或編號指定。如果省略 <em class="parameter"><code>encoding</code></em>，則假設為資料庫編碼（實務上這是唯一有用的情況）。轉換主要是去除重音符號。只支援從 <code class="literal">LATIN1</code>、<code class="literal">LATIN2</code>、<code class="literal">LATIN9</code> 與 <code class="literal">WIN1250</code> 編碼進行轉換。（另一個更有彈性的解決方案，請參閱 <a class="xref" href="../../appendixes/contrib/unaccent.md">unaccent</a> 模組。）
        </p>
 <p>
 <code class="literal">to_ascii('Karél')</code>
@@ -1054,8 +837,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the number to its equivalent two's complement binary
-        representation.
+        將數字轉換為其等價的二補數二進位表示。
        </p>
 <p>
 <code class="literal">to_bin(2147483647)</code>
@@ -1074,8 +856,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the number to its equivalent two's complement hexadecimal
-        representation.
+        將數字轉換為其等價的二補數十六進位表示。
        </p>
 <p>
 <code class="literal">to_hex(2147483647)</code>
@@ -1094,8 +875,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the number to its equivalent two's complement octal
-        representation.
+        將數字轉換為其等價的二補數八進位表示。
        </p>
 <p>
 <code class="literal">to_oct(2147483647)</code>
@@ -1112,12 +892,7 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Replaces each character in <em class="parameter"><code>string</code></em> that
-        matches a character in the <em class="parameter"><code>from</code></em> set with the
-        corresponding character in the <em class="parameter"><code>to</code></em>
-        set. If <em class="parameter"><code>from</code></em> is longer than
-        <em class="parameter"><code>to</code></em>, occurrences of the extra characters in
-        <em class="parameter"><code>from</code></em> are deleted.
+        將 <em class="parameter"><code>string</code></em> 中與 <em class="parameter"><code>from</code></em> 集合中某個字元相符的每個字元，替換為 <em class="parameter"><code>to</code></em> 集合中的對應字元。如果 <em class="parameter"><code>from</code></em> 比 <em class="parameter"><code>to</code></em> 長，<em class="parameter"><code>from</code></em> 中多出來的字元出現時會被刪除。
        </p>
 <p>
 <code class="literal">translate('12345', '143', 'ax')</code>
@@ -1128,24 +903,13 @@ search, which are described in [Chapter 12](../textsearch/README.md).
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Evaluate escaped Unicode characters in the argument.  Unicode characters
-        can be specified as
-        <code class="literal">\<em class="replaceable"><code>XXXX</code></em></code> (4 hexadecimal
-        digits), <code class="literal">\+<em class="replaceable"><code>XXXXXX</code></em></code> (6
-        hexadecimal digits),
-        <code class="literal">\u<em class="replaceable"><code>XXXX</code></em></code> (4 hexadecimal
-        digits), or <code class="literal">\U<em class="replaceable"><code>XXXXXXXX</code></em></code>
-        (8 hexadecimal digits).  To specify a backslash, write two
-        backslashes.  All other characters are taken literally.
+        計算引數中跳脫的 Unicode 字元。Unicode 字元可以指定為 <code class="literal">\<em class="replaceable"><code>XXXX</code></em></code>（4 個十六進位數字）、<code class="literal">\+<em class="replaceable"><code>XXXXXX</code></em></code>（6 個十六進位數字）、<code class="literal">\u<em class="replaceable"><code>XXXX</code></em></code>（4 個十六進位數字）或 <code class="literal">\U<em class="replaceable"><code>XXXXXXXX</code></em></code>（8 個十六進位數字）。要指定反斜線，請寫兩個反斜線。所有其他字元都按字面解讀。
        </p>
 <p>
-        If the server encoding is not UTF-8, the Unicode code point identified
-        by one of these escape sequences is converted to the actual server
-        encoding; an error is reported if that's not possible.
+        如果伺服器編碼不是 UTF-8，由這些跳脫序列之一所識別的 Unicode 碼位，會被轉換為實際的伺服器編碼；如果無法轉換，就會回報錯誤。
        </p>
 <p>
-        This function provides a (non-standard) alternative to string
-        constants with Unicode escapes (see <a class="xref" href="../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-UESCAPE">Section 4.1.2.3</a>).
+        這個函式提供了一種（非標準的）替代方式，用來取代使用 Unicode 跳脫的字串常數（請參閱<a class="xref" href="../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-UESCAPE">第 4.1.2.3 節</a>）。
        </p>
 <p>
 <code class="literal">unistr('d\0061t\+000061')</code>
@@ -1158,103 +922,55 @@ search, which are described in [Chapter 12](../textsearch/README.md).
 
 <br>
 
-The `concat`, `concat_ws` and
-`format` functions are variadic, so it is possible to
-pass the values to be concatenated or formatted as an array marked with
-the `VARIADIC` keyword (see [Section 36.5.6](../../server-programming/extend/xfunc-sql.md#XFUNC-SQL-VARIADIC-FUNCTIONS)). The array's elements are
-treated as if they were separate ordinary arguments to the function.
-If the variadic array argument is NULL, `concat`
-and `concat_ws` return NULL, but
-`format` treats a NULL as a zero-element array.
+`concat`、`concat_ws` 與 `format` 函式是可變參數（variadic）函式，因此可以將要串接或格式化的值，以標有 `VARIADIC` 關鍵字的陣列形式傳入（請參閱[第 36.5.6 節](../../server-programming/extend/xfunc-sql.md#XFUNC-SQL-VARIADIC-FUNCTIONS)）。陣列的元素會被視為函式的個別一般引數。如果可變參數陣列引數為 NULL，`concat` 與 `concat_ws` 會回傳 NULL，但 `format` 會將 NULL 視為零個元素的陣列。
 
-See also the aggregate function `string_agg` in
-[Section 9.21](functions-aggregate.md), and the functions for
-converting between strings and the `bytea` type in
-[Table 9.13](functions-binarystring.md#FUNCTIONS-BINARYSTRING-CONVERSIONS).
+另請參閱[第 9.21 節](functions-aggregate.md)中的彙總函式 `string_agg`，以及[表 9.13](functions-binarystring.md#FUNCTIONS-BINARYSTRING-CONVERSIONS) 中用於在字串與 `bytea` 型別之間轉換的函式。
 
 <a id="FUNCTIONS-STRING-FORMAT"></a>
 
-### 9.4.1. `format` [#](#FUNCTIONS-STRING-FORMAT)
+### 9.4.1. `format` [#](#FUNCTIONS-STRING-FORMAT)
 
 <a id="id-1.5.8.10.10.2"></a>
 
-The function `format` produces output formatted according to
-a format string, in a style similar to the C function
-`sprintf`.
+函式 `format` 會依照格式字串產生格式化的輸出，其風格類似於 C 函式 `sprintf`。
 
 ```
 
 format(formatstr text [, formatarg "any" [, ...] ])
 ```
 
-*`formatstr`* is a format string that specifies how the
-result should be formatted. Text in the format string is copied
-directly to the result, except where *format specifiers* are
-used. Format specifiers act as placeholders in the string, defining how
-subsequent function arguments should be formatted and inserted into the
-result. Each *`formatarg`* argument is converted to text
-according to the usual output rules for its data type, and then formatted
-and inserted into the result string according to the format specifier(s).
+*`formatstr`* 是指定結果應如何格式化的格式字串。格式字串中的文字會直接複製到結果中，但使用*格式規範*（format specifier）的地方除外。格式規範在字串中扮演預留位置的角色，定義後續的函式引數應該如何格式化並插入結果中。每個 *`formatarg`* 引數都會依照其資料型別的一般輸出規則轉換為文字，然後依照格式規範進行格式化並插入結果字串中。
 
-Format specifiers are introduced by a `%` character and have
-the form
+格式規範以 `%` 字元開頭，其形式為
 
 ```
 
 %[position][flags][width]type
 ```
 
-where the component fields are:
+其中各組成欄位為：
 
-*`position`* (optional)
-:   A string of the form `n$` where
-    *`n`* is the index of the argument to print.
-    Index 1 means the first argument after
-    *`formatstr`*. If the *`position`* is
-    omitted, the default is to use the next argument in sequence.
+*`position`*（選用）
+:   形式為 `n$` 的字串，其中 *`n`* 是要印出之引數的索引。索引 1 表示 *`formatstr`* 之後的第一個引數。如果省略 *`position`*，預設會依序使用下一個引數。
 
-*`flags`* (optional)
-:   Additional options controlling how the format specifier's output is
-    formatted. Currently the only supported flag is a minus sign
-    (`-`) which will cause the format specifier's output to be
-    left-justified. This has no effect unless the *`width`*
-    field is also specified.
+*`flags`*（選用）
+:   控制格式規範之輸出如何格式化的額外選項。目前唯一支援的旗標是減號（`-`），它會使格式規範的輸出靠左對齊。除非也指定了 *`width`* 欄位，否則它沒有任何作用。
 
-*`width`* (optional)
-:   Specifies the *minimum* number of characters to use to
-    display the format specifier's output. The output is padded on the
-    left or right (depending on the `-` flag) with spaces as
-    needed to fill the width. A too-small width does not cause
-    truncation of the output, but is simply ignored. The width may be
-    specified using any of the following: a positive integer; an
-    asterisk (`*`) to use the next function argument as the
-    width; or a string of the form `*n$` to
-    use the *`n`*th function argument as the width.
+*`width`*（選用）
+:   指定用來顯示格式規範輸出的*最少*字元數。輸出會視需要在左側或右側（取決於 `-` 旗標）以空白填補，以填滿該寬度。寬度太小並不會截斷輸出，只會被忽略。寬度可以用下列任一方式指定：正整數；星號（`*`），表示使用下一個函式引數作為寬度；或形式為 `*n$` 的字串，表示使用第 *`n`* 個函式引數作為寬度。
 
-    If the width comes from a function argument, that argument is
-    consumed before the argument that is used for the format specifier's
-    value. If the width argument is negative, the result is left
-    aligned (as if the `-` flag had been specified) within a
-    field of length `abs`(*`width`*).
+    如果寬度來自函式引數，該引數會在用於格式規範之值的引數之前被取用。如果寬度引數為負數，結果會在長度為 `abs`(*`width`*) 的欄位內靠左對齊（就好像指定了 `-` 旗標一樣）。
 
-*`type`* (required)
-:   The type of format conversion to use to produce the format
-    specifier's output. The following types are supported:
+*`type`*（必要）
+:   用來產生格式規範輸出的格式轉換類型。支援下列類型：
 
-    * `s` formats the argument value as a simple
-      string. A null value is treated as an empty string.
-    * `I` treats the argument value as an SQL
-      identifier, double-quoting it if necessary.
-      It is an error for the value to be null (equivalent to
-      `quote_ident`).
-    * `L` quotes the argument value as an SQL literal.
-      A null value is displayed as the string `NULL`, without
-      quotes (equivalent to `quote_nullable`).
+    * `s` 將引數值格式化為簡單的字串。null 值會被視為空字串。
+    * `I` 將引數值視為 SQL 識別符號，必要時會為它加上雙引號。值為 null 是錯誤（等同於 `quote_ident`）。
+    * `L` 將引數值加上引號，作為 SQL 字面值。null 值會顯示為不加引號的字串 `NULL`（等同於 `quote_nullable`）。
 
-In addition to the format specifiers described above, the special sequence
-`%%` may be used to output a literal `%` character.
+除了上述的格式規範之外，也可以使用特殊序列 `%%` 來輸出字面的 `%` 字元。
 
-Here are some examples of the basic format conversions:
+以下是一些基本格式轉換的範例：
 
 ```
 
@@ -1271,8 +987,7 @@ SELECT format('INSERT INTO %I VALUES(%L)', 'locations', 'C:\Program Files');
 Result: INSERT INTO locations VALUES('C:\Program Files')
 ```
 
-Here are examples using *`width`* fields
-and the `-` flag:
+以下是使用 *`width`* 欄位與 `-` 旗標的範例：
 
 ```
 
@@ -1295,7 +1010,7 @@ SELECT format('|%-*s|', -10, 'foo');
 Result: |foo       |
 ```
 
-These examples show use of *`position`* fields:
+下面這些範例展示了 *`position`* 欄位的用法：
 
 ```
 
@@ -1309,15 +1024,7 @@ SELECT format('|%1$*2$s|', 'foo', 10, 'bar');
 Result: |       foo|
 ```
 
-Unlike the standard C function `sprintf`,
-PostgreSQL's `format` function allows format
-specifiers with and without *`position`* fields to be mixed
-in the same format string. A format specifier without a
-*`position`* field always uses the next argument after the
-last argument consumed.
-In addition, the `format` function does not require all
-function arguments to be used in the format string.
-For example:
+與標準 C 函式 `sprintf` 不同，PostgreSQL 的 `format` 函式允許在同一個格式字串中混用有與沒有 *`position`* 欄位的格式規範。沒有 *`position`* 欄位的格式規範，一律會使用最後一個被取用之引數的下一個引數。此外，`format` 函式並不要求格式字串中用到所有的函式引數。例如：
 
 ```
 
@@ -1325,10 +1032,8 @@ SELECT format('Testing %3$s, %2$s, %s', 'one', 'two', 'three');
 Result: Testing three, two, three
 ```
 
-The `%I` and `%L` format specifiers are particularly
-useful for safely constructing dynamic SQL statements. See
-[Example 41.1](../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE).
+`%I` 與 `%L` 格式規範對於安全地建構動態 SQL 陳述式特別有用。請參閱[範例 41.1](../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-string.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-string.html)（原文版本：18.6；核對日期：2026-09-11）
