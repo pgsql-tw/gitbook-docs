@@ -53,7 +53,7 @@
     * [5.14. 其他資料庫物件](the-sql-language/ddl/ddl-others.md)
     * [5.15. Dependency Tracking #](the-sql-language/ddl/ddl-depend.md)
   * [第 6 章：資料操作](the-sql-language/dml/README.md)
-    * [6.1. Inserting Data #](the-sql-language/dml/dml-insert.md)
+    * [6.1. 插入資料 #](the-sql-language/dml/dml-insert.md)
     * [6.2. Updating Data #](the-sql-language/dml/dml-update.md)
     * [6.3. 刪除資料](the-sql-language/dml/dml-delete.md)
     * [6.4. Returning Data from Modified Rows #](the-sql-language/dml/dml-returning.md)

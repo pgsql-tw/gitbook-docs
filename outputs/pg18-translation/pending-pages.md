@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：848 頁。
+待譯頁面：847 頁。
 
 ## 根目錄
 
@@ -1053,7 +1053,7 @@
 - [x] `the-sql-language/ddl/ddl-system-columns.md` — 5.6. 系統欄位 #
 - [x] `the-sql-language/dml/README.md` — Chapter 6. Data Manipulation
 - [x] `the-sql-language/dml/dml-delete.md` — 6.3. 刪除資料
-- [ ] `the-sql-language/dml/dml-insert.md` — 6.1. Inserting Data #
+- [x] `the-sql-language/dml/dml-insert.md` — 6.1. 插入資料 #
 - [ ] `the-sql-language/dml/dml-returning.md` — 6.4. Returning Data from Modified Rows #
 - [ ] `the-sql-language/dml/dml-update.md` — 6.2. Updating Data #
 - [ ] `the-sql-language/functions/README.md` — Chapter 9. Functions and Operators
