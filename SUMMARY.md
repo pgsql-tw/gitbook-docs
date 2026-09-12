@@ -42,7 +42,7 @@
     * [5.3. Identity Columns #](the-sql-language/ddl/ddl-identity-columns.md)
     * [5.4. Generated Columns #](the-sql-language/ddl/ddl-generated-columns.md)
     * [5.5. Constraints #](the-sql-language/ddl/ddl-constraints.md)
-    * [5.6. System Columns #](the-sql-language/ddl/ddl-system-columns.md)
+    * [5.6. 系統欄位 #](the-sql-language/ddl/ddl-system-columns.md)
     * [5.7. Modifying Tables #](the-sql-language/ddl/ddl-alter.md)
     * [5.8. Privileges #](the-sql-language/ddl/ddl-priv.md)
     * [5.9. Row Security Policies #](the-sql-language/ddl/ddl-rowsecurity.md)
