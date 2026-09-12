@@ -99,7 +99,7 @@
     * [9.8. 資料型別格式化函式 #](the-sql-language/functions/functions-formatting.md)
     * [9.9. 日期／時間函式與運算子 #](the-sql-language/functions/functions-datetime.md)
     * [9.10. 列舉支援函式 #](the-sql-language/functions/functions-enum.md)
-    * [9.11. Geometric Functions and Operators #](the-sql-language/functions/functions-geometry.md)
+    * [9.11. 幾何函式與運算子 #](the-sql-language/functions/functions-geometry.md)
     * [9.12. Network Address Functions and Operators #](the-sql-language/functions/functions-net.md)
     * [9.13. Text Search Functions and Operators #](the-sql-language/functions/functions-textsearch.md)
     * [9.14. UUID Functions #](the-sql-language/functions/functions-uuid.md)
