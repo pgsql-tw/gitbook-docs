@@ -134,7 +134,7 @@
     * [11.4. Indexes and ORDER BY #](the-sql-language/indexes/indexes-ordering.md)
     * [11.5. 組合多個索引 #](the-sql-language/indexes/indexes-bitmap-scans.md)
     * [11.6. 唯一值索引](the-sql-language/indexes/indexes-unique.md)
-    * [11.7. Indexes on Expressions #](the-sql-language/indexes/indexes-expressional.md)
+    * [11.7. 運算式索引 #](the-sql-language/indexes/indexes-expressional.md)
     * [11.8. Partial Indexes #](the-sql-language/indexes/indexes-partial.md)
     * [11.9. Index-Only Scans and Covering Indexes #](the-sql-language/indexes/indexes-index-only-scans.md)
     * [11.10. Operator Classes and Operator Families #](the-sql-language/indexes/indexes-opclass.md)

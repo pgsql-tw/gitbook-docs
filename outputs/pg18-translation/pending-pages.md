@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：811 頁。
+待譯頁面：810 頁。
 
 ## 根目錄
 
@@ -1092,7 +1092,7 @@
 - [x] `the-sql-language/indexes/indexes-bitmap-scans.md` — 11.5. 組合多個索引 #
 - [x] `the-sql-language/indexes/indexes-collations.md` — 11.11. 索引與定序
 - [x] `the-sql-language/indexes/indexes-examine.md` — 11.12. 檢查索引的使用情形 #
-- [ ] `the-sql-language/indexes/indexes-expressional.md` — 11.7. Indexes on Expressions #
+- [x] `the-sql-language/indexes/indexes-expressional.md` — 11.7. 運算式索引 #
 - [ ] `the-sql-language/indexes/indexes-index-only-scans.md` — 11.9. Index-Only Scans and Covering Indexes #
 - [ ] `the-sql-language/indexes/indexes-intro.md` — 11.1. Introduction #
 - [ ] `the-sql-language/indexes/indexes-multicolumn.md` — 11.3. Multicolumn Indexes #
