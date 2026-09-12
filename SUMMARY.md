@@ -104,7 +104,7 @@
     * [9.13. Text Search Functions and Operators #](the-sql-language/functions/functions-textsearch.md)
     * [9.14. UUID Functions #](the-sql-language/functions/functions-uuid.md)
     * [9.15. XML Functions #](the-sql-language/functions/functions-xml.md)
-    * [9.16. JSON Functions and Operators #](the-sql-language/functions/functions-json.md)
+    * [9.16. JSON 函式與運算子 #](the-sql-language/functions/functions-json.md)
     * [9.17. Sequence Manipulation Functions #](the-sql-language/functions/functions-sequence.md)
     * [9.18. 條件運算式 #](the-sql-language/functions/functions-conditional.md)
     * [9.19. 陣列函式與運算子 #](the-sql-language/functions/functions-array.md)

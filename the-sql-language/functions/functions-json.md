@@ -1,73 +1,51 @@
-## 9.16. JSON Functions and Operators [#](#FUNCTIONS-JSON)
+<a id="FUNCTIONS-JSON"></a>
 
-[9.16.1. Processing and Creating JSON Data](functions-json.md#FUNCTIONS-JSON-PROCESSING)
+## 9.16. JSON 函式與運算子 [#](#FUNCTIONS-JSON)
 
-[9.16.2. The SQL/JSON Path Language](functions-json.md#FUNCTIONS-SQLJSON-PATH)
+[9.16.1. 處理與建立 JSON 資料](functions-json.md#FUNCTIONS-JSON-PROCESSING)
 
-[9.16.3. SQL/JSON Query Functions](functions-json.md#SQLJSON-QUERY-FUNCTIONS)
+[9.16.2. SQL/JSON 路徑語言](functions-json.md#FUNCTIONS-SQLJSON-PATH)
+
+[9.16.3. SQL/JSON 查詢函式](functions-json.md#SQLJSON-QUERY-FUNCTIONS)
 
 [9.16.4. JSON_TABLE](functions-json.md#FUNCTIONS-SQLJSON-TABLE)
 
 <a id="id-1.5.8.22.2"></a><a id="id-1.5.8.22.3"></a>
 
-This section describes:
+本節說明：
 
-* functions and operators for processing and creating JSON data
-* the SQL/JSON path language
-* the SQL/JSON query functions
+* 用於處理與建立 JSON 資料的函式與運算子
+* SQL/JSON 路徑語言
+* SQL/JSON 查詢函式
 
-To provide native support for JSON data types within the SQL environment,
-PostgreSQL implements the
-*SQL/JSON data model*.
-This model comprises sequences of items. Each item can hold SQL scalar
-values, with an additional SQL/JSON null value, and composite data structures
-that use JSON arrays and objects. The model is a formalization of the implied
-data model in the JSON specification
-[RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159).
+為了在 SQL 環境中原生支援 JSON 資料型別，PostgreSQL 實作了 *SQL/JSON 資料模型*。這個模型由項目的序列所組成。每個項目可以存放 SQL 純量值（另外加上一個 SQL/JSON null 值），以及使用 JSON 陣列與物件的複合資料結構。這個模型是將 JSON 規格 [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) 中隱含的資料模型加以形式化的結果。
 
-SQL/JSON allows you to handle JSON data alongside regular SQL data,
-with transaction support, including:
+SQL/JSON 讓你能夠在交易支援之下，將 JSON 資料與一般的 SQL 資料一併處理，包括：
 
-* Uploading JSON data into the database and storing it in
-  regular SQL columns as character or binary strings.
-* Generating JSON objects and arrays from relational data.
-* Querying JSON data using SQL/JSON query functions and
-  SQL/JSON path language expressions.
+* 將 JSON 資料上傳到資料庫，並以字元字串或二進位字串的形式儲存在一般的 SQL 欄位中。
+* 從關聯式資料產生 JSON 物件與陣列。
+* 使用 SQL/JSON 查詢函式與 SQL/JSON 路徑語言運算式來查詢 JSON 資料。
 
-To learn more about the SQL/JSON standard, see
-[[sqltr-19075-6]](../../bibliography.md#SQLTR-19075-6). For details on JSON types
-supported in PostgreSQL,
-see [Section 8.14](../datatype/datatype-json.md).
+若要進一步了解 SQL/JSON 標準，請參閱 [[sqltr-19075-6]](../../bibliography.md#SQLTR-19075-6)。關於 PostgreSQL 所支援之 JSON 型別的詳細資訊，請參閱[第 8.14 節](../datatype/datatype-json.md)。
 
 <a id="FUNCTIONS-JSON-PROCESSING"></a>
 
-### 9.16.1. Processing and Creating JSON Data [#](#FUNCTIONS-JSON-PROCESSING)
+### 9.16.1. 處理與建立 JSON 資料 [#](#FUNCTIONS-JSON-PROCESSING)
 
-[Table 9.47](functions-json.md#FUNCTIONS-JSON-OP-TABLE) shows the operators that
-are available for use with JSON data types (see [Section 8.14](../datatype/datatype-json.md)).
-In addition, the usual comparison operators shown in [Table 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) are available for
-`jsonb`, though not for `json`. The comparison
-operators follow the ordering rules for B-tree operations outlined in
-[Section 8.14.4](../datatype/datatype-json.md#JSON-INDEXING).
-See also [Section 9.21](functions-aggregate.md) for the aggregate
-function `json_agg` which aggregates record
-values as JSON, the aggregate function
-`json_object_agg` which aggregates pairs of values
-into a JSON object, and their `jsonb` equivalents,
-`jsonb_agg` and `jsonb_object_agg`.
+[表 9.47](functions-json.md#FUNCTIONS-JSON-OP-TABLE) 列出了可用於 JSON 資料型別的運算子（請參閱[第 8.14 節](../datatype/datatype-json.md)）。此外，[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子也可用於 `jsonb`，但不能用於 `json`。這些比較運算子遵循[第 8.14.4 節](../datatype/datatype-json.md#JSON-INDEXING)所述之 B-tree 操作的排序規則。另請參閱[第 9.21 節](functions-aggregate.md)中的彙總函式 `json_agg`（將記錄值彙總為 JSON）、彙總函式 `json_object_agg`（將成對的值彙總為 JSON 物件），以及它們對應的 `jsonb` 版本 `jsonb_agg` 與 `jsonb_object_agg`。
 
 <a id="FUNCTIONS-JSON-OP-TABLE"></a>
 
-**Table 9.47. `json` and `jsonb` Operators**
+**表 9.47. `json` 與 `jsonb` 運算子**
 
 <table border="1" class="table" summary="json and jsonb Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">json</code> <code class="literal">-&gt;</code> <code class="type">integer</code>
         → <code class="returnvalue">json</code>
@@ -77,9 +55,7 @@ into a JSON object, and their `jsonb` equivalents,
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Extracts <em class="parameter"><code>n</code></em>'th element of JSON array
-        (array elements are indexed from zero, but negative integers count
-        from the end).
+        擷取 JSON 陣列的第 <em class="parameter"><code>n</code></em> 個元素（陣列元素的索引從零開始，但負整數會從結尾倒數）。
        </p>
 <p>
 <code class="literal">'[{"a":"foo"},{"b":"bar"},{"c":"baz"}]'::json -&gt; 2</code>
@@ -97,7 +73,7 @@ into a JSON object, and their `jsonb` equivalents,
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Extracts JSON object field with the given key.
+        擷取具有指定鍵的 JSON 物件欄位。
        </p>
 <p>
 <code class="literal">'{"a": {"b":"foo"}}'::json -&gt; 'a'</code>
@@ -111,8 +87,7 @@ into a JSON object, and their `jsonb` equivalents,
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extracts <em class="parameter"><code>n</code></em>'th element of JSON array,
-        as <code class="type">text</code>.
+        擷取 JSON 陣列的第 <em class="parameter"><code>n</code></em> 個元素，以 <code class="type">text</code> 形式回傳。
        </p>
 <p>
 <code class="literal">'[1,2,3]'::json -&gt;&gt; 2</code>
@@ -126,7 +101,7 @@ into a JSON object, and their `jsonb` equivalents,
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extracts JSON object field with the given key, as <code class="type">text</code>.
+        擷取具有指定鍵的 JSON 物件欄位，以 <code class="type">text</code> 形式回傳。
        </p>
 <p>
 <code class="literal">'{"a":1,"b":2}'::json -&gt;&gt; 'b'</code>
@@ -140,8 +115,7 @@ into a JSON object, and their `jsonb` equivalents,
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Extracts JSON sub-object at the specified path, where path elements
-        can be either field keys or array indexes.
+        擷取位於指定路徑的 JSON 子物件，其中路徑元素可以是欄位鍵或陣列索引。
        </p>
 <p>
 <code class="literal">'{"a": {"b": ["foo","bar"]}}'::json #&gt; '{a,b,1}'</code>
@@ -155,7 +129,7 @@ into a JSON object, and their `jsonb` equivalents,
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extracts JSON sub-object at the specified path as <code class="type">text</code>.
+        擷取位於指定路徑的 JSON 子物件，以 <code class="type">text</code> 形式回傳。
        </p>
 <p>
 <code class="literal">'{"a": {"b": ["foo","bar"]}}'::json #&gt;&gt; '{a,b,1}'</code>
@@ -164,37 +138,30 @@ into a JSON object, and their `jsonb` equivalents,
 
 <br>
 
-### Note
+### 注意
 
-The field/element/path extraction operators return NULL, rather than
-failing, if the JSON input does not have the right structure to match
-the request; for example if no such key or array element exists.
+如果 JSON 輸入不具有符合請求的正確結構，例如不存在這樣的鍵或陣列元素，欄位／元素／路徑擷取運算子會回傳 NULL，而不會失敗。
 
-Some further operators exist only for `jsonb`, as shown
-in [Table 9.48](functions-json.md#FUNCTIONS-JSONB-OP-TABLE).
-[Section 8.14.4](../datatype/datatype-json.md#JSON-INDEXING)
-describes how these operators can be used to effectively search indexed
-`jsonb` data.
+另外還有一些只適用於 `jsonb` 的運算子，如[表 9.48](functions-json.md#FUNCTIONS-JSONB-OP-TABLE) 所示。[第 8.14.4 節](../datatype/datatype-json.md#JSON-INDEXING)說明了如何使用這些運算子來有效率地搜尋已建立索引的 `jsonb` 資料。
 
 <a id="FUNCTIONS-JSONB-OP-TABLE"></a>
 
-**Table 9.48. Additional `jsonb` Operators**
+**表 9.48. 其他 `jsonb` 運算子**
 
 <table border="1" class="table" summary="Additional jsonb Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">jsonb</code> <code class="literal">@&gt;</code> <code class="type">jsonb</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does the first JSON value contain the second?
-        (See <a class="xref" href="../datatype/datatype-json.md#JSON-CONTAINMENT">Section 8.14.3</a> for details about containment.)
+        第一個 JSON 值是否包含第二個 JSON 值？（關於包含的詳細說明，請參閱<a class="xref" href="../datatype/datatype-json.md#JSON-CONTAINMENT">第 8.14.3 節</a>。）
        </p>
 <p>
 <code class="literal">'{"a":1, "b":2}'::jsonb @&gt; '{"b":2}'::jsonb</code>
@@ -204,7 +171,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Is the first JSON value contained in the second?
+        第一個 JSON 值是否被包含在第二個 JSON 值之中？
        </p>
 <p>
 <code class="literal">'{"b":2}'::jsonb &lt;@ '{"a":1, "b":2}'::jsonb</code>
@@ -214,8 +181,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does the text string exist as a top-level key or array element within
-        the JSON value?
+        該文字字串是否以最上層的鍵或陣列元素的形式存在於 JSON 值中？
        </p>
 <p>
 <code class="literal">'{"a":1, "b":2}'::jsonb ? 'b'</code>
@@ -229,8 +195,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Do any of the strings in the text array exist as top-level keys or
-        array elements?
+        文字陣列中是否有任何字串以最上層的鍵或陣列元素的形式存在？
        </p>
 <p>
 <code class="literal">'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'd']</code>
@@ -240,8 +205,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Do all of the strings in the text array exist as top-level keys or
-        array elements?
+        文字陣列中的所有字串是否都以最上層的鍵或陣列元素的形式存在？
        </p>
 <p>
 <code class="literal">'["a", "b", "c"]'::jsonb ?&amp; array['a', 'b']</code>
@@ -251,15 +215,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Concatenates two <code class="type">jsonb</code> values.
-        Concatenating two arrays generates an array containing all the
-        elements of each input.  Concatenating two objects generates an
-        object containing the union of their
-        keys, taking the second object's value when there are duplicate keys.
-        All other cases are treated by converting a non-array input into a
-        single-element array, and then proceeding as for two arrays.
-        Does not operate recursively: only the top-level array or object
-        structure is merged.
+        串接兩個 <code class="type">jsonb</code> 值。串接兩個陣列會產生一個包含兩個輸入之所有元素的陣列。串接兩個物件會產生一個包含兩者之鍵聯集的物件，當有重複的鍵時，採用第二個物件的值。所有其他情況的處理方式，都是先將非陣列的輸入轉換為單一元素的陣列，再依照兩個陣列的方式處理。這個運算不會遞迴進行：只會合併最上層的陣列或物件結構。
        </p>
 <p>
 <code class="literal">'["a", "b"]'::jsonb || '["a", "d"]'::jsonb</code>
@@ -278,8 +234,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">[{"a": "b"}, 42]</code>
 </p>
 <p>
-        To append an array to another array as a single entry, wrap it
-        in an additional layer of array, for example:
+        若要將一個陣列作為單一項目附加到另一個陣列，請再用一層陣列將它包起來，例如：
        </p>
 <p>
 <code class="literal">'[1, 2]'::jsonb || jsonb_build_array('[3, 4]'::jsonb)</code>
@@ -289,8 +244,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Deletes a key (and its value) from a JSON object, or matching string
-        value(s) from a JSON array.
+        從 JSON 物件中刪除一個鍵（及其值），或從 JSON 陣列中刪除相符的字串值。
        </p>
 <p>
 <code class="literal">'{"a": "b", "c": "d"}'::jsonb - 'a'</code>
@@ -304,7 +258,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Deletes all matching keys or array elements from the left operand.
+        從左運算元中刪除所有相符的鍵或陣列元素。
        </p>
 <p>
 <code class="literal">'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]</code>
@@ -314,9 +268,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Deletes the array element with specified index (negative
-        integers count from the end).  Throws an error if JSON value
-        is not an array.
+        刪除具有指定索引的陣列元素（負整數會從結尾倒數）。如果 JSON 值不是陣列，就會拋出錯誤。
        </p>
 <p>
 <code class="literal">'["a", "b"]'::jsonb - 1 </code>
@@ -326,8 +278,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Deletes the field or array element at the specified path, where path
-        elements can be either field keys or array indexes.
+        刪除位於指定路徑的欄位或陣列元素，其中路徑元素可以是欄位鍵或陣列索引。
        </p>
 <p>
 <code class="literal">'["a", {"b":1}]'::jsonb #- '{1,b}'</code>
@@ -337,10 +288,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does JSON path return any item for the specified JSON value?
-        (This is useful only with SQL-standard JSON path expressions, not
-        <a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">predicate check
-        expressions</a>, since those always return a value.)
+        對於指定的 JSON 值，JSON 路徑是否回傳任何項目？（這只對符合 SQL 標準的 JSON 路徑運算式有用，對<a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>則沒有用處，因為後者一定會回傳一個值。）
        </p>
 <p>
 <code class="literal">'{"a":[1,2,3,4,5]}'::jsonb @? '$.a[*] ? (@ &gt; 2)'</code>
@@ -350,13 +298,7 @@ describes how these operators can be used to effectively search indexed
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Returns the result of a JSON path predicate check for the
-        specified JSON value.
-        (This is useful only
-        with <a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">predicate
-        check expressions</a>, not SQL-standard JSON path expressions,
-        since it will return <code class="literal">NULL</code> if the path result is
-        not a single boolean value.)
+        回傳對指定的 JSON 值進行 JSON 路徑述詞檢查的結果。（這只對<a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>有用，對符合 SQL 標準的 JSON 路徑運算式則沒有用處，因為如果路徑結果不是單一的布林值，它會回傳 <code class="literal">NULL</code>。）
        </p>
 <p>
 <code class="literal">'{"a":[1,2,3,4,5]}'::jsonb @@ '$.a[*] &gt; 2'</code>
@@ -365,36 +307,24 @@ describes how these operators can be used to effectively search indexed
 
 <br>
 
-### Note
+### 注意
 
-The `jsonpath` operators `@?`
-and `@@` suppress the following errors: missing object
-field or array element, unexpected JSON item type, datetime and numeric
-errors. The `jsonpath`-related functions described below can
-also be told to suppress these types of errors. This behavior might be
-helpful when searching JSON document collections of varying structure.
+`jsonpath` 運算子 `@?` 與 `@@` 會抑制下列錯誤：缺少物件欄位或陣列元素、非預期的 JSON 項目型別，以及日期時間與數值錯誤。下面所述與 `jsonpath` 相關的函式，也可以指示它們抑制這些類型的錯誤。在搜尋結構不一的 JSON 文件集合時，這種行為可能很有幫助。
 
-[Table 9.49](functions-json.md#FUNCTIONS-JSON-CREATION-TABLE) shows the functions that are
-available for constructing `json` and `jsonb` values.
-Some functions in this table have a `RETURNING` clause,
-which specifies the data type returned. It must be one of `json`,
-`jsonb`, `bytea`, a character string type (`text`,
-`char`, or `varchar`), or a type
-that can be cast to `json`.
-By default, the `json` type is returned.
+[表 9.49](functions-json.md#FUNCTIONS-JSON-CREATION-TABLE) 列出了可用於建構 `json` 與 `jsonb` 值的函式。這個表格中的某些函式具有 `RETURNING` 子句，用來指定回傳的資料型別。它必須是 `json`、`jsonb`、`bytea`、字元字串型別（`text`、`char` 或 `varchar`）之一，或是可以轉換為 `json` 的型別。預設會回傳 `json` 型別。
 
 <a id="FUNCTIONS-JSON-CREATION-TABLE"></a>
 
-**Table 9.49. JSON Creation Functions**
+**表 9.49. JSON 建立函式**
 
 <table border="1" class="table" summary="JSON Creation Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.22.8.9.2.2.1.1.1.1"></a>
 <code class="function">to_json</code> ( <code class="type">anyelement</code> )
@@ -406,15 +336,7 @@ By default, the `json` type is returned.
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Converts any SQL value to <code class="type">json</code> or <code class="type">jsonb</code>.
-        Arrays and composites are converted recursively to arrays and
-        objects (multidimensional arrays become arrays of arrays in JSON).
-        Otherwise, if there is a cast from the SQL data type
-        to <code class="type">json</code>, the cast function will be used to perform the
-        conversion;<a class="footnote" href="#ftn.id-1.5.8.22.8.9.2.2.1.1.3.4"><sup class="footnote" id="id-1.5.8.22.8.9.2.2.1.1.3.4">[a]</sup></a>
-        otherwise, a scalar JSON value is produced.  For any scalar other than
-        a number, a Boolean, or a null value, the text representation will be
-        used, with escaping as necessary to make it a valid JSON string value.
+        將任何 SQL 值轉換為 <code class="type">json</code> 或 <code class="type">jsonb</code>。陣列與複合值會被遞迴地轉換為陣列與物件（多維陣列在 JSON 中會成為陣列的陣列）。否則，如果存在從該 SQL 資料型別到 <code class="type">json</code> 的型別轉換，就會使用該轉換函式來執行轉換；<a class="footnote" href="#ftn.id-1.5.8.22.8.9.2.2.1.1.3.4"><sup class="footnote" id="id-1.5.8.22.8.9.2.2.1.1.3.4">[a]</sup></a>否則，會產生一個純量 JSON 值。對於數值、布林值或 null 值以外的任何純量，會使用其文字表示，並視需要加以跳脫，使其成為有效的 JSON 字串值。
        </p>
 <p>
 <code class="literal">to_json('Fred said "Hi."'::text)</code>
@@ -429,10 +351,7 @@ By default, the `json` type is returned.
         → <code class="returnvalue">json</code>
 </p>
 <p>
-        Converts an SQL array to a JSON array.  The behavior is the same
-        as <code class="function">to_json</code> except that line feeds will be added
-        between top-level array elements if the optional boolean parameter is
-        true.
+        將 SQL 陣列轉換為 JSON 陣列。其行為與 <code class="function">to_json</code> 相同，差別在於如果選用的布林參數為 true，會在最上層的陣列元素之間加入換行字元。
        </p>
 <p>
 <code class="literal">array_to_json('{{1,5},{99,100}}'::int[])</code>
@@ -450,13 +369,7 @@ By default, the `json` type is returned.
          [<span class="optional"> <code class="literal">RETURNING</code> <em class="replaceable"><code>data_type</code></em> [<span class="optional"> <code class="literal">FORMAT JSON</code> [<span class="optional"> <code class="literal">ENCODING UTF8</code> </span>] </span>] </span>])
         </p>
 <p>
-         Constructs a JSON array from either a series of
-         <em class="replaceable"><code>value_expression</code></em> parameters or from the results
-         of <em class="replaceable"><code>query_expression</code></em>,
-         which must be a SELECT query returning a single column. If
-         <code class="literal">ABSENT ON NULL</code> is specified, NULL values are ignored.
-         This is always the case if a
-         <em class="replaceable"><code>query_expression</code></em> is used.
+         從一連串的 <em class="replaceable"><code>value_expression</code></em> 參數，或是從 <em class="replaceable"><code>query_expression</code></em> 的結果（必須是回傳單一欄位的 SELECT 查詢）建構 JSON 陣列。如果指定了 <code class="literal">ABSENT ON NULL</code>，NULL 值會被忽略。如果使用的是 <em class="replaceable"><code>query_expression</code></em>，則一律如此。
         </p>
 <p>
 <code class="literal">json_array(1,true,json '{"a":null}')</code>
@@ -471,10 +384,7 @@ By default, the `json` type is returned.
         → <code class="returnvalue">json</code>
 </p>
 <p>
-        Converts an SQL composite value to a JSON object.  The behavior is the
-        same as <code class="function">to_json</code> except that line feeds will be
-        added between top-level elements if the optional boolean parameter is
-        true.
+        將 SQL 複合值轉換為 JSON 物件。其行為與 <code class="function">to_json</code> 相同，差別在於如果選用的布林參數為 true，會在最上層的元素之間加入換行字元。
        </p>
 <p>
 <code class="literal">row_to_json(row(1,'foo'))</code>
@@ -490,9 +400,7 @@ By default, the `json` type is returned.
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Builds a possibly-heterogeneously-typed JSON array out of a variadic
-        argument list.  Each argument is converted as
-        per <code class="function">to_json</code> or <code class="function">to_jsonb</code>.
+        從可變參數的引數列表建立一個型別可能各不相同的 JSON 陣列。每個引數都會依照 <code class="function">to_json</code> 或 <code class="function">to_jsonb</code> 的方式轉換。
        </p>
 <p>
 <code class="literal">json_build_array(1, 2, 'foo', 4, 5)</code>
@@ -508,10 +416,7 @@ By default, the `json` type is returned.
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Builds a JSON object out of a variadic argument list.  By convention,
-        the argument list consists of alternating keys and values.  Key
-        arguments are coerced to text; value arguments are converted as
-        per <code class="function">to_json</code> or <code class="function">to_jsonb</code>.
+        從可變參數的引數列表建立一個 JSON 物件。依照慣例，引數列表由交替出現的鍵與值組成。鍵引數會被強制轉換為文字；值引數則依照 <code class="function">to_json</code> 或 <code class="function">to_jsonb</code> 的方式轉換。
        </p>
 <p>
 <code class="literal">json_build_object('foo', 1, 2, row(3,'bar'))</code>
@@ -526,20 +431,7 @@ By default, the `json` type is returned.
          [<span class="optional"> <code class="literal">RETURNING</code> <em class="replaceable"><code>data_type</code></em> [<span class="optional"> <code class="literal">FORMAT JSON</code> [<span class="optional"> <code class="literal">ENCODING UTF8</code> </span>] </span>] </span>])
         </p>
 <p>
-         Constructs a JSON object of all the key/value pairs given,
-         or an empty object if none are given.
-         <em class="replaceable"><code>key_expression</code></em> is a scalar expression
-         defining the <acronym class="acronym">JSON</acronym> key, which is
-         converted to the <code class="type">text</code> type.
-         It cannot be <code class="literal">NULL</code> nor can it
-         belong to a type that has a cast to the <code class="type">json</code> type.
-         If <code class="literal">WITH UNIQUE KEYS</code> is specified, there must not
-         be any duplicate <em class="replaceable"><code>key_expression</code></em>.
-         Any pair for which the <em class="replaceable"><code>value_expression</code></em>
-         evaluates to <code class="literal">NULL</code> is omitted from the output
-         if <code class="literal">ABSENT ON NULL</code> is specified;
-         if <code class="literal">NULL ON NULL</code> is specified or the clause
-         omitted, the key is included with value <code class="literal">NULL</code>.
+         以所給的全部鍵／值對建構一個 JSON 物件，如果沒有給任何鍵／值對，則建構一個空物件。<em class="replaceable"><code>key_expression</code></em> 是定義 <acronym class="acronym">JSON</acronym> 鍵的純量運算式，它會被轉換為 <code class="type">text</code> 型別。它不能是 <code class="literal">NULL</code>，也不能屬於具有到 <code class="type">json</code> 型別之型別轉換的型別。如果指定了 <code class="literal">WITH UNIQUE KEYS</code>，就不得有任何重複的 <em class="replaceable"><code>key_expression</code></em>。任何 <em class="replaceable"><code>value_expression</code></em> 求值結果為 <code class="literal">NULL</code> 的鍵／值對，在指定了 <code class="literal">ABSENT ON NULL</code> 時都會從輸出中省略；如果指定了 <code class="literal">NULL ON NULL</code> 或省略了該子句，則會包含該鍵，其值為 <code class="literal">NULL</code>。
         </p>
 <p>
 <code class="literal">json_object('code' VALUE 'P123', 'title': 'Jaws')</code>
@@ -555,12 +447,7 @@ By default, the `json` type is returned.
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Builds a JSON object out of a text array.  The array must have either
-        exactly one dimension with an even number of members, in which case
-        they are taken as alternating key/value pairs, or two dimensions
-        such that each inner array has exactly two elements, which
-        are taken as a key/value pair.  All values are converted to JSON
-        strings.
+        從文字陣列建立 JSON 物件。該陣列必須是恰好一維且成員個數為偶數，此時成員會被視為交替出現的鍵／值對；或者是二維，且每個內層陣列恰好有兩個元素，這兩個元素會被視為一個鍵／值對。所有的值都會被轉換為 JSON 字串。
        </p>
 <p>
 <code class="literal">json_object('{a, 1, b, "def", c, 3.5}')</code>
@@ -577,9 +464,7 @@ By default, the `json` type is returned.
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        This form of <code class="function">json_object</code> takes keys and values
-        pairwise from separate text arrays.  Otherwise it is identical to
-        the one-argument form.
+        這種形式的 <code class="function">json_object</code> 會從兩個分開的文字陣列中成對地取得鍵與值。除此之外，它與單一引數的形式完全相同。
        </p>
 <p>
 <code class="literal">json_object('{a,b}', '{1,2}')</code>
@@ -594,13 +479,7 @@ By default, the `json` type is returned.
          → <code class="returnvalue">json</code>
 </p>
 <p>
-         Converts a given expression specified as <code class="type">text</code> or
-         <code class="type">bytea</code> string (in UTF8 encoding) into a JSON
-         value.  If <em class="replaceable"><code>expression</code></em> is NULL, an
-         <acronym class="acronym">SQL</acronym> null value is returned.
-         If <code class="literal">WITH UNIQUE</code> is specified, the
-         <em class="replaceable"><code>expression</code></em> must not contain any duplicate
-         object keys.
+         將以 <code class="type">text</code> 或 <code class="type">bytea</code> 字串（UTF8 編碼）指定的運算式轉換為 JSON 值。如果 <em class="replaceable"><code>expression</code></em> 為 NULL，會回傳 <acronym class="acronym">SQL</acronym> null 值。如果指定了 <code class="literal">WITH UNIQUE</code>，<em class="replaceable"><code>expression</code></em> 中就不得包含任何重複的物件鍵。
         </p>
 <p>
 <code class="literal">json('{"a":123, "b":[true,"foo"], "a":"bar"}')</code>
@@ -612,11 +491,7 @@ By default, the `json` type is returned.
 <code class="function">json_scalar</code> ( <em class="replaceable"><code>expression</code></em> )
        </p>
 <p>
-        Converts a given SQL scalar value into a JSON scalar value.
-        If the input is NULL, an <acronym class="acronym">SQL</acronym> null is returned. If
-        the input is number or a boolean value, a corresponding JSON number
-        or boolean value is returned. For any other value, a JSON string is
-        returned.
+        將指定的 SQL 純量值轉換為 JSON 純量值。如果輸入為 NULL，會回傳 <acronym class="acronym">SQL</acronym> null。如果輸入是數值或布林值，會回傳對應的 JSON 數值或布林值。對於任何其他的值，則回傳 JSON 字串。
        </p>
 <p>
 <code class="literal">json_scalar(123.45)</code>
@@ -632,40 +507,30 @@ By default, the `json` type is returned.
         [<span class="optional"> <code class="literal">RETURNING</code> <em class="replaceable"><code>data_type</code></em> [<span class="optional"> <code class="literal">FORMAT JSON</code> [<span class="optional"> <code class="literal">ENCODING UTF8</code> </span>] </span>] </span>] )
        </p>
 <p>
-        Converts an SQL/JSON expression into a character or binary string. The
-        <em class="replaceable"><code>expression</code></em> can be of any JSON type, any
-        character string type, or <code class="type">bytea</code> in UTF8 encoding.
-        The returned type used in <code class="literal"> RETURNING</code> can be any
-        character string type or <code class="type">bytea</code>. The default is
-        <code class="type">text</code>.
+        將 SQL/JSON 運算式轉換為字元字串或二進位字串。<em class="replaceable"><code>expression</code></em> 可以是任何 JSON 型別、任何字元字串型別，或是 UTF8 編碼的 <code class="type">bytea</code>。<code class="literal"> RETURNING</code> 中使用的回傳型別可以是任何字元字串型別或 <code class="type">bytea</code>。預設為 <code class="type">text</code>。
        </p>
 <p>
 <code class="literal">json_serialize('{ "a" : 1 } ' RETURNING bytea)</code>
         → <code class="returnvalue">\x7b20226122203a2031207d20</code>
-</p></td></tr></tbody><tbody class="footnotes"><tr><td colspan="1"><div class="footnote" id="ftn.id-1.5.8.22.8.9.2.2.1.1.3.4"><p><a class="para" href="#id-1.5.8.22.8.9.2.2.1.1.3.4"><sup class="para">[a] </sup></a>
-          For example, the <a class="xref" href="../../appendixes/contrib/hstore.md">hstore</a> extension has a cast
-          from <code class="type">hstore</code> to <code class="type">json</code>, so that
-          <code class="type">hstore</code> values converted via the JSON creation functions
-          will be represented as JSON objects, not as primitive string values.
+</p></td></tr></tbody><tbody class="footnotes"><tr><td colspan="1"><div class="footnote" id="ftn.id-1.5.8.22.8.9.2.2.1.1.3.4"><p><a class="para" href="#id-1.5.8.22.8.9.2.2.1.1.3.4"><sup class="para">[a] </sup></a>例如，<a class="xref" href="../../appendixes/contrib/hstore.md">hstore</a> 擴充功能具有從 <code class="type">hstore</code> 到 <code class="type">json</code> 的型別轉換，因此透過 JSON 建立函式轉換的 <code class="type">hstore</code> 值，會以 JSON 物件表示，而不是以原始的字串值表示。
          </p></div></td></tr></tbody></table>
 
 <br>
 
-[Table 9.50](functions-json.md#FUNCTIONS-SQLJSON-MISC) details SQL/JSON
-facilities for testing JSON.
+[表 9.50](functions-json.md#FUNCTIONS-SQLJSON-MISC) 詳細列出了用於測試 JSON 的 SQL/JSON 功能。
 
 <a id="FUNCTIONS-SQLJSON-MISC"></a>
 
-**Table 9.50. SQL/JSON Testing Functions**
+**表 9.50. SQL/JSON 測試函式**
 
 <table border="1" class="table" summary="SQL/JSON Testing Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function signature
+        函式簽章
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
       </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.22.8.11.2.2.1.1.1.1"></a>
 <em class="replaceable"><code>expression</code></em> <code class="literal">IS</code> [<span class="optional"> <code class="literal">NOT</code> </span>] <code class="literal">JSON</code>
@@ -673,14 +538,7 @@ facilities for testing JSON.
         [<span class="optional"> { <code class="literal">WITH</code> | <code class="literal">WITHOUT</code> } <code class="literal">UNIQUE</code> [<span class="optional"> <code class="literal">KEYS</code> </span>] </span>]
        </p>
 <p>
-        This predicate tests whether <em class="replaceable"><code>expression</code></em> can be
-        parsed as JSON, possibly of a specified type.
-        If <code class="literal">SCALAR</code> or <code class="literal">ARRAY</code> or
-        <code class="literal">OBJECT</code> is specified, the
-        test is whether or not the JSON is of that particular type. If
-        <code class="literal">WITH UNIQUE KEYS</code> is specified, then any object in the
-        <em class="replaceable"><code>expression</code></em> is also tested to see if it
-        has duplicate keys.
+        這個述詞測試 <em class="replaceable"><code>expression</code></em> 是否可以被剖析為 JSON，並可指定特定的型別。如果指定了 <code class="literal">SCALAR</code>、<code class="literal">ARRAY</code> 或 <code class="literal">OBJECT</code>，則測試的是該 JSON 是否屬於該特定型別。如果指定了 <code class="literal">WITH UNIQUE KEYS</code>，也會測試 <em class="replaceable"><code>expression</code></em> 中的每個物件是否有重複的鍵。
        </p>
 <p>
 </p><pre class="programlisting">
@@ -721,21 +579,20 @@ array w/o UK? | t
 
 <br>
 
-[Table 9.51](functions-json.md#FUNCTIONS-JSON-PROCESSING-TABLE) shows the functions that
-are available for processing `json` and `jsonb` values.
+[表 9.51](functions-json.md#FUNCTIONS-JSON-PROCESSING-TABLE) 列出了可用於處理 `json` 與 `jsonb` 值的函式。
 
 <a id="FUNCTIONS-JSON-PROCESSING-TABLE"></a>
 
-**Table 9.51. JSON Processing Functions**
+**表 9.51. JSON 處理函式**
 
 <table border="1" class="table" summary="JSON Processing Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.22.8.13.2.2.1.1.1.1"></a>
 <code class="function">json_array_elements</code> ( <code class="type">json</code> )
@@ -747,7 +604,7 @@ are available for processing `json` and `jsonb` values.
         → <code class="returnvalue">setof jsonb</code>
 </p>
 <p>
-        Expands the top-level JSON array into a set of JSON values.
+        將最上層的 JSON 陣列展開為一組 JSON 值。
        </p>
 <p>
 <code class="literal">select * from json_array_elements('[1,true, [2,false]]')</code>
@@ -770,7 +627,7 @@ are available for processing `json` and `jsonb` values.
         → <code class="returnvalue">setof text</code>
 </p>
 <p>
-        Expands the top-level JSON array into a set of <code class="type">text</code> values.
+        將最上層的 JSON 陣列展開為一組 <code class="type">text</code> 值。
        </p>
 <p>
 <code class="literal">select * from json_array_elements_text('["foo", "bar"]')</code>
@@ -792,7 +649,7 @@ are available for processing `json` and `jsonb` values.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of elements in the top-level JSON array.
+        回傳最上層 JSON 陣列中的元素個數。
        </p>
 <p>
 <code class="literal">json_array_length('[1,2,3,{"f1":1,"f2":[5,6]},4]')</code>
@@ -816,7 +673,7 @@ are available for processing `json` and `jsonb` values.
         <em class="parameter"><code>value</code></em> <code class="type">jsonb</code> )
        </p>
 <p>
-        Expands the top-level JSON object into a set of key/value pairs.
+        將最上層的 JSON 物件展開為一組鍵／值對。
        </p>
 <p>
 <code class="literal">select * from json_each('{"a":"foo", "b":"bar"}')</code>
@@ -842,9 +699,7 @@ are available for processing `json` and `jsonb` values.
         <em class="parameter"><code>value</code></em> <code class="type">text</code> )
        </p>
 <p>
-        Expands the top-level JSON object into a set of key/value pairs.
-        The returned <em class="parameter"><code>value</code></em>s will be of
-        type <code class="type">text</code>.
+        將最上層的 JSON 物件展開為一組鍵／值對。回傳的 <em class="parameter"><code>value</code></em> 會是 <code class="type">text</code> 型別。
        </p>
 <p>
 <code class="literal">select * from json_each_text('{"a":"foo", "b":"bar"}')</code>
@@ -866,10 +721,7 @@ are available for processing `json` and `jsonb` values.
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Extracts JSON sub-object at the specified path.
-        (This is functionally equivalent to the <code class="literal">#&gt;</code>
-        operator, but writing the path out as a variadic list can be more
-        convenient in some cases.)
+        擷取位於指定路徑的 JSON 子物件。（這在功能上等同於 <code class="literal">#&gt;</code> 運算子，但在某些情況下，將路徑寫成可變參數的列表會更方便。）
        </p>
 <p>
 <code class="literal">json_extract_path('{"f2":{"f3":1},"f4":{"f5":99,"f6":"foo"}}', 'f4', 'f6')</code>
@@ -885,9 +737,7 @@ are available for processing `json` and `jsonb` values.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Extracts JSON sub-object at the specified path as <code class="type">text</code>.
-        (This is functionally equivalent to the <code class="literal">#&gt;&gt;</code>
-        operator.)
+        擷取位於指定路徑的 JSON 子物件，以 <code class="type">text</code> 形式回傳。（這在功能上等同於 <code class="literal">#&gt;&gt;</code> 運算子。）
        </p>
 <p>
 <code class="literal">json_extract_path_text('{"f2":{"f3":1},"f4":{"f5":99,"f6":"foo"}}', 'f4', 'f6')</code>
@@ -903,7 +753,7 @@ are available for processing `json` and `jsonb` values.
         → <code class="returnvalue">setof text</code>
 </p>
 <p>
-        Returns the set of keys in the top-level JSON object.
+        回傳最上層 JSON 物件中的鍵的集合。
        </p>
 <p>
 <code class="literal">select * from json_object_keys('{"f1":"abc","f2":{"f3":"a", "f4":"b"}}')</code>
@@ -925,51 +775,26 @@ are available for processing `json` and `jsonb` values.
         → <code class="returnvalue">anyelement</code>
 </p>
 <p>
-        Expands the top-level JSON object to a row having the composite type
-        of the <em class="parameter"><code>base</code></em> argument.  The JSON object
-        is scanned for fields whose names match column names of the output row
-        type, and their values are inserted into those columns of the output.
-        (Fields that do not correspond to any output column name are ignored.)
-        In typical use, the value of <em class="parameter"><code>base</code></em> is just
-        <code class="literal">NULL</code>, which means that any output columns that do
-        not match any object field will be filled with nulls.  However,
-        if <em class="parameter"><code>base</code></em> isn't <code class="literal">NULL</code> then
-        the values it contains will be used for unmatched columns.
+        將最上層的 JSON 物件展開為一個資料列，其具有 <em class="parameter"><code>base</code></em> 引數的複合型別。系統會在 JSON 物件中掃描名稱與輸出資料列型別之欄位名稱相符的欄位，並將它們的值插入輸出的那些欄位中。（不對應任何輸出欄位名稱的欄位會被忽略。）在一般用法中，<em class="parameter"><code>base</code></em> 的值就是 <code class="literal">NULL</code>，這表示任何不符合任何物件欄位的輸出欄位都會被填入 null。不過，如果 <em class="parameter"><code>base</code></em> 不是 <code class="literal">NULL</code>，則它所包含的值將用於那些不相符的欄位。
        </p>
 <p>
-        To convert a JSON value to the SQL type of an output column, the
-        following rules are applied in sequence:
+        為了將 JSON 值轉換為輸出欄位的 SQL 型別，會依序套用下列規則：
         </p><div class="itemizedlist"><ul class="itemizedlist compact" style="list-style-type: disc; "><li class="listitem"><p>
-           A JSON null value is converted to an SQL null in all cases.
+           JSON null 值在所有情況下都會轉換為 SQL null。
           </p></li><li class="listitem"><p>
-           If the output column is of type <code class="type">json</code>
-           or <code class="type">jsonb</code>, the JSON value is just reproduced exactly.
+           如果輸出欄位的型別是 <code class="type">json</code> 或 <code class="type">jsonb</code>，JSON 值就會原封不動地重現。
           </p></li><li class="listitem"><p>
-           If the output column is a composite (row) type, and the JSON value
-           is a JSON object, the fields of the object are converted to columns
-           of the output row type by recursive application of these rules.
+           如果輸出欄位是複合（資料列）型別，而 JSON 值是 JSON 物件，則物件的欄位會透過遞迴套用這些規則，轉換為輸出資料列型別的欄位。
           </p></li><li class="listitem"><p>
-           Likewise, if the output column is an array type and the JSON value
-           is a JSON array, the elements of the JSON array are converted to
-           elements of the output array by recursive application of these
-           rules.
+           同樣地，如果輸出欄位是陣列型別，而 JSON 值是 JSON 陣列，則 JSON 陣列的元素會透過遞迴套用這些規則，轉換為輸出陣列的元素。
           </p></li><li class="listitem"><p>
-           Otherwise, if the JSON value is a string, the contents of the
-           string are fed to the input conversion function for the column's
-           data type.
+           否則，如果 JSON 值是字串，就會將字串的內容送入該欄位資料型別的輸入轉換函式。
           </p></li><li class="listitem"><p>
-           Otherwise, the ordinary text representation of the JSON value is
-           fed to the input conversion function for the column's data type.
+           否則，就會將 JSON 值的一般文字表示送入該欄位資料型別的輸入轉換函式。
           </p></li></ul></div><p>
 </p>
 <p>
-        While the example below uses a constant JSON value, typical use would
-        be to reference a <code class="type">json</code> or <code class="type">jsonb</code> column
-        laterally from another table in the query's <code class="literal">FROM</code>
-        clause.  Writing <code class="function">json_populate_record</code> in
-        the <code class="literal">FROM</code> clause is good practice, since all of the
-        extracted columns are available for use without duplicate function
-        calls.
+        雖然下面的範例使用常數 JSON 值，但一般用法是以 lateral 方式參照另一個資料表的 <code class="type">json</code> 或 <code class="type">jsonb</code> 欄位，而那個資料表位於查詢的 <code class="literal">FROM</code> 子句中。將 <code class="function">json_populate_record</code> 寫在 <code class="literal">FROM</code> 子句中是很好的做法，因為所有擷取出的欄位都可以直接使用，而不需要重複呼叫函式。
        </p>
 <p>
 <code class="literal">create type subrowtype as (d int, e text);</code>
@@ -990,10 +815,7 @@ are available for processing `json` and `jsonb` values.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Function for testing <code class="function">jsonb_populate_record</code>.  Returns
-        <code class="literal">true</code> if the input <code class="function">jsonb_populate_record</code>
-        would finish without an error for the given input JSON object; that is, it's
-        valid input, <code class="literal">false</code> otherwise.
+        用於測試 <code class="function">jsonb_populate_record</code> 的函式。回傳 <code class="literal">true</code> 表示對於指定的輸入 JSON 物件，輸入的 <code class="function">jsonb_populate_record</code> 能夠順利完成而不發生錯誤，也就是說它是有效的輸入；否則回傳 <code class="literal">false</code>。
        </p>
 <p>
 <code class="literal">create type jsb_char2 as (a char(2));</code>
@@ -1039,10 +861,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">setof anyelement</code>
 </p>
 <p>
-        Expands the top-level JSON array of objects to a set of rows having
-        the composite type of the <em class="parameter"><code>base</code></em> argument.
-        Each element of the JSON array is processed as described above
-        for <code class="function">json[b]_populate_record</code>.
+        將最上層的物件 JSON 陣列展開為一組資料列，這些資料列具有 <em class="parameter"><code>base</code></em> 引數的複合型別。JSON 陣列的每個元素，都會依照上面針對 <code class="function">json[b]_populate_record</code> 所述的方式處理。
        </p>
 <p>
 <code class="literal">create type twoints as (a int, b int);</code>
@@ -1067,14 +886,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">record</code>
 </p>
 <p>
-        Expands the top-level JSON object to a row having the composite type
-        defined by an <code class="literal">AS</code> clause.  (As with all functions
-        returning <code class="type">record</code>, the calling query must explicitly
-        define the structure of the record with an <code class="literal">AS</code>
-        clause.)  The output record is filled from fields of the JSON object,
-        in the same way as described above
-        for <code class="function">json[b]_populate_record</code>.  Since there is no
-        input record value, unmatched columns are always filled with nulls.
+        將最上層的 JSON 物件展開為一個資料列，其具有由 <code class="literal">AS</code> 子句所定義的複合型別。（如同所有回傳 <code class="type">record</code> 的函式，呼叫的查詢必須以 <code class="literal">AS</code> 子句明確定義記錄的結構。）輸出記錄會從 JSON 物件的欄位填入，方式與上面針對 <code class="function">json[b]_populate_record</code> 所述的相同。由於沒有輸入的記錄值，不相符的欄位一律會填入 null。
        </p>
 <p>
 <code class="literal">create type myrowtype as (a int, b text);</code>
@@ -1098,13 +910,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">setof record</code>
 </p>
 <p>
-        Expands the top-level JSON array of objects to a set of rows having
-        the composite type defined by an <code class="literal">AS</code> clause.  (As
-        with all functions returning <code class="type">record</code>, the calling query
-        must explicitly define the structure of the record with
-        an <code class="literal">AS</code> clause.)  Each element of the JSON array is
-        processed as described above
-        for <code class="function">json[b]_populate_record</code>.
+        將最上層的物件 JSON 陣列展開為一組資料列，這些資料列具有由 <code class="literal">AS</code> 子句所定義的複合型別。（如同所有回傳 <code class="type">record</code> 的函式，呼叫的查詢必須以 <code class="literal">AS</code> 子句明確定義記錄的結構。）JSON 陣列的每個元素，都會依照上面針對 <code class="function">json[b]_populate_record</code> 所述的方式處理。
        </p>
 <p>
 <code class="literal">select * from json_to_recordset('[{"a":1,"b":"foo"}, {"a":"2","c":"bar"}]') as x(a int, b text)</code>
@@ -1121,22 +927,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Returns <em class="parameter"><code>target</code></em>
-        with the item designated by <em class="parameter"><code>path</code></em>
-        replaced by <em class="parameter"><code>new_value</code></em>, or with
-        <em class="parameter"><code>new_value</code></em> added if
-        <em class="parameter"><code>create_if_missing</code></em> is true (which is the
-        default) and the item designated by <em class="parameter"><code>path</code></em>
-        does not exist.
-        All earlier steps in the path must exist, or
-        the <em class="parameter"><code>target</code></em> is returned unchanged.
-        As with the path oriented operators, negative integers that
-        appear in the <em class="parameter"><code>path</code></em> count from the end
-        of JSON arrays.
-        If the last path step is an array index that is out of range,
-        and <em class="parameter"><code>create_if_missing</code></em> is true, the new
-        value is added at the beginning of the array if the index is negative,
-        or at the end of the array if it is positive.
+        回傳 <em class="parameter"><code>target</code></em>，其中由 <em class="parameter"><code>path</code></em> 指定的項目被替換為 <em class="parameter"><code>new_value</code></em>；或者在其中加入 <em class="parameter"><code>new_value</code></em>，前提是 <em class="parameter"><code>create_if_missing</code></em> 為 true（這是預設值），且由 <em class="parameter"><code>path</code></em> 指定的項目不存在。路徑中所有較前面的步驟都必須存在，否則會原封不動地回傳 <em class="parameter"><code>target</code></em>。與路徑導向的運算子一樣，出現在 <em class="parameter"><code>path</code></em> 中的負整數會從 JSON 陣列的結尾倒數。如果最後一個路徑步驟是超出範圍的陣列索引，且 <em class="parameter"><code>create_if_missing</code></em> 為 true，則當索引為負數時，新值會加在陣列的開頭；當索引為正數時，則加在陣列的結尾。
        </p>
 <p>
 <code class="literal">jsonb_set('[{"f1":1,"f2":null},2,null,3]', '{0,f1}', '[2,3,4]', false)</code>
@@ -1151,14 +942,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        If <em class="parameter"><code>new_value</code></em> is not <code class="literal">NULL</code>,
-        behaves identically to <code class="literal">jsonb_set</code>. Otherwise behaves
-        according to the value
-        of <em class="parameter"><code>null_value_treatment</code></em> which must be one
-        of <code class="literal">'raise_exception'</code>,
-        <code class="literal">'use_json_null'</code>, <code class="literal">'delete_key'</code>, or
-        <code class="literal">'return_target'</code>. The default is
-        <code class="literal">'use_json_null'</code>.
+        如果 <em class="parameter"><code>new_value</code></em> 不是 <code class="literal">NULL</code>，其行為與 <code class="literal">jsonb_set</code> 完全相同。否則，其行為取決於 <em class="parameter"><code>null_value_treatment</code></em> 的值，該值必須是 <code class="literal">'raise_exception'</code>、<code class="literal">'use_json_null'</code>、<code class="literal">'delete_key'</code> 或 <code class="literal">'return_target'</code> 之一。預設值為 <code class="literal">'use_json_null'</code>。
        </p>
 <p>
 <code class="literal">jsonb_set_lax('[{"f1":1,"f2":null},2,null,3]', '{0,f1}', null)</code>
@@ -1173,24 +957,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Returns <em class="parameter"><code>target</code></em>
-        with <em class="parameter"><code>new_value</code></em> inserted.  If the item
-        designated by the <em class="parameter"><code>path</code></em> is an array
-        element, <em class="parameter"><code>new_value</code></em> will be inserted before
-        that item if <em class="parameter"><code>insert_after</code></em> is false (which
-        is the default), or after it
-        if <em class="parameter"><code>insert_after</code></em> is true.  If the item
-        designated by the <em class="parameter"><code>path</code></em> is an object
-        field, <em class="parameter"><code>new_value</code></em> will be inserted only if
-        the object does not already contain that key.
-        All earlier steps in the path must exist, or
-        the <em class="parameter"><code>target</code></em> is returned unchanged.
-        As with the path oriented operators, negative integers that
-        appear in the <em class="parameter"><code>path</code></em> count from the end
-        of JSON arrays.
-        If the last path step is an array index that is out of range, the new
-        value is added at the beginning of the array if the index is negative,
-        or at the end of the array if it is positive.
+        回傳 <em class="parameter"><code>target</code></em>，其中已插入 <em class="parameter"><code>new_value</code></em>。如果由 <em class="parameter"><code>path</code></em> 指定的項目是陣列元素，<em class="parameter"><code>new_value</code></em> 會在 <em class="parameter"><code>insert_after</code></em> 為 false（這是預設值）時插入在該項目之前，在 <em class="parameter"><code>insert_after</code></em> 為 true 時則插入在該項目之後。如果由 <em class="parameter"><code>path</code></em> 指定的項目是物件欄位，<em class="parameter"><code>new_value</code></em> 只有在物件尚未包含該鍵時才會被插入。路徑中所有較前面的步驟都必須存在，否則會原封不動地回傳 <em class="parameter"><code>target</code></em>。與路徑導向的運算子一樣，出現在 <em class="parameter"><code>path</code></em> 中的負整數會從 JSON 陣列的結尾倒數。如果最後一個路徑步驟是超出範圍的陣列索引，則當索引為負數時，新值會加在陣列的開頭；當索引為正數時，則加在陣列的結尾。
        </p>
 <p>
 <code class="literal">jsonb_insert('{"a": [0,1,2]}', '{a, 1}', '"new_value"')</code>
@@ -1210,11 +977,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Deletes all object fields that have null values from the given JSON
-        value, recursively.
-        If <em class="parameter"><code>strip_in_arrays</code></em> is true (the default is false),
-        null array elements are also stripped.
-        Otherwise they are not stripped. Bare null values are never stripped.
+        從指定的 JSON 值中，遞迴地刪除所有值為 null 的物件欄位。如果 <em class="parameter"><code>strip_in_arrays</code></em> 為 true（預設為 false），null 陣列元素也會被移除；否則不會移除它們。單獨的 null 值永遠不會被移除。
        </p>
 <p>
 <code class="literal">json_strip_nulls('[{"f1":1, "f2":null}, 2, null, 3]')</code>
@@ -1230,17 +993,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Checks whether the JSON path returns any item for the specified JSON
-        value.
-        (This is useful only with SQL-standard JSON path expressions, not
-        <a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">predicate check
-        expressions</a>, since those always return a value.)
-        If the <em class="parameter"><code>vars</code></em> argument is specified, it must
-        be a JSON object, and its fields provide named values to be
-        substituted into the <code class="type">jsonpath</code> expression.
-        If the <em class="parameter"><code>silent</code></em> argument is specified and
-        is <code class="literal">true</code>, the function suppresses the same errors
-        as the <code class="literal">@?</code> and <code class="literal">@@</code> operators do.
+        檢查對於指定的 JSON 值，JSON 路徑是否回傳任何項目。（這只對符合 SQL 標準的 JSON 路徑運算式有用，對<a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>則沒有用處，因為後者一定會回傳一個值。）如果指定了 <em class="parameter"><code>vars</code></em> 引數，它必須是一個 JSON 物件，其欄位提供要代入 <code class="type">jsonpath</code> 運算式中的具名值。如果指定了 <em class="parameter"><code>silent</code></em> 引數且其值為 <code class="literal">true</code>，函式會抑制與 <code class="literal">@?</code> 及 <code class="literal">@@</code> 運算子相同的錯誤。
        </p>
 <p>
 <code class="literal">jsonb_path_exists('{"a":[1,2,3,4,5]}', '$.a[*] ? (@ &gt;= $min &amp;&amp; @ &lt;= $max)', '{"min":2, "max":4}')</code>
@@ -1251,16 +1004,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Returns the SQL boolean result of a JSON path predicate check
-        for the specified JSON value.
-        (This is useful only
-        with <a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">predicate
-        check expressions</a>, not SQL-standard JSON path expressions,
-        since it will either fail or return <code class="literal">NULL</code> if the
-        path result is not a single boolean value.)
-        The optional <em class="parameter"><code>vars</code></em>
-        and <em class="parameter"><code>silent</code></em> arguments act the same as
-        for <code class="function">jsonb_path_exists</code>.
+        回傳對指定的 JSON 值進行 JSON 路徑述詞檢查的 SQL 布林結果。（這只對<a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>有用，對符合 SQL 標準的 JSON 路徑運算式則沒有用處，因為如果路徑結果不是單一的布林值，它不是失敗就是回傳 <code class="literal">NULL</code>。）選用的 <em class="parameter"><code>vars</code></em> 與 <em class="parameter"><code>silent</code></em> 引數的作用與 <code class="function">jsonb_path_exists</code> 的相同。
        </p>
 <p>
 <code class="literal">jsonb_path_match('{"a":[1,2,3,4,5]}', 'exists($.a[*] ? (@ &gt;= $min &amp;&amp; @ &lt;= $max))', '{"min":2, "max":4}')</code>
@@ -1271,17 +1015,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">setof jsonb</code>
 </p>
 <p>
-        Returns all JSON items returned by the JSON path for the specified
-        JSON value.
-        For SQL-standard JSON path expressions it returns the JSON
-        values selected from <em class="parameter"><code>target</code></em>.
-        For <a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">predicate
-        check expressions</a> it returns the result of the predicate
-        check: <code class="literal">true</code>, <code class="literal">false</code>,
-        or <code class="literal">null</code>.
-        The optional <em class="parameter"><code>vars</code></em>
-        and <em class="parameter"><code>silent</code></em> arguments act the same as
-        for <code class="function">jsonb_path_exists</code>.
+        回傳對於指定的 JSON 值，JSON 路徑所回傳的所有 JSON 項目。對於符合 SQL 標準的 JSON 路徑運算式，它會回傳從 <em class="parameter"><code>target</code></em> 中選取的 JSON 值。對於<a class="link" href="functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>，它會回傳述詞檢查的結果：<code class="literal">true</code>、<code class="literal">false</code> 或 <code class="literal">null</code>。選用的 <em class="parameter"><code>vars</code></em> 與 <em class="parameter"><code>silent</code></em> 引數的作用與 <code class="function">jsonb_path_exists</code> 的相同。
        </p>
 <p>
 <code class="literal">select * from jsonb_path_query('{"a":[1,2,3,4,5]}', '$.a[*] ? (@ &gt;= $min &amp;&amp; @ &lt;= $max)', '{"min":2, "max":4}')</code>
@@ -1299,10 +1033,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Returns all JSON items returned by the JSON path for the specified
-        JSON value, as a JSON array.
-        The parameters are the same as
-        for <code class="function">jsonb_path_query</code>.
+        以 JSON 陣列的形式，回傳對於指定的 JSON 值，JSON 路徑所回傳的所有 JSON 項目。參數與 <code class="function">jsonb_path_query</code> 的相同。
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('{"a":[1,2,3,4,5]}', '$.a[*] ? (@ &gt;= $min &amp;&amp; @ &lt;= $max)', '{"min":2, "max":4}')</code>
@@ -1313,11 +1044,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        Returns the first JSON item returned by the JSON path for the
-        specified JSON value, or <code class="literal">NULL</code> if there are no
-        results.
-        The parameters are the same as
-        for <code class="function">jsonb_path_query</code>.
+        回傳對於指定的 JSON 值，JSON 路徑所回傳的第一個 JSON 項目；如果沒有結果，則回傳 <code class="literal">NULL</code>。參數與 <code class="function">jsonb_path_query</code> 的相同。
        </p>
 <p>
 <code class="literal">jsonb_path_query_first('{"a":[1,2,3,4,5]}', '$.a[*] ? (@ &gt;= $min &amp;&amp; @ &lt;= $max)', '{"min":2, "max":4}')</code>
@@ -1348,17 +1075,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">jsonb</code>
 </p>
 <p>
-        These functions act like their counterparts described above without
-        the <code class="literal">_tz</code> suffix, except that these functions support
-        comparisons of date/time values that require timezone-aware
-        conversions.  The example below requires interpretation of the
-        date-only value <code class="literal">2015-08-02</code> as a timestamp with time
-        zone, so the result depends on the current
-        <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE">TimeZone</a> setting.  Due to this dependency, these
-        functions are marked as stable, which means these functions cannot be
-        used in indexes.  Their counterparts are immutable, and so can be used
-        in indexes; but they will throw errors if asked to make such
-        comparisons.
+        這些函式的作用與上面所述、不帶 <code class="literal">_tz</code> 字尾的對應函式相同，差別在於這些函式支援需要具時區感知之轉換的日期／時間值比較。下面的範例需要將只有日期的值 <code class="literal">2015-08-02</code> 解讀為帶時區的時間戳記，因此結果取決於目前的 <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE">TimeZone</a> 設定。由於這種相依性，這些函式被標記為 stable，這表示這些函式不能用於索引中。它們的對應函式是 immutable，因此可以用於索引中；但如果要求它們進行這類比較，就會拋出錯誤。
        </p>
 <p>
 <code class="literal">jsonb_path_exists_tz('["2015-08-01 12:00:00-05"]', '$[*] ? (@.datetime() &lt; "2015-08-02".datetime())')</code>
@@ -1369,7 +1086,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts the given JSON value to pretty-printed, indented text.
+        將指定的 JSON 值轉換為經過美化輸出（pretty-printed）、帶有縮排的文字。
        </p>
 <p>
 <code class="literal">jsonb_pretty('[{"f1":1,"f2":null}, 2]')</code>
@@ -1394,13 +1111,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns the type of the top-level JSON value as a text string.
-        Possible types are
-        <code class="literal">object</code>, <code class="literal">array</code>,
-        <code class="literal">string</code>, <code class="literal">number</code>,
-        <code class="literal">boolean</code>, and <code class="literal">null</code>.
-        (The <code class="literal">null</code> result should not be confused
-        with an SQL NULL; see the examples.)
+        以文字字串的形式回傳最上層 JSON 值的型別。可能的型別有 <code class="literal">object</code>、<code class="literal">array</code>、<code class="literal">string</code>、<code class="literal">number</code>、<code class="literal">boolean</code> 與 <code class="literal">null</code>。（<code class="literal">null</code> 結果不應與 SQL NULL 混淆；請參閱範例。）
        </p>
 <p>
 <code class="literal">json_typeof('-123.4')</code>
@@ -1419,46 +1130,19 @@ ERROR:  value too long for type character(2)
 
 <a id="FUNCTIONS-SQLJSON-PATH"></a>
 
-### 9.16.2. The SQL/JSON Path Language [#](#FUNCTIONS-SQLJSON-PATH)
+### 9.16.2. SQL/JSON 路徑語言 [#](#FUNCTIONS-SQLJSON-PATH)
 
 <a id="id-1.5.8.22.9.2"></a>
 
-SQL/JSON path expressions specify item(s) to be retrieved
-from a JSON value, similarly to XPath expressions used
-for access to XML content. In PostgreSQL,
-path expressions are implemented as the `jsonpath`
-data type and can use any elements described in
-[Section 8.14.7](../datatype/datatype-json.md#DATATYPE-JSONPATH).
+SQL/JSON 路徑運算式指定要從 JSON 值中取出的項目，類似於用來存取 XML 內容的 XPath 運算式。在 PostgreSQL 中，路徑運算式實作為 `jsonpath` 資料型別，並且可以使用[第 8.14.7 節](../datatype/datatype-json.md#DATATYPE-JSONPATH)所述的任何元素。
 
-JSON query functions and operators
-pass the provided path expression to the *path engine*
-for evaluation. If the expression matches the queried JSON data,
-the corresponding JSON item, or set of items, is returned.
-If there is no match, the result will be `NULL`,
-`false`, or an error, depending on the function.
-Path expressions are written in the SQL/JSON path language
-and can include arithmetic expressions and functions.
+JSON 查詢函式與運算子會將所提供的路徑運算式傳遞給*路徑引擎*進行求值。如果運算式與所查詢的 JSON 資料相符，就會回傳對應的 JSON 項目或項目集合。如果沒有相符的結果，依函式的不同，結果會是 `NULL`、`false` 或錯誤。路徑運算式以 SQL/JSON 路徑語言撰寫，並且可以包含算術運算式與函式。
 
-A path expression consists of a sequence of elements allowed
-by the `jsonpath` data type.
-The path expression is normally evaluated from left to right, but
-you can use parentheses to change the order of operations.
-If the evaluation is successful, a sequence of JSON items is produced,
-and the evaluation result is returned to the JSON query function
-that completes the specified computation.
+路徑運算式由 `jsonpath` 資料型別所允許的一連串元素組成。路徑運算式通常由左至右求值，但你可以使用括號來改變運算的順序。如果求值成功，就會產生一個 JSON 項目的序列，並將求值結果回傳給完成指定計算的 JSON 查詢函式。
 
-To refer to the JSON value being queried (the
-*context item*), use the `$` variable
-in the path expression. The first element of a path must always
-be `$`. It can be followed by one or more
-[accessor operators](../datatype/datatype-json.md#TYPE-JSONPATH-ACCESSORS),
-which go down the JSON structure level by level to retrieve sub-items
-of the context item. Each accessor operator acts on the
-result(s) of the previous evaluation step, producing zero, one, or more
-output items from each input item.
+若要參照正在查詢的 JSON 值（*內容項目*），請在路徑運算式中使用 `$` 變數。路徑的第一個元素一定是 `$`。其後可以接著一個或多個[存取子運算子](../datatype/datatype-json.md#TYPE-JSONPATH-ACCESSORS)，它們會逐層向下深入 JSON 結構，以取出內容項目的子項目。每個存取子運算子都作用於前一個求值步驟的結果，並從每個輸入項目產生零個、一個或多個輸出項目。
 
-For example, suppose you have some JSON data from a GPS tracker that you
-would like to parse, such as:
+例如，假設你有一些來自 GPS 追蹤器、想要剖析的 JSON 資料，例如：
 
 ```
 
@@ -1480,15 +1164,9 @@ SELECT '{
 }' AS json \gset
 ```
 
-(The above example can be copied-and-pasted
-into psql to set things up for the following
-examples. Then psql will
-expand `:'json'` into a suitably-quoted string
-constant containing the JSON value.)
+（上面的範例可以複製並貼到 psql 中，為接下來的範例做好準備。接著 psql 會將 `:'json'` 展開為包含該 JSON 值、並已適當加上引號的字串常數。）
 
-To retrieve the available track segments, you need to use the
-`.key` accessor
-operator to descend through surrounding JSON objects, for example:
+若要取出可用的軌跡區段（track segment），你需要使用 `.key` 存取子運算子來向下穿過外層的 JSON 物件，例如：
 
 ```
 
@@ -1498,10 +1176,7 @@ operator to descend through surrounding JSON objects, for example:
  [{"HR": 73, "location": [47.763, 13.4034], "start time": "2018-10-14 10:05:14"}, {"HR": 135, "location": [47.706, 13.2635], "start time": "2018-10-14 10:39:21"}]
 ```
 
-To retrieve the contents of an array, you typically use the
-`[*]` operator.
-The following example will return the location coordinates for all
-the available track segments:
+若要取出陣列的內容，通常會使用 `[*]` 運算子。下面的範例會回傳所有可用軌跡區段的位置座標：
 
 ```
 
@@ -1512,23 +1187,9 @@ the available track segments:
  [47.706, 13.2635]
 ```
 
-Here we started with the whole JSON input value (`$`),
-then the `.track` accessor selected the JSON object
-associated with the `"track"` object key, then
-the `.segments` accessor selected the JSON array
-associated with the `"segments"` key within that
-object, then the `[*]` accessor selected each element
-of that array (producing a series of items), then
-the `.location` accessor selected the JSON array
-associated with the `"location"` key within each of
-those objects. In this example, each of those objects had
-a `"location"` key; but if any of them did not,
-the `.location` accessor would have simply produced no
-output for that input item.
+這裡我們從整個 JSON 輸入值（`$`）開始，接著 `.track` 存取子選取了與物件鍵 `"track"` 相關聯的 JSON 物件，然後 `.segments` 存取子選取了該物件中與鍵 `"segments"` 相關聯的 JSON 陣列，接著 `[*]` 存取子選取了該陣列的每個元素（產生一連串的項目），然後 `.location` 存取子選取了這些物件中各自與鍵 `"location"` 相關聯的 JSON 陣列。在這個範例中，每個物件都有 `"location"` 鍵；但如果其中有任何物件沒有這個鍵，`.location` 存取子對於該輸入項目就只會不產生任何輸出。
 
-To return the coordinates of the first segment only, you can
-specify the corresponding subscript in the `[]`
-accessor operator. Recall that JSON array indexes are 0-relative:
+若只要回傳第一個區段的座標，可以在 `[]` 存取子運算子中指定對應的下標。請記得 JSON 陣列的索引是從 0 開始的：
 
 ```
 
@@ -1538,11 +1199,7 @@ accessor operator. Recall that JSON array indexes are 0-relative:
  [47.763, 13.4034]
 ```
 
-The result of each path evaluation step can be processed
-by one or more of the `jsonpath` operators and methods
-listed in [Section 9.16.2.3](functions-json.md#FUNCTIONS-SQLJSON-PATH-OPERATORS).
-Each method name must be preceded by a dot. For example,
-you can get the size of an array:
+每個路徑求值步驟的結果，都可以由[第 9.16.2.3 節](functions-json.md#FUNCTIONS-SQLJSON-PATH-OPERATORS)所列的一個或多個 `jsonpath` 運算子與方法加以處理。每個方法名稱前面都必須加上一個句點。例如，你可以取得陣列的大小：
 
 ```
 
@@ -1552,40 +1209,20 @@ you can get the size of an array:
  2
 ```
 
-More examples of using `jsonpath` operators
-and methods within path expressions appear below in
-[Section 9.16.2.3](functions-json.md#FUNCTIONS-SQLJSON-PATH-OPERATORS).
+在路徑運算式中使用 `jsonpath` 運算子與方法的更多範例，請見下方的[第 9.16.2.3 節](functions-json.md#FUNCTIONS-SQLJSON-PATH-OPERATORS)。
 
-A path can also contain
-*filter expressions* that work similarly to the
-`WHERE` clause in SQL. A filter expression begins with
-a question mark and provides a condition in parentheses:
+路徑中也可以包含*篩選運算式*，其作用類似於 SQL 中的 `WHERE` 子句。篩選運算式以問號開頭，並在括號中提供條件：
 
 ```
 
 ? (condition)
 ```
 
-Filter expressions must be written just after the path evaluation step
-to which they should apply. The result of that step is filtered to include
-only those items that satisfy the provided condition. SQL/JSON defines
-three-valued logic, so the condition can
-produce `true`, `false`,
-or `unknown`. The `unknown` value
-plays the same role as SQL `NULL` and can be tested
-for with the `is unknown` predicate. Further path
-evaluation steps use only those items for which the filter expression
-returned `true`.
+篩選運算式必須緊接在它所要套用的路徑求值步驟之後撰寫。該步驟的結果會經過篩選，只保留滿足所提供條件的項目。SQL/JSON 定義了三值邏輯，因此條件可以產生 `true`、`false` 或 `unknown`。`unknown` 值扮演與 SQL `NULL` 相同的角色，並且可以用 `is unknown` 述詞來測試。後續的路徑求值步驟只會使用篩選運算式回傳 `true` 的那些項目。
 
-The functions and operators that can be used in filter expressions are
-listed in [Table 9.53](functions-json.md#FUNCTIONS-SQLJSON-FILTER-EX-TABLE). Within a
-filter expression, the `@` variable denotes the value
-being considered (i.e., one result of the preceding path step). You can
-write accessor operators after `@` to retrieve component
-items.
+可以在篩選運算式中使用的函式與運算子列於[表 9.53](functions-json.md#FUNCTIONS-SQLJSON-FILTER-EX-TABLE)。在篩選運算式中，`@` 變數代表正在考量的值（也就是前一個路徑步驟的其中一個結果）。你可以在 `@` 之後撰寫存取子運算子來取出其組成項目。
 
-For example, suppose you would like to retrieve all heart rate values higher
-than 130. You can achieve this as follows:
+例如，假設你想要取出所有高於 130 的心率值。你可以這樣做：
 
 ```
 
@@ -1595,10 +1232,7 @@ than 130. You can achieve this as follows:
  135
 ```
 
-To get the start times of segments with such values, you have to
-filter out irrelevant segments before selecting the start times, so the
-filter expression is applied to the previous step, and the path used
-in the condition is different:
+若要取得具有這類值之區段的開始時間，你必須在選取開始時間之前先篩選掉不相關的區段，因此篩選運算式要套用在前一個步驟上，而條件中使用的路徑也會有所不同：
 
 ```
 
@@ -1608,9 +1242,7 @@ in the condition is different:
  "2018-10-14 10:39:21"
 ```
 
-You can use several filter expressions in sequence, if required.
-The following example selects start times of all segments that
-contain locations with relevant coordinates and high heart rate values:
+如有需要，你可以依序使用多個篩選運算式。下面的範例會選取所有包含具有相關座標之位置以及高心率值之區段的開始時間：
 
 ```
 
@@ -1620,9 +1252,7 @@ contain locations with relevant coordinates and high heart rate values:
  "2018-10-14 10:39:21"
 ```
 
-Using filter expressions at different nesting levels is also allowed.
-The following example first filters all segments by location, and then
-returns high heart rate values for these segments, if available:
+也可以在不同的巢狀層級使用篩選運算式。下面的範例會先依位置篩選所有區段，然後回傳這些區段的高心率值（如果有的話）：
 
 ```
 
@@ -1632,9 +1262,7 @@ returns high heart rate values for these segments, if available:
  135
 ```
 
-You can also nest filter expressions within each other.
-This example returns the size of the track if it contains any
-segments with high heart rate values, or an empty sequence otherwise:
+你也可以將篩選運算式彼此巢狀。這個範例會在軌跡包含任何具有高心率值的區段時回傳軌跡的大小，否則回傳空序列：
 
 ```
 
@@ -1646,24 +1274,15 @@ segments with high heart rate values, or an empty sequence otherwise:
 
 <a id="FUNCTIONS-SQLJSON-DEVIATIONS"></a>
 
-#### 9.16.2.1. Deviations from the SQL Standard [#](#FUNCTIONS-SQLJSON-DEVIATIONS)
+#### 9.16.2.1. 與 SQL 標準的差異 [#](#FUNCTIONS-SQLJSON-DEVIATIONS)
 
-PostgreSQL's implementation of the SQL/JSON path
-language has the following deviations from the SQL/JSON standard.
+PostgreSQL 對 SQL/JSON 路徑語言的實作與 SQL/JSON 標準有下列差異。
 
 <a id="FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS"></a>
 
-##### 9.16.2.1.1. Boolean Predicate Check Expressions [#](#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS)
+##### 9.16.2.1.1. 布林述詞檢查運算式 [#](#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS)
 
-As an extension to the SQL standard,
-a PostgreSQL path expression can be a
-Boolean predicate, whereas the SQL standard allows predicates only within
-filters. While SQL-standard path expressions return the relevant
-element(s) of the queried JSON value, predicate check expressions
-return the single three-valued `jsonb` result of the
-predicate: `true`,
-`false`, or `null`.
-For example, we could write this SQL-standard filter expression:
+作為 SQL 標準的延伸，PostgreSQL 的路徑運算式可以是布林述詞，而 SQL 標準只允許在篩選中使用述詞。SQL 標準的路徑運算式會回傳所查詢 JSON 值的相關元素，而述詞檢查運算式則會回傳述詞的單一三值 `jsonb` 結果：`true`、`false` 或 `null`。例如，我們可以撰寫這個符合 SQL 標準的篩選運算式：
 
 ```
 
@@ -1673,8 +1292,7 @@ For example, we could write this SQL-standard filter expression:
  {"HR": 135, "location": [47.706, 13.2635], "start time": "2018-10-14 10:39:21"}
 ```
 
-The similar predicate check expression simply
-returns `true`, indicating that a match exists:
+類似的述詞檢查運算式只會回傳 `true`，表示存在相符的項目：
 
 ```
 
@@ -1684,59 +1302,31 @@ returns `true`, indicating that a match exists:
  true
 ```
 
-### Note
+### 注意
 
-Predicate check expressions are required in the
-`@@` operator (and the
-`jsonb_path_match` function), and should not be used
-with the `@?` operator (or the
-`jsonb_path_exists` function).
+`@@` 運算子（以及 `jsonb_path_match` 函式）必須使用述詞檢查運算式，而 `@?` 運算子（或 `jsonb_path_exists` 函式）則不應使用述詞檢查運算式。
 
 <a id="FUNCTIONS-SQLJSON-REGULAR-EXPRESSION-DEVIATION"></a>
 
-##### 9.16.2.1.2. Regular Expression Interpretation [#](#FUNCTIONS-SQLJSON-REGULAR-EXPRESSION-DEVIATION)
+##### 9.16.2.1.2. 正規表示式的解讀 [#](#FUNCTIONS-SQLJSON-REGULAR-EXPRESSION-DEVIATION)
 
-There are minor differences in the interpretation of regular
-expression patterns used in `like_regex` filters, as
-described in [Section 9.16.2.4](functions-json.md#JSONPATH-REGULAR-EXPRESSIONS).
+在 `like_regex` 篩選中使用的正規表示式模式，其解讀方式有一些細微差異，如[第 9.16.2.4 節](functions-json.md#JSONPATH-REGULAR-EXPRESSIONS)所述。
 
 <a id="FUNCTIONS-SQLJSON-STRICT-AND-LAX-MODES"></a>
 
-#### 9.16.2.2. Strict and Lax Modes [#](#FUNCTIONS-SQLJSON-STRICT-AND-LAX-MODES)
+#### 9.16.2.2. 嚴格模式與寬鬆模式 [#](#FUNCTIONS-SQLJSON-STRICT-AND-LAX-MODES)
 
-When you query JSON data, the path expression may not match the
-actual JSON data structure. An attempt to access a non-existent
-member of an object or element of an array is defined as a
-structural error. SQL/JSON path expressions have two modes
-of handling structural errors:
+查詢 JSON 資料時，路徑運算式可能與實際的 JSON 資料結構不相符。嘗試存取物件中不存在的成員或陣列中不存在的元素，被定義為結構錯誤。SQL/JSON 路徑運算式有兩種處理結構錯誤的模式：
 
-* lax (default) — the path engine implicitly adapts
-  the queried data to the specified path.
-  Any structural errors that cannot be fixed as described below
-  are suppressed, producing no match.
-* strict — if a structural error occurs, an error is raised.
+* lax（寬鬆，預設）— 路徑引擎會隱含地讓所查詢的資料適應指定的路徑。任何無法依下述方式修正的結構錯誤都會被抑制，產生不相符的結果。
+* strict（嚴格）— 如果發生結構錯誤，就會引發錯誤。
 
-Lax mode facilitates matching of a JSON document and path
-expression when the JSON data does not conform to the expected schema.
-If an operand does not match the requirements of a particular operation,
-it can be automatically wrapped as an SQL/JSON array, or unwrapped by
-converting its elements into an SQL/JSON sequence before performing
-the operation. Also, comparison operators automatically unwrap their
-operands in lax mode, so you can compare SQL/JSON arrays
-out-of-the-box. An array of size 1 is considered equal to its sole element.
-Automatic unwrapping is not performed when:
+當 JSON 資料不符合預期的綱要時，寬鬆模式有助於讓 JSON 文件與路徑運算式相符。如果某個運算元不符合特定操作的要求，可以在執行該操作之前，自動將它包裝成 SQL/JSON 陣列，或是將其元素轉換為 SQL/JSON 序列來解除包裝。此外，比較運算子在寬鬆模式下會自動解除運算元的包裝，因此你可以直接比較 SQL/JSON 陣列。大小為 1 的陣列會被視為等於它唯一的元素。在下列情況下不會執行自動解除包裝：
 
-* The path expression contains `type()` or
-  `size()` methods that return the type
-  and the number of elements in the array, respectively.
-* The queried JSON data contain nested arrays. In this case, only
-  the outermost array is unwrapped, while all the inner arrays
-  remain unchanged. Thus, implicit unwrapping can only go one
-  level down within each path evaluation step.
+* 路徑運算式包含 `type()` 或 `size()` 方法，這兩個方法分別回傳陣列的型別與元素個數。
+* 所查詢的 JSON 資料包含巢狀陣列。在這種情況下，只有最外層的陣列會被解除包裝，所有內層陣列則保持不變。因此，在每個路徑求值步驟中，隱含的解除包裝只能向下深入一層。
 
-For example, when querying the GPS data listed above, you can
-abstract from the fact that it stores an array of segments
-when using lax mode:
+例如，查詢上面列出的 GPS 資料時，在使用寬鬆模式下，你可以不必理會它儲存的是區段陣列這件事：
 
 ```
 
@@ -1747,9 +1337,7 @@ when using lax mode:
  [47.706, 13.2635]
 ```
 
-In strict mode, the specified path must exactly match the structure of
-the queried JSON document, so using this path
-expression will cause an error:
+在嚴格模式下，指定的路徑必須完全符合所查詢 JSON 文件的結構，因此使用這個路徑運算式會導致錯誤：
 
 ```
 
@@ -1757,8 +1345,7 @@ expression will cause an error:
 ERROR:  jsonpath member accessor can only be applied to an object
 ```
 
-To get the same result as in lax mode, you have to explicitly unwrap the
-`segments` array:
+若要得到與寬鬆模式相同的結果，你必須明確地解除 `segments` 陣列的包裝：
 
 ```
 
@@ -1769,9 +1356,7 @@ To get the same result as in lax mode, you have to explicitly unwrap the
  [47.706, 13.2635]
 ```
 
-The unwrapping behavior of lax mode can lead to surprising results. For
-instance, the following query using the `.**` accessor
-selects every `HR` value twice:
+寬鬆模式的解除包裝行為可能會導致出人意料的結果。例如，下面這個使用 `.**` 存取子的查詢，會將每個 `HR` 值都選取兩次：
 
 ```
 
@@ -1784,12 +1369,7 @@ selects every `HR` value twice:
  135
 ```
 
-This happens because the `.**` accessor selects both
-the `segments` array and each of its elements, while
-the `.HR` accessor automatically unwraps arrays when
-using lax mode. To avoid surprising results, we recommend using
-the `.**` accessor only in strict mode. The
-following query selects each `HR` value just once:
+會發生這種情況，是因為 `.**` 存取子同時選取了 `segments` 陣列及其每個元素，而 `.HR` 存取子在寬鬆模式下會自動解除陣列的包裝。為了避免出人意料的結果，我們建議只在嚴格模式下使用 `.**` 存取子。下面的查詢只會將每個 `HR` 值選取一次：
 
 ```
 
@@ -1800,8 +1380,7 @@ following query selects each `HR` value just once:
  135
 ```
 
-The unwrapping of arrays can also lead to unexpected results. Consider this
-example, which selects all the `location` arrays:
+陣列的解除包裝也可能導致非預期的結果。請看這個選取所有 `location` 陣列的範例：
 
 ```
 
@@ -1813,9 +1392,7 @@ example, which selects all the `location` arrays:
 (2 rows)
 ```
 
-As expected it returns the full arrays. But applying a filter expression
-causes the arrays to be unwrapped to evaluate each item, returning only the
-items that match the expression:
+如預期般，它會回傳完整的陣列。但套用篩選運算式會使陣列被解除包裝，以便對每個項目求值，結果只回傳符合運算式的項目：
 
 ```
 
@@ -1827,8 +1404,7 @@ items that match the expression:
 (2 rows)
 ```
 
-This despite the fact that the full arrays are selected by the path
-expression. Use strict mode to restore selecting the arrays:
+儘管路徑運算式選取的是完整的陣列，結果仍是如此。請使用嚴格模式來恢復選取陣列：
 
 ```
 
@@ -1842,35 +1418,28 @@ expression. Use strict mode to restore selecting the arrays:
 
 <a id="FUNCTIONS-SQLJSON-PATH-OPERATORS"></a>
 
-#### 9.16.2.3. SQL/JSON Path Operators and Methods [#](#FUNCTIONS-SQLJSON-PATH-OPERATORS)
+#### 9.16.2.3. SQL/JSON 路徑運算子與方法 [#](#FUNCTIONS-SQLJSON-PATH-OPERATORS)
 
-[Table 9.52](functions-json.md#FUNCTIONS-SQLJSON-OP-TABLE) shows the operators and
-methods available in `jsonpath`. Note that while the unary
-operators and methods can be applied to multiple values resulting from a
-preceding path step, the binary operators (addition etc.) can only be
-applied to single values. In lax mode, methods applied to an array will be
-executed for each value in the array. The exceptions are
-`.type()` and `.size()`, which apply to
-the array itself.
+[表 9.52](functions-json.md#FUNCTIONS-SQLJSON-OP-TABLE) 列出了 `jsonpath` 中可用的運算子與方法。請注意，一元運算子與方法可以套用在前一個路徑步驟所產生的多個值上，而二元運算子（加法等）只能套用在單一值上。在寬鬆模式下，套用在陣列上的方法會對陣列中的每個值執行。例外的是 `.type()` 與 `.size()`，它們會套用在陣列本身。
 
 <a id="FUNCTIONS-SQLJSON-OP-TABLE"></a>
 
-**Table 9.52. `jsonpath` Operators and Methods**
+**表 9.52. `jsonpath` 運算子與方法**
 
 <table border="1" class="table" summary="jsonpath Operators and Methods"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         Operator/Method
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <em class="replaceable"><code>number</code></em> <code class="literal">+</code> <em class="replaceable"><code>number</code></em>
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Addition
+        加法
        </p>
 <p>
 <code class="literal">jsonb_path_query('[2]', '$[0] + 3')</code>
@@ -1880,8 +1449,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Unary plus (no operation); unlike addition, this can iterate over
-        multiple values
+        一元正號（不做任何運算）；與加法不同，它可以對多個值逐一進行
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('{"x": [2,3,4]}', '+ $.x')</code>
@@ -1891,7 +1459,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Subtraction
+        減法
        </p>
 <p>
 <code class="literal">jsonb_path_query('[2]', '7 - $[0]')</code>
@@ -1901,8 +1469,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Negation; unlike subtraction, this can iterate over
-        multiple values
+        取負值；與減法不同，它可以對多個值逐一進行
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('{"x": [2,3,4]}', '- $.x')</code>
@@ -1912,7 +1479,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Multiplication
+        乘法
        </p>
 <p>
 <code class="literal">jsonb_path_query('[4]', '2 * $[0]')</code>
@@ -1922,7 +1489,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Division
+        除法
        </p>
 <p>
 <code class="literal">jsonb_path_query('[8.5]', '$[0] / 2')</code>
@@ -1932,7 +1499,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Modulo (remainder)
+        模數（餘數）
        </p>
 <p>
 <code class="literal">jsonb_path_query('[32]', '$[0] % 10')</code>
@@ -1942,7 +1509,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>string</code></em></code>
 </p>
 <p>
-        Type of the JSON item (see <code class="function">json_typeof</code>)
+        JSON 項目的型別（請參閱 <code class="function">json_typeof</code>）
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('[1, "2", {}]', '$[*].type()')</code>
@@ -1952,8 +1519,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Size of the JSON item (number of array elements, or 1 if not an
-        array)
+        JSON 項目的大小（陣列元素的個數；如果不是陣列則為 1）
        </p>
 <p>
 <code class="literal">jsonb_path_query('{"m": [11, 15]}', '$.m.size()')</code>
@@ -1963,7 +1529,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>boolean</code></em></code>
 </p>
 <p>
-        Boolean value converted from a JSON boolean, number, or string
+        從 JSON 布林值、數值或字串轉換而來的布林值
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('[1, "yes", false]', '$[*].boolean()')</code>
@@ -1973,8 +1539,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>string</code></em></code>
 </p>
 <p>
-        String value converted from a JSON boolean, number, string, or
-        datetime
+        從 JSON 布林值、數值、字串或日期時間轉換而來的字串值
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('[1.23, "xyz", false]', '$[*].string()')</code>
@@ -1988,8 +1553,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Approximate floating-point number converted from a JSON number or
-        string
+        從 JSON 數值或字串轉換而來的近似浮點數
        </p>
 <p>
 <code class="literal">jsonb_path_query('{"len": "1.9"}', '$.len.double() * 2')</code>
@@ -1999,7 +1563,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Nearest integer greater than or equal to the given number
+        大於或等於給定數值的最接近整數
        </p>
 <p>
 <code class="literal">jsonb_path_query('{"h": 1.3}', '$.h.ceiling()')</code>
@@ -2009,7 +1573,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Nearest integer less than or equal to the given number
+        小於或等於給定數值的最接近整數
        </p>
 <p>
 <code class="literal">jsonb_path_query('{"h": 1.7}', '$.h.floor()')</code>
@@ -2019,7 +1583,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>number</code></em></code>
 </p>
 <p>
-        Absolute value of the given number
+        給定數值的絕對值
        </p>
 <p>
 <code class="literal">jsonb_path_query('{"z": -0.3}', '$.z.abs()')</code>
@@ -2029,7 +1593,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>bigint</code></em></code>
 </p>
 <p>
-        Big integer value converted from a JSON number or string
+        從 JSON 數值或字串轉換而來的大整數值
        </p>
 <p>
 <code class="literal">jsonb_path_query('{"len": "9876543219"}', '$.len.bigint()')</code>
@@ -2039,9 +1603,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>decimal</code></em></code>
 </p>
 <p>
-        Rounded decimal value converted from a JSON number or string
-        (<code class="literal">precision</code> and <code class="literal">scale</code> must be
-        integer values)
+        從 JSON 數值或字串轉換而來、經過捨入的十進位值（<code class="literal">precision</code> 與 <code class="literal">scale</code> 必須是整數值）
        </p>
 <p>
 <code class="literal">jsonb_path_query('1234.5678', '$.decimal(6, 2)')</code>
@@ -2051,7 +1613,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>integer</code></em></code>
 </p>
 <p>
-        Integer value converted from a JSON number or string
+        從 JSON 數值或字串轉換而來的整數值
        </p>
 <p>
 <code class="literal">jsonb_path_query('{"len": "12345"}', '$.len.integer()')</code>
@@ -2061,30 +1623,25 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>numeric</code></em></code>
 </p>
 <p>
-        Numeric value converted from a JSON number or string
+        從 JSON 數值或字串轉換而來的 numeric 值
        </p>
 <p>
 <code class="literal">jsonb_path_query('{"len": "123.45"}', '$.len.number()')</code>
         → <code class="returnvalue">123.45</code>
 </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<em class="replaceable"><code>string</code></em> <code class="literal">.</code> <code class="literal">datetime()</code>
-        → <code class="returnvalue"><em class="replaceable"><code>datetime_type</code></em></code>
-        (see note)
+<em class="replaceable"><code>string</code></em> <code class="literal">.</code> <code class="literal">datetime()</code> → <code class="returnvalue"><em class="replaceable"><code>datetime_type</code></em></code>（請參閱注意事項）
        </p>
 <p>
-        Date/time value converted from a string
+        從字串轉換而來的日期／時間值
        </p>
 <p>
 <code class="literal">jsonb_path_query('["2015-8-1", "2015-08-12"]', '$[*] ? (@.datetime() &lt; "2015-08-2".datetime())')</code>
         → <code class="returnvalue">"2015-8-1"</code>
 </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<em class="replaceable"><code>string</code></em> <code class="literal">.</code> <code class="literal">datetime(<em class="replaceable"><code>template</code></em>)</code>
-        → <code class="returnvalue"><em class="replaceable"><code>datetime_type</code></em></code>
-        (see note)
+<em class="replaceable"><code>string</code></em> <code class="literal">.</code> <code class="literal">datetime(<em class="replaceable"><code>template</code></em>)</code> → <code class="returnvalue"><em class="replaceable"><code>datetime_type</code></em></code>（請參閱注意事項）
        </p>
 <p>
-        Date/time value converted from a string using the
-        specified <code class="function">to_timestamp</code> template
+        使用指定的 <code class="function">to_timestamp</code> 樣板，從字串轉換而來的日期／時間值
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('["12:30", "18:40"]', '$[*].datetime("HH24:MI")')</code>
@@ -2094,7 +1651,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>date</code></em></code>
 </p>
 <p>
-        Date value converted from a string
+        從字串轉換而來的日期值
        </p>
 <p>
 <code class="literal">jsonb_path_query('"2023-08-15"', '$.date()')</code>
@@ -2104,7 +1661,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>time without time zone</code></em></code>
 </p>
 <p>
-        Time without time zone value converted from a string
+        從字串轉換而來的不帶時區的時間值
        </p>
 <p>
 <code class="literal">jsonb_path_query('"12:34:56"', '$.time()')</code>
@@ -2114,8 +1671,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>time without time zone</code></em></code>
 </p>
 <p>
-        Time without time zone value converted from a string, with fractional
-        seconds adjusted to the given precision
+        從字串轉換而來的不帶時區的時間值，其小數秒會調整為給定的精確度
        </p>
 <p>
 <code class="literal">jsonb_path_query('"12:34:56.789"', '$.time(2)')</code>
@@ -2125,7 +1681,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>time with time zone</code></em></code>
 </p>
 <p>
-        Time with time zone value converted from a string
+        從字串轉換而來的帶時區的時間值
        </p>
 <p>
 <code class="literal">jsonb_path_query('"12:34:56 +05:30"', '$.time_tz()')</code>
@@ -2135,8 +1691,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>time with time zone</code></em></code>
 </p>
 <p>
-        Time with time zone value converted from a string, with fractional
-        seconds adjusted to the given precision
+        從字串轉換而來的帶時區的時間值，其小數秒會調整為給定的精確度
        </p>
 <p>
 <code class="literal">jsonb_path_query('"12:34:56.789 +05:30"', '$.time_tz(2)')</code>
@@ -2146,7 +1701,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>timestamp without time zone</code></em></code>
 </p>
 <p>
-        Timestamp without time zone value converted from a string
+        從字串轉換而來的不帶時區的時間戳記值
        </p>
 <p>
 <code class="literal">jsonb_path_query('"2023-08-15 12:34:56"', '$.timestamp()')</code>
@@ -2156,8 +1711,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>timestamp without time zone</code></em></code>
 </p>
 <p>
-        Timestamp without time zone value converted from a string, with
-        fractional seconds adjusted to the given precision
+        從字串轉換而來的不帶時區的時間戳記值，其小數秒會調整為給定的精確度
        </p>
 <p>
 <code class="literal">jsonb_path_query('"2023-08-15 12:34:56.789"', '$.timestamp(2)')</code>
@@ -2167,7 +1721,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>timestamp with time zone</code></em></code>
 </p>
 <p>
-        Timestamp with time zone value converted from a string
+        從字串轉換而來的帶時區的時間戳記值
        </p>
 <p>
 <code class="literal">jsonb_path_query('"2023-08-15 12:34:56 +05:30"', '$.timestamp_tz()')</code>
@@ -2177,8 +1731,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>timestamp with time zone</code></em></code>
 </p>
 <p>
-        Timestamp with time zone value converted from a string, with fractional
-        seconds adjusted to the given precision
+        從字串轉換而來的帶時區的時間戳記值，其小數秒會調整為給定的精確度
        </p>
 <p>
 <code class="literal">jsonb_path_query('"2023-08-15 12:34:56.789 +05:30"', '$.timestamp_tz(2)')</code>
@@ -2188,11 +1741,7 @@ the array itself.
         → <code class="returnvalue"><em class="replaceable"><code>array</code></em></code>
 </p>
 <p>
-        The object's key-value pairs, represented as an array of objects
-        containing three fields: <code class="literal">"key"</code>,
-        <code class="literal">"value"</code>, and <code class="literal">"id"</code>;
-        <code class="literal">"id"</code> is a unique identifier of the object the
-        key-value pair belongs to
+        物件的鍵值對，表示為一個由物件組成的陣列，每個物件包含三個欄位：<code class="literal">"key"</code>、<code class="literal">"value"</code> 與 <code class="literal">"id"</code>；其中 <code class="literal">"id"</code> 是該鍵值對所屬之物件的唯一識別碼
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('{"x": "20", "y": 32}', '$.keyvalue()')</code>
@@ -2201,69 +1750,38 @@ the array itself.
 
 <br>
 
-### Note
+### 注意
 
-The result type of the `datetime()` and
-`datetime(template)`
-methods can be `date`, `timetz`, `time`,
-`timestamptz`, or `timestamp`.
-Both methods determine their result type dynamically.
+`datetime()` 與 `datetime(template)` 方法的結果型別可以是 `date`、`timetz`、`time`、`timestamptz` 或 `timestamp`。這兩個方法都會動態地決定其結果型別。
 
-The `datetime()` method sequentially tries to
-match its input string to the ISO formats
-for `date`, `timetz`, `time`,
-`timestamptz`, and `timestamp`. It stops on
-the first matching format and emits the corresponding data type.
+`datetime()` 方法會依序嘗試將其輸入字串與 `date`、`timetz`、`time`、`timestamptz` 以及 `timestamp` 的 ISO 格式進行比對。它會在第一個相符的格式停止，並產生對應的資料型別。
 
-The `datetime(template)`
-method determines the result type according to the fields used in the
-provided template string.
+`datetime(template)` 方法會依據所提供之樣板字串中使用的欄位來決定結果型別。
 
-The `datetime()` and
-`datetime(template)` methods
-use the same parsing rules as the `to_timestamp` SQL
-function does (see [Section 9.8](functions-formatting.md)), with three
-exceptions. First, these methods don't allow unmatched template
-patterns. Second, only the following separators are allowed in the
-template string: minus sign, period, solidus (slash), comma, apostrophe,
-semicolon, colon and space. Third, separators in the template string
-must exactly match the input string.
+`datetime()` 與 `datetime(template)` 方法使用與 SQL 函式 `to_timestamp` 相同的剖析規則（請參閱[第 9.8 節](functions-formatting.md)），但有三個例外。第一，這些方法不允許不相符的樣板模式。第二，樣板字串中只允許使用下列分隔符號：減號、句點、斜線（solidus）、逗號、撇號、分號、冒號與空白。第三，樣板字串中的分隔符號必須與輸入字串完全相符。
 
-If different date/time types need to be compared, an implicit cast is
-applied. A `date` value can be cast to `timestamp`
-or `timestamptz`, `timestamp` can be cast to
-`timestamptz`, and `time` to `timetz`.
-However, all but the first of these conversions depend on the current
-[TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) setting, and thus can only be performed
-within timezone-aware `jsonpath` functions. Similarly, other
-date/time-related methods that convert strings to date/time types
-also do this casting, which may involve the current
-[TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) setting. Therefore, these conversions can
-also only be performed within timezone-aware `jsonpath`
-functions.
+如果需要比較不同的日期／時間型別，會套用隱含的型別轉換。`date` 值可以轉換為 `timestamp` 或 `timestamptz`，`timestamp` 可以轉換為 `timestamptz`，而 `time` 可以轉換為 `timetz`。不過，除了第一種以外，這些轉換都取決於目前的 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 設定，因此只能在具時區感知能力的 `jsonpath` 函式中執行。同樣地，其他將字串轉換為日期／時間型別之日期／時間相關方法也會進行這種型別轉換，而這可能涉及目前的 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 設定。因此，這些轉換也只能在具時區感知能力的 `jsonpath` 函式中執行。
 
-[Table 9.53](functions-json.md#FUNCTIONS-SQLJSON-FILTER-EX-TABLE) shows the available
-filter expression elements.
+[表 9.53](functions-json.md#FUNCTIONS-SQLJSON-FILTER-EX-TABLE) 列出了可用的篩選運算式元素。
 
 <a id="FUNCTIONS-SQLJSON-FILTER-EX-TABLE"></a>
 
-**Table 9.53. `jsonpath` Filter Expression Elements**
+**表 9.53. `jsonpath` 篩選運算式元素**
 
 <table border="1" class="table" summary="jsonpath Filter Expression Elements"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         Predicate/Value
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <em class="replaceable"><code>value</code></em> <code class="literal">==</code> <em class="replaceable"><code>value</code></em>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Equality comparison (this, and the other comparison operators, work on
-        all JSON scalar values)
+        相等比較（這個運算子以及其他比較運算子都適用於所有 JSON 純量值）
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('[1, "a", 1, 3]', '$[*] ? (@ == 1)')</code>
@@ -2281,7 +1799,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Non-equality comparison
+        不相等比較
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('[1, 2, 1, 3]', '$[*] ? (@ != 1)')</code>
@@ -2295,7 +1813,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Less-than comparison
+        小於比較
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('[1, 2, 3]', '$[*] ? (@ &lt; 2)')</code>
@@ -2305,7 +1823,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Less-than-or-equal-to comparison
+        小於或等於比較
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('["a", "b", "c"]', '$[*] ? (@ &lt;= "b")')</code>
@@ -2315,7 +1833,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Greater-than comparison
+        大於比較
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('[1, 2, 3]', '$[*] ? (@ &gt; 2)')</code>
@@ -2325,7 +1843,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Greater-than-or-equal-to comparison
+        大於或等於比較
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('[1, 2, 3]', '$[*] ? (@ &gt;= 2)')</code>
@@ -2335,7 +1853,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        JSON constant <code class="literal">true</code>
+        JSON 常數 <code class="literal">true</code>
 </p>
 <p>
 <code class="literal">jsonb_path_query('[{"name": "John", "parent": false}, {"name": "Chris", "parent": true}]', '$[*] ? (@.parent == true)')</code>
@@ -2345,7 +1863,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        JSON constant <code class="literal">false</code>
+        JSON 常數 <code class="literal">false</code>
 </p>
 <p>
 <code class="literal">jsonb_path_query('[{"name": "John", "parent": false}, {"name": "Chris", "parent": true}]', '$[*] ? (@.parent == false)')</code>
@@ -2355,8 +1873,7 @@ filter expression elements.
         → <code class="returnvalue"><em class="replaceable"><code>value</code></em></code>
 </p>
 <p>
-        JSON constant <code class="literal">null</code> (note that, unlike in SQL,
-        comparison to <code class="literal">null</code> works normally)
+        JSON 常數 <code class="literal">null</code>（請注意，與 SQL 不同，與 <code class="literal">null</code> 的比較會正常運作）
        </p>
 <p>
 <code class="literal">jsonb_path_query('[{"name": "Mary", "job": null}, {"name": "Michael", "job": "driver"}]', '$[*] ? (@.job == null) .name')</code>
@@ -2366,7 +1883,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Boolean AND
+        布林 AND
        </p>
 <p>
 <code class="literal">jsonb_path_query('[1, 3, 7]', '$[*] ? (@ &gt; 1 &amp;&amp; @ &lt; 5)')</code>
@@ -2376,7 +1893,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Boolean OR
+        布林 OR
        </p>
 <p>
 <code class="literal">jsonb_path_query('[1, 3, 7]', '$[*] ? (@ &lt; 1 || @ &gt; 5)')</code>
@@ -2386,7 +1903,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Boolean NOT
+        布林 NOT
        </p>
 <p>
 <code class="literal">jsonb_path_query('[1, 3, 7]', '$[*] ? (!(@ &lt; 5))')</code>
@@ -2396,7 +1913,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Tests whether a Boolean condition is <code class="literal">unknown</code>.
+        測試布林條件是否為 <code class="literal">unknown</code>。
        </p>
 <p>
 <code class="literal">jsonb_path_query('[-1, 2, 7, "foo"]', '$[*] ? ((@ &gt; 0) is unknown)')</code>
@@ -2406,10 +1923,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Tests whether the first operand matches the regular expression
-        given by the second operand, optionally with modifications
-        described by a string of <code class="literal">flag</code> characters (see
-        <a class="xref" href="functions-json.md#JSONPATH-REGULAR-EXPRESSIONS">Section 9.16.2.4</a>).
+        測試第一個運算元是否符合第二個運算元所給的正規表示式，並可選擇性地套用由 <code class="literal">flag</code> 字元字串所描述的修改（請參閱<a class="xref" href="functions-json.md#JSONPATH-REGULAR-EXPRESSIONS">第 9.16.2.4 節</a>）。
        </p>
 <p>
 <code class="literal">jsonb_path_query_array('["abc", "abd", "aBdC", "abdacb", "babc"]', '$[*] ? (@ like_regex "^ab.*c")')</code>
@@ -2423,8 +1937,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Tests whether the second operand is an initial substring of the first
-        operand.
+        測試第二個運算元是否為第一個運算元的開頭子字串。
        </p>
 <p>
 <code class="literal">jsonb_path_query('["John Smith", "Mary Stone", "Bob Johnson"]', '$[*] ? (@ starts with "John")')</code>
@@ -2434,10 +1947,7 @@ filter expression elements.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Tests whether a path expression matches at least one SQL/JSON item.
-        Returns <code class="literal">unknown</code> if the path expression would result
-        in an error; the second example uses this to avoid a no-such-key error
-        in strict mode.
+        測試路徑運算式是否至少符合一個 SQL/JSON 項目。如果路徑運算式會導致錯誤，就回傳 <code class="literal">unknown</code>；第二個範例利用這一點，避免在嚴格模式下發生鍵不存在的錯誤。
        </p>
 <p>
 <code class="literal">jsonb_path_query('{"x": [1, 2], "y": [2, 4]}', 'strict $.* ? (exists (@ ? (@[*] &gt; 2)))')</code>
@@ -2452,48 +1962,22 @@ filter expression elements.
 
 <a id="JSONPATH-REGULAR-EXPRESSIONS"></a>
 
-#### 9.16.2.4. SQL/JSON Regular Expressions [#](#JSONPATH-REGULAR-EXPRESSIONS)
+#### 9.16.2.4. SQL/JSON 正規表示式 [#](#JSONPATH-REGULAR-EXPRESSIONS)
 
 <a id="id-1.5.8.22.9.23.2"></a>
 
-SQL/JSON path expressions allow matching text to a regular expression
-with the `like_regex` filter. For example, the
-following SQL/JSON path query would case-insensitively match all
-strings in an array that start with an English vowel:
+SQL/JSON 路徑運算式可以使用 `like_regex` 篩選，將文字與正規表示式進行比對。例如，下面的 SQL/JSON 路徑查詢會以不區分大小寫的方式，比對陣列中所有以英文母音開頭的字串：
 
 ```
 
 $[*] ? (@ like_regex "^[aeiou]" flag "i")
 ```
 
-The optional `flag` string may include one or more of
-the characters
-`i` for case-insensitive match,
-`m` to allow `^`
-and `$` to match at newlines,
-`s` to allow `.` to match a newline,
-and `q` to quote the whole pattern (reducing the
-behavior to a simple substring match).
+選用的 `flag` 字串可以包含下列一個或多個字元：`i` 表示不區分大小寫的比對，`m` 允許 `^` 與 `$` 在換行處比對，`s` 允許 `.` 比對換行字元，而 `q` 則將整個模式加上引號（使行為簡化為單純的子字串比對）。
 
-The SQL/JSON standard borrows its definition for regular expressions
-from the `LIKE_REGEX` operator, which in turn uses the
-XQuery standard. PostgreSQL does not currently support the
-`LIKE_REGEX` operator. Therefore,
-the `like_regex` filter is implemented using the
-POSIX regular expression engine described in
-[Section 9.7.3](functions-matching.md#FUNCTIONS-POSIX-REGEXP). This leads to various minor
-discrepancies from standard SQL/JSON behavior, which are cataloged in
-[Section 9.7.3.8](functions-matching.md#POSIX-VS-XQUERY).
-Note, however, that the flag-letter incompatibilities described there
-do not apply to SQL/JSON, as it translates the XQuery flag letters to
-match what the POSIX engine expects.
+SQL/JSON 標準的正規表示式定義借用自 `LIKE_REGEX` 運算子，而該運算子又使用 XQuery 標準。PostgreSQL 目前並不支援 `LIKE_REGEX` 運算子。因此，`like_regex` 篩選是使用[第 9.7.3 節](functions-matching.md#FUNCTIONS-POSIX-REGEXP)所述的 POSIX 正規表示式引擎實作的。這導致了與標準 SQL/JSON 行為之間的各種細微差異，這些差異整理於[第 9.7.3.8 節](functions-matching.md#POSIX-VS-XQUERY)。不過請注意，該處所述的旗標字母不相容問題並不適用於 SQL/JSON，因為它會將 XQuery 的旗標字母轉換為 POSIX 引擎所預期的形式。
 
-Keep in mind that the pattern argument of `like_regex`
-is a JSON path string literal, written according to the rules given in
-[Section 8.14.7](../datatype/datatype-json.md#DATATYPE-JSONPATH). This means in particular that any
-backslashes you want to use in the regular expression must be doubled.
-For example, to match string values of the root document that contain
-only digits:
+請記住，`like_regex` 的模式引數是一個 JSON 路徑字串字面值，依照[第 8.14.7 節](../datatype/datatype-json.md#DATATYPE-JSONPATH)所述的規則撰寫。這特別意味著，你想在正規表示式中使用的任何反斜線都必須重複兩次。例如，要比對根文件中只包含數字的字串值：
 
 ```
 
@@ -2502,34 +1986,22 @@ $.* ? (@ like_regex "^\\d+$")
 
 <a id="SQLJSON-QUERY-FUNCTIONS"></a>
 
-### 9.16.3. SQL/JSON Query Functions [#](#SQLJSON-QUERY-FUNCTIONS)
+### 9.16.3. SQL/JSON 查詢函式 [#](#SQLJSON-QUERY-FUNCTIONS)
 
-SQL/JSON functions `JSON_EXISTS()`,
-`JSON_QUERY()`, and `JSON_VALUE()`
-described in [Table 9.54](functions-json.md#FUNCTIONS-SQLJSON-QUERYING) can be used
-to query JSON documents. Each of these functions apply a
-*`path_expression`* (an SQL/JSON path query) to a
-*`context_item`* (the document). See
-[Section 9.16.2](functions-json.md#FUNCTIONS-SQLJSON-PATH) for more details on what
-the *`path_expression`* can contain. The
-*`path_expression`* can also reference variables,
-whose values are specified with their respective names in the
-`PASSING` clause that is supported by each function.
-*`context_item`* can be a `jsonb` value
-or a character string that can be successfully cast to `jsonb`.
+[表 9.54](functions-json.md#FUNCTIONS-SQLJSON-QUERYING) 所述的 SQL/JSON 函式 `JSON_EXISTS()`、`JSON_QUERY()` 與 `JSON_VALUE()` 可用來查詢 JSON 文件。這些函式都會將 *`path_expression`*（SQL/JSON 路徑查詢）套用到 *`context_item`*（文件）上。關於 *`path_expression`* 可以包含哪些內容的詳細資訊，請參閱[第 9.16.2 節](functions-json.md#FUNCTIONS-SQLJSON-PATH)。*`path_expression`* 也可以參照變數，變數的值是透過每個函式都支援的 `PASSING` 子句，以其各自的名稱來指定。*`context_item`* 可以是 `jsonb` 值，或是可以成功轉換為 `jsonb` 的字元字串。
 
 <a id="FUNCTIONS-SQLJSON-QUERYING"></a>
 
-**Table 9.54. SQL/JSON Query Functions**
+**表 9.54. SQL/JSON 查詢函式**
 
 <table border="1" class="table" summary="SQL/JSON Query Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function signature
+        函式簽章
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
       </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.22.10.3.2.2.1.1.1.1"></a>
 </p><pre class="synopsis">
@@ -2540,22 +2012,12 @@ or a character string that can be successfully cast to `jsonb`.
 </pre><p class="func_signature">
 </p>
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
-        Returns true if the SQL/JSON <em class="replaceable"><code>path_expression</code></em>
-        applied to the <em class="replaceable"><code>context_item</code></em> yields any
-        items, false otherwise.
+        如果 SQL/JSON <em class="replaceable"><code>path_expression</code></em> 套用到 <em class="replaceable"><code>context_item</code></em> 時產生任何項目，就回傳 true，否則回傳 false。
        </p></li><li class="listitem"><p>
-        The <code class="literal">ON ERROR</code> clause specifies the behavior if
-        an error occurs during <em class="replaceable"><code>path_expression</code></em>
-        evaluation.  Specifying <code class="literal">ERROR</code> will cause an error to
-        be thrown with the appropriate message.  Other options include
-        returning <code class="type">boolean</code> values <code class="literal">FALSE</code> or
-        <code class="literal">TRUE</code> or the value <code class="literal">UNKNOWN</code> which
-        is actually an SQL NULL. The default when no <code class="literal">ON ERROR</code>
-        clause is specified is to return the <code class="type">boolean</code> value
-        <code class="literal">FALSE</code>.
+        <code class="literal">ON ERROR</code> 子句指定在 <em class="replaceable"><code>path_expression</code></em> 求值期間發生錯誤時的行為。指定 <code class="literal">ERROR</code> 會拋出帶有適當訊息的錯誤。其他選項包括回傳 <code class="type">boolean</code> 值 <code class="literal">FALSE</code> 或 <code class="literal">TRUE</code>，或是值 <code class="literal">UNKNOWN</code>（實際上就是 SQL NULL）。沒有指定 <code class="literal">ON ERROR</code> 子句時，預設是回傳 <code class="type">boolean</code> 值 <code class="literal">FALSE</code>。
        </p></li></ul></div>
 <p>
-        Examples:
+        範例：
        </p>
 <p>
 <code class="literal">JSON_EXISTS(jsonb '{"key1": [1,2,3]}', 'strict $.key1[*] ? (@ &gt; $x)' PASSING 2 AS x)</code>
@@ -2585,54 +2047,20 @@ ERROR:  jsonpath array subscript is out of bounds
 </pre><p class="func_signature">
 </p>
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
-        Returns the result of applying the SQL/JSON
-        <em class="replaceable"><code>path_expression</code></em> to the
-        <em class="replaceable"><code>context_item</code></em>.
+        回傳將 SQL/JSON <em class="replaceable"><code>path_expression</code></em> 套用到 <em class="replaceable"><code>context_item</code></em> 的結果。
        </p></li><li class="listitem"><p>
-         By default, the result is returned as a value of type <code class="type">jsonb</code>,
-         though the <code class="literal">RETURNING</code> clause can be used to return
-         as some other type to which it can be successfully coerced.
+         預設情況下，結果會以 <code class="type">jsonb</code> 型別的值回傳，不過可以使用 <code class="literal">RETURNING</code> 子句，以其他可以成功強制轉換的型別回傳。
        </p></li><li class="listitem"><p>
-        If the path expression may return multiple values, it might be necessary
-        to wrap those values using the <code class="literal">WITH WRAPPER</code> clause to
-        make it a valid JSON string, because the default behavior is to not wrap
-        them, as if <code class="literal">WITHOUT WRAPPER</code> were specified. The
-        <code class="literal">WITH WRAPPER</code> clause is by default taken to mean
-        <code class="literal">WITH UNCONDITIONAL WRAPPER</code>, which means that even a
-        single result value will be wrapped. To apply the wrapper only when
-        multiple values are present, specify <code class="literal">WITH CONDITIONAL WRAPPER</code>.
-        Getting multiple values in result will be treated as an error if
-        <code class="literal">WITHOUT WRAPPER</code> is specified.
+        如果路徑運算式可能回傳多個值，可能就需要使用 <code class="literal">WITH WRAPPER</code> 子句將這些值包裝起來，使其成為有效的 JSON 字串，因為預設行為是不包裝它們，就如同指定了 <code class="literal">WITHOUT WRAPPER</code> 一樣。<code class="literal">WITH WRAPPER</code> 子句預設被視為 <code class="literal">WITH UNCONDITIONAL WRAPPER</code>，這表示即使只有單一結果值也會被包裝。若只想在有多個值時才套用包裝，請指定 <code class="literal">WITH CONDITIONAL WRAPPER</code>。如果指定了 <code class="literal">WITHOUT WRAPPER</code>，結果中出現多個值會被視為錯誤。
        </p></li><li class="listitem"><p>
-        If the result is a scalar string, by default, the returned value will
-        be surrounded by quotes, making it a valid JSON value.  It can be made
-        explicit by specifying <code class="literal">KEEP QUOTES</code>.  Conversely,
-        quotes can be omitted by specifying <code class="literal">OMIT QUOTES</code>.
-        To ensure that the result is a valid JSON value, <code class="literal">OMIT QUOTES</code>
-        cannot be specified when <code class="literal">WITH WRAPPER</code> is also
-        specified.
+        如果結果是純量字串，預設情況下，回傳的值會以引號括起來，使其成為有效的 JSON 值。可以透過指定 <code class="literal">KEEP QUOTES</code> 來明確表示這一點。相反地，可以透過指定 <code class="literal">OMIT QUOTES</code> 來省略引號。為了確保結果是有效的 JSON 值，<code class="literal">OMIT QUOTES</code> 不能與 <code class="literal">WITH WRAPPER</code> 同時指定。
        </p></li><li class="listitem"><p>
-        The <code class="literal">ON EMPTY</code> clause specifies the behavior if
-        evaluating <em class="replaceable"><code>path_expression</code></em> yields an empty
-        set. The <code class="literal">ON ERROR</code> clause specifies the behavior
-        if an error occurs when evaluating <em class="replaceable"><code>path_expression</code></em>,
-        when coercing the result value to the <code class="literal">RETURNING</code> type,
-        or when evaluating the <code class="literal">ON EMPTY</code> expression if the
-        <em class="replaceable"><code>path_expression</code></em> evaluation returns an empty
-        set.
+        <code class="literal">ON EMPTY</code> 子句指定當 <em class="replaceable"><code>path_expression</code></em> 的求值產生空集合時的行為。<code class="literal">ON ERROR</code> 子句則指定在下列情況發生錯誤時的行為：對 <em class="replaceable"><code>path_expression</code></em> 求值時、將結果值強制轉換為 <code class="literal">RETURNING</code> 型別時，或是對 <code class="literal">ON EMPTY</code> 運算式求值時（此時 <em class="replaceable"><code>path_expression</code></em> 的求值回傳了空集合）。
        </p></li><li class="listitem"><p>
-        For both <code class="literal">ON EMPTY</code> and <code class="literal">ON ERROR</code>,
-        specifying <code class="literal">ERROR</code> will cause an error to be thrown with
-        the appropriate message. Other options include returning an SQL NULL, an
-        empty array (<code class="literal">EMPTY [<span class="optional">ARRAY</span>]</code>),
-        an empty object (<code class="literal">EMPTY OBJECT</code>), or a user-specified
-        expression (<code class="literal">DEFAULT</code> <em class="replaceable"><code>expression</code></em>)
-        that can be coerced to jsonb or the type specified in <code class="literal">RETURNING</code>.
-        The default when <code class="literal">ON EMPTY</code> or <code class="literal">ON ERROR</code>
-        is not specified is to return an SQL NULL value.
+        對於 <code class="literal">ON EMPTY</code> 與 <code class="literal">ON ERROR</code> 兩者，指定 <code class="literal">ERROR</code> 都會拋出帶有適當訊息的錯誤。其他選項包括回傳 SQL NULL、空陣列（<code class="literal">EMPTY [<span class="optional">ARRAY</span>]</code>）、空物件（<code class="literal">EMPTY OBJECT</code>），或是使用者指定的運算式（<code class="literal">DEFAULT</code> <em class="replaceable"><code>expression</code></em>），且該運算式可以強制轉換為 jsonb 或 <code class="literal">RETURNING</code> 中所指定的型別。未指定 <code class="literal">ON EMPTY</code> 或 <code class="literal">ON ERROR</code> 時，預設是回傳 SQL NULL 值。
        </p></li></ul></div>
 <p>
-        Examples:
+        範例：
        </p>
 <p>
 <code class="literal">JSON_QUERY(jsonb '[1,[2,3],null]', 'lax $[*][$off]' PASSING 1 AS off WITH CONDITIONAL WRAPPER)</code>
@@ -2662,32 +2090,18 @@ DETAIL:  Missing "]" after array dimensions.
 </pre><p class="func_signature">
 </p>
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
-        Returns the result of applying the SQL/JSON
-        <em class="replaceable"><code>path_expression</code></em> to the
-        <em class="replaceable"><code>context_item</code></em>.
+        回傳將 SQL/JSON <em class="replaceable"><code>path_expression</code></em> 套用到 <em class="replaceable"><code>context_item</code></em> 的結果。
        </p></li><li class="listitem"><p>
-        Only use <code class="function">JSON_VALUE()</code> if the extracted value is
-        expected to be a single <acronym class="acronym">SQL/JSON</acronym> scalar item;
-        getting multiple values will be treated as an error. If you expect that
-        extracted value might be an object or an array, use the
-        <code class="function">JSON_QUERY</code> function instead.
+        只有在預期擷取出的值是單一的 <acronym class="acronym">SQL/JSON</acronym> 純量項目時，才使用 <code class="function">JSON_VALUE()</code>；取得多個值會被視為錯誤。如果你預期擷取出的值可能是物件或陣列，請改用 <code class="function">JSON_QUERY</code> 函式。
        </p></li><li class="listitem"><p>
-        By default, the result, which must be a single scalar value, is
-        returned as a value of type <code class="type">text</code>, though the
-        <code class="literal">RETURNING</code> clause can be used to return as some
-        other type to which it can be successfully coerced.
+        預設情況下，結果（必須是單一純量值）會以 <code class="type">text</code> 型別的值回傳，不過可以使用 <code class="literal">RETURNING</code> 子句，以其他可以成功強制轉換的型別回傳。
        </p></li><li class="listitem"><p>
-        The <code class="literal">ON ERROR</code> and <code class="literal">ON EMPTY</code>
-        clauses have similar semantics as mentioned in the description of
-        <code class="function">JSON_QUERY</code>, except the set of values returned in
-        lieu of throwing an error is different.
+        <code class="literal">ON ERROR</code> 與 <code class="literal">ON EMPTY</code> 子句的語意與 <code class="function">JSON_QUERY</code> 的說明中所述者類似，差別在於用來取代拋出錯誤而回傳的值的集合不同。
        </p></li><li class="listitem"><p>
-        Note that scalar strings returned by <code class="function">JSON_VALUE</code>
-        always have their quotes removed, equivalent to specifying
-        <code class="literal">OMIT QUOTES</code> in <code class="function">JSON_QUERY</code>.
+        請注意，<code class="function">JSON_VALUE</code> 回傳的純量字串一律會去除其引號，等同於指定了 <code class="literal">OMIT QUOTES</code> 的 <code class="function">JSON_QUERY</code>。
        </p></li></ul></div>
 <p>
-        Examples:
+        範例：
        </p>
 <p>
 <code class="literal">JSON_VALUE(jsonb '"123.45"', '$' RETURNING float)</code>
@@ -2709,71 +2123,31 @@ DETAIL:  Missing "]" after array dimensions.
 
 <br>
 
-### Note
+### 注意
 
-The *`context_item`* expression is converted to
-`jsonb` by an implicit cast if the expression is not already of
-type `jsonb`. Note, however, that any parsing errors that occur
-during that conversion are thrown unconditionally, that is, are not
-handled according to the (specified or implicit) `ON ERROR`
-clause.
+如果 *`context_item`* 運算式的型別還不是 `jsonb`，它會透過隱含的型別轉換轉為 `jsonb`。不過請注意，在該轉換過程中發生的任何剖析錯誤都會無條件拋出，也就是說，不會依照（明確指定或隱含的）`ON ERROR` 子句來處理。
 
-### Note
+### 注意
 
-`JSON_VALUE()` returns an SQL NULL if
-*`path_expression`* returns a JSON
-`null`, whereas `JSON_QUERY()` returns
-the JSON `null` as is.
+如果 *`path_expression`* 回傳 JSON `null`，`JSON_VALUE()` 會回傳 SQL NULL，而 `JSON_QUERY()` 則會原樣回傳 JSON `null`。
 
 <a id="FUNCTIONS-SQLJSON-TABLE"></a>
 
-### 9.16.4. JSON_TABLE [#](#FUNCTIONS-SQLJSON-TABLE)
+### 9.16.4. JSON_TABLE [#](#FUNCTIONS-SQLJSON-TABLE)
 
 <a id="id-1.5.8.22.11.2"></a>
 
-`JSON_TABLE` is an SQL/JSON function which
-queries JSON data
-and presents the results as a relational view, which can be accessed as a
-regular SQL table. You can use `JSON_TABLE` inside
-the `FROM` clause of a `SELECT`,
-`UPDATE`, or `DELETE` and as data source
-in a `MERGE` statement.
+`JSON_TABLE` 是一個 SQL/JSON 函式，它會查詢 JSON 資料，並將結果呈現為關聯式檢視表，讓你可以像一般 SQL 資料表那樣存取。你可以在 `SELECT`、`UPDATE` 或 `DELETE` 的 `FROM` 子句中使用 `JSON_TABLE`，也可以在 `MERGE` 陳述句中將它作為資料來源。
 
-Taking JSON data as input, `JSON_TABLE` uses a JSON path
-expression to extract a part of the provided data to use as a
-*row pattern* for the constructed view. Each SQL/JSON
-value given by the row pattern serves as source for a separate row in the
-constructed view.
+`JSON_TABLE` 以 JSON 資料作為輸入，使用 JSON 路徑運算式擷取所提供資料的一部分，作為所建構之檢視表的*資料列模式*（row pattern）。由資料列模式所給出的每個 SQL/JSON 值，都會作為所建構檢視表中一個獨立資料列的來源。
 
-To split the row pattern into columns, `JSON_TABLE`
-provides the `COLUMNS` clause that defines the
-schema of the created view. For each column, a separate JSON path expression
-can be specified to be evaluated against the row pattern to get an SQL/JSON
-value that will become the value for the specified column in a given output
-row.
+為了將資料列模式拆分為欄位，`JSON_TABLE` 提供了 `COLUMNS` 子句，用來定義所建立之檢視表的綱要。對於每個欄位，可以指定一個獨立的 JSON 路徑運算式，針對資料列模式進行求值，以取得一個 SQL/JSON 值，該值將成為指定輸出資料列中指定欄位的值。
 
-JSON data stored at a nested level of the row pattern can be extracted using
-the `NESTED PATH` clause. Each
-`NESTED PATH` clause can be used to generate one or more
-columns using the data from a nested level of the row pattern. Those
-columns can be specified using a `COLUMNS` clause that
-looks similar to the top-level COLUMNS clause. Rows constructed from
-NESTED COLUMNS are called *child rows* and are joined
-against the row constructed from the columns specified in the parent
-`COLUMNS` clause to get the row in the final view. Child
-columns themselves may contain a `NESTED PATH`
-specification thus allowing to extract data located at arbitrary nesting
-levels. Columns produced by multiple `NESTED PATH`s at the
-same level are considered to be *siblings* of each
-other and their rows after joining with the parent row are combined using
-UNION.
+儲存在資料列模式之巢狀層級中的 JSON 資料，可以使用 `NESTED PATH` 子句擷取。每個 `NESTED PATH` 子句都可以使用資料列模式某個巢狀層級的資料，產生一個或多個欄位。這些欄位可以使用外觀類似於最上層 COLUMNS 子句的 `COLUMNS` 子句來指定。由 NESTED COLUMNS 建構的資料列稱為*子資料列*（child row），它們會與由上層 `COLUMNS` 子句所指定之欄位建構出的資料列聯結，以得到最終檢視表中的資料列。子欄位本身也可以包含 `NESTED PATH` 規格，因此可以擷取位於任意巢狀層級的資料。在同一層級由多個 `NESTED PATH` 產生的欄位，彼此被視為*兄弟*（sibling），而它們與上層資料列聯結後的資料列會使用 UNION 加以合併。
 
-The rows produced by `JSON_TABLE` are laterally
-joined to the row that generated them, so you do not have to explicitly join
-the constructed view with the original table holding JSON
-data.
+`JSON_TABLE` 產生的資料列會以 lateral 方式聯結到產生它們的資料列，因此你不必明確地將所建構的檢視表與存放 JSON 資料的原始資料表進行聯結。
 
-The syntax is:
+語法為：
 
 ```
 
@@ -2799,130 +2173,61 @@ where json_table_column is:
   | NESTED [ PATH ] path_expression [ AS json_path_name ] COLUMNS ( json_table_column [, ...] )
 ```
 
-Each syntax element is described below in more detail.
+下面會更詳細地說明每個語法元素。
 
 `context_item, path_expression [ AS json_path_name ] [ PASSING { value AS varname } [, ...]]`
-:   The *`context_item`* specifies the input document
-    to query, the *`path_expression`* is an SQL/JSON
-    path expression defining the query, and *`json_path_name`*
-    is an optional name for the *`path_expression`*.
-    The optional `PASSING` clause provides data values for
-    the variables mentioned in the *`path_expression`*.
-    The result of the input data evaluation using the aforementioned elements
-    is called the *row pattern*, which is used as the
-    source for row values in the constructed view.
+:   *`context_item`* 指定要查詢的輸入文件，*`path_expression`* 是定義查詢的 SQL/JSON 路徑運算式，而 *`json_path_name`* 則是 *`path_expression`* 的選用名稱。選用的 `PASSING` 子句為 *`path_expression`* 中提到的變數提供資料值。使用上述元素對輸入資料求值的結果稱為*資料列模式*，用來作為所建構之檢視表中資料列值的來源。
 
 `COLUMNS` ( *`json_table_column`* [, ...] )
-:   The `COLUMNS` clause defining the schema of the
-    constructed view. In this clause, you can specify each column to be
-    filled with an SQL/JSON value obtained by applying a JSON path expression
-    against the row pattern. *`json_table_column`* has
-    the following variants:
+:   `COLUMNS` 子句定義所建構之檢視表的綱要。在這個子句中，你可以指定每個欄位要填入的 SQL/JSON 值，該值是透過針對資料列模式套用 JSON 路徑運算式所取得。*`json_table_column`* 有下列幾種變形：
 
     *`name`* `FOR ORDINALITY`
-    :   Adds an ordinality column that provides sequential row numbering starting
-        from 1. Each `NESTED PATH` (see below) gets its own
-        counter for any nested ordinality columns.
+    :   加入一個序數欄位，提供從 1 開始的循序資料列編號。每個 `NESTED PATH`（見下文）對於其中任何巢狀的序數欄位，都有自己的計數器。
 
     `name type [FORMAT JSON [ENCODING UTF8]] [ PATH path_expression ]`
-    :   Inserts an SQL/JSON value obtained by applying
-        *`path_expression`* against the row pattern into
-        the view's output row after coercing it to specified
-        *`type`*.
+    :   將針對資料列模式套用 *`path_expression`* 所取得的 SQL/JSON 值，強制轉換為指定的 *`type`* 之後，插入檢視表的輸出資料列中。
 
-        Specifying `FORMAT JSON` makes it explicit that you
-        expect the value to be a valid `json` object. It only
-        makes sense to specify `FORMAT JSON` if
-        *`type`* is one of `bpchar`,
-        `bytea`, `character varying`, `name`,
-        `json`, `jsonb`, `text`, or a domain over
-        these types.
+        指定 `FORMAT JSON` 可明確表示你預期該值是有效的 `json` 物件。只有當 *`type`* 是 `bpchar`、`bytea`、`character varying`、`name`、`json`、`jsonb`、`text` 之一，或是以這些型別為基礎的領域（domain）時，指定 `FORMAT JSON` 才有意義。
 
-        Optionally, you can specify `WRAPPER` and
-        `QUOTES` clauses to format the output. Note that
-        specifying `OMIT QUOTES` overrides
-        `FORMAT JSON` if also specified, because unquoted
-        literals do not constitute valid `json` values.
+        你可以選擇性地指定 `WRAPPER` 與 `QUOTES` 子句來格式化輸出。請注意，如果同時指定了 `OMIT QUOTES` 與 `FORMAT JSON`，前者會覆寫後者，因為沒有加引號的字面值並不構成有效的 `json` 值。
 
-        Optionally, you can use `ON EMPTY` and
-        `ON ERROR` clauses to specify whether to throw the error
-        or return the specified value when the result of JSON path evaluation is
-        empty and when an error occurs during JSON path evaluation or when
-        coercing the SQL/JSON value to the specified type, respectively. The
-        default for both is to return a `NULL` value.
+        你可以選擇性地使用 `ON EMPTY` 與 `ON ERROR` 子句，分別指定當 JSON 路徑求值的結果為空時，以及當 JSON 路徑求值期間或將 SQL/JSON 值強制轉換為指定型別時發生錯誤時，要拋出錯誤還是回傳指定的值。兩者的預設都是回傳 `NULL` 值。
 
-        ### Note
+        ### 注意
 
-        This clause is internally turned into and has the same semantics as
-        `JSON_VALUE` or `JSON_QUERY`.
-        The latter if the specified type is not a scalar type or if either of
-        `FORMAT JSON`, `WRAPPER`, or
-        `QUOTES` clause is present.
+        這個子句在內部會被轉換為 `JSON_VALUE` 或 `JSON_QUERY`，並具有與其相同的語意。如果指定的型別不是純量型別，或是出現了 `FORMAT JSON`、`WRAPPER` 或 `QUOTES` 子句中的任何一個，就會轉換為後者。
 
     *`name`* *`type`* `EXISTS` [ `PATH` *`path_expression`* ]
-    :   Inserts a boolean value obtained by applying
-        *`path_expression`* against the row pattern
-        into the view's output row after coercing it to specified
-        *`type`*.
+    :   將針對資料列模式套用 *`path_expression`* 所取得的布林值，強制轉換為指定的 *`type`* 之後，插入檢視表的輸出資料列中。
 
-        The value corresponds to whether applying the `PATH`
-        expression to the row pattern yields any values.
+        該值對應於將 `PATH` 運算式套用到資料列模式後，是否產生任何值。
 
-        The specified *`type`* should have a cast from the
-        `boolean` type.
+        指定的 *`type`* 應該要有從 `boolean` 型別轉換過來的型別轉換。
 
-        Optionally, you can use `ON ERROR` to specify whether to
-        throw the error or return the specified value when an error occurs during
-        JSON path evaluation or when coercing SQL/JSON value to the specified
-        type. The default is to return a boolean value
-        `FALSE`.
+        你可以選擇性地使用 `ON ERROR`，指定當 JSON 路徑求值期間或將 SQL/JSON 值強制轉換為指定型別時發生錯誤時，要拋出錯誤還是回傳指定的值。預設是回傳布林值 `FALSE`。
 
-        ### Note
+        ### 注意
 
-        This clause is internally turned into and has the same semantics as
-        `JSON_EXISTS`.
+        這個子句在內部會被轉換為 `JSON_EXISTS`，並具有與其相同的語意。
 
     `NESTED [ PATH ]` *`path_expression`* [ `AS` *`json_path_name`* ] `COLUMNS` ( *`json_table_column`* [, ...] )
-    :   Extracts SQL/JSON values from nested levels of the row pattern,
-        generates one or more columns as defined by the `COLUMNS`
-        subclause, and inserts the extracted SQL/JSON values into those
-        columns. The *`json_table_column`*
-        expression in the `COLUMNS` subclause uses the same
-        syntax as in the parent `COLUMNS` clause.
+    :   從資料列模式的巢狀層級中擷取 SQL/JSON 值，依照 `COLUMNS` 子子句的定義產生一個或多個欄位，並將擷取出的 SQL/JSON 值插入這些欄位中。`COLUMNS` 子子句中的 *`json_table_column`* 運算式，使用與上層 `COLUMNS` 子句相同的語法。
 
-        The `NESTED PATH` syntax is recursive,
-        so you can go down multiple nested levels by specifying several
-        `NESTED PATH` subclauses within each other.
-        It allows to unnest the hierarchy of JSON objects and arrays
-        in a single function invocation rather than chaining several
-        `JSON_TABLE` expressions in an SQL statement.
+        `NESTED PATH` 語法是遞迴的，因此你可以透過將數個 `NESTED PATH` 子子句彼此巢狀指定，向下深入多個巢狀層級。它讓你能夠在單一的函式呼叫中，將 JSON 物件與陣列的階層結構展開，而不必在 SQL 陳述句中串接多個 `JSON_TABLE` 運算式。
 
-    ### Note
+    ### 注意
 
-    In each variant of *`json_table_column`* described
-    above, if the `PATH` clause is omitted, path expression
-    `$.name` is used, where
-    *`name`* is the provided column name.
+    在上述 *`json_table_column`* 的每一種變形中，如果省略了 `PATH` 子句，就會使用路徑運算式 `$.name`，其中 *`name`* 是所提供的欄位名稱。
 
 `AS` *`json_path_name`*
-:   The optional *`json_path_name`* serves as an
-    identifier of the provided *`path_expression`*.
-    The name must be unique and distinct from the column names.
+:   選用的 *`json_path_name`* 作為所提供之 *`path_expression`* 的識別符號。這個名稱必須是唯一的，且不得與欄位名稱相同。
 
 { `ERROR` | `EMPTY` } `ON ERROR`
-:   The optional `ON ERROR` can be used to specify how to
-    handle errors when evaluating the top-level
-    *`path_expression`*. Use `ERROR`
-    if you want the errors to be thrown and `EMPTY` to
-    return an empty table, that is, a table containing 0 rows. Note that
-    this clause does not affect the errors that occur when evaluating
-    columns, for which the behavior depends on whether the
-    `ON ERROR` clause is specified against a given column.
+:   選用的 `ON ERROR` 可用來指定在對最上層 *`path_expression`* 求值時如何處理錯誤。如果你希望拋出錯誤，請使用 `ERROR`；若要回傳空的資料表，也就是包含 0 筆資料列的資料表，請使用 `EMPTY`。請注意，這個子句不會影響對欄位求值時發生的錯誤，那些錯誤的行為取決於是否針對該欄位指定了 `ON ERROR` 子句。
 
-Examples
+範例
 
-In the examples that follow, the following table containing JSON data
-will be used:
+在接下來的範例中，將會使用下面這個包含 JSON 資料的資料表：
 
 ```
 
@@ -2947,11 +2252,7 @@ INSERT INTO my_films VALUES (
   ] }');
 ```
 
-The following query shows how to use `JSON_TABLE` to
-turn the JSON objects in the `my_films` table
-to a view containing columns for the keys `kind`,
-`title`, and `director` contained in
-the original JSON along with an ordinality column:
+下面的查詢展示了如何使用 `JSON_TABLE`，將 `my_films` 資料表中的 JSON 物件轉換為一個檢視表，其中包含原始 JSON 中的鍵 `kind`、`title` 與 `director` 所對應的欄位，以及一個序數欄位：
 
 ```
 
@@ -2975,10 +2276,7 @@ SELECT jt.* FROM
 (4 rows)
 ```
 
-The following is a modified version of the above query to show the
-usage of `PASSING` arguments in the filter specified in
-the top-level JSON path expression and the various options for the
-individual columns:
+下面是上述查詢的修改版本，展示了在最上層 JSON 路徑運算式所指定的篩選中使用 `PASSING` 引數，以及個別欄位的各種選項：
 
 ```
 
@@ -3002,10 +2300,7 @@ SELECT jt.* FROM
 (2 rows)
 ```
 
-The following is a modified version of the above query to show the usage
-of `NESTED PATH` for populating title and director
-columns, illustrating how they are joined to the parent columns id and
-kind:
+下面是上述查詢的修改版本，展示了使用 `NESTED PATH` 來填入 title 與 director 欄位，說明它們如何與上層的 id 與 kind 欄位聯結：
 
 ```
 
@@ -3030,8 +2325,7 @@ SELECT jt.* FROM
 (2 rows)
 ```
 
-The following is the same query but without the filter in the root
-path:
+下面是相同的查詢，但在根路徑中沒有篩選：
 
 ```
 
@@ -3058,13 +2352,7 @@ SELECT jt.* FROM
 (5 rows)
 ```
 
-The following shows another query using a different `JSON`
-object as input. It shows the UNION "sibling join" between
-`NESTED` paths `$.movies[*]` and
-`$.books[*]` and also the usage of
-`FOR ORDINALITY` column at `NESTED`
-levels (columns `movie_id`, `book_id`,
-and `author_id`):
+下面展示了另一個使用不同 `JSON` 物件作為輸入的查詢。它展示了 `NESTED` 路徑 `$.movies[*]` 與 `$.books[*]` 之間的 UNION「兄弟聯結」（sibling join），以及在 `NESTED` 層級使用 `FOR ORDINALITY` 欄位（欄位 `movie_id`、`book_id` 與 `author_id`）：
 
 ```
 
@@ -3108,4 +2396,4 @@ COLUMNS (
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-json.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-json.html)（原文版本：18.6；核對日期：2026-09-11）
