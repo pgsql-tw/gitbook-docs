@@ -1,70 +1,17 @@
-## 11.5. Combining Multiple Indexes [#](#INDEXES-BITMAP-SCANS)
+<a id="INDEXES-BITMAP-SCANS"></a>
+
+## 11.5. 組合多個索引 [#](#INDEXES-BITMAP-SCANS)
 
 <a id="id-1.5.10.8.2"></a><a id="id-1.5.10.8.3"></a>
 
-A single index scan can only use query clauses that use the index's
-columns with operators of its operator class and are joined with
-`AND`. For example, given an index on `(a, b)`
-a query condition like `WHERE a = 5 AND b = 6` could
-use the index, but a query like `WHERE a = 5 OR b = 6` could not
-directly use the index.
+單一索引掃描只能使用那些以其運算子類別之運算子作用在索引欄位上、並以 `AND` 連接的查詢子句。例如，給定一個建立在 `(a, b)` 上的索引，像 `WHERE a = 5 AND b = 6` 這樣的查詢條件可以使用該索引，但像 `WHERE a = 5 OR b = 6` 這樣的查詢則無法直接使用該索引。
 
-Fortunately,
-PostgreSQL has the ability to combine multiple indexes
-(including multiple uses of the same index) to handle cases that cannot
-be implemented by single index scans. The system can form `AND`
-and `OR` conditions across several index scans. For example,
-a query like `WHERE x = 42 OR x = 47 OR x = 53 OR x = 99`
-could be broken down into four separate scans of an index on `x`,
-each scan using one of the query clauses. The results of these scans are
-then ORed together to produce the result. Another example is that if we
-have separate indexes on `x` and `y`, one possible
-implementation of a query like `WHERE x = 5 AND y = 6` is to
-use each index with the appropriate query clause and then AND together
-the index results to identify the result rows.
+幸運的是，PostgreSQL 能夠組合多個索引（包括多次使用同一個索引），來處理無法以單一索引掃描實作的情況。系統可以在多個索引掃描之間形成 `AND` 與 `OR` 條件。例如，像 `WHERE x = 42 OR x = 47 OR x = 53 OR x = 99` 這樣的查詢，可以拆解成對 `x` 上之索引的四次個別掃描，每次掃描使用其中一個查詢子句。接著將這些掃描的結果以 OR 合併，產生最終結果。另一個例子是，如果我們在 `x` 與 `y` 上各有獨立的索引，那麼像 `WHERE x = 5 AND y = 6` 這樣的查詢，一種可能的實作方式，是將每個索引搭配適當的查詢子句使用，然後將索引結果以 AND 合併，找出結果資料列。
 
-To combine multiple indexes, the system scans each needed index and
-prepares a *bitmap* in memory giving the locations of
-table rows that are reported as matching that index's conditions.
-The bitmaps are then ANDed and ORed together as needed by the query.
-Finally, the actual table rows are visited and returned. The table rows
-are visited in physical order, because that is how the bitmap is laid
-out; this means that any ordering of the original indexes is lost, and
-so a separate sort step will be needed if the query has an `ORDER
-BY` clause. For this reason, and because each additional index scan
-adds extra time, the planner will sometimes choose to use a simple index
-scan even though additional indexes are available that could have been
-used as well.
+為了組合多個索引，系統會掃描每個需要的索引，並在記憶體中準備一個*點陣圖*（bitmap），標示出被回報為符合該索引條件之資料表資料列的位置。接著依查詢的需要，將這些點陣圖以 AND 與 OR 合併。最後才實際走訪並回傳資料表的資料列。資料表的資料列是依實體順序走訪的，因為點陣圖就是這樣排列的；這表示原本索引的任何順序都會遺失，因此如果查詢有 `ORDER BY` 子句，就需要額外的排序步驟。由於這個原因，再加上每多一次索引掃描都會增加額外的時間，即使還有其他可用的索引，規劃器有時仍會選擇只使用簡單的索引掃描。
 
-In all but the simplest applications, there are various combinations of
-indexes that might be useful, and the database developer must make
-trade-offs to decide which indexes to provide. Sometimes multicolumn
-indexes are best, but sometimes it's better to create separate indexes
-and rely on the index-combination feature. For example, if your
-workload includes a mix of queries that sometimes involve only column
-`x`, sometimes only column `y`, and sometimes both
-columns, you might choose to create two separate indexes on
-`x` and `y`, relying on index combination to
-process the queries that use both columns. You could also create a
-multicolumn index on `(x, y)`. This index would typically be
-more efficient than index combination for queries involving both
-columns, but as discussed in [Section 11.3](indexes-multicolumn.md), it
-would be less useful for queries involving only `y`. Just
-how useful will depend on how effective the B-tree index skip scan
-optimization is; if `x` has no more than several hundred
-distinct values, skip scan will make searches for specific
-`y` values execute reasonably efficiently. A combination
-of a multicolumn index on `(x, y)` and a separate index on
-`y` might also serve reasonably well. For
-queries involving only `x`, the multicolumn index could be
-used, though it would be larger and hence slower than an index on
-`x` alone. The last alternative is to create all three
-indexes, but this is probably only reasonable if the table is searched
-much more often than it is updated and all three types of query are
-common. If one of the types of query is much less common than the
-others, you'd probably settle for creating just the two indexes that
-best match the common types.
+除了最簡單的應用之外，都會有各種可能有用的索引組合，資料庫開發人員必須做出取捨，決定要提供哪些索引。有時多欄位索引最好，但有時建立個別的索引並依賴索引組合功能會比較好。例如，如果你的工作負載混合了有時只涉及欄位 `x`、有時只涉及欄位 `y`、有時同時涉及兩個欄位的查詢，你可以選擇在 `x` 與 `y` 上各建立一個獨立的索引，並依賴索引組合來處理同時使用兩個欄位的查詢。你也可以建立一個 `(x, y)` 上的多欄位索引。對於同時涉及兩個欄位的查詢，這個索引通常會比索引組合更有效率，但如[第 11.3 節](indexes-multicolumn.md)所述，對於只涉及 `y` 的查詢，它的用處就比較小。到底有多少用處，取決於 B-tree 索引跳躍掃描最佳化的效果；如果 `x` 的相異值不超過數百個，跳躍掃描就能讓搜尋特定 `y` 值的查詢以相當有效率的方式執行。將 `(x, y)` 上的多欄位索引與 `y` 上的獨立索引組合使用，可能也相當不錯。對於只涉及 `x` 的查詢，可以使用多欄位索引，不過它會比只建立在 `x` 上的索引更大，因此也更慢。最後一種做法是三個索引全部建立，但這大概只有在資料表被搜尋的頻率遠高於被更新的頻率，而且三種查詢都很常見時才合理。如果其中一種查詢比其他兩種少見得多，你大概會只建立最符合常見查詢類型的那兩個索引。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-bitmap-scans.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-bitmap-scans.html)（原文版本：18.6；核對日期：2026-09-11）
