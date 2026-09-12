@@ -109,7 +109,7 @@
     * [9.18. Conditional Expressions #](the-sql-language/functions/functions-conditional.md)
     * [9.19. Array Functions and Operators #](the-sql-language/functions/functions-array.md)
     * [9.20. Range/Multirange Functions and Operators #](the-sql-language/functions/functions-range.md)
-    * [9.21. Aggregate Functions #](the-sql-language/functions/functions-aggregate.md)
+    * [9.21. 彙總函式 #](the-sql-language/functions/functions-aggregate.md)
     * [9.22. Window Functions #](the-sql-language/functions/functions-window.md)
     * [9.23. Merge Support Functions #](the-sql-language/functions/functions-merge-support.md)
     * [9.24. Subquery Expressions #](the-sql-language/functions/functions-subquery.md)
