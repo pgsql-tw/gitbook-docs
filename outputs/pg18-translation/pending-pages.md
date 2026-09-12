@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：821 頁。
+待譯頁面：820 頁。
 
 ## 根目錄
 
@@ -1080,7 +1080,7 @@
 - [x] `the-sql-language/functions/functions-range.md` — 9.20. 範圍／多重範圍函式與運算子 #
 - [x] `the-sql-language/functions/functions-sequence.md` — 9.17. 序列操作函式 #
 - [x] `the-sql-language/functions/functions-srf.md` — 9.26. 集合回傳函式 #
-- [ ] `the-sql-language/functions/functions-statistics.md` — 9.31. Statistics Information Functions #
+- [x] `the-sql-language/functions/functions-statistics.md` — 9.31. 統計資訊函式 #
 - [ ] `the-sql-language/functions/functions-string.md` — 9.4. String Functions and Operators #
 - [ ] `the-sql-language/functions/functions-subquery.md` — 9.24. Subquery Expressions #
 - [ ] `the-sql-language/functions/functions-textsearch.md` — 9.13. Text Search Functions and Operators #
