@@ -1,39 +1,27 @@
-## 9.19. Array Functions and Operators [#](#FUNCTIONS-ARRAY)
+<a id="FUNCTIONS-ARRAY"></a>
 
-[Table 9.56](functions-array.md#ARRAY-OPERATORS-TABLE) shows the specialized operators
-available for array types.
-In addition to those, the usual comparison operators shown in [Table 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) are available for
-arrays. The comparison operators compare the array contents
-element-by-element, using the default B-tree comparison function for
-the element data type, and sort based on the first difference.
-In multidimensional arrays the elements are visited in row-major order
-(last subscript varies most rapidly).
-If the contents of two arrays are equal but the dimensionality is
-different, the first difference in the dimensionality information
-determines the sort order.
+## 9.19. 陣列函式與運算子 [#](#FUNCTIONS-ARRAY)
+
+[表 9.56](functions-array.md#ARRAY-OPERATORS-TABLE) 列出了可用於陣列型別的特殊運算子。除此之外，陣列也可以使用[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子。比較運算子會使用元素資料型別的預設 B-tree 比較函式逐一比較陣列的內容，並依據第一個差異進行排序。在多維陣列中，元素是依列主序（row-major order）走訪的（最後一個下標變化最快）。如果兩個陣列的內容相等但維度不同，則由維度資訊中的第一個差異決定排序順序。
 
 <a id="ARRAY-OPERATORS-TABLE"></a>
 
-**Table 9.56. Array Operators**
+**表 9.56. 陣列運算子**
 
 <table border="1" class="table" summary="Array Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">anyarray</code> <code class="literal">@&gt;</code> <code class="type">anyarray</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Does the first array contain the second, that is, does each element
-        appearing in the second array equal some element of the first array?
-        (Duplicates are not treated specially,
-        thus <code class="literal">ARRAY[1]</code> and <code class="literal">ARRAY[1,1]</code> are
-        each considered to contain the other.)
+        第一個陣列是否包含第二個陣列，也就是說，第二個陣列中出現的每個元素，是否都等於第一個陣列中的某個元素？（重複的元素不會特別處理，因此 <code class="literal">ARRAY[1]</code> 與 <code class="literal">ARRAY[1,1]</code> 會被視為互相包含。）
        </p>
 <p>
 <code class="literal">ARRAY[1,4,3] @&gt; ARRAY[3,1,3]</code>
@@ -43,7 +31,7 @@ determines the sort order.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Is the first array contained by the second?
+        第一個陣列是否被第二個陣列包含？
        </p>
 <p>
 <code class="literal">ARRAY[2,2,7] &lt;@ ARRAY[1,7,4,2,6]</code>
@@ -53,7 +41,7 @@ determines the sort order.
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Do the arrays overlap, that is, have any elements in common?
+        兩個陣列是否重疊，也就是有任何共同的元素？
        </p>
 <p>
 <code class="literal">ARRAY[1,4,3] &amp;&amp; ARRAY[2,1]</code>
@@ -63,12 +51,7 @@ determines the sort order.
         → <code class="returnvalue">anycompatiblearray</code>
 </p>
 <p>
-        Concatenates the two arrays.  Concatenating a null or empty array is a
-        no-op; otherwise the arrays must have the same number of dimensions
-        (as illustrated by the first example) or differ in number of
-        dimensions by one (as illustrated by the second).
-        If the arrays are not of identical element types, they will be coerced
-        to a common type (see <a class="xref" href="../typeconv/typeconv-union-case.md">Section 10.5</a>).
+        串接兩個陣列。串接 null 或空陣列不會有任何作用；否則這兩個陣列必須有相同的維數（如第一個範例所示），或維數相差一（如第二個範例所示）。如果兩個陣列的元素型別不同，它們會被強制轉換為共同的型別（請參閱<a class="xref" href="../typeconv/typeconv-union-case.md">第 10.5 節</a>）。
        </p>
 <p>
 <code class="literal">ARRAY[1,2,3] || ARRAY[4,5,6,7]</code>
@@ -82,8 +65,7 @@ determines the sort order.
         → <code class="returnvalue">anycompatiblearray</code>
 </p>
 <p>
-        Concatenates an element onto the front of an array (which must be
-        empty or one-dimensional).
+        將一個元素串接到陣列（必須是空的或一維的）的前端。
        </p>
 <p>
 <code class="literal">3 || ARRAY[4,5,6]</code>
@@ -93,8 +75,7 @@ determines the sort order.
         → <code class="returnvalue">anycompatiblearray</code>
 </p>
 <p>
-        Concatenates an element onto the end of an array (which must be
-        empty or one-dimensional).
+        將一個元素串接到陣列（必須是空的或一維的）的尾端。
        </p>
 <p>
 <code class="literal">ARRAY[4,5,6] || 7</code>
@@ -103,35 +84,29 @@ determines the sort order.
 
 <br>
 
-See [Section 8.15](../datatype/arrays.md) for more details about array operator
-behavior. See [Section 11.2](../indexes/indexes-types.md) for more details about
-which operators support indexed operations.
+關於陣列運算子行為的更多細節，請參閱[第 8.15 節](../datatype/arrays.md)。關於哪些運算子支援索引操作的更多細節，請參閱[第 11.2 節](../indexes/indexes-types.md)。
 
-[Table 9.57](functions-array.md#ARRAY-FUNCTIONS-TABLE) shows the functions
-available for use with array types. See [Section 8.15](../datatype/arrays.md)
-for more information and examples of the use of these functions.
+[表 9.57](functions-array.md#ARRAY-FUNCTIONS-TABLE) 列出了可用於陣列型別的函式。關於這些函式的更多資訊與使用範例，請參閱[第 8.15 節](../datatype/arrays.md)。
 
 <a id="ARRAY-FUNCTIONS-TABLE"></a>
 
-**Table 9.57. Array Functions**
+**表 9.57. 陣列函式**
 
 <table border="1" class="table" summary="Array Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.25.6.2.2.1.1.1.1"></a>
 <code class="function">array_append</code> ( <code class="type">anycompatiblearray</code>, <code class="type">anycompatible</code> )
         → <code class="returnvalue">anycompatiblearray</code>
 </p>
 <p>
-        Appends an element to the end of an array (same as
-        the <code class="type">anycompatiblearray</code> <code class="literal">||</code> <code class="type">anycompatible</code>
-        operator).
+        將一個元素附加到陣列的尾端（與 <code class="type">anycompatiblearray</code> <code class="literal">||</code> <code class="type">anycompatible</code> 運算子相同）。
        </p>
 <p>
 <code class="literal">array_append(ARRAY[1,2], 3)</code>
@@ -142,9 +117,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anycompatiblearray</code>
 </p>
 <p>
-        Concatenates two arrays (same as
-        the <code class="type">anycompatiblearray</code> <code class="literal">||</code> <code class="type">anycompatiblearray</code>
-        operator).
+        串接兩個陣列（與 <code class="type">anycompatiblearray</code> <code class="literal">||</code> <code class="type">anycompatiblearray</code> 運算子相同）。
        </p>
 <p>
 <code class="literal">array_cat(ARRAY[1,2,3], ARRAY[4,5])</code>
@@ -155,7 +128,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns a text representation of the array's dimensions.
+        回傳陣列維度的文字表示。
        </p>
 <p>
 <code class="literal">array_dims(ARRAY[[1,2,3], [4,5,6]])</code>
@@ -167,10 +140,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anyarray</code>
 </p>
 <p>
-        Returns an array filled with copies of the given value, having
-        dimensions of the lengths specified by the second argument.
-        The optional third argument supplies lower-bound values for each
-        dimension (which default to all <code class="literal">1</code>).
+        回傳一個以給定值的副本填滿的陣列，其各維度的長度由第二個引數指定。選用的第三個引數提供每個維度的下界值（預設全部為 <code class="literal">1</code>）。
        </p>
 <p>
 <code class="literal">array_fill(11, ARRAY[2,3])</code>
@@ -185,8 +155,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the length of the requested array dimension.
-        (Produces NULL instead of 0 for empty or missing array dimensions.)
+        回傳所要求之陣列維度的長度。（對於空的或不存在的陣列維度，會產生 NULL 而不是 0。）
        </p>
 <p>
 <code class="literal">array_length(array[1,2,3], 1)</code>
@@ -205,7 +174,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the lower bound of the requested array dimension.
+        回傳所要求之陣列維度的下界。
        </p>
 <p>
 <code class="literal">array_lower('[0:2]={1,2,3}'::integer[], 1)</code>
@@ -216,7 +185,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the number of dimensions of the array.
+        回傳陣列的維數。
        </p>
 <p>
 <code class="literal">array_ndims(ARRAY[[1,2,3], [4,5,6]])</code>
@@ -227,12 +196,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the subscript of the first occurrence of the second argument
-        in the array, or <code class="literal">NULL</code> if it's not present.
-        If the third argument is given, the search begins at that subscript.
-        The array must be one-dimensional.
-        Comparisons are done using <code class="literal">IS NOT DISTINCT FROM</code>
-        semantics, so it is possible to search for <code class="literal">NULL</code>.
+        回傳第二個引數在陣列中第一次出現的下標；如果不存在則回傳 <code class="literal">NULL</code>。如果給定了第三個引數，就從該下標開始搜尋。陣列必須是一維的。比較是以 <code class="literal">IS NOT DISTINCT FROM</code> 的語意進行的，因此可以搜尋 <code class="literal">NULL</code>。
        </p>
 <p>
 <code class="literal">array_position(ARRAY['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'], 'mon')</code>
@@ -243,14 +207,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">integer[]</code>
 </p>
 <p>
-        Returns an array of the subscripts of all occurrences of the second
-        argument in the array given as first argument.
-        The array must be one-dimensional.
-        Comparisons are done using <code class="literal">IS NOT DISTINCT FROM</code>
-        semantics, so it is possible to search for <code class="literal">NULL</code>.
-        <code class="literal">NULL</code> is returned only if the array
-        is <code class="literal">NULL</code>; if the value is not found in the array, an
-        empty array is returned.
+        回傳第二個引數在作為第一個引數之陣列中所有出現位置的下標陣列。陣列必須是一維的。比較是以 <code class="literal">IS NOT DISTINCT FROM</code> 的語意進行的，因此可以搜尋 <code class="literal">NULL</code>。只有在陣列為 <code class="literal">NULL</code> 時才會回傳 <code class="literal">NULL</code>；如果在陣列中找不到該值，就回傳空陣列。
        </p>
 <p>
 <code class="literal">array_positions(ARRAY['A','A','B','A'], 'A')</code>
@@ -261,9 +218,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anycompatiblearray</code>
 </p>
 <p>
-        Prepends an element to the beginning of an array (same as
-        the <code class="type">anycompatible</code> <code class="literal">||</code> <code class="type">anycompatiblearray</code>
-        operator).
+        將一個元素加到陣列的開頭（與 <code class="type">anycompatible</code> <code class="literal">||</code> <code class="type">anycompatiblearray</code> 運算子相同）。
        </p>
 <p>
 <code class="literal">array_prepend(1, ARRAY[2,3])</code>
@@ -274,10 +229,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anycompatiblearray</code>
 </p>
 <p>
-        Removes all elements equal to the given value from the array.
-        The array must be one-dimensional.
-        Comparisons are done using <code class="literal">IS NOT DISTINCT FROM</code>
-        semantics, so it is possible to remove <code class="literal">NULL</code>s.
+        從陣列中移除所有等於給定值的元素。陣列必須是一維的。比較是以 <code class="literal">IS NOT DISTINCT FROM</code> 的語意進行的，因此可以移除 <code class="literal">NULL</code>。
        </p>
 <p>
 <code class="literal">array_remove(ARRAY[1,2,3,2], 2)</code>
@@ -288,8 +240,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anycompatiblearray</code>
 </p>
 <p>
-        Replaces each array element equal to the second argument with the
-        third argument.
+        將陣列中每個等於第二個引數的元素，替換為第三個引數。
        </p>
 <p>
 <code class="literal">array_replace(ARRAY[1,2,5,4], 5, 3)</code>
@@ -300,7 +251,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anyarray</code>
 </p>
 <p>
-        Reverses the first dimension of the array.
+        反轉陣列的第一個維度。
        </p>
 <p>
 <code class="literal">array_reverse(ARRAY[[1,2],[3,4],[5,6]])</code>
@@ -311,11 +262,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anyarray</code>
 </p>
 <p>
-        Returns an array of <em class="parameter"><code>n</code></em> items randomly selected
-        from <em class="parameter"><code>array</code></em>.  <em class="parameter"><code>n</code></em> may not
-        exceed the length of <em class="parameter"><code>array</code></em>'s first dimension.
-        If <em class="parameter"><code>array</code></em> is multi-dimensional,
-        an <span class="quote">“<span class="quote">item</span>”</span> is a slice having a given first subscript.
+        回傳由 <em class="parameter"><code>n</code></em> 個項目組成的陣列，這些項目是從 <em class="parameter"><code>array</code></em> 中隨機選出的。<em class="parameter"><code>n</code></em> 不得超過 <em class="parameter"><code>array</code></em> 第一個維度的長度。如果 <em class="parameter"><code>array</code></em> 是多維的，一個<span class="quote">“<span class="quote">項目</span>”</span>就是具有給定第一個下標的切片。
        </p>
 <p>
 <code class="literal">array_sample(ARRAY[1,2,3,4,5,6], 3)</code>
@@ -330,7 +277,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anyarray</code>
 </p>
 <p>
-        Randomly shuffles the first dimension of the array.
+        隨機打亂陣列的第一個維度。
        </p>
 <p>
 <code class="literal">array_shuffle(ARRAY[[1,2],[3,4],[5,6]])</code>
@@ -345,22 +292,10 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anyarray</code>
 </p>
 <p>
-        Sorts the first dimension of the array.
-        The sort order is determined by the default sort ordering of the
-        array's element type; however, if the element type is collatable,
-        the collation to use can be specified by adding
-        a <code class="literal">COLLATE</code> clause to
-        the <em class="parameter"><code>array</code></em> argument.
+        對陣列的第一個維度進行排序。排序順序由陣列元素型別的預設排序方式決定；不過，如果元素型別是可定序的，可以將 <code class="literal">COLLATE</code> 子句加在 <em class="parameter"><code>array</code></em> 引數後面，以指定要使用的定序。
        </p>
 <p>
-        If <em class="parameter"><code>descending</code></em> is true then sort in
-        descending order, otherwise ascending order.  If omitted, the
-        default is ascending order.
-        If <em class="parameter"><code>nulls_first</code></em> is true then nulls appear
-        before non-null values, otherwise nulls appear after non-null
-        values.
-        If omitted, <em class="parameter"><code>nulls_first</code></em> is taken to have
-        the same value as <em class="parameter"><code>descending</code></em>.
+        如果 <em class="parameter"><code>descending</code></em> 為 true，就以遞減順序排序，否則以遞增順序排序。如果省略，預設為遞增順序。如果 <em class="parameter"><code>nulls_first</code></em> 為 true，null 會出現在非 null 值之前，否則 null 會出現在非 null 值之後。如果省略，<em class="parameter"><code>nulls_first</code></em> 會被視為與 <em class="parameter"><code>descending</code></em> 的值相同。
        </p>
 <p>
 <code class="literal">array_sort(ARRAY[[2,4],[2,1],[6,5]])</code>
@@ -371,13 +306,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Converts each array element to its text representation, and
-        concatenates those separated by
-        the <em class="parameter"><code>delimiter</code></em> string.
-        If <em class="parameter"><code>null_string</code></em> is given and is
-        not <code class="literal">NULL</code>, then <code class="literal">NULL</code> array
-        entries are represented by that string; otherwise, they are omitted.
-        See also <a class="link" href="functions-string.md#FUNCTION-STRING-TO-ARRAY"><code class="function">string_to_array</code></a>.
+        將每個陣列元素轉換為其文字表示，並以 <em class="parameter"><code>delimiter</code></em> 字串分隔串接起來。如果給定了 <em class="parameter"><code>null_string</code></em> 且其值不是 <code class="literal">NULL</code>，<code class="literal">NULL</code> 陣列項目就以該字串表示；否則會被省略。另請參閱 <a class="link" href="functions-string.md#FUNCTION-STRING-TO-ARRAY"><code class="function">string_to_array</code></a>。
        </p>
 <p>
 <code class="literal">array_to_string(ARRAY[1, 2, 3, NULL, 5], ',', '*')</code>
@@ -388,7 +317,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the upper bound of the requested array dimension.
+        回傳所要求之陣列維度的上界。
        </p>
 <p>
 <code class="literal">array_upper(ARRAY[1,8,3,7], 1)</code>
@@ -399,8 +328,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        Returns the total number of elements in the array, or 0 if the array
-        is empty.
+        回傳陣列中的元素總數；如果陣列是空的，則回傳 0。
        </p>
 <p>
 <code class="literal">cardinality(ARRAY[[1,2],[3,4]])</code>
@@ -411,8 +339,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">anyarray</code>
 </p>
 <p>
-        Trims an array by removing the last <em class="parameter"><code>n</code></em> elements.
-        If the array is multidimensional, only the first dimension is trimmed.
+        藉由移除最後 <em class="parameter"><code>n</code></em> 個元素來修剪陣列。如果陣列是多維的，只會修剪第一個維度。
        </p>
 <p>
 <code class="literal">trim_array(ARRAY[1,2,3,4,5,6], 2)</code>
@@ -423,8 +350,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">setof anyelement</code>
 </p>
 <p>
-        Expands an array into a set of rows.
-        The array's elements are read out in storage order.
+        將陣列展開成一組資料列。陣列的元素會依照儲存順序讀出。
        </p>
 <p>
 <code class="literal">unnest(ARRAY[1,2])</code>
@@ -448,10 +374,7 @@ for more information and examples of the use of these functions.
         → <code class="returnvalue">setof anyelement, anyelement [, ... ]</code>
 </p>
 <p>
-        Expands multiple arrays (possibly of different data types) into a set of
-        rows.  If the arrays are not all the same length then the shorter ones
-        are padded with <code class="literal">NULL</code>s.  This form is only allowed
-        in a query's FROM clause; see <a class="xref" href="../queries/queries-table-expressions.md#QUERIES-TABLEFUNCTIONS">Section 7.2.1.4</a>.
+        將多個陣列（可能是不同的資料型別）展開成一組資料列。如果這些陣列的長度不全相同，較短的陣列會以 <code class="literal">NULL</code> 填補。這種形式只允許出現在查詢的 FROM 子句中；請參閱<a class="xref" href="../queries/queries-table-expressions.md#QUERIES-TABLEFUNCTIONS">第 7.2.1.4 節</a>。
        </p>
 <p>
 <code class="literal">select * from unnest(ARRAY[1,2], ARRAY['foo','bar','baz']) as x(a,b)</code>
@@ -467,9 +390,8 @@ for more information and examples of the use of these functions.
 
 <br>
 
-See also [Section 9.21](functions-aggregate.md) about the aggregate
-function `array_agg` for use with arrays.
+另請參閱[第 9.21 節](functions-aggregate.md)中關於可搭配陣列使用之彙總函式 `array_agg` 的說明。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-array.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-array.html)（原文版本：18.6；核對日期：2026-09-11）

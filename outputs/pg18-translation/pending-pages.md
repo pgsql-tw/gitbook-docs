@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：842 頁。
+待譯頁面：841 頁。
 
 ## 根目錄
 
@@ -1059,7 +1059,7 @@
 - [x] `the-sql-language/functions/README.md` — 第 9 章 函式與運算子
 - [x] `the-sql-language/functions/functions-admin.md` — 9.28. 系統管理函式 #
 - [x] `the-sql-language/functions/functions-aggregate.md` — 9.21. 彙總函式 #
-- [ ] `the-sql-language/functions/functions-array.md` — 9.19. Array Functions and Operators #
+- [x] `the-sql-language/functions/functions-array.md` — 9.19. 陣列函式與運算子 #
 - [ ] `the-sql-language/functions/functions-binarystring.md` — 9.5. Binary String Functions and Operators #
 - [ ] `the-sql-language/functions/functions-bitstring.md` — 9.6. Bit String Functions and Operators #
 - [ ] `the-sql-language/functions/functions-comparison.md` — 9.2. Comparison Functions and Operators #
