@@ -59,6 +59,24 @@ class PageFailure(RuntimeError):
     pass
 
 
+def worker_failure(log):
+    """Read terminal JSONL errors, never turn arbitrary document text into an error."""
+    messages = []
+    for line in log.splitlines():
+        try:
+            event = json.loads(line)
+        except ValueError:
+            continue
+        if event.get('type') == 'error':
+            messages.append(str(event.get('message', '')))
+        elif event.get('type') == 'turn.failed':
+            error = event.get('error', {})
+            messages.append(str(error.get('message', '')) if isinstance(error, dict) else str(error))
+    message = next((m for m in reversed(messages) if m), 'worker exited without a structured error; inspect its log')
+    kind = 'usage_limit' if 'usage limit' in message.lower() else 'worker_failed'
+    return kind, message[:1500]
+
+
 def parts(text):
     """Split only at headings outside fenced examples and HTML tables.
 
@@ -222,6 +240,8 @@ class Queue:
     def review_inbox(self, meta, candidate):
         page = meta['page']
         state = self.prepare(page)
+        if state['policy_hash'] != digest(read(SKILL / 'SKILL.md') + read(SKILL / 'references/style.md')):
+            raise GlobalFailure('inbox policy snapshot is stale; refresh before review')
         if state['base_hash'] != meta['base_sha256']:
             raise GlobalFailure('inbox baseline differs from saved draft: ' + page)
         if state['source']['url'] != meta['source_url']:
@@ -229,8 +249,19 @@ class Queue:
         write_text(self.workdir(page) / 'draft' / page, candidate)
         self.event('inbox_review_started', page, agent=meta['agent'])
         errors = self.review(page, state, candidate)
+        if state['policy_hash'] != digest(read(SKILL / 'SKILL.md') + read(SKILL / 'references/style.md')):
+            raise GlobalFailure('policy changed during inbox review; approval invalidated')
         self.event('inbox_review_finished', page, issues=errors)
         return errors
+
+    def process_inbox(self):
+        import agent_handoff as handoff
+        results = handoff.publish(self.root, limit=1,
+                                  reviewer=lambda root, meta, candidate: self.review_inbox(meta, candidate))
+        for result in results:
+            self.event('inbox_publish_result', result['page'], result=result)
+        self.sync_collaborators()
+        return results
 
     def workdir(self, page):
         return self.rt / 'pages' / digest(page)[:20]
@@ -340,7 +371,10 @@ class Queue:
                     proc.wait(timeout=30)
                 self.setmeta('worker', None)
         if proc.returncode:
-            raise GlobalFailure('worker_failed: ' + read(logfile)[-2000:])
+            kind, message = worker_failure(read(logfile))
+            self.setmeta('last_failure', dict(kind=kind, message=message, page=page,
+                                            role=role, log=str(logfile), at=utc()))
+            raise GlobalFailure(kind + ': ' + message)
         try:
             value = json.loads(read(result))
             if set(value) != set(schema['required']):
@@ -413,7 +447,10 @@ class Queue:
         errors = structural_errors(state['baseline'], current, page)
         if errors:
             return errors
-        saved_reviews = {r['section']: r for r in state.get('reviews', [])}
+        context_hash = digest(state['baseline'] + current + state['source']['sha256'] + state['policy_hash'])
+        saved_reviews = ({r['section']: r for r in state.get('reviews', [])}
+                         if state.get('review_context_hash') == context_hash else {})
+        state['review_context_hash'] = context_hash
         state['reviews'] = []
         for idx, section in enumerate(all_parts):
             saved = saved_reviews.get(idx)
@@ -425,6 +462,13 @@ class Queue:
                 'against original.md AND the matching official section in source.html. Check omissions, '
                 'negations, warnings, units, defaults, conditions, examples and Traditional Chinese style. '
                 'Do not accept source inaccuracies merely because original.md already contains them. '
+                'Distinguish confirmed user terminology rules from advisory or unsettled style guidance. '
+                'Do not reject an accurate translation solely for an optional stylistic preference. '
+                'Keep technical English where needed to explain acronym letters or SQL identifiers; '
+                'do not demand removal of such explanations merely because they contain English. '
+                'The current preservation policy protects entire code fences, including comments. '
+                'Do not reject unchanged English comments inside those fences merely as untranslated prose; '
+                'still report actual technical inaccuracies in examples for explicit resolution. '
                 'Return passed=true only with no issues and evidence describing the checks. '
                 f'Review exactly section {idx}.\nORIGINAL:\n{original_parts[idx]}\nTRANSLATION:\n{section}')
             before = digest(read(self.workdir(page) / 'draft' / page))
@@ -561,12 +605,11 @@ class Queue:
             if not exe or subprocess.run([exe, 'login', 'status'], capture_output=True).returncode:
                 raise GlobalFailure('authentication unavailable in this execution context')
             self.setmeta('health', 'running')
+            self.setmeta('last_failure', None)
             self.event('supervisor_started', pid=os.getpid(), mode=self.meta('mode'))
             while True:
                 import agent_handoff as handoff
-                for result in handoff.publish(self.root, reviewer=lambda root, meta, candidate: self.review_inbox(meta, candidate)):
-                    self.event('inbox_publish_result', result['page'], result=result)
-                self.sync_collaborators()
+                self.process_inbox()
                 mode = self.meta('mode')
                 if mode == 'validation':
                     rows = self.db.execute('SELECT * FROM pages WHERE path IN (?,?,?) ORDER BY ordinal', CANARIES).fetchall()
@@ -574,6 +617,7 @@ class Queue:
                         self.setmeta('mode', 'production')
                         self.event('validation_passed', pages=CANARIES)
                         if validation_only:
+                            self.setmeta('health', 'validation_complete')
                             return
                     elif any(r['phase'] == 'exception' for r in rows):
                         raise GlobalFailure('validation failed; production not enabled')
@@ -619,7 +663,8 @@ def main():
             queue.run(args.validation_only)
         elif args.action == 'status':
             print(json.dumps(dict(counts=queue.counts(), health=queue.meta('health'), mode=queue.meta('mode'),
-                                  heartbeat=queue.meta('heartbeat'), worker=queue.meta('worker')), ensure_ascii=False, indent=2))
+                                  heartbeat=queue.meta('heartbeat'), worker=queue.meta('worker'),
+                                  last_failure=queue.meta('last_failure')), ensure_ascii=False, indent=2))
         elif args.action == 'events':
             for row in queue.db.execute('SELECT * FROM events WHERE acknowledged=0 ORDER BY id LIMIT 1000'):
                 print(json.dumps(dict(row), ensure_ascii=False))

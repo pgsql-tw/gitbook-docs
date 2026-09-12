@@ -5,6 +5,7 @@ import unittest
 from unittest.mock import patch
 
 from translation_pipeline import Queue, PageFailure, GlobalFailure, parts, structural_errors, write_text, git, digest, PENDING, STATUS
+from translation_pipeline import worker_failure
 
 PAGE = 'appendixes/contrib/passwordcheck.md'
 SOURCE = '## F.24. Test [#](#TEST)\n\nEnglish `identifier`.\n\n### F.24.1. Title\n\nMore English.\n'
@@ -57,6 +58,40 @@ class Tests(unittest.TestCase):
     def test_restart_does_not_duplicate_queue(self):
         self.q.init()
         self.assertEqual(self.q.counts(), {'pending': 1})
+
+    def test_usage_failure_uses_terminal_event_not_document_output(self):
+        log = json.dumps({'type': 'item.completed', 'item': {'text': 'usage limit in source'}})
+        self.assertEqual(worker_failure(log)[0], 'worker_failed')
+        log += '\n' + json.dumps({'type': 'turn.failed', 'error': {'message': "You've hit your usage limit. Try again later."}})
+        kind, message = worker_failure(log)
+        self.assertEqual(kind, 'usage_limit')
+        self.assertNotIn('source', message)
+
+    def test_inbox_is_bounded_and_reported_before_next_page(self):
+        result = {'page': PAGE, 'outcome': 'review_rejected', 'errors': ['warning omitted']}
+        with patch('agent_handoff.publish', return_value=[result]) as publish:
+            self.q.process_inbox()
+        self.assertEqual(publish.call_args.kwargs['limit'], 1)
+        event = self.q.db.execute("SELECT payload FROM events WHERE type='inbox_publish_result'").fetchone()
+        self.assertEqual(json.loads(event[0])['result'], result)
+
+    def test_review_cache_requires_whole_document_context(self):
+        state = self.state()
+        state['reviews'] = []
+        target = self.q.workdir(PAGE) / 'draft' / PAGE
+        write_text(target, TARGET)
+        responses = [dict(passed=True, sections=[i], issues=[], evidence='fixture checks') for i in range(2)]
+        with patch.object(self.q, 'immutable'), patch.object(self.q, 'call', side_effect=responses) as call:
+            self.assertEqual(self.q.review(PAGE, state, TARGET), [])
+            self.assertEqual(call.call_count, 2)
+        with patch.object(self.q, 'call') as call:
+            self.assertEqual(self.q.review(PAGE, state, TARGET), [])
+            call.assert_not_called()
+        changed = TARGET + '\n補充中文。\n'
+        write_text(target, changed)
+        with patch.object(self.q, 'immutable'), patch.object(self.q, 'call', side_effect=responses) as call:
+            self.assertEqual(self.q.review(PAGE, state, changed), [])
+            self.assertEqual(call.call_count, 2)
 
     def test_collaborator_claim_returns_to_queue(self):
         import agent_handoff as h

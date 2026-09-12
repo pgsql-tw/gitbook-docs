@@ -15,7 +15,9 @@ python scripts/translation_pipeline.py run --validation-only
 
 15 分鐘的 Codex heartbeat 是外部監控及接續機制，不是翻譯程序本身。ACTIVE 不能作為實際正在翻譯的證據。核對 `health`、heartbeat 的 page/role/time、worker log、程序身分及 Git 提交；日誌增長僅代表活動，`section_checkpoint` 的實際差異才是候選翻譯進度，commit 才是完成。
 
-開始每輪先回報具体頁面，結束回報提交、部分完成、阻礙與剩餘頁數。`events` 是本機事件佇列，不等於已傳送使用者通知；實際回報後才用 `ack --through <事件編號>` 確認。背景程序的事件由 heartbeat 轉送，並非即時聊天通知。
+開始每輪先回報具體頁面，結束回報提交、部分完成、阻礙與剩餘頁數。`events` 是本機事件佇列，不等於已傳送使用者通知；實際回報後才用 `ack --through <事件編號>` 確認。背景程序的事件由 heartbeat 轉送，並非即時聊天通知。
+
+每輪優先處理一份 inbox 並立即寫入结果事件、對帳佇列，再處理自己的一頁，避免大型送件批次長時間占用全部執行機會。額度錯誤由 JSONL 終止事件擷取，`status.last_failure` 顯示原因、頁面與日誌；不得把日誌中的文件內容誤判成錯誤。審查快取只在整頁、原文、來源與政策雜湊全部一致時重用；舊版未綁定快取重新審查。風格建議不是強制術語規則，不得單憑編輯偏好退件。
 
 ## 協作與安全性
 
