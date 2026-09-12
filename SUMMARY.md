@@ -54,7 +54,7 @@
     * [5.15. Dependency Tracking #](the-sql-language/ddl/ddl-depend.md)
   * [第 6 章：資料操作](the-sql-language/dml/README.md)
     * [6.1. 插入資料 #](the-sql-language/dml/dml-insert.md)
-    * [6.2. Updating Data #](the-sql-language/dml/dml-update.md)
+    * [6.2. 更新資料 #](the-sql-language/dml/dml-update.md)
     * [6.3. 刪除資料](the-sql-language/dml/dml-delete.md)
     * [6.4. 從修改的資料列回傳資料 #](the-sql-language/dml/dml-returning.md)
   * [第 7 章 查詢](the-sql-language/queries/README.md)
