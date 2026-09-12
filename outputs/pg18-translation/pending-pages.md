@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：836 頁。
+待譯頁面：835 頁。
 
 ## 根目錄
 
@@ -1065,7 +1065,7 @@
 - [x] `the-sql-language/functions/functions-comparison.md` — 9.2. 比較函式與運算子 #
 - [x] `the-sql-language/functions/functions-comparisons.md` — 9.25. 資料列與陣列比較 #
 - [x] `the-sql-language/functions/functions-conditional.md` — 9.18. 條件運算式 #
-- [ ] `the-sql-language/functions/functions-datetime.md` — 9.9. Date/Time Functions and Operators #
+- [x] `the-sql-language/functions/functions-datetime.md` — 9.9. 日期／時間函式與運算子 #
 - [ ] `the-sql-language/functions/functions-enum.md` — 9.10. Enum Support Functions #
 - [ ] `the-sql-language/functions/functions-event-triggers.md` — 9.30. Event Trigger Functions #
 - [ ] `the-sql-language/functions/functions-formatting.md` — 9.8. Data Type Formatting Functions #

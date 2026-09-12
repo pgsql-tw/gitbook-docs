@@ -1,65 +1,43 @@
-## 9.9. Date/Time Functions and Operators [#](#FUNCTIONS-DATETIME)
+<a id="FUNCTIONS-DATETIME"></a>
 
-[9.9.1. `EXTRACT`, `date_part`](functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT)
+## 9.9. 日期／時間函式與運算子 [#](#FUNCTIONS-DATETIME)
+
+[9.9.1. `EXTRACT`、`date_part`](functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT)
 
 [9.9.2. `date_trunc`](functions-datetime.md#FUNCTIONS-DATETIME-TRUNC)
 
 [9.9.3. `date_bin`](functions-datetime.md#FUNCTIONS-DATETIME-BIN)
 
-[9.9.4. `AT TIME ZONE` and `AT LOCAL`](functions-datetime.md#FUNCTIONS-DATETIME-ZONECONVERT)
+[9.9.4. `AT TIME ZONE` 與 `AT LOCAL`](functions-datetime.md#FUNCTIONS-DATETIME-ZONECONVERT)
 
-[9.9.5. Current Date/Time](functions-datetime.md#FUNCTIONS-DATETIME-CURRENT)
+[9.9.5. 目前日期／時間](functions-datetime.md#FUNCTIONS-DATETIME-CURRENT)
 
-[9.9.6. Delaying Execution](functions-datetime.md#FUNCTIONS-DATETIME-DELAY)
+[9.9.6. 延遲執行](functions-datetime.md#FUNCTIONS-DATETIME-DELAY)
 
-[Table 9.33](functions-datetime.md#FUNCTIONS-DATETIME-TABLE) shows the available
-functions for date/time value processing, with details appearing in
-the following subsections. [Table 9.32](functions-datetime.md#OPERATORS-DATETIME-TABLE) illustrates the behaviors of
-the basic arithmetic operators (`+`,
-`*`, etc.). For formatting functions, refer to
-[Section 9.8](functions-formatting.md). You should be familiar with
-the background information on date/time data types from [Section 8.5](../datatype/datatype-datetime.md).
+[表 9.33](functions-datetime.md#FUNCTIONS-DATETIME-TABLE) 列出了可用於處理日期／時間值的函式，細節則在後續各小節中說明。[表 9.32](functions-datetime.md#OPERATORS-DATETIME-TABLE) 說明了基本算術運算子（`+`、`*` 等）的行為。關於格式化函式，請參閱[第 9.8 節](functions-formatting.md)。你應該熟悉[第 8.5 節](../datatype/datatype-datetime.md)中關於日期／時間資料型別的背景資訊。
 
-In addition, the usual comparison operators shown in
-[Table 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) are available for the
-date/time types. Dates and timestamps (with or without time zone) are
-all comparable, while times (with or without time zone) and intervals
-can only be compared to other values of the same data type. When
-comparing a timestamp without time zone to a timestamp with time zone,
-the former value is assumed to be given in the time zone specified by
-the [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) configuration parameter, and is
-rotated to UTC for comparison to the latter value (which is already
-in UTC internally). Similarly, a date value is assumed to represent
-midnight in the `TimeZone` zone when comparing it
-to a timestamp.
+此外，日期／時間型別也可以使用[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子。日期與時間戳記（無論是否帶時區）彼此之間都可以比較，而時間（無論是否帶時區）與時間間隔則只能與相同資料型別的其他值比較。比較不帶時區的時間戳記與帶時區的時間戳記時，前者的值會被假設為以 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 組態參數所指定的時區表示，並被轉換為 UTC，以便與後者的值（它在內部已經是 UTC）比較。同樣地，將日期值與時間戳記比較時，日期值會被假設為代表 `TimeZone` 時區中的午夜。
 
-All the functions and operators described below that take `time` or `timestamp`
-inputs actually come in two variants: one that takes `time with time zone` or `timestamp
-with time zone`, and one that takes `time without time zone` or `timestamp without time zone`.
-For brevity, these variants are not shown separately. Also, the
-`+` and `*` operators come in commutative pairs (for
-example both `date` `+` `integer`
-and `integer` `+` `date`); we show
-only one of each such pair.
+下面所說明的所有接受 `time` 或 `timestamp` 輸入的函式與運算子，實際上都有兩種變化形式：一種接受 `time with time zone` 或 `timestamp with time zone`，另一種接受 `time without time zone` 或 `timestamp without time zone`。為了簡潔起見，這些變化形式不另外列出。此外，`+` 與 `*` 運算子都是成對的可交換形式（例如 `date` `+` `integer` 與 `integer` `+` `date` 兩者都有）；每一對我們只列出其中一個。
 
 <a id="OPERATORS-DATETIME-TABLE"></a>
 
-**Table 9.32. Date/Time Operators**
+**表 9.32. 日期／時間運算子**
 
 <table border="1" class="table" summary="Date/Time Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-         Operator
+         運算子
         </p>
 <p>
-         Description
+         說明
         </p>
 <p>
-         Example(s)
+         範例
         </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">date</code> <code class="literal">+</code> <code class="type">integer</code>
          → <code class="returnvalue">date</code>
 </p>
 <p>
-         Add a number of days to a date
+         將天數加到日期上
         </p>
 <p>
 <code class="literal">date '2001-09-28' + 7</code>
@@ -69,7 +47,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Add an interval to a date
+         將時間間隔加到日期上
         </p>
 <p>
 <code class="literal">date '2001-09-28' + interval '1 hour'</code>
@@ -79,7 +57,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Add a time-of-day to a date
+         將一天中的時間加到日期上
         </p>
 <p>
 <code class="literal">date '2001-09-28' + time '03:00'</code>
@@ -89,7 +67,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Add intervals
+         將時間間隔相加
         </p>
 <p>
 <code class="literal">interval '1 day' + interval '1 hour'</code>
@@ -99,7 +77,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Add an interval to a timestamp
+         將時間間隔加到時間戳記上
         </p>
 <p>
 <code class="literal">timestamp '2001-09-28 01:00' + interval '23 hours'</code>
@@ -109,7 +87,7 @@ only one of each such pair.
          → <code class="returnvalue">time</code>
 </p>
 <p>
-         Add an interval to a time
+         將時間間隔加到時間上
         </p>
 <p>
 <code class="literal">time '01:00' + interval '3 hours'</code>
@@ -119,7 +97,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Negate an interval
+         將時間間隔取負
         </p>
 <p>
 <code class="literal">- interval '23 hours'</code>
@@ -129,7 +107,7 @@ only one of each such pair.
          → <code class="returnvalue">integer</code>
 </p>
 <p>
-         Subtract dates, producing the number of days elapsed
+         將日期相減，產生經過的天數
         </p>
 <p>
 <code class="literal">date '2001-10-01' - date '2001-09-28'</code>
@@ -139,7 +117,7 @@ only one of each such pair.
          → <code class="returnvalue">date</code>
 </p>
 <p>
-         Subtract a number of days from a date
+         從日期減去天數
         </p>
 <p>
 <code class="literal">date '2001-10-01' - 7</code>
@@ -149,7 +127,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Subtract an interval from a date
+         從日期減去時間間隔
         </p>
 <p>
 <code class="literal">date '2001-09-28' - interval '1 hour'</code>
@@ -159,7 +137,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Subtract times
+         將時間相減
         </p>
 <p>
 <code class="literal">time '05:00' - time '03:00'</code>
@@ -169,7 +147,7 @@ only one of each such pair.
          → <code class="returnvalue">time</code>
 </p>
 <p>
-         Subtract an interval from a time
+         從時間減去時間間隔
         </p>
 <p>
 <code class="literal">time '05:00' - interval '2 hours'</code>
@@ -179,7 +157,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Subtract an interval from a timestamp
+         從時間戳記減去時間間隔
         </p>
 <p>
 <code class="literal">timestamp '2001-09-28 23:00' - interval '23 hours'</code>
@@ -189,7 +167,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Subtract intervals
+         將時間間隔相減
         </p>
 <p>
 <code class="literal">interval '1 day' - interval '1 hour'</code>
@@ -199,8 +177,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Subtract timestamps (converting 24-hour intervals into days,
-         similarly to <a class="link" href="functions-datetime.md#FUNCTION-JUSTIFY-HOURS"><code class="function">justify_hours()</code></a>)
+         將時間戳記相減（將 24 小時的時間間隔轉換為天，類似於 <a class="link" href="functions-datetime.md#FUNCTION-JUSTIFY-HOURS"><code class="function">justify_hours()</code></a>）
         </p>
 <p>
 <code class="literal">timestamp '2001-09-29 03:00' - timestamp '2001-07-27 12:00'</code>
@@ -210,7 +187,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Multiply an interval by a scalar
+         將時間間隔乘以純量
         </p>
 <p>
 <code class="literal">interval '1 second' * 900</code>
@@ -228,7 +205,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Divide an interval by a scalar
+         將時間間隔除以純量
         </p>
 <p>
 <code class="literal">interval '1 hour' / 1.5</code>
@@ -237,24 +214,23 @@ only one of each such pair.
 
 <br><a id="FUNCTIONS-DATETIME-TABLE"></a>
 
-**Table 9.33. Date/Time Functions**
+**表 9.33. 日期／時間函式**
 
 <table border="1" class="table" summary="Date/Time Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-         Function
+         函式
         </p>
 <p>
-         Description
+         說明
         </p>
 <p>
-         Example(s)
+         範例
         </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.15.6.2.2.1.1.1.1"></a>
 <code class="function">age</code> ( <code class="type">timestamp</code>, <code class="type">timestamp</code> )
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Subtract arguments, producing a <span class="quote">“<span class="quote">symbolic</span>”</span> result that
-         uses years and months, rather than just days
+         將引數相減，產生一個使用年與月而不只是天數的<span class="quote">“<span class="quote">符號式</span>”</span>結果
         </p>
 <p>
 <code class="literal">age(timestamp '2001-04-10', timestamp '1957-06-13')</code>
@@ -264,7 +240,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Subtract argument from <code class="function">current_date</code> (at midnight)
+         從 <code class="function">current_date</code>（午夜）減去引數
         </p>
 <p>
 <code class="literal">age(timestamp '1957-06-13')</code>
@@ -275,8 +251,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Current date and time (changes during statement execution);
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期與時間（在陳述式執行期間會改變）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">clock_timestamp()</code>
@@ -287,7 +262,7 @@ only one of each such pair.
          → <code class="returnvalue">date</code>
 </p>
 <p>
-         Current date; see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_date</code>
@@ -298,7 +273,7 @@ only one of each such pair.
          → <code class="returnvalue">time with time zone</code>
 </p>
 <p>
-         Current time of day; see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         一天中的目前時間；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_time</code>
@@ -308,8 +283,7 @@ only one of each such pair.
          → <code class="returnvalue">time with time zone</code>
 </p>
 <p>
-         Current time of day, with limited precision;
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         一天中的目前時間，精度有限；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_time(2)</code>
@@ -320,8 +294,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Current date and time (start of current transaction);
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_timestamp</code>
@@ -331,8 +304,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Current date and time (start of current transaction), with limited precision;
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期與時間（目前交易的開始時間），精度有限；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_timestamp(0)</code>
@@ -343,12 +315,9 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Add an <code class="type">interval</code> to a <code class="type">timestamp with time
-         zone</code>, computing times of day and daylight-savings adjustments
-         according to the time zone named by the third argument, or the
-         current <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE">TimeZone</a> setting if that is omitted.
-         The form with two arguments is equivalent to the <code class="type">timestamp with
-         time zone</code> <code class="literal">+</code> <code class="type">interval</code> operator.
+         將 <code class="type">interval</code> 加到 <code class="type">timestamp with time
+         zone</code> 上，並依照第三個引數所指定的時區（如果省略，則依照目前的 <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE">TimeZone</a> 設定）計算一天中的時間與日光節約時間的調整。雙引數形式等同於 <code class="type">timestamp with
+         time zone</code> <code class="literal">+</code> <code class="type">interval</code> 運算子。
         </p>
 <p>
 <code class="literal">date_add('2021-10-31 00:00:00+02'::timestamptz, '1 day'::interval, 'Europe/Warsaw')</code>
@@ -358,7 +327,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Bin input into specified interval aligned with specified origin; see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-BIN">Section 9.9.3</a>
+         將輸入分箱到與指定原點對齊的指定時間間隔中；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-BIN">第 9.9.3 節</a>
 </p>
 <p>
 <code class="literal">date_bin('15 minutes', timestamp '2001-02-16 20:38:40', timestamp '2001-02-16 20:05:00')</code>
@@ -369,8 +338,7 @@ only one of each such pair.
          → <code class="returnvalue">double precision</code>
 </p>
 <p>
-         Get timestamp subfield (equivalent to <code class="function">extract</code>);
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">Section 9.9.1</a>
+         取得時間戳記的子欄位（等同於 <code class="function">extract</code>）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">第 9.9.1 節</a>
 </p>
 <p>
 <code class="literal">date_part('hour', timestamp '2001-02-16 20:38:40')</code>
@@ -380,8 +348,7 @@ only one of each such pair.
          → <code class="returnvalue">double precision</code>
 </p>
 <p>
-         Get interval subfield (equivalent to <code class="function">extract</code>);
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">Section 9.9.1</a>
+         取得時間間隔的子欄位（等同於 <code class="function">extract</code>）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">第 9.9.1 節</a>
 </p>
 <p>
 <code class="literal">date_part('month', interval '2 years 3 months')</code>
@@ -392,12 +359,9 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Subtract an <code class="type">interval</code> from a <code class="type">timestamp with time
-         zone</code>, computing times of day and daylight-savings adjustments
-         according to the time zone named by the third argument, or the
-         current <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE">TimeZone</a> setting if that is omitted.
-         The form with two arguments is equivalent to the <code class="type">timestamp with
-         time zone</code> <code class="literal">-</code> <code class="type">interval</code> operator.
+         將 <code class="type">interval</code> 從 <code class="type">timestamp with time
+         zone</code> 中減去，並依照第三個引數所指定的時區（如果省略，則依照目前的 <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE">TimeZone</a> 設定）計算一天中的時間與日光節約時間的調整。雙引數形式等同於 <code class="type">timestamp with
+         time zone</code> <code class="literal">-</code> <code class="type">interval</code> 運算子。
         </p>
 <p>
 <code class="literal">date_subtract('2021-11-01 00:00:00+01'::timestamptz, '1 day'::interval, 'Europe/Warsaw')</code>
@@ -408,7 +372,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Truncate to specified precision; see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TRUNC">Section 9.9.2</a>
+         截斷到指定的精度；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TRUNC">第 9.9.2 節</a>
 </p>
 <p>
 <code class="literal">date_trunc('hour', timestamp '2001-02-16 20:38:40')</code>
@@ -418,8 +382,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Truncate to specified precision in the specified time zone; see
-         <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TRUNC">Section 9.9.2</a>
+         在指定的時區中截斷到指定的精度；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TRUNC">第 9.9.2 節</a>
 </p>
 <p>
 <code class="literal">date_trunc('day', timestamptz '2001-02-16 20:38:40+00', 'Australia/Sydney')</code>
@@ -429,8 +392,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Truncate to specified precision; see
-         <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TRUNC">Section 9.9.2</a>
+         截斷到指定的精度；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TRUNC">第 9.9.2 節</a>
 </p>
 <p>
 <code class="literal">date_trunc('hour', interval '2 days 3 hours 40 minutes')</code>
@@ -441,7 +403,7 @@ only one of each such pair.
          → <code class="returnvalue">numeric</code>
 </p>
 <p>
-         Get timestamp subfield; see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">Section 9.9.1</a>
+         取得時間戳記的子欄位；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">第 9.9.1 節</a>
 </p>
 <p>
 <code class="literal">extract(hour from timestamp '2001-02-16 20:38:40')</code>
@@ -451,7 +413,7 @@ only one of each such pair.
          → <code class="returnvalue">numeric</code>
 </p>
 <p>
-         Get interval subfield; see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">Section 9.9.1</a>
+         取得時間間隔的子欄位；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">第 9.9.1 節</a>
 </p>
 <p>
 <code class="literal">extract(month from interval '2 years 3 months')</code>
@@ -462,7 +424,7 @@ only one of each such pair.
          → <code class="returnvalue">boolean</code>
 </p>
 <p>
-         Test for finite date (not +/-infinity)
+         檢驗是否為有限的日期（不是 +/-infinity）
         </p>
 <p>
 <code class="literal">isfinite(date '2001-02-16')</code>
@@ -472,7 +434,7 @@ only one of each such pair.
          → <code class="returnvalue">boolean</code>
 </p>
 <p>
-         Test for finite timestamp (not +/-infinity)
+         檢驗是否為有限的時間戳記（不是 +/-infinity）
         </p>
 <p>
 <code class="literal">isfinite(timestamp 'infinity')</code>
@@ -482,7 +444,7 @@ only one of each such pair.
          → <code class="returnvalue">boolean</code>
 </p>
 <p>
-         Test for finite interval (not +/-infinity)
+         檢驗是否為有限的時間間隔（不是 +/-infinity）
         </p>
 <p>
 <code class="literal">isfinite(interval '4 hours')</code>
@@ -493,7 +455,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Adjust interval, converting 30-day time periods to months
+         調整時間間隔，將 30 天的時間區段轉換為月
         </p>
 <p>
 <code class="literal">justify_days(interval '1 year 65 days')</code>
@@ -504,7 +466,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Adjust interval, converting 24-hour time periods to days
+         調整時間間隔，將 24 小時的時間區段轉換為天
         </p>
 <p>
 <code class="literal">justify_hours(interval '50 hours 10 minutes')</code>
@@ -515,9 +477,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Adjust interval using <code class="function">justify_days</code>
-         and <code class="function">justify_hours</code>, with additional sign
-         adjustments
+         使用 <code class="function">justify_days</code> 與 <code class="function">justify_hours</code> 調整時間間隔，並額外進行正負號的調整
         </p>
 <p>
 <code class="literal">justify_interval(interval '1 mon -1 hour')</code>
@@ -528,8 +488,7 @@ only one of each such pair.
          → <code class="returnvalue">time</code>
 </p>
 <p>
-         Current time of day;
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         一天中的目前時間；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">localtime</code>
@@ -539,8 +498,7 @@ only one of each such pair.
          → <code class="returnvalue">time</code>
 </p>
 <p>
-         Current time of day, with limited precision;
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         一天中的目前時間，精度有限；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">localtime(0)</code>
@@ -551,8 +509,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Current date and time (start of current transaction);
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">localtimestamp</code>
@@ -562,9 +519,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Current date and time (start of current
-         transaction), with limited precision;
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期與時間（目前交易的開始時間），精度有限；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">localtimestamp(2)</code>
@@ -577,8 +532,7 @@ only one of each such pair.
          → <code class="returnvalue">date</code>
 </p>
 <p>
-         Create date from year, month and day fields
-         (negative years signify BC)
+         從年、月、日欄位建立日期（負的年份表示西元前）
         </p>
 <p>
 <code class="literal">make_date(2013, 7, 15)</code>
@@ -595,8 +549,7 @@ only one of each such pair.
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         Create interval from years, months, weeks, days, hours, minutes and
-         seconds fields, each of which can default to zero
+         從年、月、週、日、時、分與秒欄位建立時間間隔，每個欄位都可以預設為零
         </p>
 <p>
 <code class="literal">make_interval(days =&gt; 10)</code>
@@ -609,7 +562,7 @@ only one of each such pair.
          → <code class="returnvalue">time</code>
 </p>
 <p>
-         Create time from hour, minute and seconds fields
+         從時、分與秒欄位建立時間
         </p>
 <p>
 <code class="literal">make_time(8, 15, 23.5)</code>
@@ -625,8 +578,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         Create timestamp from year, month, day, hour, minute and seconds fields
-         (negative years signify BC)
+         從年、月、日、時、分與秒欄位建立時間戳記（負的年份表示西元前）
         </p>
 <p>
 <code class="literal">make_timestamp(2013, 7, 15, 8, 15, 23.5)</code>
@@ -643,11 +595,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Create timestamp with time zone from year, month, day, hour, minute
-         and seconds fields (negative years signify BC).
-         If <em class="parameter"><code>timezone</code></em> is not
-         specified, the current time zone is used; the examples assume the
-         session time zone is <code class="literal">Europe/London</code>
+         從年、月、日、時、分與秒欄位建立帶時區的時間戳記（負的年份表示西元前）。如果沒有指定 <em class="parameter"><code>timezone</code></em>，就使用目前的時區；範例假設工作階段時區為 <code class="literal">Europe/London</code>
 </p>
 <p>
 <code class="literal">make_timestamptz(2013, 7, 15, 8, 15, 23.5)</code>
@@ -662,8 +610,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Current date and time (start of current transaction);
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">now()</code>
@@ -674,8 +621,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Current date and time (start of current statement);
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期與時間（目前陳述式的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">statement_timestamp()</code>
@@ -686,9 +632,7 @@ only one of each such pair.
          → <code class="returnvalue">text</code>
 </p>
 <p>
-         Current date and time
-         (like <code class="function">clock_timestamp</code>, but as a <code class="type">text</code> string);
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期與時間（類似 <code class="function">clock_timestamp</code>，但以 <code class="type">text</code> 字串表示）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">timeofday()</code>
@@ -699,8 +643,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Current date and time (start of current transaction);
-         see <a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">Section 9.9.5</a>
+         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">transaction_timestamp()</code>
@@ -711,8 +654,7 @@ only one of each such pair.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Convert Unix epoch (seconds since 1970-01-01 00:00:00+00) to
-         timestamp with time zone
+         將 Unix epoch（自 1970-01-01 00:00:00+00 起的秒數）轉換為帶時區的時間戳記
         </p>
 <p>
 <code class="literal">to_timestamp(1284352323)</code>
@@ -722,8 +664,7 @@ only one of each such pair.
 <br>
 
 <a id="id-1.5.8.15.7.1"></a>
-In addition to these functions, the SQL `OVERLAPS` operator is
-supported:
+除了這些函式之外，也支援 SQL 的 `OVERLAPS` 運算子：
 
 ```
 
@@ -731,18 +672,7 @@ supported:
 (start1, length1) OVERLAPS (start2, length2)
 ```
 
-This expression yields true when two time periods (defined by their
-endpoints) overlap, false when they do not overlap. The endpoints
-can be specified as pairs of dates, times, or time stamps; or as
-a date, time, or time stamp followed by an interval. When a pair
-of values is provided, either the start or the end can be written
-first; `OVERLAPS` automatically takes the earlier value
-of the pair as the start. Each time period is considered to
-represent the half-open interval *`start`* `<=`
-*`time`* `<` *`end`*, unless
-*`start`* and *`end`* are equal in which case it
-represents that single time instant. This means for instance that two
-time periods with only an endpoint in common do not overlap.
+當兩個時間區段（由其端點定義）重疊時，這個運算式會產生 true；不重疊時則產生 false。端點可以指定為成對的日期、時間或時間戳記；或者指定為一個日期、時間或時間戳記，後面接著一個時間間隔。提供一對值時，可以先寫開始或結束；`OVERLAPS` 會自動將該對值中較早的值當作開始。每個時間區段都被視為代表半開區間 *`start`* `<=` *`time`* `<` *`end`*，除非 *`start`* 與 *`end`* 相等，在這種情況下它代表那單一個時間點。這表示，例如兩個只有一個端點相同的時間區段並不重疊。
 
 ```
 
@@ -760,26 +690,7 @@ SELECT (DATE '2001-10-30', DATE '2001-10-30') OVERLAPS
 Result: true
 ```
 
-When adding an `interval` value to (or subtracting an
-`interval` value from) a `timestamp`
-or `timestamp with time zone` value, the months, days, and
-microseconds fields of the `interval` value are handled in turn.
-First, a nonzero months field advances or decrements the date of the
-timestamp by the indicated number of months, keeping the day of month the
-same unless it would be past the end of the new month, in which case the
-last day of that month is used. (For example, March 31 plus 1 month
-becomes April 30, but March 31 plus 2 months becomes May 31.)
-Then the days field advances or decrements the date of the timestamp by
-the indicated number of days. In both these steps the local time of day
-is kept the same. Finally, if there is a nonzero microseconds field, it
-is added or subtracted literally.
-When doing arithmetic on a `timestamp with time zone` value in
-a time zone that recognizes DST, this means that adding or subtracting
-(say) `interval '1 day'` does not necessarily have the
-same result as adding or subtracting `interval '24
-hours'`.
-For example, with the session time zone set
-to `America/Denver`:
+將 `interval` 值加到 `timestamp` 或 `timestamp with time zone` 值（或從中減去 `interval` 值）時，會依序處理 `interval` 值的月、日與微秒欄位。首先，非零的月欄位會將時間戳記的日期推進或後退指定的月數，並保持月中的日期不變，除非那會超過新月份的最後一天，在這種情況下會使用該月的最後一天。（例如，3 月 31 日加 1 個月會變成 4 月 30 日，但 3 月 31 日加 2 個月會變成 5 月 31 日。）接著，日欄位會將時間戳記的日期推進或後退指定的天數。在這兩個步驟中，一天中的當地時間都保持不變。最後，如果有非零的微秒欄位，就會按字面加上或減去。在承認日光節約時間的時區中，對 `timestamp with time zone` 值進行算術運算時，這表示加上或減去（比方說）`interval '1 day'`，與加上或減去 `interval '24 hours'` 的結果不一定相同。例如，在工作階段時區設為 `America/Denver` 的情況下：
 
 ```
 
@@ -789,34 +700,11 @@ SELECT timestamp with time zone '2005-04-02 12:00:00-07' + interval '24 hours';
 Result: 2005-04-03 13:00:00-06
 ```
 
-This happens because an hour was skipped due to a change in daylight saving
-time at `2005-04-03 02:00:00` in time zone
-`America/Denver`.
+之所以會這樣，是因為在 `America/Denver` 時區中，`2005-04-03 02:00:00` 時發生了日光節約時間的轉換，使得有一個小時被跳過了。
 
-Note there can be ambiguity in the `months` field returned by
-`age` because different months have different numbers of
-days. PostgreSQL's approach uses the month from the
-earlier of the two dates when calculating partial months. For example,
-`age('2004-06-01', '2004-04-30')` uses April to yield
-`1 mon 1 day`, while using May would yield `1 mon 2
-days` because May has 31 days, while April has only 30.
+請注意，由於不同的月份有不同的天數，`age` 所回傳的 `months` 欄位可能會有歧義。PostgreSQL 的做法是在計算不足一個月的部分時，使用兩個日期中較早那個日期的月份。例如，`age('2004-06-01', '2004-04-30')` 使用四月，產生 `1 mon 1 day`；而如果使用五月，則會產生 `1 mon 2 days`，因為五月有 31 天，而四月只有 30 天。
 
-Subtraction of dates and timestamps can also be complex. One conceptually
-simple way to perform subtraction is to convert each value to a number
-of seconds using `EXTRACT(EPOCH FROM ...)`, then subtract the
-results; this produces the
-number of *seconds* between the two values. This will adjust
-for the number of days in each month, timezone changes, and daylight
-saving time adjustments. Subtraction of date or timestamp
-values with the “`-`” operator
-returns the number of days (24-hours) and hours/minutes/seconds
-between the values, making the same adjustments. The `age`
-function returns years, months, days, and hours/minutes/seconds,
-performing field-by-field subtraction and then adjusting for negative
-field values. The following queries illustrate the differences in these
-approaches. The sample results were produced with `timezone
-= 'US/Eastern'`; there is a daylight saving time change between the
-two dates used:
+日期與時間戳記的減法也可能很複雜。一種概念上簡單的減法做法，是使用 `EXTRACT(EPOCH FROM ...)` 將每個值轉換為秒數，然後將結果相減；這會產生兩個值之間相差的*秒數*。這會考量每個月的天數、時區變更以及日光節約時間的調整。使用「`-`」運算子對日期或時間戳記值進行減法，會回傳兩個值之間相差的天數（24 小時）與時／分／秒，並進行相同的調整。`age` 函式會回傳年、月、日與時／分／秒，它會逐欄位進行減法，然後再針對負的欄位值進行調整。下列查詢說明了這些做法之間的差異。範例結果是在 `timezone = 'US/Eastern'` 的情況下產生的；所使用的兩個日期之間有一次日光節約時間的轉換：
 
 ```
 
@@ -835,7 +723,7 @@ Result: 4 mons
 
 <a id="FUNCTIONS-DATETIME-EXTRACT"></a>
 
-### 9.9.1. `EXTRACT`, `date_part` [#](#FUNCTIONS-DATETIME-EXTRACT)
+### 9.9.1. `EXTRACT`、`date_part` [#](#FUNCTIONS-DATETIME-EXTRACT)
 
 <a id="id-1.5.8.15.13.2"></a><a id="id-1.5.8.15.13.3"></a>
 
@@ -844,25 +732,12 @@ Result: 4 mons
 EXTRACT(field FROM source)
 ```
 
-The `extract` function retrieves subfields
-such as year or hour from date/time values.
-*`source`* must be a value expression of
-type `timestamp`, `date`, `time`,
-or `interval`. (Timestamps and times can be with or
-without time zone.)
-*`field`* is an identifier or
-string that selects what field to extract from the source value.
-Not all fields are valid for every input data type; for example, fields
-smaller than a day cannot be extracted from a `date`, while
-fields of a day or more cannot be extracted from a `time`.
-The `extract` function returns values of type
-`numeric`.
+`extract` 函式會從日期／時間值中取出年或小時等子欄位。*`source`* 必須是 `timestamp`、`date`、`time` 或 `interval` 型別的值運算式。（時間戳記與時間可以帶時區，也可以不帶。）*`field`* 是一個識別符號或字串，用來選擇要從來源值中取出哪一個欄位。並非所有欄位對每種輸入資料型別都有效；例如，小於一天的欄位無法從 `date` 中取出，而一天或以上的欄位則無法從 `time` 中取出。`extract` 函式回傳 `numeric` 型別的值。
 
-The following are valid field names:
+以下是有效的欄位名稱：
 
 `century`
-:   The century; for `interval` values, the year field
-    divided by 100
+:   世紀；對於 `interval` 值，則是年欄位除以 100
 
     ```
 
@@ -879,8 +754,7 @@ The following are valid field names:
     ```
 
 `day`
-:   The day of the month (1–31); for `interval`
-    values, the number of days
+:   月中的第幾天（1–31）；對於 `interval` 值，則是天數
 
     ```
 
@@ -891,7 +765,7 @@ The following are valid field names:
     ```
 
 `decade`
-:   The year field divided by 10
+:   年欄位除以 10
 
     ```
 
@@ -900,8 +774,7 @@ The following are valid field names:
     ```
 
 `dow`
-:   The day of the week as Sunday (`0`) to
-    Saturday (`6`)
+:   星期幾，從星期日（`0`）到星期六（`6`）
 
     ```
 
@@ -909,12 +782,10 @@ The following are valid field names:
     Result: 5
     ```
 
-    Note that `extract`'s day of the week numbering
-    differs from that of the `to_char(...,
-    'D')` function.
+    請注意，`extract` 的星期編號與 `to_char(..., 'D')` 函式的不同。
 
 `doy`
-:   The day of the year (1–365/366)
+:   一年中的第幾天（1–365/366）
 
     ```
 
@@ -923,14 +794,7 @@ The following are valid field names:
     ```
 
 `epoch`
-:   For `timestamp with time zone` values, the
-    number of seconds since 1970-01-01 00:00:00 UTC (negative for
-    timestamps before that);
-    for `date` and `timestamp` values, the
-    nominal number of seconds since 1970-01-01 00:00:00,
-    without regard to timezone or daylight-savings rules;
-    for `interval` values, the total number
-    of seconds in the interval
+:   對於 `timestamp with time zone` 值，是自 1970-01-01 00:00:00 UTC 起的秒數（之前的時間戳記為負數）；對於 `date` 與 `timestamp` 值，是自 1970-01-01 00:00:00 起的名目秒數，不考慮時區或日光節約時間規則；對於 `interval` 值，則是該時間間隔的總秒數
 
     ```
 
@@ -942,8 +806,7 @@ The following are valid field names:
     Result: 442800.000000
     ```
 
-    You can convert an epoch value back to a `timestamp with time zone`
-    with `to_timestamp`:
+    你可以使用 `to_timestamp` 將 epoch 值轉換回 `timestamp with time zone`：
 
     ```
 
@@ -951,15 +814,10 @@ The following are valid field names:
     Result: 2001-02-17 04:38:40.12+00
     ```
 
-    Beware that applying `to_timestamp` to an epoch
-    extracted from a `date` or `timestamp` value
-    could produce a misleading result: the result will effectively
-    assume that the original value had been given in UTC, which might
-    not be the case.
+    請注意，對從 `date` 或 `timestamp` 值取出的 epoch 套用 `to_timestamp`，可能會產生誤導性的結果：結果實際上會假設原始值是以 UTC 給定的，而事實不一定如此。
 
 `hour`
-:   The hour field (0–23 in timestamps, unrestricted in
-    intervals)
+:   小時欄位（在時間戳記中為 0–23，在時間間隔中則不受限制）
 
     ```
 
@@ -968,8 +826,7 @@ The following are valid field names:
     ```
 
 `isodow`
-:   The day of the week as Monday (`1`) to
-    Sunday (`7`)
+:   星期幾，從星期一（`1`）到星期日（`7`）
 
     ```
 
@@ -977,12 +834,10 @@ The following are valid field names:
     Result: 7
     ```
 
-    This is identical to `dow` except for Sunday. This
-    matches the ISO 8601 day of the week numbering.
+    除了星期日之外，這與 `dow` 相同。這符合 ISO 8601 的星期編號。
 
 `isoyear`
-:   The ISO 8601 week-numbering year that the date
-    falls in
+:   該日期所屬的 ISO 8601 週編號年
 
     ```
 
@@ -992,17 +847,10 @@ The following are valid field names:
     Result: 2006
     ```
 
-    Each ISO 8601 week-numbering year begins with the
-    Monday of the week containing the 4th of January, so in early
-    January or late December the ISO year may be
-    different from the Gregorian year. See the `week`
-    field for more information.
+    每個 ISO 8601 週編號年都從包含 1 月 4 日那一週的星期一開始，因此在一月初或十二月底，ISO 年可能會與格里曆年不同。更多資訊請參閱 `week` 欄位。
 
 `julian`
-:   The *Julian Date* corresponding to the
-    date or timestamp. Timestamps
-    that are not local midnight result in a fractional value. See
-    [Section B.7](../../appendixes/datetime-appendix/datetime-julian-dates.md) for more information.
+:   對應於該日期或時間戳記的*儒略日*（Julian Date）。不是當地午夜的時間戳記會產生帶小數的值。更多資訊請參閱[第 B.7 節](../../appendixes/datetime-appendix/datetime-julian-dates.md)。
 
     ```
 
@@ -1013,8 +861,7 @@ The following are valid field names:
     ```
 
 `microseconds`
-:   The seconds field, including fractional parts, multiplied by 1
-    000 000; note that this includes full seconds
+:   秒欄位（包括小數部分）乘以 1 000 000；請注意，這包括完整的秒數
 
     ```
 
@@ -1023,8 +870,7 @@ The following are valid field names:
     ```
 
 `millennium`
-:   The millennium; for `interval` values, the year field
-    divided by 1000
+:   千禧年；對於 `interval` 值，則是年欄位除以 1000
 
     ```
 
@@ -1034,12 +880,10 @@ The following are valid field names:
     Result: 2
     ```
 
-    Years in the 1900s are in the second millennium.
-    The third millennium started January 1, 2001.
+    1900 年代屬於第二個千禧年。第三個千禧年從 2001 年 1 月 1 日開始。
 
 `milliseconds`
-:   The seconds field, including fractional parts, multiplied by
-    1000. Note that this includes full seconds.
+:   秒欄位（包括小數部分）乘以 1000。請注意，這包括完整的秒數。
 
     ```
 
@@ -1048,7 +892,7 @@ The following are valid field names:
     ```
 
 `minute`
-:   The minutes field (0–59)
+:   分鐘欄位（0–59）
 
     ```
 
@@ -1057,9 +901,7 @@ The following are valid field names:
     ```
 
 `month`
-:   The number of the month within the year (1–12);
-    for `interval` values, the number of months modulo 12
-    (0–11)
+:   一年中的月份編號（1–12）；對於 `interval` 值，則是月數除以 12 的餘數（0–11）
 
     ```
 
@@ -1072,9 +914,7 @@ The following are valid field names:
     ```
 
 `quarter`
-:   The quarter of the year (1–4) that the date is in;
-    for `interval` values, the month field divided by 3
-    plus 1
+:   該日期所在的季（1–4）；對於 `interval` 值，則是月欄位除以 3 再加 1
 
     ```
 
@@ -1085,7 +925,7 @@ The following are valid field names:
     ```
 
 `second`
-:   The seconds field, including any fractional seconds
+:   秒欄位，包括任何小數部分的秒數
 
     ```
 
@@ -1096,35 +936,20 @@ The following are valid field names:
     ```
 
 `timezone`
-:   The time zone offset from UTC, measured in seconds. Positive values
-    correspond to time zones east of UTC, negative values to
-    zones west of UTC. (Technically,
-    PostgreSQL does not use UTC because
-    leap seconds are not handled.)
+:   相對於 UTC 的時區位移，以秒為單位。正值對應於 UTC 以東的時區，負值對應於 UTC 以西的時區。（嚴格來說，PostgreSQL 並不使用 UTC，因為它不處理閏秒。）
 
 `timezone_hour`
-:   The hour component of the time zone offset
+:   時區位移的小時部分
 
 `timezone_minute`
-:   The minute component of the time zone offset
+:   時區位移的分鐘部分
 
 `week`
-:   The number of the ISO 8601 week-numbering week of
-    the year. By definition, ISO weeks start on Mondays and the first
-    week of a year contains January 4 of that year. In other words, the
-    first Thursday of a year is in week 1 of that year.
+:   一年中 ISO 8601 週編號週的編號。依照定義，ISO 週從星期一開始，而一年的第一週包含該年的 1 月 4 日。換句話說，一年中的第一個星期四位於該年的第 1 週。
 
-    In the ISO week-numbering system, it is possible for early-January
-    dates to be part of the 52nd or 53rd week of the previous year, and for
-    late-December dates to be part of the first week of the next year.
-    For example, `2005-01-01` is part of the 53rd week of year
-    2004, and `2006-01-01` is part of the 52nd week of year
-    2005, while `2012-12-31` is part of the first week of 2013.
-    It's recommended to use the `isoyear` field together with
-    `week` to get consistent results.
+    在 ISO 週編號系統中，一月初的日期有可能屬於前一年的第 52 或第 53 週，而十二月底的日期也有可能屬於下一年的第一週。例如，`2005-01-01` 屬於 2004 年的第 53 週，`2006-01-01` 屬於 2005 年的第 52 週，而 `2012-12-31` 則屬於 2013 年的第一週。建議將 `isoyear` 欄位與 `week` 一起使用，以得到一致的結果。
 
-    For `interval` values, the week field is simply the number
-    of integral days divided by 7.
+    對於 `interval` 值，週欄位就是整數天數除以 7。
 
     ```
 
@@ -1135,8 +960,7 @@ The following are valid field names:
     ```
 
 `year`
-:   The year field. Keep in mind there is no `0 AD`, so subtracting
-    `BC` years from `AD` years should be done with care.
+:   年欄位。請記住，並沒有 `0 AD`（西元 0 年），因此從 `AD`（西元）年份減去 `BC`（西元前）年份時應該小心。
 
     ```
 
@@ -1144,11 +968,7 @@ The following are valid field names:
     Result: 2001
     ```
 
-When processing an `interval` value,
-the `extract` function produces field values that
-match the interpretation used by the interval output function. This
-can produce surprising results if one starts with a non-normalized
-interval representation, for example:
+處理 `interval` 值時，`extract` 函式所產生的欄位值，會與時間間隔輸出函式所使用的解讀方式一致。如果一開始使用的是未正規化的時間間隔表示，就可能產生令人意外的結果，例如：
 
 ```
 
@@ -1158,40 +978,20 @@ SELECT EXTRACT(MINUTES FROM INTERVAL '80 minutes');
 Result: 20
 ```
 
-### Note
+### 注意
 
-When the input value is +/-Infinity, `extract` returns
-+/-Infinity for monotonically-increasing fields (`epoch`,
-`julian`, `year`, `isoyear`,
-`decade`, `century`, and `millennium`
-for `timestamp` inputs; `epoch`, `hour`,
-`day`, `year`, `decade`,
-`century`, and `millennium` for
-`interval` inputs).
-For other fields, NULL is returned. PostgreSQL
-versions before 9.6 returned zero for all cases of infinite input.
+當輸入值為 +/-Infinity 時，對於單調遞增的欄位（`timestamp` 輸入的 `epoch`、`julian`、`year`、`isoyear`、`decade`、`century` 與 `millennium`；`interval` 輸入的 `epoch`、`hour`、`day`、`year`、`decade`、`century` 與 `millennium`），`extract` 會回傳 +/-Infinity。對於其他欄位，則回傳 NULL。9.6 之前的 PostgreSQL 版本，對於所有無限的輸入都回傳零。
 
-The `extract` function is primarily intended
-for computational processing. For formatting date/time values for
-display, see [Section 9.8](functions-formatting.md).
+`extract` 函式主要用於計算處理。關於將日期／時間值格式化以供顯示，請參閱[第 9.8 節](functions-formatting.md)。
 
-The `date_part` function is modeled on the traditional
-Ingres equivalent to the
-SQL-standard function `extract`:
+`date_part` 函式是仿照傳統 Ingres 中與 SQL 標準函式 `extract` 等價的函式而設計的：
 
 ```
 
 date_part('field', source)
 ```
 
-Note that here the *`field`* parameter needs to
-be a string value, not a name. The valid field names for
-`date_part` are the same as for
-`extract`.
-For historical reasons, the `date_part` function
-returns values of type `double precision`. This can result in
-a loss of precision in certain uses. Using `extract`
-is recommended instead.
+請注意，這裡的 *`field`* 參數必須是字串值，而不是名稱。`date_part` 的有效欄位名稱與 `extract` 相同。基於歷史原因，`date_part` 函式回傳 `double precision` 型別的值。這在某些用途中可能會導致精度損失。建議改用 `extract`。
 
 ```
 
@@ -1203,49 +1003,28 @@ Result: 4
 
 <a id="FUNCTIONS-DATETIME-TRUNC"></a>
 
-### 9.9.2. `date_trunc` [#](#FUNCTIONS-DATETIME-TRUNC)
+### 9.9.2. `date_trunc` [#](#FUNCTIONS-DATETIME-TRUNC)
 
 <a id="id-1.5.8.15.14.2"></a>
 
-The function `date_trunc` is conceptually
-similar to the `trunc` function for numbers.
+函式 `date_trunc` 在概念上類似於用於數字的 `trunc` 函式。
 
 ```
 
 date_trunc(field, source [, time_zone ])
 ```
 
-*`source`* is a value expression of type
-`timestamp`, `timestamp with time zone`,
-or `interval`.
-(Values of type `date` and
-`time` are cast automatically to `timestamp` or
-`interval`, respectively.)
-*`field`* selects to which precision to
-truncate the input value. The return value is likewise of type
-`timestamp`, `timestamp with time zone`,
-or `interval`,
-and it has all fields that are less significant than the
-selected one set to zero (or one, for day and month).
+*`source`* 是 `timestamp`、`timestamp with time zone` 或 `interval` 型別的值運算式。（`date` 與 `time` 型別的值，會分別自動轉換為 `timestamp` 或 `interval`。）*`field`* 選擇要將輸入值截斷到哪一個精度。回傳值同樣是 `timestamp`、`timestamp with time zone` 或 `interval` 型別，而且所有比所選欄位更不重要的欄位都會被設為零（對於日與月則設為一）。
 
-Valid values for *`field`* are:
+*`field`* 的有效值為：
 
 <table border="0" class="simplelist" summary="Simple list"><tr><td><code class="literal">microseconds</code></td></tr><tr><td><code class="literal">milliseconds</code></td></tr><tr><td><code class="literal">second</code></td></tr><tr><td><code class="literal">minute</code></td></tr><tr><td><code class="literal">hour</code></td></tr><tr><td><code class="literal">day</code></td></tr><tr><td><code class="literal">week</code></td></tr><tr><td><code class="literal">month</code></td></tr><tr><td><code class="literal">quarter</code></td></tr><tr><td><code class="literal">year</code></td></tr><tr><td><code class="literal">decade</code></td></tr><tr><td><code class="literal">century</code></td></tr><tr><td><code class="literal">millennium</code></td></tr></table>
 
-When the input value is of type `timestamp with time zone`,
-the truncation is performed with respect to a particular time zone;
-for example, truncation to `day` produces a value that
-is midnight in that zone. By default, truncation is done with respect
-to the current [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) setting, but the
-optional *`time_zone`* argument can be provided
-to specify a different time zone. The time zone name can be specified
-in any of the ways described in [Section 8.5.3](../datatype/datatype-datetime.md#DATATYPE-TIMEZONES).
+當輸入值是 `timestamp with time zone` 型別時，截斷是相對於特定時區進行的；例如，截斷到 `day` 會產生該時區中午夜的值。預設情況下，截斷是相對於目前的 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 設定進行的，但可以提供選用的 *`time_zone`* 引數來指定不同的時區。時區名稱可以用[第 8.5.3 節](../datatype/datatype-datetime.md#DATATYPE-TIMEZONES)所述的任何方式指定。
 
-A time zone cannot be specified when processing `timestamp without
-time zone` or `interval` inputs. These are always
-taken at face value.
+處理 `timestamp without time zone` 或 `interval` 輸入時，無法指定時區。這些輸入一律按其表面值處理。
 
-Examples (assuming the local time zone is `America/New_York`):
+範例（假設當地時區為 `America/New_York`）：
 
 ```
 
@@ -1263,29 +1042,20 @@ Result: 3 days 02:00:00
 
 <a id="FUNCTIONS-DATETIME-BIN"></a>
 
-### 9.9.3. `date_bin` [#](#FUNCTIONS-DATETIME-BIN)
+### 9.9.3. `date_bin` [#](#FUNCTIONS-DATETIME-BIN)
 
 <a id="id-1.5.8.15.15.2"></a>
 
-The function `date_bin` “bins” the input
-timestamp into the specified interval (the *stride*)
-aligned with a specified origin.
+函式 `date_bin` 會將輸入的時間戳記「分箱」（bin）到與指定原點對齊的指定時間間隔（*步幅*，stride）中。
 
 ```
 
 date_bin(stride, source, origin)
 ```
 
-*`source`* is a value expression of type
-`timestamp` or `timestamp with time zone`. (Values
-of type `date` are cast automatically to
-`timestamp`.) *`stride`* is a value
-expression of type `interval`. The return value is likewise
-of type `timestamp` or `timestamp with time zone`,
-and it marks the beginning of the bin into which the
-*`source`* is placed.
+*`source`* 是 `timestamp` 或 `timestamp with time zone` 型別的值運算式。（`date` 型別的值會自動轉換為 `timestamp`。）*`stride`* 是 `interval` 型別的值運算式。回傳值同樣是 `timestamp` 或 `timestamp with time zone` 型別，它標示了 *`source`* 所放入之箱的起點。
 
-Examples:
+範例：
 
 ```
 
@@ -1295,46 +1065,36 @@ SELECT date_bin('15 minutes', TIMESTAMP '2020-02-11 15:44:17', TIMESTAMP '2001-0
 Result: 2020-02-11 15:32:30
 ```
 
-In the case of full units (1 minute, 1 hour, etc.), it gives the same result as
-the analogous `date_trunc` call, but the difference is
-that `date_bin` can truncate to an arbitrary interval.
+對於完整的單位（1 分鐘、1 小時等），它會產生與類似的 `date_trunc` 呼叫相同的結果，但差別在於 `date_bin` 可以截斷到任意的時間間隔。
 
-The *`stride`* interval must be greater than zero and
-cannot contain units of month or larger.
+*`stride`* 時間間隔必須大於零，而且不能包含月或更大的單位。
 
 <a id="FUNCTIONS-DATETIME-ZONECONVERT"></a>
 
-### 9.9.4. `AT TIME ZONE` and `AT LOCAL` [#](#FUNCTIONS-DATETIME-ZONECONVERT)
+### 9.9.4. `AT TIME ZONE` 與 `AT LOCAL` [#](#FUNCTIONS-DATETIME-ZONECONVERT)
 
 <a id="id-1.5.8.15.16.2"></a><a id="id-1.5.8.15.16.3"></a><a id="id-1.5.8.15.16.4"></a>
 
-The `AT TIME ZONE` operator converts time
-stamp *without* time zone to/from
-time stamp *with* time zone, and
-`time with time zone` values to different time
-zones. [Table 9.34](functions-datetime.md#FUNCTIONS-DATETIME-ZONECONVERT-TABLE) shows its
-variants.
+`AT TIME ZONE` 運算子可以在*不帶*時區的時間戳記與*帶*時區的時間戳記之間互相轉換，也可以將 `time with time zone` 值轉換到不同的時區。[表 9.34](functions-datetime.md#FUNCTIONS-DATETIME-ZONECONVERT-TABLE) 列出了它的變化形式。
 
 <a id="FUNCTIONS-DATETIME-ZONECONVERT-TABLE"></a>
 
-**Table 9.34. `AT TIME ZONE` and `AT LOCAL` Variants**
+**表 9.34. `AT TIME ZONE` 與 `AT LOCAL` 的變化形式**
 
 <table border="1" class="table" summary="AT TIME ZONE and AT LOCAL Variants"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-         Operator
+         運算子
         </p>
 <p>
-         Description
+         說明
         </p>
 <p>
-         Example(s)
+         範例
         </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">timestamp without time zone</code> <code class="literal">AT TIME ZONE</code> <em class="replaceable"><code>zone</code></em>
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Converts given time stamp <span class="emphasis"><em>without</em></span> time zone to
-         time stamp <span class="emphasis"><em>with</em></span> time zone, assuming the given
-         value is in the named time zone.
+         將給定的<span class="emphasis"><em>不帶</em></span>時區的時間戳記，轉換為<span class="emphasis"><em>帶</em></span>時區的時間戳記，並假設給定的值位於指定名稱的時區中。
         </p>
 <p>
 <code class="literal">timestamp '2001-02-16 20:38:40' at time zone 'America/Denver'</code>
@@ -1344,9 +1104,7 @@ variants.
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         Converts given time stamp <span class="emphasis"><em>without</em></span> time zone to
-         time stamp <span class="emphasis"><em>with</em></span> the session's
-         <code class="varname">TimeZone</code> value as time zone.
+         將給定的<span class="emphasis"><em>不帶</em></span>時區的時間戳記，轉換為以工作階段的 <code class="varname">TimeZone</code> 值作為時區的<span class="emphasis"><em>帶</em></span>時區時間戳記。
         </p>
 <p>
 <code class="literal">timestamp '2001-02-16 20:38:40' at local</code>
@@ -1356,9 +1114,7 @@ variants.
          → <code class="returnvalue">timestamp without time zone</code>
 </p>
 <p>
-         Converts given time stamp <span class="emphasis"><em>with</em></span> time zone to
-         time stamp <span class="emphasis"><em>without</em></span> time zone, as the time would
-         appear in that zone.
+         將給定的<span class="emphasis"><em>帶</em></span>時區的時間戳記，轉換為<span class="emphasis"><em>不帶</em></span>時區的時間戳記，其時間為在該時區中所呈現的時間。
         </p>
 <p>
 <code class="literal">timestamp with time zone '2001-02-16 20:38:40-05' at time zone 'America/Denver'</code>
@@ -1368,9 +1124,7 @@ variants.
          → <code class="returnvalue">timestamp without time zone</code>
 </p>
 <p>
-         Converts given time stamp <span class="emphasis"><em>with</em></span> time zone to
-         time stamp <span class="emphasis"><em>without</em></span> time zone, as the time would
-         appear with the session's <code class="varname">TimeZone</code> value as time zone.
+         將給定的<span class="emphasis"><em>帶</em></span>時區的時間戳記，轉換為<span class="emphasis"><em>不帶</em></span>時區的時間戳記，其時間為以工作階段的 <code class="varname">TimeZone</code> 值作為時區時所呈現的時間。
         </p>
 <p>
 <code class="literal">timestamp with time zone '2001-02-16 20:38:40-05' at local</code>
@@ -1380,9 +1134,7 @@ variants.
          → <code class="returnvalue">time with time zone</code>
 </p>
 <p>
-         Converts given time <span class="emphasis"><em>with</em></span> time zone to a new time
-         zone.  Since no date is supplied, this uses the currently active UTC
-         offset for the named destination zone.
+         將給定的<span class="emphasis"><em>帶</em></span>時區的時間轉換到新的時區。由於沒有提供日期，這會使用指定名稱之目的時區目前生效的 UTC 位移。
         </p>
 <p>
 <code class="literal">time with time zone '05:34:17-05' at time zone 'UTC'</code>
@@ -1392,12 +1144,10 @@ variants.
          → <code class="returnvalue">time with time zone</code>
 </p>
 <p>
-         Converts given time <span class="emphasis"><em>with</em></span> time zone to a new time
-         zone.  Since no date is supplied, this uses the currently active UTC
-         offset for the session's <code class="varname">TimeZone</code> value.
+         將給定的<span class="emphasis"><em>帶</em></span>時區的時間轉換到新的時區。由於沒有提供日期，這會使用工作階段之 <code class="varname">TimeZone</code> 值目前生效的 UTC 位移。
         </p>
 <p>
-         Assuming the session's <code class="varname">TimeZone</code> is set to <code class="literal">UTC</code>:
+         假設工作階段的 <code class="varname">TimeZone</code> 設為 <code class="literal">UTC</code>：
         </p>
 <p>
 <code class="literal">time with time zone '05:34:17-05' at local</code>
@@ -1406,21 +1156,11 @@ variants.
 
 <br>
 
-In these expressions, the desired time zone *`zone`* can be
-specified either as a text value (e.g., `'America/Los_Angeles'`)
-or as an interval (e.g., `INTERVAL '-08:00'`).
-In the text case, a time zone name can be specified in any of the ways
-described in [Section 8.5.3](../datatype/datatype-datetime.md#DATATYPE-TIMEZONES).
-The interval case is only useful for zones that have fixed offsets from
-UTC, so it is not very common in practice.
+在這些運算式中，所需的時區 *`zone`* 可以指定為文字值（例如 `'America/Los_Angeles'`），也可以指定為時間間隔（例如 `INTERVAL '-08:00'`）。在文字的情況下，時區名稱可以用[第 8.5.3 節](../datatype/datatype-datetime.md#DATATYPE-TIMEZONES)所述的任何方式指定。時間間隔的情況只對與 UTC 有固定位移的時區有用，因此在實務上不太常見。
 
-The syntax `AT LOCAL` may be used as shorthand for
-`AT TIME ZONE local`, where
-*`local`* is the session's
-`TimeZone` value.
+語法 `AT LOCAL` 可以用作 `AT TIME ZONE local` 的簡寫，其中 *`local`* 是工作階段的 `TimeZone` 值。
 
-Examples (assuming the current [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) setting
-is `America/Los_Angeles`):
+範例（假設目前的 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 設定為 `America/Los_Angeles`）：
 
 ```
 
@@ -1438,54 +1178,25 @@ SELECT TIME WITH TIME ZONE '20:38:40-05' AT LOCAL;
 Result: 17:38:40
 ```
 
-The first example adds a time zone to a value that lacks it, and
-displays the value using the current `TimeZone`
-setting. The second example shifts the time stamp with time zone value
-to the specified time zone, and returns the value without a time zone.
-This allows storage and display of values different from the current
-`TimeZone` setting. The third example converts
-Tokyo time to Chicago time. The fourth example shifts the time stamp
-with time zone value to the time zone currently specified by the
-`TimeZone` setting and returns the value without a
-time zone. The fifth example demonstrates that the sign in a POSIX-style
-time zone specification has the opposite meaning of the sign in an
-ISO-8601 datetime literal, as described in [Section 8.5.3](../datatype/datatype-datetime.md#DATATYPE-TIMEZONES)
-and [Appendix B](../../appendixes/datetime-appendix/README.md).
+第一個範例為缺少時區的值加上時區，並使用目前的 `TimeZone` 設定顯示該值。第二個範例將帶時區的時間戳記值轉換到指定的時區，並回傳不帶時區的值。這樣就可以儲存與顯示和目前 `TimeZone` 設定不同的值。第三個範例將東京時間轉換為芝加哥時間。第四個範例將帶時區的時間戳記值轉換到目前 `TimeZone` 設定所指定的時區，並回傳不帶時區的值。第五個範例示範了 POSIX 風格時區規格中的正負號，與 ISO-8601 日期時間字面值中的正負號意義相反，如[第 8.5.3 節](../datatype/datatype-datetime.md#DATATYPE-TIMEZONES)與[附錄 B](../../appendixes/datetime-appendix/README.md) 所述。
 
-The sixth example is a cautionary tale. Due to the fact that there is no
-date associated with the input value, the conversion is made using the
-current date of the session. Therefore, this static example may show a wrong
-result depending on the time of the year it is viewed because
-`'America/Los_Angeles'` observes Daylight Savings Time.
+第六個範例是一個警世故事。由於輸入值沒有相關聯的日期，轉換會使用工作階段的目前日期進行。因此，這個靜態範例可能會依照查看時是一年中的哪個時候而顯示錯誤的結果，因為 `'America/Los_Angeles'` 實施日光節約時間。
 
-The function `timezone(zone,
-timestamp)` is equivalent to the SQL-conforming construct
-`timestamp AT TIME ZONE
-zone`.
+函式 `timezone(zone, timestamp)` 等同於符合 SQL 標準的結構 `timestamp AT TIME ZONE zone`。
 
-The function `timezone(zone,
-time)` is equivalent to the SQL-conforming construct
-`time AT TIME ZONE
-zone`.
+函式 `timezone(zone, time)` 等同於符合 SQL 標準的結構 `time AT TIME ZONE zone`。
 
-The function `timezone(timestamp)`
-is equivalent to the SQL-conforming construct `timestamp
-AT LOCAL`.
+函式 `timezone(timestamp)` 等同於符合 SQL 標準的結構 `timestamp AT LOCAL`。
 
-The function `timezone(time)`
-is equivalent to the SQL-conforming construct `time
-AT LOCAL`.
+函式 `timezone(time)` 等同於符合 SQL 標準的結構 `time AT LOCAL`。
 
 <a id="FUNCTIONS-DATETIME-CURRENT"></a>
 
-### 9.9.5. Current Date/Time [#](#FUNCTIONS-DATETIME-CURRENT)
+### 9.9.5. 目前日期／時間 [#](#FUNCTIONS-DATETIME-CURRENT)
 
 <a id="id-1.5.8.15.17.2"></a><a id="id-1.5.8.15.17.3"></a>
 
-PostgreSQL provides a number of functions
-that return values related to the current date and time. These
-SQL-standard functions all return values based on the start time of
-the current transaction:
+PostgreSQL 提供了許多回傳與目前日期與時間相關之值的函式。這些 SQL 標準函式回傳的值，都是以目前交易的開始時間為基礎：
 
 ```
 
@@ -1500,21 +1211,11 @@ LOCALTIME(precision)
 LOCALTIMESTAMP(precision)
 ```
 
-`CURRENT_TIME` and
-`CURRENT_TIMESTAMP` deliver values with time zone;
-`LOCALTIME` and
-`LOCALTIMESTAMP` deliver values without time zone.
+`CURRENT_TIME` 與 `CURRENT_TIMESTAMP` 提供帶時區的值；`LOCALTIME` 與 `LOCALTIMESTAMP` 提供不帶時區的值。
 
-`CURRENT_TIME`,
-`CURRENT_TIMESTAMP`,
-`LOCALTIME`, and
-`LOCALTIMESTAMP`
-can optionally take
-a precision parameter, which causes the result to be rounded
-to that many fractional digits in the seconds field. Without a precision parameter,
-the result is given to the full available precision.
+`CURRENT_TIME`、`CURRENT_TIMESTAMP`、`LOCALTIME` 與 `LOCALTIMESTAMP` 可以選擇性地接受一個精度參數，使結果在秒欄位中四捨五入到該數量的小數位數。沒有精度參數時，結果會以完整的可用精度提供。
 
-Some examples:
+一些範例：
 
 ```
 
@@ -1530,23 +1231,13 @@ SELECT LOCALTIMESTAMP;
 Result: 2019-12-23 14:39:53.662522
 ```
 
-Since these functions return
-the start time of the current transaction, their values do not
-change during the transaction. This is considered a feature:
-the intent is to allow a single transaction to have a consistent
-notion of the “current” time, so that multiple
-modifications within the same transaction bear the same
-time stamp.
+由於這些函式回傳的是目前交易的開始時間，它們的值在交易期間不會改變。這被視為一項功能：其目的是讓單一交易對「目前」時間有一致的概念，使得同一個交易中的多次修改帶有相同的時間戳記。
 
-### Note
+### 注意
 
-Other database systems might advance these values more
-frequently.
+其他資料庫系統可能會更頻繁地推進這些值。
 
-PostgreSQL also provides functions that
-return the start time of the current statement, as well as the actual
-current time at the instant the function is called. The complete list
-of non-SQL-standard time functions is:
+PostgreSQL 也提供了回傳目前陳述式之開始時間的函式，以及回傳呼叫函式那一刻之實際目前時間的函式。非 SQL 標準的時間函式完整清單如下：
 
 ```
 
@@ -1557,29 +1248,9 @@ timeofday()
 now()
 ```
 
-`transaction_timestamp()` is equivalent to
-`CURRENT_TIMESTAMP`, but is named to clearly reflect
-what it returns.
-`statement_timestamp()` returns the start time of the current
-statement (more specifically, the time of receipt of the latest command
-message from the client).
-`statement_timestamp()` and `transaction_timestamp()`
-return the same value during the first statement of a transaction, but might
-differ during subsequent statements.
-`clock_timestamp()` returns the actual current time, and
-therefore its value changes even within a single SQL statement.
-`timeofday()` is a historical
-PostgreSQL function. Like
-`clock_timestamp()`, it returns the actual current time,
-but as a formatted `text` string rather than a `timestamp
-with time zone` value.
-`now()` is a traditional PostgreSQL
-equivalent to `transaction_timestamp()`.
+`transaction_timestamp()` 等同於 `CURRENT_TIMESTAMP`，但其名稱清楚反映了它所回傳的內容。`statement_timestamp()` 回傳目前陳述式的開始時間（更具體地說，是收到用戶端最新命令訊息的時間）。在交易的第一個陳述式期間，`statement_timestamp()` 與 `transaction_timestamp()` 會回傳相同的值，但在後續陳述式期間則可能不同。`clock_timestamp()` 回傳實際的目前時間，因此即使在單一 SQL 陳述式中，它的值也會改變。`timeofday()` 是一個歷史悠久的 PostgreSQL 函式。與 `clock_timestamp()` 一樣，它回傳實際的目前時間，但回傳的是格式化的 `text` 字串，而不是 `timestamp with time zone` 值。`now()` 是傳統的 PostgreSQL 函式，等同於 `transaction_timestamp()`。
 
-All the date/time data types also accept the special literal value
-`now` to specify the current date and time (again,
-interpreted as the transaction start time). Thus,
-the following three all return the same result:
+所有日期／時間資料型別也都接受特殊的字面值 `now`，用來指定目前的日期與時間（同樣解讀為交易的開始時間）。因此，下面三者都會回傳相同的結果：
 
 ```
 
@@ -1588,27 +1259,17 @@ SELECT now();
 SELECT TIMESTAMP 'now';  -- but see tip below
 ```
 
-### Tip
+### 提示
 
-Do not use the third form when specifying a value to be evaluated later,
-for example in a `DEFAULT` clause for a table column.
-The system will convert `now`
-to a `timestamp` as soon as the constant is parsed, so that when
-the default value is needed,
-the time of the table creation would be used! The first two
-forms will not be evaluated until the default value is used,
-because they are function calls. Thus they will give the desired
-behavior of defaulting to the time of row insertion.
-(See also [Section 8.5.1.4](../datatype/datatype-datetime.md#DATATYPE-DATETIME-SPECIAL-VALUES).)
+在指定之後才要評估的值時，例如在資料表欄位的 `DEFAULT` 子句中，不要使用第三種形式。系統在剖析常數時就會立即將 `now` 轉換為 `timestamp`，因此在需要預設值時，所使用的會是建立資料表的時間！前兩種形式因為是函式呼叫，所以要到實際使用預設值時才會被評估。因此，它們會產生預設為插入資料列時間的預期行為。（另請參閱[第 8.5.1.4 節](../datatype/datatype-datetime.md#DATATYPE-DATETIME-SPECIAL-VALUES)。）
 
 <a id="FUNCTIONS-DATETIME-DELAY"></a>
 
-### 9.9.6. Delaying Execution [#](#FUNCTIONS-DATETIME-DELAY)
+### 9.9.6. 延遲執行 [#](#FUNCTIONS-DATETIME-DELAY)
 
 <a id="id-1.5.8.15.18.2"></a><a id="id-1.5.8.15.18.3"></a><a id="id-1.5.8.15.18.4"></a><a id="id-1.5.8.15.18.5"></a><a id="id-1.5.8.15.18.6"></a>
 
-The following functions are available to delay execution of the server
-process:
+下列函式可用來延遲伺服器程序的執行：
 
 ```
 
@@ -1617,14 +1278,7 @@ pg_sleep_for ( interval )
 pg_sleep_until ( timestamp with time zone )
 ```
 
-`pg_sleep` makes the current session's process
-sleep until the given number of seconds have
-elapsed. Fractional-second delays can be specified.
-`pg_sleep_for` is a convenience function to
-allow the sleep time to be specified as an `interval`.
-`pg_sleep_until` is a convenience function for when
-a specific wake-up time is desired.
-For example:
+`pg_sleep` 會使目前工作階段的程序休眠，直到經過給定的秒數為止。可以指定帶小數的秒數延遲。`pg_sleep_for` 是一個方便的函式，讓休眠時間可以用 `interval` 指定。`pg_sleep_until` 則是在需要特定喚醒時間時使用的方便函式。例如：
 
 ```
 
@@ -1633,21 +1287,14 @@ SELECT pg_sleep_for('5 minutes');
 SELECT pg_sleep_until('tomorrow 03:00');
 ```
 
-### Note
+### 注意
 
-The effective resolution of the sleep interval is platform-specific;
-0.01 seconds is a common value. The sleep delay will be at least as long
-as specified. It might be longer depending on factors such as server load.
-In particular, `pg_sleep_until` is not guaranteed to
-wake up exactly at the specified time, but it will not wake up any earlier.
+休眠時間的有效解析度取決於平台；0.01 秒是常見的值。休眠延遲至少會與指定的一樣長。視伺服器負載等因素而定，它可能會更長。特別是，`pg_sleep_until` 並不保證會正好在指定的時間醒來，但它不會更早醒來。
 
-### Warning
+### 警告
 
-Make sure that your session does not hold more locks than necessary
-when calling `pg_sleep` or its variants. Otherwise
-other sessions might have to wait for your sleeping process, slowing down
-the entire system.
+呼叫 `pg_sleep` 或其變化形式時，請確保你的工作階段沒有持有超過必要的鎖定。否則，其他工作階段可能必須等待你正在休眠的程序，拖慢整個系統。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-datetime.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/functions-datetime.html)（原文版本：18.6；核對日期：2026-09-11）

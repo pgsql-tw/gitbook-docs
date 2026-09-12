@@ -97,7 +97,7 @@
     * [9.6. 位元字串函式與運算子 #](the-sql-language/functions/functions-bitstring.md)
     * [9.7. Pattern Matching #](the-sql-language/functions/functions-matching.md)
     * [9.8. Data Type Formatting Functions #](the-sql-language/functions/functions-formatting.md)
-    * [9.9. Date/Time Functions and Operators #](the-sql-language/functions/functions-datetime.md)
+    * [9.9. 日期／時間函式與運算子 #](the-sql-language/functions/functions-datetime.md)
     * [9.10. Enum Support Functions #](the-sql-language/functions/functions-enum.md)
     * [9.11. Geometric Functions and Operators #](the-sql-language/functions/functions-geometry.md)
     * [9.12. Network Address Functions and Operators #](the-sql-language/functions/functions-net.md)
