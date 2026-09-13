@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：787 頁。
+待譯頁面：786 頁。
 
 ## 根目錄
 
@@ -913,7 +913,7 @@
 - [ ] `server-programming/plpython/plpython-database.md` — 44.6. Database Access #
 - [x] `server-programming/plpython/plpython-do.md` — 44.4. 匿名程式碼區塊
 - [x] `server-programming/plpython/plpython-envar.md` — 44.11. 環境變數
-- [ ] `server-programming/plpython/plpython-funcs.md` — 44.1. PL/Python Functions #
+- [x] `server-programming/plpython/plpython-funcs.md` — 44.1. PL/Python 函式 #
 - [x] `server-programming/plpython/plpython-python23.md` — 44.10. Python 2 與 Python 3
 - [x] `server-programming/plpython/plpython-sharing.md` — 44.3. 共用資料
 - [ ] `server-programming/plpython/plpython-subtransaction.md` — 44.7. Explicit Subtransactions #
