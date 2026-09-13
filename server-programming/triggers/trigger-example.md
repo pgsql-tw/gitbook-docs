@@ -1,16 +1,12 @@
-## 37.4. A Complete Trigger Example [#](#TRIGGER-EXAMPLE)
+<a id="TRIGGER-EXAMPLE"></a>
 
-Here is a very simple example of a trigger function written in C.
-(Examples of triggers written in procedural languages can be found
-in the documentation of the procedural languages.)
+## 37.4. 完整的觸發程序範例 [#](#TRIGGER-EXAMPLE)
 
-The function `trigf` reports the number of rows in the
-table `ttest` and skips the actual operation if the
-command attempts to insert a null value into the column
-`x`. (So the trigger acts as a not-null constraint but
-doesn't abort the transaction.)
+以下是一個以 C 撰寫的觸發程序函式的極簡範例。（以程序語言撰寫的觸發程序範例，可以在各程序語言的文件中找到。）
 
-First, the table definition:
+函式 `trigf` 會回報資料表 `ttest` 中的資料列筆數，並且在指令試圖把 null 值插入欄位 `x` 時略過實際的操作。（因此這個觸發程序的作用就像一個非空值限制條件，但不會中止交易。）
+
+首先是資料表定義：
 
 ```
 
@@ -19,7 +15,7 @@ CREATE TABLE ttest (
 );
 ```
 
-This is the source code of the trigger function:
+這是該觸發程序函式的原始碼：
 
 ```
 
@@ -96,7 +92,7 @@ trigf(PG_FUNCTION_ARGS)
 }
 ```
 
-After you have compiled the source code (see [Section 36.10.5](../extend/xfunc-c.md#DFUNC)), declare the function and the triggers:
+編譯好原始碼之後（請參閱[第 36.10.5 節](../extend/xfunc-c.md#DFUNC)），宣告該函式與觸發程序：
 
 ```
 
@@ -111,7 +107,7 @@ CREATE TRIGGER tafter AFTER INSERT OR UPDATE OR DELETE ON ttest
     FOR EACH ROW EXECUTE FUNCTION trigf();
 ```
 
-Now you can test the operation of the trigger:
+現在你可以測試這個觸發程序的運作了：
 
 ```
 
@@ -179,10 +175,8 @@ DELETE 2
 (0 rows)
 ```
 
-There are more complex examples in
-`src/test/regress/regress.c` and
-in [spi](../../appendixes/contrib/contrib-spi.md).
+在 `src/test/regress/regress.c` 以及 [spi](../../appendixes/contrib/contrib-spi.md) 中還有更複雜的範例。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/trigger-example.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/trigger-example.html)（原文版本：18.6；核對日期：2026-09-13）
