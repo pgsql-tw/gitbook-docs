@@ -465,7 +465,7 @@
     * [38.3. A Complete Event Trigger Example #](server-programming/event-triggers/event-trigger-example.md)
     * [38.4. A Table Rewrite Event Trigger Example #](server-programming/event-triggers/event-trigger-table-rewrite-example.md)
     * [38.5. A Database Login Event Trigger Example #](server-programming/event-triggers/event-trigger-database-login-example.md)
-  * [Chapter 39. The Rule System](server-programming/rules/README.md)
+  * [第 39 章 規則系統](server-programming/rules/README.md)
     * [39.1. The Query Tree #](server-programming/rules/querytree.md)
     * [39.2. Views and the Rule System #](server-programming/rules/rules-views.md)
     * [39.3. Materialized Views #](server-programming/rules/rules-materializedviews.md)

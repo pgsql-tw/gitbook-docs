@@ -1,52 +1,39 @@
-## Chapter 39. The Rule System
+## 第 39 章 規則系統
 
-**Table of Contents**
+**目錄**
 
-[39.1. The Query Tree](querytree.md)
+[39.1. 查詢樹](querytree.md)
 
-[39.2. Views and the Rule System](rules-views.md)
-:   [39.2.1. How `SELECT` Rules Work](rules-views.md#RULES-SELECT)
+[39.2. 檢視表與規則系統](rules-views.md)
+:   [39.2.1. `SELECT` 規則如何運作](rules-views.md#RULES-SELECT)
 
-    [39.2.2. View Rules in Non-`SELECT` Statements](rules-views.md#RULES-VIEWS-NON-SELECT)
+    [39.2.2. 非 `SELECT` 陳述式中的檢視表規則](rules-views.md#RULES-VIEWS-NON-SELECT)
 
-    [39.2.3. The Power of Views in PostgreSQL](rules-views.md#RULES-VIEWS-POWER)
+    [39.2.3. PostgreSQL 中檢視表的威力](rules-views.md#RULES-VIEWS-POWER)
 
-    [39.2.4. Updating a View](rules-views.md#RULES-VIEWS-UPDATE)
+    [39.2.4. 更新檢視表](rules-views.md#RULES-VIEWS-UPDATE)
 
-[39.3. Materialized Views](rules-materializedviews.md)
+[39.3. 具體化檢視表](rules-materializedviews.md)
 
-[39.4. Rules on `INSERT`, `UPDATE`, and `DELETE`](rules-update.md)
-:   [39.4.1. How Update Rules Work](rules-update.md#RULES-UPDATE-HOW)
+[39.4. `INSERT`、`UPDATE` 與 `DELETE` 上的規則](rules-update.md)
+:   [39.4.1. 更新規則如何運作](rules-update.md#RULES-UPDATE-HOW)
 
-    [39.4.2. Cooperation with Views](rules-update.md#RULES-UPDATE-VIEWS)
+    [39.4.2. 與檢視表的搭配](rules-update.md#RULES-UPDATE-VIEWS)
 
-[39.5. Rules and Privileges](rules-privileges.md)
+[39.5. 規則與權限](rules-privileges.md)
 
-[39.6. Rules and Command Status](rules-status.md)
+[39.6. 規則與指令狀態](rules-status.md)
 
-[39.7. Rules Versus Triggers](rules-triggers.md)
+[39.7. 規則與觸發程序的比較](rules-triggers.md)
 
 <a id="id-1.8.6.2"></a>
 
-This chapter discusses the rule system in
-PostgreSQL. Production rule systems
-are conceptually simple, but there are many subtle points
-involved in actually using them.
+本章討論 PostgreSQL 中的規則系統。產生式規則系統（production rule system）在概念上很簡單，但實際使用時會牽涉到許多微妙之處。
 
-Some other database systems define active database rules, which
-are usually stored procedures and triggers. In
-PostgreSQL, these can be implemented
-using functions and triggers as well.
+某些其他資料庫系統定義了主動式資料庫規則，那些通常是預存程序與觸發程序。在 PostgreSQL 中，這些同樣可以用函式與觸發程序來實作。
 
-The rule system (more precisely speaking, the query rewrite rule
-system) is totally different from stored procedures and triggers.
-It modifies queries to take rules into consideration, and then
-passes the modified query to the query planner for planning and
-execution. It is very powerful, and can be used for many things
-such as query language procedures, views, and versions. The
-theoretical foundations and the power of this rule system are
-also discussed in [[ston90b]](../../bibliography.md#STON90B) and [[ong90]](../../bibliography.md#ONG90).
+規則系統（更精確地說，是查詢重寫規則系統）與預存程序及觸發程序完全不同。它會修改查詢以將規則納入考量，然後把修改後的查詢交給查詢規劃器進行規劃與執行。它非常強大，可以用在許多地方，例如查詢語言程序、檢視表與版本。這套規則系統的理論基礎與威力，在 [[ston90b]](../../bibliography.md#STON90B) 與 [[ong90]](../../bibliography.md#ONG90) 中也有討論。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules.html)（原文版本：18.6；核對日期：2026-09-13）
