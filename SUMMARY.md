@@ -470,7 +470,7 @@
     * [39.2. Views and the Rule System #](server-programming/rules/rules-views.md)
     * [39.3. Materialized Views #](server-programming/rules/rules-materializedviews.md)
     * [39.4. Rules on INSERT , UPDATE , and DELETE #](server-programming/rules/rules-update.md)
-    * [39.5. Rules and Privileges #](server-programming/rules/rules-privileges.md)
+    * [39.5. 規則與權限 #](server-programming/rules/rules-privileges.md)
     * [39.6. Rules and Command Status #](server-programming/rules/rules-status.md)
     * [39.7. Rules Versus Triggers #](server-programming/rules/rules-triggers.md)
   * [Chapter 40. Procedural Languages](server-programming/xplang/README.md)

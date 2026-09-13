@@ -1,28 +1,14 @@
-## 39.5. Rules and Privileges [#](#RULES-PRIVILEGES)
+<a id="RULES-PRIVILEGES"></a>
+
+## 39.5. 規則與權限 [#](#RULES-PRIVILEGES)
 
 <a id="id-1.8.6.10.2"></a><a id="id-1.8.6.10.3"></a>
 
-Due to rewriting of queries by the PostgreSQL
-rule system, other tables/views than those used in the original
-query get accessed. When update rules are used, this can include write access
-to tables.
+由於 PostgreSQL 規則系統會重寫查詢，因此原始查詢中沒有用到的其他資料表／檢視表也會被存取到。當使用更新規則時，這甚至可能包含對資料表的寫入存取。
 
-Rewrite rules don't have a separate owner. The owner of
-a relation (table or view) is automatically the owner of the
-rewrite rules that are defined for it.
-The PostgreSQL rule system changes the
-behavior of the default access control system. With the exception of
-`SELECT` rules associated with security invoker views
-(see [`CREATE VIEW`](../../reference/sql-commands/sql-createview.md)),
-all relations that are used due to rules get checked against the
-privileges of the rule owner, not the user invoking the rule.
-This means that, except for security invoker views, users only need the
-required privileges for the tables/views that are explicitly named in
-their queries.
+重寫規則沒有獨立的擁有者。關聯（資料表或檢視表）的擁有者自動就是為它所定義之重寫規則的擁有者。PostgreSQL 規則系統改變了預設存取控制系統的行為。除了與 security invoker 檢視表相關的 `SELECT` 規則之外（參閱 [`CREATE VIEW`](../../reference/sql-commands/sql-createview.md)），所有因為規則而被使用到的關聯，都是依照規則擁有者的權限來檢查，而不是依照呼叫該規則的使用者。這表示除了 security invoker 檢視表之外，使用者只需要對自己查詢中明確指名的那些資料表／檢視表擁有必要的權限即可。
 
-For example: A user has a list of phone numbers where some of
-them are private, the others are of interest for the assistant of the office.
-The user can construct the following:
+舉例來說：某位使用者有一份電話號碼清單，其中有些是私人的，其他的則是辦公室助理會需要用到的。這位使用者可以這樣建構：
 
 ```
 
@@ -33,45 +19,13 @@ CREATE VIEW phone_number AS
 GRANT SELECT ON phone_number TO assistant;
 ```
 
-Nobody except that user (and the database superusers) can access the
-`phone_data` table. But because of the `GRANT`,
-the assistant can run a `SELECT` on the
-`phone_number` view. The rule system will rewrite the
-`SELECT` from `phone_number` into a
-`SELECT` from `phone_data`.
-Since the user is the owner of
-`phone_number` and therefore the owner of the rule, the
-read access to `phone_data` is now checked against the user's
-privileges and the query is permitted. The check for accessing
-`phone_number` is also performed, but this is done
-against the invoking user, so nobody but the user and the
-assistant can use it.
+除了該使用者（以及資料庫超級使用者）以外，沒有人能夠存取 `phone_data` 資料表。但是因為有了 `GRANT`，助理可以對 `phone_number` 檢視表執行 `SELECT`。規則系統會把對 `phone_number` 的 `SELECT` 重寫成對 `phone_data` 的 `SELECT`。由於這位使用者是 `phone_number` 的擁有者，因此也是該規則的擁有者，所以對 `phone_data` 的讀取存取現在是依照這位使用者的權限來檢查，於是這個查詢被允許。存取 `phone_number` 的檢查同樣會執行，但這項檢查是針對呼叫的使用者進行，所以除了這位使用者和助理之外，沒有人能夠使用它。
 
-The privileges are checked rule by rule. So the assistant is for now the
-only one who can see the public phone numbers. But the assistant can set up
-another view and grant access to that to the public. Then, anyone
-can see the `phone_number` data through the assistant's view.
-What the assistant cannot do is to create a view that directly
-accesses `phone_data`. (Actually the assistant can, but it will not work since
-every access will be denied during the permission checks.)
-And as soon as the user notices that the assistant opened
-their `phone_number` view, the user can revoke the assistant's access. Immediately, any
-access to the assistant's view would fail.
+權限是一條規則一條規則地檢查。所以目前助理是唯一能夠看到公開電話號碼的人。但是助理可以另外建立一個檢視表，並把存取權授予所有人。這麼一來，任何人都可以透過助理的檢視表看到 `phone_number` 的資料。助理辦不到的是建立一個直接存取 `phone_data` 的檢視表。（實際上助理可以建立，但它不會有作用，因為每一次存取都會在權限檢查時被拒絕。）而只要這位使用者一發現助理把他的 `phone_number` 檢視表公開出去，就可以撤銷助理的存取權。立刻地，任何對助理那個檢視表的存取都會失敗。
 
-One might think that this rule-by-rule checking is a security
-hole, but in fact it isn't. But if it did not work this way, the assistant
-could set up a table with the same columns as `phone_number` and
-copy the data to there once per day. Then it's the assistant's own data and
-the assistant can grant access to everyone they want. A
-`GRANT` command means, “I trust you”.
-If someone you trust does the thing above, it's time to
-think it over and then use `REVOKE`.
+有人可能會認為這種逐條規則檢查的方式是個安全漏洞，但事實上並不是。因為如果不是這樣運作，助理大可以建立一個和 `phone_number` 有相同欄位的資料表，然後每天把資料複製過去一次。那樣一來資料就是助理自己的，助理想授權給誰都行。`GRANT` 指令的意思就是「我信任你」。如果你信任的人做了上述的事，那就該重新考慮一下，然後使用 `REVOKE`。
 
-Note that while views can be used to hide the contents of certain
-columns using the technique shown above, they cannot be used to reliably
-conceal the data in unseen rows unless the
-`security_barrier` flag has been set. For example,
-the following view is insecure:
+請注意，雖然檢視表可以用上面示範的技巧來隱藏特定欄位的內容，但除非設定了 `security_barrier` 旗標，否則它們無法可靠地隱藏未顯示資料列中的資料。例如，下面這個檢視表就是不安全的：
 
 ```
 
@@ -79,14 +33,7 @@ CREATE VIEW phone_number AS
     SELECT person, phone FROM phone_data WHERE phone NOT LIKE '412%';
 ```
 
-This view might seem secure, since the rule system will rewrite any
-`SELECT` from `phone_number` into a
-`SELECT` from `phone_data` and add the
-qualification that only entries where `phone` does not begin
-with 412 are wanted. But if the user can create their own functions,
-it is not difficult to convince the planner to execute the user-defined
-function prior to the `NOT LIKE` expression.
-For example:
+這個檢視表看起來似乎很安全，因為規則系統會把任何對 `phone_number` 的 `SELECT` 重寫成對 `phone_data` 的 `SELECT`，並加上只取 `phone` 不是以 412 開頭之項目的限定條件。但如果使用者可以建立自己的函式，要說服規劃器在 `NOT LIKE` 運算式之前先執行這個使用者定義的函式並不困難。例如：
 
 ```
 
@@ -100,34 +47,11 @@ $$ LANGUAGE plpgsql COST 0.0000000000000000000001;
 SELECT * FROM phone_number WHERE tricky(person, phone);
 ```
 
-Every person and phone number in the `phone_data` table will be
-printed as a `NOTICE`, because the planner will choose to
-execute the inexpensive `tricky` function before the
-more expensive `NOT LIKE`. Even if the user is
-prevented from defining new functions, built-in functions can be used in
-similar attacks. (For example, most casting functions include their
-input values in the error messages they produce.)
+`phone_data` 資料表中的每一個人與電話號碼都會以 `NOTICE` 的形式印出來，因為規劃器會選擇先執行成本低廉的 `tricky` 函式，再執行成本較高的 `NOT LIKE`。即使使用者被禁止定義新的函式，內建函式也可以用於類似的攻擊。（例如，大多數的型別轉換函式都會把輸入值包含在它們所產生的錯誤訊息中。）
 
-Similar considerations apply to update rules. In the examples of
-the previous section, the owner of the tables in the example
-database could grant the privileges `SELECT`,
-`INSERT`, `UPDATE`, and `DELETE` on
-the `shoelace` view to someone else, but only
-`SELECT` on `shoelace_log`. The rule action to
-write log entries will still be executed successfully, and that
-other user could see the log entries. But they could not create fake
-entries, nor could they manipulate or remove existing ones. In this
-case, there is no possibility of subverting the rules by convincing
-the planner to alter the order of operations, because the only rule
-which references `shoelace_log` is an unqualified
-`INSERT`. This might not be true in more complex scenarios.
+類似的考量也適用於更新規則。在前一節的範例中，範例資料庫裡那些資料表的擁有者可以把 `shoelace` 檢視表的 `SELECT`、`INSERT`、`UPDATE` 與 `DELETE` 權限授予別人，但對 `shoelace_log` 只授予 `SELECT`。寫入日誌項目的規則動作仍然會成功執行，而那位使用者也能看到日誌項目。但是他們無法建立假的項目，也無法竄改或移除既有的項目。在這個案例中，不可能藉由說服規劃器改變操作順序來破壞規則，因為唯一參照到 `shoelace_log` 的規則是一個沒有限定條件的 `INSERT`。在更複雜的情境下，這一點可能就不成立了。
 
-When it is necessary for a view to provide row-level security, the
-`security_barrier` attribute should be applied to
-the view. This prevents maliciously-chosen functions and operators from
-being passed values from rows until after the view has done its work. For
-example, if the view shown above had been created like this, it would
-be secure:
+當檢視表有必要提供資料列層級的安全性時，應該為該檢視表套用 `security_barrier` 屬性。這可以防止在檢視表完成它的工作之前，就把資料列的值傳遞給惡意挑選的函式與運算子。例如，如果上面所示的檢視表是像這樣建立的，它就會是安全的：
 
 ```
 
@@ -135,50 +59,14 @@ CREATE VIEW phone_number WITH (security_barrier) AS
     SELECT person, phone FROM phone_data WHERE phone NOT LIKE '412%';
 ```
 
-Views created with the `security_barrier` may perform
-far worse than views created without this option. In general, there is
-no way to avoid this: the fastest possible plan must be rejected
-if it may compromise security. For this reason, this option is not
-enabled by default.
+以 `security_barrier` 建立的檢視表，效能可能遠遠不如沒有使用這個選項所建立的檢視表。一般來說，這是無法避免的：如果最快的執行計畫可能危及安全性，就必須捨棄它。基於這個原因，這個選項預設並未啟用。
 
-The query planner has more flexibility when dealing with functions that
-have no side effects. Such functions are referred to as `LEAKPROOF`, and
-include many simple, commonly used operators, such as many equality
-operators. The query planner can safely allow such functions to be evaluated
-at any point in the query execution process, since invoking them on rows
-invisible to the user will not leak any information about the unseen rows.
-Further, functions which do not take arguments or which are not passed any
-arguments from the security barrier view do not have to be marked as
-`LEAKPROOF` to be pushed down, as they never receive data
-from the view. In contrast, a function that might throw an error depending
-on the values received as arguments (such as one that throws an error in the
-event of overflow or division by zero) is not leakproof, and could provide
-significant information about the unseen rows if applied before the security
-view's row filters.
+在處理沒有副作用的函式時，查詢規劃器有較大的彈性。這類函式被稱為 `LEAKPROOF`，其中包含許多簡單且常用的運算子，例如許多相等運算子。查詢規劃器可以安全地允許這類函式在查詢執行過程中的任何時間點被求值，因為把它們套用在使用者看不到的資料列上，並不會洩漏關於那些未顯示資料列的任何資訊。此外，不接受引數、或是不會從 security barrier 檢視表被傳入任何引數的函式，不需要被標記為 `LEAKPROOF` 也可以被下推，因為它們永遠不會收到來自檢視表的資料。相對地，可能會依據所收到的引數值而拋出錯誤的函式（例如在發生溢位或除以零時拋出錯誤的函式）就不是 leakproof 的，而且如果在安全檢視表的資料列篩選之前被套用，就可能提供關於未顯示資料列的重要資訊。
 
-For example, an index scan cannot be selected for queries on security
-barrier views (or tables with row-level security policies) if an
-operator used in the `WHERE` clause is associated with the
-operator family of the index, but its underlying function is not marked
-`LEAKPROOF`. The [psql](../../reference/reference-client/app-psql.md) program's
-`\dAo+`
-meta-command is useful to list operator families and determine which of
-their operators are marked as leakproof.
+例如，對於 security barrier 檢視表（或具有資料列層級安全性原則的資料表）的查詢，如果 `WHERE` 子句中使用的某個運算子雖然屬於某個索引的運算子家族，但其底層函式並未標記為 `LEAKPROOF`，那麼就無法選用索引掃描。[psql](../../reference/reference-client/app-psql.md) 程式的 `\dAo+` 中介指令很適合用來列出運算子家族，並判斷其中哪些運算子被標記為 leakproof。
 
-It is important to understand that even a view created with the
-`security_barrier` option is intended to be secure only
-in the limited sense that the contents of the invisible tuples will not be
-passed to possibly-insecure functions. The user may well have other means
-of making inferences about the unseen data; for example, they can see the
-query plan using `EXPLAIN`, or measure the run time of
-queries against the view. A malicious attacker might be able to infer
-something about the amount of unseen data, or even gain some information
-about the data distribution or most common values (since these things may
-affect the run time of the plan; or even, since they are also reflected in
-the optimizer statistics, the choice of plan). If these types of "covert
-channel" attacks are of concern, it is probably unwise to grant any access
-to the data at all.
+有一點很重要必須瞭解：即使是以 `security_barrier` 選項建立的檢視表，其安全性也僅限於一個有限的意義，也就是不可見 tuple（值組）的內容不會被傳遞給可能不安全的函式。使用者仍然很可能有其他方法可以推論出未顯示的資料；例如，他們可以使用 `EXPLAIN` 看到查詢計畫，或是測量針對該檢視表所做查詢的執行時間。惡意的攻擊者或許能夠推論出未顯示資料的數量，甚至取得一些關於資料分佈或最常見值的資訊（因為這些東西可能會影響執行計畫的執行時間；甚至由於它們也反映在最佳化器的統計資訊中，還會影響執行計畫的選擇）。如果你在意這類「隱蔽通道」（covert channel）攻擊，那麼最好完全不要授予任何存取這些資料的權限。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-privileges.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-privileges.html)（原文版本：18.6；核對日期：2026-09-12）
