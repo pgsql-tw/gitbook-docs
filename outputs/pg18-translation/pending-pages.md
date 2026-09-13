@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：801 頁。
+待譯頁面：800 頁。
 
 ## 根目錄
 
@@ -930,7 +930,7 @@
 - [ ] `server-programming/pltcl/pltcl-global.md` — 42.4. Global Data in PL/Tcl #
 - [ ] `server-programming/pltcl/pltcl-overview.md` — 42.1. Overview #
 - [x] `server-programming/pltcl/pltcl-procnames.md` — 42.12. Tcl 程序名稱
-- [ ] `server-programming/pltcl/pltcl-subtransactions.md` — 42.9. Explicit Subtransactions in PL/Tcl #
+- [x] `server-programming/pltcl/pltcl-subtransactions.md` — 42.9. PL/Tcl 中的明確子交易 #
 - [x] `server-programming/pltcl/pltcl-transactions.md` — 42.10. 交易管理
 - [ ] `server-programming/pltcl/pltcl-trigger.md` — 42.6. Trigger Functions in PL/Tcl #
 - [ ] `server-programming/replication-origins/README.md` — Chapter 48. Replication Progress Tracking
