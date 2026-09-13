@@ -1,72 +1,22 @@
-## Chapter 48. Replication Progress Tracking
+## 第 48 章 複寫進度追蹤
 
 <a id="id-1.8.15.2"></a><a id="id-1.8.15.3"></a>
 
-Replication origins are intended to make it easier to implement
-logical replication solutions on top
-of [logical decoding](../logicaldecoding/README.md).
-They provide a solution to two common problems:
+複寫來源的目的，是讓人們更容易在[邏輯解碼](../logicaldecoding/README.md)之上實作邏輯複寫的解決方案。它們為兩個常見的問題提供了解答：
 
-* How to safely keep track of replication progress
-* How to change replication behavior based on the
-  origin of a row; for example, to prevent loops in bi-directional
-  replication setups
+* 如何安全地追蹤複寫進度
+* 如何依據資料列的來源改變複寫行為；例如，在雙向複寫的架構中防止產生迴圈
 
-Replication origins have just two properties, a name and an ID. The name,
-which is what should be used to refer to the origin across systems, is
-free-form `text`. It should be used in a way that makes conflicts
-between replication origins created by different replication solutions
-unlikely; e.g., by prefixing the replication solution's name to it.
-The ID is used only to avoid having to store the long version
-in situations where space efficiency is important. It should never be shared
-across systems.
+複寫來源只有兩個屬性：名稱與 ID。名稱是跨系統之間用來指涉該來源的依據，型別為自由格式的 `text`。使用時應該讓不同複寫解決方案所建立的複寫來源之間不容易發生名稱衝突；例如，在名稱前面加上該複寫解決方案的名稱作為前綴。ID 只是為了避免在重視空間效率的情況下還得儲存冗長的名稱而存在。它絕對不應該跨系統共用。
 
-Replication origins can be created using the function
-[`pg_replication_origin_create()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-CREATE);
-dropped using
-[`pg_replication_origin_drop()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-DROP);
-and seen in the
-[`pg_replication_origin`](../../internals/catalogs/catalog-pg-replication-origin.md)
-system catalog.
+複寫來源可以用 [`pg_replication_origin_create()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-CREATE) 函式建立；用 [`pg_replication_origin_drop()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-DROP) 刪除；並且可以在 [`pg_replication_origin`](../../internals/catalogs/catalog-pg-replication-origin.md) 系統目錄中看到。
 
-One nontrivial part of building a replication solution is to keep track of
-replay progress in a safe manner. When the applying process, or the whole
-cluster, dies, it needs to be possible to find out up to where data has
-successfully been replicated. Naive solutions to this, such as updating a
-row in a table for every replayed transaction, have problems like run-time
-overhead and database bloat.
+建構一個複寫解決方案時，有一個並不簡單的部分，就是以安全的方式追蹤重播進度。當套用的程序、或是整個叢集掛掉時，必須有辦法查出資料已經成功複寫到哪裡。針對這件事的天真作法，例如為每一筆重播的交易更新資料表中的一筆資料列，會有執行時期額外負擔與資料庫膨脹之類的問題。
 
-Using the replication origin infrastructure a session can be
-marked as replaying from a remote node (using the
-[`pg_replication_origin_session_setup()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-SESSION-SETUP)
-function). Additionally the LSN and commit
-time stamp of every source transaction can be configured on a per
-transaction basis using
-[`pg_replication_origin_xact_setup()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-XACT-SETUP).
-If that's done replication progress will persist in a crash safe
-manner. Replay progress for all replication origins can be seen in the
-[`pg_replication_origin_status`](../../internals/views/view-pg-replication-origin-status.md) view. An individual origin's progress, e.g., when resuming
-replication, can be acquired using
-[`pg_replication_origin_progress()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-PROGRESS)
-for any origin or
-[`pg_replication_origin_session_progress()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-SESSION-PROGRESS)
-for the origin configured in the current session.
+利用複寫來源的基礎設施，可以把一個工作階段標記為正在從遠端節點重播（使用 [`pg_replication_origin_session_setup()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-SESSION-SETUP) 函式）。此外，每一筆來源交易的 LSN 與提交時間戳記，也可以使用 [`pg_replication_origin_xact_setup()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-XACT-SETUP) 以逐筆交易的方式來設定。如果這麼做，複寫進度就會以能夠承受當機的方式持續保存下來。所有複寫來源的重播進度都可以在 [`pg_replication_origin_status`](../../internals/views/view-pg-replication-origin-status.md) 檢視表中看到。個別來源的進度，例如在恢復複寫時所需要的，可以用 [`pg_replication_origin_progress()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-PROGRESS) 取得任一來源的進度，或是用 [`pg_replication_origin_session_progress()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-SESSION-PROGRESS) 取得目前工作階段所設定之來源的進度。
 
-In replication topologies more complex than replication from exactly one
-system to one other system, another problem can be that it is hard to avoid
-replicating replayed rows again. That can lead both to cycles in the
-replication and inefficiencies. Replication origins provide an optional
-mechanism to recognize and prevent that. When configured using the functions
-referenced in the previous paragraph, every change and transaction passed to
-output plugin callbacks (see [Section 47.6](../logicaldecoding/logicaldecoding-output-plugin.md))
-generated by the session is tagged with the replication origin of the
-generating session. This allows treating them differently in the output
-plugin, e.g., ignoring all but locally-originating rows. Additionally
-the [`filter_by_origin_cb`](../logicaldecoding/logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-PLUGIN-FILTER-ORIGIN) callback can be used
-to filter the logical decoding change stream based on the
-source. While less flexible, filtering via that callback is
-considerably more efficient than doing it in the output plugin.
+在比「恰好由一個系統複寫到另一個系統」更複雜的複寫拓樸中，另一個問題可能是很難避免把已經重播過的資料列再複寫一次。這可能同時造成複寫上的循環與效率不彰。複寫來源提供了一個選用的機制來辨識並防止這種情形。當使用前一段所提到的函式完成設定後，該工作階段所產生、並傳遞給輸出外掛回呼函式（參閱[第 47.6 節](../logicaldecoding/logicaldecoding-output-plugin.md)）的每一筆變更與交易，都會被標上產生它的那個工作階段的複寫來源。這使得輸出外掛可以對它們做不同的處理，例如忽略所有非本地產生的資料列。此外，也可以使用 [`filter_by_origin_cb`](../logicaldecoding/logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-PLUGIN-FILTER-ORIGIN) 回呼函式，依據來源來過濾邏輯解碼的變更串流。雖然彈性較小，但透過這個回呼函式來過濾，效率遠比在輸出外掛中過濾來得高。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/replication-origins.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/replication-origins.html)（原文版本：18.6；核對日期：2026-09-13）

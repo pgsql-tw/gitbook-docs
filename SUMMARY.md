@@ -595,7 +595,7 @@
     * [47.8. Synchronous Replication Support for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-synchronous.md)
     * [47.9. Streaming of Large Transactions for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-streaming.md)
     * [47.10. Two-phase Commit Support for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md)
-  * [Chapter 48. Replication Progress Tracking](server-programming/replication-origins/README.md)
+  * [第 48 章 複寫進度追蹤](server-programming/replication-origins/README.md)
   * [Chapter 49. Archive Modules](server-programming/archive-modules/README.md)
     * [49.1. 初始化函式](server-programming/archive-modules/archive-module-init.md)
     * [49.2. Archive Module Callbacks #](server-programming/archive-modules/archive-module-callbacks.md)
