@@ -1,39 +1,23 @@
-## 45.5. Visibility of Data Changes [#](#SPI-VISIBILITY)
+<a id="SPI-VISIBILITY"></a>
 
-The following rules govern the visibility of data changes in
-functions that use SPI (or any other C function):
+## 45.5. 資料變更的可見性 [#](#SPI-VISIBILITY)
 
-* During the execution of an SQL command, any data changes made by
-  the command are invisible to the command itself. For
-  example, in:
+在使用 SPI 的函式（或任何其他 C 函式）中，資料變更的可見性由以下規則決定：
+
+* 在一個 SQL 指令的執行期間，該指令本身所做的任何資料變更對該指令來說都是不可見的。例如在：
 
   ```
 
   INSERT INTO a SELECT * FROM a;
   ```
 
-  the inserted rows are invisible to the `SELECT`
-  part.
-* Changes made by a command C are visible to all commands that are
-  started after C, no matter whether they are started inside C
-  (during the execution of C) or after C is done.
-* Commands executed via SPI inside a function called by an SQL command
-  (either an ordinary function or a trigger) follow one or the
-  other of the above rules depending on the read/write flag passed
-  to SPI. Commands executed in read-only mode follow the first
-  rule: they cannot see changes of the calling command. Commands executed
-  in read-write mode follow the second rule: they can see all changes made
-  so far.
-* All standard procedural languages set the SPI read-write mode
-  depending on the volatility attribute of the function. Commands of
-  `STABLE` and `IMMUTABLE` functions are done in
-  read-only mode, while commands of `VOLATILE` functions are
-  done in read-write mode. While authors of C functions are able to
-  violate this convention, it's unlikely to be a good idea to do so.
+  當中，被插入的資料列對 `SELECT` 的部分是不可見的。
+* 指令 C 所做的變更，對所有在 C 之後開始的指令都是可見的，不論那些指令是在 C 內部（於 C 執行期間）啟動，還是在 C 完成之後才啟動。
+* 在被某個 SQL 指令所呼叫的函式（可能是一般函式或觸發程序）內部透過 SPI 執行的指令，會依照傳給 SPI 的讀寫旗標而遵循上述兩條規則的其中一條。以唯讀模式執行的指令遵循第一條規則：它們看不到呼叫端指令所做的變更。以讀寫模式執行的指令遵循第二條規則：它們可以看到目前為止所做的所有變更。
+* 所有標準的程序語言都會依照函式的變動性（volatility）屬性來設定 SPI 的讀寫模式。`STABLE` 與 `IMMUTABLE` 函式中的指令以唯讀模式執行，而 `VOLATILE` 函式中的指令則以讀寫模式執行。雖然 C 函式的作者有辦法違反這項慣例，但這麼做不太可能是個好主意。
 
-The next section contains an example that illustrates the
-application of these rules.
+下一節包含一個範例，說明這些規則的應用方式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-visibility.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-visibility.html)（原文版本：18.6；核對日期：2026-09-13）

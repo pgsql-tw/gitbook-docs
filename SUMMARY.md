@@ -581,7 +581,7 @@
       * [SPI_commit](server-programming/spi/spi-spi-commit.md)
       * [SPI_rollback](server-programming/spi/spi-spi-rollback.md)
       * [SPI_start_transaction](server-programming/spi/spi-spi-start-transaction.md)
-    * [45.5. Visibility of Data Changes #](server-programming/spi/spi-visibility.md)
+    * [45.5. 資料變更的可見性 #](server-programming/spi/spi-visibility.md)
     * [45.6. 範例 #](server-programming/spi/spi-examples.md)
   * [Chapter 46. Background Worker Processes](server-programming/bgworker/README.md)
   * [Chapter 47. Logical Decoding](server-programming/logicaldecoding/README.md)
