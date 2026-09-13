@@ -1,18 +1,12 @@
-## 5.4. Generated Columns [#](#DDL-GENERATED-COLUMNS)
+<a id="DDL-GENERATED-COLUMNS"></a>
+
+## 5.4. 產生欄位 [#](#DDL-GENERATED-COLUMNS)
 
 <a id="id-1.5.4.6.2"></a>
 
-A generated column is a special column that is always computed from other
-columns. Thus, it is for columns what a view is for tables. There are two
-kinds of generated columns: stored and virtual. A stored generated column
-is computed when it is written (inserted or updated) and occupies storage
-as if it were a normal column. A virtual generated column occupies no
-storage and is computed when it is read. Thus, a virtual generated column
-is similar to a view and a stored generated column is similar to a
-materialized view (except that it is always updated automatically).
+產生欄位是一種特殊的欄位，它的值一律由其他欄位計算而來。因此，產生欄位之於欄位，就像是檢視表之於資料表。產生欄位有兩種：儲存式（stored）與虛擬（virtual）。儲存式產生欄位會在寫入（新增或更新）時計算，並且像一般欄位一樣佔用儲存空間。虛擬產生欄位不佔用儲存空間，而是在讀取時才計算。因此，虛擬產生欄位類似於檢視表，而儲存式產生欄位則類似於具體化檢視表（差別在於它一定會自動更新）。
 
-To create a generated column, use the `GENERATED ALWAYS
-AS` clause in `CREATE TABLE`, for example:
+若要建立產生欄位，請在 `CREATE TABLE` 中使用 `GENERATED ALWAYS AS` 子句，例如：
 
 ```
 
@@ -23,107 +17,40 @@ CREATE TABLE people (
 );
 ```
 
-A generated column is by default of the virtual kind. Use the keywords
-`VIRTUAL` or `STORED` to make the choice
-explicit. See [CREATE TABLE](../../reference/sql-commands/sql-createtable.md) for more details.
+產生欄位預設是虛擬的。請使用關鍵字 `VIRTUAL` 或 `STORED` 來明確指定。更多細節請參閱 [CREATE TABLE](../../reference/sql-commands/sql-createtable.md)。
 
-A generated column cannot be written to directly. In
-`INSERT` or `UPDATE` commands, a value
-cannot be specified for a generated column, but the keyword
-`DEFAULT` may be specified.
+產生欄位不能直接寫入。在 `INSERT` 或 `UPDATE` 指令中，不能為產生欄位指定值，但可以指定關鍵字 `DEFAULT`。
 
-Consider the differences between a column with a default and a generated
-column. The column default is evaluated once when the row is first
-inserted if no other value was provided; a generated column is updated
-whenever the row changes and cannot be overridden. A column default may
-not refer to other columns of the table; a generation expression would
-normally do so. A column default can use volatile functions, for example
-`random()` or functions referring to the current time;
-this is not allowed for generated columns.
+請思考具有預設值的欄位與產生欄位之間的差異。欄位預設值只有在資料列第一次被新增、而且沒有提供其他值時才會被求值一次；產生欄位則是每當資料列變動時就會更新，而且無法被覆寫。欄位預設值不能參照資料表的其他欄位；產生運算式通常則會這麼做。欄位預設值可以使用揮發性（volatile）函式，例如 `random()` 或參照目前時間的函式；產生欄位則不允許這麼做。
 
-Several restrictions apply to the definition of generated columns and
-tables involving generated columns:
+產生欄位的定義，以及含有產生欄位的資料表，有以下幾項限制：
 
-* The generation expression can only use immutable functions and cannot
-  use subqueries or reference anything other than the current row in any
-  way.
-* A generation expression cannot reference another generated column.
-* A generation expression cannot reference a system column, except
-  `tableoid`.
-* A virtual generated column cannot have a user-defined type, and the
-  generation expression of a virtual generated column must not reference
-  user-defined functions or types, that is, it can only use built-in
-  functions or types. This applies also indirectly, such as for functions
-  or types that underlie operators or casts. (This restriction does not
-  exist for stored generated columns.)
-* A generated column cannot have a column default or an identity definition.
-* A generated column cannot be part of a partition key.
-* Foreign tables can have generated columns. See [CREATE FOREIGN TABLE](../../reference/sql-commands/sql-createforeigntable.md) for details.
-* For inheritance and partitioning:
+* 產生運算式只能使用 immutable 函式，而且不能使用子查詢，也不能以任何方式參照目前資料列以外的東西。
+* 產生運算式不能參照另一個產生欄位。
+* 產生運算式不能參照系統欄位，`tableoid` 除外。
+* 虛擬產生欄位不能使用使用者自訂型別，而且虛擬產生欄位的產生運算式不得參照使用者自訂的函式或型別，也就是說，它只能使用內建的函式或型別。這一點同樣適用於間接的情況，例如運算子或型別轉換底層所使用的函式或型別。（儲存式產生欄位沒有這項限制。）
+* 產生欄位不能有欄位預設值，也不能有識別欄位定義。
+* 產生欄位不能作為分割鍵的一部分。
+* 外部資料表可以有產生欄位。細節請參閱 [CREATE FOREIGN TABLE](../../reference/sql-commands/sql-createforeigntable.md)。
+* 關於繼承與分割：
 
-  * If a parent column is a generated column, its child column must also
-    be a generated column of the same kind (stored or virtual); however,
-    the child column can have a different generation expression.
+  * 如果父欄位是產生欄位，其子欄位也必須是相同種類（儲存式或虛擬）的產生欄位；不過子欄位可以有不同的產生運算式。
 
-    For stored generated columns, the generation expression that is
-    actually applied during insert or update of a row is the one
-    associated with the table that the row is physically in. (This is
-    unlike the behavior for column defaults: for those, the default value
-    associated with the table named in the query applies.) For virtual
-    generated columns, the generation expression of the table named in the
-    query applies when a table is read.
-  * If a parent column is not a generated column, its child column must
-    not be generated either.
-  * For inherited tables, if you write a child column definition without
-    any `GENERATED` clause in `CREATE TABLE
-    ... INHERITS`, then its `GENERATED` clause
-    will automatically be copied from the parent. `ALTER TABLE
-    ... INHERIT` will insist that parent and child columns
-    already match as to generation status, but it will not require their
-    generation expressions to match.
-  * Similarly for partitioned tables, if you write a child column
-    definition without any `GENERATED` clause
-    in `CREATE TABLE ... PARTITION OF`, then
-    its `GENERATED` clause will automatically be copied
-    from the parent. `ALTER TABLE ... ATTACH PARTITION`
-    will insist that parent and child columns already match as to
-    generation status, but it will not require their generation
-    expressions to match.
-  * In case of multiple inheritance, if one parent column is a generated
-    column, then all parent columns must be generated columns. If they
-    do not all have the same generation expression, then the desired
-    expression for the child must be specified explicitly.
+    對儲存式產生欄位而言，在新增或更新某筆資料列時實際套用的產生運算式，是與該資料列實體所在資料表相關聯的那一個。（這與欄位預設值的行為不同：對預設值而言，套用的是與查詢中所指名資料表相關聯的預設值。）對虛擬產生欄位而言，讀取資料表時套用的是查詢中所指名資料表的產生運算式。
+  * 如果父欄位不是產生欄位，其子欄位也不能是產生欄位。
+  * 對於繼承的資料表，如果你在 `CREATE TABLE ... INHERITS` 中寫下子欄位的定義而沒有加上任何 `GENERATED` 子句，那麼它的 `GENERATED` 子句會自動從父資料表複製過來。`ALTER TABLE ... INHERIT` 會要求父欄位與子欄位在產生狀態上必須已經相符，但不會要求它們的產生運算式相符。
+  * 分割資料表的情況也類似，如果你在 `CREATE TABLE ... PARTITION OF` 中寫下子欄位的定義而沒有加上任何 `GENERATED` 子句，那麼它的 `GENERATED` 子句會自動從父資料表複製過來。`ALTER TABLE ... ATTACH PARTITION` 會要求父欄位與子欄位在產生狀態上必須已經相符，但不會要求它們的產生運算式相符。
+  * 在多重繼承的情況下，如果有一個父欄位是產生欄位，那麼所有的父欄位都必須是產生欄位。如果它們的產生運算式不完全相同，那麼子欄位所要的運算式就必須明確指定。
 
-Additional considerations apply to the use of generated columns.
+使用產生欄位時還有其他需要考量的地方。
 
-* Generated columns maintain access privileges separately from their
-  underlying base columns. So, it is possible to arrange it so that a
-  particular role can read from a generated column but not from the
-  underlying base columns.
+* 產生欄位的存取權限與其底層的基礎欄位是分開維護的。因此，可以安排成讓某個特定角色能夠讀取產生欄位，卻不能讀取底層的基礎欄位。
 
-  For virtual generated columns, this is only fully secure if the
-  generation expression uses only leakproof functions (see [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md)), but this is not enforced by the system.
-* Privileges of functions used in generation expressions are checked when
-  the expression is actually executed, on write or read respectively, as
-  if the generation expression had been called directly from the query
-  using the generated column. The user of a generated column must have
-  permissions to call all functions used by the generation expression.
-  Functions in the generation expression are executed with the privileges
-  of the user executing the query or the function owner, depending on
-  whether the functions are defined as `SECURITY INVOKER`
-  or `SECURITY DEFINER`.
-* Generated columns are, conceptually, updated after
-  `BEFORE` triggers have run. Therefore, changes made to
-  base columns in a `BEFORE` trigger will be reflected in
-  generated columns. But conversely, it is not allowed to access
-  generated columns in `BEFORE` triggers.
-* Generated columns are allowed to be replicated during logical replication
-  according to the `CREATE PUBLICATION` parameter
-  [`publish_generated_columns`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS) or by including them
-  in the column list of the `CREATE PUBLICATION` command.
-  This is currently only supported for stored generated columns.
-  See [Section 29.6](../../server-administration/logical-replication/logical-replication-gencols.md) for details.
+  對虛擬產生欄位而言，只有當產生運算式僅使用 leakproof 函式時（請參閱 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md)），這種安排才算完全安全，但系統並不會強制檢查這一點。
+* 產生運算式中所使用函式的權限，是在該運算式實際執行時（分別在寫入或讀取時）才檢查，就好像產生運算式是由使用該產生欄位的查詢直接呼叫的一樣。使用產生欄位的使用者必須擁有呼叫產生運算式所使用之所有函式的權限。產生運算式中的函式會以執行查詢之使用者的權限、或是函式擁有者的權限來執行，取決於這些函式定義為 `SECURITY INVOKER` 或 `SECURITY DEFINER`。
+* 就概念上而言，產生欄位是在 `BEFORE` 觸發程序執行完畢之後才更新。因此，在 `BEFORE` 觸發程序中對基礎欄位所做的變更會反映到產生欄位上。但反過來說，在 `BEFORE` 觸發程序中不允許存取產生欄位。
+* 在邏輯複寫期間，產生欄位可以依據 `CREATE PUBLICATION` 的參數 [`publish_generated_columns`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS) 被複寫，或是將它們納入 `CREATE PUBLICATION` 指令的欄位清單中而被複寫。目前這只支援儲存式產生欄位。細節請參閱[第 29.6 節](../../server-administration/logical-replication/logical-replication-gencols.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-generated-columns.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-generated-columns.html)（原文版本：18.6；核對日期：2026-09-12）
