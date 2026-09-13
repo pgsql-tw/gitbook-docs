@@ -1,50 +1,19 @@
-## 42.4. Global Data in PL/Tcl [#](#PLTCL-GLOBAL)
+<a id="PLTCL-GLOBAL"></a>
+
+## 42.4. PL/Tcl 中的全域資料 [#](#PLTCL-GLOBAL)
 
 <a id="id-1.8.9.8.2"></a>
 
-Sometimes it
-is useful to have some global data that is held between two
-calls to a function or is shared between different functions.
-This is easily done in PL/Tcl, but there are some restrictions that
-must be understood.
+有時候，能夠擁有在兩次函式呼叫之間保留、或在不同函式之間共享的全域資料是很有用的。在 PL/Tcl 中這很容易做到，但有一些必須先了解的限制。
 
-For security reasons, PL/Tcl executes functions called by any one SQL
-role in a separate Tcl interpreter for that role. This prevents
-accidental or malicious interference by one user with the behavior of
-another user's PL/Tcl functions. Each such interpreter will have its own
-values for any “global” Tcl variables. Thus, two PL/Tcl
-functions will share the same global variables if and only if they are
-executed by the same SQL role. In an application wherein a single
-session executes code under multiple SQL roles (via `SECURITY
-DEFINER` functions, use of `SET ROLE`, etc.) you may need to
-take explicit steps to ensure that PL/Tcl functions can share data. To
-do that, make sure that functions that should communicate are owned by
-the same user, and mark them `SECURITY DEFINER`. You must of
-course take care that such functions can't be used to do anything
-unintended.
+基於安全考量，PL/Tcl 會針對每一個 SQL 角色，在各自獨立的 Tcl 直譯器中執行由該角色所呼叫的函式。這可以避免某個使用者意外或惡意地干擾另一個使用者的 PL/Tcl 函式行為。每個這樣的直譯器都會有自己的一份「全域」Tcl 變數值。因此，兩個 PL/Tcl 函式若且唯若由同一個 SQL 角色執行時，才會共享相同的全域變數。在某個應用中，如果單一工作階段會以多個 SQL 角色執行程式碼（透過 `SECURITY DEFINER` 函式、使用 `SET ROLE` 等等），你可能需要採取明確的步驟，以確保 PL/Tcl 函式能夠共享資料。要做到這一點，請確認那些應該互相溝通的函式由同一個使用者所擁有，並將它們標記為 `SECURITY DEFINER`。當然，你也必須留意這類函式不能被用來做出任何非預期的事情。
 
-All PL/TclU functions used in a session execute in the same Tcl
-interpreter, which of course is distinct from the interpreter(s)
-used for PL/Tcl functions. So global data is automatically shared
-between PL/TclU functions. This is not considered a security risk
-because all PL/TclU functions execute at the same trust level,
-namely that of a database superuser.
+在一個工作階段中使用的所有 PL/TclU 函式都在同一個 Tcl 直譯器中執行，而這個直譯器當然與 PL/Tcl 函式所使用的直譯器不同。所以全域資料會自動在 PL/TclU 函式之間共享。這並不被視為安全風險，因為所有 PL/TclU 函式都以相同的信任層級執行，也就是資料庫超級使用者的層級。
 
-To help protect PL/Tcl functions from unintentionally interfering
-with each other, a global
-array is made available to each function via the `upvar`
-command. The global name of this variable is the function's internal
-name, and the local name is `GD`. It is recommended that
-`GD` be used
-for persistent private data of a function. Use regular Tcl global
-variables only for values that you specifically intend to be shared among
-multiple functions. (Note that the `GD` arrays are only
-global within a particular interpreter, so they do not bypass the
-security restrictions mentioned above.)
+為了協助保護 PL/Tcl 函式不會無意間互相干擾，每個函式都可以透過 `upvar` 指令取得一個全域陣列。這個變數的全域名稱是該函式的內部名稱，而區域名稱是 `GD`。建議把 `GD` 用於函式的持續性私有資料。只有在你特別希望多個函式之間共享的值，才使用一般的 Tcl 全域變數。（請注意，`GD` 陣列只在特定直譯器內是全域的，所以它們並不會繞過上面提到的安全限制。）
 
-An example of using `GD` appears in the
-`spi_execp` example below.
+使用 `GD` 的範例出現在下面的 `spi_execp` 範例中。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pltcl-global.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pltcl-global.html)（原文版本：18.6；核對日期：2026-09-13）
