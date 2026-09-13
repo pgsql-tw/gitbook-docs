@@ -567,7 +567,7 @@
       * [SPI_gettypeid](server-programming/spi/spi-spi-gettypeid.md)
       * [SPI_getvalue](server-programming/spi/spi-spi-getvalue.md)
       * [SPI_result_code_string](server-programming/spi/spi-spi-result-code-string.md)
-    * [45.3. Memory Management #](server-programming/spi/spi-memory.md)
+    * [45.3. 記憶體管理 #](server-programming/spi/spi-memory.md)
       * [SPI_repalloc](server-programming/spi/spi-realloc.md)
       * [SPI_copytuple](server-programming/spi/spi-spi-copytuple.md)
       * [SPI_freeplan](server-programming/spi/spi-spi-freeplan.md)
