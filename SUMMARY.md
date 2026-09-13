@@ -471,7 +471,7 @@
     * [39.3. 具體化檢視表 #](server-programming/rules/rules-materializedviews.md)
     * [39.4. Rules on INSERT , UPDATE , and DELETE #](server-programming/rules/rules-update.md)
     * [39.5. 規則與權限 #](server-programming/rules/rules-privileges.md)
-    * [39.6. Rules and Command Status #](server-programming/rules/rules-status.md)
+    * [39.6. 規則與指令狀態 #](server-programming/rules/rules-status.md)
     * [39.7. 規則與觸發程序的比較 #](server-programming/rules/rules-triggers.md)
   * [Chapter 40. Procedural Languages](server-programming/xplang/README.md)
     * [40.1. Installing Procedural Languages #](server-programming/xplang/xplang-install.md)

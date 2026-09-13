@@ -1,35 +1,16 @@
-## 39.6. Rules and Command Status [#](#RULES-STATUS)
+<a id="RULES-STATUS"></a>
 
-The PostgreSQL server returns a command
-status string, such as `INSERT 149592 1`, for each
-command it receives. This is simple enough when there are no rules
-involved, but what happens when the query is rewritten by rules?
+## 39.6. 規則與指令狀態 [#](#RULES-STATUS)
 
-Rules affect the command status as follows:
+PostgreSQL 伺服器對於它所收到的每一個指令，都會回傳一個指令狀態字串，例如 `INSERT 149592 1`。在沒有牽涉到規則時，這很單純；但是當查詢被規則重寫時，會發生什麼事呢？
 
-* If there is no unconditional `INSTEAD` rule for the query, then
-  the originally given query will be executed, and its command
-  status will be returned as usual. (But note that if there were
-  any conditional `INSTEAD` rules, the negation of their qualifications
-  will have been added to the original query. This might reduce the
-  number of rows it processes, and if so the reported status will
-  be affected.)
-* If there is any unconditional `INSTEAD` rule for the query, then
-  the original query will not be executed at all. In this case,
-  the server will return the command status for the last query
-  that was inserted by an `INSTEAD` rule (conditional or
-  unconditional) and is of the same command type
-  (`INSERT`, `UPDATE`, or
-  `DELETE`) as the original query. If no query
-  meeting those requirements is added by any rule, then the
-  returned command status shows the original query type and
-  zeroes for the row-count and OID fields.
+規則對指令狀態的影響如下：
 
-The programmer can ensure that any desired `INSTEAD` rule is the one
-that sets the command status in the second case, by giving it the
-alphabetically last rule name among the active rules, so that it
-gets applied last.
+* 如果該查詢沒有無條件的 `INSTEAD` 規則，那麼原本給定的查詢就會被執行，其指令狀態也會照常回傳。（但請注意，如果存在任何有條件的 `INSTEAD` 規則，其限定條件的否定形式會被加到原始查詢上。這可能會減少它所處理的資料列數量，若是如此，回報的狀態也會受到影響。）
+* 如果該查詢有任何無條件的 `INSTEAD` 規則，那麼原始查詢完全不會被執行。在這種情況下，伺服器會回傳最後一個由 `INSTEAD` 規則（不論有條件或無條件）所加入、且與原始查詢屬於相同指令型別（`INSERT`、`UPDATE` 或 `DELETE`）之查詢的指令狀態。如果沒有任何規則加入符合這些條件的查詢，那麼回傳的指令狀態會顯示原始查詢的型別，而資料列數與 OID 欄位則為零。
+
+在第二種情況下，程式設計師可以讓自己想要的那個 `INSTEAD` 規則成為設定指令狀態的規則：只要在所有生效的規則中，給它一個依字母順序排在最後的規則名稱，它就會最後被套用。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-status.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-status.html)（原文版本：18.6；核對日期：2026-09-13）
