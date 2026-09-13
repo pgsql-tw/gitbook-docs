@@ -582,7 +582,7 @@
       * [SPI_rollback](server-programming/spi/spi-spi-rollback.md)
       * [SPI_start_transaction](server-programming/spi/spi-spi-start-transaction.md)
     * [45.5. Visibility of Data Changes #](server-programming/spi/spi-visibility.md)
-    * [45.6. Examples #](server-programming/spi/spi-examples.md)
+    * [45.6. 範例 #](server-programming/spi/spi-examples.md)
   * [Chapter 46. Background Worker Processes](server-programming/bgworker/README.md)
   * [Chapter 47. Logical Decoding](server-programming/logicaldecoding/README.md)
     * [47.1. Logical Decoding Examples #](server-programming/logicaldecoding/logicaldecoding-example.md)

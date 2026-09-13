@@ -1,13 +1,8 @@
-## 45.6. Examples [#](#SPI-EXAMPLES)
+<a id="SPI-EXAMPLES"></a>
 
-This section contains a very simple example of SPI usage. The
-C function `execq` takes an SQL command as its
-first argument and a row count as its second, executes the command
-using `SPI_exec` and returns the number of rows
-that were processed by the command. You can find more complex
-examples for SPI in the source tree in
-`src/test/regress/regress.c` and in the
-[spi](../../appendixes/contrib/contrib-spi.md) module.
+## 45.6. 範例 [#](#SPI-EXAMPLES)
+
+本節包含一個非常簡單的 SPI 使用範例。C 函式 `execq` 的第一個引數是一個 SQL 指令，第二個引數是資料列筆數，它會使用 `SPI_exec` 執行該指令，並回傳該指令所處理的資料列筆數。你可以在原始程式碼樹中的 `src/test/regress/regress.c` 以及 [spi](../../appendixes/contrib/contrib-spi.md) 模組裡，找到更複雜的 SPI 範例。
 
 ```
 
@@ -68,8 +63,7 @@ execq(PG_FUNCTION_ARGS)
 }
 ```
 
-This is how you declare the function after having compiled it into
-a shared library (details are in [Section 36.10.5](../extend/xfunc-c.md#DFUNC).):
+在把它編譯成共享程式庫之後，可以像這樣宣告這個函式（細節請參閱[第 36.10.5 節](../extend/xfunc-c.md#DFUNC)）：
 
 ```
 
@@ -78,7 +72,7 @@ CREATE FUNCTION execq(text, integer) RETURNS int8
     LANGUAGE C STRICT;
 ```
 
-Here is a sample session:
+以下是一段範例工作階段：
 
 ```
 
@@ -175,4 +169,4 @@ INSERT 0 2
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-examples.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-examples.html)（原文版本：18.6；核對日期：2026-09-13）
