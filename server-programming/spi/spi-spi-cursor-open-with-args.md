@@ -2,9 +2,9 @@
 
 ## SPI_cursor_open_with_args
 
-SPI_cursor_open_with_args — set up a cursor using a query and parameters
+SPI_cursor_open_with_args — 使用一個查詢與參數設定一個 cursor
 
-## Synopsis
+## 概要
 
 ```
 
@@ -17,77 +17,52 @@ Portal SPI_cursor_open_with_args(const char *name,
 
 <a id="id-1.8.12.8.20.5"></a>
 
-## Description
+## 描述
 
-`SPI_cursor_open_with_args` sets up a cursor
-(internally, a portal) that will execute the specified query.
-Most of the parameters have the same meanings as the corresponding
-parameters to `SPI_prepare_cursor`
-and `SPI_cursor_open`.
+`SPI_cursor_open_with_args` 會設定一個 cursor（在內部其實是一個 portal），用來執行所指定的查詢。大多數參數的意義與 `SPI_prepare_cursor` 及 `SPI_cursor_open` 中對應的參數相同。
 
-For one-time query execution, this function should be preferred
-over `SPI_prepare_cursor` followed by
-`SPI_cursor_open`.
-If the same command is to be executed with many different parameters,
-either method might be faster, depending on the cost of re-planning
-versus the benefit of custom plans.
+如果查詢只執行一次，應優先使用這個函式，而不是先呼叫 `SPI_prepare_cursor` 再呼叫 `SPI_cursor_open`。如果同一個指令要以許多不同的參數執行，兩種做法都有可能比較快，取決於重新規劃的成本與客製計畫所帶來的效益孰輕孰重。
 
-The passed-in parameter data will be copied into the cursor's portal, so it
-can be freed while the cursor still exists.
+傳入的參數資料會被複製到該 cursor 的 portal 中，因此即使 cursor 仍然存在，那份資料也可以先行釋放。
 
-This function is now deprecated in favor
-of `SPI_cursor_parse_open`, which provides equivalent
-functionality using a more modern API for handling query parameters.
+這個函式現在已不建議使用，請改用 `SPI_cursor_parse_open`，它以更現代的 API 處理查詢參數，並提供相同的功能。
 
 <a id="id-1.8.12.8.20.6"></a>
 
-## Arguments
+## 引數
 
 `const char * name`
-:   name for portal, or `NULL` to let the system
-    select a name
+:   portal 的名稱，或是 `NULL` 表示讓系統自行挑選一個名稱
 
 `const char * command`
-:   command string
+:   指令字串
 
 `int nargs`
-:   number of input parameters (`$1`, `$2`, etc.)
+:   輸入參數的個數（`$1`、`$2` 等等）
 
 `Oid * argtypes`
-:   an array of length *`nargs`*, containing the
-    OIDs of the data types of the parameters
+:   長度為 *`nargs`* 的陣列，內含各參數資料型別的 OID
 
 `Datum * values`
-:   an array of length *`nargs`*, containing the actual
-    parameter values
+:   長度為 *`nargs`* 的陣列，內含實際的參數值
 
 `const char * nulls`
-:   an array of length *`nargs`*, describing which
-    parameters are null
+:   長度為 *`nargs`* 的陣列，用來描述哪些參數為 NULL
 
-    If *`nulls`* is `NULL` then
-    `SPI_cursor_open_with_args` assumes that no parameters
-    are null. Otherwise, each entry of the *`nulls`*
-    array should be `' '` if the corresponding parameter
-    value is non-null, or `'n'` if the corresponding parameter
-    value is null. (In the latter case, the actual value in the
-    corresponding *`values`* entry doesn't matter.) Note
-    that *`nulls`* is not a text string, just an array:
-    it does not need a `'\0'` terminator.
+    如果 *`nulls`* 為 `NULL`，`SPI_cursor_open_with_args` 就會假設沒有任何參數是 NULL。否則，若對應的參數值不是 NULL，*`nulls`* 陣列中的每一個項目都應該是 `' '`；若對應的參數值是 NULL，則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中實際存放的值並不重要。）請注意，*`nulls`* 並不是一個文字字串，而只是一個陣列：它不需要 `'\0'` 結尾字元。
 
 `bool read_only`
-:   `true` for read-only execution
+:   `true` 表示唯讀執行
 
 `int cursorOptions`
-:   integer bit mask of cursor options; zero produces default behavior
+:   cursor 選項的整數位元遮罩；零代表預設行為
 
 <a id="id-1.8.12.8.20.7"></a>
 
-## Return Value
+## 回傳值
 
-Pointer to portal containing the cursor. Note there is no error
-return convention; any error will be reported via `elog`.
+指向含有該 cursor 之 portal 的指標。請注意，這個函式沒有錯誤回傳慣例；任何錯誤都會透過 `elog` 回報。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-open-with-args.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-open-with-args.html)（原文版本：18.6；核對日期：2026-09-12）
