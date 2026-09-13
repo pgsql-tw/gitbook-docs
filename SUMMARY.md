@@ -77,7 +77,7 @@
     * [8.8. Geometric Types #](the-sql-language/datatype/datatype-geometric.md)
     * [8.9. Network Address Types #](the-sql-language/datatype/datatype-net-types.md)
     * [8.10. Bit String Types #](the-sql-language/datatype/datatype-bit.md)
-    * [8.11. Text Search Types #](the-sql-language/datatype/datatype-textsearch.md)
+    * [8.11. 全文檢索型別 #](the-sql-language/datatype/datatype-textsearch.md)
     * [8.12. UUID Type #](the-sql-language/datatype/datatype-uuid.md)
     * [8.13. XML Type #](the-sql-language/datatype/datatype-xml.md)
     * [8.14. JSON Types #](the-sql-language/datatype/datatype-json.md)
