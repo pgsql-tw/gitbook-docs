@@ -2,9 +2,9 @@
 
 ## SPI_prepare
 
-SPI_prepare — prepare a statement, without executing it yet
+SPI_prepare — 預備一個陳述式，但尚未執行它
 
-## Synopsis
+## 概要
 
 ```
 
@@ -13,103 +13,49 @@ SPIPlanPtr SPI_prepare(const char * command, int nargs, Oid * argtypes)
 
 <a id="id-1.8.12.8.8.5"></a>
 
-## Description
+## 描述
 
-`SPI_prepare` creates and returns a prepared
-statement for the specified command, but doesn't execute the command.
-The prepared statement can later be executed repeatedly using
-`SPI_execute_plan`.
+`SPI_prepare` 會為所指定的指令建立並回傳一個預備陳述式，但不會執行該指令。這個預備陳述式之後可以用 `SPI_execute_plan` 反覆執行。
 
-When the same or a similar command is to be executed repeatedly, it
-is generally advantageous to perform parse analysis only once, and
-might furthermore be advantageous to re-use an execution plan for the
-command.
-`SPI_prepare` converts a command string into a
-prepared statement that encapsulates the results of parse analysis.
-The prepared statement also provides a place for caching an execution plan
-if it is found that generating a custom plan for each execution is not
-helpful.
+當同一個或類似的指令要被反覆執行時，通常只進行一次剖析分析會比較有利，而且重複使用該指令的執行計畫可能也更有利。`SPI_prepare` 會把指令字串轉換成一個封裝了剖析分析結果的預備陳述式。若後來發現為每次執行都產生客製化計畫並沒有幫助，該預備陳述式也提供了一個快取執行計畫的地方。
 
-A prepared command can be generalized by writing parameters
-(`$1`, `$2`, etc.) in place of what would be
-constants in a normal command. The actual values of the parameters
-are then specified when `SPI_execute_plan` is called.
-This allows the prepared command to be used over a wider range of
-situations than would be possible without parameters.
+預備好的指令可以透過在一般指令中原本應是常數的位置寫上參數（`$1`、`$2` 等）來加以通用化。參數的實際值則在呼叫 `SPI_execute_plan` 時才指定。這讓預備好的指令能用在比沒有參數時更廣泛的情境中。
 
-The statement returned by `SPI_prepare` can be used
-only in the current invocation of the C function, since
-`SPI_finish` frees memory allocated for such a
-statement. But the statement can be saved for longer using the functions
-`SPI_keepplan` or `SPI_saveplan`.
+`SPI_prepare` 所回傳的陳述式只能在目前這次 C 函式的呼叫中使用，因為 `SPI_finish` 會釋放為這類陳述式所配置的記憶體。不過，可以使用 `SPI_keepplan` 或 `SPI_saveplan` 函式把該陳述式保留得更久。
 
 <a id="id-1.8.12.8.8.6"></a>
 
-## Arguments
+## 引數
 
 `const char * command`
-:   command string
+:   指令字串
 
 `int nargs`
-:   number of input parameters (`$1`, `$2`, etc.)
+:   輸入參數的個數（`$1`、`$2` 等）
 
 `Oid * argtypes`
-:   pointer to an array containing the OIDs of
-    the data types of the parameters
+:   指向一個陣列的指標，該陣列含有各參數之資料型別的 OID
 
 <a id="id-1.8.12.8.8.7"></a>
 
-## Return Value
+## 回傳值
 
-`SPI_prepare` returns a non-null pointer to an
-`SPIPlan`, which is an opaque struct representing a prepared
-statement. On error, `NULL` will be returned,
-and `SPI_result` will be set to one of the same
-error codes used by `SPI_execute`, except that
-it is set to `SPI_ERROR_ARGUMENT` if
-*`command`* is `NULL`, or if
-*`nargs`* is less than 0, or if *`nargs`* is
-greater than 0 and *`argtypes`* is `NULL`.
+`SPI_prepare` 會回傳一個非 null 的指標，指向代表預備陳述式的不透明結構 `SPIPlan`。發生錯誤時會回傳 `NULL`，而且 `SPI_result` 會被設為與 `SPI_execute` 所使用的相同錯誤碼之一；例外的是，若 *`command`* 為 `NULL`、或 *`nargs`* 小於 0、或 *`nargs`* 大於 0 但 *`argtypes`* 為 `NULL`，則會被設為 `SPI_ERROR_ARGUMENT`。
 
 <a id="id-1.8.12.8.8.8"></a>
 
-## Notes
+## 註記
 
-If no parameters are defined, a generic plan will be created at the
-first use of `SPI_execute_plan`, and used for all
-subsequent executions as well. If there are parameters, the first few uses
-of `SPI_execute_plan` will generate custom plans
-that are specific to the supplied parameter values. After enough uses
-of the same prepared statement, `SPI_execute_plan` will
-build a generic plan, and if that is not too much more expensive than the
-custom plans, it will start using the generic plan instead of re-planning
-each time. If this default behavior is unsuitable, you can alter it by
-passing the `CURSOR_OPT_GENERIC_PLAN` or
-`CURSOR_OPT_CUSTOM_PLAN` flag to
-`SPI_prepare_cursor`, to force use of generic or custom
-plans respectively.
+如果沒有定義任何參數，就會在第一次使用 `SPI_execute_plan` 時建立一個通用計畫，之後的所有執行也都會沿用它。如果有參數，前幾次使用 `SPI_execute_plan` 時會產生針對所提供之參數值的客製化計畫。在同一個預備陳述式被使用足夠多次之後，`SPI_execute_plan` 會建立一個通用計畫；如果該計畫不會比客製化計畫昂貴太多，它就會開始改用通用計畫，而不再每次都重新規劃。如果這個預設行為不合適，你可以把 `CURSOR_OPT_GENERIC_PLAN` 或 `CURSOR_OPT_CUSTOM_PLAN` 旗標傳給 `SPI_prepare_cursor` 來加以改變，分別強制使用通用計畫或客製化計畫。
 
-Although the main point of a prepared statement is to avoid repeated parse
-analysis and planning of the statement, PostgreSQL will
-force re-analysis and re-planning of the statement before using it
-whenever database objects used in the statement have undergone
-definitional (DDL) changes since the previous use of the prepared
-statement. Also, if the value of [search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) changes
-from one use to the next, the statement will be re-parsed using the new
-`search_path`. (This latter behavior is new as of
-PostgreSQL 9.3.) See [PREPARE](../../reference/sql-commands/sql-prepare.md) for more information about the behavior of prepared
-statements.
+雖然預備陳述式的主要目的是避免對陳述式反覆進行剖析分析與規劃，但只要陳述式中所使用的資料庫物件自上次使用該預備陳述式以來發生過定義（DDL）上的變更，PostgreSQL 就會在使用它之前強制重新分析並重新規劃該陳述式。此外，如果 [search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 的值在前後兩次使用之間有所改變，該陳述式也會用新的 `search_path` 重新剖析。（後面這項行為是從 PostgreSQL 9.3 起才有的。）關於預備陳述式行為的更多資訊，請參閱 [PREPARE](../../reference/sql-commands/sql-prepare.md)。
 
-This function should only be called from a connected C function.
+這個函式只應該從已連線的 C 函式中呼叫。
 
-`SPIPlanPtr` is declared as a pointer to an opaque struct type in
-`spi.h`. It is unwise to try to access its contents
-directly, as that makes your code much more likely to break in
-future revisions of PostgreSQL.
+`SPIPlanPtr` 在 `spi.h` 中宣告為指向某個不透明結構型別的指標。直接嘗試存取它的內容並不明智，因為那會讓你的程式碼在 PostgreSQL 未來的版本中更容易失效。
 
-The name `SPIPlanPtr` is somewhat historical, since the data
-structure no longer necessarily contains an execution plan.
+`SPIPlanPtr` 這個名稱帶有一些歷史因素，因為該資料結構如今並不一定含有執行計畫。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-prepare.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-prepare.html)（原文版本：18.6；核對日期：2026-09-13）
