@@ -518,7 +518,7 @@
     * [44.4. 匿名程式碼區塊](server-programming/plpython/plpython-do.md)
     * [44.5. Trigger Functions #](server-programming/plpython/plpython-trigger.md)
     * [44.6. Database Access #](server-programming/plpython/plpython-database.md)
-    * [44.7. Explicit Subtransactions #](server-programming/plpython/plpython-subtransaction.md)
+    * [44.7. 明確的子交易 #](server-programming/plpython/plpython-subtransaction.md)
     * [44.8. 交易管理](server-programming/plpython/plpython-transactions.md)
     * [44.9. Utility Functions #](server-programming/plpython/plpython-util.md)
     * [44.10. Python 2 與 Python 3](server-programming/plpython/plpython-python23.md)

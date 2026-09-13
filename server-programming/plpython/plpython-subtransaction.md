@@ -1,20 +1,16 @@
-## 44.7. Explicit Subtransactions [#](#PLPYTHON-SUBTRANSACTION)
+<a id="PLPYTHON-SUBTRANSACTION"></a>
 
-[44.7.1. Subtransaction Context Managers](plpython-subtransaction.md#PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS)
+## 44.7. 明確的子交易 [#](#PLPYTHON-SUBTRANSACTION)
 
-Recovering from errors caused by database access as described in
-[Section 44.6.2](plpython-database.md#PLPYTHON-TRAPPING) can lead to an undesirable
-situation where some operations succeed before one of them fails,
-and after recovering from that error the data is left in an
-inconsistent state. PL/Python offers a solution to this problem in
-the form of explicit subtransactions.
+[44.7.1. 子交易情境管理器](plpython-subtransaction.md#PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS)
+
+如同[第 44.6.2 節](plpython-database.md#PLPYTHON-TRAPPING)所述，從資料庫存取所造成的錯誤中復原，可能會導致一種不樂見的情況：某些操作在其中一個操作失敗之前已經成功，而在從該錯誤復原之後，資料就停留在不一致的狀態。PL/Python 以明確子交易的形式為這個問題提供了解決方案。
 
 <a id="PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS"></a>
 
-### 44.7.1. Subtransaction Context Managers [#](#PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS)
+### 44.7.1. 子交易情境管理器 [#](#PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS)
 
-Consider a function that implements a transfer between two
-accounts:
+考慮一個實作兩個帳戶之間轉帳的函式：
 
 ```
 
@@ -31,21 +27,9 @@ plpy.execute(plan, [result])
 $$ LANGUAGE plpython3u;
 ```
 
-If the second `UPDATE` statement results in an
-exception being raised, this function will report the error, but
-the result of the first `UPDATE` will
-nevertheless be committed. In other words, the funds will be
-withdrawn from Joe's account, but will not be transferred to
-Mary's account.
+如果第二個 `UPDATE` 陳述式導致例外被拋出，這個函式會回報該錯誤，但第一個 `UPDATE` 的結果仍然會被提交。換句話說，錢會從 Joe 的帳戶中被提走，卻不會轉入 Mary 的帳戶。
 
-To avoid such issues, you can wrap your
-`plpy.execute` calls in an explicit
-subtransaction. The `plpy` module provides a
-helper object to manage explicit subtransactions that gets created
-with the `plpy.subtransaction()` function.
-Objects created by this function implement the
-[context manager interface](https://docs.python.org/library/stdtypes.html#context-manager-types). Using explicit subtransactions
-we can rewrite our function as:
+為了避免這類問題，你可以把 `plpy.execute` 呼叫包在一個明確的子交易中。`plpy` 模組提供了一個輔助物件來管理明確子交易，它是以 `plpy.subtransaction()` 函式建立的。由這個函式所建立的物件實作了[情境管理器介面](https://docs.python.org/library/stdtypes.html#context-manager-types)。使用明確子交易，我們可以把函式改寫成：
 
 ```
 
@@ -63,20 +47,8 @@ plpy.execute(plan, [result])
 $$ LANGUAGE plpython3u;
 ```
 
-Note that the use of `try`/`except` is still
-required. Otherwise the exception would propagate to the top of
-the Python stack and would cause the whole function to abort with
-a PostgreSQL error, so that the
-`operations` table would not have any row
-inserted into it. The subtransaction context manager does not
-trap errors, it only assures that all database operations executed
-inside its scope will be atomically committed or rolled back. A
-rollback of the subtransaction block occurs on any kind of
-exception exit, not only ones caused by errors originating from
-database access. A regular Python exception raised inside an
-explicit subtransaction block would also cause the subtransaction
-to be rolled back.
+請注意，仍然必須使用 `try`/`except`。否則例外會傳播到 Python 堆疊的最上層，導致整個函式以 PostgreSQL 錯誤中止，於是 `operations` 資料表也不會被插入任何資料列。子交易情境管理器並不會攔截錯誤，它只確保在其作用範圍內所執行的所有資料庫操作會以不可分割的方式一起提交或一起回復。子交易區塊的回復會在任何形式的例外離開時發生，不只限於資料庫存取所引發的錯誤。在明確子交易區塊內拋出的一般 Python 例外，同樣也會使該子交易被回復。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpython-subtransaction.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpython-subtransaction.html)（原文版本：18.6；核對日期：2026-09-13）
