@@ -1,159 +1,88 @@
-## 41.10. Trigger Functions [#](#PLPGSQL-TRIGGER)
+<a id="PLPGSQL-TRIGGER"></a>
 
-[41.10.1. Triggers on Data Changes](plpgsql-trigger.md#PLPGSQL-DML-TRIGGER)
+## 41.10. 觸發程序函式 [#](#PLPGSQL-TRIGGER)
 
-[41.10.2. Triggers on Events](plpgsql-trigger.md#PLPGSQL-EVENT-TRIGGER)
+[41.10.1. 資料異動的觸發程序](plpgsql-trigger.md#PLPGSQL-DML-TRIGGER)
+
+[41.10.2. 事件的觸發程序](plpgsql-trigger.md#PLPGSQL-EVENT-TRIGGER)
 
 <a id="id-1.8.8.12.2"></a>
 
-PL/pgSQL can be used to define trigger
-functions on data changes or database events.
-A trigger function is created with the `CREATE FUNCTION`
-command, declaring it as a function with no arguments and a return type of
-`trigger` (for data change triggers) or
-`event_trigger` (for database event triggers).
-Special local variables named `TG_something` are
-automatically defined to describe the condition that triggered the call.
+PL/pgSQL 可以用來定義因資料異動或資料庫事件而執行的觸發程序函式。觸發程序函式是以 `CREATE FUNCTION` 指令建立的，宣告時不帶任何引數，回傳型別為 `trigger`（用於資料異動的觸發程序）或 `event_trigger`（用於資料庫事件的觸發程序）。系統會自動定義名為 `TG_something` 的特殊區域變數，用來描述觸發這次呼叫的條件。
 
 <a id="PLPGSQL-DML-TRIGGER"></a>
 
-### 41.10.1. Triggers on Data Changes [#](#PLPGSQL-DML-TRIGGER)
+### 41.10.1. 資料異動的觸發程序 [#](#PLPGSQL-DML-TRIGGER)
 
-A [data change trigger](../triggers/README.md) is declared as a
-function with no arguments and a return type of `trigger`.
-Note that the function must be declared with no arguments even if it
-expects to receive some arguments specified in `CREATE TRIGGER`
-— such arguments are passed via `TG_ARGV`, as described
-below.
+[資料異動觸發程序](../triggers/README.md)宣告為一個不帶引數、回傳型別為 `trigger` 的函式。請注意，即使該函式預期會收到在 `CREATE TRIGGER` 中指定的一些引數，它仍然必須宣告為不帶引數——這類引數是透過 `TG_ARGV` 傳入的，如下所述。
 
-When a PL/pgSQL function is called as a
-trigger, several special variables are created automatically in the
-top-level block. They are:
+當 PL/pgSQL 函式被當成觸發程序呼叫時，會在最上層區塊中自動建立幾個特殊變數。它們是：
 
 <a id="PLPGSQL-DML-TRIGGER-NEW"></a>
 
 `NEW` `record` [#](#PLPGSQL-DML-TRIGGER-NEW)
-:   new database row for `INSERT`/`UPDATE` operations in row-level
-    triggers. This variable is null in statement-level triggers
-    and for `DELETE` operations.
+:   資料列層級觸發程序中，`INSERT`/`UPDATE` 操作所產生的新資料庫資料列。在陳述式層級的觸發程序中，以及在 `DELETE` 操作中，這個變數為 null。
 <a id="PLPGSQL-DML-TRIGGER-OLD"></a>
 
 `OLD` `record` [#](#PLPGSQL-DML-TRIGGER-OLD)
-:   old database row for `UPDATE`/`DELETE` operations in row-level
-    triggers. This variable is null in statement-level triggers
-    and for `INSERT` operations.
+:   資料列層級觸發程序中，`UPDATE`/`DELETE` 操作所對應的舊資料庫資料列。在陳述式層級的觸發程序中，以及在 `INSERT` 操作中，這個變數為 null。
 <a id="PLPGSQL-DML-TRIGGER-TG-NAME"></a>
 
 `TG_NAME` `name` [#](#PLPGSQL-DML-TRIGGER-TG-NAME)
-:   name of the trigger which fired.
+:   被觸發的那個觸發程序的名稱。
 <a id="PLPGSQL-DML-TRIGGER-TG-WHEN"></a>
 
 `TG_WHEN` `text` [#](#PLPGSQL-DML-TRIGGER-TG-WHEN)
-:   `BEFORE`, `AFTER`, or
-    `INSTEAD OF`, depending on the trigger's definition.
+:   `BEFORE`、`AFTER` 或 `INSTEAD OF`，視該觸發程序的定義而定。
 <a id="PLPGSQL-DML-TRIGGER-TG-LEVEL"></a>
 
 `TG_LEVEL` `text` [#](#PLPGSQL-DML-TRIGGER-TG-LEVEL)
-:   `ROW` or `STATEMENT`,
-    depending on the trigger's definition.
+:   `ROW` 或 `STATEMENT`，視該觸發程序的定義而定。
 <a id="PLPGSQL-DML-TRIGGER-TG-OP"></a>
 
 `TG_OP` `text` [#](#PLPGSQL-DML-TRIGGER-TG-OP)
-:   operation for which the trigger was fired:
-    `INSERT`, `UPDATE`,
-    `DELETE`, or `TRUNCATE`.
+:   觸發此觸發程序的操作：`INSERT`、`UPDATE`、`DELETE` 或 `TRUNCATE`。
 <a id="PLPGSQL-DML-TRIGGER-TG-RELID"></a>
 
-`TG_RELID` `oid` (references [`pg_class`](../../internals/catalogs/catalog-pg-class.md).`oid`) [#](#PLPGSQL-DML-TRIGGER-TG-RELID)
-:   object ID of the table that caused the trigger invocation.
+`TG_RELID` `oid`（參照 [`pg_class`](../../internals/catalogs/catalog-pg-class.md).`oid`） [#](#PLPGSQL-DML-TRIGGER-TG-RELID)
+:   引發此觸發程序呼叫的資料表之物件 ID。
 <a id="PLPGSQL-DML-TRIGGER-TG-RELNAME"></a>
 
 `TG_RELNAME` `name` [#](#PLPGSQL-DML-TRIGGER-TG-RELNAME)
-:   table that caused the trigger
-    invocation. This is now deprecated, and could disappear in a future
-    release. Use `TG_TABLE_NAME` instead.
+:   引發此觸發程序呼叫的資料表。此變數現已不建議使用，並可能在未來的版本中消失。請改用 `TG_TABLE_NAME`。
 <a id="PLPGSQL-DML-TRIGGER-TG-TABLE-NAME"></a>
 
 `TG_TABLE_NAME` `name` [#](#PLPGSQL-DML-TRIGGER-TG-TABLE-NAME)
-:   table that caused the trigger invocation.
+:   引發此觸發程序呼叫的資料表。
 <a id="PLPGSQL-DML-TRIGGER-TG-TABLE-SCHEMA"></a>
 
 `TG_TABLE_SCHEMA` `name` [#](#PLPGSQL-DML-TRIGGER-TG-TABLE-SCHEMA)
-:   schema of the table that caused the trigger invocation.
+:   引發此觸發程序呼叫的資料表所屬的綱要。
 <a id="PLPGSQL-DML-TRIGGER-TG-NARGS"></a>
 
 `TG_NARGS` `integer` [#](#PLPGSQL-DML-TRIGGER-TG-NARGS)
-:   number of arguments given to the trigger
-    function in the `CREATE TRIGGER` statement.
+:   在 `CREATE TRIGGER` 陳述式中傳給觸發程序函式的引數個數。
 <a id="PLPGSQL-DML-TRIGGER-TG-ARGV"></a>
 
 `TG_ARGV` `text[]` [#](#PLPGSQL-DML-TRIGGER-TG-ARGV)
-:   arguments from
-    the `CREATE TRIGGER` statement.
-    The index counts from 0. Invalid
-    indexes (less than 0 or greater than or equal to `tg_nargs`)
-    result in a null value.
+:   來自 `CREATE TRIGGER` 陳述式的引數。索引由 0 開始計算。無效的索引（小於 0，或大於等於 `tg_nargs`）會得到 null 值。
 
-A trigger function must return either `NULL` or a
-record/row value having exactly the structure of the table the
-trigger was fired for.
+觸發程序函式必須回傳 `NULL`，或是一個結構與該觸發程序所屬資料表完全相同的 record／資料列值。
 
-Row-level triggers fired `BEFORE` can return null to signal the
-trigger manager to skip the rest of the operation for this row
-(i.e., subsequent triggers are not fired, and the
-`INSERT`/`UPDATE`/`DELETE` does not occur
-for this row). If a nonnull
-value is returned then the operation proceeds with that row value.
-Returning a row value different from the original value
-of `NEW` alters the row that will be inserted or
-updated. Thus, if the trigger function wants the triggering
-action to succeed normally without altering the row
-value, `NEW` (or a value equal thereto) has to be
-returned. To alter the row to be stored, it is possible to
-replace single values directly in `NEW` and return the
-modified `NEW`, or to build a complete new record/row to
-return. In the case of a before-trigger
-on `DELETE`, the returned value has no direct
-effect, but it has to be nonnull to allow the trigger action to
-proceed. Note that `NEW` is null
-in `DELETE` triggers, so returning that is
-usually not sensible. The usual idiom in `DELETE`
-triggers is to return `OLD`.
+以 `BEFORE` 觸發的資料列層級觸發程序可以回傳 null，藉此告知觸發程序管理員跳過這筆資料列後續的其餘操作（亦即後續的觸發程序不會被觸發，而這筆資料列的 `INSERT`/`UPDATE`/`DELETE` 也不會發生）。如果回傳的是非 null 值，則該操作會以這個資料列值繼續進行。回傳與 `NEW` 原本的值不同的資料列值，會改變即將被新增或更新的資料列。因此，如果觸發程序函式希望讓觸發它的動作正常完成而不改變資料列的值，就必須回傳 `NEW`（或是與其相等的值）。若要改變即將被儲存的資料列，可以直接在 `NEW` 中替換個別的值並回傳修改後的 `NEW`，或是建立一筆完整的新 record／資料列來回傳。至於 `DELETE` 上的 before 觸發程序，其回傳值沒有直接的作用，但必須是非 null，才能讓觸發它的動作繼續進行。請注意，在 `DELETE` 的觸發程序中 `NEW` 為 null，因此回傳它通常並不合理。在 `DELETE` 的觸發程序中，慣用的寫法是回傳 `OLD`。
 
-`INSTEAD OF` triggers (which are always row-level triggers,
-and may only be used on views) can return null to signal that they did
-not perform any updates, and that the rest of the operation for this
-row should be skipped (i.e., subsequent triggers are not fired, and the
-row is not counted in the rows-affected status for the surrounding
-`INSERT`/`UPDATE`/`DELETE`).
-Otherwise a nonnull value should be returned, to signal
-that the trigger performed the requested operation. For
-`INSERT` and `UPDATE` operations, the return value
-should be `NEW`, which the trigger function may modify to
-support `INSERT RETURNING` and `UPDATE RETURNING`
-(this will also affect the row value passed to any subsequent triggers,
-or passed to a special `EXCLUDED` alias reference within
-an `INSERT` statement with an `ON CONFLICT DO
-UPDATE` clause). For `DELETE` operations, the return
-value should be `OLD`.
+`INSTEAD OF` 觸發程序（一律為資料列層級的觸發程序，且只能用在檢視表上）可以回傳 null，以表示它並未執行任何更新，且這筆資料列後續的其餘操作應該被跳過（亦即後續的觸發程序不會被觸發，而這筆資料列也不會被計入外層 `INSERT`/`UPDATE`/`DELETE` 的受影響資料列數中）。否則就應該回傳非 null 值，以表示該觸發程序已執行了所要求的操作。對於 `INSERT` 與 `UPDATE` 操作，回傳值應該是 `NEW`，而觸發程序函式可以修改它，以支援 `INSERT RETURNING` 與 `UPDATE RETURNING`（這也會影響傳給任何後續觸發程序的資料列值，或是在帶有 `ON CONFLICT DO
+UPDATE` 子句的 `INSERT` 陳述式中，傳給特殊的 `EXCLUDED` 別名參照的資料列值）。對於 `DELETE` 操作，回傳值應該是 `OLD`。
 
-The return value of a row-level trigger
-fired `AFTER` or a statement-level trigger
-fired `BEFORE` or `AFTER` is
-always ignored; it might as well be null. However, any of these types of
-triggers might still abort the entire operation by raising an error.
+以 `AFTER` 觸發的資料列層級觸發程序，或是以 `BEFORE` 或 `AFTER` 觸發的陳述式層級觸發程序，其回傳值一律會被忽略；回傳 null 也無妨。不過，這幾類觸發程序仍然可以藉由拋出錯誤來中止整個操作。
 
-[Example 41.3](plpgsql-trigger.md#PLPGSQL-TRIGGER-EXAMPLE) shows an example of a
-trigger function in PL/pgSQL.
+[範例 41.3](plpgsql-trigger.md#PLPGSQL-TRIGGER-EXAMPLE) 展示了一個以 PL/pgSQL 撰寫的觸發程序函式範例。
 
 <a id="PLPGSQL-TRIGGER-EXAMPLE"></a>
 
-**Example 41.3. A PL/pgSQL Trigger Function**
+**範例 41.3. 一個 PL/pgSQL 觸發程序函式**
 
-This example trigger ensures that any time a row is inserted or updated
-in the table, the current user name and time are stamped into the
-row. And it checks that an employee's name is given and that the
-salary is a positive value.
+這個範例觸發程序可確保每當資料表中有資料列被新增或更新時，目前的使用者名稱與時間都會被標記到該資料列中。它同時也會檢查員工的姓名有被填寫，而且薪資是正數。
 
 ```
 
@@ -192,20 +121,13 @@ CREATE TRIGGER emp_stamp BEFORE INSERT OR UPDATE ON emp
 
 <br>
 
-Another way to log changes to a table involves creating a new table that
-holds a row for each insert, update, or delete that occurs. This approach
-can be thought of as auditing changes to a table.
-[Example 41.4](plpgsql-trigger.md#PLPGSQL-TRIGGER-AUDIT-EXAMPLE) shows an example of an
-audit trigger function in PL/pgSQL.
+另一種記錄資料表異動的方式，是建立一個新的資料表，為每一次發生的新增、更新或刪除各保存一筆資料列。這種做法可以視為對資料表異動的稽核。[範例 41.4](plpgsql-trigger.md#PLPGSQL-TRIGGER-AUDIT-EXAMPLE) 展示了一個以 PL/pgSQL 撰寫的稽核觸發程序函式範例。
 
 <a id="PLPGSQL-TRIGGER-AUDIT-EXAMPLE"></a>
 
-**Example 41.4. A PL/pgSQL Trigger Function for Auditing**
+**範例 41.4. 一個用於稽核的 PL/pgSQL 觸發程序函式**
 
-This example trigger ensures that any insert, update or delete of a row
-in the `emp` table is recorded (i.e., audited) in the `emp_audit` table.
-The current time and user name are stamped into the row, together with
-the type of operation performed on it.
+這個範例觸發程序可確保 `emp` 資料表中任何資料列的新增、更新或刪除，都會被記錄（亦即稽核）到 `emp_audit` 資料表中。目前的時間與使用者名稱會被標記到該資料列裡，並一併記下對它所執行的操作類型。
 
 ```
 
@@ -246,23 +168,13 @@ AFTER INSERT OR UPDATE OR DELETE ON emp
 
 <br>
 
-A variation of the previous example uses a view joining the main table
-to the audit table, to show when each entry was last modified. This
-approach still records the full audit trail of changes to the table,
-but also presents a simplified view of the audit trail, showing just
-the last modified timestamp derived from the audit trail for each entry.
-[Example 41.5](plpgsql-trigger.md#PLPGSQL-VIEW-TRIGGER-AUDIT-EXAMPLE) shows an example
-of an audit trigger on a view in PL/pgSQL.
+前一個範例的一種變化，是使用一個將主資料表與稽核資料表聯結起來的檢視表，以顯示每一筆項目最後被修改的時間。這種做法仍然會完整記錄資料表異動的稽核軌跡，但同時也提供了稽核軌跡的簡化檢視，只呈現由稽核軌跡推導出的、每一筆項目最後修改的時間戳記。[範例 41.5](plpgsql-trigger.md#PLPGSQL-VIEW-TRIGGER-AUDIT-EXAMPLE) 展示了一個以 PL/pgSQL 撰寫、建立在檢視表上的稽核觸發程序範例。
 
 <a id="PLPGSQL-VIEW-TRIGGER-AUDIT-EXAMPLE"></a>
 
-**Example 41.5. A PL/pgSQL View Trigger Function for Auditing**
+**範例 41.5. 一個用於稽核的 PL/pgSQL 檢視表觸發程序函式**
 
-This example uses a trigger on the view to make it updatable, and
-ensure that any insert, update or delete of a row in the view is
-recorded (i.e., audited) in the `emp_audit` table. The current time
-and user name are recorded, together with the type of operation
-performed, and the view displays the last modified time of each row.
+這個範例在檢視表上使用觸發程序，使該檢視表成為可更新的，並確保檢視表中任何資料列的新增、更新或刪除，都會被記錄（亦即稽核）到 `emp_audit` 資料表中。目前的時間與使用者名稱會被記錄下來，並一併記下所執行的操作類型，而該檢視表會顯示每一筆資料列最後修改的時間。
 
 ```
 
@@ -324,22 +236,13 @@ INSTEAD OF INSERT OR UPDATE OR DELETE ON emp_view
 
 <br>
 
-One use of triggers is to maintain a summary table
-of another table. The resulting summary can be used in place of the
-original table for certain queries — often with vastly reduced run
-times.
-This technique is commonly used in Data Warehousing, where the tables
-of measured or observed data (called fact tables) might be extremely large.
-[Example 41.6](plpgsql-trigger.md#PLPGSQL-TRIGGER-SUMMARY-EXAMPLE) shows an example of a
-trigger function in PL/pgSQL that maintains
-a summary table for a fact table in a data warehouse.
+觸發程序的用途之一，是維護另一個資料表的彙總資料表。所得到的彙總結果，在某些查詢中可以用來取代原本的資料表——通常執行時間會大幅縮短。這項技巧常用於資料倉儲，因為其中存放實際量測或觀測資料的資料表（稱為事實資料表）可能極為龐大。[範例 41.6](plpgsql-trigger.md#PLPGSQL-TRIGGER-SUMMARY-EXAMPLE) 展示了一個以 PL/pgSQL 撰寫的觸發程序函式範例，用來為資料倉儲中的事實資料表維護彙總資料表。
 
 <a id="PLPGSQL-TRIGGER-SUMMARY-EXAMPLE"></a>
 
-**Example 41.6. A PL/pgSQL Trigger Function for Maintaining a Summary Table**
+**範例 41.6. 一個用於維護彙總資料表的 PL/pgSQL 觸發程序函式**
 
-The schema detailed here is partly based on the *Grocery Store* example from *The Data Warehouse Toolkit*
-by Ralph Kimball.
+此處詳述的綱要，部分是根據 Ralph Kimball 所著 *The Data Warehouse Toolkit* 一書中的 *Grocery Store* 範例。
 
 ```
 
@@ -476,28 +379,13 @@ SELECT * FROM sales_summary_bytime;
 
 <br>
 
-`AFTER` triggers can also make use of *transition
-tables* to inspect the entire set of rows changed by the triggering
-statement. The `CREATE TRIGGER` command assigns names to one
-or both transition tables, and then the function can refer to those names
-as though they were read-only temporary tables.
-[Example 41.7](plpgsql-trigger.md#PLPGSQL-TRIGGER-AUDIT-TRANSITION-EXAMPLE) shows an example.
+`AFTER` 觸發程序也可以利用*轉換資料表*來檢視觸發它的陳述式所異動的整組資料列。`CREATE TRIGGER` 指令會為其中一個或兩個轉換資料表指定名稱，接著函式就可以引用這些名稱，彷彿它們是唯讀的暫存資料表一般。[範例 41.7](plpgsql-trigger.md#PLPGSQL-TRIGGER-AUDIT-TRANSITION-EXAMPLE) 展示了一個例子。
 
 <a id="PLPGSQL-TRIGGER-AUDIT-TRANSITION-EXAMPLE"></a>
 
-**Example 41.7. Auditing with Transition Tables**
+**範例 41.7. 使用轉換資料表進行稽核**
 
-This example produces the same results as
-[Example 41.4](plpgsql-trigger.md#PLPGSQL-TRIGGER-AUDIT-EXAMPLE), but instead of using a
-trigger that fires for every row, it uses a trigger that fires once
-per statement, after collecting the relevant information in a transition
-table. This can be significantly faster than the row-trigger approach
-when the invoking statement has modified many rows. Notice that we must
-make a separate trigger declaration for each kind of event, since the
-`REFERENCING` clauses must be different for each case. But
-this does not stop us from using a single trigger function if we choose.
-(In practice, it might be better to use three separate functions and
-avoid the run-time tests on `TG_OP`.)
+這個範例產生的結果與[範例 41.4](plpgsql-trigger.md#PLPGSQL-TRIGGER-AUDIT-EXAMPLE) 相同，但它不是使用對每一筆資料列都觸發的觸發程序，而是先在轉換資料表中收集相關資訊，再使用每個陳述式只觸發一次的觸發程序。當觸發它的陳述式異動了許多資料列時，這種做法會比資料列觸發程序的做法快上許多。請注意，我們必須為每一種事件各自撰寫一段觸發程序宣告，因為每種情況的 `REFERENCING` 子句必須不同。但這並不妨礙我們選擇只使用單一個觸發程序函式。（實務上，或許使用三個各自獨立的函式、避免在執行期檢測 `TG_OP`，會是比較好的做法。）
 
 ```
 
@@ -552,36 +440,28 @@ CREATE TRIGGER emp_audit_del
 
 <a id="PLPGSQL-EVENT-TRIGGER"></a>
 
-### 41.10.2. Triggers on Events [#](#PLPGSQL-EVENT-TRIGGER)
+### 41.10.2. 事件的觸發程序 [#](#PLPGSQL-EVENT-TRIGGER)
 
-PL/pgSQL can be used to define
-[event triggers](../event-triggers/README.md).
-PostgreSQL requires that a function that
-is to be called as an event trigger must be declared as a function with
-no arguments and a return type of `event_trigger`.
+PL/pgSQL 可以用來定義[事件觸發程序](../event-triggers/README.md)。PostgreSQL 要求，要被當成事件觸發程序呼叫的函式，必須宣告為不帶引數、回傳型別為 `event_trigger` 的函式。
 
-When a PL/pgSQL function is called as an
-event trigger, several special variables are created automatically
-in the top-level block. They are:
+當 PL/pgSQL 函式被當成事件觸發程序呼叫時，會在最上層區塊中自動建立幾個特殊變數。它們是：
 
 <a id="PLPGSQL-EVENT-TRIGGER-TG-EVENT"></a>
 
 `TG_EVENT` `text` [#](#PLPGSQL-EVENT-TRIGGER-TG-EVENT)
-:   event the trigger is fired for.
+:   觸發此觸發程序的事件。
 <a id="PLPGSQL-EVENT-TRIGGER-TG-TAG"></a>
 
 `TG_TAG` `text` [#](#PLPGSQL-EVENT-TRIGGER-TG-TAG)
-:   command tag for which the trigger is fired.
+:   觸發此觸發程序的指令標籤。
 
-[Example 41.8](plpgsql-trigger.md#PLPGSQL-EVENT-TRIGGER-EXAMPLE) shows an example of an
-event trigger function in PL/pgSQL.
+[範例 41.8](plpgsql-trigger.md#PLPGSQL-EVENT-TRIGGER-EXAMPLE) 展示了一個以 PL/pgSQL 撰寫的事件觸發程序函式範例。
 
 <a id="PLPGSQL-EVENT-TRIGGER-EXAMPLE"></a>
 
-**Example 41.8. A PL/pgSQL Event Trigger Function**
+**範例 41.8. 一個 PL/pgSQL 事件觸發程序函式**
 
-This example trigger simply raises a `NOTICE` message
-each time a supported command is executed.
+這個範例觸發程序只是在每次執行受支援的指令時，拋出一則 `NOTICE` 訊息。
 
 ```
 
@@ -598,4 +478,4 @@ CREATE EVENT TRIGGER snitch ON ddl_command_start EXECUTE FUNCTION snitch();
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpgsql-trigger.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpgsql-trigger.html)（原文版本：18.6；核對日期：2026-09-13）
