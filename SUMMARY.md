@@ -495,7 +495,7 @@
     * [42.3. PL/Tcl 中的資料值](server-programming/pltcl/pltcl-data.md)
     * [42.4. Global Data in PL/Tcl #](server-programming/pltcl/pltcl-global.md)
     * [42.5. Database Access from PL/Tcl #](server-programming/pltcl/pltcl-dbaccess.md)
-    * [42.6. Trigger Functions in PL/Tcl #](server-programming/pltcl/pltcl-trigger.md)
+    * [42.6. PL/Tcl 中的觸發程序函式 #](server-programming/pltcl/pltcl-trigger.md)
     * [42.7. PL/Tcl 中的事件觸發器函式](server-programming/pltcl/pltcl-event-trigger.md)
     * [42.8. Error Handling in PL/Tcl #](server-programming/pltcl/pltcl-error-handling.md)
     * [42.9. PL/Tcl 中的明確子交易 #](server-programming/pltcl/pltcl-subtransactions.md)
