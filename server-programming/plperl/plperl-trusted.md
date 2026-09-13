@@ -1,32 +1,16 @@
-## 43.5. Trusted and Untrusted PL/Perl [#](#PLPERL-TRUSTED)
+<a id="PLPERL-TRUSTED"></a>
+
+## 43.5. 受信任與不受信任的 PL/Perl [#](#PLPERL-TRUSTED)
 
 <a id="id-1.8.10.13.2"></a>
 
-Normally, PL/Perl is installed as a “trusted” programming
-language named `plperl`. In this setup, certain Perl
-operations are disabled to preserve security. In general, the
-operations that are restricted are those that interact with the
-environment. This includes file handle operations,
-`require`, and `use` (for
-external modules). There is no way to access internals of the
-database server process or to gain OS-level access with the
-permissions of the server process,
-as a C function can do. Thus, any unprivileged database user can
-be permitted to use this language.
+一般來說，PL/Perl 會以名為 `plperl` 的「受信任」程式語言安裝。在這樣的設定下，某些 Perl 操作會被停用以維護安全。整體而言，受限制的是那些會與環境互動的操作。這包括檔案處理（file handle）操作、`require` 以及 `use`（用於外部模組）。沒有任何方式可以存取資料庫伺服器程序的內部，也無法以伺服器程序的權限取得作業系統層級的存取能力，而 C 函式則可以做到這些事。因此，任何沒有特權的資料庫使用者都可以被允許使用這個語言。
 
-### Warning
+### 警告
 
-Trusted PL/Perl relies on the Perl `Opcode` module to
-preserve security.
-Perl
-[documents](https://perldoc.perl.org/Opcode#WARNING)
-that the module is not effective for the trusted PL/Perl use case. If
-your security needs are incompatible with the uncertainty in that warning,
-consider executing `REVOKE USAGE ON LANGUAGE plperl FROM
-PUBLIC`.
+受信任的 PL/Perl 仰賴 Perl 的 `Opcode` 模組來維護安全。Perl 的[文件](https://perldoc.perl.org/Opcode#WARNING)指出，該模組對於受信任 PL/Perl 這種使用情境並不有效。如果你的安全需求無法接受該警告中的不確定性，請考慮執行 `REVOKE USAGE ON LANGUAGE plperl FROM PUBLIC`。
 
-Here is an example of a function that will not work because file
-system operations are not allowed for security reasons:
+以下是一個因為基於安全理由不允許檔案系統操作而無法運作的函式範例：
 
 ```
 
@@ -40,56 +24,24 @@ CREATE FUNCTION badfunc() RETURNS integer AS $$
 $$ LANGUAGE plperl;
 ```
 
-The creation of this function will fail as its use of a forbidden
-operation will be caught by the validator.
+這個函式的建立會失敗，因為它使用了被禁止的操作，而這會被驗證器攔截。
 
-Sometimes it is desirable to write Perl functions that are not
-restricted. For example, one might want a Perl function that sends
-mail. To handle these cases, PL/Perl can also be installed as an
-“untrusted” language (usually called
-PL/PerlU<a id="id-1.8.10.13.6.3"></a>).
-In this case the full Perl language is available. When installing the
-language, the language name `plperlu` will select
-the untrusted PL/Perl variant.
+有時候我們會希望撰寫不受限制的 Perl 函式。例如，可能會想要一個能寄送郵件的 Perl 函式。為了處理這類情況，PL/Perl 也可以安裝成「不受信任」的語言（通常稱為 PL/PerlU<a id="id-1.8.10.13.6.3"></a>）。在這種情況下，完整的 Perl 語言都可以使用。安裝該語言時，語言名稱 `plperlu` 會選擇不受信任的 PL/Perl 變體。
 
-The writer of a PL/PerlU function must take care that the function
-cannot be used to do anything unwanted, since it will be able to do
-anything that could be done by a user logged in as the database
-administrator. Note that the database system allows only database
-superusers to create functions in untrusted languages.
+PL/PerlU 函式的撰寫者必須注意，該函式不能被用來做出任何不樂見的事情，因為它能做到的事情，等同於以資料庫管理者身分登入的使用者所能做的一切。請注意，資料庫系統只允許資料庫超級使用者以不受信任的語言建立函式。
 
-If the above function was created by a superuser using the language
-`plperlu`, execution would succeed.
+如果上面那個函式是由超級使用者以 `plperlu` 語言建立的，執行就會成功。
 
-In the same way, anonymous code blocks written in Perl can use
-restricted operations if the language is specified as
-`plperlu` rather than `plperl`, but the caller
-must be a superuser.
+同樣地，以 Perl 撰寫的匿名程式碼區塊，若語言指定為 `plperlu` 而非 `plperl`，也可以使用受限制的操作，但呼叫端必須是超級使用者。
 
-### Note
+### 注意
 
-While PL/Perl functions run in a separate Perl
-interpreter for each SQL role, all PL/PerlU functions
-executed in a given session run in a single Perl interpreter (which is
-not any of the ones used for PL/Perl functions).
-This allows PL/PerlU functions to share data freely,
-but no communication can occur between PL/Perl and
-PL/PerlU functions.
+雖然 PL/Perl 函式會針對每個 SQL 角色在各自獨立的 Perl 直譯器中執行，但在某個給定工作階段中執行的所有 PL/PerlU 函式都在單一個 Perl 直譯器中執行（而它並不是 PL/Perl 函式所使用的任何一個直譯器）。這讓 PL/PerlU 函式可以自由地共享資料，但 PL/Perl 與 PL/PerlU 函式之間無法進行任何溝通。
 
-### Note
+### 注意
 
-Perl cannot support multiple interpreters within one process unless
-it was built with the appropriate flags, namely either
-`usemultiplicity` or `useithreads`.
-(`usemultiplicity` is preferred unless you actually need
-to use threads. For more details, see the
-perlembed man page.)
-If PL/Perl is used with a copy of Perl that was not built
-this way, then it is only possible to have one Perl interpreter per
-session, and so any one session can only execute either
-PL/PerlU functions, or PL/Perl functions
-that are all called by the same SQL role.
+Perl 無法在單一程序中支援多個直譯器，除非它是以適當的旗標建置的，也就是 `usemultiplicity` 或 `useithreads` 其中之一。（除非你真的需要使用執行緒，否則建議採用 `usemultiplicity`。更多細節請參閱 perlembed 線上手冊頁。）如果 PL/Perl 搭配的是並非以這種方式建置的 Perl，那麼每個工作階段就只能有一個 Perl 直譯器，因此任何單一工作階段只能執行 PL/PerlU 函式，或是全部由同一個 SQL 角色呼叫的 PL/Perl 函式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-trusted.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-trusted.html)（原文版本：18.6；核對日期：2026-09-13）
