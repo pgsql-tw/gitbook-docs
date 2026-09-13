@@ -487,7 +487,7 @@
     * [41.9. 錯誤與訊息 #](server-programming/plpgsql/plpgsql-errors-and-messages.md)
     * [41.10. Trigger Functions #](server-programming/plpgsql/plpgsql-trigger.md)
     * [41.11. PL/pgSQL under the Hood #](server-programming/plpgsql/plpgsql-implementation.md)
-    * [41.12. Tips for Developing in PL/pgSQL #](server-programming/plpgsql/plpgsql-development-tips.md)
+    * [41.12. PL/pgSQL 開發技巧 #](server-programming/plpgsql/plpgsql-development-tips.md)
     * [41.13. Porting from Oracle PL/SQL #](server-programming/plpgsql/plpgsql-porting.md)
   * [第 42 章 PL/Tcl — Tcl 程序語言](server-programming/pltcl/README.md)
     * [42.1. Overview #](server-programming/pltcl/pltcl-overview.md)
