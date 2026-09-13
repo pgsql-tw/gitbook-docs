@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：794 頁。
+待譯頁面：793 頁。
 
 ## 根目錄
 
@@ -891,7 +891,7 @@
 - [x] `server-programming/plperl/plperl-event-triggers.md` — 43.7. PL/Perl 事件觸發器
 - [ ] `server-programming/plperl/plperl-funcs.md` — 43.1. PL/Perl Functions and Arguments #
 - [x] `server-programming/plperl/plperl-global.md` — 43.4. PL/Perl 中的全域值 #
-- [ ] `server-programming/plperl/plperl-triggers.md` — 43.6. PL/Perl Triggers #
+- [x] `server-programming/plperl/plperl-triggers.md` — 43.6. PL/Perl 觸發程序 #
 - [ ] `server-programming/plperl/plperl-trusted.md` — 43.5. Trusted and Untrusted PL/Perl #
 - [ ] `server-programming/plperl/plperl-under-the-hood.md` — 43.8. PL/Perl Under the Hood #
 - [ ] `server-programming/plpgsql/README.md` — Chapter 41. PL/pgSQL — SQL Procedural Language

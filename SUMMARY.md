@@ -508,7 +508,7 @@
     * [43.3. Built-in Functions #](server-programming/plperl/plperl-builtins.md)
     * [43.4. PL/Perl 中的全域值 #](server-programming/plperl/plperl-global.md)
     * [43.5. Trusted and Untrusted PL/Perl #](server-programming/plperl/plperl-trusted.md)
-    * [43.6. PL/Perl Triggers #](server-programming/plperl/plperl-triggers.md)
+    * [43.6. PL/Perl 觸發程序 #](server-programming/plperl/plperl-triggers.md)
     * [43.7. PL/Perl 事件觸發器](server-programming/plperl/plperl-event-triggers.md)
     * [43.8. PL/Perl Under the Hood #](server-programming/plperl/plperl-under-the-hood.md)
   * [Chapter 44. PL/Python — Python Procedural Language](server-programming/plpython/README.md)
