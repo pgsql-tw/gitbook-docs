@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：785 頁。
+待譯頁面：784 頁。
 
 ## 根目錄
 
@@ -918,7 +918,7 @@
 - [x] `server-programming/plpython/plpython-sharing.md` — 44.3. 共用資料
 - [x] `server-programming/plpython/plpython-subtransaction.md` — 44.7. 明確的子交易 #
 - [x] `server-programming/plpython/plpython-transactions.md` — 44.8. 交易管理
-- [ ] `server-programming/plpython/plpython-trigger.md` — 44.5. Trigger Functions #
+- [x] `server-programming/plpython/plpython-trigger.md` — 44.5. 觸發程序函式 #
 - [ ] `server-programming/plpython/plpython-util.md` — 44.9. Utility Functions #
 - [x] `server-programming/pltcl/README.md` — 第 42 章 PL/Tcl — Tcl 程序語言
 - [ ] `server-programming/pltcl/pltcl-config.md` — 42.11. PL/Tcl Configuration #
