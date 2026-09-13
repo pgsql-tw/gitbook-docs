@@ -1,36 +1,16 @@
-## 39.7. Rules Versus Triggers [#](#RULES-TRIGGERS)
+<a id="RULES-TRIGGERS"></a>
+
+## 39.7. 規則與觸發程序的比較 [#](#RULES-TRIGGERS)
 
 <a id="id-1.8.6.12.2"></a><a id="id-1.8.6.12.3"></a>
 
-Many things that can be done using triggers can also be
-implemented using the PostgreSQL
-rule system. One of the things that cannot be implemented by
-rules are some kinds of constraints, especially foreign keys. It is possible
-to place a qualified rule that rewrites a command to `NOTHING`
-if the value of a column does not appear in another table.
-But then the data is silently thrown away and that's
-not a good idea. If checks for valid values are required,
-and in the case of an invalid value an error message should
-be generated, it must be done by a trigger.
+許多可以用觸發程序完成的事情，也可以用 PostgreSQL 規則系統來實作。規則無法實作的其中一件事是某些種類的限制條件，特別是外鍵。你確實可以放置一條帶有限定條件的規則，在某個欄位的值沒有出現在另一個資料表中時，把指令重寫成 `NOTHING`。但這麼一來資料就被默默地丟棄了，而那不是個好主意。如果需要檢查值是否有效，並且在值無效時必須產生錯誤訊息，那就必須用觸發程序來完成。
 
-In this chapter, we focused on using rules to update views. All of
-the update rule examples in this chapter can also be implemented
-using `INSTEAD OF` triggers on the views. Writing such
-triggers is often easier than writing rules, particularly if complex
-logic is required to perform the update.
+在本章中，我們把重點放在使用規則來更新檢視表。本章所有的更新規則範例，也都可以用檢視表上的 `INSTEAD OF` 觸發程序來實作。撰寫這類觸發程序往往比撰寫規則容易，尤其是在需要複雜邏輯才能完成更新的時候。
 
-For the things that can be implemented by both, which is best
-depends on the usage of the database.
-A trigger is fired once for each affected row. A rule modifies
-the query or generates an additional query. So if many
-rows are affected in one statement, a rule issuing one extra
-command is likely to be faster than a trigger that is
-called for every single row and must re-determine what to do
-many times. However, the trigger approach is conceptually far
-simpler than the rule approach, and is easier for novices to get right.
+對於兩種方式都能實作的情況，哪一種比較好取決於資料庫的使用方式。觸發程序會針對每一筆受影響的資料列各觸發一次。規則則是修改查詢或產生一個額外的查詢。所以如果一個陳述式影響了許多資料列，那麼發出一個額外指令的規則，很可能會比針對每一筆資料列都被呼叫一次、而且必須反覆判斷該做什麼的觸發程序來得快。不過，觸發程序的作法在概念上遠比規則的作法單純，新手也比較容易做對。
 
-Here we show an example of how the choice of rules versus triggers
-plays out in one situation. There are two tables:
+這裡我們舉一個例子，說明在某種情境下規則與觸發程序的選擇會有什麼樣的結果。這裡有兩個資料表：
 
 ```
 
@@ -45,20 +25,14 @@ CREATE TABLE software (
 );
 ```
 
-Both tables have many thousands of rows and the indexes on
-`hostname` are unique. The rule or trigger should
-implement a constraint that deletes rows from `software`
-that reference a deleted computer. The trigger would use this command:
+兩個資料表都有好幾千筆資料列，而且 `hostname` 上的索引都是唯一的。這個規則或觸發程序要實作的限制是：當某台電腦被刪除時，就從 `software` 中刪除參照到它的資料列。觸發程序會使用這個指令：
 
 ```
 
 DELETE FROM software WHERE hostname = $1;
 ```
 
-Since the trigger is called for each individual row deleted from
-`computer`, it can prepare and save the plan for this
-command and pass the `hostname` value in the
-parameter. The rule would be written as:
+由於觸發程序會針對從 `computer` 刪除的每一筆個別資料列被呼叫，因此它可以為這個指令準備並保存執行計畫，然後以參數的方式傳入 `hostname` 的值。而規則則會寫成：
 
 ```
 
@@ -66,16 +40,14 @@ CREATE RULE computer_del AS ON DELETE TO computer
     DO DELETE FROM software WHERE hostname = OLD.hostname;
 ```
 
-Now we look at different types of deletes. In the case of a:
+現在我們來看看不同類型的刪除。以這個為例：
 
 ```
 
 DELETE FROM computer WHERE hostname = 'mypc.local.net';
 ```
 
-the table `computer` is scanned by index (fast), and the
-command issued by the trigger would also use an index scan (also fast).
-The extra command from the rule would be:
+資料表 `computer` 會以索引掃描（很快），而觸發程序所發出的指令也會使用索引掃描（同樣很快）。來自規則的額外指令會是：
 
 ```
 
@@ -83,8 +55,7 @@ DELETE FROM software WHERE computer.hostname = 'mypc.local.net'
                        AND software.hostname = computer.hostname;
 ```
 
-Since there are appropriate indexes set up, the planner
-will create a plan of
+由於已經設定了適當的索引，規劃器會建立這樣的執行計畫
 
 ```
 
@@ -93,13 +64,9 @@ Nestloop
   ->  Index Scan using soft_hostidx on software
 ```
 
-So there would be not that much difference in speed between
-the trigger and the rule implementation.
+所以觸發程序與規則這兩種實作方式在速度上不會有太大的差異。
 
-With the next delete we want to get rid of all the 2000 computers
-where the `hostname` starts with
-`old`. There are two possible commands to do that. One
-is:
+在下一個刪除中，我們想要清掉所有 2000 台 `hostname` 以 `old` 開頭的電腦。有兩種可能的指令可以做到這件事。其中之一是：
 
 ```
 
@@ -107,7 +74,7 @@ DELETE FROM computer WHERE hostname >= 'old'
                        AND hostname <  'ole'
 ```
 
-The command added by the rule will be:
+由規則加入的指令會是：
 
 ```
 
@@ -115,7 +82,7 @@ DELETE FROM software WHERE computer.hostname >= 'old' AND computer.hostname < 'o
                        AND software.hostname = computer.hostname;
 ```
 
-with the plan
+其執行計畫為
 
 ```
 
@@ -125,15 +92,14 @@ Hash Join
     ->  Index Scan using comp_hostidx on computer
 ```
 
-The other possible command is:
+另一個可能的指令是：
 
 ```
 
 DELETE FROM computer WHERE hostname ~ '^old';
 ```
 
-which results in the following executing plan for the command
-added by the rule:
+它會使得由規則所加入的指令產生下列的執行計畫：
 
 ```
 
@@ -142,31 +108,16 @@ Nestloop
   ->  Index Scan using soft_hostidx on software
 ```
 
-This shows, that the planner does not realize that the
-qualification for `hostname` in
-`computer` could also be used for an index scan on
-`software` when there are multiple qualification
-expressions combined with `AND`, which is what it does
-in the regular-expression version of the command. The trigger will
-get invoked once for each of the 2000 old computers that have to be
-deleted, and that will result in one index scan over
-`computer` and 2000 index scans over
-`software`. The rule implementation will do it with two
-commands that use indexes. And it depends on the overall size of
-the table `software` whether the rule will still be faster in the
-sequential scan situation. 2000 command executions from the trigger over the SPI
-manager take some time, even if all the index blocks will soon be in the cache.
+這顯示出：當有多個限定條件運算式以 `AND` 結合在一起時（也就是這個指令的正規表示式版本所做的事），規劃器並沒有意識到 `computer` 中針對 `hostname` 的限定條件，其實也可以用來對 `software` 進行索引掃描。觸發程序會針對那 2000 台必須被刪除的舊電腦各被呼叫一次，結果就是對 `computer` 做一次索引掃描，以及對 `software` 做 2000 次索引掃描。規則的實作方式則會用兩個使用索引的指令來完成。而在循序掃描的情況下規則是否仍然比較快，就要看資料表 `software` 的整體大小而定了。從觸發程序透過 SPI 管理器執行 2000 次指令會花掉一些時間，即使所有的索引區塊很快就會進到快取裡也一樣。
 
-The last command we look at is:
+我們要看的最後一個指令是：
 
 ```
 
 DELETE FROM computer WHERE manufacturer = 'bim';
 ```
 
-Again this could result in many rows to be deleted from
-`computer`. So the trigger will again run many commands
-through the executor. The command generated by the rule will be:
+這同樣可能導致從 `computer` 刪除許多資料列。所以觸發程序又會透過執行器執行許多指令。由規則產生的指令會是：
 
 ```
 
@@ -174,8 +125,7 @@ DELETE FROM software WHERE computer.manufacturer = 'bim'
                        AND software.hostname = computer.hostname;
 ```
 
-The plan for that command will again be the nested loop over two
-index scans, only using a different index on `computer`:
+這個指令的執行計畫同樣會是對兩個索引掃描所做的巢狀迴圈，只是在 `computer` 上使用了不同的索引：
 
 ```
 
@@ -184,14 +134,10 @@ Nestloop
   ->  Index Scan using soft_hostidx on software
 ```
 
-In any of these cases, the extra commands from the rule system
-will be more or less independent from the number of affected rows
-in a command.
+在上述任何一種情況下，來自規則系統的額外指令多多少少都與指令中受影響的資料列數量無關。
 
-The summary is, rules will only be significantly slower than
-triggers if their actions result in large and badly qualified
-joins, a situation where the planner fails.
+總結來說，只有當規則的動作導致大量且限定條件很差的聯結，也就是規劃器失靈的情況下，規則才會明顯比觸發程序來得慢。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-triggers.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-triggers.html)（原文版本：18.6；核對日期：2026-09-12）
