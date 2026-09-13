@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：764 頁。
+待譯頁面：763 頁。
 
 ## 根目錄
 
@@ -1004,7 +1004,7 @@
 - [x] `server-programming/spi/spi-visibility.md` — 45.5. 資料變更的可見性 #
 - [x] `server-programming/triggers/README.md` — 第 37 章 觸發器
 - [x] `server-programming/triggers/trigger-datachanges.md` — 37.2. 資料變更的可見性 #
-- [ ] `server-programming/triggers/trigger-definition.md` — 37.1. Overview of Trigger Behavior #
+- [x] `server-programming/triggers/trigger-definition.md` — 37.1. 觸發程序行為總覽 #
 - [ ] `server-programming/triggers/trigger-example.md` — 37.4. A Complete Trigger Example #
 - [ ] `server-programming/triggers/trigger-interface.md` — 37.3. Writing Trigger Functions in C #
 - [ ] `server-programming/xplang/README.md` — Chapter 40. Procedural Languages

@@ -1,328 +1,65 @@
-## 37.1. Overview of Trigger Behavior [#](#TRIGGER-DEFINITION)
+<a id="TRIGGER-DEFINITION"></a>
 
-A trigger is a specification that the database should automatically
-execute a particular function whenever a certain type of operation is
-performed. Triggers can be attached to tables (partitioned or not),
-views, and foreign tables.
+## 37.1. 觸發程序行為總覽 [#](#TRIGGER-DEFINITION)
 
-On tables and foreign tables, triggers can be defined to execute either
-before or after any `INSERT`, `UPDATE`,
-or `DELETE` operation, either once per modified row,
-or once per SQL statement.
-`UPDATE` triggers can moreover be set to fire only if
-certain columns are mentioned in the `SET` clause of
-the `UPDATE` statement. Triggers can also fire
-for `TRUNCATE` statements. If a trigger event occurs,
-the trigger's function is called at the appropriate time to handle the
-event.
+觸發程序是一種規格，用來指定資料庫在執行某種特定類型的操作時，應自動執行某個特定的函式。觸發程序可以掛在資料表（無論是否為分割資料表）、檢視表以及外部資料表上。
 
-On views, triggers can be defined to execute instead of
-`INSERT`, `UPDATE`, or
-`DELETE` operations.
-Such `INSTEAD OF` triggers
-are fired once for each row that needs to be modified in the view.
-It is the responsibility of the
-trigger's function to perform the necessary modifications to the view's
-underlying base table(s) and, where appropriate, return the modified
-row as it will appear in the view. Triggers on views can also be defined
-to execute once per SQL statement, before or after
-`INSERT`, `UPDATE`, or
-`DELETE` operations.
-However, such triggers are fired only if there is also
-an `INSTEAD OF` trigger on the view. Otherwise,
-any statement targeting the view must be rewritten into a statement
-affecting its underlying base table(s), and then the triggers
-that will be fired are the ones attached to the base table(s).
+在資料表與外部資料表上，觸發程序可以定義成在任何 `INSERT`、`UPDATE` 或 `DELETE` 操作之前或之後執行，而且可以是每筆被修改的資料列執行一次，也可以是每個 SQL 陳述式執行一次。此外，`UPDATE` 觸發程序還可以設定成只有在 `UPDATE` 陳述式的 `SET` 子句中提到特定欄位時才觸發。觸發程序也可以因 `TRUNCATE` 陳述式而觸發。若發生觸發程序事件，就會在適當的時機呼叫該觸發程序的函式來處理該事件。
 
-The trigger function must be defined before the trigger itself can be
-created. The trigger function must be declared as a
-function taking no arguments and returning type `trigger`.
-(The trigger function receives its input through a specially-passed
-`TriggerData` structure, not in the form of ordinary function
-arguments.)
+在檢視表上，觸發程序可以定義成取代 `INSERT`、`UPDATE` 或 `DELETE` 操作而執行。這類 `INSTEAD OF` 觸發程序會對檢視表中每一筆需要被修改的資料列各觸發一次。由觸發程序的函式負責對檢視表底層的基礎資料表進行必要的修改，並在適當時回傳修改後的資料列，也就是該資料列在檢視表中呈現的樣子。檢視表上的觸發程序也可以定義成在 `INSERT`、`UPDATE` 或 `DELETE` 操作之前或之後，每個 SQL 陳述式執行一次。不過，這類觸發程序只有在該檢視表上同時也存在 `INSTEAD OF` 觸發程序時才會觸發。否則，任何以該檢視表為目標的陳述式都必須改寫成影響其底層基礎資料表的陳述式，屆時被觸發的就是掛在基礎資料表上的那些觸發程序。
 
-Once a suitable trigger function has been created, the trigger is
-established with
-[CREATE TRIGGER](../../reference/sql-commands/sql-createtrigger.md).
-The same trigger function can be used for multiple triggers.
+必須先定義觸發程序函式，才能建立觸發程序本身。觸發程序函式必須宣告為一個不接受任何引數、回傳型別為 `trigger` 的函式。（觸發程序函式是透過特別傳入的 `TriggerData` 結構取得它的輸入，而不是以一般函式引數的形式。）
 
-PostgreSQL offers both *per-row*
-triggers and *per-statement* triggers. With a per-row
-trigger, the trigger function
-is invoked once for each row that is affected by the statement
-that fired the trigger. In contrast, a per-statement trigger is
-invoked only once when an appropriate statement is executed,
-regardless of the number of rows affected by that statement. In
-particular, a statement that affects zero rows will still result
-in the execution of any applicable per-statement triggers. These
-two types of triggers are sometimes called *row-level*
-triggers and *statement-level* triggers,
-respectively. Triggers on `TRUNCATE` may only be
-defined at statement level, not per-row.
+建立好合適的觸發程序函式之後，就可以用 [CREATE TRIGGER](../../reference/sql-commands/sql-createtrigger.md) 來建立觸發程序。同一個觸發程序函式可以用於多個觸發程序。
 
-Triggers are also classified according to whether they fire
-*before*, *after*, or
-*instead of* the operation. These are referred to
-as `BEFORE` triggers, `AFTER` triggers, and
-`INSTEAD OF` triggers respectively.
-Statement-level `BEFORE` triggers naturally fire before the
-statement starts to do anything, while statement-level `AFTER`
-triggers fire at the very end of the statement. These types of
-triggers may be defined on tables, views, or foreign tables. Row-level
-`BEFORE` triggers fire immediately before a particular row is
-operated on, while row-level `AFTER` triggers fire at the end of
-the statement (but before any statement-level `AFTER` triggers).
-These types of triggers may only be defined on tables and
-foreign tables, not views.
-`INSTEAD OF` triggers may only be
-defined on views, and only at row level; they fire immediately as each
-row in the view is identified as needing to be operated on.
+PostgreSQL 同時提供*每列*（per-row）觸發程序與*每陳述式*（per-statement）觸發程序。使用每列觸發程序時，觸發該觸發程序的陳述式每影響一筆資料列，觸發程序函式就會被呼叫一次。相對地，每陳述式觸發程序在執行相對應的陳述式時只會被呼叫一次，與該陳述式影響了多少資料列無關。特別要注意的是，即使某個陳述式影響了零筆資料列，仍然會執行所有適用的每陳述式觸發程序。這兩種類型的觸發程序有時分別稱為*資料列層級*觸發程序與*陳述式層級*觸發程序。`TRUNCATE` 上的觸發程序只能定義在陳述式層級，不能定義成每列觸發。
 
-The execution of an `AFTER` trigger can be deferred
-to the end of the transaction, rather than the end of the statement,
-if it was defined as a *constraint trigger*.
-In all cases, a trigger is executed as part of the same transaction as
-the statement that triggered it, so if either the statement or the
-trigger causes an error, the effects of both will be rolled back.
-Also, the trigger will always run as the role that queued the trigger
-event, unless the trigger function is marked as `SECURITY
-DEFINER`, in which case it will run as the function owner.
+觸發程序也依其觸發時機分類為在操作*之前*、*之後*或*取代*操作而執行，分別稱為 `BEFORE` 觸發程序、`AFTER` 觸發程序與 `INSTEAD OF` 觸發程序。陳述式層級的 `BEFORE` 觸發程序自然是在陳述式開始做任何事之前觸發，而陳述式層級的 `AFTER` 觸發程序則在陳述式的最尾端觸發。這些類型的觸發程序可以定義在資料表、檢視表或外部資料表上。資料列層級的 `BEFORE` 觸發程序會在某一筆特定資料列被操作之前立即觸發，而資料列層級的 `AFTER` 觸發程序則在陳述式結束時觸發（但在任何陳述式層級的 `AFTER` 觸發程序之前）。這些類型的觸發程序只能定義在資料表與外部資料表上，不能定義在檢視表上。`INSTEAD OF` 觸發程序只能定義在檢視表上，而且只能是資料列層級；當檢視表中的每一筆資料列被判定為需要被操作時，它們就會立即觸發。
 
-If an `INSERT` contains an `ON CONFLICT
-DO UPDATE` clause, it is possible for row-level
-`BEFORE` `INSERT` and then
-`BEFORE` `UPDATE` triggers
-to be executed on triggered rows. Such interactions can be
-complex if the triggers are not idempotent because change made by
-`BEFORE` `INSERT` triggers will be
-seen by `BEFORE` `UPDATE` triggers,
-including changes to `EXCLUDED` columns.
+如果 `AFTER` 觸發程序被定義為*限制條件觸發程序*（constraint trigger），它的執行可以延遲到交易結束時，而不是陳述式結束時。在所有情況下，觸發程序都是以觸發它的那個陳述式所屬的同一個交易的一部分來執行，因此若陳述式或觸發程序任一方發生錯誤，兩者的效果都會被回溯。此外，觸發程序一律以將該觸發程序事件排入佇列的角色身分執行，除非該觸發程序函式被標記為 `SECURITY DEFINER`，此時它會以函式擁有者的身分執行。
 
-Note that statement-level
-`UPDATE` triggers are executed when `ON
-CONFLICT DO UPDATE` is specified, regardless of whether or not
-any rows were affected by the `UPDATE` (and
-regardless of whether the alternative `UPDATE`
-path was ever taken). An `INSERT` with an
-`ON CONFLICT DO UPDATE` clause will execute
-statement-level `BEFORE` `INSERT`
-triggers first, then statement-level `BEFORE`
-`UPDATE` triggers, followed by statement-level
-`AFTER` `UPDATE` triggers and finally
-statement-level `AFTER` `INSERT`
-triggers.
+如果 `INSERT` 帶有 `ON CONFLICT DO UPDATE` 子句，就有可能在被觸發的資料列上先執行資料列層級的 `BEFORE` `INSERT` 觸發程序，接著再執行 `BEFORE` `UPDATE` 觸發程序。若這些觸發程序不具冪等性，這樣的交互作用可能會很複雜，因為 `BEFORE` `INSERT` 觸發程序所做的變更會被 `BEFORE` `UPDATE` 觸發程序看見，包括對 `EXCLUDED` 欄位的變更。
 
-A statement that targets a parent table in an inheritance or partitioning
-hierarchy does not cause the statement-level triggers of affected child
-tables to be fired; only the parent table's statement-level triggers are
-fired. However, row-level triggers of any affected child tables will be
-fired.
+請注意，只要指定了 `ON CONFLICT DO UPDATE`，陳述式層級的 `UPDATE` 觸發程序就會被執行，無論該 `UPDATE` 是否真的影響了任何資料列（也無論是否曾走過替代的 `UPDATE` 路徑）。帶有 `ON CONFLICT DO UPDATE` 子句的 `INSERT` 會先執行陳述式層級的 `BEFORE` `INSERT` 觸發程序，接著是陳述式層級的 `BEFORE` `UPDATE` 觸發程序，然後是陳述式層級的 `AFTER` `UPDATE` 觸發程序，最後才是陳述式層級的 `AFTER` `INSERT` 觸發程序。
 
-If an `UPDATE` on a partitioned table causes a row to move
-to another partition, it will be performed as a `DELETE`
-from the original partition followed by an `INSERT` into
-the new partition. In this case, all row-level `BEFORE`
-`UPDATE` triggers and all row-level
-`BEFORE` `DELETE` triggers are fired on
-the original partition. Then all row-level `BEFORE`
-`INSERT` triggers are fired on the destination partition.
-The possibility of surprising outcomes should be considered when all these
-triggers affect the row being moved. As far as `AFTER ROW`
-triggers are concerned, `AFTER` `DELETE`
-and `AFTER` `INSERT` triggers are
-applied; but `AFTER` `UPDATE` triggers
-are not applied because the `UPDATE` has been converted to
-a `DELETE` and an `INSERT`. As far as
-statement-level triggers are concerned, none of the
-`DELETE` or `INSERT` triggers are fired,
-even if row movement occurs; only the `UPDATE` triggers
-defined on the target table used in the `UPDATE` statement
-will be fired.
+以繼承或分割階層中的父資料表為目標的陳述式，不會使受影響子資料表的陳述式層級觸發程序被觸發；只有父資料表的陳述式層級觸發程序會被觸發。不過，任何受影響子資料表的資料列層級觸發程序都會被觸發。
 
-No separate triggers are defined for `MERGE`. Instead,
-statement-level or row-level `UPDATE`,
-`DELETE`, and `INSERT` triggers are fired
-depending on (for statement-level triggers) what actions are specified in
-the `MERGE` query and (for row-level triggers) what
-actions are performed.
+如果對分割資料表執行的 `UPDATE` 導致某筆資料列移動到另一個分割區，該操作會被實作成先從原分割區 `DELETE`，再 `INSERT` 到新的分割區。在這種情況下，所有資料列層級的 `BEFORE` `UPDATE` 觸發程序與所有資料列層級的 `BEFORE` `DELETE` 觸發程序都會在原分割區上觸發，接著所有資料列層級的 `BEFORE` `INSERT` 觸發程序會在目的分割區上觸發。當這些觸發程序都會影響到被移動的資料列時，應該要考慮可能出現令人意外的結果。至於 `AFTER ROW` 觸發程序，`AFTER` `DELETE` 與 `AFTER` `INSERT` 觸發程序會被套用；但 `AFTER` `UPDATE` 觸發程序不會被套用，因為該 `UPDATE` 已經被轉換成一個 `DELETE` 加上一個 `INSERT`。至於陳述式層級的觸發程序，即使發生了資料列移動，`DELETE` 或 `INSERT` 觸發程序都不會被觸發；只有定義在 `UPDATE` 陳述式所使用之目標資料表上的 `UPDATE` 觸發程序會被觸發。
 
-While running a `MERGE` command, statement-level
-`BEFORE` and `AFTER` triggers are
-fired for events specified in the actions of the `MERGE`
-command, irrespective of whether or not the action is ultimately performed.
-This is the same as an `UPDATE` statement that updates
-no rows, yet statement-level triggers are fired.
-The row-level triggers are fired only when a row is actually updated,
-inserted or deleted. So it's perfectly legal that while statement-level
-triggers are fired for certain types of action, no row-level triggers
-are fired for the same kind of action.
+`MERGE` 沒有專屬的獨立觸發程序。取而代之的是，會依據（對陳述式層級觸發程序而言）`MERGE` 查詢中指定了哪些動作，以及（對資料列層級觸發程序而言）實際執行了哪些動作，來觸發陳述式層級或資料列層級的 `UPDATE`、`DELETE` 與 `INSERT` 觸發程序。
 
-Trigger functions invoked by per-statement triggers should always
-return `NULL`. Trigger functions invoked by per-row
-triggers can return a table row (a value of
-type `HeapTuple`) to the calling executor,
-if they choose. A row-level trigger fired before an operation has
-the following choices:
+執行 `MERGE` 指令時，陳述式層級的 `BEFORE` 與 `AFTER` 觸發程序會針對該 `MERGE` 指令各動作中所指定的事件觸發，無論該動作最後是否真的被執行。這就像一個沒有更新任何資料列的 `UPDATE` 陳述式，其陳述式層級觸發程序仍然會被觸發一樣。資料列層級的觸發程序則只有在資料列真的被更新、插入或刪除時才會觸發。因此完全有可能出現這種合理情況：某種類型的動作觸發了陳述式層級的觸發程序，但同一種動作卻沒有觸發任何資料列層級的觸發程序。
 
-* It can return `NULL` to skip the operation for the
-  current row. This instructs the executor to not perform the
-  row-level operation that invoked the trigger (the insertion,
-  modification, or deletion of a particular table row).
-* For row-level `INSERT`
-  and `UPDATE` triggers only, the returned row
-  becomes the row that will be inserted or will replace the row
-  being updated. This allows the trigger function to modify the
-  row being inserted or updated.
+由每陳述式觸發程序所呼叫的觸發程序函式應一律回傳 `NULL`。由每列觸發程序所呼叫的觸發程序函式則可以選擇回傳一筆資料表的資料列（型別為 `HeapTuple` 的值）給呼叫它的執行器。在操作之前觸發的資料列層級觸發程序有以下幾種選擇：
 
-A row-level `BEFORE` trigger that does not intend to cause
-either of these behaviors must be careful to return as its result the same
-row that was passed in (that is, the `NEW` row
-for `INSERT` and `UPDATE`
-triggers, the `OLD` row for
-`DELETE` triggers).
+* 它可以回傳 `NULL` 以略過目前這筆資料列的操作。這會指示執行器不要執行那個呼叫了此觸發程序的資料列層級操作（也就是對某一筆資料表資料列的插入、修改或刪除）。
+* 僅對資料列層級的 `INSERT` 與 `UPDATE` 觸發程序而言，回傳的資料列會成為即將被插入的資料列，或是取代正在被更新的那筆資料列。這讓觸發程序函式得以修改正在被插入或更新的資料列。
 
-A row-level `INSTEAD OF` trigger should either return
-`NULL` to indicate that it did not modify any data from
-the view's underlying base tables, or it should return the view
-row that was passed in (the `NEW` row
-for `INSERT` and `UPDATE`
-operations, or the `OLD` row for
-`DELETE` operations). A nonnull return value is
-used to signal that the trigger performed the necessary data
-modifications in the view. This will cause the count of the number
-of rows affected by the command to be incremented. For
-`INSERT` and `UPDATE` operations only, the trigger
-may modify the `NEW` row before returning it. This will
-change the data returned by
-`INSERT RETURNING` or `UPDATE RETURNING`,
-and is useful when the view will not show exactly the same data
-that was provided.
+若資料列層級的 `BEFORE` 觸發程序不打算造成上述任一種行為，就必須小心地把傳入的那筆相同資料列當作結果回傳（也就是 `INSERT` 與 `UPDATE` 觸發程序的 `NEW` 資料列，以及 `DELETE` 觸發程序的 `OLD` 資料列）。
 
-The return value is ignored for row-level triggers fired after an
-operation, and so they can return `NULL`.
+資料列層級的 `INSTEAD OF` 觸發程序應該回傳 `NULL` 以表示它並未修改檢視表底層基礎資料表中的任何資料，否則就應該回傳傳入的那筆檢視表資料列（`INSERT` 與 `UPDATE` 操作的 `NEW` 資料列，或 `DELETE` 操作的 `OLD` 資料列）。非 NULL 的回傳值用來表示該觸發程序已在檢視表中完成必要的資料修改，這會使該指令所影響的資料列筆數計數加一。僅對 `INSERT` 與 `UPDATE` 操作而言，觸發程序可以在回傳 `NEW` 資料列之前先修改它。這會改變 `INSERT RETURNING` 或 `UPDATE RETURNING` 所回傳的資料，當檢視表所顯示的資料與所提供的資料不完全相同時，這個做法很有用。
 
-Some considerations apply for generated
-columns.<a id="id-1.8.4.5.19.1"></a> Stored generated columns are computed after
-`BEFORE` triggers and before `AFTER`
-triggers. Therefore, the generated value can be inspected in
-`AFTER` triggers. In `BEFORE` triggers,
-the `OLD` row contains the old generated value, as one
-would expect, but the `NEW` row does not yet contain the
-new generated value and should not be accessed. In the C language
-interface, the content of the column is undefined at this point; a
-higher-level programming language should prevent access to a stored
-generated column in the `NEW` row in a
-`BEFORE` trigger. Changes to the value of a generated
-column in a `BEFORE` trigger are ignored and will be
-overwritten.
-Virtual generated columns are never computed when triggers fire. In the C
-language interface, their content is undefined in a trigger function.
-Higher-level programming languages should prevent access to virtual
-generated columns in triggers.
+對於在操作之後才觸發的資料列層級觸發程序，其回傳值會被忽略，因此它們可以回傳 `NULL`。
 
-If more than one trigger is defined for the same event on the same
-relation, the triggers will be fired in alphabetical order by
-trigger name. In the case of `BEFORE` and
-`INSTEAD OF` triggers, the possibly-modified row returned by
-each trigger becomes the input to the next trigger. If any
-`BEFORE` or `INSTEAD OF` trigger returns
-`NULL`, the operation is abandoned for that row and subsequent
-triggers are not fired (for that row).
+對於產生欄位有一些注意事項。<a id="id-1.8.4.5.19.1"></a>儲存型（stored）產生欄位是在 `BEFORE` 觸發程序之後、`AFTER` 觸發程序之前計算的。因此，在 `AFTER` 觸發程序中可以檢視其生成的值。在 `BEFORE` 觸發程序中，`OLD` 資料列如預期般含有舊的生成值，但 `NEW` 資料列尚未含有新的生成值，因此不應存取它。在 C 語言介面中，此時該欄位的內容是未定義的；較高階的程式語言則應阻止在 `BEFORE` 觸發程序中存取 `NEW` 資料列裡的儲存型產生欄位。在 `BEFORE` 觸發程序中對產生欄位之值所做的變更會被忽略，並且會被覆寫。虛擬（virtual）產生欄位在觸發程序觸發時永遠不會被計算。在 C 語言介面中，它們在觸發程序函式裡的內容是未定義的。較高階的程式語言應阻止在觸發程序中存取虛擬產生欄位。
 
-A trigger definition can also specify a Boolean `WHEN`
-condition, which will be tested to see whether the trigger should
-be fired. In row-level triggers the `WHEN` condition can
-examine the old and/or new values of columns of the row. (Statement-level
-triggers can also have `WHEN` conditions, although the feature
-is not so useful for them.) In a `BEFORE` trigger, the
-`WHEN`
-condition is evaluated just before the function is or would be executed,
-so using `WHEN` is not materially different from testing the
-same condition at the beginning of the trigger function. However, in
-an `AFTER` trigger, the `WHEN` condition is evaluated
-just after the row update occurs, and it determines whether an event is
-queued to fire the trigger at the end of statement. So when an
-`AFTER` trigger's
-`WHEN` condition does not return true, it is not necessary
-to queue an event nor to re-fetch the row at end of statement. This
-can result in significant speedups in statements that modify many
-rows, if the trigger only needs to be fired for a few of the rows.
-`INSTEAD OF` triggers do not support
-`WHEN` conditions.
+如果同一個關聯上的同一個事件定義了多個觸發程序，這些觸發程序會依觸發程序名稱的字母順序觸發。對於 `BEFORE` 與 `INSTEAD OF` 觸發程序，每個觸發程序所回傳的（可能已被修改的）資料列會成為下一個觸發程序的輸入。若任何 `BEFORE` 或 `INSTEAD OF` 觸發程序回傳 `NULL`，該筆資料列的操作就會被放棄，後續的觸發程序也不會（針對該筆資料列）被觸發。
 
-Typically, row-level `BEFORE` triggers are used for checking or
-modifying the data that will be inserted or updated. For example,
-a `BEFORE` trigger might be used to insert the current time into a
-`timestamp` column, or to check that two elements of the row are
-consistent. Row-level `AFTER` triggers are most sensibly
-used to propagate the updates to other tables, or make consistency
-checks against other tables. The reason for this division of labor is
-that an `AFTER` trigger can be certain it is seeing the final
-value of the row, while a `BEFORE` trigger cannot; there might
-be other `BEFORE` triggers firing after it. If you have no
-specific reason to make a trigger `BEFORE` or
-`AFTER`, the `BEFORE` case is more efficient, since
-the information about
-the operation doesn't have to be saved until end of statement.
+觸發程序的定義中也可以指定一個布林的 `WHEN` 條件，用來測試是否應該觸發該觸發程序。在資料列層級的觸發程序中，`WHEN` 條件可以檢查該資料列各欄位的舊值與／或新值。（陳述式層級的觸發程序也可以有 `WHEN` 條件，只是這項功能對它們而言用處不大。）在 `BEFORE` 觸發程序中，`WHEN` 條件是在該函式即將執行或本來會執行之前才被求值，因此使用 `WHEN` 與在觸發程序函式開頭測試同一個條件實質上沒有差別。不過，在 `AFTER` 觸發程序中，`WHEN` 條件是在資料列更新發生後隨即被求值，並決定是否要將一個事件排入佇列，以便在陳述式結束時觸發該觸發程序。因此，當 `AFTER` 觸發程序的 `WHEN` 條件不回傳 true 時，就不需要排入事件，也不需要在陳述式結束時重新取回該筆資料列。如果觸發程序只需要為少數幾筆資料列觸發，這在修改大量資料列的陳述式中可以帶來顯著的效能提升。`INSTEAD OF` 觸發程序不支援 `WHEN` 條件。
 
-If a trigger function executes SQL commands then these
-commands might fire triggers again. This is known as cascading
-triggers. There is no direct limitation on the number of cascade
-levels. It is possible for cascades to cause a recursive invocation
-of the same trigger; for example, an `INSERT`
-trigger might execute a command that inserts an additional row
-into the same table, causing the `INSERT` trigger
-to be fired again. It is the trigger programmer's responsibility
-to avoid infinite recursion in such scenarios.
+通常，資料列層級的 `BEFORE` 觸發程序用來檢查或修改即將被插入或更新的資料。例如，`BEFORE` 觸發程序可以用來把目前的時間填入某個 `timestamp` 欄位，或是檢查資料列中的兩個元素是否一致。資料列層級的 `AFTER` 觸發程序最合理的用途，則是把更新傳播到其他資料表，或是對其他資料表進行一致性檢查。這樣分工的原因在於，`AFTER` 觸發程序可以確定它看到的是該資料列的最終值，而 `BEFORE` 觸發程序則無法確定；因為在它之後可能還有其他 `BEFORE` 觸發程序會觸發。如果你沒有特別的理由要把觸發程序做成 `BEFORE` 或 `AFTER`，那麼 `BEFORE` 的情況效率較高，因為不需要把該操作的相關資訊一直保存到陳述式結束。
 
-If a foreign key constraint specifies referential actions (that
-is, cascading updates or deletes), those actions are performed via
-ordinary SQL `UPDATE` or `DELETE`
-commands on the referencing table.
-In particular, any triggers that exist on the referencing table
-will be fired for those changes. If such a trigger modifies or
-blocks the effect of one of these commands, the end result could
-be to break referential integrity. It is the trigger programmer's
-responsibility to avoid that.
+如果觸發程序函式執行了 SQL 指令，這些指令可能又會再度觸發觸發程序，這稱為串連觸發程序（cascading triggers）。串連的層數沒有直接的限制。串連有可能造成同一個觸發程序被遞迴呼叫；例如，`INSERT` 觸發程序可能執行了一個指令，往同一個資料表再插入一筆資料列，於是 `INSERT` 觸發程序又被觸發一次。在這類情境中避免無限遞迴，是撰寫觸發程序的程式設計者的責任。
+
+如果外鍵限制條件指定了參考動作（也就是串連更新或刪除），這些動作會透過對參考端資料表執行一般的 SQL `UPDATE` 或 `DELETE` 指令來完成。特別是，參考端資料表上存在的任何觸發程序都會因這些變更而被觸發。如果這類觸發程序修改或阻擋了其中某個指令的效果，最終結果可能會破壞參考完整性。避免發生這種情況是撰寫觸發程序的程式設計者的責任。
 
 <a id="id-1.8.4.5.25.1"></a>
-When a trigger is being defined, arguments can be specified for
-it. The purpose of including arguments in the
-trigger definition is to allow different triggers with similar
-requirements to call the same function. As an example, there
-could be a generalized trigger function that takes as its
-arguments two column names and puts the current user in one and
-the current time stamp in the other. Properly written, this
-trigger function would be independent of the specific table it is
-triggering on. So the same function could be used for
-`INSERT` events on any table with suitable
-columns, to automatically track creation of records in a
-transaction table for example. It could also be used to track
-last-update events if defined as an `UPDATE`
-trigger.
+定義觸發程序時，可以為它指定引數。在觸發程序定義中加入引數的目的，是讓需求相似的不同觸發程序能夠呼叫同一個函式。舉例來說，可以有一個通用化的觸發程序函式，它接受兩個欄位名稱作為引數，並把目前的使用者放進其中一個欄位、把目前的時間戳記放進另一個欄位。只要寫得好，這個觸發程序函式就能獨立於它所掛載的特定資料表之外。因此同一個函式可以用在任何具有合適欄位的資料表的 `INSERT` 事件上，例如用來自動追蹤交易紀錄資料表中記錄的建立。若定義成 `UPDATE` 觸發程序，它也可以用來追蹤最後更新事件。
 
-Each programming language that supports triggers has its own method
-for making the trigger input data available to the trigger function.
-This input data includes the type of trigger event (e.g.,
-`INSERT` or `UPDATE`) as well as any
-arguments that were listed in `CREATE TRIGGER`.
-For a row-level trigger, the input data also includes the
-`NEW` row for `INSERT` and
-`UPDATE` triggers, and/or the `OLD` row
-for `UPDATE` and `DELETE` triggers.
+每一種支援觸發程序的程式語言，都有自己的方式讓觸發程序函式取得觸發程序的輸入資料。這些輸入資料包括觸發程序事件的類型（例如 `INSERT` 或 `UPDATE`），以及在 `CREATE TRIGGER` 中所列出的任何引數。對於資料列層級的觸發程序，輸入資料還包括 `INSERT` 與 `UPDATE` 觸發程序的 `NEW` 資料列，以及／或 `UPDATE` 與 `DELETE` 觸發程序的 `OLD` 資料列。
 
-By default, statement-level triggers do not have any way to examine the
-individual row(s) modified by the statement. But an `AFTER
-STATEMENT` trigger can request that *transition tables*
-be created to make the sets of affected rows available to the trigger.
-`AFTER ROW` triggers can also request transition tables, so
-that they can see the total changes in the table as well as the change in
-the individual row they are currently being fired for. The method for
-examining the transition tables again depends on the programming language
-that is being used, but the typical approach is to make the transition
-tables act like read-only temporary tables that can be accessed by SQL
-commands issued within the trigger function.
+預設情況下，陳述式層級的觸發程序無法檢視被該陳述式修改的個別資料列。但是 `AFTER STATEMENT` 觸發程序可以要求建立*轉換資料表*（transition table），讓受影響的資料列集合能夠提供給觸發程序使用。`AFTER ROW` 觸發程序也可以要求轉換資料表，如此一來，除了目前正為其觸發的那一筆個別資料列的變更之外，它們還能看見資料表中的整體變更。檢視轉換資料表的方法同樣取決於所使用的程式語言，但典型的做法是讓轉換資料表表現得像唯讀的暫存資料表，可由觸發程序函式中所發出的 SQL 指令存取。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/trigger-definition.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/trigger-definition.html)（原文版本：18.6；核對日期：2026-09-13）
