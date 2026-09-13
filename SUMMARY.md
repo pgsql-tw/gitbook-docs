@@ -476,7 +476,7 @@
   * [Chapter 40. Procedural Languages](server-programming/xplang/README.md)
     * [40.1. Installing Procedural Languages #](server-programming/xplang/xplang-install.md)
   * [Chapter 41. PL/pgSQL — SQL Procedural Language](server-programming/plpgsql/README.md)
-    * [41.1. Overview #](server-programming/plpgsql/plpgsql-overview.md)
+    * [41.1. 概觀 #](server-programming/plpgsql/plpgsql-overview.md)
     * [41.2. Structure of PL/pgSQL #](server-programming/plpgsql/plpgsql-structure.md)
     * [41.3. Declarations #](server-programming/plpgsql/plpgsql-declarations.md)
     * [41.4. 運算式 #](server-programming/plpgsql/plpgsql-expressions.md)
