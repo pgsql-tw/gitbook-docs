@@ -1,17 +1,18 @@
-## 41.9. Errors and Messages [#](#PLPGSQL-ERRORS-AND-MESSAGES)
+<a id="PLPGSQL-ERRORS-AND-MESSAGES"></a>
 
-[41.9.1. Reporting Errors and Messages](plpgsql-errors-and-messages.md#PLPGSQL-STATEMENTS-RAISE)
+## 41.9. 錯誤與訊息 [#](#PLPGSQL-ERRORS-AND-MESSAGES)
 
-[41.9.2. Checking Assertions](plpgsql-errors-and-messages.md#PLPGSQL-STATEMENTS-ASSERT)
+[41.9.1. 回報錯誤與訊息](plpgsql-errors-and-messages.md#PLPGSQL-STATEMENTS-RAISE)
+
+[41.9.2. 檢查斷言](plpgsql-errors-and-messages.md#PLPGSQL-STATEMENTS-ASSERT)
 
 <a id="PLPGSQL-STATEMENTS-RAISE"></a>
 
-### 41.9.1. Reporting Errors and Messages [#](#PLPGSQL-STATEMENTS-RAISE)
+### 41.9.1. 回報錯誤與訊息 [#](#PLPGSQL-STATEMENTS-RAISE)
 
 <a id="id-1.8.8.11.2.2"></a><a id="id-1.8.8.11.2.3"></a>
 
-Use the `RAISE` statement to report messages and
-raise errors.
+使用 `RAISE` 陳述式來回報訊息並拋出錯誤。
 
 ```
 
@@ -22,54 +23,20 @@ RAISE [ level ] USING option { = | := } expression [, ... ];
 RAISE ;
 ```
 
-The *`level`* option specifies
-the error severity. Allowed levels are `DEBUG`,
-`LOG`, `INFO`,
-`NOTICE`, `WARNING`,
-and `EXCEPTION`, with `EXCEPTION`
-being the default.
-`EXCEPTION` raises an error (which normally aborts the
-current transaction); the other levels only generate messages of different
-priority levels.
-Whether messages of a particular priority are reported to the client,
-written to the server log, or both is controlled by the
-[log_min_messages](../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) and
-[client_min_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES) configuration
-variables. See [Chapter 19](../../server-administration/runtime-config/README.md) for more
-information.
+*`level`* 選項用來指定錯誤的嚴重程度。允許的層級有 `DEBUG`、`LOG`、`INFO`、`NOTICE`、`WARNING` 與 `EXCEPTION`，其中 `EXCEPTION` 為預設值。`EXCEPTION` 會拋出一個錯誤（通常會中止目前的交易）；其他層級則只會產生不同優先層級的訊息。特定優先層級的訊息是否回報給用戶端、寫入伺服器日誌或兩者皆是，由 [log_min_messages](../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) 與 [client_min_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES) 這兩個組態變數控制。更多資訊請參閱[第 19 章](../../server-administration/runtime-config/README.md)。
 
-In the first syntax variant,
-after the *`level`* if any,
-write a *`format`* string
-(which must be a simple string literal, not an expression). The
-format string specifies the error message text to be reported.
-The format string can be followed
-by optional argument expressions to be inserted into the message.
-Inside the format string, `%` is replaced by the
-string representation of the next optional argument's value. Write
-`%%` to emit a literal `%`.
-The number of arguments must match the number of `%`
-placeholders in the format string, or an error is raised during
-the compilation of the function.
+在第一種語法變體中，於 *`level`*（若有指定）之後，要寫一個 *`format`* 字串（必須是單純的字串常數，不能是運算式）。這個格式字串指定了要回報的錯誤訊息文字。格式字串後面可以接選擇性的引數運算式，這些運算式的值會被插入訊息中。在格式字串裡，`%` 會被下一個選擇性引數之值的字串表示法所取代。若要輸出字面的 `%`，請寫成 `%%`。引數的數量必須與格式字串中 `%` 佔位符的數量相符，否則在編譯該函式時就會拋出錯誤。
 
-In this example, the value of `v_job_id` will replace the
-`%` in the string:
+在這個例子中，`v_job_id` 的值會取代字串中的 `%`：
 
 ```
 
 RAISE NOTICE 'Calling cs_create_job(%)', v_job_id;
 ```
 
-In the second and third syntax variants,
-*`condition_name`* and
-*`sqlstate`* specify an
-error condition name or a five-character SQLSTATE code, respectively.
-See [Appendix A](../../appendixes/errcodes-appendix/README.md) for the valid error condition
-names and the predefined SQLSTATE codes.
+在第二與第三種語法變體中，*`condition_name`* 與 *`sqlstate`* 分別用來指定錯誤條件名稱或五個字元的 SQLSTATE 代碼。有效的錯誤條件名稱與預先定義的 SQLSTATE 代碼請參閱[附錄 A](../../appendixes/errcodes-appendix/README.md)。
 
-Here are examples
-of *`condition_name`*
-and *`sqlstate`* usage:
+以下是使用 *`condition_name`* 與 *`sqlstate`* 的例子：
 
 ```
 
@@ -77,42 +44,32 @@ RAISE division_by_zero;
 RAISE WARNING SQLSTATE '22012';
 ```
 
-In any of these syntax variants,
-you can attach additional information to the error report by writing
-`USING` followed by *`option`* = *`expression`* items. Each
-*`expression`* can be any
-string-valued expression. The allowed *`option`* key words are:
+在上述任何一種語法變體中，你都可以在後面寫上 `USING`，再接著 *`option`* = *`expression`* 項目，藉此在錯誤報告中附加額外資訊。每個 *`expression`* 都可以是任何回傳字串值的運算式。允許的 *`option`* 關鍵字有：
 
 <a id="RAISE-USING-OPTIONS"></a>
 
 <a id="RAISE-USING-OPTION-MESSAGE"></a>
 
 `MESSAGE` [#](#RAISE-USING-OPTION-MESSAGE)
-:   Sets the error message text. This option can't be used in the
-    first syntax variant, since the message is already supplied.
+:   設定錯誤訊息文字。這個選項不能用在第一種語法變體中，因為訊息在那裡已經提供過了。
 <a id="RAISE-USING-OPTION-DETAIL"></a>
 
 `DETAIL` [#](#RAISE-USING-OPTION-DETAIL)
-:   Supplies an error detail message.
+:   提供錯誤的詳細訊息。
 <a id="RAISE-USING-OPTION-HINT"></a>
 
 `HINT` [#](#RAISE-USING-OPTION-HINT)
-:   Supplies a hint message.
+:   提供提示訊息。
 <a id="RAISE-USING-OPTION-ERRCODE"></a>
 
 `ERRCODE` [#](#RAISE-USING-OPTION-ERRCODE)
-:   Specifies the error code (SQLSTATE) to report, either by condition
-    name, as shown in [Appendix A](../../appendixes/errcodes-appendix/README.md), or directly as a
-    five-character SQLSTATE code. This option can't be used in the
-    second or third syntax variant, since the error code is already
-    supplied.
+:   指定要回報的錯誤碼（SQLSTATE），可以用[附錄 A](../../appendixes/errcodes-appendix/README.md) 所列的條件名稱指定，也可以直接寫五個字元的 SQLSTATE 代碼。這個選項不能用在第二或第三種語法變體中，因為錯誤碼在那裡已經提供過了。
 <a id="RAISE-USING-OPTION-COLUMN"></a>
 
 `COLUMN`<br>`CONSTRAINT`<br>`DATATYPE`<br>`TABLE`<br>`SCHEMA` [#](#RAISE-USING-OPTION-COLUMN)
-:   Supplies the name of a related object.
+:   提供相關物件的名稱。
 
-This example will abort the transaction with the given error message
-and hint:
+這個例子會以指定的錯誤訊息與提示中止交易：
 
 ```
 
@@ -120,7 +77,7 @@ RAISE EXCEPTION 'Nonexistent ID --> %', user_id
       USING HINT = 'Please check your user ID';
 ```
 
-These two examples show equivalent ways of setting the SQLSTATE:
+下面這兩個例子示範了設定 SQLSTATE 的兩種等價寫法：
 
 ```
 
@@ -128,88 +85,48 @@ RAISE 'Duplicate user ID: %', user_id USING ERRCODE = 'unique_violation';
 RAISE 'Duplicate user ID: %', user_id USING ERRCODE = '23505';
 ```
 
-Another way to produce the same result is:
+另一種產生相同結果的方式是：
 
 ```
 
 RAISE unique_violation USING MESSAGE = 'Duplicate user ID: ' || user_id;
 ```
 
-As shown in the fourth syntax variant, it is also possible to
-write `RAISE USING` or `RAISE
-level USING` and put
-everything else into the `USING` list.
+如第四種語法變體所示，你也可以寫成 `RAISE USING` 或 `RAISE level USING`，把其餘所有內容都放進 `USING` 清單中。
 
-The last variant of `RAISE` has no parameters at all.
-This form can only be used inside a `BEGIN` block's
-`EXCEPTION` clause;
-it causes the error currently being handled to be re-thrown.
+`RAISE` 的最後一種變體完全不帶參數。這種形式只能用在 `BEGIN` 區塊的 `EXCEPTION` 子句內；它會使目前正在處理的錯誤被重新拋出。
 
-### Note
+### 注意
 
-Before PostgreSQL 9.1, `RAISE` without
-parameters was interpreted as re-throwing the error from the block
-containing the active exception handler. Thus an `EXCEPTION`
-clause nested within that handler could not catch it, even if the
-`RAISE` was within the nested `EXCEPTION` clause's
-block. This was deemed surprising as well as being incompatible with
-Oracle's PL/SQL.
+在 PostgreSQL 9.1 之前，不帶參數的 `RAISE` 會被解讀為重新拋出「包含該作用中例外處理常式的區塊」所發生的錯誤。因此，巢狀於該處理常式內的 `EXCEPTION` 子句無法攔截它，即使該 `RAISE` 就位於那個巢狀 `EXCEPTION` 子句的區塊之中也一樣。這個行為被認為相當出人意料，也與 Oracle 的 PL/SQL 不相容。
 
-If no condition name nor SQLSTATE is specified in a
-`RAISE EXCEPTION` command, the default is to use
-`raise_exception` (`P0001`).
-If no message text is specified, the default is to use the condition
-name or SQLSTATE as message text.
+如果在 `RAISE EXCEPTION` 指令中沒有指定條件名稱或 SQLSTATE，預設會使用 `raise_exception`（`P0001`）。如果沒有指定訊息文字，預設會以條件名稱或 SQLSTATE 作為訊息文字。
 
-### Note
+### 注意
 
-When specifying an error code by SQLSTATE code, you are not
-limited to the predefined error codes, but can select any
-error code consisting of five digits and/or upper-case ASCII
-letters, other than `00000`. It is recommended that
-you avoid throwing error codes that end in three zeroes, because
-these are category codes and can only be trapped by trapping
-the whole category.
+以 SQLSTATE 代碼指定錯誤碼時，你並不侷限於預先定義的錯誤碼，而是可以選用任何由五個數字與／或大寫 ASCII 字母組成、且不是 `00000` 的錯誤碼。建議你避免拋出結尾為三個零的錯誤碼，因為那些是類別代碼，只能透過攔截整個類別的方式來攔截。
 
 <a id="PLPGSQL-STATEMENTS-ASSERT"></a>
 
-### 41.9.2. Checking Assertions [#](#PLPGSQL-STATEMENTS-ASSERT)
+### 41.9.2. 檢查斷言 [#](#PLPGSQL-STATEMENTS-ASSERT)
 
 <a id="id-1.8.8.11.3.2"></a><a id="id-1.8.8.11.3.3"></a><a id="id-1.8.8.11.3.4"></a>
 
-The `ASSERT` statement is a convenient shorthand for
-inserting debugging checks into PL/pgSQL
-functions.
+`ASSERT` 陳述式是一種方便的簡寫，可用來在 PL/pgSQL 函式中插入除錯用的檢查。
 
 ```
 
 ASSERT condition [ , message ];
 ```
 
-The *`condition`* is a Boolean
-expression that is expected to always evaluate to true; if it does,
-the `ASSERT` statement does nothing further. If the
-result is false or null, then an `ASSERT_FAILURE` exception
-is raised. (If an error occurs while evaluating
-the *`condition`*, it is
-reported as a normal error.)
+*`condition`* 是一個布林運算式，預期永遠會計算為真；如果為真，`ASSERT` 陳述式就不會再做任何事。如果結果為假或 NULL，就會拋出 `ASSERT_FAILURE` 例外。（如果在計算 *`condition`* 的過程中發生錯誤，該錯誤會以一般錯誤的方式回報。）
 
-If the optional *`message`* is
-provided, it is an expression whose result (if not null) replaces the
-default error message text “assertion failed”, should
-the *`condition`* fail.
-The *`message`* expression is
-not evaluated in the normal case where the assertion succeeds.
+如果有提供選擇性的 *`message`*，它是一個運算式，其結果（若不為 NULL）會在 *`condition`* 不成立時，取代預設的錯誤訊息文字「assertion failed」。在斷言成立的一般情況下，並不會計算 *`message`* 運算式。
 
-Testing of assertions can be enabled or disabled via the configuration
-parameter `plpgsql.check_asserts`, which takes a Boolean
-value; the default is `on`. If this parameter
-is `off` then `ASSERT` statements do nothing.
+斷言的測試可以透過組態參數 `plpgsql.check_asserts` 來啟用或停用，此參數接受布林值，預設為 `on`。如果這個參數是 `off`，那麼 `ASSERT` 陳述式就不會有任何作用。
 
-Note that `ASSERT` is meant for detecting program
-bugs, not for reporting ordinary error conditions. Use
-the `RAISE` statement, described above, for that.
+請注意，`ASSERT` 的用途是偵測程式的錯誤，而不是回報一般的錯誤狀況。那種情況請改用前面介紹的 `RAISE` 陳述式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpgsql-errors-and-messages.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpgsql-errors-and-messages.html)（原文版本：18.6；核對日期：2026-09-12）

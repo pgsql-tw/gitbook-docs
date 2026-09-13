@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：803 頁。
+待譯頁面：802 頁。
 
 ## 根目錄
 
@@ -899,7 +899,7 @@
 - [ ] `server-programming/plpgsql/plpgsql-cursors.md` — 41.7. Cursors #
 - [ ] `server-programming/plpgsql/plpgsql-declarations.md` — 41.3. Declarations #
 - [ ] `server-programming/plpgsql/plpgsql-development-tips.md` — 41.12. Tips for Developing in PL/pgSQL #
-- [ ] `server-programming/plpgsql/plpgsql-errors-and-messages.md` — 41.9. Errors and Messages #
+- [x] `server-programming/plpgsql/plpgsql-errors-and-messages.md` — 41.9. 錯誤與訊息 #
 - [ ] `server-programming/plpgsql/plpgsql-expressions.md` — 41.4. Expressions #
 - [ ] `server-programming/plpgsql/plpgsql-implementation.md` — 41.11. PL/pgSQL under the Hood #
 - [ ] `server-programming/plpgsql/plpgsql-overview.md` — 41.1. Overview #

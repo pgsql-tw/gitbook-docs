@@ -484,7 +484,7 @@
     * [41.6. Control Structures #](server-programming/plpgsql/plpgsql-control-structures.md)
     * [41.7. Cursors #](server-programming/plpgsql/plpgsql-cursors.md)
     * [41.8. Transaction Management #](server-programming/plpgsql/plpgsql-transactions.md)
-    * [41.9. Errors and Messages #](server-programming/plpgsql/plpgsql-errors-and-messages.md)
+    * [41.9. 錯誤與訊息 #](server-programming/plpgsql/plpgsql-errors-and-messages.md)
     * [41.10. Trigger Functions #](server-programming/plpgsql/plpgsql-trigger.md)
     * [41.11. PL/pgSQL under the Hood #](server-programming/plpgsql/plpgsql-implementation.md)
     * [41.12. Tips for Developing in PL/pgSQL #](server-programming/plpgsql/plpgsql-development-tips.md)
