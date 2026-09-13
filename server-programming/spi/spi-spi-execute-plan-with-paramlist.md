@@ -2,9 +2,9 @@
 
 ## SPI_execute_plan_with_paramlist
 
-SPI_execute_plan_with_paramlist — execute a statement prepared by `SPI_prepare`
+SPI_execute_plan_with_paramlist — 執行由 `SPI_prepare` 預備好的陳述式
 
-## Synopsis
+## 概要
 
 ```
 
@@ -16,47 +16,36 @@ int SPI_execute_plan_with_paramlist(SPIPlanPtr plan,
 
 <a id="id-1.8.12.8.17.5"></a>
 
-## Description
+## 描述
 
-`SPI_execute_plan_with_paramlist` executes a statement
-prepared by `SPI_prepare`.
-This function is equivalent to `SPI_execute_plan`
-except that information about the parameter values to be passed to the
-query is presented differently. The `ParamListInfo`
-representation can be convenient for passing down values that are
-already available in that format. It also supports use of dynamic
-parameter sets via hook functions specified in `ParamListInfo`.
+`SPI_execute_plan_with_paramlist` 會執行由 `SPI_prepare` 所預備的陳述式。這個函式等同於 `SPI_execute_plan`，差別在於要傳給查詢的參數值資訊是以不同的方式呈現。對於傳遞已經是該格式的值來說，`ParamListInfo` 這種表示法相當方便。它也支援透過在 `ParamListInfo` 中指定的 hook 函式來使用動態參數集。
 
-This function is now deprecated in favor
-of `SPI_execute_plan_extended`.
+這個函式現在已不建議使用，請改用 `SPI_execute_plan_extended`。
 
 <a id="id-1.8.12.8.17.6"></a>
 
-## Arguments
+## 引數
 
 `SPIPlanPtr plan`
-:   prepared statement (returned by `SPI_prepare`)
+:   預備陳述式（由 `SPI_prepare` 回傳）
 
 `ParamListInfo params`
-:   data structure containing parameter types and values; NULL if none
+:   包含參數型別與值的資料結構；若沒有則為 NULL
 
 `bool read_only`
-:   `true` for read-only execution
+:   `true` 表示唯讀執行
 
 `long count`
-:   maximum number of rows to return,
-    or `0` for no limit
+:   要回傳的最大資料列數，或是以 `0` 表示不限制
 
 <a id="id-1.8.12.8.17.7"></a>
 
-## Return Value
+## 回傳值
 
-The return value is the same as for `SPI_execute_plan`.
+回傳值與 `SPI_execute_plan` 相同。
 
-`SPI_processed` and
-`SPI_tuptable` are set as in
-`SPI_execute_plan` if successful.
+若執行成功，`SPI_processed` 與 `SPI_tuptable` 的設定方式和 `SPI_execute_plan` 相同。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-execute-plan-with-paramlist.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-execute-plan-with-paramlist.html)（原文版本：18.6；核對日期：2026-09-12）
