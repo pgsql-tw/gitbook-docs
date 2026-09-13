@@ -500,7 +500,7 @@
     * [42.8. Error Handling in PL/Tcl #](server-programming/pltcl/pltcl-error-handling.md)
     * [42.9. PL/Tcl 中的明確子交易 #](server-programming/pltcl/pltcl-subtransactions.md)
     * [42.10. 交易管理](server-programming/pltcl/pltcl-transactions.md)
-    * [42.11. PL/Tcl Configuration #](server-programming/pltcl/pltcl-config.md)
+    * [42.11. PL/Tcl 組態設定 #](server-programming/pltcl/pltcl-config.md)
     * [42.12. Tcl 程序名稱](server-programming/pltcl/pltcl-procnames.md)
   * [Chapter 43. PL/Perl — Perl Procedural Language](server-programming/plperl/README.md)
     * [43.1. PL/Perl Functions and Arguments #](server-programming/plperl/plperl-funcs.md)
