@@ -2,9 +2,9 @@
 
 ## SPI_execp
 
-SPI_execp — execute a statement in read/write mode
+SPI_execp — 以讀寫模式執行陳述式
 
-## Synopsis
+## 概要
 
 ```
 
@@ -13,52 +13,36 @@ int SPI_execp(SPIPlanPtr plan, Datum * values, const char * nulls, long count)
 
 <a id="id-1.8.12.8.18.5"></a>
 
-## Description
+## 描述
 
-`SPI_execp` is the same as
-`SPI_execute_plan`, with the latter's
-*`read_only`* parameter always taken as
-`false`.
+`SPI_execp` 與 `SPI_execute_plan` 相同，只是後者的 *`read_only`* 參數永遠被視為 `false`。
 
 <a id="id-1.8.12.8.18.6"></a>
 
-## Arguments
+## 引數
 
 `SPIPlanPtr plan`
-:   prepared statement (returned by `SPI_prepare`)
+:   預備陳述式（由 `SPI_prepare` 回傳）
 
 `Datum * values`
-:   An array of actual parameter values. Must have same length as the
-    statement's number of arguments.
+:   實際參數值的陣列。長度必須與該陳述式的引數個數相同。
 
 `const char * nulls`
-:   An array describing which parameters are null. Must have same length as
-    the statement's number of arguments.
+:   描述哪些參數為 NULL 的陣列。長度必須與該陳述式的引數個數相同。
 
-    If *`nulls`* is `NULL` then
-    `SPI_execp` assumes that no parameters
-    are null. Otherwise, each entry of the *`nulls`*
-    array should be `' '` if the corresponding parameter
-    value is non-null, or `'n'` if the corresponding parameter
-    value is null. (In the latter case, the actual value in the
-    corresponding *`values`* entry doesn't matter.) Note
-    that *`nulls`* is not a text string, just an array:
-    it does not need a `'\0'` terminator.
+    如果 *`nulls`* 是 `NULL`，則 `SPI_execp` 會假設沒有任何參數是 NULL。否則，*`nulls`* 陣列的每個項目在對應的參數值不為 NULL 時應該是 `' '`，在對應的參數值為 NULL 時則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中的實際值並不重要。）請注意，*`nulls`* 並不是文字字串，而只是一個陣列：它不需要 `'\0'` 結束符號。
 
 `long count`
-:   maximum number of rows to return,
-    or `0` for no limit
+:   要回傳的最大資料列數，或是以 `0` 表示不限制
 
 <a id="id-1.8.12.8.18.7"></a>
 
-## Return Value
+## 回傳值
 
-See `SPI_execute_plan`.
+請參閱 `SPI_execute_plan`。
 
-`SPI_processed` and
-`SPI_tuptable` are set as in
-`SPI_execute` if successful.
+若執行成功，`SPI_processed` 與 `SPI_tuptable` 的設定方式和 `SPI_execute` 相同。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-execp.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-execp.html)（原文版本：18.6；核對日期：2026-09-13）

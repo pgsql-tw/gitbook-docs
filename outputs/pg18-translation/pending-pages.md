@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：772 頁。
+待譯頁面：771 頁。
 
 ## 根目錄
 
@@ -960,7 +960,7 @@
 - [ ] `server-programming/spi/spi-spi-cursor-open.md` — SPI_cursor_open
 - [ ] `server-programming/spi/spi-spi-cursor-parse-open.md` — SPI_cursor_parse_open
 - [x] `server-programming/spi/spi-spi-exec.md` — SPI_exec
-- [ ] `server-programming/spi/spi-spi-execp.md` — SPI_execp
+- [x] `server-programming/spi/spi-spi-execp.md` — SPI_execp
 - [ ] `server-programming/spi/spi-spi-execute-extended.md` — SPI_execute_extended
 - [x] `server-programming/spi/spi-spi-execute-plan-extended.md` — SPI_execute_plan_extended
 - [x] `server-programming/spi/spi-spi-execute-plan-with-paramlist.md` — SPI_execute_plan_with_paramlist
