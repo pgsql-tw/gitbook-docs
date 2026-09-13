@@ -2,9 +2,9 @@
 
 ## SPI_modifytuple
 
-SPI_modifytuple — create a row by replacing selected fields of a given row
+SPI_modifytuple — 以取代指定資料列中某些欄位的方式建立一個資料列
 
-## Synopsis
+## 概要
 
 ```
 
@@ -14,78 +14,53 @@ HeapTuple SPI_modifytuple(Relation rel, HeapTuple row, int ncols,
 
 <a id="id-1.8.12.10.11.5"></a>
 
-## Description
+## 描述
 
-`SPI_modifytuple` creates a new row by
-substituting new values for selected columns, copying the original
-row's columns at other positions. The input row is not modified.
-The new row is returned in the upper executor context.
+`SPI_modifytuple` 會以新值取代選定欄位的方式建立一個新的資料列，其他位置的欄位則從原本的資料列複製過來。輸入的資料列不會被修改。新的資料列會在上層執行器的記憶體上下文中回傳。
 
-This function can only be used while connected to SPI.
-Otherwise, it returns NULL and sets `SPI_result` to
-`SPI_ERROR_UNCONNECTED`.
+這個函式只能在連接到 SPI 的狀態下使用。否則它會回傳 NULL，並將 `SPI_result` 設為 `SPI_ERROR_UNCONNECTED`。
 
 <a id="id-1.8.12.10.11.6"></a>
 
-## Arguments
+## 引數
 
 `Relation rel`
-:   Used only as the source of the row descriptor for the row.
-    (Passing a relation rather than a row descriptor is a
-    misfeature.)
+:   只用來作為該資料列之資料列描述子的來源。（傳入關聯而非資料列描述子是一項設計缺失。）
 
 `HeapTuple row`
-:   row to be modified
+:   要被修改的資料列
 
 `int ncols`
-:   number of columns to be changed
+:   要變更的欄位數
 
 `int * colnum`
-:   an array of length *`ncols`*, containing the numbers
-    of the columns that are to be changed (column numbers start at 1)
+:   長度為 *`ncols`* 的陣列，內含要變更之欄位的編號（欄位編號從 1 開始）
 
 `Datum * values`
-:   an array of length *`ncols`*, containing the
-    new values for the specified columns
+:   長度為 *`ncols`* 的陣列，內含指定欄位的新值
 
 `const char * nulls`
-:   an array of length *`ncols`*, describing which
-    new values are null
+:   長度為 *`ncols`* 的陣列，描述哪些新值為 NULL
 
-    If *`nulls`* is `NULL` then
-    `SPI_modifytuple` assumes that no new values
-    are null. Otherwise, each entry of the *`nulls`*
-    array should be `' '` if the corresponding new value is
-    non-null, or `'n'` if the corresponding new value is
-    null. (In the latter case, the actual value in the corresponding
-    *`values`* entry doesn't matter.) Note that
-    *`nulls`* is not a text string, just an array: it
-    does not need a `'\0'` terminator.
+    如果 *`nulls`* 是 `NULL`，則 `SPI_modifytuple` 會假設沒有任何新值是 NULL。否則，*`nulls`* 陣列的每個項目在對應的新值不為 NULL 時應該是 `' '`，在對應的新值為 NULL 時則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中的實際值並不重要。）請注意，*`nulls`* 並不是文字字串，而只是一個陣列：它不需要 `'\0'` 結束符號。
 
 <a id="id-1.8.12.10.11.7"></a>
 
-## Return Value
+## 回傳值
 
-new row with modifications, allocated in the upper executor
-context, or `NULL` on error
-(see `SPI_result` for an error indication)
+修改後的新資料列，配置於上層執行器的記憶體上下文中；發生錯誤時則為 `NULL`（錯誤指示請參閱 `SPI_result`）
 
-On error, `SPI_result` is set as follows:
+發生錯誤時，`SPI_result` 會被設定如下：
 
 `SPI_ERROR_ARGUMENT`
-:   if *`rel`* is `NULL`, or if
-    *`row`* is `NULL`, or if *`ncols`*
-    is less than or equal to 0, or if *`colnum`* is
-    `NULL`, or if *`values`* is `NULL`.
+:   如果 *`rel`* 是 `NULL`，或 *`row`* 是 `NULL`，或 *`ncols`* 小於或等於 0，或 *`colnum`* 是 `NULL`，或 *`values`* 是 `NULL`。
 
 `SPI_ERROR_NOATTRIBUTE`
-:   if *`colnum`* contains an invalid column number (less
-    than or equal to 0 or greater than the number of columns in
-    *`row`*)
+:   如果 *`colnum`* 中含有無效的欄位編號（小於或等於 0，或大於 *`row`* 中的欄位數）
 
 `SPI_ERROR_UNCONNECTED`
-:   if SPI is not active
+:   如果 SPI 未在作用中
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-modifytuple.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-modifytuple.html)（原文版本：18.6；核對日期：2026-09-13）
