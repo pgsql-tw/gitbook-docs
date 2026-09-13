@@ -1,146 +1,56 @@
-## 39.1. The Query Tree [#](#QUERYTREE)
+<a id="QUERYTREE"></a>
+
+## 39.1. 查詢樹 [#](#QUERYTREE)
 
 <a id="id-1.8.6.6.2"></a>
 
-To understand how the rule system works it is necessary to know
-when it is invoked and what its input and results are.
+要瞭解規則系統如何運作，必須先知道它在什麼時候被呼叫，以及它的輸入與結果是什麼。
 
-The rule system is located between the parser and the planner.
-It takes the output of the parser, one query tree, and the user-defined
-rewrite rules, which are also
-query trees with some extra information, and creates zero or more
-query trees as result. So its input and output are always things
-the parser itself could have produced and thus, anything it sees
-is basically representable as an SQL statement.
+規則系統位於剖析器與規劃器之間。它取得剖析器的輸出，也就是一棵查詢樹，再加上使用者定義的重寫規則（這些規則同樣是查詢樹，只是附帶一些額外資訊），然後產生零棵或多棵查詢樹作為結果。因此它的輸入與輸出永遠都是剖析器本身也能產生的東西，所以它所看到的一切基本上都可以用一個 SQL 陳述式來表示。
 
-Now what is a query tree? It is an internal representation of an
-SQL statement where the single parts that it is
-built from are stored separately. These query trees can be shown
-in the server log if you set the configuration parameters
-`debug_print_parse`,
-`debug_print_rewritten`, or
-`debug_print_plan`. The rule actions are also
-stored as query trees, in the system catalog
-`pg_rewrite`. They are not formatted like
-the log output, but they contain exactly the same information.
+那麼查詢樹到底是什麼呢？它是 SQL 陳述式的一種內部表示法，組成陳述式的各個部分會分開儲存。如果你設定組態參數 `debug_print_parse`、`debug_print_rewritten` 或 `debug_print_plan`，這些查詢樹就會顯示在伺服器日誌中。規則動作同樣以查詢樹的形式儲存在系統目錄 `pg_rewrite` 裡。它們的格式和日誌輸出不同，但包含完全相同的資訊。
 
-Reading a raw query tree requires some experience. But since
-SQL representations of query trees are
-sufficient to understand the rule system, this chapter will not
-teach how to read them.
+閱讀原始的查詢樹需要一些經驗。不過既然查詢樹的 SQL 表示法已經足以理解規則系統，本章就不會教你如何閱讀原始的查詢樹。
 
-When reading the SQL representations of the
-query trees in this chapter it is necessary to be able to identify
-the parts the statement is broken into when it is in the query tree
-structure. The parts of a query tree are
+在閱讀本章中查詢樹的 SQL 表示法時，必須能夠辨識出陳述式在查詢樹結構中被拆解成的那些部分。查詢樹的各個部分如下
 
-the command type
-:   This is a simple value telling which command
-    (`SELECT`, `INSERT`,
-    `UPDATE`, `DELETE`) produced
-    the query tree.
+指令類型（the command type）
+:   這是一個單純的值，說明是哪一種指令（`SELECT`、`INSERT`、`UPDATE`、`DELETE`）產生了這棵查詢樹。
 
-the range table <a id="id-1.8.6.6.7.2.2.1.1"></a>
-:   The range table is a list of relations that are used in the query.
-    In a `SELECT` statement these are the relations given after
-    the `FROM` key word.
+範圍資料表（range table） <a id="id-1.8.6.6.7.2.2.1.1"></a>
+:   範圍資料表是查詢中所使用之關聯的清單。在 `SELECT` 陳述式中，這些就是寫在 `FROM` 關鍵字後面的關聯。
 
-    Every range table entry identifies a table or view and tells
-    by which name it is called in the other parts of the query.
-    In the query tree, the range table entries are referenced by
-    number rather than by name, so here it doesn't matter if there
-    are duplicate names as it would in an SQL
-    statement. This can happen after the range tables of rules
-    have been merged in. The examples in this chapter will not have
-    this situation.
+    每一筆範圍資料表項目都指明一個資料表或檢視表，並說明它在查詢的其他部分中是以什麼名稱被稱呼。在查詢樹裡，範圍資料表項目是以編號而不是以名稱來參照，所以在這裡即使有重複的名稱也無所謂，不像在 SQL 陳述式中那樣會有問題。這種情況可能在規則的範圍資料表被合併進來之後發生。本章的範例不會出現這種狀況。
 
-the result relation
-:   This is an index into the range table that identifies the
-    relation where the results of the query go.
+結果關聯（the result relation）
+:   這是一個指向範圍資料表的索引值，用來指明查詢的結果要送往哪一個關聯。
 
-    `SELECT` queries don't have a result
-    relation. (The special case of `SELECT INTO` is
-    mostly identical to `CREATE TABLE` followed by
-    `INSERT ... SELECT`, and is not discussed
-    separately here.)
+    `SELECT` 查詢沒有結果關聯。（`SELECT INTO` 這個特例大致上等同於 `CREATE TABLE` 之後再接一個 `INSERT ... SELECT`，因此這裡不另外討論。）
 
-    For `INSERT`, `UPDATE`, and
-    `DELETE` commands, the result relation is the table
-    (or view!) where the changes are to take effect.
+    對於 `INSERT`、`UPDATE` 與 `DELETE` 指令來說，結果關聯就是變更要生效的那個資料表（或檢視表！）。
 
-the target list <a id="id-1.8.6.6.7.2.4.1.1"></a>
-:   The target list is a list of expressions that define the
-    result of the query. In the case of a
-    `SELECT`, these expressions are the ones that
-    build the final output of the query. They correspond to the
-    expressions between the key words `SELECT`
-    and `FROM`. (`*` is just an
-    abbreviation for all the column names of a relation. It is
-    expanded by the parser into the individual columns, so the
-    rule system never sees it.)
+目標清單（the target list） <a id="id-1.8.6.6.7.2.4.1.1"></a>
+:   目標清單是一份運算式的清單，用來定義查詢的結果。以 `SELECT` 來說，這些運算式就是建構查詢最終輸出的那些運算式。它們對應到 `SELECT` 與 `FROM` 這兩個關鍵字之間的運算式。（`*` 只是關聯所有欄位名稱的一種縮寫。它會被剖析器展開成個別的欄位，所以規則系統永遠不會看到它。）
 
-    `DELETE` commands don't need a normal target list
-    because they don't produce any result. Instead, the planner
-    adds a special CTID entry to the empty target list,
-    to allow the executor to find the row to be deleted.
-    (CTID is added when the result relation is an ordinary
-    table. If it is a view, a whole-row variable is added instead, by
-    the rule system, as described in [Section 39.2.4](rules-views.md#RULES-VIEWS-UPDATE).)
+    `DELETE` 指令不需要一般的目標清單，因為它們不會產生任何結果。取而代之的是，規劃器會在空的目標清單中加入一個特殊的 CTID 項目，讓執行器能夠找到要被刪除的資料列。（當結果關聯是一般資料表時才會加入 CTID。如果它是檢視表，則會由規則系統改為加入一個整列變數，如[第 39.2.4 節](rules-views.md#RULES-VIEWS-UPDATE)所述。）
 
-    For `INSERT` commands, the target list describes
-    the new rows that should go into the result relation. It consists of the
-    expressions in the `VALUES` clause or the ones from the
-    `SELECT` clause in `INSERT
-    ... SELECT`. The first step of the rewrite process adds
-    target list entries for any columns that were not assigned to by
-    the original command but have defaults. Any remaining columns (with
-    neither a given value nor a default) will be filled in by the
-    planner with a constant null expression.
+    對於 `INSERT` 指令，目標清單描述了應該寫入結果關聯的新資料列。它由 `VALUES` 子句中的運算式，或是 `INSERT
+    ... SELECT` 中 `SELECT` 子句裡的運算式所組成。重寫程序的第一個步驟會為那些原本指令沒有指派值、但具有預設值的欄位加入目標清單項目。其餘的欄位（既沒有給定值也沒有預設值）則會由規劃器填入一個常數 NULL 運算式。
 
-    For `UPDATE` commands, the target list
-    describes the new rows that should replace the old ones. In the
-    rule system, it contains just the expressions from the `SET
-    column = expression` part of the command. The planner will
-    handle missing columns by inserting expressions that copy the values
-    from the old row into the new one. Just as for `DELETE`,
-    a CTID or whole-row variable is added so that
-    the executor can identify the old row to be updated.
+    對於 `UPDATE` 指令，目標清單描述了應該取代舊資料列的新資料列。在規則系統中，它只包含指令裡 `SET
+    column = expression` 部分的運算式。規劃器會透過插入運算式，把舊資料列中的值複製到新資料列，藉此處理缺少的欄位。就像 `DELETE` 一樣，也會加入一個 CTID 或整列變數，好讓執行器能夠辨識出要被更新的舊資料列。
 
-    Every entry in the target list contains an expression that can
-    be a constant value, a variable pointing to a column of one
-    of the relations in the range table, a parameter, or an expression
-    tree made of function calls, constants, variables, operators, etc.
+    目標清單中的每一個項目都包含一個運算式，這個運算式可以是常數值、指向範圍資料表中某個關聯之欄位的變數、參數，或是由函式呼叫、常數、變數、運算子等等所構成的運算式樹。
 
-the qualification
-:   The query's qualification is an expression much like one of
-    those contained in the target list entries. The result value of
-    this expression is a Boolean that tells whether the operation
-    (`INSERT`, `UPDATE`,
-    `DELETE`, or `SELECT`) for the
-    final result row should be executed or not. It corresponds to the `WHERE` clause
-    of an SQL statement.
+限定條件（the qualification）
+:   查詢的限定條件是一個運算式，很像目標清單項目中所包含的那些運算式。這個運算式的結果值是一個布林值，用來表示針對最終結果資料列的操作（`INSERT`、`UPDATE`、`DELETE` 或 `SELECT`）究竟該不該執行。它對應到 SQL 陳述式的 `WHERE` 子句。
 
-the join tree
-:   The query's join tree shows the structure of the `FROM` clause.
-    For a simple query like `SELECT ... FROM a, b, c`, the join tree is just
-    a list of the `FROM` items, because we are allowed to join them in
-    any order. But when `JOIN` expressions, particularly outer joins,
-    are used, we have to join in the order shown by the joins.
-    In that case, the join tree shows the structure of the `JOIN` expressions. The
-    restrictions associated with particular `JOIN` clauses (from `ON` or
-    `USING` expressions) are stored as qualification expressions attached
-    to those join-tree nodes. It turns out to be convenient to store
-    the top-level `WHERE` expression as a qualification attached to the
-    top-level join-tree item, too. So really the join tree represents
-    both the `FROM` and `WHERE` clauses of a `SELECT`.
+聯結樹（the join tree）
+:   查詢的聯結樹顯示 `FROM` 子句的結構。對於像 `SELECT ... FROM a, b, c` 這樣的簡單查詢，聯結樹就只是 `FROM` 項目的一份清單，因為我們可以用任意順序來聯結它們。但是當使用了 `JOIN` 運算式，特別是外部聯結時，我們就必須依照這些聯結所指定的順序來進行聯結。在這種情況下，聯結樹就顯示出 `JOIN` 運算式的結構。與特定 `JOIN` 子句相關的限制（來自 `ON` 或 `USING` 運算式）會以限定條件運算式的形式，附加儲存在那些聯結樹節點上。事實證明，把最上層的 `WHERE` 運算式也當成限定條件附加在最上層的聯結樹項目上相當方便。所以聯結樹其實同時代表了 `SELECT` 的 `FROM` 與 `WHERE` 子句。
 
-the others
-:   The other parts of the query tree like the `ORDER BY`
-    clause aren't of interest here. The rule system
-    substitutes some entries there while applying rules, but that
-    doesn't have much to do with the fundamentals of the rule
-    system.
+其他部分（the others）
+:   查詢樹的其他部分，例如 `ORDER BY` 子句，在這裡並不重要。規則系統在套用規則時會替換其中的某些項目，但那和規則系統的基本原理沒有太大關係。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/querytree.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/querytree.html)（原文版本：18.6；核對日期：2026-09-13）
