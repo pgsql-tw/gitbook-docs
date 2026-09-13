@@ -497,7 +497,7 @@
     * [42.5. 從 PL/Tcl 存取資料庫 #](server-programming/pltcl/pltcl-dbaccess.md)
     * [42.6. PL/Tcl 中的觸發程序函式 #](server-programming/pltcl/pltcl-trigger.md)
     * [42.7. PL/Tcl 中的事件觸發器函式](server-programming/pltcl/pltcl-event-trigger.md)
-    * [42.8. Error Handling in PL/Tcl #](server-programming/pltcl/pltcl-error-handling.md)
+    * [42.8. PL/Tcl 中的錯誤處理 #](server-programming/pltcl/pltcl-error-handling.md)
     * [42.9. PL/Tcl 中的明確子交易 #](server-programming/pltcl/pltcl-subtransactions.md)
     * [42.10. 交易管理](server-programming/pltcl/pltcl-transactions.md)
     * [42.11. PL/Tcl 組態設定 #](server-programming/pltcl/pltcl-config.md)
