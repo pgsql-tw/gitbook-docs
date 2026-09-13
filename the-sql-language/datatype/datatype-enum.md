@@ -1,36 +1,31 @@
-## 8.7. Enumerated Types [#](#DATATYPE-ENUM)
+<a id="DATATYPE-ENUM"></a>
 
-[8.7.1. Declaration of Enumerated Types](datatype-enum.md#DATATYPE-ENUM-DECLARATION)
+## 8.7. 列舉型別 [#](#DATATYPE-ENUM)
 
-[8.7.2. Ordering](datatype-enum.md#DATATYPE-ENUM-ORDERING)
+[8.7.1. 列舉型別的宣告](datatype-enum.md#DATATYPE-ENUM-DECLARATION)
 
-[8.7.3. Type Safety](datatype-enum.md#DATATYPE-ENUM-TYPE-SAFETY)
+[8.7.2. 排序](datatype-enum.md#DATATYPE-ENUM-ORDERING)
 
-[8.7.4. Implementation Details](datatype-enum.md#DATATYPE-ENUM-IMPLEMENTATION-DETAILS)
+[8.7.3. 型別安全](datatype-enum.md#DATATYPE-ENUM-TYPE-SAFETY)
+
+[8.7.4. 實作細節](datatype-enum.md#DATATYPE-ENUM-IMPLEMENTATION-DETAILS)
 
 <a id="id-1.5.7.15.2"></a><a id="id-1.5.7.15.3"></a>
 
-Enumerated (enum) types are data types that
-comprise a static, ordered set of values.
-They are equivalent to the `enum`
-types supported in a number of programming languages. An example of an enum
-type might be the days of the week, or a set of status values for
-a piece of data.
+列舉（enum）型別是由一組靜態、有順序的值所構成的資料型別。它們相當於許多程式語言所支援的 `enum` 型別。列舉型別的例子可能是一週中的各天，或是某項資料的一組狀態值。
 
 <a id="DATATYPE-ENUM-DECLARATION"></a>
 
-### 8.7.1. Declaration of Enumerated Types [#](#DATATYPE-ENUM-DECLARATION)
+### 8.7.1. 列舉型別的宣告 [#](#DATATYPE-ENUM-DECLARATION)
 
-Enum types are created using the [CREATE TYPE](../../reference/sql-commands/sql-createtype.md) command,
-for example:
+列舉型別是以 [CREATE TYPE](../../reference/sql-commands/sql-createtype.md) 指令建立的，例如：
 
 ```
 
 CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
 ```
 
-Once created, the enum type can be used in table and function
-definitions much like any other type:
+建立之後，這個列舉型別就可以像其他型別一樣，用在資料表與函式的定義中：
 
 ```
 
@@ -49,12 +44,9 @@ SELECT * FROM person WHERE current_mood = 'happy';
 
 <a id="DATATYPE-ENUM-ORDERING"></a>
 
-### 8.7.2. Ordering [#](#DATATYPE-ENUM-ORDERING)
+### 8.7.2. 排序 [#](#DATATYPE-ENUM-ORDERING)
 
-The ordering of the values in an enum type is the
-order in which the values were listed when the type was created.
-All standard comparison operators and related
-aggregate functions are supported for enums. For example:
+列舉型別中各個值的順序，就是建立該型別時列出這些值的順序。所有標準的比較運算子與相關的彙總函式都支援列舉型別。例如：
 
 ```
 
@@ -85,10 +77,9 @@ WHERE current_mood = (SELECT MIN(current_mood) FROM person);
 
 <a id="DATATYPE-ENUM-TYPE-SAFETY"></a>
 
-### 8.7.3. Type Safety [#](#DATATYPE-ENUM-TYPE-SAFETY)
+### 8.7.3. 型別安全 [#](#DATATYPE-ENUM-TYPE-SAFETY)
 
-Each enumerated data type is separate and cannot
-be compared with other enumerated types. See this example:
+每一個列舉資料型別都是獨立的，不能與其他列舉型別比較。請看這個例子：
 
 ```
 
@@ -107,8 +98,7 @@ SELECT person.name, holidays.num_weeks FROM person, holidays
 ERROR:  operator does not exist: mood = happiness
 ```
 
-If you really need to do something like that, you can either
-write a custom operator or add explicit casts to your query:
+如果你真的需要做這樣的事情，可以自己撰寫一個自訂的運算子，或是在查詢中加上明確的型別轉換：
 
 ```
 
@@ -122,28 +112,16 @@ SELECT person.name, holidays.num_weeks FROM person, holidays
 
 <a id="DATATYPE-ENUM-IMPLEMENTATION-DETAILS"></a>
 
-### 8.7.4. Implementation Details [#](#DATATYPE-ENUM-IMPLEMENTATION-DETAILS)
+### 8.7.4. 實作細節 [#](#DATATYPE-ENUM-IMPLEMENTATION-DETAILS)
 
-Enum labels are case sensitive, so
-`'happy'` is not the same as `'HAPPY'`.
-White space in the labels is significant too.
+列舉的標籤會區分大小寫，所以 `'happy'` 與 `'HAPPY'` 並不相同。標籤中的空白字元也有意義。
 
-Although enum types are primarily intended for static sets of values,
-there is support for adding new values to an existing enum type, and for
-renaming values (see [ALTER TYPE](../../reference/sql-commands/sql-altertype.md)). Existing values
-cannot be removed from an enum type, nor can the sort ordering of such
-values be changed, short of dropping and re-creating the enum type.
+雖然列舉型別主要是設計給靜態的值集合使用，但它仍支援把新的值加入既有的列舉型別，以及重新命名值（請參閱 [ALTER TYPE](../../reference/sql-commands/sql-altertype.md)）。既有的值無法從列舉型別中移除，這些值的排序順序也無法變更，除非把該列舉型別刪除後再重新建立。
 
-An enum value occupies four bytes on disk. The length of an enum
-value's textual label is limited by the `NAMEDATALEN`
-setting compiled into PostgreSQL; in standard
-builds this means at most 63 bytes.
+一個列舉值在磁碟上佔用四個位元組。列舉值文字標籤的長度，受到編譯進 PostgreSQL 的 `NAMEDATALEN` 設定所限制；在標準的建置中，這表示最多 63 個位元組。
 
-The translations from internal enum values to textual labels are
-kept in the system catalog
-[`pg_enum`](../../internals/catalogs/catalog-pg-enum.md).
-Querying this catalog directly can be useful.
+從內部列舉值到文字標籤的對照關係，儲存在系統目錄 [`pg_enum`](../../internals/catalogs/catalog-pg-enum.md) 中。直接查詢這個目錄有時會很有用。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datatype-enum.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datatype-enum.html)（原文版本：18.6；核對日期：2026-09-13）

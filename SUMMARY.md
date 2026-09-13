@@ -73,7 +73,7 @@
     * [8.4. 二進位資料型別 #](the-sql-language/datatype/datatype-binary.md)
     * [8.5. Date/Time Types #](the-sql-language/datatype/datatype-datetime.md)
     * [8.6. 布林型別 #](the-sql-language/datatype/datatype-boolean.md)
-    * [8.7. Enumerated Types #](the-sql-language/datatype/datatype-enum.md)
+    * [8.7. 列舉型別 #](the-sql-language/datatype/datatype-enum.md)
     * [8.8. Geometric Types #](the-sql-language/datatype/datatype-geometric.md)
     * [8.9. Network Address Types #](the-sql-language/datatype/datatype-net-types.md)
     * [8.10. 位元字串型別 #](the-sql-language/datatype/datatype-bit.md)
