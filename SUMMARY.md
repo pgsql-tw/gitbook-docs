@@ -490,7 +490,7 @@
     * [41.12. PL/pgSQL 開發技巧 #](server-programming/plpgsql/plpgsql-development-tips.md)
     * [41.13. Porting from Oracle PL/SQL #](server-programming/plpgsql/plpgsql-porting.md)
   * [第 42 章 PL/Tcl — Tcl 程序語言](server-programming/pltcl/README.md)
-    * [42.1. Overview #](server-programming/pltcl/pltcl-overview.md)
+    * [42.1. 概觀 #](server-programming/pltcl/pltcl-overview.md)
     * [42.2. PL/Tcl 函式與引數 #](server-programming/pltcl/pltcl-functions.md)
     * [42.3. PL/Tcl 中的資料值](server-programming/pltcl/pltcl-data.md)
     * [42.4. PL/Tcl 中的全域資料 #](server-programming/pltcl/pltcl-global.md)
