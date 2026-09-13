@@ -1,38 +1,19 @@
-## 40.1. Installing Procedural Languages [#](#XPLANG-INSTALL)
+<a id="XPLANG-INSTALL"></a>
 
-A procedural language must be “installed” into each
-database where it is to be used. But procedural languages installed in
-the database `template1` are automatically available in all
-subsequently created databases, since their entries in
-`template1` will be copied by `CREATE DATABASE`.
-So the database administrator can
-decide which languages are available in which databases and can make
-some languages available by default if desired.
+## 40.1. 安裝程序語言 [#](#XPLANG-INSTALL)
 
-For the languages supplied with the standard distribution, it is
-only necessary to execute `CREATE EXTENSION`
-*`language_name`* to install the language into the
-current database.
-The manual procedure described below is only recommended for
-installing languages that have not been packaged as extensions.
+程序語言必須「安裝」到每一個要使用它的資料庫中。不過，安裝在 `template1` 資料庫中的程序語言會自動在之後建立的所有資料庫中可用，因為它們在 `template1` 中的項目會被 `CREATE DATABASE` 複製過去。因此資料庫管理者可以決定哪些語言在哪些資料庫中可用，也可以視需要讓某些語言預設就可用。
+
+對於標準發行版所提供的語言，只要執行 `CREATE EXTENSION` *`language_name`* 就能把該語言安裝到目前的資料庫中。下面說明的手動程序，只建議用來安裝尚未被封裝成擴充套件的語言。
 
 <a id="id-1.8.7.5.4"></a>
 
-**Manual Procedural Language Installation**
+**手動安裝程序語言**
 
-A procedural language is installed in a database in five steps,
-which must be carried out by a database superuser. In most cases
-the required SQL commands should be packaged as the installation script
-of an “extension”, so that `CREATE EXTENSION` can be
-used to execute them.
+安裝程序語言到資料庫中共有五個步驟，而且必須由資料庫超級使用者執行。在大多數情況下，所需的 SQL 指令應該封裝成「擴充套件」的安裝腳本，如此便可以用 `CREATE EXTENSION` 來執行它們。
 
-<a id="XPLANG-INSTALL-CR1"></a>1. The shared object for the language handler must be compiled and
-   installed into an appropriate library directory. This works in the same
-   way as building and installing modules with regular user-defined C
-   functions does; see [Section 36.10.5](../extend/xfunc-c.md#DFUNC). Often, the language
-   handler will depend on an external library that provides the actual
-   programming language engine; if so, that must be installed as well.
-<a id="XPLANG-INSTALL-CR2"></a>2. The handler must be declared with the command
+<a id="XPLANG-INSTALL-CR1"></a>1. 語言處理常式的共用物件必須先編譯好，並安裝到適當的程式庫目錄中。這與建置並安裝含有一般使用者定義 C 函式的模組的方式相同；請參閱[第 36.10.5 節](../extend/xfunc-c.md#DFUNC)。語言處理常式通常會相依於某個提供實際程式語言引擎的外部程式庫；若是如此，那個程式庫也必須一併安裝。
+<a id="XPLANG-INSTALL-CR2"></a>2. 必須用以下指令宣告該處理常式
 
    ```
 
@@ -42,15 +23,8 @@ used to execute them.
        LANGUAGE C;
    ```
 
-   The special return type of `language_handler` tells
-   the database system that this function does not return one of
-   the defined SQL data types and is not directly usable
-   in SQL statements.
-<a id="XPLANG-INSTALL-CR3"></a>3. Optionally, the language handler can provide an “inline”
-   handler function that executes anonymous code blocks
-   ([`DO`](../../reference/sql-commands/sql-do.md) commands)
-   written in this language. If an inline handler function
-   is provided by the language, declare it with a command like
+   `language_handler` 這個特殊的回傳型別會告訴資料庫系統，此函式並不回傳任何一種已定義的 SQL 資料型別，也不能直接用在 SQL 陳述式中。
+<a id="XPLANG-INSTALL-CR3"></a>3. 語言處理常式可以選擇性地提供一個「行內」處理常式函式，用來執行以該語言撰寫的匿名程式碼區塊（[`DO`](../../reference/sql-commands/sql-do.md) 指令）。如果該語言有提供行內處理常式函式，請用類似以下的指令宣告它
 
    ```
 
@@ -59,11 +33,7 @@ used to execute them.
        AS 'path-to-shared-object'
        LANGUAGE C;
    ```
-<a id="XPLANG-INSTALL-CR4"></a>4. Optionally, the language handler can provide a “validator”
-   function that checks a function definition for correctness without
-   actually executing it. The validator function is called by
-   `CREATE FUNCTION` if it exists. If a validator function
-   is provided by the language, declare it with a command like
+<a id="XPLANG-INSTALL-CR4"></a>4. 語言處理常式也可以選擇性地提供一個「驗證器」函式，在不實際執行函式定義的情況下檢查其正確性。若驗證器函式存在，`CREATE FUNCTION` 會呼叫它。如果該語言有提供驗證器函式，請用類似以下的指令宣告它
 
    ```
 
@@ -72,7 +42,7 @@ used to execute them.
        AS 'path-to-shared-object'
        LANGUAGE C STRICT;
    ```
-<a id="XPLANG-INSTALL-CR5"></a>5. Finally, the PL must be declared with the command
+<a id="XPLANG-INSTALL-CR5"></a>5. 最後，必須用以下指令宣告該 PL
 
    ```
 
@@ -82,36 +52,15 @@ used to execute them.
        [VALIDATOR validator_function_name] ;
    ```
 
-   The optional key word `TRUSTED` specifies that
-   the language does not grant access to data that the user would
-   not otherwise have. Trusted languages are designed for ordinary
-   database users (those without superuser privilege) and allows them
-   to safely create functions and
-   procedures. Since PL functions are executed inside the database
-   server, the `TRUSTED` flag should only be given
-   for languages that do not allow access to database server
-   internals or the file system. The languages
-   PL/pgSQL,
-   PL/Tcl, and
-   PL/Perl
-   are considered trusted; the languages
-   PL/TclU,
-   PL/PerlU, and
-   PL/PythonU
-   are designed to provide unlimited functionality and should
-   *not* be marked trusted.
+   選用的關鍵字 `TRUSTED` 表示該語言不會授予使用者原本無法取得的資料存取權。受信任的語言是為一般資料庫使用者（沒有超級使用者權限的使用者）設計的，讓他們能夠安全地建立函式與程序。由於 PL 函式是在資料庫伺服器內部執行的，`TRUSTED` 旗標只應該給予那些不允許存取資料庫伺服器內部或檔案系統的語言。PL/pgSQL、PL/Tcl 與 PL/Perl 這些語言被視為受信任的；而 PL/TclU、PL/PerlU 與 PL/PythonU 這些語言則是設計來提供不受限制的功能，因此*不*應該被標記為受信任。
 
-[Example 40.1](xplang-install.md#XPLANG-INSTALL-EXAMPLE) shows how the manual
-installation procedure would work with the language
-PL/Perl.
+[範例 40.1](xplang-install.md#XPLANG-INSTALL-EXAMPLE) 示範了手動安裝程序如何套用在 PL/Perl 語言上。
 
 <a id="XPLANG-INSTALL-EXAMPLE"></a>
 
-**Example 40.1. Manual Installation of PL/Perl**
+**範例 40.1. 手動安裝 PL/Perl**
 
-The following command tells the database server where to find the
-shared object for the PL/Perl language's call
-handler function:
+以下指令告訴資料庫伺服器到哪裡去找 PL/Perl 語言之呼叫處理常式函式的共用物件：
 
 ```
 
@@ -119,8 +68,7 @@ CREATE FUNCTION plperl_call_handler() RETURNS language_handler AS
     '$libdir/plperl' LANGUAGE C;
 ```
 
-PL/Perl has an inline handler function
-and a validator function, so we declare those too:
+PL/Perl 有行內處理常式函式與驗證器函式，因此我們也一併宣告它們：
 
 ```
 
@@ -131,7 +79,7 @@ CREATE FUNCTION plperl_validator(oid) RETURNS void AS
     '$libdir/plperl' LANGUAGE C STRICT;
 ```
 
-The command:
+接著這個指令：
 
 ```
 
@@ -141,26 +89,12 @@ CREATE TRUSTED LANGUAGE plperl
     VALIDATOR plperl_validator;
 ```
 
-then defines that the previously declared functions
-should be invoked for functions and procedures where the
-language attribute is `plperl`.
+定義了對於語言屬性為 `plperl` 的函式與程序，應呼叫先前所宣告的那些函式。
 
 <br>
 
-In a default PostgreSQL installation,
-the handler for the PL/pgSQL language
-is built and installed into the “library”
-directory; furthermore, the PL/pgSQL language
-itself is installed in all databases.
-If Tcl support is configured in, the handlers for
-PL/Tcl and PL/TclU are built and installed
-in the library directory, but the language itself is not installed in any
-database by default.
-Likewise, the PL/Perl and PL/PerlU
-handlers are built and installed if Perl support is configured, and the
-PL/PythonU handler is installed if Python support is
-configured, but these languages are not installed by default.
+在預設的 PostgreSQL 安裝中，PL/pgSQL 語言的處理常式會被建置並安裝到「程式庫」目錄中；此外，PL/pgSQL 語言本身也會安裝到所有資料庫中。如果設定時納入了 Tcl 支援，PL/Tcl 與 PL/TclU 的處理常式會被建置並安裝到程式庫目錄中，但該語言本身預設不會安裝到任何資料庫。同樣地，若設定時納入了 Perl 支援，PL/Perl 與 PL/PerlU 的處理常式會被建置並安裝；若設定時納入了 Python 支援，PL/PythonU 的處理常式也會被安裝，但這些語言預設都不會被安裝。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xplang-install.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xplang-install.html)（原文版本：18.6；核對日期：2026-09-13）
