@@ -1,43 +1,19 @@
-## 37.2. Visibility of Data Changes [#](#TRIGGER-DATACHANGES)
+<a id="TRIGGER-DATACHANGES"></a>
 
-If you execute SQL commands in your trigger function, and these
-commands access the table that the trigger is for, then
-you need to be aware of the data visibility rules, because they determine
-whether these SQL commands will see the data change that the trigger
-is fired for. Briefly:
+## 37.2. 資料變更的可見性 [#](#TRIGGER-DATACHANGES)
 
-* Statement-level triggers follow simple visibility rules: none of
-  the changes made by a statement are visible to statement-level
-  `BEFORE` triggers, whereas all
-  modifications are visible to statement-level `AFTER`
-  triggers.
-* The data change (insertion, update, or deletion) causing the
-  trigger to fire is naturally *not* visible
-  to SQL commands executed in a row-level `BEFORE` trigger,
-  because it hasn't happened yet.
-* However, SQL commands executed in a row-level `BEFORE`
-  trigger *will* see the effects of data
-  changes for rows previously processed in the same outer
-  command. This requires caution, since the ordering of these
-  change events is not in general predictable; an SQL command that
-  affects multiple rows can visit the rows in any order.
-* Similarly, a row-level `INSTEAD OF` trigger will see the
-  effects of data changes made by previous firings of `INSTEAD
-  OF` triggers in the same outer command.
-* When a row-level `AFTER` trigger is fired, all data
-  changes made
-  by the outer command are already complete, and are visible to
-  the invoked trigger function.
+如果你在觸發程序函式中執行 SQL 指令，而這些指令又存取了該觸發程序所屬的資料表，那麼你必須留意資料可見性規則，因為這些規則決定了這些 SQL 指令是否看得到那筆導致觸發程序被觸發的資料變更。簡要來說：
 
-If your trigger function is written in any of the standard procedural
-languages, then the above statements apply only if the function is
-declared `VOLATILE`. Functions that are declared
-`STABLE` or `IMMUTABLE` will not see changes made by
-the calling command in any case.
+* 陳述式層級的觸發程序遵循簡單的可見性規則：陳述式所做的任何變更對陳述式層級的 `BEFORE` 觸發程序都不可見，而所有的修改對陳述式層級的 `AFTER` 觸發程序則都是可見的。
+* 導致觸發程序被觸發的那筆資料變更（插入、更新或刪除）自然*不會*被資料列層級 `BEFORE` 觸發程序中所執行的 SQL 指令看見，因為它還沒有發生。
+* 不過，在資料列層級 `BEFORE` 觸發程序中執行的 SQL 指令*確實會*看到同一個外層指令中先前已處理過的資料列所產生的資料變更效果。這一點需要謹慎，因為這些變更事件的順序一般而言是無法預測的；一個影響多筆資料列的 SQL 指令可以用任意順序走訪這些資料列。
+* 同樣地，資料列層級的 `INSTEAD OF` 觸發程序會看到同一個外層指令中先前幾次觸發 `INSTEAD OF` 觸發程序所做的資料變更效果。
+* 當資料列層級的 `AFTER` 觸發程序被觸發時，外層指令所做的所有資料變更都已經完成，而且對被呼叫的觸發程序函式都是可見的。
 
-Further information about data visibility rules can be found in
-[Section 45.5](../spi/spi-visibility.md). The example in [Section 37.4](trigger-example.md) contains a demonstration of these rules.
+如果你的觸發程序函式是以任何一種標準的程序語言撰寫的，那麼上述說明只有在該函式被宣告為 `VOLATILE` 時才適用。被宣告為 `STABLE` 或 `IMMUTABLE` 的函式在任何情況下都不會看到呼叫端指令所做的變更。
+
+關於資料可見性規則的進一步資訊，請參閱[第 45.5 節](../spi/spi-visibility.md)。[第 37.4 節](trigger-example.md)中的範例示範了這些規則。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/trigger-datachanges.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/trigger-datachanges.html)（原文版本：18.6；核對日期：2026-09-13）

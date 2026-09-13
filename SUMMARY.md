@@ -456,7 +456,7 @@
     * [36.18. Extension Building Infrastructure #](server-programming/extend/extend-pgxs.md)
   * [第 37 章 觸發器](server-programming/triggers/README.md)
     * [37.1. Overview of Trigger Behavior #](server-programming/triggers/trigger-definition.md)
-    * [37.2. Visibility of Data Changes #](server-programming/triggers/trigger-datachanges.md)
+    * [37.2. 資料變更的可見性 #](server-programming/triggers/trigger-datachanges.md)
     * [37.3. Writing Trigger Functions in C #](server-programming/triggers/trigger-interface.md)
     * [37.4. A Complete Trigger Example #](server-programming/triggers/trigger-example.md)
   * [Chapter 38. Event Triggers](server-programming/event-triggers/README.md)
