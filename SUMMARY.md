@@ -479,7 +479,7 @@
     * [41.1. Overview #](server-programming/plpgsql/plpgsql-overview.md)
     * [41.2. Structure of PL/pgSQL #](server-programming/plpgsql/plpgsql-structure.md)
     * [41.3. Declarations #](server-programming/plpgsql/plpgsql-declarations.md)
-    * [41.4. Expressions #](server-programming/plpgsql/plpgsql-expressions.md)
+    * [41.4. 運算式 #](server-programming/plpgsql/plpgsql-expressions.md)
     * [41.5. Basic Statements #](server-programming/plpgsql/plpgsql-statements.md)
     * [41.6. Control Structures #](server-programming/plpgsql/plpgsql-control-structures.md)
     * [41.7. Cursors #](server-programming/plpgsql/plpgsql-cursors.md)
