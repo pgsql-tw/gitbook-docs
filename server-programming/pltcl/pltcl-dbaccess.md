@@ -1,57 +1,26 @@
-## 42.5. Database Access from PL/Tcl [#](#PLTCL-DBACCESS)
+<a id="PLTCL-DBACCESS"></a>
 
-In this section, we follow the usual Tcl convention of using question
-marks, rather than brackets, to indicate an optional element in a
-syntax synopsis. The following commands are available to access
-the database from the body of a PL/Tcl function:
+## 42.5. 從 PL/Tcl 存取資料庫 [#](#PLTCL-DBACCESS)
+
+在本節中，我們遵循 Tcl 一般的慣例，在語法概要中使用問號（而非方括號）來表示可選的元素。以下這些指令可以用來從 PL/Tcl 函式的主體存取資料庫：
 
 `spi_exec ?-count n? ?-array name? command ?loop-body?`
-:   Executes an SQL command given as a string. An error in the command
-    causes an error to be raised. Otherwise, the return value of `spi_exec`
-    is the number of rows processed (selected, inserted, updated, or
-    deleted) by the command, or zero if the command is a utility
-    statement. In addition, if the command is a `SELECT` statement, the
-    values of the selected columns are placed in Tcl variables as
-    described below.
+:   執行以字串形式給定的 SQL 指令。指令中若有錯誤，會引發錯誤。否則，`spi_exec` 的回傳值是該指令所處理（選取、插入、更新或刪除）的資料列數量；若該指令是公用程式陳述式，則回傳零。此外，如果該指令是 `SELECT` 陳述式，被選取欄位的值會依照下面所述放進 Tcl 變數中。
 
-    The optional `-count` value tells
-    `spi_exec` to stop
-    once *`n`* rows have been retrieved,
-    much as if the query included a `LIMIT` clause.
-    If *`n`* is zero, the query is run to
-    completion, the same as when `-count` is omitted.
+    可選的 `-count` 值會告訴 `spi_exec` 在取得 *`n`* 筆資料列之後就停止，就好像查詢中包含了 `LIMIT` 子句一樣。如果 *`n`* 是零，查詢會執行到完成，與省略 `-count` 時相同。
 
-    If the command is a `SELECT` statement, the values of the
-    result columns are placed into Tcl variables named after the columns.
-    If the `-array` option is given, the column values are
-    instead stored into elements of the named associative array, with the
-    column names used as array indexes. In addition, the current row
-    number within the result (counting from zero) is stored into the array
-    element named “`.tupno`”, unless that name is
-    in use as a column name in the result.
+    如果該指令是 `SELECT` 陳述式，結果欄位的值會被放進以欄位命名的 Tcl 變數中。如果有給定 `-array` 選項，欄位值則改為儲存到所指定的關聯陣列的元素中，並以欄位名稱作為陣列索引。此外，結果中目前的資料列編號（從零開始計算）會被存放到名為「`.tupno`」的陣列元素中，除非該名稱已被結果中的某個欄位名稱佔用。
 
-    If the command is a `SELECT` statement and no *`loop-body`*
-    script is given, then only the first row of results are stored into
-    Tcl variables or array elements; remaining rows, if any, are ignored.
-    No storing occurs if the query returns no rows. (This case can be
-    detected by checking the result of `spi_exec`.)
-    For example:
+    如果該指令是 `SELECT` 陳述式，而且沒有給定 *`loop-body`* 指令稿，那麼只有結果的第一筆資料列會被存入 Tcl 變數或陣列元素中；其餘的資料列（如果有的話）都會被忽略。如果查詢沒有回傳任何資料列，就不會進行任何儲存。（這種情況可以藉由檢查 `spi_exec` 的結果來偵測。）例如：
 
     ```
 
     spi_exec "SELECT count(*) AS cnt FROM pg_proc"
     ```
 
-    will set the Tcl variable `$cnt` to the number of rows in
-    the `pg_proc` system catalog.
+    會將 Tcl 變數 `$cnt` 設為 `pg_proc` 系統目錄中的資料列數量。
 
-    If the optional *`loop-body`* argument is given, it is
-    a piece of Tcl script that is executed once for each row in the
-    query result. (*`loop-body`* is ignored if the given
-    command is not a `SELECT`.)
-    The values of the current row's columns
-    are stored into Tcl variables or array elements before each iteration.
-    For example:
+    如果有給定可選的 *`loop-body`* 引數，它就是一段 Tcl 指令稿，會針對查詢結果中的每一筆資料列各執行一次。（如果給定的指令不是 `SELECT`，*`loop-body`* 會被忽略。）在每次迭代之前，目前資料列各欄位的值都會被存入 Tcl 變數或陣列元素中。例如：
 
     ```
 
@@ -60,54 +29,25 @@ the database from the body of a PL/Tcl function:
     }
     ```
 
-    will print a log message for every row of `pg_class`. This
-    feature works similarly to other Tcl looping constructs; in
-    particular `continue` and `break` work in the
-    usual way inside the loop body.
+    會為 `pg_class` 的每一筆資料列印出一則日誌訊息。這個功能的運作方式與其他 Tcl 迴圈結構類似；特別是 `continue` 與 `break` 在迴圈主體中會以慣常的方式運作。
 
-    If a column of a query result is null, the target
-    variable for it is “unset” rather than being set.
+    如果查詢結果中的某個欄位是 NULL，對應的目標變數會被「unset」，而不是被設值。
 
 `spi_prepare` *`query`* *`typelist`*
-:   Prepares and saves a query plan for later execution. The
-    saved plan will be retained for the life of the current
-    session.<a id="id-1.8.9.9.2.1.2.2.1.1"></a>
+:   準備並儲存一份查詢的執行計畫以供之後執行。儲存下來的執行計畫會在目前工作階段的生命週期內一直保留。<a id="id-1.8.9.9.2.1.2.2.1.1"></a>
 
-    The query can use parameters, that is, placeholders for
-    values to be supplied whenever the plan is actually executed.
-    In the query string, refer to parameters
-    by the symbols `$1` ... `$n`.
-    If the query uses parameters, the names of the parameter types
-    must be given as a Tcl list. (Write an empty list for
-    *`typelist`* if no parameters are used.)
+    查詢中可以使用參數，也就是在執行計畫實際被執行時才提供值的預留位置。在查詢字串中，請以 `$1` ... `$n` 這些符號來指涉參數。如果查詢使用了參數，參數型別的名稱必須以 Tcl list（串列）的形式給定。（如果沒有使用參數，請為 *`typelist`* 寫一個空的 list。）
 
-    The return value from `spi_prepare` is a query ID
-    to be used in subsequent calls to `spi_execp`. See
-    `spi_execp` for an example.
+    `spi_prepare` 的回傳值是一個查詢 ID，可用於後續對 `spi_execp` 的呼叫。範例請參閱 `spi_execp`。
 
 `spi_execp ?-count n? ?-array name? ?-nulls string? queryid ?value-list? ?loop-body?`
-:   Executes a query previously prepared with `spi_prepare`.
-    *`queryid`* is the ID returned by
-    `spi_prepare`. If the query references parameters,
-    a *`value-list`* must be supplied. This
-    is a Tcl list of actual values for the parameters. The list must be
-    the same length as the parameter type list previously given to
-    `spi_prepare`. Omit *`value-list`*
-    if the query has no parameters.
+:   執行先前以 `spi_prepare` 準備好的查詢。*`queryid`* 是 `spi_prepare` 所回傳的 ID。如果查詢參照了參數，就必須提供 *`value-list`*。這是一個包含參數實際值的 Tcl list。這個 list 的長度必須與先前給定 `spi_prepare` 的參數型別 list 相同。如果查詢沒有參數，請省略 *`value-list`*。
 
-    The optional value for `-nulls` is a string of spaces and
-    `'n'` characters telling `spi_execp`
-    which of the parameters are null values. If given, it must have exactly the
-    same length as the *`value-list`*. If it
-    is not given, all the parameter values are nonnull.
+    `-nulls` 的可選值是一個由空格與 `'n'` 字元組成的字串，用來告訴 `spi_execp` 哪些參數是 NULL 值。如果有給定，它的長度必須與 *`value-list`* 完全相同。如果沒有給定，則所有參數值都是非 NULL。
 
-    Except for the way in which the query and its parameters are specified,
-    `spi_execp` works just like `spi_exec`.
-    The `-count`, `-array`, and
-    *`loop-body`* options are the same,
-    and so is the result value.
+    除了查詢與其參數的指定方式不同之外，`spi_execp` 的運作方式與 `spi_exec` 完全相同。`-count`、`-array` 與 *`loop-body`* 這些選項都相同，結果值也相同。
 
-    Here's an example of a PL/Tcl function using a prepared plan:
+    以下是一個使用預備好的執行計畫的 PL/Tcl 函式範例：
 
     ```
 
@@ -123,85 +63,45 @@ the database from the body of a PL/Tcl function:
     $$ LANGUAGE pltcl;
     ```
 
-    We need backslashes inside the query string given to
-    `spi_prepare` to ensure that the
-    `$n` markers will be passed
-    through to `spi_prepare` as-is, and not replaced by Tcl
-    variable substitution.
+    我們需要在給 `spi_prepare` 的查詢字串中加上反斜線，以確保 `$n` 標記會原樣傳遞給 `spi_prepare`，而不會被 Tcl 的變數替換所取代。
 
 `subtransaction` *`command`*
-:   The Tcl script contained in *`command`* is
-    executed within an SQL subtransaction. If the script returns an
-    error, that entire subtransaction is rolled back before returning the
-    error out to the surrounding Tcl code.
-    See [Section 42.9](pltcl-subtransactions.md) for more details and an
-    example.
+:   *`command`* 中所含的 Tcl 指令稿會在一個 SQL 子交易中執行。如果該指令稿回傳錯誤，整個子交易會在錯誤被回傳到外層 Tcl 程式碼之前被回復。更多細節與範例請參閱[第 42.9 節](pltcl-subtransactions.md)。
 
 `quote` *`string`*
-:   Doubles all occurrences of single quote and backslash characters
-    in the given string. This can be used to safely quote strings
-    that are to be inserted into SQL commands given
-    to `spi_exec` or
-    `spi_prepare`.
-    For example, think about an SQL command string like:
+:   將給定字串中所有出現的單引號與反斜線字元都變成兩個。這可以用來安全地為將要插入 `spi_exec` 或 `spi_prepare` 所接收之 SQL 指令中的字串加上引號。例如，想想看像這樣的 SQL 指令字串：
 
     ```
 
     "SELECT '$val' AS ret"
     ```
 
-    where the Tcl variable `val` actually contains
-    `doesn't`. This would result
-    in the final command string:
+    其中 Tcl 變數 `val` 實際上含有 `doesn't`。這會產生出最終的指令字串：
 
     ```
 
     SELECT 'doesn't' AS ret
     ```
 
-    which would cause a parse error during
-    `spi_exec` or
-    `spi_prepare`.
-    To work properly, the submitted command should contain:
+    而它會在 `spi_exec` 或 `spi_prepare` 期間造成剖析錯誤。要正確運作，送出的指令應該要包含：
 
     ```
 
     SELECT 'doesn''t' AS ret
     ```
 
-    which can be formed in PL/Tcl using:
+    在 PL/Tcl 中可以用下列方式產生：
 
     ```
 
     "SELECT '[ quote $val ]' AS ret"
     ```
 
-    One advantage of `spi_execp` is that you don't
-    have to quote parameter values like this, since the parameters are never
-    parsed as part of an SQL command string.
+    `spi_execp` 的一項優點是，你不必像這樣為參數值加上引號，因為那些參數永遠不會被當成 SQL 指令字串的一部分來剖析。
 
 `elog` *`level`* *`msg`* <a id="id-1.8.9.9.2.1.6.1.4"></a>
-:   Emits a log or error message. Possible levels are
-    `DEBUG`, `LOG`, `INFO`,
-    `NOTICE`, `WARNING`, `ERROR`, and
-    `FATAL`. `ERROR`
-    raises an error condition; if this is not trapped by the surrounding
-    Tcl code, the error propagates out to the calling query, causing
-    the current transaction or subtransaction to be aborted. This
-    is effectively the same as the Tcl `error` command.
-    `FATAL` aborts the transaction and causes the current
-    session to shut down. (There is probably no good reason to use
-    this error level in PL/Tcl functions, but it's provided for
-    completeness.) The other levels only generate messages of different
-    priority levels.
-    Whether messages of a particular priority are reported to the client,
-    written to the server log, or both is controlled by the
-    [log_min_messages](../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) and
-    [client_min_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES) configuration
-    variables. See [Chapter 19](../../server-administration/runtime-config/README.md)
-    and [Section 42.8](pltcl-error-handling.md)
-    for more information.
+:   發出日誌或錯誤訊息。可能的層級有 `DEBUG`、`LOG`、`INFO`、`NOTICE`、`WARNING`、`ERROR` 與 `FATAL`。`ERROR` 會引發錯誤狀況；如果外層的 Tcl 程式碼沒有攔截它，該錯誤會向外傳播到呼叫端的查詢，造成目前的交易或子交易被中止。這實際上與 Tcl 的 `error` 指令相同。`FATAL` 會中止交易並使目前的工作階段關閉。（在 PL/Tcl 函式中大概沒有什麼好理由要使用這個錯誤層級，但為了完整性還是提供了它。）其他層級只會產生不同優先層級的訊息。特定優先層級的訊息是否會回報給用戶端、寫入伺服器日誌或兩者皆是，由 [log_min_messages](../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) 與 [client_min_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES) 組態變數所控制。更多資訊請參閱[第 19 章](../../server-administration/runtime-config/README.md)與[第 42.8 節](pltcl-error-handling.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pltcl-dbaccess.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pltcl-dbaccess.html)（原文版本：18.6；核對日期：2026-09-13）
