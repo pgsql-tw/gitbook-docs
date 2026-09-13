@@ -72,7 +72,7 @@
     * [8.3. Character Types #](the-sql-language/datatype/datatype-character.md)
     * [8.4. Binary Data Types #](the-sql-language/datatype/datatype-binary.md)
     * [8.5. Date/Time Types #](the-sql-language/datatype/datatype-datetime.md)
-    * [8.6. Boolean Type #](the-sql-language/datatype/datatype-boolean.md)
+    * [8.6. 布林型別 #](the-sql-language/datatype/datatype-boolean.md)
     * [8.7. Enumerated Types #](the-sql-language/datatype/datatype-enum.md)
     * [8.8. Geometric Types #](the-sql-language/datatype/datatype-geometric.md)
     * [8.9. Network Address Types #](the-sql-language/datatype/datatype-net-types.md)

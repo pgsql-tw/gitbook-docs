@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：807 頁。
+待譯頁面：806 頁。
 
 ## 根目錄
 
@@ -1017,7 +1017,7 @@
 - [ ] `the-sql-language/datatype/arrays.md` — 8.15. Arrays #
 - [ ] `the-sql-language/datatype/datatype-binary.md` — 8.4. Binary Data Types #
 - [ ] `the-sql-language/datatype/datatype-bit.md` — 8.10. Bit String Types #
-- [ ] `the-sql-language/datatype/datatype-boolean.md` — 8.6. Boolean Type #
+- [x] `the-sql-language/datatype/datatype-boolean.md` — 8.6. 布林型別 #
 - [ ] `the-sql-language/datatype/datatype-character.md` — 8.3. Character Types #
 - [ ] `the-sql-language/datatype/datatype-datetime.md` — 8.5. Date/Time Types #
 - [ ] `the-sql-language/datatype/datatype-enum.md` — 8.7. Enumerated Types #
