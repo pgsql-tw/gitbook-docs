@@ -1,45 +1,33 @@
-## 39.3. Materialized Views [#](#RULES-MATERIALIZEDVIEWS)
+<a id="RULES-MATERIALIZEDVIEWS"></a>
+
+## 39.3. 具體化檢視表 [#](#RULES-MATERIALIZEDVIEWS)
 
 <a id="id-1.8.6.8.2"></a><a id="id-1.8.6.8.3"></a><a id="id-1.8.6.8.4"></a>
 
-Materialized views in PostgreSQL use the
-rule system like views do, but persist the results in a table-like form.
-The main differences between:
+PostgreSQL 中的具體化檢視表像檢視表一樣使用規則系統，但會把結果以類似資料表的形式保存下來。下面兩者：
 
 ```
 
 CREATE MATERIALIZED VIEW mymatview AS SELECT * FROM mytab;
 ```
 
-and:
+以及：
 
 ```
 
 CREATE TABLE mymatview AS SELECT * FROM mytab;
 ```
 
-are that the materialized view cannot subsequently be directly updated
-and that the query used to create the materialized view is stored in
-exactly the same way that a view's query is stored, so that fresh data
-can be generated for the materialized view with:
+之間的主要差異在於，具體化檢視表之後無法直接被更新，而且用來建立具體化檢視表的那個查詢，是以與檢視表的查詢完全相同的方式儲存，因此可以用下列指令為具體化檢視表產生新的資料：
 
 ```
 
 REFRESH MATERIALIZED VIEW mymatview;
 ```
 
-The information about a materialized view in the
-PostgreSQL system catalogs is exactly
-the same as it is for a table or view. So for the parser, a
-materialized view is a relation, just like a table or a view. When
-a materialized view is referenced in a query, the data is returned
-directly from the materialized view, like from a table; the rule is
-only used for populating the materialized view.
+在 PostgreSQL 系統目錄中，關於具體化檢視表的資訊和資料表或檢視表的資訊完全相同。所以對剖析器而言，具體化檢視表就是一個關聯，就像資料表或檢視表一樣。當查詢中參照到具體化檢視表時，資料會像從資料表取得那樣直接從具體化檢視表回傳；規則只用於填入具體化檢視表的內容。
 
-While access to the data stored in a materialized view is often much
-faster than accessing the underlying tables directly or through a view,
-the data is not always current; yet sometimes current data is not needed.
-Consider a table which records sales:
+雖然存取具體化檢視表中所儲存的資料，通常比直接存取底層資料表或透過檢視表存取要快上許多，但這些資料不見得是最新的；不過有時候並不需要最新的資料。考慮一個記錄銷售的資料表：
 
 ```
 
@@ -51,9 +39,7 @@ CREATE TABLE invoice (
 );
 ```
 
-If people want to be able to quickly graph historical sales data, they
-might want to summarize, and they may not care about the incomplete data
-for the current date:
+如果人們希望能夠快速地繪製歷史銷售資料的圖表，他們可能會想要做彙總，而且可能不在意當天尚未完整的資料：
 
 ```
 
@@ -72,26 +58,16 @@ CREATE UNIQUE INDEX sales_summary_seller
   ON sales_summary (seller_no, invoice_date);
 ```
 
-This materialized view might be useful for displaying a graph in the
-dashboard created for salespeople. A job could be scheduled to update
-the statistics each night using this SQL statement:
+這個具體化檢視表對於在為業務人員建立的儀表板中顯示圖表可能很有用。可以排程一個工作，在每天晚上用這個 SQL 陳述式來更新統計資料：
 
 ```
 
 REFRESH MATERIALIZED VIEW sales_summary;
 ```
 
-Another use for a materialized view is to allow faster access to data
-brought across from a remote system through a foreign data wrapper.
-A simple example using `file_fdw` is below, with timings,
-but since this is using cache on the local system the performance
-difference compared to access to a remote system would usually be greater
-than shown here. Notice we are also exploiting the ability to put an
-index on the materialized view, whereas `file_fdw` does
-not support indexes; this advantage might not apply for other sorts of
-foreign data access.
+具體化檢視表的另一個用途，是讓透過 foreign data wrapper 從遠端系統取得的資料能夠被更快速地存取。下面是一個使用 `file_fdw` 的簡單範例，並附上執行時間；但由於這是使用本機系統上的快取，實際上和存取遠端系統相比，效能差異通常會比這裡所顯示的更大。請注意，我們同時也利用了可以在具體化檢視表上建立索引的能力，而 `file_fdw` 並不支援索引；這項優勢對於其他種類的外部資料存取可能就不適用了。
 
-Setup:
+設定：
 
 ```
 
@@ -107,7 +83,7 @@ CREATE INDEX wrd_trgm ON wrd USING gist (word gist_trgm_ops);
 VACUUM ANALYZE wrd;
 ```
 
-Now let's spell-check a word. Using `file_fdw` directly:
+現在我們來拼字檢查一個單字。直接使用 `file_fdw`：
 
 ```
 
@@ -119,7 +95,7 @@ SELECT count(*) FROM words WHERE word = 'caterpiler';
 (1 row)
 ```
 
-With `EXPLAIN ANALYZE`, we see:
+使用 `EXPLAIN ANALYZE`，我們可以看到：
 
 ```
 
@@ -133,7 +109,7 @@ With `EXPLAIN ANALYZE`, we see:
  Execution time: 188.273 ms
 ```
 
-If the materialized view is used instead, the query is much faster:
+如果改用具體化檢視表，這個查詢就快得多：
 
 ```
 
@@ -146,9 +122,7 @@ If the materialized view is used instead, the query is much faster:
  Execution time: 0.117 ms
 ```
 
-Either way, the word is spelled wrong, so let's look for what we might
-have wanted. Again using `file_fdw` and
-`pg_trgm`:
+不論用哪一種方式，這個單字都拼錯了，所以讓我們來找找我們原本可能想要輸入的字。同樣先使用 `file_fdw` 與 `pg_trgm`：
 
 ```
 
@@ -182,7 +156,7 @@ SELECT word FROM words ORDER BY word <-> 'caterpiler' LIMIT 10;
  Execution time: 1431.679 ms
 ```
 
-Using the materialized view:
+使用具體化檢視表：
 
 ```
 
@@ -194,9 +168,8 @@ Using the materialized view:
  Execution time: 198.640 ms
 ```
 
-If you can tolerate periodic update of the remote data to the local
-database, the performance benefit can be substantial.
+如果你可以容忍以週期性的方式把遠端資料更新到本機資料庫，效能上的好處可能相當可觀。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-materializedviews.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-materializedviews.html)（原文版本：18.6；核對日期：2026-09-13）
