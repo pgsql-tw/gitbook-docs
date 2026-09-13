@@ -1,87 +1,49 @@
-## 44.2. Data Values [#](#PLPYTHON-DATA)
+<a id="PLPYTHON-DATA"></a>
 
-[44.2.1. Data Type Mapping](plpython-data.md#PLPYTHON-DATA-TYPE-MAPPING)
+## 44.2. 資料值 [#](#PLPYTHON-DATA)
 
-[44.2.2. Null, None](plpython-data.md#PLPYTHON-DATA-NULL)
+[44.2.1. 資料型別對應](plpython-data.md#PLPYTHON-DATA-TYPE-MAPPING)
 
-[44.2.3. Arrays, Lists](plpython-data.md#PLPYTHON-ARRAYS)
+[44.2.2. Null、None](plpython-data.md#PLPYTHON-DATA-NULL)
 
-[44.2.4. Composite Types](plpython-data.md#PLPYTHON-DATA-COMPOSITE-TYPES)
+[44.2.3. 陣列、list](plpython-data.md#PLPYTHON-ARRAYS)
 
-[44.2.5. Set-Returning Functions](plpython-data.md#PLPYTHON-DATA-SET-RETURNING-FUNCS)
+[44.2.4. 複合型別](plpython-data.md#PLPYTHON-DATA-COMPOSITE-TYPES)
 
-Generally speaking, the aim of PL/Python is to provide
-a “natural” mapping between the PostgreSQL and the
-Python worlds. This informs the data mapping rules described
-below.
+[44.2.5. 集合回傳函式](plpython-data.md#PLPYTHON-DATA-SET-RETURNING-FUNCS)
+
+一般來說，PL/Python 的目標是在 PostgreSQL 與 Python 兩個世界之間提供一種「自然」的對應關係。下面所描述的資料對應規則正是依循這個原則。
 
 <a id="PLPYTHON-DATA-TYPE-MAPPING"></a>
 
-### 44.2.1. Data Type Mapping [#](#PLPYTHON-DATA-TYPE-MAPPING)
+### 44.2.1. 資料型別對應 [#](#PLPYTHON-DATA-TYPE-MAPPING)
 
-When a PL/Python function is called, its arguments are converted from
-their PostgreSQL data type to a corresponding Python type:
+當 PL/Python 函式被呼叫時，它的引數會從 PostgreSQL 的資料型別轉換成對應的 Python 型別：
 
-* PostgreSQL `boolean` is converted to Python `bool`.
-* PostgreSQL `smallint`, `int`, `bigint`
-  and `oid` are converted to Python `int`.
-* PostgreSQL `real` and `double` are converted to
-  Python `float`.
-* PostgreSQL `numeric` is converted to
-  Python `Decimal`. This type is imported from
-  the `cdecimal` package if that is available.
-  Otherwise,
-  `decimal.Decimal` from the standard library will be
-  used. `cdecimal` is significantly faster
-  than `decimal`. In Python 3.3 and up,
-  however, `cdecimal` has been integrated into the
-  standard library under the name `decimal`, so there is
-  no longer any difference.
-* PostgreSQL `bytea` is converted to Python `bytes`.
-* All other data types, including the PostgreSQL character string types,
-  are converted to a Python `str` (in Unicode like all Python
-  strings).
-* For nonscalar data types, see below.
+* PostgreSQL 的 `boolean` 轉換成 Python 的 `bool`。
+* PostgreSQL 的 `smallint`、`int`、`bigint` 與 `oid` 轉換成 Python 的 `int`。
+* PostgreSQL 的 `real` 與 `double` 轉換成 Python 的 `float`。
+* PostgreSQL 的 `numeric` 轉換成 Python 的 `Decimal`。如果系統中有 `cdecimal` 套件，這個型別會從該套件匯入；否則就會使用標準函式庫中的 `decimal.Decimal`。`cdecimal` 比 `decimal` 快上許多。不過在 Python 3.3 以上的版本中，`cdecimal` 已經以 `decimal` 這個名稱整併進標準函式庫，因此兩者已無差別。
+* PostgreSQL 的 `bytea` 轉換成 Python 的 `bytes`。
+* 所有其他的資料型別，包括 PostgreSQL 的字元字串型別，都會轉換成 Python 的 `str`（與所有 Python 字串一樣使用 Unicode）。
+* 非純量的資料型別請參閱下文。
 
-When a PL/Python function returns, its return value is converted to the
-function's declared PostgreSQL return data type as follows:
+當 PL/Python 函式回傳時，它的回傳值會依下列方式轉換成該函式所宣告的 PostgreSQL 回傳資料型別：
 
-* When the PostgreSQL return type is `boolean`, the
-  return value will be evaluated for truth according to the
-  *Python* rules. That is, 0 and empty string
-  are false, but notably `'f'` is true.
-* When the PostgreSQL return type is `bytea`, the return value
-  will be converted to Python `bytes` using the respective
-  Python built-ins, with the result being converted to
-  `bytea`.
-* For all other PostgreSQL return types, the return value is converted
-  to a string using the Python built-in `str`, and the
-  result is passed to the input function of the PostgreSQL data type.
-  (If the Python value is a `float`, it is converted using
-  the `repr` built-in instead of `str`, to
-  avoid loss of precision.)
+* 當 PostgreSQL 的回傳型別是 `boolean` 時，回傳值會依照 *Python* 的規則來判斷真假。也就是說，0 與空字串為假，但要特別注意 `'f'` 為真。
+* 當 PostgreSQL 的回傳型別是 `bytea` 時，回傳值會用對應的 Python 內建函式轉換成 Python 的 `bytes`，其結果再轉換成 `bytea`。
+* 對於所有其他的 PostgreSQL 回傳型別，回傳值會以 Python 內建的 `str` 轉換成字串，其結果再傳給該 PostgreSQL 資料型別的輸入函式。（如果 Python 值是 `float`，則會改用內建的 `repr` 而非 `str` 來轉換，以避免精度流失。）
 
-  Strings are automatically converted to the PostgreSQL server encoding
-  when they are passed to PostgreSQL.
-* For nonscalar data types, see below.
+  字串在傳給 PostgreSQL 時，會自動轉換成 PostgreSQL 的伺服器編碼。
+* 非純量的資料型別請參閱下文。
 
-Note that logical mismatches between the declared PostgreSQL
-return type and the Python data type of the actual return object
-are not flagged; the value will be converted in any case.
+請注意，所宣告的 PostgreSQL 回傳型別與實際回傳物件的 Python 資料型別在邏輯上不相符時，並不會被標示出來；該值無論如何都會被轉換。
 
 <a id="PLPYTHON-DATA-NULL"></a>
 
-### 44.2.2. Null, None [#](#PLPYTHON-DATA-NULL)
+### 44.2.2. Null、None [#](#PLPYTHON-DATA-NULL)
 
-If an SQL null value<a id="id-1.8.11.10.4.2.1"></a> is passed to a
-function, the argument value will appear as `None` in
-Python. For example, the function definition of `pymax`
-shown in [Section 44.1](plpython-funcs.md) will return the wrong answer for null
-inputs. We could add `STRICT` to the function definition
-to make PostgreSQL do something more reasonable:
-if a null value is passed, the function will not be called at all,
-but will just return a null result automatically. Alternatively,
-we could check for null inputs in the function body:
+如果把 SQL 的 NULL 值<a id="id-1.8.11.10.4.2.1"></a>傳給函式，在 Python 中該引數值會呈現為 `None`。例如，[第 44.1 節](plpython-funcs.md)中所示的 `pymax` 函式定義，對於 NULL 輸入會回傳錯誤的答案。我們可以在函式定義中加上 `STRICT`，讓 PostgreSQL 做出比較合理的處理：如果傳入的是 NULL 值，該函式根本不會被呼叫，而會直接自動回傳 NULL 結果。或者，我們也可以在函式本體中檢查 NULL 輸入：
 
 ```
 
@@ -96,17 +58,13 @@ AS $$
 $$ LANGUAGE plpython3u;
 ```
 
-As shown above, to return an SQL null value from a PL/Python
-function, return the value `None`. This can be done whether the
-function is strict or not.
+如上所示，若要從 PL/Python 函式回傳 SQL 的 NULL 值，就回傳 `None` 這個值。無論該函式是否為 strict，都可以這樣做。
 
 <a id="PLPYTHON-ARRAYS"></a>
 
-### 44.2.3. Arrays, Lists [#](#PLPYTHON-ARRAYS)
+### 44.2.3. 陣列、list [#](#PLPYTHON-ARRAYS)
 
-SQL array values are passed into PL/Python as a Python list. To
-return an SQL array value out of a PL/Python function, return a
-Python list:
+SQL 的陣列值會以 Python list（串列）的形式傳入 PL/Python。若要從 PL/Python 函式回傳 SQL 陣列值，就回傳一個 Python list：
 
 ```
 
@@ -123,10 +81,7 @@ SELECT return_arr();
 (1 row)
 ```
 
-Multidimensional arrays are passed into PL/Python as nested Python lists.
-A 2-dimensional array is a list of lists, for example. When returning
-a multi-dimensional SQL array out of a PL/Python function, the inner
-lists at each level must all be of the same size. For example:
+多維陣列會以巢狀的 Python list 形式傳入 PL/Python。舉例來說，二維陣列就是 list 的 list。從 PL/Python 函式回傳多維 SQL 陣列時，每一層的內層 list 大小都必須相同。例如：
 
 ```
 
@@ -143,16 +98,9 @@ INFO:  ([[1, 2, 3], [4, 5, 6]], <type 'list'>)
 (1 row)
 ```
 
-Other Python sequences, like tuples, are also accepted for
-backwards-compatibility with PostgreSQL versions 9.6 and below, when
-multi-dimensional arrays were not supported. However, they are always
-treated as one-dimensional arrays, because they are ambiguous with
-composite types. For the same reason, when a composite type is used in a
-multi-dimensional array, it must be represented by a tuple, rather than a
-list.
+其他的 Python 序列（例如 tuple）也同樣被接受，這是為了與 PostgreSQL 9.6 以下版本（當時尚未支援多維陣列）向後相容。不過它們永遠會被視為一維陣列，因為它們與複合型別之間有歧義。基於同樣的理由，當多維陣列中使用複合型別時，它必須以 tuple 而非 list 來表示。
 
-Note that in Python, strings are sequences, which can have
-undesirable effects that might be familiar to Python programmers:
+請注意，在 Python 中字串也是序列，這可能造成 Python 程式設計師或許並不陌生的、不樂見的效果：
 
 ```
 
@@ -171,12 +119,9 @@ SELECT return_str_arr();
 
 <a id="PLPYTHON-DATA-COMPOSITE-TYPES"></a>
 
-### 44.2.4. Composite Types [#](#PLPYTHON-DATA-COMPOSITE-TYPES)
+### 44.2.4. 複合型別 [#](#PLPYTHON-DATA-COMPOSITE-TYPES)
 
-Composite-type arguments are passed to the function as Python mappings. The
-element names of the mapping are the attribute names of the composite type.
-If an attribute in the passed row has the null value, it has the value
-`None` in the mapping. Here is an example:
+複合型別的引數會以 Python 映射（mapping）的形式傳給函式。映射的元素名稱就是該複合型別的屬性名稱。如果傳入之資料列中的某個屬性是 NULL 值，它在映射中的值就是 `None`。以下是一個例子：
 
 ```
 
@@ -197,8 +142,7 @@ AS $$
 $$ LANGUAGE plpython3u;
 ```
 
-There are multiple ways to return row or composite types from a Python
-function. The following examples assume we have:
+從 Python 函式回傳資料列或複合型別的方式有很多種。以下的例子都假設我們有：
 
 ```
 
@@ -208,13 +152,10 @@ CREATE TYPE named_value AS (
 );
 ```
 
-A composite result can be returned as a:
+複合型別的結果可以用下列形式回傳：
 
-Sequence type (a tuple or list, but not a set because it is not indexable)
-:   Returned sequence objects must have the same number of items as the
-    composite result type has fields. The item with index 0 is assigned to
-    the first field of the composite type, 1 to the second and so on. For
-    example:
+序列型別（tuple 或 list，但不能是 set，因為它無法以索引存取）
+:   回傳的序列物件所含的項目數量，必須與複合結果型別的欄位數量相同。索引 0 的項目會指派給複合型別的第一個欄位，1 指派給第二個，依此類推。例如：
 
     ```
 
@@ -226,16 +167,12 @@ Sequence type (a tuple or list, but not a set because it is not indexable)
     $$ LANGUAGE plpython3u;
     ```
 
-    To return an SQL null for any column, insert `None` at
-    the corresponding position.
+    若要讓某個欄位回傳 SQL 的 NULL，就在對應的位置放入 `None`。
 
-    When an array of composite types is returned, it cannot be returned as a list,
-    because it is ambiguous whether the Python list represents a composite type,
-    or another array dimension.
+    當要回傳複合型別的陣列時，不能以 list 的形式回傳，因為這樣會無法分辨該 Python list 代表的是複合型別還是另一個陣列維度。
 
-Mapping (dictionary)
-:   The value for each result type column is retrieved from the mapping
-    with the column name as key. Example:
+映射（字典）
+:   結果型別中每個欄位的值，會以欄位名稱為鍵從該映射中取得。例如：
 
     ```
 
@@ -246,14 +183,10 @@ Mapping (dictionary)
     $$ LANGUAGE plpython3u;
     ```
 
-    Any extra dictionary key/value pairs are ignored. Missing keys are
-    treated as errors.
-    To return an SQL null value for any column, insert
-    `None` with the corresponding column name as the key.
+    字典中任何多餘的鍵／值配對都會被忽略，而缺少的鍵則會被視為錯誤。若要讓某個欄位回傳 SQL 的 NULL 值，就以對應的欄位名稱為鍵放入 `None`。
 
-Object (any object providing method `__getattr__`)
-:   This works the same as a mapping.
-    Example:
+物件（任何提供 `__getattr__` 方法的物件）
+:   其運作方式與映射相同。例如：
 
     ```
 
@@ -274,7 +207,7 @@ Object (any object providing method `__getattr__`)
     $$ LANGUAGE plpython3u;
     ```
 
-Functions with `OUT` parameters are also supported. For example:
+帶有 `OUT` 參數的函式同樣也受支援。例如：
 
 ```
 
@@ -285,7 +218,7 @@ $$ LANGUAGE plpython3u;
 SELECT * FROM multiout_simple();
 ```
 
-Output parameters of procedures are passed back the same way. For example:
+程序的輸出參數也是以同樣的方式傳回。例如：
 
 ```
 
@@ -298,12 +231,9 @@ CALL python_triple(5, 10);
 
 <a id="PLPYTHON-DATA-SET-RETURNING-FUNCS"></a>
 
-### 44.2.5. Set-Returning Functions [#](#PLPYTHON-DATA-SET-RETURNING-FUNCS)
+### 44.2.5. 集合回傳函式 [#](#PLPYTHON-DATA-SET-RETURNING-FUNCS)
 
-A PL/Python function can also return sets of
-scalar or composite types. There are several ways to achieve this because
-the returned object is internally turned into an iterator. The following
-examples assume we have composite type:
+PL/Python 函式也可以回傳純量或複合型別的集合。達成這件事的方式有好幾種，因為回傳的物件在內部會被轉換成迭代器。以下的例子假設我們有這個複合型別：
 
 ```
 
@@ -313,9 +243,9 @@ CREATE TYPE greeting AS (
 );
 ```
 
-A set result can be returned from a:
+集合結果可以從下列形式回傳：
 
-Sequence type (tuple, list, set)
+序列型別（tuple、list、set）
 :   ```
 
     CREATE FUNCTION greet (how text)
@@ -327,7 +257,7 @@ Sequence type (tuple, list, set)
     $$ LANGUAGE plpython3u;
     ```
 
-Iterator (any object providing `__iter__` and `__next__` methods)
+迭代器（任何提供 `__iter__` 與 `__next__` 方法的物件）
 :   ```
 
     CREATE FUNCTION greet (how text)
@@ -352,7 +282,7 @@ Iterator (any object providing `__iter__` and `__next__` methods)
     $$ LANGUAGE plpython3u;
     ```
 
-Generator (`yield`)
+產生器（`yield`）
 :   ```
 
     CREATE FUNCTION greet (how text)
@@ -363,9 +293,7 @@ Generator (`yield`)
     $$ LANGUAGE plpython3u;
     ```
 
-Set-returning functions with `OUT` parameters
-(using `RETURNS SETOF record`) are also
-supported. For example:
+帶有 `OUT` 參數（使用 `RETURNS SETOF record`）的集合回傳函式同樣也受支援。例如：
 
 ```
 
@@ -378,4 +306,4 @@ SELECT * FROM multiout_simple_setof(3);
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpython-data.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpython-data.html)（原文版本：18.6；核對日期：2026-09-13）

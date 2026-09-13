@@ -513,7 +513,7 @@
     * [43.8. PL/Perl Under the Hood #](server-programming/plperl/plperl-under-the-hood.md)
   * [Chapter 44. PL/Python — Python Procedural Language](server-programming/plpython/README.md)
     * [44.1. PL/Python Functions #](server-programming/plpython/plpython-funcs.md)
-    * [44.2. Data Values #](server-programming/plpython/plpython-data.md)
+    * [44.2. 資料值 #](server-programming/plpython/plpython-data.md)
     * [44.3. 共用資料](server-programming/plpython/plpython-sharing.md)
     * [44.4. 匿名程式碼區塊](server-programming/plpython/plpython-do.md)
     * [44.5. Trigger Functions #](server-programming/plpython/plpython-trigger.md)
