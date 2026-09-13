@@ -70,7 +70,7 @@
     * [8.1. Numeric Types #](the-sql-language/datatype/datatype-numeric.md)
     * [8.2. Monetary Types #](the-sql-language/datatype/datatype-money.md)
     * [8.3. Character Types #](the-sql-language/datatype/datatype-character.md)
-    * [8.4. Binary Data Types #](the-sql-language/datatype/datatype-binary.md)
+    * [8.4. 二進位資料型別 #](the-sql-language/datatype/datatype-binary.md)
     * [8.5. Date/Time Types #](the-sql-language/datatype/datatype-datetime.md)
     * [8.6. 布林型別 #](the-sql-language/datatype/datatype-boolean.md)
     * [8.7. Enumerated Types #](the-sql-language/datatype/datatype-enum.md)
