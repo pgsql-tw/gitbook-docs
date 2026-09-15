@@ -1,21 +1,15 @@
-## 5.2. Default Values [#](#DDL-DEFAULT)
+<a id="DDL-DEFAULT"></a>
+
+## 5.2. 預設值 [#](#DDL-DEFAULT)
 
 <a id="id-1.5.4.4.2"></a>
 
-A column can be assigned a default value. When a new row is
-created and no values are specified for some of the columns, those
-columns will be filled with their respective default values. A
-data manipulation command can also request explicitly that a column
-be set to its default value, without having to know what that value is.
-(Details about data manipulation commands are in [Chapter 6](../dml/README.md).)
+欄位可以被指定一個預設值。當建立新的資料列，而某些欄位沒有指定值時，這些欄位就會填入各自的預設值。資料操作指令也可以明確地要求將某個欄位設為它的預設值，而不需要知道那個值究竟是什麼。（資料操作指令的細節請參閱[第 6 章](../dml/README.md)。）
 
 <a id="id-1.5.4.4.4.1"></a>
-If no default value is declared explicitly, the default value is the
-null value. This usually makes sense because a null value can
-be considered to represent unknown data.
+如果沒有明確宣告預設值，預設值就是空值。這通常是合理的，因為空值可以視為代表未知的資料。
 
-In a table definition, default values are listed after the column
-data type. For example:
+在資料表定義中，預設值列在欄位資料型別之後。例如：
 
 ```
 
@@ -26,14 +20,7 @@ CREATE TABLE products (
 );
 ```
 
-The default value can be an expression, which will be
-evaluated whenever the default value is inserted
-(*not* when the table is created). A common example
-is for a `timestamp` column to have a default of `CURRENT_TIMESTAMP`,
-so that it gets set to the time of row insertion. Another common
-example is generating a “serial number” for each row.
-In PostgreSQL this is typically done by
-something like:
+預設值可以是一個運算式，它會在每次插入預設值時被求值（*而不是*在資料表建立時）。常見的例子是讓 `timestamp` 欄位的預設值為 `CURRENT_TIMESTAMP`，這樣它就會被設成資料列插入時的時間。另一個常見的例子是為每一筆資料列產生「序號」。在 PostgreSQL 中，這通常是以類似下面的方式來完成：
 
 ```
 
@@ -43,9 +30,7 @@ CREATE TABLE products (
 );
 ```
 
-where the `nextval()` function supplies successive values
-from a *sequence object* (see [Section 9.17](../functions/functions-sequence.md)). This arrangement is sufficiently common
-that there's a special shorthand for it:
+其中 `nextval()` 函式會從*序列物件*提供接續的值（請參閱[第 9.17 節](../functions/functions-sequence.md)）。這種安排相當常見，因此有一個特別的簡寫方式：
 
 ```
 
@@ -55,8 +40,8 @@ CREATE TABLE products (
 );
 ```
 
-The `SERIAL` shorthand is discussed further in [Section 8.1.4](../datatype/datatype-numeric.md#DATATYPE-SERIAL).
+`SERIAL` 簡寫在[第 8.1.4 節](../datatype/datatype-numeric.md#DATATYPE-SERIAL)中有進一步的說明。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-default.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-default.html)（原文版本：18.6；核對日期：2026-09-13）
