@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：745 頁。
+待譯頁面：744 頁。
 
 ## 根目錄
 
@@ -1040,7 +1040,7 @@
 - [x] `the-sql-language/ddl/ddl-basics.md` — 5.1. 資料表基礎 #
 - [x] `the-sql-language/ddl/ddl-constraints.md` — 5.5. 限制條件 #
 - [x] `the-sql-language/ddl/ddl-default.md` — 5.2. 預設值 #
-- [ ] `the-sql-language/ddl/ddl-depend.md` — 5.15. Dependency Tracking #
+- [x] `the-sql-language/ddl/ddl-depend.md` — 5.15. 相依性追蹤 #
 - [ ] `the-sql-language/ddl/ddl-foreign-data.md` — 5.13. Foreign Data #
 - [x] `the-sql-language/ddl/ddl-generated-columns.md` — 5.4. 產生欄位 #
 - [ ] `the-sql-language/ddl/ddl-identity-columns.md` — 5.3. Identity Columns #
