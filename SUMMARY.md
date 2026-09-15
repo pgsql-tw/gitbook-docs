@@ -37,7 +37,7 @@
     * [4.2. 值運算式 #](the-sql-language/sql-syntax/sql-expressions.md)
     * [4.3. 呼叫函式 #](the-sql-language/sql-syntax/sql-syntax-calling-funcs.md)
   * [Chapter 5. Data Definition](the-sql-language/ddl/README.md)
-    * [5.1. Table Basics #](the-sql-language/ddl/ddl-basics.md)
+    * [5.1. 資料表基礎 #](the-sql-language/ddl/ddl-basics.md)
     * [5.2. Default Values #](the-sql-language/ddl/ddl-default.md)
     * [5.3. Identity Columns #](the-sql-language/ddl/ddl-identity-columns.md)
     * [5.4. 產生欄位 #](the-sql-language/ddl/ddl-generated-columns.md)

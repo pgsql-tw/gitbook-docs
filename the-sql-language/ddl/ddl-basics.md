@@ -1,46 +1,18 @@
-## 5.1. Table Basics [#](#DDL-BASICS)
+<a id="DDL-BASICS"></a>
+
+## 5.1. 資料表基礎 [#](#DDL-BASICS)
 
 <a id="id-1.5.4.3.2"></a><a id="id-1.5.4.3.3"></a><a id="id-1.5.4.3.4"></a>
 
-A table in a relational database is much like a table on paper: It
-consists of rows and columns. The number and order of the columns
-is fixed, and each column has a name. The number of rows is
-variable — it reflects how much data is stored at a given moment.
-SQL does not make any guarantees about the order of the rows in a
-table. When a table is read, the rows will appear in an unspecified order,
-unless sorting is explicitly requested. This is covered in [Chapter 7](../queries/README.md). Furthermore, SQL does not assign unique
-identifiers to rows, so it is possible to have several completely
-identical rows in a table. This is a consequence of the
-mathematical model that underlies SQL but is usually not desirable.
-Later in this chapter we will see how to deal with this issue.
+關聯式資料庫中的資料表很像紙上的表格：它由資料列與欄位組成。欄位的數量與順序是固定的，而且每個欄位都有一個名稱。資料列的數量則是可變動的——它反映了在某個時間點儲存了多少資料。SQL 對於資料表中資料列的順序不做任何保證。當讀取資料表時，除非明確要求排序，否則資料列出現的順序是未指定的。這在[第 7 章](../queries/README.md)中會討論。此外，SQL 不會為資料列指派唯一的識別碼，因此資料表中有可能存在好幾筆完全相同的資料列。這是 SQL 背後數學模型所導致的結果，但通常並不是我們想要的。本章稍後會說明如何處理這個問題。
 
-Each column has a data type. The data type constrains the set of
-possible values that can be assigned to a column and assigns
-semantics to the data stored in the column so that it can be used
-for computations. For instance, a column declared to be of a
-numerical type will not accept arbitrary text strings, and the data
-stored in such a column can be used for mathematical computations.
-By contrast, a column declared to be of a character string type
-will accept almost any kind of data but it does not lend itself to
-mathematical calculations, although other operations such as string
-concatenation are available.
+每個欄位都有一個資料型別。資料型別限制了可以指派給該欄位的值的集合，並且為欄位中所儲存的資料賦予語意，讓這些資料可以用於運算。例如，宣告為數值型別的欄位不會接受任意的文字字串，而儲存在這種欄位中的資料可以用來做數學運算。相對地，宣告為字元字串型別的欄位幾乎可以接受任何種類的資料，但它並不適合用來做數學計算，不過還是可以使用像字串串接這類其他運算。
 
-PostgreSQL includes a sizable set of
-built-in data types that fit many applications. Users can also
-define their own data types. Most built-in data types have obvious
-names and semantics, so we defer a detailed explanation to [Chapter 8](../datatype/README.md). Some of the frequently used data types are
-`integer` for whole numbers, `numeric` for
-possibly fractional numbers, `text` for character
-strings, `date` for dates, `time` for
-time-of-day values, and `timestamp` for values
-containing both date and time.
+PostgreSQL 內建了相當多的資料型別，足以滿足許多應用的需求。使用者也可以定義自己的資料型別。大多數內建資料型別的名稱與語意都很直觀，因此我們把詳細的說明留到[第 8 章](../datatype/README.md)。一些常用的資料型別包括：用於整數的 `integer`、用於可能帶有小數之數字的 `numeric`、用於字元字串的 `text`、用於日期的 `date`、用於一天中時刻的 `time`，以及用於同時包含日期與時間之值的 `timestamp`。
 
 <a id="id-1.5.4.3.8"></a>
 
-To create a table, you use the aptly named [CREATE TABLE](../../reference/sql-commands/sql-createtable.md) command.
-In this command you specify at least a name for the new table, the
-names of the columns and the data type of each column. For
-example:
+要建立資料表，你要使用名符其實的 [CREATE TABLE](../../reference/sql-commands/sql-createtable.md) 指令。在這個指令中，你至少要指定新資料表的名稱、各欄位的名稱，以及每個欄位的資料型別。例如：
 
 ```
 
@@ -50,20 +22,9 @@ CREATE TABLE my_first_table (
 );
 ```
 
-This creates a table named `my_first_table` with
-two columns. The first column is named
-`first_column` and has a data type of
-`text`; the second column has the name
-`second_column` and the type `integer`.
-The table and column names follow the identifier syntax explained
-in [Section 4.1.1](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS). The type names are
-usually also identifiers, but there are some exceptions. Note that the
-column list is comma-separated and surrounded by parentheses.
+這會建立一個名為 `my_first_table` 的資料表，它有兩個欄位。第一個欄位名為 `first_column`，資料型別為 `text`；第二個欄位名稱為 `second_column`，型別為 `integer`。資料表與欄位的名稱遵循[第 4.1.1 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)所說明的識別符號語法。型別名稱通常也是識別符號，但有一些例外。請注意，欄位清單是以逗號分隔，並且以括號括起來。
 
-Of course, the previous example was heavily contrived. Normally,
-you would give names to your tables and columns that convey what
-kind of data they store. So let's look at a more realistic
-example:
+當然，前面這個例子是刻意編造的。通常你會為資料表與欄位取一個能表達它們所儲存資料種類的名稱。所以讓我們來看一個比較實際的例子：
 
 ```
 
@@ -74,25 +35,17 @@ CREATE TABLE products (
 );
 ```
 
-(The `numeric` type can store fractional components, as
-would be typical of monetary amounts.)
+（`numeric` 型別可以儲存小數部分，這對金額來說是很典型的需求。）
 
-### Tip
+### 提示
 
-When you create many interrelated tables it is wise to choose a
-consistent naming pattern for the tables and columns. For
-instance, there is a choice of using singular or plural nouns for
-table names, both of which are favored by some theorist or other.
+當你要建立許多彼此相關的資料表時，為資料表與欄位選擇一致的命名模式是明智的做法。例如，資料表名稱要使用單數或複數名詞是個選擇，而這兩種做法各有某些理論家偏好。
 
-There is a limit on how many columns a table can contain.
-Depending on the column types, it is between 250 and 1600.
-However, defining a table with anywhere near this many columns is
-highly unusual and often a questionable design.
+資料表所能包含的欄位數量是有上限的。依欄位型別而定，這個上限介於 250 到 1600 之間。不過，定義一個欄位數接近這個上限的資料表是非常不尋常的，而且往往是有問題的設計。
 
 <a id="id-1.5.4.3.13"></a>
 
-If you no longer need a table, you can remove it using the [DROP TABLE](../../reference/sql-commands/sql-droptable.md) command.
-For example:
+如果你不再需要某個資料表，可以使用 [DROP TABLE](../../reference/sql-commands/sql-droptable.md) 指令把它移除。例如：
 
 ```
 
@@ -100,22 +53,12 @@ DROP TABLE my_first_table;
 DROP TABLE products;
 ```
 
-Attempting to drop a table that does not exist is an error.
-Nevertheless, it is common in SQL script files to unconditionally
-try to drop each table before creating it, ignoring any error
-messages, so that the script works whether or not the table exists.
-(If you like, you can use the `DROP TABLE IF EXISTS` variant
-to avoid the error messages, but this is not standard SQL.)
+嘗試移除不存在的資料表會產生錯誤。儘管如此，在 SQL 腳本檔案中，常見的做法是在建立每個資料表之前先無條件地嘗試移除它，並忽略任何錯誤訊息，這樣不論資料表存在與否，腳本都能運作。（如果你想要的話，可以使用 `DROP TABLE IF EXISTS` 這個變化形式來避免錯誤訊息，但這不是標準的 SQL。）
 
-If you need to modify a table that already exists, see [Section 5.7](ddl-alter.md) later in this chapter.
+如果你需要修改已經存在的資料表，請參閱本章稍後的[第 5.7 節](ddl-alter.md)。
 
-With the tools discussed so far you can create fully functional
-tables. The remainder of this chapter is concerned with adding
-features to the table definition to ensure data integrity,
-security, or convenience. If you are eager to fill your tables with
-data now you can skip ahead to [Chapter 6](../dml/README.md) and read the
-rest of this chapter later.
+有了目前為止所討論的工具，你就可以建立功能完整的資料表了。本章其餘的部分則著重於在資料表定義中加入各種功能，以確保資料完整性、安全性或便利性。如果你現在就急著要把資料填入資料表，可以直接跳到[第 6 章](../dml/README.md)，之後再閱讀本章其餘的內容。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-basics.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-basics.html)（原文版本：18.6；核對日期：2026-09-13）
