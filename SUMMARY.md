@@ -78,7 +78,7 @@
     * [8.9. 網路位址型別 #](the-sql-language/datatype/datatype-net-types.md)
     * [8.10. 位元字串型別 #](the-sql-language/datatype/datatype-bit.md)
     * [8.11. 全文檢索型別 #](the-sql-language/datatype/datatype-textsearch.md)
-    * [8.12. UUID Type #](the-sql-language/datatype/datatype-uuid.md)
+    * [8.12. UUID 型別 #](the-sql-language/datatype/datatype-uuid.md)
     * [8.13. XML Type #](the-sql-language/datatype/datatype-xml.md)
     * [8.14. JSON Types #](the-sql-language/datatype/datatype-json.md)
     * [8.15. Arrays #](the-sql-language/datatype/arrays.md)
