@@ -1,44 +1,32 @@
-## 5.5. Constraints [#](#DDL-CONSTRAINTS)
+<a id="DDL-CONSTRAINTS"></a>
 
-[5.5.1. Check Constraints](ddl-constraints.md#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)
+## 5.5. 限制條件 [#](#DDL-CONSTRAINTS)
 
-[5.5.2. Not-Null Constraints](ddl-constraints.md#DDL-CONSTRAINTS-NOT-NULL)
+[5.5.1. 檢查限制條件](ddl-constraints.md#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)
 
-[5.5.3. Unique Constraints](ddl-constraints.md#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
+[5.5.2. 非空值限制條件](ddl-constraints.md#DDL-CONSTRAINTS-NOT-NULL)
 
-[5.5.4. Primary Keys](ddl-constraints.md#DDL-CONSTRAINTS-PRIMARY-KEYS)
+[5.5.3. 唯一限制條件](ddl-constraints.md#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
 
-[5.5.5. Foreign Keys](ddl-constraints.md#DDL-CONSTRAINTS-FK)
+[5.5.4. 主鍵](ddl-constraints.md#DDL-CONSTRAINTS-PRIMARY-KEYS)
 
-[5.5.6. Exclusion Constraints](ddl-constraints.md#DDL-CONSTRAINTS-EXCLUSION)
+[5.5.5. 外鍵](ddl-constraints.md#DDL-CONSTRAINTS-FK)
+
+[5.5.6. 排除限制條件](ddl-constraints.md#DDL-CONSTRAINTS-EXCLUSION)
 
 <a id="id-1.5.4.7.2"></a>
 
-Data types are a way to limit the kind of data that can be stored
-in a table. For many applications, however, the constraint they
-provide is too coarse. For example, a column containing a product
-price should probably only accept positive values. But there is no
-standard data type that accepts only positive numbers. Another issue is
-that you might want to constrain column data with respect to other
-columns or rows. For example, in a table containing product
-information, there should be only one row for each product number.
+資料型別是限制資料表中所能儲存之資料種類的一種方法。然而，對許多應用來說，資料型別所提供的限制太過粗略。例如，存放產品價格的欄位大概只應該接受正數值。但是並沒有一種標準的資料型別只接受正數。另一個問題是，你可能想要依據其他欄位或資料列來限制某個欄位的資料。例如，在存放產品資訊的資料表中，每一個產品編號應該只有一筆資料列。
 
-To that end, SQL allows you to define constraints on columns and
-tables. Constraints give you as much control over the data in your
-tables as you wish. If a user attempts to store data in a column
-that would violate a constraint, an error is raised. This applies
-even if the value came from the default value definition.
+為此，SQL 讓你可以在欄位與資料表上定義限制條件。限制條件讓你能夠依自己的需要，盡可能地掌控資料表中的資料。如果使用者試圖在欄位中儲存會違反限制條件的資料，就會引發錯誤。即使該值來自預設值的定義，也同樣適用。
 
 <a id="DDL-CONSTRAINTS-CHECK-CONSTRAINTS"></a>
 
-### 5.5.1. Check Constraints [#](#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)
+### 5.5.1. 檢查限制條件 [#](#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)
 
 <a id="id-1.5.4.7.5.2"></a><a id="id-1.5.4.7.5.3"></a>
 
-A check constraint is the most generic constraint type. It allows
-you to specify that the value in a certain column must satisfy a
-Boolean (truth-value) expression. For instance, to require positive
-product prices, you could use:
+檢查限制條件是最通用的限制條件型式。它讓你可以指定某個欄位中的值必須滿足一個布林（真假值）運算式。例如，若要求產品價格必須為正數，你可以使用：
 
 ```
 
@@ -49,19 +37,11 @@ CREATE TABLE products (
 );
 ```
 
-As you see, the constraint definition comes after the data type,
-just like default value definitions. Default values and
-constraints can be listed in any order. A check constraint
-consists of the key word `CHECK` followed by an
-expression in parentheses. The check constraint expression should
-involve the column thus constrained, otherwise the constraint
-would not make too much sense.
+如你所見，限制條件的定義寫在資料型別之後，就像預設值的定義一樣。預設值與限制條件可以用任意順序列出。檢查限制條件由關鍵字 `CHECK` 加上一個放在括號中的運算式所構成。檢查限制條件的運算式應該要牽涉到被限制的那個欄位，否則這個限制條件就沒什麼意義了。
 
 <a id="id-1.5.4.7.5.6"></a>
 
-You can also give the constraint a separate name. This clarifies
-error messages and allows you to refer to the constraint when you
-need to change it. The syntax is:
+你也可以為限制條件另外取一個名稱。這能讓錯誤訊息更清楚，也讓你在需要變更該限制條件時可以指名它。語法是：
 
 ```
 
@@ -72,14 +52,9 @@ CREATE TABLE products (
 );
 ```
 
-So, to specify a named constraint, use the key word
-`CONSTRAINT` followed by an identifier followed
-by the constraint definition. (If you don't specify a constraint
-name in this way, the system chooses a name for you.)
+因此，若要指定一個具名的限制條件，請使用關鍵字 `CONSTRAINT`，後面接一個識別符號，再接限制條件的定義。（如果你沒有用這種方式指定限制條件名稱，系統會為你選一個名稱。）
 
-A check constraint can also refer to several columns. Say you
-store a regular price and a discounted price, and you want to
-ensure that the discounted price is lower than the regular price:
+檢查限制條件也可以參照多個欄位。假設你存放了定價與折扣價，而你想確保折扣價低於定價：
 
 ```
 
@@ -92,21 +67,9 @@ CREATE TABLE products (
 );
 ```
 
-The first two constraints should look familiar. The third one
-uses a new syntax. It is not attached to a particular column,
-instead it appears as a separate item in the comma-separated
-column list. Column definitions and these constraint
-definitions can be listed in mixed order.
+前兩個限制條件看起來應該很眼熟。第三個則使用了新的語法。它並不附屬於某個特定欄位，而是以獨立項目的形式出現在以逗號分隔的欄位清單中。欄位定義與這類限制條件定義可以混合排列。
 
-We say that the first two constraints are column constraints, whereas the
-third one is a table constraint because it is written separately
-from any one column definition. Column constraints can also be
-written as table constraints, while the reverse is not necessarily
-possible, since a column constraint is supposed to refer to only the
-column it is attached to. (PostgreSQL doesn't
-enforce that rule, but you should follow it if you want your table
-definitions to work with other database systems.) The above example could
-also be written as:
+我們說前兩個限制條件是欄位限制條件，而第三個則是資料表限制條件，因為它是與任何單一欄位定義分開來寫的。欄位限制條件也可以寫成資料表限制條件，但反過來就不一定可行，因為欄位限制條件理應只參照它所附屬的那個欄位。（PostgreSQL 並不強制執行這項規則，但如果你希望自己的資料表定義能在其他資料庫系統上運作，就應該遵守它。）上面的例子也可以寫成：
 
 ```
 
@@ -121,7 +84,7 @@ CREATE TABLE products (
 );
 ```
 
-or even:
+甚至可以寫成：
 
 ```
 
@@ -134,10 +97,9 @@ CREATE TABLE products (
 );
 ```
 
-It's a matter of taste.
+這只是個人喜好的問題。
 
-Names can be assigned to table constraints in the same way as
-column constraints:
+資料表限制條件也可以用與欄位限制條件相同的方式指定名稱：
 
 ```
 
@@ -154,66 +116,27 @@ CREATE TABLE products (
 
 <a id="id-1.5.4.7.5.12"></a>
 
-It should be noted that a check constraint is satisfied if the
-check expression evaluates to true or the null value. Since most
-expressions will evaluate to the null value if any operand is null,
-they will not prevent null values in the constrained columns. To
-ensure that a column does not contain null values, the not-null
-constraint described in the next section can be used.
+應該要注意的是，當檢查運算式求值結果為 true 或空值時，檢查限制條件就算被滿足。由於大多數運算式只要有任一運算元為 NULL 就會求值為空值，因此它們並不會阻止被限制的欄位出現空值。若要確保某個欄位不含空值，可以使用下一節所說明的非空值限制條件。
 
-### Note
+### 注意
 
-PostgreSQL does not support
-`CHECK` constraints that reference table data other than
-the new or updated row being checked. While a `CHECK`
-constraint that violates this rule may appear to work in simple
-tests, it cannot guarantee that the database will not reach a state
-in which the constraint condition is false (due to subsequent changes
-of the other row(s) involved). This would cause a database dump and
-restore to fail. The restore could fail even when the complete
-database state is consistent with the constraint, due to rows not
-being loaded in an order that will satisfy the constraint. If
-possible, use `UNIQUE`, `EXCLUDE`,
-or `FOREIGN KEY` constraints to express
-cross-row and cross-table restrictions.
+PostgreSQL 不支援參照被檢查之新資料列或更新後資料列以外之資料表資料的 `CHECK` 限制條件。違反這項規則的 `CHECK` 限制條件在簡單的測試中看似可以運作，但它無法保證資料庫不會進入該限制條件的條件為 false 的狀態（因為所牽涉的其他資料列後續可能被更動）。這會導致資料庫的傾印與還原失敗。即使整個資料庫狀態都與該限制條件一致，還原也可能因為資料列載入的順序無法滿足限制條件而失敗。可能的話，請使用 `UNIQUE`、`EXCLUDE` 或 `FOREIGN KEY` 限制條件來表達跨資料列與跨資料表的限制。
 
-If what you desire is a one-time check against other rows at row
-insertion, rather than a continuously-maintained consistency
-guarantee, a custom [trigger](../../server-programming/triggers/README.md) can be used
-to implement that. (This approach avoids the dump/restore problem because
-pg_dump does not reinstall triggers until after
-restoring data, so that the check will not be enforced during a
-dump/restore.)
+如果你想要的只是在資料列插入時對其他資料列做一次性的檢查，而不是持續維護的一致性保證，那麼可以使用自訂的[觸發程序](../../server-programming/triggers/README.md)來實作。（這種做法可以避免傾印／還原的問題，因為 pg_dump 要等到資料還原之後才會重新安裝觸發程序，所以在傾印／還原期間並不會強制執行這項檢查。）
 
-### Note
+### 注意
 
-PostgreSQL assumes that
-`CHECK` constraints' conditions are immutable, that
-is, they will always give the same result for the same input row.
-This assumption is what justifies examining `CHECK`
-constraints only when rows are inserted or updated, and not at other
-times. (The warning above about not referencing other table data is
-really a special case of this restriction.)
+PostgreSQL 假設 `CHECK` 限制條件的條件是不變的，也就是說，對同一筆輸入資料列它們永遠會給出相同的結果。正是這個假設，才使得只在資料列被插入或更新時檢查 `CHECK` 限制條件、而不在其他時候檢查的做法得以成立。（上面關於不要參照其他資料表資料的警告，其實就是這項限制的一個特例。）
 
-An example of a common way to break this assumption is to reference a
-user-defined function in a `CHECK` expression, and
-then change the behavior of that
-function. PostgreSQL does not disallow
-that, but it will not notice if there are rows in the table that now
-violate the `CHECK` constraint. That would cause a
-subsequent database dump and restore to fail.
-The recommended way to handle such a change is to drop the constraint
-(using `ALTER TABLE`), adjust the function definition,
-and re-add the constraint, thereby rechecking it against all table rows.
+要打破這個假設，一個常見的方式是在 `CHECK` 運算式中參照使用者定義的函式，然後改變那個函式的行為。PostgreSQL 並不禁止這麼做，但是如果資料表中有現在會違反該 `CHECK` 限制條件的資料列，它並不會察覺。這會導致後續的資料庫傾印與還原失敗。處理這類變更的建議做法是移除該限制條件（使用 `ALTER TABLE`）、調整函式定義，然後再重新加入該限制條件，藉此針對資料表中所有資料列重新檢查一次。
 
 <a id="DDL-CONSTRAINTS-NOT-NULL"></a>
 
-### 5.5.2. Not-Null Constraints [#](#DDL-CONSTRAINTS-NOT-NULL)
+### 5.5.2. 非空值限制條件 [#](#DDL-CONSTRAINTS-NOT-NULL)
 
 <a id="id-1.5.4.7.6.2"></a><a id="id-1.5.4.7.6.3"></a>
 
-A not-null constraint simply specifies that a column must not
-assume the null value. A syntax example:
+非空值限制條件單純指定某個欄位不得取用空值。語法範例：
 
 ```
 
@@ -224,7 +147,7 @@ CREATE TABLE products (
 );
 ```
 
-An explicit constraint name can also be specified, for example:
+也可以指定明確的限制條件名稱，例如：
 
 ```
 
@@ -235,8 +158,7 @@ CREATE TABLE products (
 );
 ```
 
-A not-null constraint is usually written as a column constraint. The
-syntax for writing it as a table constraint is
+非空值限制條件通常會寫成欄位限制條件。把它寫成資料表限制條件的語法是
 
 ```
 
@@ -249,17 +171,11 @@ CREATE TABLE products (
 );
 ```
 
-But this syntax is not standard and mainly intended for use by
-pg_dump.
+但這個語法並不是標準的，主要是給 pg_dump 使用的。
 
-A not-null constraint is functionally equivalent to creating a check
-constraint `CHECK (column_name
-IS NOT NULL)`, but in
-PostgreSQL creating an explicit
-not-null constraint is more efficient.
+非空值限制條件在功能上等同於建立一個檢查限制條件 `CHECK (column_name IS NOT NULL)`，但在 PostgreSQL 中，建立明確的非空值限制條件效率比較好。
 
-Of course, a column can have more than one constraint. Just write
-the constraints one after another:
+當然，一個欄位可以有多個限制條件。只要把這些限制條件一個接一個寫出來就好：
 
 ```
 
@@ -270,21 +186,11 @@ CREATE TABLE products (
 );
 ```
 
-The order doesn't matter. It does not necessarily determine in which
-order the constraints are checked.
+順序並不重要。它也不一定決定限制條件被檢查的順序。
 
-However, a column can have at most one explicit not-null constraint.
+不過，一個欄位最多只能有一個明確的非空值限制條件。
 
-The `NOT NULL` constraint has an inverse: the
-`NULL` constraint. This does not mean that the
-column must be null, which would surely be useless. Instead, this
-simply selects the default behavior that the column might be null.
-The `NULL` constraint is not present in the SQL
-standard and should not be used in portable applications. (It was
-only added to PostgreSQL to be
-compatible with some other database systems.) Some users, however,
-like it because it makes it easy to toggle the constraint in a
-script file. For example, you could start with:
+`NOT NULL` 限制條件有一個相反的形式：`NULL` 限制條件。這並不表示該欄位必須為 NULL，那樣肯定毫無用處。相反地，它只是選擇了「該欄位可以為 NULL」這個預設行為。`NULL` 限制條件並不存在於 SQL 標準中，在講求可攜性的應用中不應該使用它。（它加進 PostgreSQL 只是為了與某些其他資料庫系統相容。）不過有些使用者喜歡它，因為它讓人可以在腳本檔中輕鬆地切換這個限制條件。例如，你可以先寫成：
 
 ```
 
@@ -295,22 +201,19 @@ CREATE TABLE products (
 );
 ```
 
-and then insert the `NOT` key word where desired.
+然後在需要的地方插入 `NOT` 關鍵字。
 
-### Tip
+### 提示
 
-In most database designs the majority of columns should be marked
-not null.
+在大多數的資料庫設計中，大部分的欄位都應該標示為非空值。
 
 <a id="DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS"></a>
 
-### 5.5.3. Unique Constraints [#](#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
+### 5.5.3. 唯一限制條件 [#](#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
 
 <a id="id-1.5.4.7.7.2"></a><a id="id-1.5.4.7.7.3"></a>
 
-Unique constraints ensure that the data contained in a column, or a
-group of columns, is unique among all the rows in the
-table. The syntax is:
+唯一限制條件確保某個欄位或一組欄位中所含的資料，在資料表的所有資料列之間是唯一的。語法是：
 
 ```
 
@@ -321,7 +224,7 @@ CREATE TABLE products (
 );
 ```
 
-when written as a column constraint, and:
+這是寫成欄位限制條件時的形式，而：
 
 ```
 
@@ -333,10 +236,9 @@ CREATE TABLE products (
 );
 ```
 
-when written as a table constraint.
+則是寫成資料表限制條件時的形式。
 
-To define a unique constraint for a group of columns, write it as a
-table constraint with the column names separated by commas:
+若要為一組欄位定義唯一限制條件，請把它寫成資料表限制條件，並以逗號分隔各欄位名稱：
 
 ```
 
@@ -348,11 +250,9 @@ CREATE TABLE example (
 );
 ```
 
-This specifies that the combination of values in the indicated columns
-is unique across the whole table, though any one of the columns
-need not be (and ordinarily isn't) unique.
+這指定了所指出的那些欄位其值的組合在整個資料表中是唯一的，但其中任何單一欄位並不需要（通常也不會）是唯一的。
 
-You can assign your own name for a unique constraint, in the usual way:
+你可以用平常的方式，為唯一限制條件指定自己的名稱：
 
 ```
 
@@ -363,23 +263,11 @@ CREATE TABLE products (
 );
 ```
 
-Adding a unique constraint will automatically create a unique B-tree
-index on the column or group of columns listed in the constraint.
-A uniqueness restriction covering only some rows cannot be written as
-a unique constraint, but it is possible to enforce such a restriction by
-creating a unique [partial index](../indexes/indexes-partial.md).
+加入唯一限制條件會自動在該限制條件所列出的欄位或欄位群組上建立一個唯一的 B-tree 索引。只涵蓋部分資料列的唯一性限制無法寫成唯一限制條件，但可以藉由建立唯一的[部分索引](../indexes/indexes-partial.md)來強制執行這類限制。
 
 <a id="id-1.5.4.7.7.8"></a>
 
-In general, a unique constraint is violated if there is more than
-one row in the table where the values of all of the
-columns included in the constraint are equal.
-By default, two null values are not considered equal in this
-comparison. That means even in the presence of a
-unique constraint it is possible to store duplicate
-rows that contain a null value in at least one of the constrained
-columns. This behavior can be changed by adding the clause `NULLS
-NOT DISTINCT`, like
+一般來說，如果資料表中有超過一筆資料列，其限制條件所包含的所有欄位之值都相等，就會違反唯一限制條件。在預設情況下，這項比較中兩個空值並不視為相等。這表示即使存在唯一限制條件，仍然可能儲存多筆重複的資料列，只要它們在被限制的欄位中至少有一個是空值。這個行為可以藉由加上 `NULLS NOT DISTINCT` 子句來改變，像這樣
 
 ```
 
@@ -390,7 +278,7 @@ CREATE TABLE products (
 );
 ```
 
-or
+或
 
 ```
 
@@ -402,22 +290,15 @@ CREATE TABLE products (
 );
 ```
 
-The default behavior can be specified explicitly using `NULLS
-DISTINCT`. The default null treatment in unique constraints is
-implementation-defined according to the SQL standard, and other
-implementations have a different behavior. So be careful when developing
-applications that are intended to be portable.
+預設行為則可以用 `NULLS DISTINCT` 明確指定。依照 SQL 標準，唯一限制條件中對 NULL 的預設處理方式是由實作自行定義的，其他實作可能有不同的行為。因此在開發需要可攜性的應用時請多加留意。
 
 <a id="DDL-CONSTRAINTS-PRIMARY-KEYS"></a>
 
-### 5.5.4. Primary Keys [#](#DDL-CONSTRAINTS-PRIMARY-KEYS)
+### 5.5.4. 主鍵 [#](#DDL-CONSTRAINTS-PRIMARY-KEYS)
 
 <a id="id-1.5.4.7.8.2"></a><a id="id-1.5.4.7.8.3"></a>
 
-A primary key constraint indicates that a column, or group of columns,
-can be used as a unique identifier for rows in the table. This
-requires that the values be both unique and not null. So, the following
-two table definitions accept the same data:
+主鍵限制條件表示某個欄位或一組欄位可以用來當作資料表中資料列的唯一識別碼。這要求這些值既是唯一的、也不能是 NULL。因此，下面這兩個資料表定義所接受的資料是相同的：
 
 ```
 
@@ -437,8 +318,7 @@ CREATE TABLE products (
 );
 ```
 
-Primary keys can span more than one column; the syntax
-is similar to unique constraints:
+主鍵可以橫跨多個欄位；其語法與唯一限制條件類似：
 
 ```
 
@@ -450,40 +330,21 @@ CREATE TABLE example (
 );
 ```
 
-Adding a primary key will automatically create a unique B-tree index
-on the column or group of columns listed in the primary key, and will
-force the column(s) to be marked `NOT NULL`.
+加入主鍵會自動在主鍵所列出的欄位或欄位群組上建立一個唯一的 B-tree 索引，並且會強制把這些欄位標示為 `NOT NULL`。
 
-A table can have at most one primary key. (There can be any number
-of unique constraints, which combined with not-null constraints are functionally almost the
-same thing, but only one can be identified as the primary key.)
-Relational database theory
-dictates that every table must have a primary key. This rule is
-not enforced by PostgreSQL, but it is
-usually best to follow it.
+一個資料表最多只能有一個主鍵。（唯一限制條件的數量則沒有限制，而唯一限制條件與非空值限制條件合起來在功能上幾乎是同一回事，但只有一個可以被認定為主鍵。）關聯式資料庫理論規定每個資料表都必須有主鍵。PostgreSQL 並不強制執行這項規則，但通常最好還是遵守它。
 
-Primary keys are useful both for
-documentation purposes and for client applications. For example,
-a GUI application that allows modifying row values probably needs
-to know the primary key of a table to be able to identify rows
-uniquely. There are also various ways in which the database system
-makes use of a primary key if one has been declared; for example,
-the primary key defines the default target column(s) for foreign keys
-referencing its table.
+主鍵無論是對文件說明的用途，還是對用戶端應用程式來說，都很有用。例如，一個允許修改資料列值的 GUI 應用程式，大概需要知道資料表的主鍵才能唯一地識別資料列。資料庫系統本身也會以各種方式運用已宣告的主鍵；例如，主鍵定義了參照該資料表之外鍵所預設的目標欄位。
 
 <a id="DDL-CONSTRAINTS-FK"></a>
 
-### 5.5.5. Foreign Keys [#](#DDL-CONSTRAINTS-FK)
+### 5.5.5. 外鍵 [#](#DDL-CONSTRAINTS-FK)
 
 <a id="id-1.5.4.7.9.2"></a><a id="id-1.5.4.7.9.3"></a><a id="id-1.5.4.7.9.4"></a>
 
-A foreign key constraint specifies that the values in a column (or
-a group of columns) must match the values appearing in some row
-of another table.
-We say this maintains the *referential
-integrity* between two related tables.
+外鍵限制條件指定某個欄位（或一組欄位）中的值必須與另一個資料表中某筆資料列所出現的值相符。我們說這維持了兩個相關資料表之間的*參照完整性*。
 
-Say you have the product table that we have used several times already:
+假設你有我們已經用過好幾次的產品資料表：
 
 ```
 
@@ -494,11 +355,7 @@ CREATE TABLE products (
 );
 ```
 
-Let's also assume you have a table storing orders of those
-products. We want to ensure that the orders table only contains
-orders of products that actually exist. So we define a foreign
-key constraint in the orders table that references the products
-table:
+我們再假設你有一個存放這些產品訂單的資料表。我們想確保訂單資料表只包含實際存在之產品的訂單。因此我們在訂單資料表中定義一個參照產品資料表的外鍵限制條件：
 
 ```
 
@@ -509,16 +366,11 @@ CREATE TABLE orders (
 );
 ```
 
-Now it is impossible to create orders with non-NULL
-`product_no` entries that do not appear in the
-products table.
+如此一來，就不可能建立 `product_no` 項目非 NULL、卻沒有出現在產品資料表中的訂單了。
 
-We say that in this situation the orders table is the
-*referencing* table and the products table is
-the *referenced* table. Similarly, there are
-referencing and referenced columns.
+我們說在這種情況下，訂單資料表是*參照*資料表，而產品資料表是*被參照*資料表。同樣地，也有參照欄位與被參照欄位之分。
 
-You can also shorten the above command to:
+你也可以把上面的指令簡寫成：
 
 ```
 
@@ -529,15 +381,11 @@ CREATE TABLE orders (
 );
 ```
 
-because in absence of a column list the primary key of the
-referenced table is used as the referenced column(s).
+因為在沒有欄位清單的情況下，會以被參照資料表的主鍵作為被參照的欄位。
 
-You can assign your own name for a foreign key constraint,
-in the usual way.
+你可以用平常的方式，為外鍵限制條件指定自己的名稱。
 
-A foreign key can also constrain and reference a group of columns.
-As usual, it then needs to be written in table constraint form.
-Here is a contrived syntax example:
+外鍵也可以限制並參照一組欄位。如同慣例，這時它需要寫成資料表限制條件的形式。以下是一個刻意編造的語法範例：
 
 ```
 
@@ -549,16 +397,11 @@ CREATE TABLE t1 (
 );
 ```
 
-Of course, the number and type of the constrained columns need to
-match the number and type of the referenced columns.
+當然，被限制之欄位的數量與型別必須與被參照欄位的數量與型別相符。
 
 <a id="id-1.5.4.7.9.11"></a>
 
-Sometimes it is useful for the “other table” of a
-foreign key constraint to be the same table; this is called
-a *self-referential* foreign key. For
-example, if you want rows of a table to represent nodes of a tree
-structure, you could write
+有時候，讓外鍵限制條件的「另一個資料表」就是同一個資料表會很有用；這稱為*自我參照*外鍵。例如，如果你希望用資料表的資料列來表示樹狀結構的節點，你可以寫成
 
 ```
 
@@ -570,15 +413,9 @@ CREATE TABLE tree (
 );
 ```
 
-A top-level node would have NULL `parent_id`,
-while non-NULL `parent_id` entries would be
-constrained to reference valid rows of the table.
+最上層的節點其 `parent_id` 會是 NULL，而非 NULL 的 `parent_id` 項目則會被限制為必須參照資料表中有效的資料列。
 
-A table can have more than one foreign key constraint. This is
-used to implement many-to-many relationships between tables. Say
-you have tables about products and orders, but now you want to
-allow one order to contain possibly many products (which the
-structure above did not allow). You could use this table structure:
+一個資料表可以有多個外鍵限制條件。這被用來實作資料表之間的多對多關係。假設你有關於產品與訂單的資料表，但現在你想允許一張訂單包含多項產品（這是上面的結構所不允許的）。你可以使用這樣的資料表結構：
 
 ```
 
@@ -602,25 +439,17 @@ CREATE TABLE order_items (
 );
 ```
 
-Notice that the primary key overlaps with the foreign keys in
-the last table.
+請注意，在最後一個資料表中，主鍵與外鍵是重疊的。
 
 <a id="id-1.5.4.7.9.14"></a><a id="id-1.5.4.7.9.15"></a>
 
-We know that the foreign keys disallow creation of orders that
-do not relate to any products. But what if a product is removed
-after an order is created that references it? SQL allows you to
-handle that as well. Intuitively, we have a few options:
+我們知道外鍵禁止建立與任何產品都無關的訂單。但如果在一張訂單建立並參照某項產品之後，該產品被移除了呢？SQL 也讓你能夠處理這種情況。直覺上，我們有幾個選擇：
 
-* Disallow deleting a referenced product
-* Delete the orders as well
-* Something else?
+* 禁止刪除被參照的產品
+* 連訂單也一併刪除
+* 其他做法？
 
-To illustrate this, let's implement the following policy on the
-many-to-many relationship example above: when someone wants to
-remove a product that is still referenced by an order (via
-`order_items`), we disallow it. If someone
-removes an order, the order items are removed as well:
+為了說明這一點，讓我們在上面的多對多關係範例上實作以下的原則：當有人想移除仍被某張訂單（透過 `order_items`）參照的產品時，我們禁止這麼做。如果有人移除了一張訂單，訂單項目也會一併被移除：
 
 ```
 
@@ -644,59 +473,17 @@ CREATE TABLE order_items (
 );
 ```
 
-The default `ON DELETE` action is `ON DELETE NO
-ACTION`; this does not need to be specified. This means that the
-deletion in the referenced table is allowed to proceed. But the
-foreign-key constraint is still required to be satisfied, so this
-operation will usually result in an error. But checking of foreign-key
-constraints can also be deferred to later in the transaction (not covered
-in this chapter). In that case, the `NO ACTION` setting
-would allow other commands to “fix” the situation before the
-constraint is checked, for example by inserting another suitable row into
-the referenced table or by deleting the now-dangling rows from the
-referencing table.
+預設的 `ON DELETE` 動作是 `ON DELETE NO ACTION`；這不需要特別指定。這表示允許被參照資料表中的刪除作業繼續進行。但外鍵限制條件仍然必須被滿足，所以這項操作通常會導致錯誤。不過，外鍵限制條件的檢查也可以延遲到交易稍後才進行（本章不涵蓋這部分）。在那種情況下，`NO ACTION` 設定就能讓其他指令在限制條件被檢查之前先「修正」這個情況，例如在被參照資料表中插入另一筆適當的資料列，或是從參照資料表中刪除那些如今已懸空的資料列。
 
-`RESTRICT` is a stricter setting than `NO
-ACTION`. It prevents deletion of a referenced row.
-`RESTRICT` does not allow the check to be deferred until
-later in the transaction.
+`RESTRICT` 是比 `NO ACTION` 更嚴格的設定。它會阻止刪除被參照的資料列。`RESTRICT` 不允許把檢查延遲到交易稍後才進行。
 
-`CASCADE` specifies that when a referenced row is deleted,
-row(s) referencing it should be automatically deleted as well.
+`CASCADE` 則指定當被參照的資料列被刪除時，參照它的資料列也應該自動被刪除。
 
-There are two other options:
-`SET NULL` and `SET DEFAULT`.
-These cause the referencing column(s) in the referencing row(s)
-to be set to nulls or their default
-values, respectively, when the referenced row is deleted.
-Note that these do not excuse you from observing any constraints.
-For example, if an action specifies `SET DEFAULT`
-but the default value would not satisfy the foreign key constraint, the
-operation will fail.
+另外還有兩個選項：`SET NULL` 與 `SET DEFAULT`。當被參照的資料列被刪除時，它們會讓參照資料列中的參照欄位分別被設為 NULL 或其預設值。請注意，這些做法並不能免除你遵守其他限制條件的責任。例如，如果某個動作指定了 `SET DEFAULT`，但預設值並不滿足外鍵限制條件，那麼這項操作就會失敗。
 
-The appropriate choice of `ON DELETE` action depends on
-what kinds of objects the related tables represent. When the referencing
-table represents something that is a component of what is represented by
-the referenced table and cannot exist independently, then
-`CASCADE` could be appropriate. If the two tables
-represent independent objects, then `RESTRICT` or
-`NO ACTION` is more appropriate; an application that
-actually wants to delete both objects would then have to be explicit about
-this and run two delete commands. In the above example, order items are
-part of an order, and it is convenient if they are deleted automatically
-if an order is deleted. But products and orders are different things, and
-so making a deletion of a product automatically cause the deletion of some
-order items could be considered problematic. The actions `SET
-NULL` or `SET DEFAULT` can be appropriate if a
-foreign-key relationship represents optional information. For example, if
-the products table contained a reference to a product manager, and the
-product manager entry gets deleted, then setting the product's product
-manager to null or a default might be useful.
+`ON DELETE` 動作要如何選擇才恰當，取決於相關資料表所代表的物件種類。當參照資料表所代表的東西是被參照資料表所代表之物的組成部分、且無法獨立存在時，`CASCADE` 可能就是恰當的選擇。如果這兩個資料表代表的是各自獨立的物件，那麼 `RESTRICT` 或 `NO ACTION` 會比較恰當；若應用程式確實想要刪除這兩個物件，就必須明確地表達，並執行兩道刪除指令。在上面的例子中，訂單項目是訂單的一部分，所以當訂單被刪除時讓它們自動被刪除是很方便的。但產品與訂單是不同的東西，因此讓刪除產品自動導致某些訂單項目被刪除，可能會被認為是有問題的。如果外鍵關係代表的是選擇性的資訊，那麼 `SET NULL` 或 `SET DEFAULT` 動作可能就很恰當。例如，如果產品資料表中含有對產品經理的參照，而該產品經理的項目被刪除了，那麼把該產品的產品經理設為 NULL 或預設值可能會很有用。
 
-The actions `SET NULL` and `SET DEFAULT`
-can take a column list to specify which columns to set. Normally, all
-columns of the foreign-key constraint are set; setting only a subset is
-useful in some special cases. Consider the following example:
+`SET NULL` 與 `SET DEFAULT` 動作可以帶一個欄位清單，用來指定要設定哪些欄位。通常外鍵限制條件的所有欄位都會被設定；只設定其中一部分在某些特殊情況下很有用。考慮以下這個例子：
 
 ```
 
@@ -719,62 +506,23 @@ CREATE TABLE posts (
 );
 ```
 
-Without the specification of the column, the foreign key would also set
-the column `tenant_id` to null, but that column is still
-required as part of the primary key.
+如果沒有指定該欄位，這個外鍵也會把 `tenant_id` 欄位設為 NULL，但那個欄位身為主鍵的一部分仍然是必要的。
 
-Analogous to `ON DELETE` there is also
-`ON UPDATE` which is invoked when a referenced
-column is changed (updated). The possible actions are the same,
-except that column lists cannot be specified for `SET
-NULL` and `SET DEFAULT`.
-In this case, `CASCADE` means that the updated values of the
-referenced column(s) should be copied into the referencing row(s).
-There is also a noticeable difference between `ON UPDATE NO
-ACTION` (the default) and `ON UPDATE RESTRICT`.
-The former will allow the update to proceed and the foreign-key constraint
-will be checked against the state after the update. The latter will
-prevent the update to run even if the state after the update would still
-satisfy the constraint. This prevents updating a referenced row to a
-value that is distinct but compares as equal (for example, a character
-string with a different case variant, if a character string type with a
-case-insensitive collation is used).
+與 `ON DELETE` 類似，還有 `ON UPDATE`，它會在被參照欄位被變更（更新）時被觸發。可用的動作是相同的，只不過 `SET NULL` 與 `SET DEFAULT` 不能指定欄位清單。在這種情況下，`CASCADE` 表示被參照欄位更新後的值應該被複製到參照的資料列中。此外，`ON UPDATE NO ACTION`（預設值）與 `ON UPDATE RESTRICT` 之間有一個明顯的差異。前者會允許更新繼續進行，並且針對更新後的狀態檢查外鍵限制條件。後者則會阻止更新執行，即使更新後的狀態仍然會滿足該限制條件也一樣。這可以防止把被參照的資料列更新成一個雖然不同、但比較起來卻相等的值（例如在使用不區分大小寫定序的字元字串型別時，大小寫寫法不同的字元字串）。
 
-Normally, a referencing row need not satisfy the foreign key constraint
-if any of its referencing columns are null. If `MATCH FULL`
-is added to the foreign key declaration, a referencing row escapes
-satisfying the constraint only if all its referencing columns are null
-(so a mix of null and non-null values is guaranteed to fail a
-`MATCH FULL` constraint). If you don't want referencing rows
-to be able to avoid satisfying the foreign key constraint, declare the
-referencing column(s) as `NOT NULL`.
+通常，如果參照資料列的任何一個參照欄位為 NULL，該資料列就不需要滿足外鍵限制條件。如果在外鍵宣告中加上 `MATCH FULL`，那麼參照資料列只有在它所有的參照欄位都為 NULL 時，才能免於滿足該限制條件（因此 NULL 與非 NULL 值混雜的情況必定無法通過 `MATCH FULL` 限制條件）。如果你不希望參照資料列有辦法避開外鍵限制條件，請把參照欄位宣告為 `NOT NULL`。
 
-A foreign key must reference columns that either are a primary key or
-form a unique constraint, or are columns from a non-partial unique index.
-This means that the referenced columns always have an index to allow
-efficient lookups on whether a referencing row has a match. Since a
-`DELETE` of a row from the referenced table or an
-`UPDATE` of a referenced column will require a scan of
-the referencing table for rows matching the old value, it is often a good
-idea to index the referencing columns too. Because this is not always
-needed, and there are many choices available on how to index, the
-declaration of a foreign key constraint does not automatically create an
-index on the referencing columns.
+外鍵所參照的欄位必須是主鍵、構成唯一限制條件，或者是來自非部分唯一值索引的欄位。這表示被參照的欄位一定會有索引，以便能有效率地查詢某筆參照資料列是否有相符的對象。由於從被參照資料表 `DELETE` 一筆資料列，或是 `UPDATE` 一個被參照欄位，都會需要掃描參照資料表以找出符合舊值的資料列，因此為參照欄位也建立索引通常是個好主意。由於這並非總是必要，而且建立索引的方式有許多選擇，因此宣告外鍵限制條件並不會自動在參照欄位上建立索引。
 
-More information about updating and deleting data is in [Chapter 6](../dml/README.md). Also see the description of foreign key constraint
-syntax in the reference documentation for
-[CREATE TABLE](../../reference/sql-commands/sql-createtable.md).
+關於更新與刪除資料的更多資訊，請參閱[第 6 章](../dml/README.md)。也請參閱 [CREATE TABLE](../../reference/sql-commands/sql-createtable.md) 參考文件中關於外鍵限制條件語法的說明。
 
 <a id="DDL-CONSTRAINTS-EXCLUSION"></a>
 
-### 5.5.6. Exclusion Constraints [#](#DDL-CONSTRAINTS-EXCLUSION)
+### 5.5.6. 排除限制條件 [#](#DDL-CONSTRAINTS-EXCLUSION)
 
 <a id="id-1.5.4.7.10.2"></a><a id="id-1.5.4.7.10.3"></a>
 
-Exclusion constraints ensure that if any two rows are compared on
-the specified columns or expressions using the specified operators,
-at least one of these operator comparisons will return false or null.
-The syntax is:
+排除限制條件確保：如果對任兩筆資料列以指定的運算子比較指定的欄位或運算式，這些運算子比較中至少會有一項回傳 false 或 NULL。語法是：
 
 ```
 
@@ -784,12 +532,10 @@ CREATE TABLE circles (
 );
 ```
 
-See also [`CREATE
-TABLE ... CONSTRAINT ... EXCLUDE`](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-EXCLUDE) for details.
+細節也請參閱 [`CREATE TABLE ... CONSTRAINT ... EXCLUDE`](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-EXCLUDE)。
 
-Adding an exclusion constraint will automatically create an index
-of the type specified in the constraint declaration.
+加入排除限制條件會自動建立一個型別為該限制條件宣告中所指定之類型的索引。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-constraints.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-constraints.html)（原文版本：18.6；核對日期：2026-09-13）
