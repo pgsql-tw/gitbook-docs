@@ -45,7 +45,7 @@
     * [5.6. 系統欄位 #](the-sql-language/ddl/ddl-system-columns.md)
     * [5.7. 修改資料表 #](the-sql-language/ddl/ddl-alter.md)
     * [5.8. 權限 #](the-sql-language/ddl/ddl-priv.md)
-    * [5.9. Row Security Policies #](the-sql-language/ddl/ddl-rowsecurity.md)
+    * [5.9. 資料列安全政策 #](the-sql-language/ddl/ddl-rowsecurity.md)
     * [5.10. 綱要 #](the-sql-language/ddl/ddl-schemas.md)
     * [5.11. 繼承 #](the-sql-language/ddl/ddl-inherit.md)
     * [5.12. Table Partitioning #](the-sql-language/ddl/ddl-partitioning.md)

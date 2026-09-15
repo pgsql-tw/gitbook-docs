@@ -1,79 +1,28 @@
-## 5.9. Row Security Policies [#](#DDL-ROWSECURITY)
+<a id="DDL-ROWSECURITY"></a>
+
+## 5.9. 資料列安全政策 [#](#DDL-ROWSECURITY)
 
 <a id="id-1.5.4.11.2"></a><a id="id-1.5.4.11.3"></a>
 
-In addition to the SQL-standard [privilege
-system](ddl-priv.md) available through [GRANT](../../reference/sql-commands/sql-grant.md),
-tables can have *row security policies* that restrict,
-on a per-user basis, which rows can be returned by normal queries
-or inserted, updated, or deleted by data modification commands.
-This feature is also known as *Row-Level Security*.
-By default, tables do not have any policies, so that if a user has
-access privileges to a table according to the SQL privilege system,
-all rows within it are equally available for querying or updating.
+除了透過 [GRANT](../../reference/sql-commands/sql-grant.md) 使用的 SQL 標準[權限系統](ddl-priv.md)之外，資料表還可以有*資料列安全政策*（row security policy），以每個使用者為單位，限制哪些資料列可以被一般查詢回傳，或被資料修改命令插入、更新或刪除。這項功能也稱為*資料列層級安全性*（Row-Level Security）。預設情況下，資料表沒有任何政策，因此只要使用者依照 SQL 權限系統擁有某個資料表的存取權限，該資料表中的所有資料列就同樣可以被查詢或更新。
 
-When row security is enabled on a table (with
-[ALTER TABLE ... ENABLE ROW LEVEL
-SECURITY](../../reference/sql-commands/sql-altertable.md)), all normal access to the table for selecting rows or
-modifying rows must be allowed by a row security policy. (However, the
-table's owner is typically not subject to row security policies.) If no
-policy exists for the table, a default-deny policy is used, meaning that
-no rows are visible or can be modified. Operations that apply to the
-whole table, such as `TRUNCATE` and `REFERENCES`,
-are not subject to row security.
+當資料表啟用了資料列安全性（使用 [ALTER TABLE ... ENABLE ROW LEVEL SECURITY](../../reference/sql-commands/sql-altertable.md)）時，所有為了選取或修改資料列而對該資料表進行的一般存取，都必須受到資料列安全政策的允許。（不過，資料表的擁有者通常不受資料列安全政策的約束。）如果該資料表沒有任何政策，就會使用預設拒絕政策，也就是沒有任何資料列可見或可被修改。適用於整個資料表的操作，例如 `TRUNCATE` 與 `REFERENCES`，不受資料列安全性的約束。
 
-Row security policies can be specific to commands, or to roles, or to
-both. A policy can be specified to apply to `ALL`
-commands, or to `SELECT`, `INSERT`, `UPDATE`,
-or `DELETE`. Multiple roles can be assigned to a given
-policy, and normal role membership and inheritance rules apply.
+資料列安全政策可以針對特定命令、特定角色，或兩者兼具。政策可以指定為套用到 `ALL` 命令，或套用到 `SELECT`、`INSERT`、`UPDATE` 或 `DELETE`。一個政策可以指派給多個角色，並適用一般的角色成員資格與繼承規則。
 
-To specify which rows are visible or modifiable according to a policy,
-an expression is required that returns a Boolean result. This
-expression will be evaluated for each row prior to any conditions or
-functions coming from the user's query. (The only exceptions to this
-rule are `leakproof` functions, which are guaranteed to
-not leak information; the optimizer may choose to apply such functions
-ahead of the row-security check.) Rows for which the expression does
-not return `true` will not be processed. Separate expressions
-may be specified to provide independent control over the rows which are
-visible and the rows which are allowed to be modified. Policy
-expressions are run as part of the query and with the privileges of the
-user running the query, although security-definer functions can be used
-to access data not available to the calling user.
+要依據政策指定哪些資料列可見或可修改，需要一個回傳布林結果的運算式。這個運算式會在來自使用者查詢的任何條件或函式之前，針對每一筆資料列進行評估。（這項規則唯一的例外是 `leakproof` 函式，它們保證不會洩漏資訊；最佳化器可能會選擇在資料列安全性檢查之前套用這類函式。）運算式沒有回傳 `true` 的資料列不會被處理。可以指定不同的運算式，分別獨立控制哪些資料列可見、哪些資料列允許被修改。政策運算式會作為查詢的一部分，以執行該查詢之使用者的權限執行，不過可以使用安全性定義者（security definer）函式來存取呼叫者無法取得的資料。
 
-Superusers and roles with the `BYPASSRLS` attribute always
-bypass the row security system when accessing a table. Table owners
-normally bypass row security as well, though a table owner can choose to
-be subject to row security with [ALTER
-TABLE ... FORCE ROW LEVEL SECURITY](../../reference/sql-commands/sql-altertable.md).
+超級使用者以及具有 `BYPASSRLS` 屬性的角色，在存取資料表時一律會略過資料列安全系統。資料表擁有者通常也會略過資料列安全性，不過資料表擁有者可以使用 [ALTER TABLE ... FORCE ROW LEVEL SECURITY](../../reference/sql-commands/sql-altertable.md) 選擇讓自己受資料列安全性約束。
 
-Enabling and disabling row security, as well as adding policies to a
-table, is always the privilege of the table owner only.
+啟用與停用資料列安全性，以及為資料表加入政策，一律只有資料表擁有者才有權限進行。
 
-Policies are created using the [CREATE POLICY](../../reference/sql-commands/sql-createpolicy.md)
-command, altered using the [ALTER POLICY](../../reference/sql-commands/sql-alterpolicy.md) command,
-and dropped using the [DROP POLICY](../../reference/sql-commands/sql-droppolicy.md) command. To
-enable and disable row security for a given table, use the
-[ALTER TABLE](../../reference/sql-commands/sql-altertable.md) command.
+政策使用 [CREATE POLICY](../../reference/sql-commands/sql-createpolicy.md) 命令建立，使用 [ALTER POLICY](../../reference/sql-commands/sql-alterpolicy.md) 命令修改，並使用 [DROP POLICY](../../reference/sql-commands/sql-droppolicy.md) 命令刪除。要為特定資料表啟用或停用資料列安全性，請使用 [ALTER TABLE](../../reference/sql-commands/sql-altertable.md) 命令。
 
-Each policy has a name and multiple policies can be defined for a
-table. As policies are table-specific, each policy for a table must
-have a unique name. Different tables may have policies with the
-same name.
+每個政策都有一個名稱，而一個資料表可以定義多個政策。由於政策是針對特定資料表的，同一個資料表的每個政策都必須有唯一的名稱。不同的資料表可以有同名的政策。
 
-When multiple policies apply to a given query, they are combined using
-either `OR` (for permissive policies, which are the
-default) or using `AND` (for restrictive policies).
-The `OR` behavior is similar to the rule that a given
-role has the privileges
-of all roles that they are a member of. Permissive vs. restrictive
-policies are discussed further below.
+當多個政策適用於同一個查詢時，它們會以 `OR`（用於寬鬆政策，這是預設值）或以 `AND`（用於限制性政策）組合起來。`OR` 的行為類似於「一個角色擁有其所屬之所有角色的權限」這項規則。寬鬆政策與限制性政策的差別會在下面進一步討論。
 
-As a simple example, here is how to create a policy on
-the `account` relation to allow only members of
-the `managers` role to access rows, and only rows of their
-accounts:
+舉一個簡單的例子，以下說明如何在 `account` 關聯上建立一個政策，只允許 `managers` 角色的成員存取資料列，而且只能存取他們自己帳戶的資料列：
 
 ```
 
@@ -85,19 +34,9 @@ CREATE POLICY account_managers ON accounts TO managers
     USING (manager = current_user);
 ```
 
-The policy above implicitly provides a `WITH CHECK`
-clause identical to its `USING` clause, so that the
-constraint applies both to rows selected by a command (so a manager
-cannot `SELECT`, `UPDATE`,
-or `DELETE` existing rows belonging to a different
-manager) and to rows modified by a command (so rows belonging to a
-different manager cannot be created via `INSERT`
-or `UPDATE`).
+上面的政策隱含地提供了一個與其 `USING` 子句相同的 `WITH CHECK` 子句，因此這項限制同時適用於命令所選取的資料列（因此經理無法對屬於其他經理的現有資料列進行 `SELECT`、`UPDATE` 或 `DELETE`），也適用於命令所修改的資料列（因此無法透過 `INSERT` 或 `UPDATE` 建立屬於其他經理的資料列）。
 
-If no role is specified, or the special user name
-`PUBLIC` is used, then the policy applies to all
-users on the system. To allow all users to access only their own row in
-a `users` table, a simple policy can be used:
+如果沒有指定角色，或使用了特殊的使用者名稱 `PUBLIC`，那麼政策會套用到系統上的所有使用者。要讓所有使用者只能存取 `users` 資料表中他們自己的資料列，可以使用一個簡單的政策：
 
 ```
 
@@ -105,12 +44,9 @@ CREATE POLICY user_policy ON users
     USING (user_name = current_user);
 ```
 
-This works similarly to the previous example.
+這與前一個範例的運作方式類似。
 
-To use a different policy for rows that are being added to the table
-compared to those rows that are visible, multiple policies can be
-combined. This pair of policies would allow all users to view all rows
-in the `users` table, but only modify their own:
+若要讓加入資料表的資料列與可見的資料列使用不同的政策，可以組合多個政策。下面這一對政策會允許所有使用者查看 `users` 資料表中的所有資料列，但只能修改他們自己的資料列：
 
 ```
 
@@ -121,20 +57,11 @@ CREATE POLICY user_mod_policy ON users
     USING (user_name = current_user);
 ```
 
-In a `SELECT` command, these two policies are combined
-using `OR`, with the net effect being that all rows
-can be selected. In other command types, only the second policy applies,
-so that the effects are the same as before.
+在 `SELECT` 命令中，這兩個政策會以 `OR` 組合，最終的效果是所有資料列都可以被選取。在其他類型的命令中，只有第二個政策適用，因此效果與先前相同。
 
-Row security can also be disabled with the `ALTER TABLE`
-command. Disabling row security does not remove any policies that are
-defined on the table; they are simply ignored. Then all rows in the
-table are visible and modifiable, subject to the standard SQL privileges
-system.
+也可以使用 `ALTER TABLE` 命令停用資料列安全性。停用資料列安全性並不會移除資料表上定義的任何政策；它們只是被忽略而已。此時，資料表中的所有資料列都可見且可修改，只受標準 SQL 權限系統的約束。
 
-Below is a larger example of how this feature can be used in production
-environments. The table `passwd` emulates a Unix password
-file:
+下面是一個較大的範例，說明如何在正式環境中使用這項功能。資料表 `passwd` 模擬 Unix 的密碼檔：
 
 ```
 
@@ -192,9 +119,7 @@ GRANT UPDATE
   ON passwd TO public;
 ```
 
-As with any security settings, it's important to test and ensure that
-the system is behaving as expected. Using the example above, this
-demonstrates that the permission system is working properly.
+與任何安全性設定一樣，測試並確保系統的行為符合預期是很重要的。使用上面的範例，下面展示了權限系統正常運作的情形。
 
 ```
 
@@ -240,15 +165,7 @@ postgres=> update passwd set pwhash = 'abc';
 UPDATE 1
 ```
 
-All of the policies constructed thus far have been permissive policies,
-meaning that when multiple policies are applied they are combined using
-the “OR” Boolean operator. While permissive policies can be constructed
-to only allow access to rows in the intended cases, it can be simpler to
-combine permissive policies with restrictive policies (which the records
-must pass and which are combined using the “AND” Boolean operator).
-Building on the example above, we add a restrictive policy to require
-the administrator to be connected over a local Unix socket to access the
-records of the `passwd` table:
+到目前為止建立的所有政策都是寬鬆政策，也就是說，套用多個政策時，它們會以「OR」布林運算子組合。雖然可以建構寬鬆政策，只在預期的情況下允許存取資料列，但將寬鬆政策與限制性政策（資料列必須通過，且以「AND」布林運算子組合的政策）結合使用，可能會比較簡單。在上面的範例基礎上，我們加入一個限制性政策，要求管理員必須透過本機 Unix 通訊端連線，才能存取 `passwd` 資料表的記錄：
 
 ```
 
@@ -256,8 +173,7 @@ CREATE POLICY admin_local_only ON passwd AS RESTRICTIVE TO admin
     USING (pg_catalog.inet_client_addr() IS NULL);
 ```
 
-We can then see that an administrator connecting over a network will not
-see any records, due to the restrictive policy:
+接著我們可以看到，由於這個限制性政策，透過網路連線的管理員將看不到任何記錄：
 
 ```
 
@@ -282,31 +198,11 @@ see any records, due to the restrictive policy:
 UPDATE 0
 ```
 
-Referential integrity checks, such as unique or primary key constraints
-and foreign key references, always bypass row security to ensure that
-data integrity is maintained. Care must be taken when developing
-schemas and row level policies to avoid “covert channel” leaks of
-information through such referential integrity checks.
+參照完整性檢查，例如唯一或主鍵限制條件以及外鍵參照，一律會略過資料列安全性，以確保資料完整性得以維持。在開發綱要與資料列層級政策時必須小心，避免資訊透過這類參照完整性檢查以「隱蔽通道」（covert channel）的方式洩漏。
 
-In some contexts it is important to be sure that row security is
-not being applied. For example, when taking a backup, it could be
-disastrous if row security silently caused some rows to be omitted
-from the backup. In such a situation, you can set the
-[row_security](../../server-administration/runtime-config/runtime-config-client.md#GUC-ROW-SECURITY) configuration parameter
-to `off`. This does not in itself bypass row security;
-what it does is throw an error if any query's results would get filtered
-by a policy. The reason for the error can then be investigated and
-fixed.
+在某些情境下，確認沒有套用資料列安全性是很重要的。例如，在進行備份時，如果資料列安全性默默地導致某些資料列被排除在備份之外，後果可能不堪設想。在這種情況下，你可以將 [row_security](../../server-administration/runtime-config/runtime-config-client.md#GUC-ROW-SECURITY) 組態參數設為 `off`。這本身並不會略過資料列安全性；它的作用是，如果任何查詢的結果會被政策過濾，就引發錯誤。接著就可以調查並修正錯誤的原因。
 
-In the examples above, the policy expressions consider only the current
-values in the row to be accessed or updated. This is the simplest and
-best-performing case; when possible, it's best to design row security
-applications to work this way. If it is necessary to consult other rows
-or other tables to make a policy decision, that can be accomplished using
-sub-`SELECT`s, or functions that contain `SELECT`s,
-in the policy expressions. Be aware however that such accesses can
-create race conditions that could allow information leakage if care is
-not taken. As an example, consider the following table design:
+在上面的範例中，政策運算式只考量要存取或更新之資料列中的目前值。這是最簡單、效能也最好的情況；可能的話，最好將資料列安全性應用設計成以這種方式運作。如果需要查閱其他資料列或其他資料表才能做出政策決定，可以在政策運算式中使用子 `SELECT`，或包含 `SELECT` 的函式來達成。不過請注意，這樣的存取可能會產生競爭條件，如果不小心，就可能導致資訊洩漏。舉例來說，考慮下面的資料表設計：
 
 ```
 
@@ -356,9 +252,7 @@ CREATE POLICY fp_u ON information FOR UPDATE
 GRANT ALL ON information TO public;
 ```
 
-Now suppose that `alice` wishes to change the “slightly
-secret” information, but decides that `mallory` should not
-be trusted with the new content of that row, so she does:
+現在假設 `alice` 想要變更「slightly secret」的資訊，但她決定不應該讓 `mallory` 看到該資料列的新內容，因此她執行：
 
 ```
 
@@ -368,51 +262,19 @@ UPDATE information SET info = 'secret from mallory' WHERE group_id = 2;
 COMMIT;
 ```
 
-That looks safe; there is no window wherein `mallory` should be
-able to see the “secret from mallory” string. However, there is
-a race condition here. If `mallory` is concurrently doing,
-say,
+這看起來很安全；不存在任何 `mallory` 應該能看到「secret from mallory」字串的時間窗口。然而，這裡有一個競爭條件。如果 `mallory` 同時在執行，比方說，
 
 ```
 
 SELECT * FROM information WHERE group_id = 2 FOR UPDATE;
 ```
 
-and her transaction is in `READ COMMITTED` mode, it is possible
-for her to see “secret from mallory”. That happens if her
-transaction reaches the `information` row just
-after `alice`'s does. It blocks waiting
-for `alice`'s transaction to commit, then fetches the updated
-row contents thanks to the `FOR UPDATE` clause. However, it
-does *not* fetch an updated row for the
-implicit `SELECT` from `users`, because that
-sub-`SELECT` did not have `FOR UPDATE`; instead
-the `users` row is read with the snapshot taken at the start
-of the query. Therefore, the policy expression tests the old value
-of `mallory`'s privilege level and allows her to see the
-updated row.
+而她的交易處於 `READ COMMITTED` 模式，那麼她就有可能看到「secret from mallory」。當她的交易在 `alice` 的交易之後才剛好到達 `information` 資料列時，就會發生這種情況。它會阻擋並等待 `alice` 的交易提交，然後由於 `FOR UPDATE` 子句的關係，擷取更新後的資料列內容。然而，它*不會*為對 `users` 的隱含 `SELECT` 擷取更新後的資料列，因為那個子 `SELECT` 沒有 `FOR UPDATE`；取而代之的是，`users` 資料列是以查詢開始時所取得的快照讀取的。因此，政策運算式檢驗的是 `mallory` 權限等級的舊值，於是允許她看到更新後的資料列。
 
-There are several ways around this problem. One simple answer is to use
-`SELECT ... FOR SHARE` in sub-`SELECT`s in row
-security policies. However, that requires granting `UPDATE`
-privilege on the referenced table (here `users`) to the
-affected users, which might be undesirable. (But another row security
-policy could be applied to prevent them from actually exercising that
-privilege; or the sub-`SELECT` could be embedded into a security
-definer function.) Also, heavy concurrent use of row share locks on the
-referenced table could pose a performance problem, especially if updates
-of it are frequent. Another solution, practical if updates of the
-referenced table are infrequent, is to take an
-`ACCESS EXCLUSIVE` lock on the
-referenced table when updating it, so that no concurrent transactions
-could be examining old row values. Or one could just wait for all
-concurrent transactions to end after committing an update of the
-referenced table and before making changes that rely on the new security
-situation.
+有好幾種方法可以解決這個問題。一個簡單的答案是在資料列安全政策的子 `SELECT` 中使用 `SELECT ... FOR SHARE`。不過，這需要將被參照資料表（這裡是 `users`）的 `UPDATE` 權限授予受影響的使用者，而這可能並不理想。（但可以再套用另一個資料列安全政策，防止他們實際行使該權限；或者可以將子 `SELECT` 嵌入安全性定義者函式中。）此外，在被參照的資料表上大量並行使用資料列共享鎖定，可能會造成效能問題，特別是當它經常被更新時。另一種解決方法，在被參照資料表很少更新時很實用，就是在更新它時對它取得 `ACCESS EXCLUSIVE` 鎖定，使得沒有任何並行交易會檢視到舊的資料列值。或者，也可以在提交被參照資料表的更新之後、做出依賴新安全狀態的變更之前，等待所有並行交易結束。
 
-For additional details see [CREATE POLICY](../../reference/sql-commands/sql-createpolicy.md)
-and [ALTER TABLE](../../reference/sql-commands/sql-altertable.md).
+更多細節請參閱 [CREATE POLICY](../../reference/sql-commands/sql-createpolicy.md) 與 [ALTER TABLE](../../reference/sql-commands/sql-altertable.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-rowsecurity.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-rowsecurity.html)（原文版本：18.6；核對日期：2026-09-13）
