@@ -2,9 +2,9 @@
 
 ## SPI_cursor_open
 
-SPI_cursor_open — set up a cursor using a statement created with `SPI_prepare`
+SPI_cursor_open — 使用以 `SPI_prepare` 建立的陳述式設定一個游標
 
-## Synopsis
+## 概要
 
 ```
 
@@ -15,64 +15,41 @@ Portal SPI_cursor_open(const char * name, SPIPlanPtr plan,
 
 <a id="id-1.8.12.8.19.5"></a>
 
-## Description
+## 描述
 
-`SPI_cursor_open` sets up a cursor (internally,
-a portal) that will execute a statement prepared by
-`SPI_prepare`. The parameters have the same
-meanings as the corresponding parameters to
-`SPI_execute_plan`.
+`SPI_cursor_open` 會設定一個游標（在內部其實是一個 portal），用來執行由 `SPI_prepare` 所預備的陳述式。各個參數的意義與 `SPI_execute_plan` 中對應的參數相同。
 
-Using a cursor instead of executing the statement directly has two
-benefits. First, the result rows can be retrieved a few at a time,
-avoiding memory overrun for queries that return many rows. Second,
-a portal can outlive the current C function (it can, in fact, live
-to the end of the current transaction). Returning the portal name
-to the C function's caller provides a way of returning a row set as
-result.
+使用游標而不直接執行陳述式有兩項好處。第一，結果資料列可以一次取回少量，避免會回傳大量資料列的查詢耗盡記憶體。第二，portal 的存活時間可以超過目前的 C 函式（事實上它可以一直存活到目前交易結束）。把 portal 名稱回傳給該 C 函式的呼叫端，就提供了一種以資料列集合作為結果回傳的方式。
 
-The passed-in parameter data will be copied into the cursor's portal, so it
-can be freed while the cursor still exists.
+傳入的參數資料會被複製到該游標的 portal 中，因此即使游標仍然存在，那份資料也可以先行釋放。
 
 <a id="id-1.8.12.8.19.6"></a>
 
-## Arguments
+## 引數
 
 `const char * name`
-:   name for portal, or `NULL` to let the system
-    select a name
+:   portal 的名稱，或是 `NULL` 表示讓系統自行挑選一個名稱
 
 `SPIPlanPtr plan`
-:   prepared statement (returned by `SPI_prepare`)
+:   預備陳述式（由 `SPI_prepare` 回傳）
 
 `Datum * values`
-:   An array of actual parameter values. Must have same length as the
-    statement's number of arguments.
+:   實際參數值的陣列。長度必須與該陳述式的引數個數相同。
 
 `const char * nulls`
-:   An array describing which parameters are null. Must have same length as
-    the statement's number of arguments.
+:   描述哪些參數為 NULL 的陣列。長度必須與該陳述式的引數個數相同。
 
-    If *`nulls`* is `NULL` then
-    `SPI_cursor_open` assumes that no parameters
-    are null. Otherwise, each entry of the *`nulls`*
-    array should be `' '` if the corresponding parameter
-    value is non-null, or `'n'` if the corresponding parameter
-    value is null. (In the latter case, the actual value in the
-    corresponding *`values`* entry doesn't matter.) Note
-    that *`nulls`* is not a text string, just an array:
-    it does not need a `'\0'` terminator.
+    如果 *`nulls`* 為 `NULL`，`SPI_cursor_open` 就會假設沒有任何參數是 NULL。否則，若對應的參數值不是 NULL，*`nulls`* 陣列中的每一個項目都應該是 `' '`；若對應的參數值是 NULL，則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中實際存放的值並不重要。）請注意，*`nulls`* 並不是一個文字字串，而只是一個陣列：它不需要 `'\0'` 結尾字元。
 
 `bool read_only`
-:   `true` for read-only execution
+:   `true` 表示唯讀執行
 
 <a id="id-1.8.12.8.19.7"></a>
 
-## Return Value
+## 回傳值
 
-Pointer to portal containing the cursor. Note there is no error
-return convention; any error will be reported via `elog`.
+指向含有該游標之 portal 的指標。請注意，這個函式沒有錯誤回傳慣例；任何錯誤都會透過 `elog` 回報。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-open.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-open.html)（原文版本：18.6；核對日期：2026-09-13）
