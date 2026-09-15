@@ -1,36 +1,20 @@
-## 11.8. Partial Indexes [#](#INDEXES-PARTIAL)
+<a id="INDEXES-PARTIAL"></a>
+
+## 11.8. 部分索引 [#](#INDEXES-PARTIAL)
 
 <a id="id-1.5.10.11.2"></a>
 
-A *partial index* is an index built over a
-subset of a table; the subset is defined by a conditional
-expression (called the *predicate* of the
-partial index). The index contains entries only for those table
-rows that satisfy the predicate. Partial indexes are a specialized
-feature, but there are several situations in which they are useful.
+*部分索引*（partial index）是建立在資料表某個子集上的索引；這個子集由一個條件運算式（稱為部分索引的*述詞*，predicate）定義。索引只包含滿足該述詞之資料表資料列的項目。部分索引是一項特殊的功能，但在好幾種情況下都很有用。
 
-One major reason for using a partial index is to avoid indexing common
-values. Since a query searching for a common value (one that
-accounts for more than a few percent of all the table rows) will not
-use the index anyway, there is no point in keeping those rows in the
-index at all. This reduces the size of the index, which will speed
-up those queries that do use the index. It will also speed up many table
-update operations because the index does not need to be
-updated in all cases. [Example 11.1](indexes-partial.md#INDEXES-PARTIAL-EX1) shows a
-possible application of this idea.
+使用部分索引的一個主要理由，是避免為常見值建立索引。由於搜尋常見值（占所有資料表資料列超過數個百分比的值）的查詢無論如何都不會使用索引，因此根本沒有必要把這些資料列保留在索引中。這會縮小索引的大小，從而加快確實會使用該索引的查詢。它也會加快許多資料表更新操作，因為並非所有情況都需要更新索引。[範例 11.1](indexes-partial.md#INDEXES-PARTIAL-EX1) 展示了這個想法的一種可能應用。
 
 <a id="INDEXES-PARTIAL-EX1"></a>
 
-**Example 11.1. Setting up a Partial Index to Exclude Common Values**
+**範例 11.1. 建立排除常見值的部分索引**
 
-Suppose you are storing web server access logs in a database.
-Most accesses originate from the IP address range of your organization but
-some are from elsewhere (say, employees on dial-up connections).
-If your searches by IP are primarily for outside accesses,
-you probably do not need to index the IP range that corresponds to your
-organization's subnet.
+假設你將網頁伺服器的存取紀錄儲存在資料庫中。大多數存取來自你組織的 IP 位址範圍，但有些來自其他地方（例如使用撥接連線的員工）。如果你依 IP 進行的搜尋主要是針對外部存取，那麼你大概不需要為對應到組織子網路的 IP 範圍建立索引。
 
-Assume a table like this:
+假設有一個像這樣的資料表：
 
 ```
 
@@ -41,8 +25,7 @@ CREATE TABLE access_log (
 );
 ```
 
-To create a partial index that suits our example, use a command
-such as this:
+要建立適合我們範例的部分索引，可以使用像這樣的命令：
 
 ```
 
@@ -51,7 +34,7 @@ WHERE NOT (client_ip > inet '192.168.100.0' AND
            client_ip < inet '192.168.100.255');
 ```
 
-A typical query that can use this index would be:
+一個可以使用這個索引的典型查詢如下：
 
 ```
 
@@ -60,9 +43,7 @@ FROM access_log
 WHERE url = '/index.html' AND client_ip = inet '212.78.10.32';
 ```
 
-Here the query's IP address is covered by the partial index. The
-following query cannot use the partial index, as it uses an IP address
-that is excluded from the index:
+在這裡，查詢的 IP 位址涵蓋在部分索引之內。下面的查詢無法使用這個部分索引，因為它使用的 IP 位址被排除在索引之外：
 
 ```
 
@@ -71,32 +52,17 @@ FROM access_log
 WHERE url = '/index.html' AND client_ip = inet '192.168.100.23';
 ```
 
-Observe that this kind of partial index requires that the common
-values be predetermined, so such partial indexes are best used for
-data distributions that do not change. Such indexes can be recreated
-occasionally to adjust for new data distributions, but this adds
-maintenance effort.
+請注意，這種部分索引要求事先決定常見值，因此這類部分索引最適合用於不會改變的資料分布。這類索引可以偶爾重新建立，以因應新的資料分布，但這會增加維護的工作量。
 
 <br>
 
-Another possible use for a partial index is to exclude values from the
-index that the
-typical query workload is not interested in; this is shown in [Example 11.2](indexes-partial.md#INDEXES-PARTIAL-EX2). This results in the same
-advantages as listed above, but it prevents the
-“uninteresting” values from being accessed via that
-index, even if an index scan might be profitable in that
-case. Obviously, setting up partial indexes for this kind of
-scenario will require a lot of care and experimentation.
+部分索引的另一種可能用途，是將典型查詢工作負載不感興趣的值排除在索引之外；這展示於[範例 11.2](indexes-partial.md#INDEXES-PARTIAL-EX2)。這會帶來與上面所列相同的好處，但它會防止透過該索引存取「不感興趣」的值，即使在這種情況下索引掃描可能是划算的。顯然，為這類情境建立部分索引需要非常謹慎並多加實驗。
 
 <a id="INDEXES-PARTIAL-EX2"></a>
 
-**Example 11.2. Setting up a Partial Index to Exclude Uninteresting Values**
+**範例 11.2. 建立排除不感興趣之值的部分索引**
 
-If you have a table that contains both billed and unbilled orders,
-where the unbilled orders take up a small fraction of the total
-table and yet those are the most-accessed rows, you can improve
-performance by creating an index on just the unbilled rows. The
-command to create the index would look like this:
+如果你有一個同時包含已開帳單與未開帳單訂單的資料表，其中未開帳單的訂單只占整個資料表的一小部分，但卻是最常被存取的資料列，那麼只為未開帳單的資料列建立索引就可以提升效能。建立該索引的命令如下所示：
 
 ```
 
@@ -104,79 +70,42 @@ CREATE INDEX orders_unbilled_index ON orders (order_nr)
     WHERE billed is not true;
 ```
 
-A possible query to use this index would be:
+一個可能使用這個索引的查詢如下：
 
 ```
 
 SELECT * FROM orders WHERE billed is not true AND order_nr < 10000;
 ```
 
-However, the index can also be used in queries that do not involve
-`order_nr` at all, e.g.:
+不過，這個索引也可以用於完全不涉及 `order_nr` 的查詢，例如：
 
 ```
 
 SELECT * FROM orders WHERE billed is not true AND amount > 5000.00;
 ```
 
-This is not as efficient as a partial index on the
-`amount` column would be, since the system has to
-scan the entire index. Yet, if there are relatively few unbilled
-orders, using this partial index just to find the unbilled orders
-could be a win.
+這不如在 `amount` 欄位上建立部分索引那樣有效率，因為系統必須掃描整個索引。然而，如果未開帳單的訂單相對較少，只用這個部分索引來找出未開帳單的訂單，可能還是划算的。
 
-Note that this query cannot use this index:
+請注意，下面這個查詢無法使用這個索引：
 
 ```
 
 SELECT * FROM orders WHERE order_nr = 3501;
 ```
 
-The order 3501 might be among the billed or unbilled
-orders.
+訂單 3501 可能屬於已開帳單的訂單，也可能屬於未開帳單的訂單。
 
 <br>
 
-[Example 11.2](indexes-partial.md#INDEXES-PARTIAL-EX2) also illustrates that the
-indexed column and the column used in the predicate do not need to
-match. PostgreSQL supports partial
-indexes with arbitrary predicates, so long as only columns of the
-table being indexed are involved. However, keep in mind that the
-predicate must match the conditions used in the queries that
-are supposed to benefit from the index. To be precise, a partial
-index can be used in a query only if the system can recognize that
-the `WHERE` condition of the query mathematically implies
-the predicate of the index.
-PostgreSQL does not have a sophisticated
-theorem prover that can recognize mathematically equivalent
-expressions that are written in different forms. (Not
-only is such a general theorem prover extremely difficult to
-create, it would probably be too slow to be of any real use.)
-The system can recognize simple inequality implications, for example
-“x < 1” implies “x < 2”; otherwise
-the predicate condition must exactly match part of the query's
-`WHERE` condition
-or the index will not be recognized as usable. Matching takes
-place at query planning time, not at run time. As a result,
-parameterized query clauses do not work with a partial index. For
-example a prepared query with a parameter might specify
-“x < ?” which will never imply
-“x < 2” for all possible values of the parameter.
+[範例 11.2](indexes-partial.md#INDEXES-PARTIAL-EX2) 也說明了被索引的欄位與述詞中使用的欄位不需要相同。PostgreSQL 支援具有任意述詞的部分索引，只要只涉及被索引之資料表的欄位即可。不過，請記住，述詞必須與那些應該從索引受益的查詢中所使用的條件相符。確切地說，只有在系統能夠辨識出查詢的 `WHERE` 條件在數學上蘊含索引的述詞時，部分索引才能用於該查詢。PostgreSQL 並沒有能夠辨識以不同形式寫出之數學等價運算式的精密定理證明器。（這樣的通用定理證明器不僅極難建立，而且大概也會慢到沒有實際用處。）系統能夠辨識簡單的不等式蘊含關係，例如「x < 1」蘊含「x < 2」；除此之外，述詞條件必須與查詢 `WHERE` 條件的某一部分完全相符，否則該索引不會被認定為可用。比對是在查詢規劃時進行的，而不是在執行時。因此，參數化的查詢子句無法搭配部分索引使用。例如，帶有參數的預備查詢可能指定「x < ?」，但對於參數所有可能的值而言，它永遠不會蘊含「x < 2」。
 
-A third possible use for partial indexes does not require the
-index to be used in queries at all. The idea here is to create
-a unique index over a subset of a table, as in [Example 11.3](indexes-partial.md#INDEXES-PARTIAL-EX3). This enforces uniqueness
-among the rows that satisfy the index predicate, without constraining
-those that do not.
+部分索引的第三種可能用途，完全不需要在查詢中使用該索引。這裡的想法是在資料表的某個子集上建立唯一值索引，如[範例 11.3](indexes-partial.md#INDEXES-PARTIAL-EX3) 所示。這會在滿足索引述詞的資料列之間強制唯一性，而不會限制不滿足述詞的資料列。
 
 <a id="INDEXES-PARTIAL-EX3"></a>
 
-**Example 11.3. Setting up a Partial Unique Index**
+**範例 11.3. 建立部分唯一值索引**
 
-Suppose that we have a table describing test outcomes. We wish
-to ensure that there is only one “successful” entry for
-a given subject and target combination, but there might be any number of
-“unsuccessful” entries. Here is one way to do it:
+假設我們有一個描述測試結果的資料表。我們希望確保對於給定的受測對象與目標組合，只有一筆「成功」的項目，但「不成功」的項目可以有任意多筆。以下是一種做法：
 
 ```
 
@@ -191,38 +120,19 @@ CREATE UNIQUE INDEX tests_success_constraint ON tests (subject, target)
     WHERE success;
 ```
 
-This is a particularly efficient approach when there are few
-successful tests and many unsuccessful ones. It is also possible to
-allow only one null in a column by creating a unique partial index
-with an `IS NULL` restriction.
+當成功的測試很少而不成功的測試很多時，這是一種特別有效率的做法。也可以藉由建立帶有 `IS NULL` 限制的唯一部分索引，讓某個欄位只允許一個 null 值。
 
 <br>
 
-Finally, a partial index can also be used to override the system's
-query plan choices. Also, data sets with peculiar
-distributions might cause the system to use an index when it really
-should not. In that case the index can be set up so that it is not
-available for the offending query. Normally,
-PostgreSQL makes reasonable choices about index
-usage (e.g., it avoids them when retrieving common values, so the
-earlier example really only saves index size, it is not required to
-avoid index usage), and grossly incorrect plan choices are cause
-for a bug report.
+最後，部分索引也可以用來覆寫系統的查詢計畫選擇。此外，具有特殊分布的資料集，可能會導致系統在其實不應該使用索引時使用了索引。在這種情況下，可以將索引設定成對出問題的查詢不可用。通常，PostgreSQL 對索引的使用會做出合理的選擇（例如，在擷取常見值時它會避免使用索引，因此前面的範例其實只是節省了索引的大小，並不是為了避免使用索引所必需的），而嚴重錯誤的計畫選擇則應該提出錯誤回報。
 
-Keep in mind that setting up a partial index indicates that you
-know at least as much as the query planner knows, in particular you
-know when an index might be profitable. Forming this knowledge
-requires experience and understanding of how indexes in
-PostgreSQL work. In most cases, the
-advantage of a partial index over a regular index will be minimal.
-There are cases where they are quite counterproductive, as in [Example 11.4](indexes-partial.md#INDEXES-PARTIAL-EX4).
+請記住，建立部分索引意味著你所知道的至少和查詢規劃器一樣多，特別是你知道什麼時候使用索引可能划算。形成這樣的知識，需要經驗以及對 PostgreSQL 索引運作方式的了解。在大多數情況下，部分索引相對於一般索引的優勢會很小。在某些情況下，它們甚至會適得其反，如[範例 11.4](indexes-partial.md#INDEXES-PARTIAL-EX4) 所示。
 
 <a id="INDEXES-PARTIAL-EX4"></a>
 
-**Example 11.4. Do Not Use Partial Indexes as a Substitute for Partitioning**
+**範例 11.4. 不要用部分索引取代分割**
 
-You might be tempted to create a large set of non-overlapping partial
-indexes, for example
+你可能會想建立一大組互不重疊的部分索引，例如
 
 ```
 
@@ -233,34 +143,21 @@ CREATE INDEX mytable_cat_3 ON mytable (data) WHERE category = 3;
 CREATE INDEX mytable_cat_N ON mytable (data) WHERE category = N;
 ```
 
-This is a bad idea! Almost certainly, you'll be better off with a
-single non-partial index, declared like
+這是個壞主意！幾乎可以肯定，使用一個像這樣宣告的非部分索引會比較好
 
 ```
 
 CREATE INDEX mytable_cat_data ON mytable (category, data);
 ```
 
-(Put the category column first, for the reasons described in
-[Section 11.3](indexes-multicolumn.md).) While a search in this larger
-index might have to descend through a couple more tree levels than a
-search in a smaller index, that's almost certainly going to be cheaper
-than the planner effort needed to select the appropriate one of the
-partial indexes. The core of the problem is that the system does not
-understand the relationship among the partial indexes, and will
-laboriously test each one to see if it's applicable to the current
-query.
+（把分類欄位放在前面，理由如[第 11.3 節](indexes-multicolumn.md)所述。）雖然在這個較大的索引中搜尋，可能比在較小的索引中搜尋多往下走幾層樹，但這幾乎可以肯定會比規劃器從部分索引中選出適當的那一個所需的工作便宜。問題的核心在於，系統並不了解這些部分索引之間的關係，因此會費力地逐一測試每個索引，看它是否適用於目前的查詢。
 
-If your table is large enough that a single index really is a bad idea,
-you should look into using partitioning instead (see
-[Section 5.12](../ddl/ddl-partitioning.md)). With that mechanism, the system
-does understand that the tables and indexes are non-overlapping, so
-far better performance is possible.
+如果你的資料表大到單一索引真的不是好主意，你應該改為考慮使用分割（請參閱[第 5.12 節](../ddl/ddl-partitioning.md)）。透過這個機制，系統確實能夠了解資料表與索引之間互不重疊，因此可能獲得好得多的效能。
 
 <br>
 
-More information about partial indexes can be found in [[ston89b]](../../bibliography.md#STON89B), [[olson93]](../../bibliography.md#OLSON93), and [[seshadri95]](../../bibliography.md#SESHADRI95).
+關於部分索引的更多資訊，可以在 [[ston89b]](../../bibliography.md#STON89B)、[[olson93]](../../bibliography.md#OLSON93) 與 [[seshadri95]](../../bibliography.md#SESHADRI95) 中找到。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-partial.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-partial.html)（原文版本：18.6；核對日期：2026-09-13）
