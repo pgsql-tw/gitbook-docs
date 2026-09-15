@@ -1,72 +1,25 @@
-## 8.21. Pseudo-Types [#](#DATATYPE-PSEUDO)
+<a id="DATATYPE-PSEUDO"></a>
+
+## 8.21. 虛擬型別 [#](#DATATYPE-PSEUDO)
 
 <a id="id-1.5.7.29.2"></a><a id="id-1.5.7.29.3"></a><a id="id-1.5.7.29.4"></a><a id="id-1.5.7.29.5"></a><a id="id-1.5.7.29.6"></a><a id="id-1.5.7.29.7"></a><a id="id-1.5.7.29.8"></a><a id="id-1.5.7.29.9"></a><a id="id-1.5.7.29.10"></a><a id="id-1.5.7.29.11"></a><a id="id-1.5.7.29.12"></a><a id="id-1.5.7.29.13"></a><a id="id-1.5.7.29.14"></a><a id="id-1.5.7.29.15"></a><a id="id-1.5.7.29.16"></a><a id="id-1.5.7.29.17"></a><a id="id-1.5.7.29.18"></a><a id="id-1.5.7.29.19"></a><a id="id-1.5.7.29.20"></a><a id="id-1.5.7.29.21"></a><a id="id-1.5.7.29.22"></a><a id="id-1.5.7.29.23"></a><a id="id-1.5.7.29.24"></a><a id="id-1.5.7.29.25"></a><a id="id-1.5.7.29.26"></a>
 
-The PostgreSQL type system contains a
-number of special-purpose entries that are collectively called
-*pseudo-types*. A pseudo-type cannot be used as a
-column data type, but it can be used to declare a function's
-argument or result type. Each of the available pseudo-types is
-useful in situations where a function's behavior does not
-correspond to simply taking or returning a value of a specific
-SQL data type. [Table 8.27](datatype-pseudo.md#DATATYPE-PSEUDOTYPES-TABLE) lists the existing
-pseudo-types.
+PostgreSQL 的型別系統中包含許多特殊用途的項目，它們統稱為*虛擬型別*。虛擬型別不能作為欄位的資料型別使用，但可以用來宣告函式的引數型別或結果型別。當函式的行為並非單純地接受或回傳某個特定 SQL 資料型別的值時，各種可用的虛擬型別就能派上用場。[表 8.27](datatype-pseudo.md#DATATYPE-PSEUDOTYPES-TABLE) 列出現有的虛擬型別。
 
 <a id="DATATYPE-PSEUDOTYPES-TABLE"></a>
 
-**Table 8.27. Pseudo-Types**
+**表 8.27. 虛擬型別**
 
-<table border="1" class="table" summary="Pseudo-Types"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody><tr><td><code class="type">any</code></td><td>Indicates that a function accepts any input data type.</td></tr><tr><td><code class="type">anyelement</code></td><td>Indicates that a function accepts any data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a>).</td></tr><tr><td><code class="type">anyarray</code></td><td>Indicates that a function accepts any array data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a>).</td></tr><tr><td><code class="type">anynonarray</code></td><td>Indicates that a function accepts any non-array data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a>).</td></tr><tr><td><code class="type">anyenum</code></td><td>Indicates that a function accepts any enum data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a> and
-        <a class="xref" href="datatype-enum.md">Section 8.7</a>).</td></tr><tr><td><code class="type">anyrange</code></td><td>Indicates that a function accepts any range data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a> and
-        <a class="xref" href="rangetypes.md">Section 8.17</a>).</td></tr><tr><td><code class="type">anymultirange</code></td><td>Indicates that a function accepts any multirange data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a> and
-        <a class="xref" href="rangetypes.md">Section 8.17</a>).</td></tr><tr><td><code class="type">anycompatible</code></td><td>Indicates that a function accepts any data type,
-        with automatic promotion of multiple arguments to a common data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a>).</td></tr><tr><td><code class="type">anycompatiblearray</code></td><td>Indicates that a function accepts any array data type,
-        with automatic promotion of multiple arguments to a common data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a>).</td></tr><tr><td><code class="type">anycompatiblenonarray</code></td><td>Indicates that a function accepts any non-array data type,
-        with automatic promotion of multiple arguments to a common data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a>).</td></tr><tr><td><code class="type">anycompatiblerange</code></td><td>Indicates that a function accepts any range data type,
-        with automatic promotion of multiple arguments to a common data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a> and
-        <a class="xref" href="rangetypes.md">Section 8.17</a>).</td></tr><tr><td><code class="type">anycompatiblemultirange</code></td><td>Indicates that a function accepts any multirange data type,
-        with automatic promotion of multiple arguments to a common data type
-        (see <a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">Section 36.2.5</a> and
-        <a class="xref" href="rangetypes.md">Section 8.17</a>).</td></tr><tr><td><code class="type">cstring</code></td><td>Indicates that a function accepts or returns a null-terminated C string.</td></tr><tr><td><code class="type">internal</code></td><td>Indicates that a function accepts or returns a server-internal
-        data type.</td></tr><tr><td><code class="type">language_handler</code></td><td>A procedural language call handler is declared to return <code class="type">language_handler</code>.</td></tr><tr><td><code class="type">fdw_handler</code></td><td>A foreign-data wrapper handler is declared to return <code class="type">fdw_handler</code>.</td></tr><tr><td><code class="type">table_am_handler</code></td><td>A table access method handler is declared to return <code class="type">table_am_handler</code>.</td></tr><tr><td><code class="type">index_am_handler</code></td><td>An index access method handler is declared to return <code class="type">index_am_handler</code>.</td></tr><tr><td><code class="type">tsm_handler</code></td><td>A tablesample method handler is declared to return <code class="type">tsm_handler</code>.</td></tr><tr><td><code class="type">record</code></td><td>Identifies a function taking or returning an unspecified row type.</td></tr><tr><td><code class="type">trigger</code></td><td>A trigger function is declared to return <code class="type">trigger.</code></td></tr><tr><td><code class="type">event_trigger</code></td><td>An event trigger function is declared to return <code class="type">event_trigger.</code></td></tr><tr><td><code class="type">pg_ddl_command</code></td><td>Identifies a representation of DDL commands that is available to event triggers.</td></tr><tr><td><code class="type">void</code></td><td>Indicates that a function returns no value.</td></tr><tr><td><code class="type">unknown</code></td><td>Identifies a not-yet-resolved type, e.g., of an undecorated
-         string literal.</td></tr></tbody></table>
+<table border="1" class="table" summary="虛擬型別"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>名稱</th><th>說明</th></tr></thead><tbody><tr><td><code class="type">any</code></td><td>表示函式接受任何輸入資料型別。</td></tr><tr><td><code class="type">anyelement</code></td><td>表示函式接受任何資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>）。</td></tr><tr><td><code class="type">anyarray</code></td><td>表示函式接受任何陣列資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>）。</td></tr><tr><td><code class="type">anynonarray</code></td><td>表示函式接受任何非陣列資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>）。</td></tr><tr><td><code class="type">anyenum</code></td><td>表示函式接受任何列舉資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>與<a class="xref" href="datatype-enum.md">第 8.7 節</a>）。</td></tr><tr><td><code class="type">anyrange</code></td><td>表示函式接受任何範圍資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>與<a class="xref" href="rangetypes.md">第 8.17 節</a>）。</td></tr><tr><td><code class="type">anymultirange</code></td><td>表示函式接受任何多重範圍資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>與<a class="xref" href="rangetypes.md">第 8.17 節</a>）。</td></tr><tr><td><code class="type">anycompatible</code></td><td>表示函式接受任何資料型別，並自動把多個引數提升為共同的資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>）。</td></tr><tr><td><code class="type">anycompatiblearray</code></td><td>表示函式接受任何陣列資料型別，並自動把多個引數提升為共同的資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>）。</td></tr><tr><td><code class="type">anycompatiblenonarray</code></td><td>表示函式接受任何非陣列資料型別，並自動把多個引數提升為共同的資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>）。</td></tr><tr><td><code class="type">anycompatiblerange</code></td><td>表示函式接受任何範圍資料型別，並自動把多個引數提升為共同的資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>與<a class="xref" href="rangetypes.md">第 8.17 節</a>）。</td></tr><tr><td><code class="type">anycompatiblemultirange</code></td><td>表示函式接受任何多重範圍資料型別，並自動把多個引數提升為共同的資料型別（請參閱<a class="xref" href="../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC">第 36.2.5 節</a>與<a class="xref" href="rangetypes.md">第 8.17 節</a>）。</td></tr><tr><td><code class="type">cstring</code></td><td>表示函式接受或回傳以 null 結尾的 C 字串。</td></tr><tr><td><code class="type">internal</code></td><td>表示函式接受或回傳伺服器內部的資料型別。</td></tr><tr><td><code class="type">language_handler</code></td><td>程序語言的呼叫處理常式被宣告為回傳 <code class="type">language_handler</code>。</td></tr><tr><td><code class="type">fdw_handler</code></td><td>外部資料包裝器的處理常式被宣告為回傳 <code class="type">fdw_handler</code>。</td></tr><tr><td><code class="type">table_am_handler</code></td><td>資料表存取方法的處理常式被宣告為回傳 <code class="type">table_am_handler</code>。</td></tr><tr><td><code class="type">index_am_handler</code></td><td>索引存取方法的處理常式被宣告為回傳 <code class="type">index_am_handler</code>。</td></tr><tr><td><code class="type">tsm_handler</code></td><td>tablesample 方法的處理常式被宣告為回傳 <code class="type">tsm_handler</code>。</td></tr><tr><td><code class="type">record</code></td><td>識別接受或回傳未指定之資料列型別的函式。</td></tr><tr><td><code class="type">trigger</code></td><td>觸發程序函式被宣告為回傳 <code class="type">trigger.</code></td></tr><tr><td><code class="type">event_trigger</code></td><td>事件觸發程序函式被宣告為回傳 <code class="type">event_trigger.</code></td></tr><tr><td><code class="type">pg_ddl_command</code></td><td>識別可供事件觸發程序使用的 DDL 指令表示法。</td></tr><tr><td><code class="type">void</code></td><td>表示函式不回傳任何值。</td></tr><tr><td><code class="type">unknown</code></td><td>識別尚未解析的型別，例如未加修飾之字串常數的型別。</td></tr></tbody></table>
 
 <br>
 
-Functions coded in C (whether built-in or dynamically loaded) can be
-declared to accept or return any of these pseudo-types. It is up to
-the function author to ensure that the function will behave safely
-when a pseudo-type is used as an argument type.
+以 C 撰寫的函式（無論是內建的還是動態載入的）都可以宣告為接受或回傳這些虛擬型別中的任何一種。至於當虛擬型別被用作引數型別時，函式是否能安全運作，則由函式的作者負責確保。
 
-Functions coded in procedural languages can use pseudo-types only as
-allowed by their implementation languages. At present most procedural
-languages forbid use of a pseudo-type as an argument type, and allow
-only `void` and `record` as a result type (plus
-`trigger` or `event_trigger` when the function is used
-as a trigger or event trigger). Some also support polymorphic functions
-using the polymorphic pseudo-types, which are shown above and discussed
-in detail in [Section 36.2.5](../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC).
+以程序語言撰寫的函式，只能在其實作語言所允許的範圍內使用虛擬型別。目前大多數程序語言都禁止把虛擬型別用作引數型別，而結果型別只允許 `void` 與 `record`（當函式被用作觸發程序或事件觸發程序時，還可加上 `trigger` 或 `event_trigger`）。有些程序語言也支援使用多型虛擬型別的多型函式，這些型別如上表所示，並在[第 36.2.5 節](../../server-programming/extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)中有詳細討論。
 
-The `internal` pseudo-type is used to declare functions
-that are meant only to be called internally by the database
-system, and not by direct invocation in an SQL
-query. If a function has at least one `internal`-type
-argument then it cannot be called from SQL. To
-preserve the type safety of this restriction it is important to
-follow this coding rule: do not create any function that is
-declared to return `internal` unless it has at least one
-`internal` argument.
+`internal` 虛擬型別用來宣告那些只打算由資料庫系統內部呼叫、而不應在 SQL 查詢中直接叫用的函式。如果某個函式至少有一個 `internal` 型別的引數，它就無法從 SQL 呼叫。為了維持這項限制所提供的型別安全，遵守下列撰寫規則很重要：除非函式至少有一個 `internal` 引數，否則不要建立任何宣告為回傳 `internal` 的函式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datatype-pseudo.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datatype-pseudo.html)（原文版本：18.6；核對日期：2026-09-13）
