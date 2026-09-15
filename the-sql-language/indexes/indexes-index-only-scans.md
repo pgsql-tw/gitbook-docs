@@ -1,42 +1,15 @@
-## 11.9. Index-Only Scans and Covering Indexes [#](#INDEXES-INDEX-ONLY-SCANS)
+<a id="INDEXES-INDEX-ONLY-SCANS"></a>
+
+## 11.9. 僅索引掃描與涵蓋索引 [#](#INDEXES-INDEX-ONLY-SCANS)
 
 <a id="id-1.5.10.12.2"></a><a id="id-1.5.10.12.3"></a><a id="id-1.5.10.12.4"></a><a id="id-1.5.10.12.5"></a>
 
-All indexes in PostgreSQL
-are *secondary* indexes, meaning that each index is
-stored separately from the table's main data area (which is called the
-table's *heap*
-in PostgreSQL terminology). This means that
-in an ordinary index scan, each row retrieval requires fetching data from
-both the index and the heap. Furthermore, while the index entries that
-match a given indexable `WHERE` condition are usually
-close together in the index, the table rows they reference might be
-anywhere in the heap. The heap-access portion of an index scan thus
-involves a lot of random access into the heap, which can be slow,
-particularly on traditional rotating media. (As described in
-[Section 11.5](indexes-bitmap-scans.md), bitmap scans try to alleviate
-this cost by doing the heap accesses in sorted order, but that only goes
-so far.)
+PostgreSQL 中的所有索引都是*次要*（secondary）索引，也就是說，每個索引都與資料表的主要資料區（在 PostgreSQL 的術語中稱為資料表的*堆積*，heap）分開儲存。這表示在一般的索引掃描中，每取得一筆資料列，都需要同時從索引與堆積擷取資料。此外，雖然符合給定可索引 `WHERE` 條件的索引項目在索引中通常彼此相鄰，但它們所參照的資料表資料列可能散布在堆積中的任何地方。因此，索引掃描中存取堆積的部分，會涉及大量對堆積的隨機存取，而這可能很慢，特別是在傳統的旋轉式儲存媒體上。（如[第 11.5 節](indexes-bitmap-scans.md)所述，點陣圖掃描會嘗試依排序後的順序存取堆積來減輕這項成本，但效果有限。）
 
-To solve this performance problem, PostgreSQL
-supports *index-only scans*, which can answer
-queries from an index alone without any heap access. The basic idea is
-to return values directly out of each index entry instead of consulting
-the associated heap entry. There are two fundamental restrictions on
-when this method can be used:
+為了解決這個效能問題，PostgreSQL 支援*僅索引掃描*（index-only scan），它可以只靠索引回答查詢，完全不存取堆積。基本的想法是直接從每個索引項目回傳值，而不去查閱相關聯的堆積項目。何時能使用這種方法，有兩項基本限制：
 
-1. The index type must support index-only scans. B-tree indexes always
-   do. GiST and SP-GiST indexes support index-only scans for some
-   operator classes but not others. Other index types have no support.
-   The underlying requirement is that the index must physically store, or
-   else be able to reconstruct, the original data value for each index
-   entry. As a counterexample, GIN indexes cannot support index-only
-   scans because each index entry typically holds only part of the
-   original data value.
-2. The query must reference only columns stored in the index. For
-   example, given an index on columns `x`
-   and `y` of a table that also has a
-   column `z`, these queries could use index-only scans:
+1. 索引類型必須支援僅索引掃描。B-tree 索引一定支援。GiST 與 SP-GiST 索引對某些運算子類別支援僅索引掃描，對其他的則不支援。其他索引類型則不支援。其根本要求是，索引必須實際儲存（或者能夠重建）每個索引項目的原始資料值。舉個反例，GIN 索引無法支援僅索引掃描，因為每個索引項目通常只保存原始資料值的一部分。
+2. 查詢必須只參照儲存在索引中的欄位。例如，給定一個建立在某資料表之 `x` 與 `y` 欄位上的索引，而該資料表另外還有一個 `z` 欄位，那麼下面這些查詢可以使用僅索引掃描：
 
    ```
 
@@ -44,7 +17,7 @@ when this method can be used:
    SELECT x FROM tab WHERE x = 'key' AND y < 42;
    ```
 
-   but these queries could not:
+   但下面這些查詢則不行：
 
    ```
 
@@ -52,165 +25,68 @@ when this method can be used:
    SELECT x FROM tab WHERE x = 'key' AND z < 42;
    ```
 
-   (Expression indexes and partial indexes complicate this rule,
-   as discussed below.)
+   （運算式索引與部分索引會使這項規則變得複雜，如下所述。）
 
-If these two fundamental requirements are met, then all the data values
-required by the query are available from the index, so an index-only scan
-is physically possible. But there is an additional requirement for any
-table scan in PostgreSQL: it must verify that
-each retrieved row be “visible” to the query's MVCC
-snapshot, as discussed in [Chapter 13](../mvcc/README.md). Visibility information
-is not stored in index entries, only in heap entries; so at first glance
-it would seem that every row retrieval would require a heap access
-anyway. And this is indeed the case, if the table row has been modified
-recently. However, for seldom-changing data there is a way around this
-problem. PostgreSQL tracks, for each page in
-a table's heap, whether all rows stored in that page are old enough to be
-visible to all current and future transactions. This information is
-stored in a bit in the table's *visibility map*. An
-index-only scan, after finding a candidate index entry, checks the
-visibility map bit for the corresponding heap page. If it's set, the row
-is known visible and so the data can be returned with no further work.
-If it's not set, the heap entry must be visited to find out whether it's
-visible, so no performance advantage is gained over a standard index
-scan. Even in the successful case, this approach trades visibility map
-accesses for heap accesses; but since the visibility map is four orders
-of magnitude smaller than the heap it describes, far less physical I/O is
-needed to access it. In most situations the visibility map remains
-cached in memory all the time.
+如果滿足這兩項基本要求，那麼查詢所需的所有資料值都可以從索引取得，因此在實體上可以進行僅索引掃描。但 PostgreSQL 中的任何資料表掃描還有一項額外的要求：它必須確認每一筆取得的資料列對查詢的 MVCC 快照是「可見的」，如[第 13 章](../mvcc/README.md)所述。可見性資訊並不儲存在索引項目中，只儲存在堆積項目中；所以乍看之下，似乎每取得一筆資料列都還是需要存取堆積。如果資料表資料列最近被修改過，情況確實如此。不過，對於很少變動的資料，有一種方法可以繞過這個問題。PostgreSQL 會針對資料表堆積中的每個頁面，追蹤儲存在該頁面中的所有資料列是否都已經舊到對目前與未來的所有交易都可見。這項資訊儲存在資料表之*可見性映射*（visibility map）中的一個位元。僅索引掃描在找到候選的索引項目之後，會檢查對應堆積頁面在可見性映射中的位元。如果該位元已設定，就知道該資料列是可見的，因此不需要額外的工作就能回傳資料。如果沒有設定，就必須走訪堆積項目來確認它是否可見，因此相對於標準的索引掃描沒有任何效能上的好處。即使在成功的情況下，這種做法也是以存取可見性映射來取代存取堆積；但由於可見性映射比它所描述的堆積小四個數量級，存取它所需的實體 I/O 要少得多。在大多數情況下，可見性映射會一直快取在記憶體中。
 
-In short, while an index-only scan is possible given the two fundamental
-requirements, it will be a win only if a significant fraction of the
-table's heap pages have their all-visible map bits set. But tables in
-which a large fraction of the rows are unchanging are common enough to
-make this type of scan very useful in practice.
+簡而言之，雖然在滿足這兩項基本要求時就可以進行僅索引掃描，但只有在資料表有相當比例的堆積頁面，其全部可見映射位元都已設定時，它才會划算。不過，大部分資料列都不會變動的資料表相當常見，使得這種掃描在實務上非常有用。
 
 <a id="id-1.5.10.12.10.1"></a>
-To make effective use of the index-only scan feature, you might choose to
-create a *covering index*, which is an index
-specifically designed to include the columns needed by a particular
-type of query that you run frequently. Since queries typically need to
-retrieve more columns than just the ones they search
-on, PostgreSQL allows you to create an index
-in which some columns are just “payload” and are not part
-of the search key. This is done by adding an `INCLUDE`
-clause listing the extra columns. For example, if you commonly run
-queries like
+為了有效利用僅索引掃描功能，你可以選擇建立*涵蓋索引*（covering index），這是一種專門設計來包含你經常執行之特定類型查詢所需欄位的索引。由於查詢通常需要取得的欄位不只是它們用來搜尋的欄位，PostgreSQL 允許你建立一種索引，其中有些欄位只是「酬載」（payload），而不屬於搜尋鍵的一部分。做法是加上一個列出這些額外欄位的 `INCLUDE` 子句。例如，如果你經常執行像這樣的查詢
 
 ```
 
 SELECT y FROM tab WHERE x = 'key';
 ```
 
-the traditional approach to speeding up such queries would be to create
-an index on `x` only. However, an index defined as
+傳統上加速這類查詢的做法，是只在 `x` 上建立索引。不過，一個定義如下的索引
 
 ```
 
 CREATE INDEX tab_x_y ON tab(x) INCLUDE (y);
 ```
 
-could handle these queries as index-only scans,
-because `y` can be obtained from the index without
-visiting the heap.
+就可以用僅索引掃描來處理這些查詢，因為不必走訪堆積就能從索引中取得 `y`。
 
-Because column `y` is not part of the index's search
-key, it does not have to be of a data type that the index can handle;
-it's merely stored in the index and is not interpreted by the index
-machinery. Also, if the index is a unique index, that is
+由於欄位 `y` 不屬於索引的搜尋鍵，它的資料型別不必是該索引能夠處理的型別；它只是被儲存在索引中，不會被索引機制解讀。此外，如果該索引是唯一值索引，也就是
 
 ```
 
 CREATE UNIQUE INDEX tab_x_y ON tab(x) INCLUDE (y);
 ```
 
-the uniqueness condition applies to just column `x`,
-not to the combination of `x` and `y`.
-(An `INCLUDE` clause can also be written
-in `UNIQUE` and `PRIMARY KEY`
-constraints, providing alternative syntax for setting up an index like
-this.)
+唯一性條件只適用於欄位 `x`，而不是 `x` 與 `y` 的組合。（`INCLUDE` 子句也可以寫在 `UNIQUE` 與 `PRIMARY KEY` 限制條件中，提供建立這類索引的另一種語法。）
 
-It's wise to be conservative about adding non-key payload columns to an
-index, especially wide columns. If an index tuple exceeds the
-maximum size allowed for the index type, data insertion will fail.
-In any case, non-key columns duplicate data from the index's table
-and bloat the size of the index, thus potentially slowing searches.
-And remember that there is little point in including payload columns in an
-index unless the table changes slowly enough that an index-only scan is
-likely to not need to access the heap. If the heap tuple must be visited
-anyway, it costs nothing more to get the column's value from there.
-Other restrictions are that expressions are not currently supported as
-included columns, and that only B-tree, GiST and SP-GiST indexes currently
-support included columns.
+在索引中加入非鍵的酬載欄位時，最好保守一點，特別是寬的欄位。如果索引 tuple 超過該索引類型允許的最大大小，資料插入就會失敗。無論如何，非鍵欄位都會重複儲存索引所屬資料表的資料，並使索引變大，因而可能拖慢搜尋。還要記住，除非資料表的變動慢到僅索引掃描很可能不需要存取堆積，否則在索引中包含酬載欄位並沒有什麼意義。如果無論如何都必須走訪堆積 tuple，從那裡取得欄位值並不會多花任何成本。其他限制包括：目前不支援以運算式作為包含欄位，而且目前只有 B-tree、GiST 與 SP-GiST 索引支援包含欄位。
 
-Before PostgreSQL had
-the `INCLUDE` feature, people sometimes made covering
-indexes by writing the payload columns as ordinary index columns,
-that is writing
+在 PostgreSQL 有 `INCLUDE` 功能之前，人們有時會把酬載欄位寫成一般的索引欄位來建立涵蓋索引，也就是寫成
 
 ```
 
 CREATE INDEX tab_x_y ON tab(x, y);
 ```
 
-even though they had no intention of ever using `y` as
-part of a `WHERE` clause. This works fine as long as
-the extra columns are trailing columns; making them be leading columns is
-unwise for the reasons explained in [Section 11.3](indexes-multicolumn.md).
-However, this method doesn't support the case where you want the index to
-enforce uniqueness on the key column(s).
+即使他們根本不打算把 `y` 用作 `WHERE` 子句的一部分。只要這些額外的欄位是尾端欄位，這樣做就沒有問題；基於[第 11.3 節](indexes-multicolumn.md)所說明的理由，把它們放在前導欄位是不明智的。不過，這種方法不支援你希望索引在鍵欄位上強制唯一性的情況。
 
-*Suffix truncation* always removes non-key
-columns from upper B-Tree levels. As payload columns, they are
-never used to guide index scans. The truncation process also
-removes one or more trailing key column(s) when the remaining
-prefix of key column(s) happens to be sufficient to describe tuples
-on the lowest B-Tree level. In practice, covering indexes without
-an `INCLUDE` clause often avoid storing columns
-that are effectively payload in the upper levels. However,
-explicitly defining payload columns as non-key columns
-*reliably* keeps the tuples in upper levels
-small.
+*後綴截斷*（suffix truncation）一定會從 B-Tree 的上層移除非鍵欄位。作為酬載欄位，它們永遠不會用來引導索引掃描。當剩下的鍵欄位前綴恰好足以描述 B-Tree 最底層的 tuple 時，截斷過程也會移除一個或多個尾端的鍵欄位。在實務上，沒有 `INCLUDE` 子句的涵蓋索引，往往也能避免在上層儲存實際上屬於酬載的欄位。不過，明確地將酬載欄位定義為非鍵欄位，才能*可靠地*讓上層的 tuple 保持精簡。
 
-In principle, index-only scans can be used with expression indexes.
-For example, given an index on `f(x)`
-where `x` is a table column, it should be possible to
-execute
+原則上，僅索引掃描可以搭配運算式索引使用。例如，給定一個建立在 `f(x)` 上的索引，其中 `x` 是資料表欄位，應該可以將
 
 ```
 
 SELECT f(x) FROM tab WHERE f(x) < 1;
 ```
 
-as an index-only scan; and this is very attractive
-if `f()` is an expensive-to-compute function.
-However, PostgreSQL's planner is currently not
-very smart about such cases. It considers a query to be potentially
-executable by index-only scan only when all *columns*
-needed by the query are available from the index. In this
-example, `x` is not needed except in the
-context `f(x)`, but the planner does not notice that and
-concludes that an index-only scan is not possible. If an index-only scan
-seems sufficiently worthwhile, this can be worked around by
-adding `x` as an included column, for example
+以僅索引掃描執行；如果 `f()` 是計算成本很高的函式，這會非常有吸引力。不過，PostgreSQL 的規劃器目前對這類情況還不是很聰明。只有在查詢所需的所有*欄位*都能從索引取得時，它才會認為該查詢可能可以用僅索引掃描執行。在這個範例中，除了在 `f(x)` 的上下文中之外，並不需要 `x`，但規劃器沒有注意到這一點，因而得出無法進行僅索引掃描的結論。如果僅索引掃描看起來夠值得，可以藉由將 `x` 加為包含欄位來繞過這個問題，例如
 
 ```
 
 CREATE INDEX tab_f_x ON tab (f(x)) INCLUDE (x);
 ```
 
-An additional caveat, if the goal is to avoid
-recalculating `f(x)`, is that the planner won't
-necessarily match uses of `f(x)` that aren't in
-indexable `WHERE` clauses to the index column. It will
-usually get this right in simple queries such as shown above, but not in
-queries that involve joins. These deficiencies may be remedied in future
-versions of PostgreSQL.
+如果目標是避免重新計算 `f(x)`，還有一個額外的注意事項：規劃器不一定會將不在可索引 `WHERE` 子句中的 `f(x)` 用法對應到該索引欄位。在像上面這樣的簡單查詢中，它通常能處理正確，但在涉及聯結的查詢中則不然。這些不足之處可能會在 PostgreSQL 的未來版本中改善。
 
-Partial indexes also have interesting interactions with index-only scans.
-Consider the partial index shown in [Example 11.3](indexes-partial.md#INDEXES-PARTIAL-EX3):
+部分索引與僅索引掃描之間也有一些有趣的交互作用。考慮[範例 11.3](indexes-partial.md#INDEXES-PARTIAL-EX3) 中的部分索引：
 
 ```
 
@@ -218,24 +94,15 @@ CREATE UNIQUE INDEX tests_success_constraint ON tests (subject, target)
     WHERE success;
 ```
 
-In principle, we could do an index-only scan on this index to satisfy a
-query like
+原則上，我們可以在這個索引上進行僅索引掃描，來滿足像這樣的查詢
 
 ```
 
 SELECT target FROM tests WHERE subject = 'some-subject' AND success;
 ```
 
-But there's a problem: the `WHERE` clause refers
-to `success` which is not available as a result column
-of the index. Nonetheless, an index-only scan is possible because the
-plan does not need to recheck that part of the `WHERE`
-clause at run time: all entries found in the index necessarily
-have `success = true` so this need not be explicitly
-checked in the plan. PostgreSQL versions 9.6
-and later will recognize such cases and allow index-only scans to be
-generated, but older versions will not.
+但有一個問題：`WHERE` 子句參照了 `success`，而它並不是索引可提供的結果欄位。儘管如此，僅索引掃描仍然是可行的，因為計畫不需要在執行時重新檢查 `WHERE` 子句的這一部分：在索引中找到的所有項目必然都有 `success = true`，因此不需要在計畫中明確檢查。PostgreSQL 9.6 版及之後的版本會辨識這類情況並允許產生僅索引掃描，但較舊的版本則不會。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-index-only-scans.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-index-only-scans.html)（原文版本：18.6；核對日期：2026-09-13）
