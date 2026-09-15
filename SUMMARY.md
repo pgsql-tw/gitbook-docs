@@ -67,7 +67,7 @@
     * [7.7. `VALUES` 清單 #](the-sql-language/queries/queries-values.md)
     * [7.8. `WITH` 查詢（通用資料表運算式） #](the-sql-language/queries/queries-with.md)
   * [Chapter 8. Data Types](the-sql-language/datatype/README.md)
-    * [8.1. Numeric Types #](the-sql-language/datatype/datatype-numeric.md)
+    * [8.1. 數值型別 #](the-sql-language/datatype/datatype-numeric.md)
     * [8.2. 貨幣型別 #](the-sql-language/datatype/datatype-money.md)
     * [8.3. Character Types #](the-sql-language/datatype/datatype-character.md)
     * [8.4. 二進位資料型別 #](the-sql-language/datatype/datatype-binary.md)
