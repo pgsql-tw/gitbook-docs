@@ -1,133 +1,90 @@
-## 44.6. Database Access [#](#PLPYTHON-DATABASE)
+<a id="PLPYTHON-DATABASE"></a>
 
-[44.6.1. Database Access Functions](plpython-database.md#PLPYTHON-DATABASE-ACCESS-FUNCS)
+## 44.6. 資料庫存取 [#](#PLPYTHON-DATABASE)
 
-[44.6.2. Trapping Errors](plpython-database.md#PLPYTHON-TRAPPING)
+[44.6.1. 資料庫存取函式](plpython-database.md#PLPYTHON-DATABASE-ACCESS-FUNCS)
 
-The PL/Python language module automatically imports a Python module
-called `plpy`. The functions and constants in
-this module are available to you in the Python code as
-`plpy.foo`.
+[44.6.2. 攔截錯誤](plpython-database.md#PLPYTHON-TRAPPING)
+
+PL/Python 語言模組會自動匯入一個名為 `plpy` 的 Python 模組。這個模組中的函式與常數可以在你的 Python 程式碼中以 `plpy.foo` 的形式使用。
 
 <a id="PLPYTHON-DATABASE-ACCESS-FUNCS"></a>
 
-### 44.6.1. Database Access Functions [#](#PLPYTHON-DATABASE-ACCESS-FUNCS)
+### 44.6.1. 資料庫存取函式 [#](#PLPYTHON-DATABASE-ACCESS-FUNCS)
 
-The `plpy` module provides several functions to execute
-database commands:
+`plpy` 模組提供了數個用來執行資料庫指令的函式：
 
 `plpy.execute(query [, limit])`
-:   Calling `plpy.execute` with a query string and an
-    optional row limit argument causes that query to be run and the result to
-    be returned in a result object.
+:   以一個查詢字串與一個選擇性的資料列數量上限引數呼叫 `plpy.execute`，會使該查詢被執行，並將結果以結果物件的形式回傳。
 
-    If *`limit`* is specified and is greater than
-    zero, then `plpy.execute` retrieves at
-    most *`limit`* rows, much as if the query
-    included a `LIMIT`
-    clause. Omitting *`limit`* or specifying it as
-    zero results in no row limit.
+    如果有指定 *`limit`* 且其值大於零，則 `plpy.execute` 最多只會取出 *`limit`* 筆資料列，就好像該查詢帶有 `LIMIT` 子句一樣。省略 *`limit`* 或把它指定為零，則不會限制資料列數量。
 
-    The result object emulates a list or dictionary object. The result
-    object can be accessed by row number and column name. For example:
+    結果物件模擬了 list 或字典物件的行為。結果物件可以用資料列編號與欄位名稱來存取。例如：
 
     ```
 
     rv = plpy.execute("SELECT * FROM my_table", 5)
     ```
 
-    returns up to 5 rows from `my_table`. If
-    `my_table` has a column
-    `my_column`, it would be accessed as:
+    這會從 `my_table` 回傳最多 5 筆資料列。如果 `my_table` 有一個名為 `my_column` 的欄位，就可以這樣存取它：
 
     ```
 
     foo = rv[i]["my_column"]
     ```
 
-    The number of rows returned can be obtained using the built-in
-    `len` function.
+    回傳的資料列數量可以用內建的 `len` 函式取得。
 
-    The result object has these additional methods:
+    結果物件還有下列這些額外的方法：
 
     `nrows()`
-    :   Returns the number of rows processed by the command. Note that this
-        is not necessarily the same as the number of rows returned. For
-        example, an `UPDATE` command will set this value but
-        won't return any rows (unless `RETURNING` is used).
+    :   回傳該指令所處理的資料列數量。請注意，這不一定與回傳的資料列數量相同。例如，`UPDATE` 指令會設定這個值，但不會回傳任何資料列（除非有使用 `RETURNING`）。
 
     `status()`
-    :   The `SPI_execute()` return value.
+    :   `SPI_execute()` 的回傳值。
 
     `colnames()`<br>`coltypes()`<br>`coltypmods()`
-    :   Return a list of column names, list of column type OIDs, and list of
-        type-specific type modifiers for the columns, respectively.
+    :   分別回傳欄位名稱的 list、欄位型別 OID 的 list，以及各欄位之型別專屬型別修飾詞的 list。
 
-        These methods raise an exception when called on a result object from
-        a command that did not produce a result set, e.g.,
-        `UPDATE` without `RETURNING`, or
-        `DROP TABLE`. But it is OK to use these methods on
-        a result set containing zero rows.
+        如果對「沒有產生結果集的指令」所得到的結果物件呼叫這些方法（例如沒有 `RETURNING` 的 `UPDATE`，或 `DROP TABLE`），就會拋出例外。不過，對包含零筆資料列的結果集使用這些方法是可以的。
 
     `__str__()`
-    :   The standard `__str__` method is defined so that it
-        is possible for example to debug query execution results
-        using `plpy.debug(rv)`.
+    :   標準的 `__str__` 方法有被定義，因此例如可以使用 `plpy.debug(rv)` 來對查詢執行結果進行除錯。
 
-    The result object can be modified.
+    結果物件是可以被修改的。
 
-    Note that calling `plpy.execute` will cause the entire
-    result set to be read into memory. Only use that function when you are
-    sure that the result set will be relatively small. If you don't want to
-    risk excessive memory usage when fetching large results,
-    use `plpy.cursor` rather
-    than `plpy.execute`.
+    請注意，呼叫 `plpy.execute` 會使整個結果集被讀入記憶體。只有在你確定結果集相對較小時才使用這個函式。如果你不想在取得大量結果時冒著耗用過多記憶體的風險，請改用 `plpy.cursor` 而非 `plpy.execute`。
 
 `plpy.prepare(query [, argtypes])`<br>`plpy.execute(plan [, arguments [, limit]])`
 :   <a id="id-1.8.11.14.3.3.2.3.1.1"></a>
-    `plpy.prepare` prepares the execution plan for a
-    query. It is called with a query string and a list of parameter types,
-    if you have parameter references in the query. For example:
+    `plpy.prepare` 會為查詢準備執行計畫。呼叫它時要給定一個查詢字串，以及（若查詢中有參數參照）一個參數型別的 list。例如：
 
     ```
 
     plan = plpy.prepare("SELECT last_name FROM my_users WHERE first_name = $1", ["text"])
     ```
 
-    `text` is the type of the variable you will be passing
-    for `$1`. The second argument is optional if you don't
-    want to pass any parameters to the query.
+    `text` 是你將要為 `$1` 傳入之變數的型別。如果你不打算傳任何參數給該查詢，第二個引數是選擇性的。
 
-    After preparing a statement, you use a variant of the
-    function `plpy.execute` to run it:
+    在準備好陳述式之後，你會使用 `plpy.execute` 函式的一種變體來執行它：
 
     ```
 
     rv = plpy.execute(plan, ["name"], 5)
     ```
 
-    Pass the plan as the first argument (instead of the query string), and a
-    list of values to substitute into the query as the second argument. The
-    second argument is optional if the query does not expect any parameters.
-    The third argument is the optional row limit as before.
+    把執行計畫當成第一個引數傳入（取代查詢字串），並把要代入查詢的值的 list 當成第二個引數。如果該查詢不需要任何參數，第二個引數是選擇性的。第三個引數則和先前一樣，是選擇性的資料列數量上限。
 
-    Alternatively, you can call the `execute` method on
-    the plan object:
+    或者，你也可以對該執行計畫物件呼叫 `execute` 方法：
 
     ```
 
     rv = plan.execute(["name"], 5)
     ```
 
-    Query parameters and result row fields are converted between PostgreSQL
-    and Python data types as described in [Section 44.2](plpython-data.md).
+    查詢參數與結果資料列欄位會依[第 44.2 節](plpython-data.md)所述的方式在 PostgreSQL 與 Python 資料型別之間轉換。
 
-    When you prepare a plan using the PL/Python module it is automatically
-    saved. Read the SPI documentation ([Chapter 45](../spi/README.md)) for a
-    description of what this means. In order to make effective use of this
-    across function calls one needs to use one of the persistent storage
-    dictionaries `SD` or `GD` (see
-    [Section 44.3](plpython-sharing.md)). For example:
+    當你使用 PL/Python 模組準備執行計畫時，它會自動被儲存起來。這代表什麼意思，請閱讀 SPI 的文件（[第 45 章](../spi/README.md)）。為了在多次函式呼叫之間有效運用這一點，必須使用持續性儲存字典 `SD` 或 `GD` 其中之一（請參閱[第 44.3 節](plpython-sharing.md)）。例如：
 
     ```
 
@@ -142,27 +99,11 @@ database commands:
     ```
 
 `plpy.cursor(query)`<br>`plpy.cursor(plan [, arguments])`
-:   The `plpy.cursor` function accepts the same arguments
-    as `plpy.execute` (except for the row limit) and returns
-    a cursor object, which allows you to process large result sets in smaller
-    chunks. As with `plpy.execute`, either a query string
-    or a plan object along with a list of arguments can be used, or
-    the `cursor` function can be called as a method of
-    the plan object.
+:   `plpy.cursor` 函式接受與 `plpy.execute` 相同的引數（除了資料列數量上限之外），並回傳一個游標物件，讓你可以分成較小的批次來處理大型結果集。與 `plpy.execute` 一樣，你可以使用查詢字串，也可以使用執行計畫物件搭配引數的 list，或者把 `cursor` 函式當成執行計畫物件的方法來呼叫。
 
-    The cursor object provides a `fetch` method that accepts
-    an integer parameter and returns a result object. Each time you
-    call `fetch`, the returned object will contain the next
-    batch of rows, never larger than the parameter value. Once all rows are
-    exhausted, `fetch` starts returning an empty result
-    object. Cursor objects also provide an
-    [iterator
-    interface](https://docs.python.org/library/stdtypes.html#iterator-types), yielding one row at a time until all rows are
-    exhausted. Data fetched that way is not returned as result objects, but
-    rather as dictionaries, each dictionary corresponding to a single result
-    row.
+    游標物件提供了一個 `fetch` 方法，它接受一個整數參數並回傳一個結果物件。每次你呼叫 `fetch`，回傳的物件都會包含下一批資料列，數量絕不會超過該參數值。一旦所有資料列都取完，`fetch` 就會開始回傳空的結果物件。游標物件同時也提供了[迭代器介面](https://docs.python.org/library/stdtypes.html#iterator-types)，每次產出一筆資料列，直到所有資料列都取完為止。以這種方式取得的資料並不是以結果物件回傳，而是以字典回傳，每個字典對應一筆結果資料列。
 
-    An example of two ways of processing data from a large table is:
+    以下是處理大型資料表資料的兩種方式的例子：
 
     ```
 
@@ -196,30 +137,17 @@ database commands:
     $$ LANGUAGE plpython3u;
     ```
 
-    Cursors are automatically disposed of. But if you want to explicitly
-    release all resources held by a cursor, use the `close`
-    method. Once closed, a cursor cannot be fetched from anymore.
+    游標會自動被釋放。但如果你想明確釋放某個游標所持有的所有資源，請使用 `close` 方法。一旦關閉，就不能再從該游標取出資料。
 
-    ### Tip
+    ### 提示
 
-    Do not confuse objects created by `plpy.cursor` with
-    DB-API cursors as defined by
-    the [Python
-    Database API specification](https://www.python.org/dev/peps/pep-0249/). They don't have anything in common
-    except for the name.
+    請不要把 `plpy.cursor` 所建立的物件與 [Python 資料庫 API 規格](https://www.python.org/dev/peps/pep-0249/)所定義的 DB-API 游標混為一談。除了名稱之外，它們毫無共通之處。
 
 <a id="PLPYTHON-TRAPPING"></a>
 
-### 44.6.2. Trapping Errors [#](#PLPYTHON-TRAPPING)
+### 44.6.2. 攔截錯誤 [#](#PLPYTHON-TRAPPING)
 
-Functions accessing the database might encounter errors, which
-will cause them to abort and raise an exception. Both
-`plpy.execute` and
-`plpy.prepare` can raise an instance of a subclass of
-`plpy.SPIError`, which by default will terminate
-the function. This error can be handled just like any other
-Python exception, by using the `try/except`
-construct. For example:
+存取資料庫的函式可能會遇到錯誤，而這些錯誤會使它們中止並拋出例外。`plpy.execute` 與 `plpy.prepare` 兩者都可能拋出 `plpy.SPIError` 之子類別的實例，這在預設情況下會終止該函式。這個錯誤可以像處理其他任何 Python 例外一樣，用 `try/except` 結構來處理。例如：
 
 ```
 
@@ -233,20 +161,7 @@ CREATE FUNCTION try_adding_joe() RETURNS text AS $$
 $$ LANGUAGE plpython3u;
 ```
 
-The actual class of the exception being raised corresponds to the
-specific condition that caused the error. Refer
-to [Table A.1](../../appendixes/errcodes-appendix/README.md#ERRCODES-TABLE) for a list of possible
-conditions. The module
-`plpy.spiexceptions` defines an exception class
-for each PostgreSQL condition, deriving
-their names from the condition name. For
-instance, `division_by_zero`
-becomes `DivisionByZero`, `unique_violation`
-becomes `UniqueViolation`, `fdw_error`
-becomes `FdwError`, and so on. Each of these
-exception classes inherits from `SPIError`. This
-separation makes it easier to handle specific errors, for
-instance:
+實際被拋出之例外的類別，對應到造成該錯誤的特定條件。可能的條件清單請參閱[表 A.1](../../appendixes/errcodes-appendix/README.md#ERRCODES-TABLE)。模組 `plpy.spiexceptions` 為每一個 PostgreSQL 條件定義了一個例外類別，其名稱衍生自條件名稱。例如，`division_by_zero` 會變成 `DivisionByZero`、`unique_violation` 變成 `UniqueViolation`、`fdw_error` 變成 `FdwError`，依此類推。這些例外類別每一個都繼承自 `SPIError`。這樣的區分使得處理特定錯誤更為容易，例如：
 
 ```
 
@@ -266,19 +181,10 @@ else:
 $$ LANGUAGE plpython3u;
 ```
 
-Note that because all exceptions from
-the `plpy.spiexceptions` module inherit
-from `SPIError`, an `except`
-clause handling it will catch any database access error.
+請注意，由於 `plpy.spiexceptions` 模組中的所有例外都繼承自 `SPIError`，用來處理它的 `except` 子句會攔截任何資料庫存取錯誤。
 
-As an alternative way of handling different error conditions, you
-can catch the `SPIError` exception and determine
-the specific error condition inside the `except`
-block by looking at the `sqlstate` attribute of
-the exception object. This attribute is a string value containing
-the “SQLSTATE” error code. This approach provides
-approximately the same functionality
+處理不同錯誤條件的另一種替代做法，是攔截 `SPIError` 例外，並在 `except` 區塊內檢視該例外物件的 `sqlstate` 屬性，以判定特定的錯誤條件。這個屬性是一個字串值，內含「SQLSTATE」錯誤碼。這種做法所提供的功能大致相同
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpython-database.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpython-database.html)（原文版本：18.6；核對日期：2026-09-13）

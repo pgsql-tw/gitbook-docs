@@ -517,7 +517,7 @@
     * [44.3. 共用資料](server-programming/plpython/plpython-sharing.md)
     * [44.4. 匿名程式碼區塊](server-programming/plpython/plpython-do.md)
     * [44.5. 觸發程序函式 #](server-programming/plpython/plpython-trigger.md)
-    * [44.6. Database Access #](server-programming/plpython/plpython-database.md)
+    * [44.6. 資料庫存取 #](server-programming/plpython/plpython-database.md)
     * [44.7. 明確的子交易 #](server-programming/plpython/plpython-subtransaction.md)
     * [44.8. 交易管理](server-programming/plpython/plpython-transactions.md)
     * [44.9. 公用函式 #](server-programming/plpython/plpython-util.md)
