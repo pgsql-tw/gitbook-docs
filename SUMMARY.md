@@ -83,7 +83,7 @@
     * [8.14. JSON Types #](the-sql-language/datatype/datatype-json.md)
     * [8.15. Arrays #](the-sql-language/datatype/arrays.md)
     * [8.16. Composite Types #](the-sql-language/datatype/rowtypes.md)
-    * [8.17. Range Types #](the-sql-language/datatype/rangetypes.md)
+    * [8.17. 範圍型別 #](the-sql-language/datatype/rangetypes.md)
     * [8.18. Domain Types #](the-sql-language/datatype/domains.md)
     * [8.19. 物件識別碼型別 #](the-sql-language/datatype/datatype-oid.md)
     * [8.20. `pg_lsn` 型別 #](the-sql-language/datatype/datatype-pg-lsn.md)
