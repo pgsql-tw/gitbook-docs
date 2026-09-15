@@ -1,42 +1,16 @@
-## 11.4. Indexes and `ORDER BY` [#](#INDEXES-ORDERING)
+<a id="INDEXES-ORDERING"></a>
+
+## 11.4. 索引與 `ORDER BY` [#](#INDEXES-ORDERING)
 
 <a id="id-1.5.10.7.2"></a>
 
-In addition to simply finding the rows to be returned by a query,
-an index may be able to deliver them in a specific sorted order.
-This allows a query's `ORDER BY` specification to be honored
-without a separate sorting step. Of the index types currently
-supported by PostgreSQL, only B-tree
-can produce sorted output — the other index types return
-matching rows in an unspecified, implementation-dependent order.
+除了單純找出查詢要回傳的資料列之外，索引也可能能夠以特定的排序順序提供這些資料列。這讓查詢的 `ORDER BY` 規格可以在沒有額外排序步驟的情況下得到滿足。在 PostgreSQL 目前支援的索引類型中，只有 B-tree 能產生排序過的輸出——其他索引類型會以未指定、取決於實作的順序回傳相符的資料列。
 
-The planner will consider satisfying an `ORDER BY` specification
-either by scanning an available index that matches the specification,
-or by scanning the table in physical order and doing an explicit
-sort. For a query that requires scanning a large fraction of the
-table, an explicit sort is likely to be faster than using an index
-because it requires
-less disk I/O due to following a sequential access pattern. Indexes are
-more useful when only a few rows need be fetched. An important
-special case is `ORDER BY` in combination with
-`LIMIT` *`n`*: an explicit sort will have to process
-all the data to identify the first *`n`* rows, but if there is
-an index matching the `ORDER BY`, the first *`n`*
-rows can be retrieved directly, without scanning the remainder at all.
+規劃器會考慮兩種滿足 `ORDER BY` 規格的方式：掃描一個符合該規格的可用索引，或是依實體順序掃描資料表並進行明確的排序。對於需要掃描資料表大部分內容的查詢，明確排序很可能比使用索引更快，因為它遵循循序存取模式，所需的磁碟 I/O 較少。當只需要擷取少數幾筆資料列時，索引會比較有用。一個重要的特例是 `ORDER BY` 搭配 `LIMIT` *`n`*：明確排序必須處理所有資料才能找出前 *`n`* 筆資料列，但如果有一個符合 `ORDER BY` 的索引，就能直接取得前 *`n`* 筆資料列，完全不必掃描其餘部分。
 
-By default, B-tree indexes store their entries in ascending order
-with nulls last (table TID is treated as a tiebreaker column among
-otherwise equal entries). This means that a forward scan of an
-index on column `x` produces output satisfying `ORDER BY x`
-(or more verbosely, `ORDER BY x ASC NULLS LAST`). The
-index can also be scanned backward, producing output satisfying
-`ORDER BY x DESC`
-(or more verbosely, `ORDER BY x DESC NULLS FIRST`, since
-`NULLS FIRST` is the default for `ORDER BY DESC`).
+預設情況下，B-tree 索引以遞增順序儲存其項目，並將 null 值放在最後（在其他方面都相等的項目之間，資料表的 TID 會被當作決勝欄位）。這表示對欄位 `x` 上的索引進行正向掃描，會產生滿足 `ORDER BY x`（或者寫得更完整一點，`ORDER BY x ASC NULLS LAST`）的輸出。這個索引也可以反向掃描，產生滿足 `ORDER BY x DESC` 的輸出（或者寫得更完整一點，`ORDER BY x DESC NULLS FIRST`，因為 `NULLS FIRST` 是 `ORDER BY DESC` 的預設值）。
 
-You can adjust the ordering of a B-tree index by including the
-options `ASC`, `DESC`, `NULLS FIRST`,
-and/or `NULLS LAST` when creating the index; for example:
+你可以在建立索引時加上 `ASC`、`DESC`、`NULLS FIRST` 和／或 `NULLS LAST` 選項，來調整 B-tree 索引的排序方式；例如：
 
 ```
 
@@ -44,29 +18,12 @@ CREATE INDEX test2_info_nulls_low ON test2 (info NULLS FIRST);
 CREATE INDEX test3_desc_index ON test3 (id DESC NULLS LAST);
 ```
 
-An index stored in ascending order with nulls first can satisfy
-either `ORDER BY x ASC NULLS FIRST` or
-`ORDER BY x DESC NULLS LAST` depending on which direction
-it is scanned in.
+以遞增順序且 null 值在前的方式儲存的索引，視掃描方向而定，可以滿足 `ORDER BY x ASC NULLS FIRST` 或 `ORDER BY x DESC NULLS LAST`。
 
-You might wonder why bother providing all four options, when two
-options together with the possibility of backward scan would cover
-all the variants of `ORDER BY`. In single-column indexes
-the options are indeed redundant, but in multicolumn indexes they can be
-useful. Consider a two-column index on `(x, y)`: this can
-satisfy `ORDER BY x, y` if we scan forward, or
-`ORDER BY x DESC, y DESC` if we scan backward.
-But it might be that the application frequently needs to use
-`ORDER BY x ASC, y DESC`. There is no way to get that
-ordering from a plain index, but it is possible if the index is defined
-as `(x ASC, y DESC)` or `(x DESC, y ASC)`.
+你可能會納悶，既然兩個選項再加上反向掃描的可能性，就能涵蓋 `ORDER BY` 的所有變化，為什麼還要提供全部四個選項。在單一欄位索引中，這些選項確實是多餘的，但在多欄位索引中，它們可能很有用。考慮一個建立在 `(x, y)` 上的雙欄位索引：如果正向掃描，它可以滿足 `ORDER BY x, y`；如果反向掃描，則可以滿足 `ORDER BY x DESC, y DESC`。但應用程式可能經常需要使用 `ORDER BY x ASC, y DESC`。一般的索引無法提供這種順序，但如果索引定義為 `(x ASC, y DESC)` 或 `(x DESC, y ASC)`，就可以做到。
 
-Obviously, indexes with non-default sort orderings are a fairly
-specialized feature, but sometimes they can produce tremendous
-speedups for certain queries. Whether it's worth maintaining such an
-index depends on how often you use queries that require a special
-sort ordering.
+顯然，使用非預設排序順序的索引是相當特殊的功能，但有時它們能讓某些查詢大幅加速。是否值得維護這樣的索引，取決於你有多常使用需要特殊排序順序的查詢。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-ordering.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-ordering.html)（原文版本：18.6；核對日期：2026-09-13）

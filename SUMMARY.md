@@ -131,7 +131,7 @@
     * [11.1. 簡介 #](the-sql-language/indexes/indexes-intro.md)
     * [11.2. 索引類型 #](the-sql-language/indexes/indexes-types.md)
     * [11.3. 多欄位索引 #](the-sql-language/indexes/indexes-multicolumn.md)
-    * [11.4. Indexes and ORDER BY #](the-sql-language/indexes/indexes-ordering.md)
+    * [11.4. 索引與 `ORDER BY` #](the-sql-language/indexes/indexes-ordering.md)
     * [11.5. 組合多個索引 #](the-sql-language/indexes/indexes-bitmap-scans.md)
     * [11.6. 唯一值索引](the-sql-language/indexes/indexes-unique.md)
     * [11.7. 運算式索引 #](the-sql-language/indexes/indexes-expressional.md)
