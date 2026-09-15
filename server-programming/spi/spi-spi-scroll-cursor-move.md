@@ -2,9 +2,9 @@
 
 ## SPI_scroll_cursor_move
 
-SPI_scroll_cursor_move — move a cursor
+SPI_scroll_cursor_move — 移動游標
 
-## Synopsis
+## 概要
 
 ```
 
@@ -14,54 +14,37 @@ void SPI_scroll_cursor_move(Portal portal, FetchDirection direction,
 
 <a id="id-1.8.12.8.27.5"></a>
 
-## Description
+## 描述
 
-`SPI_scroll_cursor_move` skips over some number of rows
-in a cursor. This is equivalent to the SQL command
-`MOVE`.
+`SPI_scroll_cursor_move` 會在游標中跳過若干資料列。這等同於 SQL 指令 `MOVE`。
 
 <a id="id-1.8.12.8.27.6"></a>
 
-## Arguments
+## 引數
 
 `Portal portal`
-:   portal containing the cursor
+:   含有該游標的 portal
 
 `FetchDirection direction`
-:   one of `FETCH_FORWARD`,
-    `FETCH_BACKWARD`,
-    `FETCH_ABSOLUTE` or
-    `FETCH_RELATIVE`
+:   `FETCH_FORWARD`、`FETCH_BACKWARD`、`FETCH_ABSOLUTE` 或 `FETCH_RELATIVE` 其中之一
 
 `long count`
-:   number of rows to move for
-    `FETCH_FORWARD` or
-    `FETCH_BACKWARD`; absolute row number to move to for
-    `FETCH_ABSOLUTE`; or relative row number to move to for
-    `FETCH_RELATIVE`
+:   對 `FETCH_FORWARD` 或 `FETCH_BACKWARD` 而言是要移動的資料列數；對 `FETCH_ABSOLUTE` 而言是要移動到的絕對資料列編號；對 `FETCH_RELATIVE` 而言則是要移動到的相對資料列編號
 
 <a id="id-1.8.12.8.27.7"></a>
 
-## Return Value
+## 回傳值
 
-`SPI_processed` is set as in
-`SPI_execute` if successful.
-`SPI_tuptable` is set to `NULL`, since
-no rows are returned by this function.
+若執行成功，`SPI_processed` 的設定方式和 `SPI_execute` 相同。`SPI_tuptable` 會被設為 `NULL`，因為這個函式不會回傳任何資料列。
 
 <a id="id-1.8.12.8.27.8"></a>
 
-## Notes
+## 註記
 
-See the SQL [FETCH](../../reference/sql-commands/sql-fetch.md) command
-for details of the interpretation of the
-*`direction`* and
-*`count`* parameters.
+關於 *`direction`* 與 *`count`* 參數如何解讀的細節，請參閱 SQL 的 [FETCH](../../reference/sql-commands/sql-fetch.md) 指令。
 
-Direction values other than `FETCH_FORWARD`
-may fail if the cursor's plan was not created
-with the `CURSOR_OPT_SCROLL` option.
+如果該游標的執行計畫在建立時未使用 `CURSOR_OPT_SCROLL` 選項，那麼除了 `FETCH_FORWARD` 以外的方向值都可能會失敗。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-scroll-cursor-move.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-scroll-cursor-move.html)（原文版本：18.6；核對日期：2026-09-13）
