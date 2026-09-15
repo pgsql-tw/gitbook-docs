@@ -79,7 +79,7 @@
     * [8.10. 位元字串型別 #](the-sql-language/datatype/datatype-bit.md)
     * [8.11. 全文檢索型別 #](the-sql-language/datatype/datatype-textsearch.md)
     * [8.12. UUID 型別 #](the-sql-language/datatype/datatype-uuid.md)
-    * [8.13. XML Type #](the-sql-language/datatype/datatype-xml.md)
+    * [8.13. XML 型別 #](the-sql-language/datatype/datatype-xml.md)
     * [8.14. JSON Types #](the-sql-language/datatype/datatype-json.md)
     * [8.15. Arrays #](the-sql-language/datatype/arrays.md)
     * [8.16. Composite Types #](the-sql-language/datatype/rowtypes.md)
