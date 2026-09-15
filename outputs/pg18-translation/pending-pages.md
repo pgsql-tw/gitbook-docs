@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：725 頁。
+待譯頁面：724 頁。
 
 ## 根目錄
 
@@ -987,7 +987,7 @@
 - [x] `server-programming/spi/spi-spi-palloc.md` — SPI_palloc
 - [x] `server-programming/spi/spi-spi-pfree.md` — SPI_pfree
 - [x] `server-programming/spi/spi-spi-prepare-cursor.md` — SPI_prepare_cursor
-- [ ] `server-programming/spi/spi-spi-prepare-extended.md` — SPI_prepare_extended
+- [x] `server-programming/spi/spi-spi-prepare-extended.md` — SPI_prepare_extended
 - [x] `server-programming/spi/spi-spi-prepare-params.md` — SPI_prepare_params
 - [x] `server-programming/spi/spi-spi-prepare.md` — SPI_prepare
 - [x] `server-programming/spi/spi-spi-register-relation.md` — SPI_register_relation
