@@ -482,7 +482,7 @@
     * [41.4. 運算式 #](server-programming/plpgsql/plpgsql-expressions.md)
     * [41.5. Basic Statements #](server-programming/plpgsql/plpgsql-statements.md)
     * [41.6. Control Structures #](server-programming/plpgsql/plpgsql-control-structures.md)
-    * [41.7. Cursors #](server-programming/plpgsql/plpgsql-cursors.md)
+    * [41.7. 游標 #](server-programming/plpgsql/plpgsql-cursors.md)
     * [41.8. Transaction Management #](server-programming/plpgsql/plpgsql-transactions.md)
     * [41.9. 錯誤與訊息 #](server-programming/plpgsql/plpgsql-errors-and-messages.md)
     * [41.10. 觸發程序函式 #](server-programming/plpgsql/plpgsql-trigger.md)

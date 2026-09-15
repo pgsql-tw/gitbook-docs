@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：734 頁。
+待譯頁面：733 頁。
 
 ## 根目錄
 
@@ -896,7 +896,7 @@
 - [ ] `server-programming/plperl/plperl-under-the-hood.md` — 43.8. PL/Perl Under the Hood #
 - [ ] `server-programming/plpgsql/README.md` — Chapter 41. PL/pgSQL — SQL Procedural Language
 - [ ] `server-programming/plpgsql/plpgsql-control-structures.md` — 41.6. Control Structures #
-- [ ] `server-programming/plpgsql/plpgsql-cursors.md` — 41.7. Cursors #
+- [x] `server-programming/plpgsql/plpgsql-cursors.md` — 41.7. 游標 #
 - [ ] `server-programming/plpgsql/plpgsql-declarations.md` — 41.3. Declarations #
 - [x] `server-programming/plpgsql/plpgsql-development-tips.md` — 41.12. PL/pgSQL 開發技巧 #
 - [x] `server-programming/plpgsql/plpgsql-errors-and-messages.md` — 41.9. 錯誤與訊息 #
