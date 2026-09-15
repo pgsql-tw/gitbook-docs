@@ -2,9 +2,9 @@
 
 ## SPI_cursor_parse_open
 
-SPI_cursor_parse_open — set up a cursor using a query string and parameters
+SPI_cursor_parse_open — 使用一個查詢字串與參數設定一個游標
 
-## Synopsis
+## 概要
 
 ```
 
@@ -15,65 +15,46 @@ Portal SPI_cursor_parse_open(const char *name,
 
 <a id="id-1.8.12.8.22.5"></a>
 
-## Description
+## 描述
 
-`SPI_cursor_parse_open` sets up a cursor
-(internally, a portal) that will execute the specified query string.
-This is comparable to `SPI_prepare_cursor` followed
-by `SPI_cursor_open_with_paramlist`, except that
-parameter references within the query string are handled entirely by
-supplying a `ParamListInfo` object.
+`SPI_cursor_parse_open` 會設定一個游標（在內部其實是一個 portal），用來執行所指定的查詢字串。這相當於先呼叫 `SPI_prepare_cursor` 再呼叫 `SPI_cursor_open_with_paramlist`，差別在於查詢字串中的參數參照完全是靠提供一個 `ParamListInfo` 物件來處理的。
 
-For one-time query execution, this function should be preferred
-over `SPI_prepare_cursor` followed by
-`SPI_cursor_open_with_paramlist`.
-If the same command is to be executed with many different parameters,
-either method might be faster, depending on the cost of re-planning
-versus the benefit of custom plans.
+如果查詢只執行一次，應優先使用這個函式，而不是先呼叫 `SPI_prepare_cursor` 再呼叫 `SPI_cursor_open_with_paramlist`。如果同一個指令要以許多不同的參數執行，兩種做法都有可能比較快，取決於重新規劃的成本與客製計畫所帶來的效益孰輕孰重。
 
-The *`options->params`* object should normally
-mark each parameter with the `PARAM_FLAG_CONST` flag,
-since a one-shot plan is always used for the query.
+*`options->params`* 物件通常應該把每一個參數都標上 `PARAM_FLAG_CONST` 旗標，因為該查詢一律會使用一次性的執行計畫。
 
-The passed-in parameter data will be copied into the cursor's portal, so it
-can be freed while the cursor still exists.
+傳入的參數資料會被複製到該游標的 portal 中，因此即使游標仍然存在，那份資料也可以先行釋放。
 
 <a id="id-1.8.12.8.22.6"></a>
 
-## Arguments
+## 引數
 
 `const char * name`
-:   name for portal, or `NULL` to let the system
-    select a name
+:   portal 的名稱，或是 `NULL` 表示讓系統自行挑選一個名稱
 
 `const char * command`
-:   command string
+:   指令字串
 
 `const SPIParseOpenOptions * options`
-:   struct containing optional arguments
+:   含有選用引數的結構
 
-Callers should always zero out the entire *`options`*
-struct, then fill whichever fields they want to set. This ensures forward
-compatibility of code, since any fields that are added to the struct in
-future will be defined to behave backwards-compatibly if they are zero.
-The currently available *`options`* fields are:
+呼叫端應該一律先把整個 *`options`* 結構清為零，再填入想要設定的欄位。這可確保程式碼的向前相容性，因為未來若在該結構中新增任何欄位，其定義都會讓欄位為零時保持向後相容的行為。目前可用的 *`options`* 欄位如下：
 
 `ParamListInfo params`
-:   data structure containing query parameter types and values; NULL if none
+:   包含查詢參數型別與值的資料結構；若沒有則為 NULL
 
 `int cursorOptions`
-:   integer bit mask of cursor options; zero produces default behavior
+:   游標選項的整數位元遮罩；零代表預設行為
 
 `bool read_only`
-:   `true` for read-only execution
+:   `true` 表示唯讀執行
 
 <a id="id-1.8.12.8.22.7"></a>
 
-## Return Value
+## 回傳值
 
-Pointer to portal containing the cursor. Note there is no error
-return convention; any error will be reported via `elog`.
+指向含有該游標之 portal 的指標。請注意，這個函式沒有錯誤回傳慣例；任何錯誤都會透過 `elog` 回報。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-parse-open.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spi-spi-cursor-parse-open.html)（原文版本：18.6；核對日期：2026-09-13）
