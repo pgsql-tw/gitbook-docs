@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：749 頁。
+待譯頁面：748 頁。
 
 ## 根目錄
 
@@ -1036,7 +1036,7 @@
 - [x] `the-sql-language/datatype/rangetypes.md` — 8.17. 範圍型別 #
 - [ ] `the-sql-language/datatype/rowtypes.md` — 8.16. Composite Types #
 - [ ] `the-sql-language/ddl/README.md` — Chapter 5. Data Definition
-- [ ] `the-sql-language/ddl/ddl-alter.md` — 5.7. Modifying Tables #
+- [x] `the-sql-language/ddl/ddl-alter.md` — 5.7. 修改資料表 #
 - [ ] `the-sql-language/ddl/ddl-basics.md` — 5.1. Table Basics #
 - [ ] `the-sql-language/ddl/ddl-constraints.md` — 5.5. Constraints #
 - [ ] `the-sql-language/ddl/ddl-default.md` — 5.2. Default Values #

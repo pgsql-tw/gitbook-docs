@@ -43,7 +43,7 @@
     * [5.4. 產生欄位 #](the-sql-language/ddl/ddl-generated-columns.md)
     * [5.5. Constraints #](the-sql-language/ddl/ddl-constraints.md)
     * [5.6. 系統欄位 #](the-sql-language/ddl/ddl-system-columns.md)
-    * [5.7. Modifying Tables #](the-sql-language/ddl/ddl-alter.md)
+    * [5.7. 修改資料表 #](the-sql-language/ddl/ddl-alter.md)
     * [5.8. Privileges #](the-sql-language/ddl/ddl-priv.md)
     * [5.9. Row Security Policies #](the-sql-language/ddl/ddl-rowsecurity.md)
     * [5.10. 綱要 #](the-sql-language/ddl/ddl-schemas.md)
