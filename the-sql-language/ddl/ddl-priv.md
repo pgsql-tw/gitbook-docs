@@ -1,295 +1,148 @@
-## 5.8. Privileges [#](#DDL-PRIV)
+<a id="DDL-PRIV"></a>
+
+## 5.8. 權限 [#](#DDL-PRIV)
 
 <a id="id-1.5.4.10.2"></a><a id="id-1.5.4.10.3"></a><a id="id-1.5.4.10.4"></a><a id="id-1.5.4.10.5"></a><a id="id-1.5.4.10.6"></a><a id="id-1.5.4.10.7"></a><a id="id-1.5.4.10.8"></a>
 
-When an object is created, it is assigned an owner. The
-owner is normally the role that executed the creation statement.
-For most kinds of objects, the initial state is that only the owner
-(or a superuser) can do anything with the object. To allow
-other roles to use it, *privileges* must be
-granted.
+物件建立時，會被指派一個擁有者。擁有者通常是執行建立陳述式的角色。對大多數種類的物件而言，初始狀態是只有擁有者（或超級使用者）能對該物件做任何事。要讓其他角色能使用它，就必須授予*權限*（privilege）。
 
-There are different kinds of privileges: `SELECT`,
-`INSERT`, `UPDATE`, `DELETE`,
-`TRUNCATE`, `REFERENCES`, `TRIGGER`,
-`CREATE`, `CONNECT`, `TEMPORARY`,
-`EXECUTE`, `USAGE`, `SET`,
-`ALTER SYSTEM`, and `MAINTAIN`.
-The privileges applicable to a particular
-object vary depending on the object's type (table, function, etc.).
-More detail about the meanings of these privileges appears below.
-The following sections and chapters will also show you how
-these privileges are used.
+權限有不同的種類：`SELECT`、`INSERT`、`UPDATE`、`DELETE`、`TRUNCATE`、`REFERENCES`、`TRIGGER`、`CREATE`、`CONNECT`、`TEMPORARY`、`EXECUTE`、`USAGE`、`SET`、`ALTER SYSTEM` 與 `MAINTAIN`。適用於特定物件的權限，會依物件的類型（資料表、函式等）而有所不同。關於這些權限之意義的更多細節如下所述。後續各節與各章也會說明如何使用這些權限。
 
-The right to modify or destroy an object is inherent in being the
-object's owner, and cannot be granted or revoked in itself.
-(However, like all privileges, that right can be inherited by
-members of the owning role; see [Section 21.3](../../server-administration/user-manag/role-membership.md).)
+修改或銷毀物件的權利是身為物件擁有者所固有的，其本身無法被授予或撤銷。（不過，就像所有權限一樣，擁有者角色的成員可以繼承這項權利；請參閱[第 21.3 節](../../server-administration/user-manag/role-membership.md)。）
 
-An object can be assigned to a new owner with an `ALTER`
-command of the appropriate kind for the object, for example
+可以使用適用於該物件種類的 `ALTER` 命令，將物件指派給新的擁有者，例如
 
 ```
 
 ALTER TABLE table_name OWNER TO new_owner;
 ```
 
-Superusers can always do this; ordinary roles can only do it if they are
-both the current owner of the object (or inherit the privileges of the
-owning role) and able to `SET ROLE` to the new owning role.
-All object privileges of the old owner are transferred to the new owner
-along with the ownership.
+超級使用者一律可以這麼做；一般角色只有在同時是物件的目前擁有者（或繼承擁有者角色的權限），並且能夠 `SET ROLE` 成為新的擁有者角色時，才能這麼做。舊擁有者的所有物件權限，都會隨著擁有權一併轉移給新的擁有者。
 
-To assign privileges, the [GRANT](../../reference/sql-commands/sql-grant.md) command is
-used. For example, if `joe` is an existing role, and
-`accounts` is an existing table, the privilege to
-update the table can be granted with:
+要指派權限，請使用 [GRANT](../../reference/sql-commands/sql-grant.md) 命令。例如，如果 `joe` 是一個現有的角色，而 `accounts` 是一個現有的資料表，就可以用下列命令授予更新該資料表的權限：
 
 ```
 
 GRANT UPDATE ON accounts TO joe;
 ```
 
-Writing `ALL` in place of a specific privilege grants all
-privileges that are relevant for the object type.
+以 `ALL` 取代特定的權限，會授予與該物件類型相關的所有權限。
 
-The special “role” name `PUBLIC` can
-be used to grant a privilege to every role on the system. Also,
-“group” roles can be set up to help manage privileges when
-there are many users of a database — for details see
-[Chapter 21](../../server-administration/user-manag/README.md).
+特殊的「角色」名稱 `PUBLIC` 可以用來將權限授予系統上的每一個角色。此外，當資料庫有許多使用者時，可以設定「群組」角色來協助管理權限——詳情請參閱[第 21 章](../../server-administration/user-manag/README.md)。
 
-To revoke a previously-granted privilege, use the fittingly named
-[REVOKE](../../reference/sql-commands/sql-revoke.md) command:
+要撤銷先前授予的權限，請使用名稱恰如其分的 [REVOKE](../../reference/sql-commands/sql-revoke.md) 命令：
 
 ```
 
 REVOKE ALL ON accounts FROM PUBLIC;
 ```
 
-Ordinarily, only the object's owner (or a superuser) can grant or
-revoke privileges on an object. However, it is possible to grant a
-privilege “with grant option”, which gives the recipient
-the right to grant it in turn to others. If the grant option is
-subsequently revoked then all who received the privilege from that
-recipient (directly or through a chain of grants) will lose the
-privilege. For details see the [GRANT](../../reference/sql-commands/sql-grant.md) and
-[REVOKE](../../reference/sql-commands/sql-revoke.md) reference pages.
+一般而言，只有物件的擁有者（或超級使用者）能夠授予或撤銷物件上的權限。不過，可以「附帶授權選項」（with grant option）授予權限，讓接收者有權再將它授予其他人。如果之後撤銷了授權選項，那麼所有從該接收者（直接或透過一連串的授權）取得該權限的人，都會失去該權限。詳情請參閱 [GRANT](../../reference/sql-commands/sql-grant.md) 與 [REVOKE](../../reference/sql-commands/sql-revoke.md) 參考頁面。
 
-An object's owner can choose to revoke their own ordinary privileges,
-for example to make a table read-only for themselves as well as others.
-But owners are always treated as holding all grant options, so they
-can always re-grant their own privileges.
+物件的擁有者可以選擇撤銷自己的一般權限，例如讓某個資料表對自己和其他人都是唯讀的。但擁有者一律被視為持有所有授權選項，因此他們隨時可以重新授予自己的權限。
 
-The available privileges are:
+可用的權限如下：
 
 <a id="DDL-PRIV-SELECT"></a>
 
 `SELECT` [#](#DDL-PRIV-SELECT)
-:   Allows `SELECT` from
-    any column, or specific column(s), of a table, view, materialized
-    view, or other table-like object.
-    Also allows use of `COPY TO`.
-    This privilege is also needed to reference existing column values in
-    `UPDATE`, `DELETE`,
-    or `MERGE`.
-    For sequences, this privilege also allows use of the
-    `currval` function.
-    For large objects, this privilege allows the object to be read.
+:   允許從資料表、檢視表、具體化檢視表或其他類似資料表之物件的任何欄位或特定欄位進行 `SELECT`。也允許使用 `COPY TO`。在 `UPDATE`、`DELETE` 或 `MERGE` 中參照現有的欄位值，也需要這項權限。對於序列，這項權限也允許使用 `currval` 函式。對於大型物件，這項權限允許讀取該物件。
 <a id="DDL-PRIV-INSERT"></a>
 
 `INSERT` [#](#DDL-PRIV-INSERT)
-:   Allows `INSERT` of a new row into a table, view,
-    etc. Can be granted on specific column(s), in which case
-    only those columns may be assigned to in the `INSERT`
-    command (other columns will therefore receive default values).
-    Also allows use of `COPY FROM`.
+:   允許將新的資料列 `INSERT` 到資料表、檢視表等之中。可以針對特定欄位授予，在這種情況下，`INSERT` 命令中只能指派這些欄位（因此其他欄位會取得預設值）。也允許使用 `COPY FROM`。
 <a id="DDL-PRIV-UPDATE"></a>
 
 `UPDATE` [#](#DDL-PRIV-UPDATE)
-:   Allows `UPDATE` of any
-    column, or specific column(s), of a table, view, etc.
-    (In practice, any nontrivial `UPDATE` command will
-    require `SELECT` privilege as well, since it must
-    reference table columns to determine which rows to update, and/or to
-    compute new values for columns.)
-    `SELECT ... FOR UPDATE`
-    and `SELECT ... FOR SHARE`
-    also require this privilege on at least one column, in addition to the
-    `SELECT` privilege. For sequences, this
-    privilege allows use of the `nextval` and
-    `setval` functions.
-    For large objects, this privilege allows writing or truncating the
-    object.
+:   允許對資料表、檢視表等的任何欄位或特定欄位進行 `UPDATE`。（在實務上，任何稍微複雜的 `UPDATE` 命令也都需要 `SELECT` 權限，因為它必須參照資料表欄位來決定要更新哪些資料列，和／或計算欄位的新值。）`SELECT ... FOR UPDATE` 與 `SELECT ... FOR SHARE` 除了 `SELECT` 權限之外，也需要至少一個欄位上的這項權限。對於序列，這項權限允許使用 `nextval` 與 `setval` 函式。對於大型物件，這項權限允許寫入或截斷該物件。
 <a id="DDL-PRIV-DELETE"></a>
 
 `DELETE` [#](#DDL-PRIV-DELETE)
-:   Allows `DELETE` of a row from a table, view, etc.
-    (In practice, any nontrivial `DELETE` command will
-    require `SELECT` privilege as well, since it must
-    reference table columns to determine which rows to delete.)
+:   允許從資料表、檢視表等之中 `DELETE` 資料列。（在實務上，任何稍微複雜的 `DELETE` 命令也都需要 `SELECT` 權限，因為它必須參照資料表欄位來決定要刪除哪些資料列。）
 <a id="DDL-PRIV-TRUNCATE"></a>
 
 `TRUNCATE` [#](#DDL-PRIV-TRUNCATE)
-:   Allows `TRUNCATE` on a table.
+:   允許對資料表進行 `TRUNCATE`。
 <a id="DDL-PRIV-REFERENCES"></a>
 
 `REFERENCES` [#](#DDL-PRIV-REFERENCES)
-:   Allows creation of a foreign key constraint referencing a
-    table, or specific column(s) of a table. Great care should be taken when
-    granting this privilege, since a user who creates a foreign key can arrange
-    for enforcement of that foreign key to call an arbitrary function, such as
-    a cast function, and such functions will be called with the privileges of
-    the table owner.
+:   允許建立參照某個資料表或資料表之特定欄位的外鍵限制條件。授予這項權限時應該非常小心，因為建立外鍵的使用者可以安排在強制執行該外鍵時呼叫任意函式（例如型別轉換函式），而這類函式會以資料表擁有者的權限被呼叫。
 <a id="DDL-PRIV-TRIGGER"></a>
 
 `TRIGGER` [#](#DDL-PRIV-TRIGGER)
-:   Allows creation of a trigger on a table, view, etc. Great care should be
-    taken when granting this privilege, since any triggers added to a table
-    or view will be executed with the privileges of users who modify it.
+:   允許在資料表、檢視表等之上建立觸發程序。授予這項權限時應該非常小心，因為加入到資料表或檢視表上的任何觸發程序，都會以修改它之使用者的權限執行。
 <a id="DDL-PRIV-CREATE"></a>
 
 `CREATE` [#](#DDL-PRIV-CREATE)
-:   For databases, allows new schemas and publications to be created within
-    the database, and allows trusted extensions to be installed within
-    the database.
+:   對於資料庫，允許在該資料庫中建立新的綱要與發佈物件，並允許在該資料庫中安裝受信任的擴充功能。
 
-    For schemas, allows new objects to be created within the schema.
-    To rename an existing object, you must own the
-    object *and* have this privilege for the containing
-    schema.
+    對於綱要，允許在該綱要中建立新的物件。要重新命名現有的物件，你必須擁有該物件，*而且*擁有其所屬綱要的這項權限。
 
-    For tablespaces, allows tables, indexes, and temporary files to be
-    created within the tablespace, and allows databases to be created that
-    have the tablespace as their default tablespace.
+    對於資料表空間，允許在該資料表空間中建立資料表、索引與暫存檔，並允許建立以該資料表空間作為預設資料表空間的資料庫。
 
-    Note that revoking this privilege will not alter the existence or
-    location of existing objects.
+    請注意，撤銷這項權限並不會改變現有物件的存在或位置。
 <a id="DDL-PRIV-CONNECT"></a>
 
 `CONNECT` [#](#DDL-PRIV-CONNECT)
-:   Allows the grantee to connect to the database. This
-    privilege is checked at connection startup (in addition to checking
-    any restrictions imposed by `pg_hba.conf`).
+:   允許被授權者連線到該資料庫。這項權限會在連線啟動時檢查（此外也會檢查 `pg_hba.conf` 所施加的任何限制）。
 <a id="DDL-PRIV-TEMPORARY"></a>
 
 `TEMPORARY` [#](#DDL-PRIV-TEMPORARY)
-:   Allows temporary tables to be created while using the database.
+:   允許在使用該資料庫時建立暫存資料表。
 <a id="DDL-PRIV-EXECUTE"></a>
 
 `EXECUTE` [#](#DDL-PRIV-EXECUTE)
-:   Allows calling a function or procedure, including use of
-    any operators that are implemented on top of the function. This is the
-    only type of privilege that is applicable to functions and procedures.
+:   允許呼叫函式或程序，包括使用任何建立在該函式之上的運算子。這是唯一適用於函式與程序的權限類型。
 <a id="DDL-PRIV-USAGE"></a>
 
 `USAGE` [#](#DDL-PRIV-USAGE)
-:   For procedural languages, allows use of the language for
-    the creation of functions in that language. This is the only type
-    of privilege that is applicable to procedural languages.
+:   對於程序式語言，允許使用該語言來建立以該語言撰寫的函式。這是唯一適用於程序式語言的權限類型。
 
-    For schemas, allows access to objects contained in the
-    schema (assuming that the objects' own privilege requirements are
-    also met). Essentially this allows the grantee to “look up”
-    objects within the schema. Without this permission, it is still
-    possible to see the object names, e.g., by querying system catalogs.
-    Also, after revoking this permission, existing sessions might have
-    statements that have previously performed this lookup, so this is not
-    a completely secure way to prevent object access.
+    對於綱要，允許存取綱要中包含的物件（假設這些物件本身的權限要求也已滿足）。基本上，這允許被授權者在綱要中「查找」物件。沒有這項權限，仍然可以看到物件名稱，例如藉由查詢系統目錄。此外，在撤銷這項權限之後，現有的工作階段中可能有先前已經進行過這項查找的陳述式，因此這並不是防止存取物件的完全安全方法。
 
-    For sequences, allows use of the
-    `currval` and `nextval` functions.
+    對於序列，允許使用 `currval` 與 `nextval` 函式。
 
-    For types and domains, allows use of the type or domain in the
-    creation of tables, functions, and other schema objects. (Note that
-    this privilege does not control all “usage” of the
-    type, such as values of the type appearing in queries. It only
-    prevents objects from being created that depend on the type. The
-    main purpose of this privilege is controlling which users can create
-    dependencies on a type, which could prevent the owner from changing
-    the type later.)
+    對於型別與網域，允許在建立資料表、函式及其他綱要物件時使用該型別或網域。（請注意，這項權限並不控制對該型別的所有「使用」，例如出現在查詢中的該型別值。它只會防止建立依賴於該型別的物件。這項權限的主要目的，是控制哪些使用者可以建立對某個型別的依賴關係，因為這可能會妨礙擁有者之後更改該型別。）
 
-    For foreign-data wrappers, allows creation of new servers using the
-    foreign-data wrapper.
+    對於外部資料包裝器，允許使用該外部資料包裝器建立新的伺服器。
 
-    For foreign servers, allows creation of foreign tables using the
-    server. Grantees may also create, alter, or drop their own user
-    mappings associated with that server.
+    對於外部伺服器，允許使用該伺服器建立外部資料表。被授權者也可以建立、修改或刪除自己與該伺服器相關聯的使用者對應。
 <a id="DDL-PRIV-SET"></a>
 
 `SET` [#](#DDL-PRIV-SET)
-:   Allows a server configuration parameter to be set to a new value
-    within the current session. (While this privilege can be granted
-    on any parameter, it is meaningless except for parameters that would
-    normally require superuser privilege to set.)
+:   允許在目前的工作階段中將伺服器組態參數設為新值。（雖然這項權限可以授予任何參數，但除了那些通常需要超級使用者權限才能設定的參數之外，它都沒有意義。）
 <a id="DDL-PRIV-ALTER-SYSTEM"></a>
 
 `ALTER SYSTEM` [#](#DDL-PRIV-ALTER-SYSTEM)
-:   Allows a server configuration parameter to be configured to a new
-    value using the [ALTER SYSTEM](../../reference/sql-commands/sql-altersystem.md) command.
+:   允許使用 [ALTER SYSTEM](../../reference/sql-commands/sql-altersystem.md) 命令將伺服器組態參數設定為新值。
 <a id="DDL-PRIV-MAINTAIN"></a>
 
 `MAINTAIN` [#](#DDL-PRIV-MAINTAIN)
-:   Allows `VACUUM`, `ANALYZE`,
-    `CLUSTER`, `REFRESH MATERIALIZED VIEW`,
-    `REINDEX`, `LOCK TABLE`,
-    and database object statistics manipulation functions
-    (see [Table 9.105](../functions/functions-admin.md#FUNCTIONS-ADMIN-STATSMOD)) on a relation.
+:   允許對關聯執行 `VACUUM`、`ANALYZE`、`CLUSTER`、`REFRESH MATERIALIZED VIEW`、`REINDEX`、`LOCK TABLE`，以及資料庫物件統計資訊操作函式（請參閱[表 9.105](../functions/functions-admin.md#FUNCTIONS-ADMIN-STATSMOD)）。
 
-The privileges required by other commands are listed on the
-reference page of the respective command.
+其他命令所需的權限，列在各命令的參考頁面中。
 
 <a id="DDL-PRIV-DEFAULT"></a>
 
-PostgreSQL grants privileges on some types of objects to
-`PUBLIC` by default when the objects are created.
-No privileges are granted to `PUBLIC` by default on
-tables,
-table columns,
-sequences,
-foreign data wrappers,
-foreign servers,
-large objects,
-schemas,
-tablespaces,
-or configuration parameters.
-For other types of objects, the default privileges
-granted to `PUBLIC` are as follows:
-`CONNECT` and `TEMPORARY` (create
-temporary tables) privileges for databases;
-`EXECUTE` privilege for functions and procedures; and
-`USAGE` privilege for languages and data types
-(including domains).
-The object owner can, of course, `REVOKE`
-both default and expressly granted privileges. (For maximum
-security, issue the `REVOKE` in the same transaction that
-creates the object; then there is no window in which another user
-can use the object.)
-Also, these default privilege settings can be overridden using the
-[ALTER DEFAULT PRIVILEGES](../../reference/sql-commands/sql-alterdefaultprivileges.md) command.
+PostgreSQL 在建立某些類型的物件時，預設會將這些物件上的權限授予 `PUBLIC`。對於資料表、資料表欄位、序列、外部資料包裝器、外部伺服器、大型物件、綱要、資料表空間或組態參數，預設不會將任何權限授予 `PUBLIC`。對於其他類型的物件，預設授予 `PUBLIC` 的權限如下：資料庫的 `CONNECT` 與 `TEMPORARY`（建立暫存資料表）權限；函式與程序的 `EXECUTE` 權限；以及語言與資料型別（包括網域）的 `USAGE` 權限。物件擁有者當然可以 `REVOKE` 預設授予的權限與明確授予的權限。（為了獲得最高的安全性，請在建立物件的同一個交易中執行 `REVOKE`；這樣就不會有其他使用者可以使用該物件的時間窗口。）此外，這些預設權限設定可以使用 [ALTER DEFAULT PRIVILEGES](../../reference/sql-commands/sql-alterdefaultprivileges.md) 命令覆寫。
 
-[Table 5.1](ddl-priv.md#PRIVILEGE-ABBREVS-TABLE) shows the one-letter
-abbreviations that are used for these privilege types in
-*ACL* values.
-You will see these letters in the output of the [psql](../../reference/reference-client/app-psql.md)
-commands listed below, or when looking at ACL columns
-of system catalogs.
+[表 5.1](ddl-priv.md#PRIVILEGE-ABBREVS-TABLE) 列出了在 *ACL* 值中用於這些權限類型的單一字母縮寫。你會在下面所列的 [psql](../../reference/reference-client/app-psql.md) 命令的輸出中，或在查看系統目錄的 ACL 欄位時看到這些字母。
 
 <a id="PRIVILEGE-ABBREVS-TABLE"></a>
 
-**Table 5.1. ACL Privilege Abbreviations**
+**表 5.1. ACL 權限縮寫**
 
-<table border="1" class="table" summary="ACL Privilege Abbreviations"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>Privilege</th><th>Abbreviation</th><th>Applicable Object Types</th></tr></thead><tbody><tr><td><code class="literal">SELECT</code></td><td><code class="literal">r</code> (<span class="quote">“<span class="quote">read</span>”</span>)</td><td>
+<table border="1" class="table" summary="ACL Privilege Abbreviations"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>權限</th><th>縮寫</th><th>適用的物件類型</th></tr></thead><tbody><tr><td><code class="literal">SELECT</code></td><td><code class="literal">r</code> (<span class="quote">“<span class="quote">read</span>”</span>)</td><td>
 <code class="literal">LARGE OBJECT</code>,
        <code class="literal">SEQUENCE</code>,
-       <code class="literal">TABLE</code> (and table-like objects),
-       table column
-      </td></tr><tr><td><code class="literal">INSERT</code></td><td><code class="literal">a</code> (<span class="quote">“<span class="quote">append</span>”</span>)</td><td><code class="literal">TABLE</code>, table column</td></tr><tr><td><code class="literal">UPDATE</code></td><td><code class="literal">w</code> (<span class="quote">“<span class="quote">write</span>”</span>)</td><td>
+       <code class="literal">TABLE</code>（以及類似資料表的物件）,
+       資料表欄位
+      </td></tr><tr><td><code class="literal">INSERT</code></td><td><code class="literal">a</code> (<span class="quote">“<span class="quote">append</span>”</span>)</td><td><code class="literal">TABLE</code>, 資料表欄位</td></tr><tr><td><code class="literal">UPDATE</code></td><td><code class="literal">w</code> (<span class="quote">“<span class="quote">write</span>”</span>)</td><td>
 <code class="literal">LARGE OBJECT</code>,
        <code class="literal">SEQUENCE</code>,
        <code class="literal">TABLE</code>,
-       table column
-      </td></tr><tr><td><code class="literal">DELETE</code></td><td><code class="literal">d</code></td><td><code class="literal">TABLE</code></td></tr><tr><td><code class="literal">TRUNCATE</code></td><td><code class="literal">D</code></td><td><code class="literal">TABLE</code></td></tr><tr><td><code class="literal">REFERENCES</code></td><td><code class="literal">x</code></td><td><code class="literal">TABLE</code>, table column</td></tr><tr><td><code class="literal">TRIGGER</code></td><td><code class="literal">t</code></td><td><code class="literal">TABLE</code></td></tr><tr><td><code class="literal">CREATE</code></td><td><code class="literal">C</code></td><td>
+       資料表欄位
+      </td></tr><tr><td><code class="literal">DELETE</code></td><td><code class="literal">d</code></td><td><code class="literal">TABLE</code></td></tr><tr><td><code class="literal">TRUNCATE</code></td><td><code class="literal">D</code></td><td><code class="literal">TABLE</code></td></tr><tr><td><code class="literal">REFERENCES</code></td><td><code class="literal">x</code></td><td><code class="literal">TABLE</code>, 資料表欄位</td></tr><tr><td><code class="literal">TRIGGER</code></td><td><code class="literal">t</code></td><td><code class="literal">TABLE</code></td></tr><tr><td><code class="literal">CREATE</code></td><td><code class="literal">C</code></td><td>
 <code class="literal">DATABASE</code>,
        <code class="literal">SCHEMA</code>,
        <code class="literal">TABLESPACE</code>
@@ -305,48 +158,27 @@ of system catalogs.
 
 <br>
 
-[Table 5.2](ddl-priv.md#PRIVILEGES-SUMMARY-TABLE) summarizes the privileges
-available for each type of SQL object, using the abbreviations shown
-above.
-It also shows the psql command
-that can be used to examine privilege settings for each object type.
+[表 5.2](ddl-priv.md#PRIVILEGES-SUMMARY-TABLE) 使用上面所示的縮寫，彙整了每種 SQL 物件可用的權限。它也列出了可用來檢查每種物件類型之權限設定的 psql 命令。
 
 <a id="PRIVILEGES-SUMMARY-TABLE"></a>
 
-**Table 5.2. Summary of Access Privileges**
+**表 5.2. 存取權限摘要**
 
-<table border="1" class="table" summary="Summary of Access Privileges"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>Object Type</th><th>All Privileges</th><th>Default <code class="literal">PUBLIC</code> Privileges</th><th><span class="application">psql</span> Command</th></tr></thead><tbody><tr><td><code class="literal">DATABASE</code></td><td><code class="literal">CTc</code></td><td><code class="literal">Tc</code></td><td><code class="literal">\l</code></td></tr><tr><td><code class="literal">DOMAIN</code></td><td><code class="literal">U</code></td><td><code class="literal">U</code></td><td><code class="literal">\dD+</code></td></tr><tr><td><code class="literal">FUNCTION</code> or <code class="literal">PROCEDURE</code></td><td><code class="literal">X</code></td><td><code class="literal">X</code></td><td><code class="literal">\df+</code></td></tr><tr><td><code class="literal">FOREIGN DATA WRAPPER</code></td><td><code class="literal">U</code></td><td>none</td><td><code class="literal">\dew+</code></td></tr><tr><td><code class="literal">FOREIGN SERVER</code></td><td><code class="literal">U</code></td><td>none</td><td><code class="literal">\des+</code></td></tr><tr><td><code class="literal">LANGUAGE</code></td><td><code class="literal">U</code></td><td><code class="literal">U</code></td><td><code class="literal">\dL+</code></td></tr><tr><td><code class="literal">LARGE OBJECT</code></td><td><code class="literal">rw</code></td><td>none</td><td><code class="literal">\dl+</code></td></tr><tr><td><code class="literal">PARAMETER</code></td><td><code class="literal">sA</code></td><td>none</td><td><code class="literal">\dconfig+</code></td></tr><tr><td><code class="literal">SCHEMA</code></td><td><code class="literal">UC</code></td><td>none</td><td><code class="literal">\dn+</code></td></tr><tr><td><code class="literal">SEQUENCE</code></td><td><code class="literal">rwU</code></td><td>none</td><td><code class="literal">\dp</code></td></tr><tr><td><code class="literal">TABLE</code> (and table-like objects)</td><td><code class="literal">arwdDxtm</code></td><td>none</td><td><code class="literal">\dp</code></td></tr><tr><td>Table column</td><td><code class="literal">arwx</code></td><td>none</td><td><code class="literal">\dp</code></td></tr><tr><td><code class="literal">TABLESPACE</code></td><td><code class="literal">C</code></td><td>none</td><td><code class="literal">\db+</code></td></tr><tr><td><code class="literal">TYPE</code></td><td><code class="literal">U</code></td><td><code class="literal">U</code></td><td><code class="literal">\dT+</code></td></tr></tbody></table>
+<table border="1" class="table" summary="Summary of Access Privileges"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>物件類型</th><th>所有權限</th><th>預設的 <code class="literal">PUBLIC</code> 權限</th><th><span class="application">psql</span> 命令</th></tr></thead><tbody><tr><td><code class="literal">DATABASE</code></td><td><code class="literal">CTc</code></td><td><code class="literal">Tc</code></td><td><code class="literal">\l</code></td></tr><tr><td><code class="literal">DOMAIN</code></td><td><code class="literal">U</code></td><td><code class="literal">U</code></td><td><code class="literal">\dD+</code></td></tr><tr><td><code class="literal">FUNCTION</code> 或 <code class="literal">PROCEDURE</code></td><td><code class="literal">X</code></td><td><code class="literal">X</code></td><td><code class="literal">\df+</code></td></tr><tr><td><code class="literal">FOREIGN DATA WRAPPER</code></td><td><code class="literal">U</code></td><td>無</td><td><code class="literal">\dew+</code></td></tr><tr><td><code class="literal">FOREIGN SERVER</code></td><td><code class="literal">U</code></td><td>無</td><td><code class="literal">\des+</code></td></tr><tr><td><code class="literal">LANGUAGE</code></td><td><code class="literal">U</code></td><td><code class="literal">U</code></td><td><code class="literal">\dL+</code></td></tr><tr><td><code class="literal">LARGE OBJECT</code></td><td><code class="literal">rw</code></td><td>無</td><td><code class="literal">\dl+</code></td></tr><tr><td><code class="literal">PARAMETER</code></td><td><code class="literal">sA</code></td><td>無</td><td><code class="literal">\dconfig+</code></td></tr><tr><td><code class="literal">SCHEMA</code></td><td><code class="literal">UC</code></td><td>無</td><td><code class="literal">\dn+</code></td></tr><tr><td><code class="literal">SEQUENCE</code></td><td><code class="literal">rwU</code></td><td>無</td><td><code class="literal">\dp</code></td></tr><tr><td><code class="literal">TABLE</code>（以及類似資料表的物件）</td><td><code class="literal">arwdDxtm</code></td><td>無</td><td><code class="literal">\dp</code></td></tr><tr><td>資料表欄位</td><td><code class="literal">arwx</code></td><td>無</td><td><code class="literal">\dp</code></td></tr><tr><td><code class="literal">TABLESPACE</code></td><td><code class="literal">C</code></td><td>無</td><td><code class="literal">\db+</code></td></tr><tr><td><code class="literal">TYPE</code></td><td><code class="literal">U</code></td><td><code class="literal">U</code></td><td><code class="literal">\dT+</code></td></tr></tbody></table>
 
 <br>
 
 <a id="id-1.5.4.10.24.1"></a>
-The privileges that have been granted for a particular object are
-displayed as a list of `aclitem` entries, each having the
-format:
+已授予特定物件的權限，會以一串 `aclitem` 項目顯示，每個項目的格式為：
 
 ```
 
 grantee=privilege-abbreviation[*].../grantor
 ```
 
-Each `aclitem` lists all the permissions of one grantee that
-have been granted by a particular grantor. Specific privileges are
-represented by one-letter abbreviations from
-[Table 5.1](ddl-priv.md#PRIVILEGE-ABBREVS-TABLE), with `*`
-appended if the privilege was granted with grant option. For example,
-`calvin=r*w/hobbes` specifies that the role
-`calvin` has the privilege
-`SELECT` (`r`) with grant option
-(`*`) as well as the non-grantable
-privilege `UPDATE` (`w`), both granted
-by the role `hobbes`. If `calvin`
-also has some privileges on the same object granted by a different
-grantor, those would appear as a separate `aclitem` entry.
-An empty grantee field in an `aclitem` stands
-for `PUBLIC`.
+每個 `aclitem` 列出由某個特定授權者授予某一位被授權者的所有權限。個別權限以[表 5.1](ddl-priv.md#PRIVILEGE-ABBREVS-TABLE) 中的單一字母縮寫表示；如果該權限是附帶授權選項授予的，後面就會加上 `*`。例如，`calvin=r*w/hobbes` 表示角色 `calvin` 擁有附帶授權選項（`*`）的 `SELECT`（`r`）權限，以及不可再授予的 `UPDATE`（`w`）權限，兩者都是由角色 `hobbes` 授予的。如果 `calvin` 在同一個物件上還有由另一位授權者授予的某些權限，這些權限會顯示為另一個獨立的 `aclitem` 項目。`aclitem` 中空白的被授權者欄位代表 `PUBLIC`。
 
-As an example, suppose that user `miriam` creates
-table `mytable` and does:
+舉例來說，假設使用者 `miriam` 建立了資料表 `mytable`，並執行：
 
 ```
 
@@ -355,8 +187,7 @@ GRANT SELECT, UPDATE, INSERT ON mytable TO admin;
 GRANT SELECT (col1), UPDATE (col1) ON mytable TO miriam_rw;
 ```
 
-Then psql's `\dp` command
-would show:
+那麼 psql 的 `\dp` 命令會顯示：
 
 ```
 
@@ -370,35 +201,12 @@ would show:
 (1 row)
 ```
 
-If the “Access privileges” column is empty for a given
-object, it means the object has default privileges (that is, its
-privileges entry in the relevant system catalog is null). Default
-privileges always include all privileges for the owner, and can include
-some privileges for `PUBLIC` depending on the object
-type, as explained above. The first `GRANT`
-or `REVOKE` on an object will instantiate the default
-privileges (producing, for
-example, `miriam=arwdDxt/miriam`) and then modify them
-per the specified request. Similarly, entries are shown in “Column
-privileges” only for columns with nondefault privileges.
-(Note: for this purpose, “default privileges” always means
-the built-in default privileges for the object's type. An object whose
-privileges have been affected by an `ALTER DEFAULT
-PRIVILEGES` command will always be shown with an explicit
-privilege entry that includes the effects of
-the `ALTER`.)
+如果某個物件的「Access privileges」（存取權限）欄位是空的，就表示該物件擁有預設權限（也就是它在相關系統目錄中的權限項目為 null）。預設權限一律包含擁有者的所有權限，並且依物件類型的不同，可能包含 `PUBLIC` 的某些權限，如上所述。對物件進行的第一次 `GRANT` 或 `REVOKE`，會先將預設權限實體化（例如產生 `miriam=arwdDxt/miriam`），然後再依照所指定的要求修改它們。同樣地，只有具有非預設權限的欄位，才會在「Column privileges」（欄位權限）中顯示項目。（注意：就這個目的而言，「預設權限」一律指該物件類型的內建預設權限。權限受到 `ALTER DEFAULT PRIVILEGES` 命令影響的物件，一律會以包含該 `ALTER` 之效果的明確權限項目顯示。）
 
-Notice that the owner's implicit grant options are not marked in the
-access privileges display. A `*` will appear only when
-grant options have been explicitly granted to someone.
+請注意，擁有者隱含的授權選項並不會標示在存取權限的顯示中。只有在明確將授權選項授予某人時，才會出現 `*`。
 
-The “Access privileges” column
-shows `(none)` when the object's privileges entry is
-non-null but empty. This means that no privileges are granted at all,
-even to the object's owner — a rare situation. (The owner still
-has implicit grant options in this case, and so could re-grant her own
-privileges; but she has none at the moment.)
+當物件的權限項目非 null 但為空時，「Access privileges」欄位會顯示 `(none)`。這表示完全沒有授予任何權限，連物件的擁有者也沒有——這是很少見的情況。（在這種情況下，擁有者仍然具有隱含的授權選項，因此可以重新授予自己的權限；但她目前沒有任何權限。）
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-priv.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-priv.html)（原文版本：18.6；核對日期：2026-09-13）
