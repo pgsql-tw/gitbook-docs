@@ -475,7 +475,7 @@
     * [39.7. 規則與觸發程序的比較 #](server-programming/rules/rules-triggers.md)
   * [第 40 章 程序語言](server-programming/xplang/README.md)
     * [40.1. 安裝程序語言 #](server-programming/xplang/xplang-install.md)
-  * [Chapter 41. PL/pgSQL — SQL Procedural Language](server-programming/plpgsql/README.md)
+  * [第 41 章 PL/pgSQL — SQL 程序語言](server-programming/plpgsql/README.md)
     * [41.1. 概觀 #](server-programming/plpgsql/plpgsql-overview.md)
     * [41.2. Structure of PL/pgSQL #](server-programming/plpgsql/plpgsql-structure.md)
     * [41.3. Declarations #](server-programming/plpgsql/plpgsql-declarations.md)
