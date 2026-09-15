@@ -1,9 +1,10 @@
-## 11.3. Multicolumn Indexes [#](#INDEXES-MULTICOLUMN)
+<a id="INDEXES-MULTICOLUMN"></a>
+
+## 11.3. 多欄位索引 [#](#INDEXES-MULTICOLUMN)
 
 <a id="id-1.5.10.6.2"></a>
 
-An index can be defined on more than one column of a table. For example, if
-you have a table of this form:
+索引可以定義在資料表的多個欄位上。例如，如果你有一個這種形式的資料表：
 
 ```
 
@@ -14,114 +15,38 @@ CREATE TABLE test2 (
 );
 ```
 
-(say, you keep your `/dev`
-directory in a database...) and you frequently issue queries like:
+（比方說，你把 `/dev` 目錄存放在資料庫中……）而你經常發出像這樣的查詢：
 
 ```
 
 SELECT name FROM test2 WHERE major = constant AND minor = constant;
 ```
 
-then it might be appropriate to define an index on the columns
-`major` and
-`minor` together, e.g.:
+那麼將 `major` 與 `minor` 兩個欄位一起定義成一個索引可能是合適的，例如：
 
 ```
 
 CREATE INDEX test2_mm_idx ON test2 (major, minor);
 ```
 
-Currently, only the B-tree, GiST, GIN, and BRIN index types support
-multiple-key-column indexes. Whether there can be multiple key
-columns is independent of whether `INCLUDE` columns
-can be added to the index. Indexes can have up to 32 columns,
-including `INCLUDE` columns. (This limit can be
-altered when building PostgreSQL; see the
-file `pg_config_manual.h`.)
+目前，只有 B-tree、GiST、GIN 與 BRIN 索引類型支援多個鍵欄位的索引。能否有多個鍵欄位，與能否在索引中加入 `INCLUDE` 欄位無關。索引最多可以有 32 個欄位，包括 `INCLUDE` 欄位在內。（這個上限可以在建置 PostgreSQL 時更改；請參閱檔案 `pg_config_manual.h`。）
 
-A multicolumn B-tree index can be used with query conditions that
-involve any subset of the index's columns, but the index is most
-efficient when there are constraints on the leading (leftmost) columns.
-The exact rule is that equality constraints on leading columns, plus
-any inequality constraints on the first column that does not have an
-equality constraint, will always be used to limit the portion of the index
-that is scanned. Constraints on columns to the right of these columns
-are checked in the index, so they'll always save visits to the table
-proper, but they do not necessarily reduce the portion of the index that
-has to be scanned. If a B-tree index scan can apply the skip scan
-optimization effectively, it will apply every column constraint when
-navigating through the index via repeated index searches. This can reduce
-the portion of the index that has to be read, even though one or more
-columns (prior to the least significant index column from the query
-predicate) lacks a conventional equality constraint. Skip scan works by
-generating a dynamic equality constraint internally, that matches every
-possible value in an index column (though only given a column that lacks
-an equality constraint that comes from the query predicate, and only when
-the generated constraint can be used in conjunction with a later column
-constraint from the query predicate).
+多欄位 B-tree 索引可以搭配涉及該索引欄位任意子集的查詢條件使用，但當前導（最左邊）欄位上有限制條件時，索引的效率最高。確切的規則是：前導欄位上的相等限制條件，加上第一個沒有相等限制條件之欄位上的任何不等限制條件，一定會被用來限制所要掃描的索引範圍。這些欄位右邊之欄位上的限制條件會在索引中檢查，因此它們一定能省下對資料表本身的存取，但不一定能縮小必須掃描的索引範圍。如果 B-tree 索引掃描能有效地套用跳躍掃描（skip scan）最佳化，它在藉由重複的索引搜尋走訪索引時，就會套用每一個欄位限制條件。即使有一個或多個欄位（位於查詢述詞中最低位索引欄位之前的欄位）缺少傳統的相等限制條件，這也能縮小必須讀取的索引範圍。跳躍掃描的運作方式，是在內部產生一個動態的相等限制條件，比對索引欄位中每一個可能的值（不過只針對缺少來自查詢述詞之相等限制條件的欄位，而且只有在產生的限制條件可以與查詢述詞中後面欄位的限制條件搭配使用時才會這麼做）。
 
-For example, given an index on `(x, y)`, and a query
-condition `WHERE y = 7700`, a B-tree index scan might be
-able to apply the skip scan optimization. This generally happens when the
-query planner expects that repeated `WHERE x = N AND y = 7700`
-searches for every possible value of `N` (or for every
-`x` value that is actually stored in the index) is the
-fastest possible approach, given the available indexes on the table. This
-approach is generally only taken when there are so few distinct
-`x` values that the planner expects the scan to skip over
-most of the index (because most of its leaf pages cannot possibly contain
-relevant tuples). If there are many distinct `x` values,
-then the entire index will have to be scanned, so in most cases the planner
-will prefer a sequential table scan over using the index.
+例如，給定一個建立在 `(x, y)` 上的索引，以及查詢條件 `WHERE y = 7700`，B-tree 索引掃描也許能夠套用跳躍掃描最佳化。這通常發生在查詢規劃器預期，就資料表上可用的索引而言，針對每個可能的 `N` 值（或針對索引中實際儲存的每個 `x` 值）重複進行 `WHERE x = N AND y = 7700` 搜尋是最快的做法時。一般而言，只有在相異的 `x` 值非常少，使規劃器預期掃描能跳過索引的大部分（因為其大部分葉頁面不可能包含相關的值組（tuple））時，才會採用這種做法。如果相異的 `x` 值很多，就必須掃描整個索引，因此在大多數情況下，規劃器會偏好循序掃描資料表，而不是使用該索引。
 
-The skip scan optimization can also be applied selectively, during B-tree
-scans that have at least some useful constraints from the query predicate.
-For example, given an index on `(a, b, c)` and a
-query condition `WHERE a = 5 AND b >= 42 AND c < 77`,
-the index might have to be scanned from the first entry with
-`a` = 5 and `b` = 42 up through the last
-entry with `a` = 5. Index entries with
-`c` >= 77 will never need to be filtered at the table
-level, but it may or may not be profitable to skip over them within the
-index. When skipping takes place, the scan starts a new index search to
-reposition itself from the end of the current `a` = 5 and
-`b` = N grouping (i.e. from the position in the index
-where the first tuple `a = 5 AND b = N AND c >= 77`
-appears), to the start of the next such grouping (i.e. the position in the
-index where the first tuple `a = 5 AND b = N + 1`
-appears).
+跳躍掃描最佳化也可以在至少有部分來自查詢述詞之有用限制條件的 B-tree 掃描中選擇性地套用。例如，給定一個建立在 `(a, b, c)` 上的索引，以及查詢條件 `WHERE a = 5 AND b >= 42 AND c < 77`，可能必須從 `a` = 5 且 `b` = 42 的第一個項目，一路掃描到 `a` = 5 的最後一個項目。`c` >= 77 的索引項目永遠不需要在資料表層級過濾，但在索引中跳過它們不一定划算。發生跳躍時，掃描會開始一次新的索引搜尋，從目前 `a` = 5 且 `b` = N 群組的結尾（也就是索引中第一個 `a = 5 AND b = N AND c >= 77` tuple 出現的位置），重新定位到下一個這類群組的開頭（也就是索引中第一個 `a = 5 AND b = N + 1` tuple 出現的位置）。
 
-A multicolumn GiST index can be used with query conditions that
-involve any subset of the index's columns. Conditions on additional
-columns restrict the entries returned by the index, but the condition on
-the first column is the most important one for determining how much of
-the index needs to be scanned. A GiST index will be relatively
-ineffective if its first column has only a few distinct values, even if
-there are many distinct values in additional columns.
+多欄位 GiST 索引可以搭配涉及該索引欄位任意子集的查詢條件使用。其他欄位上的條件會限制索引回傳的項目，但第一個欄位上的條件，是決定需要掃描多少索引範圍的最重要條件。如果 GiST 索引的第一個欄位只有少數幾個相異值，即使其他欄位有許多相異值，這個索引的效果也會相對較差。
 
-A multicolumn GIN index can be used with query conditions that
-involve any subset of the index's columns. Unlike B-tree or GiST,
-index search effectiveness is the same regardless of which index column(s)
-the query conditions use.
+多欄位 GIN 索引可以搭配涉及該索引欄位任意子集的查詢條件使用。與 B-tree 或 GiST 不同，無論查詢條件使用的是哪一個（或哪些）索引欄位，索引搜尋的效果都相同。
 
-A multicolumn BRIN index can be used with query conditions that
-involve any subset of the index's columns. Like GIN and unlike B-tree or
-GiST, index search effectiveness is the same regardless of which index
-column(s) the query conditions use. The only reason to have multiple BRIN
-indexes instead of one multicolumn BRIN index on a single table is to have
-a different `pages_per_range` storage parameter.
+多欄位 BRIN 索引可以搭配涉及該索引欄位任意子集的查詢條件使用。與 GIN 相同而與 B-tree 或 GiST 不同，無論查詢條件使用的是哪一個（或哪些）索引欄位，索引搜尋的效果都相同。在單一資料表上使用多個 BRIN 索引，而不是一個多欄位 BRIN 索引，唯一的理由是為了使用不同的 `pages_per_range` 儲存參數。
 
-Of course, each column must be used with operators appropriate to the index
-type; clauses that involve other operators will not be considered.
+當然，每個欄位都必須搭配適合該索引類型的運算子使用；涉及其他運算子的子句不會被考慮。
 
-Multicolumn indexes should be used sparingly. In most situations,
-an index on a single column is sufficient and saves space and time.
-Indexes with more than three columns are unlikely to be helpful
-unless the usage of the table is extremely stylized. See also
-[Section 11.5](indexes-bitmap-scans.md) and
-[Section 11.9](indexes-index-only-scans.md) for some discussion of the
-merits of different index configurations.
+應該節制地使用多欄位索引。在大多數情況下，單一欄位上的索引就已足夠，而且能節省空間與時間。除非資料表的使用方式極為固定，否則超過三個欄位的索引不太可能有幫助。關於不同索引配置之優缺點的一些討論，另請參閱[第 11.5 節](indexes-bitmap-scans.md)與[第 11.9 節](indexes-index-only-scans.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-multicolumn.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes-multicolumn.html)（原文版本：18.6；核對日期：2026-09-13）

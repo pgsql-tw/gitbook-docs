@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：737 頁。
+待譯頁面：736 頁。
 
 ## 根目錄
 
@@ -1095,7 +1095,7 @@
 - [x] `the-sql-language/indexes/indexes-expressional.md` — 11.7. 運算式索引 #
 - [x] `the-sql-language/indexes/indexes-index-only-scans.md` — 11.9. 僅索引掃描與涵蓋索引 #
 - [x] `the-sql-language/indexes/indexes-intro.md` — 11.1. 簡介 #
-- [ ] `the-sql-language/indexes/indexes-multicolumn.md` — 11.3. Multicolumn Indexes #
+- [x] `the-sql-language/indexes/indexes-multicolumn.md` — 11.3. 多欄位索引 #
 - [ ] `the-sql-language/indexes/indexes-opclass.md` — 11.10. Operator Classes and Operator Families #
 - [ ] `the-sql-language/indexes/indexes-ordering.md` — 11.4. Indexes and ORDER BY #
 - [ ] `the-sql-language/indexes/indexes-partial.md` — 11.8. Partial Indexes #
