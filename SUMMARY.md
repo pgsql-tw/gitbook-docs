@@ -85,7 +85,7 @@
     * [8.16. Composite Types #](the-sql-language/datatype/rowtypes.md)
     * [8.17. Range Types #](the-sql-language/datatype/rangetypes.md)
     * [8.18. Domain Types #](the-sql-language/datatype/domains.md)
-    * [8.19. Object Identifier Types #](the-sql-language/datatype/datatype-oid.md)
+    * [8.19. 物件識別碼型別 #](the-sql-language/datatype/datatype-oid.md)
     * [8.20. `pg_lsn` 型別 #](the-sql-language/datatype/datatype-pg-lsn.md)
     * [8.21. Pseudo-Types #](the-sql-language/datatype/datatype-pseudo.md)
   * [第 9 章 函式與運算子](the-sql-language/functions/README.md)
