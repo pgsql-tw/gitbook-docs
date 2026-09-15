@@ -49,7 +49,7 @@
     * [5.10. 綱要 #](the-sql-language/ddl/ddl-schemas.md)
     * [5.11. 繼承 #](the-sql-language/ddl/ddl-inherit.md)
     * [5.12. Table Partitioning #](the-sql-language/ddl/ddl-partitioning.md)
-    * [5.13. Foreign Data #](the-sql-language/ddl/ddl-foreign-data.md)
+    * [5.13. 外部資料 #](the-sql-language/ddl/ddl-foreign-data.md)
     * [5.14. 其他資料庫物件](the-sql-language/ddl/ddl-others.md)
     * [5.15. 相依性追蹤 #](the-sql-language/ddl/ddl-depend.md)
   * [第 6 章：資料操作](the-sql-language/dml/README.md)
