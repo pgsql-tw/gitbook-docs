@@ -127,7 +127,7 @@
     * [10.4. 值的儲存 #](the-sql-language/typeconv/typeconv-query.md)
     * [10.5. `UNION`、`CASE` 與相關結構 #](the-sql-language/typeconv/typeconv-union-case.md)
     * [10.6. SELECT 輸出欄位](the-sql-language/typeconv/typeconv-select.md)
-  * [Chapter 11. Indexes](the-sql-language/indexes/README.md)
+  * [第 11 章 索引](the-sql-language/indexes/README.md)
     * [11.1. Introduction #](the-sql-language/indexes/indexes-intro.md)
     * [11.2. 索引類型 #](the-sql-language/indexes/indexes-types.md)
     * [11.3. Multicolumn Indexes #](the-sql-language/indexes/indexes-multicolumn.md)

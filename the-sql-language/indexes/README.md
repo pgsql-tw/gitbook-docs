@@ -1,10 +1,10 @@
-## Chapter 11. Indexes
+## 第 11 章 索引
 
-**Table of Contents**
+**目錄**
 
-[11.1. Introduction](indexes-intro.md)
+[11.1. 簡介](indexes-intro.md)
 
-[11.2. Index Types](indexes-types.md)
+[11.2. 索引類型](indexes-types.md)
 :   [11.2.1. B-Tree](indexes-types.md#INDEXES-TYPES-BTREE)
 
     [11.2.2. Hash](indexes-types.md#INDEXES-TYPES-HASH)
@@ -17,34 +17,30 @@
 
     [11.2.6. BRIN](indexes-types.md#INDEXES-TYPES-BRIN)
 
-[11.3. Multicolumn Indexes](indexes-multicolumn.md)
+[11.3. 多欄位索引](indexes-multicolumn.md)
 
-[11.4. Indexes and `ORDER BY`](indexes-ordering.md)
+[11.4. 索引與 `ORDER BY`](indexes-ordering.md)
 
-[11.5. Combining Multiple Indexes](indexes-bitmap-scans.md)
+[11.5. 組合多個索引](indexes-bitmap-scans.md)
 
-[11.6. Unique Indexes](indexes-unique.md)
+[11.6. 唯一值索引](indexes-unique.md)
 
-[11.7. Indexes on Expressions](indexes-expressional.md)
+[11.7. 運算式索引](indexes-expressional.md)
 
-[11.8. Partial Indexes](indexes-partial.md)
+[11.8. 部分索引](indexes-partial.md)
 
-[11.9. Index-Only Scans and Covering Indexes](indexes-index-only-scans.md)
+[11.9. 僅索引掃描與涵蓋索引](indexes-index-only-scans.md)
 
-[11.10. Operator Classes and Operator Families](indexes-opclass.md)
+[11.10. 運算子類別與運算子族系](indexes-opclass.md)
 
-[11.11. Indexes and Collations](indexes-collations.md)
+[11.11. 索引與定序](indexes-collations.md)
 
-[11.12. Examining Index Usage](indexes-examine.md)
+[11.12. 檢查索引的使用情形](indexes-examine.md)
 
 <a id="id-1.5.10.2"></a>
 
-Indexes are a common way to enhance database performance. An index
-allows the database server to find and retrieve specific rows much
-faster than it could do without an index. But indexes also add
-overhead to the database system as a whole, so they should be used
-sensibly.
+索引是提升資料庫效能的常見方法。索引讓資料庫伺服器能夠比沒有索引時更快地找出並取得特定的資料列。但索引也會為整個資料庫系統增加額外負擔，因此應該審慎地使用。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/indexes.html)（原文版本：18.6；核對日期：2026-09-13）
