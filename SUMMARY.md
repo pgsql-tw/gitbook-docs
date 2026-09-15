@@ -524,7 +524,7 @@
     * [44.10. Python 2 與 Python 3](server-programming/plpython/plpython-python23.md)
     * [44.11. 環境變數](server-programming/plpython/plpython-envar.md)
   * [Chapter 45. Server Programming Interface](server-programming/spi/README.md)
-    * [45.1. Interface Functions #](server-programming/spi/spi-interface.md)
+    * [45.1. 介面函式 #](server-programming/spi/spi-interface.md)
       * [SPI_connect](server-programming/spi/spi-spi-connect.md)
       * [SPI_cursor_close](server-programming/spi/spi-spi-cursor-close.md)
       * [SPI_cursor_fetch](server-programming/spi/spi-spi-cursor-fetch.md)
