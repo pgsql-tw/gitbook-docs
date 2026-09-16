@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：722 頁。
+待譯頁面：721 頁。
 
 ## 根目錄
 
@@ -1034,7 +1034,7 @@
 - [x] `the-sql-language/datatype/datatype-xml.md` — 8.13. XML 型別 #
 - [x] `the-sql-language/datatype/domains.md` — 8.18. 網域型別 #
 - [x] `the-sql-language/datatype/rangetypes.md` — 8.17. 範圍型別 #
-- [ ] `the-sql-language/datatype/rowtypes.md` — 8.16. Composite Types #
+- [x] `the-sql-language/datatype/rowtypes.md` — 8.16. 複合型別 #
 - [ ] `the-sql-language/ddl/README.md` — Chapter 5. Data Definition
 - [x] `the-sql-language/ddl/ddl-alter.md` — 5.7. 修改資料表 #
 - [x] `the-sql-language/ddl/ddl-basics.md` — 5.1. 資料表基礎 #

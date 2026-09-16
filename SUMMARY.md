@@ -82,7 +82,7 @@
     * [8.13. XML 型別 #](the-sql-language/datatype/datatype-xml.md)
     * [8.14. JSON Types #](the-sql-language/datatype/datatype-json.md)
     * [8.15. Arrays #](the-sql-language/datatype/arrays.md)
-    * [8.16. Composite Types #](the-sql-language/datatype/rowtypes.md)
+    * [8.16. 複合型別 #](the-sql-language/datatype/rowtypes.md)
     * [8.17. 範圍型別 #](the-sql-language/datatype/rangetypes.md)
     * [8.18. 網域型別 #](the-sql-language/datatype/domains.md)
     * [8.19. 物件識別碼型別 #](the-sql-language/datatype/datatype-oid.md)
