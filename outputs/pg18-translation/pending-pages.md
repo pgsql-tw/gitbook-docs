@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：721 頁。
+待譯頁面：720 頁。
 
 ## 根目錄
 
@@ -1012,7 +1012,7 @@
 
 ## the-sql-language
 
-- [ ] `the-sql-language/README.md` — Part II. The SQL Language
+- [x] `the-sql-language/README.md` — 第二部分：SQL 語言
 - [ ] `the-sql-language/datatype/README.md` — Chapter 8. Data Types
 - [ ] `the-sql-language/datatype/arrays.md` — 8.15. Arrays #
 - [x] `the-sql-language/datatype/datatype-binary.md` — 8.4. 二進位資料型別 #

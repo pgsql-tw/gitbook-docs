@@ -31,7 +31,7 @@
     * [3.5. Window 函式 #](tutorial/tutorial-advanced/tutorial-window.md)
     * [3.6. 繼承 #](tutorial/tutorial-advanced/tutorial-inheritance.md)
     * [3.7. 結語](tutorial/tutorial-advanced/tutorial-conclusion.md)
-* [Part II. The SQL Language](the-sql-language/README.md)
+* [第二部分：SQL 語言](the-sql-language/README.md)
   * [第 4 章 SQL 語法](the-sql-language/sql-syntax/README.md)
     * [4.1. 詞彙結構 #](the-sql-language/sql-syntax/sql-syntax-lexical.md)
     * [4.2. 值運算式 #](the-sql-language/sql-syntax/sql-expressions.md)
