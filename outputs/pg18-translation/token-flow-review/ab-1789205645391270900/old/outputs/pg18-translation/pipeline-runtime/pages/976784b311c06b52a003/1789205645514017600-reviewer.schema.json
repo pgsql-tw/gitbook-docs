@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "passed",
+    "sections",
+    "issues",
+    "evidence"
+  ],
+  "properties": {
+    "passed": {
+      "type": "boolean"
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "string"
+    }
+  }
+}

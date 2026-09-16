@@ -1,0 +1,1 @@
+{"passed":true,"sections":[1],"issues":[],"evidence":"已完整讀取指定 SKILL.md 與 style.md，並逐句對照 original.md、目標譯文及 source.html 的 PostgreSQL 18.6 官方段落。警告標題、三段內容、否定條件、風險說明、GSSAPI 外部驗證建議與第 20 章連結均完整且語意正確；既有錨點與連結完整保留，無程式碼或範例可審。譯文符合已確認的「技術直述」繁體中文風格。"}

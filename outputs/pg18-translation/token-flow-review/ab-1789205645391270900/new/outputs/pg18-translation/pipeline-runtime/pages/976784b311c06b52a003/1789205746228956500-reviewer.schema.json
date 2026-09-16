@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reviews"
+  ],
+  "properties": {
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section",
+          "passed",
+          "issues",
+          "evidence"
+        ],
+        "properties": {
+          "section": {
+            "type": "integer"
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

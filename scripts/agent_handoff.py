@@ -28,6 +28,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 
 BASE = 'outputs/pg18-translation'
 AGENTS = BASE + '/agents'
@@ -83,7 +84,22 @@ def write_styled(path, text, style=(False, False)):
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_name(path.name + '.tmp')
     temp.write_bytes(data)
-    os.replace(temp, path)
+    replace_with_retry(temp, path)
+
+
+def replace_with_retry(temp, path, attempts=6, delay=0.3):
+    """Windows 上防毒掃描、編輯器或預覽程式短暫持有檔案會讓 os.replace 失敗（WinError 5/32）。
+
+    重試數秒即可救回，避免發佈在寫入 SUMMARY.md 時中斷、留下未提交的半套狀態。
+    """
+    for attempt in range(attempts):
+        try:
+            os.replace(temp, path)
+            return
+        except PermissionError:
+            if attempt == attempts - 1:
+                raise
+            time.sleep(delay * (attempt + 1))
 
 
 def write_json(path, value):

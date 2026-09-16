@@ -1,0 +1,1 @@
+{"passed":true,"sections":[0],"issues":[],"evidence":"已核對 appendixes/contrib/passwordcheck.md 的 section 0 與 original.md 及 source.html（PostgreSQL 18.6）。標題順序與數量、兩個本地錨點、連結、警告與註記、預設值 8 位元組、超級使用者限制、預先加密密碼的例外條件，以及保留的設定範例與程式碼圍欄均完整且技術正確。譯文符合已確認的「技術直述」風格；未將尚未統一的術語偏好視為缺陷。"}

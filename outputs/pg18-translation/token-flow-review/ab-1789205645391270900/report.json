@@ -1,0 +1,167 @@
+{
+  "page": "appendixes/contrib/passwordcheck.md",
+  "baseline_commit": "9a2b72b5",
+  "new_code_sha256": "5f228b7f9ecec565052b1da43e6afccd084b166e6f898fea34ae5da63288918b",
+  "cli": "codex-cli 0.153.4",
+  "settings": "same existing CLI defaults; read-only; no model/reasoning override",
+  "runs": {
+    "old": {
+      "seconds": 100.64,
+      "calls": [
+        {
+          "log": "old\\outputs\\pg18-translation\\pipeline-runtime\\pages\\976784b311c06b52a003\\1789205645514017600-reviewer.jsonl",
+          "usage": [
+            {
+              "input_tokens": 98933,
+              "cached_input_tokens": 68864,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1191,
+              "reasoning_output_tokens": 502
+            }
+          ],
+          "commands": 3
+        },
+        {
+          "log": "old\\outputs\\pg18-translation\\pipeline-runtime\\pages\\976784b311c06b52a003\\1789205681754252700-reviewer.jsonl",
+          "usage": [
+            {
+              "input_tokens": 87635,
+              "cached_input_tokens": 58624,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1138,
+              "reasoning_output_tokens": 302
+            }
+          ],
+          "commands": 3
+        },
+        {
+          "log": "old\\outputs\\pg18-translation\\pipeline-runtime\\pages\\976784b311c06b52a003\\1789205715856730900-reviewer.jsonl",
+          "usage": [
+            {
+              "input_tokens": 63740,
+              "cached_input_tokens": 49408,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 880,
+              "reasoning_output_tokens": 242
+            }
+          ],
+          "commands": 2
+        }
+      ],
+      "totals": {
+        "input_tokens": 250308,
+        "cached_input_tokens": 176896,
+        "output_tokens": 3209,
+        "reasoning_output_tokens": 1046,
+        "uncached_input_tokens": 73412
+      },
+      "issues": [],
+      "error": null,
+      "reviews": [
+        {
+          "section": 0,
+          "hash": "596689f762dd996837651fbcc6aee00a33428ea6ff84a947687a7fe39ab9509b",
+          "result": {
+            "passed": true,
+            "sections": [
+              0
+            ],
+            "issues": [],
+            "evidence": "已核對 appendixes/contrib/passwordcheck.md 的 section 0 與 original.md 及 source.html（PostgreSQL 18.6）。標題順序與數量、兩個本地錨點、連結、警告與註記、預設值 8 位元組、超級使用者限制、預先加密密碼的例外條件，以及保留的設定範例與程式碼圍欄均完整且技術正確。譯文符合已確認的「技術直述」風格；未將尚未統一的術語偏好視為缺陷。"
+          }
+        },
+        {
+          "section": 1,
+          "hash": "c11334bd178ecbc0702361161904b1700cf91f5026e6587b98bde0e78e72b438",
+          "result": {
+            "passed": true,
+            "sections": [
+              1
+            ],
+            "issues": [],
+            "evidence": "已完整讀取指定 SKILL.md 與 style.md，並逐句對照 original.md、目標譯文及 source.html 的 PostgreSQL 18.6 官方段落。警告標題、三段內容、否定條件、風險說明、GSSAPI 外部驗證建議與第 20 章連結均完整且語意正確；既有錨點與連結完整保留，無程式碼或範例可審。譯文符合已確認的「技術直述」繁體中文風格。"
+          }
+        },
+        {
+          "section": 2,
+          "hash": "bd6d1adec8884e78586df0f4bb6ea9938ca09caf281ab03e49eddf8666c49fcd",
+          "result": {
+            "passed": true,
+            "sections": [
+              2
+            ],
+            "issues": [],
+            "evidence": "已唯讀核對 F.24.1：標題、錨點、參數名稱與型別、最小長度的位元組單位、預設值 8、僅超級使用者可變更的條件、預先加密密碼時無效的註記、工作階段中即時變更的例外，以及設定範例，均與 original.md 和 source.html 的 PostgreSQL 18 官方段落一致。程式碼區塊與其中註解保持原樣；繁體中文符合已確認的技術直述風格。"
+          }
+        }
+      ]
+    },
+    "new": {
+      "seconds": 14.24,
+      "calls": [
+        {
+          "log": "new\\outputs\\pg18-translation\\pipeline-runtime\\pages\\976784b311c06b52a003\\1789205746228956500-reviewer.jsonl",
+          "usage": [
+            {
+              "input_tokens": 22858,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 431,
+              "reasoning_output_tokens": 213
+            }
+          ],
+          "commands": 0
+        }
+      ],
+      "totals": {
+        "input_tokens": 22858,
+        "cached_input_tokens": 0,
+        "output_tokens": 431,
+        "reasoning_output_tokens": 213,
+        "uncached_input_tokens": 22858
+      },
+      "issues": [],
+      "error": null,
+      "reviews": [
+        {
+          "section": 0,
+          "hash": "596689f762dd996837651fbcc6aee00a33428ea6ff84a947687a7fe39ab9509b",
+          "result": {
+            "section": 0,
+            "passed": true,
+            "issues": [],
+            "evidence": "標題、目錄連結、錨點與所有段落均對應 18.6 官方內容；啟用條件、CrackLib 的授權例外與未使用 CrackLib 時的規則皆完整保留。"
+          }
+        },
+        {
+          "section": 1,
+          "hash": "c11334bd178ecbc0702361161904b1700cf91f5026e6587b98bde0e78e72b438",
+          "result": {
+            "section": 1,
+            "passed": true,
+            "issues": [],
+            "evidence": "警告的三項未加密密碼風險、預先加密密碼造成的限制、高安全需求建議與明文設定的風險均完整且語意正確。"
+          }
+        },
+        {
+          "section": 2,
+          "hash": "bd6d1adec8884e78586df0f4bb6ea9938ca09caf281ab03e49eddf8666c49fcd",
+          "result": {
+            "section": 2,
+            "passed": true,
+            "issues": [],
+            "evidence": "參數名稱、integer 型別、位元組單位、預設值 8、僅超級使用者可變更，以及預先加密密碼時無效的註記皆與 18.6 一致；範例未變更。"
+          }
+        }
+      ]
+    }
+  },
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/passwordcheck.html",
+    "retrieved": "2026-09-11T19:03:49.851448+00:00",
+    "sha256": "24895aa95a3ebfe033f5600b924f35c0136a3f498488b1bc3629bf8e3f9f4a53",
+    "minor": "18.6"
+  },
+  "candidate_sha256": "3b16342bc2f5ad48c5536302bf674542cd261b71fc6990a4e8157658e729aa54",
+  "policy_sha256": "668f55541440cebfcb91c5cfedf76ddb495c41c899d5ce721d37c540ed4518f8"
+}

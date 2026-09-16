@@ -53,6 +53,34 @@ class Tests(unittest.TestCase):
         h.write_json(item / 'meta.json', meta)
         return item
 
+    def test_write_styled_retries_when_file_is_briefly_locked(self):
+        target = Path(self.root) / 'SUMMARY.md'
+        h.write_styled(target, 'a\n')
+        calls = []
+        real = h.os.replace
+
+        def flaky(temp, path):
+            calls.append(path)
+            if len(calls) < 3:
+                raise PermissionError(5, 'Access is denied')
+            return real(temp, path)
+
+        with patch.object(h.os, 'replace', flaky), patch.object(h.time, 'sleep', lambda s: None):
+            h.write_styled(target, 'b\n')
+        self.assertEqual(len(calls), 3)
+        self.assertEqual(h.read(target), 'b\n')
+
+    def test_write_styled_reports_a_persistent_lock(self):
+        target = Path(self.root) / 'SUMMARY.md'
+        h.write_styled(target, 'a\n')
+
+        def denied(temp, path):
+            raise PermissionError(5, 'Access is denied')
+
+        with patch.object(h.os, 'replace', denied), patch.object(h.time, 'sleep', lambda s: None):
+            with self.assertRaises(PermissionError):
+                h.write_styled(target, 'b\n')
+
     def test_claim_is_exclusive_and_visible(self):
         h.claim(self.root, PAGE, 'claude')
         self.assertTrue(h.is_claimed_by_other(self.root, PAGE, 'codex'))

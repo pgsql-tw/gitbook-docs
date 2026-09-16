@@ -1,0 +1,63 @@
+{
+  "version": "source-packets-v1",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/passwordcheck.html",
+    "retrieved": "2026-09-11T19:03:49.851448+00:00",
+    "sha256": "24895aa95a3ebfe033f5600b924f35c0136a3f498488b1bc3629bf8e3f9f4a53",
+    "minor": "18.6"
+  },
+  "snapshot_sha256": "24895aa95a3ebfe033f5600b924f35c0136a3f498488b1bc3629bf8e3f9f4a53",
+  "fallback": null,
+  "outline": [
+    {
+      "section": 0,
+      "heading": "## F.24. passwordcheck — verify password strength [#](#PASSWORDCHECK)"
+    },
+    {
+      "section": 1,
+      "heading": "### Caution"
+    },
+    {
+      "section": 2,
+      "heading": "### F.24.1. Configuration Parameters [#](#PASSWORDCHECK-CONFIGURATION-PARAMETERS)"
+    }
+  ],
+  "sections": [
+    {
+      "id": 0,
+      "original": "## F.24. passwordcheck — verify password strength [#](#PASSWORDCHECK)\n\n[F.24.1. Configuration Parameters](passwordcheck.md#PASSWORDCHECK-CONFIGURATION-PARAMETERS)\n\n<a id=\"id-1.11.7.34.2\"></a>\n\nThe `passwordcheck` module checks users' passwords\nwhenever they are set with\n[CREATE ROLE](../../reference/sql-commands/sql-createrole.md) or\n[ALTER ROLE](../../reference/sql-commands/sql-alterrole.md).\nIf a password is considered too weak, it will be rejected and\nthe command will terminate with an error.\n\nTo enable this module, add `'$libdir/passwordcheck'`\nto [shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) in\n`postgresql.conf`, then restart the server.\n\nYou can adapt this module to your needs by changing the source code.\nFor example, you can use\n[CrackLib](https://github.com/cracklib/cracklib)\nto check passwords — this only requires uncommenting\ntwo lines in the `Makefile` and rebuilding the\nmodule. (We cannot include CrackLib\nby default for license reasons.)\nWithout CrackLib, the module enforces a few\nsimple rules for password strength, which you can modify or extend\nas you see fit.\n\n",
+      "translation": "<a id=\"PASSWORDCHECK\"></a>\n\n## F.24. passwordcheck — 驗證密碼強度 [#](#PASSWORDCHECK)\n\n[F.24.1. 設定參數](passwordcheck.md#PASSWORDCHECK-CONFIGURATION-PARAMETERS)\n\n<a id=\"id-1.11.7.34.2\"></a>\n\n`passwordcheck` 模組會在使用者透過\n[CREATE ROLE](../../reference/sql-commands/sql-createrole.md) 或\n[ALTER ROLE](../../reference/sql-commands/sql-alterrole.md) 設定密碼時檢查其密碼。\n如果密碼被判定為過於脆弱，系統會拒絕該密碼，並使該指令以錯誤終止。\n\n若要啟用此模組，請將 `'$libdir/passwordcheck'` 新增至\n`postgresql.conf` 中的 [shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES)，然後重新啟動伺服器。\n\n你可以修改原始碼，讓此模組符合你的需求。舉例來說，你可以使用\n[CrackLib](https://github.com/cracklib/cracklib) 檢查密碼；只需取消 `Makefile` 中兩行內容的註解，然後重新建置模組即可。（基於授權因素，我們無法預設納入 CrackLib。）\n未使用 CrackLib 時，模組會強制套用數項簡單的密碼強度規則；你可以視需要修改或擴充這些規則。\n\n",
+      "translation_matches_original": false
+    },
+    {
+      "id": 1,
+      "original": "### Caution\n\nTo prevent unencrypted passwords from being sent across the network,\nwritten to the server log or otherwise stolen by a database administrator,\nPostgreSQL allows the user to supply\npre-encrypted passwords. Many client programs make use of this\nfunctionality and encrypt the password before sending it to the server.\n\nThis limits the usefulness of the `passwordcheck`\nmodule, because in that case it can only try to guess the password.\nFor this reason, `passwordcheck` is not\nrecommended if your security requirements are high.\nIt is more secure to use an external authentication method such as GSSAPI\n(see [Chapter 20](../../server-administration/client-authentication/README.md)) than to rely on\npasswords within the database.\n\nAlternatively, you could modify `passwordcheck`\nto reject pre-encrypted passwords, but forcing users to set their\npasswords in clear text carries its own security risks.\n\n<a id=\"PASSWORDCHECK-CONFIGURATION-PARAMETERS\"></a>\n\n",
+      "translation": "### 注意\n\n為防止未加密的密碼透過網路傳送、寫入伺服器日誌，或以其他方式遭資料庫管理員竊取，PostgreSQL 允許使用者提供預先加密的密碼。許多用戶端程式會使用此功能，並在將密碼傳送至伺服器之前加密密碼。\n\n這會限制 `passwordcheck` 模組的實用性，因為在這種情況下，它只能嘗試猜測密碼。因此，如果你的安全性需求很高，不建議使用 `passwordcheck`。\n使用 GSSAPI 等外部驗證方法（請參閱[第 20 章](../../server-administration/client-authentication/README.md)）比依賴資料庫中的密碼更安全。\n\n或者，你可以修改 `passwordcheck`，使其拒絕預先加密的密碼；但強制使用者以明文設定密碼也有其自身的安全風險。\n\n<a id=\"PASSWORDCHECK-CONFIGURATION-PARAMETERS\"></a>\n\n",
+      "translation_matches_original": false
+    },
+    {
+      "id": 2,
+      "original": "### F.24.1. Configuration Parameters [#](#PASSWORDCHECK-CONFIGURATION-PARAMETERS)\n\n`passwordcheck.min_password_length` (`integer`) <a id=\"id-1.11.7.34.7.2.1.1.3\"></a>\n:   The minimum acceptable password length in bytes. The default is 8. Only\n    superusers can change this setting.\n\n    ### Note\n\n    This parameter has no effect if a user supplies a pre-encrypted\n    password.\n\nIn ordinary usage, this parameter is set in\n`postgresql.conf`, but superusers can alter it on-the-fly\nwithin their own sessions. Typical usage might be:\n\n```\n\n# postgresql.conf\npasswordcheck.min_password_length = 12\n```\n\n---\n\n原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/passwordcheck.html)（英文原文，待翻譯）\n",
+      "translation": "### F.24.1. 設定參數 [#](#PASSWORDCHECK-CONFIGURATION-PARAMETERS)\n\n`passwordcheck.min_password_length` (`integer`) <a id=\"id-1.11.7.34.7.2.1.1.3\"></a>\n:   可接受的最小密碼長度，以位元組為單位。預設值為 8。只有\n    超級使用者可以變更此設定。\n\n    ### 註\n\n    如果使用者提供預先加密的密碼，此參數不會產生任何作用。\n\n一般會在 `postgresql.conf` 中設定此參數，但超級使用者可以在自己的工作階段中即時變更它。典型的用法如下：\n\n```\n\n# postgresql.conf\npasswordcheck.min_password_length = 12\n```\n\n---\n\n原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/passwordcheck.html)\n",
+      "translation_matches_original": false
+    }
+  ],
+  "official_excerpts": [
+    {
+      "anchor": "PASSWORDCHECK",
+      "start_char": 11142,
+      "end_char": 14155,
+      "start_line": 209,
+      "end_line": 231,
+      "html": "<div class=\"sect1\" id=\"PASSWORDCHECK\">\n  <div class=\"titlepage\">\n    <div>\n      <div>\n        <h2 class=\"title\" style=\"clear: both\">F.24.&nbsp;passwordcheck — verify password strength <a href=\"#PASSWORDCHECK\" class=\"id_link\">#</a></h2>\n      </div>\n    </div>\n  </div>\n  <div class=\"toc\">\n    <dl class=\"toc\">\n      <dt><span class=\"sect2\"><a href=\"passwordcheck.html#PASSWORDCHECK-CONFIGURATION-PARAMETERS\">F.24.1. Configuration Parameters</a></span></dt>\n    </dl>\n  </div><a id=\"id-1.11.7.34.2\" class=\"indexterm\" name=\"id-1.11.7.34.2\"></a>\n  <p>The <code class=\"filename\">passwordcheck</code> module checks users' passwords whenever they are set with <a class=\"xref\" href=\"sql-createrole.html\" title=\"CREATE ROLE\"><span class=\"refentrytitle\">CREATE ROLE</span></a> or <a class=\"xref\" href=\"sql-alterrole.html\" title=\"ALTER ROLE\"><span class=\"refentrytitle\">ALTER ROLE</span></a>. If a password is considered too weak, it will be rejected and the command will terminate with an error.</p>\n  <p>To enable this module, add <code class=\"literal\">'$libdir/passwordcheck'</code> to <a class=\"xref\" href=\"runtime-config-client.html#GUC-SHARED-PRELOAD-LIBRARIES\">shared_preload_libraries</a> in <code class=\"filename\">postgresql.conf</code>, then restart the server.</p>\n  <p>You can adapt this module to your needs by changing the source code. For example, you can use <a class=\"ulink\" href=\"https://github.com/cracklib/cracklib\" target=\"_top\">CrackLib</a> to check passwords — this only requires uncommenting two lines in the <code class=\"filename\">Makefile</code> and rebuilding the module. (We cannot include <span class=\"productname\">CrackLib</span> by default for license reasons.) Without <span class=\"productname\">CrackLib</span>, the module enforces a few simple rules for password strength, which you can modify or extend as you see fit.</p>\n  <div class=\"caution\">\n    <h3 class=\"title\">Caution</h3>\n    <p>To prevent unencrypted passwords from being sent across the network, written to the server log or otherwise stolen by a database administrator, <span class=\"productname\">PostgreSQL</span> allows the user to supply pre-encrypted passwords. Many client programs make use of this functionality and encrypt the password before sending it to the server.</p>\n    <p>This limits the usefulness of the <code class=\"filename\">passwordcheck</code> module, because in that case it can only try to guess the password. For this reason, <code class=\"filename\">passwordcheck</code> is not recommended if your security requirements are high. It is more secure to use an external authentication method such as GSSAPI (see <a class=\"xref\" href=\"client-authentication.html\" title=\"Chapter&nbsp;20.&nbsp;Client Authentication\">Chapter&nbsp;20</a>) than to rely on passwords within the database.</p>\n    <p>Alternatively, you could modify <code class=\"filename\">passwordcheck</code> to reject pre-encrypted passwords, but forcing users to set their passwords in clear text carries its own security risks.</p>\n  </div>\n  "
+    },
+    {
+      "anchor": "PASSWORDCHECK-CONFIGURATION-PARAMETERS",
+      "start_char": 14155,
+      "end_char": 15402,
+      "start_line": 231,
+      "end_line": 257,
+      "html": "<div class=\"sect2\" id=\"PASSWORDCHECK-CONFIGURATION-PARAMETERS\">\n    <div class=\"titlepage\">\n      <div>\n        <div>\n          <h3 class=\"title\">F.24.1.&nbsp;Configuration Parameters <a href=\"#PASSWORDCHECK-CONFIGURATION-PARAMETERS\" class=\"id_link\">#</a></h3>\n        </div>\n      </div>\n    </div>\n    <div class=\"variablelist\">\n      <dl class=\"variablelist\">\n        <dt><span class=\"term\"><code class=\"varname\">passwordcheck.min_password_length</code> (<code class=\"type\">integer</code>) <a id=\"id-1.11.7.34.7.2.1.1.3\" class=\"indexterm\" name=\"id-1.11.7.34.7.2.1.1.3\"></a></span></dt>\n        <dd>\n          <p>The minimum acceptable password length in bytes. The default is 8. Only superusers can change this setting.</p>\n          <div class=\"note\">\n            <h3 class=\"title\">Note</h3>\n            <p>This parameter has no effect if a user supplies a pre-encrypted password.</p>\n          </div>\n        </dd>\n      </dl>\n    </div>\n    <p>In ordinary usage, this parameter is set in <code class=\"filename\">postgresql.conf</code>, but superusers can alter it on-the-fly within their own sessions. Typical usage might be:</p>\n    <pre class=\"programlisting\">\n# postgresql.conf\npasswordcheck.min_password_length = 12\n</pre>\n  </div>\n</div>"
+    }
+  ]
+}

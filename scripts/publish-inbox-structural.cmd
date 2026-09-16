@@ -1,5 +1,5 @@
 @echo off
-rem Publish translations that other AI agents left in the inbox: validate, then one commit per page (no push).
+rem Offline preflight ONLY. Does not publish or mark complete. Semantic review is mandatory.
 rem Double-click to run, or schedule it with Windows Task Scheduler. Protocol: outputs\pg18-translation\agents\PROTOCOL.md
 setlocal
 chcp 65001 >nul
@@ -18,16 +18,8 @@ if not defined PY (
   exit /b 9
 )
 >>"%LOG%" echo python: %PY%
-rem 語意審查需要 codex CLI；雙擊執行時 PATH 可能不含它，這裡補上常見安裝位置。
-set "PATH=%PATH%;%APPDATA%\npm;%LOCALAPPDATA%\Programs\codex\bin;%USERPROFILE%\.local\bin;%USERPROFILE%\AppData\Roaming\npm"
-where codex >>"%LOG%" 2>&1
-where codex >nul 2>nul || (
-  >>"%LOG%" echo ERROR: codex CLI not found in PATH; inbox review cannot run.
-  >>"%LOG%" echo HINT: open a terminal where "codex --version" works, cd to the repo and run: %PY% scripts\agent_handoff.py publish --publisher publish-inbox
-  exit /b 8
-)
 >>"%LOG%" git rev-parse --abbrev-ref HEAD 2>&1
-%PY% scripts\agent_handoff.py publish --publisher publish-inbox >>"%LOG%" 2>&1
+%PY% scripts\publish_inbox_structural.py %1 >>"%LOG%" 2>&1
 set RC=%ERRORLEVEL%
 >>"%LOG%" echo exit=%RC%
 >>"%LOG%" git log --format="%%h %%an %%s" -6 2>&1

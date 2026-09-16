@@ -1,0 +1,1 @@
+{"reviews":[{"section":0,"passed":true,"issues":[],"evidence":"標題、目錄連結、錨點與所有段落均對應 18.6 官方內容；啟用條件、CrackLib 的授權例外與未使用 CrackLib 時的規則皆完整保留。"},{"section":1,"passed":true,"issues":[],"evidence":"警告的三項未加密密碼風險、預先加密密碼造成的限制、高安全需求建議與明文設定的風險均完整且語意正確。"},{"section":2,"passed":true,"issues":[],"evidence":"參數名稱、integer 型別、位元組單位、預設值 8、僅超級使用者可變更，以及預先加密密碼時無效的註記皆與 18.6 一致；範例未變更。"}]}
