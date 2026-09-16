@@ -1,18 +1,12 @@
-## 8.18. Domain Types [#](#DOMAINS)
+<a id="DOMAINS"></a>
+
+## 8.18. 網域型別 [#](#DOMAINS)
 
 <a id="id-1.5.7.26.2"></a><a id="id-1.5.7.26.3"></a>
 
-A *domain* is a user-defined data type that is
-based on another *underlying type*. Optionally,
-it can have constraints that restrict its valid values to a subset of
-what the underlying type would allow. Otherwise it behaves like the
-underlying type — for example, any operator or function that
-can be applied to the underlying type will work on the domain type.
-The underlying type can be any built-in or user-defined base type,
-enum type, array type, composite type, range type, or another domain.
+*網域*（domain）是一種以另一個*基礎型別*（underlying type）為基礎的使用者定義資料型別。它還可以選擇性地帶有限制條件，把它的有效值限定在基礎型別所允許範圍的一個子集合中。除此之外，它的行為就跟基礎型別一樣 — 舉例來說，任何可以套用在基礎型別上的運算子或函式，都可以在這個網域型別上運作。基礎型別可以是任何內建或使用者定義的基本型別、列舉型別、陣列型別、複合型別、範圍型別，或是另一個網域。
 
-For example, we could create a domain over integers that accepts only
-positive integers:
+例如，我們可以在整數之上建立一個只接受正整數的網域：
 
 ```
 
@@ -22,20 +16,10 @@ INSERT INTO mytable VALUES(1);   -- works
 INSERT INTO mytable VALUES(-1);  -- fails
 ```
 
-When an operator or function of the underlying type is applied to a
-domain value, the domain is automatically down-cast to the underlying
-type. Thus, for example, the result of `mytable.id - 1`
-is considered to be of type `integer` not `posint`.
-We could write `(mytable.id - 1)::posint` to cast the
-result back to `posint`, causing the domain's constraints
-to be rechecked. In this case, that would result in an error if the
-expression had been applied to an `id` value of
-1. Assigning a value of the underlying type to a field or variable of
-the domain type is allowed without writing an explicit cast, but the
-domain's constraints will be checked.
+當基礎型別的運算子或函式被套用到網域值時，這個網域會自動向下轉型（down-cast）為基礎型別。因此，舉例來說，`mytable.id - 1` 的結果會被視為 `integer` 型別，而不是 `posint`。我們可以寫成 `(mytable.id - 1)::posint`，把結果轉換回 `posint`，這會使得網域的限制條件被重新檢查。在這個例子中，如果這個運算式是套用在值為 1 的 `id` 上，就會產生錯誤。將基礎型別的值指派給網域型別的欄位或變數時，不需要寫明確的型別轉換，但網域的限制條件仍會被檢查。
 
-For additional information see [CREATE DOMAIN](../../reference/sql-commands/sql-createdomain.md).
+更多資訊請參閱 [CREATE DOMAIN](../../reference/sql-commands/sql-createdomain.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/domains.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/domains.html)（原文版本：18.6；核對日期：2026-09-13）
