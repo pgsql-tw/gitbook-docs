@@ -69,7 +69,7 @@
   * [Chapter 8. Data Types](the-sql-language/datatype/README.md)
     * [8.1. 數值型別 #](the-sql-language/datatype/datatype-numeric.md)
     * [8.2. 貨幣型別 #](the-sql-language/datatype/datatype-money.md)
-    * [8.3. Character Types #](the-sql-language/datatype/datatype-character.md)
+    * [8.3. 字元型別 #](the-sql-language/datatype/datatype-character.md)
     * [8.4. 二進位資料型別 #](the-sql-language/datatype/datatype-binary.md)
     * [8.5. Date/Time Types #](the-sql-language/datatype/datatype-datetime.md)
     * [8.6. 布林型別 #](the-sql-language/datatype/datatype-boolean.md)
