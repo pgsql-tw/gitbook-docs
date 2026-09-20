@@ -459,7 +459,7 @@
     * [37.2. 資料變更的可見性 #](server-programming/triggers/trigger-datachanges.md)
     * [37.3. Writing Trigger Functions in C #](server-programming/triggers/trigger-interface.md)
     * [37.4. 完整的觸發程序範例 #](server-programming/triggers/trigger-example.md)
-  * [Chapter 38. Event Triggers](server-programming/event-triggers/README.md)
+  * [第 38 章 事件觸發程序](server-programming/event-triggers/README.md)
     * [38.1. Overview of Event Trigger Behavior #](server-programming/event-triggers/event-trigger-definition.md)
     * [38.2. Writing Event Trigger Functions in C #](server-programming/event-triggers/event-trigger-interface.md)
     * [38.3. A Complete Event Trigger Example #](server-programming/event-triggers/event-trigger-example.md)

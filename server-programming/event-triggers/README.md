@@ -1,8 +1,8 @@
-## Chapter 38. Event Triggers
+## 第 38 章 事件觸發程序
 
-**Table of Contents**
+**目錄**
 
-[38.1. Overview of Event Trigger Behavior](event-trigger-definition.md)
+[38.1. 事件觸發程序行為概觀](event-trigger-definition.md)
 :   [38.1.1. login](event-trigger-definition.md#EVENT-TRIGGER-LOGIN)
 
     [38.1.2. ddl_command_start](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_START)
@@ -13,30 +13,24 @@
 
     [38.1.5. table_rewrite](event-trigger-definition.md#EVENT-TRIGGER-TABLE_REWRITE)
 
-    [38.1.6. Event Triggers in Aborted Transactions](event-trigger-definition.md#EVENT-TRIGGER-ABORTED-TRANSACTIONS)
+    [38.1.6. 中止交易中的事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-ABORTED-TRANSACTIONS)
 
-    [38.1.7. Creating Event Triggers](event-trigger-definition.md#EVENT-TRIGGER-CREATING)
+    [38.1.7. 建立事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-CREATING)
 
-[38.2. Writing Event Trigger Functions in C](event-trigger-interface.md)
+[38.2. 以 C 撰寫事件觸發程序函式](event-trigger-interface.md)
 
-[38.3. A Complete Event Trigger Example](event-trigger-example.md)
+[38.3. 完整的事件觸發程序範例](event-trigger-example.md)
 
-[38.4. A Table Rewrite Event Trigger Example](event-trigger-table-rewrite-example.md)
+[38.4. 資料表重寫事件觸發程序範例](event-trigger-table-rewrite-example.md)
 
-[38.5. A Database Login Event Trigger Example](event-trigger-database-login-example.md)
+[38.5. 資料庫登入事件觸發程序範例](event-trigger-database-login-example.md)
 
 <a id="id-1.8.5.2"></a>
 
-To supplement the trigger mechanism discussed in [Chapter 37](../triggers/README.md),
-PostgreSQL also provides event triggers. Unlike regular
-triggers, which are attached to a single table and capture only DML events,
-event triggers are global to a particular database and are capable of
-capturing DDL events.
+為了補充[第 37 章](../triggers/README.md)所討論的觸發程序機制，PostgreSQL 也提供了事件觸發程序。與只附加在單一資料表上、只能擷取 DML 事件的一般觸發程序不同，事件觸發程序是針對特定資料庫全域生效的，並且能夠擷取 DDL 事件。
 
-Like regular triggers, event triggers can be written in any procedural
-language that includes event trigger support, or in C, but not in plain
-SQL.
+和一般觸發程序一樣，事件觸發程序可以用任何支援事件觸發程序的程序語言撰寫，也可以用 C 撰寫，但不能用純 SQL 撰寫。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/event-triggers.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/event-triggers.html)（原文版本：18.6；核對日期：2026-09-15）

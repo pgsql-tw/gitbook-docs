@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：714 頁。
+待譯頁面：713 頁。
 
 ## 根目錄
 
@@ -845,7 +845,7 @@
 - [ ] `server-programming/archive-modules/archive-module-callbacks.md` — 49.2. Archive Module Callbacks #
 - [x] `server-programming/archive-modules/archive-module-init.md` — 49.1. 初始化函式
 - [ ] `server-programming/bgworker/README.md` — Chapter 46. Background Worker Processes
-- [ ] `server-programming/event-triggers/README.md` — Chapter 38. Event Triggers
+- [x] `server-programming/event-triggers/README.md` — 第 38 章 事件觸發程序
 - [ ] `server-programming/event-triggers/event-trigger-database-login-example.md` — 38.5. A Database Login Event Trigger Example #
 - [ ] `server-programming/event-triggers/event-trigger-definition.md` — 38.1. Overview of Event Trigger Behavior #
 - [ ] `server-programming/event-triggers/event-trigger-example.md` — 38.3. A Complete Event Trigger Example #
