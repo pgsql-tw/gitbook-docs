@@ -1,24 +1,19 @@
-## 50.3. OAuth Validator Callbacks [#](#OAUTH-VALIDATOR-CALLBACKS)
+<a id="OAUTH-VALIDATOR-CALLBACKS"></a>
+## 50.3. OAuth 驗證器回呼函式 [#](#OAUTH-VALIDATOR-CALLBACKS)
 
-[50.3.1. Startup Callback](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-STARTUP)
+[50.3.1. 啟動回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-STARTUP)
 
-[50.3.2. Validate Callback](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-VALIDATE)
+[50.3.2. 驗證回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-VALIDATE)
 
-[50.3.3. Shutdown Callback](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-SHUTDOWN)
+[50.3.3. 關閉回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-SHUTDOWN)
 
-OAuth validator modules implement their functionality by defining a set of
-callbacks. The server will call them as required to process the
-authentication request from the user.
+OAuth 驗證器模組透過定義一組回呼函式來實作其功能。伺服器會依需要呼叫這些回呼函式，以處理來自使用者的驗證請求。
 
 <a id="OAUTH-VALIDATOR-CALLBACK-STARTUP"></a>
 
-### 50.3.1. Startup Callback [#](#OAUTH-VALIDATOR-CALLBACK-STARTUP)
+### 50.3.1. 啟動回呼 [#](#OAUTH-VALIDATOR-CALLBACK-STARTUP)
 
-The `startup_cb` callback is executed directly after
-loading the module. This callback can be used to set up local state and
-perform additional initialization if required. If the validator module
-has state it can use `state->private_data` to
-store it.
+`startup_cb` 回呼函式會在載入模組後立即執行。此回呼函式可用來設定本地狀態，並視需要執行額外的初始化。若驗證器模組有狀態需要保存，可使用 `state->private_data` 來儲存。
 
 ```
 
@@ -27,11 +22,9 @@ typedef void (*ValidatorStartupCB) (ValidatorModuleState *state);
 
 <a id="OAUTH-VALIDATOR-CALLBACK-VALIDATE"></a>
 
-### 50.3.2. Validate Callback [#](#OAUTH-VALIDATOR-CALLBACK-VALIDATE)
+### 50.3.2. 驗證回呼 [#](#OAUTH-VALIDATOR-CALLBACK-VALIDATE)
 
-The `validate_cb` callback is executed during the OAuth
-exchange when a user attempts to authenticate using OAuth. Any state set in
-previous calls will be available in `state->private_data`.
+`validate_cb` 回呼函式會在使用者嘗試以 OAuth 進行驗證時，於 OAuth 交換過程中執行。先前呼叫中設定的任何狀態，都可以在 `state->private_data` 中取得。
 
 ```
 
@@ -40,12 +33,7 @@ typedef bool (*ValidatorValidateCB) (const ValidatorModuleState *state,
                                      ValidatorModuleResult *result);
 ```
 
-*`token`* will contain the bearer token to validate.
-PostgreSQL has ensured that the token is well-formed syntactically, but no
-other validation has been performed. *`role`* will
-contain the role the user has requested to log in as. The callback must
-set output parameters in the `result` struct, which is
-defined as below:
+*`token`* 將包含待驗證的持有者權杖。PostgreSQL 已確保該權杖在語法上格式正確，但尚未執行其他驗證。*`role`* 將包含使用者請求登入所使用的角色。此回呼函式必須在 `result` 結構中設定輸出參數，其定義如下：
 
 ```
 
@@ -56,37 +44,17 @@ typedef struct ValidatorModuleResult
 } ValidatorModuleResult;
 ```
 
-The connection will only proceed if the module sets
-`result->authorized` to `true`. To
-authenticate the user, the authenticated user name (as determined using the
-token) shall be palloc'd and returned in the `result->authn_id`
-field. Alternatively, `result->authn_id` may be set to
-NULL if the token is valid but the associated user identity cannot be
-determined.
+只有當模組將 `result->authorized` 設為 `true` 時，連線才會繼續進行。若要驗證使用者身分，應將（依權杖判斷出的）已驗證使用者名稱以 palloc 配置後，回傳於 `result->authn_id` 欄位中。或者，若權杖有效但無法判斷相關聯的使用者身分，`result->authn_id` 可設為 NULL。
 
-A validator may return `false` to signal an internal error,
-in which case any result parameters are ignored and the connection fails.
-Otherwise the validator should return `true` to indicate
-that it has processed the token and made an authorization decision.
+驗證器可回傳 `false` 以表示發生內部錯誤，此時任何結果參數都會被忽略，連線將會失敗。否則驗證器應回傳 `true`，表示它已處理該權杖並做出授權決策。
 
-The behavior after `validate_cb` returns depends on the
-specific HBA setup. Normally, the `result->authn_id` user
-name must exactly match the role that the user is logging in as. (This
-behavior may be modified with a usermap.) But when authenticating against
-an HBA rule with `delegate_ident_mapping` turned on,
-PostgreSQL will not perform any checks on the value of
-`result->authn_id` at all; in this case it is up to the
-validator to ensure that the token carries enough privileges for the user to
-log in under the indicated *`role`*.
+`validate_cb` 回傳後的行為，取決於實際的 HBA 設定。正常情況下，`result->authn_id` 使用者名稱必須與使用者登入所使用的角色完全相符（此行為可透過使用者對應調整）。但當依據啟用 `delegate_ident_mapping` 的 HBA 規則進行驗證時，PostgreSQL 完全不會對 `result->authn_id` 的值執行任何檢查；此時便須由驗證器自行確保該權杖具備足夠的權限，讓使用者能以所指定的 *`role`* 登入。
 
 <a id="OAUTH-VALIDATOR-CALLBACK-SHUTDOWN"></a>
 
-### 50.3.3. Shutdown Callback [#](#OAUTH-VALIDATOR-CALLBACK-SHUTDOWN)
+### 50.3.3. 關閉回呼 [#](#OAUTH-VALIDATOR-CALLBACK-SHUTDOWN)
 
-The `shutdown_cb` callback is executed when the server
-backend has finished validating tokens for the connection. If the validator
-module has any allocated state, this callback should free it to avoid
-resource leaks.
+`shutdown_cb` 回呼函式會在伺服器後端完成該連線的權杖驗證後執行。若驗證器模組配置了任何狀態，此回呼函式應將其釋放，以避免資源洩漏。
 
 ```
 
@@ -95,4 +63,4 @@ typedef void (*ValidatorShutdownCB) (ValidatorModuleState *state);
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/oauth-validator-callbacks.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/oauth-validator-callbacks.html)（原文版本：18.6；核對日期：2026-09-15）

@@ -602,7 +602,7 @@
   * [第 50 章 OAuth 驗證器模組](server-programming/oauth-validators/README.md)
     * [50.1. Safely Designing a Validator Module #](server-programming/oauth-validators/oauth-validator-design.md)
     * [50.2. Initialization Functions #](server-programming/oauth-validators/oauth-validator-init.md)
-    * [50.3. OAuth Validator Callbacks #](server-programming/oauth-validators/oauth-validator-callbacks.md)
+    * [50.3. OAuth 驗證器回呼函式 #](server-programming/oauth-validators/oauth-validator-callbacks.md)
 * [Part VI. Reference](reference/README.md)
   * [PostgreSQL Client Applications](reference/reference-client/README.md)
     * [clusterdb](reference/reference-client/app-clusterdb.md)
