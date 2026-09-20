@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：712 頁。
+待譯頁面：711 頁。
 
 ## 根目錄
 
@@ -867,7 +867,7 @@
 - [x] `server-programming/extend/xfunc.md` — 36.3. 使用者自訂函式 #
 - [ ] `server-programming/extend/xindex.md` — 36.16. Interfacing Extensions to Indexes #
 - [ ] `server-programming/extend/xoper-optimization.md` — 36.15. Operator Optimization Information #
-- [ ] `server-programming/extend/xoper.md` — 36.14. User-Defined Operators #
+- [x] `server-programming/extend/xoper.md` — 36.14. 使用者自訂運算子 #
 - [ ] `server-programming/extend/xproc.md` — 36.4. User-Defined Procedures #
 - [ ] `server-programming/extend/xtypes.md` — 36.13. User-Defined Types #
 - [ ] `server-programming/logicaldecoding/README.md` — Chapter 47. Logical Decoding

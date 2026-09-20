@@ -449,7 +449,7 @@
     * [36.11. Function Optimization Information #](server-programming/extend/xfunc-optimization.md)
     * [36.12. User-Defined Aggregates #](server-programming/extend/xaggr.md)
     * [36.13. User-Defined Types #](server-programming/extend/xtypes.md)
-    * [36.14. User-Defined Operators #](server-programming/extend/xoper.md)
+    * [36.14. 使用者自訂運算子 #](server-programming/extend/xoper.md)
     * [36.15. Operator Optimization Information #](server-programming/extend/xoper-optimization.md)
     * [36.16. Interfacing Extensions to Indexes #](server-programming/extend/xindex.md)
     * [36.17. Packaging Related Objects into an Extension #](server-programming/extend/extend-extensions.md)
