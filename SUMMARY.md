@@ -442,7 +442,7 @@
     * [36.4. 使用者自訂程序 #](server-programming/extend/xproc.md)
     * [36.5. Query Language ( SQL ) Functions #](server-programming/extend/xfunc-sql.md)
     * [36.6. 函式多載 #](server-programming/extend/xfunc-overload.md)
-    * [36.7. Function Volatility Categories #](server-programming/extend/xfunc-volatility.md)
+    * [36.7. 函式揮發性類別 #](server-programming/extend/xfunc-volatility.md)
     * [36.8. 程序語言函式](server-programming/extend/xfunc-pl.md)
     * [36.9. 內部函式](server-programming/extend/xfunc-internal.md)
     * [36.10. C-Language Functions #](server-programming/extend/xfunc-c.md)

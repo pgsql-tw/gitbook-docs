@@ -1,112 +1,81 @@
-## 36.7. Function Volatility Categories [#](#XFUNC-VOLATILITY)
+<a id="XFUNC-VOLATILITY"></a>
+## 36.7. 函式揮發性類別 [#](#XFUNC-VOLATILITY)
 
 <a id="id-1.8.3.10.2"></a><a id="id-1.8.3.10.3"></a><a id="id-1.8.3.10.4"></a><a id="id-1.8.3.10.5"></a>
 
-Every function has a *volatility* classification, with
-the possibilities being `VOLATILE`, `STABLE`, or
-`IMMUTABLE`. `VOLATILE` is the default if the
+每個函式都有一個*揮發性*分類，可能的值為 `VOLATILE`、`STABLE`
+或 `IMMUTABLE`。若
 [`CREATE FUNCTION`](../../reference/sql-commands/sql-createfunction.md)
-command does not specify a category. The volatility category is a
-promise to the optimizer about the behavior of the function:
+命令未指定此類別，預設為 `VOLATILE`。此揮發性類別是
+向最佳化器所做出的一項承諾，說明該函式的行為：
 
-* A `VOLATILE` function can do anything, including modifying
-  the database. It can return different results on successive calls with
-  the same arguments. The optimizer makes no assumptions about the
-  behavior of such functions. A query using a volatile function will
-  re-evaluate the function at every row where its value is needed.
-* A `STABLE` function cannot modify the database and is
-  guaranteed to return the same results given the same arguments
-  for all rows within a single statement. This category allows the
-  optimizer to optimize multiple calls of the function to a single
-  call. In particular, it is safe to use an expression containing
-  such a function in an index scan condition. (Since an index scan
-  will evaluate the comparison value only once, not once at each
-  row, it is not valid to use a `VOLATILE` function in an
-  index scan condition.)
-* An `IMMUTABLE` function cannot modify the database and is
-  guaranteed to return the same results given the same arguments forever.
-  This category allows the optimizer to pre-evaluate the function when
-  a query calls it with constant arguments. For example, a query like
-  `SELECT ... WHERE x = 2 + 2` can be simplified on sight to
-  `SELECT ... WHERE x = 4`, because the function underlying
-  the integer addition operator is marked `IMMUTABLE`.
+* `VOLATILE` 函式可以做任何事情，包括修改
+  資料庫。以相同引數連續呼叫時，可能傳回不同的結果。最佳化器不會對這類函式的
+  行為做任何假設。使用揮發性函式的查詢，會在每一列
+  需要其值時，重新求值該函式。
+* `STABLE` 函式不能修改資料庫，且保證在單一
+  陳述式內，對所有資料列以相同引數呼叫時，都會傳回相同的結果。此類別
+  讓最佳化器可以將該函式的多次呼叫最佳化為單一次呼叫。特別是，在
+  索引掃描條件中使用包含這類函式的運算式是安全的。（由於
+  索引掃描只會對比較值求值一次，而非每一列各求值一次，因此
+  在索引掃描條件中使用 `VOLATILE` 函式是無效的。）
+* `IMMUTABLE` 函式不能修改資料庫，且保證在以相同引數呼叫時，永遠
+  傳回相同的結果。此類別讓最佳化器可以在
+  查詢以常數引數呼叫該函式時，預先對其求值。舉例來說，像
+  `SELECT ... WHERE x = 2 + 2` 這樣的查詢，可以在一看到時就簡化為
+  `SELECT ... WHERE x = 4`，因為整數加法運算子背後的函式
+  被標記為 `IMMUTABLE`。
 
-For best optimization results, you should label your functions with the
-strictest volatility category that is valid for them.
+為了獲得最佳的最佳化結果，您應該為函式標上對其而言有效的最嚴格揮發性類別。
 
-Any function with side-effects *must* be labeled
-`VOLATILE`, so that calls to it cannot be optimized away.
-Even a function with no side-effects needs to be labeled
-`VOLATILE` if its value can change within a single query;
-some examples are `random()`, `currval()`,
-`timeofday()`.
+任何具有副作用的函式，*都必須*標記為
+`VOLATILE`，以避免對其的呼叫被最佳化掉。
+即使是沒有副作用的函式，若其值可能在單一查詢內發生變化，也需要標記為
+`VOLATILE`；一些例子包括 `random()`、`currval()`、
+`timeofday()`。
 
-Another important example is that the `current_timestamp`
-family of functions qualify as `STABLE`, since their values do
-not change within a transaction.
+另一個重要的例子是，`current_timestamp`
+系列函式屬於 `STABLE`，因為它們的值在一個交易內不會改變。
 
-There is relatively little difference between `STABLE` and
-`IMMUTABLE` categories when considering simple interactive
-queries that are planned and immediately executed: it doesn't matter
-a lot whether a function is executed once during planning or once during
-query execution startup. But there is a big difference if the plan is
-saved and reused later. Labeling a function `IMMUTABLE` when
-it really isn't might allow it to be prematurely folded to a constant during
-planning, resulting in a stale value being re-used during subsequent uses
-of the plan. This is a hazard when using prepared statements or when
-using function languages that cache plans (such as
-PL/pgSQL).
+在考量規劃後立即執行的簡單互動式查詢時，`STABLE` 與
+`IMMUTABLE` 這兩個類別之間的差異相對較小：函式究竟是在規劃期間求值一次，還是在查詢執行啟動時求值一次，並沒有太大差別。但若查詢計畫被儲存起來並在之後重複使用，差異就會很大。若將一個實際上並非如此的函式標記為 `IMMUTABLE`，可能會導致它在規劃期間就被過早摺疊為常數，導致在該計畫後續使用時，重複使用了一個過時的值。這在使用預備陳述式，或使用會快取計畫的函式語言（例如
+PL/pgSQL）時，都是一項風險。
 
-For functions written in SQL or in any of the standard procedural
-languages, there is a second important property determined by the
-volatility category, namely the visibility of any data changes that have
-been made by the SQL command that is calling the function. A
-`VOLATILE` function will see such changes, a `STABLE`
-or `IMMUTABLE` function will not. This behavior is implemented
-using the snapshotting behavior of MVCC (see [Chapter 13](../../the-sql-language/mvcc/README.md)):
-`STABLE` and `IMMUTABLE` functions use a snapshot
-established as of the start of the calling query, whereas
-`VOLATILE` functions obtain a fresh snapshot at the start of
-each query they execute.
+對於以 SQL 或任何標準程序語言撰寫的函式，還有第二項由揮發性類別決定的重要屬性，也就是該函式對於呼叫它的 SQL 命令所做的任何資料變更的可見性。`VOLATILE` 函式會看到這類變更，而 `STABLE`
+或 `IMMUTABLE` 函式則不會。這項行為是透過 MVCC 的快照機制（見[第 13 章](../../the-sql-language/mvcc/README.md)）實作的：
+`STABLE` 與 `IMMUTABLE` 函式使用的是在
+呼叫端查詢開始時所建立的快照，而
+`VOLATILE` 函式則會在其執行的每一次查詢開始時，取得一個全新的快照。
 
-### Note
+### 注意
 
-Functions written in C can manage snapshots however they want, but it's
-usually a good idea to make C functions work this way too.
+以 C 撰寫的函式可以自行決定如何管理快照，但通常最好也讓 C 函式以這種方式運作。
 
-Because of this snapshotting behavior,
-a function containing only `SELECT` commands can safely be
-marked `STABLE`, even if it selects from tables that might be
-undergoing modifications by concurrent queries.
-PostgreSQL will execute all commands of a
-`STABLE` function using the snapshot established for the
-calling query, and so it will see a fixed view of the database throughout
-that query.
+由於這種快照行為，
+只包含 `SELECT` 命令的函式，即使其所查詢的資料表，可能正被並行查詢修改，也可以安全地標記為
+`STABLE`。
+PostgreSQL 會使用為呼叫端查詢所建立的快照，來執行
+`STABLE` 函式的所有命令，因此在整個查詢過程中，它所看到的資料庫視圖是固定的。
 
-The same snapshotting behavior is used for `SELECT` commands
-within `IMMUTABLE` functions. It is generally unwise to select
-from database tables within an `IMMUTABLE` function at all,
-since the immutability will be broken if the table contents ever change.
-However, PostgreSQL does not enforce that you
-do not do that.
+在 `IMMUTABLE` 函式中的 `SELECT` 命令，
+也採用同樣的快照行為。一般而言，在 `IMMUTABLE` 函式中對資料表執行查詢，
+並不是明智的做法，因為一旦資料表內容改變，其不變性就會遭到破壞。
+不過，PostgreSQL 並不會強制禁止您這麼做。
 
-A common error is to label a function `IMMUTABLE` when its
-results depend on a configuration parameter. For example, a function
-that manipulates timestamps might well have results that depend on the
-[TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) setting. For safety, such functions should
-be labeled `STABLE` instead.
+常見的錯誤，是將結果取決於組態參數的函式標記為
+`IMMUTABLE`。舉例來說，某個處理時間戳的函式，其結果很可能取決於
+[TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 設定。為求安全，這類函式
+應改為標記為 `STABLE`。
 
-### Note
+### 注意
 
-PostgreSQL requires that `STABLE`
-and `IMMUTABLE` functions contain no SQL commands other
-than `SELECT` to prevent data modification.
-(This is not a completely bulletproof test, since such functions could
-still call `VOLATILE` functions that modify the database.
-If you do that, you will find that the `STABLE` or
-`IMMUTABLE` function does not notice the database changes
-applied by the called function, since they are hidden from its snapshot.)
+PostgreSQL 要求 `STABLE`
+與 `IMMUTABLE` 函式除了
+`SELECT` 之外，不得包含任何其他 SQL 命令，以防止資料變更。
+（這並不是一項完全無懈可擊的檢查，因為這類函式仍然可能呼叫會修改資料庫的
+`VOLATILE` 函式。若您這麼做，您會發現該 `STABLE`
+或 `IMMUTABLE` 函式並不會察覺到被呼叫函式所套用的資料庫變更，因為這些變更對其快照而言是隱藏的。）
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xfunc-volatility.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xfunc-volatility.html)（原文版本：18.6；核對日期：2026-09-16）
