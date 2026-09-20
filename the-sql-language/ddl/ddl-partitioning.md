@@ -1,148 +1,72 @@
-## 5.12. Table Partitioning [#](#DDL-PARTITIONING)
+<a id="DDL-PARTITIONING"></a>
 
-[5.12.1. Overview](ddl-partitioning.md#DDL-PARTITIONING-OVERVIEW)
+## 5.12. 資料表分割 [#](#DDL-PARTITIONING)
 
-[5.12.2. Declarative Partitioning](ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE)
+[5.12.1. 概觀](ddl-partitioning.md#DDL-PARTITIONING-OVERVIEW)
 
-[5.12.3. Partitioning Using Inheritance](ddl-partitioning.md#DDL-PARTITIONING-USING-INHERITANCE)
+[5.12.2. 宣告式分割](ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE)
 
-[5.12.4. Partition Pruning](ddl-partitioning.md#DDL-PARTITION-PRUNING)
+[5.12.3. 使用繼承進行分割](ddl-partitioning.md#DDL-PARTITIONING-USING-INHERITANCE)
 
-[5.12.5. Partitioning and Constraint Exclusion](ddl-partitioning.md#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)
+[5.12.4. 分割區修剪](ddl-partitioning.md#DDL-PARTITION-PRUNING)
 
-[5.12.6. Best Practices for Declarative Partitioning](ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE-BEST-PRACTICES)
+[5.12.5. 分割與限制條件排除](ddl-partitioning.md#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)
+
+[5.12.6. 宣告式分割的最佳實務](ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE-BEST-PRACTICES)
 
 <a id="id-1.5.4.14.2"></a><a id="id-1.5.4.14.3"></a><a id="id-1.5.4.14.4"></a>
 
-PostgreSQL supports basic table
-partitioning. This section describes why and how to implement
-partitioning as part of your database design.
+PostgreSQL 支援基本的資料表分割。本節說明為什麼以及如何在資料庫設計中實作分割。
 
 <a id="DDL-PARTITIONING-OVERVIEW"></a>
 
-### 5.12.1. Overview [#](#DDL-PARTITIONING-OVERVIEW)
+### 5.12.1. 概觀 [#](#DDL-PARTITIONING-OVERVIEW)
 
-Partitioning refers to splitting what is logically one large table into
-smaller physical pieces. Partitioning can provide several benefits:
+分割（partitioning）是指將邏輯上的一個大型資料表拆分成較小的實體片段。分割可以帶來幾項好處：
 
-* Query performance can be improved dramatically in certain situations,
-  particularly when most of the heavily accessed rows of the table are in a
-  single partition or a small number of partitions. Partitioning
-  effectively substitutes for the upper tree levels of indexes,
-  making it more likely that the heavily-used parts of the indexes
-  fit in memory.
-* When queries or updates access a large percentage of a single
-  partition, performance can be improved by using a
-  sequential scan of that partition instead of using an
-  index, which would require random-access reads scattered across the
-  whole table.
-* Bulk loads and deletes can be accomplished by adding or removing
-  partitions, if the usage pattern is accounted for in the
-  partitioning design. Dropping an individual partition
-  using `DROP TABLE`, or doing `ALTER TABLE
-  DETACH PARTITION`, is far faster than a bulk
-  operation. These commands also entirely avoid the
-  `VACUUM` overhead caused by a bulk `DELETE`.
-* Seldom-used data can be migrated to cheaper and slower storage media.
+* 在某些情況下可以大幅提升查詢效能，特別是當資料表中大部分經常被存取的資料列，都位於單一分割區或少數幾個分割區中時。分割實際上取代了索引樹的上層，使得索引中經常使用的部分更有可能放得進記憶體。
+* 當查詢或更新存取單一分割區的很大比例時，可以對該分割區使用循序掃描而不是使用索引來提升效能，因為使用索引需要散布在整個資料表中的隨機存取讀取。
+* 如果在分割設計中考慮到使用模式，就可以藉由加入或移除分割區來完成大量的載入與刪除。使用 `DROP TABLE` 刪除個別的分割區，或執行 `ALTER TABLE DETACH PARTITION`，都比大量操作快得多。這些命令也完全避免了大量 `DELETE` 所造成的 `VACUUM` 額外負擔。
+* 很少使用的資料可以遷移到較便宜、較慢的儲存媒體上。
 
-These benefits will normally be worthwhile only when a table would
-otherwise be very large. The exact point at which a table will
-benefit from partitioning depends on the application, although a
-rule of thumb is that the size of the table should exceed the physical
-memory of the database server.
+通常只有在資料表原本會非常大時，這些好處才值得。資料表在什麼程度下才會從分割中受益，確切的界線取決於應用程式，不過一個經驗法則是，資料表的大小應該超過資料庫伺服器的實體記憶體。
 
-PostgreSQL offers built-in support for the
-following forms of partitioning:
+PostgreSQL 為下列幾種分割形式提供內建支援：
 
 <a id="DDL-PARTITIONING-OVERVIEW-RANGE"></a>
 
-Range Partitioning [#](#DDL-PARTITIONING-OVERVIEW-RANGE)
-:   The table is partitioned into “ranges” defined
-    by a key column or set of columns, with no overlap between
-    the ranges of values assigned to different partitions. For
-    example, one might partition by date ranges, or by ranges of
-    identifiers for particular business objects.
-    Each range's bounds are understood as being inclusive at the
-    lower end and exclusive at the upper end. For example, if one
-    partition's range is from `1`
-    to `10`, and the next one's range is
-    from `10` to `20`, then
-    value `10` belongs to the second partition not
-    the first.
+範圍分割 [#](#DDL-PARTITIONING-OVERVIEW-RANGE)
+:   資料表依一個鍵欄位或一組欄位所定義的「範圍」進行分割，指派給不同分割區的值範圍之間沒有重疊。例如，可以依日期範圍，或依特定業務物件之識別碼的範圍進行分割。每個範圍的界限都被理解為下限包含、上限不包含。例如，如果某個分割區的範圍是從 `1` 到 `10`，而下一個分割區的範圍是從 `10` 到 `20`，那麼值 `10` 屬於第二個分割區，而不是第一個。
 <a id="DDL-PARTITIONING-OVERVIEW-LIST"></a>
 
-List Partitioning [#](#DDL-PARTITIONING-OVERVIEW-LIST)
-:   The table is partitioned by explicitly listing which key value(s)
-    appear in each partition.
+清單分割 [#](#DDL-PARTITIONING-OVERVIEW-LIST)
+:   藉由明確列出每個分割區中會出現哪些鍵值來分割資料表。
 <a id="DDL-PARTITIONING-OVERVIEW-HASH"></a>
 
-Hash Partitioning [#](#DDL-PARTITIONING-OVERVIEW-HASH)
-:   The table is partitioned by specifying a modulus and a remainder for
-    each partition. Each partition will hold the rows for which the hash
-    value of the partition key divided by the specified modulus will
-    produce the specified remainder.
+雜湊分割 [#](#DDL-PARTITIONING-OVERVIEW-HASH)
+:   藉由為每個分割區指定一個模數與一個餘數來分割資料表。每個分割區會保存那些分割鍵的雜湊值除以指定模數之後，會產生指定餘數的資料列。
 
-If your application needs to use other forms of partitioning not listed
-above, alternative methods such as inheritance and
-`UNION ALL` views can be used instead. Such methods
-offer flexibility but do not have some of the performance benefits
-of built-in declarative partitioning.
+如果你的應用程式需要使用上面沒有列出的其他分割形式，可以改用繼承與 `UNION ALL` 檢視表等替代方法。這些方法提供了彈性，但不具備內建宣告式分割的某些效能優勢。
 
 <a id="DDL-PARTITIONING-DECLARATIVE"></a>
 
-### 5.12.2. Declarative Partitioning [#](#DDL-PARTITIONING-DECLARATIVE)
+### 5.12.2. 宣告式分割 [#](#DDL-PARTITIONING-DECLARATIVE)
 
-PostgreSQL allows you to declare
-that a table is divided into partitions. The table that is divided
-is referred to as a *partitioned table*. The
-declaration includes the *partitioning method*
-as described above, plus a list of columns or expressions to be used
-as the *partition key*.
+PostgreSQL 允許你宣告一個資料表被劃分為多個分割區。被劃分的資料表稱為*分割資料表*（partitioned table）。這項宣告包含如上所述的*分割方法*（partitioning method），再加上一份用作*分割鍵*（partition key）的欄位或運算式清單。
 
-The partitioned table itself is a “virtual” table having
-no storage of its own. Instead, the storage belongs
-to *partitions*, which are otherwise-ordinary
-tables associated with the partitioned table.
-Each partition stores a subset of the data as defined by its
-*partition bounds*.
-All rows inserted into a partitioned table will be routed to the
-appropriate one of the partitions based on the values of the partition
-key column(s).
-Updating the partition key of a row will cause it to be moved into a
-different partition if it no longer satisfies the partition bounds
-of its original partition.
+分割資料表本身是一個沒有自己儲存空間的「虛擬」資料表。儲存空間屬於*分割區*（partition），它們是與分割資料表相關聯、在其他方面都與一般資料表無異的資料表。每個分割區儲存由其*分割區界限*（partition bounds）所定義的資料子集。所有插入分割資料表的資料列，都會依據分割鍵欄位的值，被導向到適當的分割區。更新資料列的分割鍵時，如果它不再滿足原本所屬分割區的分割區界限，就會使該資料列被移動到另一個分割區。
 
-Partitions may themselves be defined as partitioned tables, resulting
-in *sub-partitioning*. Although all partitions
-must have the same columns as their partitioned parent, partitions may
-have their
-own indexes, constraints and default values, distinct from those of other
-partitions. See [CREATE TABLE](../../reference/sql-commands/sql-createtable.md) for more details on
-creating partitioned tables and partitions.
+分割區本身也可以定義為分割資料表，形成*子分割*（sub-partitioning）。雖然所有分割區都必須與其分割父資料表具有相同的欄位，但分割區可以有自己的索引、限制條件與預設值，且可與其他分割區的對應物不同。關於建立分割資料表與分割區的更多細節，請參閱 [CREATE TABLE](../../reference/sql-commands/sql-createtable.md)。
 
-It is not possible to turn a regular table into a partitioned table or
-vice versa. However, it is possible to add an existing regular or
-partitioned table as a partition of a partitioned table, or remove a
-partition from a partitioned table turning it into a standalone table;
-this can simplify and speed up many maintenance processes.
-See [ALTER TABLE](../../reference/sql-commands/sql-altertable.md) to learn more about the
-`ATTACH PARTITION` and `DETACH PARTITION`
-sub-commands.
+無法將一般資料表轉換為分割資料表，反之亦然。不過，可以將現有的一般資料表或分割資料表加入為某個分割資料表的分割區，或是從分割資料表移除某個分割區，使它成為獨立的資料表；這可以簡化並加快許多維護程序。關於 `ATTACH PARTITION` 與 `DETACH PARTITION` 子命令的更多資訊，請參閱 [ALTER TABLE](../../reference/sql-commands/sql-altertable.md)。
 
-Partitions can also be [foreign
-tables](ddl-foreign-data.md), although considerable care is needed because it is then
-the user's responsibility that the contents of the foreign table
-satisfy the partitioning rule. There are some other restrictions as
-well. See [CREATE FOREIGN TABLE](../../reference/sql-commands/sql-createforeigntable.md) for more
-information.
+分割區也可以是[外部資料表](ddl-foreign-data.md)，不過需要相當謹慎，因為此時確保外部資料表的內容滿足分割規則，就成了使用者的責任。此外還有其他一些限制。更多資訊請參閱 [CREATE FOREIGN TABLE](../../reference/sql-commands/sql-createforeigntable.md)。
 
 <a id="DDL-PARTITIONING-DECLARATIVE-EXAMPLE"></a>
 
-#### 5.12.2.1. Example [#](#DDL-PARTITIONING-DECLARATIVE-EXAMPLE)
+#### 5.12.2.1. 範例 [#](#DDL-PARTITIONING-DECLARATIVE-EXAMPLE)
 
-Suppose we are constructing a database for a large ice cream company.
-The company measures peak temperatures every day as well as ice cream
-sales in each region. Conceptually, we want a table like:
+假設我們正在為一家大型冰淇淋公司建構資料庫。這家公司每天都會量測各地區的最高氣溫以及冰淇淋銷售量。概念上，我們想要一個像這樣的資料表：
 
 ```
 
@@ -154,20 +78,11 @@ CREATE TABLE measurement (
 );
 ```
 
-We know that most queries will access just the last week's, month's or
-quarter's data, since the main use of this table will be to prepare
-online reports for management. To reduce the amount of old data that
-needs to be stored, we decide to keep only the most recent 3 years
-worth of data. At the beginning of each month we will remove the oldest
-month's data. In this situation we can use partitioning to help us meet
-all of our different requirements for the measurements table.
+我們知道大多數查詢只會存取最近一週、一個月或一季的資料，因為這個資料表的主要用途，是為管理階層準備線上報表。為了減少需要儲存的舊資料量，我們決定只保留最近 3 年的資料。每個月初，我們會移除最舊一個月的資料。在這種情況下，我們可以使用分割來幫助我們滿足量測資料表的各種不同需求。
 
-To use declarative partitioning in this case, use the following steps:
+要在這種情況下使用宣告式分割，請依照下列步驟：
 
-1. Create the `measurement` table as a partitioned
-   table by specifying the `PARTITION BY` clause, which
-   includes the partitioning method (`RANGE` in this
-   case) and the list of column(s) to use as the partition key.
+1. 藉由指定 `PARTITION BY` 子句，將 `measurement` 資料表建立為分割資料表；這個子句包含分割方法（在這個例子中是 `RANGE`），以及要用作分割鍵的欄位清單。
 
    ```
 
@@ -178,20 +93,11 @@ To use declarative partitioning in this case, use the following steps:
        unitsales       int
    ) PARTITION BY RANGE (logdate);
    ```
-2. Create partitions. Each partition's definition must specify bounds
-   that correspond to the partitioning method and partition key of the
-   parent. Note that specifying bounds such that the new partition's
-   values would overlap with those in one or more existing partitions will
-   cause an error.
+2. 建立分割區。每個分割區的定義都必須指定與父資料表之分割方法及分割鍵相對應的界限。請注意，如果指定的界限使新分割區的值與一個或多個現有分割區的值重疊，就會引發錯誤。
 
-   Partitions thus created are in every way normal
-   PostgreSQL
-   tables (or, possibly, foreign tables). It is possible to specify a
-   tablespace and storage parameters for each partition separately.
+   以這種方式建立的分割區，在各方面都是一般的 PostgreSQL 資料表（或者也可能是外部資料表）。可以為每個分割區分別指定資料表空間與儲存參數。
 
-   For our example, each partition should hold one month's worth of
-   data, to match the requirement of deleting one month's data at a
-   time. So the commands might look like:
+   在我們的範例中，每個分割區應該保存一個月的資料，以符合一次刪除一個月資料的需求。所以命令可能如下所示：
 
    ```
 
@@ -215,12 +121,9 @@ To use declarative partitioning in this case, use the following steps:
        TABLESPACE fasttablespace;
    ```
 
-   (Recall that adjacent partitions can share a bound value, since
-   range upper bounds are treated as exclusive bounds.)
+   （回想一下，相鄰的分割區可以共用同一個界限值，因為範圍的上限被視為不包含的界限。）
 
-   If you wish to implement sub-partitioning, again specify the
-   `PARTITION BY` clause in the commands used to create
-   individual partitions, for example:
+   如果你想要實作子分割，同樣在用來建立個別分割區的命令中指定 `PARTITION BY` 子句，例如：
 
    ```
 
@@ -229,77 +132,37 @@ To use declarative partitioning in this case, use the following steps:
        PARTITION BY RANGE (peaktemp);
    ```
 
-   After creating partitions of `measurement_y2006m02`,
-   any data inserted into `measurement` that is mapped to
-   `measurement_y2006m02` (or data that is
-   directly inserted into `measurement_y2006m02`,
-   which is allowed provided its partition constraint is satisfied)
-   will be further redirected to one of its
-   partitions based on the `peaktemp` column. The partition
-   key specified may overlap with the parent's partition key, although
-   care should be taken when specifying the bounds of a sub-partition
-   such that the set of data it accepts constitutes a subset of what
-   the partition's own bounds allow; the system does not try to check
-   whether that's really the case.
+   在建立 `measurement_y2006m02` 的分割區之後，任何插入 `measurement` 中、且對應到 `measurement_y2006m02` 的資料（或直接插入 `measurement_y2006m02` 的資料，只要滿足其分割區限制條件就是允許的），都會依據 `peaktemp` 欄位，進一步被重新導向到它的其中一個分割區。所指定的分割鍵可以與父資料表的分割鍵重疊，不過在指定子分割區的界限時應該小心，使它所接受的資料集合構成該分割區本身界限所允許之資料的子集；系統並不會嘗試檢查實際上是否如此。
 
-   Inserting data into the parent table that does not map
-   to one of the existing partitions will cause an error; an appropriate
-   partition must be added manually.
+   將無法對應到任何現有分割區的資料插入父資料表，會引發錯誤；必須手動加入適當的分割區。
 
-   It is not necessary to manually create table constraints describing
-   the partition boundary conditions for partitions. Such constraints
-   will be created automatically.
-3. Create an index on the key column(s), as well as any other indexes you
-   might want, on the partitioned table. (The key index is not strictly
-   necessary, but in most scenarios it is helpful.)
-   This automatically creates a matching index on each partition, and
-   any partitions you create or attach later will also have such an
-   index.
-   An index or unique constraint declared on a partitioned table
-   is “virtual” in the same way that the partitioned table
-   is: the actual data is in child indexes on the individual partition
-   tables.
+   不需要為分割區手動建立描述分割區邊界條件的資料表限制條件。這類限制條件會自動建立。
+3. 在分割資料表的鍵欄位上建立索引，以及你可能想要的任何其他索引。（鍵索引並非絕對必要，但在大多數情境下都很有幫助。）這會自動在每個分割區上建立相對應的索引，而且之後建立或附加的任何分割區也都會有這樣的索引。在分割資料表上宣告的索引或唯一限制條件，就像分割資料表一樣是「虛擬」的：實際的資料位於個別分割區資料表上的子索引中。
 
    ```
 
    CREATE INDEX ON measurement (logdate);
    ```
-4. Ensure that the [enable_partition_pruning](../../server-administration/runtime-config/runtime-config-query.md#GUC-ENABLE-PARTITION-PRUNING)
-   configuration parameter is not disabled in `postgresql.conf`.
-   If it is, queries will not be optimized as desired.
+4. 確認 [enable_partition_pruning](../../server-administration/runtime-config/runtime-config-query.md#GUC-ENABLE-PARTITION-PRUNING) 組態參數沒有在 `postgresql.conf` 中被停用。如果被停用了，查詢就不會如預期般被最佳化。
 
-In the above example we would be creating a new partition each month, so
-it might be wise to write a script that generates the required DDL
-automatically.
+在上面的範例中，我們每個月都會建立一個新的分割區，所以撰寫一個自動產生所需 DDL 的指令碼可能是明智的做法。
 
 <a id="DDL-PARTITIONING-DECLARATIVE-MAINTENANCE"></a>
 
-#### 5.12.2.2. Partition Maintenance [#](#DDL-PARTITIONING-DECLARATIVE-MAINTENANCE)
+#### 5.12.2.2. 分割區維護 [#](#DDL-PARTITIONING-DECLARATIVE-MAINTENANCE)
 
-Normally the set of partitions established when initially defining the
-table is not intended to remain static. It is common to want to
-remove partitions holding old data and periodically add new partitions for
-new data. One of the most important advantages of partitioning is
-precisely that it allows this otherwise painful task to be executed
-nearly instantaneously by manipulating the partition structure, rather
-than physically moving large amounts of data around.
+通常，在最初定義資料表時所建立的分割區集合，並不打算一直保持不變。移除保存舊資料的分割區，並定期為新資料加入新的分割區，是很常見的需求。分割最重要的優點之一，正是它讓這項原本很麻煩的工作，可以藉由操作分割結構而幾乎在瞬間完成，而不必實際搬移大量的資料。
 
-The simplest option for removing old data is to drop the partition that
-is no longer necessary:
+移除舊資料最簡單的做法，是刪除不再需要的分割區：
 
 ```
 
 DROP TABLE measurement_y2006m02;
 ```
 
-This can very quickly delete millions of records because it doesn't have
-to individually delete every record. Note however that the above command
-requires taking an `ACCESS EXCLUSIVE` lock on the parent
-table.
+這可以非常快速地刪除數百萬筆記錄，因為它不必逐筆刪除每一筆記錄。不過請注意，上面的命令需要在父資料表上取得 `ACCESS EXCLUSIVE` 鎖定。
 
-Another option that is often preferable is to remove the partition from
-the partitioned table but retain access to it as a table in its own
-right. This has two forms:
+另一種往往更可取的做法，是將分割區從分割資料表中移除，但保留以獨立資料表的形式存取它。這有兩種形式：
 
 ```
 
@@ -307,22 +170,9 @@ ALTER TABLE measurement DETACH PARTITION measurement_y2006m02;
 ALTER TABLE measurement DETACH PARTITION measurement_y2006m02 CONCURRENTLY;
 ```
 
-These allow further operations to be performed on the data before
-it is dropped. For example, this is often a useful time to back up
-the data using `COPY`, pg_dump, or
-similar tools. It might also be a useful time to aggregate data
-into smaller formats, perform other data manipulations, or run
-reports. The first form of the command requires an
-`ACCESS EXCLUSIVE` lock on the parent table.
-Adding the `CONCURRENTLY` qualifier as in the second
-form allows the detach operation to require only
-`SHARE UPDATE EXCLUSIVE` lock on the parent table, but see
-[`ALTER TABLE ... DETACH PARTITION`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-DETACH-PARTITION)
-for details on the restrictions.
+這讓你可以在該分割區資料表被刪除之前，先對其中的資料進行進一步操作。例如，這通常是使用 `COPY`、pg_dump 或類似工具備份資料的好時機。這也可能是將資料彙總成較小格式、進行其他資料操作或產生報表的好時機。第一種形式的命令需要父資料表上的 `ACCESS EXCLUSIVE` 鎖定。如第二種形式那樣加上 `CONCURRENTLY` 修飾詞，可以讓分離操作只需要父資料表上的 `SHARE UPDATE EXCLUSIVE` 鎖定，但關於其限制的細節，請參閱 [`ALTER TABLE ... DETACH PARTITION`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-DETACH-PARTITION)。
 
-Similarly we can add a new partition to handle new data. We can create an
-empty partition in the partitioned table just as the original partitions
-were created above:
+同樣地，我們可以加入一個新的分割區來處理新的資料。我們可以像上面建立原始分割區那樣，在分割資料表中建立一個空的分割區：
 
 ```
 
@@ -331,20 +181,7 @@ CREATE TABLE measurement_y2008m02 PARTITION OF measurement
     TABLESPACE fasttablespace;
 ```
 
-As an alternative to creating a new partition, it is sometimes more
-convenient to create a new table separate from the partition structure
-and attach it as a partition later. This allows new data to be loaded,
-checked, and transformed prior to it appearing in the partitioned table.
-Moreover, the `ATTACH PARTITION` operation requires
-only a `SHARE UPDATE EXCLUSIVE` lock on the
-partitioned table rather than the `ACCESS EXCLUSIVE`
-lock required by `CREATE TABLE ... PARTITION OF`,
-so it is more friendly to concurrent operations on the partitioned table;
-see [`ALTER TABLE ... ATTACH PARTITION`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-ATTACH-PARTITION)
-for additional details. The
-[`CREATE TABLE ... LIKE`](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-PARMS-LIKE)
-option can be helpful to avoid tediously repeating the parent table's
-definition; for example:
+除了建立新的分割區之外，有時候先在分割結構之外建立一個新的資料表，之後再把它附加為分割區，會比較方便。這讓新資料可以在出現於分割資料表之前，先進行載入、檢查與轉換。此外，`ATTACH PARTITION` 操作只需要分割資料表上的 `SHARE UPDATE EXCLUSIVE` 鎖定，而不是 `CREATE TABLE ... PARTITION OF` 所需要的 `ACCESS EXCLUSIVE` 鎖定，因此它對分割資料表上的並行操作比較友善；更多細節請參閱 [`ALTER TABLE ... ATTACH PARTITION`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-ATTACH-PARTITION)。[`CREATE TABLE ... LIKE`](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-PARMS-LIKE) 選項可以幫助避免繁瑣地重複父資料表的定義；例如：
 
 ```
 
@@ -362,45 +199,11 @@ ALTER TABLE measurement ATTACH PARTITION measurement_y2008m02
     FOR VALUES FROM ('2008-02-01') TO ('2008-03-01' );
 ```
 
-Note that when running the `ATTACH PARTITION` command,
-the table will be scanned to validate the partition constraint while
-holding an `ACCESS EXCLUSIVE` lock on that partition.
-As shown above, it is recommended to avoid this scan by creating a
-`CHECK` constraint matching the expected partition
-constraint on the table prior to attaching it. Once the
-`ATTACH PARTITION` is complete, it is recommended to drop
-the now-redundant `CHECK` constraint.
-If the table being attached is itself a partitioned table, then each of its
-sub-partitions will be recursively locked and scanned until either a
-suitable `CHECK` constraint is encountered or the leaf
-partitions are reached.
+請注意，執行 `ATTACH PARTITION` 命令時，會在持有該分割區上之 `ACCESS EXCLUSIVE` 鎖定的情況下掃描資料表，以驗證分割區限制條件。如上所示，建議在附加資料表之前，先在該資料表上建立一個符合預期分割區限制條件的 `CHECK` 限制條件，以避免這次掃描。`ATTACH PARTITION` 完成之後，建議刪除現在已經多餘的 `CHECK` 限制條件。如果要附加的資料表本身是一個分割資料表，那麼它的每個子分割區都會被遞迴地鎖定與掃描，直到遇到合適的 `CHECK` 限制條件或抵達葉分割區為止。
 
-Similarly, if the partitioned table has a `DEFAULT`
-partition, it is recommended to create a `CHECK`
-constraint which excludes the to-be-attached partition's constraint. If
-this is not done, the `DEFAULT` partition will be
-scanned to verify that it contains no records which should be located in
-the partition being attached. This operation will be performed whilst
-holding an `ACCESS EXCLUSIVE` lock on the `DEFAULT` partition. If the `DEFAULT` partition
-is itself a partitioned table, then each of its partitions will be
-recursively checked in the same way as the table being attached, as
-mentioned above.
+同樣地，如果分割資料表有 `DEFAULT` 分割區，建議建立一個排除即將附加之分割區限制條件的 `CHECK` 限制條件。如果不這麼做，就會掃描 `DEFAULT` 分割區，以確認其中不包含應該位於即將附加之分割區中的記錄。這項操作會在持有 `DEFAULT` 分割區上之 `ACCESS EXCLUSIVE` 鎖定的情況下進行。如果 `DEFAULT` 分割區本身是一個分割資料表，那麼它的每個分割區都會以與上述附加資料表相同的方式被遞迴檢查。
 
-As mentioned earlier, it is possible to create indexes on partitioned
-tables so that they are applied automatically to the entire hierarchy.
-This can be very convenient as not only will all existing partitions be
-indexed, but any future partitions will be as well. However, one
-limitation when creating new indexes on partitioned tables is that it
-is not possible to use the `CONCURRENTLY`
-qualifier, which could lead to long lock times. To avoid this, you can
-use `CREATE INDEX ON ONLY` the partitioned table, which
-creates the new index marked as invalid, preventing automatic application
-to existing partitions. Instead, indexes can then be created individually
-on each partition using `CONCURRENTLY` and
-*attached* to the partitioned index on the parent
-using `ALTER INDEX ... ATTACH PARTITION`. Once indexes for
-all the partitions are attached to the parent index, the parent index will
-be marked valid automatically. Example:
+如前所述，可以在分割資料表上建立索引，使它們自動套用到整個階層。這非常方便，因為不只所有現有的分割區會建立索引，未來的任何分割區也都會。不過，在分割資料表上建立新索引的一項限制是，無法使用 `CONCURRENTLY` 修飾詞，而這可能導致長時間的鎖定。為了避免這種情況，你可以在分割資料表上使用 `CREATE INDEX ON ONLY`，它會建立一個被標記為無效的新索引，防止自動套用到現有的分割區。接著，可以使用 `CONCURRENTLY` 在每個分割區上個別建立索引，並使用 `ALTER INDEX ... ATTACH PARTITION` 將它們*附加*到父資料表上的分割索引。一旦所有分割區的索引都附加到父索引之後，父索引就會自動被標記為有效。例如：
 
 ```
 
@@ -413,9 +216,7 @@ ALTER INDEX measurement_usls_idx
 ...
 ```
 
-This technique can be used with `UNIQUE` and
-`PRIMARY KEY` constraints too; the indexes are created
-implicitly when the constraint is created. Example:
+這項技巧也可以搭配 `UNIQUE` 與 `PRIMARY KEY` 限制條件使用；在建立限制條件時，索引會被隱含地建立。例如：
 
 ```
 
@@ -429,107 +230,41 @@ ALTER INDEX measurement_city_id_logdate_key
 
 <a id="DDL-PARTITIONING-DECLARATIVE-LIMITATIONS"></a>
 
-#### 5.12.2.3. Limitations [#](#DDL-PARTITIONING-DECLARATIVE-LIMITATIONS)
+#### 5.12.2.3. 限制 [#](#DDL-PARTITIONING-DECLARATIVE-LIMITATIONS)
 
-The following limitations apply to partitioned tables:
+分割資料表有下列限制：
 
-* To create a unique or primary key constraint on a partitioned table,
-  the partition keys must not include any expressions or function calls
-  and the constraint's columns must include all of the partition key
-  columns. This limitation exists because the individual indexes making
-  up the constraint can only directly enforce uniqueness within their own
-  partitions; therefore, the partition structure itself must guarantee
-  that there are not duplicates in different partitions.
-* Similarly an exclusion constraint must include all the
-  partition key columns. Furthermore the constraint must compare those
-  columns for equality (not e.g. `&&`).
-  Again, this limitation stems from not being able to enforce
-  cross-partition restrictions. The constraint may include additional
-  columns that aren't part of the partition key, and it may compare
-  those with any operators you like.
-* `BEFORE ROW` triggers on `INSERT`
-  cannot change which partition is the final destination for a new row.
-* Mixing temporary and permanent relations in the same partition tree is
-  not allowed. Hence, if the partitioned table is permanent, so must be
-  its partitions and likewise if the partitioned table is temporary. When
-  using temporary relations, all members of the partition tree have to be
-  from the same session.
+* 要在分割資料表上建立唯一或主鍵限制條件，分割鍵不得包含任何運算式或函式呼叫，而且限制條件的欄位必須包含所有分割鍵欄位。之所以有這項限制，是因為構成該限制條件的個別索引，只能直接在各自的分割區內強制唯一性；因此，分割結構本身必須保證不同的分割區之間不會有重複。
+* 同樣地，排除限制條件必須包含所有分割鍵欄位。此外，限制條件必須以相等比較這些欄位（而不是例如 `&&`）。同樣地，這項限制源自於無法強制執行跨分割區的限制。限制條件可以包含不屬於分割鍵的其他欄位，並且可以用任何你喜歡的運算子比較這些欄位。
+* `INSERT` 上的 `BEFORE ROW` 觸發程序，無法改變新資料列最終要放入哪一個分割區。
+* 不允許在同一棵分割樹中混用暫時性與永久性關聯。因此，如果分割資料表是永久性的，它的分割區也必須是永久性的；分割資料表是暫時性時亦然。使用暫時性關聯時，分割樹的所有成員都必須來自同一個工作階段。
 
-Individual partitions are linked to their partitioned table using
-inheritance behind-the-scenes. However, it is not possible to use
-all of the generic features of inheritance with declaratively
-partitioned tables or their partitions, as discussed below. Notably,
-a partition cannot have any parents other than the partitioned table
-it is a partition of, nor can a table inherit from both a partitioned
-table and a regular table. That means partitioned tables and their
-partitions never share an inheritance hierarchy with regular tables.
+在幕後，個別的分割區是透過繼承與其分割資料表相連結的。不過，如下所述，並非所有繼承的一般功能都能用於宣告式分割資料表或其分割區。值得注意的是，分割區除了它所屬的分割資料表之外，不能有任何其他父資料表，而且一個資料表也不能同時繼承分割資料表與一般資料表。這表示分割資料表及其分割區永遠不會與一般資料表共用同一個繼承階層。
 
-Since a partition hierarchy consisting of the partitioned table and its
-partitions is still an inheritance hierarchy,
-`tableoid` and all the normal rules of
-inheritance apply as described in [Section 5.11](ddl-inherit.md), with
-a few exceptions:
+由於由分割資料表及其分割區組成的分割階層仍然是一個繼承階層，因此 `tableoid` 以及繼承的所有一般規則都適用，如[第 5.11 節](ddl-inherit.md)所述，但有少數例外：
 
-* Partitions cannot have columns that are not present in the parent. It
-  is not possible to specify columns when creating partitions with
-  `CREATE TABLE`, nor is it possible to add columns to
-  partitions after-the-fact using `ALTER TABLE`.
-  Tables may be added as a partition with `ALTER TABLE
-  ... ATTACH PARTITION` only if their columns exactly match
-  the parent.
-* Both `CHECK` and `NOT NULL`
-  constraints of a partitioned table are always inherited by all its
-  partitions; it is not allowed to create `NO INHERIT`
-  constraints of those types.
-  You cannot drop a constraint of those types if the same constraint
-  is present in the parent table.
-* Using `ONLY` to add or drop a constraint on only
-  the partitioned table is supported as long as there are no
-  partitions. Once partitions exist, using `ONLY`
-  will result in an error for any constraints other than
-  `UNIQUE` and `PRIMARY KEY`.
-  Instead, constraints on the partitions
-  themselves can be added and (if they are not present in the parent
-  table) dropped.
-* As a partitioned table does not have any data itself, attempts to use
-  `TRUNCATE` `ONLY` on a partitioned
-  table will always return an error.
+* 分割區不能有父資料表中不存在的欄位。使用 `CREATE TABLE` 建立分割區時無法指定欄位，也無法在事後使用 `ALTER TABLE` 為分割區加入欄位。只有當資料表的欄位與父資料表完全相符時，才能以 `ALTER TABLE ... ATTACH PARTITION` 將它加入為分割區。
+* 分割資料表的 `CHECK` 與 `NOT NULL` 限制條件，一律會被其所有分割區繼承；不允許建立這些類型的 `NO INHERIT` 限制條件。如果父資料表中存在相同的限制條件，你就無法刪除這些類型的限制條件。
+* 只要還沒有任何分割區，就支援使用 `ONLY` 只在分割資料表上加入或刪除限制條件。一旦分割區存在，對 `UNIQUE` 與 `PRIMARY KEY` 以外的任何限制條件使用 `ONLY`，都會導致錯誤。取而代之的是，可以在分割區本身加入限制條件，並（在父資料表中不存在該限制條件時）刪除它們。
+* 由於分割資料表本身沒有任何資料，嘗試對分割資料表使用 `TRUNCATE` `ONLY` 一律會回傳錯誤。
 
 <a id="DDL-PARTITIONING-USING-INHERITANCE"></a>
 
-### 5.12.3. Partitioning Using Inheritance [#](#DDL-PARTITIONING-USING-INHERITANCE)
+### 5.12.3. 使用繼承進行分割 [#](#DDL-PARTITIONING-USING-INHERITANCE)
 
-While the built-in declarative partitioning is suitable for most
-common use cases, there are some circumstances where a more flexible
-approach may be useful. Partitioning can be implemented using table
-inheritance, which allows for several features not supported
-by declarative partitioning, such as:
+雖然內建的宣告式分割適用於大多數常見的使用情境，但在某些情況下，更有彈性的做法可能會很有用。可以使用資料表繼承來實作分割，這可以支援一些宣告式分割不支援的功能，例如：
 
-* For declarative partitioning, partitions must have exactly the same set
-  of columns as the partitioned table, whereas with table inheritance,
-  child tables may have extra columns not present in the parent.
-* Table inheritance allows for multiple inheritance.
-* Declarative partitioning only supports range, list and hash
-  partitioning, whereas table inheritance allows data to be divided in a
-  manner of the user's choosing. (Note, however, that if constraint
-  exclusion is unable to prune child tables effectively, query performance
-  might be poor.)
+* 在宣告式分割中，分割區必須與分割資料表具有完全相同的欄位集合；而使用資料表繼承時，子資料表可以有父資料表中不存在的額外欄位。
+* 資料表繼承允許多重繼承。
+* 宣告式分割只支援範圍、清單與雜湊分割；而資料表繼承則允許以使用者選擇的方式劃分資料。（不過請注意，如果限制條件排除無法有效地修剪子資料表，查詢效能可能會很差。）
 
 <a id="DDL-PARTITIONING-INHERITANCE-EXAMPLE"></a>
 
-#### 5.12.3.1. Example [#](#DDL-PARTITIONING-INHERITANCE-EXAMPLE)
+#### 5.12.3.1. 範例 [#](#DDL-PARTITIONING-INHERITANCE-EXAMPLE)
 
-This example builds a partitioning structure equivalent to the
-declarative partitioning example above. Use
-the following steps:
+這個範例會建立一個與上面宣告式分割範例等價的分割結構。請依照下列步驟：
 
-1. Create the “root” table, from which all of the
-   “child” tables will inherit. This table will contain no data. Do not
-   define any check constraints on this table, unless you intend them
-   to be applied equally to all child tables. There is no point in
-   defining any indexes or unique constraints on it, either. For our
-   example, the root table is the `measurement`
-   table as originally defined:
+1. 建立「根」資料表，所有「子」資料表都將繼承自它。這個資料表不會包含任何資料。除非你打算讓檢查限制條件同樣地套用到所有子資料表，否則不要在這個資料表上定義任何檢查限制條件。在它上面定義任何索引或唯一限制條件也沒有意義。在我們的範例中，根資料表就是最初定義的 `measurement` 資料表：
 
    ```
 
@@ -540,11 +275,7 @@ the following steps:
        unitsales       int
    );
    ```
-2. Create several “child” tables that each inherit from
-   the root table. Normally, these tables will not add any columns
-   to the set inherited from the root. Just as with declarative
-   partitioning, these tables are in every way normal
-   PostgreSQL tables (or foreign tables).
+2. 建立數個各自繼承自根資料表的「子」資料表。通常，這些資料表不會在從根資料表繼承的欄位集合之外再加入任何欄位。就像宣告式分割一樣，這些資料表在各方面都是一般的 PostgreSQL 資料表（或外部資料表）。
 
    ```
 
@@ -555,10 +286,9 @@ the following steps:
    CREATE TABLE measurement_y2007m12 () INHERITS (measurement);
    CREATE TABLE measurement_y2008m01 () INHERITS (measurement);
    ```
-3. Add non-overlapping table constraints to the child tables to
-   define the allowed key values in each.
+3. 為子資料表加入互不重疊的資料表限制條件，定義每個子資料表中允許的鍵值。
 
-   Typical examples would be:
+   典型的例子如下：
 
    ```
 
@@ -567,9 +297,7 @@ the following steps:
    CHECK ( outletID >= 100 AND outletID < 200 )
    ```
 
-   Ensure that the constraints guarantee that there is no overlap
-   between the key values permitted in different child tables. A common
-   mistake is to set up range constraints like:
+   請確保這些限制條件保證不同子資料表所允許的鍵值之間沒有重疊。一個常見的錯誤是設定像這樣的範圍限制條件：
 
    ```
 
@@ -577,9 +305,7 @@ the following steps:
    CHECK ( outletID BETWEEN 200 AND 300 )
    ```
 
-   This is wrong since it is not clear which child table the key
-   value 200 belongs in.
-   Instead, ranges should be defined in this style:
+   這是錯的，因為無法確定鍵值 200 屬於哪一個子資料表。範圍應該改為以這種方式定義：
 
    ```
 
@@ -604,8 +330,7 @@ the following steps:
        CHECK ( logdate >= DATE '2008-01-01' AND logdate < DATE '2008-02-01' )
    ) INHERITS (measurement);
    ```
-4. For each child table, create an index on the key column(s),
-   as well as any other indexes you might want.
+4. 為每個子資料表在鍵欄位上建立索引，以及你可能想要的任何其他索引。
 
    ```
 
@@ -615,12 +340,7 @@ the following steps:
    CREATE INDEX measurement_y2007m12_logdate ON measurement_y2007m12 (logdate);
    CREATE INDEX measurement_y2008m01_logdate ON measurement_y2008m01 (logdate);
    ```
-5. We want our application to be able to say `INSERT INTO
-   measurement ...` and have the data be redirected into the
-   appropriate child table. We can arrange that by attaching
-   a suitable trigger function to the root table.
-   If data will be added only to the latest child, we can
-   use a very simple trigger function:
+5. 我們希望應用程式可以直接執行 `INSERT INTO measurement ...`，並讓資料被重新導向到適當的子資料表。我們可以藉由在根資料表上附加一個合適的觸發程序函式來做到這一點。如果資料只會加入到最新的子資料表中，我們可以使用一個非常簡單的觸發程序函式：
 
    ```
 
@@ -634,8 +354,7 @@ the following steps:
    LANGUAGE plpgsql;
    ```
 
-   After creating the function, we create a trigger which
-   calls the trigger function:
+   建立函式之後，我們建立一個呼叫該觸發程序函式的觸發程序：
 
    ```
 
@@ -644,13 +363,9 @@ the following steps:
        FOR EACH ROW EXECUTE FUNCTION measurement_insert_trigger();
    ```
 
-   We must redefine the trigger function each month so that it always
-   inserts into the current child table. The trigger definition does
-   not need to be updated, however.
+   我們必須每個月重新定義觸發程序函式，讓它一律插入到目前的子資料表中。不過，觸發程序的定義不需要更新。
 
-   We might want to insert data and have the server automatically
-   locate the child table into which the row should be added. We
-   could do this with a more complex trigger function, for example:
+   我們可能希望插入資料時，由伺服器自動找出應該加入該資料列的子資料表。我們可以用一個更複雜的觸發程序函式來做到這一點，例如：
 
    ```
 
@@ -676,24 +391,15 @@ the following steps:
    LANGUAGE plpgsql;
    ```
 
-   The trigger definition is the same as before.
-   Note that each `IF` test must exactly match the
-   `CHECK` constraint for its child table.
+   觸發程序的定義與之前相同。請注意，每個 `IF` 測試都必須與其子資料表的 `CHECK` 限制條件完全相符。
 
-   While this function is more complex than the single-month case,
-   it doesn't need to be updated as often, since branches can be
-   added in advance of being needed.
+   雖然這個函式比單一月份的情況更複雜，但它不需要那麼頻繁地更新，因為可以在需要之前預先加入分支。
 
-   ### Note
+   ### 注意
 
-   In practice, it might be best to check the newest child first,
-   if most inserts go into that child. For simplicity, we have
-   shown the trigger's tests in the same order as in other parts
-   of this example.
+   在實務上，如果大部分的插入都進入最新的子資料表，最好先檢查最新的子資料表。為了簡單起見，我們以與本範例其他部分相同的順序列出觸發程序的測試。
 
-   A different approach to redirecting inserts into the appropriate
-   child table is to set up rules, instead of a trigger, on the
-   root table. For example:
+   將插入重新導向到適當子資料表的另一種做法，是在根資料表上設定規則，而不是觸發程序。例如：
 
    ```
 
@@ -710,52 +416,34 @@ the following steps:
        INSERT INTO measurement_y2008m01 VALUES (NEW.*);
    ```
 
-   A rule has significantly more overhead than a trigger, but the
-   overhead is paid once per query rather than once per row, so this
-   method might be advantageous for bulk-insert situations. In most
-   cases, however, the trigger method will offer better performance.
+   規則的額外負擔明顯比觸發程序大，但這項額外負擔是每個查詢支付一次，而不是每筆資料列支付一次，因此這種方法在大量插入的情況下可能比較有利。不過，在大多數情況下，觸發程序的方法會提供更好的效能。
 
-   Be aware that `COPY` ignores rules. If you want to
-   use `COPY` to insert data, you'll need to copy into the
-   correct child table rather than directly into the root. `COPY`
-   does fire triggers, so you can use it normally if you use the trigger
-   approach.
+   請注意，`COPY` 會忽略規則。如果你想用 `COPY` 插入資料，就必須複製到正確的子資料表中，而不是直接複製到根資料表。`COPY` 確實會觸發觸發程序，因此如果你使用觸發程序的做法，就可以正常使用它。
 
-   Another disadvantage of the rule approach is that there is no simple
-   way to force an error if the set of rules doesn't cover the insertion
-   date; the data will silently go into the root table instead.
-6. Ensure that the [constraint_exclusion](../../server-administration/runtime-config/runtime-config-query.md#GUC-CONSTRAINT-EXCLUSION)
-   configuration parameter is not disabled in
-   `postgresql.conf`; otherwise
-   child tables may be accessed unnecessarily.
+   規則做法的另一個缺點是，當規則集合沒有涵蓋插入的日期時，沒有簡單的方法可以強制引發錯誤；資料會默默地進入根資料表。
+6. 確認 [constraint_exclusion](../../server-administration/runtime-config/runtime-config-query.md#GUC-CONSTRAINT-EXCLUSION) 組態參數沒有在 `postgresql.conf` 中被停用；否則可能會不必要地存取子資料表。
 
-As we can see, a complex table hierarchy could require a
-substantial amount of DDL. In the above example we would be creating
-a new child table each month, so it might be wise to write a script that
-generates the required DDL automatically.
+如我們所見，複雜的資料表階層可能需要相當大量的 DDL。在上面的範例中，我們每個月都會建立一個新的子資料表，所以撰寫一個自動產生所需 DDL 的指令碼可能是明智的做法。
 
 <a id="DDL-PARTITIONING-INHERITANCE-MAINTENANCE"></a>
 
-#### 5.12.3.2. Maintenance for Inheritance Partitioning [#](#DDL-PARTITIONING-INHERITANCE-MAINTENANCE)
+#### 5.12.3.2. 繼承式分割的維護 [#](#DDL-PARTITIONING-INHERITANCE-MAINTENANCE)
 
-To remove old data quickly, simply drop the child table that is no longer
-necessary:
+要快速移除舊資料，只要刪除不再需要的子資料表即可：
 
 ```
 
 DROP TABLE measurement_y2006m02;
 ```
 
-To remove the child table from the inheritance hierarchy table but retain access to
-it as a table in its own right:
+要將子資料表從繼承階層中移除，但保留以獨立資料表的形式存取它：
 
 ```
 
 ALTER TABLE measurement_y2006m02 NO INHERIT measurement;
 ```
 
-To add a new child table to handle new data, create an empty child table
-just as the original children were created above:
+要加入新的子資料表來處理新資料，請像上面建立原始子資料表那樣，建立一個空的子資料表：
 
 ```
 
@@ -764,10 +452,7 @@ CREATE TABLE measurement_y2008m02 (
 ) INHERITS (measurement);
 ```
 
-Alternatively, one may want to create and populate the new child table
-before adding it to the table hierarchy. This could allow data to be
-loaded, checked, and transformed before being made visible to queries on
-the parent table.
+另外，也可能希望先建立新的子資料表並填入資料，再將它加入資料表階層。這讓資料可以在對父資料表的查詢中變得可見之前，先進行載入、檢查與轉換。
 
 ```
 
@@ -782,56 +467,31 @@ ALTER TABLE measurement_y2008m02 INHERIT measurement;
 
 <a id="DDL-PARTITIONING-INHERITANCE-CAVEATS"></a>
 
-#### 5.12.3.3. Caveats [#](#DDL-PARTITIONING-INHERITANCE-CAVEATS)
+#### 5.12.3.3. 注意事項 [#](#DDL-PARTITIONING-INHERITANCE-CAVEATS)
 
-The following caveats apply to partitioning implemented using
-inheritance:
+使用繼承實作的分割，有下列注意事項：
 
-* There is no automatic way to verify that all of the
-  `CHECK` constraints are mutually
-  exclusive. It is safer to create code that generates
-  child tables and creates and/or modifies associated objects than
-  to write each by hand.
-* Indexes and foreign key constraints apply to single tables and not
-  to their inheritance children, hence they have some
-  [caveats](ddl-inherit.md#DDL-INHERIT-CAVEATS) to be aware of.
-* The schemes shown here assume that the values of a row's key column(s)
-  never change, or at least do not change enough to require it to move to another partition.
-  An `UPDATE` that attempts
-  to do that will fail because of the `CHECK` constraints.
-  If you need to handle such cases, you can put suitable update triggers
-  on the child tables, but it makes management of the structure
-  much more complicated.
-* Manual `VACUUM` and `ANALYZE`
-  commands will automatically process all inheritance child tables. If
-  this is undesirable, you can use the `ONLY` keyword.
-  A command like:
+* 沒有自動的方法可以驗證所有的 `CHECK` 限制條件都是互斥的。撰寫程式碼來產生子資料表並建立和／或修改相關聯的物件，會比逐一手寫更安全。
+* 索引與外鍵限制條件只適用於單一資料表，而不適用於其繼承子資料表，因此有一些需要注意的[注意事項](ddl-inherit.md#DDL-INHERIT-CAVEATS)。
+* 這裡所展示的方案，假設資料列的鍵欄位值永遠不會改變，或者至少不會改變到需要將它移動到另一個分割區的程度。嘗試這麼做的 `UPDATE` 會因為 `CHECK` 限制條件而失敗。如果你需要處理這類情況，可以在子資料表上設置合適的更新觸發程序，但這會使結構的管理複雜得多。
+* 手動執行的 `VACUUM` 與 `ANALYZE` 命令會自動處理所有繼承子資料表。如果不希望這樣，可以使用 `ONLY` 關鍵字。像這樣的命令：
 
   ```
 
   ANALYZE ONLY measurement;
   ```
 
-  will only process the root table.
-* `INSERT` statements with `ON CONFLICT`
-  clauses are unlikely to work as expected, as the `ON CONFLICT`
-  action is only taken in case of unique violations on the specified
-  target relation, not its child relations.
-* Triggers or rules will be needed to route rows to the desired
-  child table, unless the application is explicitly aware of the
-  partitioning scheme. Triggers may be complicated to write, and will
-  be much slower than the tuple routing performed internally by
-  declarative partitioning.
+  只會處理根資料表。
+* 帶有 `ON CONFLICT` 子句的 `INSERT` 陳述式不太可能如預期般運作，因為 `ON CONFLICT` 動作只會在指定的目標關聯上發生唯一性違反時才執行，而不會在其子關聯上執行。
+* 除非應用程式明確知道分割方案，否則需要觸發程序或規則來將資料列導向到所需的子資料表。觸發程序可能寫起來很複雜，而且會比宣告式分割在內部進行的資料列路由慢得多。
 
 <a id="DDL-PARTITION-PRUNING"></a>
 
-### 5.12.4. Partition Pruning [#](#DDL-PARTITION-PRUNING)
+### 5.12.4. 分割區修剪 [#](#DDL-PARTITION-PRUNING)
 
 <a id="id-1.5.4.14.9.2"></a>
 
-*Partition pruning* is a query optimization technique
-that improves performance for declaratively partitioned tables.
-As an example:
+*分割區修剪*（partition pruning）是一種查詢最佳化技術，可以提升宣告式分割資料表的效能。舉例來說：
 
 ```
 
@@ -839,19 +499,9 @@ SET enable_partition_pruning = on;                 -- the default
 SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
 ```
 
-Without partition pruning, the above query would scan each of the
-partitions of the `measurement` table. With
-partition pruning enabled, the planner will examine the definition
-of each partition and prove that the partition need not
-be scanned because it could not contain any rows meeting the query's
-`WHERE` clause. When the planner can prove this, it
-excludes (*prunes*) the partition from the query
-plan.
+如果沒有分割區修剪，上面的查詢會掃描 `measurement` 資料表的每一個分割區。啟用分割區修剪時，規劃器會檢查每個分割區的定義，並證明某個分割區不需要被掃描，因為它不可能包含任何符合查詢 `WHERE` 子句的資料列。當規劃器能夠證明這一點時，就會將該分割區從查詢計畫中排除（*修剪*）。
 
-By using the EXPLAIN command and the [enable_partition_pruning](../../server-administration/runtime-config/runtime-config-query.md#GUC-ENABLE-PARTITION-PRUNING) configuration parameter, it's
-possible to show the difference between a plan for which partitions have
-been pruned and one for which they have not. A typical unoptimized
-plan for this type of table setup is:
+使用 EXPLAIN 命令與 [enable_partition_pruning](../../server-administration/runtime-config/runtime-config-query.md#GUC-ENABLE-PARTITION-PRUNING) 組態參數，就可以顯示分割區已被修剪的計畫與未被修剪的計畫之間的差異。這類資料表設定的典型未最佳化計畫如下：
 
 ```
 
@@ -874,11 +524,7 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
                Filter: (logdate >= '2008-01-01'::date)
 ```
 
-Some or all of the partitions might use index scans instead of
-full-table sequential scans, but the point here is that there
-is no need to scan the older partitions at all to answer this query.
-When we enable partition pruning, we get a significantly
-cheaper plan that will deliver the same answer:
+部分或全部的分割區可能會使用索引掃描，而不是全資料表的循序掃描，但這裡的重點是，要回答這個查詢，根本不需要掃描較舊的分割區。當我們啟用分割區修剪時，會得到一個便宜得多、但會提供相同答案的計畫：
 
 ```
 
@@ -891,182 +537,52 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
          Filter: (logdate >= '2008-01-01'::date)
 ```
 
-Note that partition pruning is driven only by the constraints defined
-implicitly by the partition keys, not by the presence of indexes.
-Therefore it isn't necessary to define indexes on the key columns.
-Whether an index needs to be created for a given partition depends on
-whether you expect that queries that scan the partition will
-generally scan a large part of the partition or just a small part.
-An index will be helpful in the latter case but not the former.
+請注意，分割區修剪只由分割鍵隱含定義的限制條件所驅動，而不是由索引的存在與否驅動。因此，不需要在鍵欄位上定義索引。是否需要為某個分割區建立索引，取決於你預期掃描該分割區的查詢，通常是掃描該分割區的大部分，還是只掃描一小部分。在後者的情況下索引會有幫助，在前者則不會。
 
-Partition pruning can be performed not only during the planning of a
-given query, but also during its execution. This is useful as it can
-allow more partitions to be pruned when clauses contain expressions
-whose values are not known at query planning time, for example,
-parameters defined in a `PREPARE` statement, using a
-value obtained from a subquery, or using a parameterized value on the
-inner side of a nested loop join. Partition pruning during execution
-can be performed at any of the following times:
+分割區修剪不只可以在規劃給定查詢時進行，也可以在執行查詢時進行。這很有用，因為當子句包含在查詢規劃時無法得知其值的運算式時，它可以讓更多的分割區被修剪，例如 `PREPARE` 陳述式中定義的參數、使用從子查詢取得的值，或在巢狀迴圈聯結的內側使用參數化的值。執行期間的分割區修剪可以在下列任一時機進行：
 
-* During initialization of the query plan. Partition pruning can be
-  performed here for parameter values which are known during the
-  initialization phase of execution. Partitions which are pruned
-  during this stage will not show up in the query's
-  `EXPLAIN` or `EXPLAIN ANALYZE`.
-  It is possible to determine the number of partitions which were
-  removed during this phase by observing the
-  “Subplans Removed” property in the
-  `EXPLAIN` output. It's important to note that any
-  partitions removed by the partition pruning done at this stage are
-  still locked at the beginning of execution.
-* During actual execution of the query plan. Partition pruning may
-  also be performed here to remove partitions using values which are
-  only known during actual query execution. This includes values
-  from subqueries and values from execution-time parameters such as
-  those from parameterized nested loop joins. Since the value of
-  these parameters may change many times during the execution of the
-  query, partition pruning is performed whenever one of the
-  execution parameters being used by partition pruning changes.
-  Determining if partitions were pruned during this phase requires
-  careful inspection of the `loops` property in
-  the `EXPLAIN ANALYZE` output. Subplans
-  corresponding to different partitions may have different values
-  for it depending on how many times each of them was pruned during
-  execution. Some may be shown as `(never executed)`
-  if they were pruned every time.
+* 在查詢計畫初始化期間。對於在執行的初始化階段就已知的參數值，可以在這裡進行分割區修剪。在這個階段被修剪的分割區，不會出現在查詢的 `EXPLAIN` 或 `EXPLAIN ANALYZE` 中。可以藉由觀察 `EXPLAIN` 輸出中的「Subplans Removed」屬性，得知在這個階段被移除的分割區數量。重要的是要注意，在這個階段藉由分割區修剪移除的任何分割區，在執行開始時仍然會被鎖定。
+* 在實際執行查詢計畫期間。也可以在這裡進行分割區修剪，使用只有在實際執行查詢時才能得知的值來移除分割區。這包括來自子查詢的值，以及來自執行時期參數（例如參數化巢狀迴圈聯結的參數）的值。由於這些參數的值在查詢執行期間可能會改變許多次，因此每當分割區修剪所使用的某個執行參數改變時，就會進行分割區修剪。要判斷在這個階段是否有分割區被修剪，需要仔細檢查 `EXPLAIN ANALYZE` 輸出中的 `loops` 屬性。對應到不同分割區的子計畫，視各自在執行期間被修剪了多少次，可能會有不同的值。如果某些子計畫每次都被修剪，它們可能會顯示為 `(never executed)`。
 
-Partition pruning can be disabled using the
-[enable_partition_pruning](../../server-administration/runtime-config/runtime-config-query.md#GUC-ENABLE-PARTITION-PRUNING) setting.
+可以使用 [enable_partition_pruning](../../server-administration/runtime-config/runtime-config-query.md#GUC-ENABLE-PARTITION-PRUNING) 設定來停用分割區修剪。
 
 <a id="DDL-PARTITIONING-CONSTRAINT-EXCLUSION"></a>
 
-### 5.12.5. Partitioning and Constraint Exclusion [#](#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)
+### 5.12.5. 分割與限制條件排除 [#](#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)
 
 <a id="id-1.5.4.14.10.2"></a>
 
-*Constraint exclusion* is a query optimization
-technique similar to partition pruning. While it is primarily used
-for partitioning implemented using the legacy inheritance method, it can be
-used for other purposes, including with declarative partitioning.
+*限制條件排除*（constraint exclusion）是一種類似於分割區修剪的查詢最佳化技術。雖然它主要用於以舊有的繼承方法實作的分割，但它也可以用於其他目的，包括搭配宣告式分割使用。
 
-Constraint exclusion works in a very similar way to partition
-pruning, except that it uses each table's `CHECK`
-constraints — which gives it its name — whereas partition
-pruning uses the table's partition bounds, which exist only in the
-case of declarative partitioning. Another difference is that
-constraint exclusion is only applied at plan time; there is no attempt
-to remove partitions at execution time.
+限制條件排除的運作方式與分割區修剪非常相似，只是它使用的是每個資料表的 `CHECK` 限制條件——這也是它名稱的由來——而分割區修剪使用的是資料表的分割區界限，而分割區界限只存在於宣告式分割的情況中。另一個差別是，限制條件排除只在規劃時套用；它不會嘗試在執行時移除分割區。
 
-The fact that constraint exclusion uses `CHECK`
-constraints, which makes it slow compared to partition pruning, can
-sometimes be used as an advantage: because constraints can be defined
-even on declaratively-partitioned tables, in addition to their internal
-partition bounds, constraint exclusion may be able
-to elide additional partitions from the query plan.
+限制條件排除使用 `CHECK` 限制條件這個事實，使它比分割區修剪慢，但有時這也可以成為一項優勢：由於即使在宣告式分割資料表上，除了其內部的分割區界限之外，也可以定義限制條件，因此限制條件排除或許能從查詢計畫中省略額外的分割區。
 
-The default (and recommended) setting of
-[constraint_exclusion](../../server-administration/runtime-config/runtime-config-query.md#GUC-CONSTRAINT-EXCLUSION) is neither
-`on` nor `off`, but an intermediate setting
-called `partition`, which causes the technique to be
-applied only to queries that are likely to be working on inheritance partitioned
-tables. The `on` setting causes the planner to examine
-`CHECK` constraints in all queries, even simple ones that
-are unlikely to benefit.
+[constraint_exclusion](../../server-administration/runtime-config/runtime-config-query.md#GUC-CONSTRAINT-EXCLUSION) 的預設（也是建議的）設定既不是 `on` 也不是 `off`，而是一個稱為 `partition` 的中間設定，它使這項技術只套用於可能作用在繼承分割資料表上的查詢。`on` 設定會使規劃器在所有查詢中檢查 `CHECK` 限制條件，即使是不太可能從中受益的簡單查詢也一樣。
 
-The following caveats apply to constraint exclusion:
+限制條件排除有下列注意事項：
 
-* Constraint exclusion is only applied during query planning, unlike
-  partition pruning, which can also be applied during query execution.
-* Constraint exclusion only works when the query's `WHERE`
-  clause contains constants (or externally supplied parameters).
-  For example, a comparison against a non-immutable function such as
-  `CURRENT_TIMESTAMP` cannot be optimized, since the
-  planner cannot know which child table the function's value might fall
-  into at run time.
-* Keep the partitioning constraints simple, else the planner may not be
-  able to prove that child tables might not need to be visited. Use simple
-  equality conditions for list partitioning, or simple
-  range tests for range partitioning, as illustrated in the preceding
-  examples. A good rule of thumb is that partitioning constraints should
-  contain only comparisons of the partitioning column(s) to constants
-  using B-tree-indexable operators, because only B-tree-indexable
-  column(s) are allowed in the partition key.
-* All constraints on all children of the parent table are examined
-  during constraint exclusion, so large numbers of children are likely
-  to increase query planning time considerably. So the legacy
-  inheritance based partitioning will work well with up to perhaps a
-  hundred child tables; don't try to use many thousands of children.
+* 限制條件排除只在查詢規劃期間套用，不像分割區修剪也可以在查詢執行期間套用。
+* 只有當查詢的 `WHERE` 子句包含常數（或外部提供的參數）時，限制條件排除才會發揮作用。例如，與 `CURRENT_TIMESTAMP` 這類非 immutable 函式進行的比較無法被最佳化，因為規劃器無法得知該函式的值在執行時會落在哪一個子資料表中。
+* 讓分割限制條件保持簡單，否則規劃器可能無法證明子資料表不需要被存取。對清單分割使用簡單的相等條件，對範圍分割使用簡單的範圍測試，如前面的範例所示。一個好的經驗法則是，分割限制條件應該只包含使用可由 B-tree 索引的運算子，將分割欄位與常數進行比較，因為分割鍵中只允許可由 B-tree 索引的欄位。
+* 在限制條件排除期間，會檢查父資料表所有子資料表上的所有限制條件，因此大量的子資料表很可能會大幅增加查詢規劃時間。所以，基於舊有繼承的分割，大概可以在子資料表數量達到約一百個左右時仍運作良好；不要嘗試使用成千上萬個子資料表。
 
 <a id="DDL-PARTITIONING-DECLARATIVE-BEST-PRACTICES"></a>
 
-### 5.12.6. Best Practices for Declarative Partitioning [#](#DDL-PARTITIONING-DECLARATIVE-BEST-PRACTICES)
+### 5.12.6. 宣告式分割的最佳實務 [#](#DDL-PARTITIONING-DECLARATIVE-BEST-PRACTICES)
 
-The choice of how to partition a table should be made carefully, as the
-performance of query planning and execution can be negatively affected by
-poor design.
+如何分割資料表的選擇應該謹慎進行，因為不良的設計可能對查詢規劃與執行的效能產生負面影響。
 
-One of the most critical design decisions will be the column or columns
-by which you partition your data. Often the best choice will be to
-partition by the column or set of columns which most commonly appear in
-`WHERE` clauses of queries being executed on the
-partitioned table. `WHERE` clauses that are compatible
-with the partition bound constraints can be used to prune unneeded
-partitions. However, you may be forced into making other decisions by
-requirements for the `PRIMARY KEY` or a
-`UNIQUE` constraint. Removal of unwanted data is also a
-factor to consider when planning your partitioning strategy. An entire
-partition can be detached fairly quickly, so it may be beneficial to
-design the partition strategy in such a way that all data to be removed
-at once is located in a single partition.
+最關鍵的設計決策之一，是要依哪一個或哪些欄位來分割你的資料。通常最好的選擇，是依在分割資料表上執行之查詢的 `WHERE` 子句中最常出現的欄位或欄位集合來分割。與分割區界限限制條件相容的 `WHERE` 子句，可以用來修剪不需要的分割區。不過，`PRIMARY KEY` 或 `UNIQUE` 限制條件的需求，可能會迫使你做出其他決定。移除不需要的資料，也是規劃分割策略時要考量的因素。整個分割區可以相當快速地被分離，因此將分割策略設計成讓所有要一次移除的資料都位於單一分割區中，可能會很有好處。
 
-Choosing the target number of partitions that the table should be divided
-into is also a critical decision to make. Not having enough partitions
-may mean that indexes remain too large and that data locality remains poor
-which could result in low cache hit ratios. However, dividing the table
-into too many partitions can also cause issues. Too many partitions can
-mean longer query planning times and higher memory consumption during both
-query planning and execution, as further described below.
-When choosing how to partition your table,
-it's also important to consider what changes may occur in the future. For
-example, if you choose to have one partition per customer and you
-currently have a small number of large customers, consider the
-implications if in several years you instead find yourself with a large
-number of small customers. In this case, it may be better to choose to
-partition by `HASH` and choose a reasonable number of
-partitions rather than trying to partition by `LIST` and
-hoping that the number of customers does not increase beyond what it is
-practical to partition the data by.
+選擇資料表應該劃分成多少個分割區，也是一項關鍵的決策。分割區不夠多，可能表示索引仍然太大，而且資料的區域性仍然很差，可能導致快取命中率偏低。不過，將資料表劃分成太多分割區也可能造成問題。太多分割區可能意味著更長的查詢規劃時間，以及在查詢規劃與執行期間更高的記憶體消耗，如下文進一步說明。在選擇如何分割資料表時，考慮未來可能發生哪些變化也很重要。例如，如果你選擇每位客戶一個分割區，而你目前只有少數幾個大客戶，那麼請考慮幾年後如果你反而擁有大量小客戶會有什麼影響。在這種情況下，選擇依 `HASH` 分割並選擇合理數量的分割區，可能會比嘗試依 `LIST` 分割、並期望客戶數量不會增加到超出分割資料的實際可行範圍更好。
 
-Sub-partitioning can be useful to further divide partitions that are
-expected to become larger than other partitions.
-Another option is to use range partitioning with multiple columns in
-the partition key.
-Either of these can easily lead to excessive numbers of partitions,
-so restraint is advisable.
+子分割可以用來進一步劃分預期會比其他分割區更大的分割區。另一種做法是使用在分割鍵中具有多個欄位的範圍分割。這兩種做法都很容易導致分割區數量過多，因此建議有所節制。
 
-It is important to consider the overhead of partitioning during
-query planning and execution. The query planner is generally able to
-handle partition hierarchies with up to a few thousand partitions fairly
-well, provided that typical queries allow the query planner to prune all
-but a small number of partitions. Planning times become longer and memory
-consumption becomes higher when more partitions remain after the planner
-performs partition pruning. Another
-reason to be concerned about having a large number of partitions is that
-the server's memory consumption may grow significantly over
-time, especially if many sessions touch large numbers of partitions.
-That's because each partition requires its metadata to be loaded into the
-local memory of each session that touches it.
+考慮分割在查詢規劃與執行期間所帶來的額外負擔是很重要的。只要典型的查詢能讓查詢規劃器修剪掉除了少數幾個之外的所有分割區，查詢規劃器一般就能相當好地處理具有多達數千個分割區的分割階層。當規劃器進行分割區修剪之後剩下的分割區越多，規劃時間就會越長，記憶體消耗也會越高。另一個需要擔心分割區數量過多的原因是，伺服器的記憶體消耗可能會隨著時間顯著增加，特別是當許多工作階段都存取大量分割區時。這是因為每個分割區都需要將其中繼資料載入到存取它之每個工作階段的本機記憶體中。
 
-With data warehouse type workloads, it can make sense to use a larger
-number of partitions than with an OLTP type workload.
-Generally, in data warehouses, query planning time is less of a concern as
-the majority of processing time is spent during query execution. With
-either of these two types of workload, it is important to make the right
-decisions early, as re-partitioning large quantities of data can be
-painfully slow. Simulations of the intended workload are often beneficial
-for optimizing the partitioning strategy. Never just assume that more
-partitions are better than fewer partitions, nor vice-versa.
+在資料倉儲類型的工作負載中，使用比 OLTP 類型工作負載更多的分割區可能是合理的。一般而言，在資料倉儲中，查詢規劃時間比較不是問題，因為大部分的處理時間都花在查詢執行上。無論是這兩種工作負載中的哪一種，及早做出正確的決策都很重要，因為重新分割大量資料可能慢得令人痛苦。模擬預期的工作負載，通常有助於最佳化分割策略。千萬不要只是假設分割區越多越好，反之亦然。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-partitioning.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ddl-partitioning.html)（原文版本：18.6；核對日期：2026-09-15）
