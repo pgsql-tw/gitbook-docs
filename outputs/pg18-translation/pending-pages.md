@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：688 頁。
+待譯頁面：687 頁。
 
 ## 根目錄
 
@@ -940,7 +940,7 @@
 - [x] `server-programming/rules/rules-privileges.md` — 39.5. 規則與權限 #
 - [x] `server-programming/rules/rules-status.md` — 39.6. 規則與指令狀態 #
 - [x] `server-programming/rules/rules-triggers.md` — 39.7. 規則與觸發程序的比較 #
-- [ ] `server-programming/rules/rules-update.md` — 39.4. Rules on INSERT , UPDATE , and DELETE #
+- [x] `server-programming/rules/rules-update.md` — 39.4. `INSERT`、`UPDATE` 與 `DELETE` 上的規則 #
 - [ ] `server-programming/rules/rules-views.md` — 39.2. Views and the Rule System #
 - [x] `server-programming/spi/README.md` — 第 45 章 伺服器程式設計介面
 - [x] `server-programming/spi/spi-examples.md` — 45.6. 範例 #

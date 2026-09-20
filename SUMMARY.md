@@ -469,7 +469,7 @@
     * [39.1. 查詢樹 #](server-programming/rules/querytree.md)
     * [39.2. Views and the Rule System #](server-programming/rules/rules-views.md)
     * [39.3. 具體化檢視表 #](server-programming/rules/rules-materializedviews.md)
-    * [39.4. Rules on INSERT , UPDATE , and DELETE #](server-programming/rules/rules-update.md)
+    * [39.4. `INSERT`、`UPDATE` 與 `DELETE` 上的規則 #](server-programming/rules/rules-update.md)
     * [39.5. 規則與權限 #](server-programming/rules/rules-privileges.md)
     * [39.6. 規則與指令狀態 #](server-programming/rules/rules-status.md)
     * [39.7. 規則與觸發程序的比較 #](server-programming/rules/rules-triggers.md)
