@@ -511,7 +511,7 @@
     * [43.6. PL/Perl 觸發程序 #](server-programming/plperl/plperl-triggers.md)
     * [43.7. PL/Perl 事件觸發器](server-programming/plperl/plperl-event-triggers.md)
     * [43.8. PL/Perl Under the Hood #](server-programming/plperl/plperl-under-the-hood.md)
-  * [Chapter 44. PL/Python — Python Procedural Language](server-programming/plpython/README.md)
+  * [第 44 章 PL/Python — Python 程序語言](server-programming/plpython/README.md)
     * [44.1. PL/Python 函式 #](server-programming/plpython/plpython-funcs.md)
     * [44.2. 資料值 #](server-programming/plpython/plpython-data.md)
     * [44.3. 共用資料](server-programming/plpython/plpython-sharing.md)
