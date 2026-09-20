@@ -1,55 +1,21 @@
-## 47.10. Two-phase Commit Support for Logical Decoding [#](#LOGICALDECODING-TWO-PHASE-COMMITS)
+<a id="LOGICALDECODING-TWO-PHASE-COMMITS"></a>
+## 47.10. 邏輯解碼的兩階段提交支援 [#](#LOGICALDECODING-TWO-PHASE-COMMITS)
 
-With the basic output plugin callbacks (eg., `begin_cb`,
-`change_cb`, `commit_cb` and
-`message_cb`) two-phase commit commands like
-`PREPARE TRANSACTION`, `COMMIT PREPARED`
-and `ROLLBACK PREPARED` are not decoded. While the
-`PREPARE TRANSACTION` is ignored,
-`COMMIT PREPARED` is decoded as a `COMMIT`
-and `ROLLBACK PREPARED` is decoded as a
-`ROLLBACK`.
+若只使用基本的輸出外掛程式回呼函式（例如 `begin_cb`、`change_cb`、`commit_cb` 與 `message_cb`），則不會解碼像 `PREPARE TRANSACTION`、`COMMIT PREPARED` 與 `ROLLBACK PREPARED` 這樣的兩階段提交命令。`PREPARE TRANSACTION` 會被忽略，而 `COMMIT PREPARED` 會被解碼為 `COMMIT`，`ROLLBACK PREPARED` 則會被解碼為 `ROLLBACK`。
 
-To support the streaming of two-phase commands, an output plugin needs to
-provide additional callbacks. There are multiple two-phase commit callbacks
-that are required, (`begin_prepare_cb`,
-`prepare_cb`, `commit_prepared_cb`,
-`rollback_prepared_cb` and
-`stream_prepare_cb`) and an optional callback
-(`filter_prepare_cb`).
+若要支援兩階段命令的串流，輸出外掛程式需要提供額外的回呼函式。有多個兩階段提交回呼函式是必要的（`begin_prepare_cb`、`prepare_cb`、`commit_prepared_cb`、`rollback_prepared_cb` 與 `stream_prepare_cb`），另外還有一個選用的回呼函式（`filter_prepare_cb`）。
 
-If the output plugin callbacks for decoding two-phase commit commands are
-provided, then on `PREPARE TRANSACTION`, the changes of
-that transaction are decoded, passed to the output plugin, and the
-`prepare_cb` callback is invoked. This differs from the
-basic decoding setup where changes are only passed to the output plugin
-when a transaction is committed. The start of a prepared transaction is
-indicated by the `begin_prepare_cb` callback.
+如果提供了用來解碼兩階段提交命令的輸出外掛程式回呼函式，那麼在執行 `PREPARE TRANSACTION` 時，該交易的變更就會被解碼、傳遞給輸出外掛程式，並呼叫 `prepare_cb` 回呼函式。這與基本的解碼設定不同，在基本設定中，變更只有在交易提交時才會被傳遞給輸出外掛程式。已備妥交易的開始，會以 `begin_prepare_cb` 回呼函式來表示。
 
-When a prepared transaction is rolled back using the
-`ROLLBACK PREPARED`, then the
-`rollback_prepared_cb` callback is invoked and when the
-prepared transaction is committed using `COMMIT PREPARED`,
-then the `commit_prepared_cb` callback is invoked.
+當使用 `ROLLBACK PREPARED` 回復一個已備妥的交易時，會呼叫 `rollback_prepared_cb` 回呼函式；而當使用 `COMMIT PREPARED` 提交已備妥的交易時，則會呼叫 `commit_prepared_cb` 回呼函式。
 
-Optionally the output plugin can define filtering rules via
-`filter_prepare_cb` to decode only specific transaction
-in two phases. This can be achieved by pattern matching on the
-*`gid`* or via lookups using the
-*`xid`*.
+輸出外掛程式也可以選擇性地透過 `filter_prepare_cb` 定義篩選規則，只以兩階段方式解碼特定的交易。這可以透過對 *`gid`* 進行樣式比對，或是使用 *`xid`* 查詢來達成。
 
-The users that want to decode prepared transactions need to be careful about
-below mentioned points:
+想要解碼已備妥交易的使用者，需要注意以下幾點：
 
-* If the prepared transaction has locked [user] catalog tables exclusively
-  then decoding prepare can block till the main transaction is committed.
-* The logical replication solution that builds distributed two phase commit
-  using this feature can deadlock if the prepared transaction has locked
-  [user] catalog tables exclusively. To avoid this users must refrain from
-  having locks on catalog tables (e.g. explicit `LOCK` command)
-  in such transactions.
-  See [Section 47.8.2](logicaldecoding-synchronous.md#LOGICALDECODING-SYNCHRONOUS-CAVEATS) for the details.
+* 如果已備妥的交易以互斥方式鎖定了［使用者的］目錄資料表，那麼解碼備妥動作可能會被阻塞，直到主交易提交為止。
+* 使用這項功能來建構分散式兩階段提交的邏輯複寫解決方案，如果已備妥的交易以互斥方式鎖定了［使用者的］目錄資料表，就可能發生死結。為了避免這種情況，使用者必須避免在這類交易中對目錄資料表加鎖（例如明確的 `LOCK` 命令）。詳情請參閱[第 47.8.2 節](logicaldecoding-synchronous.md#LOGICALDECODING-SYNCHRONOUS-CAVEATS)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logicaldecoding-two-phase-commits.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logicaldecoding-two-phase-commits.html)（原文版本：18.6；核對日期：2026-09-15）
