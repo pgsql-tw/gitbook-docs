@@ -1,44 +1,15 @@
-## 47.9. Streaming of Large Transactions for Logical Decoding [#](#LOGICALDECODING-STREAMING)
+<a id="LOGICALDECODING-STREAMING"></a>
+## 47.9. 邏輯解碼的大型交易串流 [#](#LOGICALDECODING-STREAMING)
 
-The basic output plugin callbacks (e.g., `begin_cb`,
-`change_cb`, `commit_cb` and
-`message_cb`) are only invoked when the transaction
-actually commits. The changes are still decoded from the transaction
-log, but are only passed to the output plugin at commit (and discarded
-if the transaction aborts).
+基本的輸出外掛程式回呼函式（例如 `begin_cb`、`change_cb`、`commit_cb` 與 `message_cb`），只有在交易真正提交時才會被呼叫。變更仍然會從交易日誌中逐步解碼，但只有在提交時（也就是從交易日誌中解碼出提交動作時）才會被傳遞給輸出外掛程式，如果交易中止，這些變更就會被捨棄。
 
-This means that while the decoding happens incrementally, and may spill
-to disk to keep memory usage under control, all the decoded changes have
-to be transmitted when the transaction finally commits (or more precisely,
-when the commit is decoded from the transaction log). Depending on the
-size of the transaction and network bandwidth, the transfer time may
-significantly increase the apply lag.
+這表示雖然解碼是逐步進行的，而且可能會溢出至磁碟以控制記憶體用量，但所有已解碼的變更，都必須等到交易最終提交時才能傳送（或者更精確地說，是在從交易日誌中解碼出提交動作時）。視交易的大小與網路頻寬而定，這段傳輸時間可能會大幅增加套用延遲。
 
-To reduce the apply lag caused by large transactions, an output plugin
-may provide additional callback to support incremental streaming of
-in-progress transactions. There are multiple required streaming callbacks
-(`stream_start_cb`, `stream_stop_cb`,
-`stream_abort_cb`, `stream_commit_cb`
-and `stream_change_cb`) and two optional callbacks
-(`stream_message_cb` and `stream_truncate_cb`).
-Also, if streaming of two-phase commands is to be supported, then additional
-callbacks must be provided. (See [Section 47.10](logicaldecoding-two-phase-commits.md)
-for details).
+為了減少大型交易所造成的套用延遲，輸出外掛程式可以提供額外的回呼函式，以支援對進行中交易的漸進式串流。有多個串流回呼函式是必要的（`stream_start_cb`、`stream_stop_cb`、`stream_abort_cb`、`stream_commit_cb` 與 `stream_change_cb`），另外還有兩個選用的回呼函式（`stream_message_cb` 與 `stream_truncate_cb`）。此外，如果要支援兩階段命令的串流，就必須提供額外的回呼函式（詳情請見[第 47.10 節](logicaldecoding-two-phase-commits.md)）。
 
-When streaming an in-progress transaction, the changes (and messages) are
-streamed in blocks demarcated by `stream_start_cb`
-and `stream_stop_cb` callbacks. Once all the decoded
-changes are transmitted, the transaction can be committed using the
-`stream_commit_cb` callback
-(or possibly aborted using the `stream_abort_cb` callback).
-If two-phase commits are supported, the transaction can be prepared using the
-`stream_prepare_cb` callback,
-`COMMIT PREPARED` using the
-`commit_prepared_cb` callback or aborted using the
-`rollback_prepared_cb`.
+在串流一個進行中的交易時，變更（與訊息）會以 `stream_start_cb` 與 `stream_stop_cb` 回呼函式所劃分出的區塊方式串流傳送。等到所有已解碼的變更都傳送完畢後，就可以使用 `stream_commit_cb` 回呼函式提交該交易（或使用 `stream_abort_cb` 回呼函式將其中止）。如果支援兩階段提交，則可以使用 `stream_prepare_cb` 回呼函式備妥該交易，再以 `commit_prepared_cb` 回呼函式執行 `COMMIT PREPARED`，或以 `rollback_prepared_cb` 將其中止。
 
-One example sequence of streaming callback calls for one transaction may
-look like this:
+以下是某個交易的串流回呼函式呼叫順序範例：
 
 ```
 
@@ -69,23 +40,12 @@ stream_prepare_cb(...);   <-- prepare the streamed transaction
 commit_prepared_cb(...);  <-- commit of the prepared transaction
 ```
 
-The actual sequence of callback calls may be more complicated, of course.
-There may be blocks for multiple streamed transactions, some of the
-transactions may get aborted, etc.
+當然，實際的回呼函式呼叫順序可能會更複雜。可能會有多個串流交易各自的區塊、其中某些交易可能會被中止，等等。
 
-Similar to spill-to-disk behavior, streaming is triggered when the total
-amount of changes decoded from the WAL (for all in-progress transactions)
-exceeds the limit defined by `logical_decoding_work_mem` setting.
-At that point, the largest top-level transaction (measured by the amount of memory
-currently used for decoded changes) is selected and streamed. However, in
-some cases we still have to spill to disk even if streaming is enabled
-because we exceed the memory threshold but still have not decoded the
-complete tuple e.g., only decoded toast table insert but not the main table
-insert.
+與溢出至磁碟的行為類似，當從 WAL 解碼出的變更總量（涵蓋所有進行中的交易）超過 `logical_decoding_work_mem` 設定所定義的限制時，就會觸發串流。此時，系統會選出最大的頂層交易（依目前用於已解碼變更的記憶體用量來衡量）並加以串流。不過，在某些情況下，即使已啟用串流，我們仍然必須溢出至磁碟，因為雖然超過了記憶體門檻，卻仍然尚未解碼出完整的資料列，例如只解碼出了 TOAST 資料表的插入，卻還沒有解碼出主資料表的插入。
 
-Even when streaming large transactions, the changes are still applied in
-commit order, preserving the same guarantees as the non-streaming mode.
+即使在串流大型交易時，變更仍然會依提交順序套用，維持與非串流模式相同的保證。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logicaldecoding-streaming.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logicaldecoding-streaming.html)（原文版本：18.6；核對日期：2026-09-15）

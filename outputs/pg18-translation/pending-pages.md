@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：703 頁。
+待譯頁面：702 頁。
 
 ## 根目錄
 
@@ -876,7 +876,7 @@
 - [ ] `server-programming/logicaldecoding/logicaldecoding-explanation.md` — 47.2. Logical Decoding Concepts #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-output-plugin.md` — 47.6. Logical Decoding Output Plugins #
 - [x] `server-programming/logicaldecoding/logicaldecoding-sql.md` — 47.4. Logical Decoding SQL Interface #
-- [ ] `server-programming/logicaldecoding/logicaldecoding-streaming.md` — 47.9. Streaming of Large Transactions for Logical Decoding #
+- [x] `server-programming/logicaldecoding/logicaldecoding-streaming.md` — 47.9. 邏輯解碼的大型交易串流 #
 - [x] `server-programming/logicaldecoding/logicaldecoding-synchronous.md` — 47.8. 邏輯解碼的同步複寫支援 #
 - [x] `server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md` — 47.10. 邏輯解碼的兩階段提交支援 #
 - [x] `server-programming/logicaldecoding/logicaldecoding-walsender.md` — 47.3. Streaming Replication Protocol Interface #

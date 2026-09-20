@@ -593,7 +593,7 @@
     * [47.6. Logical Decoding Output Plugins #](server-programming/logicaldecoding/logicaldecoding-output-plugin.md)
     * [47.7. 邏輯解碼輸出寫入器 #](server-programming/logicaldecoding/logicaldecoding-writer.md)
     * [47.8. 邏輯解碼的同步複寫支援 #](server-programming/logicaldecoding/logicaldecoding-synchronous.md)
-    * [47.9. Streaming of Large Transactions for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-streaming.md)
+    * [47.9. 邏輯解碼的大型交易串流 #](server-programming/logicaldecoding/logicaldecoding-streaming.md)
     * [47.10. 邏輯解碼的兩階段提交支援 #](server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md)
   * [第 48 章 複寫進度追蹤](server-programming/replication-origins/README.md)
   * [Chapter 49. Archive Modules](server-programming/archive-modules/README.md)
