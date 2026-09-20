@@ -460,7 +460,7 @@
     * [37.3. Writing Trigger Functions in C #](server-programming/triggers/trigger-interface.md)
     * [37.4. 完整的觸發程序範例 #](server-programming/triggers/trigger-example.md)
   * [第 38 章 事件觸發程序](server-programming/event-triggers/README.md)
-    * [38.1. Overview of Event Trigger Behavior #](server-programming/event-triggers/event-trigger-definition.md)
+    * [38.1. 事件觸發程序行為概觀 #](server-programming/event-triggers/event-trigger-definition.md)
     * [38.2. 以 C 撰寫事件觸發程序函式 #](server-programming/event-triggers/event-trigger-interface.md)
     * [38.3. 完整的事件觸發程序範例 #](server-programming/event-triggers/event-trigger-example.md)
     * [38.4. A Table Rewrite Event Trigger Example #](server-programming/event-triggers/event-trigger-table-rewrite-example.md)
