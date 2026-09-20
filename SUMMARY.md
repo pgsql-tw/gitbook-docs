@@ -462,7 +462,7 @@
   * [第 38 章 事件觸發程序](server-programming/event-triggers/README.md)
     * [38.1. Overview of Event Trigger Behavior #](server-programming/event-triggers/event-trigger-definition.md)
     * [38.2. Writing Event Trigger Functions in C #](server-programming/event-triggers/event-trigger-interface.md)
-    * [38.3. A Complete Event Trigger Example #](server-programming/event-triggers/event-trigger-example.md)
+    * [38.3. 完整的事件觸發程序範例 #](server-programming/event-triggers/event-trigger-example.md)
     * [38.4. A Table Rewrite Event Trigger Example #](server-programming/event-triggers/event-trigger-table-rewrite-example.md)
     * [38.5. A Database Login Event Trigger Example #](server-programming/event-triggers/event-trigger-database-login-example.md)
   * [第 39 章 規則系統](server-programming/rules/README.md)

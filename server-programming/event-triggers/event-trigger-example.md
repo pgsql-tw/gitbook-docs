@@ -1,16 +1,11 @@
-## 38.3. A Complete Event Trigger Example [#](#EVENT-TRIGGER-EXAMPLE)
+<a id="EVENT-TRIGGER-EXAMPLE"></a>
+## 38.3. 完整的事件觸發程序範例 [#](#EVENT-TRIGGER-EXAMPLE)
 
-Here is a very simple example of an event trigger function written in C.
-(Examples of triggers written in procedural languages can be found in
-the documentation of the procedural languages.)
+以下是一個以 C 撰寫的非常簡單的事件觸發程序函式範例。（以程序語言撰寫的觸發程序範例，可以在各程序語言各自的文件中找到。）
 
-The function `noddl` raises an exception each time it is called.
-The event trigger definition associated the function with
-the `ddl_command_start` event. The effect is that all DDL
-commands (with the exceptions mentioned
-in [Section 38.1](event-trigger-definition.md)) are prevented from running.
+函式 `noddl` 每次被呼叫時都會拋出一個例外。這個事件觸發程序的定義，把該函式與 `ddl_command_start` 事件關聯起來。其效果就是所有 DDL 命令（除了[第 38.1 節](event-trigger-definition.md)中提到的例外情況）都會被阻止執行。
 
-This is the source code of the trigger function:
+以下是該觸發程序函式的原始碼：
 
 ```
 
@@ -42,8 +37,7 @@ noddl(PG_FUNCTION_ARGS)
 }
 ```
 
-After you have compiled the source code (see [Section 36.10.5](../extend/xfunc-c.md#DFUNC)),
-declare the function and the triggers:
+編譯完原始碼之後（見[第 36.10.5 節](../extend/xfunc-c.md#DFUNC)），宣告函式與觸發程序：
 
 ```
 
@@ -54,7 +48,7 @@ CREATE EVENT TRIGGER noddl ON ddl_command_start
     EXECUTE FUNCTION noddl();
 ```
 
-Now you can test the operation of the trigger:
+現在你可以測試這個觸發程序的運作：
 
 ```
 
@@ -69,10 +63,7 @@ Now you can test the operation of the trigger:
 ERROR:  command "CREATE TABLE" denied
 ```
 
-In this situation, in order to be able to run some DDL commands when you
-need to do so, you have to either drop the event trigger or disable it. It
-can be convenient to disable the trigger for only the duration of a
-transaction:
+在這種情況下，如果你需要能夠執行某些 DDL 命令，就必須刪除該事件觸發程序，或是將它停用。你也可以只在某個交易期間停用該觸發程序，這樣會比較方便：
 
 ```
 
@@ -83,9 +74,8 @@ ALTER EVENT TRIGGER noddl ENABLE;
 COMMIT;
 ```
 
-(Recall that DDL commands on event triggers themselves are not affected by
-event triggers.)
+（回想一下，事件觸發程序本身的 DDL 命令，並不會受到事件觸發程序的影響。）
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/event-trigger-example.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/event-trigger-example.html)（原文版本：18.6；核對日期：2026-09-15）
