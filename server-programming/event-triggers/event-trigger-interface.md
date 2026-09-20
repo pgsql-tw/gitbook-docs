@@ -1,45 +1,29 @@
-## 38.2. Writing Event Trigger Functions in C [#](#EVENT-TRIGGER-INTERFACE)
+<a id="EVENT-TRIGGER-INTERFACE"></a>
+## 38.2. 以 C 撰寫事件觸發程序函式 [#](#EVENT-TRIGGER-INTERFACE)
 
 <a id="id-1.8.5.6.2"></a>
 
-This section describes the low-level details of the interface to an
-event trigger function. This information is only needed when writing
-event trigger functions in C. If you are using a higher-level language
-then these details are handled for you. In most cases you should
-consider using a procedural language before writing your event triggers
-in C. The documentation of each procedural language explains how to
-write an event trigger in that language.
+本節說明事件觸發程序函式介面的底層細節。只有在以 C 撰寫事件觸發程序函式時，才需要這些資訊。如果你使用的是較高階的語言，這些細節就會由該語言替你處理。在大多數情況下，你應該考慮先使用程序語言，而不是直接以 C 撰寫事件觸發程序。每種程序語言各自的文件，都說明了如何以該語言撰寫事件觸發程序。
 
-Event trigger functions must use the “version 1” function
-manager interface.
+事件觸發程序函式必須使用「第一版」函式管理器介面。
 
-When a function is called by the event trigger manager, it is not passed
-any normal arguments, but it is passed a “context” pointer
-pointing to a `EventTriggerData` structure. C functions can
-check whether they were called from the event trigger manager or not by
-executing the macro:
+當函式被事件觸發程序管理器呼叫時，不會傳入任何一般引數，而是會傳入一個指向 `EventTriggerData` 結構的「上下文」指標。C 函式可以透過執行以下巨集，來檢查自己是否是被事件觸發程序管理器呼叫的：
 
 ```
 
 CALLED_AS_EVENT_TRIGGER(fcinfo)
 ```
 
-which expands to:
+這個巨集會展開為：
 
 ```
 
 ((fcinfo)->context != NULL && IsA((fcinfo)->context, EventTriggerData))
 ```
 
-If this returns true, then it is safe to cast
-`fcinfo->context` to type `EventTriggerData
-*` and make use of the pointed-to
-`EventTriggerData` structure. The function must
-*not* alter the `EventTriggerData`
-structure or any of the data it points to.
+如果這個結果為真，那麼就可以安全地把 `fcinfo->context` 轉型為 `EventTriggerData *` 型別，並使用它所指向的 `EventTriggerData` 結構。函式*不可*變更 `EventTriggerData` 結構，或它所指向的任何資料。
 
-`struct EventTriggerData` is defined in
-`commands/event_trigger.h`:
+`struct EventTriggerData` 定義於 `commands/event_trigger.h` 中：
 
 ```
 
@@ -52,32 +36,22 @@ typedef struct EventTriggerData
 } EventTriggerData;
 ```
 
-where the members are defined as follows:
+其中各成員的定義如下：
 
 `type`
-:   Always `T_EventTriggerData`.
+:   永遠是 `T_EventTriggerData`。
 
 `event`
-:   Describes the event for which the function is called, one of
-    `"login"`, `"ddl_command_start"`,
-    `"ddl_command_end"`, `"sql_drop"`,
-    `"table_rewrite"`.
-    See [Section 38.1](event-trigger-definition.md) for the meaning of these
-    events.
+:   描述呼叫該函式所對應的事件，可以是 `"login"`、`"ddl_command_start"`、`"ddl_command_end"`、`"sql_drop"`、`"table_rewrite"` 其中之一。這些事件的意義請參閱[第 38.1 節](event-trigger-definition.md)。
 
 `parsetree`
-:   A pointer to the parse tree of the command. Check the PostgreSQL
-    source code for details. The parse tree structure is subject to change
-    without notice.
+:   指向該命令剖析樹的指標。詳情請查閱 PostgreSQL 原始碼。剖析樹的結構可能隨時變更，恕不另行通知。
 
 `tag`
-:   The command tag associated with the event for which the event trigger
-    is run, for example `"CREATE FUNCTION"`.
+:   與執行該事件觸發程序之事件相關聯的命令標籤，例如 `"CREATE FUNCTION"`。
 
-An event trigger function must return a `NULL` pointer
-(*not* an SQL null value, that is, do not
-set *`isNull`* true).
+事件觸發程序函式必須回傳一個 `NULL` 指標（*不是* SQL 空值，也就是說，不要把 *`isNull`* 設為 true）。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/event-trigger-interface.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/event-trigger-interface.html)（原文版本：18.6；核對日期：2026-09-15）

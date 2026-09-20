@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：705 頁。
+待譯頁面：704 頁。
 
 ## 根目錄
 
@@ -849,7 +849,7 @@
 - [ ] `server-programming/event-triggers/event-trigger-database-login-example.md` — 38.5. A Database Login Event Trigger Example #
 - [ ] `server-programming/event-triggers/event-trigger-definition.md` — 38.1. Overview of Event Trigger Behavior #
 - [x] `server-programming/event-triggers/event-trigger-example.md` — 38.3. 完整的事件觸發程序範例 #
-- [ ] `server-programming/event-triggers/event-trigger-interface.md` — 38.2. Writing Event Trigger Functions in C #
+- [x] `server-programming/event-triggers/event-trigger-interface.md` — 38.2. 以 C 撰寫事件觸發程序函式 #
 - [ ] `server-programming/event-triggers/event-trigger-table-rewrite-example.md` — 38.4. A Table Rewrite Event Trigger Example #
 - [ ] `server-programming/extend/README.md` — Chapter 36. Extending SQL
 - [ ] `server-programming/extend/extend-extensions.md` — 36.17. Packaging Related Objects into an Extension #
