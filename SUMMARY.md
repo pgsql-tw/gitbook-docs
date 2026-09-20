@@ -599,7 +599,7 @@
   * [Chapter 49. Archive Modules](server-programming/archive-modules/README.md)
     * [49.1. 初始化函式](server-programming/archive-modules/archive-module-init.md)
     * [49.2. Archive Module Callbacks #](server-programming/archive-modules/archive-module-callbacks.md)
-  * [Chapter 50. OAuth Validator Modules](server-programming/oauth-validators/README.md)
+  * [第 50 章 OAuth 驗證器模組](server-programming/oauth-validators/README.md)
     * [50.1. Safely Designing a Validator Module #](server-programming/oauth-validators/oauth-validator-design.md)
     * [50.2. Initialization Functions #](server-programming/oauth-validators/oauth-validator-init.md)
     * [50.3. OAuth Validator Callbacks #](server-programming/oauth-validators/oauth-validator-callbacks.md)

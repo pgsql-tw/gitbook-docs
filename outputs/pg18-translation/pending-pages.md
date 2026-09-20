@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：708 頁。
+待譯頁面：707 頁。
 
 ## 根目錄
 
@@ -881,7 +881,7 @@
 - [x] `server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md` — 47.10. 邏輯解碼的兩階段提交支援 #
 - [x] `server-programming/logicaldecoding/logicaldecoding-walsender.md` — 47.3. Streaming Replication Protocol Interface #
 - [x] `server-programming/logicaldecoding/logicaldecoding-writer.md` — 47.7. Logical Decoding Output Writers #
-- [ ] `server-programming/oauth-validators/README.md` — Chapter 50. OAuth Validator Modules
+- [x] `server-programming/oauth-validators/README.md` — 第 50 章 OAuth 驗證器模組
 - [ ] `server-programming/oauth-validators/oauth-validator-callbacks.md` — 50.3. OAuth Validator Callbacks #
 - [ ] `server-programming/oauth-validators/oauth-validator-design.md` — 50.1. Safely Designing a Validator Module #
 - [ ] `server-programming/oauth-validators/oauth-validator-init.md` — 50.2. Initialization Functions #
