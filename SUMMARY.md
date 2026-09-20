@@ -137,7 +137,7 @@
     * [11.7. 運算式索引 #](the-sql-language/indexes/indexes-expressional.md)
     * [11.8. 部分索引 #](the-sql-language/indexes/indexes-partial.md)
     * [11.9. 僅索引掃描與涵蓋索引 #](the-sql-language/indexes/indexes-index-only-scans.md)
-    * [11.10. Operator Classes and Operator Families #](the-sql-language/indexes/indexes-opclass.md)
+    * [11.10. 運算子類別與運算子族系 #](the-sql-language/indexes/indexes-opclass.md)
     * [11.11. 索引與定序](the-sql-language/indexes/indexes-collations.md)
     * [11.12. 檢查索引的使用情形 #](the-sql-language/indexes/indexes-examine.md)
   * [第 12 章 全文檢索](the-sql-language/textsearch/README.md)
