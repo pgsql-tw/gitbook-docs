@@ -1,54 +1,54 @@
-## 43.3. Built-in Functions [#](#PLPERL-BUILTINS)
+<a id="PLPERL-BUILTINS"></a>
+## 43.3. 內建函式 [#](#PLPERL-BUILTINS)
 
-[43.3.1. Database Access from PL/Perl](plperl-builtins.md#PLPERL-DATABASE)
+[43.3.1. 從 PL/Perl 存取資料庫](plperl-builtins.md#PLPERL-DATABASE)
 
-[43.3.2. Utility Functions in PL/Perl](plperl-builtins.md#PLPERL-UTILITY-FUNCTIONS)
+[43.3.2. PL/Perl 中的公用函式](plperl-builtins.md#PLPERL-UTILITY-FUNCTIONS)
 
 <a id="PLPERL-DATABASE"></a>
 
-### 43.3.1. Database Access from PL/Perl [#](#PLPERL-DATABASE)
+### 43.3.1. 從 PL/Perl 存取資料庫 [#](#PLPERL-DATABASE)
 
-Access to the database itself from your Perl function can be done
-via the following functions:
+要從您的 Perl 函式存取資料庫本身，
+可以透過以下函式來完成：
 
 `spi_exec_query(query [, limit])` <a id="id-1.8.10.11.2.3.1.1.2"></a>
-:   `spi_exec_query` executes an SQL command and
-    returns the entire row set as a reference to an array of hash references.
-    If *`limit`* is specified and is greater than zero,
-    then `spi_exec_query` retrieves at
-    most *`limit`* rows, much as if the query included
-    a `LIMIT` clause. Omitting *`limit`*
-    or specifying it as zero results in no row limit.
+:   `spi_exec_query` 會執行一個 SQL 指令，
+    並將整個資料列集合以雜湊參照陣列的參照形式傳回。
+    若指定了 *`limit`* 且其值大於零，
+    則 `spi_exec_query` 最多會取回
+    *`limit`* 列，效果就如同查詢中包含了
+    `LIMIT` 子句一樣。省略 *`limit`*
+    或將其指定為零，則不會有資料列數量的限制。
 
-    *You should only use this command when you know
-    that the result set will be relatively small.* Here is an
-    example of a query (`SELECT` command) with the
-    optional maximum number of rows:
+    *您只應該在知道結果集會相對較小時，才使用這個指令。*
+    以下是一個帶有選擇性列數上限的查詢
+    （`SELECT` 指令）範例：
 
     ```
 
     $rv = spi_exec_query('SELECT * FROM my_table', 5);
     ```
 
-    This returns up to 5 rows from the table
-    `my_table`. If `my_table`
-    has a column `my_column`, you can get that
-    value from row `$i` of the result like this:
+    這會從資料表 `my_table`
+    傳回最多 5 列。若 `my_table`
+    有一個欄位 `my_column`，您可以像這樣
+    取得結果中第 `$i` 列的該欄位值：
 
     ```
 
     $foo = $rv->{rows}[$i]->{my_column};
     ```
 
-    The total number of rows returned from a `SELECT`
-    query can be accessed like this:
+    可以像這樣取得 `SELECT`
+    查詢所傳回的總列數：
 
     ```
 
     $nrows = $rv->{processed}
     ```
 
-    Here is an example using a different command type:
+    以下是使用另一種指令類型的範例：
 
     ```
 
@@ -56,22 +56,22 @@ via the following functions:
     $rv = spi_exec_query($query);
     ```
 
-    You can then access the command status (e.g.,
-    `SPI_OK_INSERT`) like this:
+    接著您可以像這樣取得指令狀態（例如
+    `SPI_OK_INSERT`）：
 
     ```
 
     $res = $rv->{status};
     ```
 
-    To get the number of rows affected, do:
+    若要取得受影響的列數，請執行：
 
     ```
 
     $nrows = $rv->{processed};
     ```
 
-    Here is a complete example:
+    以下是一個完整的範例：
 
     ```
 
@@ -102,12 +102,12 @@ via the following functions:
     ```
 
 `spi_query(command)` <a id="id-1.8.10.11.2.3.2.1.2"></a> <br> `spi_fetchrow(cursor)` <a id="id-1.8.10.11.2.3.2.2.2"></a> <br> `spi_cursor_close(cursor)` <a id="id-1.8.10.11.2.3.2.3.2"></a>
-:   `spi_query` and `spi_fetchrow`
-    work together as a pair for row sets which might be large, or for cases
-    where you wish to return rows as they arrive.
-    `spi_fetchrow` works *only* with
-    `spi_query`. The following example illustrates how
-    you use them together:
+:   `spi_query` 與 `spi_fetchrow`
+    搭配運作，可用於處理可能很大的資料列集合，或用於
+    您希望在資料列到達時就逐一傳回的情況。
+    `spi_fetchrow` *只能* 與
+    `spi_query` 搭配使用。以下範例說明了
+    如何一起使用它們：
 
     ```
 
@@ -139,20 +139,20 @@ via the following functions:
     SELECT * from lotsa_md5(500);
     ```
 
-    Normally, `spi_fetchrow` should be repeated until it
-    returns `undef`, indicating that there are no more
-    rows to read. The cursor returned by `spi_query`
-    is automatically freed when
-    `spi_fetchrow` returns `undef`.
-    If you do not wish to read all the rows, instead call
-    `spi_cursor_close` to free the cursor.
-    Failure to do so will result in memory leaks.
+    正常情況下，`spi_fetchrow` 應該反覆呼叫，
+    直到它傳回 `undef` 為止，這表示已經
+    沒有更多資料列可讀取。`spi_query`
+    所傳回的游標，會在
+    `spi_fetchrow` 傳回 `undef` 時自動釋放。
+    若您不希望讀取所有資料列，可改為呼叫
+    `spi_cursor_close` 來釋放游標。
+    若未這麼做，將會導致記憶體洩漏。
 
 `spi_prepare(command, argument types)` <a id="id-1.8.10.11.2.3.3.1.2"></a> <br> `spi_query_prepared(plan, arguments)` <a id="id-1.8.10.11.2.3.3.2.2"></a> <br> `spi_exec_prepared(plan [, attributes], arguments)` <a id="id-1.8.10.11.2.3.3.3.2"></a> <br> `spi_freeplan(plan)` <a id="id-1.8.10.11.2.3.3.4.2"></a>
-:   `spi_prepare`, `spi_query_prepared`, `spi_exec_prepared`,
-    and `spi_freeplan` implement the same functionality but for prepared queries.
-    `spi_prepare` accepts a query string with numbered argument placeholders ($1, $2, etc.)
-    and a string list of argument types:
+:   `spi_prepare`、`spi_query_prepared`、`spi_exec_prepared`
+    與 `spi_freeplan` 實作了相同的功能，但用於預備（prepared）查詢。
+    `spi_prepare` 接受一個含有編號引數佔位符（$1、$2 等）的查詢字串，
+    以及一份引數型別的字串清單：
 
     ```
 
@@ -160,19 +160,21 @@ via the following functions:
                                                          'INTEGER', 'TEXT');
     ```
 
-    Once a query plan is prepared by a call to `spi_prepare`, the plan can be used instead
-    of the string query, either in `spi_exec_prepared`, where the result is the same as returned
-    by `spi_exec_query`, or in `spi_query_prepared` which returns a cursor
-    exactly as `spi_query` does, which can be later passed to `spi_fetchrow`.
-    The optional second parameter to `spi_exec_prepared` is a hash reference of attributes;
-    the only attribute currently supported is `limit`, which
-    sets the maximum number of rows returned from the query.
-    Omitting `limit` or specifying it as zero results in no
-    row limit.
+    一旦透過呼叫 `spi_prepare` 準備好查詢計畫後，
+    就可以使用該計畫來取代字串查詢，可以用於
+    `spi_exec_prepared`（其結果與 `spi_exec_query`
+    傳回的結果相同），也可以用於 `spi_query_prepared`
+    （其傳回的游標與 `spi_query` 完全相同，
+    可以稍後傳給 `spi_fetchrow`）。
+    `spi_exec_prepared` 選用的第二個參數，是一個屬性的雜湊參照；
+    目前唯一支援的屬性是 `limit`，
+    用於設定查詢傳回的最大列數。
+    省略 `limit` 或將其指定為零，則不會有
+    列數限制。
 
-    The advantage of prepared queries is that is it possible to use one prepared plan for more
-    than one query execution. After the plan is not needed anymore, it can be freed with
-    `spi_freeplan`:
+    預備查詢的優點在於，可以將一個預備好的計畫用於
+    多次查詢執行。當不再需要該計畫時，可以使用
+    `spi_freeplan` 將其釋放：
 
     ```
 
@@ -202,11 +204,11 @@ via the following functions:
      2005-12-10 | 2005-12-11 | 2005-12-12
     ```
 
-    Note that the parameter subscript in `spi_prepare` is defined via
-    $1, $2, $3, etc., so avoid declaring query strings in double quotes that might easily
-    lead to hard-to-catch bugs.
+    請注意，`spi_prepare` 中的參數下標是透過
+    $1、$2、$3 等來定義的，因此請避免以雙引號宣告查詢字串，
+    否則可能很容易導致難以察覺的錯誤。
 
-    Another example illustrates usage of an optional parameter in `spi_exec_prepared`:
+    另一個範例說明了 `spi_exec_prepared` 中選用參數的用法：
 
     ```
 
@@ -243,16 +245,16 @@ via the following functions:
     ```
 
 `spi_commit()` <a id="id-1.8.10.11.2.3.4.1.2"></a> <br> `spi_rollback()` <a id="id-1.8.10.11.2.3.4.2.2"></a>
-:   Commit or roll back the current transaction. This can only be called
-    in a procedure or anonymous code block (`DO` command)
-    called from the top level. (Note that it is not possible to run the
-    SQL commands `COMMIT` or `ROLLBACK`
-    via `spi_exec_query` or similar. It has to be done
-    using these functions.) After a transaction is ended, a new
-    transaction is automatically started, so there is no separate function
-    for that.
+:   提交（commit）或回復（roll back）目前的交易。這只能在
+    從最上層呼叫的程序（procedure）或匿名程式碼區塊
+    （`DO` 指令）中呼叫。（請注意，
+    無法透過 `spi_exec_query` 或類似的方式來執行
+    SQL 指令 `COMMIT` 或 `ROLLBACK`。
+    必須使用這些函式來完成。）交易結束後，
+    會自動啟動一個新的交易，因此不需要另外
+    提供相對應的函式。
 
-    Here is an example:
+    以下是一個範例：
 
     ```
 
@@ -274,80 +276,78 @@ via the following functions:
 
 <a id="PLPERL-UTILITY-FUNCTIONS"></a>
 
-### 43.3.2. Utility Functions in PL/Perl [#](#PLPERL-UTILITY-FUNCTIONS)
+### 43.3.2. PL/Perl 中的公用函式 [#](#PLPERL-UTILITY-FUNCTIONS)
 
 `elog(level, msg)` <a id="id-1.8.10.11.3.2.1.1.2"></a>
-:   Emit a log or error message. Possible levels are
-    `DEBUG`, `LOG`, `INFO`,
-    `NOTICE`, `WARNING`, and `ERROR`.
+:   發出一則記錄或錯誤訊息。可用的層級有
+    `DEBUG`、`LOG`、`INFO`、
+    `NOTICE`、`WARNING` 與 `ERROR`。
     `ERROR`
-    raises an error condition; if this is not trapped by the surrounding
-    Perl code, the error propagates out to the calling query, causing
-    the current transaction or subtransaction to be aborted. This
-    is effectively the same as the Perl `die` command.
-    The other levels only generate messages of different
-    priority levels.
-    Whether messages of a particular priority are reported to the client,
-    written to the server log, or both is controlled by the
-    [log_min_messages](../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) and
-    [client_min_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES) configuration
-    variables. See [Chapter 19](../../server-administration/runtime-config/README.md) for more
-    information.
+    會引發一個錯誤情況；若周圍的
+    Perl 程式碼未攔截此錯誤，該錯誤會向外傳播到
+    呼叫方的查詢，導致目前的交易或子交易被中止。這
+    實質上等同於 Perl 的 `die` 指令。
+    其他層級只會產生不同優先順序層級的訊息。
+    特定優先順序的訊息是否會回報給用戶端、
+    寫入伺服器日誌，或兩者皆是，是由
+    [log_min_messages](../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) 與
+    [client_min_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES) 這兩個組態
+    變數所控制。詳情請參閱[第 19 章](../../server-administration/runtime-config/README.md)。
 
 `quote_literal(string)` <a id="id-1.8.10.11.3.2.2.1.2"></a>
-:   Return the given string suitably quoted to be used as a string literal in an SQL
-    statement string. Embedded single-quotes and backslashes are properly doubled.
-    Note that `quote_literal` returns undef on undef input; if the argument
-    might be undef, `quote_nullable` is often more suitable.
+:   傳回經過適當引號處理的字串，可用作 SQL
+    陳述式字串中的字串常值。內嵌的單引號與反斜線會被正確地加倍。
+    請注意，若輸入為 undef，`quote_literal` 會傳回 undef；若引數
+    有可能是 undef，通常使用 `quote_nullable` 較為合適。
 
 `quote_nullable(string)` <a id="id-1.8.10.11.3.2.3.1.2"></a>
-:   Return the given string suitably quoted to be used as a string literal in an SQL
-    statement string; or, if the argument is undef, return the unquoted string "NULL".
-    Embedded single-quotes and backslashes are properly doubled.
+:   傳回經過適當引號處理的字串，可用作 SQL
+    陳述式字串中的字串常值；若引數為 undef，則傳回未加引號的字串 "NULL"。
+    內嵌的單引號與反斜線會被正確地加倍。
 
 `quote_ident(string)` <a id="id-1.8.10.11.3.2.4.1.2"></a>
-:   Return the given string suitably quoted to be used as an identifier in
-    an SQL statement string. Quotes are added only if necessary (i.e., if
-    the string contains non-identifier characters or would be case-folded).
-    Embedded quotes are properly doubled.
+:   傳回經過適當引號處理的字串，可用作
+    SQL 陳述式字串中的識別字。只有在必要時
+    （亦即該字串包含非識別字字元，或大小寫會被摺疊）才會加上引號。
+    內嵌的引號會被正確地加倍。
 
 `decode_bytea(string)` <a id="id-1.8.10.11.3.2.5.1.2"></a>
-:   Return the unescaped binary data represented by the contents of the given string,
-    which should be `bytea` encoded.
+:   傳回由給定字串內容所表示的未逸出二進位資料，
+    該字串應以 `bytea` 編碼。
 
 `encode_bytea(string)` <a id="id-1.8.10.11.3.2.6.1.2"></a>
-:   Return the `bytea` encoded form of the binary data contents of the given string.
+:   傳回給定字串所含二進位資料內容的 `bytea` 編碼形式。
 
 `encode_array_literal(array)` <a id="id-1.8.10.11.3.2.7.1.2"></a> <br> `encode_array_literal(array, delimiter)`
-:   Returns the contents of the referenced array as a string in array literal format
-    (see [Section 8.15.2](../../the-sql-language/datatype/arrays.md#ARRAYS-INPUT)).
-    Returns the argument value unaltered if it's not a reference to an array.
-    The delimiter used between elements of the array literal defaults to "`,` "
-    if a delimiter is not specified or is undef.
+:   以陣列常值格式（請參閱[8.15.2 節](../../the-sql-language/datatype/arrays.md#ARRAYS-INPUT)），
+    將所參照陣列的內容以字串形式傳回。
+    若引數不是陣列的參照，則會原封不動地傳回該引數值。
+    陣列常值中各元素之間所使用的分隔符號，若未指定或為 undef，
+    預設為 "`,` "。
 
 `encode_typed_literal(value, typename)` <a id="id-1.8.10.11.3.2.8.1.2"></a>
-:   Converts a Perl variable to the value of the data type passed as a
-    second argument and returns a string representation of this value.
-    Correctly handles nested arrays and values of composite types.
+:   將一個 Perl 變數轉換為第二個引數所傳入的資料型別的值，
+    並傳回該值的字串表示形式。
+    能正確處理巢狀陣列以及複合型別的值。
 
 `encode_array_constructor(array)` <a id="id-1.8.10.11.3.2.9.1.2"></a>
-:   Returns the contents of the referenced array as a string in array constructor format
-    (see [Section 4.2.12](../../the-sql-language/sql-syntax/sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)).
-    Individual values are quoted using `quote_nullable`.
-    Returns the argument value, quoted using `quote_nullable`,
-    if it's not a reference to an array.
+:   以陣列建構子格式（請參閱[4.2.12 節](../../the-sql-language/sql-syntax/sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)），
+    將所參照陣列的內容以字串形式傳回。
+    各個值會使用 `quote_nullable` 加上引號。
+    若引數不是陣列的參照，則會傳回該引數值，並以
+    `quote_nullable` 加上引號。
 
 `looks_like_number(string)` <a id="id-1.8.10.11.3.2.10.1.2"></a>
-:   Returns a true value if the content of the given string looks like a
-    number, according to Perl, returns false otherwise.
-    Returns undef if the argument is undef. Leading and trailing space is
-    ignored. `Inf` and `Infinity` are regarded as numbers.
+:   若給定字串的內容在 Perl 看來像是一個
+    數字，則傳回一個真值，否則傳回假值。
+    若引數為 undef，則傳回 undef。開頭與結尾的空白
+    會被忽略。`Inf` 與 `Infinity` 會被視為數字。
 
 `is_array_ref(argument)` <a id="id-1.8.10.11.3.2.11.1.2"></a>
-:   Returns a true value if the given argument may be treated as an
-    array reference, that is, if ref of the argument is `ARRAY` or
-    `PostgreSQL::InServer::ARRAY`. Returns false otherwise.
+:   若給定的引數可被視為陣列參照，
+    亦即該引數的 ref 為 `ARRAY` 或
+    `PostgreSQL::InServer::ARRAY`，則傳回一個真值。否則傳回假值。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-builtins.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-builtins.html)（原文版本：18.6；核對日期：2026-09-16）

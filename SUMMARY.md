@@ -505,7 +505,7 @@
   * [第 43 章 PL/Perl — Perl 程序語言](server-programming/plperl/README.md)
     * [43.1. PL/Perl Functions and Arguments #](server-programming/plperl/plperl-funcs.md)
     * [43.2. PL/Perl 中的資料值](server-programming/plperl/plperl-data.md)
-    * [43.3. Built-in Functions #](server-programming/plperl/plperl-builtins.md)
+    * [43.3. 內建函式 #](server-programming/plperl/plperl-builtins.md)
     * [43.4. PL/Perl 中的全域值 #](server-programming/plperl/plperl-global.md)
     * [43.5. 受信任與不受信任的 PL/Perl #](server-programming/plperl/plperl-trusted.md)
     * [43.6. PL/Perl 觸發程序 #](server-programming/plperl/plperl-triggers.md)
