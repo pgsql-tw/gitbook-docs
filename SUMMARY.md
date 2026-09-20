@@ -464,7 +464,7 @@
     * [38.2. 以 C 撰寫事件觸發程序函式 #](server-programming/event-triggers/event-trigger-interface.md)
     * [38.3. 完整的事件觸發程序範例 #](server-programming/event-triggers/event-trigger-example.md)
     * [38.4. A Table Rewrite Event Trigger Example #](server-programming/event-triggers/event-trigger-table-rewrite-example.md)
-    * [38.5. A Database Login Event Trigger Example #](server-programming/event-triggers/event-trigger-database-login-example.md)
+    * [38.5. 資料庫登入事件觸發程序範例 #](server-programming/event-triggers/event-trigger-database-login-example.md)
   * [第 39 章 規則系統](server-programming/rules/README.md)
     * [39.1. 查詢樹 #](server-programming/rules/querytree.md)
     * [39.2. Views and the Rule System #](server-programming/rules/rules-views.md)

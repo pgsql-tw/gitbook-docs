@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：701 頁。
+待譯頁面：700 頁。
 
 ## 根目錄
 
@@ -846,7 +846,7 @@
 - [x] `server-programming/archive-modules/archive-module-init.md` — 49.1. 初始化函式
 - [ ] `server-programming/bgworker/README.md` — Chapter 46. Background Worker Processes
 - [x] `server-programming/event-triggers/README.md` — 第 38 章 事件觸發程序
-- [ ] `server-programming/event-triggers/event-trigger-database-login-example.md` — 38.5. A Database Login Event Trigger Example #
+- [x] `server-programming/event-triggers/event-trigger-database-login-example.md` — 38.5. 資料庫登入事件觸發程序範例 #
 - [ ] `server-programming/event-triggers/event-trigger-definition.md` — 38.1. Overview of Event Trigger Behavior #
 - [x] `server-programming/event-triggers/event-trigger-example.md` — 38.3. 完整的事件觸發程序範例 #
 - [x] `server-programming/event-triggers/event-trigger-interface.md` — 38.2. 以 C 撰寫事件觸發程序函式 #
