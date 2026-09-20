@@ -1,8 +1,9 @@
-## 43.1. PL/Perl Functions and Arguments [#](#PLPERL-FUNCS)
+<a id="PLPERL-FUNCS"></a>
+## 43.1. PL/Perl 函式與引數 [#](#PLPERL-FUNCS)
 
-To create a function in the PL/Perl language, use the standard
+若要建立 PL/Perl 語言的函式，請使用標準的
 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md)
-syntax:
+語法：
 
 ```
 
@@ -14,16 +15,15 @@ AS $$
 $$ LANGUAGE plperl;
 ```
 
-The body of the function is ordinary Perl code. In fact, the PL/Perl
-glue code wraps it inside a Perl subroutine. A PL/Perl function is
-called in a scalar context, so it can't return a list. You can return
-non-scalar values (arrays, records, and sets) by returning a reference,
-as discussed below.
+函式的主體是一般的 Perl 程式碼。事實上，PL/Perl 的
+膠合程式碼會將它包裝在一個 Perl 子常式中。PL/Perl 函式
+是在純量情境（scalar context）下呼叫的，因此無法傳回串列。您可以透過傳回參照的方式，
+傳回非純量的值（陣列、記錄與集合），詳情將於下文討論。
 
-In a PL/Perl procedure, any return value from the Perl code is ignored.
+在 PL/Perl 程序（procedure）中，Perl 程式碼傳回的任何值都會被忽略。
 
-PL/Perl also supports anonymous code blocks called with the
-[DO](../../reference/sql-commands/sql-do.md) statement:
+PL/Perl 也支援使用
+[DO](../../reference/sql-commands/sql-do.md) 陳述式呼叫的匿名程式碼區塊：
 
 ```
 
@@ -32,36 +32,36 @@ DO $$
 $$ LANGUAGE plperl;
 ```
 
-An anonymous code block receives no arguments, and whatever value it
-might return is discarded. Otherwise it behaves just like a function.
+匿名程式碼區塊不會接收任何引數，它可能傳回的任何值
+也都會被捨棄。除此之外，它的行為就跟函式一樣。
 
-### Note
+### 注意
 
-The use of named nested subroutines is dangerous in Perl, especially if
-they refer to lexical variables in the enclosing scope. Because a PL/Perl
-function is wrapped in a subroutine, any named subroutine you place inside
-one will be nested. In general, it is far safer to create anonymous
-subroutines which you call via a coderef. For more information, see the
-entries for `Variable "%s" will not stay shared` and
-`Variable "%s" is not available` in the
-perldiag man page, or
-search the Internet for “perl nested named subroutine”.
+在 Perl 中使用具名的巢狀子常式是危險的，尤其是當
+它們參照到外圍作用範圍中的詞法變數（lexical variable）時。由於 PL/Perl
+函式被包裝在一個子常式中，任何您放在其中的具名子常式都會變成巢狀的。
+一般而言，建立匿名子常式，再透過 coderef 呼叫它們，
+會安全得多。若要了解更多資訊，請參閱
+perldiag 手冊頁中關於
+`Variable "%s" will not stay shared` 與
+`Variable "%s" is not available` 的條目，或
+在網路上搜尋「perl nested named subroutine」。
 
-The syntax of the `CREATE FUNCTION` command requires
-the function body to be written as a string constant. It is usually
-most convenient to use dollar quoting (see [Section 4.1.2.4](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-DOLLAR-QUOTING)) for the string constant.
-If you choose to use escape string syntax `E''`,
-you must double any single quote marks (`'`) and backslashes
-(`\`) used in the body of the function
-(see [Section 4.1.2.1](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)).
+`CREATE FUNCTION` 指令的語法要求
+函式主體必須寫成字串常值。通常
+最方便的做法是對字串常值使用錢字符號引用（dollar quoting，請參閱[4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-DOLLAR-QUOTING)）。
+若您選擇使用逸出字串語法 `E''`，
+則函式主體中使用的任何單引號（`'`）與反斜線
+（`\`）都必須加倍
+（請參閱[4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)）。
 
-Arguments and results are handled as in any other Perl subroutine:
-arguments are passed in `@_`, and a result value
-is returned with `return` or as the last expression
-evaluated in the function.
+引數與結果的處理方式，與任何其他 Perl 子常式相同：
+引數是透過 `@_` 傳入的，結果值
+則是以 `return` 傳回，或是函式中最後求值的
+運算式的值。
 
-For example, a function returning the greater of two integer values
-could be defined as:
+舉例來說，一個傳回兩個整數值中較大者的函式，
+可以定義如下：
 
 ```
 
@@ -71,24 +71,24 @@ CREATE FUNCTION perl_max (integer, integer) RETURNS integer AS $$
 $$ LANGUAGE plperl;
 ```
 
-### Note
+### 注意
 
-Arguments will be converted from the database's encoding to UTF-8
-for use inside PL/Perl, and then converted from UTF-8 back to the
-database encoding upon return.
+引數會從資料庫的編碼轉換為 UTF-8
+以供 PL/Perl 內部使用，並在傳回時再從 UTF-8
+轉換回資料庫編碼。
 
-If an SQL null value<a id="id-1.8.10.9.10.1"></a> is passed to a function,
-the argument value will appear as “undefined” in Perl. The
-above function definition will not behave very nicely with null
-inputs (in fact, it will act as though they are zeroes). We could
-add `STRICT` to the function definition to make
-PostgreSQL do something more reasonable:
-if a null value is passed, the function will not be called at all,
-but will just return a null result automatically. Alternatively,
-we could check for undefined inputs in the function body. For
-example, suppose that we wanted `perl_max` with
-one null and one nonnull argument to return the nonnull argument,
-rather than a null value:
+若傳給函式的是一個 SQL null 值<a id="id-1.8.10.9.10.1"></a>，
+則該引數值在 Perl 中會顯示為「undefined」（未定義）。上述
+函式定義在遇到 null 輸入時，行為並不會很理想
+（事實上，它的行為會如同輸入的是零）。我們可以
+在函式定義中加入 `STRICT`，讓
+PostgreSQL 做出比較合理的處理方式：
+若傳入 null 值，該函式將完全不會被呼叫，
+而是直接自動傳回 null 結果。另一種做法是，
+我們可以在函式主體中檢查未定義的輸入。舉例來說，
+假設我們希望 `perl_max` 在其中一個引數為
+null、另一個引數為非 null 時，傳回非 null 的那個引數，
+而不是傳回 null 值：
 
 ```
 
@@ -104,42 +104,44 @@ CREATE FUNCTION perl_max (integer, integer) RETURNS integer AS $$
 $$ LANGUAGE plperl;
 ```
 
-As shown above, to return an SQL null value from a PL/Perl
-function, return an undefined value. This can be done whether the
-function is strict or not.
+如上所示，若要從 PL/Perl 函式傳回 SQL null 值，
+只要傳回一個未定義的值即可。無論函式是否為
+strict，這個做法都可行。
 
-Anything in a function argument that is not a reference is
-a string, which is in the standard PostgreSQL
-external text representation for the relevant data type. In the case of
-ordinary numeric or text types, Perl will just do the right thing and
-the programmer will normally not have to worry about it. However, in
-other cases the argument will need to be converted into a form that is
-more usable in Perl. For example, the `decode_bytea`
-function can be used to convert an argument of
-type `bytea` into unescaped binary.
+函式引數中任何不是參照的內容都是
+字串，其格式為相關資料型別
+所使用的標準 PostgreSQL
+外部文字表示法。若是一般的數值或文字型別，Perl 會自動
+做正確的處理，程式設計人員通常不需要為此操心。不過，在
+其他情況下，引數需要先轉換成在 Perl 中
+較為可用的形式。舉例來說，`decode_bytea`
+函式可用來將 `bytea` 型別的引數
+轉換為未逸出的二進位資料。
 
-Similarly, values passed back to PostgreSQL
-must be in the external text representation format. For example, the
-`encode_bytea` function can be used to
-escape binary data for a return value of type `bytea`.
+同樣地，傳回給 PostgreSQL 的值，
+也必須符合外部文字表示法格式。舉例來說，
+`encode_bytea` 函式可用來
+將二進位資料逸出，成為 `bytea` 型別的傳回值。
 
-One case that is particularly important is boolean values. As just
-stated, the default behavior for `bool` values is that they
-are passed to Perl as text, thus either `'t'`
-or `'f'`. This is problematic, since Perl will not
-treat `'f'` as false! It is possible to improve matters
-by using a “transform” (see
-[CREATE TRANSFORM](../../reference/sql-commands/sql-createtransform.md)). Suitable transforms are provided
-by the `bool_plperl` extension. To use it, install
-the extension:
+有一種特別重要的情況，就是布林值。如同前面
+所提到的，`bool` 值預設會以文字形式傳遞給 Perl，
+也就是 `'t'` 或
+`'f'`。這是有問題的，因為 Perl 並不會
+把 `'f'` 視為假值！我們可以透過使用一種
+「轉換」（transform，請參閱
+[CREATE TRANSFORM](../../reference/sql-commands/sql-createtransform.md)）來改善這個狀況。
+`bool_plperl` 擴充功能
+提供了合適的轉換。若要使用它，請安裝
+該擴充功能：
 
 ```
 
 CREATE EXTENSION bool_plperl;  -- or bool_plperlu for PL/PerlU
 ```
 
-Then use the `TRANSFORM` function attribute for a
-PL/Perl function that takes or returns `bool`, for example:
+接著，針對接受或傳回 `bool` 的
+PL/Perl 函式，使用
+`TRANSFORM` 函式屬性，例如：
 
 ```
 
@@ -151,17 +153,17 @@ AS $$
 $$ LANGUAGE plperl;
 ```
 
-When this transform is applied, `bool` arguments will be seen
-by Perl as being `1` or empty, thus properly true or
-false. If the function result is type `bool`, it will be true
-or false according to whether Perl would evaluate the returned value as
-true.
-Similar transformations are also performed for boolean query arguments
-and results of SPI queries performed inside the function
-([Section 43.3.1](plperl-builtins.md#PLPERL-DATABASE)).
+當套用此轉換時，`bool` 引數在 Perl 中
+將會顯示為 `1` 或空值，因此可正確對應到
+true 或 false。若函式的結果型別為 `bool`，
+則會依照 Perl 對傳回值求值的結果為真或假，
+來決定其結果為 true 或 false。
+在函式內執行 SPI 查詢時，
+布林值的查詢引數與結果同樣也會進行類似的轉換
+（[43.3.1 節](plperl-builtins.md#PLPERL-DATABASE)）。
 
-Perl can return PostgreSQL arrays as
-references to Perl arrays. Here is an example:
+Perl 可以將 PostgreSQL 陣列
+以 Perl 陣列參照的形式傳回。以下是一個範例：
 
 ```
 
@@ -173,11 +175,12 @@ $$ LANGUAGE plperl;
 select returns_array();
 ```
 
-Perl passes PostgreSQL arrays as a blessed
-`PostgreSQL::InServer::ARRAY` object. This object may be treated as an array
-reference or a string, allowing for backward compatibility with Perl
-code written for PostgreSQL versions below 9.1 to
-run. For example:
+Perl 會將 PostgreSQL 陣列以一個
+經過祝福（blessed）的
+`PostgreSQL::InServer::ARRAY` 物件形式傳遞。此物件可被視為陣列
+參照或字串，因此能與
+PostgreSQL 9.1 以前版本所撰寫的 Perl
+程式碼向下相容。舉例來說：
 
 ```
 
@@ -200,15 +203,13 @@ $$ LANGUAGE plperl;
 SELECT concat_array_elements(ARRAY['PL','/','Perl']);
 ```
 
-### Note
+### 注意
 
-Multidimensional arrays are represented as references to
-lower-dimensional arrays of references in a way common to every Perl
-programmer.
+多維陣列是以每個 Perl 程式設計人員都熟悉的方式，
+表示為指向較低維度陣列參照的參照。
 
-Composite-type arguments are passed to the function as references
-to hashes. The keys of the hash are the attribute names of the
-composite type. Here is an example:
+複合型別引數會以雜湊（hash）參照的形式傳遞給函式。
+雜湊的鍵就是複合型別的屬性名稱。以下是一個範例：
 
 ```
 
@@ -226,9 +227,9 @@ $$ LANGUAGE plperl;
 SELECT name, empcomp(employee.*) FROM employee;
 ```
 
-A PL/Perl function can return a composite-type result using the same
-approach: return a reference to a hash that has the required attributes.
-For example:
+PL/Perl 函式可以使用相同的做法傳回複合型別的結果：
+傳回一個指向具備所需屬性的雜湊的參照。
+舉例來說：
 
 ```
 
@@ -241,11 +242,11 @@ $$ LANGUAGE plperl;
 SELECT * FROM perl_row();
 ```
 
-Any columns in the declared result data type that are not present in the
-hash will be returned as null values.
+已宣告的結果資料型別中，任何未出現在
+該雜湊中的欄位，都會被傳回為 null 值。
 
-Similarly, output arguments of procedures can be returned as a hash
-reference:
+同樣地，程序（procedure）的輸出引數，也可以用雜湊
+參照的形式傳回：
 
 ```
 
@@ -257,14 +258,14 @@ $$ LANGUAGE plperl;
 CALL perl_triple(5, 10);
 ```
 
-PL/Perl functions can also return sets of either scalar or
-composite types. Usually you'll want to return rows one at a
-time, both to speed up startup time and to keep from queuing up
-the entire result set in memory. You can do this with
-`return_next` as illustrated below. Note that
-after the last `return_next`, you must put
-either `return` or (better) `return
-undef`.
+PL/Perl 函式也可以傳回純量型別或複合型別的集合。
+通常您會想要一次傳回一列，這樣既能加快
+啟動時間，也能避免將整個結果集
+先排入記憶體佇列。您可以如下所示，
+使用 `return_next` 來達成這一點。請注意，
+在最後一次 `return_next` 之後，您必須
+放上 `return`，或者（更好的做法是）
+`return undef`。
 
 ```
 
@@ -287,11 +288,10 @@ RETURNS SETOF testrowperl AS $$
 $$ LANGUAGE plperl;
 ```
 
-For small result sets, you can return a reference to an array that
-contains either scalars, references to arrays, or references to
-hashes for simple types, array types, and composite types,
-respectively. Here are some simple examples of returning the entire
-result set as an array reference:
+對於較小的結果集，您可以傳回一個陣列的參照，
+其中包含純量、陣列參照或雜湊參照，
+分別對應簡單型別、陣列型別與複合型別。以下是一些
+以陣列參照傳回整個結果集的簡單範例：
 
 ```
 
@@ -312,25 +312,28 @@ $$ LANGUAGE plperl;
 SELECT * FROM perl_set();
 ```
 
-If you wish to use the `strict` pragma with your code you
-have a few options. For temporary global use you can `SET`
-`plperl.use_strict` to true.
-This will affect subsequent compilations of PL/Perl
-functions, but not functions already compiled in the current session.
-For permanent global use you can set `plperl.use_strict`
-to true in the `postgresql.conf` file.
+若您希望在自己的程式碼中使用 `strict` 語用（pragma），
+有幾種選擇。若只是暫時性的全域使用，您可以將
+`plperl.use_strict` `SET`
+為 true。
+這會影響往後在目前工作階段中編譯的 PL/Perl
+函式，但不會影響目前工作階段中已經編譯過的函式。
+若要永久性地全域使用，您可以在
+`postgresql.conf` 檔案中，將 `plperl.use_strict`
+設為 true。
 
-For permanent use in specific functions you can simply put:
+若要在特定函式中永久使用，您只需要在函式主體
+最上方加上：
 
 ```
 
 use strict;
 ```
 
-at the top of the function body.
+即可。
 
-The `feature` pragma is also available to `use` if your Perl is version 5.10.0 or higher.
+若您的 Perl 版本為 5.10.0 或更新版本，`feature` 語用同樣可供 `use` 使用。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-funcs.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-funcs.html)（原文版本：18.6；核對日期：2026-09-16）

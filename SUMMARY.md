@@ -503,7 +503,7 @@
     * [42.11. PL/Tcl 組態設定 #](server-programming/pltcl/pltcl-config.md)
     * [42.12. Tcl 程序名稱](server-programming/pltcl/pltcl-procnames.md)
   * [第 43 章 PL/Perl — Perl 程序語言](server-programming/plperl/README.md)
-    * [43.1. PL/Perl Functions and Arguments #](server-programming/plperl/plperl-funcs.md)
+    * [43.1. PL/Perl 函式與引數 #](server-programming/plperl/plperl-funcs.md)
     * [43.2. PL/Perl 中的資料值](server-programming/plperl/plperl-data.md)
     * [43.3. 內建函式 #](server-programming/plperl/plperl-builtins.md)
     * [43.4. PL/Perl 中的全域值 #](server-programming/plperl/plperl-global.md)
