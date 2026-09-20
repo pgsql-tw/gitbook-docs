@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：685 頁。
+待譯頁面：684 頁。
 
 ## 根目錄
 
@@ -1021,7 +1021,7 @@
 - [x] `the-sql-language/datatype/datatype-character.md` — 8.3. 字元型別 #
 - [ ] `the-sql-language/datatype/datatype-datetime.md` — 8.5. Date/Time Types #
 - [x] `the-sql-language/datatype/datatype-enum.md` — 8.7. 列舉型別 #
-- [ ] `the-sql-language/datatype/datatype-geometric.md` — 8.8. Geometric Types #
+- [x] `the-sql-language/datatype/datatype-geometric.md` — 8.8. 幾何型別 #
 - [ ] `the-sql-language/datatype/datatype-json.md` — 8.14. JSON Types #
 - [x] `the-sql-language/datatype/datatype-money.md` — 8.2. 貨幣型別 #
 - [x] `the-sql-language/datatype/datatype-net-types.md` — 8.9. 網路位址型別 #

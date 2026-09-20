@@ -1,47 +1,45 @@
-## 8.8. Geometric Types [#](#DATATYPE-GEOMETRIC)
+<a id="DATATYPE-GEOMETRIC"></a>
+## 8.8. 幾何型別 [#](#DATATYPE-GEOMETRIC)
 
-[8.8.1. Points](datatype-geometric.md#DATATYPE-GEOMETRIC-POINTS)
+[8.8.1. 點](datatype-geometric.md#DATATYPE-GEOMETRIC-POINTS)
 
-[8.8.2. Lines](datatype-geometric.md#DATATYPE-LINE)
+[8.8.2. 直線](datatype-geometric.md#DATATYPE-LINE)
 
-[8.8.3. Line Segments](datatype-geometric.md#DATATYPE-LSEG)
+[8.8.3. 線段](datatype-geometric.md#DATATYPE-LSEG)
 
-[8.8.4. Boxes](datatype-geometric.md#DATATYPE-GEOMETRIC-BOXES)
+[8.8.4. 方框](datatype-geometric.md#DATATYPE-GEOMETRIC-BOXES)
 
-[8.8.5. Paths](datatype-geometric.md#DATATYPE-GEOMETRIC-PATHS)
+[8.8.5. 路徑](datatype-geometric.md#DATATYPE-GEOMETRIC-PATHS)
 
-[8.8.6. Polygons](datatype-geometric.md#DATATYPE-POLYGON)
+[8.8.6. 多邊形](datatype-geometric.md#DATATYPE-POLYGON)
 
-[8.8.7. Circles](datatype-geometric.md#DATATYPE-CIRCLE)
+[8.8.7. 圓形](datatype-geometric.md#DATATYPE-CIRCLE)
 
-Geometric data types represent two-dimensional spatial
-objects. [Table 8.20](datatype-geometric.md#DATATYPE-GEO-TABLE) shows the geometric
-types available in PostgreSQL.
+幾何資料型別用來表示二維空間
+物件。[表 8.20](datatype-geometric.md#DATATYPE-GEO-TABLE) 顯示了 PostgreSQL 中可用的幾何
+型別。
 
 <a id="DATATYPE-GEO-TABLE"></a>
 
-**Table 8.20. Geometric Types**
+**表 8.20. 幾何型別**
 
-<table border="1" class="table" summary="Geometric Types"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>Name</th><th>Storage Size</th><th>Description</th><th>Representation</th></tr></thead><tbody><tr><td><code class="type">point</code></td><td>16 bytes</td><td>Point on a plane</td><td>(x,y)</td></tr><tr><td><code class="type">line</code></td><td>24 bytes</td><td>Infinite line</td><td>{A,B,C}</td></tr><tr><td><code class="type">lseg</code></td><td>32 bytes</td><td>Finite line segment</td><td>[(x1,y1),(x2,y2)]</td></tr><tr><td><code class="type">box</code></td><td>32 bytes</td><td>Rectangular box</td><td>(x1,y1),(x2,y2)</td></tr><tr><td><code class="type">path</code></td><td>16+16n bytes</td><td>Closed path (similar to polygon)</td><td>((x1,y1),...)</td></tr><tr><td><code class="type">path</code></td><td>16+16n bytes</td><td>Open path</td><td>[(x1,y1),...]</td></tr><tr><td><code class="type">polygon</code></td><td>40+16n bytes</td><td>Polygon (similar to closed path)</td><td>((x1,y1),...)</td></tr><tr><td><code class="type">circle</code></td><td>24 bytes</td><td>Circle</td><td>&lt;(x,y),r&gt; (center point and radius)</td></tr></tbody></table>
+<table border="1" class="table" summary="Geometric Types"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>名稱</th><th>儲存大小</th><th>說明</th><th>表示法</th></tr></thead><tbody><tr><td><code class="type">point</code></td><td>16 位元組</td><td>平面上的點</td><td>(x,y)</td></tr><tr><td><code class="type">line</code></td><td>24 位元組</td><td>無限長直線</td><td>{A,B,C}</td></tr><tr><td><code class="type">lseg</code></td><td>32 位元組</td><td>有限長線段</td><td>[(x1,y1),(x2,y2)]</td></tr><tr><td><code class="type">box</code></td><td>32 位元組</td><td>矩形方框</td><td>(x1,y1),(x2,y2)</td></tr><tr><td><code class="type">path</code></td><td>16+16n 位元組</td><td>封閉路徑（類似多邊形）</td><td>((x1,y1),...)</td></tr><tr><td><code class="type">path</code></td><td>16+16n 位元組</td><td>開放路徑</td><td>[(x1,y1),...]</td></tr><tr><td><code class="type">polygon</code></td><td>40+16n 位元組</td><td>多邊形（類似封閉路徑）</td><td>((x1,y1),...)</td></tr><tr><td><code class="type">circle</code></td><td>24 位元組</td><td>圓形</td><td>&lt;(x,y),r&gt;（圓心與半徑）</td></tr></tbody></table>
 
 <br>
 
-In all these types, the individual coordinates are stored as
-`double precision` (`float8`) numbers.
+在以上所有型別中，個別座標都是以
+`double precision`（`float8`）數字儲存。
 
-A rich set of functions and operators is available to perform various geometric
-operations such as scaling, translation, rotation, and determining
-intersections. They are explained in [Section 9.11](../functions/functions-geometry.md).
+有一整套豐富的函式與運算子，可用來執行各種幾何
+運算，例如縮放、平移、旋轉，以及判斷相交情形。詳情請見[9.11 節](../functions/functions-geometry.md)。
 
 <a id="DATATYPE-GEOMETRIC-POINTS"></a>
 
-### 8.8.1. Points [#](#DATATYPE-GEOMETRIC-POINTS)
+### 8.8.1. 點 [#](#DATATYPE-GEOMETRIC-POINTS)
 
 <a id="id-1.5.7.16.6.2"></a>
 
-Points are the fundamental two-dimensional building block for geometric
-types. Values of type `point` are specified using either of
-the following syntaxes:
+點是幾何型別最基本的二維建構單元。`point` 型別的值，可使用下列任一語法指定：
 
 ```
 
@@ -49,28 +47,27 @@ the following syntaxes:
   x , y
 ```
 
-where *`x`* and *`y`* are the respective
-coordinates, as floating-point numbers.
+其中 *`x`* 與 *`y`* 分別是以浮點數表示的
+座標值。
 
-Points are output using the first syntax.
+點在輸出時採用第一種語法。
 
 <a id="DATATYPE-LINE"></a>
 
-### 8.8.2. Lines [#](#DATATYPE-LINE)
+### 8.8.2. 直線 [#](#DATATYPE-LINE)
 
 <a id="id-1.5.7.16.7.2"></a>
 
-Lines are represented by the linear
-equation *`A`*x + *`B`*y + *`C`* = 0,
-where *`A`* and *`B`* are not both zero. Values
-of type `line` are input and output in the following form:
+直線是以線性方程式 *`A`*x + *`B`*y + *`C`* = 0
+表示，其中 *`A`* 與 *`B`* 不能同時為零。`line`
+型別的值，其輸入與輸出皆採用下列形式：
 
 ```
 
 { A, B, C }
 ```
 
-Alternatively, any of the following forms can be used for input:
+或者，輸入時也可以使用下列任一形式：
 
 ```
 
@@ -80,21 +77,20 @@ Alternatively, any of the following forms can be used for input:
     x1 , y1   ,   x2 , y2
 ```
 
-where
+其中
 `(x1,y1)`
-and
+與
 `(x2,y2)`
-are two different points on the line.
+是該直線上的兩個相異點。
 
 <a id="DATATYPE-LSEG"></a>
 
-### 8.8.3. Line Segments [#](#DATATYPE-LSEG)
+### 8.8.3. 線段 [#](#DATATYPE-LSEG)
 
 <a id="id-1.5.7.16.8.2"></a><a id="id-1.5.7.16.8.3"></a>
 
-Line segments are represented by pairs of points that are the endpoints
-of the segment. Values of type `lseg` are specified using any
-of the following syntaxes:
+線段是以該線段兩端點的座標對來表示。`lseg` 型別的值，可使用下列任一
+語法指定：
 
 ```
 
@@ -104,24 +100,23 @@ of the following syntaxes:
     x1 , y1   ,   x2 , y2
 ```
 
-where
+其中
 `(x1,y1)`
-and
+與
 `(x2,y2)`
-are the end points of the line segment.
+是該線段的端點。
 
-Line segments are output using the first syntax.
+線段在輸出時採用第一種語法。
 
 <a id="DATATYPE-GEOMETRIC-BOXES"></a>
 
-### 8.8.4. Boxes [#](#DATATYPE-GEOMETRIC-BOXES)
+### 8.8.4. 方框 [#](#DATATYPE-GEOMETRIC-BOXES)
 
 <a id="id-1.5.7.16.9.2"></a><a id="id-1.5.7.16.9.3"></a>
 
-Boxes are represented by pairs of points that are opposite
-corners of the box.
-Values of type `box` are specified using any of the following
-syntaxes:
+方框是以該方框兩個對角頂點的座標對來表示。
+`box` 型別的值，可使用下列任一
+語法指定：
 
 ```
 
@@ -130,32 +125,31 @@ syntaxes:
     x1 , y1   ,   x2 , y2
 ```
 
-where
+其中
 `(x1,y1)`
-and
+與
 `(x2,y2)`
-are any two opposite corners of the box.
+是該方框任意一組對角頂點。
 
-Boxes are output using the second syntax.
+方框在輸出時採用第二種語法。
 
-Any two opposite corners can be supplied on input, but the values
-will be reordered as needed to store the
-upper right and lower left corners, in that order.
+輸入時可提供任意一組對角頂點，但系統會視需要
+重新排列這些值，依序儲存為
+右上角與左下角。
 
 <a id="DATATYPE-GEOMETRIC-PATHS"></a>
 
-### 8.8.5. Paths [#](#DATATYPE-GEOMETRIC-PATHS)
+### 8.8.5. 路徑 [#](#DATATYPE-GEOMETRIC-PATHS)
 
 <a id="id-1.5.7.16.10.2"></a>
 
-Paths are represented by lists of connected points. Paths can be
-*open*, where
-the first and last points in the list are considered not connected, or
-*closed*,
-where the first and last points are considered connected.
+路徑是以一連串相連的點來表示。路徑可以是
+*開放的*，此時清單中第一個與最後一個點視為不相連；也可以是
+*封閉的*，
+此時第一個與最後一個點視為相連。
 
-Values of type `path` are specified using any of the following
-syntaxes:
+`path` 型別的值，可使用下列任一
+語法指定：
 
 ```
 
@@ -166,33 +160,29 @@ syntaxes:
     x1 , y1   , ... ,   xn , yn
 ```
 
-where the points are the end points of the line segments
-comprising the path. Square brackets (`[]`) indicate
-an open path, while parentheses (`()`) indicate a
-closed path. When the outermost parentheses are omitted, as
-in the third through fifth syntaxes, a closed path is assumed.
+其中這些點是構成該路徑之線段的端點。方括號（`[]`）表示
+開放路徑，而括號（`()`）則表示
+封閉路徑。當省略最外層的括號時，如
+第三到第五種語法所示，則預設為封閉路徑。
 
-Paths are output using the first or second syntax, as appropriate.
+路徑在輸出時，視情況採用第一種或第二種語法。
 
 <a id="DATATYPE-POLYGON"></a>
 
-### 8.8.6. Polygons [#](#DATATYPE-POLYGON)
+### 8.8.6. 多邊形 [#](#DATATYPE-POLYGON)
 
 <a id="id-1.5.7.16.11.2"></a>
 
-Polygons are represented by lists of points (the vertices of the
-polygon). Polygons are very similar to closed paths; the essential
-semantic difference is that a polygon is considered to include the
-area within it, while a path is not.
+多邊形是以一系列點（多邊形的頂點）來表示。多邊形與封閉路徑
+非常相似；兩者本質上的語意差異在於，多邊形被視為包含其
+內部的區域，而路徑則不是。
 
-An important implementation difference between polygons and
-paths is that the stored representation of a polygon includes its
-smallest bounding box. This speeds up certain search operations,
-although computing the bounding box adds overhead while constructing
-new polygons.
+多邊形與路徑之間一項重要的實作差異在於，多邊形的儲存表示法
+包含其最小外接方框。這可加快某些搜尋
+運算的速度，不過在建構新的多邊形時，計算外接方框也會增加額外開銷。
 
-Values of type `polygon` are specified using any of the
-following syntaxes:
+`polygon` 型別的值，可使用下列任一
+語法指定：
 
 ```
 
@@ -202,20 +192,19 @@ following syntaxes:
     x1 , y1   , ... ,   xn , yn
 ```
 
-where the points are the end points of the line segments
-comprising the boundary of the polygon.
+其中這些點是構成該多邊形邊界之線段的端點。
 
-Polygons are output using the first syntax.
+多邊形在輸出時採用第一種語法。
 
 <a id="DATATYPE-CIRCLE"></a>
 
-### 8.8.7. Circles [#](#DATATYPE-CIRCLE)
+### 8.8.7. 圓形 [#](#DATATYPE-CIRCLE)
 
 <a id="id-1.5.7.16.12.2"></a>
 
-Circles are represented by a center point and radius.
-Values of type `circle` are specified using any of the
-following syntaxes:
+圓形是以圓心與半徑來表示。
+`circle` 型別的值，可使用下列任一
+語法指定：
 
 ```
 
@@ -225,13 +214,13 @@ following syntaxes:
     x , y   , r
 ```
 
-where
+其中
 `(x,y)`
-is the center point and *`r`* is the radius of the
-circle.
+是圓心，*`r`* 則是該
+圓形的半徑。
 
-Circles are output using the first syntax.
+圓形在輸出時採用第一種語法。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datatype-geometric.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datatype-geometric.html)（原文版本：18.6；核對日期：2026-09-16）
