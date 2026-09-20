@@ -439,7 +439,7 @@
     * [36.1. How Extensibility Works #](server-programming/extend/extend-how.md)
     * [36.2. The PostgreSQL Type System #](server-programming/extend/extend-type-system.md)
     * [36.3. 使用者自訂函式 #](server-programming/extend/xfunc.md)
-    * [36.4. User-Defined Procedures #](server-programming/extend/xproc.md)
+    * [36.4. 使用者自訂程序 #](server-programming/extend/xproc.md)
     * [36.5. Query Language ( SQL ) Functions #](server-programming/extend/xfunc-sql.md)
     * [36.6. Function Overloading #](server-programming/extend/xfunc-overload.md)
     * [36.7. Function Volatility Categories #](server-programming/extend/xfunc-volatility.md)
