@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：692 頁。
+待譯頁面：691 頁。
 
 ## 根目錄
 
@@ -869,7 +869,7 @@
 - [ ] `server-programming/extend/xoper-optimization.md` — 36.15. Operator Optimization Information #
 - [x] `server-programming/extend/xoper.md` — 36.14. 使用者自訂運算子 #
 - [x] `server-programming/extend/xproc.md` — 36.4. 使用者自訂程序 #
-- [ ] `server-programming/extend/xtypes.md` — 36.13. User-Defined Types #
+- [x] `server-programming/extend/xtypes.md` — 36.13. 使用者自訂型別 #
 - [ ] `server-programming/logicaldecoding/README.md` — Chapter 47. Logical Decoding
 - [x] `server-programming/logicaldecoding/logicaldecoding-catalogs.md` — 47.5. 與邏輯解碼相關的系統目錄
 - [x] `server-programming/logicaldecoding/logicaldecoding-example.md` — 47.1. 邏輯解碼範例 #
