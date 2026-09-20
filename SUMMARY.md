@@ -457,7 +457,7 @@
   * [第 37 章 觸發器](server-programming/triggers/README.md)
     * [37.1. 觸發程序行為總覽 #](server-programming/triggers/trigger-definition.md)
     * [37.2. 資料變更的可見性 #](server-programming/triggers/trigger-datachanges.md)
-    * [37.3. Writing Trigger Functions in C #](server-programming/triggers/trigger-interface.md)
+    * [37.3. 以 C 撰寫觸發程序函式 #](server-programming/triggers/trigger-interface.md)
     * [37.4. 完整的觸發程序範例 #](server-programming/triggers/trigger-example.md)
   * [第 38 章 事件觸發程序](server-programming/event-triggers/README.md)
     * [38.1. 事件觸發程序行為概觀 #](server-programming/event-triggers/event-trigger-definition.md)
