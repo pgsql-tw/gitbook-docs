@@ -36,7 +36,7 @@
     * [4.1. 詞彙結構 #](the-sql-language/sql-syntax/sql-syntax-lexical.md)
     * [4.2. 值運算式 #](the-sql-language/sql-syntax/sql-expressions.md)
     * [4.3. 呼叫函式 #](the-sql-language/sql-syntax/sql-syntax-calling-funcs.md)
-  * [Chapter 5. Data Definition](the-sql-language/ddl/README.md)
+  * [第 5 章 資料定義](the-sql-language/ddl/README.md)
     * [5.1. 資料表基礎 #](the-sql-language/ddl/ddl-basics.md)
     * [5.2. 預設值 #](the-sql-language/ddl/ddl-default.md)
     * [5.3. 識別欄位 #](the-sql-language/ddl/ddl-identity-columns.md)
