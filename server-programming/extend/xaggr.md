@@ -1,52 +1,51 @@
-## 36.12. User-Defined Aggregates [#](#XAGGR)
+<a id="XAGGR"></a>
+## 36.12. 使用者自訂聚合 [#](#XAGGR)
 
-[36.12.1. Moving-Aggregate Mode](xaggr.md#XAGGR-MOVING-AGGREGATES)
+[36.12.1. 移動式聚合模式](xaggr.md#XAGGR-MOVING-AGGREGATES)
 
-[36.12.2. Polymorphic and Variadic Aggregates](xaggr.md#XAGGR-POLYMORPHIC-AGGREGATES)
+[36.12.2. 多型與可變引數聚合](xaggr.md#XAGGR-POLYMORPHIC-AGGREGATES)
 
-[36.12.3. Ordered-Set Aggregates](xaggr.md#XAGGR-ORDERED-SET-AGGREGATES)
+[36.12.3. 有序集合聚合](xaggr.md#XAGGR-ORDERED-SET-AGGREGATES)
 
-[36.12.4. Partial Aggregation](xaggr.md#XAGGR-PARTIAL-AGGREGATES)
+[36.12.4. 部分聚合](xaggr.md#XAGGR-PARTIAL-AGGREGATES)
 
-[36.12.5. Support Functions for Aggregates](xaggr.md#XAGGR-SUPPORT-FUNCTIONS)
+[36.12.5. 聚合的支援函式](xaggr.md#XAGGR-SUPPORT-FUNCTIONS)
 
 <a id="id-1.8.3.15.2"></a>
 
-Aggregate functions in PostgreSQL
-are defined in terms of *state values*
-and *state transition functions*.
-That is, an aggregate operates using a state value that is updated
-as each successive input row is processed.
-To define a new aggregate
-function, one selects a data type for the state value,
-an initial value for the state, and a state transition
-function. The state transition function takes the previous state
-value and the aggregate's input value(s) for the current row, and
-returns a new state value.
-A *final function*
-can also be specified, in case the desired result of the aggregate
-is different from the data that needs to be kept in the running
-state value. The final function takes the ending state value
-and returns whatever is wanted as the aggregate result.
-In principle, the transition and final functions are just ordinary
-functions that could also be used outside the context of the
-aggregate. (In practice, it's often helpful for performance reasons
-to create specialized transition functions that can only work when
-called as part of an aggregate.)
+PostgreSQL 中的聚合函式
+是以*狀態值（state value）*
+與*狀態轉換函式（state transition function）*來定義的。
+也就是說，聚合是使用一個狀態值來運作的，
+每處理完一列輸入資料，這個狀態值就會更新一次。
+要定義一個新的聚合
+函式，需要選擇一個作為狀態值的資料型別、
+一個狀態的初始值，以及一個狀態轉換
+函式。狀態轉換函式接受先前的狀態
+值，以及聚合針對目前這一列的輸入值，並
+傳回一個新的狀態值。
+若聚合所要的結果，與需要保留在
+執行中狀態值裡的資料不同，也可以指定一個
+*最終函式（final function）*。最終函式接受
+最終的狀態值，並傳回聚合結果所需要的任何內容。
+基本上，轉換函式與最終函式都只是普通的
+函式，也可以在聚合的情境之外使用。（實務上，出於效能考量，
+建立只能在被當作聚合的一部分呼叫時
+才能運作的特化轉換函式，通常會有幫助。）
 
-Thus, in addition to the argument and result data types seen by a user
-of the aggregate, there is an internal state-value data type that
-might be different from both the argument and result types.
+因此，除了聚合使用者所看到的引數與結果資料型別之外，
+還存在一個內部的狀態值資料型別，
+它可能與引數型別及結果型別皆不相同。
 
-If we define an aggregate that does not use a final function,
-we have an aggregate that computes a running function of
-the column values from each row. `sum` is an
-example of this kind of aggregate. `sum` starts at
-zero and always adds the current row's value to
-its running total. For example, if we want to make a `sum`
-aggregate to work on a data type for complex numbers,
-we only need the addition function for that data type.
-The aggregate definition would be:
+若我們定義一個不使用最終函式的聚合，
+就會得到一個對每一列的欄位值計算執行中函式結果的聚合。
+`sum` 就是這種聚合的
+一個例子。`sum` 從零開始，
+並且永遠將目前這一列的值加到
+它的執行中總和上。舉例來說，若我們想讓 `sum`
+聚合能用於複數的資料型別，
+我們只需要該資料型別的加法函式即可。
+該聚合的定義會是：
 
 ```
 
@@ -58,7 +57,7 @@ CREATE AGGREGATE sum (complex)
 );
 ```
 
-which we might use like this:
+我們可能會這樣使用它：
 
 ```
 
@@ -69,42 +68,41 @@ SELECT sum(a) FROM test_complex;
  (34,53.9)
 ```
 
-(Notice that we are relying on function overloading: there is more than
-one aggregate named `sum`, but
-PostgreSQL can figure out which kind
-of sum applies to a column of type `complex`.)
+（請注意，我們是依靠函式多載：名為 `sum`
+的聚合不只一個，但
+PostgreSQL 能判斷出，哪一種
+sum 適用於型別為 `complex` 的欄位。）
 
-The above definition of `sum` will return zero
-(the initial state value) if there are no nonnull input values.
-Perhaps we want to return null in that case instead — the SQL standard
-expects `sum` to behave that way. We can do this simply by
-omitting the `initcond` phrase, so that the initial state
-value is null. Ordinarily this would mean that the `sfunc`
-would need to check for a null state-value input. But for
-`sum` and some other simple aggregates like
-`max` and `min`,
-it is sufficient to insert the first nonnull input value into
-the state variable and then start applying the transition function
-at the second nonnull input value. PostgreSQL
-will do that automatically if the initial state value is null and
-the transition function is marked “strict” (i.e., not to be called
-for null inputs).
+上述 `sum` 的定義，在沒有任何非 null 輸入值時，
+會傳回零（初始狀態值）。
+也許我們反而希望在這種情況下傳回 null — SQL 標準
+就是預期 `sum` 應該有這樣的行為。我們只要
+省略 `initcond` 子句，就可以做到這一點，
+如此一來初始狀態值就會是 null。一般而言，
+這代表 `sfunc` 需要檢查狀態值輸入是否為 null。但對於
+`sum` 以及其他一些簡單的聚合，像是
+`max` 與 `min`，
+只需要將第一個非 null 輸入值放入
+狀態變數中，然後從第二個非 null 輸入值開始
+套用轉換函式即可。若初始狀態值為 null，且
+轉換函式被標記為「strict」（也就是說，遇到 null
+輸入時不會被呼叫），PostgreSQL
+會自動這麼做。
 
-Another bit of default behavior for a “strict” transition function
-is that the previous state value is retained unchanged whenever a
-null input value is encountered. Thus, null values are ignored. If you
-need some other behavior for null inputs, do not declare your
-transition function as strict; instead code it to test for null inputs and
-do whatever is needed.
+「strict」轉換函式的另一項預設行為，
+是每當遇到 null 輸入值時，先前的狀態值會保持不變。
+因此，null 值會被忽略。若您需要
+對 null 輸入有其他行為，請不要將您的
+轉換函式宣告為 strict；而是改為撰寫程式碼，檢查 null 輸入，
+並執行所需的處理。
 
-`avg` (average) is a more complex example of an aggregate.
-It requires
-two pieces of running state: the sum of the inputs and the count
-of the number of inputs. The final result is obtained by dividing
-these quantities. Average is typically implemented by using an
-array as the state value. For example,
-the built-in implementation of `avg(float8)`
-looks like:
+`avg`（平均值）是較為複雜的聚合範例。
+它需要
+兩項執行中的狀態：輸入值的總和，以及輸入值
+的數量。最終結果是將這兩個數量相除而得。平均值
+通常是以陣列作為狀態值來實作的。舉例來說，
+`avg(float8)` 的內建實作
+看起來像這樣：
 
 ```
 
@@ -117,62 +115,60 @@ CREATE AGGREGATE avg (float8)
 );
 ```
 
-### Note
+### 注意
 
-`float8_accum` requires a three-element array, not just
-two elements, because it accumulates the sum of squares as well as
-the sum and count of the inputs. This is so that it can be used for
-some other aggregates as well as `avg`.
+`float8_accum` 需要一個三個元素的陣列，而不是
+兩個元素，因為除了輸入值的總和與數量之外，
+它還會累加平方和。這是為了讓它除了 `avg`
+之外，也能用於其他一些聚合。
 
-Aggregate function calls in SQL allow `DISTINCT`
-and `ORDER BY` options that control which rows are fed
-to the aggregate's transition function and in what order. These
-options are implemented behind the scenes and are not the concern
-of the aggregate's support functions.
+SQL 中的聚合函式呼叫，允許使用 `DISTINCT`
+與 `ORDER BY` 選項，控制哪些資料列會被
+餵給聚合的轉換函式，以及餵入的順序。這些
+選項是在幕後實作的，並不是聚合的支援函式
+所需要關心的事。
 
-For further details see the
+更多詳情請參閱
 [CREATE AGGREGATE](../../reference/sql-commands/sql-createaggregate.md)
-command.
+指令。
 
 <a id="XAGGR-MOVING-AGGREGATES"></a>
 
-### 36.12.1. Moving-Aggregate Mode [#](#XAGGR-MOVING-AGGREGATES)
+### 36.12.1. 移動式聚合模式 [#](#XAGGR-MOVING-AGGREGATES)
 
 <a id="id-1.8.3.15.12.2"></a><a id="id-1.8.3.15.12.3"></a>
 
-Aggregate functions can optionally support *moving-aggregate
-mode*, which allows substantially faster execution of aggregate
-functions within windows with moving frame starting points.
-(See [Section 3.5](../../tutorial/tutorial-advanced/tutorial-window.md)
-and [Section 4.2.8](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS) for information about use of
-aggregate functions as window functions.)
-The basic idea is that in addition to a normal “forward”
-transition function, the aggregate provides an *inverse
-transition function*, which allows rows to be removed from the
-aggregate's running state value when they exit the window frame.
-For example a `sum` aggregate, which uses addition as the
-forward transition function, would use subtraction as the inverse
-transition function. Without an inverse transition function, the window
-function mechanism must recalculate the aggregate from scratch each time
-the frame starting point moves, resulting in run time proportional to the
-number of input rows times the average frame length. With an inverse
-transition function, the run time is only proportional to the number of
-input rows.
+聚合函式可以選擇性地支援*移動式聚合
+模式（moving-aggregate mode）*，這能讓聚合函式在具有
+移動式框架起始點的視窗內，執行速度大幅提升。
+（關於將聚合函式作為視窗函式使用的資訊，
+請參閱[3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)
+與[4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)。）
+其基本概念是，除了一般的「正向」
+轉換函式之外，聚合還提供一個*反向
+轉換函式（inverse transition function）*，讓資料列
+在離開視窗框架時，可以從聚合執行中的狀態值中被移除。
+舉例來說，使用加法作為正向轉換函式的
+`sum` 聚合，會使用減法作為反向
+轉換函式。若沒有反向轉換函式，視窗
+函式機制每次框架起始點移動時，都必須重新從頭計算聚合，
+導致執行時間與輸入資料列數量乘以平均框架長度成正比。有了反向
+轉換函式，執行時間就只會與
+輸入資料列數量成正比。
 
-The inverse transition function is passed the current state value and the
-aggregate input value(s) for the earliest row included in the current
-state. It must reconstruct what the state value would have been if the
-given input row had never been aggregated, but only the rows following
-it. This sometimes requires that the forward transition function keep
-more state than is needed for plain aggregation mode. Therefore, the
-moving-aggregate mode uses a completely separate implementation from the
-plain mode: it has its own state data type, its own forward transition
-function, and its own final function if needed. These can be the same as
-the plain mode's data type and functions, if there is no need for extra
-state.
+反向轉換函式接收目前的狀態值，以及目前
+狀態中所包含最早那一列的聚合輸入值。它必須
+重新建構出，若給定的這一列輸入從未被聚合過，
+只有它後面的那些列被聚合過，狀態值本應是什麼樣子。有時候
+這需要正向轉換函式保留比一般聚合模式
+所需更多的狀態。因此，
+移動式聚合模式使用一套與一般模式完全獨立的實作：它有自己的
+狀態資料型別、自己的正向轉換函式，以及（若有需要）自己的最終函式。
+若不需要額外的狀態，這些也可以與
+一般模式的資料型別及函式相同。
 
-As an example, we could extend the `sum` aggregate given above
-to support moving-aggregate mode like this:
+舉例來說，我們可以像這樣擴充上面給出的 `sum`
+聚合，讓它支援移動式聚合模式：
 
 ```
 
@@ -188,33 +184,31 @@ CREATE AGGREGATE sum (complex)
 );
 ```
 
-The parameters whose names begin with `m` define the
-moving-aggregate implementation. Except for the inverse transition
-function `minvfunc`, they correspond to the plain-aggregate
-parameters without `m`.
+名稱以 `m` 開頭的參數，定義了移動式
+聚合的實作。除了反向轉換
+函式 `minvfunc` 之外，它們都對應到
+不帶 `m` 的一般聚合參數。
 
-The forward transition function for moving-aggregate mode is not allowed
-to return null as the new state value. If the inverse transition
-function returns null, this is taken as an indication that the inverse
-function cannot reverse the state calculation for this particular input,
-and so the aggregate calculation will be redone from scratch for the
-current frame starting position. This convention allows moving-aggregate
-mode to be used in situations where there are some infrequent cases that
-are impractical to reverse out of the running state value. The inverse
-transition function can “punt” on these cases, and yet still come
-out ahead so long as it can work for most cases. As an example, an
-aggregate working with floating-point numbers might choose to punt when
-a `NaN` (not a number) input has to be removed from the running
-state value.
+移動式聚合模式的正向轉換函式，不允許
+將新狀態值傳回為 null。若反向轉換
+函式傳回 null，這會被視為一個訊號，表示反向
+函式無法針對這個特定的輸入，反轉狀態計算，
+因此該聚合計算，將針對目前的框架起始位置，從頭重做一次。這項慣例讓
+移動式聚合模式，能用於某些少數難以從執行中狀態值
+反轉出來的情況。反向轉換函式可以對這些情況
+「放棄」（punt），只要它在大多數情況下能正常運作，
+最終結果依然會是划算的。舉例來說，處理浮點數的
+聚合，可能會選擇在必須從執行中
+狀態值移除 `NaN`（非數字）輸入時放棄。
 
-When writing moving-aggregate support functions, it is important to be
-sure that the inverse transition function can reconstruct the correct
-state value exactly. Otherwise there might be user-visible differences
-in results depending on whether the moving-aggregate mode is used.
-An example of an aggregate for which adding an inverse transition
-function seems easy at first, yet where this requirement cannot be met
-is `sum` over `float4` or `float8` inputs. A
-naive declaration of `sum(float8)` could be
+在撰寫移動式聚合支援函式時，務必確保
+反向轉換函式能夠精確地重新建構出正確的
+狀態值。否則，根據是否使用移動式聚合模式，
+結果可能會出現使用者可見的差異。
+一個一開始看似容易加上反向轉換
+函式，但實際上無法滿足這項要求的聚合範例，
+就是對 `float4` 或 `float8` 輸入的 `sum`。
+天真地宣告 `sum(float8)` 可能會像這樣：
 
 ```
 
@@ -228,8 +222,8 @@ CREATE AGGREGATE unsafe_sum (float8)
 );
 ```
 
-This aggregate, however, can give wildly different results than it would
-have without the inverse transition function. For example, consider
+然而，這個聚合可能會產生與沒有反向轉換函式時
+截然不同的結果。舉例來說，請考慮：
 
 ```
 
@@ -239,29 +233,29 @@ FROM (VALUES (1, 1.0e20::float8),
              (2, 1.0::float8)) AS v (n,x);
 ```
 
-This query returns `0` as its second result, rather than the
-expected answer of `1`. The cause is the limited precision of
-floating-point values: adding `1` to `1e20` results
-in `1e20` again, and so subtracting `1e20` from that
-yields `0`, not `1`. Note that this is a limitation
-of floating-point arithmetic in general, not a limitation
-of PostgreSQL.
+這個查詢的第二個結果會傳回 `0`，而不是
+預期中的 `1`。原因在於浮點數值精確度
+有限：將 `1` 加到 `1e20` 上，結果
+仍然是 `1e20`，因此從中減去 `1e20`
+會得到 `0`，而不是 `1`。請注意，這是
+浮點數運算本身普遍存在的限制，並非
+PostgreSQL 的限制。
 
 <a id="XAGGR-POLYMORPHIC-AGGREGATES"></a>
 
-### 36.12.2. Polymorphic and Variadic Aggregates [#](#XAGGR-POLYMORPHIC-AGGREGATES)
+### 36.12.2. 多型與可變引數聚合 [#](#XAGGR-POLYMORPHIC-AGGREGATES)
 
 <a id="id-1.8.3.15.13.2"></a><a id="id-1.8.3.15.13.3"></a>
 
-Aggregate functions can use polymorphic
-state transition functions or final functions, so that the same functions
-can be used to implement multiple aggregates.
-See [Section 36.2.5](extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)
-for an explanation of polymorphic functions.
-Going a step further, the aggregate function itself can be specified
-with polymorphic input type(s) and state type, allowing a single
-aggregate definition to serve for multiple input data types.
-Here is an example of a polymorphic aggregate:
+聚合函式可以使用多型的
+狀態轉換函式或最終函式，如此一來，同一組函式
+就可以用來實作多個聚合。
+關於多型函式的說明，請參閱
+[36.2.5 節](extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)。
+更進一步，聚合函式本身也可以指定為
+多型的輸入型別與狀態型別，讓單一個
+聚合定義，能為多種輸入資料型別服務。
+以下是一個多型聚合的範例：
 
 ```
 
@@ -273,13 +267,13 @@ CREATE AGGREGATE array_accum (anycompatible)
 );
 ```
 
-Here, the actual state type for any given aggregate call is the array type
-having the actual input type as elements. The behavior of the aggregate
-is to concatenate all the inputs into an array of that type.
-(Note: the built-in aggregate `array_agg` provides similar
-functionality, with better performance than this definition would have.)
+在這裡，對於任何給定的聚合呼叫，其實際的狀態型別，
+就是以實際輸入型別為元素的陣列型別。這個聚合的
+行為，就是將所有輸入串接成該型別的一個陣列。
+（請注意：內建的聚合 `array_agg` 也提供了類似的
+功能，且效能會比這個定義要來得好。）
 
-Here's the output using two different actual data types as arguments:
+以下是使用兩種不同的實際資料型別作為引數的輸出：
 
 ```
 
@@ -304,23 +298,23 @@ SELECT attrelid::regclass, array_accum(atttypid::regtype)
 (1 row)
 ```
 
-Ordinarily, an aggregate function with a polymorphic result type has a
-polymorphic state type, as in the above example. This is necessary
-because otherwise the final function cannot be declared sensibly: it
-would need to have a polymorphic result type but no polymorphic argument
-type, which `CREATE FUNCTION` will reject on the grounds that
-the result type cannot be deduced from a call. But sometimes it is
-inconvenient to use a polymorphic state type. The most common case is
-where the aggregate support functions are to be written in C and the
-state type should be declared as `internal` because there is
-no SQL-level equivalent for it. To address this case, it is possible to
-declare the final function as taking extra “dummy” arguments
-that match the input arguments of the aggregate. Such dummy arguments
-are always passed as null values since no specific value is available when the
-final function is called. Their only use is to allow a polymorphic
-final function's result type to be connected to the aggregate's input
-type(s). For example, the definition of the built-in
-aggregate `array_agg` is equivalent to
+一般而言，結果型別為多型的聚合函式，
+其狀態型別也會是多型的，就如同上面的範例。這是必要的，
+因為否則最終函式就無法合理地被宣告：它
+會需要有一個多型的結果型別，卻沒有任何多型的引數
+型別，而 `CREATE FUNCTION` 會以「結果型別無法從
+呼叫中推導出」為由拒絕這樣的宣告。但有時候，
+使用多型狀態型別並不方便。最常見的情況，
+是聚合支援函式要以 C 撰寫，且
+狀態型別應該宣告為 `internal`，因為它
+沒有對應的 SQL 層級型別。為了處理這種情況，可以
+將最終函式宣告為，接受額外的「虛設（dummy）」引數，
+這些引數與聚合的輸入引數相符。這類虛設引數
+永遠會以 null 值的形式傳遞，因為呼叫最終函式時，
+並沒有可用的特定值。它們唯一的用途，是讓
+多型最終函式的結果型別，能與聚合的輸入
+型別建立關聯。舉例來說，內建的
+聚合 `array_agg` 的定義，等同於：
 
 ```
 
@@ -338,67 +332,66 @@ CREATE AGGREGATE array_agg (anynonarray)
 );
 ```
 
-Here, the `finalfunc_extra` option specifies that the final
-function receives, in addition to the state value, extra dummy
-argument(s) corresponding to the aggregate's input argument(s).
-The extra `anynonarray` argument allows the declaration
-of `array_agg_finalfn` to be valid.
+在這裡，`finalfunc_extra` 選項指定了，除了狀態值之外，
+最終函式還會接收與聚合的輸入引數相對應的
+額外虛設引數。額外的
+`anynonarray` 引數，讓
+`array_agg_finalfn` 的宣告得以成立。
 
-An aggregate function can be made to accept a varying number of arguments
-by declaring its last argument as a `VARIADIC` array, in much
-the same fashion as for regular functions; see
-[Section 36.5.6](xfunc-sql.md#XFUNC-SQL-VARIADIC-FUNCTIONS). The aggregate's transition
-function(s) must have the same array type as their last argument. The
-transition function(s) typically would also be marked `VARIADIC`,
-but this is not strictly required.
+可以透過將聚合函式的最後一個引數宣告為
+`VARIADIC` 陣列，讓該聚合函式能接受數量不定的引數，
+其做法與一般函式大致相同；請參閱
+[36.5.6 節](xfunc-sql.md#XFUNC-SQL-VARIADIC-FUNCTIONS)。聚合的轉換
+函式，其最後一個引數必須是相同的陣列型別。該
+轉換函式通常也會被標記為 `VARIADIC`，
+但這並非嚴格必要。
 
-### Note
+### 注意
 
-Variadic aggregates are easily misused in connection with
-the `ORDER BY` option (see [Section 4.2.7](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-AGGREGATES)),
-since the parser cannot tell whether the wrong number of actual arguments
-have been given in such a combination. Keep in mind that everything to
-the right of `ORDER BY` is a sort key, not an argument to the
-aggregate. For example, in
+可變引數聚合，與 `ORDER BY` 選項
+（請參閱[4.2.7 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-AGGREGATES)）搭配使用時，
+很容易被誤用，因為剖析器無法判斷，在這種組合中，
+所給定的實際引數數量是否有誤。請記得，
+`ORDER BY` 右邊的所有內容，都是排序鍵，而不是
+聚合的引數。舉例來說，在
 
 ```
 
 SELECT myaggregate(a ORDER BY a, b, c) FROM ...
 ```
 
-the parser will see this as a single aggregate function argument and
-three sort keys. However, the user might have intended
+中，剖析器會將這解讀為單一個聚合函式引數，加上
+三個排序鍵。然而，使用者原本的意圖可能是
 
 ```
 
 SELECT myaggregate(a, b, c ORDER BY a) FROM ...
 ```
 
-If `myaggregate` is variadic, both these calls could be
-perfectly valid.
+若 `myaggregate` 是可變引數的，這兩種呼叫
+都可能完全有效。
 
-For the same reason, it's wise to think twice before creating aggregate
-functions with the same names and different numbers of regular arguments.
+基於同樣的原因，在建立名稱相同、
+一般引數數量不同的聚合函式之前，最好三思。
 
 <a id="XAGGR-ORDERED-SET-AGGREGATES"></a>
 
-### 36.12.3. Ordered-Set Aggregates [#](#XAGGR-ORDERED-SET-AGGREGATES)
+### 36.12.3. 有序集合聚合 [#](#XAGGR-ORDERED-SET-AGGREGATES)
 
 <a id="id-1.8.3.15.14.2"></a>
 
-The aggregates we have been describing so far are “normal”
-aggregates. PostgreSQL also
-supports *ordered-set aggregates*, which differ from
-normal aggregates in two key ways. First, in addition to ordinary
-aggregated arguments that are evaluated once per input row, an
-ordered-set aggregate can have “direct” arguments that are
-evaluated only once per aggregation operation. Second, the syntax
-for the ordinary aggregated arguments specifies a sort ordering
-for them explicitly. An ordered-set aggregate is usually
-used to implement a computation that depends on a specific row
-ordering, for instance rank or percentile, so that the sort ordering
-is a required aspect of any call. For example, the built-in
-definition of `percentile_disc` is equivalent to:
+我們到目前為止所描述的聚合，都是「一般」
+聚合。PostgreSQL 也
+支援*有序集合聚合（ordered-set aggregate）*，它在兩個
+關鍵方面與一般聚合不同。首先，除了每一列輸入
+都會求值一次的一般聚合引數之外，
+有序集合聚合還可以擁有「直接（direct）」引數，這種引數
+每次聚合運算只會求值一次。其次，一般
+聚合引數的語法，明確為它們指定了排序方式。
+有序集合聚合通常用來實作依賴於特定資料列
+順序的計算，例如排名或百分位數，因此排序方式
+是任何呼叫都必須具備的要件。舉例來說，內建的
+`percentile_disc` 定義，等同於：
 
 ```
 
@@ -416,9 +409,9 @@ CREATE AGGREGATE percentile_disc (float8 ORDER BY anyelement)
 );
 ```
 
-This aggregate takes a `float8` direct argument (the percentile
-fraction) and an aggregated input that can be of any sortable data type.
-It could be used to obtain a median household income like this:
+這個聚合接受一個 `float8` 直接引數（百分位數
+比例），以及一個可以是任何可排序資料型別的聚合輸入。
+它可以像這樣用來取得家庭收入的中位數：
 
 ```
 
@@ -428,170 +421,166 @@ SELECT percentile_disc(0.5) WITHIN GROUP (ORDER BY income) FROM households;
            50489
 ```
 
-Here, `0.5` is a direct argument; it would make no sense
-for the percentile fraction to be a value varying across rows.
+在這裡，`0.5` 是一個直接引數；若百分位數
+比例是一個在各列之間變動的值，那就沒有意義了。
 
-Unlike the case for normal aggregates, the sorting of input rows for
-an ordered-set aggregate is *not* done behind the scenes,
-but is the responsibility of the aggregate's support functions.
-The typical implementation approach is to keep a reference to
-a “tuplesort” object in the aggregate's state value, feed the
-incoming rows into that object, and then complete the sorting and
-read out the data in the final function. This design allows the
-final function to perform special operations such as injecting
-additional “hypothetical” rows into the data to be sorted.
-While normal aggregates can often be implemented with support
-functions written in PL/pgSQL or another
-PL language, ordered-set aggregates generally have to be written in
-C, since their state values aren't definable as any SQL data type.
-(In the above example, notice that the state value is declared as
-type `internal` — this is typical.)
-Also, because the final function performs the sort, it is not possible
-to continue adding input rows by executing the transition function again
-later. This means the final function is not `READ_ONLY`;
-it must be declared in [`CREATE AGGREGATE`](../../reference/sql-commands/sql-createaggregate.md)
-as `READ_WRITE`, or as `SHAREABLE` if
-it's possible for additional final-function calls to make use of the
-already-sorted state.
+與一般聚合不同的是，有序集合聚合輸入資料列的排序，
+*不是*在幕後完成的，
+而是聚合支援函式的責任。
+典型的實作做法，是在聚合的狀態值中，保留一個指向
+「tuplesort」物件的參照，將傳入的
+資料列餵給該物件，然後在最終函式中完成排序並
+讀出資料。這種設計讓
+最終函式能執行一些特殊操作，例如在要排序的資料中，
+注入額外的「假設（hypothetical）」資料列。
+一般聚合通常可以用以 PL/pgSQL 或其他
+PL 語言撰寫的支援函式來實作，
+但有序集合聚合通常必須以 C 撰寫，因為
+它們的狀態值無法定義為任何 SQL 資料型別。
+（在上面的範例中，請注意狀態值被宣告為
+`internal` 型別 — 這是常見的做法。）
+此外，由於排序是由最終函式執行的，之後就不可能
+再次執行轉換函式，繼續加入輸入資料列。這表示
+最終函式不是 `READ_ONLY`；
+必須在 [`CREATE AGGREGATE`](../../reference/sql-commands/sql-createaggregate.md)
+中將其宣告為 `READ_WRITE`，或者，若額外的最終函式
+呼叫有可能利用已排序好的狀態，
+則宣告為 `SHAREABLE`。
 
-The state transition function for an ordered-set aggregate receives
-the current state value plus the aggregated input values for
-each row, and returns the updated state value. This is the
-same definition as for normal aggregates, but note that the direct
-arguments (if any) are not provided. The final function receives
-the last state value, the values of the direct arguments if any,
-and (if `finalfunc_extra` is specified) null values
-corresponding to the aggregated input(s). As with normal
-aggregates, `finalfunc_extra` is only really useful if the
-aggregate is polymorphic; then the extra dummy argument(s) are needed
-to connect the final function's result type to the aggregate's input
-type(s).
+有序集合聚合的狀態轉換函式，會接收
+目前的狀態值，以及每一列的聚合輸入值，
+並傳回更新後的狀態值。這與一般聚合的
+定義相同，但請注意，直接
+引數（若有的話）不會被提供。最終函式會接收
+最後的狀態值、直接引數的值（若有的話），
+以及（若指定了 `finalfunc_extra`）對應於聚合輸入的
+null 值。與一般
+聚合一樣，`finalfunc_extra` 只有在該
+聚合是多型的情況下才真正有用；此時就需要額外的虛設引數，
+將最終函式的結果型別，與聚合的輸入
+型別建立關聯。
 
-Currently, ordered-set aggregates cannot be used as window functions,
-and therefore there is no need for them to support moving-aggregate mode.
+目前，有序集合聚合無法作為視窗函式使用，
+因此也不需要它們支援移動式聚合模式。
 
 <a id="XAGGR-PARTIAL-AGGREGATES"></a>
 
-### 36.12.4. Partial Aggregation [#](#XAGGR-PARTIAL-AGGREGATES)
+### 36.12.4. 部分聚合 [#](#XAGGR-PARTIAL-AGGREGATES)
 
 <a id="id-1.8.3.15.15.2"></a>
 
-Optionally, an aggregate function can support *partial
-aggregation*. The idea of partial aggregation is to run the aggregate's
-state transition function over different subsets of the input data
-independently, and then to combine the state values resulting from those
-subsets to produce the same state value that would have resulted from
-scanning all the input in a single operation. This mode can be used for
-parallel aggregation by having different worker processes scan different
-portions of a table. Each worker produces a partial state value, and at
-the end those state values are combined to produce a final state value.
-(In the future this mode might also be used for purposes such as combining
-aggregations over local and remote tables; but that is not implemented
-yet.)
+聚合函式可以選擇性地支援*部分
+聚合（partial aggregation）*。部分聚合的概念，是分別對輸入資料的
+不同子集，獨立執行聚合的狀態轉換函式，
+接著再合併這些子集所產生的狀態值，
+以產生出如同在單一次運算中掃描完所有輸入資料
+時所會得到的相同狀態值。這種模式可以透過讓不同的
+工作處理程序，掃描資料表的不同部分，來實現平行聚合。
+每個工作處理程序都會產生一個部分狀態值，
+最後再將這些狀態值合併，以產生最終的狀態值。
+（未來，這種模式也可能用於例如合併對本機與
+遠端資料表的聚合等用途；但目前尚未實作。）
 
-To support partial aggregation, the aggregate definition must provide
-a *combine function*, which takes two values of the
-aggregate's state type (representing the results of aggregating over two
-subsets of the input rows) and produces a new value of the state type,
-representing what the state would have been after aggregating over the
-combination of those sets of rows. It is unspecified what the relative
-order of the input rows from the two sets would have been. This means
-that it's usually impossible to define a useful combine function for
-aggregates that are sensitive to input row order.
+為了支援部分聚合，該聚合的定義必須提供
+一個*合併函式（combine function）*，它接受兩個
+聚合狀態型別的值（分別代表對輸入資料列
+兩個子集進行聚合的結果），並產生一個新的狀態型別的值，
+代表若對這兩個資料列集合的組合進行聚合，
+狀態原本應該會是什麼樣子。這兩個集合的輸入資料列，
+彼此之間的相對順序為何，並未特別規定。這表示，
+對於那些對輸入資料列順序敏感的聚合而言，
+通常不可能定義出有用的合併函式。
 
-As simple examples, `MAX` and `MIN` aggregates can be
-made to support partial aggregation by specifying the combine function as
-the same greater-of-two or lesser-of-two comparison function that is used
-as their transition function. `SUM` aggregates just need an
-addition function as combine function. (Again, this is the same as their
-transition function, unless the state value is wider than the input data
-type.)
+舉個簡單的例子，可以透過將合併函式指定為
+與其轉換函式相同的「兩者取大」或「兩者取小」比較函式，
+讓 `MAX` 與 `MIN` 聚合支援部分
+聚合。`SUM` 聚合則只需要一個加法函式，
+作為合併函式即可。（同樣地，除非狀態值比輸入資料
+型別要寬，否則這會與它們的轉換函式相同。）
 
-The combine function is treated much like a transition function that
-happens to take a value of the state type, not of the underlying input
-type, as its second argument. In particular, the rules for dealing
-with null values and strict functions are similar. Also, if the aggregate
-definition specifies a non-null `initcond`, keep in mind that
-that will be used not only as the initial state for each partial
-aggregation run, but also as the initial state for the combine function,
-which will be called to combine each partial result into that state.
+合併函式的處理方式，很類似於轉換函式，只不過它
+接受的第二個引數，是狀態型別的值，而不是底層輸入
+型別的值。特別是，處理 null 值與 strict 函式的規則，
+與轉換函式類似。此外，若聚合的定義指定了非 null 的
+`initcond`，請記得，該值不僅會用作每次部分
+聚合執行時的初始狀態，也會用作合併函式的
+初始狀態，該函式會被呼叫，將每個部分結果
+合併到這個狀態中。
 
-If the aggregate's state type is declared as `internal`, it is
-the combine function's responsibility that its result is allocated in
-the correct memory context for aggregate state values. This means in
-particular that when the first input is `NULL` it's invalid
-to simply return the second input, as that value will be in the wrong
-context and will not have sufficient lifespan.
+若聚合的狀態型別宣告為 `internal`，
+則合併函式必須負責確保，其結果是在
+正確的記憶體上下文中，為聚合狀態值配置的。特別是，
+這代表當第一個輸入為 `NULL` 時，
+直接傳回第二個輸入是不正確的，因為該值
+會位於錯誤的上下文中，存活期也不足。
 
-When the aggregate's state type is declared as `internal`, it is
-usually also appropriate for the aggregate definition to provide a
-*serialization function* and a *deserialization
-function*, which allow such a state value to be copied from one process
-to another. Without these functions, parallel aggregation cannot be
-performed, and future applications such as local/remote aggregation will
-probably not work either.
+當聚合的狀態型別宣告為 `internal` 時，
+通常也適合讓該聚合的定義提供
+*序列化函式（serialization function）*與*反序列化
+函式（deserialization function）*，讓這樣的狀態值
+能夠從一個處理程序複製到另一個處理程序。若沒有這些函式，
+就無法執行平行聚合，未來如本機／遠端聚合等
+應用，大概也同樣無法運作。
 
-A serialization function must take a single argument of
-type `internal` and return a result of type `bytea`, which
-represents the state value packaged up into a flat blob of bytes.
-Conversely, a deserialization function reverses that conversion. It must
-take two arguments of types `bytea` and `internal`, and
-return a result of type `internal`. (The second argument is unused
-and is always zero, but it is required for type-safety reasons.) The
-result of the deserialization function should simply be allocated in the
-current memory context, as unlike the combine function's result, it is not
-long-lived.
+序列化函式必須接受一個
+`internal` 型別的單一引數，並傳回一個 `bytea` 型別的結果，
+代表打包成一整塊位元組的狀態值。
+反之，反序列化函式則會反轉這個轉換。它必須
+接受兩個引數，型別分別為 `bytea` 與 `internal`，並
+傳回一個 `internal` 型別的結果。（第二個引數未被使用，
+且永遠為零，但基於型別安全的考量，它是必要的。）
+反序列化函式的結果，應該單純在
+目前的記憶體上下文中配置即可，因為與合併函式的結果不同，
+它並不需要長期存活。
 
-Worth noting also is that for an aggregate to be executed in parallel,
-the aggregate itself must be marked `PARALLEL SAFE`. The
-parallel-safety markings on its support functions are not consulted.
+另外值得一提的是，要讓某個聚合以平行方式執行，
+該聚合本身必須被標記為 `PARALLEL SAFE`。
+其支援函式上的平行安全性標記，並不會被參考。
 
 <a id="XAGGR-SUPPORT-FUNCTIONS"></a>
 
-### 36.12.5. Support Functions for Aggregates [#](#XAGGR-SUPPORT-FUNCTIONS)
+### 36.12.5. 聚合的支援函式 [#](#XAGGR-SUPPORT-FUNCTIONS)
 
 <a id="id-1.8.3.15.16.2"></a>
 
-A function written in C can detect that it is being called as an
-aggregate support function by calling
-`AggCheckCallContext`, for example:
+以 C 撰寫的函式，可以透過呼叫
+`AggCheckCallContext`，偵測自己是否是被當作
+聚合支援函式呼叫的，例如：
 
 ```
 
 if (AggCheckCallContext(fcinfo, NULL))
 ```
 
-One reason for checking this is that when it is true, the first input
-must be a temporary state value and can therefore safely be modified
-in-place rather than allocating a new copy.
-See `int8inc()` for an example.
-(While aggregate transition functions are always allowed to modify
-the transition value in-place, aggregate final functions are generally
-discouraged from doing so; if they do so, the behavior must be declared
-when creating the aggregate. See [CREATE AGGREGATE](../../reference/sql-commands/sql-createaggregate.md)
-for more detail.)
+之所以要檢查這一點，其中一個原因是，當它為真時，
+第一個輸入必然是一個暫存的狀態值，因此可以安全地
+就地修改，而不需要另外配置一份複本。
+可參考 `int8inc()` 作為範例。
+（雖然聚合轉換函式永遠都可以就地修改
+轉換值，但通常不建議聚合最終函式這麼做；若它們這麼做，
+就必須在建立該聚合時宣告這項行為。詳情請參閱
+[CREATE AGGREGATE](../../reference/sql-commands/sql-createaggregate.md)。）
 
-The second argument of `AggCheckCallContext` can be used to
-retrieve the memory context in which aggregate state values are being kept.
-This is useful for transition functions that wish to use “expanded”
-objects (see [Section 36.13.1](xtypes.md#XTYPES-TOAST)) as their state values.
-On first call, the transition function should return an expanded object
-whose memory context is a child of the aggregate state context, and then
-keep returning the same expanded object on subsequent calls. See
-`array_append()` for an example. (`array_append()`
-is not the transition function of any built-in aggregate, but it is written
-to behave efficiently when used as transition function of a custom
-aggregate.)
+`AggCheckCallContext` 的第二個引數，可以用來
+取得目前保存聚合狀態值的記憶體上下文。
+對於希望將「展開」物件
+（請參閱[36.13.1 節](xtypes.md#XTYPES-TOAST)）作為狀態值使用的轉換函式而言，
+這相當有用。在第一次呼叫時，轉換函式應該傳回一個
+記憶體上下文為聚合狀態上下文子項的展開物件，
+接著在後續呼叫時，持續傳回同一個展開物件。可參考
+`array_append()` 作為範例。（`array_append()`
+並不是任何內建聚合的轉換函式，但它的撰寫方式，
+使其在作為自訂聚合的轉換函式使用時，能有效率地運作。）
 
-Another support routine available to aggregate functions written in C
-is `AggGetAggref`, which returns the `Aggref`
-parse node that defines the aggregate call. This is mainly useful
-for ordered-set aggregates, which can inspect the substructure of
-the `Aggref` node to find out what sort ordering they are
-supposed to implement. Examples can be found
-in `orderedsetaggs.c` in the PostgreSQL
-source code.
+以 C 撰寫的聚合函式，另一個可用的支援常式，
+是 `AggGetAggref`，它會傳回定義該聚合呼叫的
+`Aggref` 剖析節點。這主要適用於
+有序集合聚合，它們可以檢視
+`Aggref` 節點的子結構，找出它們
+應該實作的排序方式。相關範例可以在
+PostgreSQL 原始碼中的
+`orderedsetaggs.c` 中找到。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xaggr.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xaggr.html)（原文版本：18.6；核對日期：2026-09-16）
