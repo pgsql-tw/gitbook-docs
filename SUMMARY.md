@@ -446,7 +446,7 @@
     * [36.8. 程序語言函式](server-programming/extend/xfunc-pl.md)
     * [36.9. 內部函式](server-programming/extend/xfunc-internal.md)
     * [36.10. C-Language Functions #](server-programming/extend/xfunc-c.md)
-    * [36.11. Function Optimization Information #](server-programming/extend/xfunc-optimization.md)
+    * [36.11. 函式最佳化資訊 #](server-programming/extend/xfunc-optimization.md)
     * [36.12. 使用者自訂聚合 #](server-programming/extend/xaggr.md)
     * [36.13. 使用者自訂型別 #](server-programming/extend/xtypes.md)
     * [36.14. 使用者自訂運算子 #](server-programming/extend/xoper.md)

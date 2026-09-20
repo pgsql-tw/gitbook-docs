@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：687 頁。
+待譯頁面：686 頁。
 
 ## 根目錄
 
@@ -859,7 +859,7 @@
 - [x] `server-programming/extend/xaggr.md` — 36.12. 使用者自訂聚合 #
 - [ ] `server-programming/extend/xfunc-c.md` — 36.10. C-Language Functions #
 - [x] `server-programming/extend/xfunc-internal.md` — 36.9. 內部函式
-- [ ] `server-programming/extend/xfunc-optimization.md` — 36.11. Function Optimization Information #
+- [x] `server-programming/extend/xfunc-optimization.md` — 36.11. 函式最佳化資訊 #
 - [x] `server-programming/extend/xfunc-overload.md` — 36.6. 函式多載 #
 - [x] `server-programming/extend/xfunc-pl.md` — 36.8. 程序語言函式
 - [ ] `server-programming/extend/xfunc-sql.md` — 36.5. Query Language ( SQL ) Functions #

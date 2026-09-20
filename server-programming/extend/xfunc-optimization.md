@@ -1,102 +1,69 @@
-## 36.11. Function Optimization Information [#](#XFUNC-OPTIMIZATION)
+<a id="XFUNC-OPTIMIZATION"></a>
+## 36.11. 函式最佳化資訊 [#](#XFUNC-OPTIMIZATION)
 
 <a id="id-1.8.3.14.2"></a>
 
-By default, a function is just a “black box” that the
-database system knows very little about the behavior of. However,
-that means that queries using the function may be executed much less
-efficiently than they could be. It is possible to supply additional
-knowledge that helps the planner optimize function calls.
+在預設情況下，函式只是一個資料庫系統對其行為所知甚少的「黑箱」。然而，這也意味著使用該函式的查詢，其執行效率可能遠低於原本可以達到的程度。您可以提供額外的資訊，協助規劃器最佳化函式呼叫。
 
-Some basic facts can be supplied by declarative annotations provided in
-the [`CREATE FUNCTION`](../../reference/sql-commands/sql-createfunction.md) command. Most important of
-these is the function's [volatility
-category](xfunc-volatility.md) (`IMMUTABLE`, `STABLE`,
-or `VOLATILE`); one should always be careful to
-specify this correctly when defining a function.
-The parallel safety property (`PARALLEL
-UNSAFE`, `PARALLEL RESTRICTED`, or
-`PARALLEL SAFE`) must also be specified if you hope
-to use the function in parallelized queries.
-It can also be useful to specify the function's estimated execution
-cost, and/or the number of rows a set-returning function is estimated
-to return. However, the declarative way of specifying those two
-facts only allows specifying a constant value, which is often
-inadequate.
+一些基本事實可以透過 [`CREATE FUNCTION`](../../reference/sql-commands/sql-createfunction.md) 命令中提供的宣告式標註來提供。其中最重要的是函式的[揮發性
+類別](xfunc-volatility.md)（`IMMUTABLE`、`STABLE`
+或 `VOLATILE`）；在定義函式時，應務必謹慎正確地指定此項屬性。
+若您希望在平行化查詢中使用該函式，也必須指定其平行安全性
+屬性（`PARALLEL
+UNSAFE`、`PARALLEL RESTRICTED` 或
+`PARALLEL SAFE`）。
+指定函式估計的執行成本，以及／或傳回集合函式估計傳回的資料列數，也可能有所幫助。不過，以宣告方式指定這兩項事實，只能指定一個常數值，這往往並不足夠。
 
-It is also possible to attach a *planner support
-function* to an SQL-callable function (called
-its *target function*), and thereby provide
-knowledge about the target function that is too complex to be
-represented declaratively. Planner support functions have to be
-written in C (although their target functions might not be), so this is
-an advanced feature that relatively few people will use.
+您也可以為某個 SQL 可呼叫函式（稱為其*目標函式*）附加一個*規劃器支援函式*，藉此提供關於該目標函式、但過於複雜而無法以宣告方式表達的資訊。規劃器支援函式必須以 C 撰寫（儘管其目標函式不一定要以 C 撰寫），因此這是一項相對少數人會使用的進階功能。
 
-A planner support function must have the SQL signature
+規劃器支援函式的 SQL 簽章必須為
 
 ```
 
 supportfn(internal) returns internal
 ```
 
-It is attached to its target function by specifying
-the `SUPPORT` clause when creating the target function.
+在建立目標函式時，透過指定 `SUPPORT` 子句，即可將此支援函式附加至該目標函式。
 
-The details of the API for planner support functions can be found in
-file `src/include/nodes/supportnodes.h` in the
-PostgreSQL source code. Here we provide
-just an overview of what planner support functions can do.
-The set of possible requests to a support function is extensible,
-so more things might be possible in future versions.
+關於規劃器支援函式 API 的詳情，可在 PostgreSQL 原始碼中的
+`src/include/nodes/supportnodes.h` 檔案中找到。此處我們僅
+概略介紹規劃器支援函式可以執行的動作。
+支援函式可能收到的請求種類本身是可擴充的，
+因此未來版本中可能會支援更多功能。
 
-Some function calls can be simplified during planning based on
-properties specific to the function. For example,
-`int4mul(n, 1)` could be simplified to
-just `n`. This type of transformation can be
-performed by a planner support function, by having it implement
-the `SupportRequestSimplify` request type.
-The support function will be called for each instance of its target
-function found in a query parse tree. If it finds that the particular
-call can be simplified into some other form, it can build and return a
-parse tree representing that expression. This will automatically work
-for operators based on the function, too — in the example just
-given, `n * 1` would also be simplified to
-`n`.
-(But note that this is just an example; this particular
-optimization is not actually performed by
-standard PostgreSQL.)
-We make no guarantee that PostgreSQL will
-never call the target function in cases that the support function could
-simplify. Ensure rigorous equivalence between the simplified
-expression and an actual execution of the target function.
+某些函式呼叫可以根據該函式特有的屬性，在規劃期間加以簡化。舉例來說，
+`int4mul(n, 1)` 可以簡化為
+單純的 `n`。這類轉換可以透過規劃器支援函式來執行，
+方式是讓它實作 `SupportRequestSimplify` 請求類型。
+針對查詢剖析樹中每一處出現的目標函式，都會呼叫該支援函式。若它發現該特定
+呼叫可以簡化為其他形式，便可以建立並傳回代表該運算式的剖析樹。這對於以該函式為基礎的運算子也同樣自動適用——在
+剛才的範例中，`n * 1` 也會被簡化為
+`n`。
+（但請注意這只是一個範例；這項特定的
+最佳化，標準 PostgreSQL 實際上並未
+執行。）
+我們不保證 PostgreSQL 在支援函式可以簡化的情況下，絕對不會
+呼叫目標函式。請確保簡化後的運算式，與實際執行目標函式的結果嚴格等價。
 
-For target functions that return `boolean`, it is often useful to estimate
-the fraction of rows that will be selected by a `WHERE` clause using that
-function. This can be done by a support function that implements
-the `SupportRequestSelectivity` request type.
+對於傳回 `boolean` 的目標函式，估計 `WHERE` 子句使用該
+函式時會選出的資料列比例，通常會很有幫助。這可以透過實作
+`SupportRequestSelectivity` 請求類型的支援函式來完成。
 
-If the target function's run time is highly dependent on its inputs,
-it may be useful to provide a non-constant cost estimate for it.
-This can be done by a support function that implements
-the `SupportRequestCost` request type.
+若目標函式的執行時間高度取決於其輸入，
+提供非常數的成本估計值可能會很有幫助。
+這可以透過實作 `SupportRequestCost` 請求類型的支援函式來完成。
 
-For target functions that return sets, it is often useful to provide
-a non-constant estimate for the number of rows that will be returned.
-This can be done by a support function that implements
-the `SupportRequestRows` request type.
+對於傳回集合的目標函式，提供
+非常數的傳回資料列數估計值，通常會很有幫助。
+這可以透過實作 `SupportRequestRows` 請求類型的支援函式來完成。
 
-For target functions that return `boolean`, it may be possible to
-convert a function call appearing in `WHERE` into an indexable operator
-clause or clauses. The converted clauses might be exactly equivalent
-to the function's condition, or they could be somewhat weaker (that is,
-they might accept some values that the function condition does not).
-In the latter case the index condition is said to
-be *lossy*; it can still be used to scan an index,
-but the function call will have to be executed for each row returned by
-the index to see if it really passes the `WHERE` condition or not.
-To create such conditions, the support function must implement
-the `SupportRequestIndexCondition` request type.
+對於傳回 `boolean` 的目標函式，或許可以將出現在
+`WHERE` 中的函式呼叫，轉換為可用索引的運算子條件式（一個或多個）。轉換後的條件式，可能與該函式的條件完全等價，也可能稍弱一些（也就是說，它們可能會接受一些該函式條件所不接受的值）。在後者的情況下，該索引條件稱為
+*有損（lossy）*；它仍然可以用來掃描索引，
+但仍必須針對索引所傳回的每一列執行該函式呼叫，以確認該列是否真的通過
+`WHERE` 條件。若要建立這類條件式，支援函式必須實作
+`SupportRequestIndexCondition` 請求類型。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xfunc-optimization.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xfunc-optimization.html)（原文版本：18.6；核對日期：2026-09-16）
