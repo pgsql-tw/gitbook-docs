@@ -435,7 +435,7 @@
     * [35.65. view_table_usage #](client-interfaces/information-schema/infoschema-view-table-usage.md)
     * [35.66. views #](client-interfaces/information-schema/infoschema-views.md)
 * [Part V. Server Programming](server-programming/README.md)
-  * [Chapter 36. Extending SQL](server-programming/extend/README.md)
+  * [第 36 章 擴充 SQL](server-programming/extend/README.md)
     * [36.1. How Extensibility Works #](server-programming/extend/extend-how.md)
     * [36.2. The PostgreSQL Type System #](server-programming/extend/extend-type-system.md)
     * [36.3. 使用者自訂函式 #](server-programming/extend/xfunc.md)

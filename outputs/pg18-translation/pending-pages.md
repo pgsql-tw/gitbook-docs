@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：697 頁。
+待譯頁面：696 頁。
 
 ## 根目錄
 
@@ -851,7 +851,7 @@
 - [x] `server-programming/event-triggers/event-trigger-example.md` — 38.3. 完整的事件觸發程序範例 #
 - [x] `server-programming/event-triggers/event-trigger-interface.md` — 38.2. 以 C 撰寫事件觸發程序函式 #
 - [ ] `server-programming/event-triggers/event-trigger-table-rewrite-example.md` — 38.4. A Table Rewrite Event Trigger Example #
-- [ ] `server-programming/extend/README.md` — Chapter 36. Extending SQL
+- [x] `server-programming/extend/README.md` — 第 36 章 擴充 SQL
 - [ ] `server-programming/extend/extend-extensions.md` — 36.17. Packaging Related Objects into an Extension #
 - [ ] `server-programming/extend/extend-how.md` — 36.1. How Extensibility Works #
 - [ ] `server-programming/extend/extend-pgxs.md` — 36.18. Extension Building Infrastructure #
