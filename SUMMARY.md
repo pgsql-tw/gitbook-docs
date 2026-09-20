@@ -502,7 +502,7 @@
     * [42.10. 交易管理](server-programming/pltcl/pltcl-transactions.md)
     * [42.11. PL/Tcl 組態設定 #](server-programming/pltcl/pltcl-config.md)
     * [42.12. Tcl 程序名稱](server-programming/pltcl/pltcl-procnames.md)
-  * [Chapter 43. PL/Perl — Perl Procedural Language](server-programming/plperl/README.md)
+  * [第 43 章 PL/Perl — Perl 程序語言](server-programming/plperl/README.md)
     * [43.1. PL/Perl Functions and Arguments #](server-programming/plperl/plperl-funcs.md)
     * [43.2. PL/Perl 中的資料值](server-programming/plperl/plperl-data.md)
     * [43.3. Built-in Functions #](server-programming/plperl/plperl-builtins.md)

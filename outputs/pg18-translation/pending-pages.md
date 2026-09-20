@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：707 頁。
+待譯頁面：706 頁。
 
 ## 根目錄
 
@@ -885,7 +885,7 @@
 - [ ] `server-programming/oauth-validators/oauth-validator-callbacks.md` — 50.3. OAuth Validator Callbacks #
 - [ ] `server-programming/oauth-validators/oauth-validator-design.md` — 50.1. Safely Designing a Validator Module #
 - [ ] `server-programming/oauth-validators/oauth-validator-init.md` — 50.2. Initialization Functions #
-- [ ] `server-programming/plperl/README.md` — Chapter 43. PL/Perl — Perl Procedural Language
+- [x] `server-programming/plperl/README.md` — 第 43 章 PL/Perl — Perl 程序語言
 - [ ] `server-programming/plperl/plperl-builtins.md` — 43.3. Built-in Functions #
 - [x] `server-programming/plperl/plperl-data.md` — 43.2. PL/Perl 中的資料值
 - [x] `server-programming/plperl/plperl-event-triggers.md` — 43.7. PL/Perl 事件觸發器
