@@ -1,13 +1,13 @@
-## 47.1. Logical Decoding Examples [#](#LOGICALDECODING-EXAMPLE)
+<a id="LOGICALDECODING-EXAMPLE"></a>
+## 47.1. 邏輯解碼範例 [#](#LOGICALDECODING-EXAMPLE)
 
-The following example demonstrates controlling logical decoding using the
-SQL interface.
+以下範例示範如何使用 SQL 介面控制邏輯解碼。
 
-Before you can use logical decoding, you must set
-[wal_level](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL) to `logical` and
-[max_replication_slots](../../server-administration/runtime-config/runtime-config-replication.md#GUC-MAX-REPLICATION-SLOTS) to at least 1. Then, you
-should connect to the target database (in the example
-below, `postgres`) as a superuser.
+在使用邏輯解碼之前，您必須先將
+[wal_level](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL) 設為 `logical`，並將
+[max_replication_slots](../../server-administration/runtime-config/runtime-config-replication.md#GUC-MAX-REPLICATION-SLOTS) 設為至少 1。接著，您
+應該以超級使用者身分連線到目標資料庫（下方範例中為
+`postgres`）。
 
 ```
 
@@ -100,16 +100,15 @@ postgres=# SELECT pg_drop_replication_slot('regression_slot');
 (1 row)
 ```
 
-The following examples show how logical decoding is controlled over the
-streaming replication protocol, using the
-program [pg_recvlogical](../../reference/reference-client/app-pgrecvlogical.md) included in the PostgreSQL
-distribution. This requires that client authentication is set up to allow
-replication connections
-(see [Section 26.2.5.1](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION-AUTHENTICATION)) and
-that `max_wal_senders` is set sufficiently high to allow
-an additional connection. The second example shows how to stream two-phase
-transactions. Before you use two-phase commands, you must set
-[max_prepared_transactions](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-PREPARED-TRANSACTIONS) to at least 1.
+以下範例展示如何透過串流複寫通訊協定來控制邏輯解碼，使用 PostgreSQL
+散布套件中所附帶的程式
+[pg_recvlogical](../../reference/reference-client/app-pgrecvlogical.md)。這需要先設定用戶端驗證以允許
+複寫連線
+（見[26.2.5.1 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION-AUTHENTICATION)），並且
+`max_wal_senders` 必須設定得夠高，才能容許
+額外一個連線。第二個範例示範如何串流兩階段
+交易。在使用兩階段命令之前，您必須先將
+[max_prepared_transactions](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-PREPARED-TRANSACTIONS) 設為至少 1。
 
 ```
 
@@ -142,13 +141,12 @@ Control+C
 $ pg_recvlogical -d postgres --slot=test --drop-slot
 ```
 
-The following example shows SQL interface that can be used to decode prepared
-transactions. Before you use two-phase commit commands, you must set
-`max_prepared_transactions` to at least 1. You must also have
-set the two-phase parameter as 'true' while creating the slot using
+以下範例展示可用來解碼已準備交易的 SQL 介面。在使用兩階段提交
+命令之前，您必須先將
+`max_prepared_transactions` 設為至少 1。您也必須在使用
 `pg_create_logical_replication_slot`
-Note that we will stream the entire transaction after the commit if it
-is not already decoded.
+建立插槽時，將 two-phase 參數設為 'true'。
+請注意，若尚未解碼該交易，我們會在提交之後串流整個交易。
 
 ```
 
@@ -193,4 +191,4 @@ postgres=# select * from pg_logical_slot_get_changes('regression_slot', NULL, NU
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logicaldecoding-example.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logicaldecoding-example.html)（原文版本：18.6；核對日期：2026-09-15）

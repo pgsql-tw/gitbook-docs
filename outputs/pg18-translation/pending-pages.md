@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：695 頁。
+待譯頁面：694 頁。
 
 ## 根目錄
 
@@ -872,7 +872,7 @@
 - [ ] `server-programming/extend/xtypes.md` — 36.13. User-Defined Types #
 - [ ] `server-programming/logicaldecoding/README.md` — Chapter 47. Logical Decoding
 - [x] `server-programming/logicaldecoding/logicaldecoding-catalogs.md` — 47.5. 與邏輯解碼相關的系統目錄
-- [ ] `server-programming/logicaldecoding/logicaldecoding-example.md` — 47.1. Logical Decoding Examples #
+- [x] `server-programming/logicaldecoding/logicaldecoding-example.md` — 47.1. 邏輯解碼範例 #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-explanation.md` — 47.2. Logical Decoding Concepts #
 - [ ] `server-programming/logicaldecoding/logicaldecoding-output-plugin.md` — 47.6. Logical Decoding Output Plugins #
 - [x] `server-programming/logicaldecoding/logicaldecoding-sql.md` — 47.4. Logical Decoding SQL Interface #
