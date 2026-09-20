@@ -592,7 +592,7 @@
     * [47.5. 與邏輯解碼相關的系統目錄](server-programming/logicaldecoding/logicaldecoding-catalogs.md)
     * [47.6. Logical Decoding Output Plugins #](server-programming/logicaldecoding/logicaldecoding-output-plugin.md)
     * [47.7. 邏輯解碼輸出寫入器 #](server-programming/logicaldecoding/logicaldecoding-writer.md)
-    * [47.8. Synchronous Replication Support for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-synchronous.md)
+    * [47.8. 邏輯解碼的同步複寫支援 #](server-programming/logicaldecoding/logicaldecoding-synchronous.md)
     * [47.9. Streaming of Large Transactions for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-streaming.md)
     * [47.10. Two-phase Commit Support for Logical Decoding #](server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md)
   * [第 48 章 複寫進度追蹤](server-programming/replication-origins/README.md)
