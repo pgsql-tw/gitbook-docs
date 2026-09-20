@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：689 頁。
+待譯頁面：688 頁。
 
 ## 根目錄
 
@@ -901,7 +901,7 @@
 - [x] `server-programming/plpgsql/plpgsql-development-tips.md` — 41.12. PL/pgSQL 開發技巧 #
 - [x] `server-programming/plpgsql/plpgsql-errors-and-messages.md` — 41.9. 錯誤與訊息 #
 - [x] `server-programming/plpgsql/plpgsql-expressions.md` — 41.4. 運算式 #
-- [ ] `server-programming/plpgsql/plpgsql-implementation.md` — 41.11. PL/pgSQL under the Hood #
+- [x] `server-programming/plpgsql/plpgsql-implementation.md` — 41.11. PL/pgSQL 內部運作原理 #
 - [x] `server-programming/plpgsql/plpgsql-overview.md` — 41.1. 概觀 #
 - [x] `server-programming/plpgsql/plpgsql-porting.md` — 41.13. 從 Oracle PL/SQL 移植 #
 - [x] `server-programming/plpgsql/plpgsql-statements.md` — 41.5. 基本陳述式 #
