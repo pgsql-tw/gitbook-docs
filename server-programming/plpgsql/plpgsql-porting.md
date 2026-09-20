@@ -1,78 +1,39 @@
-## 41.13. Porting from Oracle PL/SQL [#](#PLPGSQL-PORTING)
+<a id="PLPGSQL-PORTING"></a>
 
-[41.13.1. Porting Examples](plpgsql-porting.md#PLPGSQL-PORTING-EXAMPLES)
+## 41.13. 從 Oracle PL/SQL 移植 [#](#PLPGSQL-PORTING)
 
-[41.13.2. Other Things to Watch For](plpgsql-porting.md#PLPGSQL-PORTING-OTHER)
+[41.13.1. 移植範例](plpgsql-porting.md#PLPGSQL-PORTING-EXAMPLES)
 
-[41.13.3. Appendix](plpgsql-porting.md#PLPGSQL-PORTING-APPENDIX)
+[41.13.2. 其他需要注意的事項](plpgsql-porting.md#PLPGSQL-PORTING-OTHER)
+
+[41.13.3. 附錄](plpgsql-porting.md#PLPGSQL-PORTING-APPENDIX)
 
 <a id="id-1.8.8.15.2"></a><a id="id-1.8.8.15.3"></a>
 
-This section explains differences between
-PostgreSQL's PL/pgSQL
-language and Oracle's PL/SQL language,
-to help developers who port applications from
-Oracle® to PostgreSQL.
+本節說明 PostgreSQL 的 PL/pgSQL 語言與 Oracle 的 PL/SQL 語言之間的差異，以協助將應用程式從 Oracle® 移植到 PostgreSQL 的開發人員。
 
-PL/pgSQL is similar to PL/SQL in many
-aspects. It is a block-structured, imperative language, and all
-variables have to be declared. Assignments, loops, and conditionals
-are similar. The main differences you should keep in mind when
-porting from PL/SQL to
-PL/pgSQL are:
+PL/pgSQL 在許多方面都與 PL/SQL 相似。它是一種區塊結構式的命令式語言，而且所有變數都必須先宣告。指派、迴圈與條件式也都很類似。從 PL/SQL 移植到 PL/pgSQL 時，你應該謹記在心的主要差異如下：
 
-* If a name used in an SQL command could be either a column name of a
-  table used in the command or a reference to a variable of the function,
-  PL/SQL treats it as a column name.
-  By default, PL/pgSQL will throw an error
-  complaining that the name is ambiguous. You can specify
-  `plpgsql.variable_conflict` = `use_column`
-  to change this behavior to match PL/SQL,
-  as explained in [Section 41.11.1](plpgsql-implementation.md#PLPGSQL-VAR-SUBST).
-  It's often best to avoid such ambiguities in the first place,
-  but if you have to port a large amount of code that depends on
-  this behavior, setting `variable_conflict` may be the
-  best solution.
-* In PostgreSQL the function body must be written as
-  a string literal. Therefore you need to use dollar quoting or escape
-  single quotes in the function body. (See [Section 41.12.1](plpgsql-development-tips.md#PLPGSQL-QUOTE-TIPS).)
-* Data type names often need translation. For example, in Oracle string
-  values are commonly declared as being of type `varchar2`, which
-  is a non-SQL-standard type. In PostgreSQL,
-  use type `varchar` or `text` instead. Similarly, replace
-  type `number` with `numeric`, or use some other numeric
-  data type if there's a more appropriate one.
-* Instead of packages, use schemas to organize your functions
-  into groups.
-* Since there are no packages, there are no package-level variables
-  either. This is somewhat annoying. You can keep per-session state
-  in temporary tables instead.
-* Integer `FOR` loops with `REVERSE` work
-  differently: PL/SQL counts down from the second
-  number to the first, while PL/pgSQL counts down
-  from the first number to the second, requiring the loop bounds
-  to be swapped when porting. This incompatibility is unfortunate
-  but is unlikely to be changed. (See [Section 41.6.5.5](plpgsql-control-structures.md#PLPGSQL-INTEGER-FOR).)
-* `FOR` loops over queries (other than cursors) also work
-  differently: the target variable(s) must have been declared,
-  whereas PL/SQL always declares them implicitly.
-  An advantage of this is that the variable values are still accessible
-  after the loop exits.
-* There are various notational differences for the use of cursor
-  variables.
+* 如果 SQL 指令中所使用的某個名稱，既可能是該指令中所用資料表的欄位名稱，也可能是對函式某個變數的引用，PL/SQL 會把它當作欄位名稱。而 PL/pgSQL 在預設情況下會拋出錯誤，指出該名稱有歧義。你可以指定 `plpgsql.variable_conflict` = `use_column`，把這個行為改成與 PL/SQL 一致，如[第 41.11.1 節](plpgsql-implementation.md#PLPGSQL-VAR-SUBST)所述。通常最好一開始就避免這類歧義，但如果你必須移植大量倚賴這種行為的程式碼，設定 `variable_conflict` 可能會是最好的解法。
+* 在 PostgreSQL 中，函式本文必須寫成字串常數。因此你需要使用錢字號引號（dollar quoting），或是把函式本文中的單引號跳脫掉。（參閱[第 41.12.1 節](plpgsql-development-tips.md#PLPGSQL-QUOTE-TIPS)。）
+* 資料型別的名稱常常需要轉換。例如在 Oracle 中，字串值通常宣告為 `varchar2` 型別，這是一個非 SQL 標準的型別。在 PostgreSQL 中，請改用 `varchar` 或 `text` 型別。同樣地，請把 `number` 型別換成 `numeric`，或是在有更合適的選擇時改用其他數值資料型別。
+* 請改用綱要（而非套件）來把你的函式組織成群組。
+* 由於沒有套件，也就沒有套件層級的變數。這點有些惱人。你可以改用暫存資料表來保存每個工作階段的狀態。
+* 帶有 `REVERSE` 的整數 `FOR` 迴圈運作方式不同：PL/SQL 是從第二個數字往下數到第一個數字，而 PL/pgSQL 則是從第一個數字往下數到第二個數字，因此移植時必須把迴圈的界限對調。這種不相容雖然令人遺憾，但不太可能會被更改。（參閱[第 41.6.5.5 節](plpgsql-control-structures.md#PLPGSQL-INTEGER-FOR)。）
+* 走訪查詢（游標以外）的 `FOR` 迴圈運作方式也不同：目標變數必須事先宣告，而 PL/SQL 則一律隱含地宣告它們。這樣做的好處是，迴圈結束之後仍然可以存取這些變數的值。
+* 在游標變數的使用上，有各式各樣的表示法差異。
 
 <a id="PLPGSQL-PORTING-EXAMPLES"></a>
 
-### 41.13.1. Porting Examples [#](#PLPGSQL-PORTING-EXAMPLES)
+### 41.13.1. 移植範例 [#](#PLPGSQL-PORTING-EXAMPLES)
 
-[Example 41.9](plpgsql-porting.md#PGSQL-PORTING-EX1) shows how to port a simple
-function from PL/SQL to PL/pgSQL.
+[範例 41.9](plpgsql-porting.md#PGSQL-PORTING-EX1) 展示如何把一個簡單的函式從 PL/SQL 移植到 PL/pgSQL。
 
 <a id="PGSQL-PORTING-EX1"></a>
 
-**Example 41.9. Porting a Simple Function from PL/SQL to PL/pgSQL**
+**範例 41.9. 把一個簡單的函式從 PL/SQL 移植到 PL/pgSQL**
 
-Here is an Oracle PL/SQL function:
+以下是一個 Oracle PL/SQL 函式：
 
 ```
 
@@ -89,30 +50,14 @@ END;
 show errors;
 ```
 
-Let's go through this function and see the differences compared to
-PL/pgSQL:
+讓我們逐一檢視這個函式，看看它與 PL/pgSQL 相比有哪些差異：
 
-* The type name `varchar2` has to be changed to `varchar`
-  or `text`. In the examples in this section, we'll
-  use `varchar`, but `text` is often a better choice if
-  you do not need specific string length limits.
-* The `RETURN` key word in the function
-  prototype (not the function body) becomes
-  `RETURNS` in
-  PostgreSQL.
-  Also, `IS` becomes `AS`, and you need to
-  add a `LANGUAGE` clause because PL/pgSQL
-  is not the only possible function language.
-* In PostgreSQL, the function body is considered
-  to be a string literal, so you need to use quote marks or dollar
-  quotes around it. This substitutes for the terminating `/`
-  in the Oracle approach.
-* The `show errors` command does not exist in
-  PostgreSQL, and is not needed since errors are
-  reported automatically.
+* 型別名稱 `varchar2` 必須改成 `varchar` 或 `text`。在本節的範例中，我們會使用 `varchar`，但如果你不需要特定的字串長度限制，`text` 通常是更好的選擇。
+* 函式原型（而非函式本文）中的 `RETURN` 關鍵字，在 PostgreSQL 中會變成 `RETURNS`。此外，`IS` 會變成 `AS`，而且你需要加上 `LANGUAGE` 子句，因為 PL/pgSQL 並不是唯一可用的函式語言。
+* 在 PostgreSQL 中，函式本文被視為字串常數，因此你需要在它外面加上引號或錢字號引號。這取代了 Oracle 做法中結尾的 `/`。
+* PostgreSQL 中不存在 `show errors` 指令，而且也不需要，因為錯誤會自動回報。
 
-This is how this function would look when ported to
-PostgreSQL:
+以下是這個函式移植到 PostgreSQL 之後的樣子：
 
 ```
 
@@ -130,20 +75,15 @@ $$ LANGUAGE plpgsql;
 
 <br>
 
-[Example 41.10](plpgsql-porting.md#PLPGSQL-PORTING-EX2) shows how to port a
-function that creates another function and how to handle the
-ensuing quoting problems.
+[範例 41.10](plpgsql-porting.md#PLPGSQL-PORTING-EX2) 展示如何移植一個會建立另一個函式的函式，以及如何處理隨之而來的引號問題。
 
 <a id="PLPGSQL-PORTING-EX2"></a>
 
-**Example 41.10. Porting a Function that Creates Another Function from PL/SQL to PL/pgSQL**
+**範例 41.10. 把一個會建立另一個函式的函式從 PL/SQL 移植到 PL/pgSQL**
 
-The following procedure grabs rows from a
-`SELECT` statement and builds a large function
-with the results in `IF` statements, for the
-sake of efficiency.
+為了效率起見，以下這個程序會從一個 `SELECT` 陳述式取出資料列，並用其結果在 `IF` 陳述式中建構出一個龐大的函式。
 
-This is the Oracle version:
+這是 Oracle 版本：
 
 ```
 
@@ -172,7 +112,7 @@ END;
 show errors;
 ```
 
-Here is how this function would end up in PostgreSQL:
+以下是這個函式在 PostgreSQL 中最後的樣子：
 
 ```
 
@@ -209,41 +149,19 @@ END;
 $func$ LANGUAGE plpgsql;
 ```
 
-Notice how the body of the function is built separately and passed
-through `quote_literal` to double any quote marks in it. This
-technique is needed because we cannot safely use dollar quoting for
-defining the new function: we do not know for sure what strings will
-be interpolated from the `referrer_key.key_string` field.
-(We are assuming here that `referrer_key.kind` can be
-trusted to always be `host`, `domain`, or
-`url`, but `referrer_key.key_string` might be
-anything, in particular it might contain dollar signs.) This function
-is actually an improvement on the Oracle original, because it will
-not generate broken code when `referrer_key.key_string` or
-`referrer_key.referrer_type` contain quote marks.
+請注意這個函式的本文是如何另外建構出來，並且通過 `quote_literal` 來把其中的引號都加倍。之所以需要這項技巧，是因為我們無法安全地使用錢字號引號來定義這個新函式：我們無法確知會有哪些字串從 `referrer_key.key_string` 欄位被內插進來。（我們在此假設 `referrer_key.kind` 可以被信任一律是 `host`、`domain` 或 `url`，但 `referrer_key.key_string` 則可能是任何內容，特別是它可能含有錢字號。）這個函式其實比 Oracle 原版更好，因為當 `referrer_key.key_string` 或 `referrer_key.referrer_type` 含有引號時，它不會產生出壞掉的程式碼。
 
 <br>
 
-[Example 41.11](plpgsql-porting.md#PLPGSQL-PORTING-EX3) shows how to port a function
-with `OUT` parameters and string manipulation.
-PostgreSQL does not have a built-in
-`instr` function, but you can create one
-using a combination of other
-functions. In [Section 41.13.3](plpgsql-porting.md#PLPGSQL-PORTING-APPENDIX) there is a
-PL/pgSQL implementation of
-`instr` that you can use to make your porting
-easier.
+[範例 41.11](plpgsql-porting.md#PLPGSQL-PORTING-EX3) 展示如何移植一個帶有 `OUT` 參數並進行字串處理的函式。PostgreSQL 沒有內建的 `instr` 函式，但你可以結合其他函式自行建立一個。在[第 41.13.3 節](plpgsql-porting.md#PLPGSQL-PORTING-APPENDIX)中有一份 `instr` 的 PL/pgSQL 實作，你可以拿來讓移植工作更輕鬆。
 
 <a id="PLPGSQL-PORTING-EX3"></a>
 
-**Example 41.11. Porting a Procedure With String Manipulation and
-`OUT` Parameters from PL/SQL to
-PL/pgSQL**
+**範例 41.11. 把一個帶有字串處理與 `OUT` 參數的程序從 PL/SQL 移植到 PL/pgSQL**
 
-The following Oracle PL/SQL procedure is used
-to parse a URL and return several elements (host, path, and query).
+以下這個 Oracle PL/SQL 程序用來剖析一個 URL，並回傳數個元素（host、path 與 query）。
 
-This is the Oracle version:
+這是 Oracle 版本：
 
 ```
 
@@ -286,7 +204,7 @@ END;
 show errors;
 ```
 
-Here is a possible translation into PL/pgSQL:
+以下是一種可能的 PL/pgSQL 翻譯版本：
 
 ```
 
@@ -329,7 +247,7 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-This function could be used like this:
+這個函式可以這樣使用：
 
 ```
 
@@ -338,14 +256,13 @@ SELECT * FROM cs_parse_url('http://foobar.com/query.cgi?baz');
 
 <br>
 
-[Example 41.12](plpgsql-porting.md#PLPGSQL-PORTING-EX4) shows how to port a procedure
-that uses numerous features that are specific to Oracle.
+[範例 41.12](plpgsql-porting.md#PLPGSQL-PORTING-EX4) 展示如何移植一個使用了許多 Oracle 特有功能的程序。
 
 <a id="PLPGSQL-PORTING-EX4"></a>
 
-**Example 41.12. Porting a Procedure from PL/SQL to PL/pgSQL**
+**範例 41.12. 把一個程序從 PL/SQL 移植到 PL/pgSQL**
 
-The Oracle version:
+Oracle 版本：
 
 ```
 
@@ -376,7 +293,7 @@ END;
 show errors
 ```
 
-This is how we could port this procedure to PL/pgSQL:
+以下是我們可以如何把這個程序移植到 PL/pgSQL：
 
 ```
 
@@ -407,37 +324,27 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
+<a id="co.plpgsql-porting-raise"></a><a id="co.plpgsql-porting-exception"></a>
+
 <table border="0" summary="Callout list"><tr><td align="left" valign="top" width="5%"><p><a href="#co.plpgsql-porting-raise">(1)</a> </p></td><td align="left" valign="top"><p>
-       The syntax of <code class="literal">RAISE</code> is considerably different from
-       Oracle's statement, although the basic case <code class="literal">RAISE</code>
-<em class="replaceable"><code>exception_name</code></em> works
-       similarly.
+       <code class="literal">RAISE</code> 的語法與 Oracle 的陳述式有相當大的差異，不過基本形式 <code class="literal">RAISE</code> <em class="replaceable"><code>exception_name</code></em> 的運作方式類似。
       </p></td></tr><tr><td align="left" valign="top" width="5%"><p><a href="#co.plpgsql-porting-exception">(2)</a> </p></td><td align="left" valign="top"><p>
-       The exception names supported by <span class="application">PL/pgSQL</span> are
-       different from Oracle's.  The set of built-in exception names
-       is much larger (see <a class="xref" href="../../appendixes/errcodes-appendix/README.md">Appendix A</a>).  There
-       is not currently a way to declare user-defined exception names,
-       although you can throw user-chosen SQLSTATE values instead.
+       <span class="application">PL/pgSQL</span> 所支援的例外名稱與 Oracle 的並不相同。內建例外名稱的集合大得多（參閱 <a class="xref" href="../../appendixes/errcodes-appendix/README.md">附錄 A</a>）。目前並沒有辦法宣告使用者自訂的例外名稱，不過你可以改為拋出使用者自選的 SQLSTATE 值。
       </p></td></tr></table>
 
 <br>
 
 <a id="PLPGSQL-PORTING-OTHER"></a>
 
-### 41.13.2. Other Things to Watch For [#](#PLPGSQL-PORTING-OTHER)
+### 41.13.2. 其他需要注意的事項 [#](#PLPGSQL-PORTING-OTHER)
 
-This section explains a few other things to watch for when porting
-Oracle PL/SQL functions to
-PostgreSQL.
+本節說明把 Oracle PL/SQL 函式移植到 PostgreSQL 時，另外幾件需要注意的事情。
 
 <a id="PLPGSQL-PORTING-EXCEPTIONS"></a>
 
-#### 41.13.2.1. Implicit Rollback after Exceptions [#](#PLPGSQL-PORTING-EXCEPTIONS)
+#### 41.13.2.1. 例外之後的隱含回復 [#](#PLPGSQL-PORTING-EXCEPTIONS)
 
-In PL/pgSQL, when an exception is caught by an
-`EXCEPTION` clause, all database changes since the block's
-`BEGIN` are automatically rolled back. That is, the behavior
-is equivalent to what you'd get in Oracle with:
+在 PL/pgSQL 中，當例外被 `EXCEPTION` 子句攔截時，自該區塊的 `BEGIN` 以來的所有資料庫變更都會自動回復。也就是說，這個行為等同於你在 Oracle 中以下面的寫法所得到的結果：
 
 ```
 
@@ -454,39 +361,21 @@ EXCEPTION
 END;
 ```
 
-If you are translating an Oracle procedure that uses
-`SAVEPOINT` and `ROLLBACK TO` in this style,
-your task is easy: just omit the `SAVEPOINT` and
-`ROLLBACK TO`. If you have a procedure that uses
-`SAVEPOINT` and `ROLLBACK TO` in a different way
-then some actual thought will be required.
+如果你要轉換的 Oracle 程序是以這種風格使用 `SAVEPOINT` 與 `ROLLBACK TO`，你的工作就很輕鬆：只要把 `SAVEPOINT` 與 `ROLLBACK TO` 省略即可。如果你的程序是以不同的方式使用 `SAVEPOINT` 與 `ROLLBACK TO`，那就需要實際動點腦筋了。
 
 <a id="PLPGSQL-PORTING-OTHER-EXECUTE"></a>
 
-#### 41.13.2.2. `EXECUTE` [#](#PLPGSQL-PORTING-OTHER-EXECUTE)
+#### 41.13.2.2. `EXECUTE` [#](#PLPGSQL-PORTING-OTHER-EXECUTE)
 
-The PL/pgSQL version of
-`EXECUTE` works similarly to the
-PL/SQL version, but you have to remember to use
-`quote_literal` and
-`quote_ident` as described in [Section 41.5.4](plpgsql-statements.md#PLPGSQL-STATEMENTS-EXECUTING-DYN). Constructs of the
-type `EXECUTE 'SELECT * FROM $1';` will not work
-reliably unless you use these functions.
+PL/pgSQL 版本的 `EXECUTE` 運作方式與 PL/SQL 版本類似，但你必須記得依照[第 41.5.4 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-EXECUTING-DYN)所述使用 `quote_literal` 與 `quote_ident`。除非你使用這些函式，否則 `EXECUTE 'SELECT * FROM $1';` 這類寫法並不能可靠地運作。
 
 <a id="PLPGSQL-PORTING-OPTIMIZATION"></a>
 
-#### 41.13.2.3. Optimizing PL/pgSQL Functions [#](#PLPGSQL-PORTING-OPTIMIZATION)
+#### 41.13.2.3. 最佳化 PL/pgSQL 函式 [#](#PLPGSQL-PORTING-OPTIMIZATION)
 
-PostgreSQL gives you two function creation
-modifiers to optimize execution: “volatility” (whether
-the function always returns the same result when given the same
-arguments) and “strictness” (whether the function
-returns null if any argument is null). Consult the [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md)
-reference page for details.
+PostgreSQL 提供了兩個建立函式時可用的修飾詞來最佳化執行：「變動性」（volatility，亦即該函式在給定相同引數時是否一律回傳相同結果）與「嚴格性」（strictness，亦即當任何引數為 null 時該函式是否回傳 null）。詳情請參閱 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) 參考頁面。
 
-When making use of these optimization attributes, your
-`CREATE FUNCTION` statement might look something
-like this:
+當你利用這些最佳化屬性時，你的 `CREATE FUNCTION` 陳述式可能看起來會像這樣：
 
 ```
 
@@ -497,11 +386,9 @@ $$ LANGUAGE plpgsql STRICT IMMUTABLE;
 
 <a id="PLPGSQL-PORTING-APPENDIX"></a>
 
-### 41.13.3. Appendix [#](#PLPGSQL-PORTING-APPENDIX)
+### 41.13.3. 附錄 [#](#PLPGSQL-PORTING-APPENDIX)
 
-This section contains the code for a set of Oracle-compatible
-`instr` functions that you can use to simplify
-your porting efforts.
+本節包含一組與 Oracle 相容的 `instr` 函式的程式碼，你可以用它們來簡化移植工作。
 
 <a id="id-1.8.8.15.8.3"></a>
 
@@ -624,4 +511,4 @@ $$ LANGUAGE plpgsql STRICT IMMUTABLE;
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpgsql-porting.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plpgsql-porting.html)（原文版本：18.6；核對日期：2026-09-15）

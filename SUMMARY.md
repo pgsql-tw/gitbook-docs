@@ -488,7 +488,7 @@
     * [41.10. 觸發程序函式 #](server-programming/plpgsql/plpgsql-trigger.md)
     * [41.11. PL/pgSQL under the Hood #](server-programming/plpgsql/plpgsql-implementation.md)
     * [41.12. PL/pgSQL 開發技巧 #](server-programming/plpgsql/plpgsql-development-tips.md)
-    * [41.13. Porting from Oracle PL/SQL #](server-programming/plpgsql/plpgsql-porting.md)
+    * [41.13. 從 Oracle PL/SQL 移植 #](server-programming/plpgsql/plpgsql-porting.md)
   * [第 42 章 PL/Tcl — Tcl 程序語言](server-programming/pltcl/README.md)
     * [42.1. 概觀 #](server-programming/pltcl/pltcl-overview.md)
     * [42.2. PL/Tcl 函式與引數 #](server-programming/pltcl/pltcl-functions.md)
