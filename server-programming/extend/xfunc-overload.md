@@ -1,21 +1,11 @@
-## 36.6. Function Overloading [#](#XFUNC-OVERLOAD)
+<a id="XFUNC-OVERLOAD"></a>
+## 36.6. 函式多載 [#](#XFUNC-OVERLOAD)
 
 <a id="id-1.8.3.9.2"></a>
 
-More than one function can be defined with the same SQL name, so long
-as the arguments they take are different. In other words,
-function names can be *overloaded*. Whether or not
-you use it, this capability entails security precautions when calling
-functions in databases where some users mistrust other users; see
-[Section 10.3](../../the-sql-language/typeconv/typeconv-func.md). When a query is executed, the server
-will determine which function to call from the data types and the number
-of the provided arguments. Overloading can also be used to simulate
-functions with a variable number of arguments, up to a finite maximum
-number.
+只要引數不同，就可以用相同的 SQL 名稱定義多個函式。換句話說，函式名稱可以*多載*。不論你是否使用這項功能，當資料庫中有些使用者不信任其他使用者時，呼叫函式就會牽涉到安全上的預防措施；見[第 10.3 節](../../the-sql-language/typeconv/typeconv-func.md)。執行查詢時，伺服器會依據所提供引數的資料型別與數量，來判斷要呼叫哪一個函式。多載也可以用來模擬引數個數可變（但有一個有限的最大值）的函式。
 
-When creating a family of overloaded functions, one should be
-careful not to create ambiguities. For instance, given the
-functions:
+在建立一系列多載函式時，應該小心避免造成歧義。舉例來說，給定下列函式：
 
 ```
 
@@ -23,42 +13,13 @@ CREATE FUNCTION test(int, real) RETURNS ...
 CREATE FUNCTION test(smallint, double precision) RETURNS ...
 ```
 
-it is not immediately clear which function would be called with
-some trivial input like `test(1, 1.5)`. The
-currently implemented resolution rules are described in
-[Chapter 10](../../the-sql-language/typeconv/README.md), but it is unwise to design a system that subtly
-relies on this behavior.
+對於像 `test(1, 1.5)` 這種簡單的輸入，並不能立即看出會呼叫哪一個函式。目前實作的解析規則說明於[第 10 章](../../the-sql-language/typeconv/README.md)，但設計一套會微妙地依賴這種行為的系統，並不是明智之舉。
 
-A function that takes a single argument of a composite type should
-generally not have the same name as any attribute (field) of that type.
-Recall that `attribute(table)`
-is considered equivalent
-to `table.attribute`.
-In the case that there is an
-ambiguity between a function on a composite type and an attribute of
-the composite type, the attribute will always be used. It is possible
-to override that choice by schema-qualifying the function name
-(that is, `schema.func(table)`) but it's better to
-avoid the problem by not choosing conflicting names.
+接受單一複合型別引數的函式，通常不應該與該型別的任何屬性（欄位）同名。回想一下，`attribute(table)` 會被視為等同於 `table.attribute`。如果複合型別上的函式與該複合型別的某個屬性發生歧義，系統一律會使用該屬性。你可以透過以綱要限定函式名稱（也就是 `schema.func(table)`）來覆寫這個選擇，不過更好的做法是一開始就避免選用互相衝突的名稱，以避免這個問題。
 
-Another possible conflict is between variadic and non-variadic functions.
-For instance, it is possible to create both `foo(numeric)` and
-`foo(VARIADIC numeric[])`. In this case it is unclear which one
-should be matched to a call providing a single numeric argument, such as
-`foo(10.1)`. The rule is that the function appearing
-earlier in the search path is used, or if the two functions are in the
-same schema, the non-variadic one is preferred.
+另一種可能的衝突，發生在可變引數函式與非可變引數函式之間。舉例來說，你可以同時建立 `foo(numeric)` 與 `foo(VARIADIC numeric[])`。在這種情況下，並不清楚提供單一數值引數的呼叫（例如 `foo(10.1)`）應該比對到哪一個函式。規則是：會使用在搜尋路徑中較早出現的函式；如果兩個函式位於同一個綱要中，則偏好非可變引數的那一個。
 
-When overloading C-language functions, there is an additional
-constraint: The C name of each function in the family of
-overloaded functions must be different from the C names of all
-other functions, either internal or dynamically loaded. If this
-rule is violated, the behavior is not portable. You might get a
-run-time linker error, or one of the functions will get called
-(usually the internal one). The alternative form of the
-`AS` clause for the SQL `CREATE
-FUNCTION` command decouples the SQL function name from
-the function name in the C source code. For instance:
+對 C 語言函式進行多載時，還有一項額外的限制：一系列多載函式中，每個函式的 C 名稱，都必須與所有其他函式（不論是內部函式還是動態載入的函式）的 C 名稱不同。如果違反這項規則，其行為就不具可攜性。你可能會遇到執行期連結器錯誤，或是其中一個函式會被呼叫（通常是內部函式）。SQL `CREATE FUNCTION` 命令中 `AS` 子句的另一種形式，可以把 SQL 函式名稱與 C 原始碼中的函式名稱分開。例如：
 
 ```
 
@@ -70,8 +31,8 @@ CREATE FUNCTION test(int, int) RETURNS int
     LANGUAGE C;
 ```
 
-The names of the C functions here reflect one of many possible conventions.
+這裡的 C 函式名稱，反映了眾多可能命名慣例中的一種。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xfunc-overload.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xfunc-overload.html)（原文版本：18.6；核對日期：2026-09-15）
