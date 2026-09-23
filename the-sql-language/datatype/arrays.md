@@ -1,31 +1,32 @@
-## 8.15. Arrays [#](#ARRAYS)
+<a id="ARRAYS"></a>
+## 8.15. 陣列 [#](#ARRAYS)
 
-[8.15.1. Declaration of Array Types](arrays.md#ARRAYS-DECLARATION)
+[8.15.1. 陣列型別的宣告](arrays.md#ARRAYS-DECLARATION)
 
-[8.15.2. Array Value Input](arrays.md#ARRAYS-INPUT)
+[8.15.2. 陣列值輸入](arrays.md#ARRAYS-INPUT)
 
-[8.15.3. Accessing Arrays](arrays.md#ARRAYS-ACCESSING)
+[8.15.3. 存取陣列](arrays.md#ARRAYS-ACCESSING)
 
-[8.15.4. Modifying Arrays](arrays.md#ARRAYS-MODIFYING)
+[8.15.4. 修改陣列](arrays.md#ARRAYS-MODIFYING)
 
-[8.15.5. Searching in Arrays](arrays.md#ARRAYS-SEARCHING)
+[8.15.5. 在陣列中搜尋](arrays.md#ARRAYS-SEARCHING)
 
-[8.15.6. Array Input and Output Syntax](arrays.md#ARRAYS-IO)
+[8.15.6. 陣列輸出入語法](arrays.md#ARRAYS-IO)
 
 <a id="id-1.5.7.23.2"></a>
 
-PostgreSQL allows columns of a table to be
-defined as variable-length multidimensional arrays. Arrays of any
-built-in or user-defined base type, enum type, composite type, range type,
-or domain can be created.
+PostgreSQL 允許將資料表的欄位，
+定義為可變長度的多維陣列。可以建立任何
+內建或使用者自訂的基礎型別、列舉型別、複合型別、範圍型別，
+或網域的陣列。
 
 <a id="ARRAYS-DECLARATION"></a>
 
-### 8.15.1. Declaration of Array Types [#](#ARRAYS-DECLARATION)
+### 8.15.1. 陣列型別的宣告 [#](#ARRAYS-DECLARATION)
 
 <a id="id-1.5.7.23.4.2"></a>
 
-To illustrate the use of array types, we create this table:
+為了說明陣列型別的用法，我們建立這個資料表：
 
 ```
 
@@ -36,19 +37,19 @@ CREATE TABLE sal_emp (
 );
 ```
 
-As shown, an array data type is named by appending square brackets
-(`[]`) to the data type name of the array elements. The
-above command will create a table named
-`sal_emp` with a column of type
-`text` (`name`), a
-one-dimensional array of type `integer`
-(`pay_by_quarter`), which represents the
-employee's salary by quarter, and a two-dimensional array of
-`text` (`schedule`), which
-represents the employee's weekly schedule.
+如上所示，陣列資料型別的命名方式，是在陣列元素的
+資料型別名稱後面，加上方括號
+（`[]`）。上述指令，會建立一個名為
+`sal_emp` 的資料表，其中包含一個
+`text` 型別的欄位（`name`）、
+一個 `integer` 型別的一維陣列
+（`pay_by_quarter`），代表
+員工每一季的薪資，以及一個
+`text` 型別的二維陣列（`schedule`），
+代表員工每週的排班表。
 
-The syntax for `CREATE TABLE` allows the exact size of
-arrays to be specified, for example:
+`CREATE TABLE` 的語法，允許指定陣列的
+確切大小，舉例來說：
 
 ```
 
@@ -57,84 +58,84 @@ CREATE TABLE tictactoe (
 );
 ```
 
-However, the current implementation ignores any supplied array size
-limits, i.e., the behavior is the same as for arrays of unspecified
-length.
+不過，目前的實作，會忽略任何給定的陣列大小
+限制，也就是說，其行為與未指定長度的陣列
+相同。
 
-The current implementation does not enforce the declared
-number of dimensions either. Arrays of a particular element type are
-all considered to be of the same type, regardless of size or number
-of dimensions. So, declaring the array size or number of dimensions in
-`CREATE TABLE` is simply documentation; it does not
-affect run-time behavior.
+目前的實作，同樣也不會強制執行宣告的
+維度數量。特定元素型別的陣列，
+無論大小或維度數量為何，
+都被視為相同的型別。因此，在
+`CREATE TABLE` 中宣告陣列大小或維度數量，
+單純只是文件用途；並不會影響執行時期的行為。
 
-An alternative syntax, which conforms to the SQL standard by using
-the keyword `ARRAY`, can be used for one-dimensional arrays.
-`pay_by_quarter` could have been defined
-as:
+對於一維陣列，也可以使用另一種語法，
+使用關鍵字 `ARRAY`，以符合 SQL 標準。
+`pay_by_quarter` 原本也可以定義為：
 
 ```
 
     pay_by_quarter  integer ARRAY[4],
 ```
 
-Or, if no array size is to be specified:
+或者，若不指定陣列大小：
 
 ```
 
     pay_by_quarter  integer ARRAY,
 ```
 
-As before, however, PostgreSQL does not enforce the
-size restriction in any case.
+不過，與先前相同，PostgreSQL 在任何情況下，
+都不會強制執行大小限制。
 
 <a id="ARRAYS-INPUT"></a>
 
-### 8.15.2. Array Value Input [#](#ARRAYS-INPUT)
+### 8.15.2. 陣列值輸入 [#](#ARRAYS-INPUT)
 
 <a id="id-1.5.7.23.5.2"></a>
 
-To write an array value as a literal constant, enclose the element
-values within curly braces and separate them by commas. (If you
-know C, this is not unlike the C syntax for initializing
-structures.) You can put double quotes around any element value,
-and must do so if it contains commas or curly braces. (More
-details appear below.) Thus, the general format of an array
-constant is the following:
+要將陣列值寫成一個常值，
+請將元素值放在大括號內，並以逗號分隔。
+（若您懂 C 語言，這與 C 語言初始化結構的
+語法有點類似。）您可以在任何元素值外
+加上雙引號，若該元素值中包含逗號或大括號，
+則必須這麼做。（更多細節
+於下文說明。）因此，陣列常值的一般格式如下：
 
 ```
 
 '{ val1 delim val2 delim ... }'
 ```
 
-where *`delim`* is the delimiter character
-for the type, as recorded in its `pg_type` entry.
-Among the standard data types provided in the
-PostgreSQL distribution, all use a comma
-(`,`), except for type `box` which uses a semicolon
-(`;`). Each *`val`* is
-either a constant of the array element type, or a subarray. An example
-of an array constant is:
+其中 *`delim`* 是該型別的分隔符字元，
+記錄在其 `pg_type` 項目中。
+在 PostgreSQL 發行版本所提供的
+標準資料型別中，除了 `box` 型別
+使用分號（`;`）之外，其餘全部使用逗號
+（`,`）。每個 *`val`*，
+可以是陣列元素型別的常數，也可以是子陣列。以下是
+陣列常值的一個範例：
 
 ```
 
 '{{1,2,3},{4,5,6},{7,8,9}}'
 ```
 
-This constant is a two-dimensional, 3-by-3 array consisting of
-three subarrays of integers.
+這個常值是一個二維、3x3 的陣列，
+由三個整數子陣列組成。
 
-To set an element of an array constant to NULL, write `NULL`
-for the element value. (Any upper- or lower-case variant of
-`NULL` will do.) If you want an actual string value
-“NULL”, you must put double quotes around it.
+若要將陣列常值中的某個元素設為 NULL，
+請為該元素值寫上 `NULL`（`NULL` 的任何大小寫
+變體皆可）。若您想要的是實際的字串值
+「NULL」，則必須在它外面加上雙引號。
 
-(These kinds of array constants are actually only a special case of
-the generic type constants discussed in [Section 4.1.2.7](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-CONSTANTS-GENERIC). The constant is initially
-treated as a string and passed to the array input conversion
-routine. An explicit type specification might be necessary.)
+（這類陣列常值，實際上只是
+[4.1.2.7 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-CONSTANTS-GENERIC)中所討論的
+通用型別常值的一個特例。該常值一開始，
+會被當作字串處理，並傳遞給陣列輸入轉換
+常式。可能需要明確的型別指定。）
 
-Now we can show some `INSERT` statements:
+現在我們可以展示一些 `INSERT` 陳述式：
 
 ```
 
@@ -149,7 +150,7 @@ INSERT INTO sal_emp
     '{{"breakfast", "consulting"}, {"meeting", "lunch"}}');
 ```
 
-The result of the previous two inserts looks like this:
+前面這兩則插入指令的結果，看起來像這樣：
 
 ```
 
@@ -161,8 +162,8 @@ SELECT * FROM sal_emp;
 (2 rows)
 ```
 
-Multidimensional arrays must have matching extents for each
-dimension. A mismatch causes an error, for example:
+多維陣列的每個維度，其範圍必須相符。
+不相符會導致錯誤，舉例來說：
 
 ```
 
@@ -174,7 +175,7 @@ ERROR:  malformed array literal: "{{"meeting", "lunch"}, {"meeting"}}"
 DETAIL:  Multidimensional arrays must have sub-arrays with matching dimensions.
 ```
 
-The `ARRAY` constructor syntax can also be used:
+也可以使用 `ARRAY` 建構子語法：
 
 ```
 
@@ -189,22 +190,22 @@ INSERT INTO sal_emp
     ARRAY[['breakfast', 'consulting'], ['meeting', 'lunch']]);
 ```
 
-Notice that the array elements are ordinary SQL constants or
-expressions; for instance, string literals are single quoted, instead of
-double quoted as they would be in an array literal. The `ARRAY`
-constructor syntax is discussed in more detail in
-[Section 4.2.12](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS).
+請注意，陣列元素是一般的 SQL 常數或
+運算式；舉例來說，字串常值使用單引號，
+而不像陣列常值那樣使用雙引號。
+[4.2.12 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)中，
+對 `ARRAY` 建構子語法有更詳細的討論。
 
 <a id="ARRAYS-ACCESSING"></a>
 
-### 8.15.3. Accessing Arrays [#](#ARRAYS-ACCESSING)
+### 8.15.3. 存取陣列 [#](#ARRAYS-ACCESSING)
 
 <a id="id-1.5.7.23.6.2"></a>
 
-Now, we can run some queries on the table.
-First, we show how to access a single element of an array.
-This query retrieves the names of the employees whose pay changed in
-the second quarter:
+現在，我們可以對這個資料表執行一些查詢。
+首先，我們展示如何存取陣列的單一元素。
+以下查詢，會取回第二季薪資有變動的
+員工姓名：
 
 ```
 
@@ -216,13 +217,13 @@ SELECT name FROM sal_emp WHERE pay_by_quarter[1] <> pay_by_quarter[2];
 (1 row)
 ```
 
-The array subscript numbers are written within square brackets.
-By default PostgreSQL uses a
-one-based numbering convention for arrays, that is,
-an array of *`n`* elements starts with `array[1]` and
-ends with `array[n]`.
+陣列下標編號，寫在方括號內。
+預設情況下，PostgreSQL 對陣列
+採用從 1 開始編號的慣例，也就是說，
+一個有 *`n`* 個元素的陣列，
+從 `array[1]` 開始，到 `array[n]` 結束。
 
-This query retrieves the third quarter pay of all employees:
+以下查詢，會取回所有員工的第三季薪資：
 
 ```
 
@@ -235,11 +236,12 @@ SELECT pay_by_quarter[3] FROM sal_emp;
 (2 rows)
 ```
 
-We can also access arbitrary rectangular slices of an array, or
-subarrays. An array slice is denoted by writing
-`lower-bound:upper-bound`
-for one or more array dimensions. For example, this query retrieves the first
-item on Bill's schedule for the first two days of the week:
+我們也可以存取陣列任意的矩形切片，
+也就是子陣列。陣列切片，
+是透過為一個或多個陣列維度，
+寫上 `lower-bound:upper-bound` 來表示的。舉例來說，
+以下查詢，會取回 Bill 排班表中，
+一週前兩天的第一項：
 
 ```
 
@@ -251,11 +253,12 @@ SELECT schedule[1:2][1:1] FROM sal_emp WHERE name = 'Bill';
 (1 row)
 ```
 
-If any dimension is written as a slice, i.e., contains a colon, then all
-dimensions are treated as slices. Any dimension that has only a single
-number (no colon) is treated as being from 1
-to the number specified. For example, `[2]` is treated as
-`[1:2]`, as in this example:
+若任何一個維度，被寫成切片形式，
+也就是包含冒號，則所有維度，
+都會被視為切片。任何只有單一數字
+（沒有冒號）的維度，都會被視為從 1
+到指定數字。舉例來說，`[2]` 會被視為
+`[1:2]`，如以下範例所示：
 
 ```
 
@@ -267,13 +270,14 @@ SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
 (1 row)
 ```
 
-To avoid confusion with the non-slice case, it's best to use slice syntax
-for all dimensions, e.g., `[1:2][1:1]`, not `[2][1:1]`.
+為了避免與非切片情況混淆，最好對所有維度，
+都使用切片語法，例如 `[1:2][1:1]`，
+而不要用 `[2][1:1]`。
 
-It is possible to omit the *`lower-bound`* and/or
-*`upper-bound`* of a slice specifier; the missing
-bound is replaced by the lower or upper limit of the array's subscripts.
-For example:
+在切片指定符中，*`lower-bound`* 及／或
+*`upper-bound`* 都可以省略；
+缺少的邊界，會被替換為該陣列下標的
+下限或上限。舉例來說：
 
 ```
 
@@ -292,26 +296,28 @@ SELECT schedule[:][1:1] FROM sal_emp WHERE name = 'Bill';
 (1 row)
 ```
 
-An array subscript expression will return null if either the array itself or
-any of the subscript expressions are null. Also, null is returned if a
-subscript is outside the array bounds (this case does not raise an error).
-For example, if `schedule`
-currently has the dimensions `[1:3][1:2]` then referencing
-`schedule[3][3]` yields NULL. Similarly, an array reference
-with the wrong number of subscripts yields a null rather than an error.
+若陣列本身，或任何一個下標運算式為 null，
+則陣列下標運算式會傳回 null。此外，
+若下標超出陣列邊界，
+也會傳回 null（這種情況不會引發錯誤）。
+舉例來說，若 `schedule`
+目前的維度是 `[1:3][1:2]`，那麼參照
+`schedule[3][3]`，就會得到 NULL。同樣地，
+下標數量錯誤的陣列參照，
+也會得到 null，而不是錯誤。
 
-An array slice expression likewise yields null if the array itself or
-any of the subscript expressions are null. However, in other
-cases such as selecting an array slice that
-is completely outside the current array bounds, a slice expression
-yields an empty (zero-dimensional) array instead of null. (This
-does not match non-slice behavior and is done for historical reasons.)
-If the requested slice partially overlaps the array bounds, then it
-is silently reduced to just the overlapping region instead of
-returning null.
+若陣列本身，或任何一個下標運算式為 null，
+陣列切片運算式同樣也會得到 null。不過，
+在其他情況下，例如選取的陣列切片
+完全落在目前陣列邊界之外，
+切片運算式會得到一個空的（零維）陣列，
+而不是 null。（這與非切片的行為不符，
+是基於歷史因素而如此。）若要求的切片，
+與陣列邊界部分重疊，則它會被悄悄地
+縮減為僅重疊的區域，而不是傳回 null。
 
-The current dimensions of any array value can be retrieved with the
-`array_dims` function:
+任何陣列值目前的維度，都可以透過
+`array_dims` 函式取回：
 
 ```
 
@@ -323,12 +329,12 @@ SELECT array_dims(schedule) FROM sal_emp WHERE name = 'Carol';
 (1 row)
 ```
 
-`array_dims` produces a `text` result,
-which is convenient for people to read but perhaps inconvenient
-for programs. Dimensions can also be retrieved with
-`array_upper` and `array_lower`,
-which return the upper and lower bound of a
-specified array dimension, respectively:
+`array_dims` 會產生一個 `text` 結果，
+這對人類閱讀而言很方便，但對程式而言，
+可能不太方便。維度也可以透過
+`array_upper` 與 `array_lower` 取回，
+它們分別會傳回
+指定陣列維度的上限與下限：
 
 ```
 
@@ -340,8 +346,8 @@ SELECT array_upper(schedule, 1) FROM sal_emp WHERE name = 'Carol';
 (1 row)
 ```
 
-`array_length` will return the length of a specified
-array dimension:
+`array_length` 會傳回指定
+陣列維度的長度：
 
 ```
 
@@ -353,9 +359,9 @@ SELECT array_length(schedule, 1) FROM sal_emp WHERE name = 'Carol';
 (1 row)
 ```
 
-`cardinality` returns the total number of elements in an
-array across all dimensions. It is effectively the number of rows a call to
-`unnest` would yield:
+`cardinality` 會傳回某個陣列，
+跨所有維度的元素總數。它實際上，等同於
+呼叫 `unnest` 所會產生的資料列數：
 
 ```
 
@@ -369,11 +375,11 @@ SELECT cardinality(schedule) FROM sal_emp WHERE name = 'Carol';
 
 <a id="ARRAYS-MODIFYING"></a>
 
-### 8.15.4. Modifying Arrays [#](#ARRAYS-MODIFYING)
+### 8.15.4. 修改陣列 [#](#ARRAYS-MODIFYING)
 
 <a id="id-1.5.7.23.7.2"></a>
 
-An array value can be replaced completely:
+可以完全取代一個陣列值：
 
 ```
 
@@ -381,7 +387,7 @@ UPDATE sal_emp SET pay_by_quarter = '{25000,25000,27000,27000}'
     WHERE name = 'Carol';
 ```
 
-or using the `ARRAY` expression syntax:
+或使用 `ARRAY` 運算式語法：
 
 ```
 
@@ -389,7 +395,7 @@ UPDATE sal_emp SET pay_by_quarter = ARRAY[25000,25000,27000,27000]
     WHERE name = 'Carol';
 ```
 
-An array can also be updated at a single element:
+也可以在單一元素上更新陣列：
 
 ```
 
@@ -397,7 +403,7 @@ UPDATE sal_emp SET pay_by_quarter[4] = 15000
     WHERE name = 'Bill';
 ```
 
-or updated in a slice:
+或在一個切片上更新：
 
 ```
 
@@ -405,26 +411,30 @@ UPDATE sal_emp SET pay_by_quarter[1:2] = '{27000,27000}'
     WHERE name = 'Carol';
 ```
 
-The slice syntaxes with omitted *`lower-bound`* and/or
-*`upper-bound`* can be used too, but only when
-updating an array value that is not NULL or zero-dimensional (otherwise,
-there is no existing subscript limit to substitute).
+省略 *`lower-bound`* 及／或
+*`upper-bound`* 的切片語法，
+也同樣可以使用，但僅限於更新的陣列值
+不是 NULL 或零維的情況（否則，
+就沒有既有的下標限制可供替代）。
 
-A stored array value can be enlarged by assigning to elements not already
-present. Any positions between those previously present and the newly
-assigned elements will be filled with nulls. For example, if array
-`myarray` currently has 4 elements, it will have six
-elements after an update that assigns to `myarray[6]`;
-`myarray[5]` will contain null.
-Currently, enlargement in this fashion is only allowed for one-dimensional
-arrays, not multidimensional arrays.
+透過指定給尚未存在的元素，
+可以擴大已儲存的陣列值。原本已存在的位置，
+與新指定元素之間的任何位置，都會被填入
+null。舉例來說，若陣列
+`myarray` 目前有 4 個元素，
+在一次指定給 `myarray[6]` 的更新之後，
+它就會有六個元素；
+`myarray[5]` 會包含 null。
+目前，以這種方式擴大，僅適用於一維
+陣列，不適用於多維陣列。
 
-Subscripted assignment allows creation of arrays that do not use one-based
-subscripts. For example one might assign to `myarray[-2:7]` to
-create an array with subscript values from -2 to 7.
+帶下標的指定，允許建立不使用從 1 開始
+下標的陣列。舉例來說，可以指定給
+`myarray[-2:7]`，
+建立一個下標值從 -2 到 7 的陣列。
 
-New array values can also be constructed using the concatenation operator,
-`||`:
+也可以使用串接運算子
+`||`，來建構新的陣列值：
 
 ```
 
@@ -441,14 +451,14 @@ SELECT ARRAY[5,6] || ARRAY[[1,2],[3,4]];
 (1 row)
 ```
 
-The concatenation operator allows a single element to be pushed onto the
-beginning or end of a one-dimensional array. It also accepts two
-*`N`*-dimensional arrays, or an *`N`*-dimensional
-and an *`N+1`*-dimensional array.
+串接運算子，允許將單一元素
+加入一維陣列的開頭或結尾。它也接受兩個
+*`N`* 維陣列，或一個 *`N`* 維陣列
+與一個 *`N+1`* 維陣列。
 
-When a single element is pushed onto either the beginning or end of a
-one-dimensional array, the result is an array with the same lower bound
-subscript as the array operand. For example:
+當單一元素，被推入一維陣列的開頭
+或結尾時，結果會是一個與該陣列運算元
+下限下標相同的陣列。舉例來說：
 
 ```
 
@@ -465,10 +475,11 @@ SELECT array_dims(ARRAY[1,2] || 3);
 (1 row)
 ```
 
-When two arrays with an equal number of dimensions are concatenated, the
-result retains the lower bound subscript of the left-hand operand's outer
-dimension. The result is an array comprising every element of the left-hand
-operand followed by every element of the right-hand operand. For example:
+當兩個維度數量相同的陣列被串接時，
+結果會保留左側運算元外層維度的
+下限下標。結果是一個陣列，
+包含左側運算元的每一個元素，
+後面接著右側運算元的每一個元素。舉例來說：
 
 ```
 
@@ -485,11 +496,12 @@ SELECT array_dims(ARRAY[[1,2],[3,4]] || ARRAY[[5,6],[7,8],[9,0]]);
 (1 row)
 ```
 
-When an *`N`*-dimensional array is pushed onto the beginning
-or end of an *`N+1`*-dimensional array, the result is
-analogous to the element-array case above. Each *`N`*-dimensional
-sub-array is essentially an element of the *`N+1`*-dimensional
-array's outer dimension. For example:
+當一個 *`N`* 維陣列，
+被推入一個 *`N+1`* 維陣列的開頭
+或結尾時，結果類似上面所述的元素-陣列情況。
+每個 *`N`* 維子陣列，
+基本上就是 *`N+1`* 維
+陣列外層維度中的一個元素。舉例來說：
 
 ```
 
@@ -500,11 +512,12 @@ SELECT array_dims(ARRAY[1,2] || ARRAY[[3,4],[5,6]]);
 (1 row)
 ```
 
-An array can also be constructed by using the functions
-`array_prepend`, `array_append`,
-or `array_cat`. The first two only support one-dimensional
-arrays, but `array_cat` supports multidimensional arrays.
-Some examples:
+也可以使用函式
+`array_prepend`、`array_append`
+或 `array_cat` 來建構陣列。前兩個函式，
+只支援一維陣列，但 `array_cat`
+則支援多維陣列。
+以下是一些範例：
 
 ```
 
@@ -538,11 +551,11 @@ SELECT array_cat(ARRAY[5,6], ARRAY[[1,2],[3,4]]);
  {{5,6},{1,2},{3,4}}
 ```
 
-In simple cases, the concatenation operator discussed above is preferred
-over direct use of these functions. However, because the concatenation
-operator is overloaded to serve all three cases, there are situations where
-use of one of the functions is helpful to avoid ambiguity. For example
-consider:
+在簡單的情況下，比起直接使用這些函式，
+更偏好使用上面所討論的串接運算子。不過，
+由於串接運算子被多載以服務全部三種情況，
+在某些情況下，使用其中一個函式，
+有助於避免歧義。舉例來說，請考慮：
 
 ```
 
@@ -566,25 +579,26 @@ SELECT array_append(ARRAY[1, 2], NULL);    -- this might have been meant
  {1,2,NULL}
 ```
 
-In the examples above, the parser sees an integer array on one side of the
-concatenation operator, and a constant of undetermined type on the other.
-The heuristic it uses to resolve the constant's type is to assume it's of
-the same type as the operator's other input — in this case,
-integer array. So the concatenation operator is presumed to
-represent `array_cat`, not `array_append`. When
-that's the wrong choice, it could be fixed by casting the constant to the
-array's element type; but explicit use of `array_append` might
-be a preferable solution.
+在上面的範例中，剖析器看到串接運算子
+一側是整數陣列，另一側是型別未定的
+常數。它用來解析該常數型別的推斷做法，
+是假設它與運算子另一個輸入的型別相同 —
+在這個例子中，也就是整數陣列。因此，
+串接運算子，會被假定為代表
+`array_cat`，而不是 `array_append`。當
+這是錯誤的選擇時，可以透過將該常數轉型為
+該陣列的元素型別來修正；但明確使用
+`array_append`，可能是比較好的解法。
 
 <a id="ARRAYS-SEARCHING"></a>
 
-### 8.15.5. Searching in Arrays [#](#ARRAYS-SEARCHING)
+### 8.15.5. 在陣列中搜尋 [#](#ARRAYS-SEARCHING)
 
 <a id="id-1.5.7.23.8.2"></a>
 
-To search for a value in an array, each value must be checked.
-This can be done manually, if you know the size of the array.
-For example:
+要在陣列中搜尋某個值，必須逐一檢查每個值。
+若您知道該陣列的大小，這可以手動完成。
+舉例來說：
 
 ```
 
@@ -594,26 +608,27 @@ SELECT * FROM sal_emp WHERE pay_by_quarter[1] = 10000 OR
                             pay_by_quarter[4] = 10000;
 ```
 
-However, this quickly becomes tedious for large arrays, and is not
-helpful if the size of the array is unknown. An alternative method is
-described in [Section 9.25](../functions/functions-comparisons.md). The above
-query could be replaced by:
+不過，對於大型陣列而言，這很快就會變得繁瑣，
+而且若陣列大小未知，這種做法也沒有幫助。
+[9.25 節](../functions/functions-comparisons.md)中，
+說明了另一種做法。上面的
+查詢，可以改寫成：
 
 ```
 
 SELECT * FROM sal_emp WHERE 10000 = ANY (pay_by_quarter);
 ```
 
-In addition, you can find rows where the array has all values
-equal to 10000 with:
+此外，您也可以用以下方式，
+找出陣列中所有值都等於 10000 的資料列：
 
 ```
 
 SELECT * FROM sal_emp WHERE 10000 = ALL (pay_by_quarter);
 ```
 
-Alternatively, the `generate_subscripts` function can be used.
-For example:
+另一種做法，是使用 `generate_subscripts` 函式。
+舉例來說：
 
 ```
 
@@ -624,25 +639,27 @@ SELECT * FROM
  WHERE pay_by_quarter[s] = 10000;
 ```
 
-This function is described in [Table 9.70](../functions/functions-srf.md#FUNCTIONS-SRF-SUBSCRIPTS).
+這個函式，說明於[表 9.70](../functions/functions-srf.md#FUNCTIONS-SRF-SUBSCRIPTS)中。
 
-You can also search an array using the `&&` operator,
-which checks whether the left operand overlaps with the right operand.
-For instance:
+您也可以使用 `&&` 運算子來搜尋陣列，
+該運算子會檢查左運算元，
+是否與右運算元重疊。舉例來說：
 
 ```
 
 SELECT * FROM sal_emp WHERE pay_by_quarter && ARRAY[10000];
 ```
 
-This and other array operators are further described in
-[Section 9.19](../functions/functions-array.md). It can be accelerated by an appropriate
-index, as described in [Section 11.2](../indexes/indexes-types.md).
+關於這個運算子及其他陣列運算子的更多說明，
+請見[9.19 節](../functions/functions-array.md)。可以透過適當的
+索引來加速這類搜尋，說明請見[11.2 節](../indexes/indexes-types.md)。
 
-You can also search for specific values in an array using the `array_position`
-and `array_positions` functions. The former returns the subscript of
-the first occurrence of a value in an array; the latter returns an array with the
-subscripts of all occurrences of the value in the array. For example:
+您也可以使用 `array_position`
+與 `array_positions` 函式，
+在陣列中搜尋特定的值。前者會傳回
+某個值在陣列中第一次出現的下標；後者
+會傳回一個陣列，其中包含該值在陣列中
+所有出現位置的下標。舉例來說：
 
 ```
 
@@ -659,52 +676,58 @@ SELECT array_positions(ARRAY[1, 4, 3, 1, 3, 4, 2, 1], 1);
 (1 row)
 ```
 
-### Tip
+### 提示
 
-Arrays are not sets; searching for specific array elements
-can be a sign of database misdesign. Consider
-using a separate table with a row for each item that would be an
-array element. This will be easier to search, and is likely to
-scale better for a large number of elements.
+陣列並非集合；若需要搜尋特定的陣列元素，
+這可能是資料庫設計不當的一個徵兆。請考慮
+改用一個獨立的資料表，其中每一列，
+對應到原本會作為陣列元素的一個項目。
+這樣會更容易搜尋，
+對於大量元素而言，也可能有較好的擴充性。
 
 <a id="ARRAYS-IO"></a>
 
-### 8.15.6. Array Input and Output Syntax [#](#ARRAYS-IO)
+### 8.15.6. 陣列輸出入語法 [#](#ARRAYS-IO)
 
 <a id="id-1.5.7.23.9.2"></a>
 
-The external text representation of an array value consists of items that
-are interpreted according to the I/O conversion rules for the array's
-element type, plus decoration that indicates the array structure.
-The decoration consists of curly braces (`{` and `}`)
-around the array value plus delimiter characters between adjacent items.
-The delimiter character is usually a comma (`,`) but can be
-something else: it is determined by the `typdelim` setting
-for the array's element type. Among the standard data types provided
-in the PostgreSQL distribution, all use a comma,
-except for type `box`, which uses a semicolon (`;`).
-In a multidimensional array, each dimension (row, plane,
-cube, etc.) gets its own level of curly braces, and delimiters
-must be written between adjacent curly-braced entities of the same level.
+陣列值的外部文字表示法，
+是由依照該陣列元素型別的輸出入轉換規則
+解讀的項目所組成，再加上用來表示陣列結構的
+裝飾符號。這些裝飾符號，
+包括陣列值外圍的大括號（`{` 與 `}`），
+以及相鄰項目之間的分隔符字元。
+分隔符字元通常是逗號（`,`），
+但也可以是其他字元：這是由該陣列
+元素型別的 `typdelim` 設定所決定的。
+在 PostgreSQL 發行版本所提供的
+標準資料型別中，除了 `box` 型別
+使用分號（`;`）之外，其餘全部使用逗號。
+在多維陣列中，每個維度（列、平面、
+立方體等）都有自己一層的大括號，
+且分隔符必須寫在同一層相鄰的
+大括號實體之間。
 
-The array output routine will put double quotes around element values
-if they are empty strings, contain curly braces, delimiter characters,
-double quotes, backslashes, or white space, or match the word
-`NULL`. Double quotes and backslashes
-embedded in element values will be backslash-escaped. For numeric
-data types it is safe to assume that double quotes will never appear, but
-for textual data types one should be prepared to cope with either the presence
-or absence of quotes.
+若陣列元素值是空字串、包含大括號、
+分隔符字元、雙引號、反斜線或空白，
+或符合單字 `NULL`，
+陣列輸出常式會在該元素值外圍加上雙引號。
+元素值中內嵌的雙引號與反斜線，
+會以反斜線逸出。對於數值資料型別而言，
+可以安全地假設不會出現雙引號，但對於文字
+資料型別，則應該做好準備，因應有無引號的
+兩種情況。
 
-By default, the lower bound index value of an array's dimensions is
-set to one. To represent arrays with other lower bounds, the array
-subscript ranges can be specified explicitly before writing the
-array contents.
-This decoration consists of square brackets (`[]`)
-around each array dimension's lower and upper bounds, with
-a colon (`:`) delimiter character in between. The
-array dimension decoration is followed by an equal sign (`=`).
-For example:
+預設情況下，陣列維度的下限索引值，
+設定為 1。若要表示下限不同的陣列，
+可以在陣列內容之前，明確指定
+陣列下標範圍。
+這種裝飾符號，
+是在每個陣列維度的下限與上限外圍，
+加上方括號（`[]`），中間以
+冒號（`:`）分隔符字元隔開。
+陣列維度裝飾符號之後，會接著一個等號（`=`）。
+舉例來說：
 
 ```
 
@@ -717,42 +740,52 @@ SELECT f1[1][-2][3] AS e1, f1[1][-1][5] AS e2
 (1 row)
 ```
 
-The array output routine will include explicit dimensions in its result
-only when there are one or more lower bounds different from one.
+只有在存在一個或多個不等於 1 的下限時，
+陣列輸出常式才會在其結果中，
+包含明確的維度。
 
-If the value written for an element is `NULL` (in any case
-variant), the element is taken to be NULL. The presence of any quotes
-or backslashes disables this and allows the literal string value
-“NULL” to be entered. Also, for backward compatibility with
-pre-8.2 versions of PostgreSQL, the [array_nulls](../../server-administration/runtime-config/runtime-config-compatible.md#GUC-ARRAY-NULLS) configuration parameter can be turned
-`off` to suppress recognition of `NULL` as a NULL.
+若為某個元素所寫入的值是 `NULL`
+（任何大小寫變體皆可），該元素會被視為 NULL。
+只要出現任何引號或反斜線，
+就會停用這項規則，並允許輸入字面上的字串值
+「NULL」。此外，為了與 8.2 之前的
+PostgreSQL 版本保持向後相容，
+可以將 [array_nulls](../../server-administration/runtime-config/runtime-config-compatible.md#GUC-ARRAY-NULLS) 組態參數
+關閉（`off`），以抑制將 `NULL`
+辨識為 NULL。
 
-As shown previously, when writing an array value you can use double
-quotes around any individual array element. You *must* do so
-if the element value would otherwise confuse the array-value parser.
-For example, elements containing curly braces, commas (or the data type's
-delimiter character), double quotes, backslashes, or leading or trailing
-whitespace must be double-quoted. Empty strings and strings matching the
-word `NULL` must be quoted, too. To put a double
-quote or backslash in a quoted array element value, precede it
-with a backslash. Alternatively, you can avoid quotes and use
-backslash-escaping to protect all data characters that would otherwise
-be taken as array syntax.
+如前所示，在寫入陣列值時，
+您可以在任何個別的陣列元素外圍，加上雙引號。
+若該元素值在其他情況下，
+會讓陣列值剖析器感到困惑，您就*必須*這麼做。
+舉例來說，包含大括號、逗號（或該資料型別的
+分隔符字元）、雙引號、反斜線，或開頭或結尾
+空白的元素，都必須加上雙引號。空字串，
+以及符合單字 `NULL` 的字串，
+同樣也必須加上引號。若要在
+帶引號的陣列元素值中，放入雙
+引號或反斜線，請在它前面加上反斜線。
+另一種做法，是不使用引號，
+改用反斜線逸出，來保護所有原本
+會被視為陣列語法的資料字元。
 
-You can add whitespace before a left brace or after a right
-brace. You can also add whitespace before or after any individual item
-string. In all of these cases the whitespace will be ignored. However,
-whitespace within double-quoted elements, or surrounded on both sides by
-non-whitespace characters of an element, is not ignored.
+您可以在左大括號之前，或右大括號之後，
+加上空白。您也可以在任何個別的項目字串
+之前或之後，加上空白。在所有這些情況下，
+空白都會被忽略。不過，
+帶雙引號元素內部的空白，
+或某個元素兩側都被非空白字元包圍的空白，
+則不會被忽略。
 
-### Tip
+### 提示
 
-The `ARRAY` constructor syntax (see
-[Section 4.2.12](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)) is often easier to work
-with than the array-literal syntax when writing array values in SQL
-commands. In `ARRAY`, individual element values are written the
-same way they would be written when not members of an array.
+在 SQL 指令中撰寫陣列值時，
+`ARRAY` 建構子語法（請參閱
+[4.2.12 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)），
+通常比陣列常值語法更容易使用。在 `ARRAY` 中，
+個別的元素值，是以不作為陣列成員時
+相同的方式撰寫的。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/arrays.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/arrays.html)（原文版本：18.6；核對日期：2026-09-22）
