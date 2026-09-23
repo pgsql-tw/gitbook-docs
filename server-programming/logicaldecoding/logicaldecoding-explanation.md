@@ -1,171 +1,127 @@
-## 47.2. Logical Decoding Concepts [#](#LOGICALDECODING-EXPLANATION)
+<a id="LOGICALDECODING-EXPLANATION"></a>
+## 47.2. 邏輯解碼概念 [#](#LOGICALDECODING-EXPLANATION)
 
-[47.2.1. Logical Decoding](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-LOG-DEC)
+[47.2.1. 邏輯解碼](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-LOG-DEC)
 
-[47.2.2. Replication Slots](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS)
+[47.2.2. 複寫插槽](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS)
 
-[47.2.3. Replication Slot Synchronization](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)
+[47.2.3. 複寫插槽同步](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)
 
-[47.2.4. Output Plugins](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS)
+[47.2.4. 輸出外掛程式](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS)
 
-[47.2.5. Exported Snapshots](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS)
+[47.2.5. 匯出的快照](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS)
 
 <a id="LOGICALDECODING-EXPLANATION-LOG-DEC"></a>
 
-### 47.2.1. Logical Decoding [#](#LOGICALDECODING-EXPLANATION-LOG-DEC)
+### 47.2.1. 邏輯解碼 [#](#LOGICALDECODING-EXPLANATION-LOG-DEC)
 
 <a id="id-1.8.14.8.2.2"></a>
 
-Logical decoding is the process of extracting all persistent changes
-to a database's tables into a coherent, easy to understand format which
-can be interpreted without detailed knowledge of the database's internal
-state.
+邏輯解碼是一種將資料庫資料表中所有持久性變更，擷取為一種連貫、易於理解的格式的過程，使其在無需深入了解資料庫內部狀態的情況下即可解讀。
 
-In PostgreSQL, logical decoding is implemented
-by decoding the contents of the [write-ahead
-log](../../server-administration/wal/README.md), which describe changes on a storage level, into an
-application-specific form such as a stream of tuples or SQL statements.
+在 PostgreSQL 中，邏輯解碼是透過將
+[先寫式日誌（write-ahead log）](../../server-administration/wal/README.md)（描述儲存層級上的變更）的內容，解碼為特定應用程式所需的形式（例如資料列串流或 SQL 陳述式）來實作的。
 
 <a id="LOGICALDECODING-REPLICATION-SLOTS"></a>
 
-### 47.2.2. Replication Slots [#](#LOGICALDECODING-REPLICATION-SLOTS)
+### 47.2.2. 複寫插槽 [#](#LOGICALDECODING-REPLICATION-SLOTS)
 
 <a id="id-1.8.14.8.3.2"></a>
 
-In the context of logical replication, a slot represents a stream of
-changes that can be replayed to a client in the order they were made on
-the origin server. Each slot streams a sequence of changes from a single
-database.
+在邏輯複寫的語境中，插槽代表一串變更串流，可依照這些變更在來源伺服器上發生的順序，重播給用戶端。每個插槽都會從單一資料庫串流出一連串的變更。
 
-### Note
+### 注意
 
-PostgreSQL also has streaming replication slots
-(see [Section 26.2.5](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION)), but they are used somewhat
-differently there.
+PostgreSQL 也有串流複寫插槽
+（見[26.2.5 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION)），但其用法略有不同。
 
-A replication slot has an identifier that is unique across all databases
-in a PostgreSQL cluster. Slots persist
-independently of the connection using them and are crash-safe.
+複寫插槽有一個識別碼，在一個 PostgreSQL 叢集中的
+所有資料庫間皆為唯一。插槽的存續與使用它的連線無關，且具備當機安全性。
 
-A logical slot will emit each change just once in normal operation.
-The current position of each slot is persisted only at checkpoint, so in
-the case of a crash the slot might return to an earlier LSN, which will
-then cause recent changes to be sent again when the server restarts.
-Logical decoding clients are responsible for avoiding ill effects from
-handling the same message more than once. Clients may wish to record
-the last LSN they saw when decoding and skip over any repeated data or
-(when using the replication protocol) request that decoding start from
-that LSN rather than letting the server determine the start point.
-The Replication Progress Tracking feature is designed for this purpose,
-refer to [replication origins](../replication-origins/README.md).
+在正常運作下，邏輯插槽只會將每項變更傳送一次。每個插槽目前的位置只會在檢查點時被持久化，因此若發生當機，該插槽可能會回退到較早的 LSN，導致伺服器重新啟動時，近期的變更會被再次傳送。邏輯解碼用戶端有責任避免因重複處理同一則訊息而產生不良後果。用戶端或許會想記錄解碼時所看到的最後一個 LSN，並略過任何重複的資料，或者（在使用複寫協定時）要求解碼從該 LSN 開始，而不是讓伺服器自行決定起始點。複寫進度追蹤功能正是為此目的而設計，請參閱[複寫來源](../replication-origins/README.md)。
 
-Multiple independent slots may exist for a single database. Each slot has
-its own state, allowing different consumers to receive changes from
-different points in the database change stream. For most applications, a
-separate slot will be required for each consumer.
+單一資料庫可以存在多個彼此獨立的插槽。每個插槽都有自己的狀態，讓不同的消費者可以從資料庫變更串流中的不同位置接收變更。對於大多數應用程式而言，每個消費者都需要一個各自獨立的插槽。
 
-A logical replication slot knows nothing about the state of the
-receiver(s). It's even possible to have multiple different receivers using
-the same slot at different times; they'll just get the changes following
-on from when the last receiver stopped consuming them. Only one receiver
-may consume changes from a slot at any given time.
+邏輯複寫插槽對於接收端的狀態一無所知。甚至可以讓多個不同的接收端，在不同時間使用同一個插槽；它們只會收到自上一個接收端停止消費之後所發生的變更。在任何時間點，都只能有一個接收端從某個插槽消費變更。
 
-A logical replication slot can also be created on a hot standby. To prevent
-`VACUUM` from removing required rows from the system
-catalogs, `hot_standby_feedback` should be set on the
-standby. In spite of that, if any required rows get removed, the slot gets
-invalidated. It's highly recommended to use a physical slot between the
-primary and the standby. Otherwise, `hot_standby_feedback`
-will work but only while the connection is alive (for example a node
-restart would break it). Then, the primary may delete system catalog rows
-that could be needed by the logical decoding on the standby (as it does
-not know about the `catalog_xmin` on the standby).
-Existing logical slots on standby also get invalidated if
-`wal_level` on the primary is reduced to less than
-`logical`.
-This is done as soon as the standby detects such a change in the WAL stream.
-It means that, for walsenders that are lagging (if any), some WAL records up
-to the `wal_level` parameter change on the primary won't be
-decoded.
+邏輯複寫插槽也可以建立在熱備援伺服器（hot standby）上。為避免
+`VACUUM` 從系統目錄中移除所需的資料列，應在
+備援伺服器上設定 `hot_standby_feedback`。儘管如此，若任何所需的資料列仍遭移除，該插槽就會失效。強烈建議在主要伺服器與備援伺服器之間使用實體插槽。否則，`hot_standby_feedback`
+雖然仍會運作，但僅在連線存續期間有效（舉例來說，節點重新啟動便會使其失效）。如此一來，主要伺服器可能會刪除備援伺服器上的邏輯解碼所需的系統目錄資料列（因為它不知道備援伺服器上的
+`catalog_xmin`）。
+若主要伺服器上的 `wal_level` 被降低至低於
+`logical`，備援伺服器上既有的邏輯插槽也會失效。
+一旦備援伺服器在 WAL 串流中偵測到此類變更，便會立即執行此動作。
+這意味著，對於（若有）落後的 walsender 而言，某些直到主要伺服器上
+`wal_level` 參數變更為止的 WAL 記錄將不會被解碼。
 
-Creation of a logical slot requires information about all the currently
-running transactions. On the primary, this information is available
-directly, but on a standby, this information has to be obtained from
-primary. Thus, slot creation may need to wait for some activity to happen
-on the primary. If the primary is idle, creating a logical slot on
-standby may take noticeable time. This can be sped up by calling the
-`pg_log_standby_snapshot` function on the primary.
+建立邏輯插槽需要目前所有執行中交易的相關資訊。在主要伺服器上，
+可直接取得此資訊，但在備援伺服器上，此資訊則必須向
+主要伺服器取得。因此，建立插槽可能需要等待主要伺服器上發生某些活動。若主要伺服器處於閒置狀態，在
+備援伺服器上建立邏輯插槽可能會耗費相當長的時間。可以透過在主要伺服器上呼叫
+`pg_log_standby_snapshot` 函式來加快此過程。
 
-### Caution
+### 小心
 
-Replication slots persist across crashes and know nothing about the state
-of their consumer(s). They will prevent removal of required resources
-even when there is no connection using them. This consumes storage
-because neither required WAL nor required rows from the system catalogs
-can be removed by `VACUUM` as long as they are required by a replication
-slot. In extreme cases this could cause the database to shut down to prevent
-transaction ID wraparound (see [Section 24.1.5](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)).
-So if a slot is no longer required it should be dropped.
+複寫插槽的存續會跨越當機，且對其消費者的狀態一無所知。即使沒有任何連線在使用它們，它們仍會阻止所需資源被移除。這會消耗儲存空間，因為只要仍被某個複寫
+插槽所需要，`VACUUM` 就無法移除所需的 WAL 或系統目錄中所需的資料列。在極端情況下，這可能導致資料庫為防止交易 ID 回捲而關閉（見[24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)）。
+因此，若某個插槽已不再需要，就應將其刪除。
 
 <a id="LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION"></a>
 
-### 47.2.3. Replication Slot Synchronization [#](#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)
+### 47.2.3. 複寫插槽同步 [#](#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)
 
-The logical replication slots on the primary can be synchronized to
-the hot standby by using the `failover` parameter of
-[`pg_create_logical_replication_slot`](../../the-sql-language/functions/functions-admin.md#PG-CREATE-LOGICAL-REPLICATION-SLOT), or by
-using the [`failover`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER) option of
-`CREATE SUBSCRIPTION` during slot creation.
-Additionally, enabling [`sync_replication_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS) on the standby
-is required. By enabling [`sync_replication_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS)
-on the standby, the failover slots can be synchronized periodically in
-the slotsync worker. For the synchronization to work, it is mandatory to
-have a physical replication slot between the primary and the standby (i.e.,
-[`primary_slot_name`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-PRIMARY-SLOT-NAME)
-should be configured on the standby), and
-[`hot_standby_feedback`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-HOT-STANDBY-FEEDBACK)
-must be enabled on the standby. It is also necessary to specify a valid
-`dbname` in the
-[`primary_conninfo`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-PRIMARY-CONNINFO).
-It's highly recommended that the said physical replication slot is named in
+可以在建立插槽時，透過
+[`pg_create_logical_replication_slot`](../../the-sql-language/functions/functions-admin.md#PG-CREATE-LOGICAL-REPLICATION-SLOT) 的
+`failover` 參數，或透過
+`CREATE SUBSCRIPTION` 的
+[`failover`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER) 選項，
+將主要伺服器上的邏輯複寫插槽同步至熱備援伺服器。
+此外，還必須在備援伺服器上啟用
+[`sync_replication_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS)。在備援伺服器上啟用
+[`sync_replication_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS)
+後，容錯移轉插槽便可由插槽同步工作程序定期同步。若要使同步機制運作，
+主要伺服器與備援伺服器之間必須具備一個實體複寫插槽（也就是說，
+應在備援伺服器上設定
+[`primary_slot_name`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-PRIMARY-SLOT-NAME)），並且
+必須在備援伺服器上啟用
+[`hot_standby_feedback`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-HOT-STANDBY-FEEDBACK)。
+此外還必須在
+[`primary_conninfo`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-PRIMARY-CONNINFO)
+中指定有效的 `dbname`。
+強烈建議在主要伺服器的
 [`synchronized_standby_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNCHRONIZED-STANDBY-SLOTS)
-list on the primary, to prevent the subscriber from consuming changes
-faster than the hot standby. Even when correctly configured, some latency
-is expected when sending changes to logical subscribers due to the waiting
-on slots named in
-[`synchronized_standby_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNCHRONIZED-STANDBY-SLOTS).
-When `synchronized_standby_slots` is utilized, the
-primary server will not completely shut down until the corresponding
-standbys, associated with the physical replication slots specified
-in `synchronized_standby_slots`, have confirmed
-receiving the WAL up to the latest flushed position on the primary server.
+清單中，列出該實體複寫插槽的名稱，以避免訂閱端消費變更的速度快過熱備援伺服器。即使組態設定正確無誤，由於必須等待
+[`synchronized_standby_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNCHRONIZED-STANDBY-SLOTS)
+中列出的插槽，向邏輯訂閱端傳送變更時仍會有一定的延遲。
+當使用了 `synchronized_standby_slots` 時，
+主要伺服器在完全關閉之前，會先等待
+`synchronized_standby_slots` 中所指定實體複寫插槽所對應的
+備援伺服器，確認已接收到直到主要伺服器上最新
+排清（flush）位置為止的 WAL。
 
-### Note
+### 注意
 
-While enabling [`sync_replication_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS) allows for automatic
-periodic synchronization of failover slots, they can also be manually
-synchronized using the [`pg_sync_replication_slots`](../../the-sql-language/functions/functions-admin.md#PG-SYNC-REPLICATION-SLOTS) function on the standby.
-However, this function is primarily intended for testing and debugging and
-should be used with caution. Unlike automatic synchronization, it does not
-include cyclic retries, making it more prone to synchronization failures,
-particularly during initial sync scenarios where the required WAL files
-or catalog rows for the slot might have already been removed or are at risk
-of being removed on the standby. In contrast, automatic synchronization
-via `sync_replication_slots` provides continuous slot
-updates, enabling seamless failover and supporting high availability.
-Therefore, it is the recommended method for synchronizing slots.
+雖然啟用
+[`sync_replication_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS) 可讓
+容錯移轉插槽自動定期同步，但也可以在備援伺服器上使用
+[`pg_sync_replication_slots`](../../the-sql-language/functions/functions-admin.md#PG-SYNC-REPLICATION-SLOTS) 函式手動同步。
+不過，此函式主要是為了測試與除錯而設計，應謹慎使用。與自動同步不同的是，它
+不具備週期性重試機制，因此更容易發生同步失敗，尤其是在初始同步情境下，此時插槽所需的 WAL 檔案
+或目錄資料列，可能已在備援伺服器上被移除，或有被移除的風險。相對地，透過
+`sync_replication_slots` 進行的自動同步，可提供
+持續性的插槽更新，實現無縫的容錯移轉，並支援高可用性。
+因此，這是建議採用的插槽同步方式。
 
-When slot synchronization is configured as recommended,
-and the initial synchronization is performed either automatically or
-manually via `pg_sync_replication_slots`, the standby
-can persist the synchronized slot only if the following condition is met:
-The logical replication slot on the primary must retain WALs and system
-catalog rows that are still available on the standby. This ensures data
-integrity and allows logical replication to continue smoothly after
-promotion.
-If the required WALs or catalog rows have already been purged from the
-standby, the slot will not be persisted to avoid data loss. In such
-cases, the following log message may appear:
+當插槽同步依建議方式設定完成，
+且已（無論是自動或透過 `pg_sync_replication_slots` 手動）完成初始同步後，
+只有在滿足以下條件時，備援伺服器才能持久化該已同步的插槽：
+主要伺服器上的邏輯複寫插槽，必須保留備援伺服器上仍然可用的 WAL
+與系統目錄資料列。這可確保資料完整性，並讓邏輯複寫在
+提升為主要伺服器之後，仍能順利延續。
+若所需的 WAL 或目錄資料列已從
+備援伺服器上清除，為避免資料遺失，該插槽將不會被持久化。在此類
+情況下，可能會出現以下日誌訊息：
 
 ```
 
@@ -173,68 +129,60 @@ LOG:  could not synchronize replication slot "failover_slot"
 DETAIL:  Synchronization could lead to data loss, because the remote slot needs WAL at LSN 0/3003F28 and catalog xmin 754, but the standby has LSN 0/3003F28 and catalog xmin 756.
 ```
 
-If the logical replication slot is actively used by a consumer, no
-manual intervention is needed; the slot will advance automatically,
-and synchronization will resume in the next cycle. However, if no
-consumer is configured, it is advisable to manually advance the slot
-on the primary using [`pg_logical_slot_get_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-GET-CHANGES) or
-[`pg_logical_slot_get_binary_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-GET-BINARY-CHANGES),
-allowing synchronization to proceed.
+若該邏輯複寫插槽正被消費者主動使用，則不需要任何
+人工介入；該插槽會自動前進，
+同步作業也會在下一個週期恢復。不過，若未設定任何
+消費者，則建議在主要伺服器上手動使用
+[`pg_logical_slot_get_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-GET-CHANGES) 或
+[`pg_logical_slot_get_binary_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-GET-BINARY-CHANGES) 使插槽前進，
+讓同步作業得以繼續進行。
 
-The ability to resume logical replication after failover depends upon the
-[pg_replication_slots](../../internals/views/view-pg-replication-slots.md).`synced`
-value for the synchronized slots on the standby at the time of failover.
-Only persistent slots that have attained synced state as true on the standby
-before failover can be used for logical replication after failover.
-Temporary synced slots cannot be used for logical decoding, therefore
-logical replication for those slots cannot be resumed. For example, if the
-synchronized slot could not become persistent on the standby due to a
-disabled subscription, then the subscription cannot be resumed after
-failover even when it is enabled.
+容錯移轉之後能否恢復邏輯複寫，取決於容錯移轉發生當時，
+[pg_replication_slots](../../internals/views/view-pg-replication-slots.md) 中備援伺服器上已同步插槽的
+`synced`
+值。只有在容錯移轉之前，於備援伺服器上已達到 synced 狀態為 true 的持久性插槽，
+才能在容錯移轉後用於邏輯複寫。
+暫時性的已同步插槽無法用於邏輯解碼，因此
+這些插槽的邏輯複寫也就無法恢復。舉例來說，若某個已同步插槽因訂閱被停用，
+而無法在備援伺服器上變為持久性插槽，那麼即使該訂閱後來被重新啟用，
+在容錯移轉後也無法恢復。
 
-To resume logical replication after failover from the synced logical
-slots, the subscription's 'conninfo' must be altered to point to the
-new primary server. This is done using
-[`ALTER SUBSCRIPTION ... CONNECTION`](../../reference/sql-commands/sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-CONNECTION).
-It is recommended that subscriptions are first disabled before promoting
-the standby and are re-enabled after altering the connection string.
+若要從已同步的邏輯插槽，在容錯移轉後恢復邏輯複寫，必須將該訂閱的
+'conninfo' 變更為指向新的主要伺服器。這可透過
+[`ALTER SUBSCRIPTION ... CONNECTION`](../../reference/sql-commands/sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-CONNECTION) 完成。
+建議在將備援伺服器提升為主要伺服器之前，先停用相關訂閱，
+並在變更連線字串之後再重新啟用。
 
-### Caution
+### 小心
 
-There is a chance that the old primary is up again during the promotion
-and if subscriptions are not disabled, the logical subscribers may
-continue to receive data from the old primary server even after promotion
-until the connection string is altered. This might result in data
-inconsistency issues, preventing the logical subscribers from being
-able to continue replication from the new primary server.
+在提升過程中，舊的主要伺服器有可能重新上線，若訂閱未被停用，
+邏輯訂閱端可能會在提升完成後，仍持續從舊的主要伺服器接收資料，
+直到連線字串被變更為止。這可能導致資料不一致的問題，
+使邏輯訂閱端無法從新的主要伺服器繼續複寫。
 
 <a id="LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS"></a>
 
-### 47.2.4. Output Plugins [#](#LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS)
+### 47.2.4. 輸出外掛程式 [#](#LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS)
 
-Output plugins transform the data from the write-ahead log's internal
-representation into the format the consumer of a replication slot desires.
+輸出外掛程式會將資料，從先寫式日誌的內部表示法，轉換為複寫插槽消費者所需要的格式。
 
 <a id="LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS"></a>
 
-### 47.2.5. Exported Snapshots [#](#LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS)
+### 47.2.5. 匯出的快照 [#](#LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS)
 
-When a new replication slot is created using the streaming replication
-interface (see [CREATE_REPLICATION_SLOT](../../internals/protocol/protocol-replication.md#PROTOCOL-REPLICATION-CREATE-REPLICATION-SLOT)), a
-snapshot is exported
-(see [Section 9.28.5](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION)), which will show
-exactly the state of the database after which all changes will be
-included in the change stream. This can be used to create a new replica by
-using [`SET TRANSACTION
-SNAPSHOT`](../../reference/sql-commands/sql-set-transaction.md) to read the state of the database at the moment
-the slot was created. This transaction can then be used to dump the
-database's state at that point in time, which afterwards can be updated
-using the slot's contents without losing any changes.
+當使用串流複寫介面建立新的複寫插槽時
+（見[CREATE_REPLICATION_SLOT](../../internals/protocol/protocol-replication.md#PROTOCOL-REPLICATION-CREATE-REPLICATION-SLOT)），
+系統會匯出一份快照
+（見[9.28.5 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION)），該快照會精確顯示
+資料庫在此之後、所有變更都將被納入變更串流時的狀態。此快照可用來
+建立新的複本，方式是使用
+[`SET TRANSACTION
+SNAPSHOT`](../../reference/sql-commands/sql-set-transaction.md) 來讀取該插槽建立當下的資料庫狀態。接著可以使用此交易來傾印
+資料庫在該時間點的狀態，之後便可利用該插槽的內容進行更新，而不會遺失任何變更。
 
-Applications that do not require
-snapshot export may suppress it with the `SNAPSHOT 'nothing'`
-option.
+不需要匯出快照的應用程式，可以使用
+`SNAPSHOT 'nothing'` 選項來抑制此行為。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logicaldecoding-explanation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logicaldecoding-explanation.html)（原文版本：18.6；核對日期：2026-09-22）
