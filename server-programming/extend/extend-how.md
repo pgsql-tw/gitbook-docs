@@ -1,36 +1,11 @@
-## 36.1. How Extensibility Works [#](#EXTEND-HOW)
+<a id="EXTEND-HOW"></a>
 
-PostgreSQL is extensible because its operation is
-catalog-driven. If you are familiar with standard
-relational database systems, you know that they store information
-about databases, tables, columns, etc., in what are
-commonly known as system catalogs. (Some systems call
-this the data dictionary.) The catalogs appear to the
-user as tables like any other, but the DBMS stores
-its internal bookkeeping in them. One key difference
-between PostgreSQL and standard relational database systems is
-that PostgreSQL stores much more information in its
-catalogs: not only information about tables and columns,
-but also information about data types, functions, access
-methods, and so on. These tables can be modified by
-the user, and since PostgreSQL bases its operation
-on these tables, this means that PostgreSQL can be
-extended by users. By comparison, conventional
-database systems can only be extended by changing hardcoded
-procedures in the source code or by loading modules
-specially written by the DBMS vendor.
+## 36.1. 擴充性的運作方式 [#](#EXTEND-HOW)
 
-The PostgreSQL server can moreover
-incorporate user-written code into itself through dynamic loading.
-That is, the user can specify an object code file (e.g., a shared
-library) that implements a new type or function, and
-PostgreSQL will load it as required.
-Code written in SQL is even more trivial to add
-to the server. This ability to modify its operation “on the
-fly” makes PostgreSQL uniquely
-suited for rapid prototyping of new applications and storage
-structures.
+PostgreSQL 之所以可以擴充，是因為它的運作是以目錄驅動的。如果你熟悉標準的關聯式資料庫系統，就會知道它們會把資料庫、資料表、欄位等等的資訊，儲存在一般稱為系統目錄的地方（有些系統把它叫做資料字典）。這些目錄在使用者看來就跟其他資料表一樣，但資料庫管理系統會把它內部的簿記資訊存放在裡面。PostgreSQL 與標準關聯式資料庫系統之間的一項關鍵差異，在於 PostgreSQL 在它的目錄中儲存了更多資訊：不只是資料表與欄位的資訊，還包括資料型別、函式、存取方法等等的資訊。這些資料表可以由使用者修改，而由於 PostgreSQL 的運作是以這些資料表為基礎，這就表示 PostgreSQL 可以由使用者來擴充。相較之下，傳統的資料庫系統只能藉由變更原始碼中寫死的常式，或是載入由資料庫管理系統廠商特別撰寫的模組，才能加以擴充。
+
+此外，PostgreSQL 伺服器還可以透過動態載入，把使用者自行撰寫的程式碼納入自身之中。也就是說，使用者可以指定一個目的碼檔案（例如共享程式庫），用來實作新的型別或函式，而 PostgreSQL 會在需要時載入它。以 SQL 撰寫的程式碼，要加入伺服器更是輕而易舉。這種可以「即時」修改其運作方式的能力，使得 PostgreSQL 獨具優勢，特別適合用來快速開發新應用程式與儲存結構的原型。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/extend-how.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/extend-how.html)（原文版本：18.6；核對日期：2026-09-22）
