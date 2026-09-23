@@ -1,27 +1,29 @@
-## 39.2. Views and the Rule System [#](#RULES-VIEWS)
+<a id="RULES-VIEWS"></a>
+## 39.2. 檢視表與規則系統 [#](#RULES-VIEWS)
 
-[39.2.1. How `SELECT` Rules Work](rules-views.md#RULES-SELECT)
+[39.2.1. `SELECT` 規則的運作方式](rules-views.md#RULES-SELECT)
 
-[39.2.2. View Rules in Non-`SELECT` Statements](rules-views.md#RULES-VIEWS-NON-SELECT)
+[39.2.2. 非 `SELECT` 陳述式中的檢視表規則](rules-views.md#RULES-VIEWS-NON-SELECT)
 
-[39.2.3. The Power of Views in PostgreSQL](rules-views.md#RULES-VIEWS-POWER)
+[39.2.3. PostgreSQL 中檢視表的強大之處](rules-views.md#RULES-VIEWS-POWER)
 
-[39.2.4. Updating a View](rules-views.md#RULES-VIEWS-UPDATE)
+[39.2.4. 更新檢視表](rules-views.md#RULES-VIEWS-UPDATE)
 
 <a id="id-1.8.6.7.2"></a><a id="id-1.8.6.7.3"></a>
 
-Views in PostgreSQL are implemented
-using the rule system. A view is basically an empty table (having no
-actual storage) with an `ON SELECT DO INSTEAD` rule.
-Conventionally, that rule is named `_RETURN`.
-So a view like
+PostgreSQL 中的檢視表是使用
+規則系統來實作的。檢視表基本上是一個空的資料表
+（沒有實際的儲存空間），並附有一條
+`ON SELECT DO INSTEAD` 規則。依照慣例，
+該規則會被命名為 `_RETURN`。
+因此，像這樣的檢視表
 
 ```
 
 CREATE VIEW myview AS SELECT * FROM mytab;
 ```
 
-is very nearly the same thing as
+幾乎等同於
 
 ```
 
@@ -30,47 +32,45 @@ CREATE RULE "_RETURN" AS ON SELECT TO myview DO INSTEAD
     SELECT * FROM mytab;
 ```
 
-although you can't actually write that, because tables are not
-allowed to have `ON SELECT` rules.
+不過你實際上無法這樣寫，因為資料表
+不允許擁有 `ON SELECT` 規則。
 
-A view can also have other kinds of `DO INSTEAD`
-rules, allowing `INSERT`, `UPDATE`,
-or `DELETE` commands to be performed on the view
-despite its lack of underlying storage.
-This is discussed further below, in
-[Section 39.2.4](rules-views.md#RULES-VIEWS-UPDATE).
+檢視表也可以擁有其他種類的 `DO INSTEAD`
+規則，讓你得以對檢視表執行 `INSERT`、
+`UPDATE` 或 `DELETE` 指令，
+儘管它並沒有底層的儲存空間。
+這一點將在下文的
+[39.2.4 節](rules-views.md#RULES-VIEWS-UPDATE)中進一步討論。
 
 <a id="RULES-SELECT"></a>
 
-### 39.2.1. How `SELECT` Rules Work [#](#RULES-SELECT)
+### 39.2.1. `SELECT` 規則的運作方式 [#](#RULES-SELECT)
 
 <a id="id-1.8.6.7.6.2"></a>
 
-Rules `ON SELECT` are applied to all queries as the last step, even
-if the command given is an `INSERT`,
-`UPDATE` or `DELETE`. And they
-have different semantics from rules on the other command types in that they modify the
-query tree in place instead of creating a new one. So
-`SELECT` rules are described first.
+`ON SELECT` 規則會在最後一步被套用到所有查詢，即使
+給定的指令是 `INSERT`、
+`UPDATE` 或 `DELETE` 也一樣。而且
+它們的語意與其他指令類型的規則不同，因為它們是就地修改
+查詢樹，而不是建立一棵新的查詢樹。因此
+我們先說明 `SELECT` 規則。
 
-Currently, there can be only one action in an `ON SELECT` rule, and it must
-be an unconditional `SELECT` action that is `INSTEAD`. This restriction was
-required to make rules safe enough to open them for ordinary users, and
-it restricts `ON SELECT` rules to act like views.
+目前，`ON SELECT` 規則中只能有一個動作，且該動作必須
+是一個無條件、`INSTEAD` 的 `SELECT` 動作。之所以有這項限制，
+是為了讓規則有足夠的安全性，能開放給一般使用者使用，
+而這也讓 `ON SELECT` 規則的行為被限制得像是檢視表。
 
-The examples for this chapter are two join views that do some
-calculations and some more views using them in turn. One of the
-two first views is customized later by adding rules for
-`INSERT`, `UPDATE`, and
-`DELETE` operations so that the final result will
-be a view that behaves like a real table with some magic
-functionality. This is not such a simple example to start from and
-this makes things harder to get into. But it's better to have one
-example that covers all the points discussed step by step rather
-than having many different ones that might mix up in mind.
+本章的範例是兩個進行某些計算的聯結檢視表，以及
+另外一些依次使用它們的檢視表。這兩個最初的
+檢視表之一，稍後會透過加入
+`INSERT`、`UPDATE` 與
+`DELETE` 操作的規則來加以客製化，讓最終的結果
+成為一個行為就像真正資料表、但帶有一些魔法功能的檢視表。這不是一個
+可以簡單入門的範例，這也讓事情變得比較難以理解。
+但比起使用許多可能會讓人搞混的不同範例，
+使用一個能循序涵蓋所有討論重點的範例，會是比較好的做法。
 
-The real tables we need in the first two rule system descriptions
-are these:
+在前兩個規則系統的說明中，我們需要用到以下真正的資料表：
 
 ```
 
@@ -97,9 +97,9 @@ CREATE TABLE unit (
 );
 ```
 
-As you can see, they represent shoe-store data.
+如你所見，它們代表的是鞋店的資料。
 
-The views are created as:
+這些檢視表是這樣建立的：
 
 ```
 
@@ -137,28 +137,28 @@ CREATE VIEW shoe_ready AS
        AND rsl.sl_len_cm <= rsh.slmaxlen_cm;
 ```
 
-The `CREATE VIEW` command for the
-`shoelace` view (which is the simplest one we
-have) will create a relation `shoelace` and an entry in
-`pg_rewrite` that tells that there is a
-rewrite rule that must be applied whenever the relation `shoelace`
-is referenced in a query's range table. The rule has no rule
-qualification (discussed later, with the non-`SELECT` rules, since
-`SELECT` rules currently cannot have them) and it is `INSTEAD`. Note
-that rule qualifications are not the same as query qualifications.
-The action of our rule has a query qualification.
-The action of the rule is one query tree that is a copy of the
-`SELECT` statement in the view creation command.
+`shoelace` 檢視表（這是我們這裡最簡單的一個）的
+`CREATE VIEW` 指令，會建立一個關係
+`shoelace`，並在 `pg_rewrite` 中
+建立一筆項目，表示只要查詢的範圍表中
+參照到關係 `shoelace`，就有一條重寫規則必須被套用。
+這條規則沒有規則限定條件（rule qualification，稍後會與非
+`SELECT` 規則一起討論，因為目前 `SELECT`
+規則不能有規則限定條件），且它是 `INSTEAD` 的。請注意，
+規則限定條件與查詢限定條件並不相同。
+我們這條規則的動作，有一個查詢限定條件。
+該規則的動作，是一棵查詢樹，
+是檢視表建立指令中 `SELECT` 陳述式的副本。
 
-### Note
+### 注意
 
-The two extra range
-table entries for `NEW` and `OLD` that you can see in
-the `pg_rewrite` entry aren't of interest
-for `SELECT` rules.
+你可以在
+`pg_rewrite` 項目中看到的兩筆額外範圍表項目，
+`NEW` 與 `OLD`，
+對 `SELECT` 規則而言並不重要。
 
-Now we populate `unit`, `shoe_data`
-and `shoelace_data` and run a simple query on a view:
+現在，我們對 `unit`、`shoe_data`
+與 `shoelace_data` 填入資料，並對某個檢視表執行一個簡單的查詢：
 
 ```
 
@@ -195,10 +195,10 @@ SELECT * FROM shoelace;
 (8 rows)
 ```
 
-This is the simplest `SELECT` you can do on our
-views, so we take this opportunity to explain the basics of view
-rules. The `SELECT * FROM shoelace` was
-interpreted by the parser and produced the query tree:
+這是我們可以對檢視表執行的最簡單的
+`SELECT`，因此我們藉此機會來說明檢視表
+規則的基本原理。`SELECT * FROM shoelace` 會
+被剖析器解讀，並產生以下查詢樹：
 
 ```
 
@@ -208,11 +208,11 @@ SELECT shoelace.sl_name, shoelace.sl_avail,
   FROM shoelace shoelace;
 ```
 
-and this is given to the rule system. The rule system walks through the
-range table and checks if there are rules
-for any relation. When processing the range table entry for
-`shoelace` (the only one up to now) it finds the
-`_RETURN` rule with the query tree:
+接著這棵查詢樹會交給規則系統。規則系統會走訪
+範圍表，檢查是否有任何關係附有規則。
+在處理 `shoelace` 的範圍表項目時
+（目前為止唯一的一個），它會找到
+`_RETURN` 規則，其查詢樹為：
 
 ```
 
@@ -224,10 +224,10 @@ SELECT s.sl_name, s.sl_avail,
  WHERE s.sl_unit = u.un_name;
 ```
 
-To expand the view, the rewriter simply creates a subquery range-table
-entry containing the rule's action query tree, and substitutes this
-range table entry for the original one that referenced the view. The
-resulting rewritten query tree is almost the same as if you had typed:
+為了展開這個檢視表，重寫器只是單純建立一個包含
+該規則動作查詢樹的子查詢範圍表項目，並以這個
+範圍表項目取代原本參照該檢視表的項目。
+結果重寫後的查詢樹，幾乎與你手動輸入以下內容時所得到的結果相同：
 
 ```
 
@@ -244,28 +244,27 @@ SELECT shoelace.sl_name, shoelace.sl_avail,
          WHERE s.sl_unit = u.un_name) shoelace;
 ```
 
-There is one difference however: the subquery's range table has two
-extra entries `shoelace old` and `shoelace new`. These entries don't
-participate directly in the query, since they aren't referenced by
-the subquery's join tree or target list. The rewriter uses them
-to store the access privilege check information that was originally present
-in the range-table entry that referenced the view. In this way, the
-executor will still check that the user has proper privileges to access
-the view, even though there's no direct use of the view in the rewritten
-query.
+不過，有一個地方不同：子查詢的範圍表中，多了兩筆
+額外的項目 `shoelace old` 與 `shoelace new`。這些項目
+不會直接參與查詢，因為它們並不會被
+子查詢的聯結樹或目標清單所參照。重寫器使用它們
+來儲存原本存在於參照該檢視表的範圍表項目中的
+存取權限檢查資訊。如此一來，即使重寫後的查詢
+中並未直接使用該檢視表，
+執行器仍然會檢查使用者是否具備存取該檢視表的適當權限。
 
-That was the first rule applied. The rule system will continue checking
-the remaining range-table entries in the top query (in this example there
-are no more), and it will recursively check the range-table entries in
-the added subquery to see if any of them reference views. (But it
-won't expand `old` or `new` — otherwise we'd have infinite recursion!)
-In this example, there are no rewrite rules for `shoelace_data` or `unit`,
-so rewriting is complete and the above is the final result given to
-the planner.
+這就是所套用的第一條規則。規則系統接著會繼續
+檢查上層查詢中剩餘的範圍表項目（在這個範例中
+已經沒有其他項目了），並且會遞迴地檢查新加入的子查詢中
+的範圍表項目，看看其中是否有任何一個參照到檢視表。（但它
+不會展開 `old` 或 `new` — 否則我們就會遇到無窮遞迴！）
+在這個範例中，`shoelace_data` 或 `unit`
+都沒有重寫規則，因此重寫工作已經完成，
+上述結果就是交給規劃器的最終結果。
 
-Now we want to write a query that finds out for which shoes currently in the store
-we have the matching shoelaces (color and length) and where the
-total number of exactly matching pairs is greater than or equal to two.
+現在，我們想寫一個查詢，找出目前店裡有哪些鞋子，
+存在著顏色與長度都相符的鞋帶，且
+完全相符配對的總數大於等於二。
 
 ```
 
@@ -278,7 +277,7 @@ SELECT * FROM shoe_ready WHERE total_avail >= 2;
 (2 rows)
 ```
 
-The output of the parser this time is the query tree:
+這次剖析器的輸出是以下查詢樹：
 
 ```
 
@@ -289,9 +288,9 @@ SELECT shoe_ready.shoename, shoe_ready.sh_avail,
  WHERE shoe_ready.total_avail >= 2;
 ```
 
-The first rule applied will be the one for the
-`shoe_ready` view and it results in the
-query tree:
+所套用的第一條規則，會是
+`shoe_ready` 檢視表的規則，其結果為
+以下查詢樹：
 
 ```
 
@@ -310,9 +309,9 @@ SELECT shoe_ready.shoename, shoe_ready.sh_avail,
  WHERE shoe_ready.total_avail >= 2;
 ```
 
-Similarly, the rules for `shoe` and
-`shoelace` are substituted into the range table of
-the subquery, leading to a three-level final query tree:
+同樣地，`shoe` 與
+`shoelace` 的規則，也會被代入子查詢
+的範圍表中，最終形成一棵三層的查詢樹：
 
 ```
 
@@ -348,30 +347,29 @@ SELECT shoe_ready.shoename, shoe_ready.sh_avail,
  WHERE shoe_ready.total_avail >= 2;
 ```
 
-This might look inefficient, but the planner will collapse this into a
-single-level query tree by “pulling up” the subqueries,
-and then it will plan the joins just as if we'd written them out
-manually. So collapsing the query tree is an optimization that the
-rewrite system doesn't have to concern itself with.
+這樣看起來可能沒有效率，但規劃器會透過將子查詢
+「向上提升（pulling up）」，把它壓平成一棵單層的查詢樹，
+接著就會像我們手動寫出所有聯結一樣，
+規劃這些聯結。因此，壓平查詢樹是一種最佳化，
+重寫系統本身並不需要為此操心。
 
 <a id="RULES-VIEWS-NON-SELECT"></a>
 
-### 39.2.2. View Rules in Non-`SELECT` Statements [#](#RULES-VIEWS-NON-SELECT)
+### 39.2.2. 非 `SELECT` 陳述式中的檢視表規則 [#](#RULES-VIEWS-NON-SELECT)
 
-Two details of the query tree aren't touched in the description of
-view rules above. These are the command type and the result relation.
-In fact, the command type is not needed by view rules, but the result
-relation may affect the way in which the query rewriter works, because
-special care needs to be taken if the result relation is a view.
+上面對檢視表規則的說明中，並未觸及查詢樹的
+兩個細節：指令類型與結果關係。
+事實上，檢視表規則並不需要指令類型，但結果
+關係可能會影響查詢重寫器的運作方式，因為當結果關係
+是檢視表時，需要特別小心處理。
 
-There are only a few differences between a query tree for a
-`SELECT` and one for any other
-command. Obviously, they have a different command type and for a
-command other than a `SELECT`, the result
-relation points to the range-table entry where the result should
-go. Everything else is absolutely the same. So having two tables
-`t1` and `t2` with columns `a` and
-`b`, the query trees for the two statements:
+`SELECT` 的查詢樹與其他任何
+指令的查詢樹之間，只有少數幾個差異。顯而易見地，
+它們的指令類型不同，而對於非 `SELECT`
+的指令而言，結果關係會指向結果應該
+寫入的範圍表項目。其他一切都完全相同。因此，假設有兩個資料表
+`t1` 與 `t2`，各有欄位 `a` 與
+`b`，以下這兩個陳述式的查詢樹：
 
 ```
 
@@ -380,179 +378,176 @@ SELECT t2.b FROM t1, t2 WHERE t1.a = t2.a;
 UPDATE t1 SET b = t2.b FROM t2 WHERE t1.a = t2.a;
 ```
 
-are nearly identical. In particular:
+幾乎完全一樣。具體來說：
 
-* The range tables contain entries for the tables `t1` and `t2`.
-* The target lists contain one variable that points to column
-  `b` of the range table entry for table `t2`.
-* The qualification expressions compare the columns `a` of both
-  range-table entries for equality.
-* The join trees show a simple join between `t1` and `t2`.
+* 範圍表都包含資料表 `t1` 與 `t2` 的項目。
+* 目標清單都包含一個變數，指向資料表 `t2`
+  範圍表項目的欄位 `b`。
+* 限定條件運算式都比較兩個
+  範圍表項目的欄位 `a` 是否相等。
+* 聯結樹都顯示 `t1` 與 `t2` 之間的簡單聯結。
 
-The consequence is, that both query trees result in similar
-execution plans: They are both joins over the two tables. For the
-`UPDATE` the missing columns from `t1` are added to
-the target list by the planner and the final query tree will read
-as:
+其結果就是，這兩棵查詢樹都會產生類似的
+執行計畫：它們都是這兩個資料表之間的聯結。對於
+`UPDATE` 而言，規劃器會將 `t1` 中缺少的欄位
+加入目標清單，最終的查詢樹會變成：
 
 ```
 
 UPDATE t1 SET a = t1.a, b = t2.b FROM t2 WHERE t1.a = t2.a;
 ```
 
-and thus the executor run over the join will produce exactly the
-same result set as:
+因此，執行器對該聯結執行的結果，會產生
+與以下查詢完全相同的結果集：
 
 ```
 
 SELECT t1.a, t2.b FROM t1, t2 WHERE t1.a = t2.a;
 ```
 
-But there is a little problem in
-`UPDATE`: the part of the executor plan that does
-the join does not care what the results from the join are
-meant for. It just produces a result set of rows. The fact that
-one is a `SELECT` command and the other is an
-`UPDATE` is handled higher up in the executor, where
-it knows that this is an `UPDATE`, and it knows that
-this result should go into table `t1`. But which of the rows
-that are there has to be replaced by the new row?
+但 `UPDATE` 中存在一個小問題：執行器計畫中
+負責執行聯結的部分，並不在意聯結的結果
+究竟是要拿來做什麼用。它只是產生一個資料列的結果集。
+一個是 `SELECT` 指令、另一個是
+`UPDATE` 指令，這件事是在執行器的更上層處理的，
+在那裡，系統知道這是一個 `UPDATE`，也知道
+這個結果應該寫入資料表 `t1`。但究竟結果集中
+哪一列，應該被新的資料列取代呢？
 
-To resolve this problem, another entry is added to the target list
-in `UPDATE` (and also in
-`DELETE`) statements: the current tuple ID
-(CTID).<a id="id-1.8.6.7.7.5.4"></a>
-This is a system column containing the
-file block number and position in the block for the row. Knowing
-the table, the CTID can be used to retrieve the
-original row of `t1` to be updated. After adding the
-CTID to the target list, the query actually looks like:
+為了解決這個問題，`UPDATE`（以及
+`DELETE`）陳述式的目標清單中，會加入
+另一項：目前的元組 ID（current tuple ID，
+CTID）<a id="id-1.8.6.7.7.5.4"></a>。
+這是一個系統欄位，內含
+該資料列所在的檔案區塊編號，以及在該區塊中的位置。
+在知道資料表的情況下，就可以使用 CTID 來取回
+要更新的 `t1` 原始資料列。將
+CTID 加入目標清單後，該查詢實際上看起來會像是：
 
 ```
 
 SELECT t1.a, t2.b, t1.ctid FROM t1, t2 WHERE t1.a = t2.a;
 ```
 
-Now another detail of PostgreSQL enters
-the stage. Old table rows aren't overwritten, and this
-is why `ROLLBACK` is fast. In an `UPDATE`,
-the new result row is inserted into the table (after stripping the
-CTID) and in the row header of the old row, which the
-CTID pointed to, the `cmax` and
-`xmax` entries are set to the current command counter
-and current transaction ID. Thus the old row is hidden, and after
-the transaction commits the vacuum cleaner can eventually remove
-the dead row.
+現在，PostgreSQL 的另一項細節
+登場了。舊的資料表列並不會被覆寫，這也是
+`ROLLBACK` 之所以快速的原因。在
+`UPDATE` 中，新的結果列會被插入該資料表中（在
+去除 CTID 之後），而在 CTID 所指向的
+舊列的列標頭中，`cmax` 與
+`xmax` 這兩個項目，會被設定為目前的指令計數器
+與目前的交易 ID。因此，舊的列會被隱藏起來，
+在交易提交之後，資料清理程式（vacuum）最終就能移除
+這個已死的列。
 
-Knowing all that, we can simply apply view rules in absolutely
-the same way to any command. There is no difference.
+了解了以上這一切之後，我們就可以將檢視表規則以完全
+相同的方式，套用到任何指令上。這之間並沒有差別。
 
 <a id="RULES-VIEWS-POWER"></a>
 
-### 39.2.3. The Power of Views in PostgreSQL [#](#RULES-VIEWS-POWER)
+### 39.2.3. PostgreSQL 中檢視表的強大之處 [#](#RULES-VIEWS-POWER)
 
-The above demonstrates how the rule system incorporates view
-definitions into the original query tree. In the second example, a
-simple `SELECT` from one view created a final
-query tree that is a join of 4 tables (`unit` was used twice with
-different names).
+上面說明了規則系統如何將檢視表
+定義，併入原本的查詢樹中。在第二個範例中，一個
+針對某個檢視表的簡單 `SELECT`，
+最終產生了一棵四個資料表聯結的查詢樹
+（`unit` 以不同的名稱被使用了兩次）。
 
-The benefit of implementing views with the rule system is
-that the planner has all
-the information about which tables have to be scanned plus the
-relationships between these tables plus the restrictive
-qualifications from the views plus the qualifications from
-the original query
-in one single query tree. And this is still the situation
-when the original query is already a join over views.
-The planner has to decide which is
-the best path to execute the query, and the more information
-the planner has, the better this decision can be. And
-the rule system as implemented in PostgreSQL
-ensures that this is all information available about the query
-up to that point.
+以規則系統來實作檢視表的好處在於，
+規劃器可以在單一棵查詢樹中，同時取得
+哪些資料表需要被掃描、這些資料表之間的關係、
+來自檢視表的限制性限定條件，
+以及來自原始查詢的限定條件等所有資訊。
+即使原始查詢本身已經是對多個檢視表的聯結，
+情況也依然如此。
+規劃器必須決定執行該查詢
+最佳的路徑為何，而規劃器所掌握的資訊
+越多，這項決策就能做得越好。而
+PostgreSQL 中所實作的規則系統，
+確保了在那個時間點，所有關於該查詢的資訊
+都是可取得的。
 
 <a id="RULES-VIEWS-UPDATE"></a>
 
-### 39.2.4. Updating a View [#](#RULES-VIEWS-UPDATE)
+### 39.2.4. 更新檢視表 [#](#RULES-VIEWS-UPDATE)
 
-What happens if a view is named as the target relation for an
-`INSERT`, `UPDATE`,
-`DELETE`, or `MERGE`? Doing the
-substitutions described above would give a query tree in which the result
-relation points at a subquery range-table entry, which will not
-work. There are several ways in which PostgreSQL
-can support the appearance of updating a view, however.
-In order of user-experienced complexity those are: automatically substitute
-in the underlying table for the view, execute a user-defined trigger,
-or rewrite the query per a user-defined rule.
-These options are discussed below.
+若某個檢視表被指定為
+`INSERT`、`UPDATE`、
+`DELETE` 或 `MERGE` 的目標關係，
+會發生什麼事呢？若照上述方式進行替換，就會得到一棵
+結果關係指向子查詢範圍表項目的查詢樹，這是行不通的。
+不過，PostgreSQL 有幾種方式，
+可以支援「看起來像是」在更新檢視表的操作。
+依使用者所感受到的複雜度排序，分別是：自動代換為
+檢視表底層的資料表、執行使用者自訂的觸發程序，
+或依照使用者自訂的規則重寫查詢。
+以下將分別討論這些選項。
 
-If the subquery selects from a single base relation and is simple
-enough, the rewriter can automatically replace the subquery with the
-underlying base relation so that the `INSERT`,
-`UPDATE`, `DELETE`, or
-`MERGE` is applied to the base relation in the
-appropriate way. Views that are “simple enough” for this
-are called *automatically updatable*. For detailed
-information on the kinds of view that can be automatically updated, see
-[CREATE VIEW](../../reference/sql-commands/sql-createview.md).
+若子查詢是從單一基礎關係中選取，且夠簡單，
+重寫器就可以自動以底層的基礎關係
+取代該子查詢，讓 `INSERT`、
+`UPDATE`、`DELETE` 或
+`MERGE` 能以適當的方式套用到基礎關係上。
+「夠簡單」而能適用這種做法的檢視表，稱為
+*可自動更新（automatically updatable）*的檢視表。
+關於哪些種類的檢視表可以自動更新的詳細資訊，請參閱
+[CREATE VIEW](../../reference/sql-commands/sql-createview.md)。
 
-Alternatively, the operation may be handled by a user-provided
-`INSTEAD OF` trigger on the view
-(see [CREATE TRIGGER](../../reference/sql-commands/sql-createtrigger.md)).
-Rewriting works slightly differently
-in this case. For `INSERT`, the rewriter does
-nothing at all with the view, leaving it as the result relation
-for the query. For `UPDATE`, `DELETE`,
-and `MERGE`, it's still necessary to expand the
-view query to produce the “old” rows that the command will
-attempt to update, delete, or merge. So the view is expanded as normal,
-but another unexpanded range-table entry is added to the query
-to represent the view in its capacity as the result relation.
+另一種做法，是由使用者為檢視表提供
+`INSTEAD OF` 觸發程序來處理該操作
+（請參閱[CREATE TRIGGER](../../reference/sql-commands/sql-createtrigger.md)）。
+在這種情況下，重寫的運作方式略有不同。
+對於 `INSERT`，重寫器完全不會對檢視表
+做任何處理，讓它保持為該查詢的結果
+關係。對於 `UPDATE`、`DELETE`
+與 `MERGE`，仍然需要展開
+檢視表查詢，以產生該指令將嘗試更新、刪除或合併的
+「舊」列。因此該檢視表會照常被展開，
+但查詢中還會加入另一個未展開的範圍表項目，
+以其身為結果關係的身分，來代表該檢視表。
 
-The problem that now arises is how to identify the rows to be
-updated in the view. Recall that when the result relation
-is a table, a special CTID entry is added to the target
-list to identify the physical locations of the rows to be updated.
-This does not work if the result relation is a view, because a view
-does not have any CTID, since its rows do not have
-actual physical locations. Instead, for an `UPDATE`,
-`DELETE`, or `MERGE` operation, a
-special `wholerow` entry is added to the target list,
-which expands to include all columns from the view. The executor uses this
-value to supply the “old” row to the
-`INSTEAD OF` trigger. It is up to the trigger to work
-out what to update based on the old and new row values.
+現在產生的問題是，該如何辨識檢視表中
+要更新的列。回想一下，當結果關係
+是資料表時，會在目標清單中加入一個特殊的
+CTID 項目，用來辨識要更新的資料列的實體位置。
+若結果關係是檢視表，這個做法就行不通了，因為檢視表
+沒有任何 CTID，因為它的資料列
+並沒有實際的實體位置。取而代之，對於 `UPDATE`、
+`DELETE` 或 `MERGE` 操作，
+會在目標清單中加入一個特殊的 `wholerow` 項目，
+它會展開成包含該檢視表的所有欄位。執行器會使用這個
+值，將「舊」的列提供給
+`INSTEAD OF` 觸發程序。至於該根據新舊列的值
+判斷該更新什麼，則由觸發程序自行決定。
 
-Another possibility is for the user to define `INSTEAD`
-rules that specify substitute actions for `INSERT`,
-`UPDATE`, and `DELETE` commands on
-a view. These rules will rewrite the command, typically into a command
-that updates one or more tables, rather than views. That is the topic
-of [Section 39.4](rules-update.md). Note that this will not work with
-`MERGE`, which currently does not support rules on
-the target relation other than `SELECT` rules.
+另一種可能的做法，是由使用者定義
+`INSTEAD` 規則，為檢視表上的 `INSERT`、
+`UPDATE` 與 `DELETE`
+指令指定替代動作。這些規則會重寫該指令，通常會重寫成
+一個更新一或多個資料表（而非檢視表）的指令。這是
+[39.4 節](rules-update.md)的主題。請注意，這種做法對
+`MERGE` 並不適用，因為它目前
+在目標關係上，除了 `SELECT` 規則之外，並不支援其他規則。
 
-Note that rules are evaluated first, rewriting the original query
-before it is planned and executed. Therefore, if a view has
-`INSTEAD OF` triggers as well as rules on `INSERT`,
-`UPDATE`, or `DELETE`, then the rules will be
-evaluated first, and depending on the result, the triggers may not be
-used at all.
+請注意，規則會先被求值，在原始查詢被規劃與
+執行之前，先將其重寫。因此，若某個檢視表
+同時具有 `INSTEAD OF` 觸發程序，以及針對 `INSERT`、
+`UPDATE` 或 `DELETE` 的規則，則規則會
+先被求值，而視結果而定，觸發程序有可能
+完全不會被使用。
 
-Automatic rewriting of an `INSERT`,
-`UPDATE`, `DELETE`, or
-`MERGE` query on a
-simple view is always tried last. Therefore, if a view has rules or
-triggers, they will override the default behavior of automatically
-updatable views.
+對簡單檢視表上的 `INSERT`、
+`UPDATE`、`DELETE` 或
+`MERGE` 查詢進行自動重寫，
+永遠是最後才會嘗試的做法。因此，若某個檢視表有規則或
+觸發程序，它們會覆蓋掉可自動更新檢視表的
+預設行為。
 
-If there are no `INSTEAD` rules or `INSTEAD OF`
-triggers for the view, and the rewriter cannot automatically rewrite
-the query as an update on the underlying base relation, an error will
-be thrown because the executor cannot update a view as such.
+若該檢視表沒有 `INSTEAD` 規則或 `INSTEAD OF`
+觸發程序，且重寫器無法將該查詢自動重寫為
+對底層基礎關係的更新，就會擲回錯誤，
+因為執行器本身無法就這樣更新一個檢視表。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-views.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/rules-views.html)（原文版本：18.6；核對日期：2026-09-22）

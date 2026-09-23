@@ -467,7 +467,7 @@
     * [38.5. 資料庫登入事件觸發程序範例 #](server-programming/event-triggers/event-trigger-database-login-example.md)
   * [第 39 章 規則系統](server-programming/rules/README.md)
     * [39.1. 查詢樹 #](server-programming/rules/querytree.md)
-    * [39.2. Views and the Rule System #](server-programming/rules/rules-views.md)
+    * [39.2. 檢視表與規則系統 #](server-programming/rules/rules-views.md)
     * [39.3. 具體化檢視表 #](server-programming/rules/rules-materializedviews.md)
     * [39.4. `INSERT`、`UPDATE` 與 `DELETE` 上的規則 #](server-programming/rules/rules-update.md)
     * [39.5. 規則與權限 #](server-programming/rules/rules-privileges.md)
