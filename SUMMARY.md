@@ -189,7 +189,7 @@
     * [18.5. Shutting Down the Server #](server-administration/runtime/server-shutdown.md)
     * [18.6. Upgrading a PostgreSQL Cluster #](server-administration/runtime/upgrading.md)
     * [18.7. Preventing Server Spoofing #](server-administration/runtime/preventing-server-spoofing.md)
-    * [18.8. Encryption Options #](server-administration/runtime/encryption-options.md)
+    * [18.8. 加密選項 #](server-administration/runtime/encryption-options.md)
     * [18.9. Secure TCP/IP Connections with SSL #](server-administration/runtime/ssl-tcp.md)
     * [18.10. Secure TCP/IP Connections with GSSAPI Encryption #](server-administration/runtime/gssapi-enc.md)
     * [18.11. Secure TCP/IP Connections with SSH Tunnels #](server-administration/runtime/ssh-tunnels.md)

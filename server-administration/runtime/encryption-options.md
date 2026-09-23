@@ -1,102 +1,102 @@
-## 18.8. Encryption Options [#](#ENCRYPTION-OPTIONS)
+<a id="ENCRYPTION-OPTIONS"></a>
+
+## 18.8. 加密選項 [#](#ENCRYPTION-OPTIONS)
 
 <a id="id-1.6.5.11.2"></a>
 
-PostgreSQL offers encryption at several
-levels, and provides flexibility in protecting data from disclosure
-due to database server theft, unscrupulous administrators, and
-insecure networks. Encryption might also be required to secure
-sensitive data such as medical records or financial transactions.
+PostgreSQL 在多個層級提供加密功能，
+讓您能夠靈活地保護資料，避免因資料庫伺服器遭竊、
+管理者行為不當，或網路不安全，而導致資料外洩。
+要保護諸如病歷或財務交易等敏感資料，
+也可能需要用到加密功能。
 
-Password Encryption
-:   Database user passwords are stored as hashes (determined by the setting
-    [password_encryption](../runtime-config/runtime-config-connection.md#GUC-PASSWORD-ENCRYPTION)), so the administrator cannot
-    determine the actual password assigned to the user. If SCRAM or MD5
-    encryption is used for client authentication, the unencrypted password is
-    never even temporarily present on the server because the client encrypts
-    it before being sent across the network. SCRAM is preferred, because it
-    is an Internet standard and is more secure than the PostgreSQL-specific
-    MD5 authentication protocol.
+密碼加密
+:   資料庫使用者的密碼，會以雜湊值的形式儲存
+    （由 [password_encryption](../runtime-config/runtime-config-connection.md#GUC-PASSWORD-ENCRYPTION)
+    設定決定），因此管理者無法得知指派給使用者的實際密碼。
+    若用戶端驗證使用 SCRAM 或 MD5 加密，
+    則未加密的密碼，甚至不會暫時出現在伺服器上，
+    因為用戶端會在透過網路傳送之前，先對密碼進行加密。
+    建議優先使用 SCRAM，因為它是一項網際網路標準，
+    比 PostgreSQL 專屬的 MD5 驗證協定更安全。
 
-    ### Warning
+    ### 警告
 
-    Support for MD5-encrypted passwords is deprecated and will be removed in
-    a future release of PostgreSQL. Refer to
-    [Section 20.5](../client-authentication/auth-password.md) for details about migrating to another
-    password type.
+    對 MD5 加密密碼的支援，已被棄用，
+    未來的 PostgreSQL 版本將會將其移除。
+    關於遷移至其他密碼型別的詳情，
+    請參閱[20.5 節](../client-authentication/auth-password.md)。
 
-Encryption For Specific Columns
-:   The [pgcrypto](../../appendixes/contrib/pgcrypto.md) module allows certain fields to be
-    stored encrypted.
-    This is useful if only some of the data is sensitive.
-    The client supplies the decryption key and the data is decrypted
-    on the server and then sent to the client.
+針對特定欄位加密
+:   [pgcrypto](../../appendixes/contrib/pgcrypto.md) 模組，
+    可讓特定欄位以加密的形式儲存。
+    這在只有部分資料屬於敏感資料時相當實用。
+    用戶端會提供解密金鑰，資料會在伺服器上解密，
+    然後再傳送給用戶端。
 
-    The decrypted data and the decryption key are present on the
-    server for a brief time while it is being decrypted and
-    communicated between the client and server. This presents a brief
-    moment where the data and keys can be intercepted by someone with
-    complete access to the database server, such as the system
-    administrator.
+    在資料被解密、並於用戶端與伺服器之間傳輸的短暫期間，
+    解密後的資料與解密金鑰，會存在於伺服器上。
+    這會產生一段短暫的時機，讓具有資料庫伺服器完整存取權限的人
+    （例如系統管理者），有機會攔截這些資料與金鑰。
 
-Data Partition Encryption
-:   Storage encryption can be performed at the file system level or the
-    block level. Linux file system encryption options include eCryptfs
-    and EncFS, while FreeBSD uses PEFS. Block level or full disk
-    encryption options include dm-crypt + LUKS on Linux and GEOM
-    modules geli and gbde on FreeBSD. Many other operating systems
-    support this functionality, including Windows.
+資料分割區加密
+:   儲存體加密，可以在檔案系統層級或區塊層級進行。
+    Linux 的檔案系統加密選項，
+    包括 eCryptfs 與 EncFS，而 FreeBSD 則使用 PEFS。
+    區塊層級或全磁碟加密選項，
+    則包括 Linux 上的 dm-crypt + LUKS，
+    以及 FreeBSD 上的 GEOM 模組 geli 與 gbde。
+    許多其他作業系統，包括 Windows，
+    也都支援這項功能。
 
-    This mechanism prevents unencrypted data from being read from the
-    drives if the drives or the entire computer is stolen. This does
-    not protect against attacks while the file system is mounted,
-    because when mounted, the operating system provides an unencrypted
-    view of the data. However, to mount the file system, you need some
-    way for the encryption key to be passed to the operating system,
-    and sometimes the key is stored somewhere on the host that mounts
-    the disk.
+    這種機制，可以防止在磁碟機或整部電腦遭竊時，
+    讀取到未加密的資料。但它無法防範檔案系統
+    掛載期間所發生的攻擊，因為在掛載狀態下，
+    作業系統會提供未加密的資料檢視畫面。不過，
+    要掛載檔案系統，您需要某種方式，
+    將加密金鑰傳遞給作業系統，
+    而有時該金鑰，會儲存在掛載該磁碟之主機上的某處。
 
-Encrypting Data Across A Network
-:   SSL connections encrypt all data sent across the network: the
-    password, the queries, and the data returned. The
-    `pg_hba.conf` file allows administrators to specify
-    which hosts can use non-encrypted connections (`host`)
-    and which require SSL-encrypted connections
-    (`hostssl`). Also, clients can specify that they
-    connect to servers only via SSL.
+透過網路加密資料
+:   SSL 連線，會將透過網路傳送的所有資料加密：
+    包括密碼、查詢內容，以及傳回的資料。
+    `pg_hba.conf` 檔案，讓管理者能夠指定
+    哪些主機可以使用未加密的連線（`host`），
+    哪些主機則要求使用 SSL 加密連線
+    （`hostssl`）。此外，用戶端也可以指定，
+    只透過 SSL 連線至伺服器。
 
-    GSSAPI-encrypted connections encrypt all data sent across the network,
-    including queries and data returned. (No password is sent across the
-    network.) The `pg_hba.conf` file allows
-    administrators to specify which hosts can use non-encrypted connections
-    (`host`) and which require GSSAPI-encrypted connections
-    (`hostgssenc`). Also, clients can specify that they
-    connect to servers only on GSSAPI-encrypted connections
-    (`gssencmode=require`).
+    GSSAPI 加密連線，會將透過網路傳送的所有資料加密，
+    包括查詢內容與傳回的資料。（網路上不會傳送密碼。）
+    `pg_hba.conf` 檔案，讓管理者能夠指定
+    哪些主機可以使用未加密的連線（`host`），
+    哪些主機則要求使用 GSSAPI 加密連線
+    （`hostgssenc`）。此外，用戶端也可以指定，
+    只透過 GSSAPI 加密連線至伺服器
+    （`gssencmode=require`）。
 
-    Stunnel or
-    SSH can also be used to encrypt
-    transmissions.
+    也可以使用 Stunnel 或 SSH，
+    來加密傳輸內容。
 
-SSL Host Authentication
-:   It is possible for both the client and server to provide SSL
-    certificates to each other. It takes some extra configuration
-    on each side, but this provides stronger verification of identity
-    than the mere use of passwords. It prevents a computer from
-    pretending to be the server just long enough to read the password
-    sent by the client. It also helps prevent “man in the middle”
-    attacks where a computer between the client and server pretends to
-    be the server and reads and passes all data between the client and
-    server.
+SSL 主機驗證
+:   用戶端與伺服器，可以互相向對方提供 SSL 憑證。
+    這需要在雙方各自進行一些額外的設定，
+    但相較於僅使用密碼，這能提供更強的身分驗證。
+    它能防止某部電腦，假冒成伺服器，
+    只為了讀取用戶端傳送的密碼。這也有助於防範
+    「中間人」（man in the middle）攻擊，
+    也就是位於用戶端與伺服器之間的某部電腦，
+    假冒成伺服器，讀取並轉發用戶端與伺服器之間
+    的所有資料。
 
-Client-Side Encryption
-:   If the system administrator for the server's machine cannot be trusted,
-    it is necessary
-    for the client to encrypt the data; this way, unencrypted data
-    never appears on the database server. Data is encrypted on the
-    client before being sent to the server, and database results have
-    to be decrypted on the client before being used.
+用戶端加密
+:   若無法信任伺服器所在機器的系統管理者，
+    就必須由用戶端對資料進行加密；如此一來，
+    未加密的資料，就永遠不會出現在資料庫伺服器上。
+    資料會在用戶端上加密之後，才傳送至伺服器，
+    而資料庫傳回的結果，也必須在用戶端上解密之後，
+    才能使用。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/encryption-options.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/encryption-options.html)（原文版本：18.6；核對日期：2026-09-22）
