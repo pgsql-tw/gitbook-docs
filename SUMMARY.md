@@ -270,7 +270,7 @@
     * [27.6. Monitoring Disk Usage #](server-administration/monitoring/diskusage.md)
   * [第 28 章 可靠性與預寫式日誌](server-administration/wal/README.md)
     * [28.1. Reliability #](server-administration/wal/wal-reliability.md)
-    * [28.2. Data Checksums #](server-administration/wal/checksums.md)
+    * [28.2. 資料校驗和 #](server-administration/wal/checksums.md)
     * [28.3. Write-Ahead Logging ( WAL ) #](server-administration/wal/wal-intro.md)
     * [28.4. Asynchronous Commit #](server-administration/wal/wal-async-commit.md)
     * [28.5. WAL Configuration #](server-administration/wal/wal-configuration.md)
