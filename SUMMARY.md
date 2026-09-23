@@ -203,7 +203,7 @@
     * [19.6. Replication #](server-administration/runtime-config/runtime-config-replication.md)
     * [19.7. Query Planning #](server-administration/runtime-config/runtime-config-query.md)
     * [19.8. Error Reporting and Logging #](server-administration/runtime-config/runtime-config-logging.md)
-    * [19.9. Run-time Statistics #](server-administration/runtime-config/runtime-config-statistics.md)
+    * [19.9. 執行時期統計資訊 #](server-administration/runtime-config/runtime-config-statistics.md)
     * [19.10. Vacuuming #](server-administration/runtime-config/runtime-config-vacuum.md)
     * [19.11. Client Connection Defaults #](server-administration/runtime-config/runtime-config-client.md)
     * [19.12. Lock Management #](server-administration/runtime-config/runtime-config-locks.md)

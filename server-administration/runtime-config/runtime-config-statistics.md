@@ -1,190 +1,181 @@
-## 19.9. Run-time Statistics [#](#RUNTIME-CONFIG-STATISTICS)
+<a id="RUNTIME-CONFIG-STATISTICS"></a>
 
-[19.9.1. Cumulative Query and Index Statistics](runtime-config-statistics.md#RUNTIME-CONFIG-CUMULATIVE-STATISTICS)
+## 19.9. 執行時期統計資訊 [#](#RUNTIME-CONFIG-STATISTICS)
 
-[19.9.2. Statistics Monitoring](runtime-config-statistics.md#RUNTIME-CONFIG-STATISTICS-MONITOR)
+[19.9.1. 累計查詢與索引統計資訊](runtime-config-statistics.md#RUNTIME-CONFIG-CUMULATIVE-STATISTICS)
+
+[19.9.2. 統計資訊監控](runtime-config-statistics.md#RUNTIME-CONFIG-STATISTICS-MONITOR)
 
 <a id="RUNTIME-CONFIG-CUMULATIVE-STATISTICS"></a>
 
-### 19.9.1. Cumulative Query and Index Statistics [#](#RUNTIME-CONFIG-CUMULATIVE-STATISTICS)
+### 19.9.1. 累計查詢與索引統計資訊 [#](#RUNTIME-CONFIG-CUMULATIVE-STATISTICS)
 
-These parameters control the server-wide cumulative statistics system.
-When enabled, the data that is collected can be accessed via the
-`pg_stat` and `pg_statio`
-family of system views. Refer to [Chapter 27](../monitoring/README.md) for more
-information.
+這些參數控制伺服器層級的累計統計系統。
+啟用後，收集到的資料可以透過
+`pg_stat` 與 `pg_statio`
+系列的系統檢視表存取。詳情請參閱[第 27 章](../monitoring/README.md)。
 
 <a id="GUC-TRACK-ACTIVITIES"></a>
 
 `track_activities` (`boolean`) <a id="id-1.6.6.12.2.3.1.1.3"></a> [#](#GUC-TRACK-ACTIVITIES)
-:   Enables the collection of information on the currently
-    executing command of each session, along with its identifier and the
-    time when that command began execution. This parameter is on by
-    default. Note that even when enabled, this information is only
-    visible to superusers, roles with privileges of the
-    `pg_read_all_stats` role and the user owning the
-    sessions being reported on (including sessions belonging to a role they
-    have the privileges of), so it should not represent a security risk.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   啟用對每個工作階段目前執行中命令的資訊收集，
+    包括其識別碼以及該命令開始執行的時間。此參數預設為
+    開啟。請注意，即使啟用此參數，這項資訊也僅對超級使用者、
+    具備 `pg_read_all_stats` 角色權限的角色，
+    以及擁有被回報之工作階段的使用者（包括屬於該使用者所具權限之角色的工作階段）
+    可見，因此不應構成安全性風險。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 <a id="GUC-TRACK-ACTIVITY-QUERY-SIZE"></a>
 
 `track_activity_query_size` (`integer`) <a id="id-1.6.6.12.2.3.2.1.3"></a> [#](#GUC-TRACK-ACTIVITY-QUERY-SIZE)
-:   Specifies the amount of memory reserved to store the text of the
-    currently executing command for each active session, for the
-    `pg_stat_activity`.`query` field.
-    If this value is specified without units, it is taken as bytes.
-    The default value is 1024 bytes.
-    This parameter can only be set at server start.
+:   指定為每個作用中工作階段保留、用於儲存目前執行中命令文字的
+    記憶體量，供
+    `pg_stat_activity`.`query` 欄位使用。
+    若此值指定時未帶單位，則以位元組為單位。
+    預設值為 1024 位元組。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-TRACK-COUNTS"></a>
 
 `track_counts` (`boolean`) <a id="id-1.6.6.12.2.3.3.1.3"></a> [#](#GUC-TRACK-COUNTS)
-:   Enables collection of statistics on database activity.
-    This parameter is on by default, because the autovacuum
-    daemon needs the collected information.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   啟用資料庫活動統計資訊的收集。
+    此參數預設為開啟，因為 autovacuum
+    守護程序需要用到收集到的資訊。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 <a id="GUC-TRACK-COST-DELAY-TIMING"></a>
 
 `track_cost_delay_timing` (`boolean`) <a id="id-1.6.6.12.2.3.4.1.3"></a> [#](#GUC-TRACK-COST-DELAY-TIMING)
-:   Enables timing of cost-based vacuum delay (see
-    [Section 19.10.2](runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)). This parameter
-    is off by default, as it will repeatedly query the operating system for
-    the current time, which may cause significant overhead on some
-    platforms. You can use the [pg_test_timing](../../reference/reference-server/pgtesttiming.md) tool to
-    measure the overhead of timing on your system. Cost-based vacuum delay
-    timing information is displayed in
-    [`pg_stat_progress_vacuum`](../monitoring/progress-reporting.md#VACUUM-PROGRESS-REPORTING),
-    [`pg_stat_progress_analyze`](../monitoring/progress-reporting.md#ANALYZE-PROGRESS-REPORTING),
-    in the output of [VACUUM](../../reference/sql-commands/sql-vacuum.md) and
-    [ANALYZE](../../reference/sql-commands/sql-analyze.md) when the
-    `VERBOSE` option is used, and by autovacuum for
-    auto-vacuums and auto-analyzes when
-    [log_autovacuum_min_duration](runtime-config-logging.md#GUC-LOG-AUTOVACUUM-MIN-DURATION) is set.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   啟用以成本為基礎的 vacuum 延遲計時（參閱
+    [19.10.2 節](runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)）。此參數
+    預設為關閉，因為它會反覆向作業系統查詢
+    目前時間，在某些平台上可能造成顯著額外負擔。
+    你可以使用 [pg_test_timing](../../reference/reference-server/pgtesttiming.md) 工具
+    來測量你的系統上計時功能的額外負擔。以成本為基礎的 vacuum 延遲
+    計時資訊會顯示在
+    [`pg_stat_progress_vacuum`](../monitoring/progress-reporting.md#VACUUM-PROGRESS-REPORTING)、
+    [`pg_stat_progress_analyze`](../monitoring/progress-reporting.md#ANALYZE-PROGRESS-REPORTING)、
+    在使用 `VERBOSE` 選項時 [VACUUM](../../reference/sql-commands/sql-vacuum.md) 與
+    [ANALYZE](../../reference/sql-commands/sql-analyze.md) 的輸出中，
+    以及在設定 [log_autovacuum_min_duration](runtime-config-logging.md#GUC-LOG-AUTOVACUUM-MIN-DURATION)
+    時，由 autovacuum 針對自動 vacuum 與自動 analyze 輸出。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 <a id="GUC-TRACK-IO-TIMING"></a>
 
 `track_io_timing` (`boolean`) <a id="id-1.6.6.12.2.3.5.1.3"></a> [#](#GUC-TRACK-IO-TIMING)
-:   Enables timing of database I/O waits. This parameter is off by
-    default, as it will repeatedly query the operating system for
-    the current time, which may cause significant overhead on some
-    platforms. You can use the [pg_test_timing](../../reference/reference-server/pgtesttiming.md) tool to
-    measure the overhead of timing on your system.
-    I/O timing information is
-    displayed in [`pg_stat_database`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW),
-    [`pg_stat_io`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-IO-VIEW) (if `object`
-    is not `wal`), in the output of the
-    [`pg_stat_get_backend_io()`](../monitoring/monitoring-stats.md#PG-STAT-GET-BACKEND-IO) function (if
-    `object` is not `wal`), in the
-    output of [EXPLAIN](../../reference/sql-commands/sql-explain.md) when the `BUFFERS`
-    option is used, in the output of [VACUUM](../../reference/sql-commands/sql-vacuum.md) when
-    the `VERBOSE` option is used, by autovacuum
-    for auto-vacuums and auto-analyzes, when [log_autovacuum_min_duration](runtime-config-logging.md#GUC-LOG-AUTOVACUUM-MIN-DURATION) is set and by
-    [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md).
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   啟用資料庫 I/O 等待的計時。此參數預設為
+    關閉，因為它會反覆向作業系統查詢
+    目前時間，在某些平台上可能造成顯著額外負擔。
+    你可以使用 [pg_test_timing](../../reference/reference-server/pgtesttiming.md) 工具
+    來測量你的系統上計時功能的額外負擔。
+    I/O 計時資訊會顯示在
+    [`pg_stat_database`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW)、
+    [`pg_stat_io`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-IO-VIEW)（若 `object`
+    不是 `wal`）、在使用
+    [`pg_stat_get_backend_io()`](../monitoring/monitoring-stats.md#PG-STAT-GET-BACKEND-IO) 函式的輸出中（若
+    `object` 不是 `wal`）、在使用 `BUFFERS`
+    選項時 [EXPLAIN](../../reference/sql-commands/sql-explain.md) 的輸出中、在使用
+    `VERBOSE` 選項時 [VACUUM](../../reference/sql-commands/sql-vacuum.md) 的輸出中、
+    在設定 [log_autovacuum_min_duration](runtime-config-logging.md#GUC-LOG-AUTOVACUUM-MIN-DURATION)
+    時由 autovacuum 針對自動 vacuum 與自動 analyze 輸出，
+    以及在 [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md) 中。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 <a id="GUC-TRACK-WAL-IO-TIMING"></a>
 
 `track_wal_io_timing` (`boolean`) <a id="id-1.6.6.12.2.3.6.1.3"></a> [#](#GUC-TRACK-WAL-IO-TIMING)
-:   Enables timing of WAL I/O waits. This parameter is off by default,
-    as it will repeatedly query the operating system for the current time,
-    which may cause significant overhead on some platforms.
-    You can use the pg_test_timing tool to
-    measure the overhead of timing on your system.
-    I/O timing information is displayed in
-    [`pg_stat_io`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-IO-VIEW) for the
-    `object` `wal` and in the output of
-    the [`pg_stat_get_backend_io()`](../monitoring/monitoring-stats.md#PG-STAT-GET-BACKEND-IO) function for the
-    `object` `wal`.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   啟用 WAL I/O 等待的計時。此參數預設為關閉，
+    因為它會反覆向作業系統查詢目前時間，
+    在某些平台上可能造成顯著額外負擔。
+    你可以使用 pg_test_timing 工具
+    來測量你的系統上計時功能的額外負擔。
+    I/O 計時資訊會顯示在
+    `object` 為 `wal` 的
+    [`pg_stat_io`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-IO-VIEW) 中，以及
+    `object` 為 `wal` 時
+    [`pg_stat_get_backend_io()`](../monitoring/monitoring-stats.md#PG-STAT-GET-BACKEND-IO) 函式的輸出中。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 <a id="GUC-TRACK-FUNCTIONS"></a>
 
 `track_functions` (`enum`) <a id="id-1.6.6.12.2.3.7.1.3"></a> [#](#GUC-TRACK-FUNCTIONS)
-:   Enables tracking of function call counts and time used. Specify
-    `pl` to track only procedural-language functions,
-    `all` to also track SQL and C language functions.
-    The default is `none`, which disables function
-    statistics tracking.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   啟用函式呼叫次數與使用時間的追蹤。指定
+    `pl` 僅追蹤程序語言（procedural-language）函式，
+    `all` 則同時追蹤 SQL 與 C 語言函式。
+    預設值為 `none`，即停用函式
+    統計追蹤。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 
-    ### Note
+    ### 注意
 
-    SQL-language functions that are simple enough to be “inlined”
-    into the calling query will not be tracked, regardless of this
-    setting.
+    簡單到可以被「內聯（inline）」進呼叫查詢的 SQL 語言函式，
+    無論此設定為何，都不會被追蹤。
 <a id="GUC-STATS-FETCH-CONSISTENCY"></a>
 
 `stats_fetch_consistency` (`enum`) <a id="id-1.6.6.12.2.3.8.1.3"></a> [#](#GUC-STATS-FETCH-CONSISTENCY)
-:   Determines the behavior when cumulative statistics are accessed
-    multiple times within a transaction. When set to
-    `none`, each access re-fetches counters from shared
-    memory. When set to `cache`, the first access to
-    statistics for an object caches those statistics until the end of the
-    transaction unless `pg_stat_clear_snapshot()` is
-    called. When set to `snapshot`, the first statistics
-    access caches all statistics accessible in the current database, until
-    the end of the transaction unless
-    `pg_stat_clear_snapshot()` is called. Changing this
-    parameter in a transaction discards the statistics snapshot.
-    The default is `cache`.
+:   決定在同一交易中多次存取累計統計資訊時的行為。
+    當設為 `none` 時，每次存取都會重新從
+    共享記憶體擷取計數器。當設為 `cache` 時，
+    首次存取某物件的統計資訊時，會快取該統計資訊直到交易結束，
+    除非呼叫了 `pg_stat_clear_snapshot()`。
+    當設為 `snapshot` 時，首次存取統計資訊時，
+    會快取目前資料庫中可存取的所有統計資訊，直到
+    交易結束，除非呼叫了
+    `pg_stat_clear_snapshot()`。在交易中變更此
+    參數會捨棄該統計資訊快照。
+    預設值為 `cache`。
 
-    ### Note
+    ### 注意
 
-    `none` is most suitable for monitoring systems. If
-    values are only accessed once, it is the most
-    efficient. `cache` ensures repeat accesses yield the
-    same values, which is important for queries involving
-    e.g. self-joins. `snapshot` can be useful when
-    interactively inspecting statistics, but has higher overhead,
-    particularly if many database objects exist.
+    `none` 最適合用於監控系統。若
+    數值僅會被存取一次，此選項是最有
+    效率的。`cache` 可確保重複存取時取得
+    相同的數值，這對於涉及例如自我聯結（self-join）的查詢很重要。
+    `snapshot` 在互動式檢視統計資訊時很有用，
+    但額外負擔較高，尤其是在存在許多資料庫物件時。
 
 <a id="RUNTIME-CONFIG-STATISTICS-MONITOR"></a>
 
-### 19.9.2. Statistics Monitoring [#](#RUNTIME-CONFIG-STATISTICS-MONITOR)
+### 19.9.2. 統計資訊監控 [#](#RUNTIME-CONFIG-STATISTICS-MONITOR)
 
 <a id="GUC-COMPUTE-QUERY-ID"></a>
 
 `compute_query_id` (`enum`) <a id="id-1.6.6.12.3.2.1.1.3"></a> [#](#GUC-COMPUTE-QUERY-ID)
-:   Enables in-core computation of a query identifier.
-    Query identifiers can be displayed in the [`pg_stat_activity`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
-    view, using `EXPLAIN`, or emitted in the log if
-    configured via the [log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX) parameter.
-    The [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md) extension also requires a query
-    identifier to be computed. Note that an external module can
-    alternatively be used if the in-core query identifier computation
-    method is not acceptable. In this case, in-core computation
-    must be always disabled.
-    Valid values are `off` (always disabled),
-    `on` (always enabled), `auto`,
-    which lets modules such as [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md)
-    automatically enable it, and `regress` which
-    has the same effect as `auto`, except that the
-    query identifier is not shown in the `EXPLAIN` output
-    in order to facilitate automated regression testing.
-    The default is `auto`.
+:   啟用核心內建的查詢識別碼計算功能。
+    查詢識別碼可以顯示在 [`pg_stat_activity`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
+    檢視表中、透過 `EXPLAIN` 顯示，或若透過
+    [log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX) 參數設定，也可以輸出到日誌中。
+    [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md) 延伸模組同樣需要
+    計算查詢識別碼。請注意，如果核心內建的查詢識別碼
+    計算方式不被接受，也可以改用外部模組。在這種情況下，
+    必須永遠停用核心內建的計算功能。
+    合法的值有 `off`（永遠停用）、
+    `on`（永遠啟用）、`auto`
+    （讓 [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md) 等模組
+    自動啟用此功能），以及 `regress`（效果
+    與 `auto` 相同，只是為了方便自動化迴歸測試，
+    查詢識別碼不會顯示在 `EXPLAIN` 輸出中）。
+    預設值為 `auto`。
 
-    ### Note
+    ### 注意
 
-    To ensure that only one query identifier is calculated and
-    displayed, extensions that calculate query identifiers should
-    throw an error if a query identifier has already been computed.
+    為確保只計算並顯示一個查詢識別碼，
+    計算查詢識別碼的延伸模組在查詢識別碼已經
+    被計算過的情況下應該要拋出錯誤。
 <a id="GUC-LOG-STATEMENT-STATS"></a>
 
 `log_statement_stats` (`boolean`) <a id="id-1.6.6.12.3.2.2.1.3"></a> <br>`log_parser_stats` (`boolean`) <a id="id-1.6.6.12.3.2.2.2.3"></a> <br>`log_planner_stats` (`boolean`) <a id="id-1.6.6.12.3.2.2.3.3"></a> <br>`log_executor_stats` (`boolean`) <a id="id-1.6.6.12.3.2.2.4.3"></a> [#](#GUC-LOG-STATEMENT-STATS)
-:   For each query, output performance statistics of the respective
-    module to the server log. This is a crude profiling
-    instrument, similar to the Unix `getrusage()` operating
-    system facility. `log_statement_stats` reports total
-    statement statistics, while the others report per-module statistics.
-    `log_statement_stats` cannot be enabled together with
-    any of the per-module options. All of these options are disabled by
-    default.
-    Only superusers and users with the appropriate `SET`
-    privilege can change these settings.
+:   針對每個查詢，將對應模組的效能統計資訊輸出到伺服器日誌。
+    這是一種簡陋的效能剖析工具，類似 Unix 的
+    `getrusage()` 作業系統機制。`log_statement_stats`
+    回報整體陳述式統計資訊，而其他選項則回報各模組的統計資訊。
+    `log_statement_stats` 無法與任何各模組選項
+    同時啟用。這些選項預設皆為停用。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更這些設定。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-statistics.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-statistics.html)（原文版本：18.6；核對日期：2026-09-22）
