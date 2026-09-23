@@ -1,95 +1,87 @@
-## 18.11. Secure TCP/IP Connections with SSH Tunnels [#](#SSH-TUNNELS)
+<a id="SSH-TUNNELS"></a>
+
+## 18.11. 使用 SSH 通道的安全 TCP/IP 連線 [#](#SSH-TUNNELS)
 
 <a id="id-1.6.5.14.2"></a>
 
-It is possible to use SSH to encrypt the network
-connection between clients and a
-PostgreSQL server. Done properly, this
-provides an adequately secure network connection, even for non-SSL-capable
-clients.
+您可以使用 SSH，為用戶端與 PostgreSQL 伺服器之間的
+網路連線加密。只要處理得當，即使是不支援 SSL 的用戶端，
+也能因此獲得足夠安全的網路連線。
 
-First make sure that an SSH server is
-running properly on the same machine as the
-PostgreSQL server and that you can log in using
-`ssh` as some user; you then can establish a
-secure tunnel to the remote server. A secure tunnel listens on a
-local port and forwards all traffic to a port on the remote machine.
-Traffic sent to the remote port can arrive on its
-`localhost` address, or different bind
-address if desired; it does not appear as coming from your
-local machine. This command creates a secure tunnel from the client
-machine to the remote machine `foo.com`:
+首先，請確認 SSH 伺服器，在與 PostgreSQL 伺服器
+相同的機器上正常執行，並且您能以某個使用者身分，
+使用 `ssh` 登入；接著，您就能建立一條
+通往遠端伺服器的安全通道。安全通道，會在本機的某個
+連接埠上聆聽，並將所有流量，轉發至遠端機器上的某個連接埠。
+傳送至遠端連接埠的流量，可以抵達其 `localhost`
+位址，或（若您希望的話）其他繫結位址；它不會顯示為
+來自您本機的流量。以下指令，會建立一條從用戶端機器，
+通往遠端機器 `foo.com` 的安全通道：
 
 ```
 
 ssh -L 63333:localhost:5432 joe@foo.com
 ```
 
-The first number in the `-L` argument, 63333, is the
-local port number of the tunnel; it can be any unused port. (IANA
-reserves ports 49152 through 65535 for private use.) The name or IP
-address after this is the remote bind address you are connecting to,
-i.e., `localhost`, which is the default. The second
-number, 5432, is the remote end of the tunnel, e.g., the port number
-your database server is using. In order to connect to the database
-server using this tunnel, you connect to port 63333 on the local
-machine:
+`-L` 引數中的第一個數字 63333，
+是該通道的本機連接埠編號；可以是任何未使用的連接埠。
+（IANA 將連接埠 49152 至 65535 保留供私人使用。）
+其後的名稱或 IP 位址，是您所要連線的遠端繫結位址，
+也就是 `localhost`，這是預設值。第二個數字
+5432，則是該通道的遠端端點，例如您資料庫伺服器
+所使用的連接埠編號。若要透過此通道連線至資料庫伺服器，
+您需要連線至本機的 63333 連接埠：
 
 ```
 
 psql -h localhost -p 63333 postgres
 ```
 
-To the database server it will then look as though you are
-user `joe` on host `foo.com`
-connecting to the `localhost` bind address, and it
-will use whatever authentication procedure was configured for
-connections by that user to that bind address. Note that the server will not
-think the connection is SSL-encrypted, since in fact it is not
-encrypted between the
-SSH server and the
-PostgreSQL server. This should not pose any
-extra security risk because they are on the same machine.
+如此一來，對資料庫伺服器而言，看起來就會像是使用者
+`joe` 在主機 `foo.com` 上，
+連線至 `localhost` 繫結位址一般，
+並且會採用針對該使用者連線至該繫結位址所設定的
+驗證程序。請注意，伺服器並不會認為此連線是以 SSL 加密的，
+因為在 SSH 伺服器與 PostgreSQL 伺服器之間，
+實際上並未加密。這應該不會帶來額外的安全風險，
+因為它們位於同一部機器上。
 
-In order for the
-tunnel setup to succeed you must be allowed to connect via
-`ssh` as `joe@foo.com`, just
-as if you had attempted to use `ssh` to create a
-terminal session.
+為了讓通道設定能夠成功建立，您必須被允許
+以 `joe@foo.com` 的身分，透過
+`ssh` 連線，就如同您嘗試使用
+`ssh` 建立終端機工作階段時一樣。
 
-You could also have set up port forwarding as
+您也可以像這樣設定連接埠轉發：
 
 ```
 
 ssh -L 63333:foo.com:5432 joe@foo.com
 ```
 
-but then the database server will see the connection as coming in
-on its `foo.com` bind address, which is not opened by
-the default setting `listen_addresses =
-'localhost'`. This is usually not what you want.
+但如此一來，資料庫伺服器就會將此連線，
+視為來自其 `foo.com` 繫結位址，
+而該位址在預設設定 `listen_addresses = 'localhost'`
+下，並未開啟。這通常並非您想要的結果。
 
-If you have to “hop” to the database server via some
-login host, one possible setup could look like this:
+若您必須透過某台登入主機，「跳轉」至資料庫伺服器，
+其中一種可能的設定方式如下：
 
 ```
 
 ssh -L 63333:db.foo.com:5432 joe@shell.foo.com
 ```
 
-Note that this way the connection
-from `shell.foo.com`
-to `db.foo.com` will not be encrypted by the SSH
-tunnel.
-SSH offers quite a few configuration possibilities when the network
-is restricted in various ways. Please refer to the SSH
-documentation for details.
+請注意，以這種方式，從 `shell.foo.com`
+到 `db.foo.com` 之間的連線，
+並不會被 SSH 通道加密。
+當網路受到各種方式限制時，SSH 提供了相當多的組態設定可能性。
+詳情請參閱 SSH 的相關文件。
 
-### Tip
+### 提示
 
-Several other applications exist that can provide secure tunnels using
-a procedure similar in concept to the one just described.
+還有其他幾個應用程式，能夠提供在概念上，
+與上述做法類似的安全通道。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ssh-tunnels.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ssh-tunnels.html)（原文版本：18.6；核對日期：2026-09-22）
