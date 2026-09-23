@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：668 頁。
+待譯頁面：667 頁。
 
 ## 根目錄
 
@@ -833,7 +833,7 @@
 - [x] `server-administration/wal/README.md` — 第 28 章 可靠性與預寫式日誌
 - [x] `server-administration/wal/checksums.md` — 28.2. 資料校驗和 #
 - [x] `server-administration/wal/wal-async-commit.md` — 28.4. 非同步確認 #
-- [ ] `server-administration/wal/wal-configuration.md` — 28.5. WAL Configuration #
+- [x] `server-administration/wal/wal-configuration.md` — 28.5. WAL 組態設定 #
 - [ ] `server-administration/wal/wal-internals.md` — 28.6. WAL Internals #
 - [x] `server-administration/wal/wal-intro.md` — 28.3. 預寫式日誌（Write-Ahead Logging, WAL） #
 - [ ] `server-administration/wal/wal-reliability.md` — 28.1. Reliability #
