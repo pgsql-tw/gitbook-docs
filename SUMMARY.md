@@ -181,7 +181,7 @@
     * [17.5. Post-Installation Setup #](server-administration/installation/install-post.md)
     * [17.6. Supported Platforms #](server-administration/installation/supported-platforms.md)
     * [17.7. Platform-Specific Notes #](server-administration/installation/installation-platform-notes.md)
-  * [Chapter 18. Server Setup and Operation](server-administration/runtime/README.md)
+  * [第 18 章 伺服器設定與操作](server-administration/runtime/README.md)
     * [18.1. PostgreSQL 使用者帳號](server-administration/runtime/postgres-user.md)
     * [18.2. Creating a Database Cluster #](server-administration/runtime/creating-cluster.md)
     * [18.3. Starting the Database Server #](server-administration/runtime/server-start.md)
