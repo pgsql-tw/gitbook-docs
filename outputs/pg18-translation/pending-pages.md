@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：663 頁。
+待譯頁面：662 頁。
 
 ## 根目錄
 
@@ -827,7 +827,7 @@
 - [ ] `server-administration/user-manag/database-roles.md` — 21.1. Database Roles #
 - [x] `server-administration/user-manag/perm-functions.md` — 21.6. 函式安全性
 - [ ] `server-administration/user-manag/predefined-roles.md` — 21.5. Predefined Roles #
-- [ ] `server-administration/user-manag/role-attributes.md` — 21.2. Role Attributes #
+- [x] `server-administration/user-manag/role-attributes.md` — 21.2. 角色屬性 #
 - [x] `server-administration/user-manag/role-membership.md` — 21.3. 角色成員資格 #
 - [x] `server-administration/user-manag/role-removal.md` — 21.4. 移除角色 #
 - [x] `server-administration/wal/README.md` — 第 28 章 可靠性與預寫式日誌

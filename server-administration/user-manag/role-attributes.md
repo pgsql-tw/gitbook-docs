@@ -1,14 +1,15 @@
-## 21.2. Role Attributes [#](#ROLE-ATTRIBUTES)
+<a id="ROLE-ATTRIBUTES"></a>
 
-A database role can have a number of attributes that define its
-privileges and interact with the client authentication system.
+## 21.2. 角色屬性 [#](#ROLE-ATTRIBUTES)
 
-login privilege<a id="id-1.6.8.6.2.1.1.1.1"></a>
-:   Only roles that have the `LOGIN` attribute can be used
-    as the initial role name for a database connection. A role with
-    the `LOGIN` attribute can be considered the same
-    as a “database user”. To create a role with login privilege,
-    use either:
+資料庫角色可以具有多項屬性，這些屬性定義了該角色的權限，
+並與用戶端驗證系統互動。
+
+login 權限<a id="id-1.6.8.6.2.1.1.1.1"></a>
+:   只有具有 `LOGIN` 屬性的角色，才能用作資料庫連線的
+    初始角色名稱。具有 `LOGIN` 屬性的角色，
+    可以視為等同於「資料庫使用者」。若要建立具有登入權限的角色，
+    可使用以下任一方式：
 
     ```
 
@@ -16,147 +17,141 @@ login privilege<a id="id-1.6.8.6.2.1.1.1.1"></a>
     CREATE USER name;
     ```
 
-    (`CREATE USER` is equivalent to `CREATE ROLE`
-    except that `CREATE USER` includes `LOGIN` by
-    default, while `CREATE ROLE` does not.)
+    （`CREATE USER` 等同於 `CREATE ROLE`，
+    差別在於 `CREATE USER` 預設包含 `LOGIN`，
+    而 `CREATE ROLE` 則不會。）
 
-superuser status<a id="id-1.6.8.6.2.1.2.1.1"></a>
-:   A database superuser bypasses all permission checks, except the right
-    to log in. This is a dangerous privilege and should not be used
-    carelessly; it is best to do most of your work as a role that is not a
-    superuser. To create a new database superuser, use `CREATE
-    ROLE name SUPERUSER`. You must do
-    this as a role that is already a superuser.
+超級使用者狀態<a id="id-1.6.8.6.2.1.2.1.1"></a>
+:   資料庫超級使用者，會略過除了登入權限以外的所有權限檢查。
+    這是一項危險的權限，不應輕率使用；最好大部分工作，
+    都以非超級使用者的角色來進行。若要建立新的資料庫超級使用者，
+    請使用 `CREATE ROLE name SUPERUSER`。
+    您必須以本身已是超級使用者的角色，來執行此操作。
 
-database creation<a id="id-1.6.8.6.2.1.3.1.1"></a>
-:   A role must be explicitly given permission to create databases
-    (except for superusers, since those bypass all permission
-    checks). To create such a role, use `CREATE ROLE
-    name CREATEDB`.
+建立資料庫<a id="id-1.6.8.6.2.1.3.1.1"></a>
+:   角色必須被明確授予建立資料庫的權限
+    （超級使用者除外，因為超級使用者會略過所有權限檢查）。
+    若要建立這樣的角色，請使用
+    `CREATE ROLE name CREATEDB`。
 
-<a id="ROLE-CREATION"></a>role creation<a id="id-1.6.8.6.2.1.4.1.1"></a>
-:   A role must be explicitly given permission to create more roles
-    (except for superusers, since those bypass all permission
-    checks). To create such a role, use `CREATE ROLE
-    name CREATEROLE`.
-    A role with `CREATEROLE` privilege can alter and drop
-    roles which have been granted to the `CREATEROLE`
-    user with the `ADMIN` option. Such a grant occurs
-    automatically when a `CREATEROLE` user that is not
-    a superuser creates a new role, so that by default, a
-    `CREATEROLE` user can alter and drop the roles
-    which they have created.
-    Altering a role includes most changes that can be made using
-    `ALTER ROLE`, including, for example, changing
-    passwords. It also includes modifications to a role that can
-    be made using the `COMMENT` and
-    `SECURITY LABEL` commands.
+<a id="ROLE-CREATION"></a>建立角色<a id="id-1.6.8.6.2.1.4.1.1"></a>
+:   角色必須被明確授予建立其他角色的權限
+    （超級使用者除外，因為超級使用者會略過所有權限檢查）。
+    若要建立這樣的角色，請使用
+    `CREATE ROLE name CREATEROLE`。
+    具有 `CREATEROLE` 權限的角色，可以變更與刪除
+    那些已以 `ADMIN` 選項授予該 `CREATEROLE`
+    使用者的角色。當非超級使用者的 `CREATEROLE`
+    使用者建立新角色時，就會自動發生這樣的授予，因此
+    依預設，`CREATEROLE` 使用者可以變更與刪除
+    自己所建立的角色。變更角色，涵蓋了大多數可透過
+    `ALTER ROLE` 進行的變更，例如變更密碼。
+    這也包括可透過 `COMMENT` 與
+    `SECURITY LABEL` 指令，對角色所做的修改。
 
-    However, `CREATEROLE` does not convey the ability to
-    create `SUPERUSER` roles, nor does it convey any
-    power over `SUPERUSER` roles that already exist.
-    Furthermore, `CREATEROLE` does not convey the power
-    to create `REPLICATION` users, nor the ability to
-    grant or revoke the `REPLICATION` privilege, nor the
-    ability to modify the role properties of such users. However, it does
-    allow `ALTER ROLE ... SET` and
-    `ALTER ROLE ... RENAME` to be used on
-    `REPLICATION` roles, as well as the use of
-    `COMMENT ON ROLE`,
-    `SECURITY LABEL ON ROLE`,
-    and `DROP ROLE`.
-    Finally, `CREATEROLE` does not
-    confer the ability to grant or revoke the `BYPASSRLS`
-    privilege.
+    不過，`CREATEROLE` 並不賦予建立
+    `SUPERUSER` 角色的能力，對於既有的
+    `SUPERUSER` 角色，也不賦予任何權力。
+    此外，`CREATEROLE` 也不賦予建立
+    `REPLICATION` 使用者的能力，也不能授予或撤銷
+    `REPLICATION` 權限，更不能修改這類使用者的
+    角色屬性。不過，它確實允許在 `REPLICATION`
+    角色上使用 `ALTER ROLE ... SET` 與
+    `ALTER ROLE ... RENAME`，也允許使用
+    `COMMENT ON ROLE`、
+    `SECURITY LABEL ON ROLE`
+    以及 `DROP ROLE`。最後，
+    `CREATEROLE` 也不賦予授予或撤銷
+    `BYPASSRLS` 權限的能力。
 
-initiating replication<a id="id-1.6.8.6.2.1.5.1.1"></a>
-:   A role must explicitly be given permission to initiate streaming
-    replication (except for superusers, since those bypass all permission
-    checks). A role used for streaming replication must
-    have `LOGIN` permission as well. To create such a role, use
-    `CREATE ROLE name REPLICATION
-    LOGIN`.
+發起複寫<a id="id-1.6.8.6.2.1.5.1.1"></a>
+:   角色必須被明確授予發起串流複寫的權限
+    （超級使用者除外，因為超級使用者會略過所有權限檢查）。
+    用於串流複寫的角色，也必須具有 `LOGIN` 權限。
+    若要建立這樣的角色，請使用
+    `CREATE ROLE name REPLICATION LOGIN`。
 
-password<a id="id-1.6.8.6.2.1.6.1.1"></a>
-:   A password is only significant if the client authentication
-    method requires the user to supply a password when connecting
-    to the database. The `password` and
-    `md5` authentication methods
-    make use of passwords. Database passwords are separate from
-    operating system passwords. Specify a password upon role
-    creation with `CREATE ROLE
-    name PASSWORD 'string'`.
+密碼<a id="id-1.6.8.6.2.1.6.1.1"></a>
+:   只有當用戶端驗證方式要求使用者在連線資料庫時
+    提供密碼，密碼才有意義。`password` 與
+    `md5` 驗證方式，都會用到密碼。
+    資料庫密碼與作業系統密碼是分開的。
+    可在建立角色時，透過
+    `CREATE ROLE name PASSWORD 'string'`
+    指定密碼。
 
-inheritance of privileges<a id="id-1.6.8.6.2.1.7.1.1"></a>
-:   A role inherits the privileges of roles it is a member of, by default.
-    However, to create a role which does not inherit privileges by
-    default, use `CREATE ROLE name
-    NOINHERIT`. Alternatively, inheritance can be overridden
-    for individual grants by using `WITH INHERIT TRUE`
-    or `WITH INHERIT FALSE`.
+權限繼承<a id="id-1.6.8.6.2.1.7.1.1"></a>
+:   依預設，角色會繼承其所屬角色的權限。
+    不過，若要建立一個預設不繼承權限的角色，
+    請使用 `CREATE ROLE name NOINHERIT`。
+    此外，也可以針對個別的授予，使用
+    `WITH INHERIT TRUE` 或
+    `WITH INHERIT FALSE`，來覆寫繼承設定。
 
-bypassing row-level security<a id="id-1.6.8.6.2.1.8.1.1"></a>
-:   A role must be explicitly given permission to bypass every row-level security (RLS) policy
-    (except for superusers, since those bypass all permission checks).
-    To create such a role, use `CREATE ROLE name BYPASSRLS` as a superuser.
+略過資料列層級安全性<a id="id-1.6.8.6.2.1.8.1.1"></a>
+:   角色必須被明確授予略過每一項資料列層級安全性（RLS）政策的權限
+    （超級使用者除外，因為超級使用者會略過所有權限檢查）。
+    若要建立這樣的角色，請以超級使用者身分使用
+    `CREATE ROLE name BYPASSRLS`。
 
-connection limit<a id="id-1.6.8.6.2.1.9.1.1"></a>
-:   Connection limit can specify how many concurrent connections a role can make.
-    -1 (the default) means no limit. Specify connection limit upon role creation with
-    `CREATE ROLE name CONNECTION LIMIT 'integer'`.
+連線數上限<a id="id-1.6.8.6.2.1.9.1.1"></a>
+:   連線數上限，可以指定某個角色最多能同時建立多少連線。
+    -1（預設值）代表沒有上限。可在建立角色時，
+    透過 `CREATE ROLE name CONNECTION LIMIT 'integer'`
+    指定連線數上限。
 
-A role's attributes can be modified after creation with
-`ALTER ROLE`.<a id="id-1.6.8.6.2.3"></a>
-See the reference pages for the [CREATE ROLE](../../reference/sql-commands/sql-createrole.md)
-and [ALTER ROLE](../../reference/sql-commands/sql-alterrole.md) commands for details.
+角色的屬性，可以在建立之後，透過
+`ALTER ROLE` 修改。<a id="id-1.6.8.6.2.3"></a>
+詳情請參閱 [CREATE ROLE](../../reference/sql-commands/sql-createrole.md)
+與 [ALTER ROLE](../../reference/sql-commands/sql-alterrole.md) 指令的參考頁面。
 
-A role can also have role-specific defaults for many of the run-time
-configuration settings described in [Chapter 19](../runtime-config/README.md). For example, if for some reason you
-want to disable index scans (hint: not a good idea) anytime you
-connect, you can use:
+角色也可以針對[第 19 章](../runtime-config/README.md)中所述的許多執行期組態設定，
+擁有角色專屬的預設值。舉例來說，若基於某些原因，
+您希望每次連線時都停用索引掃描（提示：這不是個好主意），
+可以使用：
 
 ```
 
 ALTER ROLE myname SET enable_indexscan TO off;
 ```
 
-This will save the setting (but not set it immediately). In
-subsequent connections by this role it will appear as though
-`SET enable_indexscan TO off` had been executed
-just before the session started.
-You can still alter this setting during the session; it will only
-be the default. To remove a role-specific default setting, use
-`ALTER ROLE rolename RESET varname`.
-Note that role-specific defaults attached to roles without
-`LOGIN` privilege are fairly useless, since they will never
-be invoked.
+這會儲存該項設定（但不會立即套用）。在該角色
+之後的連線中，就會如同在工作階段開始前，
+剛執行過 `SET enable_indexscan TO off` 一般。
+您仍然可以在工作階段期間變更此設定；
+它只是作為預設值。若要移除角色專屬的預設設定，
+請使用 `ALTER ROLE rolename RESET varname`。
+請注意，附加在不具 `LOGIN` 權限之角色上的
+角色專屬預設值，相當沒有用處，因為它們永遠不會被啟用。
 
-When a non-superuser creates a role using the `CREATEROLE`
-privilege, the created role is automatically granted back to the creating
-user, just as if the bootstrap superuser had executed the command
-`GRANT created_user TO creating_user WITH ADMIN TRUE, SET FALSE,
-INHERIT FALSE`. Since a `CREATEROLE` user can
-only exercise special privileges with regard to an existing role if they
-have `ADMIN OPTION` on it, this grant is just sufficient
-to allow a `CREATEROLE` user to administer the roles they
-created. However, because it is created with `INHERIT FALSE, SET
-FALSE`, the `CREATEROLE` user doesn't inherit the
-privileges of the created role, nor can it access the privileges of that
-role using `SET ROLE`. However, since any user who has
-`ADMIN OPTION` on a role can grant membership in that
-role to any other user, the `CREATEROLE` user can gain
-access to the created role by simply granting that role back to
-themselves with the `INHERIT` and/or `SET`
-options. Thus, the fact that privileges are not inherited by default nor
-is `SET ROLE` granted by default is a safeguard against
-accidents, not a security feature. Also note that, because this automatic
-grant is granted by the bootstrap superuser, it cannot be removed or changed by
-the `CREATEROLE` user; however, any superuser could
-revoke it, modify it, and/or issue additional such grants to other
-`CREATEROLE` users. Whichever `CREATEROLE`
-users have `ADMIN OPTION` on a role at any given time
-can administer it.
+當非超級使用者利用 `CREATEROLE` 權限
+建立角色時，該新建立的角色，會自動被反向授予給
+建立者，就如同啟動用超級使用者（bootstrap superuser）
+執行了以下指令一般：
+`GRANT created_user TO creating_user WITH ADMIN TRUE, SET FALSE, INHERIT FALSE`。
+由於 `CREATEROLE` 使用者，只有在對某個既有角色
+具有 `ADMIN OPTION` 時，才能對其行使特殊權限，
+因此這項授予，正好足以讓 `CREATEROLE` 使用者，
+管理自己所建立的角色。不過，由於這項授予是以
+`INHERIT FALSE, SET FALSE` 建立的，
+`CREATEROLE` 使用者並不會繼承所建立角色的權限，
+也無法透過 `SET ROLE` 存取該角色的權限。
+不過，由於任何對某個角色具有 `ADMIN OPTION`
+的使用者，都能將該角色的成員資格，授予任何其他使用者，
+因此 `CREATEROLE` 使用者，只需將所建立的角色，
+以 `INHERIT` 及／或 `SET` 選項
+反向授予給自己，即可取得對該角色的存取權。
+因此，「權限預設不會被繼承」以及「預設不會授予
+`SET ROLE`」這項事實，其實是一種避免意外的保護措施，
+而非安全性功能。另請注意，由於這項自動授予，
+是由啟動用超級使用者所授予的，因此
+`CREATEROLE` 使用者無法將其移除或變更；
+不過，任何超級使用者，都可以撤銷它、修改它，
+及／或對其他 `CREATEROLE` 使用者，
+再發出額外的此類授予。無論在任何時間點，
+只要 `CREATEROLE` 使用者對某個角色具有
+`ADMIN OPTION`，就都能管理該角色。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/role-attributes.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/role-attributes.html)（原文版本：18.6；核對日期：2026-09-22）
