@@ -1,9 +1,9 @@
-## 38.4. A Table Rewrite Event Trigger Example [#](#EVENT-TRIGGER-TABLE-REWRITE-EXAMPLE)
+<a id="EVENT-TRIGGER-TABLE-REWRITE-EXAMPLE"></a>
+## 38.4. 資料表重寫事件觸發程序範例 [#](#EVENT-TRIGGER-TABLE-REWRITE-EXAMPLE)
 
-Thanks to the `table_rewrite` event, it is possible to implement
-a table rewriting policy only allowing the rewrite in maintenance windows.
+由於 `table_rewrite` 事件，可以實作一套資料表重寫策略，僅允許在維護時段內進行重寫。
 
-Here's an example implementing such a policy.
+以下是實作這樣一套策略的範例。
 
 ```
 
@@ -48,6 +48,8 @@ CREATE EVENT TRIGGER no_rewrite_allowed
    EXECUTE FUNCTION no_rewrite();
 ```
 
+> 譯者註：上列範例程式碼開頭註解提及「超過 100 blocks」可作為維護時段限制的例外，但實際程式邏輯是只要區塊數（pages）超過 max_pages（100）就一律拒絕重寫，與是否落在維護時段（凌晨 1 點至 6 點）無關；兩項檢查彼此獨立。此為 PostgreSQL 官方文件範例本身註解與程式碼的既有不一致之處，非翻譯所致，程式碼區塊維持原文逐字呈現。
+
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/event-trigger-table-rewrite-example.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/event-trigger-table-rewrite-example.html)（原文版本：18.6；核對日期：2026-09-22）
