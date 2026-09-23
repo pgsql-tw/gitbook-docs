@@ -295,7 +295,7 @@
     * [30.2. When to JIT ? #](server-administration/jit/jit-decision.md)
     * [30.3. 設定](server-administration/jit/jit-configuration.md)
     * [30.4. Extensibility #](server-administration/jit/jit-extensibility.md)
-  * [Chapter 31. Regression Tests](server-administration/regress/README.md)
+  * [第 31 章 迴歸測試](server-administration/regress/README.md)
     * [31.1. Running the Tests #](server-administration/regress/regress-run.md)
     * [31.2. Test Evaluation #](server-administration/regress/regress-evaluation.md)
     * [31.3. Variant Comparison Files #](server-administration/regress/regress-variant.md)
