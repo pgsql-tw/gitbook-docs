@@ -1,55 +1,47 @@
-## 28.3. Write-Ahead Logging (WAL) [#](#WAL-INTRO)
+<a id="WAL-INTRO"></a>
+
+## 28.3. 預寫式日誌（Write-Ahead Logging, WAL） [#](#WAL-INTRO)
 
 <a id="id-1.6.15.5.2"></a><a id="id-1.6.15.5.3"></a>
 
-*Write-Ahead Logging* (WAL)
-is a standard method for ensuring data integrity. A detailed
-description can be found in most (if not all) books about
-transaction processing. Briefly, WAL's central
-concept is that changes to data files (where tables and indexes
-reside) must be written only after those changes have been logged,
-that is, after WAL records describing the changes have been flushed
-to permanent storage. If we follow this procedure, we do not need
-to flush data pages to disk on every transaction commit, because we
-know that in the event of a crash we will be able to recover the
-database using the log: any changes that have not been applied to
-the data pages can be redone from the WAL records. (This is
-roll-forward recovery, also known as REDO.)
+*預寫式日誌*（Write-Ahead Logging，WAL）
+是確保資料完整性的一種標準方法。大多數（若非全部）
+探討交易處理的書籍中，都能找到詳細的說明。簡而言之，WAL 的核心
+概念是：對資料檔案（資料表與索引所在之處）的變更，必須先經過記錄，
+也就是描述該變更的 WAL 紀錄先排清（flush）至永久儲存體之後，
+才能寫入資料檔案。若遵循這項程序，就不需要在每次交易確認（commit）時，
+都將資料頁面排清至磁碟，因為我們知道，一旦發生當機，仍可
+利用日誌復原資料庫：任何尚未套用到資料頁面的變更，都能從
+WAL 紀錄重做。（這稱為向前復原，也就是所謂的 REDO。）
 
-### Tip
+### 提示
 
-Because WAL restores database file
-contents after a crash, journaled file systems are not necessary for
-reliable storage of the data files or WAL files. In fact, journaling
-overhead can reduce performance, especially if journaling
-causes file system *data* to be flushed
-to disk. Fortunately, data flushing during journaling can
-often be disabled with a file system mount option, e.g.,
-`data=writeback` on a Linux ext3 file system.
-Journaled file systems do improve boot speed after a crash.
+由於 WAL 能在當機後還原資料庫檔案的內容，因此針對資料檔案或 WAL
+檔案而言，並不需要具日誌功能的檔案系統，也能達成可靠的儲存。
+事實上，日誌功能所帶來的額外負擔，可能會降低效能，特別是
+當日誌功能導致檔案系統的*資料*被排清至磁碟時。
+所幸，在使用日誌式檔案系統時，通常可以透過掛載選項，
+停用日誌過程中的資料排清，例如在 Linux ext3 檔案系統上使用
+`data=writeback` 選項。日誌式檔案系統確實能提升
+當機後的開機速度。
 
-Using WAL results in a
-significantly reduced number of disk writes, because only the WAL
-file needs to be flushed to disk to guarantee that a transaction is
-committed, rather than every data file changed by the transaction.
-The WAL file is written sequentially,
-and so the cost of syncing the WAL is much less than the cost of
-flushing the data pages. This is especially true for servers
-handling many small transactions touching different parts of the data
-store. Furthermore, when the server is processing many small concurrent
-transactions, one `fsync` of the WAL file may
-suffice to commit many transactions.
+使用 WAL 可以大幅減少磁碟寫入次數，因為只需要將 WAL 檔案
+排清至磁碟，即可保證某筆交易已確認，而不必將該交易所變更的
+每一個資料檔案都排清。WAL 檔案是循序寫入的，
+因此同步 WAL 的成本，遠低於排清資料頁面的成本。對於處理
+大量觸及資料儲存體不同部分之小型交易的伺服器而言，這一點尤其
+顯著。此外，當伺服器正在處理大量小型並行交易時，
+可能只需對 WAL 檔案執行一次 `fsync`，
+就足以確認多筆交易。
 
-WAL also makes it possible to support on-line
-backup and point-in-time recovery, as described in [Section 25.3](../backup/continuous-archiving.md). By archiving the WAL data we can support
-reverting to any time instant covered by the available WAL data:
-we simply install a prior physical backup of the database, and
-replay the WAL just as far as the desired time. What's more,
-the physical backup doesn't have to be an instantaneous snapshot
-of the database state — if it is made over some period of time,
-then replaying the WAL for that period will fix any internal
-inconsistencies.
+WAL 也讓系統能夠支援線上備份與時間點復原，如
+[25.3 節](../backup/continuous-archiving.md)所述。透過歸檔 WAL 資料，
+我們可以支援還原至現有 WAL 資料所涵蓋範圍內的任何時間點：
+只需安裝先前的實體備份，並重播 WAL 直到所需的時間點為止即可。
+此外，實體備份也不必是資料庫狀態的瞬間快照——若它是在
+一段時間內產生的，那麼重播該段期間的 WAL，
+就能修正任何內部不一致之處。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-intro.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-intro.html)（原文版本：18.6；核對日期：2026-09-22）
