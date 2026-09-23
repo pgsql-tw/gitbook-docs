@@ -584,7 +584,7 @@
     * [45.5. 資料變更的可見性 #](server-programming/spi/spi-visibility.md)
     * [45.6. 範例 #](server-programming/spi/spi-examples.md)
   * [Chapter 46. Background Worker Processes](server-programming/bgworker/README.md)
-  * [Chapter 47. Logical Decoding](server-programming/logicaldecoding/README.md)
+  * [第 47 章 邏輯解碼](server-programming/logicaldecoding/README.md)
     * [47.1. 邏輯解碼範例 #](server-programming/logicaldecoding/logicaldecoding-example.md)
     * [47.2. Logical Decoding Concepts #](server-programming/logicaldecoding/logicaldecoding-explanation.md)
     * [47.3. 串流複寫協定介面 #](server-programming/logicaldecoding/logicaldecoding-walsender.md)
