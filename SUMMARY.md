@@ -300,7 +300,7 @@
     * [31.2. Test Evaluation #](server-administration/regress/regress-evaluation.md)
     * [31.3. Variant Comparison Files #](server-administration/regress/regress-variant.md)
     * [31.4. TAP 測試 #](server-administration/regress/regress-tap.md)
-    * [31.5. Test Coverage Examination #](server-administration/regress/regress-coverage.md)
+    * [31.5. 測試涵蓋率檢驗 #](server-administration/regress/regress-coverage.md)
 * [Part IV. Client Interfaces](client-interfaces/README.md)
   * [Chapter 32. libpq — C Library](client-interfaces/libpq/README.md)
     * [32.1. Database Connection Control Functions #](client-interfaces/libpq/libpq-connect.md)

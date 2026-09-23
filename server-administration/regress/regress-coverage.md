@@ -1,21 +1,22 @@
-## 31.5. Test Coverage Examination [#](#REGRESS-COVERAGE)
+<a id="REGRESS-COVERAGE"></a>
 
-[31.5.1. Coverage with Autoconf and Make](regress-coverage.md#REGRESS-COVERAGE-CONFIGURE)
+## 31.5. 測試涵蓋率檢驗 [#](#REGRESS-COVERAGE)
 
-[31.5.2. Coverage with Meson](regress-coverage.md#REGRESS-COVERAGE-MESON)
+[31.5.1. 使用 Autoconf 與 Make 檢驗涵蓋率](regress-coverage.md#REGRESS-COVERAGE-CONFIGURE)
 
-The PostgreSQL source code can be compiled with coverage testing
-instrumentation, so that it becomes possible to examine which
-parts of the code are covered by the regression tests or any other
-test suite that is run with the code. This is currently supported
-when compiling with GCC, and it requires the `gcov`
-and `lcov` packages.
+[31.5.2. 使用 Meson 檢驗涵蓋率](regress-coverage.md#REGRESS-COVERAGE-MESON)
+
+PostgreSQL 原始碼可以搭配涵蓋率測試工具進行編譯，
+如此一來，就能檢驗程式碼中哪些部分，
+有被迴歸測試，或是任何其他與該程式碼一併執行的測試套組所涵蓋。
+目前使用 GCC 編譯時支援此功能，
+且需要 `gcov` 與 `lcov` 套件。
 
 <a id="REGRESS-COVERAGE-CONFIGURE"></a>
 
-### 31.5.1. Coverage with Autoconf and Make [#](#REGRESS-COVERAGE-CONFIGURE)
+### 31.5.1. 使用 Autoconf 與 Make 檢驗涵蓋率 [#](#REGRESS-COVERAGE-CONFIGURE)
 
-A typical workflow looks like this:
+典型的工作流程如下所示：
 
 ```
 
@@ -25,43 +26,45 @@ make check # or other test suite
 make coverage-html
 ```
 
-Then point your HTML browser
-to `coverage/index.html`.
+接著，將你的 HTML 瀏覽器指向
+`coverage/index.html`。
 
-If you don't have `lcov` or prefer text output over an
-HTML report, you can run
+若你沒有安裝 `lcov`，或偏好文字輸出
+而非 HTML 報告，可以執行
 
 ```
 
 make coverage
 ```
 
-instead of `make coverage-html`, which will
-produce `.gcov` output files for each source file
-relevant to the test. (`make coverage` and `make
-coverage-html` will overwrite each other's files, so mixing them
-might be confusing.)
+來取代 `make coverage-html`，
+這會為每個與測試相關的原始檔，
+產生 `.gcov` 輸出檔案。
+（`make coverage` 與 `make
+coverage-html` 會彼此覆寫對方的檔案，
+因此混用兩者可能會造成混淆。）
 
-You can run several different tests before making the coverage report;
-the execution counts will accumulate. If you want
-to reset the execution counts between test runs, run:
+你可以在產生涵蓋率報告之前，執行多個不同的測試；
+執行次數計數會逐一累加。若你想在
+不同的測試執行之間重設執行次數計數，
+請執行：
 
 ```
 
 make coverage-clean
 ```
 
-You can run the `make coverage-html` or `make
-coverage` command in a subdirectory if you want a coverage
-report for only a portion of the code tree.
+若你只想針對程式碼樹中的一部分產生涵蓋率報告，
+可以在某個子目錄中執行 `make coverage-html`
+或 `make coverage` 命令。
 
-Use `make distclean` to clean up when done.
+完成後，請使用 `make distclean` 進行清理。
 
 <a id="REGRESS-COVERAGE-MESON"></a>
 
-### 31.5.2. Coverage with Meson [#](#REGRESS-COVERAGE-MESON)
+### 31.5.2. 使用 Meson 檢驗涵蓋率 [#](#REGRESS-COVERAGE-MESON)
 
-A typical workflow looks like this:
+典型的工作流程如下所示：
 
 ```
 
@@ -72,12 +75,12 @@ cd builddir/
 ninja coverage-html
 ```
 
-Then point your HTML browser
-to `./meson-logs/coveragereport/index.html`.
+接著，將你的 HTML 瀏覽器指向
+`./meson-logs/coveragereport/index.html`。
 
-You can run several different tests before making the coverage report;
-the execution counts will accumulate.
+你可以在產生涵蓋率報告之前，執行多個不同的測試；
+執行次數計數會逐一累加。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/regress-coverage.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/regress-coverage.html)（原文版本：18.6；核對日期：2026-09-22）

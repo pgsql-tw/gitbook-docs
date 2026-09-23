@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：665 頁。
+待譯頁面：664 頁。
 
 ## 根目錄
 
@@ -786,7 +786,7 @@
 - [ ] `server-administration/monitoring/monitoring-stats.md` — 27.2. The Cumulative Statistics System #
 - [ ] `server-administration/monitoring/progress-reporting.md` — 27.4. Progress Reporting #
 - [x] `server-administration/regress/README.md` — 第 31 章 迴歸測試
-- [ ] `server-administration/regress/regress-coverage.md` — 31.5. Test Coverage Examination #
+- [x] `server-administration/regress/regress-coverage.md` — 31.5. 測試涵蓋率檢驗 #
 - [ ] `server-administration/regress/regress-evaluation.md` — 31.2. Test Evaluation #
 - [ ] `server-administration/regress/regress-run.md` — 31.1. Running the Tests #
 - [x] `server-administration/regress/regress-tap.md` — 31.4. TAP 測試 #
