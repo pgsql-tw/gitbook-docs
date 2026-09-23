@@ -1,29 +1,26 @@
-## 43.8. PL/Perl Under the Hood [#](#PLPERL-UNDER-THE-HOOD)
+<a id="PLPERL-UNDER-THE-HOOD"></a>
+## 43.8. PL/Perl 內部運作原理 [#](#PLPERL-UNDER-THE-HOOD)
 
-[43.8.1. Configuration](plperl-under-the-hood.md#PLPERL-CONFIG)
+[43.8.1. 組態設定](plperl-under-the-hood.md#PLPERL-CONFIG)
 
-[43.8.2. Limitations and Missing Features](plperl-under-the-hood.md#PLPERL-MISSING)
+[43.8.2. 限制與缺少的功能](plperl-under-the-hood.md#PLPERL-MISSING)
 
 <a id="PLPERL-CONFIG"></a>
 
-### 43.8.1. Configuration [#](#PLPERL-CONFIG)
+### 43.8.1. 組態設定 [#](#PLPERL-CONFIG)
 
-This section lists configuration parameters that affect PL/Perl.
+本節列出會影響 PL/Perl 的組態參數。
 
 <a id="GUC-PLPERL-ON-INIT"></a>
 
-`plperl.on_init` (`string`) <a id="id-1.8.10.16.2.3.1.1.3"></a> [#](#GUC-PLPERL-ON-INIT)
-:   Specifies Perl code to be executed when a Perl interpreter is first
-    initialized, before it is specialized for use by `plperl` or
-    `plperlu`.
-    The SPI functions are not available when this code is executed.
-    If the code fails with an error it will abort the initialization of
-    the interpreter and propagate out to the calling query, causing the
-    current transaction or subtransaction to be aborted.
+`plperl.on_init`（`string`）<a id="id-1.8.10.16.2.3.1.1.3"></a> [#](#GUC-PLPERL-ON-INIT)
+:   指定當 Perl 直譯器首次初始化時要執行的 Perl 程式碼，此時該直譯器尚未特化供 `plperl` 或
+    `plperlu` 使用。
+    執行此程式碼時，SPI 函式並不可用。
+    若此程式碼執行失敗並發生錯誤，將會中止直譯器的初始化，並向外傳播至呼叫端查詢，導致目前的交易或子交易中止。
 
-    The Perl code is limited to a single string. Longer code can be placed
-    into a module and loaded by the `on_init` string.
-    Examples:
+    Perl 程式碼僅限於單一字串。較長的程式碼可放入模組，再由 `on_init`
+    字串載入。範例：
 
     ```
 
@@ -31,90 +28,54 @@ This section lists configuration parameters that affect PL/Perl.
     plperl.on_init = 'use lib "/my/app"; use MyApp::PgInit;'
     ```
 
-    Any modules loaded by `plperl.on_init`, either directly or
-    indirectly, will be available for use by `plperl`. This may
-    create a security risk. To see what modules have been loaded you can use:
+    無論是直接或間接由 `plperl.on_init` 載入的任何模組，都可供 `plperl`
+    使用，這可能會造成安全風險。若要查看已載入哪些模組，可使用：
 
     ```
 
     DO 'elog(WARNING, join ", ", sort keys %INC)' LANGUAGE plperl;
     ```
 
-    Initialization will happen in the postmaster if the `plperl` library is
-    included in [shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES), in which
-    case extra consideration should be given to the risk of destabilizing
-    the postmaster. The principal reason for making use of this feature
-    is that Perl modules loaded by `plperl.on_init` need be
-    loaded only at postmaster start, and will be instantly available
-    without loading overhead in individual database sessions. However,
-    keep in mind that the overhead is avoided only for the first Perl
-    interpreter used by a database session — either PL/PerlU, or
-    PL/Perl for the first SQL role that calls a PL/Perl function. Any
-    additional Perl interpreters created in a database session will have
-    to execute `plperl.on_init` afresh. Also, on Windows there
-    will be no savings whatsoever from preloading, since the Perl
-    interpreter created in the postmaster process does not propagate to
-    child processes.
+    若 `plperl` 程式庫已包含在 [shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) 中，初始化將會在 postmaster
+    中進行，此時應特別考量此舉可能使 postmaster 不穩定的風險。使用此功能的主要理由，是由 `plperl.on_init`
+    載入的 Perl 模組只需在 postmaster 啟動時載入一次，之後在各個資料庫工作階段中即可立即使用，無需再承擔載入的額外負擔。不過請留意，這項額外負擔的節省，僅適用於資料庫工作階段中第一個使用到的 Perl 直譯器——即 PL/PerlU，或是第一個呼叫 PL/Perl 函式的 SQL 角色所使用的 PL/Perl。在同一資料庫工作階段中，若建立了任何額外的 Perl 直譯器，都必須重新執行一次
+    `plperl.on_init`。此外，在 Windows 上，預先載入完全無法帶來任何節省，因為 postmaster 程序中建立的 Perl 直譯器並不會傳遞給子程序。
 
-    This parameter can only be set in the `postgresql.conf` file or on the server command line.
+    此參數只能在 `postgresql.conf` 檔案中或伺服器命令列上設定。
 <a id="GUC-PLPERL-ON-PLPERL-INIT"></a>
 
-`plperl.on_plperl_init` (`string`) <a id="id-1.8.10.16.2.3.2.1.3"></a> <br> `plperl.on_plperlu_init` (`string`) <a id="id-1.8.10.16.2.3.2.2.3"></a> [#](#GUC-PLPERL-ON-PLPERL-INIT)
-:   These parameters specify Perl code to be executed when a Perl
-    interpreter is specialized for `plperl` or
-    `plperlu` respectively. This will happen when a PL/Perl or
-    PL/PerlU function is first executed in a database session, or when
-    an additional interpreter has to be created because the other language
-    is called or a PL/Perl function is called by a new SQL role. This
-    follows any initialization done by `plperl.on_init`.
-    The SPI functions are not available when this code is executed.
-    The Perl code in `plperl.on_plperl_init` is executed after
-    “locking down” the interpreter, and thus it can only perform
-    trusted operations.
+`plperl.on_plperl_init`（`string`）<a id="id-1.8.10.16.2.3.2.1.3"></a> <br> `plperl.on_plperlu_init`（`string`）<a id="id-1.8.10.16.2.3.2.2.3"></a> [#](#GUC-PLPERL-ON-PLPERL-INIT)
+:   這些參數分別指定當 Perl 直譯器特化為 `plperl` 或
+    `plperlu` 時要執行的 Perl 程式碼。這會發生在資料庫工作階段中首次執行 PL/Perl 或
+    PL/PerlU 函式時，或是因呼叫了另一種語言、或某個新的 SQL 角色呼叫了 PL/Perl 函式，而必須建立額外直譯器時。這會在
+    `plperl.on_init` 完成的任何初始化之後執行。
+    執行此程式碼時，SPI 函式並不可用。
+    `plperl.on_plperl_init` 中的 Perl 程式碼是在直譯器「鎖定」之後執行，因此只能執行受信任的操作。
 
-    If the code fails with an error it will abort the initialization and
-    propagate out to the calling query, causing the current transaction or
-    subtransaction to be aborted. Any actions already done within Perl
-    won't be undone; however, that interpreter won't be used again.
-    If the language is used again the initialization will be attempted
-    again within a fresh Perl interpreter.
+    若此程式碼執行失敗並發生錯誤，將會中止初始化，並向外傳播至呼叫端查詢，導致目前的交易或子交易中止。任何已在 Perl 中完成的動作都不會被復原；不過該直譯器將不會再被使用。若再次使用該語言，將會在一個全新的 Perl 直譯器中重新嘗試初始化。
 
-    Only superusers can change these settings. Although these settings
-    can be changed within a session, such changes will not affect Perl
-    interpreters that have already been used to execute functions.
+    只有超級使用者可以變更這些設定。雖然這些設定可以在工作階段中變更，但這類變更並不會影響已經用來執行函式的 Perl 直譯器。
 <a id="GUC-PLPERL-USE-STRICT"></a>
 
-`plperl.use_strict` (`boolean`) <a id="id-1.8.10.16.2.3.3.1.3"></a> [#](#GUC-PLPERL-USE-STRICT)
-:   When set true subsequent compilations of PL/Perl functions will have
-    the `strict` pragma enabled. This parameter does not affect
-    functions already compiled in the current session.
+`plperl.use_strict`（`boolean`）<a id="id-1.8.10.16.2.3.3.1.3"></a> [#](#GUC-PLPERL-USE-STRICT)
+:   設為 true 時，後續編譯的 PL/Perl 函式將會啟用 `strict` 編譯指示（pragma）。此參數不會影響目前工作階段中已經編譯完成的函式。
 
 <a id="PLPERL-MISSING"></a>
 
-### 43.8.2. Limitations and Missing Features [#](#PLPERL-MISSING)
+### 43.8.2. 限制與缺少的功能 [#](#PLPERL-MISSING)
 
-The following features are currently missing from PL/Perl, but they
-would make welcome contributions.
+以下功能目前在 PL/Perl 中仍付之闕如，歡迎大家貢獻心力予以補上。
 
-* PL/Perl functions cannot call each other directly.
-* SPI is not yet fully implemented.
-* If you are fetching very large data sets using
-  `spi_exec_query`, you should be aware that
-  these will all go into memory. You can avoid this by using
-  `spi_query`/`spi_fetchrow` as
-  illustrated earlier.
+* PL/Perl 函式之間無法直接互相呼叫。
+* SPI 尚未完全實作。
+* 若您使用 `spi_exec_query` 擷取非常龐大的資料集，請留意這些資料將全部載入記憶體中。您可以改用先前示範過的
+  `spi_query`／`spi_fetchrow` 來避免這個問題。
 
-  A similar problem occurs if a set-returning function passes a
-  large set of rows back to PostgreSQL via `return`. You
-  can avoid this problem too by instead using
-  `return_next` for each row returned, as shown
-  previously.
-* When a session ends normally, not due to a fatal error, any
-  `END` blocks that have been defined are executed.
-  Currently no other actions are performed. Specifically,
-  file handles are not automatically flushed and objects are
-  not automatically destroyed.
+  傳回集合函式若透過 `return` 將大量資料列傳回 PostgreSQL，也會發生類似的問題。您同樣可以改用先前示範過的方式，為每一筆傳回的資料列改用
+  `return_next`，藉此避免這個問題。
+* 當工作階段正常結束（而非因致命錯誤而結束）時，任何已定義的
+  `END` 區塊都會被執行。目前不會執行其他任何動作。具體來說，檔案控制代碼不會自動排清（flush），物件也不會自動銷毀。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-under-the-hood.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plperl-under-the-hood.html)（原文版本：18.6；核對日期：2026-09-22）

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：680 頁。
+待譯頁面：679 頁。
 
 ## 根目錄
 
@@ -893,7 +893,7 @@
 - [x] `server-programming/plperl/plperl-global.md` — 43.4. PL/Perl 中的全域值 #
 - [x] `server-programming/plperl/plperl-triggers.md` — 43.6. PL/Perl 觸發程序 #
 - [x] `server-programming/plperl/plperl-trusted.md` — 43.5. 受信任與不受信任的 PL/Perl #
-- [ ] `server-programming/plperl/plperl-under-the-hood.md` — 43.8. PL/Perl Under the Hood #
+- [x] `server-programming/plperl/plperl-under-the-hood.md` — 43.8. PL/Perl 內部運作原理 #
 - [x] `server-programming/plpgsql/README.md` — 第 41 章 PL/pgSQL — SQL 程序語言
 - [ ] `server-programming/plpgsql/plpgsql-control-structures.md` — 41.6. Control Structures #
 - [x] `server-programming/plpgsql/plpgsql-cursors.md` — 41.7. 游標 #
