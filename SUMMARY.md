@@ -452,7 +452,7 @@
     * [36.14. 使用者自訂運算子 #](server-programming/extend/xoper.md)
     * [36.15. Operator Optimization Information #](server-programming/extend/xoper-optimization.md)
     * [36.16. Interfacing Extensions to Indexes #](server-programming/extend/xindex.md)
-    * [36.17. Packaging Related Objects into an Extension #](server-programming/extend/extend-extensions.md)
+    * [36.17. 將相關物件封裝成擴充功能 #](server-programming/extend/extend-extensions.md)
     * [36.18. Extension Building Infrastructure #](server-programming/extend/extend-pgxs.md)
   * [第 37 章 觸發器](server-programming/triggers/README.md)
     * [37.1. 觸發程序行為總覽 #](server-programming/triggers/trigger-definition.md)

@@ -1,415 +1,441 @@
-## 36.17. Packaging Related Objects into an Extension [#](#EXTEND-EXTENSIONS)
+<a id="EXTEND-EXTENSIONS"></a>
+## 36.17. 將相關物件封裝成擴充功能 [#](#EXTEND-EXTENSIONS)
 
-[36.17.1. Extension Files](extend-extensions.md#EXTEND-EXTENSIONS-FILES)
+[36.17.1. 擴充功能檔案](extend-extensions.md#EXTEND-EXTENSIONS-FILES)
 
-[36.17.2. Extension Relocatability](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION)
+[36.17.2. 擴充功能的可重新定位性](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION)
 
-[36.17.3. Extension Configuration Tables](extend-extensions.md#EXTEND-EXTENSIONS-CONFIG-TABLES)
+[36.17.3. 擴充功能組態資料表](extend-extensions.md#EXTEND-EXTENSIONS-CONFIG-TABLES)
 
-[36.17.4. Extension Updates](extend-extensions.md#EXTEND-EXTENSIONS-UPDATES)
+[36.17.4. 擴充功能更新](extend-extensions.md#EXTEND-EXTENSIONS-UPDATES)
 
-[36.17.5. Installing Extensions Using Update Scripts](extend-extensions.md#EXTEND-EXTENSIONS-UPDATE-SCRIPTS)
+[36.17.5. 使用更新指令碼安裝擴充功能](extend-extensions.md#EXTEND-EXTENSIONS-UPDATE-SCRIPTS)
 
-[36.17.6. Security Considerations for Extensions](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY)
+[36.17.6. 擴充功能的安全性考量](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY)
 
-[36.17.7. Extension Example](extend-extensions.md#EXTEND-EXTENSIONS-EXAMPLE)
+[36.17.7. 擴充功能範例](extend-extensions.md#EXTEND-EXTENSIONS-EXAMPLE)
 
 <a id="id-1.8.3.20.2"></a>
 
-A useful extension to PostgreSQL typically includes
-multiple SQL objects; for example, a new data type will require new
-functions, new operators, and probably new index operator classes.
-It is helpful to collect all these objects into a single package
-to simplify database management. PostgreSQL calls
-such a package an *extension*. To define an extension,
-you need at least a *script file* that contains the
-SQL commands to create the extension's objects, and a
-*control file* that specifies a few basic properties
-of the extension itself. If the extension includes C code, there
-will typically also be a shared library file into which the C code
-has been built. Once you have these files, a simple
-[`CREATE EXTENSION`](../../reference/sql-commands/sql-createextension.md) command loads the objects into
-your database.
+一個有用的 PostgreSQL 擴充功能，通常
+包含多個 SQL 物件；舉例來說，一個新的資料型別，
+會需要新的函式、新的運算子，也可能需要新的索引
+運算子類別。將所有這些物件收集成一個單一的
+套件，有助於簡化資料庫管理。PostgreSQL
+將這樣的套件稱為*擴充功能（extension）*。要定義一個擴充功能，
+您至少需要一個*指令碼檔案（script file）*，
+其中包含用來建立該擴充功能物件的 SQL 指令，
+以及一個*控制檔（control file）*，
+用來指定該擴充功能本身的一些基本屬性。若該擴充功能包含
+C 程式碼，通常還會有一個共享程式庫檔案，
+C 程式碼會被建置成這個檔案。準備好這些檔案後，
+只要一個簡單的
+[`CREATE EXTENSION`](../../reference/sql-commands/sql-createextension.md) 指令，
+就能將這些物件載入到您的資料庫中。
 
-The main advantage of using an extension, rather than just running the
-SQL script to load a bunch of “loose” objects
-into your database, is that PostgreSQL will then
-understand that the objects of the extension go together. You can
-drop all the objects with a single [`DROP EXTENSION`](../../reference/sql-commands/sql-dropextension.md)
-command (no need to maintain a separate “uninstall” script).
-Even more useful, pg_dump knows that it should not
-dump the individual member objects of the extension — it will
-just include a `CREATE EXTENSION` command in dumps, instead.
-This vastly simplifies migration to a new version of the extension
-that might contain more or different objects than the old version.
-Note however that you must have the extension's control, script, and
-other files available when loading such a dump into a new database.
+使用擴充功能，而不是單純執行 SQL
+指令碼，將一堆「鬆散」的物件載入資料庫，
+其主要優點在於，PostgreSQL 能夠
+理解該擴充功能的物件是一個整體。您可以用單一一個
+[`DROP EXTENSION`](../../reference/sql-commands/sql-dropextension.md)
+指令，刪除所有物件（不需要另外維護一份「解除安裝」指令碼）。
+更有用的是，pg_dump 知道不應該
+傾印該擴充功能的個別成員物件 — 它只會
+在傾印中，包含一個 `CREATE EXTENSION` 指令。
+這大幅簡化了遷移到擴充功能新版本的過程，
+即使新版本可能包含更多或不同的物件。不過請注意，
+當您將這樣的傾印載入新資料庫時，
+必須讓該擴充功能的控制檔、指令碼檔及其他檔案，
+都是可用的。
 
-PostgreSQL will not let you drop an individual object
-contained in an extension, except by dropping the whole extension.
-Also, while you can change the definition of an extension member object
-(for example, via `CREATE OR REPLACE FUNCTION` for a
-function), bear in mind that the modified definition will not be dumped
-by pg_dump. Such a change is usually only sensible if
-you concurrently make the same change in the extension's script file.
-(But there are special provisions for tables containing configuration
-data; see [Section 36.17.3](extend-extensions.md#EXTEND-EXTENSIONS-CONFIG-TABLES).)
-In production situations, it's generally better to create an extension
-update script to perform changes to extension member objects.
+PostgreSQL 不允許您刪除某個
+擴充功能中所包含的個別物件，除非刪除整個擴充功能。
+此外，雖然您可以變更擴充功能成員物件的定義
+（舉例來說，透過對函式使用 `CREATE OR REPLACE FUNCTION`），
+但請記住，修改後的定義並不會被 pg_dump
+傾印出來。這樣的變更，通常只有在您
+同時對該擴充功能的指令碼檔案，做出相同變更時，才有意義。
+（不過，對於包含組態資料的資料表，另有特殊規定；
+請參閱[36.17.3 節](extend-extensions.md#EXTEND-EXTENSIONS-CONFIG-TABLES)。）
+在正式環境中，通常最好建立一個擴充功能
+更新指令碼，來對擴充功能成員物件進行變更。
 
-The extension script may set privileges on objects that are part of the
-extension, using `GRANT` and `REVOKE`
-statements. The final set of privileges for each object (if any are set)
-will be stored in the
+擴充功能指令碼，可以使用
+`GRANT` 與 `REVOKE`
+陳述式，設定屬於該擴充功能的物件之權限。
+每個物件的最終權限集合（若有設定的話），
+會被儲存在
 [`pg_init_privs`](../../internals/catalogs/catalog-pg-init-privs.md)
-system catalog. When pg_dump is used, the
-`CREATE EXTENSION` command will be included in the dump, followed
-by the set of `GRANT` and `REVOKE`
-statements necessary to set the privileges on the objects to what they were
-at the time the dump was taken.
+系統目錄中。當使用 pg_dump 時，
+傾印中會包含 `CREATE EXTENSION` 指令，
+後面接著必要的一連串 `GRANT` 與
+`REVOKE` 陳述式，將這些物件的權限，
+設定回傾印當下的狀態。
 
-PostgreSQL does not currently support extension scripts
-issuing `CREATE POLICY` or `SECURITY LABEL`
-statements. These are expected to be set after the extension has been
-created. All RLS policies and security labels on extension objects will be
-included in dumps created by pg_dump.
+PostgreSQL 目前不支援在擴充功能指令碼中
+發出 `CREATE POLICY` 或 `SECURITY LABEL`
+陳述式。這些預期會在該擴充功能建立完成後才設定。
+擴充功能物件上的所有 RLS 政策與安全標籤，
+都會包含在 pg_dump 所建立的傾印中。
 
-The extension mechanism also has provisions for packaging modification
-scripts that adjust the definitions of the SQL objects contained in an
-extension. For example, if version 1.1 of an extension adds one function
-and changes the body of another function compared to 1.0, the extension
-author can provide an *update script* that makes just those
-two changes. The `ALTER EXTENSION UPDATE` command can then
-be used to apply these changes and track which version of the extension
-is actually installed in a given database.
+擴充功能機制也有相關規定，可以封裝一些修改
+指令碼，用來調整擴充功能中所包含 SQL 物件的定義。
+舉例來說，若擴充功能的 1.1 版，比起 1.0 版，
+多加了一個函式，並變更了另一個函式的主體，
+該擴充功能的作者就可以提供一份*更新
+指令碼（update script）*，只做出這兩項變更。接著，
+就可以使用 `ALTER EXTENSION UPDATE` 指令，
+套用這些變更，並追蹤某個特定資料庫中，
+實際安裝的是哪一個版本的擴充功能。
 
-The kinds of SQL objects that can be members of an extension are shown in
-the description of [`ALTER EXTENSION`](../../reference/sql-commands/sql-alterextension.md). Notably, objects
-that are database-cluster-wide, such as databases, roles, and tablespaces,
-cannot be extension members since an extension is only known within one
-database. (Although an extension script is not prohibited from creating
-such objects, if it does so they will not be tracked as part of the
-extension.) Also notice that while a table can be a member of an
-extension, its subsidiary objects such as indexes are not directly
-considered members of the extension.
-Another important point is that schemas can belong to extensions, but not
-vice versa: an extension as such has an unqualified name and does not
-exist “within” any schema. The extension's member objects,
-however, will belong to schemas whenever appropriate for their object
-types. It may or may not be appropriate for an extension to own the
-schema(s) its member objects are within.
+可以作為擴充功能成員的 SQL 物件種類，
+顯示於
+[`ALTER EXTENSION`](../../reference/sql-commands/sql-alterextension.md) 的說明中。
+特別要注意的是，資料庫叢集層級的物件，
+例如資料庫、角色與表空間，都不能作為擴充功能的成員，
+因為擴充功能只在單一一個資料庫中被認識。
+（雖然並不禁止擴充功能指令碼建立這類物件，
+但若這麼做，它們就不會被追蹤為該擴充功能的一部分。）
+此外請注意，雖然資料表可以是擴充功能的成員，
+但其附屬物件，例如索引，並不會被直接視為
+該擴充功能的成員。
+另一個重點是，綱要可以屬於擴充功能，但反過來卻不行：
+擴充功能本身有一個不帶綱要修飾的名稱，
+並不存在於任何綱要「之內」。不過，擴充功能的成員物件，
+在其物件型別合適的情況下，仍會屬於某個綱要。
+至於擴充功能是否應該擁有其成員物件所在的
+綱要，則視情況而定，未必如此。
 
-If an extension's script creates any temporary objects (such as temp
-tables), those objects are treated as extension members for the
-remainder of the current session, but are automatically dropped at
-session end, as any temporary object would be. This is an exception
-to the rule that extension member objects cannot be dropped without
-dropping the whole extension.
+若某個擴充功能的指令碼建立了任何暫存物件
+（例如暫存資料表），這些物件在目前工作階段的其餘
+時間內，會被視為該擴充功能的成員，但會在
+工作階段結束時，如同任何暫存物件一樣自動被刪除。這是
+「擴充功能成員物件，若不刪除整個擴充功能，
+就無法被刪除」這項規則的一個例外。
 
 <a id="EXTEND-EXTENSIONS-FILES"></a>
 
-### 36.17.1. Extension Files [#](#EXTEND-EXTENSIONS-FILES)
+### 36.17.1. 擴充功能檔案 [#](#EXTEND-EXTENSIONS-FILES)
 
 <a id="id-1.8.3.20.11.2"></a>
 
-The `CREATE EXTENSION` command relies on a control
-file for each extension, which must be named the same as the extension
-with a suffix of `.control`, and must be placed in the
-installation's `SHAREDIR/extension` directory. There
-must also be at least one SQL script file, which follows the
-naming pattern
+`CREATE EXTENSION` 指令，
+依賴每個擴充功能各自的控制檔，其命名
+必須與該擴充功能相同，並加上 `.control`
+後綴，且必須放在安裝環境的
+`SHAREDIR/extension` 目錄下。同時
+必須至少有一個 SQL 指令碼檔案，其命名遵循
 `extension--version.sql`
-(for example, `foo--1.0.sql` for version `1.0` of
-extension `foo`). By default, the script file(s) are also
-placed in the `SHAREDIR/extension` directory; but the
-control file can specify a different directory for the script file(s).
+的樣式（舉例來說，擴充功能 `foo` 的
+`1.0` 版，其指令碼檔案為 `foo--1.0.sql`）。
+預設情況下，這些指令碼檔案，也會放在
+`SHAREDIR/extension` 目錄下；但控制檔
+可以為這些指令碼檔案，指定不同的目錄。
 
-Additional locations for extension control files can be configured using
-the parameter [extension_control_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-EXTENSION-CONTROL-PATH).
+擴充功能控制檔的額外位置，可以使用
+參數 [extension_control_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-EXTENSION-CONTROL-PATH) 來設定。
 
-The file format for an extension control file is the same as for the
-`postgresql.conf` file, namely a list of
+擴充功能控制檔的檔案格式，與
+`postgresql.conf` 檔案相同，
+也就是每行一則
 *`parameter_name`* `=` *`value`*
-assignments, one per line. Blank lines and comments introduced by
-`#` are allowed. Be sure to quote any value that is not
-a single word or number.
+指定。允許空白行，以及以
+`#` 開頭的註解。對於任何非單一單字或數字的值，
+請務必加上引號。
 
-A control file can set the following parameters:
+控制檔可以設定以下這些參數：
 
 <a id="EXTEND-EXTENSIONS-FILES-DIRECTORY"></a>
 
-`directory` (`string`) [#](#EXTEND-EXTENSIONS-FILES-DIRECTORY)
-:   The directory containing the extension's SQL script
-    file(s). Unless an absolute path is given, the name is relative to
-    the directory where the control file was found. By default,
-    the script files are looked for in the same directory where the
-    control file was found.
+`directory`（`string`） [#](#EXTEND-EXTENSIONS-FILES-DIRECTORY)
+:   包含該擴充功能 SQL 指令碼檔案的目錄。
+    除非給定的是絕對路徑，否則該名稱是相對於
+    找到控制檔的目錄。預設情況下，
+    系統會在找到控制檔的同一個目錄中，
+    尋找這些指令碼檔案。
 <a id="EXTEND-EXTENSIONS-FILES-DEFAULT-VERSION"></a>
 
-`default_version` (`string`) [#](#EXTEND-EXTENSIONS-FILES-DEFAULT-VERSION)
-:   The default version of the extension (the one that will be installed
-    if no version is specified in `CREATE EXTENSION`). Although
-    this can be omitted, that will result in `CREATE EXTENSION`
-    failing if no `VERSION` option appears, so you generally
-    don't want to do that.
+`default_version`（`string`） [#](#EXTEND-EXTENSIONS-FILES-DEFAULT-VERSION)
+:   該擴充功能的預設版本（若 `CREATE EXTENSION`
+    中未指定版本，就會安裝這個版本）。雖然
+    這個參數可以省略，但這麼做會導致
+    `CREATE EXTENSION` 在未給定 `VERSION`
+    選項時失敗，因此一般而言，您並不會想這麼做。
 <a id="EXTEND-EXTENSIONS-FILES-COMMENT"></a>
 
-`comment` (`string`) [#](#EXTEND-EXTENSIONS-FILES-COMMENT)
-:   A comment (any string) about the extension. The comment is applied
-    when initially creating an extension, but not during extension updates
-    (since that might override user-added comments). Alternatively,
-    the extension's comment can be set by writing
-    a [COMMENT](../../reference/sql-commands/sql-comment.md) command in the script file.
+`comment`（`string`） [#](#EXTEND-EXTENSIONS-FILES-COMMENT)
+:   關於該擴充功能的註解（任意字串）。這則註解，
+    會在初次建立擴充功能時套用，但不會在擴充功能更新期間套用
+    （因為這樣可能會覆蓋使用者所加入的註解）。另一種做法，
+    是在指令碼檔案中撰寫一則
+    [COMMENT](../../reference/sql-commands/sql-comment.md) 指令，來設定該擴充功能的註解。
 <a id="EXTEND-EXTENSIONS-FILES-ENCODING"></a>
 
-`encoding` (`string`) [#](#EXTEND-EXTENSIONS-FILES-ENCODING)
-:   The character set encoding used by the script file(s). This should
-    be specified if the script files contain any non-ASCII characters.
-    Otherwise the files will be assumed to be in the database encoding.
+`encoding`（`string`） [#](#EXTEND-EXTENSIONS-FILES-ENCODING)
+:   指令碼檔案所使用的字元集編碼。若這些
+    指令碼檔案包含任何非 ASCII 字元，就應該指定此參數。
+    否則，這些檔案會被假設為採用資料庫編碼。
 <a id="EXTEND-EXTENSIONS-FILES-MODULE-PATHNAME"></a>
 
-`module_pathname` (`string`) [#](#EXTEND-EXTENSIONS-FILES-MODULE-PATHNAME)
-:   The value of this parameter will be substituted for each occurrence
-    of `MODULE_PATHNAME` in the script file(s). If it is not
-    set, no substitution is made. Typically, this is set to just
-    `shared_library_name` and
-    then `MODULE_PATHNAME` is used in `CREATE
-    FUNCTION` commands for C-language functions, so that the script
-    files do not need to hard-wire the name of the shared library.
+`module_pathname`（`string`） [#](#EXTEND-EXTENSIONS-FILES-MODULE-PATHNAME)
+:   這個參數的值，會取代指令碼檔案中，每一處
+    `MODULE_PATHNAME` 出現的位置。若未
+    設定，則不會進行任何取代。一般而言，這通常會設定為
+    `shared_library_name`，
+    接著 `MODULE_PATHNAME`，就會用於 C 語言函式的
+    `CREATE
+    FUNCTION` 指令中，如此一來，指令碼
+    檔案就不需要將共享程式庫的名稱寫死。
 <a id="EXTEND-EXTENSIONS-FILES-REQUIRES"></a>
 
-`requires` (`string`) [#](#EXTEND-EXTENSIONS-FILES-REQUIRES)
-:   A list of names of extensions that this extension depends on,
-    for example `requires = 'foo, bar'`. Those
-    extensions must be installed before this one can be installed.
+`requires`（`string`） [#](#EXTEND-EXTENSIONS-FILES-REQUIRES)
+:   此擴充功能所依賴的擴充功能名稱清單，
+    舉例來說 `requires = 'foo, bar'`。那些
+    擴充功能，必須先安裝，此擴充功能才能安裝。
 <a id="EXTEND-EXTENSIONS-FILES-NO-RELOCATE"></a>
 
-`no_relocate` (`string`) [#](#EXTEND-EXTENSIONS-FILES-NO-RELOCATE)
-:   A list of names of extensions that this extension depends on that
-    should be barred from changing their schemas via `ALTER
-    EXTENSION ... SET SCHEMA`.
-    This is needed if this extension's script references the name
-    of a required extension's schema (using
-    the `@extschema:name@`
-    syntax) in a way that cannot track renames.
+`no_relocate`（`string`） [#](#EXTEND-EXTENSIONS-FILES-NO-RELOCATE)
+:   此擴充功能所依賴的擴充功能名稱清單，
+    這些擴充功能應該被禁止透過 `ALTER
+    EXTENSION ... SET SCHEMA` 變更其綱要。
+    當此擴充功能的指令碼中，以無法追蹤更名的方式，
+    參照了某個必要擴充功能綱要的名稱
+    （使用 `@extschema:name@`
+    語法）時，就需要這麼做。
 <a id="EXTEND-EXTENSIONS-FILES-SUPERUSER"></a>
 
-`superuser` (`boolean`) [#](#EXTEND-EXTENSIONS-FILES-SUPERUSER)
-:   If this parameter is `true` (which is the default),
-    only superusers can create the extension or update it to a new
-    version (but see also `trusted`, below).
-    If it is set to `false`, just the privileges
-    required to execute the commands in the installation or update script
-    are required.
-    This should normally be set to `true` if any of the
-    script commands require superuser privileges. (Such commands would
-    fail anyway, but it's more user-friendly to give the error up front.)
+`superuser`（`boolean`） [#](#EXTEND-EXTENSIONS-FILES-SUPERUSER)
+:   若此參數為 `true`（這是預設值），
+    則只有超級使用者能夠建立該擴充功能，或將其更新
+    到新版本（但另請參閱下方的 `trusted`）。
+    若設定為 `false`，則只需要
+    執行安裝或更新指令碼中指令所需的權限即可。
+    若指令碼中有任何指令需要超級使用者權限，
+    通常應該將此參數設為 `true`。（這類指令
+    無論如何都會失敗，但事先提供錯誤，對使用者來說
+    比較友善。）
 <a id="EXTEND-EXTENSIONS-FILES-TRUSTED"></a>
 
-`trusted` (`boolean`) [#](#EXTEND-EXTENSIONS-FILES-TRUSTED)
-:   This parameter, if set to `true` (which is not the
-    default), allows some non-superusers to install an extension that
-    has `superuser` set to `true`.
-    Specifically, installation will be permitted for anyone who has
-    `CREATE` privilege on the current database.
-    When the user executing `CREATE EXTENSION` is not
-    a superuser but is allowed to install by virtue of this parameter,
-    then the installation or update script is run as the bootstrap
-    superuser, not as the calling user.
-    This parameter is irrelevant if `superuser` is
-    `false`.
-    Generally, this should not be set true for extensions that could
-    allow access to otherwise-superuser-only abilities, such as
-    file system access.
-    Also, marking an extension trusted requires significant extra effort
-    to write the extension's installation and update script(s) securely;
-    see [Section 36.17.6](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY).
+`trusted`（`boolean`） [#](#EXTEND-EXTENSIONS-FILES-TRUSTED)
+:   若這個參數設為 `true`（這不是
+    預設值），就會允許部分非超級使用者，
+    安裝 `superuser` 設為 `true`
+    的擴充功能。具體來說，
+    在目前資料庫上具備 `CREATE`
+    權限的任何人，都會被允許進行安裝。
+    當執行 `CREATE EXTENSION` 的使用者不是
+    超級使用者，但依此參數被允許安裝時，
+    安裝或更新指令碼會以啟動用超級使用者（bootstrap
+    superuser）身分執行，而不是以呼叫方使用者身分執行。
+    若 `superuser` 為
+    `false`，此參數就不相關。
+    一般而言，若某個擴充功能，可能讓使用者取得
+    原本只有超級使用者才有的能力，例如
+    檔案系統存取，就不應該將此參數設為 true。
+    此外，將擴充功能標記為 trusted，
+    需要付出相當額外的心力，才能安全地撰寫該擴充功能的
+    安裝與更新指令碼；
+    請參閱[36.17.6 節](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY)。
 <a id="EXTEND-EXTENSIONS-FILES-RELOCATABLE"></a>
 
-`relocatable` (`boolean`) [#](#EXTEND-EXTENSIONS-FILES-RELOCATABLE)
-:   An extension is *relocatable* if it is possible to move
-    its contained objects into a different schema after initial creation
-    of the extension. The default is `false`, i.e., the
-    extension is not relocatable.
-    See [Section 36.17.2](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION) for more information.
+`relocatable`（`boolean`） [#](#EXTEND-EXTENSIONS-FILES-RELOCATABLE)
+:   若某個擴充功能，可以在初次建立之後，
+    將其所包含的物件移動到不同的綱要中，
+    則稱為*可重新定位（relocatable）*的。預設值為
+    `false`，也就是該擴充功能不可重新定位。
+    詳情請參閱[36.17.2 節](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION)。
 <a id="EXTEND-EXTENSIONS-FILES-SCHEMA"></a>
 
-`schema` (`string`) [#](#EXTEND-EXTENSIONS-FILES-SCHEMA)
-:   This parameter can only be set for non-relocatable extensions.
-    It forces the extension to be loaded into exactly the named schema
-    and not any other.
-    The `schema` parameter is consulted only when
-    initially creating an extension, not during extension updates.
-    See [Section 36.17.2](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION) for more information.
+`schema`（`string`） [#](#EXTEND-EXTENSIONS-FILES-SCHEMA)
+:   這個參數，只能為不可重新定位的擴充功能設定。
+    它強制該擴充功能，只能被載入到指定名稱的綱要中，
+    而不能是其他任何綱要。
+    `schema` 參數，只有在初次建立擴充功能時，
+    才會被參考，在擴充功能更新期間則不會。
+    詳情請參閱[36.17.2 節](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION)。
 
-In addition to the primary control file
-`extension.control`,
-an extension can have secondary control files named in the style
-`extension--version.control`.
-If supplied, these must be located in the script file directory.
-Secondary control files follow the same format as the primary control
-file. Any parameters set in a secondary control file override the
-primary control file when installing or updating to that version of
-the extension. However, the parameters `directory` and
-`default_version` cannot be set in a secondary control file.
+除了主要的控制檔
+`extension.control` 之外，
+擴充功能還可以擁有以
+`extension--version.control`
+樣式命名的次要控制檔。
+若有提供，這些檔案必須位於指令碼檔案目錄中。
+次要控制檔，遵循與主要控制檔相同的格式。
+在安裝或更新到某個版本的擴充功能時，
+次要控制檔中所設定的任何參數，都會覆蓋主要
+控制檔中的設定。不過，`directory` 與
+`default_version` 這兩個參數，不能在次要控制檔中設定。
 
-An extension's SQL script files can contain any SQL commands,
-except for transaction control commands (`BEGIN`,
-`COMMIT`, etc.) and commands that cannot be executed inside a
-transaction block (such as `VACUUM`). This is because the
-script files are implicitly executed within a transaction block.
+擴充功能的 SQL 指令碼檔案，可以包含任何 SQL 指令，
+但交易控制指令（`BEGIN`、
+`COMMIT` 等）除外，以及無法在
+交易區塊內執行的指令（例如 `VACUUM`）
+也除外。這是因為指令碼檔案，是隱含地
+在一個交易區塊內執行的。
 
-An extension's SQL script files can also contain lines
-beginning with `\echo`, which will be ignored (treated as
-comments) by the extension mechanism. This provision is commonly used
-to throw an error if the script file is fed to psql
-rather than being loaded via `CREATE EXTENSION` (see example
-script in [Section 36.17.7](extend-extensions.md#EXTEND-EXTENSIONS-EXAMPLE)).
-Without that, users might accidentally load the
-extension's contents as “loose” objects rather than as an
-extension, a state of affairs that's a bit tedious to recover from.
+擴充功能的 SQL 指令碼檔案，也可以包含以
+`\echo` 開頭的行，這些行會被擴充功能機制
+忽略（視為註解）。這項規定，通常用於
+在指令碼檔案被餵給 psql，而非透過
+`CREATE EXTENSION` 載入時，拋出錯誤（請參閱
+[36.17.7 節](extend-extensions.md#EXTEND-EXTENSIONS-EXAMPLE)中的範例指令碼）。
+若沒有這項規定，使用者可能會不小心，
+將該擴充功能的內容，當作「鬆散」的物件載入，
+而不是當作一個擴充功能載入，這種狀態，
+要復原起來相當繁瑣。
 
-If the extension script contains the
-string `@extowner@`, that string is replaced with the
-(suitably quoted) name of the user calling `CREATE
-EXTENSION` or `ALTER EXTENSION`. Typically
-this feature is used by extensions that are marked trusted to assign
-ownership of selected objects to the calling user rather than the
-bootstrap superuser. (One should be careful about doing so, however.
-For example, assigning ownership of a C-language function to a
-non-superuser would create a privilege escalation path for that user.)
+若擴充功能指令碼中包含
+字串 `@extowner@`，該字串會被替換為呼叫
+`CREATE
+EXTENSION` 或 `ALTER EXTENSION` 的使用者名稱
+（並附帶適當的引號）。通常，這項功能
+是由標記為 trusted 的擴充功能所使用，用來將所選物件的
+擁有權，指定給呼叫方使用者，而非啟動用超級使用者。
+（不過，這麼做時應該格外小心。
+舉例來說，將一個 C 語言函式的擁有權，
+指定給非超級使用者，就會為該使用者建立一條
+權限提升的路徑。）
 
-While the script files can contain any characters allowed by the specified
-encoding, control files should contain only plain ASCII, because there
-is no way for PostgreSQL to know what encoding a
-control file is in. In practice this is only an issue if you want to
-use non-ASCII characters in the extension's comment. Recommended
-practice in that case is to not use the control file `comment`
-parameter, but instead use `COMMENT ON EXTENSION`
-within a script file to set the comment.
+雖然指令碼檔案可以包含指定編碼所允許的任何字元，
+但控制檔應該只包含純 ASCII，因為
+PostgreSQL 沒有辦法得知控制檔
+是採用什麼編碼的。實務上，這只有在您想要
+在擴充功能的註解中使用非 ASCII 字元時，才會構成問題。
+在這種情況下，建議的做法，是不要使用控制檔的
+`comment` 參數，而是改用指令碼檔案中的
+`COMMENT ON EXTENSION`
+來設定該註解。
 
 <a id="EXTEND-EXTENSIONS-RELOCATION"></a>
 
-### 36.17.2. Extension Relocatability [#](#EXTEND-EXTENSIONS-RELOCATION)
+### 36.17.2. 擴充功能的可重新定位性 [#](#EXTEND-EXTENSIONS-RELOCATION)
 
-Users often wish to load the objects contained in an extension into a
-different schema than the extension's author had in mind. There are
-three supported levels of relocatability:
+使用者經常希望，將擴充功能所包含的物件，
+載入到與該擴充功能作者原本設想不同的綱要中。共有
+三種支援的可重新定位層級：
 
-* A fully relocatable extension can be moved into another schema
-  at any time, even after it's been loaded into a database.
-  This is done with the `ALTER EXTENSION SET SCHEMA`
-  command, which automatically renames all the member objects into
-  the new schema. Normally, this is only possible if the extension
-  contains no internal assumptions about what schema any of its
-  objects are in. Also, the extension's objects must all be in one
-  schema to begin with (ignoring objects that do not belong to any
-  schema, such as procedural languages). Mark a fully relocatable
-  extension by setting `relocatable = true` in its control
-  file.
-* An extension might be relocatable during installation but not
-  afterwards. This is typically the case if the extension's script
-  file needs to reference the target schema explicitly, for example
-  in setting `search_path` properties for SQL functions.
-  For such an extension, set `relocatable = false` in its
-  control file, and use `@extschema@` to refer to the target
-  schema in the script file. All occurrences of this string will be
-  replaced by the actual target schema's name (double-quoted if
-  necessary) before the script is executed. The user can set the
-  target schema using the
-  `SCHEMA` option of `CREATE EXTENSION`.
-* If the extension does not support relocation at all, set
-  `relocatable = false` in its control file, and also set
-  `schema` to the name of the intended target schema. This
-  will prevent use of the `SCHEMA` option of `CREATE
-  EXTENSION`, unless it specifies the same schema named in the control
-  file. This choice is typically necessary if the extension contains
-  internal assumptions about its schema name that can't be replaced by
-  uses of `@extschema@`. The `@extschema@`
-  substitution mechanism is available in this case too, although it is
-  of limited use since the schema name is determined by the control file.
+* 完全可重新定位的擴充功能，可以在任何時候，
+  甚至在它已經被載入到資料庫之後，被移動到
+  另一個綱要中。這是透過 `ALTER EXTENSION SET SCHEMA`
+  指令完成的，它會自動將所有成員物件，
+  更名到新的綱要中。一般而言，這只有在
+  該擴充功能不包含任何關於其物件所在綱要的
+  內部假設時，才有可能。此外，該擴充功能的物件，
+  一開始都必須位於同一個綱要中（忽略不屬於任何
+  綱要的物件，例如程序語言）。若要將某個擴充功能
+  標記為完全可重新定位，請在其控制檔中設定
+  `relocatable = true`。
+* 某個擴充功能，可能在安裝期間可重新定位，
+  但之後就不行了。若該擴充功能的指令碼
+  檔案，需要明確參照目標綱要，例如
+  在為 SQL 函式設定 `search_path` 屬性時，
+  通常就會是這種情況。對於這樣的擴充功能，
+  請在其控制檔中設定 `relocatable = false`，
+  並在指令碼檔案中使用 `@extschema@`
+  來參照目標綱要。在指令碼執行之前，
+  這個字串的所有出現位置，都會被替換為
+  實際目標綱要的名稱（若有必要，會加上雙引號）。
+  使用者可以透過 `CREATE EXTENSION` 的
+  `SCHEMA` 選項，來設定目標綱要。
+* 若該擴充功能完全不支援重新定位，
+  請在其控制檔中設定 `relocatable = false`，
+  並同時設定 `schema` 為預期目標綱要的名稱。這樣
+  就會阻止使用 `CREATE
+  EXTENSION` 的 `SCHEMA` 選項，除非該選項
+  指定的綱要，與控制檔中指定的綱要相同。當該擴充功能
+  包含無法透過使用 `@extschema@` 取代的、
+  關於其綱要名稱的內部假設時，通常就有必要
+  這麼做。在這種情況下，`@extschema@`
+  取代機制同樣可用，不過因為
+  綱要名稱是由控制檔決定的，其用途有限。
 
-In all cases, the script file will be executed with
-[search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) initially set to point to the target
-schema; that is, `CREATE EXTENSION` does the equivalent of
-this:
+在所有情況下，指令碼檔案在執行時，
+[search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 都會先被設定為指向目標
+綱要；也就是說，`CREATE EXTENSION`
+會做等同於以下的事：
 
 ```
 
 SET LOCAL search_path TO @extschema@, pg_temp;
 ```
 
-This allows the objects created by the script file to go into the target
-schema. The script file can change `search_path` if it wishes,
-but that is generally undesirable. `search_path` is restored
-to its previous setting upon completion of `CREATE EXTENSION`.
+這讓指令碼檔案所建立的物件，能夠進入目標
+綱要。若指令碼檔案願意，也可以變更 `search_path`，
+但通常並不建議這麼做。`CREATE EXTENSION`
+完成後，`search_path` 會還原為先前的設定。
 
-The target schema is determined by the `schema` parameter in
-the control file if that is given, otherwise by the `SCHEMA`
-option of `CREATE EXTENSION` if that is given, otherwise the
-current default object creation schema (the first one in the caller's
-`search_path`). When the control file `schema`
-parameter is used, the target schema will be created if it doesn't
-already exist, but in the other two cases it must already exist.
+目標綱要的決定方式為：若控制檔中給定了
+`schema` 參數，則以此為準；否則，
+若給定了 `CREATE EXTENSION` 的 `SCHEMA`
+選項，則以此為準；否則，則使用目前預設的
+物件建立綱要（也就是呼叫方
+`search_path` 中的第一個）。當使用控制檔的
+`schema` 參數時，若目標綱要尚不存在，
+就會建立它，但在另外兩種情況下，
+該綱要必須已經存在。
 
-If any prerequisite extensions are listed in `requires`
-in the control file, their target schemas are added to the initial
-setting of `search_path`, following the new
-extension's target schema. This allows their objects to be visible to
-the new extension's script file.
+若控制檔的 `requires` 中，
+列出了任何必要的擴充功能，它們的目標綱要，
+會被加入 `search_path` 的初始設定中，
+並排在新擴充功能的目標綱要之後。這讓
+它們的物件，能夠讓新擴充功能的指令碼檔案看見。
 
-For security, `pg_temp` is automatically appended to
-the end of `search_path` in all cases.
+基於安全考量，在所有情況下，
+`pg_temp` 都會自動附加到
+`search_path` 的最後。
 
-Although a non-relocatable extension can contain objects spread across
-multiple schemas, it is usually desirable to place all the objects meant
-for external use into a single schema, which is considered the extension's
-target schema. Such an arrangement works conveniently with the default
-setting of `search_path` during creation of dependent
-extensions.
+雖然不可重新定位的擴充功能，可以擁有分散在
+多個綱要中的物件，但通常最好將所有供外部使用
+的物件，放入單一一個綱要中，並將其視為該擴充功能的
+目標綱要。這樣的安排，在建立依賴的
+擴充功能時，能與 `search_path` 的預設
+設定配合得很順暢。
 
-If an extension references objects belonging to another extension,
-it is recommended to schema-qualify those references. To do that,
-write `@extschema:name@`
-in the extension's script file, where *`name`*
-is the name of the other extension (which must be listed in this
-extension's `requires` list). This string will be
-replaced by the name (double-quoted if necessary) of that extension's
-target schema.
-Although this notation avoids the need to make hard-wired assumptions
-about schema names in the extension's script file, its use may embed
-the other extension's schema name into the installed objects of this
-extension. (Typically, that happens
-when `@extschema:name@` is
-used inside a string literal, such as a function body or
-a `search_path` setting. In other cases, the object
-reference is reduced to an OID during parsing and does not require
-subsequent lookups.) If the other extension's schema name is so
-embedded, you should prevent the other extension from being relocated
-after yours is installed, by adding the name of the other extension to
-this one's `no_relocate` list.
+若某個擴充功能參照了屬於另一個擴充功能的物件，
+建議對這些參照加上綱要修飾。要這麼做，
+請在該擴充功能的指令碼檔案中，寫上
+`@extschema:name@`，
+其中 *`name`* 是另一個擴充功能的名稱
+（該名稱必須列在此擴充功能的
+`requires` 清單中）。這個字串，會被替換為
+該擴充功能目標綱要的名稱（若有必要，
+會加上雙引號）。
+雖然這種寫法，避免了在擴充功能指令碼檔案中，
+對綱要名稱做出寫死的假設，但它的使用，
+可能會將另一個擴充功能的綱要名稱，
+嵌入到此擴充功能所安裝的物件中。（通常，
+這種情況會發生在
+`@extschema:name@`
+被用在字串常值內部時，例如函式主體或
+`search_path` 設定。在其他情況下，
+物件參照會在剖析期間，被化簡為一個 OID，
+不需要後續的查詢。）若另一個擴充功能的綱要名稱，
+就這樣被嵌入了，您應該防止該擴充功能，
+在您的擴充功能安裝之後被重新定位，做法是將
+該擴充功能的名稱，加入這個擴充功能的
+`no_relocate` 清單中。
 
 <a id="EXTEND-EXTENSIONS-CONFIG-TABLES"></a>
 
-### 36.17.3. Extension Configuration Tables [#](#EXTEND-EXTENSIONS-CONFIG-TABLES)
+### 36.17.3. 擴充功能組態資料表 [#](#EXTEND-EXTENSIONS-CONFIG-TABLES)
 
-Some extensions include configuration tables, which contain data that
-might be added or changed by the user after installation of the
-extension. Ordinarily, if a table is part of an extension, neither
-the table's definition nor its content will be dumped by
-pg_dump. But that behavior is undesirable for a
-configuration table; any data changes made by the user need to be
-included in dumps, or the extension will behave differently after a dump
-and restore.
+有些擴充功能，包含組態資料表，
+其中含有使用者在安裝該擴充功能後，
+可能會新增或變更的資料。一般而言，若某個資料表
+是擴充功能的一部分，pg_dump 既不會傾印該資料表
+的定義，也不會傾印其內容。但對於組態
+資料表而言，這樣的行為並不理想；使用者所做的任何資料
+變更，都需要包含在傾印中，否則該擴充功能
+在傾印及還原之後，行為就會不一樣。
 
 <a id="id-1.8.3.20.13.3"></a>
 
-To solve this problem, an extension's script file can mark a table
-or a sequence it has created as a configuration relation, which will
-cause pg_dump to include the table's or the sequence's
-contents (not its definition) in dumps. To do that, call the function
-`pg_extension_config_dump(regclass, text)` after creating the
-table or the sequence, for example
+為了解決這個問題，擴充功能的指令碼檔案，
+可以將它所建立的某個資料表或序列，標記為組態關係，
+這會讓 pg_dump 在傾印中，
+包含該資料表或序列的內容（而非其定義）。要這麼做，
+請在建立該資料表或序列之後，呼叫函式
+`pg_extension_config_dump(regclass, text)`，例如
 
 ```
 
@@ -420,18 +446,18 @@ SELECT pg_catalog.pg_extension_config_dump('my_config', '');
 SELECT pg_catalog.pg_extension_config_dump('my_config_seq', '');
 ```
 
-Any number of tables or sequences can be marked this way. Sequences
-associated with `serial` or `bigserial` columns can
-be marked as well.
+可以用這種方式標記任意數量的資料表或序列。
+與 `serial` 或 `bigserial` 欄位
+相關聯的序列，同樣也可以被標記。
 
-When the second argument of `pg_extension_config_dump` is
-an empty string, the entire contents of the table are dumped by
-pg_dump. This is usually only correct if the table
-is initially empty as created by the extension script. If there is
-a mixture of initial data and user-provided data in the table,
-the second argument of `pg_extension_config_dump` provides
-a `WHERE` condition that selects the data to be dumped.
-For example, you might do
+當 `pg_extension_config_dump` 的第二個引數
+是空字串時，該資料表的全部內容，都會被 pg_dump
+傾印出來。這通常只有在該資料表最初是
+由擴充功能指令碼建立為空資料表時，才是正確的做法。
+若資料表中，混合了初始資料與使用者提供的資料，
+則 `pg_extension_config_dump` 的第二個引數，
+可以提供一個 `WHERE` 條件，
+用來選取要傾印的資料。舉例來說，您可以這樣做：
 
 ```
 
@@ -440,252 +466,268 @@ CREATE TABLE my_config (key text, value text, standard_entry boolean);
 SELECT pg_catalog.pg_extension_config_dump('my_config', 'WHERE NOT standard_entry');
 ```
 
-and then make sure that `standard_entry` is true only
-in the rows created by the extension's script.
+接著確保 `standard_entry` 只有在由該擴充功能
+指令碼所建立的列中，才會是 true。
 
-For sequences, the second argument of `pg_extension_config_dump`
-has no effect.
+對於序列而言，`pg_extension_config_dump`
+的第二個引數沒有作用。
 
-More complicated situations, such as initially-provided rows that might
-be modified by users, can be handled by creating triggers on the
-configuration table to ensure that modified rows are marked correctly.
+更複雜的情況，例如可能會被使用者修改的初始
+提供資料列，可以透過在組態資料表上建立觸發程序，
+來確保已修改的資料列被正確標記。
 
-You can alter the filter condition associated with a configuration table
-by calling `pg_extension_config_dump` again. (This would
-typically be useful in an extension update script.) The only way to mark
-a table as no longer a configuration table is to dissociate it from the
-extension with `ALTER EXTENSION ... DROP TABLE`.
+您可以透過再次呼叫 `pg_extension_config_dump`，
+變更與某個組態資料表相關聯的篩選條件。（這通常
+會在擴充功能更新指令碼中派上用場。）要將某個資料表
+標記為不再是組態資料表，唯一的方法，
+是透過 `ALTER EXTENSION ... DROP TABLE`，
+將它與該擴充功能解除關聯。
 
-Note that foreign key relationships between these tables will dictate the
-order in which the tables are dumped out by pg_dump. Specifically, pg_dump
-will attempt to dump the referenced-by table before the referencing table.
-As the foreign key relationships are set up at CREATE EXTENSION time (prior
-to data being loaded into the tables) circular dependencies are not
-supported. When circular dependencies exist, the data will still be dumped
-out but the dump will not be able to be restored directly and user
-intervention will be required.
+請注意，這些資料表之間的外部鍵關係，
+會決定 pg_dump 傾印這些資料表的順序。
+具體來說，pg_dump 會嘗試在參照它的資料表之前，
+先傾印被參照的資料表。由於外部鍵關係，
+是在 CREATE EXTENSION 時建立的（在資料被載入
+資料表之前），因此不支援循環相依。
+當存在循環相依時，資料仍然會被傾印出來，
+但該傾印將無法直接還原，需要
+使用者介入處理。
 
-Sequences associated with `serial` or `bigserial` columns
-need to be directly marked to dump their state. Marking their parent
-relation is not enough for this purpose.
+與 `serial` 或 `bigserial` 欄位
+相關聯的序列，需要直接被標記，才能傾印它們的狀態。
+只標記它們所屬的父關係，並不足夠。
 
 <a id="EXTEND-EXTENSIONS-UPDATES"></a>
 
-### 36.17.4. Extension Updates [#](#EXTEND-EXTENSIONS-UPDATES)
+### 36.17.4. 擴充功能更新 [#](#EXTEND-EXTENSIONS-UPDATES)
 
-One advantage of the extension mechanism is that it provides convenient
-ways to manage updates to the SQL commands that define an extension's
-objects. This is done by associating a version name or number with
-each released version of the extension's installation script.
-In addition, if you want users to be able to update their databases
-dynamically from one version to the next, you should provide
-*update scripts* that make the necessary changes to go from
-one version to the next. Update scripts have names following the pattern
+擴充功能機制的優點之一，是它提供了方便的
+方式，管理定義擴充功能物件的 SQL 指令的更新。
+做法是將版本名稱或版本號，與該擴充功能
+安裝指令碼的每個發行版本建立關聯。
+此外，若您希望使用者能夠動態地，
+將他們的資料庫從一個版本更新到下一個版本，
+您應該提供*更新指令碼（update script）*，
+執行從一個版本移動到下一個版本所需的變更。更新指令碼
+遵循以下命名樣式
 `extension--old_version--target_version.sql`
-(for example, `foo--1.0--1.1.sql` contains the commands to modify
-version `1.0` of extension `foo` into version
-`1.1`).
+（舉例來說，`foo--1.0--1.1.sql` 中，
+包含了將擴充功能 `foo` 的
+`1.0` 版修改為 `1.1` 版的指令）。
 
-Given that a suitable update script is available, the command
-`ALTER EXTENSION UPDATE` will update an installed extension
-to the specified new version. The update script is run in the same
-environment that `CREATE EXTENSION` provides for installation
-scripts: in particular, `search_path` is set up in the same
-way, and any new objects created by the script are automatically added
-to the extension. Also, if the script chooses to drop extension member
-objects, they are automatically dissociated from the extension.
+只要有合適的更新指令碼可用，
+`ALTER EXTENSION UPDATE` 指令，就能將已安裝的
+擴充功能更新到指定的新版本。更新指令碼，
+是在與 `CREATE EXTENSION` 為安裝指令碼所提供的
+相同環境中執行的：具體來說，`search_path`
+的設定方式相同，且該指令碼所建立的任何新物件，
+都會自動加入該擴充功能中。此外，若指令碼選擇
+刪除擴充功能成員物件，它們也會自動與
+該擴充功能解除關聯。
 
-If an extension has secondary control files, the control parameters
-that are used for an update script are those associated with the script's
-target (new) version.
+若某個擴充功能有次要控制檔，則用於更新
+指令碼的控制參數，是與該指令碼的目標（新）版本
+相關聯的那些。
 
-`ALTER EXTENSION` is able to execute sequences of update
-script files to achieve a requested update. For example, if only
-`foo--1.0--1.1.sql` and `foo--1.1--2.0.sql` are
-available, `ALTER EXTENSION` will apply them in sequence if an
-update to version `2.0` is requested when `1.0` is
-currently installed.
+`ALTER EXTENSION` 能夠執行一連串的更新
+指令碼檔案，以達成要求的更新。舉例來說，
+若只有 `foo--1.0--1.1.sql` 與
+`foo--1.1--2.0.sql` 可用，
+則當目前已安裝 `1.0`，而要求更新到
+`2.0` 版時，`ALTER EXTENSION`
+會依序套用它們。
 
-PostgreSQL doesn't assume anything about the properties
-of version names: for example, it does not know whether `1.1`
-follows `1.0`. It just matches up the available version names
-and follows the path that requires applying the fewest update scripts.
-(A version name can actually be any string that doesn't contain
-`--` or leading or trailing `-`.)
+PostgreSQL 對版本名稱的屬性，
+不做任何假設：舉例來說，它並不知道
+`1.1` 是否接在 `1.0` 之後。它只是
+比對可用的版本名稱，並選擇需要套用
+最少更新指令碼的路徑。
+（版本名稱實際上可以是任何不包含
+`--`、也不以 `-` 開頭或結尾的字串。）
 
-Sometimes it is useful to provide “downgrade” scripts, for
-example `foo--1.1--1.0.sql` to allow reverting the changes
-associated with version `1.1`. If you do that, be careful
-of the possibility that a downgrade script might unexpectedly
-get applied because it yields a shorter path. The risky case is where
-there is a “fast path” update script that jumps ahead several
-versions as well as a downgrade script to the fast path's start point.
-It might take fewer steps to apply the downgrade and then the fast
-path than to move ahead one version at a time. If the downgrade script
-drops any irreplaceable objects, this will yield undesirable results.
+有時候，提供「降級」指令碼會很有用，
+舉例來說，`foo--1.1--1.0.sql` 可用來
+還原與 `1.1` 版相關的變更。若您這麼做，
+請小心一種可能性：降級指令碼，可能會因為
+它形成較短的路徑，而意外地被套用。
+較危險的情況是，同時存在一個「快速路徑」更新指令碼，
+一次跳過好幾個版本，以及一個回到該快速路徑
+起始點的降級指令碼。先套用降級，
+再套用快速路徑，可能所需的步驟，
+比一次一個版本地往前更新還要少。若降級指令碼，
+刪除了任何不可替代的物件，就會產生不理想的結果。
 
-To check for unexpected update paths, use this command:
+若要檢查是否有意外的更新路徑，請使用以下指令：
 
 ```
 
 SELECT * FROM pg_extension_update_paths('extension_name');
 ```
 
-This shows each pair of distinct known version names for the specified
-extension, together with the update path sequence that would be taken to
-get from the source version to the target version, or `NULL` if
-there is no available update path. The path is shown in textual form
-with `--` separators. You can use
-`regexp_split_to_array(path,'--')` if you prefer an array
-format.
+這會顯示指定擴充功能中，每一對相異已知版本名稱，
+以及從來源版本到目標版本所會採取的
+更新路徑順序，若沒有可用的更新路徑，
+則顯示 `NULL`。該路徑以文字形式顯示，
+以 `--` 分隔。若您偏好陣列
+格式，可以使用
+`regexp_split_to_array(path,'--')`。
 
 <a id="EXTEND-EXTENSIONS-UPDATE-SCRIPTS"></a>
 
-### 36.17.5. Installing Extensions Using Update Scripts [#](#EXTEND-EXTENSIONS-UPDATE-SCRIPTS)
+### 36.17.5. 使用更新指令碼安裝擴充功能 [#](#EXTEND-EXTENSIONS-UPDATE-SCRIPTS)
 
-An extension that has been around for awhile will probably exist in
-several versions, for which the author will need to write update scripts.
-For example, if you have released a `foo` extension in
-versions `1.0`, `1.1`, and `1.2`, there
-should be update scripts `foo--1.0--1.1.sql`
-and `foo--1.1--1.2.sql`.
-Before PostgreSQL 10, it was necessary to also create
-new script files `foo--1.1.sql` and `foo--1.2.sql`
-that directly build the newer extension versions, or else the newer
-versions could not be installed directly, only by
-installing `1.0` and then updating. That was tedious and
-duplicative, but now it's unnecessary, because `CREATE
-EXTENSION` can follow update chains automatically.
-For example, if only the script
-files `foo--1.0.sql`, `foo--1.0--1.1.sql`,
-and `foo--1.1--1.2.sql` are available then a request to
-install version `1.2` is honored by running those three
-scripts in sequence. The processing is the same as if you'd first
-installed `1.0` and then updated to `1.2`.
-(As with `ALTER EXTENSION UPDATE`, if multiple pathways are
-available then the shortest is preferred.) Arranging an extension's
-script files in this style can reduce the amount of maintenance effort
-needed to produce small updates.
+一個存在了一段時間的擴充功能，可能會有
+好幾個版本，作者需要為它們撰寫更新指令碼。
+舉例來說，若您已經發行了 `foo` 擴充功能的
+`1.0`、`1.1` 與 `1.2` 版，
+就應該要有更新指令碼 `foo--1.0--1.1.sql`
+與 `foo--1.1--1.2.sql`。
+在 PostgreSQL 10 之前，還需要另外建立
+新的指令碼檔案 `foo--1.1.sql` 與 `foo--1.2.sql`，
+直接建置較新的擴充功能版本，否則
+較新版本就無法直接安裝，只能透過先
+安裝 `1.0`、再進行更新的方式。這既繁瑣
+又重複，但現在已經不需要了，因為 `CREATE
+EXTENSION` 能夠自動依循更新鏈。
+舉例來說，若只有指令碼
+檔案 `foo--1.0.sql`、`foo--1.0--1.1.sql`
+與 `foo--1.1--1.2.sql` 可用，
+則要求安裝 `1.2` 版時，會依序執行
+這三個指令碼來完成。這個處理過程，
+與您先安裝 `1.0`、再更新到 `1.2`
+是一樣的。（與 `ALTER EXTENSION UPDATE` 相同，
+若有多條路徑可用，會偏好較短的那一條。）以這種
+風格安排擴充功能的指令碼檔案，可以減少
+產生小型更新所需付出的維護心力。
 
-If you use secondary (version-specific) control files with an extension
-maintained in this style, keep in mind that each version needs a control
-file even if it has no stand-alone installation script, as that control
-file will determine how the implicit update to that version is performed.
-For example, if `foo--1.0.control` specifies `requires
-= 'bar'` but `foo`'s other control files do not, the
-extension's dependency on `bar` will be dropped when updating
-from `1.0` to another version.
+若您在以這種風格維護的擴充功能中，
+使用次要（特定版本）控制檔，請記得，
+即使某個版本沒有獨立的安裝指令碼，
+每個版本仍然需要一個控制檔，因為該控制檔，
+將決定該版本隱含更新的執行方式。舉例來說，
+若 `foo--1.0.control` 指定了 `requires
+= 'bar'`，但 `foo` 的其他控制檔沒有指定，
+則在從 `1.0` 更新到另一個版本時，
+該擴充功能對 `bar` 的相依關係，就會被移除。
 
 <a id="EXTEND-EXTENSIONS-SECURITY"></a>
 
-### 36.17.6. Security Considerations for Extensions [#](#EXTEND-EXTENSIONS-SECURITY)
+### 36.17.6. 擴充功能的安全性考量 [#](#EXTEND-EXTENSIONS-SECURITY)
 
-Widely-distributed extensions should assume little about the database
-they occupy. Therefore, it's appropriate to write functions provided
-by an extension in a secure style that cannot be compromised by
-search-path-based attacks.
+廣泛發行的擴充功能，應該對其所在的資料庫，
+盡量不做假設。因此，撰寫擴充功能所提供的函式時，
+採用不會被以 search-path 為基礎的攻擊
+所攻破的安全風格，是相當恰當的做法。
 
-An extension that has the `superuser` property set to
-true must also consider security hazards for the actions taken within
-its installation and update scripts. It is not terribly difficult for
-a malicious user to create trojan-horse objects that will compromise
-later execution of a carelessly-written extension script, allowing that
-user to acquire superuser privileges.
+`superuser` 屬性設為 true 的擴充功能，
+也必須考量其安裝與更新指令碼中，
+所執行動作的安全風險。惡意使用者要建立
+木馬物件，來破壞之後不夠謹慎撰寫的
+擴充功能指令碼的執行，讓該使用者取得
+超級使用者權限，並不會太困難。
 
-If an extension is marked `trusted`, then its
-installation schema can be selected by the installing user, who might
-intentionally use an insecure schema in hopes of gaining superuser
-privileges. Therefore, a trusted extension is extremely exposed from a
-security standpoint, and all its script commands must be carefully
-examined to ensure that no compromise is possible.
+若某個擴充功能被標記為 `trusted`，
+則安裝該擴充功能的使用者，可以自行選擇其安裝
+綱要，該使用者有可能為了取得超級使用者
+權限，而刻意使用不安全的綱要。因此，
+從安全的角度來看，trusted 的擴充功能，
+暴露的風險極高，其所有指令碼指令，
+都必須經過仔細檢查，以確保不會有任何可能的破綻。
 
-Advice about writing functions securely is provided in
-[Section 36.17.6.1](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY-FUNCS) below, and advice
-about writing installation scripts securely is provided in
-[Section 36.17.6.2](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY-SCRIPTS).
+關於如何安全地撰寫函式的建議，
+請見下方的[36.17.6.1 節](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY-FUNCS)，
+關於如何安全地撰寫安裝指令碼的建議，
+請見[36.17.6.2 節](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY-SCRIPTS)。
 
 <a id="EXTEND-EXTENSIONS-SECURITY-FUNCS"></a>
 
-#### 36.17.6.1. Security Considerations for Extension Functions [#](#EXTEND-EXTENSIONS-SECURITY-FUNCS)
+#### 36.17.6.1. 擴充功能函式的安全性考量 [#](#EXTEND-EXTENSIONS-SECURITY-FUNCS)
 
-SQL-language and PL-language functions provided by extensions are at
-risk of search-path-based attacks when they are executed, since
-parsing of these functions occurs at execution time not creation time.
+由擴充功能提供的 SQL 語言與 PL 語言函式，
+在執行時，有可能面臨以 search-path 為基礎的攻擊，
+因為這些函式的剖析，是在執行時、
+而非建立時進行的。
 
-The [`CREATE
-FUNCTION`](../../reference/sql-commands/sql-createfunction.md#SQL-CREATEFUNCTION-SECURITY) reference page contains advice about
-writing `SECURITY DEFINER` functions safely. It's
-good practice to apply those techniques for any function provided by
-an extension, since the function might be called by a high-privilege
-user.
+[`CREATE
+FUNCTION`](../../reference/sql-commands/sql-createfunction.md#SQL-CREATEFUNCTION-SECURITY) 參考頁面，
+包含了關於如何安全地撰寫 `SECURITY DEFINER`
+函式的建議。對於擴充功能所提供的任何函式，
+都適合套用這些技巧，因為該函式，
+可能會被高權限的使用者呼叫。
 
-If you cannot set the `search_path` to contain only
-secure schemas, assume that each unqualified name could resolve to an
-object that a malicious user has defined. Beware of constructs that
-depend on `search_path` implicitly; for
-example, `IN`
-and `CASE expression WHEN`
-always select an operator using the search path. In their place, use
+若您無法將 `search_path` 設定為只包含
+安全的綱要，請假設每一個不帶綱要修飾的名稱，
+都有可能解析到惡意使用者所定義的物件。請留意
+隱含依賴 `search_path` 的結構；舉例來說，
+`IN`
+與 `CASE expression WHEN`，
+永遠都會使用搜尋路徑，來選取運算子。請改用
 `OPERATOR(schema.=) ANY`
-and `CASE WHEN expression`.
+與 `CASE WHEN expression`，
+取代這些寫法。
 
-A general-purpose extension usually should not assume that it's been
-installed into a secure schema, which means that even schema-qualified
-references to its own objects are not entirely risk-free. For
-example, if the extension has defined a
-function `myschema.myfunc(bigint)` then a call such
-as `myschema.myfunc(42)` could be captured by a
-hostile function `myschema.myfunc(integer)`. Be
-careful that the data types of function and operator parameters exactly
-match the declared argument types, using explicit casts where necessary.
+一個通用用途的擴充功能，通常不應該假設
+它已被安裝在一個安全的綱要中，這代表即使是
+對自己物件的、帶綱要修飾的參照，
+也並非完全沒有風險。舉例來說，
+若該擴充功能定義了
+函式 `myschema.myfunc(bigint)`，那麼像
+`myschema.myfunc(42)` 這樣的呼叫，
+就有可能被惡意的函式
+`myschema.myfunc(integer)` 攔截。請務必小心，
+確保函式與運算子參數的資料型別，
+與宣告的引數型別完全相符，必要時使用明確的轉型。
 
 <a id="EXTEND-EXTENSIONS-SECURITY-SCRIPTS"></a>
 
-#### 36.17.6.2. Security Considerations for Extension Scripts [#](#EXTEND-EXTENSIONS-SECURITY-SCRIPTS)
+#### 36.17.6.2. 擴充功能指令碼的安全性考量 [#](#EXTEND-EXTENSIONS-SECURITY-SCRIPTS)
 
-An extension installation or update script should be written to guard
-against search-path-based attacks occurring when the script executes.
-If an object reference in the script can be made to resolve to some
-other object than the script author intended, then a compromise might
-occur immediately, or later when the mis-defined extension object is
-used.
+擴充功能的安裝或更新指令碼，應該撰寫成
+能夠防範在指令碼執行時，
+以 search-path 為基礎的攻擊。若指令碼中的
+某個物件參照，能被誘導解析到指令碼作者
+原本意圖以外的其他物件，那麼破壞可能會
+立即發生，或者稍後在這個定義有誤的
+擴充功能物件被使用時發生。
 
-DDL commands such as `CREATE FUNCTION`
-and `CREATE OPERATOR CLASS` are generally secure,
-but beware of any command having a general-purpose expression as a
-component. For example, `CREATE VIEW` needs to be
-vetted, as does a `DEFAULT` expression
-in `CREATE FUNCTION`.
+像是 `CREATE FUNCTION`
+與 `CREATE OPERATOR CLASS` 這樣的 DDL 指令，
+通常是安全的，但請留意任何包含
+通用用途運算式作為組成部分的指令。舉例來說，
+`CREATE VIEW` 需要經過審查，
+`CREATE FUNCTION` 中的 `DEFAULT`
+運算式也是如此。
 
-Sometimes an extension script might need to execute general-purpose
-SQL, for example to make catalog adjustments that aren't possible via
-DDL. Be careful to execute such commands with a
-secure `search_path`; do *not*
-trust the path provided by `CREATE/ALTER EXTENSION`
-to be secure. Best practice is to temporarily
-set `search_path` to `pg_catalog,
-pg_temp` and insert references to the extension's
-installation schema explicitly where needed. (This practice might
-also be helpful for creating views.) Examples can be found in
-the `contrib` modules in
-the PostgreSQL source code distribution.
+有時候，擴充功能指令碼可能需要執行通用用途的
+SQL，舉例來說，為了進行無法透過
+DDL 完成的目錄調整。請務必以
+安全的 `search_path` 來執行這類指令；
+*不要*信任 `CREATE/ALTER EXTENSION`
+所提供的路徑是安全的。最佳做法，
+是暫時將 `search_path` 設定為 `pg_catalog,
+pg_temp`，並在需要的地方，
+明確插入對該擴充功能安裝綱要的參照。
+（這種做法，對於建立檢視表，也可能有幫助。）
+相關範例，可以在
+PostgreSQL 原始碼發行套件中的
+`contrib` 模組中找到。
 
-Secure cross-extension references typically require schema-qualification
-of the names of the other extension's objects, using the
-`@extschema:name@`
-syntax, in addition to careful matching of argument types for functions
-and operators.
+安全的跨擴充功能參照，通常需要
+使用 `@extschema:name@`
+語法，對另一個擴充功能物件的名稱，
+進行綱要修飾，此外，也需要仔細比對
+函式與運算子的引數型別。
 
 <a id="EXTEND-EXTENSIONS-EXAMPLE"></a>
 
-### 36.17.7. Extension Example [#](#EXTEND-EXTENSIONS-EXAMPLE)
+### 36.17.7. 擴充功能範例 [#](#EXTEND-EXTENSIONS-EXAMPLE)
 
-Here is a complete example of an SQL-only
-extension, a two-element composite type that can store any type of value
-in its slots, which are named “k” and “v”. Non-text
-values are automatically coerced to text for storage.
+以下是一個純 SQL 擴充功能的完整範例，
+一個雙元素的複合型別，可以在其名為「k」與「v」
+的欄位中，儲存任何型別的值。非文字
+值，會自動被強制轉型為文字以供儲存。
 
-The script file `pair--1.0.sql` looks like this:
+指令碼檔案 `pair--1.0.sql` 看起來像這樣：
 
 ```
 
@@ -711,7 +753,7 @@ AS 'SELECT ROW($1.k OPERATOR(pg_catalog.||) $2.k,
                $1.v OPERATOR(pg_catalog.||) $2.v)::@extschema@.pair;';
 ```
 
-The control file `pair.control` looks like this:
+控制檔 `pair.control` 看起來像這樣：
 
 ```
 
@@ -722,8 +764,9 @@ default_version = '1.0'
 relocatable = false
 ```
 
-While you hardly need a makefile to install these two files into the
-correct directory, you could use a `Makefile` containing this:
+雖然您幾乎不需要 makefile，就能將這兩個檔案
+安裝到正確的目錄中，但您也可以使用包含以下內容的
+`Makefile`：
 
 ```
 
@@ -735,15 +778,15 @@ PGXS := $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
 ```
 
-This makefile relies on PGXS, which is described
-in [Section 36.18](extend-pgxs.md). The command `make install`
-will install the control and script files into the correct
-directory as reported by pg_config.
+這個 makefile 依賴 PGXS，說明請見
+[36.18 節](extend-pgxs.md)。指令 `make install`，
+會依照 pg_config 所回報的結果，
+將控制檔與指令碼檔案，安裝到正確的目錄中。
 
-Once the files are installed, use the
-`CREATE EXTENSION` command to load the objects into
-any particular database.
+一旦這些檔案安裝完成，就可以使用
+`CREATE EXTENSION` 指令，將這些物件，
+載入任何特定的資料庫中。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/extend-extensions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/extend-extensions.html)（原文版本：18.6；核對日期：2026-09-22）
