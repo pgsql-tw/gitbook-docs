@@ -187,7 +187,7 @@
     * [18.3. Starting the Database Server #](server-administration/runtime/server-start.md)
     * [18.4. Managing Kernel Resources #](server-administration/runtime/kernel-resources.md)
     * [18.5. Shutting Down the Server #](server-administration/runtime/server-shutdown.md)
-    * [18.6. Upgrading a PostgreSQL Cluster #](server-administration/runtime/upgrading.md)
+    * [18.6. 升級 PostgreSQL 叢集 #](server-administration/runtime/upgrading.md)
     * [18.7. Preventing Server Spoofing #](server-administration/runtime/preventing-server-spoofing.md)
     * [18.8. 加密選項 #](server-administration/runtime/encryption-options.md)
     * [18.9. Secure TCP/IP Connections with SSL #](server-administration/runtime/ssl-tcp.md)
