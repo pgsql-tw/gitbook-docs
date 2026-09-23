@@ -234,7 +234,7 @@
     * [21.1. Database Roles #](server-administration/user-manag/database-roles.md)
     * [21.2. Role Attributes #](server-administration/user-manag/role-attributes.md)
     * [21.3. Role Membership #](server-administration/user-manag/role-membership.md)
-    * [21.4. Dropping Roles #](server-administration/user-manag/role-removal.md)
+    * [21.4. 移除角色 #](server-administration/user-manag/role-removal.md)
     * [21.5. Predefined Roles #](server-administration/user-manag/predefined-roles.md)
     * [21.6. 函式安全性](server-administration/user-manag/perm-functions.md)
   * [第 22 章 管理資料庫](server-administration/managing-databases/README.md)

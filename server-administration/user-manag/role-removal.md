@@ -1,46 +1,47 @@
-## 21.4. Dropping Roles [#](#ROLE-REMOVAL)
+<a id="ROLE-REMOVAL"></a>
 
-Because roles can own database objects and can hold privileges
-to access other objects, dropping a role is often not just a matter of a
-quick [`DROP ROLE`](../../reference/sql-commands/sql-droprole.md). Any objects owned by the role must
-first be dropped or reassigned to other owners; and any permissions
-granted to the role must be revoked.
+## 21.4. 移除角色 [#](#ROLE-REMOVAL)
 
-Ownership of objects can be transferred one at a time
-using `ALTER` commands, for example:
+由於角色可以擁有資料庫物件，也可以持有存取其他物件的權限，
+因此移除角色，通常不只是單純執行一次
+[`DROP ROLE`](../../reference/sql-commands/sql-droprole.md) 那麼簡單。
+必須先移除該角色所擁有的所有物件，或將其轉移給其他擁有者；
+並且必須撤銷授予該角色的所有權限。
+
+物件的擁有權，可以透過 `ALTER` 指令逐一轉移，例如：
 
 ```
 
 ALTER TABLE bobs_table OWNER TO alice;
 ```
 
-Alternatively, the [`REASSIGN OWNED`](../../reference/sql-commands/sql-reassign-owned.md) command can be
-used to reassign ownership of all objects owned by the role-to-be-dropped
-to a single other role. Because `REASSIGN OWNED` cannot access
-objects in other databases, it is necessary to run it in each database
-that contains objects owned by the role. (Note that the first
-such `REASSIGN OWNED` will change the ownership of any
-shared-across-databases objects, that is databases or tablespaces, that
-are owned by the role-to-be-dropped.)
+或者，也可以使用
+[`REASSIGN OWNED`](../../reference/sql-commands/sql-reassign-owned.md) 指令，
+將即將被移除角色所擁有的所有物件，一次全部轉移給另一個
+指定角色。由於 `REASSIGN OWNED` 無法存取其他資料庫中的物件，
+因此必須在包含該角色所擁有物件的每一個資料庫中，
+分別執行一次此指令。（請注意，第一次執行這樣的
+`REASSIGN OWNED`，就會變更該即將被移除角色所擁有、
+跨資料庫共用之物件——也就是資料庫或資料表空間——的擁有權。）
 
-Once any valuable objects have been transferred to new owners, any
-remaining objects owned by the role-to-be-dropped can be dropped with
-the [`DROP OWNED`](../../reference/sql-commands/sql-drop-owned.md) command. Again, this command cannot
-access objects in other databases, so it is necessary to run it in each
-database that contains objects owned by the role. Also, `DROP
-OWNED` will not drop entire databases or tablespaces, so it is
-necessary to do that manually if the role owns any databases or
-tablespaces that have not been transferred to new owners.
+一旦任何有價值的物件都已轉移給新的擁有者，
+即將被移除角色所擁有的任何剩餘物件，就可以透過
+[`DROP OWNED`](../../reference/sql-commands/sql-drop-owned.md) 指令來移除。
+同樣地，此指令也無法存取其他資料庫中的物件，
+因此必須在包含該角色所擁有物件的每一個資料庫中，
+分別執行一次。此外，`DROP OWNED`
+不會移除整個資料庫或資料表空間，因此若該角色擁有
+任何尚未轉移給新擁有者的資料庫或資料表空間，
+就必須手動處理。
 
-`DROP OWNED` also takes care of removing any privileges granted
-to the target role for objects that do not belong to it.
-Because `REASSIGN OWNED` does not touch such objects, it's
-typically necessary to run both `REASSIGN OWNED`
-and `DROP OWNED` (in that order!) to fully remove the
-dependencies of a role to be dropped.
+`DROP OWNED` 也會一併處理：移除目標角色對於
+不屬於自己之物件所被授予的任何權限。由於
+`REASSIGN OWNED` 不會處理這類物件，因此通常必須
+同時執行 `REASSIGN OWNED` 與
+`DROP OWNED`（且依此順序！），
+才能完全移除即將被移除角色的所有相依關係。
 
-In short then, the most general recipe for removing a role that has been
-used to own objects is:
+簡而言之，移除一個曾用來擁有物件之角色的最通用做法是：
 
 ```
 
@@ -50,14 +51,13 @@ DROP OWNED BY doomed_role;
 DROP ROLE doomed_role;
 ```
 
-When not all owned objects are to be transferred to the same successor
-owner, it's best to handle the exceptions manually and then perform
-the above steps to mop up.
+若並非所有被擁有的物件，都要轉移給同一個後繼擁有者，
+最好的做法是手動處理這些例外狀況，然後再執行
+上述步驟收尾。
 
-If `DROP ROLE` is attempted while dependent objects still
-remain, it will issue messages identifying which objects need to be
-reassigned or dropped.
+若在仍有相依物件存在的情況下，嘗試執行 `DROP ROLE`，
+系統就會發出訊息，指出哪些物件需要轉移擁有權或移除。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/role-removal.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/role-removal.html)（原文版本：18.6；核對日期：2026-09-22）
