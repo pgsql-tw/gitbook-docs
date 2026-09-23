@@ -1,106 +1,91 @@
-## 28.4. Asynchronous Commit [#](#WAL-ASYNC-COMMIT)
+<a id="WAL-ASYNC-COMMIT"></a>
+
+## 28.4. 非同步確認 [#](#WAL-ASYNC-COMMIT)
 
 <a id="id-1.6.15.6.2"></a><a id="id-1.6.15.6.3"></a>
 
-*Asynchronous commit* is an option that allows transactions
-to complete more quickly, at the cost that the most recent transactions may
-be lost if the database should crash. In many applications this is an
-acceptable trade-off.
+*非同步確認*（asynchronous commit）是一項選項，能讓交易更快完成，
+代價是若資料庫發生當機，最近的幾筆交易可能會遺失。
+在許多應用情境中，這是可以接受的取捨。
 
-As described in the previous section, transaction commit is normally
-*synchronous*: the server waits for the transaction's
-WAL records to be flushed to permanent storage
-before returning a success indication to the client. The client is
-therefore guaranteed that a transaction reported to be committed will
-be preserved, even in the event of a server crash immediately after.
-However, for short transactions this delay is a major component of the
-total transaction time. Selecting asynchronous commit mode means that
-the server returns success as soon as the transaction is logically
-completed, before the WAL records it generated have
-actually made their way to disk. This can provide a significant boost
-in throughput for small transactions.
+如前一節所述，交易確認（commit）通常是*同步*進行的：
+伺服器會等待該交易的 WAL 紀錄排清至永久儲存體之後，
+才會向用戶端回報成功。因此，用戶端可以確信，
+一旦回報某筆交易已確認，即使伺服器隨即當機，該交易仍會被保留下來。
+不過，對於短交易而言，這段等待時間，佔整體交易時間的
+很大一部分。選擇非同步確認模式，意味著伺服器一旦
+在邏輯上完成該交易，就會立即回報成功，而不必等到
+它所產生的 WAL 紀錄，實際寫入磁碟。對於小型交易而言，
+這能大幅提升輸出量（throughput）。
 
-Asynchronous commit introduces the risk of data loss. There is a short
-time window between the report of transaction completion to the client
-and the time that the transaction is truly committed (that is, it is
-guaranteed not to be lost if the server crashes). Thus asynchronous
-commit should not be used if the client will take external actions
-relying on the assumption that the transaction will be remembered.
-As an example, a bank would certainly not use asynchronous commit for
-a transaction recording an ATM's dispensing of cash. But in many
-scenarios, such as event logging, there is no need for a strong
-guarantee of this kind.
+非同步確認會帶來資料遺失的風險。在向用戶端回報交易完成，
+與該交易真正確認完成（也就是保證即使伺服器當機也不會遺失）之間，
+存在著一段短暫的時間窗口。因此，若用戶端會依據「該交易必定會被記住」
+這項假設，去執行外部動作，就不應該使用非同步確認。
+舉例來說，銀行在記錄自動櫃員機（ATM）的提款交易時，
+必定不會使用非同步確認。但在許多情境中，
+例如事件記錄，並不需要這種強而有力的保證。
 
-The risk that is taken by using asynchronous commit is of data loss,
-not data corruption. If the database should crash, it will recover
-by replaying WAL up to the last record that was
-flushed. The database will therefore be restored to a self-consistent
-state, but any transactions that were not yet flushed to disk will
-not be reflected in that state. The net effect is therefore loss of
-the last few transactions. Because the transactions are replayed in
-commit order, no inconsistency can be introduced — for example,
-if transaction B made changes relying on the effects of a previous
-transaction A, it is not possible for A's effects to be lost while B's
-effects are preserved.
+使用非同步確認所承擔的風險，是資料遺失，而非資料損毀。
+若資料庫發生當機，它會透過重播 WAL，直到最後一筆
+已排清的紀錄為止，以進行復原。因此，資料庫會被還原到
+自我一致的狀態，但任何尚未排清至磁碟的交易，
+都不會反映在該狀態中。因此，最終的結果，就是遺失
+最後幾筆交易。由於這些交易是依確認順序重播的，
+因此不會產生不一致——舉例來說，若交易 B 所做的變更，
+依賴於先前交易 A 的效果，就不可能發生 A 的效果遺失、
+而 B 的效果卻被保留下來的情況。
 
-The user can select the commit mode of each transaction, so that
-it is possible to have both synchronous and asynchronous commit
-transactions running concurrently. This allows flexible trade-offs
-between performance and certainty of transaction durability.
-The commit mode is controlled by the user-settable parameter
-[synchronous_commit](../runtime-config/runtime-config-wal.md#GUC-SYNCHRONOUS-COMMIT), which can be changed in any of
-the ways that a configuration parameter can be set. The mode used for
-any one transaction depends on the value of
-`synchronous_commit` when transaction commit begins.
+使用者可以針對每筆交易，個別選擇其確認模式，因此
+可以讓同步與非同步確認的交易同時並行執行。這讓
+效能與交易持久性保證之間，能夠有彈性地取捨。
+確認模式由使用者可設定的參數
+[synchronous_commit](../runtime-config/runtime-config-wal.md#GUC-SYNCHRONOUS-COMMIT) 控制，
+可以透過任何一種設定組態參數的方式來變更。任何一筆交易
+所使用的模式，取決於該交易開始確認時，
+`synchronous_commit` 的值。
 
-Certain utility commands, for instance `DROP TABLE`, are
-forced to commit synchronously regardless of the setting of
-`synchronous_commit`. This is to ensure consistency
-between the server's file system and the logical state of the database.
-The commands supporting two-phase commit, such as `PREPARE
-TRANSACTION`, are also always synchronous.
+某些工具程式指令，例如 `DROP TABLE`，
+無論 `synchronous_commit` 的設定為何，都會被強制以
+同步方式確認。這是為了確保伺服器的檔案系統，
+與資料庫的邏輯狀態保持一致。支援兩階段確認的指令，
+例如 `PREPARE TRANSACTION`，也一律是同步的。
 
-If the database crashes during the risk window between an
-asynchronous commit and the writing of the transaction's
-WAL records,
-then changes made during that transaction *will* be lost.
-The duration of the
-risk window is limited because a background process (the “WAL
-writer”) flushes unwritten WAL records to disk
-every [wal_writer_delay](../runtime-config/runtime-config-wal.md#GUC-WAL-WRITER-DELAY) milliseconds.
-The actual maximum duration of the risk window is three times
-`wal_writer_delay` because the WAL writer is
-designed to favor writing whole pages at a time during busy periods.
+若資料庫在非同步確認、與該交易的 WAL 紀錄寫入之間
+的風險期間發生當機，則該交易期間所做的變更，
+*將會*遺失。這段風險期間的長度是有限制的，
+因為有一個背景程序（「WAL 寫入器」）
+會每隔 [wal_writer_delay](../runtime-config/runtime-config-wal.md#GUC-WAL-WRITER-DELAY) 毫秒，
+將尚未寫入的 WAL 紀錄排清至磁碟。風險期間的實際最大長度，
+是 `wal_writer_delay` 的三倍，因為 WAL 寫入器
+在忙碌期間，其設計會傾向於一次寫入整個頁面。
 
-### Caution
+### 注意
 
-An immediate-mode shutdown is equivalent to a server crash, and will
-therefore cause loss of any unflushed asynchronous commits.
+immediate 模式的關閉，等同於伺服器當機，
+因此會導致任何尚未排清的非同步確認遺失。
 
-Asynchronous commit provides behavior different from setting
-[fsync](../runtime-config/runtime-config-wal.md#GUC-FSYNC) = off.
-`fsync` is a server-wide
-setting that will alter the behavior of all transactions. It disables
-all logic within PostgreSQL that attempts to synchronize
-writes to different portions of the database, and therefore a system
-crash (that is, a hardware or operating system crash, not a failure of
-PostgreSQL itself) could result in arbitrarily bad
-corruption of the database state. In many scenarios, asynchronous
-commit provides most of the performance improvement that could be
-obtained by turning off `fsync`, but without the risk
-of data corruption.
+非同步確認所展現的行為，與設定
+[fsync](../runtime-config/runtime-config-wal.md#GUC-FSYNC) = off 並不相同。
+`fsync` 是一項伺服器全域設定，
+會改變所有交易的行為。它會停用 PostgreSQL 內部
+所有嘗試同步不同資料庫部分寫入動作的邏輯，
+因此系統當機（也就是硬體或作業系統當機，
+而非 PostgreSQL 本身的故障）可能導致資料庫狀態出現
+任意程度的嚴重損毀。在許多情境中，非同步確認
+所帶來的效能提升，幾乎等同於關閉 `fsync`
+所能達到的效果，但卻不會有資料損毀的風險。
 
-[commit_delay](../runtime-config/runtime-config-wal.md#GUC-COMMIT-DELAY) also sounds very similar to
-asynchronous commit, but it is actually a synchronous commit method
-(in fact, `commit_delay` is ignored during an
-asynchronous commit). `commit_delay` causes a delay
-just before a transaction flushes WAL to disk, in
-the hope that a single flush executed by one such transaction can also
-serve other transactions committing at about the same time. The
-setting can be thought of as a way of increasing the time window in
-which transactions can join a group about to participate in a single
-flush, to amortize the cost of the flush among multiple transactions.
+[commit_delay](../runtime-config/runtime-config-wal.md#GUC-COMMIT-DELAY) 聽起來也與非同步確認
+非常相似，但它實際上是一種同步確認的方法
+（事實上，在非同步確認期間，`commit_delay`
+會被忽略）。`commit_delay` 會在某筆交易將 WAL
+排清至磁碟之前，造成一段延遲，期望藉由這一次排清動作，
+同時服務其他大約在同一時間確認的交易。可以將這項設定，
+視為一種延長時間窗口的方式，讓更多交易能夠加入
+即將共同參與同一次排清的群組，
+藉此將排清成本分攤給多筆交易。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-async-commit.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-async-commit.html)（原文版本：18.6；核對日期：2026-09-22）
