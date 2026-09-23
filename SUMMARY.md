@@ -299,7 +299,7 @@
     * [31.1. Running the Tests #](server-administration/regress/regress-run.md)
     * [31.2. Test Evaluation #](server-administration/regress/regress-evaluation.md)
     * [31.3. Variant Comparison Files #](server-administration/regress/regress-variant.md)
-    * [31.4. TAP Tests #](server-administration/regress/regress-tap.md)
+    * [31.4. TAP 測試 #](server-administration/regress/regress-tap.md)
     * [31.5. Test Coverage Examination #](server-administration/regress/regress-coverage.md)
 * [Part IV. Client Interfaces](client-interfaces/README.md)
   * [Chapter 32. libpq — C Library](client-interfaces/libpq/README.md)
