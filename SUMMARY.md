@@ -262,7 +262,7 @@
     * [26.3. Failover #](server-administration/high-availability/warm-standby-failover.md)
     * [26.4. Hot Standby #](server-administration/high-availability/hot-standby.md)
   * [Chapter 27. Monitoring Database Activity](server-administration/monitoring/README.md)
-    * [27.1. Standard Unix Tools #](server-administration/monitoring/monitoring-ps.md)
+    * [27.1. 標準 Unix 工具 #](server-administration/monitoring/monitoring-ps.md)
     * [27.2. The Cumulative Statistics System #](server-administration/monitoring/monitoring-stats.md)
     * [27.3. 檢視鎖定](server-administration/monitoring/monitoring-locks.md)
     * [27.4. Progress Reporting #](server-administration/monitoring/progress-reporting.md)

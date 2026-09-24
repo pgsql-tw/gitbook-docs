@@ -1,10 +1,12 @@
-## 27.1. Standard Unix Tools [#](#MONITORING-PS)
+<a id="MONITORING-PS"></a>
+
+## 27.1. 標準 Unix 工具 [#](#MONITORING-PS)
 
 <a id="id-1.6.14.6.2"></a>
 
-On most Unix platforms, PostgreSQL modifies its
-command title as reported by `ps`, so that individual server
-processes can readily be identified. A sample display is
+在大多數 Unix 平台上，PostgreSQL 會修改
+`ps` 所回報的命令標題，讓你能輕易識別
+個別的伺服器程序。以下是一則顯示範例：
 
 ```
 
@@ -19,39 +21,43 @@ postgres  15606  0.0  0.0  58772  3052 ?        Ss   18:07   0:00 postgres: tgl 
 postgres  15610  0.0  0.0  58772  3056 ?        Ss   18:07   0:00 postgres: tgl regression [local] idle in transaction
 ```
 
-(The appropriate invocation of `ps` varies across different
-platforms, as do the details of what is shown. This example is from a
-recent Linux system.) The first process listed here is the
-primary server process. The command arguments
-shown for it are the same ones used when it was launched. The next four
-processes are background worker processes automatically launched by the
-primary process. (The “autovacuum launcher” process will not
-be present if you have set the system not to run autovacuum.)
-Each of the remaining
-processes is a server process handling one client connection. Each such
-process sets its command line display in the form
+（`ps` 的適當呼叫方式因平台而異，
+顯示的細節內容也是如此。此範例取自一套
+較新的 Linux 系統。）此處所列出的第一個程序，
+是主要伺服器程序。其所顯示的命令引數，
+與啟動時所使用的引數相同。接下來的四個程序，
+是由主要程序自動啟動的背景工作程序。
+（若你已將系統設定為不執行自動 vacuum，
+則不會出現「autovacuum launcher」程序。）
+其餘的每一個程序，
+都是負責處理一個用戶端連線的伺服器程序。
+每個這類程序，都會以下列格式，
+設定其命令列顯示內容：
 
 ```
 
 postgres: user database host activity
 ```
 
-The user, database, and (client) host items remain the same for
-the life of the client connection, but the activity indicator changes.
-The activity can be `idle` (i.e., waiting for a client command),
-`idle in transaction` (waiting for client inside a `BEGIN` block),
-or a command type name such as `SELECT`. Also,
-`waiting` is appended if the server process is presently waiting
-on a lock held by another session. In the above example we can infer
-that process 15606 is waiting for process 15610 to complete its transaction
-and thereby release some lock. (Process 15610 must be the blocker, because
-there is no other active session. In more complicated cases it would be
-necessary to look into the
+使用者、資料庫，以及（用戶端）主機這幾個項目，
+在該用戶端連線的存續期間都會保持不變，
+但活動指示器則會改變。此活動可以是 `idle`
+（即等待用戶端命令）、`idle in transaction`
+（在 `BEGIN` 區塊內等待用戶端），
+或是像 `SELECT` 這樣的命令類型名稱。
+此外，若該伺服器程序目前正在等待
+其他工作階段持有的鎖定，就會附加 `waiting`。
+在上方的範例中，我們可以推論出，
+程序 15606 正在等待程序 15610
+完成其交易，藉此釋放某個鎖定。
+（程序 15610 必定是造成阻塞的一方，
+因為並沒有其他作用中的工作階段。在較複雜的情況下，
+就需要查看
 [`pg_locks`](../../internals/views/view-pg-locks.md)
-system view to determine who is blocking whom.)
+系統檢視表，才能判斷究竟是誰阻塞了誰。）
 
-If [cluster_name](../runtime-config/runtime-config-logging.md#GUC-CLUSTER-NAME) has been configured the
-cluster name will also be shown in `ps` output:
+若已設定 [cluster_name](../runtime-config/runtime-config-logging.md#GUC-CLUSTER-NAME)，
+叢集名稱也會顯示在 `ps` 輸出中：
 
 ```
 
@@ -66,23 +72,25 @@ postgres   27093  0.0  0.0  30096  2752 ?        Ss   11:34   0:00 postgres: ser
 ...
 ```
 
-If you have turned off [update_process_title](../runtime-config/runtime-config-logging.md#GUC-UPDATE-PROCESS-TITLE) then the
-activity indicator is not updated; the process title is set only once
-when a new process is launched. On some platforms this saves a measurable
-amount of per-command overhead; on others it's insignificant.
+若你已關閉 [update_process_title](../runtime-config/runtime-config-logging.md#GUC-UPDATE-PROCESS-TITLE)，
+則活動指示器就不會被更新；
+程序標題只會在新程序啟動時設定一次。
+在某些平台上，這能節省可測量得出的每一命令額外負擔；
+在其他平台上則影響甚微。
 
-### Tip
+### 提示
 
-Solaris requires special handling. You must
-use `/usr/ucb/ps`, rather than
-`/bin/ps`. You also must use two `w`
-flags, not just one. In addition, your original invocation of the
-`postgres` command must have a shorter
-`ps` status display than that provided by each
-server process. If you fail to do all three things, the `ps`
-output for each server process will be the original `postgres`
-command line.
+Solaris 需要特殊處理方式。你必須使用
+`/usr/ucb/ps`，而不是
+`/bin/ps`。你還必須使用兩個
+`w` 旗標，而不能只用一個。此外，
+你最初呼叫 `postgres` 命令時，
+其 `ps` 狀態顯示內容，
+必須比每個伺服器程序所提供的內容更短。
+若你未能完成以上三項要求，每個伺服器程序的
+`ps` 輸出，就會是最初的 `postgres`
+命令列。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/monitoring-ps.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/monitoring-ps.html)（原文版本：18.6；核對日期：2026-09-24）
