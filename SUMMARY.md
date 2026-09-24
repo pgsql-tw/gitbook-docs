@@ -206,7 +206,7 @@
     * [19.9. 執行時期統計資訊 #](server-administration/runtime-config/runtime-config-statistics.md)
     * [19.10. Vacuum 處理 #](server-administration/runtime-config/runtime-config-vacuum.md)
     * [19.11. Client Connection Defaults #](server-administration/runtime-config/runtime-config-client.md)
-    * [19.12. Lock Management #](server-administration/runtime-config/runtime-config-locks.md)
+    * [19.12. 鎖定管理 #](server-administration/runtime-config/runtime-config-locks.md)
     * [19.13. Version and Platform Compatibility #](server-administration/runtime-config/runtime-config-compatible.md)
     * [19.14. 錯誤處理 #](server-administration/runtime-config/runtime-config-error-handling.md)
     * [19.15. Preset Options #](server-administration/runtime-config/runtime-config-preset.md)

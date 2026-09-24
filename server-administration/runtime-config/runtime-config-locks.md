@@ -1,88 +1,79 @@
-## 19.12. Lock Management [#](#RUNTIME-CONFIG-LOCKS)
+<a id="RUNTIME-CONFIG-LOCKS"></a>
+
+## 19.12. 鎖定管理 [#](#RUNTIME-CONFIG-LOCKS)
 
 <a id="GUC-DEADLOCK-TIMEOUT"></a>
 
 `deadlock_timeout` (`integer`) <a id="id-1.6.6.15.2.1.1.3"></a> <a id="id-1.6.6.15.2.1.1.4"></a> <a id="id-1.6.6.15.2.1.1.5"></a> [#](#GUC-DEADLOCK-TIMEOUT)
-:   This is the amount of time to wait on a lock
-    before checking to see if there is a deadlock condition. The
-    check for deadlock is relatively expensive, so the server doesn't run
-    it every time it waits for a lock. We optimistically assume
-    that deadlocks are not common in production applications and
-    just wait on the lock for a while before checking for a
-    deadlock. Increasing this value reduces the amount of time
-    wasted in needless deadlock checks, but slows down reporting of
-    real deadlock errors.
-    If this value is specified without units, it is taken as milliseconds.
-    The default is one second (`1s`),
-    which is probably about the smallest value you would want in
-    practice. On a heavily loaded server you might want to raise it.
-    Ideally the setting should exceed your typical transaction time,
-    so as to improve the odds that a lock will be released before
-    the waiter decides to check for deadlock.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   這是在等待鎖定時、於檢查是否發生死結狀況之前
+    所等待的時間量。檢查死結的成本相對較高，
+    因此伺服器不會每次等待鎖定時都進行檢查。我們樂觀地
+    假設死結在正式環境應用程式中並不常見，
+    因此會先等待鎖定一段時間，再檢查
+    死結。增加此值可減少不必要死結檢查所浪費的時間，
+    但會拖慢真正死結錯誤的回報速度。
+    若此值指定時未帶單位，則以毫秒為單位。
+    預設值為一秒（`1s`），
+    這大概是實務上你會想要使用的最小值。
+    在負載較重的伺服器上，你可能會想要提高此值。
+    理想情況下，此設定值應超過你典型的交易時間，
+    以提高在等待者決定檢查死結之前鎖定已被釋放的機率。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 
-    When [log_lock_waits](runtime-config-logging.md#GUC-LOG-LOCK-WAITS) is set,
-    this parameter also determines the amount of time to wait before
-    a log message is issued about the lock wait. If you are trying
-    to investigate locking delays you might want to set a shorter than
-    normal `deadlock_timeout`.
+    當 [log_lock_waits](runtime-config-logging.md#GUC-LOG-LOCK-WAITS) 設定時，
+    此參數也決定了在發出關於鎖定等待的日誌訊息之前
+    所等待的時間量。如果你正在調查鎖定延遲問題，
+    可能會想將 `deadlock_timeout` 設得比一般情況短。
 <a id="GUC-MAX-LOCKS-PER-TRANSACTION"></a>
 
 `max_locks_per_transaction` (`integer`) <a id="id-1.6.6.15.2.2.1.3"></a> [#](#GUC-MAX-LOCKS-PER-TRANSACTION)
-:   The shared lock table has space for
-    `max_locks_per_transaction` objects
-    (e.g., tables) per server process or prepared transaction;
-    hence, no more than this many distinct objects can be locked at
-    any one time. This parameter limits the average number of object
-    locks used by each transaction; individual transactions
-    can lock more objects as long as the locks of all transactions
-    fit in the lock table. This is *not* the number of
-    rows that can be locked; that value is unlimited. The default,
-    64, has historically proven sufficient, but you might need to
-    raise this value if you have queries that touch many different
-    tables in a single transaction, e.g., query of a parent table with
-    many children. This parameter can only be set at server start.
+:   共享鎖定表為每個伺服器程序或已備妥交易（prepared transaction）
+    提供 `max_locks_per_transaction` 個物件
+    （例如資料表）的空間；因此，同一時間最多只能鎖定這麼多個
+    不同的物件。此參數限制的是每個交易所使用的物件鎖定
+    平均數量；只要所有交易的鎖定總數
+    能放入鎖定表，個別交易就可以鎖定更多物件。這*並非*
+    可鎖定的資料列數量；該數值不受限制。預設值
+    64，經過實務證明一直以來都已足夠，但如果你有在單一交易中
+    涉及許多不同資料表的查詢（例如查詢有許多子資料表的父資料表），
+    可能需要提高此值。此參數只能在伺服器啟動時設定。
 
-    When running a standby server, you must set this parameter to have the
-    same or higher value as on the primary server. Otherwise, queries
-    will not be allowed in the standby server.
+    在執行 standby 伺服器時，你必須將此參數設為與 primary
+    伺服器相同或更高的值，否則在 standby 伺服器中
+    將不允許執行查詢。
 <a id="GUC-MAX-PRED-LOCKS-PER-TRANSACTION"></a>
 
 `max_pred_locks_per_transaction` (`integer`) <a id="id-1.6.6.15.2.3.1.3"></a> [#](#GUC-MAX-PRED-LOCKS-PER-TRANSACTION)
-:   The shared predicate lock table has space for
-    `max_pred_locks_per_transaction` objects
-    (e.g., tables) per server process or prepared transaction;
-    hence, no more than this many distinct objects can be locked at
-    any one time. This parameter limits the average number of object
-    locks used by each transaction; individual transactions
-    can lock more objects as long as the locks of all transactions
-    fit in the lock table. This is *not* the number of
-    rows that can be locked; that value is unlimited. The default,
-    64, has historically proven sufficient, but you might need to
-    raise this value if you have clients that touch many different
-    tables in a single serializable transaction. This parameter can
-    only be set at server start.
+:   共享謂詞鎖定表為每個伺服器程序或已備妥交易
+    提供 `max_pred_locks_per_transaction` 個物件
+    （例如資料表）的空間；因此，同一時間最多只能鎖定這麼多個
+    不同的物件。此參數限制的是每個交易所使用的物件鎖定
+    平均數量；只要所有交易的鎖定總數
+    能放入鎖定表，個別交易就可以鎖定更多物件。這*並非*
+    可鎖定的資料列數量；該數值不受限制。預設值
+    64，經過實務證明一直以來都已足夠，但如果你有用戶端在單一可序列化
+    交易中涉及許多不同資料表，可能需要提高此值。此參數
+    只能在伺服器啟動時設定。
 <a id="GUC-MAX-PRED-LOCKS-PER-RELATION"></a>
 
 `max_pred_locks_per_relation` (`integer`) <a id="id-1.6.6.15.2.4.1.3"></a> [#](#GUC-MAX-PRED-LOCKS-PER-RELATION)
-:   This controls how many pages or tuples of a single relation can be
-    predicate-locked before the lock is promoted to covering the whole
-    relation. Values greater than or equal to zero mean an absolute
-    limit, while negative values
-    mean [max_pred_locks_per_transaction](runtime-config-locks.md#GUC-MAX-PRED-LOCKS-PER-TRANSACTION) divided by
-    the absolute value of this setting. The default is -2, which keeps
-    the behavior from previous versions of PostgreSQL.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   這控制單一關聯的多少頁面或資料列（tuple）可以被謂詞鎖定，
+    超過此數量後鎖定就會被提升為涵蓋整個關聯。大於或等於零的值
+    代表絕對上限，而負值則代表
+    [max_pred_locks_per_transaction](runtime-config-locks.md#GUC-MAX-PRED-LOCKS-PER-TRANSACTION) 除以
+    此設定值絕對值的結果。預設值為 -2，這維持了
+    先前版本 PostgreSQL 的行為。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-MAX-PRED-LOCKS-PER-PAGE"></a>
 
 `max_pred_locks_per_page` (`integer`) <a id="id-1.6.6.15.2.5.1.3"></a> [#](#GUC-MAX-PRED-LOCKS-PER-PAGE)
-:   This controls how many rows on a single page can be predicate-locked
-    before the lock is promoted to covering the whole page. The default
-    is 2. This parameter can only be set in
-    the `postgresql.conf` file or on the server command line.
+:   這控制單一頁面上的多少資料列可以被謂詞鎖定，
+    超過此數量後鎖定就會被提升為涵蓋整個頁面。預設值
+    為 2。此參數只能在
+    `postgresql.conf` 檔案中或伺服器命令列上設定。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-locks.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-locks.html)（原文版本：18.6；核對日期：2026-09-24）
