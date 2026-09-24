@@ -583,7 +583,7 @@
       * [SPI_start_transaction](server-programming/spi/spi-spi-start-transaction.md)
     * [45.5. 資料變更的可見性 #](server-programming/spi/spi-visibility.md)
     * [45.6. 範例 #](server-programming/spi/spi-examples.md)
-  * [Chapter 46. Background Worker Processes](server-programming/bgworker/README.md)
+  * [第 46 章 背景工作程序](server-programming/bgworker/README.md)
   * [第 47 章 邏輯解碼](server-programming/logicaldecoding/README.md)
     * [47.1. 邏輯解碼範例 #](server-programming/logicaldecoding/logicaldecoding-example.md)
     * [47.2. 邏輯解碼概念 #](server-programming/logicaldecoding/logicaldecoding-explanation.md)
