@@ -440,7 +440,7 @@
     * [36.2. PostgreSQL 型別系統 #](server-programming/extend/extend-type-system.md)
     * [36.3. 使用者自訂函式 #](server-programming/extend/xfunc.md)
     * [36.4. 使用者自訂程序 #](server-programming/extend/xproc.md)
-    * [36.5. Query Language ( SQL ) Functions #](server-programming/extend/xfunc-sql.md)
+    * [36.5. 查詢語言（SQL）函式 #](server-programming/extend/xfunc-sql.md)
     * [36.6. 函式多載 #](server-programming/extend/xfunc-overload.md)
     * [36.7. 函式揮發性類別 #](server-programming/extend/xfunc-volatility.md)
     * [36.8. 程序語言函式](server-programming/extend/xfunc-pl.md)
