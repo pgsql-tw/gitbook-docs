@@ -1,154 +1,163 @@
-## 28.1. Reliability [#](#WAL-RELIABILITY)
+<a id="WAL-RELIABILITY"></a>
 
-Reliability is an important property of any serious database
-system, and PostgreSQL does everything possible to
-guarantee reliable operation. One aspect of reliable operation is
-that all data recorded by a committed transaction should be stored
-in a nonvolatile area that is safe from power loss, operating
-system failure, and hardware failure (except failure of the
-nonvolatile area itself, of course). Successfully writing the data
-to the computer's permanent storage (disk drive or equivalent)
-ordinarily meets this requirement. In fact, even if a computer is
-fatally damaged, if the disk drives survive they can be moved to
-another computer with similar hardware and all committed
-transactions will remain intact.
+## 28.1. 可靠性 [#](#WAL-RELIABILITY)
 
-While forcing data to the disk platters periodically might seem like
-a simple operation, it is not. Because disk drives are dramatically
-slower than main memory and CPUs, several layers of caching exist
-between the computer's main memory and the disk platters.
-First, there is the operating system's buffer cache, which caches
-frequently requested disk blocks and combines disk writes. Fortunately,
-all operating systems give applications a way to force writes from
-the buffer cache to disk, and PostgreSQL uses those
-features. (See the [wal_sync_method](../runtime-config/runtime-config-wal.md#GUC-WAL-SYNC-METHOD) parameter
-to adjust how this is done.)
+可靠性是任何正式資料庫系統的重要特性，
+而 PostgreSQL 會盡一切可能確保運作的可靠性。
+可靠運作的其中一個面向，是已提交交易所記錄的所有資料，
+都應儲存在能免於電源中斷、作業系統故障，
+以及硬體故障（當然不包括該非揮發性區域本身故障）
+影響的非揮發性區域中。成功將資料寫入電腦的
+永久性儲存體（磁碟機或同等裝置），通常就能滿足此項要求。
+事實上，即使電腦本身受到致命性損壞，
+只要磁碟機倖存，就能將其移至具備類似硬體的另一台電腦，
+所有已提交的交易仍會維持完整無缺。
 
-Next, there might be a cache in the disk drive controller; this is
-particularly common on RAID controller cards. Some of
-these caches are *write-through*, meaning writes are sent
-to the drive as soon as they arrive. Others are
-*write-back*, meaning data is sent to the drive at
-some later time. Such caches can be a reliability hazard because the
-memory in the disk controller cache is volatile, and will lose its
-contents in a power failure. Better controller cards have
-*battery-backup units* (BBUs), meaning
-the card has a battery that
-maintains power to the cache in case of system power loss. After power
-is restored the data will be written to the disk drives.
+雖然定期將資料強制寫入磁碟片看似是件簡單的作業，
+但實際上並非如此。由於磁碟機的速度遠比主記憶體與 CPU 慢得多，
+在電腦的主記憶體與磁碟片之間，存在著好幾層快取。
+首先是作業系統的緩衝快取（buffer cache），
+它會快取經常被要求的磁碟區塊，並合併磁碟寫入動作。
+幸好，所有作業系統都提供應用程式一種方式，
+可強制將緩衝快取中的內容寫出至磁碟，
+而 PostgreSQL 就會使用這些功能。
+（請參閱 [wal_sync_method](../runtime-config/runtime-config-wal.md#GUC-WAL-SYNC-METHOD)
+參數，以調整此動作的執行方式。）
 
-And finally, most disk drives have caches. Some are write-through
-while some are write-back, and the same concerns about data loss
-exist for write-back drive caches as for disk controller
-caches. Consumer-grade IDE and SATA drives are particularly likely
-to have write-back caches that will not survive a power failure. Many
-solid-state drives (SSD) also have volatile write-back caches.
+其次，磁碟機控制器中可能也存在快取；這種情況
+在 RAID 控制卡上尤其常見。有些這類快取屬於
+*直寫式*（write-through），代表寫入動作
+一旦送達就會立即傳送給磁碟機。其他則屬於
+*回寫式*（write-back），代表資料會在
+稍後的某個時間點才送往磁碟機。這類快取可能構成可靠性上的
+風險，因為磁碟控制器快取中的記憶體屬於揮發性，
+一旦電源中斷，內容就會遺失。較優質的控制卡具備
+*電池備援單元*（battery-backup unit，BBU），
+也就是該卡具備一顆電池，
+能在系統電源中斷時，繼續為快取供電。
+電源恢復後，資料就會被寫入磁碟機。
 
-These caches can typically be disabled; however, the method for doing
-this varies by operating system and drive type:
+最後，大多數磁碟機本身也具備快取。有些屬於直寫式，
+有些屬於回寫式，而回寫式磁碟機快取所面臨的資料遺失疑慮，
+與磁碟控制器快取相同。消費級的 IDE 與 SATA 磁碟機，
+尤其可能具備無法在電源中斷後倖存的回寫式快取。
+許多固態硬碟（SSD）也具備揮發性的回寫式快取。
 
-* On Linux, IDE and SATA drives can be queried using
-  `hdparm -I`; write caching is enabled if there is
-  a `*` next to `Write cache`. `hdparm -W 0`
-  can be used to turn off write caching. SCSI drives can be queried
-  using [sdparm](http://sg.danny.cz/sg/sdparm.html).
-  Use `sdparm --get=WCE` to check
-  whether the write cache is enabled and `sdparm --clear=WCE`
-  to disable it.
-* On FreeBSD, IDE drives can be queried using
-  `camcontrol identify` and write caching turned off using
-  `hw.ata.wc=0` in `/boot/loader.conf`;
-  SCSI drives can be queried using `camcontrol identify`,
-  and the write cache both queried and changed using
-  `sdparm` when available.
-* On Solaris, the disk write cache is controlled by
-  `format -e`.
-  (The Solaris ZFS file system is safe with disk write-cache
-  enabled because it issues its own disk cache flush commands.)
-* On Windows, if `wal_sync_method` is
-  `open_datasync` (the default), write caching can be disabled
-  by unchecking `My Computer\Open\disk drive\Properties\Hardware\Properties\Policies\Enable write caching on the disk`.
-  Alternatively, set `wal_sync_method` to
-  `fdatasync` (NTFS only) or `fsync`,
-  which prevent write caching.
-* On macOS, write caching can be prevented by
-  setting `wal_sync_method` to `fsync_writethrough`.
+這些快取通常可以停用；然而，停用的方法會依作業系統
+與磁碟機類型而異：
 
-Recent SATA drives (those following ATAPI-6 or later)
-offer a drive cache flush command (`FLUSH CACHE EXT`),
-while SCSI drives have long supported a similar command
-`SYNCHRONIZE CACHE`. These commands are not directly
-accessible to PostgreSQL, but some file systems
-(e.g., ZFS, ext4) can use them to flush
-data to the platters on write-back-enabled drives. Unfortunately, such
-file systems behave suboptimally when combined with battery-backup unit
-(BBU) disk controllers. In such setups, the synchronize
-command forces all data from the controller cache to the disks,
-eliminating much of the benefit of the BBU. You can run the
-[pg_test_fsync](../../reference/reference-server/pgtestfsync.md) program to see
-if you are affected. If you are affected, the performance benefits
-of the BBU can be regained by turning off write barriers in
-the file system or reconfiguring the disk controller, if that is
-an option. If write barriers are turned off, make sure the battery
-remains functional; a faulty battery can potentially lead to data loss.
-Hopefully file system and disk controller designers will eventually
-address this suboptimal behavior.
+* 在 Linux 上，可使用 `hdparm -I`
+  查詢 IDE 與 SATA 磁碟機；若 `Write cache` 旁邊
+  出現 `*`，即代表已啟用寫入快取。可使用
+  `hdparm -W 0` 關閉寫入快取。SCSI 磁碟機
+  可使用 [sdparm](http://sg.danny.cz/sg/sdparm.html) 查詢。
+  使用 `sdparm --get=WCE` 檢查寫入快取
+  是否啟用，並使用 `sdparm --clear=WCE`
+  將其停用。
+* 在 FreeBSD 上，可使用
+  `camcontrol identify` 查詢 IDE 磁碟機，
+  並在 `/boot/loader.conf` 中設定
+  `hw.ata.wc=0` 以關閉寫入快取；
+  SCSI 磁碟機可使用 `camcontrol identify` 查詢，
+  在有 `sdparm` 可用時，
+  也可用它來查詢及變更寫入快取。
+* 在 Solaris 上，磁碟寫入快取是由
+  `format -e` 控制。
+  （Solaris ZFS 檔案系統即使在啟用磁碟寫入快取的情況下
+  仍屬安全，因為它會自行發出磁碟快取排清命令。）
+* 在 Windows 上，若 `wal_sync_method`
+  為 `open_datasync`（預設值），
+  可透過取消勾選
+  `My Computer\Open\disk drive\Properties\Hardware\Properties\Policies\Enable write caching on the disk`
+  （我的電腦\開啟\磁碟機\內容\硬體\內容\原則\啟用磁碟上的寫入快取）
+  來停用寫入快取。或者，也可以將
+  `wal_sync_method` 設為
+  `fdatasync`（僅限 NTFS）或 `fsync`，
+  這兩者都能防止寫入快取。
+* 在 macOS 上，可將
+  `wal_sync_method` 設為 `fsync_writethrough`，
+  以防止寫入快取。
 
-When the operating system sends a write request to the storage hardware,
-there is little it can do to make sure the data has arrived at a truly
-non-volatile storage area. Rather, it is the
-administrator's responsibility to make certain that all storage components
-ensure integrity for both data and file-system metadata.
-Avoid disk controllers that have non-battery-backed write caches.
-At the drive level, disable write-back caching if the
-drive cannot guarantee the data will be written before shutdown.
-If you use SSDs, be aware that many of these do not honor cache flush
-commands by default.
-You can test for reliable I/O subsystem behavior using [`diskchecker.pl`](https://brad.livejournal.com/2116715.html).
+較新款的 SATA 磁碟機（支援 ATAPI-6 或更新版本者），
+提供了磁碟機快取排清命令（`FLUSH CACHE EXT`），
+而 SCSI 磁碟機則長期支援類似的命令
+`SYNCHRONIZE CACHE`。這些命令並非
+PostgreSQL 可直接存取，但某些檔案系統
+（例如 ZFS、ext4）能利用它們，
+在啟用回寫功能的磁碟機上，將資料刷寫至磁碟片。
+不幸的是，這類檔案系統若與具備電池備援單元（BBU）的
+磁碟控制器搭配使用，表現會不夠理想。在這種組態下，
+同步命令會強制將控制器快取中的所有資料
+送往磁碟，抵消了 BBU 的大部分好處。你可以執行
+[pg_test_fsync](../../reference/reference-server/pgtestfsync.md)
+程式，檢查自己是否受到此問題影響。若確實受到影響，
+可透過關閉檔案系統中的寫入屏障（write barrier），
+或（若有此選項）重新設定磁碟控制器，
+重新取回 BBU 帶來的效能好處。若你關閉了寫入屏障，
+請務必確保電池維持正常運作；有瑕疵的電池，
+可能導致資料遺失。希望檔案系統與磁碟控制器的
+設計者，未來能解決這個不夠理想的行為。
 
-Another risk of data loss is posed by the disk platter write
-operations themselves. Disk platters are divided into sectors,
-commonly 512 bytes each. Every physical read or write operation
-processes a whole sector.
-When a write request arrives at the drive, it might be for some multiple
-of 512 bytes (PostgreSQL typically writes 8192 bytes, or
-16 sectors, at a time), and the process of writing could fail due
-to power loss at any time, meaning some of the 512-byte sectors were
-written while others were not. To guard against such failures,
-PostgreSQL periodically writes full page images to
-permanent WAL storage *before* modifying the actual page on
-disk. By doing this, during crash recovery PostgreSQL can
-restore partially-written pages from WAL. If you have file-system software
-that prevents partial page writes (e.g., ZFS), you can turn off
-this page imaging by turning off the [full_page_writes](../runtime-config/runtime-config-wal.md#GUC-FULL-PAGE-WRITES) parameter. Battery-Backed Unit
-(BBU) disk controllers do not prevent partial page writes unless
-they guarantee that data is written to the BBU as full (8kB) pages.
+當作業系統向儲存硬體發出寫入請求時，
+它能做的事很有限，無法確保資料確實已抵達真正的
+非揮發性儲存區域。因此，確保所有儲存元件
+都能保障資料與檔案系統中繼資料完整性的責任，
+落在管理人員身上。應避免使用具備非電池備援寫入快取的
+磁碟控制器。在磁碟機層級，若磁碟機無法保證在關機前
+將資料寫入完成，應停用回寫快取。若你使用 SSD，
+請留意許多 SSD 預設並不遵守快取排清命令。
+你可以使用
+[`diskchecker.pl`](https://brad.livejournal.com/2116715.html)
+測試 I/O 子系統的行為是否可靠。
 
-PostgreSQL also protects against some kinds of data corruption
-on storage devices that may occur because of hardware errors or media failure over time,
-such as reading/writing garbage data.
+磁碟片寫入操作本身，也構成另一項資料遺失的風險。
+磁碟片會被劃分為磁區（sector），常見大小為每個 512 位元組。
+每次實體讀取或寫入操作，都會處理整個磁區。
+當某個寫入請求送達磁碟機時，其大小可能是 512 位元組的
+某個倍數（PostgreSQL 通常一次寫入 8192 位元組，
+即 16 個磁區），而寫入過程可能因為在任何時間點發生
+電源中斷而失敗，導致部分 512 位元組磁區已寫入，
+而其他磁區則否。為了防範這類失敗，
+PostgreSQL 會在實際修改磁碟上的頁面*之前*，
+定期將完整頁面映像寫入永久性 WAL 儲存體。
+透過這麼做，在當機復原期間，PostgreSQL
+就能從 WAL 還原部分寫入的頁面。若你使用的檔案系統軟體
+能防止部分頁面寫入（例如 ZFS），
+你可以透過關閉 [full_page_writes](../runtime-config/runtime-config-wal.md#GUC-FULL-PAGE-WRITES)
+參數，關閉此頁面映像功能。電池備援單元（BBU）
+磁碟控制器並不能防止部分頁面寫入，
+除非它們能保證資料是以完整（8kB）頁面的形式
+寫入 BBU 中。
 
-* Each individual record in a WAL file is protected by a CRC-32C (32-bit) check
-  that allows us to tell if record contents are correct. The CRC value
-  is set when we write each WAL record and checked during crash recovery,
-  archive recovery and replication.
-* Data pages are checksummed by default, and full page images
-  recorded in WAL records are always checksum protected.
-* Internal data structures such as `pg_xact`, `pg_subtrans`, `pg_multixact`,
-  `pg_serial`, `pg_notify`, `pg_stat`, `pg_snapshots` are not directly
-  checksummed, nor are pages protected by full page writes. However, where
-  such data structures are persistent, WAL records are written that allow
-  recent changes to be accurately rebuilt at crash recovery and those
-  WAL records are protected as discussed above.
-* Individual state files in `pg_twophase` are protected by CRC-32C.
-* Temporary data files used in larger SQL queries for sorts,
-  materializations and intermediate results are not currently checksummed,
-  nor will WAL records be written for changes to those files.
+PostgreSQL 也能防範儲存裝置上，
+因硬體錯誤或長期媒體故障（例如讀取／寫入到損毀資料）
+而可能發生的某些類型資料損毀。
 
-PostgreSQL does not protect against correctable memory errors
-and it is assumed you will operate using RAM that uses industry standard
-Error Correcting Codes (ECC) or better protection.
+* WAL 檔案中的每一筆紀錄，都受到 CRC-32C（32 位元）檢查碼保護，
+  讓我們得以判斷紀錄內容是否正確。此 CRC 值
+  會在我們寫入每一筆 WAL 紀錄時設定，
+  並在當機復原、歸檔復原與複寫期間進行檢查。
+* 資料頁面預設會加上總和檢查碼，
+  而記錄在 WAL 紀錄中的完整頁面映像，一律受到總和檢查碼保護。
+* `pg_xact`、`pg_subtrans`、`pg_multixact`、
+  `pg_serial`、`pg_notify`、`pg_stat`、`pg_snapshots`
+  等內部資料結構，並未直接加上總和檢查碼，
+  也未受到完整頁面寫入保護。然而，
+  只要這類資料結構具持久性，就會寫入 WAL 紀錄，
+  讓近期的變更能在當機復原時被準確地重建，
+  而這些 WAL 紀錄則如前所述受到保護。
+* `pg_twophase` 中的各個狀態檔案，
+  受到 CRC-32C 保護。
+* 用於較大型 SQL 查詢中排序、實體化，
+  以及中間結果的暫存資料檔案，
+  目前並未加上總和檢查碼，
+  這些檔案的變更也不會寫入 WAL 紀錄。
+
+PostgreSQL 並不會防範可修正的記憶體錯誤，
+並假設你所使用的 RAM，
+採用業界標準的錯誤更正碼（Error Correcting Codes，ECC）
+或更佳的保護機制。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-reliability.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-reliability.html)（原文版本：18.6；核對日期：2026-09-24）
