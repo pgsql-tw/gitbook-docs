@@ -1,31 +1,30 @@
-## 36.18. Extension Building Infrastructure [#](#EXTEND-PGXS)
+<a id="EXTEND-PGXS"></a>
+## 36.18. 擴充功能建置基礎架構 [#](#EXTEND-PGXS)
 
 <a id="id-1.8.3.21.2"></a>
 
-If you are thinking about distributing your
-PostgreSQL extension modules, setting up a
-portable build system for them can be fairly difficult. Therefore
-the PostgreSQL installation provides a build
-infrastructure for extensions, called PGXS, so
-that simple extension modules can be built simply against an
-already installed server. PGXS is mainly intended
-for extensions that include C code, although it can be used for
-pure-SQL extensions too. Note that PGXS is not
-intended to be a universal build system framework that can be used
-to build any software interfacing to PostgreSQL;
-it simply automates common build rules for simple server extension
-modules. For more complicated packages, you might need to write your
-own build system.
+如果您正在考慮發布您的
+PostgreSQL 擴充功能模組，為它們建立一套可移植的
+建置系統可能相當困難。因此
+PostgreSQL 安裝套件提供了一套用於擴充功能的
+建置基礎架構，稱為 PGXS，讓
+簡單的擴充功能模組可以直接針對已安裝的伺服器來建置。
+PGXS 主要是設計給包含 C 程式碼的
+擴充功能使用，不過純 SQL 的擴充功能也可以使用它。請注意
+PGXS 並非設計成一套通用的建置系統框架，可用來
+建置任何與 PostgreSQL 介接的軟體；
+它只是將簡單伺服器擴充功能模組的常見建置規則自動化。對於
+較複雜的套件，您可能需要撰寫自己的建置系統。
 
-To use the PGXS infrastructure for your extension,
-you must write a simple makefile.
-In the makefile, you need to set some variables
-and include the global PGXS makefile.
-Here is an example that builds an extension module named
-`isbn_issn`, consisting of a shared library containing
-some C code, an extension control file, an SQL script, an include file
-(only needed if other modules might need to access the extension functions
-without going via SQL), and a documentation text file:
+若要為您的擴充功能使用 PGXS 基礎架構，
+您必須撰寫一個簡單的 makefile。
+在該 makefile 中，您需要設定一些變數，
+並引入全域的 PGXS makefile。
+以下範例建置了一個名為
+`isbn_issn` 的擴充功能模組，其中包含一個含有
+一些 C 程式碼的共享程式庫、一個擴充功能控制檔、一個 SQL 指令碼、一個引入檔
+（只有在其他模組需要不透過 SQL 存取擴充功能函式時才需要）
+以及一份文件說明文字檔：
 
 ```
 
@@ -40,208 +39,205 @@ PGXS := $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
 ```
 
-The last three lines should always be the same. Earlier in the
-file, you assign variables or add custom
-make rules.
+最後三行應該永遠保持不變。在檔案較前面的
+部分，您可以指定變數或加入自訂的
+make 規則。
 
-Set one of these three variables to specify what is built:
+請設定以下三個變數其中之一，以指定要建置的內容：
 
 <a id="EXTEND-PGXS-MODULES"></a>
 
 `MODULES` [#](#EXTEND-PGXS-MODULES)
-:   list of shared-library objects to be built from source files with same
-    stem (do not include library suffixes in this list)
+:   要從具有相同字幹（stem）的來源檔建置的共享程式庫物件清單
+    （此清單中不要包含程式庫後綴）
 <a id="EXTEND-PGXS-MODULE-BIG"></a>
 
 `MODULE_big` [#](#EXTEND-PGXS-MODULE-BIG)
-:   a shared library to build from multiple source files
-    (list object files in `OBJS`)
+:   要從多個來源檔建置的共享程式庫
+    （物件檔清單請列在 `OBJS` 中）
 <a id="EXTEND-PGXS-PROGRAM"></a>
 
 `PROGRAM` [#](#EXTEND-PGXS-PROGRAM)
-:   an executable program to build
-    (list object files in `OBJS`)
+:   要建置的可執行程式
+    （物件檔清單請列在 `OBJS` 中）
 
-The following variables can also be set:
+以下變數也可以設定：
 
 <a id="EXTEND-PGXS-EXTENSION"></a>
 
 `EXTENSION` [#](#EXTEND-PGXS-EXTENSION)
-:   extension name(s); for each name you must provide an
-    `extension.control` file,
-    which will be installed into
+:   擴充功能名稱；每個名稱都必須提供一個
+    `extension.control` 檔，
+    此檔案將被安裝到
     `prefix/share/extension`
 <a id="EXTEND-PGXS-MODULEDIR"></a>
 
 `MODULEDIR` [#](#EXTEND-PGXS-MODULEDIR)
-:   subdirectory of `prefix/share`
-    into which DATA and DOCS files should be installed
-    (if not set, default is `extension` if
-    `EXTENSION` is set,
-    or `contrib` if not)
+:   `prefix/share`
+    下的子目錄，DATA 與 DOCS 檔案應安裝於此
+    （若未設定，預設值在
+    `EXTENSION` 有設定時為 `extension`，
+    否則為 `contrib`）
 <a id="EXTEND-PGXS-DATA"></a>
 
 `DATA` [#](#EXTEND-PGXS-DATA)
-:   random files to install into `prefix/share/$MODULEDIR`
+:   要安裝到 `prefix/share/$MODULEDIR` 的任意檔案
 <a id="EXTEND-PGXS-DATA-BUILT"></a>
 
 `DATA_built` [#](#EXTEND-PGXS-DATA-BUILT)
-:   random files to install into
-    `prefix/share/$MODULEDIR`,
-    which need to be built first
+:   要安裝到
+    `prefix/share/$MODULEDIR` 的任意檔案，
+    這些檔案需要先經過建置
 <a id="EXTEND-PGXS-DATA-TSEARCH"></a>
 
 `DATA_TSEARCH` [#](#EXTEND-PGXS-DATA-TSEARCH)
-:   random files to install under
-    `prefix/share/tsearch_data`
+:   要安裝到
+    `prefix/share/tsearch_data` 下的任意檔案
 <a id="EXTEND-PGXS-DOCS"></a>
 
 `DOCS` [#](#EXTEND-PGXS-DOCS)
-:   random files to install under
-    `prefix/doc/$MODULEDIR`
+:   要安裝到 `prefix/doc/$MODULEDIR` 下的任意檔案
 <a id="EXTEND-PGXS-HEADERS"></a>
 
 `HEADERS`<br>`HEADERS_built` [#](#EXTEND-PGXS-HEADERS)
-:   Files to (optionally build and) install under
-    `prefix/include/server/$MODULEDIR/$MODULE_big`.
+:   要（視需要先建置後）安裝到 `prefix/include/server/$MODULEDIR/$MODULE_big` 下的檔案。
 
-    Unlike `DATA_built`, files in `HEADERS_built`
-    are not removed by the `clean` target; if you want them removed,
-    also add them to `EXTRA_CLEAN` or add your own rules to do it.
+    與 `DATA_built` 不同，`HEADERS_built` 中的檔案
+    不會被 `clean` 目標移除；若您希望它們被移除，
+    請將它們另外加入 `EXTRA_CLEAN`，或自行加入規則來處理。
 <a id="EXTEND-PGXS-HEADERS-MODULE"></a>
 
 `HEADERS_$MODULE`<br>`HEADERS_built_$MODULE` [#](#EXTEND-PGXS-HEADERS-MODULE)
-:   Files to install (after building if specified) under
-    `prefix/include/server/$MODULEDIR/$MODULE`,
-    where `$MODULE` must be a module name used
-    in `MODULES` or `MODULE_big`.
+:   要（視需要先建置後）安裝到
+    `prefix/include/server/$MODULEDIR/$MODULE` 下的檔案，
+    其中 `$MODULE` 必須是
+    `MODULES` 或 `MODULE_big` 中所使用的模組名稱。
 
-    Unlike `DATA_built`, files in `HEADERS_built_$MODULE`
-    are not removed by the `clean` target; if you want them removed,
-    also add them to `EXTRA_CLEAN` or add your own rules to do it.
+    與 `DATA_built` 不同，`HEADERS_built_$MODULE` 中的檔案
+    不會被 `clean` 目標移除；若您希望它們被移除，
+    請將它們另外加入 `EXTRA_CLEAN`，或自行加入規則來處理。
 
-    It is legal to use both variables for the same module, or any
-    combination, unless you have two module names in the
-    `MODULES` list that differ only by the presence of a
-    prefix `built_`, which would cause ambiguity. In
-    that (hopefully unlikely) case, you should use only the
-    `HEADERS_built_$MODULE` variables.
+    對同一個模組同時使用這兩個變數，或以任何方式組合使用都是合法的，
+    除非您在
+    `MODULES` 清單中有兩個模組名稱僅差在是否有
+    `built_` 前綴，這會造成語意不明確。在
+    那種（希望不太可能發生的）情況下，您應該只使用
+    `HEADERS_built_$MODULE` 變數。
 <a id="EXTEND-PGXS-SCRIPTS"></a>
 
 `SCRIPTS` [#](#EXTEND-PGXS-SCRIPTS)
-:   script files (not binaries) to install into
-    `prefix/bin`
+:   要安裝到 `prefix/bin` 的指令碼檔案
+    （非二進位檔）
 <a id="EXTEND-PGXS-SCRIPTS-BUILT"></a>
 
 `SCRIPTS_built` [#](#EXTEND-PGXS-SCRIPTS-BUILT)
-:   script files (not binaries) to install into
-    `prefix/bin`,
-    which need to be built first
+:   要安裝到
+    `prefix/bin` 的指令碼檔案
+    （非二進位檔），這些檔案需要先經過建置
 <a id="EXTEND-PGXS-REGRESS"></a>
 
 `REGRESS` [#](#EXTEND-PGXS-REGRESS)
-:   list of regression test cases (without suffix), see below
+:   迴歸測試案例清單（不含副檔名），詳情請見下文
 <a id="EXTEND-PGXS-REGRESS-OPTS"></a>
 
 `REGRESS_OPTS` [#](#EXTEND-PGXS-REGRESS-OPTS)
-:   additional switches to pass to pg_regress
+:   要傳遞給 pg_regress 的額外開關
 <a id="EXTEND-PGXS-ISOLATION"></a>
 
 `ISOLATION` [#](#EXTEND-PGXS-ISOLATION)
-:   list of isolation test cases, see below for more details
+:   隔離性測試案例清單，詳情請見下文
 <a id="EXTEND-PGXS-ISOLATION-OPTS"></a>
 
 `ISOLATION_OPTS` [#](#EXTEND-PGXS-ISOLATION-OPTS)
-:   additional switches to pass to
-    pg_isolation_regress
+:   要傳遞給
+    pg_isolation_regress 的額外開關
 <a id="EXTEND-PGXS-TAP-TESTS"></a>
 
 `TAP_TESTS` [#](#EXTEND-PGXS-TAP-TESTS)
-:   switch defining if TAP tests need to be run, see below
+:   指定是否需要執行 TAP 測試的開關，詳情請見下文
 <a id="EXTEND-PGXS-NO-INSTALL"></a>
 
 `NO_INSTALL` [#](#EXTEND-PGXS-NO-INSTALL)
-:   don't define an `install` target, useful for test
-    modules that don't need their build products to be installed
+:   不定義 `install` 目標，適用於
+    不需要安裝其建置產物的測試模組
 <a id="EXTEND-PGXS-NO-INSTALLCHECK"></a>
 
 `NO_INSTALLCHECK` [#](#EXTEND-PGXS-NO-INSTALLCHECK)
-:   don't define an `installcheck` target, useful e.g., if tests require special configuration, or don't use pg_regress
+:   不定義 `installcheck` 目標，適用於例如測試需要特殊設定，或不使用 pg_regress 的情況
 <a id="EXTEND-PGXS-EXTRA-CLEAN"></a>
 
 `EXTRA_CLEAN` [#](#EXTEND-PGXS-EXTRA-CLEAN)
-:   extra files to remove in `make clean`
+:   在 `make clean` 時要另外移除的檔案
 <a id="EXTEND-PGXS-PG-CPPFLAGS"></a>
 
 `PG_CPPFLAGS` [#](#EXTEND-PGXS-PG-CPPFLAGS)
-:   will be prepended to `CPPFLAGS`
+:   將被加到 `CPPFLAGS` 之前
 <a id="EXTEND-PGXS-PG-CFLAGS"></a>
 
 `PG_CFLAGS` [#](#EXTEND-PGXS-PG-CFLAGS)
-:   will be appended to `CFLAGS`
+:   將被加到 `CFLAGS` 之後
 <a id="EXTEND-PGXS-PG-CXXFLAGS"></a>
 
 `PG_CXXFLAGS` [#](#EXTEND-PGXS-PG-CXXFLAGS)
-:   will be appended to `CXXFLAGS`
+:   將被加到 `CXXFLAGS` 之後
 <a id="EXTEND-PGXS-PG-LDFLAGS"></a>
 
 `PG_LDFLAGS` [#](#EXTEND-PGXS-PG-LDFLAGS)
-:   will be prepended to `LDFLAGS`
+:   將被加到 `LDFLAGS` 之前
 <a id="EXTEND-PGXS-PG-LIBS"></a>
 
 `PG_LIBS` [#](#EXTEND-PGXS-PG-LIBS)
-:   will be added to `PROGRAM` link line
+:   將被加入 `PROGRAM` 的連結行
 <a id="EXTEND-PGXS-SHLIB-LINK"></a>
 
 `SHLIB_LINK` [#](#EXTEND-PGXS-SHLIB-LINK)
-:   will be added to `MODULE_big` link line
+:   將被加入 `MODULE_big` 的連結行
 <a id="EXTEND-PGXS-PG-CONFIG"></a>
 
 `PG_CONFIG` [#](#EXTEND-PGXS-PG-CONFIG)
-:   path to pg_config program for the
-    PostgreSQL installation to build against
-    (typically just `pg_config` to use the first one in your
-    `PATH`)
+:   要建置的目標
+    PostgreSQL 安裝所對應的 pg_config 程式路徑
+    （通常只要用 `pg_config` 即可，
+    使用您 `PATH` 中的第一個）
 
-Put this makefile as `Makefile` in the directory
-which holds your extension. Then you can do
-`make` to compile, and then `make
-install` to install your module. By default, the extension is
-compiled and installed for the
-PostgreSQL installation that
-corresponds to the first `pg_config` program
-found in your `PATH`. You can use a different installation by
-setting `PG_CONFIG` to point to its
-`pg_config` program, either within the makefile
-or on the `make` command line.
+將這個 makefile 以 `Makefile` 的檔名放在
+您擴充功能所在的目錄中。接著您就可以執行
+`make` 來編譯，再執行 `make
+install` 來安裝您的模組。預設情況下，擴充功能會針對
+`PATH` 中第一個找到的 `pg_config`
+程式所對應的
+PostgreSQL 安裝來編譯並安裝。您可以透過
+設定 `PG_CONFIG` 指向另一個
+`pg_config` 程式（可以在 makefile 中設定，也可以在
+`make` 命令列上設定）來使用不同的安裝。
 
-You can select a separate directory prefix in which to install your
-extension's files, by setting the `make` variable
-`prefix` when executing `make install`
-like so:
+您可以透過在執行 `make install` 時設定
+`make` 變數 `prefix`，
+來選擇一個獨立的目錄前綴，作為擴充功能檔案的安裝位置，
+如下所示：
 
 ```
 
 make install prefix=/usr/local/postgresql
 ```
 
-This will install the extension control and SQL files into
-`/usr/local/postgresql/share` and the shared modules into
-`/usr/local/postgresql/lib`. If the prefix does not
-include the strings `postgres` or
-`pgsql`, such as
+這會將擴充功能的控制檔與 SQL 檔安裝到
+`/usr/local/postgresql/share`，共享模組則安裝到
+`/usr/local/postgresql/lib`。若此前綴不
+包含字串 `postgres` 或
+`pgsql`，例如
 
 ```
 
 make install prefix=/usr/local/extras
 ```
 
-then `postgresql` will be appended to the directory
-names, installing the control and SQL files into
-`/usr/local/extras/share/postgresql/extension` and the
-shared modules into `/usr/local/extras/lib/postgresql`.
-Either way, you'll need to set [extension_control_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-EXTENSION-CONTROL-PATH) and [dynamic_library_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH) to enable the
-PostgreSQL server to find the files:
+則會在目錄名稱後面附加
+`postgresql`，將控制檔與 SQL 檔安裝到
+`/usr/local/extras/share/postgresql/extension`，
+共享模組則安裝到 `/usr/local/extras/lib/postgresql`。
+無論哪一種情況，您都需要設定 [extension_control_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-EXTENSION-CONTROL-PATH) 與 [dynamic_library_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH)，讓
+PostgreSQL 伺服器能夠找到這些檔案：
 
 ```
 
@@ -249,11 +245,11 @@ extension_control_path = '/usr/local/extras/share/postgresql:$system'
 dynamic_library_path = '/usr/local/extras/lib/postgresql:$libdir'
 ```
 
-You can also run `make` in a directory outside the source
-tree of your extension, if you want to keep the build directory separate.
-This procedure is also called a
+您也可以在擴充功能原始碼樹之外的目錄執行 `make`，
+如果您想要讓建置目錄與原始碼樹分開的話。
+這個做法也稱為
 <a id="id-1.8.3.21.8.2"></a>*VPATH*
-build. Here's how:
+建置。作法如下：
 
 ```
 
@@ -263,11 +259,11 @@ make -f /path/to/extension/source/tree/Makefile
 make -f /path/to/extension/source/tree/Makefile install
 ```
 
-Alternatively, you can set up a directory for a VPATH build in a similar
-way to how it is done for the core code. One way to do this is using the
-core script `config/prep_buildtree`. Once this has been done
-you can build by setting the `make` variable
-`VPATH` like this:
+另一種方式是，您可以用類似核心程式碼所使用的方式，
+為 VPATH 建置設定一個目錄。其中一種做法是使用
+核心指令碼 `config/prep_buildtree`。完成此步驟後，
+您就可以透過設定 `make` 變數
+`VPATH` 來進行建置，如下所示：
 
 ```
 
@@ -275,59 +271,60 @@ make VPATH=/path/to/extension/source/tree
 make VPATH=/path/to/extension/source/tree install
 ```
 
-This procedure can work with a greater variety of directory layouts.
+這個做法能夠適用於更多樣化的目錄配置。
 
-The scripts listed in the `REGRESS` variable are used for
-regression testing of your module, which can be invoked by `make
-installcheck` after doing `make install`. For this to
-work you must have a running PostgreSQL server.
-The script files listed in `REGRESS` must appear in a
-subdirectory named `sql/` in your extension's directory.
-These files must have extension `.sql`, which must not be
-included in the `REGRESS` list in the makefile. For each
-test there should also be a file containing the expected output in a
-subdirectory named `expected/`, with the same stem and
-extension `.out`. `make installcheck`
-executes each test script with psql, and compares the
-resulting output to the matching expected file. Any differences will be
-written to the file `regression.diffs` in `diff
--c` format. Note that trying to run a test that is missing its
-expected file will be reported as “trouble”, so make sure you
-have all expected files.
+`REGRESS` 變數所列出的指令碼，是用於
+您模組的迴歸測試，可以在執行 `make install`
+之後透過 `make installcheck` 來啟動。若要讓這個
+機制運作，您必須有一個正在執行中的 PostgreSQL 伺服器。
+`REGRESS` 中所列出的指令碼檔案，必須放在
+擴充功能目錄下名為 `sql/` 的子目錄中。
+這些檔案的副檔名必須是 `.sql`，而該副檔名
+不得包含在 makefile 的 `REGRESS` 清單中。針對每個
+測試，還應該有一個檔案，內含預期輸出，放在
+名為 `expected/` 的子目錄中，字幹相同，
+副檔名為 `.out`。`make installcheck`
+會透過 psql 執行每個測試指令碼，並將
+所得到的輸出與相符的預期檔案進行比對。任何差異都會
+寫入檔案 `regression.diffs`，格式為 `diff
+-c`。請注意，若嘗試執行缺少對應預期檔案的測試，將會被回報為「trouble」（表示發現問題），因此請確保
+您擁有所有的預期檔案。
 
-The scripts listed in the `ISOLATION` variable are used
-for tests stressing behavior of concurrent session with your module, which
-can be invoked by `make installcheck` after doing
-`make install`. For this to work you must have a
-running PostgreSQL server. The script files
-listed in `ISOLATION` must appear in a subdirectory
-named `specs/` in your extension's directory. These files
-must have extension `.spec`, which must not be included
-in the `ISOLATION` list in the makefile. For each test
-there should also be a file containing the expected output in a
-subdirectory named `expected/`, with the same stem and
-extension `.out`. `make installcheck`
-executes each test script, and compares the resulting output to the
-matching expected file. Any differences will be written to the file
-`output_iso/regression.diffs` in
-`diff -c` format. Note that trying to run a test that is
-missing its expected file will be reported as “trouble”, so
-make sure you have all expected files.
+`ISOLATION` 變數所列出的指令碼，是用來
+對您模組在並行工作階段下的行為進行壓力測試，可以在執行
+`make install` 之後透過 `make installcheck`
+來啟動。若要讓這個機制運作，您必須有一個
+正在執行中的 PostgreSQL 伺服器。`ISOLATION`
+中所列出的指令碼檔案，必須放在
+擴充功能目錄下名為 `specs/` 的子目錄中。這些檔案的
+副檔名必須是 `.spec`，而該副檔名不得包含
+在 makefile 的 `ISOLATION` 清單中。針對每個
+測試，還應該有一個檔案，內含預期輸出，放在
+名為 `expected/` 的子目錄中，字幹相同，
+副檔名為 `.out`。`make installcheck`
+會執行每個測試指令碼，並將所得到的輸出與
+相符的預期檔案進行比對。任何差異都會寫入檔案
+`output_iso/regression.diffs`，格式為
+`diff -c`。請注意，若嘗試執行缺少對應預期檔案的測試，將會被回報為「trouble」（表示發現問題），因此
+請確保您擁有所有的預期檔案。
 
-`TAP_TESTS` enables the use of TAP tests. Data from each
-run is present in a subdirectory named `tmp_check/`.
-See also [Section 31.4](../../server-administration/regress/regress-tap.md) for more details.
+`TAP_TESTS` 用於啟用 TAP 測試。每次執行的
+資料會存放在名為 `tmp_check/` 的子目錄中。
+另請參閱 [31.4 節](../../server-administration/regress/regress-tap.md)以取得更多詳情。
 
-### Tip
+<a id="EXTEND-PGXS-TAP-TESTS-TIP"></a>
 
-The easiest way to create the expected files is to create empty files,
-then do a test run (which will of course report differences). Inspect
-the actual result files found in the `results/`
-directory (for tests in `REGRESS`), or
-`output_iso/results/` directory (for tests in
-`ISOLATION`), then copy them to
-`expected/` if they match what you expect from the test.
+### 提示
+
+建立預期檔案最簡單的方法，是先建立空檔案，
+然後執行一次測試（這樣當然會回報出差異）。檢查
+`results/` 目錄中（針對 `REGRESS`
+中的測試）或
+`output_iso/results/` 目錄中（針對
+`ISOLATION` 中的測試）實際產生的結果檔案，
+如果符合您對該測試的預期，再將它們複製到
+`expected/` 目錄。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/extend-pgxs.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/extend-pgxs.html)（原文版本：18.6；核對日期：2026-09-24）

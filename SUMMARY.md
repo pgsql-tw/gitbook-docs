@@ -453,7 +453,7 @@
     * [36.15. Operator Optimization Information #](server-programming/extend/xoper-optimization.md)
     * [36.16. Interfacing Extensions to Indexes #](server-programming/extend/xindex.md)
     * [36.17. 將相關物件封裝成擴充功能 #](server-programming/extend/extend-extensions.md)
-    * [36.18. Extension Building Infrastructure #](server-programming/extend/extend-pgxs.md)
+    * [36.18. 擴充功能建置基礎架構 #](server-programming/extend/extend-pgxs.md)
   * [第 37 章 觸發器](server-programming/triggers/README.md)
     * [37.1. 觸發程序行為總覽 #](server-programming/triggers/trigger-definition.md)
     * [37.2. 資料變更的可見性 #](server-programming/triggers/trigger-datachanges.md)
