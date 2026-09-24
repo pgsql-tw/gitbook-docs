@@ -209,7 +209,7 @@
     * [19.12. 鎖定管理 #](server-administration/runtime-config/runtime-config-locks.md)
     * [19.13. Version and Platform Compatibility #](server-administration/runtime-config/runtime-config-compatible.md)
     * [19.14. 錯誤處理 #](server-administration/runtime-config/runtime-config-error-handling.md)
-    * [19.15. Preset Options #](server-administration/runtime-config/runtime-config-preset.md)
+    * [19.15. 預設選項 #](server-administration/runtime-config/runtime-config-preset.md)
     * [19.16. 自訂選項](server-administration/runtime-config/runtime-config-custom.md)
     * [19.17. 開發人員選項 #](server-administration/runtime-config/runtime-config-developer.md)
     * [19.18. 簡短選項 #](server-administration/runtime-config/runtime-config-short.md)

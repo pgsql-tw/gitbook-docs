@@ -1,162 +1,160 @@
-## 19.15. Preset Options [#](#RUNTIME-CONFIG-PRESET)
+<a id="RUNTIME-CONFIG-PRESET"></a>
 
-The following “parameters” are read-only.
-As such, they have been excluded from the sample
-`postgresql.conf` file. These options report
-various aspects of PostgreSQL behavior
-that might be of interest to certain applications, particularly
-administrative front-ends.
-Most of them are determined when PostgreSQL
-is compiled or when it is installed.
+## 19.15. 預設選項 [#](#RUNTIME-CONFIG-PRESET)
+
+以下這些「參數」皆為唯讀。
+因此，這些參數已從範例
+`postgresql.conf` 檔案中排除。這些選項回報
+PostgreSQL 行為的各種面向，
+可能會是某些應用程式，特別是管理前端所感興趣的資訊。
+其中大部分是在編譯或安裝
+PostgreSQL 時就已決定。
 
 <a id="GUC-BLOCK-SIZE"></a>
 
 `block_size` (`integer`) <a id="id-1.6.6.18.3.1.1.3"></a> [#](#GUC-BLOCK-SIZE)
-:   Reports the size of a disk block. It is determined by the value
-    of `BLCKSZ` when building the server. The default
-    value is 8192 bytes. The meaning of some configuration
-    variables (such as [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS)) is
-    influenced by `block_size`. See [Section 19.4](runtime-config-resource.md) for information.
+:   回報磁碟區塊的大小。此值由建置伺服器時
+    `BLCKSZ` 的值決定。預設值
+    為 8192 位元組。某些組態變數（例如
+    [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS)）的意義
+    會受到 `block_size` 影響。詳情請參閱[19.4 節](runtime-config-resource.md)。
 <a id="GUC-DATA-CHECKSUMS"></a>
 
 `data_checksums` (`boolean`) <a id="id-1.6.6.18.3.2.1.3"></a> [#](#GUC-DATA-CHECKSUMS)
-:   Reports whether data checksums are enabled for this cluster.
-    See [`-k`](../../reference/reference-server/app-initdb.md#APP-INITDB-DATA-CHECKSUMS) for more information.
+:   回報此叢集是否已啟用資料檢查碼。
+    詳情請參閱 [`-k`](../../reference/reference-server/app-initdb.md#APP-INITDB-DATA-CHECKSUMS)。
 <a id="GUC-DATA-DIRECTORY-MODE"></a>
 
 `data_directory_mode` (`integer`) <a id="id-1.6.6.18.3.3.1.3"></a> [#](#GUC-DATA-DIRECTORY-MODE)
-:   On Unix systems this parameter reports the permissions the data
-    directory (defined by [data_directory](runtime-config-file-locations.md#GUC-DATA-DIRECTORY))
-    had at server startup.
-    (On Microsoft Windows this parameter will always display
-    `0700`.) See
-    [the
-    initdb `-g` option](../../reference/reference-server/app-initdb.md#APP-INITDB-ALLOW-GROUP-ACCESS)
-    for more information.
+:   在 Unix 系統上，此參數回報伺服器啟動時
+    資料目錄（由 [data_directory](runtime-config-file-locations.md#GUC-DATA-DIRECTORY) 定義）
+    所具有的權限。
+    （在 Microsoft Windows 上，此參數永遠顯示為
+    `0700`。）詳情請參閱
+    [initdb 的
+    `-g` 選項](../../reference/reference-server/app-initdb.md#APP-INITDB-ALLOW-GROUP-ACCESS)。
 <a id="GUC-DEBUG-ASSERTIONS"></a>
 
 `debug_assertions` (`boolean`) <a id="id-1.6.6.18.3.4.1.3"></a> [#](#GUC-DEBUG-ASSERTIONS)
-:   Reports whether PostgreSQL has been built
-    with assertions enabled. That is the case if the
-    macro `USE_ASSERT_CHECKING` is defined
-    when PostgreSQL is built (accomplished
-    e.g., by the `configure` option
-    `--enable-cassert`). By
-    default PostgreSQL is built without
-    assertions.
+:   回報 PostgreSQL 建置時是否
+    啟用了斷言（assertion）。若在建置
+    PostgreSQL 時定義了 `USE_ASSERT_CHECKING`
+    巨集（例如透過
+    `configure` 選項
+    `--enable-cassert` 達成），則會是這種情況。
+    預設情況下，PostgreSQL 是在不含
+    斷言的狀態下建置的。
 <a id="GUC-HUGE-PAGES-STATUS"></a>
 
 `huge_pages_status` (`enum`) <a id="id-1.6.6.18.3.5.1.3"></a> [#](#GUC-HUGE-PAGES-STATUS)
-:   Reports the state of huge pages in the current instance:
-    `on`, `off`, or
-    `unknown` (if displayed with
-    `postgres -C`).
-    This parameter is useful to determine whether allocation of huge pages
-    was successful under `huge_pages=try`.
-    See [huge_pages](runtime-config-resource.md#GUC-HUGE-PAGES) for more information.
+:   回報目前實例中巨型分頁（huge page）的狀態：
+    `on`、`off`，或
+    `unknown`（若以
+    `postgres -C` 顯示）。
+    此參數可用於判斷在 `huge_pages=try` 之下
+    巨型分頁的配置是否成功。
+    詳情請參閱 [huge_pages](runtime-config-resource.md#GUC-HUGE-PAGES)。
 <a id="GUC-INTEGER-DATETIMES"></a>
 
 `integer_datetimes` (`boolean`) <a id="id-1.6.6.18.3.6.1.3"></a> [#](#GUC-INTEGER-DATETIMES)
-:   Reports whether PostgreSQL was built with support for
-    64-bit-integer dates and times. As of PostgreSQL 10,
-    this is always `on`.
+:   回報 PostgreSQL 建置時是否支援
+    64 位元整數的日期與時間。自 PostgreSQL 10 起，
+    此值永遠為 `on`。
 <a id="GUC-IN-HOT-STANDBY"></a>
 
 `in_hot_standby` (`boolean`) <a id="id-1.6.6.18.3.7.1.3"></a> [#](#GUC-IN-HOT-STANDBY)
-:   Reports whether the server is currently in hot standby mode. When
-    this is `on`, all transactions are forced to be
-    read-only. Within a session, this can change only if the server is
-    promoted to be primary. See [Section 26.4](../high-availability/hot-standby.md) for more
-    information.
+:   回報伺服器目前是否處於 hot standby 模式。當
+    此值為 `on` 時，所有交易都會被強制設為
+    唯讀。在單一工作階段內，只有當伺服器被
+    提升（promote）為 primary 時，此值才能改變。詳情請參閱
+    [26.4 節](../high-availability/hot-standby.md)。
 <a id="GUC-MAX-FUNCTION-ARGS"></a>
 
 `max_function_args` (`integer`) <a id="id-1.6.6.18.3.8.1.3"></a> [#](#GUC-MAX-FUNCTION-ARGS)
-:   Reports the maximum number of function arguments. It is determined by
-    the value of `FUNC_MAX_ARGS` when building the server. The
-    default value is 100 arguments.
+:   回報函式引數的最大數量。此值由建置伺服器時
+    `FUNC_MAX_ARGS` 的值決定。預設值為 100 個引數。
 <a id="GUC-MAX-IDENTIFIER-LENGTH"></a>
 
 `max_identifier_length` (`integer`) <a id="id-1.6.6.18.3.9.1.3"></a> [#](#GUC-MAX-IDENTIFIER-LENGTH)
-:   Reports the maximum identifier length. It is determined as one
-    less than the value of `NAMEDATALEN` when building
-    the server. The default value of `NAMEDATALEN` is
-    64; therefore the default
-    `max_identifier_length` is 63 bytes, which
-    can be less than 63 characters when using multibyte encodings.
+:   回報識別字的最大長度。此值由建置伺服器時
+    `NAMEDATALEN` 的值減一決定。`NAMEDATALEN`
+    的預設值為
+    64；因此預設的
+    `max_identifier_length` 為 63 位元組，
+    在使用多位元組編碼時，字元數可能少於 63 個。
 <a id="GUC-MAX-INDEX-KEYS"></a>
 
 `max_index_keys` (`integer`) <a id="id-1.6.6.18.3.10.1.3"></a> [#](#GUC-MAX-INDEX-KEYS)
-:   Reports the maximum number of index keys. It is determined by
-    the value of `INDEX_MAX_KEYS` when building the server. The
-    default value is 32 keys.
+:   回報索引鍵值的最大數量。此值由建置伺服器時
+    `INDEX_MAX_KEYS` 的值決定。預設值為 32 個鍵值。
 <a id="GUC-NUM-OS-SEMAPHORES"></a>
 
 `num_os_semaphores` (`integer`) <a id="id-1.6.6.18.3.11.1.3"></a> [#](#GUC-NUM-OS-SEMAPHORES)
-:   Reports the number of semaphores that are needed for the server based
-    on the configured number of allowed connections
-    ([max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS)), allowed autovacuum worker
-    processes ([autovacuum_max_workers](runtime-config-vacuum.md#GUC-AUTOVACUUM-MAX-WORKERS)), allowed WAL
-    sender processes ([max_wal_senders](runtime-config-replication.md#GUC-MAX-WAL-SENDERS)), allowed
-    background processes ([max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES)), etc.
+:   根據所設定允許連線數
+    （[max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS)）、允許的 autovacuum 工作
+    程序數（[autovacuum_max_workers](runtime-config-vacuum.md#GUC-AUTOVACUUM-MAX-WORKERS)）、允許的 WAL
+    傳送程序數（[max_wal_senders](runtime-config-replication.md#GUC-MAX-WAL-SENDERS)）、允許的
+    背景程序數（[max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES)）等，
+    回報伺服器所需的號誌（semaphore）數量。
 <a id="GUC-SEGMENT-SIZE"></a>
 
 `segment_size` (`integer`) <a id="id-1.6.6.18.3.12.1.3"></a> [#](#GUC-SEGMENT-SIZE)
-:   Reports the number of blocks (pages) that can be stored within a file
-    segment. It is determined by the value of `RELSEG_SIZE`
-    when building the server. The maximum size of a segment file in bytes
-    is equal to `segment_size` multiplied by
-    `block_size`; by default this is 1GB.
+:   回報一個檔案區段（segment）內可以儲存的區塊（頁面）數量。
+    此值由建置伺服器時 `RELSEG_SIZE` 的值決定。
+    區段檔案的最大位元組大小等於
+    `segment_size` 乘以
+    `block_size`；預設值為 1GB。
 <a id="GUC-SERVER-ENCODING"></a>
 
 `server_encoding` (`string`) <a id="id-1.6.6.18.3.13.1.3"></a> <a id="id-1.6.6.18.3.13.1.4"></a> [#](#GUC-SERVER-ENCODING)
-:   Reports the database encoding (character set).
-    It is determined when the database is created. Ordinarily,
-    clients need only be concerned with the value of [client_encoding](runtime-config-client.md#GUC-CLIENT-ENCODING).
+:   回報資料庫編碼（字元集）。
+    此值在建立資料庫時決定。通常，
+    用戶端只需要關心 [client_encoding](runtime-config-client.md#GUC-CLIENT-ENCODING) 的值。
 <a id="GUC-SERVER-VERSION"></a>
 
 `server_version` (`string`) <a id="id-1.6.6.18.3.14.1.3"></a> [#](#GUC-SERVER-VERSION)
-:   Reports the version number of the server. It is determined by the
-    value of `PG_VERSION` when building the server.
+:   回報伺服器的版本號碼。此值由建置伺服器時
+    `PG_VERSION` 的值決定。
 <a id="GUC-SERVER-VERSION-NUM"></a>
 
 `server_version_num` (`integer`) <a id="id-1.6.6.18.3.15.1.3"></a> [#](#GUC-SERVER-VERSION-NUM)
-:   Reports the version number of the server as an integer. It is determined
-    by the value of `PG_VERSION_NUM` when building the server.
+:   以整數形式回報伺服器的版本號碼。此值由建置伺服器時
+    `PG_VERSION_NUM` 的值決定。
 <a id="GUC-SHARED-MEMORY-SIZE"></a>
 
 `shared_memory_size` (`integer`) <a id="id-1.6.6.18.3.16.1.3"></a> [#](#GUC-SHARED-MEMORY-SIZE)
-:   Reports the size of the main shared memory area, rounded up to the
-    nearest megabyte.
+:   回報主要共享記憶體區域的大小，並無條件進位到
+    最接近的百萬位元組（MB）。
 <a id="GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES"></a>
 
 `shared_memory_size_in_huge_pages` (`integer`) <a id="id-1.6.6.18.3.17.1.3"></a> [#](#GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES)
-:   Reports the number of huge pages that are needed for the main shared
-    memory area based on the specified [huge_page_size](runtime-config-resource.md#GUC-HUGE-PAGE-SIZE).
-    If huge pages are not supported, this will be `-1`.
+:   根據所指定的 [huge_page_size](runtime-config-resource.md#GUC-HUGE-PAGE-SIZE)，
+    回報主要共享記憶體區域所需的巨型分頁數量。
+    若不支援巨型分頁，此值會是 `-1`。
 
-    This setting is supported only on Linux. It
-    is always set to `-1` on other platforms. For more
-    details about using huge pages on Linux, see
-    [Section 18.4.5](../runtime/kernel-resources.md#LINUX-HUGE-PAGES).
+    此設定僅在 Linux 上受支援。在
+    其他平台上，此值永遠為 `-1`。有關在 Linux 上使用
+    巨型分頁的更多細節，請參閱
+    [18.4.5 節](../runtime/kernel-resources.md#LINUX-HUGE-PAGES)。
 <a id="GUC-SSL-LIBRARY"></a>
 
 `ssl_library` (`string`) <a id="id-1.6.6.18.3.18.1.3"></a> [#](#GUC-SSL-LIBRARY)
-:   Reports the name of the SSL library that this
-    PostgreSQL server was built with (even if
-    SSL is not currently configured or in use on this instance), for
-    example `OpenSSL`, or an empty string if none.
+:   回報建置此 PostgreSQL 伺服器時所使用的 SSL
+    程式庫名稱（即使目前此實例並未設定或使用
+    SSL），例如
+    `OpenSSL`，若無則為空字串。
 <a id="GUC-WAL-BLOCK-SIZE"></a>
 
 `wal_block_size` (`integer`) <a id="id-1.6.6.18.3.19.1.3"></a> [#](#GUC-WAL-BLOCK-SIZE)
-:   Reports the size of a WAL disk block. It is determined by the value
-    of `XLOG_BLCKSZ` when building the server. The default value
-    is 8192 bytes.
+:   回報 WAL 磁碟區塊的大小。此值由建置伺服器時
+    `XLOG_BLCKSZ` 的值決定。預設值
+    為 8192 位元組。
 <a id="GUC-WAL-SEGMENT-SIZE"></a>
 
 `wal_segment_size` (`integer`) <a id="id-1.6.6.18.3.20.1.3"></a> [#](#GUC-WAL-SEGMENT-SIZE)
-:   Reports the size of write ahead log segments. The default value is
-    16MB. See [Section 28.5](../wal/wal-configuration.md) for more information.
+:   回報預寫日誌（write ahead log）區段的大小。預設值為
+    16MB。詳情請參閱[28.5 節](../wal/wal-configuration.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-preset.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-preset.html)（原文版本：18.6；核對日期：2026-09-24）
