@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：650 頁。
+待譯頁面：649 頁。
 
 ## 根目錄
 
@@ -808,7 +808,7 @@
 - [ ] `server-administration/runtime-config/runtime-config-resource.md` — 19.4. Resource Consumption #
 - [x] `server-administration/runtime-config/runtime-config-short.md` — 19.18. 簡短選項 #
 - [x] `server-administration/runtime-config/runtime-config-statistics.md` — 19.9. 執行時期統計資訊 #
-- [ ] `server-administration/runtime-config/runtime-config-vacuum.md` — 19.10. Vacuuming #
+- [x] `server-administration/runtime-config/runtime-config-vacuum.md` — 19.10. Vacuum 處理 #
 - [ ] `server-administration/runtime-config/runtime-config-wal.md` — 19.5. Write Ahead Log #
 - [x] `server-administration/runtime/README.md` — 第 18 章 伺服器設定與操作
 - [ ] `server-administration/runtime/creating-cluster.md` — 18.2. Creating a Database Cluster #

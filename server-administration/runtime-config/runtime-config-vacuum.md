@@ -1,464 +1,456 @@
-## 19.10. Vacuuming [#](#RUNTIME-CONFIG-VACUUM)
+<a id="RUNTIME-CONFIG-VACUUM"></a>
 
-[19.10.1. Automatic Vacuuming](runtime-config-vacuum.md#RUNTIME-CONFIG-AUTOVACUUM)
+## 19.10. Vacuum 處理 [#](#RUNTIME-CONFIG-VACUUM)
 
-[19.10.2. Cost-based Vacuum Delay](runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)
+[19.10.1. 自動 Vacuum](runtime-config-vacuum.md#RUNTIME-CONFIG-AUTOVACUUM)
 
-[19.10.3. Default Behavior](runtime-config-vacuum.md#RUNTIME-CONFIG-VACUUM-DEFAULT)
+[19.10.2. 以成本為基礎的 Vacuum 延遲](runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)
 
-[19.10.4. Freezing](runtime-config-vacuum.md#RUNTIME-CONFIG-VACUUM-FREEZING)
+[19.10.3. 預設行為](runtime-config-vacuum.md#RUNTIME-CONFIG-VACUUM-DEFAULT)
+
+[19.10.4. 凍結](runtime-config-vacuum.md#RUNTIME-CONFIG-VACUUM-FREEZING)
 
 <a id="id-1.6.6.13.2"></a>
 
-These parameters control vacuuming behavior. For more information on the
-purpose and responsibilities of vacuum, see [Section 24.1](../maintenance/routine-vacuuming.md).
+這些參數控制 vacuum 的行為。有關 vacuum 的目的與職責，
+詳情請參閱[24.1 節](../maintenance/routine-vacuuming.md)。
 
 <a id="RUNTIME-CONFIG-AUTOVACUUM"></a>
 
-### 19.10.1. Automatic Vacuuming [#](#RUNTIME-CONFIG-AUTOVACUUM)
+### 19.10.1. 自動 Vacuum [#](#RUNTIME-CONFIG-AUTOVACUUM)
 
-These settings control the behavior of the *autovacuum*
-feature. Refer to [Section 24.1.6](../maintenance/routine-vacuuming.md#AUTOVACUUM) for more information.
-Note that many of these settings can be overridden on a per-table
-basis; see [Storage Parameters](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS).
+這些設定控制 *autovacuum* 功能的行為。
+詳情請參閱[24.1.6 節](../maintenance/routine-vacuuming.md#AUTOVACUUM)。
+請注意，這些設定中有許多可以逐資料表覆寫；
+請參閱[儲存參數](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。
 
 <a id="GUC-AUTOVACUUM"></a>
 
 `autovacuum` (`boolean`) <a id="id-1.6.6.13.4.3.1.1.3"></a> [#](#GUC-AUTOVACUUM)
-:   Controls whether the server should run the
-    autovacuum launcher daemon. This is on by default; however,
-    [track_counts](runtime-config-statistics.md#GUC-TRACK-COUNTS) must also be enabled for
-    autovacuum to work.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line; however, autovacuuming can be
-    disabled for individual tables by changing table storage parameters.
+:   控制伺服器是否應該執行
+    autovacuum launcher 守護程序。此設定預設為開啟；不過
+    [track_counts](runtime-config-statistics.md#GUC-TRACK-COUNTS) 也必須啟用，
+    autovacuum 才能正常運作。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；不過可以透過變更資料表儲存參數，
+    針對個別資料表停用 autovacuum。
 
-    Note that even when this parameter is disabled, the system
-    will launch autovacuum processes if necessary to
-    prevent transaction ID wraparound. See [Section 24.1.5](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND) for more information.
+    請注意，即使此參數已停用，系統在必要時仍會啟動
+    autovacuum 程序，以防止交易 ID 回捲。詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
 <a id="GUC-AUTOVACUUM-WORKER-SLOTS"></a>
 
 `autovacuum_worker_slots` (`integer`) <a id="id-1.6.6.13.4.3.2.1.3"></a> [#](#GUC-AUTOVACUUM-WORKER-SLOTS)
-:   Specifies the number of backend slots to reserve for autovacuum worker
-    processes. The default is typically 16 slots, but might be less if
-    your kernel settings will not support it (as determined during initdb).
-    This parameter can only be set at server start.
+:   指定要保留給 autovacuum 工作程序的 backend 插槽（slot）數量。
+    預設值通常為 16 個插槽，但若你的核心設定無法支援
+    （由 initdb 期間判斷），則可能較少。
+    此參數只能在伺服器啟動時設定。
 
-    When changing this value, consider also adjusting
-    [autovacuum_max_workers](runtime-config-vacuum.md#GUC-AUTOVACUUM-MAX-WORKERS).
+    變更此值時，也請一併考慮調整
+    [autovacuum_max_workers](runtime-config-vacuum.md#GUC-AUTOVACUUM-MAX-WORKERS)。
 <a id="GUC-AUTOVACUUM-MAX-WORKERS"></a>
 
 `autovacuum_max_workers` (`integer`) <a id="id-1.6.6.13.4.3.3.1.3"></a> [#](#GUC-AUTOVACUUM-MAX-WORKERS)
-:   Specifies the maximum number of autovacuum processes (other than the
-    autovacuum launcher) that may be running at any one time. The default
-    is `3`. This parameter can only be set in the
-    `postgresql.conf` file or on the server command line.
+:   指定同一時間可以執行的 autovacuum 程序（不含
+    autovacuum launcher）最大數量。預設值
+    為 `3`。此參數只能在
+    `postgresql.conf` 檔案中或伺服器命令列上設定。
 
-    Note that a setting for this value which is higher than
-    [autovacuum_worker_slots](runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS) will have no effect,
-    since autovacuum workers are taken from the pool of slots established
-    by that setting.
+    請注意，若此值設定得比
+    [autovacuum_worker_slots](runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS) 更高，將不會有任何效果，
+    因為 autovacuum 工作程序是從該設定所建立的插槽集區
+    中取得的。
 <a id="GUC-AUTOVACUUM-NAPTIME"></a>
 
 `autovacuum_naptime` (`integer`) <a id="id-1.6.6.13.4.3.4.1.3"></a> [#](#GUC-AUTOVACUUM-NAPTIME)
-:   Specifies the minimum delay between autovacuum runs on any given
-    database. In each round the daemon examines the
-    database and issues `VACUUM` and `ANALYZE` commands
-    as needed for tables in that database.
-    If this value is specified without units, it is taken as seconds.
-    The default is one minute (`1min`).
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   指定在同一個資料庫上，兩次 autovacuum 執行之間的
+    最小延遲時間。在每一輪中，守護程序會檢查
+    該資料庫，並視需要針對該資料庫中的資料表
+    發出 `VACUUM` 與 `ANALYZE` 命令。
+    若此值指定時未帶單位，則以秒為單位。
+    預設值為一分鐘（`1min`）。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-AUTOVACUUM-VACUUM-THRESHOLD"></a>
 
 `autovacuum_vacuum_threshold` (`integer`) <a id="id-1.6.6.13.4.3.5.1.3"></a> [#](#GUC-AUTOVACUUM-VACUUM-THRESHOLD)
-:   Specifies the minimum number of updated or deleted tuples needed
-    to trigger a `VACUUM` in any one table.
-    The default is 50 tuples.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line;
-    but the setting can be overridden for individual tables by
-    changing table storage parameters.
+:   指定在任一資料表上觸發 `VACUUM`
+    所需的最小已更新或已刪除 tuple 數量。
+    預設值為 50 個 tuple。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；
+    但可以透過變更資料表儲存參數，
+    針對個別資料表覆寫此設定。
 <a id="GUC-AUTOVACUUM-VACUUM-INSERT-THRESHOLD"></a>
 
 `autovacuum_vacuum_insert_threshold` (`integer`) <a id="id-1.6.6.13.4.3.6.1.3"></a> [#](#GUC-AUTOVACUUM-VACUUM-INSERT-THRESHOLD)
-:   Specifies the number of inserted tuples needed to trigger a
-    `VACUUM` in any one table.
-    The default is 1000 tuples. If -1 is specified, autovacuum will not
-    trigger a `VACUUM` operation on any tables based on
-    the number of inserts.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line;
-    but the setting can be overridden for individual tables by
-    changing table storage parameters.
+:   指定在任一資料表上觸發
+    `VACUUM` 所需的已插入 tuple 數量。
+    預設值為 1000 個 tuple。若指定為 -1，autovacuum
+    將不會根據插入次數對任何資料表觸發
+    `VACUUM` 操作。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；
+    但可以透過變更資料表儲存參數，
+    針對個別資料表覆寫此設定。
 <a id="GUC-AUTOVACUUM-ANALYZE-THRESHOLD"></a>
 
 `autovacuum_analyze_threshold` (`integer`) <a id="id-1.6.6.13.4.3.7.1.3"></a> [#](#GUC-AUTOVACUUM-ANALYZE-THRESHOLD)
-:   Specifies the minimum number of inserted, updated or deleted tuples
-    needed to trigger an `ANALYZE` in any one table.
-    The default is 50 tuples.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line;
-    but the setting can be overridden for individual tables by
-    changing table storage parameters.
+:   指定在任一資料表上觸發 `ANALYZE`
+    所需的最小已插入、已更新或已刪除 tuple 數量。
+    預設值為 50 個 tuple。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；
+    但可以透過變更資料表儲存參數，
+    針對個別資料表覆寫此設定。
 <a id="GUC-AUTOVACUUM-VACUUM-SCALE-FACTOR"></a>
 
 `autovacuum_vacuum_scale_factor` (`floating point`) <a id="id-1.6.6.13.4.3.8.1.3"></a> [#](#GUC-AUTOVACUUM-VACUUM-SCALE-FACTOR)
-:   Specifies a fraction of the table size to add to
-    `autovacuum_vacuum_threshold`
-    when deciding whether to trigger a `VACUUM`.
-    The default is `0.2` (20% of table size).
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line;
-    but the setting can be overridden for individual tables by
-    changing table storage parameters.
+:   指定在決定是否要觸發 `VACUUM` 時，
+    要加到 `autovacuum_vacuum_threshold`
+    上的資料表大小比例。
+    預設值為 `0.2`（資料表大小的 20%）。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；
+    但可以透過變更資料表儲存參數，
+    針對個別資料表覆寫此設定。
 <a id="GUC-AUTOVACUUM-VACUUM-INSERT-SCALE-FACTOR"></a>
 
 `autovacuum_vacuum_insert_scale_factor` (`floating point`) <a id="id-1.6.6.13.4.3.9.1.3"></a> [#](#GUC-AUTOVACUUM-VACUUM-INSERT-SCALE-FACTOR)
-:   Specifies a fraction of the unfrozen pages in the table to add to
-    `autovacuum_vacuum_insert_threshold` when deciding
-    whether to trigger a `VACUUM`. The default is
-    `0.2` (20% of unfrozen pages in table). This
-    parameter can only be set in the `postgresql.conf`
-    file or on the server command line; but the setting can be overridden
-    for individual tables by changing table storage parameters.
+:   指定在決定是否要觸發 `VACUUM` 時，
+    要加到 `autovacuum_vacuum_insert_threshold` 上的
+    資料表中未凍結頁面的比例。預設值為
+    `0.2`（資料表中未凍結頁面的 20%）。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；但可以透過變更資料表儲存參數，
+    針對個別資料表覆寫此設定。
 <a id="GUC-AUTOVACUUM-ANALYZE-SCALE-FACTOR"></a>
 
 `autovacuum_analyze_scale_factor` (`floating point`) <a id="id-1.6.6.13.4.3.10.1.3"></a> [#](#GUC-AUTOVACUUM-ANALYZE-SCALE-FACTOR)
-:   Specifies a fraction of the table size to add to
-    `autovacuum_analyze_threshold`
-    when deciding whether to trigger an `ANALYZE`.
-    The default is `0.1` (10% of table size).
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line;
-    but the setting can be overridden for individual tables by
-    changing table storage parameters.
+:   指定在決定是否要觸發 `ANALYZE` 時，
+    要加到 `autovacuum_analyze_threshold`
+    上的資料表大小比例。
+    預設值為 `0.1`（資料表大小的 10%）。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；
+    但可以透過變更資料表儲存參數，
+    針對個別資料表覆寫此設定。
 <a id="GUC-AUTOVACUUM-VACUUM-MAX-THRESHOLD"></a>
 
 `autovacuum_vacuum_max_threshold` (`integer`) <a id="id-1.6.6.13.4.3.11.1.3"></a> [#](#GUC-AUTOVACUUM-VACUUM-MAX-THRESHOLD)
-:   Specifies the maximum number of updated or deleted tuples needed to
-    trigger a `VACUUM` in any one table, i.e., a limit on
-    the value calculated with
-    `autovacuum_vacuum_threshold` and
-    `autovacuum_vacuum_scale_factor`. The default is
-    100,000,000 tuples. If -1 is specified, autovacuum will not enforce a
-    maximum number of updated or deleted tuples that will trigger a
-    `VACUUM` operation. This parameter can only be set
-    in the `postgresql.conf` file or on the server
-    command line; but the setting can be overridden for individual tables
-    by changing storage parameters.
+:   指定在任一資料表上觸發 `VACUUM` 所需的
+    已更新或已刪除 tuple 的最大數量，也就是以
+    `autovacuum_vacuum_threshold` 與
+    `autovacuum_vacuum_scale_factor` 計算所得值的
+    上限。預設值為
+    100,000,000 個 tuple。若指定為 -1，autovacuum 將不會
+    對觸發 `VACUUM` 操作所需的已更新或已刪除 tuple 數量
+    強制設定上限。此參數只能
+    在 `postgresql.conf` 檔案中或伺服器
+    命令列上設定；但可以透過變更儲存參數，
+    針對個別資料表覆寫此設定。
 <a id="GUC-AUTOVACUUM-FREEZE-MAX-AGE"></a>
 
 `autovacuum_freeze_max_age` (`integer`) <a id="id-1.6.6.13.4.3.12.1.3"></a> [#](#GUC-AUTOVACUUM-FREEZE-MAX-AGE)
-:   Specifies the maximum age (in transactions) that a table's
-    `pg_class`.`relfrozenxid` field can
-    attain before a `VACUUM` operation is forced
-    to prevent transaction ID wraparound within the table.
-    Note that the system will launch autovacuum processes to
-    prevent wraparound even when autovacuum is otherwise disabled.
+:   指定資料表的
+    `pg_class`.`relfrozenxid` 欄位在被強制執行
+    `VACUUM` 操作以防止該資料表內交易 ID 回捲之前，
+    所能達到的最大年齡（以交易數計）。
+    請注意，即使 autovacuum 在其他方面已停用，
+    系統仍會啟動 autovacuum 程序以防止回捲。
 
-    Vacuum also allows removal of old files from the
-    `pg_xact` subdirectory, which is why the default
-    is a relatively low 200 million transactions.
-    This parameter can only be set at server start, but the setting
-    can be reduced for individual tables by
-    changing table storage parameters.
-    For more information see [Section 24.1.5](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND).
+    Vacuum 也可以移除
+    `pg_xact` 子目錄中的舊檔案，這也是為何預設值
+    相對較低，為兩億筆交易。
+    此參數只能在伺服器啟動時設定，但可以
+    透過變更資料表儲存參數，針對個別資料表調降此設定。
+    詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
 <a id="GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE"></a>
 
 `autovacuum_multixact_freeze_max_age` (`integer`) <a id="id-1.6.6.13.4.3.13.1.3"></a> [#](#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE)
-:   Specifies the maximum age (in multixacts) that a table's
-    `pg_class`.`relminmxid` field can
-    attain before a `VACUUM` operation is forced to
-    prevent multixact ID wraparound within the table.
-    Note that the system will launch autovacuum processes to
-    prevent wraparound even when autovacuum is otherwise disabled.
+:   指定資料表的
+    `pg_class`.`relminmxid` 欄位在被強制執行
+    `VACUUM` 操作以防止該資料表內 multixact ID 回捲之前，
+    所能達到的最大年齡（以 multixact 數計）。
+    請注意，即使 autovacuum 在其他方面已停用，
+    系統仍會啟動 autovacuum 程序以防止回捲。
 
-    Vacuuming multixacts also allows removal of old files from the
-    `pg_multixact/members` and `pg_multixact/offsets`
-    subdirectories, which is why the default is a relatively low
-    400 million multixacts.
-    This parameter can only be set at server start, but the setting can
-    be reduced for individual tables by changing table storage parameters.
-    For more information see [Section 24.1.5.1](../maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND).
+    對 multixact 執行 vacuum 也可以移除
+    `pg_multixact/members` 與 `pg_multixact/offsets`
+    子目錄中的舊檔案，這也是為何預設值相對較低，
+    為四億筆 multixact。
+    此參數只能在伺服器啟動時設定，但可以
+    透過變更資料表儲存參數，針對個別資料表調降此設定。
+    詳情請參閱[24.1.5.1 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND)。
 <a id="GUC-AUTOVACUUM-VACUUM-COST-DELAY"></a>
 
 `autovacuum_vacuum_cost_delay` (`floating point`) <a id="id-1.6.6.13.4.3.14.1.3"></a> [#](#GUC-AUTOVACUUM-VACUUM-COST-DELAY)
-:   Specifies the cost delay value that will be used in automatic
-    `VACUUM` operations. If -1 is specified, the regular
-    [vacuum_cost_delay](runtime-config-vacuum.md#GUC-VACUUM-COST-DELAY) value will be used.
-    If this value is specified without units, it is taken as milliseconds.
-    The default value is 2 milliseconds.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line;
-    but the setting can be overridden for individual tables by
-    changing table storage parameters.
+:   指定自動 `VACUUM` 操作中所使用的成本延遲值。
+    若指定為 -1，則會改用一般的
+    [vacuum_cost_delay](runtime-config-vacuum.md#GUC-VACUUM-COST-DELAY) 值。
+    若此值指定時未帶單位，則以毫秒為單位。
+    預設值為 2 毫秒。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；
+    但可以透過變更資料表儲存參數，
+    針對個別資料表覆寫此設定。
 <a id="GUC-AUTOVACUUM-VACUUM-COST-LIMIT"></a>
 
 `autovacuum_vacuum_cost_limit` (`integer`) <a id="id-1.6.6.13.4.3.15.1.3"></a> [#](#GUC-AUTOVACUUM-VACUUM-COST-LIMIT)
-:   Specifies the cost limit value that will be used in automatic
-    `VACUUM` operations. If `-1`
-    is specified (which is the default), the regular
-    [vacuum_cost_limit](runtime-config-vacuum.md#GUC-VACUUM-COST-LIMIT) value will be used. Note that
-    the value is distributed proportionally among the running autovacuum
-    workers, if there is more than one, so that the sum of the limits for
-    each worker does not exceed the value of this variable.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line;
-    but the setting can be overridden for individual tables by
-    changing table storage parameters.
+:   指定自動 `VACUUM` 操作中所使用的成本上限值。
+    若指定為 `-1`（此為預設值），
+    則會改用一般的
+    [vacuum_cost_limit](runtime-config-vacuum.md#GUC-VACUUM-COST-LIMIT) 值。請注意，
+    若同時有多個 autovacuum 工作程序在執行，
+    此值會按比例分配給各個工作程序，
+    使各工作程序上限的總和不超過此變數的值。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；
+    但可以透過變更資料表儲存參數，
+    針對個別資料表覆寫此設定。
 
 <a id="RUNTIME-CONFIG-RESOURCE-VACUUM-COST"></a>
 
-### 19.10.2. Cost-based Vacuum Delay [#](#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)
+### 19.10.2. 以成本為基礎的 Vacuum 延遲 [#](#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)
 
-During the execution of [VACUUM](../../reference/sql-commands/sql-vacuum.md)
-and [ANALYZE](../../reference/sql-commands/sql-analyze.md)
-commands, the system maintains an
-internal counter that keeps track of the estimated cost of the
-various I/O operations that are performed. When the accumulated
-cost reaches a limit (specified by
-`vacuum_cost_limit`), the process performing
-the operation will sleep for a short period of time, as specified by
-`vacuum_cost_delay`. Then it will reset the
-counter and continue execution.
+在執行 [VACUUM](../../reference/sql-commands/sql-vacuum.md)
+與 [ANALYZE](../../reference/sql-commands/sql-analyze.md)
+命令期間，系統會維護一個內部計數器，
+用以追蹤所執行的各種 I/O 操作的估計成本。當累計
+成本達到某個上限（由
+`vacuum_cost_limit` 指定）時，執行該操作的程序
+會休眠一段短暫的時間，時間長度由
+`vacuum_cost_delay` 指定。接著，該程序
+會重設計數器並繼續執行。
 
-The intent of this feature is to allow administrators to reduce
-the I/O impact of these commands on concurrent database
-activity. There are many situations where it is not
-important that maintenance commands like
-`VACUUM` and `ANALYZE` finish
-quickly; however, it is usually very important that these
-commands do not significantly interfere with the ability of the
-system to perform other database operations. Cost-based vacuum
-delay provides a way for administrators to achieve this.
+此功能的目的，是讓管理者能夠降低這些命令
+對並行資料庫活動的 I/O 影響。在許多情況下，
+`VACUUM` 與 `ANALYZE` 等維護命令
+是否快速完成，其實並不重要；但通常非常重要的是，
+這些命令不能顯著干擾系統執行其他資料庫操作的
+能力。以成本為基礎的 vacuum 延遲，
+提供了管理者達成此目標的一種方式。
 
-This feature is disabled by default for manually issued
-`VACUUM` commands. To enable it, set the
-`vacuum_cost_delay` variable to a nonzero
-value.
+對於手動下達的
+`VACUUM` 命令，此功能預設為停用。若要啟用，
+請將 `vacuum_cost_delay` 變數設為非零
+的值。
 
 <a id="GUC-VACUUM-COST-DELAY"></a>
 
 `vacuum_cost_delay` (`floating point`) <a id="id-1.6.6.13.5.5.1.1.3"></a> [#](#GUC-VACUUM-COST-DELAY)
-:   The amount of time that the process will sleep when the cost
-    limit has been exceeded. If this value is specified without
-    units, it is taken as milliseconds. The default value is
-    `0`, which disables the cost-based vacuum delay
-    feature. Positive values enable cost-based vacuuming.
+:   當成本上限被超過時，程序將休眠的時間量。若此值
+    指定時未帶單位，則以毫秒為單位。預設值為
+    `0`，這會停用以成本為基礎的 vacuum 延遲
+    功能。正值則會啟用以成本為基礎的 vacuum 功能。
 
-    When using cost-based vacuuming, appropriate values for
-    `vacuum_cost_delay` are usually quite small, perhaps
-    less than 1 millisecond. While `vacuum_cost_delay`
-    can be set to fractional-millisecond values, such delays may not be
-    measured accurately on older platforms. On such platforms,
-    increasing `VACUUM`'s throttled resource consumption
-    above what you get at 1ms will require changing the other vacuum cost
-    parameters. You should, nonetheless,
-    keep `vacuum_cost_delay` as small as your platform
-    will consistently measure; large delays are not helpful.
+    使用以成本為基礎的 vacuum 時，
+    `vacuum_cost_delay` 通常應設定為相當小的值，
+    或許小於 1 毫秒。雖然 `vacuum_cost_delay`
+    可以設為小數毫秒的值，但這類延遲在較舊的平台上
+    可能無法精確測量。在這類平台上，若要在 1 毫秒所能達到的
+    程度之上，進一步提高 `VACUUM` 受節流限制的資源消耗量，
+    就需要變更其他 vacuum 成本參數。無論如何，
+    你都應該將 `vacuum_cost_delay` 設定為
+    你的平台能夠穩定測量的最小值；過大的延遲並沒有幫助。
 <a id="GUC-VACUUM-COST-PAGE-HIT"></a>
 
 `vacuum_cost_page_hit` (`integer`) <a id="id-1.6.6.13.5.5.2.1.3"></a> [#](#GUC-VACUUM-COST-PAGE-HIT)
-:   The estimated cost for vacuuming a buffer found in the shared
-    buffer cache. It represents the cost to lock the buffer pool,
-    lookup the shared hash table and scan the content of the page.
-    The default value is `1`.
+:   對共享緩衝區快取中找到的緩衝區執行 vacuum 的估計成本。
+    這代表鎖定緩衝集區、
+    查詢共享雜湊表，以及掃描頁面內容的成本。
+    預設值為 `1`。
 <a id="GUC-VACUUM-COST-PAGE-MISS"></a>
 
 `vacuum_cost_page_miss` (`integer`) <a id="id-1.6.6.13.5.5.3.1.3"></a> [#](#GUC-VACUUM-COST-PAGE-MISS)
-:   The estimated cost for vacuuming a buffer that has to be read from
-    disk. This represents the effort to lock the buffer pool,
-    lookup the shared hash table, read the desired block in from
-    the disk and scan its content. The default value is
-    `2`.
+:   對必須從磁碟讀取的緩衝區執行 vacuum 的估計成本。
+    這代表鎖定緩衝集區、查詢共享雜湊表、
+    從磁碟讀入所需區塊，以及掃描其內容的成本。預設值
+    為 `2`。
 <a id="GUC-VACUUM-COST-PAGE-DIRTY"></a>
 
 `vacuum_cost_page_dirty` (`integer`) <a id="id-1.6.6.13.5.5.4.1.3"></a> [#](#GUC-VACUUM-COST-PAGE-DIRTY)
-:   The estimated cost charged when vacuum modifies a block that was
-    previously clean. It represents the extra I/O required to
-    flush the dirty block out to disk again. The default value is
-    `20`.
+:   當 vacuum 修改一個先前為乾淨（clean）的區塊時所計入的估計成本。
+    這代表將該髒（dirty）區塊再次排清（flush）回磁碟
+    所需的額外 I/O。預設值為
+    `20`。
 <a id="GUC-VACUUM-COST-LIMIT"></a>
 
 `vacuum_cost_limit` (`integer`) <a id="id-1.6.6.13.5.5.5.1.3"></a> [#](#GUC-VACUUM-COST-LIMIT)
-:   This is the accumulated cost that will cause the vacuuming
-    process to sleep for `vacuum_cost_delay`. The
-    default is `200`.
+:   這是會導致 vacuum 程序休眠
+    `vacuum_cost_delay` 時間的累計成本上限。
+    預設值為 `200`。
 
-### Note
+### 注意
 
-There are certain operations that hold critical locks and should
-therefore complete as quickly as possible. Cost-based vacuum
-delays do not occur during such operations. Therefore it is
-possible that the cost accumulates far higher than the specified
-limit. To avoid uselessly long delays in such cases, the actual
-delay is calculated as `vacuum_cost_delay` \*
+有些操作會持有關鍵鎖定，因此應該盡快完成。
+以成本為基礎的 vacuum 延遲不會在這類操作期間發生。
+因此，累計成本有可能遠高於指定的上限。
+為避免在這類情況下產生無謂的長延遲，實際的
+延遲時間計算方式為 `vacuum_cost_delay` \*
 `accumulated_balance` /
-`vacuum_cost_limit` with a maximum of
-`vacuum_cost_delay` \* 4.
+`vacuum_cost_limit`，最大值為
+`vacuum_cost_delay` \* 4。
 
 <a id="RUNTIME-CONFIG-VACUUM-DEFAULT"></a>
 
-### 19.10.3. Default Behavior [#](#RUNTIME-CONFIG-VACUUM-DEFAULT)
+### 19.10.3. 預設行為 [#](#RUNTIME-CONFIG-VACUUM-DEFAULT)
 
 <a id="GUC-VACUUM-TRUNCATE"></a>
 
 `vacuum_truncate` (`boolean`) <a id="id-1.6.6.13.6.2.1.1.3"></a> [#](#GUC-VACUUM-TRUNCATE)
-:   Enables or disables vacuum to try to truncate off any empty pages at
-    the end of the table. The default value is `true`.
-    If `true`, `VACUUM` and autovacuum
-    do the truncation and the disk space for the truncated pages is
-    returned to the operating system. Note that the truncation requires
-    an `ACCESS EXCLUSIVE` lock on the table. The
-    `TRUNCATE` parameter of
-    [`VACUUM`](../../reference/sql-commands/sql-vacuum.md), if
-    specified, overrides the value of this parameter. The setting can
-    also be overridden for individual tables by changing table storage
-    parameters.
+:   啟用或停用 vacuum 嘗試截斷資料表結尾任何空頁面的行為。
+    預設值為 `true`。
+    若為 `true`，`VACUUM` 與 autovacuum
+    會執行截斷操作，且被截斷頁面所佔用的磁碟空間
+    會歸還給作業系統。請注意，截斷操作需要對該資料表
+    持有 `ACCESS EXCLUSIVE` 鎖。
+    [`VACUUM`](../../reference/sql-commands/sql-vacuum.md) 的
+    `TRUNCATE` 參數，若有指定，
+    會覆寫此參數的值。此設定
+    也可以透過變更資料表儲存參數，針對個別資料表覆寫。
 
 <a id="RUNTIME-CONFIG-VACUUM-FREEZING"></a>
 
-### 19.10.4. Freezing [#](#RUNTIME-CONFIG-VACUUM-FREEZING)
+### 19.10.4. 凍結 [#](#RUNTIME-CONFIG-VACUUM-FREEZING)
 
-To maintain correctness even after transaction IDs wrap around,
-PostgreSQL marks rows that are sufficiently
-old as *frozen*. These rows are visible to everyone;
-other transactions do not need to examine their inserting XID to
-determine visibility. `VACUUM` is responsible for
-marking rows as frozen. The following settings control
-`VACUUM`'s freezing behavior and should be tuned based
-on the XID consumption rate of the system and data access patterns of the
-dominant workloads. See [Section 24.1.5](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND) for more
-information on transaction ID wraparound and tuning these parameters.
+為了在交易 ID 回捲後仍維持正確性，
+PostgreSQL 會將足夠舊的資料列標記為
+*已凍結（frozen）*。這些資料列對所有人皆可見；
+其他交易不需要檢查其插入 XID 即可判斷可見性。
+`VACUUM` 負責將資料列標記為已凍結。以下設定
+控制 `VACUUM` 的凍結行為，應根據
+系統的 XID 消耗速率，以及主要工作負載的資料存取模式進行調校。
+有關交易 ID 回捲以及調校這些參數的詳情，
+請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
 
 <a id="GUC-VACUUM-FREEZE-TABLE-AGE"></a>
 
 `vacuum_freeze_table_age` (`integer`) <a id="id-1.6.6.13.7.3.1.1.3"></a> [#](#GUC-VACUUM-FREEZE-TABLE-AGE)
-:   `VACUUM` performs an aggressive scan if the table's
-    `pg_class`.`relfrozenxid` field has reached
-    the age specified by this setting. An aggressive scan differs from
-    a regular `VACUUM` in that it visits every page that might
-    contain unfrozen XIDs or MXIDs, not just those that might contain dead
-    tuples. The default is 150 million transactions. Although users can
-    set this value anywhere from zero to two billion, `VACUUM`
-    will silently limit the effective value to 95% of
-    [autovacuum_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-FREEZE-MAX-AGE), so that a
-    periodic manual `VACUUM` has a chance to run before an
-    anti-wraparound autovacuum is launched for the table. For more
-    information see
-    [Section 24.1.5](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND).
+:   如果資料表的
+    `pg_class`.`relfrozenxid` 欄位已達到
+    此設定所指定的年齡，`VACUUM` 會執行強制掃描
+    （aggressive scan）。強制掃描與一般
+    `VACUUM` 的差異在於，它會造訪每個可能包含未凍結
+    XID 或 MXID 的頁面，而不僅是可能包含死亡 tuple 的頁面。
+    預設值為一億五千萬筆交易。雖然使用者可以將此值
+    設為零到二十億之間的任何值，但 `VACUUM`
+    會默默地將有效值限制為
+    [autovacuum_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-FREEZE-MAX-AGE) 的 95%，
+    以便在為該資料表啟動防回捲 autovacuum 之前，
+    定期的手動 `VACUUM` 仍有機會執行。詳情
+    請參閱
+    [24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
 <a id="GUC-VACUUM-FREEZE-MIN-AGE"></a>
 
 `vacuum_freeze_min_age` (`integer`) <a id="id-1.6.6.13.7.3.2.1.3"></a> [#](#GUC-VACUUM-FREEZE-MIN-AGE)
-:   Specifies the cutoff age (in transactions) that
-    `VACUUM` should use to decide whether to
-    trigger freezing of pages that have an older XID.
-    The default is 50 million transactions. Although
-    users can set this value anywhere from zero to one billion,
-    `VACUUM` will silently limit the effective value to half
-    the value of [autovacuum_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-FREEZE-MAX-AGE), so
-    that there is not an unreasonably short time between forced
-    autovacuums. For more information see [Section 24.1.5](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND).
+:   指定 `VACUUM` 用來決定是否要
+    對 XID 較舊的頁面觸發凍結所使用的
+    臨界年齡（以交易數計）。
+    預設值為五千萬筆交易。雖然
+    使用者可以將此值設為零到十億之間的任何值，
+    `VACUUM` 會默默地將有效值限制為
+    [autovacuum_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-FREEZE-MAX-AGE) 值的一半，
+    以避免強制 autovacuum 之間的間隔過短。
+    詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
 <a id="GUC-VACUUM-FAILSAFE-AGE"></a>
 
 `vacuum_failsafe_age` (`integer`) <a id="id-1.6.6.13.7.3.3.1.3"></a> [#](#GUC-VACUUM-FAILSAFE-AGE)
-:   Specifies the maximum age (in transactions) that a table's
+:   指定資料表的
     `pg_class`.`relfrozenxid`
-    field can attain before `VACUUM` takes
-    extraordinary measures to avoid system-wide transaction ID
-    wraparound failure. This is `VACUUM`'s
-    strategy of last resort. The failsafe typically triggers
-    when an autovacuum to prevent transaction ID wraparound has
-    already been running for some time, though it's possible for
-    the failsafe to trigger during any `VACUUM`.
+    欄位在 `VACUUM` 採取非常手段
+    以避免系統全域交易 ID 回捲失敗之前，
+    所能達到的最大年齡（以交易數計）。這是
+    `VACUUM` 的最後手段策略。當防止交易 ID 回捲的
+    autovacuum 已經執行了一段時間時，通常就會觸發
+    此故障保護機制，不過任何 `VACUUM` 期間
+    都有可能觸發此機制。
 
-    When the failsafe is triggered, any cost-based delay that is
-    in effect will no longer be applied, further non-essential
-    maintenance tasks (such as index vacuuming) are bypassed, and any
-    [*[Buffer Access Strategy](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
-    in use will be disabled resulting in `VACUUM` being
-    free to make use of all of
-    [*[shared buffers](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)*](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY).
+    觸發故障保護機制時，任何原本生效中的
+    以成本為基礎的延遲都將不再套用，其他非必要的
+    維護作業（例如索引 vacuum）會被略過，任何正在使用的
+    [*[緩衝區存取策略](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
+    都會被停用，使 `VACUUM` 可以
+    自由使用所有的
+    [*[共享緩衝區](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)*](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)。
 
-    The default is 1.6 billion transactions. Although users can
-    set this value anywhere from zero to 2.1 billion,
-    `VACUUM` will silently adjust the effective
-    value to no less than 105% of [autovacuum_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-FREEZE-MAX-AGE).
+    預設值為十六億筆交易。雖然使用者可以
+    將此值設為零到二十一億之間的任何值，
+    `VACUUM` 會默默地將有效值調整為不低於
+    [autovacuum_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-FREEZE-MAX-AGE) 的 105%。
 <a id="GUC-VACUUM-MULTIXACT-FREEZE-TABLE-AGE"></a>
 
 `vacuum_multixact_freeze_table_age` (`integer`) <a id="id-1.6.6.13.7.3.4.1.3"></a> [#](#GUC-VACUUM-MULTIXACT-FREEZE-TABLE-AGE)
-:   `VACUUM` performs an aggressive scan if the table's
-    `pg_class`.`relminmxid` field has reached
-    the age specified by this setting. An aggressive scan differs from
-    a regular `VACUUM` in that it visits every page that might
-    contain unfrozen XIDs or MXIDs, not just those that might contain dead
-    tuples. The default is 150 million multixacts.
-    Although users can set this value anywhere from zero to two billion,
-    `VACUUM` will silently limit the effective value to 95% of
-    [autovacuum_multixact_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE), so that a
-    periodic manual `VACUUM` has a chance to run before an
-    anti-wraparound is launched for the table.
-    For more information see [Section 24.1.5.1](../maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND).
+:   如果資料表的
+    `pg_class`.`relminmxid` 欄位已達到
+    此設定所指定的年齡，`VACUUM` 會執行強制掃描。
+    強制掃描與一般
+    `VACUUM` 的差異在於，它會造訪每個可能包含未凍結
+    XID 或 MXID 的頁面，而不僅是可能包含死亡 tuple 的頁面。
+    預設值為一億五千萬個 multixact。
+    雖然使用者可以將此值設為零到二十億之間的任何值，
+    `VACUUM` 會默默地將有效值限制為
+    [autovacuum_multixact_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE) 的 95%，
+    以便在為該資料表啟動防回捲機制之前，
+    定期的手動 `VACUUM` 仍有機會執行。
+    詳情請參閱[24.1.5.1 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND)。
 <a id="GUC-VACUUM-MULTIXACT-FREEZE-MIN-AGE"></a>
 
 `vacuum_multixact_freeze_min_age` (`integer`) <a id="id-1.6.6.13.7.3.5.1.3"></a> [#](#GUC-VACUUM-MULTIXACT-FREEZE-MIN-AGE)
-:   Specifies the cutoff age (in multixacts) that `VACUUM`
-    should use to decide whether to trigger freezing of pages with
-    an older multixact ID. The default is 5 million multixacts.
-    Although users can set this value anywhere from zero to one billion,
-    `VACUUM` will silently limit the effective value to half
-    the value of [autovacuum_multixact_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE),
-    so that there is not an unreasonably short time between forced
-    autovacuums.
-    For more information see [Section 24.1.5.1](../maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND).
+:   指定 `VACUUM` 用來決定是否要對
+    multixact ID 較舊的頁面觸發凍結所使用的
+    臨界年齡（以 multixact 數計）。預設值為五百萬個 multixact。
+    雖然使用者可以將此值設為零到十億之間的任何值，
+    `VACUUM` 會默默地將有效值限制為
+    [autovacuum_multixact_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE)
+    值的一半，以避免強制 autovacuum 之間的間隔過短。
+    詳情請參閱[24.1.5.1 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND)。
 <a id="GUC-VACUUM-MULTIXACT-FAILSAFE-AGE"></a>
 
 `vacuum_multixact_failsafe_age` (`integer`) <a id="id-1.6.6.13.7.3.6.1.3"></a> [#](#GUC-VACUUM-MULTIXACT-FAILSAFE-AGE)
-:   Specifies the maximum age (in multixacts) that a table's
+:   指定資料表的
     `pg_class`.`relminmxid`
-    field can attain before `VACUUM` takes
-    extraordinary measures to avoid system-wide multixact ID
-    wraparound failure. This is `VACUUM`'s
-    strategy of last resort. The failsafe typically triggers when
-    an autovacuum to prevent transaction ID wraparound has already
-    been running for some time, though it's possible for the
-    failsafe to trigger during any `VACUUM`.
+    欄位在 `VACUUM` 採取非常手段
+    以避免系統全域 multixact ID 回捲失敗之前，
+    所能達到的最大年齡（以 multixact 數計）。這是
+    `VACUUM` 的最後手段策略。當防止交易 ID 回捲的
+    autovacuum 已經執行了一段時間時，通常就會觸發
+    此故障保護機制，不過任何 `VACUUM` 期間
+    都有可能觸發此機制。
 
-    When the failsafe is triggered, any cost-based delay that is
-    in effect will no longer be applied, and further non-essential
-    maintenance tasks (such as index vacuuming) are bypassed.
+    觸發故障保護機制時，任何原本生效中的
+    以成本為基礎的延遲都將不再套用，其他非必要的
+    維護作業（例如索引 vacuum）會被略過。
 
-    The default is 1.6 billion multixacts. Although users can set
-    this value anywhere from zero to 2.1 billion,
-    `VACUUM` will silently adjust the effective
-    value to no less than 105% of [autovacuum_multixact_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE).
+    預設值為十六億個 multixact。雖然使用者可以
+    將此值設為零到二十一億之間的任何值，
+    `VACUUM` 會默默地將有效值調整為不低於
+    [autovacuum_multixact_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE) 的 105%。
 <a id="GUC-VACUUM-MAX-EAGER-FREEZE-FAILURE-RATE"></a>
 
 `vacuum_max_eager_freeze_failure_rate` (`floating point`) <a id="id-1.6.6.13.7.3.7.1.3"></a> [#](#GUC-VACUUM-MAX-EAGER-FREEZE-FAILURE-RATE)
-:   Specifies the maximum number of pages (as a fraction of total pages in
-    the relation) that `VACUUM` may scan and
-    *fail* to set all-frozen in the visibility map
-    before disabling eager scanning. A value of `0`
-    disables eager scanning altogether. The default is
-    `0.03` (3%).
+:   指定在停用主動掃描（eager scanning）之前，
+    `VACUUM` 可以掃描並*未能*在可見度映射（visibility map）
+    中將頁面標記為全部凍結（all-frozen）的頁面數量上限
+    （以該關聯總頁面數的比例表示）。值為
+    `0` 會完全停用主動掃描。預設值為
+    `0.03`（3%）。
 
-    Note that when eager scanning is enabled, only freeze failures
-    count against the cap, not successful freezing. Successful page
-    freezes are capped internally at 20% of the all-visible but not
-    all-frozen pages in the relation. Capping successful page freezes helps
-    amortize the overhead across multiple normal vacuums and limits the
-    potential downside of wasted eager freezes of pages that are modified
-    again before the next aggressive vacuum.
+    請注意，啟用主動掃描時，只有凍結失敗的次數
+    會計入此上限，成功凍結的次數則不計入。成功的頁面
+    凍結內部上限為該關聯中全部可見但尚未
+    全部凍結頁面的 20%。為成功的頁面凍結設定上限，
+    有助於將額外負擔分攤到多次一般 vacuum 上，
+    並限制對已在下次積極 vacuum 之前又再次被修改的頁面
+    進行無謂積極凍結所可能帶來的潛在缺點。
 
-    This parameter can only be set in the
-    `postgresql.conf` file or on the server command
-    line; but the setting can be overridden for individual tables by
-    changing the
-    [corresponding table storage parameter](../../reference/sql-commands/sql-createtable.md#RELOPTION-VACUUM-MAX-EAGER-FREEZE-FAILURE-RATE).
-    For more information on tuning vacuum's freezing behavior,
-    see [Section 24.1.5](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND).
+    此參數只能在
+    `postgresql.conf` 檔案中或伺服器命令
+    列上設定；但可以透過變更
+    [對應的資料表儲存參數](../../reference/sql-commands/sql-createtable.md#RELOPTION-VACUUM-MAX-EAGER-FREEZE-FAILURE-RATE)，
+    針對個別資料表覆寫此設定。
+    有關調校 vacuum 凍結行為的更多資訊，
+    請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-vacuum.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-vacuum.html)（原文版本：18.6；核對日期：2026-09-24）
