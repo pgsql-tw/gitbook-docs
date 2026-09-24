@@ -197,7 +197,7 @@
   * [Chapter 19. Server Configuration](server-administration/runtime-config/README.md)
     * [19.1. Setting Parameters #](server-administration/runtime-config/config-setting.md)
     * [19.2. 檔案位置 #](server-administration/runtime-config/runtime-config-file-locations.md)
-    * [19.3. Connections and Authentication #](server-administration/runtime-config/runtime-config-connection.md)
+    * [19.3. 連線與驗證 #](server-administration/runtime-config/runtime-config-connection.md)
     * [19.4. Resource Consumption #](server-administration/runtime-config/runtime-config-resource.md)
     * [19.5. Write Ahead Log #](server-administration/runtime-config/runtime-config-wal.md)
     * [19.6. Replication #](server-administration/runtime-config/runtime-config-replication.md)
