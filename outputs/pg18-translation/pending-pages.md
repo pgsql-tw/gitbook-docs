@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：631 頁。
+待譯頁面：630 頁。
 
 ## 根目錄
 
@@ -818,7 +818,7 @@
 - [ ] `server-administration/runtime/kernel-resources.md` — 18.4. Managing Kernel Resources #
 - [x] `server-administration/runtime/postgres-user.md` — 18.1. PostgreSQL 使用者帳號
 - [ ] `server-administration/runtime/preventing-server-spoofing.md` — 18.7. Preventing Server Spoofing #
-- [ ] `server-administration/runtime/server-shutdown.md` — 18.5. Shutting Down the Server #
+- [x] `server-administration/runtime/server-shutdown.md` — 18.5. 關閉伺服器 #
 - [x] `server-administration/runtime/server-start.md` — 18.3. 啟動資料庫伺服器 #
 - [x] `server-administration/runtime/ssh-tunnels.md` — 18.11. 使用 SSH 通道的安全 TCP/IP 連線 #
 - [ ] `server-administration/runtime/ssl-tcp.md` — 18.9. Secure TCP/IP Connections with SSL #

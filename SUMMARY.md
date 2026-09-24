@@ -186,7 +186,7 @@
     * [18.2. 建立資料庫叢集 #](server-administration/runtime/creating-cluster.md)
     * [18.3. 啟動資料庫伺服器 #](server-administration/runtime/server-start.md)
     * [18.4. Managing Kernel Resources #](server-administration/runtime/kernel-resources.md)
-    * [18.5. Shutting Down the Server #](server-administration/runtime/server-shutdown.md)
+    * [18.5. 關閉伺服器 #](server-administration/runtime/server-shutdown.md)
     * [18.6. 升級 PostgreSQL 叢集 #](server-administration/runtime/upgrading.md)
     * [18.7. Preventing Server Spoofing #](server-administration/runtime/preventing-server-spoofing.md)
     * [18.8. 加密選項 #](server-administration/runtime/encryption-options.md)
