@@ -235,7 +235,7 @@
     * [21.2. 角色屬性 #](server-administration/user-manag/role-attributes.md)
     * [21.3. 角色成員資格 #](server-administration/user-manag/role-membership.md)
     * [21.4. 移除角色 #](server-administration/user-manag/role-removal.md)
-    * [21.5. Predefined Roles #](server-administration/user-manag/predefined-roles.md)
+    * [21.5. 預先定義的角色 #](server-administration/user-manag/predefined-roles.md)
     * [21.6. 函式安全性](server-administration/user-manag/perm-functions.md)
   * [第 22 章 管理資料庫](server-administration/managing-databases/README.md)
     * [22.1. Overview #](server-administration/managing-databases/manage-ag-overview.md)
