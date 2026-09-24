@@ -190,7 +190,7 @@
     * [18.6. 升級 PostgreSQL 叢集 #](server-administration/runtime/upgrading.md)
     * [18.7. 防止伺服器被偽造（Spoofing） #](server-administration/runtime/preventing-server-spoofing.md)
     * [18.8. 加密選項 #](server-administration/runtime/encryption-options.md)
-    * [18.9. Secure TCP/IP Connections with SSL #](server-administration/runtime/ssl-tcp.md)
+    * [18.9. 使用 SSL 的安全 TCP/IP 連線 #](server-administration/runtime/ssl-tcp.md)
     * [18.10. 使用 GSSAPI 加密的安全 TCP/IP 連線 #](server-administration/runtime/gssapi-enc.md)
     * [18.11. 使用 SSH 通道的安全 TCP/IP 連線 #](server-administration/runtime/ssh-tunnels.md)
     * [18.12. 在 Windows 註冊事件日誌](server-administration/runtime/event-log-registration.md)

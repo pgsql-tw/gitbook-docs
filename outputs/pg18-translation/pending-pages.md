@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：629 頁。
+待譯頁面：628 頁。
 
 ## 根目錄
 
@@ -821,7 +821,7 @@
 - [x] `server-administration/runtime/server-shutdown.md` — 18.5. 關閉伺服器 #
 - [x] `server-administration/runtime/server-start.md` — 18.3. 啟動資料庫伺服器 #
 - [x] `server-administration/runtime/ssh-tunnels.md` — 18.11. 使用 SSH 通道的安全 TCP/IP 連線 #
-- [ ] `server-administration/runtime/ssl-tcp.md` — 18.9. Secure TCP/IP Connections with SSL #
+- [x] `server-administration/runtime/ssl-tcp.md` — 18.9. 使用 SSL 的安全 TCP/IP 連線 #
 - [x] `server-administration/runtime/upgrading.md` — 18.6. 升級 PostgreSQL 叢集 #
 - [x] `server-administration/user-manag/README.md` — 第 21 章 資料庫角色
 - [x] `server-administration/user-manag/database-roles.md` — 21.1. 資料庫角色 #
