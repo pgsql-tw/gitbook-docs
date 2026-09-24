@@ -1,91 +1,76 @@
-## 18.2. Creating a Database Cluster [#](#CREATING-CLUSTER)
+<a id="CREATING-CLUSTER"></a>
 
-[18.2.1. Use of Secondary File Systems](creating-cluster.md#CREATING-CLUSTER-MOUNT-POINTS)
+## 18.2. 建立資料庫叢集 [#](#CREATING-CLUSTER)
 
-[18.2.2. File Systems](creating-cluster.md#CREATING-CLUSTER-FILESYSTEM)
+[18.2.1. 次要檔案系統的使用](creating-cluster.md#CREATING-CLUSTER-MOUNT-POINTS)
+
+[18.2.2. 檔案系統](creating-cluster.md#CREATING-CLUSTER-FILESYSTEM)
 
 <a id="id-1.6.5.5.2"></a><a id="id-1.6.5.5.3"></a>
 
-Before you can do anything, you must initialize a database storage
-area on disk. We call this a *database cluster*.
-(The SQL standard uses the term catalog cluster.) A
-database cluster is a collection of databases that is managed by a
-single instance of a running database server. After initialization, a
-database cluster will contain a database named `postgres`,
-which is meant as a default database for use by utilities, users and third
-party applications. The database server itself does not require the
-`postgres` database to exist, but many external utility
-programs assume it exists. There are two more databases created within
-each cluster during initialization, named `template1`
-and `template0`. As the names suggest, these will be
-used as templates for subsequently-created databases; they should not be
-used for actual work. (See [Chapter 22](../managing-databases/README.md) for
-information about creating new databases within a cluster.)
+在能夠進行任何操作之前，你必須先在磁碟上初始化一個資料庫儲存區域。我們稱之為*資料庫叢集*（database cluster）。
+（SQL 標準則使用 catalog cluster 這個術語。）
+資料庫叢集是由單一執行中資料庫伺服器實體所管理的一組資料庫集合。初始化完成後，資料庫叢集會包含一個
+名為 `postgres` 的資料庫，其用途是作為工具程式、使用者與第三方應用程式所使用的預設資料庫。
+資料庫伺服器本身並不要求 `postgres`
+資料庫必須存在，但許多外部工具程式都會假設它存在。在初始化期間，每個叢集內還會另外建立兩個資料庫，分別命名為 `template1`
+與 `template0`。如同其名稱所示，
+這兩者將用作後續建立資料庫時的範本；
+它們不應該用於實際的工作。（關於在叢集內建立新資料庫的資訊，
+請參閱[第 22 章](../managing-databases/README.md)。）
 
-In file system terms, a database cluster is a single directory
-under which all data will be stored. We call this the *data
-directory* or *data area*. It is
-completely up to you where you choose to store your data. There is no
-default, although locations such as
-`/usr/local/pgsql/data` or
-`/var/lib/pgsql/data` are popular.
-The data directory must be initialized before being used, using the program
-[initdb](../../reference/reference-server/app-initdb.md)<a id="id-1.6.5.5.5.6"></a>
-which is installed with PostgreSQL.
+就檔案系統而言，資料庫叢集就是單一一個目錄，所有資料都會儲存在其中。我們稱之為*資料目錄*（data directory）
+或*資料區域*（data area）。你要將資料儲存在何處，
+完全由你自行決定。並沒有預設位置，
+不過像是 `/usr/local/pgsql/data` 或
+`/var/lib/pgsql/data` 這類位置相當常見。
+資料目錄在使用前，必須先透過 PostgreSQL
+所附帶安裝的 [initdb](../../reference/reference-server/app-initdb.md)<a id="id-1.6.5.5.5.6"></a>
+程式進行初始化。
 
-If you are using a pre-packaged version
-of PostgreSQL, it may well have a specific
-convention for where to place the data directory, and it may also
-provide a script for creating the data directory. In that case you
-should use that script in preference to
-running `initdb` directly.
-Consult the package-level documentation for details.
+若你使用的是預先封裝的 PostgreSQL 版本，它很可能對資料目錄的存放位置有特定的慣例，也可能會提供一支用來建立資料目錄的指令碼。
+在這種情況下，你應該優先使用該指令碼，
+而不是直接執行 `initdb`。
+詳情請參閱套件層級的相關文件。
 
-To initialize a database cluster manually,
-run `initdb` and specify the desired
-file system location of the database cluster with the
-`-D` option, for example:
+若要手動初始化資料庫叢集，請執行 `initdb`，
+並使用 `-D` 選項指定資料庫叢集所需的檔案系統位置，例如：
 
 ```
 
 $ initdb -D /usr/local/pgsql/data
 ```
 
-Note that you must execute this command while logged into the
-PostgreSQL user account, which is
-described in the previous section.
+請注意，你必須以登入 PostgreSQL 使用者帳號的身分執行此指令，此帳號已於前一節說明過。
 
-### Tip
+### 提示
 
-As an alternative to the `-D` option, you can set
-the environment variable `PGDATA`.
+除了使用 `-D` 選項之外，你也可以改為設定
+環境變數 `PGDATA`。
 <a id="id-1.6.5.5.8.1.3"></a>
 
-Alternatively, you can run `initdb` via
-the [pg_ctl](../../reference/reference-server/app-pg-ctl.md)
-program<a id="id-1.6.5.5.9.3"></a> like so:
+此外，你也可以透過
+[pg_ctl](../../reference/reference-server/app-pg-ctl.md)
+程式<a id="id-1.6.5.5.9.3"></a>來執行 `initdb`，如下所示：
 
 ```
 
 $ pg_ctl -D /usr/local/pgsql/data initdb
 ```
 
-This may be more intuitive if you are
-using `pg_ctl` for starting and stopping the
-server (see [Section 18.3](server-start.md)), so
-that `pg_ctl` would be the sole command you use
-for managing the database server instance.
+若你使用 `pg_ctl` 來啟動與停止伺服器
+（請參閱[18.3 節](server-start.md)），這種做法可能會更直覺，
+如此一來，`pg_ctl` 就會成為你用於
+管理資料庫伺服器實體的唯一指令。
 
-`initdb` will attempt to create the directory you
-specify if it does not already exist. Of course, this will fail if
-`initdb` does not have permissions to write in the
-parent directory. It's generally recommendable that the
-PostgreSQL user own not just the data
-directory but its parent directory as well, so that this should not
-be a problem. If the desired parent directory doesn't exist either,
-you will need to create it first, using root privileges if the
-grandparent directory isn't writable. So the process might look
-like this:
+若你指定的目錄尚不存在，`initdb`
+會嘗試建立該目錄。當然，若 `initdb`
+沒有在其父目錄中寫入的權限，此操作就會失敗。一般建議，
+PostgreSQL 使用者不只應擁有資料目錄本身，
+也應該擁有其父目錄，如此一來，這通常就不會構成問題。
+若所需的父目錄本身也不存在，你就必須先建立它，
+若祖父目錄不可寫入，則需要以 root 權限建立。
+因此，整個流程可能如下所示：
 
 ```
 
@@ -95,144 +80,117 @@ root# su postgres
 postgres$ initdb -D /usr/local/pgsql/data
 ```
 
-`initdb` will refuse to run if the data directory
-exists and already contains files; this is to prevent accidentally
-overwriting an existing installation.
+若資料目錄已存在且其中已包含檔案，`initdb`
+會拒絕執行；這是為了避免意外覆寫既有的安裝。
 
-Because the data directory contains all the data stored in the
-database, it is essential that it be secured from unauthorized
-access. `initdb` therefore revokes access
-permissions from everyone but the
-PostgreSQL user, and optionally, group.
-Group access, when enabled, is read-only. This allows an unprivileged
-user in the same group as the cluster owner to take a backup of the
-cluster data or perform other operations that only require read access.
+由於資料目錄中儲存了資料庫中的所有資料，因此確保它不受未經授權的存取是相當重要的。
+因此，`initdb` 會撤銷除了 PostgreSQL
+使用者（以及可選的群組）以外所有人的存取權限。
+啟用群組存取時，該存取權限為唯讀。這讓與叢集擁有者
+屬於同一群組的非特殊權限使用者能夠備份叢集資料，或執行其他僅需要讀取權限的操作。
 
-Note that enabling or disabling group access on an existing cluster requires
-the cluster to be shut down and the appropriate mode to be set on all
-directories and files before restarting
-PostgreSQL. Otherwise, a mix of modes might
-exist in the data directory. For clusters that allow access only by the
-owner, the appropriate modes are `0700` for directories
-and `0600` for files. For clusters that also allow
-reads by the group, the appropriate modes are `0750`
-for directories and `0640` for files.
+請注意，在既有叢集上啟用或停用群組存取需要先關閉該叢集，並在重新啟動 PostgreSQL 之前對所有目錄與檔案設定適當的模式。否則，
+資料目錄中可能會出現模式混雜的情況。對於僅允許擁有者
+存取的叢集，目錄的適當模式為 `0700`，
+檔案的適當模式為 `0600`。對於也允許群組讀取
+的叢集，目錄的適當模式為 `0750`，
+檔案的適當模式為 `0640`。
 
-However, while the directory contents are secure, the default
-client authentication setup allows any local user to connect to the
-database and even become the database superuser. If you do not
-trust other local users, we recommend you use one of
-`initdb`'s `-W`, `--pwprompt`
-or `--pwfile` options to assign a password to the
-database superuser.<a id="id-1.6.5.5.14.5"></a>
-Also, specify `-A scram-sha-256`
-so that the default `trust` authentication
-mode is not used; or modify the generated `pg_hba.conf`
-file after running `initdb`, but
-*before* you start the server for the first time. (Other
-reasonable approaches include using `peer` authentication
-or file system permissions to restrict connections. See [Chapter 20](../client-authentication/README.md) for more information.)
+不過，雖然目錄內容本身是安全的，但預設的用戶端驗證設定仍允許任何本機使用者連線至資料庫，甚至成為資料庫超級使用者。
+若你不信任其他本機使用者，我們建議你使用
+`initdb` 的 `-W`、`--pwprompt`
+或 `--pwfile` 選項之一，為資料庫超級使用者
+指定密碼。<a id="id-1.6.5.5.14.5"></a>
+此外，請指定 `-A scram-sha-256`，
+避免使用預設的 `trust` 驗證模式；
+或者在執行 `initdb` 之後、
+第一次啟動伺服器*之前*，修改所產生的
+`pg_hba.conf` 檔案。（其他合理的做法還包括使用 `peer` 驗證方式，
+或利用檔案系統權限來限制連線。詳情請參閱
+[第 20 章](../client-authentication/README.md)。）
 
-`initdb` also initializes the default
-locale<a id="id-1.6.5.5.15.2"></a> for the database cluster.
-Normally, it will just take the locale settings in the environment
-and apply them to the initialized database. It is possible to
-specify a different locale for the database; more information about
-that can be found in [Section 23.1](../charset/locale.md). The default sort order used
-within the particular database cluster is set by
-`initdb`, and while you can create new databases using
-different sort order, the order used in the template databases that initdb
-creates cannot be changed without dropping and recreating them.
-There is also a performance impact for using locales
-other than `C` or `POSIX`. Therefore, it is
-important to make this choice correctly the first time.
+`initdb` 也會為資料庫叢集
+初始化預設的地區設定<a id="id-1.6.5.5.15.2"></a>（locale）。
+一般情況下，它只會採用環境中的地區設定，
+並套用到已初始化的資料庫上。你也可以為資料庫指定不同的地區設定；更多相關資訊，
+請參閱[23.1 節](../charset/locale.md)。特定資料庫叢集內所使用的
+預設排序順序由 `initdb` 設定；雖然你可以使用不同的排序順序建立新的資料庫，
+但 initdb 所建立之範本資料庫中所使用的排序順序若不先刪除並重新建立，就無法變更。此外，
+使用 `C` 或 `POSIX` 以外的地區設定，
+也會對效能造成影響。因此，第一次就做出正確的選擇相當重要。
 
-`initdb` also sets the default character set encoding
-for the database cluster. Normally this should be chosen to match the
-locale setting. For details see [Section 23.3](../charset/multibyte.md).
+`initdb` 也會為資料庫叢集
+設定預設的字元集編碼。一般而言，
+應該選擇與地區設定相符的編碼。詳情請參閱
+[23.3 節](../charset/multibyte.md)。
 
-Non-`C` and non-`POSIX` locales rely on the
-operating system's collation library for character set ordering.
-This controls the ordering of keys stored in indexes. For this reason,
-a cluster cannot switch to an incompatible collation library version,
-either through snapshot restore, binary streaming replication, a
-different operating system, or an operating system upgrade.
+非 `C` 與非 `POSIX` 的地區設定依賴作業系統的定序函式庫（collation library）
+來決定字元集的排序方式。這會控制索引中所儲存索引鍵的
+排序方式。因此，無論是透過快照還原、二進位串流複寫、
+不同的作業系統，還是作業系統升級，
+叢集都無法切換到不相容的定序函式庫版本。
 
 <a id="CREATING-CLUSTER-MOUNT-POINTS"></a>
 
-### 18.2.1. Use of Secondary File Systems [#](#CREATING-CLUSTER-MOUNT-POINTS)
+### 18.2.1. 次要檔案系統的使用 [#](#CREATING-CLUSTER-MOUNT-POINTS)
 
 <a id="id-1.6.5.5.18.2"></a>
 
-Many installations create their database clusters on file systems
-(volumes) other than the machine's “root” volume. If you
-choose to do this, it is not advisable to try to use the secondary
-volume's topmost directory (mount point) as the data directory.
-Best practice is to create a directory within the mount-point
-directory that is owned by the PostgreSQL
-user, and then create the data directory within that. This avoids
-permissions problems, particularly for operations such
-as pg_upgrade, and it also ensures clean failures if
-the secondary volume is taken offline.
+許多安裝環境會在機器「根」磁碟區以外的檔案系統
+（磁碟區）上建立資料庫叢集。若你選擇這麼做，
+並不建議直接將次要磁碟區的最上層目錄（掛載點）用作資料目錄。最佳做法是在掛載點目錄內建立一個由 PostgreSQL 使用者擁有的目錄，
+再於該目錄內建立資料目錄。這樣可以避免權限方面的問題，
+特別是在執行 pg_upgrade 之類的操作時，
+也能確保在次要磁碟區離線時能夠乾淨地失敗。
 
 <a id="CREATING-CLUSTER-FILESYSTEM"></a>
 
-### 18.2.2. File Systems [#](#CREATING-CLUSTER-FILESYSTEM)
+### 18.2.2. 檔案系統 [#](#CREATING-CLUSTER-FILESYSTEM)
 
-Generally, any file system with POSIX semantics can be used for
-PostgreSQL. Users prefer different file systems for a variety of reasons,
-including vendor support, performance, and familiarity. Experience
-suggests that, all other things being equal, one should not expect major
-performance or behavior changes merely from switching file systems or
-making minor file system configuration changes.
+一般而言，任何具備 POSIX 語意的檔案系統，
+都可以用於 PostgreSQL。使用者基於各種不同的原因，
+偏好不同的檔案系統，包括廠商支援、效能與熟悉程度。
+經驗顯示，在其他條件相同的情況下，
+單純切換檔案系統，或對檔案系統組態做些微調整，
+並不會帶來重大的效能或行為變化。
 
 <a id="CREATING-CLUSTER-NFS"></a>
 
-#### 18.2.2.1. NFS [#](#CREATING-CLUSTER-NFS)
+#### 18.2.2.1. NFS [#](#CREATING-CLUSTER-NFS)
 
 <a id="id-1.6.5.5.19.3.2"></a>
 
-It is possible to use an NFS file system for storing
-the PostgreSQL data directory.
-PostgreSQL does nothing special for
-NFS file systems, meaning it assumes
-NFS behaves exactly like locally-connected drives.
-PostgreSQL does not use any functionality that
-is known to have nonstandard behavior on NFS, such as
-file locking.
+可以使用 NFS 檔案系統來儲存 PostgreSQL
+資料目錄。PostgreSQL 並未針對 NFS 檔案系統做任何特殊處理，也就是說，它假設 NFS
+的行為會與本機連接的磁碟機完全相同。
+PostgreSQL 不會使用任何已知在 NFS 上
+具有非標準行為的功能，例如檔案鎖定。
 
-The only firm requirement for using NFS with
-PostgreSQL is that the file system is mounted
-using the `hard` option. With the
-`hard` option, processes can “hang”
-indefinitely if there are network problems, so this configuration will
-require a careful monitoring setup. The `soft` option
-will interrupt system calls in case of network problems, but
-PostgreSQL will not repeat system calls
-interrupted in this way, so any such interruption will result in an I/O
-error being reported.
+在 PostgreSQL 中使用 NFS 唯一明確的要求是該檔案系統必須以 `hard` 選項掛載。
+使用 `hard` 選項時，若發生網路問題，
+程序可能會無限期地「卡住」，因此這種設定需要謹慎地建立監控機制。`soft` 選項，
+則會在網路發生問題時中斷系統呼叫，但
+PostgreSQL 不會重複執行以這種方式中斷的系統呼叫，
+因此任何這類中斷都會導致回報一個 I/O 錯誤。
 
-It is not necessary to use the `sync` mount option. The
-behavior of the `async` option is sufficient, since
-PostgreSQL issues `fsync`
-calls at appropriate times to flush the write caches. (This is analogous
-to how it works on a local file system.) However, it is strongly
-recommended to use the `sync` export option on the NFS
-*server* on systems where it exists (mainly Linux).
-Otherwise, an `fsync` or equivalent on the NFS client is
-not actually guaranteed to reach permanent storage on the server, which
-could cause corruption similar to running with the parameter [fsync](../runtime-config/runtime-config-wal.md#GUC-FSYNC) off. The defaults of these mount and export
-options differ between vendors and versions, so it is recommended to
-check and perhaps specify them explicitly in any case to avoid any
-ambiguity.
+並不需要使用 `sync` 掛載選項。
+`async` 選項的行為即已足夠，因為
+PostgreSQL 會在適當的時機發出 `fsync`
+呼叫，以將寫入快取刷寫至磁碟。（這與它在本機檔案系統上的
+運作方式類似。）不過，在支援此功能的系統上
+（主要是 Linux），強烈建議在 NFS *伺服器*上
+使用 `sync` 匯出選項。否則，
+NFS 用戶端上的 `fsync` 或等效操作並無法真正保證會送達伺服器上的永久儲存體，
+這可能導致類似於將參數
+[fsync](../runtime-config/runtime-config-wal.md#GUC-FSYNC) 設為 off 時的資料損毀。
+這些掛載與匯出選項的預設值，因廠商與版本而異，
+因此無論如何，建議都應加以檢查，
+必要時明確指定，以避免任何模稜兩可之處。
 
-In some cases, an external storage product can be accessed either via NFS
-or a lower-level protocol such as iSCSI. In the latter case, the storage
-appears as a block device and any available file system can be created on
-it. That approach might relieve the DBA from having to deal with some of
-the idiosyncrasies of NFS, but of course the complexity of managing
-remote storage then happens at other levels.
+在某些情況下，外部儲存產品可以透過 NFS 或是像 iSCSI 這類較低階的協定來存取。在後者的情況下，
+該儲存體會以區塊裝置的形式呈現，任何可用的檔案系統，
+都能在其上建立。這種做法或許能讓資料庫管理者不必處理 NFS 的某些特殊行為，但當然，管理遠端儲存體的複雜度就會轉移到其他層級上處理。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/creating-cluster.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/creating-cluster.html)（原文版本：18.6；核對日期：2026-09-24）
