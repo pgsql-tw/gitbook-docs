@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：645 頁。
+待譯頁面：644 頁。
 
 ## 根目錄
 
@@ -866,7 +866,7 @@
 - [x] `server-programming/extend/xfunc-volatility.md` — 36.7. 函式揮發性類別 #
 - [x] `server-programming/extend/xfunc.md` — 36.3. 使用者自訂函式 #
 - [ ] `server-programming/extend/xindex.md` — 36.16. Interfacing Extensions to Indexes #
-- [ ] `server-programming/extend/xoper-optimization.md` — 36.15. Operator Optimization Information #
+- [x] `server-programming/extend/xoper-optimization.md` — 36.15. 運算子最佳化資訊 #
 - [x] `server-programming/extend/xoper.md` — 36.14. 使用者自訂運算子 #
 - [x] `server-programming/extend/xproc.md` — 36.4. 使用者自訂程序 #
 - [x] `server-programming/extend/xtypes.md` — 36.13. 使用者自訂型別 #

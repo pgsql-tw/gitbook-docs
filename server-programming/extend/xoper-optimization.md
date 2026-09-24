@@ -1,4 +1,5 @@
-## 36.15. Operator Optimization Information [#](#XOPER-OPTIMIZATION)
+<a id="XOPER-OPTIMIZATION"></a>
+## 36.15. 運算子最佳化資訊 [#](#XOPER-OPTIMIZATION)
 
 [36.15.1. `COMMUTATOR`](xoper-optimization.md#XOPER-COMMUTATOR)
 
@@ -14,292 +15,252 @@
 
 <a id="id-1.8.3.18.2"></a>
 
-A PostgreSQL operator definition can include
-several optional clauses that tell the system useful things about how
-the operator behaves. These clauses should be provided whenever
-appropriate, because they can make for considerable speedups in execution
-of queries that use the operator. But if you provide them, you must be
-sure that they are right! Incorrect use of an optimization clause can
-result in slow queries, subtly wrong output, or other Bad Things.
-You can always leave out an optimization clause if you are not sure
-about it; the only consequence is that queries might run slower than
-they need to.
+PostgreSQL 的運算子定義可以包含
+數個選用子句，用以告訴系統該運算子行為的實用資訊。只要適用，就應該
+提供這些子句，因為它們可以大幅加快使用該運算子之查詢的執行速度。但若您提供了這些子句，
+就必須確保其內容正確無誤！最佳化子句若使用不當，
+可能導致查詢速度變慢、輸出結果出現細微錯誤，或其他不良後果。
+若您不確定，隨時都可以省略某個最佳化子句；這麼做唯一的後果，
+是查詢執行速度可能會比原本可以達到的還要慢。
 
-Additional optimization clauses might be added in future versions of
-PostgreSQL. The ones described here are all
-the ones that release 18.6 understands.
+未來版本的 PostgreSQL 中，可能會加入更多的最佳化子句。
+此處所描述的，就是 18.6 版本所能理解的所有子句。
 
-It is also possible to attach a planner support function to the function
-that underlies an operator, providing another way of telling the system
-about the behavior of the operator.
-See [Section 36.11](xfunc-optimization.md) for more information.
+您也可以為運算子背後所依附的函式附加規劃器支援函式，
+藉此提供另一種方式，讓系統得知該運算子的行為。
+詳情請參閱[36.11 節](xfunc-optimization.md)。
 
 <a id="XOPER-COMMUTATOR"></a>
 
-### 36.15.1. `COMMUTATOR` [#](#XOPER-COMMUTATOR)
+### 36.15.1. `COMMUTATOR` [#](#XOPER-COMMUTATOR)
 
-The `COMMUTATOR` clause, if provided, names an operator that is the
-commutator of the operator being defined. We say that operator A is the
-commutator of operator B if (x A y) equals (y B x) for all possible input
-values x, y. Notice that B is also the commutator of A. For example,
-operators `<` and `>` for a particular data type are usually each others'
-commutators, and operator `+` is usually commutative with itself.
-But operator `-` is usually not commutative with anything.
+`COMMUTATOR` 子句（若有提供）會指出某個運算子，作為
+目前所定義運算子的交換子（commutator）。我們稱運算子 A 是運算子 B 的
+交換子，若對所有可能的輸入值 x、y，(x A y) 都等於 (y B x)。請注意，B
+同時也是 A 的交換子。舉例來說，對於特定資料型別而言，運算子 `<` 與 `>` 通常互為
+交換子，而運算子 `+` 通常與其自身互為交換。
+但運算子 `-` 通常與任何運算子都不具交換性。
 
-The left operand type of a commutable operator is the same as the
-right operand type of its commutator, and vice versa. So the name of
-the commutator operator is all that PostgreSQL
-needs to be given to look up the commutator, and that's all that needs to
-be provided in the `COMMUTATOR` clause.
+可交換運算子的左運算元型別，與其交換子的右運算元型別相同，
+反之亦然。因此，PostgreSQL 只需要交換運算子的名稱，
+即可查出交換子，而這也是 `COMMUTATOR` 子句中
+唯一需要提供的內容。
 
-It's critical to provide commutator information for operators that
-will be used in indexes and join clauses, because this allows the
-query optimizer to “flip around” such a clause to the forms
-needed for different plan types. For example, consider a query with
-a WHERE clause like `tab1.x = tab2.y`, where `tab1.x`
-and `tab2.y` are of a user-defined type, and suppose that
-`tab2.y` is indexed. The optimizer cannot generate an
-index scan unless it can determine how to flip the clause around to
-`tab2.y = tab1.x`, because the index-scan machinery expects
-to see the indexed column on the left of the operator it is given.
-PostgreSQL will *not* simply
-assume that this is a valid transformation — the creator of the
-`=` operator must specify that it is valid, by marking the
-operator with commutator information.
+為將用於索引與連接子句的運算子提供交換子資訊，是相當重要的，
+因為這讓查詢最佳化器得以將這類子句「翻轉」為
+不同計畫類型所需要的形式。舉例來說，考慮一個帶有
+`tab1.x = tab2.y` 這類 WHERE 子句的查詢，其中 `tab1.x`
+與 `tab2.y` 屬於使用者定義的型別，並假設
+`tab2.y` 已建立索引。除非最佳化器能判斷如何將該子句翻轉為
+`tab2.y = tab1.x`，否則便無法產生索引
+掃描，因為索引掃描機制預期在其所收到的運算子左側看到已建立索引的欄位。
+PostgreSQL *不會*單純
+假設這是一項有效的轉換——`=` 運算子的建立者
+必須透過為該運算子標記交換子資訊，明確指出這項轉換是有效的。
 
 <a id="XOPER-NEGATOR"></a>
 
-### 36.15.2. `NEGATOR` [#](#XOPER-NEGATOR)
+### 36.15.2. `NEGATOR` [#](#XOPER-NEGATOR)
 
-The `NEGATOR` clause, if provided, names an operator that is the
-negator of the operator being defined. We say that operator A
-is the negator of operator B if both return Boolean results and
-(x A y) equals NOT (x B y) for all possible inputs x, y.
-Notice that B is also the negator of A.
-For example, `<` and `>=` are a negator pair for most data types.
-An operator can never validly be its own negator.
+`NEGATOR` 子句（若有提供）會指出某個運算子，作為
+目前所定義運算子的否定子（negator）。我們稱運算子 A
+是運算子 B 的否定子，若兩者都傳回布林值，且對所有可能的輸入 x、y，
+(x A y) 都等於 NOT (x B y)。請注意，B 同時也是 A 的否定子。
+舉例來說，對於大多數資料型別而言，`<` 與 `>=` 互為否定子配對。
+運算子絕不可能有效地作為自身的否定子。
 
-Unlike commutators, a pair of unary operators could validly be marked
-as each other's negators; that would mean (A x) equals NOT (B x)
-for all x.
+與交換子不同的是，一對一元運算子有可能有效地互相標記為
+彼此的否定子；這意味著對所有 x 而言，(A x) 都等於 NOT (B x)。
 
-An operator's negator must have the same left and/or right operand types
-as the operator to be defined, so just as with `COMMUTATOR`, only the operator
-name need be given in the `NEGATOR` clause.
+某個運算子的否定子，其左運算元及／或右運算元型別，必須與
+所定義的運算子相同，因此就如同 `COMMUTATOR` 一樣，`NEGATOR`
+子句中只需要提供運算子名稱即可。
 
-Providing a negator is very helpful to the query optimizer since
-it allows expressions like `NOT (x = y)` to be simplified into
-`x <> y`. This comes up more often than you might think, because
-`NOT` operations can be inserted as a consequence of other rearrangements.
+提供否定子對查詢最佳化器極有幫助，因為
+這讓 `NOT (x = y)` 這樣的運算式，得以簡化為
+`x <> y`。這種情況出現的頻率比您想像的還要高，因為
+`NOT` 運算可能是其他重新排列動作所產生的結果。
 
 <a id="XOPER-RESTRICT"></a>
 
-### 36.15.3. `RESTRICT` [#](#XOPER-RESTRICT)
+### 36.15.3. `RESTRICT` [#](#XOPER-RESTRICT)
 
-The `RESTRICT` clause, if provided, names a restriction selectivity
-estimation function for the operator. (Note that this is a function
-name, not an operator name.) `RESTRICT` clauses only make sense for
-binary operators that return `boolean`. The idea behind a restriction
-selectivity estimator is to guess what fraction of the rows in a
-table will satisfy a `WHERE`-clause condition of the form:
+`RESTRICT` 子句（若有提供）會為該運算子指出一個限制選擇率
+估算函式。（請注意，這裡指的是函式名稱，而非運算子名稱。）`RESTRICT`
+子句只適用於傳回 `boolean` 的二元運算子。限制選擇率
+估算器背後的概念，是猜測資料表中有多少比例的資料列，會滿足
+以下形式的 `WHERE` 子句條件：
 
 ```
 
 column OP constant
 ```
 
-for the current operator and a particular constant value.
-This assists the optimizer by
-giving it some idea of how many rows will be eliminated by `WHERE`
-clauses that have this form. (What happens if the constant is on
-the left, you might be wondering? Well, that's one of the things that
-`COMMUTATOR` is for...)
+（針對目前的運算子及某個特定的常數值）。
+這有助於最佳化器，讓它了解具有此形式的 `WHERE`
+子句，大致會刪除多少資料列。（您或許會想，若常數在
+左側會發生什麼事？嗯，這正是 `COMMUTATOR`
+的用途之一……）
 
-Writing new restriction selectivity estimation functions is far beyond
-the scope of this chapter, but fortunately you can usually just use
-one of the system's standard estimators for many of your own operators.
-These are the standard restriction estimators:
+撰寫新的限制選擇率估算函式，遠超出本章的範疇，
+但幸運的是，對於您自訂的許多運算子，通常都可以直接使用
+系統標準估算器之一。以下是標準的限制估算器：
 
-<table border="0" class="simplelist" summary="Simple list"><tr><td><code class="function">eqsel</code> for <code class="literal">=</code></td></tr><tr><td><code class="function">neqsel</code> for <code class="literal">&lt;&gt;</code></td></tr><tr><td><code class="function">scalarltsel</code> for <code class="literal">&lt;</code></td></tr><tr><td><code class="function">scalarlesel</code> for <code class="literal">&lt;=</code></td></tr><tr><td><code class="function">scalargtsel</code> for <code class="literal">&gt;</code></td></tr><tr><td><code class="function">scalargesel</code> for <code class="literal">&gt;=</code></td></tr></table>
+<table border="0" class="simplelist" summary="Simple list"><tr><td><code class="function">eqsel</code>：用於 <code class="literal">=</code></td></tr><tr><td><code class="function">neqsel</code>：用於 <code class="literal">&lt;&gt;</code></td></tr><tr><td><code class="function">scalarltsel</code>：用於 <code class="literal">&lt;</code></td></tr><tr><td><code class="function">scalarlesel</code>：用於 <code class="literal">&lt;=</code></td></tr><tr><td><code class="function">scalargtsel</code>：用於 <code class="literal">&gt;</code></td></tr><tr><td><code class="function">scalargesel</code>：用於 <code class="literal">&gt;=</code></td></tr></table>
 
-You can frequently get away with using either `eqsel` or `neqsel` for
-operators that have very high or very low selectivity, even if they
-aren't really equality or inequality. For example, the
-approximate-equality geometric operators use `eqsel` on the assumption that
-they'll usually only match a small fraction of the entries in a table.
+對於選擇率非常高或非常低的運算子，即使它們並非真正的等於或不等於，
+您通常仍可以直接使用 `eqsel` 或 `neqsel`。舉例來說，
+近似相等的幾何運算子便使用 `eqsel`，因為其假設
+這類運算子通常只會比對出資料表中一小部分的項目。
 
-You can use `scalarltsel`, `scalarlesel`,
-`scalargtsel` and `scalargesel` for comparisons on
-data types that have some sensible means of being converted into numeric
-scalars for range comparisons. If possible, add the data type to those
-understood by the function `convert_to_scalar()` in
-`src/backend/utils/adt/selfuncs.c`.
-(Eventually, this function should be replaced by per-data-type functions
-identified through a column of the `pg_type` system catalog; but that hasn't happened
-yet.) If you do not do this, things will still work, but the optimizer's
-estimates won't be as good as they could be.
+對於那些擁有某種合理方式、可轉換為數值純量以進行範圍比較的
+資料型別，您可以使用 `scalarltsel`、`scalarlesel`、
+`scalargtsel` 與 `scalargesel` 進行比較。若有可能，請將
+該資料型別加入 `src/backend/utils/adt/selfuncs.c` 中
+`convert_to_scalar()` 函式所能理解的型別清單。
+（最終，此函式應會由透過 `pg_type` 系統目錄某個欄位所識別的各資料型別專屬函式取代；
+但目前尚未實現。）若您未這麼做，系統仍可正常運作，
+只是最佳化器的估算結果不會如原本可以達到的那麼理想。
 
-Another useful built-in selectivity estimation function
-is `matchingsel`, which will work for almost any
-binary operator, if standard MCV and/or histogram statistics are
-collected for the input data type(s). Its default estimate is set to
-twice the default estimate used in `eqsel`, making
-it most suitable for comparison operators that are somewhat less
-strict than equality. (Or you could call the
-underlying `generic_restriction_selectivity`
-function, providing a different default estimate.)
+另一個實用的內建選擇率估算函式
+是 `matchingsel`，只要有為輸入資料型別收集標準的 MCV 及／或
+直方圖統計資訊，它幾乎可用於任何
+二元運算子。其預設估算值，設為 `eqsel`
+所用預設估算值的兩倍，因此最適合用於
+嚴謹程度略低於相等的比較運算子。（或者，您也可以呼叫
+底層的 `generic_restriction_selectivity`
+函式，並提供不同的預設估算值。）
 
-There are additional selectivity estimation functions designed for geometric
-operators in `src/backend/utils/adt/geo_selfuncs.c`: `areasel`, `positionsel`,
-and `contsel`. At this writing these are just stubs, but you might want
-to use them (or even better, improve them) anyway.
+`src/backend/utils/adt/geo_selfuncs.c` 中還有專為幾何
+運算子設計的額外選擇率估算函式：`areasel`、`positionsel`
+以及 `contsel`。撰寫本文件當下，這些函式都只是空殼，但您或許仍會想
+使用它們（或者更好的做法是加以改進）。
 
 <a id="XOPER-JOIN"></a>
 
-### 36.15.4. `JOIN` [#](#XOPER-JOIN)
+### 36.15.4. `JOIN` [#](#XOPER-JOIN)
 
-The `JOIN` clause, if provided, names a join selectivity
-estimation function for the operator. (Note that this is a function
-name, not an operator name.) `JOIN` clauses only make sense for
-binary operators that return `boolean`. The idea behind a join
-selectivity estimator is to guess what fraction of the rows in a
-pair of tables will satisfy a `WHERE`-clause condition of the form:
+`JOIN` 子句（若有提供）會為該運算子指出一個連接選擇率
+估算函式。（請注意，這裡指的是函式名稱，而非運算子名稱。）`JOIN`
+子句只適用於傳回 `boolean` 的二元運算子。連接
+選擇率估算器背後的概念，是猜測一對資料表中，有多少比例的資料列，會滿足
+以下形式的 `WHERE` 子句條件：
 
 ```
 
 table1.column1 OP table2.column2
 ```
 
-for the current operator. As with the `RESTRICT` clause, this helps
-the optimizer very substantially by letting it figure out which
-of several possible join sequences is likely to take the least work.
+（針對目前的運算子）。與 `RESTRICT` 子句一樣，這對最佳化器
+有非常大的幫助，讓它得以判斷在數種可能的連接順序中，
+哪一種所需的工作量可能最少。
 
-As before, this chapter will make no attempt to explain how to write
-a join selectivity estimator function, but will just suggest that
-you use one of the standard estimators if one is applicable:
+與先前一樣，本章不會嘗試說明如何撰寫
+連接選擇率估算函式，而只會建議您在適用的情況下，
+使用某個標準估算器：
 
-<table border="0" class="simplelist" summary="Simple list"><tr><td><code class="function">eqjoinsel</code> for <code class="literal">=</code></td></tr><tr><td><code class="function">neqjoinsel</code> for <code class="literal">&lt;&gt;</code></td></tr><tr><td><code class="function">scalarltjoinsel</code> for <code class="literal">&lt;</code></td></tr><tr><td><code class="function">scalarlejoinsel</code> for <code class="literal">&lt;=</code></td></tr><tr><td><code class="function">scalargtjoinsel</code> for <code class="literal">&gt;</code></td></tr><tr><td><code class="function">scalargejoinsel</code> for <code class="literal">&gt;=</code></td></tr><tr><td><code class="function">matchingjoinsel</code> for generic matching operators</td></tr><tr><td><code class="function">areajoinsel</code> for 2D area-based comparisons</td></tr><tr><td><code class="function">positionjoinsel</code> for 2D position-based comparisons</td></tr><tr><td><code class="function">contjoinsel</code> for 2D containment-based comparisons</td></tr></table>
+<table border="0" class="simplelist" summary="Simple list"><tr><td><code class="function">eqjoinsel</code>：用於 <code class="literal">=</code></td></tr><tr><td><code class="function">neqjoinsel</code>：用於 <code class="literal">&lt;&gt;</code></td></tr><tr><td><code class="function">scalarltjoinsel</code>：用於 <code class="literal">&lt;</code></td></tr><tr><td><code class="function">scalarlejoinsel</code>：用於 <code class="literal">&lt;=</code></td></tr><tr><td><code class="function">scalargtjoinsel</code>：用於 <code class="literal">&gt;</code></td></tr><tr><td><code class="function">scalargejoinsel</code>：用於 <code class="literal">&gt;=</code></td></tr><tr><td><code class="function">matchingjoinsel</code>：用於一般比對運算子</td></tr><tr><td><code class="function">areajoinsel</code>：用於二維面積比較</td></tr><tr><td><code class="function">positionjoinsel</code>：用於二維位置比較</td></tr><tr><td><code class="function">contjoinsel</code>：用於二維包含關係比較</td></tr></table>
 
 <a id="XOPER-HASHES"></a>
 
-### 36.15.5. `HASHES` [#](#XOPER-HASHES)
+### 36.15.5. `HASHES` [#](#XOPER-HASHES)
 
-The `HASHES` clause, if present, tells the system that
-it is permissible to use the hash join method for a join based on this
-operator. `HASHES` only makes sense for a binary operator that
-returns `boolean`, and in practice the operator must represent
-equality for some data type or pair of data types.
+`HASHES` 子句（若有出現）會告訴系統，
+可以針對以此運算子為基礎的連接，使用雜湊連接方法。`HASHES`
+只適用於傳回 `boolean` 的二元運算子，而實務上，該運算子
+必須代表某個資料型別或某對資料型別之間的相等關係。
 
-The assumption underlying hash join is that the join operator can
-only return true for pairs of left and right values that hash to the
-same hash code. If two values get put in different hash buckets, the
-join will never compare them at all, implicitly assuming that the
-result of the join operator must be false. So it never makes sense
-to specify `HASHES` for operators that do not represent
-some form of equality. In most cases it is only practical to support
-hashing for operators that take the same data type on both sides.
-However, sometimes it is possible to design compatible hash functions
-for two or more data types; that is, functions that will generate the
-same hash codes for “equal” values, even though the values
-have different representations. For example, it's fairly simple
-to arrange this property when hashing integers of different widths.
+雜湊連接背後所依據的假設，是連接運算子只有在左、右值
+雜湊至相同雜湊碼時，才可能傳回 true。若兩個值被放入不同的
+雜湊桶（bucket），連接運算就完全不會對它們進行比較，並隱含假設
+該連接運算子的結果必為 false。因此，對於並不代表
+某種相等關係的運算子而言，指定 `HASHES` 永遠是沒有意義的。
+在大多數情況下，只有當運算子兩側採用相同資料型別時，支援雜湊才具實用性。
+不過，有時仍可能為兩種或多種資料型別設計相容的雜湊
+函式；也就是說，即使值的表示法不同，這些函式仍能為「相等」的值產生
+相同的雜湊碼。舉例來說，在對不同寬度的整數進行雜湊時，要達成這項特性相當簡單。
 
-To be marked `HASHES`, the join operator must appear
-in a hash index operator family. This is not enforced when you create
-the operator, since of course the referencing operator family couldn't
-exist yet. But attempts to use the operator in hash joins will fail
-at run time if no such operator family exists. The system needs the
-operator family to find the data-type-specific hash function(s) for the
-operator's input data type(s). Of course, you must also create suitable
-hash functions before you can create the operator family.
+若要標記為 `HASHES`，該連接運算子必須出現
+於某個雜湊索引運算子家族中。建立該運算子時，系統並不會強制檢查這一點，
+因為會參照這個運算子的，正是那個運算子家族，而它在建立當下當然還不存在。但若不存在這樣的運算子家族，
+嘗試在雜湊連接中使用該運算子，將會在執行期失敗。系統需要
+該運算子家族，才能找到該運算子輸入資料型別所專屬的雜湊函式。當然，
+您也必須先建立適當的雜湊函式，才能建立該運算子家族。
 
-Care should be exercised when preparing a hash function, because there
-are machine-dependent ways in which it might fail to do the right thing.
-For example, if your data type is a structure in which there might be
-uninteresting pad bits, you cannot simply pass the whole structure to
-`hash_any`. (Unless you write your other operators and
-functions to ensure that the unused bits are always zero, which is the
-recommended strategy.)
-Another example is that on machines that meet the IEEE
-floating-point standard, negative zero and positive zero are different
-values (different bit patterns) but they are defined to compare equal.
-If a float value might contain negative zero then extra steps are needed
-to ensure it generates the same hash value as positive zero.
+準備雜湊函式時應格外謹慎，因為存在一些
+與機器相關的方式，可能導致它無法正確運作。舉例來說，若您的資料型別是
+一個結構，其中可能包含無意義的填補位元，您就不能單純將整個結構傳給
+`hash_any`。（除非您撰寫其他運算子與
+函式時，確保未使用的位元永遠為零，這正是建議採用的策略。）
+另一個例子是，在符合 IEEE
+浮點數標準的機器上，負零與正零是不同的
+值（不同的位元樣式），但依定義應被視為相等。
+若某個浮點值可能含有負零，就需要額外的步驟，
+確保它產生的雜湊值與正零相同。
 
-A hash-joinable operator must have a commutator (itself if the two
-operand data types are the same, or a related equality operator
-if they are different) that appears in the same operator family.
-If this is not the case, planner errors might occur when the operator
-is used. Also, it is a good idea (but not strictly required) for
-a hash operator family that supports multiple data types to provide
-equality operators for every combination of the data types; this
-allows better optimization.
+一個可用於雜湊連接的運算子，必須具有一個交換子
+（若兩個運算元資料型別相同，則為其自身；若不同，則為相關的相等運算子），
+且該交換子必須出現在同一個運算子家族中。
+若非如此，在使用該運算子時，可能會發生規劃器錯誤。此外，
+對於支援多種資料型別的雜湊運算子家族而言，為每一種資料型別組合提供
+相等運算子也是一個好主意（但並非嚴格要求）；這可帶來更好的最佳化效果。
 
-### Note
+### 注意
 
-The function underlying a hash-joinable operator must be marked
-immutable or stable. If it is volatile, the system will never
-attempt to use the operator for a hash join.
+可用於雜湊連接之運算子背後所依附的函式，必須標記為
+immutable 或 stable。若標記為 volatile，系統將永遠不會
+嘗試將該運算子用於雜湊連接。
 
-### Note
+### 注意
 
-If a hash-joinable operator has an underlying function that is marked
-strict, the
-function must also be complete: that is, it should return true or
-false, never null, for any two nonnull inputs. If this rule is
-not followed, hash-optimization of `IN` operations might
-generate wrong results. (Specifically, `IN` might return
-false where the correct answer according to the standard would be null;
-or it might yield an error complaining that it wasn't prepared for a
-null result.)
+若某個可用於雜湊連接的運算子，其背後依附的函式標記為
+strict，則該函式也必須是完整的：也就是說，對於任何兩個
+非 null 的輸入，它都應傳回 true 或 false，絕不傳回 null。若未遵循此規則，
+`IN` 運算的雜湊最佳化，可能會產生錯誤的結果。（具體來說，
+根據標準，正確答案應為 null 的情況下，`IN` 可能會傳回
+false；或者可能會產生一個抱怨它未準備好處理
+null 結果的錯誤。）
 
 <a id="XOPER-MERGES"></a>
 
-### 36.15.6. `MERGES` [#](#XOPER-MERGES)
+### 36.15.6. `MERGES` [#](#XOPER-MERGES)
 
-The `MERGES` clause, if present, tells the system that
-it is permissible to use the merge-join method for a join based on this
-operator. `MERGES` only makes sense for a binary operator that
-returns `boolean`, and in practice the operator must represent
-equality for some data type or pair of data types.
+`MERGES` 子句（若有出現）會告訴系統，
+可以針對以此運算子為基礎的連接，使用合併連接方法。`MERGES`
+只適用於傳回 `boolean` 的二元運算子，而實務上，該運算子
+必須代表某個資料型別或某對資料型別之間的相等關係。
 
-Merge join is based on the idea of sorting the left- and right-hand tables
-into order and then scanning them in parallel. So, both data types must
-be capable of being fully ordered, and the join operator must be one
-that can only succeed for pairs of values that fall at the
-“same place”
-in the sort order. In practice this means that the join operator must
-behave like equality. But it is possible to merge-join two
-distinct data types so long as they are logically compatible. For
-example, the `smallint`-versus-`integer`
-equality operator is merge-joinable.
-We only need sorting operators that will bring both data types into a
-logically compatible sequence.
+合併連接是以將左、右資料表排序後，
+再平行掃描這兩份已排序的資料表為基礎的概念。因此，兩種資料型別都必須
+能夠完全排序，且連接運算子必須是一種只有在
+一對值落在排序順序中「相同位置」時，才能成功的運算子。
+實務上，這代表連接運算子的行為必須如同相等運算一般。但只要邏輯上相容，
+仍可以對兩種不同的資料型別進行合併連接。舉例來說，
+`smallint` 與 `integer` 之間的
+相等運算子即可進行合併連接。
+我們只需要能將兩種資料型別，帶入一個邏輯上相容之順序的排序運算子即可。
 
-To be marked `MERGES`, the join operator must appear
-as an equality member of a `btree` index operator family.
-This is not enforced when you create
-the operator, since of course the referencing operator family couldn't
-exist yet. But the operator will not actually be used for merge joins
-unless a matching operator family can be found. The
-`MERGES` flag thus acts as a hint to the planner that
-it's worth looking for a matching operator family.
+若要標記為 `MERGES`，該連接運算子必須以相等成員的身分，
+出現於某個 `btree` 索引運算子家族中。
+建立該運算子時，系統並不會強制檢查這一點，
+因為會參照這個運算子的，正是那個運算子家族，而它在建立當下當然還不存在。但除非能找到相符的運算子家族，
+否則該運算子實際上並不會被用於合併連接。因此，
+`MERGES` 旗標的作用，就是向規劃器提示
+值得去尋找一個相符的運算子家族。
 
-A merge-joinable operator must have a commutator (itself if the two
-operand data types are the same, or a related equality operator
-if they are different) that appears in the same operator family.
-If this is not the case, planner errors might occur when the operator
-is used. Also, it is a good idea (but not strictly required) for
-a `btree` operator family that supports multiple data types to provide
-equality operators for every combination of the data types; this
-allows better optimization.
+一個可用於合併連接的運算子，必須具有一個交換子
+（若兩個運算元資料型別相同，則為其自身；若不同，則為相關的相等運算子），
+且該交換子必須出現在同一個運算子家族中。
+若非如此，在使用該運算子時，可能會發生規劃器錯誤。此外，
+對於支援多種資料型別的 `btree` 運算子家族而言，為每一種資料型別組合提供
+相等運算子也是一個好主意（但並非嚴格要求）；這可帶來更好的最佳化效果。
 
-### Note
+### 注意
 
-The function underlying a merge-joinable operator must be marked
-immutable or stable. If it is volatile, the system will never
-attempt to use the operator for a merge join.
+可用於合併連接之運算子背後所依附的函式，必須標記為
+immutable 或 stable。若標記為 volatile，系統將永遠不會
+嘗試將該運算子用於合併連接。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xoper-optimization.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xoper-optimization.html)（原文版本：18.6；核對日期：2026-09-24）
