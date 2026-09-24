@@ -184,7 +184,7 @@
   * [第 18 章 伺服器設定與操作](server-administration/runtime/README.md)
     * [18.1. PostgreSQL 使用者帳號](server-administration/runtime/postgres-user.md)
     * [18.2. 建立資料庫叢集 #](server-administration/runtime/creating-cluster.md)
-    * [18.3. Starting the Database Server #](server-administration/runtime/server-start.md)
+    * [18.3. 啟動資料庫伺服器 #](server-administration/runtime/server-start.md)
     * [18.4. Managing Kernel Resources #](server-administration/runtime/kernel-resources.md)
     * [18.5. Shutting Down the Server #](server-administration/runtime/server-shutdown.md)
     * [18.6. 升級 PostgreSQL 叢集 #](server-administration/runtime/upgrading.md)
