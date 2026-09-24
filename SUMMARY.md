@@ -297,7 +297,7 @@
     * [30.4. Extensibility #](server-administration/jit/jit-extensibility.md)
   * [第 31 章 迴歸測試](server-administration/regress/README.md)
     * [31.1. Running the Tests #](server-administration/regress/regress-run.md)
-    * [31.2. Test Evaluation #](server-administration/regress/regress-evaluation.md)
+    * [31.2. 測試評估 #](server-administration/regress/regress-evaluation.md)
     * [31.3. 變體比對檔案 #](server-administration/regress/regress-variant.md)
     * [31.4. TAP 測試 #](server-administration/regress/regress-tap.md)
     * [31.5. 測試涵蓋率檢驗 #](server-administration/regress/regress-coverage.md)
