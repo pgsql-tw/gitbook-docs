@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：651 頁。
+待譯頁面：650 頁。
 
 ## 根目錄
 
@@ -883,7 +883,7 @@
 - [x] `server-programming/logicaldecoding/logicaldecoding-writer.md` — 47.7. Logical Decoding Output Writers #
 - [x] `server-programming/oauth-validators/README.md` — 第 50 章 OAuth 驗證器模組
 - [x] `server-programming/oauth-validators/oauth-validator-callbacks.md` — 50.3. OAuth 驗證器回呼函式 #
-- [ ] `server-programming/oauth-validators/oauth-validator-design.md` — 50.1. Safely Designing a Validator Module #
+- [x] `server-programming/oauth-validators/oauth-validator-design.md` — 50.1. 安全地設計驗證器模組 #
 - [x] `server-programming/oauth-validators/oauth-validator-init.md` — 50.2. 初始化函式 #
 - [x] `server-programming/plperl/README.md` — 第 43 章 PL/Perl — Perl 程序語言
 - [x] `server-programming/plperl/plperl-builtins.md` — 43.3. 內建函式 #

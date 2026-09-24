@@ -1,198 +1,97 @@
-## 50.1. Safely Designing a Validator Module [#](#OAUTH-VALIDATOR-DESIGN)
+<a id="OAUTH-VALIDATOR-DESIGN"></a>
+## 50.1. 安全地設計驗證器模組 [#](#OAUTH-VALIDATOR-DESIGN)
 
-[50.1.1. Validator Responsibilities](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-RESPONSIBILITIES)
+[50.1.1. 驗證器的職責](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-RESPONSIBILITIES)
 
-[50.1.2. General Coding Guidelines](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-GUIDELINES)
+[50.1.2. 一般撰碼準則](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-GUIDELINES)
 
-[50.1.3. Authorizing Users (Usermap Delegation)](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)
+[50.1.3. 授權使用者（使用者對應委派）](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)
 
-### Warning
+### 警告
 
-Read and understand the entirety of this section before implementing a
-validator module. A malfunctioning validator is potentially worse than no
-authentication at all, both because of the false sense of security it
-provides, and because it may contribute to attacks against other pieces of
-an OAuth ecosystem.
+在實作驗證器模組之前，請務必閱讀並理解本節的全部內容。運作異常的驗證器，可能比完全沒有身分驗證還要糟糕，這不僅是因為它會帶來一種錯誤的安全感，也因為它可能成為攻擊 OAuth 生態系中其他環節的助力。
 
 <a id="OAUTH-VALIDATOR-DESIGN-RESPONSIBILITIES"></a>
 
-### 50.1.1. Validator Responsibilities [#](#OAUTH-VALIDATOR-DESIGN-RESPONSIBILITIES)
+### 50.1.1. 驗證器的職責 [#](#OAUTH-VALIDATOR-DESIGN-RESPONSIBILITIES)
 
-Although different modules may take very different approaches to token
-validation, implementations generally need to perform three separate
-actions:
+儘管不同的模組在權杖驗證上可能採取截然不同的做法，一般而言，實作都需要執行三項各自獨立的動作：
 
-Validate the Token
-:   The validator must first ensure that the presented token is in fact a
-    valid Bearer token for use in client authentication. The correct way to
-    do this depends on the provider, but it generally involves either
-    cryptographic operations to prove that the token was created by a trusted
-    party (offline validation), or the presentation of the token to that
-    trusted party so that it can perform validation for you (online
-    validation).
+驗證權杖
+:   驗證器首先必須確認所提出的權杖，確實是可用於用戶端驗證的有效持有者權杖。正確的做法取決於提供者，通常包含以密碼學運算來證明該權杖是由受信任的一方所建立（離線驗證），或是將權杖提交給該受信任的一方，由其代為執行驗證（線上驗證）。
 
-    Online validation, usually implemented via
-    [OAuth Token
-    Introspection](https://datatracker.ietf.org/doc/html/rfc7662), requires fewer steps of a validator module and
-    allows central revocation of a token in the event that it is stolen
-    or misissued. However, it does require the module to make at least one
-    network call per authentication attempt (all of which must complete
-    within the configured [authentication_timeout](../../server-administration/runtime-config/runtime-config-connection.md#GUC-AUTHENTICATION-TIMEOUT)).
-    Additionally, your provider may not provide introspection endpoints for
-    use by external resource servers.
+    線上驗證通常是透過 [OAuth 權杖
+    自省（Token Introspection）](https://datatracker.ietf.org/doc/html/rfc7662) 來實作，這需要驗證器模組執行的步驟較少，並且能在權杖遭竊或誤發時，集中撤銷該權杖。不過，它確實需要模組在每次驗證嘗試中至少發出一次網路呼叫（且全部都必須在所設定的 [authentication_timeout](../../server-administration/runtime-config/runtime-config-connection.md#GUC-AUTHENTICATION-TIMEOUT) 之內完成）。此外，您所使用的提供者也可能不會提供供外部資源伺服器使用的自省端點。
 
-    Offline validation is much more involved, typically requiring a validator
-    to maintain a list of trusted signing keys for a provider and then
-    check the token's cryptographic signature along with its contents.
-    Implementations must follow the provider's instructions to the letter,
-    including any verification of issuer ("where is this token from?"),
-    audience ("who is this token for?"), and validity period ("when can this
-    token be used?"). Since there is no communication between the module and
-    the provider, tokens cannot be centrally revoked using this method;
-    offline validator implementations may wish to place restrictions on the
-    maximum length of a token's validity period.
+    離線驗證則複雜得多，通常需要驗證器維護該提供者的受信任簽章金鑰清單，再據以檢查權杖的密碼學簽章及其內容。實作必須完全依照提供者的指示執行，包括對發行者（「這個權杖是從哪裡來的？」）、對象（「這個權杖是給誰用的？」）以及有效期間（「這個權杖什麼時候可以使用？」）的驗證。由於模組與提供者之間沒有通訊，此方法下的權杖無法被集中撤銷；離線驗證器的實作，或許會想要對權杖有效期間的最大長度加以限制。
 
-    If the token cannot be validated, the module should immediately fail.
-    Further authentication/authorization is pointless if the bearer token
-    wasn't issued by a trusted party.
+    若權杖無法通過驗證，模組應立即失敗。若持有者權杖並非由受信任的一方所發行，繼續進行後續的身分驗證／授權便毫無意義。
 
-Authorize the Client
-:   Next the validator must ensure that the end user has given the client
-    permission to access the server on their behalf. This generally involves
-    checking the scopes that have been assigned to the token, to make sure
-    that they cover database access for the current HBA parameters.
+授權用戶端
+:   接著，驗證器必須確認終端使用者已授予該用戶端代表其存取伺服器的許可。這通常包含檢查已指派給該權杖的範圍（scope），以確保這些範圍涵蓋目前 HBA 參數所需的資料庫存取權限。
 
-    The purpose of this step is to prevent an OAuth client from obtaining a
-    token under false pretenses. If the validator requires all tokens to
-    carry scopes that cover database access, the provider should then loudly
-    prompt the user to grant that access during the flow. This gives them the
-    opportunity to reject the request if the client isn't supposed to be
-    using their credentials to connect to databases.
+    此步驟的目的，是為了防止 OAuth 用戶端以虛假的名義取得權杖。若驗證器要求所有權杖都必須帶有涵蓋資料庫存取權的範圍，提供者便應在流程中明確地提示使用者授予該存取權。這讓使用者有機會在該用戶端不應使用其憑證連線至資料庫時，拒絕該請求。
 
-    While it is possible to establish client authorization without explicit
-    scopes by using out-of-band knowledge of the deployed architecture, doing
-    so removes the user from the loop, which prevents them from catching
-    deployment mistakes and allows any such mistakes to be exploited
-    silently. Access to the database must be tightly restricted to only
-    trusted clients
+    雖然利用已部署架構的頻外（out-of-band）知識，也能在不使用明確範圍的情況下建立用戶端授權，但這麼做會將使用者排除在流程之外，導致他們無法察覺部署上的疏失，也使得這類疏失可能在無聲無息中遭到利用。若不提示使用者授予額外範圍，資料庫的存取權就必須嚴格限制為僅限受信任的用戶端
     [<a id="id-1.8.17.6.3.3.2.2.3.1"></a>[17]](#ftn.id-1.8.17.6.3.3.2.2.3.1)
-    if users are not prompted for additional scopes.
+    。
 
-    Even if authorization fails, a module may choose to continue to pull
-    authentication information from the token for use in auditing and
-    debugging.
+    即使授權失敗，模組仍可選擇繼續從權杖中擷取驗證資訊，以供稽核與除錯之用。
 
-Authenticate the End User
-:   Finally, the validator should determine a user identifier for the token,
-    either by asking the provider for this information or by extracting it
-    from the token itself, and return that identifier to the server (which
-    will then make a final authorization decision using the HBA
-    configuration). This identifier will be available within the session via
+驗證終端使用者
+:   最後，驗證器應為該權杖判斷出一個使用者識別碼，方式可以是向提供者查詢該資訊，或是直接從權杖本身擷取，再將該識別碼回傳給伺服器（伺服器接著會使用 HBA 組態做出最終的授權決策）。此識別碼將可透過
     [`system_user`](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-SESSION-TABLE)
-    and recorded in the server logs if [log_connections](../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-CONNECTIONS)
-    is enabled.
+    在工作階段中取得，並且在啟用 [log_connections](../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-CONNECTIONS) 時，記錄於伺服器日誌中。
 
-    Different providers may record a variety of different authentication
-    information for an end user, typically referred to as
-    *claims*. Providers usually document which of these
-    claims are trustworthy enough to use for authorization decisions and
-    which are not. (For instance, it would probably not be wise to use an
-    end user's full name as the identifier for authentication, since many
-    providers allow users to change their display names arbitrarily.)
-    Ultimately, the choice of which claim (or combination of claims) to use
-    comes down to the provider implementation and application requirements.
+    不同的提供者可能會為終端使用者記錄各種不同的驗證資訊，一般稱為
+    *宣告項目（claims）*。提供者通常會記載這些宣告項目中，哪些足以信任、可用於做出授權決策，哪些則不行。（舉例來說，將終端使用者的全名用作驗證身分識別碼，可能並不明智，因為許多提供者都允許使用者任意變更其顯示名稱。）最終，究竟該使用哪一個（或哪些）宣告項目，取決於提供者的實作方式與應用程式的需求。
 
-    Note that anonymous/pseudonymous login is possible as well, by enabling
-    usermap delegation; see
-    [Section 50.1.3](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION).
+    請注意，透過啟用使用者對應委派，也可以實現匿名／假名登入；請見
+    [第 50.1.3 節](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)。
 
 <a id="OAUTH-VALIDATOR-DESIGN-GUIDELINES"></a>
 
-### 50.1.2. General Coding Guidelines [#](#OAUTH-VALIDATOR-DESIGN-GUIDELINES)
+### 50.1.2. 一般撰碼準則 [#](#OAUTH-VALIDATOR-DESIGN-GUIDELINES)
 
-Developers should keep the following in mind when implementing token
-validation:
+開發者在實作權杖驗證時，應牢記以下幾點：
 
-Token Confidentiality
-:   Modules should not write tokens, or pieces of tokens, into the server
-    log. This is true even if the module considers the token invalid; an
-    attacker who confuses a client into communicating with the wrong provider
-    should not be able to retrieve that (otherwise valid) token from the
-    disk.
+權杖機密性
+:   模組不應將權杖或權杖片段寫入伺服器日誌。即使模組認為該權杖無效，這項原則依然適用；若攻擊者誘使用戶端與錯誤的提供者通訊，該（原本有效的）權杖也不應能夠從磁碟中被取得。
 
-    Implementations that send tokens over the network (for example, to
-    perform online token validation with a provider) must authenticate the
-    peer and ensure that strong transport security is in use.
+    透過網路傳送權杖的實作（例如，為了向提供者執行線上權杖驗證），必須驗證對方身分，並確保使用了強固的傳輸層安全機制。
 
-Logging
-:   Modules may use the same [logging
-    facilities](../../internals/source/error-message-reporting.md) as standard extensions; however, the rules for emitting
-    log entries to the client are subtly different during the authentication
-    phase of the connection. Generally speaking, modules should log
-    verification problems at the `COMMERROR` level and return
-    normally, instead of using `ERROR`/`FATAL`
-    to unwind the stack, to avoid leaking information to unauthenticated
-    clients.
+日誌記錄
+:   模組可以使用與標準擴充功能相同的[日誌記錄
+    機制](../../internals/source/error-message-reporting.md)；不過，在連線的驗證階段，向用戶端發出日誌項目的規則會有些微不同。一般而言，模組應以 `COMMERROR`
+    層級記錄驗證上的問題，並正常返回，而不要使用 `ERROR`／`FATAL`
+    來展開堆疊，以避免將資訊洩漏給尚未通過驗證的用戶端。
 
-Interruptibility
-:   Modules must remain interruptible by signals so that the server can
-    correctly handle authentication timeouts and shutdown signals from
-    pg_ctl. For example, blocking calls on sockets
-    should generally be replaced with code that handles both socket events
-    and interrupts without races (see `WaitLatchOrSocket()`,
-    `WaitEventSetWait()`, et al), and long-running loops
-    should periodically call `CHECK_FOR_INTERRUPTS()`.
-    Failure to follow this guidance may result in unresponsive backend
-    sessions.
+可中斷性
+:   模組必須維持可被訊號中斷的狀態，讓伺服器能正確處理驗證逾時，以及來自 pg_ctl 的關閉訊號。舉例來說，對 socket 的阻塞呼叫，一般應改為同時處理 socket 事件與中斷、且不會發生競爭情況的程式碼（見 `WaitLatchOrSocket()`、
+    `WaitEventSetWait()` 等），而長時間執行的迴圈應定期呼叫
+    `CHECK_FOR_INTERRUPTS()`。
+    若未遵循此準則，可能導致後端工作階段無回應。
 
-Testing
-:   The breadth of testing an OAuth system is well beyond the scope of this
-    documentation, but at minimum, negative testing should be considered
-    mandatory. It's trivial to design a module that lets authorized users in;
-    the whole point of the system is to keep unauthorized users out.
+測試
+:   OAuth 系統的測試廣度遠超出本文件的範圍，但至少應將負向測試視為必要項目。設計一個能讓已授權使用者進入的模組並不困難；此系統的重點在於將未授權的使用者拒於門外。
 
-Documentation
-:   Validator implementations should document the contents and format of the
-    authenticated ID that is reported to the server for each end user, since
-    DBAs may need to use this information to construct pg_ident maps. (For
-    instance, is it an email address? an organizational ID number? a UUID?)
-    They should also document whether or not it is safe to use the module in
-    `delegate_ident_mapping=1` mode, and what additional
-    configuration is required in order to do so.
+文件撰寫
+:   驗證器的實作應記載其針對每位終端使用者、回報給伺服器之已驗證 ID 的內容與格式，因為資料庫管理員可能需要用這項資訊來建構 pg_ident 對應表。（舉例來說，它是電子郵件地址嗎？組織 ID 編號嗎？UUID 嗎？）也應記載該模組是否可安全用於
+    `delegate_ident_mapping=1` 模式，以及若要如此使用，還需要哪些額外的組態設定。
 
 <a id="OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION"></a>
 
-### 50.1.3. Authorizing Users (Usermap Delegation) [#](#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)
+### 50.1.3. 授權使用者（使用者對應委派） [#](#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)
 
-The standard deliverable of a validation module is the user identifier,
-which the server will then compare to any configured
+驗證模組的標準產出是使用者識別碼，伺服器接著會將其與任何已設定的
 [`pg_ident.conf`
-mappings](../../server-administration/client-authentication/auth-username-maps.md) and determine whether the end user is authorized to connect.
-However, OAuth is itself an authorization framework, and tokens may carry
-information about user privileges. For example, a token may be associated
-with the organizational groups that a user belongs to, or list the roles
-that a user may assume, and duplicating that knowledge into local usermaps
-for every server may not be desirable.
+對應](../../server-administration/client-authentication/auth-username-maps.md)進行比對，藉此判斷該終端使用者是否有權連線。不過，OAuth 本身就是一套授權框架，權杖也可能攜帶關於使用者權限的資訊。舉例來說，某個權杖可能與該使用者所屬的組織群組相關聯，或是列出該使用者可以扮演的角色，而將這類資訊重複維護到每台伺服器各自的本機使用者對應表中，可能並不理想。
 
-To bypass username mapping entirely, and have the validator module assume
-the additional responsibility of authorizing user connections, the HBA may
-be configured with [delegate_ident_mapping](../../server-administration/client-authentication/auth-oauth.md#AUTH-OAUTH-DELEGATE-IDENT-MAPPING).
-The module may then use token scopes or an equivalent method to decide
-whether the user is allowed to connect under their desired role. The user
-identifier will still be recorded by the server, but it plays no part in
-determining whether to continue the connection.
+若要完全略過使用者名稱對應，讓驗證器模組承擔起授權使用者連線的額外職責，可在 HBA 中設定 [delegate_ident_mapping](../../server-administration/client-authentication/auth-oauth.md#AUTH-OAUTH-DELEGATE-IDENT-MAPPING)。此時模組便可使用權杖範圍或等效方法，來決定該使用者是否被允許以其所要求的角色連線。使用者識別碼仍然會由伺服器記錄下來，但它在決定是否繼續連線這件事上並不具任何作用。
 
-Using this scheme, authentication itself is optional. As long as the module
-reports that the connection is authorized, login will continue even if there
-is no recorded user identifier at all. This makes it possible to implement
-anonymous or pseudonymous access to the database, where the third-party
-provider performs all necessary authentication but does not provide any
-user-identifying information to the server. (Some providers may create an
-anonymized ID number that can be recorded instead, for later auditing.)
+採用這種機制時，驗證本身即成為選擇性的。只要模組回報該連線已獲授權，即使完全沒有任何已記錄的使用者識別碼，登入仍會繼續進行。這使得實作匿名或假名的資料庫存取成為可能，此時第三方提供者執行所有必要的驗證，但不會向伺服器提供任何可識別使用者身分的資訊。（部分提供者可能會建立一個匿名化的 ID 編號，供之後稽核之用，並改為記錄該編號。）
 
-Usermap delegation provides the most architectural flexibility, but it turns
-the validator module into a single point of failure for connection
-authorization. Use with caution.
+使用者對應委派提供了最大的架構彈性，但也讓驗證器模組成為連線授權的單一失效點。請謹慎使用。
 
 <br>
 
@@ -201,12 +100,10 @@ authorization. Use with caution.
 <a id="ftn.id-1.8.17.6.3.3.2.2.3.1"></a>
 
 [[17]](#id-1.8.17.6.3.3.2.2.3.1) 
-That is, "trusted" in the sense that the OAuth client and the
-PostgreSQL server are controlled by the same
-entity. Notably, the Device Authorization client flow supported by
-libpq does not usually meet this bar, since it's designed for use by
-public/untrusted clients.
+所謂「受信任」，是指 OAuth 用戶端與
+PostgreSQL 伺服器由同一個
+實體所控制的意義下的信任。值得注意的是，libpq 所支援的裝置授權（Device Authorization）用戶端流程，通常無法達到這個標準，因為它是設計給公開／不受信任的用戶端使用的。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/oauth-validator-design.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/oauth-validator-design.html)（原文版本：18.6；核對日期：2026-09-24）
