@@ -211,7 +211,7 @@
     * [19.14. 錯誤處理 #](server-administration/runtime-config/runtime-config-error-handling.md)
     * [19.15. Preset Options #](server-administration/runtime-config/runtime-config-preset.md)
     * [19.16. 自訂選項](server-administration/runtime-config/runtime-config-custom.md)
-    * [19.17. Developer Options #](server-administration/runtime-config/runtime-config-developer.md)
+    * [19.17. 開發人員選項 #](server-administration/runtime-config/runtime-config-developer.md)
     * [19.18. 簡短選項 #](server-administration/runtime-config/runtime-config-short.md)
   * [Chapter 20. Client Authentication](server-administration/client-authentication/README.md)
     * [20.1. The pg_hba.conf File #](server-administration/client-authentication/auth-pg-hba-conf.md)
