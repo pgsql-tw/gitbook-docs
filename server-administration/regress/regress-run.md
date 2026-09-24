@@ -1,45 +1,46 @@
-## 31.1. Running the Tests [#](#REGRESS-RUN)
+<a id="REGRESS-RUN"></a>
 
-[31.1.1. Running the Tests Against a Temporary Installation](regress-run.md#REGRESS-RUN-TEMP-INST)
+## 31.1. 執行測試 [#](#REGRESS-RUN)
 
-[31.1.2. Running the Tests Against an Existing Installation](regress-run.md#REGRESS-RUN-EXISTING-INST)
+[31.1.1. 針對暫時安裝執行測試](regress-run.md#REGRESS-RUN-TEMP-INST)
 
-[31.1.3. Additional Test Suites](regress-run.md#REGRESS-ADDITIONAL)
+[31.1.2. 針對既有安裝執行測試](regress-run.md#REGRESS-RUN-EXISTING-INST)
 
-[31.1.4. Locale and Encoding](regress-run.md#REGRESS-RUN-LOCALE)
+[31.1.3. 額外的測試套組](regress-run.md#REGRESS-ADDITIONAL)
 
-[31.1.5. Custom Server Settings](regress-run.md#REGRESS-RUN-CUSTOM-SETTINGS)
+[31.1.4. 地區設定與編碼](regress-run.md#REGRESS-RUN-LOCALE)
 
-[31.1.6. Extra Tests](regress-run.md#REGRESS-RUN-EXTRA-TESTS)
+[31.1.5. 自訂伺服器設定](regress-run.md#REGRESS-RUN-CUSTOM-SETTINGS)
 
-The regression tests can be run against an already installed and
-running server, or using a temporary installation within the build
-tree. Furthermore, there is a “parallel” and a
-“sequential” mode for running the tests. The
-sequential method runs each test script alone, while the
-parallel method starts up multiple server processes to run groups
-of tests in parallel. Parallel testing adds confidence that
-interprocess communication and locking are working correctly.
-Some tests may run sequentially even in the “parallel”
-mode in case this is required by the test.
+[31.1.6. 額外測試](regress-run.md#REGRESS-RUN-EXTRA-TESTS)
+
+迴歸測試可以針對已安裝並正在執行的伺服器執行，
+也可以使用建置樹內的暫時安裝來執行。此外，
+測試還有「平行」與「循序」兩種執行模式。
+循序模式會單獨執行每個測試指令碼，
+而平行模式則會啟動多個伺服器程序，
+以平行方式執行成組的測試。平行測試能提升信心，
+確認程序間通訊與鎖定機制運作正常。
+若某些測試有此需求，即使在「平行」模式下，
+仍可能以循序方式執行。
 
 <a id="REGRESS-RUN-TEMP-INST"></a>
 
-### 31.1.1. Running the Tests Against a Temporary Installation [#](#REGRESS-RUN-TEMP-INST)
+### 31.1.1. 針對暫時安裝執行測試 [#](#REGRESS-RUN-TEMP-INST)
 
-To run the parallel regression tests after building but before installation,
-type:
+若要在建置完成後、安裝之前執行平行迴歸測試，
+請在頂層目錄中輸入：
 
 ```
 
 make check
 ```
 
-in the top-level directory. (Or you can change to
-`src/test/regress` and run the command there.)
-Tests which are run in parallel are prefixed with “+”, and
-tests which run sequentially are prefixed with “-”.
-At the end you should see something like:
+（或者，你也可以切換到
+`src/test/regress`，在該處執行此命令。）
+以平行方式執行的測試，會加上「+」前綴，
+而以循序方式執行的測試，則會加上「-」前綴。
+最後你應該會看到類似下列的內容：
 
 ```
 
@@ -47,87 +48,88 @@ At the end you should see something like:
 # All 213 tests passed.
 ```
 
-or otherwise a note about which tests failed. See [Section 31.2](regress-evaluation.md) below before assuming that a
-“failure” represents a serious problem.
+或者是一則說明哪些測試失敗的訊息。在認定「失敗」
+代表嚴重問題之前，請先參閱下方的[31.2 節](regress-evaluation.md)。
 
-Because this test method runs a temporary server, it will not work
-if you did the build as the root user, since the server will not start as
-root. Recommended procedure is not to do the build as root, or else to
-perform testing after completing the installation.
+由於此測試方法會執行一個暫時性伺服器，
+若你以 root 使用者身分進行建置，此方法將無法運作，
+因為伺服器不會以 root 身分啟動。建議的做法，
+是不要以 root 身分進行建置，或是在完成安裝之後
+才進行測試。
 
-If you have configured PostgreSQL to install
-into a location where an older PostgreSQL
-installation already exists, and you perform `make check`
-before installing the new version, you might find that the tests fail
-because the new programs try to use the already-installed shared
-libraries. (Typical symptoms are complaints about undefined symbols.)
-If you wish to run the tests before overwriting the old installation,
-you'll need to build with `configure --disable-rpath`.
-It is not recommended that you use this option for the final installation,
-however.
+若你已將 PostgreSQL 設定為安裝到
+已存在較舊版 PostgreSQL 安裝的位置，
+且在安裝新版本之前執行 `make check`，
+可能會發現測試因為新程式嘗試使用已安裝的共享程式庫
+而失敗。（典型的徵狀是抱怨未定義的符號。）
+若你希望在覆寫舊安裝之前執行測試，
+就需要以 `configure --disable-rpath`
+進行建置。然而，並不建議你在最終安裝時使用此選項。
 
-The parallel regression test starts quite a few processes under your
-user ID. Presently, the maximum concurrency is twenty parallel test
-scripts, which means forty processes: there's a server process and a
-psql process for each test script.
-So if your system enforces a per-user limit on the number of processes,
-make sure this limit is at least fifty or so, else you might get
-random-seeming failures in the parallel test. If you are not in
-a position to raise the limit, you can cut down the degree of parallelism
-by setting the `MAX_CONNECTIONS` parameter. For example:
+平行迴歸測試會以你的使用者 ID，
+啟動相當多的程序。目前，最大並行數為
+二十個平行測試指令碼，也就是說會有四十個程序：
+每個測試指令碼都有一個伺服器程序，
+以及一個 psql 程序。因此，
+若你的系統強制執行單一使用者的程序數量上限，
+請確保此上限至少為五十左右，
+否則你在平行測試中，可能會遇到看似隨機發生的失敗。
+若你無法提高此上限，可以透過設定
+`MAX_CONNECTIONS` 參數，
+來降低平行程度。例如：
 
 ```
 
 make MAX_CONNECTIONS=10 check
 ```
 
-runs no more than ten tests concurrently.
+會限制最多同時執行十個測試。
 
 <a id="REGRESS-RUN-EXISTING-INST"></a>
 
-### 31.1.2. Running the Tests Against an Existing Installation [#](#REGRESS-RUN-EXISTING-INST)
+### 31.1.2. 針對既有安裝執行測試 [#](#REGRESS-RUN-EXISTING-INST)
 
-To run the tests after installation (see [Chapter 17](../installation/README.md)),
-initialize a data directory and start the
-server as explained in [Chapter 18](../runtime/README.md), then type:
+若要在安裝完成後執行測試（請參閱
+[第 17 章](../installation/README.md)），
+請依照 [第 18 章](../runtime/README.md) 中的說明，
+初始化資料目錄並啟動伺服器，接著輸入：
 
 ```
 
 make installcheck
 ```
 
-or for a parallel test:
+或若要進行平行測試：
 
 ```
 
 make installcheck-parallel
 ```
 
-The tests will expect to contact the server at the local host and the
-default port number, unless directed otherwise by `PGHOST` and
-`PGPORT` environment variables. The tests will be run in a
-database named `regression`; any existing database by this name
-will be dropped.
+除非以 `PGHOST` 與 `PGPORT`
+環境變數另行指定，否則測試預期會連線至本機主機，
+並使用預設連接埠號碼。測試會在一個名為
+`regression` 的資料庫中執行；
+任何現有的同名資料庫都會被捨棄。
 
-The tests will also transiently create some cluster-wide objects, such as
-roles, tablespaces, and subscriptions. These objects will have names
-beginning with `regress_`. Beware of
-using `installcheck` mode with an installation that has
-any actual global objects named that way.
+測試也會暫時建立一些叢集層級的物件，
+例如角色、資料表空間與訂閱。這些物件的名稱，
+會以 `regress_` 開頭。若你所使用的安裝中，
+確實存在以此方式命名的全域物件，
+請留意不要使用 `installcheck` 模式。
 
 <a id="REGRESS-ADDITIONAL"></a>
 
-### 31.1.3. Additional Test Suites [#](#REGRESS-ADDITIONAL)
+### 31.1.3. 額外的測試套組 [#](#REGRESS-ADDITIONAL)
 
-The `make check` and `make installcheck` commands
-run only the “core” regression tests, which test built-in
-functionality of the PostgreSQL server. The source
-distribution contains many additional test suites, most of them having
-to do with add-on functionality such as optional procedural languages.
+`make check` 與 `make installcheck`
+命令，只會執行「核心」迴歸測試，
+用來測試 PostgreSQL 伺服器的內建功能。
+原始碼發行套件中，含有許多額外的測試套組，
+其中大多數與選用程序語言等附加功能有關。
 
-To run all test suites applicable to the modules that have been selected
-to be built, including the core tests, type one of these commands at the
-top of the build tree:
+若要針對已選擇要建置之模組執行所有適用的測試套組
+（包括核心測試），請在建置樹頂層輸入以下其中一個命令：
 
 ```
 
@@ -135,155 +137,162 @@ make check-world
 make installcheck-world
 ```
 
-These commands run the tests using temporary servers or an
-already-installed server, respectively, just as previously explained
-for `make check` and `make installcheck`. Other
-considerations are the same as previously explained for each method.
-Note that `make check-world` builds a separate instance
-(temporary data directory) for each tested module, so it requires more
-time and disk space than `make installcheck-world`.
+這些命令會分別使用暫時性伺服器，或已安裝的伺服器
+來執行測試，就如同先前針對 `make check`
+與 `make installcheck` 所說明的一樣。
+其他考量事項，也與先前針對各方法所說明的相同。
+請注意，`make check-world` 會為每個
+受測模組建置獨立的執行個體（暫時資料目錄），
+因此比 `make installcheck-world`
+需要更多時間與磁碟空間。
 
-On a modern machine with multiple CPU cores and no tight operating-system
-limits, you can make things go substantially faster with parallelism.
-The recipe that most PostgreSQL developers actually use for running all
-tests is something like
+在具備多核心 CPU、且作業系統限制不嚴格的現代機器上，
+你可以透過平行處理大幅加快速度。
+大多數 PostgreSQL 開發人員實際用來執行所有測試的做法，
+類似下列這樣：
 
 ```
 
 make check-world -j8 >/dev/null
 ```
 
-with a `-j` limit near to or a bit more than the number
-of available cores. Discarding stdout
-eliminates chatter that's not interesting when you just want to verify
-success. (In case of failure, the stderr
-messages are usually enough to determine where to look closer.)
+`-j` 限制值接近或略高於可用核心數。
+捨棄標準輸出，能消除在你只想確認是否成功時，
+沒有意義的訊息雜訊。（若發生失敗，
+標準錯誤訊息通常已足以讓你判斷該從何處進一步查看。）
 
-Alternatively, you can run individual test suites by typing
-`make check` or `make installcheck` in the appropriate
-subdirectory of the build tree. Keep in mind that `make
-installcheck` assumes you've installed the relevant module(s), not
-only the core server.
+另外，你也可以在建置樹的相應子目錄中，
+輸入 `make check` 或 `make installcheck`，
+執行個別的測試套組。請記住，
+`make installcheck` 假設你已安裝相關模組，
+而不只是核心伺服器。
 
-The additional tests that can be invoked this way include:
+可以用這種方式呼叫的額外測試包括：
 
-* Regression tests for optional procedural languages.
-  These are located under `src/pl`.
-* Regression tests for `contrib` modules,
-  located under `contrib`.
-  Not all `contrib` modules have tests.
-* Regression tests for the interface libraries,
-  located in `src/interfaces/libpq/test` and
-  `src/interfaces/ecpg/test`.
-* Tests for core-supported authentication methods,
-  located in `src/test/authentication`.
-  (See below for additional authentication-related tests.)
-* Tests stressing behavior of concurrent sessions,
-  located in `src/test/isolation`.
-* Tests for crash recovery and physical replication,
-  located in `src/test/recovery`.
-* Tests for logical replication,
-  located in `src/test/subscription`.
-* Tests of client programs, located under `src/bin`.
+* 選用程序語言的迴歸測試。
+  這些測試位於 `src/pl` 底下。
+* `contrib` 模組的迴歸測試，
+  位於 `contrib` 底下。
+  並非所有 `contrib` 模組都有測試。
+* 介面程式庫的迴歸測試，
+  位於 `src/interfaces/libpq/test` 與
+  `src/interfaces/ecpg/test` 中。
+* 核心支援之驗證方法的測試，
+  位於 `src/test/authentication` 中。
+  （關於其他驗證相關測試，請見下文。）
+* 用於對並行工作階段行為施加壓力的測試，
+  位於 `src/test/isolation` 中。
+* 當機復原與實體複寫的測試，
+  位於 `src/test/recovery` 中。
+* 邏輯複寫的測試，
+  位於 `src/test/subscription` 中。
+* 用戶端程式的測試，位於 `src/bin` 底下。
 
-When using `installcheck` mode, these tests will create
-and destroy test databases whose names
-include `regression`, for
-example `pl_regression`
-or `contrib_regression`. Beware of
-using `installcheck` mode with an installation that has
-any non-test databases named that way.
+在使用 `installcheck` 模式時，
+這些測試會建立並刪除名稱中包含
+`regression` 的測試資料庫，
+例如 `pl_regression`
+或 `contrib_regression`。若你所使用的安裝中，
+確實存在以此方式命名的非測試用資料庫，
+請留意不要使用 `installcheck` 模式。
 
-Some of these auxiliary test suites use the TAP infrastructure explained
-in [Section 31.4](regress-tap.md).
-The TAP-based tests are run only when PostgreSQL was configured with the
-option `--enable-tap-tests`. This is recommended for
-development, but can be omitted if there is no suitable Perl installation.
+其中部分輔助測試套組，
+使用了 [31.4 節](regress-tap.md)所說明的 TAP 架構。
+只有在 PostgreSQL 是以
+`--enable-tap-tests` 選項進行組態設定時，
+才會執行以 TAP 為基礎的測試。
+這在開發時建議啟用，
+但若沒有合適的 Perl 安裝，也可以省略。
 
-Some test suites are not run by default, either because they are not secure
-to run on a multiuser system, because they require special software or
-because they are resource intensive. You can decide which test suites to
-run additionally by setting the `make` or environment
-variable `PG_TEST_EXTRA` to a whitespace-separated list,
-for example:
+有些測試套組預設不會執行，原因可能是
+在多使用者系統上執行並不安全、需要特殊軟體，
+或需要耗費大量資源。你可以透過將
+`make` 變數或環境變數
+`PG_TEST_EXTRA` 設為以空白分隔的清單，
+來決定要額外執行哪些測試套組，例如：
 
 ```
 
 make check-world PG_TEST_EXTRA='kerberos ldap ssl load_balance libpq_encryption'
 ```
 
-The following values are currently supported:
+目前支援下列值：
 
 `kerberos`
-:   Runs the test suite under `src/test/kerberos`. This
-    requires an MIT Kerberos installation and opens TCP/IP listen sockets.
+:   執行 `src/test/kerberos` 底下的測試套組。
+    這需要安裝 MIT Kerberos，並會開啟 TCP/IP 監聽 socket。
 
 `ldap`
-:   Runs the test suite under `src/test/ldap`. This
-    requires an OpenLDAP installation and opens
-    TCP/IP listen sockets.
+:   執行 `src/test/ldap` 底下的測試套組。
+    這需要安裝 OpenLDAP，並會開啟
+    TCP/IP 監聽 socket。
 
 `libpq_encryption`
-:   Runs the test `src/interfaces/libpq/t/005_negotiate_encryption.pl`.
-    This opens TCP/IP listen sockets. If `PG_TEST_EXTRA`
-    also includes `kerberos`, additional tests that require
-    an MIT Kerberos installation are enabled.
+:   執行測試
+    `src/interfaces/libpq/t/005_negotiate_encryption.pl`。
+    這會開啟 TCP/IP 監聽 socket。若 `PG_TEST_EXTRA`
+    也包含 `kerberos`，
+    則會啟用需要安裝 MIT Kerberos 的額外測試。
 
 `load_balance`
-:   Runs the test `src/interfaces/libpq/t/004_load_balance_dns.pl`.
-    This requires editing the system `hosts` file and
-    opens TCP/IP listen sockets.
+:   執行測試
+    `src/interfaces/libpq/t/004_load_balance_dns.pl`。
+    這需要編輯系統的 `hosts` 檔案，
+    並會開啟 TCP/IP 監聽 socket。
 
 `oauth`
-:   Runs the test suite under `src/test/modules/oauth_validator`.
-    This opens TCP/IP listen sockets for a test server running HTTPS.
+:   執行 `src/test/modules/oauth_validator`
+    底下的測試套組。這會為一個執行 HTTPS 的測試伺服器，
+    開啟 TCP/IP 監聽 socket。
 
 `regress_dump_restore`
-:   Runs an additional test suite in
-    `src/bin/pg_upgrade/t/002_pg_upgrade.pl` which
-    cycles the regression database through `pg_dump`/
-    `pg_restore`. Not enabled by default because it
-    is resource intensive.
+:   在
+    `src/bin/pg_upgrade/t/002_pg_upgrade.pl`
+    中執行一項額外的測試套組，
+    透過 `pg_dump`／
+    `pg_restore` 對迴歸資料庫進行循環測試。
+    預設未啟用，因為它相當耗費資源。
 
 `sepgsql`
-:   Runs the test suite under `contrib/sepgsql`. This
-    requires an SELinux environment that is set up in a specific way; see
-    [Section F.40.3](../../appendixes/contrib/sepgsql.md#SEPGSQL-REGRESSION).
+:   執行 `contrib/sepgsql` 底下的測試套組。
+    這需要以特定方式設定好的 SELinux 環境；請參閱
+    [F.40.3 節](../../appendixes/contrib/sepgsql.md#SEPGSQL-REGRESSION)。
 
 `ssl`
-:   Runs the test suite under `src/test/ssl`. This opens TCP/IP listen sockets.
+:   執行 `src/test/ssl` 底下的測試套組。
+    這會開啟 TCP/IP 監聽 socket。
 
 `wal_consistency_checking`
-:   Uses `wal_consistency_checking=all` while running
-    certain tests under `src/test/recovery`. Not
-    enabled by default because it is resource intensive.
+:   在執行 `src/test/recovery` 底下的部分測試時，
+    使用 `wal_consistency_checking=all`。
+    預設未啟用，因為它相當耗費資源。
 
 `xid_wraparound`
-:   Runs the test suite under `src/test/modules/xid_wraparound`.
-    Not enabled by default because it is resource intensive.
+:   執行 `src/test/modules/xid_wraparound`
+    底下的測試套組。
+    預設未啟用，因為它相當耗費資源。
 
-Tests for features that are not supported by the current build
-configuration are not run even if they are mentioned in
-`PG_TEST_EXTRA`.
+即使 `PG_TEST_EXTRA` 中提及了
+目前建置組態不支援的功能，其對應測試也不會被執行。
 
-In addition, there are tests in `src/test/modules`
-which will be run by `make check-world` but not
-by `make installcheck-world`. This is because they
-install non-production extensions or have other side-effects that are
-considered undesirable for a production installation. You can
-use `make install` and `make
-installcheck` in one of those subdirectories if you wish,
-but it's not recommended to do so with a non-test server.
+此外，`src/test/modules` 中還有一些測試，
+會由 `make check-world` 執行，
+但不會由 `make installcheck-world` 執行。
+這是因為它們會安裝非正式環境用的擴充功能，
+或有其他被認為不適用於正式環境安裝的副作用。
+若你願意，可以在這些子目錄的其中一個中執行
+`make install` 與 `make installcheck`，
+但並不建議你對非測試用的伺服器這麼做。
 
 <a id="REGRESS-RUN-LOCALE"></a>
 
-### 31.1.4. Locale and Encoding [#](#REGRESS-RUN-LOCALE)
+### 31.1.4. 地區設定與編碼 [#](#REGRESS-RUN-LOCALE)
 
-By default, tests using a temporary installation use the
-locale defined in the current environment and the corresponding
-database encoding as determined by `initdb`. It
-can be useful to test different locales by setting the appropriate
-environment variables, for example:
+依預設，使用暫時安裝的測試，
+會使用目前環境中所定義的地區設定，
+以及由 `initdb` 所決定的對應資料庫編碼。
+透過設定適當的環境變數，測試不同的地區設定，
+可能會很有用，例如：
 
 ```
 
@@ -291,65 +300,71 @@ make check LANG=C
 make check LC_COLLATE=en_US.utf8 LC_CTYPE=fr_CA.utf8
 ```
 
-For implementation reasons, setting `LC_ALL` does not
-work for this purpose; all the other locale-related environment
-variables do work.
+由於實作方式的緣故，設定 `LC_ALL`
+對此目的並不會生效；其他所有地區設定相關的
+環境變數則都能正常運作。
 
-When testing against an existing installation, the locale is
-determined by the existing database cluster and cannot be set
-separately for the test run.
+當針對既有安裝進行測試時，地區設定
+是由既有的資料庫叢集所決定，
+無法針對該次測試執行另外設定。
 
-You can also choose the database encoding explicitly by setting
-the variable `ENCODING`, for example:
+你也可以透過設定變數 `ENCODING`，
+明確選擇資料庫編碼，例如：
 
 ```
 
 make check LANG=C ENCODING=EUC_JP
 ```
 
-Setting the database encoding this way typically only makes sense
-if the locale is C; otherwise the encoding is chosen automatically
-from the locale, and specifying an encoding that does not match
-the locale will result in an error.
+以此方式設定資料庫編碼，
+通常只有在地區設定為 C 時才有意義；
+否則編碼會依地區設定自動選擇，
+若你指定的編碼與地區設定不符，就會導致錯誤。
 
-The database encoding can be set for tests against either a temporary or
-an existing installation, though in the latter case it must be
-compatible with the installation's locale.
+無論是針對暫時安裝還是既有安裝進行測試，
+都可以設定資料庫編碼，不過在後者的情況下，
+該編碼必須與該安裝的地區設定相容。
 
 <a id="REGRESS-RUN-CUSTOM-SETTINGS"></a>
 
-### 31.1.5. Custom Server Settings [#](#REGRESS-RUN-CUSTOM-SETTINGS)
+### 31.1.5. 自訂伺服器設定 [#](#REGRESS-RUN-CUSTOM-SETTINGS)
 
-There are several ways to use custom server settings when running a test
-suite. This can be useful to enable additional logging, adjust resource
-limits, or enable extra run-time checks such as [debug_discard_caches](../runtime-config/runtime-config-developer.md#GUC-DEBUG-DISCARD-CACHES). But note that not all tests can be
-expected to pass cleanly with arbitrary settings.
+執行測試套組時，有幾種方式可以使用自訂的伺服器設定。
+這對於啟用額外的記錄、調整資源限制，
+或啟用額外的執行時期檢查（例如
+[debug_discard_caches](../runtime-config/runtime-config-developer.md#GUC-DEBUG-DISCARD-CACHES)）
+可能很有用。但請注意，
+並非所有測試都能保證在任意設定下順利通過。
 
-Extra options can be passed to the various `initdb`
-commands that are run internally during test setup using the environment
-variable `PG_TEST_INITDB_EXTRA_OPTS`. For example, to run a
-test with checksums enabled and a custom WAL segment size and
-`work_mem` setting, use:
+可以透過環境變數 `PG_TEST_INITDB_EXTRA_OPTS`，
+將額外選項傳遞給測試設定期間內部執行的各個
+`initdb` 命令。例如，
+若要在啟用總和檢查碼、
+並使用自訂 WAL 區段大小與
+`work_mem` 設定的情況下執行測試，可使用：
 
 ```
 
 make check PG_TEST_INITDB_EXTRA_OPTS='-k --wal-segsize=4 -c work_mem=50MB'
 ```
 
-For the core regression test suite and other tests driven by
-`pg_regress`, custom run-time server settings can also be
-set in the `PGOPTIONS` environment variable (for settings
-that allow this), for example:
+對於核心迴歸測試套組，
+以及其他由 `pg_regress` 驅動的測試而言，
+也可以透過 `PGOPTIONS` 環境變數
+（適用於允許此方式的設定）設定自訂的執行時期伺服器設定，
+例如：
 
 ```
 
 make check PGOPTIONS="-c debug_parallel_query=regress -c work_mem=50MB"
 ```
 
-(This makes use of functionality provided by libpq; see [options](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-OPTIONS) for details.)
+（這運用了 libpq 所提供的功能；詳情請參閱
+[options](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-OPTIONS)。）
 
-When running against a temporary installation, custom settings can also be
-set by supplying a pre-written `postgresql.conf`:
+當針對暫時安裝執行測試時，
+也可以透過提供預先寫好的 `postgresql.conf`
+來設定自訂設定：
 
 ```
 
@@ -360,13 +375,13 @@ make check EXTRA_REGRESS_OPTS="--temp-config=test_postgresql.conf"
 
 <a id="REGRESS-RUN-EXTRA-TESTS"></a>
 
-### 31.1.6. Extra Tests [#](#REGRESS-RUN-EXTRA-TESTS)
+### 31.1.6. 額外測試 [#](#REGRESS-RUN-EXTRA-TESTS)
 
-The core regression test suite contains a few test files that are not
-run by default, because they might be platform-dependent or take a
-very long time to run. You can run these or other extra test
-files by setting the variable `EXTRA_TESTS`. For
-example, to run the `numeric_big` test:
+核心迴歸測試套組中，含有少數幾個預設不會執行的測試檔案，
+原因是它們可能與平台相依，或需要非常長的時間才能執行完畢。
+你可以透過設定變數 `EXTRA_TESTS`，
+執行這些或其他額外的測試檔案。例如，
+若要執行 `numeric_big` 測試：
 
 ```
 
@@ -375,4 +390,4 @@ make check EXTRA_TESTS=numeric_big
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/regress-run.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/regress-run.html)（原文版本：18.6；核對日期：2026-09-24）
