@@ -1,17 +1,16 @@
-## 19.18. Short Options [#](#RUNTIME-CONFIG-SHORT)
+<a id="RUNTIME-CONFIG-SHORT"></a>
 
-For convenience there are also single letter command-line option
-switches available for some parameters. They are described in
-[Table 19.5](runtime-config-short.md#RUNTIME-CONFIG-SHORT-TABLE). Some of these
-options exist for historical reasons, and their presence as a
-single-letter option does not necessarily indicate an endorsement
-to use the option heavily.
+## 19.18. 簡短選項 [#](#RUNTIME-CONFIG-SHORT)
+
+為方便起見，部分參數也提供單一字母的命令列選項開關，
+詳情請參閱[表 19.5](runtime-config-short.md#RUNTIME-CONFIG-SHORT-TABLE)。其中有些選項是基於歷史因素而存在，其以單一字母選項的形式出現，
+並不代表認可大量使用該選項。
 
 <a id="RUNTIME-CONFIG-SHORT-TABLE"></a>
 
-**Table 19.5. Short Option Key**
+**表 19.5. 簡短選項對照表**
 
-<table border="1" class="table" summary="Short Option Key"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>Short Option</th><th>Equivalent</th></tr></thead><tbody><tr><td><code class="option">-B <em class="replaceable"><code>x</code></em></code></td><td><code class="literal">shared_buffers = <em class="replaceable"><code>x</code></em></code></td></tr><tr><td><code class="option">-d <em class="replaceable"><code>x</code></em></code></td><td><code class="literal">log_min_messages = DEBUG<em class="replaceable"><code>x</code></em></code></td></tr><tr><td><code class="option">-e</code></td><td><code class="literal">datestyle = euro</code></td></tr><tr><td>
+<table border="1" class="table" summary="Short Option Key"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>簡短選項</th><th>等效設定</th></tr></thead><tbody><tr><td><code class="option">-B <em class="replaceable"><code>x</code></em></code></td><td><code class="literal">shared_buffers = <em class="replaceable"><code>x</code></em></code></td></tr><tr><td><code class="option">-d <em class="replaceable"><code>x</code></em></code></td><td><code class="literal">log_min_messages = DEBUG<em class="replaceable"><code>x</code></em></code></td></tr><tr><td><code class="option">-e</code></td><td><code class="literal">datestyle = euro</code></td></tr><tr><td>
 <code class="option">-fb</code>, <code class="option">-fh</code>, <code class="option">-fi</code>,
           <code class="option">-fm</code>, <code class="option">-fn</code>, <code class="option">-fo</code>,
           <code class="option">-fs</code>, <code class="option">-ft</code>
@@ -32,4 +31,4 @@ to use the option heavily.
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-short.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-short.html)（原文版本：18.6；核對日期：2026-09-24）
