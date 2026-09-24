@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：646 頁。
+待譯頁面：645 頁。
 
 ## 根目錄
 
@@ -790,7 +790,7 @@
 - [ ] `server-administration/regress/regress-evaluation.md` — 31.2. Test Evaluation #
 - [ ] `server-administration/regress/regress-run.md` — 31.1. Running the Tests #
 - [x] `server-administration/regress/regress-tap.md` — 31.4. TAP 測試 #
-- [ ] `server-administration/regress/regress-variant.md` — 31.3. Variant Comparison Files #
+- [x] `server-administration/regress/regress-variant.md` — 31.3. 變體比對檔案 #
 - [ ] `server-administration/runtime-config/README.md` — Chapter 19. Server Configuration
 - [ ] `server-administration/runtime-config/config-setting.md` — 19.1. Setting Parameters #
 - [ ] `server-administration/runtime-config/runtime-config-client.md` — 19.11. Client Connection Defaults #

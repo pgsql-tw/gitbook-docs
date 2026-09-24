@@ -1,86 +1,90 @@
-## 31.3. Variant Comparison Files [#](#REGRESS-VARIANT)
+<a id="REGRESS-VARIANT"></a>
 
-Since some of the tests inherently produce environment-dependent
-results, we have provided ways to specify alternate “expected”
-result files. Each regression test can have several comparison files
-showing possible results on different platforms. There are two
-independent mechanisms for determining which comparison file is used
-for each test.
+## 31.3. 變體比對檔案 [#](#REGRESS-VARIANT)
 
-The first mechanism allows comparison files to be selected for
-specific platforms. There is a mapping file,
-`src/test/regress/resultmap`, that defines
-which comparison file to use for each platform.
-To eliminate bogus test “failures” for a particular platform,
-you first choose or make a variant result file, and then add a line to the
-`resultmap` file.
+由於部分測試本質上會產生依環境而異的結果，
+我們提供了指定替代「預期」結果檔案的方式。
+每個迴歸測試都可以有多個比對檔案，
+分別顯示在不同平台上可能出現的結果。
+判斷每項測試要使用哪個比對檔案，有兩種獨立的機制。
 
-Each line in the mapping file is of the form
+第一種機制，可讓你針對特定平台選擇比對檔案。
+有一個對應檔
+`src/test/regress/resultmap`，
+用來定義每個平台要使用哪個比對檔案。
+若要消除特定平台上虛假的測試「失敗」，
+你要先選擇或製作一個變體結果檔案，
+再於 `resultmap` 檔案中新增一行。
+
+對應檔中每一行的格式如下：
 
 ```
 
 testname:output:platformpattern=comparisonfilename
 ```
 
-The test name is just the name of the particular regression test
-module. The output value indicates which output file to check. For the
-standard regression tests, this is always `out`. The
-value corresponds to the file extension of the output file.
-The platform pattern is a pattern in the style of the Unix
-tool `expr` (that is, a regular expression with an implicit
-`^` anchor at the start). It is matched against the
-platform name as printed by `config.guess`.
-The comparison file name is the base name of the substitute result
-comparison file.
+測試名稱就是該特定迴歸測試模組的名稱。輸出值
+指出要檢查哪個輸出檔案。對標準迴歸測試而言，
+此值一律為 `out`，
+對應於輸出檔案的副檔名。
+平台樣式是採用 Unix 工具 `expr` 風格的樣式
+（也就是說，在開頭隱含加上 `^` 錨點的
+正規表示式），會與 `config.guess`
+所印出的平台名稱進行比對。
+比對檔案名稱，則是取代用結果比對檔案的基本檔名。
 
-For example: some systems lack a working `strtof` function,
-for which our workaround causes rounding errors in the
-`float4` regression test.
-Therefore, we provide a variant comparison file,
-`float4-misrounded-input.out`, which includes
-the results to be expected on these systems. To silence the bogus
-“failure” message on Cygwin
-platforms, `resultmap` includes:
+舉例來說：有些系統缺少可正常運作的
+`strtof` 函式，我們針對此問題所做的因應措施，
+會使 `float4` 迴歸測試中出現四捨五入誤差。
+因此，我們提供了一份變體比對檔案
+`float4-misrounded-input.out`，
+其中包含在這類系統上預期會出現的結果。
+為了消除 Cygwin 平台上虛假的「失敗」訊息，
+`resultmap` 中包含以下內容：
 
 ```
 
 float4:out:.*-.*-cygwin.*=float4-misrounded-input.out
 ```
 
-which will trigger on any machine where the output of
-`config.guess` matches `.*-.*-cygwin.*`.
-Other lines in `resultmap` select the variant comparison
-file for other platforms where it's appropriate.
+只要 `config.guess` 的輸出符合
+`.*-.*-cygwin.*`，
+這條規則就會在任何這樣的機器上觸發。
+`resultmap` 中的其他行，
+則會針對其他適用的平台選擇對應的變體比對檔案。
 
-The second selection mechanism for variant comparison files is
-much more automatic: it simply uses the “best match” among
-several supplied comparison files. The regression test driver
-script considers both the standard comparison file for a test,
-`testname.out`, and variant files named
+變體比對檔案的第二種選擇機制，則自動化得多：
+它只是在多個所提供的比對檔案中，
+挑選「最佳吻合」的那一個。迴歸測試驅動指令碼
+會同時考慮某測試的標準比對檔案
+`testname.out`，以及名為
 `testname_digit.out`
-(where the *`digit`* is any single digit
-`0`-`9`). If any such file is an exact match,
-the test is considered to pass; otherwise, the one that generates
-the shortest diff is used to create the failure report. (If
-`resultmap` includes an entry for the particular
-test, then the base *`testname`* is the substitute
-name given in `resultmap`.)
+（其中*`digit`*可以是 `0`-`9`
+中的任一個單一數字）的變體檔案。
+若其中任何一個檔案完全吻合，
+就會判定該測試通過；否則，
+系統就會使用能產生最短差異（diff）的那個檔案，
+來建立失敗報告。（若 `resultmap`
+中對該特定測試含有一筆項目，
+則基本*`testname`*就是
+`resultmap` 中所指定的替代名稱。）
 
-For example, for the `char` test, the comparison file
-`char.out` contains results that are expected
-in the `C` and `POSIX` locales, while
-the file `char_1.out` contains results sorted as
-they appear in many other locales.
+舉例來說，對於 `char` 測試而言，
+比對檔案 `char.out` 中含有在
+`C` 與 `POSIX` 地區設定下
+所預期的結果，而檔案 `char_1.out`
+中則含有按照許多其他地區設定所排序的結果。
 
-The best-match mechanism was devised to cope with locale-dependent
-results, but it can be used in any situation where the test results
-cannot be predicted easily from the platform name alone. A limitation of
-this mechanism is that the test driver cannot tell which variant is
-actually “correct” for the current environment; it will just pick
-the variant that seems to work best. Therefore it is safest to use this
-mechanism only for variant results that you are willing to consider
-equally valid in all contexts.
+最佳吻合機制，是為了因應依地區設定而異的結果而設計，
+但它也能用於任何測試結果無法單純從平台名稱
+輕易預測的情況。此機制的一項限制，
+是測試驅動程式無法得知，
+對目前環境而言，哪個變體才是真正「正確」的；
+它只會挑選看起來吻合最佳的那個變體。
+因此，最安全的做法，
+是只在你認為所有情境中皆同樣有效的變體結果上，
+使用此機制。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/regress-variant.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/regress-variant.html)（原文版本：18.6；核對日期：2026-09-24）
