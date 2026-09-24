@@ -1,75 +1,62 @@
-## 28.6. WAL Internals [#](#WAL-INTERNALS)
+<a id="WAL-INTERNALS"></a>
+
+## 28.6. WAL 內部運作 [#](#WAL-INTERNALS)
 
 <a id="id-1.6.15.8.2"></a>
 
-WAL is automatically enabled; no action is
-required from the administrator except ensuring that the
-disk-space requirements for the WAL files are met,
-and that any necessary tuning is done (see [Section 28.5](wal-configuration.md)).
+WAL 會自動啟用；除了確保 WAL 檔案的磁碟空間需求
+獲得滿足，以及完成任何必要的調校（請參閱
+[28.5 節](wal-configuration.md)）之外，管理者不需要採取任何其他動作。
 
-WAL records are appended to the WAL
-files as each new record is written. The insert position is described by
-a Log Sequence Number (LSN) that is a byte offset into
-the WAL, increasing monotonically with each new record.
-LSN values are returned as the datatype
-[`pg_lsn`](../../the-sql-language/datatype/datatype-pg-lsn.md). Values can be
-compared to calculate the volume of WAL data that
-separates them, so they are used to measure the progress of replication
-and recovery.
+每當寫入一筆新的 WAL 紀錄時，該紀錄就會附加到 WAL
+檔案中。插入位置是以日誌序號（Log Sequence Number，LSN）表示，
+它是 WAL 中的位元組位移量，會隨著每筆新紀錄單調遞增。
+LSN 值是以 [`pg_lsn`](../../the-sql-language/datatype/datatype-pg-lsn.md) 資料型別傳回。
+這些值可以互相比較，以計算兩者之間相隔的 WAL 資料量，
+因此可用來衡量複寫與復原的進度。
 
-WAL files are stored in the directory
-`pg_wal` under the data directory, as a set of
-segment files, normally each 16 MB in size (but the size can be changed
-by altering the `--wal-segsize` initdb option). Each segment is
-divided into pages, normally 8 kB each (this size can be changed via the
-`--with-wal-blocksize` configure option). The WAL record headers
-are described in `access/xlogrecord.h`; the record
-content is dependent on the type of event that is being logged. Segment
-files are given ever-increasing numbers as names, starting at
-`000000010000000000000001`. The numbers do not wrap,
-but it will take a very, very long time to exhaust the
-available stock of numbers.
+WAL 檔案儲存在資料目錄底下的 `pg_wal`
+目錄中，形式為一組區段檔案，通常每個檔案大小為 16 MB
+（但可透過修改 initdb 的 `--wal-segsize` 選項變更此大小）。
+每個區段又分為多個頁面，通常每個頁面 8 kB（此大小可透過
+`--with-wal-blocksize` configure 選項變更）。WAL 紀錄標頭的說明位於
+`access/xlogrecord.h`；紀錄內容則取決於所記錄事件的
+型別。區段檔案的檔名採用遞增編號，從
+`000000010000000000000001` 開始。這些編號不會回捲，
+但要耗盡可用的編號範圍，需要非常、非常久的時間。
 
-It is advantageous if the WAL is located on a different disk from the
-main database files. This can be achieved by moving the
-`pg_wal` directory to another location (while the server
-is shut down, of course) and creating a symbolic link from the
-original location in the main data directory to the new location.
+若 WAL 位於與主要資料庫檔案不同的磁碟上，會相當有利。
+做法是將 `pg_wal` 目錄搬移到另一個位置
+（當然，這必須在伺服器關閉的情況下進行），
+再從主要資料目錄中的原始位置，建立一個指向新位置的符號連結。
 
-The aim of WAL is to ensure that the log is
-written before database records are altered, but this can be subverted by
-disk drives<a id="id-1.6.15.8.7.2"></a> that falsely report a
-successful write to the kernel,
-when in fact they have only cached the data and not yet stored it
-on the disk. A power failure in such a situation might lead to
-irrecoverable data corruption. Administrators should try to ensure
-that disks holding PostgreSQL's
-WAL files do not make such false reports.
-(See [Section 28.1](wal-reliability.md).)
+WAL 的目的，是確保日誌會在資料庫紀錄變更之前先寫入，
+但若磁碟機<a id="id-1.6.15.8.7.2"></a>向核心回報寫入成功，
+實際上卻只是將資料快取起來、尚未真正寫入磁碟，
+這項保證就可能被破壞。在這種情況下若發生電源故障，
+可能導致無法復原的資料損毀。管理者應設法確保，
+存放 PostgreSQL WAL 檔案的磁碟不會做出這類不實回報。
+（請參閱[28.1 節](wal-reliability.md)。）
 
-After a checkpoint has been made and the WAL flushed, the
-checkpoint's position is saved in the file
-`pg_control`. Therefore, at the start of recovery,
-the server first reads `pg_control` and
-then the checkpoint record; then it performs the REDO operation by
-scanning forward from the WAL location indicated in the checkpoint
-record. Because the entire content of data pages is saved in the
-WAL on the first page modification after a checkpoint (assuming
-[full_page_writes](../runtime-config/runtime-config-wal.md#GUC-FULL-PAGE-WRITES) is not disabled), all pages
-changed since the checkpoint will be restored to a consistent
-state.
+在完成某次檢查點（checkpoint）且 WAL 已安全刷寫至磁碟之後，
+該檢查點的位置會儲存於 `pg_control` 檔案中。
+因此，在復原開始時，伺服器會先讀取 `pg_control`，
+接著讀取檢查點紀錄；然後從檢查點紀錄所指出的 WAL 位置開始
+向前掃描，執行 REDO 操作。由於在檢查點之後、資料頁面第一次
+被修改時，該頁面的完整內容都會被寫入 WAL
+（假設 [full_page_writes](../runtime-config/runtime-config-wal.md#GUC-FULL-PAGE-WRITES) 未被停用），
+因此自該檢查點以來變更過的所有頁面，都能被還原到一致的
+狀態。
 
-To deal with the case where `pg_control` is
-corrupt, we should support the possibility of scanning existing WAL
-segments in reverse order — newest to oldest — in order to find the
-latest checkpoint. This has not been implemented yet.
-`pg_control` is small enough (less than one disk page)
-that it is not subject to partial-write problems, and as of this writing
-there have been no reports of database failures due solely to the inability
-to read `pg_control` itself. So while it is
-theoretically a weak spot, `pg_control` does not
-seem to be a problem in practice.
+為因應 `pg_control` 損毀的情況，我們應支援以反向順序——由新到舊——
+掃描既有 WAL 區段，以尋找最新檢查點的可能性。
+但這項功能目前尚未實作。`pg_control` 的檔案大小
+極小（不到一個磁碟頁面），因此不會有部分寫入的問題；
+截至撰寫本文為止，尚未有任何資料庫故障案例，
+是單純因為無法讀取 `pg_control` 本身所導致。
+因此，雖然理論上它是一個弱點，但 `pg_control`
+在實務上似乎並不構成問題。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-internals.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/wal-internals.html)（原文版本：18.6；核對日期：2026-09-24）
