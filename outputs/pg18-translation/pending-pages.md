@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：639 頁。
+待譯頁面：638 頁。
 
 ## 根目錄
 
@@ -803,7 +803,7 @@
 - [ ] `server-administration/runtime-config/runtime-config-locks.md` — 19.12. Lock Management #
 - [ ] `server-administration/runtime-config/runtime-config-logging.md` — 19.8. Error Reporting and Logging #
 - [ ] `server-administration/runtime-config/runtime-config-preset.md` — 19.15. Preset Options #
-- [ ] `server-administration/runtime-config/runtime-config-query.md` — 19.7. Query Planning #
+- [x] `server-administration/runtime-config/runtime-config-query.md` — 19.7. 查詢規劃 #
 - [ ] `server-administration/runtime-config/runtime-config-replication.md` — 19.6. Replication #
 - [ ] `server-administration/runtime-config/runtime-config-resource.md` — 19.4. Resource Consumption #
 - [x] `server-administration/runtime-config/runtime-config-short.md` — 19.18. 簡短選項 #
