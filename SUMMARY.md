@@ -194,7 +194,7 @@
     * [18.10. 使用 GSSAPI 加密的安全 TCP/IP 連線 #](server-administration/runtime/gssapi-enc.md)
     * [18.11. 使用 SSH 通道的安全 TCP/IP 連線 #](server-administration/runtime/ssh-tunnels.md)
     * [18.12. 在 Windows 註冊事件日誌](server-administration/runtime/event-log-registration.md)
-  * [Chapter 19. Server Configuration](server-administration/runtime-config/README.md)
+  * [第 19 章、伺服器組態設定](server-administration/runtime-config/README.md)
     * [19.1. Setting Parameters #](server-administration/runtime-config/config-setting.md)
     * [19.2. 檔案位置 #](server-administration/runtime-config/runtime-config-file-locations.md)
     * [19.3. 連線與驗證 #](server-administration/runtime-config/runtime-config-connection.md)
