@@ -199,7 +199,7 @@
     * [19.2. 檔案位置 #](server-administration/runtime-config/runtime-config-file-locations.md)
     * [19.3. 連線與驗證 #](server-administration/runtime-config/runtime-config-connection.md)
     * [19.4. Resource Consumption #](server-administration/runtime-config/runtime-config-resource.md)
-    * [19.5. Write Ahead Log #](server-administration/runtime-config/runtime-config-wal.md)
+    * [19.5. 預寫式日誌 (WAL) #](server-administration/runtime-config/runtime-config-wal.md)
     * [19.6. Replication #](server-administration/runtime-config/runtime-config-replication.md)
     * [19.7. 查詢規劃 #](server-administration/runtime-config/runtime-config-query.md)
     * [19.8. Error Reporting and Logging #](server-administration/runtime-config/runtime-config-logging.md)
