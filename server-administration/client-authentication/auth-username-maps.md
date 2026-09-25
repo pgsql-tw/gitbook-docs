@@ -1,27 +1,27 @@
-## 20.2. User Name Maps [#](#AUTH-USERNAME-MAPS)
+<a id="AUTH-USERNAME-MAPS"></a>
+
+## 20.2. 使用者名稱對應 [#](#AUTH-USERNAME-MAPS)
 
 <a id="id-1.6.7.9.2"></a>
 
-When using an external authentication system such as Ident or GSSAPI,
-the name of the operating system user that initiated the connection
-might not be the same as the database user (role) that is to be used.
-In this case, a user name map can be applied to map the operating system
-user name to a database user. To use user name mapping, specify
-`map`=*`map-name`*
-in the options field in `pg_hba.conf`. This option is
-supported for all authentication methods that receive external user names.
-Since different mappings might be needed for different connections,
-the name of the map to be used is specified in the
-*`map-name`* parameter in `pg_hba.conf`
-to indicate which map to use for each individual connection.
+當使用 Ident 或 GSSAPI 等外部驗證系統時，發起連線的作業系統
+使用者名稱，可能與要使用的資料庫使用者（角色）不同。
+在這種情況下，可以套用使用者名稱對應，將作業系統
+使用者名稱對應到資料庫使用者。若要使用使用者名稱對應，請在
+`pg_hba.conf` 的選項欄位中指定
+`map`=*`map-name`*。所有能接收外部使用者名稱的驗證方法
+都支援這個選項。由於不同的連線可能需要不同的對應，
+因此要使用的對應名稱，是在
+`pg_hba.conf` 中的 *`map-name`* 參數裡指定，
+以表明每個連線各自要使用哪個對應。
 
-User name maps are defined in the ident map file, which by default is named
+使用者名稱對應是定義在 ident 對應檔中，該檔案預設名為
 `pg_ident.conf`<a id="id-1.6.7.9.4.2"></a>
-and is stored in the
-cluster's data directory. (It is possible to place the map file
-elsewhere, however; see the [ident_file](../runtime-config/runtime-config-file-locations.md#GUC-IDENT-FILE)
-configuration parameter.)
-The ident map file contains lines of the general forms:
+並儲存在
+叢集的資料目錄下。（不過，你也可以把對應檔放在其他位置；請參見
+[ident_file](../runtime-config/runtime-config-file-locations.md#GUC-IDENT-FILE)
+這個組態參數。）
+ident 對應檔包含以下這種一般形式的行：
 
 ```
 
@@ -31,67 +31,65 @@ include_if_exists file
 include_dir directory
 ```
 
-Comments, whitespace and line continuations are handled in the same way as in
-`pg_hba.conf`. The
-*`map-name`* is an arbitrary name that will be used to
-refer to this mapping in `pg_hba.conf`. The other
-two fields specify an operating system user name and a matching
-database user name. The same *`map-name`* can be
-used repeatedly to specify multiple user-mappings within a single map.
+註解、空白字元與跨行接續的處理方式，與
+`pg_hba.conf` 中相同。
+*`map-name`* 是一個任意名稱，會用來在 `pg_hba.conf` 中
+參照此對應。其餘
+兩個欄位則分別指定一個作業系統使用者名稱與一個
+相符的資料庫使用者名稱。同一個 *`map-name`* 可以
+重複使用，以便在單一對應中指定多組使用者對應。
 
-As for `pg_hba.conf`, the lines in this file can
-be include directives, following the same rules.
+如同 `pg_hba.conf` 一樣，這個檔案中的
+行也可以是 include 指令，並遵循相同的規則。
 
-The `pg_ident.conf` file is read on start-up and
-when the main server process receives a
+`pg_ident.conf` 檔案會在啟動時，以及
+主要伺服器程序收到
 SIGHUP<a id="id-1.6.7.9.6.3"></a>
-signal. If you edit the file on an
-active system, you will need to signal the postmaster
-(using `pg_ctl reload`, calling the SQL function
-`pg_reload_conf()`, or using `kill
--HUP`) to make it re-read the file.
+訊號時被讀取。如果你在運作中的系統上編輯這個檔案，
+就需要向 postmaster 送出訊號
+（使用 `pg_ctl reload`、呼叫 SQL 函式
+`pg_reload_conf()`，或使用 `kill
+-HUP`），才能讓它重新讀取檔案。
 
-The system view
+系統檢視表
 [`pg_ident_file_mappings`](../../internals/views/view-pg-ident-file-mappings.md)
-can be helpful for pre-testing changes to the
-`pg_ident.conf` file, or for diagnosing problems if
-loading of the file did not have the desired effects. Rows in the view with
-non-null `error` fields indicate problems in the
-corresponding lines of the file.
+有助於在正式套用前，先行測試對
+`pg_ident.conf` 檔案所做的變更，或是在
+載入檔案後未達到預期效果時，用來診斷問題。若檢視表中某列的
+`error` 欄位不是 null，就表示該檔案中
+對應的那一行存在問題。
 
-There is no restriction regarding how many database users a given
-operating system user can correspond to, nor vice versa. Thus, entries
-in a map should be thought of as meaning “this operating system
-user is allowed to connect as this database user”, rather than
-implying that they are equivalent. The connection will be allowed if
-there is any map entry that pairs the user name obtained from the
-external authentication system with the database user name that the
-user has requested to connect as. The value `all`
-can be used as the *`database-username`* to specify
-that if the *`system-username`* matches, then this
-user is allowed to log in as any of the existing database users. Quoting
-`all` makes the keyword lose its special meaning.
+對於一個給定的作業系統使用者可以對應到多少個資料庫使用者，
+或反過來一個資料庫使用者可以對應到多少個作業系統使用者，並沒有任何限制。因此，對應檔中的項目
+應該被理解為「這個作業系統
+使用者被允許以這個資料庫使用者的身分連線」，而不是
+暗示兩者是等價的。只要存在任何一筆對應項目，能將外部驗證系統所取得的
+使用者名稱，與使用者要求連線所用的資料庫
+使用者名稱配對成功，該連線就會被允許。你可以將值 `all`
+用作 *`database-username`*，用來指定只要
+*`system-username`* 相符，該使用者就被允許以任何一個現有的資料庫使用者
+身分登入。將 `all` 加上引號，會讓這個關鍵字失去其特殊意義。
 
-If the *`database-username`* begins with a
-`+` character, then the operating system user can login as
-any user belonging to that role, similarly to how user names beginning with
-`+` are treated in `pg_hba.conf`.
-Thus, a `+` mark means “match any of the roles that
-are directly or indirectly members of this role”, while a name
-without a `+` mark matches only that specific role. Quoting
-a username starting with a `+` makes the
-`+` lose its special meaning.
+如果 *`database-username`* 以
+`+` 字元開頭，則該作業系統使用者可以以屬於該角色的任何使用者身分登入，
+這與 `pg_hba.conf`
+中以 `+` 開頭的使用者名稱的處理方式類似。
+因此，`+` 符號代表「符合直接或間接
+屬於此角色成員的任何角色」，而沒有
+`+` 符號的名稱則只會符合該特定角色。將以 `+` 開頭的
+使用者名稱加上引號，會讓 `+`
+失去其特殊意義。
 
-If the *`system-username`* field starts with a slash (`/`),
-the remainder of the field is treated as a regular expression.
-(See [Section 9.7.3.1](../../the-sql-language/functions/functions-matching.md#POSIX-SYNTAX-DETAILS) for details of
-PostgreSQL's regular expression syntax.) The regular
-expression can include a single capture, or parenthesized subexpression.
-The portion of the system user name that matched the capture can then
-be referenced in the *`database-username`*
-field as `\1` (backslash-one). This allows the mapping of
-multiple user names in a single line, which is particularly useful for
-simple syntax substitutions. For example, these entries
+如果 *`system-username`* 欄位以斜線（`/`）開頭，
+該欄位其餘的部分就會被視為正規表示式。
+（PostgreSQL 正規表示式語法的細節，請參見
+[Section 9.7.3.1](../../the-sql-language/functions/functions-matching.md#POSIX-SYNTAX-DETAILS)。）
+該正規表示式可以包含一個擷取（capture），也就是括號括住的
+子表示式。系統使用者名稱中符合該擷取的部分，
+之後就可以在 *`database-username`*
+欄位中以 `\1`（反斜線加一）來參照。這使得
+在單一行中對應多個使用者名稱成為可能，對於
+簡單的語法代換特別有用。舉例來說，以下這些項目
 
 ```
 
@@ -99,43 +97,43 @@ mymap   /^(.*)@mydomain\.com$      \1
 mymap   /^(.*)@otherdomain\.com$   guest
 ```
 
-will remove the domain part for users with system user names that end with
-`@mydomain.com`, and allow any user whose system name ends with
-`@otherdomain.com` to log in as `guest`.
-Quoting a *`database-username`* containing
-`\1` *does not* make
-`\1` lose its special meaning.
+會移除系統使用者名稱以
+`@mydomain.com` 結尾的使用者的網域部分，並允許系統名稱以
+`@otherdomain.com` 結尾的任何使用者，以 `guest` 的身分登入。
+將包含 `\1` 的 *`database-username`*
+加上引號，*並不會*讓
+`\1` 失去其特殊意義。
 
-If the *`database-username`* field starts with
-a slash (`/`), the remainder of the field is treated
-as a regular expression.
-When the *`database-username`* field is a regular
-expression, it is not possible to use `\1` within it to
-refer to a capture from the *`system-username`*
-field.
+如果 *`database-username`* 欄位以
+斜線（`/`）開頭，該欄位其餘的部分就會被視為
+正規表示式。
+當 *`database-username`* 欄位是正規表示式時，就
+無法在其中使用 `\1` 來參照來自
+*`system-username`* 欄位的擷取內容。
 
-### Tip
+### 提示
 
-Keep in mind that by default, a regular expression can match just part of
-a string. It's usually wise to use `^` and `$`, as
-shown in the above example, to force the match to be to the entire
-system user name.
+請記得，依預設，正規表示式可以只符合字串的一部分。
+如上例所示，通常明智的做法是使用 `^` 與
+`$`，強制要求比對必須符合整個
+系統使用者名稱。
 
-A `pg_ident.conf` file that could be used in
-conjunction with the `pg_hba.conf` file in [Example 20.1](auth-pg-hba-conf.md#EXAMPLE-PG-HBA.CONF) is shown in [Example 20.2](auth-username-maps.md#EXAMPLE-PG-IDENT.CONF). In this example, anyone
-logged in to a machine on the 192.168 network that does not have the
-operating system user name `bryanh`, `ann`, or
-`robert` would not be granted access. Unix user
-`robert` would only be allowed access when he tries to
-connect as PostgreSQL user `bob`, not
-as `robert` or anyone else. `ann` would
-only be allowed to connect as `ann`. User
-`bryanh` would be allowed to connect as either
-`bryanh` or as `guest1`.
+可以搭配[範例 20.1](auth-pg-hba-conf.md#EXAMPLE-PG-HBA.CONF) 中
+`pg_hba.conf` 檔案一起使用的
+`pg_ident.conf` 檔案，如[範例 20.2](auth-username-maps.md#EXAMPLE-PG-IDENT.CONF) 所示。在這個範例中，
+任何登入 192.168 網路上某台機器、但作業系統使用者名稱不是
+`bryanh`、`ann` 或
+`robert` 的人，都不會被授予存取權限。Unix 使用者
+`robert` 只有在嘗試以 PostgreSQL 使用者 `bob`
+的身分連線時才會被允許存取，而不能以
+`robert` 或其他任何身分連線。`ann` 則只被
+允許以 `ann` 的身分連線。使用者
+`bryanh` 則被允許以 `bryanh` 或 `guest1`
+的身分連線。
 
 <a id="EXAMPLE-PG-IDENT.CONF"></a>
 
-**Example 20.2. An Example `pg_ident.conf` File**
+**範例 20.2. 一個 `pg_ident.conf` 檔案範例**
 
 ```
 
@@ -153,4 +151,4 @@ omicron         bryanh                  guest1
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-username-maps.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-username-maps.html)（原文版本：18.6；核對日期：2026-09-24）

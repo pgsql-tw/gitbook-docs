@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：626 頁。
+待譯頁面：625 頁。
 
 ## 根目錄
 
@@ -729,7 +729,7 @@
 - [ ] `server-administration/client-authentication/auth-pg-hba-conf.md` — 20.1. The pg_hba.conf File #
 - [ ] `server-administration/client-authentication/auth-radius.md` — 20.11. RADIUS Authentication #
 - [ ] `server-administration/client-authentication/auth-trust.md` — 20.4. Trust Authentication #
-- [ ] `server-administration/client-authentication/auth-username-maps.md` — 20.2. User Name Maps #
+- [x] `server-administration/client-authentication/auth-username-maps.md` — 20.2. 使用者名稱對應 #
 - [ ] `server-administration/client-authentication/client-authentication-problems.md` — 20.16. Authentication Problems #
 - [ ] `server-administration/client-authentication/gssapi-auth.md` — 20.6. GSSAPI Authentication #
 - [ ] `server-administration/client-authentication/sspi-auth.md` — 20.7. SSPI Authentication #
