@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：623 頁。
+待譯頁面：622 頁。
 
 ## 根目錄
 
@@ -842,7 +842,7 @@
 
 - [ ] `server-programming/README.md` — Part V. Server Programming
 - [ ] `server-programming/archive-modules/README.md` — Chapter 49. Archive Modules
-- [ ] `server-programming/archive-modules/archive-module-callbacks.md` — 49.2. Archive Module Callbacks #
+- [x] `server-programming/archive-modules/archive-module-callbacks.md` — 49.2. 封存模組回呼函式 #
 - [x] `server-programming/archive-modules/archive-module-init.md` — 49.1. 初始化函式
 - [x] `server-programming/bgworker/README.md` — 第 46 章 背景工作程序
 - [x] `server-programming/event-triggers/README.md` — 第 38 章 事件觸發程序
