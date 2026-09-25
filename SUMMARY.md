@@ -239,7 +239,7 @@
     * [21.6. 函式安全性](server-administration/user-manag/perm-functions.md)
   * [第 22 章 管理資料庫](server-administration/managing-databases/README.md)
     * [22.1. Overview #](server-administration/managing-databases/manage-ag-overview.md)
-    * [22.2. Creating a Database #](server-administration/managing-databases/manage-ag-createdb.md)
+    * [22.2. 建立資料庫 #](server-administration/managing-databases/manage-ag-createdb.md)
     * [22.3. Template Databases #](server-administration/managing-databases/manage-ag-templatedbs.md)
     * [22.4. 資料庫設定](server-administration/managing-databases/manage-ag-config.md)
     * [22.5. 刪除資料庫](server-administration/managing-databases/manage-ag-dropdb.md)
