@@ -596,7 +596,7 @@
     * [47.9. 邏輯解碼的大型交易串流 #](server-programming/logicaldecoding/logicaldecoding-streaming.md)
     * [47.10. 邏輯解碼的兩階段提交支援 #](server-programming/logicaldecoding/logicaldecoding-two-phase-commits.md)
   * [第 48 章 複寫進度追蹤](server-programming/replication-origins/README.md)
-  * [Chapter 49. Archive Modules](server-programming/archive-modules/README.md)
+  * [第 49 章 封存模組](server-programming/archive-modules/README.md)
     * [49.1. 初始化函式](server-programming/archive-modules/archive-module-init.md)
     * [49.2. 封存模組回呼函式 #](server-programming/archive-modules/archive-module-callbacks.md)
   * [第 50 章 OAuth 驗證器模組](server-programming/oauth-validators/README.md)
