@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：595 頁。
+待譯頁面：594 頁。
 
 ## 根目錄
 
@@ -794,7 +794,7 @@
 - [x] `server-administration/runtime-config/README.md` — 第 19 章、伺服器組態設定
 - [ ] `server-administration/runtime-config/config-setting.md` — 19.1. Setting Parameters #
 - [x] `server-administration/runtime-config/runtime-config-client.md` — 19.11. 用戶端連線預設值 #
-- [ ] `server-administration/runtime-config/runtime-config-compatible.md` — 19.13. Version and Platform Compatibility #
+- [x] `server-administration/runtime-config/runtime-config-compatible.md` — 19.13. 版本與平台相容性 #
 - [x] `server-administration/runtime-config/runtime-config-connection.md` — 19.3. 連線與驗證 #
 - [x] `server-administration/runtime-config/runtime-config-custom.md` — 19.16. 自訂選項
 - [x] `server-administration/runtime-config/runtime-config-developer.md` — 19.17. 開發人員選項 #

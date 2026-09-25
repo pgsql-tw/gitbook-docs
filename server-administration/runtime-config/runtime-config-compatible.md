@@ -1,189 +1,176 @@
-## 19.13. Version and Platform Compatibility [#](#RUNTIME-CONFIG-COMPATIBLE)
+<a id="RUNTIME-CONFIG-COMPATIBLE"></a>
 
-[19.13.1. Previous PostgreSQL Versions](runtime-config-compatible.md#RUNTIME-CONFIG-COMPATIBLE-VERSION)
+## 19.13. 版本與平台相容性 [#](#RUNTIME-CONFIG-COMPATIBLE)
 
-[19.13.2. Platform and Client Compatibility](runtime-config-compatible.md#RUNTIME-CONFIG-COMPATIBLE-CLIENTS)
+[19.13.1. 舊版 PostgreSQL](runtime-config-compatible.md#RUNTIME-CONFIG-COMPATIBLE-VERSION)
+
+[19.13.2. 平台與用戶端相容性](runtime-config-compatible.md#RUNTIME-CONFIG-COMPATIBLE-CLIENTS)
 
 <a id="RUNTIME-CONFIG-COMPATIBLE-VERSION"></a>
 
-### 19.13.1. Previous PostgreSQL Versions [#](#RUNTIME-CONFIG-COMPATIBLE-VERSION)
+### 19.13.1. 舊版 PostgreSQL [#](#RUNTIME-CONFIG-COMPATIBLE-VERSION)
 
 <a id="GUC-ARRAY-NULLS"></a>
 
 `array_nulls` (`boolean`) <a id="id-1.6.6.16.2.2.1.1.3"></a> [#](#GUC-ARRAY-NULLS)
-:   This controls whether the array input parser recognizes
-    unquoted `NULL` as specifying a null array element.
-    By default, this is `on`, allowing array values containing
-    null values to be entered. However, PostgreSQL versions
-    before 8.2 did not support null values in arrays, and therefore would
-    treat `NULL` as specifying a normal array element with
-    the string value “NULL”. For backward compatibility with
-    applications that require the old behavior, this variable can be
-    turned `off`.
+:   這控制陣列輸入剖析器是否將未加引號的
+    `NULL` 視為指定一個空值陣列元素。
+    預設情況下此設定為 `on`，允許輸入含有空值的陣列值。
+    然而，8.2 之前的 PostgreSQL 版本不支援陣列中的空值，
+    因此會將 `NULL` 視為指定一個字串值為「NULL」的一般陣列元素。
+    為了與需要舊行為的應用程式向後相容，可將此變數
+    設為 `off`。
 
-    Note that it is possible to create array values containing null values
-    even when this variable is `off`.
+    請注意，即使此變數為 `off`，仍然可以建立含有空值的陣列值。
 <a id="GUC-BACKSLASH-QUOTE"></a>
 
 `backslash_quote` (`enum`) <a id="id-1.6.6.16.2.2.2.1.3"></a> <a id="id-1.6.6.16.2.2.2.1.4"></a> [#](#GUC-BACKSLASH-QUOTE)
-:   This controls whether a quote mark can be represented by
-    `\'` in a string literal. The preferred, SQL-standard way
-    to represent a quote mark is by doubling it (`''`) but
-    PostgreSQL has historically also accepted
-    `\'`. However, use of `\'` creates security risks
-    because in some client character set encodings, there are multibyte
-    characters in which the last byte is numerically equivalent to ASCII
-    `\`. If client-side code does escaping incorrectly then an
-    SQL-injection attack is possible. This risk can be prevented by
-    making the server reject queries in which a quote mark appears to be
-    escaped by a backslash.
-    The allowed values of `backslash_quote` are
-    `on` (allow `\'` always),
-    `off` (reject always), and
-    `safe_encoding` (allow only if client encoding does not
-    allow ASCII `\` within a multibyte character).
-    `safe_encoding` is the default setting.
+:   這控制字串常值中是否可以用
+    `\'` 表示引號。符合 SQL 標準、較建議的做法
+    是將引號重複兩次（`''`）表示，但
+    PostgreSQL 歷來也接受
+    `\'` 的寫法。不過，使用 `\'` 會造成安全性風險，
+    因為在某些用戶端字元集編碼中，存在最後一個位元組在數值上與
+    ASCII `\` 相同的多位元組字元。如果用戶端程式碼未正確處理逸出，
+    就可能發生 SQL 注入攻擊。可以讓伺服器拒絕引號看起來以反斜線逸出的查詢，
+    以防止此風險。
+    `backslash_quote` 允許的值有
+    `on`（永遠允許 `\'`）、
+    `off`（永遠拒絕），以及
+    `safe_encoding`（僅在用戶端編碼不允許 ASCII
+    `\` 出現在多位元組字元內時才允許）。
+    `safe_encoding` 是預設設定。
 
-    Note that in a standard-conforming string literal, `\` just
-    means `\` anyway. This parameter only affects the handling of
-    non-standard-conforming literals, including
-    escape string syntax (`E'...'`).
+    請注意，在符合標準的字串常值中，`\` 無論如何都僅代表
+    `\` 本身。此參數只影響不符合標準字串常值的處理方式，
+    包括逸出字串語法（`E'...'`）。
 <a id="GUC-ESCAPE-STRING-WARNING"></a>
 
 `escape_string_warning` (`boolean`) <a id="id-1.6.6.16.2.2.3.1.3"></a> <a id="id-1.6.6.16.2.2.3.1.4"></a> [#](#GUC-ESCAPE-STRING-WARNING)
-:   When on, a warning is issued if a backslash (`\`)
-    appears in an ordinary string literal (`'...'`
-    syntax) and `standard_conforming_strings` is off.
-    The default is `on`.
+:   當此設定為開啟時，如果一般字串常值（`'...'`
+    語法）中出現反斜線（`\`），且
+    `standard_conforming_strings` 為關閉，則會發出警告。
+    預設值為 `on`。
 
-    Applications that wish to use backslash as escape should be
-    modified to use escape string syntax (`E'...'`),
-    because the default behavior of ordinary strings is now to treat
-    backslash as an ordinary character, per SQL standard. This variable
-    can be enabled to help locate code that needs to be changed.
+    希望使用反斜線作為逸出字元的應用程式應改用逸出字串語法
+    （`E'...'`），因為依照 SQL 標準，
+    一般字串現在預設會將反斜線視為一般字元。
+    可以啟用此變數，以協助找出需要修改的程式碼。
 <a id="GUC-LO-COMPAT-PRIVILEGES"></a>
 
 `lo_compat_privileges` (`boolean`) <a id="id-1.6.6.16.2.2.4.1.3"></a> [#](#GUC-LO-COMPAT-PRIVILEGES)
-:   In PostgreSQL releases prior to 9.0, large objects
-    did not have access privileges and were, therefore, always readable
-    and writable by all users. Setting this variable to `on`
-    disables the new privilege checks, for compatibility with prior
-    releases. The default is `off`.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   在 9.0 之前的 PostgreSQL 版本中，大型物件（large object）
+    沒有存取權限，因此所有使用者永遠都可以讀取與寫入。
+    將此變數設為 `on` 會停用新的權限檢查，
+    以與舊版相容。預設值為 `off`。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 
-    Setting this variable does not disable all security checks related to
-    large objects — only those for which the default behavior has
-    changed in PostgreSQL 9.0.
+    設定此變數並不會停用所有與大型物件相關的安全性檢查——
+    僅停用那些在 PostgreSQL 9.0 中預設行為有所變更的檢查。
 <a id="GUC-QUOTE-ALL-IDENTIFIERS"></a>
 
 `quote_all_identifiers` (`boolean`) <a id="id-1.6.6.16.2.2.5.1.3"></a> [#](#GUC-QUOTE-ALL-IDENTIFIERS)
-:   When the database generates SQL, force all identifiers to be quoted,
-    even if they are not (currently) keywords. This will affect the
-    output of `EXPLAIN` as well as the results of functions
-    like `pg_get_viewdef`. See also the
-    `--quote-all-identifiers` option of
-    [pg_dump](../../reference/reference-client/app-pgdump.md) and [pg_dumpall](../../reference/reference-client/app-pg-dumpall.md).
+:   當資料庫產生 SQL 時，強制為所有識別字加上引號，
+    即使它們（目前）並非關鍵字。這將影響
+    `EXPLAIN` 的輸出，以及
+    `pg_get_viewdef` 等函式的結果。另請參閱
+    [pg_dump](../../reference/reference-client/app-pgdump.md) 與 [pg_dumpall](../../reference/reference-client/app-pg-dumpall.md) 的
+    `--quote-all-identifiers` 選項。
 <a id="GUC-STANDARD-CONFORMING-STRINGS"></a>
 
 `standard_conforming_strings` (`boolean`) <a id="id-1.6.6.16.2.2.6.1.3"></a> <a id="id-1.6.6.16.2.2.6.1.4"></a> [#](#GUC-STANDARD-CONFORMING-STRINGS)
-:   This controls whether ordinary string literals
-    (`'...'`) treat backslashes literally, as specified in
-    the SQL standard.
-    Beginning in PostgreSQL 9.1, the default is
-    `on` (prior releases defaulted to `off`).
-    Applications can check this
-    parameter to determine how string literals will be processed.
-    The presence of this parameter can also be taken as an indication
-    that the escape string syntax (`E'...'`) is supported.
-    Escape string syntax ([Section 4.1.2.2](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE))
-    should be used if an application desires
-    backslashes to be treated as escape characters.
+:   這控制一般字串常值（`'...'`）是否依照
+    SQL 標準所述，將反斜線視為一般字元處理。
+    自 PostgreSQL 9.1 起，預設值為
+    `on`（先前版本預設為 `off`）。
+    應用程式可以檢查此
+    參數，以判斷字串常值將如何處理。
+    此參數的存在也可視為支援逸出字串語法
+    （`E'...'`）的指標。
+    如果應用程式希望將反斜線視為逸出字元，
+    則應使用逸出字串語法（[4.1.2.2 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)）。
 <a id="GUC-SYNCHRONIZE-SEQSCANS"></a>
 
 `synchronize_seqscans` (`boolean`) <a id="id-1.6.6.16.2.2.7.1.3"></a> [#](#GUC-SYNCHRONIZE-SEQSCANS)
-:   This allows sequential scans of large tables to synchronize with each
-    other, so that concurrent scans read the same block at about the
-    same time and hence share the I/O workload. When this is enabled,
-    a scan might start in the middle of the table and then “wrap
-    around” the end to cover all rows, so as to synchronize with the
-    activity of scans already in progress. This can result in
-    unpredictable changes in the row ordering returned by queries that
-    have no `ORDER BY` clause. Setting this parameter to
-    `off` ensures the pre-8.3 behavior in which a sequential
-    scan always starts from the beginning of the table. The default
-    is `on`.
+:   這允許大型資料表的循序掃描（sequential scan）彼此同步，
+    使並行的掃描大約在同一時間讀取同一個區塊，
+    藉此共享 I/O 工作負載。啟用此功能後，
+    某次掃描可能會從資料表中間開始，掃描到資料表結尾後會繞回開頭
+    繼續，以涵蓋所有資料列，藉此與已在進行中的掃描活動同步。
+    對於沒有 `ORDER BY` 子句的查詢，這可能導致
+    傳回的資料列順序出現不可預期的變化。將此參數設為
+    `off` 可確保恢復 8.3 之前的行為，即循序掃描
+    永遠從資料表開頭開始。預設值
+    為 `on`。
 
 <a id="RUNTIME-CONFIG-COMPATIBLE-CLIENTS"></a>
 
-### 19.13.2. Platform and Client Compatibility [#](#RUNTIME-CONFIG-COMPATIBLE-CLIENTS)
+### 19.13.2. 平台與用戶端相容性 [#](#RUNTIME-CONFIG-COMPATIBLE-CLIENTS)
 
 <a id="GUC-TRANSFORM-NULL-EQUALS"></a>
 
 `transform_null_equals` (`boolean`) <a id="id-1.6.6.16.3.2.1.1.3"></a> <a id="id-1.6.6.16.3.2.1.1.4"></a> [#](#GUC-TRANSFORM-NULL-EQUALS)
-:   When on, expressions of the form `expr =
-    NULL` (or `NULL =
-    expr`) are treated as
-    `expr IS NULL`, that is, they
-    return true if *`expr`* evaluates to the null value,
-    and false otherwise. The correct SQL-spec-compliant behavior of
-    `expr = NULL` is to always
-    return null (unknown). Therefore this parameter defaults to
-    `off`.
+:   當此設定為開啟時，形式為 `expr =
+    NULL`（或 `NULL =
+    expr`）的運算式會被視為
+    `expr IS NULL` 處理，也就是說，若
+    *`expr`* 的求值結果為空值，則傳回真，
+    否則傳回假。符合 SQL 規範、正確的
+    `expr = NULL` 行為應該永遠
+    傳回空值（未知）。因此此參數預設為
+    `off`。
 
-    However, filtered forms in Microsoft
-    Access generate queries that appear to use
-    `expr = NULL` to test for
-    null values, so if you use that interface to access the database you
-    might want to turn this option on. Since expressions of the
-    form `expr = NULL` always
-    return the null value (using the SQL standard interpretation), they are not
-    very useful and do not appear often in normal applications so
-    this option does little harm in practice. But new users are
-    frequently confused about the semantics of expressions
-    involving null values, so this option is off by default.
+    不過，Microsoft
+    Access 中的篩選表單所產生的查詢，看起來會使用
+    `expr = NULL` 來測試
+    空值，因此如果你使用該介面存取資料庫，
+    可能會想要開啟此選項。由於形式為
+    `expr = NULL` 的運算式（依照
+    SQL 標準的解讀）永遠傳回空值，因此它們並不是
+    很有用，在一般應用程式中也不常出現，所以
+    此選項在實務上幾乎無害。但新使用者
+    經常對涉及空值的運算式語意感到困惑，
+    因此此選項預設為關閉。
 
-    Note that this option only affects the exact form `= NULL`,
-    not other comparison operators or other expressions
-    that are computationally equivalent to some expression
-    involving the equals operator (such as `IN`).
-    Thus, this option is not a general fix for bad programming.
+    請注意，此選項只影響 `= NULL` 這種精確形式，
+    不影響其他比較運算子，也不影響在計算上
+    等效於某個涉及等號運算子之運算式的其他運算式
+    （例如 `IN`）。
+    因此，此選項並非解決不良程式撰寫方式的通用方法。
 
-    Refer to [Section 9.2](../../the-sql-language/functions/functions-comparison.md) for related information.
+    相關資訊請參閱[9.2 節](../../the-sql-language/functions/functions-comparison.md)。
 <a id="GUC-ALLOW-ALTER-SYSTEM"></a>
 
 `allow_alter_system` (`boolean`) <a id="id-1.6.6.16.3.2.2.1.3"></a> [#](#GUC-ALLOW-ALTER-SYSTEM)
-:   When `allow_alter_system` is set to
-    `off`, an error is returned if the `ALTER
-    SYSTEM` command is executed. This parameter can only be set in
-    the `postgresql.conf` file or on the server command
-    line. The default value is `on`.
+:   當 `allow_alter_system` 設為
+    `off` 時，若執行 `ALTER
+    SYSTEM` 命令，會傳回錯誤。此參數只能在
+    `postgresql.conf` 檔案中或伺服器命令
+    列上設定。預設值為 `on`。
 
-    Note that this setting must not be regarded as a security feature. It
-    only disables the `ALTER SYSTEM` command. It does not
-    prevent a superuser from changing the configuration using other SQL
-    commands. A superuser has many ways of executing shell commands at
-    the operating system level, and can therefore modify
-    `postgresql.auto.conf` regardless of the value of
-    this setting.
+    請注意，不應將此設定視為安全性功能。它
+    只會停用 `ALTER SYSTEM` 命令，並不會
+    阻止超級使用者透過其他 SQL 命令變更組態設定。
+    超級使用者有許多方式可以在作業系統層級執行 shell 命令，
+    因此無論此設定值為何，都能
+    修改 `postgresql.auto.conf`。
 
-    Turning this setting off is intended for environments where the
-    configuration of PostgreSQL is managed by
-    some external tool.
-    In such environments, a well-intentioned superuser might
-    *mistakenly* use `ALTER SYSTEM`
-    to change the configuration instead of using the external tool.
-    This might result in unintended behavior, such as the external tool
-    overwriting the change at some later point in time when it updates the
-    configuration.
-    Setting this parameter to `off` can
-    help avoid such mistakes.
+    關閉此設定，是為了因應某些外部工具負責管理
+    PostgreSQL 組態設定的環境而設計的。
+    在這類環境中，善意的超級使用者可能會
+    *誤用* `ALTER SYSTEM`
+    來變更組態設定，而不是使用該外部工具。
+    這可能導致非預期的行為，例如當外部工具日後
+    更新組態設定時，會覆寫此變更。
+    將此參數設為 `off` 可以
+    協助避免此類錯誤。
 
-    This parameter only controls the use of `ALTER SYSTEM`.
-    The settings stored in `postgresql.auto.conf`
-    take effect even if `allow_alter_system` is set to
-    `off`.
+    此參數僅控制 `ALTER SYSTEM` 的使用。
+    即使 `allow_alter_system` 設為
+    `off`，儲存在 `postgresql.auto.conf`
+    中的設定仍會生效。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-compatible.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-compatible.html)（原文版本：18.6；核對日期：2026-09-25）

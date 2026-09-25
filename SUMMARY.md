@@ -207,7 +207,7 @@
     * [19.10. Vacuum 處理 #](server-administration/runtime-config/runtime-config-vacuum.md)
     * [19.11. 用戶端連線預設值 #](server-administration/runtime-config/runtime-config-client.md)
     * [19.12. 鎖定管理 #](server-administration/runtime-config/runtime-config-locks.md)
-    * [19.13. Version and Platform Compatibility #](server-administration/runtime-config/runtime-config-compatible.md)
+    * [19.13. 版本與平台相容性 #](server-administration/runtime-config/runtime-config-compatible.md)
     * [19.14. 錯誤處理 #](server-administration/runtime-config/runtime-config-error-handling.md)
     * [19.15. 預設選項 #](server-administration/runtime-config/runtime-config-preset.md)
     * [19.16. 自訂選項](server-administration/runtime-config/runtime-config-custom.md)
