@@ -1,826 +1,818 @@
-## 19.4. Resource Consumption [#](#RUNTIME-CONFIG-RESOURCE)
+<a id="RUNTIME-CONFIG-RESOURCE"></a>
 
-[19.4.1. Memory](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY)
+## 19.4. 資源消耗 [#](#RUNTIME-CONFIG-RESOURCE)
 
-[19.4.2. Disk](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-DISK)
+[19.4.1. 記憶體](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY)
 
-[19.4.3. Kernel Resource Usage](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-KERNEL)
+[19.4.2. 磁碟](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-DISK)
 
-[19.4.4. Background Writer](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)
+[19.4.3. 核心資源使用量](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-KERNEL)
+
+[19.4.4. 背景寫入程序](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)
 
 [19.4.5. I/O](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-IO)
 
-[19.4.6. Worker Processes](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-WORKER-PROCESSES)
+[19.4.6. 工作程序](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-WORKER-PROCESSES)
 
 <a id="RUNTIME-CONFIG-RESOURCE-MEMORY"></a>
 
-### 19.4.1. Memory [#](#RUNTIME-CONFIG-RESOURCE-MEMORY)
+### 19.4.1. 記憶體 [#](#RUNTIME-CONFIG-RESOURCE-MEMORY)
 
 <a id="GUC-SHARED-BUFFERS"></a>
 
 `shared_buffers` (`integer`) <a id="id-1.6.6.7.2.2.1.1.3"></a> [#](#GUC-SHARED-BUFFERS)
-:   Sets the amount of memory the database server uses for shared
-    memory buffers. The default is typically 128 megabytes
-    (`128MB`), but might be less if your kernel settings will
-    not support it (as determined during initdb).
-    This setting must be at least 128 kilobytes. However,
-    settings significantly higher than the minimum are usually needed
-    for good performance.
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    (Non-default values of `BLCKSZ` change the minimum
-    value.)
-    This parameter can only be set at server start.
+:   設定資料庫伺服器用於共享記憶體緩衝區的記憶體量。
+    預設值通常為 128 百萬位元組
+    （`128MB`），但若你的核心設定無法支援
+    （由 initdb 期間判斷），則可能較少。
+    此設定至少必須為 128 千位元組。不過，
+    要獲得良好效能，通常需要遠高於此最小值的設定。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    （非預設的 `BLCKSZ` 會改變此最小值。）
+    此參數只能在伺服器啟動時設定。
 
-    If you have a dedicated database server with 1GB or more of RAM, a
-    reasonable starting value for `shared_buffers` is 25%
-    of the memory in your system. There are some workloads where even
-    larger settings for `shared_buffers` are effective, but
-    because PostgreSQL also relies on the
-    operating system cache, it is unlikely that an allocation of more than
-    40% of RAM to `shared_buffers` will work better than a
-    smaller amount. Larger settings for `shared_buffers`
-    usually require a corresponding increase in
-    `max_wal_size`, in order to spread out the
-    process of writing large quantities of new or changed data over a
-    longer period of time.
+    如果你有一台配備 1GB 以上 RAM 的專屬資料庫伺服器，
+    `shared_buffers` 合理的起始值，是系統記憶體的
+    25%。有些工作負載即使將 `shared_buffers`
+    設得更大也有效，但由於
+    PostgreSQL 也依賴作業系統的快取，
+    將超過 40% 的 RAM 配置給 `shared_buffers`
+    通常不會比配置較小的量效果更好。將
+    `shared_buffers` 設得較大，通常也需要
+    相應提高 `max_wal_size`，
+    以便將寫入大量新資料或已變更資料的過程，
+    分散到較長的時間內進行。
 
-    On systems with less than 1GB of RAM, a smaller percentage of RAM is
-    appropriate, so as to leave adequate space for the operating system.
+    在 RAM 小於 1GB 的系統上，適合使用較小比例的
+    RAM，以便為作業系統保留足夠的空間。
 <a id="GUC-HUGE-PAGES"></a>
 
 `huge_pages` (`enum`) <a id="id-1.6.6.7.2.2.2.1.3"></a> [#](#GUC-HUGE-PAGES)
-:   Controls whether huge pages are requested for the main shared memory
-    area. Valid values are `try` (the default),
-    `on`, and `off`.
-    This parameter can only be set at server start. With
-    `huge_pages` set to `try`, the
-    server will try to request huge pages, but fall back to the default if
-    that fails. With `on`, failure to request huge pages
-    will prevent the server from starting up. With `off`,
-    huge pages will not be requested. The actual state of huge pages is
-    indicated by the server variable
-    [huge_pages_status](runtime-config-preset.md#GUC-HUGE-PAGES-STATUS).
+:   控制是否為主要共享記憶體區域請求巨型分頁
+    （huge page）。合法的值有 `try`（預設值）、
+    `on`，以及 `off`。
+    此參數只能在伺服器啟動時設定。當
+    `huge_pages` 設為 `try` 時，
+    伺服器會嘗試請求巨型分頁，但若失敗則會退回預設方式。
+    設為 `on` 時，若請求巨型分頁失敗，
+    伺服器將無法啟動。設為 `off` 時，
+    則不會請求巨型分頁。巨型分頁的實際狀態，
+    由伺服器變數
+    [huge_pages_status](runtime-config-preset.md#GUC-HUGE-PAGES-STATUS) 表示。
 
-    At present, this setting is supported only on Linux and Windows. The
-    setting is ignored on other systems when set to
-    `try`. On Linux, it is only supported when
-    `shared_memory_type` is set to `mmap`
-    (the default).
+    目前，此設定僅在 Linux 與 Windows 上受支援。
+    在其他系統上，設為 `try` 時
+    此設定會被忽略。在 Linux 上，只有在
+    `shared_memory_type` 設為 `mmap`
+    （預設值）時才受支援。
 
-    The use of huge pages results in smaller page tables and less CPU time
-    spent on memory management, increasing performance. For more details about
-    using huge pages on Linux, see [Section 18.4.5](../runtime/kernel-resources.md#LINUX-HUGE-PAGES).
+    使用巨型分頁可以縮小頁面表，並減少用於記憶體管理的
+    CPU 時間，藉此提升效能。有關在 Linux 上使用巨型分頁的
+    更多細節，請參閱[18.4.5 節](../runtime/kernel-resources.md#LINUX-HUGE-PAGES)。
 
-    Huge pages are known as large pages on Windows. To use them, you need to
-    assign the user right “Lock pages in memory” to the Windows user account
-    that runs PostgreSQL.
-    You can use Windows Group Policy tool (gpedit.msc) to assign the user right
-    “Lock pages in memory”.
-    To start the database server on the command prompt as a standalone process,
-    not as a Windows service, the command prompt must be run as an administrator or
-    User Access Control (UAC) must be disabled. When the UAC is enabled, the normal
-    command prompt revokes the user right “Lock pages in memory” when started.
+    在 Windows 上，巨型分頁被稱為大分頁（large page）。若要使用它們，
+    你需要為執行 PostgreSQL 的 Windows 使用者帳戶
+    指派「鎖定記憶體中的分頁」使用者權限。
+    你可以使用 Windows 群組原則工具（gpedit.msc），
+    指派「鎖定記憶體中的分頁」使用者權限。
+    若要以獨立程序的方式（而非 Windows 服務）在命令提示字元中
+    啟動資料庫伺服器，該命令提示字元必須以系統管理員身分執行，
+    或必須停用使用者帳戶控制（UAC）。啟用 UAC 時，
+    一般的命令提示字元啟動時會撤銷「鎖定記憶體中的分頁」
+    使用者權限。
 
-    Note that this setting only affects the main shared memory area.
-    Operating systems such as Linux, FreeBSD, and Illumos can also use
-    huge pages (also known as “super” pages or
-    “large” pages) automatically for normal memory
-    allocation, without an explicit request from
-    PostgreSQL. On Linux, this is called
-    “transparent huge pages”<a id="id-1.6.6.7.2.2.2.2.5.5"></a> (THP). That feature has been known to
-    cause performance degradation with
-    PostgreSQL for some users on some Linux
-    versions, so its use is currently discouraged (unlike explicit use of
-    `huge_pages`).
+    請注意，此設定僅影響主要共享記憶體區域。
+    Linux、FreeBSD 與 Illumos 等作業系統，
+    也可以在未經 PostgreSQL 明確請求的情況下，
+    自動為一般記憶體配置使用巨型分頁
+    （也稱為「超級（super）」分頁或
+    「大（large）」分頁）。在 Linux 上，
+    這被稱為「透明巨型分頁」<a id="id-1.6.6.7.2.2.2.2.5.5"></a>（THP）。已知這項功能
+    在某些 Linux 版本上，會對某些使用者的
+    PostgreSQL 造成效能下降，因此目前不建議
+    使用（這與明確使用 `huge_pages` 不同）。
 <a id="GUC-HUGE-PAGE-SIZE"></a>
 
 `huge_page_size` (`integer`) <a id="id-1.6.6.7.2.2.3.1.3"></a> [#](#GUC-HUGE-PAGE-SIZE)
-:   Controls the size of huge pages, when they are enabled with
-    [huge_pages](runtime-config-resource.md#GUC-HUGE-PAGES).
-    The default is zero (`0`).
-    When set to `0`, the default huge page size on the
-    system will be used. This parameter can only be set at server start.
+:   當透過
+    [huge_pages](runtime-config-resource.md#GUC-HUGE-PAGES) 啟用巨型分頁時，
+    控制巨型分頁的大小。
+    預設值為零（`0`）。
+    設為 `0` 時，會使用系統上預設的巨型分頁
+    大小。此參數只能在伺服器啟動時設定。
 
-    Some commonly available page sizes on modern 64 bit server architectures include:
-    `2MB` and `1GB` (Intel and AMD), `16MB` and
-    `16GB` (IBM POWER), and `64kB`, `2MB`,
-    `32MB` and `1GB` (ARM). For more information
-    about usage and support, see [Section 18.4.5](../runtime/kernel-resources.md#LINUX-HUGE-PAGES).
+    現代 64 位元伺服器架構上一些常見的分頁大小包括：
+    `2MB` 與 `1GB`（Intel 與 AMD）、`16MB` 與
+    `16GB`（IBM POWER），以及 `64kB`、`2MB`、
+    `32MB` 與 `1GB`（ARM）。有關使用方式與支援情形的
+    更多資訊，請參閱[18.4.5 節](../runtime/kernel-resources.md#LINUX-HUGE-PAGES)。
 
-    Non-default settings are currently supported only on Linux.
+    目前僅在 Linux 上支援非預設設定。
 <a id="GUC-TEMP-BUFFERS"></a>
 
 `temp_buffers` (`integer`) <a id="id-1.6.6.7.2.2.4.1.3"></a> [#](#GUC-TEMP-BUFFERS)
-:   Sets the maximum amount of memory used for temporary buffers within
-    each database session. These are session-local buffers used only
-    for access to temporary tables.
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The default is eight megabytes (`8MB`).
-    (If `BLCKSZ` is not 8kB, the default value scales
-    proportionally to it.)
-    This setting can be changed within individual
-    sessions, but only before the first use of temporary tables
-    within the session; subsequent attempts to change the value will
-    have no effect on that session.
+:   設定每個資料庫工作階段中，用於暫存緩衝區的
+    最大記憶體量。這些是僅供存取暫存資料表使用的
+    工作階段本機緩衝區。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    預設值為 8 百萬位元組（`8MB`）。
+    （若 `BLCKSZ` 不是 8kB，預設值會依比例
+    縮放。）
+    此設定可以在個別工作階段內變更，
+    但只能在該工作階段第一次使用暫存資料表
+    之前變更；後續嘗試變更此值，
+    對該工作階段將沒有效果。
 
-    A session will allocate temporary buffers as needed up to the limit
-    given by `temp_buffers`. The cost of setting a large
-    value in sessions that do not actually need many temporary
-    buffers is only a buffer descriptor, or about 64 bytes, per
-    increment in `temp_buffers`. However if a buffer is
-    actually used an additional 8192 bytes will be consumed for it
-    (or in general, `BLCKSZ` bytes).
+    工作階段會依需要配置暫存緩衝區，
+    直到達到 `temp_buffers` 所給定的上限為止。
+    在實際上並不需要很多暫存緩衝區的工作階段中，
+    設定較大值所需的代價，每增加一單位
+    `temp_buffers`，只會多一個緩衝區描述子，
+    約 64 位元組。不過，若某個緩衝區確實被使用，
+    則會另外消耗 8192 位元組（或一般而言，
+    `BLCKSZ` 位元組）。
 <a id="GUC-MAX-PREPARED-TRANSACTIONS"></a>
 
 `max_prepared_transactions` (`integer`) <a id="id-1.6.6.7.2.2.5.1.3"></a> [#](#GUC-MAX-PREPARED-TRANSACTIONS)
-:   Sets the maximum number of transactions that can be in the
-    “prepared” state simultaneously (see [PREPARE TRANSACTION](../../reference/sql-commands/sql-prepare-transaction.md)).
-    Setting this parameter to zero (which is the default)
-    disables the prepared-transaction feature.
-    This parameter can only be set at server start.
+:   設定同一時間可以處於「已備妥（prepared）」狀態的
+    最大交易數量（參閱 [PREPARE TRANSACTION](../../reference/sql-commands/sql-prepare-transaction.md)）。
+    將此參數設為零（預設值）
+    會停用已備妥交易功能。
+    此參數只能在伺服器啟動時設定。
 
-    If you are not planning to use prepared transactions, this parameter
-    should be set to zero to prevent accidental creation of prepared
-    transactions. If you are using prepared transactions, you will
-    probably want `max_prepared_transactions` to be at
-    least as large as [max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS), so that every
-    session can have a prepared transaction pending.
+    如果你並不打算使用已備妥交易，應將此參數
+    設為零，以防止意外建立已備妥交易。如果你確實
+    使用已備妥交易，可能會希望
+    `max_prepared_transactions` 至少與
+    [max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS) 一樣大，
+    以便每個工作階段都能有一筆待處理的已備妥交易。
 
-    When running a standby server, you must set this parameter to the
-    same or higher value than on the primary server. Otherwise, queries
-    will not be allowed in the standby server.
+    在執行待命伺服器時，你必須將此參數設為與
+    主要伺服器相同或更高的值，否則
+    待命伺服器中將不允許執行查詢。
 <a id="GUC-WORK-MEM"></a>
 
 `work_mem` (`integer`) <a id="id-1.6.6.7.2.2.6.1.3"></a> [#](#GUC-WORK-MEM)
-:   Sets the base maximum amount of memory to be used by a query operation
-    (such as a sort or hash table) before writing to temporary disk files.
-    If this value is specified without units, it is taken as kilobytes.
-    The default value is four megabytes (`4MB`).
-    Note that a complex query might perform several sort and hash
-    operations at the same time, with each operation generally being
-    allowed to use as much memory as this value specifies before
-    it starts
-    to write data into temporary files. Also, several running
-    sessions could be doing such operations concurrently.
-    Therefore, the total memory used could be many times the value
-    of `work_mem`; it is necessary to keep this
-    fact in mind when choosing the value. Sort operations are used
-    for `ORDER BY`, `DISTINCT`,
-    and merge joins.
-    Hash tables are used in hash joins, hash-based aggregation, memoize
-    nodes and hash-based processing of `IN` subqueries.
+:   設定查詢操作（例如排序或雜湊表）在寫入暫存磁碟檔案
+    之前，所能使用的基本最大記憶體量。
+    若此值指定時未帶單位，則以千位元組為單位。
+    預設值為 4 百萬位元組（`4MB`）。
+    請注意，一個複雜的查詢可能會同時執行多個排序
+    與雜湊操作，一般而言，每個操作在開始
+    寫入暫存檔案之前，都可以使用最多此值所指定的
+    記憶體量。此外，也可能有多個工作階段
+    正在並行執行這類操作。
+    因此，實際使用的總記憶體量，可能是
+    `work_mem` 值的許多倍；選擇此值時
+    必須將此事實納入考量。排序操作用於
+    `ORDER BY`、`DISTINCT`，
+    以及合併聯結。
+    雜湊表則用於雜湊聯結、以雜湊為基礎的聚合、memoize
+    節點，以及以雜湊為基礎處理 `IN` 子查詢。
 
-    Hash-based operations are generally more sensitive to memory
-    availability than equivalent sort-based operations. The
-    memory limit for a hash table is computed by multiplying
-    `work_mem` by
-    `hash_mem_multiplier`. This makes it
-    possible for hash-based operations to use an amount of memory
-    that exceeds the usual `work_mem` base
-    amount.
+    以雜湊為基礎的操作，通常對可用記憶體比等效的
+    以排序為基礎的操作更為敏感。雜湊表的
+    記憶體上限，是以
+    `work_mem` 乘以
+    `hash_mem_multiplier` 計算得出的。這使得
+    以雜湊為基礎的操作，可以使用超過一般
+    `work_mem` 基本量的記憶體。
 <a id="GUC-HASH-MEM-MULTIPLIER"></a>
 
 `hash_mem_multiplier` (`floating point`) <a id="id-1.6.6.7.2.2.7.1.3"></a> [#](#GUC-HASH-MEM-MULTIPLIER)
-:   Used to compute the maximum amount of memory that hash-based
-    operations can use. The final limit is determined by
-    multiplying `work_mem` by
-    `hash_mem_multiplier`. The default value is
-    2.0, which makes hash-based operations use twice the usual
-    `work_mem` base amount.
+:   用於計算以雜湊為基礎的操作可以使用的
+    最大記憶體量。最終上限是以
+    `work_mem` 乘以
+    `hash_mem_multiplier` 決定的。預設值為
+    2.0，這使得以雜湊為基礎的操作，會使用兩倍於一般
+    `work_mem` 基本量的記憶體。
 
-    Consider increasing `hash_mem_multiplier` in
-    environments where spilling by query operations is a regular
-    occurrence, especially when simply increasing
-    `work_mem` results in memory pressure (memory
-    pressure typically takes the form of intermittent out of
-    memory errors). The default setting of 2.0 is often effective with
-    mixed workloads. Higher settings in the range of 2.0 - 8.0 or
-    more may be effective in environments where
-    `work_mem` has already been increased to 40MB
-    or more.
+    在查詢操作經常發生資料溢出（spilling）的環境中，
+    尤其是單純提高
+    `work_mem` 會導致記憶體壓力（記憶體壓力
+    通常表現為間歇性的記憶體不足錯誤）的情況下，
+    可以考慮提高 `hash_mem_multiplier`。
+    預設值 2.0 對於混合工作負載通常有效。
+    在 `work_mem` 已經提高到 40MB 以上的
+    環境中，設為 2.0 至 8.0 或
+    更高的範圍可能會有效。
 <a id="GUC-MAINTENANCE-WORK-MEM"></a>
 
 `maintenance_work_mem` (`integer`) <a id="id-1.6.6.7.2.2.8.1.3"></a> [#](#GUC-MAINTENANCE-WORK-MEM)
-:   Specifies the maximum amount of memory to be used by maintenance
-    operations, such as `VACUUM`, `CREATE
-    INDEX`, and `ALTER TABLE ADD FOREIGN KEY`.
-    If this value is specified without units, it is taken as kilobytes.
-    It defaults
-    to 64 megabytes (`64MB`). Since only one of these
-    operations can be executed at a time by a database session, and
-    an installation normally doesn't have many of them running
-    concurrently, it's safe to set this value significantly larger
-    than `work_mem`. Larger settings might improve
-    performance for vacuuming and for restoring database dumps.
+:   指定維護操作（例如 `VACUUM`、`CREATE
+    INDEX` 與 `ALTER TABLE ADD FOREIGN KEY`）
+    所使用的最大記憶體量。
+    若此值指定時未帶單位，則以千位元組為單位。
+    預設值
+    為 64 百萬位元組（`64MB`）。由於一個資料庫
+    工作階段一次只能執行其中一種操作，且一套安裝
+    通常不會同時並行執行很多這類操作，因此可以安全地
+    將此值設得比 `work_mem`
+    大得多。較大的設定可能改善 vacuum 以及
+    還原資料庫傾印檔的效能。
 
-    Note that when autovacuum runs, up to
-    [autovacuum_max_workers](runtime-config-vacuum.md#GUC-AUTOVACUUM-MAX-WORKERS) times this memory
-    may be allocated, so be careful not to set the default value
-    too high. It may be useful to control for this by separately
-    setting [autovacuum_work_mem](runtime-config-resource.md#GUC-AUTOVACUUM-WORK-MEM).
+    請注意，當 autovacuum 執行時，最多可能配置
+    [autovacuum_max_workers](runtime-config-vacuum.md#GUC-AUTOVACUUM-MAX-WORKERS) 倍的此記憶體，
+    因此請小心，不要將預設值設得
+    太高。透過分別設定
+    [autovacuum_work_mem](runtime-config-resource.md#GUC-AUTOVACUUM-WORK-MEM) 來控制此情況，
+    可能會很有用。
 <a id="GUC-AUTOVACUUM-WORK-MEM"></a>
 
 `autovacuum_work_mem` (`integer`) <a id="id-1.6.6.7.2.2.9.1.3"></a> [#](#GUC-AUTOVACUUM-WORK-MEM)
-:   Specifies the maximum amount of memory to be used by each
-    autovacuum worker process.
-    If this value is specified without units, it is taken as kilobytes.
-    It defaults to -1, indicating that
-    the value of [maintenance_work_mem](runtime-config-resource.md#GUC-MAINTENANCE-WORK-MEM) should
-    be used instead. The setting has no effect on the behavior of
-    `VACUUM` when run in other contexts.
-    This parameter can only be set in the
-    `postgresql.conf` file or on the server command
-    line.
+:   指定每個 autovacuum 工作程序所使用的
+    最大記憶體量。
+    若此值指定時未帶單位，則以千位元組為單位。
+    預設值為 -1，代表應改用
+    [maintenance_work_mem](runtime-config-resource.md#GUC-MAINTENANCE-WORK-MEM) 的值。
+    此設定對其他情境下執行 `VACUUM`
+    的行為沒有影響。
+    此參數只能在
+    `postgresql.conf` 檔案中或伺服器命令
+    列上設定。
 <a id="GUC-VACUUM-BUFFER-USAGE-LIMIT"></a>
 
 `vacuum_buffer_usage_limit` (`integer`) <a id="id-1.6.6.7.2.2.10.1.3"></a> [#](#GUC-VACUUM-BUFFER-USAGE-LIMIT)
-:   Specifies the size of the
-    [*[Buffer Access Strategy](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
-    used by the `VACUUM` and `ANALYZE`
-    commands. A setting of `0` will allow the operation
-    to use any number of `shared_buffers`. Otherwise
-    valid sizes range from `128 kB` to
-    `16 GB`. If the specified size would exceed 1/8 the
-    size of `shared_buffers`, the size is silently capped
-    to that value. The default value is `2MB`. If
-    this value is specified without units, it is taken as kilobytes. This
-    parameter can be set at any time. It can be overridden for
-    [VACUUM](../../reference/sql-commands/sql-vacuum.md) and [ANALYZE](../../reference/sql-commands/sql-analyze.md)
-    when passing the `BUFFER_USAGE_LIMIT` option. Higher
-    settings can allow `VACUUM` and
-    `ANALYZE` to run more quickly, but having too large a
-    setting may cause too many other useful pages to be evicted from
-    shared buffers.
+:   指定 `VACUUM` 與 `ANALYZE`
+    命令所使用的
+    [*[緩衝區存取策略](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
+    大小。設為 `0` 會允許此操作使用
+    任意數量的 `shared_buffers`。否則，
+    合法的大小範圍是從 `128 kB` 到
+    `16 GB`。若指定的大小超過
+    `shared_buffers` 大小的 1/8，此大小會被
+    默默限制為該值。預設值為 `2MB`。
+    若此值指定時未帶單位，則以千位元組為單位。此
+    參數可以隨時設定。傳遞
+    `BUFFER_USAGE_LIMIT` 選項時，可以針對
+    [VACUUM](../../reference/sql-commands/sql-vacuum.md) 與 [ANALYZE](../../reference/sql-commands/sql-analyze.md)
+    覆寫此值。較高的設定可以讓 `VACUUM` 與
+    `ANALYZE` 執行得更快，但設定過大
+    可能導致其他有用的頁面被過多地從
+    共享緩衝區中淘汰。
 <a id="GUC-LOGICAL-DECODING-WORK-MEM"></a>
 
 `logical_decoding_work_mem` (`integer`) <a id="id-1.6.6.7.2.2.11.1.3"></a> [#](#GUC-LOGICAL-DECODING-WORK-MEM)
-:   Specifies the maximum amount of memory to be used by logical decoding,
-    before some of the decoded changes are written to local disk. This
-    limits the amount of memory used by logical streaming replication
-    connections. It defaults to 64 megabytes (`64MB`).
-    Since each replication connection only uses a single buffer of this size,
-    and an installation normally doesn't have many such connections
-    concurrently (as limited by `max_wal_senders`), it's
-    safe to set this value significantly higher than `work_mem`,
-    reducing the amount of decoded changes written to disk.
+:   指定邏輯解碼在部分已解碼的變更被寫入本機磁碟之前，
+    所使用的最大記憶體量。這限制了邏輯串流複寫
+    連線所使用的記憶體量。預設值為 64 百萬位元組
+    （`64MB`）。由於每個複寫連線只使用一個
+    此大小的緩衝區，且一套安裝通常不會同時
+    並行有太多這類連線（受
+    `max_wal_senders` 限制），因此可以安全地
+    將此值設得比 `work_mem` 高得多，
+    以減少寫入磁碟的已解碼變更量。
 <a id="GUC-COMMIT-TIMESTAMP-BUFFERS"></a>
 
 `commit_timestamp_buffers` (`integer`) <a id="id-1.6.6.7.2.2.12.1.3"></a> [#](#GUC-COMMIT-TIMESTAMP-BUFFERS)
-:   Specifies the amount of memory to use to cache the contents of
-    `pg_commit_ts` (see
-    [Table 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)).
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The default value is `0`, which requests
-    `shared_buffers`/512 up to 1024 blocks,
-    but not fewer than 16 blocks.
-    This parameter can only be set at server start.
+:   指定用於快取
+    `pg_commit_ts` 內容（參閱
+    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的記憶體量。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    預設值為 `0`，此時會請求
+    `shared_buffers`/512 個區塊，上限為 1024 個區塊，
+    但不低於 16 個區塊。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-MULTIXACT-MEMBER-BUFFERS"></a>
 
 `multixact_member_buffers` (`integer`) <a id="id-1.6.6.7.2.2.13.1.3"></a> [#](#GUC-MULTIXACT-MEMBER-BUFFERS)
-:   Specifies the amount of shared memory to use to cache the contents
-    of `pg_multixact/members` (see
-    [Table 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)).
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The default value is `32`.
-    This parameter can only be set at server start.
+:   指定用於快取
+    `pg_multixact/members` 內容（參閱
+    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    預設值為 `32`。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-MULTIXACT-OFFSET-BUFFERS"></a>
 
 `multixact_offset_buffers` (`integer`) <a id="id-1.6.6.7.2.2.14.1.3"></a> [#](#GUC-MULTIXACT-OFFSET-BUFFERS)
-:   Specifies the amount of shared memory to use to cache the contents
-    of `pg_multixact/offsets` (see
-    [Table 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)).
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The default value is `16`.
-    This parameter can only be set at server start.
+:   指定用於快取
+    `pg_multixact/offsets` 內容（參閱
+    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    預設值為 `16`。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-NOTIFY-BUFFERS"></a>
 
 `notify_buffers` (`integer`) <a id="id-1.6.6.7.2.2.15.1.3"></a> [#](#GUC-NOTIFY-BUFFERS)
-:   Specifies the amount of shared memory to use to cache the contents
-    of `pg_notify` (see
-    [Table 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)).
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The default value is `16`.
-    This parameter can only be set at server start.
+:   指定用於快取
+    `pg_notify` 內容（參閱
+    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    預設值為 `16`。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-SERIALIZABLE-BUFFERS"></a>
 
 `serializable_buffers` (`integer`) <a id="id-1.6.6.7.2.2.16.1.3"></a> [#](#GUC-SERIALIZABLE-BUFFERS)
-:   Specifies the amount of shared memory to use to cache the contents
-    of `pg_serial` (see
-    [Table 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)).
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The default value is `32`.
-    This parameter can only be set at server start.
+:   指定用於快取
+    `pg_serial` 內容（參閱
+    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    預設值為 `32`。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-SUBTRANSACTION-BUFFERS"></a>
 
 `subtransaction_buffers` (`integer`) <a id="id-1.6.6.7.2.2.17.1.3"></a> [#](#GUC-SUBTRANSACTION-BUFFERS)
-:   Specifies the amount of shared memory to use to cache the contents
-    of `pg_subtrans` (see
-    [Table 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)).
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The default value is `0`, which requests
-    `shared_buffers`/512 up to 1024 blocks,
-    but not fewer than 16 blocks.
-    This parameter can only be set at server start.
+:   指定用於快取
+    `pg_subtrans` 內容（參閱
+    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    預設值為 `0`，此時會請求
+    `shared_buffers`/512 個區塊，上限為 1024 個區塊，
+    但不低於 16 個區塊。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-TRANSACTION-BUFFERS"></a>
 
 `transaction_buffers` (`integer`) <a id="id-1.6.6.7.2.2.18.1.3"></a> [#](#GUC-TRANSACTION-BUFFERS)
-:   Specifies the amount of shared memory to use to cache the contents
-    of `pg_xact` (see
-    [Table 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)).
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The default value is `0`, which requests
-    `shared_buffers`/512 up to 1024 blocks,
-    but not fewer than 16 blocks.
-    This parameter can only be set at server start.
+:   指定用於快取
+    `pg_xact` 內容（參閱
+    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    預設值為 `0`，此時會請求
+    `shared_buffers`/512 個區塊，上限為 1024 個區塊，
+    但不低於 16 個區塊。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-MAX-STACK-DEPTH"></a>
 
 `max_stack_depth` (`integer`) <a id="id-1.6.6.7.2.2.19.1.3"></a> [#](#GUC-MAX-STACK-DEPTH)
-:   Specifies the maximum safe depth of the server's execution stack.
-    The ideal setting for this parameter is the actual stack size limit
-    enforced by the kernel (as set by `ulimit -s` or local
-    equivalent), less a safety margin of a megabyte or so. The safety
-    margin is needed because the stack depth is not checked in every
-    routine in the server, but only in key potentially-recursive routines.
-    If this value is specified without units, it is taken as kilobytes.
-    The default setting is two megabytes (`2MB`), which
-    is conservatively small and unlikely to risk crashes. However,
-    it might be too small to allow execution of complex functions.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   指定伺服器執行堆疊的最大安全深度。
+    此參數的理想設定值，是核心所強制執行的實際堆疊大小
+    上限（由 `ulimit -s` 或本機等效機制設定），
+    再減去約一百萬位元組的安全邊界。之所以需要
+    安全邊界，是因為堆疊深度並非在伺服器的每個
+    常式中都會被檢查，只會在關鍵、有可能遞迴的常式中檢查。
+    若此值指定時未帶單位，則以千位元組為單位。
+    預設設定為兩百萬位元組（`2MB`），
+    這是相對保守的小值，不太可能造成當機風險。不過，
+    這可能太小，無法執行複雜的函式。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 
-    Setting `max_stack_depth` higher than
-    the actual kernel limit will mean that a runaway recursive function
-    can crash an individual backend process. On platforms where
-    PostgreSQL can determine the kernel limit,
-    the server will not allow this variable to be set to an unsafe
-    value. However, not all platforms provide the information,
-    so caution is recommended in selecting a value.
+    將 `max_stack_depth` 設得比
+    實際的核心上限更高，代表失控的遞迴函式
+    有可能導致個別 backend 程序當機。在
+    PostgreSQL 能夠判斷核心上限的平台上，
+    伺服器不會允許將此變數設為不安全的
+    值。不過，並非所有平台都提供這項資訊，
+    因此在選擇此值時仍建議謹慎。
 <a id="GUC-SHARED-MEMORY-TYPE"></a>
 
 `shared_memory_type` (`enum`) <a id="id-1.6.6.7.2.2.20.1.3"></a> [#](#GUC-SHARED-MEMORY-TYPE)
-:   Specifies the shared memory implementation that the server
-    should use for the main shared memory region that holds
-    PostgreSQL's shared buffers and other
-    shared data. Possible values are `mmap` (for
-    anonymous shared memory allocated using `mmap`),
-    `sysv` (for System V shared memory allocated via
-    `shmget`) and `windows` (for Windows
-    shared memory). Not all values are supported on all platforms; the
-    first supported option is the default for that platform. The use of
-    the `sysv` option, which is not the default on any
-    platform, is generally discouraged because it typically requires
-    non-default kernel settings to allow for large allocations (see [Section 18.4.1](../runtime/kernel-resources.md#SYSVIPC)).
-    This parameter can only be set at server start.
+:   指定伺服器應用於保存
+    PostgreSQL 共享緩衝區及其他共享資料之主要
+    共享記憶體區域的共享記憶體實作方式。可能的值有
+    `mmap`（使用 `mmap` 配置的匿名
+    共享記憶體）、
+    `sysv`（透過 `shmget` 配置的
+    System V 共享記憶體），以及 `windows`（用於 Windows
+    共享記憶體）。並非所有平台都支援所有的值；
+    對該平台而言第一個受支援的選項即為預設值。一般
+    不建議使用 `sysv` 選項（此選項在任何平台上
+    都不是預設值），因為它通常需要
+    非預設的核心設定，才能允許大量配置
+    （參閱[18.4.1 節](../runtime/kernel-resources.md#SYSVIPC)）。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-DYNAMIC-SHARED-MEMORY-TYPE"></a>
 
 `dynamic_shared_memory_type` (`enum`) <a id="id-1.6.6.7.2.2.21.1.3"></a> [#](#GUC-DYNAMIC-SHARED-MEMORY-TYPE)
-:   Specifies the dynamic shared memory implementation that the server
-    should use. Possible values are `posix` (for POSIX shared
-    memory allocated using `shm_open`), `sysv`
-    (for System V shared memory allocated via `shmget`),
-    `windows` (for Windows shared memory),
-    and `mmap` (to simulate shared memory using
-    memory-mapped files stored in the data directory).
-    Not all values are supported on all platforms; the first supported
-    option is usually the default for that platform. The use of the
-    `mmap` option, which is not the default on any platform,
-    is generally discouraged because the operating system may write
-    modified pages back to disk repeatedly, increasing system I/O load;
-    however, it may be useful for debugging, when the
-    `pg_dynshmem` directory is stored on a RAM disk, or when
-    other shared memory facilities are not available.
-    This parameter can only be set at server start.
+:   指定伺服器應使用的動態共享記憶體實作方式。
+    可能的值有 `posix`（使用 `shm_open`
+    配置的 POSIX 共享記憶體）、`sysv`
+    （透過 `shmget` 配置的 System V 共享記憶體）、
+    `windows`（用於 Windows 共享記憶體），
+    以及 `mmap`（使用儲存在資料目錄中、
+    以記憶體對映的檔案來模擬共享記憶體）。
+    並非所有平台都支援所有的值；對該平台而言
+    第一個受支援的選項通常即為預設值。一般不建議使用
+    `mmap` 選項（此選項在任何平台上都不是預設值），
+    因為作業系統可能會反覆將已修改的頁面寫回磁碟，
+    增加系統 I/O 負載；不過在除錯時、
+    或當 `pg_dynshmem` 目錄儲存在 RAM 磁碟上時，
+    或當其他共享記憶體機制不可用時，此選項可能會有用。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-MIN-DYNAMIC-SHARED-MEMORY"></a>
 
 `min_dynamic_shared_memory` (`integer`) <a id="id-1.6.6.7.2.2.22.1.3"></a> [#](#GUC-MIN-DYNAMIC-SHARED-MEMORY)
-:   Specifies the amount of memory that should be allocated at server
-    startup for use by parallel queries. When this memory region is
-    insufficient or exhausted by concurrent queries, new parallel queries
-    try to allocate extra shared memory temporarily from the operating
-    system using the method configured with
-    `dynamic_shared_memory_type`, which may be slower due
-    to memory management overheads. Memory that is allocated at startup
-    with `min_dynamic_shared_memory` is affected by
-    the `huge_pages` setting on operating systems where
-    that is supported, and may be more likely to benefit from larger pages
-    on operating systems where that is managed automatically.
-    The default value is `0` (none). This parameter can
-    only be set at server start.
+:   指定伺服器啟動時應配置多少記憶體，供
+    平行查詢使用。當這塊記憶體區域不足，或已被
+    並行查詢耗盡時，新的平行查詢會嘗試使用
+    `dynamic_shared_memory_type` 所設定的方法，
+    暫時向作業系統額外配置共享記憶體，
+    這可能因記憶體管理額外負擔而較慢。以
+    `min_dynamic_shared_memory` 在啟動時配置的記憶體，
+    會受到支援此功能之作業系統上 `huge_pages`
+    設定的影響，在自動管理此功能的作業系統上，
+    也更有可能因較大的分頁而受益。
+    預設值為 `0`（無）。此參數只能
+    在伺服器啟動時設定。
 
 <a id="RUNTIME-CONFIG-RESOURCE-DISK"></a>
 
-### 19.4.2. Disk [#](#RUNTIME-CONFIG-RESOURCE-DISK)
+### 19.4.2. 磁碟 [#](#RUNTIME-CONFIG-RESOURCE-DISK)
 
 <a id="GUC-TEMP-FILE-LIMIT"></a>
 
 `temp_file_limit` (`integer`) <a id="id-1.6.6.7.3.2.1.1.3"></a> [#](#GUC-TEMP-FILE-LIMIT)
-:   Specifies the maximum amount of disk space that a process can use
-    for temporary files, such as sort and hash temporary files, or the
-    storage file for a held cursor. A transaction attempting to exceed
-    this limit will be canceled.
-    If this value is specified without units, it is taken as kilobytes.
-    `-1` (the default) means no limit.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   指定一個程序可用於暫存檔案（例如排序與雜湊
+    暫存檔案，或保留中游標的儲存檔案）的最大磁碟
+    空間量。嘗試超過此上限的交易將被取消。
+    若此值指定時未帶單位，則以千位元組為單位。
+    `-1`（預設值）代表沒有上限。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 
-    This setting constrains the total space used at any instant by all
-    temporary files used by a given PostgreSQL process.
-    It should be noted that disk space used for explicit temporary
-    tables, as opposed to temporary files used behind-the-scenes in query
-    execution, does *not* count against this limit.
+    此設定限制的是給定 PostgreSQL 程序
+    在任一時刻所使用的所有暫存檔案的總空間。
+    請注意，明確建立的暫存資料表所使用的磁碟空間，
+    與查詢執行期間在幕後使用的暫存檔案不同，
+    並*不*計入此上限。
 <a id="GUC-FILE-COPY-METHOD"></a>
 
 `file_copy_method` (`enum`) <a id="id-1.6.6.7.3.2.2.1.3"></a> [#](#GUC-FILE-COPY-METHOD)
-:   Specifies the method used to copy files.
-    Possible values are `COPY` (default) and
-    `CLONE` (if operating support is available).
+:   指定用於複製檔案的方法。
+    可能的值有 `COPY`（預設值）與
+    `CLONE`（若作業系統支援）。
 
-    This parameter affects:
+    此參數會影響：
 
     * `CREATE DATABASE ... STRATEGY=FILE_COPY`
     * `ALTER DATABASE ... SET TABLESPACE ...`
 
-    `CLONE` uses the `copy_file_range()`
-    (Linux, FreeBSD) or `copyfile`
-    (macOS) system calls, giving the kernel the opportunity to share disk
-    blocks or push work down to lower layers on some file systems.
+    `CLONE` 會使用
+    `copy_file_range()`（Linux、FreeBSD）或
+    `copyfile`（macOS）系統呼叫，
+    讓核心有機會在某些檔案系統上共享磁碟區塊，
+    或將工作下推到較低層。
 <a id="GUC-FILE-EXTEND-METHOD"></a>
 
 `file_extend_method` (`enum`) <a id="id-1.6.6.7.3.2.3.1.3"></a> [#](#GUC-FILE-EXTEND-METHOD)
-:   Specifies the method used to extend data files during bulk operations
-    such as `COPY`. The first available option is used as
-    the default, depending on the operating system:
+:   指定在批次操作（例如 `COPY`）期間，
+    用於擴充資料檔案的方法。根據作業系統，
+    會使用第一個可用的選項作為預設值：
 
-    * `posix_fallocate` (Unix) uses the standard POSIX
-      interface for allocating disk space, but is missing on some systems.
-      If it is present but the underlying file system doesn't support it,
-      this option silently falls back to `write_zeros`.
-      Current versions of BTRFS are known to disable compression when
-      this option is used.
-      This is the default on systems that have the function.
-    * `write_zeros` extends files by writing out blocks
-      of zero bytes. This is the default on systems that don't have the
-      function `posix_fallocate`.
+    * `posix_fallocate`（Unix）使用標準的
+      POSIX 介面配置磁碟空間，但在某些系統上不存在。
+      若此功能存在，但底層檔案系統不支援，
+      此選項會默默退回 `write_zeros`。
+      已知目前版本的 BTRFS 在使用此選項時
+      會停用壓縮功能。
+      在具備此函式的系統上，這是預設值。
+    * `write_zeros` 透過寫出全零位元組的區塊
+      來擴充檔案。在不具備
+      `posix_fallocate` 函式的系統上，這是預設值。
 
-    The `write_zeros` method is always used when data
-    files are extended by 8 blocks or fewer.
+    當資料檔案擴充 8 個區塊或以下時，
+    永遠會使用 `write_zeros` 方法。
 <a id="GUC-MAX-NOTIFY-QUEUE-PAGES"></a>
 
 `max_notify_queue_pages` (`integer`) <a id="id-1.6.6.7.3.2.4.1.3"></a> [#](#GUC-MAX-NOTIFY-QUEUE-PAGES)
-:   Specifies the maximum amount of allocated pages for
-    [NOTIFY](../../reference/sql-commands/sql-notify.md) / [LISTEN](../../reference/sql-commands/sql-listen.md) queue.
-    The default value is 1048576. For 8 KB pages it allows to consume
-    up to 8 GB of disk space.
-    This parameter can only be set at server start.
+:   指定為
+    [NOTIFY](../../reference/sql-commands/sql-notify.md) / [LISTEN](../../reference/sql-commands/sql-listen.md) 佇列
+    配置的最大頁面數。
+    預設值為 1048576。對於 8 KB 的頁面，這允許消耗
+    最多 8 GB 的磁碟空間。
+    此參數只能在伺服器啟動時設定。
 
 <a id="RUNTIME-CONFIG-RESOURCE-KERNEL"></a>
 
-### 19.4.3. Kernel Resource Usage [#](#RUNTIME-CONFIG-RESOURCE-KERNEL)
+### 19.4.3. 核心資源使用量 [#](#RUNTIME-CONFIG-RESOURCE-KERNEL)
 
 <a id="GUC-MAX-FILES-PER-PROCESS"></a>
 
 `max_files_per_process` (`integer`) <a id="id-1.6.6.7.4.2.1.1.3"></a> [#](#GUC-MAX-FILES-PER-PROCESS)
-:   Sets the maximum number of open files each server subprocess is
-    allowed to open simultaneously; files already opened in the
-    postmaster are not counted toward this limit. The default is one
-    thousand files.
+:   設定每個伺服器子程序允許同時開啟的最大檔案數量；
+    postmaster 中已經開啟的檔案不計入此上限。
+    預設值為一千個檔案。
 
-    If the kernel is enforcing
-    a safe per-process limit, you don't need to worry about this setting.
-    But on some platforms (notably, most BSD systems), the kernel will
-    allow individual processes to open many more files than the system
-    can actually support if many processes all try to open
-    that many files. If you find yourself seeing “Too many open
-    files” failures, try reducing this setting.
-    This parameter can only be set at server start.
+    如果核心強制執行安全的逐程序上限，
+    你就不需要擔心此設定。但在某些平台上
+    （特別是大多數 BSD 系統），若許多程序同時嘗試
+    開啟這麼多檔案，核心會允許個別程序開啟
+    遠比系統實際能支援還要多的檔案。如果你發現
+    出現「開啟的檔案過多」失敗訊息，
+    請嘗試降低此設定。
+    此參數只能在伺服器啟動時設定。
 
 <a id="RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER"></a>
 
-### 19.4.4. Background Writer [#](#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)
+### 19.4.4. 背景寫入程序 [#](#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)
 
-There is a separate server
-process called the *background writer*, whose function
-is to issue writes of “dirty” (new or modified) shared
-buffers. When the number of clean shared buffers appears to be
-insufficient, the background writer writes some dirty buffers to the
-file system and marks them as clean. This reduces the likelihood
-that server processes handling user queries will be unable to find
-clean buffers and have to write dirty buffers themselves.
-However, the background writer does cause a net overall
-increase in I/O load, because while a repeatedly-dirtied page might
-otherwise be written only once per checkpoint interval, the
-background writer might write it several times as it is dirtied
-in the same interval. The parameters discussed in this subsection
-can be used to tune the behavior for local needs.
+有一個獨立的伺服器程序，稱為*背景寫入程序
+（background writer）*，其功能是發出對「髒（dirty，
+即新增或已修改）」共享緩衝區的寫入。當乾淨的共享
+緩衝區數量看起來不足時，背景寫入程序會將部分
+髒緩衝區寫入檔案系統，並將其標記為乾淨。這可以
+降低處理使用者查詢的伺服器程序找不到乾淨緩衝區、
+而必須自行寫入髒緩衝區的可能性。
+不過，背景寫入程序確實會導致整體 I/O 負載
+淨增加，因為反覆變髒的頁面，原本可能每個檢查點
+間隔只會被寫入一次，但背景寫入程序可能在
+同一個間隔內就多次寫入該頁面。本小節所討論的
+參數，可用於針對本地需求調校此行為。
 
 <a id="GUC-BGWRITER-DELAY"></a>
 
 `bgwriter_delay` (`integer`) <a id="id-1.6.6.7.5.3.1.1.3"></a> [#](#GUC-BGWRITER-DELAY)
-:   Specifies the delay between activity rounds for the
-    background writer. In each round the writer issues writes
-    for some number of dirty buffers (controllable by the
-    following parameters). It then sleeps for
-    the length of `bgwriter_delay`, and repeats.
-    When there are no dirty buffers in the
-    buffer pool, though, it goes into a longer sleep regardless of
-    `bgwriter_delay`.
-    If this value is specified without units, it is taken as milliseconds.
-    The default value is 200
-    milliseconds (`200ms`). Note that on some systems, the
-    effective resolution of sleep delays is 10 milliseconds; setting
-    `bgwriter_delay` to a value that is not a multiple of 10
-    might have the same results as setting it to the next higher multiple
-    of 10. This parameter can only be set in the
-    `postgresql.conf` file or on the server command line.
+:   指定背景寫入程序各輪活動之間的延遲。
+    在每一輪中，寫入程序會為若干個髒緩衝區
+    （其數量可透過以下參數控制）發出寫入。
+    接著它會休眠
+    `bgwriter_delay` 的長度，然後重複此過程。
+    不過，當緩衝集區中沒有髒緩衝區時，
+    無論 `bgwriter_delay` 為何，
+    都會進入較長的休眠。
+    若此值指定時未帶單位，則以毫秒為單位。
+    預設值為 200
+    毫秒（`200ms`）。請注意，在某些系統上，
+    休眠延遲的有效解析度為 10 毫秒；將
+    `bgwriter_delay` 設為非 10 的倍數的值，
+    可能會產生與設為下一個較高的 10 倍數相同的結果。
+    此參數只能在
+    `postgresql.conf` 檔案中或伺服器命令列上設定。
 <a id="GUC-BGWRITER-LRU-MAXPAGES"></a>
 
 `bgwriter_lru_maxpages` (`integer`) <a id="id-1.6.6.7.5.3.2.1.3"></a> [#](#GUC-BGWRITER-LRU-MAXPAGES)
-:   In each round, no more than this many buffers will be written
-    by the background writer. Setting this to zero disables
-    background writing. (Note that checkpoints, which are managed by
-    a separate, dedicated auxiliary process, are unaffected.)
-    The default value is 100 buffers.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   在每一輪中，背景寫入程序寫入的緩衝區數量
+    不會超過此值。設為零會停用背景
+    寫入。（請注意，由另一個獨立、專責的輔助程序
+    管理的檢查點不受此影響。）
+    預設值為 100 個緩衝區。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-BGWRITER-LRU-MULTIPLIER"></a>
 
 `bgwriter_lru_multiplier` (`floating point`) <a id="id-1.6.6.7.5.3.3.1.3"></a> [#](#GUC-BGWRITER-LRU-MULTIPLIER)
-:   The number of dirty buffers written in each round is based on the
-    number of new buffers that have been needed by server processes
-    during recent rounds. The average recent need is multiplied by
-    `bgwriter_lru_multiplier` to arrive at an estimate of the
-    number of buffers that will be needed during the next round. Dirty
-    buffers are written until there are that many clean, reusable buffers
-    available. (However, no more than `bgwriter_lru_maxpages`
-    buffers will be written per round.)
-    Thus, a setting of 1.0 represents a “just in time” policy
-    of writing exactly the number of buffers predicted to be needed.
-    Larger values provide some cushion against spikes in demand,
-    while smaller values intentionally leave writes to be done by
-    server processes.
-    The default is 2.0.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   每一輪中寫入的髒緩衝區數量，是根據近期各輪中
+    伺服器程序所需的新緩衝區數量計算的。近期平均
+    需求乘以
+    `bgwriter_lru_multiplier`，即可得出對下一輪
+    所需緩衝區數量的估計值。髒緩衝區會持續被寫入，
+    直到有這麼多乾淨、可重複使用的緩衝區可用為止。
+    （不過，每一輪寫入的緩衝區數量不會超過
+    `bgwriter_lru_maxpages`。）
+    因此，設為 1.0 代表一種「即時（just in time）」的
+    策略，只寫入預測所需的確切緩衝區數量。
+    較大的值可以為需求的突然增加提供一些緩衝空間，
+    較小的值則刻意將寫入工作留給
+    伺服器程序處理。
+    預設值為 2.0。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-BGWRITER-FLUSH-AFTER"></a>
 
 `bgwriter_flush_after` (`integer`) <a id="id-1.6.6.7.5.3.4.1.3"></a> [#](#GUC-BGWRITER-FLUSH-AFTER)
-:   Whenever more than this amount of data has
-    been written by the background writer, attempt to force the OS to issue these
-    writes to the underlying storage. Doing so will limit the amount of
-    dirty data in the kernel's page cache, reducing the likelihood of
-    stalls when an `fsync` is issued at the end of a checkpoint, or when
-    the OS writes data back in larger batches in the background. Often
-    that will result in greatly reduced transaction latency, but there
-    also are some cases, especially with workloads that are bigger than
-    [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS), but smaller than the OS's page
-    cache, where performance might degrade. This setting may have no
-    effect on some platforms.
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The valid range is between
-    `0`, which disables forced writeback, and
-    `2MB`. The default is `512kB` on Linux,
-    `0` elsewhere. (If `BLCKSZ` is not 8kB,
-    the default and maximum values scale proportionally to it.)
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   每當背景寫入程序寫入的資料量超過此值時，
+    就嘗試強制作業系統將這些寫入發送到底層儲存裝置。
+    這樣做可以限制核心分頁快取中的髒資料量，
+    降低在檢查點結束時發出 `fsync`，
+    或作業系統在背景以較大批次寫回資料時
+    發生停頓的可能性。這通常會大幅降低交易延遲，
+    但在某些情況下，尤其是工作負載大於
+    [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS)、但小於作業系統
+    分頁快取的情況下，效能可能會下降。此設定在
+    某些平台上可能沒有效果。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    合法範圍介於
+    `0`（停用強制寫回）到
+    `2MB` 之間。在 Linux 上預設值為 `512kB`，
+    其他平台上預設為 `0`。（若 `BLCKSZ`
+    不是 8kB，預設值與最大值會依比例縮放。）
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 
-Smaller values of `bgwriter_lru_maxpages` and
-`bgwriter_lru_multiplier` reduce the extra I/O load
-caused by the background writer, but make it more likely that server
-processes will have to issue writes for themselves, delaying interactive
-queries.
+較小的 `bgwriter_lru_maxpages` 與
+`bgwriter_lru_multiplier` 值，可以減少背景寫入程序
+造成的額外 I/O 負載，但會使伺服器程序
+更有可能必須自行發出寫入，進而延遲互動式
+查詢。
 
 <a id="RUNTIME-CONFIG-RESOURCE-IO"></a>
 
-### 19.4.5. I/O [#](#RUNTIME-CONFIG-RESOURCE-IO)
+### 19.4.5. I/O [#](#RUNTIME-CONFIG-RESOURCE-IO)
 
 <a id="GUC-BACKEND-FLUSH-AFTER"></a>
 
 `backend_flush_after` (`integer`) <a id="id-1.6.6.7.6.2.1.1.3"></a> [#](#GUC-BACKEND-FLUSH-AFTER)
-:   Whenever more than this amount of data has
-    been written by a single backend, attempt to force the OS to issue
-    these writes to the underlying storage. Doing so will limit the
-    amount of dirty data in the kernel's page cache, reducing the
-    likelihood of stalls when an `fsync` is issued at the end of a
-    checkpoint, or when the OS writes data back in larger batches in the
-    background. Often that will result in greatly reduced transaction
-    latency, but there also are some cases, especially with workloads
-    that are bigger than [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS), but smaller
-    than the OS's page cache, where performance might degrade. This
-    setting may have no effect on some platforms.
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The valid range is
-    between `0`, which disables forced writeback,
-    and `2MB`. The default is `0`, i.e., no
-    forced writeback. (If `BLCKSZ` is not 8kB,
-    the maximum value scales proportionally to it.)
+:   每當單一後端程序（backend）寫入的資料量超過此值時，
+    就嘗試強制作業系統將這些寫入發送到底層儲存裝置。
+    這樣做可以限制核心分頁快取中的髒資料量，
+    降低在檢查點結束時發出 `fsync`，
+    或作業系統在背景以較大批次寫回資料時
+    發生停頓的可能性。這通常會大幅降低交易延遲，
+    但在某些情況下，尤其是工作負載大於
+    [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS)、但小於作業系統
+    分頁快取的情況下，效能可能會下降。此
+    設定在某些平台上可能沒有效果。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    合法範圍介於 `0`（停用強制寫回）
+    到 `2MB` 之間。預設值為 `0`，也就是不
+    強制寫回。（若 `BLCKSZ` 不是 8kB，
+    最大值會依比例縮放。）
 <a id="GUC-EFFECTIVE-IO-CONCURRENCY"></a>
 
 `effective_io_concurrency` (`integer`) <a id="id-1.6.6.7.6.2.2.1.3"></a> [#](#GUC-EFFECTIVE-IO-CONCURRENCY)
-:   Sets the number of concurrent storage I/O operations that
-    PostgreSQL expects can be executed
-    simultaneously. Raising this value will increase the number of I/O
-    operations that any individual PostgreSQL
-    session attempts to initiate in parallel. The allowed range is
-    `1` to `1000`, or
-    `0` to disable issuance of asynchronous I/O requests.
-    The default is `16`.
+:   設定 PostgreSQL 預期可以同時執行的
+    並行儲存 I/O 操作數量。提高此值，
+    會增加任一個個別 PostgreSQL
+    工作階段嘗試平行發起的 I/O 操作數量。
+    允許的範圍為
+    `1` 到 `1000`，或
+    `0`（代表停用非同步 I/O 請求的發出）。
+    預設值為 `16`。
 
-    Higher values will have the most impact on higher latency storage
-    where queries otherwise experience noticeable I/O stalls and on
-    devices with high IOPs. Unnecessarily high values may increase I/O
-    latency for all queries on the system.
+    較高的值，對於原本會經歷明顯 I/O 停頓的高延遲
+    儲存裝置，以及具有高 IOPS 的裝置，會有最大的影響。
+    不必要的高值，可能會增加系統上所有查詢的
+    I/O 延遲。
 
-    On systems with prefetch advice support,
-    `effective_io_concurrency` also controls the
-    prefetch distance.
+    在支援預先擷取建議（prefetch advice）的系統上，
+    `effective_io_concurrency` 也控制
+    預先擷取的距離。
 
-    This value can be overridden for tables in a particular tablespace by
-    setting the tablespace parameter of the same name (see [ALTER TABLESPACE](../../reference/sql-commands/sql-altertablespace.md)).
+    可以透過設定同名的表空間參數，
+    針對特定表空間中的資料表覆寫此值（參閱
+    [ALTER TABLESPACE](../../reference/sql-commands/sql-altertablespace.md)）。
 <a id="GUC-MAINTENANCE-IO-CONCURRENCY"></a>
 
 `maintenance_io_concurrency` (`integer`) <a id="id-1.6.6.7.6.2.3.1.3"></a> [#](#GUC-MAINTENANCE-IO-CONCURRENCY)
-:   Similar to `effective_io_concurrency`, but used
-    for maintenance work that is done on behalf of many client sessions.
+:   與 `effective_io_concurrency` 類似，
+    但用於代表許多用戶端工作階段執行的維護工作。
 
-    The default is `16`. This value can be overridden
-    for tables in a particular tablespace by setting the tablespace
-    parameter of the same name (see [ALTER TABLESPACE](../../reference/sql-commands/sql-altertablespace.md)).
+    預設值為 `16`。可以透過設定同名的
+    表空間參數，針對特定表空間中的資料表覆寫此值
+    （參閱 [ALTER TABLESPACE](../../reference/sql-commands/sql-altertablespace.md)）。
 <a id="GUC-IO-MAX-COMBINE-LIMIT"></a>
 
 `io_max_combine_limit` (`integer`) <a id="id-1.6.6.7.6.2.4.1.3"></a> [#](#GUC-IO-MAX-COMBINE-LIMIT)
-:   Controls the largest I/O size in operations that combine I/O, and silently
-    limits the user-settable parameter `io_combine_limit`.
-    This parameter can only be set at server start.
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The maximum possible size depends on the operating system and block
-    size, but is typically 1MB on Unix and 128kB on Windows.
-    The default is 128kB.
+:   控制合併 I/O 操作中最大的 I/O 大小，
+    並默默限制使用者可設定的參數 `io_combine_limit`。
+    此參數只能在伺服器啟動時設定。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    實際可能的最大大小取決於作業系統與區塊
+    大小，但在 Unix 上通常為 1MB，在 Windows 上通常為 128kB。
+    預設值為 128kB。
 <a id="GUC-IO-COMBINE-LIMIT"></a>
 
 `io_combine_limit` (`integer`) <a id="id-1.6.6.7.6.2.5.1.3"></a> [#](#GUC-IO-COMBINE-LIMIT)
-:   Controls the largest I/O size in operations that combine I/O. If set
-    higher than the `io_max_combine_limit` parameter, the
-    lower value will silently be used instead, so both may need to be raised
-    to increase the I/O size.
-    If this value is specified without units, it is taken as blocks,
-    that is `BLCKSZ` bytes, typically 8kB.
-    The maximum possible size depends on the operating system and block
-    size, but is typically 1MB on Unix and 128kB on Windows.
-    The default is 128kB.
+:   控制合併 I/O 操作中最大的 I/O 大小。若設定的值
+    高於 `io_max_combine_limit` 參數，
+    則會默默改用較低的那個值，因此可能需要同時
+    提高兩者，才能增加 I/O 大小。
+    若此值指定時未帶單位，則以區塊為單位，
+    也就是 `BLCKSZ` 位元組，通常為 8kB。
+    實際可能的最大大小取決於作業系統與區塊
+    大小，但在 Unix 上通常為 1MB，在 Windows 上通常為 128kB。
+    預設值為 128kB。
 <a id="GUC-IO-MAX-CONCURRENCY"></a>
 
 `io_max_concurrency` (`integer`) <a id="id-1.6.6.7.6.2.6.1.3"></a> [#](#GUC-IO-MAX-CONCURRENCY)
-:   Controls the maximum number of I/O operations that one process can
-    execute simultaneously.
+:   控制單一程序可以同時執行的最大 I/O 操作數量。
 
-    The default setting of `-1` selects a number based
-    on [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS) and the maximum number of
-    processes ([max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS), [autovacuum_worker_slots](runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS), [max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) and [max_wal_senders](runtime-config-replication.md#GUC-MAX-WAL-SENDERS)), but not more than
-    `64`.
+    預設設定 `-1` 會根據
+    [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS) 與最大程序數
+    （[max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS)、[autovacuum_worker_slots](runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS)、[max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) 與 [max_wal_senders](runtime-config-replication.md#GUC-MAX-WAL-SENDERS)）
+    選擇一個數值，但不會超過
+    `64`。
 
-    This parameter can only be set at server start.
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-IO-METHOD"></a>
 
 `io_method` (`enum`) <a id="id-1.6.6.7.6.2.7.1.3"></a> [#](#GUC-IO-METHOD)
-:   Selects the method for executing asynchronous I/O.
-    Possible values are:
+:   選擇執行非同步 I/O 的方法。
+    可能的值有：
 
-    * `worker` (execute asynchronous I/O using worker processes)
-    * `io_uring` (execute asynchronous I/O using
-      io_uring, requires a build with
+    * `worker`（使用工作程序執行非同步 I/O）
+    * `io_uring`（使用
+      io_uring 執行非同步 I/O，需要以
       [`--with-liburing`](../installation/install-make.md#CONFIGURE-OPTION-WITH-LIBURING) /
-      [`-Dliburing`](../installation/install-meson.md#CONFIGURE-WITH-LIBURING-MESON))
-    * `sync` (execute asynchronous-eligible I/O synchronously)
+      [`-Dliburing`](../installation/install-meson.md#CONFIGURE-WITH-LIBURING-MESON) 建置）
+    * `sync`（以同步方式執行可非同步處理的 I/O）
 
-    The default is `worker`.
+    預設值為 `worker`。
 
-    This parameter can only be set at server start.
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-IO-WORKERS"></a>
 
 `io_workers` (`integer`) <a id="id-1.6.6.7.6.2.8.1.3"></a> [#](#GUC-IO-WORKERS)
-:   Selects the number of I/O worker processes to use. The default is
-    3. This parameter can only be set in the
-    `postgresql.conf` file or on the server command
-    line.
+:   選擇要使用的 I/O 工作程序數量。預設值為
+    3。此參數只能在
+    `postgresql.conf` 檔案中或伺服器命令
+    列上設定。
 
-    Only has an effect if [io_method](runtime-config-resource.md#GUC-IO-METHOD) is set to
-    `worker`.
+    僅在 [io_method](runtime-config-resource.md#GUC-IO-METHOD) 設為
+    `worker` 時才有效果。
 
 <a id="RUNTIME-CONFIG-RESOURCE-WORKER-PROCESSES"></a>
 
-### 19.4.6. Worker Processes [#](#RUNTIME-CONFIG-RESOURCE-WORKER-PROCESSES)
+### 19.4.6. 工作程序 [#](#RUNTIME-CONFIG-RESOURCE-WORKER-PROCESSES)
 
 <a id="GUC-MAX-WORKER-PROCESSES"></a>
 
 `max_worker_processes` (`integer`) <a id="id-1.6.6.7.7.2.1.1.3"></a> [#](#GUC-MAX-WORKER-PROCESSES)
-:   Sets the maximum number of background processes that the cluster
-    can support. This parameter can only be set at server start. The
-    default is 8.
+:   設定叢集所能支援的最大背景程序數量。
+    此參數只能在伺服器啟動時設定。
+    預設值為 8。
 
-    When running a standby server, you must set this parameter to the
-    same or higher value than on the primary server. Otherwise, queries
-    will not be allowed in the standby server.
+    在執行待命伺服器時，你必須將此參數設為與
+    主要伺服器相同或更高的值，否則
+    待命伺服器中將不允許執行查詢。
 
-    When changing this value, consider also adjusting
-    [max_parallel_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS),
-    [max_parallel_maintenance_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-MAINTENANCE-WORKERS), and
-    [max_parallel_workers_per_gather](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS-PER-GATHER).
+    變更此值時，也請一併考慮調整
+    [max_parallel_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS)、
+    [max_parallel_maintenance_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-MAINTENANCE-WORKERS) 與
+    [max_parallel_workers_per_gather](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS-PER-GATHER)。
 <a id="GUC-MAX-PARALLEL-WORKERS-PER-GATHER"></a>
 
 `max_parallel_workers_per_gather` (`integer`) <a id="id-1.6.6.7.7.2.2.1.3"></a> [#](#GUC-MAX-PARALLEL-WORKERS-PER-GATHER)
-:   Sets the maximum number of workers that can be started by a single
-    `Gather` or `Gather Merge` node.
-    Parallel workers are taken from the pool of processes established by
-    [max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES), limited by
-    [max_parallel_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS). Note that the requested
-    number of workers may not actually be available at run time. If this
-    occurs, the plan will run with fewer workers than expected, which may
-    be inefficient. The default value is 2. Setting this value to 0
-    disables parallel query execution.
+:   設定單一 `Gather` 或 `Gather Merge`
+    節點可以啟動的最大工作程序數量。
+    平行工作程序取自
+    [max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) 所建立的程序集區，
+    並受 [max_parallel_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS) 限制。
+    請注意，實際執行時可能無法取得
+    所請求的工作程序數量。若發生此情況，
+    計畫將以比預期更少的工作程序執行，這可能
+    效率不彰。預設值為 2。將此值設為 0
+    會停用平行查詢執行。
 
-    Note that parallel queries may consume very substantially more
-    resources than non-parallel queries, because each worker process is
-    a completely separate process which has roughly the same impact on the
-    system as an additional user session. This should be taken into
-    account when choosing a value for this setting, as well as when
-    configuring other settings that control resource utilization, such
-    as [work_mem](runtime-config-resource.md#GUC-WORK-MEM). Resource limits such as
-    `work_mem` are applied individually to each worker,
-    which means the total utilization may be much higher across all
-    processes than it would normally be for any single process.
-    For example, a parallel query using 4 workers may use up to 5 times
-    as much CPU time, memory, I/O bandwidth, and so forth as a query which
-    uses no workers at all.
+    請注意，平行查詢消耗的資源，
+    可能遠比非平行查詢多得多，因為每個工作程序
+    都是完全獨立的程序，對系統造成的影響，
+    大致上與額外的使用者工作階段相當。選擇此設定值時，
+    以及設定其他控制資源使用量的設定（例如
+    [work_mem](runtime-config-resource.md#GUC-WORK-MEM)）時，都應將此納入考量。
+    `work_mem` 等資源上限，是個別套用於
+    每個工作程序的，這代表所有程序的總使用量，
+    可能遠高於任一單一程序通常的使用量。
+    舉例來說，使用 4 個工作程序的平行查詢，
+    使用的 CPU 時間、記憶體、I/O 頻寬等，
+    可能高達完全不使用工作程序之查詢的 5 倍。
 
-    For more information on parallel query, see
-    [Chapter 15](../../the-sql-language/parallel-query/README.md).
+    有關平行查詢的更多資訊，請參閱
+    [第 15 章](../../the-sql-language/parallel-query/README.md)。
 <a id="GUC-MAX-PARALLEL-MAINTENANCE-WORKERS"></a>
 
 `max_parallel_maintenance_workers` (`integer`) <a id="id-1.6.6.7.7.2.3.1.3"></a> [#](#GUC-MAX-PARALLEL-MAINTENANCE-WORKERS)
-:   Sets the maximum number of parallel workers that can be
-    started by a single utility command. Currently, the parallel
-    utility commands that support the use of parallel workers are
-    `CREATE INDEX` when building a B-tree,
-    GIN, or BRIN index,
-    and `VACUUM` without `FULL`
-    option. Parallel workers are taken from the pool of processes
-    established by [max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES), limited
-    by [max_parallel_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS). Note that the requested
-    number of workers may not actually be available at run time.
-    If this occurs, the utility operation will run with fewer
-    workers than expected. The default value is 2. Setting this
-    value to 0 disables the use of parallel workers by utility
-    commands.
+:   設定單一公用程式命令可以啟動的最大平行工作程序
+    數量。目前，支援使用平行工作程序的公用程式
+    命令有：建置 B-tree、
+    GIN 或 BRIN 索引時的
+    `CREATE INDEX`，以及不含 `FULL`
+    選項的 `VACUUM`。平行工作程序取自
+    [max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) 所建立的程序集區，
+    並受 [max_parallel_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS) 限制。
+    請注意，實際執行時可能無法取得所請求的
+    工作程序數量。若發生此情況，公用程式操作
+    將以比預期更少的工作程序執行。預設值為 2。
+    將此值設為 0，會停用公用程式命令使用
+    平行工作程序。
 
-    Note that parallel utility commands should not consume
-    substantially more memory than equivalent non-parallel
-    operations. This strategy differs from that of parallel
-    query, where resource limits generally apply per worker
-    process. Parallel utility commands treat the resource limit
-    `maintenance_work_mem` as a limit to be applied to
-    the entire utility command, regardless of the number of
-    parallel worker processes. However, parallel utility
-    commands may still consume substantially more CPU resources
-    and I/O bandwidth.
+    請注意，平行公用程式命令不應該消耗
+    遠比等效的非平行操作更多的記憶體。這種
+    策略與平行查詢不同，平行查詢的資源上限
+    一般是逐工作程序套用的。平行公用程式命令
+    會將資源上限
+    `maintenance_work_mem`，視為套用於
+    整個公用程式命令的上限，而不論
+    平行工作程序的數量為何。不過，平行公用程式
+    命令仍可能消耗遠多得多的 CPU 資源
+    與 I/O 頻寬。
 <a id="GUC-MAX-PARALLEL-WORKERS"></a>
 
 `max_parallel_workers` (`integer`) <a id="id-1.6.6.7.7.2.4.1.3"></a> [#](#GUC-MAX-PARALLEL-WORKERS)
-:   Sets the maximum number of workers that the cluster can support for
-    parallel operations. The default value is 8. When increasing or
-    decreasing this value, consider also adjusting
-    [max_parallel_maintenance_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-MAINTENANCE-WORKERS) and
-    [max_parallel_workers_per_gather](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS-PER-GATHER).
-    Also, note that a setting for this value which is higher than
-    [max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) will have no effect,
-    since parallel workers are taken from the pool of worker processes
-    established by that setting.
+:   設定叢集所能支援用於平行操作的最大工作程序
+    數量。預設值為 8。提高或降低此值時，
+    也請一併考慮調整
+    [max_parallel_maintenance_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-MAINTENANCE-WORKERS) 與
+    [max_parallel_workers_per_gather](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS-PER-GATHER)。
+    另請注意，若此值設定得比
+    [max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) 更高，將不會有任何
+    效果，因為平行工作程序是從該設定所建立的
+    工作程序集區中取得的。
 <a id="GUC-PARALLEL-LEADER-PARTICIPATION"></a>
 
 `parallel_leader_participation` (`boolean`) <a id="id-1.6.6.7.7.2.5.1.3"></a> [#](#GUC-PARALLEL-LEADER-PARTICIPATION)
-:   Allows the leader process to execute the query plan under
-    `Gather` and `Gather Merge` nodes
-    instead of waiting for worker processes. The default is
-    `on`. Setting this value to `off`
-    reduces the likelihood that workers will become blocked because the
-    leader is not reading tuples fast enough, but requires the leader
-    process to wait for worker processes to start up before the first
-    tuples can be produced. The degree to which the leader can help or
-    hinder performance depends on the plan type, number of workers and
-    query duration.
+:   允許領導者（leader）程序在
+    `Gather` 與 `Gather Merge` 節點下
+    執行查詢計畫，而不是等待工作程序。預設值為
+    `on`。將此值設為 `off`
+    可以降低工作程序因為領導者讀取資料列速度不夠快
+    而被阻塞的可能性，但需要領導者程序
+    等待工作程序啟動，才能產生第一批
+    資料列。領導者能夠幫助或妨礙效能的程度，
+    取決於計畫類型、工作程序數量以及查詢持續時間。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-resource.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-resource.html)（原文版本：18.6；核對日期：2026-09-26）
