@@ -218,7 +218,7 @@
     * [20.2. 使用者名稱對應 #](server-administration/client-authentication/auth-username-maps.md)
     * [20.3. Authentication Methods #](server-administration/client-authentication/auth-methods.md)
     * [20.4. Trust Authentication #](server-administration/client-authentication/auth-trust.md)
-    * [20.5. Password Authentication #](server-administration/client-authentication/auth-password.md)
+    * [20.5. 密碼驗證 #](server-administration/client-authentication/auth-password.md)
     * [20.6. GSSAPI Authentication #](server-administration/client-authentication/gssapi-auth.md)
     * [20.7. SSPI 驗證 #](server-administration/client-authentication/sspi-auth.md)
     * [20.8. Ident Authentication #](server-administration/client-authentication/auth-ident.md)
