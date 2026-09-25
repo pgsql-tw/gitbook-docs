@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：598 頁。
+待譯頁面：597 頁。
 
 ## 根目錄
 
@@ -874,7 +874,7 @@
 - [x] `server-programming/logicaldecoding/logicaldecoding-catalogs.md` — 47.5. 與邏輯解碼相關的系統目錄
 - [x] `server-programming/logicaldecoding/logicaldecoding-example.md` — 47.1. 邏輯解碼範例 #
 - [x] `server-programming/logicaldecoding/logicaldecoding-explanation.md` — 47.2. 邏輯解碼概念 #
-- [ ] `server-programming/logicaldecoding/logicaldecoding-output-plugin.md` — 47.6. Logical Decoding Output Plugins #
+- [x] `server-programming/logicaldecoding/logicaldecoding-output-plugin.md` — 47.6. 邏輯解碼輸出外掛程式 #
 - [x] `server-programming/logicaldecoding/logicaldecoding-sql.md` — 47.4. Logical Decoding SQL Interface #
 - [x] `server-programming/logicaldecoding/logicaldecoding-streaming.md` — 47.9. 邏輯解碼的大型交易串流 #
 - [x] `server-programming/logicaldecoding/logicaldecoding-synchronous.md` — 47.8. 邏輯解碼的同步複寫支援 #

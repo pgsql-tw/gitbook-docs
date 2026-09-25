@@ -590,7 +590,7 @@
     * [47.3. 串流複寫協定介面 #](server-programming/logicaldecoding/logicaldecoding-walsender.md)
     * [47.4. Logical Decoding SQL Interface #](server-programming/logicaldecoding/logicaldecoding-sql.md)
     * [47.5. 與邏輯解碼相關的系統目錄](server-programming/logicaldecoding/logicaldecoding-catalogs.md)
-    * [47.6. Logical Decoding Output Plugins #](server-programming/logicaldecoding/logicaldecoding-output-plugin.md)
+    * [47.6. 邏輯解碼輸出外掛程式 #](server-programming/logicaldecoding/logicaldecoding-output-plugin.md)
     * [47.7. 邏輯解碼輸出寫入器 #](server-programming/logicaldecoding/logicaldecoding-writer.md)
     * [47.8. 邏輯解碼的同步複寫支援 #](server-programming/logicaldecoding/logicaldecoding-synchronous.md)
     * [47.9. 邏輯解碼的大型交易串流 #](server-programming/logicaldecoding/logicaldecoding-streaming.md)
