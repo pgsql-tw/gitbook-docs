@@ -1,43 +1,42 @@
-## 30.2. When to JIT? [#](#JIT-DECISION)
+<a id="JIT-DECISION"></a>
 
-JIT compilation is beneficial primarily for long-running
-CPU-bound queries. Frequently these will be analytical queries. For short
-queries the added overhead of performing JIT compilation
-will often be higher than the time it can save.
+## 30.2. 何時該使用 JIT？ [#](#JIT-DECISION)
 
-To determine whether JIT compilation should be used,
-the total estimated cost of a query (see
-[Chapter 69](../../internals/planner-stats-details/README.md) and
-[Section 19.7.2](../runtime-config/runtime-config-query.md#RUNTIME-CONFIG-QUERY-CONSTANTS)) is used.
-The estimated cost of the query will be compared with the setting of [jit_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-ABOVE-COST). If the cost is higher,
-JIT compilation will be performed.
-Two further decisions are then needed.
-Firstly, if the estimated cost is more
-than the setting of [jit_inline_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-INLINE-ABOVE-COST), short
-functions and operators used in the query will be inlined.
-Secondly, if the estimated cost is more than the setting of [jit_optimize_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-OPTIMIZE-ABOVE-COST), expensive optimizations are
-applied to improve the generated code.
-Each of these options increases the JIT compilation
-overhead, but can reduce query execution time considerably.
+JIT 編譯主要對長時間執行、CPU 密集型的查詢有益。
+這類查詢通常是分析型查詢。對於短查詢而言，
+執行 JIT 編譯所增加的額外負擔，往往會高於它所能節省的時間。
 
-These cost-based decisions will be made at plan time, not execution
-time. This means that when prepared statements are in use, and a generic
-plan is used (see [PREPARE](../../reference/sql-commands/sql-prepare.md)), the values of the
-configuration parameters in effect at prepare time control the decisions,
-not the settings at execution time.
+為判斷是否應使用 JIT 編譯，
+系統會使用該查詢的總估計成本（參見
+[第 69 章](../../internals/planner-stats-details/README.md) 與
+[第 19.7.2 節](../runtime-config/runtime-config-query.md#RUNTIME-CONFIG-QUERY-CONSTANTS)）。
+該查詢的估計成本會與 [jit_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-ABOVE-COST) 的設定值進行比較。若成本較高，
+就會執行 JIT 編譯。
+接著還需要再做兩項決定。
+首先，若估計成本高
+於 [jit_inline_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-INLINE-ABOVE-COST) 的設定值，查詢中使用的短
+函式與運算子就會被內嵌。
+其次，若估計成本高於 [jit_optimize_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-OPTIMIZE-ABOVE-COST) 的設定值，就會套用成本較高的最佳化以
+改善產生的程式碼。
+這些選項各自都會增加 JIT 編譯的額外負擔，
+但能大幅縮短查詢執行時間。
 
-### Note
+這些基於成本的決策會在規劃期（plan time）做出，而非執行期。
+這代表當使用預備陳述式（prepared statement），並採用通用計畫（generic plan，參見 [PREPARE](../../reference/sql-commands/sql-prepare.md)）時，
+控制這些決策的是預備（prepare）當下生效的組態參數值，
+而不是執行時的設定值。
 
-If [jit](../runtime-config/runtime-config-query.md#GUC-JIT) is set to `off`, or if no
-JIT implementation is available (for example because
-the server was compiled without `--with-llvm`),
-JIT will not be performed, even if it would be
-beneficial based on the above criteria. Setting [jit](../runtime-config/runtime-config-query.md#GUC-JIT)
-to `off` has effects at both plan and execution time.
+### 注意
 
-[EXPLAIN](../../reference/sql-commands/sql-explain.md) can be used to see whether
-JIT is used or not. As an example, here is a query that
-is not using JIT:
+若 [jit](../runtime-config/runtime-config-query.md#GUC-JIT) 設為 `off`，或沒有可用的
+JIT 實作（例如因為
+伺服器編譯時未加上 `--with-llvm`），
+即使依上述準則判斷會有效益，仍不會執行 JIT。將 [jit](../runtime-config/runtime-config-query.md#GUC-JIT)
+設為 `off`，在規劃期與執行期都會產生效果。
+
+可以使用 [EXPLAIN](../../reference/sql-commands/sql-explain.md) 來查看是否使用了
+JIT。舉例來說，以下是一個未使用
+JIT 的查詢：
 
 ```
 
@@ -52,10 +51,10 @@ is not using JIT:
  Execution Time: 0.365 ms
 ```
 
-Given the cost of the plan, it is entirely reasonable that no
-JIT was used; the cost of JIT would
-have been bigger than the potential savings. Adjusting the cost limits
-will lead to JIT use:
+考量到該計畫的成本，完全沒有使用
+JIT 是合理的；使用 JIT 的成本會
+大於它所能帶來的潛在節省。調整成本門檻
+就會促使系統使用 JIT：
 
 ```
 
@@ -76,10 +75,10 @@ SET
  Execution Time: 7.416 ms
 ```
 
-As visible here, JIT was used, but inlining and
-expensive optimization were not. If [jit_inline_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-INLINE-ABOVE-COST) or [jit_optimize_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-OPTIMIZE-ABOVE-COST) were also lowered,
-that would change.
+如上所示，這次使用了 JIT，但沒有進行內嵌與
+高成本的最佳化。若也調低 [jit_inline_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-INLINE-ABOVE-COST) 或 [jit_optimize_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-OPTIMIZE-ABOVE-COST)，
+情況就會改變。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/jit-decision.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/jit-decision.html)（原文版本：18.6；核對日期：2026-09-25）

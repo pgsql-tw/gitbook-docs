@@ -292,7 +292,7 @@
     * [29.14. 快速設定](server-administration/logical-replication/logical-replication-quick-setup.md)
   * [第 30 章 即時編譯（JIT）](server-administration/jit/README.md)
     * [30.1. 什麼是 JIT 編譯？ #](server-administration/jit/jit-reason.md)
-    * [30.2. When to JIT ? #](server-administration/jit/jit-decision.md)
+    * [30.2. 何時該使用 JIT？ #](server-administration/jit/jit-decision.md)
     * [30.3. 設定](server-administration/jit/jit-configuration.md)
     * [30.4. 可擴充性 #](server-administration/jit/jit-extensibility.md)
   * [第 31 章 迴歸測試](server-administration/regress/README.md)
