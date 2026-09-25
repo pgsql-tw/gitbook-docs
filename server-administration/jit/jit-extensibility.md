@@ -1,59 +1,55 @@
-## 30.4. Extensibility [#](#JIT-EXTENSIBILITY)
+<a id="JIT-EXTENSIBILITY"></a>
 
-[30.4.1. Inlining Support for Extensions](jit-extensibility.md#JIT-EXTENSIBILITY-BITCODE)
+## 30.4. 可擴充性 [#](#JIT-EXTENSIBILITY)
 
-[30.4.2. Pluggable JIT Providers](jit-extensibility.md#JIT-PLUGGABLE)
+[30.4.1. 擴充套件的內嵌支援](jit-extensibility.md#JIT-EXTENSIBILITY-BITCODE)
+
+[30.4.2. 可插拔的 JIT 提供者](jit-extensibility.md#JIT-PLUGGABLE)
 
 <a id="JIT-EXTENSIBILITY-BITCODE"></a>
 
-### 30.4.1. Inlining Support for Extensions [#](#JIT-EXTENSIBILITY-BITCODE)
+### 30.4.1. 擴充套件的內嵌支援 [#](#JIT-EXTENSIBILITY-BITCODE)
 
-PostgreSQL's JIT
-implementation can inline the bodies of functions
-of types `C` and `internal`, as well as
-operators based on such functions. To do so for functions in extensions,
-the definitions of those functions need to be made available.
-When using [PGXS](../../server-programming/extend/extend-pgxs.md) to build an extension
-against a server that has been compiled with LLVM JIT support, the
-relevant files will be built and installed automatically.
+PostgreSQL 的 JIT
+實作可以將型別為 `C` 與 `internal` 的函式本體，
+以及基於這類函式的運算子予以內嵌。若要對擴充套件中的函式進行內嵌，
+就需要讓這些函式的定義可供取用。當使用 [PGXS](../../server-programming/extend/extend-pgxs.md) 針對已使用 LLVM JIT 支援編譯的伺服器建置擴充套件時，
+相關檔案會自動建置並安裝。
 
-The relevant files have to be installed into
-`$pkglibdir/bitcode/$extension/` and a summary of them
-into `$pkglibdir/bitcode/$extension.index.bc`, where
-`$pkglibdir` is the directory returned by
-`pg_config --pkglibdir` and `$extension`
-is the base name of the extension's shared library.
+相關檔案必須安裝至
+`$pkglibdir/bitcode/$extension/`，並將其摘要安裝至
+`$pkglibdir/bitcode/$extension.index.bc`，其中
+`$pkglibdir` 是
+`pg_config --pkglibdir` 所傳回的目錄，`$extension`
+則是該擴充套件共享函式庫的基底名稱。
 
-### Note
+### 注意
 
-For functions built into PostgreSQL itself,
-the bitcode is installed into
-`$pkglibdir/bitcode/postgres`.
+對於內建於 PostgreSQL 本身的函式，
+其 bitcode 會安裝至
+`$pkglibdir/bitcode/postgres`。
 
 <a id="JIT-PLUGGABLE"></a>
 
-### 30.4.2. Pluggable JIT Providers [#](#JIT-PLUGGABLE)
+### 30.4.2. 可插拔的 JIT 提供者 [#](#JIT-PLUGGABLE)
 
-PostgreSQL provides a JIT
-implementation based on LLVM. The interface to
-the JIT provider is pluggable and the provider can be
-changed without recompiling (although currently, the build process only
-provides inlining support data for LLVM).
-The active provider is chosen via the setting
-[jit_provider](../runtime-config/runtime-config-client.md#GUC-JIT-PROVIDER).
+PostgreSQL 提供一個基於 LLVM 的 JIT
+實作。JIT 提供者的介面是可插拔的，該提供者可以在
+不重新編譯的情況下更換（雖然目前建置流程僅
+提供 LLVM 的內嵌支援資料）。
+使用中的提供者是透過設定
+[jit_provider](../runtime-config/runtime-config-client.md#GUC-JIT-PROVIDER) 來選擇。
 
 <a id="JIT-PLUGGABLE-PROVIDER-INTERFACE"></a>
 
-#### 30.4.2.1. JIT Provider Interface [#](#JIT-PLUGGABLE-PROVIDER-INTERFACE)
+#### 30.4.2.1. JIT 提供者介面 [#](#JIT-PLUGGABLE-PROVIDER-INTERFACE)
 
-A JIT provider is loaded by dynamically loading the
-named shared library. The normal library search path is used to locate
-the library. To provide the required JIT provider
-callbacks and to indicate that the library is actually a
-JIT provider, it needs to provide a C function named
-`_PG_jit_provider_init`. This function is passed a
-struct that needs to be filled with the callback function pointers for
-individual actions:
+JIT 提供者是透過動態載入具名的共享函式庫來載入的。系統會使用
+一般的函式庫搜尋路徑來尋找該函式庫。若要提供所需的
+JIT 提供者回呼函式，並表明該函式庫確實是一個
+JIT 提供者，它需要提供一個名為
+`_PG_jit_provider_init` 的 C 函式。此函式會被傳入一個
+結構，該結構需要填入各項動作對應的回呼函式指標：
 
 ```
 
@@ -69,4 +65,4 @@ extern void _PG_jit_provider_init(JitProviderCallbacks *cb);
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/jit-extensibility.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/jit-extensibility.html)（原文版本：18.6；核對日期：2026-09-24）

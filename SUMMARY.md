@@ -294,7 +294,7 @@
     * [30.1. What Is JIT compilation? #](server-administration/jit/jit-reason.md)
     * [30.2. When to JIT ? #](server-administration/jit/jit-decision.md)
     * [30.3. 設定](server-administration/jit/jit-configuration.md)
-    * [30.4. Extensibility #](server-administration/jit/jit-extensibility.md)
+    * [30.4. 可擴充性 #](server-administration/jit/jit-extensibility.md)
   * [第 31 章 迴歸測試](server-administration/regress/README.md)
     * [31.1. 執行測試 #](server-administration/regress/regress-run.md)
     * [31.2. 測試評估 #](server-administration/regress/regress-evaluation.md)
