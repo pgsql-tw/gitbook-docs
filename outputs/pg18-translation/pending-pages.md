@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：600 頁。
+待譯頁面：599 頁。
 
 ## 根目錄
 
@@ -742,7 +742,7 @@
 - [ ] `server-administration/installation/README.md` — Chapter 17. Installation from Source Code
 - [x] `server-administration/installation/install-getsource.md` — 17.2. 取得原始碼
 - [ ] `server-administration/installation/install-make.md` — 17.3. Building and Installation with Autoconf and Make #
-- [ ] `server-administration/installation/install-meson.md` — 17.4. Building and Installation with Meson #
+- [x] `server-administration/installation/install-meson.md` — 17.4. 使用 Meson 建置與安裝 #
 - [x] `server-administration/installation/install-post.md` — 17.5. 安裝後設定 #
 - [x] `server-administration/installation/install-requirements.md` — 17.1. 需求 #
 - [ ] `server-administration/installation/installation-platform-notes.md` — 17.7. Platform-Specific Notes #
