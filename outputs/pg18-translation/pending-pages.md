@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：602 頁。
+待譯頁面：601 頁。
 
 ## 根目錄
 
@@ -768,7 +768,7 @@
 - [ ] `server-administration/logical-replication/logical-replication-subscription.md` — 29.2. Subscription #
 - [ ] `server-administration/logical-replication/logical-replication-upgrade.md` — 29.13. Upgrade #
 - [x] `server-administration/maintenance/README.md` — 第 24 章、常規資料庫維護工作
-- [ ] `server-administration/maintenance/logfile-maintenance.md` — 24.3. Log File Maintenance #
+- [x] `server-administration/maintenance/logfile-maintenance.md` — 24.3. 日誌檔案維護 #
 - [x] `server-administration/maintenance/routine-reindex.md` — 24.2. 例行重新建立索引 #
 - [ ] `server-administration/maintenance/routine-vacuuming.md` — 24.1. Routine Vacuuming #
 - [x] `server-administration/managing-databases/README.md` — 第 22 章 管理資料庫

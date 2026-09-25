@@ -1,122 +1,116 @@
-## 24.3. Log File Maintenance [#](#LOGFILE-MAINTENANCE)
+<a id="LOGFILE-MAINTENANCE"></a>
+
+## 24.3. 日誌檔案維護 [#](#LOGFILE-MAINTENANCE)
 
 <a id="id-1.6.11.12.2"></a>
 
-It is a good idea to save the database server's log output
-somewhere, rather than just discarding it via `/dev/null`.
-The log output is invaluable when diagnosing
-problems.
+將資料庫伺服器的日誌輸出保存下來，而不是單純透過
+`/dev/null` 予以捨棄，是個好主意。
+日誌輸出在診斷問題時具有無可取代的價值。
 
-### Note
+### 注意
 
-The server log can contain sensitive information and needs to be protected,
-no matter how or where it is stored, or the destination to which it is routed.
-For example, some DDL statements might contain plaintext passwords or other
-authentication details. Logged statements at the `ERROR`
-level might show the SQL source code for applications
-and might also contain some parts of data rows. Recording data, events and
-related information is the intended function of this facility, so this is
-not a leakage or a bug. Please ensure the server logs are visible only to
-appropriately authorized people.
+伺服器日誌可能包含敏感資訊，因此無論其儲存方式、儲存位置，
+或是被導向的目的地為何，都需要加以保護。
+舉例來說，部分 DDL 陳述式可能包含明文密碼或其他驗證細節。以 `ERROR`
+層級記錄的陳述式，可能會顯示應用程式的 SQL 原始碼，
+也可能包含部分資料列的內容。記錄資料、事件與
+相關資訊本來就是這項功能所預期的用途，因此這並不是
+資訊外洩或臭蟲。請確保伺服器日誌僅對經過適當授權的
+人員可見。
 
-Log output tends to be voluminous
-(especially at higher debug levels) so you won't want to save it
-indefinitely. You need to *rotate* the log files so that
-new log files are started and old ones removed after a reasonable
-period of time.
+日誌輸出往往非常龐大
+（尤其是在較高的除錯層級時），因此你不會想要無限期地保存它。你需要*輪替（rotate）*日誌檔案，讓系統在經過一段合理
+時間之後開始使用新的日誌檔案，並移除舊的日誌檔案。
 
-If you simply direct the stderr of
-`postgres` into a
-file, you will have log output, but
-the only way to truncate the log file is to stop and restart
-the server. This might be acceptable if you are using
-PostgreSQL in a development environment,
-but few production servers would find this behavior acceptable.
+如果你只是將 `postgres` 的
+stderr 導向到某個檔案，你會得到日誌輸出，但
+截斷該日誌檔案的唯一方式，就是停止並重新啟動
+伺服器。如果你是在開發環境中使用
+PostgreSQL，這樣的作法或許可以接受，
+但很少有正式環境（production）的伺服器會認為這種行為是可以接受的。
 
-A better approach is to send the server's
-stderr output to some type of log rotation program.
-There is a built-in log rotation facility, which you can use by
-setting the configuration parameter `logging_collector` to
-`true` in `postgresql.conf`. The control
-parameters for this program are described in [Section 19.8.1](../runtime-config/runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE). You can also use this approach
-to capture the log data in machine readable CSV
-(comma-separated values) format.
+比較好的做法是把伺服器的
+stderr 輸出，傳送給某種日誌輪替程式。
+系統內建了一套日誌輪替機制，你可以透過
+在 `postgresql.conf` 中將組態參數 `logging_collector` 設為
+`true` 來啟用它。這套機制的控制
+參數說明於 [第 19.8.1 節](../runtime-config/runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE)。你也可以透過這種方式
+擷取以機器可讀的 CSV
+（comma-separated values，逗號分隔值）格式呈現的日誌資料。
 
-Alternatively, you might prefer to use an external log rotation
-program if you have one that you are already using with other
-server software. For example, the rotatelogs
-tool included in the Apache distribution
-can be used with PostgreSQL. One way to
-do this is to pipe the server's
-stderr output to the desired program.
-If you start the server with
-`pg_ctl`, then stderr
-is already redirected to stdout, so you just need a
-pipe command, for example:
+或者，如果你已經在其他伺服器軟體上使用某個
+外部日誌輪替程式，你可能會想繼續沿用它。
+舉例來說，Apache 發行版所附的 rotatelogs
+工具，就可以搭配 PostgreSQL 使用。其中一種
+做法是把伺服器的
+stderr 輸出透過管線（pipe）傳給所要使用的程式。
+如果你是使用
+`pg_ctl` 來啟動伺服器，stderr
+就已經被重新導向到 stdout，所以你只需要一個
+管線指令，例如：
 
 ```
 
 pg_ctl start | rotatelogs /var/log/pgsql_log 86400
 ```
 
-You can combine these approaches by setting up logrotate
-to collect log files produced by PostgreSQL built-in
-logging collector. In this case, the logging collector defines the names and
-location of the log files, while logrotate
-periodically archives these files. When initiating log rotation,
-logrotate must ensure that the application
-sends further output to the new file. This is commonly done with a
-`postrotate` script that sends a `SIGHUP`
-signal to the application, which then reopens the log file.
-In PostgreSQL, you can run `pg_ctl`
-with the `logrotate` option instead. When the server receives
-this command, the server either switches to a new log file or reopens the
-existing file, depending on the logging configuration
-(see [Section 19.8.1](../runtime-config/runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE)).
+你可以結合這兩種做法，設定 logrotate
+來收集由 PostgreSQL 內建日誌收集器所產生的日誌檔案。在這種情況下，日誌收集器負責定義日誌檔案的名稱與
+位置，而 logrotate
+會定期將這些檔案封存。在開始進行日誌輪替時，
+logrotate 必須確保應用程式會將
+後續的輸出傳送到新的檔案。這通常是透過一支
+`postrotate` 指令稿來完成，該指令稿會向應用程式送出 `SIGHUP`
+訊號，讓應用程式重新開啟日誌檔案。
+在 PostgreSQL 中，你則可以改用帶有 `logrotate`
+選項的 `pg_ctl` 來執行此操作。當伺服器收到這個指令時，會依據日誌組態，
+切換到新的日誌檔案，或是重新開啟
+現有的檔案（參見 [第 19.8.1 節](../runtime-config/runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE)）。
 
-### Note
+### 注意
 
-When using static log file names, the server might fail to reopen the log
-file if the max open file limit is reached or a file table overflow occurs.
-In this case, log messages are sent to the old log file until a
-successful log rotation. If logrotate is
-configured to compress the log file and delete it, the server may lose
-the messages logged in this time frame. To avoid this issue, you can
-configure the logging collector to dynamically assign log file names
-and use a `prerotate` script to ignore open log files.
+當使用靜態的日誌檔案名稱時，如果達到最大開啟檔案數量限制，
+或發生檔案表溢位，伺服器可能無法重新開啟日誌檔案。
+在這種情況下，日誌訊息會持續傳送到舊的日誌檔案，
+直到下一次成功的日誌輪替為止。如果 logrotate 被
+設定為壓縮並刪除日誌檔案，伺服器可能會遺失
+在這段時間內所記錄的訊息。為避免這個問題，你可以將
+日誌收集器設定為動態指派日誌檔案名稱，
+並使用 `prerotate` 指令稿來忽略已開啟的日誌檔案。
 
-Another production-grade approach to managing log output is to
-send it to syslog and let
-syslog deal with file rotation. To do this, set the
-configuration parameter `log_destination` to `syslog`
-(to log to syslog only) in
-`postgresql.conf`. Then you can send a `SIGHUP`
-signal to the syslog daemon whenever you want to force it
-to start writing a new log file. If you want to automate log
-rotation, the logrotate program can be
-configured to work with log files from
-syslog.
+另一種正式環境等級（production-grade）的日誌輸出管理方式，
+是將輸出傳送給 syslog，交由
+syslog 處理檔案輪替。若要這麼做，可
+在 `postgresql.conf` 中將組態參數 `log_destination` 設為 `syslog`
+（表示只記錄到 syslog）。
+之後，只要你想強制 syslog daemon
+開始寫入新的日誌檔案，就可以送出 `SIGHUP`
+訊號給它。如果你想要自動化日誌
+輪替，logrotate 程式也可以被設定成能夠
+搭配來自 syslog 的日誌檔案運作。
 
-On many systems, however, syslog is not very reliable,
-particularly with large log messages; it might truncate or drop messages
-just when you need them the most. Also, on Linux,
-syslog will flush each message to disk, yielding poor
-performance. (You can use a “`-`” at the start of the file name
-in the syslog configuration file to disable syncing.)
+不過，在許多系統上，syslog 的可靠性並不高，
+尤其是在處理大型日誌訊息時；它可能會恰好在你最需要
+這些訊息的時候，將其截斷或遺失。此外，在
+Linux 上，syslog 會將每一則訊息都刷寫
+至磁碟，導致效能不佳。（你可以在
+syslog 組態檔中，於檔案名稱開頭加上「`-`」，
+以停用同步寫入。）
 
-Note that all the solutions described above take care of starting new
-log files at configurable intervals, but they do not handle deletion
-of old, no-longer-useful log files. You will probably want to set
-up a batch job to periodically delete old log files. Another possibility
-is to configure the rotation program so that old log files are overwritten
-cyclically.
+請注意，以上所描述的所有解決方案，都只負責以
+可設定的間隔時間開始使用新的日誌檔案，但並不處理
+刪除已不再需要的舊日誌檔案。你可能會想要設定一個
+批次工作，定期刪除舊的日誌檔案。另一種
+可行的做法，是將輪替程式設定為讓舊的日誌檔案以
+循環方式被覆寫。
 
 [pgBadger](https://pgbadger.darold.net/)
-is an external project that does sophisticated log file analysis.
+是一個外部專案，能對日誌檔案進行精密複雜的分析。
 [check_postgres](https://bucardo.org/check_postgres/)
-provides Nagios alerts when important messages appear in the log
-files, as well as detection of many other extraordinary conditions.
+能在日誌檔案中出現重要訊息時提供 Nagios 警示，
+並能偵測許多其他異常狀況。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logfile-maintenance.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logfile-maintenance.html)（原文版本：18.6；核對日期：2026-09-25）

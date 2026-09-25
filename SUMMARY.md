@@ -251,7 +251,7 @@
   * [第 24 章、常規資料庫維護工作](server-administration/maintenance/README.md)
     * [24.1. Routine Vacuuming #](server-administration/maintenance/routine-vacuuming.md)
     * [24.2. 例行重新建立索引 #](server-administration/maintenance/routine-reindex.md)
-    * [24.3. Log File Maintenance #](server-administration/maintenance/logfile-maintenance.md)
+    * [24.3. 日誌檔案維護 #](server-administration/maintenance/logfile-maintenance.md)
   * [Chapter 25. Backup and Restore](server-administration/backup/README.md)
     * [25.1. SQL Dump #](server-administration/backup/backup-dump.md)
     * [25.2. File System Level Backup #](server-administration/backup/backup-file.md)
