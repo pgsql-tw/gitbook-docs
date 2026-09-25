@@ -1,158 +1,94 @@
-## 29.4. Row Filters [#](#LOGICAL-REPLICATION-ROW-FILTER)
+<a id="LOGICAL-REPLICATION-ROW-FILTER"></a>
 
-[29.4.1. Row Filter Rules](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RULES)
+## 29.4. 資料列篩選器 [#](#LOGICAL-REPLICATION-ROW-FILTER)
 
-[29.4.2. Expression Restrictions](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS)
+[29.4.1. 資料列篩選規則](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RULES)
 
-[29.4.3. UPDATE Transformations](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS)
+[29.4.2. 運算式限制](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS)
 
-[29.4.4. Partitioned Tables](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-PARTITIONED-TABLE)
+[29.4.3. UPDATE 轉換](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS)
 
-[29.4.5. Initial Data Synchronization](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC)
+[29.4.4. 分區表](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-PARTITIONED-TABLE)
 
-[29.4.6. Combining Multiple Row Filters](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-COMBINING)
+[29.4.5. 初始資料同步](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC)
 
-[29.4.7. Examples](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES)
+[29.4.6. 合併多個資料列篩選](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-COMBINING)
 
-By default, all data from all published tables will be replicated to the
-appropriate subscribers. The replicated data can be reduced by using a
-*row filter*. A user might choose to use row filters
-for behavioral, security or performance reasons. If a published table sets a
-row filter, a row is replicated only if its data satisfies the row filter
-expression. This allows a set of tables to be partially replicated. The row
-filter is defined per table. Use a `WHERE` clause after the
-table name for each published table that requires data to be filtered out.
-The `WHERE` clause must be enclosed by parentheses. See
-[CREATE PUBLICATION](../../reference/sql-commands/sql-createpublication.md) for details.
+[29.4.7. 範例](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES)
+
+依預設，所有已發布資料表的資料都會複寫到對應的訂閱者。透過使用*資料列篩選器*，可以減少被複寫的資料量。使用者可能基於行為、安全性或效能上的考量而選擇使用資料列篩選器。若已發布的資料表設定了資料列篩選器，則只有資料滿足篩選運算式的資料列才會被複寫。這使得一組資料表可以只被部分複寫。資料列篩選器是以資料表為單位個別定義的。針對每個需要篩選掉部分資料的已發布資料表，在資料表名稱之後使用 `WHERE` 子句。`WHERE` 子句必須以括號括住。詳情請見 [CREATE PUBLICATION](../../reference/sql-commands/sql-createpublication.md)。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-RULES"></a>
 
-### 29.4.1. Row Filter Rules [#](#LOGICAL-REPLICATION-ROW-FILTER-RULES)
+### 29.4.1. 資料列篩選規則 [#](#LOGICAL-REPLICATION-ROW-FILTER-RULES)
 
-Row filters are applied *before* publishing the changes.
-If the row filter evaluates to `false` or `NULL`
-then the row is not replicated. The `WHERE` clause expression
-is evaluated with the same role used for the replication connection (i.e.
-the role specified in the
-[`CONNECTION`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-CONNECTION)
-clause of the [CREATE SUBSCRIPTION](../../reference/sql-commands/sql-createsubscription.md)). Row filters have
-no effect for `TRUNCATE` command.
+資料列篩選器是在發布異動之*前*套用的。若篩選運算式的結果為 `false` 或 `NULL`，則該資料列不會被複寫。`WHERE` 子句運算式是以複寫連線所使用的同一角色來求值（也就是 [CREATE SUBSCRIPTION](../../reference/sql-commands/sql-createsubscription.md) 的 [`CONNECTION`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-CONNECTION) 子句中指定的角色）。資料列篩選器對 `TRUNCATE` 指令沒有作用。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS"></a>
 
-### 29.4.2. Expression Restrictions [#](#LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS)
+### 29.4.2. 運算式限制 [#](#LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS)
 
-The `WHERE` clause allows only simple expressions. It
-cannot contain user-defined functions, operators, types, and collations,
-system column references or non-immutable built-in functions.
+`WHERE` 子句只允許使用簡單的運算式，不能包含使用者自訂函式、運算子、型別與定序、系統欄位參照，或非不可變（non-immutable）的內建函式。
 
-If a publication publishes `UPDATE` or
-`DELETE` operations, the row filter `WHERE`
-clause must contain only columns that are covered by the replica identity
-(see [`REPLICA IDENTITY`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY)). If a publication
-publishes only `INSERT` operations, the row filter
-`WHERE` clause can use any column.
+若發布項目發布了 `UPDATE` 或 `DELETE` 操作，則資料列篩選器的 `WHERE` 子句只能包含屬於複寫識別（replica identity，見 [`REPLICA IDENTITY`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY)）所涵蓋的欄位。若發布項目只發布 `INSERT` 操作，則資料列篩選器的 `WHERE` 子句可以使用任何欄位。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS"></a>
 
-### 29.4.3. UPDATE Transformations [#](#LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS)
+### 29.4.3. UPDATE 轉換 [#](#LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS)
 
-Whenever an `UPDATE` is processed, the row filter
-expression is evaluated for both the old and new row (i.e. using the data
-before and after the update). If both evaluations are `true`,
-it replicates the `UPDATE` change. If both evaluations are
-`false`, it doesn't replicate the change. If only one of
-the old/new rows matches the row filter expression, the `UPDATE`
-is transformed to `INSERT` or `DELETE`, to
-avoid any data inconsistency. The row on the subscriber should reflect what
-is defined by the row filter expression on the publisher.
+每當處理一筆 `UPDATE` 時，會分別以更新前與更新後的資料列（即舊資料與新資料）來求值資料列篩選運算式。若兩者求值結果皆為 `true`，則複寫該筆 `UPDATE` 異動。若兩者求值結果皆為 `false`，則不複寫該筆異動。若只有其中一筆（舊資料或新資料）符合資料列篩選運算式，則該筆 `UPDATE` 會被轉換為 `INSERT` 或 `DELETE`，以避免資料不一致。訂閱者上的資料列應反映發布者上資料列篩選運算式所定義的結果。
 
-If the old row satisfies the row filter expression (it was sent to the
-subscriber) but the new row doesn't, then, from a data consistency
-perspective the old row should be removed from the subscriber.
-So the `UPDATE` is transformed into a `DELETE`.
+若舊資料列滿足篩選運算式（因此已送至訂閱者），但新資料列不滿足，則從資料一致性的角度來看，應將該舊資料列從訂閱者移除。因此該 `UPDATE` 會被轉換為 `DELETE`。
 
-If the old row doesn't satisfy the row filter expression (it wasn't sent
-to the subscriber) but the new row does, then, from a data consistency
-perspective the new row should be added to the subscriber.
-So the `UPDATE` is transformed into an `INSERT`.
+若舊資料列不滿足篩選運算式（因此未送至訂閱者），但新資料列滿足，則從資料一致性的角度來看，應將該新資料列加入訂閱者。因此該 `UPDATE` 會被轉換為 `INSERT`。
 
-[Table 29.1](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS-SUMMARY)
-summarizes the applied transformations.
+[表 29.1](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS-SUMMARY) 彙整了套用的轉換規則。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS-SUMMARY"></a>
 
-**Table 29.1. `UPDATE` Transformation Summary**
+**表 29.1. `UPDATE` 轉換彙整**
 
-<table border="1" class="table" summary="UPDATE Transformation Summary"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Old row</th><th>New row</th><th>Transformation</th></tr></thead><tbody><tr><td>no match</td><td>no match</td><td>don't replicate</td></tr><tr><td>no match</td><td>match</td><td><code class="literal">INSERT</code></td></tr><tr><td>match</td><td>no match</td><td><code class="literal">DELETE</code></td></tr><tr><td>match</td><td>match</td><td><code class="literal">UPDATE</code></td></tr></tbody></table>
+<table border="1" class="table" summary="UPDATE 轉換摘要"><colgroup><col/><col/><col/></colgroup><thead><tr><th>舊資料列</th><th>新資料列</th><th>轉換方式</th></tr></thead><tbody><tr><td>不符合</td><td>不符合</td><td>不複寫</td></tr><tr><td>不符合</td><td>符合</td><td><code class="literal">INSERT</code></td></tr><tr><td>符合</td><td>不符合</td><td><code class="literal">DELETE</code></td></tr><tr><td>符合</td><td>符合</td><td><code class="literal">UPDATE</code></td></tr></tbody></table>
 
 <br>
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-PARTITIONED-TABLE"></a>
 
-### 29.4.4. Partitioned Tables [#](#LOGICAL-REPLICATION-ROW-FILTER-PARTITIONED-TABLE)
+### 29.4.4. 分區表 [#](#LOGICAL-REPLICATION-ROW-FILTER-PARTITIONED-TABLE)
 
-If the publication contains a partitioned table, the publication parameter
-[`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT)
-determines which row filter is used. If `publish_via_partition_root`
-is `true`, the *root partitioned table's*
-row filter is used. Otherwise, if `publish_via_partition_root`
-is `false` (default), each *partition's*
-row filter is used.
+若發布項目包含分區表，則發布參數 [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT) 決定要使用哪一個資料列篩選器。若 `publish_via_partition_root` 為 `true`，則使用*根分區表*的資料列篩選器。否則，若 `publish_via_partition_root` 為 `false`（預設值），則使用各*分區*自己的資料列篩選器。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC"></a>
 
-### 29.4.5. Initial Data Synchronization [#](#LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC)
+### 29.4.5. 初始資料同步 [#](#LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC)
 
-If the subscription requires copying pre-existing table data
-and a publication contains `WHERE` clauses, only data that
-satisfies the row filter expressions is copied to the subscriber.
+若訂閱需要複製既有資料表的資料，且發布項目含有 `WHERE` 子句，則只有滿足資料列篩選運算式的資料才會被複製到訂閱者。
 
-If the subscription has several publications in which a table has been
-published with different `WHERE` clauses, rows that satisfy
-*any* of the expressions will be copied. See
-[Section 29.4.6](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-COMBINING) for details.
+若訂閱訂閱了多個發布項目，而同一個資料表在其中以不同的 `WHERE` 子句被發布，則滿足*任一*運算式的資料列都會被複製。詳情請見 [第 29.4.6 節](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-COMBINING)。
 
-### Warning
+### 警告
 
-Because initial data synchronization does not take into account the
-[`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH)
-parameter when copying existing table data, some rows may be copied that
-would not be replicated using DML. Refer to
-[Section 29.9.1](logical-replication-architecture.md#LOGICAL-REPLICATION-SNAPSHOT), and see
-[Section 29.2.2](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES) for examples.
+由於初始資料同步在複製既有資料表的資料時，並不會考量 [`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH) 參數，因此可能會複製到一些原本不會透過 DML 複寫的資料列。請參閱 [第 29.9.1 節](logical-replication-architecture.md#LOGICAL-REPLICATION-SNAPSHOT)，範例請見 [第 29.2.2 節](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES)。
 
-### Note
+### 注意
 
-If the subscriber is in a release prior to 15, copying pre-existing data
-doesn't use row filters even if they are defined in the publication.
-This is because old releases can only copy the entire table data.
+若訂閱者是版本 15 之前的舊版本，即使發布項目中定義了資料列篩選器，複製既有資料時也不會使用資料列篩選器。這是因為舊版本只能複製整個資料表的資料。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-COMBINING"></a>
 
-### 29.4.6. Combining Multiple Row Filters [#](#LOGICAL-REPLICATION-ROW-FILTER-COMBINING)
+### 29.4.6. 合併多個資料列篩選 [#](#LOGICAL-REPLICATION-ROW-FILTER-COMBINING)
 
-If the subscription has several publications in which the same table has
-been published with different row filters (for the same
-[`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH)
-operation), those expressions get ORed together, so that rows satisfying
-*any* of the expressions will be replicated. This means all
-the other row filters for the same table become redundant if:
+若訂閱訂閱了多個發布項目，而同一個資料表在這些發布項目中（針對同一種 [`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH) 操作）以不同的資料列篩選器被發布，這些運算式會以 OR 邏輯組合，因此滿足*任一*運算式的資料列都會被複寫。這代表在下列情況下，同一資料表的其他資料列篩選器都會變得多餘：
 
-* One of the publications has no row filter.
-* One of the publications was created using
-  [`FOR ALL TABLES`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-FOR-ALL-TABLES).
-  This clause does not allow row filters.
-* One of the publications was created using
-  [`FOR TABLES IN SCHEMA`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-FOR-TABLES-IN-SCHEMA)
-  and the table belongs to the referred schema. This clause does not allow
-  row filters.
+* 其中一個發布項目沒有資料列篩選器。
+* 其中一個發布項目是使用 [`FOR ALL TABLES`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-FOR-ALL-TABLES) 建立的。此子句不允許使用資料列篩選器。
+* 其中一個發布項目是使用 [`FOR TABLES IN SCHEMA`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-FOR-TABLES-IN-SCHEMA) 建立的，且該資料表屬於所指的綱要（schema）。此子句不允許使用資料列篩選器。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES"></a>
 
-### 29.4.7. Examples [#](#LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES)
+### 29.4.7. 範例 [#](#LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES)
 
-Create some tables to be used in the following examples.
+建立一些資料表，供以下範例使用。
 
 ```
 
@@ -161,11 +97,7 @@ Create some tables to be used in the following examples.
 /* pub # */ CREATE TABLE t3(g int, h int, i int, PRIMARY KEY(g));
 ```
 
-Create some publications. Publication `p1` has one table
-(`t1`) and that table has a row filter. Publication
-`p2` has two tables. Table `t1` has no row
-filter, and table `t2` has a row filter. Publication
-`p3` has two tables, and both of them have a row filter.
+建立一些發布項目。發布項目 `p1` 有一個資料表（`t1`），且該資料表有資料列篩選器。發布項目 `p2` 有兩個資料表：資料表 `t1` 沒有資料列篩選器，資料表 `t2` 有資料列篩選器。發布項目 `p3` 有兩個資料表，且兩者都有資料列篩選器。
 
 ```
 
@@ -174,8 +106,7 @@ filter, and table `t2` has a row filter. Publication
 /* pub # */ CREATE PUBLICATION p3 FOR TABLE t2 WHERE (d = 10), t3 WHERE (g = 10);
 ```
 
-`psql` can be used to show the row filter expressions (if
-defined) for each publication.
+可以使用 `psql` 顯示各發布項目的資料列篩選運算式（若有定義的話）。
 
 ```
 
@@ -204,11 +135,7 @@ Tables:
     "public.t3" WHERE (g = 10)
 ```
 
-`psql` can be used to show the row filter expressions (if
-defined) for each table. See that table `t1` is a member
-of two publications, but has a row filter only in `p1`.
-See that table `t2` is a member of two publications, and
-has a different row filter in each of them.
+可以使用 `psql` 顯示各資料表的資料列篩選運算式（若有定義的話）。可以看到資料表 `t1` 屬於兩個發布項目的成員，但只有在 `p1` 中才有資料列篩選器。可以看到資料表 `t2` 屬於兩個發布項目的成員，且在每個發布項目中都有不同的資料列篩選器。
 
 ```
 
@@ -251,9 +178,7 @@ Publications:
     "p3" WHERE (g = 10)
 ```
 
-On the subscriber node, create a table `t1` with the same
-definition as the one on the publisher, and also create the subscription
-`s1` that subscribes to the publication `p1`.
+在訂閱者節點上，建立一個與發布者上定義相同的資料表 `t1`，並建立訂閱 `s1` 來訂閱發布項目 `p1`。
 
 ```
 
@@ -263,8 +188,7 @@ definition as the one on the publisher, and also create the subscription
 /* sub - */ PUBLICATION p1;
 ```
 
-Insert some rows. Only the rows satisfying the `t1 WHERE`
-clause of publication `p1` are replicated.
+插入一些資料列。只有滿足發布項目 `p1` 中 `t1 WHERE` 子句的資料列會被複寫。
 
 ```
 
@@ -301,10 +225,7 @@ clause of publication `p1` are replicated.
 (2 rows)
 ```
 
-Update some data, where the old and new row values both
-satisfy the `t1 WHERE` clause of publication
-`p1`. The `UPDATE` replicates
-the change as normal.
+更新一些資料，其中舊資料列與新資料列的值都滿足發布項目 `p1` 中的 `t1 WHERE` 子句。此 `UPDATE` 會正常複寫該項異動。
 
 ```
 
@@ -334,11 +255,7 @@ the change as normal.
 (2 rows)
 ```
 
-Update some data, where the old row values did not satisfy
-the `t1 WHERE` clause of publication `p1`,
-but the new row values do satisfy it. The `UPDATE` is
-transformed into an `INSERT` and the change is replicated.
-See the new row on the subscriber.
+更新一些資料，其中舊資料列的值不滿足發布項目 `p1` 中的 `t1 WHERE` 子句，但新資料列的值滿足。此 `UPDATE` 會被轉換為 `INSERT`，並複寫該項異動。請留意訂閱者上出現的新資料列。
 
 ```
 
@@ -369,11 +286,7 @@ See the new row on the subscriber.
 (3 rows)
 ```
 
-Update some data, where the old row values satisfied
-the `t1 WHERE` clause of publication `p1`,
-but the new row values do not satisfy it. The `UPDATE` is
-transformed into a `DELETE` and the change is replicated.
-See that the row is removed from the subscriber.
+更新一些資料，其中舊資料列的值滿足發布項目 `p1` 中的 `t1 WHERE` 子句，但新資料列的值不滿足。此 `UPDATE` 會被轉換為 `DELETE`，並複寫該項異動。請留意該資料列已從訂閱者中移除。
 
 ```
 
@@ -403,12 +316,9 @@ See that the row is removed from the subscriber.
 (2 rows)
 ```
 
-The following examples show how the publication parameter
-[`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT)
-determines whether the row filter of the parent or child table will be used
-in the case of partitioned tables.
+以下範例說明發布參數 [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT) 在分區表的情況下，如何決定要使用父資料表還是子資料表的資料列篩選器。
 
-Create a partitioned table on the publisher.
+在發布者上建立一個分區表。
 
 ```
 
@@ -416,7 +326,7 @@ Create a partitioned table on the publisher.
 /* pub # */ CREATE TABLE child PARTITION OF parent DEFAULT;
 ```
 
-Create the same tables on the subscriber.
+在訂閱者上建立相同的資料表。
 
 ```
 
@@ -424,10 +334,7 @@ Create the same tables on the subscriber.
 /* sub # */ CREATE TABLE child PARTITION OF parent DEFAULT;
 ```
 
-Create a publication `p4`, and then subscribe to it. The
-publication parameter `publish_via_partition_root` is set
-as true. There are row filters defined on both the partitioned table
-(`parent`), and on the partition (`child`).
+建立發布項目 `p4`，然後訂閱它。發布參數 `publish_via_partition_root` 設為 true。在分區表（`parent`）與分區（`child`）上都定義了資料列篩選器。
 
 ```
 
@@ -442,10 +349,7 @@ as true. There are row filters defined on both the partitioned table
 /* sub - */ PUBLICATION p4;
 ```
 
-Insert some values directly into the `parent` and
-`child` tables. They replicate using the row filter of
-`parent` (because `publish_via_partition_root`
-is true).
+直接將值插入 `parent` 與 `child` 資料表。它們會使用 `parent` 的資料列篩選器來複寫（因為 `publish_via_partition_root` 為 true）。
 
 ```
 
@@ -475,9 +379,7 @@ is true).
 (3 rows)
 ```
 
-Repeat the same test, but with a different value for `publish_via_partition_root`.
-The publication parameter `publish_via_partition_root` is
-set as false. A row filter is defined on the partition (`child`).
+重複相同的測試，但改變 `publish_via_partition_root` 的值。發布參數 `publish_via_partition_root` 設為 false。資料列篩選器定義在分區（`child`）上。
 
 ```
 
@@ -491,9 +393,7 @@ set as false. A row filter is defined on the partition (`child`).
 /* sub # */ ALTER SUBSCRIPTION s4 REFRESH PUBLICATION;
 ```
 
-Do the inserts on the publisher same as before. They replicate using the
-row filter of `child` (because
-`publish_via_partition_root` is false).
+在發布者上執行與先前相同的插入操作。它們會使用 `child` 的資料列篩選器來複寫（因為 `publish_via_partition_root` 為 false）。
 
 ```
 
@@ -526,4 +426,4 @@ row filter of `child` (because
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-row-filter.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-row-filter.html)（原文版本：18.6；核對日期：2026-09-25）
