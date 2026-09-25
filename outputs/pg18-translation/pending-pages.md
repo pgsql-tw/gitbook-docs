@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：610 頁。
+待譯頁面：609 頁。
 
 ## 根目錄
 
@@ -733,7 +733,7 @@
 - [x] `server-administration/client-authentication/client-authentication-problems.md` — 20.16. 驗證問題 #
 - [ ] `server-administration/client-authentication/gssapi-auth.md` — 20.6. GSSAPI Authentication #
 - [x] `server-administration/client-authentication/sspi-auth.md` — 20.7. SSPI 驗證 #
-- [ ] `server-administration/high-availability/README.md` — Chapter 26. High Availability, Load Balancing, and Replication
+- [x] `server-administration/high-availability/README.md` — 第 26 章 高可用性、負載平衡與複寫
 - [ ] `server-administration/high-availability/different-replication-solutions.md` — 26.1. Comparison of Different Solutions #
 - [ ] `server-administration/high-availability/hot-standby.md` — 26.4. Hot Standby #
 - [ ] `server-administration/high-availability/warm-standby-failover.md` — 26.3. Failover #

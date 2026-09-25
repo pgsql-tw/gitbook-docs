@@ -256,7 +256,7 @@
     * [25.1. SQL Dump #](server-administration/backup/backup-dump.md)
     * [25.2. File System Level Backup #](server-administration/backup/backup-file.md)
     * [25.3. Continuous Archiving and Point-in-Time Recovery (PITR) #](server-administration/backup/continuous-archiving.md)
-  * [Chapter 26. High Availability, Load Balancing, and Replication](server-administration/high-availability/README.md)
+  * [第 26 章 高可用性、負載平衡與複寫](server-administration/high-availability/README.md)
     * [26.1. Comparison of Different Solutions #](server-administration/high-availability/different-replication-solutions.md)
     * [26.2. Log-Shipping Standby Servers #](server-administration/high-availability/warm-standby.md)
     * [26.3. Failover #](server-administration/high-availability/warm-standby-failover.md)
