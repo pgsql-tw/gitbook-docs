@@ -250,7 +250,7 @@
     * [23.3. Character Set Support #](server-administration/charset/multibyte.md)
   * [第 24 章、常規資料庫維護工作](server-administration/maintenance/README.md)
     * [24.1. Routine Vacuuming #](server-administration/maintenance/routine-vacuuming.md)
-    * [24.2. Routine Reindexing #](server-administration/maintenance/routine-reindex.md)
+    * [24.2. 例行重新建立索引 #](server-administration/maintenance/routine-reindex.md)
     * [24.3. Log File Maintenance #](server-administration/maintenance/logfile-maintenance.md)
   * [Chapter 25. Backup and Restore](server-administration/backup/README.md)
     * [25.1. SQL Dump #](server-administration/backup/backup-dump.md)
