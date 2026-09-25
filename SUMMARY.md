@@ -284,7 +284,7 @@
     * [29.6. Generated Column Replication #](server-administration/logical-replication/logical-replication-gencols.md)
     * [29.7. Conflicts #](server-administration/logical-replication/logical-replication-conflicts.md)
     * [29.8. 限制 #](server-administration/logical-replication/logical-replication-restrictions.md)
-    * [29.9. Architecture #](server-administration/logical-replication/logical-replication-architecture.md)
+    * [29.9. 架構 #](server-administration/logical-replication/logical-replication-architecture.md)
     * [29.10. 監控](server-administration/logical-replication/logical-replication-monitoring.md)
     * [29.11. Security #](server-administration/logical-replication/logical-replication-security.md)
     * [29.12. 組態設定 #](server-administration/logical-replication/logical-replication-config.md)
