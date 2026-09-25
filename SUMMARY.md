@@ -266,7 +266,7 @@
     * [27.2. The Cumulative Statistics System #](server-administration/monitoring/monitoring-stats.md)
     * [27.3. 檢視鎖定](server-administration/monitoring/monitoring-locks.md)
     * [27.4. Progress Reporting #](server-administration/monitoring/progress-reporting.md)
-    * [27.5. Dynamic Tracing #](server-administration/monitoring/dynamic-trace.md)
+    * [27.5. 動態追蹤 #](server-administration/monitoring/dynamic-trace.md)
     * [27.6. Monitoring Disk Usage #](server-administration/monitoring/diskusage.md)
   * [第 28 章 可靠性與預寫式日誌](server-administration/wal/README.md)
     * [28.1. 可靠性 #](server-administration/wal/wal-reliability.md)
