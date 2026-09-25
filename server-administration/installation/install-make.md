@@ -1,16 +1,18 @@
-## 17.3. Building and Installation with Autoconf and Make [#](#INSTALL-MAKE)
+<a id="INSTALL-MAKE"></a>
 
-[17.3.1. Short Version](install-make.md#INSTALL-SHORT-MAKE)
+## 17.3. 以 Autoconf 與 Make 建置與安裝 [#](#INSTALL-MAKE)
 
-[17.3.2. Installation Procedure](install-make.md#INSTALL-PROCEDURE-MAKE)
+[17.3.1. 精簡版](install-make.md#INSTALL-SHORT-MAKE)
 
-[17.3.3. `configure` Options](install-make.md#CONFIGURE-OPTIONS)
+[17.3.2. 安裝程序](install-make.md#INSTALL-PROCEDURE-MAKE)
 
-[17.3.4. `configure` Environment Variables](install-make.md#CONFIGURE-ENVVARS)
+[17.3.3. `configure` 選項](install-make.md#CONFIGURE-OPTIONS)
+
+[17.3.4. `configure` 環境變數](install-make.md#CONFIGURE-ENVVARS)
 
 <a id="INSTALL-SHORT-MAKE"></a>
 
-### 17.3.1. Short Version [#](#INSTALL-SHORT-MAKE)
+### 17.3.1. 精簡版 [#](#INSTALL-SHORT-MAKE)
 
 ```
 
@@ -28,38 +30,33 @@ su - postgres
 /usr/local/pgsql/bin/psql test
 ```
 
-The long version is the rest of this
-section.
+完整版本請參閱本節其餘內容。
 
 <a id="INSTALL-PROCEDURE-MAKE"></a>
 
-### 17.3.2. Installation Procedure [#](#INSTALL-PROCEDURE-MAKE)
+### 17.3.2. 安裝程序 [#](#INSTALL-PROCEDURE-MAKE)
 
-<a id="CONFIGURE"></a>1. **Configuration**
+<a id="CONFIGURE"></a>1. **設定**
 
    <a id="id-1.6.4.6.3.2.1.2"></a>
 
-   The first step of the installation procedure is to configure the
-   source tree for your system and choose the options you would like.
-   This is done by running the `configure` script. For a
-   default installation simply enter:
+   安裝程序的第一步，是針對你的系統設定原始碼樹，並選擇你想要的選項。
+   這是透過執行 `configure` 指令稿來完成的。若要採用預設安裝方式，
+   只需輸入：
 
    ```
 
    ./configure
    ```
 
-   This script will run a number of tests to determine values for various
-   system dependent variables and detect any quirks of your
-   operating system, and finally will create several files in the
-   build tree to record what it found.
+   這個指令稿會執行一系列測試，以判斷各種與系統相依的變數值，
+   並偵測你作業系統的任何特殊之處，最後會在建置樹中建立數個檔案，
+   記錄它所偵測到的結果。
 
-   You can also run `configure` in a directory outside
-   the source tree, and then build there, if you want to keep the build
-   directory separate from the original source files. This procedure is
-   called a
+   如果你想讓建置目錄與原始檔案分開，也可以在原始碼樹以外的目錄
+   執行 `configure`，然後在那裡進行建置。這個程序稱為
    <a id="id-1.6.4.6.3.2.1.4.2"></a>*VPATH*
-   build. Here's how:
+   建置。作法如下：
 
    ```
 
@@ -69,24 +66,21 @@ section.
    make
    ```
 
-   The default configuration will build the server and utilities, as
-   well as all client applications and interfaces that require only a
-   C compiler. All files will be installed under
-   `/usr/local/pgsql` by default.
+   預設設定會建置伺服器與各項公用程式，以及所有只需要 C 編譯器
+   即可建置的用戶端應用程式與介面。所有檔案預設都會安裝在
+   `/usr/local/pgsql` 之下。
 
-   You can customize the build and installation process by supplying one
-   or more command line options to `configure`.
-   Typically you would customize the install location, or the set of
-   optional features that are built. `configure`
-   has a large number of options, which are described in
-   [Section 17.3.3](install-make.md#CONFIGURE-OPTIONS).
+   你可以透過提供一或多個命令列選項給 `configure`，來自訂建置與
+   安裝程序。一般來說，你可能會想自訂安裝位置，或是要建置的選用
+   功能集合。`configure` 有大量選項，這些選項說明於
+   [17.3.3 節](install-make.md#CONFIGURE-OPTIONS)。
 
-   Also, `configure` responds to certain environment
-   variables, as described in [Section 17.3.4](install-make.md#CONFIGURE-ENVVARS).
-   These provide additional ways to customize the configuration.
-<a id="BUILD"></a>2. **Build**
+   此外，`configure` 也會回應特定的環境變數，說明於
+   [17.3.4 節](install-make.md#CONFIGURE-ENVVARS)。這些變數提供了
+   額外的自訂設定方式。
+<a id="BUILD"></a>2. **建置**
 
-   To start the build, type either of:
+   若要開始建置，請輸入下列其中一項：
 
    ```
 
@@ -94,31 +88,28 @@ section.
    make all
    ```
 
-   (Remember to use GNU make.)
-   The build will take a few minutes depending on your
-   hardware.
+   （請記得使用 GNU make。）
+   依你的硬體而定，建置過程大約需要幾分鐘。
 
-   If you want to build everything that can be built, including the
-   documentation (HTML and man pages), and the additional modules
-   (`contrib`), type instead:
+   如果你想要建置所有可以建置的內容，包括文件
+   （HTML 與 man 頁面）以及額外模組（`contrib`），
+   請改為輸入：
 
    ```
 
    make world
    ```
 
-   If you want to build everything that can be built, including the
-   additional modules (`contrib`), but without
-   the documentation, type instead:
+   如果你想要建置所有可以建置的內容，包括額外模組
+   （`contrib`），但不包括文件，請改為輸入：
 
    ```
 
    make world-bin
    ```
 
-   If you want to invoke the build from another makefile rather than
-   manually, you must unset `MAKELEVEL` or set it to zero,
-   for instance like this:
+   如果你想從另一個 makefile 呼叫這個建置，而不是手動執行，
+   你必須取消設定 `MAKELEVEL`，或將其設為零，例如：
 
    ```
 
@@ -126,91 +117,80 @@ section.
            $(MAKE) -C postgresql MAKELEVEL=0 all
    ```
 
-   Failure to do that can lead to strange error messages, typically about
-   missing header files.
-3. **Regression Tests**
+   若沒有這麼做，可能會導致奇怪的錯誤訊息出現，通常是關於
+   缺少標頭檔的訊息。
+3. **回歸測試**
 
    <a id="id-1.6.4.6.3.2.3.2"></a>
 
-   If you want to test the newly built server before you install it,
-   you can run the regression tests at this point. The regression
-   tests are a test suite to verify that PostgreSQL
-   runs on your machine in the way the developers expected it
-   to. Type:
+   如果你想在安裝之前先測試新建置好的伺服器，可以在此時執行
+   回歸測試。回歸測試是一套測試組合，用來驗證 PostgreSQL
+   在你的機器上是否如開發者所預期的那樣運作。輸入：
 
    ```
 
    make check
    ```
 
-   (This won't work as root; do it as an unprivileged user.)
-   See [Chapter 31](../regress/README.md) for
-   detailed information about interpreting the test results. You can
-   repeat this test at any later time by issuing the same command.
-<a id="INSTALL"></a>4. **Installing the Files**
+   （以 root 身分執行不會成功；請以非特權使用者執行。）
+   關於如何解讀測試結果的詳細資訊，請參閱[第 31 章](../regress/README.md)。
+   你可以在之後任何時候，透過重複輸入同一個指令來重新執行這項測試。
+<a id="INSTALL"></a>4. **安裝檔案**
 
-   ### Note
+   ### 注意
 
-   If you are upgrading an existing system be sure to read
-   [Section 18.6](../runtime/upgrading.md),
-   which has instructions about upgrading a
-   cluster.
+   如果你正在升級既有系統，請務必閱讀
+   [18.6 節](../runtime/upgrading.md)，
+   其中有關於叢集升級的說明。
 
-   To install PostgreSQL enter:
+   若要安裝 PostgreSQL，請輸入：
 
    ```
 
    make install
    ```
 
-   This will install files into the directories that were specified
-   in [Step 1](install-make.md#CONFIGURE). Make sure that you have appropriate
-   permissions to write into that area. Normally you need to do this
-   step as root. Alternatively, you can create the target
-   directories in advance and arrange for appropriate permissions to
-   be granted.
+   這會將檔案安裝到[步驟 1](install-make.md#CONFIGURE)中所指定的目錄。
+   請確認你在該區域擁有適當的寫入權限。一般來說，這個步驟需要以
+   root 身分執行。另外，你也可以事先建立目標目錄，並安排好適當的權限。
 
-   To install the documentation (HTML and man pages), enter:
+   若要安裝文件（HTML 與 man 頁面），請輸入：
 
    ```
 
    make install-docs
    ```
 
-   If you built the world above, type instead:
+   如果你在前面建置了整個 world，請改為輸入：
 
    ```
 
    make install-world
    ```
 
-   This also installs the documentation.
+   這也會一併安裝文件。
 
-   If you built the world without the documentation above, type instead:
+   如果你在前面建置了不含文件的 world，請改為輸入：
 
    ```
 
    make install-world-bin
    ```
 
-   You can use `make install-strip` instead of
-   `make install` to strip the executable files and
-   libraries as they are installed. This will save some space. If
-   you built with debugging support, stripping will effectively
-   remove the debugging support, so it should only be done if
-   debugging is no longer needed. `install-strip`
-   tries to do a reasonable job saving space, but it does not have
-   perfect knowledge of how to strip every unneeded byte from an
-   executable file, so if you want to save all the disk space you
-   possibly can, you will have to do manual work.
+   你可以使用 `make install-strip` 取代
+   `make install`，在安裝時去除可執行檔與函式庫中的符號資訊。
+   這樣可以節省一些空間。如果你在建置時啟用了除錯支援，
+   去除符號資訊實際上會移除除錯支援，因此只有在確定不再需要
+   除錯功能時才應該這麼做。`install-strip` 會嘗試合理地
+   節省空間，但它並不具備完美的知識，能從可執行檔中去除每一個
+   不需要的位元組，所以如果你想盡可能節省磁碟空間，就必須自行
+   手動處理。
 
-   The standard installation provides all the header files needed for client
-   application development as well as for server-side program
-   development, such as custom functions or data types written in C.
+   標準安裝會提供用戶端應用程式開發，以及伺服器端程式開發
+   （例如以 C 撰寫的自訂函式或資料型別）所需的所有標頭檔。
 
-   **Client-only installation:**
-   If you want to install only the client applications and
-   interface libraries, then you can use these commands:
+   **僅安裝用戶端：**
+   如果你只想安裝用戶端應用程式與介面函式庫，可以使用下列指令：
 
    ```
 
@@ -220,690 +200,625 @@ section.
    make -C doc install
    ```
 
-   `src/bin` has a few binaries for server-only use,
-   but they are small.
+   `src/bin` 中有少數僅供伺服器端使用的二進位檔，
+   但它們的體積都很小。
 
-**Uninstallation:**
-To undo the installation use the command `make
-uninstall`. However, this will not remove any created directories.
+**解除安裝：**
+若要復原安裝，請使用 `make uninstall` 指令。不過，這不會移除任何
+已建立的目錄。
 
-**Cleaning:**
-After the installation you can free disk space by removing the built
-files from the source tree with the command `make
-clean`. This will preserve the files made by the `configure`
-program, so that you can rebuild everything with `make`
-later on. To reset the source tree to the state in which it was
-distributed, use `make distclean`. If you are going to
-build for several platforms within the same source tree you must do
-this and re-configure for each platform. (Alternatively, use
-a separate build tree for each platform, so that the source tree
-remains unmodified.)
+**清理：**
+安裝完成後，你可以透過從原始碼樹中移除已建置的檔案，來釋放磁碟空間，
+指令為 `make clean`。這會保留 `configure`
+程式所產生的檔案，讓你之後可以用 `make` 重新建置全部內容。
+若要將原始碼樹重設回發行時的狀態，請使用 `make distclean`。
+如果你打算在同一個原始碼樹中為多個平台進行建置，就必須這麼做，
+並針對每個平台重新設定。（另一種做法是為每個平台使用個別的建置目錄，
+讓原始碼樹保持不變。）
 
-If you perform a build and then discover that your `configure`
-options were wrong, or if you change anything that `configure`
-investigates (for example, software upgrades), then it's a good
-idea to do `make distclean` before reconfiguring and
-rebuilding. Without this, your changes in configuration choices
-might not propagate everywhere they need to.
+如果你完成了一次建置後，才發現 `configure` 選項有誤，
+或是你變更了任何 `configure` 會偵測的項目（例如軟體升級），
+那麼在重新設定並重新建置之前，最好先執行 `make distclean`。
+若不這麼做，你變更的設定選項可能無法傳遞到所有需要的地方。
 
 <a id="CONFIGURE-OPTIONS"></a>
 
-### 17.3.3. `configure` Options [#](#CONFIGURE-OPTIONS)
+### 17.3.3. `configure` 選項 [#](#CONFIGURE-OPTIONS)
 
 <a id="id-1.6.4.6.4.2"></a>
 
-`configure`'s command line options are explained below.
-This list is not exhaustive (use `./configure --help`
-to get one that is). The options not covered here are meant for
-advanced use-cases such as cross-compilation, and are documented in
-the standard Autoconf documentation.
+以下說明 `configure` 的命令列選項。這份清單並不完整
+（使用 `./configure --help` 可取得完整清單）。
+這裡未涵蓋的選項，是給交叉編譯等進階使用情境使用的，
+它們記載於標準的 Autoconf 文件中。
 
 <a id="CONFIGURE-OPTIONS-LOCATIONS"></a>
 
-#### 17.3.3.1. Installation Locations [#](#CONFIGURE-OPTIONS-LOCATIONS)
+#### 17.3.3.1. 安裝位置 [#](#CONFIGURE-OPTIONS-LOCATIONS)
 
-These options control where `make install` will put
-the files. The `--prefix` option is sufficient for
-most cases. If you have special needs, you can customize the
-installation subdirectories with the other options described in this
-section. Beware however that changing the relative locations of the
-different subdirectories may render the installation non-relocatable,
-meaning you won't be able to move it after installation.
-(The `man` and `doc` locations are
-not affected by this restriction.) For relocatable installs, you
-might want to use the `--disable-rpath` option
-described later.
+這些選項控制 `make install` 會將檔案放在何處。
+對大多數情況而言，`--prefix` 選項就已足夠。
+如果你有特殊需求，可以使用本節說明的其他選項自訂安裝子目錄。
+不過要注意，變更各子目錄之間的相對位置，可能會讓安裝變得不可搬移，
+意味著安裝完成後你將無法再移動它。
+（`man` 與 `doc` 的位置不受此限制影響。）
+若要建立可搬移的安裝，你可能會想使用稍後說明的
+`--disable-rpath` 選項。
 
 <a id="CONFIGURE-OPTION-PREFIX"></a>
 
 `--prefix=PREFIX` [#](#CONFIGURE-OPTION-PREFIX)
-:   Install all files under the directory *`PREFIX`*
-    instead of `/usr/local/pgsql`. The actual
-    files will be installed into various subdirectories; no files
-    will ever be installed directly into the
-    *`PREFIX`* directory.
+:   將所有檔案安裝到目錄 *`PREFIX`* 之下，而不是
+    `/usr/local/pgsql`。實際的檔案會被安裝到
+    各個子目錄中；絕不會有檔案直接安裝在
+    *`PREFIX`* 目錄本身。
 <a id="CONFIGURE-OPTION-EXEC-PREFIX"></a>
 
 `--exec-prefix=EXEC-PREFIX` [#](#CONFIGURE-OPTION-EXEC-PREFIX)
-:   You can install architecture-dependent files under a
-    different prefix, *`EXEC-PREFIX`*, than what
-    *`PREFIX`* was set to. This can be useful to
-    share architecture-independent files between hosts. If you
-    omit this, then *`EXEC-PREFIX`* is set equal to
-    *`PREFIX`* and both architecture-dependent and
-    independent files will be installed under the same tree,
-    which is probably what you want.
+:   你可以將與架構相依的檔案安裝到與
+    *`PREFIX`* 不同的前綴 *`EXEC-PREFIX`* 之下。
+    這在多台主機之間共用與架構無關的檔案時很有用。
+    如果省略這個選項，*`EXEC-PREFIX`* 會被設為與
+    *`PREFIX`* 相同，與架構相依及不相依的檔案都會
+    安裝在同一個目錄樹下，這通常是你想要的結果。
 <a id="CONFIGURE-OPTION-BINDIR"></a>
 
 `--bindir=DIRECTORY` [#](#CONFIGURE-OPTION-BINDIR)
-:   Specifies the directory for executable programs. The default
-    is `EXEC-PREFIX/bin`, which
-    normally means `/usr/local/pgsql/bin`.
+:   指定可執行程式的目錄。預設值是
+    `EXEC-PREFIX/bin`，通常也就是
+    `/usr/local/pgsql/bin`。
 <a id="CONFIGURE-OPTION-SYSCONFDIR"></a>
 
 `--sysconfdir=DIRECTORY` [#](#CONFIGURE-OPTION-SYSCONFDIR)
-:   Sets the directory for various configuration files,
-    `PREFIX/etc` by default.
+:   設定各種設定檔所在的目錄，預設為
+    `PREFIX/etc`。
 <a id="CONFIGURE-OPTION-LIBDIR"></a>
 
 `--libdir=DIRECTORY` [#](#CONFIGURE-OPTION-LIBDIR)
-:   Sets the location to install libraries and dynamically loadable
-    modules. The default is
-    `EXEC-PREFIX/lib`.
+:   設定用來安裝函式庫與動態載入模組的位置。
+    預設值為 `EXEC-PREFIX/lib`。
 <a id="CONFIGURE-OPTION-INCLUDEDIR"></a>
 
 `--includedir=DIRECTORY` [#](#CONFIGURE-OPTION-INCLUDEDIR)
-:   Sets the directory for installing C and C++ header files. The
-    default is `PREFIX/include`.
+:   設定安裝 C 與 C++ 標頭檔的目錄。
+    預設值為 `PREFIX/include`。
 <a id="CONFIGURE-OPTION-DATAROOTDIR"></a>
 
 `--datarootdir=DIRECTORY` [#](#CONFIGURE-OPTION-DATAROOTDIR)
-:   Sets the root directory for various types of read-only data
-    files. This only sets the default for some of the following
-    options. The default is
-    `PREFIX/share`.
+:   設定各類唯讀資料檔案的根目錄。
+    這只會為以下部分選項設定預設值。預設值為
+    `PREFIX/share`。
 <a id="CONFIGURE-OPTION-DATADIR"></a>
 
 `--datadir=DIRECTORY` [#](#CONFIGURE-OPTION-DATADIR)
-:   Sets the directory for read-only data files used by the
-    installed programs. The default is
-    `DATAROOTDIR`. Note that this has
-    nothing to do with where your database files will be placed.
+:   設定已安裝程式所使用之唯讀資料檔案的目錄。
+    預設值為 `DATAROOTDIR`。請注意，這與你的
+    資料庫檔案存放位置無關。
 <a id="CONFIGURE-OPTION-LOCALEDIR"></a>
 
 `--localedir=DIRECTORY` [#](#CONFIGURE-OPTION-LOCALEDIR)
-:   Sets the directory for installing locale data, in particular
-    message translation catalog files. The default is
-    `DATAROOTDIR/locale`.
+:   設定安裝地區設定（locale）資料的目錄，
+    特別是訊息翻譯目錄檔。預設值為
+    `DATAROOTDIR/locale`。
 <a id="CONFIGURE-OPTION-MANDIR"></a>
 
 `--mandir=DIRECTORY` [#](#CONFIGURE-OPTION-MANDIR)
-:   The man pages that come with PostgreSQL will be installed under
-    this directory, in their respective
-    `manx` subdirectories.
-    The default is `DATAROOTDIR/man`.
+:   PostgreSQL 隨附的 man 頁面會安裝在這個目錄下，
+    分別放在各自對應的
+    `manx` 子目錄中。
+    預設值為 `DATAROOTDIR/man`。
 <a id="CONFIGURE-OPTION-DOCDIR"></a>
 
 `--docdir=DIRECTORY` [#](#CONFIGURE-OPTION-DOCDIR)
-:   Sets the root directory for installing documentation files,
-    except “man” pages. This only sets the default for
-    the following options. The default value for this option is
-    `DATAROOTDIR/doc/postgresql`.
+:   設定安裝文件檔案（「man」頁面除外）的根目錄。
+    這只會為以下選項設定預設值。這個選項的
+    預設值為 `DATAROOTDIR/doc/postgresql`。
 <a id="CONFIGURE-OPTION-HTMLDIR"></a>
 
 `--htmldir=DIRECTORY` [#](#CONFIGURE-OPTION-HTMLDIR)
-:   The HTML-formatted documentation for
-    PostgreSQL will be installed under
-    this directory. The default is
-    `DATAROOTDIR`.
+:   PostgreSQL 的 HTML 格式文件會安裝在這個
+    目錄下。預設值為
+    `DATAROOTDIR`。
 
-### Note
+### 注意
 
-Care has been taken to make it possible to install
-PostgreSQL into shared installation locations
-(such as `/usr/local/include`) without
-interfering with the namespace of the rest of the system. First,
-the string “`/postgresql`” is
-automatically appended to `datadir`,
-`sysconfdir`, and `docdir`,
-unless the fully expanded directory name already contains the
-string “`postgres`” or
-“`pgsql`”. For example, if you choose
-`/usr/local` as prefix, the documentation will
-be installed in `/usr/local/doc/postgresql`,
-but if the prefix is `/opt/postgres`, then it
-will be in `/opt/postgres/doc`. The public C
-header files of the client interfaces are installed into
-`includedir` and are namespace-clean. The
-internal header files and the server header files are installed
-into private directories under `includedir`. See
-the documentation of each interface for information about how to
-access its header files. Finally, a private subdirectory will
-also be created, if appropriate, under `libdir`
-for dynamically loadable modules.
+已特別留意，讓 PostgreSQL 可以安裝到共用的安裝位置
+（例如 `/usr/local/include`），而不會干擾系統其他部分的命名空間。
+首先，字串「`/postgresql`」會自動附加到
+`datadir`、`sysconfdir` 與 `docdir` 之後，
+除非完整展開後的目錄名稱已經包含
+「`postgres`」或「`pgsql`」字串。
+舉例來說，如果你選擇 `/usr/local` 作為前綴，
+文件會安裝在 `/usr/local/doc/postgresql`；
+但如果前綴是 `/opt/postgres`，
+文件則會安裝在 `/opt/postgres/doc`。
+用戶端介面的公用 C 標頭檔會安裝到
+`includedir`，且不會污染命名空間。
+內部標頭檔與伺服器標頭檔則會安裝到
+`includedir` 下的私有目錄。關於如何存取各介面的標頭檔，
+請參閱各介面各自的文件。最後，如有需要，也會在
+`libdir` 下建立一個私有子目錄，
+用於存放動態載入模組。
 
 <a id="CONFIGURE-OPTIONS-FEATURES"></a>
 
-#### 17.3.3.2. PostgreSQL Features [#](#CONFIGURE-OPTIONS-FEATURES)
+#### 17.3.3.2. PostgreSQL 功能 [#](#CONFIGURE-OPTIONS-FEATURES)
 
-The options described in this section enable building of
-various PostgreSQL features that are not
-built by default. Most of these are non-default only because they
-require additional software, as described in
-[Section 17.1](install-requirements.md).
+本節說明的選項可用來啟用建置各種預設不會建置的
+PostgreSQL 功能。這些功能之所以非預設，大多是因為
+它們需要額外的軟體，如
+[17.1 節](install-requirements.md)所述。
 
 <a id="CONFIGURE-OPTION-ENABLE-NLS"></a>
 
 `--enable-nls[=LANGUAGES]` [#](#CONFIGURE-OPTION-ENABLE-NLS)
-:   Enables Native Language Support (NLS),
-    that is, the ability to display a program's messages in a
-    language other than English.
-    *`LANGUAGES`* is an optional space-separated
-    list of codes of the languages that you want supported, for
-    example `--enable-nls='de fr'`. (The intersection
-    between your list and the set of actually provided
-    translations will be computed automatically.) If you do not
-    specify a list, then all available translations are
-    installed.
+:   啟用原生語言支援（NLS，Native Language Support），
+    即以非英文語言顯示程式訊息的能力。
+    *`LANGUAGES`* 是一個選用、以空白分隔的語言代碼清單，
+    用來指定你想要支援的語言，例如
+    `--enable-nls='de fr'`。（你所列的清單與實際提供的
+    翻譯集合之間的交集，會自動計算出來。）
+    如果你沒有指定清單，則會安裝所有可用的翻譯。
 
-    To use this option, you will need an implementation of the
-    Gettext API.
+    若要使用這個選項，你需要一套 Gettext API 的實作。
 <a id="CONFIGURE-OPTION-WITH-PERL"></a>
 
 `--with-perl` [#](#CONFIGURE-OPTION-WITH-PERL)
-:   Build the PL/Perl server-side language.
+:   建置 PL/Perl 伺服器端語言。
 <a id="CONFIGURE-OPTION-WITH-PYTHON"></a>
 
 `--with-python` [#](#CONFIGURE-OPTION-WITH-PYTHON)
-:   Build the PL/Python server-side language.
+:   建置 PL/Python 伺服器端語言。
 <a id="CONFIGURE-OPTION-WITH-TCL"></a>
 
 `--with-tcl` [#](#CONFIGURE-OPTION-WITH-TCL)
-:   Build the PL/Tcl server-side language.
+:   建置 PL/Tcl 伺服器端語言。
 <a id="CONFIGURE-OPTION-WITH-TCLCONFIG"></a>
 
 `--with-tclconfig=DIRECTORY` [#](#CONFIGURE-OPTION-WITH-TCLCONFIG)
-:   Tcl installs the file `tclConfig.sh`, which
-    contains configuration information needed to build modules
-    interfacing to Tcl. This file is normally found automatically
-    at a well-known location, but if you want to use a different
-    version of Tcl you can specify the directory in which to look
-    for `tclConfig.sh`.
+:   Tcl 會安裝 `tclConfig.sh` 檔案，其中包含
+    建置介接 Tcl 的模組所需的設定資訊。這個檔案通常會
+    在一個已知的固定位置自動被找到，但如果你想使用不同版本的
+    Tcl，可以指定要尋找
+    `tclConfig.sh` 的目錄。
 <a id="CONFIGURE-WITH-LLVM"></a>
 
 `--with-llvm` [#](#CONFIGURE-WITH-LLVM)
-:   Build with support for LLVM based
-    JIT compilation (see [Chapter 30](../jit/README.md)). This
-    requires the LLVM library to be installed.
-    The minimum required version of LLVM is
-    currently 14.
+:   建置時支援以 LLVM 為基礎的 JIT 編譯
+    （見[第 30 章](../jit/README.md)）。
+    這需要安裝 LLVM 函式庫。
+    目前所需的最低 LLVM 版本為 14。
 
-    `llvm-config`<a id="id-1.6.4.6.4.5.3.6.2.2.2"></a>
-    will be used to find the required compilation options.
-    `llvm-config` will be searched for in your
-    `PATH`. If that would not yield the desired program,
-    use `LLVM_CONFIG` to specify a path to the correct
-    `llvm-config`. For example
+    系統會使用 `llvm-config`<a id="id-1.6.4.6.4.5.3.6.2.2.2"></a>
+    來尋找所需的編譯選項。
+    系統會在 `PATH` 中搜尋 `llvm-config`。
+    如果這樣找不到你想要的程式，
+    可以使用 `LLVM_CONFIG` 指定正確
+    `llvm-config` 的路徑。例如：
 
     ```
 
     ./configure ... --with-llvm LLVM_CONFIG='/path/to/llvm/bin/llvm-config'
     ```
 
-    LLVM support requires a compatible
-    `clang` compiler (specified, if necessary, using the
-    `CLANG` environment variable), and a working C++
-    compiler (specified, if necessary, using the `CXX`
-    environment variable).
+    LLVM 支援需要相容的
+    `clang` 編譯器（如有需要，可透過
+    `CLANG` 環境變數指定），以及一套可運作的 C++
+    編譯器（如有需要，可透過 `CXX`
+    環境變數指定）。
 <a id="CONFIGURE-OPTION-WITH-LZ4"></a>
 
 `--with-lz4` [#](#CONFIGURE-OPTION-WITH-LZ4)
-:   Build with LZ4 compression support.
+:   建置時支援 LZ4 壓縮。
 <a id="CONFIGURE-OPTION-WITH-ZSTD"></a>
 
 `--with-zstd` [#](#CONFIGURE-OPTION-WITH-ZSTD)
-:   Build with Zstandard compression support.
+:   建置時支援 Zstandard 壓縮。
 <a id="CONFIGURE-OPTION-WITH-SSL"></a>
 
 `--with-ssl=LIBRARY` <a id="id-1.6.4.6.4.5.3.9.1.2"></a> [#](#CONFIGURE-OPTION-WITH-SSL)
-:   Build with support for SSL (encrypted)
-    connections. The only *`LIBRARY`*
-    supported is `openssl`, which is used for both
-    OpenSSL
-    and LibreSSL. This requires the
-    OpenSSL package to be installed.
-    `configure` will check for the required
-    header files and libraries to make sure that your
-    OpenSSL installation is sufficient
-    before proceeding.
+:   建置時支援 SSL（加密）連線。
+    目前唯一支援的 *`LIBRARY`* 是
+    `openssl`，可同時用於
+    OpenSSL 與 LibreSSL。
+    這需要安裝 OpenSSL 套件。
+    `configure` 會檢查所需的標頭檔與函式庫，
+    確保你的 OpenSSL 安裝符合需求後才會繼續。
 <a id="CONFIGURE-OPTION-WITH-OPENSSL"></a>
 
 `--with-openssl` [#](#CONFIGURE-OPTION-WITH-OPENSSL)
-:   Obsolete equivalent of `--with-ssl=openssl`.
+:   `--with-ssl=openssl` 的過時等效選項。
 <a id="CONFIGURE-OPTION-WITH-GSSAPI"></a>
 
 `--with-gssapi` [#](#CONFIGURE-OPTION-WITH-GSSAPI)
-:   Build with support for GSSAPI authentication. MIT Kerberos is required
-    to be installed for GSSAPI. On many systems, the GSSAPI system (a part
-    of the MIT Kerberos installation) is not installed in a location
-    that is searched by default (e.g., `/usr/include`,
-    `/usr/lib`), so you must use the options
-    `--with-includes` and `--with-libraries` in
-    addition to this option. `configure` will check
-    for the required header files and libraries to make sure that
-    your GSSAPI installation is sufficient before proceeding.
+:   建置時支援 GSSAPI 驗證。使用 GSSAPI 需要安裝
+    MIT Kerberos。在許多系統上，GSSAPI 系統
+    （屬於 MIT Kerberos 安裝的一部分）並未安裝在
+    預設會被搜尋的位置（例如 `/usr/include`、
+    `/usr/lib`），因此除了這個選項之外，
+    你還必須使用 `--with-includes` 與
+    `--with-libraries` 選項。
+    `configure` 會檢查所需的標頭檔與函式庫，
+    確保你的 GSSAPI 安裝符合需求後才會繼續。
 <a id="CONFIGURE-OPTION-WITH-LDAP"></a>
 
 `--with-ldap` [#](#CONFIGURE-OPTION-WITH-LDAP)
-:   Build with LDAP<a id="id-1.6.4.6.4.5.3.12.2.1.2"></a>
-    support for authentication and connection parameter lookup (see
-    <a id="INSTALL-LDAP-LINKS"></a>[Section 32.18](../../client-interfaces/libpq/libpq-ldap.md) and
-    [Section 20.10](../client-authentication/auth-ldap.md) for more information). On Unix,
-    this requires the OpenLDAP package to be
-    installed. On Windows, the default WinLDAP
-    library is used. `configure` will check for the required
-    header files and libraries to make sure that your
-    OpenLDAP installation is sufficient before
-    proceeding.
+:   建置時支援 LDAP<a id="id-1.6.4.6.4.5.3.12.2.1.2"></a>
+    驗證與連線參數查詢（詳見
+    <a id="INSTALL-LDAP-LINKS"></a>[32.18 節](../../client-interfaces/libpq/libpq-ldap.md)與
+    [20.10 節](../client-authentication/auth-ldap.md)以取得更多資訊）。
+    在 Unix 上，這需要安裝 OpenLDAP 套件。
+    在 Windows 上，則使用預設的 WinLDAP
+    函式庫。`configure` 會檢查所需的標頭檔與函式庫，
+    確保你的 OpenLDAP 安裝符合需求後才會繼續。
 <a id="CONFIGURE-OPTION-WITH-PAM"></a>
 
 `--with-pam` [#](#CONFIGURE-OPTION-WITH-PAM)
-:   Build with PAM<a id="id-1.6.4.6.4.5.3.13.2.1.2"></a>
-    (Pluggable Authentication Modules) support.
+:   建置時支援 PAM<a id="id-1.6.4.6.4.5.3.13.2.1.2"></a>
+    （Pluggable Authentication Modules，可插拔驗證模組）。
 <a id="CONFIGURE-OPTION-WITH-BSD-AUTH"></a>
 
 `--with-bsd-auth` [#](#CONFIGURE-OPTION-WITH-BSD-AUTH)
-:   Build with BSD Authentication support.
-    (The BSD Authentication framework is
-    currently only available on OpenBSD.)
+:   建置時支援 BSD Authentication。
+    （BSD Authentication 框架目前僅在 OpenBSD 上可用。）
 <a id="CONFIGURE-OPTION-WITH-SYSTEMD"></a>
 
 `--with-systemd` [#](#CONFIGURE-OPTION-WITH-SYSTEMD)
-:   Build with support
-    for systemd<a id="id-1.6.4.6.4.5.3.15.2.1.2"></a>
-    service notifications. This improves integration if the server
-    is started under systemd but has no impact
-    otherwise; see [Section 18.3](../runtime/server-start.md) for more
-    information. libsystemd and the
-    associated header files need to be installed to use this option.
+:   建置時支援
+    systemd<a id="id-1.6.4.6.4.5.3.15.2.1.2"></a>
+    服務通知。如果伺服器是在 systemd 之下啟動，
+    這能改善整合效果，但在其他情況下沒有影響；
+    詳見[18.3 節](../runtime/server-start.md)以取得更多資訊。
+    必須安裝 libsystemd 及其相關標頭檔，
+    才能使用這個選項。
 <a id="CONFIGURE-OPTION-WITH-BONJOUR"></a>
 
 `--with-bonjour` [#](#CONFIGURE-OPTION-WITH-BONJOUR)
-:   Build with support for Bonjour automatic service discovery.
-    This requires Bonjour support in your operating system.
-    Recommended on macOS.
+:   建置時支援 Bonjour 自動服務探索。
+    這需要你的作業系統支援 Bonjour。
+    在 macOS 上建議啟用。
 <a id="CONFIGURE-OPTION-WITH-UUID"></a>
 
 `--with-uuid=LIBRARY` [#](#CONFIGURE-OPTION-WITH-UUID)
-:   Build the [uuid-ossp](../../appendixes/contrib/uuid-ossp.md) module
-    (which provides functions to generate UUIDs), using the specified
-    UUID library.<a id="id-1.6.4.6.4.5.3.17.2.1.2"></a>
-    *`LIBRARY`* must be one of:
+:   使用指定的 UUID 函式庫，建置
+    [uuid-ossp](../../appendixes/contrib/uuid-ossp.md) 模組
+    （提供產生 UUID 的函式）。<a id="id-1.6.4.6.4.5.3.17.2.1.2"></a>
+    *`LIBRARY`* 必須是下列其中之一：
 
-    * `bsd` to use the UUID functions found in FreeBSD
-      and some other BSD-derived systems
-    * `e2fs` to use the UUID library created by
-      the `e2fsprogs` project; this library is present in most
-      Linux systems and in macOS, and can be obtained for other
-      platforms as well
-    * `ossp` to use the [OSSP UUID library](http://www.ossp.org/pkg/lib/uuid/)
+    * `bsd`：使用 FreeBSD 及其他部分 BSD 衍生系統中的
+      UUID 函式
+    * `e2fs`：使用由 `e2fsprogs` 專案建立的
+      UUID 函式庫；這個函式庫存在於多數 Linux 系統及
+      macOS 中，其他平台也可以取得
+    * `ossp`：使用 [OSSP UUID 函式庫](http://www.ossp.org/pkg/lib/uuid/)
 <a id="CONFIGURE-OPTION-WITH-OSSP-UUID"></a>
 
 `--with-ossp-uuid` [#](#CONFIGURE-OPTION-WITH-OSSP-UUID)
-:   Obsolete equivalent of `--with-uuid=ossp`.
+:   `--with-uuid=ossp` 的過時等效選項。
 <a id="CONFIGURE-OPTION-WITH-LIBCURL"></a>
 
 `--with-libcurl` [#](#CONFIGURE-OPTION-WITH-LIBCURL)
-:   Build with libcurl support for OAuth 2.0 client flows.
-    Libcurl version 7.61.0 or later is required for this feature.
-    Building with this will check for the required header files
-    and libraries to make sure that your curl
-    installation is sufficient before proceeding.
+:   建置時支援以 libcurl 執行 OAuth 2.0 用戶端流程。
+    這項功能需要 libcurl 7.61.0 以上版本。
+    以此選項建置時，會先檢查所需的標頭檔與函式庫，
+    確保你的 curl 安裝符合需求後才會繼續。
 <a id="CONFIGURE-OPTION-WITH-LIBNUMA"></a>
 
 `--with-libnuma` [#](#CONFIGURE-OPTION-WITH-LIBNUMA)
-:   Build with libnuma support for basic NUMA support.
-    Only supported on platforms for which the libnuma
-    library is implemented.
+:   建置時支援 libnuma，以提供基本的 NUMA 支援。
+    僅支援已實作 libnuma 函式庫的平台。
 <a id="CONFIGURE-OPTION-WITH-LIBURING"></a>
 
 `--with-liburing` [#](#CONFIGURE-OPTION-WITH-LIBURING)
-:   Build with liburing, enabling io_uring support for asynchronous I/O.
+:   建置時支援 liburing，啟用 io_uring 非同步 I/O 支援。
 
-    To detect the required compiler and linker options, PostgreSQL will
-    query `pkg-config`.
+    為偵測所需的編譯器與連結器選項，PostgreSQL 會查詢
+    `pkg-config`。
 
-    To use a liburing installation that is in an unusual location, you
-    can set `pkg-config`-related environment
-    variables (see its documentation).
+    若要使用位於非一般位置的 liburing 安裝，
+    你可以設定與 `pkg-config` 相關的環境變數
+    （詳見其文件）。
 <a id="CONFIGURE-OPTION-WITH-LIBXML"></a>
 
 `--with-libxml` [#](#CONFIGURE-OPTION-WITH-LIBXML)
-:   Build with libxml2, enabling SQL/XML support. Libxml2 version 2.6.23 or
-    later is required for this feature.
+:   建置時使用 libxml2，啟用 SQL/XML 支援。這項功能需要
+    Libxml2 2.6.23 以上版本。
 
-    To detect the required compiler and linker options, PostgreSQL will
-    query `pkg-config`, if that is installed and knows
-    about libxml2. Otherwise the program `xml2-config`,
-    which is installed by libxml2, will be used if it is found. Use
-    of `pkg-config` is preferred, because it can deal
-    with multi-architecture installations better.
+    為偵測所需的編譯器與連結器選項，PostgreSQL 會查詢
+    `pkg-config`（如果已安裝且認得 libxml2 的話）。
+    否則會使用由 libxml2 隨附安裝的
+    `xml2-config` 程式（如果能找到的話）。
+    建議優先使用 `pkg-config`，因為它能更妥善地
+    處理多架構安裝的情況。
 
-    To use a libxml2 installation that is in an unusual location, you
-    can set `pkg-config`-related environment
-    variables (see its documentation), or set the environment variable
-    `XML2_CONFIG` to point to
-    the `xml2-config` program belonging to the libxml2
-    installation, or set the variables `XML2_CFLAGS`
-    and `XML2_LIBS`. (If `pkg-config` is
-    installed, then to override its idea of where libxml2 is you must
-    either set `XML2_CONFIG` or set
-    both `XML2_CFLAGS` and `XML2_LIBS` to
-    nonempty strings.)
+    若要使用位於非一般位置的 libxml2 安裝，
+    你可以設定與 `pkg-config` 相關的環境變數
+    （詳見其文件），或是將環境變數
+    `XML2_CONFIG` 設為指向屬於該 libxml2 安裝的
+    `xml2-config` 程式，或是設定
+    `XML2_CFLAGS` 與 `XML2_LIBS`
+    這兩個變數。（如果已安裝 `pkg-config`，
+    若要覆寫它對 libxml2 位置的判斷，你必須
+    設定 `XML2_CONFIG`，或是同時將
+    `XML2_CFLAGS` 與 `XML2_LIBS` 設為非空字串。）
 <a id="CONFIGURE-OPTION-WITH-LIBXSLT"></a>
 
 `--with-libxslt` [#](#CONFIGURE-OPTION-WITH-LIBXSLT)
-:   Build with libxslt, enabling the
+:   建置時使用 libxslt，讓
     [xml2](../../appendixes/contrib/xml2.md)
-    module to perform XSL transformations of XML.
-    `--with-libxml` must be specified as well.
+    模組能執行 XML 的 XSL 轉換。
+    必須同時指定 `--with-libxml`。
 <a id="CONFIGURE-OPTION-WITH-SEPGSQL"></a>
 
 `--with-selinux` [#](#CONFIGURE-OPTION-WITH-SEPGSQL)
-:   Build with SElinux support, enabling the [sepgsql](../../appendixes/contrib/sepgsql.md)
-    extension.
+:   建置時支援 SElinux，啟用
+    [sepgsql](../../appendixes/contrib/sepgsql.md) 擴充功能。
 
 <a id="CONFIGURE-OPTIONS-ANTI-FEATURES"></a>
 
-#### 17.3.3.3. Anti-Features [#](#CONFIGURE-OPTIONS-ANTI-FEATURES)
+#### 17.3.3.3. 反功能 [#](#CONFIGURE-OPTIONS-ANTI-FEATURES)
 
-The options described in this section allow disabling
-certain PostgreSQL features that are built
-by default, but which might need to be turned off if the required
-software or system features are not available. Using these options is
-not recommended unless really necessary.
+本節說明的選項，可用來停用預設會建置的
+特定 PostgreSQL 功能；如果所需的軟體或系統功能不可用，
+可能就需要關閉它們。除非真的有必要，否則不建議使用這些選項。
 
 <a id="CONFIGURE-OPTION-WITHOUT-ICU"></a>
 
 `--without-icu` [#](#CONFIGURE-OPTION-WITHOUT-ICU)
-:   Build without support for the
+:   建置時不支援
     ICU<a id="id-1.6.4.6.4.6.3.1.2.1.2"></a>
-    library, disabling the use of ICU collation features (see [Section 23.2](../charset/collation.md)).
+    函式庫，停用 ICU 定序功能（見[23.2 節](../charset/collation.md)）。
 <a id="CONFIGURE-OPTION-WITHOUT-READLINE"></a>
 
 `--without-readline` [#](#CONFIGURE-OPTION-WITHOUT-READLINE)
-:   Prevents use of the Readline library
-    (and libedit as well). This option disables
-    command-line editing and history in
-    psql.
+:   將不使用 Readline 函式庫
+    （也包含 libedit）。這個選項會停用
+    psql 的命令列編輯與歷史紀錄功能。
 <a id="CONFIGURE-OPTION-WITH-LIBEDIT-PREFERRED"></a>
 
 `--with-libedit-preferred` [#](#CONFIGURE-OPTION-WITH-LIBEDIT-PREFERRED)
-:   Favors the use of the BSD-licensed libedit library
-    rather than GPL-licensed Readline. This option
-    is significant only if you have both libraries installed; the
-    default in that case is to use Readline.
+:   優先使用 BSD 授權的 libedit 函式庫，
+    而非 GPL 授權的 Readline。只有在你同時安裝了
+    兩套函式庫時，這個選項才有意義；在這種情況下，
+    預設會使用 Readline。
 <a id="CONFIGURE-OPTION-WITHOUT-ZLIB"></a>
 
 `--without-zlib` [#](#CONFIGURE-OPTION-WITHOUT-ZLIB)
 :   <a id="id-1.6.4.6.4.6.3.4.2.1.1"></a>
-    Prevents use of the Zlib library.
-    This disables
-    support for compressed archives in pg_dump
-    and pg_restore.
+    將不使用 Zlib 函式庫。
+    這會停用 pg_dump 與 pg_restore
+    對壓縮封存檔的支援。
 
 <a id="CONFIGURE-OPTIONS-BUILD-PROCESS"></a>
 
-#### 17.3.3.4. Build Process Details [#](#CONFIGURE-OPTIONS-BUILD-PROCESS)
+#### 17.3.3.4. 建置程序細節 [#](#CONFIGURE-OPTIONS-BUILD-PROCESS)
 
 <a id="CONFIGURE-OPTION-WITH-INCLUDES"></a>
 
 `--with-includes=DIRECTORIES` [#](#CONFIGURE-OPTION-WITH-INCLUDES)
-:   *`DIRECTORIES`* is a colon-separated list of
-    directories that will be added to the list the compiler
-    searches for header files. If you have optional packages
-    (such as GNU Readline) installed in a non-standard
-    location,
-    you have to use this option and probably also the corresponding
-    `--with-libraries` option.
+:   *`DIRECTORIES`* 是一份以冒號分隔的目錄清單，
+    會被加入編譯器搜尋標頭檔的目錄清單中。
+    如果你有選用套件（例如 GNU Readline）
+    安裝在非標準位置，
+    就必須使用這個選項，通常也需要搭配對應的
+    `--with-libraries` 選項。
 
-    Example: `--with-includes=/opt/gnu/include:/usr/sup/include`.
+    範例：`--with-includes=/opt/gnu/include:/usr/sup/include`。
 <a id="CONFIGURE-OPTION-WITH-LIBRARIES"></a>
 
 `--with-libraries=DIRECTORIES` [#](#CONFIGURE-OPTION-WITH-LIBRARIES)
-:   *`DIRECTORIES`* is a colon-separated list of
-    directories to search for libraries. You will probably have
-    to use this option (and the corresponding
-    `--with-includes` option) if you have packages
-    installed in non-standard locations.
+:   *`DIRECTORIES`* 是一份以冒號分隔的目錄清單，
+    用來搜尋函式庫。如果你的套件安裝在非標準位置，
+    你很可能需要使用這個選項（以及對應的
+    `--with-includes` 選項）。
 
-    Example: `--with-libraries=/opt/gnu/lib:/usr/sup/lib`.
+    範例：`--with-libraries=/opt/gnu/lib:/usr/sup/lib`。
 <a id="CONFIGURE-OPTION-WITH-SYSTEM-TZDATA"></a>
 
 `--with-system-tzdata=DIRECTORY` <a id="id-1.6.4.6.4.7.2.3.1.2"></a> [#](#CONFIGURE-OPTION-WITH-SYSTEM-TZDATA)
-:   PostgreSQL includes its own time zone database,
-    which it requires for date and time operations. This time zone
-    database is in fact compatible with the IANA time zone
-    database provided by many operating systems such as FreeBSD,
-    Linux, and Solaris, so it would be redundant to install it again.
-    When this option is used, the system-supplied time zone database
-    in *`DIRECTORY`* is used instead of the one
-    included in the PostgreSQL source distribution.
-    *`DIRECTORY`* must be specified as an
-    absolute path. `/usr/share/zoneinfo` is a
-    likely directory on some operating systems. Note that the
-    installation routine will not detect mismatching or erroneous time
-    zone data. If you use this option, you are advised to run the
-    regression tests to verify that the time zone data you have
-    pointed to works correctly with PostgreSQL.
+:   PostgreSQL 內含自己的時區資料庫，
+    這是日期與時間運算所需要的。這個時區資料庫
+    事實上與許多作業系統（例如 FreeBSD、Linux 與 Solaris）
+    所提供的 IANA 時區資料庫相容，因此再安裝一次會顯得多餘。
+    使用這個選項時，會改用位於 *`DIRECTORY`*
+    的系統提供的時區資料庫，而不使用
+    PostgreSQL 原始碼發行版中內含的資料庫。
+    *`DIRECTORY`* 必須以絕對路徑指定。
+    在部分作業系統上，`/usr/share/zoneinfo`
+    是可能的目錄位置。請注意，安裝程序並不會偵測
+    時區資料是否有不符或錯誤。如果你使用這個選項，
+    建議執行回歸測試，以確認你所指向的時區資料
+    能與 PostgreSQL 正確搭配運作。
 
     <a id="id-1.6.4.6.4.7.2.3.2.2"></a>
 
-    This option is mainly aimed at binary package distributors
-    who know their target operating system well. The main
-    advantage of using this option is that the PostgreSQL package
-    won't need to be upgraded whenever any of the many local
-    daylight-saving time rules change. Another advantage is that
-    PostgreSQL can be cross-compiled more straightforwardly if the
-    time zone database files do not need to be built during the
-    installation.
+    這個選項主要是為熟悉目標作業系統的二進位套件
+    發行者所設計。使用這個選項的主要好處，是每當
+    許多地方性日光節約時間規則有所變動時，
+    PostgreSQL 套件都不需要重新升級。另一項好處是，
+    如果不需要在安裝期間建置時區資料庫檔案，
+    PostgreSQL 就可以更直接地進行交叉編譯。
 <a id="CONFIGURE-OPTION-WITH-EXTRA-VERSION"></a>
 
 `--with-extra-version=STRING` [#](#CONFIGURE-OPTION-WITH-EXTRA-VERSION)
-:   Append *`STRING`* to the PostgreSQL version number. You
-    can use this, for example, to mark binaries built from unreleased Git
-    snapshots or containing custom patches with an extra version string,
-    such as a `git describe` identifier or a
-    distribution package release number.
+:   將 *`STRING`* 附加到 PostgreSQL 版本號後面。
+    舉例來說，你可以用這個選項，為由未發行的 Git 快照
+    建置出來的二進位檔，或是含有自訂修補程式的二進位檔，
+    加上額外的版本字串，例如
+    `git describe` 識別碼，或是發行套件的版本編號。
 <a id="CONFIGURE-OPTION-DISABLE-RPATH"></a>
 
 `--disable-rpath` [#](#CONFIGURE-OPTION-DISABLE-RPATH)
-:   Do not mark PostgreSQL's executables
-    to indicate that they should search for shared libraries in the
-    installation's library directory (see `--libdir`).
-    On most platforms, this marking uses an absolute path to the
-    library directory, so that it will be unhelpful if you relocate
-    the installation later. However, you will then need to provide
-    some other way for the executables to find the shared libraries.
-    Typically this requires configuring the operating system's
-    dynamic linker to search the library directory; see
-    [Section 17.5.1](install-post.md#INSTALL-POST-SHLIBS) for more detail.
+:   不在 PostgreSQL 的可執行檔中加上標記，
+    指示它們應在安裝的函式庫目錄中（見 `--libdir`）
+    搜尋共用函式庫。在多數平台上，這項標記使用的是
+    函式庫目錄的絕對路徑，因此如果你之後搬移了安裝位置，
+    這項標記就沒有幫助。不過，如此一來你就需要提供
+    其他方式，讓可執行檔能找到共用函式庫。
+    一般來說，這需要設定作業系統的動態連結器，
+    使其搜尋該函式庫目錄；詳見
+    [17.5.1 節](install-post.md#INSTALL-POST-SHLIBS)以取得更多細節。
 
 <a id="CONFIGURE-OPTIONS-MISC"></a>
 
-#### 17.3.3.5. Miscellaneous [#](#CONFIGURE-OPTIONS-MISC)
+#### 17.3.3.5. 其他 [#](#CONFIGURE-OPTIONS-MISC)
 
-It's fairly common, particularly for test builds, to adjust the
-default port number with `--with-pgport`.
-The other options in this section are recommended only for advanced
-users.
+尤其對測試性建置而言，調整預設埠號
+（透過 `--with-pgport`）是相當常見的做法。
+本節中的其他選項，建議只有進階使用者才使用。
 
 <a id="CONFIGURE-OPTION-WITH-PGPORT"></a>
 
 `--with-pgport=NUMBER` [#](#CONFIGURE-OPTION-WITH-PGPORT)
-:   Set *`NUMBER`* as the default port number for
-    server and clients. The default is 5432. The port can always
-    be changed later on, but if you specify it here then both
-    server and clients will have the same default compiled in,
-    which can be very convenient. Usually the only good reason
-    to select a non-default value is if you intend to run multiple
-    PostgreSQL servers on the same machine.
+:   將 *`NUMBER`* 設為伺服器與用戶端的預設埠號。
+    預設值為 5432。這個埠號日後隨時可以變更，
+    但如果你在這裡指定，伺服器與用戶端就會編譯進相同的
+    預設值，這會非常方便。通常唯一需要選擇非預設值的
+    好理由，是你打算在同一台機器上執行多個
+    PostgreSQL 伺服器。
 <a id="CONFIGURE-OPTION-WITH-KRB-SRVNAM"></a>
 
 `--with-krb-srvnam=NAME` [#](#CONFIGURE-OPTION-WITH-KRB-SRVNAM)
-:   The default name of the Kerberos service principal used
-    by GSSAPI.
-    `postgres` is the default. There's usually no
-    reason to change this unless you are building for a Windows
-    environment, in which case it must be set to upper case
-    `POSTGRES`.
+:   GSSAPI 使用的 Kerberos 服務主體預設名稱。
+    預設值為 `postgres`。除非你是在為 Windows
+    環境建置，否則通常沒有理由變更這個值；
+    如果是的話，就必須設為大寫的
+    `POSTGRES`。
 <a id="CONFIGURE-OPTION-WITH-SEGSIZE"></a>
 
 `--with-segsize=SEGSIZE` [#](#CONFIGURE-OPTION-WITH-SEGSIZE)
-:   Set the *segment size*, in gigabytes. Large tables are
-    divided into multiple operating-system files, each of size equal
-    to the segment size. This avoids problems with file size limits
-    that exist on many platforms. The default segment size, 1 gigabyte,
-    is safe on all supported platforms. If your operating system has
-    “largefile” support (which most do, nowadays), you can use
-    a larger segment size. This can be helpful to reduce the number of
-    file descriptors consumed when working with very large tables.
-    But be careful not to select a value larger than is supported
-    by your platform and the file systems you intend to use. Other
-    tools you might wish to use, such as tar, could
-    also set limits on the usable file size.
-    It is recommended, though not absolutely required, that this value
-    be a power of 2.
-    Note that changing this value breaks on-disk database compatibility,
-    meaning you cannot use `pg_upgrade` to upgrade to
-    a build with a different segment size.
+:   設定*區段大小（segment size）*，單位為 GB。
+    大型資料表會被切割成多個作業系統檔案，每個檔案的
+    大小等於區段大小。這樣可以避免許多平台上存在的
+    檔案大小限制問題。預設的區段大小為 1 GB，
+    在所有受支援的平台上都是安全的。如果你的作業系統支援
+    「大檔案（largefile）」（現今大多數系統都支援），
+    你就可以使用更大的區段大小。這有助於減少處理極大型
+    資料表時所消耗的檔案描述元數量。不過要小心，
+    不要選擇超過你的平台與所使用檔案系統所支援的值。
+    你可能會使用的其他工具，例如 tar，
+    也可能會對可用的檔案大小設下限制。
+    建議（雖非絕對必要）將這個值設為 2 的冪次方。
+    請注意，變更這個值會破壞磁碟上的資料庫相容性，
+    也就是說，你將無法使用 `pg_upgrade`
+    升級到採用不同區段大小的建置版本。
 <a id="CONFIGURE-OPTION-WITH-BLOCKSIZE"></a>
 
 `--with-blocksize=BLOCKSIZE` [#](#CONFIGURE-OPTION-WITH-BLOCKSIZE)
-:   Set the *block size*, in kilobytes. This is the unit
-    of storage and I/O within tables. The default, 8 kilobytes,
-    is suitable for most situations; but other values may be useful
-    in special cases.
-    The value must be a power of 2 between 1 and 32 (kilobytes).
-    Note that changing this value breaks on-disk database compatibility,
-    meaning you cannot use `pg_upgrade` to upgrade to
-    a build with a different block size.
+:   設定*區塊大小（block size）*，單位為 KB。
+    這是資料表內部儲存與 I/O 的單位。
+    預設值 8 KB 適用於大多數情況，
+    但在特殊情況下，其他數值可能有幫助。
+    這個值必須是 1 到 32（KB）之間的 2 的冪次方。
+    請注意，變更這個值會破壞磁碟上的資料庫相容性，
+    也就是說，你將無法使用 `pg_upgrade`
+    升級到採用不同區塊大小的建置版本。
 <a id="CONFIGURE-OPTION-WITH-WAL-BLOCKSIZE"></a>
 
 `--with-wal-blocksize=BLOCKSIZE` [#](#CONFIGURE-OPTION-WITH-WAL-BLOCKSIZE)
-:   Set the *WAL block size*, in kilobytes. This is the unit
-    of storage and I/O within the WAL log. The default, 8 kilobytes,
-    is suitable for most situations; but other values may be useful
-    in special cases.
-    The value must be a power of 2 between 1 and 64 (kilobytes).
-    Note that changing this value breaks on-disk database compatibility,
-    meaning you cannot use `pg_upgrade` to upgrade to
-    a build with a different WAL block size.
+:   設定 *WAL 區塊大小*，單位為 KB。
+    這是 WAL 記錄內部儲存與 I/O 的單位。
+    預設值 8 KB 適用於大多數情況，
+    但在特殊情況下，其他數值可能有幫助。
+    這個值必須是 1 到 64（KB）之間的 2 的冪次方。
+    請注意，變更這個值會破壞磁碟上的資料庫相容性，
+    也就是說，你將無法使用 `pg_upgrade`
+    升級到採用不同 WAL 區塊大小的建置版本。
 
 <a id="CONFIGURE-OPTIONS-DEVEL"></a>
 
-#### 17.3.3.6. Developer Options [#](#CONFIGURE-OPTIONS-DEVEL)
+#### 17.3.3.6. 開發者選項 [#](#CONFIGURE-OPTIONS-DEVEL)
 
-Most of the options in this section are only of interest for
-developing or debugging PostgreSQL.
-They are not recommended for production builds, except
-for `--enable-debug`, which can be useful to enable
-detailed bug reports in the unlucky event that you encounter a bug.
-On platforms supporting DTrace, `--enable-dtrace`
-may also be reasonable to use in production.
+本節大多數選項主要是供開發或除錯 PostgreSQL 時使用。
+除了 `--enable-debug` 之外，其餘選項都不建議用於
+正式環境的建置——這個選項在你不幸遇到
+臭蟲時，有助於啟用詳細的錯誤回報。
+在支援 DTrace 的平台上，`--enable-dtrace`
+在正式環境中使用也算合理。
 
-When building an installation that will be used to develop code inside
-the server, it is recommended to use at least the
-options `--enable-debug`
-and `--enable-cassert`.
+如果你要建置一套用來在伺服器內部開發程式碼的安裝，
+建議至少使用 `--enable-debug`
+與 `--enable-cassert` 這兩個選項。
 
 <a id="CONFIGURE-OPTION-ENABLE-DEBUG"></a>
 
 `--enable-debug` [#](#CONFIGURE-OPTION-ENABLE-DEBUG)
-:   Compiles all programs and libraries with debugging symbols.
-    This means that you can run the programs in a debugger
-    to analyze problems. This enlarges the size of the installed
-    executables considerably, and on non-GCC compilers it usually
-    also disables compiler optimization, causing slowdowns. However,
-    having the symbols available is extremely helpful for dealing
-    with any problems that might arise. Currently, this option is
-    recommended for production installations only if you use GCC.
-    But you should always have it on if you are doing development work
-    or running a beta version.
+:   以除錯符號編譯所有程式與函式庫。
+    這代表你可以在除錯工具中執行這些程式，以分析問題。
+    這會大幅增加已安裝可執行檔的大小，而且在非 GCC 的
+    編譯器上，通常也會停用編譯器最佳化，導致執行速度變慢。
+    不過，能取得符號資訊，對處理任何可能發生的問題
+    非常有幫助。目前，只有在你使用 GCC 時，才建議在
+    正式環境安裝中使用這個選項。但如果你正在進行開發工作，
+    或執行的是 beta 版本，就應該一律啟用它。
 <a id="CONFIGURE-OPTION-ENABLE-CASSERT"></a>
 
 `--enable-cassert` [#](#CONFIGURE-OPTION-ENABLE-CASSERT)
-:   Enables *assertion* checks in the server, which test for
-    many “cannot happen” conditions. This is invaluable for
-    code development purposes, but the tests can slow down the
-    server significantly.
-    Also, having the tests turned on won't necessarily enhance the
-    stability of your server! The assertion checks are not categorized
-    for severity, and so what might be a relatively harmless bug will
-    still lead to server restarts if it triggers an assertion
-    failure. This option is not recommended for production use, but
-    you should have it on for development work or when running a beta
-    version.
+:   啟用伺服器中的*斷言（assertion）*檢查，這會測試許多
+    「不應該發生」的情況。這對程式碼開發而言相當寶貴，
+    但這些測試可能會明顯拖慢伺服器速度。
+    此外，開啟這些測試並不必然能提升伺服器的穩定性！
+    斷言檢查並未依嚴重程度分類，因此即使是相對無害的錯誤，
+    只要觸發斷言失敗，仍然會導致伺服器重新啟動。
+    這個選項不建議用於正式環境，但在開發工作或執行 beta 版本時，
+    應該要啟用它。
 <a id="CONFIGURE-OPTION-ENABLE-TAP-TESTS"></a>
 
 `--enable-tap-tests` [#](#CONFIGURE-OPTION-ENABLE-TAP-TESTS)
-:   Enable tests using the Perl TAP tools. This requires a Perl
-    installation and the Perl module `IPC::Run`.
-    See [Section 31.4](../regress/regress-tap.md) for more information.
+:   啟用使用 Perl TAP 工具的測試。這需要安裝 Perl，
+    以及 Perl 模組 `IPC::Run`。
+    詳見[31.4 節](../regress/regress-tap.md)以取得更多資訊。
 <a id="CONFIGURE-OPTION-ENABLE-DEPEND"></a>
 
 `--enable-depend` [#](#CONFIGURE-OPTION-ENABLE-DEPEND)
-:   Enables automatic dependency tracking. With this option, the
-    makefiles are set up so that all affected object files will
-    be rebuilt when any header file is changed. This is useful
-    if you are doing development work, but is just wasted overhead
-    if you intend only to compile once and install. At present,
-    this option only works with GCC.
+:   啟用自動相依性追蹤。使用這個選項時，makefile
+    會被設定為：當任何標頭檔變更時，所有受影響的物件檔
+    都會重新建置。如果你正在進行開發工作，這會很有用，
+    但如果你只打算編譯一次然後安裝，這就只是多餘的負擔。
+    目前，這個選項只能搭配 GCC 使用。
 <a id="CONFIGURE-OPTION-ENABLE-COVERAGE"></a>
 
 `--enable-coverage` [#](#CONFIGURE-OPTION-ENABLE-COVERAGE)
-:   If using GCC, all programs and libraries are compiled with
-    code coverage testing instrumentation. When run, they
-    generate files in the build directory with code coverage
-    metrics.
-    See [Section 31.5](../regress/regress-coverage.md)
-    for more information. This option is for use only with GCC
-    and when doing development work.
+:   如果使用 GCC，所有程式與函式庫都會加上程式碼涵蓋率
+    測試的檢測工具進行編譯。執行時，它們會在建置目錄中
+    產生含有程式碼涵蓋率統計資料的檔案。
+    詳見[31.5 節](../regress/regress-coverage.md)以取得
+    更多資訊。這個選項僅適用於 GCC，且僅在進行開發工作時使用。
 <a id="CONFIGURE-OPTION-ENABLE-PROFILING"></a>
 
 `--enable-profiling` [#](#CONFIGURE-OPTION-ENABLE-PROFILING)
-:   If using GCC, all programs and libraries are compiled so they
-    can be profiled. On backend exit, a subdirectory will be created
-    that contains the `gmon.out` file containing
-    profile data.
-    This option is for use only with GCC and when doing development work.
+:   如果使用 GCC，所有程式與函式庫都會以可供效能剖析
+    （profiling）的方式編譯。後端結束時，會建立一個子目錄，
+    其中含有記錄效能剖析資料的
+    `gmon.out` 檔案。
+    這個選項僅適用於 GCC，且僅在進行開發工作時使用。
 <a id="CONFIGURE-OPTION-ENABLE-DTRACE"></a>
 
 `--enable-dtrace` [#](#CONFIGURE-OPTION-ENABLE-DTRACE)
 :   <a id="id-1.6.4.6.4.9.4.7.2.1.1"></a>
-    Compiles PostgreSQL with support for the
-    dynamic tracing tool DTrace.
-    See [Section 27.5](../monitoring/dynamic-trace.md) for more information.
+    編譯 PostgreSQL 時支援動態追蹤工具
+    DTrace。
+    詳見[27.5 節](../monitoring/dynamic-trace.md)以取得更多資訊。
 
-    To point to the `dtrace` program, the
-    environment variable `DTRACE` can be set. This
-    will often be necessary because `dtrace` is
-    typically installed under `/usr/sbin`,
-    which might not be in your `PATH`.
+    你可以設定環境變數 `DTRACE`，
+    來指向 `dtrace` 程式。
+    這通常是必要的，因為 `dtrace`
+    一般安裝於 `/usr/sbin`，
+    可能不在你的 `PATH` 之中。
 
-    Extra command-line options for the `dtrace` program
-    can be specified in the environment variable
-    `DTRACEFLAGS`. On Solaris,
-    to include DTrace support in a 64-bit binary, you must specify
-    `DTRACEFLAGS="-64"`. For example,
-    using the GCC compiler:
+    可以在環境變數 `DTRACEFLAGS` 中，
+    指定要傳給 `dtrace` 程式的額外命令列選項。
+    在 Solaris 上，若要在 64 位元二進位檔中納入 DTrace 支援，
+    你必須指定
+    `DTRACEFLAGS="-64"`。例如，
+    使用 GCC 編譯器時：
 
     ```
 
     ./configure CC='gcc -m64' --enable-dtrace DTRACEFLAGS='-64' ...
     ```
 
-    Using Sun's compiler:
+    使用 Sun 的編譯器時：
 
     ```
 
@@ -912,41 +827,38 @@ and `--enable-cassert`.
 <a id="CONFIGURE-OPTION-ENABLE-INJECTION-POINTS"></a>
 
 `--enable-injection-points` [#](#CONFIGURE-OPTION-ENABLE-INJECTION-POINTS)
-:   Compiles PostgreSQL with support for
-    injection points in the server. Injection points allow to run
-    user-defined code from within the server in pre-defined code paths.
-    This helps in testing and in the investigation of concurrency scenarios
-    in a controlled fashion. This option is disabled by default. See
-    [Section 36.10.14](../../server-programming/extend/xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS) for more details. This
-    option is intended to be used only by developers for testing.
+:   編譯 PostgreSQL 時支援伺服器內部的注入點
+    （injection points）。注入點允許在伺服器內部預先定義的
+    程式碼路徑中，執行使用者自訂的程式碼。這有助於
+    以可控制的方式進行測試，以及調查並行情境。
+    這個選項預設為停用。詳見
+    [36.10.14 節](../../server-programming/extend/xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS)
+    以取得更多細節。這個選項僅供開發人員在測試時使用。
 <a id="CONFIGURE-OPTION-WITH-SEGSIZE-BLOCKS"></a>
 
 `--with-segsize-blocks=SEGSIZE_BLOCKS` [#](#CONFIGURE-OPTION-WITH-SEGSIZE-BLOCKS)
-:   Specify the relation segment size in blocks. If both
-    `--with-segsize` and this option are specified, this
-    option wins.
-    This option is only for developers, to test segment related code.
+:   以區塊為單位，指定關聯（relation）的區段大小。
+    如果同時指定了 `--with-segsize` 與這個選項，
+    以這個選項為準。
+    這個選項僅供開發人員用來測試與區段相關的程式碼。
 
 <a id="CONFIGURE-ENVVARS"></a>
 
-### 17.3.4. `configure` Environment Variables [#](#CONFIGURE-ENVVARS)
+### 17.3.4. `configure` 環境變數 [#](#CONFIGURE-ENVVARS)
 
 <a id="id-1.6.4.6.5.2"></a>
 
-In addition to the ordinary command-line options described above,
-`configure` responds to a number of environment
-variables.
-You can specify environment variables on the
-`configure` command line, for example:
+除了上面說明的一般命令列選項之外，
+`configure` 也會回應一些環境變數。
+你可以在 `configure` 命令列中指定環境變數，例如：
 
 ```
 
 ./configure CC=/opt/bin/gcc CFLAGS='-O2 -pipe'
 ```
 
-In this usage an environment variable is little different from a
-command-line option.
-You can also set such variables beforehand:
+以這種方式使用時，環境變數與命令列選項幾乎沒有差別。
+你也可以事先設定這類變數：
 
 ```
 
@@ -955,131 +867,130 @@ export CFLAGS='-O2 -pipe'
 ./configure
 ```
 
-This usage can be convenient because many programs' configuration
-scripts respond to these variables in similar ways.
+這種用法很方便，因為許多程式的設定指令稿，
+都以類似的方式回應這些變數。
 
-The most commonly used of these environment variables are
-`CC` and `CFLAGS`.
-If you prefer a C compiler different from the one
-`configure` picks, you can set the
-variable `CC` to the program of your choice.
-By default, `configure` will pick
-`gcc` if available, else the platform's
-default (usually `cc`). Similarly, you can override the
-default compiler flags if needed with the `CFLAGS` variable.
+這些環境變數中最常用的是
+`CC` 與 `CFLAGS`。
+如果你偏好使用與 `configure`
+所選擇不同的 C 編譯器，可以將變數 `CC`
+設為你選擇的程式。預設情況下，`configure`
+會優先選用可用的 `gcc`，若無則使用該平台的
+預設編譯器（通常是 `cc`）。同樣地，
+如有需要，你也可以透過 `CFLAGS` 變數
+覆寫預設的編譯器旗標。
 
-Here is a list of the significant variables that can be set in
-this manner:
+以下是可以用這種方式設定的重要變數清單：
 
 <a id="CONFIGURE-ENVVARS-BISON"></a>
 
 `BISON` [#](#CONFIGURE-ENVVARS-BISON)
-:   Bison program
+:   Bison 程式
 <a id="CONFIGURE-ENVVARS-CC"></a>
 
 `CC` [#](#CONFIGURE-ENVVARS-CC)
-:   C compiler
+:   C 編譯器
 <a id="CONFIGURE-ENVVARS-CFLAGS"></a>
 
 `CFLAGS` [#](#CONFIGURE-ENVVARS-CFLAGS)
-:   options to pass to the C compiler
+:   要傳給 C 編譯器的選項
 <a id="CONFIGURE-ENVVARS-CLANG"></a>
 
 `CLANG` [#](#CONFIGURE-ENVVARS-CLANG)
-:   path to `clang` program used to process source code
-    for inlining when compiling with `--with-llvm`
+:   使用 `--with-llvm` 編譯時，
+    用來處理原始碼以進行內嵌（inlining）的
+    `clang` 程式路徑
 <a id="CONFIGURE-ENVVARS-CPP"></a>
 
 `CPP` [#](#CONFIGURE-ENVVARS-CPP)
-:   C preprocessor
+:   C 前置處理器
 <a id="CONFIGURE-ENVVARS-CPPFLAGS"></a>
 
 `CPPFLAGS` [#](#CONFIGURE-ENVVARS-CPPFLAGS)
-:   options to pass to the C preprocessor
+:   要傳給 C 前置處理器的選項
 <a id="CONFIGURE-ENVVARS-CXX"></a>
 
 `CXX` [#](#CONFIGURE-ENVVARS-CXX)
-:   C++ compiler
+:   C++ 編譯器
 <a id="CONFIGURE-ENVVARS-CXXFLAGS"></a>
 
 `CXXFLAGS` [#](#CONFIGURE-ENVVARS-CXXFLAGS)
-:   options to pass to the C++ compiler
+:   要傳給 C++ 編譯器的選項
 <a id="CONFIGURE-ENVVARS-DTRACE"></a>
 
 `DTRACE` [#](#CONFIGURE-ENVVARS-DTRACE)
-:   location of the `dtrace` program
+:   `dtrace` 程式的位置
 <a id="CONFIGURE-ENVVARS-DTRACEFLAGS"></a>
 
 `DTRACEFLAGS` [#](#CONFIGURE-ENVVARS-DTRACEFLAGS)
-:   options to pass to the `dtrace` program
+:   要傳給 `dtrace` 程式的選項
 <a id="CONFIGURE-ENVVARS-FLEX"></a>
 
 `FLEX` [#](#CONFIGURE-ENVVARS-FLEX)
-:   Flex program
+:   Flex 程式
 <a id="CONFIGURE-ENVVARS-LDFLAGS"></a>
 
 `LDFLAGS` [#](#CONFIGURE-ENVVARS-LDFLAGS)
-:   options to use when linking either executables or shared libraries
+:   連結可執行檔或共用函式庫時要使用的選項
 <a id="CONFIGURE-ENVVARS-LDFLAGS-EX"></a>
 
 `LDFLAGS_EX` [#](#CONFIGURE-ENVVARS-LDFLAGS-EX)
-:   additional options for linking executables only
+:   僅用於連結可執行檔的額外選項
 <a id="CONFIGURE-ENVVARS-LDFLAGS-SL"></a>
 
 `LDFLAGS_SL` [#](#CONFIGURE-ENVVARS-LDFLAGS-SL)
-:   additional options for linking shared libraries only
+:   僅用於連結共用函式庫的額外選項
 <a id="CONFIGURE-ENVVARS-LLVM-CONFIG"></a>
 
 `LLVM_CONFIG` [#](#CONFIGURE-ENVVARS-LLVM-CONFIG)
-:   `llvm-config` program used to locate the
-    LLVM installation
+:   用來找出 LLVM 安裝位置的
+    `llvm-config` 程式
 <a id="CONFIGURE-ENVVARS-MSGFMT"></a>
 
 `MSGFMT` [#](#CONFIGURE-ENVVARS-MSGFMT)
-:   `msgfmt` program for native language support
+:   用於原生語言支援的 `msgfmt` 程式
 <a id="CONFIGURE-ENVVARS-PERL"></a>
 
 `PERL` [#](#CONFIGURE-ENVVARS-PERL)
-:   Perl interpreter program. This will be used to determine the
-    dependencies for building PL/Perl. The default is
-    `perl`.
+:   Perl 直譯器程式。這會用來判斷建置 PL/Perl
+    所需的相依套件。預設值為
+    `perl`。
 <a id="CONFIGURE-ENVVARS-PYTHON"></a>
 
 `PYTHON` [#](#CONFIGURE-ENVVARS-PYTHON)
-:   Python interpreter program. This will be used to determine the
-    dependencies for building PL/Python. If this is not set, the
-    following are probed in this order:
-    `python3 python`.
+:   Python 直譯器程式。這會用來判斷建置 PL/Python
+    所需的相依套件。如果未設定，會依序偵測
+    `python3 python`。
 <a id="CONFIGURE-ENVVARS-TCLSH"></a>
 
 `TCLSH` [#](#CONFIGURE-ENVVARS-TCLSH)
-:   Tcl interpreter program. This will be used to
-    determine the dependencies for building PL/Tcl.
-    If this is not set, the following are probed in this
-    order: `tclsh tcl tclsh8.6 tclsh86 tclsh8.5 tclsh85
-    tclsh8.4 tclsh84`.
+:   Tcl 直譯器程式。這會用來
+    判斷建置 PL/Tcl 所需的相依套件。
+    如果未設定，會依序偵測：`tclsh tcl tclsh8.6 tclsh86 tclsh8.5 tclsh85
+    tclsh8.4 tclsh84`。
 <a id="CONFIGURE-ENVVARS-XML2-CONFIG"></a>
 
 `XML2_CONFIG` [#](#CONFIGURE-ENVVARS-XML2-CONFIG)
-:   `xml2-config` program used to locate the
-    libxml2 installation
+:   用來找出 libxml2 安裝位置的
+    `xml2-config` 程式
 
-Sometimes it is useful to add compiler flags after-the-fact to the set
-that were chosen by `configure`. An important example is
-that gcc's `-Werror` option cannot be included
-in the `CFLAGS` passed to `configure`, because
-it will break many of `configure`'s built-in tests. To add
-such flags, include them in the `COPT` environment variable
-while running `make`. The contents of `COPT`
-are added to the `CFLAGS`, `CXXFLAGS`, and `LDFLAGS`
-options set up by `configure`. For example, you could do
+有時候，在 `configure` 選定的編譯選項之外，
+事後再加上額外的編譯器旗標會很有用。一個重要的例子是，
+gcc 的 `-Werror` 選項不能包含在傳給
+`configure` 的 `CFLAGS` 中，
+因為這會破壞 `configure` 內建的許多測試。
+若要加上這類旗標，請在執行 `make` 時，
+將它們放入 `COPT` 環境變數。
+`COPT` 的內容，會被加入
+`configure` 所設定的 `CFLAGS`、`CXXFLAGS` 與 `LDFLAGS`
+選項中。例如，你可以這麼做：
 
 ```
 
 make COPT='-Werror'
 ```
 
-or
+或者：
 
 ```
 
@@ -1087,25 +998,25 @@ export COPT='-Werror'
 make
 ```
 
-### Note
+### 注意
 
-If using GCC, it is best to build with an optimization level of
-at least `-O1`, because using no optimization
-(`-O0`) disables some important compiler warnings (such
-as the use of uninitialized variables). However, non-zero
-optimization levels can complicate debugging because stepping
-through compiled code will usually not match up one-to-one with
-source code lines. If you get confused while trying to debug
-optimized code, recompile the specific files of interest with
-`-O0`. An easy way to do this is by passing an option
-to make: `make PROFILE=-O0 file.o`.
+如果使用 GCC，建議至少以
+`-O1` 的最佳化等級進行建置，因為不進行最佳化
+（`-O0`）會停用一些重要的編譯器警告
+（例如使用未初始化變數的警告）。不過，非零的最佳化等級
+可能會讓除錯變得更複雜，因為逐步執行已編譯的程式碼時，
+通常無法與原始碼的行數一一對應。如果你在嘗試除錯
+最佳化過的程式碼時感到困惑，可以針對你感興趣的特定檔案，
+以 `-O0` 重新編譯。一個簡單的做法，
+是透過傳給 make 的選項來執行：
+`make PROFILE=-O0 file.o`。
 
-The `COPT` and `PROFILE` environment variables are
-actually handled identically by the PostgreSQL
-makefiles. Which to use is a matter of preference, but a common habit
-among developers is to use `PROFILE` for one-time flag
-adjustments, while `COPT` might be kept set all the time.
+`COPT` 與 `PROFILE` 這兩個環境變數，
+在 PostgreSQL 的各個 makefile 中實際上是以相同方式處理的。
+要使用哪一個純屬個人偏好，但開發者之間常見的習慣，
+是以 `PROFILE` 進行一次性的旗標調整，
+而 `COPT` 則可能會一直保持設定。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/install-make.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/install-make.html)（原文版本：18.6；核對日期：2026-09-26）
