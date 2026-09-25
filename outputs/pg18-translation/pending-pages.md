@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：609 頁。
+待譯頁面：608 頁。
 
 ## 根目錄
 
@@ -736,7 +736,7 @@
 - [x] `server-administration/high-availability/README.md` — 第 26 章 高可用性、負載平衡與複寫
 - [ ] `server-administration/high-availability/different-replication-solutions.md` — 26.1. Comparison of Different Solutions #
 - [ ] `server-administration/high-availability/hot-standby.md` — 26.4. Hot Standby #
-- [ ] `server-administration/high-availability/warm-standby-failover.md` — 26.3. Failover #
+- [x] `server-administration/high-availability/warm-standby-failover.md` — 26.3. 失效切換 #
 - [ ] `server-administration/high-availability/warm-standby.md` — 26.2. Log-Shipping Standby Servers #
 - [x] `server-administration/install-binaries/README.md` — 第 16 章 從二進位套件安裝
 - [ ] `server-administration/installation/README.md` — Chapter 17. Installation from Source Code

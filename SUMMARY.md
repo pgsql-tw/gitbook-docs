@@ -259,7 +259,7 @@
   * [第 26 章 高可用性、負載平衡與複寫](server-administration/high-availability/README.md)
     * [26.1. Comparison of Different Solutions #](server-administration/high-availability/different-replication-solutions.md)
     * [26.2. Log-Shipping Standby Servers #](server-administration/high-availability/warm-standby.md)
-    * [26.3. Failover #](server-administration/high-availability/warm-standby-failover.md)
+    * [26.3. 失效切換 #](server-administration/high-availability/warm-standby-failover.md)
     * [26.4. Hot Standby #](server-administration/high-availability/hot-standby.md)
   * [Chapter 27. Monitoring Database Activity](server-administration/monitoring/README.md)
     * [27.1. 標準 Unix 工具 #](server-administration/monitoring/monitoring-ps.md)

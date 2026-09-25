@@ -1,70 +1,58 @@
-## 26.3. Failover [#](#WARM-STANDBY-FAILOVER)
+<a id="WARM-STANDBY-FAILOVER"></a>
 
-If the primary server fails then the standby server should begin
-failover procedures.
+## 26.3. 失效切換 [#](#WARM-STANDBY-FAILOVER)
 
-If the standby server fails then no failover need take place. If the
-standby server can be restarted, even some time later, then the recovery
-process can also be restarted immediately, taking advantage of
-restartable recovery. If the standby server cannot be restarted, then a
-full new standby server instance should be created.
+若主要伺服器失效，待命伺服器應開始進行失效切換程序。
 
-If the primary server fails and the standby server becomes the
-new primary, and then the old primary restarts, you must have
-a mechanism for informing the old primary that it is no longer the primary. This is
-sometimes known as STONITH (Shoot The Other Node In The Head), which is
-necessary to avoid situations where both systems think they are the
-primary, which will lead to confusion and ultimately data loss.
+若待命伺服器失效，則不需要進行失效切換。如果待命伺服器能夠重新啟動——
+即使是過一段時間之後——那麼復原程序也可以立即重新啟動，
+善用可重新啟動的復原機制。如果待命伺服器無法重新啟動，
+則應建立一個全新的待命伺服器實例。
 
-Many failover systems use just two systems, the primary and the standby,
-connected by some kind of heartbeat mechanism to continually verify the
-connectivity between the two and the viability of the primary. It is
-also possible to use a third system (called a witness server) to prevent
-some cases of inappropriate failover, but the additional complexity
-might not be worthwhile unless it is set up with sufficient care and
-rigorous testing.
+若主要伺服器失效、待命伺服器成為新的主要伺服器，而舊的主要伺服器
+之後又重新啟動，你必須具備一種機制，用來告知舊的主要伺服器
+它已不再是主要伺服器。這有時稱為 STONITH（Shoot The Other Node In
+The Head，即「射擊另一節點的頭部」），目的是避免兩個系統都認為
+自己是主要伺服器的情況，因為這會導致混亂、並最終造成資料遺失。
 
-PostgreSQL does not provide the system
-software required to identify a failure on the primary and notify
-the standby database server. Many such tools exist and are well
-integrated with the operating system facilities required for
-successful failover, such as IP address migration.
+許多失效切換系統只使用兩個系統：主要伺服器與待命伺服器，
+透過某種心跳機制持續確認兩者之間的連線狀態，以及主要伺服器的
+存活狀態。也可以使用第三個系統（稱為見證伺服器，witness server）
+來防止某些不當失效切換的情況發生，但除非該系統經過充分細心的
+設置與嚴謹的測試，否則增加的複雜度可能不划算。
 
-Once failover to the standby occurs, there is only a
-single server in operation. This is known as a degenerate state.
-The former standby is now the primary, but the former primary is down
-and might stay down. To return to normal operation, a standby server
-must be recreated,
-either on the former primary system when it comes up, or on a third,
-possibly new, system. The [pg_rewind](../../reference/reference-server/app-pgrewind.md) utility can be
-used to speed up this process on large clusters.
-Once complete, the primary and standby can be
-considered to have switched roles. Some people choose to use a third
-server to provide backup for the new primary until the new standby
-server is recreated,
-though clearly this complicates the system configuration and
-operational processes.
+PostgreSQL 並不提供識別主要伺服器失效、並通知待命資料庫伺服器
+所需的系統軟體。有許多這類工具存在，並且與成功進行失效切換所需的
+作業系統機制（例如 IP 位址遷移）有良好的整合。
 
-So, switching from primary to standby server can be fast but requires
-some time to re-prepare the failover cluster. Regular switching from
-primary to standby is useful, since it allows regular downtime on
-each system for maintenance. This also serves as a test of the
-failover mechanism to ensure that it will really work when you need it.
-Written administration procedures are advised.
+一旦失效切換到待命伺服器完成，系統中就只會剩下單一伺服器在運作，
+這稱為退化狀態（degenerate state）。原本的待命伺服器現在成為
+主要伺服器，而原本的主要伺服器則已下線，且可能會持續處於停機狀態。
+若要恢復正常運作，必須重新建立一個待命伺服器——可以在原主要伺服器
+系統恢復運作時，於其上重新建立，也可以在第三個、可能是全新的系統上
+建立。[pg_rewind](../../reference/reference-server/app-pgrewind.md)
+工具程式可用來加快此程序在大型叢集上的速度。完成之後，即可視為
+主要伺服器與待命伺服器已互換角色。有些人會選擇使用第三台伺服器，
+在新的待命伺服器重新建立完成之前，為新的主要伺服器提供備援，
+不過這顯然會使系統組態與作業流程更加複雜。
 
-If you have opted for logical replication slot synchronization (see
-[Section 47.2.3](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)),
-then before switching to the standby server, it is recommended to check
-if the logical slots synchronized on the standby server are ready
-for failover. This can be done by following the steps described in
-[Section 29.3](../logical-replication/logical-replication-failover.md).
+因此，從主要伺服器切換到待命伺服器可以很快完成，但重新準備失效切換
+叢集則需要一些時間。定期地在主要伺服器與待命伺服器之間切換是有用的
+做法，因為這可以讓每個系統定期停機進行維護；這同時也是測試失效切換
+機制的方式，以確保在真正需要時它確實能夠運作。建議撰寫書面的管理程序。
 
-To trigger failover of a log-shipping standby server, run
-`pg_ctl promote` or call `pg_promote()`.
-If you're setting up reporting servers that are only used to offload
-read-only queries from the primary, not for high availability purposes,
-you don't need to promote.
+若你已選擇啟用邏輯複寫插槽同步（請參閱
+[第 47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)），
+那麼在切換到待命伺服器之前，建議先檢查待命伺服器上已同步的邏輯插槽
+是否已準備好進行失效切換。你可以依照
+[第 29.3 節](../logical-replication/logical-replication-failover.md)
+所述的步驟來進行檢查。
+
+若要觸發日誌傳送（log-shipping）待命伺服器的失效切換，請執行
+`pg_ctl promote`，或呼叫 `pg_promote()`。
+如果你設置的報表伺服器僅用於分擔主要伺服器的唯讀查詢負載，
+而非用於高可用性目的，則不需要進行提升（promote）。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/warm-standby-failover.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/warm-standby-failover.html)（原文版本：18.6；核對日期：2026-09-25）
