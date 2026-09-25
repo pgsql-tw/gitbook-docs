@@ -185,7 +185,7 @@
     * [18.1. PostgreSQL 使用者帳號](server-administration/runtime/postgres-user.md)
     * [18.2. 建立資料庫叢集 #](server-administration/runtime/creating-cluster.md)
     * [18.3. 啟動資料庫伺服器 #](server-administration/runtime/server-start.md)
-    * [18.4. Managing Kernel Resources #](server-administration/runtime/kernel-resources.md)
+    * [18.4. 管理核心資源 #](server-administration/runtime/kernel-resources.md)
     * [18.5. 關閉伺服器 #](server-administration/runtime/server-shutdown.md)
     * [18.6. 升級 PostgreSQL 叢集 #](server-administration/runtime/upgrading.md)
     * [18.7. 防止伺服器被偽造（Spoofing） #](server-administration/runtime/preventing-server-spoofing.md)

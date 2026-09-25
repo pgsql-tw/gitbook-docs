@@ -1,145 +1,155 @@
-## 18.4. Managing Kernel Resources [#](#KERNEL-RESOURCES)
+<a id="KERNEL-RESOURCES"></a>
 
-[18.4.1. Shared Memory and Semaphores](kernel-resources.md#SYSVIPC)
+## 18.4. 管理核心資源 [#](#KERNEL-RESOURCES)
+
+[18.4.1. 共享記憶體與號誌（Semaphore）](kernel-resources.md#SYSVIPC)
 
 [18.4.2. systemd RemoveIPC](kernel-resources.md#SYSTEMD-REMOVEIPC)
 
-[18.4.3. Resource Limits](kernel-resources.md#KERNEL-RESOURCES-LIMITS)
+[18.4.3. 資源限制](kernel-resources.md#KERNEL-RESOURCES-LIMITS)
 
-[18.4.4. Linux Memory Overcommit](kernel-resources.md#LINUX-MEMORY-OVERCOMMIT)
+[18.4.4. Linux 記憶體超額分配（Overcommit）](kernel-resources.md#LINUX-MEMORY-OVERCOMMIT)
 
-[18.4.5. Linux Huge Pages](kernel-resources.md#LINUX-HUGE-PAGES)
+[18.4.5. Linux 大頁（Huge Pages）](kernel-resources.md#LINUX-HUGE-PAGES)
 
-PostgreSQL can sometimes exhaust various operating system
-resource limits, especially when multiple copies of the server are running
-on the same system, or in very large installations. This section explains
-the kernel resources used by PostgreSQL and the steps you
-can take to resolve problems related to kernel resource consumption.
+PostgreSQL 有時可能會耗盡各種作業系統資源限制，
+特別是當同一系統上同時執行多份伺服器複本時，
+或是在非常大型的安裝環境中。本節說明
+PostgreSQL 所使用的核心資源，
+以及您可以採取哪些步驟，來解決與核心資源消耗
+相關的問題。
 
 <a id="SYSVIPC"></a>
 
-### 18.4.1. Shared Memory and Semaphores [#](#SYSVIPC)
+### 18.4.1. 共享記憶體與號誌（Semaphore） [#](#SYSVIPC)
 
 <a id="id-1.6.5.7.3.2"></a><a id="id-1.6.5.7.3.3"></a>
 
-PostgreSQL requires the operating system to provide
-inter-process communication (IPC) features, specifically
-shared memory and semaphores. Unix-derived systems typically provide
-“System V” IPC,
-“POSIX” IPC, or both.
-Windows has its own implementation of
-these features and is not discussed here.
+PostgreSQL 要求作業系統提供程序間通訊
+（inter-process communication，IPC）功能，具體而言，
+就是共享記憶體與號誌。衍生自 Unix 的系統，
+通常會提供「System V」IPC、「POSIX」IPC，
+或兩者皆有。Windows 則有自己的實作方式，
+本節不予討論。
 
-By default, PostgreSQL allocates
-a very small amount of System V shared memory, as well as a much larger
-amount of anonymous `mmap` shared memory.
-Alternatively, a single large System V shared memory region can be used
-(see [shared_memory_type](../runtime-config/runtime-config-resource.md#GUC-SHARED-MEMORY-TYPE)).
-In addition a significant number of semaphores, which can be either
-System V or POSIX style, are created at server startup. Currently,
-POSIX semaphores are used on Linux and FreeBSD systems while other
-platforms use System V semaphores.
+依預設，PostgreSQL 會配置一小部分的 System V
+共享記憶體，以及一大部分的匿名 `mmap` 共享記憶體。
+或者，也可以改用單一一大塊的 System V 共享記憶體區域
+（請參閱 [shared_memory_type](../runtime-config/runtime-config-resource.md#GUC-SHARED-MEMORY-TYPE)）。
+此外，伺服器啟動時，還會建立相當數量的號誌，
+可以是 System V 或 POSIX 樣式。目前，
+Linux 與 FreeBSD 系統使用 POSIX 號誌，
+其他平台則使用 System V 號誌。
 
-System V IPC features are typically constrained by
-system-wide allocation limits.
-When PostgreSQL exceeds one of these limits,
-the server will refuse to start and
-should leave an instructive error message describing the problem
-and what to do about it. (See also [Section 18.3.1](server-start.md#SERVER-START-FAILURES).) The relevant kernel
-parameters are named consistently across different systems; [Table 18.1](kernel-resources.md#SYSVIPC-PARAMETERS) gives an overview. The methods to set
-them, however, vary. Suggestions for some platforms are given below.
+System V IPC 功能，通常受到系統層級配置上限的限制。
+當 PostgreSQL 超過這些限制之一時，
+伺服器將拒絕啟動，並應留下一則說明問題內容
+及處理方式的指示性錯誤訊息。（另請參閱
+[18.3.1 節](server-start.md#SERVER-START-FAILURES)。）
+相關的核心參數，在不同系統上，命名方式相當一致；
+[表 18.1](kernel-resources.md#SYSVIPC-PARAMETERS) 提供了概觀。
+不過，設定這些參數的方法則各異。以下針對部分平台，
+提供一些建議。
 
 <a id="SYSVIPC-PARAMETERS"></a>
 
-**Table 18.1. System V IPC Parameters**
+**表 18.1. System V IPC 參數**
 
-<table border="1" class="table" summary="System V IPC Parameters"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>Name</th><th>Description</th><th>Values needed to run one <span class="productname">PostgreSQL</span> instance</th></tr></thead><tbody><tr><td><code class="varname">SHMMAX</code></td><td>Maximum size of shared memory segment (bytes)</td><td>at least 1kB, but the default is usually much higher</td></tr><tr><td><code class="varname">SHMMIN</code></td><td>Minimum size of shared memory segment (bytes)</td><td>1</td></tr><tr><td><code class="varname">SHMALL</code></td><td>Total amount of shared memory available (bytes or pages)</td><td>same as <code class="varname">SHMMAX</code> if bytes,
-        or <code class="literal">ceil(SHMMAX/PAGE_SIZE)</code> if pages,
-        plus room for other applications</td></tr><tr><td><code class="varname">SHMSEG</code></td><td>Maximum number of shared memory segments per process</td><td>only 1 segment is needed, but the default is much higher</td></tr><tr><td><code class="varname">SHMMNI</code></td><td>Maximum number of shared memory segments system-wide</td><td>like <code class="varname">SHMSEG</code> plus room for other applications</td></tr><tr><td><code class="varname">SEMMNI</code></td><td>Maximum number of semaphore identifiers (i.e., sets)</td><td>at least <code class="literal">ceil(num_os_semaphores / 16)</code> plus room for other applications</td></tr><tr><td><code class="varname">SEMMNS</code></td><td>Maximum number of semaphores system-wide</td><td><code class="literal">ceil(num_os_semaphores / 16) * 17</code> plus room for other applications</td></tr><tr><td><code class="varname">SEMMSL</code></td><td>Maximum number of semaphores per set</td><td>at least 17</td></tr><tr><td><code class="varname">SEMMAP</code></td><td>Number of entries in semaphore map</td><td>see text</td></tr><tr><td><code class="varname">SEMVMX</code></td><td>Maximum value of semaphore</td><td>at least 1000 (The default is often 32767; do not change unless necessary)</td></tr></tbody></table>
+<table border="1" class="table" summary="System V IPC Parameters"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>名稱</th><th>說明</th><th>執行一份 <span class="productname">PostgreSQL</span> 實體所需的值</th></tr></thead><tbody><tr><td><code class="varname">SHMMAX</code></td><td>共享記憶體區段的最大大小（位元組）</td><td>至少 1kB，但預設值通常高出許多</td></tr><tr><td><code class="varname">SHMMIN</code></td><td>共享記憶體區段的最小大小（位元組）</td><td>1</td></tr><tr><td><code class="varname">SHMALL</code></td><td>可用共享記憶體的總量（位元組或頁面）</td><td>若以位元組為單位，與 <code class="varname">SHMMAX</code> 相同，
+        若以頁面為單位，則為 <code class="literal">ceil(SHMMAX/PAGE_SIZE)</code>，
+        再加上其他應用程式所需的空間</td></tr><tr><td><code class="varname">SHMSEG</code></td><td>每個程序所能使用的共享記憶體區段數上限</td><td>只需要 1 個區段，但預設值通常高出許多</td></tr><tr><td><code class="varname">SHMMNI</code></td><td>整個系統中共享記憶體區段數的上限</td><td>如同 <code class="varname">SHMSEG</code>，再加上其他應用程式所需的空間</td></tr><tr><td><code class="varname">SEMMNI</code></td><td>號誌識別碼（也就是集合）的數量上限</td><td>至少 <code class="literal">ceil(num_os_semaphores / 16)</code>，再加上其他應用程式所需的空間</td></tr><tr><td><code class="varname">SEMMNS</code></td><td>整個系統中號誌數的上限</td><td><code class="literal">ceil(num_os_semaphores / 16) * 17</code>，再加上其他應用程式所需的空間</td></tr><tr><td><code class="varname">SEMMSL</code></td><td>每個集合中號誌數的上限</td><td>至少 17</td></tr><tr><td><code class="varname">SEMMAP</code></td><td>號誌對應表中的項目數</td><td>請參閱內文</td></tr><tr><td><code class="varname">SEMVMX</code></td><td>號誌的最大值</td><td>至少 1000（預設值通常為 32767；除非必要，否則請勿變更）</td></tr></tbody></table>
 
 <br>
 
-PostgreSQL requires a few bytes of System V shared memory
-(typically 48 bytes, on 64-bit platforms) for each copy of the server.
-On most modern operating systems, this amount can easily be allocated.
-However, if you are running many copies of the server or you explicitly
-configure the server to use large amounts of System V shared memory (see
-[shared_memory_type](../runtime-config/runtime-config-resource.md#GUC-SHARED-MEMORY-TYPE) and [dynamic_shared_memory_type](../runtime-config/runtime-config-resource.md#GUC-DYNAMIC-SHARED-MEMORY-TYPE)), it may be necessary to
-increase `SHMALL`, which is the total amount of System V shared
-memory system-wide. Note that `SHMALL` is measured in pages
-rather than bytes on many systems.
+伺服器的每一份複本，都需要用到少量的 System V
+共享記憶體（在 64 位元平台上，通常為 48 位元組）。
+在大多數現代作業系統上，這個數量都能輕易配置。
+不過，若您同時執行伺服器的多份複本，
+或明確地將伺服器設定為使用大量的 System V 共享記憶體
+（請參閱
+[shared_memory_type](../runtime-config/runtime-config-resource.md#GUC-SHARED-MEMORY-TYPE)
+與
+[dynamic_shared_memory_type](../runtime-config/runtime-config-resource.md#GUC-DYNAMIC-SHARED-MEMORY-TYPE)），
+就可能有必要增加 `SHMALL`，
+也就是整個系統的 System V 共享記憶體總量。
+請注意，在許多系統上，`SHMALL`
+是以頁面而非位元組為單位計算的。
 
-Less likely to cause problems is the minimum size for shared
-memory segments (`SHMMIN`), which should be at most
-approximately 32 bytes for PostgreSQL (it is
-usually just 1). The maximum number of segments system-wide
-(`SHMMNI`) or per-process (`SHMSEG`) are unlikely
-to cause a problem unless your system has them set to zero.
+較不容易造成問題的，是共享記憶體區段的最小大小
+（`SHMMIN`），對 PostgreSQL 而言，
+其值最多應約為 32 位元組（通常僅為 1）。
+除非您的系統將這些參數設為零，否則整個系統中的
+最大區段數（`SHMMNI`）或每個程序的最大區段數
+（`SHMSEG`），不太可能造成問題。
 
-When using System V semaphores,
-PostgreSQL uses one semaphore per allowed connection
-([max_connections](../runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS)), allowed autovacuum worker process
-([autovacuum_worker_slots](../runtime-config/runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS)), allowed WAL sender process
-([max_wal_senders](../runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS)), allowed background
-process ([max_worker_processes](../runtime-config/runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES)), etc., in sets of 16.
-The runtime-computed parameter [num_os_semaphores](../runtime-config/runtime-config-preset.md#GUC-NUM-OS-SEMAPHORES)
-reports the number of semaphores required. This parameter can be viewed
-before starting the server with a `postgres` command like:
+當使用 System V 號誌時，PostgreSQL
+會為每個允許的連線
+（[max_connections](../runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS)）、
+每個允許的 autovacuum 工作程序
+（[autovacuum_worker_slots](../runtime-config/runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS)）、
+每個允許的 WAL 傳送端程序
+（[max_wal_senders](../runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS)）、
+每個允許的背景程序
+（[max_worker_processes](../runtime-config/runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES)）等，各使用一個號誌，這些號誌以 16 個為一組來配置。執行期計算所得的參數
+[num_os_semaphores](../runtime-config/runtime-config-preset.md#GUC-NUM-OS-SEMAPHORES)，
+會回報所需要的號誌數量。可以在啟動伺服器之前，
+透過類似以下的 `postgres` 指令查看此參數：
 
 ```
 
 $ postgres -D $PGDATA -C num_os_semaphores
 ```
 
-Each set of 16 semaphores will
-also contain a 17th semaphore which contains a “magic
-number”, to detect collision with semaphore sets used by
-other applications. The maximum number of semaphores in the system
-is set by `SEMMNS`, which consequently must be at least
-as high as `num_os_semaphores` plus one extra for
-each set of 16 required semaphores (see the formula in [Table 18.1](kernel-resources.md#SYSVIPC-PARAMETERS)). The parameter `SEMMNI`
-determines the limit on the number of semaphore sets that can
-exist on the system at one time. Hence this parameter must be at
-least `ceil(num_os_semaphores / 16)`.
-Lowering the number
-of allowed connections is a temporary workaround for failures,
-which are usually confusingly worded “No space
-left on device”, from the function `semget`.
+每一組 16 個號誌，還會包含第 17 個號誌，
+用於存放一個「魔術數字」，以偵測與其他應用程式所使用的
+號誌集合之間的衝突。系統中號誌的數量上限，
+由 `SEMMNS` 設定，因此，此值必須至少等於
+`num_os_semaphores`，再加上每一組 16 個所需號誌
+額外多出的一個（請參閱
+[表 18.1](kernel-resources.md#SYSVIPC-PARAMETERS) 中的公式）。
+參數 `SEMMNI` 決定了系統中，
+同一時間所能存在的號誌集合數量上限。因此，
+此參數必須至少為
+`ceil(num_os_semaphores / 16)`。降低允許連線數，
+是暫時解決失敗問題的權宜之計，這類失敗，
+通常會以令人困惑的訊息呈現，例如函式 `semget`
+所產生的「No space left on device」。
 
-In some cases it might also be necessary to increase
-`SEMMAP` to be at least on the order of
-`SEMMNS`. If the system has this parameter
-(many do not), it defines the size of the semaphore
-resource map, in which each contiguous block of available semaphores
-needs an entry. When a semaphore set is freed it is either added to
-an existing entry that is adjacent to the freed block or it is
-registered under a new map entry. If the map is full, the freed
-semaphores get lost (until reboot). Fragmentation of the semaphore
-space could over time lead to fewer available semaphores than there
-should be.
+在某些情況下，也可能有必要將 `SEMMAP`，
+至少提高到與 `SEMMNS` 相同的量級。
+若您的系統具有此參數（許多系統並沒有），
+它定義了號誌資源對應表的大小，其中每一個連續的可用號誌區塊，
+都需要一個項目。當某個號誌集合被釋放時，
+它會被加入與該釋放區塊相鄰的既有項目，
+或者被登錄為一個新的對應表項目。若對應表已滿，
+被釋放的號誌就會遺失（直到重新開機為止）。
+隨著時間推移，號誌空間的碎片化，
+可能導致可用號誌數量少於原本應有的數量。
 
-Various other settings related to “semaphore undo”, such as
-`SEMMNU` and `SEMUME`, do not affect
-PostgreSQL.
+與「號誌復原」（semaphore undo）相關的其他各項設定，
+例如 `SEMMNU` 與 `SEMUME`，
+都不會影響 PostgreSQL。
 
-When using POSIX semaphores, the number of semaphores needed is the
-same as for System V, that is one semaphore per allowed connection
-([max_connections](../runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS)), allowed autovacuum worker process
-([autovacuum_worker_slots](../runtime-config/runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS)), allowed WAL sender process
-([max_wal_senders](../runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS)), allowed background
-process ([max_worker_processes](../runtime-config/runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES)), etc.
-On the platforms where this option is preferred, there is no specific
-kernel limit on the number of POSIX semaphores.
+當使用 POSIX 號誌時，所需的號誌數量，
+與 System V 相同，也就是每個允許的連線
+（[max_connections](../runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS)）、
+每個允許的 autovacuum 工作程序
+（[autovacuum_worker_slots](../runtime-config/runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS)）、
+每個允許的 WAL 傳送端程序
+（[max_wal_senders](../runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS)）、
+每個允許的背景程序
+（[max_worker_processes](../runtime-config/runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES)）等，
+各使用一個號誌。在偏好使用此選項的平台上，
+對 POSIX 號誌的數量，並沒有特定的核心限制。
 
 FreeBSD <a id="id-1.6.5.7.3.15.1.1.2"></a>
-:   The default shared memory settings are usually good enough, unless
-    you have set `shared_memory_type` to `sysv`.
-    System V semaphores are not used on this platform.
+:   除非您已將 `shared_memory_type`
+    設定為 `sysv`，否則預設的共享記憶體設定，
+    通常已經足夠。此平台不使用 System V 號誌。
 
-    The default IPC settings can be changed using
-    the `sysctl` or
-    `loader` interfaces. The following
-    parameters can be set using `sysctl`:
+    可以使用 `sysctl` 或 `loader`
+    介面，變更預設的 IPC 設定。以下參數，
+    可以使用 `sysctl` 設定：
 
     ```
 
@@ -147,75 +157,77 @@ FreeBSD <a id="id-1.6.5.7.3.15.1.1.2"></a>
     # sysctl kern.ipc.shmmax=134217728
     ```
 
-    To make these settings persist over reboots, modify
-    `/etc/sysctl.conf`.
+    若要讓這些設定在重新開機後仍然有效，
+    請修改 `/etc/sysctl.conf`。
 
-    If you have set `shared_memory_type` to
-    `sysv`, you might also want to configure your kernel
-    to lock System V shared memory into RAM and prevent it from being paged
-    out to swap. This can be accomplished using the `sysctl`
-    setting `kern.ipc.shm_use_phys`.
+    若您已將 `shared_memory_type`
+    設定為 `sysv`，您可能也會想要設定核心，
+    將 System V 共享記憶體鎖定於 RAM 中，
+    防止其被分頁至交換空間。可以透過
+    `sysctl` 設定 `kern.ipc.shm_use_phys`
+    來達成此目的。
 
-    If running in a FreeBSD jail, you should set its
-    `sysvshm` parameter to `new`, so that
-    it has its own separate System V shared memory namespace.
-    (Before FreeBSD 11.0, it was necessary to enable shared access to
-    the host's IPC namespace from jails, and take measures to avoid
-    collisions.)
+    若在 FreeBSD jail 中執行，您應該將其
+    `sysvshm` 參數，設定為 `new`，
+    如此一來，它就會擁有自己獨立的 System V
+    共享記憶體命名空間。
+    （在 FreeBSD 11.0 之前的版本，需要啟用
+    jail 對主機 IPC 命名空間的共享存取，
+    並採取措施避免衝突。）
 
 NetBSD <a id="id-1.6.5.7.3.15.2.1.2"></a>
-:   The default shared memory settings are usually good enough, unless
-    you have set `shared_memory_type` to `sysv`.
-    However, you will need to increase `kern.ipc.semmni`
-    and `kern.ipc.semmns`,
-    as NetBSD's default settings
-    for these are unworkably small.
+:   除非您已將 `shared_memory_type`
+    設定為 `sysv`，否則預設的共享記憶體設定，
+    通常已經足夠。不過，您將需要提高
+    `kern.ipc.semmni` 與
+    `kern.ipc.semmns`，因為 NetBSD
+    對這些參數的預設值，小到難以使用。
 
-    IPC parameters can be adjusted using `sysctl`,
-    for example:
+    可以使用 `sysctl`，調整 IPC 參數，例如：
 
     ```
 
     # sysctl -w kern.ipc.semmni=100
     ```
 
-    To make these settings persist over reboots, modify
-    `/etc/sysctl.conf`.
+    若要讓這些設定在重新開機後仍然有效，
+    請修改 `/etc/sysctl.conf`。
 
-    If you have set `shared_memory_type` to
-    `sysv`, you might also want to configure your kernel
-    to lock System V shared memory into RAM and prevent it from being paged
-    out to swap. This can be accomplished using the `sysctl`
-    setting `kern.ipc.shm_use_phys`.
+    若您已將 `shared_memory_type`
+    設定為 `sysv`，您可能也會想要設定核心，
+    將 System V 共享記憶體鎖定於 RAM 中，
+    防止其被分頁至交換空間。可以透過
+    `sysctl` 設定 `kern.ipc.shm_use_phys`
+    來達成此目的。
 
 OpenBSD <a id="id-1.6.5.7.3.15.3.1.2"></a>
-:   The default shared memory settings are usually good enough, unless
-    you have set `shared_memory_type` to `sysv`.
-    However, you will need to
-    increase `kern.seminfo.semmni`
-    and `kern.seminfo.semmns`,
-    as OpenBSD's default settings
-    for these are unworkably small.
+:   除非您已將 `shared_memory_type`
+    設定為 `sysv`，否則預設的共享記憶體設定，
+    通常已經足夠。不過，您將需要提高
+    `kern.seminfo.semmni` 與
+    `kern.seminfo.semmns`，因為 OpenBSD
+    對這些參數的預設值，小到難以使用。
 
-    IPC parameters can be adjusted using `sysctl`,
-    for example:
+    可以使用 `sysctl`，調整 IPC 參數，例如：
 
     ```
 
     # sysctl kern.seminfo.semmni=100
     ```
 
-    To make these settings persist over reboots, modify
-    `/etc/sysctl.conf`.
+    若要讓這些設定在重新開機後仍然有效，
+    請修改 `/etc/sysctl.conf`。
 
 Linux <a id="id-1.6.5.7.3.15.4.1.2"></a>
-:   The default shared memory settings are usually good enough, unless
-    you have set `shared_memory_type` to `sysv`,
-    and even then only on older kernel versions that shipped with low defaults.
-    System V semaphores are not used on this platform.
+:   除非您已將 `shared_memory_type`
+    設定為 `sysv`，否則預設的共享記憶體設定，
+    通常已經足夠，即使如此，也只有在搭載較舊版本核心、
+    預設值偏低的系統上，才需要調整。此平台不使用
+    System V 號誌。
 
-    The shared memory size settings can be changed via the
-    `sysctl` interface. For example, to allow 16 GB:
+    可以透過 `sysctl` 介面，
+    變更共享記憶體大小的設定。舉例來說，
+    若要允許 16 GB：
 
     ```
 
@@ -223,16 +235,17 @@ Linux <a id="id-1.6.5.7.3.15.4.1.2"></a>
     $ sysctl -w kernel.shmall=4194304
     ```
 
-    To make these settings persist over reboots, see
-    `/etc/sysctl.conf`.
+    若要讓這些設定在重新開機後仍然有效，
+    請參閱 `/etc/sysctl.conf`。
 
 macOS <a id="id-1.6.5.7.3.15.5.1.2"></a>
-:   The default shared memory and semaphore settings are usually good enough, unless
-    you have set `shared_memory_type` to `sysv`.
+:   除非您已將 `shared_memory_type`
+    設定為 `sysv`，否則預設的共享記憶體與號誌設定，
+    通常已經足夠。
 
-    The recommended method for configuring shared memory in macOS
-    is to create a file named `/etc/sysctl.conf`,
-    containing variable assignments such as:
+    在 macOS 上設定共享記憶體，建議的方法，
+    是建立一個名為 `/etc/sysctl.conf` 的檔案，
+    其中包含類似以下的變數指派：
 
     ```
 
@@ -243,42 +256,42 @@ macOS <a id="id-1.6.5.7.3.15.5.1.2"></a>
     kern.sysv.shmall=1024
     ```
 
-    Note that in some macOS versions,
-    *all five* shared-memory parameters must be set in
-    `/etc/sysctl.conf`, else the values will be ignored.
+    請注意，在某些 macOS 版本中，
+    *全部五個*共享記憶體參數，都必須在
+    `/etc/sysctl.conf` 中設定，
+    否則這些值將被忽略。
 
-    `SHMMAX` can only be set to a multiple of 4096.
+    `SHMMAX` 只能設定為 4096 的倍數。
 
-    `SHMALL` is measured in 4 kB pages on this platform.
+    在此平台上，`SHMALL` 是以 4 kB 頁面為單位計算的。
 
-    It is possible to change all but `SHMMNI` on the fly, using
-    sysctl. But it's still best to set up your preferred
-    values via `/etc/sysctl.conf`, so that the values will be
-    kept across reboots.
+    除了 `SHMMNI` 之外，其他參數都可以使用
+    sysctl 即時變更。但最好還是透過
+    `/etc/sysctl.conf`，設定您偏好的值，
+    這樣這些值就能在重新開機後保留下來。
 
 Solaris<br>illumos
-:   The default shared memory and semaphore settings are usually good enough for most
-    PostgreSQL applications. Solaris defaults
-    to a `SHMMAX` of one-quarter of system RAM.
-    To further adjust this setting, use a project setting associated
-    with the `postgres` user. For example, run the
-    following as `root`:
+:   對大多數 PostgreSQL 應用程式而言，
+    預設的共享記憶體與號誌設定，通常已經足夠。Solaris
+    的 `SHMMAX` 預設為系統 RAM 的四分之一。
+    若要進一步調整此設定，請使用與
+    `postgres` 使用者關聯的 project 設定。
+    舉例來說，以 `root` 身分執行以下指令：
 
     ```
 
     projadd -c "PostgreSQL DB User" -K "project.max-shm-memory=(privileged,8GB,deny)" -U postgres -G postgres user.postgres
     ```
 
-    This command adds the `user.postgres` project and
-    sets the shared memory maximum for the `postgres`
-    user to 8GB, and takes effect the next time that user logs
-    in, or when you restart PostgreSQL (not reload).
-    The above assumes that PostgreSQL is run by
-    the `postgres` user in the `postgres`
-    group. No server reboot is required.
+    此指令會新增 `user.postgres` project，
+    並將 `postgres` 使用者的共享記憶體上限，
+    設為 8GB，此設定會在該使用者下次登入時，
+    或您重新啟動（而非重新載入）PostgreSQL 時生效。
+    以上假設 PostgreSQL 是由 `postgres` 群組中的
+    `postgres` 使用者執行的。不需要重新啟動伺服器。
 
-    Other recommended kernel setting changes for database servers which will
-    have a large number of connections are:
+    對於將有大量連線的資料庫伺服器而言，
+    其他建議變更的核心設定包括：
 
     ```
 
@@ -287,102 +300,94 @@ Solaris<br>illumos
     project.max-msg-ids=(priv,4096,deny)
     ```
 
-    Additionally, if you are running PostgreSQL
-    inside a zone, you may need to raise the zone resource usage
-    limits as well. See "Chapter2: Projects and Tasks" in the
-    *System Administrator's Guide* for more
-    information on `projects` and `prctl`.
+    此外，若您在某個 zone 中執行 PostgreSQL，
+    可能也需要提高該 zone 的資源使用限制。
+    關於 `projects` 與 `prctl` 的更多資訊，
+    請參閱*System Administrator's Guide* 中的
+    「Chapter2: Projects and Tasks」。
 
 <a id="SYSTEMD-REMOVEIPC"></a>
 
-### 18.4.2. systemd RemoveIPC [#](#SYSTEMD-REMOVEIPC)
+### 18.4.2. systemd RemoveIPC [#](#SYSTEMD-REMOVEIPC)
 
 <a id="id-1.6.5.7.4.2"></a>
 
-If systemd is in use, some care must be taken
-that IPC resources (including shared memory) are not prematurely
-removed by the operating system. This is especially of concern when
-installing PostgreSQL from source. Users of distribution packages of
-PostgreSQL are less likely to be affected, as
-the `postgres` user is then normally created as a system
-user.
+若使用 systemd，就必須採取一些措施，
+確保 IPC 資源（包括共享記憶體）不會被作業系統提前移除。
+從原始碼安裝 PostgreSQL 時，這一點尤其需要注意。
+使用 PostgreSQL 發行套件的使用者，較不容易受此影響，
+因為在這種情況下，`postgres` 使用者，
+通常會被建立為系統使用者。
 
-The setting `RemoveIPC`
-in `logind.conf` controls whether IPC objects are
-removed when a user fully logs out. System users are exempt. This
-setting defaults to on in stock systemd, but
-some operating system distributions default it to off.
+`logind.conf` 中的 `RemoveIPC` 設定，
+控制著當使用者完全登出時，IPC 物件是否會被移除。
+系統使用者則不受此一「登出時移除 IPC 物件」規則的限制。此設定，在原生 systemd 中，
+預設為開啟，但某些作業系統發行版，
+則預設將其關閉。
 
-A typical observed effect when this setting is on is that shared memory
-objects used for parallel query execution are removed at apparently random
-times, leading to errors and warnings while attempting to open and remove
-them, like
+當此設定為開啟時，一個典型可觀察到的效果，
+是用於平行查詢執行的共享記憶體物件，
+會在看似隨機的時間點被移除，
+導致在嘗試開啟並移除它們時，出現如下的錯誤與警告：
 
 ```
 
 WARNING:  could not remove shared memory segment "/PostgreSQL.1450751626": No such file or directory
 ```
 
-Different types of IPC objects (shared memory vs. semaphores, System V
-vs. POSIX) are treated slightly differently
-by systemd, so one might observe that some IPC
-resources are not removed in the same way as others. But it is not
-advisable to rely on these subtle differences.
+不同類型的 IPC 物件（共享記憶體與號誌、
+System V 與 POSIX），在 systemd 中的處理方式，
+略有不同，因此您可能會觀察到，某些 IPC 資源，
+移除的方式與其他資源並不相同。但不建議依賴
+這些細微的差異。
 
-A “user logging out” might happen as part of a maintenance
-job or manually when an administrator logs in as
-the `postgres` user or something similar, so it is hard
-to prevent in general.
+「使用者登出」可能發生於維護作業期間，
+也可能是管理者以 `postgres` 使用者身分
+（或類似身分）登入後，該次登入所開啟的工作階段最終仍會登出所致，
+因此一般而言，很難完全避免這種情況。
 
-What is a “system user” is determined
-at systemd compile time from
-the `SYS_UID_MAX` setting
-in `/etc/login.defs`.
+「系統使用者」的定義，是在 systemd 編譯時，
+根據 `/etc/login.defs` 中的
+`SYS_UID_MAX` 設定決定的。
 
-Packaging and deployment scripts should be careful to create
-the `postgres` user as a system user by
-using `useradd -r`, `adduser --system`,
-or equivalent.
+封裝與部署指令碼，應謹慎地使用
+`useradd -r`、`adduser --system`
+或等效方式，將 `postgres` 使用者，
+建立為系統使用者。
 
-Alternatively, if the user account was created incorrectly or cannot be
-changed, it is recommended to set
+或者，若該使用者帳號建立方式有誤，
+或無法變更，建議在 `/etc/systemd/logind.conf`
+或其他適當的組態檔中，設定
 
 ```
 
 RemoveIPC=no
 ```
 
-in `/etc/systemd/logind.conf` or another appropriate
-configuration file.
+### 注意
 
-### Caution
-
-At least one of these two things has to be ensured, or the PostgreSQL
-server will be very unreliable.
+上述兩件事，至少必須確保其中一件，
+否則 PostgreSQL 伺服器將會非常不可靠。
 
 <a id="KERNEL-RESOURCES-LIMITS"></a>
 
-### 18.4.3. Resource Limits [#](#KERNEL-RESOURCES-LIMITS)
+### 18.4.3. 資源限制 [#](#KERNEL-RESOURCES-LIMITS)
 
-Unix-like operating systems enforce various kinds of resource limits
-that might interfere with the operation of your
-PostgreSQL server. Of particular
-importance are limits on the number of processes per user, the
-number of open files per process, and the amount of memory available
-to each process. Each of these have a “hard” and a
-“soft” limit. The soft limit is what actually counts
-but it can be changed by the user up to the hard limit. The hard
-limit can only be changed by the root user. The system call
-`setrlimit` is responsible for setting these
-parameters. The shell's built-in command `ulimit`
-(Bourne shells) or `limit` (csh) is
-used to control the resource limits from the command line. On
-BSD-derived systems the file `/etc/login.conf`
-controls the various resource limits set during login. See the
-operating system documentation for details. The relevant
-parameters are `maxproc`,
-`openfiles`, and `datasize`. For
-example:
+類 Unix 作業系統，會強制實施各種可能干擾
+PostgreSQL 伺服器運作的資源限制。特別重要的，
+是每個使用者的程序數量限制、每個程序的
+開啟檔案數量限制，以及每個程序可用的記憶體量限制。
+這些限制，每一項都有「硬性」與「軟性」限制。
+實際生效的是軟性限制，但使用者可以在硬性限制的範圍內，
+變更軟性限制。硬性限制，則只能由 root 使用者變更。
+系統呼叫 `setrlimit`，負責設定這些參數。
+shell 內建的 `ulimit` 指令
+（Bourne shell）或 `limit`（csh），
+則用於從命令列控制資源限制。在衍生自 BSD 的系統上，
+`/etc/login.conf` 檔案，控制著登入期間所設定的
+各項資源限制。詳情請參閱作業系統的相關文件。
+相關參數為 `maxproc`、`openfiles`
+與 `datasize`。舉例來說：
 
 ```
 
@@ -394,140 +399,136 @@ default:\
 ...
 ```
 
-(`-cur` is the soft limit. Append
-`-max` to set the hard limit.)
+（`-cur` 是軟性限制。附加 `-max`，
+則可設定硬性限制。）
 
-Kernels can also have system-wide limits on some resources.
+核心也可能對部分資源，具有系統層級的限制。
 
-* On Linux the kernel parameter
-  `fs.file-max` determines the maximum number of open
-  files that the kernel will support. It can be changed with
-  `sysctl -w fs.file-max=N`.
-  To make the setting persist across reboots, add an assignment
-  in `/etc/sysctl.conf`.
-  The maximum limit of files per process is fixed at the time the
-  kernel is compiled; see
-  `/usr/src/linux/Documentation/proc.txt` for
-  more information.
+* 在 Linux 上，核心參數 `fs.file-max`，
+  決定了核心所支援的最大開啟檔案數量。
+  可以使用 `sysctl -w fs.file-max=N`
+  來變更此值。若要讓此設定在重新開機後仍然有效，
+  請在 `/etc/sysctl.conf` 中，加入對應的指派。
+  每個程序的檔案數量上限，
+  是在核心編譯時就固定的；更多資訊，
+  請參閱 `/usr/src/linux/Documentation/proc.txt`。
 
-The PostgreSQL server uses one process
-per connection so you should provide for at least as many processes
-as allowed connections, in addition to what you need for the rest
-of your system. This is usually not a problem but if you run
-several servers on one machine things might get tight.
+PostgreSQL 伺服器每個連線使用一個伺服器程序（server process），
+因此，除了系統其餘部分所需要的程序之外，
+您應該至少提供與允許連線數相同數量的程序。
+這通常不會構成問題，但若您在同一部機器上，
+執行多個伺服器，情況可能就會變得吃緊。
 
-The factory default limit on open files is often set to
-“socially friendly” values that allow many users to
-coexist on a machine without using an inappropriate fraction of
-the system resources. If you run many servers on a machine this
-is perhaps what you want, but on dedicated servers you might want to
-raise this limit.
+出廠預設的開啟檔案數量限制，通常設定為「對社群友善」的值，
+讓許多使用者能共用一部機器，而不會佔用系統資源中
+不成比例的份額。若您在一部機器上執行多個伺服器，
+這或許正是您想要的，但在專用伺服器上，
+您可能會想要提高此限制。
 
-On the other side of the coin, some systems allow individual
-processes to open large numbers of files; if more than a few
-processes do so then the system-wide limit can easily be exceeded.
-If you find this happening, and you do not want to alter the
-system-wide limit, you can set PostgreSQL's [max_files_per_process](../runtime-config/runtime-config-resource.md#GUC-MAX-FILES-PER-PROCESS) configuration parameter to
-limit the consumption of open files.
+另一方面，有些系統，則允許個別程序，
+開啟大量的檔案；若超過少數幾個程序都這麼做，
+系統層級的限制，就可能輕易被超過。若您發現這種情況發生，
+且不想變更系統層級的限制，可以設定 PostgreSQL 的
+[max_files_per_process](../runtime-config/runtime-config-resource.md#GUC-MAX-FILES-PER-PROCESS)
+組態參數，來限制開啟檔案的消耗量。
 
-Another kernel limit that may be of concern when supporting large
-numbers of client connections is the maximum socket connection queue
-length. If more than that many connection requests arrive within a very
-short period, some may get rejected before the PostgreSQL server can service
-the requests, with those clients receiving unhelpful connection failure
-errors such as “Resource temporarily unavailable” or
-“Connection refused”. The default queue length limit is 128
-on many platforms. To raise it, adjust the appropriate kernel parameter
-via sysctl, then restart the PostgreSQL server.
-The parameter is variously named `net.core.somaxconn`
-on Linux, `kern.ipc.soacceptqueue` on newer FreeBSD,
-and `kern.ipc.somaxconn` on macOS and other BSD
-variants.
+在支援大量用戶端連線時，另一項可能需要留意的核心限制，
+是最大 socket 連線佇列長度。若在極短時間內，
+湧入超過該數量的連線請求，其中某些請求，
+可能會在 PostgreSQL 伺服器有機會處理之前就被拒絕，
+導致這些用戶端收到無助於診斷的連線失敗錯誤，
+例如「Resource temporarily unavailable」
+或「Connection refused」。在許多平台上，
+預設的佇列長度限制為 128。若要提高此限制，
+請透過 sysctl，調整對應的核心參數，
+然後重新啟動 PostgreSQL 伺服器。此參數，
+在 Linux 上命名為 `net.core.somaxconn`，
+在較新版本的 FreeBSD 上，
+命名為 `kern.ipc.soacceptqueue`，
+在 macOS 與其他 BSD 變體上，
+則命名為 `kern.ipc.somaxconn`。
 
 <a id="LINUX-MEMORY-OVERCOMMIT"></a>
 
-### 18.4.4. Linux Memory Overcommit [#](#LINUX-MEMORY-OVERCOMMIT)
+### 18.4.4. Linux 記憶體超額分配（Overcommit） [#](#LINUX-MEMORY-OVERCOMMIT)
 
 <a id="id-1.6.5.7.6.2"></a><a id="id-1.6.5.7.6.3"></a><a id="id-1.6.5.7.6.4"></a>
 
-The default virtual memory behavior on Linux is not
-optimal for PostgreSQL. Because of the
-way that the kernel implements memory overcommit, the kernel might
-terminate the PostgreSQL postmaster (the
-supervisor server process) if the memory demands of either
-PostgreSQL or another process cause the
-system to run out of virtual memory.
+Linux 預設的虛擬記憶體行為，對 PostgreSQL
+而言，並非最理想的設定。由於核心實作記憶體超額分配的方式，
+若 PostgreSQL 或其他程序的記憶體需求，
+導致系統的虛擬記憶體耗盡，核心可能會終止
+PostgreSQL 的 postmaster，也就是監督者伺服器程序（server process）。
 
-If this happens, you will see a kernel message that looks like
-this (consult your system documentation and configuration on where
-to look for such a message):
+若發生這種情況，您會看到類似以下的核心訊息
+（請查閱您系統的文件與設定，了解應在何處查看此類訊息）：
 
 ```
 
 Out of Memory: Killed process 12345 (postgres).
 ```
 
-This indicates that the `postgres` process
-has been terminated due to memory pressure.
-Although existing database connections will continue to function
-normally, no new connections will be accepted. To recover,
-PostgreSQL will need to be restarted.
+這表示 `postgres` 程序，
+已因記憶體壓力而被終止。雖然既有的資料庫連線，
+仍會繼續正常運作，但不會再接受任何新的連線。
+若要復原，就必須重新啟動 PostgreSQL。
 
-One way to avoid this problem is to run
-PostgreSQL on a machine where you can
-be sure that other processes will not run the machine out of
-memory. If memory is tight, increasing the swap space of the
-operating system can help avoid the problem, because the
-out-of-memory (OOM) killer is invoked only when physical memory and
-swap space are exhausted.
+避免這個問題的其中一種方法，是在一部您能夠確定，
+其他程序不會耗盡機器記憶體的機器上，
+執行 PostgreSQL。若記憶體吃緊，
+增加作業系統的交換空間，有助於避免這個問題，
+因為只有在實體記憶體與交換空間都耗盡時，
+才會觸發 OOM killer。
 
-If PostgreSQL itself is the cause of the
-system running out of memory, you can avoid the problem by changing
-your configuration. In some cases, it may help to lower memory-related
-configuration parameters, particularly
-[`shared_buffers`](../runtime-config/runtime-config-resource.md#GUC-SHARED-BUFFERS),
-[`work_mem`](../runtime-config/runtime-config-resource.md#GUC-WORK-MEM), and
-[`hash_mem_multiplier`](../runtime-config/runtime-config-resource.md#GUC-HASH-MEM-MULTIPLIER).
-In other cases, the problem may be caused by allowing too many
-connections to the database server itself. In many cases, it may
-be better to reduce
-[`max_connections`](../runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS)
-and instead make use of external connection-pooling software.
+若造成系統記憶體耗盡的是 PostgreSQL 本身，
+您可以透過變更組態設定，來避免此問題。在某些情況下，
+降低與記憶體相關的組態參數，可能會有幫助，
+特別是
+[`shared_buffers`](../runtime-config/runtime-config-resource.md#GUC-SHARED-BUFFERS)、
+[`work_mem`](../runtime-config/runtime-config-resource.md#GUC-WORK-MEM)
+與
+[`hash_mem_multiplier`](../runtime-config/runtime-config-resource.md#GUC-HASH-MEM-MULTIPLIER)。
+在其他情況下，問題可能是由允許過多連線到
+資料庫伺服器本身所造成的。在許多情況下，
+降低
+[`max_connections`](../runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS)，
+改用外部的連線池軟體，可能會是更好的做法。
 
-It is possible to modify the
-kernel's behavior so that it will not “overcommit” memory.
-Although this setting will not prevent the [OOM killer](https://lwn.net/Articles/104179/) from being invoked
-altogether, it will lower the chances significantly and will therefore
-lead to more robust system behavior. This is done by selecting strict
-overcommit mode via `sysctl`:
+可以修改核心的行為，讓它不會「超額分配」記憶體。
+雖然這項設定，並無法完全防止
+[OOM killer](https://lwn.net/Articles/104179/) 被觸發，
+但能大幅降低其發生機率，因此有助於系統行為更加穩健。
+做法是透過 `sysctl`，選擇嚴格的超額分配模式：
 
 ```
 
 sysctl -w vm.overcommit_memory=2
 ```
 
-or placing an equivalent entry in `/etc/sysctl.conf`.
-You might also wish to modify the related setting
-`vm.overcommit_ratio`. For details see the kernel documentation
-file <https://www.kernel.org/doc/Documentation/vm/overcommit-accounting>.
+或者在 `/etc/sysctl.conf` 中，
+加入等效的項目。您可能也會想要修改相關設定
+`vm.overcommit_ratio`。詳情請參閱核心文件檔案
+<https://www.kernel.org/doc/Documentation/vm/overcommit-accounting>。
 
-Another approach, which can be used with or without altering
-`vm.overcommit_memory`, is to set the process-specific
-*OOM score adjustment* value for the postmaster process to
-`-1000`, thereby guaranteeing it will not be targeted by the OOM
-killer. The simplest way to do this is to execute
+另一種做法，可以搭配或不搭配變更
+`vm.overcommit_memory` 使用，
+是將 postmaster 程序特定的
+*OOM 分數調整*（OOM score adjustment）值，
+設定為 `-1000`，藉此保證它不會成為
+OOM killer 的目標。最簡單的做法，
+是在啟動指令碼中，於呼叫 `postgres`
+之前，執行
 
 ```
 
 echo -1000 > /proc/self/oom_score_adj
 ```
 
-in the PostgreSQL startup script just before
-invoking `postgres`.
-Note that this action must be done as root, or it will have no effect;
-so a root-owned startup script is the easiest place to do it. If you
-do this, you should also set these environment variables in the startup
-script before invoking `postgres`:
+請注意，此動作必須以 root 身分執行，
+否則不會有任何效果；因此，由 root 擁有的啟動指令碼，
+是執行此動作最簡單的地方。若您這麼做，
+也應該在呼叫 `postgres` 之前，
+在啟動指令碼中設定以下環境變數：
 
 ```
 
@@ -535,31 +536,35 @@ export PG_OOM_ADJUST_FILE=/proc/self/oom_score_adj
 export PG_OOM_ADJUST_VALUE=0
 ```
 
-These settings will cause postmaster child processes to run with the
-normal OOM score adjustment of zero, so that the OOM killer can still
-target them at need. You could use some other value for
-`PG_OOM_ADJUST_VALUE` if you want the child processes to run
-with some other OOM score adjustment. (`PG_OOM_ADJUST_VALUE`
-can also be omitted, in which case it defaults to zero.) If you do not
-set `PG_OOM_ADJUST_FILE`, the child processes will run with the
-same OOM score adjustment as the postmaster, which is unwise since the
-whole point is to ensure that the postmaster has a preferential setting.
+這些設定，會讓 postmaster 的子程序，
+以正常的 OOM 分數調整值零執行，
+如此一來，OOM killer 在需要時，
+仍能以它們為目標。若您希望子程序，
+以其他的 OOM 分數調整值執行，
+可以為 `PG_OOM_ADJUST_VALUE` 使用其他值。
+（也可以省略 `PG_OOM_ADJUST_VALUE`，
+此時預設值為零。）若您未設定
+`PG_OOM_ADJUST_FILE`，子程序，
+就會以與 postmaster 相同的 OOM 分數調整值執行，
+這並不明智，因為整個做法的重點，
+就是要確保 postmaster 具有優先的設定。
 
 <a id="LINUX-HUGE-PAGES"></a>
 
-### 18.4.5. Linux Huge Pages [#](#LINUX-HUGE-PAGES)
+### 18.4.5. Linux 大頁（Huge Pages） [#](#LINUX-HUGE-PAGES)
 
-Using huge pages reduces overhead when using large contiguous chunks of
-memory, as PostgreSQL does, particularly when
-using large values of [shared_buffers](../runtime-config/runtime-config-resource.md#GUC-SHARED-BUFFERS). To use this
-feature in PostgreSQL you need a kernel
-with `CONFIG_HUGETLBFS=y` and
-`CONFIG_HUGETLB_PAGE=y`. You will also have to configure
-the operating system to provide enough huge pages of the desired size.
-The runtime-computed parameter
-[shared_memory_size_in_huge_pages](../runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES) reports the number
-of huge pages required. This parameter can be viewed before starting the
-server with a `postgres` command like:
+在使用大塊連續記憶體時（如 PostgreSQL 所做的那樣），
+使用大頁（huge pages），能夠降低額外負擔，
+特別是在使用較大的
+[shared_buffers](../runtime-config/runtime-config-resource.md#GUC-SHARED-BUFFERS)
+值時。若要在 PostgreSQL 中使用此功能，
+您需要一個具有 `CONFIG_HUGETLBFS=y`
+與 `CONFIG_HUGETLB_PAGE=y` 的核心。
+您也必須設定作業系統，提供足夠數量、
+所需大小的大頁。執行期計算所得的參數
+[shared_memory_size_in_huge_pages](../runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES)，
+會回報所需要的大頁數量。可以在啟動伺服器之前，
+透過類似以下的 `postgres` 指令查看此參數：
 
 ```
 
@@ -571,61 +576,65 @@ $ ls /sys/kernel/mm/hugepages
 hugepages-1048576kB  hugepages-2048kB
 ```
 
-In this example the default is 2MB, but you can also explicitly request
-either 2MB or 1GB with [huge_page_size](../runtime-config/runtime-config-resource.md#GUC-HUGE-PAGE-SIZE) to adapt
-the number of pages calculated by
-`shared_memory_size_in_huge_pages`.
-While we need at least `3170` huge pages in this example,
-a larger setting would be appropriate if other programs on the machine
-also need huge pages.
-We can set this with:
+在此範例中，預設值為 2MB，但您也可以透過
+[huge_page_size](../runtime-config/runtime-config-resource.md#GUC-HUGE-PAGE-SIZE)，
+明確要求使用 2MB 或 1GB，
+以調整
+`shared_memory_size_in_huge_pages`
+所計算出的頁面數量。雖然在此範例中，
+我們至少需要 `3170` 個大頁，
+但若機器上其他程式，也需要用到大頁，
+設定較高的值會比較合適。
+我們可以透過以下方式設定此值：
 
 ```
 
 # sysctl -w vm.nr_hugepages=3170
 ```
 
-Don't forget to add this setting to `/etc/sysctl.conf`
-so that it is reapplied after reboots. For non-default huge page sizes,
-we can instead use:
+別忘了將此設定加入 `/etc/sysctl.conf`，
+讓它在重新開機後仍會重新套用。對於非預設大小的大頁，
+我們則可以改用：
 
 ```
 
 # echo 3170 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
 ```
 
-It is also possible to provide these settings at boot time using
-kernel parameters such as `hugepagesz=2M hugepages=3170`.
+也可以在開機時，透過類似
+`hugepagesz=2M hugepages=3170` 的核心參數，
+提供這些設定。
 
-Sometimes the kernel is not able to allocate the desired number of huge
-pages immediately due to fragmentation, so it might be necessary
-to repeat the command or to reboot. (Immediately after a reboot, most of
-the machine's memory should be available to convert into huge pages.)
-To verify the huge page allocation situation for a given size, use:
+有時，由於記憶體碎片化，核心無法立即配置
+所需數量的大頁，因此可能需要重複執行該指令，
+或重新開機。（重新開機之後不久，
+機器的大部分記憶體，應該都能用來轉換為大頁。）
+若要確認某個特定大小的大頁配置情況，
+請使用：
 
 ```
 
 $ cat /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
 ```
 
-It may also be necessary to give the database server's operating system
-user permission to use huge pages by setting
-`vm.hugetlb_shm_group` via sysctl, and/or
-give permission to lock memory with `ulimit -l`.
+也可能需要透過 sysctl 設定
+`vm.hugetlb_shm_group`，
+授予資料庫伺服器的作業系統使用者使用大頁的權限，
+及／或透過 `ulimit -l`，
+授予鎖定記憶體的權限。
 
-The default behavior for huge pages in
-PostgreSQL is to use them when possible, with
-the system's default huge page size, and
-to fall back to normal pages on failure. To enforce the use of huge
-pages, you can set [huge_pages](../runtime-config/runtime-config-resource.md#GUC-HUGE-PAGES)
-to `on` in `postgresql.conf`.
-Note that with this setting PostgreSQL will fail to
-start if not enough huge pages are available.
+PostgreSQL 對大頁的預設行為，
+是在可能的情況下，使用系統預設大小的大頁，
+並在失敗時回退為一般頁面。若要強制使用大頁，
+您可以在 `postgresql.conf` 中，
+將 [huge_pages](../runtime-config/runtime-config-resource.md#GUC-HUGE-PAGES)
+設定為 `on`。請注意，在此設定下，
+若可用的大頁數量不足，PostgreSQL 將無法啟動。
 
-For a detailed description of the Linux huge
-pages feature have a look
-at <https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt>.
+關於 Linux 大頁功能的詳細說明，
+請參閱
+<https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt>。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/kernel-resources.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/kernel-resources.html)（原文版本：18.6；核對日期：2026-09-26）
