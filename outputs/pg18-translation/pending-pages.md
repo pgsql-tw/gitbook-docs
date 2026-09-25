@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：618 頁。
+待譯頁面：617 頁。
 
 ## 根目錄
 
@@ -751,7 +751,7 @@
 - [x] `server-administration/jit/jit-configuration.md` — 30.3. 設定
 - [ ] `server-administration/jit/jit-decision.md` — 30.2. When to JIT ? #
 - [x] `server-administration/jit/jit-extensibility.md` — 30.4. 可擴充性 #
-- [ ] `server-administration/jit/jit-reason.md` — 30.1. What Is JIT compilation? #
+- [x] `server-administration/jit/jit-reason.md` — 30.1. 什麼是 JIT 編譯？ #
 - [ ] `server-administration/logical-replication/README.md` — Chapter 29. Logical Replication
 - [x] `server-administration/logical-replication/logical-replication-architecture.md` — 29.9. 架構 #
 - [ ] `server-administration/logical-replication/logical-replication-col-lists.md` — 29.5. Column Lists #
