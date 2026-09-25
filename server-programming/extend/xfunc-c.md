@@ -1,145 +1,143 @@
-## 36.10. C-Language Functions [#](#XFUNC-C)
+<a id="XFUNC-C"></a>
+## 36.10. C 語言函式 [#](#XFUNC-C)
 
-[36.10.1. Dynamic Loading](xfunc-c.md#XFUNC-C-DYNLOAD)
+[36.10.1. 動態載入](xfunc-c.md#XFUNC-C-DYNLOAD)
 
-[36.10.2. Base Types in C-Language Functions](xfunc-c.md#XFUNC-C-BASETYPE)
+[36.10.2. C 語言函式中的基礎型別](xfunc-c.md#XFUNC-C-BASETYPE)
 
-[36.10.3. Version 1 Calling Conventions](xfunc-c.md#XFUNC-C-V1-CALL-CONV)
+[36.10.3. 版本 1 呼叫慣例](xfunc-c.md#XFUNC-C-V1-CALL-CONV)
 
-[36.10.4. Writing Code](xfunc-c.md#XFUNC-C-CODE)
+[36.10.4. 撰寫程式碼](xfunc-c.md#XFUNC-C-CODE)
 
-[36.10.5. Compiling and Linking Dynamically-Loaded Functions](xfunc-c.md#DFUNC)
+[36.10.5. 編譯與連結動態載入的函式](xfunc-c.md#DFUNC)
 
-[36.10.6. Server API and ABI Stability Guidance](xfunc-c.md#XFUNC-API-ABI-STABILITY-GUIDANCE)
+[36.10.6. 伺服器 API 與 ABI 穩定性指引](xfunc-c.md#XFUNC-API-ABI-STABILITY-GUIDANCE)
 
-[36.10.7. Composite-Type Arguments](xfunc-c.md#XFUNC-C-COMPOSITE-TYPE-ARGS)
+[36.10.7. 複合型別引數](xfunc-c.md#XFUNC-C-COMPOSITE-TYPE-ARGS)
 
-[36.10.8. Returning Rows (Composite Types)](xfunc-c.md#XFUNC-C-RETURNING-ROWS)
+[36.10.8. 傳回資料列（複合型別）](xfunc-c.md#XFUNC-C-RETURNING-ROWS)
 
-[36.10.9. Returning Sets](xfunc-c.md#XFUNC-C-RETURN-SET)
+[36.10.9. 傳回集合](xfunc-c.md#XFUNC-C-RETURN-SET)
 
-[36.10.10. Polymorphic Arguments and Return Types](xfunc-c.md#XFUNC-C-POLYMORPHIC)
+[36.10.10. 多型引數與傳回型別](xfunc-c.md#XFUNC-C-POLYMORPHIC)
 
-[36.10.11. Shared Memory](xfunc-c.md#XFUNC-SHARED-ADDIN)
+[36.10.11. 共享記憶體](xfunc-c.md#XFUNC-SHARED-ADDIN)
 
 [36.10.12. LWLocks](xfunc-c.md#XFUNC-ADDIN-LWLOCKS)
 
-[36.10.13. Custom Wait Events](xfunc-c.md#XFUNC-ADDIN-WAIT-EVENTS)
+[36.10.13. 自訂等待事件](xfunc-c.md#XFUNC-ADDIN-WAIT-EVENTS)
 
-[36.10.14. Injection Points](xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS)
+[36.10.14. 注入點（Injection Points）](xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS)
 
-[36.10.15. Custom Cumulative Statistics](xfunc-c.md#XFUNC-ADDIN-CUSTOM-CUMULATIVE-STATISTICS)
+[36.10.15. 自訂累計統計資訊](xfunc-c.md#XFUNC-ADDIN-CUSTOM-CUMULATIVE-STATISTICS)
 
-[36.10.16. Using C++ for Extensibility](xfunc-c.md#EXTEND-CPP)
+[36.10.16. 使用 C++ 來擴充功能](xfunc-c.md#EXTEND-CPP)
 
 <a id="id-1.8.3.13.2"></a>
 
-User-defined functions can be written in C (or a language that can
-be made compatible with C, such as C++). Such functions are
-compiled into dynamically loadable objects (also called shared
-libraries) and are loaded by the server on demand. The dynamic
-loading feature is what distinguishes “C language” functions
-from “internal” functions — the actual coding conventions
-are essentially the same for both. (Hence, the standard internal
-function library is a rich source of coding examples for user-defined
-C functions.)
+使用者定義函式可以用 C（或是可以與 C 相容的語言，
+例如 C++）撰寫。這類函式會被
+編譯成可動態載入的物件（也稱為共享
+函式庫），並由伺服器依需要載入。動態
+載入這項特性，是「C 語言」函式與「內部」（internal）函式
+之間的區別——兩者實際的撰碼慣例
+本質上是相同的。（因此，標準內部
+函式庫，是使用者定義 C 函式撰碼範例的豐富來源。）
 
-Currently only one calling convention is used for C functions
-(“version 1”). Support for that calling convention is
-indicated by writing a `PG_FUNCTION_INFO_V1()` macro
-call for the function, as illustrated below.
+目前 C 函式只使用一種呼叫慣例
+（「版本 1」）。對此呼叫慣例的支援，
+是透過為函式撰寫一個 `PG_FUNCTION_INFO_V1()`
+巨集呼叫來表示的，如下所示。
 
 <a id="XFUNC-C-DYNLOAD"></a>
 
-### 36.10.1. Dynamic Loading [#](#XFUNC-C-DYNLOAD)
+### 36.10.1. 動態載入 [#](#XFUNC-C-DYNLOAD)
 
 <a id="id-1.8.3.13.5.2"></a>
 
-The first time a user-defined function in a particular
-loadable object file is called in a session,
-the dynamic loader loads that object file into memory so that the
-function can be called. The `CREATE FUNCTION`
-for a user-defined C function must therefore specify two pieces of
-information for the function: the name of the loadable
-object file, and the C name (link symbol) of the specific function to call
-within that object file. If the C name is not explicitly specified then
-it is assumed to be the same as the SQL function name.
+當某個工作階段第一次呼叫特定可載入物件檔案
+中的使用者定義函式時，
+動態載入器會將該物件檔案載入記憶體，
+以便呼叫該函式。因此，使用者定義 C 函式的
+`CREATE FUNCTION` 必須為此函式指定兩項
+資訊：可載入物件檔案的名稱，
+以及要在該物件檔案中呼叫之特定函式的 C 名稱（連結符號）。若未明確指定
+C 名稱，則會假設其與 SQL 函式名稱相同。
 
-The following algorithm is used to locate the shared object file
-based on the name given in the `CREATE FUNCTION`
-command:
+以下演算法會依據 `CREATE FUNCTION`
+指令中所給的名稱，用來找出共享物件檔案：
 
-1. If the name is an absolute path, the given file is loaded.
-2. If the name starts with the string `$libdir`,
-   that part is replaced by the PostgreSQL package
-   library directory
-   name, which is determined at build time.<a id="id-1.8.3.13.5.4.2.2.1.3"></a>
-3. If the name does not contain a directory part, the file is
-   searched for in the path specified by the configuration variable
-   [dynamic_library_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH).<a id="id-1.8.3.13.5.4.2.3.1.2"></a>
-4. Otherwise (the file was not found in the path, or it contains a
-   non-absolute directory part), the dynamic loader will try to
-   take the name as given, which will most likely fail. (It is
-   unreliable to depend on the current working directory.)
+1. 若該名稱是絕對路徑，就會載入所指定的檔案。
+2. 若該名稱以字串 `$libdir` 開頭，
+   這部分會被替換為 PostgreSQL 套件
+   函式庫目錄
+   名稱，這是在建置時決定的。<a id="id-1.8.3.13.5.4.2.2.1.3"></a>
+3. 若該名稱不含目錄部分，就會在組態變數
+   [dynamic_library_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH)所指定的路徑中
+   搜尋該檔案。<a id="id-1.8.3.13.5.4.2.3.1.2"></a>
+4. 否則（在路徑中找不到該檔案，或它含有
+   非絕對路徑的目錄部分），動態載入器就會嘗試
+   直接使用所給的名稱，這很可能會失敗。（依賴
+   目前工作目錄是不可靠的。）
 
-If this sequence does not work, the platform-specific shared
-library file name extension (often `.so`) is
-appended to the given name and this sequence is tried again. If
-that fails as well, the load will fail.
+若這個順序都不成功，系統會在所給的名稱後面
+附加特定平台的共享函式庫檔案名稱副檔名
+（通常是 `.so`），並再次嘗試
+這個順序。若這樣仍然失敗，
+載入就會失敗。
 
-It is recommended to locate shared libraries either relative to
-`$libdir` or through the dynamic library path.
-This simplifies version upgrades if the new installation is at a
-different location. The actual directory that
-`$libdir` stands for can be found out with the
-command `pg_config --pkglibdir`.
+建議將共享函式庫的位置，設定為相對於
+`$libdir`，或透過動態函式庫路徑來指定。
+如此一來，若新安裝的位置不同，就能簡化
+版本升級的作業。`$libdir`
+實際所代表的目錄，可以透過
+`pg_config --pkglibdir` 指令查出。
 
-The user ID the PostgreSQL server runs
-as must be able to traverse the path to the file you intend to
-load. Making the file or a higher-level directory not readable
-and/or not executable by the postgres
-user is a common mistake.
+執行 PostgreSQL 伺服器的使用者 ID
+必須能夠走訪到您打算載入之檔案的路徑。
+讓該檔案或更上層的目錄，對 postgres
+使用者而言不可讀取及／或不可執行，是常見的
+錯誤。
 
-In any case, the file name that is given in the
-`CREATE FUNCTION` command is recorded literally
-in the system catalogs, so if the file needs to be loaded again
-the same procedure is applied.
+無論如何，`CREATE FUNCTION` 指令中所給定的
+檔案名稱，都會被逐字記錄在系統目錄中，
+因此若該檔案需要再次載入，系統就會採用
+相同的程序。
 
-### Note
+### 注意
 
-PostgreSQL will not compile a C function
-automatically. The object file must be compiled before it is referenced
-in a `CREATE
-FUNCTION` command. See [Section 36.10.5](xfunc-c.md#DFUNC) for additional
-information.
+PostgreSQL 不會自動編譯 C
+函式。物件檔案必須先編譯完成，才能在 `CREATE
+FUNCTION` 指令中參照它。詳情請參閱
+[36.10.5 節](xfunc-c.md#DFUNC)。
 
 <a id="id-1.8.3.13.5.9"></a><a id="id-1.8.3.13.5.10"></a>
 
-To ensure that a dynamically loaded object file is not loaded into an
-incompatible server, PostgreSQL checks that the
-file contains a “magic block” with the appropriate contents.
-This allows the server to detect obvious incompatibilities, such as code
-compiled for a different major version of
-PostgreSQL. To include a magic block,
-write this in one (and only one) of the module source files, after having
-included the header `fmgr.h`:
+為確保動態載入的物件檔案不會被載入到
+不相容的伺服器中，PostgreSQL 會檢查
+該檔案是否包含具有適當內容的「魔術區塊」（magic block）。
+這讓伺服器能夠偵測到明顯的不相容情況，例如程式碼是
+為不同的 PostgreSQL 主要版本
+編譯的。若要加入魔術區塊，
+請在納入標頭檔 `fmgr.h` 之後，
+於模組原始碼檔案中的其中一個（且僅限一個）檔案中，寫入以下內容：
 
 ```
 
 PG_MODULE_MAGIC;
 ```
 
-or
+或
 
 ```
 
 PG_MODULE_MAGIC_EXT(parameters);
 ```
 
-The `PG_MODULE_MAGIC_EXT` variant allows the specification
-of additional information about the module; currently, a name and/or a
-version string can be added. (More fields might be allowed in future.)
-Write something like this:
+`PG_MODULE_MAGIC_EXT` 這個變體，允許
+指定關於此模組的額外資訊；目前可以加入
+名稱及／或版本字串。（未來可能會允許更多欄位。）
+請寫成類似這樣：
 
 ```
 
@@ -149,57 +147,58 @@ PG_MODULE_MAGIC_EXT(
 );
 ```
 
-Subsequently the name and version can be examined via
-the `pg_get_loaded_modules()` function.
-The meaning of the version string is not restricted
-by PostgreSQL, but use of semantic versioning
-rules is recommended.
+之後可以透過
+`pg_get_loaded_modules()` 函式來檢視此名稱與版本。
+版本字串的意義並不受
+PostgreSQL 所限制，但建議使用語意化版本
+（semantic versioning）規則。
 
-After it is used for the first time, a dynamically loaded object
-file is retained in memory. Future calls in the same session to
-the function(s) in that file will only incur the small overhead of
-a symbol table lookup. If you need to force a reload of an object
-file, for example after recompiling it, begin a fresh session.
+動態載入的物件檔案在第一次使用之後，
+會被保留在記憶體中。同一個工作階段中，日後對該檔案中
+函式的呼叫，只會產生查詢符號表這種
+小額的額外開銷。若您需要強制重新載入物件
+檔案，舉例來說在重新編譯之後，請開始一個新的
+工作階段。
 
 <a id="id-1.8.3.13.5.14"></a><a id="id-1.8.3.13.5.15"></a>
 
-Optionally, a dynamically loaded file can contain an initialization
-function. If the file includes a function named
-`_PG_init`, that function will be called immediately after
-loading the file. The function receives no parameters and should
-return void. There is presently no way to unload a dynamically loaded file.
+動態載入的檔案可以選擇性地包含一個初始化
+函式。若該檔案包含一個名為
+`_PG_init` 的函式，該函式會在載入此檔案之後
+立即被呼叫。此函式不接受任何參數，且應該
+傳回 void。目前沒有辦法卸載已動態載入的檔案。
 
 <a id="XFUNC-C-BASETYPE"></a>
 
-### 36.10.2. Base Types in C-Language Functions [#](#XFUNC-C-BASETYPE)
+### 36.10.2. C 語言函式中的基礎型別 [#](#XFUNC-C-BASETYPE)
 
 <a id="id-1.8.3.13.6.2"></a>
 
-To know how to write C-language functions, you need to know how
-PostgreSQL internally represents base
-data types and how they can be passed to and from functions.
-Internally, PostgreSQL regards a base
-type as a “blob of memory”. The user-defined
-functions that you define over a type in turn define the way that
-PostgreSQL can operate on it. That
-is, PostgreSQL will only store and
-retrieve the data from disk and use your user-defined functions
-to input, process, and output the data.
+要知道如何撰寫 C 語言函式，您需要了解
+PostgreSQL 內部如何表示基礎
+資料型別，以及如何將它們傳入函式與從函式傳出。
+在內部，PostgreSQL 把基礎
+型別視為一個「記憶體區塊」（blob of memory）。您在某個型別上
+定義的使用者定義函式，接著就定義了
+PostgreSQL 能夠如何操作該型別。也就
+是說，PostgreSQL 只會將資料
+儲存到磁碟、從磁碟取出，並使用您所定義的使用者定義函式
+來輸入、處理及輸出資料。
 
-Base types can have one of three internal formats:
+基礎型別可以採用以下三種內部格式之一：
 
-* pass by value, fixed-length
-* pass by reference, fixed-length
-* pass by reference, variable-length
+* 依值傳遞，固定長度
+* 依參照傳遞，固定長度
+* 依參照傳遞，可變長度
 
-By-value types can only be 1, 2, or 4 bytes in length
-(also 8 bytes, if `sizeof(Datum)` is 8 on your machine).
-You should be careful to define your types such that they will be the
-same size (in bytes) on all architectures. For example, the
-`long` type is dangerous because it is 4 bytes on some
-machines and 8 bytes on others, whereas `int` type is 4 bytes
-on most Unix machines. A reasonable implementation of the
-`int4` type on Unix machines might be:
+依值傳遞的型別，長度只能是 1、2 或 4 個位元組
+（若您機器上 `sizeof(Datum)` 為 8，則也可以是 8 個位元組）。
+您應該小心地定義您的型別，讓它們在所有架構上
+的（位元組）大小都相同。舉例來說，
+`long` 型別就相當危險，因為它在某些機器上是 4 個位元組，
+在其他機器上則是 8 個位元組，而 `int` 型別
+在大多數 Unix 機器上是 4 個位元組。在 Unix 機器上，
+`int4` 型別的一種合理實作方式可能是：
 
 ```
 
@@ -207,16 +206,16 @@ on most Unix machines. A reasonable implementation of the
 typedef int int4;
 ```
 
-(The actual PostgreSQL C code calls this type `int32`, because
-it is a convention in C that `intXX`
-means *`XX`* *bits*. Note
-therefore also that the C type `int8` is 1 byte in size. The
-SQL type `int8` is called `int64` in C. See also
-[Table 36.2](xfunc-c.md#XFUNC-C-TYPE-TABLE).)
+（實際的 PostgreSQL C 程式碼將此型別稱為 `int32`，
+因為在 C 語言中有一項慣例，`intXX`
+代表*`XX`* *位元*。因此也請注意，
+C 型別 `int8` 的大小是 1 個位元組。SQL
+型別 `int8` 在 C 中稱為 `int64`。另請參閱
+[表 36.2](xfunc-c.md#XFUNC-C-TYPE-TABLE)。）
 
-On the other hand, fixed-length types of any size can
-be passed by-reference. For example, here is a sample
-implementation of a PostgreSQL type:
+另一方面，任何大小的固定長度型別，都可以
+依參照傳遞。舉例來說，以下是一個
+PostgreSQL 型別的實作範例：
 
 ```
 
@@ -227,42 +226,44 @@ typedef struct
 } Point;
 ```
 
-Only pointers to such types can be used when passing
-them in and out of PostgreSQL functions.
-To return a value of such a type, allocate the right amount of
-memory with `palloc`, fill in the allocated memory,
-and return a pointer to it. (Also, if you just want to return the
-same value as one of your input arguments that's of the same data type,
-you can skip the extra `palloc` and just return the
-pointer to the input value.)
+在 PostgreSQL 函式中傳入與傳出
+這類型別時，只能使用指向它們的指標。
+若要傳回此類型別的值，請用
+`palloc` 配置適當大小的記憶體，
+填入所配置的記憶體，然後傳回指向它的指標。（此外，
+若您只是想傳回與您某個輸入引數相同資料型別的相同值，
+可以省略額外的 `palloc`，直接傳回指向
+輸入值的指標。）
 
-Finally, all variable-length types must also be passed
-by reference. All variable-length types must begin
-with an opaque length field of exactly 4 bytes, which will be set
-by `SET_VARSIZE`; never set this field directly! All data to
-be stored within that type must be located in the memory
-immediately following that length field. The
-length field contains the total length of the structure,
-that is, it includes the size of the length field
-itself.
+最後，所有可變長度的型別，也都必須
+依參照傳遞。所有可變長度型別的開頭，都必須是
+恰好 4 個位元組的不透明長度欄位，該欄位會由
+`SET_VARSIZE` 設定；請絕對不要直接設定這個欄位！所有要
+儲存在該型別中的資料，都必須位於緊接在
+該長度欄位之後的記憶體中。這個
+長度欄位包含此結構的總長度，
+也就是說，它也包含了長度欄位
+本身的大小。
 
-Another important point is to avoid leaving any uninitialized bits
-within data type values; for example, take care to zero out any
-alignment padding bytes that might be present in structs. Without
-this, logically-equivalent constants of your data type might be
-seen as unequal by the planner, leading to inefficient (though not
-incorrect) plans.
+另一個重點是，要避免在資料型別的值中
+留下任何未初始化的位元；舉例來說，請小心地將
+結構中可能出現的任何對齊填補位元組清零。
+若不這麼做，規劃器可能會將您資料型別中
+邏輯上相等的常數視為不相等，
+導致（雖然不算錯誤，但）效率不佳的執行計畫。
 
-### Warning
+<a id="id-1.8.3.13.6.3"></a>
 
-*Never* modify the contents of a pass-by-reference input
-value. If you do so you are likely to corrupt on-disk data, since
-the pointer you are given might point directly into a disk buffer.
-The sole exception to this rule is explained in
-[Section 36.12](xaggr.md).
+### 警告
 
-As an example, we can define the type `text` as
-follows:
+*絕對不要*修改依參照傳遞之輸入值的內容。
+若您這麼做，很可能會損毀磁碟上的資料，
+因為您取得的指標，可能直接指向磁碟緩衝區。
+此規則唯一的例外，說明於
+[36.12 節](xaggr.md)中。
+
+舉例來說，我們可以像這樣定義 `text`
+型別：
 
 ```
 
@@ -272,14 +273,14 @@ typedef struct {
 } text;
 ```
 
-The `[FLEXIBLE_ARRAY_MEMBER]` notation means that the actual
-length of the data part is not specified by this declaration.
+`[FLEXIBLE_ARRAY_MEMBER]` 表示法，代表資料部分的實際
+長度，並未由此宣告所指定。
 
-When manipulating
-variable-length types, we must be careful to allocate
-the correct amount of memory and set the length field correctly.
-For example, if we wanted to store 40 bytes in a `text`
-structure, we might use a code fragment like this:
+在操作
+可變長度型別時，我們必須小心地配置
+正確數量的記憶體，並正確設定長度欄位。
+舉例來說，若我們想要在 `text`
+結構中儲存 40 個位元組，可以使用類似以下的程式碼片段：
 
 ```
 
@@ -293,126 +294,124 @@ memcpy(destination->data, buffer, 40);
 ...
 ```
 
-`VARHDRSZ` is the same as `sizeof(int32)`, but
-it's considered good style to use the macro `VARHDRSZ`
-to refer to the size of the overhead for a variable-length type.
-Also, the length field *must* be set using the
-`SET_VARSIZE` macro, not by simple assignment.
+`VARHDRSZ` 與 `sizeof(int32)` 相同，但
+使用巨集 `VARHDRSZ` 來表示可變長度型別的額外開銷大小，
+被視為是比較好的寫法。
+此外，長度欄位*必須*使用
+`SET_VARSIZE` 巨集來設定，而不能用簡單的賦值。
 
-[Table 36.2](xfunc-c.md#XFUNC-C-TYPE-TABLE) shows the C types
-corresponding to many of the built-in SQL data types
-of PostgreSQL.
-The “Defined In” column gives the header file that
-needs to be included to get the type definition. (The actual
-definition might be in a different file that is included by the
-listed file. It is recommended that users stick to the defined
-interface.) Note that you should always include
-`postgres.h` first in any source file of server
-code, because it declares a number of things that you will need
-anyway, and because including other headers first can cause
-portability issues.
+[表 36.2](xfunc-c.md#XFUNC-C-TYPE-TABLE)顯示了 PostgreSQL
+許多內建 SQL 資料型別
+所對應的 C 型別。
+「定義於」欄位給出了要取得該型別定義
+所需要納入的標頭檔。（實際的
+定義可能位於該所列檔案所納入的另一個檔案中。建議使用者
+遵循已定義的介面。）請注意，您在伺服器程式碼的任何原始碼檔案中，
+都應該永遠先納入
+`postgres.h`，因為它宣告了許多
+您無論如何都會需要用到的內容，而且先納入其他
+標頭檔可能會造成可攜性問題。
 
 <a id="XFUNC-C-TYPE-TABLE"></a>
 
-**Table 36.2. Equivalent C Types for Built-in SQL Types**
+**表 36.2. 內建 SQL 型別對應的 C 型別**
 
 <table border="1" class="table" summary="Equivalent C Types for Built-in SQL Types"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>
-          SQL Type
+          SQL 型別
          </th><th>
-          C Type
+          C 型別
          </th><th>
-          Defined In
-         </th></tr></thead><tbody><tr><td><code class="type">boolean</code></td><td><code class="type">bool</code></td><td><code class="filename">postgres.h</code> (maybe compiler built-in)</td></tr><tr><td><code class="type">box</code></td><td><code class="type">BOX*</code></td><td><code class="filename">utils/geo_decls.h</code></td></tr><tr><td><code class="type">bytea</code></td><td><code class="type">bytea*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">"char"</code></td><td><code class="type">char</code></td><td>(compiler built-in)</td></tr><tr><td><code class="type">character</code></td><td><code class="type">BpChar*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">cid</code></td><td><code class="type">CommandId</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">date</code></td><td><code class="type">DateADT</code></td><td><code class="filename">utils/date.h</code></td></tr><tr><td><code class="type">float4</code> (<code class="type">real</code>)</td><td><code class="type">float4</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">float8</code> (<code class="type">double precision</code>)</td><td><code class="type">float8</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">int2</code> (<code class="type">smallint</code>)</td><td><code class="type">int16</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">int4</code> (<code class="type">integer</code>)</td><td><code class="type">int32</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">int8</code> (<code class="type">bigint</code>)</td><td><code class="type">int64</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">interval</code></td><td><code class="type">Interval*</code></td><td><code class="filename">datatype/timestamp.h</code></td></tr><tr><td><code class="type">lseg</code></td><td><code class="type">LSEG*</code></td><td><code class="filename">utils/geo_decls.h</code></td></tr><tr><td><code class="type">name</code></td><td><code class="type">Name</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">numeric</code></td><td><code class="type">Numeric</code></td><td><code class="filename">utils/numeric.h</code></td></tr><tr><td><code class="type">oid</code></td><td><code class="type">Oid</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">oidvector</code></td><td><code class="type">oidvector*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">path</code></td><td><code class="type">PATH*</code></td><td><code class="filename">utils/geo_decls.h</code></td></tr><tr><td><code class="type">point</code></td><td><code class="type">POINT*</code></td><td><code class="filename">utils/geo_decls.h</code></td></tr><tr><td><code class="type">regproc</code></td><td><code class="type">RegProcedure</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">text</code></td><td><code class="type">text*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">tid</code></td><td><code class="type">ItemPointer</code></td><td><code class="filename">storage/itemptr.h</code></td></tr><tr><td><code class="type">time</code></td><td><code class="type">TimeADT</code></td><td><code class="filename">utils/date.h</code></td></tr><tr><td><code class="type">time with time zone</code></td><td><code class="type">TimeTzADT</code></td><td><code class="filename">utils/date.h</code></td></tr><tr><td><code class="type">timestamp</code></td><td><code class="type">Timestamp</code></td><td><code class="filename">datatype/timestamp.h</code></td></tr><tr><td><code class="type">timestamp with time zone</code></td><td><code class="type">TimestampTz</code></td><td><code class="filename">datatype/timestamp.h</code></td></tr><tr><td><code class="type">varchar</code></td><td><code class="type">VarChar*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">xid</code></td><td><code class="type">TransactionId</code></td><td><code class="filename">postgres.h</code></td></tr></tbody></table>
+          定義於
+         </th></tr></thead><tbody><tr><td><code class="type">boolean</code></td><td><code class="type">bool</code></td><td><code class="filename">postgres.h</code>（可能是編譯器內建）</td></tr><tr><td><code class="type">box</code></td><td><code class="type">BOX*</code></td><td><code class="filename">utils/geo_decls.h</code></td></tr><tr><td><code class="type">bytea</code></td><td><code class="type">bytea*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">"char"</code></td><td><code class="type">char</code></td><td>（編譯器內建）</td></tr><tr><td><code class="type">character</code></td><td><code class="type">BpChar*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">cid</code></td><td><code class="type">CommandId</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">date</code></td><td><code class="type">DateADT</code></td><td><code class="filename">utils/date.h</code></td></tr><tr><td><code class="type">float4</code>（<code class="type">real</code>）</td><td><code class="type">float4</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">float8</code>（<code class="type">double precision</code>）</td><td><code class="type">float8</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">int2</code>（<code class="type">smallint</code>）</td><td><code class="type">int16</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">int4</code>（<code class="type">integer</code>）</td><td><code class="type">int32</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">int8</code>（<code class="type">bigint</code>）</td><td><code class="type">int64</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">interval</code></td><td><code class="type">Interval*</code></td><td><code class="filename">datatype/timestamp.h</code></td></tr><tr><td><code class="type">lseg</code></td><td><code class="type">LSEG*</code></td><td><code class="filename">utils/geo_decls.h</code></td></tr><tr><td><code class="type">name</code></td><td><code class="type">Name</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">numeric</code></td><td><code class="type">Numeric</code></td><td><code class="filename">utils/numeric.h</code></td></tr><tr><td><code class="type">oid</code></td><td><code class="type">Oid</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">oidvector</code></td><td><code class="type">oidvector*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">path</code></td><td><code class="type">PATH*</code></td><td><code class="filename">utils/geo_decls.h</code></td></tr><tr><td><code class="type">point</code></td><td><code class="type">POINT*</code></td><td><code class="filename">utils/geo_decls.h</code></td></tr><tr><td><code class="type">regproc</code></td><td><code class="type">RegProcedure</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">text</code></td><td><code class="type">text*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">tid</code></td><td><code class="type">ItemPointer</code></td><td><code class="filename">storage/itemptr.h</code></td></tr><tr><td><code class="type">time</code></td><td><code class="type">TimeADT</code></td><td><code class="filename">utils/date.h</code></td></tr><tr><td><code class="type">time with time zone</code></td><td><code class="type">TimeTzADT</code></td><td><code class="filename">utils/date.h</code></td></tr><tr><td><code class="type">timestamp</code></td><td><code class="type">Timestamp</code></td><td><code class="filename">datatype/timestamp.h</code></td></tr><tr><td><code class="type">timestamp with time zone</code></td><td><code class="type">TimestampTz</code></td><td><code class="filename">datatype/timestamp.h</code></td></tr><tr><td><code class="type">varchar</code></td><td><code class="type">VarChar*</code></td><td><code class="filename">postgres.h</code></td></tr><tr><td><code class="type">xid</code></td><td><code class="type">TransactionId</code></td><td><code class="filename">postgres.h</code></td></tr></tbody></table>
 
 <br>
 
-Now that we've gone over all of the possible structures
-for base types, we can show some examples of real functions.
+現在我們已經介紹完基礎型別所有可能的
+結構，接著可以展示一些實際函式的範例了。
 
 <a id="XFUNC-C-V1-CALL-CONV"></a>
 
-### 36.10.3. Version 1 Calling Conventions [#](#XFUNC-C-V1-CALL-CONV)
+### 36.10.3. 版本 1 呼叫慣例 [#](#XFUNC-C-V1-CALL-CONV)
 
-The version-1 calling convention relies on macros to suppress most
-of the complexity of passing arguments and results. The C declaration
-of a version-1 function is always:
+版本 1 的呼叫慣例，依靠巨集來隱藏傳遞引數與結果時
+大部分的複雜性。版本 1 函式的 C
+宣告永遠是：
 
 ```
 
 Datum funcname(PG_FUNCTION_ARGS)
 ```
 
-In addition, the macro call:
+此外，以下巨集呼叫：
 
 ```
 
 PG_FUNCTION_INFO_V1(funcname);
 ```
 
-must appear in the same source file. (Conventionally, it's
-written just before the function itself.) This macro call is not
-needed for `internal`-language functions, since
-PostgreSQL assumes that all internal functions
-use the version-1 convention. It is, however, required for
-dynamically-loaded functions.
+必須出現在同一個原始碼檔案中。（依照慣例，
+它會寫在函式本身之前。）`internal`
+語言函式不需要這個巨集呼叫，因為
+PostgreSQL 會假設所有內部函式
+都使用版本 1 慣例。然而，動態載入的函式
+則需要它。
 
-In a version-1 function, each actual argument is fetched using a
+在版本 1 函式中，每個實際引數都是使用對應於
+該引數資料型別的
 `PG_GETARG_xxx()`
-macro that corresponds to the argument's data type. (In non-strict
-functions there needs to be a previous check about argument null-ness
-using `PG_ARGISNULL()`; see below.)
-The result is returned using a
+巨集來取得的。（在非嚴格函式中，需要事先使用
+`PG_ARGISNULL()` 檢查引數是否為 null；
+詳見下文。）
+結果則是使用對應於傳回型別的
 `PG_RETURN_xxx()`
-macro for the return type.
+巨集來傳回。
 `PG_GETARG_xxx()`
-takes as its argument the number of the function argument to
-fetch, where the count starts at 0.
+的引數，是要取得的函式引數編號，
+編號從 0 開始。
 `PG_RETURN_xxx()`
-takes as its argument the actual value to return.
+的引數，則是要傳回的實際值。
 
-To call another version-1 function, you can use
+要呼叫另一個版本 1 函式，您可以使用
 `DirectFunctionCalln(func,
-arg1, ..., argn)`. This is particularly useful when you want
-to call functions defined in the standard internal library, by using an
-interface similar to their SQL signature.
+arg1, ..., argn)`。當您想要透過類似其 SQL 簽章
+的介面，來呼叫標準內部函式庫中定義的函式時，
+這特別有用。
 
-These convenience functions and similar ones can be found
-in `fmgr.h`.
-The `DirectFunctionCalln`
-family expect a C function name as their first argument. There are also
-`OidFunctionCalln` which
-take the OID of the target function, and some other variants. All of
-these expect the function's arguments to be supplied
-as `Datum`s, and likewise they return `Datum`.
-Note that neither arguments nor result are allowed to be NULL when
-using these convenience functions.
+這些便利函式及類似的函式，可以在
+`fmgr.h` 中找到。
+`DirectFunctionCalln`
+系列函式，其第一個引數預期是 C 函式名稱。此外還有
+`OidFunctionCalln`，
+它接受目標函式的 OID，以及其他一些變體。所有
+這些函式，都預期函式的引數是以
+`Datum` 的形式提供，同樣地，它們也會傳回 `Datum`。
+請注意，使用這些便利函式時，引數與結果都不允許是 NULL。
 
-For example, to call the `starts_with(text, text)`
-function from C, you can search through the catalog and find out that
-its C implementation is the
+舉例來說，若要從 C 呼叫 `starts_with(text, text)`
+函式，您可以搜尋目錄（catalog），找出它的
+C 實作為
 `Datum text_starts_with(PG_FUNCTION_ARGS)`
-function. Typically you would
-use `DirectFunctionCall2(text_starts_with, ...)` to
-call such a function. However, `starts_with(text,
-text)` requires collation information, so it will fail
-with “could not determine which collation to use for string
-comparison” if called that way. Instead you must
-use `DirectFunctionCall2Coll(text_starts_with, ...)`
-and provide the desired collation, which typically is just passed
-through from `PG_GET_COLLATION()`, as shown in the
-example below.
+函式。通常您會
+使用 `DirectFunctionCall2(text_starts_with, ...)` 來
+呼叫這樣的函式。不過，`starts_with(text,
+text)` 需要定序（collation）資訊，因此若這樣呼叫，
+就會失敗並出現「could not determine which collation to use for string
+comparison」的錯誤。您必須改為
+使用 `DirectFunctionCall2Coll(text_starts_with, ...)`，
+並提供所需要的定序，這通常就是直接從
+`PG_GET_COLLATION()` 傳入，如下面的範例所示。
 
-`fmgr.h` also supplies macros that facilitate
-conversions between C types and `Datum`. For example to
-turn `Datum` into `text*`, you can
-use `DatumGetTextPP(X)`. While some types have macros
-named like `TypeGetDatum(X)` for the reverse
-conversion, `text*` does not; it's sufficient to use the
-generic macro `PointerGetDatum(X)` for that.
-If your extension defines additional types, it is usually convenient to
-define similar macros for your types too.
+`fmgr.h` 也提供了一些巨集，方便在
+C 型別與 `Datum` 之間轉換。舉例來說，若要
+將 `Datum` 轉換為 `text*`，您可以
+使用 `DatumGetTextPP(X)`。雖然有些型別具有名為
+`TypeGetDatum(X)` 這類的巨集，可用於反向
+轉換，但 `text*` 並沒有；直接使用
+通用巨集 `PointerGetDatum(X)` 即可。
+若您的擴充功能定義了額外的型別，通常也很方便
+為您的型別定義類似的巨集。
 
-Here are some examples using the version-1 calling convention:
+以下是一些使用版本 1 呼叫慣例的範例：
 
 ```
 
@@ -530,10 +529,10 @@ t_starts_with(PG_FUNCTION_ARGS)
 }
 ```
 
-Supposing that the above code has been prepared in file
-`funcs.c` and compiled into a shared object,
-we could define the functions to PostgreSQL
-with commands like this:
+假設上述程式碼已準備在
+`funcs.c` 檔案中，並編譯成共享物件，
+我們就可以用類似這樣的指令，向 PostgreSQL
+定義這些函式：
 
 ```
 
@@ -563,183 +562,178 @@ CREATE FUNCTION t_starts_with(text, text) RETURNS boolean
      LANGUAGE C STRICT;
 ```
 
-Here, *`DIRECTORY`* stands for the
-directory of the shared library file (for instance the
-PostgreSQL tutorial directory, which
-contains the code for the examples used in this section).
-(Better style would be to use just `'funcs'` in the
-`AS` clause, after having added
-*`DIRECTORY`* to the search path. In any
-case, we can omit the system-specific extension for a shared
-library, commonly `.so`.)
+這裡的 *`DIRECTORY`* 代表
+共享函式庫檔案所在的目錄（舉例來說，
+PostgreSQL 教學目錄，其中
+包含本節範例所使用的程式碼）。
+（比較好的寫法是，在將
+*`DIRECTORY`* 加入搜尋路徑之後，在
+`AS` 子句中只使用 `'funcs'`。無論
+如何，我們都可以省略共享函式庫特定於系統的副檔名，
+通常是 `.so`。）
 
-Notice that we have specified the functions as “strict”,
-meaning that
-the system should automatically assume a null result if any input
-value is null. By doing this, we avoid having to check for null inputs
-in the function code. Without this, we'd have to check for null values
-explicitly, using `PG_ARGISNULL()`.
+請注意，我們已將這些函式指定為「strict」，
+意思是
+系統應該自動假設，若任何輸入值為 null，
+結果就是 null。這樣一來，我們就不需要在函式程式碼中
+檢查空值輸入了。若不這樣做，我們就必須
+明確地使用 `PG_ARGISNULL()` 檢查空值。
 
-The macro `PG_ARGISNULL(n)`
-allows a function to test whether each input is null. (Of course, doing
-this is only necessary in functions not declared “strict”.)
-As with the
-`PG_GETARG_xxx()` macros,
-the input arguments are counted beginning at zero. Note that one
-should refrain from executing
-`PG_GETARG_xxx()` until
-one has verified that the argument isn't null.
-To return a null result, execute `PG_RETURN_NULL()`;
-this works in both strict and nonstrict functions.
+巨集 `PG_ARGISNULL(n)`
+可以讓函式測試每個輸入是否為 null。（當然，這樣做
+只有在函式未被宣告為「strict」時才有必要。）
+與
+`PG_GETARG_xxx()` 巨集一樣，
+輸入引數也是從零開始計算的。請注意，
+在確認引數不是 null 之前，
+應避免執行
+`PG_GETARG_xxx()`。
+若要傳回 null 結果，請執行 `PG_RETURN_NULL()`；
+這在嚴格與非嚴格函式中都可以運作。
 
-At first glance, the version-1 coding conventions might appear
-to be just pointless obscurantism, compared to using
-plain `C` calling conventions. They do however allow
-us to deal with `NULL`able arguments/return values,
-and “toasted” (compressed or out-of-line) values.
+乍看之下，相較於使用一般的 `C` 呼叫慣例，
+版本 1 的撰碼慣例，可能顯得只是毫無意義的
+晦澀難懂。然而，它們確實讓
+我們能夠處理可為 `NULL` 的引數／傳回值，
+以及「toasted」（壓縮或外部儲存）的值。
 
-Other options provided by the version-1 interface are two
-variants of the
+版本 1 介面所提供的其他選項，還有
 `PG_GETARG_xxx()`
-macros. The first of these,
-`PG_GETARG_xxx_COPY()`,
-guarantees to return a copy of the specified argument that is
-safe for writing into. (The normal macros will sometimes return a
-pointer to a value that is physically stored in a table, which
-must not be written to. Using the
+巨集的兩種變體。其中第一種，
+`PG_GETARG_xxx_COPY()`，
+保證會傳回指定引數的一份副本，該副本
+可以安全地寫入。（一般的巨集，有時會傳回一個
+指向實際儲存於資料表中之值的指標，
+這是不可以被寫入的。使用
 `PG_GETARG_xxx_COPY()`
-macros guarantees a writable result.)
-The second variant consists of the
+巨集，則能保證傳回的結果是可寫入的。）
+第二種變體則是
 `PG_GETARG_xxx_SLICE()`
-macros which take three arguments. The first is the number of the
-function argument (as above). The second and third are the offset and
-length of the segment to be returned. Offsets are counted from
-zero, and a negative length requests that the remainder of the
-value be returned. These macros provide more efficient access to
-parts of large values in the case where they have storage type
-“external”. (The storage type of a column can be specified using
+巨集，它接受三個引數。第一個是
+函式引數的編號（如上所述）。第二個與第三個，
+是要傳回之片段的偏移量與長度。偏移量從
+零開始計算，長度為負值則表示要求傳回
+剩餘的值。在儲存型別為「external」的情況下，
+這些巨集提供了更有效率的方式，來存取
+大型值的一部分。（欄位的儲存型別，可以使用
 `ALTER TABLE tablename ALTER
 COLUMN colname SET STORAGE
-storagetype`. *`storagetype`* is one of
-`plain`, `external`, `extended`,
-or `main`.)
+storagetype` 來指定。*`storagetype`* 可以是
+`plain`、`external`、`extended`
+或 `main` 其中之一。）
 
-Finally, the version-1 function call conventions make it possible
-to return set results ([Section 36.10.9](xfunc-c.md#XFUNC-C-RETURN-SET)) and
-implement trigger functions ([Chapter 37](../triggers/README.md)) and
-procedural-language call handlers ([Chapter 57](../../internals/plhandler/README.md)). For more details
-see `src/backend/utils/fmgr/README` in the
-source distribution.
+最後，版本 1 的函式呼叫慣例，讓
+傳回集合結果（[36.10.9 節](xfunc-c.md#XFUNC-C-RETURN-SET)）、
+實作觸發程序函式（[第 37 章](../triggers/README.md)），以及
+程序語言呼叫處理常式（[第 57 章](../../internals/plhandler/README.md)）都成為可能。詳情
+請參閱原始碼發行套件中的
+`src/backend/utils/fmgr/README`。
 
 <a id="XFUNC-C-CODE"></a>
 
-### 36.10.4. Writing Code [#](#XFUNC-C-CODE)
+### 36.10.4. 撰寫程式碼 [#](#XFUNC-C-CODE)
 
-Before we turn to the more advanced topics, we should discuss
-some coding rules for PostgreSQL
-C-language functions. While it might be possible to load functions
-written in languages other than C into
-PostgreSQL, this is usually difficult
-(when it is possible at all) because other languages, such as
-C++, FORTRAN, or Pascal often do not follow the same calling
-convention as C. That is, other languages do not pass argument
-and return values between functions in the same way. For this
-reason, we will assume that your C-language functions are
-actually written in C.
+在進入更進階的主題之前，我們應該先討論一些
+PostgreSQL C 語言函式的撰寫程式碼
+規則。雖然要將以 C 以外語言撰寫的函式
+載入 PostgreSQL 或許是可行的，
+但這通常相當困難（如果真的可行的話），因為
+C++、FORTRAN 或 Pascal 等其他語言，往往
+不遵循與 C 相同的呼叫慣例。也就是說，
+其他語言在函式之間傳遞引數
+與傳回值的方式並不相同。基於這個
+原因，我們會假設您的 C 語言函式，
+確實是以 C 撰寫的。
 
-The basic rules for writing and building C functions are as follows:
+撰寫與建置 C 函式的基本規則如下：
 
-* Use `pg_config
+* 使用 `pg_config
   --includedir-server`<a id="id-1.8.3.13.8.3.1.1.1.2"></a>
-  to find out where the PostgreSQL server header
-  files are installed on your system (or the system that your
-  users will be running on).
-* Compiling and linking your code so that it can be dynamically
-  loaded into PostgreSQL always
-  requires special flags. See [Section 36.10.5](xfunc-c.md#DFUNC) for a
-  detailed explanation of how to do it for your particular
-  operating system.
-* Remember to define a “magic block” for your shared library,
-  as described in [Section 36.10.1](xfunc-c.md#XFUNC-C-DYNLOAD).
-* When allocating memory, use the
-  PostgreSQL functions
-  `palloc`<a id="id-1.8.3.13.8.3.1.4.1.3"></a> and `pfree`<a id="id-1.8.3.13.8.3.1.4.1.5"></a>
-  instead of the corresponding C library functions
-  `malloc` and `free`.
-  The memory allocated by `palloc` will be
-  freed automatically at the end of each transaction, preventing
-  memory leaks.
-* Always zero the bytes of your structures using `memset`
-  (or allocate them with `palloc0` in the first place).
-  Even if you assign to each field of your structure, there might be
-  alignment padding (holes in the structure) that contain
-  garbage values. Without this, it's difficult to
-  support hash indexes or hash joins, as you must pick out only
-  the significant bits of your data structure to compute a hash.
-  The planner also sometimes relies on comparing constants via
-  bitwise equality, so you can get undesirable planning results if
-  logically-equivalent values aren't bitwise equal.
-* Most of the internal PostgreSQL
-  types are declared in `postgres.h`, while
-  the function manager interfaces
-  (`PG_FUNCTION_ARGS`, etc.) are in
-  `fmgr.h`, so you will need to include at
-  least these two files. For portability reasons it's best to
-  include `postgres.h` *first*,
-  before any other system or user header files. Including
-  `postgres.h` will also include
-  `elog.h` and `palloc.h`
-  for you.
-* Symbol names defined within object files must not conflict
-  with each other or with symbols defined in the
-  PostgreSQL server executable. You
-  will have to rename your functions or variables if you get
-  error messages to this effect.
+  來找出您系統（或您使用者實際執行的系統）上，
+  PostgreSQL 伺服器標頭
+  檔的安裝位置。
+* 編譯並連結您的程式碼，使其可以動態
+  載入 PostgreSQL 中，永遠
+  需要特殊的旗標。關於如何在您特定的
+  作業系統上完成這項工作，詳細說明請參閱[36.10.5 節](xfunc-c.md#DFUNC)。
+* 請記得為您的共享函式庫定義一個「魔術區塊」，
+  如[36.10.1 節](xfunc-c.md#XFUNC-C-DYNLOAD)所述。
+* 配置記憶體時，請使用
+  PostgreSQL 的函式
+  `palloc`<a id="id-1.8.3.13.8.3.1.4.1.3"></a> 與 `pfree`<a id="id-1.8.3.13.8.3.1.4.1.5"></a>，
+  而不要使用對應的 C 函式庫函式
+  `malloc` 與 `free`。
+  由 `palloc` 所配置的記憶體，
+  會在每個交易結束時自動釋放，以避免
+  記憶體洩漏。
+* 請務必使用 `memset` 將您結構的位元組全部清零
+  （或者一開始就用 `palloc0` 來配置它們）。
+  即使您為結構的每個欄位都賦值，
+  結構中仍可能存在對齊填補（結構中的空隙），
+  裡面含有垃圾值。若不這樣做，將難以
+  支援雜湊索引或雜湊連接，因為您必須挑出
+  資料結構中真正有意義的位元，才能計算出雜湊值。
+  規劃器有時也會依賴以位元方式比較常數
+  是否相等，因此若邏輯上相等的值在位元層級
+  不相等，可能會得到不理想的規劃結果。
+* 大多數 PostgreSQL 內部
+  型別都宣告於 `postgres.h` 中，而
+  函式管理員介面
+  （`PG_FUNCTION_ARGS` 等）則位於
+  `fmgr.h` 中，因此您至少需要納入
+  這兩個檔案。基於可攜性的考量，最好
+  將 `postgres.h` 放在*最前面*納入，
+  優先於任何其他系統或使用者標頭檔。納入
+  `postgres.h` 也會一併為您納入
+  `elog.h` 與 `palloc.h`。
+* 物件檔案中所定義的符號名稱，彼此之間，
+  以及與 PostgreSQL 伺服器
+  可執行檔中所定義的符號之間，都不得衝突。若您
+  收到這方面的錯誤訊息，就必須重新命名您的
+  函式或變數。
 
 <a id="DFUNC"></a>
 
-### 36.10.5. Compiling and Linking Dynamically-Loaded Functions [#](#DFUNC)
+### 36.10.5. 編譯與連結動態載入的函式 [#](#DFUNC)
 
-Before you are able to use your
-PostgreSQL extension functions written in
-C, they must be compiled and linked in a special way to produce a
-file that can be dynamically loaded by the server. To be precise, a
-*shared library* needs to be
-created.<a id="id-1.8.3.13.9.2.3"></a>
+在您能夠使用以
+C 撰寫的 PostgreSQL 擴充功能函式之前，
+必須以特殊的方式編譯並連結它們，才能產生一個
+可由伺服器動態載入的檔案。更精確地說，
+需要建立一個*共享函式庫*。<a id="id-1.8.3.13.9.2.3"></a>
 
-For information beyond what is contained in this section
-you should read the documentation of your
-operating system, in particular the manual pages for the C compiler,
-`cc`, and the link editor, `ld`.
-In addition, the PostgreSQL source code
-contains several working examples in the
-`contrib` directory. If you rely on these
-examples you will make your modules dependent on the availability
-of the PostgreSQL source code, however.
+關於本節未涵蓋的資訊，
+您應該閱讀您作業系統的說明文件，
+特別是 C 編譯器 `cc`，以及連結編輯器
+`ld` 的操作手冊頁面。
+此外，PostgreSQL 原始碼中，
+`contrib` 目錄還包含了幾個可運作的範例。
+不過，若您依賴這些範例，會讓您的模組
+依賴於是否能取得 PostgreSQL 原始碼。
 
-Creating shared libraries is generally analogous to linking
-executables: first the source files are compiled into object files,
-then the object files are linked together. The object files need to
-be created as *position-independent code*
-(PIC),<a id="id-1.8.3.13.9.4.3"></a> which
-conceptually means that they can be placed at an arbitrary location
-in memory when they are loaded by the executable. (Object files
-intended for executables are usually not compiled that way.) The
-command to link a shared library contains special flags to
-distinguish it from linking an executable (at least in theory
-— on some systems the practice is much uglier).
+建立共享函式庫，大致類似於連結
+可執行檔：首先將原始碼檔案編譯成物件檔案，
+然後再將這些物件檔案連結在一起。這些物件檔案必須
+被建立為*位置無關程式碼*
+（position-independent code，PIC）<a id="id-1.8.3.13.9.4.3"></a>，
+概念上這表示，當它們被可執行檔載入時，
+可以放置在記憶體中的任意位置。（用於可執行檔的物件檔案，
+通常不會以這種方式編譯。）用來連結共享函式庫
+的指令，含有特殊的旗標，
+以與連結可執行檔區別（至少在理論上是如此
+——在某些系統上，實際做法遠比這醜陋許多）。
 
-In the following examples we assume that your source code is in a
-file `foo.c` and we will create a shared library
-`foo.so`. The intermediate object file will be
-called `foo.o` unless otherwise noted. A shared
-library can contain more than one object file, but we only use one
-here.
+在以下範例中，我們假設您的原始碼位於
+`foo.c` 檔案中，我們將會建立一個共享函式庫
+`foo.so`。除非另有說明，
+中介物件檔案將被稱為 `foo.o`。共享
+函式庫可以包含一個以上的物件檔案，但我們在這裡只使用
+一個。
 
 FreeBSD <a id="id-1.8.3.13.9.6.1.1.2"></a>
-:   The compiler flag to create PIC is
-    `-fPIC`. To create shared libraries the compiler
-    flag is `-shared`.
+:   用來建立 PIC 的編譯器旗標
+    是 `-fPIC`。要建立共享函式庫，編譯器
+    旗標則是 `-shared`。
 
     ```
 
@@ -747,15 +741,15 @@ FreeBSD <a id="id-1.8.3.13.9.6.1.1.2"></a>
     cc -shared -o foo.so foo.o
     ```
 
-    This is applicable as of version 13.0 of
-    FreeBSD, older versions used
-    the `gcc` compiler.
+    自 FreeBSD 13.0
+    版起皆適用，較舊的版本則是使用
+    `gcc` 編譯器。
 
 Linux <a id="id-1.8.3.13.9.6.2.1.2"></a>
-:   The compiler flag to create PIC is
-    `-fPIC`.
-    The compiler flag to create a shared library is
-    `-shared`. A complete example looks like this:
+:   用來建立 PIC 的編譯器旗標
+    是 `-fPIC`。
+    用來建立共享函式庫的編譯器旗標
+    是 `-shared`。一個完整的範例如下：
 
     ```
 
@@ -764,7 +758,7 @@ Linux <a id="id-1.8.3.13.9.6.2.1.2"></a>
     ```
 
 macOS <a id="id-1.8.3.13.9.6.3.1.2"></a>
-:   Here is an example. It assumes the developer tools are installed.
+:   以下是一個範例。這假設已安裝了開發工具。
 
     ```
 
@@ -773,11 +767,11 @@ macOS <a id="id-1.8.3.13.9.6.3.1.2"></a>
     ```
 
 NetBSD <a id="id-1.8.3.13.9.6.4.1.2"></a>
-:   The compiler flag to create PIC is
-    `-fPIC`. For ELF systems, the
-    compiler with the flag `-shared` is used to link
-    shared libraries. On the older non-ELF systems, `ld
-    -Bshareable` is used.
+:   用來建立 PIC 的編譯器旗標
+    是 `-fPIC`。對於 ELF 系統，
+    連結共享函式庫時，會使用帶有 `-shared` 旗標的
+    編譯器。在較舊的非 ELF 系統上，則會使用 `ld
+    -Bshareable`。
 
     ```
 
@@ -786,9 +780,9 @@ NetBSD <a id="id-1.8.3.13.9.6.4.1.2"></a>
     ```
 
 OpenBSD <a id="id-1.8.3.13.9.6.5.1.2"></a>
-:   The compiler flag to create PIC is
-    `-fPIC`. `ld -Bshareable` is
-    used to link shared libraries.
+:   用來建立 PIC 的編譯器旗標
+    是 `-fPIC`。連結共享函式庫時，
+    會使用 `ld -Bshareable`。
 
     ```
 
@@ -797,12 +791,12 @@ OpenBSD <a id="id-1.8.3.13.9.6.5.1.2"></a>
     ```
 
 Solaris <a id="id-1.8.3.13.9.6.6.1.2"></a>
-:   The compiler flag to create PIC is
-    `-KPIC` with the Sun compiler and
-    `-fPIC` with GCC. To
-    link shared libraries, the compiler option is
-    `-G` with either compiler or alternatively
-    `-shared` with GCC.
+:   用來建立 PIC 的編譯器旗標，在 Sun
+    編譯器中是 `-KPIC`，在 GCC 中則是
+    `-fPIC`。要
+    連結共享函式庫，這兩種編譯器的編譯器選項都可以是
+    `-G`，若使用 GCC，則也可以
+    改用 `-shared`。
 
     ```
 
@@ -810,7 +804,7 @@ Solaris <a id="id-1.8.3.13.9.6.6.1.2"></a>
     cc -G -o foo.so foo.o
     ```
 
-    or
+    或者
 
     ```
 
@@ -818,148 +812,157 @@ Solaris <a id="id-1.8.3.13.9.6.6.1.2"></a>
     gcc -G -o foo.so foo.o
     ```
 
-### Tip
+### 提示
 
-If this is too complicated for you, you should consider using
-[GNU Libtool](https://www.gnu.org/software/libtool/),
-which hides the platform differences behind a uniform interface.
+若您覺得這太複雜，可以考慮使用
+[GNU Libtool](https://www.gnu.org/software/libtool/)，
+它會將平台之間的差異隱藏在一個統一的介面之後。
 
-The resulting shared library file can then be loaded into
-PostgreSQL. When specifying the file name
-to the `CREATE FUNCTION` command, one must give it
-the name of the shared library file, not the intermediate object file.
-Note that the system's standard shared-library extension (usually
-`.so` or `.sl`) can be omitted from
-the `CREATE FUNCTION` command, and normally should
-be omitted for best portability.
+產生的共享函式庫檔案，接著就可以被載入
+PostgreSQL 中。在向 `CREATE FUNCTION`
+指令指定檔案名稱時，必須給出共享函式庫檔案的名稱，
+而不是中介物件檔案的名稱。
+請注意，系統標準的共享函式庫副檔名（通常是
+`.so` 或 `.sl`），可以在
+`CREATE FUNCTION` 指令中省略，而且為了
+達到最佳的可攜性，通常也應該省略。
 
-Refer back to [Section 36.10.1](xfunc-c.md#XFUNC-C-DYNLOAD) about where the
-server expects to find the shared library files.
+關於伺服器預期在哪裡找到共享函式庫檔案，
+請回頭參閱[36.10.1 節](xfunc-c.md#XFUNC-C-DYNLOAD)。
 
 <a id="XFUNC-API-ABI-STABILITY-GUIDANCE"></a>
 
-### 36.10.6. Server API and ABI Stability Guidance [#](#XFUNC-API-ABI-STABILITY-GUIDANCE)
+### 36.10.6. 伺服器 API 與 ABI 穩定性指引 [#](#XFUNC-API-ABI-STABILITY-GUIDANCE)
 
-This section contains guidance to authors of extensions and other server
-plugins about API and ABI stability in the
-PostgreSQL server.
+本節針對擴充功能與其他伺服器外掛程式的作者，
+提供了關於
+PostgreSQL 伺服器 API 與 ABI 穩定性的
+指引。
 
 <a id="XFUNC-GUIDANCE-GENERAL"></a>
 
-#### 36.10.6.1. General [#](#XFUNC-GUIDANCE-GENERAL)
+#### 36.10.6.1. 概述 [#](#XFUNC-GUIDANCE-GENERAL)
 
-The PostgreSQL server contains several
-well-demarcated APIs for server plugins, such as the function manager
-(fmgr, described in this chapter),
-SPI ([Chapter 45](../spi/README.md)), and various hooks
-specifically designed for extensions. These interfaces are carefully
-managed for long-term stability and compatibility. However, the entire
-set of global functions and variables in the server effectively
-constitutes the publicly usable API, and most of it was not designed
-with extensibility and long-term stability in mind.
+PostgreSQL 伺服器針對伺服器外掛程式，
+提供了幾個界線清楚的 API，例如函式管理員
+（fmgr，本章已有說明）、
+SPI（[第 45 章](../spi/README.md)），以及各種
+專為擴充功能設計的掛鉤（hook）。這些介面經過
+細心管理，以確保長期的穩定性與相容性。不過，
+伺服器中整組全域函式與變數，實際上
+構成了可公開使用的 API，而其中大部分
+在設計時，並未考量到擴充性與長期
+穩定性。
 
-Therefore, while taking advantage of these interfaces is valid, the
-further one strays from the well-trodden path, the likelier it will be
-that one might encounter API or ABI compatibility issues at some point.
-Extension authors are encouraged to provide feedback about their
-requirements, so that over time, as new use patterns arise, certain
-interfaces can be considered more stabilized or new, better-designed
-interfaces can be added.
+因此，雖然利用這些介面是合理的做法，但
+偏離這條廣為採用的成熟路徑越遠，就越有可能
+在某個時候遇到 API 或 ABI 相容性問題。
+鼓勵擴充功能的作者提供關於其需求的
+意見回饋，如此一來，隨著時間推移，
+當出現新的使用模式時，某些介面就能被視為更加穩定，
+或者可以加入新的、設計更完善的
+介面。
 
 <a id="XFUNC-GUIDANCE-API-COMPATIBILITY"></a>
 
-#### 36.10.6.2. API Compatibility [#](#XFUNC-GUIDANCE-API-COMPATIBILITY)
+#### 36.10.6.2. API 相容性 [#](#XFUNC-GUIDANCE-API-COMPATIBILITY)
 
-The API, or application programming interface, is the
-interface used at compile time.
+API，也就是應用程式設計介面（application programming interface），
+是在編譯時期所使用的介面。
 
 <a id="XFUNC-GUIDANCE-API-MAJOR-VERSIONS"></a>
 
-##### 36.10.6.2.1. Major Versions [#](#XFUNC-GUIDANCE-API-MAJOR-VERSIONS)
+##### 36.10.6.2.1. 主要版本 [#](#XFUNC-GUIDANCE-API-MAJOR-VERSIONS)
 
-There is *no* promise of API compatibility between
-PostgreSQL major versions. Extension code
-therefore might require source code changes to work with multiple major
-versions. These can usually be managed with preprocessor conditions
-such as `#if PG_VERSION_NUM >= 160000`.
-Sophisticated extensions that use interfaces beyond the well-demarcated
-ones usually require a few such changes for each major server version.
+PostgreSQL 主要版本之間，*並不*保證
+API 的相容性。因此，擴充功能的程式碼
+可能需要修改原始碼，才能在多個主要
+版本上運作。這通常可以透過前置處理器條件式
+來處理，例如 `#if PG_VERSION_NUM >= 160000`。
+使用超出界定清楚介面範圍的複雜擴充功能，
+通常每個主要伺服器版本都需要進行一些這類的
+變更。
 
 <a id="XFUNC-GUIDANCE-API-MNINOR-VERSIONS"></a>
 
-##### 36.10.6.2.2. Minor Versions [#](#XFUNC-GUIDANCE-API-MNINOR-VERSIONS)
+##### 36.10.6.2.2. 次要版本 [#](#XFUNC-GUIDANCE-API-MNINOR-VERSIONS)
 
-PostgreSQL makes an effort to avoid server
-API breaks in minor releases. In general, extension code that compiles
-and works with a minor release should also compile and work with any
-other minor release of the same major version, past or future.
+PostgreSQL 會努力避免在次要
+發行版中破壞伺服器 API。一般而言，在某個次要
+發行版中可以編譯並運作的擴充功能程式碼，也應該
+能在同一個主要版本的任何其他次要發行版中（不論是
+較舊或較新的）順利編譯並運作。
 
-When a change *is* required, it will be carefully
-managed, taking the requirements of extensions into account. Such
-changes will be communicated in the release notes ([Appendix E](../../appendixes/release/README.md)).
+當*確實*需要變更時，系統會審慎
+管理這項變更，並將擴充功能的需求納入考量。這類
+變更會在發行說明（[附錄 E](../../appendixes/release/README.md)）中說明。
 
 <a id="XFUNC-GUIDANCE-ABI-COMPATIBILITY"></a>
 
-#### 36.10.6.3. ABI Compatibility [#](#XFUNC-GUIDANCE-ABI-COMPATIBILITY)
+#### 36.10.6.3. ABI 相容性 [#](#XFUNC-GUIDANCE-ABI-COMPATIBILITY)
 
-The ABI, or application binary interface, is the
-interface used at run time.
+ABI，也就是應用程式二進位介面（application binary interface），
+是在執行時期所使用的介面。
 
 <a id="XFUNC-GUIDANCE-ABI-MAJOR-VERSIONS"></a>
 
-##### 36.10.6.3.1. Major Versions [#](#XFUNC-GUIDANCE-ABI-MAJOR-VERSIONS)
+##### 36.10.6.3.1. 主要版本 [#](#XFUNC-GUIDANCE-ABI-MAJOR-VERSIONS)
 
-Servers of different major versions have intentionally incompatible
-ABIs. Extensions that use server APIs must therefore be re-compiled for
-each major release. The inclusion of `PG_MODULE_MAGIC`
-(see [Section 36.10.1](xfunc-c.md#XFUNC-C-DYNLOAD)) ensures that code compiled for
-one major version will be rejected by other major versions.
+不同主要版本的伺服器，其 ABI 刻意設計為不相容。
+因此，使用伺服器 API 的擴充功能，必須
+針對每個主要發行版重新編譯。納入
+`PG_MODULE_MAGIC`
+（請參閱[36.10.1 節](xfunc-c.md#XFUNC-C-DYNLOAD)），可以確保為
+某個主要版本所編譯的程式碼，會被其他主要版本
+拒絕。
 
 <a id="XFUNC-GUIDANCE-ABI-MNINOR-VERSIONS"></a>
 
-##### 36.10.6.3.2. Minor Versions [#](#XFUNC-GUIDANCE-ABI-MNINOR-VERSIONS)
+##### 36.10.6.3.2. 次要版本 [#](#XFUNC-GUIDANCE-ABI-MNINOR-VERSIONS)
 
-PostgreSQL makes an effort to avoid server
-ABI breaks in minor releases. In general, an extension compiled against
-any minor release should work with any other minor release of the same
-major version, past or future.
+PostgreSQL 會努力避免在次要
+發行版中破壞伺服器 ABI。一般而言，針對某個次要
+發行版所編譯的擴充功能，應該能在同一個主要版本的
+任何其他次要發行版（不論是較舊或較新的）上運作。
 
-When a change *is* required,
-PostgreSQL will choose the least invasive
-change possible, for example by squeezing a new field into padding
-space or appending it to the end of a struct. These sorts of changes
-should not impact extensions unless they use very unusual code
-patterns.
+當*確實*需要變更時，
+PostgreSQL 會選擇可能造成最小影響的
+變更方式，舉例來說，將新欄位塞入填補
+空間，或將其附加到結構的末端。這類
+變更通常不會影響擴充功能，除非它們使用了
+相當不尋常的程式碼模式。
 
-In rare cases, however, even such non-invasive changes may be
-impractical or impossible. In such an event, the change will be
-carefully managed, taking the requirements of extensions into account.
-Such changes will also be documented in the release notes ([Appendix E](../../appendixes/release/README.md)).
+然而，在極少數情況下，即使是這種非侵入性的
+變更也可能不切實際或無法實現。若發生這種情況，
+系統會審慎管理這項變更，並將擴充功能的需求
+納入考量。這類變更同樣會記載於發行說明
+（[附錄 E](../../appendixes/release/README.md)）中。
 
-Note, however, that many parts of the server are not designed or
-maintained as publicly-consumable APIs (and that, in most cases, the
-actual boundary is also not well-defined). If urgent needs arise,
-changes in those parts will naturally be made with less consideration
-for extension code than changes in well-defined and widely used
-interfaces.
+不過請注意，伺服器的許多部分，
+在設計或維護時，並未將其視為可公開使用的
+API（而且在大多數情況下，實際的界線
+也並不明確）。若出現緊急需求，
+這些部分的變更，自然會比在定義明確
+且廣泛使用的介面中所做的變更，較少考量到
+擴充功能的程式碼。
 
-Also, in the absence of automated detection of such changes, this is
-not a guarantee, but historically such breaking changes have been
-extremely rare.
+此外，由於缺乏對此類變更的自動偵測機制，這並
+不是一項保證，但就歷史經驗而言，這類破壞性
+變更極為罕見。
 
 <a id="XFUNC-C-COMPOSITE-TYPE-ARGS"></a>
 
-### 36.10.7. Composite-Type Arguments [#](#XFUNC-C-COMPOSITE-TYPE-ARGS)
+### 36.10.7. 複合型別引數 [#](#XFUNC-C-COMPOSITE-TYPE-ARGS)
 
-Composite types do not have a fixed layout like C structures.
-Instances of a composite type can contain null fields. In
-addition, composite types that are part of an inheritance
-hierarchy can have different fields than other members of the
-same inheritance hierarchy. Therefore,
-PostgreSQL provides a function
-interface for accessing fields of composite types from C.
+複合型別並不像 C 結構那樣具有固定的配置方式。
+複合型別的實例，可以含有空值（null）欄位。此外，
+屬於繼承階層一部分的複合型別，
+可能會與同一個繼承階層中的其他成員
+具有不同的欄位。因此，
+PostgreSQL 提供了一組函式
+介面，讓您能從 C 中存取複合型別的欄位。
 
-Suppose we want to write a function to answer the query:
+假設我們想要撰寫一個函式，來回答以下查詢：
 
 ```
 
@@ -968,8 +971,8 @@ SELECT name, c_overpaid(emp, 1500) AS overpaid
     WHERE name = 'Bill' OR name = 'Sam';
 ```
 
-Using the version-1 calling conventions, we can define
-`c_overpaid` as:
+使用版本 1 呼叫慣例，我們可以將
+`c_overpaid` 定義為：
 
 ```
 
@@ -997,25 +1000,24 @@ c_overpaid(PG_FUNCTION_ARGS)
 }
 ```
 
-`GetAttributeByName` is the
-PostgreSQL system function that
-returns attributes out of the specified row. It has
-three arguments: the argument of type `HeapTupleHeader` passed
-into
-the function, the name of the desired attribute, and a
-return parameter that tells whether the attribute
-is null. `GetAttributeByName` returns a `Datum`
-value that you can convert to the proper data type by using the
-appropriate `DatumGetXXX()`
-function. Note that the return value is meaningless if the null flag is
-set; always check the null flag before trying to do anything with the
-result.
+`GetAttributeByName` 是
+PostgreSQL 的系統函式，
+用來從指定的資料列中傳回屬性。它有
+三個引數：傳入此函式之
+`HeapTupleHeader` 型別的引數、所需要之屬性的名稱，
+以及一個用來表示該屬性
+是否為 null 的傳回參數。`GetAttributeByName` 會傳回一個
+`Datum` 值，您可以使用適當的
+`DatumGetXXX()`
+函式，將其轉換為正確的資料型別。請注意，
+若已設定 null 旗標，傳回值就毫無意義；在嘗試對結果
+進行任何操作之前，請務必先檢查 null 旗標。
 
-There is also `GetAttributeByNum`, which selects
-the target attribute by column number instead of name.
+此外還有 `GetAttributeByNum`，它是依欄位編號、
+而不是依名稱來選取目標屬性。
 
-The following command declares the function
-`c_overpaid` in SQL:
+以下指令會在 SQL 中宣告
+`c_overpaid` 函式：
 
 ```
 
@@ -1024,40 +1026,41 @@ CREATE FUNCTION c_overpaid(emp, integer) RETURNS boolean
     LANGUAGE C STRICT;
 ```
 
-Notice we have used `STRICT` so that we did not have to
-check whether the input arguments were NULL.
+請注意，我們使用了 `STRICT`，因此不需要
+檢查輸入引數是否為 NULL。
 
 <a id="XFUNC-C-RETURNING-ROWS"></a>
 
-### 36.10.8. Returning Rows (Composite Types) [#](#XFUNC-C-RETURNING-ROWS)
+### 36.10.8. 傳回資料列（複合型別） [#](#XFUNC-C-RETURNING-ROWS)
 
-To return a row or composite-type value from a C-language
-function, you can use a special API that provides macros and
-functions to hide most of the complexity of building composite
-data types. To use this API, the source file must include:
+要從 C 語言函式傳回資料列或複合型別的值，
+您可以使用一組特殊的 API，其中提供了巨集與
+函式，可以隱藏建構複合
+資料型別時大部分的複雜性。要使用此 API，
+原始碼檔案必須納入：
 
 ```
 
 #include "funcapi.h"
 ```
 
-There are two ways you can build a composite data value (henceforth
-a “tuple”): you can build it from an array of Datum values,
-or from an array of C strings that can be passed to the input
-conversion functions of the tuple's column data types. In either
-case, you first need to obtain or construct a `TupleDesc`
-descriptor for the tuple structure. When working with Datums, you
-pass the `TupleDesc` to `BlessTupleDesc`,
-and then call `heap_form_tuple` for each row. When working
-with C strings, you pass the `TupleDesc` to
-`TupleDescGetAttInMetadata`, and then call
-`BuildTupleFromCStrings` for each row. In the case of a
-function returning a set of tuples, the setup steps can all be done
-once during the first call of the function.
+有兩種方式可以建構一個複合資料值（以下
+簡稱「tuple」）：您可以從一個 Datum 值陣列來
+建構它，或者從一個可傳遞給該 tuple 各欄位資料型別
+輸入轉換函式的 C 字串陣列來建構它。無論
+哪一種方式，您都必須先取得或建構此 tuple 結構的
+`TupleDesc` 描述元。若使用 Datum 來處理，
+您要將 `TupleDesc` 傳給 `BlessTupleDesc`，
+然後為每一列呼叫 `heap_form_tuple`。若使用 C 字串
+來處理，您要將 `TupleDesc` 傳給
+`TupleDescGetAttInMetadata`，然後為每一列呼叫
+`BuildTupleFromCStrings`。對於傳回一組
+tuple 的函式，所有這些設定步驟，都可以在函式第一次
+呼叫時就一次完成。
 
-Several helper functions are available for setting up the needed
-`TupleDesc`. The recommended way to do this in most
-functions returning composite values is to call:
+系統提供了幾個輔助函式，用來設定所需要的
+`TupleDesc`。在大多數傳回複合值的
+函式中，建議的做法是呼叫：
 
 ```
 
@@ -1066,163 +1069,165 @@ TypeFuncClass get_call_result_type(FunctionCallInfo fcinfo,
                                    TupleDesc *resultTupleDesc)
 ```
 
-passing the same `fcinfo` struct passed to the calling function
-itself. (This of course requires that you use the version-1
-calling conventions.) `resultTypeId` can be specified
-as `NULL` or as the address of a local variable to receive the
-function's result type OID. `resultTupleDesc` should be the
-address of a local `TupleDesc` variable. Check that the
-result is `TYPEFUNC_COMPOSITE`; if so,
-`resultTupleDesc` has been filled with the needed
-`TupleDesc`. (If it is not, you can report an error along
-the lines of “function returning record called in context that
-cannot accept type record”.)
+並傳入與傳給呼叫函式本身相同的 `fcinfo`
+結構。（這當然要求您使用版本 1 的
+呼叫慣例。）`resultTypeId` 可以指定
+為 `NULL`，或指定為某個本地變數的位址，
+以接收此函式結果型別的 OID。`resultTupleDesc`
+則應該是某個本地 `TupleDesc` 變數的位址。請
+檢查結果是否為 `TYPEFUNC_COMPOSITE`；若是，
+則 `resultTupleDesc` 已被填入所需要的
+`TupleDesc`。（若不是，您可以回報類似
+「function returning record called in context that
+cannot accept type record」這樣的錯誤。）
 
-### Tip
+### 提示
 
-`get_call_result_type` can resolve the actual type of a
-polymorphic function result; so it is useful in functions that return
-scalar polymorphic results, not only functions that return composites.
-The `resultTypeId` output is primarily useful for functions
-returning polymorphic scalars.
+`get_call_result_type` 可以解析多型
+函式結果的實際型別；因此，它不僅適用於傳回複合型別的
+函式，對於傳回純量多型結果的函式也相當有用。
+`resultTypeId` 輸出主要用於傳回
+多型純量的函式。
 
-### Note
+### 注意
 
-`get_call_result_type` has a sibling
-`get_expr_result_type`, which can be used to resolve the
-expected output type for a function call represented by an expression
-tree. This can be used when trying to determine the result type from
-outside the function itself. There is also
-`get_func_result_type`, which can be used when only the
-function's OID is available. However these functions are not able
-to deal with functions declared to return `record`, and
-`get_func_result_type` cannot resolve polymorphic types,
-so you should preferentially use `get_call_result_type`.
+`get_call_result_type` 有一個姊妹函式
+`get_expr_result_type`，可用於解析
+以運算式樹表示之函式呼叫的預期輸出型別。這可以在
+嘗試從函式本身之外判斷結果型別時使用。此外還有
+`get_func_result_type`，可在只有
+函式 OID 可用時使用。不過，這些函式都無法
+處理宣告為傳回 `record` 的函式，而且
+`get_func_result_type` 也無法解析多型
+型別，因此您應該優先使用 `get_call_result_type`。
 
-Older, now-deprecated functions for obtaining
-`TupleDesc`s are:
+較舊、現已淘汰的取得
+`TupleDesc` 的函式有：
 
 ```
 
 TupleDesc RelationNameGetTupleDesc(const char *relname)
 ```
 
-to get a `TupleDesc` for the row type of a named relation,
-and:
+可用來取得某個具名關聯之資料列型別的 `TupleDesc`，
+以及：
 
 ```
 
 TupleDesc TypeGetTupleDesc(Oid typeoid, List *colaliases)
 ```
 
-to get a `TupleDesc` based on a type OID. This can
-be used to get a `TupleDesc` for a base or
-composite type. It will not work for a function that returns
-`record`, however, and it cannot resolve polymorphic
-types.
+可用來依型別 OID 取得 `TupleDesc`。這可以
+用於取得基礎型別或
+複合型別的 `TupleDesc`。不過，它無法用於
+傳回 `record` 的函式，也無法解析多型
+型別。
 
-Once you have a `TupleDesc`, call:
+一旦您取得了 `TupleDesc`，就呼叫：
 
 ```
 
 TupleDesc BlessTupleDesc(TupleDesc tupdesc)
 ```
 
-if you plan to work with Datums, or:
+（若您打算使用 Datum 來處理），或者：
 
 ```
 
 AttInMetadata *TupleDescGetAttInMetadata(TupleDesc tupdesc)
 ```
 
-if you plan to work with C strings. If you are writing a function
-returning set, you can save the results of these functions in the
-`FuncCallContext` structure — use the
-`tuple_desc` or `attinmeta` field
-respectively.
+（若您打算使用 C 字串來處理）。若您正在撰寫
+一個傳回集合的函式，可以將這些函式的結果，
+儲存在 `FuncCallContext` 結構中——分別
+使用 `tuple_desc` 或 `attinmeta`
+欄位。
 
-When working with Datums, use:
+若使用 Datum 來處理，請使用：
 
 ```
 
 HeapTuple heap_form_tuple(TupleDesc tupdesc, Datum *values, bool *isnull)
 ```
 
-to build a `HeapTuple` given user data in Datum form.
+以 Datum 形式的使用者資料，建構一個 `HeapTuple`。
 
-When working with C strings, use:
+若使用 C 字串來處理，請使用：
 
 ```
 
 HeapTuple BuildTupleFromCStrings(AttInMetadata *attinmeta, char **values)
 ```
 
-to build a `HeapTuple` given user data
-in C string form. *`values`* is an array of C strings,
-one for each attribute of the return row. Each C string should be in
-the form expected by the input function of the attribute data
-type. In order to return a null value for one of the attributes,
-the corresponding pointer in the *`values`* array
-should be set to `NULL`. This function will need to
-be called again for each row you return.
+以 C 字串形式的使用者資料，
+建構一個 `HeapTuple`。*`values`* 是一個 C 字串陣列，
+傳回資料列的每個屬性各對應一個字串。每個 C 字串，
+都應該是該屬性資料型別輸入函式所預期的
+形式。若要為某個屬性傳回 null 值，
+*`values`* 陣列中對應的指標，
+應設定為 `NULL`。對於您要傳回的每一列，
+都需要再次呼叫此函式。
 
-Once you have built a tuple to return from your function, it
-must be converted into a `Datum`. Use:
+一旦您建構了要從函式傳回的 tuple，
+就必須將其轉換為 `Datum`。請使用：
 
 ```
 
 HeapTupleGetDatum(HeapTuple tuple)
 ```
 
-to convert a `HeapTuple` into a valid Datum. This
-`Datum` can be returned directly if you intend to return
-just a single row, or it can be used as the current return value
-in a set-returning function.
+將 `HeapTuple` 轉換為有效的 Datum。若您打算只
+傳回單一列，這個 `Datum` 可以直接傳回；
+或者，在傳回集合的函式中，也可以將其
+用作目前的傳回值。
 
-An example appears in the next section.
+下一節會提供一個範例。
 
 <a id="XFUNC-C-RETURN-SET"></a>
 
-### 36.10.9. Returning Sets [#](#XFUNC-C-RETURN-SET)
+### 36.10.9. 傳回集合 [#](#XFUNC-C-RETURN-SET)
 
-C-language functions have two options for returning sets (multiple
-rows). In one method, called *ValuePerCall*
-mode, a set-returning function is called repeatedly (passing the same
-arguments each time) and it returns one new row on each call, until
-it has no more rows to return and signals that by returning NULL.
-The set-returning function (SRF) must therefore
-save enough state across calls to remember what it was doing and
-return the correct next item on each call.
-In the other method, called *Materialize* mode,
-an SRF fills and returns a tuplestore object containing its
-entire result; then only one call occurs for the whole result, and
-no inter-call state is needed.
+C 語言函式在傳回集合（多筆資料列）時，
+有兩種選擇。其中一種方法稱為 *ValuePerCall*
+模式，這種傳回集合的函式會被重複呼叫（每次傳入
+相同的引數），並在每次呼叫時傳回一筆新的資料列，
+直到沒有更多資料列可傳回為止，並透過傳回 NULL
+來表示這一點。因此，這種傳回集合的函式（SRF）
+必須在多次呼叫之間，保存足夠的狀態，
+以記住它上次做到哪裡，並在每次呼叫時傳回正確的
+下一個項目。
+另一種方法稱為 *Materialize* 模式，
+SRF 會填入並傳回一個包含其
+全部結果的 tuplestore 物件；然後整個結果只會發生
+一次呼叫，也不需要跨呼叫的狀態。
 
-When using ValuePerCall mode, it is important to remember that the
-query is not guaranteed to be run to completion; that is, due to
-options such as `LIMIT`, the executor might stop
-making calls to the set-returning function before all rows have been
-fetched. This means it is not safe to perform cleanup activities in
-the last call, because that might not ever happen. It's recommended
-to use Materialize mode for functions that need access to external
-resources, such as file descriptors.
+使用 ValuePerCall 模式時，重要的是要記住，
+系統並不保證查詢會被執行到完成；
+也就是說，由於諸如 `LIMIT` 之類的選項，
+執行器可能會在尚未取得所有資料列之前，
+就停止呼叫這個傳回集合的函式。這表示
+在最後一次呼叫中執行清理動作並不安全，
+因為那次呼叫可能根本不會發生。建議
+對於需要存取外部資源（例如檔案描述元）的函式，
+使用 Materialize 模式。
 
-The remainder of this section documents a set of helper macros that
-are commonly used (though not required to be used) for SRFs using
-ValuePerCall mode. Additional details about Materialize mode can be
-found in `src/backend/utils/fmgr/README`. Also,
-the `contrib` modules in
-the PostgreSQL source distribution contain
-many examples of SRFs using both ValuePerCall and Materialize mode.
+本節其餘部分，記載了一組常用（但並非
+必須使用）於採用 ValuePerCall 模式之 SRF 的輔助
+巨集。關於 Materialize 模式的額外詳情，可以在
+`src/backend/utils/fmgr/README` 中找到。此外，
+PostgreSQL 原始碼發行套件中的
+`contrib` 模組，也包含許多同時使用
+ValuePerCall 與 Materialize 模式的 SRF 範例。
 
-To use the ValuePerCall support macros described here,
-include `funcapi.h`. These macros work with a
-structure `FuncCallContext` that contains the
-state that needs to be saved across calls. Within the calling
-SRF, `fcinfo->flinfo->fn_extra` is used to
-hold a pointer to `FuncCallContext` across
-calls. The macros automatically fill that field on first use,
-and expect to find the same pointer there on subsequent uses.
+要使用這裡所描述的 ValuePerCall 支援巨集，
+請納入 `funcapi.h`。這些巨集會搭配一個
+`FuncCallContext` 結構使用，該結構包含
+需要在多次呼叫之間保存的狀態。在
+正在被呼叫、傳回集合的 SRF 內部，會使用 `fcinfo->flinfo->fn_extra`
+來在多次呼叫之間，保存一個指向
+`FuncCallContext` 的指標。這些巨集會在
+第一次使用時自動填入該欄位，並且
+預期在後續使用時，在該處找到相同的指標。
 
 ```
 
@@ -1287,82 +1292,83 @@ typedef struct FuncCallContext
 } FuncCallContext;
 ```
 
-The macros to be used by an SRF using this
-infrastructure are:
+SRF 若使用這套基礎架構，可以使用以下巨集：
 
 ```
 
 SRF_IS_FIRSTCALL()
 ```
 
-Use this to determine if your function is being called for the first or a
-subsequent time. On the first call (only), call:
+用來判斷您的函式是第一次被呼叫，還是後續的
+呼叫。（只在）第一次呼叫時，呼叫：
 
 ```
 
 SRF_FIRSTCALL_INIT()
 ```
 
-to initialize the `FuncCallContext`. On every function call,
-including the first, call:
+來初始化 `FuncCallContext`。在每一次函式
+呼叫中（包括第一次），都呼叫：
 
 ```
 
 SRF_PERCALL_SETUP()
 ```
 
-to set up for using the `FuncCallContext`.
+以設定好要使用 `FuncCallContext`。
 
-If your function has data to return in the current call, use:
+若您的函式在目前這次呼叫中有資料要傳回，請使用：
 
 ```
 
 SRF_RETURN_NEXT(funcctx, result)
 ```
 
-to return it to the caller. (`result` must be of type
-`Datum`, either a single value or a tuple prepared as
-described above.) Finally, when your function is finished
-returning data, use:
+將其傳回給呼叫端。（`result` 必須是
+`Datum` 型別，可以是單一值，或是如上所述
+準備好的 tuple。）最後，當您的函式已完成
+傳回資料時，請使用：
 
 ```
 
 SRF_RETURN_DONE(funcctx)
 ```
 
-to clean up and end the SRF.
+來清理並結束此 SRF。
 
-The memory context that is current when the SRF is called is
-a transient context that will be cleared between calls. This means
-that you do not need to call `pfree` on everything
-you allocated using `palloc`; it will go away anyway. However, if you want to allocate
-any data structures to live across calls, you need to put them somewhere
-else. The memory context referenced by
-`multi_call_memory_ctx` is a suitable location for any
-data that needs to survive until the SRF is finished running. In most
-cases, this means that you should switch into
-`multi_call_memory_ctx` while doing the
-first-call setup.
-Use `funcctx->user_fctx` to hold a pointer to
-any such cross-call data structures.
-(Data you allocate
-in `multi_call_memory_ctx` will go away
-automatically when the query ends, so it is not necessary to free
-that data manually, either.)
+呼叫 SRF 時，目前所在的記憶體上下文
+是一個暫時性的上下文，會在每次呼叫之間被清除。這表示
+您不需要對每一個以 `palloc` 配置的物件
+呼叫 `pfree`；反正它們都會被釋放。
+不過，若您想要配置任何需要跨呼叫存活的
+資料結構，就需要把它們放到其他地方。
+`multi_call_memory_ctx` 所參照的記憶體上下文，
+就是任何需要存活到 SRF 執行完畢之資料的
+合適位置。在大多數情況下，這表示您應該
+在進行第一次呼叫的設定時，切換到
+`multi_call_memory_ctx`。
+請使用 `funcctx->user_fctx`，來保存一個指向
+任何這類跨呼叫資料結構的指標。
+（您在 `multi_call_memory_ctx`
+中所配置的資料，會在查詢結束時自動
+消失，因此也不需要手動釋放
+這些資料。）
 
-### Warning
+<a id="XFUNC-C-WARNING-VALUEPERCALL-ARGS"></a>
 
-While the actual arguments to the function remain unchanged between
-calls, if you detoast the argument values (which is normally done
-transparently by the
-`PG_GETARG_xxx` macro)
-in the transient context then the detoasted copies will be freed on
-each cycle. Accordingly, if you keep references to such values in
-your `user_fctx`, you must either copy them into the
-`multi_call_memory_ctx` after detoasting, or ensure
-that you detoast the values only in that context.
+### 警告
 
-A complete pseudo-code example looks like the following:
+雖然函式的實際引數，在多次呼叫之間
+保持不變，但若您在暫時性的上下文中對引數值
+去除 toast（這通常是由
+`PG_GETARG_xxx` 巨集透明地完成的），
+則去除 toast 後的副本，會在每個循環中被釋放。
+因此，若您在 `user_fctx` 中保留了對這類值的
+參照，就必須在去除 toast 之後，將它們複製到
+`multi_call_memory_ctx` 中，或者確保
+您只在該上下文中對這些值去除 toast。
+
+一個完整的偽程式碼範例如下：
 
 ```
 
@@ -1410,8 +1416,8 @@ my_set_returning_function(PG_FUNCTION_ARGS)
 }
 ```
 
-A complete example of a simple SRF returning a composite type
-looks like:
+一個傳回複合型別之簡單 SRF 的完整範例，
+如下所示：
 
 ```
 
@@ -1505,7 +1511,7 @@ retcomposite(PG_FUNCTION_ARGS)
 }
 ```
 
-One way to declare this function in SQL is:
+其中一種在 SQL 中宣告此函式的方式是：
 
 ```
 
@@ -1517,7 +1523,7 @@ CREATE OR REPLACE FUNCTION retcomposite(integer, integer)
     LANGUAGE C IMMUTABLE STRICT;
 ```
 
-A different way is to use OUT parameters:
+另一種方式，則是使用 OUT 參數：
 
 ```
 
@@ -1528,37 +1534,38 @@ CREATE OR REPLACE FUNCTION retcomposite(IN integer, IN integer,
     LANGUAGE C IMMUTABLE STRICT;
 ```
 
-Notice that in this method the output type of the function is formally
-an anonymous `record` type.
+請注意，在這種方式中，此函式的輸出型別，
+形式上是一個匿名的 `record` 型別。
 
 <a id="XFUNC-C-POLYMORPHIC"></a>
 
-### 36.10.10. Polymorphic Arguments and Return Types [#](#XFUNC-C-POLYMORPHIC)
+### 36.10.10. 多型引數與傳回型別 [#](#XFUNC-C-POLYMORPHIC)
 
-C-language functions can be declared to accept and
-return the polymorphic types described in [Section 36.2.5](extend-type-system.md#EXTEND-TYPES-POLYMORPHIC).
-When a function's arguments or return types
-are defined as polymorphic types, the function author cannot know
-in advance what data type it will be called with, or
-need to return. There are two routines provided in `fmgr.h`
-to allow a version-1 C function to discover the actual data types
-of its arguments and the type it is expected to return. The routines are
-called `get_fn_expr_rettype(FmgrInfo *flinfo)` and
-`get_fn_expr_argtype(FmgrInfo *flinfo, int argnum)`.
-They return the result or argument type OID, or `InvalidOid` if the
-information is not available.
-The structure `flinfo` is normally accessed as
-`fcinfo->flinfo`. The parameter `argnum`
-is zero based. `get_call_result_type` can also be used
-as an alternative to `get_fn_expr_rettype`.
-There is also `get_fn_expr_variadic`, which can be used to
-find out whether variadic arguments have been merged into an array.
-This is primarily useful for `VARIADIC "any"` functions,
-since such merging will always have occurred for variadic functions
-taking ordinary array types.
+C 語言函式可以被宣告為接受並
+傳回[36.2.5 節](extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)中所述的多型型別。
+當某個函式的引數或傳回型別
+被定義為多型型別時，函式的作者無法
+事先知道它會被以哪種資料型別呼叫，或
+需要傳回哪種資料型別。`fmgr.h` 中提供了兩個
+常式，讓版本 1 的 C 函式能夠找出其引數
+的實際資料型別，以及預期要傳回的型別。這些常式
+分別是 `get_fn_expr_rettype(FmgrInfo *flinfo)` 與
+`get_fn_expr_argtype(FmgrInfo *flinfo, int argnum)`。
+它們會傳回結果或引數型別的 OID，若無法取得該
+資訊，則傳回 `InvalidOid`。
+`flinfo` 結構通常是透過
+`fcinfo->flinfo` 來存取。參數 `argnum`
+是從零開始計算的。也可以使用
+`get_call_result_type` 作為 `get_fn_expr_rettype`
+的替代方案。
+此外還有 `get_fn_expr_variadic`，可用來
+判斷可變參數的引數是否已被合併為一個陣列。
+這主要用於 `VARIADIC "any"` 函式，
+因為對於採用一般陣列型別的可變參數函式而言，
+這種合併永遠都會發生。
 
-For example, suppose we want to write a function to accept a single
-element of any type, and return a one-dimensional array of that type:
+舉例來說，假設我們想撰寫一個函式，接受任意
+型別的單一元素，並傳回該型別的一維陣列：
 
 ```
 
@@ -1605,8 +1612,8 @@ make_array(PG_FUNCTION_ARGS)
 }
 ```
 
-The following command declares the function
-`make_array` in SQL:
+以下指令會在 SQL 中宣告
+`make_array` 函式：
 
 ```
 
@@ -1615,66 +1622,69 @@ CREATE FUNCTION make_array(anyelement) RETURNS anyarray
     LANGUAGE C IMMUTABLE;
 ```
 
-There is a variant of polymorphism that is only available to C-language
-functions: they can be declared to take parameters of type
-`"any"`. (Note that this type name must be double-quoted,
-since it's also an SQL reserved word.) This works like
-`anyelement` except that it does not constrain different
-`"any"` arguments to be the same type, nor do they help
-determine the function's result type. A C-language function can also
-declare its final parameter to be `VARIADIC "any"`. This will
-match one or more actual arguments of any type (not necessarily the same
-type). These arguments will *not* be gathered into an array
-as happens with normal variadic functions; they will just be passed to
-the function separately. The `PG_NARGS()` macro and the
-methods described above must be used to determine the number of actual
-arguments and their types when using this feature. Also, users of such
-a function might wish to use the `VARIADIC` keyword in their
-function call, with the expectation that the function would treat the
-array elements as separate arguments. The function itself must implement
-that behavior if wanted, after using `get_fn_expr_variadic` to
-detect that the actual argument was marked with `VARIADIC`.
+有一種多型的變體，只有 C 語言函式才能使用：
+它們可以被宣告為接受
+`"any"` 型別的參數。（請注意，這個型別名稱
+必須加上雙引號，因為它同時也是 SQL 的保留字。）
+這與 `anyelement` 類似，差別在於它並不要求
+不同的 `"any"` 引數必須屬於相同型別，
+它們也無助於判斷函式的結果型別。C 語言函式
+也可以將其最後一個參數宣告為
+`VARIADIC "any"`。這會比對一個或多個任意型別
+（不一定是相同型別）的實際引數。這些引數
+*不會*像一般可變參數函式那樣被收集到一個陣列
+中；它們只會分別被傳遞給
+函式。使用這項功能時，必須使用
+`PG_NARGS()` 巨集以及上述方法，
+來判斷實際引數的數量及其型別。此外，這類
+函式的使用者，可能會希望在其函式呼叫中使用
+`VARIADIC` 關鍵字，並期望此函式會將
+陣列元素當作各自獨立的引數來處理。若想要這種行為，
+函式本身就必須在使用 `get_fn_expr_variadic` 偵測到
+實際引數已被標記為 `VARIADIC` 之後，實作
+這項行為。
 
 <a id="XFUNC-SHARED-ADDIN"></a>
 
-### 36.10.11. Shared Memory [#](#XFUNC-SHARED-ADDIN)
+### 36.10.11. 共享記憶體 [#](#XFUNC-SHARED-ADDIN)
 
 <a id="XFUNC-SHARED-ADDIN-AT-STARTUP"></a>
 
-#### 36.10.11.1. Requesting Shared Memory at Startup [#](#XFUNC-SHARED-ADDIN-AT-STARTUP)
+#### 36.10.11.1. 在啟動時要求共享記憶體 [#](#XFUNC-SHARED-ADDIN-AT-STARTUP)
 
-Add-ins can reserve shared memory on server startup. To do so, the
-add-in's shared library must be preloaded by specifying it in
-[shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES)<a id="id-1.8.3.13.15.2.2.2"></a>.
-The shared library should also register a
-`shmem_request_hook` in its
-`_PG_init` function. This
-`shmem_request_hook` can reserve shared memory by
-calling:
+附加元件（add-in）可以在伺服器啟動時保留共享記憶體。要做到
+這一點，該附加元件的共享函式庫，必須透過在
+[shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES)<a id="id-1.8.3.13.15.2.2.2"></a>
+中指定它來預先載入。
+此共享函式庫還應該在其
+`_PG_init` 函式中，註冊一個
+`shmem_request_hook`。這個
+`shmem_request_hook` 可以透過呼叫以下函式，
+來保留共享記憶體：
 
 ```
 
 void RequestAddinShmemSpace(Size size)
 ```
 
-Each backend should obtain a pointer to the reserved shared memory by
-calling:
+每個後端程序，都應該透過呼叫以下函式，
+取得指向所保留共享記憶體的指標：
 
 ```
 
 void *ShmemInitStruct(const char *name, Size size, bool *foundPtr)
 ```
 
-If this function sets `foundPtr` to
-`false`, the caller should proceed to initialize the
-contents of the reserved shared memory. If `foundPtr`
-is set to `true`, the shared memory was already
-initialized by another backend, and the caller need not initialize
-further.
+若此函式將 `foundPtr` 設為
+`false`，呼叫端就應該接著初始化
+所保留共享記憶體的內容。若 `foundPtr`
+被設為 `true`，就表示這塊共享記憶體
+已經由另一個後端程序初始化過了，呼叫端就不需要
+進一步初始化。
 
-To avoid race conditions, each backend should use the LWLock
-`AddinShmemInitLock` when initializing its allocation
-of shared memory, as shown here:
+為了避免競爭情況（race condition），每個後端程序在初始化
+其所配置的共享記憶體時，都應該使用 LWLock
+`AddinShmemInitLock`，如下所示：
 
 ```
 
@@ -1691,30 +1701,32 @@ if (!found)
 LWLockRelease(AddinShmemInitLock);
 ```
 
-`shmem_startup_hook` provides a convenient place for the
-initialization code, but it is not strictly required that all such code
-be placed in this hook. On Windows (and anywhere else where
-`EXEC_BACKEND` is defined), each backend executes the
-registered `shmem_startup_hook` shortly after it
-attaches to shared memory, so add-ins should still acquire
-`AddinShmemInitLock` within this hook, as shown in the
-example above. On other platforms, only the postmaster process executes
-the `shmem_startup_hook`, and each backend automatically
-inherits the pointers to shared memory.
+`shmem_startup_hook` 為初始化程式碼提供了
+一個方便的位置，但並不是嚴格要求所有這類程式碼
+都必須放在這個掛鉤中。在 Windows（以及任何其他
+有定義 `EXEC_BACKEND` 的環境）上，每個後端程序，
+會在附加到共享記憶體之後不久，執行
+已註冊的 `shmem_startup_hook`，因此附加元件
+仍然應該如上面的範例所示，在這個掛鉤中取得
+`AddinShmemInitLock`。在其他平台上，
+只有 postmaster 程序會執行
+`shmem_startup_hook`，而每個後端程序都會
+自動繼承指向共享記憶體的指標。
 
-An example of a `shmem_request_hook` and
-`shmem_startup_hook` can be found in
-`contrib/pg_stat_statements/pg_stat_statements.c` in
-the PostgreSQL source tree.
+在 PostgreSQL 原始碼樹中的
+`contrib/pg_stat_statements/pg_stat_statements.c`，
+可以找到 `shmem_request_hook` 與
+`shmem_startup_hook` 的範例。
 
 <a id="XFUNC-SHARED-ADDIN-AFTER-STARTUP"></a>
 
-#### 36.10.11.2. Requesting Shared Memory After Startup [#](#XFUNC-SHARED-ADDIN-AFTER-STARTUP)
+#### 36.10.11.2. 在啟動之後要求共享記憶體 [#](#XFUNC-SHARED-ADDIN-AFTER-STARTUP)
 
-There is another, more flexible method of reserving shared memory that
-can be done after server startup and outside a
-`shmem_request_hook`. To do so, each backend that will
-use the shared memory should obtain a pointer to it by calling:
+還有另一種更有彈性的方法，可以在伺服器啟動之後、
+且在 `shmem_request_hook` 之外，
+保留共享記憶體。要做到這一點，每個要使用
+此共享記憶體的後端程序，都應該透過呼叫以下函式，
+取得指向它的指標：
 
 ```
 
@@ -1723,51 +1735,55 @@ void *GetNamedDSMSegment(const char *name, size_t size,
                          bool *found)
 ```
 
-If a dynamic shared memory segment with the given name does not yet
-exist, this function will allocate it and initialize it with the provided
-`init_callback` callback function. If the segment has
-already been allocated and initialized by another backend, this function
-simply attaches the existing dynamic shared memory segment to the current
-backend.
+若具有給定名稱的動態共享記憶體區段尚不存在，
+此函式將會配置它，並使用所提供的
+`init_callback` 回呼函式來初始化它。若此區段
+已由另一個後端程序配置並初始化過，此函式
+只會將現有的動態共享記憶體區段附加到目前的
+後端程序。
 
-Unlike shared memory reserved at server startup, there is no need to
-acquire `AddinShmemInitLock` or otherwise take action
-to avoid race conditions when reserving shared memory with
-`GetNamedDSMSegment`. This function ensures that only
-one backend allocates and initializes the segment and that all other
-backends receive a pointer to the fully allocated and initialized
-segment.
+與伺服器啟動時所保留的共享記憶體不同，
+使用 `GetNamedDSMSegment` 保留共享記憶體時，
+不需要取得
+`AddinShmemInitLock`，也不需要採取其他動作
+來避免競爭情況。這個函式會確保
+只有一個後端程序會配置並初始化該
+區段，且所有其他後端程序，都會取得指向已完整
+配置並初始化之區段的指標。
 
-A complete usage example of `GetNamedDSMSegment` can
-be found in
-`src/test/modules/test_dsm_registry/test_dsm_registry.c`
-in the PostgreSQL source tree.
+在 PostgreSQL 原始碼樹中的
+`src/test/modules/test_dsm_registry/test_dsm_registry.c`，
+可以找到 `GetNamedDSMSegment` 的完整使用
+範例。
 
 <a id="XFUNC-ADDIN-LWLOCKS"></a>
 
-### 36.10.12. LWLocks [#](#XFUNC-ADDIN-LWLOCKS)
+### 36.10.12. LWLocks [#](#XFUNC-ADDIN-LWLOCKS)
 
 <a id="XFUNC-ADDIN-LWLOCKS-AT-STARTUP"></a>
 
-#### 36.10.12.1. Requesting LWLocks at Startup [#](#XFUNC-ADDIN-LWLOCKS-AT-STARTUP)
+#### 36.10.12.1. 在啟動時要求 LWLocks [#](#XFUNC-ADDIN-LWLOCKS-AT-STARTUP)
 
-Add-ins can reserve LWLocks on server startup. As with shared memory
-reserved at server startup, the add-in's shared library must be preloaded
-by specifying it in
-[shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES)<a id="id-1.8.3.13.16.2.2.2"></a>,
-and the shared library should register a
-`shmem_request_hook` in its
-`_PG_init` function. This
-`shmem_request_hook` can reserve LWLocks by calling:
+附加元件可以在伺服器啟動時保留 LWLocks。與
+伺服器啟動時保留共享記憶體的方式相同，此附加元件的
+共享函式庫，必須透過在
+[shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES)<a id="id-1.8.3.13.16.2.2.2"></a>
+中指定它來預先載入，
+且此共享函式庫，應該在其
+`_PG_init` 函式中，註冊一個
+`shmem_request_hook`。這個
+`shmem_request_hook`，可以透過呼叫以下函式，
+來保留 LWLocks：
 
 ```
 
 void RequestNamedLWLockTranche(const char *tranche_name, int num_lwlocks)
 ```
 
-This ensures that an array of `num_lwlocks` LWLocks is
-available under the name `tranche_name`. A pointer to
-this array can be obtained by calling:
+這可以確保有一個包含 `num_lwlocks` 個 LWLocks 的
+陣列，可以用名稱 `tranche_name` 來取用。
+可以透過呼叫以下函式，
+取得指向此陣列的指標：
 
 ```
 
@@ -1776,67 +1792,72 @@ LWLockPadded *GetNamedLWLockTranche(const char *tranche_name)
 
 <a id="XFUNC-ADDIN-LWLOCKS-AFTER-STARTUP"></a>
 
-#### 36.10.12.2. Requesting LWLocks After Startup [#](#XFUNC-ADDIN-LWLOCKS-AFTER-STARTUP)
+#### 36.10.12.2. 在啟動之後要求 LWLocks [#](#XFUNC-ADDIN-LWLOCKS-AFTER-STARTUP)
 
-There is another, more flexible method of obtaining LWLocks that can be
-done after server startup and outside a
-`shmem_request_hook`. To do so, first allocate a
-`tranche_id` by calling:
+還有另一種更有彈性的方法，可以在伺服器啟動之後、
+且在 `shmem_request_hook` 之外，
+取得 LWLocks。要做到這一點，首先透過呼叫以下函式，
+配置一個 `tranche_id`：
 
 ```
 
 int LWLockNewTrancheId(void)
 ```
 
-Next, initialize each LWLock, passing the new
-`tranche_id` as an argument:
+接著，初始化每一個 LWLock，並傳入新的
+`tranche_id` 作為引數：
 
 ```
 
 void LWLockInitialize(LWLock *lock, int tranche_id)
 ```
 
-Similar to shared memory, each backend should ensure that only one
-process allocates a new `tranche_id` and initializes
-each new LWLock. One way to do this is to only call these functions in
-your shared memory initialization code with the
-`AddinShmemInitLock` held exclusively. If using
-`GetNamedDSMSegment`, calling these functions in the
-`init_callback` callback function is sufficient to
-avoid race conditions.
+與共享記憶體類似，每個後端程序都應該確保
+只有一個程序配置新的 `tranche_id`，
+並初始化每一個新的 LWLock。做到這一點的其中一種方式，
+是只在持有排他鎖定的
+`AddinShmemInitLock` 情況下，於您的共享記憶體初始化
+程式碼中呼叫這些函式。若使用
+`GetNamedDSMSegment`，則在
+`init_callback` 回呼函式中呼叫這些函式，
+就足以避免競爭情況。
 
-Finally, each backend using the `tranche_id` should
-associate it with a `tranche_name` by calling:
+最後，每個使用 `tranche_id` 的後端程序，
+都應該透過呼叫以下函式，將其與
+`tranche_name` 建立關聯：
 
 ```
 
 void LWLockRegisterTranche(int tranche_id, const char *tranche_name)
 ```
 
-A complete usage example of `LWLockNewTrancheId`,
-`LWLockInitialize`, and
-`LWLockRegisterTranche` can be found in
-`contrib/pg_prewarm/autoprewarm.c` in the
-PostgreSQL source tree.
+在 PostgreSQL 原始碼樹中的
+`contrib/pg_prewarm/autoprewarm.c`，
+可以找到 `LWLockNewTrancheId`、
+`LWLockInitialize` 與
+`LWLockRegisterTranche` 的完整使用範例。
 
 <a id="XFUNC-ADDIN-WAIT-EVENTS"></a>
 
-### 36.10.13. Custom Wait Events [#](#XFUNC-ADDIN-WAIT-EVENTS)
+### 36.10.13. 自訂等待事件 [#](#XFUNC-ADDIN-WAIT-EVENTS)
 
-Add-ins can define custom wait events under the wait event type
-`Extension` by calling:
+附加元件可以透過呼叫以下函式，
+在 `Extension` 這個等待事件類型下，
+定義自訂的等待事件：
 
 ```
 
 uint32 WaitEventExtensionNew(const char *wait_event_name)
 ```
 
-The wait event is associated to a user-facing custom string.
-An example can be found in `src/test/modules/worker_spi`
-in the PostgreSQL source tree.
+此等待事件會與一個提供給使用者查看的自訂字串相關聯。
+在 PostgreSQL 原始碼樹的
+`src/test/modules/worker_spi` 中，可以找到一個
+範例。
 
-Custom wait events can be viewed in
-[`pg_stat_activity`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW):
+可以在
+[`pg_stat_activity`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)中，
+檢視自訂的等待事件：
 
 ```
 
@@ -1850,29 +1871,30 @@ Custom wait events can be viewed in
 
 <a id="XFUNC-ADDIN-INJECTION-POINTS"></a>
 
-### 36.10.14. Injection Points [#](#XFUNC-ADDIN-INJECTION-POINTS)
+### 36.10.14. 注入點（Injection Points） [#](#XFUNC-ADDIN-INJECTION-POINTS)
 
-An injection point with a given `name` is declared using
-macro:
+具有給定 `name` 的注入點，是使用以下巨集
+來宣告的：
 
 ```
 
 INJECTION_POINT(name, arg);
 ```
 
-There are a few injection points already declared at strategic points
-within the server code. After adding a new injection point the code needs
-to be compiled in order for that injection point to be available in the
-binary. Add-ins written in C-language can declare injection points in
-their own code using the same macro. The injection point names should use
-lower-case characters, with terms separated by
-dashes. `arg` is an optional argument value given to the
-callback at run-time.
+伺服器程式碼中的幾個關鍵位置，已經宣告了一些
+注入點。加入新的注入點之後，必須重新編譯程式碼，
+該注入點才能在執行檔中使用。以 C 語言撰寫的
+附加元件，可以使用相同的巨集，在自己的程式碼中
+宣告注入點。注入點的名稱應使用
+小寫字元，各個詞語之間以連字號分隔。
+`arg` 是一個選擇性的引數值，會在執行期間
+提供給回呼函式。
 
-Executing an injection point can require allocating a small amount of
-memory, which can fail. If you need to have an injection point in a
-critical section where dynamic allocations are not allowed, you can use
-a two-step approach with the following macros:
+執行一個注入點，可能需要配置少量的
+記憶體，而這可能會失敗。若您需要在不允許
+動態配置記憶體的關鍵區段（critical section）中
+使用注入點，可以使用以下巨集，
+採取兩步驟的做法：
 
 ```
 
@@ -1880,14 +1902,15 @@ INJECTION_POINT_LOAD(name);
 INJECTION_POINT_CACHED(name, arg);
 ```
 
-Before entering the critical section,
-call `INJECTION_POINT_LOAD`. It checks the shared
-memory state, and loads the callback into backend-private memory if it is
-active. Inside the critical section, use
-`INJECTION_POINT_CACHED` to execute the callback.
+在進入關鍵區段之前，
+呼叫 `INJECTION_POINT_LOAD`。它會檢查共享
+記憶體狀態，若該回呼函式為啟用狀態，就將其
+載入後端程序私有的記憶體中。在關鍵區段內，
+使用 `INJECTION_POINT_CACHED` 來執行此回呼
+函式。
 
-Add-ins can attach callbacks to an already-declared injection point by
-calling:
+附加元件可以透過呼叫以下函式，
+將回呼函式附加到某個已宣告的注入點：
 
 ```
 
@@ -1898,14 +1921,14 @@ extern void InjectionPointAttach(const char *name,
                                  int private_data_size);
 ```
 
-`name` is the name of the injection point, which when
-reached during execution will execute the `function`
-loaded from `library`. `private_data`
-is a private area of data of size `private_data_size`
-given as argument to the callback when executed.
+`name` 是此注入點的名稱，當執行期間
+到達此處時，就會執行從 `library` 載入的
+`function`。`private_data`
+是一塊私有資料區域，大小為 `private_data_size`，
+會在執行時作為引數提供給此回呼函式。
 
-Here is an example of callback for
-`InjectionPointCallback`:
+以下是一個
+`InjectionPointCallback` 的回呼函式範例：
 
 ```
 
@@ -1922,16 +1945,16 @@ custom_injection_callback(const char *name,
 }
 ```
 
-This callback prints a message to server error log with severity
-`NOTICE`, but callbacks may implement more complex
-logic.
+這個回呼函式會以 `NOTICE` 的嚴重性層級，
+在伺服器錯誤記錄檔中印出一則訊息，不過回呼函式
+也可以實作更複雜的邏輯。
 
-An alternative way to define the action to take when an injection point
-is reached is to add the testing code alongside the normal source
-code. This can be useful if the action e.g. depends on local variables
-that are not accessible to loaded modules. The
-`IS_INJECTION_POINT_ATTACHED` macro can then be used
-to check if an injection point is attached, for example:
+定義到達注入點時所要採取動作的另一種方式，
+是將測試程式碼加入一般的原始碼中。舉例來說，
+若這項動作依賴於已載入模組無法存取的
+本地變數，這種做法會很有用。接著就可以使用
+`IS_INJECTION_POINT_ATTACHED` 巨集，
+來檢查是否已附加某個注入點，舉例來說：
 
 ```
 
@@ -1947,46 +1970,48 @@ if (IS_INJECTION_POINT_ATTACHED("before-foobar"))
 #endif
 ```
 
-Note that the callback attached to the injection point will not be
-executed by the `IS_INJECTION_POINT_ATTACHED`
-macro. If you want to execute the callback, you must also call
-`INJECTION_POINT_CACHED` like in the above example.
+請注意，`IS_INJECTION_POINT_ATTACHED`
+巨集並不會執行附加到該注入點的回呼函式。若您
+想要執行此回呼函式，也必須像上述範例那樣，呼叫
+`INJECTION_POINT_CACHED`。
 
-Optionally, it is possible to detach an injection point by calling:
+您也可以選擇透過呼叫以下函式，
+來卸除（detach）某個注入點：
 
 ```
 
 extern bool InjectionPointDetach(const char *name);
 ```
 
-On success, `true` is returned, `false`
-otherwise.
+成功時會傳回 `true`，否則
+傳回 `false`。
 
-A callback attached to an injection point is available across all the
-backends including the backends started after
-`InjectionPointAttach` is called. It remains attached
-while the server is running or until the injection point is detached
-using `InjectionPointDetach`.
+附加到某個注入點的回呼函式，可以在所有
+後端程序中使用，包括在呼叫
+`InjectionPointAttach` 之後才啟動的後端程序。只要
+伺服器持續執行，或直到該注入點使用
+`InjectionPointDetach` 卸除為止，它都會保持
+附加狀態。
 
-An example can be found in
-`src/test/modules/injection_points` in the PostgreSQL
-source tree.
+在 PostgreSQL 原始碼樹的
+`src/test/modules/injection_points` 中，可以找到
+一個範例。
 
-Enabling injections points requires
-`--enable-injection-points` with
-`configure` or `-Dinjection_points=true`
-with Meson.
+若要啟用注入點，需要在使用 `configure`
+時加上 `--enable-injection-points`，
+或在使用 Meson 時加上
+`-Dinjection_points=true`。
 
 <a id="XFUNC-ADDIN-CUSTOM-CUMULATIVE-STATISTICS"></a>
 
-### 36.10.15. Custom Cumulative Statistics [#](#XFUNC-ADDIN-CUSTOM-CUMULATIVE-STATISTICS)
+### 36.10.15. 自訂累計統計資訊 [#](#XFUNC-ADDIN-CUSTOM-CUMULATIVE-STATISTICS)
 
-It is possible for add-ins written in C-language to use custom types
-of cumulative statistics registered in the
-[Cumulative Statistics System](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-SETUP).
+以 C 語言撰寫的附加元件，可以使用
+在[累計統計資訊系統](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-SETUP)中
+所註冊的自訂累計統計資訊型別。
 
-First, define a `PgStat_KindInfo` that includes all
-the information related to the custom type registered. For example:
+首先，定義一個 `PgStat_KindInfo`，其中包含
+與所註冊自訂型別相關的所有資訊。舉例來說：
 
 ```
 
@@ -2000,9 +2025,10 @@ static const PgStat_KindInfo custom_stats = {
 }
 ```
 
-Then, each backend that needs to use this custom type needs to register
-it with `pgstat_register_kind` and a unique ID used to
-store the entries related to this type of statistics:
+接著，每個需要使用此自訂型別的後端程序，
+都需要使用 `pgstat_register_kind`，以及用於儲存
+與此統計資訊型別相關項目的唯一 ID，
+來進行註冊：
 
 ```
 
@@ -2010,66 +2036,74 @@ extern PgStat_Kind pgstat_register_kind(PgStat_Kind kind,
                                         const PgStat_KindInfo *kind_info);
 ```
 
-While developing a new extension, use
-`PGSTAT_KIND_EXPERIMENTAL` for
-*`kind`*. When you are ready to release the extension
-to users, reserve a kind ID at the
-[Custom Cumulative Statistics](https://wiki.postgresql.org/wiki/CustomCumulativeStats) page.
+在開發新的擴充功能時，請將
+*`kind`* 設為
+`PGSTAT_KIND_EXPERIMENTAL`。當您準備好要將此擴充功能
+發行給使用者時，請在
+[Custom Cumulative Statistics](https://wiki.postgresql.org/wiki/CustomCumulativeStats) 頁面上
+保留一個 kind ID。
 
-The details of the API for `PgStat_KindInfo` can
-be found in `src/include/utils/pgstat_internal.h`.
+`PgStat_KindInfo` API 的詳情，可以在
+`src/include/utils/pgstat_internal.h` 中找到。
 
-The type of statistics registered is associated with a name and a unique
-ID shared across the server in shared memory. Each backend using a
-custom type of statistics maintains a local cache storing the information
-of each custom `PgStat_KindInfo`.
+所註冊的統計資訊型別，會與一個名稱，
+以及在共享記憶體中、整個伺服器共用的唯一 ID
+建立關聯。每個使用自訂統計資訊型別的後端程序，
+都會維護一個本地快取，儲存每個自訂
+`PgStat_KindInfo` 的資訊。
 
-Place the extension module implementing the custom cumulative statistics
-type in [shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) so that it will
-be loaded early during PostgreSQL startup.
+請將實作此自訂累計統計資訊型別的擴充功能模組，
+放入
+[shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES)中，
+以便在 PostgreSQL 啟動期間，
+及早載入它。
 
-An example describing how to register and use custom statistics can be
-found in `src/test/modules/injection_points`.
+在 `src/test/modules/injection_points` 中，
+可以找到一個說明如何註冊並使用自訂統計資訊的
+範例。
 
 <a id="EXTEND-CPP"></a>
 
-### 36.10.16. Using C++ for Extensibility [#](#EXTEND-CPP)
+### 36.10.16. 使用 C++ 來擴充功能 [#](#EXTEND-CPP)
 
 <a id="id-1.8.3.13.20.2"></a>
 
-Although the PostgreSQL backend is written in
-C, it is possible to write extensions in C++ if these guidelines are
-followed:
+雖然 PostgreSQL 後端是以
+C 撰寫的，但若遵循以下指引，仍然可以用 C++
+撰寫擴充功能：
 
-* All functions accessed by the backend must present a C interface
-  to the backend; these C functions can then call C++ functions.
-  For example, `extern C` linkage is required for
-  backend-accessed functions. This is also necessary for any
-  functions that are passed as pointers between the backend and
-  C++ code.
-* Free memory using the appropriate deallocation method. For example,
-  most backend memory is allocated using `palloc()`, so use
-  `pfree()` to free it. Using C++
-  `delete` in such cases will fail.
-* Prevent exceptions from propagating into the C code (use a catch-all
-  block at the top level of all `extern C` functions). This
-  is necessary even if the C++ code does not explicitly throw any
-  exceptions, because events like out-of-memory can still throw
-  exceptions. Any exceptions must be caught and appropriate errors
-  passed back to the C interface. If possible, compile C++ with
-  `-fno-exceptions` to eliminate exceptions entirely; in such
-  cases, you must check for failures in your C++ code, e.g., check for
-  NULL returned by `new()`.
-* If calling backend functions from C++ code, be sure that the
-  C++ call stack contains only plain old data structures
-  (POD). This is necessary because backend errors
-  generate a distant `longjmp()` that does not properly
-  unroll a C++ call stack with non-POD objects.
+* 後端所存取的所有函式，都必須向後端
+  提供 C 介面；這些 C 函式接著可以呼叫 C++
+  函式。舉例來說，後端所存取的函式，
+  需要使用 `extern C` 連結方式。任何
+  以指標形式在後端與
+  C++ 程式碼之間傳遞的函式，也同樣需要這樣做。
+* 請使用適當的釋放方法，來釋放記憶體。舉例來說，
+  大多數後端記憶體都是使用 `palloc()` 配置的，因此請使用
+  `pfree()` 來釋放它。在這類情況下使用 C++ 的
+  `delete`，將會失敗。
+* 防止例外狀況擴散到 C 程式碼中（在所有
+  `extern C` 函式的最上層，使用一個攔截所有例外的
+  區塊）。即使 C++ 程式碼並未明確拋出任何
+  例外，這也是必要的，因為記憶體不足之類的事件，
+  仍然可能拋出例外。任何例外都必須被攔截，
+  並將適當的錯誤傳回給 C 介面。若可能的話，
+  請以 `-fno-exceptions` 選項編譯 C++，以徹底消除
+  例外；在這種情況下，您必須在您的 C++ 程式碼中
+  檢查是否發生失敗，舉例來說，檢查
+  `new()` 是否傳回 NULL。
+* 若要從 C++ 程式碼呼叫後端函式，請務必確保
+  C++ 的呼叫堆疊中，只包含純粹的資料
+  結構（POD，plain old data structures）。這是必要的，
+  因為後端錯誤會產生一個非本地的（distant）
+  `longjmp()`，這無法正確地展開
+  含有非 POD 物件的 C++ 呼叫堆疊。
 
-In summary, it is best to place C++ code behind a wall of
-`extern C` functions that interface to the backend,
-and avoid exception, memory, and call stack leakage.
+總而言之，最好的做法是將 C++ 程式碼，
+放在一道與後端介接、以
+`extern C` 函式構成的牆之後，
+並避免例外、記憶體以及呼叫堆疊的洩漏。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xfunc-c.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/xfunc-c.html)（原文版本：18.6；核對日期：2026-09-25）
