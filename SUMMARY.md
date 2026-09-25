@@ -240,7 +240,7 @@
   * [第 22 章 管理資料庫](server-administration/managing-databases/README.md)
     * [22.1. Overview #](server-administration/managing-databases/manage-ag-overview.md)
     * [22.2. 建立資料庫 #](server-administration/managing-databases/manage-ag-createdb.md)
-    * [22.3. Template Databases #](server-administration/managing-databases/manage-ag-templatedbs.md)
+    * [22.3. 範本資料庫 #](server-administration/managing-databases/manage-ag-templatedbs.md)
     * [22.4. 資料庫設定](server-administration/managing-databases/manage-ag-config.md)
     * [22.5. 刪除資料庫](server-administration/managing-databases/manage-ag-dropdb.md)
     * [22.6. 資料表空間 #](server-administration/managing-databases/manage-ag-tablespaces.md)
