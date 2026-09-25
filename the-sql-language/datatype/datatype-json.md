@@ -1,134 +1,122 @@
-## 8.14. JSON Types [#](#DATATYPE-JSON)
+<a id="DATATYPE-JSON"></a>
+## 8.14. JSON 型別 [#](#DATATYPE-JSON)
 
-[8.14.1. JSON Input and Output Syntax](datatype-json.md#JSON-KEYS-ELEMENTS)
+[8.14.1. JSON 輸入與輸出語法](datatype-json.md#JSON-KEYS-ELEMENTS)
 
-[8.14.2. Designing JSON Documents](datatype-json.md#JSON-DOC-DESIGN)
+[8.14.2. 設計 JSON 文件](datatype-json.md#JSON-DOC-DESIGN)
 
-[8.14.3. `jsonb` Containment and Existence](datatype-json.md#JSON-CONTAINMENT)
+[8.14.3. `jsonb` 的包含與存在性](datatype-json.md#JSON-CONTAINMENT)
 
-[8.14.4. `jsonb` Indexing](datatype-json.md#JSON-INDEXING)
+[8.14.4. `jsonb` 索引](datatype-json.md#JSON-INDEXING)
 
-[8.14.5. `jsonb` Subscripting](datatype-json.md#JSONB-SUBSCRIPTING)
+[8.14.5. `jsonb` 下標](datatype-json.md#JSONB-SUBSCRIPTING)
 
-[8.14.6. Transforms](datatype-json.md#DATATYPE-JSON-TRANSFORMS)
+[8.14.6. 轉換（Transforms）](datatype-json.md#DATATYPE-JSON-TRANSFORMS)
 
-[8.14.7. jsonpath Type](datatype-json.md#DATATYPE-JSONPATH)
+[8.14.7. jsonpath 型別](datatype-json.md#DATATYPE-JSONPATH)
 
 <a id="id-1.5.7.22.2"></a><a id="id-1.5.7.22.3"></a>
 
-JSON data types are for storing JSON (JavaScript Object Notation)
-data, as specified in [RFC
-7159](https://datatracker.ietf.org/doc/html/rfc7159). Such data can also be stored as `text`, but
-the JSON data types have the advantage of enforcing that each
-stored value is valid according to the JSON rules. There are also
-assorted JSON-specific functions and operators available for data stored
-in these data types; see [Section 9.16](../functions/functions-json.md).
+JSON 資料型別用於儲存 JSON（JavaScript Object
+Notation）資料，其規範見於 [RFC
+7159](https://datatracker.ietf.org/doc/html/rfc7159)。這類資料也可以儲存為
+`text`，但 JSON 資料型別的優點在於可以強制檢查每個儲存值是否符合
+JSON 規則而有效。此外，還有多種針對這些資料型別的 JSON 專用函式與運算子可供使用；請參閱[9.16 節](../functions/functions-json.md)。
 
-PostgreSQL offers two types for storing JSON
-data: `json` and `jsonb`. To implement efficient query
-mechanisms for these data types, PostgreSQL
-also provides the `jsonpath` data type described in
-[Section 8.14.7](datatype-json.md#DATATYPE-JSONPATH).
+PostgreSQL 提供了兩種儲存 JSON
+資料的型別：`json` 與 `jsonb`。為了對這些資料型別實作高效率的查詢
+機制，PostgreSQL
+還提供了 `jsonpath` 資料型別，描述於
+[8.14.7 節](datatype-json.md#DATATYPE-JSONPATH)。
 
-The `json` and `jsonb` data types
-accept *almost* identical sets of values as
-input. The major practical difference is one of efficiency. The
-`json` data type stores an exact copy of the input text,
-which processing functions must reparse on each execution; while
-`jsonb` data is stored in a decomposed binary format that
-makes it slightly slower to input due to added conversion
-overhead, but significantly faster to process, since no reparsing
-is needed. `jsonb` also supports indexing, which can be a
-significant advantage.
+`json` 與 `jsonb`
+資料型別所接受的輸入值集合*幾乎*完全相同。兩者實際上的主要差異在於效率。
+`json` 資料型別會儲存輸入文字的精確副本，
+處理函式每次執行時都必須重新剖析；而
+`jsonb` 資料則以分解過的二進位格式儲存，
+這使得輸入時因為額外的轉換負擔而稍微較慢，但由於不需要重新剖析，
+處理速度則明顯較快。`jsonb` 也支援索引，
+這可能是一項重要的優勢。
 
-Because the `json` type stores an exact copy of the input text, it
-will preserve semantically-insignificant white space between tokens, as
-well as the order of keys within JSON objects. Also, if a JSON object
-within the value contains the same key more than once, all the key/value
-pairs are kept. (The processing functions consider the last value as the
-operative one.) By contrast, `jsonb` does not preserve white
-space, does not preserve the order of object keys, and does not keep
-duplicate object keys. If duplicate keys are specified in the input,
-only the last value is kept.
+由於 `json` 型別會儲存輸入文字的精確副本，它
+會保留權杖（token）之間在語意上不重要的空白，
+以及 JSON 物件中鍵的順序。此外，如果值中的某個 JSON 物件
+內同一個鍵出現超過一次，所有的鍵/值配對都會被保留。（處理函式會將最後一個值視為
+有效值。）相對地，`jsonb` 不會保留空白，
+不會保留物件鍵的順序，也不會保留重複的物件鍵。若輸入中指定了重複的鍵，
+只會保留最後一個值。
 
-In general, most applications should prefer to store JSON data as
-`jsonb`, unless there are quite specialized needs, such as
-legacy assumptions about ordering of object keys.
+一般而言，大多數應用程式應該優先將 JSON 資料儲存為
+`jsonb`，除非有相當特殊的需求，例如
+對物件鍵順序有既有假設的舊系統。
 
-RFC 7159 specifies that JSON strings should be encoded in UTF8.
-It is therefore not possible for the JSON
-types to conform rigidly to the JSON specification unless the database
-encoding is UTF8. Attempts to directly include characters that
-cannot be represented in the database encoding will fail; conversely,
-characters that can be represented in the database encoding but not
-in UTF8 will be allowed.
+RFC 7159 規定 JSON 字串應以 UTF8 編碼。
+因此，除非資料庫編碼為 UTF8，
+否則 JSON
+型別不可能嚴格遵循 JSON 規範。若試圖直接包含
+無法以資料庫編碼表示的字元將會失敗；反之，
+能以資料庫編碼表示但無法以 UTF8 表示的字元則會被允許。
 
-RFC 7159 permits JSON strings to contain Unicode escape sequences
-denoted by `\uXXXX`. In the input
-function for the `json` type, Unicode escapes are allowed
-regardless of the database encoding, and are checked only for syntactic
-correctness (that is, that four hex digits follow `\u`).
-However, the input function for `jsonb` is stricter: it disallows
-Unicode escapes for characters that cannot be represented in the database
-encoding. The `jsonb` type also
-rejects `\u0000` (because that cannot be represented in
-PostgreSQL's `text` type), and it insists
-that any use of Unicode surrogate pairs to designate characters outside
-the Unicode Basic Multilingual Plane be correct. Valid Unicode escapes
-are converted to the equivalent single character for storage;
-this includes folding surrogate pairs into a single character.
+RFC 7159 允許 JSON 字串包含以
+`\uXXXX` 表示的 Unicode 逸出序列。在
+`json` 型別的輸入函式中，無論資料庫編碼為何，都允許使用 Unicode 逸出序列，
+並且只會檢查其語法正確性（也就是 `\u` 後面
+是否跟著四個十六進位數字）。然而，`jsonb` 的輸入函式較為嚴格：它不允許
+使用資料庫編碼無法表示之字元的 Unicode 逸出序列。`jsonb` 型別
+也會拒絕 `\u0000`（因為它無法以
+PostgreSQL 的 `text` 型別表示），並且要求
+任何用來表示 Unicode 基本多文種平面之外字元的 Unicode 代理對（surrogate
+pair）都必須正確無誤。有效的 Unicode 逸出序列會被轉換為
+對應的單一字元來儲存；這也包括將代理對摺疊為單一字元。
 
-### Note
+### 注意
 
-Many of the JSON processing functions described
-in [Section 9.16](../functions/functions-json.md) will convert Unicode escapes to
-regular characters, and will therefore throw the same types of errors
-just described even if their input is of type `json`
-not `jsonb`. The fact that the `json` input function does
-not make these checks may be considered a historical artifact, although
-it does allow for simple storage (without processing) of JSON Unicode
-escapes in a database encoding that does not support the represented
-characters.
+[9.16 節](../functions/functions-json.md)中所述的許多 JSON 處理函式
+會將 Unicode 逸出序列轉換為一般字元，因此即使其輸入的型別是
+`json` 而非 `jsonb`，也一樣會拋出前面所述的同類型錯誤。
+`json` 輸入函式不進行這些檢查的這項事實，
+可以視為一種歷史遺留現象，不過它確實能夠讓
+JSON Unicode 逸出序列在不支援所代表字元的資料庫編碼中，
+以簡單的方式儲存（而不加以處理）。
 
-When converting textual JSON input into `jsonb`, the primitive
-types described by RFC 7159 are effectively mapped onto
-native PostgreSQL types, as shown
-in [Table 8.23](datatype-json.md#JSON-TYPE-MAPPING-TABLE).
-Therefore, there are some minor additional constraints on what
-constitutes valid `jsonb` data that do not apply to
-the `json` type, nor to JSON in the abstract, corresponding
-to limits on what can be represented by the underlying data type.
-Notably, `jsonb` will reject numbers that are outside the
-range of the PostgreSQL `numeric` data
-type, while `json` will not. Such implementation-defined
-restrictions are permitted by RFC 7159. However, in
-practice such problems are far more likely to occur in other
-implementations, as it is common to represent JSON's `number`
-primitive type as IEEE 754 double precision floating point
-(which RFC 7159 explicitly anticipates and allows for).
-When using JSON as an interchange format with such systems, the danger
-of losing numeric precision compared to data originally stored
-by PostgreSQL should be considered.
+在將文字形式的 JSON 輸入轉換為 `jsonb` 時，RFC
+7159 所描述的基本型別會有效地對映到
+原生的 PostgreSQL 型別，如
+[表 8.23](datatype-json.md#JSON-TYPE-MAPPING-TABLE)所示。
+因此，對於構成有效 `jsonb` 資料而言，
+存在一些不適用於 `json` 型別、也不適用於抽象意義上 JSON 的
+額外次要限制，這些限制對應於底層資料型別所能表示範圍的限制。
+值得注意的是，`jsonb` 會拒絕超出
+PostgreSQL `numeric` 資料型別範圍的數字，
+而 `json` 則不會。RFC 7159 允許這類由實作定義的
+限制。不過，實務上這類問題在其他
+實作中更容易發生，因為將 JSON 的 `number`
+基本型別以 IEEE 754 雙精度浮點數表示
+是相當常見的做法（RFC 7159 也明確預期並允許這種做法）。
+當使用 JSON 作為與這類系統交換資料的格式時，應考量
+相較於原本由 PostgreSQL 所儲存的資料，
+可能會遺失數值精度的風險。
 
-Conversely, as noted in the table there are some minor restrictions on
-the input format of JSON primitive types that do not apply to
-the corresponding PostgreSQL types.
+反過來說，如表中所述，JSON 基本型別的輸入格式也存在一些
+不適用於對應 PostgreSQL 型別的次要限制。
 
 <a id="JSON-TYPE-MAPPING-TABLE"></a>
 
-**Table 8.23. JSON Primitive Types and Corresponding PostgreSQL Types**
+**表 8.23. JSON 基本型別與對應的 PostgreSQL 型別**
 
-<table border="1" class="table" summary="JSON Primitive Types and Corresponding PostgreSQL Types"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>JSON primitive type</th><th><span class="productname">PostgreSQL</span> type</th><th>Notes</th></tr></thead><tbody><tr><td><code class="type">string</code></td><td><code class="type">text</code></td><td><code class="literal">\u0000</code> is disallowed, as are Unicode escapes
-         representing characters not available in the database encoding</td></tr><tr><td><code class="type">number</code></td><td><code class="type">numeric</code></td><td><code class="literal">NaN</code> and <code class="literal">infinity</code> values are disallowed</td></tr><tr><td><code class="type">boolean</code></td><td><code class="type">boolean</code></td><td>Only lowercase <code class="literal">true</code> and <code class="literal">false</code> spellings are accepted</td></tr><tr><td><code class="type">null</code></td><td>(none)</td><td>SQL <code class="literal">NULL</code> is a different concept</td></tr></tbody></table>
+<table border="1" class="table" summary="JSON 基本型別與對應的 PostgreSQL 型別"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>JSON 基本型別</th><th><span class="productname">PostgreSQL</span> 型別</th><th>備註</th></tr></thead><tbody><tr><td><code class="type">string</code></td><td><code class="type">text</code></td><td>不允許 <code class="literal">\u0000</code>，代表資料庫編碼中不存在
+         之字元的 Unicode 逸出序列亦不允許</td></tr><tr><td><code class="type">number</code></td><td><code class="type">numeric</code></td><td>不允許 <code class="literal">NaN</code> 與 <code class="literal">infinity</code> 值</td></tr><tr><td><code class="type">boolean</code></td><td><code class="type">boolean</code></td><td>只接受小寫的 <code class="literal">true</code> 與 <code class="literal">false</code> 拼寫</td></tr><tr><td><code class="type">null</code></td><td>（無）</td><td>SQL 的 <code class="literal">NULL</code> 是不同的概念</td></tr></tbody></table>
 
 <br><a id="JSON-KEYS-ELEMENTS"></a>
 
-### 8.14.1. JSON Input and Output Syntax [#](#JSON-KEYS-ELEMENTS)
+<a id="JSON-KEYS-ELEMENTS"></a>
 
-The input/output syntax for the JSON data types is as specified in
-RFC 7159.
+### 8.14.1. JSON 輸入與輸出語法 [#](#JSON-KEYS-ELEMENTS)
 
-The following are all valid `json` (or `jsonb`) expressions:
+JSON 資料型別的輸入／輸出語法如
+RFC 7159 所規範。
+
+以下都是有效的 `json`（或 `jsonb`）運算式：
 
 ```
 
@@ -147,10 +135,10 @@ SELECT '{"bar": "baz", "balance": 7.77, "active": false}'::json;
 SELECT '{"foo": [true, "bar"], "tags": {"a": 1, "b": null}}'::json;
 ```
 
-As previously stated, when a JSON value is input and then printed without
-any additional processing, `json` outputs the same text that was
-input, while `jsonb` does not preserve semantically-insignificant
-details such as whitespace. For example, note the differences here:
+如前所述，當一個 JSON 值被輸入後，在未經任何額外處理的情況下印出時，
+`json` 會輸出與輸入完全相同的文字，
+而 `jsonb` 則不會保留諸如空白等語意上不重要的
+細節。舉例來說，請注意以下的差異：
 
 ```
 
@@ -167,11 +155,11 @@ SELECT '{"bar": "baz", "balance": 7.77, "active":false}'::jsonb;
 (1 row)
 ```
 
-One semantically-insignificant detail worth noting is that
-in `jsonb`, numbers will be printed according to the behavior of the
-underlying `numeric` type. In practice this means that numbers
-entered with `E` notation will be printed without it, for
-example:
+有一項值得留意、語意上不重要的細節是，
+在 `jsonb` 中，數字會依照底層
+`numeric` 型別的行為來印出。實務上這表示
+以 `E` 記法輸入的數字，在印出時將不會保留該記法，
+例如：
 
 ```
 
@@ -182,51 +170,46 @@ SELECT '{"reading": 1.230e-5}'::json, '{"reading": 1.230e-5}'::jsonb;
 (1 row)
 ```
 
-However, `jsonb` will preserve trailing fractional zeroes, as seen
-in this example, even though those are semantically insignificant for
-purposes such as equality checks.
+不過，`jsonb` 會保留尾端的小數零，如此範例所示，
+即使就相等性檢查等用途而言，這些尾端小數零在語意上並不重要。
 
-For the list of built-in functions and operators available for
-constructing and processing JSON values, see [Section 9.16](../functions/functions-json.md).
+關於用來建構與處理 JSON 值的內建函式與運算子清單，
+請參閱[9.16 節](../functions/functions-json.md)。
 
 <a id="JSON-DOC-DESIGN"></a>
 
-### 8.14.2. Designing JSON Documents [#](#JSON-DOC-DESIGN)
+### 8.14.2. 設計 JSON 文件 [#](#JSON-DOC-DESIGN)
 
-Representing data as JSON can be considerably more flexible than
-the traditional relational data model, which is compelling in
-environments where requirements are fluid. It is quite possible
-for both approaches to co-exist and complement each other within
-the same application. However, even for applications where maximal
-flexibility is desired, it is still recommended that JSON documents
-have a somewhat fixed structure. The structure is typically
-unenforced (though enforcing some business rules declaratively is
-possible), but having a predictable structure makes it easier to write
-queries that usefully summarize a set of “documents” (datums)
-in a table.
+以 JSON 表示資料，可以比傳統的關聯式資料模型
+更具彈性，這在需求變動頻繁的環境中相當有吸引力。
+這兩種做法完全可以在同一個應用程式中並存、
+互補。然而，即使對於追求最大彈性的應用程式，
+仍然建議 JSON 文件保有某種程度上固定的
+結構。這種結構通常不會被強制要求（雖然仍可以宣告式地強制執行某些業務規則），
+但擁有可預期的結構，能讓撰寫可有效彙總資料表中一組
+「文件」（資料項）的查詢變得更容易。
 
-JSON data is subject to the same concurrency-control
-considerations as any other data type when stored in a table.
-Although storing large documents is practicable, keep in mind that
-any update acquires a row-level lock on the whole row.
-Consider limiting JSON documents to a
-manageable size in order to decrease lock contention among updating
-transactions. Ideally, JSON documents should each
-represent an atomic datum that business rules dictate cannot
-reasonably be further subdivided into smaller datums that
-could be modified independently.
+JSON 資料在儲存於資料表中時，
+同樣須考量與其他資料型別相同的並行控制考量。
+雖然儲存大型文件是可行的，但請記住，
+任何更新都會取得整列的列層級鎖定。
+建議將 JSON 文件的大小控制在
+可管理的範圍內，以減少更新交易之間的鎖定爭用。
+理想情況下，每個 JSON 文件都應該
+代表一個依業務規則判斷無法再合理拆分為
+可獨立修改之較小資料項的原子資料項。
 
 <a id="JSON-CONTAINMENT"></a>
 
-### 8.14.3. `jsonb` Containment and Existence [#](#JSON-CONTAINMENT)
+### 8.14.3. `jsonb` 的包含與存在性 [#](#JSON-CONTAINMENT)
 
 <a id="id-1.5.7.22.17.2"></a><a id="id-1.5.7.22.17.3"></a>
 
-Testing *containment* is an important capability of
-`jsonb`. There is no parallel set of facilities for the
-`json` type. Containment tests whether
-one `jsonb` document has contained within it another one.
-These examples return true except as noted:
+測試*包含*（containment）是 `jsonb`
+的一項重要能力。`json` 型別並沒有相對應的一套
+功能。包含性測試的是
+某個 `jsonb` 文件內是否含有另一個文件。
+以下範例除特別註明外，皆會傳回 true：
 
 ```
 
@@ -260,16 +243,14 @@ SELECT '{"foo": {"bar": "baz"}}'::jsonb @> '{"bar": "baz"}'::jsonb;  -- yields f
 SELECT '{"foo": {"bar": "baz"}}'::jsonb @> '{"foo": {}}'::jsonb;
 ```
 
-The general principle is that the contained object must match the
-containing object as to structure and data contents, possibly after
-discarding some non-matching array elements or object key/value pairs
-from the containing object.
-But remember that the order of array elements is not significant when
-doing a containment match, and duplicate array elements are effectively
-considered only once.
+一般原則是，被包含的物件在結構與資料內容上必須
+與包含它的物件相符，這裡容許先從
+包含它的物件中捨棄部分不相符的陣列元素或物件鍵/值配對。
+但請記住，在進行包含比對時，陣列元素的順序並不重要，
+而重複的陣列元素在比對時實際上只會被視為出現一次。
 
-As a special exception to the general principle that the structures
-must match, an array may contain a primitive value:
+作為結構必須相符這項一般原則的特殊例外，
+陣列可以包含一個基本值：
 
 ```
 
@@ -280,11 +261,11 @@ SELECT '["foo", "bar"]'::jsonb @> '"bar"'::jsonb;
 SELECT '"bar"'::jsonb @> '["bar"]'::jsonb;  -- yields false
 ```
 
-`jsonb` also has an *existence* operator, which is
-a variation on the theme of containment: it tests whether a string
-(given as a `text` value) appears as an object key or array
-element at the top level of the `jsonb` value.
-These examples return true except as noted:
+`jsonb` 也有一個*存在性*（existence）運算子，這是
+包含概念的一種變體：它測試某個字串
+（以 `text` 值給定）是否出現在
+`jsonb` 值頂層的物件鍵或陣列元素中。
+以下範例除特別註明外，皆會傳回 true：
 
 ```
 
@@ -304,20 +285,20 @@ SELECT '{"foo": {"bar": "baz"}}'::jsonb ? 'bar'; -- yields false
 SELECT '"foo"'::jsonb ? 'foo';
 ```
 
-JSON objects are better suited than arrays for testing containment or
-existence when there are many keys or elements involved, because
-unlike arrays they are internally optimized for searching, and do not
-need to be searched linearly.
+當涉及大量鍵或元素時，JSON 物件比陣列更適合
+用來測試包含性或存在性，因為與陣列不同，
+物件在內部已針對搜尋進行了最佳化，不需要
+逐一線性搜尋。
 
-### Tip
+### 提示
 
-Because JSON containment is nested, an appropriate query can skip
-explicit selection of sub-objects. As an example, suppose that we have
-a `doc` column containing objects at the top level, with
-most objects containing `tags` fields that contain arrays of
-sub-objects. This query finds entries in which sub-objects containing
-both `"term":"paris"` and `"term":"food"` appear,
-while ignoring any such keys outside the `tags` array:
+由於 JSON 的包含性是巢狀的，適當的查詢可以省略
+子物件的明確選取。舉例來說，假設我們有
+一個 `doc` 欄位，其頂層含有物件，其中
+大多數物件都包含 `tags` 欄位，該欄位含有子物件所組成的陣列。
+這個查詢會找出這樣的項目：其 tags 陣列中分別存在
+含有 `"term":"paris"` 的子物件，以及含有 `"term":"food"` 的子物件（不要求同一個子物件同時符合兩者），
+並忽略 `tags` 陣列以外出現的任何此類鍵：
 
 ```
 
@@ -325,7 +306,7 @@ SELECT doc->'site_name' FROM websites
   WHERE doc @> '{"tags":[{"term":"paris"}, {"term":"food"}]}';
 ```
 
-One could accomplish the same thing with, say,
+也可以用類似下列的方式達到相同效果，
 
 ```
 
@@ -333,55 +314,54 @@ SELECT doc->'site_name' FROM websites
   WHERE doc->'tags' @> '[{"term":"paris"}, {"term":"food"}]';
 ```
 
-but that approach is less flexible, and often less efficient as well.
+不過這種做法彈性較差，效率通常也較低。
 
-On the other hand, the JSON existence operator is not nested: it will
-only look for the specified key or array element at top level of the
-JSON value.
+另一方面，JSON 存在性運算子並非巢狀的：它
+只會在 JSON 值的頂層尋找指定的鍵或陣列元素。
 
-The various containment and existence operators, along with all other
-JSON operators and functions are documented
-in [Section 9.16](../functions/functions-json.md).
+各種包含性與存在性運算子，連同所有其他
+JSON 運算子與函式，都記載
+於[9.16 節](../functions/functions-json.md)。
 
 <a id="JSON-INDEXING"></a>
 
-### 8.14.4. `jsonb` Indexing [#](#JSON-INDEXING)
+### 8.14.4. `jsonb` 索引 [#](#JSON-INDEXING)
 
 <a id="id-1.5.7.22.18.2"></a>
 
-GIN indexes can be used to efficiently search for
-keys or key/value pairs occurring within a large number of
-`jsonb` documents (datums).
-Two GIN “operator classes” are provided, offering different
-performance and flexibility trade-offs.
+GIN 索引可以用來有效率地搜尋大量
+`jsonb` 文件（資料項）中出現的
+鍵或鍵/值配對。
+系統提供了兩種 GIN「運算子類別」，
+在效能與彈性之間提供不同的取捨。
 
-The default GIN operator class for `jsonb` supports queries with
-the key-exists operators `?`, `?|`
-and `?&`, the containment operator
-`@>`, and the `jsonpath` match
-operators `@?` and `@@`.
-(For details of the semantics that these operators
-implement, see [Table 9.48](../functions/functions-json.md#FUNCTIONS-JSONB-OP-TABLE).)
-An example of creating an index with this operator class is:
+`jsonb` 的預設 GIN 運算子類別支援使用
+鍵存在運算子 `?`、`?|`
+與 `?&`、包含運算子
+`@>`，以及 `jsonpath` 比對
+運算子 `@?` 與 `@@` 的查詢。
+（關於這些運算子所實作語意的細節，
+請參閱[表 9.48](../functions/functions-json.md#FUNCTIONS-JSONB-OP-TABLE)。）
+以此運算子類別建立索引的範例如下：
 
 ```
 
 CREATE INDEX idxgin ON api USING GIN (jdoc);
 ```
 
-The non-default GIN operator class `jsonb_path_ops`
-does not support the key-exists operators, but it does support
-`@>`, `@?` and `@@`.
-An example of creating an index with this operator class is:
+非預設的 GIN 運算子類別 `jsonb_path_ops`
+不支援鍵存在運算子，但支援
+`@>`、`@?` 與 `@@`。
+以此運算子類別建立索引的範例如下：
 
 ```
 
 CREATE INDEX idxginp ON api USING GIN (jdoc jsonb_path_ops);
 ```
 
-Consider the example of a table that stores JSON documents
-retrieved from a third-party web service, with a documented schema
-definition. A typical document is:
+考慮這樣一個範例：某個資料表儲存從第三方
+Web 服務取得、具有已文件化綱要定義的 JSON 文件。
+典型的文件如下：
 
 ```
 
@@ -402,10 +382,10 @@ definition. A typical document is:
 }
 ```
 
-We store these documents in a table named `api`,
-in a `jsonb` column named `jdoc`.
-If a GIN index is created on this column,
-queries like the following can make use of the index:
+我們將這些文件儲存於名為 `api` 的資料表中，
+存放在名為 `jdoc` 的 `jsonb` 欄位裡。
+若在此欄位上建立了 GIN 索引，
+下列這類查詢便可以利用該索引：
 
 ```
 
@@ -413,9 +393,9 @@ queries like the following can make use of the index:
 SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @> '{"company": "Magnafone"}';
 ```
 
-However, the index could not be used for queries like the
-following, because though the operator `?` is indexable,
-it is not applied directly to the indexed column `jdoc`:
+然而，下列這類查詢無法利用該索引，因為
+即使運算子 `?` 本身是可索引的，
+它並沒有直接套用在有索引的欄位 `jdoc` 上：
 
 ```
 
@@ -423,23 +403,23 @@ it is not applied directly to the indexed column `jdoc`:
 SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc -> 'tags' ? 'qui';
 ```
 
-Still, with appropriate use of expression indexes, the above
-query can use an index. If querying for particular items within
-the `"tags"` key is common, defining an index like this
-may be worthwhile:
+儘管如此，只要適當使用運算式索引，
+上述查詢仍然可以利用索引。若查詢
+`"tags"` 鍵內特定項目是常見的需求，
+建立像這樣的索引可能是值得的：
 
 ```
 
 CREATE INDEX idxgintags ON api USING GIN ((jdoc -> 'tags'));
 ```
 
-Now, the `WHERE` clause `jdoc -> 'tags' ? 'qui'`
-will be recognized as an application of the indexable
-operator `?` to the indexed
-expression `jdoc -> 'tags'`.
-(More information on expression indexes can be found in [Section 11.7](../indexes/indexes-expressional.md).)
+現在，`WHERE` 子句 `jdoc -> 'tags' ? 'qui'`
+就會被辨識為對有索引的運算式
+`jdoc -> 'tags'`
+套用可索引運算子 `?`。
+（關於運算式索引的更多資訊，請參閱[11.7 節](../indexes/indexes-expressional.md)。）
 
-Another approach to querying is to exploit containment, for example:
+另一種查詢方式是利用包含性，例如：
 
 ```
 
@@ -447,18 +427,18 @@ Another approach to querying is to exploit containment, for example:
 SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @> '{"tags": ["qui"]}';
 ```
 
-A simple GIN index on the `jdoc` column can support this
-query. But note that such an index will store copies of every key and
-value in the `jdoc` column, whereas the expression index
-of the previous example stores only data found under
-the `tags` key. While the simple-index approach is far more
-flexible (since it supports queries about any key), targeted expression
-indexes are likely to be smaller and faster to search than a simple
-index.
+在 `jdoc` 欄位上建立的簡單 GIN 索引即可支援這個
+查詢。但請注意，這樣的索引會儲存
+`jdoc` 欄位中每個鍵與值的副本，
+而前一個範例的運算式索引則只儲存
+`tags` 鍵之下所找到的資料。雖然簡單索引的做法
+彈性大得多（因為它支援對任何鍵的查詢），
+但針對性的運算式索引通常會比簡單
+索引更小、搜尋速度更快。
 
-GIN indexes also support the `@?`
-and `@@` operators, which
-perform `jsonpath` matching. Examples are
+GIN 索引也支援 `@?`
+與 `@@` 運算子，
+用於執行 `jsonpath` 比對。範例如下：
 
 ```
 
@@ -470,64 +450,64 @@ SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @? '$.tags[*] ? (@ == "qui
 SELECT jdoc->'guid', jdoc->'name' FROM api WHERE jdoc @@ '$.tags[*] == "qui"';
 ```
 
-For these operators, a GIN index extracts clauses of the form
+對於這些運算子，GIN 索引會從
+`jsonpath` 模式中擷取出形如
 `accessors_chain
-== constant` out of
-the `jsonpath` pattern, and does the index search based on
-the keys and values mentioned in these clauses. The accessors chain
-may include `.key`,
-`[*]`,
-and `[index]` accessors.
-The `jsonb_ops` operator class also
-supports `.*` and `.**` accessors,
-but the `jsonb_path_ops` operator class does not.
+== constant` 的子句，
+並依據這些子句中提到的鍵與值來執行索引搜尋。存取器
+鏈可以包含 `.key`、
+`[*]`，
+以及 `[index]` 存取器。
+`jsonb_ops` 運算子類別還
+支援 `.*` 與 `.**` 存取器，
+但 `jsonb_path_ops` 運算子類別則不支援。
 
-Although the `jsonb_path_ops` operator class supports
-only queries with the `@>`, `@?`
-and `@@` operators, it has notable
-performance advantages over the default operator
-class `jsonb_ops`. A `jsonb_path_ops`
-index is usually much smaller than a `jsonb_ops`
-index over the same data, and the specificity of searches is better,
-particularly when queries contain keys that appear frequently in the
-data. Therefore search operations typically perform better
-than with the default operator class.
+雖然 `jsonb_path_ops` 運算子類別
+只支援 `@>`、`@?`
+與 `@@` 這幾個運算子，但相較於
+預設的運算子類別 `jsonb_ops`，它具有明顯的
+效能優勢。在相同資料上，`jsonb_path_ops`
+索引通常比 `jsonb_ops`
+索引小得多，搜尋的針對性也更好，
+尤其是在查詢中含有資料裡頻繁出現的鍵時更是如此。因此，
+搜尋操作的效能通常比使用預設運算子類別更好。
 
-The technical difference between a `jsonb_ops`
-and a `jsonb_path_ops` GIN index is that the former
-creates independent index items for each key and value in the data,
-while the latter creates index items only for each value in the
-data.
+`jsonb_ops`
+與 `jsonb_path_ops` GIN
+索引之間的技術差異在於，前者
+會為資料中的每個鍵與值各自建立獨立的索引項目，
+而後者只會為資料中的
+每個值建立索引項目。
 [<a id="id-1.5.7.22.18.9.3"></a>[7]](#ftn.id-1.5.7.22.18.9.3)
-Basically, each `jsonb_path_ops` index item is
-a hash of the value and the key(s) leading to it; for example to index
-`{"foo": {"bar": "baz"}}`, a single index item would
-be created incorporating all three of `foo`, `bar`,
-and `baz` into the hash value. Thus a containment query
-looking for this structure would result in an extremely specific index
-search; but there is no way at all to find out whether `foo`
-appears as a key. On the other hand, a `jsonb_ops`
-index would create three index items representing `foo`,
-`bar`, and `baz` separately; then to do the
-containment query, it would look for rows containing all three of
-these items. While GIN indexes can perform such an AND search fairly
-efficiently, it will still be less specific and slower than the
-equivalent `jsonb_path_ops` search, especially if
-there are a very large number of rows containing any single one of the
-three index items.
+基本上，每個 `jsonb_path_ops` 索引項目
+都是該值以及通往該值之鍵的雜湊值；例如要為
+`{"foo": {"bar": "baz"}}` 建立索引，就會建立單一索引項目，
+將 `foo`、`bar`
+與 `baz` 這三者全部納入雜湊值的計算。因此，
+尋找此結構的包含性查詢會得到針對性極高的索引
+搜尋；但完全無法得知 `foo`
+是否曾以鍵的形式出現。另一方面，`jsonb_ops`
+索引則會分別建立三個索引項目，代表
+`foo`、`bar` 與 `baz`；
+然後在進行包含性查詢時，會尋找同時含有這三個
+項目的資料列。雖然 GIN 索引能夠相當有效率地執行這類
+AND 搜尋，但它的針對性仍然會比
+對應的 `jsonb_path_ops` 搜尋來得較差、
+速度較慢，尤其是當有大量資料列
+含有這三個索引項目中任何單一一個時，差異會更明顯。
 
-A disadvantage of the `jsonb_path_ops` approach is
-that it produces no index entries for JSON structures not containing
-any values, such as `{"a": {}}`. If a search for
-documents containing such a structure is requested, it will require a
-full-index scan, which is quite slow. `jsonb_path_ops` is
-therefore ill-suited for applications that often perform such searches.
+`jsonb_path_ops` 做法的一項缺點在於，
+對於不含任何值的 JSON 結構（例如
+`{"a": {}}`），它不會產生任何索引項目。若請求
+搜尋含有此類結構的文件，就需要進行
+全索引掃描，這相當緩慢。因此
+`jsonb_path_ops` 並不適合經常執行此類搜尋的應用程式。
 
-`jsonb` also supports `btree` and `hash`
-indexes. These are usually useful only if it's important to check
-equality of complete JSON documents.
-The `btree` ordering for `jsonb` datums is seldom
-of great interest, but for completeness it is:
+`jsonb` 也支援 `btree` 與 `hash`
+索引。這兩者通常只在需要檢查完整 JSON 文件是否相等時
+才有用。
+`jsonb` 資料項所用的 `btree`
+排序方式很少受到太多關注，但為求完整起見，其排序規則如下：
 
 ```
 
@@ -538,62 +518,61 @@ Object with n pairs > object with n - 1 pairs
 Array with n elements > array with n - 1 elements
 ```
 
-with the exception that (for historical reasons) an empty top level array sorts less than *`null`*.
-Objects with equal numbers of pairs are compared in the order:
+但有一項例外情況（基於歷史因素）：頂層的空陣列排序小於*`null`*。
+配對數量相同的物件，會依下列順序比較：
 
 ```
 
 key-1, value-1, key-2 ...
 ```
 
-Note that object keys are compared in their storage order;
-in particular, since shorter keys are stored before longer keys, this
-can lead to results that might be unintuitive, such as:
+請注意，物件的鍵是依其儲存順序來比較的；
+特別是，由於較短的鍵會儲存在較長的鍵之前，
+這可能導致一些不太直覺的結果，例如：
 
 ```
 
 { "aa": 1, "c": 1} > {"b": 1, "d": 1}
 ```
 
-Similarly, arrays with equal numbers of elements are compared in the
-order:
+同樣地，元素數量相同的陣列，會依下列順序比較：
 
 ```
 
 element-1, element-2 ...
 ```
 
-Primitive JSON values are compared using the same
-comparison rules as for the underlying
-PostgreSQL data type. Strings are
-compared using the default database collation.
+基本的 JSON 值會使用與底層
+PostgreSQL 資料型別相同的比較規則進行比較。字串則
+使用預設的資料庫定序（collation）進行比較。
 
 <a id="JSONB-SUBSCRIPTING"></a>
 
-### 8.14.5. `jsonb` Subscripting [#](#JSONB-SUBSCRIPTING)
+### 8.14.5. `jsonb` 下標 [#](#JSONB-SUBSCRIPTING)
 
-The `jsonb` data type supports array-style subscripting expressions
-to extract and modify elements. Nested values can be indicated by chaining
-subscripting expressions, following the same rules as the `path`
-argument in the `jsonb_set` function. If a `jsonb`
-value is an array, numeric subscripts start at zero, and negative integers count
-backwards from the last element of the array. Slice expressions are not supported.
-The result of a subscripting expression is always of the jsonb data type.
+`jsonb` 資料型別支援陣列風格的下標運算式，
+用來擷取與修改元素。巢狀的值可以透過鏈接
+下標運算式來表示，其規則與 `jsonb_set`
+函式中的 `path` 引數相同。若某個 `jsonb`
+值是陣列，數字下標從零開始，負整數則從陣列的
+最後一個元素往回數。不支援切片運算式。
+下標運算式的結果永遠是 jsonb 資料型別。
 
-`UPDATE` statements may use subscripting in the
-`SET` clause to modify `jsonb` values. Subscript
-paths must be traversable for all affected values insofar as they exist. For
-instance, the path `val['a']['b']['c']` can be traversed all
-the way to `c` if every `val`,
-`val['a']`, and `val['a']['b']` is an
-object. If any `val['a']` or `val['a']['b']`
-is not defined, it will be created as an empty object and filled as
-necessary. However, if any `val` itself or one of the
-intermediary values is defined as a non-object such as a string, number, or
-`jsonb` `null`, traversal cannot proceed so
-an error is raised and the transaction aborted.
+`UPDATE` 陳述式可以在
+`SET` 子句中使用下標來修改 `jsonb` 值。下標
+路徑必須就其存在的範圍而言，對所有受影響的值都是可追蹤的。舉
+例來說，若每一個 `val`、
+`val['a']` 以及 `val['a']['b']` 都是
+物件，路徑 `val['a']['b']['c']` 就可以一路追蹤
+到 `c`。若任何一個 `val['a']` 或
+`val['a']['b']`
+未曾定義，就會被建立為空物件，並依需要填入內容。
+但是，若 `val` 本身或任何中間值
+被定義為非物件的內容，例如字串、數字或
+`jsonb` 的 `null`，就無法繼續追蹤，
+因此會引發錯誤並中止交易。
 
-An example of subscripting syntax:
+下標語法的範例：
 
 ```
 
@@ -622,11 +601,11 @@ UPDATE table_name SET jsonb_field['a']['b']['c'] = '1';
 SELECT * FROM table_name WHERE jsonb_field['key'] = '"value"';
 ```
 
-`jsonb` assignment via subscripting handles a few edge cases
-differently from `jsonb_set`. When a source `jsonb`
-value is `NULL`, assignment via subscripting will proceed
-as if it was an empty JSON value of the type (object or array) implied by the
-subscript key:
+透過下標進行的 `jsonb` 賦值，在幾種邊緣情況下
+的處理方式與 `jsonb_set` 有所不同。當來源
+`jsonb` 值為 `NULL` 時，透過下標賦值的行為，
+會如同它原本是由下標鍵所隱含的型別（物件或陣列）之空 JSON 值一般
+進行處理：
 
 ```
 
@@ -637,9 +616,9 @@ UPDATE table_name SET jsonb_field['a'] = '1';
 UPDATE table_name SET jsonb_field[0] = '1';
 ```
 
-If an index is specified for an array containing too few elements,
-`NULL` elements will be appended until the index is reachable
-and the value can be set.
+若對元素過少的陣列指定了某個索引，
+系統會附加 `NULL` 元素，直到能夠到達該索引，
+才設定該值。
 
 ```
 
@@ -648,13 +627,12 @@ and the value can be set.
 UPDATE table_name SET jsonb_field[2] = '2';
 ```
 
-A `jsonb` value will accept assignments to nonexistent subscript
-paths as long as the last existing element to be traversed is an object or
-array, as implied by the corresponding subscript (the element indicated by
-the last subscript in the path is not traversed and may be anything). Nested
-array and object structures will be created, and in the former case
-`null`-padded, as specified by the subscript path until the
-assigned value can be placed.
+只要最後所追蹤到的既有元素是物件或陣列（與
+對應的下標相符），`jsonb` 值就會接受
+對不存在下標路徑的賦值（路徑中最後一個下標所指的
+元素則不會被追蹤，因此可以是任何內容）。系統會依照下標路徑
+建立巢狀的陣列與物件結構，並在前者的情況下
+以 `null` 填補，直到可以放入所賦的值為止。
 
 ```
 
@@ -667,116 +645,116 @@ UPDATE table_name SET jsonb_field[1]['a'] = '1';
 
 <a id="DATATYPE-JSON-TRANSFORMS"></a>
 
-### 8.14.6. Transforms [#](#DATATYPE-JSON-TRANSFORMS)
+### 8.14.6. 轉換（Transforms） [#](#DATATYPE-JSON-TRANSFORMS)
 
-Additional extensions are available that implement transforms for the
-`jsonb` type for different procedural languages.
+系統提供了額外的擴充功能，可為不同的程序性語言
+實作 `jsonb` 型別的轉換。
 
-The extensions for PL/Perl are called `jsonb_plperl` and
-`jsonb_plperlu`. If you use them, `jsonb`
-values are mapped to Perl arrays, hashes, and scalars, as appropriate.
+PL/Perl 適用的擴充功能名為 `jsonb_plperl` 與
+`jsonb_plperlu`。若使用這些擴充功能，
+`jsonb` 值會依情況對映為 Perl 的陣列、雜湊與純量。
 
-The extension for PL/Python is called `jsonb_plpython3u`.
-If you use it, `jsonb` values are mapped to Python
-dictionaries, lists, and scalars, as appropriate.
+PL/Python 適用的擴充功能名為 `jsonb_plpython3u`。
+若使用此擴充功能，`jsonb` 值會依情況對映為
+Python 的字典（dictionary）、串列（list）與純量。
 
-Of these extensions, `jsonb_plperl` is
-considered “trusted”, that is, it can be installed by
-non-superusers who have `CREATE` privilege on the
-current database. The rest require superuser privilege to install.
+在這些擴充功能中，`jsonb_plperl` 被
+視為「受信任的」，也就是說，具有目前資料庫上
+`CREATE` 權限的非超級使用者即可安裝它。其餘的則
+需要超級使用者權限才能安裝。
 
 <a id="DATATYPE-JSONPATH"></a>
 
-### 8.14.7. jsonpath Type [#](#DATATYPE-JSONPATH)
+### 8.14.7. jsonpath 型別 [#](#DATATYPE-JSONPATH)
 
 <a id="id-1.5.7.22.21.2"></a>
 
-The `jsonpath` type implements support for the SQL/JSON path language
-in PostgreSQL to efficiently query JSON data.
-It provides a binary representation of the parsed SQL/JSON path
-expression that specifies the items to be retrieved by the path
-engine from the JSON data for further processing with the
-SQL/JSON query functions.
+`jsonpath` 型別在
+PostgreSQL 中實作了對 SQL/JSON 路徑語言的支援，以有效率地查詢 JSON 資料。
+它提供了已剖析之 SQL/JSON 路徑運算式的二進位表示，
+指定路徑引擎要從 JSON 資料中擷取哪些項目，
+供後續以 SQL/JSON 查詢函式進行處理。
 
-The semantics of SQL/JSON path predicates and operators generally follow SQL.
-At the same time, to provide a natural way of working with JSON data,
-SQL/JSON path syntax uses some JavaScript conventions:
+SQL/JSON 路徑述詞與運算子的語意大致遵循 SQL 的做法。
+同時，為了提供處理 JSON 資料的自然方式，
+SQL/JSON 路徑語法採用了一些 JavaScript 的慣例：
 
-* Dot (`.`) is used for member access.
-* Square brackets (`[]`) are used for array access.
-* SQL/JSON arrays are 0-relative, unlike regular SQL arrays that start from 1.
+* 點號（`.`）用於成員存取。
+* 方括號（`[]`）用於陣列存取。
+* SQL/JSON 陣列是以 0 為起始的，這與從 1 開始的一般 SQL
+  陣列不同。
 
-Numeric literals in SQL/JSON path expressions follow JavaScript rules,
-which are different from both SQL and JSON in some minor details. For
-example, SQL/JSON path allows `.1` and
-`1.`, which are invalid in JSON. Non-decimal integer
-literals and underscore separators are supported, for example,
-`1_000_000`, `0x1EEE_FFFF`,
-`0o273`, `0b100101`. In SQL/JSON path
-(and in JavaScript, but not in SQL proper), there must not be an underscore
-separator directly after the radix prefix.
+SQL/JSON 路徑運算式中的數值字面量遵循 JavaScript 規則，
+這在某些小細節上與 SQL 及 JSON 都不同。舉
+例來說，SQL/JSON 路徑允許使用 `.1` 與
+`1.`，這在 JSON 中是無效的。系統支援非十進位整數
+字面量與底線分隔符，例如
+`1_000_000`、`0x1EEE_FFFF`、
+`0o273`、`0b100101`。在 SQL/JSON 路徑
+中（在 JavaScript 中也一樣，但並非 SQL 本身固有的語法），底線
+分隔符不得緊接在基數前置詞之後。
 
-An SQL/JSON path expression is typically written in an SQL query as an
-SQL character string literal, so it must be enclosed in single quotes,
-and any single quotes desired within the value must be doubled
-(see [Section 4.1.2.1](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)).
-Some forms of path expressions require string literals within them.
-These embedded string literals follow JavaScript/ECMAScript conventions:
-they must be surrounded by double quotes, and backslash escapes may be
-used within them to represent otherwise-hard-to-type characters.
-In particular, the way to write a double quote within an embedded string
-literal is `\"`, and to write a backslash itself, you
-must write `\\`. Other special backslash sequences
-include those recognized in JavaScript strings:
-`\b`,
-`\f`,
-`\n`,
-`\r`,
-`\t`,
-`\v`
-for various ASCII control characters,
-`\xNN` for a character code
-written with only two hex digits,
-`\uNNNN` for a Unicode
-character identified by its 4-hex-digit code point, and
-`\u{N...}` for a Unicode
-character code point written with 1 to 6 hex digits.
+SQL/JSON 路徑運算式通常會以 SQL 字元字串字面量的形式
+寫在 SQL 查詢中，因此必須以單引號括住，
+其中若需要單引號，則必須以雙倍表示
+（請參閱[4.1.2.1 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)）。
+某些形式的路徑運算式在其中需要字串字面量。
+這些內嵌的字串字面量遵循 JavaScript／ECMAScript 慣例：
+必須以雙引號括住，並可以在其中使用反斜線逸出序列
+來表示原本難以輸入的字元。
+特別是，若要在內嵌字串字面量中寫入雙引號，方式為
+`\"`；若要寫入反斜線本身，
+則必須寫成 `\\`。其他特殊的反斜線序列
+還包括 JavaScript 字串中所辨識的：
+`\b`、
+`\f`、
+`\n`、
+`\r`、
+`\t`、
+`\v`，
+用於表示各種 ASCII 控制字元，
+`\xNN` 用於表示以兩位十六進位數字
+書寫的字元碼，
+`\uNNNN` 用於表示由 4 位十六進位碼位
+所識別的 Unicode 字元，而
+`\u{N...}` 則用於表示以 1 到 6 位
+十六進位數字書寫的 Unicode 字元碼位。
 
-A path expression consists of a sequence of path elements,
-which can be any of the following:
+路徑運算式由一連串路徑元素組成，
+可以是下列任何一種：
 
-* Path literals of JSON primitive types:
-  Unicode text, numeric, true, false, or null.
-* Path variables listed in [Table 8.24](datatype-json.md#TYPE-JSONPATH-VARIABLES).
-* Accessor operators listed in [Table 8.25](datatype-json.md#TYPE-JSONPATH-ACCESSORS).
-* `jsonpath` operators and methods listed
-  in [Section 9.16.2.3](../functions/functions-json.md#FUNCTIONS-SQLJSON-PATH-OPERATORS).
-* Parentheses, which can be used to provide filter expressions
-  or define the order of path evaluation.
+* JSON 基本型別的路徑字面量：
+  Unicode 文字、數字、true、false 或 null。
+* [表 8.24](datatype-json.md#TYPE-JSONPATH-VARIABLES)中所列的路徑變數。
+* [表 8.25](datatype-json.md#TYPE-JSONPATH-ACCESSORS)中所列的存取器運算子。
+* [9.16.2.3 節](../functions/functions-json.md#FUNCTIONS-SQLJSON-PATH-OPERATORS)中所列的
+  `jsonpath` 運算子與方法。
+* 括號，可用於提供篩選運算式
+  或定義路徑求值的順序。
 
-For details on using `jsonpath` expressions with SQL/JSON
-query functions, see [Section 9.16.2](../functions/functions-json.md#FUNCTIONS-SQLJSON-PATH).
+關於在 SQL/JSON 查詢函式中使用 `jsonpath` 運算式的
+詳情，請參閱[9.16.2 節](../functions/functions-json.md#FUNCTIONS-SQLJSON-PATH)。
 
 <a id="TYPE-JSONPATH-VARIABLES"></a>
 
-**Table 8.24. `jsonpath` Variables**
+**表 8.24. `jsonpath` 變數**
 
-<table border="1" class="table" summary="jsonpath Variables"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>Variable</th><th>Description</th></tr></thead><tbody><tr><td><code class="literal">$</code></td><td>A variable representing the JSON value being queried
-      (the <em class="firstterm">context item</em>).
+<table border="1" class="table" summary="jsonpath 變數"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>變數</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">$</code></td><td>代表被查詢之 JSON 值的變數
+      （即<em class="firstterm">上下文項目</em>）。
       </td></tr><tr><td><code class="literal">$varname</code></td><td>
-        A named variable. Its value can be set by the parameter
-        <em class="parameter"><code>vars</code></em> of several JSON processing functions;
-        see <a class="xref" href="../functions/functions-json.md#FUNCTIONS-JSON-PROCESSING-TABLE">Table 9.51</a> for details.
+        具名變數。其值可透過多個 JSON 處理函式的
+        <em class="parameter"><code>vars</code></em> 參數設定；
+        詳情請參閱<a class="xref" href="../functions/functions-json.md#FUNCTIONS-JSON-PROCESSING-TABLE">表 9.51</a>。
         
-      </td></tr><tr><td><code class="literal">@</code></td><td>A variable representing the result of path evaluation
-      in filter expressions.
+      </td></tr><tr><td><code class="literal">@</code></td><td>代表篩選運算式中路徑求值結果的
+      變數。
       </td></tr></tbody></table>
 
 <br><a id="TYPE-JSONPATH-ACCESSORS"></a>
 
-**Table 8.25. `jsonpath` Accessors**
+**表 8.25. `jsonpath` 存取器**
 
-<table border="1" class="table" summary="jsonpath Accessors"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>Accessor Operator</th><th>Description</th></tr></thead><tbody><tr><td>
+<table border="1" class="table" summary="jsonpath 存取器"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>存取器運算子</th><th>說明</th></tr></thead><tbody><tr><td>
 <p>
 <code class="literal">.<em class="replaceable"><code>key</code></em></code>
 </p>
@@ -785,11 +763,10 @@ query functions, see [Section 9.16.2](../functions/functions-json.md#FUNCTIONS-
 </p>
 </td><td>
 <p>
-        Member accessor that returns an object member with
-        the specified key. If the key name matches some named variable
-        starting with <code class="literal">$</code> or does not meet the
-        JavaScript rules for an identifier, it must be enclosed in
-        double quotes to make it a string literal.
+        成員存取器，傳回具有指定鍵的物件成員。若鍵名
+        與某個以 <code class="literal">$</code> 開頭的具名變數相符，
+        或不符合識別字的
+        JavaScript 規則，則必須以雙引號括住，使其成為字串字面量。
        </p>
 </td></tr><tr><td>
 <p>
@@ -797,8 +774,8 @@ query functions, see [Section 9.16.2](../functions/functions-json.md#FUNCTIONS-
 </p>
 </td><td>
 <p>
-        Wildcard member accessor that returns the values of all
-        members located at the top level of the current object.
+        萬用字元成員存取器，傳回位於目前物件頂層的所有
+        成員之值。
        </p>
 </td></tr><tr><td>
 <p>
@@ -806,11 +783,11 @@ query functions, see [Section 9.16.2](../functions/functions-json.md#FUNCTIONS-
 </p>
 </td><td>
 <p>
-        Recursive wildcard member accessor that processes all levels
-        of the JSON hierarchy of the current object and returns all
-        the member values, regardless of their nesting level. This
-        is a <span class="productname">PostgreSQL</span> extension of
-        the SQL/JSON standard.
+        遞迴萬用字元成員存取器，會處理目前物件之 JSON 階層的所有
+        層級，並傳回所有的
+        成員值，無論其巢狀層級為何。這是
+        <span class="productname">PostgreSQL</span> 對
+        SQL/JSON 標準的擴充。
        </p>
 </td></tr><tr><td>
 <p>
@@ -822,12 +799,12 @@ query functions, see [Section 9.16.2](../functions/functions-json.md#FUNCTIONS-
 </p>
 </td><td>
 <p>
-        Like <code class="literal">.**</code>, but selects only the specified
-        levels of the JSON hierarchy. Nesting levels are specified as integers.
-        Level zero corresponds to the current object. To access the lowest
-        nesting level, you can use the <code class="literal">last</code> keyword.
-        This is a <span class="productname">PostgreSQL</span> extension of
-        the SQL/JSON standard.
+        與 <code class="literal">.**</code> 類似，但只選取指定的
+        JSON 階層層級。巢狀層級以整數指定。
+        第零層對應目前的物件。若要存取最低的
+        巢狀層級，可以使用 <code class="literal">last</code> 關鍵字。
+        這是 <span class="productname">PostgreSQL</span> 對
+        SQL/JSON 標準的擴充。
        </p>
 </td></tr><tr><td>
 <p>
@@ -835,22 +812,22 @@ query functions, see [Section 9.16.2](../functions/functions-json.md#FUNCTIONS-
 </p>
 </td><td>
 <p>
-        Array element accessor.
-        <code class="literal"><em class="replaceable"><code>subscript</code></em></code> can be
-        given in two forms: <code class="literal"><em class="replaceable"><code>index</code></em></code>
-        or <code class="literal"><em class="replaceable"><code>start_index</code></em> to <em class="replaceable"><code>end_index</code></em></code>.
-        The first form returns a single array element by its index. The second
-        form returns an array slice by the range of indexes, including the
-        elements that correspond to the provided
-        <em class="replaceable"><code>start_index</code></em> and <em class="replaceable"><code>end_index</code></em>.
+        陣列元素存取器。
+        <code class="literal"><em class="replaceable"><code>subscript</code></em></code> 可以
+        以兩種形式給定：<code class="literal"><em class="replaceable"><code>index</code></em></code>
+        或 <code class="literal"><em class="replaceable"><code>start_index</code></em> to <em class="replaceable"><code>end_index</code></em></code>。
+        第一種形式依索引傳回單一陣列元素。第二種
+        形式則依索引範圍傳回一段陣列切片，包含對應於所提供的
+        <em class="replaceable"><code>start_index</code></em> 與 <em class="replaceable"><code>end_index</code></em> 的
+        元素。
        </p>
 <p>
-        The specified <em class="replaceable"><code>index</code></em> can be an integer, as
-        well as an expression returning a single numeric value, which is
-        automatically cast to integer. Index zero corresponds to the first
-        array element. You can also use the <code class="literal">last</code> keyword
-        to denote the last array element, which is useful for handling arrays
-        of unknown length.
+        指定的 <em class="replaceable"><code>index</code></em> 可以是整數，
+        也可以是傳回單一數值的運算式，該數值會自動
+        轉型為整數。索引零對應陣列的第一個
+        元素。您也可以使用 <code class="literal">last</code> 關鍵字
+        來表示陣列的最後一個元素，這對於處理長度未知的
+        陣列相當有用。
        </p>
 </td></tr><tr><td>
 <p>
@@ -858,7 +835,7 @@ query functions, see [Section 9.16.2](../functions/functions-json.md#FUNCTIONS-
 </p>
 </td><td>
 <p>
-        Wildcard array element accessor that returns all array elements.
+        萬用字元陣列元素存取器，傳回所有陣列元素。
        </p>
 </td></tr></tbody></table>
 
@@ -871,10 +848,10 @@ query functions, see [Section 9.16.2](../functions/functions-json.md#FUNCTIONS-
 <a id="ftn.id-1.5.7.22.18.9.3"></a>
 
 [[7]](#id-1.5.7.22.18.9.3) 
-For this purpose, the term “value” includes array elements,
-though JSON terminology sometimes considers array elements distinct
-from values within objects.
+就此而言，「值」一詞也包括陣列元素，
+儘管 JSON 術語有時會將陣列元素與物件中的值
+視為不同的概念。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datatype-json.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datatype-json.html)（原文版本：18.6；核對日期：2026-09-25）
