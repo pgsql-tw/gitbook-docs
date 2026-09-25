@@ -286,7 +286,7 @@
     * [29.8. 限制 #](server-administration/logical-replication/logical-replication-restrictions.md)
     * [29.9. 架構 #](server-administration/logical-replication/logical-replication-architecture.md)
     * [29.10. 監控](server-administration/logical-replication/logical-replication-monitoring.md)
-    * [29.11. Security #](server-administration/logical-replication/logical-replication-security.md)
+    * [29.11. 安全性 #](server-administration/logical-replication/logical-replication-security.md)
     * [29.12. 組態設定 #](server-administration/logical-replication/logical-replication-config.md)
     * [29.13. Upgrade #](server-administration/logical-replication/logical-replication-upgrade.md)
     * [29.14. 快速設定](server-administration/logical-replication/logical-replication-quick-setup.md)

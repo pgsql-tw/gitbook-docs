@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：613 頁。
+待譯頁面：612 頁。
 
 ## 根目錄
 
@@ -764,7 +764,7 @@
 - [x] `server-administration/logical-replication/logical-replication-quick-setup.md` — 29.14. 快速設定
 - [x] `server-administration/logical-replication/logical-replication-restrictions.md` — 29.8. 限制 #
 - [x] `server-administration/logical-replication/logical-replication-row-filter.md` — 29.4. 資料列篩選器 #
-- [ ] `server-administration/logical-replication/logical-replication-security.md` — 29.11. Security #
+- [x] `server-administration/logical-replication/logical-replication-security.md` — 29.11. 安全性 #
 - [ ] `server-administration/logical-replication/logical-replication-subscription.md` — 29.2. Subscription #
 - [ ] `server-administration/logical-replication/logical-replication-upgrade.md` — 29.13. Upgrade #
 - [ ] `server-administration/maintenance/README.md` — Chapter 24. Routine Database Maintenance Tasks

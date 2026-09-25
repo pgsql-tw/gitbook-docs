@@ -1,78 +1,68 @@
-## 29.11. Security [#](#LOGICAL-REPLICATION-SECURITY)
+<a id="LOGICAL-REPLICATION-SECURITY"></a>
 
-The role used for the replication connection must have
-the `REPLICATION` attribute (or be a superuser). If the
-role lacks `SUPERUSER` and `BYPASSRLS`,
-publisher row security policies can execute. If the role does not trust
-all table owners, include `options=-crow_security=off` in
-the connection string; if a table owner then adds a row security policy,
-that setting will cause replication to halt rather than execute the policy.
-Access for the role must be configured in `pg_hba.conf`
-and it must have the `LOGIN` attribute.
+## 29.11. 安全性 [#](#LOGICAL-REPLICATION-SECURITY)
 
-The name of the output plugin used by the replication connection must be
-included in the server's [output_plugin_libraries](../runtime-config/runtime-config-replication.md#GUC-OUTPUT-PLUGIN-LIBRARIES). (For
-subscriptions, the plugin name that is used is `pgoutput`.)
-Superusers may modify the trusted list per-connection, by including
-`options=-coutput_plugin_libraries=...` in the connection
-string.
+用於複寫連線的角色，必須具有 `REPLICATION` 屬性（或為超級使用者）。
+若該角色缺少 `SUPERUSER` 與 `BYPASSRLS`，
+發布端的資料列安全性原則便可能執行。若該角色不信任所有資料表擁有者，
+請在連線字串中加入 `options=-crow_security=off`；
+如此一來，若日後有資料表擁有者新增資料列安全性原則，
+該設定會導致複寫停止，而不會執行該原則。
+此角色的存取權限必須在 `pg_hba.conf` 中設定，
+且必須具有 `LOGIN` 屬性。
 
-In order to be able to copy the initial table data, the role used for the
-replication connection must have the `SELECT` privilege on
-a published table (or be a superuser).
+複寫連線所使用的輸出外掛名稱，必須包含在伺服器的
+[output_plugin_libraries](../runtime-config/runtime-config-replication.md#GUC-OUTPUT-PLUGIN-LIBRARIES)
+中。（就訂閱而言，所使用的外掛名稱是 `pgoutput`。）
+超級使用者可以在連線字串中加入
+`options=-coutput_plugin_libraries=...`，
+以逐連線方式修改受信任清單。
 
-To create a publication, the user must have the `CREATE`
-privilege in the database.
+為了能夠複製初始資料表資料，用於複寫連線的角色，
+必須對已發布的資料表具有 `SELECT` 權限
+（或為超級使用者）。
 
-To add tables to a publication, the user must have ownership rights on the
-table. To add all tables in schema to a publication, the user must be a
-superuser. To create a publication that publishes all tables or all tables in
-schema automatically, the user must be a superuser.
+若要建立發布，使用者必須在該資料庫中具有 `CREATE` 權限。
 
-There are currently no privileges on publications. Any subscription (that
-is able to connect) can access any publication. Thus, if you intend to
-hide some information from particular subscribers, such as by using row
-filters or column lists, or by not adding the whole table to the
-publication, be aware that other publications in the same database could
-expose the same information. Publication privileges might be added to
-PostgreSQL in the future to allow for
-finer-grained access control.
+若要將資料表加入發布，使用者必須擁有該資料表的擁有權。
+若要將某綱要（schema）中的所有資料表加入發布，使用者必須是超級使用者。
+若要建立一個自動發布所有資料表、或某綱要中所有資料表的發布，
+使用者也必須是超級使用者。
 
-To create a subscription, the user must have the privileges of
-the `pg_create_subscription` role, as well as
-`CREATE` privileges on the database.
+目前發布並沒有任何權限機制。任何（能夠連線的）訂閱都可以存取任何發布。
+因此，如果你打算對特定訂閱端隱藏某些資訊——例如透過資料列篩選（row filter）
+或欄位清單（column list），或是不將整個資料表加入發布——
+請務必留意，同一個資料庫中的其他發布，仍可能揭露相同的資訊。
+未來 PostgreSQL 可能會加入發布權限機制，
+以支援更細緻的存取控制。
 
-The subscription apply process will, at a session level, run with the
-privileges of the subscription owner. However, when performing an insert,
-update, delete, or truncate operation on a particular table, it will switch
-roles to the table owner and perform the operation with the table owner's
-privileges. This means that the subscription owner needs to be able to
-`SET ROLE` to each role that owns a replicated table.
+若要建立訂閱，使用者必須具有 `pg_create_subscription` 角色的權限，
+以及該資料庫的 `CREATE` 權限。
 
-If the subscription has been configured with
-`run_as_owner = true`, then no user switching will
-occur. Instead, all operations will be performed with the permissions
-of the subscription owner. In this case, the subscription owner only
-needs privileges to `SELECT`, `INSERT`,
-`UPDATE`, and `DELETE` from the
-target table, and does not need privileges to `SET ROLE`
-to the table owner. However, this also means that any user who owns
-a table into which replication is happening can execute arbitrary code with
-the privileges of the subscription owner. For example, they could do this
-by simply attaching a trigger to one of the tables which they own.
-Because it is usually undesirable to allow one role to freely assume
-the privileges of another, this option should be avoided unless user
-security within the database is of no concern.
+訂閱的套用程序（apply process），在工作階段層級上，
+會以訂閱擁有者的權限執行。不過，當它對特定資料表執行插入、更新、
+刪除或截斷（truncate）操作時，會切換角色為該資料表的擁有者，
+並以資料表擁有者的權限執行該操作。這表示訂閱擁有者必須能夠
+`SET ROLE` 為每一個擁有複寫資料表的角色。
 
-On the publisher, privileges are only checked once at the start of a
-replication connection and are not re-checked as each change record is read.
+若訂閱已設定 `run_as_owner = true`，
+就不會發生使用者切換；所有操作都會以訂閱擁有者的權限執行。
+在這種情況下，訂閱擁有者只需要對目標資料表具有
+`SELECT`、`INSERT`、`UPDATE` 及
+`DELETE` 權限，而不需要具有切換為資料表擁有者的
+`SET ROLE` 權限。然而，這也表示任何擁有正在被複寫寫入資料之
+資料表的使用者，都能夠以訂閱擁有者的權限執行任意程式碼——
+例如，只要在自己擁有的其中一個資料表上附加一個觸發程序即可做到。
+由於通常不希望某個角色能夠自由取得另一個角色的權限，
+除非資料庫內的使用者安全性並非考量重點，否則應避免使用此選項。
 
-On the subscriber, the subscription owner's privileges are re-checked for
-each transaction when applied. If a worker is in the process of applying a
-transaction when the ownership of the subscription is changed by a
-concurrent transaction, the application of the current transaction will
-continue under the old owner's privileges.
+在發布端，權限只會在複寫連線開始時檢查一次，
+之後在讀取每一筆變更記錄時並不會重新檢查。
+
+在訂閱端，訂閱擁有者的權限會在每次套用交易時重新檢查。
+如果某個工作程序正在套用交易的過程中，訂閱的擁有權被另一個並行交易變更，
+則目前這筆交易的套用作業，仍會在原擁有者的權限下繼續進行。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-security.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-security.html)（原文版本：18.6；核對日期：2026-09-25）
