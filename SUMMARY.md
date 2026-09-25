@@ -229,7 +229,7 @@
     * [20.13. PAM Authentication #](server-administration/client-authentication/auth-pam.md)
     * [20.14. BSD 驗證](server-administration/client-authentication/auth-bsd.md)
     * [20.15. OAuth Authorization/Authentication #](server-administration/client-authentication/auth-oauth.md)
-    * [20.16. Authentication Problems #](server-administration/client-authentication/client-authentication-problems.md)
+    * [20.16. 驗證問題 #](server-administration/client-authentication/client-authentication-problems.md)
   * [第 21 章 資料庫角色](server-administration/user-manag/README.md)
     * [21.1. 資料庫角色 #](server-administration/user-manag/database-roles.md)
     * [21.2. 角色屬性 #](server-administration/user-manag/role-attributes.md)
