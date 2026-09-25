@@ -1,65 +1,54 @@
-## 29.8. Restrictions [#](#LOGICAL-REPLICATION-RESTRICTIONS)
+<a id="LOGICAL-REPLICATION-RESTRICTIONS"></a>
 
-Logical replication currently has the following restrictions or missing
-functionality. These might be addressed in future releases.
+## 29.8. 限制 [#](#LOGICAL-REPLICATION-RESTRICTIONS)
 
-* The database schema and DDL commands are not replicated. The initial
-  schema can be copied by hand using `pg_dump
-  --schema-only`. Subsequent schema changes would need to be kept
-  in sync manually. (Note, however, that there is no need for the schemas
-  to be absolutely the same on both sides.) Logical replication is robust
-  when schema definitions change in a live database: When the schema is
-  changed on the publisher and replicated data starts arriving at the
-  subscriber but does not fit into the table schema, replication will error
-  until the schema is updated. In many cases, intermittent errors can be
-  avoided by applying additive schema changes to the subscriber first.
-* Sequence data is not replicated. The data in serial or identity columns
-  backed by sequences will of course be replicated as part of the table,
-  but the sequence itself would still show the start value on the
-  subscriber. If the subscriber is used as a read-only database, then this
-  should typically not be a problem. If, however, some kind of switchover
-  or failover to the subscriber database is intended, then the sequences
-  would need to be updated to the latest values, either by copying the
-  current data from the publisher (perhaps
-  using `pg_dump`) or by determining a sufficiently high
-  value from the tables themselves.
-* Replication of `TRUNCATE` commands is supported, but
-  some care must be taken when truncating groups of tables connected by
-  foreign keys. When replicating a truncate action, the subscriber will
-  truncate the same group of tables that was truncated on the publisher,
-  either explicitly specified or implicitly collected via
-  `CASCADE`, minus tables that are not part of the
-  subscription. This will work correctly if all affected tables are part
-  of the same subscription. But if some tables to be truncated on the
-  subscriber have foreign-key links to tables that are not part of the same
-  (or any) subscription, then the application of the truncate action on the
-  subscriber will fail.
-* Large objects (see [Chapter 33](../../client-interfaces/largeobjects/README.md)) are not replicated.
-  There is no workaround for that, other than storing data in normal
-  tables.
-* Replication is only supported by tables, including partitioned tables.
-  Attempts to replicate other types of relations, such as views, materialized
-  views, or foreign tables, will result in an error.
-* When replicating between partitioned tables, the actual replication
-  originates, by default, from the leaf partitions on the publisher, so
-  partitions on the publisher must also exist on the subscriber as valid
-  target tables. (They could either be leaf partitions themselves, or they
-  could be further subpartitioned, or they could even be independent
-  tables.) Publications can also specify that changes are to be replicated
-  using the identity and schema of the partitioned root table instead of
-  that of the individual leaf partitions in which the changes actually
-  originate (see
+邏輯複寫目前有以下限制或尚未提供的功能。這些項目未來版本可能會加以改善。
+
+* 資料庫綱要與 DDL 指令不會被複寫。初始綱要可以使用
+  `pg_dump --schema-only` 手動複製。後續的綱要變更
+  則需要手動保持同步。（不過請注意，兩端的綱要並不需要
+  完全相同。）當即時運作中的資料庫綱要定義發生變更時，
+  邏輯複寫仍能穩健運作：當發布端的綱要變更，而複寫的資料
+  開始送達訂閱端，但卻無法對應到資料表綱要時，複寫會持續
+  出現錯誤，直到綱要更新為止。在許多情況下，只要先對
+  訂閱端套用新增式的綱要變更，就能避免這種間歇性的錯誤。
+* 序列資料不會被複寫。由序列支援的 serial 或 identity
+  欄位中的資料，當然會隨著資料表一起被複寫，但序列本身
+  在訂閱端仍會顯示起始值。如果訂閱端是作為唯讀資料庫使用，
+  這通常不會造成問題。但如果打算將訂閱端資料庫用於某種
+  切換或容錯移轉情境，那麼序列就需要被更新到最新的值，
+  可以透過從發布端複製目前的資料（或許可使用
+  `pg_dump`），或是從資料表本身判斷出一個
+  足夠高的值來達成。
+* 系統支援複寫 `TRUNCATE` 指令，但在截斷以
+  外鍵相連的資料表群組時，必須格外小心。在複寫截斷動作時，
+  訂閱端會截斷發布端上被截斷的同一個資料表群組，
+  無論這個群組是明確指定的，還是透過 `CASCADE`
+  隱含收集而來，但會排除不屬於該訂閱的資料表。如果所有受
+  影響的資料表都屬於同一個訂閱，這樣就能正確運作。但如果
+  訂閱端上要被截斷的某些資料表，與不屬於同一個（或任何）
+  訂閱的資料表之間存在外鍵連結，那麼在訂閱端套用截斷動作
+  就會失敗。
+* 大型物件（見[第 33 章](../../client-interfaces/largeobjects/README.md)）不會被複寫。
+  除了將資料存放在一般資料表中之外，沒有其他變通方法。
+* 複寫僅支援資料表，包括分區資料表。若嘗試複寫其他類型的
+  關聯，例如檢視表、實體化檢視表或外部資料表，則會導致錯誤。
+* 在分區資料表之間進行複寫時，實際的複寫預設是從發布端的
+  葉分區發起，因此發布端的分區，也必須以有效目標資料表的
+  形式存在於訂閱端。（它們可以本身就是葉分區，也可以進一步
+  被再分區，甚至可以是獨立的資料表。）發布也可以指定改為
+  依照分區根資料表的識別與綱要來複寫異動，而不是依照實際
+  發生異動的個別葉分區（詳見 `CREATE PUBLICATION` 的
   [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT)
-  parameter of `CREATE PUBLICATION`).
-* When using
+  參數）。
+* 在已發布的資料表上使用
   [`REPLICA IDENTITY FULL`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY-FULL)
-  on published tables, it is important to note that the `UPDATE`
-  and `DELETE` operations cannot be applied to subscribers
-  if the tables include attributes with datatypes (such as point or box)
-  that do not have a default operator class for B-tree or Hash. However,
-  this limitation can be overcome by ensuring that the table has a primary
-  key or replica identity defined for it.
+  時，必須注意一點：如果資料表中含有沒有 B-tree 或 Hash
+  預設運算子類別的資料型別（例如 point 或 box）的屬性，
+  則 `UPDATE` 與 `DELETE` 操作將無法套用到
+  訂閱端。不過，只要確保該資料表已定義主鍵或複寫識別，
+  就能克服這項限制。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-restrictions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-restrictions.html)（原文版本：18.6；核對日期：2026-09-25）
