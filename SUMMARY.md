@@ -243,7 +243,7 @@
     * [22.3. Template Databases #](server-administration/managing-databases/manage-ag-templatedbs.md)
     * [22.4. 資料庫設定](server-administration/managing-databases/manage-ag-config.md)
     * [22.5. 刪除資料庫](server-administration/managing-databases/manage-ag-dropdb.md)
-    * [22.6. Tablespaces #](server-administration/managing-databases/manage-ag-tablespaces.md)
+    * [22.6. 資料表空間 #](server-administration/managing-databases/manage-ag-tablespaces.md)
   * [Chapter 23. Localization](server-administration/charset/README.md)
     * [23.1. Locale Support #](server-administration/charset/locale.md)
     * [23.2. Collation Support #](server-administration/charset/collation.md)

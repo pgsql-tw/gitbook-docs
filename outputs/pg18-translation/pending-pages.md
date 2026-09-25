@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：624 頁。
+待譯頁面：623 頁。
 
 ## 根目錄
 
@@ -776,7 +776,7 @@
 - [ ] `server-administration/managing-databases/manage-ag-createdb.md` — 22.2. Creating a Database #
 - [x] `server-administration/managing-databases/manage-ag-dropdb.md` — 22.5. 刪除資料庫
 - [ ] `server-administration/managing-databases/manage-ag-overview.md` — 22.1. Overview #
-- [ ] `server-administration/managing-databases/manage-ag-tablespaces.md` — 22.6. Tablespaces #
+- [x] `server-administration/managing-databases/manage-ag-tablespaces.md` — 22.6. 資料表空間 #
 - [ ] `server-administration/managing-databases/manage-ag-templatedbs.md` — 22.3. Template Databases #
 - [ ] `server-administration/monitoring/README.md` — Chapter 27. Monitoring Database Activity
 - [ ] `server-administration/monitoring/diskusage.md` — 27.6. Monitoring Disk Usage #
