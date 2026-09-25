@@ -1,909 +1,926 @@
-## 19.11. Client Connection Defaults [#](#RUNTIME-CONFIG-CLIENT)
+<a id="RUNTIME-CONFIG-CLIENT"></a>
 
-[19.11.1. Statement Behavior](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-STATEMENT)
+## 19.11. 用戶端連線預設值 [#](#RUNTIME-CONFIG-CLIENT)
 
-[19.11.2. Locale and Formatting](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-FORMAT)
+[19.11.1. 陳述式行為](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-STATEMENT)
 
-[19.11.3. Shared Library Preloading](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-PRELOAD)
+[19.11.2. 地區設定與格式化](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-FORMAT)
 
-[19.11.4. Other Defaults](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-OTHER)
+[19.11.3. 共享程式庫預先載入](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-PRELOAD)
+
+[19.11.4. 其他預設值](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-OTHER)
 
 <a id="RUNTIME-CONFIG-CLIENT-STATEMENT"></a>
 
-### 19.11.1. Statement Behavior [#](#RUNTIME-CONFIG-CLIENT-STATEMENT)
+### 19.11.1. 陳述式行為 [#](#RUNTIME-CONFIG-CLIENT-STATEMENT)
 
 <a id="GUC-CLIENT-MIN-MESSAGES"></a>
 
 `client_min_messages` (`enum`) <a id="id-1.6.6.14.2.2.1.1.3"></a> [#](#GUC-CLIENT-MIN-MESSAGES)
-:   Controls which
-    [message levels](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
-    are sent to the client.
-    Valid values are `DEBUG5`,
-    `DEBUG4`, `DEBUG3`, `DEBUG2`,
-    `DEBUG1`, `LOG`, `NOTICE`,
-    `WARNING`, and `ERROR`.
-    Each level includes all the levels that follow it. The later the level,
-    the fewer messages are sent. The default is
-    `NOTICE`. Note that `LOG` has a different
-    rank here than in [log_min_messages](runtime-config-logging.md#GUC-LOG-MIN-MESSAGES).
+:   控制哪些
+    [訊息等級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
+    會被傳送到用戶端。
+    合法的值有 `DEBUG5`、
+    `DEBUG4`、`DEBUG3`、`DEBUG2`、
+    `DEBUG1`、`LOG`、`NOTICE`、
+    `WARNING`，以及 `ERROR`。
+    每個等級都包含其之後的所有等級。等級越後面，
+    傳送的訊息就越少。預設值為
+    `NOTICE`。請注意，`LOG` 在此處的
+    順位，與在 [log_min_messages](runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) 中不同。
 
-    `INFO` level messages are always sent to the client.
+    `INFO` 等級的訊息永遠會被傳送給用戶端。
 <a id="GUC-SEARCH-PATH"></a>
 
 `search_path` (`string`) <a id="id-1.6.6.14.2.2.2.1.3"></a> <a id="id-1.6.6.14.2.2.2.1.4"></a> [#](#GUC-SEARCH-PATH)
-:   This variable specifies the order in which schemas are searched
-    when an object (table, data type, function, etc.) is referenced by a
-    simple name with no schema specified. When there are objects of
-    identical names in different schemas, the one found first
-    in the search path is used. An object that is not in any of the
-    schemas in the search path can only be referenced by specifying
-    its containing schema with a qualified (dotted) name.
+:   此變數指定當一個物件（資料表、資料型別、函式等）
+    以未指定綱要的簡單名稱被參照時，
+    要搜尋綱要的順序。當不同綱要中存在
+    名稱相同的物件時，會使用在搜尋路徑中最先
+    找到的那一個。若某個物件不在搜尋路徑中任何一個
+    綱要內，就只能透過指定其所屬綱要的限定
+    （加點）名稱來參照它。
 
-    The value for `search_path` must be a comma-separated
-    list of schema names. Any name that is not an existing schema, or is
-    a schema for which the user does not have `USAGE`
-    permission, is silently ignored.
+    `search_path` 的值必須是以逗號分隔的
+    綱要名稱清單。任何不是既有綱要、
+    或使用者對其沒有 `USAGE` 權限的名稱，
+    都會被默默忽略。
 
-    If one of the list items is the special name
-    `$user`, then the schema having the name returned by
-    `CURRENT_USER` is substituted, if there is such a schema
-    and the user has `USAGE` permission for it.
-    (If not, `$user` is ignored.)
+    如果清單項目之一是特殊名稱
+    `$user`，且存在一個名稱為
+    `CURRENT_USER` 傳回值的綱要，且使用者對其
+    具備 `USAGE` 權限，則會替換為該綱要。
+    （若否，`$user` 會被忽略。）
 
-    The system catalog schema, `pg_catalog`, is always
-    searched, whether it is mentioned in the path or not. If it is
-    mentioned in the path then it will be searched in the specified
-    order. If `pg_catalog` is not in the path then it will
-    be searched *before* searching any of the path items.
+    無論是否在路徑中提及，系統目錄綱要
+    `pg_catalog` 永遠都會被搜尋。若有在路徑中
+    提及，則會依指定的順序搜尋。如果
+    `pg_catalog` 不在路徑中，則會在搜尋任何
+    路徑項目*之前*先搜尋它。
 
-    Likewise, the current session's temporary-table schema,
-    `pg_temp_nnn`, is always searched if it
-    exists. It can be explicitly listed in the path by using the
-    alias `pg_temp`<a id="id-1.6.6.14.2.2.2.2.5.3"></a>. If it is not listed in the path then
-    it is searched first (even before `pg_catalog`). However,
-    the temporary schema is only searched for relation (table, view,
-    sequence, etc.) and data type names. It is never searched for
-    function or operator names.
+    同樣地，目前工作階段的暫存資料表綱要
+    `pg_temp_nnn`，只要存在，永遠都會被搜尋。
+    可以使用別名 `pg_temp`<a id="id-1.6.6.14.2.2.2.2.5.3"></a> 在路徑中明確列出它。
+    如果未在路徑中列出，則會第一個被搜尋
+    （甚至在 `pg_catalog` 之前）。不過，
+    暫存綱要只會針對關聯（資料表、檢視表、
+    序列等）與資料型別名稱進行搜尋，
+    不會用於搜尋函式或運算子名稱。
 
-    When objects are created without specifying a particular target
-    schema, they will be placed in the first valid schema named in
-    `search_path`. An error is reported if the search
-    path is empty.
+    當建立物件時未指定特定目標綱要，
+    這些物件會被放入
+    `search_path` 中列出的第一個合法綱要。
+    若搜尋路徑為空，則會回報錯誤。
 
-    The default value for this parameter is
-    `"$user", public`.
-    This setting supports shared use of a database (where no users
-    have private schemas, and all share use of `public`),
-    private per-user schemas, and combinations of these. Other
-    effects can be obtained by altering the default search path
-    setting, either globally or per-user.
+    此參數的預設值為
+    `"$user", public`。
+    此設定支援共享使用資料庫（沒有任何使用者
+    擁有私有綱要，所有人共用 `public`）、
+    每個使用者專屬的私有綱要，以及兩者的組合。
+    可以透過全域或逐使用者變更預設的搜尋
+    路徑設定，達成其他效果。
 
-    For more information on schema handling, see
-    [Section 5.10](../../the-sql-language/ddl/ddl-schemas.md). In particular, the default
-    configuration is suitable only when the database has a single user or
-    a few mutually-trusting users.
+    有關綱要處理的更多資訊，請參閱
+    [5.10 節](../../the-sql-language/ddl/ddl-schemas.md)。特別要注意，預設
+    組態設定僅適用於資料庫只有單一使用者，
+    或少數彼此互信使用者的情況。
 
-    The current effective value of the search path can be examined
-    via the SQL function
+    可以透過 SQL 函式
     `current_schemas`
-    (see [Section 9.27](../../the-sql-language/functions/functions-info.md)).
-    This is not quite the same as
-    examining the value of `search_path`, since
-    `current_schemas` shows how the items
-    appearing in `search_path` were resolved.
+    （參閱[9.27 節](../../the-sql-language/functions/functions-info.md)），檢視搜尋路徑目前的
+    有效值。這與檢視
+    `search_path` 的值並不完全相同，因為
+    `current_schemas` 會顯示
+    `search_path` 中出現的項目
+    實際上是如何被解析的。
 <a id="GUC-ROW-SECURITY"></a>
 
 `row_security` (`boolean`) <a id="id-1.6.6.14.2.2.3.1.3"></a> [#](#GUC-ROW-SECURITY)
-:   This variable controls whether to raise an error in lieu of applying a
-    row security policy. When set to `on`, policies apply
-    normally. When set to `off`, queries fail which would
-    otherwise apply at least one policy. The default is `on`.
-    Change to `off` where limited row visibility could cause
-    incorrect results; for example, pg_dump makes that
-    change by default. This variable has no effect on roles which bypass
-    every row security policy, to wit, superusers and roles with
-    the `BYPASSRLS` attribute.
+:   此變數控制是否應在套用資料列安全性原則之外，
+    改為引發錯誤。設為 `on` 時，
+    原則會正常套用。設為 `off` 時，
+    原本會套用至少一項原則的查詢會失敗。預設值為 `on`。
+    在受限的資料列可見性可能導致不正確結果的情況下，
+    請改為 `off`；舉例來說，pg_dump
+    預設就會這麼做。此變數對繞過所有資料列安全性
+    原則的角色（也就是超級使用者，以及具備
+    `BYPASSRLS` 屬性的角色）沒有影響。
 
-    For more information on row security policies,
-    see [CREATE POLICY](../../reference/sql-commands/sql-createpolicy.md).
+    有關資料列安全性原則的更多資訊，
+    請參閱 [CREATE POLICY](../../reference/sql-commands/sql-createpolicy.md)。
 <a id="GUC-DEFAULT-TABLE-ACCESS-METHOD"></a>
 
 `default_table_access_method` (`string`) <a id="id-1.6.6.14.2.2.4.1.3"></a> [#](#GUC-DEFAULT-TABLE-ACCESS-METHOD)
-:   This parameter specifies the default table access method to use when
-    creating tables or materialized views if the `CREATE`
-    command does not explicitly specify an access method, or when
-    `SELECT ... INTO` is used, which does not allow
-    specifying a table access method. The default is `heap`.
+:   此參數指定在建立資料表或實體化檢視表時，
+    若 `CREATE` 命令未明確指定存取方法，
+    或使用未允許指定資料表存取方法的
+    `SELECT ... INTO` 時，
+    要使用的預設資料表存取方法。預設值為 `heap`。
 <a id="GUC-DEFAULT-TABLESPACE"></a>
 
 `default_tablespace` (`string`) <a id="id-1.6.6.14.2.2.5.1.3"></a> <a id="id-1.6.6.14.2.2.5.1.4"></a> [#](#GUC-DEFAULT-TABLESPACE)
-:   This variable specifies the default tablespace in which to create
-    objects (tables and indexes) when a `CREATE` command does
-    not explicitly specify a tablespace.
+:   此變數指定在 `CREATE` 命令未明確指定
+    表空間時，用來建立物件（資料表與索引）的
+    預設表空間。
 
-    The value is either the name of a tablespace, or an empty string
-    to specify using the default tablespace of the current database.
-    If the value does not match the name of any existing tablespace,
-    PostgreSQL will automatically use the default
-    tablespace of the current database. If a nondefault tablespace
-    is specified, the user must have `CREATE` privilege
-    for it, or creation attempts will fail.
+    此值可以是表空間的名稱，或是空字串（代表
+    使用目前資料庫的預設表空間）。
+    若此值與任何既有表空間的名稱都不相符，
+    PostgreSQL 會自動使用目前資料庫的
+    預設表空間。若指定了非預設的表空間，
+    使用者必須對其具備 `CREATE` 權限，
+    否則建立嘗試將會失敗。
 
-    This variable is not used for temporary tables; for them,
-    [temp_tablespaces](runtime-config-client.md#GUC-TEMP-TABLESPACES) is consulted instead.
+    暫存資料表不使用此變數；對於暫存資料表，
+    會改為查詢 [temp_tablespaces](runtime-config-client.md#GUC-TEMP-TABLESPACES)。
 
-    This variable is also not used when creating databases.
-    By default, a new database inherits its tablespace setting from
-    the template database it is copied from.
+    建立資料庫時也不會使用此變數。
+    根據預設，新資料庫會繼承其複製自的範本
+    資料庫的表空間設定。
 
-    If this parameter is set to a value other than the empty string
-    when a partitioned table is created, the partitioned table's
-    tablespace will be set to that value, which will be used as
-    the default tablespace for partitions created in the future,
-    even if `default_tablespace` has changed since then.
+    若在建立分割資料表時，此參數設為非空字串，
+    該分割資料表的表空間會被設為此值，
+    並會被用作未來建立的分割區的預設
+    表空間，即使 `default_tablespace` 此後
+    已經變更也一樣。
 
-    For more information on tablespaces,
-    see [Section 22.6](../managing-databases/manage-ag-tablespaces.md).
+    有關表空間的更多資訊，
+    請參閱[22.6 節](../managing-databases/manage-ag-tablespaces.md)。
 <a id="GUC-DEFAULT-TOAST-COMPRESSION"></a>
 
 `default_toast_compression` (`enum`) <a id="id-1.6.6.14.2.2.6.1.3"></a> [#](#GUC-DEFAULT-TOAST-COMPRESSION)
-:   This variable sets the default
+:   此變數設定可壓縮欄位值的預設
     [TOAST](../../internals/storage/storage-toast.md)
-    compression method for values of compressible columns.
-    (This can be overridden for individual columns by setting
-    the `COMPRESSION` column option in
-    `CREATE TABLE` or
-    `ALTER TABLE`.)
-    The supported compression methods are `pglz` and
-    (if PostgreSQL was compiled with
-    `--with-lz4`) `lz4`.
-    The default is `pglz`.
+    壓縮方法。（可以透過在
+    `CREATE TABLE` 或
+    `ALTER TABLE` 中設定
+    `COMPRESSION` 欄位選項，針對個別欄位覆寫此設定。）
+    支援的壓縮方法有 `pglz`，
+    以及（若 PostgreSQL 是以
+    `--with-lz4` 編譯的）`lz4`。
+    預設值為 `pglz`。
 <a id="GUC-TEMP-TABLESPACES"></a>
 
 `temp_tablespaces` (`string`) <a id="id-1.6.6.14.2.2.7.1.3"></a> <a id="id-1.6.6.14.2.2.7.1.4"></a> [#](#GUC-TEMP-TABLESPACES)
-:   This variable specifies tablespaces in which to create temporary
-    objects (temp tables and indexes on temp tables) when a
-    `CREATE` command does not explicitly specify a tablespace.
-    Temporary files for purposes such as sorting large data sets
-    are also created in these tablespaces.
+:   此變數指定在 `CREATE` 命令未明確指定
+    表空間時，用來建立暫存物件（暫存資料表，
+    以及暫存資料表上的索引）的表空間。
+    用於例如排序大型資料集等用途的暫存檔案，
+    也會建立在這些表空間中。
 
-    The value is a list of names of tablespaces. When there is more than
-    one name in the list, PostgreSQL chooses a random
-    member of the list each time a temporary object is to be created;
-    except that within a transaction, successively created temporary
-    objects are placed in successive tablespaces from the list.
-    If the selected element of the list is an empty string,
-    PostgreSQL will automatically use the default
-    tablespace of the current database instead.
+    此值是一份表空間名稱清單。若清單中有
+    多於一個名稱，PostgreSQL 每次
+    要建立暫存物件時，會從清單中隨機選擇
+    一個成員；不過在同一個交易內，連續建立的
+    暫存物件，會依序放入清單中連續的表空間。
+    若清單中選中的項目是空字串，
+    PostgreSQL 會自動改用目前資料庫的
+    預設表空間。
 
-    When `temp_tablespaces` is set interactively, specifying a
-    nonexistent tablespace is an error, as is specifying a tablespace for
-    which the user does not have `CREATE` privilege. However,
-    when using a previously set value, nonexistent tablespaces are
-    ignored, as are tablespaces for which the user lacks
-    `CREATE` privilege. In particular, this rule applies when
-    using a value set in `postgresql.conf`.
+    以互動方式設定 `temp_tablespaces` 時，
+    指定不存在的表空間會導致錯誤，指定使用者
+    沒有 `CREATE` 權限的表空間也一樣。不過，
+    使用先前設定好的值時，不存在的表空間會被
+    忽略，使用者缺少 `CREATE` 權限的表空間
+    也一樣。特別是，此規則適用於使用
+    `postgresql.conf` 中設定的值時。
 
-    The default value is an empty string, which results in all temporary
-    objects being created in the default tablespace of the current
-    database.
+    預設值為空字串，這會使所有暫存物件
+    都建立在目前資料庫的預設
+    表空間中。
 
-    See also [default_tablespace](runtime-config-client.md#GUC-DEFAULT-TABLESPACE).
+    另請參閱 [default_tablespace](runtime-config-client.md#GUC-DEFAULT-TABLESPACE)。
 <a id="GUC-CHECK-FUNCTION-BODIES"></a>
 
 `check_function_bodies` (`boolean`) <a id="id-1.6.6.14.2.2.8.1.3"></a> [#](#GUC-CHECK-FUNCTION-BODIES)
-:   This parameter is normally on. When set to `off`, it
-    disables validation of the routine body string during [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) and [CREATE PROCEDURE](../../reference/sql-commands/sql-createprocedure.md). Disabling validation avoids side
-    effects of the validation process, in particular preventing false
-    positives due to problems such as forward references.
-    Set this parameter
-    to `off` before loading functions on behalf of other
-    users; pg_dump does so automatically.
+:   此參數通常為開啟。設為 `off` 時，
+    會停用在 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) 與
+    [CREATE PROCEDURE](../../reference/sql-commands/sql-createprocedure.md) 期間對常式主體字串的驗證。
+    停用驗證可以避免驗證流程的副作用，
+    特別是防止因前向參照等問題造成的誤判。
+    在代替其他使用者載入函式之前，請將此參數
+    設為 `off`；pg_dump 會自動這麼做。
 <a id="GUC-DEFAULT-TRANSACTION-ISOLATION"></a>
 
 `default_transaction_isolation` (`enum`) <a id="id-1.6.6.14.2.2.9.1.3"></a> <a id="id-1.6.6.14.2.2.9.1.4"></a> [#](#GUC-DEFAULT-TRANSACTION-ISOLATION)
-:   Each SQL transaction has an isolation level, which can be
-    either “read uncommitted”, “read
-    committed”, “repeatable read”, or
-    “serializable”. This parameter controls the
-    default isolation level of each new transaction. The default
-    is “read committed”.
+:   每個 SQL 交易都有一個隔離等級，可以是
+    「read uncommitted（讀取未提交）」、「read
+    committed（讀取已提交）」、「repeatable read（可重複讀取）」，
+    或「serializable（可序列化）」。此參數控制
+    每個新交易的預設隔離等級。預設值
+    為「read committed」。
 
-    Consult [Chapter 13](../../the-sql-language/mvcc/README.md) and [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md) for more information.
+    詳情請參閱[第 13 章](../../the-sql-language/mvcc/README.md)與 [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md)。
 <a id="GUC-DEFAULT-TRANSACTION-READ-ONLY"></a>
 
 `default_transaction_read_only` (`boolean`) <a id="id-1.6.6.14.2.2.10.1.3"></a> <a id="id-1.6.6.14.2.2.10.1.4"></a> [#](#GUC-DEFAULT-TRANSACTION-READ-ONLY)
-:   A read-only SQL transaction cannot alter non-temporary tables.
-    This parameter controls the default read-only status of each new
-    transaction. The default is `off` (read/write).
+:   唯讀的 SQL 交易無法變更非暫存資料表。
+    此參數控制每個新交易的預設唯讀狀態。
+    預設值為 `off`（讀寫）。
 
-    Consult [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md) for more information.
+    詳情請參閱 [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md)。
 <a id="GUC-DEFAULT-TRANSACTION-DEFERRABLE"></a>
 
 `default_transaction_deferrable` (`boolean`) <a id="id-1.6.6.14.2.2.11.1.3"></a> <a id="id-1.6.6.14.2.2.11.1.4"></a> [#](#GUC-DEFAULT-TRANSACTION-DEFERRABLE)
-:   When running at the `serializable` isolation level,
-    a deferrable read-only SQL transaction may be delayed before
-    it is allowed to proceed. However, once it begins executing
-    it does not incur any of the overhead required to ensure
-    serializability; so serialization code will have no reason to
-    force it to abort because of concurrent updates, making this
-    option suitable for long-running read-only transactions.
+:   在 `serializable` 隔離等級下執行時，
+    可延遲（deferrable）的唯讀 SQL 交易，
+    在被允許繼續進行之前可能會被延遲。不過，
+    一旦它開始執行，就不會產生任何確保
+    可序列化性所需的額外負擔；因此序列化程式碼
+    不會因為並行更新而強制中止此交易，
+    使此選項適合用於長時間執行的唯讀交易。
 
-    This parameter controls the default deferrable status of each
-    new transaction. It currently has no effect on read-write
-    transactions or those operating at isolation levels lower
-    than `serializable`. The default is `off`.
+    此參數控制每個新交易的預設可延遲狀態。
+    目前對讀寫交易，或以低於
+    `serializable` 隔離等級執行的交易
+    沒有影響。預設值為 `off`。
 
-    Consult [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md) for more information.
+    詳情請參閱 [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md)。
 <a id="GUC-TRANSACTION-ISOLATION"></a>
 
 `transaction_isolation` (`enum`) <a id="id-1.6.6.14.2.2.12.1.3"></a> <a id="id-1.6.6.14.2.2.12.1.4"></a> [#](#GUC-TRANSACTION-ISOLATION)
-:   This parameter reflects the current transaction's isolation level.
-    At the beginning of each transaction, it is set to the current value
-    of [default_transaction_isolation](runtime-config-client.md#GUC-DEFAULT-TRANSACTION-ISOLATION).
-    Any subsequent attempt to change it is equivalent to a [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md) command.
+:   此參數反映目前交易的隔離等級。
+    在每個交易開始時，此值會被設為
+    [default_transaction_isolation](runtime-config-client.md#GUC-DEFAULT-TRANSACTION-ISOLATION) 目前的值。
+    後續任何嘗試變更此值的操作，都等同於
+    [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md) 命令。
 <a id="GUC-TRANSACTION-READ-ONLY"></a>
 
 `transaction_read_only` (`boolean`) <a id="id-1.6.6.14.2.2.13.1.3"></a> <a id="id-1.6.6.14.2.2.13.1.4"></a> [#](#GUC-TRANSACTION-READ-ONLY)
-:   This parameter reflects the current transaction's read-only status.
-    At the beginning of each transaction, it is set to the current value
-    of [default_transaction_read_only](runtime-config-client.md#GUC-DEFAULT-TRANSACTION-READ-ONLY).
-    Any subsequent attempt to change it is equivalent to a [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md) command.
+:   此參數反映目前交易的唯讀狀態。
+    在每個交易開始時，此值會被設為
+    [default_transaction_read_only](runtime-config-client.md#GUC-DEFAULT-TRANSACTION-READ-ONLY) 目前的值。
+    後續任何嘗試變更此值的操作，都等同於
+    [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md) 命令。
 <a id="GUC-TRANSACTION-DEFERRABLE"></a>
 
 `transaction_deferrable` (`boolean`) <a id="id-1.6.6.14.2.2.14.1.3"></a> <a id="id-1.6.6.14.2.2.14.1.4"></a> [#](#GUC-TRANSACTION-DEFERRABLE)
-:   This parameter reflects the current transaction's deferrability status.
-    At the beginning of each transaction, it is set to the current value
-    of [default_transaction_deferrable](runtime-config-client.md#GUC-DEFAULT-TRANSACTION-DEFERRABLE).
-    Any subsequent attempt to change it is equivalent to a [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md) command.
+:   此參數反映目前交易的可延遲狀態。
+    在每個交易開始時，此值會被設為
+    [default_transaction_deferrable](runtime-config-client.md#GUC-DEFAULT-TRANSACTION-DEFERRABLE) 目前的值。
+    後續任何嘗試變更此值的操作，都等同於
+    [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md) 命令。
 <a id="GUC-SESSION-REPLICATION-ROLE"></a>
 
 `session_replication_role` (`enum`) <a id="id-1.6.6.14.2.2.15.1.3"></a> [#](#GUC-SESSION-REPLICATION-ROLE)
-:   Controls firing of replication-related triggers and rules for the
-    current session.
-    Possible values are `origin` (the default),
-    `replica` and `local`.
-    Setting this parameter results in discarding any previously cached
-    query plans.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   控制目前工作階段中複寫相關觸發程序與規則的
+    觸發行為。
+    可能的值有 `origin`（預設值）、
+    `replica` 與 `local`。
+    設定此參數會導致捨棄任何先前快取的
+    查詢計畫。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 
-    The intended use of this setting is that logical replication systems
-    set it to `replica` when they are applying replicated
-    changes. The effect of that will be that triggers and rules (that
-    have not been altered from their default configuration) will not fire
-    on the replica. See the [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) clauses
-    `ENABLE TRIGGER` and `ENABLE RULE`
-    for more information.
+    此設定的用途，是讓邏輯複寫系統在套用
+    已複寫的變更時，將其設為 `replica`。
+    這麼做的效果，是使（未從預設組態設定變更的）
+    觸發程序與規則不會在複寫端觸發。詳情請參閱
+    [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 中的
+    `ENABLE TRIGGER` 與 `ENABLE RULE`
+    子句。
 
-    PostgreSQL treats the settings `origin` and
-    `local` the same internally. Third-party replication
-    systems may use these two values for their internal purposes, for
-    example using `local` to designate a session whose
-    changes should not be replicated.
+    PostgreSQL 在內部將 `origin` 與
+    `local` 這兩個設定視為相同。第三方複寫
+    系統可能會將這兩個值用於其內部用途，
+    例如使用 `local` 表示其變更
+    不應被複寫的工作階段。
 
-    Since foreign keys are implemented as triggers, setting this parameter
-    to `replica` also disables all foreign key checks,
-    which can leave data in an inconsistent state if improperly used.
+    由於外部索引鍵是以觸發程序實作的，將此參數
+    設為 `replica` 也會停用所有外部索引鍵
+    檢查，若使用不當，可能導致資料處於不一致的
+    狀態。
 <a id="GUC-STATEMENT-TIMEOUT"></a>
 
 `statement_timeout` (`integer`) <a id="id-1.6.6.14.2.2.16.1.3"></a> [#](#GUC-STATEMENT-TIMEOUT)
-:   Abort any statement that takes more than the specified amount of time.
-    If `log_min_error_statement` is set
-    to `ERROR` or lower, the statement that timed out
-    will also be logged.
-    If this value is specified without units, it is taken as milliseconds.
-    A value of zero (the default) disables the timeout.
+:   中止耗時超過指定時間量的任何陳述式。
+    若 `log_min_error_statement` 設為
+    `ERROR` 或更低，逾時的陳述式
+    也會被記錄下來。
+    若此值指定時未帶單位，則以毫秒為單位。
+    值為零（預設值）代表停用此逾時。
 
-    The timeout is measured from the time a command arrives at the
-    server until it is completed by the server. If multiple SQL
-    statements appear in a single simple-query message, the timeout
-    is applied to each statement separately.
-    (PostgreSQL versions before 13 usually
-    treated the timeout as applying to the whole query string.)
-    In extended query protocol, the timeout starts running when any
-    query-related message (Parse, Bind, Execute, Describe) arrives, and
-    it is canceled by completion of an Execute or Sync message.
+    此逾時是從命令抵達伺服器的時間點開始計算，
+    直到伺服器完成該命令為止。若單一簡單查詢訊息中
+    含有多個 SQL 陳述式，逾時會分別套用於
+    每個陳述式。
+    （13 之前的 PostgreSQL 版本通常將
+    此逾時視為套用於整個查詢字串。）
+    在擴充查詢通訊協定中，逾時會在任何與查詢相關的
+    訊息（Parse、Bind、Execute、Describe）抵達時開始計時，
+    並在 Execute 或 Sync 訊息完成時被取消。
 
-    Setting `statement_timeout` in
-    `postgresql.conf` is not recommended because it would
-    affect all sessions.
+    不建議在
+    `postgresql.conf` 中設定 `statement_timeout`，
+    因為這會影響所有工作階段。
 <a id="GUC-TRANSACTION-TIMEOUT"></a>
 
 `transaction_timeout` (`integer`) <a id="id-1.6.6.14.2.2.17.1.3"></a> [#](#GUC-TRANSACTION-TIMEOUT)
-:   Terminate any session that spans longer than the specified amount of
-    time in a transaction. The limit applies both to explicit transactions
-    (started with `BEGIN`) and to an implicitly started
-    transaction corresponding to a single statement.
-    If this value is specified without units, it is taken as milliseconds.
-    A value of zero (the default) disables the timeout.
+:   終止在交易中持續時間超過指定時間量的任何
+    工作階段。此上限同時適用於明確的交易
+    （以 `BEGIN` 開始）以及對應單一陳述式
+    隱含開始的交易。
+    若此值指定時未帶單位，則以毫秒為單位。
+    值為零（預設值）代表停用此逾時。
 
-    If `transaction_timeout` is shorter or equal to
-    `idle_in_transaction_session_timeout` or `statement_timeout`
-    then the longer timeout is ignored.
+    若 `transaction_timeout` 短於或等於
+    `idle_in_transaction_session_timeout` 或 `statement_timeout`，
+    則較長的逾時會被忽略。
 
-    Setting `transaction_timeout` in
-    `postgresql.conf` is not recommended because it would
-    affect all sessions.
+    不建議在
+    `postgresql.conf` 中設定 `transaction_timeout`，
+    因為這會影響所有工作階段。
 
-    ### Note
+    ### 注意
 
-    Prepared transactions are not subject to this timeout.
+    已備妥交易不受此逾時限制。
 <a id="GUC-LOCK-TIMEOUT"></a>
 
 `lock_timeout` (`integer`) <a id="id-1.6.6.14.2.2.18.1.3"></a> [#](#GUC-LOCK-TIMEOUT)
-:   Abort any statement that waits longer than the specified amount of
-    time while attempting to acquire a lock on a table, index,
-    row, or other database object. The time limit applies separately to
-    each lock acquisition attempt. The limit applies both to explicit
-    locking requests (such as `LOCK TABLE`, or `SELECT
-    FOR UPDATE` without `NOWAIT`) and to implicitly-acquired
-    locks.
-    If this value is specified without units, it is taken as milliseconds.
-    A value of zero (the default) disables the timeout.
+:   中止在嘗試取得資料表、索引、
+    資料列或其他資料庫物件的鎖定時，等待時間超過
+    指定時間量的任何陳述式。此時間上限是分別套用於
+    每一次取得鎖定的嘗試。此上限同時適用於明確的
+    鎖定請求（例如 `LOCK TABLE`，或未使用
+    `NOWAIT` 的 `SELECT
+    FOR UPDATE`），以及隱含取得的
+    鎖定。
+    若此值指定時未帶單位，則以毫秒為單位。
+    值為零（預設值）代表停用此逾時。
 
-    Unlike `statement_timeout`, this timeout can only occur
-    while waiting for locks. Note that if `statement_timeout`
-    is nonzero, it is rather pointless to set `lock_timeout` to
-    the same or larger value, since the statement timeout would always
-    trigger first. If `log_min_error_statement` is set to
-    `ERROR` or lower, the statement that timed out will be
-    logged.
+    與 `statement_timeout` 不同，此逾時
+    只可能在等待鎖定時發生。請注意，若
+    `statement_timeout` 為非零值，將
+    `lock_timeout` 設為與其相同或更大的值
+    相當沒有意義，因為陳述式逾時永遠會先觸發。若
+    `log_min_error_statement` 設為
+    `ERROR` 或更低，逾時的陳述式將會
+    被記錄下來。
 
-    Setting `lock_timeout` in
-    `postgresql.conf` is not recommended because it would
-    affect all sessions.
+    不建議在
+    `postgresql.conf` 中設定 `lock_timeout`，
+    因為這會影響所有工作階段。
 <a id="GUC-IDLE-IN-TRANSACTION-SESSION-TIMEOUT"></a>
 
 `idle_in_transaction_session_timeout` (`integer`) <a id="id-1.6.6.14.2.2.19.1.3"></a> [#](#GUC-IDLE-IN-TRANSACTION-SESSION-TIMEOUT)
-:   Terminate any session that has been idle (that is, waiting for a
-    client query) within an open transaction for longer than the
-    specified amount of time.
-    If this value is specified without units, it is taken as milliseconds.
-    A value of zero (the default) disables the timeout.
+:   終止在開啟的交易中閒置（也就是等待用戶端查詢）
+    超過指定時間量的任何工作階段。
+    若此值指定時未帶單位，則以毫秒為單位。
+    值為零（預設值）代表停用此逾時。
 
-    This option can be used to ensure that idle sessions do not hold
-    locks for an unreasonable amount of time. Even when no significant
-    locks are held, an open transaction prevents vacuuming away
-    recently-dead tuples that may be visible only to this transaction;
-    so remaining idle for a long time can contribute to table bloat.
-    See [Section 24.1](../maintenance/routine-vacuuming.md) for more details.
+    此選項可用於確保閒置的工作階段不會
+    持有鎖定過長的時間。即使沒有持有重要的
+    鎖定，開啟中的交易仍會阻止清除可能僅對此
+    交易可見的近期死亡 tuple；因此長時間保持
+    閒置，可能導致資料表膨脹。
+    詳情請參閱[24.1 節](../maintenance/routine-vacuuming.md)。
 <a id="GUC-IDLE-SESSION-TIMEOUT"></a>
 
 `idle_session_timeout` (`integer`) <a id="id-1.6.6.14.2.2.20.1.3"></a> [#](#GUC-IDLE-SESSION-TIMEOUT)
-:   Terminate any session that has been idle (that is, waiting for a
-    client query), but not within an open transaction, for longer than
-    the specified amount of time.
-    If this value is specified without units, it is taken as milliseconds.
-    A value of zero (the default) disables the timeout.
+:   終止閒置（也就是等待用戶端查詢，但不在
+    開啟的交易中）超過指定時間量的任何工作階段。
+    若此值指定時未帶單位，則以毫秒為單位。
+    值為零（預設值）代表停用此逾時。
 
-    Unlike the case with an open transaction, an idle session without a
-    transaction imposes no large costs on the server, so there is less
-    need to enable this timeout
-    than `idle_in_transaction_session_timeout`.
+    與開啟中交易的情況不同，沒有交易的閒置
+    工作階段不會對伺服器造成太大成本，因此
+    比起 `idle_in_transaction_session_timeout`，
+    啟用此逾時的需求較小。
 
-    Be wary of enforcing this timeout on connections made through
-    connection-pooling software or other middleware, as such a layer
-    may not react well to unexpected connection closure. It may be
-    helpful to enable this timeout only for interactive sessions,
-    perhaps by applying it only to particular users.
+    對透過連線池軟體或其他中介軟體建立的連線
+    強制執行此逾時時請務必小心，因為這類
+    層級可能無法妥善應對非預期的連線關閉。
+    僅對互動式工作階段啟用此逾時可能會有幫助，
+    例如只針對特定使用者套用。
 <a id="GUC-BYTEA-OUTPUT"></a>
 
 `bytea_output` (`enum`) <a id="id-1.6.6.14.2.2.21.1.3"></a> [#](#GUC-BYTEA-OUTPUT)
-:   Sets the output format for values of type `bytea`.
-    Valid values are `hex` (the default)
-    and `escape` (the traditional PostgreSQL
-    format). See [Section 8.4](../../the-sql-language/datatype/datatype-binary.md) for more
-    information. The `bytea` type always
-    accepts both formats on input, regardless of this setting.
+:   設定 `bytea` 型別值的輸出格式。
+    合法的值有 `hex`（預設值）
+    與 `escape`（傳統的 PostgreSQL
+    格式）。詳情請參閱[8.4 節](../../the-sql-language/datatype/datatype-binary.md)。
+    無論此設定為何，`bytea` 型別
+    輸入時永遠同時接受這兩種格式。
 <a id="GUC-XMLBINARY"></a>
 
 `xmlbinary` (`enum`) <a id="id-1.6.6.14.2.2.22.1.3"></a> [#](#GUC-XMLBINARY)
-:   Sets how binary values are to be encoded in XML. This applies
-    for example when `bytea` values are converted to
-    XML by the functions `xmlelement` or
-    `xmlforest`. Possible values are
-    `base64` and `hex`, which
-    are both defined in the XML Schema standard. The default is
-    `base64`. For further information about
-    XML-related functions, see [Section 9.15](../../the-sql-language/functions/functions-xml.md).
+:   設定二進位值在 XML 中應如何編碼。此設定
+    適用於，例如透過 `xmlelement` 或
+    `xmlforest` 函式將 `bytea` 值
+    轉換為 XML 的情況。可能的值有
+    `base64` 與 `hex`，這兩者
+    都定義於 XML Schema 標準中。預設值為
+    `base64`。有關 XML 相關函式的
+    更多資訊，請參閱[9.15 節](../../the-sql-language/functions/functions-xml.md)。
 
-    The actual choice here is mostly a matter of taste,
-    constrained only by possible restrictions in client
-    applications. Both methods support all possible values,
-    although the hex encoding will be somewhat larger than the
-    base64 encoding.
+    此處實際的選擇主要取決於個人偏好，
+    唯一的限制是用戶端應用程式可能存在的
+    限制。兩種方法都支援所有可能的值，
+    不過 hex 編碼會比
+    base64 編碼稍大一些。
 <a id="GUC-XMLOPTION"></a>
 
 `xmloption` (`enum`) <a id="id-1.6.6.14.2.2.23.1.3"></a> <a id="id-1.6.6.14.2.2.23.1.4"></a> <a id="id-1.6.6.14.2.2.23.1.5"></a> [#](#GUC-XMLOPTION)
-:   Sets whether `DOCUMENT` or
-    `CONTENT` is implicit when converting between
-    XML and character string values. See [Section 8.13](../../the-sql-language/datatype/datatype-xml.md) for a description of this. Valid
-    values are `DOCUMENT` and
-    `CONTENT`. The default is
-    `CONTENT`.
+:   設定在 XML 與字元字串值之間轉換時，
+    隱含使用 `DOCUMENT` 還是
+    `CONTENT`。詳情請參閱[8.13 節](../../the-sql-language/datatype/datatype-xml.md)
+    的說明。合法的
+    值有 `DOCUMENT` 與
+    `CONTENT`。預設值為
+    `CONTENT`。
 
-    According to the SQL standard, the command to set this option is
+    依照 SQL 標準，設定此選項的命令為
 
     ```
 
     SET XML OPTION { DOCUMENT | CONTENT };
     ```
 
-    This syntax is also available in PostgreSQL.
+    此語法在 PostgreSQL 中同樣可用。
 <a id="GUC-GIN-PENDING-LIST-LIMIT"></a>
 
 `gin_pending_list_limit` (`integer`) <a id="id-1.6.6.14.2.2.24.1.3"></a> [#](#GUC-GIN-PENDING-LIST-LIMIT)
-:   Sets the maximum size of a GIN index's pending list, which is used
-    when `fastupdate` is enabled. If the list grows
-    larger than this maximum size, it is cleaned up by moving
-    the entries in it to the index's main GIN data structure in bulk.
-    If this value is specified without units, it is taken as kilobytes.
-    The default is four megabytes (`4MB`). This setting
-    can be overridden for individual GIN indexes by changing
-    index storage parameters.
-    See [Section 65.4.4.1](../../internals/indextypes/gin.md#GIN-FAST-UPDATE) and [Section 65.4.5](../../internals/indextypes/gin.md#GIN-TIPS)
-    for more information.
+:   設定 GIN 索引待處理清單（pending list）的最大大小，
+    此清單在啟用 `fastupdate` 時使用。若清單
+    成長超過此最大大小，會透過將清單中的項目
+    批次移入索引的主要 GIN 資料結構來清理。
+    若此值指定時未帶單位，則以千位元組為單位。
+    預設值為 4 百萬位元組（`4MB`）。可以透過變更
+    索引儲存參數，針對個別 GIN 索引覆寫
+    此設定。
+    詳情請參閱[65.4.4.1 節](../../internals/indextypes/gin.md#GIN-FAST-UPDATE)與[65.4.5 節](../../internals/indextypes/gin.md#GIN-TIPS)。
 <a id="GUC-CREATEROLE-SELF-GRANT"></a>
 
 `createrole_self_grant` (`string`) <a id="id-1.6.6.14.2.2.25.1.3"></a> [#](#GUC-CREATEROLE-SELF-GRANT)
-:   If a user who has `CREATEROLE` but not
-    `SUPERUSER` creates a role, and if this
-    is set to a non-empty value, the newly-created role will be granted
-    to the creating user with the options specified. The value must be
-    `set`, `inherit`, or a
-    comma-separated list of these. The default value is an empty string,
-    which disables the feature.
+:   若一個具備 `CREATEROLE` 但不具備
+    `SUPERUSER` 的使用者建立了一個角色，
+    且此參數設為非空值，新建立的角色
+    將以指定的選項授予給建立該角色的使用者。
+    此值必須是
+    `set`、`inherit`，或這兩者以逗號
+    分隔的清單。預設值為空字串，
+    代表停用此功能。
 
-    The purpose of this option is to allow a `CREATEROLE`
-    user who is not a superuser to automatically inherit, or automatically
-    gain the ability to `SET ROLE` to, any created users.
-    Since a `CREATEROLE` user is always implicitly granted
-    `ADMIN OPTION` on created roles, that user could
-    always execute a `GRANT` statement that would achieve
-    the same effect as this setting. However, it can be convenient for
-    usability reasons if the grant happens automatically. A superuser
-    automatically inherits the privileges of every role and can always
-    `SET ROLE` to any role, and this setting can be used
-    to produce a similar behavior for `CREATEROLE` users
-    for users which they create.
+    此選項的目的，是讓不具超級使用者身分的
+    `CREATEROLE` 使用者，能夠自動繼承，
+    或自動取得對任何已建立使用者執行
+    `SET ROLE` 的能力。由於
+    `CREATEROLE` 使用者永遠會隱含被授予
+    對已建立角色的 `ADMIN OPTION`，
+    該使用者原本就一直可以執行
+    `GRANT` 陳述式來達成與此設定相同的效果。
+    不過，若能自動授予，對易用性而言可能較為方便。
+    超級使用者會自動繼承每個角色的權限，
+    也永遠可以對任何角色執行
+    `SET ROLE`，此設定可以用來
+    為 `CREATEROLE` 使用者針對其建立的
+    使用者，產生類似的行為。
 <a id="GUC-EVENT-TRIGGERS"></a>
 
 `event_triggers` (`boolean`) <a id="id-1.6.6.14.2.2.26.1.3"></a> [#](#GUC-EVENT-TRIGGERS)
-:   Allow temporarily disabling execution of event triggers in order to
-    troubleshoot and repair faulty event triggers. All event triggers will
-    be disabled by setting it to `false`. Setting the value
-    to `true` allows all event triggers to fire, this
-    is the default value. Only superusers and users with the appropriate
-    `SET` privilege can change this setting.
+:   允許暫時停用事件觸發程序的執行，
+    以便對有問題的事件觸發程序進行故障排除與修復。
+    將此值設為 `false`，會停用所有事件
+    觸發程序。設為 `true`，則允許所有事件
+    觸發程序觸發，這是預設值。只有超級使用者以及
+    具備相應 `SET` 權限的使用者可以變更此設定。
 <a id="GUC-RESTRICT-NONSYSTEM-RELATION-KIND"></a>
 
 `restrict_nonsystem_relation_kind` (`string`) <a id="id-1.6.6.14.2.2.27.1.3"></a> [#](#GUC-RESTRICT-NONSYSTEM-RELATION-KIND)
-:   Set relation kinds for which access to non-system relations is prohibited.
-    The value takes the form of a comma-separated list of relation kinds.
-    Currently, the supported relation kinds are `view` and
-    `foreign-table`.
+:   設定禁止存取非系統關聯的關聯種類。
+    此值的格式為以逗號分隔的關聯種類清單。
+    目前支援的關聯種類有 `view` 與
+    `foreign-table`。
 
 <a id="RUNTIME-CONFIG-CLIENT-FORMAT"></a>
 
-### 19.11.2. Locale and Formatting [#](#RUNTIME-CONFIG-CLIENT-FORMAT)
+### 19.11.2. 地區設定與格式化 [#](#RUNTIME-CONFIG-CLIENT-FORMAT)
 
 <a id="GUC-DATESTYLE"></a>
 
 `DateStyle` (`string`) <a id="id-1.6.6.14.3.2.1.1.3"></a> [#](#GUC-DATESTYLE)
-:   Sets the display format for date and time values, as well as the
-    rules for interpreting ambiguous date input values. For
-    historical reasons, this variable contains two independent
-    components: the output format specification (`ISO`,
-    `Postgres`, `SQL`, or `German`)
-    and the input/output specification for year/month/day ordering
-    (`DMY`, `MDY`, or `YMD`). These
-    can be set separately or together. The keywords `Euro`
-    and `European` are synonyms for `DMY`; the
-    keywords `US`, `NonEuro`, and
-    `NonEuropean` are synonyms for `MDY`. See
-    [Section 8.5](../../the-sql-language/datatype/datatype-datetime.md) for more information. The
-    built-in default is `ISO, MDY`, but
-    initdb will initialize the
-    configuration file with a setting that corresponds to the
-    behavior of the chosen `lc_time` locale.
+:   設定日期與時間值的顯示格式，以及解讀模糊日期
+    輸入值的規則。基於歷史因素，此變數
+    包含兩個獨立的成分：輸出格式規範
+    （`ISO`、
+    `Postgres`、`SQL`，或 `German`），
+    以及年／月／日順序的輸入／輸出規範
+    （`DMY`、`MDY`，或 `YMD`）。這些
+    可以分別設定，也可以一起設定。關鍵字 `Euro`
+    與 `European` 是 `DMY` 的同義字；
+    關鍵字 `US`、`NonEuro`，以及
+    `NonEuropean` 是 `MDY` 的同義字。詳情請參閱
+    [8.5 節](../../the-sql-language/datatype/datatype-datetime.md)。內建的
+    預設值為 `ISO, MDY`，但
+    initdb 會以對應所選
+    `lc_time` 地區設定行為的設定值，
+    初始化組態設定檔。
 <a id="GUC-INTERVALSTYLE"></a>
 
 `IntervalStyle` (`enum`) <a id="id-1.6.6.14.3.2.2.1.3"></a> [#](#GUC-INTERVALSTYLE)
-:   Sets the display format for interval values.
-    The value `sql_standard` will produce
-    output matching SQL standard interval literals.
-    The value `postgres` (which is the default) will produce
-    output matching PostgreSQL releases prior to 8.4
-    when the [DateStyle](runtime-config-client.md#GUC-DATESTYLE)
-    parameter was set to `ISO`.
-    The value `postgres_verbose` will produce output
-    matching PostgreSQL releases prior to 8.4
-    when the `DateStyle`
-    parameter was set to non-`ISO` output.
-    The value `iso_8601` will produce output matching the time
-    interval “format with designators” defined in section
-    4.4.3.2 of ISO 8601.
+:   設定間隔（interval）值的顯示格式。
+    值 `sql_standard` 會產生符合
+    SQL 標準間隔常值的輸出。
+    值 `postgres`（此為預設值）會產生
+    與 8.4 之前的 PostgreSQL 版本
+    在 [DateStyle](runtime-config-client.md#GUC-DATESTYLE)
+    參數設為 `ISO` 時相符的輸出。
+    值 `postgres_verbose` 會產生
+    與 8.4 之前的 PostgreSQL 版本
+    在 `DateStyle`
+    參數設為非 `ISO` 輸出時相符的輸出。
+    值 `iso_8601` 會產生符合 ISO 8601 第
+    4.4.3.2 節所定義「帶有指定符的格式（format
+    with designators）」的時間間隔輸出。
 
-    The `IntervalStyle` parameter also affects the
-    interpretation of ambiguous interval input. See
-    [Section 8.5.4](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-INTERVAL-INPUT) for more information.
+    `IntervalStyle` 參數也會影響
+    對模糊間隔輸入的解讀。詳情請參閱
+    [8.5.4 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-INTERVAL-INPUT)。
 <a id="GUC-TIMEZONE"></a>
 
 `TimeZone` (`string`) <a id="id-1.6.6.14.3.2.3.1.3"></a> <a id="id-1.6.6.14.3.2.3.1.4"></a> [#](#GUC-TIMEZONE)
-:   Sets the time zone for displaying and interpreting time stamps.
-    The built-in default is `GMT`, but that is typically
-    overridden in `postgresql.conf`; initdb
-    will install a setting there corresponding to its system environment.
-    See [Section 8.5.3](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES) for more information.
+:   設定用於顯示與解讀時間戳記的時區。
+    內建的預設值為 `GMT`，但通常會在
+    `postgresql.conf` 中被覆寫；initdb
+    會在其中安裝與其系統環境相對應的設定。
+    詳情請參閱[8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES)。
 <a id="GUC-TIMEZONE-ABBREVIATIONS"></a>
 
 `timezone_abbreviations` (`string`) <a id="id-1.6.6.14.3.2.4.1.3"></a> <a id="id-1.6.6.14.3.2.4.1.4"></a> [#](#GUC-TIMEZONE-ABBREVIATIONS)
-:   Sets the collection of additional time zone abbreviations that
-    will be accepted by the server for datetime input (beyond any
-    abbreviations defined by the current `TimeZone`
-    setting). The default is `'Default'`,
-    which is a collection that works in most of the world; there are
-    also `'Australia'` and `'India'`,
-    and other collections can be defined for a particular installation.
-    See [Section B.4](../../appendixes/datetime-appendix/datetime-config-files.md) for more information.
+:   設定伺服器在日期時間輸入時，除了目前
+    `TimeZone` 設定所定義的任何縮寫外，
+    還會接受的其他時區縮寫集合。預設值為
+    `'Default'`，這是一套在世界大多數地方
+    都適用的集合；此外還有
+    `'Australia'` 與 `'India'`，
+    也可以為特定安裝環境定義其他集合。
+    詳情請參閱[附錄 B.4 節](../../appendixes/datetime-appendix/datetime-config-files.md)。
 <a id="GUC-EXTRA-FLOAT-DIGITS"></a>
 
 `extra_float_digits` (`integer`) <a id="id-1.6.6.14.3.2.5.1.3"></a> <a id="id-1.6.6.14.3.2.5.1.4"></a> <a id="id-1.6.6.14.3.2.5.1.5"></a> [#](#GUC-EXTRA-FLOAT-DIGITS)
-:   This parameter adjusts the number of digits used for textual output of
-    floating-point values, including `float4`, `float8`,
-    and geometric data types.
+:   此參數調整浮點數值（包括 `float4`、`float8`，
+    以及幾何資料型別）文字輸出所使用的位數。
 
-    If the value is 1 (the default) or above, float values are output in
-    shortest-precise format; see [Section 8.1.3](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT). The
-    actual number of digits generated depends only on the value being
-    output, not on the value of this parameter. At most 17 digits are
-    required for `float8` values, and 9 for `float4`
-    values. This format is both fast and precise, preserving the original
-    binary float value exactly when correctly read. For historical
-    compatibility, values up to 3 are permitted.
+    若此值為 1（預設值）或以上，浮點數值會以
+    最短精確格式輸出；參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT)。
+    實際產生的位數，僅取決於被輸出的值，
+    而非此參數的值。`float8` 值最多需要
+    17 位數，`float4`
+    值則最多需要 9 位數。此格式既快速又精確，
+    正確讀取時能完全保留原始的二進位浮點值。
+    基於歷史相容性考量，允許設為最多 3 的值。
 
-    If the value is zero or negative, then the output is rounded to a
-    given decimal precision. The precision used is the standard number of
-    digits for the type (`FLT_DIG`
-    or `DBL_DIG` as appropriate) reduced according to the
-    value of this parameter. (For example, specifying -1 will cause
-    `float4` values to be output rounded to 5 significant
-    digits, and `float8` values
-    rounded to 14 digits.) This format is slower and does not preserve all
-    the bits of the binary float value, but may be more human-readable.
+    若此值為零或負值，則輸出會四捨五入到
+    給定的十進位精確度。所使用的精確度，是該型別的
+    標準位數（視情況為 `FLT_DIG`
+    或 `DBL_DIG`），並依此參數的值減少。
+    （舉例來說，指定 -1 會使
+    `float4` 值輸出時四捨五入到 5 個有效
+    位數，`float8` 值
+    則四捨五入到 14 位數。）此格式較慢，
+    且不會保留二進位浮點值的所有位元，
+    但可能較易於人類閱讀。
 
-    ### Note
+    ### 注意
 
-    The meaning of this parameter, and its default value, changed
-    in PostgreSQL 12;
-    see [Section 8.1.3](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT) for further discussion.
+    此參數的意義及其預設值，在
+    PostgreSQL 12 有所變更；
+    詳情請參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT)。
 <a id="GUC-CLIENT-ENCODING"></a>
 
 `client_encoding` (`string`) <a id="id-1.6.6.14.3.2.6.1.3"></a> <a id="id-1.6.6.14.3.2.6.1.4"></a> [#](#GUC-CLIENT-ENCODING)
-:   Sets the client-side encoding (character set).
-    The default is to use the database encoding.
-    The character sets supported by the PostgreSQL
-    server are described in [Section 23.3.1](../charset/multibyte.md#MULTIBYTE-CHARSET-SUPPORTED).
+:   設定用戶端編碼（字元集）。
+    預設會使用資料庫編碼。
+    PostgreSQL 伺服器支援的字元集，
+    說明於[23.3.1 節](../charset/multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)。
 <a id="GUC-LC-MESSAGES"></a>
 
 `lc_messages` (`string`) <a id="id-1.6.6.14.3.2.7.1.3"></a> [#](#GUC-LC-MESSAGES)
-:   Sets the language in which messages are displayed. Acceptable
-    values are system-dependent; see [Section 23.1](../charset/locale.md) for
-    more information. If this variable is set to the empty string
-    (which is the default) then the value is inherited from the
-    execution environment of the server in a system-dependent way.
+:   設定訊息顯示所使用的語言。可接受的
+    值因系統而異；詳情請參閱[23.1 節](../charset/locale.md)。
+    若此變數設為空字串（此為預設值），
+    則此值會以因系統而異的方式，
+    繼承自伺服器的執行環境。
 
-    On some systems, this locale category does not exist. Setting
-    this variable will still work, but there will be no effect.
-    Also, there is a chance that no translated messages for the
-    desired language exist. In that case you will continue to see
-    the English messages.
+    在某些系統上，此地區設定類別並不存在。
+    設定此變數仍然可以運作，但不會有任何效果。
+    此外，也有可能不存在所需語言的翻譯訊息。
+    在這種情況下，你會繼續看到
+    英文訊息。
 
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 <a id="GUC-LC-MONETARY"></a>
 
 `lc_monetary` (`string`) <a id="id-1.6.6.14.3.2.8.1.3"></a> [#](#GUC-LC-MONETARY)
-:   Sets the locale to use for formatting monetary amounts, for
-    example with the `to_char` family of
-    functions. Acceptable values are system-dependent; see [Section 23.1](../charset/locale.md) for more information. If this variable is
-    set to the empty string (which is the default) then the value
-    is inherited from the execution environment of the server in a
-    system-dependent way.
+:   設定用於格式化金額（例如透過
+    `to_char` 系列函式）的地區設定。
+    可接受的值因系統而異；詳情請參閱
+    [23.1 節](../charset/locale.md)。若此變數設為空字串
+    （此為預設值），則此值會以因系統而異的方式，
+    繼承自伺服器的執行環境。
 <a id="GUC-LC-NUMERIC"></a>
 
 `lc_numeric` (`string`) <a id="id-1.6.6.14.3.2.9.1.3"></a> [#](#GUC-LC-NUMERIC)
-:   Sets the locale to use for formatting numbers, for example
-    with the `to_char` family of
-    functions. Acceptable values are system-dependent; see [Section 23.1](../charset/locale.md) for more information. If this variable is
-    set to the empty string (which is the default) then the value
-    is inherited from the execution environment of the server in a
-    system-dependent way.
+:   設定用於格式化數字（例如透過
+    `to_char` 系列函式）的地區設定。
+    可接受的值因系統而異；詳情請參閱
+    [23.1 節](../charset/locale.md)。若此變數設為空字串
+    （此為預設值），則此值會以因系統而異的方式，
+    繼承自伺服器的執行環境。
 <a id="GUC-LC-TIME"></a>
 
 `lc_time` (`string`) <a id="id-1.6.6.14.3.2.10.1.3"></a> [#](#GUC-LC-TIME)
-:   Sets the locale to use for formatting dates and times, for example
-    with the `to_char` family of
-    functions. Acceptable values are system-dependent; see [Section 23.1](../charset/locale.md) for more information. If this variable is
-    set to the empty string (which is the default) then the value
-    is inherited from the execution environment of the server in a
-    system-dependent way.
+:   設定用於格式化日期與時間（例如透過
+    `to_char` 系列函式）的地區設定。
+    可接受的值因系統而異；詳情請參閱
+    [23.1 節](../charset/locale.md)。若此變數設為空字串
+    （此為預設值），則此值會以因系統而異的方式，
+    繼承自伺服器的執行環境。
 <a id="GUC-ICU-VALIDATION-LEVEL"></a>
 
 `icu_validation_level` (`enum`) <a id="id-1.6.6.14.3.2.11.1.3"></a> [#](#GUC-ICU-VALIDATION-LEVEL)
-:   When ICU locale validation problems are encountered, controls which
-    [message level](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS) is
-    used to report the problem. Valid values are
-    `DISABLED`, `DEBUG5`,
-    `DEBUG4`, `DEBUG3`,
-    `DEBUG2`, `DEBUG1`,
-    `INFO`, `NOTICE`,
-    `WARNING`, `ERROR`, and
-    `LOG`.
+:   當遇到 ICU 地區設定驗證問題時，控制用來
+    回報此問題的[訊息等級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)。
+    合法的值有
+    `DISABLED`、`DEBUG5`、
+    `DEBUG4`、`DEBUG3`、
+    `DEBUG2`、`DEBUG1`、
+    `INFO`、`NOTICE`、
+    `WARNING`、`ERROR`，以及
+    `LOG`。
 
-    If set to `DISABLED`, does not report validation
-    problems at all. Otherwise reports problems at the given message
-    level. The default is `WARNING`.
+    若設為 `DISABLED`，則完全不會回報
+    驗證問題。否則，會以給定的訊息等級
+    回報問題。預設值為 `WARNING`。
 <a id="GUC-DEFAULT-TEXT-SEARCH-CONFIG"></a>
 
 `default_text_search_config` (`string`) <a id="id-1.6.6.14.3.2.12.1.3"></a> [#](#GUC-DEFAULT-TEXT-SEARCH-CONFIG)
-:   Selects the text search configuration that is used by those variants
-    of the text search functions that do not have an explicit argument
-    specifying the configuration.
-    See [Chapter 12](../../the-sql-language/textsearch/README.md) for further information.
-    The built-in default is `pg_catalog.simple`, but
-    initdb will initialize the
-    configuration file with a setting that corresponds to the
-    chosen `lc_ctype` locale, if a configuration
-    matching that locale can be identified.
+:   選擇未明確指定組態設定引數之文字搜尋函式
+    變體所使用的文字搜尋組態設定。
+    詳情請參閱[第 12 章](../../the-sql-language/textsearch/README.md)。
+    內建的預設值為 `pg_catalog.simple`，但
+    initdb 會在能夠找到與所選
+    `lc_ctype` 地區設定相符的組態設定時，
+    以與此相對應的設定值，初始化組態設定檔。
 
 <a id="RUNTIME-CONFIG-CLIENT-PRELOAD"></a>
 
-### 19.11.3. Shared Library Preloading [#](#RUNTIME-CONFIG-CLIENT-PRELOAD)
+### 19.11.3. 共享程式庫預先載入 [#](#RUNTIME-CONFIG-CLIENT-PRELOAD)
 
-Several settings are available for preloading shared libraries into the
-server, in order to load additional functionality or achieve performance
-benefits. For example, a setting of
-`'$libdir/mylib'` would cause
-`mylib.so` (or on some platforms,
-`mylib.sl`) to be preloaded from the installation's standard
-library directory. The differences between the settings are when they
-take effect and what privileges are required to change them.
+有多項設定可用於將共享程式庫預先載入
+伺服器，以載入額外功能或達成效能上的
+益處。舉例來說，設為
+`'$libdir/mylib'`，會使
+`mylib.so`（在某些平台上為
+`mylib.sl`）從安裝環境的標準
+程式庫目錄中被預先載入。這些設定之間的差異，
+在於它們生效的時機，以及變更它們所需的權限。
 
-PostgreSQL procedural language libraries can
-be preloaded in this way, typically by using the
-syntax `'$libdir/plXXX'` where
-`XXX` is `pgsql`, `perl`,
-`tcl`, or `python`.
+PostgreSQL 程序語言程式庫
+可以用這種方式預先載入，通常使用
+`'$libdir/plXXX'` 語法，其中
+`XXX` 是 `pgsql`、`perl`、
+`tcl`，或 `python`。
 
-Only shared libraries specifically intended to be used with PostgreSQL
-can be loaded this way. Every PostgreSQL-supported library has
-a “magic block” that is checked to guarantee compatibility. For
-this reason, non-PostgreSQL libraries cannot be loaded in this way. You
-might be able to use operating-system facilities such
-as `LD_PRELOAD` for that.
+只有特別為搭配 PostgreSQL 使用而設計的共享
+程式庫，才能以這種方式載入。每個受 PostgreSQL
+支援的程式庫，都有一個會被檢查以確保相容性的
+「magic block」。因此，非 PostgreSQL
+程式庫無法以這種方式載入。你可能可以使用
+作業系統機制，例如 `LD_PRELOAD`
+來達成此目的。
 
-In general, refer to the documentation of a specific module for the
-recommended way to load that module.
+一般而言，請參閱特定模組的文件，以了解
+載入該模組的建議方式。
 
 <a id="GUC-LOCAL-PRELOAD-LIBRARIES"></a>
 
 `local_preload_libraries` (`string`) <a id="id-1.6.6.14.4.6.1.1.3"></a> <a id="id-1.6.6.14.4.6.1.1.4"></a> [#](#GUC-LOCAL-PRELOAD-LIBRARIES)
-:   This variable specifies one or more shared libraries that are to be
-    preloaded at connection start.
-    It contains a comma-separated list of library names, where each name
-    is interpreted as for the [`LOAD`](../../reference/sql-commands/sql-load.md) command.
-    Whitespace between entries is ignored; surround a library name with
-    double quotes if you need to include whitespace or commas in the name.
-    The parameter value only takes effect at the start of the connection.
-    Subsequent changes have no effect. If a specified library is not
-    found, the connection attempt will fail.
+:   此變數指定一個或多個要在連線開始時
+    預先載入的共享程式庫。
+    此值包含以逗號分隔的程式庫名稱清單，每個名稱
+    的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令相同。
+    項目之間的空白字元會被忽略；如果程式庫名稱中
+    需要包含空白字元或逗號，請以雙引號括住該名稱。
+    此參數的值只會在連線開始時生效。
+    後續的變更沒有效果。若找不到指定的
+    程式庫，連線嘗試就會失敗。
 
-    This option can be set by any user. Because of that, the libraries
-    that can be loaded are restricted to those appearing in the
-    `plugins` subdirectory of the installation's
-    standard library directory. (It is the database administrator's
-    responsibility to ensure that only “safe” libraries
-    are installed there.) Entries in `local_preload_libraries`
-    can specify this directory explicitly, for example
-    `$libdir/plugins/mylib`, or just specify
-    the library name — `mylib` would have
-    the same effect as `$libdir/plugins/mylib`.
+    此選項可以由任何使用者設定。因此，
+    可以被載入的程式庫，僅限於安裝環境的
+    標準程式庫目錄中
+    `plugins` 子目錄下的程式庫。
+    （確保只有「安全」的程式庫被安裝在該處，
+    是資料庫管理員的責任。）
+    `local_preload_libraries` 中的項目
+    可以明確指定此目錄，例如
+    `$libdir/plugins/mylib`，或直接指定
+    程式庫名稱——`mylib` 的效果
+    與 `$libdir/plugins/mylib` 相同。
 
-    The intent of this feature is to allow unprivileged users to load
-    debugging or performance-measurement libraries into specific sessions
-    without requiring an explicit `LOAD` command. To that end,
-    it would be typical to set this parameter using
-    the `PGOPTIONS` environment variable on the client or by
-    using
-    `ALTER ROLE SET`.
+    此功能的目的，是讓沒有特殊權限的使用者，
+    能夠在不需要明確 `LOAD` 命令的情況下，
+    將除錯或效能量測程式庫載入特定的
+    工作階段。為此，通常會透過用戶端的
+    `PGOPTIONS` 環境變數，或使用
+    `ALTER ROLE SET`
+    來設定此參數。
 
-    However, unless a module is specifically designed to be used in this way by
-    non-superusers, this is usually not the right setting to use. Look
-    at [session_preload_libraries](runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES) instead.
+    不過，除非某個模組是特別設計供
+    非超級使用者以這種方式使用，否則這通常
+    不是正確的設定方式。請改用
+    [session_preload_libraries](runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES)。
 <a id="GUC-SESSION-PRELOAD-LIBRARIES"></a>
 
 `session_preload_libraries` (`string`) <a id="id-1.6.6.14.4.6.2.1.3"></a> [#](#GUC-SESSION-PRELOAD-LIBRARIES)
-:   This variable specifies one or more shared libraries that are to be
-    preloaded at connection start.
-    It contains a comma-separated list of library names, where each name
-    is interpreted as for the [`LOAD`](../../reference/sql-commands/sql-load.md) command.
-    Whitespace between entries is ignored; surround a library name with
-    double quotes if you need to include whitespace or commas in the name.
-    The parameter value only takes effect at the start of the connection.
-    Subsequent changes have no effect. If a specified library is not
-    found, the connection attempt will fail.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   此變數指定一個或多個要在連線開始時
+    預先載入的共享程式庫。
+    此值包含以逗號分隔的程式庫名稱清單，每個名稱
+    的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令相同。
+    項目之間的空白字元會被忽略；如果程式庫名稱中
+    需要包含空白字元或逗號，請以雙引號括住該名稱。
+    此參數的值只會在連線開始時生效。
+    後續的變更沒有效果。若找不到指定的
+    程式庫，連線嘗試就會失敗。
+    只有超級使用者以及具備相應 `SET`
+    權限的使用者可以變更此設定。
 
-    The intent of this feature is to allow debugging or
-    performance-measurement libraries to be loaded into specific sessions
-    without an explicit
-    `LOAD` command being given. For
-    example, [auto_explain](../../appendixes/contrib/auto-explain.md) could be enabled for all
-    sessions under a given user name by setting this parameter
-    with `ALTER ROLE SET`. Also, this parameter can be changed
-    without restarting the server (but changes only take effect when a new
-    session is started), so it is easier to add new modules this way, even
-    if they should apply to all sessions.
+    此功能的目的，是讓除錯或效能量測程式庫，
+    能夠在不需要明確給予
+    `LOAD` 命令的情況下，被載入特定的工作階段。
+    舉例來說，可以透過
+    `ALTER ROLE SET` 設定此參數，
+    對特定使用者名稱下的所有工作階段啟用
+    [auto_explain](../../appendixes/contrib/auto-explain.md)。此外，此參數
+    可以在不重新啟動伺服器的情況下變更
+    （但變更只會在新工作階段開始時生效），
+    因此即使某個模組應套用於所有工作階段，
+    以這種方式新增模組也比較容易。
 
-    Unlike [shared_preload_libraries](runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES), there is no large
-    performance advantage to loading a library at session start rather than
-    when it is first used. There is some advantage, however, when
-    connection pooling is used.
+    與 [shared_preload_libraries](runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) 不同，
+    在工作階段開始時載入程式庫，
+    相較於第一次使用時才載入，並沒有太大的
+    效能優勢。不過，在使用連線池時，
+    確實有一些優勢。
 <a id="GUC-SHARED-PRELOAD-LIBRARIES"></a>
 
 `shared_preload_libraries` (`string`) <a id="id-1.6.6.14.4.6.3.1.3"></a> [#](#GUC-SHARED-PRELOAD-LIBRARIES)
-:   This variable specifies one or more shared libraries to be preloaded at
-    server start.
-    It contains a comma-separated list of library names, where each name
-    is interpreted as for the [`LOAD`](../../reference/sql-commands/sql-load.md) command.
-    Whitespace between entries is ignored; surround a library name with
-    double quotes if you need to include whitespace or commas in the name.
-    This parameter can only be set at server start. If a specified
-    library is not found, the server will fail to start.
+:   此變數指定一個或多個要在伺服器啟動時
+    預先載入的共享程式庫。
+    此值包含以逗號分隔的程式庫名稱清單，每個名稱
+    的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令相同。
+    項目之間的空白字元會被忽略；如果程式庫名稱中
+    需要包含空白字元或逗號，請以雙引號括住該名稱。
+    此參數只能在伺服器啟動時設定。若找不到指定的
+    程式庫，伺服器將無法啟動。
 
-    Some libraries need to perform certain operations that can only take
-    place at postmaster start, such as allocating shared memory, reserving
-    light-weight locks, or starting background workers. Those libraries
-    must be loaded at server start through this parameter. See the
-    documentation of each library for details.
+    有些程式庫需要執行只能在 postmaster 啟動時
+    進行的特定操作，例如配置共享記憶體、
+    保留輕量鎖，或啟動背景工作程序。這些
+    程式庫必須透過此參數在伺服器啟動時載入。詳情
+    請參閱各程式庫的文件。
 
-    Other libraries can also be preloaded. By preloading a shared library,
-    the library startup time is avoided when the library is first used.
-    However, the time to start each new server process might increase
-    slightly, even if that process never uses the library. So this
-    parameter is recommended only for libraries that will be used in most
-    sessions. Also, changing this parameter requires a server restart, so
-    this is not the right setting to use for short-term debugging tasks,
-    say. Use [session_preload_libraries](runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES) for that
-    instead.
+    其他程式庫也可以預先載入。透過預先載入共享
+    程式庫，可以在該程式庫第一次被使用時避免
+    程式庫啟動時間。不過，每個新伺服器程序的
+    啟動時間可能會稍微增加，即使該程序從未
+    使用該程式庫。因此，此參數建議只用於
+    大多數工作階段都會用到的程式庫。此外，變更
+    此參數需要重新啟動伺服器，因此這通常不適合
+    用於短期的除錯工作。請改用
+    [session_preload_libraries](runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES)。
 
-    ### Note
+    ### 注意
 
-    On Windows hosts, preloading a library at server start will not reduce
-    the time required to start each new server process; each server process
-    will re-load all preload libraries. However, `shared_preload_libraries` is still useful on Windows hosts for libraries that need to
-    perform operations at postmaster start time.
+    在 Windows 主機上，於伺服器啟動時預先載入
+    程式庫，並不會縮短每個新伺服器程序的
+    啟動所需時間；每個伺服器程序都會重新載入
+    所有預先載入的程式庫。不過，對於需要在
+    postmaster 啟動時執行操作的程式庫而言，
+    `shared_preload_libraries` 在 Windows 主機上
+    仍然有用。
 <a id="GUC-JIT-PROVIDER"></a>
 
 `jit_provider` (`string`) <a id="id-1.6.6.14.4.6.4.1.3"></a> [#](#GUC-JIT-PROVIDER)
-:   This variable is the name of the JIT provider library to be used
-    (see [Section 30.4.2](../jit/jit-extensibility.md#JIT-PLUGGABLE)).
-    The default is `llvmjit`.
-    This parameter can only be set at server start.
+:   此變數是要使用的 JIT 提供者程式庫名稱
+    （參閱[30.4.2 節](../jit/jit-extensibility.md#JIT-PLUGGABLE)）。
+    預設值為 `llvmjit`。
+    此參數只能在伺服器啟動時設定。
 
-    If set to a non-existent library, JIT will not be
-    available, but no error will be raised. This allows JIT support to be
-    installed separately from the main
-    PostgreSQL package.
+    若設為不存在的程式庫，JIT 將無法
+    使用，但不會引發錯誤。這使得 JIT 支援
+    可以獨立於主要的
+    PostgreSQL 套件安裝。
 
 <a id="RUNTIME-CONFIG-CLIENT-OTHER"></a>
 
-### 19.11.4. Other Defaults [#](#RUNTIME-CONFIG-CLIENT-OTHER)
+### 19.11.4. 其他預設值 [#](#RUNTIME-CONFIG-CLIENT-OTHER)
 
 <a id="GUC-DYNAMIC-LIBRARY-PATH"></a>
 
 `dynamic_library_path` (`string`) <a id="id-1.6.6.14.5.2.1.1.3"></a> <a id="id-1.6.6.14.5.2.1.1.4"></a> [#](#GUC-DYNAMIC-LIBRARY-PATH)
-:   If a dynamically loadable module needs to be opened and the
-    file name specified in the `CREATE FUNCTION` or
-    `LOAD` command
-    does not have a directory component (i.e., the
-    name does not contain a slash), the system will search this
-    path for the required file.
+:   若需要開啟一個動態載入模組，且
+    `CREATE FUNCTION` 或
+    `LOAD` 命令中指定的檔案名稱
+    不含目錄部分（也就是該
+    名稱不包含斜線），系統將會在此
+    路徑中搜尋所需的檔案。
 
-    The value for `dynamic_library_path` must be a
-    list of absolute directory paths separated by colons (or semi-colons
-    on Windows). If a list element starts
-    with the special string `$libdir`, the
-    compiled-in PostgreSQL package
-    library directory is substituted for `$libdir`; this
-    is where the modules provided by the standard
-    PostgreSQL distribution are installed.
-    (Use `pg_config --pkglibdir` to find out the name of
-    this directory.) For example:
+    `dynamic_library_path` 的值必須是
+    以冒號（在 Windows 上為分號）分隔的絕對目錄路徑
+    清單。若清單中的某個項目以特殊字串
+    `$libdir` 開頭，則會以編譯時內建的
+    PostgreSQL 套件程式庫目錄取代 `$libdir`；
+    這是標準
+    PostgreSQL 發行版所提供之模組的
+    安裝位置。
+    （可以使用 `pg_config --pkglibdir`
+    找出此目錄的名稱。）舉例來說：
 
     ```
 
     dynamic_library_path = '/usr/local/lib/postgresql:/home/my_project/lib:$libdir'
     ```
 
-    or, in a Windows environment:
+    或者，在 Windows 環境中：
 
     ```
 
     dynamic_library_path = 'C:\tools\postgresql;H:\my_project\lib;$libdir'
     ```
 
-    The default value for this parameter is
-    `'$libdir'`. If the value is set to an empty
-    string, the automatic path search is turned off.
+    此參數的預設值為
+    `'$libdir'`。若此值設為空
+    字串，會停用自動路徑搜尋。
 
-    This parameter can be changed at run time by superusers and users
-    with the appropriate `SET` privilege, but a
-    setting done that way will only persist until the end of the
-    client connection, so this method should be reserved for
-    development purposes. The recommended way to set this parameter
-    is in the `postgresql.conf` configuration
-    file.
+    此參數可以在執行時期由超級使用者，
+    以及具備相應 `SET` 權限的使用者變更，
+    但以此方式設定的值，只會持續到
+    用戶端連線結束為止，因此此方法應
+    保留供開發用途使用。設定此參數
+    建議的方式，是在
+    `postgresql.conf` 組態設定
+    檔案中設定。
 <a id="GUC-EXTENSION-CONTROL-PATH"></a>
 
 `extension_control_path` (`string`) <a id="id-1.6.6.14.5.2.2.1.3"></a> [#](#GUC-EXTENSION-CONTROL-PATH)
-:   A path to search for extensions, specifically extension control files
-    (`name.control`). The
-    remaining extension script and secondary control files are then loaded
-    from the same directory where the primary control file was found.
-    See [Section 36.17.1](../../server-programming/extend/extend-extensions.md#EXTEND-EXTENSIONS-FILES) for details.
+:   用於搜尋延伸模組，特別是延伸模組控制檔案
+    （`name.control`）的路徑。其餘的
+    延伸模組指令碼與次要控制檔案，
+    則會從找到主要控制檔案的同一個目錄載入。
+    詳情請參閱[36.17.1 節](../../server-programming/extend/extend-extensions.md#EXTEND-EXTENSIONS-FILES)。
 
-    The value for `extension_control_path` must be a
-    list of absolute directory paths separated by colons (or semi-colons
-    on Windows). If a list element starts
-    with the special string `$system`, the
-    compiled-in PostgreSQL extension
-    directory is substituted for `$system`; this
-    is where the extensions provided by the standard
-    PostgreSQL distribution are installed.
-    (Use `pg_config --sharedir` to find out the name of
-    this directory.) For example:
+    `extension_control_path` 的值必須是
+    以冒號（在 Windows 上為分號）分隔的絕對目錄路徑
+    清單。若清單中的某個項目以特殊字串
+    `$system` 開頭，則會以編譯時內建的
+    PostgreSQL 延伸模組目錄取代 `$system`；
+    這是標準
+    PostgreSQL 發行版所提供延伸模組的
+    安裝位置。
+    （可以使用 `pg_config --sharedir`
+    找出此目錄的名稱。）舉例來說：
 
     ```
 
     extension_control_path = '/usr/local/share/postgresql:/home/my_project/share:$system'
     ```
 
-    or, in a Windows environment:
+    或者，在 Windows 環境中：
 
     ```
 
     extension_control_path = 'C:\tools\postgresql;H:\my_project\share;$system'
     ```
 
-    Note that the specified paths elements are expected to have a
-    subdirectory `extension` which will contain the
-    `.control` and `.sql` files; the
-    `extension` suffix is automatically appended to
-    each path element.
+    請注意，指定的路徑項目應具有一個
+    `extension` 子目錄，其中會存放
+    `.control` 與 `.sql` 檔案；
+    `extension` 後綴會自動附加到
+    每個路徑項目後面。
 
-    The default value for this parameter is
-    `'$system'`. If the value is set to an empty
-    string, the default `'$system'` is also assumed.
+    此參數的預設值為
+    `'$system'`。若此值設為空
+    字串，同樣會採用預設值 `'$system'`。
 
-    If extensions with equal names are present in multiple directories in
-    the configured path, only the instance found first in the path will be
-    used.
+    若組態設定路徑中的多個目錄，皆存在名稱相同的
+    延伸模組，則只會使用路徑中最先找到的那個
+    實例。
 
-    This parameter can be changed at run time by superusers and users
-    with the appropriate `SET` privilege, but a
-    setting done that way will only persist until the end of the
-    client connection, so this method should be reserved for
-    development purposes. The recommended way to set this parameter
-    is in the `postgresql.conf` configuration
-    file.
+    此參數可以在執行時期由超級使用者，
+    以及具備相應 `SET` 權限的使用者變更，
+    但以此方式設定的值，只會持續到
+    用戶端連線結束為止，因此此方法應
+    保留供開發用途使用。設定此參數
+    建議的方式，是在
+    `postgresql.conf` 組態設定
+    檔案中設定。
 
-    Note that if you set this parameter to be able to load extensions from
-    nonstandard locations, you will most likely also need to set [dynamic_library_path](runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH) to a correspondent location, for
-    example,
+    請注意，如果你設定此參數，以便能夠從
+    非標準位置載入延伸模組，很可能也需要將
+    [dynamic_library_path](runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH) 設為對應的
+    位置，例如：
 
     ```
 
@@ -913,9 +930,9 @@ recommended way to load that module.
 <a id="GUC-GIN-FUZZY-SEARCH-LIMIT"></a>
 
 `gin_fuzzy_search_limit` (`integer`) <a id="id-1.6.6.14.5.2.3.1.3"></a> [#](#GUC-GIN-FUZZY-SEARCH-LIMIT)
-:   Soft upper limit of the size of the set returned by GIN index scans. For more
-    information see [Section 65.4.5](../../internals/indextypes/gin.md#GIN-TIPS).
+:   GIN 索引掃描所傳回結果集大小的軟性上限。詳情請參閱
+    [65.4.5 節](../../internals/indextypes/gin.md#GIN-TIPS)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-client.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-client.html)（原文版本：18.6；核對日期：2026-09-25）
