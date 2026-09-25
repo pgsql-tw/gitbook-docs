@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：603 頁。
+待譯頁面：602 頁。
 
 ## 根目錄
 
@@ -756,7 +756,7 @@
 - [x] `server-administration/logical-replication/logical-replication-architecture.md` — 29.9. 架構 #
 - [ ] `server-administration/logical-replication/logical-replication-col-lists.md` — 29.5. Column Lists #
 - [x] `server-administration/logical-replication/logical-replication-config.md` — 29.12. 組態設定 #
-- [ ] `server-administration/logical-replication/logical-replication-conflicts.md` — 29.7. Conflicts #
+- [x] `server-administration/logical-replication/logical-replication-conflicts.md` — 29.7. 衝突 #
 - [x] `server-administration/logical-replication/logical-replication-failover.md` — 29.3. 邏輯複寫失效切換 #
 - [ ] `server-administration/logical-replication/logical-replication-gencols.md` — 29.6. Generated Column Replication #
 - [x] `server-administration/logical-replication/logical-replication-monitoring.md` — 29.10. 監控

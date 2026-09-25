@@ -282,7 +282,7 @@
     * [29.4. 資料列篩選器 #](server-administration/logical-replication/logical-replication-row-filter.md)
     * [29.5. Column Lists #](server-administration/logical-replication/logical-replication-col-lists.md)
     * [29.6. Generated Column Replication #](server-administration/logical-replication/logical-replication-gencols.md)
-    * [29.7. Conflicts #](server-administration/logical-replication/logical-replication-conflicts.md)
+    * [29.7. 衝突 #](server-administration/logical-replication/logical-replication-conflicts.md)
     * [29.8. 限制 #](server-administration/logical-replication/logical-replication-restrictions.md)
     * [29.9. 架構 #](server-administration/logical-replication/logical-replication-architecture.md)
     * [29.10. 監控](server-administration/logical-replication/logical-replication-monitoring.md)
