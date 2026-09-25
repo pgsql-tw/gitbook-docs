@@ -179,7 +179,7 @@
     * [17.3. 以 Autoconf 與 Make 建置與安裝 #](server-administration/installation/install-make.md)
     * [17.4. 使用 Meson 建置與安裝 #](server-administration/installation/install-meson.md)
     * [17.5. 安裝後設定 #](server-administration/installation/install-post.md)
-    * [17.6. Supported Platforms #](server-administration/installation/supported-platforms.md)
+    * [17.6. 受支援的平台 #](server-administration/installation/supported-platforms.md)
     * [17.7. Platform-Specific Notes #](server-administration/installation/installation-platform-notes.md)
   * [第 18 章 伺服器設定與操作](server-administration/runtime/README.md)
     * [18.1. PostgreSQL 使用者帳號](server-administration/runtime/postgres-user.md)
