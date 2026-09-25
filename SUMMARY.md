@@ -434,7 +434,7 @@
     * [35.64. view_routine_usage #](client-interfaces/information-schema/infoschema-view-routine-usage.md)
     * [35.65. view_table_usage #](client-interfaces/information-schema/infoschema-view-table-usage.md)
     * [35.66. views #](client-interfaces/information-schema/infoschema-views.md)
-* [Part V. Server Programming](server-programming/README.md)
+* [第五部分：伺服器程式設計](server-programming/README.md)
   * [第 36 章 擴充 SQL](server-programming/extend/README.md)
     * [36.1. 擴充性的運作方式 #](server-programming/extend/extend-how.md)
     * [36.2. PostgreSQL 型別系統 #](server-programming/extend/extend-type-system.md)
