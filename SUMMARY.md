@@ -71,7 +71,7 @@
     * [8.2. 貨幣型別 #](the-sql-language/datatype/datatype-money.md)
     * [8.3. 字元型別 #](the-sql-language/datatype/datatype-character.md)
     * [8.4. 二進位資料型別 #](the-sql-language/datatype/datatype-binary.md)
-    * [8.5. Date/Time Types #](the-sql-language/datatype/datatype-datetime.md)
+    * [8.5. 日期／時間型別 #](the-sql-language/datatype/datatype-datetime.md)
     * [8.6. 布林型別 #](the-sql-language/datatype/datatype-boolean.md)
     * [8.7. 列舉型別 #](the-sql-language/datatype/datatype-enum.md)
     * [8.8. 幾何型別 #](the-sql-language/datatype/datatype-geometric.md)
