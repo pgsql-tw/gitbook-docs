@@ -260,7 +260,7 @@
     * [26.1. 各種解決方案比較 #](server-administration/high-availability/different-replication-solutions.md)
     * [26.2. Log-Shipping Standby Servers #](server-administration/high-availability/warm-standby.md)
     * [26.3. 失效切換 #](server-administration/high-availability/warm-standby-failover.md)
-    * [26.4. Hot Standby #](server-administration/high-availability/hot-standby.md)
+    * [26.4. 熱備援 #](server-administration/high-availability/hot-standby.md)
   * [Chapter 27. Monitoring Database Activity](server-administration/monitoring/README.md)
     * [27.1. 標準 Unix 工具 #](server-administration/monitoring/monitoring-ps.md)
     * [27.2. The Cumulative Statistics System #](server-administration/monitoring/monitoring-stats.md)
