@@ -277,7 +277,7 @@
     * [28.6. WAL 內部運作 #](server-administration/wal/wal-internals.md)
   * [Chapter 29. Logical Replication](server-administration/logical-replication/README.md)
     * [29.1. Publication #](server-administration/logical-replication/logical-replication-publication.md)
-    * [29.2. Subscription #](server-administration/logical-replication/logical-replication-subscription.md)
+    * [29.2. 訂閱（Subscription） #](server-administration/logical-replication/logical-replication-subscription.md)
     * [29.3. 邏輯複寫失效切換 #](server-administration/logical-replication/logical-replication-failover.md)
     * [29.4. 資料列篩選器 #](server-administration/logical-replication/logical-replication-row-filter.md)
     * [29.5. Column Lists #](server-administration/logical-replication/logical-replication-col-lists.md)
