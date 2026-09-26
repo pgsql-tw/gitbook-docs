@@ -1,77 +1,74 @@
-## 20.1. The `pg_hba.conf` File [#](#AUTH-PG-HBA-CONF)
+<a id="AUTH-PG-HBA-CONF"></a>
+
+## 20.1. `pg_hba.conf` 檔案 [#](#AUTH-PG-HBA-CONF)
 
 <a id="id-1.6.7.8.2"></a>
 
-Client authentication is controlled by a configuration file,
-which traditionally is named
-`pg_hba.conf` and is stored in the database
-cluster's data directory.
-(HBA stands for host-based authentication.) A default
-`pg_hba.conf` file is installed when the data
-directory is initialized by [initdb](../../reference/reference-server/app-initdb.md). It is
-possible to place the authentication configuration file elsewhere,
-however; see the [hba_file](../runtime-config/runtime-config-file-locations.md#GUC-HBA-FILE) configuration parameter.
+用戶端認證是由一個設定檔控制的，該檔案傳統上命名為
+`pg_hba.conf`，並存放在資料庫
+叢集的資料目錄中。
+（HBA 代表 host-based authentication，主機基礎認證。）當資料
+目錄由 [initdb](../../reference/reference-server/app-initdb.md) 初始化時，會安裝一份預設的
+`pg_hba.conf` 檔案。你也
+可以將認證設定檔放在別處；請參閱
+[hba_file](../runtime-config/runtime-config-file-locations.md#GUC-HBA-FILE) 設定參數。
 
-The `pg_hba.conf` file is read on start-up and when
-the main server process receives a
+`pg_hba.conf` 檔案會在啟動時讀取，也會在
+主要伺服器程序收到
 SIGHUP<a id="id-1.6.7.8.4.3"></a>
-signal. If you edit the file on an
-active system, you will need to signal the postmaster
-(using `pg_ctl reload`, calling the SQL function
-`pg_reload_conf()`, or using `kill
--HUP`) to make it re-read the file.
+訊號時讀取。如果你在一套
+運作中的系統上編輯此檔案，就需要對 postmaster 發出訊號
+（可使用 `pg_ctl reload`、呼叫 SQL 函式
+`pg_reload_conf()`，或使用 `kill
+-HUP`），讓它重新讀取該檔案。
 
-### Note
+### 注意
 
-The preceding statement is not true on Microsoft Windows: there, any
-changes in the `pg_hba.conf` file are immediately
-applied by subsequent new connections.
+上述說法在 Microsoft Windows 上並不成立：在該平台上，
+`pg_hba.conf` 檔案的任何變更都會立即
+套用到之後的新連線。
 
-The system view
+系統檢視表
 [`pg_hba_file_rules`](../../internals/views/view-pg-hba-file-rules.md)
-can be helpful for pre-testing changes to the `pg_hba.conf`
-file, or for diagnosing problems if loading of the file did not have the
-desired effects. Rows in the view with
-non-null `error` fields indicate problems in the
-corresponding lines of the file.
+有助於預先測試對 `pg_hba.conf`
+檔案所做的變更，或是在檔案載入後未達到預期效果時用來診斷問題。檢視表中
+`error` 欄位非 null 的資料列，代表
+檔案中對應那幾行存在問題。
 
-The general format of the `pg_hba.conf` file is
-a set of records, one per line. Blank lines are ignored, as is any
-text after the `#` comment character.
-A record can be continued onto the next line by ending the line with
-a backslash. (Backslashes are not special except at the end of a line.)
-A record is made
-up of a number of fields which are separated by spaces and/or tabs.
-Fields can contain white space if the field value is double-quoted.
-Quoting one of the keywords in a database, user, or address field (e.g.,
-`all` or `replication`) makes the word lose its special
-meaning, and just match a database, user, or host with that name.
-Backslash line continuation applies even within quoted text or comments.
+`pg_hba.conf` 檔案的一般格式
+是一組記錄，每行一筆。空白行會被忽略，`#`
+註解字元之後的任何文字也會被忽略。
+一筆記錄可以在行尾加上反斜線來延續到下一行。（反斜線
+除了在行尾之外並不具有特殊意義。）一筆記錄是
+由多個以空格及／或定位字元分隔的欄位所組成。
+若欄位值使用雙引號括住，欄位便可以包含空白字元。
+若將資料庫、使用者或位址欄位中的某個關鍵字（例如
+`all` 或 `replication`）加上引號，就會讓該字詞失去其特殊
+意義，只單純比對名稱與該字詞相同的資料庫、使用者或主機。
+即使在加了引號的文字或註解內，反斜線的接行規則仍然適用。
 
-Each authentication record specifies a connection type, a client IP address
-range (if relevant for the connection type), a database name, a user name,
-and the authentication method to be used for connections matching
-these parameters. The first record with a matching connection type,
-client address, requested database, and user name is used to perform
-authentication. There is no “fall-through” or
-“backup”: if one record is chosen and the authentication
-fails, subsequent records are not considered. If no record matches,
-access is denied.
+每筆認證記錄都指定了連線類型、用戶端 IP 位址
+範圍（若該連線類型需要）、資料庫名稱、使用者名稱，
+以及要用於符合這些參數之連線的認證方法。系統會採用
+第一筆連線類型、用戶端位址、要求的資料庫及使用者名稱皆
+相符的記錄來執行認證。這裡沒有「順延」（fall-through）或
+「備援」（backup）機制：一旦選定某筆記錄而認證
+失敗，後續的記錄就不會再被考慮。若沒有任何記錄相符，
+則拒絕存取。
 
-Each record can be an include directive or an authentication record.
-Include directives specify files that can be included, that contain
-additional records. The records will be inserted in place of the
-include directives. Include directives only contain two fields:
-`include`, `include_if_exists` or
-`include_dir` directive and the file or directory to be
-included. The file or directory can be a relative or absolute path, and can
-be double-quoted. For the `include_dir` form, all files
-not starting with a `.` and ending with
-`.conf` will be included. Multiple files within an include
-directory are processed in file name order (according to C locale rules,
-i.e., numbers before letters, and uppercase letters before lowercase ones).
+每筆記錄可以是一個 include 指示詞，也可以是一筆認證記錄。
+Include 指示詞用來指定可以被納入、內含其他記錄的檔案。
+這些記錄會被插入到 include 指示詞所在的位置。Include 指示詞只
+包含兩個欄位：`include`、`include_if_exists` 或
+`include_dir` 指示詞，以及要納入的檔案或目錄。
+檔案或目錄可以是相對路徑或絕對路徑，也可以
+加上雙引號。對於 `include_dir` 形式，所有
+不以 `.` 開頭且以 `.conf` 結尾
+的檔案都會被納入。同一個 include 目錄中的多個檔案會依
+檔名順序處理（依 C locale 規則，也就是數字排在字母
+之前，大寫字母排在小寫字母之前）。
 
-A record can have several formats:
+一筆記錄可以有下列幾種格式：
 
 ```
 
@@ -91,410 +88,395 @@ include_if_exists   file
 include_dir         directory
 ```
 
-The meaning of the fields is as follows:
+各欄位的意義如下：
 
 `local`
-:   This record matches connection attempts using Unix-domain
-    sockets. Without a record of this type, Unix-domain socket
-    connections are disallowed.
+:   此記錄比對使用 Unix 網域通訊端（Unix-domain socket）的連線嘗試。
+    若沒有這種類型的記錄，Unix 網域通訊端
+    連線將被禁止。
 
 `host`
-:   This record matches connection attempts made using TCP/IP.
-    `host` records match
-    SSL or non-SSL connection
-    attempts as well as GSSAPI encrypted or
-    non-GSSAPI encrypted connection attempts.
+:   此記錄比對使用 TCP/IP 進行的連線嘗試。
+    `host` 記錄可比對
+    SSL 或非 SSL 連線
+    嘗試，也可比對 GSSAPI 加密或
+    非 GSSAPI 加密的連線嘗試。
 
-    ### Note
+    ### 注意
 
-    Remote TCP/IP connections will not be possible unless
-    the server is started with an appropriate value for the
-    [listen_addresses](../runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES) configuration parameter,
-    since the default behavior is to listen for TCP/IP connections
-    only on the local loopback address `localhost`.
+    除非伺服器在啟動時設定了適當的
+    [listen_addresses](../runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES) 設定參數，否則無法使用遠端 TCP/IP
+    連線，因為預設行為僅在本地回送位址
+    `localhost` 上監聽 TCP/IP 連線。
 
 `hostssl`
-:   This record matches connection attempts made using TCP/IP,
-    but only when the connection is made with SSL
-    encryption.
+:   此記錄比對使用 TCP/IP 進行的連線嘗試，
+    但僅限於連線是以 SSL
+    加密建立時。
 
-    To make use of this option the server must be built with
-    SSL support. Furthermore,
-    SSL must be enabled
-    by setting the [ssl](../runtime-config/runtime-config-connection.md#GUC-SSL) configuration parameter (see
-    [Section 18.9](../runtime/ssl-tcp.md) for more information).
-    Otherwise, the `hostssl` record is ignored except for
-    logging a warning that it cannot match any connections.
+    若要使用此選項，伺服器必須以支援
+    SSL 的方式建置。此外，還必須透過設定
+    [ssl](../runtime-config/runtime-config-connection.md#GUC-SSL) 設定參數來啟用
+    SSL（詳情請見
+    [第 18.9 節](../runtime/ssl-tcp.md)）。
+    否則，`hostssl` 記錄會被忽略，只會記錄一則
+    警告，說明它無法比對任何連線。
 
 `hostnossl`
-:   This record type has the opposite behavior of `hostssl`;
-    it only matches connection attempts made over
-    TCP/IP that do not use SSL.
+:   此記錄類型的行為與 `hostssl` 相反；
+    它只比對透過
+    TCP/IP 進行、且未使用 SSL 的連線嘗試。
 
 `hostgssenc`
-:   This record matches connection attempts made using TCP/IP,
-    but only when the connection is made with GSSAPI
-    encryption.
+:   此記錄比對使用 TCP/IP 進行的連線嘗試，
+    但僅限於連線是以 GSSAPI
+    加密建立時。
 
-    To make use of this option the server must be built with
-    GSSAPI support. Otherwise,
-    the `hostgssenc` record is ignored except for logging
-    a warning that it cannot match any connections.
+    若要使用此選項，伺服器必須以支援
+    GSSAPI 的方式建置。否則，
+    `hostgssenc` 記錄會被忽略，只會記錄
+    一則警告，說明它無法比對任何連線。
 
 `hostnogssenc`
-:   This record type has the opposite behavior of `hostgssenc`;
-    it only matches connection attempts made over
-    TCP/IP that do not use GSSAPI encryption.
+:   此記錄類型的行為與 `hostgssenc` 相反；
+    它只比對透過
+    TCP/IP 進行、且未使用 GSSAPI 加密的連線嘗試。
 
 *`database`*
-:   Specifies which database name(s) this record matches. The value
-    `all` specifies that it matches all databases.
-    The value `sameuser` specifies that the record
-    matches if the requested database has the same name as the
-    requested user. The value `samerole` specifies that
-    the requested user must be a member of the role with the same
-    name as the requested database. (`samegroup` is an
-    obsolete but still accepted spelling of `samerole`.)
-    Superusers are not considered to be members of a role for the
-    purposes of `samerole` unless they are explicitly
-    members of the role, directly or indirectly, and not just by
-    virtue of being a superuser.
-    The value `replication` specifies that the record
-    matches if a physical replication connection is requested, however, it
-    doesn't match with logical replication connections. Note that physical
-    replication connections do not specify any particular database whereas
-    logical replication connections do specify it.
-    Otherwise, this is the name of a specific
-    PostgreSQL database or a regular expression.
-    Multiple database names and/or regular expressions can be supplied by
-    separating them with commas.
+:   指定此記錄比對哪個（些）資料庫名稱。值為
+    `all` 表示比對所有資料庫。
+    值為 `sameuser` 表示只有在要求的資料庫
+    與要求的使用者同名時才比對。值為 `samerole`
+    表示要求的使用者必須是與該資料庫同名之角色的
+    成員。（`samegroup` 是 `samerole` 的
+    過時但仍可接受的拼法。）
+    就 `samerole` 的判定而言，超級使用者
+    並不會被視為某角色的成員，除非他們是直接或間接地
+    明確屬於該角色，而不只是因為身為超級使用者。
+    值為 `replication` 表示只有在要求的是實體複寫
+    連線時才比對，但不會比對邏輯複寫連線。請注意，
+    實體複寫連線不會指定任何特定資料庫，而邏輯複寫
+    連線則會指定。
+    除此之外，這裡填入的就是某個特定
+    PostgreSQL 資料庫的名稱，或是一個正規表示式。
+    可以用逗號分隔，指定多個資料庫名稱及／或正規表示式。
 
-    If the database name starts with a slash (`/`), the
-    remainder of the name is treated as a regular expression.
-    (See [Section 9.7.3.1](../../the-sql-language/functions/functions-matching.md#POSIX-SYNTAX-DETAILS) for details of
-    PostgreSQL's regular expression syntax.)
+    若資料庫名稱以斜線（`/`）開頭，則該
+    名稱其餘的部分會被視為正規表示式。
+    （關於 PostgreSQL 正規表示式語法的詳情，請參閱
+    [第 9.7.3.1 節](../../the-sql-language/functions/functions-matching.md#POSIX-SYNTAX-DETAILS)。）
 
-    A separate file containing database names and/or regular expressions
-    can be specified by preceding the file name with `@`.
+    也可以在檔名前加上 `@`，指定一個內含
+    資料庫名稱及／或正規表示式的獨立檔案。
 
 *`user`*
-:   Specifies which database user name(s) this record
-    matches. The value `all` specifies that it
-    matches all users. Otherwise, this is either the name of a specific
-    database user, a regular expression (when starting with a slash
-    (`/`), or a group name preceded by `+`.
-    (Recall that there is no real distinction between users and groups
-    in PostgreSQL; a `+` mark really means
-    “match any of the roles that are directly or indirectly members
-    of this role”, while a name without a `+` mark matches
-    only that specific role.) For this purpose, a superuser is only
-    considered to be a member of a role if they are explicitly a member
-    of the role, directly or indirectly, and not just by virtue of
-    being a superuser.
-    Multiple user names and/or regular expressions can be supplied by
-    separating them with commas.
+:   指定此記錄比對哪個（些）資料庫使用者
+    名稱。值為 `all` 表示
+    比對所有使用者。除此之外，這裡填入的可以是某個
+    特定資料庫使用者的名稱、以斜線
+    （`/`）開頭的正規表示式，或是以 `+`
+    開頭的群組名稱。
+    （請回想一下，PostgreSQL 中使用者與群組並沒有
+    真正的區別；`+` 記號的意思其實是
+    「比對所有直接或間接是該角色成員的所有角色」，
+    而沒有 `+` 記號的名稱則只比對該特定角色本身。）
+    就此而言，超級使用者只有在他們直接或間接地明確
+    屬於該角色時，才會被視為該角色的成員，而不只是
+    因為身為超級使用者。
+    可以用逗號分隔，指定多個使用者名稱及／或正規表示式。
 
-    If the user name starts with a slash (`/`), the
-    remainder of the name is treated as a regular expression.
-    (See [Section 9.7.3.1](../../the-sql-language/functions/functions-matching.md#POSIX-SYNTAX-DETAILS) for details of
-    PostgreSQL's regular expression syntax.)
+    若使用者名稱以斜線（`/`）開頭，則該
+    名稱其餘的部分會被視為正規表示式。
+    （關於 PostgreSQL 正規表示式語法的詳情，請參閱
+    [第 9.7.3.1 節](../../the-sql-language/functions/functions-matching.md#POSIX-SYNTAX-DETAILS)。）
 
-    A separate file containing user names and/or regular expressions can
-    be specified by preceding the file name with `@`.
+    也可以在檔名前加上 `@`，指定一個內含
+    使用者名稱及／或正規表示式的獨立檔案。
 
 *`address`*
-:   Specifies the client machine address(es) that this record
-    matches. This field can contain either a host name, an IP
-    address range, or one of the special key words mentioned below.
+:   指定此記錄比對哪個（些）用戶端機器
+    位址。這個欄位可以包含主機名稱、IP
+    位址範圍，或下列所述的特殊關鍵字之一。
 
-    An IP address range is specified using standard numeric notation
-    for the range's starting address, then a slash (`/`)
-    and a CIDR mask length. The mask
-    length indicates the number of high-order bits of the client
-    IP address that must match. Bits to the right of this should
-    be zero in the given IP address.
-    There must not be any white space between the IP address, the
-    `/`, and the CIDR mask length.
+    IP 位址範圍以標準數字表示法指定，先寫出
+    範圍起始位址，接著加上斜線（`/`）
+    及 CIDR 遮罩長度。遮罩
+    長度表示用戶端 IP 位址中必須相符的高位元
+    數目。這個位元數右側的部分，在給定的 IP 位址中
+    應該為零。
+    在 IP 位址、`/`
+    與 CIDR 遮罩長度之間，不能有任何空白字元。
 
-    Typical examples of an IPv4 address range specified this way are
-    `172.20.143.89/32` for a single host, or
-    `172.20.143.0/24` for a small network, or
-    `10.6.0.0/16` for a larger one.
-    An IPv6 address range might look like `::1/128`
-    for a single host (in this case the IPv6 loopback address) or
-    `fe80::7a31:c1ff:0000:0000/96` for a small
-    network.
-    `0.0.0.0/0` represents all
-    IPv4 addresses, and `::0/0` represents
-    all IPv6 addresses.
-    To specify a single host, use a mask length of 32 for IPv4 or
-    128 for IPv6. In a network address, do not omit trailing zeroes.
+    以這種方式指定的 IPv4 位址範圍，典型範例為
+    `172.20.143.89/32`（表示單一主機），或
+    `172.20.143.0/24`（表示一個小型網路），或
+    `10.6.0.0/16`（表示一個較大的網路）。
+    IPv6 位址範圍看起來可能像 `::1/128`
+    （表示單一主機，此例中為 IPv6 回送位址），或
+    `fe80::7a31:c1ff:0000:0000/96`（表示一個
+    小型網路）。
+    `0.0.0.0/0` 代表所有
+    IPv4 位址，而 `::0/0` 代表
+    所有 IPv6 位址。
+    若要指定單一主機，IPv4 請使用遮罩長度 32，IPv6 請使用
+    128。在網路位址中，不要省略尾端的零。
 
-    An entry given in IPv4 format will match only IPv4 connections,
-    and an entry given in IPv6 format will match only IPv6 connections,
-    even if the represented address is in the IPv4-in-IPv6 range.
+    以 IPv4 格式指定的項目只會比對 IPv4 連線，
+    而以 IPv6 格式指定的項目只會比對 IPv6 連線，
+    即使所代表的位址落在 IPv4-in-IPv6 範圍內也一樣。
 
-    You can also write `all` to match any IP address,
-    `samehost` to match any of the server's own IP
-    addresses, or `samenet` to match any address in any
-    subnet that the server is directly connected to.
+    你也可以寫 `all` 來比對任何 IP 位址，
+    寫 `samehost` 來比對伺服器自身的任一
+    IP 位址，或寫 `samenet` 來比對伺服器
+    直接連接之任一子網路中的任何位址。
 
-    If a host name is specified (anything that is not an IP address
-    range or a special key word is treated as a host name),
-    that name is compared with the result of a reverse name
-    resolution of the client's IP address (e.g., reverse DNS
-    lookup, if DNS is used). Host name comparisons are case
-    insensitive. If there is a match, then a forward name
-    resolution (e.g., forward DNS lookup) is performed on the host
-    name to check whether any of the addresses it resolves to are
-    equal to the client's IP address. If both directions match,
-    then the entry is considered to match. (The host name that is
-    used in `pg_hba.conf` should be the one that
-    address-to-name resolution of the client's IP address returns,
-    otherwise the line won't be matched. Some host name databases
-    allow associating an IP address with multiple host names, but
-    the operating system will only return one host name when asked
-    to resolve an IP address.)
+    若指定的是主機名稱（凡不是 IP 位址
+    範圍或特殊關鍵字的內容，都會被視為主機名稱），
+    該名稱會與用戶端 IP 位址反解析
+    （例如反向 DNS 查詢，若使用 DNS）的結果進行比對。主機名稱比對
+    不區分大小寫。若相符，接著會對該主機
+    名稱執行正向名稱解析（例如正向 DNS 查詢），以檢查
+    其解析出的位址中，是否有任一個等於用戶端的
+    IP 位址。若兩個方向都相符，則此
+    項目視為相符。（`pg_hba.conf` 中所
+    使用的主機名稱，應該是用戶端 IP 位址反解析
+    所得到的那一個，否則該行不會被比對成功。有些主機名稱
+    資料庫允許將一個 IP 位址關聯到多個主機名稱，但
+    作業系統在被要求解析某個 IP 位址時只會回傳
+    一個主機名稱。）
 
-    A host name specification that starts with a dot
-    (`.`) matches a suffix of the actual host
-    name. So `.example.com` would match
-    `foo.example.com` (but not just
-    `example.com`).
+    以點號（`.`）開頭的主機名稱
+    指定方式，比對的是實際主機名稱的後綴。因此
+    `.example.com` 會比對
+    `foo.example.com`（但不會比對單獨的
+    `example.com`）。
 
-    When host names are specified
-    in `pg_hba.conf`, you should make sure that
-    name resolution is reasonably fast. It can be of advantage to
-    set up a local name resolution cache such
-    as `nscd`. Also, you may wish to enable the
-    configuration parameter `log_hostname` to see
-    the client's host name instead of the IP address in the log.
+    在 `pg_hba.conf` 中指定主機名稱
+    時，你應該確認名稱解析的速度夠快。設置像
+    `nscd` 這樣的本地名稱解析快取，會有
+    幫助。此外，你可能會想啟用
+    `log_hostname` 設定參數，讓記錄檔中
+    顯示用戶端的主機名稱，而不是 IP 位址。
 
-    These fields do not apply to `local` records.
+    這些欄位不適用於 `local` 記錄。
 
-    ### Note
+    ### 注意
 
-    Users sometimes wonder why host names are handled
-    in this seemingly complicated way, with two name resolutions
-    including a reverse lookup of the client's IP address. This
-    complicates use of the feature in case the client's reverse DNS
-    entry is not set up or yields some undesirable host name.
-    It is done primarily for efficiency: this way, a connection attempt
-    requires at most two resolver lookups, one reverse and one forward.
-    If there is a resolver problem with some address, it becomes only
-    that client's problem. A hypothetical alternative
-    implementation that only did forward lookups would have to
-    resolve every host name mentioned in
-    `pg_hba.conf` during every connection attempt.
-    That could be quite slow if many names are listed.
-    And if there is a resolver problem with one of the host names,
-    it becomes everyone's problem.
+    使用者有時會納悶，為什麼主機名稱要以這種看似
+    複雜的方式處理，需要進行兩次名稱解析，其中包含
+    一次對用戶端 IP 位址的反向查詢。這使得在用戶端
+    的反向 DNS 項目未設定，或解析出不理想主機名稱的
+    情況下，此功能的使用變得複雜。之所以這麼做，主要是
+    為了效率：以這種方式，一次連線嘗試最多只需要兩次
+    名稱解析查詢，一次反向、一次正向。若某個位址存在
+    解析器問題，也只會成為那個用戶端自己的問題。假設
+    改用一種只做正向查詢的替代實作方式，則每次連線嘗試
+    都必須解析
+    `pg_hba.conf` 中所提到的每一個主機名稱。
+    若列出的名稱很多，這可能會相當緩慢。
+    而且若其中某個主機名稱存在解析器問題，
+    就會變成每個人的問題。
 
-    Also, a reverse lookup is necessary to implement the suffix
-    matching feature, because the actual client host name needs to
-    be known in order to match it against the pattern.
+    此外，反向查詢也是實作後綴比對功能所必需的，
+    因為必須先知道實際的用戶端主機名稱，
+    才能拿它去比對模式。
 
-    Note that this behavior is consistent with other popular
-    implementations of host name-based access control, such as the
-    Apache HTTP Server and TCP Wrappers.
+    請注意，這種行為與其他常見的主機名稱基礎存取
+    控制實作方式（例如 Apache HTTP 伺服器與
+    TCP Wrappers）是一致的。
 
 *`IP-address`*<br>*`IP-mask`*
-:   These two fields can be used as an alternative to the
+:   這兩個欄位可以做為
     *`IP-address`*`/`*`mask-length`*
-    notation. Instead of
-    specifying the mask length, the actual mask is specified in a
-    separate column. For example, `255.0.0.0` represents an IPv4
-    CIDR mask length of 8, and `255.255.255.255` represents a
-    CIDR mask length of 32.
+    表示法的替代方式使用。此時不是指定遮罩
+    長度，而是在另一個獨立欄位中指定實際的遮罩。
+    例如，`255.0.0.0` 代表 IPv4
+    CIDR 遮罩長度 8，而 `255.255.255.255` 代表
+    CIDR 遮罩長度 32。
 
-    These fields do not apply to `local` records.
+    這些欄位不適用於 `local` 記錄。
 
 *`auth-method`*
-:   Specifies the authentication method to use when a connection matches
-    this record. The possible choices are summarized here; details
-    are in [Section 20.3](auth-methods.md). All the options
-    are lower case and treated case sensitively, so even acronyms like
-    `ldap` must be specified as lower case.
+:   指定連線符合此記錄時要使用的認證方法。可用的
+    選項摘要如下；詳情請見
+    [第 20.3 節](auth-methods.md)。所有選項
+    皆為小寫，且區分大小寫比對，因此即使是像
+    `ldap` 這樣的縮寫，也必須以小寫指定。
 
     `trust`
-    :   Allow the connection unconditionally. This method
-        allows anyone that can connect to the
-        PostgreSQL database server to login as
-        any PostgreSQL user they wish,
-        without the need for a password or any other authentication. See [Section 20.4](auth-trust.md) for details.
+    :   無條件允許連線。此方法
+        允許任何能夠連上
+        PostgreSQL 資料庫伺服器的人，以他們想要的任何
+        PostgreSQL 使用者身分登入，
+        不需要密碼或任何其他認證。詳情請見 [第 20.4 節](auth-trust.md)。
 
     `reject`
-    :   Reject the connection unconditionally. This is useful for
-        “filtering out” certain hosts from a group, for example a
-        `reject` line could block a specific host from connecting,
-        while a later line allows the remaining hosts in a specific
-        network to connect.
+    :   無條件拒絕連線。這對於
+        從一個群組中「過濾掉」某些主機很有用，例如一行
+        `reject` 可以擋掉某個特定主機的連線，
+        同時後面的一行則允許特定網路中其餘的主機連線。
 
     `scram-sha-256`
-    :   Perform SCRAM-SHA-256 authentication to verify the user's
-        password. See [Section 20.5](auth-password.md) for details.
+    :   執行 SCRAM-SHA-256 認證，以驗證使用者的
+        密碼。詳情請見 [第 20.5 節](auth-password.md)。
 
     `md5`
-    :   Perform SCRAM-SHA-256 or MD5 authentication to verify the
-        user's password. See [Section 20.5](auth-password.md)
-        for details.
+    :   執行 SCRAM-SHA-256 或 MD5 認證，以驗證
+        使用者的密碼。詳情請見 [第 20.5 節](auth-password.md)。
 
-        ### Warning
+        ### 警告
 
-        Support for MD5-encrypted passwords is deprecated and will be
-        removed in a future release of
-        PostgreSQL. Refer to
-        [Section 20.5](auth-password.md) for details about migrating to
-        another password type.
+        對 MD5 加密密碼的支援已被棄用，並將在
+        PostgreSQL 未來的版本中
+        移除。關於遷移至其他密碼類型的詳情，請參閱
+        [第 20.5 節](auth-password.md)。
 
     `password`
-    :   Require the client to supply an unencrypted password for
-        authentication.
-        Since the password is sent in clear text over the
-        network, this should not be used on untrusted networks.
-        See [Section 20.5](auth-password.md) for details.
+    :   要求用戶端提供未加密的密碼以進行
+        認證。
+        由於密碼是以明文方式在網路上
+        傳送，不應該在不受信任的網路上使用此方式。
+        詳情請見 [第 20.5 節](auth-password.md)。
 
     `gss`
-    :   Use GSSAPI to authenticate the user. This is only
-        available for TCP/IP connections. See [Section 20.6](gssapi-auth.md) for details. It can be used in conjunction
-        with GSSAPI encryption.
+    :   使用 GSSAPI 認證使用者。此方式僅
+        適用於 TCP/IP 連線。詳情請見 [第 20.6 節](gssapi-auth.md)。它可以與
+        GSSAPI 加密搭配使用。
 
     `sspi`
-    :   Use SSPI to authenticate the user. This is only
-        available on Windows. See [Section 20.7](sspi-auth.md) for details.
+    :   使用 SSPI 認證使用者。此方式僅
+        適用於 Windows。詳情請見 [第 20.7 節](sspi-auth.md)。
 
     `ident`
-    :   Obtain the operating system user name of the client
-        by contacting the ident server on the client
-        and check if it matches the requested database user name.
-        Ident authentication can only be used on TCP/IP
-        connections. When specified for local connections, peer
-        authentication will be used instead.
-        See [Section 20.8](auth-ident.md) for details.
+    :   透過與用戶端上的 ident 伺服器聯繫，取得
+        用戶端的作業系統使用者名稱，
+        並檢查是否與要求的資料庫使用者名稱相符。
+        Ident 認證只能用於 TCP/IP
+        連線。若對本地連線指定此方式，則會改用
+        peer 認證。
+        詳情請見 [第 20.8 節](auth-ident.md)。
 
     `peer`
-    :   Obtain the client's operating system user name from the operating
-        system and check if it matches the requested database user name.
-        This is only available for local connections.
-        See [Section 20.9](auth-peer.md) for details.
+    :   從作業系統取得用戶端的作業系統
+        使用者名稱，並檢查是否與要求的資料庫使用者名稱相符。
+        此方式僅適用於本地連線。
+        詳情請見 [第 20.9 節](auth-peer.md)。
 
     `ldap`
-    :   Authenticate using an LDAP server. See [Section 20.10](auth-ldap.md) for details.
+    :   使用 LDAP 伺服器進行認證。詳情請見 [第 20.10 節](auth-ldap.md)。
 
     `radius`
-    :   Authenticate using a RADIUS server. See [Section 20.11](auth-radius.md) for details.
+    :   使用 RADIUS 伺服器進行認證。詳情請見 [第 20.11 節](auth-radius.md)。
 
     `cert`
-    :   Authenticate using SSL client certificates. See
-        [Section 20.12](auth-cert.md) for details.
+    :   使用 SSL 用戶端憑證進行認證。詳情請見
+        [第 20.12 節](auth-cert.md)。
 
     `pam`
-    :   Authenticate using the Pluggable Authentication Modules
-        (PAM) service provided by the operating system. See [Section 20.13](auth-pam.md) for details.
+    :   使用作業系統提供的 Pluggable Authentication
+        Modules（PAM）服務進行認證。詳情請見 [第 20.13 節](auth-pam.md)。
 
     `bsd`
-    :   Authenticate using the BSD Authentication service provided by the
-        operating system. See [Section 20.14](auth-bsd.md) for details.
+    :   使用作業系統提供的 BSD Authentication 服務
+        進行認證。詳情請見 [第 20.14 節](auth-bsd.md)。
 
     `oauth`
-    :   Authorize and optionally authenticate using a third-party OAuth 2.0
-        identity provider. See [Section 20.15](auth-oauth.md) for details.
+    :   使用第三方 OAuth 2.0
+        身分識別提供者進行授權，並可選擇性地進行認證。詳情請見 [第 20.15 節](auth-oauth.md)。
 
 *`auth-options`*
-:   After the *`auth-method`* field, there can be field(s) of
-    the form *`name`*`=`*`value`* that
-    specify options for the authentication method. Details about which
-    options are available for which authentication methods appear below.
+:   在 *`auth-method`* 欄位之後，可以有一個或多個
+    *`name`*`=`*`value`* 形式的欄位，用來
+    指定該認證方法的選項。哪些選項可用於哪些
+    認證方法，詳情列於下方。
 
-    In addition to the method-specific options listed below, there is a
-    method-independent authentication option `clientcert`, which
-    can be specified in any `hostssl` record.
-    This option can be set to `verify-ca` or
-    `verify-full`. Both options require the client
-    to present a valid (trusted) SSL certificate, while
-    `verify-full` additionally enforces that the
-    `cn` (Common Name) in the certificate matches
-    the username or an applicable mapping.
-    This behavior is similar to the `cert` authentication
-    method (see [Section 20.12](auth-cert.md)) but enables pairing
-    the verification of client certificates with any authentication
-    method that supports `hostssl` entries.
+    除了下方列出的各方法專屬選項之外，還有一個
+    與方法無關的認證選項 `clientcert`，
+    可以在任何 `hostssl` 記錄中指定。
+    此選項可設為 `verify-ca` 或
+    `verify-full`。這兩個選項都要求用戶端
+    出示有效（受信任）的 SSL 憑證，而
+    `verify-full` 另外還會強制要求憑證中的
+    `cn`（Common Name）
+    必須與使用者名稱或某個適用的對應相符。
+    此行為與 `cert` 認證方式
+    （見 [第 20.12 節](auth-cert.md)）相似，但可讓你將用戶端憑證
+    的驗證，與任何支援 `hostssl` 項目的
+    認證方法搭配使用。
 
-    On any record using client certificate authentication (i.e. one
-    using the `cert` authentication method or one
-    using the `clientcert` option), you can specify
-    which part of the client certificate credentials to match using
-    the `clientname` option. This option can have one
-    of two values. If you specify `clientname=CN`, which
-    is the default, the username is matched against the certificate's
-    `Common Name (CN)`. If instead you specify
-    `clientname=DN` the username is matched against the
-    entire `Distinguished Name (DN)` of the certificate.
-    This option is probably best used in conjunction with a username map.
-    The comparison is done with the `DN` in
+    在任何使用用戶端憑證認證的記錄上（也就是使用
+    `cert` 認證方法，或使用
+    `clientcert` 選項的記錄），你可以透過
+    `clientname` 選項指定要比對用戶端憑證中的
+    哪個部分。此選項可以有兩種
+    值。若指定 `clientname=CN`（此為
+    預設值），使用者名稱會與憑證的
+    `Common Name (CN)` 比對。若改為指定
+    `clientname=DN`，使用者名稱則會與憑證的
+    整個 `Distinguished Name (DN)` 比對。
+    此選項可能最適合搭配使用者名稱對應表使用。
+    比對時使用的 `DN` 格式為
     [RFC 2253](https://datatracker.ietf.org/doc/html/rfc2253)
-    format. To see the `DN` of a client certificate
-    in this format, do
+    格式。若要以這種格式查看用戶端憑證的
+    `DN`，可執行
 
     ```
 
     openssl x509 -in myclient.crt -noout -subject -nameopt RFC2253 | sed "s/^subject=//"
     ```
 
-    Care needs to be taken when using this option, especially when using
-    regular expression matching against the `DN`.
+    使用此選項時需要特別小心，尤其是在對
+    `DN` 使用正規表示式比對時。
 
 `include`
-:   This line will be replaced by the contents of the given file.
+:   這一行會被替換為指定檔案的內容。
 
 `include_if_exists`
-:   This line will be replaced by the content of the given file if the
-    file exists. Otherwise, a message is logged to indicate that the file
-    has been skipped.
+:   若指定檔案存在，這一行會被替換為該檔案的內容；
+    否則會記錄一則訊息，指出該檔案已被略過。
 
 `include_dir`
-:   This line will be replaced by the contents of all the files found in
-    the directory, if they don't start with a `.` and end
-    with `.conf`, processed in file name order (according
-    to C locale rules, i.e., numbers before letters, and uppercase letters
-    before lowercase ones).
+:   這一行會被替換為在該目錄中找到的所有檔案的內容，
+    只要檔名不以 `.` 開頭、且以
+    `.conf` 結尾，並依檔名順序（依
+    C locale 規則，也就是數字排在字母之前，大寫字母
+    排在小寫字母之前）處理。
 
-Files included by `@` constructs are read as lists of names,
-which can be separated by either whitespace or commas. Comments are
-introduced by `#`, just as in
-`pg_hba.conf`, and nested `@` constructs are
-allowed. Unless the file name following `@` is an absolute
-path, it is taken to be relative to the directory containing the
-referencing file.
+以 `@` 結構納入的檔案，會被讀取為名稱清單，
+可以用空白字元或逗號分隔。註解以
+`#` 開頭，與
+`pg_hba.conf` 中相同，也允許巢狀的
+`@` 結構。除非 `@` 後面接的檔名
+是絕對路徑，否則會被視為相對於引用該檔名之
+檔案所在的目錄。
 
-Since the `pg_hba.conf` records are examined
-sequentially for each connection attempt, the order of the records is
-significant. Typically, earlier records will have tight connection
-match parameters and weaker authentication methods, while later
-records will have looser match parameters and stronger authentication
-methods. For example, one might wish to use `trust`
-authentication for local TCP/IP connections but require a password for
-remote TCP/IP connections. In this case a record specifying
-`trust` authentication for connections from 127.0.0.1 would
-appear before a record specifying password authentication for a wider
-range of allowed client IP addresses.
+由於 `pg_hba.conf` 的每筆記錄會針對每次
+連線嘗試依序檢查，因此記錄的順序很
+重要。一般來說，前面的記錄會有較嚴格的連線
+比對參數與較弱的認證方法，而後面的
+記錄則會有較寬鬆的比對參數與較強的認證
+方法。例如，你可能希望對本地 TCP/IP 連線使用
+`trust` 認證，但要求遠端 TCP/IP 連線
+提供密碼。在這種情況下，指定針對來自 127.0.0.1
+連線使用 `trust` 認證的記錄，就應該出現在
+針對更廣範圍之允許用戶端 IP 位址指定密碼認證的
+記錄之前。
 
-### Tip
+### 提示
 
-To connect to a particular database, a user must not only pass the
-`pg_hba.conf` checks, but must have the
-`CONNECT` privilege for the database. If you wish to
-restrict which users can connect to which databases, it's usually
-easier to control this by granting/revoking `CONNECT` privilege
-than to put the rules in `pg_hba.conf` entries.
+要連線到特定資料庫，使用者不僅要通過
+`pg_hba.conf` 的檢查，還必須擁有該資料庫的
+`CONNECT` 權限。如果你想限制哪些使用者可以連線到
+哪些資料庫，通常透過授予／撤銷 `CONNECT` 權限
+來控制，會比把規則寫進 `pg_hba.conf` 項目中更容易。
 
-Some examples of `pg_hba.conf` entries are shown in
-[Example 20.1](auth-pg-hba-conf.md#EXAMPLE-PG-HBA.CONF). See the next section for details on the
-different authentication methods.
+[範例 20.1](auth-pg-hba-conf.md#EXAMPLE-PG-HBA.CONF) 展示了一些
+`pg_hba.conf` 項目的範例。關於各種
+認證方法的詳情，請參閱下一節。
 
 <a id="EXAMPLE-PG-HBA.CONF"></a>
 
-**Example 20.1. Example `pg_hba.conf` Entries**
+**範例 20.1. `pg_hba.conf` 項目範例**
 
 ```
 
@@ -602,4 +584,4 @@ local   db1,db2,@demodbs  all                                   scram-sha-256
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-pg-hba-conf.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-pg-hba-conf.html)（原文版本：18.6；核對日期：2026-09-26）
