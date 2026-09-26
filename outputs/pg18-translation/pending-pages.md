@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：585 頁。
+待譯頁面：584 頁。
 
 ## 根目錄
 
@@ -792,7 +792,7 @@
 - [x] `server-administration/regress/regress-tap.md` — 31.4. TAP 測試 #
 - [x] `server-administration/regress/regress-variant.md` — 31.3. 變體比對檔案 #
 - [x] `server-administration/runtime-config/README.md` — 第 19 章、伺服器組態設定
-- [ ] `server-administration/runtime-config/config-setting.md` — 19.1. Setting Parameters #
+- [x] `server-administration/runtime-config/config-setting.md` — 19.1. 設定參數 #
 - [x] `server-administration/runtime-config/runtime-config-client.md` — 19.11. 用戶端連線預設值 #
 - [x] `server-administration/runtime-config/runtime-config-compatible.md` — 19.13. 版本與平台相容性 #
 - [x] `server-administration/runtime-config/runtime-config-connection.md` — 19.3. 連線與驗證 #
