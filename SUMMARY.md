@@ -265,7 +265,7 @@
     * [27.1. 標準 Unix 工具 #](server-administration/monitoring/monitoring-ps.md)
     * [27.2. The Cumulative Statistics System #](server-administration/monitoring/monitoring-stats.md)
     * [27.3. 檢視鎖定](server-administration/monitoring/monitoring-locks.md)
-    * [27.4. Progress Reporting #](server-administration/monitoring/progress-reporting.md)
+    * [27.4. 進度回報 #](server-administration/monitoring/progress-reporting.md)
     * [27.5. 動態追蹤 #](server-administration/monitoring/dynamic-trace.md)
     * [27.6. Monitoring Disk Usage #](server-administration/monitoring/diskusage.md)
   * [第 28 章 可靠性與預寫式日誌](server-administration/wal/README.md)
