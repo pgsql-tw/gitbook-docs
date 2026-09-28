@@ -2,9 +2,9 @@
 
 ## LOAD
 
-LOAD — load a shared library file
+LOAD — 載入共享函式庫檔案
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,45 +13,28 @@ LOAD 'filename'
 
 <a id="SQL-LOAD-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-This command loads a shared library file into the PostgreSQL
-server's address space. If the file has been loaded already,
-the command does nothing. Shared library files that contain C functions
-are automatically loaded whenever one of their functions is called.
-Therefore, an explicit `LOAD` is usually only needed to
-load a library that modifies the server's behavior through “hooks”
-rather than providing a set of functions.
+此指令會將共享函式庫檔案載入 PostgreSQL 伺服器的位址空間。若該檔案已經載入過，此指令則不做任何事。包含 C 函式的共享函式庫檔案，會在其中任一函式被呼叫時自動載入。因此，通常只有在要載入透過「掛鉤（hook）」而非提供一組函式來修改伺服器行為的函式庫時，才需要明確使用 `LOAD`。
 
-The library file name is typically given as just a bare file name,
-which is sought in the server's library search path (set
-by [dynamic_library_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH)). Alternatively it can be
-given as a full path name. In either case the platform's standard shared
-library file name extension may be omitted.
-See [Section 36.10.1](../../server-programming/extend/xfunc-c.md#XFUNC-C-DYNLOAD) for more information on this topic.
+函式庫檔案名稱通常只需給定一個單純的檔案名稱，系統會在伺服器的函式庫搜尋路徑（由 [dynamic_library_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH) 設定）中尋找。也可以改為給定完整路徑名稱。無論哪種方式，都可以省略該平台標準的共享函式庫檔案副檔名。關於此主題的更多資訊，請參閱[第 36.10.1 節](../../server-programming/extend/xfunc-c.md#XFUNC-C-DYNLOAD)。
 
 <a id="id-1.9.3.154.5.4"></a>
 
-Non-superusers can only apply `LOAD` to library files
-located in `$libdir/plugins/` — the specified
-*`filename`* must begin
-with exactly that string. (It is the database administrator's
-responsibility to ensure that only “safe” libraries
-are installed there.)
+非超級使用者只能對位於 `$libdir/plugins/` 的函式庫檔案套用 `LOAD` — 所指定的 *`filename`* 必須恰好以此字串開頭。（確保該處只安裝「安全」的函式庫，是資料庫管理員的責任。）
 
 <a id="SQL-LOAD-COMPAT"></a>
 
-## Compatibility
+## 相容性
 
-`LOAD` is a PostgreSQL
-extension.
+`LOAD` 是 PostgreSQL 的擴充功能。
 
 <a id="id-1.9.3.154.7"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE FUNCTION](sql-createfunction.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-load.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-load.html)（原文版本：18.6；核對日期：2026-09-28）
