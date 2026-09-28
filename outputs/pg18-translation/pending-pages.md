@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：559 頁。
+待譯頁面：558 頁。
 
 ## 根目錄
 
@@ -689,7 +689,7 @@
 - [x] `reference/sql-commands/sql-rollback-to.md` — ROLLBACK TO SAVEPOINT
 - [x] `reference/sql-commands/sql-rollback.md` — ROLLBACK
 - [ ] `reference/sql-commands/sql-savepoint.md` — SAVEPOINT
-- [ ] `reference/sql-commands/sql-security-label.md` — SECURITY LABEL
+- [x] `reference/sql-commands/sql-security-label.md` — SECURITY LABEL
 - [ ] `reference/sql-commands/sql-select.md` — SELECT
 - [ ] `reference/sql-commands/sql-selectinto.md` — SELECT INTO
 - [ ] `reference/sql-commands/sql-set-constraints.md` — SET CONSTRAINTS
