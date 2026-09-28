@@ -254,7 +254,7 @@
     * [24.3. 日誌檔案維護 #](server-administration/maintenance/logfile-maintenance.md)
   * [第 25 章：備份與還原](server-administration/backup/README.md)
     * [25.1. SQL Dump #](server-administration/backup/backup-dump.md)
-    * [25.2. File System Level Backup #](server-administration/backup/backup-file.md)
+    * [25.2. 檔案系統層級備份 #](server-administration/backup/backup-file.md)
     * [25.3. Continuous Archiving and Point-in-Time Recovery (PITR) #](server-administration/backup/continuous-archiving.md)
   * [第 26 章 高可用性、負載平衡與複寫](server-administration/high-availability/README.md)
     * [26.1. 各種解決方案比較 #](server-administration/high-availability/different-replication-solutions.md)

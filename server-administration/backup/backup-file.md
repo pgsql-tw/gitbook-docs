@@ -1,92 +1,79 @@
-## 25.2. File System Level Backup [#](#BACKUP-FILE)
+<a id="BACKUP-FILE"></a>
 
-An alternative backup strategy is to directly copy the files that
-PostgreSQL uses to store the data in the database;
-[Section 18.2](../runtime/creating-cluster.md) explains where these files
-are located. You can use whatever method you prefer
-for doing file system backups; for example:
+## 25.2. 檔案系統層級備份 [#](#BACKUP-FILE)
+
+另一種備份策略是直接複製 PostgreSQL
+用來在資料庫中儲存資料的檔案；[Section 18.2](../runtime/creating-cluster.md)
+說明了這些檔案所在的位置。你可以使用任何你偏好的方法
+來進行檔案系統備份，例如：
 
 ```
 
 tar -cf backup.tar /usr/local/pgsql/data
 ```
 
-There are two restrictions, however, which make this method
-impractical, or at least inferior to the pg_dump
-method:
+不過，這個方法有兩項限制，使其不切實際，
+或至少不如 pg_dump 方法：
 
-1. The database server *must* be shut down in order to
-   get a usable backup. Half-way measures such as disallowing all
-   connections will *not* work
-   (in part because `tar` and similar tools do not take
-   an atomic snapshot of the state of the file system,
-   but also because of internal buffering within the server).
-   Information about stopping the server can be found in
-   [Section 18.5](../runtime/server-shutdown.md). Needless to say, you
-   also need to shut down the server before restoring the data.
-2. If you have dug into the details of the file system layout of the
-   database, you might be tempted to try to back up or restore only certain
-   individual tables or databases from their respective files or
-   directories. This will *not* work because the
-   information contained in these files is not usable without
-   the commit log files,
-   `pg_xact/*`, which contain the commit status of
-   all transactions. A table file is only usable with this
-   information. Of course it is also impossible to restore only a
-   table and the associated `pg_xact` data
-   because that would render all other tables in the database
-   cluster useless. So file system backups only work for complete
-   backup and restoration of an entire database cluster.
+1. 資料庫伺服器*必須*先關閉，才能取得可用的備份。
+   半調子的做法，例如僅禁止所有連線，是*行不通*的
+   （部分原因是 `tar` 及類似工具並不會對檔案系統狀態
+   進行原子式的快照，另一部分原因則是伺服器內部的緩衝機制）。
+   關於如何停止伺服器的資訊，可參閱
+   [Section 18.5](../runtime/server-shutdown.md)。不用說，
+   在還原資料之前，你同樣也需要先關閉伺服器。
+2. 若你已深入研究過資料庫的檔案系統配置細節，你可能會想嘗試
+   只從對應的檔案或目錄中，備份或還原個別的資料表或資料庫。
+   這是*行不通*的，因為這些檔案中所包含的資訊，
+   若缺少記錄了所有交易提交狀態的提交日誌檔
+   `pg_xact/*`，就無法使用。資料表檔案唯有搭配這項
+   資訊才可用。當然，也不可能只還原一個資料表以及相關聯的
+   `pg_xact` 資料，因為那會使資料庫叢集中所有其他
+   資料表都無法使用。因此，檔案系統備份只適用於整個資料庫
+   叢集的完整備份與還原。
 
-An alternative file-system backup approach is to make a
-“consistent snapshot” of the data directory, if the
-file system supports that functionality (and you are willing to
-trust that it is implemented correctly). The typical procedure is
-to make a “frozen snapshot” of the volume containing the
-database, then copy the whole data directory (not just parts, see
-above) from the snapshot to a backup device, then release the frozen
-snapshot. This will work even while the database server is running.
-However, a backup created in this way saves
-the database files in a state as if the database server was not
-properly shut down; therefore, when you start the database server
-on the backed-up data, it will think the previous server instance
-crashed and will replay the WAL log. This is not a problem; just
-be aware of it (and be sure to include the WAL files in your backup).
-You can perform a `CHECKPOINT` before taking the
-snapshot to reduce recovery time.
+另一種檔案系統備份的做法，是在檔案系統支援該功能的前提下
+（並且你也信任其實作正確無誤），對資料目錄製作一份
+「一致性快照」。典型的程序是先對存放資料庫的磁碟區
+製作一份「凍結快照」，然後將整個資料目錄（而不只是部分內容，
+理由同上）從該快照複製到備份裝置，接著再釋放該凍結快照。
+即使資料庫伺服器正在執行中，這個方法依然可行。然而，
+以這種方式建立的備份，其所儲存的資料庫檔案狀態，
+就如同資料庫伺服器未正常關閉一樣；因此，當你在還原的資料上
+啟動資料庫伺服器時，它會認為前一個伺服器執行個體發生當機，
+並會重播 WAL 日誌。這並不是問題，只要你知道會有這種情況即可
+（並務必將 WAL 檔案一併納入備份中）。你可以在製作快照之前
+執行一次 `CHECKPOINT`，以縮短還原所需的時間。
 
-If your database is spread across multiple file systems, there might not
-be any way to obtain exactly-simultaneous frozen snapshots of all
-the volumes. For example, if your data files and WAL log are on different
-disks, or if tablespaces are on different file systems, it might
-not be possible to use snapshot backup because the snapshots
-*must* be simultaneous.
-Read your file system documentation very carefully before trusting
-the consistent-snapshot technique in such situations.
+若你的資料庫分散在多個檔案系統上，可能就沒有辦法針對所有
+磁碟區取得完全同步的凍結快照。舉例來說，若你的資料檔案與
+WAL 日誌位於不同磁碟，或是資料表空間位於不同的檔案系統上，
+就可能無法使用快照備份，因為這些快照*必須*是同步的。
+在這類情況下，於信任一致性快照技術之前，請務必仔細閱讀
+你所使用的檔案系統文件。
 
-If simultaneous snapshots are not possible, one option is to shut down
-the database server long enough to establish all the frozen snapshots.
-Another option is to perform a continuous archiving base backup ([Section 25.3.2](continuous-archiving.md#BACKUP-BASE-BACKUP)) because such backups are immune to file
-system changes during the backup. This requires enabling continuous
-archiving just during the backup process; restore is done using
-continuous archive recovery ([Section 25.3.5](continuous-archiving.md#BACKUP-PITR-RECOVERY)).
+若無法取得同步快照，其中一個選項是將資料庫伺服器關閉
+足夠長的時間，以便建立所有的凍結快照。另一個選項則是
+執行持續歸檔式的基礎備份（[Section 25.3.2](continuous-archiving.md#BACKUP-BASE-BACKUP)），
+因為這類備份不受備份期間檔案系統變動的影響。這需要
+僅在備份過程中啟用持續歸檔；還原時則採用持續歸檔還原
+（[Section 25.3.5](continuous-archiving.md#BACKUP-PITR-RECOVERY)）。
 
-Another option is to use rsync to perform a file
-system backup. This is done by first running rsync
-while the database server is running, then shutting down the database
-server long enough to do an `rsync --checksum`.
-(`--checksum` is necessary because `rsync` only
-has file modification-time granularity of one second.) The
-second rsync will be quicker than the first,
-because it has relatively little data to transfer, and the end result
-will be consistent because the server was down. This method
-allows a file system backup to be performed with minimal downtime.
+另一個選項是使用 rsync 來執行檔案系統備份。做法是先在
+資料庫伺服器執行期間執行一次 rsync，
+接著將資料庫伺服器關閉足夠長的時間，執行一次
+`rsync --checksum`。
+（之所以需要 `--checksum`，是因為 `rsync` 只能
+以一秒為單位判斷檔案的修改時間精細度。）第二次執行的 rsync
+會比第一次快，因為需要傳輸的資料相對較少，且由於伺服器
+當時已關閉，最終結果會是一致的。這個方法可讓檔案系統備份
+在最短的停機時間內完成。
 
-Note that a file system backup will typically be larger
-than an SQL dump. (pg_dump does not need to dump
-the contents of indexes for example, just the commands to recreate
-them.) However, taking a file system backup might be faster.
+請注意，檔案系統備份的容量通常會比 SQL 傾印大。
+（舉例來說，pg_dump 不需要傾印索引的內容，
+只需要傾印重建索引所需的指令。）然而，製作檔案系統備份
+的速度可能較快。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-file.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-file.html)（原文版本：18.6；核對日期：2026-09-28）
