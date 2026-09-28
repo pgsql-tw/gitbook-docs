@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：567 頁。
+待譯頁面：566 頁。
 
 ## 根目錄
 
@@ -708,7 +708,7 @@
 ## server-administration
 
 - [ ] `server-administration/README.md` — Part III. Server Administration
-- [ ] `server-administration/backup/README.md` — Chapter 25. Backup and Restore
+- [x] `server-administration/backup/README.md` — 第 25 章：備份與還原
 - [ ] `server-administration/backup/backup-dump.md` — 25.1. SQL Dump #
 - [ ] `server-administration/backup/backup-file.md` — 25.2. File System Level Backup #
 - [ ] `server-administration/backup/continuous-archiving.md` — 25.3. Continuous Archiving and Point-in-Time Recovery (PITR) #

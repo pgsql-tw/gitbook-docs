@@ -252,7 +252,7 @@
     * [24.1. Routine Vacuuming #](server-administration/maintenance/routine-vacuuming.md)
     * [24.2. 例行重新建立索引 #](server-administration/maintenance/routine-reindex.md)
     * [24.3. 日誌檔案維護 #](server-administration/maintenance/logfile-maintenance.md)
-  * [Chapter 25. Backup and Restore](server-administration/backup/README.md)
+  * [第 25 章：備份與還原](server-administration/backup/README.md)
     * [25.1. SQL Dump #](server-administration/backup/backup-dump.md)
     * [25.2. File System Level Backup #](server-administration/backup/backup-file.md)
     * [25.3. Continuous Archiving and Point-in-Time Recovery (PITR) #](server-administration/backup/continuous-archiving.md)

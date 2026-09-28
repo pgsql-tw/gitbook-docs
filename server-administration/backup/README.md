@@ -1,50 +1,47 @@
-## Chapter 25. Backup and Restore
+## 第 25 章：備份與還原
 
-**Table of Contents**
+**目錄**
 
-[25.1. SQL Dump](backup-dump.md)
-:   [25.1.1. Restoring the Dump](backup-dump.md#BACKUP-DUMP-RESTORE)
+[25.1. SQL 傾印](backup-dump.md)
+:   [25.1.1. 還原傾印內容](backup-dump.md#BACKUP-DUMP-RESTORE)
 
-    [25.1.2. Using pg_dumpall](backup-dump.md#BACKUP-DUMP-ALL)
+    [25.1.2. 使用 pg_dumpall](backup-dump.md#BACKUP-DUMP-ALL)
 
-    [25.1.3. Handling Large Databases](backup-dump.md#BACKUP-DUMP-LARGE)
+    [25.1.3. 處理大型資料庫](backup-dump.md#BACKUP-DUMP-LARGE)
 
-[25.2. File System Level Backup](backup-file.md)
+[25.2. 檔案系統層級備份](backup-file.md)
 
-[25.3. Continuous Archiving and Point-in-Time Recovery (PITR)](continuous-archiving.md)
-:   [25.3.1. Setting Up WAL Archiving](continuous-archiving.md#BACKUP-ARCHIVING-WAL)
+[25.3. 持續歸檔與時間點還原（PITR）](continuous-archiving.md)
+:   [25.3.1. 設定 WAL 歸檔](continuous-archiving.md#BACKUP-ARCHIVING-WAL)
 
-    [25.3.2. Making a Base Backup](continuous-archiving.md#BACKUP-BASE-BACKUP)
+    [25.3.2. 製作基礎備份](continuous-archiving.md#BACKUP-BASE-BACKUP)
 
-    [25.3.3. Making an Incremental Backup](continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)
+    [25.3.3. 製作增量備份](continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)
 
-    [25.3.4. Making a Base Backup Using the Low Level API](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)
+    [25.3.4. 使用低階 API 製作基礎備份](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)
 
-    [25.3.5. Recovering Using a Continuous Archive Backup](continuous-archiving.md#BACKUP-PITR-RECOVERY)
+    [25.3.5. 使用持續歸檔備份進行還原](continuous-archiving.md#BACKUP-PITR-RECOVERY)
 
-    [25.3.6. Timelines](continuous-archiving.md#BACKUP-TIMELINES)
+    [25.3.6. 時間軸](continuous-archiving.md#BACKUP-TIMELINES)
 
-    [25.3.7. Tips and Examples](continuous-archiving.md#BACKUP-TIPS)
+    [25.3.7. 技巧與範例](continuous-archiving.md#BACKUP-TIPS)
 
-    [25.3.8. Caveats](continuous-archiving.md#CONTINUOUS-ARCHIVING-CAVEATS)
+    [25.3.8. 注意事項](continuous-archiving.md#CONTINUOUS-ARCHIVING-CAVEATS)
 
 <a id="id-1.6.12.2"></a>
 
-As with everything that contains valuable data, PostgreSQL
-databases should be backed up regularly. While the procedure is
-essentially simple, it is important to have a clear understanding of
-the underlying techniques and assumptions.
+如同任何存放重要資料的系統一樣，PostgreSQL
+資料庫應該定期備份。雖然備份程序基本上很簡單，
+但重要的是要清楚理解其背後所依據的技術與前提假設。
 
-There are three fundamentally different approaches to backing up
-PostgreSQL data:
+備份 PostgreSQL 資料有三種根本不同的方式：
 
-* SQL dump
-* File system level backup
-* Continuous archiving
+* SQL 傾印
+* 檔案系統層級備份
+* 持續歸檔
 
-Each has its own strengths and weaknesses; each is discussed in turn
-in the following sections.
+每種方式各有其優缺點；以下各節將依序討論每一種方式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup.html)（原文版本：18.6；核對日期：2026-09-28）
