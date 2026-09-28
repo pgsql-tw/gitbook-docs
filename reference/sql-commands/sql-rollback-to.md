@@ -2,9 +2,9 @@
 
 ## ROLLBACK TO SAVEPOINT
 
-ROLLBACK TO SAVEPOINT — roll back to a savepoint
+ROLLBACK TO SAVEPOINT — 回復到某個儲存點
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,61 +13,52 @@ ROLLBACK [ WORK | TRANSACTION ] TO [ SAVEPOINT ] savepoint_name
 
 <a id="id-1.9.3.169.6"></a>
 
-## Description
+## 說明
 
-Roll back all commands that were executed after the savepoint was
-established and then start a new subtransaction at the same transaction level.
-The savepoint remains valid and can be rolled back to again later,
-if needed.
+回復自建立該儲存點之後所執行的所有指令，然後在相同的交易層級啟動一個新的子交易。
+該儲存點本身仍然有效，之後如有需要，仍可再次回復到它。
 
-`ROLLBACK TO SAVEPOINT` implicitly destroys all savepoints that
-were established after the named savepoint.
+`ROLLBACK TO SAVEPOINT` 會隱含地摧毀所有在指定儲存點之後
+建立的儲存點。
 
 <a id="id-1.9.3.169.7"></a>
 
-## Parameters
+## 參數
 
 *`savepoint_name`*
-:   The savepoint to roll back to.
+:   要回復到的儲存點。
 
 <a id="id-1.9.3.169.8"></a>
 
-## Notes
+## 注意
 
-Use [`RELEASE SAVEPOINT`](sql-release-savepoint.md) to destroy a savepoint
-without discarding the effects of commands executed after it was
-established.
+請使用 [`RELEASE SAVEPOINT`](sql-release-savepoint.md) 來摧毀一個儲存點，
+但不捨棄該儲存點建立之後所執行指令的效果。
 
-Specifying a savepoint name that has not been established is an error.
+指定一個尚未建立過的儲存點名稱會導致錯誤。
 
-Cursors have somewhat non-transactional behavior with respect to
-savepoints. Any cursor that is opened inside a savepoint will be closed
-when the savepoint is rolled back. If a previously opened cursor is
-affected by a `FETCH` or `MOVE` command inside a
-savepoint that is later rolled back, the cursor remains at the
-position that `FETCH` left it pointing to (that is, the cursor
-motion caused by `FETCH` is not rolled back).
-Closing a cursor is not undone by rolling back, either.
-However, other side-effects caused by the cursor's query (such as
-side-effects of volatile functions called by the query) *are*
-rolled back if they occur during a savepoint that is later rolled back.
-A cursor whose execution causes a transaction to abort is put in a
-cannot-execute state, so while the transaction can be restored using
-`ROLLBACK TO SAVEPOINT`, the cursor can no longer be used.
+游標相對於儲存點而言，有一些非交易性的行為。任何在某個儲存點內開啟的游標，都會在該儲存點被回復時關閉。如果先前已開啟的游標，在某個之後被回復的儲存點內，受到
+`FETCH` 或 `MOVE` 指令的影響，該游標會停留在
+`FETCH` 使其指向的位置（也就是說，由
+`FETCH` 造成的游標移動不會被回復）。
+關閉游標也同樣不會因回復而被撤銷。
+然而，由該游標的查詢所造成的其他副作用（例如該查詢所呼叫之易變函式的副作用），如果是發生在之後被回復的儲存點期間，則*會*被回復。
+一個執行過程中導致交易中止的游標，會進入無法執行的狀態，因此雖然可以用
+`ROLLBACK TO SAVEPOINT` 還原該交易，該游標本身卻無法再被使用。
 
 <a id="id-1.9.3.169.9"></a>
 
-## Examples
+## 範例
 
-To undo the effects of the commands executed after `my_savepoint`
-was established:
+撤銷在建立 `my_savepoint`
+之後所執行指令的效果：
 
 ```
 
 ROLLBACK TO SAVEPOINT my_savepoint;
 ```
 
-Cursor positions are not affected by savepoint rollback:
+游標位置不會受到儲存點回復的影響：
 
 ```
 
@@ -94,23 +85,22 @@ COMMIT;
 
 <a id="id-1.9.3.169.10"></a>
 
-## Compatibility
+## 相容性
 
-The SQL standard specifies that the key word
-`SAVEPOINT` is mandatory, but PostgreSQL
-and Oracle allow it to be omitted. SQL allows
-only `WORK`, not `TRANSACTION`, as a noise word
-after `ROLLBACK`. Also, SQL has an optional clause
-`AND [ NO ] CHAIN` which is not currently supported by
-PostgreSQL. Otherwise, this command conforms to
-the SQL standard.
+SQL 標準規定
+`SAVEPOINT` 關鍵字是必要的，但 PostgreSQL
+與 Oracle 都允許將它省略。SQL 只允許在
+`ROLLBACK` 之後使用 `WORK`，不允許使用
+`TRANSACTION` 作為贅詞。此外，SQL 還有一個選用子句
+`AND [ NO ] CHAIN`，PostgreSQL 目前並不支援。除此之外，此指令都符合
+SQL 標準。
 
 <a id="id-1.9.3.169.11"></a>
 
-## See Also
+## 另請參閱
 
 [BEGIN](sql-begin.md), [COMMIT](sql-commit.md), [RELEASE SAVEPOINT](sql-release-savepoint.md), [ROLLBACK](sql-rollback.md), [SAVEPOINT](sql-savepoint.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-rollback-to.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-rollback-to.html)（原文版本：18.6；核對日期：2026-09-28）
