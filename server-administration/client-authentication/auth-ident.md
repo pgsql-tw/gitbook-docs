@@ -1,60 +1,55 @@
-## 20.8. Ident Authentication [#](#AUTH-IDENT)
+<a id="AUTH-IDENT"></a>
+
+## 20.8. Ident 認證 [#](#AUTH-IDENT)
 
 <a id="id-1.6.7.15.2"></a>
 
-The ident authentication method works by obtaining the client's
-operating system user name from an ident server and using it as
-the allowed database user name (with an optional user name mapping).
-This is only supported on TCP/IP connections.
+ident 認證方法的運作方式，是從 ident 伺服器取得用戶端的
+作業系統使用者名稱，並將其作為允許使用的資料庫使用者名稱（可搭配選用的使用者名稱對應）。
+此方法僅支援 TCP/IP 連線。
 
-### Note
+### 注意
 
-When ident is specified for a local (non-TCP/IP) connection,
-peer authentication (see [Section 20.9](auth-peer.md)) will be
-used instead.
+當本機（非 TCP/IP）連線指定使用 ident 時，
+將改用 peer 認證（見[第 20.9 節](auth-peer.md)）。
 
-The following configuration options are supported for `ident`:
+`ident` 支援下列組態選項：
 
 `map`
-:   Allows for mapping between system and database user names. See
-    [Section 20.2](auth-username-maps.md) for details.
+:   允許在系統使用者名稱與資料庫使用者名稱之間進行對應。詳見
+    [第 20.2 節](auth-username-maps.md)。
 
-The “Identification Protocol” is described in
-[RFC 1413](https://datatracker.ietf.org/doc/html/rfc1413).
-Virtually every Unix-like
-operating system ships with an ident server that listens on TCP
-port 113 by default. The basic functionality of an ident server
-is to answer questions like “What user initiated the
-connection that goes out of your port *`X`*
-and connects to my port *`Y`*?”.
-Since PostgreSQL knows both *`X`* and
-*`Y`* when a physical connection is established, it
-can interrogate the ident server on the host of the connecting
-client and can theoretically determine the operating system user
-for any given connection.
+「識別通訊協定」的說明詳見
+[RFC 1413](https://datatracker.ietf.org/doc/html/rfc1413)。
+幾乎每一種類 Unix
+作業系統都內建了在 TCP
+埠 113 上監聽的 ident 伺服器。ident 伺服器的基本功能
+是回答諸如「從你的埠 *`X`*
+發出並連到我的埠 *`Y`* 的連線是由哪個使用者發起的？」
+這類問題。
+由於 PostgreSQL 在建立實體連線時同時知道 *`X`* 與
+*`Y`*，它可以向發起連線的用戶端主機上的 ident 伺服器查詢，
+理論上便能判定任何指定連線所對應的作業系統使用者。
 
-The drawback of this procedure is that it depends on the integrity
-of the client: if the client machine is untrusted or compromised,
-an attacker could run just about any program on port 113 and
-return any user name they choose. This authentication method is
-therefore only appropriate for closed networks where each client
-machine is under tight control and where the database and system
-administrators operate in close contact. In other words, you must
-trust the machine running the ident server.
-Heed the warning:
+這種做法的缺點在於它依賴用戶端的完整性：如果用戶端機器不受信任或已遭入侵，
+攻擊者就可以在埠 113 上執行幾乎任何程式，
+並回傳他們所選擇的任意使用者名稱。因此，這種認證方法
+僅適用於封閉式網路，其中每台用戶端機器都受到嚴格控管，
+且資料庫管理者與系統管理者之間保持密切聯繫。換句話說，你必須
+信任執行 ident 伺服器的那台機器。
+請留意這項警告：
 
-<table border="0" class="blockquote" style="width: 100%; cellspacing: 0; cellpadding: 0;" summary="Block quote"><tr><td valign="top" width="10%"> </td><td valign="top" width="80%"><p>
-      The Identification Protocol is not intended as an authorization
-      or access control protocol.
-     </p></td><td valign="top" width="10%"> </td></tr><tr><td valign="top" width="10%"> </td><td align="right" colspan="2" valign="top">--<span class="attribution">RFC 1413</span></td></tr></table>
+<table border="0" class="blockquote" style="width: 100%; cellspacing: 0; cellpadding: 0;" summary="Block quote"><tr><td valign="top" width="10%"> </td><td valign="top" width="80%"><p>
+      識別通訊協定並非用於做為授權或存取控制通訊協定。
+     </p></td><td valign="top" width="10%"> </td></tr><tr><td valign="top" width="10%"> </td><td align="right" colspan="2" valign="top">--<span class="attribution">RFC 1413</span></td></tr></table>
 
-Some ident servers have a nonstandard option that causes the returned
-user name to be encrypted, using a key that only the originating
-machine's administrator knows. This option *must not* be
-used when using the ident server with PostgreSQL,
-since PostgreSQL does not have any way to decrypt the
-returned string to determine the actual user name.
+部分 ident 伺服器有一個非標準選項，會使回傳的
+使用者名稱經過加密，其加密金鑰僅有原始
+機器的管理者知悉。在搭配 PostgreSQL 使用 ident 伺服器時，*絕對不可*
+使用此選項，
+因為 PostgreSQL 沒有任何方法可以解密
+回傳的字串以判定實際的使用者名稱。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-ident.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-ident.html)（原文版本：18.6；核對日期：2026-09-28）
