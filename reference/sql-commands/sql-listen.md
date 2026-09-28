@@ -2,9 +2,9 @@
 
 ## LISTEN
 
-LISTEN — listen for a notification
+LISTEN — 監聽通知
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,78 +13,40 @@ LISTEN channel
 
 <a id="id-1.9.3.153.5"></a>
 
-## Description
+## 說明
 
-`LISTEN` registers the current session as a
-listener on the notification channel named *`channel`*.
-If the current session is already registered as a listener for
-this notification channel, nothing is done.
+`LISTEN` 會將目前的工作階段註冊為名為 *`channel`* 的通知頻道之監聽者。若目前的工作階段已註冊為此通知頻道的監聽者，則不做任何事。
 
-Whenever the command `NOTIFY channel` is invoked, either
-by this session or another one connected to the same database, all
-the sessions currently listening on that notification channel are
-notified, and each will in turn notify its connected client
-application.
+每當這個工作階段或連線到同一資料庫的另一個工作階段呼叫 `NOTIFY channel` 指令時，目前所有正在監聽該通知頻道的工作階段都會收到通知，而每個工作階段接著又會通知其所連接的用戶端應用程式。
 
-A session can be unregistered for a given notification channel with the
-`UNLISTEN` command. A session's listen
-registrations are automatically cleared when the session ends.
+可以使用 `UNLISTEN` 指令取消某個工作階段對指定通知頻道的註冊。當工作階段結束時，該工作階段的監聽註冊會自動清除。
 
-The method a client application must use to detect notification events depends on
-which PostgreSQL application programming interface it
-uses. With the libpq library, the application issues
-`LISTEN` as an ordinary SQL command, and then must
-periodically call the function `PQnotifies` to find out
-whether any notification events have been received. Other interfaces such as
-libpgtcl provide higher-level methods for handling notify events; indeed,
-with libpgtcl the application programmer should not even issue
-`LISTEN` or `UNLISTEN` directly. See the
-documentation for the interface you are using for more details.
+用戶端應用程式偵測通知事件所須使用的方法，取決於它所使用的 PostgreSQL 應用程式設計介面。使用 libpq 函式庫時，應用程式會像一般 SQL 指令那樣發出 `LISTEN`，然後必須定期呼叫函式 `PQnotifies`，以得知是否已收到任何通知事件。其他介面，例如 libpgtcl，則提供了處理通知事件的更高階方法；事實上，使用 libpgtcl 時，應用程式開發者甚至不應該直接發出 `LISTEN` 或 `UNLISTEN`。詳情請參閱你所使用介面的相關文件。
 
 <a id="id-1.9.3.153.6"></a>
 
-## Parameters
+## 參數
 
 *`channel`*
-:   Name of a notification channel (any identifier).
+:   通知頻道的名稱（任意識別字）。
 
 <a id="id-1.9.3.153.7"></a>
 
-## Notes
+## 注意事項
 
-`LISTEN` takes effect at transaction commit.
-If `LISTEN` or `UNLISTEN` is executed
-within a transaction that later rolls back, the set of notification
-channels being listened to is unchanged.
+`LISTEN` 會在交易提交時生效。若 `LISTEN` 或 `UNLISTEN` 是在稍後回復（roll back）的交易中執行，則正在監聽的通知頻道集合不會有任何變化。
 
-A transaction that has executed `LISTEN` cannot be
-prepared for two-phase commit.
+已執行過 `LISTEN` 的交易，無法為兩階段提交準備（prepare）。
 
-There is a race condition when first setting up a listening session:
-if concurrently-committing transactions are sending notify events,
-exactly which of those will the newly listening session receive?
-The answer is that the session will receive all events committed after
-an instant during the transaction's commit step. But that is slightly
-later than any database state that the transaction could have observed
-in queries. This leads to the following rule for
-using `LISTEN`: first execute (and commit!) that
-command, then in a new transaction inspect the database state as needed
-by the application logic, then rely on notifications to find out about
-subsequent changes to the database state. The first few received
-notifications might refer to updates already observed in the initial
-database inspection, but this is usually harmless.
+初次設定監聽工作階段時，存在一個競態條件：若有正在並行提交的交易正在傳送通知事件，新設定的監聽工作階段究竟會收到其中哪些通知？答案是：該工作階段會收到在該交易提交步驟中某一瞬間之後所提交的所有事件。但這個時間點會比該交易在查詢中所能觀察到的任何資料庫狀態都稍晚一些。由此可得出使用 `LISTEN` 的下列原則：先執行（並且提交！）該指令，接著在新的交易中依應用程式邏輯所需檢視資料庫狀態，然後才依賴通知來得知資料庫狀態的後續變化。一開始收到的少數幾個通知，可能是關於在最初的資料庫檢視中已經觀察到的更新，但這通常無傷大雅。
 
-[NOTIFY](sql-notify.md)
-contains a more extensive
-discussion of the use of `LISTEN` and
-`NOTIFY`.
+[NOTIFY](sql-notify.md) 對 `LISTEN` 與 `NOTIFY` 的使用方式有更詳盡的討論。
 
 <a id="id-1.9.3.153.8"></a>
 
-## Examples
+## 範例
 
-Configure and execute a listen/notify sequence from
-psql:
+在 psql 中設定並執行一段 listen/notify 序列：
 
 ```
 
@@ -95,17 +57,16 @@ Asynchronous notification "virtual" received from server process with PID 8448.
 
 <a id="id-1.9.3.153.9"></a>
 
-## Compatibility
+## 相容性
 
-There is no `LISTEN` statement in the SQL
-standard.
+SQL 標準中沒有 `LISTEN` 陳述式。
 
 <a id="id-1.9.3.153.10"></a>
 
-## See Also
+## 另請參閱
 
 [NOTIFY](sql-notify.md), [UNLISTEN](sql-unlisten.md), [max_notify_queue_pages](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-NOTIFY-QUEUE-PAGES)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-listen.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-listen.html)（原文版本：18.6；核對日期：2026-09-28）
