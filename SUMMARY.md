@@ -213,7 +213,7 @@
     * [19.16. 自訂選項](server-administration/runtime-config/runtime-config-custom.md)
     * [19.17. 開發人員選項 #](server-administration/runtime-config/runtime-config-developer.md)
     * [19.18. 簡短選項 #](server-administration/runtime-config/runtime-config-short.md)
-  * [Chapter 20. Client Authentication](server-administration/client-authentication/README.md)
+  * [第 20 章 用戶端認證](server-administration/client-authentication/README.md)
     * [20.1. `pg_hba.conf` 檔案 #](server-administration/client-authentication/auth-pg-hba-conf.md)
     * [20.2. 使用者名稱對應 #](server-administration/client-authentication/auth-username-maps.md)
     * [20.3. 認證方法 #](server-administration/client-authentication/auth-methods.md)

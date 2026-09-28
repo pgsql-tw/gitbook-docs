@@ -1,78 +1,62 @@
-## Chapter 20. Client Authentication
+## 第 20 章 用戶端認證
 
-**Table of Contents**
+**目錄**
 
-[20.1. The `pg_hba.conf` File](auth-pg-hba-conf.md)
+[20.1. `pg_hba.conf` 檔案](auth-pg-hba-conf.md)
 
-[20.2. User Name Maps](auth-username-maps.md)
+[20.2. 使用者名稱對應](auth-username-maps.md)
 
-[20.3. Authentication Methods](auth-methods.md)
+[20.3. 認證方法](auth-methods.md)
 
-[20.4. Trust Authentication](auth-trust.md)
+[20.4. Trust 認證](auth-trust.md)
 
-[20.5. Password Authentication](auth-password.md)
+[20.5. 密碼認證](auth-password.md)
 
-[20.6. GSSAPI Authentication](gssapi-auth.md)
+[20.6. GSSAPI 認證](gssapi-auth.md)
 
-[20.7. SSPI Authentication](sspi-auth.md)
+[20.7. SSPI 認證](sspi-auth.md)
 
-[20.8. Ident Authentication](auth-ident.md)
+[20.8. Ident 認證](auth-ident.md)
 
-[20.9. Peer Authentication](auth-peer.md)
+[20.9. Peer 認證](auth-peer.md)
 
-[20.10. LDAP Authentication](auth-ldap.md)
+[20.10. LDAP 認證](auth-ldap.md)
 
-[20.11. RADIUS Authentication](auth-radius.md)
+[20.11. RADIUS 認證](auth-radius.md)
 
-[20.12. Certificate Authentication](auth-cert.md)
+[20.12. 憑證認證](auth-cert.md)
 
-[20.13. PAM Authentication](auth-pam.md)
+[20.13. PAM 認證](auth-pam.md)
 
-[20.14. BSD Authentication](auth-bsd.md)
+[20.14. BSD 認證](auth-bsd.md)
 
-[20.15. OAuth Authorization/Authentication](auth-oauth.md)
+[20.15. OAuth 授權／認證](auth-oauth.md)
 
-[20.16. Authentication Problems](client-authentication-problems.md)
+[20.16. 認證問題](client-authentication-problems.md)
 
 <a id="id-1.6.7.2"></a>
 
-When a client application connects to the database server, it
-specifies which PostgreSQL database user name it
-wants to connect as, much the same way one logs into a Unix computer
-as a particular user. Within the SQL environment the active database
-user name determines access privileges to database objects — see
-[Chapter 21](../user-manag/README.md) for more information. Therefore, it is
-essential to restrict which database users can connect.
+當用戶端應用程式連線到資料庫伺服器時，它會指定想要以哪一個
+PostgreSQL 資料庫使用者名稱連線，這與在 Unix 電腦上以特定使用者身分登入的方式大致相同。在 SQL 環境中，作用中的資料庫
+使用者名稱決定了對資料庫物件的存取權限——詳見
+[第 21 章](../user-manag/README.md)。因此，限制哪些資料庫使用者可以連線是非常重要的。
 
-### Note
+### 注意
 
-As explained in [Chapter 21](../user-manag/README.md),
-PostgreSQL actually does privilege
-management in terms of “roles”. In this chapter, we
-consistently use *database user* to mean “role with the
-`LOGIN` privilege”.
+如[第 21 章](../user-manag/README.md)所述，
+PostgreSQL 實際上是以「角色」的形式來進行權限
+管理。在本章中，我們一律使用*資料庫使用者*一詞來表示「具有
+`LOGIN` 權限的角色」。
 
-*Authentication* is the process by which the
-database server establishes the identity of the client, and by
-extension determines whether the client application (or the user
-who runs the client application) is permitted to connect with the
-database user name that was requested.
+*認證*是指資料庫伺服器用來確認用戶端身分的過程，並藉此判斷用戶端應用程式（或執行該用戶端應用程式的使用者）是否被允許以其所請求的資料庫使用者名稱連線。
 
-PostgreSQL offers a number of different
-client authentication methods. The method used to authenticate a
-particular client connection can be selected on the basis of
-(client) host address, database, and user.
+PostgreSQL 提供了多種不同的
+用戶端認證方法。可以根據（用戶端的）主機位址、資料庫及使用者，選擇用來驗證特定用戶端連線的方法。
 
-PostgreSQL database user names are logically
-separate from user names of the operating system in which the server
-runs. If all the users of a particular server also have accounts on
-the server's machine, it makes sense to assign database user names
-that match their operating system user names. However, a server that
-accepts remote connections might have many database users who have no local
-operating system
-account, and in such cases there need be no connection between
-database user names and OS user names.
+PostgreSQL 資料庫使用者名稱在邏輯上與執行伺服器的作業系統使用者名稱是分開的。如果某個伺服器的所有使用者在該伺服器的機器上也都有帳號，那麼將資料庫使用者名稱設定為與其作業系統使用者名稱相符是合理的做法。然而，接受遠端連線的伺服器
+可能有許多資料庫使用者並沒有本機
+作業系統帳號，在這種情況下，資料庫使用者名稱與作業系統使用者名稱之間不需要有任何關聯。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/client-authentication.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/client-authentication.html)（原文版本：18.6；核對日期：2026-09-28）
