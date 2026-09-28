@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：576 頁。
+待譯頁面：575 頁。
 
 ## 根目錄
 
@@ -687,7 +687,7 @@
 - [ ] `reference/sql-commands/sql-revoke.md` — REVOKE
 - [x] `reference/sql-commands/sql-rollback-prepared.md` — ROLLBACK PREPARED
 - [x] `reference/sql-commands/sql-rollback-to.md` — ROLLBACK TO SAVEPOINT
-- [ ] `reference/sql-commands/sql-rollback.md` — ROLLBACK
+- [x] `reference/sql-commands/sql-rollback.md` — ROLLBACK
 - [ ] `reference/sql-commands/sql-savepoint.md` — SAVEPOINT
 - [ ] `reference/sql-commands/sql-security-label.md` — SECURITY LABEL
 - [ ] `reference/sql-commands/sql-select.md` — SELECT
