@@ -2,9 +2,9 @@
 
 ## SET SESSION AUTHORIZATION
 
-SET SESSION AUTHORIZATION — set the session user identifier and the current user identifier of the current session
+SET SESSION AUTHORIZATION — 設定目前工作階段的工作階段使用者識別碼與目前使用者識別碼
 
-## Synopsis
+## 語法
 
 ```
 
@@ -15,45 +15,38 @@ RESET SESSION AUTHORIZATION
 
 <a id="id-1.9.3.177.5"></a>
 
-## Description
+## 說明
 
-This command sets the session user identifier and the current user
-identifier of the current SQL session to be *`user_name`*. The user name can be
-written as either an identifier or a string literal. Using this
-command, it is possible, for example, to temporarily become an
-unprivileged user and later switch back to being a superuser.
+此命令會將目前 SQL 工作階段的工作階段使用者識別碼與目前使用者識別碼設為
+*`user_name`*。使用者名稱可以寫成識別字，也可以寫成字串常值。
+使用此命令，舉例來說，可以暫時變成一個沒有權限的使用者，之後再切換回超級使用者。
 
-The session user identifier is initially set to be the (possibly
-authenticated) user name provided by the client. The current user
-identifier is normally equal to the session user identifier, but
-might change temporarily in the context of `SECURITY DEFINER`
-functions and similar mechanisms; it can also be changed by
-[`SET ROLE`](sql-set-role.md).
-The current user identifier is relevant for permission checking.
+工作階段使用者識別碼一開始會設為用戶端所提供的（可能經過驗證的）使用者名稱。
+目前使用者識別碼通常等於工作階段使用者識別碼，但在
+`SECURITY DEFINER` 函式及類似機制的情境下可能會暫時改變；
+它也可以透過 [`SET ROLE`](sql-set-role.md) 來變更。
+目前使用者識別碼與權限檢查有關。
 
-The session user identifier can be changed only if the initial session
-user (the *authenticated user*) has the
-superuser privilege. Otherwise, the command is accepted only if it
-specifies the authenticated user name.
+只有在最初的工作階段使用者（*已驗證使用者*）具有超級使用者權限時，
+才能變更工作階段使用者識別碼。否則，只有在此命令指定的正是已驗證使用者名稱時，
+才會被接受。
 
-The `SESSION` and `LOCAL` modifiers act the same
-as for the regular [`SET`](sql-set.md)
-command.
+`SESSION` 與 `LOCAL` 修飾詞的作用方式，
+與一般 [`SET`](sql-set.md) 命令相同。
 
-The `DEFAULT` and `RESET` forms reset the session
-and current user identifiers to be the originally authenticated user
-name. These forms can be executed by any user.
+`DEFAULT` 與 `RESET` 形式會將工作階段使用者識別碼與目前使用者識別碼，
+重設為最初通過驗證的使用者名稱。任何使用者都可以執行這些形式。
 
 <a id="id-1.9.3.177.6"></a>
 
-## Notes
+## 注意事項
 
-`SET SESSION AUTHORIZATION` cannot be used within a
-`SECURITY DEFINER` function.
+`SET SESSION AUTHORIZATION` 無法在 `SECURITY DEFINER`
+函式內使用。
 
 <a id="id-1.9.3.177.7"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -74,28 +67,25 @@ SELECT SESSION_USER, CURRENT_USER;
 
 <a id="id-1.9.3.177.8"></a>
 
-## Compatibility
+## 相容性
 
-The SQL standard allows some other expressions to appear in place
-of the literal *`user_name`*, but these options
-are not important in practice. PostgreSQL
-allows identifier syntax (`"username"`), which SQL
-does not. SQL does not allow this command during a transaction;
-PostgreSQL does not make this
-restriction because there is no reason to.
-The `SESSION` and `LOCAL` modifiers are a
-PostgreSQL extension, as is the
-`RESET` syntax.
+SQL 標準允許在字面值 *`user_name`* 的位置使用其他一些運算式，
+但這些選項在實務上並不重要。PostgreSQL
+允許使用識別字語法（`"username"`），而 SQL 標準並不允許。
+SQL 標準不允許在交易中執行此命令；PostgreSQL
+並無此限制，因為沒有理由要這樣限制。
+`SESSION` 與 `LOCAL` 修飾詞是
+PostgreSQL 的擴充功能，`RESET`
+語法亦同。
 
-The privileges necessary to execute this command are left
-implementation-defined by the standard.
+執行此命令所需的權限，標準將其留給實作自行定義。
 
 <a id="id-1.9.3.177.9"></a>
 
-## See Also
+## 另請參閱
 
 [SET ROLE](sql-set-role.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-set-session-authorization.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-set-session-authorization.html)（原文版本：18.6；核對日期：2026-09-28）
