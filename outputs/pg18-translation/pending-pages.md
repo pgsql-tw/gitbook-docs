@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：575 頁。
+待譯頁面：574 頁。
 
 ## 根目錄
 
@@ -699,7 +699,7 @@
 - [ ] `reference/sql-commands/sql-set.md` — SET
 - [ ] `reference/sql-commands/sql-show.md` — SHOW
 - [ ] `reference/sql-commands/sql-start-transaction.md` — START TRANSACTION
-- [ ] `reference/sql-commands/sql-truncate.md` — TRUNCATE
+- [x] `reference/sql-commands/sql-truncate.md` — TRUNCATE
 - [ ] `reference/sql-commands/sql-unlisten.md` — UNLISTEN
 - [ ] `reference/sql-commands/sql-update.md` — UPDATE
 - [ ] `reference/sql-commands/sql-vacuum.md` — VACUUM
