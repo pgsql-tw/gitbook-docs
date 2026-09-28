@@ -2,9 +2,9 @@
 
 ## MOVE
 
-MOVE — position a cursor
+MOVE — 定位游標
 
-## Synopsis
+## 語法
 
 ```
 
@@ -30,36 +30,28 @@ where direction can be one of:
 
 <a id="id-1.9.3.157.6"></a>
 
-## Description
+## 說明
 
-`MOVE` repositions a cursor without retrieving any data.
-`MOVE` works exactly like the `FETCH`
-command, except it only positions the cursor and does not return rows.
+`MOVE` 會重新定位游標，但不會取回任何資料。`MOVE` 的運作方式與 `FETCH` 指令完全相同，差別只在於它僅定位游標，不會傳回資料列。
 
-The parameters for the `MOVE` command are identical to
-those of the `FETCH` command; refer to
-[FETCH](sql-fetch.md)
-for details on syntax and usage.
+`MOVE` 指令的參數與 `FETCH` 指令完全相同；語法與用法的詳情請參閱 [FETCH](sql-fetch.md)。
 
 <a id="id-1.9.3.157.7"></a>
 
-## Outputs
+## 輸出
 
-On successful completion, a `MOVE` command returns a command
-tag of the form
+成功完成後，`MOVE` 指令會傳回下列形式的指令標記：
 
 ```
 
 MOVE count
 ```
 
-The *`count`* is the number
-of rows that a `FETCH` command with the same parameters
-would have returned (possibly zero).
+*`count`* 是若以相同參數執行 `FETCH` 指令時，原本會傳回的資料列數（可能為零）。
 
 <a id="id-1.9.3.157.8"></a>
 
-## Examples
+## 範例
 
 ```
 
@@ -84,16 +76,16 @@ COMMIT WORK;
 
 <a id="id-1.9.3.157.9"></a>
 
-## Compatibility
+## 相容性
 
-There is no `MOVE` statement in the SQL standard.
+SQL 標準中沒有 `MOVE` 陳述式。
 
 <a id="id-1.9.3.157.10"></a>
 
-## See Also
+## 另請參閱
 
 [CLOSE](sql-close.md), [DECLARE](sql-declare.md), [FETCH](sql-fetch.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-move.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-move.html)（原文版本：18.6；核對日期：2026-09-28）
