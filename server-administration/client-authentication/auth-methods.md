@@ -1,52 +1,34 @@
-## 20.3. Authentication Methods [#](#AUTH-METHODS)
+<a id="AUTH-METHODS"></a>
 
-PostgreSQL provides various methods for
-authenticating users:
+## 20.3. 認證方法 [#](#AUTH-METHODS)
 
-* [Trust authentication](auth-trust.md), which
-  simply trusts that users are who they say they are.
-* [Password authentication](auth-password.md), which
-  requires that users send a password.
-* [GSSAPI authentication](gssapi-auth.md), which
-  relies on a GSSAPI-compatible security library. Typically this is
-  used to access an authentication server such as a Kerberos or
-  Microsoft Active Directory server.
-* [SSPI authentication](sspi-auth.md), which
-  uses a Windows-specific protocol similar to GSSAPI.
-* [Ident authentication](auth-ident.md), which
-  relies on an “Identification Protocol”
-  ([RFC 1413](https://datatracker.ietf.org/doc/html/rfc1413))
-  service on the client's machine. (On local Unix-socket connections,
-  this is treated as peer authentication.)
-* [Peer authentication](auth-peer.md), which
-  relies on operating system facilities to identify the process at the
-  other end of a local connection. This is not supported for remote
-  connections.
-* [LDAP authentication](auth-ldap.md), which
-  relies on an LDAP authentication server.
-* [RADIUS authentication](auth-radius.md), which
-  relies on a RADIUS authentication server.
-* [Certificate authentication](auth-cert.md), which
-  requires an SSL connection and authenticates users by checking the
-  SSL certificate they send.
-* [PAM authentication](auth-pam.md), which
-  relies on a PAM (Pluggable Authentication Modules) library.
-* [BSD authentication](auth-bsd.md), which
-  relies on the BSD Authentication framework (currently available
-  only on OpenBSD).
-* [OAuth authorization/authentication](auth-oauth.md),
-  which relies on an external OAuth 2.0 identity provider.
+PostgreSQL 提供多種驗證使用者的方法：
 
-Peer authentication is usually recommendable for local connections,
-though trust authentication might be sufficient in some circumstances.
-Password authentication is the easiest choice for remote connections.
-All the other options require some kind of external security
-infrastructure (usually an authentication server or a certificate
-authority for issuing SSL certificates), or are platform-specific.
+* [Trust 認證](auth-trust.md)，單純信任使用者的身分如其所宣稱。
+* [密碼認證](auth-password.md)，要求使用者傳送密碼。
+* [GSSAPI 認證](gssapi-auth.md)，依賴與 GSSAPI 相容的安全性函式庫。通常用於存取
+  Kerberos 或 Microsoft Active Directory 伺服器等認證伺服器。
+* [SSPI 認證](sspi-auth.md)，使用類似 GSSAPI 的 Windows 專屬通訊協定。
+* [Ident 認證](auth-ident.md)，依賴用戶端機器上的「識別通訊協定」
+  （[RFC 1413](https://datatracker.ietf.org/doc/html/rfc1413)）
+  服務。（在本機 Unix-socket 連線上，這會被視為 peer 認證。）
+* [Peer 認證](auth-peer.md)，依賴作業系統機制來識別本機連線另一端的程序。此方法不支援遠端連線。
+* [LDAP 認證](auth-ldap.md)，依賴 LDAP 認證伺服器。
+* [RADIUS 認證](auth-radius.md)，依賴 RADIUS 認證伺服器。
+* [憑證認證](auth-cert.md)，要求使用 SSL 連線，並透過檢查使用者傳送的
+  SSL 憑證來進行驗證。
+* [PAM 認證](auth-pam.md)，依賴 PAM（可插拔認證模組）函式庫。
+* [BSD 認證](auth-bsd.md)，依賴 BSD 認證框架（目前僅在 OpenBSD 上可用）。
+* [OAuth 授權／認證](auth-oauth.md)，
+  依賴外部的 OAuth 2.0 身分識別提供者。
 
-The following sections describe each of these authentication methods
-in more detail.
+Peer 認證通常適合用於本機連線，不過在某些情況下 trust 認證也已足夠。
+密碼認證是遠端連線最簡單的選擇。
+其他所有選項都需要某種外部安全性基礎設施
+（通常是認證伺服器，或用於核發 SSL 憑證的憑證授權單位），或是與平台有關。
+
+以下各節將更詳細地說明這些認證方法。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-methods.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-methods.html)（原文版本：18.6；核對日期：2026-09-28）

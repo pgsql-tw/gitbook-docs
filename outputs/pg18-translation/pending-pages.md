@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：570 頁。
+待譯頁面：569 頁。
 
 ## 根目錄
 
@@ -721,7 +721,7 @@
 - [x] `server-administration/client-authentication/auth-cert.md` — 20.12. 憑證驗證
 - [x] `server-administration/client-authentication/auth-ident.md` — 20.8. Ident 認證 #
 - [ ] `server-administration/client-authentication/auth-ldap.md` — 20.10. LDAP Authentication #
-- [ ] `server-administration/client-authentication/auth-methods.md` — 20.3. Authentication Methods #
+- [x] `server-administration/client-authentication/auth-methods.md` — 20.3. 認證方法 #
 - [ ] `server-administration/client-authentication/auth-oauth.md` — 20.15. OAuth Authorization/Authentication #
 - [ ] `server-administration/client-authentication/auth-pam.md` — 20.13. PAM Authentication #
 - [x] `server-administration/client-authentication/auth-password.md` — 20.5. 密碼驗證 #

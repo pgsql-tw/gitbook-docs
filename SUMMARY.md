@@ -216,7 +216,7 @@
   * [Chapter 20. Client Authentication](server-administration/client-authentication/README.md)
     * [20.1. `pg_hba.conf` 檔案 #](server-administration/client-authentication/auth-pg-hba-conf.md)
     * [20.2. 使用者名稱對應 #](server-administration/client-authentication/auth-username-maps.md)
-    * [20.3. Authentication Methods #](server-administration/client-authentication/auth-methods.md)
+    * [20.3. 認證方法 #](server-administration/client-authentication/auth-methods.md)
     * [20.4. 信任驗證 #](server-administration/client-authentication/auth-trust.md)
     * [20.5. 密碼驗證 #](server-administration/client-authentication/auth-password.md)
     * [20.6. GSSAPI Authentication #](server-administration/client-authentication/gssapi-auth.md)
