@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：542 頁。
+待譯頁面：541 頁。
 
 ## 根目錄
 
@@ -678,7 +678,7 @@
 - [x] `reference/sql-commands/sql-move.md` — MOVE
 - [x] `reference/sql-commands/sql-notify.md` — NOTIFY
 - [x] `reference/sql-commands/sql-prepare-transaction.md` — PREPARE TRANSACTION
-- [ ] `reference/sql-commands/sql-prepare.md` — PREPARE
+- [x] `reference/sql-commands/sql-prepare.md` — PREPARE
 - [x] `reference/sql-commands/sql-reassign-owned.md` — REASSIGN OWNED
 - [x] `reference/sql-commands/sql-refreshmaterializedview.md` — REFRESH MATERIALIZED VIEW
 - [ ] `reference/sql-commands/sql-reindex.md` — REINDEX
