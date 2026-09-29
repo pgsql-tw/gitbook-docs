@@ -2,9 +2,9 @@
 
 ## RESET
 
-RESET — restore the value of a run-time parameter to the default value
+RESET — 將某個執行期參數的值還原為預設值
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,50 +14,43 @@ RESET ALL
 
 <a id="id-1.9.3.165.5"></a>
 
-## Description
+## 說明
 
-`RESET` restores run-time parameters to their
-default values. `RESET` is an alternative
-spelling for
+`RESET` 會將執行期參數還原為其
+預設值。`RESET` 是以下寫法的
+另一種寫法：
 
 ```
 
 SET configuration_parameter TO DEFAULT
 ```
 
-Refer to [SET](sql-set.md) for
-details.
+詳情請參閱 [SET](sql-set.md)。
 
-The default value is defined as the value that the parameter would
-have had, if no `SET` had ever been issued for it in the
-current session. The actual source of this value might be a
-compiled-in default, the configuration file, command-line options,
-or per-database or per-user default settings. This is subtly different
-from defining it as “the value that the parameter had at session
-start”, because if the value came from the configuration file, it
-will be reset to whatever is specified by the configuration file now.
-See [Chapter 19](../../server-administration/runtime-config/README.md) for details.
+預設值的定義是：假如在目前工作階段中，從未對該參數執行過
+`SET`，該參數原本應有的值。這個值的實際來源，可能是編譯內建的預設值、組態檔、命令列選項，或是各資料庫或各使用者的預設設定。這與定義為「工作階段開始時該參數的值」略有不同，因為如果該值來自組態檔，它會被還原為組態檔目前所指定的值。詳情請參閱
+[第 19 章](../../server-administration/runtime-config/README.md)。
 
-The transactional behavior of `RESET` is the same as
-`SET`: its effects will be undone by transaction rollback.
+`RESET` 的交易行為與
+`SET` 相同：其效果會因交易回復而被撤銷。
 
 <a id="id-1.9.3.165.6"></a>
 
-## Parameters
+## 參數
 
 *`configuration_parameter`*
-:   Name of a settable run-time parameter. Available parameters are
-    documented in [Chapter 19](../../server-administration/runtime-config/README.md) and on the
-    [SET](sql-set.md) reference page.
+:   可設定的執行期參數名稱。可用的參數記載於
+    [第 19 章](../../server-administration/runtime-config/README.md) 以及
+    [SET](sql-set.md) 參考頁面。
 
 `ALL`
-:   Resets all settable run-time parameters to default values.
+:   將所有可設定的執行期參數重設為預設值。
 
 <a id="id-1.9.3.165.7"></a>
 
-## Examples
+## 範例
 
-Set the `timezone` configuration variable to its default value:
+將 `timezone` 組態變數設為其預設值：
 
 ```
 
@@ -66,16 +59,16 @@ RESET timezone;
 
 <a id="id-1.9.3.165.8"></a>
 
-## Compatibility
+## 相容性
 
-`RESET` is a PostgreSQL extension.
+`RESET` 是 PostgreSQL 的擴充功能。
 
 <a id="id-1.9.3.165.9"></a>
 
-## See Also
+## 另請參閱
 
 [SET](sql-set.md), [SHOW](sql-show.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-reset.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-reset.html)（原文版本：18.6；核對日期：2026-09-28）
