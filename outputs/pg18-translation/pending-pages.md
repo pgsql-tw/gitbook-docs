@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：547 頁。
+待譯頁面：546 頁。
 
 ## 根目錄
 
@@ -712,7 +712,7 @@
 - [ ] `server-administration/backup/backup-dump.md` — 25.1. SQL Dump #
 - [x] `server-administration/backup/backup-file.md` — 25.2. 檔案系統層級備份 #
 - [ ] `server-administration/backup/continuous-archiving.md` — 25.3. Continuous Archiving and Point-in-Time Recovery (PITR) #
-- [ ] `server-administration/charset/README.md` — Chapter 23. Localization
+- [x] `server-administration/charset/README.md` — 第 23 章 在地化
 - [x] `server-administration/charset/collation.md` — 23.2. 定序支援 #
 - [ ] `server-administration/charset/locale.md` — 23.1. Locale Support #
 - [ ] `server-administration/charset/multibyte.md` — 23.3. Character Set Support #

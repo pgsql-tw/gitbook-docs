@@ -244,7 +244,7 @@
     * [22.4. 資料庫設定](server-administration/managing-databases/manage-ag-config.md)
     * [22.5. 刪除資料庫](server-administration/managing-databases/manage-ag-dropdb.md)
     * [22.6. 資料表空間 #](server-administration/managing-databases/manage-ag-tablespaces.md)
-  * [Chapter 23. Localization](server-administration/charset/README.md)
+  * [第 23 章 在地化](server-administration/charset/README.md)
     * [23.1. Locale Support #](server-administration/charset/locale.md)
     * [23.2. 定序支援 #](server-administration/charset/collation.md)
     * [23.3. Character Set Support #](server-administration/charset/multibyte.md)
