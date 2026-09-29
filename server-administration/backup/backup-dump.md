@@ -1,304 +1,296 @@
-## 25.1. SQL Dump [#](#BACKUP-DUMP)
+<a id="BACKUP-DUMP"></a>
 
-[25.1.1. Restoring the Dump](backup-dump.md#BACKUP-DUMP-RESTORE)
+## 25.1. SQL 傾印 [#](#BACKUP-DUMP)
 
-[25.1.2. Using pg_dumpall](backup-dump.md#BACKUP-DUMP-ALL)
+[25.1.1. 還原傾印內容](backup-dump.md#BACKUP-DUMP-RESTORE)
 
-[25.1.3. Handling Large Databases](backup-dump.md#BACKUP-DUMP-LARGE)
+[25.1.2. 使用 pg_dumpall](backup-dump.md#BACKUP-DUMP-ALL)
 
-The idea behind this dump method is to generate a file with SQL
-commands that, when fed back to the server, will recreate the
-database in the same state as it was at the time of the dump.
-PostgreSQL provides the utility program
-[pg_dump](../../reference/reference-client/app-pgdump.md) for this purpose. The basic usage of this
-command is:
+[25.1.3. 處理大型資料庫](backup-dump.md#BACKUP-DUMP-LARGE)
+
+這種傾印方式的概念，是產生一個包含 SQL 指令的檔案，
+當這個檔案被送回伺服器時，會重建出與傾印當下相同狀態的資料庫。
+PostgreSQL 為此提供了公用程式
+[pg_dump](../../reference/reference-client/app-pgdump.md)。
+這個指令的基本用法為：
 
 ```
 
 pg_dump dbname > dumpfile
 ```
 
-As you see, pg_dump writes its result to the
-standard output. We will see below how this can be useful.
-While the above command creates a text file, pg_dump
-can create files in other formats that allow for parallelism and more
-fine-grained control of object restoration.
+如你所見，pg_dump 會將結果寫到標準輸出。
+我們稍後會看到這一點有何用處。上述指令會建立一個文字檔，
+但 pg_dump 也可以建立其他格式的檔案，
+這些格式支援平行化，並能更細緻地控制物件的還原。
 
-pg_dump is a regular PostgreSQL
-client application (albeit a particularly clever one). This means
-that you can perform this backup procedure from any remote host that has
-access to the database. But remember that pg_dump
-does not operate with special permissions. In particular, it must
-have read access to all tables that you want to back up, so in order
-to back up the entire database you almost always have to run it as a
-database superuser. (If you do not have sufficient privileges to back up
-the entire database, you can still back up portions of the database to which
-you do have access using options such as
-`-n schema`
-or `-t table`.)
+pg_dump 是一個一般的 PostgreSQL
+用戶端應用程式（雖然是個特別聰明的用戶端）。這代表你可以
+從任何能存取資料庫的遠端主機執行這個備份程序。但請記得，
+pg_dump 並不會以特殊權限運作。它必須對你想備份的
+所有資料表擁有讀取權限，因此若要備份整個資料庫，
+你幾乎總是需要以資料庫超級使用者的身分執行它。
+（若你沒有足夠的權限備份整個資料庫，仍然可以使用
+`-n schema` 或 `-t table`
+等選項，備份你有權限存取的部分資料庫。）
 
-To specify which database server pg_dump should
-contact, use the command line options `-h
-host` and `-p port`. The
-default host is the local host or whatever your
-`PGHOST` environment variable specifies. Similarly,
-the default port is indicated by the `PGPORT`
-environment variable or, failing that, by the compiled-in default.
-(Conveniently, the server will normally have the same compiled-in
-default.)
+若要指定 pg_dump 應連接的資料庫伺服器，
+請使用命令列選項 `-h host` 與
+`-p port`。預設主機為本機，
+或是你 `PGHOST` 環境變數所指定的值。
+同樣地，預設連接埠由 `PGPORT` 環境變數指定，
+若未設定，則採用編譯時內建的預設值。
+（方便的是，伺服器通常會有相同的編譯時預設值。）
 
-Like any other PostgreSQL client application,
-pg_dump will by default connect with the database
-user name that is equal to the current operating system user name. To override
-this, either specify the `-U` option or set the
-environment variable `PGUSER`. Remember that
-pg_dump connections are subject to the normal
-client authentication mechanisms (which are described in [Chapter 20](../client-authentication/README.md)).
+如同其他任何 PostgreSQL 用戶端應用程式，
+pg_dump 預設會以與目前作業系統使用者名稱相同的
+資料庫使用者名稱進行連線。若要覆寫這個行為，
+可以指定 `-U` 選項，或設定環境變數
+`PGUSER`。請記得，pg_dump 的連線
+同樣受一般用戶端驗證機制的約束（相關說明請參閱
+[第 20 章](../client-authentication/README.md)）。
 
-An important advantage of pg_dump over the other backup
-methods described later is that pg_dump's output can
-generally be re-loaded into newer versions of PostgreSQL,
-whereas file-level backups and continuous archiving are both extremely
-server-version-specific. pg_dump is also the only method
-that will work when transferring a database to a different machine
-architecture, such as going from a 32-bit to a 64-bit server.
+相較於稍後介紹的其他備份方法，pg_dump 的一項
+重要優勢在於：pg_dump 的輸出結果，
+通常可以重新載入到較新版本的 PostgreSQL 中，
+而檔案層級備份與持續歸檔則都高度依附於特定的伺服器版本。
+pg_dump 也是唯一在將資料庫轉移到不同機器架構時
+（例如從 32 位元轉移到 64 位元伺服器）依然可行的方法。
 
-Dumps created by pg_dump are internally consistent,
-meaning, the dump represents a snapshot of the database at the time
-pg_dump began running. pg_dump does not
-block other operations on the database while it is working.
-(Exceptions are those operations that need to operate with an
-exclusive lock, such as most forms of `ALTER TABLE`.)
+由 pg_dump 建立的傾印檔案在內部是一致的，
+也就是說，這份傾印代表的是 pg_dump 開始執行時
+資料庫的一份快照。pg_dump 在運作期間不會阻擋
+資料庫上的其他操作。（例外情況是那些需要以獨佔鎖運作的操作，
+例如大多數形式的 `ALTER TABLE`。）
 
 <a id="BACKUP-DUMP-RESTORE"></a>
 
-### 25.1.1. Restoring the Dump [#](#BACKUP-DUMP-RESTORE)
+### 25.1.1. 還原傾印內容 [#](#BACKUP-DUMP-RESTORE)
 
-Text files created by pg_dump are intended to
-be read by the psql program using its default
-settings. The general command form to restore a text dump is
+由 pg_dump 建立的文字檔案，設計上是要以
+psql 程式的預設設定來讀取的。還原一份文字傾印檔的
+一般指令形式為
 
 ```
 
 psql -X dbname < dumpfile
 ```
 
-where *`dumpfile`* is the
-file output by the pg_dump command. The database *`dbname`* will not be created by this
-command, so you must create it yourself from `template0`
-before executing psql (e.g., with
-`createdb -T template0 dbname`).
-To ensure psql runs with its default settings,
-use the `-X` (`--no-psqlrc`) option.
-psql
-supports options similar to pg_dump for specifying
-the database server to connect to and the user name to use. See
-the [psql](../../reference/reference-client/app-psql.md) reference page for more information.
+其中 *`dumpfile`* 是
+pg_dump 指令輸出的檔案。這個指令不會建立
+資料庫 *`dbname`*，因此在執行
+psql 之前，你必須先自行從 `template0`
+建立這個資料庫（例如使用
+`createdb -T template0 dbname`）。
+為確保 psql 以其預設設定執行，
+請使用 `-X`（`--no-psqlrc`）選項。
+psql 支援與 pg_dump 類似的選項，
+用來指定要連線的資料庫伺服器及所使用的使用者名稱。詳情請參閱
+[psql](../../reference/reference-client/app-psql.md) 參考頁面。
 
-Non-text file dumps should be restored using the [pg_restore](../../reference/reference-client/app-pgrestore.md) utility.
+非文字格式的傾印檔案，應該使用
+[pg_restore](../../reference/reference-client/app-pgrestore.md)
+公用程式來還原。
 
-Before restoring an SQL dump, all the users who own objects or were
-granted permissions on objects in the dumped database must already
-exist. If they do not, the restore will fail to recreate the
-objects with the original ownership and/or permissions.
-(Sometimes this is what you want, but usually it is not.)
+在還原一份 SQL 傾印之前，所有擁有物件，
+或在被傾印資料庫中的物件上被授予權限的使用者，
+都必須已經存在。若非如此，還原時將無法以原本的擁有權
+及／或權限重建這些物件。（有時這正是你想要的結果，
+但通常並非如此。）
 
-By default, the psql script will continue to
-execute after an SQL error is encountered. You might wish to run
-psql with
-the `ON_ERROR_STOP` variable set to alter that
-behavior and have psql exit with an
-exit status of 3 if an SQL error occurs:
+依預設，psql 指令稿在遇到 SQL 錯誤後
+仍會繼續執行。你可能會想以設定
+`ON_ERROR_STOP` 變數的方式執行
+psql，改變這項行為，讓
+psql 在發生 SQL 錯誤時以結束狀態碼 3 結束：
 
 ```
 
 psql -X --set ON_ERROR_STOP=on dbname < dumpfile
 ```
 
-Either way, you will only have a partially restored database.
-Alternatively, you can specify that the whole dump should be
-restored as a single transaction, so the restore is either fully
-completed or fully rolled back. This mode can be specified by
-passing the `-1` or `--single-transaction`
-command-line options to psql. When using this
-mode, be aware that even a minor error can rollback a
-restore that has already run for many hours. However, that might
-still be preferable to manually cleaning up a complex database
-after a partially restored dump.
+無論採用哪種方式，你最終得到的都只會是一個部分還原的資料庫。
+另一種做法是，指定整份傾印應以單一交易的方式還原，
+讓還原動作要嘛完全完成，要嘛完全回復。這種模式可以透過
+在 psql 命令列選項中加入 `-1` 或
+`--single-transaction` 來指定。使用這個模式時，
+請注意即使是一個微小的錯誤，也可能導致一個已經跑了好幾個小時的
+還原動作被回復。不過，這樣做可能仍優於在部分還原的資料庫上，
+手動進行複雜的善後清理工作。
 
-The ability of pg_dump and psql to
-write to or read from pipes makes it possible to dump a database
-directly from one server to another, for example:
+pg_dump 與 psql 讀寫管線的能力，
+讓你可以將一個資料庫直接從一台伺服器傾印到另一台伺服器，例如：
 
 ```
 
 pg_dump -h host1 dbname | psql -X -h host2 dbname
 ```
 
-### Important
+### 重要事項
 
-The dumps produced by pg_dump are relative to
-`template0`. This means that any languages, procedures,
-etc. added via `template1` will also be dumped by
-pg_dump. As a result, when restoring, if you are
-using a customized `template1`, you must create the
-empty database from `template0`, as in the example
-above.
+pg_dump 產生的傾印檔案，是相對於
+`template0` 而言的。這代表任何透過
+`template1` 加入的語言、程序等物件，
+也都會被 pg_dump 一併傾印出來。因此，
+在還原時，若你使用的是自訂過的 `template1`，
+就必須如上例所示，從 `template0` 建立空的資料庫。
 
-After restoring a backup, it is wise to run [`ANALYZE`](../../reference/sql-commands/sql-analyze.md) on each
-database so the query optimizer has useful statistics;
-see [Section 24.1.3](../maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)
-and [Section 24.1.6](../maintenance/routine-vacuuming.md#AUTOVACUUM) for more information.
-For more advice on how to load large amounts of data
-into PostgreSQL efficiently, refer to [Section 14.4](../../the-sql-language/performance-tips/populate.md).
+還原備份之後，最好對每個資料庫執行一次
+[`ANALYZE`](../../reference/sql-commands/sql-analyze.md)，
+讓查詢最佳化工具擁有有用的統計資訊；詳情請參閱
+[第 24.1.3 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)
+與
+[第 24.1.6 節](../maintenance/routine-vacuuming.md#AUTOVACUUM)。
+關於如何有效率地將大量資料載入 PostgreSQL，
+更多建議請參閱
+[第 14.4 節](../../the-sql-language/performance-tips/populate.md)。
 
 <a id="BACKUP-DUMP-ALL"></a>
 
-### 25.1.2. Using pg_dumpall [#](#BACKUP-DUMP-ALL)
+### 25.1.2. 使用 pg_dumpall [#](#BACKUP-DUMP-ALL)
 
-pg_dump dumps only a single database at a time,
-and it does not dump information about roles or tablespaces
-(because those are cluster-wide rather than per-database).
-To support convenient dumping of the entire contents of a database
-cluster, the [pg_dumpall](../../reference/reference-client/app-pg-dumpall.md) program is provided.
-pg_dumpall backs up each database in a given
-cluster, and also preserves cluster-wide data such as role and
-tablespace definitions. The basic usage of this command is:
+pg_dump 一次只會傾印單一資料庫，
+且不會傾印關於角色或資料表空間的資訊
+（因為這些是叢集層級、而非資料庫層級的資料）。
+為了方便傾印整個資料庫叢集的全部內容，PostgreSQL
+提供了
+[pg_dumpall](../../reference/reference-client/app-pg-dumpall.md)
+程式。pg_dumpall 會備份指定叢集中的
+每個資料庫，同時也會保存叢集層級的資料，
+例如角色與資料表空間定義。這個指令的基本用法為：
 
 ```
 
 pg_dumpall > dumpfile
 ```
 
-The resulting dump can be restored with psql:
+產生的傾印檔案可以用 psql 還原：
 
 ```
 
 psql -X -f dumpfile postgres
 ```
 
-(Actually, you can specify any existing database name to start from,
-but if you are loading into an empty cluster then `postgres`
-should usually be used.) It is always necessary to have
-database superuser access when restoring a pg_dumpall
-dump, as that is required to restore the role and tablespace information.
-If you use tablespaces, make sure that the tablespace paths in the
-dump are appropriate for the new installation.
+（實際上，你可以指定任何已存在的資料庫名稱作為起點，
+但若你要載入的是一個空的叢集，通常應該使用
+`postgres`。）在還原 pg_dumpall
+的傾印檔時，一定需要具備資料庫超級使用者的存取權限，
+因為這是還原角色與資料表空間資訊所必需的。若你使用了
+資料表空間，請確保傾印檔中的資料表空間路徑，
+適合新安裝環境。
 
-pg_dumpall works by emitting commands to re-create
-roles, tablespaces, and empty databases, then invoking
-pg_dump for each database. This means that while
-each database will be internally consistent, the snapshots of
-different databases are not synchronized.
+pg_dumpall 的運作方式，是先發出用來重建角色、
+資料表空間與空資料庫的指令，接著再針對每個資料庫呼叫一次
+pg_dump。這代表雖然每個資料庫本身在內部是一致的，
+但不同資料庫的快照彼此並不同步。
 
-Cluster-wide data can be dumped alone using the
-pg_dumpall `--globals-only` option.
-This is necessary to fully backup the cluster if running the
-pg_dump command on individual databases.
+叢集層級的資料可以單獨使用 pg_dumpall 的
+`--globals-only` 選項來傾印。若你是對個別
+資料庫執行 pg_dump 指令，就必須另外執行這個步驟，
+才能完整備份整個叢集。
 
 <a id="BACKUP-DUMP-LARGE"></a>
 
-### 25.1.3. Handling Large Databases [#](#BACKUP-DUMP-LARGE)
+### 25.1.3. 處理大型資料庫 [#](#BACKUP-DUMP-LARGE)
 
-Some operating systems have maximum file size limits that cause
-problems when creating large pg_dump output files.
-Fortunately, pg_dump can write to the standard
-output, so you can use standard Unix tools to work around this
-potential problem. There are several possible methods:
+有些作業系統有檔案大小上限，在建立大型 pg_dump
+輸出檔案時可能會造成問題。幸運的是，pg_dump
+可以寫入標準輸出，因此你可以使用標準的 Unix 工具，
+來解決這個潛在的問題。以下有幾種可行的方法：
 
-**Use compressed dumps.**
-You can use your favorite compression program, for example
-gzip:
+**使用壓縮傾印檔。**
+你可以使用自己偏好的壓縮程式，例如 gzip：
 
 ```
 
 pg_dump dbname | gzip > filename.gz
 ```
 
-Reload with:
+以下列方式重新載入：
 
 ```
 
 gunzip -c filename.gz | psql dbname
 ```
 
-or:
+或者：
 
 ```
 
 cat filename.gz | gunzip | psql dbname
 ```
 
-**Use `split`.**
-The `split` command
-allows you to split the output into smaller files that are
-acceptable in size to the underlying file system. For example, to
-make 2 gigabyte chunks:
+**使用 `split`。**
+`split` 指令可以讓你把輸出拆成多個較小的檔案，
+使其大小符合底層檔案系統可接受的限制。舉例來說，
+若要拆成每份 2 GB 的區塊：
 
 ```
 
 pg_dump dbname | split -b 2G - filename
 ```
 
-Reload with:
+以下列方式重新載入：
 
 ```
 
 cat filename* | psql dbname
 ```
 
-If using GNU split, it is possible to
-use it and gzip together:
+若使用 GNU 版本的 split，可以將它與
+gzip 搭配使用：
 
 ```
 
 pg_dump dbname | split -b 2G --filter='gzip > $FILE.gz'
 ```
 
-It can be restored using `zcat`.
+可以使用 `zcat` 來還原。
 
-**Use pg_dump's custom dump format.**
-If PostgreSQL was built on a system with the
-zlib compression library installed, the custom dump
-format will compress data as it writes it to the output file. This will
-produce dump file sizes similar to using `gzip`, but it
-has the added advantage that tables can be restored selectively. The
-following command dumps a database using the custom dump format:
+**使用 pg_dump 的自訂傾印格式。**
+若 PostgreSQL 是在已安裝 zlib
+壓縮函式庫的系統上建置的，自訂傾印格式會在資料寫入輸出檔案時
+一併進行壓縮。這會產生與使用 `gzip` 相近的
+傾印檔大小，而且還多了一項優點：可以選擇性地還原個別資料表。
+以下指令會以自訂傾印格式傾印一個資料庫：
 
 ```
 
 pg_dump -Fc dbname > filename
 ```
 
-A custom-format dump is not a script for psql, but
-instead must be restored with pg_restore, for example:
+自訂格式的傾印檔並不是給 psql 使用的指令稿，
+而是必須使用 pg_restore 來還原，例如：
 
 ```
 
 pg_restore -d dbname filename
 ```
 
-See the [pg_dump](../../reference/reference-client/app-pgdump.md) and [pg_restore](../../reference/reference-client/app-pgrestore.md) reference pages for details.
+詳情請參閱
+[pg_dump](../../reference/reference-client/app-pgdump.md)
+與
+[pg_restore](../../reference/reference-client/app-pgrestore.md)
+參考頁面。
 
-For very large databases, you might need to combine `split`
-with one of the other two approaches.
+對於非常大型的資料庫，你可能需要將 `split`
+與另外兩種方法之一搭配使用。
 
-**Use pg_dump's parallel dump feature.**
-To speed up the dump of a large database, you can use
-pg_dump's parallel mode. This will dump
-multiple tables at the same time. You can control the degree of
-parallelism with the `-j` parameter. Parallel dumps
-are only supported for the "directory" archive format.
+**使用 pg_dump 的平行傾印功能。**
+若要加快大型資料庫的傾印速度，可以使用
+pg_dump 的平行模式。這會同時傾印多個資料表。
+你可以透過 `-j` 參數控制平行程度。平行傾印
+僅支援「目錄」封存格式。
 
 ```
 
 pg_dump -j num -F d -f out.dir dbname
 ```
 
-You can use `pg_restore -j` to restore a dump in parallel.
-This will work for any archive of either the "custom" or the "directory"
-archive mode, whether or not it has been created with `pg_dump -j`.
+你可以使用 `pg_restore -j` 來平行還原一份傾印檔。
+這適用於任何以「自訂」或「目錄」封存模式建立的封存檔，
+無論其是否是以 `pg_dump -j` 建立的。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-dump.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-dump.html)（原文版本：18.6；核對日期：2026-09-28）
