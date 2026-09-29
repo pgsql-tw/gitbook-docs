@@ -246,7 +246,7 @@
     * [22.6. 資料表空間 #](server-administration/managing-databases/manage-ag-tablespaces.md)
   * [Chapter 23. Localization](server-administration/charset/README.md)
     * [23.1. Locale Support #](server-administration/charset/locale.md)
-    * [23.2. Collation Support #](server-administration/charset/collation.md)
+    * [23.2. 定序支援 #](server-administration/charset/collation.md)
     * [23.3. Character Set Support #](server-administration/charset/multibyte.md)
   * [第 24 章、常規資料庫維護工作](server-administration/maintenance/README.md)
     * [24.1. Routine Vacuuming #](server-administration/maintenance/routine-vacuuming.md)
