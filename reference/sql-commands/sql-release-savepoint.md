@@ -2,9 +2,9 @@
 
 ## RELEASE SAVEPOINT
 
-RELEASE SAVEPOINT — release a previously defined savepoint
+RELEASE SAVEPOINT — 釋放先前定義的一個儲存點
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,41 +13,33 @@ RELEASE [ SAVEPOINT ] savepoint_name
 
 <a id="id-1.9.3.164.6"></a>
 
-## Description
+## 說明
 
-`RELEASE SAVEPOINT` releases the named savepoint and
-all active savepoints that were created after the named savepoint,
-and frees their resources. All changes made since the creation of
-the savepoint that didn't already get rolled back are merged into
-the transaction or savepoint that was active when the named savepoint
-was created. Changes made after `RELEASE SAVEPOINT`
-will also be part of this active transaction or savepoint.
+`RELEASE SAVEPOINT` 會釋放指定名稱的儲存點，以及在此儲存點之後建立的所有有效儲存點，並釋放它們所佔用的資源。自建立該儲存點以來所做的所有變更，只要尚未被回復，都會併入建立該儲存點當時有效的交易或儲存點中。在
+`RELEASE SAVEPOINT` 之後所做的變更，也同樣會屬於這個有效的交易或儲存點。
 
 <a id="id-1.9.3.164.7"></a>
 
-## Parameters
+## 參數
 
 *`savepoint_name`*
-:   The name of the savepoint to release.
+:   要釋放的儲存點名稱。
 
 <a id="id-1.9.3.164.8"></a>
 
-## Notes
+## 注意
 
-Specifying a savepoint name that was not previously defined is an error.
+指定一個先前未定義過的儲存點名稱會導致錯誤。
 
-It is not possible to release a savepoint when the transaction is in
-an aborted state; to do that, use [ROLLBACK TO SAVEPOINT](sql-rollback-to.md).
+當交易處於中止狀態時，無法釋放儲存點；若要進行這種操作，請使用 [ROLLBACK TO SAVEPOINT](sql-rollback-to.md)。
 
-If multiple savepoints have the same name, only the most recently defined
-unreleased one is released. Repeated commands will release progressively
-older savepoints.
+如果有多個儲存點使用相同名稱，只有最近定義、尚未被釋放的那一個會被釋放。重複執行此指令，會依序釋放較舊的儲存點。
 
 <a id="id-1.9.3.164.9"></a>
 
-## Examples
+## 範例
 
-To establish and later release a savepoint:
+建立並在稍後釋放一個儲存點：
 
 ```
 
@@ -59,9 +51,9 @@ BEGIN;
 COMMIT;
 ```
 
-The above transaction will insert both 3 and 4.
+上述交易會插入 3 與 4 這兩個值。
 
-A more complex example with multiple nested subtransactions:
+以下是一個包含多層巢狀子交易的較複雜範例：
 
 ```
 
@@ -75,14 +67,10 @@ BEGIN;
     INSERT INTO table1 VALUES (4))); -- generates an error
 ```
 
-In this example, the application requests the release of the savepoint
-`sp2`, which inserted 3. This changes the insert's
-transaction context to `sp1`. When the statement
-attempting to insert value 4 generates an error, the insertion of 2 and
-4 are lost because they are in the same, now-rolled back savepoint,
-and value 3 is in the same transaction context. The application can
-now only choose one of these two commands, since all other commands
-will be ignored:
+在這個範例中，應用程式要求釋放插入了 3 的儲存點
+`sp2`。這會將該次插入的交易上下文變更為
+`sp1`。當嘗試插入值 4 的陳述式產生錯誤時，2 與
+4 的插入都會遺失，因為它們同屬於這個現已被回復的儲存點，而值 3 則已併入同一個（sp1）交易上下文。此時應用程式只能從以下兩個指令中選擇一個，因為其他所有指令都會被忽略：
 
 ```
 
@@ -90,25 +78,24 @@ ROLLBACK;
 ROLLBACK TO SAVEPOINT sp1;
 ```
 
-Choosing `ROLLBACK` will abort everything, including
-value 1, whereas `ROLLBACK TO SAVEPOINT sp1` will retain
-value 1 and allow the transaction to continue.
+選擇 `ROLLBACK` 會中止所有內容，包括值
+1；而 `ROLLBACK TO SAVEPOINT sp1` 則會保留
+值 1，並讓交易得以繼續。
 
 <a id="id-1.9.3.164.10"></a>
 
-## Compatibility
+## 相容性
 
-This command conforms to the SQL standard. The standard
-specifies that the key word `SAVEPOINT` is
-mandatory, but PostgreSQL allows it to
-be omitted.
+此指令符合 SQL 標準。標準規定
+`SAVEPOINT` 關鍵字是必要的，但 PostgreSQL 允許
+將它省略。
 
 <a id="id-1.9.3.164.11"></a>
 
-## See Also
+## 另請參閱
 
 [BEGIN](sql-begin.md), [COMMIT](sql-commit.md), [ROLLBACK](sql-rollback.md), [ROLLBACK TO SAVEPOINT](sql-rollback-to.md), [SAVEPOINT](sql-savepoint.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-release-savepoint.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-release-savepoint.html)（原文版本：18.6；核對日期：2026-09-28）
