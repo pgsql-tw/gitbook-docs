@@ -2,9 +2,9 @@
 
 ## NOTIFY
 
-NOTIFY — generate a notification
+NOTIFY — 產生通知
 
-## Synopsis
+## 語法
 
 ```
 
@@ -13,121 +13,43 @@ NOTIFY channel [ , payload ]
 
 <a id="id-1.9.3.158.5"></a>
 
-## Description
+## 說明
 
-The `NOTIFY` command sends a notification event together
-with an optional “payload” string to each client application that
-has previously executed
-`LISTEN channel`
-for the specified channel name in the current database.
-Notifications are visible to all users.
+`NOTIFY` 指令會將一則通知事件，連同一段選用的「承載（payload）」字串，傳送給目前資料庫中先前已針對指定頻道名稱執行過 `LISTEN channel` 的每一個用戶端應用程式。通知對所有使用者皆可見。
 
-`NOTIFY` provides a simple
-interprocess communication mechanism for a collection of processes
-accessing the same PostgreSQL database.
-A payload string can be sent along with the notification, and
-higher-level mechanisms for passing structured data can be built by using
-tables in the database to pass additional data from notifier to listener(s).
+`NOTIFY` 為存取同一個 PostgreSQL 資料庫的一群行程，提供了一種簡單的行程間通訊機制。通知可連同一段承載字串一起傳送，也可以藉由使用資料庫中的資料表，將額外的資料從通知端傳遞給監聽端，以建立更高階的結構化資料傳遞機制。
 
-The information passed to the client for a notification event includes the
-notification channel
-name, the notifying session's server process PID, and the
-payload string, which is an empty string if it has not been specified.
+針對某個通知事件傳給用戶端的資訊，包括通知頻道名稱、發出通知之工作階段的伺服器行程 PID，以及承載字串（若未指定，則為空字串）。
 
-It is up to the database designer to define the channel names that will
-be used in a given database and what each one means.
-Commonly, the channel name is the same as the name of some table in
-the database, and the notify event essentially means, “I changed this table,
-take a look at it to see what's new”. But no such association is enforced by
-the `NOTIFY` and `LISTEN` commands. For
-example, a database designer could use several different channel names
-to signal different sorts of changes to a single table. Alternatively,
-the payload string could be used to differentiate various cases.
+在特定資料庫中要使用哪些頻道名稱、每個名稱各代表什麼意義，由資料庫設計者自行定義。通常頻道名稱會與資料庫中某個資料表的名稱相同，而通知事件基本上代表「我變更了這個資料表，去看看有什麼新內容」。不過，`NOTIFY` 與 `LISTEN` 指令並不會強制建立這種關聯。舉例來說，資料庫設計者可以使用數個不同的頻道名稱，來標示對同一個資料表所做的不同種類的變更。另外，也可以使用承載字串來區分各種不同的情況。
 
-When `NOTIFY` is used to signal the occurrence of changes
-to a particular table, a useful programming technique is to put the
-`NOTIFY` in a statement trigger that is triggered by table updates.
-In this way, notification happens automatically when the table is changed,
-and the application programmer cannot accidentally forget to do it.
+當 `NOTIFY` 被用來標示某個特定資料表發生了變更時，一種實用的程式設計技巧，是將 `NOTIFY` 放在因資料表更新而觸發的陳述式觸發程序（statement trigger）中。如此一來，每當資料表發生變更時就會自動發出通知，應用程式開發者也就不會不小心忘記這麼做。
 
-`NOTIFY` interacts with SQL transactions in some important
-ways. Firstly, if a `NOTIFY` is executed inside a
-transaction, the notify events are not delivered until and unless the
-transaction is committed. This is appropriate, since if the transaction
-is aborted, all the commands within it have had no
-effect, including `NOTIFY`. But it can be disconcerting if one
-is expecting the notification events to be delivered immediately. Secondly, if
-a listening session receives a notification signal while it is within a transaction,
-the notification event will not be delivered to its connected client until just
-after the transaction is completed (either committed or aborted). Again, the
-reasoning is that if a notification were delivered within a transaction that was
-later aborted, one would want the notification to be undone somehow —
-but
-the server cannot “take back” a notification once it has sent it to the client.
-So notification events are only delivered between transactions. The upshot of this
-is that applications using `NOTIFY` for real-time signaling
-should try to keep their transactions short.
+`NOTIFY` 在幾個重要方面會與 SQL 交易互動。首先，若 `NOTIFY` 是在交易內執行，通知事件要等到該交易提交後才會被傳送，若交易未提交則不會傳送。這是合理的，因為若交易中止，其中所有的指令（包括 `NOTIFY`）都不會產生任何效果。但如果你原本預期通知事件會立即傳送，這可能會讓人感到困惑。其次，若監聽中的工作階段在自己位於某個交易內時收到通知訊號，該通知事件要等到該交易完成（不論是提交還是中止）之後才會傳送給其所連接的用戶端。同樣地，這麼做的理由是：若通知是在稍後遭中止的交易內傳送出去的，我們會希望這則通知能以某種方式被撤回——但伺服器一旦已將通知傳送給用戶端，就無法「收回」該通知。因此，通知事件只會在交易與交易之間傳送。這樣做的結果是，使用 `NOTIFY` 進行即時信號通知的應用程式，應盡量讓交易保持簡短。
 
-If the same channel name is signaled multiple times with identical
-payload strings within the same transaction, only one instance of the
-notification event is delivered to listeners.
-On the other hand, notifications with distinct payload strings will
-always be delivered as distinct notifications. Similarly, notifications from
-different transactions will never get folded into one notification.
-Except for dropping later instances of duplicate notifications,
-`NOTIFY` guarantees that notifications from the same
-transaction get delivered in the order they were sent. It is also
-guaranteed that messages from different transactions are delivered in
-the order in which the transactions committed.
+若同一個頻道名稱在同一個交易內以相同的承載字串被標示多次，只會有一個通知事件實例傳送給監聽者。另一方面，具有不同承載字串的通知則一律會以不同的通知傳送。同樣地，來自不同交易的通知永遠不會被併為一則通知。除了會捨棄重複通知中較晚的實例之外，`NOTIFY` 保證同一交易中的通知會依照傳送順序傳送。也保證了不同交易的訊息，會依照這些交易提交的順序傳送。
 
-It is common for a client that executes `NOTIFY`
-to be listening on the same notification channel itself. In that case
-it will get back a notification event, just like all the other
-listening sessions. Depending on the application logic, this could
-result in useless work, for example, reading a database table to
-find the same updates that that session just wrote out. It is
-possible to avoid such extra work by noticing whether the notifying
-session's server process PID (supplied in the
-notification event message) is the same as one's own session's
-PID (available from libpq). When they
-are the same, the notification event is one's own work bouncing
-back, and can be ignored.
+執行 `NOTIFY` 的用戶端本身也正在監聽同一個通知頻道，是很常見的情況。在這種情況下，該用戶端會和其他所有監聽中的工作階段一樣收到一則通知事件。視應用程式邏輯而定，這可能會導致一些沒有意義的工作，例如讀取資料庫資料表，去尋找該工作階段自己剛剛寫入的相同更新內容。可以透過檢查發出通知之工作階段的伺服器行程 PID（在通知事件訊息中提供）是否與自己工作階段的 PID（可從 libpq 取得）相同，來避免這類多餘的工作。當兩者相同時，代表這則通知事件正是自己的工作被回傳回來，可以將其忽略。
 
 <a id="id-1.9.3.158.6"></a>
 
-## Parameters
+## 參數
 
 *`channel`*
-:   Name of the notification channel to be signaled (any identifier).
+:   要標示的通知頻道名稱（任意識別字）。
 
 *`payload`*
-:   The “payload” string to be communicated along with the
-    notification. This must be specified as a simple string literal.
-    In the default configuration it must be shorter than 8000 bytes.
-    (If binary data or large amounts of information need to be communicated,
-    it's best to put it in a database table and send the key of the record.)
+:   要隨通知一起傳達的「承載」字串。此值必須以單純的字串常值指定。在預設組態下，其長度必須短於 8000 位元組。（若需要傳達二進位資料或大量資訊，最好將其存放在資料庫資料表中，然後傳送該筆記錄的鍵值。）
 
 <a id="id-1.9.3.158.7"></a>
 
-## Notes
+## 注意事項
 
-There is a queue that holds notifications that have been sent but not
-yet processed by all listening sessions. If this queue becomes full,
-transactions calling `NOTIFY` will fail at commit.
-The queue is quite large (8GB in a standard installation) and should be
-sufficiently sized for almost every use case. However, no cleanup can take
-place if a session executes `LISTEN` and then enters a
-transaction for a very long time. Once the queue is half full you will see
-warnings in the log file pointing you to the session that is preventing
-cleanup. In this case you should make sure that this session ends its
-current transaction so that cleanup can proceed.
+系統中有一個佇列，用來存放已傳送但尚未被所有監聽中的工作階段處理的通知。若此佇列變滿，呼叫 `NOTIFY` 的交易會在提交時失敗。此佇列相當大（標準安裝中為 8GB），對幾乎所有使用情境而言都應該綽綽有餘。不過，若某個工作階段執行了 `LISTEN`，之後又進入一個維持很久的交易，就無法進行任何清理。一旦佇列使用量達到一半，你會在記錄檔中看到警告訊息，指出是哪個工作階段阻礙了清理作業。在這種情況下，你應該確保該工作階段結束其目前的交易，以便清理作業得以繼續進行。
 
-The function `pg_notification_queue_usage` returns the
-fraction of the queue that is currently occupied by pending notifications.
-See [Section 9.27](../../the-sql-language/functions/functions-info.md) for more information.
+函式 `pg_notification_queue_usage` 會傳回目前待處理通知所佔用的佇列比例。詳情請參閱[第 9.27 節](../../the-sql-language/functions/functions-info.md)。
 
-A transaction that has executed `NOTIFY` cannot be
-prepared for two-phase commit.
+已執行過 `NOTIFY` 的交易，無法為兩階段提交準備（prepare）。
 
 <a id="id-1.9.3.158.7.5"></a>
 
@@ -135,19 +57,13 @@ prepared for two-phase commit.
 
 <a id="id-1.9.3.158.7.5.2"></a>
 
-To send a notification you can also use the function
-`pg_notify(text,
-text)`. The function takes the channel name as the
-first argument and the payload as the second. The function is much easier
-to use than the `NOTIFY` command if you need to work with
-non-constant channel names and payloads.
+要傳送通知，你也可以使用函式 `pg_notify(text, text)`。此函式的第一個引數為頻道名稱，第二個引數為承載內容。若你需要處理非常數的頻道名稱與承載內容，使用此函式會比使用 `NOTIFY` 指令容易許多。
 
 <a id="id-1.9.3.158.8"></a>
 
-## Examples
+## 範例
 
-Configure and execute a listen/notify sequence from
-psql:
+在 psql 中設定並執行一段 LISTEN/NOTIFY 序列：
 
 ```
 
@@ -164,17 +80,16 @@ Asynchronous notification "foo" with payload "payload" received from server proc
 
 <a id="id-1.9.3.158.9"></a>
 
-## Compatibility
+## 相容性
 
-There is no `NOTIFY` statement in the SQL
-standard.
+SQL 標準中沒有 `NOTIFY` 陳述式。
 
 <a id="id-1.9.3.158.10"></a>
 
-## See Also
+## 另請參閱
 
 [LISTEN](sql-listen.md), [UNLISTEN](sql-unlisten.md), [max_notify_queue_pages](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-NOTIFY-QUEUE-PAGES)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-notify.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-notify.html)（原文版本：18.6；核對日期：2026-09-28）
