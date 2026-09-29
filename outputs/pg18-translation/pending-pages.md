@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：538 頁。
+待譯頁面：537 頁。
 
 ## 根目錄
 
@@ -707,7 +707,7 @@
 
 ## server-administration
 
-- [ ] `server-administration/README.md` — Part III. Server Administration
+- [x] `server-administration/README.md` — 第 III 部：伺服器管理
 - [x] `server-administration/backup/README.md` — 第 25 章：備份與還原
 - [ ] `server-administration/backup/backup-dump.md` — 25.1. SQL Dump #
 - [x] `server-administration/backup/backup-file.md` — 25.2. 檔案系統層級備份 #

@@ -171,7 +171,7 @@
     * [15.2. 何時可以使用平行查詢？ #](the-sql-language/parallel-query/when-can-parallel-query-be-used.md)
     * [15.3. 平行計畫 #](the-sql-language/parallel-query/parallel-plans.md)
     * [15.4. 平行安全性 #](the-sql-language/parallel-query/parallel-safety.md)
-* [Part III. Server Administration](server-administration/README.md)
+* [第 III 部：伺服器管理](server-administration/README.md)
   * [第 16 章 從二進位套件安裝](server-administration/install-binaries/README.md)
   * [Chapter 17. Installation from Source Code](server-administration/installation/README.md)
     * [17.1. 需求 #](server-administration/installation/install-requirements.md)
