@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：536 頁。
+待譯頁面：535 頁。
 
 ## 根目錄
 
@@ -673,7 +673,7 @@
 - [ ] `reference/sql-commands/sql-insert.md` — INSERT
 - [x] `reference/sql-commands/sql-listen.md` — LISTEN
 - [x] `reference/sql-commands/sql-load.md` — LOAD
-- [ ] `reference/sql-commands/sql-lock.md` — LOCK
+- [x] `reference/sql-commands/sql-lock.md` — LOCK
 - [x] `reference/sql-commands/sql-merge.md` — MERGE
 - [x] `reference/sql-commands/sql-move.md` — MOVE
 - [x] `reference/sql-commands/sql-notify.md` — NOTIFY
