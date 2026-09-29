@@ -2,9 +2,9 @@
 
 ## REFRESH MATERIALIZED VIEW
 
-REFRESH MATERIALIZED VIEW — replace the contents of a materialized view
+REFRESH MATERIALIZED VIEW — 取代一個具體化檢視表的內容
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,76 +14,61 @@ REFRESH MATERIALIZED VIEW [ CONCURRENTLY ] name
 
 <a id="id-1.9.3.162.5"></a>
 
-## Description
+## 說明
 
-`REFRESH MATERIALIZED VIEW` completely replaces the
-contents of a materialized view. To execute this command you must have the
+`REFRESH MATERIALIZED VIEW` 會完全取代一個具體化檢視表的內容。若要執行此指令，你必須在該具體化檢視表上具備
 `MAINTAIN`
-privilege on the materialized view. The old contents are discarded. If
-`WITH DATA` is specified (or defaults) the backing query
-is executed to provide the new data, and the materialized view is left in a
-scannable state. If `WITH NO DATA` is specified no new
-data is generated and the materialized view is left in an unscannable
-state.
+權限。舊有的內容會被捨棄。如果指定了
+`WITH DATA`（或採用預設值），系統會執行其背後的查詢以提供新資料，並讓該具體化檢視表處於可掃描狀態。如果指定了
+`WITH NO DATA`，則不會產生新資料，該具體化檢視表會處於不可掃描狀態。
 
-`CONCURRENTLY` and `WITH NO DATA` may not
-be specified together.
+`CONCURRENTLY` 與 `WITH NO DATA` 不可
+同時指定。
 
 <a id="id-1.9.3.162.6"></a>
 
-## Parameters
+## 參數
 
 `CONCURRENTLY`
-:   Refresh the materialized view without locking out concurrent selects on
-    the materialized view. Without this option a refresh which affects a
-    lot of rows will tend to use fewer resources and complete more quickly,
-    but could block other connections which are trying to read from the
-    materialized view. This option may be faster in cases where a small
-    number of rows are affected.
+:   在重新整理具體化檢視表時，不鎖定對該具體化檢視表的並行查詢（select）。若不使用此選項，影響大量資料列的重新整理往往會使用較少的資源並更快完成，但可能會阻擋其他正嘗試從該具體化檢視表讀取的連線。在只有少量資料列受影響的情況下，此選項可能較快。
 
-    This option is only allowed if there is at least one
-    `UNIQUE` index on the materialized view which uses only
-    column names and includes all rows; that is, it must not be an
-    expression index or include a `WHERE` clause.
+    只有在該具體化檢視表上至少存在一個僅使用欄位名稱、且涵蓋所有資料列的
+    `UNIQUE` 索引時，才允許使用此選項；也就是說，該索引不能是運算式索引，也不能包含
+    `WHERE` 子句。
 
-    This option can only be used when the materialized view is already
-    populated.
+    此選項只能在該具體化檢視表已經填入資料時使用。
 
-    Even with this option only one `REFRESH` at a time may
-    run against any one materialized view.
+    即使使用此選項，針對任一個具體化檢視表，一次也只能執行一個
+    `REFRESH`。
 
 *`name`*
-:   The name (optionally schema-qualified) of the materialized view to
-    refresh.
+:   要重新整理的具體化檢視表名稱（可加上綱要限定）。
 
 <a id="id-1.9.3.162.7"></a>
 
-## Notes
+## 注意
 
-If there is an `ORDER BY` clause in the materialized
-view's defining query, the original contents of the materialized view
-will be ordered that way; but `REFRESH MATERIALIZED
-VIEW` does not guarantee to preserve that ordering.
+如果具體化檢視表的定義查詢中包含 `ORDER BY` 子句，該具體化檢視表的原始內容會依此順序排列；但
+`REFRESH MATERIALIZED
+VIEW` 並不保證會維持這個順序。
 
-While `REFRESH MATERIALIZED VIEW` is running, the [search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) is temporarily changed to `pg_catalog,
-pg_temp`.
+在 `REFRESH MATERIALIZED VIEW` 執行期間，[search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 會暫時變更為 `pg_catalog,
+pg_temp`。
 
 <a id="id-1.9.3.162.8"></a>
 
-## Examples
+## 範例
 
-This command will replace the contents of the materialized view called
-`order_summary` using the query from the materialized
-view's definition, and leave it in a scannable state:
+以下指令會使用具體化檢視表定義中的查詢，取代名為
+`order_summary` 的具體化檢視表之內容，並使其保持在可掃描狀態：
 
 ```
 
 REFRESH MATERIALIZED VIEW order_summary;
 ```
 
-This command will free storage associated with the materialized view
-`annual_statistics_basis` and leave it in an unscannable
-state:
+以下指令會釋放具體化檢視表
+`annual_statistics_basis` 所佔用的儲存空間，並使其處於不可掃描狀態：
 
 ```
 
@@ -92,17 +77,17 @@ REFRESH MATERIALIZED VIEW annual_statistics_basis WITH NO DATA;
 
 <a id="id-1.9.3.162.9"></a>
 
-## Compatibility
+## 相容性
 
-`REFRESH MATERIALIZED VIEW` is a
-PostgreSQL extension.
+`REFRESH MATERIALIZED VIEW` 是
+PostgreSQL 的擴充功能。
 
 <a id="id-1.9.3.162.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE MATERIALIZED VIEW](sql-creatematerializedview.md), [ALTER MATERIALIZED VIEW](sql-altermaterializedview.md), [DROP MATERIALIZED VIEW](sql-dropmaterializedview.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-refreshmaterializedview.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-refreshmaterializedview.html)（原文版本：18.6；核對日期：2026-09-28）
