@@ -2,9 +2,11 @@
 
 ## UNLISTEN
 
-UNLISTEN — stop listening for a notification
+UNLISTEN — 停止接聽某個通知頻道
 
-## Synopsis
+<a id="id-1.9.3.182.2"></a>
+
+## 語法
 
 ```
 
@@ -13,49 +15,45 @@ UNLISTEN { channel | * }
 
 <a id="id-1.9.3.182.5"></a>
 
-## Description
+## 說明
 
-`UNLISTEN` is used to remove an existing
-registration for `NOTIFY` events.
-`UNLISTEN` cancels any existing registration of
-the current PostgreSQL session as a
-listener on the notification channel named *`channel`*. The special wildcard
-`*` cancels all listener registrations for the
-current session.
+`UNLISTEN` 用來移除既有的
+`NOTIFY` 事件註冊。
+`UNLISTEN` 會取消目前 PostgreSQL 工作階段
+作為指定 *`channel`*
+通知頻道的接聽者的既有註冊。特殊萬用字元
+`*` 會取消目前工作階段的所有接聽註冊。
 
 [NOTIFY](sql-notify.md)
-contains a more extensive
-discussion of the use of `LISTEN` and
-`NOTIFY`.
+針對 `LISTEN` 與
+`NOTIFY` 的使用方式有更詳盡的討論。
 
 <a id="id-1.9.3.182.6"></a>
 
-## Parameters
+## 參數
 
 *`channel`*
-:   Name of a notification channel (any identifier).
+:   通知頻道的名稱（任意識別字）。
 
 `*`
-:   All current listen registrations for this session are cleared.
+:   清除此工作階段的所有目前接聽註冊。
 
 <a id="id-1.9.3.182.7"></a>
 
-## Notes
+## 注意事項
 
-You can unlisten something you were not listening for; no warning or error
-will appear.
+你可以對未曾接聽的頻道執行 unlisten，不會出現任何警告或錯誤。
 
-At the end of each session, `UNLISTEN *` is
-automatically executed.
+每個工作階段結束時，都會自動執行 `UNLISTEN *`。
 
-A transaction that has executed `UNLISTEN` cannot be
-prepared for two-phase commit.
+已執行過 `UNLISTEN` 的交易無法被準備用於
+兩階段提交。
 
 <a id="id-1.9.3.182.8"></a>
 
-## Examples
+## 範例
 
-To make a registration:
+建立一個註冊：
 
 ```
 
@@ -64,8 +62,8 @@ NOTIFY virtual;
 Asynchronous notification "virtual" received from server process with PID 8448.
 ```
 
-Once `UNLISTEN` has been executed, further `NOTIFY`
-messages will be ignored:
+一旦執行了 `UNLISTEN`，之後的 `NOTIFY`
+訊息就會被忽略：
 
 ```
 
@@ -76,16 +74,16 @@ NOTIFY virtual;
 
 <a id="id-1.9.3.182.9"></a>
 
-## Compatibility
+## 相容性
 
-There is no `UNLISTEN` command in the SQL standard.
+SQL 標準中沒有 `UNLISTEN` 指令。
 
 <a id="id-1.9.3.182.10"></a>
 
-## See Also
+## 參見
 
 [LISTEN](sql-listen.md), [NOTIFY](sql-notify.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-unlisten.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-unlisten.html)（原文版本：18.6；核對日期：2026-09-28）
