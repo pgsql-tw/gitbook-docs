@@ -2,9 +2,9 @@
 
 ## MERGE
 
-MERGE — conditionally insert, update, or delete rows of a table
+MERGE — 依條件插入、更新或刪除資料表中的資料列
 
-## Synopsis
+## 語法
 
 ```
 
@@ -45,460 +45,176 @@ and merge_delete is:
 
 <a id="id-1.9.3.156.5"></a>
 
-## Description
+## 說明
 
-`MERGE` performs actions that modify rows in the
-target table identified as *`target_table_name`*,
-using the *`data_source`*.
-`MERGE` provides a single SQL
-statement that can conditionally `INSERT`,
-`UPDATE` or `DELETE` rows, a task
-that would otherwise require multiple procedural language statements.
+`MERGE` 會使用 *`data_source`*，對以 *`target_table_name`* 指名的目標資料表中的資料列，執行修改動作。`MERGE` 提供了單一的 SQL 陳述式，就能依條件執行 `INSERT`、`UPDATE` 或 `DELETE`，這項工作若不這麼做，就需要多道程序性語言陳述式才能完成。
 
-First, the `MERGE` command performs a join
-from *`data_source`* to
-the target table
-producing zero or more candidate change rows. For each candidate change
-row, the status of `MATCHED`,
-`NOT MATCHED BY SOURCE`,
-or `NOT MATCHED [BY TARGET]`
-is set just once, after which `WHEN` clauses are evaluated
-in the order specified. For each candidate change row, the first clause to
-evaluate as true is executed. No more than one `WHEN`
-clause is executed for any candidate change row.
+`MERGE` 指令首先會將 *`data_source`* 與目標資料表進行連接（join），產生零筆或多筆候選變更資料列。對每一筆候選變更資料列，只會設定一次 `MATCHED`、`NOT MATCHED BY SOURCE` 或 `NOT MATCHED [BY TARGET]` 狀態，之後再依指定順序求值各個 `WHEN` 子句。對每一筆候選變更資料列，會執行第一個求值為 true 的子句。針對任一候選變更資料列，最多只會執行一個 `WHEN` 子句。
 
-`MERGE` actions have the same effect as
-regular `UPDATE`, `INSERT`, or
-`DELETE` commands of the same names. The syntax of
-those commands is different, notably that there is no `WHERE`
-clause and no table name is specified. All actions refer to the
-target table,
-though modifications to other tables may be made using triggers.
+`MERGE` 的動作，效果與同名的一般 `UPDATE`、`INSERT` 或 `DELETE` 指令相同。不過這些指令的語法有所不同，特別是沒有 `WHERE` 子句，也不需指定資料表名稱。所有動作都是針對目標資料表而言，不過也可以透過觸發程序對其他資料表進行修改。
 
-When `DO NOTHING` is specified, the source row is
-skipped. Since actions are evaluated in their specified order, `DO
-NOTHING` can be handy to skip non-interesting source rows before
-more fine-grained handling.
+指定 `DO NOTHING` 時，來源資料列會被略過。由於各項動作是依指定順序求值的，`DO NOTHING` 可以方便地用來在進行更精細的處理之前，先略過不感興趣的來源資料列。
 
-The optional `RETURNING` clause causes `MERGE`
-to compute and return value(s) based on each row inserted, updated, or
-deleted. Any expression using the source or target table's columns, or
-the [`merge_action()`](../../the-sql-language/functions/functions-merge-support.md#MERGE-ACTION)
-function can be computed. By default, when an `INSERT` or
-`UPDATE` action is performed, the new values of the target
-table's columns are used, and when a `DELETE` is performed,
-the old values of the target table's columns are used, but it is also
-possible to explicitly request old and new values. The syntax of the
-`RETURNING` list is identical to that of the output list
-of `SELECT`.
+選用的 `RETURNING` 子句，會讓 `MERGE` 根據每一筆被插入、更新或刪除的資料列，計算並傳回值。可以計算任何使用來源或目標資料表欄位的運算式，或是使用 [`merge_action()`](../../the-sql-language/functions/functions-merge-support.md#MERGE-ACTION) 函式。依預設，執行 `INSERT` 或 `UPDATE` 動作時，會使用目標資料表欄位的新值；執行 `DELETE` 時，則會使用目標資料表欄位的舊值；不過也可以明確要求傳回新舊值。`RETURNING` 清單的語法與 `SELECT` 的輸出清單語法相同。
 
-There is no separate `MERGE` privilege.
-If you specify an update action, you must have the
-`UPDATE` privilege on the column(s)
-of the target table
-that are referred to in the `SET` clause.
-If you specify an insert action, you must have the `INSERT`
-privilege on the target table.
-If you specify a delete action, you must have the `DELETE`
-privilege on the target table.
-If you specify a `DO NOTHING` action, you must have
-the `SELECT` privilege on at least one column
-of the target table.
-You will also need `SELECT` privilege on any column(s)
-of the *`data_source`* and
-of the target table referred to
-in any `condition` (including `join_condition`)
-or `expression`.
-Privileges are tested once at statement start and are checked
-whether or not particular `WHEN` clauses are executed.
+`MERGE` 沒有獨立的權限。若你指定了更新動作，你必須對 `SET` 子句中所參照之目標資料表的欄位擁有 `UPDATE` 權限。若你指定了插入動作，你必須對目標資料表擁有 `INSERT` 權限。若你指定了刪除動作，你必須對目標資料表擁有 `DELETE` 權限。若你指定了 `DO NOTHING` 動作，你必須至少對目標資料表的一個欄位擁有 `SELECT` 權限。你也需要對任何 `condition`（包括 `join_condition`）或 `expression` 中所參照之 *`data_source`* 及目標資料表的欄位擁有 `SELECT` 權限。權限會在陳述式開始時檢查一次，不論特定的 `WHEN` 子句是否實際執行都會檢查。
 
-`MERGE` is not supported if the
-target table is a
-materialized view, foreign table, or if it has any
-rules defined on it.
+若目標資料表是具體化檢視表、外部資料表，或其上定義了任何規則，則不支援使用 `MERGE`。
 
 <a id="id-1.9.3.156.6"></a>
 
-## Parameters
+## 參數
 
 *`with_query`*
-:   The `WITH` clause allows you to specify one or more
-    subqueries that can be referenced by name in the `MERGE`
-    query. See [Section 7.8](../../the-sql-language/queries/queries-with.md) and [SELECT](sql-select.md)
-    for details. Note that `WITH RECURSIVE` is not supported
-    by `MERGE`.
+:   `WITH` 子句可讓你指定一個或多個子查詢，並在 `MERGE` 查詢中以名稱參照它們。詳情請參閱[第 7.8 節](../../the-sql-language/queries/queries-with.md)與 [SELECT](sql-select.md)。請注意，`MERGE` 不支援 `WITH RECURSIVE`。
 
 *`target_table_name`*
-:   The name (optionally schema-qualified) of the target table or view to
-    merge into. If `ONLY` is specified before a table
-    name, matching rows are updated or deleted in the named table only. If
-    `ONLY` is not specified, matching rows are also updated
-    or deleted in any tables inheriting from the named table. Optionally,
-    `*` can be specified after the table name to explicitly
-    indicate that descendant tables are included. The
-    `ONLY` keyword and `*` option do not
-    affect insert actions, which always insert into the named table only.
+:   要合併進去的目標資料表或檢視表名稱（可加上綱要限定）。若在資料表名稱前指定了 `ONLY`，相符的資料列就只會在指名的資料表中被更新或刪除。若未指定 `ONLY`，相符的資料列也會在繼承自該指名資料表的任何資料表中被更新或刪除。你也可以選擇在資料表名稱後加上 `*`，明確表示要包含子資料表。`ONLY` 關鍵字與 `*` 選項不會影響插入動作，插入動作一律只會插入到指名的資料表中。
 
-    If *`target_table_name`* is a
-    view, it must either be automatically updatable with no
-    `INSTEAD OF` triggers, or it must have
-    `INSTEAD OF` triggers for every type of action
-    (`INSERT`, `UPDATE`, and
-    `DELETE`) specified in the `WHEN`
-    clauses. Views with rules are not supported.
+    若 *`target_table_name`* 是檢視表，它必須是可自動更新、且沒有 `INSTEAD OF` 觸發程序的檢視表，或是必須針對 `WHEN` 子句中指定的每一種動作類型（`INSERT`、`UPDATE` 與 `DELETE`）都具備 `INSTEAD OF` 觸發程序。不支援帶有規則的檢視表。
 
 *`target_alias`*
-:   A substitute name for the target table. When an alias is
-    provided, it completely hides the actual name of the table. For
-    example, given `MERGE INTO foo AS f`, the remainder of the
-    `MERGE` statement must refer to this table as
-    `f` not `foo`.
+:   目標資料表的替代名稱。若提供了別名，就會完全隱藏該資料表的實際名稱。舉例來說，若寫成 `MERGE INTO foo AS f`，則 `MERGE` 陳述式其餘的部分都必須以 `f` 而非 `foo` 來參照這個資料表。
 
 *`source_table_name`*
-:   The name (optionally schema-qualified) of the source table, view, or
-    transition table. If `ONLY` is specified before the
-    table name, matching rows are included from the named table only. If
-    `ONLY` is not specified, matching rows are also included
-    from any tables inheriting from the named table. Optionally,
-    `*` can be specified after the table name to explicitly
-    indicate that descendant tables are included.
+:   來源資料表、檢視表或轉換資料表（transition table）的名稱（可加上綱要限定）。若在資料表名稱前指定了 `ONLY`，就只會納入來自指名資料表中相符的資料列。若未指定 `ONLY`，也會納入來自繼承自該指名資料表之任何資料表中相符的資料列。你也可以選擇在資料表名稱後加上 `*`，明確表示要包含子資料表。
 
 *`source_query`*
-:   A query (`SELECT` statement or `VALUES`
-    statement) that supplies the rows to be merged into the
-    target table.
-    Refer to the [SELECT](sql-select.md)
-    statement or [VALUES](sql-values.md)
-    statement for a description of the syntax.
+:   提供要合併進目標資料表之資料列的查詢（`SELECT` 陳述式或 `VALUES` 陳述式）。語法說明請參閱 [SELECT](sql-select.md) 陳述式或 [VALUES](sql-values.md) 陳述式。
 
 *`source_alias`*
-:   A substitute name for the data source. When an alias is
-    provided, it completely hides the actual name of the table or the fact
-    that a query was issued.
+:   資料來源的替代名稱。若提供了別名，就會完全隱藏該資料表的實際名稱，或掩蓋此處使用的其實是一個查詢的事實。
 
 *`join_condition`*
-:   *`join_condition`* is
-    an expression resulting in a value of type
-    `boolean` (similar to a `WHERE`
-    clause) that specifies which rows in the
-    *`data_source`*
-    match rows in the target table.
+:   *`join_condition`* 是一個求值結果為 `boolean` 型別的運算式（類似 `WHERE` 子句），用來指定 *`data_source`* 中哪些資料列與目標資料表中的資料列相符。
 
-    ### Warning
+    ### 警告
 
-    Only columns from the target table
-    that attempt to match *`data_source`*
-    rows should appear in *`join_condition`*.
-    *`join_condition`* subexpressions that
-    only reference the target table's
-    columns can affect which action is taken, often in surprising ways.
+    *`join_condition`* 中應該只出現用來嘗試比對 *`data_source`* 資料列的目標資料表欄位。只參照目標資料表欄位的 *`join_condition`* 子運算式，可能會以令人意外的方式影響最終採取哪個動作。
 
-    If both `WHEN NOT MATCHED BY SOURCE` and
-    `WHEN NOT MATCHED [BY TARGET]` clauses are specified,
-    the `MERGE` command will perform a `FULL`
-    join between *`data_source`*
-    and the target table. For this to work, at least one
-    *`join_condition`* subexpression
-    must use an operator that can support a hash join, or all of the
-    subexpressions must use operators that can support a merge join.
+    若同時指定了 `WHEN NOT MATCHED BY SOURCE` 與 `WHEN NOT MATCHED [BY TARGET]` 子句，`MERGE` 指令就會在 *`data_source`* 與目標資料表之間執行 `FULL` 連接。為使其能正常運作，*`join_condition`* 的子運算式中，必須至少有一個使用支援雜湊連接（hash join）的運算子，否則所有子運算式都必須使用支援合併連接（merge join）的運算子。
 
 *`when_clause`*
-:   At least one `WHEN` clause is required.
+:   至少需要一個 `WHEN` 子句。
 
-    The `WHEN` clause may specify `WHEN MATCHED`,
-    `WHEN NOT MATCHED BY SOURCE`, or
-    `WHEN NOT MATCHED [BY TARGET]`.
-    Note that the SQL standard only defines
-    `WHEN MATCHED` and `WHEN NOT MATCHED`
-    (which is defined to mean no matching target row).
-    `WHEN NOT MATCHED BY SOURCE` is an extension to the
-    SQL standard, as is the option to append
-    `BY TARGET` to `WHEN NOT MATCHED`, to
-    make its meaning more explicit.
+    `WHEN` 子句可以指定 `WHEN MATCHED`、`WHEN NOT MATCHED BY SOURCE` 或 `WHEN NOT MATCHED [BY TARGET]`。請注意，SQL 標準只定義了 `WHEN MATCHED` 與 `WHEN NOT MATCHED`（其定義為沒有相符的目標資料列）。`WHEN NOT MATCHED BY SOURCE` 是 SQL 標準的擴充功能，在 `WHEN NOT MATCHED` 後加上 `BY TARGET` 選項、以更明確表達其意義，同樣也是擴充功能。
 
-    If the `WHEN` clause specifies `WHEN MATCHED`
-    and the candidate change row matches a row in the
-    *`data_source`* to a row in the
-    target table, the `WHEN` clause is executed if the
-    *`condition`* is
-    absent or it evaluates to `true`.
+    若 `WHEN` 子句指定了 `WHEN MATCHED`，且候選變更資料列將 *`data_source`* 中的某資料列與目標資料表中的某資料列相符，則在 *`condition`* 未指定或求值為 `true` 時，就會執行該 `WHEN` 子句。
 
-    If the `WHEN` clause specifies
-    `WHEN NOT MATCHED BY SOURCE` and the candidate change
-    row represents a row in the target table that does not match a row in the
-    *`data_source`*, the
-    `WHEN` clause is executed if the
-    *`condition`* is
-    absent or it evaluates to `true`.
+    若 `WHEN` 子句指定了 `WHEN NOT MATCHED BY SOURCE`，且候選變更資料列代表目標資料表中某筆未與 *`data_source`* 中任何資料列相符的資料列，則在 *`condition`* 未指定或求值為 `true` 時，就會執行該 `WHEN` 子句。
 
-    If the `WHEN` clause specifies
-    `WHEN NOT MATCHED [BY TARGET]` and the candidate change
-    row represents a row in the
-    *`data_source`* that does not
-    match a row in the target table,
-    the `WHEN` clause is executed if the
-    *`condition`* is
-    absent or it evaluates to `true`.
+    若 `WHEN` 子句指定了 `WHEN NOT MATCHED [BY TARGET]`，且候選變更資料列代表 *`data_source`* 中某筆未與目標資料表中任何資料列相符的資料列，則在 *`condition`* 未指定或求值為 `true` 時，就會執行該 `WHEN` 子句。
 
 *`condition`*
-:   An expression that returns a value of type `boolean`.
-    If this expression for a `WHEN` clause
-    returns `true`, then the action for that clause
-    is executed for that row.
+:   傳回 `boolean` 型別數值的運算式。若某 `WHEN` 子句的此運算式求值為 `true`，就會對該資料列執行該子句的動作。
 
-    A condition on a `WHEN MATCHED` clause can refer to columns
-    in both the source and the target relations. A condition on a
-    `WHEN NOT MATCHED BY SOURCE` clause can only refer to
-    columns from the target relation, since by definition there is no matching
-    source row. A condition on a `WHEN NOT MATCHED [BY TARGET]`
-    clause can only refer to columns from
-    the source relation, since by definition there is no matching target row.
-    Only the system attributes from the target table are accessible.
+    `WHEN MATCHED` 子句上的條件，可以參照來源與目標關聯兩者中的欄位。`WHEN NOT MATCHED BY SOURCE` 子句上的條件，則只能參照目標關聯中的欄位，因為依定義並不存在相符的來源資料列。`WHEN NOT MATCHED [BY TARGET]` 子句上的條件，則只能參照來源關聯中的欄位，因為依定義並不存在相符的目標資料列。只能存取目標資料表的系統屬性。
 
 *`merge_insert`*
-:   The specification of an `INSERT` action that inserts
-    one row into the target table.
-    The target column names can be listed in any order. If no list of
-    column names is given at all, the default is all the columns of the
-    table in their declared order.
+:   指定一項 `INSERT` 動作，用來將一筆資料列插入目標資料表。目標欄位名稱可以依任意順序列出。若完全未給定欄位名稱清單，預設會採用該資料表宣告順序中的所有欄位。
 
-    Each column not present in the explicit or implicit column list will be
-    filled with a default value, either its declared default value
-    or null if there is none.
+    任何未出現在明確或隱含欄位清單中的欄位，都會填入預設值，也就是其宣告的預設值；若沒有預設值，則填入 null。
 
-    If the target table
-    is a partitioned table, each row is routed to the appropriate partition
-    and inserted into it.
-    If the target table
-    is a partition, an error will occur if any input row violates the
-    partition constraint.
+    若目標資料表是分區資料表，每一列資料都會被繞送至適當的分區並插入其中。若目標資料表是某個分區，當任一筆輸入的資料列違反分區限制條件時，就會發生錯誤。
 
-    Column names may not be specified more than once.
-    `INSERT` actions cannot contain sub-selects.
+    欄位名稱不得重複指定。`INSERT` 動作不得包含子選取（sub-select）。
 
-    Only one `VALUES` clause can be specified.
-    The `VALUES` clause can only refer to columns from
-    the source relation, since by definition there is no matching target row.
+    只能指定一個 `VALUES` 子句。`VALUES` 子句只能參照來源關聯中的欄位，因為依定義並不存在相符的目標資料列。
 
 *`merge_update`*
-:   The specification of an `UPDATE` action that updates
-    the current row of the target table.
-    Column names may not be specified more than once.
+:   指定一項 `UPDATE` 動作，用來更新目標資料表的目前資料列。欄位名稱不得重複指定。
 
-    Neither a table name nor a `WHERE` clause are allowed.
+    不允許指定資料表名稱，也不允許 `WHERE` 子句。
 
 *`merge_delete`*
-:   Specifies a `DELETE` action that deletes the current row
-    of the target table.
-    Do not include the table name or any other clauses, as you would normally
-    do with a [DELETE](sql-delete.md) command.
+:   指定一項 `DELETE` 動作，用來刪除目標資料表的目前資料列。不要像一般使用 [DELETE](sql-delete.md) 指令那樣包含資料表名稱或任何其他子句。
 
 *`column_name`*
-:   The name of a column in the target table. The column name
-    can be qualified with a subfield name or array subscript, if
-    needed. (Inserting into only some fields of a composite
-    column leaves the other fields null.)
-    Do not include the table's name in the specification
-    of a target column.
+:   目標資料表中某個欄位的名稱。若有需要，欄位名稱可以加上子欄位名稱或陣列下標加以限定。（若只對複合欄位的部分欄位進行插入，其餘欄位會保留為 null。）目標欄位的指定不應包含資料表名稱。
 
 `OVERRIDING SYSTEM VALUE`
-:   Without this clause, it is an error to specify an explicit value
-    (other than `DEFAULT`) for an identity column defined
-    as `GENERATED ALWAYS`. This clause overrides that
-    restriction.
+:   若沒有此子句，對定義為 `GENERATED ALWAYS` 的識別欄位指定明確的值（`DEFAULT` 除外）會產生錯誤。此子句可解除此限制。
 
 `OVERRIDING USER VALUE`
-:   If this clause is specified, then any values supplied for identity
-    columns defined as `GENERATED BY DEFAULT` are ignored
-    and the default sequence-generated values are applied.
+:   若指定此子句，則為定義為 `GENERATED BY DEFAULT` 的識別欄位所提供的任何數值都會被忽略，並套用預設的序列產生數值。
 
 `DEFAULT VALUES`
-:   All columns will be filled with their default values.
-    (An `OVERRIDING` clause is not permitted in this
-    form.)
+:   所有欄位都會填入其預設值。（此形式不允許使用 `OVERRIDING` 子句。）
 
 *`expression`*
-:   An expression to assign to the column. If used in a
-    `WHEN MATCHED` clause, the expression can use values
-    from the original row in the target table, and values from the
-    *`data_source`* row.
-    If used in a `WHEN NOT MATCHED BY SOURCE` clause, the
-    expression can only use values from the original row in the target table.
-    If used in a `WHEN NOT MATCHED [BY TARGET]` clause, the
-    expression can only use values from the
-    *`data_source`* row.
+:   要指派給該欄位的運算式。若用於 `WHEN MATCHED` 子句，此運算式可以使用來自目標資料表中原始資料列的數值，以及來自 *`data_source`* 資料列的數值。若用於 `WHEN NOT MATCHED BY SOURCE` 子句，此運算式只能使用來自目標資料表中原始資料列的數值。若用於 `WHEN NOT MATCHED [BY TARGET]` 子句，此運算式只能使用來自 *`data_source`* 資料列的數值。
 
 `DEFAULT`
-:   Set the column to its default value (which will be `NULL`
-    if no specific default expression has been assigned to it).
+:   將該欄位設為其預設值（若未對該欄位指定特定的預設運算式，則為 `NULL`）。
 
 *`sub-SELECT`*
-:   A `SELECT` sub-query that produces as many output columns
-    as are listed in the parenthesized column list preceding it. The
-    sub-query must yield no more than one row when executed. If it
-    yields one row, its column values are assigned to the target columns;
-    if it yields no rows, NULL values are assigned to the target columns.
-    If used in a `WHEN MATCHED` clause, the sub-query can
-    refer to values from the original row in the target table, and values
-    from the *`data_source`* row.
-    If used in a `WHEN NOT MATCHED BY SOURCE` clause, the
-    sub-query can only refer to values from the original row in the target
-    table.
+:   一個 `SELECT` 子查詢，其產生的輸出欄位數目，須與其前方括號中所列的欄位清單數目相同。此子查詢執行時傳回的資料列不得超過一筆。若傳回一筆資料列，其欄位數值會指派給目標欄位；若沒有傳回任何資料列，則會將 NULL 值指派給目標欄位。若用於 `WHEN MATCHED` 子句，此子查詢可以參照來自目標資料表中原始資料列的數值，以及來自 *`data_source`* 資料列的數值。若用於 `WHEN NOT MATCHED BY SOURCE` 子句，此子查詢只能參照來自目標資料表中原始資料列的數值。
 
 *`output_alias`*
-:   An optional substitute name for `OLD` or
-    `NEW` rows in the `RETURNING` list.
+:   `RETURNING` 清單中 `OLD` 或 `NEW` 資料列的選用替代名稱。
 
-    By default, old values from the target table can be returned by writing
-    `OLD.column_name`
-    or `OLD.*`, and new values can be returned by writing
-    `NEW.column_name`
-    or `NEW.*`. When an alias is provided, these names are
-    hidden and the old or new rows must be referred to using the alias.
-    For example `RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`.
+    依預設，可以撰寫 `OLD.column_name` 或 `OLD.*` 來傳回來自目標資料表的舊數值，也可以撰寫 `NEW.column_name` 或 `NEW.*` 來傳回新數值。若提供了別名，這些名稱就會被隱藏，必須改用該別名來參照新舊資料列。例如 `RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`。
 
 *`output_expression`*
-:   An expression to be computed and returned by the `MERGE`
-    command after each row is changed (whether inserted, updated, or deleted).
-    The expression can use any columns of the source or target tables, or the
-    [`merge_action()`](../../the-sql-language/functions/functions-merge-support.md#MERGE-ACTION)
-    function to return additional information about the action executed.
+:   每筆資料列變更（不論是插入、更新或刪除）後，要由 `MERGE` 指令計算並傳回的運算式。此運算式可以使用來源或目標資料表的任何欄位，或使用 [`merge_action()`](../../the-sql-language/functions/functions-merge-support.md#MERGE-ACTION) 函式來傳回關於所執行動作的額外資訊。
 
-    Writing `*` will return all columns from the source
-    table, followed by all columns from the target table. Often this will
-    lead to a lot of duplication, since it is common for the source and
-    target tables to have a lot of the same columns. This can be avoided by
-    qualifying the `*` with the name or alias of the source
-    or target table.
+    撰寫 `*` 會傳回來源資料表的所有欄位，接著是目標資料表的所有欄位。由於來源與目標資料表通常有許多相同的欄位，這麼做往往會產生大量重複。可以用來源或目標資料表的名稱或別名限定 `*`，來避免這種情況。
 
-    A column name or `*` may also be qualified using
-    `OLD` or `NEW`, or the corresponding
-    *`output_alias`* for
-    `OLD` or `NEW`, to cause old or new
-    values from the target table to be returned. An unqualified column
-    name from the target table, or a column name or `*`
-    qualified using the target table name or alias will return new values
-    for `INSERT` and `UPDATE` actions, and
-    old values for `DELETE` actions.
+    欄位名稱或 `*` 也可以使用 `OLD` 或 `NEW`，或是對應於 `OLD` 或 `NEW` 的 *`output_alias`* 加以限定，以傳回來自目標資料表的舊值或新值。未加限定、來自目標資料表的欄位名稱，或是以目標資料表名稱或別名限定的欄位名稱或 `*`，對於 `INSERT` 與 `UPDATE` 動作會傳回新值，對於 `DELETE` 動作則會傳回舊值。
 
 *`output_name`*
-:   A name to use for a returned column.
+:   用於所傳回欄位的名稱。
 
 <a id="id-1.9.3.156.7"></a>
 
-## Outputs
+## 輸出
 
-On successful completion, a `MERGE` command returns a command
-tag of the form
+成功完成後，`MERGE` 指令會傳回下列形式的指令標記：
 
 ```
 
 MERGE total_count
 ```
 
-The *`total_count`* is the total
-number of rows changed (whether inserted, updated, or deleted).
-If *`total_count`* is 0, no rows
-were changed in any way.
+*`total_count`* 是被變更（不論是插入、更新或刪除）的資料列總數。若 *`total_count`* 為 0，代表沒有任何資料列受到任何形式的變更。
 
-If the `MERGE` command contains a `RETURNING`
-clause, the result will be similar to that of a `SELECT`
-statement containing the columns and values defined in the
-`RETURNING` list, computed over the row(s) inserted, updated,
-or deleted by the command.
+若 `MERGE` 指令包含 `RETURNING` 子句，其結果會類似於一個 `SELECT` 陳述式的結果，其中包含 `RETURNING` 清單所定義的欄位與數值，並根據該指令所插入、更新或刪除的資料列計算而得。
 
 <a id="id-1.9.3.156.8"></a>
 
-## Notes
+## 注意事項
 
-The following steps take place during the execution of
-`MERGE`.
+`MERGE` 執行期間會發生下列步驟。
 
-1. Perform any `BEFORE STATEMENT` triggers for all
-   actions specified, whether or not their `WHEN`
-   clauses match.
-2. Perform a join from source to target table.
-   The resulting query will be optimized normally and will produce
-   a set of candidate change rows. For each candidate change row,
+1. 針對所有指定的動作，執行 `BEFORE STATEMENT` 觸發程序，不論其 `WHEN` 子句是否相符。
+2. 執行來源與目標資料表的連接。所產生的查詢會以一般方式進行最佳化，並產生一組候選變更資料列。對每一筆候選變更資料列：
 
-   1. Evaluate whether each row is `MATCHED`,
-      `NOT MATCHED BY SOURCE`, or
-      `NOT MATCHED [BY TARGET]`.
-   2. Test each `WHEN` condition in the order
-      specified until one returns true.
-   3. When a condition returns true, perform the following actions:
+   1. 判斷該資料列是 `MATCHED`、`NOT MATCHED BY SOURCE` 還是 `NOT MATCHED [BY TARGET]`。
+   2. 依指定順序測試各個 `WHEN` 條件，直到有一個傳回 true 為止。
+   3. 當某個條件傳回 true 時，執行下列動作：
 
-      1. Perform any `BEFORE ROW` triggers that fire
-         for the action's event type.
-      2. Perform the specified action, invoking any check constraints on the
-         target table.
-      3. Perform any `AFTER ROW` triggers that fire for
-         the action's event type.
+      1. 執行該動作事件類型所觸發的任何 `BEFORE ROW` 觸發程序。
+      2. 執行指定的動作，並觸發目標資料表上的任何檢查限制條件。
+      3. 執行該動作事件類型所觸發的任何 `AFTER ROW` 觸發程序。
 
-      If the target relation is a view with `INSTEAD OF ROW`
-      triggers for the action's event type, they are used to perform the
-      action instead.
-3. Perform any `AFTER STATEMENT` triggers for actions
-   specified, whether or not they actually occur. This is similar to the
-   behavior of an `UPDATE` statement that modifies no rows.
+      若目標關聯是帶有該動作事件類型之 `INSTEAD OF ROW` 觸發程序的檢視表，則會改用這些觸發程序來執行該動作。
+3. 針對所指定的動作，執行任何 `AFTER STATEMENT` 觸發程序，不論這些動作是否實際發生。這與不影響任何資料列的 `UPDATE` 陳述式之行為類似。
 
-In summary, statement triggers for an event type (say,
-`INSERT`) will be fired whenever we
-*specify* an action of that kind.
-In contrast, row-level triggers will fire only for the specific event type
-being *executed*.
-So a `MERGE` command might fire statement triggers for both
-`UPDATE` and `INSERT`, even though only
-`UPDATE` row triggers were fired.
+總結來說，只要我們*指定*了某種事件類型（例如 `INSERT`）的動作，該事件類型的陳述式觸發程序就會被觸發。相對地，資料列層級的觸發程序只會針對實際*執行*的特定事件類型觸發。因此，即使只觸發了 `UPDATE` 的資料列觸發程序，`MERGE` 指令仍可能同時觸發 `UPDATE` 與 `INSERT` 的陳述式觸發程序。
 
-You should ensure that the join produces at most one candidate change row
-for each target row. In other words, a target row shouldn't join to more
-than one data source row. If it does, then only one of the candidate change
-rows will be used to modify the target row; later attempts to modify the
-row will cause an error.
-This can also occur if row triggers make changes to the target table
-and the rows so modified are then subsequently also modified by
-`MERGE`.
-If the repeated action is an `INSERT`, this will
-cause a uniqueness violation, while a repeated `UPDATE`
-or `DELETE` will cause a cardinality violation; the
-latter behavior is required by the SQL standard.
-This differs from historical PostgreSQL
-behavior of joins in `UPDATE` and
-`DELETE` statements where second and subsequent
-attempts to modify the same row are simply ignored.
+你應確保這個連接對每一筆目標資料列最多只產生一筆候選變更資料列。換句話說，一筆目標資料列不應該與一筆以上的資料來源資料列相連接。若確實發生這種情況，就只會有其中一筆候選變更資料列被用來修改該目標資料列；之後嘗試修改該資料列的動作則會造成錯誤。若資料列觸發程序對目標資料表做出變更，而這些被修改過的資料列之後又再次被 `MERGE` 修改，同樣也可能發生這種情況。若重複的動作是 `INSERT`，就會造成唯一性違反；若重複的是 `UPDATE` 或 `DELETE`，則會造成基數違反（cardinality violation）；後者的行為是 SQL 標準所要求的。這與 PostgreSQL 過去在 `UPDATE` 與 `DELETE` 陳述式中對連接的行為不同，過去對同一資料列的第二次及後續修改嘗試，只會單純被忽略。
 
-If a `WHEN` clause omits an `AND`
-sub-clause, it becomes the final reachable clause of that
-kind (`MATCHED`, `NOT MATCHED BY SOURCE`,
-or `NOT MATCHED [BY TARGET]`).
-If a later `WHEN` clause of that kind
-is specified it would be provably unreachable and an error is raised.
-If no final reachable clause is specified of either kind, it is
-possible that no action will be taken for a candidate change row.
+若某個 `WHEN` 子句省略了 `AND` 子句，它就會成為該種類（`MATCHED`、`NOT MATCHED BY SOURCE` 或 `NOT MATCHED [BY TARGET]`）最終可觸及的子句。若之後又為該種類指定了另一個 `WHEN` 子句，該子句就會被證明為不可觸及，因而產生錯誤。若兩種種類皆未指定最終可觸及的子句，則某筆候選變更資料列有可能不會採取任何動作。
 
-The order in which rows are generated from the data source is
-indeterminate by default.
-A *`source_query`* can be
-used to specify a consistent ordering, if required, which might be
-needed to avoid deadlocks between concurrent transactions.
+依預設，資料來源產生資料列的順序是不確定的。若有需要，可以使用 *`source_query`* 來指定一致的順序，這可能是避免並行交易之間發生死結所需要的。
 
-When `MERGE` is run concurrently with other commands
-that modify the target table, the usual transaction isolation rules
-apply; see [Section 13.2](../../the-sql-language/mvcc/transaction-iso.md) for an explanation
-on the behavior at each isolation level.
-You may also wish to consider using `INSERT ... ON CONFLICT`
-as an alternative statement which offers the ability to run an
-`UPDATE` if a concurrent `INSERT`
-occurs. There are a variety of differences and restrictions between
-the two statement types and they are not interchangeable.
+當 `MERGE` 與其他修改目標資料表的指令並行執行時，適用一般的交易隔離規則；關於各隔離等級下的行為說明，請參閱[第 13.2 節](../../the-sql-language/mvcc/transaction-iso.md)。你也可以考慮改用 `INSERT ... ON CONFLICT` 作為替代陳述式，它提供了在發生並行 `INSERT` 時執行 `UPDATE` 的能力。這兩種陳述式類型之間存在許多差異與限制，並不能互相替換。
 
 <a id="id-1.9.3.156.9"></a>
 
-## Examples
+## 範例
 
-Perform maintenance on `customer_accounts` based
-upon new `recent_transactions`.
+依據新的 `recent_transactions` 對 `customer_accounts` 進行維護。
 
 ```
 
@@ -512,10 +228,7 @@ WHEN NOT MATCHED THEN
   VALUES (t.customer_id, t.transaction_value);
 ```
 
-Attempt to insert a new stock item along with the quantity of stock. If
-the item already exists, instead update the stock count of the existing
-item. Don't allow entries that have zero stock. Return details of all
-changes made.
+嘗試插入一項新的庫存項目連同其庫存數量。若該項目已存在，則改為更新既有項目的庫存數。不允許庫存為零的項目。傳回所有變更的詳細內容。
 
 ```
 
@@ -531,12 +244,9 @@ WHEN MATCHED THEN
 RETURNING merge_action(), w.winename, old.stock AS old_stock, new.stock AS new_stock;
 ```
 
-The `wine_stock_changes` table might be, for example, a
-temporary table recently loaded into the database.
+`wine_stock_changes` 資料表，舉例來說，可能是一個最近才載入資料庫的暫存資料表。
 
-Update `wines` based on a replacement wine list, inserting
-rows for any new stock, updating modified stock entries, and deleting any
-wines not present in the new list.
+根據替換用的酒單，更新 `wines`：對任何新的庫存插入資料列、更新已變更的庫存項目，並刪除任何不在新酒單中的酒款。
 
 ```
 
@@ -553,16 +263,12 @@ WHEN NOT MATCHED BY SOURCE THEN
 
 <a id="id-1.9.3.156.10"></a>
 
-## Compatibility
+## 相容性
 
-This command conforms to the SQL standard.
+此指令符合 SQL 標準。
 
-The `WITH` clause, `BY SOURCE` and
-`BY TARGET` qualifiers to
-`WHEN NOT MATCHED`, `DO NOTHING` action,
-and `RETURNING` clause are extensions to the
-SQL standard.
+`WITH` 子句、`WHEN NOT MATCHED` 的 `BY SOURCE` 與 `BY TARGET` 限定詞、`DO NOTHING` 動作，以及 `RETURNING` 子句，都是 SQL 標準的擴充功能。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-merge.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-merge.html)（原文版本：18.6；核對日期：2026-09-28）
