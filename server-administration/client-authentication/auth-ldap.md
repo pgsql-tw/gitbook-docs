@@ -1,236 +1,233 @@
-## 20.10. LDAP Authentication [#](#AUTH-LDAP)
+<a id="AUTH-LDAP"></a>
+
+## 20.10. LDAP 認證 [#](#AUTH-LDAP)
 
 <a id="id-1.6.7.17.2"></a>
 
-This authentication method operates similarly to
-`password` except that it uses LDAP
-as the password verification method. LDAP is used only to validate
-the user name/password pairs. Therefore the user must already
-exist in the database before LDAP can be used for
-authentication.
+此認證方法的運作方式與
+`password` 類似，差別在於它使用 LDAP
+作為密碼驗證方法。LDAP 僅用於驗證
+使用者名稱／密碼配對。因此在使用 LDAP 進行認證之前，該使用者必須
+已存在於資料庫中。
 
-LDAP authentication can operate in two modes. In the first mode,
-which we will call the simple bind mode,
-the server will bind to the distinguished name constructed as
-*`prefix`* *`username`* *`suffix`*.
-Typically, the *`prefix`* parameter is used to specify
-`cn=`, or *`DOMAIN`*`\` in an Active
-Directory environment. *`suffix`* is used to specify the
-remaining part of the DN in a non-Active Directory environment.
+LDAP 認證可以在兩種模式下運作。在第一種模式，
+我們稱之為 simple bind（簡易繫結）模式，
+伺服器會以 *`prefix`* *`username`* *`suffix`*
+的方式組成 distinguished name（DN，區別名稱）並與之繫結。
+通常，*`prefix`* 參數用於指定
+`cn=`，或在 Active
+Directory 環境中指定 *`DOMAIN`*`\`。*`suffix`* 則用於指定在非 Active Directory 環境中
+DN 的其餘部分。
 
-In the second mode, which we will call the search+bind mode,
-the server first binds to the LDAP directory with
-a fixed user name and password, specified with *`ldapbinddn`*
-and *`ldapbindpasswd`*, and performs a search for the user trying
-to log in to the database. If no user and password is configured, an
-anonymous bind will be attempted to the directory. The search will be
-performed over the subtree at *`ldapbasedn`*, and will try to
-do an exact match of the attribute specified in
-*`ldapsearchattribute`*.
-Once the user has been found in
-this search, the server re-binds to the directory as
-this user, using the password specified by the client, to verify that the
-login is correct. This mode is the same as that used by LDAP authentication
-schemes in other software, such as Apache `mod_authnz_ldap` and `pam_ldap`.
-This method allows for significantly more flexibility
-in where the user objects are located in the directory, but will cause
-two additional requests to the LDAP server to be made.
+在第二種模式，我們稱之為 search+bind（搜尋加繫結）模式，
+伺服器會先以由 *`ldapbinddn`*
+與 *`ldapbindpasswd`* 指定的固定使用者名稱與密碼繫結到 LDAP 目錄，
+然後搜尋正在嘗試
+登入資料庫的使用者。如果未設定使用者與密碼，則會嘗試以匿名方式
+繫結到該目錄。搜尋會在 *`ldapbasedn`* 所指定的子樹中執行，
+並會嘗試對
+*`ldapsearchattribute`* 所指定的屬性做完全相符的比對。
+一旦在此次搜尋中找到該使用者，伺服器就會使用用戶端提供的密碼，
+以該使用者身分重新繫結到目錄，以驗證此次
+登入是否正確。這種模式與其他軟體中的 LDAP 認證機制相同，
+例如 Apache 的 `mod_authnz_ldap` 與 `pam_ldap`。
+這種方法能讓使用者物件在目錄中的位置具有明顯更高的
+彈性，但會導致對 LDAP 伺服器多發出兩次額外的請求。
 
-The following configuration options are used in both modes:
+以下組態選項在兩種模式中皆會用到：
 
 `ldapserver`
-:   Names or IP addresses of LDAP servers to connect to. Multiple
-    servers may be specified, separated by spaces.
+:   要連線的 LDAP 伺服器名稱或 IP 位址。可以指定多台
+    伺服器，以空格分隔。
 
 `ldapport`
-:   Port number on LDAP server to connect to. If no port is specified,
-    the LDAP library's default port setting will be used.
+:   要連線的 LDAP 伺服器連接埠號。若未指定連接埠，
+    則會使用 LDAP 函式庫的預設連接埠設定。
 
 `ldapscheme`
-:   Set to `ldaps` to use LDAPS. This is a non-standard
-    way of using LDAP over SSL, supported by some LDAP server
-    implementations. See also the `ldaptls` option for
-    an alternative.
+:   設為 `ldaps` 以使用 LDAPS。這是某些 LDAP 伺服器實作
+    所支援的一種透過 SSL 使用 LDAP 的非標準
+    方式。也可參考 `ldaptls` 選項作為替代方案。
 
 `ldaptls`
-:   Set to 1 to make the connection between PostgreSQL and the LDAP server
-    use TLS encryption. This uses the `StartTLS`
-    operation per [RFC 4513](https://datatracker.ietf.org/doc/html/rfc4513).
-    See also the `ldapscheme` option for an alternative.
+:   設為 1，讓 PostgreSQL 與 LDAP 伺服器之間的連線
+    使用 TLS 加密。此方式依照
+    [RFC 4513](https://datatracker.ietf.org/doc/html/rfc4513) 使用 `StartTLS`
+    操作。
+    也可參考 `ldapscheme` 選項作為替代方案。
 
-Note that using `ldapscheme` or
-`ldaptls` only encrypts the traffic between the
-PostgreSQL server and the LDAP server. The connection between the
-PostgreSQL server and the PostgreSQL client will still be unencrypted
-unless SSL is used there as well.
+請注意，使用 `ldapscheme` 或
+`ldaptls` 僅會加密
+PostgreSQL 伺服器與 LDAP 伺服器之間的流量。PostgreSQL
+伺服器與 PostgreSQL 用戶端之間的連線
+仍然不會加密，除非在該處也使用了 SSL。
 
-The following options are used in simple bind mode only:
+以下選項僅用於 simple bind 模式：
 
 `ldapprefix`
-:   String to prepend to the user name when forming the DN to bind as,
-    when doing simple bind authentication.
+:   在進行 simple bind 認證時，於組成用於繫結的 DN 時，
+    加在使用者名稱前面的字串。
 
 `ldapsuffix`
-:   String to append to the user name when forming the DN to bind as,
-    when doing simple bind authentication.
+:   在進行 simple bind 認證時，於組成用於繫結的 DN 時，
+    加在使用者名稱後面的字串。
 
-The following options are used in search+bind mode only:
+以下選項僅用於 search+bind 模式：
 
 `ldapbasedn`
-:   Root DN to begin the search for the user in, when doing search+bind
-    authentication.
+:   在進行 search+bind 認證時，開始搜尋使用者的根 DN。
 
 `ldapbinddn`
-:   DN of user to bind to the directory with to perform the search when
-    doing search+bind authentication.
+:   在進行 search+bind 認證時，用於執行搜尋而繫結到目錄的使用者 DN。
 
 `ldapbindpasswd`
-:   Password for user to bind to the directory with to perform the search
-    when doing search+bind authentication.
+:   在進行 search+bind 認證時，用於執行搜尋而繫結到目錄的使用者
+    密碼。
 
 `ldapsearchattribute`
-:   Attribute to match against the user name in the search when doing
-    search+bind authentication. If no attribute is specified, the
-    `uid` attribute will be used.
+:   在進行 search+bind 認證的搜尋中，用來與使用者名稱比對的屬性。若未指定屬性，
+    則會使用
+    `uid` 屬性。
 
 `ldapsearchfilter`
-:   The search filter to use when doing search+bind authentication.
-    Occurrences of `$username` will be replaced with the
-    user name. This allows for more flexible search filters than
-    `ldapsearchattribute`.
+:   進行 search+bind 認證時所使用的搜尋篩選條件。
+    `$username` 出現的位置都會被替換為
+    使用者名稱。這可以提供比
+    `ldapsearchattribute` 更有彈性的搜尋篩選條件。
 
-The following option may be used as an alternative way to write some of the
-above LDAP options in a more compact and standard form:
+以下選項可作為另一種方式，以更精簡且標準的形式撰寫上述部分 LDAP 選項：
 
 `ldapurl`
-:   An [RFC 4516](https://datatracker.ietf.org/doc/html/rfc4516)
-    LDAP URL. The format is
+:   一個符合 [RFC 4516](https://datatracker.ietf.org/doc/html/rfc4516) 的
+    LDAP URL。其格式為
 
     ```
 
     ldap[s]://host[:port]/basedn[?[attribute][?[scope][?[filter]]]]
     ```
 
-    *`scope`* must be one
-    of `base`, `one`, `sub`,
-    typically the last. (The default is `base`, which
-    is normally not useful in this application.) *`attribute`* can
-    nominate a single attribute, in which case it is used as a value for
-    `ldapsearchattribute`. If
-    *`attribute`* is empty then
-    *`filter`* can be used as a value for
-    `ldapsearchfilter`.
+    *`scope`* 必須是
+    `base`、`one`、`sub`
+    其中之一，通常會使用最後一個。（預設值為 `base`，
+    這在本應用場景中通常沒有用處。）*`attribute`* 可以
+    指定單一屬性，此時它會被用作
+    `ldapsearchattribute` 的值。若
+    *`attribute`* 為空，則
+    *`filter`* 可以被用作
+    `ldapsearchfilter` 的值。
 
-    The URL scheme `ldaps` chooses the LDAPS method for
-    making LDAP connections over SSL, equivalent to using
-    `ldapscheme=ldaps`. To use encrypted LDAP
-    connections using the `StartTLS` operation, use the
-    normal URL scheme `ldap` and specify the
-    `ldaptls` option in addition to
-    `ldapurl`.
+    URL 配置（scheme）`ldaps` 會選用 LDAPS 方法
+    透過 SSL 建立 LDAP 連線，等同於使用
+    `ldapscheme=ldaps`。若要使用
+    `StartTLS` 操作來使用加密的 LDAP
+    連線，請使用一般的 URL 配置（scheme）
+    `ldap`，並額外指定
+    `ldaptls` 選項與
+    `ldapurl`。
 
-    For non-anonymous binds, `ldapbinddn`
-    and `ldapbindpasswd` must be specified as separate
-    options.
+    對於非匿名繫結，`ldapbinddn`
+    與 `ldapbindpasswd` 必須以分開的
+    選項指定。
 
-    LDAP URLs are currently only supported with
-    OpenLDAP, not on Windows.
+    LDAP URL 目前僅在
+    OpenLDAP 上受支援，Windows 上不支援。
 
-It is an error to mix configuration options for simple bind with options
-for search+bind. To use `ldapurl` in simple bind mode, the
-URL must not contain a `basedn` or query elements.
+不可混用 simple bind 與 search+bind 的組態選項。若要在 simple bind 模式中使用
+`ldapurl`，則該 URL 不得包含
+`basedn` 或查詢元素。
 
-When using search+bind mode, the search can be performed using a single
-attribute specified with `ldapsearchattribute`, or using
-a custom search filter specified with
-`ldapsearchfilter`.
-Specifying `ldapsearchattribute=foo` is equivalent to
-specifying `ldapsearchfilter="(foo=$username)"`. If neither
-option is specified the default is
-`ldapsearchattribute=uid`.
+使用 search+bind 模式時，搜尋可以使用
+`ldapsearchattribute` 指定的單一屬性，或使用
+`ldapsearchfilter`
+指定自訂搜尋篩選條件來執行。
+指定 `ldapsearchattribute=foo` 等同於
+指定 `ldapsearchfilter="(foo=$username)"`。若兩個
+選項皆未指定，則預設為
+`ldapsearchattribute=uid`。
 
-If PostgreSQL was compiled with
-OpenLDAP as the LDAP client library, the
-`ldapserver` setting may be omitted. In that case, a
-list of host names and ports is looked up via
-[RFC 2782](https://datatracker.ietf.org/doc/html/rfc2782) DNS SRV records.
-The name `_ldap._tcp.DOMAIN` is looked up, where
-`DOMAIN` is extracted from `ldapbasedn`.
+若 PostgreSQL 是以
+OpenLDAP 作為 LDAP 用戶端函式庫編譯而成，則可以省略
+`ldapserver` 設定。在此情況下，會透過
+[RFC 2782](https://datatracker.ietf.org/doc/html/rfc2782) 的 DNS SRV 紀錄查詢一份
+主機名稱與連接埠的清單。
+系統會查詢名稱 `_ldap._tcp.DOMAIN`，其中
+`DOMAIN` 是從 `ldapbasedn` 中取出的。
 
-Here is an example for a simple-bind LDAP configuration:
+以下是一個 simple-bind LDAP 組態的範例：
 
 ```
 
 host ... ldap ldapserver=ldap.example.net ldapprefix="cn=" ldapsuffix=", dc=example, dc=net"
 ```
 
-When a connection to the database server as database
-user `someuser` is requested, PostgreSQL will attempt to
-bind to the LDAP server using the DN `cn=someuser, dc=example,
-dc=net` and the password provided by the client. If that connection
-succeeds, the database access is granted.
+當有人請求以資料庫
+使用者 `someuser` 的身分連線到資料庫伺服器時，PostgreSQL 會嘗試
+使用 DN `cn=someuser, dc=example,
+dc=net`，以及用戶端所提供的密碼，繫結到 LDAP 伺服器。若該連線
+成功，就會授予資料庫存取權。
 
-Here is a different simple-bind configuration, which uses the LDAPS scheme
-and a custom port number, written as a URL:
+以下是另一個 simple-bind 組態範例，使用 LDAPS 協定
+與自訂連接埠號，並以 URL 形式撰寫：
 
 ```
 
 host ... ldap ldapurl="ldaps://ldap.example.net:49151" ldapprefix="cn=" ldapsuffix=", dc=example, dc=net"
 ```
 
-This is slightly more compact than specifying `ldapserver`,
-`ldapscheme`, and `ldapport` separately.
+這比分別指定 `ldapserver`、
+`ldapscheme` 與 `ldapport` 更為精簡。
 
-Here is an example for a search+bind configuration:
+以下是一個 search+bind 組態的範例：
 
 ```
 
 host ... ldap ldapserver=ldap.example.net ldapbasedn="dc=example, dc=net" ldapsearchattribute=uid
 ```
 
-When a connection to the database server as database
-user `someuser` is requested, PostgreSQL will attempt to
-bind anonymously (since `ldapbinddn` was not specified) to
-the LDAP server, perform a search for `(uid=someuser)`
-under the specified base DN. If an entry is found, it will then attempt to
-bind using that found information and the password supplied by the client.
-If that second bind succeeds, the database access is granted.
+當有人請求以資料庫
+使用者 `someuser` 的身分連線到資料庫伺服器時，PostgreSQL 會嘗試
+（由於未指定 `ldapbinddn`）以匿名方式繫結到
+LDAP 伺服器，並在指定的 base DN 下搜尋
+`(uid=someuser)`。若找到符合的項目，就會嘗試
+以該找到的資訊及用戶端提供的密碼
+進行繫結。若第二次繫結
+成功，就會授予資料庫存取權。
 
-Here is the same search+bind configuration written as a URL:
+以下是以 URL 形式撰寫的相同 search+bind 組態：
 
 ```
 
 host ... ldap ldapurl="ldap://ldap.example.net/dc=example,dc=net?uid?sub"
 ```
 
-Some other software that supports authentication against LDAP uses the
-same URL format, so it will be easier to share the configuration.
+其他支援以 LDAP 進行認證的軟體也使用相同的
+URL 格式，因此更容易共用組態。
 
-Here is an example for a search+bind configuration that uses
-`ldapsearchfilter` instead of
-`ldapsearchattribute` to allow authentication by
-user ID or email address:
+以下是一個 search+bind 組態的範例，使用
+`ldapsearchfilter` 而非
+`ldapsearchattribute`，以允許使用
+使用者 ID 或電子郵件地址進行認證：
 
 ```
 
 host ... ldap ldapserver=ldap.example.net ldapbasedn="dc=example, dc=net" ldapsearchfilter="(|(uid=$username)(mail=$username))"
 ```
 
-Here is an example for a search+bind configuration that uses DNS SRV
-discovery to find the host name(s) and port(s) for the LDAP service for the
-domain name `example.net`:
+以下是一個 search+bind 組態範例，使用 DNS SRV
+探索方式來尋找網域名稱 `example.net`
+所對應之 LDAP 服務的主機名稱與連接埠：
 
 ```
 
 host ... ldap ldapbasedn="dc=example,dc=net"
 ```
 
-### Tip
+### 提示
 
-Since LDAP often uses commas and spaces to separate the different
-parts of a DN, it is often necessary to use double-quoted parameter
-values when configuring LDAP options, as shown in the examples.
+由於 LDAP 經常使用逗號與空格來分隔 DN 的不同
+部分，在設定 LDAP 選項時通常需要使用雙引號括住參數
+值，如上述範例所示。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-ldap.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/auth-ldap.html)（原文版本：18.6；核對日期：2026-09-28）
