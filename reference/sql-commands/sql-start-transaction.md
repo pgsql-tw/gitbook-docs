@@ -2,9 +2,11 @@
 
 ## START TRANSACTION
 
-START TRANSACTION — start a transaction block
+START TRANSACTION — 開始一個交易區塊
 
-## Synopsis
+<a id="id-1.9.3.180.2"></a>
+
+## 語法
 
 ```
 
@@ -19,49 +21,46 @@ where transaction_mode is one of:
 
 <a id="id-1.9.3.180.5"></a>
 
-## Description
+## 說明
 
-This command begins a new transaction block. If the isolation level,
-read/write mode, or deferrable mode is specified, the new transaction has those
-characteristics, as if [`SET TRANSACTION`](sql-set-transaction.md) was executed. This is the same
-as the [`BEGIN`](sql-begin.md) command.
+本指令會開始一個新的交易區塊。若指定了隔離等級、讀寫模式，
+或 deferrable 模式，新交易就會具備這些特性，如同執行了
+[`SET TRANSACTION`](sql-set-transaction.md) 一般。這與
+[`BEGIN`](sql-begin.md) 指令的效果相同。
 
 <a id="id-1.9.3.180.6"></a>
 
-## Parameters
+## 參數
 
-Refer to [SET TRANSACTION](sql-set-transaction.md) for information on the meaning
-of the parameters to this statement.
+關於本陳述式各參數的意義，請參閱
+[SET TRANSACTION](sql-set-transaction.md)。
 
 <a id="id-1.9.3.180.7"></a>
 
-## Compatibility
+## 相容性
 
-In the standard, it is not necessary to issue `START TRANSACTION`
-to start a transaction block: any SQL command implicitly begins a block.
-PostgreSQL's behavior can be seen as implicitly
-issuing a `COMMIT` after each command that does not
-follow `START TRANSACTION` (or `BEGIN`),
-and it is therefore often called “autocommit”.
-Other relational database systems might offer an autocommit feature
-as a convenience.
+在標準中，開始一個交易區塊並不需要發出 `START TRANSACTION`：
+任何 SQL 指令都會隱含地開始一個區塊。PostgreSQL
+的行為可以看作是在每個未接續在 `START TRANSACTION`
+（或 `BEGIN`）之後的指令執行完畢後，隱含地發出一次
+`COMMIT`，因此常被稱為「自動提交（autocommit）」。
+其他關聯式資料庫系統也可能提供自動提交功能，以求方便。
 
-The `DEFERRABLE`
+`DEFERRABLE`
 *`transaction_mode`*
-is a PostgreSQL language extension.
+是 PostgreSQL 的語言擴充功能。
 
-The SQL standard requires commas between successive *`transaction_modes`*, but for historical
-reasons PostgreSQL allows the commas to be
-omitted.
+SQL 標準要求在連續的 *`transaction_modes`* 之間使用逗號，
+但基於歷史因素，PostgreSQL 允許省略逗號。
 
-See also the compatibility section of [SET TRANSACTION](sql-set-transaction.md).
+另請參閱 [SET TRANSACTION](sql-set-transaction.md) 的相容性一節。
 
 <a id="id-1.9.3.180.8"></a>
 
-## See Also
+## 參見
 
 [BEGIN](sql-begin.md), [COMMIT](sql-commit.md), [ROLLBACK](sql-rollback.md), [SAVEPOINT](sql-savepoint.md), [SET TRANSACTION](sql-set-transaction.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-start-transaction.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-start-transaction.html)（原文版本：18.6；核對日期：2026-09-28）
