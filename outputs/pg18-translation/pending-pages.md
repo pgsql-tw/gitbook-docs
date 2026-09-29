@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：540 頁。
+待譯頁面：539 頁。
 
 ## 根目錄
 
@@ -692,7 +692,7 @@
 - [x] `reference/sql-commands/sql-security-label.md` — SECURITY LABEL
 - [ ] `reference/sql-commands/sql-select.md` — SELECT
 - [x] `reference/sql-commands/sql-selectinto.md` — SELECT INTO
-- [ ] `reference/sql-commands/sql-set-constraints.md` — SET CONSTRAINTS
+- [x] `reference/sql-commands/sql-set-constraints.md` — SET CONSTRAINTS
 - [x] `reference/sql-commands/sql-set-role.md` — SET ROLE
 - [x] `reference/sql-commands/sql-set-session-authorization.md` — SET SESSION AUTHORIZATION
 - [x] `reference/sql-commands/sql-set-transaction.md` — SET TRANSACTION
