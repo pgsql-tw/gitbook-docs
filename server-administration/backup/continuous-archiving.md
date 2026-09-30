@@ -1,131 +1,133 @@
-## 25.3. Continuous Archiving and Point-in-Time Recovery (PITR) [#](#CONTINUOUS-ARCHIVING)
+<a id="CONTINUOUS-ARCHIVING"></a>
 
-[25.3.1. Setting Up WAL Archiving](continuous-archiving.md#BACKUP-ARCHIVING-WAL)
+## 25.3. 連續歸檔與時間點恢復（PITR） [#](#CONTINUOUS-ARCHIVING)
 
-[25.3.2. Making a Base Backup](continuous-archiving.md#BACKUP-BASE-BACKUP)
+[25.3.1. 設定 WAL 歸檔](continuous-archiving.md#BACKUP-ARCHIVING-WAL)
 
-[25.3.3. Making an Incremental Backup](continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)
+[25.3.2. 製作基礎備份](continuous-archiving.md#BACKUP-BASE-BACKUP)
 
-[25.3.4. Making a Base Backup Using the Low Level API](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)
+[25.3.3. 製作增量備份](continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)
 
-[25.3.5. Recovering Using a Continuous Archive Backup](continuous-archiving.md#BACKUP-PITR-RECOVERY)
+[25.3.4. 使用低階 API 製作基礎備份](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)
 
-[25.3.6. Timelines](continuous-archiving.md#BACKUP-TIMELINES)
+[25.3.5. 使用連續歸檔備份進行恢復](continuous-archiving.md#BACKUP-PITR-RECOVERY)
 
-[25.3.7. Tips and Examples](continuous-archiving.md#BACKUP-TIPS)
+[25.3.6. 時間軸](continuous-archiving.md#BACKUP-TIMELINES)
 
-[25.3.8. Caveats](continuous-archiving.md#CONTINUOUS-ARCHIVING-CAVEATS)
+[25.3.7. 提示與範例](continuous-archiving.md#BACKUP-TIPS)
+
+[25.3.8. 注意事項](continuous-archiving.md#CONTINUOUS-ARCHIVING-CAVEATS)
 
 <a id="id-1.6.12.7.2"></a><a id="id-1.6.12.7.3"></a><a id="id-1.6.12.7.4"></a>
 
-At all times, PostgreSQL maintains a
-*write ahead log* (WAL) in the `pg_wal/`
-subdirectory of the cluster's data directory. The log records
-every change made to the database's data files. This log exists
-primarily for crash-safety purposes: if the system crashes, the
-database can be restored to consistency by “replaying” the
-log entries made since the last checkpoint. However, the existence
-of the log makes it possible to use a third strategy for backing up
-databases: we can combine a file-system-level backup with backup of
-the WAL files. If recovery is needed, we restore the file system backup and
-then replay from the backed-up WAL files to bring the system to a
-current state. This approach is more complex to administer than
-either of the previous approaches, but it has some significant
-benefits:
+PostgreSQL 隨時都在叢集資料目錄的
+`pg_wal/` 子目錄中，維護一份
+*write ahead log（預寫日誌，WAL）*。這份日誌記錄了
+對資料庫的資料檔案所做的每一項變更。這份日誌存在的主要目的
+是為了確保當機安全：如果系統當機，資料庫
+可以藉由「重放（replaying）」自上次檢查點以來所做的
+日誌項目，恢復到一致的狀態。然而，這份日誌的存在
+也讓我們有可能採用第三種備份資料庫的策略：
+我們可以將檔案系統層級的備份，與 WAL 檔案的備份
+結合在一起。若需要恢復，我們會先還原檔案系統備份，
+然後重放已備份的 WAL 檔案，讓系統回到
+當下的狀態。這種做法在管理上比前兩種做法都
+更複雜，但也帶來了一些重要的
+好處：
 
-* We do not need a perfectly consistent file system backup as the starting point.
-  Any internal inconsistency in the backup will be corrected by log
-  replay (this is not significantly different from what happens during
-  crash recovery). So we do not need a file system snapshot capability,
-  just tar or a similar archiving tool.
-* Since we can combine an indefinitely long sequence of WAL files
-  for replay, continuous backup can be achieved simply by continuing to archive
-  the WAL files. This is particularly valuable for large databases, where
-  it might not be convenient to take a full backup frequently.
-* It is not necessary to replay the WAL entries all the
-  way to the end. We could stop the replay at any point and have a
-  consistent snapshot of the database as it was at that time. Thus,
-  this technique supports *point-in-time recovery*: it is
-  possible to restore the database to its state at any time since your base
-  backup was taken.
-* If we continuously feed the series of WAL files to another
-  machine that has been loaded with the same base backup file, we
-  have a *warm standby* system: at any point we can bring up
-  the second machine and it will have a nearly-current copy of the
-  database.
+* 我們不需要一份完美一致的檔案系統備份作為起點。備份中
+  任何內部的不一致，都會由日誌
+  重放來修正（這與當機恢復期間所發生的事情並沒有太大差別）。因此我們不需要
+  檔案系統快照能力，只需要 tar 或類似的歸檔工具即可。
+* 由於我們可以將無限長的一系列 WAL 檔案
+  組合起來重放，只要持續歸檔
+  WAL 檔案，就能達成連續備份。這對於大型資料庫尤其有價值，因為
+  頻繁進行完整備份並不一定方便。
+* 不需要將 WAL 項目一路
+  重放到最後。我們可以在任何一點停止重放，得到
+  資料庫在該時間點時的一致快照。因此，
+  這項技術支援*時間點恢復（point-in-time recovery）*：
+  你可以將資料庫恢復到自基礎
+  備份完成以來任何時間點的狀態。
+* 若我們將這一系列 WAL 檔案持續傳送給
+  另一台已載入相同基礎備份檔案的機器，我們就會擁有
+  一個*溫備援（warm standby）*系統：在任何時刻，我們都可以啟用
+  第二台機器，讓它擁有幾乎與現況同步的
+  資料庫複本。
 
-### Note
+### 注意
 
-pg_dump and
-pg_dumpall do not produce file-system-level
-backups and cannot be used as part of a continuous-archiving solution.
-Such dumps are *logical* and do not contain enough
-information to be used by WAL replay.
+pg_dump 與
+pg_dumpall 並不會產生檔案系統層級的
+備份，因此不能被用作連續歸檔解決方案的一部分。
+這類傾印是*邏輯（logical）*性質的，並不包含
+足以供 WAL 重放使用的資訊。
 
-As with the plain file-system-backup technique, this method can only
-support restoration of an entire database cluster, not a subset.
-Also, it requires a lot of archival storage: the base backup might be bulky,
-and a busy system will generate many megabytes of WAL traffic that
-have to be archived. Still, it is the preferred backup technique in
-many situations where high reliability is needed.
+如同純檔案系統備份技術一樣，這種方法僅
+支援還原整個資料庫叢集，而不能還原其中的子集。
+此外，它需要大量的歸檔儲存空間：基礎備份本身可能就相當龐大，
+而繁忙的系統會產生許多 MB（百萬位元組）
+必須歸檔的 WAL 流量。儘管如此，在許多需要高可靠性的情況下，
+這仍是首選的備份技術。
 
-To recover successfully using continuous archiving (also called
-“online backup” by many database vendors), you need a continuous
-sequence of archived WAL files that extends back at least as far as the
-start time of your backup. So to get started, you should set up and test
-your procedure for archiving WAL files *before* you take your
-first base backup. Accordingly, we first discuss the mechanics of
-archiving WAL files.
+若要成功使用連續歸檔（許多資料庫廠商也稱之為
+「線上備份」）進行恢復，你需要一段連續的
+已歸檔 WAL 檔案序列，至少要涵蓋回你備份的
+起始時間。因此，一開始你應該*先*設定並測試好
+歸檔 WAL 檔案的程序，*然後*才進行
+第一次基礎備份。因此，我們首先討論
+歸檔 WAL 檔案的運作機制。
 
 <a id="BACKUP-ARCHIVING-WAL"></a>
 
-### 25.3.1. Setting Up WAL Archiving [#](#BACKUP-ARCHIVING-WAL)
+### 25.3.1. 設定 WAL 歸檔 [#](#BACKUP-ARCHIVING-WAL)
 
-In an abstract sense, a running PostgreSQL system
-produces an indefinitely long sequence of WAL records. The system
-physically divides this sequence into WAL *segment
-files*, which are normally 16MB apiece (although the segment size
-can be altered during initdb). The segment
-files are given numeric names that reflect their position in the
-abstract WAL sequence. When not using WAL archiving, the system
-normally creates just a few segment files and then
-“recycles” them by renaming no-longer-needed segment files
-to higher segment numbers. It's assumed that segment files whose
-contents precede the last checkpoint are no longer of
-interest and can be recycled.
+抽象來說，一個正在執行的 PostgreSQL 系統
+會產生一段無限長的 WAL 記錄序列。系統會在實體上將這個
+序列切分成多個 WAL *區段檔案
+（segment file）*，一般而言每個檔案為 16MB（不過區段大小
+可以在 initdb 時變更）。這些區段
+檔案會依其在抽象 WAL 序列中的位置，賦予數字化的
+名稱。當未使用 WAL 歸檔時，系統通常只會
+建立少數幾個區段檔案，然後透過將不再需要的
+區段檔案重新命名為較高的區段編號來「回收
+（recycle）」它們。系統會假設內容早於
+最後一次檢查點的區段檔案已不再受到
+關注，可以回收。
 
-When archiving WAL data, we need to capture the contents of each segment
-file once it is filled, and save that data somewhere before the segment
-file is recycled for reuse. Depending on the application and the
-available hardware, there could be many different ways of “saving
-the data somewhere”: we could copy the segment files to an NFS-mounted
-directory on another machine, write them onto a tape drive (ensuring that
-you have a way of identifying the original name of each file), or batch
-them together and burn them onto CDs, or something else entirely. To
-provide the database administrator with flexibility,
-PostgreSQL tries not to make any assumptions about how
-the archiving will be done. Instead, PostgreSQL lets
-the administrator specify a shell command or an archive library to be executed to copy a
-completed segment file to wherever it needs to go. This could be as simple
-as a shell command that uses `cp`, or it could invoke a
-complex C function — it's all up to you.
+在歸檔 WAL 資料時，我們需要在每個區段
+檔案填滿後擷取其內容，並在該區段檔案被回收
+重複使用之前，先將該資料儲存到某處。依應用程式與
+可用硬體的不同，「將資料儲存到某處」可能有許多
+不同的做法：我們可以將區段檔案複製到另一台機器上以 NFS 掛載的
+目錄，將它們寫入磁帶機（同時確保你有辦法
+識別每個檔案的原始名稱），或是將它們批次
+燒錄到 CD 上，或完全採用其他方式。為了
+讓資料庫管理者擁有彈性，
+PostgreSQL 盡量不對歸檔方式做任何
+假設。相反地，PostgreSQL 讓
+管理者指定一個 shell 指令或一個歸檔函式庫，於已完成的區段檔案
+複製到所需位置時執行。這可以簡單到只是一個使用
+`cp` 的 shell 指令，也可以呼叫一個
+複雜的 C 函式——一切都取決於你。
 
-To enable WAL archiving, set the [wal_level](../runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL)
-configuration parameter to `replica` or higher,
-[archive_mode](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-MODE) to `on`,
-specify the shell command to use in the [archive_command](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-COMMAND) configuration parameter
-or specify the library to use in the [archive_library](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-LIBRARY) configuration parameter. In practice
-these settings will always be placed in the
-`postgresql.conf` file.
+若要啟用 WAL 歸檔，請將
+[wal_level](../runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL)
+組態參數設為 `replica` 或更高等級，
+將 [archive_mode](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-MODE) 設為 `on`，
+並在 [archive_command](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-COMMAND) 組態參數中指定要使用的 shell 指令，
+或在 [archive_library](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-LIBRARY) 組態參數中指定要使用的函式庫。實務上，
+這些設定一律會放在
+`postgresql.conf` 檔案中。
 
-In `archive_command`,
-`%p` is replaced by the path name of the file to
-archive, while `%f` is replaced by only the file name.
-(The path name is relative to the current working directory,
-i.e., the cluster's data directory.)
-Use `%%` if you need to embed an actual `%`
-character in the command. The simplest useful command is something
-like:
+在 `archive_command` 中，
+`%p` 會被替換為要歸檔之檔案的路徑名稱，
+而 `%f` 則只會被替換為檔案名稱。
+（該路徑名稱是相對於目前的工作目錄，
+也就是叢集的資料目錄。）
+若你需要在指令中嵌入實際的 `%`
+字元，請使用 `%%`。最簡單且實用的指令
+大概像這樣：
 
 ```
 
@@ -133,709 +135,716 @@ archive_command = 'test ! -f /mnt/server/archivedir/%f && cp %p /mnt/server/arch
 archive_command = 'copy "%p" "C:\\server\\archivedir\\%f"'  # Windows
 ```
 
-which will copy archivable WAL segments to the directory
-`/mnt/server/archivedir`. (This is an example, not a
-recommendation, and might not work on all platforms.) After the
-`%p` and `%f` parameters have been replaced,
-the actual command executed might look like this:
+這會將可歸檔的 WAL 區段複製到
+`/mnt/server/archivedir` 目錄。（這只是一個範例，並非
+建議，且可能不適用於所有平台。）在
+`%p` 與 `%f` 參數被替換之後，
+實際執行的指令可能會像這樣：
 
 ```
 
 test ! -f /mnt/server/archivedir/00000001000000A900000065 && cp pg_wal/00000001000000A900000065 /mnt/server/archivedir/00000001000000A900000065
 ```
 
-A similar command will be generated for each new file to be archived.
+每個要歸檔的新檔案，都會產生類似的指令。
 
-The archive command will be executed under the ownership of the same
-user that the PostgreSQL server is running as. Since
-the series of WAL files being archived contains effectively everything
-in your database, you will want to be sure that the archived data is
-protected from prying eyes; for example, archive into a directory that
-does not have group or world read access.
+歸檔指令會以執行 PostgreSQL
+伺服器的使用者身分執行。由於
+要歸檔的一系列 WAL 檔案，實際上包含了你資料庫中的所有內容，
+你會希望確保已歸檔的資料
+不會被窺視；舉例來說，可以歸檔到一個
+沒有群組或其他使用者讀取權限的目錄。
 
-It is important that the archive command return zero exit status if and
-only if it succeeds. Upon getting a zero result,
-PostgreSQL will assume that the file has been
-successfully archived, and will remove or recycle it. However, a nonzero
-status tells PostgreSQL that the file was not archived;
-it will try again periodically until it succeeds.
+歸檔指令必須在且僅在成功時回傳零結束狀態，這一點非常重要。
+一旦得到零結果，
+PostgreSQL 就會假設該檔案已成功
+歸檔，並將其移除或回收。然而，非零
+狀態則會告知 PostgreSQL 該檔案並未被歸檔；
+它會定期重試，直到成功為止。
 
-Another way to archive is to use a custom archive module as the
-`archive_library`. Since such modules are written in
-`C`, creating your own may require considerably more effort
-than writing a shell command. However, archive modules can be more
-performant than archiving via shell, and they will have access to many
-useful server resources. For more information about archive modules, see
-[Chapter 49](../../server-programming/archive-modules/README.md).
+另一種歸檔方式，是使用自訂的歸檔模組作為
+`archive_library`。由於這類模組是以
+`C` 撰寫，自行建立一個模組可能比撰寫 shell 指令
+需要更多心力。不過，歸檔模組的效能可能優於
+透過 shell 進行歸檔，而且它們可以存取許多
+有用的伺服器資源。有關歸檔模組的更多資訊，請參閱
+[第 49 章](../../server-programming/archive-modules/README.md)。
 
-When the archive command is terminated by a signal (other than
-SIGTERM that is used as part of a server
-shutdown) or an error by the shell with an exit status greater than
-125 (such as command not found), or if the archive function emits an
-`ERROR` or `FATAL`, the archiver process
-aborts and gets restarted by the postmaster. In such cases, the failure is
-not reported in [pg_stat_archiver](../monitoring/monitoring-stats.md#PG-STAT-ARCHIVER-VIEW).
+當歸檔指令因訊號而終止（作為伺服器
+關閉一部分所使用的 SIGTERM 除外）、
+或因 shell 回傳結束狀態大於
+125 而發生錯誤（例如指令不存在），或歸檔函式發出
+`ERROR` 或 `FATAL` 時，歸檔程序
+會中止，並由 postmaster 重新啟動。在這類情況下，此失敗
+不會回報於
+[pg_stat_archiver](../monitoring/monitoring-stats.md#PG-STAT-ARCHIVER-VIEW)中。
 
-Archive commands and libraries should generally be designed to refuse to overwrite
-any pre-existing archive file. This is an important safety feature to
-preserve the integrity of your archive in case of administrator error
-(such as sending the output of two different servers to the same archive
-directory). It is advisable to test your proposed archive library to ensure
-that it does not overwrite an existing file.
+歸檔指令與函式庫在設計上，通常應拒絕覆寫
+任何既有的歸檔檔案。這是一項重要的安全特性，
+用以在管理者發生失誤時（例如將兩台不同伺服器的輸出
+送到同一個歸檔目錄），維護歸檔的完整性。
+建議你先測試所提議的歸檔函式庫，確認
+它不會覆寫既有的檔案。
 
-In rare cases, PostgreSQL may attempt to
-re-archive a WAL file that was previously archived. For example, if the
-system crashes before the server makes a durable record of archival
-success, the server will attempt to archive the file again after
-restarting (provided archiving is still enabled). When an archive command or library
-encounters a pre-existing file, it should return a zero status or `true`, respectively,
-if the WAL file has identical contents to the pre-existing archive and the
-pre-existing archive is fully persisted to storage. If a pre-existing
-file contains different contents than the WAL file being archived, the
-archive command or library *must* return a nonzero status or
-`false`, respectively.
+在少數情況下，PostgreSQL 可能會嘗試
+重新歸檔先前已經歸檔過的 WAL 檔案。舉例來說，若
+系統在伺服器對歸檔成功做出持久化記錄之前就當機，
+伺服器會在重新啟動後（只要歸檔仍為啟用狀態）再次
+嘗試歸檔該檔案。當歸檔指令或函式庫
+遇到既有的檔案時，若該 WAL 檔案與既有的歸檔內容完全相同，且該
+既有歸檔已完全持久化寫入儲存裝置，則應分別回傳零狀態或
+`true`。若既有
+檔案的內容與正在歸檔的 WAL 檔案不同，歸檔指令或函式庫
+就*必須*分別回傳非零狀態或
+`false`。
 
-The example command above for Unix avoids overwriting a pre-existing archive
-by including a separate
-`test` step. On some Unix platforms, `cp` has
-switches such as `-i` that can be used to do the same thing
-less verbosely, but you should not rely on these without verifying that
-the right exit status is returned. (In particular, GNU `cp`
-will return status zero when `-i` is used and the target file
-already exists, which is *not* the desired behavior.)
+上述 Unix 的範例指令，藉由額外加入一個
+`test` 步驟，避免覆寫既有的歸檔。在部分 Unix 平台上，
+`cp` 具有 `-i` 之類的開關，
+可以用更簡潔的方式達到相同效果，但除非你已經驗證過
+確實會回傳正確的結束狀態，否則不應依賴這類開關。（特別是，GNU
+`cp` 在使用 `-i` 且目標檔案
+已存在時，會回傳狀態零，這*並非*
+所要的行為。）
 
-While designing your archiving setup, consider what will happen if
-the archive command or library fails repeatedly because some aspect requires
-operator intervention or the archive runs out of space. For example, this
-could occur if you write to tape without an autochanger; when the tape
-fills, nothing further can be archived until the tape is swapped.
-You should ensure that any error condition or request to a human operator
-is reported appropriately so that the situation can be
-resolved reasonably quickly. The `pg_wal/` directory will
-continue to fill with WAL segment files until the situation is resolved.
-(If the file system containing `pg_wal/` fills up,
-PostgreSQL will do a PANIC shutdown. No committed
-transactions will be lost, but the database will remain offline until
-you free some space.)
+在設計你的歸檔架構時，請考慮若歸檔指令或函式庫因為
+某些需要操作人員介入的因素，或歸檔空間用盡而反覆
+失敗，會發生什麼狀況。舉例來說，若你將資料寫入
+沒有自動換帶機的磁帶，當磁帶
+寫滿時，在更換磁帶之前將無法繼續進行任何歸檔動作。
+你應該確保任何錯誤狀況或需要人員介入的請求，
+都能被適當地回報，以便能
+合理迅速地解決此狀況。`pg_wal/` 目錄
+會持續累積 WAL 區段檔案，直到問題解決為止。
+（若容納 `pg_wal/` 的檔案系統空間用盡，
+PostgreSQL 會執行 PANIC 關機。不會遺失任何已提交的
+交易，但在你釋出一些空間之前，資料庫將維持離線狀態。）
 
-The speed of the archive command or library is unimportant as long as it can keep up
-with the average rate at which your server generates WAL data. Normal
-operation continues even if the archiving process falls a little behind.
-If archiving falls significantly behind, this will increase the amount of
-data that would be lost in the event of a disaster. It will also mean that
-the `pg_wal/` directory will contain large numbers of
-not-yet-archived segment files, which could eventually exceed available
-disk space. You are advised to monitor the archiving process to ensure that
-it is working as you intend.
+只要歸檔指令或函式庫的速度能跟上伺服器平均產生
+WAL 資料的速率，其速度快慢並不重要。即使
+歸檔程序稍微落後，正常運作仍會持續進行。
+若歸檔明顯落後，發生災難時可能遺失的
+資料量就會增加。這也表示
+`pg_wal/` 目錄中將會累積大量
+尚未歸檔的區段檔案，最終可能超出可用的
+磁碟空間。建議你監控歸檔程序，確保
+它確實依照你的預期在運作。
 
-In writing your archive command or library, you should assume that the file names to
-be archived can be up to 64 characters long and can contain any
-combination of ASCII letters, digits, and dots. It is not necessary to
-preserve the original relative path (`%p`) but it is necessary to
-preserve the file name (`%f`).
+在撰寫歸檔指令或函式庫時，你應該假設要
+歸檔的檔案名稱長度最多可達 64 個字元，且可以包含
+任意組合的 ASCII 字母、數字與句點。不需要
+保留原本的相對路徑（`%p`），但必須
+保留檔案名稱（`%f`）。
 
-Note that although WAL archiving will allow you to restore any
-modifications made to the data in your PostgreSQL database,
-it will not restore changes made to configuration files (that is,
-`postgresql.conf`, `pg_hba.conf` and
-`pg_ident.conf`), since those are edited manually rather
-than through SQL operations.
-You might wish to keep the configuration files in a location that will
-be backed up by your regular file system backup procedures. See
-[Section 19.2](../runtime-config/runtime-config-file-locations.md) for how to relocate the
-configuration files.
+請注意，雖然 WAL 歸檔能讓你還原對
+PostgreSQL 資料庫中資料所做的任何修改，
+它並不會還原對組態檔（也就是
+`postgresql.conf`、`pg_hba.conf` 及
+`pg_ident.conf`）所做的變更，因為這些檔案
+是手動編輯的，而非透過 SQL 操作進行。
+你可能會希望將組態檔保存在一個
+會由你一般檔案系統備份程序所備份到的位置。有關如何搬移
+組態檔的位置，請見
+[第 19.2 節](../runtime-config/runtime-config-file-locations.md)。
 
-The archive command or function is only invoked on completed WAL segments. Hence,
-if your server generates only little WAL traffic (or has slack periods
-where it does so), there could be a long delay between the completion
-of a transaction and its safe recording in archive storage. To put
-a limit on how old unarchived data can be, you can set
-[archive_timeout](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-TIMEOUT) to force the server to switch
-to a new WAL segment file at least that often. Note that archived
-files that are archived early due to a forced switch are still the same
-length as completely full files. It is therefore unwise to set a very
-short `archive_timeout` — it will bloat your archive
-storage. `archive_timeout` settings of a minute or so are
-usually reasonable.
+歸檔指令或函式只會在已完成的 WAL 區段上被呼叫。因此，
+若你的伺服器只產生少量的 WAL 流量（或存在
+產生量較少的閒置時段），交易完成與
+其被安全記錄到歸檔儲存裝置之間，可能會有很長的延遲。若要
+限制未歸檔資料可以陳舊多久，你可以設定
+[archive_timeout](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-TIMEOUT)，強制伺服器至少每隔
+這段時間就切換到新的 WAL 區段檔案。請注意，因為強制
+切換而提早歸檔的檔案，長度仍然
+與完整填滿的檔案相同。因此，將
+`archive_timeout` 設得太短是不明智的做法——
+這會使你的歸檔儲存空間膨脹。`archive_timeout` 設定為
+一分鐘左右通常是合理的。
 
-Also, you can force a segment switch manually with
-`pg_switch_wal` if you want to ensure that a
-just-finished transaction is archived as soon as possible. Other utility
-functions related to WAL management are listed in [Table 9.97](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-BACKUP-TABLE).
+此外，若你想確保剛完成的交易
+能盡快被歸檔，也可以使用
+`pg_switch_wal` 手動強制切換區段。與
+WAL 管理相關的其他公用函式，列於
+[表格 9.97](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-BACKUP-TABLE) 中。
 
-When `wal_level` is `minimal` some SQL commands
-are optimized to avoid WAL logging, as described in [Section 14.4.7](../../the-sql-language/performance-tips/populate.md#POPULATE-PITR). If archiving or streaming replication were
-turned on during execution of one of these statements, WAL would not
-contain enough information for archive recovery. (Crash recovery is
-unaffected.) For this reason, `wal_level` can only be changed at
-server start. However, `archive_command` and `archive_library` can be changed with a
-configuration file reload. If you are archiving via shell and wish to
-temporarily stop archiving,
-one way to do it is to set `archive_command` to the empty
-string (`''`).
-This will cause WAL files to accumulate in `pg_wal/` until a
-working `archive_command` is re-established.
+當 `wal_level` 為 `minimal` 時，
+部分 SQL 指令會經過最佳化以避免 WAL 記錄，詳見
+[第 14.4.7 節](../../the-sql-language/performance-tips/populate.md#POPULATE-PITR) 所述。若這類陳述式在執行期間開啟了歸檔或串流複寫，
+WAL 就不會包含足以供歸檔恢復使用的資訊。（當機恢復不受
+影響。）因此，`wal_level` 只能在
+伺服器啟動時變更。不過，`archive_command` 與 `archive_library` 可以透過
+組態檔重新載入來變更。若你是透過 shell 進行歸檔，並想暫時
+停止歸檔，
+其中一種做法是將 `archive_command` 設為空
+字串（`''`）。
+這會使 WAL 檔案持續累積在 `pg_wal/` 中，直到
+重新設定好可運作的 `archive_command` 為止。
 
 <a id="BACKUP-BASE-BACKUP"></a>
 
-### 25.3.2. Making a Base Backup [#](#BACKUP-BASE-BACKUP)
+### 25.3.2. 製作基礎備份 [#](#BACKUP-BASE-BACKUP)
 
-The easiest way to perform a base backup is to use the
-[pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) tool. It can create
-a base backup either as regular files or as a tar archive. If more
-flexibility than [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) can provide is
-required, you can also make a base backup using the low level API
-(see [Section 25.3.4](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)).
+執行基礎備份最簡單的方式，是使用
+[pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 工具。它可以將
+基礎備份製作為一般檔案或 tar 歸檔檔。若
+[pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 所能提供的彈性不夠，
+你也可以使用低階 API 製作基礎備份
+（見[第 25.3.4 節](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)）。
 
-It is not necessary to be concerned about the amount of time it takes
-to make a base backup. However, if you normally run the
-server with `full_page_writes` disabled, you might notice a drop
-in performance while the backup runs since `full_page_writes` is
-effectively forced on during backup mode.
+你不需要擔心製作基礎備份所花費的時間長短。
+不過，若你平常是在停用 `full_page_writes` 的情況下
+執行伺服器，你可能會注意到備份執行期間效能有所下降，因為
+在備份模式下，`full_page_writes` 實際上會被強制啟用。
 
-To make use of the backup, you will need to keep all the WAL
-segment files generated during and after the file system backup.
-To aid you in doing this, the base backup process
-creates a *backup history file* that is immediately
-stored into the WAL archive area. This file is named after the first
-WAL segment file that you need for the file system backup.
-For example, if the starting WAL file is
-`0000000100001234000055CD` the backup history file will be
-named something like
-`0000000100001234000055CD.007C9330.backup`. (The second
-part of the file name stands for an exact position within the WAL
-file, and can ordinarily be ignored.) Once you have safely archived
-the file system backup and the WAL segment files used during the
-backup (as specified in the backup history file), all archived WAL
-segments with names numerically less are no longer needed to recover
-the file system backup and can be deleted. However, you should
-consider keeping several backup sets to be absolutely certain that
-you can recover your data.
+若要使用該備份，你需要保留檔案系統備份
+期間及之後所產生的所有 WAL
+區段檔案。為了協助你完成這件事，基礎備份程序
+會建立一份*備份歷史檔（backup history file）*，並立即
+儲存到 WAL 歸檔區域中。這個檔案是以
+檔案系統備份所需的第一個 WAL 區段檔案命名的。
+舉例來說，若起始的 WAL 檔案是
+`0000000100001234000055CD`，備份歷史檔就會被
+命名為類似
+`0000000100001234000055CD.007C9330.backup` 的名稱。（檔案名稱的
+第二部分，代表 WAL 檔案中的確切位置，
+通常可以忽略。）一旦你已安全地歸檔了
+檔案系統備份，以及備份期間使用的 WAL 區段檔案
+（如備份歷史檔所指定），所有名稱編號較小的
+已歸檔 WAL 區段就不再是還原
+該檔案系統備份所需要的，可以刪除。不過，你
+應該考慮保留數個備份集，以確保絕對
+能夠還原你的資料。
 
-The backup history file is just a small text file. It contains the
-label string you gave to [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md), as well as
-the starting and ending times and WAL segments of the backup.
-If you used the label to identify the associated dump file,
-then the archived history file is enough to tell you which dump file to
-restore.
+備份歷史檔只是一個小型文字檔。它包含了
+你提供給 [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 的標籤字串，
+以及該次備份的起訖時間與 WAL 區段。
+若你曾使用該標籤來識別對應的傾印檔案，
+那麼歸檔中的歷史檔就足以告訴你該還原
+哪一份傾印檔案。
 
-Since you have to keep around all the archived WAL files back to your
-last base backup, the interval between base backups should usually be
-chosen based on how much storage you want to expend on archived WAL
-files. You should also consider how long you are prepared to spend
-recovering, if recovery should be necessary — the system will have to
-replay all those WAL segments, and that could take awhile if it has
-been a long time since the last base backup.
+由於你必須保留所有從上次基礎備份以來
+歸檔的 WAL 檔案，基礎備份之間的間隔通常應
+根據你願意在已歸檔 WAL 檔案上耗費多少
+儲存空間來決定。你也應該考慮，若真的需要
+進行恢復，你願意花多久時間進行恢復——因為系統必須
+重放所有那些 WAL 區段，若距離上次基礎備份已經
+過了很長時間，這可能會需要一段不短的時間。
 
 <a id="BACKUP-INCREMENTAL-BACKUP"></a>
 
-### 25.3.3. Making an Incremental Backup [#](#BACKUP-INCREMENTAL-BACKUP)
+### 25.3.3. 製作增量備份 [#](#BACKUP-INCREMENTAL-BACKUP)
 
-You can use [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) to take an incremental
-backup by specifying the `--incremental` option. You must
-supply, as an argument to `--incremental`, the backup
-manifest to an earlier backup from the same server. In the resulting
-backup, non-relation files will be included in their entirety, but some
-relation files may be replaced by smaller incremental files which contain
-only the blocks which have been changed since the earlier backup and enough
-metadata to reconstruct the current version of the file.
+你可以透過指定 `--incremental` 選項，使用
+[pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 進行增量備份。你必須
+提供 `--incremental` 的引數，也就是
+來自同一伺服器、較早一次備份的備份清單（manifest）。在產生的
+備份中，非關聯（non-relation）檔案會被完整包含在內，但部分
+關聯檔案可能會被較小的增量檔案取代，這些增量檔案只包含
+自較早那次備份以來已變更的區塊，
+以及足以重建該檔案目前版本所需的中繼資料。
 
-To figure out which blocks need to be backed up, the server uses WAL
-summaries, which are stored in the data directory, inside the directory
-`pg_wal/summaries`. If the required summary files are not
-present, an attempt to take an incremental backup will fail. The summaries
-present in this directory must cover all LSNs from the start LSN of the
-prior backup to the start LSN of the current backup. Since the server looks
-for WAL summaries just after establishing the start LSN of the current
-backup, the necessary summary files probably won't be instantly present
-on disk, but the server will wait for any missing files to show up.
-This also helps if the WAL summarization process has fallen behind.
-However, if the necessary files have already been removed, or if the WAL
-summarizer doesn't catch up quickly enough, the incremental backup will
-fail.
+為了判斷哪些區塊需要備份，伺服器會使用儲存在
+資料目錄中、位於
+`pg_wal/summaries` 目錄下的 WAL 摘要。若
+所需的摘要檔案不存在，嘗試進行增量備份就會
+失敗。此目錄中的摘要必須涵蓋從先前備份的起始
+LSN，到目前備份起始 LSN 之間的所有 LSN。由於伺服器是在
+確立目前備份的起始 LSN 之後，才開始尋找 WAL 摘要，
+所需的摘要檔案很可能不會立即
+存在於磁碟上，但伺服器會等待任何缺少的
+檔案出現。這在 WAL 摘要化程序落後時
+也有幫助。不過，若所需的檔案已經
+被移除，或 WAL 摘要化程序趕不上進度，增量備份就會
+失敗。
 
-When restoring an incremental backup, it will be necessary to have not
-only the incremental backup itself but also all earlier backups that
-are required to supply the blocks omitted from the incremental backup.
-See [pg_combinebackup](../../reference/reference-client/app-pgcombinebackup.md) for further information about
-this requirement. Note that there are restrictions on the use of
-`pg_combinebackup` when the checksum status of the
-cluster has been changed; see
+在還原增量備份時，除了增量備份本身，你還需要
+所有用於補足增量備份中所省略區塊的
+較早備份。有關此項需求的更多資訊，請見
+[pg_combinebackup](../../reference/reference-client/app-pgcombinebackup.md)。請注意，當叢集的
+checksum 狀態已變更時，使用
+`pg_combinebackup` 會受到限制；詳見
 [pg_combinebackup
-limitations](../../reference/reference-client/app-pgcombinebackup.md#APP-PGCOMBINEBACKUP-LIMITATIONS).
+的限制](../../reference/reference-client/app-pgcombinebackup.md#APP-PGCOMBINEBACKUP-LIMITATIONS)。
 
-Note that all of the requirements for making use of a full backup also
-apply to an incremental backup. For instance, you still need all of the
-WAL segment files generated during and after the file system backup, and
-any relevant WAL history files. And you still need to create a
-`recovery.signal` (or `standby.signal`)
-and perform recovery, as described in
-[Section 25.3.5](continuous-archiving.md#BACKUP-PITR-RECOVERY). The requirement to have earlier
-backups available at restore time and to use
-`pg_combinebackup` is an additional requirement on top of
-everything else. Keep in mind that PostgreSQL
-has no built-in mechanism to figure out which backups are still needed as
-a basis for restoring later incremental backups. You must keep track of
-the relationships between your full and incremental backups on your own,
-and be certain not to remove earlier backups if they might be needed when
-restoring later incremental backups.
+請注意，使用完整備份所需的所有要求，同樣也
+適用於增量備份。舉例來說，你仍然需要檔案系統備份
+期間及之後所產生的全部 WAL 區段檔案，
+以及任何相關的 WAL 歷史檔。你也仍然需要建立
+`recovery.signal`（或 `standby.signal`）
+並執行恢復，如
+[第 25.3.5 節](continuous-archiving.md#BACKUP-PITR-RECOVERY)所述。在還原時需要有較早的
+備份可用，以及需要使用
+`pg_combinebackup`，這是在其他所有要求之外
+額外增加的要求。請注意，PostgreSQL
+並沒有內建機制，能判斷哪些備份仍是還原後續增量備份
+所需要的基礎。你必須自行追蹤
+完整備份與增量備份之間的關係，
+並確保不會在還原後續增量備份時可能仍需要
+較早的備份的情況下，誤刪它們。
 
-Incremental backups typically only make sense for relatively large
-databases where a significant portion of the data does not change, or only
-changes slowly. For a small database, it's simpler to ignore the existence
-of incremental backups and simply take full backups, which are simpler
-to manage. For a large database all of which is heavily modified,
-incremental backups won't be much smaller than full backups.
+增量備份通常只在相對較大的資料庫中才有意義，這類資料庫
+有相當比例的資料不會變更，或只是緩慢地
+變更。對於小型資料庫，忽略增量備份的存在，
+單純製作完整備份會比較簡單，也較容易管理。對於
+整個資料庫都會被大量修改的大型資料庫，
+增量備份不會比完整備份小上多少。
 
-An incremental backup is only possible if replay would begin from a later
-checkpoint than for the previous backup upon which it depends. If you
-take the incremental backup on the primary, this condition is always
-satisfied, because each backup triggers a new checkpoint. On a standby,
-replay begins from the most recent restartpoint. Therefore, an
-incremental backup of a standby server can fail if there has been very
-little activity since the previous backup, since no new restartpoint might
-have been created.
+只有當本次重放的起始檢查點，晚於先前所依賴之備份的重放起始
+檢查點時，才有可能製作增量備份。若你
+在主要伺服器上製作增量備份，這個條件永遠
+會成立，因為每次備份都會觸發一次新的檢查點。在備用伺服器上，
+重放會從最近一次的重新啟動點（restartpoint）開始。因此，
+若自上次備份以來活動非常
+少，備用伺服器的增量備份可能會失敗，因為
+可能沒有建立任何新的重新啟動點。
 
 <a id="BACKUP-LOWLEVEL-BASE-BACKUP"></a>
 
-### 25.3.4. Making a Base Backup Using the Low Level API [#](#BACKUP-LOWLEVEL-BASE-BACKUP)
+### 25.3.4. 使用低階 API 製作基礎備份 [#](#BACKUP-LOWLEVEL-BASE-BACKUP)
 
-Instead of taking a full or incremental base backup using
-[pg_basebackup](../../reference/reference-client/app-pgbasebackup.md), you can take a base backup using the
-low-level API. This procedure contains a few more steps than
-the pg_basebackup method, but is relatively
-simple. It is very important that these steps are executed in
-sequence, and that the success of a step is verified before
-proceeding to the next step.
+除了使用
+[pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 製作完整或增量基礎備份之外，你也可以使用
+低階 API 製作基礎備份。此程序比
+pg_basebackup 方法多了幾個
+步驟，但相對而言仍算
+簡單。務必依序執行這些
+步驟，並在進行下一步之前，先確認上一步是否
+成功，這一點非常重要。
 
-Multiple backups are able to be run concurrently (both those
-started using this backup API and those started using
-[pg_basebackup](../../reference/reference-client/app-pgbasebackup.md)).
+可以同時執行多個備份
+（無論是使用此備份 API 啟動的備份，
+還是使用
+[pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 啟動的備份）。
 
-1. Ensure that WAL archiving is enabled and working.
-2. Connect to the server (it does not matter which database) as a user with
-   rights to run `pg_backup_start` (superuser,
-   or a user who has been granted `EXECUTE` on the
-   function) and issue the command:
+1. 確認 WAL 歸檔已啟用並正常運作。
+2. 以具有執行 `pg_backup_start` 權限的使用者身分
+   （超級使用者，或已被授予
+   `EXECUTE` 權限的使用者）連線到伺服器（連到哪個資料庫都無妨），
+   並發出以下指令：
 
    ```
 
    SELECT pg_backup_start(label => 'label', fast => false);
    ```
 
-   where `label` is any string you want to use to uniquely
-   identify this backup operation. The connection
-   calling `pg_backup_start` must be maintained until the end of
-   the backup, or the backup will be automatically aborted.
+   其中 `label` 是你想用來唯一
+   識別這次備份操作的任意字串。呼叫
+   `pg_backup_start` 的這個連線，必須維持到備份
+   結束為止，否則備份會被自動中止。
 
-   Online backups are always started at the beginning of a checkpoint.
-   By default, `pg_backup_start` will wait for the next
-   regularly scheduled checkpoint to complete, which may take a long time (see the
-   configuration parameters [checkpoint_timeout](../runtime-config/runtime-config-wal.md#GUC-CHECKPOINT-TIMEOUT) and
-   [checkpoint_completion_target](../runtime-config/runtime-config-wal.md#GUC-CHECKPOINT-COMPLETION-TARGET)). This is
-   usually preferable as it minimizes the impact on the running system. If you
-   want to start the backup as soon as possible, pass `true` as
-   the second parameter to `pg_backup_start` and it will
-   request an immediate checkpoint, which will finish as fast as possible using
-   as much I/O as possible.
-3. Perform the backup, using any convenient file-system-backup tool
-   such as tar or cpio (not
-   pg_dump or
-   pg_dumpall). It is neither
-   necessary nor desirable to stop normal operation of the database
-   while you do this. See
-   [Section 25.3.4.1](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP-DATA) for things to
-   consider during this backup.
-4. In the same connection as before, issue the command:
+   線上備份一律從某個檢查點的開頭開始。
+   預設情況下，`pg_backup_start` 會等待
+   下一個定期排程的檢查點完成，這可能需要很長時間（見
+   組態參數 [checkpoint_timeout](../runtime-config/runtime-config-wal.md#GUC-CHECKPOINT-TIMEOUT) 與
+   [checkpoint_completion_target](../runtime-config/runtime-config-wal.md#GUC-CHECKPOINT-COMPLETION-TARGET)）。這種做法
+   通常較好，因為它能將對正在運作中系統的影響降到最低。若你
+   想盡快開始備份，可以將 `true` 作為
+   `pg_backup_start` 的第二個參數傳入，它便會
+   請求立即進行一次檢查點，該檢查點會盡可能使用
+   最多的 I/O，並盡快完成。
+3. 使用任何方便的檔案系統備份工具
+   （例如 tar 或 cpio，而非
+   pg_dump 或
+   pg_dumpall）執行備份。在你這麼做的過程中，
+   既不需要、也不建議
+   停止資料庫的正常運作。有關這次備份期間需要考量的事項，見
+   [第 25.3.4.1 節](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP-DATA)。
+4. 在與之前相同的連線中，發出以下指令：
 
    ```
 
    SELECT * FROM pg_backup_stop(wait_for_archive => true);
    ```
 
-   This terminates backup mode. On a primary, it also performs an automatic
-   switch to the next WAL segment. On a standby, it is not possible to
-   automatically switch WAL segments, so you may wish to run
-   `pg_switch_wal` on the primary to perform a manual
-   switch. The reason for the switch is to arrange for
-   the last WAL segment file written during the backup interval to be
-   ready to archive.
+   這會終止備份模式。在主要伺服器上，它也會自動
+   切換到下一個 WAL 區段。在備用伺服器上，無法
+   自動切換 WAL 區段，因此你可能需要在
+   主要伺服器上執行 `pg_switch_wal` 進行手動
+   切換。之所以要切換，是為了讓
+   備份期間所寫入的最後一個 WAL 區段檔案，
+   能夠準備好進行歸檔。
 
-   `pg_backup_stop` will return one row with three
-   values. The second of these fields should be written to a file named
-   `backup_label` in the root directory of the backup. The
-   third field should be written to a file named
-   `tablespace_map` unless the field is empty. These files are
-   vital to the backup working and must be written byte for byte without
-   modification, which may require opening the file in binary mode.
-5. Once the WAL segment files active during the backup are archived, you are
-   done. The file identified by `pg_backup_stop`'s first return
-   value is the last segment that is required to form a complete set of
-   backup files. On a primary, if `archive_mode` is enabled and the
-   `wait_for_archive` parameter is `true`,
-   `pg_backup_stop` does not return until the last segment has
-   been archived.
-   On a standby, `archive_mode` must be `always` in order
-   for `pg_backup_stop` to wait.
-   Archiving of these files happens automatically since you have
-   already configured `archive_command` or `archive_library`.
-   In most cases this happens quickly, but you are advised to monitor your
-   archive system to ensure there are no delays.
-   If the archive process has fallen behind because of failures of the
-   archive command or library, it will keep retrying
-   until the archive succeeds and the backup is complete.
-   If you wish to place a time limit on the execution of
-   `pg_backup_stop`, set an appropriate
-   `statement_timeout` value, but make note that if
-   `pg_backup_stop` terminates because of this your backup
-   may not be valid.
+   `pg_backup_stop` 會回傳一列含有三個
+   值的結果。第二個欄位應該被寫入到備份根目錄下、
+   名為 `backup_label` 的檔案中。第
+   三個欄位除非為空，否則應被寫入到
+   名為 `tablespace_map` 的檔案中。這些檔案
+   對備份能否運作至關重要，必須以逐位元組、不做任何
+   修改的方式寫入，這可能需要以二進位模式開啟該檔案。
+5. 一旦備份期間作用中的 WAL 區段檔案都已歸檔完成，
+   你就完成了。由 `pg_backup_stop` 第一個回傳
+   值所識別出的檔案，就是構成一組完整
+   備份檔所需的最後一個區段。在主要伺服器上，若 `archive_mode` 已啟用，且
+   `wait_for_archive` 參數為 `true`，
+   `pg_backup_stop` 就不會返回，直到最後一個區段
+   已被歸檔為止。
+   在備用伺服器上，`archive_mode` 必須設為 `always`，
+   `pg_backup_stop` 才會等待。
+   由於你已經設定了 `archive_command` 或 `archive_library`，
+   這些檔案的歸檔會自動進行。
+   在大多數情況下，這會很快完成，但仍建議你
+   監控你的歸檔系統，確保沒有延遲。
+   若歸檔程序因為歸檔指令或函式庫失敗而落後，
+   它會持續重試，
+   直到歸檔成功、備份完成為止。
+   若你想為 `pg_backup_stop` 的執行
+   時間設下限制，請設定適當的
+   `statement_timeout` 值，但請注意，若
+   `pg_backup_stop` 因此而終止，你的備份
+   可能無效。
 
-   If the backup process monitors and ensures that all WAL segment files
-   required for the backup are successfully archived then the
-   `wait_for_archive` parameter (which defaults to true) can be set
-   to false to have
-   `pg_backup_stop` return as soon as the stop backup record is
-   written to the WAL. By default, `pg_backup_stop` will wait
-   until all WAL has been archived, which can take some time. This option
-   must be used with caution: if WAL archiving is not monitored correctly
-   then the backup might not include all of the WAL files and will
-   therefore be incomplete and not able to be restored.
+   若備份程序能監控並確保備份所需的所有 WAL 區段檔案
+   都已成功歸檔，則可以將
+   `wait_for_archive` 參數（預設為 true）設為 false，讓
+   `pg_backup_stop` 在停止備份記錄被寫入
+   WAL 後即刻返回。預設情況下，`pg_backup_stop` 會
+   等待，直到所有 WAL 都已歸檔完成為止，這可能需要一些時間。此選項
+   必須謹慎使用：若沒有正確監控 WAL 歸檔，
+   則備份可能不會包含所有 WAL 檔案，因此
+   會不完整而無法還原。
 
 <a id="BACKUP-LOWLEVEL-BASE-BACKUP-DATA"></a>
 
-#### 25.3.4.1. Backing Up the Data Directory [#](#BACKUP-LOWLEVEL-BASE-BACKUP-DATA)
+#### 25.3.4.1. 備份資料目錄 [#](#BACKUP-LOWLEVEL-BASE-BACKUP-DATA)
 
-Some file system backup tools emit warnings or errors
-if the files they are trying to copy change while the copy proceeds.
-When taking a base backup of an active database, this situation is normal
-and not an error. However, you need to ensure that you can distinguish
-complaints of this sort from real errors. For example, some versions
-of rsync return a separate exit code for
-“vanished source files”, and you can write a driver script to
-accept this exit code as a non-error case. Also, some versions of
-GNU tar return an error code indistinguishable from
-a fatal error if a file was truncated while tar was
-copying it. Fortunately, GNU tar versions 1.16 and
-later exit with 1 if a file was changed during the backup,
-and 2 for other errors. With GNU tar version 1.23 and
-later, you can use the warning options `--warning=no-file-changed
---warning=no-file-removed` to hide the related warning messages.
+若某些檔案系統備份工具在複製過程中，
+發現正嘗試複製的檔案發生變更，會發出警告或錯誤。
+在對運作中的資料庫進行基礎備份時，這種情況是正常的，
+而非錯誤。不過，你需要能夠區分這類
+抱怨與真正的錯誤。舉例來說，某些
+版本的 rsync 會針對
+「來源檔案消失」回傳一個獨立的結束代碼，你可以撰寫一個
+驅動程式腳本，將此結束代碼視為非錯誤情況接受。此外，某些
+版本的 GNU tar，在 tar
+複製檔案過程中該檔案被截斷時，會回傳一個
+與致命錯誤無法區分的錯誤代碼。所幸，GNU tar
+1.16 及
+之後的版本，會在備份過程中檔案有變更時以 1 結束，
+其他錯誤則以 2 結束。使用 GNU tar 1.23
+及之後的版本時，你可以使用警告選項 `--warning=no-file-changed
+--warning=no-file-removed` 來隱藏相關的警告訊息。
 
-Be certain that your backup includes all of the files under
-the database cluster directory (e.g., `/usr/local/pgsql/data`).
-If you are using tablespaces that do not reside underneath this directory,
-be careful to include them as well (and be sure that your backup
-archives symbolic links as links, otherwise the restore will corrupt
-your tablespaces).
+請務必確認你的備份，包含了
+資料庫叢集目錄（例如 `/usr/local/pgsql/data`）下的所有檔案。
+若你使用的是並非位於此目錄之下的表空間，
+請務必一併將它們納入（並確保你的備份工具
+會以符號連結的形式歸檔符號連結，否則還原時將會損壞
+你的表空間）。
 
-You should, however, omit from the backup the files within the
-cluster's `pg_wal/` subdirectory. This
-slight adjustment is worthwhile because it reduces the risk
-of mistakes when restoring. This is easy to arrange if
-`pg_wal/` is a symbolic link pointing to someplace outside
-the cluster directory, which is a common setup anyway for performance
-reasons. You might also want to exclude `postmaster.pid`
-and `postmaster.opts`, which record information
-about the running postmaster, not about the
-postmaster which will eventually use this backup.
-(These files can confuse pg_ctl.)
+不過，你應該將叢集 `pg_wal/` 子目錄中的
+檔案排除在備份之外。做這項
+小調整是值得的，因為它能降低
+還原時發生錯誤的風險。若
+`pg_wal/` 是一個指向叢集目錄之外某處的符號連結，
+這很容易安排——而這本來就是出於效能因素而常見的
+設定方式。你可能也會想排除
+`postmaster.pid` 與 `postmaster.opts`，
+這兩個檔案記錄的是正在執行中的 postmaster 的
+資訊，而不是未來會使用這份備份的
+那個 postmaster 的資訊。
+（這些檔案可能會讓 pg_ctl 混淆。）
 
-It is often a good idea to also omit from the backup the files
-within the cluster's `pg_replslot/` directory, so that
-replication slots that exist on the primary do not become part of the
-backup. Otherwise, the subsequent use of the backup to create a standby
-may result in indefinite retention of WAL files on the standby, and
-possibly bloat on the primary if hot standby feedback is enabled, because
-the clients that are using those replication slots will still be connecting
-to and updating the slots on the primary, not the standby. Even if the
-backup is only intended for use in creating a new primary, copying the
-replication slots isn't expected to be particularly useful, since the
-contents of those slots will likely be badly out of date by the time
-the new primary comes on line.
+通常也建議將叢集 `pg_replslot/` 目錄中的
+檔案排除在備份之外，這樣一來，主要伺服器上
+既有的複寫插槽就不會成為
+備份的一部分。否則，日後若使用該備份建立備用伺服器，
+可能會導致備用伺服器上無限期地保留 WAL 檔案，
+而且若啟用了 hot standby feedback，主要伺服器上也可能因此
+膨脹，因為使用那些複寫插槽的用戶端，
+仍會持續連線並更新主要伺服器上的插槽，
+而不是備用伺服器上的插槽。即使該
+備份僅打算用來建立新的主要伺服器，複製複寫插槽
+預期也不會特別有用，因為到新主要伺服器上線時，
+那些插槽的內容很可能早已
+嚴重過時。
 
-The contents of the directories `pg_dynshmem/`,
-`pg_notify/`, `pg_serial/`,
-`pg_snapshots/`, `pg_stat_tmp/`,
-and `pg_subtrans/` (but not the directories themselves) can be
-omitted from the backup as they will be initialized on postmaster startup.
+`pg_dynshmem/`、
+`pg_notify/`、`pg_serial/`、
+`pg_snapshots/`、`pg_stat_tmp/`
+及 `pg_subtrans/` 這幾個目錄的內容（但不含目錄本身），
+可以從備份中省略，因為它們會在 postmaster
+啟動時初始化。
 
-Any file or directory beginning with `pgsql_tmp` can be
-omitted from the backup. These files are removed on postmaster start and
-the directories will be recreated as needed.
+任何以 `pgsql_tmp` 開頭的檔案或目錄，都可以
+從備份中省略。這些檔案會在 postmaster 啟動時被移除，
+而這些目錄會視需要重新建立。
 
-`pg_internal.init` files can be omitted from the
-backup whenever a file of that name is found. These files contain
-relation cache data that is always rebuilt when recovering.
+只要找到名為 `pg_internal.init` 的檔案，
+就可以將其從備份中省略。這些檔案包含
+關聯快取資料，在恢復時一律會重新建立。
 
-The backup label
-file includes the label string you gave to `pg_backup_start`,
-as well as the time at which `pg_backup_start` was run, and
-the name of the starting WAL file. In case of confusion it is therefore
-possible to look inside a backup file and determine exactly which
-backup session the dump file came from. The tablespace map file includes
-the symbolic link names as they exist in the directory
-`pg_tblspc/` and the full path of each symbolic link.
-These files are not merely for your information; their presence and
-contents are critical to the proper operation of the system's recovery
-process.
+備份標籤
+檔案包含了你提供給 `pg_backup_start` 的標籤字串，
+以及執行 `pg_backup_start` 的時間，
+以及起始 WAL 檔案的名稱。因此，若遇到混淆，
+你可以查看備份檔案內部，準確判定
+該傾印檔案來自哪一次備份作業。表空間對應檔
+包含了符號連結名稱（如同它們存在於
+`pg_tblspc/` 目錄中的樣子），以及每個符號連結的完整路徑。
+這些檔案不僅僅是提供資訊而已；它們的存在
+與內容，對系統恢復程序能否正確運作
+至關重要。
 
-It is also possible to make a backup while the server is
-stopped. In this case, you obviously cannot use
-`pg_backup_start` or `pg_backup_stop`, and
-you will therefore be left to your own devices to keep track of which
-backup is which and how far back the associated WAL files go.
-It is generally better to follow the continuous archiving procedure above.
+也可以在伺服器停止時進行備份。在這種情況下，
+你顯然無法使用
+`pg_backup_start` 或 `pg_backup_stop`，
+因此你必須自行負責追蹤
+哪份備份是哪一份，以及相關的 WAL 檔案往前追溯多遠。
+一般而言，最好還是遵循上述的連續歸檔程序。
 
 <a id="BACKUP-PITR-RECOVERY"></a>
 
-### 25.3.5. Recovering Using a Continuous Archive Backup [#](#BACKUP-PITR-RECOVERY)
+### 25.3.5. 使用連續歸檔備份進行恢復 [#](#BACKUP-PITR-RECOVERY)
 
-Okay, the worst has happened and you need to recover from your backup.
-Here is the procedure:
+好，最糟的狀況發生了，你需要從備份中恢復。
+程序如下：
 
-1. Stop the server, if it's running.
-2. If you have the space to do so,
-   copy the whole cluster data directory and any tablespaces to a temporary
-   location in case you need them later. Note that this precaution will
-   require that you have enough free space on your system to hold two
-   copies of your existing database. If you do not have enough space,
-   you should at least save the contents of the cluster's `pg_wal`
-   subdirectory, as it might contain WAL files which
-   were not archived before the system went down.
-3. Remove all existing files and subdirectories under the cluster data
-   directory and under the root directories of any tablespaces you are using.
-4. If you're restoring a full backup, you can restore the database files
-   directly into the target directories. Be sure that they
-   are restored with the right ownership (the database system user, not
-   `root`!) and with the right permissions. If you are using
-   tablespaces,
-   you should verify that the symbolic links in `pg_tblspc/`
-   were correctly restored.
-5. If you're restoring an incremental backup, you'll need to restore the
-   incremental backup and all earlier backups upon which it directly or
-   indirectly depends to the machine where you are performing the restore.
-   These backups will need to be placed in separate directories, not the
-   target directories where you want the running server to end up.
-   Once this is done, use [pg_combinebackup](../../reference/reference-client/app-pgcombinebackup.md) to pull
-   data from the full backup and all of the subsequent incremental backups
-   and write out a synthetic full backup to the target directories. As above,
-   verify that permissions and tablespace links are correct.
-6. Remove any files present in `pg_wal/`; these came from the
-   file system backup and are therefore probably obsolete rather than current.
-   If you didn't archive `pg_wal/` at all, then recreate
-   it with proper permissions,
-   being careful to ensure that you re-establish it as a symbolic link
-   if you had it set up that way before.
-7. If you have unarchived WAL segment files that you saved in step 2,
-   copy them into `pg_wal/`. (It is best to copy them,
-   not move them, so you still have the unmodified files if a
-   problem occurs and you have to start over.)
-8. Set recovery configuration settings in
-   `postgresql.conf` (see [Section 19.5.5](../runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY)) and create a file
-   `recovery.signal` in the cluster
-   data directory. You might
-   also want to temporarily modify `pg_hba.conf` to prevent
-   ordinary users from connecting until you are sure the recovery was successful.
-9. Start the server. The server will go into recovery mode and
-   proceed to read through the archived WAL files it needs. Should the
-   recovery be terminated because of an external error, the server can
-   simply be restarted and it will continue recovery. Upon completion
-   of the recovery process, the server will remove
-   `recovery.signal` (to prevent
-   accidentally re-entering recovery mode later) and then
-   commence normal database operations.
-10. Inspect the contents of the database to ensure you have recovered to
-    the desired state. If not, return to step 1. If all is well,
-    allow your users to connect by restoring `pg_hba.conf` to normal.
+1. 若伺服器正在執行，請先將其停止。
+2. 若你有足夠的空間，
+   請將整個叢集資料目錄以及任何表空間，複製到暫存
+   位置，以備日後需要。請注意，此預防措施
+   要求你的系統要有足夠的可用空間，能容納現有資料庫的
+   兩份複本。若沒有足夠的空間，
+   至少應該保存叢集 `pg_wal`
+   子目錄的內容，因為其中可能包含
+   在系統當機之前尚未歸檔的 WAL 檔案。
+3. 移除叢集資料目錄，以及你所使用之任何表空間根目錄下
+   所有既有的檔案與子目錄。
+4. 若你要還原的是完整備份，可以直接將資料庫檔案
+   還原到目標目錄中。請確認
+   它們是以正確的所有權（資料庫系統使用者，而非
+   `root`！）以及正確的權限還原的。若你使用了
+   表空間，
+   應驗證 `pg_tblspc/` 中的符號連結
+   是否已正確還原。
+5. 若你要還原的是增量備份，你需要將該
+   增量備份，以及它直接或間接依賴的所有較早備份，
+   還原到你進行還原作業的機器上。
+   這些備份必須放在各自獨立的目錄中，而不是
+   你希望執行中伺服器最終所在的目標目錄。
+   完成後，使用 [pg_combinebackup](../../reference/reference-client/app-pgcombinebackup.md) 從
+   完整備份及後續所有的增量備份中擷取
+   資料，並將合成出的完整備份寫入目標目錄。如同上述，
+   請驗證權限與表空間連結是否正確。
+6. 移除 `pg_wal/` 中的所有現有檔案；這些檔案來自
+   檔案系統備份，因此可能已經過時，而非最新狀態。
+   若你當初完全沒有歸檔 `pg_wal/`，則需要
+   以正確的權限重新建立它，
+   並且要小心，若你原本是以符號連結的方式設定它，
+   應重新以符號連結建立。
+7. 若你在步驟 2 中保存了尚未歸檔的 WAL 區段檔案，
+   請將它們複製到 `pg_wal/` 中。（最好是複製，
+   而不是移動，這樣萬一發生問題而必須
+   重新來過，你手上仍保有未經修改的原始檔案。）
+8. 在 `postgresql.conf` 中設定恢復組態
+   （見[第 19.5.5 節](../runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY)），並在叢集
+   資料目錄中建立一個
+   `recovery.signal` 檔案。你可能
+   也會想暫時修改 `pg_hba.conf`，防止一般使用者
+   在你確認恢復成功之前連線。
+9. 啟動伺服器。伺服器會進入恢復模式，
+   並開始讀取所需的已歸檔 WAL 檔案。若
+   恢復因外部錯誤而中止，只需要
+   重新啟動伺服器，它就會繼續進行恢復。完成
+   恢復程序後，伺服器會移除
+   `recovery.signal`（以避免
+   日後不小心再次進入恢復模式），然後
+   開始正常的資料庫運作。
+10. 檢查資料庫內容，確認你已恢復到
+    所需要的狀態。若尚未達成，請回到步驟 1。若一切
+    正常，請將 `pg_hba.conf` 還原為正常狀態，
+    以允許使用者連線。
 
-The key part of all this is to set up a recovery configuration that
-describes how you want to recover and how far the recovery should
-run. The one thing that you absolutely must specify is the `restore_command`,
-which tells PostgreSQL how to retrieve archived
-WAL file segments. Like the `archive_command`, this is
-a shell command string. It can contain `%f`, which is
-replaced by the name of the desired WAL file, and `%p`,
-which is replaced by the path name to copy the WAL file to.
-(The path name is relative to the current working directory,
-i.e., the cluster's data directory.)
-Write `%%` if you need to embed an actual `%`
-character in the command. The simplest useful command is
-something like:
+這一切的關鍵部分，在於設定一份恢復組態，
+描述你想如何恢復，以及恢復
+應該進行到哪裡。你絕對必須指定的一項，就是 `restore_command`，
+它會告訴 PostgreSQL 如何取回
+已歸檔的 WAL 檔案區段。與 `archive_command` 相同，
+這是一個 shell 指令字串。它可以包含 `%f`，
+會被替換為所需 WAL 檔案的名稱，以及 `%p`，
+會被替換為要複製 WAL 檔案到的目標路徑名稱。
+（該路徑名稱是相對於目前工作目錄，
+也就是叢集的資料目錄。）
+若你需要在指令中嵌入實際的 `%`
+字元，請寫 `%%`。最簡單且實用的指令
+大概像這樣：
 
 ```
 
 restore_command = 'cp /mnt/server/archivedir/%f %p'
 ```
 
-which will copy previously archived WAL segments from the directory
-`/mnt/server/archivedir`. Of course, you can use something
-much more complicated, perhaps even a shell script that requests the
-operator to mount an appropriate tape.
+這會從 `/mnt/server/archivedir`
+目錄複製先前已歸檔的 WAL 區段。當然，你也可以使用複雜得多的做法，
+甚至用一個要求操作人員
+掛載適當磁帶的 shell 指令碼。
 
-It is important that the command return nonzero exit status on failure.
-The command *will* be called requesting files that are not
-present in the archive; it must return nonzero when so asked. This is not
-an error condition. An exception is that if the command was terminated by
-a signal (other than SIGTERM, which is used as
-part of a database server shutdown) or an error by the shell (such as
-command not found), then recovery will abort and the server will not start
-up.
+失敗時，該指令務必回傳非零結束狀態，這點非常重要。
+該指令*一定*會被呼叫，去請求一些歸檔中
+不存在的檔案；被這樣要求時，它必須回傳非零狀態。這並非
+錯誤情況。唯一的例外是，若該指令是被
+訊號終止（作為資料庫伺服器關閉
+一部分所使用的 SIGTERM 除外），或是被 shell 判定為錯誤
+（例如指令不存在），此時恢復就會中止，且伺服器不會
+啟動。
 
-Not all of the requested files will be WAL segment
-files; you should also expect requests for files with a suffix of
-`.history`. Also be aware that
-the base name of the `%p` path will be different from
-`%f`; do not expect them to be interchangeable.
+並非所有被請求的檔案都是 WAL 區段
+檔案；你也應該預期會收到副檔名為
+`.history` 的檔案請求。此外請注意，
+`%p` 路徑的基底名稱，會與
+`%f` 不同；不要預期它們可以互換。
 
-WAL segments that cannot be found in the archive will be sought in
-`pg_wal/`; this allows use of recent un-archived segments.
-However, segments that are available from the archive will be used in
-preference to files in `pg_wal/`.
+在歸檔中找不到的 WAL 區段，會轉而
+在 `pg_wal/` 中尋找；這讓系統得以使用
+最近尚未歸檔的區段。不過，若某個區段
+可從歸檔取得，則會優先使用歸檔中的檔案，
+而非 `pg_wal/` 中的檔案。
 
-Normally, recovery will proceed through all available WAL segments,
-thereby restoring the database to the current point in time (or as
-close as possible given the available WAL segments). Therefore, a normal
-recovery will end with a “file not found” message, the exact text
-of the error message depending upon your choice of
-`restore_command`. You may also see an error message
-at the start of recovery for a file named something like
-`00000001.history`. This is also normal and does not
-indicate a problem in simple recovery situations; see
-[Section 25.3.6](continuous-archiving.md#BACKUP-TIMELINES) for discussion.
+正常情況下，恢復會依序處理所有可用的 WAL 區段，
+藉此將資料庫還原到目前的時間點
+（或在可用 WAL 區段容許的範圍內，盡可能接近目前時間點）。因此，一次
+正常的恢復，最後會以一則「file not found（找不到檔案）」
+訊息結束，該錯誤訊息的確切文字，取決於你所選擇的
+`restore_command`。你也可能會在恢復開始時，
+看到一則針對名稱類似
+`00000001.history` 的檔案所發出的錯誤訊息。在
+簡單的恢復情境中，這同樣是正常現象，並不
+表示有問題；詳見
+[第 25.3.6 節](continuous-archiving.md#BACKUP-TIMELINES)的討論。
 
-If you want to recover to some previous point in time (say, right before
-the junior DBA dropped your main transaction table), just specify the
-required [stopping point](../runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-RECOVERY-TARGET). You can specify
-the stop point, known as the “recovery target”, either by
-date/time, named restore point or by completion of a specific transaction
-ID. As of this writing only the date/time and named restore point options
-are very usable, since there are no tools to help you identify with any
-accuracy which transaction ID to use.
+若你想恢復到先前某個時間點（比方說，就在
+那位資淺 DBA 把你的主要交易資料表刪除之前那一刻），
+只需指定所需的[停止點](../runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-RECOVERY-TARGET)。你可以透過
+日期／時間、具名的還原點，或某個特定交易
+ID 的完成情況，來指定這個停止點，也就是所謂的「恢復目標
+（recovery target）」。截至本文撰寫時，只有日期／時間及具名還原點這兩種選項
+相當實用，因為目前並沒有工具能協助你
+準確判斷應該使用哪一個交易 ID。
 
-### Note
+### 注意
 
-The stop point must be after the ending time of the base backup, i.e.,
-the end time of `pg_backup_stop`. You cannot use a base backup
-to recover to a time when that backup was in progress. (To
-recover to such a time, you must go back to your previous base backup
-and roll forward from there.)
+停止點必須晚於基礎備份的結束時間，也就是
+`pg_backup_stop` 的結束時間。你不能使用某個基礎備份，
+還原到該備份仍在進行中的那個時間點。（若
+想恢復到那樣的時間點，你必須回到更早的一次基礎備份，
+再從那裡開始向前重放。）
 
-If recovery finds corrupted WAL data, recovery will
-halt at that point and the server will not start. In such a case the
-recovery process could be re-run from the beginning, specifying a
-“recovery target” before the point of corruption so that recovery
-can complete normally.
-If recovery fails for an external reason, such as a system crash or
-if the WAL archive has become inaccessible, then the recovery can simply
-be restarted and it will restart almost from where it failed.
-Recovery restart works much like checkpointing in normal operation:
-the server periodically forces all its state to disk, and then updates
-the `pg_control` file to indicate that the already-processed
-WAL data need not be scanned again.
+若恢復過程中發現已損毀的 WAL 資料，恢復會在
+該處停止，伺服器也不會啟動。在這種情況下，
+可以從頭重新執行恢復程序，並指定一個位於
+損毀點之前的「恢復目標」，以便讓恢復
+能夠正常完成。
+若恢復因外部原因失敗，例如系統當機，或
+WAL 歸檔變得無法存取，則只需要重新啟動恢復，
+它幾乎會從失敗的地方重新開始。
+恢復重新啟動的運作方式，與正常運作中的檢查點機制相當類似：
+伺服器會定期將其所有狀態強制寫入磁碟，然後更新
+`pg_control` 檔案，標示已處理過的
+WAL 資料不需要再次掃描。
 
 <a id="BACKUP-TIMELINES"></a>
 
-### 25.3.6. Timelines [#](#BACKUP-TIMELINES)
+### 25.3.6. 時間軸 [#](#BACKUP-TIMELINES)
 
 <a id="id-1.6.12.7.14.2"></a>
 
-The ability to restore the database to a previous point in time creates
-some complexities that are akin to science-fiction stories about time
-travel and parallel universes. For example, in the original history of the database,
-suppose you dropped a critical table at 5:15PM on Tuesday evening, but
-didn't realize your mistake until Wednesday noon.
-Unfazed, you get out your backup, restore to the point-in-time 5:14PM
-Tuesday evening, and are up and running. In *this* history of
-the database universe, you never dropped the table. But suppose
-you later realize this wasn't such a great idea, and would like
-to return to sometime Wednesday morning in the original history.
-You won't be able
-to if, while your database was up-and-running, it overwrote some of the
-WAL segment files that led up to the time you now wish you
-could get back to. Thus, to avoid this, you need to distinguish the series of
-WAL records generated after you've done a point-in-time recovery from
-those that were generated in the original database history.
+將資料庫還原到先前某個時間點的能力，會產生
+一些複雜的情況，這與科幻故事中關於時間
+旅行與平行宇宙的情節頗為類似。舉例來說，在資料庫原本的歷史中，
+假設你在星期二晚上 5:15 PM 刪除了一張重要的資料表，
+卻直到星期三中午才發現這項錯誤。
+你毫不慌張，拿出備份，恢復到星期二晚上 5:14 PM 這個時間點，
+然後系統便順利上線運作。在資料庫宇宙的*這個*
+歷史中，你從未刪除過那張資料表。但假設
+你後來意識到這並不是個好主意，想要
+回到原本歷史中星期三早上的某個時刻。
+如果你的資料庫在上線運作期間，已經覆寫了一部分
+通往你現在想要回去的那個時間點的
+WAL 區段檔案，你就無法這麼做了。因此，為了避免這種情況，你需要
+將你完成時間點恢復*之後*所產生的一系列
+WAL 記錄，與資料庫原本歷史中所產生的那些記錄
+區分開來。
 
-To deal with this problem, PostgreSQL has a notion
-of *timelines*. Whenever an archive recovery completes,
-a new timeline is created to identify the series of WAL records
-generated after that recovery. The timeline
-ID number is part of WAL segment file names so a new timeline does
-not overwrite the WAL data generated by previous timelines.
-For example, in the WAL file name
-`0000000100001234000055CD`, the leading
-`00000001` is the timeline ID in hexadecimal. (Note that
-in other contexts, such as server log messages, timeline IDs are
-usually printed in decimal.)
+為了處理這個問題，PostgreSQL 有一個
+*時間軸（timeline）*的概念。每當一次歸檔恢復完成，
+就會建立一個新的時間軸，用以識別
+該次恢復之後所產生的一系列 WAL 記錄。時間軸
+ID 編號是 WAL 區段檔案名稱的一部分，因此新的時間軸
+不會覆寫先前時間軸所產生的 WAL 資料。
+舉例來說，在 WAL 檔案名稱
+`0000000100001234000055CD` 中，開頭的
+`00000001` 就是以十六進位表示的時間軸 ID。（請注意，
+在其他情境中，例如伺服器日誌訊息，時間軸 ID
+通常會以十進位顯示。）
 
-It is
-in fact possible to archive many different timelines. While that might
-seem like a useless feature, it's often a lifesaver. Consider the
-situation where you aren't quite sure what point-in-time to recover to,
-and so have to do several point-in-time recoveries by trial and error
-until you find the best place to branch off from the old history. Without
-timelines this process would soon generate an unmanageable mess. With
-timelines, you can recover to *any* prior state, including
-states in timeline branches that you abandoned earlier.
+事實上，歸檔多個不同的時間軸也是可能的。
+雖然這聽起來像是個沒什麼用的功能，但它往往能
+救你一命。想像這樣的情境：你不太確定該恢復到
+哪一個時間點，因此必須透過反覆試誤，
+進行好幾次時間點恢復，才能找出最適合從舊歷史
+分支出去的位置。若沒有時間軸，這個
+過程很快就會變成一團難以管理的混亂。有了
+時間軸，你就可以恢復到*任何*先前的狀態，
+包括你先前放棄的那些時間軸分支中的狀態。
 
-Every time a new timeline is created, PostgreSQL creates
-a “timeline history” file that shows which timeline it branched
-off from and when. These history files are necessary to allow the system
-to pick the right WAL segment files when recovering from an archive that
-contains multiple timelines. Therefore, they are archived into the WAL
-archive area just like WAL segment files. The history files are just
-small text files, so it's cheap and appropriate to keep them around
-indefinitely (unlike the segment files which are large). You can, if
-you like, add comments to a history file to record your own notes about
-how and why this particular timeline was created. Such comments will be
-especially valuable when you have a thicket of different timelines as
-a result of experimentation.
+每當建立一個新的時間軸，PostgreSQL 就會
+建立一份「時間軸歷史」檔案，顯示它是從哪一個時間軸、
+於何時分支出來的。這些歷史檔案是必要的，這樣系統
+在從包含多個時間軸的歸檔進行恢復時，
+才能挑選出正確的 WAL 區段檔案。因此，這些歷史檔案
+會像 WAL 區段檔案一樣，被歸檔到 WAL
+歸檔區域中。這些歷史檔案只是小型文字檔，
+因此無限期地保留它們（不像區段檔案那麼大）是既省成本又合適的
+做法。如果你願意，也可以在歷史檔案中加入註解，
+記錄你自己對於這個特定時間軸為何、如何建立的想法。這類
+註解在你日後面對一大堆不同時間軸、
+是先前實驗結果時，會特別有價值。
 
-The default behavior of recovery is to recover to the latest timeline found
-in the archive. If you wish to recover to the timeline that was current
-when the base backup was taken or into a specific child timeline (that
-is, you want to return to some state that was itself generated after a
-recovery attempt), you need to specify `current` or the
-target timeline ID in [recovery_target_timeline](../runtime-config/runtime-config-wal.md#GUC-RECOVERY-TARGET-TIMELINE). You
-cannot recover into timelines that branched off earlier than the base backup.
+恢復的預設行為，是恢復到歸檔中找到的最新
+時間軸。若你希望恢復到基礎備份製作時所處的
+那個時間軸，或恢復到某個特定的子時間軸（也就是
+你想要回到的狀態，是先前某次恢復嘗試之後
+才產生的），你需要在
+[recovery_target_timeline](../runtime-config/runtime-config-wal.md#GUC-RECOVERY-TARGET-TIMELINE) 中指定 `current`
+或目標時間軸 ID。你
+無法恢復到分支點早於基礎備份的時間軸。
 
 <a id="BACKUP-TIPS"></a>
 
-### 25.3.7. Tips and Examples [#](#BACKUP-TIPS)
+### 25.3.7. 提示與範例 [#](#BACKUP-TIPS)
 
-Some tips for configuring continuous archiving are given here.
+以下提供一些設定連續歸檔的提示。
 
 <a id="BACKUP-STANDALONE"></a>
 
-#### 25.3.7.1. Standalone Hot Backups [#](#BACKUP-STANDALONE)
+#### 25.3.7.1. 獨立式熱備份 [#](#BACKUP-STANDALONE)
 
-It is possible to use PostgreSQL's backup facilities to
-produce standalone hot backups. These are backups that cannot be used
-for point-in-time recovery, yet are typically much faster to backup and
-restore than pg_dump dumps. (They are also much larger
-than pg_dump dumps, so in some cases the speed advantage
-might be negated.)
+你可以使用 PostgreSQL 的備份功能，
+製作獨立式熱備份。這類備份無法用於
+時間點恢復，但通常在備份與
+還原速度上都比 pg_dump 傾印快得多。（它們的檔案大小也
+比 pg_dump 傾印大得多，因此在某些情況下，
+速度優勢可能會被抵消。）
 
-As with base backups, the easiest way to produce a standalone
-hot backup is to use the [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md)
-tool. If you include the `-X` parameter when calling
-it, all the write-ahead log required to use the backup will be
-included in the backup automatically, and no special action is
-required to restore the backup.
+如同基礎備份一樣，製作獨立式
+熱備份最簡單的方式，就是使用 [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md)
+工具。若你在呼叫它時加上 `-X` 參數，
+使用該備份所需的全部預寫日誌，都會自動被
+包含在備份中，因此還原該備份時不需要
+採取任何特殊動作。
 
 <a id="COMPRESSED-ARCHIVE-LOGS"></a>
 
-#### 25.3.7.2. Compressed Archive Logs [#](#COMPRESSED-ARCHIVE-LOGS)
+#### 25.3.7.2. 壓縮歸檔日誌 [#](#COMPRESSED-ARCHIVE-LOGS)
 
-If archive storage size is a concern, you can use
-gzip to compress the archive files:
+若歸檔儲存空間大小是個顧慮，你可以使用
+gzip 壓縮歸檔檔案：
 
 ```
 
 archive_command = 'gzip < %p > /mnt/server/archivedir/%f.gz'
 ```
 
-You will then need to use gunzip during recovery:
+接著在恢復時，你就需要使用 gunzip：
 
 ```
 
@@ -844,82 +853,82 @@ restore_command = 'gunzip < /mnt/server/archivedir/%f.gz > %p'
 
 <a id="BACKUP-SCRIPTS"></a>
 
-#### 25.3.7.3. `archive_command` Scripts [#](#BACKUP-SCRIPTS)
+#### 25.3.7.3. `archive_command` 指令碼 [#](#BACKUP-SCRIPTS)
 
-Many people choose to use scripts to define their
-`archive_command`, so that their
-`postgresql.conf` entry looks very simple:
+許多人選擇使用指令碼來定義他們的
+`archive_command`，如此一來，他們的
+`postgresql.conf` 項目就會顯得非常簡單：
 
 ```
 
 archive_command = 'local_backup_script.sh "%p" "%f"'
 ```
 
-Using a separate script file is advisable any time you want to use
-more than a single command in the archiving process.
-This allows all complexity to be managed within the script, which
-can be written in a popular scripting language such as
-bash or perl.
+每當你想在歸檔過程中使用一個以上的
+指令時，建議都使用獨立的指令碼檔案。
+這讓所有複雜度都能在指令碼中管理，
+指令碼可以用常見的指令碼語言撰寫，
+例如 bash 或 perl。
 
-Examples of requirements that might be solved within a script include:
+以下列舉一些可能會透過指令碼解決的需求範例：
 
-* Copying data to secure off-site data storage
-* Batching WAL files so that they are transferred every three hours,
-  rather than one at a time
-* Interfacing with other backup and recovery software
-* Interfacing with monitoring software to report errors
+* 將資料複製到安全的異地資料儲存空間
+* 將 WAL 檔案批次傳輸，每三小時傳輸一次，
+  而不是一次傳一個
+* 與其他備份及恢復軟體介接
+* 與監控軟體介接，以回報錯誤
 
-### Tip
+### 提示
 
-When using an `archive_command` script, it's desirable
-to enable [logging_collector](../runtime-config/runtime-config-logging.md#GUC-LOGGING-COLLECTOR).
-Any messages written to stderr from the script will then
-appear in the database server log, allowing complex configurations to
-be diagnosed easily if they fail.
+在使用 `archive_command` 指令碼時，
+建議啟用 [logging_collector](../runtime-config/runtime-config-logging.md#GUC-LOGGING-COLLECTOR)。
+任何從該指令碼寫入 stderr 的訊息，都會
+出現在資料庫伺服器日誌中，如此一來，若複雜的組態
+發生問題，便能輕鬆診斷。
 
 <a id="CONTINUOUS-ARCHIVING-CAVEATS"></a>
 
-### 25.3.8. Caveats [#](#CONTINUOUS-ARCHIVING-CAVEATS)
+### 25.3.8. 注意事項 [#](#CONTINUOUS-ARCHIVING-CAVEATS)
 
-At this writing, there are several limitations of the continuous archiving
-technique. These will probably be fixed in future releases:
+截至本文撰寫時，連續歸檔技術仍有幾項
+限制。這些限制未來的版本應該會修正：
 
-* If a [`CREATE DATABASE`](../../reference/sql-commands/sql-createdatabase.md)
-  command is executed while a base backup is being taken, and then
-  the template database that the `CREATE DATABASE` copied
-  is modified while the base backup is still in progress, it is
-  possible that recovery will cause those modifications to be
-  propagated into the created database as well. This is of course
-  undesirable. To avoid this risk, it is best not to modify any
-  template databases while taking a base backup.
+* 若在製作基礎備份期間執行了
+  [`CREATE DATABASE`](../../reference/sql-commands/sql-createdatabase.md)
+  指令，且該 `CREATE DATABASE` 所複製的
+  範本資料庫，在基礎備份仍在進行中的情況下被修改了，
+  就有可能導致恢復時，這些修改
+  也一併被套用到新建立的資料庫中。這當然是
+  不樂見的情況。為了避免這項風險，最好不要在
+  製作基礎備份期間修改任何範本資料庫。
 * [`CREATE TABLESPACE`](../../reference/sql-commands/sql-createtablespace.md)
-  commands are WAL-logged with the literal absolute path, and will
-  therefore be replayed as tablespace creations with the same
-  absolute path. This might be undesirable if the WAL is being
-  replayed on a different machine. It can be dangerous even if the
-  WAL is being replayed on the same machine, but into a new data
-  directory: the replay will still overwrite the contents of the
-  original tablespace. To avoid potential gotchas of this sort,
-  the best practice is to take a new base backup after creating or
-  dropping tablespaces.
+  指令，會以字面上的絕對路徑寫入 WAL 記錄，因此
+  重放時，會以相同的絕對路徑重新建立
+  表空間。若該 WAL 是在不同機器上重放，
+  這可能會造成問題。即使該 WAL 是在同一台機器上
+  重放，但重放進了新的資料目錄，這仍然可能造成危險：
+  重放仍然會覆寫
+  原始表空間的內容。為了避免此類意外狀況，
+  最好的做法是在建立或
+  刪除表空間之後，重新製作一次基礎備份。
 
-It should also be noted that the default WAL
-format is fairly bulky since it includes many disk page snapshots.
-These page snapshots are designed to support crash recovery, since
-we might need to fix partially-written disk pages. Depending on
-your system hardware and software, the risk of partial writes might
-be small enough to ignore, in which case you can significantly
-reduce the total volume of archived WAL files by turning off page
-snapshots using the [full_page_writes](../runtime-config/runtime-config-wal.md#GUC-FULL-PAGE-WRITES)
-parameter. (Read the notes and warnings in [Chapter 28](../wal/README.md)
-before you do so.) Turning off page snapshots does not prevent
-use of the WAL for PITR operations. An area for future
-development is to compress archived WAL data by removing
-unnecessary page copies even when `full_page_writes` is
-on. In the meantime, administrators might wish to reduce the number
-of page snapshots included in WAL by increasing the checkpoint
-interval parameters as much as feasible.
+還應該注意的是，預設的 WAL
+格式相當龐大，因為其中包含了許多磁碟頁面快照。
+這些頁面快照的設計目的，是為了支援當機恢復，因為
+我們可能需要修復部分寫入的磁碟頁面。視
+你的系統硬體與軟體而定，部分寫入的風險可能
+小到可以忽略，在這種情況下，你可以透過關閉
+[full_page_writes](../runtime-config/runtime-config-wal.md#GUC-FULL-PAGE-WRITES)
+參數的頁面快照，大幅減少已歸檔 WAL 檔案的
+總量。（在這麼做之前，請先閱讀[第 28 章](../wal/README.md)
+中的注意事項與警告。）關閉頁面快照
+並不會妨礙將 WAL 用於 PITR 操作。未來
+發展的一個方向，是即使在啟用 `full_page_writes`
+時，也能透過移除不必要的頁面複本來壓縮已歸檔的
+WAL 資料。在此之前，管理者或許會希望盡可能地
+增加檢查點間隔參數，藉此減少 WAL 中包含的
+頁面快照數量。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/continuous-archiving.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/continuous-archiving.html)（原文版本：18.6；核對日期：2026-09-28）

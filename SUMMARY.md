@@ -255,7 +255,7 @@
   * [第 25 章：備份與還原](server-administration/backup/README.md)
     * [25.1. SQL 傾印 #](server-administration/backup/backup-dump.md)
     * [25.2. 檔案系統層級備份 #](server-administration/backup/backup-file.md)
-    * [25.3. Continuous Archiving and Point-in-Time Recovery (PITR) #](server-administration/backup/continuous-archiving.md)
+    * [25.3. 連續歸檔與時間點恢復（PITR） #](server-administration/backup/continuous-archiving.md)
   * [第 26 章 高可用性、負載平衡與複寫](server-administration/high-availability/README.md)
     * [26.1. 各種解決方案比較 #](server-administration/high-availability/different-replication-solutions.md)
     * [26.2. Log-Shipping Standby Servers #](server-administration/high-availability/warm-standby.md)
