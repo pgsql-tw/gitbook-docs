@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：535 頁。
+待譯頁面：534 頁。
 
 ## 根目錄
 
@@ -668,7 +668,7 @@
 - [ ] `reference/sql-commands/sql-execute.md` — EXECUTE
 - [ ] `reference/sql-commands/sql-explain.md` — EXPLAIN
 - [ ] `reference/sql-commands/sql-fetch.md` — FETCH
-- [ ] `reference/sql-commands/sql-grant.md` — GRANT
+- [x] `reference/sql-commands/sql-grant.md` — GRANT
 - [x] `reference/sql-commands/sql-importforeignschema.md` — IMPORT FOREIGN SCHEMA
 - [ ] `reference/sql-commands/sql-insert.md` — INSERT
 - [x] `reference/sql-commands/sql-listen.md` — LISTEN
