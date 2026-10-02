@@ -1,10 +1,12 @@
-<a id="id-1.9.3.152.1"></a>
+<a id="SQL-INSERT"></a><a id="id-1.9.3.152.1"></a>
 
 ## INSERT
 
-INSERT — create new rows in a table
+INSERT — 在資料表中建立新的資料列
 
-## Synopsis
+<a id="id-1.9.3.152.2"></a>
+
+## 語法
 
 ```
 
@@ -33,410 +35,174 @@ and conflict_action is one of:
 
 <a id="id-1.9.3.152.5"></a>
 
-## Description
+## 說明
 
-`INSERT` inserts new rows into a table.
-One can insert one or more rows specified by value expressions,
-or zero or more rows resulting from a query.
+`INSERT` 會將新的資料列插入資料表中。你可以插入一列或多列以值運算式指定的資料，也可以插入零列或多列由查詢所產生的結果。
 
-The target column names can be listed in any order. If no list of
-column names is given at all, the default is all the columns of the
-table in their declared order; or the first *`N`* column
-names, if there are only *`N`* columns supplied by the
-`VALUES` clause or *`query`*. The values
-supplied by the `VALUES` clause or *`query`* are
-associated with the explicit or implicit column list left-to-right.
+目標欄位名稱可以依任意順序列出。若完全未給定欄位名稱清單，預設會採用該資料表宣告順序中的所有欄位；或者，若 `VALUES` 子句或 *`query`* 只提供了 *`N`* 個欄位（對 query 而言即為輸出欄位數），則採用前 *`N`* 個欄位名稱。`VALUES` 子句或 *`query`* 所提供的值，會由左至右對應到明確或隱含的欄位清單。
 
-Each column not present in the explicit or implicit column list will be
-filled with a default value, either its declared default value
-or null if there is none.
+任何未出現在明確或隱含欄位清單中的欄位，都會填入預設值，也就是其宣告的預設值；若沒有預設值，則填入 null。
 
-If the expression for any column is not of the correct data type,
-automatic type conversion will be attempted.
+若任一欄位的運算式資料型別不正確，系統會嘗試自動進行型別轉換。
 
-`INSERT` into tables that lack unique indexes will
-not be blocked by concurrent activity. Tables with unique indexes
-might block if concurrent sessions perform actions that lock or modify
-rows matching the unique index values being inserted; the details
-are covered in [Section 63.5](../../internals/indexam/index-unique-checks.md).
-`ON CONFLICT` can be used to specify an alternative
-action to raising a unique constraint or exclusion constraint
-violation error. (See [ON CONFLICT Clause](sql-insert.md#SQL-ON-CONFLICT) below.)
+對缺少唯一值索引的資料表執行 `INSERT`，不會被並行活動所阻擋。對具有唯一值索引的資料表執行 INSERT，則可能在並行工作階段對與所插入唯一值索引值相符的資料列執行鎖定或修改動作時被阻擋；詳情請參閱[第 63.5 節](../../internals/indexam/index-unique-checks.md)。可以使用 `ON CONFLICT` 來指定替代動作，取代擲出唯一性限制條件或互斥限制條件違反錯誤。（請參閱下方的 [ON CONFLICT 子句](sql-insert.md#SQL-ON-CONFLICT)。）
 
-The optional `RETURNING` clause causes `INSERT`
-to compute and return value(s) based on each row actually inserted
-(or updated, if an `ON CONFLICT DO UPDATE` clause was
-used). This is primarily useful for obtaining values that were
-supplied by defaults, such as a serial sequence number. However,
-any expression using the table's columns is allowed. The syntax of
-the `RETURNING` list is identical to that of the output
-list of `SELECT`. Only rows that were successfully
-inserted or updated will be returned. For example, if a row was
-locked but not updated because an `ON CONFLICT DO UPDATE
-... WHERE` clause *`condition`* was not satisfied, the
-row will not be returned.
+選用的 `RETURNING` 子句，會讓 `INSERT` 根據每一列實際插入（或若使用了 `ON CONFLICT DO UPDATE` 子句，則為更新）的資料列，計算並傳回值。這主要適用於取得由預設值所提供的值，例如序列產生的流水號。不過，任何使用該資料表欄位的運算式都可以使用。`RETURNING` 清單的語法與 `SELECT` 的輸出清單語法相同。只有成功插入或更新的資料列才會被傳回。舉例來說，若某資料列已被鎖定，但因 `ON CONFLICT DO UPDATE ... WHERE` 子句的 *`condition`* 不成立而未更新，該資料列就不會被傳回。
 
-You must have `INSERT` privilege on a table in
-order to insert into it. If `ON CONFLICT DO UPDATE` is
-present, `UPDATE` privilege on the table is also
-required.
+你必須擁有資料表的 `INSERT` 權限，才能對其執行插入操作。若使用了 `ON CONFLICT DO UPDATE`，也需要該資料表的 `UPDATE` 權限。
 
-If a column list is specified, you only need
-`INSERT` privilege on the listed columns.
-Similarly, when `ON CONFLICT DO UPDATE` is specified, you
-only need `UPDATE` privilege on the column(s) that are
-listed to be updated. However, all forms of `ON CONFLICT`
-also require `SELECT` privilege on any column whose values
-are read. This includes any column mentioned in
-*`conflict_target`* (including columns referred to
-by the arbiter constraint), and any column mentioned in an
-`ON CONFLICT DO UPDATE` *`expression`*,
-or a `WHERE` clause *`condition`*.
+若指定了欄位清單，你只需要對所列出的欄位擁有 `INSERT` 權限。同樣地，若指定了 `ON CONFLICT DO UPDATE`，你只需要對列為要更新的欄位擁有 `UPDATE` 權限。不過，所有形式的 `ON CONFLICT` 也都需要對任何值會被讀取的欄位擁有 `SELECT` 權限。這包括 *`conflict_target`* 中提到的任何欄位（包括仲裁限制條件所參照的欄位），以及 `ON CONFLICT DO UPDATE` 的 *`expression`* 或 `WHERE` 子句 *`condition`* 中提到的任何欄位。
 
-Use of the `RETURNING` clause requires `SELECT`
-privilege on all columns mentioned in `RETURNING`.
-If you use the *`query`* clause to insert rows from a
-query, you of course need to have `SELECT` privilege on
-any table or column used in the query.
+使用 `RETURNING` 子句，需要對 `RETURNING` 中提到的所有欄位擁有 `SELECT` 權限。若你使用 *`query`* 子句從查詢插入資料列，當然也需要對該查詢中所使用的任何資料表或欄位擁有 `SELECT` 權限。
 
 <a id="id-1.9.3.152.6"></a>
 
-## Parameters
+## 參數
 
 <a id="id-1.9.3.152.6.2"></a>
 
-### Inserting
+### 插入
 
-This section covers parameters that may be used when only
-inserting new rows. Parameters *exclusively*
-used with the `ON CONFLICT` clause are described
-separately.
+本節涵蓋僅在插入新資料列時可能用到的參數。*專屬於* `ON CONFLICT` 子句的參數會另外說明。
 
 *`with_query`*
-:   The `WITH` clause allows you to specify one or more
-    subqueries that can be referenced by name in the `INSERT`
-    query. See [Section 7.8](../../the-sql-language/queries/queries-with.md) and [SELECT](sql-select.md)
-    for details.
+:   `WITH` 子句可讓你指定一個或多個子查詢，並在 `INSERT` 查詢中以名稱參照它們。詳情請參閱[第 7.8 節](../../the-sql-language/queries/queries-with.md)與 [SELECT](sql-select.md)。
 
-    It is possible for the *`query`*
-    (`SELECT` statement)
-    to also contain a `WITH` clause. In such a case both
-    sets of *`with_query`* can be referenced within
-    the *`query`*, but the
-    second one takes precedence since it is more closely nested.
+    *`query`*（`SELECT` 陳述式）本身也可以包含 `WITH` 子句。在這種情況下，兩組 *`with_query`* 都可以在 *`query`* 中被參照，但由於巢狀層次較內層，第二組會優先採用。
 
 *`table_name`*
-:   The name (optionally schema-qualified) of an existing table.
+:   既有資料表的名稱（可加上綱要限定）。
 
 *`alias`*
-:   A substitute name for *`table_name`*. When an alias is
-    provided, it completely hides the actual name of the table.
-    This is particularly useful when `ON CONFLICT DO UPDATE`
-    targets a table named `excluded`, since that will otherwise
-    be taken as the name of the special table representing the row proposed
-    for insertion.
+:   *`table_name`* 的替代名稱。若提供了別名，就會完全隱藏該資料表的實際名稱。當 `ON CONFLICT DO UPDATE` 的目標資料表名為 `excluded` 時，這特別有用，因為若不這麼做，該名稱會被視為代表提議插入之資料列的特殊資料表名稱。
 
 *`column_name`*
-:   The name of a column in the table named by *`table_name`*. The column name
-    can be qualified with a subfield name or array subscript, if
-    needed. (Inserting into only some fields of a composite
-    column leaves the other fields null.) When referencing a
-    column with `ON CONFLICT DO UPDATE`, do not include
-    the table's name in the specification of a target column. For
-    example, `INSERT INTO table_name ... ON CONFLICT DO UPDATE
-    SET table_name.col = 1` is invalid (this follows the general
-    behavior for `UPDATE`).
+:   由 *`table_name`* 所指名之資料表中的欄位名稱。若有需要，欄位名稱可以加上子欄位名稱或陣列下標加以限定。（若只對複合欄位的部分欄位進行插入，其餘欄位會保留為 null。）在 `ON CONFLICT DO UPDATE` 中參照欄位時，目標欄位的指定不應包含資料表名稱。舉例來說，`INSERT INTO table_name ... ON CONFLICT DO UPDATE SET table_name.col = 1` 是不合法的（這與 `UPDATE` 的一般行為一致）。
 
 `OVERRIDING SYSTEM VALUE`
-:   If this clause is specified, then any values supplied for identity
-    columns will override the default sequence-generated values.
+:   若指定此子句，則為識別欄位所提供的任何值，都會覆寫預設的序列產生值。
 
-    For an identity column defined as `GENERATED ALWAYS`,
-    it is an error to insert an explicit value (other than
-    `DEFAULT`) without specifying either
-    `OVERRIDING SYSTEM VALUE` or `OVERRIDING USER
-    VALUE`. (For an identity column defined as
-    `GENERATED BY DEFAULT`, `OVERRIDING SYSTEM
-    VALUE` is the normal behavior and specifying it does nothing,
-    but PostgreSQL allows it as an extension.)
+    對於定義為 `GENERATED ALWAYS` 的識別欄位，若未指定 `OVERRIDING SYSTEM VALUE` 或 `OVERRIDING USER VALUE` 就插入明確的值（`DEFAULT` 除外），會產生錯誤。（對於定義為 `GENERATED BY DEFAULT` 的識別欄位，`OVERRIDING SYSTEM VALUE` 是正常的行為，指定它不會有任何作用，但 PostgreSQL 仍允許將其作為一種擴充功能使用。）
 
 `OVERRIDING USER VALUE`
-:   If this clause is specified, then any values supplied for identity
-    columns are ignored and the default sequence-generated values are
-    applied.
+:   若指定此子句，則為識別欄位所提供的任何值都會被忽略，並套用預設的序列產生值。
 
-    This clause is useful for example when copying values between tables.
-    Writing `INSERT INTO tbl2 OVERRIDING USER VALUE SELECT * FROM
-    tbl1` will copy from `tbl1` all columns that
-    are not identity columns in `tbl2` while values for
-    the identity columns in `tbl2` will be generated by
-    the sequences associated with `tbl2`.
+    舉例來說，這個子句在資料表之間複製值時很有用。撰寫 `INSERT INTO tbl2 OVERRIDING USER VALUE SELECT * FROM tbl1` 會將 `tbl1` 中所有非 `tbl2` 識別欄位的欄位複製過去，而 `tbl2` 中識別欄位的值則會由與 `tbl2` 相關聯的序列產生。
 
 `DEFAULT VALUES`
-:   All columns will be filled with their default values, as if
-    `DEFAULT` were explicitly specified for each column.
-    (An `OVERRIDING` clause is not permitted in this
-    form.)
+:   所有欄位都會填入其預設值，如同為每個欄位明確指定了 `DEFAULT` 一樣。（此形式不允許使用 `OVERRIDING` 子句。）
 
 *`expression`*
-:   An expression or value to assign to the corresponding column.
+:   要指派給對應欄位的運算式或值。
 
 `DEFAULT`
-:   The corresponding column will be filled with its default value. An
-    identity column will be filled with a new value generated by the
-    associated sequence. For a generated column, specifying this is
-    permitted but merely specifies the normal behavior of computing the
-    column from its generation expression.
+:   對應的欄位會填入其預設值。識別欄位會填入由相關聯序列所產生的新值。對於生成欄位，指定此項是允許的，但僅表示依其生成運算式計算該欄位這項正常行為。
 
 *`query`*
-:   A query (`SELECT` statement) that supplies the
-    rows to be inserted. Refer to the
-    [SELECT](sql-select.md)
-    statement for a description of the syntax.
+:   提供要插入之資料列的查詢（`SELECT` 陳述式）。語法說明請參閱 [SELECT](sql-select.md) 陳述式。
 
 *`output_alias`*
-:   An optional substitute name for `OLD` or
-    `NEW` rows in the `RETURNING` list.
+:   `RETURNING` 清單中 `OLD` 或 `NEW` 資料列的選用替代名稱。
 
-    By default, old values from the target table can be returned by writing
-    `OLD.column_name`
-    or `OLD.*`, and new values can be returned by writing
-    `NEW.column_name`
-    or `NEW.*`. When an alias is provided, these names are
-    hidden and the old or new rows must be referred to using the alias.
-    For example `RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`.
+    依預設，可以撰寫 `OLD.column_name` 或 `OLD.*` 來傳回來自目標資料表的舊值，也可以撰寫 `NEW.column_name` 或 `NEW.*` 來傳回新值。若提供了別名，這些名稱就會被隱藏，必須改用該別名來參照新舊資料列。例如 `RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`。
 
 *`output_expression`*
-:   An expression to be computed and returned by the
-    `INSERT` command after each row is inserted or
-    updated. The expression can use any column names of the table
-    named by *`table_name`*. Write
-    `*` to return all columns of the inserted or updated
-    row(s).
+:   每筆資料列插入或更新後，要由 `INSERT` 指令計算並傳回的運算式。此運算式可以使用 *`table_name`* 所指名之資料表的任何欄位名稱。撰寫 `*` 可傳回所插入或更新之資料列的所有欄位。
 
-    A column name or `*` may be qualified using
-    `OLD` or `NEW`, or the corresponding
-    *`output_alias`* for
-    `OLD` or `NEW`, to cause old or new
-    values to be returned. An unqualified column name, or
-    `*`, or a column name or `*`
-    qualified using the target table name or alias will return new values.
+    欄位名稱或 `*` 可以使用 `OLD` 或 `NEW`，或是對應於 `OLD` 或 `NEW` 的 *`output_alias`* 加以限定，以傳回舊值或新值。未加限定的欄位名稱、`*`，或是以目標資料表名稱或別名限定的欄位名稱或 `*`，則會傳回新值。
 
-    For a simple `INSERT`, all old values will be
-    `NULL`. However, for an `INSERT`
-    with an `ON CONFLICT DO UPDATE` clause, the old
-    values may be non-`NULL`.
+    對於單純的 `INSERT`，所有舊值都會是 `NULL`。不過，對於帶有 `ON CONFLICT DO UPDATE` 子句的 `INSERT`，舊值則可能不是 `NULL`。
 
 *`output_name`*
-:   A name to use for a returned column.
+:   用於所傳回欄位的名稱。
 
 <a id="SQL-ON-CONFLICT"></a>
 
-### `ON CONFLICT` Clause
+### `ON CONFLICT` 子句
 
 <a id="id-1.9.3.152.6.3.2"></a><a id="id-1.9.3.152.6.3.3"></a>
 
-The optional `ON CONFLICT` clause specifies an
-alternative action to raising a unique violation or exclusion
-constraint violation error. For each individual row proposed for
-insertion, either the insertion proceeds, or, if an
-*arbiter* constraint or index specified by
-*`conflict_target`* is violated, the
-alternative *`conflict_action`* is taken.
-`ON CONFLICT DO NOTHING` simply avoids inserting
-a row as its alternative action. `ON CONFLICT DO
-UPDATE` updates the existing row that conflicts with the
-row proposed for insertion as its alternative action.
+選用的 `ON CONFLICT` 子句，指定用來取代擲出唯一性違反或互斥限制條件違反錯誤的替代動作。對於每一筆提議插入的資料列，若未違反 *`conflict_target`* 所指定的*仲裁（arbiter）*限制條件或索引，插入就會照常進行；否則就會採取替代的 *`conflict_action`*。`ON CONFLICT DO NOTHING` 的替代動作，只是單純不插入該資料列。`ON CONFLICT DO UPDATE` 的替代動作，則是更新與提議插入之資料列發生衝突的既有資料列。
 
-*`conflict_target`* can perform
-*unique index inference*. When performing
-inference, it consists of one or more *`index_column_name`* columns and/or
-*`index_expression`*
-expressions, and an optional *`index_predicate`*. All *`table_name`* unique indexes that,
-without regard to order, contain exactly the
-*`conflict_target`*-specified
-columns/expressions are inferred (chosen) as arbiter indexes. If
-an *`index_predicate`* is
-specified, it must, as a further requirement for inference,
-satisfy arbiter indexes. Note that this means a non-partial
-unique index (a unique index without a predicate) will be inferred
-(and thus used by `ON CONFLICT`) if such an index
-satisfying every other criteria is available. If an attempt at
-inference is unsuccessful, an error is raised.
+*`conflict_target`* 可以執行*唯一值索引推斷*。執行推斷時，它由一個或多個 *`index_column_name`* 欄位及／或 *`index_expression`* 運算式，加上一個選用的 *`index_predicate`* 所組成。所有 *`table_name`* 的唯一值索引，只要（不論欄位順序）恰好包含 *`conflict_target`* 所指定的欄位／運算式，都會被推斷（選定）為仲裁索引。若指定了 *`index_predicate`*，做為推斷的進一步要求，它必須符合仲裁索引的條件。請注意，這表示若存在一個滿足所有其他條件的非部分唯一值索引（沒有述詞的唯一值索引），該索引就會被推斷出來（因而被 `ON CONFLICT` 使用）。若推斷嘗試失敗，就會發生錯誤。
 
-`ON CONFLICT DO UPDATE` guarantees an atomic
-`INSERT` or `UPDATE` outcome;
-provided there is no independent error, one of those two outcomes
-is guaranteed, even under high concurrency. This is also known as
-*UPSERT* — “UPDATE or
-INSERT”.
+`ON CONFLICT DO UPDATE` 保證 `INSERT` 或 `UPDATE` 的結果具有原子性；只要沒有發生獨立的錯誤，即使在高並行情況下，也保證會得到這兩種結果之一。這也稱為 *UPSERT*——「UPDATE 或 INSERT」。
 
 *`conflict_target`*
-:   Specifies which conflicts `ON CONFLICT` takes
-    the alternative action on by choosing *arbiter
-    indexes*. Either performs *unique index
-    inference*, or names a constraint explicitly. For
-    `ON CONFLICT DO NOTHING`, it is optional to
-    specify a *`conflict_target`*; when
-    omitted, conflicts with all usable constraints (and unique
-    indexes) are handled. For `ON CONFLICT DO
-    UPDATE`, a *`conflict_target`*
-    *must* be provided.
+:   透過選定*仲裁索引*，指定 `ON CONFLICT` 對哪些衝突採取替代動作。可以執行*唯一值索引推斷*，也可以明確指名限制條件。對於 `ON CONFLICT DO NOTHING`，指定 *`conflict_target`* 是選用的；若省略，則會處理與所有可用限制條件（與唯一值索引）之間的衝突。對於 `ON CONFLICT DO UPDATE`，則*必須*提供 *`conflict_target`*。
 
 *`conflict_action`*
-:   *`conflict_action`* specifies an
-    alternative `ON CONFLICT` action. It can be
-    either `DO NOTHING`, or a `DO
-    UPDATE` clause specifying the exact details of the
-    `UPDATE` action to be performed in case of a
-    conflict. The `SET` and
-    `WHERE` clauses in `ON CONFLICT DO
-    UPDATE` have access to the existing row using the
-    table's name (or an alias), and to the row proposed for insertion
-    using the special `excluded` table.
-    `SELECT` privilege is required on any column in the
-    target table where corresponding `excluded`
-    columns are read.
+:   *`conflict_action`* 指定 `ON CONFLICT` 的替代動作，可以是 `DO NOTHING`，也可以是 `DO UPDATE` 子句，用來指定發生衝突時要執行之 `UPDATE` 動作的確切內容。`ON CONFLICT DO UPDATE` 中的 `SET` 與 `WHERE` 子句，可以透過資料表名稱（或別名）存取既有的資料列，也可以透過特殊的 `excluded` 資料表存取提議插入的資料列。對於目標資料表中會讀取對應 `excluded` 欄位的任何欄位，都需要 `SELECT` 權限。
 
-    Note that the effects of all per-row `BEFORE
-    INSERT` triggers are reflected in
-    `excluded` values, since those effects may
-    have contributed to the row being excluded from insertion.
+    請注意，所有逐列 `BEFORE INSERT` 觸發程序的效果，都會反映在 `excluded` 的值中，因為這些效果可能正是導致該資料列被排除於插入之外的原因。
 
 *`index_column_name`*
-:   The name of a *`table_name`* column. Used to
-    infer arbiter indexes. Follows `CREATE
-    INDEX` format. `SELECT` privilege on
-    *`index_column_name`*
-    is required.
+:   *`table_name`* 的某個欄位名稱，用於推斷仲裁索引，格式與 `CREATE INDEX` 相同。需要對 *`index_column_name`* 擁有 `SELECT` 權限。
 
 *`index_expression`*
-:   Similar to *`index_column_name`*, but used to
-    infer expressions on *`table_name`* columns appearing
-    within index definitions (not simple columns). Follows
-    `CREATE INDEX` format. `SELECT`
-    privilege on any column appearing within *`index_expression`* is required.
+:   與 *`index_column_name`* 類似，但用於推斷出現在索引定義中（而非單純欄位）之 *`table_name`* 欄位上的運算式，格式與 `CREATE INDEX` 相同。需要對出現在 *`index_expression`* 中的任何欄位擁有 `SELECT` 權限。
 
 *`collation`*
-:   When specified, mandates that corresponding *`index_column_name`* or
-    *`index_expression`*
-    use a particular collation in order to be matched during
-    inference. Typically this is omitted, as collations usually
-    do not affect whether or not a constraint violation occurs.
-    Follows `CREATE INDEX` format.
+:   若有指定，會要求對應的 *`index_column_name`* 或 *`index_expression`* 必須使用特定的定序才能在推斷時相符。通常會省略此項，因為定序通常不會影響是否發生限制條件違反。格式與 `CREATE INDEX` 相同。
 
 *`opclass`*
-:   When specified, mandates that corresponding *`index_column_name`* or
-    *`index_expression`*
-    use particular operator class in order to be matched during
-    inference. Typically this is omitted, as the
-    *equality* semantics are often equivalent
-    across a type's operator classes anyway, or because it's
-    sufficient to trust that the defined unique indexes have the
-    pertinent definition of equality. Follows `CREATE
-    INDEX` format.
+:   若有指定，會要求對應的 *`index_column_name`* 或 *`index_expression`* 必須使用特定的運算子類別才能在推斷時相符。通常會省略此項，因為*相等*語義在同一型別的各運算子類別之間通常仍然等效，或者因為只要信任所定義之唯一值索引所採用的相等定義即可。格式與 `CREATE INDEX` 相同。
 
 *`index_predicate`*
-:   Used to allow inference of partial unique indexes. Any
-    indexes that satisfy the predicate (which need not actually be
-    partial indexes) can be inferred. Follows `CREATE
-    INDEX` format. `SELECT` privilege on any
-    column appearing within *`index_predicate`* is required.
+:   用於允許對部分唯一值索引進行推斷。任何滿足此述詞的索引（不一定要真的是部分索引）都可以被推斷出來。格式與 `CREATE INDEX` 相同。需要對出現在 *`index_predicate`* 中的任何欄位擁有 `SELECT` 權限。
 
 *`constraint_name`*
-:   Explicitly specifies an arbiter
-    *constraint* by name, rather than inferring
-    a constraint or index.
+:   以名稱明確指定仲裁*限制條件*，而非透過推斷選出限制條件或索引。
 
 *`condition`*
-:   An expression that returns a value of type
-    `boolean`. Only rows for which this expression
-    returns `true` will be updated, although all
-    rows will be locked when the `ON CONFLICT DO UPDATE`
-    action is taken. Note that
-    *`condition`* is evaluated last, after
-    a conflict has been identified as a candidate to update.
+:   傳回 `boolean` 型別值的運算式。只有這個運算式傳回 `true` 的資料列才會被更新，不過當採取 `ON CONFLICT DO UPDATE` 動作時，所有資料列都會被鎖定。請注意，*`condition`* 是在某項衝突已被判定為可更新候選之後，才被最後求值。
 
-Note that exclusion constraints are not supported as arbiters with
-`ON CONFLICT DO UPDATE`. In all cases, only
-`NOT DEFERRABLE` constraints and unique indexes
-are supported as arbiters.
+請注意，互斥限制條件不支援作為 `ON CONFLICT DO UPDATE` 的仲裁者。在所有情況下，僅支援 `NOT DEFERRABLE` 的限制條件與唯一值索引作為仲裁者。
 
-`INSERT` with an `ON CONFLICT DO UPDATE`
-clause is a “deterministic” statement. This means
-that the command will not be allowed to affect any single existing
-row more than once; a cardinality violation error will be raised
-when this situation arises. Rows proposed for insertion should
-not duplicate each other in terms of attributes constrained by an
-arbiter index or constraint.
+帶有 `ON CONFLICT DO UPDATE` 子句的 `INSERT` 是一種「決定性（deterministic）」陳述式。這表示該指令不允許對任何單一既有資料列造成一次以上的影響；若發生這種情況，就會擲出基數違反（cardinality violation）錯誤。就仲裁索引或限制條件所限制的屬性而言，提議插入的資料列彼此之間不應重複。
 
-Note that it is currently not supported for the
-`ON CONFLICT DO UPDATE` clause of an
-`INSERT` applied to a partitioned table to update the
-partition key of a conflicting row such that it requires the row be moved
-to a new partition.
+請注意，目前不支援對套用於分區資料表的 `INSERT` 之 `ON CONFLICT DO UPDATE` 子句，更新發生衝突之資料列的分區鍵，使其需要將該資料列移至新的分區。
 
-### Tip
+<a id="id-1.9.3.152.6.3.4"></a>
 
-It is often preferable to use unique index inference rather than
-naming a constraint directly using `ON CONFLICT ON
-CONSTRAINT` *`constraint_name`*. Inference will continue to work
-correctly when the underlying index is replaced by another more
-or less equivalent index in an overlapping way, for example when
-using `CREATE UNIQUE INDEX ... CONCURRENTLY`
-before dropping the index being replaced.
+### 提示
 
-### Warning
+比起直接使用 `ON CONFLICT ON CONSTRAINT` *`constraint_name`* 指名限制條件，通常較好的做法是使用唯一值索引推斷。當底層索引以重疊的方式被另一個或多或少等效的索引取代時（例如在捨棄被取代的索引之前，先使用 `CREATE UNIQUE INDEX ... CONCURRENTLY`），推斷仍能正確運作。
 
-While `CREATE INDEX CONCURRENTLY` or `REINDEX
-CONCURRENTLY` is running on a unique index, `INSERT
-... ON CONFLICT` statements on the same table may unexpectedly
-fail with a unique violation.
+<a id="id-1.9.3.152.6.3.5"></a>
+
+### 警告
+
+在對某個唯一值索引執行 `CREATE INDEX CONCURRENTLY` 或 `REINDEX CONCURRENTLY` 期間，對同一資料表執行的 `INSERT ... ON CONFLICT` 陳述式，可能會意外因唯一性違反而失敗。
 
 <a id="id-1.9.3.152.7"></a>
 
-## Outputs
+## 輸出
 
-On successful completion, an `INSERT` command returns a command
-tag of the form
+成功完成後，`INSERT` 指令會傳回下列形式的指令標記：
 
 ```
 
 INSERT oid count
 ```
 
-The *`count`* is the number of
-rows inserted or updated. *`oid`* is always 0 (it
-used to be the OID assigned to the inserted row if
-*`count`* was exactly one and the target table was
-declared `WITH OIDS` and 0 otherwise, but creating a table
-`WITH OIDS` is not supported anymore).
+*`count`* 是插入或更新的資料列數。*`oid`* 一律為 0（過去若 *`count`* 恰好為一、且目標資料表宣告為 `WITH OIDS`，則此值為指派給所插入資料列的 OID，否則為 0；但目前已不再支援建立 `WITH OIDS` 的資料表）。
 
-If the `INSERT` command contains a `RETURNING`
-clause, the result will be similar to that of a `SELECT`
-statement containing the columns and values defined in the
-`RETURNING` list, computed over the row(s) inserted or
-updated by the command.
+若 `INSERT` 指令包含 `RETURNING` 子句，其結果會類似於一個 `SELECT` 陳述式的結果，其中包含 `RETURNING` 清單所定義的欄位與值，並根據該指令所插入或更新的資料列計算而得。
 
 <a id="id-1.9.3.152.8"></a>
 
-## Notes
+## 注意事項
 
-If the specified table is a partitioned table, each row is routed to
-the appropriate partition and inserted into it. If the specified table
-is a partition, an error will occur if one of the input rows violates
-the partition constraint.
+若指定的資料表是分區資料表，每一列資料都會被路由至適當的分區並插入其中。若指定的資料表是某個分區，當任一筆輸入的資料列違反分區限制條件時，就會發生錯誤。
 
-You may also wish to consider using `MERGE`, since that
-allows mixing `INSERT`, `UPDATE`, and
-`DELETE` within a single statement.
-See [MERGE](sql-merge.md).
+你也可以考慮改用 `MERGE`，因為它可以在單一陳述式中混用 `INSERT`、`UPDATE` 與 `DELETE`。請參閱 [MERGE](sql-merge.md)。
 
 <a id="id-1.9.3.152.9"></a>
 
-## Examples
+## 範例
 
-Insert a single row into table `films`:
+在資料表 `films` 中插入單一資料列：
 
 ```
 
@@ -444,8 +210,7 @@ INSERT INTO films VALUES
     ('UA502', 'Bananas', 105, '1971-07-13', 'Comedy', '82 minutes');
 ```
 
-In this example, the `len` column is
-omitted and therefore it will have the default value:
+在此範例中省略了 `len` 欄位，因此它會採用預設值：
 
 ```
 
@@ -453,8 +218,7 @@ INSERT INTO films (code, title, did, date_prod, kind)
     VALUES ('T_601', 'Yojimbo', 106, '1961-06-16', 'Drama');
 ```
 
-This example uses the `DEFAULT` clause for
-the date columns rather than specifying a value:
+此範例對日期欄位使用 `DEFAULT` 子句，而非指定值：
 
 ```
 
@@ -464,14 +228,14 @@ INSERT INTO films (code, title, did, date_prod, kind)
     VALUES ('T_601', 'Yojimbo', 106, DEFAULT, 'Drama');
 ```
 
-To insert a row consisting entirely of default values:
+插入一筆完全由預設值組成的資料列：
 
 ```
 
 INSERT INTO films DEFAULT VALUES;
 ```
 
-To insert multiple rows using the multirow `VALUES` syntax:
+使用多列 `VALUES` 語法插入多筆資料列：
 
 ```
 
@@ -480,16 +244,14 @@ INSERT INTO films (code, title, did, date_prod, kind) VALUES
     ('HG120', 'The Dinner Game', 140, DEFAULT, 'Comedy');
 ```
 
-This example inserts some rows into table
-`films` from a table `tmp_films`
-with the same column layout as `films`:
+此範例將一些資料列從資料表 `tmp_films`（欄位配置與 `films` 相同）插入資料表 `films`：
 
 ```
 
 INSERT INTO films SELECT * FROM tmp_films WHERE date_prod < '2004-05-07';
 ```
 
-This example inserts into array columns:
+此範例插入陣列欄位：
 
 ```
 
@@ -501,8 +263,7 @@ INSERT INTO tictactoe (game, board)
     VALUES (2, '{{X," "," "},{" ",O," "},{" ",X," "}}');
 ```
 
-Insert a single row into table `distributors`, returning
-the sequence number generated by the `DEFAULT` clause:
+在資料表 `distributors` 中插入單一資料列，並傳回由 `DEFAULT` 子句產生的序號：
 
 ```
 
@@ -510,9 +271,7 @@ INSERT INTO distributors (did, dname) VALUES (DEFAULT, 'XYZ Widgets')
    RETURNING did;
 ```
 
-Increment the sales count of the salesperson who manages the
-account for Acme Corporation, and record the whole updated row
-along with current time in a log table:
+將負責 Acme Corporation 帳戶的業務員之銷售件數加一，並將整筆更新後的資料列連同目前時間一併記錄到記錄檔資料表中：
 
 ```
 
@@ -524,11 +283,7 @@ WITH upd AS (
 INSERT INTO employees_log SELECT *, current_timestamp FROM upd;
 ```
 
-Insert or update new distributors as appropriate. Assumes a unique
-index has been defined that constrains values appearing in the
-`did` column. Note that the special
-`excluded` table is used to reference values originally
-proposed for insertion:
+視情況插入或更新新的經銷商。假設已定義了一個唯一值索引，用來限制 `did` 欄位中出現的值。請注意，此處使用特殊的 `excluded` 資料表來參照原本提議插入的值：
 
 ```
 
@@ -537,11 +292,7 @@ INSERT INTO distributors (did, dname)
     ON CONFLICT (did) DO UPDATE SET dname = EXCLUDED.dname;
 ```
 
-Insert or update new distributors as above, returning information
-about any existing values that were updated, together with the new data
-inserted. Note that the returned values for `old_did`
-and `old_dname` will be `NULL` for
-non-conflicting rows:
+如上例般插入或更新新的經銷商，並傳回任何被更新之既有值的資訊，連同新插入的資料。請注意，對於未發生衝突的資料列，傳回的 `old_did` 與 `old_dname` 值會是 `NULL`：
 
 ```
 
@@ -552,11 +303,7 @@ INSERT INTO distributors (did, dname)
               new.did AS new_did, new.dname AS new_dname;
 ```
 
-Insert a distributor, or do nothing for rows proposed for insertion
-when an existing, excluded row (a row with a matching constrained
-column or columns after before row insert triggers fire) exists.
-Example assumes a unique index has been defined that constrains
-values appearing in the `did` column:
+插入一筆經銷商資料；擬插入的資料列經資料列層級 BEFORE INSERT 觸發程序處理後，若其受唯一值限制的欄位與某筆既有資料列相符而產生衝突，就略過該筆插入、不做任何事。此範例假設已定義了一個唯一值索引，用來限制 `did` 欄位中出現的值：
 
 ```
 
@@ -564,11 +311,7 @@ INSERT INTO distributors (did, dname) VALUES (7, 'Redline GmbH')
     ON CONFLICT (did) DO NOTHING;
 ```
 
-Insert or update new distributors as appropriate. Example assumes
-a unique index has been defined that constrains values appearing in
-the `did` column. `WHERE` clause is
-used to limit the rows actually updated (any existing row not
-updated will still be locked, though):
+視情況插入或更新新的經銷商。此範例假設已定義了一個唯一值索引，用來限制 `did` 欄位中出現的值。使用 `WHERE` 子句來限制實際被更新的資料列（不過，任何未被更新的既有資料列仍會被鎖定）：
 
 ```
 
@@ -584,12 +327,7 @@ INSERT INTO distributors (did, dname) VALUES (9, 'Antwerp Design')
     ON CONFLICT ON CONSTRAINT distributors_pkey DO NOTHING;
 ```
 
-Insert new distributor if possible; otherwise
-`DO NOTHING`. Example assumes a unique index has been
-defined that constrains values appearing in the
-`did` column on a subset of rows where the
-`is_active` Boolean column evaluates to
-`true`:
+盡可能插入新的經銷商；否則就 `DO NOTHING`。此範例假設已定義了一個唯一值索引，針對 `is_active` 布林欄位求值為 `true` 的資料列子集合，限制 `did` 欄位中出現的值：
 
 ```
 
@@ -602,28 +340,14 @@ INSERT INTO distributors (did, dname) VALUES (10, 'Conrad International')
 
 <a id="id-1.9.3.152.10"></a>
 
-## Compatibility
+## 相容性
 
-`INSERT` conforms to the SQL standard, except that
-the `RETURNING` clause is a
-PostgreSQL extension, as is the ability
-to use `WITH` with `INSERT`, and the ability to
-specify an alternative action with `ON CONFLICT`.
-Also, the case in
-which a column name list is omitted, but not all the columns are
-filled from the `VALUES` clause or *`query`*,
-is disallowed by the standard. If you prefer a more SQL standard
-conforming statement than `ON CONFLICT`, see
-[MERGE](sql-merge.md).
+`INSERT` 符合 SQL 標準，但 `RETURNING` 子句是 PostgreSQL 的擴充功能，`WITH` 與 `INSERT` 併用的能力，以及以 `ON CONFLICT` 指定替代動作的能力，也都是 PostgreSQL 的擴充功能。此外，標準不允許省略欄位名稱清單、卻又未以 `VALUES` 子句或 *`query`* 填滿所有欄位的情況。若你偏好比 `ON CONFLICT` 更符合 SQL 標準的陳述式，請參閱 [MERGE](sql-merge.md)。
 
-The SQL standard specifies that `OVERRIDING SYSTEM VALUE`
-can only be specified if an identity column that is generated always
-exists. PostgreSQL allows the clause in any case and ignores it if it is
-not applicable.
+SQL 標準規定，只有在存在一律生成（generated always）的識別欄位時，才能指定 `OVERRIDING SYSTEM VALUE`。PostgreSQL 則允許在任何情況下使用此子句，若不適用則會忽略它。
 
-Possible limitations of the *`query`* clause are documented under
-[SELECT](sql-select.md).
+*`query`* 子句可能的限制，記載於 [SELECT](sql-select.md) 之下。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-insert.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-insert.html)（原文版本：18.6；核對日期：2026-10-03）
