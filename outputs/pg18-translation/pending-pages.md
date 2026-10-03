@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：511 頁。
+待譯頁面：510 頁。
 
 ## 根目錄
 
@@ -611,7 +611,7 @@
 - [ ] `reference/sql-commands/sql-createtsconfig.md` — CREATE TEXT SEARCH CONFIGURATION
 - [x] `reference/sql-commands/sql-createtsdictionary.md` — CREATE TEXT SEARCH DICTIONARY
 - [x] `reference/sql-commands/sql-createtsparser.md` — CREATE TEXT SEARCH PARSER
-- [ ] `reference/sql-commands/sql-createtstemplate.md` — CREATE TEXT SEARCH TEMPLATE
+- [x] `reference/sql-commands/sql-createtstemplate.md` — CREATE TEXT SEARCH TEMPLATE
 - [x] `reference/sql-commands/sql-createtype.md` — CREATE TYPE
 - [x] `reference/sql-commands/sql-createuser.md` — CREATE USER — 定義新的資料庫角色
 - [ ] `reference/sql-commands/sql-createusermapping.md` — CREATE USER MAPPING
