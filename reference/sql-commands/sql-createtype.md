@@ -1,10 +1,12 @@
-<a id="id-1.9.3.94.1"></a>
+<a id="SQL-CREATETYPE"></a><a id="id-1.9.3.94.1"></a>
 
 ## CREATE TYPE
 
-CREATE TYPE — define a new data type
+CREATE TYPE — 定義新的資料型別
 
-## Synopsis
+<a id="id-1.9.3.94.4"></a>
+
+## 語法
 
 ```
 
@@ -50,609 +52,205 @@ CREATE TYPE name
 
 <a id="id-1.9.3.94.5"></a>
 
-## Description
+## 說明
 
-`CREATE TYPE` registers a new data type for use in
-the current database. The user who defines a type becomes its
-owner.
+`CREATE TYPE` 會註冊一個新的資料型別，供目前資料庫使用。定義型別的使用者會成為該型別的擁有者。
 
-If a schema name is given then the type is created in the specified
-schema. Otherwise it is created in the current schema. The type
-name must be distinct from the name of any existing type or domain
-in the same schema. (Because tables have associated data types,
-the type name must also be distinct from the name of any existing
-table in the same schema.)
+若指定了綱要名稱，型別會建立在指定的綱要中；否則會建立在目前的綱要中。型別名稱必須與同一綱要中任何現有型別或網域的名稱不同。（由於資料表具有相關聯的資料型別，型別名稱也必須與同一綱要中任何現有資料表的名稱不同。）
 
-There are five forms of `CREATE TYPE`, as shown in the
-syntax synopsis above. They respectively create a *composite
-type*, an *enum type*, a *range type*, a
-*base type*, or a *shell type*. The first four
-of these are discussed in turn below. A shell type is simply a placeholder
-for a type to be defined later; it is created by issuing `CREATE
-TYPE` with no parameters except for the type name. Shell types
-are needed as forward references when creating range types and base types,
-as discussed in those sections.
+如上方語法摘要所示，`CREATE TYPE` 有五種形式，分別建立*複合型別*、*列舉型別*、*範圍型別*、*基礎型別*或*殼型別*（shell type）。前四種將在下文依序討論。殼型別只是供稍後定義之型別使用的預留位置；發出只帶型別名稱、不帶其他參數的 `CREATE TYPE` 即可建立。如相關各節所述，建立範圍型別與基礎型別時，需要以殼型別作為前向參照。
 
 <a id="id-1.9.3.94.5.5"></a>
 
-### Composite Types
+### 複合型別
 
-The first form of `CREATE TYPE`
-creates a composite type.
-The composite type is specified by a list of attribute names and data types.
-An attribute's collation can be specified too, if its data type is
-collatable. A composite type is essentially the same as the row type
-of a table, but using `CREATE TYPE` avoids the need to
-create an actual table when all that is wanted is to define a type.
-A stand-alone composite type is useful, for example, as the argument or
-return type of a function.
+`CREATE TYPE` 的第一種形式會建立複合型別。複合型別由屬性名稱與資料型別的清單來指定。若屬性的資料型別可定序，也可以指定該屬性的定序。複合型別本質上與資料表的資料列型別相同，但若只是想定義一個型別，使用 `CREATE TYPE` 就不需要建立實際的資料表。舉例來說，獨立的複合型別可用作函式的引數型別或回傳型別。
 
-To be able to create a composite type, you must
-have `USAGE` privilege on all attribute types.
+若要建立複合型別，你必須對所有屬性型別具有 `USAGE` 權限。
 
 <a id="SQL-CREATETYPE-ENUM"></a>
 
-### Enumerated Types
+### 列舉型別
 
-The second form of `CREATE TYPE` creates an enumerated
-(enum) type, as described in [Section 8.7](../../the-sql-language/datatype/datatype-enum.md).
-Enum types take a list of quoted labels, each of which
-must be less than `NAMEDATALEN` bytes long (64 bytes in a
-standard PostgreSQL build). (It is possible to
-create an enumerated type with zero labels, but such a type cannot be used
-to hold values before at least one label is added using [`ALTER TYPE`](sql-altertype.md).)
+`CREATE TYPE` 的第二種形式會建立列舉（enum）型別，如[第 8.7 節](../../the-sql-language/datatype/datatype-enum.md)所述。列舉型別接受一串加上引號的標籤，每個標籤的長度都必須小於 `NAMEDATALEN` 個位元組（在標準的 PostgreSQL 建置中為 64 個位元組）。（可以建立沒有任何標籤的列舉型別，但在使用 [`ALTER TYPE`](sql-altertype.md) 加入至少一個標籤之前，這種型別無法用來存放值。）
 
 <a id="SQL-CREATETYPE-RANGE"></a>
 
-### Range Types
+### 範圍型別
 
-The third form of `CREATE TYPE` creates a new
-range type, as described in [Section 8.17](../../the-sql-language/datatype/rangetypes.md).
+`CREATE TYPE` 的第三種形式會建立新的範圍型別，如[第 8.17 節](../../the-sql-language/datatype/rangetypes.md)所述。
 
-The range type's *`subtype`* can
-be any type with an associated b-tree operator class (to determine the
-ordering of values for the range type). Normally the subtype's default
-b-tree operator class is used to determine ordering; to use a non-default
-operator class, specify its name with *`subtype_opclass`*. If the subtype is
-collatable, and you want to use a non-default collation in the range's
-ordering, specify the desired collation with the *`collation`* option.
+範圍型別的 *`subtype`* 可以是任何具有相關聯 b-tree 運算子類別的型別（用以決定範圍型別中值的排序）。通常會使用子型別預設的 b-tree 運算子類別來決定排序；若要使用非預設的運算子類別，請以 *`subtype_opclass`* 指定其名稱。若子型別可定序，且你希望在範圍的排序中使用非預設的定序，請以 *`collation`* 選項指定所需的定序。
 
-The optional *`canonical`*
-function must take one argument of the range type being defined, and
-return a value of the same type. This is used to convert range values
-to a canonical form, when applicable. See [Section 8.17.8](../../the-sql-language/datatype/rangetypes.md#RANGETYPES-DEFINING) for more information. Creating a
-*`canonical`* function
-is a bit tricky, since it must be defined before the range type can be
-declared. To do this, you must first create a shell type, which is a
-placeholder type that has no properties except a name and an
-owner. This is done by issuing the command `CREATE TYPE
-name`, with no additional parameters. Then
-the function can be declared using the shell type as argument and result,
-and finally the range type can be declared using the same name. This
-automatically replaces the shell type entry with a valid range type.
+選用的 *`canonical`* 函式必須接受一個屬於所定義範圍型別的引數，並回傳同一型別的值。在適用的情況下，此函式用於將範圍值轉換為正規形式。更多資訊請參閱[第 8.17.8 節](../../the-sql-language/datatype/rangetypes.md#RANGETYPES-DEFINING)。建立 *`canonical`* 函式有點棘手，因為它必須在範圍型別能夠宣告之前就先定義。為此，你必須先建立一個殼型別，這是一種除了名稱與擁有者之外沒有任何屬性的預留位置型別。做法是發出命令 `CREATE TYPE name`，不帶其他參數。接著就可以使用該殼型別作為引數與結果來宣告函式，最後再使用相同的名稱宣告範圍型別。這會自動以有效的範圍型別取代殼型別的項目。
 
-The optional *`subtype_diff`*
-function must take two values of the
-*`subtype`* type as argument,
-and return a `double precision` value representing the
-difference between the two given values. While this is optional,
-providing it allows much greater efficiency of GiST indexes on columns of
-the range type. See [Section 8.17.8](../../the-sql-language/datatype/rangetypes.md#RANGETYPES-DEFINING) for more
-information.
+選用的 *`subtype_diff`* 函式必須接受兩個 *`subtype`* 型別的值作為引數，並回傳一個 `double precision` 值，表示這兩個給定值之間的差。雖然此函式是選用的，但提供它可以大幅提升範圍型別欄位上 GiST 索引的效率。更多資訊請參閱[第 8.17.8 節](../../the-sql-language/datatype/rangetypes.md#RANGETYPES-DEFINING)。
 
-The optional *`multirange_type_name`*
-parameter specifies the name of the corresponding multirange type. If not
-specified, this name is chosen automatically as follows.
-If the range type name contains the substring `range`, then
-the multirange type name is formed by replacement of the `range`
-substring with `multirange` in the range
-type name. Otherwise, the multirange type name is formed by appending a
-`_multirange` suffix to the range type name.
+選用的 *`multirange_type_name`* 參數指定對應之多重範圍型別的名稱。若未指定，此名稱會依下列方式自動選定。若範圍型別名稱包含子字串 `range`，則多重範圍型別名稱的形成方式，是將範圍型別名稱中的子字串 `range` 替換為 `multirange`。否則，多重範圍型別名稱的形成方式，是在範圍型別名稱後附加後綴 `_multirange`。
 
-To be able to create a range type, you must have `USAGE`
-privilege on the subtype.
+若要建立範圍型別，你必須對子型別具有 `USAGE` 權限。
 
 <a id="id-1.9.3.94.5.8"></a>
 
-### Base Types
+### 基礎型別
 
-The fourth form of `CREATE TYPE` creates a new base type
-(scalar type). To create a new base type, you must be a superuser.
-(This restriction is made because an erroneous type definition could
-confuse or even crash the server.)
+`CREATE TYPE` 的第四種形式會建立新的基礎型別（純量型別）。若要建立新的基礎型別，你必須是超級使用者。（設下此限制是因為錯誤的型別定義可能使伺服器混亂，甚至導致伺服器當機。）
 
-The parameters can appear in any order, not only that
-illustrated above, and most are optional. You must register
-two or more functions (using `CREATE FUNCTION`) before
-defining the type. The support functions
-*`input_function`* and
-*`output_function`*
-are required, while the functions
-*`receive_function`*,
-*`send_function`*,
-*`type_modifier_input_function`*,
-*`type_modifier_output_function`*,
-*`analyze_function`*, and
-*`subscript_function`*
-are optional. Generally these functions have to be coded in C
-or another low-level language.
+這些參數可以依任何順序出現，不限於上方所示的順序，而且大多數都是選用的。在定義型別之前，你必須先（使用 `CREATE FUNCTION`）註冊兩個或更多函式。支援函式 *`input_function`* 與 *`output_function`* 是必要的，而函式 *`receive_function`*、*`send_function`*、*`type_modifier_input_function`*、*`type_modifier_output_function`*、*`analyze_function`* 與 *`subscript_function`* 則是選用的。這些函式通常必須以 C 或其他低階語言撰寫。
 
-The *`input_function`*
-converts the type's external textual representation to the internal
-representation used by the operators and functions defined for the type.
-*`output_function`*
-performs the reverse transformation. The input function can be
-declared as taking one argument of type `cstring`,
-or as taking three arguments of types
-`cstring`, `oid`, `integer`.
-The first argument is the input text as a C string, the second
-argument is the type's own OID (except for array types, which instead
-receive their element type's OID),
-and the third is the `typmod` of the destination column, if known
-(-1 will be passed if not).
-The input function must return a value of the data type itself.
-Usually, an input function should be declared STRICT; if it is not,
-it will be called with a NULL first parameter when reading a NULL
-input value. The function must still return NULL in this case, unless
-it raises an error.
-(This case is mainly meant to support domain input functions, which
-might need to reject NULL inputs.)
-The output function must be
-declared as taking one argument of the new data type.
-The output function must return type `cstring`.
-Output functions are not invoked for NULL values.
+*`input_function`* 會將型別的外部文字表示形式，轉換為該型別所定義之運算子與函式所使用的內部表示形式。*`output_function`* 則執行反向的轉換。輸入函式可以宣告為接受一個 `cstring` 型別的引數，或宣告為接受三個型別分別為 `cstring`、`oid`、`integer` 的引數。第一個引數是以 C 字串表示的輸入文字，第二個引數是該型別本身的 OID（陣列型別除外，陣列型別收到的是其元素型別的 OID），第三個引數則是目標欄位的 `typmod`（若已知；若未知則會傳入 -1）。輸入函式必須回傳該資料型別本身的值。通常，輸入函式應該宣告為 STRICT；若不是，則在讀取 NULL 輸入值時，會以 NULL 作為第一個參數來呼叫它。在此情況下，該函式仍必須回傳 NULL，除非它引發錯誤。（此情況主要是為了支援網域的輸入函式，這類函式可能需要拒絕 NULL 輸入。）輸出函式必須宣告為接受一個新資料型別的引數。輸出函式必須回傳 `cstring` 型別。對於 NULL 值，不會呼叫輸出函式。
 
-The optional *`receive_function`*
-converts the type's external binary representation to the internal
-representation. If this function is not supplied, the type cannot
-participate in binary input. The binary representation should be
-chosen to be cheap to convert to internal form, while being reasonably
-portable. (For example, the standard integer data types use network
-byte order as the external binary representation, while the internal
-representation is in the machine's native byte order.) The receive
-function should perform adequate checking to ensure that the value is
-valid.
-The receive function can be declared as taking one argument of type
-`internal`, or as taking three arguments of types
-`internal`, `oid`, `integer`.
-The first argument is a pointer to a `StringInfo` buffer
-holding the received byte string; the optional arguments are the
-same as for the text input function.
-The receive function must return a value of the data type itself.
-Usually, a receive function should be declared STRICT; if it is not,
-it will be called with a NULL first parameter when reading a NULL
-input value. The function must still return NULL in this case, unless
-it raises an error.
-(This case is mainly meant to support domain receive functions, which
-might need to reject NULL inputs.)
-Similarly, the optional
-*`send_function`* converts
-from the internal representation to the external binary representation.
-If this function is not supplied, the type cannot participate in binary
-output. The send function must be
-declared as taking one argument of the new data type.
-The send function must return type `bytea`.
-Send functions are not invoked for NULL values.
+選用的 *`receive_function`* 會將型別的外部二進位表示形式轉換為內部表示形式。若未提供此函式，該型別就無法參與二進位輸入。二進位表示形式應該選擇轉換成內部形式時成本低廉、同時又具有合理可攜性的形式。（例如，標準整數資料型別使用網路位元組順序作為外部二進位表示形式，而內部表示形式則採用機器原生的位元組順序。）接收函式應該進行足夠的檢查，以確保值是有效的。接收函式可以宣告為接受一個 `internal` 型別的引數，或宣告為接受三個型別分別為 `internal`、`oid`、`integer` 的引數。第一個引數是指向存放所接收位元組字串之 `StringInfo` 緩衝區的指標；其餘選用引數與文字輸入函式的相同。接收函式必須回傳該資料型別本身的值。通常，接收函式應該宣告為 STRICT；若不是，則在讀取 NULL 輸入值時，會以 NULL 作為第一個參數來呼叫它。在此情況下，該函式仍必須回傳 NULL，除非它引發錯誤。（此情況主要是為了支援網域的接收函式，這類函式可能需要拒絕 NULL 輸入。）同樣地，選用的 *`send_function`* 會從內部表示形式轉換為外部二進位表示形式。若未提供此函式，該型別就無法參與二進位輸出。傳送函式必須宣告為接受一個新資料型別的引數。傳送函式必須回傳 `bytea` 型別。對於 NULL 值，不會呼叫傳送函式。
 
-You should at this point be wondering how the input and output functions
-can be declared to have results or arguments of the new type, when they
-have to be created before the new type can be created. The answer is that
-the type should first be defined as a *shell type*, which is a
-placeholder type that has no properties except a name and an owner. This
-is done by issuing the command `CREATE TYPE
-name`, with no additional parameters. Then the
-C I/O functions can be defined referencing the shell type. Finally,
-`CREATE TYPE` with a full definition replaces the shell entry
-with a complete, valid type definition, after which the new type can be
-used normally.
+此時你應該會感到疑惑：輸入與輸出函式必須在新型別建立之前就先建立，那它們要如何宣告為以新型別作為結果或引數？答案是應該先將該型別定義為*殼型別*，這是一種除了名稱與擁有者之外沒有任何屬性的預留位置型別。做法是發出命令 `CREATE TYPE name`，不帶其他參數。接著就可以定義參照該殼型別的 C 輸入／輸出函式。最後，帶有完整定義的 `CREATE TYPE` 會以完整且有效的型別定義取代殼型別的項目，之後新型別就可以正常使用。
 
-The optional
-*`type_modifier_input_function`*
-and *`type_modifier_output_function`*
-are needed if the type supports modifiers, that is optional constraints
-attached to a type declaration, such as `char(5)` or
-`numeric(30,2)`. PostgreSQL allows
-user-defined types to take one or more simple constants or identifiers as
-modifiers. However, this information must be capable of being packed into a
-single non-negative integer value for storage in the system catalogs. The
-*`type_modifier_input_function`*
-is passed the declared modifier(s) in the form of a `cstring`
-array. It must check the values for validity (throwing an error if they
-are wrong), and if they are correct, return a single non-negative
-`integer` value that will be stored as the column “typmod”.
-Type modifiers will be rejected if the type does not have a
-*`type_modifier_input_function`*.
-The *`type_modifier_output_function`*
-converts the internal integer typmod value back to the correct form for
-user display. It must return a `cstring` value that is the exact
-string to append to the type name; for example `numeric`'s
-function might return `(30,2)`.
-It is allowed to omit the
-*`type_modifier_output_function`*,
-in which case the default display format is just the stored typmod integer
-value enclosed in parentheses.
+若型別支援修飾詞，也就是附加在型別宣告上的選用限制條件，例如 `char(5)` 或 `numeric(30,2)`，則需要選用的 *`type_modifier_input_function`* 與 *`type_modifier_output_function`*。PostgreSQL 允許使用者自訂型別接受一個或多個簡單的常數或識別字作為修飾詞。不過，這些資訊必須能夠打包成單一的非負整數值，以便儲存在系統目錄中。*`type_modifier_input_function`* 會以 `cstring` 陣列的形式接收所宣告的修飾詞。它必須檢查這些值是否有效（若值有誤則擲出錯誤），若值正確，則回傳單一的非負 `integer` 值，該值會儲存為欄位的「typmod」。若型別沒有 *`type_modifier_input_function`*，型別修飾詞會被拒絕。*`type_modifier_output_function`* 會將內部的整數 typmod 值轉換回適合顯示給使用者的正確形式。它必須回傳一個 `cstring` 值，該值是要附加在型別名稱後的確切字串；例如 `numeric` 的函式可能會回傳 `(30,2)`。可以省略 *`type_modifier_output_function`*，此時預設的顯示格式就只是以括號括住的已儲存 typmod 整數值。
 
-The optional *`analyze_function`*
-performs type-specific statistics collection for columns of the data type.
-By default, `ANALYZE` will attempt to gather statistics using
-the type's “equals” and “less-than” operators, if there
-is a default b-tree operator class for the type. For non-scalar types
-this behavior is likely to be unsuitable, so it can be overridden by
-specifying a custom analysis function. The analysis function must be
-declared to take a single argument of type `internal`, and return
-a `boolean` result. The detailed API for analysis functions appears
-in `src/include/commands/vacuum.h`.
+選用的 *`analyze_function`* 會為該資料型別的欄位執行特定於型別的統計資料收集。預設情況下，若該型別有預設的 b-tree 運算子類別，`ANALYZE` 會嘗試使用該型別的「等於」與「小於」運算子來收集統計資料。對於非純量型別，這種行為很可能不適用，因此可以指定自訂的分析函式來覆寫它。分析函式必須宣告為接受單一個 `internal` 型別的引數，並回傳 `boolean` 結果。分析函式的詳細 API 請見 `src/include/commands/vacuum.h`。
 
-The optional *`subscript_function`*
-allows the data type to be subscripted in SQL commands. Specifying this
-function does not cause the type to be considered a “true”
-array type; for example, it will not be a candidate for the result type
-of `ARRAY[]` constructs. But if subscripting a value
-of the type is a natural notation for extracting data from it, then
-a *`subscript_function`* can
-be written to define what that means. The subscript function must be
-declared to take a single argument of type `internal`, and
-return an `internal` result, which is a pointer to a struct
-of methods (functions) that implement subscripting.
-The detailed API for subscript functions appears
-in `src/include/nodes/subscripting.h`.
-It may also be useful to read the array implementation
-in `src/backend/utils/adt/arraysubs.c`,
-or the simpler code
-in `contrib/hstore/hstore_subs.c`.
-Additional information appears in
-[Array Types](sql-createtype.md#SQL-CREATETYPE-ARRAY) below.
+選用的 *`subscript_function`* 允許在 SQL 命令中對該資料型別使用下標。指定此函式並不會使該型別被視為「真正的」陣列型別；例如，它不會成為 `ARRAY[]` 建構式結果型別的候選。但若對該型別的值使用下標，是從中擷取資料的自然表示法，就可以撰寫 *`subscript_function`* 來定義其意義。下標函式必須宣告為接受單一個 `internal` 型別的引數，並回傳 `internal` 結果，該結果是一個指向方法（函式）結構的指標，這些方法實作了下標操作。下標函式的詳細 API 請見 `src/include/nodes/subscripting.h`。閱讀 `src/backend/utils/adt/arraysubs.c` 中的陣列實作，或 `contrib/hstore/hstore_subs.c` 中較簡單的程式碼，也可能有所幫助。更多資訊請見下方的[陣列型別](sql-createtype.md#SQL-CREATETYPE-ARRAY)。
 
-While the details of the new type's internal representation are only
-known to the I/O functions and other functions you create to work with
-the type, there are several properties of the internal representation
-that must be declared to PostgreSQL.
-Foremost of these is
-*`internallength`*.
-Base data types can be fixed-length, in which case
-*`internallength`* is a
-positive integer, or variable-length, indicated by setting
-*`internallength`*
-to `VARIABLE`. (Internally, this is represented
-by setting `typlen` to -1.) The internal representation of all
-variable-length types must start with a 4-byte integer giving the total
-length of this value of the type. (Note that the length field is often
-encoded, as described in [Section 66.2](../../internals/storage/storage-toast.md); it's unwise
-to access it directly.)
+雖然新型別內部表示形式的細節只有輸入／輸出函式以及你為處理該型別而建立的其他函式知道，但內部表示形式有幾項屬性必須向 PostgreSQL 宣告。其中最重要的是 *`internallength`*。基礎資料型別可以是固定長度，此時 *`internallength`* 為正整數；也可以是變動長度，以將 *`internallength`* 設為 `VARIABLE` 來表示。（在內部，這是以將 `typlen` 設為 -1 來表示。）所有變動長度型別的內部表示形式，都必須以一個 4 位元組整數開頭，表示該型別這個值的總長度。（請注意，長度欄位經常經過編碼，如[第 66.2 節](../../internals/storage/storage-toast.md)所述；直接存取它並不明智。）
 
-The optional flag `PASSEDBYVALUE` indicates that
-values of this data type are passed by value, rather than by
-reference. Types passed by value must be fixed-length, and their internal
-representation cannot be larger than the size of the `Datum` type
-(4 bytes on some machines, 8 bytes on others).
+選用旗標 `PASSEDBYVALUE` 表示此資料型別的值以傳值方式傳遞，而非以傳參考方式傳遞。以傳值方式傳遞的型別必須是固定長度，且其內部表示形式不能大於 `Datum` 型別的大小（在某些機器上為 4 個位元組，在其他機器上為 8 個位元組）。
 
-The *`alignment`* parameter
-specifies the storage alignment required for the data type. The
-allowed values equate to alignment on 1, 2, 4, or 8 byte boundaries.
-Note that variable-length types must have an alignment of at least
-4, since they necessarily contain an `int4` as their first component.
+*`alignment`* 參數指定該資料型別所需的儲存對齊方式。允許的值相當於在 1、2、4 或 8 位元組邊界上對齊。請注意，變動長度型別的對齊必須至少為 4，因為它們必然以一個 `int4` 作為第一個組成部分。
 
-The *`storage`* parameter
-allows selection of storage strategies for variable-length data
-types. (Only `plain` is allowed for fixed-length
-types.) `plain` specifies that data of the type
-will always be stored in-line and not compressed.
-`extended` specifies that the system will first
-try to compress a long data value, and will move the value out of
-the main table row if it's still too long.
-`external` allows the value to be moved out of the
-main table, but the system will not try to compress it.
-`main` allows compression, but discourages moving
-the value out of the main table. (Data items with this storage
-strategy might still be moved out of the main table if there is no
-other way to make a row fit, but they will be kept in the main
-table preferentially over `extended` and
-`external` items.)
+*`storage`* 參數可為變動長度資料型別選擇儲存策略。（固定長度型別只允許 `plain`。）`plain` 指定該型別的資料一律以內嵌（in-line）方式儲存，且不壓縮。`extended` 指定系統會先嘗試壓縮過長的資料值，若壓縮後仍然太長，則將該值移出主資料表的資料列。`external` 允許將值移出主資料表，但系統不會嘗試壓縮它。`main` 允許壓縮，但不鼓勵將值移出主資料表。（若沒有其他方法能讓資料列容納得下，採用此儲存策略的資料項目仍可能被移出主資料表，但相較於 `extended` 與 `external` 項目，它們會優先保留在主資料表中。）
 
-All *`storage`* values other
-than `plain` imply that the functions of the data type
-can handle values that have been *toasted*, as described
-in [Section 66.2](../../internals/storage/storage-toast.md) and [Section 36.13.1](../../server-programming/extend/xtypes.md#XTYPES-TOAST).
-The specific other value given merely determines the default TOAST
-storage strategy for columns of a toastable data type; users can pick
-other strategies for individual columns using `ALTER TABLE
-SET STORAGE`.
+除了 `plain` 之外的所有 *`storage`* 值，都意味著該資料型別的函式能夠處理經過 *TOAST 處理*（toasted）的值，如[第 66.2 節](../../internals/storage/storage-toast.md)與[第 36.13.1 節](../../server-programming/extend/xtypes.md#XTYPES-TOAST)所述。所給定的特定其他值，只決定可 TOAST 資料型別之欄位的預設 TOAST 儲存策略；使用者可以使用 `ALTER TABLE SET STORAGE` 為個別欄位選擇其他策略。
 
-The *`like_type`* parameter
-provides an alternative method for specifying the basic representation
-properties of a data type: copy them from some existing type. The values of
-*`internallength`*,
-*`passedbyvalue`*,
-*`alignment`*, and
-*`storage`* are copied from the
-named type. (It is possible, though usually undesirable, to override
-some of these values by specifying them along with the `LIKE`
-clause.) Specifying representation this way is especially useful when
-the low-level implementation of the new type “piggybacks” on an
-existing type in some fashion.
+*`like_type`* 參數提供另一種指定資料型別基本表示屬性的方法：從某個現有型別複製這些屬性。*`internallength`*、*`passedbyvalue`*、*`alignment`* 與 *`storage`* 的值會從所指名的型別複製而來。（可以藉由在 `LIKE` 子句之外同時指定其中某些值來覆寫它們，但這通常並不理想。）當新型別的低階實作以某種方式「搭便車」建立在現有型別之上時，以這種方式指定表示形式特別有用。
 
-The *`category`* and
-*`preferred`* parameters can be
-used to help control which implicit cast will be applied in ambiguous
-situations. Each data type belongs to a category named by a single ASCII
-character, and each type is either “preferred” or not within its
-category. The parser will prefer casting to preferred types (but only from
-other types within the same category) when this rule is helpful in
-resolving overloaded functions or operators. For more details see [Chapter 10](../../the-sql-language/typeconv/README.md). For types that have no implicit casts to or from any
-other types, it is sufficient to leave these settings at the defaults.
-However, for a group of related types that have implicit casts, it is often
-helpful to mark them all as belonging to a category and select one or two
-of the “most general” types as being preferred within the category.
-The *`category`* parameter is
-especially useful when adding a user-defined type to an existing built-in
-category, such as the numeric or string types. However, it is also
-possible to create new entirely-user-defined type categories. Select any
-ASCII character other than an upper-case letter to name such a category.
+*`category`* 與 *`preferred`* 參數可用來協助控制在模稜兩可的情況下要套用哪一種隱含轉型。每個資料型別都屬於一個以單一 ASCII 字元命名的類別，而每個型別在其類別中要嘛是「偏好」型別，要嘛不是。當此規則有助於解析多載的函式或運算子時，剖析器會偏好轉型為偏好型別（但只從同一類別中的其他型別轉型）。更多細節請參閱[第 10 章](../../the-sql-language/typeconv/README.md)。對於與任何其他型別之間都沒有隱含轉型的型別，將這些設定保留為預設值就足夠了。不過，對於一組具有隱含轉型的相關型別，將它們全部標記為屬於同一類別，並選擇其中一兩個「最通用」的型別作為該類別中的偏好型別，通常會有所幫助。在將使用者自訂型別加入現有的內建類別（例如數值或字串型別）時，*`category`* 參數特別有用。不過，也可以建立全新、完全由使用者自訂的型別類別。可以選擇除了大寫字母以外的任何 ASCII 字元來命名這種類別。
 
-A default value can be specified, in case a user wants columns of the
-data type to default to something other than the null value.
-Specify the default with the `DEFAULT` key word.
-(Such a default can be overridden by an explicit `DEFAULT`
-clause attached to a particular column.)
+若使用者希望該資料型別的欄位預設為 null 值以外的其他值，可以指定預設值。使用 `DEFAULT` 關鍵字指定預設值。（這種預設值可以被附加在特定欄位上的明確 `DEFAULT` 子句覆寫。）
 
-To indicate that a type is a fixed-length array type,
-specify the type of the array
-elements using the `ELEMENT` key word. For example, to
-define an array of 4-byte integers (`int4`), specify
-`ELEMENT = int4`. For more details,
-see [Array Types](sql-createtype.md#SQL-CREATETYPE-ARRAY) below.
+若要表示某個型別是固定長度的陣列型別，請使用 `ELEMENT` 關鍵字指定陣列元素的型別。例如，若要定義 4 位元組整數（`int4`）的陣列，請指定 `ELEMENT = int4`。更多細節請參閱下方的[陣列型別](sql-createtype.md#SQL-CREATETYPE-ARRAY)。
 
-To indicate the delimiter to be used between values in the external
-representation of arrays of this type, *`delimiter`* can be
-set to a specific character. The default delimiter is the comma
-(`,`). Note that the delimiter is associated
-with the array element type, not the array type itself.
+若要指定此型別之陣列的外部表示形式中，值與值之間所使用的分隔符號，可以將 *`delimiter`* 設定為特定字元。預設的分隔符號是逗號（`,`）。請注意，分隔符號是與陣列元素型別相關聯，而不是與陣列型別本身相關聯。
 
-If the optional Boolean
-parameter *`collatable`*
-is true, column definitions and expressions of the type may carry
-collation information through use of
-the `COLLATE` clause. It is up to the
-implementations of the functions operating on the type to actually
-make use of the collation information; this does not happen
-automatically merely by marking the type collatable.
+若選用的布林參數 *`collatable`* 為真，則該型別的欄位定義與運算式可以透過 `COLLATE` 子句攜帶定序資訊。是否實際使用定序資訊，取決於操作該型別之函式的實作；僅僅將型別標記為可定序，並不會自動做到這一點。
 
 <a id="SQL-CREATETYPE-ARRAY"></a>
 
-### Array Types
+### 陣列型別
 
-Whenever a user-defined type is created,
-PostgreSQL automatically creates an
-associated array type, whose name consists of the element type's
-name prepended with an underscore, and truncated if necessary to keep
-it less than `NAMEDATALEN` bytes long. (If the name
-so generated collides with an existing type name, the process is
-repeated until a non-colliding name is found.)
-This implicitly-created array type is variable length and uses the
-built-in input and output functions `array_in` and
-`array_out`. Furthermore, this type is what the system
-uses for constructs such as `ARRAY[]` over the
-user-defined type. The array type tracks any changes in its
-element type's owner or schema, and is dropped if the element type is.
+每當建立使用者自訂型別時，PostgreSQL 都會自動建立一個相關聯的陣列型別，其名稱由元素型別的名稱前面加上底線構成，並在必要時截斷，使其長度小於 `NAMEDATALEN` 個位元組。（若如此產生的名稱與現有的型別名稱衝突，則會重複此過程，直到找到不衝突的名稱為止。）這個隱含建立的陣列型別是變動長度，並使用內建的輸入與輸出函式 `array_in` 與 `array_out`。此外，系統在處理該使用者自訂型別上的 `ARRAY[]` 等建構式時，所使用的就是這個型別。陣列型別會追蹤其元素型別之擁有者或綱要的任何變更，且若元素型別被移除，陣列型別也會被移除。
 
-You might reasonably ask why there is an `ELEMENT`
-option, if the system makes the correct array type automatically.
-The main case where it's useful to use `ELEMENT` is when you are
-making a fixed-length type that happens to be internally an array of a number of
-identical things, and you want to allow these things to be accessed
-directly by subscripting, in addition to whatever operations you plan
-to provide for the type as a whole. For example, type `point`
-is represented as just two floating-point numbers, which can be accessed
-using `point[0]` and `point[1]`.
-Note that
-this facility only works for fixed-length types whose internal form
-is exactly a sequence of identical fixed-length fields.
-For historical reasons (i.e., this is clearly wrong but it's far too
-late to change it), subscripting of fixed-length array types starts from
-zero, rather than from one as for variable-length arrays.
+你可能會合理地問：既然系統會自動建立正確的陣列型別，為什麼還有 `ELEMENT` 選項？使用 `ELEMENT` 的主要情況，是當你建立的固定長度型別在內部恰好是由若干個相同項目組成的陣列，而且除了你打算為整個型別提供的任何操作之外，你還希望允許透過下標直接存取這些項目。例如，`point` 型別的表示形式就只是兩個浮點數，可以使用 `point[0]` 與 `point[1]` 來存取。請注意，此功能只適用於內部形式恰好是一連串相同固定長度欄位的固定長度型別。由於歷史因素（也就是說，這顯然是錯誤的，但要更改已經太遲了），固定長度陣列型別的下標從零開始，而不是像變動長度陣列那樣從一開始。
 
-Specifying the `SUBSCRIPT` option allows a data type to
-be subscripted, even though the system does not otherwise regard it as
-an array type. The behavior just described for fixed-length arrays is
-actually implemented by the `SUBSCRIPT` handler
-function `raw_array_subscript_handler`, which is
-used automatically if you specify `ELEMENT` for a
-fixed-length type without also writing `SUBSCRIPT`.
+指定 `SUBSCRIPT` 選項可以讓資料型別使用下標，即使系統在其他方面並不將它視為陣列型別。上述固定長度陣列的行為，實際上是由 `SUBSCRIPT` 處理函式 `raw_array_subscript_handler` 實作的；若你為固定長度型別指定了 `ELEMENT`，卻沒有同時寫出 `SUBSCRIPT`，就會自動使用此處理函式。
 
-When specifying a custom `SUBSCRIPT` function, it is
-not necessary to specify `ELEMENT` unless
-the `SUBSCRIPT` handler function needs to
-consult `typelem` to find out what to return.
-Be aware that specifying `ELEMENT` causes the system to
-assume that the new type contains, or is somehow physically dependent on,
-the element type; thus for example changing properties of the element
-type won't be allowed if there are any columns of the dependent type.
+指定自訂的 `SUBSCRIPT` 函式時，不需要指定 `ELEMENT`，除非 `SUBSCRIPT` 處理函式需要查詢 `typelem` 才能得知要回傳什麼。請注意，指定 `ELEMENT` 會使系統假設新型別包含元素型別，或以某種方式在實體上相依於元素型別；因此，舉例來說，若有任何欄位屬於相依型別，就不允許變更元素型別的屬性。
 
 <a id="id-1.9.3.94.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (optionally schema-qualified) of a type to be created.
+:   要建立之型別的名稱（可選擇以綱要限定）。
 
 *`attribute_name`*
-:   The name of an attribute (column) for the composite type.
+:   複合型別之屬性（欄位）的名稱。
 
 *`data_type`*
-:   The name of an existing data type to become a column of the
-    composite type.
+:   一個現有資料型別的名稱，該型別將成為複合型別的一個欄位。
 
 *`collation`*
-:   The name of an existing collation to be associated with a column of
-    a composite type, or with a range type.
+:   一個現有定序的名稱，將與複合型別的欄位或範圍型別相關聯。
 
 *`label`*
-:   A string literal representing the textual label associated with
-    one value of an enum type.
+:   一個字串常值，表示與列舉型別的某一個值相關聯的文字標籤。
 
 *`subtype`*
-:   The name of the element type that the range type will represent ranges
-    of.
+:   範圍型別所表示之範圍的元素型別名稱。
 
 *`subtype_operator_class`*
-:   The name of a b-tree operator class for the subtype.
+:   子型別之 b-tree 運算子類別的名稱。
 
 *`canonical_function`*
-:   The name of the canonicalization function for the range type.
+:   範圍型別之正規化函式的名稱。
 
 *`subtype_diff_function`*
-:   The name of a difference function for the subtype.
+:   子型別之差值函式的名稱。
 
 *`multirange_type_name`*
-:   The name of the corresponding multirange type.
+:   對應之多重範圍型別的名稱。
 
 *`input_function`*
-:   The name of a function that converts data from the type's
-    external textual form to its internal form.
+:   一個函式的名稱，該函式將資料從型別的外部文字形式轉換為內部形式。
 
 *`output_function`*
-:   The name of a function that converts data from the type's
-    internal form to its external textual form.
+:   一個函式的名稱，該函式將資料從型別的內部形式轉換為外部文字形式。
 
 *`receive_function`*
-:   The name of a function that converts data from the type's
-    external binary form to its internal form.
+:   一個函式的名稱，該函式將資料從型別的外部二進位形式轉換為內部形式。
 
 *`send_function`*
-:   The name of a function that converts data from the type's
-    internal form to its external binary form.
+:   一個函式的名稱，該函式將資料從型別的內部形式轉換為外部二進位形式。
 
 *`type_modifier_input_function`*
-:   The name of a function that converts an array of modifier(s) for the type
-    into internal form.
+:   一個函式的名稱，該函式將型別的修飾詞陣列轉換為內部形式。
 
 *`type_modifier_output_function`*
-:   The name of a function that converts the internal form of the type's
-    modifier(s) to external textual form.
+:   一個函式的名稱，該函式將型別修飾詞的內部形式轉換為外部文字形式。
 
 *`analyze_function`*
-:   The name of a function that performs statistical analysis for the
-    data type.
+:   一個函式的名稱，該函式為該資料型別執行統計分析。
 
 *`subscript_function`*
-:   The name of a function that defines what subscripting a value of the
-    data type does.
+:   一個函式的名稱，該函式定義對該資料型別的值使用下標時的作用。
 
 *`internallength`*
-:   A numeric constant that specifies the length in bytes of the new
-    type's internal representation. The default assumption is that
-    it is variable-length.
+:   一個數值常數，指定新型別內部表示形式的長度（以位元組為單位）。預設假設它是變動長度。
 
 *`alignment`*
-:   The storage alignment requirement of the data type. If specified,
-    it must be `char`, `int2`,
-    `int4`, or `double`; the
-    default is `int4`.
+:   該資料型別的儲存對齊要求。若有指定，必須是 `char`、`int2`、`int4` 或 `double`；預設為 `int4`。
 
 *`storage`*
-:   The storage strategy for the data type. If specified, must be
-    `plain`, `external`,
-    `extended`, or `main`; the
-    default is `plain`.
+:   該資料型別的儲存策略。若有指定，必須是 `plain`、`external`、`extended` 或 `main`；預設為 `plain`。
 
 *`like_type`*
-:   The name of an existing data type that the new type will have the
-    same representation as. The values of
-    *`internallength`*,
-    *`passedbyvalue`*,
-    *`alignment`*, and
-    *`storage`*
-    are copied from that type, unless overridden by explicit
-    specification elsewhere in this `CREATE TYPE` command.
+:   一個現有資料型別的名稱，新型別將具有與其相同的表示形式。*`internallength`*、*`passedbyvalue`*、*`alignment`* 與 *`storage`* 的值會從該型別複製而來，除非在此 `CREATE TYPE` 命令的其他地方以明確指定的方式覆寫。
 
 *`category`*
-:   The category code (a single ASCII character) for this type.
-    The default is `'U'` for “user-defined type”.
-    Other standard category codes can be found in
-    [Table 52.65](../../internals/catalogs/catalog-pg-type.md#CATALOG-TYPCATEGORY-TABLE). You may also choose
-    other ASCII characters in order to create custom categories.
+:   此型別的類別代碼（單一 ASCII 字元）。預設為 `'U'`，表示「使用者自訂型別」。其他標準類別代碼可在[表 52.65](../../internals/catalogs/catalog-pg-type.md#CATALOG-TYPCATEGORY-TABLE)中找到。你也可以選擇其他 ASCII 字元來建立自訂類別。
 
 *`preferred`*
-:   True if this type is a preferred type within its type category,
-    else false. The default is false. Be very careful about creating
-    a new preferred type within an existing type category, as this
-    could cause surprising changes in behavior.
+:   若此型別是其型別類別中的偏好型別則為真，否則為假。預設為假。在現有的型別類別中建立新的偏好型別時要非常小心，因為這可能導致令人意外的行為變化。
 
 *`default`*
-:   The default value for the data type. If this is omitted, the
-    default is null.
+:   該資料型別的預設值。若省略，預設值為 null。
 
 *`element`*
-:   The type being created is an array; this specifies the type of
-    the array elements.
+:   所建立的型別是陣列；此參數指定陣列元素的型別。
 
 *`delimiter`*
-:   The delimiter character to be used between values in arrays made
-    of this type.
+:   以此型別構成的陣列中，值與值之間所使用的分隔字元。
 
 *`collatable`*
-:   True if this type's operations can use collation information.
-    The default is false.
+:   若此型別的操作可以使用定序資訊則為真。預設為假。
 
 <a id="SQL-CREATETYPE-NOTES"></a>
 
-## Notes
+## 注意事項
 
-Because there are no restrictions on use of a data type once it's been
-created, creating a base type or range type is tantamount to granting
-public execute permission on the functions mentioned in the type definition.
-This is usually
-not an issue for the sorts of functions that are useful in a type
-definition. But you might want to think twice before designing a type
-in a way that would require “secret” information to be used
-while converting it to or from external form.
+由於資料型別一旦建立後，其使用就沒有任何限制，因此建立基礎型別或範圍型別，就等同於將型別定義中提及之函式的執行權限授予 public。對於型別定義中會用到的那類函式而言，這通常不成問題。但若你設計的型別在轉換為外部形式或從外部形式轉換時，需要用到「機密」資訊，就應該三思。
 
-Before PostgreSQL version 8.3, the name of
-a generated array type was always exactly the element type's name with one
-underscore character (`_`) prepended. (Type names were
-therefore restricted in length to one fewer character than other names.)
-While this is still usually the case, the array type name may vary from
-this in case of maximum-length names or collisions with user type names
-that begin with underscore. Writing code that depends on this convention
-is therefore deprecated. Instead, use
-`pg_type`.`typarray` to locate the array type
-associated with a given type.
+在 PostgreSQL 8.3 版之前，所產生之陣列型別的名稱一律恰好是元素型別的名稱前面加上一個底線字元（`_`）。（因此，型別名稱的長度限制比其他名稱少一個字元。）雖然現在通常仍是如此，但在名稱達到最大長度，或與以底線開頭的使用者型別名稱衝突時，陣列型別名稱可能與此不同。因此，不建議撰寫依賴此慣例的程式碼。請改用 `pg_type`.`typarray` 來找出與給定型別相關聯的陣列型別。
 
-It may be advisable to avoid using type and table names that begin with
-underscore. While the server will change generated array type names to
-avoid collisions with user-given names, there is still risk of confusion,
-particularly with old client software that may assume that type names
-beginning with underscores always represent arrays.
+或許最好避免使用以底線開頭的型別名稱與資料表名稱。雖然伺服器會變更所產生的陣列型別名稱，以避免與使用者給定的名稱衝突，但仍有造成混淆的風險，尤其是對於可能假設以底線開頭的型別名稱一律代表陣列的舊版用戶端軟體。
 
-Before PostgreSQL version 8.2, the shell-type
-creation syntax
-`CREATE TYPE name` did not exist.
-The way to create a new base type was to create its input function first.
-In this approach, PostgreSQL will first see
-the name of the new data type as the return type of the input function.
-The shell type is implicitly created in this situation, and then it
-can be referenced in the definitions of the remaining I/O functions.
-This approach still works, but is deprecated and might be disallowed in
-some future release. Also, to avoid accidentally cluttering
-the catalogs with shell types as a result of simple typos in function
-definitions, a shell type will only be made this way when the input
-function is written in C.
+在 PostgreSQL 8.2 版之前，並沒有建立殼型別的語法 `CREATE TYPE name`。當時建立新基礎型別的方式，是先建立其輸入函式。在這種做法中，PostgreSQL 會先將新資料型別的名稱視為輸入函式的回傳型別。在此情況下會隱含建立殼型別，之後就可以在其餘輸入／輸出函式的定義中參照它。這種做法仍然有效，但已不建議使用，且可能在未來的某個版本中被禁止。此外，為了避免因函式定義中的單純打字錯誤而意外讓系統目錄中堆滿殼型別，只有在輸入函式以 C 撰寫時，才會以這種方式建立殼型別。
 
-In PostgreSQL version 16 and later,
-it is desirable for base types' input functions to
-return “soft” errors using the
-new `errsave()`/`ereturn()`
-mechanism, rather than throwing `ereport()`
-exceptions as in previous versions.
-See `src/backend/utils/fmgr/README` for more
-information.
+在 PostgreSQL 16 版及更新版本中，基礎型別的輸入函式最好使用新的 `errsave()`/`ereturn()` 機制回傳「軟性」錯誤，而不是像先前版本那樣擲出 `ereport()` 例外。更多資訊請參閱 `src/backend/utils/fmgr/README`。
 
 <a id="id-1.9.3.94.8"></a>
 
-## Examples
+## 範例
 
-This example creates a composite type and uses it in
-a function definition:
+此範例建立一個複合型別，並在函式定義中使用它：
 
 ```
 
@@ -663,8 +261,7 @@ CREATE FUNCTION getfoo() RETURNS SETOF compfoo AS $$
 $$ LANGUAGE SQL;
 ```
 
-This example creates an enumerated type and uses it in
-a table definition:
+此範例建立一個列舉型別，並在資料表定義中使用它：
 
 ```
 
@@ -677,15 +274,14 @@ CREATE TABLE bug (
 );
 ```
 
-This example creates a range type:
+此範例建立一個範圍型別：
 
 ```
 
 CREATE TYPE float8_range AS RANGE (subtype = float8, subtype_diff = float8mi);
 ```
 
-This example creates the base data type `box` and then uses the
-type in a table definition:
+此範例建立基礎資料型別 `box`，然後在資料表定義中使用該型別：
 
 ```
 
@@ -706,8 +302,7 @@ CREATE TABLE myboxes (
 );
 ```
 
-If the internal structure of `box` were an array of four
-`float4` elements, we might instead use:
+若 `box` 的內部結構是由四個 `float4` 元素組成的陣列，我們或許可以改用：
 
 ```
 
@@ -719,11 +314,9 @@ CREATE TYPE box (
 );
 ```
 
-which would allow a box value's component numbers to be accessed
-by subscripting. Otherwise the type behaves the same as before.
+這樣就可以透過下標存取 box 值的各個組成數字。除此之外，該型別的行為與先前相同。
 
-This example creates a large object type and uses it in
-a table definition:
+此範例建立一個大型物件型別，並在資料表定義中使用它：
 
 ```
 
@@ -737,30 +330,22 @@ CREATE TABLE big_objs (
 );
 ```
 
-More examples, including suitable input and output functions, are
-in [Section 36.13](../../server-programming/extend/xtypes.md).
+更多範例（包括合適的輸入與輸出函式）請參閱[第 36.13 節](../../server-programming/extend/xtypes.md)。
 
 <a id="SQL-CREATETYPE-COMPATIBILITY"></a>
 
-## Compatibility
+## 相容性
 
-The first form of the `CREATE TYPE` command, which
-creates a composite type, conforms to the SQL standard.
-The other forms are PostgreSQL
-extensions. The `CREATE TYPE` statement in
-the SQL standard also defines other forms that are not
-implemented in PostgreSQL.
+`CREATE TYPE` 命令的第一種形式（建立複合型別）符合 SQL 標準。其他形式則是 PostgreSQL 的擴充功能。SQL 標準中的 `CREATE TYPE` 陳述式還定義了 PostgreSQL 未實作的其他形式。
 
-The ability to create a composite type with zero attributes is
-a PostgreSQL-specific deviation from the
-standard (analogous to the same case in `CREATE TABLE`).
+能夠建立沒有任何屬性的複合型別，是 PostgreSQL 特有、偏離標準之處（類似於 `CREATE TABLE` 中的相同情況）。
 
 <a id="SQL-CREATETYPE-SEE-ALSO"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER TYPE](sql-altertype.md), [CREATE DOMAIN](sql-createdomain.md), [CREATE FUNCTION](sql-createfunction.md), [DROP TYPE](sql-droptype.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createtype.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createtype.html)（原文版本：18.6；核對日期：2026-10-03）
