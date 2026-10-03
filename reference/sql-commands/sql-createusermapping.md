@@ -1,10 +1,12 @@
-<a id="id-1.9.3.96.1"></a>
+<a id="SQL-CREATEUSERMAPPING"></a><a id="id-1.9.3.96.1"></a>
 
 ## CREATE USER MAPPING
 
-CREATE USER MAPPING — define a new mapping of a user to a foreign server
+CREATE USER MAPPING — 定義使用者到外部伺服器的新對應
 
-## Synopsis
+<a id="id-1.9.3.96.4"></a>
+
+## 語法
 
 ```
 
@@ -15,51 +17,33 @@ CREATE USER MAPPING [ IF NOT EXISTS ] FOR { user_name | USER | CURRENT_ROLE | CU
 
 <a id="id-1.9.3.96.5"></a>
 
-## Description
+## 說明
 
-`CREATE USER MAPPING` defines a mapping of a user
-to a foreign server. A user mapping typically encapsulates
-connection information that a foreign-data wrapper uses together
-with the information encapsulated by a foreign server to access an
-external data resource.
+`CREATE USER MAPPING` 會定義使用者到外部伺服器的對應。使用者對應通常封裝了連線資訊，外部資料包裝器會將這些資訊連同外部伺服器所封裝的資訊一起使用，以存取外部資料來源。
 
-The owner of a foreign server can create user mappings for that
-server for any user. Also, a user can create a user mapping for
-their own user name if `USAGE` privilege on the server has
-been granted to the user.
+外部伺服器的擁有者可以為任何使用者建立該伺服器的使用者對應。此外，若使用者已被授予該伺服器的 `USAGE` 權限，該使用者也可以為自己的使用者名稱建立使用者對應。
 
 <a id="id-1.9.3.96.6"></a>
 
-## Parameters
+## 參數
 
 `IF NOT EXISTS`
-:   Do not throw an error if a mapping of the given user to the given foreign
-    server already exists. A notice is issued in this case. Note that there
-    is no guarantee that the existing user mapping is anything like the one
-    that would have been created.
+:   若指定使用者到指定外部伺服器的對應已存在，則不擲出錯誤；此情況會發出 notice。請注意，並不保證現有的使用者對應與原本會建立的對應有任何相似之處。
 
 *`user_name`*
-:   The name of an existing user that is mapped to foreign server.
-    `CURRENT_ROLE`, `CURRENT_USER`, and `USER` match the name of
-    the current user. When `PUBLIC` is specified, a
-    so-called public mapping is created that is used when no
-    user-specific mapping is applicable.
+:   對應到外部伺服器的現有使用者名稱。`CURRENT_ROLE`、`CURRENT_USER` 與 `USER` 均符合目前使用者的名稱。指定 `PUBLIC` 時，會建立所謂的公用對應，在沒有適用的使用者專屬對應時使用。
 
 *`server_name`*
-:   The name of an existing server for which the user mapping is
-    to be created.
+:   要為其建立使用者對應的現有伺服器名稱。
 
 `OPTIONS ( option 'value' [, ... ] )`
-:   This clause specifies the options of the user mapping. The
-    options typically define the actual user name and password of
-    the mapping. Option names must be unique. The allowed option
-    names and values are specific to the server's foreign-data wrapper.
+:   此子句指定使用者對應的選項。這些選項通常定義該對應實際使用的使用者名稱與密碼。選項名稱必須是唯一的。允許的選項名稱與值，取決於該伺服器的外部資料包裝器。
 
 <a id="id-1.9.3.96.7"></a>
 
-## Examples
+## 範例
 
-Create a user mapping for user `bob`, server `foo`:
+為使用者 `bob`、伺服器 `foo` 建立使用者對應：
 
 ```
 
@@ -68,16 +52,16 @@ CREATE USER MAPPING FOR bob SERVER foo OPTIONS (user 'bob', password 'secret');
 
 <a id="id-1.9.3.96.8"></a>
 
-## Compatibility
+## 相容性
 
-`CREATE USER MAPPING` conforms to ISO/IEC 9075-9 (SQL/MED).
+`CREATE USER MAPPING` 符合 ISO/IEC 9075-9（SQL/MED）。
 
 <a id="id-1.9.3.96.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER USER MAPPING](sql-alterusermapping.md), [DROP USER MAPPING](sql-dropusermapping.md), [CREATE FOREIGN DATA WRAPPER](sql-createforeigndatawrapper.md), [CREATE SERVER](sql-createserver.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createusermapping.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createusermapping.html)（原文版本：18.6；核對日期：2026-10-03）
