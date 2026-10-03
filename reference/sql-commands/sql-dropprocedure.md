@@ -1,10 +1,12 @@
-<a id="id-1.9.3.124.1"></a>
+<a id="SQL-DROPPROCEDURE"></a><a id="id-1.9.3.124.1"></a>
 
 ## DROP PROCEDURE
 
-DROP PROCEDURE — remove a procedure
+DROP PROCEDURE — 移除程序
 
-## Synopsis
+<a id="id-1.9.3.124.4"></a>
+
+## 語法
 
 ```
 
@@ -14,108 +16,71 @@ DROP PROCEDURE [ IF EXISTS ] name [ ( [ [ argmode ] [ argname ] argtype [, ...] 
 
 <a id="id-1.9.3.124.5"></a>
 
-## Description
+## 說明
 
-`DROP PROCEDURE` removes the definition of one or more
-existing procedures. To execute this command the user must be the
-owner of the procedure(s). The argument types to the
-procedure(s) usually must be specified, since several different procedures
-can exist with the same name and different argument lists.
+`DROP PROCEDURE` 會移除一個或多個現有程序的定義。要執行此命令，使用者必須是該（些）程序的擁有者。通常必須指定程序的引數型別，因為可能存在多個名稱相同但引數列表不同的程序。
 
 <a id="id-1.9.3.124.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the procedure does not exist. A notice is issued
-    in this case.
+:   程序不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name (optionally schema-qualified) of an existing procedure.
+:   現有程序的名稱（可選擇以綱要限定）。
 
 *`argmode`*
-:   The mode of an argument: `IN`, `OUT`,
-    `INOUT`, or `VARIADIC`. If omitted,
-    the default is `IN` (but see below).
+:   引數的模式：`IN`、`OUT`、
+    `INOUT` 或 `VARIADIC`。若省略，
+    預設為 `IN`（但請參閱下文）。
 
 *`argname`*
-:   The name of an argument.
-    Note that `DROP PROCEDURE` does not actually pay
-    any attention to argument names, since only the argument data
-    types are used to determine the procedure's identity.
+:   引數的名稱。
+    請注意，`DROP PROCEDURE` 實際上並不理會引數名稱，因為只有引數的資料型別會用來判定程序的身分。
 
 *`argtype`*
-:   The data type(s) of the procedure's arguments (optionally
-    schema-qualified), if any.
-    See below for details.
+:   程序引數（若有）的資料型別（可選擇以綱要限定）。
+    詳細資訊請參閱下文。
 
 `CASCADE`
-:   Automatically drop objects that depend on the procedure,
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於程序的物件，以及相依於這些物件的所有物件
+    （請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the procedure if any objects depend on it. This
-    is the default.
+:   若有任何物件相依於程序則拒絕移除。這是預設行為。
 
 <a id="SQL-DROPPROCEDURE-NOTES"></a>
 
-## Notes
+## 注意事項
 
-If there is only one procedure of the given name, the argument list
-can be omitted. Omit the parentheses too in this case.
+若給定名稱的程序只有一個，則可以省略引數列表。此情況下括號也要一併省略。
 
-In PostgreSQL, it's sufficient to list the
-input (including `INOUT`) arguments,
-because no two routines of the same name are allowed to share the same
-input-argument list. Moreover, the `DROP` command
-will not actually check that you wrote the types
-of `OUT` arguments correctly; so any arguments that
-are explicitly marked `OUT` are just noise. But
-writing them is recommendable for consistency with the
-corresponding `CREATE` command.
+在 PostgreSQL 中，只需列出輸入引數（包括 `INOUT`）就足夠了，因為不允許兩個同名的常式具有相同的輸入引數列表。此外，`DROP` 命令實際上並不會檢查您是否正確寫出 `OUT` 引數的型別；因此任何明確標記為 `OUT` 的引數都只是雜訊。但為了與對應的 `CREATE` 命令保持一致，建議還是寫出它們。
 
-For compatibility with the SQL standard, it is also allowed to write
-all the argument data types (including those of `OUT`
-arguments) without
-any *`argmode`* markers.
-When this is done, the types of the procedure's `OUT`
-argument(s) *will* be verified against the command.
-This provision creates an ambiguity, in that when the argument list
-contains no *`argmode`*
-markers, it's unclear which rule is intended.
-The `DROP` command will attempt the lookup both ways,
-and will throw an error if two different procedures are found.
-To avoid the risk of such ambiguity, it's recommendable to
-write `IN` markers explicitly rather than letting them
-be defaulted, thus forcing the
-traditional PostgreSQL interpretation to be
-used.
+為了與 SQL 標準相容，也允許寫出所有引數的資料型別（包括 `OUT` 引數的型別），而不加任何 *`argmode`* 標記。這樣做時，程序 `OUT` 引數的型別*將會*依據命令加以驗證。這項規定造成了歧義：當引數列表不含任何 *`argmode`* 標記時，無法明確得知要套用哪一種規則。`DROP` 命令會以兩種方式嘗試查找，若找到兩個不同的程序則會擲出錯誤。為了避免這種歧義的風險，建議明確寫出 `IN` 標記，而不要讓它採用預設值，藉此強制使用傳統的 PostgreSQL 解讀方式。
 
-The lookup rules just explained are also used by other commands that
-act on existing procedures, such as `ALTER PROCEDURE`
-and `COMMENT ON PROCEDURE`.
+剛才說明的查找規則，也適用於其他作用在現有程序上的命令，例如 `ALTER PROCEDURE` 與 `COMMENT ON PROCEDURE`。
 
 <a id="SQL-DROPPROCEDURE-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-If there is only one procedure `do_db_maintenance`,
-this command is sufficient to drop it:
+若只有一個程序 `do_db_maintenance`，以下命令就足以移除它：
 
 ```
 
 DROP PROCEDURE do_db_maintenance;
 ```
 
-Given this procedure definition:
+給定以下程序定義：
 
 ```
 
 CREATE PROCEDURE do_db_maintenance(IN target_schema text, OUT results text) ...
 ```
 
-any one of these commands would work to drop it:
+以下任何一個命令都可以移除它：
 
 ```
 
@@ -126,7 +91,7 @@ DROP PROCEDURE do_db_maintenance(text);
 DROP PROCEDURE do_db_maintenance(text, text);  -- potentially ambiguous
 ```
 
-However, the last example would be ambiguous if there is also, say,
+不過，若同時還存在例如以下的程序，最後一個範例就會有歧義：
 
 ```
 
@@ -135,22 +100,20 @@ CREATE PROCEDURE do_db_maintenance(IN target_schema text, IN options text) ...
 
 <a id="SQL-DROPPROCEDURE-COMPATIBILITY"></a>
 
-## Compatibility
+## 相容性
 
-This command conforms to the SQL standard, with
-these PostgreSQL extensions:
+此命令符合 SQL 標準，但有以下 PostgreSQL 擴充功能：
 
-* The standard only allows one procedure to be dropped per command.
-* The `IF EXISTS` option is an extension.
-* The ability to specify argument modes and names is an
-  extension, and the lookup rules differ when modes are given.
+* 標準只允許每個命令移除一個程序。
+* `IF EXISTS` 選項是擴充功能。
+* 指定引數模式與名稱的能力是擴充功能，而且在給定模式時，查找規則有所不同。
 
 <a id="id-1.9.3.124.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE PROCEDURE](sql-createprocedure.md), [ALTER PROCEDURE](sql-alterprocedure.md), [DROP FUNCTION](sql-dropfunction.md), [DROP ROUTINE](sql-droproutine.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropprocedure.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropprocedure.html)（原文版本：18.6；核對日期：2026-10-03）
