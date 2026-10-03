@@ -1,10 +1,12 @@
-<a id="id-1.9.3.122.1"></a>
+<a id="SQL-DROP-OWNED"></a><a id="id-1.9.3.122.1"></a>
 
 ## DROP OWNED
 
-DROP OWNED — remove database objects owned by a database role
+DROP OWNED — 移除資料庫角色所擁有的資料庫物件
 
-## Synopsis
+<a id="id-1.9.3.122.4"></a>
+
+## 語法
 
 ```
 
@@ -13,66 +15,49 @@ DROP OWNED BY { name | CURRENT_ROLE | CURRENT_USER | SESSION_USER } [, ...] [ CA
 
 <a id="id-1.9.3.122.5"></a>
 
-## Description
+## 說明
 
-`DROP OWNED` drops all the objects within the current
-database that are owned by one of the specified roles. Any
-privileges granted to the given roles on objects in the current
-database or on shared objects (databases, tablespaces, configuration
-parameters) will also be revoked.
+`DROP OWNED` 會移除目前資料庫中由任一指定角色所擁有的所有物件。在目前資料庫中的物件上或共用物件（資料庫、資料表空間、組態參數）上授予給這些角色的任何權限也會被撤銷。
 
 <a id="id-1.9.3.122.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of a role whose objects will be dropped, and whose
-    privileges will be revoked.
+:   某個角色的名稱；該角色的物件將被移除，其權限也將被撤銷。
 
 `CASCADE`
-:   Automatically drop objects that depend on the affected objects,
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於受影響物件的物件，以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the objects owned by a role if any other database
-    objects depend on one of the affected objects. This is the default.
+:   若有任何其他資料庫物件相依於任一受影響物件，則拒絕移除該角色所擁有的物件。這是預設行為。
 
 <a id="id-1.9.3.122.7"></a>
 
-## Notes
+## 注意事項
 
-`DROP OWNED` is often used to prepare for the
-removal of one or more roles. Because `DROP OWNED`
-only affects the objects in the current database, it is usually
-necessary to execute this command in each database that contains
-objects owned by a role that is to be removed.
+`DROP OWNED` 常用於為移除一個或多個角色做準備。由於 `DROP OWNED` 只影響目前資料庫中的物件，因此通常必須在每個包含待移除角色所擁有物件的資料庫中執行此命令。
 
-Using the `CASCADE` option might make the command
-recurse to objects owned by other users.
+使用 `CASCADE` 選項可能使命令遞迴到其他使用者所擁有的物件。
 
-The [`REASSIGN OWNED`](sql-reassign-owned.md) command is an alternative that
-reassigns the ownership of all the database objects owned by one or
-more roles. However, `REASSIGN OWNED` does not deal with
-privileges for other objects.
+[`REASSIGN OWNED`](sql-reassign-owned.md) 命令是另一種選擇，它會重新指派一個或多個角色所擁有之所有資料庫物件的擁有權。不過，`REASSIGN OWNED` 不會處理其他物件的權限。
 
-Databases and tablespaces owned by the role(s) will not be removed.
+這些角色所擁有的資料庫與資料表空間不會被移除。
 
-See [Section 21.4](../../server-administration/user-manag/role-removal.md) for more discussion.
+更多討論請參閱[第 21.4 節](../../server-administration/user-manag/role-removal.md)。
 
 <a id="id-1.9.3.122.8"></a>
 
-## Compatibility
+## 相容性
 
-The `DROP OWNED` command is a
-PostgreSQL extension.
+`DROP OWNED` 命令是 PostgreSQL 擴充功能。
 
 <a id="id-1.9.3.122.9"></a>
 
-## See Also
+## 另請參閱
 
 [REASSIGN OWNED](sql-reassign-owned.md), [DROP ROLE](sql-droprole.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-drop-owned.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-drop-owned.html)（原文版本：18.6；核對日期：2026-10-03）

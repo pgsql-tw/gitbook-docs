@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：529 頁。
+待譯頁面：528 頁。
 
 ## 根目錄
 
@@ -622,7 +622,7 @@
 - [x] `reference/sql-commands/sql-discard.md` — DISCARD
 - [ ] `reference/sql-commands/sql-do.md` — DO
 - [x] `reference/sql-commands/sql-drop-access-method.md` — DROP ACCESS METHOD
-- [ ] `reference/sql-commands/sql-drop-owned.md` — DROP OWNED
+- [x] `reference/sql-commands/sql-drop-owned.md` — DROP OWNED
 - [ ] `reference/sql-commands/sql-dropaggregate.md` — DROP AGGREGATE
 - [x] `reference/sql-commands/sql-dropcast.md` — DROP CAST — 移除型別轉換
 - [ ] `reference/sql-commands/sql-dropcollation.md` — DROP COLLATION
