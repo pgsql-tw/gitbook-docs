@@ -1,10 +1,12 @@
-<a id="id-1.9.3.119.1"></a>
+<a id="SQL-DROPOPERATOR"></a><a id="id-1.9.3.119.1"></a>
 
 ## DROP OPERATOR
 
-DROP OPERATOR — remove an operator
+DROP OPERATOR — 移除運算子
 
-## Synopsis
+<a id="id-1.9.3.119.4"></a>
+
+## 語法
 
 ```
 
@@ -13,59 +15,51 @@ DROP OPERATOR [ IF EXISTS ] name ( { left_type | NONE } , right_type ) [, ...] [
 
 <a id="id-1.9.3.119.5"></a>
 
-## Description
+## 說明
 
-`DROP OPERATOR` drops an existing operator from
-the database system. To execute this command you must be the owner
-of the operator.
+`DROP OPERATOR` 會從資料庫系統中移除現有的運算子。要執行此命令，您必須是該運算子的擁有者。
 
 <a id="id-1.9.3.119.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the operator does not exist. A notice is issued
-    in this case.
+:   運算子不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name (optionally schema-qualified) of an existing operator.
+:   現有運算子的名稱（可選擇以綱要限定）。
 
 *`left_type`*
-:   The data type of the operator's left operand; write
-    `NONE` if the operator has no left operand.
+:   運算子左運算元的資料型別；若運算子沒有左運算元，請寫 `NONE`。
 
 *`right_type`*
-:   The data type of the operator's right operand.
+:   運算子右運算元的資料型別。
 
 `CASCADE`
-:   Automatically drop objects that depend on the operator (such as views
-    using it), and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於該運算子的物件（例如使用它的檢視表），以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the operator if any objects depend on it. This
-    is the default.
+:   若有任何物件相依於該運算子則拒絕移除。這是預設行為。
 
 <a id="id-1.9.3.119.7"></a>
 
-## Examples
+## 範例
 
-Remove the power operator `a^b` for type `integer`:
+移除型別 `integer` 的次方運算子 `a^b`：
 
 ```
 
 DROP OPERATOR ^ (integer, integer);
 ```
 
-Remove the bitwise-complement prefix operator
-`~b` for type `bit`:
+移除型別 `bit` 的位元補數前置運算子 `~b`：
 
 ```
 
 DROP OPERATOR ~ (none, bit);
 ```
 
-Remove multiple operators in one command:
+在一個命令中移除多個運算子：
 
 ```
 
@@ -74,16 +68,16 @@ DROP OPERATOR ~ (none, bit), ^ (integer, integer);
 
 <a id="id-1.9.3.119.8"></a>
 
-## Compatibility
+## 相容性
 
-There is no `DROP OPERATOR` statement in the SQL standard.
+SQL 標準中沒有 `DROP OPERATOR` 陳述式。
 
 <a id="id-1.9.3.119.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE OPERATOR](sql-createoperator.md), [ALTER OPERATOR](sql-alteroperator.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropoperator.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropoperator.html)（原文版本：18.6；核對日期：2026-10-03）
