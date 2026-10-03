@@ -1,10 +1,12 @@
-<a id="id-1.9.3.148.1"></a><a id="id-1.9.3.148.2"></a><a id="id-1.9.3.148.3"></a>
+<a id="SQL-EXPLAIN"></a><a id="id-1.9.3.148.1"></a><a id="id-1.9.3.148.2"></a><a id="id-1.9.3.148.3"></a>
 
 ## EXPLAIN
 
-EXPLAIN — show the execution plan of a statement
+EXPLAIN — 顯示陳述式的執行計畫
 
-## Synopsis
+<a id="id-1.9.3.148.6"></a>
+
+## 語法
 
 ```
 
@@ -28,49 +30,26 @@ where option can be one of:
 
 <a id="id-1.9.3.148.7"></a>
 
-## Description
+## 說明
 
-This command displays the execution plan that the
-PostgreSQL planner generates for the
-supplied statement. The execution plan shows how the table(s)
-referenced by the statement will be scanned — by plain sequential scan,
-index scan, etc. — and if multiple tables are referenced, what join
-algorithms will be used to bring together the required rows from
-each input table.
+此命令會顯示 PostgreSQL 規劃器為所提供的陳述式產生的執行計畫。執行計畫會顯示陳述式所引用的資料表將如何被掃描——使用一般的循序掃描、索引掃描等等——以及若引用了多個資料表，將使用哪些連接演算法把每個輸入資料表中所需的資料列結合在一起。
 
-The most critical part of the display is the estimated statement execution
-cost, which is the planner's guess at how long it will take to run the
-statement (measured in cost units that are arbitrary, but conventionally
-mean disk page fetches). Actually two numbers
-are shown: the start-up cost before the first row can be returned, and
-the total cost to return all the rows. For most queries the total cost
-is what matters, but in contexts such as a subquery in `EXISTS`, the planner
-will choose the smallest start-up cost instead of the smallest total cost
-(since the executor will stop after getting one row, anyway).
-Also, if you limit the number of rows to return with a `LIMIT` clause,
-the planner makes an appropriate interpolation between the endpoint
-costs to estimate which plan is really the cheapest.
+顯示內容中最關鍵的部分是估計的陳述式執行成本，也就是規劃器對執行該陳述式需要多久時間的推測（以任意的成本單位衡量，但慣例上代表磁碟頁面的讀取次數）。實際上會顯示兩個數字：傳回第一筆資料列之前的啟動成本，以及傳回所有資料列的總成本。對大多數查詢而言，重要的是總成本，但在某些情境下，例如 `EXISTS` 中的子查詢，規劃器會選擇啟動成本最小的計畫，而不是總成本最小的計畫（因為執行器在取得一筆資料列之後無論如何都會停止）。此外，若你以 `LIMIT` 子句限制要傳回的資料列數量，規劃器會在端點成本之間進行適當的內插，以估算哪個計畫才真正是最便宜的。
 
-The `ANALYZE` option causes the statement to be actually
-executed, not only planned. Then actual run time statistics are added to
-the display, including the total elapsed time expended within each plan
-node (in milliseconds) and the total number of rows it actually returned.
-This is useful for seeing whether the planner's estimates
-are close to reality.
+`ANALYZE` 選項會使陳述式被實際執行，而不只是規劃。接著會在顯示內容中加入實際的執行時間統計資訊，包括每個計畫節點內所耗用的總經過時間（以毫秒為單位），以及它實際傳回的資料列總數。這有助於了解規劃器的估計是否接近實際情況。
 
-### Important
+<a id="id-1.9.3.148.7.5"></a>
 
-Keep in mind that the statement is actually executed when
-the `ANALYZE` option is used. Although
-`EXPLAIN` will discard any output that a
-`SELECT` would return, other side effects of the
-statement will happen as usual. If you wish to use
-`EXPLAIN ANALYZE` on an
-`INSERT`, `UPDATE`,
-`DELETE`, `MERGE`,
-`CREATE TABLE AS`,
-or `EXECUTE` statement
-without letting the command affect your data, use this approach:
+### 重要
+
+請記住，使用 `ANALYZE` 選項時，陳述式是真的會被執行的。雖然
+`EXPLAIN` 會捨棄
+`SELECT` 原本會傳回的任何輸出，但該陳述式的其他副作用仍會照常發生。若你想對
+`INSERT`、`UPDATE`、
+`DELETE`、`MERGE`、
+`CREATE TABLE AS`
+或 `EXECUTE` 陳述式使用
+`EXPLAIN ANALYZE`，又不想讓該命令影響你的資料，請使用以下做法：
 
 ```
 
@@ -81,184 +60,113 @@ ROLLBACK;
 
 <a id="id-1.9.3.148.8"></a>
 
-## Parameters
+## 參數
 
 `ANALYZE`
-:   Carry out the command and show actual run times and other statistics.
-    This parameter defaults to `FALSE`.
+:   執行該命令，並顯示實際執行時間與其他統計資訊。
+    此參數預設為 `FALSE`。
 
 `VERBOSE`
-:   Display additional information regarding the plan. Specifically, include
-    the output column list for each node in the plan tree, schema-qualify
-    table and function names, always label variables in expressions with
-    their range table alias, and always print the name of each trigger for
-    which statistics are displayed. The query identifier will also be
-    displayed if one has been computed, see [compute_query_id](../../server-administration/runtime-config/runtime-config-statistics.md#GUC-COMPUTE-QUERY-ID) for more details. This parameter
-    defaults to `FALSE`.
+:   顯示有關計畫的額外資訊。具體而言，包括計畫樹中每個節點的輸出欄位列表、以綱要限定資料表與函式名稱、一律以範圍表（range table）別名標示運算式中的變數，以及一律印出有顯示統計資訊之每個觸發程序的名稱。若已計算查詢識別碼，也會一併顯示；詳細資訊請參閱 [compute_query_id](../../server-administration/runtime-config/runtime-config-statistics.md#GUC-COMPUTE-QUERY-ID)。此參數預設為 `FALSE`。
 
 `COSTS`
-:   Include information on the estimated startup and total cost of each
-    plan node, as well as the estimated number of rows and the estimated
-    width of each row.
-    This parameter defaults to `TRUE`.
+:   包含每個計畫節點的估計啟動成本與總成本資訊，以及估計的資料列數量與每筆資料列的估計寬度。
+    此參數預設為 `TRUE`。
 
 `SETTINGS`
-:   Include information on configuration parameters. Specifically, include
-    options affecting query planning with value different from the built-in
-    default value. This parameter defaults to `FALSE`.
+:   包含組態參數的相關資訊。具體而言，包括影響查詢規劃、且值與內建預設值不同的選項。此參數預設為 `FALSE`。
 
 `GENERIC_PLAN`
-:   Allow the statement to contain parameter placeholders like
-    `$1`, and generate a generic plan that does not
-    depend on the values of those parameters.
-    See [`PREPARE`](sql-prepare.md)
-    for details about generic plans and the types of statement that
-    support parameters.
-    This parameter cannot be used together with `ANALYZE`.
-    It defaults to `FALSE`.
+:   允許陳述式包含像
+    `$1` 這樣的參數預留位置，並產生不相依於這些參數值的通用計畫。
+    有關通用計畫以及支援參數的陳述式類型的詳細資訊，請參閱 [`PREPARE`](sql-prepare.md)。
+    此參數不能與 `ANALYZE` 一起使用。
+    它預設為 `FALSE`。
 
 `BUFFERS`
-:   Include information on buffer usage. Specifically, include the number of
-    shared blocks hit, read, dirtied, and written, the number of local blocks
-    hit, read, dirtied, and written, the number of temp blocks read and
-    written, and the time spent reading and writing data file blocks, local
-    blocks and temporary file blocks (in milliseconds) if
-    [track_io_timing](../../server-administration/runtime-config/runtime-config-statistics.md#GUC-TRACK-IO-TIMING) is enabled. A
-    *hit* means that a read was avoided because the block
-    was found already in cache when needed.
-    Shared blocks contain data from regular tables and indexes;
-    local blocks contain data from temporary tables and indexes;
-    while temporary blocks contain short-term working data used in sorts,
-    hashes, Materialize plan nodes, and similar cases.
-    The number of blocks *dirtied* indicates the number of
-    previously unmodified blocks that were changed by this query; while the
-    number of blocks *written* indicates the number of
-    previously-dirtied blocks evicted from cache by this backend during
-    query processing.
-    The number of blocks shown for an
-    upper-level node includes those used by all its child nodes. In text
-    format, only non-zero values are printed. Buffers information is
-    automatically included when `ANALYZE` is used.
+:   包含緩衝區使用情況的資訊。具體而言，包括共享區塊的命中、讀取、弄髒與寫入數量，本地區塊的命中、讀取、弄髒與寫入數量，暫存區塊的讀取與寫入數量，以及若已啟用
+    [track_io_timing](../../server-administration/runtime-config/runtime-config-statistics.md#GUC-TRACK-IO-TIMING)，讀取與寫入資料檔案區塊、本地區塊及暫存檔案區塊所花費的時間（以毫秒為單位）。
+    *命中*（hit）表示因為需要時該區塊已在快取中，所以避免了一次讀取。
+    共享區塊包含來自一般資料表與索引的資料；
+    本地區塊包含來自暫存資料表與索引的資料；
+    而暫存區塊則包含排序、雜湊、Materialize 計畫節點及類似情況中所使用的短期工作資料。
+    *弄髒*（dirtied）的區塊數量，表示此查詢所變更之先前未被修改的區塊數量；而*寫入*（written）的區塊數量，表示此後端在查詢處理期間從快取中逐出的先前已被弄髒的區塊數量。
+    上層節點所顯示的區塊數量，包含其所有子節點所使用的區塊。在文字格式中，只會印出非零的值。使用 `ANALYZE` 時，會自動包含緩衝區資訊。
 
 `SERIALIZE`
-:   Include information on the cost
-    of *serializing* the query's output data, that
-    is converting it to text or binary format to send to the client.
-    This can be a significant part of the time required for regular
-    execution of the query, if the datatype output functions are
-    expensive or if TOASTed values must be fetched
-    from out-of-line storage. `EXPLAIN`'s default
-    behavior, `SERIALIZE NONE`, does not perform these
-    conversions. If `SERIALIZE TEXT`
-    or `SERIALIZE BINARY` is specified, the appropriate
-    conversions are performed, and the time spent doing so is measured
-    (unless `TIMING OFF` is specified). If
-    the `BUFFERS` option is also specified, then any
-    buffer accesses involved in the conversions are counted too.
-    In no case, however, will `EXPLAIN` actually send
-    the resulting data to the client; hence network transmission costs
-    cannot be investigated this way.
-    Serialization may only be enabled when `ANALYZE` is
-    also enabled. If `SERIALIZE` is written without an
-    argument, `TEXT` is assumed.
+:   包含*序列化*（serializing）查詢輸出資料之成本的相關資訊，也就是將其轉換為文字或二進位格式以傳送給用戶端的成本。
+    若資料型別的輸出函式代價高昂，或必須從行外儲存擷取經 TOAST 處理的值，這可能會佔查詢一般執行所需時間的相當大部分。`EXPLAIN` 的預設行為 `SERIALIZE NONE` 不會執行這些轉換。若指定了 `SERIALIZE TEXT`
+    或 `SERIALIZE BINARY`，就會執行適當的轉換，並測量執行轉換所花費的時間（除非指定了 `TIMING OFF`）。若同時也指定了
+    `BUFFERS` 選項，則轉換中涉及的任何緩衝區存取也會被計入。
+    不過，在任何情況下 `EXPLAIN` 都不會真正將結果資料傳送給用戶端；因此無法以這種方式調查網路傳輸成本。
+    只有在同時啟用 `ANALYZE` 時才能啟用序列化。若寫了 `SERIALIZE` 而未加引數，則假定為 `TEXT`。
 
 `WAL`
-:   Include information on WAL record generation. Specifically, include the
-    number of records, number of full page images (fpi), the amount of WAL
-    generated in bytes and the number of times the WAL buffers became full.
-    In text format, only non-zero values are printed.
-    This parameter may only be used when `ANALYZE` is also
-    enabled. It defaults to `FALSE`.
+:   包含 WAL 紀錄產生的相關資訊。具體而言，包括紀錄數量、完整頁面映像（fpi）的數量、以位元組為單位所產生的 WAL 量，以及 WAL 緩衝區變滿的次數。
+    在文字格式中，只會印出非零的值。
+    此參數只能在同時啟用 `ANALYZE` 時使用。它預設為 `FALSE`。
 
 `TIMING`
-:   Include actual startup time and time spent in each node in the output.
-    The overhead of repeatedly reading the system clock can slow down the
-    query significantly on some systems, so it may be useful to set this
-    parameter to `FALSE` when only actual row counts, and
-    not exact times, are needed. Run time of the entire statement is
-    always measured, even when node-level timing is turned off with this
-    option.
-    This parameter may only be used when `ANALYZE` is also
-    enabled. It defaults to `TRUE`.
+:   在輸出中包含實際的啟動時間，以及在每個節點中所花費的時間。
+    在某些系統上，重複讀取系統時鐘的額外負擔可能會大幅拖慢查詢，因此當只需要實際的資料列數量、而不需要精確時間時，將此參數設為 `FALSE` 可能會有用。即使以此選項關閉了節點層級的計時，整個陳述式的執行時間仍一律會被測量。
+    此參數只能在同時啟用 `ANALYZE` 時使用。它預設為 `TRUE`。
 
 `SUMMARY`
-:   Include summary information (e.g., totaled timing information) after the
-    query plan. Summary information is included by default when
-    `ANALYZE` is used but otherwise is not included by
-    default, but can be enabled using this option. Planning time in
-    `EXPLAIN EXECUTE` includes the time required to fetch
-    the plan from the cache and the time required for re-planning, if
-    necessary.
+:   在查詢計畫之後包含摘要資訊（例如加總的計時資訊）。使用
+    `ANALYZE` 時預設會包含摘要資訊，其他情況下預設不包含，但可以使用此選項啟用。`EXPLAIN EXECUTE` 中的規劃時間，包含從快取中擷取計畫所需的時間，以及必要時重新規劃所需的時間。
 
 `MEMORY`
-:   Include information on memory consumption by the query planning phase.
-    Specifically, include the precise amount of storage used by planner
-    in-memory structures, as well as total memory considering allocation
-    overhead.
-    This parameter defaults to `FALSE`.
+:   包含查詢規劃階段記憶體消耗的相關資訊。
+    具體而言，包括規劃器記憶體內結構所使用的精確儲存量，以及考量配置額外負擔後的總記憶體量。
+    此參數預設為 `FALSE`。
 
 `FORMAT`
-:   Specify the output format, which can be TEXT, XML, JSON, or YAML.
-    Non-text output contains the same information as the text output
-    format, but is easier for programs to parse. This parameter defaults to
-    `TEXT`.
+:   指定輸出格式，可以是 TEXT、XML、JSON 或 YAML。
+    非文字輸出所包含的資訊與文字輸出格式相同，但較容易讓程式剖析。此參數預設為
+    `TEXT`。
 
 *`boolean`*
-:   Specifies whether the selected option should be turned on or off.
-    You can write `TRUE`, `ON`, or
-    `1` to enable the option, and `FALSE`,
-    `OFF`, or `0` to disable it. The
-    *`boolean`* value can also
-    be omitted, in which case `TRUE` is assumed.
+:   指定所選的選項應該開啟還是關閉。
+    你可以寫 `TRUE`、`ON` 或
+    `1` 來啟用該選項，寫 `FALSE`、
+    `OFF` 或 `0` 來停用它。也可以省略
+    *`boolean`* 值，此時會假定為 `TRUE`。
 
 *`statement`*
-:   Any `SELECT`, `INSERT`, `UPDATE`,
-    `DELETE`, `MERGE`,
-    `VALUES`, `EXECUTE`,
-    `DECLARE`, `CREATE TABLE AS`, or
-    `CREATE MATERIALIZED VIEW AS` statement, whose execution
-    plan you wish to see.
+:   你想查看其執行計畫的任何 `SELECT`、`INSERT`、`UPDATE`、
+    `DELETE`、`MERGE`、
+    `VALUES`、`EXECUTE`、
+    `DECLARE`、`CREATE TABLE AS` 或
+    `CREATE MATERIALIZED VIEW AS` 陳述式。
 
 <a id="id-1.9.3.148.9"></a>
 
-## Outputs
+## 輸出
 
-The command's result is a textual description of the plan selected
-for the *`statement`*,
-optionally annotated with execution statistics.
-[Section 14.1](../../the-sql-language/performance-tips/using-explain.md) describes the information provided.
+此命令的結果是對 *`statement`* 所選計畫的文字描述，並可選擇附上執行統計資訊。
+[第 14.1 節](../../the-sql-language/performance-tips/using-explain.md)說明了所提供的資訊。
+
 
 <a id="id-1.9.3.148.10"></a>
 
-## Notes
+## 注意事項
 
-In order to allow the PostgreSQL query
-planner to make reasonably informed decisions when optimizing
-queries, the [`pg_statistic`](../../internals/catalogs/catalog-pg-statistic.md)
-data should be up-to-date for all tables used in the query. Normally
-the [autovacuum daemon](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM) will take care
-of that automatically. But if a table has recently had substantial
-changes in its contents, you might need to do a manual
-[`ANALYZE`](sql-analyze.md) rather than wait for autovacuum to catch up
-with the changes.
+為了讓 PostgreSQL 查詢規劃器在最佳化查詢時能做出合理且有根據的決策，查詢中所使用之所有資料表的 [`pg_statistic`](../../internals/catalogs/catalog-pg-statistic.md)
+資料應該是最新的。通常
+[autovacuum 常駐程式](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)會自動處理這件事。但若某個資料表的內容最近有大幅變更，你可能需要手動執行
+[`ANALYZE`](sql-analyze.md)，而不是等待 autovacuum 跟上這些變更。
 
-In order to measure the run-time cost of each node in the execution
-plan, the current implementation of `EXPLAIN
-ANALYZE` adds profiling overhead to query execution.
-As a result, running `EXPLAIN ANALYZE`
-on a query can sometimes take significantly longer than executing
-the query normally. The amount of overhead depends on the nature of
-the query, as well as the platform being used. The worst case occurs
-for plan nodes that in themselves require very little time per
-execution, and on machines that have relatively slow operating
-system calls for obtaining the time of day.
+為了測量執行計畫中每個節點的執行時間成本，目前 `EXPLAIN
+ANALYZE` 的實作會在查詢執行中加入剖析（profiling）的額外負擔。
+因此，對查詢執行 `EXPLAIN ANALYZE`
+有時可能會比正常執行該查詢花費明顯更長的時間。額外負擔的多寡取決於查詢的性質以及所使用的平台。最糟的情況發生在本身每次執行只需要極少時間的計畫節點上，以及取得目前時間之作業系統呼叫相對緩慢的機器上。
 
 <a id="id-1.9.3.148.11"></a>
 
-## Examples
+## 範例
 
-To show the plan for a simple query on a table with a single
-`integer` column and 10000 rows:
+顯示對一個只有單一
+`integer` 欄位、含 10000 筆資料列之資料表的簡單查詢計畫：
 
 ```
 
@@ -270,7 +178,7 @@ EXPLAIN SELECT * FROM foo;
 (1 row)
 ```
 
-Here is the same query, with JSON output formatting:
+以下是同一個查詢，採用 JSON 輸出格式：
 
 ```
 
@@ -293,9 +201,9 @@ EXPLAIN (FORMAT JSON) SELECT * FROM foo;
 (1 row)
 ```
 
-If there is an index and we use a query with an indexable
-`WHERE` condition, `EXPLAIN`
-might show a different plan:
+若有索引，而我們使用了帶有可使用索引之
+`WHERE` 條件的查詢，`EXPLAIN`
+可能會顯示不同的計畫：
 
 ```
 
@@ -308,7 +216,7 @@ EXPLAIN SELECT * FROM foo WHERE i = 4;
 (2 rows)
 ```
 
-Here is the same query, but in YAML format:
+以下是同一個查詢，但採用 YAML 格式：
 
 ```
 
@@ -329,9 +237,9 @@ EXPLAIN (FORMAT YAML) SELECT * FROM foo WHERE i='4';
 (1 row)
 ```
 
-XML format is left as an exercise for the reader.
+XML 格式就留給讀者作為練習。
 
-Here is the same plan with cost estimates suppressed:
+以下是抑制成本估計後的同一個計畫：
 
 ```
 
@@ -344,8 +252,7 @@ EXPLAIN (COSTS FALSE) SELECT * FROM foo WHERE i = 4;
 (2 rows)
 ```
 
-Here is an example of a query plan for a query using an aggregate
-function:
+以下是使用彙總函式之查詢的查詢計畫範例：
 
 ```
 
@@ -359,8 +266,7 @@ EXPLAIN SELECT sum(i) FROM foo WHERE i < 10;
 (3 rows)
 ```
 
-Here is an example of using `EXPLAIN EXECUTE` to
-display the execution plan for a prepared query:
+以下是使用 `EXPLAIN EXECUTE` 顯示預備查詢之執行計畫的範例：
 
 ```
 
@@ -385,20 +291,12 @@ EXPLAIN ANALYZE EXECUTE query(100, 200);
 (10 rows)
 ```
 
-Of course, the specific numbers shown here depend on the actual
-contents of the tables involved. Also note that the numbers, and
-even the selected query strategy, might vary between
-PostgreSQL releases due to planner
-improvements. In addition, the `ANALYZE` command
-uses random sampling to estimate data statistics; therefore, it is
-possible for cost estimates to change after a fresh run of
-`ANALYZE`, even if the actual distribution of data
-in the table has not changed.
+當然，此處顯示的具體數字取決於所涉及資料表的實際內容。另請注意，由於規劃器的改進，這些數字，甚至所選擇的查詢策略，都可能因
+PostgreSQL 版本而異。此外，`ANALYZE` 命令使用隨機取樣來估計資料統計資訊；因此，即使資料表中資料的實際分布沒有改變，重新執行一次
+`ANALYZE` 之後，成本估計也有可能改變。
 
-Notice that the previous example showed a “custom” plan
-for the specific parameter values given in `EXECUTE`.
-We might also wish to see the generic plan for a parameterized
-query, which can be done with `GENERIC_PLAN`:
+請注意，前一個範例顯示的是針對 `EXECUTE` 中給定之特定參數值的「自訂」計畫。
+我們可能也會想查看參數化查詢的通用計畫，這可以使用 `GENERIC_PLAN` 達成：
 
 ```
 
@@ -416,12 +314,9 @@ EXPLAIN (GENERIC_PLAN)
 (4 rows)
 ```
 
-In this case the parser correctly inferred that `$1`
-and `$2` should have the same data type
-as `id`, so the lack of parameter type information
-from `PREPARE` was not a problem. In other cases
-it might be necessary to explicitly specify types for the parameter
-symbols, which can be done by casting them, for example:
+在此例中，剖析器正確地推斷出 `$1`
+與 `$2` 應該與
+`id` 具有相同的資料型別，因此缺少來自 `PREPARE` 的參數型別資訊並不構成問題。在其他情況下，可能需要明確指定參數符號的型別，這可以透過對它們進行轉型來達成，例如：
 
 ```
 
@@ -433,27 +328,26 @@ EXPLAIN (GENERIC_PLAN)
 
 <a id="id-1.9.3.148.12"></a>
 
-## Compatibility
+## 相容性
 
-There is no `EXPLAIN` statement defined in the SQL standard.
+SQL 標準中沒有定義 `EXPLAIN` 陳述式。
 
-The following syntax was used before PostgreSQL
-version 9.0 and is still supported:
+以下語法在 PostgreSQL
+9.0 版之前使用，目前仍受支援：
 
 ```
 
 EXPLAIN [ ANALYZE ] [ VERBOSE ] statement
 ```
 
-Note that in this syntax, the options must be specified in exactly the order
-shown.
+請注意，在此語法中，選項必須完全依照所示的順序指定。
 
 <a id="id-1.9.3.148.13"></a>
 
-## See Also
+## 另請參閱
 
 [ANALYZE](sql-analyze.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-explain.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-explain.html)（原文版本：18.6；核對日期：2026-10-03）
