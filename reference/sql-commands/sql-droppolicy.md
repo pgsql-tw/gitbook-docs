@@ -1,10 +1,12 @@
-<a id="id-1.9.3.123.1"></a>
+<a id="SQL-DROPPOLICY"></a><a id="id-1.9.3.123.1"></a>
 
 ## DROP POLICY
 
-DROP POLICY — remove a row-level security policy from a table
+DROP POLICY — 從資料表移除資料列層級安全性政策
 
-## Synopsis
+<a id="id-1.9.3.123.4"></a>
+
+## 語法
 
 ```
 
@@ -13,40 +15,33 @@ DROP POLICY [ IF EXISTS ] name ON table_name [ CASCADE | RESTRICT ]
 
 <a id="id-1.9.3.123.5"></a>
 
-## Description
+## 說明
 
-`DROP POLICY` removes the specified policy from the table.
-Note that if the last policy is removed for a table and the table still has
-row-level security enabled via `ALTER TABLE`, then the
-default-deny policy will be used. `ALTER TABLE ... DISABLE ROW
-LEVEL SECURITY` can be used to disable row-level security for a
-table, whether policies for the table exist or not.
+`DROP POLICY` 會從資料表移除指定的政策。
+請注意，若某個資料表的最後一個政策被移除，而該資料表仍透過 `ALTER TABLE` 啟用資料列層級安全性，則會使用預設拒絕政策。無論該資料表是否存在政策，都可以使用 `ALTER TABLE ... DISABLE ROW
+LEVEL SECURITY` 停用該資料表的資料列層級安全性。
 
 <a id="id-1.9.3.123.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the policy does not exist. A notice is issued
-    in this case.
+:   政策不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name of the policy to drop.
+:   要移除的政策名稱。
 
 *`table_name`*
-:   The name (optionally schema-qualified) of the table that
-    the policy is on.
+:   該政策所在資料表的名稱（可選擇以綱要限定）。
 
 `CASCADE`<br>`RESTRICT`
-:   These key words do not have any effect, since there are no
-    dependencies on policies.
+:   這些關鍵字沒有任何作用，因為沒有任何東西相依於政策。
 
 <a id="id-1.9.3.123.7"></a>
 
-## Examples
+## 範例
 
-To drop the policy called `p1` on the table named
-`my_table`:
+若要移除資料表 `my_table` 上名為 `p1` 的政策：
 
 ```
 
@@ -55,16 +50,16 @@ DROP POLICY p1 ON my_table;
 
 <a id="id-1.9.3.123.8"></a>
 
-## Compatibility
+## 相容性
 
-`DROP POLICY` is a PostgreSQL extension.
+`DROP POLICY` 是 PostgreSQL 擴充功能。
 
 <a id="id-1.9.3.123.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE POLICY](sql-createpolicy.md), [ALTER POLICY](sql-alterpolicy.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droppolicy.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droppolicy.html)（原文版本：18.6；核對日期：2026-10-03）
