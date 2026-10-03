@@ -1,10 +1,12 @@
-<a id="id-1.9.3.137.1"></a>
+<a id="SQL-DROPTSDICTIONARY"></a><a id="id-1.9.3.137.1"></a>
 
 ## DROP TEXT SEARCH DICTIONARY
 
-DROP TEXT SEARCH DICTIONARY — remove a text search dictionary
+DROP TEXT SEARCH DICTIONARY — 移除文字搜尋字典
 
-## Synopsis
+<a id="id-1.9.3.137.4"></a>
+
+## 語法
 
 ```
 
@@ -13,61 +15,51 @@ DROP TEXT SEARCH DICTIONARY [ IF EXISTS ] name [ CASCADE | RESTRICT ]
 
 <a id="id-1.9.3.137.5"></a>
 
-## Description
+## 說明
 
-`DROP TEXT SEARCH DICTIONARY` drops an existing text
-search dictionary. To execute this command you must be the owner of the
-dictionary.
+`DROP TEXT SEARCH DICTIONARY` 會移除現有的文字搜尋字典。要執行此命令，您必須是該字典的擁有者。
 
 <a id="id-1.9.3.137.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the text search dictionary does not exist.
-    A notice is issued in this case.
+:   文字搜尋字典不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name (optionally schema-qualified) of an existing text search
-    dictionary.
+:   現有文字搜尋字典的名稱（可選擇以綱要限定）。
 
 `CASCADE`
-:   Automatically drop objects that depend on the text search dictionary,
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於該文字搜尋字典的物件，以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the text search dictionary if any objects depend on it.
-    This is the default.
+:   若有任何物件相依於該文字搜尋字典則拒絕移除。這是預設行為。
 
 <a id="id-1.9.3.137.7"></a>
 
-## Examples
+## 範例
 
-Remove the text search dictionary `english`:
+移除文字搜尋字典 `english`：
 
 ```
 
 DROP TEXT SEARCH DICTIONARY english;
 ```
 
-This command will not succeed if there are any existing text search
-configurations that use the dictionary. Add `CASCADE` to
-drop such configurations along with the dictionary.
+若有任何現有的文字搜尋設定使用此字典，這個命令就不會成功。加上 `CASCADE` 即可將這些設定連同字典一起移除。
 
 <a id="id-1.9.3.137.8"></a>
 
-## Compatibility
+## 相容性
 
-There is no `DROP TEXT SEARCH DICTIONARY` statement in the
-SQL standard.
+SQL 標準中沒有 `DROP TEXT SEARCH DICTIONARY` 陳述式。
 
 <a id="id-1.9.3.137.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER TEXT SEARCH DICTIONARY](sql-altertsdictionary.md), [CREATE TEXT SEARCH DICTIONARY](sql-createtsdictionary.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droptsdictionary.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droptsdictionary.html)（原文版本：18.6；核對日期：2026-10-03）
