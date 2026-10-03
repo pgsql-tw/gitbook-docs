@@ -1,10 +1,12 @@
-<a id="id-1.9.3.113.1"></a>
+<a id="SQL-DROPFOREIGNTABLE"></a><a id="id-1.9.3.113.1"></a>
 
 ## DROP FOREIGN TABLE
 
-DROP FOREIGN TABLE — remove a foreign table
+DROP FOREIGN TABLE — 移除外部資料表
 
-## Synopsis
+<a id="id-1.9.3.113.4"></a>
+
+## 語法
 
 ```
 
@@ -13,37 +15,31 @@ DROP FOREIGN TABLE [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 
 <a id="id-1.9.3.113.5"></a>
 
-## Description
+## 說明
 
-`DROP FOREIGN TABLE` removes a foreign table.
-Only the owner of a foreign table can remove it.
+`DROP FOREIGN TABLE` 會移除外部資料表。只有外部資料表的擁有者可以移除它。
 
 <a id="id-1.9.3.113.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the foreign table does not exist.
-    A notice is issued in this case.
+:   外部資料表不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name (optionally schema-qualified) of the foreign table to drop.
+:   要移除之外部資料表的名稱（可選擇以綱要限定）。
 
 `CASCADE`
-:   Automatically drop objects that depend on the foreign table (such as
-    views), and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於外部資料表的物件（例如檢視表），以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the foreign table if any objects depend on it. This is
-    the default.
+:   若有任何物件相依於外部資料表則拒絕移除。這是預設行為。
 
 <a id="id-1.9.3.113.7"></a>
 
-## Examples
+## 範例
 
-To destroy two foreign tables, `films` and
-`distributors`:
+若要刪除 `films` 與 `distributors` 這兩個外部資料表：
 
 ```
 
@@ -52,19 +48,16 @@ DROP FOREIGN TABLE films, distributors;
 
 <a id="id-1.9.3.113.8"></a>
 
-## Compatibility
+## 相容性
 
-This command conforms to ISO/IEC 9075-9 (SQL/MED), except that the
-standard only allows one foreign table to be dropped per command, and apart
-from the `IF EXISTS` option, which is a PostgreSQL
-extension.
+此命令符合 ISO/IEC 9075-9（SQL/MED），但標準只允許每個命令移除一個外部資料表；此外，`IF EXISTS` 選項是 PostgreSQL 擴充功能。
 
 <a id="id-1.9.3.113.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER FOREIGN TABLE](sql-alterforeigntable.md), [CREATE FOREIGN TABLE](sql-createforeigntable.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropforeigntable.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropforeigntable.html)（原文版本：18.6；核對日期：2026-10-03）
