@@ -1,10 +1,12 @@
-<a id="id-1.9.3.126.1"></a>
+<a id="SQL-DROPROLE"></a><a id="id-1.9.3.126.1"></a>
 
 ## DROP ROLE
 
-DROP ROLE — remove a database role
+DROP ROLE — 移除資料庫角色
 
-## Synopsis
+<a id="id-1.9.3.126.4"></a>
+
+## 語法
 
 ```
 
@@ -13,52 +15,35 @@ DROP ROLE [ IF EXISTS ] name [, ...]
 
 <a id="id-1.9.3.126.5"></a>
 
-## Description
+## 說明
 
-`DROP ROLE` removes the specified role(s).
-To drop a superuser role, you must be a superuser yourself;
-to drop non-superuser roles, you must have `CREATEROLE`
-privilege and have been granted `ADMIN OPTION` on the role.
+`DROP ROLE` 會移除指定的角色。若要移除超級使用者角色，你自己必須是超級使用者；若要移除非超級使用者角色，你必須具有 `CREATEROLE` 權限，並且已被授予該角色的 `ADMIN OPTION`。
 
-A role cannot be removed if it is still referenced in any database
-of the cluster; an error will be raised if so. Before dropping the role,
-you must drop all the objects it owns (or reassign their ownership)
-and revoke any privileges the role has been granted on other objects.
-The [`REASSIGN
-OWNED`](sql-reassign-owned.md) and [`DROP
-OWNED`](sql-drop-owned.md)
-commands can be useful for this purpose; see [Section 21.4](../../server-administration/user-manag/role-removal.md)
-for more discussion.
+若角色仍在叢集中的任何資料庫內被參照，就無法移除；若是如此，會引發錯誤。移除角色之前，必須先移除它擁有的所有物件（或重新指派這些物件的擁有權），並撤銷該角色在其他物件上被授予的所有權限。[`REASSIGN OWNED`](sql-reassign-owned.md) 與 [`DROP OWNED`](sql-drop-owned.md) 命令可能有助於達成此目的；更多討論請參閱[第 21.4 節](../../server-administration/user-manag/role-removal.md)。
 
-However, it is not necessary to remove role memberships involving
-the role; `DROP ROLE` automatically revokes any memberships
-of the target role in other roles, and of other roles in the target role.
-The other roles are not dropped nor otherwise affected.
+不過，不需要移除涉及該角色的角色成員資格；`DROP ROLE` 會自動撤銷目標角色在其他角色中的所有成員資格，以及其他角色在目標角色中的成員資格。這些其他角色既不會被移除，也不會受到其他影響。
 
 <a id="id-1.9.3.126.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the role does not exist. A notice is issued
-    in this case.
+:   角色不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name of the role to remove.
+:   要移除之角色的名稱。
 
 <a id="id-1.9.3.126.7"></a>
 
-## Notes
+## 注意事項
 
-PostgreSQL includes a program [dropuser](../reference-client/app-dropuser.md) that has the
-same functionality as this command (in fact, it calls this command)
-but can be run from the command shell.
+PostgreSQL 提供一個程式 [dropuser](../reference-client/app-dropuser.md)，其功能與此命令相同（事實上，它會呼叫此命令），但可以從命令 shell 執行。
 
 <a id="id-1.9.3.126.8"></a>
 
-## Examples
+## 範例
 
-To drop a role:
+移除一個角色：
 
 ```
 
@@ -67,18 +52,16 @@ DROP ROLE jonathan;
 
 <a id="id-1.9.3.126.9"></a>
 
-## Compatibility
+## 相容性
 
-The SQL standard defines `DROP ROLE`, but it allows
-only one role to be dropped at a time, and it specifies different
-privilege requirements than PostgreSQL uses.
+SQL 標準定義了 `DROP ROLE`，但它一次只允許移除一個角色，而且它規定的權限要求與 PostgreSQL 所用的不同。
 
 <a id="id-1.9.3.126.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE ROLE](sql-createrole.md), [ALTER ROLE](sql-alterrole.md), [SET ROLE](sql-set-role.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droprole.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droprole.html)（原文版本：18.6；核對日期：2026-10-03）
