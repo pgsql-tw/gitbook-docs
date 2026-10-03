@@ -1,10 +1,12 @@
-<a id="id-1.9.3.134.1"></a>
+<a id="SQL-DROPTABLE"></a><a id="id-1.9.3.134.1"></a>
 
 ## DROP TABLE
 
-DROP TABLE — remove a table
+DROP TABLE — 移除資料表
 
-## Synopsis
+<a id="id-1.9.3.134.4"></a>
+
+## 語法
 
 ```
 
@@ -13,49 +15,33 @@ DROP TABLE [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 
 <a id="id-1.9.3.134.5"></a>
 
-## Description
+## 說明
 
-`DROP TABLE` removes tables from the database.
-Only the table owner, the schema owner, and superuser can drop a
-table. To empty a table of rows
-without destroying the table, use [`DELETE`](sql-delete.md)
-or [`TRUNCATE`](sql-truncate.md).
+`DROP TABLE` 會從資料庫中移除資料表。只有資料表擁有者、綱要擁有者與超級使用者可以移除資料表。若要清空資料表中的資料列而不刪除資料表本身，請使用 [`DELETE`](sql-delete.md) 或 [`TRUNCATE`](sql-truncate.md)。
 
-`DROP TABLE` always removes any indexes, rules,
-triggers, and constraints that exist for the target table.
-However, to drop a table that is referenced by a view or a foreign-key
-constraint of another table, `CASCADE` must be
-specified. (`CASCADE` will remove a dependent view entirely,
-but in the foreign-key case it will only remove the foreign-key
-constraint, not the other table entirely.)
+`DROP TABLE` 一律會移除目標資料表上存在的任何索引、規則、觸發程序與限制條件。不過，若要移除被檢視表或其他資料表的外鍵限制條件所參照的資料表，就必須指定 `CASCADE`。（`CASCADE` 會完整移除相依的檢視表，但在外鍵的情況下，它只會移除外鍵限制條件，而不會完整移除另一個資料表。）
 
 <a id="id-1.9.3.134.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the table does not exist. A notice is issued
-    in this case.
+:   資料表不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name (optionally schema-qualified) of the table to drop.
+:   要移除之資料表的名稱（可選擇以綱要限定）。
 
 `CASCADE`
-:   Automatically drop objects that depend on the table (such as
-    views),
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於資料表的物件（例如檢視表），以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the table if any objects depend on it. This is
-    the default.
+:   若有任何物件相依於資料表則拒絕移除。這是預設行為。
 
 <a id="id-1.9.3.134.7"></a>
 
-## Examples
+## 範例
 
-To destroy two tables, `films` and
-`distributors`:
+若要刪除 `films` 與 `distributors` 這兩個資料表：
 
 ```
 
@@ -64,19 +50,16 @@ DROP TABLE films, distributors;
 
 <a id="id-1.9.3.134.8"></a>
 
-## Compatibility
+## 相容性
 
-This command conforms to the SQL standard, except that the standard only
-allows one table to be dropped per command, and apart from the
-`IF EXISTS` option, which is a PostgreSQL
-extension.
+此命令符合 SQL 標準，但標準只允許每個命令移除一個資料表；此外，`IF EXISTS` 選項是 PostgreSQL 擴充功能。
 
 <a id="id-1.9.3.134.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER TABLE](sql-altertable.md), [CREATE TABLE](sql-createtable.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droptable.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droptable.html)（原文版本：18.6；核對日期：2026-10-03）
