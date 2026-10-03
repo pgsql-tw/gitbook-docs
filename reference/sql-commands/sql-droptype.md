@@ -1,10 +1,12 @@
-<a id="id-1.9.3.142.1"></a>
+<a id="SQL-DROPTYPE"></a><a id="id-1.9.3.142.1"></a>
 
 ## DROP TYPE
 
-DROP TYPE — remove a data type
+DROP TYPE — 移除資料型別
 
-## Synopsis
+<a id="id-1.9.3.142.4"></a>
+
+## 語法
 
 ```
 
@@ -13,37 +15,31 @@ DROP TYPE [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 
 <a id="id-1.9.3.142.5"></a>
 
-## Description
+## 說明
 
-`DROP TYPE` removes a user-defined data type.
-Only the owner of a type can remove it.
+`DROP TYPE` 會移除使用者定義的資料型別。只有型別的擁有者可以移除它。
 
 <a id="id-1.9.3.142.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the type does not exist. A notice is issued
-    in this case.
+:   型別不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name (optionally schema-qualified) of the data type to remove.
+:   要移除之資料型別的名稱（可選擇以綱要限定）。
 
 `CASCADE`
-:   Automatically drop objects that depend on the type (such as
-    table columns, functions, and operators),
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於該型別的物件（例如資料表欄位、函式與運算子），以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the type if any objects depend on it. This is
-    the default.
+:   若有任何物件相依於該型別則拒絕移除。這是預設行為。
 
 <a id="SQL-DROPTYPE-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-To remove the data type `box`:
+若要移除資料型別 `box`：
 
 ```
 
@@ -52,21 +48,16 @@ DROP TYPE box;
 
 <a id="SQL-DROPTYPE-COMPATIBILITY"></a>
 
-## Compatibility
+## 相容性
 
-This command is similar to the corresponding command in the SQL
-standard, apart from the `IF EXISTS`
-option, which is a PostgreSQL extension.
-But note that much of the `CREATE TYPE` command
-and the data type extension mechanisms in
-PostgreSQL differ from the SQL standard.
+此命令與 SQL 標準中對應的命令類似，但 `IF EXISTS` 選項是 PostgreSQL 擴充功能。不過請注意，PostgreSQL 中 `CREATE TYPE` 命令的大部分內容以及資料型別擴充機制都與 SQL 標準不同。
 
 <a id="SQL-DROPTYPE-SEE-ALSO"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER TYPE](sql-altertype.md), [CREATE TYPE](sql-createtype.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droptype.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droptype.html)（原文版本：18.6；核對日期：2026-10-03）
