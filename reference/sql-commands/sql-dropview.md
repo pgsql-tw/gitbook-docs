@@ -1,10 +1,12 @@
-<a id="id-1.9.3.145.1"></a>
+<a id="SQL-DROPVIEW"></a><a id="id-1.9.3.145.1"></a>
 
 ## DROP VIEW
 
-DROP VIEW — remove a view
+DROP VIEW — 移除檢視表
 
-## Synopsis
+<a id="id-1.9.3.145.4"></a>
+
+## 語法
 
 ```
 
@@ -13,37 +15,31 @@ DROP VIEW [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 
 <a id="id-1.9.3.145.5"></a>
 
-## Description
+## 說明
 
-`DROP VIEW` drops an existing view. To execute
-this command you must be the owner of the view.
+`DROP VIEW` 會移除現有的檢視表。要執行此命令，您必須是該檢視表的擁有者。
 
 <a id="id-1.9.3.145.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the view does not exist. A notice is issued
-    in this case.
+:   檢視表不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name (optionally schema-qualified) of the view to remove.
+:   要移除之檢視表的名稱（可選擇以綱要限定）。
 
 `CASCADE`
-:   Automatically drop objects that depend on the view (such as
-    other views),
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於檢視表的物件（例如其他檢視表），以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the view if any objects depend on it. This is
-    the default.
+:   若有任何物件相依於檢視表則拒絕移除。這是預設行為。
 
 <a id="id-1.9.3.145.7"></a>
 
-## Examples
+## 範例
 
-This command will remove the view called `kinds`:
+此命令會移除名為 `kinds` 的檢視表：
 
 ```
 
@@ -52,19 +48,16 @@ DROP VIEW kinds;
 
 <a id="id-1.9.3.145.8"></a>
 
-## Compatibility
+## 相容性
 
-This command conforms to the SQL standard, except that the standard only
-allows one view to be dropped per command, and apart from the
-`IF EXISTS` option, which is a PostgreSQL
-extension.
+此命令符合 SQL 標準，但標準只允許每個命令移除一個檢視表；此外，`IF EXISTS` 選項是 PostgreSQL 擴充功能。
 
 <a id="id-1.9.3.145.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER VIEW](sql-alterview.md), [CREATE VIEW](sql-createview.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropview.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropview.html)（原文版本：18.6；核對日期：2026-10-03）
