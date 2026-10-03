@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：494 頁。
+待譯頁面：493 頁。
 
 ## 根目錄
 
@@ -665,7 +665,7 @@
 - [x] `reference/sql-commands/sql-dropusermapping.md` — DROP USER MAPPING
 - [ ] `reference/sql-commands/sql-dropview.md` — DROP VIEW
 - [x] `reference/sql-commands/sql-end.md` — END
-- [ ] `reference/sql-commands/sql-execute.md` — EXECUTE
+- [x] `reference/sql-commands/sql-execute.md` — EXECUTE
 - [ ] `reference/sql-commands/sql-explain.md` — EXPLAIN
 - [x] `reference/sql-commands/sql-fetch.md` — FETCH
 - [x] `reference/sql-commands/sql-grant.md` — GRANT
