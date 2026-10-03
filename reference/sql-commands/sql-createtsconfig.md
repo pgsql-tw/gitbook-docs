@@ -1,10 +1,12 @@
-<a id="id-1.9.3.88.1"></a>
+<a id="SQL-CREATETSCONFIG"></a><a id="id-1.9.3.88.1"></a>
 
 ## CREATE TEXT SEARCH CONFIGURATION
 
-CREATE TEXT SEARCH CONFIGURATION — define a new text search configuration
+CREATE TEXT SEARCH CONFIGURATION — 定義新的文字搜尋設定
 
-## Synopsis
+<a id="id-1.9.3.88.4"></a>
+
+## 語法
 
 ```
 
@@ -16,62 +18,50 @@ CREATE TEXT SEARCH CONFIGURATION name (
 
 <a id="id-1.9.3.88.5"></a>
 
-## Description
+## 說明
 
-`CREATE TEXT SEARCH CONFIGURATION` creates a new text
-search configuration. A text search configuration specifies a text
-search parser that can divide a string into tokens, plus dictionaries
-that can be used to determine which tokens are of interest for searching.
+`CREATE TEXT SEARCH CONFIGURATION` 會建立新的文字搜尋設定。文字搜尋設定指定一個可以將字串切分為語彙單元的文字搜尋剖析器，以及可用來判斷哪些語彙單元是搜尋所關注之對象的字典。
 
-If only the parser is specified, then the new text search configuration
-initially has no mappings from token types to dictionaries, and therefore
-will ignore all words. Subsequent `ALTER TEXT SEARCH
-CONFIGURATION` commands must be used to create mappings to
-make the configuration useful. Alternatively, an existing text search
-configuration can be copied.
+若只指定剖析器，則新的文字搜尋設定一開始沒有從語彙單元類型到字典的對應，因此會忽略所有單字。之後必須使用 `ALTER TEXT SEARCH
+CONFIGURATION` 命令建立對應，才能讓此設定發揮作用。或者，也可以複製現有的文字搜尋設定。
 
-If a schema name is given then the text search configuration is created in
-the specified schema. Otherwise it is created in the current schema.
+若指定了綱要名稱，文字搜尋設定就會建立在指定的綱要中；否則會建立在目前的綱要中。
 
-The user who defines a text search configuration becomes its owner.
+定義文字搜尋設定的使用者會成為其擁有者。
 
-Refer to [Chapter 12](../../the-sql-language/textsearch/README.md) for further information.
+詳細資訊請參閱[第 12 章](../../the-sql-language/textsearch/README.md)。
 
 <a id="id-1.9.3.88.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of the text search configuration to be created. The name can be
-    schema-qualified.
+:   要建立的文字搜尋設定名稱。此名稱可以用綱要限定。
 
 *`parser_name`*
-:   The name of the text search parser to use for this configuration.
+:   此設定所要使用的文字搜尋剖析器名稱。
 
 *`source_config`*
-:   The name of an existing text search configuration to copy.
+:   要複製的現有文字搜尋設定名稱。
 
 <a id="id-1.9.3.88.7"></a>
 
-## Notes
+## 注意事項
 
-The `PARSER` and `COPY` options are mutually
-exclusive, because when an existing configuration is copied, its
-parser selection is copied too.
+`PARSER` 與 `COPY` 選項是互斥的，因為複製現有設定時，其剖析器選擇也會一併複製。
 
 <a id="id-1.9.3.88.8"></a>
 
-## Compatibility
+## 相容性
 
-There is no `CREATE TEXT SEARCH CONFIGURATION` statement
-in the SQL standard.
+SQL 標準中沒有 `CREATE TEXT SEARCH CONFIGURATION` 陳述式。
 
 <a id="id-1.9.3.88.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER TEXT SEARCH CONFIGURATION](sql-altertsconfig.md), [DROP TEXT SEARCH CONFIGURATION](sql-droptsconfig.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createtsconfig.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createtsconfig.html)（原文版本：18.6；核對日期：2026-10-03）
