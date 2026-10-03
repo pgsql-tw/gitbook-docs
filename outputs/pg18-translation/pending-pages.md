@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：482 頁。
+待譯頁面：481 頁。
 
 ## 根目錄
 
@@ -615,7 +615,7 @@
 - [x] `reference/sql-commands/sql-createtype.md` — CREATE TYPE
 - [x] `reference/sql-commands/sql-createuser.md` — CREATE USER — 定義新的資料庫角色
 - [x] `reference/sql-commands/sql-createusermapping.md` — CREATE USER MAPPING
-- [ ] `reference/sql-commands/sql-createview.md` — CREATE VIEW
+- [x] `reference/sql-commands/sql-createview.md` — CREATE VIEW
 - [x] `reference/sql-commands/sql-deallocate.md` — DEALLOCATE
 - [x] `reference/sql-commands/sql-declare.md` — DECLARE
 - [x] `reference/sql-commands/sql-delete.md` — DELETE
