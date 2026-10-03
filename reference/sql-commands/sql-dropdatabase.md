@@ -1,10 +1,12 @@
-<a id="id-1.9.3.108.1"></a>
+<a id="SQL-DROPDATABASE"></a><a id="id-1.9.3.108.1"></a>
 
 ## DROP DATABASE
 
-DROP DATABASE — remove a database
+DROP DATABASE — 移除資料庫
 
-## Synopsis
+<a id="id-1.9.3.108.4"></a>
+
+## 語法
 
 ```
 
@@ -17,65 +19,51 @@ where option can be:
 
 <a id="id-1.9.3.108.5"></a>
 
-## Description
+## 說明
 
-`DROP DATABASE` drops a database. It removes the
-catalog entries for the database and deletes the directory
-containing the data. It can only be executed by the database owner.
-It cannot be executed while you are connected to the target database.
-(Connect to `postgres` or any other database to issue this
-command.)
-Also, if anyone else is connected to the target database, this command will
-fail unless you use the `FORCE` option described below.
+`DROP DATABASE` 會移除資料庫。它會移除該資料庫的系統目錄項目，並刪除存放資料的目錄。此命令只能由資料庫擁有者執行。當您連線到目標資料庫時，無法執行此命令。（請連線到 `postgres` 或任何其他資料庫來下達此命令。）此外，若有其他任何人連線到目標資料庫，除非您使用下文所述的 `FORCE` 選項，否則此命令將會失敗。
 
-`DROP DATABASE` cannot be undone. Use it with care!
+`DROP DATABASE` 無法復原。請謹慎使用！
 
 <a id="id-1.9.3.108.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the database does not exist. A notice is issued
-    in this case.
+:   資料庫不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name of the database to remove.
+:   要移除的資料庫名稱。
 
 `FORCE`
-:   Attempt to terminate all existing connections to the target database.
-    It doesn't terminate if prepared transactions, active logical replication
-    slots or subscriptions are present in the target database.
+:   嘗試終止所有連到目標資料庫的現有連線。
+    若目標資料庫中存在已準備交易、作用中的邏輯複寫插槽或訂閱，則不會終止連線。
 
-    This terminates background worker connections and connections that the
-    current user has permission to terminate
-    with `pg_terminate_backend`, described in
-    [Section 9.28.2](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL). If connections would remain,
-    this command will fail.
+    這會終止背景工作程序的連線，以及目前使用者有權限以
+    `pg_terminate_backend` 終止的連線；該函式說明於
+    [第 9.28.2 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)。若仍有連線殘留，
+    此命令將會失敗。
 
 <a id="id-1.9.3.108.7"></a>
 
-## Notes
+## 注意事項
 
-`DROP DATABASE` cannot be executed inside a transaction
-block.
+`DROP DATABASE` 不能在交易區塊內執行。
 
-This command cannot be executed while connected to the target
-database. Thus, it might be more convenient to use the program
-[dropdb](../reference-client/app-dropdb.md) instead,
-which is a wrapper around this command.
+連線到目標資料庫時無法執行此命令。因此，改用 [dropdb](../reference-client/app-dropdb.md) 程式可能會更方便，它是包裝此命令的程式。
 
 <a id="id-1.9.3.108.8"></a>
 
-## Compatibility
+## 相容性
 
-There is no `DROP DATABASE` statement in the SQL standard.
+SQL 標準中沒有 `DROP DATABASE` 陳述式。
 
 <a id="id-1.9.3.108.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE DATABASE](sql-createdatabase.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropdatabase.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropdatabase.html)（原文版本：18.6；核對日期：2026-10-03）
