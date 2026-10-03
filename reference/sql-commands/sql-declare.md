@@ -1,10 +1,12 @@
-<a id="id-1.9.3.99.1"></a><a id="id-1.9.3.99.2"></a><a id="id-1.9.3.99.3"></a>
+<a id="SQL-DECLARE"></a><a id="id-1.9.3.99.1"></a><a id="id-1.9.3.99.2"></a><a id="id-1.9.3.99.3"></a>
 
 ## DECLARE
 
-DECLARE — define a cursor
+DECLARE — 定義游標
 
-## Synopsis
+<a id="id-1.9.3.99.6"></a>
+
+## 語法
 
 ```
 
@@ -14,253 +16,111 @@ DECLARE name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ]
 
 <a id="id-1.9.3.99.7"></a>
 
-## Description
+## 說明
 
-`DECLARE` allows a user to create cursors, which
-can be used to retrieve
-a small number of rows at a time out of a larger query.
-After the cursor is created, rows are fetched from it using
-[`FETCH`](sql-fetch.md).
+`DECLARE` 讓使用者建立游標，游標可以用來從一個較大的查詢中，每次擷取少量的資料列。游標建立之後，使用 [`FETCH`](sql-fetch.md) 從中擷取資料列。
 
-### Note
+### 注意
 
-This page describes usage of cursors at the SQL command level.
-If you are trying to use cursors inside a PL/pgSQL
-function, the rules are different —
-see [Section 41.7](../../server-programming/plpgsql/plpgsql-cursors.md).
+本頁說明的是在 SQL 命令層級使用游標的方式。如果您要在 PL/pgSQL 函式中使用游標，規則有所不同——請參閱[第 41.7 節](../../server-programming/plpgsql/plpgsql-cursors.md)。
 
 <a id="id-1.9.3.99.8"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of the cursor to be created.
-    This must be different from any other active cursor name in the
-    session.
+:   要建立之游標的名稱。此名稱必須與工作階段中任何其他作用中游標的名稱不同。
 
 `BINARY`
-:   Causes the cursor to return data in binary rather than in text format.
+:   使游標以二進位格式而非文字格式傳回資料。
 
 `ASENSITIVE`<br>`INSENSITIVE`
-:   Cursor sensitivity determines whether changes to the data underlying the
-    cursor, done in the same transaction, after the cursor has been
-    declared, are visible in the cursor. `INSENSITIVE`
-    means they are not visible, `ASENSITIVE` means the
-    behavior is implementation-dependent. A third behavior,
-    `SENSITIVE`, meaning that such changes are visible in
-    the cursor, is not available in PostgreSQL.
-    In PostgreSQL, all cursors are insensitive;
-    so these key words have no effect and are only accepted for
-    compatibility with the SQL standard.
+:   游標敏感度決定了：在游標宣告之後、於同一交易中對游標底層資料所做的變更，在該游標中是否可見。`INSENSITIVE` 表示這些變更不可見，`ASENSITIVE` 表示此行為取決於實作。第三種行為 `SENSITIVE`（表示這類變更在游標中可見）在 PostgreSQL 中無法使用。在 PostgreSQL 中，所有游標都是不敏感的（insensitive）；因此這些關鍵字沒有作用，只是為了與 SQL 標準相容而被接受。
 
-    Specifying `INSENSITIVE` together with `FOR
-    UPDATE` or `FOR SHARE` is an error.
+    同時指定 `INSENSITIVE` 與 `FOR UPDATE` 或 `FOR SHARE` 是錯誤的。
 
 `SCROLL`<br>`NO SCROLL`
-:   `SCROLL` specifies that the cursor can be used
-    to retrieve rows in a nonsequential fashion (e.g.,
-    backward). Depending upon the complexity of the query's
-    execution plan, specifying `SCROLL` might impose
-    a performance penalty on the query's execution time.
-    `NO SCROLL` specifies that the cursor cannot be
-    used to retrieve rows in a nonsequential fashion. The default is to
-    allow scrolling in some cases; this is not the same as specifying
-    `SCROLL`. See [Notes](sql-declare.md#SQL-DECLARE-NOTES)
-    below for details.
+:   `SCROLL` 指定游標可以用非循序的方式（例如向後）擷取資料列。視查詢執行計畫的複雜度而定，指定 `SCROLL` 可能會對查詢的執行時間造成效能損失。`NO SCROLL` 指定游標不能用非循序的方式擷取資料列。預設是在某些情況下允許捲動；這與指定 `SCROLL` 並不相同。詳細資訊請參閱下方的[注意事項](sql-declare.md#SQL-DECLARE-NOTES)。
 
 `WITH HOLD`<br>`WITHOUT HOLD`
-:   `WITH HOLD` specifies that the cursor can
-    continue to be used after the transaction that created it
-    successfully commits. `WITHOUT HOLD` specifies
-    that the cursor cannot be used outside of the transaction that
-    created it. If neither `WITHOUT HOLD` nor
-    `WITH HOLD` is specified, `WITHOUT
-    HOLD` is the default.
+:   `WITH HOLD` 指定在建立游標的交易成功提交之後，該游標仍可以繼續使用。`WITHOUT HOLD` 指定游標不能在建立它的交易之外使用。若既未指定 `WITHOUT HOLD`，也未指定 `WITH HOLD`，則預設為 `WITHOUT HOLD`。
 
 *`query`*
-:   A [`SELECT`](sql-select.md) or
-    [`VALUES`](sql-values.md) command
-    which will provide the rows to be returned by the cursor.
+:   一個 [`SELECT`](sql-select.md) 或 [`VALUES`](sql-values.md) 命令，用來提供游標所要傳回的資料列。
 
-The key words `ASENSITIVE`, `BINARY`,
-`INSENSITIVE`, and `SCROLL` can
-appear in any order.
+關鍵字 `ASENSITIVE`、`BINARY`、`INSENSITIVE` 與 `SCROLL` 可以任意順序出現。
 
 <a id="SQL-DECLARE-NOTES"></a>
 
-## Notes
+## 注意事項
 
-Normal cursors return data in text format, the same as a
-`SELECT` would produce. The `BINARY` option
-specifies that the cursor should return data in binary format.
-This reduces conversion effort for both the server and client,
-at the cost of more programmer effort to deal with platform-dependent
-binary data formats.
-As an example, if a query returns a value of one from an integer column,
-you would get a string of `1` with a default cursor,
-whereas with a binary cursor you would get
-a 4-byte field containing the internal representation of the value
-(in big-endian byte order).
+一般游標以文字格式傳回資料，與 `SELECT` 所產生的相同。`BINARY` 選項指定游標應該以二進位格式傳回資料。這可以減少伺服器與用戶端雙方的轉換工作，代價是程式設計師需要花更多心力處理與平台相依的二進位資料格式。舉例來說，若查詢從整數欄位傳回一個為 1 的值，使用預設游標時您會得到字串 `1`，而使用二進位游標時，您會得到一個 4 位元組的欄位，內含該值的內部表示法（採用 big-endian 位元組順序）。
 
-Binary cursors should be used carefully. Many applications,
-including psql, are not prepared to
-handle binary cursors and expect data to come back in the text
-format.
+二進位游標應謹慎使用。許多應用程式（包括 psql）並未準備好處理二進位游標，而是預期資料以文字格式傳回。
 
-### Note
+### 注意
 
-When the client application uses the “extended query” protocol
-to issue a `FETCH` command, the Bind protocol message
-specifies whether data is to be retrieved in text or binary format.
-This choice overrides the way that the cursor is defined. The concept
-of a binary cursor as such is thus obsolete when using extended query
-protocol — any cursor can be treated as either text or binary.
+當用戶端應用程式使用「延伸查詢」協定發出 `FETCH` 命令時，Bind 協定訊息會指定以文字或二進位格式擷取資料。這項選擇會覆寫游標原本的定義方式。因此，在使用延伸查詢協定時，二進位游標這個概念本身已經過時——任何游標都可以被視為文字或二進位格式。
 
-Unless `WITH HOLD` is specified, the cursor
-created by this command can only be used within the current
-transaction. Thus, `DECLARE` without `WITH
-HOLD` is useless outside a transaction block: the cursor would
-survive only to the completion of the statement. Therefore
-PostgreSQL reports an error if such a
-command is used outside a transaction block.
-Use
-[`BEGIN`](sql-begin.md) and
-[`COMMIT`](sql-commit.md)
-(or [`ROLLBACK`](sql-rollback.md))
-to define a transaction block.
+除非指定了 `WITH HOLD`，否則此命令所建立的游標只能在目前交易內使用。因此，沒有 `WITH HOLD` 的 `DECLARE` 在交易區塊之外是沒有用的：游標只會存續到該陳述式完成為止。所以，若在交易區塊之外使用這樣的命令，PostgreSQL 會回報錯誤。請使用 [`BEGIN`](sql-begin.md) 與 [`COMMIT`](sql-commit.md)（或 [`ROLLBACK`](sql-rollback.md)）來定義交易區塊。
 
-If `WITH HOLD` is specified and the transaction
-that created the cursor successfully commits, the cursor can
-continue to be accessed by subsequent transactions in the same
-session. (But if the creating transaction is aborted, the cursor
-is removed.) A cursor created with `WITH HOLD`
-is closed when an explicit `CLOSE` command is
-issued on it, or the session ends. In the current implementation,
-the rows represented by a held cursor are copied into a temporary
-file or memory area so that they remain available for subsequent
-transactions.
+若指定了 `WITH HOLD`，且建立游標的交易成功提交，則同一工作階段中後續的交易仍可以繼續存取該游標。（但若建立游標的交易被中止，游標就會被移除。）以 `WITH HOLD` 建立的游標，會在對它發出明確的 `CLOSE` 命令時，或在工作階段結束時關閉。在目前的實作中，保留游標（held cursor）所代表的資料列會被複製到暫存檔案或記憶體區域中，使其在後續交易中仍然可用。
 
-`WITH HOLD` may not be specified when the query
-includes `FOR UPDATE` or `FOR SHARE`.
+當查詢包含 `FOR UPDATE` 或 `FOR SHARE` 時，不可指定 `WITH HOLD`。
 
-The `SCROLL` option should be specified when defining a
-cursor that will be used to fetch backwards. This is required by
-the SQL standard. However, for compatibility with earlier
-versions, PostgreSQL will allow
-backward fetches without `SCROLL`, if the cursor's query
-plan is simple enough that no extra overhead is needed to support
-it. However, application developers are advised not to rely on
-using backward fetches from a cursor that has not been created
-with `SCROLL`. If `NO SCROLL` is
-specified, then backward fetches are disallowed in any case.
+定義將用於向後擷取的游標時，應該指定 `SCROLL` 選項。這是 SQL 標準所要求的。然而，為了與較早的版本相容，若游標的查詢計畫夠簡單、不需要額外的負擔就能支援向後擷取，PostgreSQL 會允許在沒有 `SCROLL` 的情況下向後擷取。不過，建議應用程式開發者不要依賴從未以 `SCROLL` 建立的游標向後擷取。若指定了 `NO SCROLL`，則在任何情況下都不允許向後擷取。
 
-Backward fetches are also disallowed when the query
-includes `FOR UPDATE` or `FOR SHARE`; therefore
-`SCROLL` may not be specified in this case.
+當查詢包含 `FOR UPDATE` 或 `FOR SHARE` 時，同樣不允許向後擷取；因此在這種情況下不可指定 `SCROLL`。
 
-### Caution
+### 小心
 
-Scrollable cursors may give unexpected
-results if they invoke any volatile functions (see [Section 36.7](../../server-programming/extend/xfunc-volatility.md)). When a previously fetched row is
-re-fetched, the functions might be re-executed, perhaps leading to
-results different from the first time. It's best to
-specify `NO SCROLL` for a query involving volatile
-functions. If that is not practical, one workaround
-is to declare the cursor `SCROLL WITH HOLD` and commit the
-transaction before reading any rows from it. This will force the
-entire output of the cursor to be materialized in temporary storage,
-so that volatile functions are executed exactly once for each row.
+可捲動的游標若呼叫任何揮發性函式（請參閱[第 36.7 節](../../server-programming/extend/xfunc-volatility.md)），可能會產生非預期的結果。當先前擷取過的資料列被重新擷取時，這些函式可能會被重新執行，或許會導致與第一次不同的結果。對於涉及揮發性函式的查詢，最好指定 `NO SCROLL`。若這樣做並不實際，一種變通方法是將游標宣告為 `SCROLL WITH HOLD`，並在從中讀取任何資料列之前提交交易。這會強制將游標的完整輸出實體化到暫存儲存空間中，使揮發性函式對每個資料列都恰好只執行一次。
 
-If the cursor's query includes `FOR UPDATE` or `FOR
-SHARE`, then returned rows are locked at the time they are first
-fetched, in the same way as for a regular
-[`SELECT`](sql-select.md) command with
-these options.
-In addition, the returned rows will be the most up-to-date versions.
+若游標的查詢包含 `FOR UPDATE` 或 `FOR SHARE`，則傳回的資料列會在第一次被擷取時鎖定，方式與帶有這些選項的一般 [`SELECT`](sql-select.md) 命令相同。此外，傳回的資料列會是最新的版本。
 
-### Caution
+### 小心
 
-It is generally recommended to use `FOR UPDATE` if the cursor
-is intended to be used with `UPDATE ... WHERE CURRENT OF` or
-`DELETE ... WHERE CURRENT OF`. Using `FOR UPDATE`
-prevents other sessions from changing the rows between the time they are
-fetched and the time they are updated. Without `FOR UPDATE`,
-a subsequent `WHERE CURRENT OF` command will have no effect if
-the row was changed since the cursor was created.
+若游標打算與 `UPDATE ... WHERE CURRENT OF` 或 `DELETE ... WHERE CURRENT OF` 搭配使用，一般建議使用 `FOR UPDATE`。使用 `FOR UPDATE` 可以防止其他工作階段在資料列被擷取之後、被更新之前變更這些資料列。若沒有 `FOR UPDATE`，當資料列在游標建立之後已被變更時，後續的 `WHERE CURRENT OF` 命令將不會有任何作用。
 
-Another reason to use `FOR UPDATE` is that without it, a
-subsequent `WHERE CURRENT OF` might fail if the cursor query
-does not meet the SQL standard's rules for being “simply
-updatable” (in particular, the cursor must reference just one table
-and not use grouping or `ORDER BY`). Cursors
-that are not simply updatable might work, or might not, depending on plan
-choice details; so in the worst case, an application might work in testing
-and then fail in production. If `FOR UPDATE` is
-specified, the cursor is guaranteed to be updatable.
+使用 `FOR UPDATE` 的另一個理由是：若沒有它，當游標查詢不符合 SQL 標準對「可簡單更新」（simply updatable）的規則時（特別是，游標必須只參照一個資料表，且不使用分組或 `ORDER BY`），後續的 `WHERE CURRENT OF` 可能會失敗。不是可簡單更新的游標可能可以運作，也可能無法運作，取決於計畫選擇的細節；因此在最糟的情況下，應用程式可能在測試時正常運作，到了正式環境卻失敗。若指定了 `FOR UPDATE`，就能保證游標是可更新的。
 
-The main reason not to use `FOR UPDATE` with `WHERE
-CURRENT OF` is if you need the cursor to be scrollable, or to be
-isolated from concurrent updates (that is, continue to show the old
-data). If this is a requirement, pay close heed to the caveats shown
-above.
+不將 `FOR UPDATE` 與 `WHERE CURRENT OF` 搭配使用的主要理由，是您需要游標可以捲動，或需要游標與並行更新隔離（也就是持續顯示舊資料）的情況。若這是必要條件，請特別留意上述的注意事項。
 
-The SQL standard only makes provisions for cursors in embedded
-SQL. The PostgreSQL
-server does not implement an `OPEN` statement for
-cursors; a cursor is considered to be open when it is declared.
-However, ECPG, the embedded SQL
-preprocessor for PostgreSQL, supports
-the standard SQL cursor conventions, including those involving
-`DECLARE` and `OPEN` statements.
+SQL 標準只在嵌入式 SQL 中為游標做了規定。PostgreSQL 伺服器並未實作游標的 `OPEN` 陳述式；游標在宣告時即被視為已開啟。不過，ECPG（PostgreSQL 的嵌入式 SQL 前置處理器）支援標準 SQL 的游標慣例，包括涉及 `DECLARE` 與 `OPEN` 陳述式的慣例。
 
-The server data structure underlying an open cursor is called a
-*portal*. Portal names are exposed in the
-client protocol: a client can fetch rows directly from an open
-portal, if it knows the portal name. When creating a cursor with
-`DECLARE`, the portal name is the same as the
-cursor name.
+開啟中游標底層的伺服器資料結構稱為 *portal*。portal 名稱會在用戶端協定中公開：用戶端若知道 portal 名稱，就可以直接從開啟中的 portal 擷取資料列。使用 `DECLARE` 建立游標時，portal 名稱與游標名稱相同。
 
-You can see all available cursors by querying the [`pg_cursors`](../../internals/views/view-pg-cursors.md)
-system view.
+您可以查詢 [`pg_cursors`](../../internals/views/view-pg-cursors.md) 系統檢視表，查看所有可用的游標。
 
 <a id="id-1.9.3.99.10"></a>
 
-## Examples
+## 範例
 
-To declare a cursor:
+宣告一個游標：
 
 ```
 
 DECLARE liahona CURSOR FOR SELECT * FROM films;
 ```
 
-See [FETCH](sql-fetch.md) for more
-examples of cursor usage.
+更多游標使用範例，請參閱 [FETCH](sql-fetch.md)。
 
 <a id="id-1.9.3.99.11"></a>
 
-## Compatibility
+## 相容性
 
-The SQL standard allows cursors only in embedded
-SQL and in modules. PostgreSQL
-permits cursors to be used interactively.
+SQL 標準只允許在嵌入式 SQL 與模組中使用游標。PostgreSQL 允許以互動方式使用游標。
 
-According to the SQL standard, changes made to insensitive cursors by
-`UPDATE ... WHERE CURRENT OF` and `DELETE
-... WHERE CURRENT OF` statements are visible in that same
-cursor. PostgreSQL treats these statements like
-all other data changing statements in that they are not visible in
-insensitive cursors.
+依據 SQL 標準，`UPDATE ... WHERE CURRENT OF` 與 `DELETE ... WHERE CURRENT OF` 陳述式對不敏感游標所做的變更，在同一個游標中是可見的。PostgreSQL 對這些陳述式的處理方式與其他所有資料變更陳述式相同，也就是這些變更在不敏感游標中不可見。
 
-Binary cursors are a PostgreSQL
-extension.
+二進位游標是 PostgreSQL 擴充功能。
 
 <a id="id-1.9.3.99.12"></a>
 
-## See Also
+## 另請參閱
 
 [CLOSE](sql-close.md), [FETCH](sql-fetch.md), [MOVE](sql-move.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-declare.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-declare.html)（原文版本：18.6；核對日期：2026-10-03）
