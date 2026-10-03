@@ -1,10 +1,12 @@
-<a id="id-1.9.3.104.1"></a>
+<a id="SQL-DROPAGGREGATE"></a><a id="id-1.9.3.104.1"></a>
 
 ## DROP AGGREGATE
 
-DROP AGGREGATE — remove an aggregate function
+DROP AGGREGATE — 移除彙總函式
 
-## Synopsis
+<a id="id-1.9.3.104.4"></a>
+
+## 語法
 
 ```
 
@@ -19,80 +21,60 @@ where aggregate_signature is:
 
 <a id="id-1.9.3.104.5"></a>
 
-## Description
+## 說明
 
-`DROP AGGREGATE` removes an existing
-aggregate function. To execute this command the current
-user must be the owner of the aggregate function.
+`DROP AGGREGATE` 會移除現有的彙總函式。要執行此命令，目前使用者必須是該彙總函式的擁有者。
 
 <a id="id-1.9.3.104.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the aggregate does not exist. A notice is issued
-    in this case.
+:   彙總函式不存在時不擲出錯誤；此情況會發出 notice。
 
 *`name`*
-:   The name (optionally schema-qualified) of an existing aggregate function.
+:   現有彙總函式的名稱（可選擇以綱要限定）。
 
 *`argmode`*
-:   The mode of an argument: `IN` or `VARIADIC`.
-    If omitted, the default is `IN`.
+:   引數的模式：`IN` 或 `VARIADIC`。若省略，預設為 `IN`。
 
 *`argname`*
-:   The name of an argument.
-    Note that `DROP AGGREGATE` does not actually pay
-    any attention to argument names, since only the argument data
-    types are needed to determine the aggregate function's identity.
+:   引數的名稱。請注意，`DROP AGGREGATE` 實際上並不會理會引數名稱，因為只需要引數的資料型別就能確定彙總函式的身分。
 
 *`argtype`*
-:   An input data type on which the aggregate function operates.
-    To reference a zero-argument aggregate function, write `*`
-    in place of the list of argument specifications.
-    To reference an ordered-set aggregate function, write
-    `ORDER BY` between the direct and aggregated argument
-    specifications.
+:   彙總函式所處理的輸入資料型別。若要引用零引數的彙總函式，請以 `*` 代替引數規格列表。若要引用有序集合彙總函式，請在直接引數與彙總引數的規格之間寫上 `ORDER BY`。
 
 `CASCADE`
-:   Automatically drop objects that depend on the aggregate function
-    (such as views using it),
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於彙總函式的物件（例如使用它的檢視表），以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the aggregate function if any objects depend on
-    it. This is the default.
+:   若有任何物件相依於彙總函式則拒絕移除。這是預設行為。
 
 <a id="id-1.9.3.104.7"></a>
 
-## Notes
+## 注意事項
 
-Alternative syntaxes for referencing ordered-set aggregates
-are described under [ALTER AGGREGATE](sql-alteraggregate.md).
+引用有序集合彙總函式的替代語法，說明於 [ALTER AGGREGATE](sql-alteraggregate.md)。
 
 <a id="id-1.9.3.104.8"></a>
 
-## Examples
+## 範例
 
-To remove the aggregate function `myavg` for type
-`integer`:
+若要移除型別 `integer` 的彙總函式 `myavg`：
 
 ```
 
 DROP AGGREGATE myavg(integer);
 ```
 
-To remove the hypothetical-set aggregate function `myrank`,
-which takes an arbitrary list of ordering columns and a matching list
-of direct arguments:
+若要移除假設集合彙總函式 `myrank`，它接受任意的排序欄位列表，以及相對應的直接引數列表：
 
 ```
 
 DROP AGGREGATE myrank(VARIADIC "any" ORDER BY VARIADIC "any");
 ```
 
-To remove multiple aggregate functions in one command:
+若要在一個命令中移除多個彙總函式：
 
 ```
 
@@ -101,17 +83,16 @@ DROP AGGREGATE myavg(integer), myavg(bigint);
 
 <a id="id-1.9.3.104.9"></a>
 
-## Compatibility
+## 相容性
 
-There is no `DROP AGGREGATE` statement in the SQL
-standard.
+SQL 標準中沒有 `DROP AGGREGATE` 陳述式。
 
 <a id="id-1.9.3.104.10"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER AGGREGATE](sql-alteraggregate.md), [CREATE AGGREGATE](sql-createaggregate.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropaggregate.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-dropaggregate.html)（原文版本：18.6；核對日期：2026-10-03）
