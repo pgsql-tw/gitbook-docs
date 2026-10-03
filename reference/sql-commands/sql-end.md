@@ -1,10 +1,12 @@
-<a id="id-1.9.3.146.1"></a>
+<a id="SQL-END"></a><a id="id-1.9.3.146.1"></a>
 
 ## END
 
-END — commit the current transaction
+END — 提交目前的交易
 
-## Synopsis
+<a id="id-1.9.3.146.4"></a>
+
+## 語法
 
 ```
 
@@ -13,41 +15,33 @@ END [ WORK | TRANSACTION ] [ AND [ NO ] CHAIN ]
 
 <a id="id-1.9.3.146.5"></a>
 
-## Description
+## 說明
 
-`END` commits the current transaction. All changes
-made by the transaction become visible to others and are guaranteed
-to be durable if a crash occurs. This command is a
-PostgreSQL extension
-that is equivalent to [`COMMIT`](sql-commit.md).
+`END` 會提交目前的交易。該交易所做的所有變更都會變得對其他人可見，並保證在發生當機時仍能持久保存。此命令是 PostgreSQL 的擴充功能，等同於 [`COMMIT`](sql-commit.md)。
 
 <a id="id-1.9.3.146.6"></a>
 
-## Parameters
+## 參數
 
 `WORK`<br>`TRANSACTION`
-:   Optional key words. They have no effect.
+:   可選的關鍵字。它們沒有任何作用。
 
 `AND CHAIN`
-:   If `AND CHAIN` is specified, a new transaction is
-    immediately started with the same transaction characteristics (see [SET TRANSACTION](sql-set-transaction.md)) as the just finished one. Otherwise,
-    no new transaction is started.
+:   若指定了 `AND CHAIN`，會立即啟動一個新交易，其交易特性（請參閱 [SET TRANSACTION](sql-set-transaction.md)）與剛結束的交易相同。否則，不會啟動新交易。
 
 <a id="id-1.9.3.146.7"></a>
 
-## Notes
+## 注意事項
 
-Use [`ROLLBACK`](sql-rollback.md) to
-abort a transaction.
+使用 [`ROLLBACK`](sql-rollback.md) 來中止交易。
 
-Issuing `END` when not inside a transaction does
-no harm, but it will provoke a warning message.
+在交易外發出 `END` 不會造成損害，但會引發一則警告訊息。
 
 <a id="id-1.9.3.146.8"></a>
 
-## Examples
+## 範例
 
-To commit the current transaction and make all changes permanent:
+提交目前的交易，並使所有變更永久生效：
 
 ```
 
@@ -56,18 +50,16 @@ END;
 
 <a id="id-1.9.3.146.9"></a>
 
-## Compatibility
+## 相容性
 
-`END` is a PostgreSQL
-extension that provides functionality equivalent to [`COMMIT`](sql-commit.md), which is
-specified in the SQL standard.
+`END` 是 PostgreSQL 的擴充功能，提供與 [`COMMIT`](sql-commit.md) 等同的功能，而 COMMIT 是 SQL 標準所規定的命令。
 
 <a id="id-1.9.3.146.10"></a>
 
-## See Also
+## 另請參閱
 
 [BEGIN](sql-begin.md), [COMMIT](sql-commit.md), [ROLLBACK](sql-rollback.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-end.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-end.html)（原文版本：18.6；核對日期：2026-10-03）
