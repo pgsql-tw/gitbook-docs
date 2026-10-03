@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：489 頁。
+待譯頁面：488 頁。
 
 ## 根目錄
 
@@ -645,7 +645,7 @@
 - [x] `reference/sql-commands/sql-dropprocedure.md` — DROP PROCEDURE
 - [x] `reference/sql-commands/sql-droppublication.md` — DROP PUBLICATION
 - [x] `reference/sql-commands/sql-droprole.md` — DROP ROLE
-- [ ] `reference/sql-commands/sql-droproutine.md` — DROP ROUTINE
+- [x] `reference/sql-commands/sql-droproutine.md` — DROP ROUTINE
 - [x] `reference/sql-commands/sql-droprule.md` — DROP RULE — 移除重寫規則
 - [x] `reference/sql-commands/sql-dropschema.md` — DROP SCHEMA
 - [x] `reference/sql-commands/sql-dropsequence.md` — DROP SEQUENCE

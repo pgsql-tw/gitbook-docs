@@ -1,10 +1,12 @@
-<a id="id-1.9.3.127.1"></a>
+<a id="SQL-DROPROUTINE"></a><a id="id-1.9.3.127.1"></a>
 
 ## DROP ROUTINE
 
-DROP ROUTINE — remove a routine
+DROP ROUTINE — 移除常式
 
-## Synopsis
+<a id="id-1.9.3.127.4"></a>
+
+## 語法
 
 ```
 
@@ -14,74 +16,53 @@ DROP ROUTINE [ IF EXISTS ] name [ ( [ [ argmode ] [ argname ] argtype [, ...] ] 
 
 <a id="id-1.9.3.127.5"></a>
 
-## Description
+## 說明
 
-`DROP ROUTINE` removes the definition of one or more
-existing routines. The term “routine” includes
-aggregate functions, normal functions, and procedures. See
-under [DROP AGGREGATE](sql-dropaggregate.md), [DROP FUNCTION](sql-dropfunction.md),
-and [DROP PROCEDURE](sql-dropprocedure.md) for the description of the
-parameters, more examples, and further details.
+`DROP ROUTINE` 會移除一個或多個現有常式的定義。「常式」一詞涵蓋彙總函式、一般函式與程序。參數說明、更多範例與進一步細節，請參閱 [DROP AGGREGATE](sql-dropaggregate.md)、[DROP FUNCTION](sql-dropfunction.md) 與 [DROP PROCEDURE](sql-dropprocedure.md)。
 
 <a id="SQL-DROPROUTINE-NOTES"></a>
 
-## Notes
+## 注意事項
 
-The lookup rules used by `DROP ROUTINE` are
-fundamentally the same as for `DROP PROCEDURE`; in
-particular, `DROP ROUTINE` shares that command's
-behavior of considering an argument list that has
-no *`argmode`* markers to be
-possibly using the SQL standard's definition that `OUT`
-arguments are included in the list. (`DROP AGGREGATE`
-and `DROP FUNCTION` do not do that.)
+`DROP ROUTINE` 所使用的查找規則基本上與 `DROP PROCEDURE` 相同；特別是，`DROP ROUTINE` 也具有該命令的這項行為：對於沒有任何 *`argmode`* 標記的引數列表，會考慮它可能採用 SQL 標準的定義，也就是 `OUT` 引數也包含在列表中。（`DROP AGGREGATE` 與 `DROP FUNCTION` 不會這樣做。）
 
-In some cases where the same name is shared by routines of different
-kinds, it is possible for `DROP ROUTINE` to fail with
-an ambiguity error when a more specific command (`DROP
-FUNCTION`, etc.) would work. Specifying the argument type
-list more carefully will also resolve such problems.
+在某些同一名稱由不同種類的常式共用的情況下，`DROP ROUTINE` 可能會因歧義錯誤而失敗，而較具體的命令（`DROP
+FUNCTION` 等）則可以正常運作。更仔細地指定引數型別列表，也同樣能解決此類問題。
 
-These lookup rules are also used by other commands that
-act on existing routines, such as `ALTER ROUTINE`
-and `COMMENT ON ROUTINE`.
+這些查找規則也用於其他作用於現有常式的命令，例如 `ALTER ROUTINE` 與 `COMMENT ON ROUTINE`。
 
 <a id="SQL-DROPROUTINE-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-To drop the routine `foo` for type
-`integer`:
+若要移除型別 `integer` 的常式 `foo`：
 
 ```
 
 DROP ROUTINE foo(integer);
 ```
 
-This command will work independent of whether `foo` is an
-aggregate, function, or procedure.
+無論 `foo` 是彙總函式、函式還是程序，此命令都能運作。
 
 <a id="SQL-DROPROUTINE-COMPATIBILITY"></a>
 
-## Compatibility
+## 相容性
 
-This command conforms to the SQL standard, with
-these PostgreSQL extensions:
+此命令符合 SQL 標準，但有以下 PostgreSQL 擴充功能：
 
-* The standard only allows one routine to be dropped per command.
-* The `IF EXISTS` option is an extension.
-* The ability to specify argument modes and names is an
-  extension, and the lookup rules differ when modes are given.
-* User-definable aggregate functions are an extension.
+* 標準只允許每個命令移除一個常式。
+* `IF EXISTS` 選項是擴充功能。
+* 可以指定引數模式與名稱是擴充功能，而且在指定了模式時，查找規則會有所不同。
+* 使用者可自行定義的彙總函式是擴充功能。
 
 <a id="id-1.9.3.127.9"></a>
 
-## See Also
+## 另請參閱
 
 [DROP AGGREGATE](sql-dropaggregate.md), [DROP FUNCTION](sql-dropfunction.md), [DROP PROCEDURE](sql-dropprocedure.md), [ALTER ROUTINE](sql-alterroutine.md)
 
-Note that there is no `CREATE ROUTINE` command.
+請注意，並沒有 `CREATE ROUTINE` 命令。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droproutine.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-droproutine.html)（原文版本：18.6；核對日期：2026-10-03）
