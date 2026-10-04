@@ -1,10 +1,12 @@
-<a id="id-1.9.3.36.1"></a>
+<a id="SQL-ALTERTABLESPACE"></a><a id="id-1.9.3.36.1"></a>
 
 ## ALTER TABLESPACE
 
-ALTER TABLESPACE — change the definition of a tablespace
+ALTER TABLESPACE — 變更資料表空間的定義
 
-## Synopsis
+<a id="id-1.9.3.36.4"></a>
+
+## 語法
 
 ```
 
@@ -16,59 +18,40 @@ ALTER TABLESPACE name RESET ( tablespace_option [, ... ] )
 
 <a id="id-1.9.3.36.5"></a>
 
-## Description
+## 說明
 
-`ALTER TABLESPACE` can be used to change the definition of
-a tablespace.
+`ALTER TABLESPACE` 可用來變更資料表空間的定義。
 
-You must own the tablespace to change the definition of a tablespace.
-To alter the owner, you must also be able to `SET ROLE`
-to the new owning role.
-(Note that superusers have these privileges automatically.)
+你必須擁有該資料表空間，才能變更其定義。若要變更擁有者，你還必須能夠 `SET ROLE` 成為新的擁有者角色。（請注意，超級使用者自動具有這些權限。）
 
 <a id="id-1.9.3.36.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of an existing tablespace.
+:   現有資料表空間的名稱。
 
 *`new_name`*
-:   The new name of the tablespace. The new name cannot
-    begin with `pg_`, as such names
-    are reserved for system tablespaces.
+:   資料表空間的新名稱。新名稱不能以 `pg_` 開頭，因為這類名稱保留給系統資料表空間使用。
 
 *`new_owner`*
-:   The new owner of the tablespace.
+:   資料表空間的新擁有者。
 
 *`tablespace_option`*
-:   A tablespace parameter to be set or reset. Currently, the only
-    available parameters are `seq_page_cost`,
-    `random_page_cost`, `effective_io_concurrency`
-    and `maintenance_io_concurrency`.
-    Setting these values for a particular tablespace will override the
-    planner's usual estimate of the cost of reading pages from tables in
-    that tablespace, and how many concurrent I/Os are issued, as established
-    by the configuration parameters of the
-    same name (see [seq_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-SEQ-PAGE-COST),
-    [random_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-RANDOM-PAGE-COST),
-    [effective_io_concurrency](../../server-administration/runtime-config/runtime-config-resource.md#GUC-EFFECTIVE-IO-CONCURRENCY),
-    [maintenance_io_concurrency](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAINTENANCE-IO-CONCURRENCY)). This may be useful if
-    one tablespace is located on a disk which is faster or slower than the
-    remainder of the I/O subsystem.
+:   要設定或重設的資料表空間參數。目前可用的參數只有 `seq_page_cost`、`random_page_cost`、`effective_io_concurrency` 與 `maintenance_io_concurrency`。為特定資料表空間設定這些值，會覆寫規劃器對於讀取該資料表空間中資料表之頁面成本的一般估計，以及發出多少個並行 I/O 的一般估計；這些一般估計是由同名的設定參數所決定（請參閱 [seq_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-SEQ-PAGE-COST)、[random_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-RANDOM-PAGE-COST)、[effective_io_concurrency](../../server-administration/runtime-config/runtime-config-resource.md#GUC-EFFECTIVE-IO-CONCURRENCY)、[maintenance_io_concurrency](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAINTENANCE-IO-CONCURRENCY)）。若某個資料表空間位於比 I/O 子系統其餘部分更快或更慢的磁碟上，這可能很有用。
 
 <a id="id-1.9.3.36.7"></a>
 
-## Examples
+## 範例
 
-Rename tablespace `index_space` to `fast_raid`:
+將資料表空間 `index_space` 重新命名為 `fast_raid`：
 
 ```
 
 ALTER TABLESPACE index_space RENAME TO fast_raid;
 ```
 
-Change the owner of tablespace `index_space`:
+變更資料表空間 `index_space` 的擁有者：
 
 ```
 
@@ -77,17 +60,16 @@ ALTER TABLESPACE index_space OWNER TO mary;
 
 <a id="id-1.9.3.36.8"></a>
 
-## Compatibility
+## 相容性
 
-There is no `ALTER TABLESPACE` statement in
-the SQL standard.
+SQL 標準中沒有 `ALTER TABLESPACE` 陳述式。
 
 <a id="id-1.9.3.36.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE TABLESPACE](sql-createtablespace.md), [DROP TABLESPACE](sql-droptablespace.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertablespace.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertablespace.html)（原文版本：18.6；核對日期：2026-10-04）
