@@ -1,10 +1,12 @@
-<a id="id-1.9.3.50.1"></a><a id="id-1.9.3.50.2"></a>
+<a id="SQL-CLOSE"></a><a id="id-1.9.3.50.1"></a><a id="id-1.9.3.50.2"></a>
 
 ## CLOSE
 
-CLOSE — close a cursor
+CLOSE — 關閉游標
 
-## Synopsis
+<a id="id-1.9.3.50.5"></a>
+
+## 語法
 
 ```
 
@@ -13,53 +15,37 @@ CLOSE { name | ALL }
 
 <a id="id-1.9.3.50.6"></a>
 
-## Description
+## 說明
 
-`CLOSE` frees the resources associated with an open cursor.
-After the cursor is closed, no subsequent operations
-are allowed on it. A cursor should be closed when it is
-no longer needed.
+`CLOSE` 會釋放與已開啟游標相關聯的資源。游標關閉之後，就不允許再對它進行任何後續操作。游標在不再需要時應該關閉。
 
-Every non-holdable open cursor is implicitly closed when a
-transaction is terminated by `COMMIT` or
-`ROLLBACK`. A holdable cursor is implicitly
-closed if the transaction that created it aborts via
-`ROLLBACK`. If the creating transaction
-successfully commits, the holdable cursor remains open until an
-explicit `CLOSE` is executed, or the client
-disconnects.
+當交易以 `COMMIT` 或 `ROLLBACK` 結束時，每個不可保留（non-holdable）的已開啟游標都會被隱含地關閉。若建立可保留（holdable）游標的交易經由 `ROLLBACK` 中止，該游標會被隱含地關閉。若建立它的交易成功提交，可保留游標會維持開啟，直到明確執行 `CLOSE`，或用戶端中斷連線為止。
 
 <a id="id-1.9.3.50.7"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of an open cursor to close.
+:   要關閉的已開啟游標名稱。
 
 `ALL`
-:   Close all open cursors.
+:   關閉所有已開啟的游標。
 
 <a id="id-1.9.3.50.8"></a>
 
-## Notes
+## 注意事項
 
-PostgreSQL does not have an explicit
-`OPEN` cursor statement; a cursor is considered
-open when it is declared. Use the
-[`DECLARE`](sql-declare.md)
-statement to declare a cursor.
+PostgreSQL 沒有明確的 `OPEN` 游標陳述式；游標在宣告時即被視為已開啟。請使用 [`DECLARE`](sql-declare.md) 陳述式宣告游標。
 
-You can see all available cursors by querying the [`pg_cursors`](../../internals/views/view-pg-cursors.md) system view.
+你可以查詢 [`pg_cursors`](../../internals/views/view-pg-cursors.md) 系統檢視表，查看所有可用的游標。
 
-If a cursor is closed after a savepoint which is later rolled back,
-the `CLOSE` is not rolled back; that is, the cursor
-remains closed.
+若游標是在某個儲存點之後關閉，而該儲存點之後被回復，則 `CLOSE` 不會被回復；也就是說，該游標仍維持關閉。
 
 <a id="id-1.9.3.50.9"></a>
 
-## Examples
+## 範例
 
-Close the cursor `liahona`:
+關閉游標 `liahona`：
 
 ```
 
@@ -68,18 +54,16 @@ CLOSE liahona;
 
 <a id="id-1.9.3.50.10"></a>
 
-## Compatibility
+## 相容性
 
-`CLOSE` is fully conforming with the SQL
-standard. `CLOSE ALL` is a PostgreSQL
-extension.
+`CLOSE` 完全符合 SQL 標準。`CLOSE ALL` 是 PostgreSQL 的擴充語法。
 
 <a id="id-1.9.3.50.11"></a>
 
-## See Also
+## 另請參閱
 
 [DECLARE](sql-declare.md), [FETCH](sql-fetch.md), [MOVE](sql-move.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-close.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-close.html)（原文版本：18.6；核對日期：2026-10-04）
