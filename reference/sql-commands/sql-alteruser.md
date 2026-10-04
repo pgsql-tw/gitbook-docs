@@ -1,10 +1,12 @@
-<a id="id-1.9.3.43.1"></a>
+<a id="SQL-ALTERUSER"></a><a id="id-1.9.3.43.1"></a>
 
 ## ALTER USER
 
-ALTER USER — change a database role
+ALTER USER — 變更資料庫角色
 
-## Synopsis
+<a id="id-1.9.3.43.4"></a>
+
+## 語法
 
 ```
 
@@ -40,25 +42,24 @@ where role_specification can be:
 
 <a id="id-1.9.3.43.5"></a>
 
-## Description
+## 說明
 
-`ALTER USER` is now an alias for
-[`ALTER ROLE`](sql-alterrole.md).
+`ALTER USER` 現在是
+[`ALTER ROLE`](sql-alterrole.md) 的別名。
 
 <a id="id-1.9.3.43.6"></a>
 
-## Compatibility
+## 相容性
 
-The `ALTER USER` statement is a
-PostgreSQL extension. The SQL standard
-leaves the definition of users to the implementation.
+`ALTER USER` 陳述式是
+PostgreSQL 的擴充語法。SQL 標準將使用者的定義交由各實作決定。
 
 <a id="id-1.9.3.43.7"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER ROLE](sql-alterrole.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alteruser.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alteruser.html)（原文版本：18.6；核對日期：2026-10-04）
