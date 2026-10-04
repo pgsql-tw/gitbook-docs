@@ -1,10 +1,12 @@
-<a id="id-1.9.3.47.1"></a>
+<a id="SQL-BEGIN"></a><a id="id-1.9.3.47.1"></a>
 
 ## BEGIN
 
-BEGIN — start a transaction block
+BEGIN — 開始一個交易區塊
 
-## Synopsis
+<a id="id-1.9.3.47.4"></a>
+
+## 語法
 
 ```
 
@@ -19,65 +21,40 @@ where transaction_mode is one of:
 
 <a id="id-1.9.3.47.5"></a>
 
-## Description
+## 說明
 
-`BEGIN` initiates a transaction block, that is,
-all statements after a `BEGIN` command will be
-executed in a single transaction until an explicit [`COMMIT`](sql-commit.md) or [`ROLLBACK`](sql-rollback.md) is given.
-By default (without `BEGIN`),
-PostgreSQL executes
-transactions in “autocommit” mode, that is, each
-statement is executed in its own transaction and a commit is
-implicitly performed at the end of the statement (if execution was
-successful, otherwise a rollback is done).
+`BEGIN` 會開始一個交易區塊，也就是說，在 `BEGIN` 命令之後的所有陳述式都會在單一交易中執行，直到明確下達 [`COMMIT`](sql-commit.md) 或 [`ROLLBACK`](sql-rollback.md) 為止。預設情況下（沒有 `BEGIN` 時），PostgreSQL 會以「自動提交」（autocommit）模式執行交易，也就是說，每個陳述式都在自己的交易中執行，並在陳述式結束時隱含地執行提交（若執行成功；否則執行回復）。
 
-Statements are executed more quickly in a transaction block, because
-transaction start/commit requires significant CPU and disk
-activity. Execution of multiple statements inside a transaction is
-also useful to ensure consistency when making several related changes:
-other sessions will be unable to see the intermediate states
-wherein not all the related updates have been done.
+在交易區塊中執行陳述式會比較快，因為交易的開始／提交需要可觀的 CPU 與磁碟活動。在一個交易內執行多個陳述式，也有助於在進行數項相關變更時確保一致性：其他工作階段將無法看到尚未完成所有相關更新的中間狀態。
 
-If the isolation level, read/write mode, or deferrable mode is specified, the new
-transaction has those characteristics, as if
-[`SET TRANSACTION`](sql-set-transaction.md)
-was executed.
+若指定了隔離等級、讀寫模式或可延遲模式，新的交易就會具有這些特性，如同執行了 [`SET TRANSACTION`](sql-set-transaction.md) 一樣。
 
 <a id="id-1.9.3.47.6"></a>
 
-## Parameters
+## 參數
 
 `WORK`<br>`TRANSACTION`
-:   Optional key words. They have no effect.
+:   可省略的關鍵字，沒有任何效果。
 
-Refer to [SET TRANSACTION](sql-set-transaction.md) for information on the meaning
-of the other parameters to this statement.
+關於此陳述式其他參數的意義，請參閱 [SET TRANSACTION](sql-set-transaction.md)。
 
 <a id="id-1.9.3.47.7"></a>
 
-## Notes
+## 注意事項
 
-[`START TRANSACTION`](sql-start-transaction.md) has the same functionality
-as `BEGIN`.
+[`START TRANSACTION`](sql-start-transaction.md) 具有與 `BEGIN` 相同的功能。
 
-Use [`COMMIT`](sql-commit.md) or
-[`ROLLBACK`](sql-rollback.md)
-to terminate a transaction block.
+請使用 [`COMMIT`](sql-commit.md) 或 [`ROLLBACK`](sql-rollback.md) 結束交易區塊。
 
-Issuing `BEGIN` when already inside a transaction block will
-provoke a warning message. The state of the transaction is not affected.
-To nest transactions within a transaction block, use savepoints
-(see [SAVEPOINT](sql-savepoint.md)).
+在已經位於交易區塊內時下達 `BEGIN`，會引發一則警告訊息。交易的狀態不受影響。若要在交易區塊內巢狀使用交易，請使用儲存點（請參閱 [SAVEPOINT](sql-savepoint.md)）。
 
-For reasons of backwards compatibility, the commas between successive
-*`transaction_modes`* can be
-omitted.
+基於向後相容性的理由，連續的 *`transaction_modes`* 之間的逗號可以省略。
 
 <a id="id-1.9.3.47.8"></a>
 
-## Examples
+## 範例
 
-To begin a transaction block:
+開始一個交易區塊：
 
 ```
 
@@ -86,27 +63,20 @@ BEGIN;
 
 <a id="id-1.9.3.47.9"></a>
 
-## Compatibility
+## 相容性
 
-`BEGIN` is a PostgreSQL
-language extension. It is equivalent to the SQL-standard command
-[`START TRANSACTION`](sql-start-transaction.md), whose reference page
-contains additional compatibility information.
+`BEGIN` 是 PostgreSQL 的語言擴充。它等同於 SQL 標準命令 [`START TRANSACTION`](sql-start-transaction.md)，該命令的參考頁面包含更多相容性資訊。
 
-The `DEFERRABLE`
-*`transaction_mode`*
-is a PostgreSQL language extension.
+`DEFERRABLE` *`transaction_mode`* 是 PostgreSQL 的語言擴充。
 
-Incidentally, the `BEGIN` key word is used for a
-different purpose in embedded SQL. You are advised to be careful
-about the transaction semantics when porting database applications.
+順帶一提，`BEGIN` 關鍵字在嵌入式 SQL 中有不同的用途。移植資料庫應用程式時，建議你謹慎留意交易的語意。
 
 <a id="id-1.9.3.47.10"></a>
 
-## See Also
+## 另請參閱
 
 [COMMIT](sql-commit.md), [ROLLBACK](sql-rollback.md), [START TRANSACTION](sql-start-transaction.md), [SAVEPOINT](sql-savepoint.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-begin.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-begin.html)（原文版本：18.6；核對日期：2026-10-04）
