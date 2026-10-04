@@ -1,10 +1,12 @@
-<a id="id-1.9.3.62.1"></a>
+<a id="SQL-CREATEDOMAIN"></a><a id="id-1.9.3.62.1"></a>
 
 ## CREATE DOMAIN
 
-CREATE DOMAIN — define a new domain
+CREATE DOMAIN — 定義新的網域
 
-## Synopsis
+<a id="id-1.9.3.62.4"></a>
+
+## 語法
 
 ```
 
@@ -21,151 +23,80 @@ where domain_constraint is:
 
 <a id="id-1.9.3.62.5"></a>
 
-## Description
+## 說明
 
-`CREATE DOMAIN` creates a new domain. A domain is
-essentially a data type with optional constraints (restrictions on
-the allowed set of values).
-The user who defines a domain becomes its owner.
+`CREATE DOMAIN` 會建立新的網域。網域本質上是一種帶有選用限制條件（對允許的值集合所加的限制）的資料型別。定義網域的使用者會成為其擁有者。
 
-If a schema name is given (for example, `CREATE DOMAIN
-myschema.mydomain ...`) then the domain is created in the
-specified schema. Otherwise it is created in the current schema.
-The domain name must be unique among the types and domains existing
-in its schema.
+若指定了綱要名稱（例如 `CREATE DOMAIN
+myschema.mydomain ...`），網域就會建立在指定的綱要中；否則會建立在目前的綱要中。網域名稱在其綱要中現有的型別與網域之間必須是唯一的。
 
-Domains are useful for abstracting common constraints on fields into
-a single location for maintenance. For example, several tables might
-contain email address columns, all requiring the same CHECK constraint
-to verify the address syntax.
-Define a domain rather than setting up each table's constraint
-individually.
+網域適合用來將欄位上常見的限制條件抽象化，集中在單一位置維護。例如，數個資料表可能都含有電子郵件地址欄位，而且全都需要相同的 CHECK 限制條件來驗證地址的語法。請定義一個網域，而不要個別為每個資料表設定限制條件。
 
-To be able to create a domain, you must have `USAGE`
-privilege on the underlying type.
+若要能夠建立網域，你必須擁有底層型別的 `USAGE` 權限。
 
 <a id="id-1.9.3.62.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (optionally schema-qualified) of a domain to be created.
+:   要建立的網域名稱（可選擇以綱要限定）。
 
 *`data_type`*
-:   The underlying data type of the domain. This can include array
-    specifiers.
+:   網域的底層資料型別。這可以包含陣列指定符。
 
 *`collation`*
-:   An optional collation for the domain. If no collation is
-    specified, the domain has the same collation behavior as its
-    underlying data type.
-    The underlying type must be collatable if `COLLATE`
-    is specified.
+:   網域的選用定序。若未指定定序，網域會具有與其底層資料型別相同的定序行為。若指定了 `COLLATE`，底層型別必須是可定序的。
 
 `DEFAULT expression`
-:   The `DEFAULT` clause specifies a default value for
-    columns of the domain data type. The value is any
-    variable-free expression (but subqueries are not allowed).
-    The data type of the default expression must match the data
-    type of the domain. If no default value is specified, then
-    the default value is the null value.
+:   `DEFAULT` 子句為網域資料型別的欄位指定預設值。其值為任何不含變數的運算式（但不允許子查詢）。預設運算式的資料型別必須與網域的資料型別相符。若未指定預設值，則預設值為 null 值。
 
-    The default expression will be used in any insert operation
-    that does not specify a value for the column. If a default
-    value is defined for a particular column, it overrides any
-    default associated with the domain. In turn, the domain
-    default overrides any default value associated with the
-    underlying data type.
+    預設運算式會用於任何未為該欄位指定值的插入操作。若為特定欄位定義了預設值，它會覆寫與網域相關聯的任何預設值。而網域的預設值又會覆寫與底層資料型別相關聯的任何預設值。
 
 `CONSTRAINT constraint_name`
-:   An optional name for a constraint. If not specified,
-    the system generates a name.
+:   限制條件的選用名稱。若未指定，系統會產生一個名稱。
 
 `NOT NULL`
-:   Values of this domain are prevented from being null
-    (but see notes below).
+:   禁止此網域的值為 null（但請參閱下方的注意事項）。
 
 `NULL`
-:   Values of this domain are allowed to be null. This is the default.
+:   允許此網域的值為 null。這是預設行為。
 
-    This clause is only intended for compatibility with
-    nonstandard SQL databases. Its use is discouraged in new
-    applications.
+    此子句僅用於與非標準 SQL 資料庫相容。不建議在新的應用程式中使用。
 
 `CHECK (expression)`
-:   `CHECK` clauses specify integrity constraints or tests
-    which values of the domain must satisfy.
-    Each constraint must be an expression
-    producing a Boolean result. It should use the key word `VALUE`
-    to refer to the value being tested. Expressions evaluating
-    to TRUE or UNKNOWN succeed. If the expression produces a FALSE result,
-    an error is reported and the value is not allowed to be converted
-    to the domain type.
+:   `CHECK` 子句指定網域的值必須滿足的完整性限制條件或測試。每個限制條件都必須是產生布林結果的運算式。它應該使用關鍵字 `VALUE` 來參照受測試的值。求值為 TRUE 或 UNKNOWN 的運算式即為通過。若運算式產生 FALSE 結果，就會回報錯誤，且不允許將該值轉換為網域型別。
 
-    Currently, `CHECK` expressions cannot contain
-    subqueries nor refer to variables other than `VALUE`.
+    目前，`CHECK` 運算式既不能包含子查詢，也不能參照 `VALUE` 以外的變數。
 
-    When a domain has multiple `CHECK` constraints,
-    they will be tested in alphabetical order by name.
-    (PostgreSQL versions before 9.5 did not honor any
-    particular firing order for `CHECK` constraints.)
+    當網域有多個 `CHECK` 限制條件時，它們會依名稱的字母順序進行測試。（9.5 之前的 PostgreSQL 版本並未遵循 `CHECK` 限制條件的任何特定觸發順序。）
 
 <a id="SQL-CREATEDOMAIN-NOTES"></a>
 
-## Notes
+## 注意事項
 
-Domain constraints, particularly `NOT NULL`, are checked when
-converting a value to the domain type. It is possible for a column that
-is nominally of the domain type to read as null despite there being such
-a constraint. For example, this can happen in an outer-join query, if
-the domain column is on the nullable side of the outer join. A more
-subtle example is
+網域限制條件，特別是 `NOT NULL`，會在將值轉換為網域型別時進行檢查。名義上屬於網域型別的欄位，即使有這類限制條件，仍有可能讀出 null。例如，在外部連接查詢中，若網域欄位位於外部連接中可為 null 的一側，就可能發生這種情況。一個更微妙的例子是
 
 ```
 
 INSERT INTO tab (domcol) VALUES ((SELECT domcol FROM tab WHERE false));
 ```
 
-The empty scalar sub-SELECT will produce a null value that is considered
-to be of the domain type, so no further constraint checking is applied
-to it, and the insertion will succeed.
+空的純量子 SELECT 會產生一個被視為屬於該網域型別的 null 值，因此不會再對它套用任何限制條件檢查，插入也會成功。
 
-It is very difficult to avoid such problems, because of SQL's general
-assumption that a null value is a valid value of every data type. Best practice
-therefore is to design a domain's constraints so that a null value is allowed,
-and then to apply column `NOT NULL` constraints to columns of
-the domain type as needed, rather than directly to the domain type.
+這類問題非常難以避免，因為 SQL 普遍假定 null 值是每一種資料型別的有效值。因此，最佳做法是將網域的限制條件設計為允許 null 值，然後視需要對網域型別的欄位套用欄位的 `NOT NULL` 限制條件，而不是直接套用到網域型別上。
 
-PostgreSQL assumes that
-`CHECK` constraints' conditions are immutable, that is,
-they will always give the same result for the same input value. This
-assumption is what justifies examining `CHECK`
-constraints only when a value is first converted to be of a domain type,
-and not at other times. (This is essentially the same as the treatment
-of table `CHECK` constraints, as described in
-[Section 5.5.1](../../the-sql-language/ddl/ddl-constraints.md#DDL-CONSTRAINTS-CHECK-CONSTRAINTS).)
+PostgreSQL 假定 `CHECK` 限制條件的條件是不可變的（immutable），也就是說，對於相同的輸入值，它們一律會產生相同的結果。正是這個假定，使得只在值第一次被轉換為網域型別時檢查 `CHECK` 限制條件、而不在其他時候檢查，成為合理的做法。（這在本質上與資料表 `CHECK` 限制條件的處理方式相同，如[第 5.5.1 節](../../the-sql-language/ddl/ddl-constraints.md#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)所述。）
 
-An example of a common way to break this assumption is to reference a
-user-defined function in a `CHECK` expression, and then
-change the behavior of that
-function. PostgreSQL does not disallow that,
-but it will not notice if there are stored values of the domain type that
-now violate the `CHECK` constraint. That would cause a
-subsequent database dump and restore to fail. The recommended way to
-handle such a change is to drop the constraint (using `ALTER
-DOMAIN`), adjust the function definition, and re-add the
-constraint, thereby rechecking it against stored data.
+打破這項假定的一種常見方式，是在 `CHECK` 運算式中參照使用者定義的函式，然後變更該函式的行為。PostgreSQL 並不禁止這麼做，但它不會察覺是否有已儲存的網域型別值現在違反了該 `CHECK` 限制條件。這會導致之後的資料庫傾印與還原失敗。處理這類變更的建議做法是：先移除限制條件（使用 `ALTER
+DOMAIN`），調整函式定義，再重新加入限制條件，藉此針對已儲存的資料重新檢查它。
 
-It's also good practice to ensure that domain `CHECK`
-expressions will not throw errors.
+確保網域的 `CHECK` 運算式不會擲出錯誤，也是良好的做法。
 
 <a id="id-1.9.3.62.8"></a>
 
-## Examples
+## 範例
 
-This example creates the `us_postal_code` data type and
-then uses the type in a table definition. A regular expression test
-is used to verify that the value looks like a valid US postal code:
+此範例建立 `us_postal_code` 資料型別，然後在資料表定義中使用該型別。這裡使用正規表示式測試來驗證值看起來是否為有效的美國郵遞區號：
 
 ```
 
@@ -187,26 +118,19 @@ CREATE TABLE us_snail_addy (
 
 <a id="SQL-CREATEDOMAIN-COMPATIBILITY"></a>
 
-## Compatibility
+## 相容性
 
-The command `CREATE DOMAIN` conforms to the SQL
-standard.
+`CREATE DOMAIN` 命令符合 SQL 標準。
 
-The syntax `NOT NULL` in this command is a
-PostgreSQL extension. (A standard-conforming
-way to write the same for non-composite data types would be
-`CHECK (VALUE IS NOT
-NULL)`. However, per [the section called “Notes”](sql-createdomain.md#SQL-CREATEDOMAIN-NOTES),
-such constraints are best avoided in practice anyway.) The
-`NULL` “constraint” is a
-PostgreSQL extension (see also [Compatibility](sql-createtable.md#SQL-CREATETABLE-COMPATIBILITY)).
+此命令中的 `NOT NULL` 語法是 PostgreSQL 的擴充語法。（對於非複合資料型別，符合標準的同等寫法是 `CHECK (VALUE IS NOT
+NULL)`。不過，依據[「注意事項」一節](sql-createdomain.md#SQL-CREATEDOMAIN-NOTES)，實務上無論如何最好避免使用這類限制條件。）`NULL`「限制條件」是 PostgreSQL 的擴充語法（另請參閱[相容性](sql-createtable.md#SQL-CREATETABLE-COMPATIBILITY)）。
 
 <a id="SQL-CREATEDOMAIN-SEE-ALSO"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER DOMAIN](sql-alterdomain.md), [DROP DOMAIN](sql-dropdomain.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createdomain.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createdomain.html)（原文版本：18.6；核對日期：2026-10-04）
