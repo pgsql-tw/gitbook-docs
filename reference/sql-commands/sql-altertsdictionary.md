@@ -1,10 +1,12 @@
-<a id="id-1.9.3.38.1"></a>
+<a id="SQL-ALTERTSDICTIONARY"></a><a id="id-1.9.3.38.1"></a>
 
 ## ALTER TEXT SEARCH DICTIONARY
 
-ALTER TEXT SEARCH DICTIONARY — change the definition of a text search dictionary
+ALTER TEXT SEARCH DICTIONARY — 變更文字搜尋字典的定義
 
-## Synopsis
+<a id="id-1.9.3.38.4"></a>
+
+## 語法
 
 ```
 
@@ -18,90 +20,76 @@ ALTER TEXT SEARCH DICTIONARY name SET SCHEMA new_schema
 
 <a id="id-1.9.3.38.5"></a>
 
-## Description
+## 說明
 
-`ALTER TEXT SEARCH DICTIONARY` changes the definition of
-a text search dictionary. You can change the dictionary's
-template-specific options, or change the dictionary's name or owner.
+`ALTER TEXT SEARCH DICTIONARY` 會變更文字搜尋字典的定義。你可以變更字典的範本專屬選項，或變更字典的名稱或擁有者。
 
-You must be the owner of the dictionary to use
-`ALTER TEXT SEARCH DICTIONARY`.
+你必須是字典的擁有者才能使用 `ALTER TEXT SEARCH DICTIONARY`。
 
 <a id="id-1.9.3.38.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (optionally schema-qualified) of an existing text search
-    dictionary.
+:   現有文字搜尋字典的名稱（可選擇以綱要限定）。
 
 *`option`*
-:   The name of a template-specific option to be set for this dictionary.
+:   要為此字典設定的範本專屬選項名稱。
 
 *`value`*
-:   The new value to use for a template-specific option.
-    If the equal sign and value are omitted, then any previous
-    setting for the option is removed from the dictionary,
-    allowing the default to be used.
+:   範本專屬選項要使用的新值。
+    若省略等號與值，則會從字典中移除該選項先前的任何設定，使其改用預設值。
 
 *`new_name`*
-:   The new name of the text search dictionary.
+:   文字搜尋字典的新名稱。
 
 *`new_owner`*
-:   The new owner of the text search dictionary.
+:   文字搜尋字典的新擁有者。
 
 *`new_schema`*
-:   The new schema for the text search dictionary.
+:   文字搜尋字典的新綱要。
 
-Template-specific options can appear in any order.
+範本專屬選項可以任意順序出現。
 
 <a id="id-1.9.3.38.7"></a>
 
-## Examples
+## 範例
 
-The following example command changes the stopword list
-for a Snowball-based dictionary. Other parameters remain unchanged.
+下列範例命令會變更基於 Snowball 之字典的停用詞清單。其他參數維持不變。
 
 ```
 
 ALTER TEXT SEARCH DICTIONARY my_dict ( StopWords = newrussian );
 ```
 
-The following example command changes the language option to `dutch`,
-and removes the stopword option entirely.
+下列範例命令會將 language 選項改為 `dutch`，並完全移除停用詞選項。
 
 ```
 
 ALTER TEXT SEARCH DICTIONARY my_dict ( language = dutch, StopWords );
 ```
 
-The following example command “updates” the dictionary's
-definition without actually changing anything.
+下列範例命令會「更新」字典的定義，但實際上不會變更任何東西。
 
 ```
 
 ALTER TEXT SEARCH DICTIONARY my_dict ( dummy );
 ```
 
-(The reason this works is that the option removal code doesn't complain
-if there is no such option.) This trick is useful when changing
-configuration files for the dictionary: the `ALTER` will
-force existing database sessions to re-read the configuration files,
-which otherwise they would never do if they had read them earlier.
+（此方式之所以可行，是因為選項移除程式碼在該選項不存在時不會報錯。）這個技巧在變更字典的設定檔時很有用：`ALTER` 會強制現有的資料庫工作階段重新讀取設定檔；否則，先前已讀取過這些檔案的工作階段永遠不會再重新讀取它們。
 
 <a id="id-1.9.3.38.8"></a>
 
-## Compatibility
+## 相容性
 
-There is no `ALTER TEXT SEARCH DICTIONARY` statement in
-the SQL standard.
+SQL 標準中沒有 `ALTER TEXT SEARCH DICTIONARY` 陳述式。
 
 <a id="id-1.9.3.38.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE TEXT SEARCH DICTIONARY](sql-createtsdictionary.md), [DROP TEXT SEARCH DICTIONARY](sql-droptsdictionary.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertsdictionary.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertsdictionary.html)（原文版本：18.6；核對日期：2026-10-04）
