@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：472 頁。
+待譯頁面：471 頁。
 
 ## 根目錄
 
@@ -581,7 +581,7 @@
 - [ ] `reference/sql-commands/sql-createconversion.md` — CREATE CONVERSION
 - [ ] `reference/sql-commands/sql-createdatabase.md` — CREATE DATABASE
 - [ ] `reference/sql-commands/sql-createdomain.md` — CREATE DOMAIN
-- [ ] `reference/sql-commands/sql-createeventtrigger.md` — CREATE EVENT TRIGGER
+- [x] `reference/sql-commands/sql-createeventtrigger.md` — CREATE EVENT TRIGGER
 - [ ] `reference/sql-commands/sql-createextension.md` — CREATE EXTENSION
 - [ ] `reference/sql-commands/sql-createforeigndatawrapper.md` — CREATE FOREIGN DATA WRAPPER
 - [ ] `reference/sql-commands/sql-createforeigntable.md` — CREATE FOREIGN TABLE
