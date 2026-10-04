@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：435 頁。
+待譯頁面：434 頁。
 
 ## 根目錄
 
@@ -578,7 +578,7 @@
 - [x] `reference/sql-commands/sql-createaggregate.md` — CREATE AGGREGATE
 - [x] `reference/sql-commands/sql-createcast.md` — CREATE CAST
 - [x] `reference/sql-commands/sql-createcollation.md` — CREATE COLLATION
-- [ ] `reference/sql-commands/sql-createconversion.md` — CREATE CONVERSION
+- [x] `reference/sql-commands/sql-createconversion.md` — CREATE CONVERSION
 - [x] `reference/sql-commands/sql-createdatabase.md` — CREATE DATABASE
 - [x] `reference/sql-commands/sql-createdomain.md` — CREATE DOMAIN
 - [x] `reference/sql-commands/sql-createeventtrigger.md` — CREATE EVENT TRIGGER
