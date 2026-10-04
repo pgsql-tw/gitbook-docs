@@ -1,10 +1,12 @@
-<a id="id-1.9.3.61.1"></a>
+<a id="SQL-CREATEDATABASE"></a><a id="id-1.9.3.61.1"></a>
 
 ## CREATE DATABASE
 
-CREATE DATABASE — create a new database
+CREATE DATABASE — 建立新的資料庫
 
-## Synopsis
+<a id="id-1.9.3.61.4"></a>
+
+## 語法
 
 ```
 
@@ -30,296 +32,158 @@ CREATE DATABASE name
 
 <a id="id-1.9.3.61.5"></a>
 
-## Description
+## 說明
 
-`CREATE DATABASE` creates a new
-PostgreSQL database.
+`CREATE DATABASE` 會建立一個新的 PostgreSQL 資料庫。
 
-To create a database, you must be a superuser or have the special
-`CREATEDB` privilege.
-See [CREATE ROLE](sql-createrole.md).
+若要建立資料庫，你必須是超級使用者，或具有特殊的 `CREATEDB` 權限。請參閱 [CREATE ROLE](sql-createrole.md)。
 
-By default, the new database will be created by cloning the standard
-system database `template1`. A different template can be
-specified by writing `TEMPLATE
-name`. In particular,
-by writing `TEMPLATE template0`, you can create a pristine
-database (one where no user-defined objects exist and where the system
-objects have not been altered)
-containing only the standard objects predefined by your
-version of PostgreSQL. This is useful
-if you wish to avoid copying
-any installation-local objects that might have been added to
-`template1`.
+預設情況下，新資料庫會透過複製標準系統資料庫 `template1` 來建立。可以藉由寫出 `TEMPLATE
+name` 來指定不同的範本。特別是，寫出 `TEMPLATE template0` 可以建立一個全新的資料庫（其中不存在任何使用者自訂物件，且系統物件未經更動），只包含你所使用的 PostgreSQL 版本預先定義的標準物件。若你希望避免複製任何可能已加入 `template1` 的安裝本地物件，這會很有用。
 
 <a id="id-1.9.3.61.6"></a>
 
-## Parameters
+## 參數
 
 <a id="CREATE-DATABASE-NAME"></a>
 
 *`name`* [#](#CREATE-DATABASE-NAME)
-:   The name of a database to create.
+:   要建立的資料庫名稱。
 <a id="CREATE-DATABASE-USER-NAME"></a>
 
 *`user_name`* [#](#CREATE-DATABASE-USER-NAME)
-:   The role name of the user who will own the new database,
-    or `DEFAULT` to use the default (namely, the
-    user executing the command). To create a database owned by another
-    role, you must be able to `SET ROLE` to that
-    role.
+:   將擁有新資料庫之使用者的角色名稱，或使用 `DEFAULT` 表示採用預設值（也就是執行該命令的使用者）。若要建立由另一個角色擁有的資料庫，你必須能夠 `SET ROLE` 為該角色。
 <a id="CREATE-DATABASE-TEMPLATE"></a>
 
 *`template`* [#](#CREATE-DATABASE-TEMPLATE)
-:   The name of the template from which to create the new database,
-    or `DEFAULT` to use the default template
-    (`template1`).
+:   用來建立新資料庫的範本名稱，或使用 `DEFAULT` 表示採用預設範本（`template1`）。
 <a id="CREATE-DATABASE-ENCODING"></a>
 
 *`encoding`* [#](#CREATE-DATABASE-ENCODING)
-:   Character set encoding to use in the new database. Specify
-    a string constant (e.g., `'SQL_ASCII'`),
-    or an integer encoding number, or `DEFAULT`
-    to use the default encoding (namely, the encoding of the
-    template database). The character sets supported by the
-    PostgreSQL server are described in
-    [Section 23.3.1](../../server-administration/charset/multibyte.md#MULTIBYTE-CHARSET-SUPPORTED). See below for
-    additional restrictions.
+:   新資料庫所使用的字元集編碼。可指定字串常數（例如 `'SQL_ASCII'`）、整數編碼編號，或使用 `DEFAULT` 表示採用預設編碼（也就是範本資料庫的編碼）。PostgreSQL 伺服器支援的字元集說明請參閱[第 23.3.1 節](../../server-administration/charset/multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)。其他限制請見下文。
 <a id="CREATE-DATABASE-STRATEGY"></a>
 
 *`strategy`* [#](#CREATE-DATABASE-STRATEGY)
-:   Strategy to be used in creating the new database. If
-    the `WAL_LOG` strategy is used, the database will be
-    copied block by block and each block will be separately written
-    to the write-ahead log. This is the most efficient strategy in
-    cases where the template database is small, and therefore it is the
-    default. The older `FILE_COPY` strategy is also
-    available. This strategy writes a small record to the write-ahead log
-    for each tablespace used by the target database. Each such record
-    represents copying an entire directory to a new location at the
-    filesystem level. While this does reduce the write-ahead
-    log volume substantially, especially if the template database is large,
-    it also forces the system to perform a checkpoint both before and
-    after the creation of the new database. In some situations, this may
-    have a noticeable negative impact on overall system performance. The
-    `FILE_COPY` strategy is affected by the [file_copy_method](../../server-administration/runtime-config/runtime-config-resource.md#GUC-FILE-COPY-METHOD) setting.
+:   建立新資料庫時所使用的策略。若使用 `WAL_LOG` 策略，資料庫會逐區塊複製，且每個區塊都會分別寫入預寫式日誌。在範本資料庫較小的情況下，這是最有效率的策略，因此它是預設值。也可以使用較舊的 `FILE_COPY` 策略。此策略會針對目標資料庫所使用的每個資料表空間，在預寫式日誌中寫入一筆小型紀錄。每一筆這樣的紀錄，代表在檔案系統層級將整個目錄複製到新位置。雖然這確實能大幅減少預寫式日誌的量（尤其是在範本資料庫很大時），但它也會強制系統在建立新資料庫之前與之後各執行一次檢查點。在某些情況下，這可能會對整體系統效能造成明顯的負面影響。`FILE_COPY` 策略會受到 [file_copy_method](../../server-administration/runtime-config/runtime-config-resource.md#GUC-FILE-COPY-METHOD) 設定的影響。
 <a id="CREATE-DATABASE-LOCALE"></a>
 
 *`locale`* [#](#CREATE-DATABASE-LOCALE)
-:   Sets the default collation order and character classification in the
-    new database. Collation affects the sort order applied to strings,
-    e.g., in queries with `ORDER BY`, as well as the order used in indexes
-    on text columns. Character classification affects the categorization
-    of characters, e.g., lower, upper, and digit. Also sets the
-    associated aspects of the operating system environment,
-    `LC_COLLATE` and `LC_CTYPE`. The
-    default is the same setting as the template database. See [Section 23.2.2.3.1](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-LIBC) and [Section 23.2.2.3.2](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-ICU) for details.
+:   設定新資料庫中的預設定序順序與字元分類。定序會影響套用於字串的排序順序，例如在帶有 `ORDER BY` 的查詢中，以及文字欄位上的索引所使用的順序。字元分類會影響字元的歸類，例如小寫、大寫與數字。此外也會設定作業系統環境中的相關面向，即 `LC_COLLATE` 與 `LC_CTYPE`。預設值與範本資料庫的設定相同。詳情請參閱[第 23.2.2.3.1 節](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-LIBC)與[第 23.2.2.3.2 節](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-ICU)。
 
-    Can be overridden by setting [*`lc_collate`*](sql-createdatabase.md#CREATE-DATABASE-LC-COLLATE), [*`lc_ctype`*](sql-createdatabase.md#CREATE-DATABASE-LC-CTYPE), [*`builtin_locale`*](sql-createdatabase.md#CREATE-DATABASE-BUILTIN-LOCALE), or [*`icu_locale`*](sql-createdatabase.md#CREATE-DATABASE-ICU-LOCALE) individually.
+    可以藉由個別設定 [*`lc_collate`*](sql-createdatabase.md#CREATE-DATABASE-LC-COLLATE)、[*`lc_ctype`*](sql-createdatabase.md#CREATE-DATABASE-LC-CTYPE)、[*`builtin_locale`*](sql-createdatabase.md#CREATE-DATABASE-BUILTIN-LOCALE) 或 [*`icu_locale`*](sql-createdatabase.md#CREATE-DATABASE-ICU-LOCALE) 來覆寫。
 
-    If [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) is
-    `builtin`, then *`locale`* or
-    *`builtin_locale`* must be specified and set to
-    either `C`, `C.UTF-8`, or
-    `PG_UNICODE_FAST`.
+    若 [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) 為 `builtin`，則必須指定 *`locale`* 或 *`builtin_locale`*，並將其設為 `C`、`C.UTF-8` 或 `PG_UNICODE_FAST` 其中之一。
 
-    ### Tip
+    <a id="id-1.9.3.61.6.2.6.2.4"></a>
 
-    The other locale settings [lc_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MESSAGES), [lc_monetary](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MONETARY), [lc_numeric](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-NUMERIC), and
-    [lc_time](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-TIME) are not fixed per database and are not
-    set by this command. If you want to make them the default for a
-    specific database, you can use `ALTER DATABASE
-    ... SET`.
+    ### 提示
+
+    其他的區域設定 [lc_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MESSAGES)、[lc_monetary](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MONETARY)、[lc_numeric](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-NUMERIC) 與 [lc_time](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-TIME) 並非每個資料庫固定，也不會由此命令設定。若你想讓它們成為特定資料庫的預設值，可以使用 `ALTER DATABASE
+    ... SET`。
 <a id="CREATE-DATABASE-LC-COLLATE"></a>
 
 *`lc_collate`* [#](#CREATE-DATABASE-LC-COLLATE)
-:   Sets `LC_COLLATE` in the database server's operating
-    system environment. The default is the setting of [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) if specified, otherwise the same
-    setting as the template database. See below for additional
-    restrictions.
+:   設定資料庫伺服器作業系統環境中的 `LC_COLLATE`。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。其他限制請見下文。
 
-    If [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) is
-    `libc`, also sets the default collation order to use
-    in the new database, overriding the setting [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE).
+    若 [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) 為 `libc`，此參數也會設定新資料庫中使用的預設定序順序，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。
 <a id="CREATE-DATABASE-LC-CTYPE"></a>
 
 *`lc_ctype`* [#](#CREATE-DATABASE-LC-CTYPE)
-:   Sets `LC_CTYPE` in the database server's operating
-    system environment. The default is the setting of [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) if specified, otherwise the same
-    setting as the template database. See below for additional
-    restrictions.
+:   設定資料庫伺服器作業系統環境中的 `LC_CTYPE`。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。其他限制請見下文。
 
-    If [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) is
-    `libc`, also sets the default character
-    classification to use in the new database, overriding the setting
-    [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE).
+    若 [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) 為 `libc`，此參數也會設定新資料庫中使用的預設字元分類，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。
 <a id="CREATE-DATABASE-BUILTIN-LOCALE"></a>
 
 *`builtin_locale`* [#](#CREATE-DATABASE-BUILTIN-LOCALE)
-:   Specifies the builtin provider locale for the database default
-    collation order and character classification, overriding the setting
-    [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE). The [locale provider](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) must
-    be `builtin`. The default is the setting of [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) if specified; otherwise the same
-    setting as the template database.
+:   指定內建（builtin）提供者的區域設定，用於資料庫的預設定序順序與字元分類，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。[區域設定提供者](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER)必須是 `builtin`。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。
 
-    The locales available for the `builtin` provider are
-    `C`, `C.UTF-8` and
-    `PG_UNICODE_FAST`.
+    `builtin` 提供者可用的區域設定為 `C`、`C.UTF-8` 與 `PG_UNICODE_FAST`。
 <a id="CREATE-DATABASE-ICU-LOCALE"></a>
 
 *`icu_locale`* [#](#CREATE-DATABASE-ICU-LOCALE)
-:   Specifies the ICU locale (see [Section 23.2.2.3.2](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-ICU)) for the database default
-    collation order and character classification, overriding the setting
-    [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE). The [locale provider](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) must be ICU. The default
-    is the setting of [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) if
-    specified; otherwise the same setting as the template database.
+:   指定 ICU 區域設定（請參閱[第 23.2.2.3.2 節](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-ICU)），用於資料庫的預設定序順序與字元分類，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。[區域設定提供者](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER)必須是 ICU。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。
 <a id="CREATE-DATABASE-ICU-RULES"></a>
 
 *`icu_rules`* [#](#CREATE-DATABASE-ICU-RULES)
-:   Specifies additional collation rules to customize the behavior of the
-    default collation of this database. This is supported for ICU only.
-    See [Section 23.2.3.4](../../server-administration/charset/collation.md#ICU-TAILORING-RULES) for details.
+:   指定額外的定序規則，用來自訂此資料庫預設定序的行為。此功能僅支援 ICU。詳情請參閱[第 23.2.3.4 節](../../server-administration/charset/collation.md#ICU-TAILORING-RULES)。
 <a id="CREATE-DATABASE-LOCALE-PROVIDER"></a>
 
 *`locale_provider`* [#](#CREATE-DATABASE-LOCALE-PROVIDER)
-:   Specifies the provider to use for the default collation in this
-    database. Possible values are `builtin`,
-    `icu`<a id="id-1.9.3.61.6.2.12.2.1.3"></a>
-    (if the server was built with ICU support) or `libc`.
-    By default, the provider is the same as that of the [*`template`*](sql-createdatabase.md#CREATE-DATABASE-TEMPLATE). See [Section 23.1.4](../../server-administration/charset/locale.md#LOCALE-PROVIDERS) for details.
+:   指定此資料庫中預設定序所使用的提供者。可能的值為 `builtin`、`icu`<a id="id-1.9.3.61.6.2.12.2.1.3"></a>（若伺服器建置時加入了 ICU 支援）或 `libc`。預設情況下，提供者與 [*`template`*](sql-createdatabase.md#CREATE-DATABASE-TEMPLATE) 的提供者相同。詳情請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#LOCALE-PROVIDERS)。
 <a id="CREATE-DATABASE-COLLATION-VERSION"></a>
 
 *`collation_version`* [#](#CREATE-DATABASE-COLLATION-VERSION)
-:   Specifies the collation version string to store with the database.
-    Normally, this should be omitted, which will cause the version to be
-    computed from the actual version of the database collation as provided
-    by the operating system. This option is intended to be used by
-    `pg_upgrade` for copying the version from an existing
-    installation.
+:   指定要與資料庫一起儲存的定序版本字串。通常應該省略此參數，這會使版本由作業系統所提供之資料庫定序的實際版本計算而得。此選項的用途是讓 `pg_upgrade` 從現有安裝中複製版本。
 
-    See also [ALTER DATABASE](sql-alterdatabase.md) for how to handle
-    database collation version mismatches.
+    關於如何處理資料庫定序版本不符的問題，另請參閱 [ALTER DATABASE](sql-alterdatabase.md)。
 <a id="CREATE-DATABASE-TABLESPACE-NAME"></a>
 
 *`tablespace_name`* [#](#CREATE-DATABASE-TABLESPACE-NAME)
-:   The name of the tablespace that will be associated with the
-    new database, or `DEFAULT` to use the
-    template database's tablespace. This
-    tablespace will be the default tablespace used for objects
-    created in this database. See
-    [CREATE TABLESPACE](sql-createtablespace.md)
-    for more information.
+:   將與新資料庫關聯之資料表空間的名稱，或使用 `DEFAULT` 表示採用範本資料庫的資料表空間。此資料表空間將成為在此資料庫中所建立之物件的預設資料表空間。更多資訊請參閱 [CREATE TABLESPACE](sql-createtablespace.md)。
 <a id="CREATE-DATABASE-ALLOWCONN"></a>
 
 *`allowconn`* [#](#CREATE-DATABASE-ALLOWCONN)
-:   If false then no one can connect to this database. The default is
-    true, allowing connections (except as restricted by other mechanisms,
-    such as `GRANT`/`REVOKE CONNECT`).
+:   若為 false，則任何人都無法連線到此資料庫。預設值為 true，允許連線（但仍受其他機制限制，例如 `GRANT`/`REVOKE CONNECT`）。
 <a id="CREATE-DATABASE-CONNLIMIT"></a>
 
 *`connlimit`* [#](#CREATE-DATABASE-CONNLIMIT)
-:   How many concurrent connections can be made
-    to this database. -1 (the default) means no limit.
+:   可以對此資料庫建立多少個並行連線。-1（預設值）表示沒有限制。
 <a id="CREATE-DATABASE-ISTEMPLATE"></a>
 
 *`istemplate`* [#](#CREATE-DATABASE-ISTEMPLATE)
-:   If true, then this database can be cloned by any user with `CREATEDB`
-    privileges; if false (the default), then only superusers or the owner
-    of the database can clone it.
+:   若為 true，則任何具有 `CREATEDB` 權限的使用者都可以複製此資料庫；若為 false（預設值），則只有超級使用者或該資料庫的擁有者可以複製它。
 <a id="CREATE-DATABASE-OID"></a>
 
 *`oid`* [#](#CREATE-DATABASE-OID)
-:   The object identifier to be used for the new database. If this
-    parameter is not specified, PostgreSQL
-    will choose a suitable OID automatically. This parameter is primarily
-    intended for internal use by pg_upgrade,
-    and only pg_upgrade can specify a value
-    less than 16384.
+:   新資料庫要使用的物件識別碼。若未指定此參數，PostgreSQL 會自動選擇一個合適的 OID。此參數主要供 pg_upgrade 內部使用，而且只有 pg_upgrade 可以指定小於 16384 的值。
 
-Optional parameters can be written in any order, not only the order
-illustrated above.
+選用參數可以依任何順序撰寫，不限於上述所示的順序。
 
 <a id="id-1.9.3.61.7"></a>
 
-## Notes
+## 注意事項
 
-`CREATE DATABASE` cannot be executed inside a transaction
-block.
+`CREATE DATABASE` 不能在交易區塊內執行。
 
-Errors along the line of “could not initialize database directory”
-are most likely related to insufficient permissions on the data
-directory, a full disk, or other file system problems.
+類似「could not initialize database directory」的錯誤，最可能與資料目錄的權限不足、磁碟已滿或其他檔案系統問題有關。
 
-Use [`DROP DATABASE`](sql-dropdatabase.md) to remove a database.
+使用 [`DROP DATABASE`](sql-dropdatabase.md) 來移除資料庫。
 
-The program [createdb](../reference-client/app-createdb.md) is a
-wrapper program around this command, provided for convenience.
+程式 [createdb](../reference-client/app-createdb.md) 是包裝此命令的程式，為了方便而提供。
 
-Database-level configuration parameters (set via [`ALTER DATABASE`](sql-alterdatabase.md)) and database-level permissions (set via
-[`GRANT`](sql-grant.md)) are not copied from the template database.
+資料庫層級的設定參數（透過 [`ALTER DATABASE`](sql-alterdatabase.md) 設定）與資料庫層級的權限（透過 [`GRANT`](sql-grant.md) 設定）不會從範本資料庫複製過來。
 
-Although it is possible to copy a database other than `template1`
-by specifying its name as the template, this is not (yet) intended as
-a general-purpose “`COPY DATABASE`” facility.
-The principal limitation is that no other sessions can be connected to
-the template database while it is being copied. `CREATE
-DATABASE` will fail if any other connection exists when it starts;
-otherwise, new connections to the template database are locked out
-until `CREATE DATABASE` completes.
-See [Section 22.3](../../server-administration/managing-databases/manage-ag-templatedbs.md) for more information.
+雖然可以藉由將 `template1` 以外的資料庫名稱指定為範本來複製該資料庫，但這（尚）不打算作為通用的「`COPY DATABASE`」功能。主要的限制是，在複製範本資料庫期間，不能有其他工作階段連線到該範本資料庫。若 `CREATE
+DATABASE` 開始時存在任何其他連線，它就會失敗；否則，在 `CREATE DATABASE` 完成之前，對範本資料庫的新連線都會被擋在外面。更多資訊請參閱[第 22.3 節](../../server-administration/managing-databases/manage-ag-templatedbs.md)。
 
-The character set encoding specified for the new database must be
-compatible with the chosen locale settings (`LC_COLLATE` and
-`LC_CTYPE`). If the locale is `C` (or equivalently
-`POSIX`), then all encodings are allowed, but for other
-locale settings there is only one encoding that will work properly.
-(On Windows, however, UTF-8 encoding can be used with any locale.)
-`CREATE DATABASE` will allow superusers to specify
-`SQL_ASCII` encoding regardless of the locale settings,
-but this choice is deprecated and may result in misbehavior of
-character-string functions if data that is not encoding-compatible
-with the locale is stored in the database.
+為新資料庫指定的字元集編碼，必須與所選的區域設定（`LC_COLLATE` 與 `LC_CTYPE`）相容。若區域設定為 `C`（或等同的 `POSIX`），則允許所有編碼；但對於其他區域設定，只有一種編碼可以正常運作。（不過在 Windows 上，UTF-8 編碼可以與任何區域設定搭配使用。）`CREATE DATABASE` 允許超級使用者不論區域設定為何都指定 `SQL_ASCII` 編碼，但這個選擇已不建議使用，而且若資料庫中儲存了與區域設定編碼不相容的資料，可能會導致字串函式行為異常。
 
-The encoding and locale settings must match those of the template database,
-except when `template0` is used as template. This is because
-other databases might contain data that does not match the specified
-encoding, or might contain indexes whose sort ordering is affected by
-`LC_COLLATE` and `LC_CTYPE`. Copying such data would
-result in a database that is corrupt according to the new settings.
-`template0`, however, is known to not contain any data or
-indexes that would be affected.
+編碼與區域設定必須與範本資料庫的設定相符，除非使用 `template0` 作為範本。這是因為其他資料庫可能包含與指定編碼不符的資料，或可能包含排序順序受 `LC_COLLATE` 與 `LC_CTYPE` 影響的索引。複製這類資料會產生一個依新設定而言已損毀的資料庫。不過，已知 `template0` 不包含任何會受到影響的資料或索引。
 
-There is currently no option to use a database locale with nondeterministic
-comparisons (see [`CREATE
-COLLATION`](sql-createcollation.md) for an explanation). If this is needed, then
-per-column collations would need to be used.
+目前沒有選項可以使用具有非確定性比較的資料庫區域設定（說明請參閱 [`CREATE
+COLLATION`](sql-createcollation.md)）。若有此需要，就必須使用個別欄位的定序。
 
-The `CONNECTION LIMIT` option is only enforced approximately;
-if two new sessions start at about the same time when just one
-connection “slot” remains for the database, it is possible that
-both will fail. Also, the limit is not enforced against superusers or
-background worker processes.
+`CONNECTION LIMIT` 選項只會大約地強制執行；若資料庫只剩下一個連線「槽位」時，有兩個新工作階段大約同時啟動，則兩者都有可能失敗。此外，此限制不會對超級使用者或背景工作程序強制執行。
 
 <a id="id-1.9.3.61.8"></a>
 
-## Examples
+## 範例
 
-To create a new database:
+建立新的資料庫：
 
 ```
 
 CREATE DATABASE lusiadas;
 ```
 
-To create a database `sales` owned by user `salesapp`
-with a default tablespace of `salesspace`:
+建立由使用者 `salesapp` 擁有、預設資料表空間為 `salesspace` 的資料庫 `sales`：
 
 ```
 
 CREATE DATABASE sales OWNER salesapp TABLESPACE salesspace;
 ```
 
-To create a database `music` with a different locale:
+建立使用不同區域設定的資料庫 `music`：
 
 ```
 
@@ -328,12 +192,9 @@ CREATE DATABASE music
     TEMPLATE template0;
 ```
 
-In this example, the `TEMPLATE template0` clause is required if
-the specified locale is different from the one in `template1`.
-(If it is not, then specifying the locale explicitly is redundant.)
+在此範例中，若指定的區域設定與 `template1` 中的不同，則 `TEMPLATE template0` 子句為必要。（若沒有不同，則明確指定區域設定是多餘的。）
 
-To create a database `music2` with a different locale and a
-different character set encoding:
+建立使用不同區域設定與不同字元集編碼的資料庫 `music2`：
 
 ```
 
@@ -343,26 +204,22 @@ CREATE DATABASE music2
     TEMPLATE template0;
 ```
 
-The specified locale and encoding settings must match, or an error will be
-reported.
+指定的區域設定與編碼設定必須相符，否則會回報錯誤。
 
-Note that locale names are specific to the operating system, so that the
-above commands might not work in the same way everywhere.
+請注意，區域設定名稱是作業系統特有的，因此上述命令可能不會在每個地方都以相同方式運作。
 
 <a id="id-1.9.3.61.9"></a>
 
-## Compatibility
+## 相容性
 
-There is no `CREATE DATABASE` statement in the SQL
-standard. Databases are equivalent to catalogs, whose creation is
-implementation-defined.
+SQL 標準中沒有 `CREATE DATABASE` 陳述式。資料庫等同於目錄（catalog），而目錄的建立方式由實作自行定義。
 
 <a id="id-1.9.3.61.10"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER DATABASE](sql-alterdatabase.md), [DROP DATABASE](sql-dropdatabase.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createdatabase.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createdatabase.html)（原文版本：18.6；核對日期：2026-10-04）
