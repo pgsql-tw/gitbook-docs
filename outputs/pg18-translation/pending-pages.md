@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：475 頁。
+待譯頁面：474 頁。
 
 ## 根目錄
 
@@ -571,7 +571,7 @@
 - [ ] `reference/sql-commands/sql-close.md` — CLOSE
 - [x] `reference/sql-commands/sql-cluster.md` — CLUSTER
 - [ ] `reference/sql-commands/sql-comment.md` — COMMENT
-- [ ] `reference/sql-commands/sql-commit-prepared.md` — COMMIT PREPARED
+- [x] `reference/sql-commands/sql-commit-prepared.md` — COMMIT PREPARED
 - [ ] `reference/sql-commands/sql-commit.md` — COMMIT
 - [ ] `reference/sql-commands/sql-copy.md` — COPY
 - [ ] `reference/sql-commands/sql-create-access-method.md` — CREATE ACCESS METHOD
