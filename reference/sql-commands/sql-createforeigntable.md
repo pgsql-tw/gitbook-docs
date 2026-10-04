@@ -1,10 +1,12 @@
-<a id="id-1.9.3.66.1"></a>
+<a id="SQL-CREATEFOREIGNTABLE"></a><a id="id-1.9.3.66.1"></a>
 
 ## CREATE FOREIGN TABLE
 
-CREATE FOREIGN TABLE — define a new foreign table
+CREATE FOREIGN TABLE — 定義新的外部資料表
 
-## Synopsis
+<a id="id-1.9.3.66.4"></a>
+
+## 語法
 
 ```
 
@@ -59,273 +61,134 @@ WITH ( MODULUS numeric_literal, REMAINDER numeric_literal )
 
 <a id="SQL-CREATEFOREIGNTABLE-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-`CREATE FOREIGN TABLE` creates a new foreign table
-in the current database. The table will be owned by the user issuing the
-command.
+`CREATE FOREIGN TABLE` 會在目前的資料庫中建立新的外部資料表。該資料表的擁有者會是執行此命令的使用者。
 
-If a schema name is given (for example, `CREATE FOREIGN TABLE
-myschema.mytable ...`) then the table is created in the specified
-schema. Otherwise it is created in the current schema.
-The name of the foreign table must be
-distinct from the name of any other relation (table, sequence, index, view,
-materialized view, or foreign table) in the same schema.
+若有提供綱要名稱（例如 `CREATE FOREIGN TABLE
+myschema.mytable ...`），資料表會建立在指定的綱要中；否則會建立在目前的綱要中。外部資料表的名稱必須與同一綱要中任何其他關聯（資料表、序列、索引、檢視表、具體化檢視表或外部資料表）的名稱不同。
 
-`CREATE FOREIGN TABLE` also automatically creates a data
-type that represents the composite type corresponding to one row of
-the foreign table. Therefore, foreign tables cannot have the same
-name as any existing data type in the same schema.
+`CREATE FOREIGN TABLE` 也會自動建立一個資料型別，代表與外部資料表的一筆資料列相對應的複合型別。因此，外部資料表不能與同一綱要中任何現有的資料型別同名。
 
-If `PARTITION OF` clause is specified then the table is
-created as a partition of `parent_table` with specified
-bounds.
+若指定了 `PARTITION OF` 子句，資料表會建立為 `parent_table` 的分割區，並具有指定的邊界。
 
-To be able to create a foreign table, you must have `USAGE`
-privilege on the foreign server, as well as `USAGE`
-privilege on all column types used in the table.
+要建立外部資料表，你必須在外部伺服器上具有 `USAGE` 權限，並且在資料表中使用的所有欄位型別上具有 `USAGE` 權限。
 
 <a id="id-1.9.3.66.6"></a>
 
-## Parameters
+## 參數
 
 `IF NOT EXISTS`
-:   Do not throw an error if a relation with the same name already exists.
-    A notice is issued in this case. Note that there is no guarantee that
-    the existing relation is anything like the one that would have been
-    created.
+:   若已存在同名的關聯，不擲出錯誤；此情況會發出 notice。請注意，並不保證現有的關聯與原本會建立的關聯有任何相似之處。
 
 *`table_name`*
-:   The name (optionally schema-qualified) of the table to be created.
+:   要建立之資料表的名稱（可選擇以綱要限定）。
 
 *`column_name`*
-:   The name of a column to be created in the new table.
+:   要在新資料表中建立之欄位的名稱。
 
 *`data_type`*
-:   The data type of the column. This can include array
-    specifiers. For more information on the data types supported by
-    PostgreSQL, refer to [Chapter 8](../../the-sql-language/datatype/README.md).
+:   欄位的資料型別。這可以包含陣列指定符。關於 PostgreSQL 所支援之資料型別的更多資訊，請參閱[第 8 章](../../the-sql-language/datatype/README.md)。
 
 `COLLATE collation`
-:   The `COLLATE` clause assigns a collation to
-    the column (which must be of a collatable data type).
-    If not specified, the column data type's default collation is used.
+:   `COLLATE` 子句會為欄位指定定序（該欄位必須是可定序的資料型別）。若未指定，則使用欄位資料型別的預設定序。
 
 `INHERITS ( parent_table [, ... ] )`
-:   The optional `INHERITS` clause specifies a list of
-    tables from which the new foreign table automatically inherits
-    all columns. Parent tables can be plain tables or foreign tables.
-    See the similar form of
-    [`CREATE TABLE`](sql-createtable.md) for more details.
+:   選用的 `INHERITS` 子句指定一份資料表清單，新的外部資料表會自動繼承這些資料表的所有欄位。父資料表可以是一般資料表或外部資料表。更多細節請參閱 [`CREATE TABLE`](sql-createtable.md) 的類似形式。
 
 `PARTITION OF parent_table { FOR VALUES partition_bound_spec | DEFAULT }`
-:   This form can be used to create the foreign table as partition of
-    the given parent table with specified partition bound values.
-    See the similar form of
-    [`CREATE TABLE`](sql-createtable.md) for more details.
-    Note that it is currently not allowed to create the foreign table as a
-    partition of the parent table if there are `UNIQUE`
-    indexes on the parent table. (See also
-    [`ALTER TABLE ATTACH PARTITION`](sql-altertable.md).)
+:   此形式可用來將外部資料表建立為指定父資料表的分割區，並具有指定的分割區邊界值。更多細節請參閱 [`CREATE TABLE`](sql-createtable.md) 的類似形式。請注意，若父資料表上有 `UNIQUE` 索引，目前不允許將外部資料表建立為該父資料表的分割區。（另請參閱 [`ALTER TABLE ATTACH PARTITION`](sql-altertable.md)。）
 
 `LIKE source_table [ like_option ... ]`
-:   The `LIKE` clause specifies a table from which
-    the new table automatically copies all column names, their data types,
-    and their not-null constraints.
+:   `LIKE` 子句指定一個資料表，新資料表會自動從該資料表複製所有欄位名稱、其資料型別，以及其非 NULL 限制條件。
 
-    Unlike `INHERITS`, the new table and original table
-    are completely decoupled after creation is complete. Changes to the
-    original table will not be applied to the new table, and it is not
-    possible to include data of the new table in scans of the original
-    table.
+    與 `INHERITS` 不同，新資料表與原始資料表在建立完成後就完全脫鉤。對原始資料表的變更不會套用到新資料表，而且也無法在掃描原始資料表時納入新資料表的資料。
 
-    Also unlike `INHERITS`, columns and
-    constraints copied by `LIKE` are not merged with similarly
-    named columns and constraints.
-    If the same name is specified explicitly or in another
-    `LIKE` clause, an error is signaled.
+    同樣與 `INHERITS` 不同的是，由 `LIKE` 複製的欄位與限制條件，不會與名稱相似的欄位與限制條件合併。若同一個名稱被明確指定，或在另一個 `LIKE` 子句中指定，就會發出錯誤。
 
-    The optional *`like_option`* clauses specify
-    which additional properties of the original table to copy. Specifying
-    `INCLUDING` copies the property, specifying
-    `EXCLUDING` omits the property.
-    `EXCLUDING` is the default. If multiple specifications
-    are made for the same kind of object, the last one is used. The
-    available options are:
+    選用的 *`like_option`* 子句指定要複製原始資料表的哪些額外屬性。指定 `INCLUDING` 會複製該屬性，指定 `EXCLUDING` 則會略過該屬性。`EXCLUDING` 是預設值。若對同一種物件做了多個指定，則使用最後一個。可用的選項有：
 
     `INCLUDING COMMENTS`
-    :   Comments for the copied columns, constraints, and extended statistics
-        will be copied. The default behavior is to exclude comments,
-        resulting in the corresponding objects in the new table having no
-        comments.
+    :   複製之欄位、限制條件與擴充統計資訊的註解會被複製。預設行為是排除註解，使新資料表中對應的物件沒有註解。
 
     `INCLUDING CONSTRAINTS`
-    :   `CHECK` constraints will be copied. No distinction
-        is made between column constraints and table constraints. Not-null
-        constraints are always copied to the new table.
+    :   會複製 `CHECK` 限制條件。欄位限制條件與資料表限制條件之間不做區分。非 NULL 限制條件一律會複製到新資料表。
 
     `INCLUDING DEFAULTS`
-    :   Default expressions for the copied column definitions will be
-        copied. Otherwise, default expressions are not copied, resulting in
-        the copied columns in the new table having null defaults. Note that
-        copying defaults that call database-modification functions, such as
-        `nextval`, may create a functional linkage
-        between the original and new tables.
+    :   會複製所複製之欄位定義的預設值運算式。否則不會複製預設值運算式，使新資料表中所複製的欄位以 NULL 為預設值。請注意，複製呼叫資料庫修改函式（例如 `nextval`）的預設值，可能會在原始資料表與新資料表之間建立功能上的連結。
 
     `INCLUDING GENERATED`
-    :   Any generation expressions of copied column definitions will be
-        copied. By default, new columns will be regular base columns.
+    :   會複製所複製之欄位定義的任何產生運算式。預設情況下，新欄位會是一般的基本欄位。
 
     `INCLUDING STATISTICS`
-    :   Extended statistics are copied to the new table.
+    :   擴充統計資訊會複製到新資料表。
 
     `INCLUDING ALL`
-    :   `INCLUDING ALL` is an abbreviated form selecting
-        all the available individual options. (It could be useful to write
-        individual `EXCLUDING` clauses after
-        `INCLUDING ALL` to select all but some specific
-        options.)
+    :   `INCLUDING ALL` 是選取所有可用個別選項的簡寫形式。（在 `INCLUDING ALL` 之後撰寫個別的 `EXCLUDING` 子句，以選取除了某些特定選項以外的所有選項，可能會很有用。）
 
 `CONSTRAINT constraint_name`
-:   An optional name for a column or table constraint. If the
-    constraint is violated, the constraint name is present in error messages,
-    so constraint names like `col must be positive` can be used
-    to communicate helpful constraint information to client applications.
-    (Double-quotes are needed to specify constraint names that contain spaces.)
-    If a constraint name is not specified, the system generates a name.
+:   欄位限制條件或資料表限制條件的選用名稱。若違反限制條件，限制條件名稱會出現在錯誤訊息中，因此可以使用像 `col must be positive` 這樣的限制條件名稱，向用戶端應用程式傳達有用的限制條件資訊。（要指定包含空格的限制條件名稱，需要使用雙引號。）若未指定限制條件名稱，系統會產生一個名稱。
 
 `NOT NULL` [ NO INHERIT ]
-:   The column is not allowed to contain null values.
+:   該欄位不允許包含 NULL 值。
 
-    A constraint marked with `NO INHERIT` will not propagate to
-    child tables.
+    標記為 `NO INHERIT` 的限制條件不會傳播到子資料表。
 
 `NULL`
-:   The column is allowed to contain null values. This is the default.
+:   該欄位允許包含 NULL 值。這是預設行為。
 
-    This clause is only provided for compatibility with
-    non-standard SQL databases. Its use is discouraged in new
-    applications.
+    提供此子句只是為了與非標準的 SQL 資料庫相容。不建議在新的應用程式中使用它。
 
 `CHECK ( expression ) [ NO INHERIT ]`
-:   The `CHECK` clause specifies an expression producing a
-    Boolean result which each row in the foreign table is expected
-    to satisfy; that is, the expression should produce TRUE or UNKNOWN,
-    never FALSE, for all rows in the foreign table.
-    A check constraint specified as a column constraint should
-    reference that column's value only, while an expression
-    appearing in a table constraint can reference multiple columns.
+:   `CHECK` 子句指定一個產生布林結果的運算式，外部資料表中的每一筆資料列都應該滿足此運算式；也就是說，對於外部資料表中的所有資料列，此運算式應該產生 TRUE 或 UNKNOWN，絕不能產生 FALSE。指定為欄位限制條件的檢查限制條件應該只參照該欄位的值，而出現在資料表限制條件中的運算式則可以參照多個欄位。
 
-    Currently, `CHECK` expressions cannot contain
-    subqueries nor refer to variables other than columns of the
-    current row. The system column `tableoid`
-    may be referenced, but not any other system column.
+    目前，`CHECK` 運算式既不能包含子查詢，也不能參照目前資料列之欄位以外的變數。可以參照系統欄位 `tableoid`，但不能參照任何其他系統欄位。
 
-    A constraint marked with `NO INHERIT` will not propagate to
-    child tables.
+    標記為 `NO INHERIT` 的限制條件不會傳播到子資料表。
 
 `DEFAULT default_expr`
-:   The `DEFAULT` clause assigns a default data value for
-    the column whose column definition it appears within. The value
-    is any variable-free expression (subqueries and cross-references
-    to other columns in the current table are not allowed). The
-    data type of the default expression must match the data type of the
-    column.
+:   `DEFAULT` 子句會為其所在欄位定義的欄位指定預設資料值。該值可以是任何不含變數的運算式（不允許子查詢，也不允許交互參照目前資料表中的其他欄位）。預設值運算式的資料型別必須與欄位的資料型別相符。
 
-    The default expression will be used in any insert operation that
-    does not specify a value for the column. If there is no default
-    for a column, then the default is null.
+    任何未對該欄位指定值的插入操作，都會使用預設值運算式。若欄位沒有預設值，則預設值為 NULL。
 
 `GENERATED ALWAYS AS ( generation_expr ) [ STORED | VIRTUAL ]`<a id="id-1.9.3.66.6.2.14.1.2"></a>
-:   This clause creates the column as a *generated
-    column*. The column cannot be written to, and when read the
-    result of the specified expression will be returned.
+:   此子句會將欄位建立為*產生欄位*。該欄位無法寫入，讀取時會傳回指定運算式的結果。
 
-    When `VIRTUAL` is specified, the column will be
-    computed when it is read. (The foreign-data wrapper will see it as a
-    null value in new rows and may choose to store it as a null value or
-    ignore it altogether.) When `STORED` is specified, the
-    column will be computed on write. (The computed value will be presented
-    to the foreign-data wrapper for storage and must be returned on
-    reading.) `VIRTUAL` is the default.
+    指定 `VIRTUAL` 時，欄位會在讀取時計算。（外部資料包裝器在新資料列中會將它視為 NULL 值，並可能選擇將它儲存為 NULL 值，或完全忽略它。）指定 `STORED` 時，欄位會在寫入時計算。（計算出的值會提供給外部資料包裝器儲存，且在讀取時必須傳回。）`VIRTUAL` 是預設值。
 
-    The generation expression can refer to other columns in the table, but
-    not other generated columns. Any functions and operators used must be
-    immutable. References to other tables are not allowed.
+    產生運算式可以參照資料表中的其他欄位，但不能參照其他產生欄位。所使用的任何函式與運算子都必須是不可變的（immutable）。不允許參照其他資料表。
 
 *`server_name`*
-:   The name of an existing foreign server to use for the foreign table.
-    For details on defining a server, see [CREATE SERVER](sql-createserver.md).
+:   外部資料表所要使用之現有外部伺服器的名稱。關於定義伺服器的細節，請參閱 [CREATE SERVER](sql-createserver.md)。
 
 `OPTIONS ( option 'value' [, ...] )`
-:   Options to be associated with the new foreign table or one of its
-    columns.
-    The allowed option names and values are specific to each foreign
-    data wrapper and are validated using the foreign-data wrapper's
-    validator function. Duplicate option names are not allowed (although
-    it's OK for a table option and a column option to have the same name).
+:   要與新外部資料表或其某個欄位相關聯的選項。允許的選項名稱與值是各個外部資料包裝器專屬的，並由該外部資料包裝器的驗證函式進行驗證。不允許重複的選項名稱（不過資料表選項與欄位選項同名是可以的）。
 
 <a id="id-1.9.3.66.7"></a>
 
-## Notes
+## 注意事項
 
-Constraints on foreign tables (such as `CHECK`
-or `NOT NULL` clauses) are not enforced by the
-core PostgreSQL system, and most foreign data wrappers
-do not attempt to enforce them either; that is, the constraint is
-simply assumed to hold true. There would be little point in such
-enforcement since it would only apply to rows inserted or updated via
-the foreign table, and not to rows modified by other means, such as
-directly on the remote server. Instead, a constraint attached to a
-foreign table should represent a constraint that is being enforced by
-the remote server.
+外部資料表上的限制條件（例如 `CHECK` 或 `NOT NULL` 子句）不會由 PostgreSQL 核心系統強制執行，而且大多數外部資料包裝器也不會嘗試強制執行它們；也就是說，限制條件只是被假設為成立。這種強制執行沒有什麼意義，因為它只會套用到透過外部資料表插入或更新的資料列，而不會套用到以其他方式（例如直接在遠端伺服器上）修改的資料列。相反地，外部資料表上附加的限制條件應該代表由遠端伺服器強制執行的限制條件。
 
-Some special-purpose foreign data wrappers might be the only access
-mechanism for the data they access, and in that case it might be
-appropriate for the foreign data wrapper itself to perform constraint
-enforcement. But you should not assume that a wrapper does that
-unless its documentation says so.
+某些特殊用途的外部資料包裝器，可能是存取其資料的唯一機制；在這種情況下，由外部資料包裝器本身執行限制條件的強制檢查可能是合適的。但除非包裝器的文件有此說明，否則你不應該假設它會這麼做。
 
-Although PostgreSQL does not attempt to enforce
-constraints on foreign tables, it does assume that they are correct
-for purposes of query optimization. If there are rows visible in the
-foreign table that do not satisfy a declared constraint, queries on
-the table might produce errors or incorrect answers. It is the user's
-responsibility to ensure that the constraint definition matches
-reality.
+雖然 PostgreSQL 不會嘗試強制執行外部資料表上的限制條件，但它確實會為了查詢最佳化的目的，假設這些限制條件是正確的。若外部資料表中有可見的資料列不滿足所宣告的限制條件，對該資料表的查詢可能會產生錯誤或不正確的答案。確保限制條件定義與實際情況相符，是使用者的責任。
 
-### Caution
+<a id="id-1.9.3.66.7.5"></a>
 
-When a foreign table is used as a partition of a partitioned table,
-there is an implicit constraint that its contents must satisfy the
-partitioning rule. Again, it is the user's responsibility to ensure
-that that is true, which is best done by installing a matching
-constraint on the remote server.
+### 小心
 
-Within a partitioned table containing foreign-table partitions,
-an `UPDATE` that changes the partition key value can
-cause a row to be moved from a local partition to a foreign-table
-partition, provided the foreign data wrapper supports tuple routing.
-However, it is not currently possible to move a row from a
-foreign-table partition to another partition.
-An `UPDATE` that would require doing that will fail
-due to the partitioning constraint, assuming that that is properly
-enforced by the remote server.
+當外部資料表被用作分割資料表的分割區時，會有一個隱含的限制條件：其內容必須滿足分割規則。同樣地，確保這一點成立是使用者的責任，最好的做法是在遠端伺服器上設置相符的限制條件。
 
-Similar considerations apply to generated columns. Stored generated
-columns are computed on insert or update on the local
-PostgreSQL server and handed to the
-foreign-data wrapper for writing out to the foreign data store, but it is
-not enforced that a query of the foreign table returns values for stored
-generated columns that are consistent with the generation expression.
-Again, this might result in incorrect query results.
+在包含外部資料表分割區的分割資料表中，若外部資料包裝器支援資料列路由，變更分割鍵值的 `UPDATE` 可以使資料列從本機分割區移動到外部資料表分割區。然而，目前無法將資料列從外部資料表分割區移動到另一個分割區。需要這麼做的 `UPDATE` 會因分割限制條件而失敗，前提是該限制條件已由遠端伺服器正確強制執行。
+
+類似的考量也適用於產生欄位。儲存式產生欄位會在本機 PostgreSQL 伺服器上於插入或更新時計算，並交給外部資料包裝器寫出到外部資料儲存區，但並不強制要求對外部資料表的查詢所傳回之儲存式產生欄位的值與產生運算式一致。同樣地，這可能導致不正確的查詢結果。
 
 <a id="SQL-CREATEFOREIGNTABLE-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-Create foreign table `films`, which will be accessed through
-the server `film_server`:
+建立外部資料表 `films`，它將透過伺服器 `film_server` 存取：
 
 ```
 
@@ -340,9 +203,7 @@ CREATE FOREIGN TABLE films (
 SERVER film_server;
 ```
 
-Create foreign table `measurement_y2016m07`, which will be
-accessed through the server `server_07`, as a partition
-of the range partitioned table `measurement`:
+建立外部資料表 `measurement_y2016m07`，它將透過伺服器 `server_07` 存取，並作為範圍分割資料表 `measurement` 的分割區：
 
 ```
 
@@ -353,24 +214,16 @@ CREATE FOREIGN TABLE measurement_y2016m07
 
 <a id="SQL-CREATEFOREIGNTABLE-COMPATIBILITY"></a>
 
-## Compatibility
+## 相容性
 
-The `CREATE FOREIGN TABLE` command largely conforms to the
-SQL standard; however, much as with
-[`CREATE TABLE`](sql-createtable.md),
-`NULL` constraints and zero-column foreign tables are permitted.
-The ability to specify column default values is also
-a PostgreSQL extension. Table inheritance, in the form
-defined by PostgreSQL, is nonstandard.
-The `LIKE` clause, as supported in this command, is
-nonstandard.
+`CREATE FOREIGN TABLE` 命令大致符合 SQL 標準；不過，如同 [`CREATE TABLE`](sql-createtable.md) 一樣，它允許 `NULL` 限制條件與零欄位的外部資料表。指定欄位預設值的能力也是 PostgreSQL 的擴充語法。PostgreSQL 所定義形式的資料表繼承是非標準的。此命令所支援的 `LIKE` 子句是非標準的。
 
 <a id="id-1.9.3.66.10"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER FOREIGN TABLE](sql-alterforeigntable.md), [DROP FOREIGN TABLE](sql-dropforeigntable.md), [CREATE TABLE](sql-createtable.md), [CREATE SERVER](sql-createserver.md), [IMPORT FOREIGN SCHEMA](sql-importforeignschema.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createforeigntable.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createforeigntable.html)（原文版本：18.6；核對日期：2026-10-04）
