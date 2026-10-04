@@ -1,10 +1,12 @@
-<a id="id-1.9.3.70.1"></a>
+<a id="SQL-CREATELANGUAGE"></a><a id="id-1.9.3.70.1"></a>
 
 ## CREATE LANGUAGE
 
-CREATE LANGUAGE — define a new procedural language
+CREATE LANGUAGE — 定義新的程序語言
 
-## Synopsis
+<a id="id-1.9.3.70.4"></a>
+
+## 語法
 
 ```
 
@@ -15,129 +17,69 @@ CREATE [ OR REPLACE ] [ TRUSTED ] [ PROCEDURAL ] LANGUAGE name
 
 <a id="SQL-CREATELANGUAGE-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-`CREATE LANGUAGE` registers a new
-procedural language with a PostgreSQL
-database. Subsequently, functions and procedures can be
-defined in this new language.
+`CREATE LANGUAGE` 會向 PostgreSQL 資料庫註冊新的程序語言。之後，就可以用這個新語言定義函式與程序。
 
-`CREATE LANGUAGE` effectively associates the
-language name with handler function(s) that are responsible for executing
-functions written in the language. Refer to [Chapter 57](../../internals/plhandler/README.md)
-for more information about language handlers.
+`CREATE LANGUAGE` 實際上是將語言名稱與負責執行以該語言撰寫之函式的處理函式關聯起來。關於語言處理常式的更多資訊，請參閱[第 57 章](../../internals/plhandler/README.md)。
 
-`CREATE OR REPLACE LANGUAGE` will either create a
-new language, or replace an existing definition. If the language
-already exists, its parameters are updated according to the command,
-but the language's ownership and permissions settings do not change,
-and any existing functions written in the language are assumed to still
-be valid.
+`CREATE OR REPLACE LANGUAGE` 會建立新的語言，或取代現有的定義。若該語言已存在，其參數會依命令更新，但該語言的擁有權與權限設定不會改變，且以該語言撰寫的任何現有函式都會被假定仍然有效。
 
-One must have the
-PostgreSQL superuser privilege to
-register a new language or change an existing language's parameters.
-However, once the language is created it is valid to assign ownership of
-it to a non-superuser, who may then drop it, change its permissions,
-rename it, or assign it to a new owner. (Do not, however, assign
-ownership of the underlying C functions to a non-superuser; that would
-create a privilege escalation path for that user.)
+必須具備 PostgreSQL 超級使用者權限，才能註冊新語言或變更現有語言的參數。不過，語言建立之後，可以將其擁有權指派給非超級使用者，該使用者之後便可以移除它、變更其權限、重新命名它，或將它指派給新的擁有者。（不過，不要將底層 C 函式的擁有權指派給非超級使用者；那會為該使用者造成權限提升的途徑。）
 
-The form of `CREATE LANGUAGE` that does not supply
-any handler function is obsolete. For backwards compatibility with
-old dump files, it is interpreted as `CREATE EXTENSION`.
-That will work if the language has been packaged into an extension of
-the same name, which is the conventional way to set up procedural
-languages.
+未提供任何處理函式的 `CREATE LANGUAGE` 形式已經過時。為了與舊的傾印檔向後相容，它會被解讀為 `CREATE EXTENSION`。若該語言已被封裝成同名的擴充功能，這樣就能運作；這也是設置程序語言的慣用方式。
 
 <a id="SQL-CREATELANGUAGE-PARAMETERS"></a>
 
-## Parameters
+## 參數
 
 `TRUSTED`
-:   `TRUSTED` specifies that the language does
-    not grant access to data that the user would not otherwise
-    have. If this key word is omitted
-    when registering the language, only users with the
-    PostgreSQL superuser privilege can
-    use this language to create new functions.
+:   `TRUSTED` 指定該語言不會授予使用者原本沒有的資料存取權。若註冊語言時省略此關鍵字，則只有具備 PostgreSQL 超級使用者權限的使用者，才能使用此語言建立新函式。
 
 `PROCEDURAL`
-:   This is a noise word.
+:   這是一個贅字。
 
 *`name`*
-:   The name of the new procedural language.
-    The name must be unique among the languages in the database.
+:   新程序語言的名稱。此名稱在資料庫內的語言之間必須是唯一的。
 
 `HANDLER` *`call_handler`*
-:   *`call_handler`* is
-    the name of a previously registered function that will be
-    called to execute the procedural language's functions. The call
-    handler for a procedural language must be written in a compiled
-    language such as C with version 1 call convention and
-    registered with PostgreSQL as a
-    function taking no arguments and returning the
-    `language_handler` type, a placeholder type that is
-    simply used to identify the function as a call handler.
+:   *`call_handler`* 是先前已註冊之函式的名稱，會被呼叫來執行該程序語言的函式。程序語言的呼叫處理常式必須以編譯式語言（例如 C）並使用第 1 版呼叫慣例撰寫，並在 PostgreSQL 中註冊為不接受任何引數、回傳
+    `language_handler` 型別的函式；這個佔位型別僅用來將該函式識別為呼叫處理常式。
 
 `INLINE` *`inline_handler`*
-:   *`inline_handler`* is the
-    name of a previously registered function that will be called
-    to execute an anonymous code block
-    ([`DO`](sql-do.md) command)
-    in this language.
-    If no *`inline_handler`*
-    function is specified, the language does not support anonymous code
-    blocks.
-    The handler function must take one argument of
-    type `internal`, which will be the `DO` command's
-    internal representation, and it will typically return
-    `void`. The return value of the handler is ignored.
+:   *`inline_handler`* 是先前已註冊之函式的名稱，會被呼叫來執行此語言中的匿名程式碼區塊（[`DO`](sql-do.md) 命令）。
+    若未指定 *`inline_handler`* 函式，該語言就不支援匿名程式碼區塊。
+    該處理函式必須接受一個 `internal` 型別的引數，即 `DO` 命令的內部表示形式，且通常會回傳
+    `void`。處理函式的回傳值會被忽略。
 
 `VALIDATOR` *`valfunction`*
-:   *`valfunction`* is the
-    name of a previously registered function that will be called
-    when a new function in the language is created, to validate the
-    new function.
-    If no
-    validator function is specified, then a new function will not
-    be checked when it is created.
-    The validator function must take one argument of
-    type `oid`, which will be the OID of the
-    to-be-created function, and will typically return `void`.
+:   *`valfunction`* 是先前已註冊之函式的名稱，會在以該語言建立新函式時被呼叫，用以驗證該新函式。
+    若未指定驗證函式，則新函式在建立時不會受到檢查。
+    驗證函式必須接受一個 `oid` 型別的引數，即將要建立之函式的 OID，且通常會回傳 `void`。
 
-    A validator function would typically inspect the function body
-    for syntactical correctness, but it can also look at other
-    properties of the function, for example if the language cannot
-    handle certain argument types. To signal an error, the
-    validator function should use the `ereport()`
-    function. The return value of the function is ignored.
+    驗證函式通常會檢查函式主體的語法是否正確，但它也可以檢查函式的其他屬性，例如該語言是否無法處理某些引數型別。要發出錯誤訊號，驗證函式應該使用 `ereport()`
+    函式。該函式的回傳值會被忽略。
 
 <a id="SQL-CREATELANGUAGE-NOTES"></a>
 
-## Notes
+## 注意事項
 
-Use [`DROP LANGUAGE`](sql-droplanguage.md) to drop procedural languages.
+使用 [`DROP LANGUAGE`](sql-droplanguage.md) 來移除程序語言。
 
-The system catalog `pg_language` (see [Section 52.29](../../internals/catalogs/catalog-pg-language.md)) records information about the
-currently installed languages. Also, the psql
-command `\dL` lists the installed languages.
+系統目錄 `pg_language`（請參閱[第 52.29 節](../../internals/catalogs/catalog-pg-language.md)）記錄了目前已安裝之語言的資訊。此外，psql 的
+`\dL` 命令會列出已安裝的語言。
 
-To create functions in a procedural language, a user must have the
-`USAGE` privilege for the language. By default,
-`USAGE` is granted to `PUBLIC` (i.e., everyone)
-for trusted languages. This can be revoked if desired.
+要在程序語言中建立函式，使用者必須具備該語言的 `USAGE` 權限。預設情況下，可信任語言的
+`USAGE` 權限會授予 `PUBLIC`（亦即所有人）。必要時可以撤銷此權限。
 
-Procedural languages are local to individual databases.
-However, a language can be installed into the `template1`
-database, which will cause it to be available automatically in
-all subsequently-created databases.
+程序語言是各個資料庫專屬的。不過，語言可以安裝到 `template1`
+資料庫中，這會使它自動出現在之後建立的所有資料庫中。
 
 <a id="SQL-CREATELANGUAGE-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-A minimal sequence for creating a new procedural language is:
+建立新程序語言的最精簡步驟如下：
 
 ```
 
@@ -148,8 +90,7 @@ CREATE LANGUAGE plsample
     HANDLER plsample_call_handler;
 ```
 
-Typically that would be written in an extension's creation script,
-and users would do this to install the extension:
+這通常會寫在擴充功能的建立腳本中，而使用者會執行下列命令來安裝該擴充功能：
 
 ```
 
@@ -158,17 +99,17 @@ CREATE EXTENSION plsample;
 
 <a id="SQL-CREATELANGUAGE-COMPAT"></a>
 
-## Compatibility
+## 相容性
 
-`CREATE LANGUAGE` is a
-PostgreSQL extension.
+`CREATE LANGUAGE` 是
+PostgreSQL 的擴充語法。
 
 <a id="id-1.9.3.70.10"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER LANGUAGE](sql-alterlanguage.md), [CREATE FUNCTION](sql-createfunction.md), [DROP LANGUAGE](sql-droplanguage.md), [GRANT](sql-grant.md), [REVOKE](sql-revoke.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createlanguage.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createlanguage.html)（原文版本：18.6；核對日期：2026-10-04）
