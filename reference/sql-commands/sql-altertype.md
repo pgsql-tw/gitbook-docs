@@ -1,11 +1,12 @@
-<a id="id-1.9.3.42.1"></a>
+<a id="SQL-ALTERTYPE"></a><a id="id-1.9.3.42.1"></a>
 
 ## ALTER TYPE
 
-ALTER TYPE —
-change the definition of a type
+ALTER TYPE — 變更型別的定義
 
-## Synopsis
+<a id="id-1.9.3.42.4"></a>
+
+## 語法
 
 ```
 
@@ -27,240 +28,157 @@ where action is one of:
 
 <a id="id-1.9.3.42.5"></a>
 
-## Description
+## 說明
 
-`ALTER TYPE` changes the definition of an existing type.
-There are several subforms:
+`ALTER TYPE` 會變更現有型別的定義。它有以下幾種子形式：
 
 `OWNER`
-:   This form changes the owner of the type.
+:   此形式會變更型別的擁有者。
 
 `RENAME`
-:   This form changes the name of the type.
+:   此形式會變更型別的名稱。
 
 `SET SCHEMA`
-:   This form moves the type into another schema.
+:   此形式會將型別移到另一個綱要。
 
 `RENAME ATTRIBUTE`
-:   This form is only usable with composite types.
-    It changes the name of an individual attribute of the type.
+:   此形式只能用於複合型別。它會變更型別中個別屬性的名稱。
 
 `ADD ATTRIBUTE`
-:   This form adds a new attribute to a composite type, using the same syntax as
-    [`CREATE TYPE`](sql-createtype.md).
+:   此形式會在複合型別中新增屬性，使用的語法與 [`CREATE TYPE`](sql-createtype.md) 相同。
 
 `DROP ATTRIBUTE [ IF EXISTS ]`
-:   This form drops an attribute from a composite type.
-    If `IF EXISTS` is specified and the attribute
-    does not exist, no error is thrown. In this case a notice
-    is issued instead.
+:   此形式會從複合型別中移除屬性。若指定了 `IF EXISTS` 而該屬性不存在，則不擲出錯誤；此情況改為發出 notice。
 
 `ALTER ATTRIBUTE ... SET DATA TYPE`
-:   This form changes the type of an attribute of a composite type.
+:   此形式會變更複合型別中某個屬性的型別。
 
 `ADD VALUE [ IF NOT EXISTS ] [ BEFORE | AFTER ]`
-:   This form adds a new value to an enum type. The new value's place in
-    the enum's ordering can be specified as being `BEFORE`
-    or `AFTER` one of the existing values. Otherwise,
-    the new item is added at the end of the list of values.
+:   此形式會在列舉型別中新增值。新值在列舉排序中的位置，可以指定為位於某個現有值的 `BEFORE`（之前）或 `AFTER`（之後）。否則，新項目會加在值清單的末端。
 
-    If `IF NOT EXISTS` is specified, it is not an error if
-    the type already contains the new value: a notice is issued but no other
-    action is taken. Otherwise, an error will occur if the new value is
-    already present.
+    若指定了 `IF NOT EXISTS`，則型別已包含新值時不視為錯誤：會發出 notice，但不採取其他動作。否則，若新值已存在，就會發生錯誤。
 
 `RENAME VALUE`
-:   This form renames a value of an enum type.
-    The value's place in the enum's ordering is not affected.
-    An error will occur if the specified value is not present or the new
-    name is already present.
+:   此形式會重新命名列舉型別的某個值。該值在列舉排序中的位置不受影響。若指定的值不存在，或新名稱已存在，就會發生錯誤。
 
 `SET ( property = value [, ... ] )`
-:   This form is only applicable to base types. It allows adjustment of a
-    subset of the base-type properties that can be set in `CREATE
-    TYPE`. Specifically, these properties can be changed:
+:   此形式只適用於基本型別。它允許調整可在 `CREATE
+    TYPE` 中設定之基本型別屬性的一部分。具體而言，可以變更下列屬性：
 
-    * `RECEIVE` can be set to the name of a binary input
-      function, or `NONE` to remove the type's binary
-      input function. Using this option requires superuser privilege.
-    * `SEND` can be set to the name of a binary output
-      function, or `NONE` to remove the type's binary
-      output function. Using this option requires superuser privilege.
-    * `TYPMOD_IN` can be set to the name of a type
-      modifier input function, or `NONE` to remove the
-      type's type modifier input function. Using this option requires
-      superuser privilege.
-    * `TYPMOD_OUT` can be set to the name of a type
-      modifier output function, or `NONE` to remove the
-      type's type modifier output function. Using this option requires
-      superuser privilege.
-    * `ANALYZE` can be set to the name of a type-specific
-      statistics collection function, or `NONE` to remove
-      the type's statistics collection function. Using this option
-      requires superuser privilege.
-    * `SUBSCRIPT` can be set to the name of a type-specific
-      subscripting handler function, or `NONE` to remove
-      the type's subscripting handler function. Using this option
-      requires superuser privilege.
+    * `RECEIVE` 可以設定為二進位輸入函式的名稱，或設定為 `NONE` 以移除型別的二進位輸入函式。使用此選項需要超級使用者權限。
+    * `SEND` 可以設定為二進位輸出函式的名稱，或設定為 `NONE` 以移除型別的二進位輸出函式。使用此選項需要超級使用者權限。
+    * `TYPMOD_IN` 可以設定為型別修飾詞輸入函式的名稱，或設定為 `NONE` 以移除型別的型別修飾詞輸入函式。使用此選項需要超級使用者權限。
+    * `TYPMOD_OUT` 可以設定為型別修飾詞輸出函式的名稱，或設定為 `NONE` 以移除型別的型別修飾詞輸出函式。使用此選項需要超級使用者權限。
+    * `ANALYZE` 可以設定為型別專屬之統計資料收集函式的名稱，或設定為 `NONE` 以移除型別的統計資料收集函式。使用此選項需要超級使用者權限。
+    * `SUBSCRIPT` 可以設定為型別專屬之下標處理函式的名稱，或設定為 `NONE` 以移除型別的下標處理函式。使用此選項需要超級使用者權限。
     * `STORAGE`<a id="id-1.9.3.42.5.2.2.10.2.1.2.7.1.2"></a>
-      can be set to `plain`,
-      `extended`, `external`,
-      or `main` (see [Section 66.2](../../internals/storage/storage-toast.md) for
-      more information about what these mean). However, changing
-      from `plain` to another setting requires superuser
-      privilege (because it requires that the type's C functions all be
-      TOAST-ready), and changing to `plain` from another
-      setting is not allowed at all (since the type may already have
-      TOASTed values present in the database). Note that changing this
-      option doesn't by itself change any stored data, it just sets the
-      default TOAST strategy to be used for table columns created in the
-      future. See [ALTER TABLE](sql-altertable.md) to change the TOAST
-      strategy for existing table columns.
+      可以設定為 `plain`、`extended`、`external` 或 `main`（這些設定的意義請參閱[第 66.2 節](../../internals/storage/storage-toast.md)）。不過，從 `plain` 變更為其他設定需要超級使用者權限（因為這要求該型別的 C 函式全都支援 TOAST），而從其他設定變更為 `plain` 則完全不允許（因為資料庫中可能已經存在該型別經過 TOAST 處理的值）。請注意，變更此選項本身並不會變更任何已儲存的資料，它只是設定未來建立之資料表欄位所使用的預設 TOAST 策略。要變更現有資料表欄位的 TOAST 策略，請參閱 [ALTER TABLE](sql-altertable.md)。
 
-    See [CREATE TYPE](sql-createtype.md) for more details about these
-    type properties. Note that where appropriate, a change in these
-    properties for a base type will be propagated automatically to domains
-    based on that type.
+    關於這些型別屬性的更多細節，請參閱 [CREATE TYPE](sql-createtype.md)。請注意，在適當的情況下，基本型別上這些屬性的變更會自動傳播到以該型別為基礎的網域。
 
-The `ADD ATTRIBUTE`, `DROP
-ATTRIBUTE`, and `ALTER ATTRIBUTE` actions
-can be combined into a list of multiple alterations to apply in
-parallel. For example, it is possible to add several attributes
-and/or alter the type of several attributes in a single command.
+`ADD ATTRIBUTE`、`DROP
+ATTRIBUTE` 與 `ALTER ATTRIBUTE` 動作可以組合成一份包含多項變更的清單，一併套用。例如，可以在單一命令中新增數個屬性，以及（或）變更數個屬性的型別。
 
-You must own the type to use `ALTER TYPE`.
-To change the schema of a type, you must also have
-`CREATE` privilege on the new schema.
-To alter the owner, you must be able to `SET ROLE` to the
-new owning role, and that role must have `CREATE`
-privilege on the type's schema.
-(These restrictions enforce that altering the owner
-doesn't do anything you couldn't do by dropping and recreating the type.
-However, a superuser can alter ownership of any type anyway.)
-To add an attribute or alter an attribute type, you must also
-have `USAGE` privilege on the attribute's data type.
+你必須擁有該型別才能使用 `ALTER TYPE`。若要變更型別的綱要，你還必須在新綱要上具有 `CREATE` 權限。若要變更擁有者，你必須能夠 `SET ROLE` 成為新的擁有者角色，且該角色必須在型別所屬的綱要上具有 `CREATE` 權限。（這些限制確保變更擁有者不會做到任何你無法藉由移除並重新建立該型別而做到的事。不過，超級使用者無論如何都可以變更任何型別的擁有權。）若要新增屬性或變更屬性的型別，你還必須在該屬性的資料型別上具有 `USAGE` 權限。
 
 <a id="id-1.9.3.42.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (possibly schema-qualified) of an existing type to
-    alter.
+:   要變更之現有型別的名稱（可能以綱要限定）。
 
 *`new_name`*
-:   The new name for the type.
+:   型別的新名稱。
 
 *`new_owner`*
-:   The user name of the new owner of the type.
+:   型別之新擁有者的使用者名稱。
 
 *`new_schema`*
-:   The new schema for the type.
+:   型別的新綱要。
 
 *`attribute_name`*
-:   The name of the attribute to add, alter, or drop.
+:   要新增、變更或移除之屬性的名稱。
 
 *`new_attribute_name`*
-:   The new name of the attribute to be renamed.
+:   要重新命名之屬性的新名稱。
 
 *`data_type`*
-:   The data type of the attribute to add, or the new type of the
-    attribute to alter.
+:   要新增之屬性的資料型別，或要變更之屬性的新型別。
 
 *`new_enum_value`*
-:   The new value to be added to an enum type's list of values,
-    or the new name to be given to an existing value.
-    Like all enum literals, it needs to be quoted.
+:   要加入列舉型別之值清單的新值，或要賦予現有值的新名稱。如同所有列舉常值，它需要加上引號。
 
 *`neighbor_enum_value`*
-:   The existing enum value that the new value should be added immediately
-    before or after in the enum type's sort ordering.
-    Like all enum literals, it needs to be quoted.
+:   一個現有的列舉值；在列舉型別的排序中，新值應該緊接著加在它之前或之後。如同所有列舉常值，它需要加上引號。
 
 *`existing_enum_value`*
-:   The existing enum value that should be renamed.
-    Like all enum literals, it needs to be quoted.
+:   應該重新命名的現有列舉值。如同所有列舉常值，它需要加上引號。
 
 *`property`*
-:   The name of a base-type property to be modified; see above for
-    possible values.
+:   要修改之基本型別屬性的名稱；可能的值請參閱上文。
 
 `CASCADE`
-:   Automatically propagate the operation to typed tables of the
-    type being altered, and their descendants.
+:   自動將此操作傳播到以所變更之型別為型別的型別化資料表（typed table）及其後代。
 
 `RESTRICT`
-:   Refuse the operation if the type being altered is the type of a
-    typed table. This is the default.
+:   若所變更的型別是某個型別化資料表的型別，則拒絕此操作。這是預設行為。
 
 <a id="id-1.9.3.42.7"></a>
 
-## Notes
+## 注意事項
 
-If `ALTER TYPE ... ADD VALUE` (the form that adds a new
-value to an enum type) is executed inside a transaction block, the new
-value cannot be used until after the transaction has been committed.
+若在交易區塊內執行 `ALTER TYPE ... ADD VALUE`（在列舉型別中新增值的形式），則必須等到交易提交之後，才能使用新值。
 
-Comparisons involving an added enum value will sometimes be slower than
-comparisons involving only original members of the enum type. This will
-usually only occur if `BEFORE` or `AFTER`
-is used to set the new value's sort position somewhere other than at the
-end of the list. However, sometimes it will happen even though the new
-value is added at the end (this occurs if the OID counter “wrapped
-around” since the original creation of the enum type). The slowdown is
-usually insignificant; but if it matters, optimal performance can be
-regained by dropping and recreating the enum type, or by dumping and
-restoring the database.
+涉及新增之列舉值的比較，有時會比只涉及列舉型別原有成員的比較更慢。通常只有在使用 `BEFORE` 或 `AFTER` 將新值的排序位置設在清單末端以外的某處時，才會發生這種情況。不過，有時即使新值加在末端也會發生這種情況（若 OID 計數器自列舉型別最初建立以來已經「繞回」，就會發生）。這種變慢通常微不足道；但若有影響，可以藉由移除並重新建立該列舉型別，或藉由傾印並還原資料庫，來恢復最佳效能。
 
 <a id="id-1.9.3.42.8"></a>
 
-## Examples
+## 範例
 
-To rename a data type:
+重新命名資料型別：
 
 ```
 
 ALTER TYPE electronic_mail RENAME TO email;
 ```
 
-To change the owner of the type `email`
-to `joe`:
+將型別 `email` 的擁有者變更為 `joe`：
 
 ```
 
 ALTER TYPE email OWNER TO joe;
 ```
 
-To change the schema of the type `email`
-to `customers`:
+將型別 `email` 的綱要變更為 `customers`：
 
 ```
 
 ALTER TYPE email SET SCHEMA customers;
 ```
 
-To add a new attribute to a composite type:
+在複合型別中新增屬性：
 
 ```
 
 ALTER TYPE compfoo ADD ATTRIBUTE f3 int;
 ```
 
-To add a new value to an enum type in a particular sort position:
+在列舉型別的特定排序位置新增值：
 
 ```
 
 ALTER TYPE colors ADD VALUE 'orange' AFTER 'red';
 ```
 
-To rename an enum value:
+重新命名列舉值：
 
 ```
 
 ALTER TYPE colors RENAME VALUE 'purple' TO 'mauve';
 ```
 
-To create binary I/O functions for an existing base type:
+為現有的基本型別建立二進位 I/O 函式：
 
 ```
 
@@ -274,17 +192,16 @@ ALTER TYPE mytype SET (
 
 <a id="id-1.9.3.42.9"></a>
 
-## Compatibility
+## 相容性
 
-The variants to add and drop attributes are part of the SQL
-standard; the other variants are PostgreSQL extensions.
+新增與移除屬性的形式是 SQL 標準的一部分；其他形式則是 PostgreSQL 的擴充語法。
 
 <a id="SQL-ALTERTYPE-SEE-ALSO"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE TYPE](sql-createtype.md), [DROP TYPE](sql-droptype.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertype.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertype.html)（原文版本：18.6；核對日期：2026-10-04）
