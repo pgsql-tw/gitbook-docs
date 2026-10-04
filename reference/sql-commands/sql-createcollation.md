@@ -1,10 +1,12 @@
-<a id="id-1.9.3.59.1"></a>
+<a id="SQL-CREATECOLLATION"></a><a id="id-1.9.3.59.1"></a>
 
 ## CREATE COLLATION
 
-CREATE COLLATION — define a new collation
+CREATE COLLATION — 定義新的定序
 
-## Synopsis
+<a id="id-1.9.3.59.4"></a>
+
+## 語法
 
 ```
 
@@ -22,168 +24,115 @@ CREATE COLLATION [ IF NOT EXISTS ] name FROM existing_collation
 
 <a id="SQL-CREATECOLLATION-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-`CREATE COLLATION` defines a new collation using
-the specified operating system locale settings,
-or by copying an existing collation.
+`CREATE COLLATION` 會使用指定的作業系統區域設定，或藉由複製現有的定序，來定義新的定序。
 
-To be able to create a collation, you must
-have `CREATE` privilege on the destination schema.
+要建立定序，你必須在目標綱要上具有 `CREATE` 權限。
 
 <a id="id-1.9.3.59.6"></a>
 
-## Parameters
+## 參數
 
 `IF NOT EXISTS`
-:   Do not throw an error if a collation with the same name already exists.
-    A notice is issued in this case. Note that there is no guarantee that
-    the existing collation is anything like the one that would have been created.
+:   若已存在同名的定序，不擲出錯誤；此情況會發出 notice。請注意，並不保證現有的定序與原本會建立的定序有任何相似之處。
 
 *`name`*
-:   The name of the collation. The collation name can be
-    schema-qualified. If it is not, the collation is defined in the
-    current schema. The collation name must be unique within that
-    schema. (The system catalogs can contain collations with the
-    same name for other encodings, but these are ignored if the
-    database encoding does not match.)
+:   定序的名稱。定序名稱可以用綱要限定；若未限定，定序會定義在目前的綱要中。定序名稱在該綱要中必須是唯一的。（系統目錄可以包含適用於其他編碼的同名定序，但若資料庫編碼不相符，這些定序會被忽略。）
 
 *`locale`*
-:   The locale name for this collation. See [Section 23.2.2.3.1](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-LIBC) and [Section 23.2.2.3.2](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-ICU) for details.
+:   此定序的區域名稱。詳情請參閱[第 23.2.2.3.1 節](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-LIBC)與[第 23.2.2.3.2 節](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-ICU)。
 
-    If *`provider`* is `libc`, this
-    is a shortcut for setting `LC_COLLATE` and
-    `LC_CTYPE` at once. If you specify
-    *`locale`*, you cannot specify either of those
-    parameters.
+    若 *`provider`* 為 `libc`，這是一次同時設定 `LC_COLLATE` 與 `LC_CTYPE` 的簡寫。若你指定了 *`locale`*，就不能再指定這兩個參數中的任何一個。
 
-    If *`provider`* is `builtin`,
-    then *`locale`* must be specified and set to
-    either `C`, `C.UTF-8` or
-    `PG_UNICODE_FAST`.
+    若 *`provider`* 為 `builtin`，則必須指定 *`locale`*，且必須設為 `C`、`C.UTF-8` 或 `PG_UNICODE_FAST` 其中之一。
 
 *`lc_collate`*
-:   If *`provider`* is `libc`, use
-    the specified operating system locale for the
-    `LC_COLLATE` locale category.
+:   若 *`provider`* 為 `libc`，則對 `LC_COLLATE` 區域類別使用指定的作業系統區域設定。
 
 *`lc_ctype`*
-:   If *`provider`* is `libc`, use
-    the specified operating system locale for the `LC_CTYPE`
-    locale category.
+:   若 *`provider`* 為 `libc`，則對 `LC_CTYPE` 區域類別使用指定的作業系統區域設定。
 
 *`provider`*
-:   Specifies the provider to use for locale services associated with this
-    collation. Possible values are `builtin`,
-    `icu`<a id="id-1.9.3.59.6.2.6.2.1.3"></a> (if
-    the server was built with ICU support) or `libc`.
-    `libc` is the default. See [Section 23.1.4](../../server-administration/charset/locale.md#LOCALE-PROVIDERS) for details.
+:   指定與此定序相關之區域服務所使用的提供者。可能的值為 `builtin`、`icu`<a id="id-1.9.3.59.6.2.6.2.1.3"></a>（若伺服器建置時有 ICU 支援）或 `libc`。`libc` 是預設值。詳情請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#LOCALE-PROVIDERS)。
 
 `DETERMINISTIC`
-:   Specifies whether the collation should use deterministic comparisons.
-    The default is true. A deterministic comparison considers strings that
-    are not byte-wise equal to be unequal even if they are considered
-    logically equal by the comparison. PostgreSQL breaks ties using a
-    byte-wise comparison. Comparison that is not deterministic can make the
-    collation be, say, case- or accent-insensitive. For that, you need to
-    choose an appropriate `LOCALE` setting
-    *and* set the collation to not deterministic here.
+:   指定定序是否應使用確定性比較。預設為 true。確定性比較會將位元組不相等的字串視為不相等，即使比較認為它們在邏輯上相等也是如此。PostgreSQL 會使用逐位元組比較來決定平手的情況。非確定性的比較可以使定序成為例如不區分大小寫或不區分重音符號的定序。為此，你需要選擇適當的 `LOCALE` 設定，*並且*在此將定序設為非確定性。
 
-    Nondeterministic collations are only supported with the ICU provider.
+    只有 ICU 提供者支援非確定性定序。
 
 *`rules`*
-:   Specifies additional collation rules to customize the behavior of the
-    collation. This is supported for ICU only. See [Section 23.2.3.4](../../server-administration/charset/collation.md#ICU-TAILORING-RULES) for details.
+:   指定額外的定序規則，以自訂定序的行為。只有 ICU 支援此功能。詳情請參閱[第 23.2.3.4 節](../../server-administration/charset/collation.md#ICU-TAILORING-RULES)。
 
 *`version`*
-:   Specifies the version string to store with the collation. Normally,
-    this should be omitted, which will cause the version to be computed
-    from the actual version of the collation as provided by the operating
-    system. This option is intended to be used
-    by `pg_upgrade` for copying the version from an
-    existing installation.
+:   指定要與定序一併儲存的版本字串。通常應該省略此項，這會使版本根據作業系統所提供之定序的實際版本計算而得。此選項的用途是讓 `pg_upgrade` 從現有的安裝中複製版本。
 
-    See also [ALTER COLLATION](sql-altercollation.md) for how to handle
-    collation version mismatches.
+    另請參閱 [ALTER COLLATION](sql-altercollation.md)，了解如何處理定序版本不相符的情況。
 
 *`existing_collation`*
-:   The name of an existing collation to copy. The new collation
-    will have the same properties as the existing one, but it
-    will be an independent object.
+:   要複製的現有定序名稱。新的定序會具有與現有定序相同的屬性，但它會是一個獨立的物件。
 
 <a id="SQL-CREATECOLLATION-NOTES"></a>
 
-## Notes
+## 注意事項
 
-`CREATE COLLATION` takes a `SHARE ROW
-EXCLUSIVE` lock, which is self-conflicting, on the
-`pg_collation` system catalog, so only one
-`CREATE COLLATION` command can run at a time.
+`CREATE COLLATION` 會在 `pg_collation` 系統目錄上取得 `SHARE ROW
+EXCLUSIVE` 鎖定，此鎖定會與自身衝突，因此一次只能執行一個 `CREATE COLLATION` 命令。
 
-Use `DROP COLLATION` to remove user-defined collations.
+使用 `DROP COLLATION` 移除使用者定義的定序。
 
-See [Section 23.2.2.3](../../server-administration/charset/collation.md#COLLATION-CREATE) for more information on how to create collations.
+關於如何建立定序的更多資訊，請參閱[第 23.2.2.3 節](../../server-administration/charset/collation.md#COLLATION-CREATE)。
 
-When using the `libc` collation provider, the locale must
-be applicable to the current database encoding.
-See [CREATE DATABASE](sql-createdatabase.md) for the precise rules.
+使用 `libc` 定序提供者時，區域設定必須適用於目前的資料庫編碼。確切的規則請參閱 [CREATE DATABASE](sql-createdatabase.md)。
 
 <a id="SQL-CREATECOLLATION-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-To create a collation from the operating system locale
-`fr_FR.utf8`
-(assuming the current database encoding is `UTF8`):
+從作業系統區域設定 `fr_FR.utf8` 建立定序（假設目前的資料庫編碼為 `UTF8`）：
 
 ```
 
 CREATE COLLATION french (locale = 'fr_FR.utf8');
 ```
 
-To create a collation using the ICU provider using German phone book sort order:
+使用 ICU 提供者，以德文電話簿排序順序建立定序：
 
 ```
 
 CREATE COLLATION german_phonebook (provider = icu, locale = 'de-u-co-phonebk');
 ```
 
-To create a collation using the ICU provider, based on the root ICU locale,
-with custom rules:
+使用 ICU 提供者，以 ICU 根區域設定為基礎，並搭配自訂規則建立定序：
 
 ```
 
 CREATE COLLATION custom (provider = icu, locale = 'und', rules = '&V << w <<< W');
 ```
 
-See [Section 23.2.3.4](../../server-administration/charset/collation.md#ICU-TAILORING-RULES) for further details and examples
-on the rules syntax.
+關於規則語法的更多細節與範例，請參閱[第 23.2.3.4 節](../../server-administration/charset/collation.md#ICU-TAILORING-RULES)。
 
-To create a collation from an existing collation:
+從現有的定序建立定序：
 
 ```
 
 CREATE COLLATION german FROM "de_DE";
 ```
 
-This can be convenient to be able to use operating-system-independent
-collation names in applications.
+這樣可以方便在應用程式中使用與作業系統無關的定序名稱。
 
 <a id="SQL-CREATECOLLATION-COMPAT"></a>
 
-## Compatibility
+## 相容性
 
-There is a `CREATE COLLATION` statement in the SQL
-standard, but it is limited to copying an existing collation. The
-syntax to create a new collation is
-a PostgreSQL extension.
+SQL 標準中有 `CREATE COLLATION` 陳述式，但它僅限於複製現有的定序。建立新定序的語法是 PostgreSQL 的擴充語法。
 
 <a id="SQL-CREATECOLLATION-SEEALSO"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER COLLATION](sql-altercollation.md), [DROP COLLATION](sql-dropcollation.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createcollation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createcollation.html)（原文版本：18.6；核對日期：2026-10-04）
