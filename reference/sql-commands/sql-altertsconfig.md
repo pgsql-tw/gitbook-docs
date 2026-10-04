@@ -1,10 +1,12 @@
-<a id="id-1.9.3.37.1"></a>
+<a id="SQL-ALTERTSCONFIG"></a><a id="id-1.9.3.37.1"></a>
 
 ## ALTER TEXT SEARCH CONFIGURATION
 
-ALTER TEXT SEARCH CONFIGURATION — change the definition of a text search configuration
+ALTER TEXT SEARCH CONFIGURATION — 變更文字搜尋設定的定義
 
-## Synopsis
+<a id="id-1.9.3.37.4"></a>
+
+## 語法
 
 ```
 
@@ -25,69 +27,52 @@ ALTER TEXT SEARCH CONFIGURATION name SET SCHEMA new_schema
 
 <a id="id-1.9.3.37.5"></a>
 
-## Description
+## 說明
 
-`ALTER TEXT SEARCH CONFIGURATION` changes the definition of
-a text search configuration. You can modify
-its mappings from token types to dictionaries,
-or change the configuration's name or owner.
+`ALTER TEXT SEARCH CONFIGURATION` 會變更文字搜尋設定的定義。你可以修改其從語彙單元類型到字典的對應，或變更該設定的名稱或擁有者。
 
-You must be the owner of the configuration to use
-`ALTER TEXT SEARCH CONFIGURATION`.
+你必須是該設定的擁有者，才能使用
+`ALTER TEXT SEARCH CONFIGURATION`。
 
 <a id="id-1.9.3.37.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (optionally schema-qualified) of an existing text search
-    configuration.
+:   現有文字搜尋設定的名稱（可選擇以綱要限定）。
 
 *`token_type`*
-:   The name of a token type that is emitted by the configuration's
-    parser.
+:   由該設定之剖析器所產生的語彙單元類型名稱。
 
 *`dictionary_name`*
-:   The name of a text search dictionary to be consulted for the
-    specified token type(s). If multiple dictionaries are listed,
-    they are consulted in the specified order.
+:   要針對指定的語彙單元類型查詢的文字搜尋字典名稱。若列出多個字典，會依指定的順序查詢。
 
 *`old_dictionary`*
-:   The name of a text search dictionary to be replaced in the mapping.
+:   對應中要被取代的文字搜尋字典名稱。
 
 *`new_dictionary`*
-:   The name of a text search dictionary to be substituted for
-    *`old_dictionary`*.
+:   要用來取代 *`old_dictionary`* 的文字搜尋字典名稱。
 
 *`new_name`*
-:   The new name of the text search configuration.
+:   文字搜尋設定的新名稱。
 
 *`new_owner`*
-:   The new owner of the text search configuration.
+:   文字搜尋設定的新擁有者。
 
 *`new_schema`*
-:   The new schema for the text search configuration.
+:   文字搜尋設定的新綱要。
 
-The `ADD MAPPING FOR` form installs a list of dictionaries to be
-consulted for the specified token type(s); it is an error if there is
-already a mapping for any of the token types.
-The `ALTER MAPPING FOR` form does the same, but first removing
-any existing mapping for those token types.
-The `ALTER MAPPING REPLACE` forms substitute *`new_dictionary`* for *`old_dictionary`* anywhere the latter appears.
-This is done for only the specified token types when `FOR`
-appears, or for all mappings of the configuration when it doesn't.
-The `DROP MAPPING` form removes all dictionaries for the
-specified token type(s), causing tokens of those types to be ignored
-by the text search configuration. It is an error if there is no mapping
-for the token types, unless `IF EXISTS` appears.
+`ADD MAPPING FOR` 形式會為指定的語彙單元類型設置一份要查詢的字典清單；若其中任何語彙單元類型已有對應，則會發生錯誤。
+`ALTER MAPPING FOR` 形式的作用相同，但會先移除這些語彙單元類型的任何現有對應。
+`ALTER MAPPING REPLACE` 形式會在 *`old_dictionary`* 出現的任何位置，以 *`new_dictionary`* 取代它。
+當出現 `FOR` 時，只會對指定的語彙單元類型進行此操作；未出現時，則對該設定的所有對應進行。
+`DROP MAPPING` 形式會移除指定語彙單元類型的所有字典，使這些類型的語彙單元被該文字搜尋設定忽略。若這些語彙單元類型沒有對應，則會發生錯誤，除非出現 `IF EXISTS`。
 
 <a id="id-1.9.3.37.7"></a>
 
-## Examples
+## 範例
 
-The following example replaces the `english` dictionary
-with the `swedish` dictionary anywhere that `english`
-is used within `my_config`.
+下列範例會在 `my_config` 中使用 `english` 字典的任何位置，以 `swedish` 字典取代 `english` 字典。
 
 ```
 
@@ -97,17 +82,16 @@ ALTER TEXT SEARCH CONFIGURATION my_config
 
 <a id="id-1.9.3.37.8"></a>
 
-## Compatibility
+## 相容性
 
-There is no `ALTER TEXT SEARCH CONFIGURATION` statement in
-the SQL standard.
+SQL 標準中沒有 `ALTER TEXT SEARCH CONFIGURATION` 陳述式。
 
 <a id="id-1.9.3.37.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE TEXT SEARCH CONFIGURATION](sql-createtsconfig.md), [DROP TEXT SEARCH CONFIGURATION](sql-droptsconfig.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertsconfig.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertsconfig.html)（原文版本：18.6；核對日期：2026-10-04）
