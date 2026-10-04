@@ -1,10 +1,12 @@
-<a id="id-1.9.3.86.1"></a>
+<a id="SQL-CREATETABLEAS"></a><a id="id-1.9.3.86.1"></a>
 
 ## CREATE TABLE AS
 
-CREATE TABLE AS — define a new table from the results of a query
+CREATE TABLE AS — 以查詢的結果定義新的資料表
 
-## Synopsis
+<a id="id-1.9.3.86.4"></a>
+
+## 語法
 
 ```
 
@@ -20,126 +22,79 @@ CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXI
 
 <a id="id-1.9.3.86.5"></a>
 
-## Description
+## 說明
 
-`CREATE TABLE AS` creates a table and fills it
-with data computed by a `SELECT` command.
-The table columns have the
-names and data types associated with the output columns of the
-`SELECT` (except that you can override the column
-names by giving an explicit list of new column names).
+`CREATE TABLE AS` 會建立一個資料表，並以 `SELECT` 命令所計算出的資料填入。資料表的欄位具有與 `SELECT` 之輸出欄位相關聯的名稱與資料型別（不過你可以提供明確的新欄位名稱清單來覆寫欄位名稱）。
 
-`CREATE TABLE AS` bears some resemblance to
-creating a view, but it is really quite different: it creates a new
-table and evaluates the query just once to fill the new table
-initially. The new table will not track subsequent changes to the
-source tables of the query. In contrast, a view re-evaluates its
-defining `SELECT` statement whenever it is
-queried.
+`CREATE TABLE AS` 與建立檢視表有些相似，但實際上相當不同：它會建立一個新的資料表，並且只對查詢求值一次，以初始填入新資料表。新資料表不會追蹤查詢來源資料表後續的變更。相較之下，檢視表在每次被查詢時，都會重新對其定義的 `SELECT` 陳述式求值。
 
-`CREATE TABLE AS` requires `CREATE`
-privilege on the schema used for the table.
+`CREATE TABLE AS` 需要資料表所使用之綱要的 `CREATE` 權限。
 
 <a id="id-1.9.3.86.6"></a>
 
-## Parameters
+## 參數
 
-`GLOBAL` or `LOCAL`
-:   Ignored for compatibility. Use of these keywords is deprecated;
-    refer to [CREATE TABLE](sql-createtable.md) for details.
+`GLOBAL` 或 `LOCAL`
+:   為了相容性而忽略。這些關鍵字的使用已被棄用；詳細資訊請參閱 [CREATE TABLE](sql-createtable.md)。
 
-`TEMPORARY` or `TEMP`
-:   If specified, the table is created as a temporary table.
-    Refer to [CREATE TABLE](sql-createtable.md) for details.
+`TEMPORARY` 或 `TEMP`
+:   若有指定，資料表會建立為暫存資料表。詳細資訊請參閱 [CREATE TABLE](sql-createtable.md)。
 
 `UNLOGGED`
-:   If specified, the table is created as an unlogged table.
-    Refer to [CREATE TABLE](sql-createtable.md) for details.
+:   若有指定，資料表會建立為無日誌資料表（unlogged table）。詳細資訊請參閱 [CREATE TABLE](sql-createtable.md)。
 
 `IF NOT EXISTS`
-:   Do not throw an error if a relation with the same name already
-    exists; simply issue a notice and leave the table unmodified.
+:   若已存在同名的關聯，不擲出錯誤；只會發出 notice，並保持該資料表不變。
 
 *`table_name`*
-:   The name (optionally schema-qualified) of the table to be created.
+:   要建立的資料表名稱（可選擇以綱要限定）。
 
 *`column_name`*
-:   The name of a column in the new table. If column names are not
-    provided, they are taken from the output column names of the query.
+:   新資料表中欄位的名稱。若未提供欄位名稱，會取自查詢的輸出欄位名稱。
 
 `USING method`
-:   This optional clause specifies the table access method to use to store
-    the contents for the new table; the method needs be an access method of
-    type `TABLE`. See [Chapter 62](../../internals/tableam/README.md) for more
-    information. If this option is not specified, the default table access
-    method is chosen for the new table. See [default_table_access_method](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLE-ACCESS-METHOD) for more information.
+:   此選用子句指定用來儲存新資料表內容的資料表存取方法；該方法必須是 `TABLE` 類型的存取方法。更多資訊請參閱[第 62 章](../../internals/tableam/README.md)。若未指定此選項，新資料表會使用預設的資料表存取方法。更多資訊請參閱 [default_table_access_method](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLE-ACCESS-METHOD)。
 
 `WITH ( storage_parameter [= value] [, ... ] )`
-:   This clause specifies optional storage parameters for the new table;
-    see [Storage Parameters](sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS) in the
-    [CREATE TABLE](sql-createtable.md) documentation for more
-    information. For backward-compatibility the `WITH`
-    clause for a table can also include `OIDS=FALSE` to
-    specify that rows of the new table should contain no OIDs (object
-    identifiers), `OIDS=TRUE` is not supported anymore.
+:   此子句為新資料表指定選用的儲存參數；更多資訊請參閱 [CREATE TABLE](sql-createtable.md) 文件中的[儲存參數](sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。為了向後相容性，資料表的 `WITH` 子句也可以包含 `OIDS=FALSE`，以指定新資料表的資料列不應包含 OID（物件識別碼）；`OIDS=TRUE` 已不再支援。
 
 `WITHOUT OIDS`
-:   This is backward-compatible syntax for declaring a table
-    `WITHOUT OIDS`, creating a table `WITH
-    OIDS` is not supported anymore.
+:   這是用來宣告資料表 `WITHOUT OIDS` 的向後相容語法；建立 `WITH
+    OIDS` 的資料表已不再支援。
 
 `ON COMMIT`
-:   The behavior of temporary tables at the end of a transaction
-    block can be controlled using `ON COMMIT`.
-    The three options are:
+:   暫存資料表在交易區塊結束時的行為可以使用 `ON COMMIT` 來控制。三個選項如下：
 
     `PRESERVE ROWS`
-    :   No special action is taken at the ends of transactions.
-        This is the default behavior.
+    :   在交易結束時不採取任何特殊動作。這是預設行為。
 
     `DELETE ROWS`
-    :   All rows in the temporary table will be deleted at the end
-        of each transaction block. Essentially, an automatic [`TRUNCATE`](sql-truncate.md) is done
-        at each commit.
+    :   暫存資料表中的所有資料列會在每個交易區塊結束時被刪除。基本上，就是在每次提交時自動執行一次 [`TRUNCATE`](sql-truncate.md)。
 
     `DROP`
-    :   The temporary table will be dropped at the end of the current
-        transaction block.
+    :   暫存資料表會在目前交易區塊結束時被移除。
 
 `TABLESPACE tablespace_name`
-:   The *`tablespace_name`* is the name
-    of the tablespace in which the new table is to be created.
-    If not specified,
-    [default_tablespace](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLESPACE) is consulted, or
-    [temp_tablespaces](../../server-administration/runtime-config/runtime-config-client.md#GUC-TEMP-TABLESPACES) if the table is temporary.
+:   *`tablespace_name`* 是要在其中建立新資料表的資料表空間名稱。若未指定，會參考 [default_tablespace](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLESPACE)；若資料表是暫存的，則參考 [temp_tablespaces](../../server-administration/runtime-config/runtime-config-client.md#GUC-TEMP-TABLESPACES)。
 
 *`query`*
-:   A [`SELECT`](sql-select.md), [`TABLE`](sql-select.md#SQL-TABLE), or [`VALUES`](sql-values.md)
-    command, or an [`EXECUTE`](sql-execute.md) command that runs a
-    prepared `SELECT`, `TABLE`, or
-    `VALUES` query.
+:   一個 [`SELECT`](sql-select.md)、[`TABLE`](sql-select.md#SQL-TABLE) 或 [`VALUES`](sql-values.md) 命令，或是執行預備之 `SELECT`、`TABLE` 或 `VALUES` 查詢的 [`EXECUTE`](sql-execute.md) 命令。
 
 `WITH [ NO ] DATA`
-:   This clause specifies whether or not the data produced by the query
-    should be copied into the new table. If not, only the table structure
-    is copied. The default is to copy the data.
+:   此子句指定查詢所產生的資料是否應該複製到新資料表中。若否，則只複製資料表結構。預設是複製資料。
 
 <a id="id-1.9.3.86.7"></a>
 
-## Notes
+## 注意事項
 
-This command is functionally similar to [SELECT INTO](sql-selectinto.md), but it is
-preferred since it is less likely to be confused with other uses of
-the `SELECT INTO` syntax. Furthermore, `CREATE
-TABLE AS` offers a superset of the functionality offered
-by `SELECT INTO`.
+此命令在功能上類似於 [SELECT INTO](sql-selectinto.md)，但較建議使用此命令，因為它比較不容易與 `SELECT INTO` 語法的其他用法混淆。此外，`CREATE
+TABLE AS` 提供的功能是 `SELECT INTO` 所提供功能的超集合。
 
 <a id="id-1.9.3.86.8"></a>
 
-## Examples
+## 範例
 
-Create a new table `films_recent` consisting of only
-recent entries from the table `films`:
+建立一個新資料表 `films_recent`，只包含資料表 `films` 中的近期項目：
 
 ```
 
@@ -147,8 +102,7 @@ CREATE TABLE films_recent AS
   SELECT * FROM films WHERE date_prod >= '2002-01-01';
 ```
 
-To copy a table completely, the short form using
-the `TABLE` command can also be used:
+要完整複製一個資料表，也可以使用以 `TABLE` 命令表示的簡短形式：
 
 ```
 
@@ -156,9 +110,7 @@ CREATE TABLE films2 AS
   TABLE films;
 ```
 
-Create a new temporary table `films_recent`, consisting of
-only recent entries from the table `films`, using a
-prepared statement. The new table will be dropped at commit:
+使用預備陳述式建立一個新的暫存資料表 `films_recent`，只包含資料表 `films` 中的近期項目。新資料表會在提交時被移除：
 
 ```
 
@@ -170,32 +122,22 @@ CREATE TEMP TABLE films_recent ON COMMIT DROP AS
 
 <a id="id-1.9.3.86.9"></a>
 
-## Compatibility
+## 相容性
 
-`CREATE TABLE AS` conforms to the SQL
-standard. The following are nonstandard extensions:
+`CREATE TABLE AS` 符合 SQL 標準。以下是非標準的擴充：
 
-* The standard requires parentheses around the subquery clause; in
-  PostgreSQL, these parentheses are
-  optional.
-* In the standard, the `WITH [ NO ] DATA` clause
-  is required; in PostgreSQL it is optional.
-* PostgreSQL handles temporary tables in a way
-  rather different from the standard; see
-  [CREATE TABLE](sql-createtable.md)
-  for details.
-* The `WITH` clause is a PostgreSQL
-  extension; storage parameters are not in the standard.
-* The PostgreSQL concept of tablespaces is not
-  part of the standard. Hence, the clause `TABLESPACE`
-  is an extension.
+* 標準要求子查詢子句前後加上括號；在 PostgreSQL 中，這些括號是選用的。
+* 在標準中，`WITH [ NO ] DATA` 子句是必要的；在 PostgreSQL 中則是選用的。
+* PostgreSQL 處理暫存資料表的方式與標準相當不同；詳細資訊請參閱 [CREATE TABLE](sql-createtable.md)。
+* `WITH` 子句是 PostgreSQL 的擴充語法；儲存參數不在標準中。
+* PostgreSQL 的資料表空間概念並不是標準的一部分。因此，`TABLESPACE` 子句是擴充語法。
 
 <a id="id-1.9.3.86.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE MATERIALIZED VIEW](sql-creatematerializedview.md), [CREATE TABLE](sql-createtable.md), [EXECUTE](sql-execute.md), [SELECT](sql-select.md), [SELECT INTO](sql-selectinto.md), [VALUES](sql-values.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createtableas.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createtableas.html)（原文版本：18.6；核對日期：2026-10-04）
