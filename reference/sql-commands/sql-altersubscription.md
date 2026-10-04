@@ -1,10 +1,12 @@
-<a id="id-1.9.3.33.1"></a>
+<a id="SQL-ALTERSUBSCRIPTION"></a><a id="id-1.9.3.33.1"></a>
 
 ## ALTER SUBSCRIPTION
 
-ALTER SUBSCRIPTION — change the definition of a subscription
+ALTER SUBSCRIPTION — 變更訂閱的定義
 
-## Synopsis
+<a id="id-1.9.3.33.4"></a>
+
+## 語法
 
 ```
 
@@ -23,234 +25,187 @@ ALTER SUBSCRIPTION name RENAME TO new_name
 
 <a id="id-1.9.3.33.5"></a>
 
-## Description
+## 說明
 
-`ALTER SUBSCRIPTION` can change most of the subscription
-properties that can be specified
-in [CREATE SUBSCRIPTION](sql-createsubscription.md).
+`ALTER SUBSCRIPTION` 可以變更大部分可在
+[CREATE SUBSCRIPTION](sql-createsubscription.md) 中指定的訂閱屬性。
 
-You must own the subscription to use `ALTER SUBSCRIPTION`.
-To rename a subscription or alter the owner, you must have
-`CREATE` permission on the database. In addition,
-to alter the owner, you must be able to `SET ROLE` to the
-new owning role. If the subscription has
-`password_required=false`, only superusers can modify it.
+你必須擁有該訂閱，才能使用 `ALTER SUBSCRIPTION`。
+要重新命名訂閱或變更擁有者，你必須具備該資料庫的
+`CREATE` 權限。此外，要變更擁有者，你必須能夠 `SET ROLE` 為新的擁有者角色。若該訂閱設定了
+`password_required=false`，則只有超級使用者可以修改它。
 
-When refreshing a publication we remove the relations that are no longer
-part of the publication and we also remove the table synchronization slots
-if there are any. It is necessary to remove these slots so that the resources
-allocated for the subscription on the remote host are released. If due to
-network breakdown or some other error, PostgreSQL
-is unable to remove the slots, an error will be reported. To proceed in this
-situation, the user either needs to retry the operation or disassociate the
-slot from the subscription and drop the subscription as explained in
-[DROP SUBSCRIPTION](sql-dropsubscription.md).
+重新整理發佈時，我們會移除不再屬於該發佈的關聯，若有資料表同步插槽，也會將其移除。必須移除這些插槽，才能釋放在遠端主機上為該訂閱配置的資源。若因網路中斷或其他錯誤，使 PostgreSQL
+無法移除這些插槽，就會回報錯誤。要在這種情況下繼續進行，使用者需要重試該操作，或者將插槽與訂閱解除關聯，並依
+[DROP SUBSCRIPTION](sql-dropsubscription.md) 中的說明移除該訂閱。
 
-Commands `ALTER SUBSCRIPTION ... REFRESH PUBLICATION`,
-`ALTER SUBSCRIPTION ... {SET|ADD|DROP} PUBLICATION ...`
-with `refresh` option as `true`,
-`ALTER SUBSCRIPTION ... SET (failover = true|false)` and
-`ALTER SUBSCRIPTION ... SET (two_phase = false)`
-cannot be executed inside a transaction block.
+`ALTER SUBSCRIPTION ... REFRESH PUBLICATION` 命令、
+`refresh` 選項為 `true` 的
+`ALTER SUBSCRIPTION ... {SET|ADD|DROP} PUBLICATION ...` 命令、
+`ALTER SUBSCRIPTION ... SET (failover = true|false)` 命令，以及
+`ALTER SUBSCRIPTION ... SET (two_phase = false)` 命令，
+都不能在交易區塊內執行。
 
-Commands `ALTER SUBSCRIPTION ... REFRESH PUBLICATION` and
-`ALTER SUBSCRIPTION ... {SET|ADD|DROP} PUBLICATION ...`
-with `refresh` option as `true` also cannot
-be executed when the subscription has
+當訂閱啟用了
 [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
-commit enabled, unless
+提交時，`ALTER SUBSCRIPTION ... REFRESH PUBLICATION` 命令以及
+`refresh` 選項為 `true` 的
+`ALTER SUBSCRIPTION ... {SET|ADD|DROP} PUBLICATION ...` 命令也同樣不能執行，除非
 [`copy_data`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-COPY-DATA)
-is `false`. See column `subtwophasestate`
-of [`pg_subscription`](../../internals/catalogs/catalog-pg-subscription.md)
-to know the actual two-phase state.
+為 `false`。請參閱
+[`pg_subscription`](../../internals/catalogs/catalog-pg-subscription.md) 的 `subtwophasestate` 欄位，
+以得知實際的兩階段狀態。
 
 <a id="id-1.9.3.33.6"></a>
 
-## Parameters
+## 參數
 
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-NAME"></a>
 
 *`name`* [#](#SQL-ALTERSUBSCRIPTION-PARAMS-NAME)
-:   The name of a subscription whose properties are to be altered.
+:   要變更其屬性之訂閱的名稱。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-CONNECTION"></a>
 
 `CONNECTION 'conninfo'` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-CONNECTION)
-:   This clause replaces the connection string originally set by
-    [CREATE SUBSCRIPTION](sql-createsubscription.md). See there for more
-    information.
+:   此子句會取代原先由
+    [CREATE SUBSCRIPTION](sql-createsubscription.md) 設定的連線字串。更多資訊請參閱該處。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-SETADDDROP-PUBLICATION"></a>
 
 `SET PUBLICATION publication_name`<br>`ADD PUBLICATION publication_name`<br>`DROP PUBLICATION publication_name` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-SETADDDROP-PUBLICATION)
-:   These forms change the list of subscribed publications.
+:   這些形式會變更所訂閱之發佈的清單。
     `SET`
-    replaces the entire list of publications with a new list,
-    `ADD` adds additional publications to the list of
-    publications, and `DROP` removes the publications from
-    the list of publications. We allow non-existent publications to be
-    specified in `ADD` and `SET` variants
-    so that users can add those later. See [CREATE SUBSCRIPTION](sql-createsubscription.md)
-    for more information. By default, this command will also act like
-    `REFRESH PUBLICATION`.
+    會以新的清單取代整份發佈清單，
+    `ADD` 會將額外的發佈加入發佈清單，而 `DROP` 會從發佈清單中移除這些發佈。我們允許在 `ADD` 與 `SET` 形式中指定不存在的發佈，讓使用者可以之後再加入它們。更多資訊請參閱 [CREATE SUBSCRIPTION](sql-createsubscription.md)。預設情況下，此命令也會發揮與
+    `REFRESH PUBLICATION` 相同的作用。
 
-    *`publication_option`* specifies additional
-    options for this operation. The supported options are:
+    *`publication_option`* 指定此操作的額外選項。支援的選項有：
 
     `refresh` (`boolean`)
-    :   When false, the command will not try to refresh table information.
-        `REFRESH PUBLICATION` should then be executed separately.
-        The default is `true`.
+    :   設為 false 時，此命令不會嘗試重新整理資料表資訊。
+        之後應該另外執行 `REFRESH PUBLICATION`。
+        預設值為 `true`。
 
-    Additionally, the options described under
-    `REFRESH PUBLICATION` may be specified, to control the
-    implicit refresh operation.
+    此外，也可以指定
+    `REFRESH PUBLICATION` 底下所述的選項，以控制隱含的重新整理操作。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-REFRESH-PUBLICATION"></a>
 
 `REFRESH PUBLICATION` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-REFRESH-PUBLICATION)
-:   Fetch missing table information from publisher. This will start
-    replication of tables that were added to the subscribed-to publications
-    since [`CREATE SUBSCRIPTION`](sql-createsubscription.md) or
-    the last invocation of `REFRESH PUBLICATION`.
+:   從發佈者擷取缺少的資料表資訊。這會開始複寫自 [`CREATE SUBSCRIPTION`](sql-createsubscription.md) 或上一次呼叫
+    `REFRESH PUBLICATION` 以來，新加入所訂閱之發佈的資料表。
 
-    *`refresh_option`* specifies additional options for the
-    refresh operation. The supported options are:
+    *`refresh_option`* 指定重新整理操作的額外選項。支援的選項有：
 
     `copy_data` (`boolean`)
-    :   Specifies whether to copy pre-existing data in the publications
-        that are being subscribed to when the replication starts.
-        The default is `true`.
+    :   指定複寫開始時，是否要複製所訂閱之發佈中既有的資料。
+        預設值為 `true`。
 
-        Previously subscribed tables are not copied, even if a table's row
-        filter `WHERE` clause has since been modified.
+        先前已訂閱的資料表不會被複製，即使某個資料表的資料列篩選器
+        `WHERE` 子句在那之後已被修改。
 
-        See [Notes](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-NOTES) for details of
-        how `copy_data = true` can interact with the
+        關於 `copy_data = true` 如何與
         [`origin`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-ORIGIN)
-        parameter.
+        參數互動的細節，請參閱[注意事項](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-NOTES)。
 
-        See the
+        關於以二進位格式複製既有資料的細節，請參閱
+        `CREATE SUBSCRIPTION` 的
         [`binary`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-BINARY)
-        parameter of `CREATE SUBSCRIPTION` for details about
-        copying pre-existing data in binary format.
+        參數。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-ENABLE"></a>
 
 `ENABLE` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-ENABLE)
-:   Enables a previously disabled subscription, starting the logical
-    replication worker at the end of the transaction.
+:   啟用先前已停用的訂閱，並在交易結束時啟動邏輯複寫工作程序。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-DISABLE"></a>
 
 `DISABLE` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-DISABLE)
-:   Disables a running subscription, stopping the logical replication
-    worker at the end of the transaction.
+:   停用執行中的訂閱，並在交易結束時停止邏輯複寫工作程序。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-SET"></a>
 
 `SET ( subscription_parameter [= value] [, ... ] )` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-SET)
-:   This clause alters parameters originally set by
-    [CREATE SUBSCRIPTION](sql-createsubscription.md). See there for more
-    information. The parameters that can be altered are
-    [`slot_name`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SLOT-NAME),
-    [`synchronous_commit`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SYNCHRONOUS-COMMIT),
-    [`binary`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-BINARY),
-    [`streaming`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-STREAMING),
-    [`disable_on_error`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-DISABLE-ON-ERROR),
-    [`password_required`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-PASSWORD-REQUIRED),
-    [`run_as_owner`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-RUN-AS-OWNER),
-    [`origin`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-ORIGIN),
-    [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER), and
-    [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE).
-    Only a superuser can set `password_required = false`.
+:   此子句會變更原先由
+    [CREATE SUBSCRIPTION](sql-createsubscription.md) 設定的參數。更多資訊請參閱該處。可以變更的參數有
+    [`slot_name`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SLOT-NAME)、
+    [`synchronous_commit`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SYNCHRONOUS-COMMIT)、
+    [`binary`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-BINARY)、
+    [`streaming`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-STREAMING)、
+    [`disable_on_error`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-DISABLE-ON-ERROR)、
+    [`password_required`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-PASSWORD-REQUIRED)、
+    [`run_as_owner`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-RUN-AS-OWNER)、
+    [`origin`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-ORIGIN)、
+    [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER) 與
+    [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)。
+    只有超級使用者可以設定 `password_required = false`。
 
-    When altering the
-    [`slot_name`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SLOT-NAME),
-    the `failover` and `two_phase` property
-    values of the named slot may differ from the counterpart
+    變更
+    [`slot_name`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SLOT-NAME)
+    時，所指定插槽的 `failover` 與 `two_phase` 屬性值，可能與訂閱中所指定之對應的
     [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
-    and [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
-    parameters specified in the subscription. When creating the slot, ensure
-    the slot properties `failover` and `two_phase`
-    match their counterpart parameters of the subscription.
-    Otherwise, the slot on the publisher may behave differently from what these
-    subscription options say: for example, the slot on the publisher could either be
-    synced to the standbys even when the subscription's
+    與 [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
+    參數不同。建立插槽時，請確保插槽屬性 `failover` 與 `two_phase`
+    符合訂閱中對應的參數。
+    否則，發佈者上的插槽的行為可能與這些訂閱選項所述的不同：例如，即使訂閱的
     [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
-    option is disabled or could be disabled for sync
-    even when the subscription's
+    選項已停用，發佈者上的插槽仍可能被同步到待命伺服器；或者即使訂閱的
     [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
-    option is enabled.
+    選項已啟用，該插槽仍可能被停用同步。
 
-    The [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
-    and [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
-    parameters can only be altered when the subscription is disabled.
+    [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
+    與 [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
+    參數只能在訂閱停用時變更。
 
-    When altering [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
-    from `true` to `false`, the backend
-    process reports an error if any prepared transactions done by the
-    logical replication worker (from when `two_phase`
-    parameter was still `true`) are found. You can resolve
-    prepared transactions on the publisher node, or manually roll them back
-    on the subscriber, and then try again. The transactions prepared by
-    logical replication worker corresponding to a particular subscription have
-    the following pattern: “`pg_gid_%u_%u`”
-    (parameters: subscription *`oid`*, remote transaction id *`xid`*).
-    To resolve such transactions manually, you need to roll back all
-    the prepared transactions with corresponding subscription IDs in their
-    names. Applications can check
+    將 [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
+    從 `true` 變更為 `false` 時，若發現任何由邏輯複寫工作程序完成的預備交易（來自 `two_phase`
+    參數仍為 `true` 的期間），後端程序會回報錯誤。你可以在發佈者節點上解決這些預備交易，或在訂閱者手動將它們回滾，然後再試一次。對應於特定訂閱的邏輯複寫工作程序所預備的交易，具有下列模式：「`pg_gid_%u_%u`」
+    （參數：訂閱 *`oid`*、遠端交易 ID *`xid`*）。
+    要手動解決這類交易，你需要回滾名稱中含有對應訂閱 ID 的所有預備交易。應用程式可以查看
     [`pg_prepared_xacts`](../../internals/views/view-pg-prepared-xacts.md)
-    to find the required prepared transactions. After the `two_phase`
-    option is changed from `true` to `false`,
-    the publisher will replicate the transactions again when they are committed.
+    來找出所需的預備交易。將 `two_phase`
+    選項從 `true` 變更為 `false` 之後，
+    發佈者會在這些交易提交時再次複寫它們。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-SKIP"></a>
 
 `SKIP ( skip_option = value )` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-SKIP)
-:   Skips applying all changes of the remote transaction. If incoming data
-    violates any constraints, logical replication will stop until it is
-    resolved. By using the `ALTER SUBSCRIPTION ... SKIP` command,
-    the logical replication worker skips all data modification changes within
-    the transaction. This option has no effect on the transactions that are
-    already prepared by enabling
+:   略過套用遠端交易的所有變更。若傳入的資料違反任何限制條件，邏輯複寫會停止，直到問題解決為止。使用 `ALTER SUBSCRIPTION ... SKIP` 命令，
+    邏輯複寫工作程序會略過該交易中所有的資料修改變更。對於已在訂閱者啟用
     [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
-    on the subscriber.
-    After the logical replication worker successfully skips the transaction or
-    finishes a transaction, the LSN (stored in
-    `pg_subscription`.`subskiplsn`)
-    is cleared. See [Section 29.7](../../server-administration/logical-replication/logical-replication-conflicts.md) for
-    the details of logical replication conflicts.
+    而已預備的交易，此選項沒有作用。
+    在邏輯複寫工作程序成功略過該交易或完成某個交易之後，LSN（儲存於
+    `pg_subscription`.`subskiplsn`）
+    會被清除。關於邏輯複寫衝突的細節，請參閱[第 29.7 節](../../server-administration/logical-replication/logical-replication-conflicts.md)。
 
-    *`skip_option`* specifies options for this operation.
-    The supported option is:
+    *`skip_option`* 指定此操作的選項。
+    支援的選項有：
 
     `lsn` (`pg_lsn`)
-    :   Specifies the finish LSN of the remote transaction whose changes
-        are to be skipped by the logical replication worker. The finish LSN
-        is the LSN at which the transaction is either committed or prepared.
-        Skipping individual subtransactions is not supported. Setting
-        `NONE` resets the LSN.
+    :   指定其變更要被邏輯複寫工作程序略過之遠端交易的完成 LSN。完成 LSN
+        是該交易被提交或被預備時的 LSN。
+        不支援略過個別的子交易。設定
+        `NONE` 會重設 LSN。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-NEW-OWNER"></a>
 
 *`new_owner`* [#](#SQL-ALTERSUBSCRIPTION-PARAMS-NEW-OWNER)
-:   The user name of the new owner of the subscription.
+:   訂閱之新擁有者的使用者名稱。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-NEW-NAME"></a>
 
 *`new_name`* [#](#SQL-ALTERSUBSCRIPTION-PARAMS-NEW-NAME)
-:   The new name for the subscription.
+:   訂閱的新名稱。
 
-When specifying a parameter of type `boolean`, the
+指定 `boolean` 型別的參數時，可以省略
 `=` *`value`*
-part can be omitted, which is equivalent to
-specifying `TRUE`.
+部分，這等同於指定 `TRUE`。
 
 <a id="id-1.9.3.33.7"></a>
 
-## Examples
+## 範例
 
-Change the publication subscribed by a subscription to
-`insert_only`:
+將訂閱所訂閱的發佈變更為
+`insert_only`：
 
 ```
 
 ALTER SUBSCRIPTION mysub SET PUBLICATION insert_only;
 ```
 
-Disable (stop) the subscription:
+停用（停止）訂閱：
 
 ```
 
@@ -259,17 +214,17 @@ ALTER SUBSCRIPTION mysub DISABLE;
 
 <a id="id-1.9.3.33.8"></a>
 
-## Compatibility
+## 相容性
 
-`ALTER SUBSCRIPTION` is a PostgreSQL
-extension.
+`ALTER SUBSCRIPTION` 是 PostgreSQL
+的擴充語法。
 
 <a id="id-1.9.3.33.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE SUBSCRIPTION](sql-createsubscription.md), [DROP SUBSCRIPTION](sql-dropsubscription.md), [CREATE PUBLICATION](sql-createpublication.md), [ALTER PUBLICATION](sql-alterpublication.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altersubscription.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altersubscription.html)（原文版本：18.6；核對日期：2026-10-04）
