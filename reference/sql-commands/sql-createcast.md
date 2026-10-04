@@ -1,10 +1,12 @@
-<a id="id-1.9.3.58.1"></a>
+<a id="SQL-CREATECAST"></a><a id="id-1.9.3.58.1"></a>
 
 ## CREATE CAST
 
-CREATE CAST — define a new cast
+CREATE CAST — 定義新的型別轉換
 
-## Synopsis
+<a id="id-1.9.3.58.4"></a>
+
+## 語法
 
 ```
 
@@ -23,294 +25,142 @@ CREATE CAST (source_type AS target_type)
 
 <a id="SQL-CREATECAST-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-`CREATE CAST` defines a new cast. A cast
-specifies how to perform a conversion between
-two data types. For example,
+`CREATE CAST` 會定義新的型別轉換。型別轉換指定如何在兩種資料型別之間進行轉換。例如，
 
 ```
 
 SELECT CAST(42 AS float8);
 ```
 
-converts the integer constant 42 to type `float8` by
-invoking a previously specified function, in this case
-`float8(int4)`. (If no suitable cast has been defined, the
-conversion fails.)
+會藉由呼叫先前指定的函式（此例中為 `float8(int4)`），將整數常數 42 轉換為 `float8` 型別。（若沒有定義合適的型別轉換，轉換就會失敗。）
 
-Two types can be *binary coercible*, which
-means that the conversion can be performed “for free”
-without invoking any function. This requires that corresponding
-values use the same internal representation. For instance, the
-types `text` and `varchar` are binary
-coercible both ways. Binary coercibility is not necessarily a
-symmetric relationship. For example, the cast
-from `xml` to `text` can be performed for
-free in the present implementation, but the reverse direction
-requires a function that performs at least a syntax check. (Two
-types that are binary coercible both ways are also referred to as
-binary compatible.)
+兩種型別可以是*可二進位強制轉換*（binary coercible）的，這表示轉換可以「免費」進行，而不必呼叫任何函式。這需要相對應的值使用相同的內部表示方式。例如，`text` 與 `varchar` 型別在兩個方向上都可二進位強制轉換。可二進位強制轉換不一定是對稱的關係。例如，在目前的實作中，從 `xml` 到 `text` 的型別轉換可以免費進行，但反方向則需要一個至少執行語法檢查的函式。（在兩個方向上都可二進位強制轉換的兩種型別，也稱為二進位相容。）
 
-You can define a cast as an *I/O conversion cast* by using
-the `WITH INOUT` syntax. An I/O conversion cast is
-performed by invoking the output function of the source data type, and
-passing the resulting string to the input function of the target data type.
-In many common cases, this feature avoids the need to write a separate
-cast function for conversion. An I/O conversion cast acts the same as
-a regular function-based cast; only the implementation is different.
+你可以使用 `WITH INOUT` 語法，將型別轉換定義為 *I/O 轉換型別轉換*。I/O 轉換型別轉換的執行方式，是呼叫來源資料型別的輸出函式，並將產生的字串傳給目標資料型別的輸入函式。在許多常見情況下，這項功能可以免去為轉換另外撰寫型別轉換函式的需要。I/O 轉換型別轉換的行為與一般以函式為基礎的型別轉換相同；只有實作方式不同。
 
-By default, a cast can be invoked only by an explicit cast request,
-that is an explicit `CAST(x AS
-typename)` or
-*`x`*`::`*`typename`*
-construct.
+預設情況下，型別轉換只能由明確的型別轉換請求呼叫，也就是明確的 `CAST(x AS
+typename)` 或 *`x`*`::`*`typename`* 結構。
 
-If the cast is marked `AS ASSIGNMENT` then it can be invoked
-implicitly when assigning a value to a column of the target data type.
-For example, supposing that `foo.f1` is a column of
-type `text`, then:
+若型別轉換標記為 `AS ASSIGNMENT`，則在將值指派給目標資料型別的欄位時，可以隱含地呼叫它。例如，假設 `foo.f1` 是 `text` 型別的欄位，那麼：
 
 ```
 
 INSERT INTO foo (f1) VALUES (42);
 ```
 
-will be allowed if the cast from type `integer` to type
-`text` is marked `AS ASSIGNMENT`, otherwise not.
-(We generally use the term *assignment
-cast* to describe this kind of cast.)
+若從 `integer` 型別到 `text` 型別的型別轉換標記為 `AS ASSIGNMENT`，就會被允許，否則不允許。（我們通常使用*指派轉換*一詞來描述這類型別轉換。）
 
-If the cast is marked `AS IMPLICIT` then it can be invoked
-implicitly in any context, whether assignment or internally in an
-expression. (We generally use the term *implicit
-cast* to describe this kind of cast.)
-For example, consider this query:
+若型別轉換標記為 `AS IMPLICIT`，則可以在任何情境中隱含地呼叫它，無論是在指派中，或在運算式內部。（我們通常使用*隱含轉換*一詞來描述這類型別轉換。）例如，考慮這個查詢：
 
 ```
 
 SELECT 2 + 4.0;
 ```
 
-The parser initially marks the constants as being of type `integer`
-and `numeric` respectively. There is no `integer`
-`+` `numeric` operator in the system catalogs,
-but there is a `numeric` `+` `numeric` operator.
-The query will therefore succeed if a cast from `integer` to
-`numeric` is available and is marked `AS IMPLICIT` —
-which in fact it is. The parser will apply the implicit cast and resolve
-the query as if it had been written
+剖析器一開始會將這兩個常數分別標記為 `integer` 與 `numeric` 型別。系統目錄中沒有 `integer` `+` `numeric` 運算子，但有 `numeric` `+` `numeric` 運算子。因此，若有從 `integer` 到 `numeric` 的型別轉換可用，且標記為 `AS IMPLICIT`（事實上確實如此），這個查詢就會成功。剖析器會套用該隱含轉換，並將查詢解析為如同寫成
 
 ```
 
 SELECT CAST ( 2 AS numeric ) + 4.0;
 ```
 
-Now, the catalogs also provide a cast from `numeric` to
-`integer`. If that cast were marked `AS IMPLICIT` —
-which it is not — then the parser would be faced with choosing
-between the above interpretation and the alternative of casting the
-`numeric` constant to `integer` and applying the
-`integer` `+` `integer` operator. Lacking any
-knowledge of which choice to prefer, it would give up and declare the
-query ambiguous. The fact that only one of the two casts is
-implicit is the way in which we teach the parser to prefer resolution
-of a mixed `numeric`-and-`integer` expression as
-`numeric`; there is no built-in knowledge about that.
+此外，系統目錄也提供了從 `numeric` 到 `integer` 的型別轉換。若該型別轉換標記為 `AS IMPLICIT`（實際上並沒有），剖析器就必須在上述解讀，以及將 `numeric` 常數轉換為 `integer` 並套用 `integer` `+` `integer` 運算子的另一種解讀之間做選擇。由於缺乏應偏好哪一種選擇的任何知識，剖析器會放棄並宣告該查詢有歧義。兩個型別轉換中只有一個是隱含的，這正是我們教導剖析器將混合 `numeric` 與 `integer` 的運算式優先解析為 `numeric` 的方式；系統中並沒有關於這一點的內建知識。
 
-It is wise to be conservative about marking casts as implicit. An
-overabundance of implicit casting paths can cause
-PostgreSQL to choose surprising
-interpretations of commands, or to be unable to resolve commands at
-all because there are multiple possible interpretations. A good
-rule of thumb is to make a cast implicitly invokable only for
-information-preserving transformations between types in the same
-general type category. For example, the cast from `int2` to
-`int4` can reasonably be implicit, but the cast from
-`float8` to `int4` should probably be
-assignment-only. Cross-type-category casts, such as `text`
-to `int4`, are best made explicit-only.
+將型別轉換標記為隱含時，宜採取保守態度。過多的隱含轉換路徑，可能導致 PostgreSQL 對命令做出出乎意料的解讀，或因為有多種可能的解讀而完全無法解析命令。一個好的經驗法則是，只有在同一大類型別類別中、能保留資訊的型別間轉換，才讓型別轉換可以隱含地呼叫。例如，從 `int2` 到 `int4` 的型別轉換可以合理地設為隱含，但從 `float8` 到 `int4` 的型別轉換大概應該只用於指派。跨型別類別的型別轉換，例如 `text` 到 `int4`，最好設為只能明確呼叫。
 
-### Note
+<a id="SQL-CREATECAST-DESCRIPTION-NOTE"></a>
 
-Sometimes it is necessary for usability or standards-compliance reasons
-to provide multiple implicit casts among a set of types, resulting in
-ambiguity that cannot be avoided as above. The parser has a fallback
-heuristic based on *type categories* and *preferred
-types* that can help to provide desired behavior in such cases. See
-[CREATE TYPE](sql-createtype.md) for
-more information.
+### 注意
 
-To be able to create a cast, you must own the source or the target data type
-and have `USAGE` privilege on the other type. To create a
-binary-coercible cast, you must be superuser. (This restriction is made
-because an erroneous binary-coercible cast conversion can easily crash the
-server.)
+有時基於易用性或符合標準的理由，必須在一組型別之間提供多個隱含轉換，因而導致無法如上述方式避免的歧義。剖析器有一套以*型別類別*與*偏好型別*為基礎的後備啟發式規則，可以在這類情況下協助提供期望的行為。詳情請參閱 [CREATE TYPE](sql-createtype.md)。
+
+要建立型別轉換，你必須擁有來源或目標資料型別，並擁有另一個型別的 `USAGE` 權限。要建立可二進位強制轉換的型別轉換，你必須是超級使用者。（設下此限制是因為錯誤的可二進位強制轉換型別轉換很容易使伺服器當機。）
 
 <a id="id-1.9.3.58.6"></a>
 
-## Parameters
+## 參數
 
 *`source_type`*
-:   The name of the source data type of the cast.
+:   型別轉換的來源資料型別名稱。
 
 *`target_type`*
-:   The name of the target data type of the cast.
+:   型別轉換的目標資料型別名稱。
 
 `function_name[(argument_type [, ...])]`
-:   The function used to perform the cast. The function name can
-    be schema-qualified. If it is not, the function will be looked
-    up in the schema search path. The function's result data type must
-    match the target type of the cast. Its arguments are discussed below.
-    If no argument list is specified, the function name must be unique in
-    its schema.
+:   用來執行型別轉換的函式。函式名稱可以用綱要限定。若未以綱要限定，則會在綱要搜尋路徑中查找該函式。函式的結果資料型別必須符合型別轉換的目標型別。其引數將於下文討論。若未指定引數清單，函式名稱在其綱要中必須是唯一的。
 
 `WITHOUT FUNCTION`
-:   Indicates that the source type is binary-coercible to the target type,
-    so no function is required to perform the cast.
+:   表示來源型別可二進位強制轉換為目標型別，因此不需要函式來執行型別轉換。
 
 `WITH INOUT`
-:   Indicates that the cast is an I/O conversion cast, performed by
-    invoking the output function of the source data type, and passing the
-    resulting string to the input function of the target data type.
+:   表示此型別轉換是 I/O 轉換型別轉換，其執行方式是呼叫來源資料型別的輸出函式，並將產生的字串傳給目標資料型別的輸入函式。
 
 `AS ASSIGNMENT`
-:   Indicates that the cast can be invoked implicitly in assignment
-    contexts.
+:   表示此型別轉換可以在指派情境中隱含地呼叫。
 
 `AS IMPLICIT`
-:   Indicates that the cast can be invoked implicitly in any context.
+:   表示此型別轉換可以在任何情境中隱含地呼叫。
 
-Cast implementation functions can have one to three arguments.
-The first argument type must be identical to or binary-coercible from
-the cast's source type. The second argument,
-if present, must be type `integer`; it receives the type
-modifier associated with the destination type, or `-1`
-if there is none. The third argument,
-if present, must be type `boolean`; it receives `true`
-if the cast is an explicit cast, `false` otherwise.
-(Bizarrely, the SQL standard demands different behaviors for explicit and
-implicit casts in some cases. This argument is supplied for functions
-that must implement such casts. It is not recommended that you design
-your own data types so that this matters.)
+型別轉換的實作函式可以有一到三個引數。第一個引數的型別必須與型別轉換的來源型別相同，或可由來源型別二進位強制轉換而得。第二個引數（若有）必須是 `integer` 型別；它會接收與目的型別相關聯的型別修飾詞，若沒有則接收 `-1`。第三個引數（若有）必須是 `boolean` 型別；若該型別轉換是明確轉換，它會接收 `true`，否則接收 `false`。（奇怪的是，SQL 標準在某些情況下要求明確轉換與隱含轉換有不同的行為。提供這個引數是為了讓必須實作這類型別轉換的函式使用。不建議你將自己的資料型別設計成需要在意這一點。）
 
-The return type of a cast function must be identical to or
-binary-coercible to the cast's target type.
+型別轉換函式的傳回型別必須與型別轉換的目標型別相同，或可二進位強制轉換為目標型別。
 
-Ordinarily a cast must have different source and target data types.
-However, it is allowed to declare a cast with identical source and
-target types if it has a cast implementation function with more than one
-argument. This is used to represent type-specific length coercion
-functions in the system catalogs. The named function is used to
-coerce a value of the type to the type modifier value given by its
-second argument.
+一般而言，型別轉換的來源與目標資料型別必須不同。不過，若型別轉換具有一個接受超過一個引數的實作函式，則允許宣告來源與目標型別相同的型別轉換。這用於在系統目錄中表示型別專屬的長度強制轉換函式。所指定的函式用來將該型別的值強制轉換為其第二個引數所給定的型別修飾詞值。
 
-When a cast has different source and
-target types and a function that takes more than one argument, it
-supports converting from one type to another and applying a length
-coercion in a single step. When no such entry is available, coercion
-to a type that uses a type modifier involves two cast steps, one to
-convert between data types and a second to apply the modifier.
+若型別轉換的來源與目標型別不同，且其函式接受超過一個引數，它就支援在單一步驟中從一種型別轉換為另一種型別並套用長度強制轉換。若沒有這樣的項目可用，轉換為使用型別修飾詞的型別時會涉及兩個型別轉換步驟：一個在資料型別之間轉換，另一個套用修飾詞。
 
-A cast to or from a domain type currently has no effect. Casting
-to or from a domain uses the casts associated with its underlying type.
+目前，轉換為網域型別或從網域型別轉換的型別轉換沒有作用。轉換為網域或從網域轉換時，會使用與其基礎型別相關聯的型別轉換。
 
 <a id="SQL-CREATECAST-NOTES"></a>
 
-## Notes
+## 注意事項
 
-Use [`DROP CAST`](sql-dropcast.md) to remove user-defined casts.
+請使用 [`DROP CAST`](sql-dropcast.md) 移除使用者定義的型別轉換。
 
-Remember that if you want to be able to convert types both ways you
-need to declare casts both ways explicitly.
+請記得，若你希望能在兩個方向上轉換型別，就需要明確宣告兩個方向的型別轉換。
 
 <a id="id-1.9.3.58.7.4"></a>
 
-It is normally not necessary to create casts between user-defined types
-and the standard string types (`text`, `varchar`, and
-`char(n)`, as well as user-defined types that
-are defined to be in the string category). PostgreSQL
-provides automatic I/O conversion casts for that. The automatic casts to
-string types are treated as assignment casts, while the automatic casts
-from string types are
-explicit-only. You can override this behavior by declaring your own
-cast to replace an automatic cast, but usually the only reason to
-do so is if you want the conversion to be more easily invokable than the
-standard assignment-only or explicit-only setting. Another possible
-reason is that you want the conversion to behave differently from the
-type's I/O function; but that is sufficiently surprising that you
-should think twice about whether it's a good idea. (A small number of
-the built-in types do indeed have different behaviors for conversions,
-mostly because of requirements of the SQL standard.)
+通常不需要在使用者定義型別與標準字串型別（`text`、`varchar` 與 `char(n)`，以及定義為屬於字串類別的使用者定義型別）之間建立型別轉換。PostgreSQL 會為此提供自動的 I/O 轉換型別轉換。轉換為字串型別的自動型別轉換被視為指派轉換，而從字串型別轉換的自動型別轉換則只能明確呼叫。你可以宣告自己的型別轉換來取代自動型別轉換，藉此覆寫這個行為，但通常這麼做的唯一理由，是你希望該轉換比標準的「僅限指派」或「僅限明確」設定更容易呼叫。另一個可能的理由，是你希望該轉換的行為與型別的 I/O 函式不同；但這相當出乎意料，你應該三思這是否為好主意。（少數內建型別的轉換確實有不同的行為，主要是因為 SQL 標準的要求。）
 
-While not required, it is recommended that you continue to follow this old
-convention of naming cast implementation functions after the target data
-type. Many users are used to being able to cast data types using a
-function-style notation, that is
-*`typename`*(*`x`*). This notation is in fact
-nothing more nor less than a call of the cast implementation function; it
-is not specially treated as a cast. If your conversion functions are not
-named to support this convention then you will have surprised users.
-Since PostgreSQL allows overloading of the same function
-name with different argument types, there is no difficulty in having
-multiple conversion functions from different types that all use the
-target type's name.
+雖然並非必要，但建議你繼續遵循這個舊慣例：以目標資料型別來命名型別轉換的實作函式。許多使用者習慣使用函式風格的表示法來轉換資料型別，也就是 *`typename`*(*`x`*)。這種表示法事實上不多也不少，就只是呼叫型別轉換的實作函式；它並不會被特別當作型別轉換來處理。若你的轉換函式沒有依此慣例命名，就會讓使用者感到意外。由於 PostgreSQL 允許以不同的引數型別多載相同的函式名稱，因此讓多個從不同型別轉換、且都使用目標型別名稱的轉換函式並存，並沒有任何困難。
 
-### Note
+<a id="id-1.9.3.58.7.6"></a>
 
-Actually the preceding paragraph is an oversimplification: there are
-two cases in which a function-call construct will be treated as a cast
-request without having matched it to an actual function.
-If a function call *`name`*(*`x`*) does not
-exactly match any existing function, but *`name`* is the name
-of a data type and `pg_cast` provides a binary-coercible cast
-to this type from the type of *`x`*, then the call will be
-construed as a binary-coercible cast. This exception is made so that
-binary-coercible casts can be invoked using functional syntax, even
-though they lack any function. Likewise, if there is no
-`pg_cast` entry but the cast would be to or from a string
-type, the call will be construed as an I/O conversion cast. This
-exception allows I/O conversion casts to be invoked using functional
-syntax.
+### 注意
 
-### Note
+實際上，前一段是過度簡化的說法：有兩種情況下，函式呼叫結構會在沒有對應到實際函式的情況下，被當作型別轉換請求處理。若函式呼叫 *`name`*(*`x`*) 與任何現有函式都不完全相符，但 *`name`* 是某個資料型別的名稱，且 `pg_cast` 提供了從 *`x`* 的型別到此型別的可二進位強制轉換型別轉換，那麼該呼叫會被解釋為可二進位強制轉換的型別轉換。設下這個例外，是為了讓可二進位強制轉換的型別轉換即使沒有任何函式，也能使用函式語法呼叫。同樣地，若沒有 `pg_cast` 項目，但該型別轉換是轉換為字串型別或從字串型別轉換，則該呼叫會被解釋為 I/O 轉換型別轉換。這個例外讓 I/O 轉換型別轉換可以使用函式語法呼叫。
 
-There is also an exception to the exception: I/O conversion casts from
-composite types to string types cannot be invoked using functional
-syntax, but must be written in explicit cast syntax (either
-`CAST` or `::` notation). This exception was added
-because after the introduction of automatically-provided I/O conversion
-casts, it was found too easy to accidentally invoke such a cast when
-a function or column reference was intended.
+<a id="id-1.9.3.58.7.7"></a>
+
+### 注意
+
+例外之中還有一個例外：從複合型別轉換為字串型別的 I/O 轉換型別轉換，不能使用函式語法呼叫，而必須以明確的型別轉換語法撰寫（`CAST` 或 `::` 表示法）。加入這個例外，是因為在引入自動提供的 I/O 轉換型別轉換之後，發現本意是要引用函式或欄位時，太容易意外呼叫到這類型別轉換。
 
 <a id="SQL-CREATECAST-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-To create an assignment cast from type `bigint` to type
-`int4` using the function `int4(bigint)`:
+使用函式 `int4(bigint)` 建立從 `bigint` 型別到 `int4` 型別的指派轉換：
 
 ```
 
 CREATE CAST (bigint AS int4) WITH FUNCTION int4(bigint) AS ASSIGNMENT;
 ```
 
-(This cast is already predefined in the system.)
+（系統中已預先定義此型別轉換。）
 
 <a id="SQL-CREATECAST-COMPAT"></a>
 
-## Compatibility
+## 相容性
 
-The `CREATE CAST` command conforms to the
-SQL standard,
-except that SQL does not make provisions for binary-coercible
-types or extra arguments to implementation functions.
-`AS IMPLICIT` is a PostgreSQL
-extension, too.
+`CREATE CAST` 命令符合 SQL 標準，但 SQL 並未規範可二進位強制轉換的型別，或實作函式的額外引數。`AS IMPLICIT` 也是 PostgreSQL 的擴充語法。
 
 <a id="SQL-CREATECAST-SEEALSO"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE FUNCTION](sql-createfunction.md),
 [CREATE TYPE](sql-createtype.md),
@@ -318,4 +168,4 @@ extension, too.
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createcast.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createcast.html)（原文版本：18.6；核對日期：2026-10-04）
