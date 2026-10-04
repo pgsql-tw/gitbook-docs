@@ -1,10 +1,12 @@
-<a id="id-1.9.3.79.1"></a>
+<a id="SQL-CREATERULE"></a><a id="id-1.9.3.79.1"></a>
 
 ## CREATE RULE
 
-CREATE RULE — define a new rewrite rule
+CREATE RULE — 定義新的重寫規則
 
-## Synopsis
+<a id="id-1.9.3.79.4"></a>
+
+## 語法
 
 ```
 
@@ -19,158 +21,103 @@ where event can be one of:
 
 <a id="id-1.9.3.79.5"></a>
 
-## Description
+## 說明
 
-`CREATE RULE` defines a new rule applying to a specified
-table or view.
-`CREATE OR REPLACE RULE` will either create a
-new rule, or replace an existing rule of the same name for the same
-table.
+`CREATE RULE` 會定義一條套用於指定資料表或檢視表的新規則。
+`CREATE OR REPLACE RULE` 會建立新規則，或取代同一資料表上同名的現有規則。
 
-The PostgreSQL rule system allows one to
-define an alternative action to be performed on insertions, updates,
-or deletions in database tables. Roughly speaking, a rule causes
-additional commands to be executed when a given command on a given
-table is executed. Alternatively, an `INSTEAD`
-rule can replace a given command by another, or cause a command
-not to be executed at all. Rules are used to implement SQL
-views as well. It is important to realize that a rule is really
-a command transformation mechanism, or command macro. The
-transformation happens before the execution of the command starts.
-If you actually want an operation that fires independently for each
-physical row, you probably want to use a trigger, not a rule.
-More information about the rules system is in [Chapter 39](../../server-programming/rules/README.md).
+PostgreSQL 的規則系統讓使用者可以定義在資料庫資料表中進行插入、更新或刪除時要執行的替代動作。粗略地說，規則會使某個資料表上的某個命令被執行時，額外執行其他命令。或者，`INSTEAD`
+規則可以用另一個命令取代某個命令，或使某個命令完全不被執行。規則也被用來實作 SQL 檢視表。很重要的是要了解，規則實際上是一種命令轉換機制，或者說命令巨集。轉換發生在命令開始執行之前。若你真正想要的是針對每一筆實體資料列各自獨立觸發的操作，你大概會想使用觸發程序，而不是規則。關於規則系統的更多資訊，請參閱[第 39 章](../../server-programming/rules/README.md)。
 
-Presently, `ON SELECT` rules can only be attached
-to views. Such a rule must be named `"_RETURN"`,
-must be an unconditional `INSTEAD` rule, and must have
-an action that consists of a single `SELECT` command.
-This command defines the visible contents of the view. (The view
-itself is basically a dummy table with no storage.) It's best to
-regard such a rule as an implementation detail. While a view can be
-redefined via `CREATE OR REPLACE RULE "_RETURN" AS
-...`, it's better style to use `CREATE OR REPLACE
-VIEW`.
+目前，`ON SELECT` 規則只能附加到檢視表上。這種規則必須命名為 `"_RETURN"`，
+必須是無條件的 `INSTEAD` 規則，且其動作必須只由單一 `SELECT` 命令組成。
+這個命令定義了檢視表的可見內容。（檢視表本身基本上是一個沒有儲存空間的虛設資料表。）最好將這種規則視為實作細節。雖然可以透過 `CREATE OR REPLACE RULE "_RETURN" AS
+...` 重新定義檢視表，但使用 `CREATE OR REPLACE
+VIEW` 是比較好的寫法。
 
-You can create the illusion of an updatable view by defining
-`ON INSERT`, `ON UPDATE`, and
-`ON DELETE` rules (or any subset of those that's
-sufficient for your purposes) to replace update actions on the view
-with appropriate updates on other tables. If you want to support
-`INSERT RETURNING` and so on, then be sure to put a suitable
-`RETURNING` clause into each of these rules.
+你可以定義 `ON INSERT`、`ON UPDATE` 與
+`ON DELETE` 規則（或這些規則中足以滿足你需求的任何子集），以其他資料表上的適當更新來取代檢視表上的更新動作，藉此營造出可更新檢視表的效果。若你想要支援
+`INSERT RETURNING` 等功能，請務必在這些規則中各自放入適當的
+`RETURNING` 子句。
 
-There is a catch if you try to use conditional rules for complex view
-updates: there *must* be an unconditional
-`INSTEAD` rule for each action you wish to allow
-on the view. If the rule is conditional, or is not
-`INSTEAD`, then the system will still reject
-attempts to perform the update action, because it thinks it might
-end up trying to perform the action on the dummy table of the view
-in some cases. If you want to handle all the useful cases in
-conditional rules, add an unconditional `DO
-INSTEAD NOTHING` rule to ensure that the system
-understands it will never be called on to update the dummy table.
-Then make the conditional rules non-`INSTEAD`; in
-the cases where they are applied, they add to the default
-`INSTEAD NOTHING` action. (This method does not
-currently work to support `RETURNING` queries, however.)
+若你嘗試使用條件式規則來處理複雜的檢視表更新，有一個陷阱：對於你希望在檢視表上允許的每一種動作，都*必須*有一條無條件的
+`INSTEAD` 規則。若規則是條件式的，或不是
+`INSTEAD` 規則，系統仍會拒絕執行更新動作的嘗試，因為它認為在某些情況下，最後可能會嘗試對檢視表的虛設資料表執行該動作。若你想在條件式規則中處理所有有用的情況，請加上一條無條件的 `DO
+INSTEAD NOTHING` 規則，以確保系統了解它永遠不會被要求去更新虛設資料表。
+接著將條件式規則設為非 `INSTEAD` 規則；在這些規則被套用的情況下，它們會附加在預設的
+`INSTEAD NOTHING` 動作之上。（不過，此方法目前無法用來支援 `RETURNING` 查詢。）
 
-### Note
+<a id="id-1.9.3.79.5.7"></a>
 
-A view that is simple enough to be automatically updatable (see [CREATE VIEW](sql-createview.md)) does not require a user-created rule in
-order to be updatable. While you can create an explicit rule anyway,
-the automatic update transformation will generally outperform an
-explicit rule.
+### 注意
 
-Another alternative worth considering is to use `INSTEAD OF`
-triggers (see [CREATE TRIGGER](sql-createtrigger.md)) in place of rules.
+足夠簡單而可自動更新的檢視表（請參閱 [CREATE VIEW](sql-createview.md)）不需要使用者建立的規則就能更新。雖然你仍然可以建立明確的規則，但自動更新轉換的效能通常會優於明確的規則。
+
+另一個值得考慮的替代方案，是使用 `INSTEAD OF`
+觸發程序（請參閱 [CREATE TRIGGER](sql-createtrigger.md)）來取代規則。
 
 <a id="id-1.9.3.79.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of a rule to create. This must be distinct from the
-    name of any other rule for the same table. Multiple rules on
-    the same table and same event type are applied in alphabetical
-    name order.
+:   要建立之規則的名稱。它必須與同一資料表上任何其他規則的名稱不同。同一資料表上、相同事件類型的多條規則會依名稱的字母順序套用。
 
 *`event`*
-:   The event is one of `SELECT`,
-    `INSERT`, `UPDATE`, or
-    `DELETE`. Note that an
-    `INSERT` containing an `ON
-    CONFLICT` clause cannot be used on tables that have
-    either `INSERT` or `UPDATE`
-    rules. Consider using an updatable view instead.
+:   事件是 `SELECT`、
+    `INSERT`、`UPDATE` 或
+    `DELETE` 其中之一。請注意，含有 `ON
+    CONFLICT` 子句的
+    `INSERT` 不能用在具有
+    `INSERT` 或 `UPDATE`
+    規則的資料表上。請考慮改用可更新檢視表。
 
 *`table_name`*
-:   The name (optionally schema-qualified) of the table or view the
-    rule applies to.
+:   規則所套用之資料表或檢視表的名稱（可選擇以綱要限定）。
 
 *`condition`*
-:   Any SQL conditional expression (returning
-    `boolean`). The condition expression cannot refer
-    to any tables except `NEW` and `OLD`, and
-    cannot contain aggregate functions.
+:   任何 SQL 條件運算式（回傳
+    `boolean`）。條件運算式不能引用 `NEW` 與 `OLD` 以外的任何資料表，也不能包含彙總函式。
 
 `INSTEAD`
-:   `INSTEAD` indicates that the commands should be
-    executed *instead of* the original command.
+:   `INSTEAD` 表示這些命令應該*取代*原始命令來執行。
 
 `ALSO`
-:   `ALSO` indicates that the commands should be
-    executed *in addition to* the original
-    command.
+:   `ALSO` 表示這些命令應該在原始命令*之外額外*執行。
 
-    If neither `ALSO` nor
-    `INSTEAD` is specified, `ALSO`
-    is the default.
+    若既未指定 `ALSO`，也未指定
+    `INSTEAD`，則預設為 `ALSO`。
 
 *`command`*
-:   The command or commands that make up the rule action. Valid
-    commands are `SELECT`,
-    `INSERT`, `UPDATE`,
-    `DELETE`, or `NOTIFY`.
+:   構成規則動作的一個或多個命令。有效的命令為 `SELECT`、
+    `INSERT`、`UPDATE`、
+    `DELETE` 或 `NOTIFY`。
 
-Within *`condition`* and
-*`command`*, the special
-table names `NEW` and `OLD` can
-be used to refer to values in the referenced table.
-`NEW` is valid in `ON INSERT` and
-`ON UPDATE` rules to refer to the new row being
-inserted or updated. `OLD` is valid in
-`ON UPDATE` and `ON DELETE` rules
-to refer to the existing row being updated or deleted.
+在 *`condition`* 與
+*`command`* 中，可以使用特殊資料表名稱 `NEW` 與 `OLD`
+來引用所參照資料表中的值。
+`NEW` 在 `ON INSERT` 與
+`ON UPDATE` 規則中有效，用來引用正在插入或更新的新資料列。`OLD` 在
+`ON UPDATE` 與 `ON DELETE` 規則中有效，用來引用正在更新或刪除的現有資料列。
 
 <a id="id-1.9.3.79.7"></a>
 
-## Notes
+## 注意事項
 
-You must be the owner of a table to create or change rules for it.
+你必須是資料表的擁有者，才能為它建立或變更規則。
 
-In a rule for `INSERT`, `UPDATE`, or
-`DELETE` on a view, you can add a `RETURNING`
-clause that emits the view's columns. This clause will be used to compute
-the outputs if the rule is triggered by an `INSERT RETURNING`,
-`UPDATE RETURNING`, or `DELETE RETURNING` command
-respectively. When the rule is triggered by a command without
-`RETURNING`, the rule's `RETURNING` clause will be
-ignored. The current implementation allows only unconditional
-`INSTEAD` rules to contain `RETURNING`; furthermore
-there can be at most one `RETURNING` clause among all the rules
-for the same event. (This ensures that there is only one candidate
-`RETURNING` clause to be used to compute the results.)
-`RETURNING` queries on the view will be rejected if
-there is no `RETURNING` clause in any available rule.
+在檢視表上針對 `INSERT`、`UPDATE` 或
+`DELETE` 的規則中，你可以加上會輸出檢視表欄位的 `RETURNING`
+子句。若規則分別由 `INSERT RETURNING`、
+`UPDATE RETURNING` 或 `DELETE RETURNING` 命令觸發，此子句會被用來計算輸出。當規則由不含
+`RETURNING` 的命令觸發時，規則的 `RETURNING` 子句會被忽略。目前的實作只允許無條件的
+`INSTEAD` 規則包含 `RETURNING`；此外，同一事件的所有規則之中，最多只能有一個 `RETURNING` 子句。（這確保只有一個候選的
+`RETURNING` 子句可用來計算結果。）
+若所有可用的規則中都沒有 `RETURNING` 子句，則檢視表上的 `RETURNING` 查詢會被拒絕。
 
-It is very important to take care to avoid circular rules. For
-example, though each of the following two rule definitions are
-accepted by PostgreSQL, the
-`SELECT` command would cause
-PostgreSQL to report an error because
-of recursive expansion of a rule:
+務必非常小心，避免循環規則。例如，雖然下列兩個規則定義各自都會被 PostgreSQL 接受，但
+`SELECT` 命令會因為規則的遞迴展開，而導致
+PostgreSQL 回報錯誤：
 
 ```
 
@@ -187,11 +134,8 @@ CREATE RULE "_RETURN" AS
 SELECT * FROM t1;
 ```
 
-Presently, if a rule action contains a `NOTIFY`
-command, the `NOTIFY` command will be executed
-unconditionally, that is, the `NOTIFY` will be
-issued even if there are not any rows that the rule should apply
-to. For example, in:
+目前，若規則動作包含 `NOTIFY`
+命令，該 `NOTIFY` 命令會無條件執行，也就是說，即使沒有任何規則應套用的資料列，仍會發出 `NOTIFY`。例如，在：
 
 ```
 
@@ -200,25 +144,22 @@ CREATE RULE notify_me AS ON UPDATE TO mytable DO ALSO NOTIFY mytable;
 UPDATE mytable SET name = 'foo' WHERE id = 42;
 ```
 
-one `NOTIFY` event will be sent during the
-`UPDATE`, whether or not there are any rows that
-match the condition `id = 42`. This is an
-implementation restriction that might be fixed in future releases.
+中，不論是否有任何資料列符合條件 `id = 42`，在
+`UPDATE` 期間都會送出一個 `NOTIFY` 事件。這是實作上的限制，可能會在未來的版本中修正。
 
 <a id="id-1.9.3.79.8"></a>
 
-## Compatibility
+## 相容性
 
-`CREATE RULE` is a
-PostgreSQL language extension, as is the
-entire query rewrite system.
+`CREATE RULE` 是
+PostgreSQL 的語言擴充，整個查詢重寫系統也是如此。
 
 <a id="id-1.9.3.79.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER RULE](sql-alterrule.md), [DROP RULE](sql-droprule.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createrule.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createrule.html)（原文版本：18.6；核對日期：2026-10-04）
