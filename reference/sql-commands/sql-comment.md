@@ -1,10 +1,12 @@
-<a id="id-1.9.3.52.1"></a>
+<a id="SQL-COMMENT"></a><a id="id-1.9.3.52.1"></a>
 
 ## COMMENT
 
-COMMENT — define or change the comment of an object
+COMMENT — 定義或變更物件的註解
 
-## Synopsis
+<a id="id-1.9.3.52.4"></a>
+
+## 語法
 
 ```
 
@@ -64,134 +66,89 @@ where aggregate_signature is:
 
 <a id="id-1.9.3.52.5"></a>
 
-## Description
+## 說明
 
-`COMMENT` stores, replaces, or removes the comment on a
-database object.
+`COMMENT` 會儲存、取代或移除資料庫物件上的註解。
 
-Only one comment string is stored for each object. Issuing a new
-`COMMENT` command for the same object replaces the
-existing comment. Specifying `NULL` or an empty
-string (`''`) removes the comment. Comments are
-automatically dropped when their object is dropped.
+每個物件只會儲存一個註解字串。對同一物件執行新的 `COMMENT` 命令，會取代現有的註解。指定 `NULL` 或空字串（`''`）會移除註解。物件被移除時，其註解也會自動移除。
 
-A `SHARE UPDATE EXCLUSIVE` lock is acquired on the
-object to be commented.
+會在要加上註解的物件上取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 
-For most kinds of object, only the object's owner can set the comment.
-Roles don't have owners, so the rule for `COMMENT ON ROLE` is
-that you must be superuser to comment on a superuser role, or have the
-`CREATEROLE` privilege and have been granted
-`ADMIN OPTION` on the target role.
-Likewise, access methods don't have owners either; you must be superuser
-to comment on an access method.
-Of course, a superuser can comment on anything.
+對於大多數種類的物件，只有物件的擁有者可以設定註解。角色沒有擁有者，因此 `COMMENT ON ROLE` 的規則是：你必須是超級使用者才能對超級使用者角色加上註解，或者必須具有 `CREATEROLE` 權限並在目標角色上被授予 `ADMIN OPTION`。同樣地，存取方法也沒有擁有者；你必須是超級使用者才能對存取方法加上註解。當然，超級使用者可以對任何東西加上註解。
 
-Comments can be viewed using psql's
-`\d` family of commands.
-Other user interfaces to retrieve comments can be built atop
-the same built-in functions that psql uses, namely
-`obj_description`, `col_description`,
-and `shobj_description`
-(see [Table 9.82](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-COMMENT-TABLE)).
+可以使用 psql 的 `\d` 系列命令檢視註解。其他用來擷取註解的使用者介面，可以建構在 psql 所使用的相同內建函式之上，也就是 `obj_description`、`col_description` 與 `shobj_description`（請參閱[表 9.82](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-COMMENT-TABLE)）。
 
 <a id="id-1.9.3.52.6"></a>
 
-## Parameters
+## 參數
 
 *`object_name`*<br>*`relation_name`*.*`column_name`*<br>*`aggregate_name`*<br>*`constraint_name`*<br>*`function_name`*<br>*`operator_name`*<br>*`policy_name`*<br>*`procedure_name`*<br>*`routine_name`*<br>*`rule_name`*<br>*`trigger_name`*
-:   The name of the object to be commented. Names of objects that reside in
-    schemas (tables, functions, etc.) can be
-    schema-qualified. When commenting on a column,
-    *`relation_name`* must refer
-    to a table, view, composite type, or foreign table.
+:   要加上註解之物件的名稱。位於綱要中之物件（資料表、函式等）的名稱可以用綱要限定。對欄位加上註解時，*`relation_name`* 必須指向資料表、檢視表、複合型別或外部資料表。
 
 *`table_name`*<br>*`domain_name`*
-:   When creating a comment on a constraint, a trigger, a rule or
-    a policy these parameters specify the name of the table or domain on
-    which that object is defined.
+:   對限制條件、觸發程序、規則或政策建立註解時，這些參數指定定義該物件之資料表或網域的名稱。
 
 *`source_type`*
-:   The name of the source data type of the cast.
+:   轉型之來源資料型別的名稱。
 
 *`target_type`*
-:   The name of the target data type of the cast.
+:   轉型之目標資料型別的名稱。
 
 *`argmode`*
-:   The mode of a function, procedure, or aggregate
-    argument: `IN`, `OUT`,
-    `INOUT`, or `VARIADIC`.
-    If omitted, the default is `IN`.
-    Note that `COMMENT` does not actually pay
-    any attention to `OUT` arguments, since only the input
-    arguments are needed to determine the function's identity.
-    So it is sufficient to list the `IN`, `INOUT`,
-    and `VARIADIC` arguments.
+:   函式、程序或彙總函式之引數的模式：`IN`、`OUT`、`INOUT` 或 `VARIADIC`。若省略，預設為 `IN`。請注意，`COMMENT` 實際上並不理會 `OUT` 引數，因為只需要輸入引數就能決定函式的身分。因此，列出 `IN`、`INOUT` 與 `VARIADIC` 引數就足夠了。
 
 *`argname`*
-:   The name of a function, procedure, or aggregate argument.
-    Note that `COMMENT` does not actually pay
-    any attention to argument names, since only the argument data
-    types are needed to determine the function's identity.
+:   函式、程序或彙總函式之引數的名稱。請注意，`COMMENT` 實際上並不理會引數名稱，因為只需要引數的資料型別就能決定函式的身分。
 
 *`argtype`*
-:   The data type of a function, procedure, or aggregate argument.
+:   函式、程序或彙總函式之引數的資料型別。
 
 *`large_object_oid`*
-:   The OID of the large object.
+:   大型物件的 OID。
 
 *`left_type`*<br>*`right_type`*
-:   The data type(s) of the operator's arguments (optionally
-    schema-qualified). Write `NONE` for the missing argument
-    of a prefix operator.
+:   運算子之引數的資料型別（可選擇以綱要限定）。對於前置運算子缺少的那個引數，請寫 `NONE`。
 
 `PROCEDURAL`
-:   This is a noise word.
+:   這是贅字。
 
 *`type_name`*
-:   The name of the data type of the transform.
+:   轉換的資料型別名稱。
 
 *`lang_name`*
-:   The name of the language of the transform.
+:   轉換的語言名稱。
 
 *`string_literal`*
-:   The new comment contents, written as a string literal. An empty string
-    (`''`) removes the comment.
+:   新的註解內容，以字串常值寫出。空字串（`''`）會移除註解。
 
 `NULL`
-:   Write `NULL` to remove the comment.
+:   寫 `NULL` 可移除註解。
 
 <a id="id-1.9.3.52.7"></a>
 
-## Notes
+## 注意事項
 
-There is presently no security mechanism for viewing comments: any user
-connected to a database can see all the comments for objects in
-that database. For shared objects such as
-databases, roles, and tablespaces, comments are stored globally so any
-user connected to any database in the cluster can see all the comments
-for shared objects. Therefore, don't put security-critical
-information in comments.
+目前沒有用於檢視註解的安全機制：連線到資料庫的任何使用者，都可以看到該資料庫中物件的所有註解。對於資料庫、角色與資料表空間等共享物件，註解是全域儲存的，因此連線到叢集中任何資料庫的任何使用者，都可以看到共享物件的所有註解。因此，請勿在註解中放置與安全攸關的資訊。
 
 <a id="id-1.9.3.52.8"></a>
 
-## Examples
+## 範例
 
-Attach a comment to the table `mytable`:
+為資料表 `mytable` 加上註解：
 
 ```
 
 COMMENT ON TABLE mytable IS 'This is my table.';
 ```
 
-Remove it again:
+再將它移除：
 
 ```
 
 COMMENT ON TABLE mytable IS NULL;
 ```
 
-Some more examples:
+更多範例：
 
 ```
 
@@ -244,10 +201,10 @@ COMMENT ON VIEW my_view IS NULL;
 
 <a id="id-1.9.3.52.9"></a>
 
-## Compatibility
+## 相容性
 
-There is no `COMMENT` command in the SQL standard.
+SQL 標準中沒有 `COMMENT` 命令。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-comment.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-comment.html)（原文版本：18.6；核對日期：2026-10-04）
