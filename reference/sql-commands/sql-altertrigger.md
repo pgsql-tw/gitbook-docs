@@ -1,10 +1,12 @@
-<a id="id-1.9.3.41.1"></a>
+<a id="SQL-ALTERTRIGGER"></a><a id="id-1.9.3.41.1"></a>
 
 ## ALTER TRIGGER
 
-ALTER TRIGGER — change the definition of a trigger
+ALTER TRIGGER — 變更觸發程序的定義
 
-## Synopsis
+<a id="id-1.9.3.41.4"></a>
+
+## 語法
 
 ```
 
@@ -14,65 +16,50 @@ ALTER TRIGGER name ON table_name [ NO ] DEPENDS ON EXTENSION extension_name
 
 <a id="id-1.9.3.41.5"></a>
 
-## Description
+## 說明
 
-`ALTER TRIGGER` changes properties of an existing
-trigger.
+`ALTER TRIGGER` 會變更現有觸發程序的屬性。
 
-The `RENAME` clause changes the name of
-the given trigger without otherwise changing the trigger
-definition.
-If the table that the trigger is on is a partitioned table,
-then corresponding clone triggers in the partitions are
-renamed too.
+`RENAME` 子句會變更指定觸發程序的名稱，而不會以其他方式變更觸發程序的定義。若觸發程序所在的資料表是分割資料表，則各分割區中對應的複製觸發程序也會一併重新命名。
 
-The `DEPENDS ON EXTENSION` clause marks
-the trigger as dependent on an extension, such that if the extension is
-dropped, the trigger will automatically be dropped as well.
+`DEPENDS ON EXTENSION` 子句會將觸發程序標記為相依於某個擴充功能，如此一來，若該擴充功能被移除，觸發程序也會自動被移除。
 
-You must own the table on which the trigger acts to be allowed to change its properties.
+你必須擁有觸發程序所作用的資料表，才可以變更觸發程序的屬性。
 
 <a id="id-1.9.3.41.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of an existing trigger to alter.
+:   要變更之現有觸發程序的名稱。
 
 *`table_name`*
-:   The name of the table on which this trigger acts.
+:   此觸發程序所作用之資料表的名稱。
 
 *`new_name`*
-:   The new name for the trigger.
+:   觸發程序的新名稱。
 
 *`extension_name`*
-:   The name of the extension that the trigger is to depend on (or no longer
-    dependent on, if `NO` is specified). A trigger
-    that's marked as dependent on an extension is automatically dropped when
-    the extension is dropped.
+:   觸發程序要相依的擴充功能名稱（若指定 `NO`，則為不再相依的擴充功能名稱）。被標記為相依於某個擴充功能的觸發程序，會在該擴充功能被移除時自動被移除。
 
 <a id="id-1.9.3.41.7"></a>
 
-## Notes
+## 注意事項
 
-The ability to temporarily enable or disable a trigger is provided by
-[`ALTER TABLE`](sql-altertable.md), not by
-`ALTER TRIGGER`, because `ALTER TRIGGER` has no
-convenient way to express the option of enabling or disabling all of
-a table's triggers at once.
+暫時啟用或停用觸發程序的功能是由 [`ALTER TABLE`](sql-altertable.md) 提供，而不是由 `ALTER TRIGGER` 提供，因為 `ALTER TRIGGER` 沒有方便的方式可以表達「一次啟用或停用某個資料表所有觸發程序」的選項。
 
 <a id="id-1.9.3.41.8"></a>
 
-## Examples
+## 範例
 
-To rename an existing trigger:
+若要重新命名現有的觸發程序：
 
 ```
 
 ALTER TRIGGER emp_stamp ON emp RENAME TO emp_track_chgs;
 ```
 
-To mark a trigger as being dependent on an extension:
+若要將觸發程序標記為相依於某個擴充功能：
 
 ```
 
@@ -81,17 +68,16 @@ ALTER TRIGGER emp_stamp ON emp DEPENDS ON EXTENSION emplib;
 
 <a id="id-1.9.3.41.9"></a>
 
-## Compatibility
+## 相容性
 
-`ALTER TRIGGER` is a PostgreSQL
-extension of the SQL standard.
+`ALTER TRIGGER` 是 PostgreSQL 對 SQL 標準的擴充語法。
 
 <a id="id-1.9.3.41.10"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER TABLE](sql-altertable.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertrigger.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altertrigger.html)（原文版本：18.6；核對日期：2026-10-04）
