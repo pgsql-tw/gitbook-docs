@@ -1,10 +1,12 @@
-<a id="id-1.9.3.75.1"></a>
+<a id="SQL-CREATEPOLICY"></a><a id="id-1.9.3.75.1"></a>
 
 ## CREATE POLICY
 
-CREATE POLICY — define a new row-level security policy for a table
+CREATE POLICY — 為資料表定義新的資料列層級安全性政策
 
-## Synopsis
+<a id="id-1.9.3.75.4"></a>
+
+## 語法
 
 ```
 
@@ -18,395 +20,153 @@ CREATE POLICY name ON table_name
 
 <a id="id-1.9.3.75.5"></a>
 
-## Description
+## 說明
 
-The `CREATE POLICY` command defines a new row-level
-security policy for a table. Note that row-level security must be
-enabled on the table (using `ALTER TABLE ... ENABLE ROW LEVEL
-SECURITY`) in order for created policies to be applied.
+`CREATE POLICY` 命令會為資料表定義新的資料列層級安全性政策。請注意，資料表必須啟用資料列層級安全性（使用 `ALTER TABLE ... ENABLE ROW LEVEL
+SECURITY`），所建立的政策才會被套用。
 
-A policy grants the permission to select, insert, update, or delete rows
-that match the relevant policy expression. Existing table rows are
-checked against the expression specified in `USING`,
-while new rows that would be created via `INSERT`
-or `UPDATE` are checked against the expression specified
-in `WITH CHECK`. When a `USING`
-expression returns true for a given row then that row is visible to the
-user, while if false or null is returned then the row is not visible.
-Typically, no error occurs when a row is not visible, but see
-[Table 300](sql-createpolicy.md#SQL-CREATEPOLICY-SUMMARY) for exceptions.
-When a `WITH CHECK` expression returns true for a row
-then that row is inserted or updated, while if false or null is returned
-then an error occurs.
+政策會授予選取、插入、更新或刪除符合相關政策運算式之資料列的權限。現有的資料表資料列會依據 `USING` 中指定的運算式進行檢查，而透過 `INSERT` 或 `UPDATE` 將要建立的新資料列，則會依據 `WITH CHECK` 中指定的運算式進行檢查。當 `USING` 運算式對某個資料列傳回 true 時，該資料列對使用者可見；若傳回 false 或 null，則該資料列不可見。通常，資料列不可見時不會發生錯誤，但例外情況請參閱[表 300](sql-createpolicy.md#SQL-CREATEPOLICY-SUMMARY)。當 `WITH CHECK` 運算式對某個資料列傳回 true 時，該資料列就會被插入或更新；若傳回 false 或 null，則會發生錯誤。
 
-For `INSERT`, `UPDATE`, and
-`MERGE` statements,
-`WITH CHECK` expressions are enforced after
-`BEFORE` triggers are fired, and before any actual data
-modifications are made. Thus a `BEFORE ROW` trigger may
-modify the data to be inserted, affecting the result of the security
-policy check. `WITH CHECK` expressions are enforced
-before any other constraints.
+對於 `INSERT`、`UPDATE` 與 `MERGE` 陳述式，`WITH CHECK` 運算式會在 `BEFORE` 觸發程序觸發之後、實際修改任何資料之前執行檢查。因此，`BEFORE ROW` 觸發程序可能會修改要插入的資料，進而影響安全性政策檢查的結果。`WITH CHECK` 運算式會在任何其他限制條件之前執行檢查。
 
-Policy names are per-table. Therefore, one policy name can be used for many
-different tables and have a definition for each table which is appropriate to
-that table.
+政策名稱是以資料表為單位。因此，同一個政策名稱可以用於許多不同的資料表，並在每個資料表上各自具有適合該資料表的定義。
 
-Policies can be applied for specific commands or for specific roles. The
-default for newly created policies is that they apply for all commands and
-roles, unless otherwise specified. Multiple policies may apply to a single
-command; see below for more details.
-[Table 300](sql-createpolicy.md#SQL-CREATEPOLICY-SUMMARY) summarizes how the different types
-of policy apply to specific commands.
+政策可以套用於特定命令或特定角色。除非另有指定，新建立的政策預設會套用於所有命令與角色。單一命令可能會套用多個政策；詳情請見下文。[表 300](sql-createpolicy.md#SQL-CREATEPOLICY-SUMMARY) 彙整了不同類型的政策如何套用於特定命令。
 
-For policies that can have both `USING`
-and `WITH CHECK` expressions (`ALL`
-and `UPDATE`), if no `WITH CHECK`
-expression is defined, then the `USING` expression will be
-used both to determine which rows are visible (normal
-`USING` case) and which new rows will be allowed to be
-added (`WITH CHECK` case).
+對於可以同時具有 `USING` 與 `WITH CHECK` 運算式的政策（`ALL` 與 `UPDATE`），若未定義 `WITH CHECK` 運算式，則 `USING` 運算式會同時用來判斷哪些資料列可見（一般的 `USING` 情況），以及允許加入哪些新資料列（`WITH CHECK` 情況）。
 
-If row-level security is enabled for a table, but no applicable policies
-exist, a “default deny” policy is assumed, so that no rows will
-be visible or updatable.
+若資料表啟用了資料列層級安全性，但不存在任何適用的政策，則會假定採用「預設拒絕」政策，因此沒有任何資料列可見或可更新。
 
 <a id="id-1.9.3.75.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of the policy to be created. This must be distinct from the
-    name of any other policy for the table.
+:   要建立的政策名稱。此名稱必須與該資料表上任何其他政策的名稱不同。
 
 *`table_name`*
-:   The name (optionally schema-qualified) of the table the
-    policy applies to.
+:   政策所套用之資料表的名稱（可選擇以綱要限定）。
 
 `PERMISSIVE`
-:   Specify that the policy is to be created as a permissive policy.
-    All permissive policies which are applicable to a given query will
-    be combined together using the Boolean “OR” operator. By creating
-    permissive policies, administrators can add to the set of records
-    which can be accessed. Policies are permissive by default.
+:   指定將政策建立為寬鬆政策。適用於某個查詢的所有寬鬆政策，會使用布林「OR」運算子組合在一起。透過建立寬鬆政策，管理員可以擴大可存取的紀錄集合。政策預設為寬鬆政策。
 
 `RESTRICTIVE`
-:   Specify that the policy is to be created as a restrictive policy.
-    All restrictive policies which are applicable to a given query will
-    be combined together using the Boolean “AND” operator. By creating
-    restrictive policies, administrators can reduce the set of records
-    which can be accessed as all restrictive policies must be passed for
-    each record.
+:   指定將政策建立為限制性政策。適用於某個查詢的所有限制性政策，會使用布林「AND」運算子組合在一起。透過建立限制性政策，管理員可以縮小可存取的紀錄集合，因為每一筆紀錄都必須通過所有限制性政策。
 
-    Note that there needs to be at least one permissive policy to grant
-    access to records before restrictive policies can be usefully used to
-    reduce that access. If only restrictive policies exist, then no records
-    will be accessible. When a mix of permissive and restrictive policies
-    are present, a record is only accessible if at least one of the
-    permissive policies passes, in addition to all the restrictive
-    policies.
+    請注意，必須至少有一個寬鬆政策授予對紀錄的存取權，限制性政策才能有效地用來縮小該存取範圍。若只存在限制性政策，則沒有任何紀錄可以存取。當寬鬆政策與限制性政策同時存在時，只有在至少一個寬鬆政策通過、且所有限制性政策也都通過的情況下，紀錄才可以存取。
 
 *`command`*
-:   The command to which the policy applies. Valid options are
-    `ALL`, `SELECT`,
-    `INSERT`, `UPDATE`,
-    and `DELETE`.
-    `ALL` is the default.
-    See below for specifics regarding how these are applied.
+:   政策所套用的命令。有效的選項為 `ALL`、`SELECT`、`INSERT`、`UPDATE` 與 `DELETE`。`ALL` 是預設值。關於這些選項如何套用的具體細節，請見下文。
 
 *`role_name`*
-:   The role(s) to which the policy is to be applied. The default is
-    `PUBLIC`, which will apply the policy to all roles.
+:   政策所要套用的角色（一個或多個）。預設值為 `PUBLIC`，會將政策套用到所有角色。
 
 *`using_expression`*
-:   Any SQL conditional expression (returning
-    `boolean`). The conditional expression cannot contain
-    any aggregate or window functions. This expression will be added
-    to queries that refer to the table if row-level security is enabled.
-    Rows for which the expression returns true will be visible. Any
-    rows for which the expression returns false or null will not be
-    visible to the user (in a `SELECT`), and will not be
-    available for modification (in an `UPDATE`
-    or `DELETE`). Typically, such rows are silently
-    suppressed; no error is reported (but see
-    [Table 300](sql-createpolicy.md#SQL-CREATEPOLICY-SUMMARY) for exceptions).
+:   任何 SQL 條件運算式（傳回 `boolean`）。此條件運算式不能包含任何彙總函式或視窗函式。若啟用了資料列層級安全性，此運算式會被加入參照該資料表的查詢中。運算式傳回 true 的資料列將會可見。運算式傳回 false 或 null 的任何資料列，對使用者將不可見（在 `SELECT` 中），也無法被修改（在 `UPDATE` 或 `DELETE` 中）。通常，這類資料列會被靜默地略去，不會回報錯誤（但例外情況請參閱[表 300](sql-createpolicy.md#SQL-CREATEPOLICY-SUMMARY)）。
 
 *`check_expression`*
-:   Any SQL conditional expression (returning
-    `boolean`). The conditional expression cannot contain
-    any aggregate or window functions. This expression will be used in
-    `INSERT` and `UPDATE` queries against
-    the table if row-level security is enabled. Only rows for which the
-    expression evaluates to true will be allowed. An error will be thrown
-    if the expression evaluates to false or null for any of the records
-    inserted or any of the records that result from the update. Note that
-    the *`check_expression`* is
-    evaluated against the proposed new contents of the row, not the
-    original contents.
+:   任何 SQL 條件運算式（傳回 `boolean`）。此條件運算式不能包含任何彙總函式或視窗函式。若啟用了資料列層級安全性，此運算式會用於針對該資料表的 `INSERT` 與 `UPDATE` 查詢。只有運算式求值為 true 的資料列才會被允許。對於任何被插入的紀錄，或任何由更新產生的紀錄，若運算式求值為 false 或 null，就會擲出錯誤。請注意，*`check_expression`* 是針對資料列擬議的新內容進行求值，而不是針對原本的內容。
 
 <a id="id-1.9.3.75.6.3"></a>
 
-### Per-Command Policies
+### 各命令的政策
 
 <a id="SQL-CREATEPOLICY-ALL"></a>
 
 `ALL` [#](#SQL-CREATEPOLICY-ALL)
-:   Using `ALL` for a policy means that it will apply
-    to all commands, regardless of the type of command. If an
-    `ALL` policy exists and more specific policies
-    exist, then both the `ALL` policy and the more
-    specific policy (or policies) will be applied.
-    Additionally, `ALL` policies will be applied to
-    both the selection side of a query and the modification side, using
-    the `USING` expression for both cases if only
-    a `USING` expression has been defined.
+:   政策使用 `ALL` 表示它會套用於所有命令，不論命令的類型為何。若同時存在 `ALL` 政策與更具體的政策，則 `ALL` 政策與更具體的政策（一個或多個）都會被套用。此外，`ALL` 政策會同時套用於查詢的選取端與修改端；若只定義了 `USING` 運算式，則兩種情況都會使用該 `USING` 運算式。
 
-    As an example, if an `UPDATE` is issued, then the
-    `ALL` policy will be applicable both to what the
-    `UPDATE` will be able to select as rows to be
-    updated (applying the `USING` expression),
-    and to the resulting updated rows, to check if they are permitted
-    to be added to the table (applying the `WITH CHECK`
-    expression, if defined, and the `USING` expression
-    otherwise). If an `INSERT`
-    or `UPDATE` command attempts to add rows to the
-    table that do not pass the `ALL`
-    policy's `WITH CHECK` expression (or its
-    `USING` expression, if it does not have a
-    `WITH CHECK` expression), the entire command will
-    be aborted.
+    舉例來說，若執行 `UPDATE`，則 `ALL` 政策既適用於 `UPDATE` 能夠選取作為待更新資料列的對象（套用 `USING` 運算式），也適用於更新後產生的資料列，以檢查它們是否允許被加入資料表（若有定義 `WITH CHECK` 運算式就套用它，否則套用 `USING` 運算式）。若 `INSERT` 或 `UPDATE` 命令嘗試加入資料表的資料列未通過 `ALL` 政策的 `WITH CHECK` 運算式（若該政策沒有 `WITH CHECK` 運算式，則為其 `USING` 運算式），整個命令將會中止。
 <a id="SQL-CREATEPOLICY-SELECT"></a>
 
 `SELECT` [#](#SQL-CREATEPOLICY-SELECT)
-:   Using `SELECT` for a policy means that it will apply
-    to `SELECT` queries and whenever
-    `SELECT` permissions are required on the relation the
-    policy is defined for. The result is that only those records from the
-    relation that pass the `SELECT` policy will be
-    returned during a `SELECT` query, and that queries
-    that require `SELECT` permissions, such as
-    `UPDATE`, `DELETE`, and
-    `MERGE`, will also only see those records
-    that are allowed by the `SELECT` policy.
-    A `SELECT` policy cannot have a `WITH
-    CHECK` expression, as it only applies in cases where
-    records are being retrieved from the relation, except as described
-    below.
+:   政策使用 `SELECT` 表示它會套用於 `SELECT` 查詢，以及每當需要對定義該政策的關聯具有 `SELECT` 權限的情況。其結果是，在 `SELECT` 查詢期間只會傳回該關聯中通過 `SELECT` 政策的紀錄；而需要 `SELECT` 權限的查詢，例如 `UPDATE`、`DELETE` 與 `MERGE`，同樣也只會看到 `SELECT` 政策所允許的紀錄。`SELECT` 政策不能有 `WITH
+    CHECK` 運算式，因為它只適用於從關聯中擷取紀錄的情況，下文所述的情況除外。
 
-    If a data-modifying query has a `RETURNING` clause,
-    `SELECT` permissions are required on the relation,
-    and any newly inserted or updated rows from the relation must satisfy
-    the relation's `SELECT` policies in order to be
-    available to the `RETURNING` clause. If a newly
-    inserted or updated row does not satisfy the relation's
-    `SELECT` policies, an error will be thrown (inserted
-    or updated rows to be returned are *never*
-    silently ignored).
+    若資料修改查詢帶有 `RETURNING` 子句，則需要對該關聯具有 `SELECT` 權限，而且該關聯中任何新插入或更新的資料列，都必須滿足該關聯的 `SELECT` 政策，才能提供給 `RETURNING` 子句使用。若新插入或更新的資料列不滿足該關聯的 `SELECT` 政策，就會擲出錯誤（要傳回的已插入或已更新資料列*絕不會*被靜默地忽略）。
 
-    If an `INSERT` has an `ON CONFLICT DO
-    UPDATE` clause, or an `ON CONFLICT DO
-    NOTHING` clause with an arbiter index or constraint
-    specification, then `SELECT`
-    permissions are required on the relation, and the rows proposed for
-    insertion are checked using the relation's `SELECT`
-    policies. If a row proposed for insertion does not satisfy the
-    relation's `SELECT` policies, an error is thrown
-    (the `INSERT` is *never* silently
-    avoided). In addition, if the `UPDATE` path is
-    taken, the row to be updated and the new updated row are checked
-    against the relation's `SELECT` policies, and an
-    error is thrown if they are not satisfied (an auxiliary
-    `UPDATE` is *never* silently
-    avoided).
+    若 `INSERT` 帶有 `ON CONFLICT DO
+    UPDATE` 子句，或帶有指定了仲裁索引或限制條件的 `ON CONFLICT DO
+    NOTHING` 子句，則需要對該關聯具有 `SELECT` 權限，而且擬議插入的資料列會使用該關聯的 `SELECT` 政策進行檢查。若擬議插入的資料列不滿足該關聯的 `SELECT` 政策，就會擲出錯誤（`INSERT` *絕不會*被靜默地略過）。此外，若走的是 `UPDATE` 路徑，待更新的資料列與更新後的新資料列都會依據該關聯的 `SELECT` 政策進行檢查，若不滿足就會擲出錯誤（輔助的 `UPDATE` *絕不會*被靜默地略過）。
 
-    A `MERGE` command requires `SELECT`
-    permissions on both the source and target relations, and so each
-    relation's `SELECT` policies are applied before they
-    are joined, and the `MERGE` actions will only see
-    those records that are allowed by those policies. In addition, if
-    an `UPDATE` action is executed, the target relation's
-    `SELECT` policies are applied to the updated row, as
-    for a standalone `UPDATE`, except that an error is
-    thrown if they are not satisfied.
+    `MERGE` 命令需要對來源關聯與目標關聯都具有 `SELECT` 權限，因此每個關聯的 `SELECT` 政策都會在它們被連接之前套用，而 `MERGE` 動作只會看到這些政策所允許的紀錄。此外，若執行了 `UPDATE` 動作，目標關聯的 `SELECT` 政策會套用到更新後的資料列，與獨立的 `UPDATE` 相同，差別在於若不滿足這些政策就會擲出錯誤。
 <a id="SQL-CREATEPOLICY-INSERT"></a>
 
 `INSERT` [#](#SQL-CREATEPOLICY-INSERT)
-:   Using `INSERT` for a policy means that it will apply
-    to `INSERT` commands and `MERGE`
-    commands that contain `INSERT` actions.
-    Rows being inserted that do
-    not pass this policy will result in a policy violation error, and the
-    entire `INSERT` command will be aborted.
-    An `INSERT` policy cannot have
-    a `USING` expression, as it only applies in cases
-    where records are being added to the relation.
+:   政策使用 `INSERT` 表示它會套用於 `INSERT` 命令，以及包含 `INSERT` 動作的 `MERGE` 命令。被插入的資料列若未通過此政策，就會導致政策違規錯誤，且整個 `INSERT` 命令將會中止。`INSERT` 政策不能有 `USING` 運算式，因為它只適用於將紀錄加入關聯的情況。
 
-    Note that an `INSERT` with an `ON CONFLICT
-    DO NOTHING/UPDATE` clause will check the
-    `INSERT` policies' `WITH CHECK`
-    expressions for all rows proposed for insertion, regardless of
-    whether or not they end up being inserted.
+    請注意，帶有 `ON CONFLICT
+    DO NOTHING/UPDATE` 子句的 `INSERT`，會針對所有擬議插入的資料列檢查 `INSERT` 政策的 `WITH CHECK` 運算式，不論這些資料列最終是否被插入。
 <a id="SQL-CREATEPOLICY-UPDATE"></a>
 
 `UPDATE` [#](#SQL-CREATEPOLICY-UPDATE)
-:   Using `UPDATE` for a policy means that it will apply
-    to `UPDATE`, `SELECT FOR UPDATE`,
-    and `SELECT FOR SHARE` commands, as well as
-    auxiliary `ON CONFLICT DO UPDATE` clauses of
-    `INSERT` commands, and `MERGE`
-    commands containing `UPDATE` actions.
-    Since an `UPDATE` command
-    involves pulling an existing record and replacing it with a new
-    modified record, `UPDATE`
-    policies accept both a `USING` expression and
-    a `WITH CHECK` expression.
-    The `USING` expression determines which records
-    the `UPDATE` command will see to operate against,
-    while the `WITH CHECK` expression defines which
-    modified rows are allowed to be stored back into the relation.
+:   政策使用 `UPDATE` 表示它會套用於 `UPDATE`、`SELECT FOR UPDATE` 與 `SELECT FOR SHARE` 命令，以及 `INSERT` 命令的輔助 `ON CONFLICT DO UPDATE` 子句，還有包含 `UPDATE` 動作的 `MERGE` 命令。由於 `UPDATE` 命令涉及取出一筆現有紀錄，並以一筆經修改的新紀錄取代它，因此 `UPDATE` 政策同時接受 `USING` 運算式與 `WITH CHECK` 運算式。`USING` 運算式決定 `UPDATE` 命令會看到哪些紀錄來進行操作，而 `WITH CHECK` 運算式則定義哪些經修改的資料列允許被存回該關聯。
 
-    Any rows whose updated values do not pass the
-    `WITH CHECK` expression will cause an error, and the
-    entire command will be aborted. If only a `USING`
-    clause is specified, then that clause will be used for both
-    `USING` and `WITH CHECK` cases.
+    任何更新後的值未通過 `WITH CHECK` 運算式的資料列都會導致錯誤，且整個命令將會中止。若只指定了 `USING` 子句，則該子句會同時用於 `USING` 與 `WITH CHECK` 兩種情況。
 
-    Typically an `UPDATE` command also needs to read
-    data from columns in the relation being updated (e.g., in a
-    `WHERE` clause or a `RETURNING`
-    clause, or in an expression on the right hand side of the
-    `SET` clause). In this case,
-    `SELECT` rights are also required on the relation
-    being updated, and the appropriate `SELECT` or
-    `ALL` policies will be applied in addition to
-    the `UPDATE` policies. Thus the user must have
-    access to the row(s) being updated through a `SELECT`
-    or `ALL` policy in addition to being granted
-    permission to update the row(s) via an `UPDATE`
-    or `ALL` policy.
+    `UPDATE` 命令通常也需要從被更新之關聯的欄位讀取資料（例如在 `WHERE` 子句或 `RETURNING` 子句中，或在 `SET` 子句右側的運算式中）。在這種情況下，也需要對被更新的關聯具有 `SELECT` 權限，而且除了 `UPDATE` 政策之外，還會套用適當的 `SELECT` 或 `ALL` 政策。因此，使用者除了必須透過 `UPDATE` 或 `ALL` 政策獲得更新資料列的許可之外，還必須能透過 `SELECT` 或 `ALL` 政策存取被更新的資料列。
 
-    When an `INSERT` command has an auxiliary
-    `ON CONFLICT DO UPDATE` clause, if the
-    `UPDATE` path is taken, the row to be updated is
-    first checked against the `USING` expressions of
-    any `UPDATE` policies, and then the new updated row
-    is checked against the `WITH CHECK` expressions.
-    Note, however, that unlike a standalone `UPDATE`
-    command, if the existing row does not pass the
-    `USING` expressions, an error will be thrown (the
-    `UPDATE` path will *never* be silently
-    avoided). The same applies to an `UPDATE` action
-    of a `MERGE` command.
+    當 `INSERT` 命令帶有輔助的 `ON CONFLICT DO UPDATE` 子句時，若走的是 `UPDATE` 路徑，待更新的資料列會先依據任何 `UPDATE` 政策的 `USING` 運算式進行檢查，接著更新後的新資料列再依據 `WITH CHECK` 運算式進行檢查。不過請注意，與獨立的 `UPDATE` 命令不同，若現有資料列未通過 `USING` 運算式，就會擲出錯誤（`UPDATE` 路徑*絕不會*被靜默地略過）。這同樣適用於 `MERGE` 命令的 `UPDATE` 動作。
 <a id="SQL-CREATEPOLICY-DELETE"></a>
 
 `DELETE` [#](#SQL-CREATEPOLICY-DELETE)
-:   Using `DELETE` for a policy means that it will apply
-    to `DELETE` commands and `MERGE`
-    commands containing `DELETE` actions. For a
-    `DELETE` command, only rows that pass this policy
-    will be seen by the `DELETE` command. There can
-    be rows that are visible through a `SELECT` policy
-    that are not available for deletion, if they do not pass the
-    `USING` expression for the `DELETE`
-    policy. Note, however, that a `DELETE` action in a
-    `MERGE` command will see rows that are visible
-    through `SELECT` policies, and if the
-    `DELETE` policy does not pass for such a row, an
-    error will be thrown.
+:   政策使用 `DELETE` 表示它會套用於 `DELETE` 命令，以及包含 `DELETE` 動作的 `MERGE` 命令。對於 `DELETE` 命令，只有通過此政策的資料列才會被 `DELETE` 命令看到。可能有些資料列透過 `SELECT` 政策可見，卻因為未通過 `DELETE` 政策的 `USING` 運算式而無法被刪除。不過請注意，`MERGE` 命令中的 `DELETE` 動作會看到透過 `SELECT` 政策可見的資料列，若這類資料列未通過 `DELETE` 政策，就會擲出錯誤。
 
-    In most cases a `DELETE` command also needs to read
-    data from columns in the relation that it is deleting from (e.g.,
-    in a `WHERE` clause or a
-    `RETURNING` clause). In this case,
-    `SELECT` rights are also required on the relation,
-    and the appropriate `SELECT` or
-    `ALL` policies will be applied in addition to
-    the `DELETE` policies. Thus the user must have
-    access to the row(s) being deleted through a `SELECT`
-    or `ALL` policy in addition to being granted
-    permission to delete the row(s) via a `DELETE` or
-    `ALL` policy.
+    在大多數情況下，`DELETE` 命令也需要從其正在刪除資料的關聯中讀取欄位資料（例如在 `WHERE` 子句或 `RETURNING` 子句中）。在這種情況下，也需要對該關聯具有 `SELECT` 權限，而且除了 `DELETE` 政策之外，還會套用適當的 `SELECT` 或 `ALL` 政策。因此，使用者除了必須透過 `DELETE` 或 `ALL` 政策獲得刪除資料列的許可之外，還必須能透過 `SELECT` 或 `ALL` 政策存取被刪除的資料列。
 
-    A `DELETE` policy cannot have a `WITH
-    CHECK` expression, as it only applies in cases where
-    records are being deleted from the relation, so that there is no
-    new row to check.
+    `DELETE` 政策不能有 `WITH
+    CHECK` 運算式，因為它只適用於從關聯中刪除紀錄的情況，因此沒有需要檢查的新資料列。
 
-[Table 300](sql-createpolicy.md#SQL-CREATEPOLICY-SUMMARY) summarizes how the different
-types of policy apply to specific commands. In the table,
-“check” means that the policy expression is checked and an
-error is thrown if it returns false or null, whereas “filter”
-means that the row is silently ignored if the policy expression returns
-false or null.
+[表 300](sql-createpolicy.md#SQL-CREATEPOLICY-SUMMARY) 彙整了不同類型的政策如何套用於特定命令。在表中，「檢查」表示會檢查政策運算式，若其傳回 false 或 null 就擲出錯誤；而「篩選」則表示若政策運算式傳回 false 或 null，該資料列會被靜默地忽略。
 
 <a id="SQL-CREATEPOLICY-SUMMARY"></a>
 
-**Table 300. Policies Applied by Command Type**
+**表 300. 依命令類型套用的政策**
 
-<table border="1" class="table" summary="Policies Applied by Command Type"><colgroup><col/><col/><col/><col class="update-using"/><col class="update-check"/><col/></colgroup><thead><tr><th rowspan="2">Command</th><th><code class="literal">SELECT/ALL policy</code></th><th><code class="literal">INSERT/ALL policy</code></th><th colspan="2"><code class="literal">UPDATE/ALL policy</code></th><th><code class="literal">DELETE/ALL policy</code></th></tr><tr><th><code class="literal">USING expression</code></th><th><code class="literal">WITH CHECK expression</code></th><th><code class="literal">USING expression</code></th><th><code class="literal">WITH CHECK expression</code></th><th><code class="literal">USING expression</code></th></tr></thead><tbody><tr><td><code class="command">SELECT</code> / <code class="command">COPY ... TO</code></td><td>Filter existing row</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td><code class="command">SELECT FOR UPDATE/SHARE</code></td><td>Filter existing row</td><td>—</td><td>Filter existing row</td><td>—</td><td>—</td></tr><tr><td><code class="command">INSERT</code></td><td>
-        Check new row <a class="footnote" href="#ftn.RLS-SELECT-PRIV"><sup class="footnote" id="RLS-SELECT-PRIV">[a]</sup></a>
-</td><td>Check new row</td><td>—</td><td>—</td><td>—</td></tr><tr><td><code class="command">UPDATE</code></td><td>
-        Filter existing row <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-SELECT-PRIV"><sup class="footnoteref">[a]</sup></a> &amp;
-        check new row <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-SELECT-PRIV"><sup class="footnoteref">[a]</sup></a>
-</td><td>—</td><td>Filter existing row</td><td>Check new row</td><td>—</td></tr><tr><td><code class="command">DELETE</code></td><td>
-        Filter existing row <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-SELECT-PRIV"><sup class="footnoteref">[a]</sup></a>
-</td><td>—</td><td>—</td><td>—</td><td>Filter existing row</td></tr><tr><td><code class="command">INSERT ... ON CONFLICT</code></td><td>
-        Check new row <a class="footnote" href="#ftn.id-1.9.3.75.6.3.4.2.5.6.2.1"><sup class="footnote" id="id-1.9.3.75.6.3.4.2.5.6.2.1">[b]</sup></a><a class="footnote" href="#ftn.RLS-ON-CONFLICT-PRIV"><sup class="footnote" id="RLS-ON-CONFLICT-PRIV">[c]</sup></a>
+下表表頭中的 policy 指「政策」（例如 SELECT/ALL policy 指命令類型為 SELECT 的政策或命令類型為 ALL 的政策），USING expression 與 WITH CHECK expression 分別指「USING 運算式」與「WITH CHECK 運算式」。
+
+<table border="1" class="table" summary="依命令類型套用的政策"><colgroup><col/><col/><col/><col class="update-using"/><col class="update-check"/><col/></colgroup><thead><tr><th rowspan="2">命令</th><th><code class="literal">SELECT/ALL policy</code></th><th><code class="literal">INSERT/ALL policy</code></th><th colspan="2"><code class="literal">UPDATE/ALL policy</code></th><th><code class="literal">DELETE/ALL policy</code></th></tr><tr><th><code class="literal">USING expression</code></th><th><code class="literal">WITH CHECK expression</code></th><th><code class="literal">USING expression</code></th><th><code class="literal">WITH CHECK expression</code></th><th><code class="literal">USING expression</code></th></tr></thead><tbody><tr><td><code class="command">SELECT</code> / <code class="command">COPY ... TO</code></td><td>篩選現有資料列</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td><code class="command">SELECT FOR UPDATE/SHARE</code></td><td>篩選現有資料列</td><td>—</td><td>篩選現有資料列</td><td>—</td><td>—</td></tr><tr><td><code class="command">INSERT</code></td><td>
+        檢查新資料列 <a class="footnote" href="#ftn.RLS-SELECT-PRIV"><sup class="footnote" id="RLS-SELECT-PRIV">[a]</sup></a>
+</td><td>檢查新資料列</td><td>—</td><td>—</td><td>—</td></tr><tr><td><code class="command">UPDATE</code></td><td>
+        篩選現有資料列 <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-SELECT-PRIV"><sup class="footnoteref">[a]</sup></a> 並
+        檢查新資料列 <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-SELECT-PRIV"><sup class="footnoteref">[a]</sup></a>
+</td><td>—</td><td>篩選現有資料列</td><td>檢查新資料列</td><td>—</td></tr><tr><td><code class="command">DELETE</code></td><td>
+        篩選現有資料列 <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-SELECT-PRIV"><sup class="footnoteref">[a]</sup></a>
+</td><td>—</td><td>—</td><td>—</td><td>篩選現有資料列</td></tr><tr><td><code class="command">INSERT ... ON CONFLICT</code></td><td>
+        檢查新資料列 <a class="footnote" href="#ftn.id-1.9.3.75.6.3.4.2.5.6.2.1"><sup class="footnote" id="id-1.9.3.75.6.3.4.2.5.6.2.1">[b]</sup></a><a class="footnote" href="#ftn.RLS-ON-CONFLICT-PRIV"><sup class="footnote" id="RLS-ON-CONFLICT-PRIV">[c]</sup></a>
 </td><td>
-        Check new row <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-ON-CONFLICT-PRIV"><sup class="footnoteref">[c]</sup></a>
+        檢查新資料列 <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-ON-CONFLICT-PRIV"><sup class="footnoteref">[c]</sup></a>
 </td><td>—</td><td>—</td><td>—</td></tr><tr><td><code class="command">ON CONFLICT DO UPDATE</code></td><td>
-        Check existing &amp; new rows <a class="footnote" href="#ftn.RLS-ON-CONFLICT-UPDATE-PRIV"><sup class="footnote" id="RLS-ON-CONFLICT-UPDATE-PRIV">[d]</sup></a>
-</td><td>—</td><td>Check existing row</td><td>
-        Check new row <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-ON-CONFLICT-UPDATE-PRIV"><sup class="footnoteref">[d]</sup></a>
-</td><td>—</td></tr><tr><td><code class="command">MERGE</code></td><td>Filter source &amp; target rows</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td><code class="command">MERGE ... THEN INSERT</code></td><td>
-        Check new row <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-SELECT-PRIV"><sup class="footnoteref">[a]</sup></a>
-</td><td>Check new row</td><td>—</td><td>—</td><td>—</td></tr><tr><td><code class="command">MERGE ... THEN UPDATE</code></td><td>Check new row</td><td>—</td><td>Check existing row</td><td>Check new row</td><td>—</td></tr><tr><td><code class="command">MERGE ... THEN DELETE</code></td><td>—</td><td>—</td><td>—</td><td>—</td><td>Check existing row</td></tr></tbody><tbody class="footnotes"><tr><td colspan="6"><div class="footnote" id="ftn.RLS-SELECT-PRIV"><p><a class="para" href="#RLS-SELECT-PRIV"><sup class="para">[a] </sup></a>
-          If read access is required to either the existing or new row (for
-          example, a <code class="literal">WHERE</code> or <code class="literal">RETURNING</code>
-          clause that refers to columns from the relation).
+        檢查現有資料列與新資料列 <a class="footnote" href="#ftn.RLS-ON-CONFLICT-UPDATE-PRIV"><sup class="footnote" id="RLS-ON-CONFLICT-UPDATE-PRIV">[d]</sup></a>
+</td><td>—</td><td>檢查現有資料列</td><td>
+        檢查新資料列 <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-ON-CONFLICT-UPDATE-PRIV"><sup class="footnoteref">[d]</sup></a>
+</td><td>—</td></tr><tr><td><code class="command">MERGE</code></td><td>篩選來源與目標資料列</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td><code class="command">MERGE ... THEN INSERT</code></td><td>
+        檢查新資料列 <a class="footnoteref" href="sql-createpolicy.md#ftn.RLS-SELECT-PRIV"><sup class="footnoteref">[a]</sup></a>
+</td><td>檢查新資料列</td><td>—</td><td>—</td><td>—</td></tr><tr><td><code class="command">MERGE ... THEN UPDATE</code></td><td>檢查新資料列</td><td>—</td><td>檢查現有資料列</td><td>檢查新資料列</td><td>—</td></tr><tr><td><code class="command">MERGE ... THEN DELETE</code></td><td>—</td><td>—</td><td>—</td><td>—</td><td>檢查現有資料列</td></tr></tbody><tbody class="footnotes"><tr><td colspan="6"><div class="footnote" id="ftn.RLS-SELECT-PRIV"><p><a class="para" href="#RLS-SELECT-PRIV"><sup class="para">[a] </sup></a>
+          若需要讀取現有資料列或新資料列（例如，參照該關聯欄位的 <code class="literal">WHERE</code> 或 <code class="literal">RETURNING</code>
+          子句）。
          </p></div><div class="footnote" id="ftn.id-1.9.3.75.6.3.4.2.5.6.2.1"><p><a class="para" href="#id-1.9.3.75.6.3.4.2.5.6.2.1"><sup class="para">[b] </sup></a>
-          If an arbiter index or constraint is specified.
+          若指定了仲裁索引或限制條件。
          </p></div><div class="footnote" id="ftn.RLS-ON-CONFLICT-PRIV"><p><a class="para" href="#RLS-ON-CONFLICT-PRIV"><sup class="para">[c] </sup></a>
-          Row proposed for insertion is checked regardless of whether or not a
-          conflict occurs.
+          無論是否發生衝突，擬議插入的資料列都會被檢查。
          </p></div><div class="footnote" id="ftn.RLS-ON-CONFLICT-UPDATE-PRIV"><p><a class="para" href="#RLS-ON-CONFLICT-UPDATE-PRIV"><sup class="para">[d] </sup></a>
-          New row of the auxiliary <code class="command">UPDATE</code> command, which
-          might be different from the new row of the original
-          <code class="command">INSERT</code> command.
+          輔助 <code class="command">UPDATE</code> 命令的新資料列，可能與原始
+          <code class="command">INSERT</code> 命令的新資料列不同。
          </p></div></td></tr></tbody></table>
 
 <br>
 
 <a id="id-1.9.3.75.6.4"></a>
 
-### Application of Multiple Policies
+### 多個政策的套用
 
-When multiple policies of different command types apply to the same command
-(for example, `SELECT` and `UPDATE`
-policies applied to an `UPDATE` command), then the user
-must have both types of permissions (for example, permission to select rows
-from the relation as well as permission to update them). Thus the
-expressions for one type of policy are combined with the expressions for
-the other type of policy using the `AND` operator.
+當不同命令類型的多個政策套用於同一個命令時（例如，`SELECT` 與 `UPDATE` 政策套用於 `UPDATE` 命令），使用者必須同時具有這兩種類型的權限（例如，既有從關聯中選取資料列的權限，也有更新這些資料列的權限）。因此，某一類型政策的運算式，會使用 `AND` 運算子與另一類型政策的運算式組合在一起。
 
-When multiple policies of the same command type apply to the same command,
-then there must be at least one `PERMISSIVE` policy
-granting access to the relation, and all of the
-`RESTRICTIVE` policies must pass. Thus all the
-`PERMISSIVE` policy expressions are combined using
-`OR`, all the `RESTRICTIVE` policy
-expressions are combined using `AND`, and the results are
-combined using `AND`. If there are no
-`PERMISSIVE` policies, then access is denied.
+當相同命令類型的多個政策套用於同一個命令時，必須至少有一個 `PERMISSIVE` 政策授予對該關聯的存取權，而且所有 `RESTRICTIVE` 政策都必須通過。因此，所有 `PERMISSIVE` 政策運算式會使用 `OR` 組合，所有 `RESTRICTIVE` 政策運算式會使用 `AND` 組合，而這兩者的結果再使用 `AND` 組合。若沒有任何 `PERMISSIVE` 政策，則拒絕存取。
 
-Note that, for the purposes of combining multiple policies,
-`ALL` policies are treated as having the same type as
-whichever other type of policy is being applied.
+請注意，為了組合多個政策，`ALL` 政策會被視為與目前正在套用的另一類型政策屬於相同類型。
 
-For example, in an `UPDATE` command requiring both
-`SELECT` and `UPDATE` permissions, if
-there are multiple applicable policies of each type, they will be combined
-as follows:
+舉例來說，在同時需要 `SELECT` 與 `UPDATE` 權限的 `UPDATE` 命令中，若每種類型都有多個適用的政策，它們會依下列方式組合：
 
 ```
 
@@ -441,70 +201,32 @@ AND
 
 <a id="id-1.9.3.75.7"></a>
 
-## Notes
+## 注意事項
 
-You must be the owner of a table to create or change policies for it.
+你必須是資料表的擁有者，才能為該資料表建立或變更政策。
 
-While policies will be applied for explicit queries against tables
-in the database, they are not applied when the system is performing internal
-referential integrity checks or validating constraints. This means there are
-indirect ways to determine that a given value exists. An example of this is
-attempting to insert a duplicate value into a column that is a primary key
-or has a unique constraint. If the insert fails then the user can infer that
-the value already exists. (This example assumes that the user is permitted by
-policy to insert records which they are not allowed to see.) Another example
-is where a user is allowed to insert into a table which references another,
-otherwise hidden table. Existence can be determined by the user inserting
-values into the referencing table, where success would indicate that the
-value exists in the referenced table. These issues can be addressed by
-carefully crafting policies to prevent users from being able to insert,
-delete, or update records at all which might possibly indicate a value they
-are not otherwise able to see, or by using generated values (e.g., surrogate
-keys) instead of keys with external meanings.
+雖然政策會套用於對資料庫中資料表的明確查詢，但當系統執行內部參照完整性檢查或驗證限制條件時，並不會套用政策。這表示存在一些間接的方式，可以判斷出某個給定的值存在。其中一個例子是嘗試將重複的值插入作為主鍵或具有唯一值限制條件的欄位。若插入失敗，使用者就可以推斷該值已經存在。（此例假設政策允許使用者插入他們不被允許看到的紀錄。）另一個例子是，使用者被允許插入某個資料表，而該資料表參照了另一個原本隱藏的資料表。使用者可以藉由將值插入參照資料表來判斷存在與否，若插入成功，就表示該值存在於被參照的資料表中。要解決這些問題，可以謹慎地設計政策，讓使用者完全無法插入、刪除或更新可能透露出他們原本無法看到之值的紀錄；或者使用產生的值（例如代理鍵）來取代具有外部意義的鍵值。
 
-Generally, the system will enforce filter conditions imposed using
-security policies prior to qualifications that appear in user queries,
-in order to prevent inadvertent exposure of the protected data to
-user-defined functions which might not be trustworthy. However,
-functions and operators marked by the system (or the system
-administrator) as `LEAKPROOF` may be evaluated before
-policy expressions, as they are assumed to be trustworthy.
+一般而言，系統會在使用者查詢中出現的條件之前，先強制執行透過安全性政策所施加的篩選條件，以防止受保護的資料意外暴露給可能不可信任的使用者自訂函式。不過，被系統（或系統管理員）標記為 `LEAKPROOF` 的函式與運算子，可能會在政策運算式之前被求值，因為它們被假定為可信任的。
 
-Since policy expressions
-are added to the user's query directly, they will be run with the rights of
-the user running the overall query. Therefore, users who are using a given
-policy must be able to access any tables or functions referenced in the
-expression or they will simply receive a permission denied error when
-attempting to query the table that has row-level security enabled.
-This does not change how views
-work, however. As with normal queries and views, permission checks and
-policies for the tables which are referenced by a view will use the view
-owner's rights and any policies which apply to the view owner, except if
-the view is defined using the `security_invoker` option
-(see [`CREATE VIEW`](sql-createview.md)).
+由於政策運算式是直接加入使用者的查詢中，它們會以執行整個查詢之使用者的權限來執行。因此，使用某個政策的使用者必須能夠存取該運算式中參照的任何資料表或函式，否則在嘗試查詢已啟用資料列層級安全性的資料表時，只會收到權限遭拒的錯誤。不過，這並不會改變檢視表的運作方式。如同一般查詢與檢視表，檢視表所參照之資料表的權限檢查與政策，會使用檢視表擁有者的權限以及適用於檢視表擁有者的任何政策，除非該檢視表是使用 `security_invoker` 選項定義的（請參閱 [`CREATE VIEW`](sql-createview.md)）。
 
-No separate policy exists for `MERGE`. Instead, the policies
-defined for `SELECT`, `INSERT`,
-`UPDATE`, and `DELETE` are applied
-while executing `MERGE`, depending on the actions that are
-performed.
+`MERGE` 沒有獨立的政策。相反地，執行 `MERGE` 時，會依據所執行的動作，套用為 `SELECT`、`INSERT`、`UPDATE` 與 `DELETE` 定義的政策。
 
-Additional discussion and practical examples can be found
-in [Section 5.9](../../the-sql-language/ddl/ddl-rowsecurity.md).
+更多討論與實際範例請參閱[第 5.9 節](../../the-sql-language/ddl/ddl-rowsecurity.md)。
 
 <a id="id-1.9.3.75.8"></a>
 
-## Compatibility
+## 相容性
 
-`CREATE POLICY` is a PostgreSQL
-extension.
+`CREATE POLICY` 是 PostgreSQL 的擴充語法。
 
 <a id="id-1.9.3.75.9"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER POLICY](sql-alterpolicy.md), [DROP POLICY](sql-droppolicy.md), [ALTER TABLE](sql-altertable.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createpolicy.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-createpolicy.html)（原文版本：18.6；核對日期：2026-10-05）

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：431 頁。
+待譯頁面：430 頁。
 
 ## 根目錄
 
@@ -593,7 +593,7 @@
 - [x] `reference/sql-commands/sql-createopclass.md` — CREATE OPERATOR CLASS
 - [x] `reference/sql-commands/sql-createoperator.md` — CREATE OPERATOR
 - [x] `reference/sql-commands/sql-createopfamily.md` — CREATE OPERATOR FAMILY
-- [ ] `reference/sql-commands/sql-createpolicy.md` — CREATE POLICY
+- [x] `reference/sql-commands/sql-createpolicy.md` — CREATE POLICY
 - [x] `reference/sql-commands/sql-createprocedure.md` — CREATE PROCEDURE
 - [x] `reference/sql-commands/sql-createpublication.md` — CREATE PUBLICATION
 - [x] `reference/sql-commands/sql-createrole.md` — CREATE ROLE
