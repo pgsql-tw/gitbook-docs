@@ -658,7 +658,7 @@ class Queue:
         errors = structural_errors(state['baseline'], current, page)
         if errors:
             return structural_details(state['baseline'], current, page, errors)
-        context_hash = digest(PACKET_VERSION + state['baseline'] + current + state['source']['sha256'] + state['policy_hash'] +
+        context_hash = digest('user-review-rules-20261005-v1' + PACKET_VERSION + state['baseline'] + current + state['source']['sha256'] + state['policy_hash'] +
                               json.dumps(state.get('submission_provenance', {}), sort_keys=True))
         saved_reviews = ({r['section']: r for r in state.get('reviews', [])}
                          if state.get('review_context_hash') == context_hash else {})
@@ -695,6 +695,13 @@ class Queue:
                 'The current preservation policy protects entire code fences, including comments. '
                 'Do not reject unchanged English comments inside those fences merely as untranslated prose; '
                 'still report actual technical inaccuracies in examples for explicit resolution. '
+                'User-approved rules (2026-10-05): for sql-createpolicy.md, preserve the protected '
+                'HTML code table headers (policy, USING expression, WITH CHECK expression) and accept '
+                'an adjacent Traditional Chinese explanation mapping policy to 政策 and expression to 運算式. '
+                'Do not reject those preserved headers as untranslated prose when this explanation is present. '
+                'For sql-copy.md, accept 19 fixed header bytes with an explicit note that the official '
+                'source says 15, while its listed fields total 11 + 4 + 4 = 19 bytes. '
+                'This approved, disclosed source correction is not an inaccurate translation or an unsupported addition. '
                 'Return one review per assigned section, in order. passed=true only with no issues. '
                 'Give concise, section-specific evidence (at most 60 words), not a rewritten translation. '
                 f'Review exactly sections {group}.' + self.packed_context(page, state, current, group, 'reviewer'))
