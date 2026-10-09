@@ -1,10 +1,12 @@
-<a id="id-1.9.3.22.1"></a>
+<a id="SQL-ALTEROPFAMILY"></a><a id="id-1.9.3.22.1"></a>
 
 ## ALTER OPERATOR FAMILY
 
-ALTER OPERATOR FAMILY — change the definition of an operator family
+ALTER OPERATOR FAMILY — 變更運算子家族的定義
 
-## Synopsis
+<a id="id-1.9.3.22.4"></a>
+
+## 語法
 
 ```
 
@@ -32,142 +34,81 @@ ALTER OPERATOR FAMILY name USING index_method
 
 <a id="id-1.9.3.22.5"></a>
 
-## Description
+## 說明
 
-`ALTER OPERATOR FAMILY` changes the definition of
-an operator family. You can add operators and support functions
-to the family, remove them from the family,
-or change the family's name or owner.
+`ALTER OPERATOR FAMILY` 會變更運算子家族的定義。你可以將運算子與支援函式加入家族、從家族中移除它們，或變更家族的名稱或擁有者。
 
-When operators and support functions are added to a family with
-`ALTER OPERATOR FAMILY`, they are not part of any
-specific operator class within the family, but are just “loose”
-within the family. This indicates that these operators and functions
-are compatible with the family's semantics, but are not required for
-correct functioning of any specific index. (Operators and functions
-that are so required should be declared as part of an operator class,
-instead; see [CREATE OPERATOR CLASS](sql-createopclass.md).)
-PostgreSQL will allow loose members of a
-family to be dropped from the family at any time, but members of an
-operator class cannot be dropped without dropping the whole class and
-any indexes that depend on it.
-Typically, single-data-type operators
-and functions are part of operator classes because they are needed to
-support an index on that specific data type, while cross-data-type
-operators and functions are made loose members of the family.
+以 `ALTER OPERATOR FAMILY` 將運算子與支援函式加入家族時，它們不屬於家族內任何特定的運算子類別，而只是在家族內「鬆散」存在。這表示這些運算子與函式和該家族的語意相容，但並非任何特定索引正確運作所必需。（確實為此所必需的運算子與函式，應該改為宣告為運算子類別的一部分；請參閱 [CREATE OPERATOR CLASS](sql-createopclass.md)。）PostgreSQL 允許隨時從家族中移除家族的鬆散成員，但若不移除整個類別以及相依於它的所有索引，就無法移除運算子類別的成員。通常，單一資料型別的運算子與函式屬於運算子類別，因為需要它們來支援該特定資料型別上的索引；而跨資料型別的運算子與函式則會成為家族的鬆散成員。
 
-You must be a superuser to use `ALTER OPERATOR FAMILY`.
-(This restriction is made because an erroneous operator family definition
-could confuse or even crash the server.)
+你必須是超級使用者才能使用 `ALTER OPERATOR FAMILY`。（之所以有此限制，是因為錯誤的運算子家族定義可能使伺服器混亂，甚至當機。）
 
-`ALTER OPERATOR FAMILY` does not presently check
-whether the operator family definition includes all the operators and
-functions required by the index method, nor whether the operators and
-functions form a self-consistent set. It is the user's
-responsibility to define a valid operator family.
+`ALTER OPERATOR FAMILY` 目前既不檢查運算子家族定義是否包含索引方法所需的所有運算子與函式，也不檢查這些運算子與函式是否構成自我一致的集合。定義有效的運算子家族是使用者的責任。
 
-Refer to [Section 36.16](../../server-programming/extend/xindex.md) for further information.
+更多資訊請參閱[第 36.16 節](../../server-programming/extend/xindex.md)。
 
 <a id="id-1.9.3.22.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (optionally schema-qualified) of an existing operator
-    family.
+:   現有運算子家族的名稱（可選擇以綱要限定）。
 
 *`index_method`*
-:   The name of the index method this operator family is for.
+:   此運算子家族所適用之索引方法的名稱。
 
 *`strategy_number`*
-:   The index method's strategy number for an operator
-    associated with the operator family.
+:   索引方法中與該運算子家族相關聯之運算子的策略編號。
 
 *`operator_name`*
-:   The name (optionally schema-qualified) of an operator associated
-    with the operator family.
+:   與該運算子家族相關聯之運算子的名稱（可選擇以綱要限定）。
 
 *`op_type`*
-:   In an `OPERATOR` clause,
-    the operand data type(s) of the operator, or `NONE` to
-    signify a prefix operator. Unlike the comparable
-    syntax in `CREATE OPERATOR CLASS`, the operand data types
-    must always be specified.
+:   在 `OPERATOR` 子句中，為運算子的運算元資料型別，或以 `NONE` 表示前綴運算子。與 `CREATE OPERATOR CLASS` 中的類似語法不同，運算元資料型別必須一律指定。
 
-    In an `ADD FUNCTION` clause, the operand data type(s) the
-    function is intended to support, if different from
-    the input data type(s) of the function. For B-tree comparison functions
-    and hash functions it is not necessary to specify *`op_type`* since the function's input
-    data type(s) are always the correct ones to use. For B-tree sort
-    support functions, B-Tree equal image functions, and all
-    functions in GiST, SP-GiST and GIN operator classes, it is
-    necessary to specify the operand data type(s) the function is to
-    be used with.
+    在 `ADD FUNCTION` 子句中，為該函式要支援的運算元資料型別（若與函式的輸入資料型別不同）。對於 B-tree 比較函式與雜湊函式，不需要指定 *`op_type`*，因為函式的輸入資料型別一律就是應使用的正確型別。對於 B-tree 排序支援函式、B-Tree equal image 函式，以及 GiST、SP-GiST 與 GIN 運算子類別中的所有函式，則必須指定該函式要搭配使用的運算元資料型別。
 
-    In a `DROP FUNCTION` clause, the operand data type(s) the
-    function is intended to support must be specified.
+    在 `DROP FUNCTION` 子句中，必須指定該函式要支援的運算元資料型別。
 
 *`sort_family_name`*
-:   The name (optionally schema-qualified) of an existing `btree` operator
-    family that describes the sort ordering associated with an ordering
-    operator.
+:   現有 `btree` 運算子家族的名稱（可選擇以綱要限定），該家族描述與排序運算子相關聯的排序順序。
 
-    If neither `FOR SEARCH` nor `FOR ORDER BY` is
-    specified, `FOR SEARCH` is the default.
+    若既未指定 `FOR SEARCH`，也未指定 `FOR ORDER BY`，則預設為 `FOR SEARCH`。
 
 *`support_number`*
-:   The index method's support function number for a
-    function associated with the operator family.
+:   索引方法中與該運算子家族相關聯之函式的支援函式編號。
 
 *`function_name`*
-:   The name (optionally schema-qualified) of a function that is an index
-    method support function for the operator family. If no argument list
-    is specified, the name must be unique in its schema.
+:   作為該運算子家族索引方法支援函式之函式的名稱（可選擇以綱要限定）。若未指定引數清單，該名稱在其綱要中必須是唯一的。
 
 *`argument_type`*
-:   The parameter data type(s) of the function.
+:   函式的參數資料型別。
 
 *`new_name`*
-:   The new name of the operator family.
+:   運算子家族的新名稱。
 
 *`new_owner`*
-:   The new owner of the operator family.
+:   運算子家族的新擁有者。
 
 *`new_schema`*
-:   The new schema for the operator family.
+:   運算子家族的新綱要。
 
-The `OPERATOR` and `FUNCTION`
-clauses can appear in any order.
+`OPERATOR` 與 `FUNCTION` 子句可以任意順序出現。
 
 <a id="id-1.9.3.22.7"></a>
 
-## Notes
+## 注意事項
 
-Notice that the `DROP` syntax only specifies the “slot”
-in the operator family, by strategy or support number and input data
-type(s). The name of the operator or function occupying the slot is not
-mentioned. Also, for `DROP FUNCTION` the type(s) to specify
-are the input data type(s) the function is intended to support; for
-GiST, SP-GiST and GIN indexes this might have nothing to do with the actual
-input argument types of the function.
+請注意，`DROP` 語法只透過策略編號或支援編號以及輸入資料型別，來指定運算子家族中的「槽位」，並不提及佔用該槽位之運算子或函式的名稱。此外，對於 `DROP FUNCTION`，要指定的型別是該函式要支援的輸入資料型別；對於 GiST、SP-GiST 與 GIN 索引，這可能與函式實際的輸入引數型別毫無關係。
 
-Because the index machinery does not check access permissions on functions
-before using them, including a function or operator in an operator family
-is tantamount to granting public execute permission on it. This is usually
-not an issue for the sorts of functions that are useful in an operator
-family.
+由於索引機制在使用函式前不會檢查函式的存取權限，將函式或運算子納入運算子家族，等同於授予它公開的執行權限。對於在運算子家族中有用的那類函式而言，這通常不是問題。
 
-The operators should not be defined by SQL functions. An SQL function
-is likely to be inlined into the calling query, which will prevent
-the optimizer from recognizing that the query matches an index.
+運算子不應該由 SQL 函式定義。SQL 函式很可能會被內嵌到呼叫它的查詢中，這會使最佳化器無法辨識該查詢符合某個索引。
 
 <a id="id-1.9.3.22.8"></a>
 
-## Examples
+## 範例
 
-The following example command adds cross-data-type operators and
-support functions to an operator family that already contains B-tree
-operator classes for data types `int4` and `int2`.
+以下範例命令將跨資料型別的運算子與支援函式，加入一個已包含資料型別 `int4` 與 `int2` 之 B-tree 運算子類別的運算子家族。
 
 ```
 
@@ -190,7 +131,7 @@ ALTER OPERATOR FAMILY integer_ops USING btree ADD
   FUNCTION 1 btint24cmp(int2, int4) ;
 ```
 
-To remove these entries again:
+若要再次移除這些項目：
 
 ```
 
@@ -215,17 +156,16 @@ ALTER OPERATOR FAMILY integer_ops USING btree DROP
 
 <a id="id-1.9.3.22.9"></a>
 
-## Compatibility
+## 相容性
 
-There is no `ALTER OPERATOR FAMILY` statement in
-the SQL standard.
+SQL 標準中沒有 `ALTER OPERATOR FAMILY` 陳述式。
 
 <a id="id-1.9.3.22.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE OPERATOR FAMILY](sql-createopfamily.md), [DROP OPERATOR FAMILY](sql-dropopfamily.md), [CREATE OPERATOR CLASS](sql-createopclass.md), [ALTER OPERATOR CLASS](sql-alteropclass.md), [DROP OPERATOR CLASS](sql-dropopclass.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alteropfamily.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alteropfamily.html)（原文版本：18.6；核對日期：2026-10-09）
