@@ -1,10 +1,12 @@
-<a id="id-1.9.3.7.1"></a>
+<a id="SQL-ALTERDATABASE"></a><a id="id-1.9.3.7.1"></a>
 
 ## ALTER DATABASE
 
-ALTER DATABASE — change a database
+ALTER DATABASE — 變更資料庫
 
-## Synopsis
+<a id="id-1.9.3.7.4"></a>
+
+## 語法
 
 ```
 
@@ -32,112 +34,67 @@ ALTER DATABASE name RESET ALL
 
 <a id="id-1.9.3.7.5"></a>
 
-## Description
+## 說明
 
-`ALTER DATABASE` changes the attributes
-of a database.
+`ALTER DATABASE` 會變更資料庫的屬性。
 
-The first form changes certain per-database settings. (See below for
-details.) Only the database owner or a superuser can change these settings.
+第一種形式會變更某些個別資料庫的設定。（詳見下文。）只有資料庫擁有者或超級使用者可以變更這些設定。
 
-The second form changes the name of the database. Only the database
-owner or a superuser can rename a database; non-superuser owners must
-also have the
-`CREATEDB` privilege. The current database cannot
-be renamed. (Connect to a different database if you need to do
-that.)
+第二種形式會變更資料庫的名稱。只有資料庫擁有者或超級使用者可以重新命名資料庫；非超級使用者的擁有者還必須具有 `CREATEDB` 權限。目前所在的資料庫無法重新命名。（若需要這麼做，請連線到另一個資料庫。）
 
-The third form changes the owner of the database.
-To alter the owner, you must be able to `SET ROLE` to the
-new owning role, and you must have the
-`CREATEDB` privilege.
-(Note that superusers have all these privileges automatically.)
+第三種形式會變更資料庫的擁有者。若要變更擁有者，你必須能夠 `SET ROLE` 為新的擁有者角色，而且你必須具有 `CREATEDB` 權限。（請注意，超級使用者會自動擁有所有這些權限。）
 
-The fourth form changes the default tablespace of the database.
-Only the database owner or a superuser can do this; you must also have
-create privilege for the new tablespace.
-This command physically moves any tables or indexes in the database's old
-default tablespace to the new tablespace. The new default tablespace
-must be empty for this database, and no one can be connected to
-the database. Tables and indexes in non-default tablespaces are
-unaffected. The method used to copy files to the new tablespace
-is affected by the [file_copy_method](../../server-administration/runtime-config/runtime-config-resource.md#GUC-FILE-COPY-METHOD) setting.
+第四種形式會變更資料庫的預設資料表空間。只有資料庫擁有者或超級使用者可以這麼做；你還必須具有新資料表空間的 CREATE 權限。此命令會將資料庫舊預設資料表空間中的所有資料表或索引實體搬移到新的資料表空間。對此資料庫而言，新的預設資料表空間必須是空的，而且不能有任何人連線到該資料庫。位於非預設資料表空間中的資料表與索引不受影響。將檔案複製到新資料表空間所使用的方法，會受到 [file_copy_method](../../server-administration/runtime-config/runtime-config-resource.md#GUC-FILE-COPY-METHOD) 設定的影響。
 
-The remaining forms change the session default for a run-time
-configuration variable for a PostgreSQL
-database. Whenever a new session is subsequently started in that
-database, the specified value becomes the session default value.
-The database-specific default overrides whatever setting is present
-in `postgresql.conf` or has been received from the
-`postgres` command line. Only the database
-owner or a superuser can change the session defaults for a
-database. Certain variables cannot be set this way, or can only be
-set by a superuser.
+其餘的形式會為某個 PostgreSQL 資料庫變更執行期組態變數的工作階段預設值。之後每當在該資料庫中啟動新的工作階段時，指定的值就會成為工作階段的預設值。資料庫專屬的預設值會覆寫 `postgresql.conf` 中的任何設定，或從 `postgres` 命令列接收到的設定。只有資料庫擁有者或超級使用者可以變更資料庫的工作階段預設值。某些變數無法以這種方式設定，或只能由超級使用者設定。
 
 <a id="id-1.9.3.7.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of the database whose attributes are to be altered.
+:   要變更其屬性之資料庫的名稱。
 
 *`allowconn`*
-:   If false then no one can connect to this database.
+:   若為 false，則沒有人可以連線到此資料庫。
 
 *`connlimit`*
-:   How many concurrent connections can be made
-    to this database. -1 means no limit.
+:   此資料庫可以建立多少個並行連線。-1 表示沒有限制。
 
 *`istemplate`*
-:   If true, then this database can be cloned by any user with `CREATEDB`
-    privileges; if false, then only superusers or the owner of the
-    database can clone it.
+:   若為 true，則任何具有 `CREATEDB` 權限的使用者都可以複製此資料庫；若為 false，則只有超級使用者或資料庫擁有者可以複製它。
 
 *`new_name`*
-:   The new name of the database.
+:   資料庫的新名稱。
 
 *`new_owner`*
-:   The new owner of the database.
+:   資料庫的新擁有者。
 
 *`new_tablespace`*
-:   The new default tablespace of the database.
+:   資料庫的新預設資料表空間。
 
-    This form of the command cannot be executed inside a transaction block.
+    此形式的命令不能在交易區塊內執行。
 
 `REFRESH COLLATION VERSION`
-:   Update the database collation version. See [Notes](sql-altercollation.md#SQL-ALTERCOLLATION-NOTES) for background.
+:   更新資料庫的定序版本。背景說明請參閱[注意事項](sql-altercollation.md#SQL-ALTERCOLLATION-NOTES)。
 
 *`configuration_parameter`*<br>*`value`*
-:   Set this database's session default for the specified configuration
-    parameter to the given value. If
-    *`value`* is `DEFAULT`
-    or, equivalently, `RESET` is used, the
-    database-specific setting is removed, so the system-wide default
-    setting will be inherited in new sessions. Use `RESET
-    ALL` to clear all database-specific settings.
-    `SET FROM CURRENT` saves the session's current value of
-    the parameter as the database-specific value.
+:   將此資料庫中指定組態參數的工作階段預設值設為給定的值。若 *`value`* 為 `DEFAULT`，或等效地使用 `RESET`，則會移除資料庫專屬的設定，新的工作階段將繼承系統層級的預設設定。使用 `RESET
+    ALL` 可清除所有資料庫專屬的設定。`SET FROM CURRENT` 會將該參數在工作階段中目前的值儲存為資料庫專屬的值。
 
-    See [SET](sql-set.md) and [Chapter 19](../../server-administration/runtime-config/README.md)
-    for more information about allowed parameter names
-    and values.
+    關於允許的參數名稱與值的更多資訊，請參閱 [SET](sql-set.md) 與[第 19 章](../../server-administration/runtime-config/README.md)。
 
 <a id="id-1.9.3.7.7"></a>
 
-## Notes
+## 注意事項
 
-It is also possible to tie a session default to a specific role
-rather than to a database; see
-[ALTER ROLE](sql-alterrole.md).
-Role-specific settings override database-specific
-ones if there is a conflict.
+也可以將工作階段預設值綁定到特定角色而非資料庫；請參閱 [ALTER ROLE](sql-alterrole.md)。若有衝突，角色專屬的設定會覆寫資料庫專屬的設定。
 
 <a id="id-1.9.3.7.8"></a>
 
-## Examples
+## 範例
 
-To disable index scans by default in the database
-`test`:
+在資料庫 `test` 中預設停用索引掃描：
 
 ```
 
@@ -146,17 +103,16 @@ ALTER DATABASE test SET enable_indexscan TO off;
 
 <a id="id-1.9.3.7.9"></a>
 
-## Compatibility
+## 相容性
 
-The `ALTER DATABASE` statement is a
-PostgreSQL extension.
+`ALTER DATABASE` 陳述式是 PostgreSQL 的擴充語法。
 
 <a id="id-1.9.3.7.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE DATABASE](sql-createdatabase.md), [DROP DATABASE](sql-dropdatabase.md), [SET](sql-set.md), [CREATE TABLESPACE](sql-createtablespace.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterdatabase.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterdatabase.html)（原文版本：18.6；核對日期：2026-10-05）
