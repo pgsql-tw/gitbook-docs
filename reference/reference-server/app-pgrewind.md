@@ -1,10 +1,10 @@
-<a id="id-1.9.5.10.1"></a>
+<a id="APP-PGREWIND"></a><a id="id-1.9.5.10.1"></a>
 
 ## pg_rewind
 
-pg_rewind — synchronize a PostgreSQL data directory with another data directory that was forked from it
+pg_rewind — 將 PostgreSQL 資料目錄與另一個從它分岔出去的資料目錄同步
 
-## Synopsis
+## 語法
 
 <a id="id-1.9.5.10.4.1"></a>
 
@@ -12,204 +12,93 @@ pg_rewind — synchronize a PostgreSQL data directory with another data director
 
 <a id="id-1.9.5.10.5"></a>
 
-## Description
+## 說明
 
-pg_rewind is a tool for synchronizing a PostgreSQL cluster
-with another copy of the same cluster, after the clusters' timelines have
-diverged. A typical scenario is to bring an old primary server back online
-after failover as a standby that follows the new primary.
+pg_rewind 是一個工具，用於在叢集的時間軸分歧之後，將 PostgreSQL 叢集與同一叢集的另一份副本同步。典型的情境是在容錯移轉之後，讓舊的主要伺服器重新上線，成為跟隨新主要伺服器的待命伺服器。
 
-After a successful rewind, the state of the target data directory is
-analogous to a base backup of the source data directory. Unlike taking
-a new base backup or using a tool like rsync,
-pg_rewind does not require comparing or copying
-unchanged relation blocks in the cluster. Only changed blocks from existing
-relation files are copied; all other files, including new relation files,
-configuration files, and WAL segments, are copied in full. As such the
-rewind operation is significantly faster than other approaches when the
-database is large and only a small fraction of blocks differ between the
-clusters.
+倒轉（rewind）成功之後，目標資料目錄的狀態類似於來源資料目錄的基礎備份。與製作新的基礎備份或使用 rsync 之類的工具不同，pg_rewind 不需要比對或複製叢集中未變更的關聯區塊。只有現有關聯檔案中已變更的區塊會被複製；所有其他檔案，包括新的關聯檔案、設定檔與 WAL 區段，都會完整複製。因此，當資料庫很大、而叢集之間只有一小部分區塊不同時，倒轉操作會比其他做法快得多。
 
-pg_rewind examines the timeline histories of the source
-and target clusters to determine the point where they diverged, and
-expects to find WAL in the target cluster's `pg_wal` directory
-reaching all the way back to the point of divergence. The point of divergence
-can be found either on the target timeline, the source timeline, or their common
-ancestor. In the typical failover scenario where the target cluster was
-shut down soon after the divergence, this is not a problem, but if the
-target cluster ran for a long time after the divergence, its old WAL
-files might no longer be present. In this case, you can manually copy them
-from the WAL archive to the `pg_wal` directory, or run
-pg_rewind with the `-c` option to
-automatically retrieve them from the WAL archive. The use of
-pg_rewind is not limited to failover, e.g., a standby
-server can be promoted, run some write transactions, and then rewound
-to become a standby again.
+pg_rewind 會檢查來源叢集與目標叢集的時間軸歷史，以判定兩者分歧的時間點，並預期能在目標叢集的 `pg_wal` 目錄中找到一路回溯到分歧點的 WAL。分歧點可能位於目標時間軸、來源時間軸，或兩者的共同祖先上。在典型的容錯移轉情境中，目標叢集在分歧後不久就已關閉，這不是問題；但如果目標叢集在分歧後又執行了很長一段時間，它的舊 WAL 檔案可能已經不存在。在這種情況下，你可以手動將它們從 WAL 歸檔複製到 `pg_wal` 目錄，或是以 `-c` 選項執行 pg_rewind，自動從 WAL 歸檔取回它們。pg_rewind 的用途並不限於容錯移轉，例如，待命伺服器可以被提升、執行一些寫入交易，然後再倒轉回來重新成為待命伺服器。
 
-After running pg_rewind, WAL replay needs to
-complete for the data directory to be in a consistent state. When the
-target server is started again it will enter archive recovery and replay
-all WAL generated in the source server from the last checkpoint before
-the point of divergence. If some of the WAL was no longer available in the
-source server when pg_rewind was run, and
-therefore could not be copied by the pg_rewind
-session, it must be made available when the target server is started.
-This can be done by creating a `recovery.signal` file
-in the target data directory and by configuring a suitable
-[restore_command](../../server-administration/runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND) in
-`postgresql.conf`.
+執行 pg_rewind 之後，需要完成 WAL 重播，資料目錄才會處於一致的狀態。目標伺服器再次啟動時，會進入歸檔復原，並重播來源伺服器中從分歧點之前最後一個檢查點起所產生的所有 WAL。如果執行 pg_rewind 時，來源伺服器中已有部分 WAL 無法取得，因而無法由 pg_rewind 工作階段複製，則必須在目標伺服器啟動時讓這些 WAL 可供使用。做法是在目標資料目錄中建立 `recovery.signal` 檔案，並在 `postgresql.conf` 中設定適當的 [restore_command](../../server-administration/runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND)。
 
-pg_rewind requires that the target server either has
-the [wal_log_hints](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-LOG-HINTS) option enabled
-in `postgresql.conf` or data checksums enabled when
-the cluster was initialized with initdb (the
-default). [full_page_writes](../../server-administration/runtime-config/runtime-config-wal.md#GUC-FULL-PAGE-WRITES) must also be set to
-`on`, but is enabled by default.
+pg_rewind 要求目標伺服器在 `postgresql.conf` 中啟用 [wal_log_hints](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-LOG-HINTS) 選項，或是在以 initdb 初始化叢集時啟用了資料檢查碼（這是預設值）。[full_page_writes](../../server-administration/runtime-config/runtime-config-wal.md#GUC-FULL-PAGE-WRITES) 也必須設為 `on`，不過它預設就是啟用的。
 
-### Warning: Failures While Rewinding
+<a id="id-1.9.5.10.5.7"></a>
 
-If pg_rewind fails while processing, then
-the data folder of the target is likely not in a state that can be
-recovered. In such a case, taking a new fresh backup is recommended.
+### 警告：倒轉過程中的失敗
 
-As pg_rewind copies configuration files
-entirely from the source, it may be required to correct the configuration
-used for recovery before restarting the target server, especially if
-the target is reintroduced as a standby of the source. If you restart
-the server after the rewind operation has finished but without configuring
-recovery, the target may again diverge from the primary.
+如果 pg_rewind 在處理過程中失敗，目標的資料資料夾很可能處於無法復原的狀態。在這種情況下，建議重新製作一份新的備份。
 
-pg_rewind will fail immediately if it finds
-files it cannot write directly to. This can happen for example when
-the source and the target server use the same file mapping for read-only
-SSL keys and certificates. If such files are present on the target server
-it is recommended to remove them before running
-pg_rewind. After doing the rewind, some of
-those files may have been copied from the source, in which case it may
-be necessary to remove the data copied and restore back the set of links
-used before the rewind.
+由於 pg_rewind 會從來源完整複製設定檔，因此在重新啟動目標伺服器之前，可能需要修正用於復原的設定，特別是當目標被重新引入為來源的待命伺服器時。如果你在倒轉操作完成後重新啟動伺服器，但沒有設定復原，目標可能會再次與主要伺服器分歧。
+
+如果 pg_rewind 發現有它無法直接寫入的檔案，就會立即失敗。例如，當來源與目標伺服器對唯讀的 SSL 金鑰與憑證使用相同的檔案對應時，就可能發生這種情況。如果目標伺服器上存在這類檔案，建議在執行 pg_rewind 之前將它們移除。完成倒轉之後，其中一些檔案可能已從來源複製過來，在這種情況下，可能需要移除複製過來的資料，並還原倒轉前所使用的那組連結。
 
 <a id="id-1.9.5.10.6"></a>
 
-## Options
+## 選項
 
-pg_rewind accepts the following command-line
-arguments:
+pg_rewind 接受下列命令列引數：
 
 `-D directory`<br>`--target-pgdata=directory`
-:   This option specifies the target data directory that is synchronized
-    with the source. The target server must be shut down cleanly before
-    running pg_rewind
+:   此選項指定要與來源同步的目標資料目錄。在執行 pg_rewind 之前，目標伺服器必須已正常關閉
 
 `--source-pgdata=directory`
-:   Specifies the file system path to the data directory of the source
-    server to synchronize the target with. This option requires the
-    source server to be cleanly shut down.
+:   指定要用來同步目標之來源伺服器的資料目錄檔案系統路徑。此選項要求來源伺服器已正常關閉。
 
 `--source-server=connstr`
-:   Specifies a libpq connection string to connect to the source
-    PostgreSQL server to synchronize the target
-    with. The connection must be a normal (non-replication) connection
-    with a role having sufficient permissions to execute the functions
-    used by pg_rewind on the source server
-    (see Notes section for details) or a superuser role. This option
-    requires the source server to be running and accepting connections.
+:   指定 libpq 連線字串，用於連線到要用來同步目標的來源 PostgreSQL 伺服器。此連線必須是一般（非複寫）連線，所使用的角色須具有足夠權限來執行 pg_rewind 在來源伺服器上使用的函式（詳情請參閱注意事項一節），或是超級使用者角色。此選項要求來源伺服器正在執行並接受連線。
 
 `-R`<br>`--write-recovery-conf`
-:   Create `standby.signal` and append connection
-    settings to `postgresql.auto.conf` in the output
-    directory. The dbname will be recorded only if the dbname was
-    specified explicitly in the connection string or [environment variable](../../client-interfaces/libpq/libpq-envars.md). `--source-server` is
-    mandatory with this option.
+:   建立 `standby.signal`，並將連線設定附加到輸出目錄中的 `postgresql.auto.conf`。只有在連線字串或[環境變數](../../client-interfaces/libpq/libpq-envars.md)中明確指定了 dbname 時，才會記錄 dbname。使用此選項時，`--source-server` 為必要。
 
 `-n`<br>`--dry-run`
-:   Do everything except actually modifying the target directory.
+:   執行所有動作，但實際上不修改目標目錄。
 
 `-N`<br>`--no-sync`
-:   By default, `pg_rewind` will wait for all files
-    to be written safely to disk. This option causes
-    `pg_rewind` to return without waiting, which is
-    faster, but means that a subsequent operating system crash can leave
-    the data directory corrupt. Generally, this option is useful for
-    testing but should not be used on a production
-    installation.
+:   預設情況下，`pg_rewind` 會等待所有檔案都安全寫入磁碟。此選項會讓 `pg_rewind` 不等待就返回，這樣比較快，但意味著之後的作業系統當機可能會使資料目錄損毀。一般而言，此選項適用於測試，但不應該用於正式環境的安裝。
 
 `-P`<br>`--progress`
-:   Enables progress reporting. Turning this on will deliver an approximate
-    progress report while copying data from the source cluster.
+:   啟用進度回報。開啟後，從來源叢集複製資料時會提供大約的進度報告。
 
 `-c`<br>`--restore-target-wal`
-:   Use `restore_command` defined in the target cluster
-    configuration to retrieve WAL files from the WAL archive if these
-    files are no longer available in the `pg_wal`
-    directory.
+:   如果 WAL 檔案在 `pg_wal` 目錄中已無法取得，則使用目標叢集設定中定義的 `restore_command` 從 WAL 歸檔取回這些檔案。
 
 `--config-file=filename`
-:   Use the specified main server configuration file for the target
-    cluster. This affects pg_rewind when
-    it uses internally the postgres command
-    for the rewind operation on this cluster (when retrieving
-    `restore_command` with the option
-    `-c/--restore-target-wal` and when forcing a
-    completion of crash recovery).
+:   對目標叢集使用指定的主要伺服器設定檔。當 pg_rewind 在內部使用 postgres 命令對此叢集進行倒轉操作時（以 `-c/--restore-target-wal` 選項取得 `restore_command` 時，以及強制完成當機復原時），這會影響 pg_rewind。
 
 `--debug`
-:   Print verbose debugging output that is mostly useful for developers
-    debugging pg_rewind.
+:   印出詳細的除錯輸出，這主要對正在除錯 pg_rewind 的開發者有用。
 
 `--no-ensure-shutdown`
-:   pg_rewind requires that the target server
-    is cleanly shut down before rewinding. By default, if the target server
-    is not shut down cleanly, pg_rewind starts
-    the target server in single-user mode to complete crash recovery first,
-    and stops it.
-    By passing this option, pg_rewind skips
-    this and errors out immediately if the server is not cleanly shut
-    down. Users are expected to handle the situation themselves in that
-    case.
+:   pg_rewind 要求目標伺服器在倒轉之前已正常關閉。預設情況下，如果目標伺服器沒有正常關閉，pg_rewind 會以單一使用者模式啟動目標伺服器，先完成當機復原，然後再停止它。傳入此選項後，pg_rewind 會略過這個步驟，並在伺服器未正常關閉時立即以錯誤結束。在這種情況下，使用者應該自行處理該狀況。
 
 `--sync-method=method`
-:   When set to `fsync`, which is the default,
-    `pg_rewind` will recursively open and synchronize all
-    files in the data directory. The search for files will follow symbolic
-    links for the WAL directory and each configured tablespace.
+:   設為預設值 `fsync` 時，`pg_rewind` 會遞迴地開啟並同步資料目錄中的所有檔案。搜尋檔案時會跟隨 WAL 目錄與每個已設定之資料表空間的符號連結。
 
-    On Linux, `syncfs` may be used instead to ask the
-    operating system to synchronize the whole file systems that contain the
-    data directory, the WAL files, and each tablespace. See
-    [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD) for information about
-    the caveats to be aware of when using `syncfs`.
+    在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含資料目錄、WAL 檔案與每個資料表空間的整個檔案系統。關於使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
 
-    This option has no effect when `--no-sync` is used.
+    使用 `--no-sync` 時，此選項沒有作用。
 
 `-V`<br>`--version`
-:   Display version information, then exit.
+:   顯示版本資訊後結束。
 
 `-?`<br>`--help`
-:   Show help, then exit.
+:   顯示說明後結束。
 
 <a id="id-1.9.5.10.7"></a>
 
-## Environment
+## 環境
 
-When `--source-server` option is used,
-pg_rewind also uses the environment variables
-supported by libpq (see [Section 32.15](../../client-interfaces/libpq/libpq-envars.md)).
+使用 `--source-server` 選項時，pg_rewind 也會使用 libpq 所支援的環境變數（請參閱[第 32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。
 
-The environment variable `PG_COLOR` specifies whether to use
-color in diagnostic messages. Possible values are
-`always`, `auto` and
-`never`.
+環境變數 `PG_COLOR` 指定診斷訊息是否使用色彩。可用值為 `always`、`auto` 與 `never`。
 
 <a id="id-1.9.5.10.8"></a>
 
-## Notes
+## 注意事項
 
-When executing pg_rewind using an online
-cluster as source, a role having sufficient permissions to execute the
-functions used by pg_rewind on the source
-cluster can be used instead of a superuser. Here is how to create such
-a role, named `rewind_user` here:
+以線上叢集作為來源執行 pg_rewind 時，可以使用具有足夠權限、能執行 pg_rewind 在來源叢集上所用函式的角色，來取代超級使用者。以下示範如何建立這樣的角色，這裡命名為 `rewind_user`：
 
 ```
 
@@ -222,52 +111,16 @@ GRANT EXECUTE ON function pg_catalog.pg_read_binary_file(text, bigint, bigint, b
 
 <a id="id-1.9.5.10.8.3"></a>
 
-### How It Works
+### 運作方式
 
-The basic idea is to copy all file system-level changes from the source
-cluster to the target cluster:
+基本概念是將來源叢集中所有檔案系統層級的變更複製到目標叢集：
 
-1. Scan the WAL log of the target cluster, starting from the last
-   checkpoint before the point where the source cluster's timeline
-   history forked off from the target cluster. For each WAL record,
-   record each data block that was touched. This yields a list of all
-   the data blocks that were changed in the target cluster, after the
-   source cluster forked off. If some of the WAL files are no longer
-   available, try re-running pg_rewind with
-   the `-c` option to search for the missing files in
-   the WAL archive.
-2. Copy all those changed blocks from the source cluster to
-   the target cluster, either using direct file system access
-   (`--source-pgdata`) or SQL (`--source-server`).
-   Relation files are now in a state equivalent to the moment of the last
-   completed checkpoint prior to the point at which the WAL timelines of the
-   source and target diverged plus the current state on the source of any
-   blocks changed on the target after that divergence.
-3. Copy all other files, including new relation files, WAL segments,
-   `pg_xact`, and configuration files from the source
-   cluster to the target cluster. Similarly to base backups, the contents
-   of the directories `pg_dynshmem/`,
-   `pg_notify/`, `pg_replslot/`,
-   `pg_serial/`, `pg_snapshots/`,
-   `pg_stat_tmp/`, and `pg_subtrans/`
-   are omitted from the data copied from the source cluster. The files
-   `backup_label`,
-   `tablespace_map`,
-   `pg_internal.init`,
-   `postmaster.opts`,
-   `postmaster.pid` and
-   `.DS_Store` as well as any file or directory
-   beginning with `pgsql_tmp`, are omitted.
-4. Create a `backup_label` file to begin WAL replay at
-   the checkpoint created at failover and configure the
-   `pg_control` file with a minimum consistency LSN
-   defined as the result of `pg_current_wal_insert_lsn()`
-   when rewinding from a live source or the last checkpoint LSN when
-   rewinding from a stopped source.
-5. When starting the target, PostgreSQL replays
-   all the required WAL, resulting in a data directory in a consistent
-   state.
+1. 掃描目標叢集的 WAL 日誌，從來源叢集的時間軸歷史自目標叢集分岔出去之時間點前的最後一個檢查點開始。對每一筆 WAL 紀錄，記下每個被變動過的資料區塊。這會產生一份清單，列出在來源叢集分岔之後，目標叢集中所有被變更過的資料區塊。如果部分 WAL 檔案已無法取得，請嘗試以 `-c` 選項重新執行 pg_rewind，以便在 WAL 歸檔中搜尋缺少的檔案。
+2. 將所有這些已變更的區塊從來源叢集複製到目標叢集，方式可以是直接存取檔案系統（`--source-pgdata`）或透過 SQL（`--source-server`）。此時，關聯檔案的狀態，相當於來源與目標之 WAL 時間軸分歧點之前最後一個已完成檢查點當下的狀態，再加上分歧之後在目標上被變更過之區塊在來源上的目前狀態。
+3. 將所有其他檔案，包括新的關聯檔案、WAL 區段、`pg_xact` 與設定檔，從來源叢集複製到目標叢集。與基礎備份類似，目錄 `pg_dynshmem/`、`pg_notify/`、`pg_replslot/`、`pg_serial/`、`pg_snapshots/`、`pg_stat_tmp/` 與 `pg_subtrans/` 的內容不會包含在從來源叢集複製的資料中。檔案 `backup_label`、`tablespace_map`、`pg_internal.init`、`postmaster.opts`、`postmaster.pid` 與 `.DS_Store`，以及任何以 `pgsql_tmp` 開頭的檔案或目錄，也都會被略過。
+4. 建立 `backup_label` 檔案，以便從容錯移轉時建立的檢查點開始 WAL 重播，並在 `pg_control` 檔案中設定最小一致性 LSN；從執行中的來源倒轉時，此值定義為 `pg_current_wal_insert_lsn()` 的結果，從已停止的來源倒轉時，則為最後一個檢查點的 LSN。
+5. 啟動目標時，PostgreSQL 會重播所有必要的 WAL，使資料目錄處於一致的狀態。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgrewind.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgrewind.html)（原文版本：18.6；核對日期：2026-10-05）
