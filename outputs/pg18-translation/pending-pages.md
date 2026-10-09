@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：410 頁。
+待譯頁面：409 頁。
 
 ## 根目錄
 
@@ -538,7 +538,7 @@
 - [x] `reference/sql-commands/sql-alterlanguage.md` — ALTER LANGUAGE
 - [x] `reference/sql-commands/sql-alterlargeobject.md` — ALTER LARGE OBJECT
 - [x] `reference/sql-commands/sql-altermaterializedview.md` — ALTER MATERIALIZED VIEW
-- [ ] `reference/sql-commands/sql-alteropclass.md` — ALTER OPERATOR CLASS
+- [x] `reference/sql-commands/sql-alteropclass.md` — ALTER OPERATOR CLASS
 - [ ] `reference/sql-commands/sql-alteroperator.md` — ALTER OPERATOR
 - [ ] `reference/sql-commands/sql-alteropfamily.md` — ALTER OPERATOR FAMILY
 - [x] `reference/sql-commands/sql-alterpolicy.md` — ALTER POLICY
