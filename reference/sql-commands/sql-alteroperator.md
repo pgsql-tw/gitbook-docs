@@ -1,10 +1,12 @@
-<a id="id-1.9.3.20.1"></a>
+<a id="SQL-ALTEROPERATOR"></a><a id="id-1.9.3.20.1"></a>
 
 ## ALTER OPERATOR
 
-ALTER OPERATOR — change the definition of an operator
+ALTER OPERATOR — 變更運算子的定義
 
-## Synopsis
+<a id="id-1.9.3.20.4"></a>
+
+## 語法
 
 ```
 
@@ -26,99 +28,77 @@ ALTER OPERATOR name ( { left_type | NONE } , right_type )
 
 <a id="id-1.9.3.20.5"></a>
 
-## Description
+## 說明
 
-`ALTER OPERATOR` changes the definition of
-an operator.
+`ALTER OPERATOR` 會變更運算子的定義。
 
-You must own the operator to use `ALTER OPERATOR`.
-To alter the owner, you must be able to `SET ROLE` to the
-new owning role, and that role must have `CREATE`
-privilege on the operator's schema.
-(These restrictions enforce that altering the owner
-doesn't do anything you couldn't do by dropping and recreating the operator.
-However, a superuser can alter ownership of any operator anyway.)
+你必須擁有該運算子，才能使用 `ALTER OPERATOR`。若要變更擁有者，你必須能對新的擁有者角色執行 `SET ROLE`，且該角色必須擁有該運算子所在綱要的 `CREATE` 權限。（這些限制確保變更擁有者不會做到任何你無法藉由移除並重新建立運算子而做到的事。不過，超級使用者無論如何都可以變更任何運算子的擁有權。）
 
 <a id="id-1.9.3.20.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (optionally schema-qualified) of an existing operator.
+:   現有運算子的名稱（可選擇以綱要限定）。
 
 *`left_type`*
-:   The data type of the operator's left operand; write
-    `NONE` if the operator has no left operand.
+:   運算子左運算元的資料型別；若運算子沒有左運算元，請寫 `NONE`。
 
 *`right_type`*
-:   The data type of the operator's right operand.
+:   運算子右運算元的資料型別。
 
 *`new_owner`*
-:   The new owner of the operator.
+:   運算子的新擁有者。
 
 *`new_schema`*
-:   The new schema for the operator.
+:   運算子的新綱要。
 
 *`res_proc`*
-:   The restriction selectivity estimator function for this operator; write NONE to remove existing selectivity estimator.
+:   此運算子的限制選擇率估算函式；寫 NONE 可移除既有的選擇率估算函式。
 
 *`join_proc`*
-:   The join selectivity estimator function for this operator; write NONE to remove existing selectivity estimator.
+:   此運算子的連接選擇率估算函式；寫 NONE 可移除既有的選擇率估算函式。
 
 *`com_op`*
-:   The commutator of this operator. Can only be changed if the operator
-    does not have an existing commutator.
+:   此運算子的交換子。只有在運算子尚未有交換子時才能變更。
 
 *`neg_op`*
-:   The negator of this operator. Can only be changed if the operator does
-    not have an existing negator.
+:   此運算子的否定子。只有在運算子尚未有否定子時才能變更。
 
 `HASHES`
-:   Indicates this operator can support a hash join. Can only be enabled and
-    not disabled.
+:   表示此運算子可以支援雜湊連接。只能啟用，不能停用。
 
 `MERGES`
-:   Indicates this operator can support a merge join. Can only be enabled
-    and not disabled.
+:   表示此運算子可以支援合併連接。只能啟用，不能停用。
 
 <a id="id-1.9.3.20.7"></a>
 
-## Notes
+## 注意事項
 
-Refer to [Section 36.14](../../server-programming/extend/xoper.md) and
-[Section 36.15](../../server-programming/extend/xoper-optimization.md) for further information.
+更多資訊請參閱[第 36.14 節](../../server-programming/extend/xoper.md)與[第 36.15 節](../../server-programming/extend/xoper-optimization.md)。
 
-Since commutators come in pairs that are commutators of each other,
-`ALTER OPERATOR SET COMMUTATOR` will also set the
-commutator of the *`com_op`*
-to be the target operator. Likewise, `ALTER OPERATOR SET
-NEGATOR` will also set the negator of
-the *`neg_op`* to be the
-target operator. Therefore, you must own the commutator or negator
-operator as well as the target operator.
+由於交換子是成對出現、互為彼此的交換子，`ALTER OPERATOR SET COMMUTATOR` 也會將 *`com_op`* 的交換子設為目標運算子。同樣地，`ALTER OPERATOR SET
+NEGATOR` 也會將 *`neg_op`* 的否定子設為目標運算子。因此，除了目標運算子之外，你也必須擁有該交換子或否定子運算子。
 
 <a id="id-1.9.3.20.8"></a>
 
-## Examples
+## 範例
 
-Change the owner of a custom operator `a @@ b` for type `text`:
+變更型別 `text` 的自訂運算子 `a @@ b` 的擁有者：
 
 ```
 
 ALTER OPERATOR @@ (text, text) OWNER TO joe;
 ```
 
-Change the restriction and join selectivity estimator functions of a
-custom operator `a && b` for
-type `int[]`:
+變更型別 `int[]` 的自訂運算子 `a && b` 的限制與連接選擇率估算函式：
 
 ```
 
 ALTER OPERATOR && (int[], int[]) SET (RESTRICT = _int_contsel, JOIN = _int_contjoinsel);
 ```
 
-Mark the `&&` operator as being its own
-commutator:
+將 `&&` 運算子標記為它自己的交換子：
 
 ```
 
@@ -127,17 +107,16 @@ ALTER OPERATOR && (int[], int[]) SET (COMMUTATOR = &&);
 
 <a id="id-1.9.3.20.9"></a>
 
-## Compatibility
+## 相容性
 
-There is no `ALTER OPERATOR` statement in
-the SQL standard.
+SQL 標準中沒有 `ALTER OPERATOR` 陳述式。
 
 <a id="id-1.9.3.20.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE OPERATOR](sql-createoperator.md), [DROP OPERATOR](sql-dropoperator.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alteroperator.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alteroperator.html)（原文版本：18.6；核對日期：2026-10-05）
