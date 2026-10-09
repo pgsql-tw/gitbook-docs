@@ -1,10 +1,10 @@
-<a id="id-1.9.5.11.1"></a>
+<a id="PGTESTFSYNC"></a><a id="id-1.9.5.11.1"></a>
 
 ## pg_test_fsync
 
-pg_test_fsync — determine fastest `wal_sync_method` for PostgreSQL
+pg_test_fsync — 判定 PostgreSQL 最快的 `wal_sync_method`
 
-## Synopsis
+## 語法
 
 <a id="id-1.9.5.11.4.1"></a>
 
@@ -12,63 +12,40 @@ pg_test_fsync — determine fastest `wal_sync_method` for PostgreSQL
 
 <a id="id-1.9.5.11.5"></a>
 
-## Description
+## 說明
 
-pg_test_fsync is intended to give you a reasonable
-idea of what the fastest [wal_sync_method](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-SYNC-METHOD) is on your
-specific system,
-as well as supplying diagnostic information in the event of an identified I/O
-problem. However, differences shown by
-pg_test_fsync might not make any significant
-difference in real database throughput, especially since many database servers
-are not speed-limited by their write-ahead logs.
-pg_test_fsync reports average file sync operation
-time in microseconds for each `wal_sync_method`, which can also be used to
-inform efforts to optimize the value of [commit_delay](../../server-administration/runtime-config/runtime-config-wal.md#GUC-COMMIT-DELAY).
+pg_test_fsync 的目的是讓你合理地了解，在你的特定系統上最快的 [wal_sync_method](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-SYNC-METHOD) 是哪一個，並在發現 I/O 問題時提供診斷資訊。不過，pg_test_fsync 所顯示的差異，在實際的資料庫吞吐量上可能不會造成任何顯著差異，特別是因為許多資料庫伺服器的速度並不受其預寫日誌所限制。pg_test_fsync 會針對每個 `wal_sync_method` 回報以微秒為單位的平均檔案同步操作時間，這也可以用來協助最佳化 [commit_delay](../../server-administration/runtime-config/runtime-config-wal.md#GUC-COMMIT-DELAY) 的值。
 
 <a id="id-1.9.5.11.6"></a>
 
-## Options
+## 選項
 
-pg_test_fsync accepts the following
-command-line options:
+pg_test_fsync 接受下列命令列選項：
 
 `-f`<br>`--filename`
-:   Specifies the file name to write test data in.
-    This file should be in the same file system that the
-    `pg_wal` directory is or will be placed in.
-    (`pg_wal` contains the WAL files.)
-    The default is `pg_test_fsync.out` in the current
-    directory.
+:   指定寫入測試資料的檔案名稱。此檔案應該位於 `pg_wal` 目錄目前所在或將要放置的同一個檔案系統中。（`pg_wal` 包含 WAL 檔案。）預設為目前目錄中的 `pg_test_fsync.out`。
 
 `-s`<br>`--secs-per-test`
-:   Specifies the number of seconds for each test. The more time
-    per test, the greater the test's accuracy, but the longer it takes
-    to run. The default is 5 seconds, which allows the program to
-    complete in under 2 minutes.
+:   指定每項測試的秒數。每項測試的時間越長，測試的準確度越高，但執行所需的時間也越長。預設為 5 秒，可讓程式在 2 分鐘內完成。
 
 `-V`<br>`--version`
-:   Print the pg_test_fsync version and exit.
+:   印出 pg_test_fsync 版本後結束。
 
 `-?`<br>`--help`
-:   Show help about pg_test_fsync command line
-    arguments, and exit.
+:   顯示 pg_test_fsync 命令列引數的說明後結束。
 
 <a id="id-1.9.5.11.7"></a>
 
-## Environment
+## 環境
 
-The environment variable `PG_COLOR` specifies whether to use
-color in diagnostic messages. Possible values are
-`always`, `auto` and
-`never`.
+環境變數 `PG_COLOR` 指定診斷訊息是否使用色彩。可用值為 `always`、`auto` 與 `never`。
 
 <a id="id-1.9.5.11.8"></a>
 
-## See Also
+## 另請參閱
 
 [postgres](app-postgres.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgtestfsync.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgtestfsync.html)（原文版本：18.6；核對日期：2026-10-05）
