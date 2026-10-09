@@ -1,10 +1,12 @@
-<a id="id-1.9.5.4.1"></a>
+<a id="PGARCHIVECLEANUP"></a><a id="id-1.9.5.4.1"></a>
 
 ## pg_archivecleanup
 
-pg_archivecleanup — clean up PostgreSQL WAL archive files
+pg_archivecleanup — 清理 PostgreSQL WAL 歸檔檔案
 
-## Synopsis
+<a id="id-1.9.5.4.4"></a>
+
+## 語法
 
 <a id="id-1.9.5.4.4.1"></a>
 
@@ -12,45 +14,22 @@ pg_archivecleanup — clean up PostgreSQL WAL archive files
 
 <a id="id-1.9.5.4.5"></a>
 
-## Description
+## 說明
 
-pg_archivecleanup is designed to be used as an
-`archive_cleanup_command` to clean up WAL file archives when
-running as a standby server (see [Section 26.2](../../server-administration/high-availability/warm-standby.md)).
-pg_archivecleanup can also be used as a standalone program to
-clean WAL file archives.
+pg_archivecleanup 的設計用途是作為 `archive_cleanup_command`，在以待命伺服器身分執行時清理 WAL 檔案歸檔（請參閱[第 26.2 節](../../server-administration/high-availability/warm-standby.md)）。pg_archivecleanup 也可以作為獨立程式，用來清理 WAL 檔案歸檔。
 
-To configure a standby
-server to use pg_archivecleanup, put this into its
-`postgresql.conf` configuration file:
+若要設定待命伺服器使用 pg_archivecleanup，請將以下內容放入其 `postgresql.conf` 設定檔：
 
 ```
 
 archive_cleanup_command = 'pg_archivecleanup archivelocation %r'
 ```
 
-where *`archivelocation`* is the directory from which WAL segment
-files should be removed.
+其中 *`archivelocation`* 是應從中移除 WAL 區段檔案的目錄。
 
-When used within [archive_cleanup_command](../../server-administration/runtime-config/runtime-config-wal.md#GUC-ARCHIVE-CLEANUP-COMMAND), all WAL files
-logically preceding the value of the `%r` argument will be removed
-from *`archivelocation`*. This minimizes the number of files
-that need to be retained, while preserving crash-restart capability. Use of
-this parameter is appropriate if the *`archivelocation`* is a
-transient staging area for this particular standby server, but
-*not* when the *`archivelocation`* is intended as a
-long-term WAL archive area, or when multiple standby servers are recovering
-from the same archive location.
+在 [archive_cleanup_command](../../server-administration/runtime-config/runtime-config-wal.md#GUC-ARCHIVE-CLEANUP-COMMAND) 中使用時，所有在邏輯上位於 `%r` 引數值之前的 WAL 檔案，都會從 *`archivelocation`* 中移除。這能將需要保留的檔案數量降到最低，同時保有當機後重新啟動的能力。若 *`archivelocation`* 是此特定待命伺服器的暫時中繼區，就適合使用此參數；但若 *`archivelocation`* 是要作為長期 WAL 歸檔區，或有多台待命伺服器從同一個歸檔位置進行復原，則*不*適合使用。
 
-When used as a standalone program all WAL files logically preceding the
-*`oldestkeptwalfile`* will be removed from *`archivelocation`*.
-In this mode, if you specify a `.partial` or `.backup`
-file name, then only the file prefix will be used as the
-*`oldestkeptwalfile`*. This treatment of `.backup`
-file name allows you to remove
-all WAL files archived prior to a specific base backup without error.
-For example, the following example will remove all files older than
-WAL file name `000000010000003700000010`:
+作為獨立程式使用時，所有在邏輯上位於 *`oldestkeptwalfile`* 之前的 WAL 檔案，都會從 *`archivelocation`* 中移除。在此模式下，若你指定 `.partial` 或 `.backup` 檔名，則只會以檔名前綴作為 *`oldestkeptwalfile`*。對 `.backup` 檔名的這種處理方式，讓你能夠移除在某個特定基礎備份之前歸檔的所有 WAL 檔案而不發生錯誤。例如，以下範例會移除所有比 WAL 檔名 `000000010000003700000010` 更舊的檔案：
 
 ```
 
@@ -61,83 +40,63 @@ pg_archivecleanup:  removing file "archive/00000001000000370000000F"
 pg_archivecleanup:  removing file "archive/00000001000000370000000E"
 ```
 
-pg_archivecleanup assumes that
-*`archivelocation`* is a directory readable and writable by the
-server-owning user.
+pg_archivecleanup 假設 *`archivelocation`* 是擁有伺服器之使用者可讀寫的目錄。
 
 <a id="id-1.9.5.4.6"></a>
 
-## Options
+## 選項
 
-pg_archivecleanup accepts the following command-line arguments:
+pg_archivecleanup 接受下列命令列引數：
 
 `-b`<br>`--clean-backup-history`
-:   Remove backup history files as well.
-    See [Section 25.3.2](../../server-administration/backup/continuous-archiving.md#BACKUP-BASE-BACKUP) for details about backup
-    history files.
+:   一併移除備份歷史檔案。關於備份歷史檔案的詳細資訊，請參閱[第 25.3.2 節](../../server-administration/backup/continuous-archiving.md#BACKUP-BASE-BACKUP)。
 
 `-d`<br>`--debug`
-:   Print lots of debug logging output on `stderr`.
+:   在 `stderr` 上印出大量除錯日誌輸出。
 
 `-n`<br>`--dry-run`
-:   Print the names of the files that would have been removed on `stdout` (performs a dry run).
+:   在 `stdout` 上印出原本會被移除的檔案名稱（執行試運行）。
 
 `-V`<br>`--version`
-:   Print the pg_archivecleanup version and exit.
+:   印出 pg_archivecleanup 版本後結束。
 
 `-x extension`<br>`--strip-extension=extension`
-:   Provide an extension
-    that will be stripped from all file names before deciding if they
-    should be deleted. This is typically useful for cleaning up archives
-    that have been compressed during storage, and therefore have had an
-    extension added by the compression program. For example: `-x
-    .gz`.
+:   提供一個副檔名，在判斷檔案是否應刪除之前，會先從所有檔名中去除此副檔名。這通常適用於清理在儲存時經過壓縮、因而被壓縮程式加上副檔名的歸檔。例如：`-x
+    .gz`。
 
 `-?`<br>`--help`
-:   Show help about pg_archivecleanup command line
-    arguments, and exit.
+:   顯示 pg_archivecleanup 命令列引數的說明後結束。
 
 <a id="id-1.9.5.4.7"></a>
 
-## Environment
+## 環境
 
-The environment variable `PG_COLOR` specifies whether to use
-color in diagnostic messages. Possible values are
-`always`, `auto` and
-`never`.
+環境變數 `PG_COLOR` 指定診斷訊息是否使用色彩。可能的值為 `always`、`auto` 與 `never`。
 
 <a id="id-1.9.5.4.8"></a>
 
-## Notes
+## 注意事項
 
-pg_archivecleanup is designed to work with
-PostgreSQL 8.0 and later when used as a standalone utility,
-or with PostgreSQL 9.0 and later when used as an
-archive cleanup command.
+pg_archivecleanup 設計為作為獨立工具使用時可搭配 PostgreSQL 8.0 及之後的版本，作為歸檔清理命令使用時可搭配 PostgreSQL 9.0 及之後的版本。
 
-pg_archivecleanup is written in C and has an
-easy-to-modify source code, with specifically designated sections to modify
-for your own needs
+pg_archivecleanup 以 C 撰寫，原始碼容易修改，並有特別標示的區段供你依自己的需求修改。
 
 <a id="id-1.9.5.4.9"></a>
 
-## Examples
+## 範例
 
-On Linux or Unix systems, you might use:
+在 Linux 或 Unix 系統上，你可能會使用：
 
 ```
 
 archive_cleanup_command = 'pg_archivecleanup -d /mnt/standby/archive %r 2>>cleanup.log'
 ```
 
-where the archive directory is physically located on the standby server,
-so that the `archive_command` is accessing it across NFS,
-but the files are local to the standby.
-This will:
+其中歸檔目錄實體上位於待命伺服器，因此 `archive_command` 是透過 NFS 存取它，但這些檔案對待命伺服器而言是本機檔案。這會：
 
-* produce debugging output in `cleanup.log`
-* remove no-longer-needed files from the archive directory
+* 在 `cleanup.log` 中產生除錯輸出
+* 從歸檔目錄中移除不再需要的檔案
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgarchivecleanup.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgarchivecleanup.html)（原文版本：18.6；核對日期：2026-10-09）
