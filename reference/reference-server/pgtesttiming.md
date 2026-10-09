@@ -1,10 +1,10 @@
-<a id="id-1.9.5.12.1"></a>
+<a id="PGTESTTIMING"></a><a id="id-1.9.5.12.1"></a>
 
 ## pg_test_timing
 
-pg_test_timing — measure timing overhead
+pg_test_timing — 測量計時的額外負擔
 
-## Synopsis
+## 語法
 
 <a id="id-1.9.5.12.4.1"></a>
 
@@ -12,45 +12,34 @@ pg_test_timing — measure timing overhead
 
 <a id="id-1.9.5.12.5"></a>
 
-## Description
+## 說明
 
-pg_test_timing is a tool to measure the timing overhead
-on your system and confirm that the system time never moves backwards.
-Systems that are slow to collect timing data can give less accurate
-`EXPLAIN ANALYZE` results.
+pg_test_timing 是一個工具，用來測量你系統上計時的額外負擔，並確認系統時間從不倒退。收集計時資料較慢的系統，可能會產生較不準確的 `EXPLAIN ANALYZE` 結果。
 
 <a id="id-1.9.5.12.6"></a>
 
-## Options
+## 選項
 
-pg_test_timing accepts the following
-command-line options:
+pg_test_timing 接受下列命令列選項：
 
 `-d duration`<br>`--duration=duration`
-:   Specifies the test duration, in seconds. Longer durations
-    give slightly better accuracy, and are more likely to discover
-    problems with the system clock moving backwards. The default
-    test duration is 3 seconds.
+:   指定測試持續時間，以秒為單位。持續時間越長，準確度會稍微好一些，也越有可能發現系統時鐘倒退的問題。預設的測試持續時間為 3 秒。
 
 `-V`<br>`--version`
-:   Print the pg_test_timing version and exit.
+:   印出 pg_test_timing 版本後結束。
 
 `-?`<br>`--help`
-:   Show help about pg_test_timing command line
-    arguments, and exit.
+:   顯示 pg_test_timing 命令列引數的說明後結束。
 
 <a id="id-1.9.5.12.7"></a>
 
-## Usage
+## 用法
 
 <a id="id-1.9.5.12.7.2"></a>
 
-### Interpreting Results
+### 解讀結果
 
-Good results will show most (>90%) individual timing calls take less than
-one microsecond. Average per loop overhead will be even lower, below 100
-nanoseconds. This example from an Intel i7-860 system using a TSC clock
-source shows excellent performance:
+良好的結果會顯示大多數（>90%）個別計時呼叫耗時少於一微秒。每次迴圈的平均額外負擔會更低，低於 100 奈秒。下面這個來自使用 TSC 時鐘來源之 Intel i7-860 系統的範例，展現了極佳的效能：
 
 ```
 
@@ -65,19 +54,13 @@ Histogram of timing durations:
     16      0.00000          2
 ```
 
-Note that different units are used for the per loop time than the
-histogram. The loop can have resolution within a few nanoseconds (ns),
-while the individual timing calls can only resolve down to one microsecond
-(us).
+請注意，每次迴圈時間所使用的單位與直方圖不同。迴圈的解析度可以達到數奈秒（ns）以內，而個別計時呼叫的解析度只能到一微秒（us）。
 
 <a id="id-1.9.5.12.7.3"></a>
 
-### Measuring Executor Timing Overhead
+### 測量執行器的計時額外負擔
 
-When the query executor is running a statement using
-`EXPLAIN ANALYZE`, individual operations are timed as well
-as showing a summary. The overhead of your system can be checked by
-counting rows with the psql program:
+當查詢執行器使用 `EXPLAIN ANALYZE` 執行陳述式時，除了顯示摘要之外，個別操作也會被計時。你可以用 psql 程式計算資料列數，來檢查你系統的額外負擔：
 
 ```
 
@@ -87,22 +70,13 @@ SELECT COUNT(*) FROM t;
 EXPLAIN ANALYZE SELECT COUNT(*) FROM t;
 ```
 
-The i7-860 system measured runs the count query in 9.8 ms while
-the `EXPLAIN ANALYZE` version takes 16.6 ms, each
-processing just over 100,000 rows. That 6.8 ms difference means the timing
-overhead per row is 68 ns, about twice what pg_test_timing estimated it
-would be. Even that relatively small amount of overhead is making the fully
-timed count statement take almost 70% longer. On more substantial queries,
-the timing overhead would be less problematic.
+所測量的 i7-860 系統執行計數查詢需要 9.8 ms，而 `EXPLAIN ANALYZE` 版本需要 16.6 ms，兩者各處理略多於 100,000 筆資料列。這 6.8 ms 的差異表示每筆資料列的計時額外負擔為 68 ns，約為 pg_test_timing 估計值的兩倍。即使是這麼相對少量的額外負擔，也讓完整計時的計數陳述式多花了將近 70% 的時間。在更有份量的查詢上，計時額外負擔造成的問題會比較小。
 
 <a id="id-1.9.5.12.7.4"></a>
 
-### Changing Time Sources
+### 變更時間來源
 
-On some newer Linux systems, it's possible to change the clock source used
-to collect timing data at any time. A second example shows the slowdown
-possible from switching to the slower acpi_pm time source, on the same
-system used for the fast results above:
+在某些較新的 Linux 系統上，可以隨時變更用來收集計時資料的時鐘來源。第二個範例顯示，在與上述快速結果相同的系統上，切換到較慢的 acpi_pm 時間來源可能造成的減速：
 
 ```
 
@@ -120,16 +94,9 @@ Histogram of timing durations:
     16      0.00007          3
 ```
 
-In this configuration, the sample `EXPLAIN ANALYZE` above
-takes 115.9 ms. That's 1061 ns of timing overhead, again a small multiple
-of what's measured directly by this utility. That much timing overhead
-means the actual query itself is only taking a tiny fraction of the
-accounted for time, most of it is being consumed in overhead instead. In
-this configuration, any `EXPLAIN ANALYZE` totals involving
-many timed operations would be inflated significantly by timing overhead.
+在此設定下，上述的 `EXPLAIN ANALYZE` 範例需要 115.9 ms。這相當於 1061 ns 的計時額外負擔，同樣是此工具直接測得之值的一個小倍數。這麼多的計時額外負擔，表示實際查詢本身只佔所計入時間的一小部分，大部分時間反而都耗在額外負擔上。在此設定下，任何涉及許多計時操作的 `EXPLAIN ANALYZE` 總計，都會因為計時額外負擔而顯著膨脹。
 
-FreeBSD also allows changing the time source on the fly, and it logs
-information about the timer selected during boot:
+FreeBSD 也允許即時變更時間來源，並且會記錄開機時所選計時器的相關資訊：
 
 ```
 
@@ -142,12 +109,7 @@ Timecounter "TSC" frequency 2531787134 Hz quality 800
 kern.timecounter.hardware: ACPI-fast -> TSC
 ```
 
-Other systems may only allow setting the time source on boot. On older
-Linux systems the "clock" kernel setting is the only way to make this sort
-of change. And even on some more recent ones, the only option you'll see
-for a clock source is "jiffies". Jiffies are the older Linux software clock
-implementation, which can have good resolution when it's backed by fast
-enough timing hardware, as in this example:
+其他系統可能只允許在開機時設定時間來源。在較舊的 Linux 系統上，"clock" 核心設定是進行這類變更的唯一方式。而且即使在某些較新的系統上，你能看到的唯一時鐘來源選項也只有 "jiffies"。Jiffies 是較舊的 Linux 軟體時鐘實作，當它由足夠快的計時硬體支援時，可以有良好的解析度，如本範例所示：
 
 ```
 
@@ -171,63 +133,28 @@ Histogram of timing durations:
 
 <a id="id-1.9.5.12.7.5"></a>
 
-### Clock Hardware and Timing Accuracy
+### 時鐘硬體與計時準確度
 
-Collecting accurate timing information is normally done on computers using
-hardware clocks with various levels of accuracy. With some hardware the
-operating systems can pass the system clock time almost directly to
-programs. A system clock can also be derived from a chip that simply
-provides timing interrupts, periodic ticks at some known time interval. In
-either case, operating system kernels provide a clock source that hides
-these details. But the accuracy of that clock source and how quickly it can
-return results varies based on the underlying hardware.
+在電腦上收集準確的計時資訊，通常是透過準確度各不相同的硬體時鐘來完成。在某些硬體上，作業系統可以幾乎直接將系統時鐘時間傳給程式。系統時鐘也可以衍生自單純提供計時中斷（以某個已知時間間隔發出的週期性滴答（tick））的晶片。無論哪一種情況，作業系統核心都會提供一個隱藏這些細節的時鐘來源。但該時鐘來源的準確度，以及它能多快傳回結果，會因底層硬體而異。
 
-Inaccurate time keeping can result in system instability. Test any change
-to the clock source very carefully. Operating system defaults are sometimes
-made to favor reliability over best accuracy. And if you are using a virtual
-machine, look into the recommended time sources compatible with it. Virtual
-hardware faces additional difficulties when emulating timers, and there are
-often per operating system settings suggested by vendors.
+不準確的計時可能導致系統不穩定。請非常謹慎地測試對時鐘來源的任何變更。作業系統的預設值有時會為了可靠性而犧牲最佳準確度。而如果你使用的是虛擬機器，請研究與它相容的建議時間來源。虛擬硬體在模擬計時器時會面臨額外的困難，而且廠商通常會針對各個作業系統建議不同的設定。
 
-The Time Stamp Counter (TSC) clock source is the most accurate one available
-on current generation CPUs. It's the preferred way to track the system time
-when it's supported by the operating system and the TSC clock is
-reliable. There are several ways that TSC can fail to provide an accurate
-timing source, making it unreliable. Older systems can have a TSC clock that
-varies based on the CPU temperature, making it unusable for timing. Trying
-to use TSC on some older multicore CPUs can give a reported time that's
-inconsistent among multiple cores. This can result in the time going
-backwards, a problem this program checks for. And even the newest systems
-can fail to provide accurate TSC timing with very aggressive power saving
-configurations.
+時間戳記計數器（Time Stamp Counter，TSC）時鐘來源是目前世代 CPU 上可用的最準確時鐘來源。當作業系統支援它且 TSC 時鐘可靠時，它是追蹤系統時間的首選方式。TSC 有好幾種情況可能無法提供準確的計時來源，使其不可靠。較舊的系統可能有會隨 CPU 溫度變化的 TSC 時鐘，使其無法用於計時。在某些較舊的多核心 CPU 上嘗試使用 TSC，可能會在多個核心之間回報不一致的時間。這可能導致時間倒退，而這正是本程式會檢查的問題。而且即使是最新的系統，在非常積極的省電設定下，也可能無法提供準確的 TSC 計時。
 
-Newer operating systems may check for the known TSC problems and switch to a
-slower, more stable clock source when they are seen. If your system
-supports TSC time but doesn't default to that, it may be disabled for a good
-reason. And some operating systems may not detect all the possible problems
-correctly, or will allow using TSC even in situations where it's known to be
-inaccurate.
+較新的作業系統可能會檢查已知的 TSC 問題，並在發現問題時切換到較慢但較穩定的時鐘來源。如果你的系統支援 TSC 時間但預設並未使用它，那麼它可能是基於充分的理由而被停用。而且某些作業系統可能無法正確偵測所有可能的問題，或者即使在已知 TSC 不準確的情況下，仍會允許使用它。
 
-The High Precision Event Timer (HPET) is the preferred timer on systems
-where it's available and TSC is not accurate. The timer chip itself is
-programmable to allow up to 100 nanosecond resolution, but you may not see
-that much accuracy in your system clock.
+高精度事件計時器（High Precision Event Timer，HPET）是在可用且 TSC 不準確的系統上的首選計時器。計時器晶片本身可程式化，最高可達 100 奈秒的解析度，但你的系統時鐘可能看不到這麼高的準確度。
 
-Advanced Configuration and Power Interface (ACPI) provides a Power
-Management (PM) Timer, which Linux refers to as the acpi_pm. The clock
-derived from acpi_pm will at best provide 300 nanosecond resolution.
+進階組態與電源介面（Advanced Configuration and Power Interface，ACPI）提供一個電源管理（Power Management，PM）計時器，Linux 稱之為 acpi_pm。衍生自 acpi_pm 的時鐘最多只能提供 300 奈秒的解析度。
 
-Timers used on older PC hardware include the 8254 Programmable Interval
-Timer (PIT), the real-time clock (RTC), the Advanced Programmable Interrupt
-Controller (APIC) timer, and the Cyclone timer. These timers aim for
-millisecond resolution.
+較舊 PC 硬體上使用的計時器包括 8254 可程式化間隔計時器（Programmable Interval Timer，PIT）、即時時鐘（real-time clock，RTC）、進階可程式化中斷控制器（Advanced Programmable Interrupt Controller，APIC）計時器，以及 Cyclone 計時器。這些計時器的目標是毫秒等級的解析度。
 
 <a id="id-1.9.5.12.8"></a>
 
-## See Also
+## 另請參閱
 
 [EXPLAIN](../sql-commands/sql-explain.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgtesttiming.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgtesttiming.html)（原文版本：18.6；核對日期：2026-10-05）
