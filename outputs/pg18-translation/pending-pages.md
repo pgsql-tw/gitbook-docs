@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：422 頁。
+待譯頁面：421 頁。
 
 ## 根目錄
 
@@ -534,7 +534,7 @@
 - [ ] `reference/sql-commands/sql-alterforeigntable.md` — ALTER FOREIGN TABLE
 - [ ] `reference/sql-commands/sql-alterfunction.md` — ALTER FUNCTION
 - [ ] `reference/sql-commands/sql-altergroup.md` — ALTER GROUP
-- [ ] `reference/sql-commands/sql-alterindex.md` — ALTER INDEX
+- [x] `reference/sql-commands/sql-alterindex.md` — ALTER INDEX
 - [x] `reference/sql-commands/sql-alterlanguage.md` — ALTER LANGUAGE
 - [x] `reference/sql-commands/sql-alterlargeobject.md` — ALTER LARGE OBJECT
 - [ ] `reference/sql-commands/sql-altermaterializedview.md` — ALTER MATERIALIZED VIEW

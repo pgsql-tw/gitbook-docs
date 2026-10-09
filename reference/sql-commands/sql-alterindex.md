@@ -1,10 +1,12 @@
-<a id="id-1.9.3.16.1"></a>
+<a id="SQL-ALTERINDEX"></a><a id="id-1.9.3.16.1"></a>
 
 ## ALTER INDEX
 
-ALTER INDEX — change the definition of an index
+ALTER INDEX — 變更索引的定義
 
-## Synopsis
+<a id="id-1.9.3.16.4"></a>
+
+## 語法
 
 ```
 
@@ -22,155 +24,92 @@ ALTER INDEX ALL IN TABLESPACE name [ OWNED BY role_name [, ... ] ]
 
 <a id="id-1.9.3.16.5"></a>
 
-## Description
+## 說明
 
-`ALTER INDEX` changes the definition of an existing index.
-There are several subforms described below. Note that the lock level required
-may differ for each subform. An `ACCESS EXCLUSIVE` lock is held
-unless explicitly noted. When multiple subcommands are listed, the lock
-held will be the strictest one required from any subcommand.
+`ALTER INDEX` 會變更現有索引的定義。它有下列幾種子形式。請注意，每種子形式所需的鎖定層級可能不同。除非另有明確說明，否則會持有 `ACCESS EXCLUSIVE` 鎖定。若列出了多個子命令，所持有的鎖定會是所有子命令所需鎖定中最嚴格的那一個。
 
 `RENAME`
-:   The `RENAME` form changes the name of the index.
-    If the index is associated with a table constraint (either
-    `UNIQUE`, `PRIMARY KEY`,
-    or `EXCLUDE`), the constraint is renamed as well.
-    There is no effect on the stored data.
+:   `RENAME` 形式會變更索引的名稱。若該索引與某個資料表限制條件（`UNIQUE`、`PRIMARY KEY` 或 `EXCLUDE`）相關聯，該限制條件也會一併重新命名。這對已儲存的資料沒有影響。
 
-    Renaming an index acquires a `SHARE UPDATE EXCLUSIVE`
-    lock.
+    重新命名索引會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 
 `SET TABLESPACE`
-:   This form changes the index's tablespace to the specified tablespace and
-    moves the data file(s) associated with the index to the new tablespace.
-    To change the tablespace of an index, you must own the index and have
-    `CREATE` privilege on the new tablespace.
-    All indexes in the current database in a tablespace can be moved by using
-    the `ALL IN TABLESPACE` form, which will lock all
-    indexes to be moved and then move each one. This form also supports
-    `OWNED BY`, which will only move indexes owned by the
-    roles specified. If the `NOWAIT` option is specified
-    then the command will fail if it is unable to acquire all of the locks
-    required immediately. Note that system catalogs will not be moved by
-    this command, use `ALTER DATABASE` or explicit
-    `ALTER INDEX` invocations instead if desired.
-    See also
-    [`CREATE TABLESPACE`](sql-createtablespace.md).
+:   此形式會將索引的資料表空間變更為指定的資料表空間，並將與該索引相關聯的資料檔案移到新的資料表空間。要變更索引的資料表空間，你必須是該索引的擁有者，並且具有新資料表空間的 `CREATE` 權限。使用 `ALL IN TABLESPACE` 形式，可以移動目前資料庫中位於某個資料表空間內的所有索引；此形式會先鎖定所有要移動的索引，然後再逐一移動。此形式也支援 `OWNED BY`，只會移動由指定角色所擁有的索引。若指定了 `NOWAIT` 選項，則當無法立即取得所有需要的鎖定時，命令就會失敗。請注意，此命令不會移動系統目錄；如有需要，請改用 `ALTER DATABASE` 或明確的 `ALTER INDEX` 呼叫。另請參閱 [`CREATE TABLESPACE`](sql-createtablespace.md)。
 
 `ATTACH PARTITION index_name`
-:   Causes the named index (possibly schema-qualified) to become attached
-    to the altered index.
-    The named index must be on a partition of the table containing the
-    index being altered, and have an equivalent definition. An attached
-    index cannot be dropped by itself, and will automatically be dropped
-    if its parent index is dropped.
+:   使指定的索引（可能以綱要限定）附加到被修改的索引。指定的索引必須位於包含被修改索引之資料表的某個分割區上，並且具有等價的定義。已附加的索引不能單獨移除，而且在其父索引被移除時會自動移除。
 
-    If the named index is already attached to the altered index, the
-    command will attempt to validate the parent index if the parent is
-    currently invalid.
+    若指定的索引已經附加到被修改的索引，而父索引目前為無效（invalid）狀態，此命令會嘗試驗證父索引。
 
 `DEPENDS ON EXTENSION extension_name`<br>`NO DEPENDS ON EXTENSION extension_name`
-:   This form marks the index as dependent on the extension, or no longer
-    dependent on that extension if `NO` is specified.
-    An index that's marked as dependent on an extension is automatically
-    dropped when the extension is dropped.
+:   此形式會將索引標記為相依於該擴充功能；若指定了 `NO`，則標記為不再相依於該擴充功能。被標記為相依於某個擴充功能的索引，會在該擴充功能被移除時自動移除。
 
 `SET ( storage_parameter [= value] [, ... ] )`
-:   This form changes one or more index-method-specific storage parameters
-    for the index. See
-    [`CREATE INDEX`](sql-createindex.md)
-    for details on the available parameters. Note that the index contents
-    will not be modified immediately by this command; depending on the
-    parameter you might need to rebuild the index with
-    [`REINDEX`](sql-reindex.md)
-    to get the desired effects.
+:   此形式會變更索引的一個或多個索引方法特定的儲存參數。可用參數的詳細資訊請參閱 [`CREATE INDEX`](sql-createindex.md)。請注意，此命令不會立即修改索引內容；視參數而定，你可能需要使用 [`REINDEX`](sql-reindex.md) 重建索引，才能得到想要的效果。
 
 `RESET ( storage_parameter [, ... ] )`
-:   This form resets one or more index-method-specific storage parameters to
-    their defaults. As with `SET`, a `REINDEX`
-    might be needed to update the index entirely.
+:   此形式會將一個或多個索引方法特定的儲存參數重設為預設值。與 `SET` 相同，可能需要執行 `REINDEX` 才能完整更新索引。
 
 `ALTER [ COLUMN ] column_number SET STATISTICS integer`
-:   This form sets the per-column statistics-gathering target for
-    subsequent [`ANALYZE`](sql-analyze.md) operations, though can
-    be used only on index columns that are defined as an expression.
-    Since expressions lack a unique name, we refer to them using the
-    ordinal number of the index column.
-    The target can be set in the range 0 to 10000; alternatively, set it
-    to -1 to revert to using the system default statistics
-    target ([default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET)).
-    For more information on the use of statistics by the
-    PostgreSQL query planner, refer to
-    [Section 14.2](../../the-sql-language/performance-tips/planner-stats.md).
+:   此形式會為後續的 [`ANALYZE`](sql-analyze.md) 操作設定各欄位的統計資訊收集目標，但只能用於定義為運算式的索引欄位。由於運算式沒有唯一的名稱，我們使用索引欄位的序數來參照它們。目標可設定的範圍為 0 到 10000；或者，將它設為 -1 以恢復使用系統預設的統計目標（[default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET)）。關於 PostgreSQL 查詢規劃器如何使用統計資訊的詳細資訊，請參閱[第 14.2 節](../../the-sql-language/performance-tips/planner-stats.md)。
 
 <a id="id-1.9.3.16.6"></a>
 
-## Parameters
+## 參數
 
 `IF EXISTS`
-:   Do not throw an error if the index does not exist. A notice is issued
-    in this case.
+:   索引不存在時不擲出錯誤；此情況會發出 notice。
 
 *`column_number`*
-:   The ordinal number refers to the ordinal (left-to-right) position
-    of the index column.
+:   序數是指索引欄位的序數位置（由左至右）。
 
 *`name`*
-:   The name (possibly schema-qualified) of an existing index to
-    alter.
+:   要修改的現有索引名稱（可能以綱要限定）。
 
 *`new_name`*
-:   The new name for the index.
+:   索引的新名稱。
 
 *`tablespace_name`*
-:   The tablespace to which the index will be moved.
+:   索引將被移入的資料表空間。
 
 *`extension_name`*
-:   The name of the extension that the index is to depend on.
+:   索引要相依的擴充功能名稱。
 
 *`storage_parameter`*
-:   The name of an index-method-specific storage parameter.
+:   索引方法特定的儲存參數名稱。
 
 *`value`*
-:   The new value for an index-method-specific storage parameter.
-    This might be a number or a word depending on the parameter.
+:   索引方法特定儲存參數的新值。視參數而定，這可能是一個數字或一個單字。
 
 <a id="id-1.9.3.16.7"></a>
 
-## Notes
+## 注意事項
 
-These operations are also possible using
-[`ALTER TABLE`](sql-altertable.md).
-`ALTER INDEX` is in fact just an alias for the forms
-of `ALTER TABLE` that apply to indexes.
+這些操作也可以使用 [`ALTER TABLE`](sql-altertable.md) 進行。事實上，`ALTER INDEX` 只是 `ALTER TABLE` 中適用於索引之形式的別名。
 
-There was formerly an `ALTER INDEX OWNER` variant, but
-this is now ignored (with a warning). An index cannot have an owner
-different from its table's owner. Changing the table's owner
-automatically changes the index as well.
+以前曾有 `ALTER INDEX OWNER` 變體，但現在會被忽略（並發出警告）。索引的擁有者不能與其資料表的擁有者不同。變更資料表的擁有者時，索引的擁有者也會自動跟著變更。
 
-Changing any part of a system catalog index is not permitted.
+不允許變更系統目錄索引的任何部分。
 
 <a id="id-1.9.3.16.8"></a>
 
-## Examples
+## 範例
 
-To rename an existing index:
+重新命名現有索引：
 
 ```
 
 ALTER INDEX distributors RENAME TO suppliers;
 ```
 
-To move an index to a different tablespace:
+將索引移到不同的資料表空間：
 
 ```
 
 ALTER INDEX distributors SET TABLESPACE fasttablespace;
 ```
 
-To change an index's fill factor (assuming that the index method
-supports it):
+變更索引的填充因子（假設該索引方法支援）：
 
 ```
 
@@ -178,7 +117,7 @@ ALTER INDEX distributors SET (fillfactor = 75);
 REINDEX INDEX distributors;
 ```
 
-Set the statistics-gathering target for an expression index:
+為運算式索引設定統計資訊收集目標：
 
 ```
 
@@ -188,17 +127,16 @@ ALTER INDEX coord_idx ALTER COLUMN 3 SET STATISTICS 1000;
 
 <a id="id-1.9.3.16.9"></a>
 
-## Compatibility
+## 相容性
 
-`ALTER INDEX` is a PostgreSQL
-extension.
+`ALTER INDEX` 是 PostgreSQL 的擴充語法。
 
 <a id="id-1.9.3.16.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE INDEX](sql-createindex.md), [REINDEX](sql-reindex.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterindex.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterindex.html)（原文版本：18.6；核對日期：2026-10-05）
