@@ -1,12 +1,12 @@
-<a id="id-1.9.4.19.1"></a>
+<a id="APP-PGRESTORE"></a><a id="id-1.9.4.19.1"></a>
 
 ## pg_restore
 
-pg_restore —
-restore a PostgreSQL database from an
-archive file created by pg_dump
+pg_restore — 從 pg_dump 建立的封存檔還原 PostgreSQL 資料庫
 
-## Synopsis
+<a id="id-1.9.4.19.4"></a>
+
+## 語法
 
 <a id="id-1.9.4.19.4.1"></a>
 
@@ -14,627 +14,318 @@ archive file created by pg_dump
 
 <a id="APP-PGRESTORE-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-pg_restore is a utility for restoring a
-PostgreSQL database from an archive
-created by [pg_dump](app-pgdump.md) in one of the non-plain-text
-formats. It will issue the commands necessary to reconstruct the
-database to the state it was in at the time it was saved. The
-archive files also allow pg_restore to
-be selective about what is restored, or even to reorder the items
-prior to being restored. The archive files are designed to be
-portable across architectures.
+pg_restore 是一個工具程式，用來從 [pg_dump](app-pgdump.md) 以某種非純文字格式建立的封存檔還原 PostgreSQL 資料庫。它會發出必要的命令，將資料庫重建回儲存當時的狀態。封存檔也讓 pg_restore 能夠選擇要還原的內容，甚至在還原之前重新排列項目的順序。封存檔的設計可以跨架構移植。
 
-pg_restore can operate in two modes.
-If a database name is specified, pg_restore
-connects to that database and restores archive contents directly into
-the database. Otherwise, a script containing the SQL
-commands necessary to rebuild the database is created and written
-to a file or standard output. This script output is equivalent to
-the plain text output format of pg_dump.
-Some of the options controlling the output are therefore analogous to
-pg_dump options.
+pg_restore 可以兩種模式運作。若指定了資料庫名稱，pg_restore 會連線到該資料庫，並將封存內容直接還原到資料庫中。否則，會建立一份包含重建資料庫所需 SQL 命令的指令稿，並寫入檔案或標準輸出。這份指令稿輸出等同於 pg_dump 的純文字輸出格式。因此，部分控制輸出的選項與 pg_dump 的選項相似。
 
-Obviously, pg_restore cannot restore information
-that is not present in the archive file. For instance, if the
-archive was made using the “dump data as
-`INSERT` commands” option,
-pg_restore will not be able to load the data
-using `COPY` statements.
+顯然，pg_restore 無法還原封存檔中不存在的資訊。例如，若封存檔是使用「以 `INSERT` 命令傾印資料」選項製作的，pg_restore 將無法使用 `COPY` 陳述式載入資料。
 
-### Warning
+<a id="APP-PGRESTORE-DESCRIPTION-WARNING"></a>
 
-Restoring a dump causes the destination to execute arbitrary code of the
-source superusers' choice. Partial dumps and partial restores do not limit
-that. If the source superusers are not trusted, the dumped SQL statements
-must be inspected before restoring. Non-plain-text dumps can be inspected
-by using pg_restore's `--file`
-option. Note that the client running the dump and restore need not trust
-the source or destination superusers.
+### 警告
+
+還原傾印會使目的端執行由來源超級使用者所選擇的任意程式碼。部分傾印與部分還原並不會限制這一點。若來源超級使用者不受信任，則在還原之前必須檢查傾印出的 SQL 陳述式。非純文字傾印可以使用 pg_restore 的 `--file` 選項來檢查。請注意，執行傾印與還原的用戶端不需要信任來源或目的端的超級使用者。
 
 <a id="APP-PGRESTORE-OPTIONS"></a>
 
-## Options
+## 選項
 
-pg_restore accepts the following command
-line arguments.
+pg_restore 接受下列命令列引數。
 
 *`filename`*
-:   Specifies the location of the archive file (or directory, for a
-    directory-format archive) to be restored.
-    If not specified, the standard input is used.
+:   指定要還原之封存檔的位置（若為目錄格式封存，則為目錄）。若未指定，則使用標準輸入。
 
 `-a`<br>`--data-only`
-:   Restore only the data, not the schema (data definitions) or statistics.
-    Table data, large objects, and sequence values are restored,
-    if present in the archive.
+:   只還原資料，不還原綱要（資料定義）或統計資訊。若封存檔中有資料表資料、大型物件與序列值，則會還原它們。
 
-    This option is similar to, but for historical reasons not identical
-    to, specifying `--section=data`.
+    此選項與指定 `--section=data` 相似，但由於歷史因素，兩者並不完全相同。
 
 `-c`<br>`--clean`
-:   Before restoring database objects, issue commands
-    to `DROP` all the objects that will be restored.
-    This option is useful for overwriting an existing database.
-    If any of the objects do not exist in the destination database,
-    ignorable error messages will be reported,
-    unless `--if-exists` is also specified.
+:   在還原資料庫物件之前，發出以 `DROP` 移除所有將要還原之物件的命令。此選項適合用來覆寫現有的資料庫。若有任何物件不存在於目的資料庫中，會回報可忽略的錯誤訊息，除非同時指定了 `--if-exists`。
 
 `-C`<br>`--create`
-:   Create the database before restoring into it.
-    If `--clean` is also specified, drop and
-    recreate the target database before connecting to it.
+:   在還原到資料庫之前先建立該資料庫。若同時指定了 `--clean`，則在連線到目標資料庫之前先移除並重新建立它。
 
-    With `--create`, pg_restore
-    also restores the database's comment if any, and any configuration
-    variable settings that are specific to this database, that is,
-    any `ALTER DATABASE ... SET ...`
-    and `ALTER ROLE ... IN DATABASE ... SET ...`
-    commands that mention this database.
-    Access privileges for the database itself are also restored,
-    unless `--no-acl` is specified.
+    搭配 `--create` 時，pg_restore 也會還原資料庫的註解（若有），以及任何此資料庫專屬的設定變數設定，也就是任何提及此資料庫的 `ALTER DATABASE ... SET ...` 與 `ALTER ROLE ... IN DATABASE ... SET ...` 命令。資料庫本身的存取權限也會被還原，除非指定了 `--no-acl`。
 
-    When this option is used, the database named with `-d`
-    is used only to issue the initial `DROP DATABASE` and
-    `CREATE DATABASE` commands. All data is restored into the
-    database name that appears in the archive.
+    使用此選項時，以 `-d` 指定的資料庫只用來發出最初的 `DROP DATABASE` 與 `CREATE DATABASE` 命令。所有資料都會還原到封存檔中所記載的資料庫名稱中。
 
 `-d dbname`<br>`--dbname=dbname`
-:   Connect to database *`dbname`* and restore directly
-    into the database. The *`dbname`* can
-    be a [connection string](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING).
-    If so, connection string parameters will override any conflicting
-    command line options.
+:   連線到資料庫 *`dbname`*，並直接還原到該資料庫中。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
 `-e`<br>`--exit-on-error`
-:   Exit if an error is encountered while sending SQL commands to
-    the database. The default is to continue and to display a count of
-    errors at the end of the restoration.
+:   若在將 SQL 命令送往資料庫時遇到錯誤，就結束。預設是繼續執行，並在還原結束時顯示錯誤數量。
 
 `-f filename`<br>`--file=filename`
-:   Specify output file for generated script, or for the listing
-    when used with `-l`. Use `-`
-    for stdout.
+:   指定所產生指令稿的輸出檔，或與 `-l` 一起使用時清單的輸出檔。使用 `-` 表示 stdout。
 
 `-F format`<br>`--format=format`
-:   Specify format of the archive. It is not necessary to specify
-    the format, since pg_restore will
-    determine the format automatically. If specified, it can be
-    one of the following:
+:   指定封存檔的格式。不需要指定格式，因為 pg_restore 會自動判斷格式。若有指定，可以是下列其中之一：
 
     `c`<br>`custom`
-    :   The archive is in the custom format of
-        pg_dump.
+    :   封存檔為 pg_dump 的自訂格式。
 
     `d`<br>`directory`
-    :   The archive is a directory archive.
+    :   封存檔為目錄封存。
 
     `t`<br>`tar`
-    :   The archive is a `tar` archive.
+    :   封存檔為 `tar` 封存。
 
 `-I index`<br>`--index=index`
-:   Restore definition of named index only. Multiple indexes
-    may be specified with multiple `-I` switches.
+:   只還原指定索引的定義。可以使用多個 `-I` 選項指定多個索引。
 
 `-j number-of-jobs`<br>`--jobs=number-of-jobs`
-:   Run the most time-consuming steps
-    of pg_restore — those that load data,
-    create indexes, or create constraints — concurrently, using up
-    to *`number-of-jobs`*
-    concurrent sessions. This option can dramatically reduce the time
-    to restore a large database to a server running on a
-    multiprocessor machine. This option is ignored when emitting a script
-    rather than connecting directly to a database server.
+:   以並行方式執行 pg_restore 中最耗時的步驟（載入資料、建立索引或建立限制條件的步驟），最多使用 *`number-of-jobs`* 個並行工作階段。此選項可以大幅縮短將大型資料庫還原到在多處理器機器上執行之伺服器所需的時間。輸出指令稿而非直接連線到資料庫伺服器時，此選項會被忽略。
 
-    Each job is one process or one thread, depending on the
-    operating system, and uses a separate connection to the
-    server.
+    每個工作是一個程序或一個執行緒（取決於作業系統），並使用各自獨立的伺服器連線。
 
-    The optimal value for this option depends on the hardware
-    setup of the server, of the client, and of the network.
-    Factors include the number of CPU cores and the disk setup. A
-    good place to start is the number of CPU cores on the server,
-    but values larger than that can also lead to faster restore
-    times in many cases. Of course, values that are too high will
-    lead to decreased performance because of thrashing.
+    此選項的最佳值取決於伺服器、用戶端與網路的硬體配置。影響因素包括 CPU 核心數與磁碟配置。一個不錯的起點是伺服器上的 CPU 核心數，但在許多情況下，比這更大的值也可能帶來更快的還原時間。當然，過高的值會因為系統顛簸（thrashing）而導致效能下降。
 
-    Only the custom and directory archive formats are supported
-    with this option.
-    The input must be a regular file or directory (not, for example, a
-    pipe or standard input). Also, multiple
-    jobs cannot be used together with the
-    option `--single-transaction`.
+    此選項只支援自訂與目錄封存格式。輸入必須是一般檔案或目錄（而不是例如管線或標準輸入）。此外，多個工作不能與 `--single-transaction` 選項一起使用。
 
 `-l`<br>`--list`
-:   List the table of contents of the archive. The output of this operation
-    can be used as input to the `-L` option. Note that
-    if filtering switches such as `-n` or `-t` are
-    used with `-l`, they will restrict the items listed.
+:   列出封存檔的目錄（table of contents）。此操作的輸出可以作為 `-L` 選項的輸入。請注意，若 `-n` 或 `-t` 等過濾選項與 `-l` 一起使用，它們會限制列出的項目。
 
 `-L list-file`<br>`--use-list=list-file`
-:   Restore only those archive elements that are listed in *`list-file`*, and restore them in the
-    order they appear in the file. Note that
-    if filtering switches such as `-n` or `-t` are
-    used with `-L`, they will further restrict the items restored.
+:   只還原 *`list-file`* 中列出的封存元素，並依它們在檔案中出現的順序還原。請注意，若 `-n` 或 `-t` 等過濾選項與 `-L` 一起使用，它們會進一步限制還原的項目。
 
-    *`list-file`* is normally created by
-    editing the output of a previous `-l` operation.
-    Lines can be moved or removed, and can also
-    be commented out by placing a semicolon (`;`) at the
-    start of the line. See below for examples.
+    *`list-file`* 通常是編輯先前 `-l` 操作的輸出而建立的。各行可以移動或移除，也可以在行首加上分號（`;`）將其註解掉。範例請見下文。
 
 `-n schema`<br>`--schema=schema`
-:   Restore only objects that are in the named schema. Multiple schemas
-    may be specified with multiple `-n` switches. This can be
-    combined with the `-t` option to restore just a
-    specific table.
+:   只還原位於指定綱要中的物件。可以使用多個 `-n` 選項指定多個綱要。此選項可以與 `-t` 選項合併使用，以只還原特定資料表。
 
 `-N schema`<br>`--exclude-schema=schema`
-:   Do not restore objects that are in the named schema. Multiple schemas
-    to be excluded may be specified with multiple `-N` switches.
+:   不還原位於指定綱要中的物件。可以使用多個 `-N` 選項指定多個要排除的綱要。
 
-    When both `-n` and `-N` are given for the same
-    schema name, the `-N` switch wins and the schema is excluded.
+    當同一個綱要名稱同時給了 `-n` 與 `-N` 時，以 `-N` 選項為準，該綱要會被排除。
 
 `-O`<br>`--no-owner`
-:   Do not output commands to set
-    ownership of objects to match the original database.
-    By default, pg_restore issues
-    `ALTER OWNER` or
-    `SET SESSION AUTHORIZATION`
-    statements to set ownership of created schema elements.
-    These statements will fail unless the initial connection to the
-    database is made by a superuser
-    (or the same user that owns all of the objects in the script).
-    With `-O`, any user name can be used for the
-    initial connection, and this user will own all the created objects.
+:   不輸出用來將物件擁有權設定成與原始資料庫一致的命令。預設情況下，pg_restore 會發出 `ALTER OWNER` 或 `SET SESSION AUTHORIZATION` 陳述式，來設定所建立之綱要元素的擁有權。除非最初的資料庫連線是由超級使用者（或擁有指令稿中所有物件的同一使用者）建立，否則這些陳述式會失敗。使用 `-O` 時，可以用任何使用者名稱進行最初的連線，而該使用者將擁有所有建立的物件。
 
 `-P function-name(argtype [, ...])`<br>`--function=function-name(argtype [, ...])`
-:   Restore the named function only. Be careful to spell the function
-    name and arguments exactly as they appear in the dump file's table
-    of contents. Multiple functions may be specified with multiple
-    `-P` switches.
+:   只還原指定的函式。請小心地將函式名稱與引數拼寫成與它們在傾印檔目錄中出現的完全相同。可以使用多個 `-P` 選項指定多個函式。
 
 `-R`<br>`--no-reconnect`
-:   This option is obsolete but still accepted for backwards
-    compatibility.
+:   此選項已過時，但為了向後相容性仍可接受。
 
 `-s`<br>`--schema-only`
-:   Restore only the schema (data definitions), not data,
-    to the extent that schema entries are present in the archive.
+:   只還原綱要（資料定義），不還原資料，範圍以封存檔中存在的綱要項目為限。
 
-    This option cannot be used with `--data-only`
-    or `--statistics-only`.
-    It is similar to, but for historical reasons not identical to,
-    specifying
-    `--section=pre-data --section=post-data --no-statistics`.
+    此選項不能與 `--data-only` 或 `--statistics-only` 一起使用。它與指定 `--section=pre-data --section=post-data --no-statistics` 相似，但由於歷史因素，兩者並不完全相同。
 
-    (Do not confuse this with the `--schema` option, which
-    uses the word “schema” in a different meaning.)
+    （請勿將此選項與 `--schema` 選項混淆，後者以不同的意義使用「schema」一詞。）
 
 `-S username`<br>`--superuser=username`
-:   Specify the superuser user name to use when disabling triggers.
-    This is relevant only if `--disable-triggers` is used.
+:   指定停用觸發程序時要使用的超級使用者名稱。只有在使用 `--disable-triggers` 時才有關係。
 
 `-t table`<br>`--table=table`
-:   Restore definition and/or data of only the named table.
-    For this purpose, “table” includes views, materialized views,
-    sequences, and foreign tables. Multiple tables
-    can be selected by writing multiple `-t` switches.
-    This option can be combined with the `-n` option to
-    specify table(s) in a particular schema.
+:   只還原指定資料表的定義和／或資料。就此目的而言，「資料表」包含檢視表、具體化檢視表、序列與外部資料表。寫出多個 `-t` 選項即可選取多個資料表。此選項可以與 `-n` 選項合併使用，以指定特定綱要中的資料表。
 
-    ### Note
+    <a id="id-1.9.4.19.6.3.20.2.2"></a>
 
-    When `-t` is specified, pg_restore
-    makes no attempt to restore any other database objects that the
-    selected table(s) might depend upon. Therefore, there is no
-    guarantee that a specific-table restore into a clean database will
-    succeed.
+    ### 注意
 
-    ### Note
+    指定 `-t` 時，pg_restore 不會嘗試還原所選資料表可能相依的任何其他資料庫物件。因此，無法保證將特定資料表還原到乾淨的資料庫中一定會成功。
 
-    This flag does not behave identically to the `-t`
-    flag of pg_dump. There is not currently
-    any provision for wild-card matching in pg_restore,
-    nor can you include a schema name within its `-t`.
-    And, while pg_dump's `-t`
-    flag will also dump subsidiary objects (such as indexes) of the
-    selected table(s),
-    pg_restore's `-t`
-    flag does not include such subsidiary objects.
+    <a id="id-1.9.4.19.6.3.20.2.3"></a>
 
-    ### Note
+    ### 注意
 
-    In versions prior to PostgreSQL 9.6, this flag
-    matched only tables, not any other type of relation.
+    此旗標的行為與 pg_dump 的 `-t` 旗標並不完全相同。目前 pg_restore 不提供萬用字元比對，你也不能在其 `-t` 中包含綱要名稱。而且，pg_dump 的 `-t` 旗標也會傾印所選資料表的附屬物件（例如索引），但 pg_restore 的 `-t` 旗標不包含這類附屬物件。
+
+    <a id="id-1.9.4.19.6.3.20.2.4"></a>
+
+    ### 注意
+
+    在 PostgreSQL 9.6 之前的版本中，此旗標只比對資料表，不比對任何其他類型的關聯。
 
 `-T trigger`<br>`--trigger=trigger`
-:   Restore named trigger only. Multiple triggers may be specified with
-    multiple `-T` switches.
+:   只還原指定的觸發程序。可以使用多個 `-T` 選項指定多個觸發程序。
 
 `-v`<br>`--verbose`
-:   Specifies verbose mode. This will cause
-    pg_restore to output detailed object
-    comments and start/stop times to the output file, and progress
-    messages to standard error.
-    Repeating the option causes additional debug-level messages
-    to appear on standard error.
+:   指定詳細模式。這會使 pg_restore 將詳細的物件註解與開始／結束時間輸出到輸出檔，並將進度訊息輸出到標準錯誤。重複指定此選項，會使額外的除錯層級訊息出現在標準錯誤上。
 
 `-V`<br>`--version`
-:   Print the pg_restore version and exit.
+:   印出 pg_restore 版本後結束。
 
 `-x`<br>`--no-privileges`<br>`--no-acl`
-:   Prevent restoration of access privileges (grant/revoke commands).
+:   不還原存取權限（grant／revoke 命令）。
 
 `-1`<br>`--single-transaction`
-:   Execute the restore as a single transaction (that is, wrap the
-    emitted commands in `BEGIN`/`COMMIT`). This
-    ensures that either all the commands complete successfully, or no
-    changes are applied. This option implies
-    `--exit-on-error`.
+:   以單一交易執行還原（也就是將發出的命令包在 `BEGIN`/`COMMIT` 中）。這可確保要嘛所有命令都成功完成，要嘛不套用任何變更。此選項隱含 `--exit-on-error`。
 
 `--disable-triggers`
-:   This option is relevant only when performing a restore without schema.
-    It instructs pg_restore to execute commands
-    to temporarily disable triggers on the target tables while
-    the data is restored. Use this if you have referential
-    integrity checks or other triggers on the tables that you
-    do not want to invoke during data restore.
+:   此選項只在執行不含綱要的還原時才有關係。它指示 pg_restore 在還原資料期間，執行暫時停用目標資料表上觸發程序的命令。若你的資料表上有參照完整性檢查或其他觸發程序，而你不希望在資料還原期間觸發它們，請使用此選項。
 
-    Presently, the commands emitted for
-    `--disable-triggers` must be done as superuser. So you
-    should also specify a superuser name with `-S` or,
-    preferably, run pg_restore as a
-    PostgreSQL superuser.
+    目前，為 `--disable-triggers` 發出的命令必須以超級使用者身分執行。因此，你也應該以 `-S` 指定超級使用者名稱，或者更好的做法是以 PostgreSQL 超級使用者身分執行 pg_restore。
 
 `--enable-row-security`
-:   This option is relevant only when restoring the contents of a table
-    which has row security. By default, pg_restore will set
-    [row_security](../../server-administration/runtime-config/runtime-config-client.md#GUC-ROW-SECURITY) to off, to ensure
-    that all data is restored in to the table. If the user does not have
-    sufficient privileges to bypass row security, then an error is thrown.
-    This parameter instructs pg_restore to set
-    [row_security](../../server-administration/runtime-config/runtime-config-client.md#GUC-ROW-SECURITY) to on instead, allowing the user to attempt to restore
-    the contents of the table with row security enabled. This might still
-    fail if the user does not have the right to insert the rows from the
-    dump into the table.
+:   此選項只在還原具有資料列安全性之資料表的內容時才有關係。預設情況下，pg_restore 會將 [row_security](../../server-administration/runtime-config/runtime-config-client.md#GUC-ROW-SECURITY) 設為 off，以確保所有資料都還原到資料表中。若使用者沒有足夠的權限略過資料列安全性，則會擲出錯誤。此參數指示 pg_restore 改將 [row_security](../../server-administration/runtime-config/runtime-config-client.md#GUC-ROW-SECURITY) 設為 on，讓使用者能夠嘗試在啟用資料列安全性的情況下還原資料表的內容。若使用者沒有將傾印中的資料列插入該資料表的權利，這仍然可能會失敗。
 
-    Note that this option currently also requires the dump be in `INSERT`
-    format, as `COPY FROM` does not support row security.
+    請注意，此選項目前也要求傾印必須是 `INSERT` 格式，因為 `COPY FROM` 不支援資料列安全性。
 
 `--filter=filename`
-:   Specify a filename from which to read patterns for objects excluded
-    or included from restore. The patterns are interpreted according to the
-    same rules as
-    `-n`/`--schema` for including objects in schemas,
-    `-N`/`--exclude-schema` for excluding objects in schemas,
-    `-P`/`--function` for restoring named functions,
-    `-I`/`--index` for restoring named indexes,
-    `-t`/`--table` for restoring named tables
-    or `-T`/`--trigger` for restoring triggers.
-    To read from `STDIN`, use `-` as the
-    filename. The `--filter` option can be specified in
-    conjunction with the above listed options for including or excluding
-    objects, and can also be specified more than once for multiple filter
-    files.
+:   指定一個檔案，從中讀取要從還原中排除或納入之物件的模式。這些模式依下列選項的相同規則解讀：`-n`/`--schema` 用於納入綱要中的物件、`-N`/`--exclude-schema` 用於排除綱要中的物件、`-P`/`--function` 用於還原指定的函式、`-I`/`--index` 用於還原指定的索引、`-t`/`--table` 用於還原指定的資料表，或 `-T`/`--trigger` 用於還原觸發程序。若要從 `STDIN` 讀取，請使用 `-` 作為檔名。`--filter` 選項可以與上面列出、用於納入或排除物件的選項一起指定，也可以為多個過濾檔案指定超過一次。
 
-    The file lists one database pattern per row, with the following format:
+    此檔案每一行列出一個資料庫模式，格式如下：
 
     ```
 
     { include | exclude } { function | index | schema | table | trigger } PATTERN
     ```
 
-    The first keyword specifies whether the objects matched by the pattern
-    are to be included or excluded. The second keyword specifies the type
-    of object to be filtered using the pattern:
+    第一個關鍵字指定符合該模式的物件要被納入還是排除。第二個關鍵字指定要使用該模式過濾的物件類型：
 
-    * `function`: functions, works like the
-      `-P`/`--function` option. This keyword
-      can only be used with the `include` keyword.
-    * `index`: indexes, works like the
-      `-I`/`--indexes` option. This keyword
-      can only be used with the `include` keyword.
-    * `schema`: schemas, works like the
-      `-n`/`--schema` and
-      `-N`/`--exclude-schema` options.
-    * `table`: tables, works like the
-      `-t`/`--table` option. This keyword
-      can only be used with the `include` keyword.
-    * `trigger`: triggers, works like the
-      `-T`/`--trigger` option. This keyword
-      can only be used with the `include` keyword.
+    * `function`：函式，作用如同 `-P`/`--function` 選項。此關鍵字只能與 `include` 關鍵字一起使用。
+    * `index`：索引，作用如同 -I/--index 選項（原文此處誤植為 `-I`/`--indexes`）。此關鍵字只能與 `include` 關鍵字一起使用。
+    * `schema`：綱要，作用如同 `-n`/`--schema` 與 `-N`/`--exclude-schema` 選項。
+    * `table`：資料表，作用如同 `-t`/`--table` 選項。此關鍵字只能與 `include` 關鍵字一起使用。
+    * `trigger`：觸發程序，作用如同 `-T`/`--trigger` 選項。此關鍵字只能與 `include` 關鍵字一起使用。
 
-    Lines starting with `#` are considered comments and
-    ignored. Comments can be placed after an object pattern row as well.
-    Blank lines are also ignored. See [Patterns](app-psql.md#APP-PSQL-PATTERNS)
-    for how to perform quoting in patterns.
+    以 `#` 開頭的行會被視為註解並被忽略。註解也可以放在物件模式行之後。空白行也會被忽略。關於如何在模式中進行引用，請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)。
 
 `--if-exists`
-:   Use `DROP ... IF EXISTS` commands to drop objects
-    in `--clean` mode. This suppresses “does not
-    exist” errors that might otherwise be reported. This
-    option is not valid unless `--clean` is also
-    specified.
+:   在 `--clean` 模式下，使用 `DROP ... IF EXISTS` 命令移除物件。這會抑制原本可能回報的「does not exist」錯誤。除非同時指定了 `--clean`，否則此選項無效。
 
 `--no-comments`
-:   Do not output commands to restore comments, even if the archive
-    contains them.
+:   即使封存檔中包含註解，也不輸出還原註解的命令。
 
 `--no-data`
-:   Do not output commands to restore data, even if the archive
-    contains them.
+:   即使封存檔中包含資料，也不輸出還原資料的命令。
 
 `--no-data-for-failed-tables`
-:   By default, table data is restored even if the creation command
-    for the table failed (e.g., because it already exists).
-    With this option, data for such a table is skipped.
-    This behavior is useful if the target database already
-    contains the desired table contents. For example,
-    auxiliary tables for PostgreSQL extensions
-    such as PostGIS might already be loaded in
-    the target database; specifying this option prevents duplicate
-    or obsolete data from being loaded into them.
+:   預設情況下，即使資料表的建立命令失敗（例如因為資料表已存在），仍會還原該資料表的資料。使用此選項時，會略過這類資料表的資料。若目標資料庫已包含所需的資料表內容，這種行為很有用。例如，PostGIS 等 PostgreSQL 擴充功能的輔助資料表可能已經載入目標資料庫；指定此選項可以防止重複或過時的資料被載入其中。
 
-    This option is effective only when restoring directly into a
-    database, not when producing SQL script output.
+    此選項只在直接還原到資料庫時有效，產生 SQL 指令稿輸出時則無效。
 
 `--no-policies`
-:   Do not output commands to restore row security policies, even if
-    the archive contains them.
+:   即使封存檔中包含資料列安全性政策，也不輸出還原它們的命令。
 
 `--no-publications`
-:   Do not output commands to restore publications, even if the archive
-    contains them.
+:   即使封存檔中包含發佈，也不輸出還原它們的命令。
 
 `--no-schema`
-:   Do not output commands to restore schema (data definitions), even if
-    the archive contains them.
+:   即使封存檔中包含綱要（資料定義），也不輸出還原它的命令。
 
 `--no-security-labels`
-:   Do not output commands to restore security labels,
-    even if the archive contains them.
+:   即使封存檔中包含安全標籤，也不輸出還原它們的命令。
 
 `--no-statistics`
-:   Do not output commands to restore statistics, even if the archive
-    contains them.
+:   即使封存檔中包含統計資訊，也不輸出還原它們的命令。
 
 `--no-subscriptions`
-:   Do not output commands to restore subscriptions, even if the archive
-    contains them.
+:   即使封存檔中包含訂閱，也不輸出還原它們的命令。
 
 `--no-table-access-method`
-:   Do not output commands to select table access methods.
-    With this option, all objects will be created with whichever
-    table access method is the default during restore.
+:   不輸出選擇資料表存取方法的命令。使用此選項時，所有物件都會以還原期間的預設資料表存取方法建立。
 
 `--no-tablespaces`
-:   Do not output commands to select tablespaces.
-    With this option, all objects will be created in whichever
-    tablespace is the default during restore.
+:   不輸出選擇資料表空間的命令。使用此選項時，所有物件都會建立在還原期間的預設資料表空間中。
 
 `--restrict-key=restrict_key`
-:   Use the provided string as the psql
-    `\restrict` key in the dump output. This can only be
-    specified for SQL script output, i.e., when the `--file`
-    option is used. If no restrict key is specified,
-    pg_restore will generate a random one as
-    needed. Keys may contain only alphanumeric characters.
+:   將提供的字串作為傾印輸出中 psql 的 `\restrict` 金鑰。此選項只能在 SQL 指令稿輸出時指定，也就是使用 `--file` 選項時。若未指定 restrict 金鑰，pg_restore 會視需要產生一個隨機金鑰。金鑰只能包含英數字元。
 
-    This option is primarily intended for testing purposes and other
-    scenarios that require repeatable output (e.g., comparing dump files).
-    It is not recommended for general use, as a malicious server with
-    advance knowledge of the key may be able to inject arbitrary code that
-    will be executed on the machine that runs
-    psql with the dump output.
+    此選項主要用於測試用途，以及其他需要可重現輸出的情境（例如比較傾印檔）。不建議一般使用，因為事先知道該金鑰的惡意伺服器，可能可以注入任意程式碼，而這些程式碼會在以 psql 執行該傾印輸出的機器上被執行。
 
 `--section=sectionname`
-:   Only restore the named section. The section name can be
-    `pre-data`, `data`, or `post-data`.
-    This option can be specified more than once to select multiple
-    sections. The default is to restore all sections.
+:   只還原指定的區段。區段名稱可以是 `pre-data`、`data` 或 `post-data`。此選項可以指定超過一次，以選取多個區段。預設是還原所有區段。
 
-    The data section contains actual table data as well as large-object
-    definitions.
-    Post-data items consist of definitions of indexes, triggers, rules
-    and constraints other than validated check constraints.
-    Pre-data items consist of all other data definition items.
+    data 區段包含實際的資料表資料以及大型物件定義。post-data 項目包含索引、觸發程序、規則，以及已驗證之檢查限制條件以外的限制條件定義。pre-data 項目包含所有其他資料定義項目。
 
 `--statistics`
-:   Output commands to restore statistics, if the archive contains them.
-    This is the default.
+:   若封存檔中包含統計資訊，則輸出還原它們的命令。這是預設行為。
 
 `--statistics-only`
-:   Restore only the statistics, not schema (data definitions) or data.
+:   只還原統計資訊，不還原綱要（資料定義）或資料。
 
 `--strict-names`
-:   Require that each schema
-    (`-n`/`--schema`) and table
-    (`-t`/`--table`) qualifier match at
-    least one schema/table in the file to be restored.
+:   要求每個綱要（`-n`/`--schema`）與資料表（`-t`/`--table`）限定詞，都至少符合要還原之檔案中的一個綱要／資料表。
 
 `--transaction-size=N`
-:   Execute the restore as a series of transactions, each processing
-    up to *`N`* database
-    objects. This option implies `--exit-on-error`.
+:   將還原以一系列交易執行，每個交易最多處理 *`N`* 個資料庫物件。此選項隱含 `--exit-on-error`。
 
-    `--transaction-size` offers an intermediate choice
-    between the default behavior (one transaction per SQL command)
-    and `-1`/`--single-transaction`
-    (one transaction for all restored objects).
-    While `--single-transaction` has the least
-    overhead, it may be impractical for large databases because the
-    transaction will take a lock on each restored object, possibly
-    exhausting the server's lock table space.
-    Using `--transaction-size` with a size of a few
-    thousand objects offers nearly the same performance benefits while
-    capping the amount of lock table space needed.
+    `--transaction-size` 提供介於預設行為（每個 SQL 命令一個交易）與 `-1`/`--single-transaction`（所有還原的物件一個交易）之間的折衷選擇。雖然 `--single-transaction` 的額外負擔最小，但對大型資料庫而言可能不切實際，因為該交易會對每個還原的物件取得鎖定，可能耗盡伺服器鎖定表的空間。使用 `--transaction-size` 並將大小設為數千個物件，可以獲得幾乎相同的效能好處，同時限制鎖定表所需的空間量。
 
 `--use-set-session-authorization`
-:   Output SQL-standard `SET SESSION AUTHORIZATION` commands
-    instead of `ALTER OWNER` commands to determine object
-    ownership. This makes the dump more standards-compatible, but
-    depending on the history of the objects in the dump, might not restore
-    properly.
+:   輸出符合 SQL 標準的 `SET SESSION AUTHORIZATION` 命令，而不是 `ALTER OWNER` 命令，來決定物件的擁有權。這會使傾印更符合標準，但視傾印中物件的歷史而定，可能無法正確還原。
 
 `-?`<br>`--help`
-:   Show help about pg_restore command line
-    arguments, and exit.
+:   顯示 pg_restore 命令列引數的說明後結束。
 
-pg_restore also accepts
-the following command line arguments for connection parameters:
+pg_restore 也接受下列用於連線參數的命令列引數：
 
 `-h host`<br>`--host=host`
-:   Specifies the host name of the machine on which the server is
-    running. If the value begins with a slash, it is used as the
-    directory for the Unix domain socket. The default is taken
-    from the `PGHOST` environment variable, if set,
-    else a Unix domain socket connection is attempted.
+:   指定伺服器所在機器的主機名稱。若值以斜線開頭，則作為 Unix 網域通訊端的目錄。預設值取自 `PGHOST` 環境變數（若有設定），否則會嘗試使用 Unix 網域通訊端連線。
 
 `-p port`<br>`--port=port`
-:   Specifies the TCP port or local Unix domain socket file
-    extension on which the server is listening for connections.
-    Defaults to the `PGPORT` environment variable, if
-    set, or a compiled-in default.
+:   指定伺服器監聽連線的 TCP 連接埠或本機 Unix 網域通訊端檔案副檔名。預設為 `PGPORT` 環境變數（若有設定），或編譯時內建的預設值。
 
 `-U username`<br>`--username=username`
-:   User name to connect as.
+:   要用來連線的使用者名稱。
 
 `-w`<br>`--no-password`
-:   Never issue a password prompt. If the server requires
-    password authentication and a password is not available by
-    other means such as a `.pgpass` file, the
-    connection attempt will fail. This option can be useful in
-    batch jobs and scripts where no user is present to enter a
-    password.
+:   絕不發出密碼提示。若伺服器要求密碼驗證，而密碼無法透過 `.pgpass` 檔案等其他方式取得，連線嘗試將會失敗。此選項在沒有使用者可輸入密碼的批次作業與指令稿中可能很有用。
 
 `-W`<br>`--password`
-:   Force pg_restore to prompt for a
-    password before connecting to a database.
+:   強制 pg_restore 在連線到資料庫之前提示輸入密碼。
 
-    This option is never essential, since
-    pg_restore will automatically prompt
-    for a password if the server demands password authentication.
-    However, pg_restore will waste a
-    connection attempt finding out that the server wants a password.
-    In some cases it is worth typing `-W` to avoid the extra
-    connection attempt.
+    此選項從來都不是必要的，因為若伺服器要求密碼驗證，pg_restore 會自動提示輸入密碼。不過，pg_restore 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
 `--role=rolename`
-:   Specifies a role name to be used to perform the restore.
-    This option causes pg_restore to issue a
-    `SET ROLE` *`rolename`*
-    command after connecting to the database. It is useful when the
-    authenticated user (specified by `-U`) lacks privileges
-    needed by pg_restore, but can switch to a role with
-    the required rights. Some installations have a policy against
-    logging in directly as a superuser, and use of this option allows
-    restores to be performed without violating the policy.
+:   指定用來執行還原的角色名稱。此選項會使 pg_restore 在連線到資料庫後發出 `SET ROLE` *`rolename`* 命令。當已驗證的使用者（以 `-U` 指定）缺少 pg_restore 所需的權限，但可以切換到具有所需權利的角色時，此選項很有用。有些安裝環境有禁止直接以超級使用者身分登入的政策，使用此選項可以在不違反該政策的情況下執行還原。
 
 <a id="id-1.9.4.19.7"></a>
 
-## Environment
+## 環境
 
 `PGHOST`<br>`PGOPTIONS`<br>`PGPORT`<br>`PGUSER`
-:   Default connection parameters
+:   預設連線參數
 
 `PG_COLOR`
-:   Specifies whether to use color in diagnostic messages. Possible values
-    are `always`, `auto` and
-    `never`.
+:   指定診斷訊息是否使用色彩。可能的值為 `always`、`auto` 與 `never`。
 
-This utility, like most other PostgreSQL utilities,
-also uses the environment variables supported by libpq
-(see [Section 32.15](../../client-interfaces/libpq/libpq-envars.md)). However, it does not read
-`PGDATABASE` when a database name is not supplied.
+此工具與大多數其他 PostgreSQL 工具一樣，也使用 libpq 支援的環境變數（請參閱[第 32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。不過，在未提供資料庫名稱時，它不會讀取 `PGDATABASE`。
 
 <a id="APP-PGRESTORE-DIAGNOSTICS"></a>
 
-## Diagnostics
+## 診斷
 
-When a direct database connection is specified using the
-`-d` option, pg_restore
-internally executes SQL statements. If you have
-problems running pg_restore, make sure
-you are able to select information from the database using, for
-example, [psql](app-psql.md). Also, any default connection
-settings and environment variables used by the
-libpq front-end library will apply.
+以 `-d` 選項指定直接的資料庫連線時，pg_restore 會在內部執行 SQL 陳述式。若你在執行 pg_restore 時遇到問題，請確認你能夠使用例如 [psql](app-psql.md) 從資料庫中選取資訊。此外，libpq 前端函式庫所使用的任何預設連線設定與環境變數也都會適用。
 
 <a id="APP-PGRESTORE-NOTES"></a>
 
-## Notes
+## 注意事項
 
-If your installation has any local additions to the
-`template1` database, be careful to load the output of
-pg_restore into a truly empty database;
-otherwise you are likely to get errors due to duplicate definitions
-of the added objects. To make an empty database without any local
-additions, copy from `template0` not `template1`, for example:
+若你的安裝環境對 `template1` 資料庫有任何本地新增的內容，請小心將 pg_restore 的輸出載入真正空白的資料庫；否則，你很可能會因為新增物件的重複定義而遇到錯誤。若要建立不含任何本地新增內容的空白資料庫，請從 `template0` 而非 `template1` 複製，例如：
 
 ```
 
 CREATE DATABASE foo WITH TEMPLATE template0;
 ```
 
-The limitations of pg_restore are detailed below.
+pg_restore 的限制詳述如下。
 
-* When restoring data to a pre-existing table and the option
-  `--disable-triggers` is used,
-  pg_restore emits commands
-  to disable triggers on user tables before inserting the data, then emits commands to
-  re-enable them after the data has been inserted. If the restore is stopped in the
-  middle, the system catalogs might be left in the wrong state.
-* pg_restore cannot restore large objects
-  selectively; for instance, only those for a specific table. If
-  an archive contains large objects, then all large objects will be
-  restored, or none of them if they are excluded via `-L`,
-  `-t`, or other options.
+* 將資料還原到既有的資料表並使用 `--disable-triggers` 選項時，pg_restore 會在插入資料之前發出停用使用者資料表上觸發程序的命令，並在資料插入之後發出重新啟用它們的命令。若還原在中途停止，系統目錄可能會停留在錯誤的狀態。
+* pg_restore 無法選擇性地還原大型物件；例如，只還原特定資料表的大型物件。若封存檔包含大型物件，則會還原所有大型物件；若透過 `-L`、`-t` 或其他選項排除它們，則一個也不會還原。
 
-See also the [pg_dump](app-pgdump.md) documentation for details on
-limitations of pg_dump.
+關於 pg_dump 的限制詳情，另請參閱 [pg_dump](app-pgdump.md) 文件。
 
-By default, `pg_restore` will restore optimizer statistics
-if included in the dump file. If not all statistics were restored, it may
-be useful to run `ANALYZE` on each restored table so the
-optimizer has useful statistics; see [Section 24.1.3](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS) and [Section 24.1.6](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM) for more
-information.
+預設情況下，若傾印檔中包含最佳化器統計資訊，`pg_restore` 會還原它們。若並非所有統計資訊都已還原，對每個還原的資料表執行 `ANALYZE` 可能會有幫助，讓最佳化器擁有有用的統計資訊；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
 
 <a id="APP-PGRESTORE-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-Assume we have dumped a database called `mydb` into a
-custom-format dump file:
+假設我們已經將名為 `mydb` 的資料庫傾印到自訂格式的傾印檔中：
 
 ```
 
 $ pg_dump -Fc mydb > db.dump
 ```
 
-To drop the database and recreate it from the dump:
+若要移除該資料庫並從傾印重新建立它：
 
 ```
 
@@ -642,13 +333,9 @@ $ dropdb mydb
 $ pg_restore -C -d postgres db.dump
 ```
 
-The database named in the `-d` switch can be any database existing
-in the cluster; pg_restore only uses it to issue the
-`CREATE DATABASE` command for `mydb`. With
-`-C`, data is always restored into the database name that appears
-in the dump file.
+`-d` 選項中指定的資料庫可以是叢集中任何現有的資料庫；pg_restore 只用它來發出 `mydb` 的 `CREATE DATABASE` 命令。使用 `-C` 時，資料一律會還原到傾印檔中所記載的資料庫名稱中。
 
-To restore the dump into a new database called `newdb`:
+若要將傾印還原到名為 `newdb` 的新資料庫：
 
 ```
 
@@ -656,20 +343,16 @@ $ createdb -T template0 newdb
 $ pg_restore -d newdb db.dump
 ```
 
-Notice we don't use `-C`, and instead connect directly to the
-database to be restored into. Also note that we clone the new database
-from `template0` not `template1`, to ensure it is
-initially empty.
+請注意，我們沒有使用 `-C`，而是直接連線到要還原進去的資料庫。另請注意，我們是從 `template0` 而非 `template1` 複製新資料庫，以確保它一開始是空的。
 
-To reorder database items, it is first necessary to dump the table of
-contents of the archive:
+若要重新排列資料庫項目的順序，首先必須傾印封存檔的目錄：
 
 ```
 
 $ pg_restore -l db.dump > db.list
 ```
 
-The listing file consists of a header and one line for each item, e.g.:
+清單檔由一個標頭以及每個項目一行所組成，例如：
 
 ```
 
@@ -695,10 +378,9 @@ The listing file consists of a header and one line for each item, e.g.:
 319; 1247 25899 DOMAIN public domain0 pasha
 ```
 
-Semicolons start a comment, and the numbers at the start of lines refer to the
-internal archive ID assigned to each item.
+分號表示註解的開始，行首的數字代表指派給每個項目的內部封存 ID。
 
-Lines in the file can be commented out, deleted, and reordered. For example:
+檔案中的各行可以被註解掉、刪除及重新排序。例如：
 
 ```
 
@@ -709,8 +391,7 @@ Lines in the file can be commented out, deleted, and reordered. For example:
 ;8; 145416 TABLE ss_old postgres
 ```
 
-could be used as input to pg_restore and would only restore
-items 10 and 6, in that order:
+可以作為 pg_restore 的輸入，並且只會依此順序還原項目 10 與 6：
 
 ```
 
@@ -719,10 +400,10 @@ $ pg_restore -L db.list db.dump
 
 <a id="id-1.9.4.19.11"></a>
 
-## See Also
+## 另請參閱
 
 [pg_dump](app-pgdump.md), [pg_dumpall](app-pg-dumpall.md), [psql](app-psql.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgrestore.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgrestore.html)（原文版本：18.6；核對日期：2026-10-09）
