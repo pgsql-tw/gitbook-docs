@@ -1,10 +1,10 @@
-<a id="id-1.9.5.9.1"></a>
+<a id="APP-PGRESETWAL"></a><a id="id-1.9.5.9.1"></a>
 
 ## pg_resetwal
 
-pg_resetwal — reset the write-ahead log and other control information of a PostgreSQL database cluster
+pg_resetwal — 重設 PostgreSQL 資料庫叢集的預寫式日誌及其他控制資訊
 
-## Synopsis
+## 語法
 
 <a id="id-1.9.5.9.4.1"></a>
 
@@ -12,254 +12,126 @@ pg_resetwal — reset the write-ahead log and other control information of a Pos
 
 <a id="R1-APP-PGRESETWAL-1"></a>
 
-## Description
+## 說明
 
-`pg_resetwal` clears the write-ahead log (WAL) and
-optionally resets some other control information stored in the
-`pg_control` file. This function is sometimes needed
-if these files have become corrupted. It should be used only as a
-last resort, when the server will not start due to such corruption.
+`pg_resetwal` 會清除預寫式日誌（WAL），並可選擇重設儲存在 `pg_control` 檔案中的其他某些控制資訊。若這些檔案已經損毀，有時就需要這項功能。它只應該作為最後手段使用，也就是在伺服器因為這類損毀而無法啟動的時候。
 
-Some options, such as `--wal-segsize` (see below), can also
-be used to modify certain global settings of a database cluster without the
-need to rerun `initdb`. This can be done safely on an
-otherwise sound database cluster, if none of the dangerous modes mentioned
-below are used.
+某些選項，例如 `--wal-segsize`（見下文），也可以用來修改資料庫叢集的某些全域設定，而不需要重新執行 `initdb`。只要沒有使用下文提到的任何危險模式，就可以在其他方面都完好的資料庫叢集上安全地進行這項操作。
 
-If `pg_resetwal` is used on a data directory where the
-server has been cleanly shut down and the control file is sound, then it
-will have no effect on the contents of the database system, except that no
-longer used WAL files are cleared away. Any other use is potentially
-dangerous and must be done with great care. `pg_resetwal`
-will require the `-f` (force) option to be specified before
-working on a data directory in an unclean shutdown state or with a
-corrupted control file.
+若在伺服器已正常關閉且控制檔案完好的資料目錄上使用 `pg_resetwal`，除了會清除不再使用的 WAL 檔案之外，它不會對資料庫系統的內容造成任何影響。其他任何用法都具有潛在危險，必須非常謹慎地進行。在處理處於非正常關閉狀態或控制檔案已損毀的資料目錄之前，`pg_resetwal` 會要求指定 `-f`（強制）選項。
 
-After running this command on a data directory with corrupted WAL or a
-corrupted control file, it should be possible to start the server,
-but bear in mind that the database might contain inconsistent data due to
-partially-committed transactions. You should immediately dump your data,
-run `initdb`, and restore. After restore, check for
-inconsistencies and repair as needed.
+在 WAL 或控制檔案已損毀的資料目錄上執行此命令之後，應該可以啟動伺服器，但請記住，由於有部分提交的交易，資料庫可能包含不一致的資料。你應該立即傾印資料、執行 `initdb`，然後還原。還原之後，請檢查是否有不一致之處，並視需要修復。
 
-If `pg_resetwal` complains that it cannot determine
-valid data for `pg_control`, you can force it to proceed anyway
-by specifying the `-f` (force) option. In this case plausible
-values will be substituted for the missing data. Most of the fields can be
-expected to match, but manual assistance might be needed for the next OID,
-next transaction ID and epoch, next multitransaction ID and offset, and
-WAL starting location fields. These fields can be set using the options
-discussed below. If you are not able to determine correct values for all
-these fields, `-f` can still be used, but
-the recovered database must be treated with even more suspicion than
-usual: an immediate dump and restore is imperative. *Do not*
-execute any data-modifying operations in the database before you dump,
-as any such action is likely to make the corruption worse.
+若 `pg_resetwal` 抱怨它無法判定 `pg_control` 的有效資料，你可以指定 `-f`（強制）選項，強迫它繼續執行。在這種情況下，缺少的資料會以看似合理的值代替。大部分欄位應該都能吻合，但下一個 OID、下一個交易 ID 與 epoch、下一個多重交易 ID 與偏移量，以及 WAL 起始位置等欄位，可能需要人工協助。這些欄位可以使用下文討論的選項來設定。若你無法判定所有這些欄位的正確值，仍然可以使用 `-f`，但必須以比平常更加懷疑的態度看待復原後的資料庫：務必立即進行傾印與還原。在傾印之前，*不要*在資料庫中執行任何修改資料的操作，因為任何這類動作都很可能使損毀更加嚴重。
 
-This utility can only be run by the user who installed the server, because
-it requires read/write access to the data directory.
+此工具只能由安裝伺服器的使用者執行，因為它需要資料目錄的讀寫權限。
 
 <a id="id-1.9.5.9.6"></a>
 
-## Options
+## 選項
 
 *`datadir`*<br>`-D datadir`<br>`--pgdata=datadir`
-:   Specifies the location of the database directory.
-    For safety reasons, you must specify the data directory on the command
-    line. `pg_resetwal` does not use the environment
-    variable `PGDATA`.
+:   指定資料庫目錄的位置。基於安全考量，你必須在命令列上指定資料目錄。`pg_resetwal` 不會使用環境變數 `PGDATA`。
 
 `-f`<br>`--force`
-:   Force `pg_resetwal` to proceed even in situations where
-    it could be dangerous, as explained above. Specifically, this option is
-    required to proceed if the server had not been cleanly shut down or if
-    `pg_resetwal` cannot determine valid data for
-    `pg_control`.
+:   強制 `pg_resetwal` 繼續執行，即使是在如上文所述可能有危險的情況下。具體而言，若伺服器未曾正常關閉，或 `pg_resetwal` 無法判定 `pg_control` 的有效資料，就必須使用此選項才能繼續執行。
 
 `-n`<br>`--dry-run`
-:   The `-n`/`--dry-run` option instructs
-    `pg_resetwal` to print the values reconstructed from
-    `pg_control` and values about to be changed, and then exit
-    without modifying anything. This is mainly a debugging tool, but can be
-    useful as a sanity check before allowing `pg_resetwal`
-    to proceed for real.
+:   `-n`/`--dry-run` 選項會指示 `pg_resetwal` 印出從 `pg_control` 重建的值以及即將變更的值，然後在不修改任何內容的情況下結束。這主要是一項除錯工具，但在讓 `pg_resetwal` 真正執行之前，也可以用來做合理性檢查。
 
 `-V`<br>`--version`
-:   Display version information, then exit.
+:   顯示版本資訊後結束。
 
 `-?`<br>`--help`
-:   Show help, then exit.
+:   顯示說明後結束。
 
-The following options are only needed when
-`pg_resetwal` is unable to determine appropriate values
-by reading `pg_control`. Safe values can be determined as
-described below. For values that take numeric arguments, hexadecimal
-values can be specified by using the prefix `0x`. Note
-that these instructions only apply with the standard block size of 8 kB.
+只有在 `pg_resetwal` 無法透過讀取 `pg_control` 判定適當的值時，才需要下列選項。安全的值可以依下文所述的方式判定。對於接受數字引數的選項，可以使用前綴 `0x` 指定十六進位值。請注意，這些說明只適用於標準的 8 kB 區塊大小。
 
 `-c xid,xid`<br>`--commit-timestamp-ids=xid,xid`
-:   Manually set the oldest and newest transaction IDs for which the commit
-    time can be retrieved.
+:   手動設定可以取得提交時間的最舊與最新交易 ID。
 
-    A safe value for the oldest transaction ID for which the commit time can
-    be retrieved (first part) can be determined by looking
-    for the numerically smallest file name in the directory
-    `pg_commit_ts` under the data directory. Conversely, a safe
-    value for the newest transaction ID for which the commit time can be
-    retrieved (second part) can be determined by looking for the numerically
-    greatest file name in the same directory. The file names are in
-    hexadecimal.
+    可以取得提交時間之最舊交易 ID（第一部分）的安全值，可透過在資料目錄下的 `pg_commit_ts` 目錄中，找出數值最小的檔案名稱來判定。反之，可以取得提交時間之最新交易 ID（第二部分）的安全值，可透過在同一目錄中找出數值最大的檔案名稱來判定。這些檔案名稱是十六進位的。
 
 `-e xid_epoch`<br>`--epoch=xid_epoch`
-:   Manually set the next transaction ID's epoch.
+:   手動設定下一個交易 ID 的 epoch。
 
-    The transaction ID epoch is not actually stored anywhere in the database
-    except in the field that is set by `pg_resetwal`,
-    so any value will work so far as the database itself is concerned.
-    You might need to adjust this value to ensure that replication
-    systems such as Slony-I and
-    Skytools work correctly —
-    if so, an appropriate value should be obtainable from the state of
-    the downstream replicated database.
+    交易 ID 的 epoch 實際上並未儲存在資料庫中的任何地方，只存在於由 `pg_resetwal` 設定的欄位中，因此就資料庫本身而言，任何值都可以運作。你可能需要調整這個值，以確保 Slony-I 與 Skytools 這類複寫系統能正確運作——若是如此，應該可以從下游被複寫資料庫的狀態取得適當的值。
 
 `-l walfile`<br>`--next-wal-file=walfile`
-:   Manually set the WAL starting location by specifying the name of the
-    next WAL segment file.
+:   透過指定下一個 WAL 區段檔案的名稱，手動設定 WAL 起始位置。
 
-    The name of next WAL segment file should be
-    larger than any WAL segment file name currently existing in
-    the directory `pg_wal` under the data directory.
-    These names are also in hexadecimal and have three parts. The first
-    part is the “timeline ID” and should usually be kept the same.
-    For example, if `00000001000000320000004A` is the
-    largest entry in `pg_wal`, use `-l 00000001000000320000004B` or higher.
+    下一個 WAL 區段檔案的名稱，應該大於資料目錄下 `pg_wal` 目錄中目前存在的任何 WAL 區段檔案名稱。這些名稱同樣是十六進位的，並且由三個部分組成。第一部分是「時間軸 ID」，通常應該保持不變。例如，若 `00000001000000320000004A` 是 `pg_wal` 中最大的項目，請使用 `-l 00000001000000320000004B` 或更大的值。
 
-    Note that when using nondefault WAL segment sizes, the numbers in the WAL
-    file names are different from the LSNs that are reported by system
-    functions and system views. This option takes a WAL file name, not an
-    LSN.
+    請注意，使用非預設的 WAL 區段大小時，WAL 檔案名稱中的數字會與系統函式及系統檢視表所回報的 LSN 不同。此選項接受的是 WAL 檔案名稱，而不是 LSN。
 
-    ### Note
+    <a id="id-1.9.5.9.6.4.3.2.4"></a>
 
-    `pg_resetwal` itself looks at the files in
-    `pg_wal` and chooses a default `-l` setting
-    beyond the last existing file name. Therefore, manual adjustment of
-    `-l` should only be needed if you are aware of WAL segment
-    files that are not currently present in `pg_wal`, such as
-    entries in an offline archive; or if the contents of
-    `pg_wal` have been lost entirely.
+    ### 注意
+
+    `pg_resetwal` 本身會查看 `pg_wal` 中的檔案，並選擇一個超出最後一個現有檔案名稱的預設 `-l` 設定。因此，只有在你知道有目前不存在於 `pg_wal` 中的 WAL 區段檔案（例如離線封存中的項目），或 `pg_wal` 的內容已完全遺失時，才應該需要手動調整 `-l`。
 
 `-m mxid,mxid`<br>`--multixact-ids=mxid,mxid`
-:   Manually set the next and oldest multitransaction ID.
+:   手動設定下一個與最舊的多重交易 ID。
 
-    A safe value for the next multitransaction ID (first part) can be
-    determined by looking for the numerically largest file name in the
-    directory `pg_multixact/offsets` under the data directory,
-    adding one, and then multiplying by 65536 (0x10000). Conversely, a safe
-    value for the oldest multitransaction ID (second part of
-    `-m`) can be determined by looking for the numerically smallest
-    file name in the same directory and multiplying by 65536. The file
-    names are in hexadecimal, so the easiest way to do this is to specify
-    the option value in hexadecimal and append four zeroes.
+    下一個多重交易 ID（第一部分）的安全值，可透過在資料目錄下的 `pg_multixact/offsets` 目錄中找出數值最大的檔案名稱，將其加一，再乘以 65536（0x10000）來判定。反之，最舊多重交易 ID（`-m` 的第二部分）的安全值，可透過在同一目錄中找出數值最小的檔案名稱，再乘以 65536 來判定。這些檔案名稱是十六進位的，因此最簡單的做法是以十六進位指定選項值，並在後面加上四個零。
 
 `-o oid`<br>`--next-oid=oid`
-:   Manually set the next OID.
+:   手動設定下一個 OID。
 
-    There is no comparably easy way to determine a next OID that's beyond
-    the largest one in the database, but fortunately it is not critical to
-    get the next-OID setting right.
+    沒有同樣簡單的方法可以判定一個超出資料庫中最大 OID 的下一個 OID，但幸好下一個 OID 的設定是否正確並不是關鍵。
 
 `-O mxoff`<br>`--multixact-offset=mxoff`
-:   Manually set the next multitransaction offset.
+:   手動設定下一個多重交易偏移量。
 
-    A safe value can be determined by looking for the numerically largest
-    file name in the directory `pg_multixact/members` under the
-    data directory, adding one, and then multiplying by 52352 (0xCC80).
-    The file names are in hexadecimal. There is no simple recipe such as
-    the ones for other options of appending zeroes.
+    安全值可透過在資料目錄下的 `pg_multixact/members` 目錄中找出數值最大的檔案名稱，將其加一，再乘以 52352（0xCC80）來判定。這些檔案名稱是十六進位的。這裡沒有像其他選項那樣在後面加零的簡單方法。
 
 `-u xid`<br>`--oldest-transaction-id=xid`
-:   Manually set the oldest unfrozen transaction ID.
+:   手動設定最舊的未凍結交易 ID。
 
-    A safe value can be determined by looking for the numerically smallest
-    file name in the directory `pg_xact` under the data directory
-    and then multiplying by 1048576 (0x100000). Note that the file names are in
-    hexadecimal. It is usually easiest to specify the option value in
-    hexadecimal too. For example, if `0007` is the smallest entry
-    in `pg_xact`, `-u 0x700000` will work (five
-    trailing zeroes provide the proper multiplier).
+    安全值可透過在資料目錄下的 `pg_xact` 目錄中找出數值最小的檔案名稱，再乘以 1048576（0x100000）來判定。請注意，這些檔案名稱是十六進位的。通常最簡單的做法也是以十六進位指定選項值。例如，若 `0007` 是 `pg_xact` 中最小的項目，`-u 0x700000` 就可以運作（後面五個零提供了正確的乘數）。
 
 `-x xid`<br>`--next-transaction-id=xid`
-:   Manually set the next transaction ID.
+:   手動設定下一個交易 ID。
 
-    A safe value can be determined by looking for the numerically largest
-    file name in the directory `pg_xact` under the data directory,
-    adding one,
-    and then multiplying by 1048576 (0x100000). Note that the file names are in
-    hexadecimal. It is usually easiest to specify the option value in
-    hexadecimal too. For example, if `0011` is the largest entry
-    in `pg_xact`, `-x 0x1200000` will work (five
-    trailing zeroes provide the proper multiplier).
+    安全值可透過在資料目錄下的 `pg_xact` 目錄中找出數值最大的檔案名稱，將其加一，再乘以 1048576（0x100000）來判定。請注意，這些檔案名稱是十六進位的。通常最簡單的做法也是以十六進位指定選項值。例如，若 `0011` 是 `pg_xact` 中最大的項目，`-x 0x1200000` 就可以運作（後面五個零提供了正確的乘數）。
 
 `--char-signedness=option`
-:   Manually set the default char signedness. Possible values are
-    `signed` and `unsigned`.
+:   手動設定預設的 char 有號性。可用值為 `signed` 與 `unsigned`。
 
-    For a database cluster that `pg_upgrade` upgraded from
-    a PostgreSQL version before 18, the safe
-    value would be the default `char` signedness of the platform
-    that ran the cluster before that upgrade. For all other
-    clusters, `signed` would be the safe value. However,
-    this option is exclusively for use with `pg_upgrade`
-    and should not normally be used manually.
+    對於由 `pg_upgrade` 從 18 之前的 PostgreSQL 版本升級而來的資料庫叢集，安全值是升級前執行該叢集之平台的預設 `char` 有號性。對於所有其他叢集，`signed` 是安全值。不過，此選項專供 `pg_upgrade` 使用，一般不應該手動使用。
 
 `--wal-segsize=wal_segment_size`
-:   Set the new WAL segment size, in megabytes. The value must be set to a
-    power of 2 between 1 and 1024 (megabytes). See the same option of [initdb](app-initdb.md) for more information.
+:   設定新的 WAL 區段大小，單位為 MB。此值必須設定為 1 到 1024（MB）之間的 2 的冪次。詳細資訊請參閱 [initdb](app-initdb.md) 的同一個選項。
 
-    This option can also be used to change the WAL segment size of an
-    existing database cluster, avoiding the need to
-    re-`initdb`.
+    此選項也可以用來變更現有資料庫叢集的 WAL 區段大小，而不必重新執行 `initdb`。
 
-    ### Note
+    <a id="id-1.9.5.9.6.4.10.2.3"></a>
 
-    While `pg_resetwal` will set the WAL starting address
-    beyond the latest existing WAL segment file, some segment size changes
-    can cause previous WAL file names to be reused. It is recommended to
-    use `-l` together with this option to manually set the
-    WAL starting address if WAL file name overlap will cause problems with
-    your archiving strategy.
+    ### 注意
+
+    雖然 `pg_resetwal` 會將 WAL 起始位址設定在最新的現有 WAL 區段檔案之後，但某些區段大小的變更可能會導致先前的 WAL 檔案名稱被重複使用。若 WAL 檔案名稱重疊會對你的封存策略造成問題，建議搭配此選項使用 `-l`，以手動設定 WAL 起始位址。
 
 <a id="id-1.9.5.9.7"></a>
 
-## Environment
+## 環境
 
 `PG_COLOR`
-:   Specifies whether to use color in diagnostic messages. Possible values
-    are `always`, `auto` and
-    `never`.
+:   指定診斷訊息是否使用色彩。可用值為 `always`、`auto` 與 `never`。
 
 <a id="id-1.9.5.9.8"></a>
 
-## Notes
+## 注意事項
 
-This command must not be used when the server is
-running. `pg_resetwal` will refuse to start up if
-it finds a server lock file in the data directory. If the
-server crashed then a lock file might have been left
-behind; in that case you can remove the lock file to allow
-`pg_resetwal` to run. But before you do
-so, make doubly certain that there is no server process still alive.
+伺服器正在執行時，不得使用此命令。若 `pg_resetwal` 在資料目錄中發現伺服器鎖定檔案，就會拒絕啟動。若伺服器曾經當機，可能會留下鎖定檔案；在這種情況下，你可以移除該鎖定檔案，讓 `pg_resetwal` 得以執行。但在這麼做之前，請再三確認沒有任何伺服器程序仍在執行。
 
-`pg_resetwal` works only with servers of the same
-major version.
+`pg_resetwal` 只能用於相同主要版本的伺服器。
 
 <a id="id-1.9.5.9.9"></a>
 
-## See Also
+## 另請參閱
 
 [pg_controldata](app-pgcontroldata.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgresetwal.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgresetwal.html)（原文版本：18.6；核對日期：2026-10-05）
