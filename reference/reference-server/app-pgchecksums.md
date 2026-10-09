@@ -1,10 +1,10 @@
-<a id="id-1.9.5.5.1"></a>
+<a id="APP-PGCHECKSUMS"></a><a id="id-1.9.5.5.1"></a>
 
 ## pg_checksums
 
-pg_checksums — enable, disable or check data checksums in a PostgreSQL database cluster
+pg_checksums — 在 PostgreSQL 資料庫叢集中啟用、停用或檢查資料校驗和
 
-## Synopsis
+## 語法
 
 <a id="id-1.9.5.5.4.1"></a>
 
@@ -12,117 +12,75 @@ pg_checksums — enable, disable or check data checksums in a PostgreSQL databas
 
 <a id="R1-APP-PGCHECKSUMS-1"></a>
 
-## Description
+## 說明
 
-pg_checksums checks, enables or disables data
-checksums in a PostgreSQL cluster. The server
-must be shut down cleanly before running
-pg_checksums. When verifying checksums, the exit
-status is zero if there are no checksum errors, and nonzero if at least one
-checksum failure is detected. When enabling or disabling checksums, the
-exit status is nonzero if the operation failed.
+pg_checksums 會檢查、啟用或停用 PostgreSQL 叢集中的資料校驗和。執行 pg_checksums 之前，伺服器必須已正常（clean）關閉。驗證校驗和時，若沒有校驗和錯誤，結束狀態為零；若偵測到至少一個校驗和失敗，結束狀態則為非零。啟用或停用校驗和時，若操作失敗，結束狀態為非零。
 
-When verifying checksums, every file in the cluster is scanned. When
-enabling checksums, each relation file block with a changed checksum is
-rewritten in-place.
-Disabling checksums only updates the file `pg_control`.
+驗證校驗和時，會掃描叢集中的每一個檔案。啟用校驗和時，每個校驗和有變更的關聯檔案區塊都會被就地改寫。停用校驗和只會更新檔案 `pg_control`。
 
 <a id="id-1.9.5.5.6"></a>
 
-## Options
+## 選項
 
-The following command-line options are available:
+可用的命令列選項如下：
 
 `-D directory`<br>`--pgdata=directory`
-:   Specifies the directory where the database cluster is stored.
+:   指定資料庫叢集的儲存目錄。
 
 `-c`<br>`--check`
-:   Checks checksums. This is the default mode if nothing else is
-    specified.
+:   檢查校驗和。若未指定其他模式，這是預設模式。
 
 `-d`<br>`--disable`
-:   Disables checksums.
+:   停用校驗和。
 
 `-e`<br>`--enable`
-:   Enables checksums.
+:   啟用校驗和。
 
 `-f filenode`<br>`--filenode=filenode`
-:   Only validate checksums in the relation with filenode
-    *`filenode`*.
+:   只驗證 filenode 為 *`filenode`* 之關聯中的校驗和。
 
 `-N`<br>`--no-sync`
-:   By default, `pg_checksums` will wait for all files
-    to be written safely to disk. This option causes
-    `pg_checksums` to return without waiting, which is
-    faster, but means that a subsequent operating system crash can leave
-    the updated data directory corrupt. Generally, this option is useful
-    for testing but should not be used on a production installation.
-    This option has no effect when using `--check`.
+:   預設情況下，`pg_checksums` 會等待所有檔案都安全地寫入磁碟。此選項會讓 `pg_checksums` 不等待就返回，這樣比較快，但也表示之後若作業系統當機，可能會使更新過的資料目錄損毀。一般而言，此選項適用於測試，但不應該用於正式環境的安裝。使用 `--check` 時，此選項沒有作用。
 
 `-P`<br>`--progress`
-:   Enable progress reporting. Turning this on will deliver a progress
-    report while checking or enabling checksums.
+:   啟用進度回報。開啟此選項後，會在檢查或啟用校驗和時提供進度報告。
 
 `--sync-method=method`
-:   When set to `fsync`, which is the default,
-    `pg_checksums` will recursively open and synchronize
-    all files in the data directory. The search for files will follow
-    symbolic links for the WAL directory and each configured tablespace.
+:   設定為預設值 `fsync` 時，`pg_checksums` 會遞迴地開啟並同步資料目錄中的所有檔案。搜尋檔案時，會跟隨 WAL 目錄與每個已設定資料表空間的符號連結。
 
-    On Linux, `syncfs` may be used instead to ask the
-    operating system to synchronize the whole file systems that contain the
-    data directory, the WAL files, and each tablespace. See
-    [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD) for information about
-    the caveats to be aware of when using `syncfs`.
+    在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含資料目錄、WAL 檔案與每個資料表空間的整個檔案系統。使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
 
-    This option has no effect when `--no-sync` is used.
+    使用 `--no-sync` 時，此選項沒有作用。
 
 `-v`<br>`--verbose`
-:   Enable verbose output. Lists all checked files.
+:   啟用詳細輸出。列出所有已檢查的檔案。
 
 `-V`<br>`--version`
-:   Print the pg_checksums version and exit.
+:   印出 pg_checksums 的版本後結束。
 
 `-?`<br>`--help`
-:   Show help about pg_checksums command line
-    arguments, and exit.
+:   顯示 pg_checksums 命令列引數的說明後結束。
 
 <a id="id-1.9.5.5.7"></a>
 
-## Environment
+## 環境
 
 `PGDATA`
-:   Specifies the directory where the database cluster is
-    stored; can be overridden using the `-D` option.
+:   指定資料庫叢集的儲存目錄；可以用 `-D` 選項覆寫。
 
 `PG_COLOR`
-:   Specifies whether to use color in diagnostic messages. Possible values
-    are `always`, `auto` and
-    `never`.
+:   指定診斷訊息是否使用色彩。可用值為 `always`、`auto` 與 `never`。
 
 <a id="id-1.9.5.5.8"></a>
 
-## Notes
+## 注意事項
 
-Enabling checksums in a large cluster can potentially take a long time.
-During this operation, the cluster or other programs that write to the
-data directory must not be started or else data loss may occur.
+在大型叢集中啟用校驗和可能會花費很長的時間。在此操作期間，不得啟動該叢集或其他會寫入資料目錄的程式，否則可能會發生資料遺失。
 
-When using a replication setup with tools which perform direct copies
-of relation file blocks (for example [pg_rewind](app-pgrewind.md)),
-enabling or disabling checksums can lead to page corruptions in the
-shape of incorrect checksums if the operation is not done consistently
-across all nodes. When enabling or disabling checksums in a replication
-setup, it is thus recommended to stop all the clusters before switching
-them all consistently. Destroying all standbys, performing the operation
-on the primary and finally recreating the standbys from scratch is also
-safe.
+在使用會直接複製關聯檔案區塊之工具（例如 [pg_rewind](app-pgrewind.md)）的複寫架構中，若啟用或停用校驗和的操作未在所有節點上一致地進行，可能會導致以錯誤校驗和形式呈現的頁面損毀。因此，在複寫架構中啟用或停用校驗和時，建議先停止所有叢集，再一致地切換所有叢集。銷毀所有待命伺服器、在主要伺服器上執行該操作，最後從頭重新建立待命伺服器，這種做法也是安全的。
 
-If pg_checksums is aborted or killed while
-enabling or disabling checksums, the cluster's data checksum configuration
-remains unchanged, and pg_checksums can be
-re-run to perform the same operation.
+若 pg_checksums 在啟用或停用校驗和時被中止或終止，叢集的資料校驗和設定會維持不變，而且可以重新執行 pg_checksums 來進行相同的操作。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgchecksums.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgchecksums.html)（原文版本：18.6；核對日期：2026-10-05）
