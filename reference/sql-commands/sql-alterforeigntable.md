@@ -1,10 +1,12 @@
-<a id="id-1.9.3.13.1"></a>
+<a id="SQL-ALTERFOREIGNTABLE"></a><a id="id-1.9.3.13.1"></a>
 
 ## ALTER FOREIGN TABLE
 
-ALTER FOREIGN TABLE — change the definition of a foreign table
+ALTER FOREIGN TABLE — 變更外部資料表的定義
 
-## Synopsis
+<a id="id-1.9.3.13.4"></a>
+
+## 語法
 
 ```
 
@@ -46,241 +48,146 @@ where action is one of:
 
 <a id="id-1.9.3.13.5"></a>
 
-## Description
+## 說明
 
-`ALTER FOREIGN TABLE` changes the definition of an
-existing foreign table. There are several subforms:
+`ALTER FOREIGN TABLE` 會變更現有外部資料表的定義。它有以下幾種子形式：
 
 `ADD [ COLUMN ] [ IF NOT EXISTS ]`
-:   This form adds a new column to the foreign table, using the same syntax as
-    [`CREATE FOREIGN TABLE`](sql-createforeigntable.md).
-    If `IF NOT EXISTS` is specified and a column already
-    exists with this name, no error is thrown.
-    Unlike the case when adding a column to a regular table, nothing happens
-    to the underlying storage: this action simply declares that
-    some new column is now accessible through the foreign table.
+:   此形式會在外部資料表中新增欄位，使用與 [`CREATE FOREIGN TABLE`](sql-createforeigntable.md) 相同的語法。若指定了 `IF NOT EXISTS`，且已存在同名的欄位，則不會擲出錯誤。與在一般資料表中新增欄位不同，底層儲存不會有任何變化：此動作只是宣告現在可以透過該外部資料表存取某個新欄位。
 
 `DROP [ COLUMN ] [ IF EXISTS ]`
-:   This form drops a column from a foreign table.
-    You will need to say `CASCADE` if
-    anything outside the table depends on the column; for example,
-    views.
-    If `IF EXISTS` is specified and the column
-    does not exist, no error is thrown. In this case a notice
-    is issued instead.
+:   此形式會從外部資料表中移除欄位。若資料表以外有任何東西相依於該欄位（例如檢視表），你需要指定 `CASCADE`。若指定了 `IF EXISTS` 而該欄位不存在，則不會擲出錯誤；此情況會改為發出 notice。
 
 `SET DATA TYPE`
-:   This form changes the type of a column of a foreign table.
-    Again, this has no effect on any underlying storage: this action simply
-    changes the type that PostgreSQL believes the column to
-    have.
+:   此形式會變更外部資料表中某個欄位的型別。同樣地，這對任何底層儲存都沒有影響：此動作只是變更 PostgreSQL 認定該欄位所具有的型別。
 
 `SET`/`DROP DEFAULT`
-:   These forms set or remove the default value for a column.
-    Default values only apply in subsequent `INSERT`
-    or `UPDATE` commands; they do not cause rows already in the
-    table to change.
+:   這些形式會設定或移除欄位的預設值。預設值只會套用於後續的 `INSERT` 或 `UPDATE` 命令；它們不會使資料表中已有的資料列改變。
 
 `SET`/`DROP NOT NULL`
-:   Mark a column as allowing, or not allowing, null values.
+:   將欄位標記為允許或不允許 null 值。
 
 `SET STATISTICS`
-:   This form
-    sets the per-column statistics-gathering target for subsequent
-    [`ANALYZE`](sql-analyze.md) operations.
-    See the similar form of [`ALTER TABLE`](sql-altertable.md)
-    for more details.
+:   此形式會為後續的 [`ANALYZE`](sql-analyze.md) 操作設定逐欄位的統計資訊收集目標。更多細節請參閱 [`ALTER TABLE`](sql-altertable.md) 中類似的形式。
 
 `SET ( attribute_option = value [, ... ] )`<br>`RESET ( attribute_option [, ... ] )`
-:   This form sets or resets per-attribute options.
-    See the similar form of [`ALTER TABLE`](sql-altertable.md)
-    for more details.
+:   此形式會設定或重設逐屬性的選項。更多細節請參閱 [`ALTER TABLE`](sql-altertable.md) 中類似的形式。
 
 `SET STORAGE`
-:   This form sets the storage mode for a column.
-    See the similar form of [`ALTER TABLE`](sql-altertable.md)
-    for more details.
-    Note that the storage mode has no effect unless the table's
-    foreign-data wrapper chooses to pay attention to it.
+:   此形式會設定欄位的儲存模式。更多細節請參閱 [`ALTER TABLE`](sql-altertable.md) 中類似的形式。請注意，除非該資料表的外部資料包裝器選擇理會儲存模式，否則儲存模式不會有任何作用。
 
 `ADD table_constraint [ NOT VALID ]`
-:   This form adds a new constraint to a foreign table, using the same
-    syntax as [`CREATE FOREIGN TABLE`](sql-createforeigntable.md).
-    Currently only `CHECK` and `NOT NULL`
-    constraints are supported.
+:   此形式會在外部資料表中新增限制條件，使用與 [`CREATE FOREIGN TABLE`](sql-createforeigntable.md) 相同的語法。目前只支援 `CHECK` 與 `NOT NULL` 限制條件。
 
-    Unlike the case when adding a constraint to a regular table, nothing is
-    done to verify the constraint is correct; rather, this action simply
-    declares that some new condition should be assumed to hold for all rows
-    in the foreign table. (See the discussion
-    in [`CREATE FOREIGN TABLE`](sql-createforeigntable.md).)
-    If the constraint is marked `NOT VALID` (allowed only for
-    the `CHECK` case), then it isn't
-    assumed to hold, but is only recorded for possible future use.
+    與在一般資料表中新增限制條件不同，此動作不會做任何事來驗證限制條件是否正確；它只是宣告應假定某個新條件對外部資料表中的所有資料列都成立。（請參閱 [`CREATE FOREIGN TABLE`](sql-createforeigntable.md) 中的討論。）若限制條件被標記為 `NOT VALID`（只允許用於 `CHECK` 的情況），則不會假定它成立，只會將它記錄下來，以供未來可能的使用。
 
 `VALIDATE CONSTRAINT`
-:   This form marks as valid a constraint that was previously marked
-    as `NOT VALID`. No action is taken to verify the
-    constraint, but future queries will assume that it holds.
+:   此形式會將先前標記為 `NOT VALID` 的限制條件標記為有效。此動作不會驗證限制條件，但之後的查詢會假定它成立。
 
 `DROP CONSTRAINT [ IF EXISTS ]`
-:   This form drops the specified constraint on a foreign table.
-    If `IF EXISTS` is specified and the constraint
-    does not exist, no error is thrown.
-    In this case a notice is issued instead.
+:   此形式會移除外部資料表上指定的限制條件。若指定了 `IF EXISTS` 而該限制條件不存在，則不會擲出錯誤；此情況會改為發出 notice。
 
 `DISABLE`/`ENABLE [ REPLICA | ALWAYS ] TRIGGER`
-:   These forms configure the firing of trigger(s) belonging to the foreign
-    table. See the similar form of [`ALTER TABLE`](sql-altertable.md) for more
-    details.
+:   這些形式會設定屬於該外部資料表之觸發程序的觸發方式。更多細節請參閱 [`ALTER TABLE`](sql-altertable.md) 中類似的形式。
 
 `SET WITHOUT OIDS`
-:   Backward compatibility syntax for removing the `oid`
-    system column. As `oid` system columns cannot be added
-    anymore, this never has an effect.
+:   為了向後相容性而保留、用來移除 `oid` 系統欄位的語法。由於已無法再新增 `oid` 系統欄位，此語法永遠不會有任何作用。
 
 `INHERIT parent_table`
-:   This form adds the target foreign table as a new child of the specified
-    parent table.
-    See the similar form of [`ALTER TABLE`](sql-altertable.md)
-    for more details.
+:   此形式會將目標外部資料表加入為指定父資料表的新子資料表。更多細節請參閱 [`ALTER TABLE`](sql-altertable.md) 中類似的形式。
 
 `NO INHERIT parent_table`
-:   This form removes the target foreign table from the list of children of
-    the specified parent table.
+:   此形式會將目標外部資料表從指定父資料表的子資料表清單中移除。
 
 `OWNER`
-:   This form changes the owner of the foreign table to the
-    specified user.
+:   此形式會將外部資料表的擁有者變更為指定的使用者。
 
 `OPTIONS ( [ ADD | SET | DROP ] option ['value'] [, ... ] )`
-:   Change options for the foreign table or one of its columns.
-    `ADD`, `SET`, and `DROP`
-    specify the action to be performed. `ADD` is assumed
-    if no operation is explicitly specified. Duplicate option names are not
-    allowed (although it's OK for a table option and a column option to have
-    the same name). Option names and values are also validated using the
-    foreign data wrapper library.
+:   變更外部資料表或其中某個欄位的選項。`ADD`、`SET` 與 `DROP` 指定要執行的動作。若未明確指定操作，則假定為 `ADD`。不允許重複的選項名稱（不過，資料表選項與欄位選項同名是可以的）。選項名稱與值也會經由外部資料包裝器函式庫驗證。
 
 `RENAME`
-:   The `RENAME` forms change the name of a foreign table
-    or the name of an individual column in a foreign table.
+:   `RENAME` 形式會變更外部資料表的名稱，或外部資料表中個別欄位的名稱。
 
 `SET SCHEMA`
-:   This form moves the foreign table into another schema.
+:   此形式會將外部資料表移到另一個綱要。
 
-All the actions except `RENAME` and `SET SCHEMA`
-can be combined into
-a list of multiple alterations to apply in parallel. For example, it
-is possible to add several columns and/or alter the type of several
-columns in a single command.
+除了 `RENAME` 與 `SET SCHEMA` 之外，所有動作都可以組合成一個包含多項變更的清單，一併平行套用。例如，可以在單一命令中新增數個欄位和／或變更數個欄位的型別。
 
-If the command is written as `ALTER FOREIGN TABLE IF EXISTS ...`
-and the foreign table does not exist, no error is thrown. A notice is
-issued in this case.
+若命令寫成 `ALTER FOREIGN TABLE IF EXISTS ...`，而該外部資料表不存在，則不會擲出錯誤；此情況會發出 notice。
 
-You must own the table to use `ALTER FOREIGN TABLE`.
-To change the schema of a foreign table, you must also have
-`CREATE` privilege on the new schema.
-To alter the owner, you must be able to `SET ROLE` to the
-new owning role, and that role must have `CREATE` privilege
-on the table's schema. (These restrictions enforce that altering the owner
-doesn't do anything you couldn't do by dropping and recreating the table.
-However, a superuser can alter ownership of any table anyway.)
-To add a column or alter a column type, you must also
-have `USAGE` privilege on the data type.
+你必須擁有該資料表，才能使用 `ALTER FOREIGN TABLE`。若要變更外部資料表的綱要，你還必須擁有新綱要的 `CREATE` 權限。若要變更擁有者，你必須能對新的擁有者角色執行 `SET ROLE`，且該角色必須擁有該資料表所在綱要的 `CREATE` 權限。（這些限制確保變更擁有者不會做到任何你無法藉由移除並重新建立資料表而做到的事。不過，超級使用者無論如何都可以變更任何資料表的擁有權。）若要新增欄位或變更欄位型別，你還必須擁有該資料型別的 `USAGE` 權限。
 
 <a id="id-1.9.3.13.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (possibly schema-qualified) of an existing foreign table to
-    alter. If `ONLY` is specified before the table name, only
-    that table is altered. If `ONLY` is not specified, the table
-    and all its descendant tables (if any) are altered. Optionally,
-    `*` can be specified after the table name to explicitly
-    indicate that descendant tables are included.
+:   要變更的現有外部資料表名稱（可能以綱要限定）。若在資料表名稱前指定 `ONLY`，則只會變更該資料表。若未指定 `ONLY`，則會變更該資料表及其所有後代資料表（若有的話）。也可以選擇在資料表名稱後指定 `*`，明確表示包含後代資料表。
 
 *`column_name`*
-:   Name of a new or existing column.
+:   新欄位或現有欄位的名稱。
 
 *`new_column_name`*
-:   New name for an existing column.
+:   現有欄位的新名稱。
 
 *`new_name`*
-:   New name for the table.
+:   資料表的新名稱。
 
 *`data_type`*
-:   Data type of the new column, or new data type for an existing
-    column.
+:   新欄位的資料型別，或現有欄位的新資料型別。
 
 *`table_constraint`*
-:   New table constraint for the foreign table.
+:   外部資料表的新資料表限制條件。
 
 *`constraint_name`*
-:   Name of an existing constraint to drop.
+:   要移除的現有限制條件名稱。
 
 `CASCADE`
-:   Automatically drop objects that depend on the dropped column
-    or constraint (for example, views referencing the column),
-    and in turn all objects that depend on those objects
-    (see [Section 5.15](../../the-sql-language/ddl/ddl-depend.md)).
+:   自動移除相依於被移除之欄位或限制條件的物件（例如參照該欄位的檢視表），以及相依於這些物件的所有物件（請參閱[第 5.15 節](../../the-sql-language/ddl/ddl-depend.md)）。
 
 `RESTRICT`
-:   Refuse to drop the column or constraint if there are any dependent
-    objects. This is the default behavior.
+:   若有任何相依物件，則拒絕移除該欄位或限制條件。這是預設行為。
 
 *`trigger_name`*
-:   Name of a single trigger to disable or enable.
+:   要停用或啟用的單一觸發程序名稱。
 
 `ALL`
-:   Disable or enable all triggers belonging to the foreign table. (This
-    requires superuser privilege if any of the triggers are internally
-    generated triggers. The core system does not add such triggers to
-    foreign tables, but add-on code could do so.)
+:   停用或啟用屬於該外部資料表的所有觸發程序。（若其中任何觸發程序是內部產生的觸發程序，則需要超級使用者權限。核心系統不會在外部資料表上加入這類觸發程序，但附加程式碼可能會這麼做。）
 
 `USER`
-:   Disable or enable all triggers belonging to the foreign table except
-    for internally generated triggers.
+:   停用或啟用屬於該外部資料表的所有觸發程序，但內部產生的觸發程序除外。
 
 *`parent_table`*
-:   A parent table to associate or de-associate with this foreign table.
+:   要與此外部資料表建立或解除關聯的父資料表。
 
 *`new_owner`*
-:   The user name of the new owner of the table.
+:   資料表新擁有者的使用者名稱。
 
 *`new_schema`*
-:   The name of the schema to which the table will be moved.
+:   資料表要移入的綱要名稱。
 
 <a id="id-1.9.3.13.7"></a>
 
-## Notes
+## 注意事項
 
-The key word `COLUMN` is noise and can be omitted.
+關鍵字 `COLUMN` 是贅字，可以省略。
 
-Consistency with the foreign server is not checked when a column is added
-or removed with `ADD COLUMN` or
-`DROP COLUMN`, a `NOT NULL`
-or `CHECK` constraint is added, or a column type is changed
-with `SET DATA TYPE`. It is the user's responsibility to ensure
-that the table definition matches the remote side.
+使用 `ADD COLUMN` 或 `DROP COLUMN` 新增或移除欄位、新增 `NOT NULL` 或 `CHECK` 限制條件，或使用 `SET DATA TYPE` 變更欄位型別時，都不會檢查與外部伺服器的一致性。確保資料表定義與遠端相符，是使用者的責任。
 
-Refer to [`CREATE FOREIGN TABLE`](sql-createforeigntable.md) for a further description of valid
-parameters.
+關於有效參數的進一步說明，請參閱 [`CREATE FOREIGN TABLE`](sql-createforeigntable.md)。
 
 <a id="id-1.9.3.13.8"></a>
 
-## Examples
+## 範例
 
-To mark a column as not-null:
+將欄位標記為非 null：
 
 ```
 
 ALTER FOREIGN TABLE distributors ALTER COLUMN street SET NOT NULL;
 ```
 
-To change options of a foreign table:
+變更外部資料表的選項：
 
 ```
 
@@ -289,25 +196,18 @@ ALTER FOREIGN TABLE myschema.distributors OPTIONS (ADD opt1 'value', SET opt2 'v
 
 <a id="id-1.9.3.13.9"></a>
 
-## Compatibility
+## 相容性
 
-The forms `ADD`, `DROP`,
-and `SET DATA TYPE`
-conform with the SQL standard. The other forms are
-PostgreSQL extensions of the SQL standard.
-Also, the ability to specify more than one manipulation in a single
-`ALTER FOREIGN TABLE` command is an extension.
+`ADD`、`DROP` 與 `SET DATA TYPE` 形式符合 SQL 標準。其他形式是 PostgreSQL 對 SQL 標準的擴充。此外，在單一 `ALTER FOREIGN TABLE` 命令中指定超過一項操作的能力，也是擴充語法。
 
-`ALTER FOREIGN TABLE DROP COLUMN` can be used to drop the only
-column of a foreign table, leaving a zero-column table. This is an
-extension of SQL, which disallows zero-column foreign tables.
+`ALTER FOREIGN TABLE DROP COLUMN` 可以用來移除外部資料表唯一的欄位，留下沒有任何欄位的資料表。這是對 SQL 的擴充，SQL 不允許零欄位的外部資料表。
 
 <a id="id-1.9.3.13.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE FOREIGN TABLE](sql-createforeigntable.md), [DROP FOREIGN TABLE](sql-dropforeigntable.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterforeigntable.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterforeigntable.html)（原文版本：18.6；核對日期：2026-10-05）

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：406 頁。
+待譯頁面：405 頁。
 
 ## 根目錄
 
@@ -531,7 +531,7 @@
 - [x] `reference/sql-commands/sql-altereventtrigger.md` — ALTER EVENT TRIGGER
 - [x] `reference/sql-commands/sql-alterextension.md` — ALTER EXTENSION
 - [x] `reference/sql-commands/sql-alterforeigndatawrapper.md` — ALTER FOREIGN DATA WRAPPER
-- [ ] `reference/sql-commands/sql-alterforeigntable.md` — ALTER FOREIGN TABLE
+- [x] `reference/sql-commands/sql-alterforeigntable.md` — ALTER FOREIGN TABLE
 - [ ] `reference/sql-commands/sql-alterfunction.md` — ALTER FUNCTION
 - [ ] `reference/sql-commands/sql-altergroup.md` — ALTER GROUP
 - [x] `reference/sql-commands/sql-alterindex.md` — ALTER INDEX
