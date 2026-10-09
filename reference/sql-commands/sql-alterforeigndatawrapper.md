@@ -1,10 +1,12 @@
-<a id="id-1.9.3.12.1"></a>
+<a id="SQL-ALTERFOREIGNDATAWRAPPER"></a><a id="id-1.9.3.12.1"></a>
 
 ## ALTER FOREIGN DATA WRAPPER
 
-ALTER FOREIGN DATA WRAPPER — change the definition of a foreign-data wrapper
+ALTER FOREIGN DATA WRAPPER — 變更外部資料包裝器的定義
 
-## Synopsis
+<a id="id-1.9.3.12.4"></a>
+
+## 語法
 
 ```
 
@@ -18,77 +20,57 @@ ALTER FOREIGN DATA WRAPPER name RENAME TO new_name
 
 <a id="id-1.9.3.12.5"></a>
 
-## Description
+## 說明
 
-`ALTER FOREIGN DATA WRAPPER` changes the
-definition of a foreign-data wrapper. The first form of the
-command changes the support functions or the generic options of the
-foreign-data wrapper (at least one clause is required). The second
-form changes the owner of the foreign-data wrapper.
+`ALTER FOREIGN DATA WRAPPER` 會變更外部資料包裝器的定義。此命令的第一種形式會變更外部資料包裝器的支援函式或通用選項（至少需要一個子句）。第二種形式會變更外部資料包裝器的擁有者。
 
-Only superusers can alter foreign-data wrappers. Additionally,
-only superusers can own foreign-data wrappers.
+只有超級使用者可以變更外部資料包裝器。此外，也只有超級使用者可以擁有外部資料包裝器。
 
 <a id="id-1.9.3.12.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of an existing foreign-data wrapper.
+:   現有外部資料包裝器的名稱。
 
 `HANDLER handler_function`
-:   Specifies a new handler function for the foreign-data wrapper.
+:   為外部資料包裝器指定新的處理函式。
 
 `NO HANDLER`
-:   This is used to specify that the foreign-data wrapper should no
-    longer have a handler function.
+:   用來指定外部資料包裝器不應再有處理函式。
 
-    Note that foreign tables that use a foreign-data wrapper with no
-    handler cannot be accessed.
+    請注意，使用沒有處理函式之外部資料包裝器的外部資料表無法被存取。
 
 `VALIDATOR validator_function`
-:   Specifies a new validator function for the foreign-data wrapper.
+:   為外部資料包裝器指定新的驗證函式。
 
-    Note that it is possible that pre-existing options of the foreign-data
-    wrapper, or of dependent servers, user mappings, or foreign tables, are
-    invalid according to the new validator. PostgreSQL does
-    not check for this. It is up to the user to make sure that these
-    options are correct before using the modified foreign-data wrapper.
-    However, any options specified in this `ALTER FOREIGN DATA
-    WRAPPER` command will be checked using the new validator.
+    請注意，外部資料包裝器或相依的外部伺服器、使用者對應或外部資料表既有的選項，依新的驗證函式判斷可能是無效的。PostgreSQL 不會檢查這一點。使用者必須自行確認這些選項正確，再使用修改後的外部資料包裝器。不過，在這個 `ALTER FOREIGN DATA
+    WRAPPER` 命令中指定的任何選項，都會使用新的驗證函式檢查。
 
 `NO VALIDATOR`
-:   This is used to specify that the foreign-data wrapper should no
-    longer have a validator function.
+:   用來指定外部資料包裝器不應再有驗證函式。
 
 `OPTIONS ( [ ADD | SET | DROP ] option ['value'] [, ... ] )`
-:   Change options for the foreign-data
-    wrapper. `ADD`, `SET`, and `DROP`
-    specify the action to be performed. `ADD` is assumed
-    if no operation is explicitly specified. Option names must be
-    unique; names and values are also validated using the foreign
-    data wrapper's validator function, if any.
+:   變更外部資料包裝器的選項。`ADD`、`SET` 與 `DROP` 指定要執行的動作。若未明確指定操作，則假定為 `ADD`。選項名稱必須唯一；若外部資料包裝器有驗證函式，名稱與值也會經由該驗證函式檢查。
 
 *`new_owner`*
-:   The user name of the new owner of the foreign-data wrapper.
+:   外部資料包裝器新擁有者的使用者名稱。
 
 *`new_name`*
-:   The new name for the foreign-data wrapper.
+:   外部資料包裝器的新名稱。
 
 <a id="id-1.9.3.12.7"></a>
 
-## Examples
+## 範例
 
-Change a foreign-data wrapper `dbi`, add
-option `foo`, drop `bar`:
+變更外部資料包裝器 `dbi`，新增選項 `foo`，並移除 `bar`：
 
 ```
 
 ALTER FOREIGN DATA WRAPPER dbi OPTIONS (ADD foo '1', DROP bar);
 ```
 
-Change the foreign-data wrapper `dbi` validator
-to `bob.myvalidator`:
+將外部資料包裝器 `dbi` 的驗證函式變更為 `bob.myvalidator`：
 
 ```
 
@@ -97,19 +79,16 @@ ALTER FOREIGN DATA WRAPPER dbi VALIDATOR bob.myvalidator;
 
 <a id="id-1.9.3.12.8"></a>
 
-## Compatibility
+## 相容性
 
-`ALTER FOREIGN DATA WRAPPER` conforms to ISO/IEC
-9075-9 (SQL/MED), except that the `HANDLER`,
-`VALIDATOR`, `OWNER TO`, and `RENAME`
-clauses are extensions.
+`ALTER FOREIGN DATA WRAPPER` 符合 ISO/IEC 9075-9（SQL/MED），但 `HANDLER`、`VALIDATOR`、`OWNER TO` 與 `RENAME` 子句是擴充語法。
 
 <a id="id-1.9.3.12.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE FOREIGN DATA WRAPPER](sql-createforeigndatawrapper.md), [DROP FOREIGN DATA WRAPPER](sql-dropforeigndatawrapper.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterforeigndatawrapper.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterforeigndatawrapper.html)（原文版本：18.6；核對日期：2026-10-05）
