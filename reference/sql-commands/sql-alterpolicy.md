@@ -1,10 +1,12 @@
-<a id="id-1.9.3.23.1"></a>
+<a id="SQL-ALTERPOLICY"></a><a id="id-1.9.3.23.1"></a>
 
 ## ALTER POLICY
 
-ALTER POLICY — change the definition of a row-level security policy
+ALTER POLICY — 變更資料列層級安全性政策的定義
 
-## Synopsis
+<a id="id-1.9.3.23.4"></a>
+
+## 語法
 
 ```
 
@@ -18,64 +20,48 @@ ALTER POLICY name ON table_name
 
 <a id="id-1.9.3.23.5"></a>
 
-## Description
+## 說明
 
-`ALTER POLICY` changes the definition of an existing
-row-level security policy. Note that `ALTER POLICY`
-only allows the set of roles to which the policy applies and the
-`USING` and `WITH CHECK` expressions to
-be modified. To change other properties of a policy, such as the command
-to which it applies or whether it is permissive or restrictive, the policy
-must be dropped and recreated.
+`ALTER POLICY` 會變更現有資料列層級安全性政策的定義。請注意，`ALTER POLICY` 只允許修改政策所套用的角色集合，以及 `USING` 與 `WITH CHECK` 運算式。若要變更政策的其他屬性，例如政策所套用的命令，或政策是寬鬆政策還是限制性政策，則必須先移除該政策再重新建立。
 
-To use `ALTER POLICY`, you must own the table that
-the policy applies to.
+要使用 `ALTER POLICY`，你必須是該政策所套用之資料表的擁有者。
 
-In the second form of `ALTER POLICY`, the role list,
-*`using_expression`*, and
-*`check_expression`* are replaced
-independently if specified. When one of those clauses is omitted, the
-corresponding part of the policy is unchanged.
+在 `ALTER POLICY` 的第二種形式中，若有指定角色清單、*`using_expression`* 與 *`check_expression`*，會各自獨立地被取代。省略其中某個子句時，政策中對應的部分維持不變。
 
 <a id="id-1.9.3.23.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of an existing policy to alter.
+:   要修改的現有政策名稱。
 
 *`table_name`*
-:   The name (optionally schema-qualified) of the table that the
-    policy is on.
+:   政策所在之資料表的名稱（可選擇以綱要限定）。
 
 *`new_name`*
-:   The new name for the policy.
+:   政策的新名稱。
 
 *`role_name`*
-:   The role(s) to which the policy applies. Multiple roles can be
-    specified at one time. To apply the policy to all roles,
-    use `PUBLIC`.
+:   政策所套用的角色。可以一次指定多個角色。若要將政策套用於所有角色，請使用 `PUBLIC`。
 
 *`using_expression`*
-:   The `USING` expression for the policy.
-    See [CREATE POLICY](sql-createpolicy.md) for details.
+:   政策的 `USING` 運算式。詳情請參閱 [CREATE POLICY](sql-createpolicy.md)。
 
 *`check_expression`*
-:   The `WITH CHECK` expression for the policy.
-    See [CREATE POLICY](sql-createpolicy.md) for details.
+:   政策的 `WITH CHECK` 運算式。詳情請參閱 [CREATE POLICY](sql-createpolicy.md)。
 
 <a id="id-1.9.3.23.7"></a>
 
-## Compatibility
+## 相容性
 
-`ALTER POLICY` is a PostgreSQL extension.
+`ALTER POLICY` 是 PostgreSQL 的擴充語法。
 
 <a id="id-1.9.3.23.8"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE POLICY](sql-createpolicy.md), [DROP POLICY](sql-droppolicy.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterpolicy.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterpolicy.html)（原文版本：18.6；核對日期：2026-10-05）
