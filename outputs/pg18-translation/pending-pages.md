@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：425 頁。
+待譯頁面：424 頁。
 
 ## 根目錄
 
@@ -523,7 +523,7 @@
 - [ ] `reference/sql-commands/README.md` — SQL Commands
 - [ ] `reference/sql-commands/sql-abort.md` — ABORT
 - [ ] `reference/sql-commands/sql-alteraggregate.md` — ALTER AGGREGATE
-- [ ] `reference/sql-commands/sql-altercollation.md` — ALTER COLLATION
+- [x] `reference/sql-commands/sql-altercollation.md` — ALTER COLLATION
 - [ ] `reference/sql-commands/sql-alterconversion.md` — ALTER CONVERSION
 - [ ] `reference/sql-commands/sql-alterdatabase.md` — ALTER DATABASE
 - [ ] `reference/sql-commands/sql-alterdefaultprivileges.md` — ALTER DEFAULT PRIVILEGES
