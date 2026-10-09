@@ -1,10 +1,12 @@
-<a id="id-1.9.3.8.1"></a>
+<a id="SQL-ALTERDEFAULTPRIVILEGES"></a><a id="id-1.9.3.8.1"></a>
 
 ## ALTER DEFAULT PRIVILEGES
 
-ALTER DEFAULT PRIVILEGES — define default access privileges
+ALTER DEFAULT PRIVILEGES — 定義預設存取權限
 
-## Synopsis
+<a id="id-1.9.3.8.4"></a>
+
+## 語法
 
 ```
 
@@ -86,95 +88,45 @@ REVOKE [ GRANT OPTION FOR ]
 
 <a id="SQL-ALTERDEFAULTPRIVILEGES-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-`ALTER DEFAULT PRIVILEGES` allows you to set the
-privileges that will be applied to objects created in the future.
-(It does not affect privileges assigned to already-existing objects.)
-Privileges can be set globally (i.e., for all objects created in the
-current database), or just for objects created in specified schemas.
+`ALTER DEFAULT PRIVILEGES` 讓你可以設定將套用於日後所建立之物件的權限。（它不會影響已指派給既有物件的權限。）權限可以全域設定（亦即，套用於目前資料庫中建立的所有物件），也可以只套用於在指定綱要中建立的物件。
 
-While you can change your own default privileges and the defaults of
-roles that you are a member of, at object creation time, new object
-permissions are only affected by the default privileges of the current
-role, and are not inherited from any roles in which the current role
-is a member.
+雖然你可以變更自己的預設權限，以及你所屬角色的預設權限，但在建立物件時，新物件的權限只會受到目前角色之預設權限的影響，而不會從目前角色所屬的任何角色繼承。
 
-As explained in [Section 5.8](../../the-sql-language/ddl/ddl-priv.md),
-the default privileges for any object type normally grant all grantable
-permissions to the object owner, and may grant some privileges to
-`PUBLIC` as well. However, this behavior can be changed by
-altering the global default privileges with
-`ALTER DEFAULT PRIVILEGES`.
+如[第 5.8 節](../../the-sql-language/ddl/ddl-priv.md)所述，任何物件類型的預設權限通常會將所有可授予的權限授予物件擁有者，也可能將某些權限授予 `PUBLIC`。不過，可以透過使用 `ALTER DEFAULT PRIVILEGES` 修改全域預設權限來變更此行為。
 
-Currently,
-only the privileges for schemas, tables (including views and foreign
-tables), sequences, functions, types (including domains), and large objects
-can be altered. For this command, functions include aggregates and procedures.
-The words `FUNCTIONS` and `ROUTINES` are
-equivalent in this command. (`ROUTINES` is preferred
-going forward as the standard term for functions and procedures taken
-together. In earlier PostgreSQL releases, only the
-word `FUNCTIONS` was allowed. It is not possible to set
-default privileges for functions and procedures separately.)
+目前只能修改綱要、資料表（包括檢視表與外部資料表）、序列、函式、型別（包括網域）以及大型物件的權限。就此命令而言，函式包括彙總函式與程序。在此命令中，`FUNCTIONS` 與 `ROUTINES` 這兩個字是等價的。（今後建議使用 `ROUTINES`，作為合稱函式與程序的標準用語。在較早的 PostgreSQL 版本中，只允許使用 `FUNCTIONS` 這個字。無法分別為函式與程序設定預設權限。）
 
-Default privileges that are specified per-schema are added to whatever
-the global default privileges are for the particular object type.
-This means you cannot revoke privileges per-schema if they are granted
-globally (either by default, or according to a previous `ALTER
-DEFAULT PRIVILEGES` command that did not specify a schema).
-Per-schema `REVOKE` is only useful to reverse the
-effects of a previous per-schema `GRANT`.
+依綱要指定的預設權限，會加到該物件類型既有的全域預設權限之上。這表示若權限是全域授予的（無論是預設如此，或是依據先前一個未指定綱要的 `ALTER
+DEFAULT PRIVILEGES` 命令），你就無法依綱要撤銷這些權限。依綱要執行的 `REVOKE` 只能用來撤回先前依綱要執行之 `GRANT` 的效果。
 
 <a id="id-1.9.3.8.5.7"></a>
 
-### Parameters
+### 參數
 
 *`target_role`*
-:   Change default privileges for objects created by the
-    *`target_role`*, or the current
-    role if unspecified.
+:   變更由 *`target_role`* 所建立之物件的預設權限；若未指定，則為目前角色。
 
 *`schema_name`*
-:   The name of an existing schema. If specified, the default privileges
-    are altered for objects later created in that schema.
-    If `IN SCHEMA` is omitted, the global default privileges
-    are altered.
-    `IN SCHEMA` is not allowed when setting privileges
-    for schemas and large objects, since schemas can't be nested and
-    large objects don't belong to a schema.
+:   現有綱要的名稱。若有指定，則會修改日後在該綱要中建立之物件的預設權限。若省略 `IN SCHEMA`，則會修改全域預設權限。為綱要與大型物件設定權限時，不允許使用 `IN SCHEMA`，因為綱要不能巢狀，而大型物件不屬於任何綱要。
 
 *`role_name`*
-:   The name of an existing role to grant or revoke privileges for.
-    This parameter, and all the other parameters in
-    *`abbreviated_grant_or_revoke`*,
-    act as described under
-    [GRANT](sql-grant.md) or
-    [REVOKE](sql-revoke.md),
-    except that one is setting permissions for a whole class of objects
-    rather than specific named objects.
+:   要授予或撤銷其權限之現有角色的名稱。此參數以及 *`abbreviated_grant_or_revoke`* 中的所有其他參數，其作用皆如 [GRANT](sql-grant.md) 或 [REVOKE](sql-revoke.md) 中所述，差別在於這裡是為一整類物件設定權限，而不是為特定的具名物件設定權限。
 
 <a id="SQL-ALTERDEFAULTPRIVILEGES-NOTES"></a>
 
-## Notes
+## 注意事項
 
-Use [psql](../reference-client/app-psql.md)'s `\ddp` command
-to obtain information about existing assignments of default privileges.
-The meaning of the privilege display is the same as explained for
-`\dp` in [Section 5.8](../../the-sql-language/ddl/ddl-priv.md).
+使用 [psql](../reference-client/app-psql.md) 的 `\ddp` 命令可以取得現有預設權限指派的資訊。權限顯示的意義與[第 5.8 節](../../the-sql-language/ddl/ddl-priv.md)中對 `\dp` 的說明相同。
 
-If you wish to drop a role for which the default privileges have been
-altered, it is necessary to reverse the changes in its default privileges
-or use `DROP OWNED BY` to get rid of the default privileges entry
-for the role.
+若你想要移除一個預設權限已被修改過的角色，就必須撤回其預設權限的變更，或使用 `DROP OWNED BY` 清除該角色的預設權限項目。
 
 <a id="SQL-ALTERDEFAULTPRIVILEGES-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-Grant SELECT privilege to everyone for all tables (and views) you
-subsequently create in schema `myschema`, and allow
-role `webuser` to INSERT into them too:
+對於你日後在綱要 `myschema` 中建立的所有資料表（以及檢視表），將 SELECT 權限授予所有人，並允許角色 `webuser` 也能對它們執行 INSERT：
 
 ```
 
@@ -182,8 +134,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA myschema GRANT SELECT ON TABLES TO PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA myschema GRANT INSERT ON TABLES TO webuser;
 ```
 
-Undo the above, so that subsequently-created tables won't have any
-more permissions than normal:
+撤回上述設定，讓日後建立的資料表不會具有超出一般情況的權限：
 
 ```
 
@@ -191,39 +142,34 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA myschema REVOKE SELECT ON TABLES FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA myschema REVOKE INSERT ON TABLES FROM webuser;
 ```
 
-Remove the public EXECUTE permission that is normally granted on functions,
-for all functions subsequently created by role `admin`:
+對於角色 `admin` 日後建立的所有函式，移除通常會授予函式的公開 EXECUTE 權限：
 
 ```
 
 ALTER DEFAULT PRIVILEGES FOR ROLE admin REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
 ```
 
-Note however that you *cannot* accomplish that effect
-with a command limited to a single schema. This command has no effect,
-unless it is undoing a matching `GRANT`:
+不過請注意，你*無法*使用限定於單一綱要的命令達到這個效果。除非是在撤回相符的 `GRANT`，否則下列命令沒有作用：
 
 ```
 
 ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
 ```
 
-That's because per-schema default privileges can only add privileges to
-the global setting, not remove privileges granted by it.
+這是因為依綱要設定的預設權限只能在全域設定之上增加權限，而不能移除全域設定所授予的權限。
 
 <a id="id-1.9.3.8.8"></a>
 
-## Compatibility
+## 相容性
 
-There is no `ALTER DEFAULT PRIVILEGES` statement in the SQL
-standard.
+SQL 標準中沒有 `ALTER DEFAULT PRIVILEGES` 陳述式。
 
 <a id="id-1.9.3.8.9"></a>
 
-## See Also
+## 另請參閱
 
 [GRANT](sql-grant.md), [REVOKE](sql-revoke.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterdefaultprivileges.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterdefaultprivileges.html)（原文版本：18.6；核對日期：2026-10-05）
