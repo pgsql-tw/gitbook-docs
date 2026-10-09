@@ -1,10 +1,12 @@
-<a id="id-1.9.3.19.1"></a>
+<a id="SQL-ALTERMATERIALIZEDVIEW"></a><a id="id-1.9.3.19.1"></a>
 
 ## ALTER MATERIALIZED VIEW
 
-ALTER MATERIALIZED VIEW — change the definition of a materialized view
+ALTER MATERIALIZED VIEW — 變更具體化檢視表的定義
 
-## Synopsis
+<a id="id-1.9.3.19.4"></a>
+
+## 語法
 
 ```
 
@@ -39,63 +41,45 @@ where action is one of:
 
 <a id="id-1.9.3.19.5"></a>
 
-## Description
+## 說明
 
-`ALTER MATERIALIZED VIEW` changes various auxiliary
-properties of an existing materialized view.
+`ALTER MATERIALIZED VIEW` 會變更現有具體化檢視表的各種輔助屬性。
 
-You must own the materialized view to use `ALTER MATERIALIZED
-VIEW`. To change a materialized view's schema, you must also have
-`CREATE` privilege on the new schema.
-To alter the owner, you must be able to `SET ROLE` to the
-new owning role, and that role must have `CREATE`
-privilege on the materialized view's schema.
-(These restrictions enforce that altering
-the owner doesn't do anything you couldn't do by dropping and recreating the
-materialized view. However, a superuser can alter ownership of any view
-anyway.)
+你必須是具體化檢視表的擁有者，才能使用 `ALTER MATERIALIZED
+VIEW`。若要變更具體化檢視表的綱要，你還必須在新的綱要上具有 `CREATE` 權限。若要變更擁有者，你必須能夠 `SET ROLE` 為新的擁有者角色，而且該角色必須在具體化檢視表所屬的綱要上具有 `CREATE` 權限。（這些限制確保變更擁有者不會做到任何你無法透過移除並重新建立具體化檢視表而做到的事。不過，超級使用者無論如何都可以變更任何檢視表的擁有權。）
 
-The statement subforms and actions available for
-`ALTER MATERIALIZED VIEW` are a subset of those available
-for `ALTER TABLE`, and have the same meaning when used for
-materialized views. See the descriptions for
-[`ALTER TABLE`](sql-altertable.md)
-for details.
+`ALTER MATERIALIZED VIEW` 可用的陳述式子形式與動作，是 `ALTER TABLE` 可用者的子集，用於具體化檢視表時意義相同。詳細資訊請參閱 [`ALTER TABLE`](sql-altertable.md) 的說明。
 
 <a id="id-1.9.3.19.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (optionally schema-qualified) of an existing materialized view.
+:   現有具體化檢視表的名稱（可選擇以綱要限定）。
 
 *`column_name`*
-:   Name of an existing column.
+:   現有欄位的名稱。
 
 *`extension_name`*
-:   The name of the extension that the materialized view is to depend on (or no longer
-    dependent on, if `NO` is specified). A materialized view
-    that's marked as dependent on an extension is automatically dropped when
-    the extension is dropped.
+:   具體化檢視表要相依的擴充功能名稱（若指定 `NO`，則為不再相依的擴充功能）。被標記為相依於某個擴充功能的具體化檢視表，會在該擴充功能被移除時自動移除。
 
 *`new_column_name`*
-:   New name for an existing column.
+:   現有欄位的新名稱。
 
 *`new_owner`*
-:   The user name of the new owner of the materialized view.
+:   具體化檢視表新擁有者的使用者名稱。
 
 *`new_name`*
-:   The new name for the materialized view.
+:   具體化檢視表的新名稱。
 
 *`new_schema`*
-:   The new schema for the materialized view.
+:   具體化檢視表的新綱要。
 
 <a id="id-1.9.3.19.7"></a>
 
-## Examples
+## 範例
 
-To rename the materialized view `foo` to
-`bar`:
+將具體化檢視表 `foo` 重新命名為 `bar`：
 
 ```
 
@@ -104,17 +88,16 @@ ALTER MATERIALIZED VIEW foo RENAME TO bar;
 
 <a id="id-1.9.3.19.8"></a>
 
-## Compatibility
+## 相容性
 
-`ALTER MATERIALIZED VIEW` is a
-PostgreSQL extension.
+`ALTER MATERIALIZED VIEW` 是 PostgreSQL 的擴充語法。
 
 <a id="id-1.9.3.19.9"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE MATERIALIZED VIEW](sql-creatematerializedview.md), [DROP MATERIALIZED VIEW](sql-dropmaterializedview.md), [REFRESH MATERIALIZED VIEW](sql-refreshmaterializedview.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altermaterializedview.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altermaterializedview.html)（原文版本：18.6；核對日期：2026-10-05）
