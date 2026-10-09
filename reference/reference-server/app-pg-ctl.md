@@ -1,10 +1,10 @@
-<a id="id-1.9.5.8.1"></a>
+<a id="APP-PG-CTL"></a><a id="id-1.9.5.8.1"></a>
 
 ## pg_ctl
 
-pg_ctl — initialize, start, stop, or control a PostgreSQL server
+pg_ctl — 初始化、啟動、停止或控制 PostgreSQL 伺服器
 
-## Synopsis
+## 語法
 
 <a id="id-1.9.5.8.4.1"></a>
 
@@ -46,7 +46,7 @@ pg_ctl — initialize, start, stop, or control a PostgreSQL server
 
 `pg_ctl` `kill` *`signal_name`* *`process_id`*
 
-On Microsoft Windows, also:
+在 Microsoft Windows 上，另外還有：
 
 <a id="id-1.9.5.8.4.11"></a>
 
@@ -60,297 +60,150 @@ On Microsoft Windows, also:
 
 <a id="APP-PG-CTL-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-pg_ctl is a utility for initializing a
-PostgreSQL database cluster, starting,
-stopping, or restarting the PostgreSQL
-database server ([postgres](app-postgres.md)), or displaying the
-status of a running server. Although the server can be started
-manually, pg_ctl encapsulates tasks such
-as redirecting log output and properly detaching from the terminal
-and process group. It also provides convenient options for
-controlled shutdown.
+pg_ctl 是一個工具程式，用來初始化 PostgreSQL 資料庫叢集、啟動、停止或重新啟動 PostgreSQL 資料庫伺服器（[postgres](app-postgres.md)），或顯示執行中伺服器的狀態。雖然伺服器可以手動啟動，但 pg_ctl 封裝了諸如重新導向日誌輸出、以及正確地與終端機和程序群組分離等工作。它也提供了便利的選項，用於受控的關閉。
 
-The `init` or `initdb` mode creates a new
-PostgreSQL database cluster, that is,
-a collection of databases that will be managed by a single
-server instance. This mode invokes the `initdb`
-command. See [initdb](app-initdb.md) for details.
+`init` 或 `initdb` 模式會建立新的 PostgreSQL 資料庫叢集，也就是由單一伺服器執行個體所管理的資料庫集合。此模式會呼叫 `initdb` 命令。詳細資訊請參閱 [initdb](app-initdb.md)。
 
-`start` mode launches a new server. The
-server is started in the background, and its standard input is attached
-to `/dev/null` (or `nul` on Windows).
-On Unix-like systems, by default, the server's standard output and
-standard error are sent to pg_ctl's
-standard output (not standard error). The standard output of
-pg_ctl should then be redirected to a
-file or piped to another process such as a log rotating program
-like rotatelogs; otherwise `postgres`
-will write its output to the controlling terminal (from the
-background) and will not leave the shell's process group. On
-Windows, by default the server's standard output and standard error
-are sent to the terminal. These default behaviors can be changed
-by using `-l` to append the server's output to a log file.
-Use of either `-l` or output redirection is recommended.
+`start` 模式會啟動新的伺服器。伺服器會在背景啟動，其標準輸入會連接到 `/dev/null`（在 Windows 上則是 `nul`）。在類 Unix 系統上，預設情況下，伺服器的標準輸出與標準錯誤會送到 pg_ctl 的標準輸出（而不是標準錯誤）。接著應該將 pg_ctl 的標準輸出重新導向到檔案，或以管線傳給另一個程序，例如 rotatelogs 這類日誌輪替程式；否則，`postgres` 會將其輸出寫到控制終端機（從背景寫入），而且不會離開 shell 的程序群組。在 Windows 上，預設情況下，伺服器的標準輸出與標準錯誤會送到終端機。這些預設行為可以透過使用 `-l` 將伺服器的輸出附加到日誌檔來改變。建議使用 `-l` 或輸出重新導向兩者之一。
 
-`stop` mode shuts down the server that is running in
-the specified data directory. Three different
-shutdown methods can be selected with the `-m`
-option. “Smart” mode disallows new connections, then waits
-for all existing clients to disconnect.
-If the server is in hot standby, recovery and streaming replication
-will be terminated once all clients have disconnected.
-“Fast” mode (the default) does not wait for clients to disconnect.
-All active transactions are
-rolled back and clients are forcibly disconnected, then the
-server is shut down. “Immediate” mode will abort
-all server processes immediately, without a clean shutdown. This choice
-will lead to a crash-recovery cycle during the next server start.
+`stop` 模式會關閉在指定資料目錄中執行的伺服器。可以使用 `-m` 選項選擇三種不同的關閉方式。「Smart」模式會不允許新的連線，然後等待所有既有的用戶端中斷連線。若伺服器處於熱待命（hot standby）狀態，一旦所有用戶端都已中斷連線，復原與串流複寫就會終止。「Fast」模式（預設）不會等待用戶端中斷連線。所有進行中的交易都會被回滾，用戶端會被強制中斷連線，然後關閉伺服器。「Immediate」模式會立即中止所有伺服器程序，而不進行正常關閉。這個選擇會導致下次啟動伺服器時進行一輪當機復原。
 
-`restart` mode effectively executes a stop followed
-by a start. This allows changing the `postgres`
-command-line options, or changing configuration-file options that
-cannot be changed without restarting the server.
-If relative paths were used on the command line during server
-start, `restart` might fail unless
-pg_ctl is executed in the same current
-directory as it was during server start.
+`restart` 模式實際上會先執行停止，再執行啟動。這讓你可以變更 `postgres` 的命令列選項，或變更那些不重新啟動伺服器就無法變更的設定檔選項。若伺服器啟動時在命令列上使用了相對路徑，則除非 pg_ctl 是在與伺服器啟動時相同的目前目錄中執行，否則 `restart` 可能會失敗。
 
-`reload` mode simply sends the
-`postgres` server process a SIGHUP
-signal, causing it to reread its configuration files
-(`postgresql.conf`,
-`pg_hba.conf`, etc.). This allows changing
-configuration-file options that do not require a full server restart
-to take effect.
+`reload` 模式只是向 `postgres` 伺服器程序傳送 SIGHUP 訊號，使其重新讀取設定檔（`postgresql.conf`、`pg_hba.conf` 等）。這讓你可以變更那些不需要完整重新啟動伺服器即可生效的設定檔選項。
 
-`status` mode checks whether a server is running in
-the specified data directory. If it is, the server's PID
-and the command line options that were used to invoke it are displayed.
-If the server is not running, pg_ctl returns
-an exit status of 3. If an accessible data directory is not
-specified, pg_ctl returns an exit status of 4.
+`status` 模式會檢查指定的資料目錄中是否有伺服器正在執行。若有，則會顯示該伺服器的 PID，以及用來啟動它的命令列選項。若伺服器未在執行，pg_ctl 會傳回結束狀態 3。若未指定可存取的資料目錄，pg_ctl 會傳回結束狀態 4。
 
-`promote` mode commands the standby server that is
-running in the specified data directory to end standby mode
-and begin read-write operations.
+`promote` 模式會命令在指定資料目錄中執行的待命伺服器結束待命模式，並開始進行讀寫操作。
 
-`logrotate` mode rotates the server log file.
-For details on how to use this mode with external log rotation tools, see
-[Section 24.3](../../server-administration/maintenance/logfile-maintenance.md).
+`logrotate` 模式會輪替伺服器日誌檔。關於如何搭配外部日誌輪替工具使用此模式的詳細資訊，請參閱[第 24.3 節](../../server-administration/maintenance/logfile-maintenance.md)。
 
-`kill` mode sends a signal to a specified process.
-This is primarily valuable on Microsoft Windows
-which does not have a built-in kill command. Use
-`--help` to see a list of supported signal names.
+`kill` 模式會傳送訊號給指定的程序。這主要在沒有內建 kill 命令的 Microsoft Windows 上很有用。使用 `--help` 可以查看支援的訊號名稱清單。
 
-`register` mode registers the PostgreSQL
-server as a system service on Microsoft Windows.
-The `-S` option allows selection of service start type,
-either “auto” (start service automatically on system startup)
-or “demand” (start service on demand).
+`register` 模式會在 Microsoft Windows 上將 PostgreSQL 伺服器註冊為系統服務。`-S` 選項可以選擇服務的啟動類型，可以是「auto」（在系統啟動時自動啟動服務）或「demand」（依需求啟動服務）。
 
-`unregister` mode unregisters a system service
-on Microsoft Windows. This undoes the effects of the
-`register` command.
+`unregister` 模式會在 Microsoft Windows 上取消註冊系統服務。這會撤銷 `register` 命令的效果。
 
 <a id="APP-PG-CTL-OPTIONS"></a>
 
-## Options
+## 選項
 
 `-c`<br>`--core-files`
-:   Attempt to allow server crashes to produce core files, on platforms
-    where this is possible, by lifting any soft resource limit placed on
-    core files.
-    This is useful in debugging or diagnosing problems by allowing a
-    stack trace to be obtained from a failed server process.
+:   在可行的平台上，藉由解除對 core 檔案所設的任何軟性資源限制，嘗試讓伺服器當機時產生 core 檔案。這可以從失敗的伺服器程序取得堆疊追蹤，因此對於除錯或診斷問題很有用。
 
 `-D datadir`<br>`--pgdata=datadir`
-:   Specifies the file system location of the database configuration files. If
-    this option is omitted, the environment variable
-    `PGDATA` is used.
+:   指定資料庫設定檔在檔案系統中的位置。若省略此選項，則會使用環境變數 `PGDATA`。
 
 `-l filename`<br>`--log=filename`
-:   Append the server log output to
-    *`filename`*. If the file does not
-    exist, it is created. By default, only the cluster owner can
-    access the log file. If group access is enabled in the cluster,
-    users in the same group as the cluster owner can also read it.
+:   將伺服器日誌輸出附加到 *`filename`*。若檔案不存在，則會建立它。預設情況下，只有叢集擁有者可以存取該日誌檔。若叢集啟用了群組存取，與叢集擁有者同一群組的使用者也可以讀取它。
 
 `-m mode`<br>`--mode=mode`
-:   Specifies the shutdown mode. *`mode`*
-    can be `smart`, `fast`, or
-    `immediate`, or the first letter of one of
-    these three. If this option is omitted, `fast` is
-    the default.
+:   指定關閉模式。*`mode`* 可以是 `smart`、`fast` 或 `immediate`，或這三者之一的第一個字母。若省略此選項，預設為 `fast`。
 
 `-o options`<br>`--options=options`
-:   Specifies options to be passed directly to the
-    `postgres` command.
-    `-o` can be specified multiple times, with all the given
-    options being passed through.
+:   指定要直接傳給 `postgres` 命令的選項。`-o` 可以指定多次，所有給定的選項都會被傳遞過去。
 
-    The *`options`* should usually be surrounded by single or
-    double quotes to ensure that they are passed through as a group.
+    *`options`* 通常應該以單引號或雙引號括起來，以確保它們會被當作一組傳遞。
 
 `-o initdb-options`<br>`--options=initdb-options`
-:   Specifies options to be passed directly to the
-    `initdb` command.
-    `-o` can be specified multiple times, with all the given
-    options being passed through.
+:   指定要直接傳給 `initdb` 命令的選項。`-o` 可以指定多次，所有給定的選項都會被傳遞過去。
 
-    The *`initdb-options`* should usually be surrounded by single or
-    double quotes to ensure that they are passed through as a group.
+    *`initdb-options`* 通常應該以單引號或雙引號括起來，以確保它們會被當作一組傳遞。
 
 `-p path`
-:   Specifies the location of the `postgres`
-    executable. By default the `postgres` executable is taken from the same
-    directory as `pg_ctl`, or failing that, the hard-wired
-    installation directory. It is not necessary to use this
-    option unless you are doing something unusual and get errors
-    that the `postgres` executable was not found.
+:   指定 `postgres` 執行檔的位置。預設情況下，`postgres` 執行檔取自與 `pg_ctl` 相同的目錄，若找不到，則取自寫死的安裝目錄。除非你在做一些不尋常的事，並且收到找不到 `postgres` 執行檔的錯誤，否則不需要使用此選項。
 
-    In `init` mode, this option analogously
-    specifies the location of the `initdb`
-    executable.
+    在 `init` 模式中，此選項同樣用來指定 `initdb` 執行檔的位置。
 
 `-s`<br>`--silent`
-:   Print only errors, no informational messages.
+:   只印出錯誤，不印出資訊性訊息。
 
 `-t seconds`<br>`--timeout=seconds`
-:   Specifies the maximum number of seconds to wait when waiting for an
-    operation to complete (see option `-w`). Defaults to
-    the value of the `PGCTLTIMEOUT` environment variable or, if
-    not set, to 60 seconds.
+:   指定等待操作完成時最多等待的秒數（請參閱選項 `-w`）。預設為環境變數 `PGCTLTIMEOUT` 的值；若未設定，則為 60 秒。
 
 `-V`<br>`--version`
-:   Print the pg_ctl version and exit.
+:   印出 pg_ctl 的版本後結束。
 
 `-w`<br>`--wait`
-:   Wait for the operation to complete. This is supported for the
-    modes `start`, `stop`,
-    `restart`, `promote`,
-    and `register`, and is the default for those modes.
+:   等待操作完成。`start`、`stop`、`restart`、`promote` 與 `register` 模式支援此選項，而且它是這些模式的預設行為。
 
-    When waiting, `pg_ctl` repeatedly checks the
-    server's PID file, sleeping for a short amount
-    of time between checks. Startup is considered complete when
-    the PID file indicates that the server is ready to
-    accept connections. Shutdown is considered complete when the server
-    removes the PID file.
-    `pg_ctl` returns an exit code based on the
-    success of the startup or shutdown.
+    等待期間，`pg_ctl` 會反覆檢查伺服器的 PID 檔案，並在每次檢查之間短暫休眠。當 PID 檔案指出伺服器已準備好接受連線時，啟動即視為完成。當伺服器移除 PID 檔案時，關閉即視為完成。`pg_ctl` 會根據啟動或關閉是否成功傳回結束代碼。
 
-    If the operation does not complete within the timeout (see
-    option `-t`), then `pg_ctl` exits with
-    a nonzero exit status. But note that the operation might continue in
-    the background and eventually succeed.
+    若操作未在逾時時間內完成（請參閱選項 `-t`），`pg_ctl` 會以非零的結束狀態結束。但請注意，該操作可能會在背景繼續進行，並且最終成功。
 
 `-W`<br>`--no-wait`
-:   Do not wait for the operation to complete. This is the opposite of
-    the option `-w`.
+:   不等待操作完成。這與選項 `-w` 相反。
 
-    If waiting is disabled, the requested action is triggered, but there
-    is no feedback about its success. In that case, the server log file
-    or an external monitoring system would have to be used to check the
-    progress and success of the operation.
+    若停用等待，所要求的動作會被觸發，但不會有任何關於其是否成功的回饋。在這種情況下，就必須使用伺服器日誌檔或外部監控系統來檢查操作的進度與是否成功。
 
-    In prior releases of PostgreSQL, this was the default except for
-    the `stop` mode.
+    在先前的 PostgreSQL 版本中，除了 `stop` 模式之外，這是預設行為。
 
 `-?`<br>`--help`
-:   Show help about pg_ctl command line
-    arguments, and exit.
+:   顯示 pg_ctl 命令列引數的說明後結束。
 
-If an option is specified that is valid, but not relevant to the selected
-operating mode, pg_ctl ignores it.
+若指定了有效但與所選操作模式無關的選項，pg_ctl 會忽略它。
 
 <a id="APP-PG-CTL-WINDOWS-OPTIONS"></a>
 
-### Options for Windows
+### Windows 專用選項
 
 `-e source`
-:   Name of the event source for pg_ctl to use
-    for logging to the event log when running as a Windows service. The
-    default is `PostgreSQL`. Note that this only controls
-    messages sent from pg_ctl itself; once
-    started, the server will use the event source specified
-    by its [event_source](../../server-administration/runtime-config/runtime-config-logging.md#GUC-EVENT-SOURCE) parameter. Should the server
-    fail very early in startup, before that parameter has been set,
-    it might also log using the default event
-    source name `PostgreSQL`.
+:   以 Windows 服務執行時，pg_ctl 記錄到事件日誌所使用的事件來源名稱。預設為 `PostgreSQL`。請注意，這只控制從 pg_ctl 本身送出的訊息；伺服器啟動之後，會使用其 [event_source](../../server-administration/runtime-config/runtime-config-logging.md#GUC-EVENT-SOURCE) 參數所指定的事件來源。若伺服器在啟動的極早期、該參數尚未設定之前就失敗，它也可能使用預設的事件來源名稱 `PostgreSQL` 記錄日誌。
 
 `-N servicename`
-:   Name of the system service to register. This name will be used
-    as both the service name and the display name.
-    The default is `PostgreSQL`.
+:   要註冊的系統服務名稱。此名稱會同時用作服務名稱與顯示名稱。預設為 `PostgreSQL`。
 
 `-P password`
-:   Password for the user to run the service as.
+:   執行服務之使用者的密碼。
 
 `-S start-type`
-:   Start type of the system service. *`start-type`* can
-    be `auto`, or `demand`, or
-    the first letter of one of these two. If this option is omitted,
-    `auto` is the default.
+:   系統服務的啟動類型。*`start-type`* 可以是 `auto` 或 `demand`，或這兩者之一的第一個字母。若省略此選項，預設為 `auto`。
 
 `-U username`
-:   User name for the user to run the service as. For domain users, use the
-    format `DOMAIN\username`.
+:   執行服務之使用者的使用者名稱。對於網域使用者，請使用 `DOMAIN\username` 格式。
 
 <a id="id-1.9.5.8.7"></a>
 
-## Environment
+## 環境
 
 `PGCTLTIMEOUT`
-:   Default limit on the number of seconds to wait when waiting for startup
-    or shutdown to complete. If not set, the default is 60 seconds.
+:   等待啟動或關閉完成時，最多等待秒數的預設上限。若未設定，預設為 60 秒。
 
 `PGDATA`
-:   Default data directory location.
+:   預設的資料目錄位置。
 
-Most `pg_ctl` modes require knowing the data directory
-location; therefore, the `-D` option is required
-unless `PGDATA` is set.
+大多數 `pg_ctl` 模式都需要知道資料目錄的位置；因此，除非有設定 `PGDATA`，否則 `-D` 選項為必要。
 
-For additional variables that affect the server,
-see [postgres](app-postgres.md).
+關於其他會影響伺服器的變數，請參閱 [postgres](app-postgres.md)。
 
 <a id="id-1.9.5.8.8"></a>
 
-## Files
+## 檔案
 
 `postmaster.pid`
-:   pg_ctl examines this file in the data
-    directory to determine whether the server is currently running.
+:   pg_ctl 會檢查資料目錄中的這個檔案，以判斷伺服器目前是否正在執行。
 
 `postmaster.opts`
-:   If this file exists in the data directory,
-    pg_ctl (in `restart` mode)
-    will pass the contents of the file as options to
-    postgres, unless overridden
-    by the `-o` option. The contents of this file
-    are also displayed in `status` mode.
+:   若資料目錄中存在此檔案，pg_ctl（在 `restart` 模式中）會將該檔案的內容作為選項傳給 postgres，除非被 `-o` 選項覆寫。此檔案的內容也會在 `status` 模式中顯示。
 
 <a id="R1-APP-PGCTL-2"></a>
 
-## Examples
+## 範例
 
 <a id="R2-APP-PGCTL-3"></a>
 
-### Starting the Server
+### 啟動伺服器
 
-To start the server, waiting until the server is
-accepting connections:
+啟動伺服器，並等待直到伺服器開始接受連線：
 
 ```
 
 $ pg_ctl start
 ```
 
-To start the server using port 5433, and
-running without `fsync`, use:
+使用連接埠 5433 並在不使用 `fsync` 的情況下啟動伺服器：
 
 ```
 
@@ -359,17 +212,16 @@ $ pg_ctl -o "-F -p 5433" start
 
 <a id="R2-APP-PGCTL-4"></a>
 
-### Stopping the Server
+### 停止伺服器
 
-To stop the server, use:
+停止伺服器：
 
 ```
 
 $ pg_ctl stop
 ```
 
-The `-m` option allows control over
-*how* the server shuts down:
+`-m` 選項可以控制伺服器*如何*關閉：
 
 ```
 
@@ -378,21 +230,16 @@ $ pg_ctl stop -m smart
 
 <a id="R2-APP-PGCTL-5"></a>
 
-### Restarting the Server
+### 重新啟動伺服器
 
-Restarting the server is almost equivalent to stopping the
-server and starting it again, except that by default,
-`pg_ctl` saves and reuses the command line options that
-were passed to the previously-running instance. To restart
-the server using the same options as before, use:
+重新啟動伺服器幾乎等同於先停止伺服器再重新啟動，差別在於預設情況下，`pg_ctl` 會儲存並重複使用傳給先前執行之執行個體的命令列選項。若要使用與先前相同的選項重新啟動伺服器：
 
 ```
 
 $ pg_ctl restart
 ```
 
-But if `-o` is specified, that replaces any previous options.
-To restart using port 5433, disabling `fsync` upon restart:
+但若指定了 `-o`，它會取代任何先前的選項。若要使用連接埠 5433 重新啟動，並在重新啟動時停用 `fsync`：
 
 ```
 
@@ -401,10 +248,9 @@ $ pg_ctl -o "-F -p 5433" restart
 
 <a id="R2-APP-PGCTL-6"></a>
 
-### Showing the Server Status
+### 顯示伺服器狀態
 
-Here is sample status output from
-pg_ctl:
+以下是 pg_ctl 的狀態輸出範例：
 
 ```
 
@@ -414,14 +260,14 @@ pg_ctl: server is running (PID: 13718)
 /usr/local/pgsql/bin/postgres "-D" "/usr/local/pgsql/data" "-p" "5433" "-B" "128"
 ```
 
-The second line is the command that would be invoked in restart mode.
+第二行是在 restart 模式中會呼叫的命令。
 
 <a id="id-1.9.5.8.10"></a>
 
-## See Also
+## 另請參閱
 
 [initdb](app-initdb.md), [postgres](app-postgres.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pg-ctl.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pg-ctl.html)（原文版本：18.6；核對日期：2026-10-05）
