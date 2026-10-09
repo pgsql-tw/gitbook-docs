@@ -1,11 +1,12 @@
-<a id="id-1.9.3.11.1"></a>
+<a id="SQL-ALTEREXTENSION"></a><a id="id-1.9.3.11.1"></a>
 
 ## ALTER EXTENSION
 
-ALTER EXTENSION —
-change the definition of an extension
+ALTER EXTENSION — 變更擴充功能的定義
 
-## Synopsis
+<a id="id-1.9.3.11.4"></a>
+
+## 語法
 
 ```
 
@@ -54,122 +55,88 @@ and aggregate_signature is:
 
 <a id="id-1.9.3.11.5"></a>
 
-## Description
+## 說明
 
-`ALTER EXTENSION` changes the definition of an installed
-extension. There are several subforms:
+`ALTER EXTENSION` 會變更已安裝之擴充功能的定義。它有以下幾種子形式：
 
 `UPDATE`
-:   This form updates the extension to a newer version. The extension
-    must supply a suitable update script (or series of scripts) that can
-    modify the currently-installed version into the requested version.
+:   此形式會將擴充功能更新到較新的版本。擴充功能必須提供合適的更新腳本（或一系列腳本），能將目前安裝的版本修改為所要求的版本。
 
 `SET SCHEMA`
-:   This form moves the extension's objects into another schema. The
-    extension has to be *relocatable* for this command to
-    succeed.
+:   此形式會將擴充功能的物件移到另一個綱要。擴充功能必須是*可重新定位*的，此命令才能成功。
 
 `ADD member_object`
-:   This form adds an existing object to the extension. This is mainly
-    useful in extension update scripts. The object will subsequently
-    be treated as a member of the extension; notably, it can only be
-    dropped by dropping the extension.
+:   此形式會將現有物件加入擴充功能。這主要用於擴充功能的更新腳本中。之後該物件會被視為擴充功能的成員；值得注意的是，它只能透過移除擴充功能來移除。
 
 `DROP member_object`
-:   This form removes a member object from the extension. This is mainly
-    useful in extension update scripts. The object is not dropped, only
-    disassociated from the extension.
+:   此形式會從擴充功能中移除一個成員物件。這主要用於擴充功能的更新腳本中。該物件不會被移除，只是與擴充功能解除關聯。
 
-See [Section 36.17](../../server-programming/extend/extend-extensions.md) for more information about these
-operations.
+關於這些操作的更多資訊，請參閱[第 36.17 節](../../server-programming/extend/extend-extensions.md)。
 
-You must own the extension to use `ALTER EXTENSION`.
-The `ADD`/`DROP` forms require ownership of the
-added/dropped object as well.
+你必須是擴充功能的擁有者，才能使用 `ALTER EXTENSION`。`ADD`/`DROP` 形式還要求你是被加入／被移除之物件的擁有者。
 
 <a id="id-1.9.3.11.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name of an installed extension.
+:   已安裝之擴充功能的名稱。
 
 *`new_version`*
-:   The desired new version of the extension. This can be written as
-    either an identifier or a string literal. If not specified,
-    `ALTER EXTENSION UPDATE` attempts to update to whatever is
-    shown as the default version in the extension's control file.
+:   擴充功能所要的新版本。可以寫成識別字或字串常值。若未指定，`ALTER EXTENSION UPDATE` 會嘗試更新到擴充功能控制檔中所列的預設版本。
 
 *`new_schema`*
-:   The new schema for the extension.
+:   擴充功能的新綱要。
 
 *`object_name`*<br>*`aggregate_name`*<br>*`function_name`*<br>*`operator_name`*<br>*`procedure_name`*<br>*`routine_name`*
-:   The name of an object to be added to or removed from the extension.
-    Names of tables,
-    aggregates, domains, foreign tables, functions, operators,
-    operator classes, operator families, procedures, routines, sequences, text search objects,
-    types, and views can be schema-qualified.
+:   要加入擴充功能或從擴充功能中移除之物件的名稱。資料表、彙總函式、網域、外部資料表、函式、運算子、運算子類別、運算子家族、程序、常式、序列、文字搜尋物件、型別與檢視表的名稱可以用綱要限定。
 
 *`source_type`*
-:   The name of the source data type of the cast.
+:   轉型的來源資料型別名稱。
 
 *`target_type`*
-:   The name of the target data type of the cast.
+:   轉型的目標資料型別名稱。
 
 *`argmode`*
-:   The mode of a function, procedure, or aggregate
-    argument: `IN`, `OUT`,
-    `INOUT`, or `VARIADIC`.
-    If omitted, the default is `IN`.
-    Note that `ALTER EXTENSION` does not actually pay
-    any attention to `OUT` arguments, since only the input
-    arguments are needed to determine the function's identity.
-    So it is sufficient to list the `IN`, `INOUT`,
-    and `VARIADIC` arguments.
+:   函式、程序或彙總函式引數的模式：`IN`、`OUT`、`INOUT` 或 `VARIADIC`。若省略，預設為 `IN`。請注意，`ALTER EXTENSION` 實際上並不理會 `OUT` 引數，因為只需要輸入引數就能確定函式的身分。因此只要列出 `IN`、`INOUT` 與 `VARIADIC` 引數就足夠了。
 
 *`argname`*
-:   The name of a function, procedure, or aggregate argument.
-    Note that `ALTER EXTENSION` does not actually pay
-    any attention to argument names, since only the argument data
-    types are needed to determine the function's identity.
+:   函式、程序或彙總函式引數的名稱。請注意，`ALTER EXTENSION` 實際上並不理會引數名稱，因為只需要引數的資料型別就能確定函式的身分。
 
 *`argtype`*
-:   The data type of a function, procedure, or aggregate argument.
+:   函式、程序或彙總函式引數的資料型別。
 
 *`left_type`*<br>*`right_type`*
-:   The data type(s) of the operator's arguments (optionally
-    schema-qualified). Write `NONE` for the missing argument
-    of a prefix operator.
+:   運算子引數的資料型別（可選擇以綱要限定）。對於前置運算子缺少的那個引數，請寫 `NONE`。
 
 `PROCEDURAL`
-:   This is a noise word.
+:   這是贅字。
 
 *`type_name`*
-:   The name of the data type of the transform.
+:   轉換的資料型別名稱。
 
 *`lang_name`*
-:   The name of the language of the transform.
+:   轉換的語言名稱。
 
 <a id="id-1.9.3.11.7"></a>
 
-## Examples
+## 範例
 
-To update the `hstore` extension to version 2.0:
+將 `hstore` 擴充功能更新到 2.0 版：
 
 ```
 
 ALTER EXTENSION hstore UPDATE TO '2.0';
 ```
 
-To change the schema of the `hstore` extension
-to `utils`:
+將 `hstore` 擴充功能的綱要變更為 `utils`：
 
 ```
 
 ALTER EXTENSION hstore SET SCHEMA utils;
 ```
 
-To add an existing function to the `hstore` extension:
+將現有函式加入 `hstore` 擴充功能：
 
 ```
 
@@ -178,17 +145,16 @@ ALTER EXTENSION hstore ADD FUNCTION populate_record(anyelement, hstore);
 
 <a id="id-1.9.3.11.8"></a>
 
-## Compatibility
+## 相容性
 
-`ALTER EXTENSION` is a PostgreSQL
-extension.
+`ALTER EXTENSION` 是 PostgreSQL 對 SQL 標準的擴充語法。
 
 <a id="SQL-ALTEREXTENSION-SEE-ALSO"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE EXTENSION](sql-createextension.md), [DROP EXTENSION](sql-dropextension.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterextension.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterextension.html)（原文版本：18.6；核對日期：2026-10-05）
