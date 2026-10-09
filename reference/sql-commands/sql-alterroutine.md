@@ -1,10 +1,12 @@
-<a id="id-1.9.3.27.1"></a>
+<a id="SQL-ALTERROUTINE"></a><a id="id-1.9.3.27.1"></a>
 
 ## ALTER ROUTINE
 
-ALTER ROUTINE — change the definition of a routine
+ALTER ROUTINE — 變更常式的定義
 
-## Synopsis
+<a id="id-1.9.3.27.4"></a>
+
+## 語法
 
 ```
 
@@ -35,48 +37,38 @@ where action is one of:
 
 <a id="id-1.9.3.27.5"></a>
 
-## Description
+## 說明
 
-`ALTER ROUTINE` changes the definition of a routine, which
-can be an aggregate function, a normal function, or a procedure. See
-under [ALTER AGGREGATE](sql-alteraggregate.md), [ALTER FUNCTION](sql-alterfunction.md),
-and [ALTER PROCEDURE](sql-alterprocedure.md) for the description of the
-parameters, more examples, and further details.
+`ALTER ROUTINE` 會變更常式的定義；常式可以是彙總函式、一般函式或程序。參數說明、更多範例與進一步的細節，請參閱 [ALTER AGGREGATE](sql-alteraggregate.md)、[ALTER FUNCTION](sql-alterfunction.md) 與 [ALTER PROCEDURE](sql-alterprocedure.md)。
 
 <a id="id-1.9.3.27.6"></a>
 
-## Examples
+## 範例
 
-To rename the routine `foo` for type
-`integer` to `foobar`:
+將引數型別為 `integer` 的常式 `foo` 重新命名為 `foobar`：
 
 ```
 
 ALTER ROUTINE foo(integer) RENAME TO foobar;
 ```
 
-This command will work independent of whether `foo` is an
-aggregate, function, or procedure.
+無論 `foo` 是彙總函式、函式還是程序，此命令都能運作。
 
 <a id="id-1.9.3.27.7"></a>
 
-## Compatibility
+## 相容性
 
-This statement is partially compatible with the `ALTER
-ROUTINE` statement in the SQL standard. See
-under [ALTER FUNCTION](sql-alterfunction.md)
-and [ALTER PROCEDURE](sql-alterprocedure.md) for more details. Allowing
-routine names to refer to aggregate functions is
-a PostgreSQL extension.
+此陳述式與 SQL 標準中的 `ALTER
+ROUTINE` 陳述式部分相容。更多細節請參閱 [ALTER FUNCTION](sql-alterfunction.md) 與 [ALTER PROCEDURE](sql-alterprocedure.md)。允許常式名稱指向彙總函式是 PostgreSQL 的擴充語法。
 
 <a id="id-1.9.3.27.8"></a>
 
-## See Also
+## 另請參閱
 
 [ALTER AGGREGATE](sql-alteraggregate.md), [ALTER FUNCTION](sql-alterfunction.md), [ALTER PROCEDURE](sql-alterprocedure.md), [DROP ROUTINE](sql-droproutine.md)
 
-Note that there is no `CREATE ROUTINE` command.
+請注意，沒有 `CREATE ROUTINE` 命令。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterroutine.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-alterroutine.html)（原文版本：18.6；核對日期：2026-10-05）
