@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：390 頁。
+待譯頁面：389 頁。
 
 ## 根目錄
 
@@ -490,7 +490,7 @@
 - [ ] `reference/reference-client/app-dropdb.md` — dropdb
 - [ ] `reference/reference-client/app-dropuser.md` — dropuser
 - [x] `reference/reference-client/app-ecpg.md` — ecpg
-- [ ] `reference/reference-client/app-pg-dumpall.md` — pg_dumpall
+- [x] `reference/reference-client/app-pg-dumpall.md` — pg_dumpall
 - [ ] `reference/reference-client/app-pg-isready.md` — pg_isready
 - [ ] `reference/reference-client/app-pgamcheck.md` — pg_amcheck
 - [ ] `reference/reference-client/app-pgbasebackup.md` — pg_basebackup

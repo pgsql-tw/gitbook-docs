@@ -1,10 +1,12 @@
-<a id="id-1.9.4.15.1"></a>
+<a id="APP-PG-DUMPALL"></a><a id="id-1.9.4.15.1"></a>
 
 ## pg_dumpall
 
-pg_dumpall — extract a PostgreSQL database cluster into a script file
+pg_dumpall — 將 PostgreSQL 資料庫叢集匯出為腳本檔案
 
-## Synopsis
+<a id="id-1.9.4.15.4"></a>
+
+## 語法
 
 <a id="id-1.9.4.15.4.1"></a>
 
@@ -12,520 +14,273 @@ pg_dumpall — extract a PostgreSQL database cluster into a script file
 
 <a id="APP-PG-DUMPALL-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-pg_dumpall is a utility for writing out
-(“dumping”) all PostgreSQL databases
-of a cluster into one script file. The script file contains
-SQL commands that can be used as input to [psql](app-psql.md) to restore the databases. It does this by
-calling [pg_dump](app-pgdump.md) for each database in the cluster.
-pg_dumpall also dumps global objects
-that are common to all databases, namely database roles, tablespaces,
-and privilege grants for configuration parameters.
-(pg_dump does not save these objects.)
+pg_dumpall 是將叢集中所有 PostgreSQL 資料庫寫出（「傾印」）到單一腳本檔案的工具程式。此腳本檔案包含可作為 [psql](app-psql.md) 輸入來還原資料庫的 SQL 命令。它的做法是對叢集中的每個資料庫呼叫 [pg_dump](app-pgdump.md)。pg_dumpall 也會傾印所有資料庫共用的全域物件，也就是資料庫角色、資料表空間，以及設定參數的權限授予。（pg_dump 不會儲存這些物件。）
 
-Since pg_dumpall reads tables from all
-databases you will most likely have to connect as a database
-superuser in order to produce a complete dump. Also you will need
-superuser privileges to execute the saved script in order to be
-allowed to add roles and create databases.
+由於 pg_dumpall 會讀取所有資料庫中的資料表，你很可能必須以資料庫超級使用者身分連線，才能產生完整的傾印。此外，你也需要超級使用者權限來執行儲存下來的腳本，才能被允許新增角色與建立資料庫。
 
-The SQL script will be written to the standard output. Use the
-`-f`/`--file` option or shell operators to
-redirect it into a file.
+SQL 腳本會寫到標準輸出。請使用 `-f`/`--file` 選項或 shell 運算子將它重新導向到檔案。
 
-pg_dumpall needs to connect several
-times to the PostgreSQL server (once per
-database). If you use password authentication it will ask for
-a password each time. It is convenient to have a
-`~/.pgpass` file in such cases. See [Section 32.16](../../client-interfaces/libpq/libpq-pgpass.md) for more information.
+pg_dumpall 需要多次連線到 PostgreSQL 伺服器（每個資料庫一次）。若你使用密碼驗證，它每次都會要求輸入密碼。在這種情況下，準備一個 `~/.pgpass` 檔案會很方便。更多資訊請參閱[第 32.16 節](../../client-interfaces/libpq/libpq-pgpass.md)。
 
-### Warning
+<a id="APP-PG-DUMPALL-DESCRIPTION-WARNING"></a>
 
-Restoring a dump causes the destination to execute arbitrary code of the
-source superusers' choice. Partial dumps and partial restores do not limit
-that. If the source superusers are not trusted, the dumped SQL statements
-must be inspected before restoring. Note that the client running the dump
-and restore need not trust the source or destination superusers.
+### 警告
+
+還原傾印會使目的端執行由來源端超級使用者所選擇的任意程式碼。部分傾印與部分還原並不能限制這一點。若來源端超級使用者不受信任，則必須在還原之前檢查所傾印的 SQL 陳述式。請注意，執行傾印與還原的用戶端不需要信任來源端或目的端的超級使用者。
 
 <a id="id-1.9.4.15.6"></a>
 
-## Options
+## 選項
 
-The following command-line options control the content and
-format of the output.
+下列命令列選項控制輸出的內容與格式。
 
 `-a`<br>`--data-only`
-:   Dump only the data, not the schema (data definitions) or statistics.
+:   只傾印資料，不傾印綱要（資料定義）或統計資訊。
 
 `-c`<br>`--clean`
-:   Emit SQL commands to `DROP` all the dumped
-    databases, roles, and tablespaces before recreating them.
-    This option is useful when the restore is to overwrite an existing
-    cluster. If any of the objects do not exist in the destination
-    cluster, ignorable error messages will be reported during
-    restore, unless `--if-exists` is also specified.
+:   在重新建立所有被傾印的資料庫、角色與資料表空間之前，先輸出 `DROP` 它們的 SQL 命令。當還原要覆寫現有叢集時，這個選項很有用。若目的端叢集中不存在其中任何物件，還原期間會回報可忽略的錯誤訊息，除非同時指定了 `--if-exists`。
 
 `-E encoding`<br>`--encoding=encoding`
-:   Create the dump in the specified character set encoding. By default,
-    the dump is created in the database encoding. (Another way to get the
-    same result is to set the `PGCLIENTENCODING` environment
-    variable to the desired dump encoding.)
+:   以指定的字元集編碼建立傾印。預設情況下，傾印會以資料庫編碼建立。（取得相同結果的另一種方式，是將環境變數 `PGCLIENTENCODING` 設為所要的傾印編碼。）
 
 `-f filename`<br>`--file=filename`
-:   Send output to the specified file. If this is omitted, the
-    standard output is used.
+:   將輸出傳送到指定的檔案。若省略此選項，則使用標準輸出。
 
 `-g`<br>`--globals-only`
-:   Dump only global objects (roles and tablespaces), no databases.
+:   只傾印全域物件（角色與資料表空間），不傾印資料庫。
 
 `-O`<br>`--no-owner`
-:   Do not output commands to set
-    ownership of objects to match the original database.
-    By default, pg_dumpall issues
-    `ALTER OWNER` or
-    `SET SESSION AUTHORIZATION`
-    statements to set ownership of created schema elements.
-    These statements
-    will fail when the script is run unless it is started by a superuser
-    (or the same user that owns all of the objects in the script).
-    To make a script that can be restored by any user, but will give
-    that user ownership of all the objects, specify `-O`.
+:   不輸出設定物件擁有權以符合原始資料庫的命令。預設情況下，pg_dumpall 會發出 `ALTER OWNER` 或 `SET SESSION AUTHORIZATION` 陳述式，以設定所建立之綱要元素的擁有權。除非腳本是由超級使用者（或擁有腳本中所有物件的同一個使用者）啟動，否則執行腳本時這些陳述式會失敗。若要產生任何使用者都可以還原、但會讓該使用者成為所有物件擁有者的腳本，請指定 `-O`。
 
 `-r`<br>`--roles-only`
-:   Dump only roles, no databases or tablespaces.
+:   只傾印角色，不傾印資料庫或資料表空間。
 
 `-s`<br>`--schema-only`
-:   Dump only the object definitions (schema), not data.
+:   只傾印物件定義（綱要），不傾印資料。
 
 `-S username`<br>`--superuser=username`
-:   Specify the superuser user name to use when disabling triggers.
-    This is relevant only if `--disable-triggers` is used.
-    (Usually, it's better to leave this out, and instead start the
-    resulting script as superuser.)
+:   指定停用觸發程序時要使用的超級使用者名稱。只有在使用 `--disable-triggers` 時才有關係。（通常最好省略此選項，改為以超級使用者身分啟動產生的腳本。）
 
 `-t`<br>`--tablespaces-only`
-:   Dump only tablespaces, no databases or roles.
+:   只傾印資料表空間，不傾印資料庫或角色。
 
 `-v`<br>`--verbose`
-:   Specifies verbose mode. This will cause
-    pg_dumpall to output start/stop
-    times to the dump file, and progress messages to standard error.
-    Repeating the option causes additional debug-level messages
-    to appear on standard error.
-    The option is also passed down to pg_dump.
+:   指定詳細模式。這會使 pg_dumpall 將開始／結束時間輸出到傾印檔案中，並將進度訊息輸出到標準錯誤。重複指定此選項會使額外的除錯層級訊息出現在標準錯誤上。此選項也會傳遞給 pg_dump。
 
 `-V`<br>`--version`
-:   Print the pg_dumpall version and exit.
+:   印出 pg_dumpall 的版本後結束。
 
 `-x`<br>`--no-privileges`<br>`--no-acl`
-:   Prevent dumping of access privileges (grant/revoke commands).
+:   不傾印存取權限（grant/revoke 命令）。
 
 `--binary-upgrade`
-:   This option is for use by in-place upgrade utilities. Its use
-    for other purposes is not recommended or supported. The
-    behavior of the option may change in future releases without
-    notice.
+:   此選項供就地升級工具程式使用。不建議也不支援將它用於其他用途。此選項的行為可能會在未來的版本中變更，恕不另行通知。
 
 `--column-inserts`<br>`--attribute-inserts`
-:   Dump data as `INSERT` commands with explicit
-    column names (`INSERT INTO
+:   將資料傾印為帶有明確欄位名稱的 `INSERT` 命令（`INSERT INTO
     table
     (column, ...) VALUES
-    ...`). This will make restoration very slow; it is mainly
-    useful for making dumps that can be loaded into
-    non-PostgreSQL databases.
+    ...`）。這會使還原變得非常慢；它主要用於產生可以載入非 PostgreSQL 資料庫的傾印。
 
 `--disable-dollar-quoting`
-:   This option disables the use of dollar quoting for function bodies,
-    and forces them to be quoted using SQL standard string syntax.
+:   此選項會停止對函式主體使用錢字號引用，並強制以 SQL 標準的字串語法為其加上引號。
 
 `--disable-triggers`
-:   This option is relevant only when creating a dump with data and without schema.
-    It instructs pg_dumpall to include commands
-    to temporarily disable triggers on the target tables while
-    the data is restored. Use this if you have referential
-    integrity checks or other triggers on the tables that you
-    do not want to invoke during data restore.
+:   此選項只在建立包含資料但不包含綱要的傾印時才有關係。它指示 pg_dumpall 加入在還原資料期間暫時停用目標資料表上觸發程序的命令。若你在資料表上有參照完整性檢查或其他觸發程序，而不想在資料還原期間呼叫它們，請使用此選項。
 
-    Presently, the commands emitted for `--disable-triggers`
-    must be done as superuser. So, you should also specify
-    a superuser name with `-S`, or preferably be careful to
-    start the resulting script as a superuser.
+    目前，為 `--disable-triggers` 所發出的命令必須以超級使用者身分執行。因此，你也應該使用 `-S` 指定超級使用者名稱，或者最好小心地以超級使用者身分啟動產生的腳本。
 
 `--exclude-database=pattern`
-:   Do not dump databases whose name matches
-    *`pattern`*.
-    Multiple patterns can be excluded by writing multiple
-    `--exclude-database` switches. The
-    *`pattern`* parameter is
-    interpreted as a pattern according to the same rules used by
-    psql's `\d`
-    commands (see [Patterns](app-psql.md#APP-PSQL-PATTERNS)),
-    so multiple databases can also be excluded by writing wildcard
-    characters in the pattern. When using wildcards, be careful to
-    quote the pattern if needed to prevent shell wildcard expansion.
+:   不傾印名稱符合 *`pattern`* 的資料庫。可以寫多個 `--exclude-database` 開關來排除多個樣式。*`pattern`* 參數會依照與 psql 的 `\d` 命令相同的規則解讀為樣式（請參閱[樣式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在樣式中寫入萬用字元來排除多個資料庫。使用萬用字元時，若有需要，請小心為樣式加上引號，以防止 shell 展開萬用字元。
 
 `--extra-float-digits=ndigits`
-:   Use the specified value of extra_float_digits when dumping
-    floating-point data, instead of the maximum available precision.
-    Routine dumps made for backup purposes should not use this option.
+:   傾印浮點數資料時，使用指定的 extra_float_digits 值，而不是可用的最大精確度。為備份目的而進行的例行傾印不應該使用此選項。
 
 `--filter=filename`
-:   Specify a filename from which to read patterns for databases excluded
-    from the dump. The patterns are interpreted according to the same rules
-    as `--exclude-database`.
-    To read from `STDIN`, use `-` as the
-    filename. The `--filter` option can be specified in
-    conjunction with `--exclude-database` for excluding
-    databases, and can also be specified more than once for multiple filter
-    files.
+:   指定一個檔案，從中讀取要從傾印中排除之資料庫的樣式。這些樣式依照與 `--exclude-database` 相同的規則解讀。若要從 `STDIN` 讀取，請使用 `-` 作為檔名。`--filter` 選項可以與 `--exclude-database` 一起指定來排除資料庫，也可以指定超過一次以使用多個過濾檔案。
 
-    The file lists one database pattern per row, with the following format:
+    此檔案每一行列出一個資料庫樣式，格式如下：
 
     ```
 
     exclude database PATTERN
     ```
 
-    Lines starting with `#` are considered comments and
-    ignored. Comments can be placed after an object pattern row as well.
-    Blank lines are also ignored. See [Patterns](app-psql.md#APP-PSQL-PATTERNS)
-    for how to perform quoting in patterns.
+    以 `#` 開頭的行會被視為註解並忽略。註解也可以放在物件樣式行之後。空白行也會被忽略。關於如何在樣式中加上引號，請參閱[樣式](app-psql.md#APP-PSQL-PATTERNS)。
 
 `--if-exists`
-:   Use `DROP ... IF EXISTS` commands to drop objects
-    in `--clean` mode. This suppresses “does not
-    exist” errors that might otherwise be reported. This
-    option is not valid unless `--clean` is also
-    specified.
+:   在 `--clean` 模式中使用 `DROP ... IF EXISTS` 命令移除物件。這會抑制原本可能回報的「does not exist」錯誤。除非同時指定了 `--clean`，否則此選項無效。
 
 `--inserts`
-:   Dump data as `INSERT` commands (rather
-    than `COPY`). This will make restoration very slow;
-    it is mainly useful for making dumps that can be loaded into
-    non-PostgreSQL databases. Note that
-    the restore might fail altogether if you have rearranged column order.
-    The `--column-inserts` option is safer, though even
-    slower.
+:   將資料傾印為 `INSERT` 命令（而不是 `COPY`）。這會使還原變得非常慢；它主要用於產生可以載入非 PostgreSQL 資料庫的傾印。請注意，若你重新排列了欄位順序，還原可能會完全失敗。`--column-inserts` 選項比較安全，但速度更慢。
 
 `--load-via-partition-root`
-:   When dumping data for a table partition, make
-    the `COPY` or `INSERT` statements
-    target the root of the partitioning hierarchy that contains it, rather
-    than the partition itself. This causes the appropriate partition to
-    be re-determined for each row when the data is loaded. This may be
-    useful when restoring data on a server where rows do not always fall
-    into the same partitions as they did on the original server. That
-    could happen, for example, if the partitioning column is of type text
-    and the two systems have different definitions of the collation used
-    to sort the partitioning column.
+:   傾印資料表分割區的資料時，讓 `COPY` 或 `INSERT` 陳述式以包含該分割區之分割階層的根為目標，而不是以分割區本身為目標。這會使載入資料時為每一筆資料列重新決定合適的分割區。在還原資料到某個伺服器、而資料列不一定會落入與原始伺服器上相同之分割區時，這可能很有用。舉例來說，若分割欄位的型別為 text，而兩個系統對用來排序分割欄位的定序有不同的定義，就可能發生這種情況。
 
 `--lock-wait-timeout=timeout`
-:   Do not wait forever to acquire shared table locks at the beginning of
-    the dump. Instead, fail if unable to lock a table within the specified
-    *`timeout`*. The timeout may be
-    specified in any of the formats accepted by `SET
-    statement_timeout`.
+:   在傾印開始時，不要無限期地等待取得資料表的共享鎖。若無法在指定的 *`timeout`* 內鎖定資料表，則改為失敗。逾時值可以用 `SET
+    statement_timeout` 所接受的任何格式指定。
 
 `--no-comments`
-:   Do not dump `COMMENT` commands.
+:   不傾印 `COMMENT` 命令。
 
 `--no-data`
-:   Do not dump data.
+:   不傾印資料。
 
 `--no-policies`
-:   Do not dump row security policies.
+:   不傾印資料列層級安全性政策。
 
 `--no-publications`
-:   Do not dump publications.
+:   不傾印發佈。
 
 `--no-role-passwords`
-:   Do not dump passwords for roles. When restored, roles will have a
-    null password, and password authentication will always fail until the
-    password is set. Since password values aren't needed when this option
-    is specified, the role information is read from the catalog
-    view `pg_roles` instead
-    of `pg_authid`. Therefore, this option also
-    helps if access to `pg_authid` is restricted by
-    some security policy.
+:   不傾印角色的密碼。還原時，角色的密碼會是空值（null），在設定密碼之前，密碼驗證一律會失敗。由於指定此選項時不需要密碼值，角色資訊會從系統目錄檢視表 `pg_roles` 讀取，而不是從 `pg_authid` 讀取。因此，若對 `pg_authid` 的存取受到某些安全政策限制，此選項也會有幫助。
 
 `--no-schema`
-:   Do not dump schema (data definitions).
+:   不傾印綱要（資料定義）。
 
 `--no-security-labels`
-:   Do not dump security labels.
+:   不傾印安全標籤。
 
 `--no-statistics`
-:   Do not dump statistics. This is the default.
+:   不傾印統計資訊。這是預設行為。
 
 `--no-subscriptions`
-:   Do not dump subscriptions.
+:   不傾印訂閱。
 
 `--no-sync`
-:   By default, `pg_dumpall` will wait for all files
-    to be written safely to disk. This option causes
-    `pg_dumpall` to return without waiting, which is
-    faster, but means that a subsequent operating system crash can leave
-    the dump corrupt. Generally, this option is useful for testing
-    but should not be used when dumping data from production installation.
+:   預設情況下，`pg_dumpall` 會等待所有檔案都安全地寫入磁碟。此選項會使 `pg_dumpall` 不等待就返回，這樣比較快，但表示之後若作業系統當機，可能使傾印損毀。一般而言，此選項適用於測試，但從正式環境的安裝傾印資料時不應該使用。
 
 `--no-table-access-method`
-:   Do not output commands to select table access methods.
-    With this option, all objects will be created with whichever
-    table access method is the default during restore.
+:   不輸出選擇資料表存取方法的命令。使用此選項時，所有物件都會以還原期間預設的資料表存取方法建立。
 
 `--no-tablespaces`
-:   Do not output commands to create tablespaces nor select tablespaces
-    for objects.
-    With this option, all objects will be created in whichever
-    tablespace is the default during restore.
+:   既不輸出建立資料表空間的命令，也不輸出為物件選擇資料表空間的命令。使用此選項時，所有物件都會建立在還原期間預設的資料表空間中。
 
 `--no-toast-compression`
-:   Do not output commands to set TOAST compression
-    methods.
-    With this option, all columns will be restored with the default
-    compression setting.
+:   不輸出設定 TOAST 壓縮方法的命令。使用此選項時，所有欄位都會以預設的壓縮設定還原。
 
 `--no-unlogged-table-data`
-:   Do not dump the contents of unlogged tables. This option has no
-    effect on whether or not the table definitions (schema) are dumped;
-    it only suppresses dumping the table data.
+:   不傾印無日誌資料表的內容。此選項不影響是否傾印資料表定義（綱要）；它只會抑制傾印資料表資料。
 
 `--on-conflict-do-nothing`
-:   Add `ON CONFLICT DO NOTHING` to
-    `INSERT` commands.
-    This option is not valid unless `--inserts` or
-    `--column-inserts` is also specified.
+:   在 `INSERT` 命令中加上 `ON CONFLICT DO NOTHING`。除非同時指定了 `--inserts` 或 `--column-inserts`，否則此選項無效。
 
 `--quote-all-identifiers`
-:   Force quoting of all identifiers. This option is recommended when
-    dumping a database from a server whose PostgreSQL
-    major version is different from pg_dumpall's, or when
-    the output is intended to be loaded into a server of a different
-    major version. By default, pg_dumpall quotes only
-    identifiers that are reserved words in its own major version.
-    This sometimes results in compatibility issues when dealing with
-    servers of other versions that may have slightly different sets
-    of reserved words. Using `--quote-all-identifiers` prevents
-    such issues, at the price of a harder-to-read dump script.
+:   強制為所有識別字加上引號。當從 PostgreSQL 主要版本與 pg_dumpall 不同的伺服器傾印資料庫，或輸出要載入到不同主要版本的伺服器時，建議使用此選項。預設情況下，pg_dumpall 只會為在其自身主要版本中屬於保留字的識別字加上引號。與其他版本的伺服器打交道時，由於保留字集合可能略有不同，這有時會造成相容性問題。使用 `--quote-all-identifiers` 可以避免這類問題，代價是傾印腳本較難閱讀。
 
 `--restrict-key=restrict_key`
-:   Use the provided string as the psql
-    `\restrict` key in the dump output. If no restrict
-    key is specified, pg_dumpall will generate a
-    random one as needed. Keys may contain only alphanumeric characters.
+:   使用所提供的字串作為傾印輸出中 psql `\restrict` 的金鑰。若未指定 restrict 金鑰，pg_dumpall 會視需要產生一個隨機金鑰。金鑰只能包含英數字元。
 
-    This option is primarily intended for testing purposes and other
-    scenarios that require repeatable output (e.g., comparing dump files).
-    It is not recommended for general use, as a malicious server with
-    advance knowledge of the key may be able to inject arbitrary code that
-    will be executed on the machine that runs
-    psql with the dump output.
+    此選項主要用於測試目的，以及其他需要可重現輸出的情境（例如比較傾印檔案）。不建議一般使用，因為事先知道金鑰的惡意伺服器，可能可以注入任意程式碼，而這些程式碼會在以 psql 執行傾印輸出的機器上被執行。
 
 `--rows-per-insert=nrows`
-:   Dump data as `INSERT` commands (rather than
-    `COPY`). Controls the maximum number of rows per
-    `INSERT` command. The value specified must be a
-    number greater than zero. Any error during restoring will cause only
-    rows that are part of the problematic `INSERT` to be
-    lost, rather than the entire table contents.
+:   將資料傾印為 `INSERT` 命令（而不是 `COPY`）。控制每個 `INSERT` 命令的最大資料列數。指定的值必須是大於零的數字。還原期間的任何錯誤，只會使屬於出問題之 `INSERT` 的資料列遺失，而不是整個資料表的內容。
 
 `--statistics`
-:   Dump optimizer statistics.
+:   傾印最佳化器統計資訊。
 
 `--statistics-only`
-:   Dump only the statistics, not the schema (data definitions) or data.
-    Optimizer statistics for tables, materialized views, foreign tables,
-    and indexes are dumped.
+:   只傾印統計資訊，不傾印綱要（資料定義）或資料。會傾印資料表、具體化檢視表、外部資料表與索引的最佳化器統計資訊。
 
 `--sequence-data`
-:   Include sequence data in the dump. This is the default behavior except
-    when `--no-data`, `--schema-only`, or
-    `--statistics-only` is specified.
+:   在傾印中包含序列資料。這是預設行為，除非指定了 `--no-data`、`--schema-only` 或 `--statistics-only`。
 
 `--use-set-session-authorization`
-:   Output SQL-standard `SET SESSION AUTHORIZATION` commands
-    instead of `ALTER OWNER` commands to determine object
-    ownership. This makes the dump more standards compatible, but
-    depending on the history of the objects in the dump, might not restore
-    properly.
+:   輸出符合 SQL 標準的 `SET SESSION AUTHORIZATION` 命令，而不是 `ALTER OWNER` 命令，來決定物件的擁有權。這會使傾印更符合標準，但依傾印中物件的歷史而定，可能無法正確還原。
 
 `-?`<br>`--help`
-:   Show help about pg_dumpall command line
-    arguments, and exit.
+:   顯示 pg_dumpall 命令列引數的說明後結束。
 
-The following command-line options control the database connection parameters.
+下列命令列選項控制資料庫連線參數。
 
 `-d connstr`<br>`--dbname=connstr`
-:   Specifies parameters used to connect to the server, as a [connection string](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING); these
-    will override any conflicting command line options.
+:   指定用來連線到伺服器的參數，形式為[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)；這些參數會覆寫任何相衝突的命令列選項。
 
-    The option is called `--dbname` for consistency with other
-    client applications, but because pg_dumpall
-    needs to connect to many databases, the database name in the
-    connection string will be ignored. Use the `-l`
-    option to specify the name of the database used for the initial
-    connection, which will dump global objects and discover what other
-    databases should be dumped.
+    為了與其他用戶端應用程式保持一致，此選項命名為 `--dbname`，但由於 pg_dumpall 需要連線到許多資料庫，連線字串中的資料庫名稱會被忽略。請使用 `-l` 選項指定初次連線所用的資料庫名稱，該連線會傾印全域物件，並找出還有哪些其他資料庫應該被傾印。
 
 `-h host`<br>`--host=host`
-:   Specifies the host name of the machine on which the database
-    server is running. If the value begins with a slash, it is
-    used as the directory for the Unix domain socket. The default
-    is taken from the `PGHOST` environment variable,
-    if set, else a Unix domain socket connection is attempted.
+:   指定資料庫伺服器執行所在機器的主機名稱。若值以斜線開頭，則會用作 Unix 網域通訊端的目錄。預設值取自環境變數 `PGHOST`（若有設定），否則會嘗試 Unix 網域通訊端連線。
 
 `-l dbname`<br>`--database=dbname`
-:   Specifies the name of the database to connect to for dumping global
-    objects and discovering what other databases should be dumped. If
-    not specified, the `postgres` database will be used,
-    and if that does not exist, `template1` will be used.
+:   指定為了傾印全域物件並找出還有哪些其他資料庫應該被傾印而要連線的資料庫名稱。若未指定，會使用 `postgres` 資料庫；若該資料庫不存在，則會使用 `template1`。
 
 `-p port`<br>`--port=port`
-:   Specifies the TCP port or local Unix domain socket file
-    extension on which the server is listening for connections.
-    Defaults to the `PGPORT` environment variable, if
-    set, or a compiled-in default.
+:   指定伺服器監聽連線的 TCP 連接埠或本機 Unix 網域通訊端檔案副檔名。預設為環境變數 `PGPORT` 的值（若有設定），否則為編譯時內建的預設值。
 
 `-U username`<br>`--username=username`
-:   User name to connect as.
+:   要用來連線的使用者名稱。
 
 `-w`<br>`--no-password`
-:   Never issue a password prompt. If the server requires
-    password authentication and a password is not available by
-    other means such as a `.pgpass` file, the
-    connection attempt will fail. This option can be useful in
-    batch jobs and scripts where no user is present to enter a
-    password.
+:   永不發出密碼提示。若伺服器要求密碼驗證，而無法透過 `.pgpass` 檔案等其他方式取得密碼，連線嘗試將會失敗。在沒有使用者在場輸入密碼的批次作業與腳本中，此選項可能很有用。
 
 `-W`<br>`--password`
-:   Force pg_dumpall to prompt for a
-    password before connecting to a database.
+:   強制 pg_dumpall 在連線到資料庫之前提示輸入密碼。
 
-    This option is never essential, since
-    pg_dumpall will automatically prompt
-    for a password if the server demands password authentication.
-    However, pg_dumpall will waste a
-    connection attempt finding out that the server wants a password.
-    In some cases it is worth typing `-W` to avoid the extra
-    connection attempt.
+    此選項從來都不是必要的，因為若伺服器要求密碼驗證，pg_dumpall 會自動提示輸入密碼。不過，pg_dumpall 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
-    Note that the password prompt will occur again for each database
-    to be dumped. Usually, it's better to set up a
-    `~/.pgpass` file than to rely on manual password entry.
+    請注意，對每個要傾印的資料庫，密碼提示都會再出現一次。通常，設定一個 `~/.pgpass` 檔案會比依賴手動輸入密碼更好。
 
 `--role=rolename`
-:   Specifies a role name to be used to create the dump.
-    This option causes pg_dumpall to issue a
-    `SET ROLE` *`rolename`*
-    command after connecting to the database. It is useful when the
-    authenticated user (specified by `-U`) lacks privileges
-    needed by pg_dumpall, but can switch to a role with
-    the required rights. Some installations have a policy against
-    logging in directly as a superuser, and use of this option allows
-    dumps to be made without violating the policy.
+:   指定建立傾印時要使用的角色名稱。此選項會使 pg_dumpall 在連線到資料庫之後發出 `SET ROLE` *`rolename`* 命令。當已驗證的使用者（以 `-U` 指定）缺少 pg_dumpall 所需的權限，但可以切換到具有所需權限的角色時，此選項很有用。某些安裝環境有禁止直接以超級使用者登入的政策，使用此選項可以在不違反該政策的情況下進行傾印。
 
 <a id="id-1.9.4.15.7"></a>
 
-## Environment
+## 環境
 
 `PGHOST`<br>`PGOPTIONS`<br>`PGPORT`<br>`PGUSER`
-:   Default connection parameters
+:   預設連線參數
 
 `PG_COLOR`
-:   Specifies whether to use color in diagnostic messages. Possible values
-    are `always`, `auto` and
-    `never`.
+:   指定診斷訊息是否使用色彩。可用值為 `always`、`auto` 與 `never`。
 
-This utility, like most other PostgreSQL utilities,
-also uses the environment variables supported by libpq
-(see [Section 32.15](../../client-interfaces/libpq/libpq-envars.md)).
+此工具程式與大多數其他 PostgreSQL 工具程式一樣，也會使用 libpq 所支援的環境變數（請參閱[第 32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。
 
 <a id="id-1.9.4.15.8"></a>
 
-## Notes
+## 注意事項
 
-Since pg_dumpall calls
-pg_dump internally, some diagnostic
-messages will refer to pg_dump.
+由於 pg_dumpall 會在內部呼叫 pg_dump，某些診斷訊息會提到 pg_dump。
 
-The `--clean` option can be useful even when your
-intention is to restore the dump script into a fresh cluster. Use of
-`--clean` authorizes the script to drop and re-create the
-built-in `postgres` and `template1`
-databases, ensuring that those databases will retain the same properties
-(for instance, locale and encoding) that they had in the source cluster.
-Without the option, those databases will retain their existing
-database-level properties, as well as any pre-existing contents.
+即使你打算將傾印腳本還原到全新的叢集，`--clean` 選項也可能有用。使用 `--clean` 會授權腳本移除並重新建立內建的 `postgres` 與 `template1` 資料庫，確保這些資料庫保有它們在來源叢集中相同的屬性（例如區域設定與編碼）。若不使用此選項，這些資料庫會保留它們現有的資料庫層級屬性，以及任何既有的內容。
 
-When `--statistics` is specified,
-`pg_dumpall` will include most optimizer statistics in the
-resulting dump file. This does not include all statistics, such as
-those created explicitly with [CREATE STATISTICS](../sql-commands/sql-createstatistics.md),
-custom statistics added by an extension, or statistics collected by the
-cumulative statistics system. Therefore, it may still be useful to
-run `ANALYZE` on each database after restoring from a dump
-file to ensure optimal performance. You can also run `vacuumdb -a
--z` to analyze all databases.
+指定 `--statistics` 時，`pg_dumpall` 會在產生的傾印檔案中包含大部分的最佳化器統計資訊。這並不包含所有統計資訊，例如以 [CREATE STATISTICS](../sql-commands/sql-createstatistics.md) 明確建立的統計資訊、由擴充功能加入的自訂統計資訊，或由累計統計系統收集的統計資訊。因此，從傾印檔案還原之後，對每個資料庫執行 `ANALYZE` 以確保最佳效能，可能仍然有用。你也可以執行 `vacuumdb -a
+-z` 來分析所有資料庫。
 
-The dump script should not be expected to run completely without errors.
-In particular, because the script will issue `CREATE ROLE`
-for every role existing in the source cluster, it is certain to get a
-“role already exists” error for the bootstrap superuser,
-unless the destination cluster was initialized with a different bootstrap
-superuser name. This error is harmless and should be ignored. Use of
-the `--clean` option is likely to produce additional
-harmless error messages about non-existent objects, although you can
-minimize those by adding `--if-exists`.
+不應該期望傾印腳本能完全無錯誤地執行。特別是，由於腳本會為來源叢集中存在的每個角色發出 `CREATE ROLE`，因此一定會對引導超級使用者（bootstrap superuser）得到「role already exists」錯誤，除非目的端叢集是以不同的引導超級使用者名稱初始化的。這個錯誤無害，應該忽略。使用 `--clean` 選項很可能會產生額外的、關於不存在物件的無害錯誤訊息，不過你可以加上 `--if-exists` 來將它們減到最少。
 
-pg_dumpall requires all needed
-tablespace directories to exist before the restore; otherwise,
-database creation will fail for databases in non-default
-locations.
+pg_dumpall 要求所有需要的資料表空間目錄在還原之前就已存在；否則，位於非預設位置之資料庫的建立將會失敗。
 
-It is generally recommended to use the `-X`
-(`--no-psqlrc`) option when restoring a database from a
-pg_dumpall script to ensure a clean restore
-process and prevent potential conflicts with non-default
-psql configurations. Additionally, because
-the pg_dumpall script may
-include psql meta-commands, it may be
-incompatible with clients other than psql.
+從 pg_dumpall 腳本還原資料庫時，一般建議使用 `-X`（`--no-psqlrc`）選項，以確保乾淨的還原過程，並避免與非預設的 psql 設定發生潛在衝突。此外，由於 pg_dumpall 腳本可能包含 psql 中繼命令，它可能與 psql 以外的用戶端不相容。
 
 <a id="APP-PG-DUMPALL-EX"></a>
 
-## Examples
+## 範例
 
-To dump all databases:
+若要傾印所有資料庫：
 
 ```
 
 $ pg_dumpall > db.out
 ```
 
-To restore database(s) from this file, you can use:
+若要從此檔案還原資料庫，你可以使用：
 
 ```
 
 $ psql -X -f db.out -d postgres
 ```
 
-It is not important which database you connect to here since the
-script file created by pg_dumpall will
-contain the appropriate commands to create and connect to the saved
-databases. An exception is that if you specified `--clean`,
-you must connect to the `postgres` database initially;
-the script will attempt to drop other databases immediately, and that
-will fail for the database you are connected to.
+在這裡連線到哪個資料庫並不重要，因為 pg_dumpall 所建立的腳本檔案會包含建立並連線到所儲存資料庫的適當命令。例外的是，若你指定了 `--clean`，一開始就必須連線到 `postgres` 資料庫；腳本會立即嘗試移除其他資料庫，而對你所連線的資料庫，這項移除將會失敗。
 
 <a id="id-1.9.4.15.10"></a>
 
-## See Also
+## 另請參閱
 
-Check [pg_dump](app-pgdump.md) for details on possible
-error conditions.
+關於可能的錯誤情況的詳細資訊，請查看 [pg_dump](app-pgdump.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pg-dumpall.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pg-dumpall.html)（原文版本：18.6；核對日期：2026-10-09）
