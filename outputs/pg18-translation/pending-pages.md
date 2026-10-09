@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：399 頁。
+待譯頁面：398 頁。
 
 ## 根目錄
 
@@ -498,7 +498,7 @@
 - [ ] `reference/reference-client/app-pgconfig.md` — pg_config
 - [ ] `reference/reference-client/app-pgdump.md` — pg_dump
 - [x] `reference/reference-client/app-pgreceivewal.md` — pg_receivewal
-- [ ] `reference/reference-client/app-pgrecvlogical.md` — pg_recvlogical
+- [x] `reference/reference-client/app-pgrecvlogical.md` — pg_recvlogical
 - [ ] `reference/reference-client/app-pgrestore.md` — pg_restore
 - [ ] `reference/reference-client/app-pgverifybackup.md` — pg_verifybackup
 - [ ] `reference/reference-client/app-psql.md` — psql

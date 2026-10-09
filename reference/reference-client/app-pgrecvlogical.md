@@ -1,10 +1,12 @@
-<a id="id-1.9.4.18.1"></a>
+<a id="APP-PGRECVLOGICAL"></a><a id="id-1.9.4.18.1"></a>
 
 ## pg_recvlogical
 
-pg_recvlogical — control PostgreSQL logical decoding streams
+pg_recvlogical — 控制 PostgreSQL 邏輯解碼串流
 
-## Synopsis
+<a id="id-1.9.4.18.4"></a>
+
+## 語法
 
 <a id="id-1.9.4.18.4.1"></a>
 
@@ -12,262 +14,164 @@ pg_recvlogical — control PostgreSQL logical decoding streams
 
 <a id="id-1.9.4.18.5"></a>
 
-## Description
+## 說明
 
-`pg_recvlogical` controls logical decoding replication
-slots and streams data from such replication slots.
+`pg_recvlogical` 控制邏輯解碼複寫插槽，並從這類複寫插槽串流資料。
 
-It creates a replication-mode connection, so it is subject to the same
-constraints as [pg_receivewal](app-pgreceivewal.md), plus those for logical
-replication (see [Chapter 47](../../server-programming/logicaldecoding/README.md)).
+它會建立複寫模式的連線，因此受到與 [pg_receivewal](app-pgreceivewal.md) 相同的限制，另外還有邏輯複寫的限制（請參閱[第 47 章](../../server-programming/logicaldecoding/README.md)）。
 
-`pg_recvlogical` has no equivalent to the logical decoding
-SQL interface's peek and get modes. It sends replay confirmations for
-data lazily as it receives it and on clean exit. To examine pending data on
-a slot without consuming it, use
-[`pg_logical_slot_peek_changes`](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-REPLICATION).
+`pg_recvlogical` 沒有與邏輯解碼 SQL 介面之 peek 與 get 模式等效的功能。它會在收到資料時延遲地送出資料的重放確認，並在正常結束時送出。若要檢視插槽上待處理的資料而不消耗它，請使用 [`pg_logical_slot_peek_changes`](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-REPLICATION)。
 
-In the absence of fatal errors, pg_recvlogical
-will run until terminated by the SIGINT
-(**Control**+**C**)
-or SIGTERM signal.
+在沒有發生嚴重錯誤的情況下，pg_recvlogical 會持續執行，直到被 SIGINT（**Control**+**C**）或 SIGTERM 訊號終止。
 
-When pg_recvlogical receives
-a SIGHUP signal, it closes the current output file
-and opens a new one using the filename specified by
-the `--file` option. This allows us to rotate
-the output file by first renaming the current file and then sending
-a SIGHUP signal to
-pg_recvlogical.
+當 pg_recvlogical 收到 SIGHUP 訊號時，它會關閉目前的輸出檔，並以 `--file` 選項指定的檔名開啟新的輸出檔。這讓我們能夠先將目前的檔案重新命名，再對 pg_recvlogical 送出 SIGHUP 訊號，藉此輪替輸出檔。
 
 <a id="id-1.9.4.18.6"></a>
 
-## Options
+## 選項
 
-At least one of the following options must be specified to select an action:
+必須至少指定下列其中一個選項來選擇動作：
 
 `--create-slot`
-:   Create a new logical replication slot with the name specified by
-    `--slot`, using the output plugin specified by
-    `--plugin`, for the database specified
-    by `--dbname`.
+:   以 `--slot` 指定的名稱、使用 `--plugin` 指定的輸出外掛程式，為 `--dbname` 指定的資料庫建立新的邏輯複寫插槽。
 
-    The `--slot` and `--dbname` are required
-    for this action.
+    此動作必須指定 `--slot` 與 `--dbname`。
 
-    The `--enable-two-phase` and `--enable-failover`
-    options can be specified with `--create-slot`.
+    `--enable-two-phase` 與 `--enable-failover` 選項可以與 `--create-slot` 一起指定。
 
 `--drop-slot`
-:   Drop the replication slot with the name specified
-    by `--slot`, then exit.
+:   移除名稱由 `--slot` 指定的複寫插槽，然後結束。
 
-    The `--slot` is required for this action.
+    此動作必須指定 `--slot`。
 
 `--start`
-:   Begin streaming changes from the logical replication slot specified
-    by `--slot`, continuing until terminated by a
-    signal. If the server side change stream ends with a server shutdown
-    or disconnect, retry in a loop unless
-    `--no-loop` is specified.
+:   開始從 `--slot` 指定的邏輯複寫插槽串流變更，並持續到被訊號終止為止。若伺服器端的變更串流因伺服器關閉或連線中斷而結束，除非指定了 `--no-loop`，否則會在迴圈中重試。
 
-    The `--slot` and `--dbname`,
-    `--file` are required for this action.
+    此動作必須指定 `--slot`、`--dbname` 與 `--file`。
 
-    The stream format is determined by the output plugin specified when
-    the slot was created.
+    串流格式由建立插槽時指定的輸出外掛程式決定。
 
-    The connection must be to the same database used to create the slot.
+    連線必須連到建立插槽時所用的同一個資料庫。
 
-`--create-slot` and `--start` can be
-specified together. `--drop-slot` cannot be combined with
-another action.
+`--create-slot` 與 `--start` 可以一起指定。`--drop-slot` 不能與其他動作合併使用。
 
-The following command-line options control the location and format of the
-output and other replication behavior:
+下列命令列選項控制輸出的位置與格式，以及其他複寫行為：
 
 `-E lsn`<br>`--endpos=lsn`
-:   In `--start` mode, automatically stop replication
-    and exit with normal exit status 0 when receiving reaches the
-    specified LSN. If specified when not in `--start`
-    mode, an error is raised.
+:   在 `--start` 模式下，當接收到達指定的 LSN 時，自動停止複寫並以正常結束狀態 0 結束。若不是在 `--start` 模式下指定此選項，會引發錯誤。
 
-    If there's a record with LSN exactly equal to *`lsn`*,
-    the record will be output.
+    若有某筆記錄的 LSN 恰好等於 *`lsn`*，該記錄會被輸出。
 
-    The `--endpos` option is not aware of transaction
-    boundaries and may truncate output partway through a transaction.
-    Any partially output transaction will not be consumed and will be
-    replayed again when the slot is next read from. Individual messages
-    are never truncated.
+    `--endpos` 選項不了解交易邊界，可能會在交易進行到一半時截斷輸出。任何只輸出了一部分的交易都不會被消耗，並會在下次讀取該插槽時再次重放。個別訊息絕不會被截斷。
 
 `--enable-failover`
-:   Enables the slot to be synchronized to the standbys. This option may
-    only be specified with `--create-slot`.
+:   讓插槽能夠同步到待命伺服器。此選項只能與 `--create-slot` 一起指定。
 
 `-f filename`<br>`--file=filename`
-:   Write received and decoded transaction data into this
-    file. Use `-` for stdout.
+:   將接收並解碼後的交易資料寫入此檔案。使用 `-` 表示 stdout。
 
-    This parameter is required for `--start`.
+    使用 `--start` 時必須指定此參數。
 
 `-F interval_seconds`<br>`--fsync-interval=interval_seconds`
-:   Specifies how often pg_recvlogical should
-    issue `fsync()` calls to ensure the output file is
-    safely flushed to disk.
+:   指定 pg_recvlogical 應該多久發出一次 `fsync()` 呼叫，以確保輸出檔安全地刷寫到磁碟。
 
-    The server will occasionally request the client to perform a flush and
-    report the flush position to the server. This setting is in addition
-    to that, to perform flushes more frequently.
+    伺服器偶爾會要求用戶端執行刷寫，並將刷寫位置回報給伺服器。此設定是在那之外額外加上的，用來更頻繁地執行刷寫。
 
-    Specifying an interval of `0` disables
-    issuing `fsync()` calls altogether, while still
-    reporting progress to the server. In this case, data could be lost in
-    the event of a crash.
+    將間隔指定為 `0` 會完全停止發出 `fsync()` 呼叫，但仍會向伺服器回報進度。在此情況下，發生當機時資料可能會遺失。
 
 `-I lsn`<br>`--startpos=lsn`
-:   In `--start` mode, start replication from the given
-    LSN. For details on the effect of this, see the documentation
-    in [Chapter 47](../../server-programming/logicaldecoding/README.md)
-    and [Section 54.4](../../internals/protocol/protocol-replication.md). Ignored in other modes.
+:   在 `--start` 模式下，從指定的 LSN 開始複寫。關於其效果的詳細資訊，請參閱[第 47 章](../../server-programming/logicaldecoding/README.md)與[第 54.4 節](../../internals/protocol/protocol-replication.md)中的文件。在其他模式下會被忽略。
 
 `--if-not-exists`
-:   Do not error out when `--create-slot` is specified
-    and a slot with the specified name already exists.
+:   指定了 `--create-slot` 且已存在指定名稱的插槽時，不擲出錯誤。
 
 `-n`<br>`--no-loop`
-:   When the connection to the server is lost, do not retry in a loop, just exit.
+:   與伺服器的連線中斷時，不在迴圈中重試，直接結束。
 
 `-o name[=value]`<br>`--option=name[=value]`
-:   Pass the option *`name`* to the output plugin with,
-    if specified, the option value *`value`*. Which
-    options exist and their effects depends on the used output plugin.
+:   將選項 *`name`* 傳給輸出外掛程式；若有指定，同時傳入選項值 *`value`*。有哪些選項以及它們的效果，取決於所使用的輸出外掛程式。
 
 `-P plugin`<br>`--plugin=plugin`
-:   When creating a slot, use the specified logical decoding output
-    plugin. See [Chapter 47](../../server-programming/logicaldecoding/README.md). This option has no
-    effect if the slot already exists.
+:   建立插槽時，使用指定的邏輯解碼輸出外掛程式。請參閱[第 47 章](../../server-programming/logicaldecoding/README.md)。若插槽已存在，此選項沒有作用。
 
 `-s interval_seconds`<br>`--status-interval=interval_seconds`
-:   This option has the same effect as the option of the same name
-    in [pg_receivewal](app-pgreceivewal.md). See the description there.
+:   此選項與 [pg_receivewal](app-pgreceivewal.md) 中同名選項的效果相同。請參閱該處的說明。
 
 `-S slot_name`<br>`--slot=slot_name`
-:   In `--start` mode, use the existing logical replication slot named
-    *`slot_name`*. In `--create-slot`
-    mode, create the slot with this name. In `--drop-slot`
-    mode, delete the slot with this name.
+:   在 `--start` 模式下，使用名為 *`slot_name`* 的現有邏輯複寫插槽。在 `--create-slot` 模式下，以此名稱建立插槽。在 `--drop-slot` 模式下，刪除具有此名稱的插槽。
 
-    This parameter is required for any of actions.
+    任何動作都必須指定此參數。
 
-`-t`<br>`--enable-two-phase`<br>`--two-phase` (deprecated)
-:   Enables decoding of prepared transactions. This option may only be specified with
-    `--create-slot`.
+`-t`<br>`--enable-two-phase`<br>`--two-phase`（已棄用）
+:   啟用預備交易的解碼。此選項只能與 `--create-slot` 一起指定。
 
 `-v`<br>`--verbose`
-:   Enables verbose mode.
+:   啟用詳細模式。
 
-The following command-line options control the database connection parameters.
+下列命令列選項控制資料庫連線參數。
 
 `-d dbname`<br>`--dbname=dbname`
-:   The database to connect to. See the description
-    of the actions for what this means in detail.
-    The *`dbname`* can be a [connection string](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING). If so,
-    connection string parameters will override any conflicting
-    command line options.
+:   要連線的資料庫。這在細節上代表什麼，請參閱各動作的說明。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
-    This parameter is required for `--create-slot`
-    and `--start`.
+    使用 `--create-slot` 與 `--start` 時必須指定此參數。
 
 `-h hostname-or-ip`<br>`--host=hostname-or-ip`
-:   Specifies the host name of the machine on which the server is
-    running. If the value begins with a slash, it is used as the
-    directory for the Unix domain socket. The default is taken
-    from the `PGHOST` environment variable, if set,
-    else a Unix domain socket connection is attempted.
+:   指定伺服器所在機器的主機名稱。若值以斜線開頭，則作為 Unix 網域通訊端的目錄。預設值取自 `PGHOST` 環境變數（若有設定），否則會嘗試使用 Unix 網域通訊端連線。
 
 `-p port`<br>`--port=port`
-:   Specifies the TCP port or local Unix domain socket file
-    extension on which the server is listening for connections.
-    Defaults to the `PGPORT` environment variable, if
-    set, or a compiled-in default.
+:   指定伺服器監聽連線的 TCP 連接埠或本機 Unix 網域通訊端檔案副檔名。預設為 `PGPORT` 環境變數（若有設定），或編譯時內建的預設值。
 
 `-U user`<br>`--username=user`
-:   User name to connect as. Defaults to current operating system user
-    name.
+:   要用來連線的使用者名稱。預設為目前的作業系統使用者名稱。
 
 `-w`<br>`--no-password`
-:   Never issue a password prompt. If the server requires
-    password authentication and a password is not available by
-    other means such as a `.pgpass` file, the
-    connection attempt will fail. This option can be useful in
-    batch jobs and scripts where no user is present to enter a
-    password.
+:   絕不發出密碼提示。若伺服器要求密碼驗證，而密碼無法透過 `.pgpass` 檔案等其他方式取得，連線嘗試將會失敗。此選項在沒有使用者可輸入密碼的批次作業與指令稿中可能很有用。
 
 `-W`<br>`--password`
-:   Force pg_recvlogical to prompt for a
-    password before connecting to a database.
+:   強制 pg_recvlogical 在連線到資料庫之前提示輸入密碼。
 
-    This option is never essential, since
-    pg_recvlogical will automatically prompt
-    for a password if the server demands password authentication.
-    However, pg_recvlogical will waste a
-    connection attempt finding out that the server wants a password.
-    In some cases it is worth typing `-W` to avoid the extra
-    connection attempt.
+    此選項從來都不是必要的，因為若伺服器要求密碼驗證，pg_recvlogical 會自動提示輸入密碼。不過，pg_recvlogical 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
-The following additional options are available:
+另外也提供下列選項：
 
 `-V`<br>`--version`
-:   Print the pg_recvlogical version and exit.
+:   印出 pg_recvlogical 版本後結束。
 
 `-?`<br>`--help`
-:   Show help about pg_recvlogical command line
-    arguments, and exit.
+:   顯示 pg_recvlogical 命令列引數的說明後結束。
 
 <a id="id-1.9.4.18.7"></a>
 
-## Exit Status
+## 結束狀態
 
-pg_recvlogical will exit with status 0 when
-terminated by the SIGINT or
-SIGTERM signal. (That is the
-normal way to end it. Hence it is not an error.) For fatal errors or
-other signals, the exit status will be nonzero.
+pg_recvlogical 被 SIGINT 或 SIGTERM 訊號終止時，會以狀態 0 結束。（這是結束它的正常方式，因此不算錯誤。）發生嚴重錯誤或收到其他訊號時，結束狀態將不為零。
 
 <a id="id-1.9.4.18.8"></a>
 
-## Environment
+## 環境
 
-This utility, like most other PostgreSQL utilities,
-uses the environment variables supported by libpq
-(see [Section 32.15](../../client-interfaces/libpq/libpq-envars.md)).
+此工具與大多數其他 PostgreSQL 工具一樣，使用 libpq 支援的環境變數（請參閱[第 32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。
 
-The environment variable `PG_COLOR` specifies whether to use
-color in diagnostic messages. Possible values are
-`always`, `auto` and
-`never`.
+環境變數 `PG_COLOR` 指定診斷訊息是否使用色彩。可能的值為 `always`、`auto` 與 `never`。
 
 <a id="id-1.9.4.18.9"></a>
 
-## Notes
+## 注意事項
 
-pg_recvlogical will preserve group permissions on
-the output files if group permissions are enabled on the source
-cluster.
+若來源叢集啟用了群組權限，pg_recvlogical 會保留輸出檔案上的群組權限。
 
 <a id="id-1.9.4.18.10"></a>
 
-## Examples
+## 範例
 
-See [Section 47.1](../../server-programming/logicaldecoding/logicaldecoding-example.md) for an example.
+範例請參閱[第 47.1 節](../../server-programming/logicaldecoding/logicaldecoding-example.md)。
 
 <a id="id-1.9.4.18.11"></a>
 
-## See Also
+## 另請參閱
 
 [pg_receivewal](app-pgreceivewal.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgrecvlogical.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgrecvlogical.html)（原文版本：18.6；核對日期：2026-10-09）
