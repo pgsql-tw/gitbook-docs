@@ -1,10 +1,12 @@
-<a id="id-1.9.4.13.1"></a>
+<a id="APP-PGCONFIG"></a><a id="id-1.9.4.13.1"></a>
 
 ## pg_config
 
-pg_config — retrieve information about the installed version of PostgreSQL
+pg_config — 取得已安裝之 PostgreSQL 版本的相關資訊
 
-## Synopsis
+<a id="id-1.9.4.13.4"></a>
+
+## 語法
 
 <a id="id-1.9.4.13.4.1"></a>
 
@@ -12,154 +14,109 @@ pg_config — retrieve information about the installed version of PostgreSQL
 
 <a id="id-1.9.4.13.5"></a>
 
-## Description
+## 說明
 
-The pg_config utility prints configuration parameters
-of the currently installed version of PostgreSQL. It is
-intended, for example, to be used by software packages that want to interface
-to PostgreSQL to facilitate finding the required header files
-and libraries.
+pg_config 工具程式會印出目前已安裝之 PostgreSQL 版本的組態參數。例如，它的用途之一是讓想要與 PostgreSQL 介接的軟體套件，能夠更容易找到所需的標頭檔與函式庫。
 
 <a id="id-1.9.4.13.6"></a>
 
-## Options
+## 選項
 
-To use pg_config, supply one or more of the following
-options:
+要使用 pg_config，請提供下列一個或多個選項：
 
 `--bindir`
-:   Print the location of user executables. Use this, for example, to find
-    the `psql` program. This is normally also the location
-    where the `pg_config` program resides.
+:   印出使用者可執行檔的位置。例如，可以用它來找出 `psql` 程式。這通常也是 `pg_config` 程式所在的位置。
 
 `--docdir`
-:   Print the location of documentation files.
+:   印出文件檔案的位置。
 
 `--htmldir`
-:   Print the location of HTML documentation files.
+:   印出 HTML 文件檔案的位置。
 
 `--includedir`
-:   Print the location of C header files of the client interfaces.
+:   印出用戶端介面之 C 標頭檔的位置。
 
 `--pkgincludedir`
-:   Print the location of other C header files.
+:   印出其他 C 標頭檔的位置。
 
 `--includedir-server`
-:   Print the location of C header files for server programming.
+:   印出伺服器端程式設計用之 C 標頭檔的位置。
 
 `--libdir`
-:   Print the location of object code libraries.
+:   印出目的碼函式庫的位置。
 
 `--pkglibdir`
-:   Print the location of dynamically loadable modules, or where
-    the server would search for them. (Other
-    architecture-dependent data files might also be installed in this
-    directory.)
+:   印出可動態載入之模組的位置，或伺服器會在何處搜尋這些模組。（其他與架構相關的資料檔案也可能安裝在此目錄中。）
 
 `--localedir`
-:   Print the location of locale support files. (This will be an empty
-    string if locale support was not configured when
-    PostgreSQL was built.)
+:   印出區域設定（locale）支援檔案的位置。（若建置 PostgreSQL 時未設定區域設定支援，這會是空字串。）
 
 `--mandir`
-:   Print the location of manual pages.
+:   印出手冊頁（manual page）的位置。
 
 `--sharedir`
-:   Print the location of architecture-independent support files.
+:   印出與架構無關之支援檔案的位置。
 
 `--sysconfdir`
-:   Print the location of system-wide configuration files.
+:   印出全系統組態檔的位置。
 
 `--pgxs`
-:   Print the location of extension makefiles.
+:   印出擴充功能 makefile 的位置。
 
 `--configure`
-:   Print the options that were given to the `configure`
-    script when PostgreSQL was configured for building.
-    This can be used to reproduce the identical configuration, or
-    to find out with what options a binary package was built. (Note
-    however that binary packages often contain vendor-specific custom
-    patches.) See also the examples below.
+:   印出設定 PostgreSQL 以進行建置時，傳給 `configure` 腳本的選項。這可用來重現相同的組態，或查出某個二進位套件是以哪些選項建置的。（不過請注意，二進位套件通常包含廠商特有的自訂修補程式。）另請參閱下方的範例。
 
 `--cc`
-:   Print the value of the `CC` variable that was used for building
-    PostgreSQL. This shows the C compiler used.
+:   印出建置 PostgreSQL 時所用的 `CC` 變數的值。這會顯示所使用的 C 編譯器。
 
 `--cppflags`
-:   Print the value of the `CPPFLAGS` variable that was used for building
-    PostgreSQL. This shows C compiler switches needed
-    at preprocessing time (typically, `-I` switches).
+:   印出建置 PostgreSQL 時所用的 `CPPFLAGS` 變數的值。這會顯示前置處理階段所需的 C 編譯器參數（通常是 `-I` 參數）。
 
 `--cflags`
-:   Print the value of the `CFLAGS` variable that was used for building
-    PostgreSQL. This shows C compiler switches.
+:   印出建置 PostgreSQL 時所用的 `CFLAGS` 變數的值。這會顯示 C 編譯器參數。
 
 `--cflags_sl`
-:   Print the value of the `CFLAGS_SL` variable that was used for building
-    PostgreSQL. This shows extra C compiler switches
-    used for building shared libraries.
+:   印出建置 PostgreSQL 時所用的 `CFLAGS_SL` 變數的值。這會顯示建置共享函式庫時所用的額外 C 編譯器參數。
 
 `--ldflags`
-:   Print the value of the `LDFLAGS` variable that was used for building
-    PostgreSQL. This shows linker switches.
+:   印出建置 PostgreSQL 時所用的 `LDFLAGS` 變數的值。這會顯示連結器參數。
 
 `--ldflags_ex`
-:   Print the value of the `LDFLAGS_EX` variable that was used for building
-    PostgreSQL. This shows linker switches
-    used for building executables only.
+:   印出建置 PostgreSQL 時所用的 `LDFLAGS_EX` 變數的值。這會顯示僅在建置可執行檔時使用的連結器參數。
 
 `--ldflags_sl`
-:   Print the value of the `LDFLAGS_SL` variable that was used for building
-    PostgreSQL. This shows linker switches
-    used for building shared libraries only.
+:   印出建置 PostgreSQL 時所用的 `LDFLAGS_SL` 變數的值。這會顯示僅在建置共享函式庫時使用的連結器參數。
 
 `--libs`
-:   Print the value of the `LIBS` variable that was used for building
-    PostgreSQL. This normally contains `-l`
-    switches for external libraries linked into PostgreSQL.
+:   印出建置 PostgreSQL 時所用的 `LIBS` 變數的值。其內容通常是用於連結至 PostgreSQL 之外部函式庫的 `-l` 參數。
 
 `--version`
-:   Print the version of PostgreSQL.
+:   印出 PostgreSQL 的版本。
 
 `-?`<br>`--help`
-:   Show help about pg_config command line
-    arguments, and exit.
+:   顯示 pg_config 命令列引數的說明後結束。
 
-If more than one option is given, the information is printed in that order,
-one item per line. If no options are given, all available information
-is printed, with labels.
+若指定了超過一個選項，資訊會依該順序印出，每行一項。若未指定任何選項，則會印出所有可用的資訊，並附上標籤。
 
 <a id="id-1.9.4.13.7"></a>
 
-## Notes
+## 注意事項
 
-The options `--docdir`, `--pkgincludedir`,
-`--localedir`, `--mandir`,
-`--sharedir`, `--sysconfdir`,
-`--cc`, `--cppflags`,
-`--cflags`, `--cflags_sl`,
-`--ldflags`, `--ldflags_sl`,
-and `--libs` were added in PostgreSQL 8.1.
-The option `--htmldir` was added in PostgreSQL 8.4.
-The option `--ldflags_ex` was added in PostgreSQL 9.0.
+選項 `--docdir`、`--pkgincludedir`、`--localedir`、`--mandir`、`--sharedir`、`--sysconfdir`、`--cc`、`--cppflags`、`--cflags`、`--cflags_sl`、`--ldflags`、`--ldflags_sl` 與 `--libs` 是在 PostgreSQL 8.1 中新增的。選項 `--htmldir` 是在 PostgreSQL 8.4 中新增的。選項 `--ldflags_ex` 是在 PostgreSQL 9.0 中新增的。
 
 <a id="id-1.9.4.13.8"></a>
 
-## Example
+## 範例
 
-To reproduce the build configuration of the current PostgreSQL
-installation, run the following command:
+要重現目前 PostgreSQL 安裝的建置組態，請執行下列命令：
 
 ```
 
 eval ./configure `pg_config --configure`
 ```
 
-The output of `pg_config --configure` contains
-shell quotation marks so arguments with spaces are represented
-correctly. Therefore, using `eval` is required
-for proper results.
+`pg_config --configure` 的輸出包含 shell 引號，以便正確表示含有空格的引數。因此，必須使用 `eval` 才能得到正確的結果。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgconfig.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgconfig.html)（原文版本：18.6；核對日期：2026-10-09）
