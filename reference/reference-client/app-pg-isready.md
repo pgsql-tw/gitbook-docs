@@ -1,10 +1,12 @@
-<a id="id-1.9.4.16.1"></a>
+<a id="APP-PG-ISREADY"></a><a id="id-1.9.4.16.1"></a>
 
 ## pg_isready
 
-pg_isready — check the connection status of a PostgreSQL server
+pg_isready — 檢查 PostgreSQL 伺服器的連線狀態
 
-## Synopsis
+<a id="id-1.9.4.16.4"></a>
+
+## 語法
 
 <a id="id-1.9.4.16.4.1"></a>
 
@@ -12,90 +14,63 @@ pg_isready — check the connection status of a PostgreSQL server
 
 <a id="APP-PG-ISREADY-DESCRIPTION"></a>
 
-## Description
+## 說明
 
-pg_isready is a utility for checking the connection
-status of a PostgreSQL database server. The exit
-status specifies the result of the connection check.
+pg_isready 是用來檢查 PostgreSQL 資料庫伺服器連線狀態的工具程式。其結束狀態代表連線檢查的結果。
 
 <a id="APP-PG-ISREADY-OPTIONS"></a>
 
-## Options
+## 選項
 
 `-d dbname`<br>`--dbname=dbname`
-:   Specifies the name of the database to connect to. The
-    *`dbname`* can be a [connection string](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING). If so,
-    connection string parameters will override any conflicting command
-    line options.
+:   指定要連線的資料庫名稱。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
 `-h hostname`<br>`--host=hostname`
-:   Specifies the host name of the machine on which the
-    server is running. If the value begins
-    with a slash, it is used as the directory for the Unix-domain
-    socket.
+:   指定伺服器所在機器的主機名稱。若值以斜線開頭，則會被當作 Unix 網域通訊端的目錄。
 
 `-p port`<br>`--port=port`
-:   Specifies the TCP port or the local Unix-domain
-    socket file extension on which the server is listening for
-    connections. Defaults to the value of the `PGPORT`
-    environment variable or, if not set, to the port specified at
-    compile time, usually 5432.
+:   指定伺服器用來接聽連線的 TCP 連接埠，或本機 Unix 網域通訊端檔案的副檔名。預設為環境變數 `PGPORT` 的值；若該變數未設定，則為編譯時指定的連接埠，通常是 5432。
 
 `-q`<br>`--quiet`
-:   Do not display status message. This is useful when scripting.
+:   不顯示狀態訊息。這在撰寫腳本時很有用。
 
 `-t seconds`<br>`--timeout=seconds`
-:   The maximum number of seconds to wait when attempting connection before
-    returning that the server is not responding. Setting to 0 disables. The
-    default is 3 seconds.
+:   嘗試連線時，在回報伺服器沒有回應之前所等待的最大秒數。設為 0 會停用此逾時。預設為 3 秒。
 
 `-U username`<br>`--username=username`
-:   Connect to the database as the user *`username`* instead of the default.
+:   以使用者 *`username`* 而非預設使用者的身分連線到資料庫。
 
 `-V`<br>`--version`
-:   Print the pg_isready version and exit.
+:   印出 pg_isready 的版本後結束。
 
 `-?`<br>`--help`
-:   Show help about pg_isready command line
-    arguments, and exit.
+:   顯示 pg_isready 命令列引數的說明後結束。
 
 <a id="id-1.9.4.16.7"></a>
 
-## Exit Status
+## 結束狀態
 
-pg_isready returns `0` to the shell if the server
-is accepting connections normally, `1` if the server is rejecting
-connections (for example during startup), `2` if there was no response to the
-connection attempt, and `3` if no attempt was made (for example due to invalid
-parameters).
+若伺服器正常接受連線，pg_isready 會向 shell 傳回 `0`；若伺服器拒絕連線（例如在啟動期間），傳回 `1`；若連線嘗試沒有回應，傳回 `2`；若未進行任何嘗試（例如因為參數無效），則傳回 `3`。
 
 <a id="id-1.9.4.16.8"></a>
 
-## Environment
+## 環境
 
-`pg_isready`, like most other PostgreSQL
-utilities,
-also uses the environment variables supported by libpq
-(see [Section 32.15](../../client-interfaces/libpq/libpq-envars.md)).
+`pg_isready` 與大多數其他 PostgreSQL 工具程式一樣，也會使用 libpq 支援的環境變數（請參閱[第 32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。
 
-The environment variable `PG_COLOR` specifies whether to use
-color in diagnostic messages. Possible values are
-`always`, `auto` and
-`never`.
+環境變數 `PG_COLOR` 指定診斷訊息是否使用色彩。可用值為 `always`、`auto` 與 `never`。
 
 <a id="APP-PG-ISREADY-NOTES"></a>
 
-## Notes
+## 注意事項
 
-It is not necessary to supply correct user name, password, or database
-name values to obtain the server status; however, if incorrect values
-are provided, the server will log a failed connection attempt.
+要取得伺服器狀態，不需要提供正確的使用者名稱、密碼或資料庫名稱值；不過，若提供的值不正確，伺服器會在日誌中記錄一次失敗的連線嘗試。
 
 <a id="APP-PG-ISREADY-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-Standard Usage:
+標準用法：
 
 ```
 
@@ -105,7 +80,7 @@ $ echo $?
 0
 ```
 
-Running with connection parameters to a PostgreSQL cluster in startup:
+使用連線參數連線到正在啟動中的 PostgreSQL 叢集：
 
 ```
 
@@ -115,7 +90,7 @@ $ echo $?
 1
 ```
 
-Running with connection parameters to a non-responsive PostgreSQL cluster:
+使用連線參數連線到沒有回應的 PostgreSQL 叢集：
 
 ```
 
@@ -127,4 +102,4 @@ $ echo $?
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pg-isready.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pg-isready.html)（原文版本：18.6；核對日期：2026-10-09）
