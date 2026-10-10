@@ -5,7 +5,7 @@
   * [1. What Is PostgreSQL ? #](preface/intro-whatis.md)
   * [2. PostgreSQL 簡史 #](preface/history.md)
   * [3. 慣例](preface/notation.md)
-  * [4. Further Information #](preface/resources.md)
+  * [4. 更多資訊 #](preface/resources.md)
   * [5. Bug Reporting Guidelines #](preface/bug-reporting.md)
 * [第一部分：教學](tutorial/README.md)
   * [第 1 章 入門](tutorial/tutorial-start/README.md)
