@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：357 頁。
+待譯頁面：356 頁。
 
 ## 根目錄
 
@@ -510,7 +510,7 @@
 - [x] `reference/reference-server/app-pg-ctl.md` — pg_ctl
 - [x] `reference/reference-server/app-pgchecksums.md` — pg_checksums
 - [x] `reference/reference-server/app-pgcontroldata.md` — pg_controldata — 顯示 PostgreSQL 資料庫叢集的控制資訊
-- [ ] `reference/reference-server/app-pgcreatesubscriber.md` — pg_createsubscriber
+- [x] `reference/reference-server/app-pgcreatesubscriber.md` — pg_createsubscriber
 - [x] `reference/reference-server/app-pgresetwal.md` — pg_resetwal
 - [x] `reference/reference-server/app-pgrewind.md` — pg_rewind
 - [x] `reference/reference-server/app-pgwalsummary.md` — pg_walsummary
