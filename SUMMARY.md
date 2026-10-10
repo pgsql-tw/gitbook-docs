@@ -173,7 +173,7 @@
     * [15.4. 平行安全性 #](the-sql-language/parallel-query/parallel-safety.md)
 * [第 III 部：伺服器管理](server-administration/README.md)
   * [第 16 章 從二進位套件安裝](server-administration/install-binaries/README.md)
-  * [Chapter 17. Installation from Source Code](server-administration/installation/README.md)
+  * [第 17 章 從原始碼安裝](server-administration/installation/README.md)
     * [17.1. 需求 #](server-administration/installation/install-requirements.md)
     * [17.2. 取得原始碼](server-administration/installation/install-getsource.md)
     * [17.3. 以 Autoconf 與 Make 建置與安裝 #](server-administration/installation/install-make.md)
