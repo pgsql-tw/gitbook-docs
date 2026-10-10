@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：350 頁。
+待譯頁面：349 頁。
 
 ## 根目錄
 
@@ -731,7 +731,7 @@
 - [x] `server-administration/client-authentication/auth-trust.md` — 20.4. 信任驗證 #
 - [x] `server-administration/client-authentication/auth-username-maps.md` — 20.2. 使用者名稱對應 #
 - [x] `server-administration/client-authentication/client-authentication-problems.md` — 20.16. 驗證問題 #
-- [ ] `server-administration/client-authentication/gssapi-auth.md` — 20.6. GSSAPI Authentication #
+- [x] `server-administration/client-authentication/gssapi-auth.md` — 20.6. GSSAPI 驗證 #
 - [x] `server-administration/client-authentication/sspi-auth.md` — 20.7. SSPI 驗證 #
 - [x] `server-administration/high-availability/README.md` — 第 26 章 高可用性、負載平衡與複寫
 - [x] `server-administration/high-availability/different-replication-solutions.md` — 26.1. 各種解決方案比較 #

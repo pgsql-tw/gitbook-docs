@@ -219,7 +219,7 @@
     * [20.3. 認證方法 #](server-administration/client-authentication/auth-methods.md)
     * [20.4. 信任驗證 #](server-administration/client-authentication/auth-trust.md)
     * [20.5. 密碼驗證 #](server-administration/client-authentication/auth-password.md)
-    * [20.6. GSSAPI Authentication #](server-administration/client-authentication/gssapi-auth.md)
+    * [20.6. GSSAPI 驗證 #](server-administration/client-authentication/gssapi-auth.md)
     * [20.7. SSPI 驗證 #](server-administration/client-authentication/sspi-auth.md)
     * [20.8. Ident 認證 #](server-administration/client-authentication/auth-ident.md)
     * [20.9. Peer 驗證](server-administration/client-authentication/auth-peer.md)
