@@ -918,7 +918,7 @@
     * [53.16. `pg_prepared_statements` #](internals/views/view-pg-prepared-statements.md)
     * [53.17. `pg_prepared_xacts` #](internals/views/view-pg-prepared-xacts.md)
     * [53.18. `pg_publication_tables` #](internals/views/view-pg-publication-tables.md)
-    * [53.19. pg_replication_origin_status #](internals/views/view-pg-replication-origin-status.md)
+    * [53.19. `pg_replication_origin_status` #](internals/views/view-pg-replication-origin-status.md)
     * [53.20. pg_replication_slots #](internals/views/view-pg-replication-slots.md)
     * [53.21. pg_roles #](internals/views/view-pg-roles.md)
     * [53.22. pg_rules #](internals/views/view-pg-rules.md)
