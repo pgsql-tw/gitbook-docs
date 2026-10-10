@@ -1,225 +1,147 @@
-## 53.13. `pg_locks` [#](#VIEW-PG-LOCKS)
+<a id="VIEW-PG-LOCKS"></a>
+
+## 53.13. `pg_locks` [#](#VIEW-PG-LOCKS)
 
 <a id="id-1.10.5.17.2"></a>
 
-The view `pg_locks` provides access to
-information about the locks held by active processes within the
-database server. See [Chapter 13](../../the-sql-language/mvcc/README.md) for more discussion
-of locking.
+檢視表 `pg_locks` 提供資料庫伺服器內各個活動中程序所持有之鎖定的相關資訊。關於鎖定的更多討論，請參閱[第 13 章](../../the-sql-language/mvcc/README.md)。
 
-`pg_locks` contains one row per active lockable
-object, requested lock mode, and relevant process. Thus, the same
-lockable object might
-appear many times, if multiple processes are holding or waiting
-for locks on it. However, an object that currently has no locks on it
-will not appear at all.
+`pg_locks` 中，每個「活動中的可鎖定物件、所請求的鎖定模式與相關程序」的組合各占一筆資料列。因此，如果有多個程序在同一個可鎖定物件上持有或等待鎖定，該物件可能會出現許多次。不過，目前沒有任何鎖定的物件完全不會出現。
 
-There are several distinct types of lockable objects:
-whole relations (e.g., tables), individual pages of relations,
-individual tuples of relations,
-transaction IDs (both virtual and permanent IDs),
-and general database objects (identified by class OID and object OID,
-in the same way as in [`pg_description`](../catalogs/catalog-pg-description.md) or
-[`pg_depend`](../catalogs/catalog-pg-depend.md)). Also, the right to extend a
-relation is represented as a separate lockable object, as is the right to
-update `pg_database`.`datfrozenxid`.
-Also, “advisory” locks can be taken on numbers that have
-user-defined meanings.
+可鎖定物件分為數種不同的類型：整個關聯（例如資料表）、關聯中的個別頁面、關聯中的個別 tuple、交易 ID（包括虛擬 ID 與永久 ID），以及一般資料庫物件（以類別 OID 與物件 OID 識別，方式與 [`pg_description`](../catalogs/catalog-pg-description.md) 或 [`pg_depend`](../catalogs/catalog-pg-depend.md) 相同）。此外，擴充關聯的權利也以一個獨立的可鎖定物件表示，更新 `pg_database`.`datfrozenxid` 的權利也是如此。另外，也可以對具有使用者自訂意義的數字取得「諮詢」鎖定。
 
 <a id="id-1.10.5.17.6"></a>
 
-**Table 53.13. `pg_locks` Columns**
+**表 53.13. `pg_locks` 欄位**
 
-<table border="1" class="table" summary="pg_locks Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 53.13. pg_locks 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">locktype</code> <code class="type">text</code>
 </p>
 <p>
-       Type of the lockable object:
-       <code class="literal">relation</code>,
-       <code class="literal">extend</code>,
-       <code class="literal">frozenid</code>,
-       <code class="literal">page</code>,
-       <code class="literal">tuple</code>,
-       <code class="literal">transactionid</code>,
-       <code class="literal">virtualxid</code>,
-       <code class="literal">spectoken</code>,
-       <code class="literal">object</code>,
-       <code class="literal">userlock</code>,
-       <code class="literal">advisory</code>, or
-       <code class="literal">applytransaction</code>.
-       (See also <a class="xref" href="../../server-administration/monitoring/monitoring-stats.md#WAIT-EVENT-LOCK-TABLE">Table 27.11</a>.)
+       可鎖定物件的類型：
+       <code class="literal">relation</code>、
+       <code class="literal">extend</code>、
+       <code class="literal">frozenid</code>、
+       <code class="literal">page</code>、
+       <code class="literal">tuple</code>、
+       <code class="literal">transactionid</code>、
+       <code class="literal">virtualxid</code>、
+       <code class="literal">spectoken</code>、
+       <code class="literal">object</code>、
+       <code class="literal">userlock</code>、
+       <code class="literal">advisory</code> 或
+       <code class="literal">applytransaction</code>。
+       （另請參閱<a class="xref" href="../../server-administration/monitoring/monitoring-stats.md#WAIT-EVENT-LOCK-TABLE">表 27.11</a>。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">database</code> <code class="type">oid</code>
-       (references <a class="link" href="../catalogs/catalog-pg-database.md"><code class="structname">pg_database</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-database.md"><code class="structname">pg_database</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       OID of the database in which the lock target exists, or
-       zero if the target is a shared object, or
-       null if the target is a transaction ID
+       鎖定目標所在之資料庫的 OID；若目標是共享物件則為零；若目標是交易 ID 則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">relation</code> <code class="type">oid</code>
-       (references <a class="link" href="../catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       OID of the relation targeted by the lock, or null if the target is not
-       a relation or part of a relation
+       鎖定所針對之關聯的 OID；若目標不是關聯，也不是關聯的一部分，則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">page</code> <code class="type">int4</code>
 </p>
 <p>
-       Page number targeted by the lock within the relation,
-       or null if the target is not a relation page or tuple
+       鎖定所針對之頁面在該關聯內的頁碼；若目標不是關聯頁面，也不是 tuple，則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">tuple</code> <code class="type">int2</code>
 </p>
 <p>
-       Tuple number targeted by the lock within the page,
-       or null if the target is not a tuple
+       鎖定所針對之 tuple 在該頁面內的編號；若目標不是 tuple，則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">virtualxid</code> <code class="type">text</code>
 </p>
 <p>
-       Virtual ID of the transaction targeted by the lock,
-       or null if the target is not a virtual transaction ID;  see
-       <a class="xref" href="../transactions/README.md">Chapter 67</a>
-</p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
+       鎖定所針對之交易的虛擬 ID；若目標不是虛擬交易 ID，則為 null；請參閱
+       <a class="xref" href="../transactions/README.md">第 67 章</a>
+      </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">transactionid</code> <code class="type">xid</code>
 </p>
 <p>
-       ID of the transaction targeted by the lock, or null if the target
-       is not a transaction ID;  <a class="xref" href="../transactions/README.md">Chapter 67</a>
-</p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
+       鎖定所針對之交易的 ID；若目標不是交易 ID，則為 null；<a class="xref" href="../transactions/README.md">第 67 章</a>
+      </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">classid</code> <code class="type">oid</code>
-       (references <a class="link" href="../catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       OID of the system catalog containing the lock target, or null if the
-       target is not a general database object
+       包含鎖定目標之系統目錄的 OID；若目標不是一般資料庫物件，則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">objid</code> <code class="type">oid</code>
-       (references any OID column)
+       （參照任何 OID 欄位）
       </p>
 <p>
-       OID of the lock target within its system catalog, or null if the
-       target is not a general database object
+       鎖定目標在其系統目錄中的 OID；若目標不是一般資料庫物件，則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">objsubid</code> <code class="type">int2</code>
 </p>
 <p>
-       Column number targeted by the lock (the
-       <code class="structfield">classid</code> and <code class="structfield">objid</code> refer to the
-       table itself),
-       or zero if the target is some other general database object,
-       or null if the target is not a general database object
+       鎖定所針對的欄位編號（此時
+       <code class="structfield">classid</code> 與 <code class="structfield">objid</code> 指的是該資料表本身）；
+       若目標是其他一般資料庫物件，則為零；
+       若目標不是一般資料庫物件，則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">virtualtransaction</code> <code class="type">text</code>
 </p>
 <p>
-       Virtual ID of the transaction that is holding or awaiting this lock
+       持有或正在等待此鎖定之交易的虛擬 ID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">pid</code> <code class="type">int4</code>
 </p>
 <p>
-       Process ID of the server process holding or awaiting this
-       lock, or null if the lock is held by a prepared transaction
+       持有或正在等待此鎖定之伺服器程序的程序 ID；若此鎖定由預備交易持有，則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">mode</code> <code class="type">text</code>
 </p>
 <p>
-       Name of the lock mode held or desired by this process (see <a class="xref" href="../../the-sql-language/mvcc/explicit-locking.md#LOCKING-TABLES">Section 13.3.1</a> and <a class="xref" href="../../the-sql-language/mvcc/transaction-iso.md#XACT-SERIALIZABLE">Section 13.2.3</a>)
+       此程序所持有或想要取得之鎖定模式的名稱（請參閱<a class="xref" href="../../the-sql-language/mvcc/explicit-locking.md#LOCKING-TABLES">第 13.3.1 節</a>與<a class="xref" href="../../the-sql-language/mvcc/transaction-iso.md#XACT-SERIALIZABLE">第 13.2.3 節</a>）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">granted</code> <code class="type">bool</code>
 </p>
 <p>
-       True if lock is held, false if lock is awaited
+       若已持有鎖定則為 true，若正在等待鎖定則為 false
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">fastpath</code> <code class="type">bool</code>
 </p>
 <p>
-       True if lock was taken via fast path, false if taken via main
-       lock table
+       若鎖定是透過快速路徑（fast path）取得則為 true，若是透過主鎖定表取得則為 false
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">waitstart</code> <code class="type">timestamptz</code>
 </p>
 <p>
-       Time when the server process started waiting for this lock,
-       or null if the lock is held.
-       Note that this can be null for a very short period of time after
-       the wait started even though <code class="structfield">granted</code>
-       is <code class="literal">false</code>.
+       伺服器程序開始等待此鎖定的時間；若已持有該鎖定則為 null。
+       請注意，即使 <code class="structfield">granted</code>
+       為 <code class="literal">false</code>，在等待開始後的極短時間內，此值仍可能為 null。
       </p></td></tr></tbody></table>
 
 <br>
 
-`granted` is true in a row representing a lock
-held by the indicated process. False indicates that this process is
-currently waiting to acquire this lock, which implies that at least one
-other process is holding or waiting for a conflicting lock mode on the same
-lockable object. The waiting process will sleep until the other lock is
-released (or a deadlock situation is detected). A single process can be
-waiting to acquire at most one lock at a time.
+在代表指定程序所持有之鎖定的資料列中，`granted` 為 true。false 表示此程序目前正在等待取得此鎖定，這意味著至少有一個其他程序正在同一個可鎖定物件上持有或等待一個相衝突的鎖定模式。等待中的程序會休眠，直到另一個鎖定被釋放（或偵測到死結狀況）為止。單一程序一次最多只能等待取得一個鎖定。
 
-Throughout running a transaction, a server process holds an exclusive lock
-on the transaction's virtual transaction ID. If a permanent ID is assigned
-to the transaction (which normally happens only if the transaction changes
-the state of the database), it also holds an exclusive lock on the
-transaction's permanent transaction ID until it ends. When a process finds
-it necessary to wait specifically for another transaction to end, it does
-so by attempting to acquire share lock on the other transaction's ID
-(either virtual or permanent ID depending on the situation). That will
-succeed only when the other transaction terminates and releases its locks.
+在交易執行的整個期間，伺服器程序都會在該交易的虛擬交易 ID 上持有排他鎖定。如果有永久 ID 指派給該交易（通常只有在交易變更資料庫狀態時才會發生），它也會在該交易的永久交易 ID 上持有排他鎖定，直到交易結束為止。當某個程序認為有必要特地等待另一個交易結束時，它的做法是嘗試在另一個交易的 ID（依情況為虛擬 ID 或永久 ID）上取得共享鎖定。這只有在另一個交易終止並釋放其鎖定時才會成功。
 
-Although tuples are a lockable type of object,
-information about row-level locks is stored on disk, not in memory,
-and therefore row-level locks normally do not appear in this view.
-If a process is waiting for a
-row-level lock, it will usually appear in the view as waiting for the
-permanent transaction ID of the current holder of that row lock.
+雖然 tuple 是一種可鎖定的物件類型，但資料列層級鎖定的資訊是儲存在磁碟上，而不是記憶體中，因此資料列層級鎖定通常不會出現在此檢視表中。如果某個程序正在等待資料列層級鎖定，它在檢視表中通常會顯示為正在等待該資料列鎖定目前持有者的永久交易 ID。
 
-A speculative insertion lock consists of a transaction ID and a speculative
-insertion token. The speculative insertion token is displayed in the
-`objid` column.
+推測性插入（speculative insertion）鎖定由一個交易 ID 與一個推測性插入權杖組成。推測性插入權杖顯示在 `objid` 欄位中。
 
-Advisory locks can be acquired on keys consisting of either a single
-`bigint` value or two integer values.
-A `bigint` key is displayed with its
-high-order half in the `classid` column, its low-order half
-in the `objid` column, and `objsubid` equal
-to 1. The original `bigint` value can be reassembled with the
-expression `(classid::bigint << 32) |
-objid::bigint`. Integer keys are displayed with the
-first key in the
-`classid` column, the second key in the `objid`
-column, and `objsubid` equal to 2. The actual meaning of
-the keys is up to the user. Advisory locks are local to each database,
-so the `database` column is meaningful for an advisory lock.
+諮詢鎖定可以在由單一 `bigint` 值或兩個整數值所組成的鍵上取得。`bigint` 鍵的顯示方式是：高位半部在 `classid` 欄位中，低位半部在 `objid` 欄位中，且 `objsubid` 等於 1。原始的 `bigint` 值可以用運算式 `(classid::bigint << 32) |
+objid::bigint` 重新組合。整數鍵的顯示方式是：第一個鍵在 `classid` 欄位中，第二個鍵在 `objid` 欄位中，且 `objsubid` 等於 2。這些鍵的實際意義由使用者決定。諮詢鎖定是各資料庫各自獨立的，因此對諮詢鎖定而言，`database` 欄位是有意義的。
 
-Apply transaction locks are used in parallel mode to apply the transaction
-in logical replication. The remote transaction ID is displayed in the
-`transactionid` column. The `objsubid`
-displays the lock subtype which is 0 for the lock used to synchronize the
-set of changes, and 1 for the lock used to wait for the transaction to
-finish to ensure commit order.
+套用交易（apply transaction）鎖定用於在邏輯複寫中以平行模式套用交易。遠端交易 ID 顯示在 `transactionid` 欄位中。`objsubid` 顯示鎖定的子類型：用於同步變更集合的鎖定為 0，用於等待交易完成以確保提交順序的鎖定為 1。
 
-`pg_locks` provides a global view of all locks
-in the database cluster, not only those relevant to the current database.
-Although its `relation` column can be joined
-against [`pg_class`](../catalogs/catalog-pg-class.md).`oid` to identify locked
-relations, this will only work correctly for relations in the current
-database (those for which the `database` column
-is either the current database's OID or zero).
+`pg_locks` 提供整個資料庫叢集中所有鎖定的全域檢視，而不只是與目前資料庫相關的鎖定。雖然可以將它的 `relation` 欄位與 [`pg_class`](../catalogs/catalog-pg-class.md).`oid` 連接，以識別被鎖定的關聯，但這只對目前資料庫中的關聯（也就是 `database` 欄位為目前資料庫的 OID 或零的那些關聯）才能正確運作。
 
-The `pid` column can be joined to the
-`pid` column of the
-[`pg_stat_activity`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
-view to get more
-information on the session holding or awaiting each lock,
-for example
+可以將 `pid` 欄位與 [`pg_stat_activity`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW) 檢視表的 `pid` 欄位連接，以取得持有或等待各個鎖定之工作階段的更多資訊，例如
 
 ```
 
@@ -227,13 +149,7 @@ SELECT * FROM pg_locks pl LEFT JOIN pg_stat_activity psa
     ON pl.pid = psa.pid;
 ```
 
-Also, if you are using prepared transactions, the
-`virtualtransaction` column can be joined to the
-`transaction` column of the [`pg_prepared_xacts`](view-pg-prepared-xacts.md)
-view to get more information on prepared transactions that hold locks.
-(A prepared transaction can never be waiting for a lock,
-but it continues to hold the locks it acquired while running.)
-For example:
+此外，如果你使用預備交易，可以將 `virtualtransaction` 欄位與 [`pg_prepared_xacts`](view-pg-prepared-xacts.md) 檢視表的 `transaction` 欄位連接，以取得持有鎖定之預備交易的更多資訊。（預備交易永遠不可能正在等待鎖定，但它會繼續持有在執行期間所取得的鎖定。）例如：
 
 ```
 
@@ -241,45 +157,12 @@ SELECT * FROM pg_locks pl LEFT JOIN pg_prepared_xacts ppx
     ON pl.virtualtransaction = '-1/' || ppx.transaction;
 ```
 
-While it is possible to obtain information about which processes block
-which other processes by joining `pg_locks` against
-itself, this is very difficult to get right in detail. Such a query would
-have to encode knowledge about which lock modes conflict with which
-others. Worse, the `pg_locks` view does not expose
-information about which processes are ahead of which others in lock wait
-queues, nor information about which processes are parallel workers running
-on behalf of which other client sessions. It is better to use
-the `pg_blocking_pids()` function
-(see [Table 9.71](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-SESSION-TABLE)) to identify which
-process(es) a waiting process is blocked behind.
+雖然可以將 `pg_locks` 與自身連接，來取得哪些程序阻擋了哪些其他程序的資訊，但要在細節上做到完全正確非常困難。這樣的查詢必須編寫「哪些鎖定模式與哪些其他鎖定模式相衝突」的知識。更糟的是，`pg_locks` 檢視表並不會揭露在鎖定等待佇列中哪些程序排在哪些其他程序之前的資訊，也不會揭露哪些程序是代表哪些其他用戶端工作階段執行的平行工作程序。比較好的做法是使用 `pg_blocking_pids()` 函式（請參閱[表 9.71](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-SESSION-TABLE)），來識別等待中的程序被哪個（或哪些）程序所阻擋。
 
-The `pg_locks` view displays data from both the
-regular lock manager and the predicate lock manager, which are
-separate systems; in addition, the regular lock manager subdivides its
-locks into regular and *fast-path* locks.
-This data is not guaranteed to be entirely consistent.
-When the view is queried,
-data on fast-path locks (with `fastpath` = `true`)
-is gathered from each backend one at a time, without freezing the state of
-the entire lock manager, so it is possible for locks to be taken or
-released while information is gathered. Note, however, that these locks are
-known not to conflict with any other lock currently in place. After
-all backends have been queried for fast-path locks, the remainder of the
-regular lock manager is locked as a unit, and a consistent snapshot of all
-remaining locks is collected as an atomic action. After unlocking the
-regular lock manager, the predicate lock manager is similarly locked and all
-predicate locks are collected as an atomic action. Thus, with the exception
-of fast-path locks, each lock manager will deliver a consistent set of
-results, but as we do not lock both lock managers simultaneously, it is
-possible for locks to be taken or released after we interrogate the regular
-lock manager and before we interrogate the predicate lock manager.
+`pg_locks` 檢視表會顯示來自一般鎖定管理器與謂詞鎖管理器的資料，兩者是各自獨立的系統；此外，一般鎖定管理器又將其鎖定細分為一般鎖定與*快速路徑（fast-path）*鎖定。這些資料並不保證完全一致。查詢此檢視表時，快速路徑鎖定（`fastpath` = `true`）的資料是逐一從各個後端收集而來，過程中不會凍結整個鎖定管理器的狀態，因此在收集資訊的期間，可能有鎖定被取得或釋放。不過請注意，已知這些鎖定不會與目前存在的任何其他鎖定相衝突。在向所有後端查詢過快速路徑鎖定之後，一般鎖定管理器的其餘部分會作為一個整體被鎖定，並以一個不可分割的動作，收集所有剩餘鎖定的一致快照。在解除一般鎖定管理器的鎖定之後，謂詞鎖管理器也會以同樣的方式被鎖定，並以一個不可分割的動作收集所有謂詞鎖。因此，除了快速路徑鎖定之外，每個鎖定管理器都會提供一組一致的結果；但由於我們不會同時鎖定兩個鎖定管理器，因此在我們查詢一般鎖定管理器之後、查詢謂詞鎖管理器之前，仍有可能有鎖定被取得或釋放。
 
-Locking the regular and/or predicate lock manager could have some
-impact on database performance if this view is very frequently accessed.
-The locks are held only for the minimum amount of time necessary to
-obtain data from the lock managers, but this does not completely eliminate
-the possibility of a performance impact.
+如果此檢視表被非常頻繁地存取，鎖定一般鎖定管理器及／或謂詞鎖管理器可能會對資料庫效能產生一些影響。這些鎖定只會持有從鎖定管理器取得資料所需的最短時間，但這並不能完全消除影響效能的可能性。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-locks.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-locks.html)（原文版本：18.6；核對日期：2026-10-10）
