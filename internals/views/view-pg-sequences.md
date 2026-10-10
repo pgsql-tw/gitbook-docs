@@ -1,92 +1,89 @@
+<a id="VIEW-PG-SEQUENCES"></a>
+
 ## 53.24. `pg_sequences` [#](#VIEW-PG-SEQUENCES)
 
 <a id="id-1.10.5.28.2"></a>
 
-The view `pg_sequences` provides access to
-useful information about each sequence in the database.
+檢視表 `pg_sequences` 提供對資料庫中每個序列之實用資訊的存取。
 
 <a id="id-1.10.5.28.4"></a>
 
-**Table 53.24. `pg_sequences` Columns**
+**表 53.24. `pg_sequences` 欄位**
 
-<table border="1" class="table" summary="pg_sequences Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 53.24. pg_sequences 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">schemaname</code> <code class="type">name</code>
-       (references <a class="link" href="../catalogs/catalog-pg-namespace.md"><code class="structname">pg_namespace</code></a>.<code class="structfield">nspname</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-namespace.md"><code class="structname">pg_namespace</code></a>.<code class="structfield">nspname</code>）
       </p>
 <p>
-       Name of schema containing sequence
+       包含序列之綱要的名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">sequencename</code> <code class="type">name</code>
-       (references <a class="link" href="../catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">relname</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">relname</code>）
       </p>
 <p>
-       Name of sequence
+       序列名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">sequenceowner</code> <code class="type">name</code>
-       (references <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">rolname</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">rolname</code>）
       </p>
 <p>
-       Name of sequence's owner
+       序列擁有者的名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">data_type</code> <code class="type">regtype</code>
-       (references <a class="link" href="../catalogs/catalog-pg-type.md"><code class="structname">pg_type</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-type.md"><code class="structname">pg_type</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       Data type of the sequence
+       序列的資料型別
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">start_value</code> <code class="type">int8</code>
 </p>
 <p>
-       Start value of the sequence
+       序列的起始值
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">min_value</code> <code class="type">int8</code>
 </p>
 <p>
-       Minimum value of the sequence
+       序列的最小值
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">max_value</code> <code class="type">int8</code>
 </p>
 <p>
-       Maximum value of the sequence
+       序列的最大值
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">increment_by</code> <code class="type">int8</code>
 </p>
 <p>
-       Increment value of the sequence
+       序列的遞增值
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">cycle</code> <code class="type">bool</code>
 </p>
 <p>
-       Whether the sequence cycles
+       序列是否循環
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">cache_size</code> <code class="type">int8</code>
 </p>
 <p>
-       Cache size of the sequence
+       序列的快取大小
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">last_value</code> <code class="type">int8</code>
 </p>
 <p>
-       The last sequence value written to disk.  If caching is used,
-       this value can be greater than the last value handed out from the
-       sequence.
+       最後寫入磁碟的序列值。若使用了快取，此值可能大於序列最後一次發出的值。
       </p></td></tr></tbody></table>
 
 <br>
 
-The `last_value` column will read as null if any of
-the following are true:
+若下列任一條件成立，`last_value` 欄位讀出的值將為 null：
 
-* The sequence has not been read from yet.
-* The current user does not have `USAGE` or
-  `SELECT` privilege on the sequence.
-* The sequence is unlogged and the server is a standby.
+* 此序列尚未被讀取過。
+* 目前使用者對此序列既沒有 `USAGE` 權限，也沒有 `SELECT` 權限。
+* 此序列為無日誌序列，且伺服器為待命伺服器。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-sequences.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-sequences.html)（原文版本：18.6；核對日期：2026-10-10）

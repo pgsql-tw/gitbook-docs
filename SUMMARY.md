@@ -923,7 +923,7 @@
     * [53.21. `pg_roles` #](internals/views/view-pg-roles.md)
     * [53.22. `pg_rules` #](internals/views/view-pg-rules.md)
     * [53.23. `pg_seclabels` #](internals/views/view-pg-seclabels.md)
-    * [53.24. pg_sequences #](internals/views/view-pg-sequences.md)
+    * [53.24. `pg_sequences` #](internals/views/view-pg-sequences.md)
     * [53.25. `pg_settings` #](internals/views/view-pg-settings.md)
     * [53.26. pg_shadow #](internals/views/view-pg-shadow.md)
     * [53.27. `pg_shmem_allocations` #](internals/views/view-pg-shmem-allocations.md)
