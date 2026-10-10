@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：361 頁。
+待譯頁面：360 頁。
 
 ## 根目錄
 
@@ -527,7 +527,7 @@
 - [x] `reference/sql-commands/sql-alterconversion.md` — ALTER CONVERSION
 - [x] `reference/sql-commands/sql-alterdatabase.md` — ALTER DATABASE
 - [x] `reference/sql-commands/sql-alterdefaultprivileges.md` — ALTER DEFAULT PRIVILEGES
-- [ ] `reference/sql-commands/sql-alterdomain.md` — ALTER DOMAIN
+- [x] `reference/sql-commands/sql-alterdomain.md` — ALTER DOMAIN
 - [x] `reference/sql-commands/sql-altereventtrigger.md` — ALTER EVENT TRIGGER
 - [x] `reference/sql-commands/sql-alterextension.md` — ALTER EXTENSION
 - [x] `reference/sql-commands/sql-alterforeigndatawrapper.md` — ALTER FOREIGN DATA WRAPPER
