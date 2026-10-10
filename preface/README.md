@@ -1,64 +1,41 @@
-# Preface
+<a id="PREFACE"></a>
 
-**Table of Contents**
+# 前言
 
-[1. What Is PostgreSQL?](intro-whatis.md)
+**目錄**
 
-[2. A Brief History of PostgreSQL](history.md)
-:   [2.1. The Berkeley POSTGRES Project](history.md#HISTORY-BERKELEY)
+[1. 什麼是 PostgreSQL？](intro-whatis.md)
+
+[2. PostgreSQL 簡史](history.md)
+:   [2.1. 柏克萊 POSTGRES 專案](history.md#HISTORY-BERKELEY)
 
     [2.2. Postgres95](history.md#HISTORY-POSTGRES95)
 
     [2.3. PostgreSQL](history.md#HISTORY-POSTGRESQL)
 
-[3. Conventions](notation.md)
+[3. 慣例](notation.md)
 
-[4. Further Information](resources.md)
+[4. 更多資訊](resources.md)
 
-[5. Bug Reporting Guidelines](bug-reporting.md)
-:   [5.1. Identifying Bugs](bug-reporting.md#BUG-REPORTING-IDENTIFYING-BUGS)
+[5. 錯誤回報指引](bug-reporting.md)
+:   [5.1. 辨識錯誤](bug-reporting.md#BUG-REPORTING-IDENTIFYING-BUGS)
 
-    [5.2. What to Report](bug-reporting.md#BUG-REPORTING-WHAT-TO-REPORT)
+    [5.2. 回報哪些內容](bug-reporting.md#BUG-REPORTING-WHAT-TO-REPORT)
 
-    [5.3. Where to Report Bugs](bug-reporting.md#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
+    [5.3. 在哪裡回報錯誤](bug-reporting.md#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
 
-This book is the official documentation of
-PostgreSQL. It has been written by the
-PostgreSQL developers and other
-volunteers in parallel to the development of the
-PostgreSQL software. It describes all
-the functionality that the current version of
-PostgreSQL officially supports.
+本書是 PostgreSQL 的官方文件。本書由 PostgreSQL 開發人員與其他志工撰寫，與 PostgreSQL 軟體的開發同步進行。本書說明目前版本的 PostgreSQL 正式支援的所有功能。
 
-To make the large amount of information about
-PostgreSQL manageable, this book has been
-organized in several parts. Each part is targeted at a different
-class of users, or at users in different stages of their
-PostgreSQL experience:
+為了讓大量的 PostgreSQL 相關資訊易於掌握，本書分成數個部分。每個部分各自針對不同類別的使用者，或是 PostgreSQL 使用經驗處於不同階段的使用者：
 
-* [Part I](../tutorial/README.md) is an informal introduction for new users.
-* [Part II](../the-sql-language/README.md) documents the SQL query
-  language environment, including data types and functions, as well
-  as user-level performance tuning. Every
-  PostgreSQL user should read this.
-* [Part III](../server-administration/README.md) describes the installation and
-  administration of the server. Everyone who runs a
-  PostgreSQL server, be it for private
-  use or for others, should read this part.
-* [Part IV](../client-interfaces/README.md) describes the programming
-  interfaces for PostgreSQL client
-  programs.
-* [Part V](../server-programming/README.md) contains information for
-  advanced users about the extensibility capabilities of the
-  server. Topics include user-defined data types and
-  functions.
-* [Part VI](../reference/README.md) contains reference information about
-  SQL commands, client and server programs. This part supports
-  the other parts with structured information sorted by command or
-  program.
-* [Part VII](../internals/README.md) contains assorted information that might be of
-  use to PostgreSQL developers.
+* [第一部分](../tutorial/README.md)是給新使用者的非正式入門介紹。
+* [第二部分](../the-sql-language/README.md)說明 SQL 查詢語言環境，包括資料型別與函式，以及使用者層級的效能調校。每位 PostgreSQL 使用者都應該閱讀這個部分。
+* [第三部分](../server-administration/README.md)說明伺服器的安裝與管理。每位執行 PostgreSQL 伺服器的人，無論是供私人使用或供他人使用，都應該閱讀這個部分。
+* [第四部分](../client-interfaces/README.md)說明 PostgreSQL 用戶端程式的程式設計介面。
+* [第五部分](../server-programming/README.md)為進階使用者提供有關伺服器擴充能力的資訊，主題包括使用者自訂的資料型別與函式。
+* [第六部分](../reference/README.md)包含 SQL 命令、用戶端程式與伺服器程式的參考資訊。這個部分以依命令或程式排序的結構化資訊，輔助其他各部分。
+* [第七部分](../internals/README.md)包含各種可能對 PostgreSQL 開發人員有用的資訊。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/preface.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/preface.html)（原文版本：18.6；核對日期：2026-10-10）

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：323 頁。
+待譯頁面：322 頁。
 
 ## 根目錄
 
@@ -473,7 +473,7 @@
 
 ## preface
 
-- [ ] `preface/README.md` — Preface
+- [x] `preface/README.md` — 前言
 - [x] `preface/bug-reporting.md` — 5. 錯誤回報指引 #
 - [x] `preface/history.md` — 2. PostgreSQL 簡史 #
 - [x] `preface/intro-whatis.md` — 1. 什麼是 PostgreSQL？ #

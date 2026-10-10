@@ -1,7 +1,7 @@
 # Table of contents
 
 * [簡介](README.md)
-* [Preface](preface/README.md)
+* [前言](preface/README.md)
   * [1. 什麼是 PostgreSQL？ #](preface/intro-whatis.md)
   * [2. PostgreSQL 簡史 #](preface/history.md)
   * [3. 慣例](preface/notation.md)
