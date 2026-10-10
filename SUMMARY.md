@@ -900,7 +900,7 @@
     * [52.64. pg_type #](internals/catalogs/catalog-pg-type.md)
     * [52.65. pg_user_mapping #](internals/catalogs/catalog-pg-user-mapping.md)
   * [Chapter 53. System Views](internals/views/README.md)
-    * [53.1. Overview #](internals/views/views-overview.md)
+    * [53.1. 概觀 #](internals/views/views-overview.md)
     * [53.2. pg_aios #](internals/views/view-pg-aios.md)
     * [53.3. pg_available_extensions #](internals/views/view-pg-available-extensions.md)
     * [53.4. pg_available_extension_versions #](internals/views/view-pg-available-extension-versions.md)
