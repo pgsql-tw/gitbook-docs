@@ -1,160 +1,120 @@
+<a id="VIEW-PG-STATS-EXT-EXPRS"></a>
+
 ## 53.31. `pg_stats_ext_exprs` [#](#VIEW-PG-STATS-EXT-EXPRS)
 
 <a id="id-1.10.5.35.2"></a>
 
-The view `pg_stats_ext_exprs` provides access to
-information about all expressions included in extended statistics objects,
-combining information stored in the [`pg_statistic_ext`](../catalogs/catalog-pg-statistic-ext.md)
-and [`pg_statistic_ext_data`](../catalogs/catalog-pg-statistic-ext-data.md)
-catalogs. This view allows access only to rows of
-[`pg_statistic_ext`](../catalogs/catalog-pg-statistic-ext.md) and [`pg_statistic_ext_data`](../catalogs/catalog-pg-statistic-ext-data.md)
-that correspond to tables the user owns, and therefore
-it is safe to allow public read access to this view.
+檢視表 `pg_stats_ext_exprs` 可用來存取擴充統計資訊物件中所包含之所有運算式的相關資訊，它結合了儲存在 [`pg_statistic_ext`](../catalogs/catalog-pg-statistic-ext.md) 與 [`pg_statistic_ext_data`](../catalogs/catalog-pg-statistic-ext-data.md) 系統目錄中的資訊。此檢視表只允許存取 [`pg_statistic_ext`](../catalogs/catalog-pg-statistic-ext.md) 與 [`pg_statistic_ext_data`](../catalogs/catalog-pg-statistic-ext-data.md) 中對應到使用者所擁有之資料表的資料列，因此允許大眾讀取此檢視表是安全的。
 
-`pg_stats_ext_exprs` is also designed to present
-the information in a more readable format than the underlying catalogs
-— at the cost that its schema must be extended whenever the structure
-of statistics in `pg_statistic_ext` changes.
+`pg_stats_ext_exprs` 也被設計成以比底層系統目錄更易讀的格式呈現資訊——代價是每當 `pg_statistic_ext` 中統計資訊的結構改變時，它的結構定義（schema）就必須跟著擴充。
 
 <a id="id-1.10.5.35.5"></a>
 
-**Table 53.31. `pg_stats_ext_exprs` Columns**
+**表 53.31. `pg_stats_ext_exprs` 欄位**
 
-<table border="1" class="table" summary="pg_stats_ext_exprs Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 53.31. pg_stats_ext_exprs 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">schemaname</code> <code class="type">name</code>
-       (references <a class="link" href="../catalogs/catalog-pg-namespace.md"><code class="structname">pg_namespace</code></a>.<code class="structfield">nspname</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-namespace.md"><code class="structname">pg_namespace</code></a>.<code class="structfield">nspname</code>）
       </p>
 <p>
-       Name of schema containing table
+       包含此資料表的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">tablename</code> <code class="type">name</code>
-       (references <a class="link" href="../catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">relname</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">relname</code>）
       </p>
 <p>
-       Name of table the statistics object is defined on
+       定義此統計資訊物件之資料表的名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">statistics_schemaname</code> <code class="type">name</code>
-       (references <a class="link" href="../catalogs/catalog-pg-namespace.md"><code class="structname">pg_namespace</code></a>.<code class="structfield">nspname</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-namespace.md"><code class="structname">pg_namespace</code></a>.<code class="structfield">nspname</code>）
       </p>
 <p>
-       Name of schema containing extended statistics object
+       包含此擴充統計資訊物件的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">statistics_name</code> <code class="type">name</code>
-       (references <a class="link" href="../catalogs/catalog-pg-statistic-ext.md"><code class="structname">pg_statistic_ext</code></a>.<code class="structfield">stxname</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-statistic-ext.md"><code class="structname">pg_statistic_ext</code></a>.<code class="structfield">stxname</code>）
       </p>
 <p>
-       Name of extended statistics object
+       擴充統計資訊物件的名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">statistics_owner</code> <code class="type">name</code>
-       (references <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">rolname</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">rolname</code>）
       </p>
 <p>
-       Owner of the extended statistics object
+       擴充統計資訊物件的擁有者
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">expr</code> <code class="type">text</code>
 </p>
 <p>
-       Expression included in the extended statistics object
+       擴充統計資訊物件中所包含的運算式
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">inherited</code> <code class="type">bool</code>
-       (references <a class="link" href="../catalogs/catalog-pg-statistic-ext-data.md"><code class="structname">pg_statistic_ext_data</code></a>.<code class="structfield">stxdinherit</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-statistic-ext-data.md"><code class="structname">pg_statistic_ext_data</code></a>.<code class="structfield">stxdinherit</code>）
       </p>
 <p>
-       If true, the stats include values from child tables, not just the
-       values in the specified relation
+       若為 true，則統計資訊包含來自子資料表的值，而不僅是指定關聯中的值
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">null_frac</code> <code class="type">float4</code>
 </p>
 <p>
-       Fraction of expression entries that are null
+       運算式項目中為 null 的比例
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">avg_width</code> <code class="type">int4</code>
 </p>
 <p>
-       Average width in bytes of expression's entries
+       運算式項目的平均寬度，以位元組為單位
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">n_distinct</code> <code class="type">float4</code>
 </p>
 <p>
-       If greater than zero, the estimated number of distinct values in the
-       expression.  If less than zero, the negative of the number of distinct
-       values divided by the number of rows.  (The negated form is used when
-       <code class="command">ANALYZE</code> believes that the number of distinct values is
-       likely to increase as the table grows; the positive form is used when
-       the expression seems to have a fixed number of possible values.)  For
-       example, -1 indicates a unique expression in which the number of distinct
-       values is the same as the number of rows.
+       若大於零，則為運算式中相異值的估計數量。若小於零，則為相異值數量除以資料列數量後的負值。（當 <code class="command">ANALYZE</code> 認為相異值的數量可能隨資料表成長而增加時，使用負值形式；當運算式看起來具有固定數量的可能值時，則使用正值形式。）例如，-1 表示唯一的運算式，其相異值數量與資料列數量相同。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">most_common_vals</code> <code class="type">anyarray</code>
 </p>
 <p>
-       A list of the most common values in the expression. (Null if
-       no values seem to be more common than any others.)
+       運算式中最常見值的清單。（若沒有任何值看起來比其他值更常見，則為 null。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">most_common_freqs</code> <code class="type">float4[]</code>
 </p>
 <p>
-       A list of the frequencies of the most common values,
-       i.e., number of occurrences of each divided by total number of rows.
-       (Null when <code class="structfield">most_common_vals</code> is.)
+       最常見值的頻率清單，也就是每個值的出現次數除以資料列總數。（當 <code class="structfield">most_common_vals</code> 為 null 時，此欄位也為 null。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">histogram_bounds</code> <code class="type">anyarray</code>
 </p>
 <p>
-       A list of values that divide the expression's values into groups of
-       approximately equal population.  The values in
-       <code class="structfield">most_common_vals</code>, if present, are omitted from this
-       histogram calculation.  (This expression is null if the expression data type
-       does not have a <code class="literal">&lt;</code> operator or if the
-       <code class="structfield">most_common_vals</code> list accounts for the entire
-       population.)
+       將運算式的值分成數量大約相等之各組的值清單。<code class="structfield">most_common_vals</code> 中的值（若有）不納入此直方圖計算。（若運算式的資料型別沒有 <code class="literal">&lt;</code> 運算子，或 <code class="structfield">most_common_vals</code> 清單已涵蓋整個母體，則此運算式為 null。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">correlation</code> <code class="type">float4</code>
 </p>
 <p>
-       Statistical correlation between physical row ordering and
-       logical ordering of the expression values.  This ranges from -1 to +1.
-       When the value is near -1 or +1, an index scan on the expression will
-       be estimated to be cheaper than when it is near zero, due to reduction
-       of random access to the disk.  (This expression is null if the expression's
-       data type does not have a <code class="literal">&lt;</code> operator.)
+       實體資料列順序與運算式值之邏輯順序間的統計相關性。其範圍為 -1 到 +1。當此值接近 -1 或 +1 時，由於減少了對磁碟的隨機存取，針對該運算式的索引掃描會被估算為比此值接近零時更便宜。（若運算式的資料型別沒有 <code class="literal">&lt;</code> 運算子，則此運算式為 null。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">most_common_elems</code> <code class="type">anyarray</code>
 </p>
 <p>
-       A list of non-null element values most often appearing within values of
-       the expression. (Null for scalar types.)
+       在運算式的值中最常出現的非 null 元素值清單。（純量型別則為 null。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">most_common_elem_freqs</code> <code class="type">float4[]</code>
 </p>
 <p>
-       A list of the frequencies of the most common element values, i.e., the
-       fraction of rows containing at least one instance of the given value.
-       Two or three additional values follow the per-element frequencies;
-       these are the minimum and maximum of the preceding per-element
-       frequencies, and optionally the frequency of null elements.
-       (Null when <code class="structfield">most_common_elems</code> is.)
+       最常見元素值的頻率清單，也就是包含至少一個該值實例的資料列比例。在各元素頻率之後會接著兩個或三個額外的值；它們分別是前述各元素頻率的最小值與最大值，以及（視情況）null 元素的頻率。（當 <code class="structfield">most_common_elems</code> 為 null 時，此欄位也為 null。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">elem_count_histogram</code> <code class="type">float4[]</code>
 </p>
 <p>
-       A histogram of the counts of distinct non-null element values within the
-       values of the expression, followed by the average number of distinct
-       non-null elements.  (Null for scalar types.)
+       運算式各值中相異非 null 元素值個數的直方圖，後面接著相異非 null 元素的平均個數。（純量型別則為 null。）
       </p></td></tr></tbody></table>
 
 <br>
 
-The maximum number of entries in the array fields can be controlled on a
-column-by-column basis using the [`ALTER
-TABLE SET STATISTICS`](../../reference/sql-commands/sql-altertable.md) command, or globally by setting the
-[default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET) run-time parameter.
+陣列欄位中的最大項目數，可以使用 [`ALTER
+TABLE SET STATISTICS`](../../reference/sql-commands/sql-altertable.md) 命令逐欄控制，或透過設定 [default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET) 執行期參數進行全域控制。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-stats-ext-exprs.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-stats-ext-exprs.html)（原文版本：18.6；核對日期：2026-10-10）
