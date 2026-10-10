@@ -1,69 +1,61 @@
-## 22.1. Overview [#](#MANAGE-AG-OVERVIEW)
+<a id="MANAGE-AG-OVERVIEW"></a>
+
+## 22.1. 概觀 [#](#MANAGE-AG-OVERVIEW)
 
 <a id="id-1.6.9.4.2"></a>
 
-A small number of objects, like role, database, and tablespace
-names, are defined at the cluster level and stored in the
-`pg_global` tablespace. Inside the cluster are
-multiple databases, which are isolated from each other but can access
-cluster-level objects. Inside each database are multiple schemas,
-which contain objects like tables and functions. So the full hierarchy
-is: cluster, database, schema, table (or some other kind of object,
-such as a function).
+少數物件，例如角色、資料庫與資料表空間的名稱，是在叢集層級定義，並儲存在
+`pg_global` 資料表空間中。叢集內部有多個資料庫，這些資料庫彼此隔離，但可以存取
+叢集層級的物件。每個資料庫內部有多個綱要，綱要中包含資料表與函式等物件。
+因此完整的階層是：叢集、資料庫、綱要、資料表（或其他種類的物件，例如函式）。
 
-When connecting to the database server, a client must specify the
-database name in its connection request.
-It is not possible to access more than one database per
-connection. However, clients can open multiple connections to
-the same database, or different databases.
-Database-level security has two components: access control
-(see [Section 20.1](../client-authentication/auth-pg-hba-conf.md)), managed at the
-connection level, and authorization control
-(see [Section 5.8](../../the-sql-language/ddl/ddl-priv.md)), managed via the grant system.
-Foreign data wrappers (see [postgres_fdw](../../appendixes/contrib/postgres-fdw.md))
-allow for objects within one database to act as proxies for objects in
-other database or clusters.
-The older dblink module (see [dblink](../../appendixes/contrib/dblink.md)) provides a similar capability.
-By default, all users can connect to all databases using all connection methods.
+連線到資料庫伺服器時，用戶端必須在其連線請求中指定資料庫名稱。
+每個連線無法存取超過一個資料庫。不過，用戶端可以對同一個資料庫或不同的資料庫
+開啟多個連線。
+資料庫層級的安全性有兩個組成部分：存取控制
+（請參閱[第 20.1 節](../client-authentication/auth-pg-hba-conf.md)），在連線層級管理；
+以及授權控制
+（請參閱[第 5.8 節](../../the-sql-language/ddl/ddl-priv.md)），透過授權（grant）系統管理。
+外部資料包裝器（請參閱 [postgres_fdw](../../appendixes/contrib/postgres-fdw.md)）
+可讓一個資料庫內的物件充當其他資料庫或叢集中物件的代理。
+較舊的 dblink 模組（請參閱 [dblink](../../appendixes/contrib/dblink.md)）提供類似的功能。
+預設情況下，所有使用者都可以使用所有連線方式連線到所有資料庫。
 
-If one PostgreSQL server cluster is planned to contain
-unrelated projects or users that should be, for the most part, unaware
-of each other, it is recommended to put them into separate databases and
-adjust authorizations and access controls accordingly.
-If the projects or users are interrelated, and thus should be able to use
-each other's resources, they should be put in the same database but probably
-into separate schemas; this provides a modular structure with namespace
-isolation and authorization control.
-More information about managing schemas is in [Section 5.10](../../the-sql-language/ddl/ddl-schemas.md).
+如果一個 PostgreSQL 伺服器叢集預計容納彼此無關、且大致上應該互不知悉的
+專案或使用者，建議將它們放入不同的資料庫，並相應調整授權與存取控制。
+如果這些專案或使用者彼此相關，因此應該能夠使用彼此的資源，則應該將它們放在同一個
+資料庫中，但或許放入不同的綱要；這樣可以提供具備命名空間隔離與授權控制
+的模組化結構。
+關於管理綱要的更多資訊，請參閱[第 5.10 節](../../the-sql-language/ddl/ddl-schemas.md)。
 
-While multiple databases can be created within a single cluster, it is advised
-to consider carefully whether the benefits outweigh the risks and limitations.
-In particular, the impact that having a shared WAL (see [Chapter 28](../wal/README.md))
-has on backup and recovery options. While individual databases in the cluster
-are isolated when considered from the user's perspective, they are closely bound
-from the database administrator's point-of-view.
+雖然可以在單一叢集內建立多個資料庫，但建議審慎考量其效益是否大於風險與限制，
+特別是共用 WAL（請參閱[第 28 章](../wal/README.md)）
+對備份與復原選項的影響。雖然從使用者的角度來看，叢集中的各個資料庫是彼此隔離的，
+但從資料庫管理者的角度來看，它們是緊密相連的。
 
-Databases are created with the `CREATE DATABASE` command
-(see [Section 22.2](manage-ag-createdb.md)) and destroyed with the
-`DROP DATABASE` command
-(see [Section 22.5](manage-ag-dropdb.md)).
-To determine the set of existing databases, examine the
-`pg_database` system catalog, for example
+資料庫以 `CREATE DATABASE` 命令建立
+（請參閱[第 22.2 節](manage-ag-createdb.md)），並以
+`DROP DATABASE` 命令銷毀
+（請參閱[第 22.5 節](manage-ag-dropdb.md)）。
+若要得知現有資料庫的集合，請查看
+`pg_database` 系統目錄，例如
 
 ```
 
 SELECT datname FROM pg_database;
 ```
 
-The [psql](../../reference/reference-client/app-psql.md) program's `\l` meta-command
-and `-l` command-line option are also useful for listing the
-existing databases.
+[psql](../../reference/reference-client/app-psql.md) 程式的 `\l` 元命令
+與 `-l` 命令列選項也可用來列出
+現有的資料庫。
 
-### Note
+<a id="MANAGE-AG-OVERVIEW-NOTE"></a>
 
-The SQL standard calls databases “catalogs”, but there
-is no difference in practice.
+### 注意
+
+SQL 標準將資料庫稱為「catalogs」（目錄），但在實務上
+兩者沒有差別。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/manage-ag-overview.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/manage-ag-overview.html)（原文版本：18.6；核對日期：2026-10-10）
