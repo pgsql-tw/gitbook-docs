@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：346 頁。
+待譯頁面：345 頁。
 
 ## 根目錄
 
@@ -439,7 +439,7 @@
 - [x] `internals/views/view-pg-group.md` — 53.9. pg_group #
 - [x] `internals/views/view-pg-hba-file-rules.md` — 53.10. `pg_hba_file_rules` #
 - [x] `internals/views/view-pg-ident-file-mappings.md` — 53.11. `pg_ident_file_mappings` #
-- [ ] `internals/views/view-pg-indexes.md` — 53.12. pg_indexes #
+- [x] `internals/views/view-pg-indexes.md` — 53.12. `pg_indexes` #
 - [ ] `internals/views/view-pg-locks.md` — 53.13. pg_locks #
 - [ ] `internals/views/view-pg-matviews.md` — 53.14. pg_matviews #
 - [ ] `internals/views/view-pg-policies.md` — 53.15. pg_policies #
