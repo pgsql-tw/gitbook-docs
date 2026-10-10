@@ -1,102 +1,102 @@
-## 29.5. Column Lists [#](#LOGICAL-REPLICATION-COL-LISTS)
+<a id="LOGICAL-REPLICATION-COL-LISTS"></a>
 
-[29.5.1. Examples](logical-replication-col-lists.md#LOGICAL-REPLICATION-COL-LIST-EXAMPLES)
+## 29.5. 欄位清單 [#](#LOGICAL-REPLICATION-COL-LISTS)
 
-Each publication can optionally specify which columns of each table are
-replicated to subscribers. The table on the subscriber side must have at
-least all the columns that are published. If no column list is specified,
-then all columns on the publisher are replicated.
-See [CREATE PUBLICATION](../../reference/sql-commands/sql-createpublication.md) for details on the syntax.
+[29.5.1. 範例](logical-replication-col-lists.md#LOGICAL-REPLICATION-COL-LIST-EXAMPLES)
 
-The choice of columns can be based on behavioral or performance reasons.
-However, do not rely on this feature for security: a malicious subscriber
-is able to obtain data from columns that are not specifically
-published. If security is a consideration, protections can be applied
-at the publisher side.
+每個發佈都可以選擇性地指定每個資料表的哪些欄位要
+複寫到訂閱者。訂閱者端的資料表至少必須
+具有所有已發佈的欄位。如果未指定欄位清單，
+則會複寫發佈者上的所有欄位。
+語法的詳細資訊請參閱 [CREATE PUBLICATION](../../reference/sql-commands/sql-createpublication.md)。
 
-If no column list is specified, any columns added to the table later are
-automatically replicated. This means that having a column list which names
-all columns is not the same as having no column list at all.
+欄位的選擇可以基於行為或效能上的理由。
+不過，不要依賴這項功能來確保安全性：惡意的訂閱者
+能夠取得未特別發佈之欄位中的資料。
+如果有安全性方面的考量，可以在發佈者端
+施加保護措施。
 
-A column list can contain only simple column references. The order
-of columns in the list is not preserved.
+如果未指定欄位清單，之後加入資料表的任何欄位都會
+自動被複寫。這表示具有列出所有欄位的欄位清單，
+與完全沒有欄位清單並不相同。
 
-Generated columns can also be specified in a column list. This allows
-generated columns to be published, regardless of the publication parameter
-[`publish_generated_columns`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS). See
-[Section 29.6](logical-replication-gencols.md) for details.
+欄位清單只能包含單純的欄位參照。清單中欄位的
+順序不會被保留。
 
-Specifying a column list when the publication also publishes
+產生欄位也可以在欄位清單中指定。這使得
+產生欄位可以被發佈，不論發佈參數
+[`publish_generated_columns`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS) 的設定為何。詳細資訊請參閱
+[第 29.6 節](logical-replication-gencols.md)。
+
+當發佈同時也發佈
 [`FOR TABLES IN SCHEMA`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-FOR-TABLES-IN-SCHEMA)
-is not supported.
+時，不支援指定欄位清單。
 
-For partitioned tables, the publication parameter
+對於分割資料表，由發佈參數
 [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT)
-determines which column list is used. If `publish_via_partition_root`
-is `true`, the root partitioned table's column list is
-used. Otherwise, if `publish_via_partition_root` is
-`false` (the default), each partition's column list is used.
+決定使用哪一個欄位清單。如果 `publish_via_partition_root`
+為 `true`，則使用根分割資料表的欄位清單。
+否則，如果 `publish_via_partition_root` 為
+`false`（預設值），則使用每個分割區各自的欄位清單。
 
-If a publication publishes `UPDATE` or
-`DELETE` operations, any column list must include the
-table's replica identity columns (see
-[`REPLICA IDENTITY`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY)).
-If a publication publishes only `INSERT` operations, then
-the column list may omit replica identity columns.
+如果發佈會發佈 `UPDATE` 或
+`DELETE` 操作，則任何欄位清單都必須包含該
+資料表的複寫識別欄位（請參閱
+[`REPLICA IDENTITY`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY)）。
+如果發佈只發佈 `INSERT` 操作，則
+欄位清單可以省略複寫識別欄位。
 
-Column lists have no effect for the `TRUNCATE` command.
+欄位清單對 `TRUNCATE` 命令沒有作用。
 
-During initial data synchronization, only the published columns are
-copied. However, if the subscriber is from a release prior to 15, then
-all the columns in the table are copied during initial data synchronization,
-ignoring any column lists. If the subscriber is from a release prior to 18,
-then initial table synchronization won't copy generated columns even if they
-are defined in the publisher.
+在初始資料同步期間，只會複製已發佈的欄位。
+不過，如果訂閱者是 15 之前的版本，則
+在初始資料同步期間會複製資料表中的所有欄位，
+並忽略任何欄位清單。如果訂閱者是 18 之前的版本，
+則即使發佈者中定義了產生欄位，初始資料表同步也不會複製
+這些產生欄位。
 
 <a id="LOGICAL-REPLICATION-COL-LIST-COMBINING"></a>
 
-### Warning: Combining Column Lists from Multiple Publications
+### 警告：合併來自多個發佈的欄位清單
 
-There's currently no support for subscriptions comprising several
-publications where the same table has been published with different
-column lists. [CREATE SUBSCRIPTION](../../reference/sql-commands/sql-createsubscription.md) disallows
-creating such subscriptions, but it is still possible to get into
-that situation by adding or altering column lists on the publication
-side after a subscription has been created.
+目前不支援由多個發佈組成、且同一個資料表
+在這些發佈中以不同欄位清單發佈的訂閱。
+[CREATE SUBSCRIPTION](../../reference/sql-commands/sql-createsubscription.md) 不允許
+建立這樣的訂閱，但在訂閱建立之後，
+仍然可能因為在發佈端加入或修改欄位清單
+而陷入這種情況。
 
-This means changing the column lists of tables on publications that are
-already subscribed could lead to errors being thrown on the subscriber
-side.
+這表示變更已被訂閱之發佈中資料表的欄位清單，
+可能導致訂閱者端擲出
+錯誤。
 
-If a subscription is affected by this problem, the only way to resume
-replication is to adjust one of the column lists on the publication
-side so that they all match; and then either recreate the subscription,
-or use [`ALTER SUBSCRIPTION ... DROP PUBLICATION`](../../reference/sql-commands/sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-SETADDDROP-PUBLICATION) to
-remove one of the offending publications and add it again.
+如果訂閱受到此問題影響，恢復
+複寫的唯一方法是調整發佈端的其中一個欄位清單，
+使它們全部一致；然後重新建立訂閱，
+或使用 [`ALTER SUBSCRIPTION ... DROP PUBLICATION`](../../reference/sql-commands/sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-SETADDDROP-PUBLICATION)
+移除其中一個造成問題的發佈，再將它重新加入。
 
 <a id="LOGICAL-REPLICATION-COL-LIST-EXAMPLES"></a>
 
-### 29.5.1. Examples [#](#LOGICAL-REPLICATION-COL-LIST-EXAMPLES)
+### 29.5.1. 範例 [#](#LOGICAL-REPLICATION-COL-LIST-EXAMPLES)
 
-Create a table `t1` to be used in the following example.
+建立下列範例中要使用的資料表 `t1`。
 
 ```
 
 /* pub # */ CREATE TABLE t1(id int, a text, b text, c text, d text, e text, PRIMARY KEY(id));
 ```
 
-Create a publication `p1`. A column list is defined for
-table `t1` to reduce the number of columns that will be
-replicated. Notice that the order of column names in the column list does
-not matter.
+建立發佈 `p1`。為資料表 `t1` 定義欄位清單，
+以減少將被複寫的欄位數量。請注意，欄位清單中
+欄位名稱的順序並不重要。
 
 ```
 
 /* pub # */ CREATE PUBLICATION p1 FOR TABLE t1 (id, b, a, d);
 ```
 
-`psql` can be used to show the column lists (if defined)
-for each publication.
+可以使用 `psql` 顯示每個發佈的欄位清單（如果有定義的話）。
 
 ```
 
@@ -109,8 +109,7 @@ Tables:
     "public.t1" (id, a, b, d)
 ```
 
-`psql` can be used to show the column lists (if defined)
-for each table.
+可以使用 `psql` 顯示每個資料表的欄位清單（如果有定義的話）。
 
 ```
 
@@ -130,11 +129,11 @@ Publications:
     "p1" (id, a, b, d)
 ```
 
-On the subscriber node, create a table `t1` which now
-only needs a subset of the columns that were on the publisher table
-`t1`, and also create the subscription
-`s1` that subscribes to the publication
-`p1`.
+在訂閱者節點上建立資料表 `t1`，現在它
+只需要發佈者資料表 `t1` 中欄位的一個子集，
+同時建立訂閱
+`s1`，訂閱發佈
+`p1`。
 
 ```
 
@@ -144,7 +143,7 @@ only needs a subset of the columns that were on the publisher table
 /* sub - */ PUBLICATION p1;
 ```
 
-On the publisher node, insert some rows to table `t1`.
+在發佈者節點上，將一些資料列插入資料表 `t1`。
 
 ```
 
@@ -160,8 +159,8 @@ On the publisher node, insert some rows to table `t1`.
 (3 rows)
 ```
 
-Only data from the column list of publication `p1` is
-replicated.
+只有發佈 `p1` 欄位清單中的資料會被
+複寫。
 
 ```
 
@@ -176,4 +175,4 @@ replicated.
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-col-lists.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-col-lists.html)（原文版本：18.6；核對日期：2026-10-10）

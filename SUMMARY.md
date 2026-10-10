@@ -280,7 +280,7 @@
     * [29.2. 訂閱（Subscription） #](server-administration/logical-replication/logical-replication-subscription.md)
     * [29.3. 邏輯複寫失效切換 #](server-administration/logical-replication/logical-replication-failover.md)
     * [29.4. 資料列篩選器 #](server-administration/logical-replication/logical-replication-row-filter.md)
-    * [29.5. Column Lists #](server-administration/logical-replication/logical-replication-col-lists.md)
+    * [29.5. 欄位清單 #](server-administration/logical-replication/logical-replication-col-lists.md)
     * [29.6. Generated Column Replication #](server-administration/logical-replication/logical-replication-gencols.md)
     * [29.7. 衝突 #](server-administration/logical-replication/logical-replication-conflicts.md)
     * [29.8. 限制 #](server-administration/logical-replication/logical-replication-restrictions.md)
