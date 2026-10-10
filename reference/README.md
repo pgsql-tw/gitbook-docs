@@ -1,458 +1,454 @@
-# Part VI. Reference
+<a id="REFERENCE"></a>
+
+# 第六部分：參考
 
 <a id="id-1.9.2"></a>
 
-The entries in this Reference are meant to provide in reasonable
-length an authoritative, complete, and formal summary about their
-respective subjects. More information about the use of
-PostgreSQL, in narrative, tutorial, or
-example form, can be found in other parts of this book. See the
-cross-references listed on each reference page.
+本參考中的各個條目，旨在以合理的篇幅，對各自的主題提供權威、完整且正式的摘要。關於 PostgreSQL 使用方式的更多資訊，以敘述、教學或範例的形式，可以在本書的其他部分找到。請參閱各參考頁面上列出的交叉參照。
 
-The reference entries are also available as traditional
-“man” pages.
+這些參考條目也以傳統的「man」頁面形式提供。
 
-**Table of Contents**
+**目錄**
 
-[I. SQL Commands](sql-commands/README.md)
-:   [ABORT](sql-commands/sql-abort.md) — abort the current transaction
+[I. SQL 命令](sql-commands/README.md)
+:   [ABORT](sql-commands/sql-abort.md) — 中止目前的交易
 
-    [ALTER AGGREGATE](sql-commands/sql-alteraggregate.md) — change the definition of an aggregate function
+    [ALTER AGGREGATE](sql-commands/sql-alteraggregate.md) — 變更彙總函式的定義
 
-    [ALTER COLLATION](sql-commands/sql-altercollation.md) — change the definition of a collation
+    [ALTER COLLATION](sql-commands/sql-altercollation.md) — 變更定序的定義
 
-    [ALTER CONVERSION](sql-commands/sql-alterconversion.md) — change the definition of a conversion
+    [ALTER CONVERSION](sql-commands/sql-alterconversion.md) — 變更轉換的定義
 
-    [ALTER DATABASE](sql-commands/sql-alterdatabase.md) — change a database
+    [ALTER DATABASE](sql-commands/sql-alterdatabase.md) — 變更資料庫
 
-    [ALTER DEFAULT PRIVILEGES](sql-commands/sql-alterdefaultprivileges.md) — define default access privileges
+    [ALTER DEFAULT PRIVILEGES](sql-commands/sql-alterdefaultprivileges.md) — 定義預設存取權限
 
-    [ALTER DOMAIN](sql-commands/sql-alterdomain.md) — change the definition of a domain
+    [ALTER DOMAIN](sql-commands/sql-alterdomain.md) — 變更網域的定義
 
-    [ALTER EVENT TRIGGER](sql-commands/sql-altereventtrigger.md) — change the definition of an event trigger
+    [ALTER EVENT TRIGGER](sql-commands/sql-altereventtrigger.md) — 變更事件觸發程序的定義
 
-    [ALTER EXTENSION](sql-commands/sql-alterextension.md) — change the definition of an extension
+    [ALTER EXTENSION](sql-commands/sql-alterextension.md) — 變更擴充功能的定義
 
-    [ALTER FOREIGN DATA WRAPPER](sql-commands/sql-alterforeigndatawrapper.md) — change the definition of a foreign-data wrapper
+    [ALTER FOREIGN DATA WRAPPER](sql-commands/sql-alterforeigndatawrapper.md) — 變更外部資料包裝器的定義
 
-    [ALTER FOREIGN TABLE](sql-commands/sql-alterforeigntable.md) — change the definition of a foreign table
+    [ALTER FOREIGN TABLE](sql-commands/sql-alterforeigntable.md) — 變更外部資料表的定義
 
-    [ALTER FUNCTION](sql-commands/sql-alterfunction.md) — change the definition of a function
+    [ALTER FUNCTION](sql-commands/sql-alterfunction.md) — 變更函式的定義
 
-    [ALTER GROUP](sql-commands/sql-altergroup.md) — change role name or membership
+    [ALTER GROUP](sql-commands/sql-altergroup.md) — 變更角色名稱或成員資格
 
-    [ALTER INDEX](sql-commands/sql-alterindex.md) — change the definition of an index
+    [ALTER INDEX](sql-commands/sql-alterindex.md) — 變更索引的定義
 
-    [ALTER LANGUAGE](sql-commands/sql-alterlanguage.md) — change the definition of a procedural language
+    [ALTER LANGUAGE](sql-commands/sql-alterlanguage.md) — 變更程序語言的定義
 
-    [ALTER LARGE OBJECT](sql-commands/sql-alterlargeobject.md) — change the definition of a large object
+    [ALTER LARGE OBJECT](sql-commands/sql-alterlargeobject.md) — 變更大型物件的定義
 
-    [ALTER MATERIALIZED VIEW](sql-commands/sql-altermaterializedview.md) — change the definition of a materialized view
+    [ALTER MATERIALIZED VIEW](sql-commands/sql-altermaterializedview.md) — 變更具體化檢視表的定義
 
-    [ALTER OPERATOR](sql-commands/sql-alteroperator.md) — change the definition of an operator
+    [ALTER OPERATOR](sql-commands/sql-alteroperator.md) — 變更運算子的定義
 
-    [ALTER OPERATOR CLASS](sql-commands/sql-alteropclass.md) — change the definition of an operator class
+    [ALTER OPERATOR CLASS](sql-commands/sql-alteropclass.md) — 變更運算子類別的定義
 
-    [ALTER OPERATOR FAMILY](sql-commands/sql-alteropfamily.md) — change the definition of an operator family
+    [ALTER OPERATOR FAMILY](sql-commands/sql-alteropfamily.md) — 變更運算子家族的定義
 
-    [ALTER POLICY](sql-commands/sql-alterpolicy.md) — change the definition of a row-level security policy
+    [ALTER POLICY](sql-commands/sql-alterpolicy.md) — 變更資料列層級安全性政策的定義
 
-    [ALTER PROCEDURE](sql-commands/sql-alterprocedure.md) — change the definition of a procedure
+    [ALTER PROCEDURE](sql-commands/sql-alterprocedure.md) — 變更程序的定義
 
-    [ALTER PUBLICATION](sql-commands/sql-alterpublication.md) — change the definition of a publication
+    [ALTER PUBLICATION](sql-commands/sql-alterpublication.md) — 變更發佈的定義
 
-    [ALTER ROLE](sql-commands/sql-alterrole.md) — change a database role
+    [ALTER ROLE](sql-commands/sql-alterrole.md) — 變更資料庫角色
 
-    [ALTER ROUTINE](sql-commands/sql-alterroutine.md) — change the definition of a routine
+    [ALTER ROUTINE](sql-commands/sql-alterroutine.md) — 變更常式的定義
 
-    [ALTER RULE](sql-commands/sql-alterrule.md) — change the definition of a rule
+    [ALTER RULE](sql-commands/sql-alterrule.md) — 變更規則的定義
 
-    [ALTER SCHEMA](sql-commands/sql-alterschema.md) — change the definition of a schema
+    [ALTER SCHEMA](sql-commands/sql-alterschema.md) — 變更綱要的定義
 
-    [ALTER SEQUENCE](sql-commands/sql-altersequence.md) — change the definition of a sequence generator
+    [ALTER SEQUENCE](sql-commands/sql-altersequence.md) — 變更序列產生器的定義
 
-    [ALTER SERVER](sql-commands/sql-alterserver.md) — change the definition of a foreign server
+    [ALTER SERVER](sql-commands/sql-alterserver.md) — 變更外部伺服器的定義
 
-    [ALTER STATISTICS](sql-commands/sql-alterstatistics.md) — change the definition of an extended statistics object
+    [ALTER STATISTICS](sql-commands/sql-alterstatistics.md) — 變更擴充統計資訊物件的定義
 
-    [ALTER SUBSCRIPTION](sql-commands/sql-altersubscription.md) — change the definition of a subscription
+    [ALTER SUBSCRIPTION](sql-commands/sql-altersubscription.md) — 變更訂閱的定義
 
-    [ALTER SYSTEM](sql-commands/sql-altersystem.md) — change a server configuration parameter
+    [ALTER SYSTEM](sql-commands/sql-altersystem.md) — 變更伺服器設定參數
 
-    [ALTER TABLE](sql-commands/sql-altertable.md) — change the definition of a table
+    [ALTER TABLE](sql-commands/sql-altertable.md) — 變更資料表的定義
 
-    [ALTER TABLESPACE](sql-commands/sql-altertablespace.md) — change the definition of a tablespace
+    [ALTER TABLESPACE](sql-commands/sql-altertablespace.md) — 變更資料表空間的定義
 
-    [ALTER TEXT SEARCH CONFIGURATION](sql-commands/sql-altertsconfig.md) — change the definition of a text search configuration
+    [ALTER TEXT SEARCH CONFIGURATION](sql-commands/sql-altertsconfig.md) — 變更文字搜尋設定的定義
 
-    [ALTER TEXT SEARCH DICTIONARY](sql-commands/sql-altertsdictionary.md) — change the definition of a text search dictionary
+    [ALTER TEXT SEARCH DICTIONARY](sql-commands/sql-altertsdictionary.md) — 變更文字搜尋字典的定義
 
-    [ALTER TEXT SEARCH PARSER](sql-commands/sql-altertsparser.md) — change the definition of a text search parser
+    [ALTER TEXT SEARCH PARSER](sql-commands/sql-altertsparser.md) — 變更文字搜尋剖析器的定義
 
-    [ALTER TEXT SEARCH TEMPLATE](sql-commands/sql-altertstemplate.md) — change the definition of a text search template
+    [ALTER TEXT SEARCH TEMPLATE](sql-commands/sql-altertstemplate.md) — 變更文本搜尋模板的定義
 
-    [ALTER TRIGGER](sql-commands/sql-altertrigger.md) — change the definition of a trigger
+    [ALTER TRIGGER](sql-commands/sql-altertrigger.md) — 變更觸發程序的定義
 
-    [ALTER TYPE](sql-commands/sql-altertype.md) — change the definition of a type
+    [ALTER TYPE](sql-commands/sql-altertype.md) — 變更型別的定義
 
-    [ALTER USER](sql-commands/sql-alteruser.md) — change a database role
+    [ALTER USER](sql-commands/sql-alteruser.md) — 變更資料庫角色
 
-    [ALTER USER MAPPING](sql-commands/sql-alterusermapping.md) — change the definition of a user mapping
+    [ALTER USER MAPPING](sql-commands/sql-alterusermapping.md) — 變更使用者對應的定義
 
-    [ALTER VIEW](sql-commands/sql-alterview.md) — change the definition of a view
+    [ALTER VIEW](sql-commands/sql-alterview.md) — 變更檢視表的定義
 
-    [ANALYZE](sql-commands/sql-analyze.md) — collect statistics about a database
+    [ANALYZE](sql-commands/sql-analyze.md) — 收集資料庫的統計資訊
 
-    [BEGIN](sql-commands/sql-begin.md) — start a transaction block
+    [BEGIN](sql-commands/sql-begin.md) — 開始一個交易區塊
 
-    [CALL](sql-commands/sql-call.md) — invoke a procedure
+    [CALL](sql-commands/sql-call.md) — 呼叫程序
 
-    [CHECKPOINT](sql-commands/sql-checkpoint.md) — force a write-ahead log checkpoint
+    [CHECKPOINT](sql-commands/sql-checkpoint.md) — 強制執行預寫式日誌檢查點
 
-    [CLOSE](sql-commands/sql-close.md) — close a cursor
+    [CLOSE](sql-commands/sql-close.md) — 關閉游標
 
-    [CLUSTER](sql-commands/sql-cluster.md) — cluster a table according to an index
+    [CLUSTER](sql-commands/sql-cluster.md) — 依據索引將資料表叢集化
 
-    [COMMENT](sql-commands/sql-comment.md) — define or change the comment of an object
+    [COMMENT](sql-commands/sql-comment.md) — 定義或變更物件的註解
 
-    [COMMIT](sql-commands/sql-commit.md) — commit the current transaction
+    [COMMIT](sql-commands/sql-commit.md) — 提交目前的交易
 
-    [COMMIT PREPARED](sql-commands/sql-commit-prepared.md) — commit a transaction that was earlier prepared for two-phase commit
+    [COMMIT PREPARED](sql-commands/sql-commit-prepared.md) — 提交先前已為兩階段提交而準備的交易
 
-    [COPY](sql-commands/sql-copy.md) — copy data between a file and a table
+    [COPY](sql-commands/sql-copy.md) — 在檔案與資料表之間複製資料
 
-    [CREATE ACCESS METHOD](sql-commands/sql-create-access-method.md) — define a new access method
+    [CREATE ACCESS METHOD](sql-commands/sql-create-access-method.md) — 定義新的存取方法
 
-    [CREATE AGGREGATE](sql-commands/sql-createaggregate.md) — define a new aggregate function
+    [CREATE AGGREGATE](sql-commands/sql-createaggregate.md) — 定義新的彙總函式
 
-    [CREATE CAST](sql-commands/sql-createcast.md) — define a new cast
+    [CREATE CAST](sql-commands/sql-createcast.md) — 定義新的型別轉換
 
-    [CREATE COLLATION](sql-commands/sql-createcollation.md) — define a new collation
+    [CREATE COLLATION](sql-commands/sql-createcollation.md) — 定義新的定序
 
-    [CREATE CONVERSION](sql-commands/sql-createconversion.md) — define a new encoding conversion
+    [CREATE CONVERSION](sql-commands/sql-createconversion.md) — 定義新的編碼轉換
 
-    [CREATE DATABASE](sql-commands/sql-createdatabase.md) — create a new database
+    [CREATE DATABASE](sql-commands/sql-createdatabase.md) — 建立新的資料庫
 
-    [CREATE DOMAIN](sql-commands/sql-createdomain.md) — define a new domain
+    [CREATE DOMAIN](sql-commands/sql-createdomain.md) — 定義新的網域
 
-    [CREATE EVENT TRIGGER](sql-commands/sql-createeventtrigger.md) — define a new event trigger
+    [CREATE EVENT TRIGGER](sql-commands/sql-createeventtrigger.md) — 定義新的事件觸發程序
 
-    [CREATE EXTENSION](sql-commands/sql-createextension.md) — install an extension
+    [CREATE EXTENSION](sql-commands/sql-createextension.md) — 安裝擴充功能
 
-    [CREATE FOREIGN DATA WRAPPER](sql-commands/sql-createforeigndatawrapper.md) — define a new foreign-data wrapper
+    [CREATE FOREIGN DATA WRAPPER](sql-commands/sql-createforeigndatawrapper.md) — 定義新的外部資料包裝器
 
-    [CREATE FOREIGN TABLE](sql-commands/sql-createforeigntable.md) — define a new foreign table
+    [CREATE FOREIGN TABLE](sql-commands/sql-createforeigntable.md) — 定義新的外部資料表
 
-    [CREATE FUNCTION](sql-commands/sql-createfunction.md) — define a new function
+    [CREATE FUNCTION](sql-commands/sql-createfunction.md) — 定義新的函式
 
-    [CREATE GROUP](sql-commands/sql-creategroup.md) — define a new database role
+    [CREATE GROUP](sql-commands/sql-creategroup.md) — 定義新的資料庫角色
 
-    [CREATE INDEX](sql-commands/sql-createindex.md) — define a new index
+    [CREATE INDEX](sql-commands/sql-createindex.md) — 定義新的索引
 
-    [CREATE LANGUAGE](sql-commands/sql-createlanguage.md) — define a new procedural language
+    [CREATE LANGUAGE](sql-commands/sql-createlanguage.md) — 定義新的程序語言
 
-    [CREATE MATERIALIZED VIEW](sql-commands/sql-creatematerializedview.md) — define a new materialized view
+    [CREATE MATERIALIZED VIEW](sql-commands/sql-creatematerializedview.md) — 定義新的具體化檢視表
 
-    [CREATE OPERATOR](sql-commands/sql-createoperator.md) — define a new operator
+    [CREATE OPERATOR](sql-commands/sql-createoperator.md) — 定義新的運算子
 
-    [CREATE OPERATOR CLASS](sql-commands/sql-createopclass.md) — define a new operator class
+    [CREATE OPERATOR CLASS](sql-commands/sql-createopclass.md) — 定義新的運算子類別
 
-    [CREATE OPERATOR FAMILY](sql-commands/sql-createopfamily.md) — define a new operator family
+    [CREATE OPERATOR FAMILY](sql-commands/sql-createopfamily.md) — 定義新的運算子家族
 
-    [CREATE POLICY](sql-commands/sql-createpolicy.md) — define a new row-level security policy for a table
+    [CREATE POLICY](sql-commands/sql-createpolicy.md) — 為資料表定義新的資料列層級安全性政策
 
-    [CREATE PROCEDURE](sql-commands/sql-createprocedure.md) — define a new procedure
+    [CREATE PROCEDURE](sql-commands/sql-createprocedure.md) — 定義新的程序
 
-    [CREATE PUBLICATION](sql-commands/sql-createpublication.md) — define a new publication
+    [CREATE PUBLICATION](sql-commands/sql-createpublication.md) — 定義新的發佈
 
-    [CREATE ROLE](sql-commands/sql-createrole.md) — define a new database role
+    [CREATE ROLE](sql-commands/sql-createrole.md) — 定義新的資料庫角色
 
-    [CREATE RULE](sql-commands/sql-createrule.md) — define a new rewrite rule
+    [CREATE RULE](sql-commands/sql-createrule.md) — 定義新的重寫規則
 
-    [CREATE SCHEMA](sql-commands/sql-createschema.md) — define a new schema
+    [CREATE SCHEMA](sql-commands/sql-createschema.md) — 定義新的綱要
 
-    [CREATE SEQUENCE](sql-commands/sql-createsequence.md) — define a new sequence generator
+    [CREATE SEQUENCE](sql-commands/sql-createsequence.md) — 定義新的序列產生器
 
-    [CREATE SERVER](sql-commands/sql-createserver.md) — define a new foreign server
+    [CREATE SERVER](sql-commands/sql-createserver.md) — 定義新的外部伺服器
 
-    [CREATE STATISTICS](sql-commands/sql-createstatistics.md) — define extended statistics
+    [CREATE STATISTICS](sql-commands/sql-createstatistics.md) — 定義擴充統計資訊
 
-    [CREATE SUBSCRIPTION](sql-commands/sql-createsubscription.md) — define a new subscription
+    [CREATE SUBSCRIPTION](sql-commands/sql-createsubscription.md) — 定義新的訂閱
 
-    [CREATE TABLE](sql-commands/sql-createtable.md) — define a new table
+    [CREATE TABLE](sql-commands/sql-createtable.md) — 定義新的資料表
 
-    [CREATE TABLE AS](sql-commands/sql-createtableas.md) — define a new table from the results of a query
+    [CREATE TABLE AS](sql-commands/sql-createtableas.md) — 以查詢的結果定義新的資料表
 
-    [CREATE TABLESPACE](sql-commands/sql-createtablespace.md) — define a new tablespace
+    [CREATE TABLESPACE](sql-commands/sql-createtablespace.md) — 定義新的資料表空間
 
-    [CREATE TEXT SEARCH CONFIGURATION](sql-commands/sql-createtsconfig.md) — define a new text search configuration
+    [CREATE TEXT SEARCH CONFIGURATION](sql-commands/sql-createtsconfig.md) — 定義新的文字搜尋設定
 
-    [CREATE TEXT SEARCH DICTIONARY](sql-commands/sql-createtsdictionary.md) — define a new text search dictionary
+    [CREATE TEXT SEARCH DICTIONARY](sql-commands/sql-createtsdictionary.md) — 定義新的文字搜尋字典
 
-    [CREATE TEXT SEARCH PARSER](sql-commands/sql-createtsparser.md) — define a new text search parser
+    [CREATE TEXT SEARCH PARSER](sql-commands/sql-createtsparser.md) — 定義新的文字搜尋剖析器
 
-    [CREATE TEXT SEARCH TEMPLATE](sql-commands/sql-createtstemplate.md) — define a new text search template
+    [CREATE TEXT SEARCH TEMPLATE](sql-commands/sql-createtstemplate.md) — 定義新的文字搜尋範本
 
-    [CREATE TRANSFORM](sql-commands/sql-createtransform.md) — define a new transform
+    [CREATE TRANSFORM](sql-commands/sql-createtransform.md) — 定義新的轉換
 
-    [CREATE TRIGGER](sql-commands/sql-createtrigger.md) — define a new trigger
+    [CREATE TRIGGER](sql-commands/sql-createtrigger.md) — 定義新的觸發程序
 
-    [CREATE TYPE](sql-commands/sql-createtype.md) — define a new data type
+    [CREATE TYPE](sql-commands/sql-createtype.md) — 定義新的資料型別
 
-    [CREATE USER](sql-commands/sql-createuser.md) — define a new database role
+    [CREATE USER](sql-commands/sql-createuser.md) — 定義新的資料庫角色
 
-    [CREATE USER MAPPING](sql-commands/sql-createusermapping.md) — define a new mapping of a user to a foreign server
+    [CREATE USER MAPPING](sql-commands/sql-createusermapping.md) — 定義使用者到外部伺服器的新對應
 
-    [CREATE VIEW](sql-commands/sql-createview.md) — define a new view
+    [CREATE VIEW](sql-commands/sql-createview.md) — 定義新的檢視表
 
-    [DEALLOCATE](sql-commands/sql-deallocate.md) — deallocate a prepared statement
+    [DEALLOCATE](sql-commands/sql-deallocate.md) — 釋放預備陳述式
 
-    [DECLARE](sql-commands/sql-declare.md) — define a cursor
+    [DECLARE](sql-commands/sql-declare.md) — 定義游標
 
-    [DELETE](sql-commands/sql-delete.md) — delete rows of a table
+    [DELETE](sql-commands/sql-delete.md) — 刪除資料表中的資料列
 
-    [DISCARD](sql-commands/sql-discard.md) — discard session state
+    [DISCARD](sql-commands/sql-discard.md) — 捨棄工作階段狀態
 
-    [DO](sql-commands/sql-do.md) — execute an anonymous code block
+    [DO](sql-commands/sql-do.md) — 執行匿名程式碼區塊
 
-    [DROP ACCESS METHOD](sql-commands/sql-drop-access-method.md) — remove an access method
+    [DROP ACCESS METHOD](sql-commands/sql-drop-access-method.md) — 移除存取方法
 
-    [DROP AGGREGATE](sql-commands/sql-dropaggregate.md) — remove an aggregate function
+    [DROP AGGREGATE](sql-commands/sql-dropaggregate.md) — 移除彙總函式
 
-    [DROP CAST](sql-commands/sql-dropcast.md) — remove a cast
+    [DROP CAST](sql-commands/sql-dropcast.md) — 移除型別轉換
 
-    [DROP COLLATION](sql-commands/sql-dropcollation.md) — remove a collation
+    [DROP COLLATION](sql-commands/sql-dropcollation.md) — 移除定序
 
-    [DROP CONVERSION](sql-commands/sql-dropconversion.md) — remove a conversion
+    [DROP CONVERSION](sql-commands/sql-dropconversion.md) — 移除轉換
 
-    [DROP DATABASE](sql-commands/sql-dropdatabase.md) — remove a database
+    [DROP DATABASE](sql-commands/sql-dropdatabase.md) — 移除資料庫
 
-    [DROP DOMAIN](sql-commands/sql-dropdomain.md) — remove a domain
+    [DROP DOMAIN](sql-commands/sql-dropdomain.md) — 移除網域
 
-    [DROP EVENT TRIGGER](sql-commands/sql-dropeventtrigger.md) — remove an event trigger
+    [DROP EVENT TRIGGER](sql-commands/sql-dropeventtrigger.md) — 移除事件觸發器
 
-    [DROP EXTENSION](sql-commands/sql-dropextension.md) — remove an extension
+    [DROP EXTENSION](sql-commands/sql-dropextension.md) — 移除擴充功能
 
-    [DROP FOREIGN DATA WRAPPER](sql-commands/sql-dropforeigndatawrapper.md) — remove a foreign-data wrapper
+    [DROP FOREIGN DATA WRAPPER](sql-commands/sql-dropforeigndatawrapper.md) — 移除外部資料包裝器
 
-    [DROP FOREIGN TABLE](sql-commands/sql-dropforeigntable.md) — remove a foreign table
+    [DROP FOREIGN TABLE](sql-commands/sql-dropforeigntable.md) — 移除外部資料表
 
-    [DROP FUNCTION](sql-commands/sql-dropfunction.md) — remove a function
+    [DROP FUNCTION](sql-commands/sql-dropfunction.md) — 移除函式
 
-    [DROP GROUP](sql-commands/sql-dropgroup.md) — remove a database role
+    [DROP GROUP](sql-commands/sql-dropgroup.md) — 移除資料庫角色
 
-    [DROP INDEX](sql-commands/sql-dropindex.md) — remove an index
+    [DROP INDEX](sql-commands/sql-dropindex.md) — 移除索引
 
-    [DROP LANGUAGE](sql-commands/sql-droplanguage.md) — remove a procedural language
+    [DROP LANGUAGE](sql-commands/sql-droplanguage.md) — 移除程序語言
 
-    [DROP MATERIALIZED VIEW](sql-commands/sql-dropmaterializedview.md) — remove a materialized view
+    [DROP MATERIALIZED VIEW](sql-commands/sql-dropmaterializedview.md) — 移除具體化檢視表
 
-    [DROP OPERATOR](sql-commands/sql-dropoperator.md) — remove an operator
+    [DROP OPERATOR](sql-commands/sql-dropoperator.md) — 移除運算子
 
-    [DROP OPERATOR CLASS](sql-commands/sql-dropopclass.md) — remove an operator class
+    [DROP OPERATOR CLASS](sql-commands/sql-dropopclass.md) — 移除運算子類別
 
-    [DROP OPERATOR FAMILY](sql-commands/sql-dropopfamily.md) — remove an operator family
+    [DROP OPERATOR FAMILY](sql-commands/sql-dropopfamily.md) — 移除運算子家族
 
-    [DROP OWNED](sql-commands/sql-drop-owned.md) — remove database objects owned by a database role
+    [DROP OWNED](sql-commands/sql-drop-owned.md) — 移除資料庫角色所擁有的資料庫物件
 
-    [DROP POLICY](sql-commands/sql-droppolicy.md) — remove a row-level security policy from a table
+    [DROP POLICY](sql-commands/sql-droppolicy.md) — 從資料表移除資料列層級安全性政策
 
-    [DROP PROCEDURE](sql-commands/sql-dropprocedure.md) — remove a procedure
+    [DROP PROCEDURE](sql-commands/sql-dropprocedure.md) — 移除程序
 
-    [DROP PUBLICATION](sql-commands/sql-droppublication.md) — remove a publication
+    [DROP PUBLICATION](sql-commands/sql-droppublication.md) — 移除發佈物件
 
-    [DROP ROLE](sql-commands/sql-droprole.md) — remove a database role
+    [DROP ROLE](sql-commands/sql-droprole.md) — 移除資料庫角色
 
-    [DROP ROUTINE](sql-commands/sql-droproutine.md) — remove a routine
+    [DROP ROUTINE](sql-commands/sql-droproutine.md) — 移除常式
 
-    [DROP RULE](sql-commands/sql-droprule.md) — remove a rewrite rule
+    [DROP RULE](sql-commands/sql-droprule.md) — 移除重寫規則
 
-    [DROP SCHEMA](sql-commands/sql-dropschema.md) — remove a schema
+    [DROP SCHEMA](sql-commands/sql-dropschema.md) — 移除綱要
 
-    [DROP SEQUENCE](sql-commands/sql-dropsequence.md) — remove a sequence
+    [DROP SEQUENCE](sql-commands/sql-dropsequence.md) — 移除序列
 
-    [DROP SERVER](sql-commands/sql-dropserver.md) — remove a foreign server descriptor
+    [DROP SERVER](sql-commands/sql-dropserver.md) — 移除外部伺服器描述器
 
-    [DROP STATISTICS](sql-commands/sql-dropstatistics.md) — remove extended statistics
+    [DROP STATISTICS](sql-commands/sql-dropstatistics.md) — 移除擴充統計資訊
 
-    [DROP SUBSCRIPTION](sql-commands/sql-dropsubscription.md) — remove a subscription
+    [DROP SUBSCRIPTION](sql-commands/sql-dropsubscription.md) — 移除訂閱
 
-    [DROP TABLE](sql-commands/sql-droptable.md) — remove a table
+    [DROP TABLE](sql-commands/sql-droptable.md) — 移除資料表
 
-    [DROP TABLESPACE](sql-commands/sql-droptablespace.md) — remove a tablespace
+    [DROP TABLESPACE](sql-commands/sql-droptablespace.md) — 移除資料表空間
 
-    [DROP TEXT SEARCH CONFIGURATION](sql-commands/sql-droptsconfig.md) — remove a text search configuration
+    [DROP TEXT SEARCH CONFIGURATION](sql-commands/sql-droptsconfig.md) — 移除文字搜尋設定
 
-    [DROP TEXT SEARCH DICTIONARY](sql-commands/sql-droptsdictionary.md) — remove a text search dictionary
+    [DROP TEXT SEARCH DICTIONARY](sql-commands/sql-droptsdictionary.md) — 移除文字搜尋字典
 
-    [DROP TEXT SEARCH PARSER](sql-commands/sql-droptsparser.md) — remove a text search parser
+    [DROP TEXT SEARCH PARSER](sql-commands/sql-droptsparser.md) — 移除文字搜尋剖析器
 
-    [DROP TEXT SEARCH TEMPLATE](sql-commands/sql-droptstemplate.md) — remove a text search template
+    [DROP TEXT SEARCH TEMPLATE](sql-commands/sql-droptstemplate.md) — 移除文字搜尋範本
 
-    [DROP TRANSFORM](sql-commands/sql-droptransform.md) — remove a transform
+    [DROP TRANSFORM](sql-commands/sql-droptransform.md) — 移除轉換
 
-    [DROP TRIGGER](sql-commands/sql-droptrigger.md) — remove a trigger
+    [DROP TRIGGER](sql-commands/sql-droptrigger.md) — 移除觸發程序
 
-    [DROP TYPE](sql-commands/sql-droptype.md) — remove a data type
+    [DROP TYPE](sql-commands/sql-droptype.md) — 移除資料型別
 
-    [DROP USER](sql-commands/sql-dropuser.md) — remove a database role
+    [DROP USER](sql-commands/sql-dropuser.md) — 移除資料庫角色
 
-    [DROP USER MAPPING](sql-commands/sql-dropusermapping.md) — remove a user mapping for a foreign server
+    [DROP USER MAPPING](sql-commands/sql-dropusermapping.md) — 移除外部伺服器的使用者對應
 
-    [DROP VIEW](sql-commands/sql-dropview.md) — remove a view
+    [DROP VIEW](sql-commands/sql-dropview.md) — 移除檢視表
 
-    [END](sql-commands/sql-end.md) — commit the current transaction
+    [END](sql-commands/sql-end.md) — 提交目前的交易
 
-    [EXECUTE](sql-commands/sql-execute.md) — execute a prepared statement
+    [EXECUTE](sql-commands/sql-execute.md) — 執行預備陳述式
 
-    [EXPLAIN](sql-commands/sql-explain.md) — show the execution plan of a statement
+    [EXPLAIN](sql-commands/sql-explain.md) — 顯示陳述式的執行計畫
 
-    [FETCH](sql-commands/sql-fetch.md) — retrieve rows from a query using a cursor
+    [FETCH](sql-commands/sql-fetch.md) — 使用游標從查詢中取回資料列
 
-    [GRANT](sql-commands/sql-grant.md) — define access privileges
+    [GRANT](sql-commands/sql-grant.md) — 定義存取權限
 
-    [IMPORT FOREIGN SCHEMA](sql-commands/sql-importforeignschema.md) — import table definitions from a foreign server
+    [IMPORT FOREIGN SCHEMA](sql-commands/sql-importforeignschema.md) — 從外部伺服器匯入資料表定義
 
-    [INSERT](sql-commands/sql-insert.md) — create new rows in a table
+    [INSERT](sql-commands/sql-insert.md) — 在資料表中建立新的資料列
 
-    [LISTEN](sql-commands/sql-listen.md) — listen for a notification
+    [LISTEN](sql-commands/sql-listen.md) — 監聽通知
 
-    [LOAD](sql-commands/sql-load.md) — load a shared library file
+    [LOAD](sql-commands/sql-load.md) — 載入共享函式庫檔案
 
-    [LOCK](sql-commands/sql-lock.md) — lock a table
+    [LOCK](sql-commands/sql-lock.md) — 鎖定一個資料表
 
-    [MERGE](sql-commands/sql-merge.md) — conditionally insert, update, or delete rows of a table
+    [MERGE](sql-commands/sql-merge.md) — 依條件插入、更新或刪除資料表中的資料列
 
-    [MOVE](sql-commands/sql-move.md) — position a cursor
+    [MOVE](sql-commands/sql-move.md) — 定位游標
 
-    [NOTIFY](sql-commands/sql-notify.md) — generate a notification
+    [NOTIFY](sql-commands/sql-notify.md) — 產生通知
 
-    [PREPARE](sql-commands/sql-prepare.md) — prepare a statement for execution
+    [PREPARE](sql-commands/sql-prepare.md) — 準備一則陳述式以供執行
 
-    [PREPARE TRANSACTION](sql-commands/sql-prepare-transaction.md) — prepare the current transaction for two-phase commit
+    [PREPARE TRANSACTION](sql-commands/sql-prepare-transaction.md) — 為兩階段提交準備目前的交易
 
-    [REASSIGN OWNED](sql-commands/sql-reassign-owned.md) — change the ownership of database objects owned by a database role
+    [REASSIGN OWNED](sql-commands/sql-reassign-owned.md) — 變更某資料庫角色所擁有的資料庫物件之擁有權
 
-    [REFRESH MATERIALIZED VIEW](sql-commands/sql-refreshmaterializedview.md) — replace the contents of a materialized view
+    [REFRESH MATERIALIZED VIEW](sql-commands/sql-refreshmaterializedview.md) — 取代一個具體化檢視表的內容
 
-    [REINDEX](sql-commands/sql-reindex.md) — rebuild indexes
+    [REINDEX](sql-commands/sql-reindex.md) — 重建索引
 
-    [RELEASE SAVEPOINT](sql-commands/sql-release-savepoint.md) — release a previously defined savepoint
+    [RELEASE SAVEPOINT](sql-commands/sql-release-savepoint.md) — 釋放先前定義的一個儲存點
 
-    [RESET](sql-commands/sql-reset.md) — restore the value of a run-time parameter to the default value
+    [RESET](sql-commands/sql-reset.md) — 將某個執行期參數的值還原為預設值
 
-    [REVOKE](sql-commands/sql-revoke.md) — remove access privileges
+    [REVOKE](sql-commands/sql-revoke.md) — 移除存取權限
 
-    [ROLLBACK](sql-commands/sql-rollback.md) — abort the current transaction
+    [ROLLBACK](sql-commands/sql-rollback.md) — 中止目前的交易
 
-    [ROLLBACK PREPARED](sql-commands/sql-rollback-prepared.md) — cancel a transaction that was earlier prepared for two-phase commit
+    [ROLLBACK PREPARED](sql-commands/sql-rollback-prepared.md) — 取消一個先前已為兩階段提交而準備的交易
 
-    [ROLLBACK TO SAVEPOINT](sql-commands/sql-rollback-to.md) — roll back to a savepoint
+    [ROLLBACK TO SAVEPOINT](sql-commands/sql-rollback-to.md) — 回復到某個儲存點
 
-    [SAVEPOINT](sql-commands/sql-savepoint.md) — define a new savepoint within the current transaction
+    [SAVEPOINT](sql-commands/sql-savepoint.md) — 在目前交易中定義一個新的儲存點
 
-    [SECURITY LABEL](sql-commands/sql-security-label.md) — define or change a security label applied to an object
+    [SECURITY LABEL](sql-commands/sql-security-label.md) — 定義或變更套用於某個物件的安全性標籤
 
-    [SELECT](sql-commands/sql-select.md) — retrieve rows from a table or view
+    [SELECT](sql-commands/sql-select.md) — 從資料表或檢視表擷取資料列
 
-    [SELECT INTO](sql-commands/sql-selectinto.md) — define a new table from the results of a query
+    [SELECT INTO](sql-commands/sql-selectinto.md) — 從查詢結果定義一個新資料表
 
-    [SET](sql-commands/sql-set.md) — change a run-time parameter
+    [SET](sql-commands/sql-set.md) — 變更一個執行期參數
 
-    [SET CONSTRAINTS](sql-commands/sql-set-constraints.md) — set constraint check timing for the current transaction
+    [SET CONSTRAINTS](sql-commands/sql-set-constraints.md) — 設定目前交易中限制條件的檢查時機
 
-    [SET ROLE](sql-commands/sql-set-role.md) — set the current user identifier of the current session
+    [SET ROLE](sql-commands/sql-set-role.md) — 設定目前工作階段的目前使用者識別碼
 
-    [SET SESSION AUTHORIZATION](sql-commands/sql-set-session-authorization.md) — set the session user identifier and the current user identifier of the current session
+    [SET SESSION AUTHORIZATION](sql-commands/sql-set-session-authorization.md) — 設定目前工作階段的工作階段使用者識別碼與目前使用者識別碼
 
-    [SET TRANSACTION](sql-commands/sql-set-transaction.md) — set the characteristics of the current transaction
+    [SET TRANSACTION](sql-commands/sql-set-transaction.md) — 設定目前交易的特性
 
-    [SHOW](sql-commands/sql-show.md) — show the value of a run-time parameter
+    [SHOW](sql-commands/sql-show.md) — 顯示執行期參數的值
 
-    [START TRANSACTION](sql-commands/sql-start-transaction.md) — start a transaction block
+    [START TRANSACTION](sql-commands/sql-start-transaction.md) — 開始一個交易區塊
 
-    [TRUNCATE](sql-commands/sql-truncate.md) — empty a table or set of tables
+    [TRUNCATE](sql-commands/sql-truncate.md) — 清空一個資料表或一組資料表
 
-    [UNLISTEN](sql-commands/sql-unlisten.md) — stop listening for a notification
+    [UNLISTEN](sql-commands/sql-unlisten.md) — 停止接聽某個通知頻道
 
-    [UPDATE](sql-commands/sql-update.md) — update rows of a table
+    [UPDATE](sql-commands/sql-update.md) — 更新資料表的資料列
 
-    [VACUUM](sql-commands/sql-vacuum.md) — garbage-collect and optionally analyze a database
+    [VACUUM](sql-commands/sql-vacuum.md) — 資料庫的垃圾回收，並可選擇進行分析
 
-    [VALUES](sql-commands/sql-values.md) — compute a set of rows
+    [VALUES](sql-commands/sql-values.md) — 計算一組資料列
 
-[II. PostgreSQL Client Applications](reference-client/README.md)
-:   [clusterdb](reference-client/app-clusterdb.md) — cluster a PostgreSQL database
+[II. PostgreSQL 用戶端應用程式](reference-client/README.md)
+:   [clusterdb](reference-client/app-clusterdb.md) — 將 PostgreSQL 資料庫叢集化
 
-    [createdb](reference-client/app-createdb.md) — create a new PostgreSQL database
+    [createdb](reference-client/app-createdb.md) — 建立新的 PostgreSQL 資料庫
 
-    [createuser](reference-client/app-createuser.md) — define a new PostgreSQL user account
+    [createuser](reference-client/app-createuser.md) — 定義新的 PostgreSQL 使用者帳號
 
-    [dropdb](reference-client/app-dropdb.md) — remove a PostgreSQL database
+    [dropdb](reference-client/app-dropdb.md) — 移除 PostgreSQL 資料庫
 
-    [dropuser](reference-client/app-dropuser.md) — remove a PostgreSQL user account
+    [dropuser](reference-client/app-dropuser.md) — 移除 PostgreSQL 使用者帳號
 
-    [ecpg](reference-client/app-ecpg.md) — embedded SQL C preprocessor
+    [ecpg](reference-client/app-ecpg.md) — 嵌入式 SQL C 前置處理器
 
-    [pg_amcheck](reference-client/app-pgamcheck.md) — checks for corruption in one or more PostgreSQL databases
+    [pg_amcheck](reference-client/app-pgamcheck.md) — 檢查一個或多個 PostgreSQL 資料庫是否有損毀
 
-    [pg_basebackup](reference-client/app-pgbasebackup.md) — take a base backup of a PostgreSQL cluster
+    [pg_basebackup](reference-client/app-pgbasebackup.md) — 對 PostgreSQL 叢集進行基礎備份
 
-    [pgbench](reference-client/pgbench.md) — run a benchmark test on PostgreSQL
+    [pgbench](reference-client/pgbench.md) — 在 PostgreSQL 上執行效能基準測試
 
-    [pg_combinebackup](reference-client/app-pgcombinebackup.md) — reconstruct a full backup from an incremental backup and dependent backups
+    [pg_combinebackup](reference-client/app-pgcombinebackup.md) — 從增量備份及其相依的備份重建完整備份
 
-    [pg_config](reference-client/app-pgconfig.md) — retrieve information about the installed version of PostgreSQL
+    [pg_config](reference-client/app-pgconfig.md) — 取得已安裝之 PostgreSQL 版本的相關資訊
 
-    [pg_dump](reference-client/app-pgdump.md) — export a PostgreSQL database as an SQL script or to other formats
+    [pg_dump](reference-client/app-pgdump.md) — 將 PostgreSQL 資料庫匯出為 SQL 腳本或其他格式
 
-    [pg_dumpall](reference-client/app-pg-dumpall.md) — extract a PostgreSQL database cluster into a script file
+    [pg_dumpall](reference-client/app-pg-dumpall.md) — 將 PostgreSQL 資料庫叢集擷取到腳本檔中
 
-    [pg_isready](reference-client/app-pg-isready.md) — check the connection status of a PostgreSQL server
+    [pg_isready](reference-client/app-pg-isready.md) — 檢查 PostgreSQL 伺服器的連線狀態
 
-    [pg_receivewal](reference-client/app-pgreceivewal.md) — stream write-ahead logs from a PostgreSQL server
+    [pg_receivewal](reference-client/app-pgreceivewal.md) — 從 PostgreSQL 伺服器串流接收預寫式日誌
 
-    [pg_recvlogical](reference-client/app-pgrecvlogical.md) — control PostgreSQL logical decoding streams
+    [pg_recvlogical](reference-client/app-pgrecvlogical.md) — 控制 PostgreSQL 邏輯解碼串流
 
-    [pg_restore](reference-client/app-pgrestore.md) — restore a PostgreSQL database from an archive file created by pg_dump
+    [pg_restore](reference-client/app-pgrestore.md) — 從 pg_dump 建立的封存檔還原 PostgreSQL 資料庫
 
-    [pg_verifybackup](reference-client/app-pgverifybackup.md) — verify the integrity of a base backup of a PostgreSQL cluster
+    [pg_verifybackup](reference-client/app-pgverifybackup.md) — 驗證 PostgreSQL 叢集之基礎備份的完整性
 
-    [psql](reference-client/app-psql.md) — PostgreSQL interactive terminal
+    [psql](reference-client/app-psql.md) — PostgreSQL 互動式終端機
 
-    [reindexdb](reference-client/app-reindexdb.md) — reindex a PostgreSQL database
+    [reindexdb](reference-client/app-reindexdb.md) — 重建 PostgreSQL 資料庫的索引
 
-    [vacuumdb](reference-client/app-vacuumdb.md) — garbage-collect and analyze a PostgreSQL database
+    [vacuumdb](reference-client/app-vacuumdb.md) — 對 PostgreSQL 資料庫進行垃圾回收與分析
 
-[III. PostgreSQL Server Applications](reference-server/README.md)
-:   [initdb](reference-server/app-initdb.md) — create a new PostgreSQL database cluster
+[III. PostgreSQL 伺服器應用程式](reference-server/README.md)
+:   [initdb](reference-server/app-initdb.md) — 建立新的 PostgreSQL 資料庫叢集
 
-    [pg_archivecleanup](reference-server/pgarchivecleanup.md) — clean up PostgreSQL WAL archive files
+    [pg_archivecleanup](reference-server/pgarchivecleanup.md) — 清理 PostgreSQL WAL 歸檔檔案
 
-    [pg_checksums](reference-server/app-pgchecksums.md) — enable, disable or check data checksums in a PostgreSQL database cluster
+    [pg_checksums](reference-server/app-pgchecksums.md) — 在 PostgreSQL 資料庫叢集中啟用、停用或檢查資料校驗和
 
-    [pg_controldata](reference-server/app-pgcontroldata.md) — display control information of a PostgreSQL database cluster
+    [pg_controldata](reference-server/app-pgcontroldata.md) — 顯示 PostgreSQL 資料庫叢集的控制資訊
 
-    [pg_createsubscriber](reference-server/app-pgcreatesubscriber.md) — convert a physical replica into a new logical replica
+    [pg_createsubscriber](reference-server/app-pgcreatesubscriber.md) — 將實體複本轉換為新的邏輯複本
 
-    [pg_ctl](reference-server/app-pg-ctl.md) — initialize, start, stop, or control a PostgreSQL server
+    [pg_ctl](reference-server/app-pg-ctl.md) — 初始化、啟動、停止或控制 PostgreSQL 伺服器
 
-    [pg_resetwal](reference-server/app-pgresetwal.md) — reset the write-ahead log and other control information of a PostgreSQL database cluster
+    [pg_resetwal](reference-server/app-pgresetwal.md) — 重設 PostgreSQL 資料庫叢集的預寫式日誌及其他控制資訊
 
-    [pg_rewind](reference-server/app-pgrewind.md) — synchronize a PostgreSQL data directory with another data directory that was forked from it
+    [pg_rewind](reference-server/app-pgrewind.md) — 將 PostgreSQL 資料目錄與另一個從它分岔出去的資料目錄同步
 
-    [pg_test_fsync](reference-server/pgtestfsync.md) — determine fastest `wal_sync_method` for PostgreSQL
+    [pg_test_fsync](reference-server/pgtestfsync.md) — 判定 PostgreSQL 最快的 `wal_sync_method`
 
-    [pg_test_timing](reference-server/pgtesttiming.md) — measure timing overhead
+    [pg_test_timing](reference-server/pgtesttiming.md) — 測量計時的額外負擔
 
-    [pg_upgrade](reference-server/pgupgrade.md) — upgrade a PostgreSQL server instance
+    [pg_upgrade](reference-server/pgupgrade.md) — 升級 PostgreSQL 伺服器實例
 
-    [pg_waldump](reference-server/pgwaldump.md) — display a human-readable rendering of the write-ahead log of a PostgreSQL database cluster
+    [pg_waldump](reference-server/pgwaldump.md) — 以人類可讀的形式顯示 PostgreSQL 資料庫叢集的預寫日誌
 
-    [pg_walsummary](reference-server/app-pgwalsummary.md) — print contents of WAL summary files
+    [pg_walsummary](reference-server/app-pgwalsummary.md) — 印出 WAL 摘要檔案的內容
 
-    [postgres](reference-server/app-postgres.md) — PostgreSQL database server
+    [postgres](reference-server/app-postgres.md) — PostgreSQL 資料庫伺服器
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/reference.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/reference.html)（原文版本：18.6；核對日期：2026-10-09）

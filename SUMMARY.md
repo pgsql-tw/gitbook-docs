@@ -603,7 +603,7 @@
     * [50.1. 安全地設計驗證器模組 #](server-programming/oauth-validators/oauth-validator-design.md)
     * [50.2. 初始化函式 #](server-programming/oauth-validators/oauth-validator-init.md)
     * [50.3. OAuth 驗證器回呼函式 #](server-programming/oauth-validators/oauth-validator-callbacks.md)
-* [Part VI. Reference](reference/README.md)
+* [第六部分：參考](reference/README.md)
   * [PostgreSQL 用戶端應用程式](reference/reference-client/README.md)
     * [clusterdb](reference/reference-client/app-clusterdb.md)
     * [createdb](reference/reference-client/app-createdb.md)

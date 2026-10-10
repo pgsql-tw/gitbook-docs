@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：376 頁。
+待譯頁面：375 頁。
 
 ## 根目錄
 
@@ -482,7 +482,7 @@
 
 ## reference
 
-- [ ] `reference/README.md` — Part VI. Reference
+- [x] `reference/README.md` — 第六部分：參考
 - [x] `reference/reference-client/README.md` — PostgreSQL 用戶端應用程式
 - [x] `reference/reference-client/app-clusterdb.md` — clusterdb
 - [x] `reference/reference-client/app-createdb.md` — createdb
