@@ -1,101 +1,87 @@
+<a id="VIEW-PG-HBA-FILE-RULES"></a>
+
 ## 53.10. `pg_hba_file_rules` [#](#VIEW-PG-HBA-FILE-RULES)
 
 <a id="id-1.10.5.14.2"></a>
 
-The view `pg_hba_file_rules` provides a summary of
-the contents of the client authentication configuration file,
-[`pg_hba.conf`](../../server-administration/client-authentication/auth-pg-hba-conf.md).
-A row appears in this view for each
-non-empty, non-comment line in the file, with annotations indicating
-whether the rule could be applied successfully.
+檢視表 `pg_hba_file_rules` 提供用戶端認證設定檔 [`pg_hba.conf`](../../server-administration/client-authentication/auth-pg-hba-conf.md) 內容的摘要。檔案中每一個非空白、非註解的行，都會在此檢視表中以一個資料列呈現，並附有註記說明該規則是否能成功套用。
 
-This view can be helpful for checking whether planned changes in the
-authentication configuration file will work, or for diagnosing a previous
-failure. Note that this view reports on the *current* contents
-of the file, not on what was last loaded by the server.
+此檢視表可以協助檢查認證設定檔中預計進行的變更是否可行，或用於診斷先前的失敗。請注意，此檢視表回報的是檔案的*目前*內容，而不是伺服器最後載入的內容。
 
-By default, the `pg_hba_file_rules` view can be read
-only by superusers.
+預設情況下，只有超級使用者可以讀取 `pg_hba_file_rules` 檢視表。
 
 <a id="id-1.10.5.14.6"></a>
 
-**Table 53.10. `pg_hba_file_rules` Columns**
+**表 53.10. `pg_hba_file_rules` 欄位**
 
-<table border="1" class="table" summary="pg_hba_file_rules Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 53.10. pg_hba_file_rules 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rule_number</code> <code class="type">int4</code>
 </p>
 <p>
-       Number of this rule, if valid, otherwise <code class="literal">NULL</code>.
-       This indicates the order in which each rule is considered
-       until a match is found during authentication.
+       若此規則有效，則為此規則的編號，否則為 <code class="literal">NULL</code>。它表示在認證期間，直到找到相符的規則為止，各規則被檢查的順序。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">file_name</code> <code class="type">text</code>
 </p>
 <p>
-       Name of the file containing this rule
+       包含此規則的檔案名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">line_number</code> <code class="type">int4</code>
 </p>
 <p>
-       Line number of this rule in <code class="literal">file_name</code>
+       此規則在 <code class="literal">file_name</code> 中的行號
 </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">type</code> <code class="type">text</code>
 </p>
 <p>
-       Type of connection
+       連線類型
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">database</code> <code class="type">text[]</code>
 </p>
 <p>
-       List of database name(s) to which this rule applies
+       此規則所適用的資料庫名稱清單
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">user_name</code> <code class="type">text[]</code>
 </p>
 <p>
-       List of user and group name(s) to which this rule applies
+       此規則所適用的使用者與群組名稱清單
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">address</code> <code class="type">text</code>
 </p>
 <p>
-       Host name or IP address, or one
-       of <code class="literal">all</code>, <code class="literal">samehost</code>,
-       or <code class="literal">samenet</code>, or null for local connections
+       主機名稱或 IP 位址，或是 <code class="literal">all</code>、<code class="literal">samehost</code>、<code class="literal">samenet</code> 其中之一；若為本機連線則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">netmask</code> <code class="type">text</code>
 </p>
 <p>
-       IP address mask, or null if not applicable
+       IP 位址遮罩；若不適用則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">auth_method</code> <code class="type">text</code>
 </p>
 <p>
-       Authentication method
+       認證方法
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">options</code> <code class="type">text[]</code>
 </p>
 <p>
-       Options specified for authentication method, if any
+       為認證方法指定的選項（若有）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">error</code> <code class="type">text</code>
 </p>
 <p>
-       If not null, an error message indicating why this
-       line could not be processed
+       若不為 null，則為說明此行為何無法處理的錯誤訊息
       </p></td></tr></tbody></table>
 
 <br>
 
-Usually, a row reflecting an incorrect entry will have values for only
-the `line_number` and `error` fields.
+通常，反映錯誤項目的資料列只會在 `line_number` 與 `error` 欄位中有值。
 
-See [Chapter 20](../../server-administration/client-authentication/README.md) for more information about
-client authentication configuration.
+關於用戶端認證設定的更多資訊，請參閱[第 20 章](../../server-administration/client-authentication/README.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-hba-file-rules.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-hba-file-rules.html)（原文版本：18.6；核對日期：2026-10-09）
