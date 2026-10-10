@@ -275,7 +275,7 @@
     * [28.4. 非同步確認 #](server-administration/wal/wal-async-commit.md)
     * [28.5. WAL 組態設定 #](server-administration/wal/wal-configuration.md)
     * [28.6. WAL 內部運作 #](server-administration/wal/wal-internals.md)
-  * [Chapter 29. Logical Replication](server-administration/logical-replication/README.md)
+  * [第 29 章 邏輯複寫](server-administration/logical-replication/README.md)
     * [29.1. 發佈 #](server-administration/logical-replication/logical-replication-publication.md)
     * [29.2. 訂閱（Subscription） #](server-administration/logical-replication/logical-replication-subscription.md)
     * [29.3. 邏輯複寫失效切換 #](server-administration/logical-replication/logical-replication-failover.md)
