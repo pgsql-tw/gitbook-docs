@@ -1,13 +1,15 @@
-## Chapter 27. Monitoring Database Activity
+<a id="MONITORING"></a>
 
-**Table of Contents**
+## 第 27 章 監控資料庫活動
 
-[27.1. Standard Unix Tools](monitoring-ps.md)
+**目錄**
 
-[27.2. The Cumulative Statistics System](monitoring-stats.md)
-:   [27.2.1. Statistics Collection Configuration](monitoring-stats.md#MONITORING-STATS-SETUP)
+[27.1. 標準 Unix 工具](monitoring-ps.md)
 
-    [27.2.2. Viewing Statistics](monitoring-stats.md#MONITORING-STATS-VIEWS)
+[27.2. 累積統計資訊系統](monitoring-stats.md)
+:   [27.2.1. 統計資訊收集設定](monitoring-stats.md#MONITORING-STATS-SETUP)
+
+    [27.2.2. 檢視統計資訊](monitoring-stats.md#MONITORING-STATS-VIEWS)
 
     [27.2.3. `pg_stat_activity`](monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
 
@@ -55,55 +57,53 @@
 
     [27.2.25. `pg_stat_slru`](monitoring-stats.md#MONITORING-PG-STAT-SLRU-VIEW)
 
-    [27.2.26. Statistics Functions](monitoring-stats.md#MONITORING-STATS-FUNCTIONS)
+    [27.2.26. 統計資訊函式](monitoring-stats.md#MONITORING-STATS-FUNCTIONS)
 
-[27.3. Viewing Locks](monitoring-locks.md)
+[27.3. 檢視鎖定](monitoring-locks.md)
 
-[27.4. Progress Reporting](progress-reporting.md)
-:   [27.4.1. ANALYZE Progress Reporting](progress-reporting.md#ANALYZE-PROGRESS-REPORTING)
+[27.4. 進度回報](progress-reporting.md)
+:   [27.4.1. ANALYZE 進度回報](progress-reporting.md#ANALYZE-PROGRESS-REPORTING)
 
-    [27.4.2. CLUSTER Progress Reporting](progress-reporting.md#CLUSTER-PROGRESS-REPORTING)
+    [27.4.2. CLUSTER 進度回報](progress-reporting.md#CLUSTER-PROGRESS-REPORTING)
 
-    [27.4.3. COPY Progress Reporting](progress-reporting.md#COPY-PROGRESS-REPORTING)
+    [27.4.3. COPY 進度回報](progress-reporting.md#COPY-PROGRESS-REPORTING)
 
-    [27.4.4. CREATE INDEX Progress Reporting](progress-reporting.md#CREATE-INDEX-PROGRESS-REPORTING)
+    [27.4.4. CREATE INDEX 進度回報](progress-reporting.md#CREATE-INDEX-PROGRESS-REPORTING)
 
-    [27.4.5. VACUUM Progress Reporting](progress-reporting.md#VACUUM-PROGRESS-REPORTING)
+    [27.4.5. VACUUM 進度回報](progress-reporting.md#VACUUM-PROGRESS-REPORTING)
 
-    [27.4.6. Base Backup Progress Reporting](progress-reporting.md#BASEBACKUP-PROGRESS-REPORTING)
+    [27.4.6. 基礎備份進度回報](progress-reporting.md#BASEBACKUP-PROGRESS-REPORTING)
 
-[27.5. Dynamic Tracing](dynamic-trace.md)
-:   [27.5.1. Compiling for Dynamic Tracing](dynamic-trace.md#COMPILING-FOR-TRACE)
+[27.5. 動態追蹤](dynamic-trace.md)
+:   [27.5.1. 為動態追蹤編譯](dynamic-trace.md#COMPILING-FOR-TRACE)
 
-    [27.5.2. Built-in Probes](dynamic-trace.md#TRACE-POINTS)
+    [27.5.2. 內建探針](dynamic-trace.md#TRACE-POINTS)
 
-    [27.5.3. Using Probes](dynamic-trace.md#USING-TRACE-POINTS)
+    [27.5.3. 使用探針](dynamic-trace.md#USING-TRACE-POINTS)
 
-    [27.5.4. Defining New Probes](dynamic-trace.md#DEFINING-TRACE-POINTS)
+    [27.5.4. 定義新探針](dynamic-trace.md#DEFINING-TRACE-POINTS)
 
-[27.6. Monitoring Disk Usage](diskusage.md)
-:   [27.6.1. Determining Disk Usage](diskusage.md#DISK-USAGE)
+[27.6. 監控磁碟用量](diskusage.md)
+:   [27.6.1. 判斷磁碟用量](diskusage.md#DISK-USAGE)
 
-    [27.6.2. Disk Full Failure](diskusage.md#DISK-FULL)
+    [27.6.2. 磁碟已滿故障](diskusage.md#DISK-FULL)
 
 <a id="id-1.6.14.2"></a><a id="id-1.6.14.3"></a>
 
-A database administrator frequently wonders, “What is the system
-doing right now?”
-This chapter discusses how to find that out.
+資料庫管理員常常會想：「系統現在正在做什麼？」
+本章討論如何找出答案。
 
-Several tools are available for monitoring database activity and
-analyzing performance. Most of this chapter is devoted to describing
-PostgreSQL's cumulative statistics system,
-but one should not neglect regular Unix monitoring programs such as
-`ps`, `top`, `iostat`, and `vmstat`.
-Also, once one has identified a
-poorly-performing query, further investigation might be needed using
-PostgreSQL's [`EXPLAIN`](../../reference/sql-commands/sql-explain.md) command.
-[Section 14.1](../../the-sql-language/performance-tips/using-explain.md) discusses `EXPLAIN`
-and other methods for understanding the behavior of an individual
-query.
+有好幾種工具可用來監控資料庫活動與分析效能。
+本章大部分內容在說明
+PostgreSQL 的累積統計資訊系統，
+但也不應忽略一般的 Unix 監控程式，例如
+`ps`、`top`、`iostat` 與 `vmstat`。
+此外，一旦找出了
+效能不佳的查詢，可能還需要使用
+PostgreSQL 的 [`EXPLAIN`](../../reference/sql-commands/sql-explain.md) 命令進一步調查。
+[第 14.1 節](../../the-sql-language/performance-tips/using-explain.md)討論了 `EXPLAIN`
+以及其他用來了解個別查詢行為的方法。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/monitoring.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/monitoring.html)（原文版本：18.6；核對日期：2026-10-10）

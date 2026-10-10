@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：347 頁。
+待譯頁面：346 頁。
 
 ## 根目錄
 
@@ -778,7 +778,7 @@
 - [x] `server-administration/managing-databases/manage-ag-overview.md` — 22.1. 概觀 #
 - [x] `server-administration/managing-databases/manage-ag-tablespaces.md` — 22.6. 資料表空間 #
 - [x] `server-administration/managing-databases/manage-ag-templatedbs.md` — 22.3. 範本資料庫 #
-- [ ] `server-administration/monitoring/README.md` — Chapter 27. Monitoring Database Activity
+- [x] `server-administration/monitoring/README.md` — 第 27 章 監控資料庫活動
 - [x] `server-administration/monitoring/diskusage.md` — 27.6. 監控磁碟用量 #
 - [x] `server-administration/monitoring/dynamic-trace.md` — 27.5. 動態追蹤 #
 - [x] `server-administration/monitoring/monitoring-locks.md` — 27.3. 檢視鎖定
