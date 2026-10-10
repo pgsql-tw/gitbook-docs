@@ -910,7 +910,7 @@
     * [53.8. `pg_file_settings` #](internals/views/view-pg-file-settings.md)
     * [53.9. `pg_group` #](internals/views/view-pg-group.md)
     * [53.10. `pg_hba_file_rules` #](internals/views/view-pg-hba-file-rules.md)
-    * [53.11. pg_ident_file_mappings #](internals/views/view-pg-ident-file-mappings.md)
+    * [53.11. `pg_ident_file_mappings` #](internals/views/view-pg-ident-file-mappings.md)
     * [53.12. pg_indexes #](internals/views/view-pg-indexes.md)
     * [53.13. pg_locks #](internals/views/view-pg-locks.md)
     * [53.14. pg_matviews #](internals/views/view-pg-matviews.md)
