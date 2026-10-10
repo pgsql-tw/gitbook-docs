@@ -1,10 +1,12 @@
-<a id="id-1.9.5.16.1"></a>
+<a id="APP-POSTGRES"></a><a id="id-1.9.5.16.1"></a>
 
 ## postgres
 
-postgres — PostgreSQL database server
+postgres — PostgreSQL 資料庫伺服器
 
-## Synopsis
+<a id="id-1.9.5.16.4"></a>
+
+## 語法
 
 <a id="id-1.9.5.16.4.1"></a>
 
@@ -12,494 +14,253 @@ postgres — PostgreSQL database server
 
 <a id="id-1.9.5.16.5"></a>
 
-## Description
+## 說明
 
-`postgres` is the
-PostgreSQL database server. In order
-for a client application to access a database it connects (over a
-network or locally) to a running `postgres` instance.
-The `postgres` instance then starts a separate server
-process to handle the connection.
+`postgres` 是 PostgreSQL 資料庫伺服器。用戶端應用程式若要存取資料庫，會（透過網路或在本機）連線到正在執行的 `postgres` 執行個體。接著，`postgres` 執行個體會啟動一個獨立的伺服器程序來處理該連線。
 
-One `postgres` instance always manages the data of
-exactly one database cluster. A database cluster is a collection
-of databases that is stored at a common file system location (the
-“data area”). More than one
-`postgres` instance can run on a system at one
-time, so long as they use different data areas and different
-communication ports (see below). When
-`postgres` starts it needs to know the location
-of the data area. The location must be specified by the
-`-D` option or the `PGDATA` environment
-variable; there is no default. Typically, `-D` or
-`PGDATA` points directly to the data area directory
-created by [initdb](app-initdb.md). Other possible file layouts are
-discussed in [Section 19.2](../../server-administration/runtime-config/runtime-config-file-locations.md).
+一個 `postgres` 執行個體一律只管理恰好一個資料庫叢集的資料。資料庫叢集是儲存在同一個檔案系統位置（即「資料區域」）中的資料庫集合。同一系統上可以同時執行超過一個 `postgres` 執行個體，只要它們使用不同的資料區域與不同的通訊埠（見下文）。`postgres` 啟動時需要知道資料區域的位置。此位置必須以 `-D` 選項或 `PGDATA` 環境變數指定；它沒有預設值。通常，`-D` 或 `PGDATA` 會直接指向由 [initdb](app-initdb.md) 建立的資料區域目錄。其他可能的檔案配置在[第 19.2 節](../../server-administration/runtime-config/runtime-config-file-locations.md)中討論。
 
-By default `postgres` starts in the
-foreground and prints log messages to the standard error stream. In
-practical applications `postgres`
-should be started as a background process, perhaps at boot time.
+預設情況下，`postgres` 會在前景啟動，並將日誌訊息印到標準錯誤串流。在實際應用中，`postgres` 應該以背景程序的方式啟動，或許是在開機時啟動。
 
-The `postgres` command can also be called in
-single-user mode. The primary use for this mode is during
-bootstrapping by [initdb](app-initdb.md). Sometimes it is used
-for debugging or disaster recovery; note that running a single-user
-server is not truly suitable for debugging the server, since no
-realistic interprocess communication and locking will happen.
-When invoked in single-user
-mode from the shell, the user can enter queries and the results
-will be printed to the screen, but in a form that is more useful
-for developers than end users. In the single-user mode,
-the session user will be set to the user with ID 1, and implicit
-superuser powers are granted to this user.
-This user does not actually have to exist, so the single-user mode
-can be used to manually recover from certain
-kinds of accidental damage to the system catalogs.
+`postgres` 命令也可以在單一使用者模式下呼叫。此模式的主要用途是在 [initdb](app-initdb.md) 進行初始建置（bootstrapping）期間。有時它也會用於除錯或災難復原；請注意，執行單一使用者伺服器並不真正適合用來為伺服器除錯，因為不會發生貼近實際情況的程序間通訊與鎖定。從 shell 以單一使用者模式呼叫時，使用者可以輸入查詢，結果會印在螢幕上，但其形式對開發人員比對終端使用者更有用。在單一使用者模式中，工作階段使用者會被設為 ID 為 1 的使用者，並且會隱含地授予此使用者超級使用者的權力。此使用者實際上不必存在，因此單一使用者模式可以用來以手動方式，從系統目錄的某些意外損壞中復原。
 
 <a id="APP-POSTGRES-OPTIONS"></a>
 
-## Options
+## 選項
 
-`postgres` accepts the following command-line
-arguments. For a detailed discussion of the options consult [Chapter 19](../../server-administration/runtime-config/README.md). You can save typing most of these
-options by setting up a configuration file. Some (safe) options
-can also be set from the connecting client in an
-application-dependent way to apply only for that session. For
-example, if the environment variable `PGOPTIONS` is
-set, then libpq-based clients will pass that
-string to the server, which will interpret it as
-`postgres` command-line options.
+`postgres` 接受下列命令列引數。關於這些選項的詳細討論，請參閱[第 19 章](../../server-administration/runtime-config/README.md)。你可以藉由設定組態檔，省去輸入大部分這些選項的麻煩。某些（安全的）選項也可以由連線中的用戶端，以取決於應用程式的方式設定，使其只套用於該工作階段。例如，若設定了環境變數 `PGOPTIONS`，則以 libpq 為基礎的用戶端會將該字串傳給伺服器，伺服器會將它解讀為 `postgres` 的命令列選項。
 
 <a id="id-1.9.5.16.6.3"></a>
 
-### General Purpose
+### 一般用途
 
 `-B nbuffers`
-:   Sets the number of shared buffers for use by the server
-    processes. The default value of this parameter is chosen
-    automatically by initdb.
-    Specifying this option is equivalent to setting the
-    [shared_buffers](../../server-administration/runtime-config/runtime-config-resource.md#GUC-SHARED-BUFFERS) configuration parameter.
+:   設定伺服器程序所使用的共享緩衝區數量。此參數的預設值由 initdb 自動選定。指定此選項等同於設定組態參數 [shared_buffers](../../server-administration/runtime-config/runtime-config-resource.md#GUC-SHARED-BUFFERS)。
 
 `-c name=value`
-:   Sets a named run-time parameter. The configuration parameters
-    supported by PostgreSQL are
-    described in [Chapter 19](../../server-administration/runtime-config/README.md). Most of the
-    other command line options are in fact short forms of such a
-    parameter assignment. `-c` can appear multiple times
-    to set multiple parameters.
+:   設定一個具名的執行時期參數。PostgreSQL 支援的組態參數在[第 19 章](../../server-administration/runtime-config/README.md)中說明。其他大多數命令列選項實際上都是這類參數設定的簡寫形式。`-c` 可以出現多次，以設定多個參數。
 
 `-C name`
-:   Prints the value of the named run-time parameter, and exits.
-    (See the `-c` option above for details.) This
-    returns values from
-    `postgresql.conf`, modified by any parameters
-    supplied in this invocation. It does not reflect parameters
-    supplied when the cluster was started.
+:   印出具名執行時期參數的值後結束。（細節請參閱上方的 `-c` 選項。）此選項傳回的是 `postgresql.conf` 中的值，並依這次呼叫所提供的任何參數加以修改。它不會反映叢集啟動時所提供的參數。
 
-    This can be used on a running server for most parameters. However,
-    the server must be shut down for some runtime-computed parameters
-    (e.g., [shared_memory_size](../../server-administration/runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE),
-    [shared_memory_size_in_huge_pages](../../server-administration/runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES), and
-    [wal_segment_size](../../server-administration/runtime-config/runtime-config-preset.md#GUC-WAL-SEGMENT-SIZE)).
+    對大多數參數而言，這可以在執行中的伺服器上使用。不過，對於某些在執行時期計算的參數（例如 [shared_memory_size](../../server-administration/runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE)、[shared_memory_size_in_huge_pages](../../server-administration/runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES) 與 [wal_segment_size](../../server-administration/runtime-config/runtime-config-preset.md#GUC-WAL-SEGMENT-SIZE)），伺服器必須處於關閉狀態。
 
-    This option is meant for other programs that interact with a server
-    instance, such as [pg_ctl](app-pg-ctl.md), to query configuration
-    parameter values. User-facing applications should instead use [`SHOW`](../sql-commands/sql-show.md) or the `pg_settings` view.
+    此選項是供與伺服器執行個體互動的其他程式（例如 [pg_ctl](app-pg-ctl.md)）查詢組態參數值之用。面向使用者的應用程式應改用 [`SHOW`](../sql-commands/sql-show.md) 或 `pg_settings` 檢視表。
 
 `-d debug-level`
-:   Sets the debug level. The higher this value is set, the more
-    debugging output is written to the server log. Values are
-    from 1 to 5. It is also possible to pass `-d
-    0` for a specific session, which will prevent the
-    server log level of the parent `postgres` process from being
-    propagated to this session.
+:   設定除錯層級。此值設得越高，寫入伺服器日誌的除錯輸出就越多。值的範圍為 1 到 5。也可以針對特定工作階段傳入 `-d
+    0`，這會防止上層 `postgres` 程序的伺服器日誌層級傳遞到此工作階段。
 
 `-D datadir`
-:   Specifies the file system location of the database
-    configuration files. See
-    [Section 19.2](../../server-administration/runtime-config/runtime-config-file-locations.md) for details.
+:   指定資料庫組態檔在檔案系統中的位置。細節請參閱[第 19.2 節](../../server-administration/runtime-config/runtime-config-file-locations.md)。
 
 `-e`
-:   Sets the default date style to “European”, that is
-    `DMY` ordering of input date fields. This also causes
-    the day to be printed before the month in certain date output formats.
-    See [Section 8.5](../../the-sql-language/datatype/datatype-datetime.md) for more information.
+:   將預設日期樣式設為「European」，也就是輸入日期欄位採 `DMY` 順序。這也會使某些日期輸出格式中，日印在月之前。更多資訊請參閱[第 8.5 節](../../the-sql-language/datatype/datatype-datetime.md)。
 
 `-F`
-:   Disables `fsync` calls for improved
-    performance, at the risk of data corruption in the event of a
-    system crash. Specifying this option is equivalent to
-    disabling the [fsync](../../server-administration/runtime-config/runtime-config-wal.md#GUC-FSYNC) configuration
-    parameter. Read the detailed documentation before using this!
+:   停用 `fsync` 呼叫以提升效能，但要承擔系統當機時資料損毀的風險。指定此選項等同於停用組態參數 [fsync](../../server-administration/runtime-config/runtime-config-wal.md#GUC-FSYNC)。使用前請先閱讀詳細文件！
 
 `-h hostname`
-:   Specifies the IP host name or address on which
-    `postgres` is to listen for TCP/IP
-    connections from client applications. The value can also be a
-    comma-separated list of addresses, or `*` to specify
-    listening on all available interfaces. An empty value
-    specifies not listening on any IP addresses, in which case
-    only Unix-domain sockets can be used to connect to the
-    server. Defaults to listening only on
-    localhost.
-    Specifying this option is equivalent to setting the [listen_addresses](../../server-administration/runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES) configuration parameter.
+:   指定 `postgres` 要接聽用戶端應用程式 TCP/IP 連線的 IP 主機名稱或位址。此值也可以是以逗號分隔的位址清單，或以 `*` 指定接聽所有可用的介面。空值表示不接聽任何 IP 位址，此時只能使用 Unix 網域通訊端連線到伺服器。預設只接聽 localhost。指定此選項等同於設定組態參數 [listen_addresses](../../server-administration/runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES)。
 
 `-i`
-:   Allows remote clients to connect via TCP/IP (Internet domain)
-    connections. Without this option, only local connections are
-    accepted. This option is equivalent to setting
-    `listen_addresses` to `*` in
-    `postgresql.conf` or via `-h`.
+:   允許遠端用戶端透過 TCP/IP（網際網路網域）連線進行連線。若沒有此選項，則只接受本機連線。此選項等同於在 `postgresql.conf` 中或透過 `-h` 將 `listen_addresses` 設為 `*`。
 
-    This option is deprecated since it does not allow access to the
-    full functionality of [listen_addresses](../../server-administration/runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES).
-    It's usually better to set `listen_addresses` directly.
+    此選項已被棄用，因為它無法使用 [listen_addresses](../../server-administration/runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES) 的完整功能。通常直接設定 `listen_addresses` 會比較好。
 
 `-k directory`
-:   Specifies the directory of the Unix-domain socket on which
-    `postgres` is to listen for
-    connections from client applications. The value can also be a
-    comma-separated list of directories. An empty value
-    specifies not listening on any Unix-domain sockets, in which case
-    only TCP/IP sockets can be used to connect to the server.
-    The default value is normally
-    `/tmp`, but that can be changed at build time.
-    Specifying this option is equivalent to setting the [unix_socket_directories](../../server-administration/runtime-config/runtime-config-connection.md#GUC-UNIX-SOCKET-DIRECTORIES) configuration parameter.
+:   指定 `postgres` 用來接聽用戶端應用程式連線的 Unix 網域通訊端目錄。此值也可以是以逗號分隔的目錄清單。空值表示不接聽任何 Unix 網域通訊端，此時只能使用 TCP/IP 通訊端連線到伺服器。預設值通常是 `/tmp`，但可以在建置時變更。指定此選項等同於設定組態參數 [unix_socket_directories](../../server-administration/runtime-config/runtime-config-connection.md#GUC-UNIX-SOCKET-DIRECTORIES)。
 
 `-l`
-:   Enables secure connections using SSL.
-    PostgreSQL must have been compiled with
-    support for SSL for this option to be
-    available. For more information on using SSL,
-    refer to [Section 18.9](../../server-administration/runtime/ssl-tcp.md).
+:   啟用使用 SSL 的安全連線。PostgreSQL 必須在編譯時加入 SSL 支援，此選項才能使用。關於使用 SSL 的更多資訊，請參閱[第 18.9 節](../../server-administration/runtime/ssl-tcp.md)。
 
 `-N max-connections`
-:   Sets the maximum number of client connections that this
-    server will accept. The default value of this parameter is chosen
-    automatically by initdb.
-    Specifying this option is equivalent to setting the
-    [max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS) configuration parameter.
+:   設定此伺服器可接受的用戶端連線數上限。此參數的預設值由 initdb 自動選定。指定此選項等同於設定組態參數 [max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS)。
 
 `-p port`
-:   Specifies the TCP/IP port or local Unix domain socket file
-    extension on which `postgres`
-    is to listen for connections from client applications.
-    Defaults to the value of the `PGPORT` environment
-    variable, or if `PGPORT` is not set, then
-    defaults to the value established during compilation (normally
-    5432). If you specify a port other than the default port,
-    then all client applications must specify the same port using
-    either command-line options or `PGPORT`.
+:   指定 `postgres` 用來接聽用戶端應用程式連線的 TCP/IP 連接埠，或本機 Unix 網域通訊端檔案的副檔名。預設為環境變數 `PGPORT` 的值；若未設定 `PGPORT`，則預設為編譯時設定的值（通常是 5432）。若你指定了預設連接埠以外的連接埠，則所有用戶端應用程式都必須使用命令列選項或 `PGPORT` 指定相同的連接埠。
 
 `-s`
-:   Print time information and other statistics at the end of each command.
-    This is useful for benchmarking or for use in tuning the number of
-    buffers.
+:   在每個命令結束時印出時間資訊與其他統計資料。這對效能評測或調整緩衝區數量很有用。
 
 `-S` *`work-mem`*
-:   Specifies the base amount of memory to be used by sorts and
-    hash tables before resorting to temporary disk files. See the
-    description of the `work_mem` configuration
-    parameter in [Section 19.4.1](../../server-administration/runtime-config/runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY).
+:   指定排序與雜湊表在改用暫存磁碟檔案之前所使用的基本記憶體量。請參閱[第 19.4.1 節](../../server-administration/runtime-config/runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY)中組態參數 `work_mem` 的說明。
 
 `-V`<br>`--version`
-:   Print the postgres version and exit.
+:   印出 postgres 的版本後結束。
 
 `--name=value`
-:   Sets a named run-time parameter; a shorter form of
-    `-c`.
+:   設定一個具名的執行時期參數；這是 `-c` 的較短形式。
 
 `--describe-config`
-:   This option dumps out the server's internal configuration variables,
-    descriptions, and defaults in tab-delimited `COPY` format.
-    It is designed primarily for use by administration tools.
+:   此選項會以定位字元（tab）分隔的 `COPY` 格式，傾印出伺服器內部的組態變數、說明與預設值。它主要是設計給管理工具使用。
 
 `-?`<br>`--help`
-:   Show help about postgres command line
-    arguments, and exit.
+:   顯示 postgres 命令列引數的說明後結束。
 
 <a id="id-1.9.5.16.6.4"></a>
 
-### Semi-Internal Options
+### 半內部選項
 
-The options described here are used
-mainly for debugging purposes, and in some cases to assist with
-recovery of severely damaged databases. There should be no reason
-to use them in a production database setup. They are listed
-here only for use by PostgreSQL
-system developers. Furthermore, these options might
-change or be removed in a future release without notice.
+此處說明的選項主要用於除錯，在某些情況下也用來協助復原嚴重損壞的資料庫。在正式環境的資料庫設定中，應該沒有理由使用它們。將它們列在這裡，只是供 PostgreSQL 系統開發人員使用。此外，這些選項可能在未來的版本中變更或移除，且不另行通知。
 
 `-f` `{ s | i | o | b | t | n | m | h }`
-:   Forbids the use of particular scan and join methods:
-    `s` and `i`
-    disable sequential and index scans respectively,
-    `o`, `b` and `t`
-    disable index-only scans, bitmap index scans, and TID scans
-    respectively, while
-    `n`, `m`, and `h`
-    disable nested-loop, merge and hash joins respectively.
+:   禁止使用特定的掃描與連接方法：`s` 與 `i` 分別停用循序掃描與索引掃描，`o`、`b` 與 `t` 分別停用僅索引掃描、點陣圖索引掃描與 TID 掃描，而 `n`、`m` 與 `h` 則分別停用巢狀迴圈連接、合併連接與雜湊連接。
 
-    Neither sequential scans nor nested-loop joins can be disabled
-    completely; the `-fs` and
-    `-fn` options simply discourage the optimizer
-    from using those plan types if it has any other alternative.
+    循序掃描與巢狀迴圈連接都無法完全停用；`-fs` 與 `-fn` 選項只是在最佳化器有其他任何替代方案時，不鼓勵它使用這些計畫類型。
 
 `-O`
-:   Allows the structure of system tables to be modified. This is
-    used by `initdb`.
+:   允許修改系統資料表的結構。`initdb` 會使用此選項。
 
 `-P`
-:   Ignore system indexes when reading system tables, but still update
-    the indexes when modifying the tables. This is useful when
-    recovering from damaged system indexes.
+:   讀取系統資料表時忽略系統索引，但修改資料表時仍會更新這些索引。這在從損壞的系統索引中復原時很有用。
 
 `-t` `pa[rser] | pl[anner] | e[xecutor]`
-:   Print timing statistics for each query relating to each of the
-    major system modules. This option cannot be used together
-    with the `-s` option.
+:   針對每個查詢，印出與各主要系統模組相關的計時統計資料。此選項不能與 `-s` 選項一起使用。
 
 `-T`
-:   This option is for debugging problems that cause a server
-    process to die abnormally. The ordinary strategy in this
-    situation is to notify all other server processes that they
-    must terminate, by sending them SIGQUIT
-    signals. With this option, SIGABRT
-    will be sent instead, resulting in production of core dump files.
+:   此選項用於對導致伺服器程序異常終止的問題進行除錯。在這種情況下，一般的策略是傳送 SIGQUIT 訊號給所有其他伺服器程序，通知它們必須終止。使用此選項時，會改為傳送 SIGABRT，從而產生核心傾印（core dump）檔案。
 
 `-v` *`protocol`*
-:   Specifies the version number of the frontend/backend protocol
-    to be used for a particular session. This option is for
-    internal use only.
+:   指定特定工作階段所要使用的前端／後端協定版本號碼。此選項僅供內部使用。
 
 `-W` *`seconds`*
-:   A delay of this many seconds occurs when a new server process
-    is started, after it conducts the authentication procedure.
-    This is intended to give an opportunity to attach to the
-    server process with a debugger.
+:   啟動新的伺服器程序時，在它執行驗證程序之後，會延遲這麼多秒。這是為了提供機會，讓你用除錯器附加到該伺服器程序。
 
 <a id="id-1.9.5.16.6.5"></a>
 
-### Options for Single-User Mode
+### 單一使用者模式的選項
 
 <a id="id-1.9.5.16.6.5.2"></a>
 
-The following options only apply to the single-user mode
-(see [Single-User Mode](app-postgres.md#APP-POSTGRES-SINGLE-USER) below).
+下列選項只適用於單一使用者模式（請參閱下文的[單一使用者模式](app-postgres.md#APP-POSTGRES-SINGLE-USER)）。
 
 `--single`
-:   Selects the single-user mode. This must be the first argument
-    on the command line.
+:   選擇單一使用者模式。這必須是命令列上的第一個引數。
 
 *`database`*
-:   Specifies the name of the database to be accessed. This must be
-    the last argument on the command line. If it is
-    omitted it defaults to the user name.
+:   指定要存取的資料庫名稱。這必須是命令列上的最後一個引數。若省略，則預設為使用者名稱。
 
 `-E`
-:   Echo all commands to standard output before executing them.
+:   在執行每個命令之前，先將所有命令回顯到標準輸出。
 
 `-j`
-:   Use semicolon followed by two newlines, rather than just newline,
-    as the command entry terminator.
+:   使用分號後接兩個換行字元（而不只是換行字元）作為命令輸入的結束符號。
 
 `-r` *`filename`*
-:   Send all server log output to *`filename`*. This option is only
-    honored when supplied as a command-line option.
+:   將所有伺服器日誌輸出送到 *`filename`*。只有以命令列選項提供時，此選項才會生效。
 
 <a id="id-1.9.5.16.7"></a>
 
-## Environment
+## 環境
 
 `PGCLIENTENCODING`
-:   Default character encoding used by clients. (The clients can
-    override this individually.) This value can also be set in the
-    configuration file.
+:   用戶端使用的預設字元編碼。（用戶端可以個別覆寫此設定。）此值也可以在組態檔中設定。
 
 `PGDATA`
-:   Default data directory location
+:   預設資料目錄位置
 
 `PGDATESTYLE`
-:   Default value of the [DateStyle](../../server-administration/runtime-config/runtime-config-client.md#GUC-DATESTYLE) run-time
-    parameter. (The use of this environment variable is deprecated.)
+:   執行時期參數 [DateStyle](../../server-administration/runtime-config/runtime-config-client.md#GUC-DATESTYLE) 的預設值。（此環境變數的使用已被棄用。）
 
 `PGPORT`
-:   Default port number (preferably set in the configuration file)
+:   預設連接埠號碼（最好在組態檔中設定）
 
 <a id="id-1.9.5.16.8"></a>
 
-## Diagnostics
+## 診斷
 
-A failure message mentioning `semget` or
-`shmget` probably indicates you need to configure your
-kernel to provide adequate shared memory and semaphores. For more
-discussion see [Section 18.4](../../server-administration/runtime/kernel-resources.md). You might be able
-to postpone reconfiguring your kernel by decreasing [shared_buffers](../../server-administration/runtime-config/runtime-config-resource.md#GUC-SHARED-BUFFERS) to reduce the shared memory
-consumption of PostgreSQL, and/or by reducing
-[max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS) to reduce the semaphore
-consumption.
+提到 `semget` 或 `shmget` 的失敗訊息，很可能表示你需要設定核心，以提供足夠的共享記憶體與號誌。更多討論請參閱[第 18.4 節](../../server-administration/runtime/kernel-resources.md)。你或許可以藉由降低 [shared_buffers](../../server-administration/runtime-config/runtime-config-resource.md#GUC-SHARED-BUFFERS) 以減少 PostgreSQL 的共享記憶體用量，和／或降低 [max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS) 以減少號誌用量，來延後重新設定核心。
 
-A failure message suggesting that another server is already running
-should be checked carefully, for example by using the command
+若失敗訊息暗示已有另一個伺服器在執行，應該仔細檢查，例如依你的系統使用下列命令
 
 ```
 
 $ ps ax | grep postgres
 ```
 
-or
+或
 
 ```
 
 $ ps -ef | grep postgres
 ```
 
-depending on your system. If you are certain that no conflicting
-server is running, you can remove the lock file mentioned in the
-message and try again.
+來檢查。若你確定沒有發生衝突的伺服器正在執行，可以移除訊息中提到的鎖定檔，然後再試一次。
 
-A failure message indicating inability to bind to a port might
-indicate that that port is already in use by some
-non-PostgreSQL process. You might also
-get this error if you terminate `postgres`
-and immediately restart it using the same port; in this case, you
-must simply wait a few seconds until the operating system closes
-the port before trying again. Finally, you might get this error if
-you specify a port number that your operating system considers to
-be reserved. For example, many versions of Unix consider port
-numbers under 1024 to be “trusted” and only permit
-the Unix superuser to access them.
+表示無法繫結到某個連接埠的失敗訊息，可能表示該連接埠已被某個非 PostgreSQL 的程序使用。若你終止 `postgres` 後立即使用相同連接埠重新啟動它，也可能會收到此錯誤；在這種情況下，你只需等待幾秒，直到作業系統關閉該連接埠，再重試即可。最後，若你指定了作業系統視為保留的連接埠號碼，也可能會收到此錯誤。例如，許多版本的 Unix 將小於 1024 的連接埠號碼視為「受信任」的，並只允許 Unix 超級使用者存取它們。
 
 <a id="id-1.9.5.16.9"></a>
 
-## Notes
+## 注意事項
 
-The utility command [pg_ctl](app-pg-ctl.md) can be used to
-start and shut down the `postgres` server
-safely and comfortably.
+可以使用工具程式命令 [pg_ctl](app-pg-ctl.md)，安全且方便地啟動與關閉 `postgres` 伺服器。
 
-If at all possible, *do not* use
-`SIGKILL` to kill the main
-`postgres` server. Doing so will prevent
-`postgres` from freeing the system
-resources (e.g., shared memory and semaphores) that it holds before
-terminating. This might cause problems for starting a fresh
-`postgres` run.
+只要有可能，*不要*使用 `SIGKILL` 來終止主 `postgres` 伺服器。這麼做會使 `postgres` 無法在終止前釋放它所持有的系統資源（例如共享記憶體與號誌）。這可能會在啟動新的 `postgres` 執行時造成問題。
 
-To terminate the `postgres` server normally, the
-signals `SIGTERM`, `SIGINT`, or
-`SIGQUIT` can be used. The first will wait for
-all clients to terminate before quitting, the second will
-forcefully disconnect all clients, and the third will quit
-immediately without proper shutdown, resulting in a recovery run
-during restart.
+若要正常終止 `postgres` 伺服器，可以使用 `SIGTERM`、`SIGINT` 或 `SIGQUIT` 訊號。第一種會等待所有用戶端終止後才結束，第二種會強制中斷所有用戶端的連線，第三種則會立即結束而不進行正常關閉，導致重新啟動時執行復原。
 
-The `SIGHUP` signal will reload
-the server configuration files. It is also possible to send
-`SIGHUP` to an individual server process, but that
-is usually not sensible.
+`SIGHUP` 訊號會重新載入伺服器組態檔。也可以將 `SIGHUP` 傳送給個別的伺服器程序，但這通常沒有意義。
 
-To cancel a running query, send the `SIGINT` signal
-to the process running that command. To terminate a backend process
-cleanly, send `SIGTERM` to that process. See
-also `pg_cancel_backend` and `pg_terminate_backend`
-in [Section 9.28.2](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL) for the SQL-callable equivalents
-of these two actions.
+若要取消正在執行的查詢，請將 `SIGINT` 訊號傳送給執行該命令的程序。若要乾淨地終止某個後端程序，請將 `SIGTERM` 傳送給該程序。這兩個動作在 SQL 中可呼叫的對應方式，另請參閱[第 9.28.2 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)中的 `pg_cancel_backend` 與 `pg_terminate_backend`。
 
-The `postgres` server uses `SIGQUIT`
-to tell subordinate server processes to terminate without normal
-cleanup.
-This signal *should not* be used by users. It
-is also unwise to send `SIGKILL` to a server
-process — the main `postgres` process will
-interpret this as a crash and will force all the sibling processes
-to quit as part of its standard crash-recovery procedure.
+`postgres` 伺服器使用 `SIGQUIT` 通知下層的伺服器程序終止，而不進行正常的清理。使用者*不應*使用此訊號。將 `SIGKILL` 傳送給伺服器程序也是不明智的——主 `postgres` 程序會將此解讀為當機，並在其標準的當機復原程序中，強制所有同層程序結束。
 
 <a id="APP-POSTGRES-BUGS"></a>
 
-## Bugs
+## 程式錯誤
 
-The `--` options will not work on FreeBSD or OpenBSD.
-Use `-c` instead. This is a bug in the affected operating
-systems; a future release of PostgreSQL
-will provide a workaround if this is not fixed.
+`--` 選項在 FreeBSD 或 OpenBSD 上無法運作。請改用 `-c`。這是受影響作業系統中的錯誤；若此問題未被修正，未來的 PostgreSQL 版本將會提供因應措施。
 
 <a id="APP-POSTGRES-SINGLE-USER"></a>
 
-## Single-User Mode
+## 單一使用者模式
 
-To start a single-user mode server, use a command like
+若要以單一使用者模式啟動伺服器，請使用類似下列的命令
 
 ```
 
 postgres --single -D /usr/local/pgsql/data other-options my_database
 ```
 
-Provide the correct path to the database directory with `-D`, or
-make sure that the environment variable `PGDATA` is set.
-Also specify the name of the particular database you want to work in.
+以 `-D` 提供資料庫目錄的正確路徑，或確認已設定環境變數 `PGDATA`。另外也要指定你想在其中工作的特定資料庫名稱。
 
-Normally, the single-user mode server treats newline as the command
-entry terminator; there is no intelligence about semicolons,
-as there is in psql. To continue a command
-across multiple lines, you must type backslash just before each
-newline except the last one. The backslash and adjacent newline are
-both dropped from the input command. Note that this will happen even
-when within a string literal or comment.
+通常，單一使用者模式伺服器會將換行字元視為命令輸入的結束符號；它不像 psql 那樣能聰明地處理分號。若要讓命令跨越多行，你必須在除了最後一個以外的每個換行字元之前輸入反斜線。反斜線與緊鄰的換行字元都會從輸入的命令中移除。請注意，即使是在字串常數或註解之中，也會發生這種情況。
 
-But if you use the `-j` command line switch, a single newline
-does not terminate command entry; instead, the sequence
-semicolon-newline-newline does. That is, type a semicolon immediately
-followed by a completely empty line. Backslash-newline is not
-treated specially in this mode. Again, there is no intelligence about
-such a sequence appearing within a string literal or comment.
+但如果你使用 `-j` 命令列參數，單一換行字元並不會結束命令輸入；改為由「分號—換行—換行」的序列結束。也就是說，輸入一個分號，緊接著一個完全空白的行。在此模式中，反斜線加換行不會被特別處理。同樣地，對於出現在字串常數或註解中的這種序列，也不會有任何聰明的處理。
 
-In either input mode, if you type a semicolon that is not just before or
-part of a command entry terminator, it is considered a command separator.
-When you do type a command entry terminator, the multiple statements
-you've entered will be executed as a single transaction.
+在任一種輸入模式中，若你輸入的分號既不是緊接在命令輸入結束符號之前，也不是其中的一部分，它會被視為命令分隔符號。當你確實輸入了命令輸入結束符號時，你已輸入的多個陳述式會作為單一交易執行。
 
-To quit the session, type EOF
-(**Control**+**D**, usually).
-If you've entered any text since the last command entry terminator,
-then EOF will be taken as a command entry terminator,
-and another EOF will be needed to exit.
+若要結束工作階段，請輸入 EOF（通常是 **Control**+**D**）。若你在上一個命令輸入結束符號之後已輸入任何文字，則 EOF 會被當作命令輸入結束符號，此時需要再輸入一個 EOF 才能結束。
 
-Note that the single-user mode server does not provide sophisticated
-line-editing features (no command history, for example).
-Single-user mode also does not do any background processing, such as
-automatic checkpoints or replication.
+請注意，單一使用者模式伺服器不提供進階的行編輯功能（例如沒有命令歷程）。單一使用者模式也不會進行任何背景處理，例如自動檢查點或複寫。
 
 <a id="APP-POSTGRES-EXAMPLES"></a>
 
-## Examples
+## 範例
 
-To start `postgres` in the background
-using default values, type:
+若要使用預設值在背景啟動 `postgres`，請輸入：
 
 ```
 
 $ nohup postgres >logfile 2>&1 </dev/null &
 ```
 
-To start `postgres` with a specific
-port, e.g., 1234:
+若要以特定連接埠（例如 1234）啟動 `postgres`：
 
 ```
 
 $ postgres -p 1234
 ```
 
-To connect to this server using psql, specify this port with the -p option:
+若要使用 psql 連線到此伺服器，請以 -p 選項指定此連接埠：
 
 ```
 
 $ psql -p 1234
 ```
 
-or set the environment variable `PGPORT`:
+或設定環境變數 `PGPORT`：
 
 ```
 
@@ -507,7 +268,7 @@ $ export PGPORT=1234
 $ psql
 ```
 
-Named run-time parameters can be set in either of these styles:
+具名的執行時期參數可以用下列任一種寫法設定：
 
 ```
 
@@ -515,21 +276,15 @@ $ postgres -c work_mem=1234
 $ postgres --work-mem=1234
 ```
 
-Either form overrides whatever setting might exist for
-`work_mem` in `postgresql.conf`. Notice that
-underscores in parameter names can be written as either underscore
-or dash on the command line. Except for short-term experiments,
-it's probably better practice to edit the setting in
-`postgresql.conf` than to rely on a command-line switch
-to set a parameter.
+任一種形式都會覆寫 `postgresql.conf` 中可能存在的 `work_mem` 設定。請注意，在命令列上，參數名稱中的底線可以寫成底線或破折號。除了短期實驗之外，比較好的做法或許是在 `postgresql.conf` 中編輯設定，而不是依賴命令列參數來設定參數。
 
 <a id="id-1.9.5.16.13"></a>
 
-## See Also
+## 另請參閱
 
 [initdb](app-initdb.md),
 [pg_ctl](app-pg-ctl.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-postgres.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-postgres.html)（原文版本：18.6；核對日期：2026-10-10）
