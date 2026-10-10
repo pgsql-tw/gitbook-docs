@@ -626,7 +626,7 @@
     * [reindexdb](reference/reference-client/app-reindexdb.md)
     * [vacuumdb](reference/reference-client/app-vacuumdb.md)
     * [pgbench](reference/reference-client/pgbench.md)
-  * [PostgreSQL Server Applications](reference/reference-server/README.md)
+  * [PostgreSQL 伺服器應用程式](reference/reference-server/README.md)
     * [initdb](reference/reference-server/app-initdb.md)
     * [pg_ctl](reference/reference-server/app-pg-ctl.md)
     * [pg_checksums](reference/reference-server/app-pgchecksums.md)
