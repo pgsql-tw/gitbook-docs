@@ -1,98 +1,90 @@
+<a id="VIEW-PG-ROLES"></a>
+
 ## 53.21. `pg_roles` [#](#VIEW-PG-ROLES)
 
 <a id="id-1.10.5.25.2"></a>
 
-The view `pg_roles` provides access to
-information about database roles. This is simply a publicly
-readable view of
-[`pg_authid`](../catalogs/catalog-pg-authid.md)
-that blanks out the password field.
+檢視表 `pg_roles` 可用來存取資料庫角色的相關資訊。它只是 [`pg_authid`](../catalogs/catalog-pg-authid.md) 的一個公開可讀的檢視表，並會遮蔽密碼欄位（一律顯示為 ********）。
 
 <a id="id-1.10.5.25.4"></a>
 
-**Table 53.21. `pg_roles` Columns**
+**表 53.21. `pg_roles` 欄位**
 
-<table border="1" class="table" summary="pg_roles Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 53.21. pg_roles 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolname</code> <code class="type">name</code>
 </p>
 <p>
-       Role name
+       角色名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolsuper</code> <code class="type">bool</code>
 </p>
 <p>
-       Role has superuser privileges
+       角色具有超級使用者權限
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolinherit</code> <code class="type">bool</code>
 </p>
 <p>
-       Role automatically inherits privileges of roles it is a
-       member of
+       角色會自動繼承其身為成員之角色的權限
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolcreaterole</code> <code class="type">bool</code>
 </p>
 <p>
-       Role can create more roles
+       角色可以建立更多角色
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolcreatedb</code> <code class="type">bool</code>
 </p>
 <p>
-       Role can create databases
+       角色可以建立資料庫
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolcanlogin</code> <code class="type">bool</code>
 </p>
 <p>
-       Role can log in. That is, this role can be given as the initial
-       session authorization identifier
+       角色可以登入。也就是說，此角色可以作為初始的工作階段授權識別碼
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolreplication</code> <code class="type">bool</code>
 </p>
 <p>
-       Role is a replication role. A replication role can initiate replication
-       connections and create and drop replication slots.
+       角色是複寫角色。複寫角色可以發起複寫連線，並可建立與移除複寫插槽。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolconnlimit</code> <code class="type">int4</code>
 </p>
 <p>
-       For roles that can log in, this sets maximum number of concurrent
-       connections this role can make.  -1 means no limit.
+       對於可以登入的角色，此欄位設定該角色可建立的最大並行連線數。-1 表示沒有限制。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolpassword</code> <code class="type">text</code>
 </p>
 <p>
-       Not the password (always reads as <code class="literal">********</code>)
+       不是密碼（讀取時一律顯示為 <code class="literal">********</code>）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolvaliduntil</code> <code class="type">timestamptz</code>
 </p>
 <p>
-       Password expiry time (only used for password authentication);
-       null if no expiration
+       密碼到期時間（僅用於密碼認證）；若無到期時間則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolbypassrls</code> <code class="type">bool</code>
 </p>
 <p>
-       Role bypasses every row-level security policy, see
-       <a class="xref" href="../../the-sql-language/ddl/ddl-rowsecurity.md">Section 5.9</a> for more information.
+       角色會略過所有資料列層級安全性政策，更多資訊請參閱<a class="xref" href="../../the-sql-language/ddl/ddl-rowsecurity.md">第 5.9 節</a>。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolconfig</code> <code class="type">text[]</code>
 </p>
 <p>
-       Role-specific defaults for run-time configuration variables
+       角色專屬的執行期設定變數預設值
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">oid</code> <code class="type">oid</code>
-       (references <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       ID of role
+       角色的 ID
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-roles.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-roles.html)（原文版本：18.6；核對日期：2026-10-10）
