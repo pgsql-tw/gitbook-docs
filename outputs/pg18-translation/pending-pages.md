@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：339 頁。
+待譯頁面：338 頁。
 
 ## 根目錄
 
@@ -447,7 +447,7 @@
 - [x] `internals/views/view-pg-prepared-xacts.md` — 53.17. `pg_prepared_xacts` #
 - [x] `internals/views/view-pg-publication-tables.md` — 53.18. `pg_publication_tables` #
 - [x] `internals/views/view-pg-replication-origin-status.md` — 53.19. `pg_replication_origin_status` #
-- [ ] `internals/views/view-pg-replication-slots.md` — 53.20. pg_replication_slots #
+- [x] `internals/views/view-pg-replication-slots.md` — 53.20. `pg_replication_slots` #
 - [ ] `internals/views/view-pg-roles.md` — 53.21. pg_roles #
 - [ ] `internals/views/view-pg-rules.md` — 53.22. pg_rules #
 - [ ] `internals/views/view-pg-seclabels.md` — 53.23. pg_seclabels #
