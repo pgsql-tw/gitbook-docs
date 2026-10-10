@@ -1,11 +1,12 @@
-<a id="id-1.9.3.30.1"></a>
+<a id="SQL-ALTERSEQUENCE"></a><a id="id-1.9.3.30.1"></a>
 
 ## ALTER SEQUENCE
 
-ALTER SEQUENCE —
-change the definition of a sequence generator
+ALTER SEQUENCE — 變更序列產生器的定義
 
-## Synopsis
+<a id="id-1.9.3.30.4"></a>
+
+## 語法
 
 ```
 
@@ -26,174 +27,89 @@ ALTER SEQUENCE [ IF EXISTS ] name SET SCHEMA new_schema
 
 <a id="id-1.9.3.30.5"></a>
 
-## Description
+## 說明
 
-`ALTER SEQUENCE` changes the parameters of an existing
-sequence generator. Any parameters not specifically set in the
-`ALTER SEQUENCE` command retain their prior settings.
+`ALTER SEQUENCE` 會變更現有序列產生器的參數。在 `ALTER SEQUENCE` 命令中未特別設定的任何參數，都會保留先前的設定。
 
-You must own the sequence to use `ALTER SEQUENCE`.
-To change a sequence's schema, you must also have `CREATE`
-privilege on the new schema.
-To alter the owner, you must be able to `SET ROLE` to the
-new owning role, and that role must have `CREATE`
-privilege on the sequence's schema.
-(These restrictions enforce that altering the owner
-doesn't do anything you couldn't do by dropping and recreating the sequence.
-However, a superuser can alter ownership of any sequence anyway.)
+你必須是該序列的擁有者才能使用 `ALTER SEQUENCE`。若要變更序列的綱要，你還必須擁有新綱要的 `CREATE` 權限。若要變更擁有者，你必須能夠 `SET ROLE` 為新的擁有者角色，且該角色必須擁有該序列所在綱要的 `CREATE` 權限。（這些限制確保變更擁有者不會做到任何你無法透過刪除並重新建立該序列來做到的事。不過，超級使用者無論如何都可以變更任何序列的擁有權。）
 
 <a id="id-1.9.3.30.6"></a>
 
-## Parameters
+## 參數
 
 *`name`*
-:   The name (optionally schema-qualified) of a sequence to be altered.
+:   要變更之序列的名稱（可選擇以綱要限定）。
 
 `IF EXISTS`
-:   Do not throw an error if the sequence does not exist. A notice is issued
-    in this case.
+:   序列不存在時不擲出錯誤；此情況會發出 notice。
 
 *`data_type`*
-:   The optional
-    clause `AS data_type`
-    changes the data type of the sequence. Valid types are
-    `smallint`, `integer`,
-    and `bigint`.
+:   選擇性的 `AS data_type` 子句會變更序列的資料型別。有效的型別為 `smallint`、`integer` 與 `bigint`。
 
-    Changing the data type automatically changes the minimum and maximum
-    values of the sequence if and only if the previous minimum and maximum
-    values were the minimum or maximum value of the old data type (in
-    other words, if the sequence had been created using `NO
-    MINVALUE` or `NO MAXVALUE`, implicitly or
-    explicitly). Otherwise, the minimum and maximum values are preserved,
-    unless new values are given as part of the same command. If the
-    minimum and maximum values do not fit into the new data type, an error
-    will be generated.
+    變更資料型別時，若且唯若先前的最小值與最大值是舊資料型別的最小值或最大值（換句話說，若序列是以 `NO
+    MINVALUE` 或 `NO MAXVALUE` 建立的，無論是隱含或明確指定），才會自動變更序列的最小值與最大值。否則，最小值與最大值會保留，除非在同一個命令中提供了新的值。若最小值與最大值無法容納於新的資料型別中，則會產生錯誤。
 
 *`increment`*
-:   The clause `INCREMENT BY increment` is
-    optional. A positive value will make an ascending sequence, a
-    negative one a descending sequence. If unspecified, the old
-    increment value will be maintained.
+:   `INCREMENT BY increment` 子句是選擇性的。正值會產生遞增序列，負值則產生遞減序列。若未指定，將維持舊的遞增值。
 
 *`minvalue`*<br>`NO MINVALUE`
-:   The optional clause `MINVALUE minvalue` determines
-    the minimum value a sequence can generate. If `NO
-    MINVALUE` is specified, the defaults of 1 and
-    the minimum value of the data type for ascending and descending sequences,
-    respectively, will be used. If neither option is specified,
-    the current minimum value will be maintained.
+:   選擇性的 `MINVALUE minvalue` 子句決定序列可以產生的最小值。若指定 `NO
+    MINVALUE`，則遞增序列與遞減序列分別使用預設值 1 與該資料型別的最小值。若兩個選項都未指定，將維持目前的最小值。
 
 *`maxvalue`*<br>`NO MAXVALUE`
-:   The optional clause `MAXVALUE maxvalue` determines
-    the maximum value for the sequence. If `NO
-    MAXVALUE` is specified, the defaults of
-    the maximum value of the data type and -1 for ascending and descending
-    sequences, respectively, will be used. If neither option is
-    specified, the current maximum value will be maintained.
+:   選擇性的 `MAXVALUE maxvalue` 子句決定序列的最大值。若指定 `NO
+    MAXVALUE`，則遞增序列與遞減序列分別使用預設值該資料型別的最大值與 -1。若兩個選項都未指定，將維持目前的最大值。
 
 `CYCLE`
-:   The optional `CYCLE` key word can be used to enable
-    the sequence to wrap around when the
-    *`maxvalue`* or
-    *`minvalue`* has been
-    reached by
-    an ascending or descending sequence respectively. If the limit is
-    reached, the next number generated will be the
-    *`minvalue`* or
-    *`maxvalue`*,
-    respectively.
+:   選擇性的 `CYCLE` 關鍵字可以用來讓序列在遞增序列或遞減序列分別達到 *`maxvalue`* 或 *`minvalue`* 時循環回頭。若達到限制，下一個產生的數字將分別是 *`minvalue`* 或 *`maxvalue`*。
 
 `NO CYCLE`
-:   If the optional `NO CYCLE` key word is
-    specified, any calls to `nextval` after the
-    sequence has reached its maximum value will return an error.
-    If neither `CYCLE` or `NO
-    CYCLE` are specified, the old cycle behavior will be
-    maintained.
+:   若指定了選擇性的 `NO CYCLE` 關鍵字，則遞增序列達到其最大值、或遞減序列達到其最小值之後，任何對 `nextval` 的呼叫都會傳回錯誤。若 `CYCLE` 與 `NO
+    CYCLE` 都未指定，將維持舊的循環行為。
 
 *`start`*
-:   The optional clause `START WITH start` changes the
-    recorded start value of the sequence. This has no effect on the
-    *current* sequence value; it simply sets the value
-    that future `ALTER SEQUENCE RESTART` commands will use.
+:   選擇性的 `START WITH start` 子句會變更序列所記錄的起始值。這對*目前的*序列值沒有任何影響；它只是設定未來的 `ALTER SEQUENCE RESTART` 命令將使用的值。
 
 *`restart`*
-:   The optional clause `RESTART [ WITH restart ]` changes the
-    current value of the sequence. This is similar to calling the
-    `setval` function with `is_called` =
-    `false`: the specified value will be returned by the
-    *next* call of `nextval`.
-    Writing `RESTART` with no *`restart`* value is equivalent to supplying
-    the start value that was recorded by `CREATE SEQUENCE`
-    or last set by `ALTER SEQUENCE START WITH`.
+:   選擇性的 `RESTART [ WITH restart ]` 子句會變更序列的目前值。這類似於以 `is_called` = `false` 呼叫 `setval` 函式：指定的值將由*下一次* `nextval` 呼叫傳回。只寫 `RESTART` 而不提供 *`restart`* 值，等同於提供由 `CREATE SEQUENCE` 記錄、或最後一次由 `ALTER SEQUENCE START WITH` 設定的起始值。
 
-    In contrast to a `setval` call,
-    a `RESTART` operation on a sequence is transactional
-    and blocks concurrent transactions from obtaining numbers from the
-    same sequence. If that's not the desired mode of
-    operation, `setval` should be used.
+    與 `setval` 呼叫不同，對序列執行的 `RESTART` 操作是交易性的，並且會阻擋並行交易從同一個序列取得數字。若這不是所需的操作模式，應該使用 `setval`。
 
 *`cache`*
-:   The clause `CACHE cache` enables
-    sequence numbers to be preallocated and stored in memory for
-    faster access. The minimum value is 1 (only one value can be
-    generated at a time, i.e., no cache). If unspecified, the old
-    cache value will be maintained.
+:   `CACHE cache` 子句可讓序列號碼預先配置並儲存在記憶體中，以加快存取速度。最小值為 1（一次只能產生一個值，亦即不快取）。若未指定，將維持舊的快取值。
 
 `SET { LOGGED | UNLOGGED }`
-:   This form changes the sequence from unlogged to logged or vice-versa
-    (see [CREATE SEQUENCE](sql-createsequence.md)). It cannot be applied to a
-    temporary sequence.
+:   此形式會將序列從無日誌變更為有日誌，或反之（請參閱 [CREATE SEQUENCE](sql-createsequence.md)）。它不能套用於暫存序列。
 
 `OWNED BY` *`table_name`*.*`column_name`*<br>`OWNED BY NONE`
-:   The `OWNED BY` option causes the sequence to be
-    associated with a specific table column, such that if that column
-    (or its whole table) is dropped, the sequence will be automatically
-    dropped as well. If specified, this association replaces any
-    previously specified association for the sequence. The specified
-    table must have the same owner and be in the same schema as the
-    sequence.
-    Specifying `OWNED BY NONE` removes any existing
-    association, making the sequence “free-standing”.
+:   `OWNED BY` 選項會使序列與特定的資料表欄位相關聯，使得當該欄位（或其整個資料表）被移除時，序列也會自動被移除。若有指定，此關聯會取代該序列先前指定的任何關聯。指定的資料表必須與序列有相同的擁有者，並位於相同的綱要中。指定 `OWNED BY NONE` 會移除任何現有的關聯，使序列成為「獨立的」序列。
 
 *`new_owner`*
-:   The user name of the new owner of the sequence.
+:   序列新擁有者的使用者名稱。
 
 *`new_name`*
-:   The new name for the sequence.
+:   序列的新名稱。
 
 *`new_schema`*
-:   The new schema for the sequence.
+:   序列的新綱要。
 
 <a id="id-1.9.3.30.7"></a>
 
-## Notes
+## 注意事項
 
-`ALTER SEQUENCE` will not immediately affect
-`nextval` results in backends,
-other than the current one, that have preallocated (cached) sequence
-values. They will use up all cached values prior to noticing the changed
-sequence generation parameters. The current backend will be affected
-immediately.
+對於目前後端以外、已經預先配置（快取）序列值的後端，`ALTER SEQUENCE` 不會立即影響其 `nextval` 結果。這些後端會先用完所有已快取的值，才會察覺到已變更的序列產生參數。目前的後端則會立即受到影響。
 
-`ALTER SEQUENCE` does not affect the `currval`
-status for the sequence. (Before PostgreSQL
-8.3, it sometimes did.)
+`ALTER SEQUENCE` 不會影響序列的 `currval` 狀態。（在 PostgreSQL 8.3 之前，有時會影響。）
 
-`ALTER SEQUENCE` blocks
-concurrent `nextval`, `currval`,
-`lastval`, and `setval` calls.
+`ALTER SEQUENCE` 會阻擋並行的 `nextval`、`currval`、`lastval` 與 `setval` 呼叫。
 
-For historical reasons, `ALTER TABLE` can be used with
-sequences too; but the only variants of `ALTER TABLE`
-that are allowed with sequences are equivalent to the forms shown above.
+由於歷史因素，`ALTER TABLE` 也可以用於序列；但允許用於序列的 `ALTER TABLE` 形式，僅限於與上述形式等效者。
 
 <a id="id-1.9.3.30.8"></a>
 
-## Examples
+## 範例
 
-Restart a sequence called `serial`, at 105:
+從 105 重新開始名為 `serial` 的序列：
 
 ```
 
@@ -202,20 +118,16 @@ ALTER SEQUENCE serial RESTART WITH 105;
 
 <a id="id-1.9.3.30.9"></a>
 
-## Compatibility
+## 相容性
 
-`ALTER SEQUENCE` conforms to the SQL
-standard, except for the `AS`, `START WITH`,
-`OWNED BY`, `OWNER TO`, `RENAME TO`, and
-`SET SCHEMA` clauses, which are
-PostgreSQL extensions.
+`ALTER SEQUENCE` 符合 SQL 標準，但 `AS`、`START WITH`、`OWNED BY`、`OWNER TO`、`RENAME TO` 與 `SET SCHEMA` 子句除外，這些是 PostgreSQL 的擴充語法。
 
 <a id="id-1.9.3.30.10"></a>
 
-## See Also
+## 另請參閱
 
 [CREATE SEQUENCE](sql-createsequence.md), [DROP SEQUENCE](sql-dropsequence.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altersequence.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sql-altersequence.html)（原文版本：18.6；核對日期：2026-10-10）
