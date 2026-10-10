@@ -928,7 +928,7 @@
     * [53.26. `pg_shadow` #](internals/views/view-pg-shadow.md)
     * [53.27. `pg_shmem_allocations` #](internals/views/view-pg-shmem-allocations.md)
     * [53.28. `pg_shmem_allocations_numa` #](internals/views/view-pg-shmem-allocations-numa.md)
-    * [53.29. pg_stats #](internals/views/view-pg-stats.md)
+    * [53.29. `pg_stats` #](internals/views/view-pg-stats.md)
     * [53.30. `pg_stats_ext` #](internals/views/view-pg-stats-ext.md)
     * [53.31. `pg_stats_ext_exprs` #](internals/views/view-pg-stats-ext-exprs.md)
     * [53.32. pg_tables #](internals/views/view-pg-tables.md)

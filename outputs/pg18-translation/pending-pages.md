@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：331 頁。
+待譯頁面：330 頁。
 
 ## 根目錄
 
@@ -458,7 +458,7 @@
 - [x] `internals/views/view-pg-shmem-allocations.md` — 53.27. `pg_shmem_allocations` #
 - [x] `internals/views/view-pg-stats-ext-exprs.md` — 53.31. `pg_stats_ext_exprs` #
 - [x] `internals/views/view-pg-stats-ext.md` — 53.30. `pg_stats_ext` #
-- [ ] `internals/views/view-pg-stats.md` — 53.29. pg_stats #
+- [x] `internals/views/view-pg-stats.md` — 53.29. `pg_stats` #
 - [ ] `internals/views/view-pg-tables.md` — 53.32. pg_tables #
 - [x] `internals/views/view-pg-timezone-abbrevs.md` — 53.33. `pg_timezone_abbrevs` #
 - [x] `internals/views/view-pg-timezone-names.md` — 53.34. pg_timezone_names #
