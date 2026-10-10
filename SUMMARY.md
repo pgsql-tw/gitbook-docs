@@ -914,7 +914,7 @@
     * [53.12. `pg_indexes` #](internals/views/view-pg-indexes.md)
     * [53.13. `pg_locks` #](internals/views/view-pg-locks.md)
     * [53.14. `pg_matviews` #](internals/views/view-pg-matviews.md)
-    * [53.15. pg_policies #](internals/views/view-pg-policies.md)
+    * [53.15. `pg_policies` #](internals/views/view-pg-policies.md)
     * [53.16. `pg_prepared_statements` #](internals/views/view-pg-prepared-statements.md)
     * [53.17. pg_prepared_xacts #](internals/views/view-pg-prepared-xacts.md)
     * [53.18. pg_publication_tables #](internals/views/view-pg-publication-tables.md)
