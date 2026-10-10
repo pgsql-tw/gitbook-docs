@@ -1,10 +1,12 @@
-<a id="id-1.9.4.12.1"></a>
+<a id="APP-PGCOMBINEBACKUP"></a><a id="id-1.9.4.12.1"></a>
 
 ## pg_combinebackup
 
-pg_combinebackup — reconstruct a full backup from an incremental backup and dependent backups
+pg_combinebackup — 從增量備份及其相依的備份重建完整備份
 
-## Synopsis
+<a id="id-1.9.4.12.4"></a>
+
+## 語法
 
 <a id="id-1.9.4.12.4.1"></a>
 
@@ -12,196 +14,98 @@ pg_combinebackup — reconstruct a full backup from an incremental backup and de
 
 <a id="id-1.9.4.12.5"></a>
 
-## Description
+## 說明
 
-pg_combinebackup is used to reconstruct a
-synthetic full backup from an
-[incremental backup](../../server-administration/backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP) and the
-earlier backups upon which it depends.
+pg_combinebackup 用來從一個[增量備份](../../server-administration/backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)及其所相依的較早備份，重建出一份合成的完整備份。
 
-Specify all of the required backups on the command line from oldest to newest.
-That is, the first backup directory should be the path to the full backup, and
-the last should be the path to the final incremental backup
-that you wish to restore. The reconstructed backup will be written to the
-output directory specified by the `-o` option.
+請在命令列上依照由舊到新的順序指定所有需要的備份。也就是說，第一個備份目錄應該是完整備份的路徑，最後一個則應該是你想要還原的最終增量備份的路徑。重建後的備份會寫入 `-o` 選項所指定的輸出目錄。
 
-pg_combinebackup will attempt to verify
-that the backups you specify form a legal backup chain from which a correct
-full backup can be reconstructed. However, it is not designed to help you
-keep track of which backups depend on which other backups. If you remove
-one or more of the previous backups upon which your incremental
-backup relies, you will not be able to restore it. Moreover,
-pg_combinebackup only attempts to verify that the
-backups have the correct relationship to each other, not that each
-individual backup is intact; for that, use
-[pg_verifybackup](app-pgverifybackup.md).
+pg_combinebackup 會嘗試驗證你所指定的備份是否構成合法的備份鏈，足以從中重建出正確的完整備份。不過，它的設計並不是要幫你追蹤哪些備份相依於哪些其他備份。如果你移除了增量備份所依賴的一個或多個先前備份，你將無法還原該增量備份。此外，pg_combinebackup 只會嘗試驗證這些備份彼此之間的關係是否正確，而不會驗證每一個個別備份是否完好；若要驗證這一點，請使用 [pg_verifybackup](app-pgverifybackup.md)。
 
-Since the output of pg_combinebackup is a
-synthetic full backup, it can be used as an input to a future invocation of
-pg_combinebackup. The synthetic full backup would
-be specified on the command line in lieu of the chain of backups from which
-it was reconstructed.
+由於 pg_combinebackup 的輸出是一份合成的完整備份，它可以作為之後呼叫 pg_combinebackup 時的輸入。此時會在命令列上指定該合成的完整備份，以取代重建它時所用的備份鏈。
 
 <a id="id-1.9.4.12.6"></a>
 
-## Options
+## 選項
 
 `-d`<br>`--debug`
-:   Print lots of debug logging output on `stderr`.
+:   在 `stderr` 上印出大量的除錯日誌輸出。
 
 `-k`<br>`--link`
-:   Use hard links instead of copying files to the synthetic backup.
-    Reconstruction of the synthetic backup might be faster (no file copying)
-    and use less disk space, but care must be taken when using the output
-    directory, because any modifications to that directory (for example,
-    starting the server) can also affect the input directories. Likewise,
-    changes to the input directories (for example, starting the server on
-    the full backup) could affect the output directory. Thus, this option
-    is best used when the input directories are only copies that will be
-    removed after pg_combinebackup has completed.
+:   使用硬連結，而不是將檔案複製到合成的備份中。重建合成備份的速度可能會比較快（不需複製檔案），也會使用較少的磁碟空間，但使用輸出目錄時必須小心，因為對該目錄的任何修改（例如啟動伺服器）也可能影響輸入目錄。同樣地，對輸入目錄的變更（例如在完整備份上啟動伺服器）也可能影響輸出目錄。因此，此選項最適合在輸入目錄只是副本、且會在 pg_combinebackup 完成後移除的情況下使用。
 
-    Requires that the input backups and the output directory are in the
-    same file system.
+    此選項要求輸入備份與輸出目錄位於同一個檔案系統中。
 
-    If a backup manifest is not available or does not contain checksum of
-    the right type, hard links will still be created, but the file will be
-    also read block-by-block for the checksum calculation.
+    若沒有可用的備份清單（manifest），或備份清單中不包含正確類型的檢查碼，仍會建立硬連結，但也會逐區塊讀取檔案以計算檢查碼。
 
 `-n`<br>`--dry-run`
-:   The `-n`/`--dry-run` option instructs
-    `pg_combinebackup` to figure out what would be done
-    without actually creating the target directory or any output files.
-    It is particularly useful in combination with `--debug`.
+:   `-n`/`--dry-run` 選項會指示 `pg_combinebackup` 推算出將會執行哪些動作，而不實際建立目標目錄或任何輸出檔案。此選項與 `--debug` 一起使用時特別有用。
 
 `-N`<br>`--no-sync`
-:   By default, `pg_combinebackup` will wait for all files
-    to be written safely to disk. This option causes
-    `pg_combinebackup` to return without waiting, which is
-    faster, but means that a subsequent operating system crash can leave
-    the output backup corrupt. Generally, this option is useful for testing
-    but should not be used when creating a production installation.
+:   預設情況下，`pg_combinebackup` 會等待所有檔案都安全寫入磁碟。此選項會讓 `pg_combinebackup` 不等待就返回，這樣比較快，但意味著之後的作業系統當機可能會使輸出的備份損毀。一般而言，此選項適用於測試，但不應該在建立正式環境的安裝時使用。
 
 `-o outputdir`<br>`--output=outputdir`
-:   Specifies the output directory to which the synthetic full backup
-    should be written. Currently, this argument is required.
+:   指定合成的完整備份應寫入的輸出目錄。目前此引數為必要。
 
 `-T olddir=newdir`<br>`--tablespace-mapping=olddir=newdir`
-:   Relocates the tablespace in directory *`olddir`*
-    to *`newdir`* during the backup.
-    *`olddir`* is the absolute path of the tablespace
-    as it exists in the final backup specified on the command line,
-    and *`newdir`* is the absolute path to use for the
-    tablespace in the reconstructed backup. If either path needs to contain
-    an equal sign (`=`), precede that with a backslash.
-    This option can be specified multiple times for multiple tablespaces.
+:   在備份期間，將位於目錄 *`olddir`* 的資料表空間重新放置到 *`newdir`*。*`olddir`* 是該資料表空間在命令列上所指定之最終備份中的絕對路徑，而 *`newdir`* 是重建後的備份中該資料表空間要使用的絕對路徑。若任一路徑需要包含等號（`=`），請在等號前加上反斜線。此選項可以為多個資料表空間指定多次。
 
 `--clone`
-:   Use efficient file cloning (also known as “reflinks” on
-    some systems) instead of copying files to the new data directory,
-    which can result in near-instantaneous copying of the data files.
+:   使用有效率的檔案複製（clone，在某些系統上也稱為「reflinks」），而不是將檔案複製（copy）到新的資料目錄。這可以讓資料檔案的複製幾乎在瞬間完成。
 
-    If a backup manifest is not available or does not contain checksum of
-    the right type, file cloning will be used to copy the file, but the
-    file will be also read block-by-block for the checksum calculation.
+    若沒有可用的備份清單，或備份清單中不包含正確類型的檢查碼，會使用檔案複製（clone）來複製檔案，但也會逐區塊讀取檔案以計算檢查碼。
 
-    File cloning is only supported on some operating systems and file
-    systems. If it is selected but not supported, the
-    pg_combinebackup run will error. At present,
-    it is supported on Linux (kernel 4.5 or later) with Btrfs and XFS (on
-    file systems created with reflink support), and on macOS with APFS.
+    只有部分作業系統與檔案系統支援檔案複製（clone）。如果選擇了此選項但系統不支援，pg_combinebackup 的執行將會發生錯誤。目前，支援的環境有 Linux（核心 4.5 或更新版本）上的 Btrfs 與 XFS（在建立時啟用 reflink 支援的檔案系統上），以及 macOS 上的 APFS。
 
 `--copy`
-:   Perform regular file copy. This is the default. (See also
-    `--copy-file-range`, `--clone`, and
-    `-k`/`--link`.)
+:   執行一般的檔案複製。這是預設行為。（另請參閱 `--copy-file-range`、`--clone` 與 `-k`/`--link`。）
 
 `--copy-file-range`
-:   Use the `copy_file_range` system call for efficient
-    copying. On some file systems this gives results similar to
-    `--clone`, sharing physical disk blocks, while on others
-    it may still copy blocks, but do so via an optimized path. At present,
-    it is supported on Linux and FreeBSD.
+:   使用 `copy_file_range` 系統呼叫進行有效率的複製。在某些檔案系統上，這會產生與 `--clone` 類似的結果，共用實體磁碟區塊；而在其他檔案系統上，它可能仍會複製區塊，但會透過最佳化的路徑來進行。目前，Linux 與 FreeBSD 支援此選項。
 
-    If a backup manifest is not available or does not contain checksum of
-    the right type, `copy_file_range` will be used to
-    copy the file, but the file will be also read block-by-block for the
-    checksum calculation.
+    若沒有可用的備份清單，或備份清單中不包含正確類型的檢查碼，會使用 `copy_file_range` 來複製檔案，但也會逐區塊讀取檔案以計算檢查碼。
 
 `--manifest-checksums=algorithm`
-:   Like [pg_basebackup](app-pgbasebackup.md),
-    pg_combinebackup writes a backup manifest
-    in the output directory. This option specifies the checksum algorithm
-    that should be applied to each file included in the backup manifest.
-    Currently, the available algorithms are `NONE`,
-    `CRC32C`, `SHA224`,
-    `SHA256`, `SHA384`,
-    and `SHA512`. The default is `CRC32C`.
+:   與 [pg_basebackup](app-pgbasebackup.md) 一樣，pg_combinebackup 會在輸出目錄中寫入備份清單。此選項指定應該套用於備份清單所含之每個檔案的檢查碼演算法。目前可用的演算法有 `NONE`、`CRC32C`、`SHA224`、`SHA256`、`SHA384` 與 `SHA512`。預設為 `CRC32C`。
 
 `--no-manifest`
-:   Disables generation of a backup manifest. If this option is not
-    specified, a backup manifest for the reconstructed backup will be
-    written to the output directory.
+:   停用備份清單的產生。若未指定此選項，重建後備份的備份清單會寫入輸出目錄。
 
 `--sync-method=method`
-:   When set to `fsync`, which is the default,
-    `pg_combinebackup` will recursively open and synchronize
-    all files in the backup directory. When the plain format is used, the
-    search for files will follow symbolic links for the WAL directory and
-    each configured tablespace.
+:   設為預設值 `fsync` 時，`pg_combinebackup` 會遞迴地開啟並同步備份目錄中的所有檔案。使用 plain 格式時，搜尋檔案會跟隨 WAL 目錄與每個已設定之資料表空間的符號連結。
 
-    On Linux, `syncfs` may be used instead to ask the
-    operating system to synchronize the whole file system that contains the
-    backup directory. When the plain format is used,
-    `pg_combinebackup` will also synchronize the file systems
-    that contain the WAL files and each tablespace. See
-    [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD) for information about
-    the caveats to be aware of when using `syncfs`.
+    在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含備份目錄的整個檔案系統。使用 plain 格式時，`pg_combinebackup` 也會同步包含 WAL 檔案與每個資料表空間的檔案系統。關於使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
 
-    This option has no effect when `--no-sync` is used.
+    使用 `--no-sync` 時，此選項沒有作用。
 
 `-V`<br>`--version`
-:   Prints the pg_combinebackup version and
-    exits.
+:   印出 pg_combinebackup 的版本後結束。
 
 `-?`<br>`--help`
-:   Shows help about pg_combinebackup command
-    line arguments, and exits.
+:   顯示 pg_combinebackup 命令列引數的說明後結束。
 
 <a id="APP-PGCOMBINEBACKUP-LIMITATIONS"></a>
 
-## Limitations
+## 限制
 
-`pg_combinebackup` does not recompute page checksums when
-writing the output directory. Therefore, if any of the backups used for
-reconstruction were taken with checksums disabled, but the final backup was
-taken with checksums enabled, the resulting directory may contain pages
-with invalid checksums.
+`pg_combinebackup` 在寫入輸出目錄時，不會重新計算頁面檢查碼。因此，如果用於重建的任何備份是在停用檢查碼時取得的，而最終備份是在啟用檢查碼時取得的，產生的目錄可能會包含檢查碼無效的頁面。
 
-To avoid this problem, taking a new full backup after changing the checksum
-state of the cluster using [pg_checksums](../reference-server/app-pgchecksums.md) is
-recommended. Otherwise, you can disable and then optionally reenable
-checksums on the directory produced by `pg_combinebackup`
-in order to correct the problem.
+為了避免此問題，建議在使用 [pg_checksums](../reference-server/app-pgchecksums.md) 變更叢集的檢查碼狀態之後，取得一份新的完整備份。否則，你可以對 `pg_combinebackup` 所產生的目錄先停用檢查碼，再視需要重新啟用檢查碼，以修正此問題。
 
 <a id="id-1.9.4.12.8"></a>
 
-## Environment
+## 環境
 
-This utility, like most other PostgreSQL utilities,
-uses the environment variables supported by libpq
-(see [Section 32.15](../../client-interfaces/libpq/libpq-envars.md)).
+此工具程式與大多數其他 PostgreSQL 工具程式一樣，會使用 libpq 所支援的環境變數（請參閱[第 32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。
 
-The environment variable `PG_COLOR` specifies whether to use
-color in diagnostic messages. Possible values are
-`always`, `auto` and
-`never`.
+環境變數 `PG_COLOR` 指定診斷訊息是否使用色彩。可用值為 `always`、`auto` 與 `never`。
 
 <a id="id-1.9.4.12.9"></a>
 
-## See Also
+## 另請參閱
 
 [pg_basebackup](app-pgbasebackup.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgcombinebackup.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgcombinebackup.html)（原文版本：18.6；核對日期：2026-10-09）
