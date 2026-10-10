@@ -925,7 +925,7 @@
     * [53.23. `pg_seclabels` #](internals/views/view-pg-seclabels.md)
     * [53.24. `pg_sequences` #](internals/views/view-pg-sequences.md)
     * [53.25. `pg_settings` #](internals/views/view-pg-settings.md)
-    * [53.26. pg_shadow #](internals/views/view-pg-shadow.md)
+    * [53.26. `pg_shadow` #](internals/views/view-pg-shadow.md)
     * [53.27. `pg_shmem_allocations` #](internals/views/view-pg-shmem-allocations.md)
     * [53.28. `pg_shmem_allocations_numa` #](internals/views/view-pg-shmem-allocations-numa.md)
     * [53.29. pg_stats #](internals/views/view-pg-stats.md)

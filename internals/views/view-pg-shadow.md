@@ -1,84 +1,73 @@
+<a id="VIEW-PG-SHADOW"></a>
+
 ## 53.26. `pg_shadow` [#](#VIEW-PG-SHADOW)
 
 <a id="id-1.10.5.30.2"></a>
 
-The view `pg_shadow` exists for backwards
-compatibility: it emulates a catalog that existed in
-PostgreSQL before version 8.1.
-It shows properties of all roles that are marked as
-`rolcanlogin` in
-[`pg_authid`](../catalogs/catalog-pg-authid.md).
+檢視表 `pg_shadow` 為了向後相容性而存在：它模擬 PostgreSQL 8.1 版之前存在的一個系統目錄。它顯示 [`pg_authid`](../catalogs/catalog-pg-authid.md) 中所有標記為 `rolcanlogin` 之角色的屬性。
 
-The name stems from the fact that this table
-should not be readable by the public since it contains passwords.
-[`pg_user`](view-pg-user.md)
-is a publicly readable view on
-`pg_shadow` that blanks out the password field.
+這個名稱源自於此資料表因為包含密碼，而不應讓大眾讀取。[`pg_user`](view-pg-user.md) 是建立在 `pg_shadow` 之上、公開可讀的檢視表，並將密碼欄位遮蔽為空白。
 
 <a id="id-1.10.5.30.5"></a>
 
-**Table 53.26. `pg_shadow` Columns**
+**表 53.26. `pg_shadow` 欄位**
 
-<table border="1" class="table" summary="pg_shadow Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 53.26. pg_shadow 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">usename</code> <code class="type">name</code>
-       (references <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">rolname</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">rolname</code>）
       </p>
 <p>
-       User name
+       使用者名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">usesysid</code> <code class="type">oid</code>
-       (references <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       ID of this user
+       此使用者的 ID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">usecreatedb</code> <code class="type">bool</code>
 </p>
 <p>
-       User can create databases
+       使用者可以建立資料庫
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">usesuper</code> <code class="type">bool</code>
 </p>
 <p>
-       User is a superuser
+       使用者是超級使用者
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">userepl</code> <code class="type">bool</code>
 </p>
 <p>
-       User can initiate streaming replication and put the system in and
-       out of backup mode.
+       使用者可以啟動串流複寫，並可讓系統進入及離開備份模式。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">usebypassrls</code> <code class="type">bool</code>
 </p>
 <p>
-       User bypasses every row-level security policy, see
-       <a class="xref" href="../../the-sql-language/ddl/ddl-rowsecurity.md">Section 5.9</a> for more information.
+       使用者會略過所有資料列層級安全性政策，更多資訊請參閱<a class="xref" href="../../the-sql-language/ddl/ddl-rowsecurity.md">第 5.9 節</a>。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">passwd</code> <code class="type">text</code>
 </p>
 <p>
-       Encrypted password; null if none.  See
-       <a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>
-       for details of how encrypted passwords are stored.
+       加密後的密碼；若無則為 null。關於加密密碼如何儲存的細節，請參閱<a class="link" href="../catalogs/catalog-pg-authid.md"><code class="structname">pg_authid</code></a>。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">valuntil</code> <code class="type">timestamptz</code>
 </p>
 <p>
-       Password expiry time (only used for password authentication)
+       密碼到期時間（僅用於密碼認證）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">useconfig</code> <code class="type">text[]</code>
 </p>
 <p>
-       Session defaults for run-time configuration variables
+       執行期設定變數的工作階段預設值
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-shadow.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-shadow.html)（原文版本：18.6；核對日期：2026-10-10）
