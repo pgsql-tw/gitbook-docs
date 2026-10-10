@@ -1,88 +1,68 @@
+<a id="VIEW-PG-PREPARED-STATEMENTS"></a>
+
 ## 53.16. `pg_prepared_statements` [#](#VIEW-PG-PREPARED-STATEMENTS)
 
 <a id="id-1.10.5.20.2"></a>
 
-The `pg_prepared_statements` view displays
-all the prepared statements that are available in the current
-session. See [PREPARE](../../reference/sql-commands/sql-prepare.md) for more information about prepared
-statements.
+檢視表 `pg_prepared_statements` 顯示目前工作階段中可用的所有預備陳述式。關於預備陳述式的更多資訊，請參閱 [PREPARE](../../reference/sql-commands/sql-prepare.md)。
 
-`pg_prepared_statements` contains one row
-for each prepared statement. Rows are added to the view when a new
-prepared statement is created and removed when a prepared statement
-is released (for example, via the [`DEALLOCATE`](../../reference/sql-commands/sql-deallocate.md) command).
+`pg_prepared_statements` 中每個預備陳述式各有一筆資料列。建立新的預備陳述式時，會在此檢視表中加入資料列；釋放預備陳述式時（例如透過 [`DEALLOCATE`](../../reference/sql-commands/sql-deallocate.md) 命令），則會移除資料列。
 
 <a id="id-1.10.5.20.5"></a>
 
-**Table 53.16. `pg_prepared_statements` Columns**
+**表 53.16. `pg_prepared_statements` 欄位**
 
-<table border="1" class="table" summary="pg_prepared_statements Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 53.16. pg_prepared_statements 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">name</code> <code class="type">text</code>
 </p>
 <p>
-       The identifier of the prepared statement
+       預備陳述式的識別名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">statement</code> <code class="type">text</code>
 </p>
 <p>
-       The query string submitted by the client to create this
-       prepared statement. For prepared statements created via SQL,
-       this is the <code class="command">PREPARE</code> statement submitted by
-       the client. For prepared statements created via the
-       frontend/backend protocol, this is the text of the prepared
-       statement itself.
+       用戶端為建立此預備陳述式所送出的查詢字串。對於透過 SQL 建立的預備陳述式，這是用戶端送出的 <code class="command">PREPARE</code> 陳述式。對於透過前端／後端協定建立的預備陳述式，這是預備陳述式本身的文字。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">prepare_time</code> <code class="type">timestamptz</code>
 </p>
 <p>
-       The time at which the prepared statement was created
+       建立此預備陳述式的時間
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">parameter_types</code> <code class="type">regtype[]</code>
 </p>
 <p>
-       The expected parameter types for the prepared statement in the
-       form of an array of <code class="type">regtype</code>. The OID corresponding
-       to an element of this array can be obtained by casting the
-       <code class="type">regtype</code> value to <code class="type">oid</code>.
+       此預備陳述式預期的參數型別，以 <code class="type">regtype</code> 陣列的形式呈現。將 <code class="type">regtype</code> 值轉型為 <code class="type">oid</code>，即可取得此陣列中某個元素所對應的 OID。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">result_types</code> <code class="type">regtype[]</code>
 </p>
 <p>
-       The types of the columns returned by the prepared statement in the
-       form of an array of <code class="type">regtype</code>. The OID corresponding
-       to an element of this array can be obtained by casting the
-       <code class="type">regtype</code> value to <code class="type">oid</code>.
-       If the prepared statement does not provide a result (e.g., a DML
-       statement), then this field will be null.
+       此預備陳述式所傳回之欄位的型別，以 <code class="type">regtype</code> 陣列的形式呈現。將 <code class="type">regtype</code> 值轉型為 <code class="type">oid</code>，即可取得此陣列中某個元素所對應的 OID。若預備陳述式不提供結果（例如 DML 陳述式），則此欄位為 null。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">from_sql</code> <code class="type">bool</code>
 </p>
 <p>
-<code class="literal">true</code> if the prepared statement was created
-       via the <code class="command">PREPARE</code> SQL command;
-       <code class="literal">false</code> if the statement was prepared via the
-       frontend/backend protocol
+<code class="literal">true</code> 表示此預備陳述式是透過 <code class="command">PREPARE</code> SQL 命令建立的；<code class="literal">false</code> 表示此陳述式是透過前端／後端協定預備的
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">generic_plans</code> <code class="type">int8</code>
 </p>
 <p>
-       Number of times generic plan was chosen
+       選用通用計畫的次數
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">custom_plans</code> <code class="type">int8</code>
 </p>
 <p>
-       Number of times custom plan was chosen
+       選用客製計畫的次數
       </p></td></tr></tbody></table>
 
 <br>
 
-The `pg_prepared_statements` view is read-only.
+檢視表 `pg_prepared_statements` 是唯讀的。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-prepared-statements.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-prepared-statements.html)（原文版本：18.6；核對日期：2026-10-09）
