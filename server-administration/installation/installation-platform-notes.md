@@ -1,4 +1,6 @@
-## 17.7. Platform-Specific Notes [#](#INSTALLATION-PLATFORM-NOTES)
+<a id="INSTALLATION-PLATFORM-NOTES"></a>
+
+## 17.7. 特定平台注意事項 [#](#INSTALLATION-PLATFORM-NOTES)
 
 [17.7.1. Cygwin](installation-platform-notes.md#INSTALLATION-NOTES-CYGWIN)
 
@@ -10,252 +12,211 @@
 
 [17.7.5. Visual Studio](installation-platform-notes.md#INSTALLATION-NOTES-VISUAL-STUDIO)
 
-This section documents additional platform-specific issues
-regarding the installation and setup of PostgreSQL. Be sure to
-read the installation instructions, and in
-particular [Section 17.1](install-requirements.md) as well. Also,
-check [Chapter 31](../regress/README.md) regarding the
-interpretation of regression test results.
+本節記錄安裝與設定 PostgreSQL 時，其他與特定平台相關的問題。請務必
+同時閱讀安裝說明，特別是[第 17.1 節](install-requirements.md)。此外，關於
+迴歸測試結果的判讀，請查看[第 31 章](../regress/README.md)。
 
-Platforms that are not covered here have no known platform-specific
-installation issues.
+本節未涵蓋的平台，沒有已知的特定平台安裝問題。
 
 <a id="INSTALLATION-NOTES-CYGWIN"></a>
 
-### 17.7.1. Cygwin [#](#INSTALLATION-NOTES-CYGWIN)
+### 17.7.1. Cygwin [#](#INSTALLATION-NOTES-CYGWIN)
 
 <a id="id-1.6.4.10.4.2"></a>
 
-PostgreSQL can be built using Cygwin, a Linux-like environment for
-Windows, but that method is inferior to the native Windows build
-and running a server under Cygwin is no longer recommended.
+PostgreSQL 可以使用 Cygwin（一個 Windows 上類似 Linux 的環境）建置，但這種
+方式不如原生 Windows 建置，而且已不再建議在 Cygwin 底下執行伺服器。
 
-When building from source, proceed according to the Unix-style
-installation procedure (i.e., `./configure;
-make`; etc.), noting the following Cygwin-specific
-differences:
+從原始碼建置時，請依照 Unix 風格的安裝程序進行（也就是 `./configure;
+make` 等等），並注意以下這些 Cygwin 特有的差異：
 
-* Set your path to use the Cygwin bin directory before the
-  Windows utilities. This will help prevent problems with
-  compilation.
-* The `adduser` command is not supported; use
-  the appropriate user management application on Windows.
-  Otherwise, skip this step.
-* The `su` command is not supported; use ssh to
-  simulate su on Windows. Otherwise, skip this step.
-* OpenSSL is not supported.
-* Start `cygserver` for shared memory support.
-  To do this, enter the command `/usr/sbin/cygserver
-  &`. This program needs to be running anytime you
-  start the PostgreSQL server or initialize a database cluster
-  (`initdb`). The
-  default `cygserver` configuration may need to
-  be changed (e.g., increase `SEMMNS`) to prevent
-  PostgreSQL from failing due to a lack of system resources.
-* Building might fail on some systems where a locale other than
-  C is in use. To fix this, set the locale to C by doing
-  `export LANG=C.utf8` before building, and then
-  setting it back to the previous setting after you have installed
-  PostgreSQL.
-* The parallel regression tests (`make check`)
-  can generate spurious regression test failures due to
-  overflowing the `listen()` backlog queue
-  which causes connection refused errors or hangs. You can limit
-  the number of connections using the make
-  variable `MAX_CONNECTIONS` thus:
+* 設定你的路徑（path），讓 Cygwin 的 bin 目錄排在 Windows 工具程式之前。
+  這有助於避免編譯時發生問題。
+* 不支援 `adduser` 命令；請改用 Windows 上合適的使用者管理
+  應用程式。否則請略過這個步驟。
+* 不支援 `su` 命令；請使用 ssh 在 Windows 上模擬 su。否則請
+  略過這個步驟。
+* 不支援 OpenSSL。
+* 啟動 `cygserver` 以取得共享記憶體支援。方法是輸入命令
+  `/usr/sbin/cygserver
+  &`。每當你要啟動 PostgreSQL 伺服器，或初始化資料庫叢集
+  （`initdb`）時，這個程式都必須正在執行。
+  `cygserver` 的預設設定可能需要調整（例如增加
+  `SEMMNS`），以避免 PostgreSQL 因為系統資源不足而失敗。
+* 在使用非 C 語系的某些系統上，建置可能會失敗。要解決這個問題，可以在建置
+  之前執行 `export LANG=C.utf8`，將語系設為 C，並在安裝完
+  PostgreSQL 之後，再把它設回原本的設定。
+* 平行迴歸測試（`make check`）可能會因為
+  `listen()` 待處理佇列（backlog queue）溢位，造成連線被拒絕的錯誤或停止回應，進而產生虛假的
+  迴歸測試失敗。你可以使用 make
+  變數 `MAX_CONNECTIONS`，如下所示，限制連線數量：
 
   ```
 
   make MAX_CONNECTIONS=5 check
   ```
 
-  (On some systems you can have up to about 10 simultaneous
-  connections.)
+  （在某些系統上，最多可以同時有大約 10 個連線。）
 
-It is possible to install `cygserver` and the
-PostgreSQL server as Windows NT services. For information on how
-to do this, please refer to the `README`
-document included with the PostgreSQL binary package on Cygwin.
-It is installed in the
-directory `/usr/share/doc/Cygwin`.
+可以將 `cygserver` 與 PostgreSQL 伺服器安裝為 Windows NT
+服務。關於如何做到這一點的資訊，請參閱隨附於 Cygwin 上 PostgreSQL 二進位套件
+中的 `README` 文件，該文件安裝於
+`/usr/share/doc/Cygwin` 目錄中。
 
 <a id="INSTALLATION-NOTES-MACOS"></a>
 
-### 17.7.2. macOS [#](#INSTALLATION-NOTES-MACOS)
+### 17.7.2. macOS [#](#INSTALLATION-NOTES-MACOS)
 
 <a id="id-1.6.4.10.5.2"></a>
 
-To build PostgreSQL from source
-on macOS, you will need to install Apple's
-command line developer tools, which can be done by issuing
+若要在 macOS 上從原始碼建置 PostgreSQL，你需要安裝 Apple 的命令列開發者工具，
+方法是執行
 
 ```
 
 xcode-select --install
 ```
 
-(note that this will pop up a GUI dialog window for confirmation).
-You may or may not wish to also install Xcode.
+（請注意，這會彈出一個 GUI 對話視窗要求確認）。你可以視需要決定是否也安裝 Xcode。
 
-On recent macOS releases, it's necessary to
-embed the “sysroot” path in the include switches used to
-find some system header files. This results in the outputs of
-the configure script varying depending on
-which SDK version was used during configure.
-That shouldn't pose any problem in simple scenarios, but if you are
-trying to do something like building an extension on a different machine
-than the server code was built on, you may need to force use of a
-different sysroot path. To do that, set `PG_SYSROOT`,
-for example
+在較新版本的 macOS 上，必須將「sysroot」路徑嵌入到用來尋找部分系統標頭檔的
+include 參數中。這會導致 configure 指令碼的輸出結果，隨著設定（configure）時
+使用的 SDK 版本而有所不同。在簡單的情境中，這通常不會造成任何問題，但如果你
+打算在與建置伺服器程式碼不同的機器上，做類似建置擴充功能的事情，可能就需要
+強制使用不同的 sysroot 路徑。若要這麼做，請設定 `PG_SYSROOT`，
+例如
 
 ```
 
 make PG_SYSROOT=/desired/path all
 ```
 
-To find out the appropriate path on your machine, run
+若要找出你機器上合適的路徑，請執行
 
 ```
 
 xcrun --show-sdk-path
 ```
 
-Note that building an extension using a different sysroot version than
-was used to build the core server is not really recommended; in the
-worst case it could result in hard-to-debug ABI inconsistencies.
+請注意，並不太建議使用與建置核心伺服器時不同的 sysroot 版本來建置擴充功能；在
+最糟的情況下，可能會導致難以除錯的 ABI 不一致問題。
 
-You can also select a non-default sysroot path when configuring, by
-specifying `PG_SYSROOT`
-to configure:
+在設定（configure）時，你也可以透過指定 `PG_SYSROOT` 給
+configure，選擇一個非預設的 sysroot 路徑：
 
 ```
 
 ./configure ... PG_SYSROOT=/desired/path
 ```
 
-This would primarily be useful to cross-compile for some other
-macOS version. There is no guarantee that the resulting executables
-will run on the current host.
+這主要適用於交叉編譯給其他 macOS 版本使用的情況。並不保證產生出來的執行檔，
+能在目前所在的主機上執行。
 
-To suppress the `-isysroot` options altogether, use
+若要完全停用 `-isysroot` 選項，可以使用
 
 ```
 
 ./configure ... PG_SYSROOT=none
 ```
 
-(any nonexistent pathname will work). This might be useful if you wish
-to build with a non-Apple compiler, but beware that that case is not
-tested or supported by the PostgreSQL developers.
+（任何不存在的路徑名稱都可以）。如果你想要使用非 Apple 的編譯器來建置，這
+可能會有用，但請留意，PostgreSQL 開發者並未測試或支援這種情況。
 
-macOS's “System Integrity
-Protection” (SIP) feature breaks `make check`,
-because it prevents passing the needed setting
-of `DYLD_LIBRARY_PATH` down to the executables being
-tested. You can work around that by doing `make
-install` before `make check`.
-Most PostgreSQL developers just turn off SIP, though.
+macOS 的「系統完整性保護（System Integrity
+Protection，SIP）」功能會破壞 `make check`，因為它會阻止將所需的
+`DYLD_LIBRARY_PATH` 設定，傳遞給被測試的執行檔。你可以透過在
+執行 `make check` 之前先執行 `make
+install`，來繞過這個問題。不過，
+大多數 PostgreSQL 開發者都是直接關閉 SIP。
 
 <a id="INSTALLATION-NOTES-MINGW"></a>
 
-### 17.7.3. MinGW [#](#INSTALLATION-NOTES-MINGW)
+### 17.7.3. MinGW [#](#INSTALLATION-NOTES-MINGW)
 
 <a id="id-1.6.4.10.6.2"></a>
 
-PostgreSQL for Windows can be built using MinGW, a Unix-like build
-environment for Windows. It is recommended to use the [MSYS2](https://www.msys2.org/) environment for this and also
-to install any prerequisite packages.
+Windows 版的 PostgreSQL 可以使用 MinGW（一個 Windows 上類似 Unix 的建置環境）
+建置。建議使用 [MSYS2](https://www.msys2.org/) 環境來建置，並同樣透過它安裝任何先決套件。
 
 <a id="MINGW-CRASH-DUMPS"></a>
 
-#### 17.7.3.1. Collecting Crash Dumps [#](#MINGW-CRASH-DUMPS)
+#### 17.7.3.1. 收集當機傾印 [#](#MINGW-CRASH-DUMPS)
 
-If PostgreSQL on Windows crashes, it has the ability to generate
-minidumps that can be used to track down the cause
-for the crash, similar to core dumps on Unix. These dumps can be
-read using the Windows Debugger Tools or using
-Visual Studio. To enable the generation of dumps
-on Windows, create a subdirectory named `crashdumps`
-inside the cluster data directory. The dumps will then be written
-into this directory with a unique name based on the identifier of
-the crashing process and the current time of the crash.
+如果 Windows 上的 PostgreSQL 發生當機，它具備產生迷你傾印（minidump）的能力，
+可以用來追查當機原因，類似於 Unix 上的核心傾印（core dump）。這些傾印檔案
+可以使用 Windows Debugger Tools 或 Visual Studio 來讀取。若要在 Windows 上
+啟用傾印檔案的產生，請在叢集資料目錄中建立一個名為
+`crashdumps` 的子目錄。傾印檔案接著會以根據發生當機之程序
+識別碼與當機當下時間所產生的唯一名稱，寫入這個目錄中。
 
 <a id="INSTALLATION-NOTES-SOLARIS"></a>
 
-### 17.7.4. Solaris [#](#INSTALLATION-NOTES-SOLARIS)
+### 17.7.4. Solaris [#](#INSTALLATION-NOTES-SOLARIS)
 
 <a id="id-1.6.4.10.7.2"></a>
 
-PostgreSQL is well-supported on Solaris. The more up to date your
-operating system, the fewer issues you will experience.
+PostgreSQL 在 Solaris 上獲得良好的支援。你的作業系統版本越新，遇到的問題就
+會越少。
 
 <a id="INSTALLATION-NOTES-SOLARIS-REQ-TOOLS"></a>
 
-#### 17.7.4.1. Required Tools [#](#INSTALLATION-NOTES-SOLARIS-REQ-TOOLS)
+#### 17.7.4.1. 必要工具 [#](#INSTALLATION-NOTES-SOLARIS-REQ-TOOLS)
 
-You can build with either GCC or Sun's compiler suite. For
-better code optimization, Sun's compiler is strongly recommended
-on the SPARC architecture. If
-you are using Sun's compiler, be careful not to select
-`/usr/ucb/cc`;
-use `/opt/SUNWspro/bin/cc`.
+你可以使用 GCC 或 Sun 的編譯器套件來建置。為了取得更好的程式碼最佳化效果，
+強烈建議在 SPARC 架構上使用 Sun 的編譯器。如果
+你使用 Sun 的編譯器，請注意不要選到
+`/usr/ucb/cc`；
+請改用 `/opt/SUNWspro/bin/cc`。
 
-You can download Sun Studio
-from <https://www.oracle.com/technetwork/server-storage/solarisstudio/downloads/>.
-Many GNU tools are integrated into Solaris 10, or they are
-present on the Solaris companion CD. If you need packages for
-older versions of Solaris, you can find these tools
-at <http://www.sunfreeware.com>.
-If you prefer
-sources, look
-at <https://www.gnu.org/prep/ftp>.
+你可以從 <https://www.oracle.com/technetwork/server-storage/solarisstudio/downloads/> 下載 Sun Studio。
+許多 GNU 工具已經整合進 Solaris 10 中，或是可以在 Solaris companion CD 上
+取得。如果你需要舊版 Solaris 適用的套件，可以在
+<http://www.sunfreeware.com> 找到這些工具。
+如果你偏好
+原始碼，可以參閱 <https://www.gnu.org/prep/ftp>。
 
 <a id="INSTALLATION-NOTES-SOLARIS-CONFIGURE-COMPLAINS"></a>
 
-#### 17.7.4.2. configure Complains About a Failed Test Program [#](#INSTALLATION-NOTES-SOLARIS-CONFIGURE-COMPLAINS)
+#### 17.7.4.2. configure 回報測試程式失敗 [#](#INSTALLATION-NOTES-SOLARIS-CONFIGURE-COMPLAINS)
 
-If `configure` complains about a failed test
-program, this is probably a case of the run-time linker being
-unable to find some library, probably libz, libreadline or some
-other non-standard library such as libssl. To point it to the
-right location, set the `LDFLAGS` environment
-variable on the `configure` command line, e.g.,
+如果 `configure` 回報某個測試程式失敗，這很可能是執行期
+連結器（run-time linker）找不到某個函式庫的情況，可能是 libz、libreadline，或是
+某個非標準函式庫，例如 libssl。若要指定正確的位置，請在
+`configure` 命令列中設定 `LDFLAGS` 環境
+變數，例如：
 
 ```
 
 configure ... LDFLAGS="-R /usr/sfw/lib:/opt/sfw/lib:/usr/local/lib"
 ```
 
-See
-the ld
-man page for more information.
+更多資訊請參閱
+ld 的線上手冊（man page）。
 
 <a id="INSTALLATION-NOTES-SOLARIS-COMP-OPT-PERF"></a>
 
-#### 17.7.4.3. Compiling for Optimal Performance [#](#INSTALLATION-NOTES-SOLARIS-COMP-OPT-PERF)
+#### 17.7.4.3. 為求最佳效能而編譯 [#](#INSTALLATION-NOTES-SOLARIS-COMP-OPT-PERF)
 
-On the SPARC architecture, Sun Studio is strongly recommended for
-compilation. Try using the `-xO5` optimization
-flag to generate significantly faster binaries. Do not use any
-flags that modify behavior of floating-point operations
-and `errno` processing (e.g.,
-`-fast`).
+在 SPARC 架構上，強烈建議使用 Sun Studio 進行編譯。可以嘗試使用
+`-xO5` 最佳化旗標，產生速度明顯較快的執行檔。請勿使用任何
+會改變浮點運算行為
+與 `errno` 處理方式的旗標（例如
+`-fast`）。
 
-If you do not have a reason to use 64-bit binaries on SPARC,
-prefer the 32-bit version. The 64-bit operations are slower and
-64-bit binaries are slower than the 32-bit variants. On the
-other hand, 32-bit code on the AMD64 CPU family is not native,
-so 32-bit code is significantly slower on that CPU family.
+如果你沒有理由必須在 SPARC 上使用 64 位元執行檔，建議優先選擇 32 位元版本。
+64 位元運算速度較慢，且
+64 位元執行檔的速度也比 32 位元版本慢。另一
+方面，32 位元程式碼在 AMD64 CPU 系列上並非原生執行，
+因此 32 位元程式碼在該 CPU 系列上的速度會明顯較慢。
 
 <a id="INSTALLATION-NOTES-SOLARIS-USING-DTRACE"></a>
 
-#### 17.7.4.4. Using DTrace for Tracing PostgreSQL [#](#INSTALLATION-NOTES-SOLARIS-USING-DTRACE)
+#### 17.7.4.4. 使用 DTrace 追蹤 PostgreSQL [#](#INSTALLATION-NOTES-SOLARIS-USING-DTRACE)
 
-Yes, using DTrace is possible. See [Section 27.5](../monitoring/dynamic-trace.md) for
-further information.
+是的，可以使用 DTrace。詳情請參閱[第 27.5 節](../monitoring/dynamic-trace.md)。
 
-If you see the linking of the `postgres` executable abort with an
-error message like:
+如果你發現連結 `postgres` 執行檔時，因為以下這樣的錯誤訊息而
+中止：
 
 ```
 
@@ -268,170 +229,159 @@ collect2: ld returned 1 exit status
 make: *** [postgres] Error 1
 ```
 
-your DTrace installation is too old to handle probes in static
-functions. You need Solaris 10u4 or newer to use DTrace.
+表示你的 DTrace 安裝版本太舊，無法處理靜態函式中的探針（probe）。你需要
+Solaris 10u4 或更新版本，才能使用 DTrace。
 
 <a id="INSTALLATION-NOTES-VISUAL-STUDIO"></a>
 
-### 17.7.5. Visual Studio [#](#INSTALLATION-NOTES-VISUAL-STUDIO)
+### 17.7.5. Visual Studio [#](#INSTALLATION-NOTES-VISUAL-STUDIO)
 
 <a id="id-1.6.4.10.8.2"></a>
 
-It is recommended that most users download the binary distribution for
-Windows, available as a graphical installer package from the
-PostgreSQL website at
-<https://www.postgresql.org/download/>. Building from
-source is only intended for people developing
-PostgreSQL or extensions.
+建議大多數使用者從 PostgreSQL 網站
+<https://www.postgresql.org/download/> 下載 Windows 版的二進位發行版，這是
+一個圖形化安裝程式套件。從原始碼建置，只適合正在開發
+PostgreSQL 本身或其擴充功能的人。
 
-PostgreSQL for Windows with Visual Studio can be built using Meson, as
-described in [Section 17.4](install-meson.md).
-The native Windows port requires a 32 or 64-bit version of Windows
-10 or later.
+搭配 Visual Studio 的 Windows 版 PostgreSQL，可以使用 Meson 建置，詳情請參閱
+[第 17.4 節](install-meson.md)。
+原生 Windows 移植版需要 32 或 64 位元版本的 Windows
+10 或更新版本。
 
-Native builds of psql don't support command
-line editing. The Cygwin build does support
-command line editing, so it should be used where psql is needed for
-interactive use on Windows.
+原生建置的 psql 不支援命令
+列編輯功能。Cygwin 建置版本則支援
+命令列編輯，因此如果需要在 Windows 上以互動方式使用 psql，應該使用該版本。
 
-PostgreSQL can be built using the Visual C++ compiler suite from Microsoft.
-These compilers can be either from Visual Studio,
-Visual Studio Express or some versions of the
-Microsoft Windows SDK. If you do not already have a
-Visual Studio environment set up, the easiest
-ways are to use the compilers from
-Visual Studio 2022 or those in the
-Windows SDK 10, which are both free downloads
-from Microsoft.
+PostgreSQL 可以使用 Microsoft 的 Visual C++ 編譯器套件建置。
+這些編譯器可以來自 Visual Studio、
+Visual Studio Express，或是某些版本的
+Microsoft Windows SDK。如果你尚未設定好
+Visual Studio 環境，最簡單的方式是使用
+Visual Studio 2022，或是
+Windows SDK 10 中的編譯器，兩者都可以從
+Microsoft 免費下載。
 
-Both 32-bit and 64-bit builds are possible with the Microsoft Compiler suite.
-32-bit PostgreSQL builds are possible with
-Visual Studio 2015 to
-Visual Studio 2022,
-as well as standalone Windows SDK releases 10 and above.
-64-bit PostgreSQL builds are supported with
-Microsoft Windows SDK version 10 and above or
-Visual Studio 2015 and above.
+使用 Microsoft 編譯器套件，可以建置 32 位元與 64 位元版本。
+32 位元的 PostgreSQL 建置可以使用
+Visual Studio 2015 到
+Visual Studio 2022，
+以及 10 以上的獨立 Windows SDK 發行版。
+64 位元的 PostgreSQL 建置則支援使用
+Microsoft Windows SDK 10 以上版本，或
+Visual Studio 2015 以上版本。
 
-If your build environment doesn't ship with a supported version of the
-Microsoft Windows SDK it is recommended
-that you upgrade to the latest version (currently version 10), available
-for download from <https://www.microsoft.com/download>.
+如果你的建置環境沒有內建受支援版本的
+Microsoft Windows SDK，建議升級到最新版本
+（目前是第 10 版），可以從 <https://www.microsoft.com/download> 下載。
 
-You must always include the
-Windows Headers and Libraries part of the SDK.
-If you install a Windows SDK
-including the Visual C++ Compilers,
-you don't need Visual Studio to build.
-Note that as of Version 8.0a the Windows SDK no longer ships with a
-complete command-line build environment.
+你必須一律包含
+SDK 中的 Windows Headers and Libraries 部分。
+如果你安裝的 Windows SDK
+包含 Visual C++ 編譯器，
+就不需要 Visual Studio 也能建置。
+請注意，自 8.0a 版起，Windows SDK 已不再隨附完整的命令列建置環境。
 
 <a id="WINDOWS-REQUIREMENTS"></a>
 
-#### 17.7.5.1. Requirements [#](#WINDOWS-REQUIREMENTS)
+#### 17.7.5.1. 需求 [#](#WINDOWS-REQUIREMENTS)
 
-The following additional products are required to build
-PostgreSQL on Windows.
+在 Windows 上建置
+PostgreSQL，需要以下這些額外的產品。
 
 Strawberry Perl
-:   Strawberry Perl is required to run the build generation scripts. MinGW
-    or Cygwin Perl will not work. It must also be present in the PATH.
-    Binaries can be downloaded from
-    <https://strawberryperl.com>.
+:   執行建置產生指令碼時需要 Strawberry Perl。MinGW
+    或 Cygwin 版的 Perl 無法使用。它也必須存在於 PATH 中。
+    可以從
+    <https://strawberryperl.com> 下載二進位檔。
 
-Bison and Flex
-:   Binaries for Bison and
-    Flex can be downloaded from <https://github.com/lexxmark/winflexbison>.
+Bison 與 Flex
+:   Bison 與
+    Flex 的二進位檔，可以從 <https://github.com/lexxmark/winflexbison> 下載。
 
-The following additional products are not required to get started,
-but are required to build the complete package.
+以下這些額外的產品並非開始建置時所必需，
+但要建置完整套件時則需要。
 
 Magicsplat Tcl
-:   Required for building PL/Tcl.
-    Binaries can be downloaded from
-    <https://www.magicsplat.com/tcl-installer/index.html>.
+:   建置 PL/Tcl 時需要。
+    可以從
+    <https://www.magicsplat.com/tcl-installer/index.html> 下載二進位檔。
 
 Diff
-:   Diff is required to run the regression tests, and can be downloaded
-    from <http://gnuwin32.sourceforge.net>.
+:   執行迴歸測試時需要 Diff，可以從
+    <http://gnuwin32.sourceforge.net> 下載。
 
 Gettext
-:   Gettext is required to build with NLS support, and can be downloaded
-    from <http://gnuwin32.sourceforge.net>. Note that binaries,
-    dependencies and developer files are all needed.
+:   建置具備 NLS 支援的版本時需要 Gettext，可以從
+    <http://gnuwin32.sourceforge.net> 下載。請注意，二進位檔、
+    相依套件與開發者檔案都是必要的。
 
 MIT Kerberos
-:   Required for GSSAPI authentication support. MIT Kerberos can be
-    downloaded from
-    <https://web.mit.edu/Kerberos/dist/index.html>.
+:   GSSAPI 驗證支援需要。MIT Kerberos 可以
+    從
+    <https://web.mit.edu/Kerberos/dist/index.html> 下載。
 
-libxml2 and libxslt
-:   Required for XML support. Binaries can be downloaded from
-    <https://zlatkovic.com/pub/libxml> or source from
-    <http://xmlsoft.org>. Note that libxml2 requires iconv,
-    which is available from the same download location.
+libxml2 與 libxslt
+:   XML 支援需要。二進位檔可以從
+    <https://zlatkovic.com/pub/libxml> 下載，原始碼可以從
+    <http://xmlsoft.org> 取得。請注意，libxml2 需要 iconv，
+    可以在相同的下載位置取得。
 
 LZ4
-:   Required for supporting LZ4 compression.
-    Binaries and source can be downloaded from
-    <https://github.com/lz4/lz4/releases>.
+:   支援 LZ4 壓縮時需要。
+    二進位檔與原始碼可以從
+    <https://github.com/lz4/lz4/releases> 下載。
 
 Zstandard
-:   Required for supporting Zstandard compression.
-    Binaries and source can be downloaded from
-    <https://github.com/facebook/zstd/releases>.
+:   支援 Zstandard 壓縮時需要。
+    二進位檔與原始碼可以從
+    <https://github.com/facebook/zstd/releases> 下載。
 
 OpenSSL
-:   Required for SSL support. Binaries can be downloaded from
+:   SSL 支援需要。二進位檔可以從
     <https://slproweb.com/products/Win32OpenSSL.html>
-    or source from <https://www.openssl.org>.
+    下載，原始碼可以從 <https://www.openssl.org> 取得。
 
 ossp-uuid
-:   Required for UUID-OSSP support (contrib only). Source can be
-    downloaded from
-    <http://www.ossp.org/pkg/lib/uuid/>.
+:   UUID-OSSP 支援（僅限 contrib）需要。原始碼可以
+    從
+    <http://www.ossp.org/pkg/lib/uuid/> 下載。
 
 Python
-:   Required for building PL/Python. Binaries can
-    be downloaded from <https://www.python.org>.
+:   建置 PL/Python 時需要。可以
+    從 <https://www.python.org> 下載二進位檔。
 
 zlib
-:   Required for compression support in pg_dump
-    and pg_restore. Binaries can be downloaded
-    from <https://www.zlib.net>.
+:   pg_dump 與 pg_restore 的壓縮支援需要。二進位檔可以下載
+    自 <https://www.zlib.net>。
 
 <a id="INSTALL-WINDOWS-FULL-64-BIT"></a>
 
-#### 17.7.5.2. Special Considerations for 64-Bit Windows [#](#INSTALL-WINDOWS-FULL-64-BIT)
+#### 17.7.5.2. 64 位元 Windows 的特別考量 [#](#INSTALL-WINDOWS-FULL-64-BIT)
 
-PostgreSQL will only build for the x64 architecture on 64-bit Windows.
+PostgreSQL 在 64 位元 Windows 上，只能建置給 x64 架構使用。
 
-Mixing 32- and 64-bit versions in the same build tree is not supported.
-The build system will automatically detect if it's running in a 32- or
-64-bit environment, and build PostgreSQL accordingly. For this reason, it
-is important to start the correct command prompt before building.
+同一個建置樹中混用 32 位元與 64 位元版本，是不支援的。建置系統會自動偵測
+目前是執行在 32 位元還是 64 位元環境，並據此建置 PostgreSQL。因此，在開始
+建置之前，先啟動正確的命令提示字元，是很重要的一件事。
 
-To use a server-side third party library such as Python or
-OpenSSL, this library *must* also be
-64-bit. There is no support for loading a 32-bit library in a 64-bit
-server. Several of the third party libraries that PostgreSQL supports may
-only be available in 32-bit versions, in which case they cannot be used with
-64-bit PostgreSQL.
+若要使用伺服器端的第三方函式庫，例如 Python 或
+OpenSSL，這個函式庫也*必須*是
+64 位元版本。並不支援在 64 位元
+伺服器中載入 32 位元函式庫。PostgreSQL 所支援的部分第三方函式庫，可能只有
+32 位元版本，在這種情況下，就無法搭配
+64 位元的 PostgreSQL 使用。
 
 <a id="WINDOWS-CRASH-DUMPS"></a>
 
-#### 17.7.5.3. Collecting Crash Dumps [#](#WINDOWS-CRASH-DUMPS)
+#### 17.7.5.3. 收集當機傾印 [#](#WINDOWS-CRASH-DUMPS)
 
-If PostgreSQL on Windows crashes, it has the ability to generate
-minidumps that can be used to track down the cause
-for the crash, similar to core dumps on Unix. These dumps can be
-read using the Windows Debugger Tools or using
-Visual Studio. To enable the generation of dumps
-on Windows, create a subdirectory named `crashdumps`
-inside the cluster data directory. The dumps will then be written
-into this directory with a unique name based on the identifier of
-the crashing process and the current time of the crash.
+如果 Windows 上的 PostgreSQL 發生當機，它具備產生迷你傾印（minidump）的能力，
+可以用來追查當機原因，類似於 Unix 上的核心傾印（core dump）。這些傾印檔案
+可以使用 Windows Debugger Tools 或 Visual Studio 來讀取。若要在 Windows 上
+啟用傾印檔案的產生，請在叢集資料目錄中建立一個名為
+`crashdumps` 的子目錄。傾印檔案接著會以根據發生當機之程序
+識別碼與當機當下時間所產生的唯一名稱，寫入這個目錄中。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/installation-platform-notes.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/installation-platform-notes.html)（原文版本：18.6；核對日期：2026-10-10）
