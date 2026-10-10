@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：380 頁。
+待譯頁面：379 頁。
 
 ## 根目錄
 
@@ -468,7 +468,7 @@
 - [x] `internals/views/view-pg-wait-events.md` — 53.38. `pg_wait_events`
 - [ ] `internals/views/views-overview.md` — 53.1. Overview #
 - [x] `internals/wal-for-extensions/README.md` — 第 64 章 擴充套件的預寫式日誌
-- [ ] `internals/wal-for-extensions/custom-rmgr.md` — 64.2. Custom WAL Resource Managers #
+- [x] `internals/wal-for-extensions/custom-rmgr.md` — 64.2. 自訂 WAL 資源管理器 #
 - [ ] `internals/wal-for-extensions/generic-wal.md` — 64.1. Generic WAL Records #
 
 ## preface

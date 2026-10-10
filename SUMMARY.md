@@ -985,7 +985,7 @@
     * [63.6. Index Cost Estimation Functions #](internals/indexam/index-cost-estimation.md)
   * [第 64 章 擴充套件的預寫式日誌](internals/wal-for-extensions/README.md)
     * [64.1. Generic WAL Records #](internals/wal-for-extensions/generic-wal.md)
-    * [64.2. Custom WAL Resource Managers #](internals/wal-for-extensions/custom-rmgr.md)
+    * [64.2. 自訂 WAL 資源管理器 #](internals/wal-for-extensions/custom-rmgr.md)
   * [Chapter 65. Built-in Index Access Methods](internals/indextypes/README.md)
     * [65.1. B-Tree Indexes #](internals/indextypes/btree.md)
     * [65.2. GiST Indexes #](internals/indextypes/gist.md)
