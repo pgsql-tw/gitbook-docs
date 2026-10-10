@@ -1,10 +1,12 @@
-<a id="id-1.9.4.22.1"></a>
+<a id="APP-REINDEXDB"></a><a id="id-1.9.4.22.1"></a>
 
 ## reindexdb
 
-reindexdb — reindex a PostgreSQL database
+reindexdb — 重建 PostgreSQL 資料庫的索引
 
-## Synopsis
+<a id="id-1.9.4.22.4"></a>
+
+## 語法
 
 <a id="id-1.9.4.22.4.1"></a>
 
@@ -33,180 +35,116 @@ reindexdb — reindex a PostgreSQL database
 
 <a id="id-1.9.4.22.5"></a>
 
-## Description
+## 說明
 
-reindexdb is a utility for rebuilding indexes
-in a PostgreSQL database.
+reindexdb 是用來重建 PostgreSQL 資料庫中索引的工具程式。
 
-reindexdb is a wrapper around the SQL
-command [`REINDEX`](../sql-commands/sql-reindex.md).
-There is no effective difference between reindexing databases via
-this utility and via other methods for accessing the server.
+reindexdb 是 SQL 命令 [`REINDEX`](../sql-commands/sql-reindex.md) 的包裝程式。透過此工具程式重建資料庫索引，與透過其他存取伺服器的方法重建索引，實際上沒有任何差別。
 
 <a id="id-1.9.4.22.6"></a>
 
-## Options
+## 選項
 
-reindexdb accepts the following command-line arguments:
+reindexdb 接受下列命令列引數：
 
 `-a`<br>`--all`
-:   Reindex all databases.
+:   重建所有資料庫的索引。
 
 `--concurrently`
-:   Use the `CONCURRENTLY` option. See
-    [REINDEX](../sql-commands/sql-reindex.md), where all the caveats of this option
-    are explained in detail.
+:   使用 `CONCURRENTLY` 選項。請參閱 [REINDEX](../sql-commands/sql-reindex.md)，其中詳細說明了此選項的所有注意事項。
 
 `[-d] dbname`<br>`[--dbname=]dbname`
-:   Specifies the name of the database to be reindexed,
-    when `-a`/`--all` is not used.
-    If this is not specified, the database name is read
-    from the environment variable `PGDATABASE`. If
-    that is not set, the user name specified for the connection is
-    used. The *`dbname`* can be a [connection string](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING). If so,
-    connection string parameters will override any conflicting command
-    line options.
+:   在未使用 `-a`/`--all` 時，指定要重建索引的資料庫名稱。若未指定，資料庫名稱會從環境變數 `PGDATABASE` 讀取。若該變數也未設定，則使用連線時指定的使用者名稱。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
 `-e`<br>`--echo`
-:   Echo the commands that reindexdb generates
-    and sends to the server.
+:   回顯 reindexdb 產生並送往伺服器的命令。
 
 `-i index`<br>`--index=index`
-:   Recreate *`index`* only.
-    Multiple indexes can be recreated by writing multiple
-    `-i` switches.
+:   只重建 *`index`*。可以寫多個 `-i` 參數來重建多個索引。
 
 `-j njobs`<br>`--jobs=njobs`
-:   Execute the reindex commands in parallel by running
-    *`njobs`*
-    commands simultaneously. This option may reduce the processing time
-    but it also increases the load on the database server.
+:   同時執行 *`njobs`* 個命令，以平行方式執行重建索引命令。此選項可能縮短處理時間，但也會增加資料庫伺服器的負載。
 
-    reindexdb will open
-    *`njobs`* connections to the
-    database, so make sure your [max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS)
-    setting is high enough to accommodate all connections.
+    reindexdb 會對資料庫開啟 *`njobs`* 個連線，因此請確認你的 [max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS) 設定夠高，足以容納所有連線。
 
-    Note that this option is incompatible with the `--system` option.
+    請注意，此選項與 `--system` 選項不相容。
 
 `-q`<br>`--quiet`
-:   Do not display progress messages.
+:   不顯示進度訊息。
 
 `-s`<br>`--system`
-:   Reindex database's system catalogs only.
+:   只重建資料庫系統目錄的索引。
 
 `-S schema`<br>`--schema=schema`
-:   Reindex *`schema`* only.
-    Multiple schemas can be reindexed by writing multiple
-    `-S` switches.
+:   只重建 *`schema`* 的索引。可以寫多個 `-S` 參數來重建多個綱要的索引。
 
 `-t table`<br>`--table=table`
-:   Reindex *`table`* only.
-    Multiple tables can be reindexed by writing multiple
-    `-t` switches.
+:   只重建 *`table`* 的索引。可以寫多個 `-t` 參數來重建多個資料表的索引。
 
 `--tablespace=tablespace`
-:   Specifies the tablespace where indexes are rebuilt. (This name is
-    processed as a double-quoted identifier.)
+:   指定重建索引所在的資料表空間。（此名稱會被當作加上雙引號的識別字處理。）
 
 `-v`<br>`--verbose`
-:   Print detailed information during processing.
+:   在處理過程中印出詳細資訊。
 
 `-V`<br>`--version`
-:   Print the reindexdb version and exit.
+:   印出 reindexdb 的版本後結束。
 
 `-?`<br>`--help`
-:   Show help about reindexdb command line
-    arguments, and exit.
+:   顯示 reindexdb 命令列引數的說明後結束。
 
-reindexdb also accepts
-the following command-line arguments for connection parameters:
+reindexdb 也接受下列用於連線參數的命令列引數：
 
 `-h host`<br>`--host=host`
-:   Specifies the host name of the machine on which the server is
-    running. If the value begins with a slash, it is used as the
-    directory for the Unix domain socket.
+:   指定伺服器所在機器的主機名稱。若值以斜線開頭，則會被當作 Unix 網域通訊端的目錄。
 
 `-p port`<br>`--port=port`
-:   Specifies the TCP port or local Unix domain socket file
-    extension on which the server
-    is listening for connections.
+:   指定伺服器用來接聽連線的 TCP 連接埠，或本機 Unix 網域通訊端檔案的副檔名。
 
 `-U username`<br>`--username=username`
-:   User name to connect as.
+:   用來連線的使用者名稱。
 
 `-w`<br>`--no-password`
-:   Never issue a password prompt. If the server requires
-    password authentication and a password is not available by
-    other means such as a `.pgpass` file, the
-    connection attempt will fail. This option can be useful in
-    batch jobs and scripts where no user is present to enter a
-    password.
+:   絕不發出密碼提示。若伺服器要求密碼驗證，而無法透過其他方式（例如 `.pgpass` 檔案）取得密碼，連線嘗試將會失敗。此選項在沒有使用者可以輸入密碼的批次作業與腳本中可能很有用。
 
 `-W`<br>`--password`
-:   Force reindexdb to prompt for a
-    password before connecting to a database.
+:   強制 reindexdb 在連線到資料庫之前提示輸入密碼。
 
-    This option is never essential, since
-    reindexdb will automatically prompt
-    for a password if the server demands password authentication.
-    However, reindexdb will waste a
-    connection attempt finding out that the server wants a password.
-    In some cases it is worth typing `-W` to avoid the extra
-    connection attempt.
+    此選項從來都不是必要的，因為若伺服器要求密碼驗證，reindexdb 會自動提示輸入密碼。不過，reindexdb 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
 `--maintenance-db=dbname`
-:   When the `-a`/`--all` is used, connect
-    to this database to gather the list of databases to reindex.
-    If not specified, the `postgres` database will be used,
-    or if that does not exist, `template1` will be used.
-    This can be a [connection
-    string](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING). If so, connection string parameters will override any
-    conflicting command line options. Also, connection string parameters
-    other than the database name itself will be re-used when connecting
-    to other databases.
+:   使用 `-a`/`--all` 時，連線到此資料庫以收集要重建索引的資料庫清單。若未指定，將使用 `postgres` 資料庫；若該資料庫不存在，則使用 `template1`。這可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。此外，連線到其他資料庫時，也會重複使用資料庫名稱本身以外的連線字串參數。
 
 <a id="id-1.9.4.22.7"></a>
 
-## Environment
+## 環境
 
 `PGDATABASE`<br>`PGHOST`<br>`PGPORT`<br>`PGUSER`
-:   Default connection parameters
+:   預設連線參數
 
 `PG_COLOR`
-:   Specifies whether to use color in diagnostic messages. Possible values
-    are `always`, `auto` and
-    `never`.
+:   指定診斷訊息是否使用色彩。可用值為 `always`、`auto` 與 `never`。
 
-This utility, like most other PostgreSQL utilities,
-also uses the environment variables supported by libpq
-(see [Section 32.15](../../client-interfaces/libpq/libpq-envars.md)).
+此工具程式和大多數其他 PostgreSQL 工具程式一樣，也會使用 libpq 支援的環境變數（請參閱[第 32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。
 
 <a id="id-1.9.4.22.8"></a>
 
-## Diagnostics
+## 診斷
 
-In case of difficulty, see [REINDEX](../sql-commands/sql-reindex.md)
-and [psql](app-psql.md) for
-discussions of potential problems and error messages.
-The database server must be running at the
-targeted host. Also, any default connection settings and environment
-variables used by the libpq front-end
-library will apply.
+若遇到困難，請參閱 [REINDEX](../sql-commands/sql-reindex.md) 與 [psql](app-psql.md) 中關於潛在問題與錯誤訊息的討論。資料庫伺服器必須在目標主機上執行。此外，libpq 前端函式庫所使用的任何預設連線設定與環境變數也都適用。
 
 <a id="id-1.9.4.22.9"></a>
 
-## Examples
+## 範例
 
-To reindex the database `test`:
+重建資料庫 `test` 的索引：
 
 ```
 
 $ reindexdb test
 ```
 
-To reindex the table `foo` and the index
-`bar` in a database named `abcd`:
+重建名為 `abcd` 之資料庫中資料表 `foo` 的索引，以及索引 `bar`：
 
 ```
 
@@ -215,10 +153,10 @@ $ reindexdb --table=foo --index=bar abcd
 
 <a id="id-1.9.4.22.10"></a>
 
-## See Also
+## 另請參閱
 
 [REINDEX](../sql-commands/sql-reindex.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-reindexdb.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-reindexdb.html)（原文版本：18.6；核對日期：2026-10-10）
