@@ -2,7 +2,7 @@
 
 * [簡介](README.md)
 * [Preface](preface/README.md)
-  * [1. What Is PostgreSQL ? #](preface/intro-whatis.md)
+  * [1. 什麼是 PostgreSQL？ #](preface/intro-whatis.md)
   * [2. PostgreSQL 簡史 #](preface/history.md)
   * [3. 慣例](preface/notation.md)
   * [4. 更多資訊 #](preface/resources.md)

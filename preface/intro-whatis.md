@@ -1,38 +1,29 @@
-## 1.  What Is PostgreSQL? [#](#INTRO-WHATIS)
+<a id="INTRO-WHATIS"></a>
 
-PostgreSQL is an object-relational
-database management system (ORDBMS) based on
-[POSTGRES, Version 4.2](https://dsf.berkeley.edu/postgres.html),
-developed at the University of California at Berkeley Computer Science
-Department. POSTGRES pioneered many concepts that only became
-available in some commercial database systems much later.
+## 1. 什麼是 PostgreSQL？ [#](#INTRO-WHATIS)
 
-PostgreSQL is an open-source descendant
-of this original Berkeley code. It supports a large part of the SQL
-standard and offers many modern features:
+PostgreSQL 是一套物件關聯式資料庫管理系統（ORDBMS），以加州大學柏克萊分校資訊科學系所開發的 [POSTGRES 第 4.2 版](https://dsf.berkeley.edu/postgres.html)為基礎。POSTGRES 開創了許多概念，這些概念直到很久以後才出現在部分商業資料庫系統中。
 
-* [complex queries](../the-sql-language/README.md)
-* [foreign keys](../the-sql-language/ddl/ddl-constraints.md#DDL-CONSTRAINTS-FK)
-* [triggers](../server-programming/triggers/README.md)
-* [updatable views](../reference/sql-commands/sql-createview.md#SQL-CREATEVIEW-UPDATABLE-VIEWS)
-* [transactional integrity](../the-sql-language/mvcc/transaction-iso.md)
-* [multiversion concurrency control](../the-sql-language/mvcc/README.md)
+PostgreSQL 是這份柏克萊原始程式碼的開放原始碼後裔。它支援 SQL 標準的大部分內容，並提供許多現代功能：
 
-Also, PostgreSQL can be extended by the
-user in many ways, for example by adding new
+* [複雜查詢](../the-sql-language/README.md)
+* [外鍵](../the-sql-language/ddl/ddl-constraints.md#DDL-CONSTRAINTS-FK)
+* [觸發程序](../server-programming/triggers/README.md)
+* [可更新的檢視表](../reference/sql-commands/sql-createview.md#SQL-CREATEVIEW-UPDATABLE-VIEWS)
+* [交易完整性](../the-sql-language/mvcc/transaction-iso.md)
+* [多版本並行控制](../the-sql-language/mvcc/README.md)
 
-* [data types](../the-sql-language/datatype/README.md)
-* [functions](../the-sql-language/functions/README.md)
-* [operators](../the-sql-language/functions/README.md)
-* [aggregate functions](../the-sql-language/functions/functions-aggregate.md)
-* [index methods](../the-sql-language/indexes/README.md)
-* [procedural languages](../server-programming/README.md)
+此外，使用者還可以透過許多方式擴充 PostgreSQL，例如新增
 
-And because of the liberal license,
-PostgreSQL can be used, modified, and
-distributed by anyone free of charge for any purpose, be it
-private, commercial, or academic.
+* [資料型別](../the-sql-language/datatype/README.md)
+* [函式](../the-sql-language/functions/README.md)
+* [運算子](../the-sql-language/functions/README.md)
+* [彙總函式](../the-sql-language/functions/functions-aggregate.md)
+* [索引方法](../the-sql-language/indexes/README.md)
+* [程序語言](../server-programming/README.md)
+
+而且由於採用寬鬆的授權條款，任何人都可以為任何目的免費使用、修改及散布 PostgreSQL，無論是私人、商業或學術用途。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/intro-whatis.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/intro-whatis.html)（原文版本：18.6；核對日期：2026-10-10）
