@@ -604,7 +604,7 @@
     * [50.2. 初始化函式 #](server-programming/oauth-validators/oauth-validator-init.md)
     * [50.3. OAuth 驗證器回呼函式 #](server-programming/oauth-validators/oauth-validator-callbacks.md)
 * [Part VI. Reference](reference/README.md)
-  * [PostgreSQL Client Applications](reference/reference-client/README.md)
+  * [PostgreSQL 用戶端應用程式](reference/reference-client/README.md)
     * [clusterdb](reference/reference-client/app-clusterdb.md)
     * [createdb](reference/reference-client/app-createdb.md)
     * [createuser](reference/reference-client/app-createuser.md)
