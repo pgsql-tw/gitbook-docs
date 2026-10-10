@@ -1,12 +1,14 @@
-## 29.6. Generated Column Replication [#](#LOGICAL-REPLICATION-GENCOLS)
+<a id="LOGICAL-REPLICATION-GENCOLS"></a>
 
-Typically, a table at the subscriber will be defined the same as the
-publisher table, so if the publisher table has a [`GENERATED column`](../../the-sql-language/ddl/ddl-generated-columns.md) then the subscriber table will
-have a matching generated column. In this case, it is always the subscriber
-table generated column value that is used.
+## 29.6. 產生欄位的複寫 [#](#LOGICAL-REPLICATION-GENCOLS)
 
-For example, note below that subscriber table generated column value comes from the
-subscriber column's calculation.
+一般而言，訂閱者端資料表的定義會與
+發佈者資料表相同，因此如果發佈者資料表有 [`GENERATED column`](../../the-sql-language/ddl/ddl-generated-columns.md)（產生欄位），則訂閱者資料表
+也會有相對應的產生欄位。在這種情況下，所使用的一律是訂閱者
+資料表產生欄位的值。
+
+例如，請注意下方訂閱者資料表產生欄位的值來自
+訂閱者欄位的計算結果。
 
 ```
 
@@ -32,65 +34,68 @@ subscriber column's calculation.
 (3 rows)
 ```
 
-In fact, prior to version 18.0, logical replication does not publish
-`GENERATED` columns at all.
+事實上，在 18.0 版之前，邏輯複寫完全不會發佈
+`GENERATED` 欄位。
 
-But, replicating a generated column to a regular column can sometimes be
-desirable.
+不過，有時候會希望將產生欄位複寫到一般欄位。
 
-### Tip
+<a id="LOGICAL-REPLICATION-GENCOLS-TIP"></a>
 
-This feature may be useful when replicating data to a
-non-PostgreSQL database via output plugin, especially if the target database
-does not support generated columns.
+### 提示
 
-Generated columns are not published by default, but users can opt to
-publish stored generated columns just like regular ones.
+透過輸出外掛將資料複寫到
+非 PostgreSQL 資料庫時，這項功能可能很有用，特別是當目標資料庫
+不支援產生欄位時。
 
-There are two ways to do this:
+產生欄位預設不會被發佈，但使用者可以選擇
+像一般欄位一樣發佈儲存式產生欄位。
 
-* Set the `PUBLICATION` parameter
-  [`publish_generated_columns`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS) to `stored`.
-  This instructs PostgreSQL logical replication to publish current and
-  future stored generated columns of the publication's tables.
-* Specify a table [column list](logical-replication-col-lists.md)
-  to explicitly nominate which stored generated columns will be published.
+有兩種方式可以做到這點：
 
-  ### Note
+* 將 `PUBLICATION` 參數
+  [`publish_generated_columns`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS) 設為 `stored`。
+  這會指示 PostgreSQL 邏輯複寫發佈該發佈之資料表中
+  目前與未來的儲存式產生欄位。
+* 指定資料表的[欄位清單](logical-replication-col-lists.md)，
+  明確指定要發佈哪些儲存式產生欄位。
 
-  When determining which table columns will be published, a column list
-  takes precedence, overriding the effect of the
-  `publish_generated_columns` parameter.
+  <a id="LOGICAL-REPLICATION-GENCOLS-NOTE"></a>
 
-The following table summarizes behavior when there are generated columns
-involved in the logical replication. Results are shown for when
-publishing generated columns is not enabled, and for when it is
-enabled.
+  ### 注意
+
+  在決定要發佈資料表的哪些欄位時，欄位清單
+  優先，會覆寫
+  `publish_generated_columns` 參數的作用。
+
+下表摘要說明邏輯複寫涉及產生欄位時的
+行為。表中分別列出未啟用發佈產生欄位時，
+以及已啟用時的結果。
 
 <a id="LOGICAL-REPLICATION-GENCOLS-TABLE-SUMMARY"></a>
 
-**Table 29.2. Replication Result Summary**
+**表 29.2. 複寫結果摘要**
 
-<table border="1" class="table" summary="Replication Result Summary"><colgroup><col/><col/><col/><col/></colgroup><thead><tr><th>Publish generated columns?</th><th>Publisher table column</th><th>Subscriber table column</th><th>Result</th></tr></thead><tbody><tr><td>No</td><td>GENERATED</td><td>GENERATED</td><td>Publisher table column is not replicated. Use the subscriber table generated column value.</td></tr><tr><td>No</td><td>GENERATED</td><td>regular</td><td>Publisher table column is not replicated. Use the subscriber table regular column default value.</td></tr><tr><td>No</td><td>GENERATED</td><td>--missing--</td><td>Publisher table column is not replicated. Nothing happens.</td></tr><tr><td>Yes</td><td>GENERATED</td><td>GENERATED</td><td>ERROR. Not supported.</td></tr><tr><td>Yes</td><td>GENERATED</td><td>regular</td><td>Publisher table column value is replicated to the subscriber table column.</td></tr><tr><td>Yes</td><td>GENERATED</td><td>--missing--</td><td>ERROR. The column is reported as missing from the subscriber table.</td></tr></tbody></table>
+<table border="1" class="table" summary="複寫結果摘要"><colgroup><col/><col/><col/><col/></colgroup><thead><tr><th>發佈產生欄位？</th><th>發佈者資料表欄位</th><th>訂閱者資料表欄位</th><th>結果</th></tr></thead><tbody><tr><td>否</td><td>GENERATED</td><td>GENERATED</td><td>發佈者資料表欄位不會被複寫。使用訂閱者資料表產生欄位的值。</td></tr><tr><td>否</td><td>GENERATED</td><td>一般欄位</td><td>發佈者資料表欄位不會被複寫。使用訂閱者資料表一般欄位的預設值。</td></tr><tr><td>否</td><td>GENERATED</td><td>--不存在--</td><td>發佈者資料表欄位不會被複寫。不會發生任何事。</td></tr><tr><td>是</td><td>GENERATED</td><td>GENERATED</td><td>錯誤（ERROR）。不支援。</td></tr><tr><td>是</td><td>GENERATED</td><td>一般欄位</td><td>發佈者資料表欄位的值會複寫到訂閱者資料表欄位。</td></tr><tr><td>是</td><td>GENERATED</td><td>--不存在--</td><td>錯誤（ERROR）。該欄位會被回報為訂閱者資料表中缺少的欄位。</td></tr></tbody></table>
 
 <br>
 
-### Warning
+<a id="LOGICAL-REPLICATION-GENCOLS-WARNING"></a>
 
-There's currently no support for subscriptions comprising several
-publications where the same table has been published with different column
-lists. See [Section 29.5](logical-replication-col-lists.md).
+### 警告
 
-This same situation can occur if one publication is publishing generated
-columns, while another publication in the same subscription is not
-publishing generated columns for the same table.
+目前不支援由多個發佈組成、且同一個資料表
+在這些發佈中以不同欄位清單發佈的訂閱。請參閱[第 29.5 節](logical-replication-col-lists.md)。
 
-### Note
+如果某個發佈會發佈產生欄位，而同一訂閱中的另一個發佈
+對同一個資料表不發佈產生欄位，也可能發生同樣的情況。
 
-If the subscriber is from a release prior to 18, then initial table
-synchronization won't copy generated columns even if they are defined in
-the publisher.
+<a id="LOGICAL-REPLICATION-GENCOLS-NOTE-2"></a>
+
+### 注意
+
+如果訂閱者是 18 之前的版本，則即使發佈者中定義了產生欄位，
+初始資料表同步也不會複製這些產生欄位。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-gencols.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/logical-replication-gencols.html)（原文版本：18.6；核對日期：2026-10-10）
