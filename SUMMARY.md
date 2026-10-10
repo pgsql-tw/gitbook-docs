@@ -641,7 +641,7 @@
     * [pg_test_timing](reference/reference-server/pgtesttiming.md)
     * [pg_upgrade](reference/reference-server/pgupgrade.md)
     * [pg_waldump](reference/reference-server/pgwaldump.md)
-  * [SQL Commands](reference/sql-commands/README.md)
+  * [SQL 命令](reference/sql-commands/README.md)
     * [ABORT](reference/sql-commands/sql-abort.md)
     * [ALTER AGGREGATE](reference/sql-commands/sql-alteraggregate.md)
     * [ALTER COLLATION](reference/sql-commands/sql-altercollation.md)
