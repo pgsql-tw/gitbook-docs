@@ -1,260 +1,102 @@
-## 5. Bug Reporting Guidelines [#](#BUG-REPORTING)
+<a id="BUG-REPORTING"></a>
 
-[5.1. Identifying Bugs](bug-reporting.md#BUG-REPORTING-IDENTIFYING-BUGS)
+## 5. 錯誤回報指引 [#](#BUG-REPORTING)
 
-[5.2. What to Report](bug-reporting.md#BUG-REPORTING-WHAT-TO-REPORT)
+[5.1. 辨識錯誤](bug-reporting.md#BUG-REPORTING-IDENTIFYING-BUGS)
 
-[5.3. Where to Report Bugs](bug-reporting.md#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
+[5.2. 回報哪些內容](bug-reporting.md#BUG-REPORTING-WHAT-TO-REPORT)
 
-When you find a bug in PostgreSQL we want to
-hear about it. Your bug reports play an important part in making
-PostgreSQL more reliable because even the utmost
-care cannot guarantee that every part of
-PostgreSQL
-will work on every platform under every circumstance.
+[5.3. 在哪裡回報錯誤](bug-reporting.md#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
 
-The following suggestions are intended to assist you in forming bug reports
-that can be handled in an effective fashion. No one is required to follow
-them but doing so tends to be to everyone's advantage.
+當你在 PostgreSQL 中發現錯誤時，我們希望能得知。你的錯誤回報對於讓 PostgreSQL 更加可靠扮演重要的角色，因為即使再怎麼小心，也無法保證 PostgreSQL 的每個部分都能在每個平台、每種情況下正常運作。
 
-We cannot promise to fix every bug right away. If the bug is obvious, critical,
-or affects a lot of users, chances are good that someone will look into it. It
-could also happen that we tell you to update to a newer version to see if the
-bug happens there. Or we might decide that the bug
-cannot be fixed before some major rewrite we might be planning is done. Or
-perhaps it is simply too hard and there are more important things on the agenda.
-If you need help immediately, consider obtaining a commercial support contract.
+以下建議旨在協助你撰寫能被有效處理的錯誤回報。沒有人被要求必須遵循這些建議，但這麼做往往對所有人都有好處。
+
+我們無法承諾立即修正每個錯誤。如果錯誤很明顯、很嚴重，或影響許多使用者，那麼很有可能會有人去研究它。也可能發生我們請你更新到較新版本，看看錯誤是否仍會發生的情況。或者，我們可能決定這個錯誤要等到我們可能正在規劃的某次重大改寫完成之後才能修正。又或者，它可能就是太難修正，而議程上還有更重要的事情。如果你需要立即的協助，請考慮取得商業支援合約。
 
 <a id="BUG-REPORTING-IDENTIFYING-BUGS"></a>
 
-### 5.1. Identifying Bugs [#](#BUG-REPORTING-IDENTIFYING-BUGS)
+### 5.1. 辨識錯誤 [#](#BUG-REPORTING-IDENTIFYING-BUGS)
 
-Before you report a bug, please read and re-read the
-documentation to verify that you can really do whatever it is you are
-trying. If it is not clear from the documentation whether you can do
-something or not, please report that too; it is a bug in the documentation.
-If it turns out that a program does something different from what the
-documentation says, that is a bug. That might include, but is not limited to,
-the following circumstances:
+在回報錯誤之前，請反覆閱讀文件，確認你確實能做你正嘗試做的事。如果從文件中無法清楚判斷你是否能做某件事，也請一併回報；這是文件的錯誤。如果結果發現某個程式的行為與文件所述不同，那就是錯誤。這可能包括（但不限於）下列情況：
 
-* A program terminates with a fatal signal or an operating system
-  error message that would point to a problem in the program. (A
-  counterexample might be a “disk full” message,
-  since you have to fix that yourself.)
-* A program produces the wrong output for any given input.
-* A program refuses to accept valid input (as defined in the documentation).
-* A program accepts invalid input without a notice or error message.
-  But keep in mind that your idea of invalid input might be our idea of
-  an extension or compatibility with traditional practice.
-* PostgreSQL fails to compile, build, or
-  install according to the instructions on supported platforms.
+* 程式因致命訊號而終止，或因指出程式本身有問題的作業系統錯誤訊息而終止。（反例可能是「disk full」（磁碟已滿）訊息，因為那必須由你自己解決。）
+* 程式對某個給定的輸入產生錯誤的輸出。
+* 程式拒絕接受有效的輸入（依文件的定義）。
+* 程式在沒有任何 notice 或錯誤訊息的情況下接受無效的輸入。但請記住，你認為的無效輸入，在我們看來可能是一種擴充，或是為了與傳統做法相容。
+* 在支援的平台上依照說明操作，PostgreSQL 卻無法編譯、建置或安裝。
 
-Here “program” refers to any executable, not only the backend process.
+這裡的「程式」是指任何可執行檔，而不僅是後端程序。
 
-Being slow or resource-hogging is not necessarily a bug. Read the
-documentation or ask on one of the mailing lists for help in tuning your
-applications. Failing to comply to the SQL standard is
-not necessarily a bug either, unless compliance for the
-specific feature is explicitly claimed.
+執行緩慢或大量占用資源不一定是錯誤。請閱讀文件，或在郵件清單上尋求協助以調校你的應用程式。未遵循 SQL 標準也不一定是錯誤，除非明確宣稱支援該特定功能的標準符合性。
 
-Before you continue, check on the TODO list and in the FAQ to see if your bug is
-already known. If you cannot decode the information on the TODO list, report your
-problem. The least we can do is make the TODO list clearer.
+在繼續之前，請先查看 TODO 清單與 FAQ，確認你的錯誤是否已經是已知問題。如果你看不懂 TODO 清單上的資訊，請回報你的問題。至少我們可以讓 TODO 清單更清楚易懂。
 
 <a id="BUG-REPORTING-WHAT-TO-REPORT"></a>
 
-### 5.2. What to Report [#](#BUG-REPORTING-WHAT-TO-REPORT)
+### 5.2. 回報哪些內容 [#](#BUG-REPORTING-WHAT-TO-REPORT)
 
-The most important thing to remember about bug reporting is to state all
-the facts and only facts. Do not speculate what you think went wrong, what
-“it seemed to do”, or which part of the program has a fault.
-If you are not familiar with the implementation you would probably guess
-wrong and not help us a bit. And even if you are, educated explanations are
-a great supplement to but no substitute for facts. If we are going to fix
-the bug we still have to see it happen for ourselves first.
-Reporting the bare facts
-is relatively straightforward (you can probably copy and paste them from the
-screen) but all too often important details are left out because someone
-thought it does not matter or the report would be understood
-anyway.
+關於錯誤回報，最重要的一點是陳述所有事實，而且只陳述事實。不要臆測你認為哪裡出了問題、「它似乎做了什麼」，或程式的哪個部分有缺陷。如果你不熟悉實作細節，你很可能會猜錯，對我們一點幫助也沒有。即使你很熟悉，有根據的解釋固然是事實很好的補充，但無法取代事實。如果我們要修正這個錯誤，我們仍然必須先親眼看到它發生。回報單純的事實相對直接（你大概可以直接從畫面上複製貼上），但重要的細節卻常常被遺漏，因為有人認為那無關緊要，或認為報告無論如何都能被理解。
 
-The following items should be contained in every bug report:
+每份錯誤回報都應該包含下列項目：
 
-* The exact sequence of steps *from program
-  start-up* necessary to reproduce the problem. This
-  should be self-contained; it is not enough to send in a bare
-  `SELECT` statement without the preceding
-  `CREATE TABLE` and `INSERT`
-  statements, if the output should depend on the data in the
-  tables. We do not have the time to reverse-engineer your
-  database schema, and if we are supposed to make up our own data
-  we would probably miss the problem.
+* 重現問題所需、*從程式啟動開始*的確切步驟順序。這應該是自成一體的；如果輸出取決於資料表中的資料，只寄送一個單獨的 `SELECT` 陳述式，而沒有前面的 `CREATE TABLE` 與 `INSERT` 陳述式，是不夠的。我們沒有時間對你的資料庫綱要進行逆向工程，而如果要我們自行編造資料，我們很可能會錯過問題所在。
 
-  The best format for a test case for SQL-related problems is a
-  file that can be run through the psql
-  frontend that shows the problem. (Be sure to not have anything
-  in your `~/.psqlrc` start-up file.) An easy
-  way to create this file is to use pg_dump
-  to dump out the table declarations and data needed to set the
-  scene, then add the problem query. You are encouraged to
-  minimize the size of your example, but this is not absolutely
-  necessary. If the bug is reproducible, we will find it either
-  way.
+  對於 SQL 相關問題，測試案例的最佳格式是一個可以透過 psql 前端執行、並能呈現問題的檔案。（務必確認你的 `~/.psqlrc` 啟動檔中沒有任何內容。）建立這個檔案的簡單方法，是使用 pg_dump 傾印出建立情境所需的資料表宣告與資料，然後加上有問題的查詢。我們鼓勵你盡量縮小範例的規模，但這並非絕對必要。如果錯誤可以重現，無論如何我們都會找到它。
 
-  If your application uses some other client interface, such as PHP, then
-  please try to isolate the offending queries. We will probably not set up a
-  web server to reproduce your problem. In any case remember to provide
-  the exact input files; do not guess that the problem happens for
-  “large files” or “midsize databases”, etc. since this
-  information is too inexact to be of use.
-* The output you got. Please do not say that it “didn't work” or
-  “crashed”. If there is an error message,
-  show it, even if you do not understand it. If the program terminates with
-  an operating system error, say which. If nothing at all happens, say so.
-  Even if the result of your test case is a program crash or otherwise obvious
-  it might not happen on our platform. The easiest thing is to copy the output
-  from the terminal, if possible.
+  如果你的應用程式使用其他用戶端介面（例如 PHP），請試著把有問題的查詢單獨抽出來。我們大概不會為了重現你的問題而架設網頁伺服器。無論如何，請記得提供確切的輸入檔案；不要猜測問題是發生在「大型檔案」或「中型資料庫」等情況，因為這類資訊太不精確，派不上用場。
+* 你得到的輸出。請不要只說它「沒有作用」或「當掉了」。如果有錯誤訊息，即使你看不懂，也請把它列出來。如果程式因作業系統錯誤而終止，請說明是哪一個錯誤。如果什麼事都沒發生，也請照實說明。即使你的測試案例的結果是程式當掉或其他明顯的情況，它也可能不會在我們的平台上發生。最簡單的做法是盡可能從終端機複製輸出。
 
-  ### Note
+  <a id="id-1.3.8.6.4.2.2"></a>
 
-  If you are reporting an error message, please obtain the most verbose
-  form of the message. In psql, say `\set
-  VERBOSITY verbose` beforehand. If you are extracting the message
-  from the server log, set the run-time parameter
-  [log_error_verbosity](../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-ERROR-VERBOSITY) to `verbose` so that all
-  details are logged.
+  ### 注意
 
-  ### Note
+  如果你要回報錯誤訊息，請取得該訊息最詳細的形式。在 psql 中，事先執行 `\set
+  VERBOSITY verbose`。如果你是從伺服器日誌中擷取訊息，請將執行期參數 [log_error_verbosity](../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-ERROR-VERBOSITY) 設為 `verbose`，以便記錄所有細節。
 
-  In case of fatal errors, the error message reported by the client might
-  not contain all the information available. Please also look at the
-  log output of the database server. If you do not keep your server's log
-  output, this would be a good time to start doing so.
-* The output you expected is very important to state. If you just write
-  “This command gives me that output.” or “This is not
-  what I expected.”, we might run it ourselves, scan the output, and
-  think it looks OK and is exactly what we expected. We should not have to
-  spend the time to decode the exact semantics behind your commands.
-  Especially refrain from merely saying that “This is not what SQL says/Oracle
-  does.” Digging out the correct behavior from SQL
-  is not a fun undertaking, nor do we all know how all the other relational
-  databases out there behave. (If your problem is a program crash, you can
-  obviously omit this item.)
-* Any command line options and other start-up options, including
-  any relevant environment variables or configuration files that
-  you changed from the default. Again, please provide exact
-  information. If you are using a prepackaged distribution that
-  starts the database server at boot time, you should try to find
-  out how that is done.
-* Anything you did at all differently from the installation
-  instructions.
-* The PostgreSQL version. You can run the command
-  `SELECT version();` to
-  find out the version of the server you are connected to. Most executable
-  programs also support a `--version` option; at least
-  `postgres --version` and `psql --version`
-  should work.
-  If the function or the options do not exist then your version is
-  more than old enough to warrant an upgrade.
-  If you run a prepackaged version, such as RPMs, say so, including any
-  subversion the package might have. If you are talking about a Git
-  snapshot, mention that, including the commit hash.
+  <a id="id-1.3.8.6.4.2.3"></a>
 
-  If your version is older than 18.6 we will almost certainly
-  tell you to upgrade. There are many bug fixes and improvements
-  in each new release, so it is quite possible that a bug you have
-  encountered in an older release of PostgreSQL
-  has already been fixed. We can only provide limited support for
-  sites using older releases of PostgreSQL; if you
-  require more than we can provide, consider acquiring a
-  commercial support contract.
-* Platform information. This includes the kernel name and version,
-  C library, processor, memory information, and so on. In most
-  cases it is sufficient to report the vendor and version, but do
-  not assume everyone knows what exactly “Debian”
-  contains or that everyone runs on x86_64. If you have
-  installation problems then information about the toolchain on
-  your machine (compiler, make, and so
-  on) is also necessary.
+  ### 注意
 
-Do not be afraid if your bug report becomes rather lengthy. That is a fact of life.
-It is better to report everything the first time than us having to squeeze the
-facts out of you. On the other hand, if your input files are huge, it is
-fair to ask first whether somebody is interested in looking into it. Here is
-an [article](https://www.chiark.greenend.org.uk/~sgtatham/bugs.html)
-that outlines some more tips on reporting bugs.
+  發生致命錯誤時，用戶端所回報的錯誤訊息可能不包含所有可取得的資訊。也請查看資料庫伺服器的日誌輸出。如果你沒有保留伺服器的日誌輸出，現在正是開始保留的好時機。
+* 說明你預期的輸出非常重要。如果你只寫「這個命令給了我那個輸出。」或「這不是我預期的結果。」，我們可能會自己執行一次、瀏覽輸出，然後認為它看起來沒問題，而且正是我們所預期的。我們不應該需要花時間去解讀你的命令背後的確切語意。尤其請避免只說「這和 SQL 規定的／Oracle 的做法不一樣。」從 SQL 中找出正確的行為並不是件有趣的事，我們也不是每個人都知道外面所有其他關聯式資料庫的行為。（如果你的問題是程式當掉，顯然可以省略這一項。）
+* 所有命令列選項與其他啟動選項，包括你從預設值改動過的任何相關環境變數或設定檔。同樣地，請提供確切的資訊。如果你使用的是會在開機時啟動資料庫伺服器的預先封裝發行版，應該設法找出它是如何做到的。
+* 你做過任何與安裝說明不同的事。
+* PostgreSQL 的版本。你可以執行命令 `SELECT version();`，查出你所連線的伺服器版本。大多數可執行程式也支援 `--version` 選項；至少 `postgres --version` 與 `psql --version` 應該可以使用。如果該函式或這些選項不存在，那麼你的版本已經舊到絕對值得升級了。如果你執行的是預先封裝的版本（例如 RPM），請說明這一點，包括套件可能帶有的任何子版本號。如果你談的是 Git 快照，請註明，並附上提交（commit）雜湊值。
 
-Do not spend all your time to figure out which changes in the input make
-the problem go away. This will probably not help solving it. If it turns
-out that the bug cannot be fixed right away, you will still have time to
-find and share your work-around. Also, once again, do not waste your time
-guessing why the bug exists. We will find that out soon enough.
+  如果你的版本比 18.6 舊，我們幾乎一定會請你升級。每個新版本都有許多錯誤修正與改進，所以你在舊版 PostgreSQL 中遇到的錯誤，很有可能已經修正了。對於使用舊版 PostgreSQL 的環境，我們只能提供有限的支援；如果你需要的超出我們所能提供的範圍，請考慮取得商業支援合約。
+* 平台資訊。這包括核心名稱與版本、C 程式庫、處理器、記憶體資訊等等。在大多數情況下，回報廠商與版本就足夠了，但不要假設每個人都知道「Debian」確切包含哪些內容，或每個人都在 x86_64 上執行。如果你遇到的是安裝問題，那麼你機器上的工具鏈資訊（編譯器、make 等等）也是必要的。
 
-When writing a bug report, please avoid confusing terminology.
-The software package in total is called “PostgreSQL”,
-sometimes “Postgres” for short. If you
-are specifically talking about the backend process, mention that, do not
-just say “PostgreSQL crashes”. A crash of a single
-backend process is quite different from crash of the parent
-“postgres” process; please don't say “the server
-crashed” when you mean a single backend process went down, nor vice versa.
-Also, client programs such as the interactive frontend “psql”
-are completely separate from the backend. Please try to be specific
-about whether the problem is on the client or server side.
+如果你的錯誤回報變得相當冗長，不必擔心。這是很正常的事。第一次就回報所有內容，總比我們必須從你身上逼問出事實要好。另一方面，如果你的輸入檔案非常龐大，先詢問是否有人有興趣研究它是合理的做法。這裡有一篇[文章](https://www.chiark.greenend.org.uk/~sgtatham/bugs.html)概述了更多回報錯誤的技巧。
+
+不要把所有時間都花在找出輸入的哪些變更會讓問題消失。這大概對解決問題沒有幫助。如果結果發現這個錯誤無法立即修正，你仍然會有時間找出並分享你的因應做法。另外，再說一次，不要浪費時間猜測錯誤為什麼會存在。我們很快就會查出來。
+
+撰寫錯誤回報時，請避免使用容易混淆的術語。這個軟體套件整體稱為「PostgreSQL」，有時簡稱為「Postgres」。如果你特別指的是後端程序，請明確說明，不要只說「PostgreSQL 當掉了」。單一後端程序當掉，和上層的「postgres」程序當掉是截然不同的；當你指的是單一後端程序停止運作時，請不要說「伺服器當掉了」，反之亦然。此外，像互動式前端「psql」這類用戶端程式，與後端是完全分開的。請盡量具體說明問題是發生在用戶端還是伺服器端。
 
 <a id="BUG-REPORTING-WHERE-TO-REPORT-BUGS"></a>
 
-### 5.3. Where to Report Bugs [#](#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
+### 5.3. 在哪裡回報錯誤 [#](#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
 
-In general, send bug reports to the bug report mailing list at
-`<pgsql-bugs@lists.postgresql.org>`.
-You are requested to use a descriptive subject for your email
-message, perhaps parts of the error message.
+一般而言，請將錯誤回報寄到錯誤回報郵件清單 `<pgsql-bugs@lists.postgresql.org>`。請為你的電子郵件訊息使用具描述性的主旨，或許可以使用錯誤訊息的一部分。
 
-Another method is to fill in the bug report web-form available
-at the project's
-[web site](https://www.postgresql.org/account/submitbug/).
-Entering a bug report this way causes it to be mailed to the
-`<pgsql-bugs@lists.postgresql.org>` mailing list.
+另一種方法是填寫本專案[網站](https://www.postgresql.org/account/submitbug/)上提供的錯誤回報網頁表單。以這種方式提交的錯誤回報，會被寄送到 `<pgsql-bugs@lists.postgresql.org>` 郵件清單。
 
-If your bug report has security implications and you'd prefer that it
-not become immediately visible in public archives, don't send it to
-`pgsql-bugs`. Security issues can be
-reported privately to `<security@postgresql.org>`.
+如果你的錯誤回報涉及安全性，而且你希望它不要立即出現在公開的封存中，請不要將它寄到 `pgsql-bugs`。安全性問題可以私下回報至 `<security@postgresql.org>`。
 
-Do not send bug reports to any of the user mailing lists, such as
-`<pgsql-sql@lists.postgresql.org>` or
-`<pgsql-general@lists.postgresql.org>`.
-These mailing lists are for answering
-user questions, and their subscribers normally do not wish to receive
-bug reports. More importantly, they are unlikely to fix them.
+不要將錯誤回報寄到任何使用者郵件清單，例如 `<pgsql-sql@lists.postgresql.org>` 或 `<pgsql-general@lists.postgresql.org>`。這些郵件清單是用來回答使用者問題的，其訂閱者通常不希望收到錯誤回報。更重要的是，他們不太可能修正這些錯誤。
 
-Also, please do *not* send reports to
-the developers' mailing list `<pgsql-hackers@lists.postgresql.org>`.
-This list is for discussing the
-development of PostgreSQL, and it would be nice
-if we could keep the bug reports separate. We might choose to take up a
-discussion about your bug report on `pgsql-hackers`,
-if the problem needs more review.
+此外，請*不要*將回報寄到開發人員郵件清單 `<pgsql-hackers@lists.postgresql.org>`。這個郵件清單是用來討論 PostgreSQL 開發的，如果能讓錯誤回報與之分開會比較好。如果問題需要更多審視，我們可能會選擇在 `pgsql-hackers` 上討論你的錯誤回報。
 
-If you have a problem with the documentation, the best place to report it
-is the documentation mailing list `<pgsql-docs@lists.postgresql.org>`.
-Please be specific about what part of the documentation you are unhappy
-with.
+如果你對文件有疑問，最好的回報地點是文件郵件清單 `<pgsql-docs@lists.postgresql.org>`。請具體說明你對文件的哪個部分不滿意。
 
-If your bug is a portability problem on a non-supported platform,
-send mail to `<pgsql-hackers@lists.postgresql.org>`,
-so we (and you) can work on
-porting PostgreSQL to your platform.
+如果你的錯誤是在不受支援平台上的可攜性問題，請寄信到 `<pgsql-hackers@lists.postgresql.org>`，讓我們（和你）能一起將 PostgreSQL 移植到你的平台。
 
-### Note
+<a id="BUG-REPORTING-WHERE-TO-REPORT-BUGS-NOTE"></a>
 
-Due to the unfortunate amount of spam going around, all of the above
-lists will be moderated unless you are subscribed. That means there
-will be some delay before the email is delivered. If you wish to subscribe
-to the lists, please visit
-<https://lists.postgresql.org/> for instructions.
+### 注意
+
+由於垃圾郵件氾濫，除非你已訂閱，否則上述所有郵件清單的信件都會經過審核。這表示電子郵件送達前會有些延遲。如果你想訂閱這些郵件清單，請造訪 <https://lists.postgresql.org/> 取得相關說明。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bug-reporting.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bug-reporting.html)（原文版本：18.6；核對日期：2026-10-10）
