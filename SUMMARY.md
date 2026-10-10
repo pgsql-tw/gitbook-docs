@@ -936,7 +936,7 @@
     * [53.34. `pg_timezone_names` #](internals/views/view-pg-timezone-names.md)
     * [53.35. `pg_user` #](internals/views/view-pg-user.md)
     * [53.36. `pg_user_mappings` #](internals/views/view-pg-user-mappings.md)
-    * [53.37. pg_views #](internals/views/view-pg-views.md)
+    * [53.37. `pg_views` #](internals/views/view-pg-views.md)
     * [53.38. pg_wait_events](internals/views/view-pg-wait-events.md)
   * [Chapter 54. Frontend/Backend Protocol](internals/protocol/README.md)
     * [54.1. Overview #](internals/protocol/protocol-overview.md)
