@@ -932,7 +932,7 @@
     * [53.30. pg_stats_ext #](internals/views/view-pg-stats-ext.md)
     * [53.31. pg_stats_ext_exprs #](internals/views/view-pg-stats-ext-exprs.md)
     * [53.32. pg_tables #](internals/views/view-pg-tables.md)
-    * [53.33. pg_timezone_abbrevs #](internals/views/view-pg-timezone-abbrevs.md)
+    * [53.33. `pg_timezone_abbrevs` #](internals/views/view-pg-timezone-abbrevs.md)
     * [53.34. `pg_timezone_names` #](internals/views/view-pg-timezone-names.md)
     * [53.35. pg_user #](internals/views/view-pg-user.md)
     * [53.36. pg_user_mappings #](internals/views/view-pg-user-mappings.md)
