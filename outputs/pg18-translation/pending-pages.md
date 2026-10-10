@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：354 頁。
+待譯頁面：353 頁。
 
 ## 根目錄
 
@@ -760,7 +760,7 @@
 - [x] `server-administration/logical-replication/logical-replication-failover.md` — 29.3. 邏輯複寫失效切換 #
 - [x] `server-administration/logical-replication/logical-replication-gencols.md` — 29.6. 產生欄位的複寫 #
 - [x] `server-administration/logical-replication/logical-replication-monitoring.md` — 29.10. 監控
-- [ ] `server-administration/logical-replication/logical-replication-publication.md` — 29.1. Publication #
+- [x] `server-administration/logical-replication/logical-replication-publication.md` — 29.1. 發佈 #
 - [x] `server-administration/logical-replication/logical-replication-quick-setup.md` — 29.14. 快速設定
 - [x] `server-administration/logical-replication/logical-replication-restrictions.md` — 29.8. 限制 #
 - [x] `server-administration/logical-replication/logical-replication-row-filter.md` — 29.4. 資料列篩選器 #
