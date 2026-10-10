@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：364 頁。
+待譯頁面：363 頁。
 
 ## 根目錄
 
@@ -518,7 +518,7 @@
 - [x] `reference/reference-server/pgarchivecleanup.md` — pg_archivecleanup
 - [x] `reference/reference-server/pgtestfsync.md` — pg_test_fsync
 - [x] `reference/reference-server/pgtesttiming.md` — pg_test_timing
-- [ ] `reference/reference-server/pgupgrade.md` — pg_upgrade
+- [x] `reference/reference-server/pgupgrade.md` — pg_upgrade
 - [x] `reference/reference-server/pgwaldump.md` — pg_waldump
 - [ ] `reference/sql-commands/README.md` — SQL Commands
 - [x] `reference/sql-commands/sql-abort.md` — ABORT
