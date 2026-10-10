@@ -1,11 +1,12 @@
-<a id="id-1.9.4.9.1"></a>
+<a id="APP-PGAMCHECK"></a><a id="id-1.9.4.9.1"></a>
 
 ## pg_amcheck
 
-pg_amcheck — checks for corruption in one or more
-PostgreSQL databases
+pg_amcheck — 檢查一個或多個 PostgreSQL 資料庫是否有毀損
 
-## Synopsis
+<a id="id-1.9.4.9.4"></a>
+
+## 語法
 
 <a id="id-1.9.4.9.4.1"></a>
 
@@ -13,360 +14,200 @@ PostgreSQL databases
 
 <a id="id-1.9.4.9.5"></a>
 
-## Description
+## 說明
 
-pg_amcheck supports running
-[amcheck](../../appendixes/contrib/amcheck.md)'s corruption checking functions against one or
-more databases, with options to select which schemas, tables and indexes to
-check, which kinds of checking to perform, and whether to perform the checks
-in parallel, and if so, the number of parallel connections to establish and
-use.
+pg_amcheck 支援對一個或多個資料庫執行 [amcheck](../../appendixes/contrib/amcheck.md) 的毀損檢查函式，並提供選項來選擇要檢查哪些綱要、資料表與索引、要執行哪些種類的檢查、是否要平行執行檢查，以及若平行執行，要建立並使用多少個平行連線。
 
-Only ordinary and toast table relations, materialized views, sequences, and
-btree indexes are currently supported. Other relation types are silently
-skipped.
+目前只支援一般資料表與 TOAST 資料表關聯、具體化檢視表、序列，以及 btree 索引。其他關聯類型會被默默略過。
 
-If `dbname` is specified, it should be the name of a
-single database to check, and no other database selection options should
-be present. Otherwise, if any database selection options are present,
-all matching databases will be checked. If no such options are present,
-the default database will be checked. Database selection options include
-`--all`, `--database` and
-`--exclude-database`. They also include
-`--relation`, `--exclude-relation`,
-`--table`, `--exclude-table`,
-`--index`, and `--exclude-index`,
-but only when such options are used with a three-part pattern
-(e.g. `mydb*.myschema*.myrel*`). Finally, they include
-`--schema` and `--exclude-schema`
-when such options are used with a two-part pattern
-(e.g. `mydb*.myschema*`).
+若指定了 `dbname`，它應該是要檢查的單一資料庫名稱，且不應該出現其他資料庫選擇選項。否則，若出現任何資料庫選擇選項，所有符合的資料庫都會被檢查。若沒有出現這類選項，則會檢查預設資料庫。資料庫選擇選項包括 `--all`、`--database` 與 `--exclude-database`。它們也包括 `--relation`、`--exclude-relation`、`--table`、`--exclude-table`、`--index` 與 `--exclude-index`，但只限於這些選項搭配三段式樣式使用時（例如 `mydb*.myschema*.myrel*`）。最後，當 `--schema` 與 `--exclude-schema` 搭配兩段式樣式使用時（例如 `mydb*.myschema*`），它們也屬於資料庫選擇選項。
 
-*`dbname`* can also be a
-[connection string](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING).
+*`dbname`* 也可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。
 
 <a id="id-1.9.4.9.6"></a>
 
-## Options
+## 選項
 
-The following command-line options control what is checked:
+下列命令列選項控制要檢查的對象：
 
 `-a`<br>`--all`
-:   Check all databases, except for any excluded via
-    `--exclude-database`.
+:   檢查所有資料庫，但透過 `--exclude-database` 排除的資料庫除外。
 
 `-d pattern`<br>`--database=pattern`
-:   Check databases matching the specified
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS),
-    except for any excluded by `--exclude-database`.
-    This option can be specified more than once.
+:   檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的資料庫，但被 `--exclude-database` 排除的資料庫除外。此選項可以指定超過一次。
 
 `-D pattern`<br>`--exclude-database=pattern`
-:   Exclude databases matching the given
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS).
-    This option can be specified more than once.
+:   排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的資料庫。此選項可以指定超過一次。
 
 `-i pattern`<br>`--index=pattern`
-:   Check indexes matching the specified
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS),
-    unless they are otherwise excluded.
-    This option can be specified more than once.
+:   檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的索引，除非它們以其他方式被排除。此選項可以指定超過一次。
 
-    This is similar to the `--relation` option, except that
-    it applies only to indexes, not to other relation types.
+    這類似於 `--relation` 選項，差別在於它只適用於索引，而不適用於其他關聯類型。
 
 `-I pattern`<br>`--exclude-index=pattern`
-:   Exclude indexes matching the specified
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS).
-    This option can be specified more than once.
+:   排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的索引。此選項可以指定超過一次。
 
-    This is similar to the `--exclude-relation` option,
-    except that it applies only to indexes, not other relation types.
+    這類似於 `--exclude-relation` 選項，差別在於它只適用於索引，而不適用於其他關聯類型。
 
 `-r pattern`<br>`--relation=pattern`
-:   Check relations matching the specified
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS),
-    unless they are otherwise excluded.
-    This option can be specified more than once.
+:   檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的關聯，除非它們以其他方式被排除。此選項可以指定超過一次。
 
-    Patterns may be unqualified, e.g. `myrel*`, or they
-    may be schema-qualified, e.g. `myschema*.myrel*` or
-    database-qualified and schema-qualified, e.g.
-    `mydb*.myschema*.myrel*`. A database-qualified
-    pattern will add matching databases to the list of databases to be
-    checked.
+    樣式可以不加限定，例如 `myrel*`；也可以以綱要限定，例如 `myschema*.myrel*`；或同時以資料庫與綱要限定，例如 `mydb*.myschema*.myrel*`。以資料庫限定的樣式會將符合的資料庫加入要檢查的資料庫清單中。
 
 `-R pattern`<br>`--exclude-relation=pattern`
-:   Exclude relations matching the specified
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS).
-    This option can be specified more than once.
+:   排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的關聯。此選項可以指定超過一次。
 
-    As with `--relation`, the
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) may be unqualified, schema-qualified,
-    or database- and schema-qualified.
+    與 `--relation` 一樣，[*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 可以不加限定、以綱要限定，或同時以資料庫與綱要限定。
 
 `-s pattern`<br>`--schema=pattern`
-:   Check tables and indexes in schemas matching the specified
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS), unless they are otherwise excluded.
-    This option can be specified more than once.
+:   檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 之綱要中的資料表與索引，除非它們以其他方式被排除。此選項可以指定超過一次。
 
-    To select only tables in schemas matching a particular pattern,
-    consider using something like
-    `--table=SCHEMAPAT.* --no-dependent-indexes`.
-    To select only indexes, consider using something like
-    `--index=SCHEMAPAT.*`.
+    若只要選擇符合特定樣式之綱要中的資料表，可以考慮使用類似 `--table=SCHEMAPAT.* --no-dependent-indexes` 的寫法。若只要選擇索引，可以考慮使用類似 `--index=SCHEMAPAT.*` 的寫法。
 
-    A schema pattern may be database-qualified. For example, you may
-    write `--schema=mydb*.myschema*` to select
-    schemas matching `myschema*` in databases matching
-    `mydb*`.
+    綱要樣式可以用資料庫限定。例如，你可以寫 `--schema=mydb*.myschema*`，以選擇在符合 `mydb*` 的資料庫中、符合 `myschema*` 的綱要。
 
 `-S pattern`<br>`--exclude-schema=pattern`
-:   Exclude tables and indexes in schemas matching the specified
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS).
-    This option can be specified more than once.
+:   排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 之綱要中的資料表與索引。此選項可以指定超過一次。
 
-    As with `--schema`, the pattern may be
-    database-qualified.
+    與 `--schema` 一樣，此樣式可以用資料庫限定。
 
 `-t pattern`<br>`--table=pattern`
-:   Check tables matching the specified
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS),
-    unless they are otherwise excluded.
-    This option can be specified more than once.
+:   檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的資料表，除非它們以其他方式被排除。此選項可以指定超過一次。
 
-    This is similar to the `--relation` option, except that
-    it applies only to tables, materialized views, and sequences, not to
-    indexes.
+    這類似於 `--relation` 選項，差別在於它只適用於資料表、具體化檢視表與序列，而不適用於索引。
 
 `-T pattern`<br>`--exclude-table=pattern`
-:   Exclude tables matching the specified
-    [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS).
-    This option can be specified more than once.
+:   排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的資料表。此選項可以指定超過一次。
 
-    This is similar to the `--exclude-relation` option,
-    except that it applies only to tables, materialized views, and
-    sequences, not to indexes.
+    這類似於 `--exclude-relation` 選項，差別在於它只適用於資料表、具體化檢視表與序列，而不適用於索引。
 
 `--no-dependent-indexes`
-:   By default, if a table is checked, any btree indexes of that table
-    will also be checked, even if they are not explicitly selected by
-    an option such as `--index` or
-    `--relation`. This option suppresses that behavior.
+:   預設情況下，若檢查某個資料表，該資料表的任何 btree 索引也會被檢查，即使它們並未被 `--index` 或 `--relation` 等選項明確選擇。此選項會抑制這種行為。
 
 `--no-dependent-toast`
-:   By default, if a table is checked, its toast table, if any, will also
-    be checked, even if it is not explicitly selected by an option
-    such as `--table` or `--relation`.
-    This option suppresses that behavior.
+:   預設情況下，若檢查某個資料表，它的 TOAST 資料表（若有的話）也會被檢查，即使它並未被 `--table` 或 `--relation` 等選項明確選擇。此選項會抑制這種行為。
 
 `--no-strict-names`
-:   By default, if an argument to `--database`,
-    `--table`, `--index`,
-    or `--relation` matches no objects, it is a fatal
-    error. This option downgrades that error to a warning.
+:   預設情況下，若 `--database`、`--table`、`--index` 或 `--relation` 的引數沒有符合任何物件，會是嚴重錯誤。此選項會將該錯誤降級為警告。
 
-The following command-line options control checking of tables:
+下列命令列選項控制資料表的檢查：
 
 `--exclude-toast-pointers`
-:   By default, whenever a toast pointer is encountered in a table,
-    a lookup is performed to ensure that it references apparently-valid
-    entries in the toast table. These checks can be quite slow, and this
-    option can be used to skip them.
+:   預設情況下，每當在資料表中遇到 TOAST 指標時，都會執行一次查找，以確保它參照的是 TOAST 資料表中看似有效的項目。這些檢查可能相當慢，可以使用此選項略過它們。
 
 `--on-error-stop`
-:   After reporting all corruptions on the first page of a table where
-    corruption is found, stop processing that table relation and move on
-    to the next table or index.
+:   在回報資料表中發現毀損的第一個頁面上的所有毀損之後，停止處理該資料表關聯，並繼續處理下一個資料表或索引。
 
-    Note that index checking always stops after the first corrupt page.
-    This option only has meaning relative to table relations.
+    請注意，索引檢查一律會在第一個毀損的頁面之後停止。此選項只對資料表關聯有意義。
 
 `--skip=option`
-:   If `all-frozen` is given, table corruption checks
-    will skip over pages in all tables that are marked as all frozen.
+:   若指定 `all-frozen`，資料表毀損檢查會略過所有資料表中被標示為全凍結的頁面。
 
-    If `all-visible` is given, table corruption checks
-    will skip over pages in all tables that are marked as all visible.
+    若指定 `all-visible`，資料表毀損檢查會略過所有資料表中被標示為全可見的頁面。
 
-    By default, no pages are skipped. This can be specified as
-    `none`, but since this is the default, it need not be
-    mentioned.
+    預設情況下，不會略過任何頁面。可以將此選項指定為 `none`，但由於這是預設值，不需要特別寫出。
 
 `--startblock=block`
-:   Start checking at the specified block number. An error will occur if
-    the table relation being checked has fewer than this number of blocks.
-    This option does not apply to indexes, and is probably only useful
-    when checking a single table relation. See `--endblock`
-    for further caveats.
+:   從指定的區塊編號開始檢查。若被檢查的資料表關聯的區塊數少於這個數字，會發生錯誤。此選項不適用於索引，而且可能只在檢查單一資料表關聯時才有用。進一步的注意事項請參閱 `--endblock`。
 
 `--endblock=block`
-:   End checking at the specified block number. An error will occur if the
-    table relation being checked has fewer than this number of blocks.
-    This option does not apply to indexes, and is probably only useful when
-    checking a single table relation. If both a regular table and a toast
-    table are checked, this option will apply to both, but higher-numbered
-    toast blocks may still be accessed while validating toast pointers,
-    unless that is suppressed using
-    `--exclude-toast-pointers`.
+:   在指定的區塊編號結束檢查。若被檢查的資料表關聯的區塊數少於這個數字，會發生錯誤。此選項不適用於索引，而且可能只在檢查單一資料表關聯時才有用。若同時檢查一般資料表與 TOAST 資料表，此選項會套用到兩者，但在驗證 TOAST 指標時，編號較高的 TOAST 區塊仍可能被存取，除非使用 `--exclude-toast-pointers` 抑制了這項驗證。
 
-The following command-line options control checking of B-tree indexes:
+下列命令列選項控制 B-tree 索引的檢查：
 
 `--checkunique`
-:   For each index with unique constraint checked, verify that no more than
-    one among duplicate entries is visible in the index using [amcheck](../../appendixes/contrib/amcheck.md)'s
-    `checkunique` option.
+:   對每個受檢查且具有唯一限制條件的索引，使用 [amcheck](../../appendixes/contrib/amcheck.md) 的 `checkunique` 選項，驗證重複項目中在索引中可見的不超過一個。
 
 `--heapallindexed`
-:   For each index checked, verify the presence of all heap tuples as index
-    tuples in the index using [amcheck](../../appendixes/contrib/amcheck.md)'s
-    `heapallindexed` option.
+:   對每個受檢查的索引，使用 [amcheck](../../appendixes/contrib/amcheck.md) 的 `heapallindexed` 選項，驗證所有堆積 tuple 都以索引 tuple 的形式存在於索引中。
 
 `--parent-check`
-:   For each btree index checked, use [amcheck](../../appendixes/contrib/amcheck.md)'s
-    `bt_index_parent_check` function, which performs
-    additional checks of parent/child relationships during index checking.
+:   對每個受檢查的 btree 索引，使用 [amcheck](../../appendixes/contrib/amcheck.md) 的 `bt_index_parent_check` 函式，它會在索引檢查期間對父／子關係執行額外的檢查。
 
-    The default is to use amcheck's
-    `bt_index_check` function, but note that use of the
-    `--rootdescend` option implicitly selects
-    `bt_index_parent_check`.
+    預設是使用 amcheck 的 `bt_index_check` 函式，但請注意，使用 `--rootdescend` 選項會隱含地選擇 `bt_index_parent_check`。
 
 `--rootdescend`
-:   For each index checked, re-find tuples on the leaf level by performing a
-    new search from the root page for each tuple using
-    [amcheck](../../appendixes/contrib/amcheck.md)'s `rootdescend` option.
+:   對每個受檢查的索引，使用 [amcheck](../../appendixes/contrib/amcheck.md) 的 `rootdescend` 選項，為每個 tuple 從根頁面執行一次新的搜尋，以在葉層級重新找到 tuple。
 
-    Use of this option implicitly also selects the
-    `--parent-check` option.
+    使用此選項也會隱含地選擇 `--parent-check` 選項。
 
-    This form of verification was originally written to help in the
-    development of btree index features. It may be of limited use or even
-    of no use in helping detect the kinds of corruption that occur in
-    practice. It may also cause corruption checking to take considerably
-    longer and consume considerably more resources on the server.
+    這種驗證形式最初是為了協助開發 btree 索引功能而撰寫的。在協助偵測實務上會發生的各種毀損方面，它可能用處有限，甚至毫無用處。它也可能使毀損檢查花費比原本長得多的時間，並在伺服器上耗用比原本多得多的資源。
 
-### Warning
+<a id="id-1.9.4.9.6.8"></a>
 
-The extra checks performed against B-tree indexes when the
-`--parent-check` option or the
-`--rootdescend` option is specified require
-relatively strong relation-level locks. These checks are the only
-checks that will block concurrent data modification from
-`INSERT`, `UPDATE`, and
-`DELETE` commands.
+### 警告
 
-The following command-line options control the connection to the server:
+指定 `--parent-check` 選項或 `--rootdescend` 選項時，對 B-tree 索引所執行的額外檢查需要相對較強的關聯層級鎖定。這些檢查是唯一會阻擋 `INSERT`、`UPDATE` 與 `DELETE` 命令所進行之並行資料修改的檢查。
+
+下列命令列選項控制與伺服器的連線：
 
 `-h hostname`<br>`--host=hostname`
-:   Specifies the host name of the machine on which the server is running.
-    If the value begins with a slash, it is used as the directory for the
-    Unix domain socket.
+:   指定伺服器執行所在機器的主機名稱。若值以斜線開頭，則會用作 Unix 網域通訊端的目錄。
 
 `-p port`<br>`--port=port`
-:   Specifies the TCP port or local Unix domain socket file extension on
-    which the server is listening for connections.
+:   指定伺服器監聽連線的 TCP 連接埠或本機 Unix 網域通訊端檔案副檔名。
 
 `-U`<br>`--username=username`
-:   User name to connect as.
+:   要用來連線的使用者名稱。
 
 `-w`<br>`--no-password`
-:   Never issue a password prompt. If the server requires password
-    authentication and a password is not available by other means such as
-    a `.pgpass` file, the connection attempt will fail.
-    This option can be useful in batch jobs and scripts where no user is
-    present to enter a password.
+:   永不發出密碼提示。若伺服器要求密碼驗證，而無法透過 `.pgpass` 檔案等其他方式取得密碼，連線嘗試將會失敗。在沒有使用者在場輸入密碼的批次作業與腳本中，此選項可能很有用。
 
 `-W`<br>`--password`
-:   Force pg_amcheck to prompt for a password
-    before connecting to a database.
+:   強制 pg_amcheck 在連線到資料庫之前提示輸入密碼。
 
-    This option is never essential, since
-    pg_amcheck will automatically prompt for a
-    password if the server demands password authentication. However,
-    pg_amcheck will waste a connection attempt
-    finding out that the server wants a password. In some cases it is
-    worth typing `-W` to avoid the extra connection attempt.
+    此選項從來都不是必要的，因為若伺服器要求密碼驗證，pg_amcheck 會自動提示輸入密碼。不過，pg_amcheck 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
 `--maintenance-db=dbname`
-:   Specifies a database or
-    [connection string](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING) to be
-    used to discover the list of databases to be checked. If neither
-    `--all` nor any option including a database pattern is
-    used, no such connection is required and this option does nothing.
-    Otherwise, any connection string parameters other than
-    the database name which are included in the value for this option
-    will also be used when connecting to the databases
-    being checked. If this option is omitted, the default is
-    `postgres` or, if that fails,
-    `template1`.
+:   指定用來找出要檢查之資料庫清單的資料庫或[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若既未使用 `--all`，也未使用任何包含資料庫樣式的選項，就不需要這個連線，此選項也不會有任何作用。否則，此選項的值中所包含的資料庫名稱以外的任何連線字串參數，也會在連線到被檢查的資料庫時使用。若省略此選項，預設為 `postgres`，若連線失敗，則為 `template1`。
 
-Other options are also available:
+另外也提供其他選項：
 
 `-e`<br>`--echo`
-:   Echo to stdout all SQL sent to the server.
+:   將所有送往伺服器的 SQL 回顯到 stdout。
 
 `-j num`<br>`--jobs=num`
-:   Use *`num`* concurrent connections to the server,
-    or one per object to be checked, whichever is less.
+:   對伺服器使用 *`num`* 個並行連線，或每個要檢查的物件一個連線，以兩者中較少者為準。
 
-    The default is to use a single connection.
+    預設是使用單一連線。
 
 `-P`<br>`--progress`
-:   Show progress information. Progress information includes the number
-    of relations for which checking has been completed, and the total
-    size of those relations. It also includes the total number of relations
-    that will eventually be checked, and the estimated size of those
-    relations.
+:   顯示進度資訊。進度資訊包括已完成檢查的關聯數量，以及這些關聯的總大小。它也包括最終將被檢查的關聯總數，以及這些關聯的估計大小。
 
 `-v`<br>`--verbose`
-:   Print more messages. In particular, this will print a message for
-    each relation being checked, and will increase the level of detail
-    shown for server errors.
+:   印出更多訊息。特別是，這會為每個被檢查的關聯印出一則訊息，並提高伺服器錯誤所顯示的詳細程度。
 
 `-V`<br>`--version`
-:   Print the pg_amcheck version and exit.
+:   印出 pg_amcheck 的版本後結束。
 
 `--install-missing`<br>`--install-missing=schema`
-:   Install any missing extensions that are required to check the
-    database(s). If not yet installed, each extension's objects will be
-    installed into the given
-    *`schema`*, or if not specified
-    into schema `pg_catalog`.
+:   安裝檢查資料庫所需但缺少的任何擴充功能。若尚未安裝，每個擴充功能的物件會安裝到指定的 *`schema`* 中，若未指定，則安裝到綱要 `pg_catalog` 中。
 
-    At present, the only required extension is [amcheck](../../appendixes/contrib/amcheck.md).
+    目前唯一需要的擴充功能是 [amcheck](../../appendixes/contrib/amcheck.md)。
 
 `-?`<br>`--help`
-:   Show help about pg_amcheck command line
-    arguments, and exit.
+:   顯示 pg_amcheck 命令列引數的說明後結束。
 
 <a id="id-1.9.4.9.7"></a>
 
-## Environment
+## 環境
 
-`pg_amcheck`, like most other PostgreSQL
-utilities,
-also uses the environment variables supported by libpq
-(see [Section 32.15](../../client-interfaces/libpq/libpq-envars.md)).
+`pg_amcheck` 與大多數其他 PostgreSQL 工具程式一樣，也會使用 libpq 所支援的環境變數（請參閱[第 32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。
 
-The environment variable `PG_COLOR` specifies whether to use
-color in diagnostic messages. Possible values are
-`always`, `auto` and
-`never`.
+環境變數 `PG_COLOR` 指定診斷訊息是否使用色彩。可用值為 `always`、`auto` 與 `never`。
 
 <a id="id-1.9.4.9.8"></a>
 
-## Notes
+## 注意事項
 
-pg_amcheck is designed to work with
-PostgreSQL 14.0 and later.
+pg_amcheck 設計為搭配 PostgreSQL 14.0 及以後的版本使用。
 
 <a id="id-1.9.4.9.9"></a>
 
-## See Also
+## 另請參閱
 
 [amcheck](../../appendixes/contrib/amcheck.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgamcheck.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/app-pgamcheck.html)（原文版本：18.6；核對日期：2026-10-10）
