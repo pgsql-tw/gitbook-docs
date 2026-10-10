@@ -258,7 +258,7 @@
     * [25.3. 連續歸檔與時間點恢復（PITR） #](server-administration/backup/continuous-archiving.md)
   * [第 26 章 高可用性、負載平衡與複寫](server-administration/high-availability/README.md)
     * [26.1. 各種解決方案比較 #](server-administration/high-availability/different-replication-solutions.md)
-    * [26.2. Log-Shipping Standby Servers #](server-administration/high-availability/warm-standby.md)
+    * [26.2. 日誌傳送待命伺服器 #](server-administration/high-availability/warm-standby.md)
     * [26.3. 失效切換 #](server-administration/high-availability/warm-standby-failover.md)
     * [26.4. 熱備援 #](server-administration/high-availability/hot-standby.md)
   * [第 27 章 監控資料庫活動](server-administration/monitoring/README.md)

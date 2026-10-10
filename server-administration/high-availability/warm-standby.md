@@ -1,208 +1,205 @@
-## 26.2. Log-Shipping Standby Servers [#](#WARM-STANDBY)
+<a id="WARM-STANDBY"></a>
 
-[26.2.1. Planning](warm-standby.md#STANDBY-PLANNING)
+## 26.2. 日誌傳送待命伺服器 [#](#WARM-STANDBY)
 
-[26.2.2. Standby Server Operation](warm-standby.md#STANDBY-SERVER-OPERATION)
+[26.2.1. 規劃](warm-standby.md#STANDBY-PLANNING)
 
-[26.2.3. Preparing the Primary for Standby Servers](warm-standby.md#PREPARING-PRIMARY-FOR-STANDBY)
+[26.2.2. 待命伺服器的運作](warm-standby.md#STANDBY-SERVER-OPERATION)
 
-[26.2.4. Setting Up a Standby Server](warm-standby.md#STANDBY-SERVER-SETUP)
+[26.2.3. 為待命伺服器準備主要伺服器](warm-standby.md#PREPARING-PRIMARY-FOR-STANDBY)
 
-[26.2.5. Streaming Replication](warm-standby.md#STREAMING-REPLICATION)
+[26.2.4. 設定待命伺服器](warm-standby.md#STANDBY-SERVER-SETUP)
 
-[26.2.6. Replication Slots](warm-standby.md#STREAMING-REPLICATION-SLOTS)
+[26.2.5. 串流複寫](warm-standby.md#STREAMING-REPLICATION)
 
-[26.2.7. Cascading Replication](warm-standby.md#CASCADING-REPLICATION)
+[26.2.6. 複寫插槽](warm-standby.md#STREAMING-REPLICATION-SLOTS)
 
-[26.2.8. Synchronous Replication](warm-standby.md#SYNCHRONOUS-REPLICATION)
+[26.2.7. 串接複寫](warm-standby.md#CASCADING-REPLICATION)
 
-[26.2.9. Continuous Archiving in Standby](warm-standby.md#CONTINUOUS-ARCHIVING-IN-STANDBY)
+[26.2.8. 同步複寫](warm-standby.md#SYNCHRONOUS-REPLICATION)
 
-Continuous archiving can be used to create a *high
-availability* (HA) cluster configuration with one or more
-*standby servers* ready to take over operations if the
-primary server fails. This capability is widely referred to as
-*warm standby* or *log shipping*.
+[26.2.9. 待命伺服器上的持續歸檔](warm-standby.md#CONTINUOUS-ARCHIVING-IN-STANDBY)
 
-The primary and standby server work together to provide this capability,
-though the servers are only loosely coupled. The primary server operates
-in continuous archiving mode, while each standby server operates in
-continuous recovery mode, reading the WAL files from the primary. No
-changes to the database tables are required to enable this capability,
-so it offers low administration overhead compared to some other
-replication solutions. This configuration also has relatively low
-performance impact on the primary server.
+持續歸檔可用來建立*高可用性*（high
+availability，HA）的叢集組態：由一台或多台
+*待命伺服器*（standby server）隨時準備好在
+主要伺服器故障時接手運作。這項功能一般稱為
+*暖備援*（warm standby）或*日誌傳送*（log shipping）。
 
-Directly moving WAL records from one database server to another
-is typically described as log shipping. PostgreSQL
-implements file-based log shipping by transferring WAL records
-one file (WAL segment) at a time. WAL files (16MB) can be
-shipped easily and cheaply over any distance, whether it be to an
-adjacent system, another system at the same site, or another system on
-the far side of the globe. The bandwidth required for this technique
-varies according to the transaction rate of the primary server.
-Record-based log shipping is more granular and streams WAL changes
-incrementally over a network connection (see [Section 26.2.5](warm-standby.md#STREAMING-REPLICATION)).
+主要伺服器與待命伺服器共同運作來提供這項功能，
+不過這些伺服器之間只是鬆散耦合。主要伺服器以
+持續歸檔模式運作，而每台待命伺服器則以持續復原模式運作，
+讀取來自主要伺服器的 WAL 檔案。啟用這項功能
+不需要對資料庫中的資料表做任何變更，
+因此相較於其他某些複寫解決方案，它的管理負擔較低。
+這種組態對主要伺服器的效能影響也相對較低。
 
-It should be noted that log shipping is asynchronous, i.e., the WAL
-records are shipped after transaction commit. As a result, there is a
-window for data loss should the primary server suffer a catastrophic
-failure; transactions not yet shipped will be lost. The size of the
-data loss window in file-based log shipping can be limited by use of the
-`archive_timeout` parameter, which can be set as low
-as a few seconds. However such a low setting will
-substantially increase the bandwidth required for file shipping.
-Streaming replication (see [Section 26.2.5](warm-standby.md#STREAMING-REPLICATION))
-allows a much smaller window of data loss.
+將 WAL 紀錄直接從一台資料庫伺服器搬移到另一台，
+通常稱為日誌傳送。PostgreSQL
+實作的是以檔案為基礎的日誌傳送，一次傳輸一個檔案
+（WAL 區段）的 WAL 紀錄。WAL 檔案（16MB）可以
+輕鬆且低成本地傳送到任何距離之外，無論是
+相鄰的系統、同一地點的另一個系統，或是
+地球另一端的另一個系統。這種技術所需的頻寬
+會隨主要伺服器的交易速率而變化。
+以紀錄為基礎的日誌傳送粒度更細，會透過網路連線
+以增量方式串流傳送 WAL 變更（請參閱[第 26.2.5 節](warm-standby.md#STREAMING-REPLICATION)）。
 
-Recovery performance is sufficiently good that the standby will
-typically be only moments away from full
-availability once it has been activated. As a result, this is called
-a warm standby configuration which offers high
-availability. Restoring a server from an archived base backup and
-rollforward will take considerably longer, so that technique only
-offers a solution for disaster recovery, not high availability.
-A standby server can also be used for read-only queries, in which case
-it is called a *hot standby* server. See
-[Section 26.4](hot-standby.md) for more information.
+應該注意的是，日誌傳送是非同步的，也就是說，WAL
+紀錄是在交易提交之後才傳送的。因此，若主要伺服器
+發生災難性故障，就會存在一段可能遺失資料的時間窗口；
+尚未傳送的交易將會遺失。在以檔案為基礎的日誌傳送中，
+資料遺失窗口的大小可以透過
+`archive_timeout` 參數來限制，此參數最低可以設定到
+只有幾秒鐘。然而，這麼低的設定
+會大幅增加傳送檔案所需的頻寬。
+串流複寫（請參閱[第 26.2.5 節](warm-standby.md#STREAMING-REPLICATION)）
+則可以讓資料遺失窗口小得多。
+
+復原效能足夠好，因此待命伺服器在被啟用後，
+通常只需片刻就能完全可用。
+因此，這稱為能提供高可用性的
+暖備援組態。從歸檔的基礎備份還原伺服器
+並向前復原（rollforward），會花上長得多的時間，因此該技術只能
+作為災難復原的解決方案，而無法提供高可用性。
+待命伺服器也可以用於唯讀查詢，在這種情況下，
+它稱為*熱備援*（hot standby）伺服器。更多資訊請參閱
+[第 26.4 節](hot-standby.md)。
 
 <a id="id-1.6.13.16.7"></a><a id="id-1.6.13.16.8"></a><a id="id-1.6.13.16.9"></a><a id="id-1.6.13.16.10"></a><a id="id-1.6.13.16.11"></a><a id="id-1.6.13.16.12"></a><a id="STANDBY-PLANNING"></a>
 
-### 26.2.1. Planning [#](#STANDBY-PLANNING)
+### 26.2.1. 規劃 [#](#STANDBY-PLANNING)
 
-It is usually wise to create the primary and standby servers
-so that they are as similar as possible, at least from the
-perspective of the database server. In particular, the path names
-associated with tablespaces will be passed across unmodified, so both
-primary and standby servers must have the same mount paths for
-tablespaces if that feature is used. Keep in mind that if
-[CREATE TABLESPACE](../../reference/sql-commands/sql-createtablespace.md)
-is executed on the primary, any new mount point needed for it must
-be created on the primary and all standby servers before the command
-is executed. Hardware need not be exactly the same, but experience shows
-that maintaining two identical systems is easier than maintaining two
-dissimilar ones over the lifetime of the application and system.
-In any case the hardware architecture must be the same — shipping
-from, say, a 32-bit to a 64-bit system will not work.
+通常明智的做法是讓主要伺服器與待命伺服器
+盡可能相似，至少從資料庫伺服器的角度來看是如此。
+特別是，與資料表空間相關聯的路徑名稱
+會原封不動地傳遞過去，因此若使用了資料表空間功能，
+主要伺服器與待命伺服器都必須使用相同的資料表空間掛載路徑。
+請記住，如果在主要伺服器上執行
+[CREATE TABLESPACE](../../reference/sql-commands/sql-createtablespace.md)，
+則它所需的任何新掛載點，都必須在該命令執行之前，
+先在主要伺服器與所有待命伺服器上建立好。硬體不需要完全相同，
+但經驗顯示，在應用程式與系統的整個生命週期中，
+維護兩個相同的系統要比維護兩個不同的系統來得容易。
+無論如何，硬體架構都必須相同——例如，
+從 32 位元系統傳送到 64 位元系統是行不通的。
 
-In general, log shipping between servers running different major
-PostgreSQL release
-levels is not possible. It is the policy of the PostgreSQL Global
-Development Group not to make changes to disk formats during minor release
-upgrades, so it is likely that running different minor release levels
-on primary and standby servers will work successfully. However, no
-formal support for that is offered and you are advised to keep primary
-and standby servers at the same release level as much as possible.
-When updating to a new minor release, the safest policy is to update
-the standby servers first — a new minor release is more likely
-to be able to read WAL files from a previous minor release than vice
-versa.
+一般而言，在執行不同 PostgreSQL 主要版本
+的伺服器之間進行日誌傳送是不可能的。
+PostgreSQL 全球開發團隊（PostgreSQL Global
+Development Group）的政策是不在次要版本升級時
+變更磁碟格式，因此在主要伺服器與待命伺服器上
+執行不同的次要版本，很可能可以順利運作。
+然而，這並未提供正式支援，建議你盡可能讓
+主要伺服器與待命伺服器維持在相同的版本。
+更新到新的次要版本時，最安全的做法是
+先更新待命伺服器——新的次要版本能夠讀取
+先前次要版本的 WAL 檔案的可能性，比反過來的情況更高。
 
 <a id="STANDBY-SERVER-OPERATION"></a>
 
-### 26.2.2. Standby Server Operation [#](#STANDBY-SERVER-OPERATION)
+### 26.2.2. 待命伺服器的運作 [#](#STANDBY-SERVER-OPERATION)
 
-A server enters standby mode if a
+如果伺服器啟動時，資料目錄中存在
 <a id="FILE-STANDBY-SIGNAL"></a>
 `standby.signal`
 <a id="id-1.6.13.16.14.2.3"></a>
-file exists in the data directory when the server is started.
+檔案，伺服器就會進入待命模式。
 
-In standby mode, the server continuously applies WAL received from the
-primary server. The standby server can read WAL from a WAL archive
-(see [restore_command](../runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND)) or directly from the primary
-over a TCP connection (streaming replication). The standby server will
-also attempt to restore any WAL found in the standby cluster's
-`pg_wal` directory. That typically happens after a server
-restart, when the standby replays again WAL that was streamed from the
-primary before the restart, but you can also manually copy files to
-`pg_wal` at any time to have them replayed.
+在待命模式下，伺服器會持續套用從主要伺服器
+接收到的 WAL。待命伺服器可以從 WAL 歸檔
+（請參閱 [restore_command](../runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND)）讀取 WAL，或透過 TCP 連線
+直接從主要伺服器讀取（串流複寫）。待命伺服器
+也會嘗試還原在待命叢集的
+`pg_wal` 目錄中找到的任何 WAL。這通常發生在伺服器
+重新啟動之後，待命伺服器會再次重放重新啟動之前
+從主要伺服器串流過來的 WAL；不過你也可以隨時手動將檔案複製到
+`pg_wal`，讓它們被重放。
 
-At startup, the standby begins by restoring all WAL available in the
-archive location, calling `restore_command`. Once it
-reaches the end of WAL available there and `restore_command`
-fails, it tries to restore any WAL available in the `pg_wal` directory.
-If that fails, and streaming replication has been configured, the
-standby tries to connect to the primary server and start streaming WAL
-from the last valid record found in archive or `pg_wal`. If that fails
-or streaming replication is not configured, or if the connection is
-later disconnected, the standby goes back to step 1 and tries to
-restore the file from the archive again. This loop of retries from the
-archive, `pg_wal`, and via streaming replication goes on until the server
-is stopped or is promoted.
+啟動時，待命伺服器首先會呼叫 `restore_command`，
+還原歸檔位置中所有可用的 WAL。一旦
+到達那裡可用 WAL 的結尾，且 `restore_command`
+失敗，它就會嘗試還原 `pg_wal` 目錄中任何可用的 WAL。
+如果這也失敗，而且已設定串流複寫，
+待命伺服器就會嘗試連線到主要伺服器，並從
+在歸檔或 `pg_wal` 中找到的最後一筆有效紀錄開始串流 WAL。如果這失敗了，
+或者沒有設定串流複寫，又或者連線之後中斷了，
+待命伺服器就會回到步驟 1，再次嘗試從歸檔
+還原檔案。這種從歸檔、`pg_wal`
+以及透過串流複寫重試的迴圈會一直持續，直到伺服器
+被停止或被提升為止。
 
-Standby mode is exited and the server switches to normal operation
-when `pg_ctl promote` is run, or
-`pg_promote()` is called. Before failover,
-any WAL immediately available in the archive or in `pg_wal`
-will be restored, but no attempt is made to connect to the primary.
+當執行 `pg_ctl promote`，或
+呼叫 `pg_promote()` 時，伺服器就會離開待命模式，
+切換為正常運作。在失效切換之前，
+歸檔或 `pg_wal` 中任何可立即取得的 WAL
+都會被還原，但不會嘗試連線到主要伺服器。
 
 <a id="PREPARING-PRIMARY-FOR-STANDBY"></a>
 
-### 26.2.3. Preparing the Primary for Standby Servers [#](#PREPARING-PRIMARY-FOR-STANDBY)
+### 26.2.3. 為待命伺服器準備主要伺服器 [#](#PREPARING-PRIMARY-FOR-STANDBY)
 
-Set up continuous archiving on the primary to an archive directory
-accessible from the standby, as described
-in [Section 25.3](../backup/continuous-archiving.md). The archive location should be
-accessible from the standby even when the primary is down, i.e., it should
-reside on the standby server itself or another trusted server, not on
-the primary server.
+在主要伺服器上設定持續歸檔，將 WAL 歸檔到
+待命伺服器可存取的歸檔目錄，如
+[第 25.3 節](../backup/continuous-archiving.md)所述。即使主要伺服器停機，
+歸檔位置也應該可以從待命伺服器存取，也就是說，它應該
+位於待命伺服器本身或另一台受信任的伺服器上，而不是
+位於主要伺服器上。
 
-If you want to use streaming replication, set up authentication on the
-primary server to allow replication connections from the standby
-server(s); that is, create a role and provide a suitable entry or
-entries in `pg_hba.conf` with the database field set to
-`replication`. Also ensure `max_wal_senders` is set
-to a sufficiently large value in the configuration file of the primary
-server. If replication slots will be used,
-ensure that `max_replication_slots` is set sufficiently
-high as well.
+如果你想使用串流複寫，請在主要伺服器上設定驗證，
+允許來自待命伺服器的複寫連線；
+也就是建立一個角色，並在
+`pg_hba.conf` 中提供一個或多個適當的項目，其資料庫欄位設為
+`replication`。另外，也請確認在主要伺服器的設定檔中，
+`max_wal_senders` 設為足夠大的值。
+如果會使用複寫插槽，
+也請確認 `max_replication_slots` 設得足夠高。
 
-Take a base backup as described in [Section 25.3.2](../backup/continuous-archiving.md#BACKUP-BASE-BACKUP)
-to bootstrap the standby server.
+依照[第 25.3.2 節](../backup/continuous-archiving.md#BACKUP-BASE-BACKUP)所述製作基礎備份，
+用來初始建立（bootstrap）待命伺服器。
 
 <a id="STANDBY-SERVER-SETUP"></a>
 
-### 26.2.4. Setting Up a Standby Server [#](#STANDBY-SERVER-SETUP)
+### 26.2.4. 設定待命伺服器 [#](#STANDBY-SERVER-SETUP)
 
-To set up the standby server, restore the base backup taken from primary
-server (see [Section 25.3.5](../backup/continuous-archiving.md#BACKUP-PITR-RECOVERY)). Create a file
+若要設定待命伺服器，請還原從主要伺服器取得的基礎備份
+（請參閱[第 25.3.5 節](../backup/continuous-archiving.md#BACKUP-PITR-RECOVERY)）。在待命伺服器的叢集資料
+目錄中建立一個
 [`standby.signal`](warm-standby.md#FILE-STANDBY-SIGNAL)<a id="id-1.6.13.16.16.2.3"></a>
-in the standby's cluster data
-directory. Set [restore_command](../runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND) to a simple command to copy files from
-the WAL archive. If you plan to have multiple standby servers for high
-availability purposes, make sure that `recovery_target_timeline` is set to
-`latest` (the default), to make the standby server follow the timeline change
-that occurs at failover to another standby.
+檔案。將 [restore_command](../runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND) 設為一個從 WAL 歸檔
+複製檔案的簡單命令。如果你打算為了高可用性
+而設置多台待命伺服器，請確認 `recovery_target_timeline` 設為
+`latest`（預設值），讓待命伺服器跟隨
+失效切換到另一台待命伺服器時所發生的時間軸變更。
 
-### Note
+<a id="STANDBY-SERVER-SETUP-NOTE"></a>
 
-[restore_command](../runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND) should return immediately
-if the file does not exist; the server will retry the command again if
-necessary.
+### 注意
 
-If you want to use streaming replication, fill in
-[primary_conninfo](../runtime-config/runtime-config-replication.md#GUC-PRIMARY-CONNINFO) with a libpq connection string, including
-the host name (or IP address) and any additional details needed to
-connect to the primary server. If the primary needs a password for
-authentication, the password needs to be specified in
-[primary_conninfo](../runtime-config/runtime-config-replication.md#GUC-PRIMARY-CONNINFO) as well.
+如果檔案不存在，[restore_command](../runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND) 應該立即返回；
+必要時，伺服器會再次重試該命令。
 
-If you're setting up the standby server for high availability purposes,
-set up WAL archiving, connections and authentication like the primary
-server, because the standby server will work as a primary server after
-failover.
+如果你想使用串流複寫，請在
+[primary_conninfo](../runtime-config/runtime-config-replication.md#GUC-PRIMARY-CONNINFO) 中填入 libpq 連線字串，包括
+主機名稱（或 IP 位址），以及連線到主要伺服器所需的
+任何其他細節。如果主要伺服器需要密碼進行
+驗證，該密碼也需要指定在
+[primary_conninfo](../runtime-config/runtime-config-replication.md#GUC-PRIMARY-CONNINFO) 中。
 
-If you're using a WAL archive, its size can be minimized using the [archive_cleanup_command](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-CLEANUP-COMMAND) parameter to remove files that are no
-longer required by the standby server.
-The pg_archivecleanup utility is designed specifically to
-be used with `archive_cleanup_command` in typical single-standby
-configurations, see [pg_archivecleanup](../../reference/reference-server/pgarchivecleanup.md).
-Note however, that if you're using the archive for backup purposes, you
-need to retain files needed to recover from at least the latest base
-backup, even if they're no longer needed by the standby.
+如果你是為了高可用性而設定待命伺服器，
+請像主要伺服器一樣設定 WAL 歸檔、連線與驗證，
+因為待命伺服器在失效切換之後會作為主要伺服器運作。
 
-A simple example of configuration is:
+如果你使用 WAL 歸檔，可以使用 [archive_cleanup_command](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-CLEANUP-COMMAND) 參數
+移除待命伺服器不再需要的檔案，藉此將歸檔的大小降到最低。
+pg_archivecleanup 工具程式是專門設計來
+在典型的單一待命伺服器組態中搭配 `archive_cleanup_command` 使用的，
+請參閱 [pg_archivecleanup](../../reference/reference-server/pgarchivecleanup.md)。
+不過請注意，如果你將歸檔用於備份用途，即使
+待命伺服器已不再需要某些檔案，你仍需要保留
+至少從最新一次基礎備份進行復原所需的檔案。
+
+以下是一個簡單的組態範例：
 
 ```
 
@@ -211,87 +208,87 @@ restore_command = 'cp /path/to/archive/%f %p'
 archive_cleanup_command = 'pg_archivecleanup /path/to/archive %r'
 ```
 
-You can have any number of standby servers, but if you use streaming
-replication, make sure you set `max_wal_senders` high enough in
-the primary to allow them to be connected simultaneously.
+你可以擁有任意數量的待命伺服器，但如果你使用串流
+複寫，請確認在主要伺服器上將 `max_wal_senders` 設得夠高，
+以允許它們同時連線。
 
 <a id="STREAMING-REPLICATION"></a>
 
-### 26.2.5. Streaming Replication [#](#STREAMING-REPLICATION)
+### 26.2.5. 串流複寫 [#](#STREAMING-REPLICATION)
 
 <a id="id-1.6.13.16.17.2"></a>
 
-Streaming replication allows a standby server to stay more up-to-date
-than is possible with file-based log shipping. The standby connects
-to the primary, which streams WAL records to the standby as they're
-generated, without waiting for the WAL file to be filled.
+串流複寫可以讓待命伺服器保持比以檔案為基礎的日誌傳送
+更即時的狀態。待命伺服器會連線到
+主要伺服器，主要伺服器會在 WAL 紀錄產生時就將其串流傳送給待命伺服器，
+而不必等待 WAL 檔案被填滿。
 
-Streaming replication is asynchronous by default
-(see [Section 26.2.8](warm-standby.md#SYNCHRONOUS-REPLICATION)), in which case there is
-a small delay between committing a transaction in the primary and the
-changes becoming visible in the standby. This delay is however much
-smaller than with file-based log shipping, typically under one second
-assuming the standby is powerful enough to keep up with the load. With
-streaming replication, `archive_timeout` is not required to
-reduce the data loss window.
+串流複寫預設是非同步的
+（請參閱[第 26.2.8 節](warm-standby.md#SYNCHRONOUS-REPLICATION)），在這種情況下，從
+主要伺服器提交交易到變更在待命伺服器上變得可見之間，
+會有一小段延遲。不過這段延遲
+比以檔案為基礎的日誌傳送小得多，假設待命伺服器的效能
+足以跟上負載，通常小於一秒。使用
+串流複寫時，不需要 `archive_timeout` 來
+縮小資料遺失窗口。
 
-If you use streaming replication without file-based continuous
-archiving, the server might recycle old WAL segments before the standby
-has received them. If this occurs, the standby will need to be
-reinitialized from a new base backup. You can avoid this by setting
-`wal_keep_size` to a value large enough to ensure that
-WAL segments are not recycled too early, or by configuring a replication
-slot for the standby. If you set up a WAL archive that's accessible from
-the standby, these solutions are not required, since the standby can
-always use the archive to catch up provided it retains enough segments.
+如果你使用串流複寫，但沒有搭配以檔案為基礎的持續
+歸檔，伺服器可能會在待命伺服器收到舊的 WAL 區段之前
+就將其回收。如果發生這種情況，就需要從新的基礎備份
+重新初始化待命伺服器。你可以透過將
+`wal_keep_size` 設為足夠大的值，以確保
+WAL 區段不會過早被回收，或是為待命伺服器設定複寫
+插槽，來避免這種情況。如果你設置了待命伺服器可以存取的 WAL 歸檔，
+就不需要這些解決方案，因為只要歸檔保留了足夠的區段，
+待命伺服器隨時都可以使用歸檔來追上進度。
 
-To use streaming replication, set up a file-based log-shipping standby
-server as described in [Section 26.2](warm-standby.md). The step that
-turns a file-based log-shipping standby into streaming replication
-standby is setting the `primary_conninfo` setting
-to point to the primary server. Set
-[listen_addresses](../runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES) and authentication options
-(see `pg_hba.conf`) on the primary so that the standby server
-can connect to the `replication` pseudo-database on the primary
-server (see [Section 26.2.5.1](warm-standby.md#STREAMING-REPLICATION-AUTHENTICATION)).
+若要使用串流複寫，請依照[第 26.2 節](warm-standby.md)所述，設置一台以檔案為基礎的
+日誌傳送待命伺服器。將以檔案為基礎的日誌傳送待命伺服器
+轉換為串流複寫待命伺服器的步驟，
+是將 `primary_conninfo` 設定
+指向主要伺服器。在主要伺服器上設定
+[listen_addresses](../runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES) 與驗證選項
+（請參閱 `pg_hba.conf`），讓待命伺服器
+可以連線到主要伺服器上的 `replication` 虛擬資料庫
+（請參閱[第 26.2.5.1 節](warm-standby.md#STREAMING-REPLICATION-AUTHENTICATION)）。
 
-On systems that support the keepalive socket option, setting
-[tcp_keepalives_idle](../runtime-config/runtime-config-connection.md#GUC-TCP-KEEPALIVES-IDLE),
-[tcp_keepalives_interval](../runtime-config/runtime-config-connection.md#GUC-TCP-KEEPALIVES-INTERVAL) and
-[tcp_keepalives_count](../runtime-config/runtime-config-connection.md#GUC-TCP-KEEPALIVES-COUNT) helps the primary promptly
-notice a broken connection.
+在支援 keepalive socket 選項的系統上，設定
+[tcp_keepalives_idle](../runtime-config/runtime-config-connection.md#GUC-TCP-KEEPALIVES-IDLE)、
+[tcp_keepalives_interval](../runtime-config/runtime-config-connection.md#GUC-TCP-KEEPALIVES-INTERVAL) 與
+[tcp_keepalives_count](../runtime-config/runtime-config-connection.md#GUC-TCP-KEEPALIVES-COUNT)，有助於主要伺服器及時
+察覺中斷的連線。
 
-Set the maximum number of concurrent connections from the standby servers
-(see [max_wal_senders](../runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS) for details).
+設定來自待命伺服器的最大並行連線數
+（詳情請參閱 [max_wal_senders](../runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS)）。
 
-When the standby is started and `primary_conninfo` is set
-correctly, the standby will connect to the primary after replaying all
-WAL files available in the archive. If the connection is established
-successfully, you will see a `walreceiver` in the standby, and
-a corresponding `walsender` process in the primary.
+當待命伺服器啟動且 `primary_conninfo` 設定
+正確時，待命伺服器會在重放歸檔中所有可用的
+WAL 檔案之後連線到主要伺服器。如果連線成功
+建立，你會在待命伺服器上看到一個 `walreceiver`，並在
+主要伺服器上看到一個對應的 `walsender` 程序。
 
 <a id="STREAMING-REPLICATION-AUTHENTICATION"></a>
 
-#### 26.2.5.1. Authentication [#](#STREAMING-REPLICATION-AUTHENTICATION)
+#### 26.2.5.1. 驗證 [#](#STREAMING-REPLICATION-AUTHENTICATION)
 
-It is very important that the access privileges for replication be set up
-so that only trusted users can read the WAL stream, because it is
-easy to extract privileged information from it. Standby servers must
-authenticate to the primary as an account that has the
-`REPLICATION` privilege or a superuser. It is
-recommended to create a dedicated user account with
-`REPLICATION` and `LOGIN`
-privileges for replication. While `REPLICATION`
-privilege gives very high permissions, it does not allow the user to
-modify any data on the primary system, which the
-`SUPERUSER` privilege does.
+設定複寫的存取權限，讓只有受信任的使用者
+可以讀取 WAL 串流，是非常重要的，因為
+很容易從中擷取出具特權的資訊。待命伺服器必須
+以具有 `REPLICATION` 權限的帳號或超級使用者身分
+向主要伺服器進行驗證。
+建議為複寫建立一個專用的使用者帳號，具有
+`REPLICATION` 與 `LOGIN`
+權限。雖然 `REPLICATION`
+權限賦予非常高的權限，但它不允許該使用者
+修改主要系統上的任何資料，而
+`SUPERUSER` 權限則允許。
 
-Client authentication for replication is controlled by a
-`pg_hba.conf` record specifying `replication` in the
-*`database`* field. For example, if the standby is running on
-host IP `192.168.1.100` and the account name for replication
-is `foo`, the administrator can add the following line to the
-`pg_hba.conf` file on the primary:
+複寫的用戶端驗證，是由
+`pg_hba.conf` 中在 *`database`* 欄位指定 `replication`
+的紀錄所控制。例如，如果待命伺服器執行於
+主機 IP `192.168.1.100`，且複寫用的帳號名稱
+是 `foo`，管理員可以在主要伺服器的
+`pg_hba.conf` 檔案中加入以下這一行：
 
 ```
 
@@ -302,16 +299,16 @@ is `foo`, the administrator can add the following line to the
 host    replication     foo             192.168.1.100/32        scram-sha-256
 ```
 
-The host name and port number of the primary, connection user name,
-and password are specified in the [primary_conninfo](../runtime-config/runtime-config-replication.md#GUC-PRIMARY-CONNINFO).
-The password can also be set in the `~/.pgpass` file on the
-standby (specify `replication` in the *`database`*
-field).
-For example, if the primary is running on host IP `192.168.1.50`,
-port `5432`, the account name for replication is
-`foo`, and the password is `foopass`, the administrator
-can add the following line to the `postgresql.conf` file on the
-standby:
+主要伺服器的主機名稱與連接埠號碼、連線使用者名稱
+以及密碼，都指定在 [primary_conninfo](../runtime-config/runtime-config-replication.md#GUC-PRIMARY-CONNINFO) 中。
+密碼也可以設定在待命伺服器上的 `~/.pgpass` 檔案中
+（在 *`database`*
+欄位指定 `replication`）。
+例如，如果主要伺服器執行於主機 IP `192.168.1.50`、
+連接埠 `5432`，複寫用的帳號名稱是
+`foo`，且密碼是 `foopass`，管理員
+可以在待命伺服器的 `postgresql.conf` 檔案中
+加入以下這一行：
 
 ```
 
@@ -322,90 +319,90 @@ primary_conninfo = 'host=192.168.1.50 port=5432 user=foo password=foopass'
 
 <a id="STREAMING-REPLICATION-MONITORING"></a>
 
-#### 26.2.5.2. Monitoring [#](#STREAMING-REPLICATION-MONITORING)
+#### 26.2.5.2. 監控 [#](#STREAMING-REPLICATION-MONITORING)
 
-An important health indicator of streaming replication is the amount
-of WAL records generated in the primary, but not yet applied in the
-standby. You can calculate this lag by comparing the current WAL write
-location on the primary with the last WAL location received by the
-standby. These locations can be retrieved using
-`pg_current_wal_lsn` on the primary and
-`pg_last_wal_receive_lsn` on the standby,
-respectively (see [Table 9.97](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-BACKUP-TABLE) and
-[Table 9.98](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-RECOVERY-INFO-TABLE) for details).
-The last WAL receive location in the standby is also displayed in the
-process status of the WAL receiver process, displayed using the
-`ps` command (see [Section 27.1](../monitoring/monitoring-ps.md) for details).
+串流複寫的一個重要健康指標，是已在主要伺服器上產生、
+但尚未在待命伺服器上套用的 WAL 紀錄量。
+你可以比較主要伺服器上目前的 WAL 寫入
+位置，以及待命伺服器所接收到的最後一個 WAL 位置，來計算這段延遲（嚴格來說，這樣算出的是待命伺服器尚未接收的 WAL 量，也就是接收延遲；若要計算尚未套用的量，應改與待命伺服器的重放位置 pg_last_wal_replay_lsn 比較——原文此處將兩者混為一談）。
+這些位置可以分別在主要伺服器上使用
+`pg_current_wal_lsn`，以及在待命伺服器上使用
+`pg_last_wal_receive_lsn` 來取得
+（詳情請參閱[表 9.97](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-BACKUP-TABLE) 與
+[表 9.98](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-RECOVERY-INFO-TABLE)）。
+待命伺服器上最後的 WAL 接收位置，也會顯示在
+WAL 接收程序的程序狀態中，可以使用
+`ps` 命令顯示（詳情請參閱[第 27.1 節](../monitoring/monitoring-ps.md)）。
 
-You can retrieve a list of WAL sender processes via the
-[`pg_stat_replication`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-REPLICATION-VIEW) view. Large differences between
-`pg_current_wal_lsn` and the view's `sent_lsn` field
-might indicate that the primary server is under heavy load, while
-differences between `sent_lsn` and
-`pg_last_wal_receive_lsn` on the standby might indicate
-network delay, or that the standby is under heavy load.
+你可以透過
+[`pg_stat_replication`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-REPLICATION-VIEW) 檢視表取得 WAL 傳送程序的清單。
+`pg_current_wal_lsn` 與該檢視表的 `sent_lsn` 欄位之間的差異很大時，
+可能表示主要伺服器的負載很重；而
+`sent_lsn` 與待命伺服器上的
+`pg_last_wal_receive_lsn` 之間的差異，則可能表示
+網路延遲，或是待命伺服器的負載很重。
 
-On a hot standby, the status of the WAL receiver process can be retrieved
-via the [`pg_stat_wal_receiver`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-WAL-RECEIVER-VIEW) view. A large
-difference between `pg_last_wal_replay_lsn` and the
-view's `flushed_lsn` indicates that WAL is being
-received faster than it can be replayed.
+在熱備援伺服器上，可以透過
+[`pg_stat_wal_receiver`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-WAL-RECEIVER-VIEW) 檢視表取得 WAL 接收程序的狀態。
+`pg_last_wal_replay_lsn` 與該
+檢視表的 `flushed_lsn` 之間的差異很大時，表示接收 WAL
+的速度比重放它的速度還快。
 
 <a id="STREAMING-REPLICATION-SLOTS"></a>
 
-### 26.2.6. Replication Slots [#](#STREAMING-REPLICATION-SLOTS)
+### 26.2.6. 複寫插槽 [#](#STREAMING-REPLICATION-SLOTS)
 
 <a id="id-1.6.13.16.18.2"></a>
 
-Replication slots provide an automated way to ensure that the
-primary server does
-not remove WAL segments until they have been received by all standbys,
-and that the primary does not remove rows which could cause a
-[recovery conflict](hot-standby.md#HOT-STANDBY-CONFLICT) even when the
-standby is disconnected.
+複寫插槽提供一種自動化的方式，用來確保
+主要伺服器在所有待命伺服器都收到 WAL 區段之前，
+不會移除這些區段；並確保即使
+待命伺服器已中斷連線，主要伺服器也不會移除可能導致
+[復原衝突](hot-standby.md#HOT-STANDBY-CONFLICT)的資料列。
 
-In lieu of using replication slots, it is possible to prevent the removal
-of old WAL segments using [wal_keep_size](../runtime-config/runtime-config-replication.md#GUC-WAL-KEEP-SIZE), or by
-storing the segments in an archive using
-[archive_command](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-COMMAND) or [archive_library](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-LIBRARY).
-A disadvantage of these methods is that they
-often result in retaining more WAL segments than
-required, whereas replication slots retain only the number of segments
-known to be needed.
+若不使用複寫插槽，也可以改用 [wal_keep_size](../runtime-config/runtime-config-replication.md#GUC-WAL-KEEP-SIZE)，
+或是使用
+[archive_command](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-COMMAND) 或 [archive_library](../runtime-config/runtime-config-wal.md#GUC-ARCHIVE-LIBRARY) 將區段儲存到歸檔中，
+來防止舊的 WAL 區段被移除。
+這些方法的缺點是，它們
+常常會保留比所需更多的 WAL 區段，
+而複寫插槽只會保留已知需要的區段數量。
 
-Similarly, [hot_standby_feedback](../runtime-config/runtime-config-replication.md#GUC-HOT-STANDBY-FEEDBACK) on its own, without
-also using a replication slot, provides protection against relevant rows
-being removed by vacuum, but provides no protection during any time period
-when the standby is not connected.
+同樣地，單獨使用 [hot_standby_feedback](../runtime-config/runtime-config-replication.md#GUC-HOT-STANDBY-FEEDBACK) 而
+不同時使用複寫插槽，可以防止相關的資料列
+被 vacuum 移除，但在待命伺服器未連線的任何時段內，
+都無法提供保護。
 
-### Caution
+<a id="STREAMING-REPLICATION-SLOTS-CAUTION"></a>
 
-Beware that replication slots can cause the server to retain so
-many WAL segments that they fill up the space allocated for
-`pg_wal`.
-[max_slot_wal_keep_size](../runtime-config/runtime-config-replication.md#GUC-MAX-SLOT-WAL-KEEP-SIZE) can be used to limit the size
-of WAL files retained by replication slots.
+### 小心
+
+請留意，複寫插槽可能會使伺服器保留
+大量 WAL 區段，以致於填滿配置給
+`pg_wal` 的空間。
+可以使用 [max_slot_wal_keep_size](../runtime-config/runtime-config-replication.md#GUC-MAX-SLOT-WAL-KEEP-SIZE) 來限制
+複寫插槽所保留之 WAL 檔案的大小。
 
 <a id="STREAMING-REPLICATION-SLOTS-MANIPULATION"></a>
 
-#### 26.2.6.1. Querying and Manipulating Replication Slots [#](#STREAMING-REPLICATION-SLOTS-MANIPULATION)
+#### 26.2.6.1. 查詢與操作複寫插槽 [#](#STREAMING-REPLICATION-SLOTS-MANIPULATION)
 
-Each replication slot has a name, which can contain lower-case letters,
-numbers, and the underscore character.
+每個複寫插槽都有一個名稱，名稱可以包含小寫字母、
+數字與底線字元。
 
-Existing replication slots and their state can be seen in the
+現有的複寫插槽及其狀態可以在
 [`pg_replication_slots`](../../internals/views/view-pg-replication-slots.md)
-view.
+檢視表中查看。
 
-Slots can be created and dropped either via the streaming replication
-protocol (see [Section 54.4](../../internals/protocol/protocol-replication.md)) or via SQL
-functions (see [Section 9.28.6](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-REPLICATION)).
+插槽可以透過串流複寫
+協定（請參閱[第 54.4 節](../../internals/protocol/protocol-replication.md)）或 SQL
+函式（請參閱[第 9.28.6 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-REPLICATION)）來建立與移除。
 
 <a id="STREAMING-REPLICATION-SLOTS-CONFIG"></a>
 
-#### 26.2.6.2. Configuration Example [#](#STREAMING-REPLICATION-SLOTS-CONFIG)
+#### 26.2.6.2. 組態範例 [#](#STREAMING-REPLICATION-SLOTS-CONFIG)
 
-You can create a replication slot like this:
+你可以像這樣建立複寫插槽：
 
 ```
 
@@ -421,8 +418,8 @@ postgres=# SELECT slot_name, slot_type, active FROM pg_replication_slots;
 (1 row)
 ```
 
-To configure the standby to use this slot, `primary_slot_name`
-should be configured on the standby. Here is a simple example:
+若要設定待命伺服器使用此插槽，應在待命伺服器上
+設定 `primary_slot_name`。以下是一個簡單的範例：
 
 ```
 
@@ -432,343 +429,342 @@ primary_slot_name = 'node_a_slot'
 
 <a id="CASCADING-REPLICATION"></a>
 
-### 26.2.7. Cascading Replication [#](#CASCADING-REPLICATION)
+### 26.2.7. 串接複寫 [#](#CASCADING-REPLICATION)
 
 <a id="id-1.6.13.16.19.2"></a>
 
-The cascading replication feature allows a standby server to accept replication
-connections and stream WAL records to other standbys, acting as a relay.
-This can be used to reduce the number of direct connections to the primary
-and also to minimize inter-site bandwidth overheads.
+串接複寫功能可以讓待命伺服器接受複寫
+連線，並將 WAL 紀錄串流傳送給其他待命伺服器，扮演中繼的角色。
+這可以用來減少直接連線到主要伺服器的連線數，
+也可以將跨站點的頻寬負擔降到最低。
 
-A standby acting as both a receiver and a sender is known as a cascading
-standby. Standbys that are more directly connected to the primary are known
-as upstream servers, while those standby servers further away are downstream
-servers. Cascading replication does not place limits on the number or
-arrangement of downstream servers, though each standby connects to only
-one upstream server which eventually links to a single primary server.
+同時作為接收端與傳送端的待命伺服器，稱為串接
+待命伺服器（cascading standby）。較直接連線到主要伺服器的待命伺服器，稱為
+上游伺服器，而距離較遠的那些待命伺服器則是下游
+伺服器。串接複寫不會限制下游伺服器的數量
+或排列方式，不過每台待命伺服器都只會連線到
+一台上游伺服器，而這條鏈最終會連結到單一一台主要伺服器。
 
-A cascading standby sends not only WAL records received from the
-primary but also those restored from the archive. So even if the replication
-connection in some upstream connection is terminated, streaming replication
-continues downstream for as long as new WAL records are available.
+串接待命伺服器傳送的，不僅是從
+主要伺服器接收到的 WAL 紀錄，還包括從歸檔還原的 WAL 紀錄。因此，即使某個上游連線中的複寫
+連線被終止，只要還有新的 WAL 紀錄可用，
+串流複寫就會繼續向下游進行。
 
-Cascading replication is currently asynchronous. Synchronous replication
-(see [Section 26.2.8](warm-standby.md#SYNCHRONOUS-REPLICATION)) settings have no effect on
-cascading replication at present.
+串接複寫目前是非同步的。同步複寫
+（請參閱[第 26.2.8 節](warm-standby.md#SYNCHRONOUS-REPLICATION)）的設定目前對
+串接複寫沒有作用。
 
-Hot standby feedback propagates upstream, whatever the cascaded arrangement.
+無論串接的排列方式為何，熱備援回饋（hot standby feedback）都會向上游傳遞。
 
-If an upstream standby server is promoted to become the new primary, downstream
-servers will continue to stream from the new primary if
-`recovery_target_timeline` is set to `'latest'` (the default).
+如果上游待命伺服器被提升為新的主要伺服器，而
+`recovery_target_timeline` 設為 `'latest'`（預設值），
+下游伺服器就會繼續從新的主要伺服器串流。
 
-To use cascading replication, set up the cascading standby so that it can
-accept replication connections (that is, set
-[max_wal_senders](../runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS) and [hot_standby](../runtime-config/runtime-config-replication.md#GUC-HOT-STANDBY),
-and configure
-[host-based authentication](../client-authentication/auth-pg-hba-conf.md)).
-You will also need to set `primary_conninfo` in the downstream
-standby to point to the cascading standby.
+若要使用串接複寫，請設置串接待命伺服器，使其可以
+接受複寫連線（也就是設定
+[max_wal_senders](../runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS) 與 [hot_standby](../runtime-config/runtime-config-replication.md#GUC-HOT-STANDBY)，
+並設定
+[以主機為基礎的驗證](../client-authentication/auth-pg-hba-conf.md)）。
+你也需要在下游待命伺服器中設定 `primary_conninfo`，
+使其指向串接待命伺服器。
 
 <a id="SYNCHRONOUS-REPLICATION"></a>
 
-### 26.2.8. Synchronous Replication [#](#SYNCHRONOUS-REPLICATION)
+### 26.2.8. 同步複寫 [#](#SYNCHRONOUS-REPLICATION)
 
 <a id="id-1.6.13.16.20.2"></a>
 
-PostgreSQL streaming replication is asynchronous by
-default. If the primary server
-crashes then some transactions that were committed may not have been
-replicated to the standby server, causing data loss. The amount
-of data loss is proportional to the replication delay at the time of
-failover.
+PostgreSQL 的串流複寫預設是非同步的。
+如果主要伺服器
+當機，某些已提交的交易可能尚未
+複寫到待命伺服器，進而造成資料遺失。資料遺失
+的量與失效切換當下的複寫延遲成正比。
 
-Synchronous replication offers the ability to confirm that all changes
-made by a transaction have been transferred to one or more synchronous
-standby servers. This extends that standard level of durability
-offered by a transaction commit. This level of protection is referred
-to as 2-safe replication in computer science theory, and group-1-safe
-(group-safe and 1-safe) when `synchronous_commit` is set to
-`remote_write`.
+同步複寫提供了確認某個交易所做的所有變更
+都已傳輸到一台或多台同步待命伺服器的能力。
+這擴充了交易提交所提供的標準持久性層級。
+這種保護層級在電腦科學理論中稱為
+2-safe 複寫；當 `synchronous_commit` 設為
+`remote_write` 時，則稱為 group-1-safe
+（group-safe 與 1-safe）。
 
-When requesting synchronous replication, each commit of a
-write transaction will wait until confirmation is
-received that the commit has been written to the write-ahead log on disk
-of both the primary and standby server. The only possibility that data
-can be lost is if both the primary and the standby suffer crashes at the
-same time. This can provide a much higher level of durability, though only
-if the sysadmin is cautious about the placement and management of the two
-servers. Waiting for confirmation increases the user's confidence that the
-changes will not be lost in the event of server crashes but it also
-necessarily increases the response time for the requesting transaction.
-The minimum wait time is the round-trip time between primary and standby.
+要求同步複寫時，寫入交易的每次提交
+都會等待，直到收到確認，
+表示該提交已寫入主要伺服器與待命伺服器兩者
+磁碟上的預寫日誌（write-ahead log）為止。資料遺失的唯一可能，
+是主要伺服器與待命伺服器同時發生
+當機。這可以提供高得多的持久性層級，但前提是
+系統管理員對這兩台伺服器的放置位置與管理
+都很謹慎。等待確認會增加使用者對於
+伺服器當機時變更不會遺失的信心，但
+也必然會增加提出請求之交易的回應時間。
+最短的等待時間是主要伺服器與待命伺服器之間的往返時間。
 
-Read-only transactions and transaction rollbacks need not wait for
-replies from standby servers. Subtransaction commits do not wait for
-responses from standby servers, only top-level commits. Long
-running actions such as data loading or index building do not wait
-until the very final commit message. All two-phase commit actions
-require commit waits, including both prepare and commit.
+唯讀交易與交易回滾不需要等待
+待命伺服器的回覆。子交易的提交不會等待
+待命伺服器的回應，只有最上層的提交才會等待。長時間
+執行的動作（例如資料載入或建立索引）在
+最終的提交訊息之前都不會等待。所有兩階段提交的動作
+都需要等待提交，包括準備（prepare）與提交兩者。
 
-A synchronous standby can be a physical replication standby or a logical
-replication subscriber. It can also be any other physical or logical WAL
-replication stream consumer that knows how to send the appropriate
-feedback messages. Besides the built-in physical and logical replication
-systems, this includes special programs such
-as `pg_receivewal` and `pg_recvlogical`
-as well as some third-party replication systems and custom programs.
-Check the respective documentation for details on synchronous replication
-support.
+同步待命伺服器可以是實體複寫待命伺服器，或是邏輯
+複寫訂閱者。它也可以是任何其他知道如何傳送適當
+回饋訊息的實體或邏輯 WAL
+複寫串流消費者。除了內建的實體與邏輯複寫
+系統之外，這也包括特殊程式，例如
+`pg_receivewal` 與 `pg_recvlogical`，
+以及某些第三方複寫系統與自訂程式。
+關於同步複寫支援的詳細資訊，請查看各自的文件。
 
 <a id="SYNCHRONOUS-REPLICATION-CONFIG"></a>
 
-#### 26.2.8.1. Basic Configuration [#](#SYNCHRONOUS-REPLICATION-CONFIG)
+#### 26.2.8.1. 基本組態 [#](#SYNCHRONOUS-REPLICATION-CONFIG)
 
-Once streaming replication has been configured, configuring synchronous
-replication requires only one additional configuration step:
-[synchronous_standby_names](../runtime-config/runtime-config-replication.md#GUC-SYNCHRONOUS-STANDBY-NAMES) must be set to
-a non-empty value. `synchronous_commit` must also be set to
-`on`, but since this is the default value, typically no change is
-required. (See [Section 19.5.1](../runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-SETTINGS) and
-[Section 19.6.2](../runtime-config/runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-PRIMARY).)
-This configuration will cause each commit to wait for
-confirmation that the standby has written the commit record to durable
-storage.
-`synchronous_commit` can be set by individual
-users, so it can be configured in the configuration file, for particular
-users or databases, or dynamically by applications, in order to control
-the durability guarantee on a per-transaction basis.
+一旦設定好串流複寫，設定同步
+複寫只需要再多一個組態步驟：
+必須將 [synchronous_standby_names](../runtime-config/runtime-config-replication.md#GUC-SYNCHRONOUS-STANDBY-NAMES) 設為
+非空值。`synchronous_commit` 也必須設為
+`on`，但由於這是預設值，通常不需要
+變更。（請參閱[第 19.5.1 節](../runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-SETTINGS)與
+[第 19.6.2 節](../runtime-config/runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-PRIMARY)。）
+這個組態會讓每次提交都等待
+待命伺服器確認已將提交紀錄寫入持久性
+儲存裝置。
+`synchronous_commit` 可以由個別
+使用者設定，因此可以在設定檔中、針對特定
+使用者或資料庫設定，或由應用程式動態設定，
+以便逐筆交易控制持久性保證。
 
-After a commit record has been written to disk on the primary, the
-WAL record is then sent to the standby. The standby sends reply
-messages each time a new batch of WAL data is written to disk, unless
-`wal_receiver_status_interval` is set to zero on the standby.
-In the case that `synchronous_commit` is set to
-`remote_apply`, the standby sends reply messages when the commit
-record is replayed, making the transaction visible.
-If the standby is chosen as a synchronous standby, according to the setting
-of `synchronous_standby_names` on the primary, the reply
-messages from that standby will be considered along with those from other
-synchronous standbys to decide when to release transactions waiting for
-confirmation that the commit record has been received. These parameters
-allow the administrator to specify which standby servers should be
-synchronous standbys. Note that the configuration of synchronous
-replication is mainly on the primary. Named standbys must be directly
-connected to the primary; the primary knows nothing about downstream
-standby servers using cascaded replication.
+提交紀錄寫入主要伺服器的磁碟之後，
+該 WAL 紀錄接著會被傳送到待命伺服器。每當一批新的 WAL 資料
+寫入磁碟時，待命伺服器就會傳送回覆訊息，除非
+待命伺服器上的 `wal_receiver_status_interval` 設為零。
+在 `synchronous_commit` 設為
+`remote_apply` 的情況下，待命伺服器會在提交紀錄
+被重放、使交易變得可見時傳送回覆訊息。
+如果根據主要伺服器上 `synchronous_standby_names` 的設定，
+該待命伺服器被選為同步待命伺服器，則該待命伺服器的回覆
+訊息會與其他同步待命伺服器的回覆訊息一起納入考量，
+以決定何時釋放正在等待
+提交紀錄已被接收之確認的交易。這些參數
+讓管理員可以指定哪些待命伺服器應該作為
+同步待命伺服器。請注意，同步
+複寫的組態主要是在主要伺服器上進行。具名的待命伺服器必須直接
+連線到主要伺服器；主要伺服器對於使用串接複寫的下游
+待命伺服器一無所知。
 
-Setting `synchronous_commit` to `remote_write` will
-cause each commit to wait for confirmation that the standby has received
-the commit record and written it out to its own operating system, but not
-for the data to be flushed to disk on the standby. This
-setting provides a weaker guarantee of durability than `on`
-does: the standby could lose the data in the event of an operating system
-crash, though not a PostgreSQL crash.
-However, it's a useful setting in practice
-because it can decrease the response time for the transaction.
-Data loss could only occur if both the primary and the standby crash and
-the database of the primary gets corrupted at the same time.
+將 `synchronous_commit` 設為 `remote_write`，會
+讓每次提交都等待待命伺服器確認已收到
+提交紀錄，並已將其寫出到它自己的作業系統，但不會
+等待資料在待命伺服器上刷寫到磁碟。這個
+設定提供的持久性保證比 `on`
+弱：待命伺服器在作業系統
+當機時可能會遺失資料，但 PostgreSQL 當機時則不會。
+不過，這在實務上是很有用的設定，
+因為它可以縮短交易的回應時間。
+只有在主要伺服器與待命伺服器都當機，且
+主要伺服器的資料庫同時損毀時，才可能發生資料遺失。
 
-Setting `synchronous_commit` to `remote_apply` will
-cause each commit to wait until the current synchronous standbys report
-that they have replayed the transaction, making it visible to user
-queries. In simple cases, this allows for load balancing with causal
-consistency.
+將 `synchronous_commit` 設為 `remote_apply`，會
+讓每次提交都等待，直到目前的同步待命伺服器回報
+它們已重放該交易、使其對使用者
+查詢可見為止。在簡單的情況下，這可以實現具有因果
+一致性（causal consistency）的負載平衡。
 
-Users will stop waiting if a fast shutdown is requested. However, as
-when using asynchronous replication, the server will not fully
-shutdown until all outstanding WAL records are transferred to the currently
-connected standby servers.
+如果要求快速關閉（fast shutdown），使用者就會停止等待。不過，
+與使用非同步複寫時一樣，伺服器在所有待處理的 WAL 紀錄
+都傳輸到目前已連線的待命伺服器之前，
+不會完全關閉。
 
 <a id="SYNCHRONOUS-REPLICATION-MULTIPLE-STANDBYS"></a>
 
-#### 26.2.8.2. Multiple Synchronous Standbys [#](#SYNCHRONOUS-REPLICATION-MULTIPLE-STANDBYS)
+#### 26.2.8.2. 多台同步待命伺服器 [#](#SYNCHRONOUS-REPLICATION-MULTIPLE-STANDBYS)
 
-Synchronous replication supports one or more synchronous standby servers;
-transactions will wait until all the standby servers which are considered
-as synchronous confirm receipt of their data. The number of synchronous
-standbys that transactions must wait for replies from is specified in
-`synchronous_standby_names`. This parameter also specifies
-a list of standby names and the method (`FIRST` and
-`ANY`) to choose synchronous standbys from the listed ones.
+同步複寫支援一台或多台同步待命伺服器；
+交易會等待，直到所有被視為
+同步的待命伺服器都確認收到其資料為止。交易必須等待其回覆的
+同步待命伺服器數量，是在
+`synchronous_standby_names` 中指定的。此參數也會指定
+待命伺服器名稱清單，以及從所列伺服器中選擇同步待命伺服器的方法（`FIRST` 與
+`ANY`）。
 
-The method `FIRST` specifies a priority-based synchronous
-replication and makes transaction commits wait until their WAL records are
-replicated to the requested number of synchronous standbys chosen based on
-their priorities. The standbys whose names appear earlier in the list are
-given higher priority and will be considered as synchronous. Other standby
-servers appearing later in this list represent potential synchronous
-standbys. If any of the current synchronous standbys disconnects for
-whatever reason, it will be replaced immediately with the
-next-highest-priority standby.
+方法 `FIRST` 指定以優先順序為基礎的同步
+複寫，並讓交易提交等待，直到其 WAL 紀錄
+複寫到依優先順序選出的指定數量同步待命伺服器為止。
+名稱在清單中出現得較前面的待命伺服器
+會獲得較高的優先順序，並被視為同步待命伺服器。清單中
+出現在較後面的其他待命伺服器，則代表潛在的同步
+待命伺服器。如果目前的任何一台同步待命伺服器因
+任何原因中斷連線，它會立即被
+優先順序次高的待命伺服器取代。
 
-An example of `synchronous_standby_names` for
-a priority-based multiple synchronous standbys is:
+以優先順序為基礎的多台同步待命伺服器，其
+`synchronous_standby_names` 範例如下：
 
 ```
 
 synchronous_standby_names = 'FIRST 2 (s1, s2, s3)'
 ```
 
-In this example, if four standby servers `s1`, `s2`,
-`s3` and `s4` are running, the two standbys
-`s1` and `s2` will be chosen as synchronous standbys
-because their names appear early in the list of standby names.
-`s3` is a potential synchronous standby and will take over
-the role of synchronous standby when either of `s1` or
-`s2` fails. `s4` is an asynchronous standby since
-its name is not in the list.
+在這個範例中，如果有四台待命伺服器 `s1`、`s2`、
+`s3` 與 `s4` 正在執行，兩台待命伺服器
+`s1` 與 `s2` 會被選為同步待命伺服器，
+因為它們的名稱出現在待命伺服器名稱清單的前面。
+`s3` 是潛在的同步待命伺服器，當 `s1` 或
+`s2` 其中之一失效時，它會接手
+同步待命伺服器的角色。`s4` 是非同步待命伺服器，因為
+它的名稱不在清單中。
 
-The method `ANY` specifies a quorum-based synchronous
-replication and makes transaction commits wait until their WAL records
-are replicated to *at least* the requested number of
-synchronous standbys in the list.
+方法 `ANY` 指定以法定數量（quorum）為基礎的同步
+複寫，並讓交易提交等待，直到其 WAL 紀錄
+複寫到清單中*至少*指定數量的
+同步待命伺服器為止。
 
-An example of `synchronous_standby_names` for
-a quorum-based multiple synchronous standbys is:
+以法定數量為基礎的多台同步待命伺服器，其
+`synchronous_standby_names` 範例如下：
 
 ```
 
 synchronous_standby_names = 'ANY 2 (s1, s2, s3)'
 ```
 
-In this example, if four standby servers `s1`, `s2`,
-`s3` and `s4` are running, transaction commits will
-wait for replies from at least any two standbys of `s1`,
-`s2` and `s3`. `s4` is an asynchronous
-standby since its name is not in the list.
+在這個範例中，如果有四台待命伺服器 `s1`、`s2`、
+`s3` 與 `s4` 正在執行，交易提交將會
+等待 `s1`、
+`s2` 與 `s3` 之中至少任意兩台待命伺服器的回覆。`s4` 是非同步
+待命伺服器，因為它的名稱不在清單中。
 
-The synchronous states of standby servers can be viewed using
-the `pg_stat_replication` view.
+待命伺服器的同步狀態可以使用
+`pg_stat_replication` 檢視表查看。
 
 <a id="SYNCHRONOUS-REPLICATION-PERFORMANCE"></a>
 
-#### 26.2.8.3. Planning for Performance [#](#SYNCHRONOUS-REPLICATION-PERFORMANCE)
+#### 26.2.8.3. 效能規劃 [#](#SYNCHRONOUS-REPLICATION-PERFORMANCE)
 
-Synchronous replication usually requires carefully planned and placed
-standby servers to ensure applications perform acceptably. Waiting
-doesn't utilize system resources, but transaction locks continue to be
-held until the transfer is confirmed. As a result, incautious use of
-synchronous replication will reduce performance for database
-applications because of increased response times and higher contention.
+同步複寫通常需要仔細規劃與放置
+待命伺服器，以確保應用程式的效能可以接受。等待
+並不會耗用系統資源，但交易鎖定會持續
+被持有，直到傳輸獲得確認為止。因此，不謹慎地使用
+同步複寫，會因為回應時間增加與競爭加劇，
+而降低資料庫應用程式的效能。
 
-PostgreSQL allows the application developer
-to specify the durability level required via replication. This can be
-specified for the system overall, though it can also be specified for
-specific users or connections, or even individual transactions.
+PostgreSQL 允許應用程式開發者
+指定透過複寫所需的持久性層級。這可以
+針對整個系統指定，也可以針對
+特定使用者或連線，甚至個別交易來指定。
 
-For example, an application workload might consist of:
-10% of changes are important customer details, while
-90% of changes are less important data that the business can more
-easily survive if it is lost, such as chat messages between users.
+例如，某個應用程式的工作負載可能由以下組成：
+10% 的變更是重要的客戶詳細資料，而
+90% 的變更是較不重要的資料，即使遺失，企業也比較
+容易承受，例如使用者之間的聊天訊息。
 
-With synchronous replication options specified at the application level
-(on the primary) we can offer synchronous replication for the most
-important changes, without slowing down the bulk of the total workload.
-Application level options are an important and practical tool for allowing
-the benefits of synchronous replication for high performance applications.
+透過在應用程式層級（在主要伺服器上）指定同步複寫選項，
+我們就可以為最重要的變更提供同步複寫，
+而不會拖慢整體工作負載的大部分。
+應用程式層級的選項是一項重要且實用的工具，可以讓
+高效能應用程式享有同步複寫的好處。
 
-You should consider that the network bandwidth must be higher than
-the rate of generation of WAL data.
+你應該考慮到，網路頻寬必須高於
+WAL 資料的產生速率。
 
 <a id="SYNCHRONOUS-REPLICATION-HA"></a>
 
-#### 26.2.8.4. Planning for High Availability [#](#SYNCHRONOUS-REPLICATION-HA)
+#### 26.2.8.4. 高可用性規劃 [#](#SYNCHRONOUS-REPLICATION-HA)
 
-`synchronous_standby_names` specifies the number and
-names of synchronous standbys that transaction commits made when
-`synchronous_commit` is set to `on`,
-`remote_apply` or `remote_write` will wait for
-responses from. Such transaction commits may never be completed
-if any one of the synchronous standbys should crash.
+`synchronous_standby_names` 指定在
+`synchronous_commit` 設為 `on`、
+`remote_apply` 或 `remote_write` 時所進行的交易提交，
+要等待其回應之同步待命伺服器的數量與
+名稱。如果任何一台同步待命伺服器當機，
+這類交易提交可能永遠無法完成。
 
-The best solution for high availability is to ensure you keep as many
-synchronous standbys as requested. This can be achieved by naming multiple
-potential synchronous standbys using `synchronous_standby_names`.
+高可用性的最佳解決方案，是確保你保有與要求數量
+一樣多的同步待命伺服器。這可以透過使用
+`synchronous_standby_names` 指定多台
+潛在的同步待命伺服器來達成。
 
-In a priority-based synchronous replication, the standbys whose names
-appear earlier in the list will be used as synchronous standbys.
-Standbys listed after these will take over the role of synchronous standby
-if one of current ones should fail.
+在以優先順序為基礎的同步複寫中，名稱
+在清單中出現得較前面的待命伺服器會被用作同步待命伺服器。
+列在它們之後的待命伺服器，會在目前的某一台同步待命伺服器
+失效時，接手同步待命伺服器的角色。
 
-In a quorum-based synchronous replication, all the standbys appearing
-in the list will be used as candidates for synchronous standbys.
-Even if one of them should fail, the other standbys will keep performing
-the role of candidates of synchronous standby.
+在以法定數量為基礎的同步複寫中，清單中出現的
+所有待命伺服器都會被用作同步待命伺服器的候選者。
+即使其中一台失效，其他待命伺服器仍會繼續擔任
+同步待命伺服器候選者的角色。
 
-When a standby first attaches to the primary, it will not yet be properly
-synchronized. This is described as `catchup` mode. Once
-the lag between standby and primary reaches zero for the first time
-we move to real-time `streaming` state.
-The catch-up duration may be long immediately after the standby has
-been created. If the standby is shut down, then the catch-up period
-will increase according to the length of time the standby has been down.
-The standby is only able to become a synchronous standby
-once it has reached `streaming` state.
-This state can be viewed using
-the `pg_stat_replication` view.
+當待命伺服器第一次連接到主要伺服器時，它還不會被正確地
+同步。這稱為 `catchup` 模式。一旦
+待命伺服器與主要伺服器之間的延遲第一次降到零，
+我們就會進入即時的 `streaming` 狀態。
+在待命伺服器剛建立之後，追趕期間可能會很長。
+如果待命伺服器被關閉，追趕期間
+會隨著待命伺服器停機的時間長度而增加。
+待命伺服器只有在
+到達 `streaming` 狀態之後，才能成為同步待命伺服器。
+這個狀態可以使用
+`pg_stat_replication` 檢視表查看。
 
-If primary restarts while commits are waiting for acknowledgment, those
-waiting transactions will be marked fully committed once the primary
-database recovers.
-There is no way to be certain that all standbys have received all
-outstanding WAL data at time of the crash of the primary. Some
-transactions may not show as committed on the standby, even though
-they show as committed on the primary. The guarantee we offer is that
-the application will not receive explicit acknowledgment of the
-successful commit of a transaction until the WAL data is known to be
-safely received by all the synchronous standbys.
+如果主要伺服器在提交正在等待確認時重新啟動，那些
+正在等待的交易會在主要
+資料庫復原之後被標記為完全提交。
+沒有任何方法可以確定在主要伺服器當機時，所有待命伺服器都已收到所有
+待處理的 WAL 資料。某些
+交易可能在待命伺服器上不會顯示為已提交，即使
+它們在主要伺服器上顯示為已提交。我們提供的保證是：
+在確知 WAL 資料已被所有同步待命伺服器
+安全接收之前，應用程式不會收到
+交易成功提交的明確確認。
 
-If you really cannot keep as many synchronous standbys as requested
-then you should decrease the number of synchronous standbys that
-transaction commits must wait for responses from
-in `synchronous_standby_names` (or disable it) and
-reload the configuration file on the primary server.
+如果你確實無法保有與要求數量一樣多的同步待命伺服器，
+那麼你應該在 `synchronous_standby_names` 中
+減少交易提交必須等待其回應的同步待命伺服器數量
+（或停用它），並
+在主要伺服器上重新載入設定檔。
 
-If the primary is isolated from remaining standby servers you should
-fail over to the best candidate of those other remaining standby servers.
+如果主要伺服器與其餘的待命伺服器隔離，你應該
+失效切換到那些其餘待命伺服器之中最佳的候選者。
 
-If you need to re-create a standby server while transactions are
-waiting, make sure that the functions `pg_backup_start()`
-and `pg_backup_stop()` are run in a session with
-`synchronous_commit` = `off`, otherwise those
-requests will wait forever for the standby to appear.
+如果你需要在交易正在等待時重新建立待命伺服器，
+請確認函式 `pg_backup_start()`
+與 `pg_backup_stop()` 是在
+`synchronous_commit` = `off` 的工作階段中執行，否則那些
+請求將會永遠等待待命伺服器出現。
 
 <a id="CONTINUOUS-ARCHIVING-IN-STANDBY"></a>
 
-### 26.2.9. Continuous Archiving in Standby [#](#CONTINUOUS-ARCHIVING-IN-STANDBY)
+### 26.2.9. 待命伺服器上的持續歸檔 [#](#CONTINUOUS-ARCHIVING-IN-STANDBY)
 
 <a id="id-1.6.13.16.21.2"></a>
 
-When continuous WAL archiving is used in a standby, there are two
-different scenarios: the WAL archive can be shared between the primary
-and the standby, or the standby can have its own WAL archive. When
-the standby has its own WAL archive, set `archive_mode`
-to `always`, and the standby will call the archive
-command for every WAL segment it receives, whether it's by restoring
-from the archive or by streaming replication. The shared archive can
-be handled similarly, but the `archive_command` or `archive_library` must
-test if the file being archived exists already, and if the existing file
-has identical contents. This requires more care in the
-`archive_command` or `archive_library`, as it must
-be careful to not overwrite an existing file with different contents,
-but return success if the exactly same file is archived twice. And
-all that must be done free of race conditions, if two servers attempt
-to archive the same file at the same time.
+在待命伺服器上使用持續 WAL 歸檔時，有兩種
+不同的情境：WAL 歸檔可以由主要伺服器
+與待命伺服器共用，或者待命伺服器可以擁有自己的 WAL 歸檔。當
+待命伺服器擁有自己的 WAL 歸檔時，請將 `archive_mode`
+設為 `always`，待命伺服器就會針對它收到的每一個 WAL 區段
+呼叫歸檔命令，無論該區段是透過從歸檔還原
+或是透過串流複寫取得。共用歸檔也可以
+用類似的方式處理，但 `archive_command` 或 `archive_library` 必須
+檢查要歸檔的檔案是否已經存在，以及現有檔案
+的內容是否完全相同。這需要在
+`archive_command` 或 `archive_library` 中更加小心，因為它必須
+注意不要以不同的內容覆寫現有檔案，
+但在完全相同的檔案被歸檔兩次時要回傳成功。而且
+如果兩台伺服器試圖同時歸檔同一個檔案，
+這一切都必須在沒有競爭條件（race condition）的情況下完成。
 
-If `archive_mode` is set to `on`, the
-archiver is not enabled during recovery or standby mode. If the standby
-server is promoted, it will start archiving after the promotion, but
-will not archive any WAL or timeline history files that
-it did not generate itself. To get a complete
-series of WAL files in the archive, you must ensure that all WAL is
-archived, before it reaches the standby. This is inherently true with
-file-based log shipping, as the standby can only restore files that
-are found in the archive, but not if streaming replication is enabled.
-When a server is not in recovery mode, there is no difference between
-`on` and `always` modes.
+如果 `archive_mode` 設為 `on`，
+歸檔程序在復原或待命模式期間不會啟用。如果待命
+伺服器被提升，它會在提升之後開始歸檔，但
+不會歸檔任何不是由它自己產生的 WAL 或時間軸歷史
+檔案。若要在歸檔中取得完整的
+WAL 檔案序列，你必須確保所有 WAL 在
+到達待命伺服器之前都已歸檔。對於以檔案為基礎的日誌傳送而言，
+這本來就成立，因為待命伺服器只能還原
+在歸檔中找到的檔案；但如果啟用了串流複寫，就不是如此。
+當伺服器不在復原模式時，
+`on` 與 `always` 模式之間沒有任何差異。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/warm-standby.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/warm-standby.html)（原文版本：18.6；核對日期：2026-10-10）
