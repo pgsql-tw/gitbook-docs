@@ -249,7 +249,7 @@
     * [23.2. 定序支援 #](server-administration/charset/collation.md)
     * [23.3. Character Set Support #](server-administration/charset/multibyte.md)
   * [第 24 章、常規資料庫維護工作](server-administration/maintenance/README.md)
-    * [24.1. Routine Vacuuming #](server-administration/maintenance/routine-vacuuming.md)
+    * [24.1. 例行性資料庫清理 #](server-administration/maintenance/routine-vacuuming.md)
     * [24.2. 例行重新建立索引 #](server-administration/maintenance/routine-reindex.md)
     * [24.3. 日誌檔案維護 #](server-administration/maintenance/logfile-maintenance.md)
   * [第 25 章：備份與還原](server-administration/backup/README.md)
